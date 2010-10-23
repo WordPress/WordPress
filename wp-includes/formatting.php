@@ -628,6 +628,7 @@ function remove_accents($string) {
 		chr(197).chr(186) => 'z', chr(197).chr(187) => 'Z',
 		chr(197).chr(188) => 'z', chr(197).chr(189) => 'Z',
 		chr(197).chr(190) => 'z', chr(197).chr(191) => 's',
+		chr(200).chr(153) => 's', chr(200).chr(155) => 't',
 		// Euro Sign
 		chr(226).chr(130).chr(172) => 'E',
 		// GBP (Pound) Sign
@@ -783,17 +784,25 @@ function sanitize_key( $key ) {
  *
  * @param string $title The string to be sanitized.
  * @param string $fallback_title Optional. A title to use if $title is empty.
+ * @param string $context Optional. The operation for which the string is sanitized
  * @return string The sanitized string.
  */
-function sanitize_title($title, $fallback_title = '') {
+function sanitize_title($title, $fallback_title = '', $context = 'save') {
 	$raw_title = $title;
-	$title = strip_tags($title);
-	$title = apply_filters('sanitize_title', $title, $raw_title);
+
+	if ( 'save' == $context )
+		$title = remove_accents($title);
+
+	$title = apply_filters('sanitize_title', $title, $raw_title, $context);
 
 	if ( '' === $title || false === $title )
 		$title = $fallback_title;
 
 	return $title;
+}
+
+function sanitize_title_for_query($title) {
+	return sanitize_title($title, '', 'query');
 }
 
 /**
@@ -816,7 +825,6 @@ function sanitize_title_with_dashes($title) {
 	// Restore octets.
 	$title = preg_replace('|---([a-fA-F0-9][a-fA-F0-9])---|', '%$1', $title);
 
-	$title = remove_accents($title);
 	if (seems_utf8($title)) {
 		if (function_exists('mb_strtolower')) {
 			$title = mb_strtolower($title, 'UTF-8');

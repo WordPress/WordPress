@@ -1784,7 +1784,7 @@ class WP_Query extends WP_Object_Query {
 		}
 
 		if ( '' != $q['name'] ) {
-			$q['name'] = sanitize_title( $q['name'] );
+			$q['name'] = sanitize_title_for_query( $q['name'] );
 			$where .= " AND $wpdb->posts.post_name = '" . $q['name'] . "'";
 		} elseif ( '' != $q['pagename'] ) {
 			if ( isset($this->queried_object_id) ) {
@@ -1812,7 +1812,7 @@ class WP_Query extends WP_Object_Query {
 
 			$page_for_posts = get_option('page_for_posts');
 			if  ( ('page' != get_option('show_on_front') ) || empty($page_for_posts) || ( $reqpage != $page_for_posts ) ) {
-				$q['pagename'] = sanitize_title( $this->_qv_basename( $q['pagename'] ) );
+				$q['pagename'] = sanitize_title_for_query( $this->_qv_basename( $q['pagename'] ) );
 				$q['name'] = $q['pagename'];
 				$where .= " AND ($wpdb->posts.ID = '$reqpage')";
 				$reqpage_obj = get_page($reqpage);
@@ -1824,7 +1824,7 @@ class WP_Query extends WP_Object_Query {
 				}
 			}
 		} elseif ( '' != $q['attachment'] ) {
-			$q['attachment'] = sanitize_title( $this->_qv_basename( $q['attachment'] ) );
+			$q['attachment'] = sanitize_title_for_query( $this->_qv_basename( $q['attachment'] ) );
 			$q['name'] = $q['attachment'];
 			$where .= " AND $wpdb->posts.post_name = '" . $q['attachment'] . "'";
 		}
@@ -1957,7 +1957,7 @@ class WP_Query extends WP_Object_Query {
 					$q['author_name'] = $q['author_name'][count($q['author_name'])-2]; // there was a trailling slash
 				}
 			}
-			$q['author_name'] = sanitize_title( $q['author_name'] );
+			$q['author_name'] = sanitize_title_for_query( $q['author_name'] );
 			$q['author'] = get_user_by('slug', $q['author_name']);
 			if ( $q['author'] )
 				$q['author'] = $q['author']->ID;

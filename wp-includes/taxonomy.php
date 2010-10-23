@@ -534,7 +534,7 @@ function get_objects_in_term( $terms, $taxonomies, $args = array() ) {
 		case 'slug':
 		case 'name':
 			foreach ( $terms as $i => $term ) {
-				$terms[$i] = sanitize_term_field('slug', $term, 0, $taxonomy, 'db');
+				$terms[$i] = sanitize_title_for_query( $term );
 			}
 			$terms = array_filter($terms);
 
