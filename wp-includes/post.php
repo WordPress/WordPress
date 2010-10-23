@@ -859,7 +859,7 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  * - labels - An array of labels for this post type. By default post labels are used for non-hierarchical
  *     types and page labels for hierarchical ones. You can see accepted values in {@link get_post_type_labels()}.
  * - permalink_epmask - The default rewrite endpoint bitmasks.
- * - has_archive - Whether to have a post type archive. Will generate the proper rewrite rules if rewrite is enabled.
+ * - has_archive - True to enable post type archives. Will generate the proper rewrite rules if rewrite is enabled.
  * - rewrite - false to prevent rewrite. Defaults to true. Use array('slug'=>$slug) to customize permastruct;
  *     default will use $post_type as slug. Other options include 'with_front' and 'feeds'.
  * - query_var - false to prevent queries, or string to value of the query var to use for this post type

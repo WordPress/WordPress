@@ -100,18 +100,12 @@ function wp_reset_postdata() {
 /**
  * Is the query for an archive page?
  *
- * Month, Year, Category, Author, ...
- *
- * If the $post_types parameter is specified, this function will additionally
- * check if the query is for exactly one of the post types specified. If a plugin
- * is causing multiple post types to appear in the query, specifying a post type
- * will cause this check to return false.
+ * Month, Year, Category, Author, Post Type archive...
  *
  * @see WP_Query::is_archive()
  * @since 1.5.0
  * @uses $wp_query
  *
- * @param mixed $post_types Optional. Post type or array of post types
  * @return bool
  */
 function is_archive( $post_types = '' ) {
@@ -2644,28 +2638,14 @@ class WP_Query extends WP_Object_Query {
 	/**
  	 * Is the query for an archive page?
  	 *
- 	 * Month, Year, Category, Author, ...
- 	 *
-	 * If the $post_types parameter is specified, this function will additionally
-	 * check if the query is for exactly one of the post types specified. If a plugin
-	 * is causing multiple post types to appear in the query, specifying a post type
-	 * will cause this check to return false.
+ 	 * Month, Year, Category, Author, Post Type archive...
 	 *
  	 * @since 3.1.0
  	 *
-	 * @param mixed $post_types Optional. Post type or array of post types
  	 * @return bool
  	 */
 	function is_archive( $post_types ) {
-		if ( empty( $post_types ) || !$this->is_archive )
-			return (bool) $this->is_archive;
-
-		if ( ! isset( $this->posts[0] ) )
-			return false;
-
-		$post = $this->posts[0];
-
-		return in_array( $post->post_type, (array) $post_types );
+		return (bool) $this->is_archive;
 	}
 
 	/**
