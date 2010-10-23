@@ -1953,12 +1953,12 @@ function get_home_url( $blog_id = null, $path = '', $scheme = null ) {
 		$scheme = is_ssl() && !is_admin() ? 'https' : 'http';
 
 	if ( empty( $blog_id ) || !is_multisite() )
-		$home = get_option( 'home' );
+		$url = get_option( 'home' );
 	else
-		$home = get_blog_option( $blog_id, 'home' );
+		$url = get_blog_option( $blog_id, 'home' );
 
 	if ( 'http' != $scheme )
-		$url = str_replace( 'http://', "$scheme://", $home );
+		$url = str_replace( 'http://', "$scheme://", $url );
 
 	if ( !empty( $path ) && is_string( $path ) && strpos( $path, '..' ) === false )
 		$url .= '/' . ltrim( $path, '/' );
