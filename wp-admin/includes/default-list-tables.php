@@ -3598,7 +3598,7 @@ class WP_Plugins_Table extends WP_List_Table {
 				$plugin_name = $plugin_data['Name'];
 			}
 			echo "
-		<tr class='$class' id='$plugin_file'>
+		<tr class='$class'>
 			<th scope='row' class='check-column'>$checkbox</th>
 			<td class='plugin-title'><strong>$plugin_name</strong></td>
 			<td class='desc'>$description</td>
