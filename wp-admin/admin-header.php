@@ -33,12 +33,12 @@ if ( is_multisite() && !is_network_admin() && is_super_admin() ) {
 <title><?php echo $title; ?> &lsaquo; <?php bloginfo('name') ?>  &#8212; WordPress</title>
 <?php
 
-wp_admin_css( 'css/global' );
+wp_admin_css( 'global' );
 wp_admin_css();
-wp_admin_css( 'css/colors' );
-wp_admin_css( 'css/ie' );
+wp_admin_css( 'colors' );
+wp_admin_css( 'ie' );
 if ( is_multisite() )
-	wp_admin_css( 'css/ms' );
+	wp_admin_css( 'ms' );
 wp_enqueue_script('utils');
 
 $admin_body_class = preg_replace('/[^a-z0-9_-]+/i', '-', $hook_suffix);
