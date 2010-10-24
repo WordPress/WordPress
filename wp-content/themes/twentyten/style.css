@@ -1094,6 +1094,9 @@ h3#reply-title {
 	list-style: square;
 	margin-left: 1.3em;
 }
+.widget-area select {
+	max-width: 100%;
+}
 .widget_search #s {/* This keeps the search inputs in line */
 	width: 60%;
 }
