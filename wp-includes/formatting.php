@@ -724,12 +724,10 @@ function sanitize_file_name( $filename ) {
 /**
  * Sanitize username stripping out unsafe characters.
  *
- * If $strict is true, only alphanumeric characters (as well as _, space, ., -,
- * @) are returned.
- * Removes tags, octets, entities, and if strict is enabled, will remove all
- * non-ASCII characters. After sanitizing, it passes the username, raw username
- * (the username in the parameter), and the strict parameter as parameters for
- * the filter.
+ * Removes tags, octets, entities, and if strict is enabled, will only keep
+ * alphanumeric, _, space, ., -, @. After sanitizing, it passes the username, 
+ * raw username (the username in the parameter), and the value of $strict as
+ * parameters for the 'sanitize_user' filter.
  *
  * @since 2.0.0
  * @uses apply_filters() Calls 'sanitize_user' hook on username, raw username,
@@ -751,6 +749,7 @@ function sanitize_user( $username, $strict = false ) {
 	if ( $strict )
 		$username = preg_replace( '|[^a-z0-9 _.\-@]|i', '', $username );
 
+	$username = trim( $username );
 	// Consolidate contiguous whitespace
 	$username = preg_replace( '|\s+|', ' ', $username );
 
@@ -760,7 +759,7 @@ function sanitize_user( $username, $strict = false ) {
 /**
  * Sanitize a string key.
  *
- * Keys are used as internal identifiers. They should be lowercase ASCII.  Dashes and underscores are allowed.
+ * Keys are used as internal identifiers. Lowercase alphanumeric characters, dashes and underscores are allowed.
  *
  * @since 3.0.0
  *
@@ -769,13 +768,9 @@ function sanitize_user( $username, $strict = false ) {
  */
 function sanitize_key( $key ) {
 	$raw_key = $key;
-
-	$key = preg_replace('|[^a-z0-9 _.\-@]|i', '', $key);
-
-	// Consolidate contiguous whitespace
-	$key = preg_replace('|\s+|', ' ', $key);
-
-	return apply_filters('sanitize_key', $key, $raw_key);
+	$key = strtolower( $key );
+	$key = preg_replace( '/[^a-z0-9_\-]/', '', $key );
+	return apply_filters( 'sanitize_key', $key, $raw_key );
 }
 
 /**
