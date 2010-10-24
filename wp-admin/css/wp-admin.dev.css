@@ -2029,6 +2029,7 @@ input#link_url {
 	text-decoration: none;
 }
 
+.wp-tab-panel,
 .categorydiv div.tabs-panel,
 .customlinkdiv div.tabs-panel,
 .posttypediv div.tabs-panel,
@@ -2063,17 +2064,20 @@ div.tabs-panel-inactive {
 }
 
 #side-sortables .category-tabs li,
-#side-sortables .add-menu-item-tabs li {
+#side-sortables .add-menu-item-tabs li,
+.wp-tab-bar li {
 	display: inline;
 }
 
 #side-sortables .category-tabs a,
-#side-sortables .add-menu-item-tabs a {
+#side-sortables .add-menu-item-tabs a,
+.wp-tab-bar a {
 	text-decoration: none;
 }
 
 #side-sortables .category-tabs,
-#side-sortables .add-menu-item-tabs {
+#side-sortables .add-menu-item-tabs,
+.wp-tab-bar {
 	margin-bottom: 3px;
 }
 
@@ -2110,21 +2114,15 @@ ul.categorychecklist li {
 	margin-bottom: 0px;
 }
 
-.categorydiv .tabs-panel,
-.customlinkdiv .tabs-panel,
-.posttypediv .tabs-panel,
-.taxonomydiv .tabs-panel {
-	border-width: 3px;
-	border-style: solid;
-}
-
 ul.category-tabs,
-ul.add-menu-item-tabs {
+ul.add-menu-item-tabs,
+ul.wp-tab-bar {
 	margin-top: 12px;
 }
 
 ul.category-tabs li.tabs,
-ul.add-menu-item-tabs li.tabs {
+ul.add-menu-item-tabs li.tabs,
+.wp-tab-active {
 	border-style: solid solid none;
 	border-width: 1px 1px 0;
 }
@@ -2137,7 +2135,8 @@ ul.add-menu-item-tabs li.tabs {
 }
 
 ul.category-tabs li,
-ul.add-menu-item-tabs li {
+ul.add-menu-item-tabs li,
+ul.wp-tab-bar li {
 	padding: 5px;
 	-moz-border-radius: 3px 3px 0 0;
 	-webkit-border-top-left-radius: 3px;

@@ -1102,6 +1102,13 @@ case 'menu-quick-search':
 
 	exit;
 	break;
+case 'wp-link-ajax':
+	require_once ABSPATH . WPINC . '/js/tinymce/wp-mce-link-includes.php';
+
+	wp_link_ajax( $_POST );
+	
+	exit;
+	break;
 case 'menu-locations-save':
 	if ( ! current_user_can( 'edit_theme_options' ) )
 		die('-1');

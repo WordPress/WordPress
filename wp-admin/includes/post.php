@@ -1311,10 +1311,10 @@ function wp_tiny_mce( $teeny = false, $settings = false ) {
 	$mce_spellchecker_languages = apply_filters('mce_spellchecker_languages', '+English=en,Danish=da,Dutch=nl,Finnish=fi,French=fr,German=de,Italian=it,Polish=pl,Portuguese=pt,Spanish=es,Swedish=sv');
 
 	if ( $teeny ) {
-		$plugins = apply_filters( 'teeny_mce_plugins', array('inlinepopups', 'media', 'fullscreen', 'wordpress') );
+		$plugins = apply_filters( 'teeny_mce_plugins', array('inlinepopups', 'media', 'fullscreen', 'wordpress', 'wplink') );
 		$ext_plugins = '';
 	} else {
-		$plugins = array( 'inlinepopups', 'spellchecker', 'paste', 'wordpress', 'media', 'fullscreen', 'wpeditimage', 'wpgallery', 'tabfocus' );
+		$plugins = array( 'inlinepopups', 'spellchecker', 'paste', 'wordpress', 'media', 'fullscreen', 'wpeditimage', 'wpgallery', 'tabfocus', 'wplink' );
 
 		/*
 		The following filter takes an associative array of external plugins for TinyMCE in the form 'plugin_name' => 'url'.

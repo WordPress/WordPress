@@ -110,13 +110,16 @@ div.dashboard-widget-submit {
 }
 
 div.tabs-panel,
+.wp-tab-panel,
 ul.category-tabs li.tabs,
-ul.add-menu-item-tabs li.tabs {
+ul.add-menu-item-tabs li.tabs,
+.wp-tab-active {
 	border-color: #dfdfdf;
 }
 
 ul.category-tabs li.tabs,
-ul.add-menu-item-tabs li.tabs {
+ul.add-menu-item-tabs li.tabs,
+.wp-tab-active {
 	background-color: #f1f1f1;
 }
 
@@ -382,7 +385,8 @@ div.dashboard-widget-submit input:hover,
 }
 
 #side-sortables .category-tabs .tabs a,
-#side-sortables .add-menu-item-tabs .tabs a {
+#side-sortables .add-menu-item-tabs .tabs a,
+.wp-tab-bar .wp-tab-active a {
 	color: #333;
 }
 
