@@ -351,7 +351,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'theme-preview', "/wp-admin/js/theme-preview$suffix.js", array( 'thickbox', 'jquery' ), '20100407' );
 		$scripts->add_data( 'theme-preview', 'group', 1 );
 
-		$scripts->add( 'list-table', "/wp-admin/js/list-table$suffix.js", array( 'jquery', 'jquery-query' ), '20100818' );
+		$scripts->add( 'list-table', "/wp-admin/js/list-table$suffix.js", array( 'jquery', 'jquery-query' ), '20101023' );
 		$scripts->add_data( 'list-table', 'group', 1 );
 		$scripts->localize( 'list-table', 'listTableL10n', array(
 			'loading' => __('Loading...'),
@@ -454,13 +454,13 @@ function wp_default_styles( &$styles ) {
 	// Any rtl stylesheets that don't have a .dev version for ltr
 	$no_suffix = array( 'farbtastic' );
 
-	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20101020' );
+	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20101023' );
 
 	$styles->add( 'ie', "/wp-admin/css/ie$suffix.css", array(), '20101004' );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
 
 	// all colors stylesheets need to have the same query strings (cache manifest compat)
-	$colors_version = '20100907';
+	$colors_version = '20101023';
 
 	// Register "meta" stylesheet for admin colors. All colors-* style sheets should have the same version string.
 	$styles->add( 'colors', true, array(), $colors_version );
