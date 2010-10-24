@@ -1359,6 +1359,10 @@ strong .post-com-count {
 	float: left;
 }
 
+.form-table td p {
+	margin-top: 4px;
+}
+
 .form-table table.color-palette {
 	vertical-align: bottom;
 	float: left;
