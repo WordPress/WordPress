@@ -108,10 +108,10 @@ function wp_reset_postdata() {
  *
  * @return bool
  */
-function is_archive( $post_types = '' ) {
+function is_archive() {
 	global $wp_query;
 
-	return $wp_query->is_archive( $post_types );
+	return $wp_query->is_archive();
 }
 
 /**
@@ -2644,7 +2644,7 @@ class WP_Query extends WP_Object_Query {
  	 *
  	 * @return bool
  	 */
-	function is_archive( $post_types ) {
+	function is_archive() {
 		return (bool) $this->is_archive;
 	}
 
