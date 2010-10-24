@@ -352,7 +352,7 @@ a:hover {
 	clear: right;
 	float: right;
 	font-style: italic;
-	margin: 14px 0 18px 0;
+	margin: 15px 0 18px 0;
 	width: 220px;
 }
 
@@ -360,7 +360,6 @@ a:hover {
 #branding img {
 	border-top: 4px solid #000;
 	border-bottom: 1px solid #000;
-	clear: both;
 	display: block;
 	float: left;
 }
