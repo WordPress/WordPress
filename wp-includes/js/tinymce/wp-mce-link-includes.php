@@ -1,9 +1,5 @@
 <?php
-/** @ignore */
-if ( ! defined('ABSPATH') )
-	require_once('../../../wp-load.php');
 	
-
 class WP_Tab_Bar {
 	var $tabs = array();
 	
