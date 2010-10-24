@@ -430,7 +430,7 @@ define( 'BLOG_ID_CURRENT_SITE', 1 );</textarea>
                     <action type="None" />
                 </rule>
                 <rule name="WordPress Rule 5" stopProcessing="true">
-                    <match url="^([_0-9a-zA-Z-]+/)?(wp-(content|admin|includes).*)" ignoreCase="false" />
+                    <match url="^[_0-9a-zA-Z-]+/(wp-(content|admin|includes).*)" ignoreCase="false" />
                     <action type="Rewrite" url="{R:2}" />
                 </rule>
                 <rule name="WordPress Rule 6" stopProcessing="true">
@@ -471,7 +471,7 @@ RewriteRule ^ - [L]';
 
 		// @todo custom content dir.
 		if ( ! $subdomain_install )
-			$htaccess_file .= "\nRewriteRule  ^([_0-9a-zA-Z-]+/)?(wp-(content|admin|includes).*) $2 [L]\nRewriteRule  ^([_0-9a-zA-Z-]+/)?(.*\.php)$ $2 [L]";
+			$htaccess_file .= "\nRewriteRule  ^[_0-9a-zA-Z-]+/(wp-(content|admin|includes).*) $1 [L]\nRewriteRule  ^[_0-9a-zA-Z-]+/(.*\.php)$ $1 [L]";
 
 		$htaccess_file .= "\nRewriteRule . index.php [L]";
 
