@@ -21,7 +21,7 @@ $timezone_format = _x('Y-m-d G:i:s', 'timezone date format');
  * Display JavaScript on the page.
  *
  * @package WordPress
- * @subpackage General_Settings_Panel
+ * @subpackage General_Settings_Screen
  */
 function add_js() {
 ?>
@@ -56,7 +56,7 @@ function add_js() {
 </script>
 <?php
 }
-add_filter('admin_head', 'add_js');
+add_action('admin_head', 'add_js');
 
 add_contextual_help($current_screen,
 	'<p>' . __('The fields on this screen determine some of the basics of your site setup.') . '</p>' .

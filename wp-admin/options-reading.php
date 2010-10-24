@@ -15,6 +15,32 @@ if ( ! current_user_can( 'manage_options' ) )
 $title = __( 'Reading Settings' );
 $parent_file = 'options-general.php';
 
+/**
+ * Display JavaScript on the page.
+ *
+ * @package WordPress
+ * @subpackage Reading_Settings_Screen
+ */
+function add_js() {
+?>
+<script type="text/javascript">
+//<![CDATA[
+	jQuery(document).ready(function($){
+		var section = $('#front-static-pages'),
+			staticPage = section.find('input:radio[value="page"]'),
+			selects = section.find('select'),
+			check_disabled = function(){
+				selects.attr('disabled', staticPage.is(':checked') ? 'disabled' : '');
+			};
+		check_disabled();
+ 		section.find('input:radio').change(check_disabled);
+	});
+//]]>
+</script>
+<?php
+}
+add_action('admin_head', 'add_js');
+
 add_contextual_help($current_screen,
 	'<p>' . __('This screen contains the settings that affect the display of your content.') . '</p>' .
 	'<p>' . sprintf(__('You can choose what&#8217;s displayed on the front page of your site. It can be posts in reverse chronological order (classic blog), or a fixed/static page. To set a static home page, you first need to create two <a href="%s">Pages</a>. One will become the front page, and the other will be where your posts are displayed.'), 'post-new.php?post_type=page') . '</p>' .
