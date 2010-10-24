@@ -3597,8 +3597,11 @@ class WP_Plugins_Table extends WP_List_Table {
 				$description = '<p>' . $plugin_data['Description'] . '</p>';
 				$plugin_name = $plugin_data['Name'];
 			}
+
+			$id = sanitize_title( $plugin_name );
+
 			echo "
-		<tr class='$class'>
+		<tr id='$id' class='$class'>
 			<th scope='row' class='check-column'>$checkbox</th>
 			<td class='plugin-title'><strong>$plugin_name</strong></td>
 			<td class='desc'>$description</td>
