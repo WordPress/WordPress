@@ -9,7 +9,7 @@
 
 require_once( './admin.php' );
 
-$wp_list_table = get_list_table('ms-users');
+$wp_list_table = get_list_table('WP_MS_Users_Table');
 $wp_list_table->check_permissions();
 $wp_list_table->prepare_items();
 

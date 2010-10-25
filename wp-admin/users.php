@@ -12,7 +12,7 @@ require_once( './admin.php' );
 /** WordPress Registration API */
 require_once( ABSPATH . WPINC . '/registration.php');
 
-$wp_list_table = get_list_table('users');
+$wp_list_table = get_list_table('WP_Users_Table');
 $wp_list_table->check_permissions();
 
 $title = __('Users');

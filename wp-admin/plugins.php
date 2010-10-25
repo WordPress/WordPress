@@ -9,7 +9,7 @@
 /** WordPress Administration Bootstrap */
 require_once('./admin.php');
 
-$wp_list_table = get_list_table('plugins');
+$wp_list_table = get_list_table('WP_Plugins_Table');
 $wp_list_table->check_permissions();
 
 $action = $wp_list_table->current_action();
