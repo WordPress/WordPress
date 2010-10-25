@@ -597,7 +597,7 @@ function comments_number( $zero = false, $one = false, $more = false, $deprecate
  */
 function get_comment_text( $comment_ID = 0 ) {
 	$comment = get_comment( $comment_ID );
-	return apply_filters('get_comment_text', $comment->comment_content);
+	return apply_filters( 'get_comment_text', $comment->comment_content, $comment );
 }
 
 /**
@@ -610,7 +610,8 @@ function get_comment_text( $comment_ID = 0 ) {
  * @param int $comment_ID The ID of the comment for which to print the text. Optional.
  */
 function comment_text( $comment_ID = 0 ) {
-	echo apply_filters('comment_text', get_comment_text() );
+	$comment = get_comment( $comment_ID );
+	echo apply_filters( 'comment_text', get_comment_text( $comment_ID ), $comment );
 }
 
 /**
