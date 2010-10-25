@@ -67,7 +67,7 @@ require('../admin-header.php');
 <div class="wrap">
 <?php screen_icon('ms-admin'); ?>
 <h2 id="edit-site"><?php echo $title ?></h2>
-<h3>
+<h3 class="nav-tab-wrapper">
 <?php
 $tabs = array( 'site-info' => array( 'label' => __('Info'), 'url' => 'site-info.php'),  'site-options' => array( 'label' => __('Options'), 'url' => 'site-options.php'),
 			  'site-users' => array( 'label' => __('Users'), 'url' => 'site-users.php'),  'site-themes' => array( 'label' => __('Themes'), 'url' => 'site-themes.php'));

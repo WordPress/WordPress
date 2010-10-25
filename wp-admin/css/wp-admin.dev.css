@@ -3816,7 +3816,7 @@ div#custom-background-image img {
 	color: #464646;
 }
 
-.themes-php .wrap h2, .theme-install-php .wrap h2, .site-info-php .wrap h3, .site-options-php .wrap h3, .site-users-php .wrap h3, .site-themes-php .wrap h3 {
+h2.nav-tab-wrapper, h3.nav-tab-wrapper {
 	border-bottom: 1px solid #ccc;
 	padding-bottom: 0;
 }
