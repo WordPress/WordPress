@@ -52,6 +52,8 @@ if ( isset( $_GET['action'] ) ) :
 switch ( $action = $_GET['action'] ) :
 case 'fetch-list' :
 	require_once( ABSPATH . '/wp-admin/includes/default-list-tables.php' );
+	// Temp
+	require_once( ABSPATH . '/wp-admin/includes/list-table-posts.php' );
 
 	$class = $_GET['list_args']['class'];
 
