@@ -1,9 +1,17 @@
 <?php
-
 /**
- * Base class for displaying a list of items as an ajaxified html table
+ * Base class and helper functions for displaying a list of items in an ajaxified HTML table.
  *
  * @package WordPress
+ * @subpackage List_Table
+ * @since 3.1.0
+ */
+
+/**
+ * Base class for displaying a list of items in an ajaxified HTML table.
+ *
+ * @package WordPress
+ * @subpackage List_Table
  * @since 3.1.0
  */
 class WP_List_Table {
@@ -811,7 +819,7 @@ class WP_List_Table {
 }
 
 /**
- * Fetch an instance of a WP_List_Table class
+ * Fetch an instance of a WP_List_Table class.
  *
  * @since 3.1.0
  *

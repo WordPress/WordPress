@@ -1,14 +1,11 @@
 <?php
-
 /**
- * List table classes
- *
- * Each list-type admin screen has a class that handles the rendering of the list table.
+ * Users List Table class.
  *
  * @package WordPress
- * @subpackage Administration
+ * @subpackage List_Table
+ * @since 3.1.0
  */
-
 class WP_Users_Table extends WP_List_Table {
 
 	function WP_Users_Table() {

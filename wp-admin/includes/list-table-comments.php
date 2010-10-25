@@ -1,14 +1,21 @@
 <?php
-
 /**
- * List table classes
- *
- * Each list-type admin screen has a class that handles the rendering of the list table.
+ * Comments and Post Comments List Table classes.
  *
  * @package WordPress
- * @subpackage Administration
+ * @subpackage List_Table
+ * @since 3.1.0
  */
 
+/**
+ * Post Comments List Table class.
+ *
+ * @package WordPress
+ * @subpackage List_Table
+ * @since 3.1.0
+ *
+ * @see WP_Comments_Table
+ */
 class WP_Post_Comments_Table extends WP_Comments_Table {
 
 	function get_columns() {
@@ -23,6 +30,13 @@ class WP_Post_Comments_Table extends WP_Comments_Table {
 	}
 }
 
+/**
+ * Comments List Table class.
+ *
+ * @package WordPress
+ * @subpackage List_Table
+ * @since 3.1.0
+ */
 class WP_Comments_Table extends WP_List_Table {
 
 	var $checkbox = true;
