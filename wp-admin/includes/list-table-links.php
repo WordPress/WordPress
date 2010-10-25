@@ -1,0 +1,196 @@
+<?php
+
+/**
+ * List table classes
+ *
+ * Each list-type admin screen has a class that handles the rendering of the list table.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
+
+class WP_Links_Table extends WP_List_Table {
+
+	function WP_Links_Table() {
+		parent::WP_List_Table( array(
+			'screen' => 'link-manager',
+			'plural' => 'bookmarks',
+		) );
+	}
+
+	function check_permissions() {
+		if ( ! current_user_can( 'manage_links' ) )
+			wp_die( __( 'You do not have sufficient permissions to edit the links for this site.' ) );
+	}
+
+	function prepare_items() {
+		global $cat_id, $s, $orderby, $order;
+
+		wp_reset_vars( array( 'action', 'cat_id', 'linkurl', 'name', 'image', 'description', 'visible', 'target', 'category', 'link_id', 'submit', 'orderby', 'order', 'links_show_cat_id', 'rating', 'rel', 'notes', 'linkcheck[]', 's' ) );
+
+		$args = array( 'hide_invisible' => 0, 'hide_empty' => 0 );
+
+		if ( 'all' != $cat_id )
+			$args['category'] = $cat_id;
+		if ( !empty( $s ) )
+			$args['search'] = $s;
+		if ( !empty( $orderby ) )
+			$args['orderby'] = $orderby;
+		if ( !empty( $order ) )
+			$args['order'] = $order;
+
+		$this->items = get_bookmarks( $args );
+	}
+
+	function no_items() {
+		_e( 'No links found.' );
+	}
+
+	function get_bulk_actions() {
+		$actions = array();
+		$actions['delete'] = __( 'Delete' );
+
+		return $actions;
+	}
+
+	function extra_tablenav( $which ) {
+		global $cat_id;
+
+		if ( 'top' != $which )
+			return;
+?>
+		<div class="alignleft actions">
+<?php
+			$dropdown_options = array(
+				'selected' => $cat_id,
+				'name' => 'cat_id',
+				'taxonomy' => 'link_category',
+				'show_option_all' => __( 'View all categories' ),
+				'hide_empty' => true,
+				'hierarchical' => 1,
+				'show_count' => 0,
+				'orderby' => 'name',
+			);
+			wp_dropdown_categories( $dropdown_options );
+?>
+			<input type="submit" id="post-query-submit" value="<?php esc_attr_e( 'Filter' ); ?>" class="button-secondary" />
+		</div>
+<?php
+	}
+
+	function get_columns() {
+		return array(
+			'cb'         => '<input type="checkbox" />',
+			'name'       => __( 'Name' ),
+			'url'        => __( 'URL' ),
+			'categories' => __( 'Categories' ),
+			'rel'        => __( 'Relationship' ),
+			'visible'    => __( 'Visible' ),
+			'rating'     => __( 'Rating' )
+		);
+	}
+
+	function get_sortable_columns() {
+		return array(
+			'name'    => 'name',
+			'url'     => 'url',
+			'visible' => 'visible',
+			'rating'  => 'rating'
+		);
+	}
+
+	function display_rows() {
+		global $cat_id;
+
+		$alt = 0;
+
+		foreach ( $this->items as $link ) {
+			$link = sanitize_bookmark( $link );
+			$link->link_name = esc_attr( $link->link_name );
+			$link->link_category = wp_get_link_cats( $link->link_id );
+
+			$short_url = str_replace( 'http://', '', $link->link_url );
+			$short_url = preg_replace( '/^www\./i', '', $short_url );
+			if ( '/' == substr( $short_url, -1 ) )
+				$short_url = substr( $short_url, 0, -1 );
+			if ( strlen( $short_url ) > 35 )
+				$short_url = substr( $short_url, 0, 32 ).'...';
+
+			$visible = ( $link->link_visible == 'Y' ) ? __( 'Yes' ) : __( 'No' );
+			$rating  = $link->link_rating;
+			$style = ( $alt++ % 2 ) ? '' : ' class="alternate"';
+
+			$edit_link = get_edit_bookmark_link( $link );
+?>
+		<tr id="link-<?php echo $link->link_id; ?>" valign="middle" <?php echo $style; ?>>
+<?php
+
+			list( $columns, $hidden ) = $this->get_column_info();
+
+			foreach ( $columns as $column_name => $column_display_name ) {
+				$class = "class='column-$column_name'";
+
+				$style = '';
+				if ( in_array( $column_name, $hidden ) )
+					$style = ' style="display:none;"';
+
+				$attributes = $class . $style;
+
+				switch ( $column_name ) {
+					case 'cb':
+						echo '<th scope="row" class="check-column"><input type="checkbox" name="linkcheck[]" value="'. esc_attr( $link->link_id ) .'" /></th>';
+						break;
+
+					case 'name':
+						echo "<td $attributes><strong><a class='row-title' href='$edit_link' title='" . esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $link->link_name ) ) . "'>$link->link_name</a></strong><br />";
+
+						$actions = array();
+						$actions['edit'] = '<a href="' . $edit_link . '">' . __( 'Edit' ) . '</a>';
+						$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url( "link.php?action=delete&amp;link_id=$link->link_id", 'delete-bookmark_' . $link->link_id ) . "' onclick=\"if ( confirm( '" . esc_js( sprintf( __( "You are about to delete this link '%s'\n  'Cancel' to stop, 'OK' to delete." ), $link->link_name ) ) . "' ) ) { return true;}return false;\">" . __( 'Delete' ) . "</a>";
+						echo $this->row_actions( $actions );
+
+						echo '</td>';
+						break;
+					case 'url':
+						echo "<td $attributes><a href='$link->link_url' title='".sprintf( __( 'Visit %s' ), $link->link_name )."'>$short_url</a></td>";
+						break;
+					case 'categories':
+						?><td <?php echo $attributes ?>><?php
+						$cat_names = array();
+						foreach ( $link->link_category as $category ) {
+							$cat = get_term( $category, 'link_category', OBJECT, 'display' );
+							if ( is_wp_error( $cat ) )
+								echo $cat->get_error_message();
+							$cat_name = $cat->name;
+							if ( $cat_id != $category )
+								$cat_name = "<a href='link-manager.php?cat_id=$category'>$cat_name</a>";
+							$cat_names[] = $cat_name;
+						}
+						echo implode( ', ', $cat_names );
+						?></td><?php
+						break;
+					case 'rel':
+						?><td <?php echo $attributes ?>><?php echo empty( $link->link_rel ) ? '<br />' : $link->link_rel; ?></td><?php
+						break;
+					case 'visible':
+						?><td <?php echo $attributes ?>><?php echo $visible; ?></td><?php
+						break;
+					case 'rating':
+	 					?><td <?php echo $attributes ?>><?php echo $rating; ?></td><?php
+						break;
+					default:
+						?>
+						<td <?php echo $attributes ?>><?php do_action( 'manage_link_custom_column', $column_name, $link->link_id ); ?></td>
+						<?php
+						break;
+				}
+			}
+?>
+		</tr>
+<?php
+		}
+	}
+}
+
+?>
+

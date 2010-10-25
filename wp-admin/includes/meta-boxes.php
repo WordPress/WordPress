@@ -461,7 +461,7 @@ function post_comment_meta_box($post) {
 
 	wp_nonce_field( 'get-comments', 'add_comment_nonce', false );
 
-	$wp_list_table = get_list_table('post-comments');
+	$wp_list_table = get_list_table('WP_Post_Comments_Table');
 ?>
 
 <table class="widefat comments-box fixed" cellspacing="0" style="display:none;">
