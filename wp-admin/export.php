@@ -25,26 +25,7 @@ add_contextual_help($current_screen,
 );
 
 if ( isset( $_GET['download'] ) ) {
-		$author = isset($_GET['author']) ? $_GET['author'] : 'all';
-		$taxonomy = array();
-		foreach ( get_taxonomies( array( 'show_ui' => true ) ) as $tax )
-			$taxonomy[ $tax ] = ! empty( $_GET['export_taxonomy'][ $tax ] ) ? $_GET['export_taxonomy'][ $tax ] : 'all';
-		$post_type = isset($_GET['export_post_type']) ? stripslashes_deep($_GET['export_post_type']) : 'all';
-		$status = isset($_GET['export_post_status']) ? stripslashes_deep($_GET['export_post_status']) : 'all';
-		$mm_start = isset($_GET['mm_start']) ? $_GET['mm_start'] : 'all';
-		$mm_end = isset($_GET['mm_end']) ? $_GET['mm_end'] : 'all';
-		if( $mm_start != 'all' ) {
-			$start_date = sprintf( "%04d-%02d-%02d", substr( $mm_start, 0, 4 ), substr( $mm_start, 5, 2 ), 1 );
-		} else {
-			$start_date = 'all';
-		}
-		if( $mm_end != 'all' ) {
-			$end_date = sprintf( "%04d-%02d-%02d", substr( $mm_end, 0, 4 ), substr( $mm_end, 5, 2 ), 1 );
-		} else {
-			$end_date = 'all';
-		}
-
-	export_wp( array( 'author' => $author, 'taxonomy' => $taxonomy, 'post_type' => $post_type, 'post_status' => $status, 'start_date' => $start_date, 'end_date' => $end_date ) );
+	export_wp();
 	die();
 }
 
@@ -72,70 +53,6 @@ if ( $monthyears = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`
 <p><?php _e('This format, which we call WordPress eXtended RSS or WXR, will contain your posts, pages, comments, custom fields, categories, and tags.'); ?></p>
 <p><?php _e('Once you&#8217;ve saved the download file, you can use the Import function on another WordPress site to import this site.'); ?></p>
 <form action="" method="get">
-<h3><?php _e('Filters'); ?></h3>
-
-<table class="form-table">
-<tr>
-<th><label for="mm_start"><?php _e('Start Date'); ?></label></th>
-<td>
-<select name="mm_start" id="mm_start">
-	<option value="all" selected="selected"><?php _e('All Dates'); ?></option>
-<?php echo $dateoptions; ?>
-</select>
-</td>
-</tr>
-<tr>
-<th><label for="mm_end" id="mm_end"><?php _e('End Date'); ?></label></th>
-<td>
-<select name="mm_end" id="mm_end">
-	<option value="all" selected="selected"><?php _e('All Dates'); ?></option>
-<?php echo $edateoptions; ?>
-</select>
-</td>
-</tr>
-<tr>
-<th><label for="author"><?php _e('Authors'); ?></label></th>
-<td>
-<select name="author" id="author">
-<option value="all" selected="selected"><?php _e('All Authors'); ?></option>
-<?php
-$authors = $wpdb->get_results( "SELECT DISTINCT u.id, u.display_name FROM $wpdb->users u INNER JOIN $wpdb->posts p WHERE u.id = p.post_author ORDER BY u.display_name" );
-foreach ( (array) $authors as $author ) {
-	echo "<option value='{$author->id}'>{$author->display_name}</option>\n";
-}
-?>
-</select>
-</td>
-</tr>
-<?php foreach ( get_taxonomies( array( 'show_ui' => true ), 'objects' ) as $tax_obj ) {
-	$term_dropdown = wp_dropdown_categories( array( 'taxonomy' => $tax_obj->name, 'hide_if_empty' => true, 'show_option_all' => __( 'All Terms' ), 'name' => 'export_taxonomy[' . $tax_obj->name . ']', 'id' => 'taxonomy-' . $tax_obj->name, 'class' => '', 'echo' => false ) );
-	if ( $term_dropdown )
-		echo '<tr><th><label for="taxonomy-' . $tax_obj->name . '">' . $tax_obj->labels->name . '</label></th><td>' . $term_dropdown . '</td></tr>';
-}
-?>
-<tr>
-<th><label for="post_type"><?php _e('Content Types'); ?></label></th>
-<td>
-<select name="export_post_type" id="post_type">
-	<option value="all" selected="selected"><?php _e('All Content'); ?></option>
-	<?php foreach ( get_post_types( array( 'public' => true, 'can_export' => true ), 'objects' ) as $post_type_obj ) { ?>
-		<option value="<?php echo $post_type_obj->name; ?>"><?php echo $post_type_obj->labels->name; ?></option>
-	<?php } ?>
-</select>
-</td>
-</tr>
-<tr>
-<th><label for="status"><?php _e('Statuses'); ?></label></th>
-<td>
-<select name="export_post_status" id="status">
-	<option value="all" selected="selected"><?php _e('All Statuses'); ?></option>
-<?php foreach ( get_post_stati( array( 'internal' => false ), 'objects' ) as $post_status_obj ) { ?>
-	<option value="<?php echo $post_status_obj->name; ?>"><?php echo $post_status_obj->label; ?></option>
-<?php } ?>
-</select>
-</td>
-</tr>
-</table>
 <?php submit_button( __('Download Export File'), 'secondary' ); ?>
 <input type="hidden" name="download" value="true" />
 </p>
