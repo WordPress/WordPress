@@ -14,7 +14,7 @@ jQuery(document).ready(function() {
 
 	jQuery('#background-color').keyup(function() {
 		var _hex = jQuery('#background-color').val(), hex = _hex;
-		if ( hex[0] != '#' )
+		if ( hex.charAt(0) != '#' )
 			hex = '#' + hex;
 		hex = hex.replace(/[^#a-fA-F0-9]+/, '');
 		if ( hex != _hex )
