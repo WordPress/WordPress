@@ -45,6 +45,10 @@ function add_metadata($meta_type, $object_id, $meta_key, $meta_value, $unique = 
 	// expected_slashed ($meta_key)
 	$meta_key = stripslashes($meta_key);
 
+	$check = apply_filters( "add_{$meta_type}_metadata", null, $object_id, $meta_key, $meta_value, $unique );
+	if ( null !== $check )
+		return (bool) $check;
+
 	if ( $unique && $wpdb->get_var( $wpdb->prepare(
 		"SELECT COUNT(*) FROM $table WHERE meta_key = %s AND $column = %d",
 		$meta_key, $object_id ) ) )
@@ -107,6 +111,10 @@ function update_metadata($meta_type, $object_id, $meta_key, $meta_value, $prev_v
 
 	// expected_slashed ($meta_key)
 	$meta_key = stripslashes($meta_key);
+
+	$check = apply_filters( "update_{$meta_type}_metadata", null, $object_id, $meta_key, $meta_value, $prev_value );
+	if ( null !== $check )
+		return (bool) $check;
 
 	if ( ! $meta_id = $wpdb->get_var( $wpdb->prepare( "SELECT $id_column FROM $table WHERE meta_key = %s AND $column = %d", $meta_key, $object_id ) ) )
 		return add_metadata($meta_type, $object_id, $meta_key, $meta_value);
@@ -180,6 +188,10 @@ function delete_metadata($meta_type, $object_id, $meta_key, $meta_value = '', $d
 	$meta_key = stripslashes($meta_key);
 	$meta_value = maybe_serialize( stripslashes_deep($meta_value) );
 
+	$check = apply_filters( "delete_{$meta_type}_metadata", null, $object_id, $meta_key, $meta_value, $delete_all );
+	if ( null !== $check )
+		return (bool) $check;
+
 	$query = $wpdb->prepare( "SELECT $id_column FROM $table WHERE meta_key = %s", $meta_key );
 
 	if ( !$delete_all )
@@ -231,6 +243,16 @@ function get_metadata($meta_type, $object_id, $meta_key = '', $single = false) {
 	if ( !$object_id = absint($object_id) )
 		return false;
 
+	$check = apply_filters( "get_{$meta_type}_metadata", null, $object_id, $meta_key, $single );
+	if ( null !== $check ) {
+		if ( !is_array( $check ) )
+			return $check;
+		elseif ( $single )
+			return maybe_unserialize( $check[0] );
+		else
+			return array_map( 'maybe_unserialize', $check );
+	}
+
 	$meta_cache = wp_cache_get($object_id, $meta_type . '_meta');
 
 	if ( !$meta_cache ) {
@@ -238,7 +260,7 @@ function get_metadata($meta_type, $object_id, $meta_key = '', $single = false) {
 		$meta_cache = wp_cache_get($object_id, $meta_type . '_meta');
 	}
 
-	if ( ! $meta_key )
+	if ( !$meta_key )
 		return $meta_cache;
 
 	if ( isset($meta_cache[$meta_key]) ) {
