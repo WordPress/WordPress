@@ -190,4 +190,3 @@ class WP_Links_Table extends WP_List_Table {
 }
 
 ?>
-

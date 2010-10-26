@@ -363,4 +363,3 @@ class WP_Terms_Table extends WP_List_Table {
 }
 
 ?>
-
