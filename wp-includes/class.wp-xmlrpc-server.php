@@ -333,6 +333,41 @@ class wp_xmlrpc_server extends IXR_Server {
 				'desc'			=> __( 'Allow new users to sign up' ),
 				'readonly'		=> false,
 				'option'		=> 'users_can_register'
+			),
+			'thumbnail_size_w'	=> array(
+				'desc'			=> __( 'Thumbnail Width' ),
+				'readonly'		=> false,
+				'option'		=> 'thumbnail_size_w'
+			),
+			'thumbnail_size_h'	=> array(
+				'desc'			=> __( 'Thumbnail Height' ),
+				'readonly'		=> false,
+				'option'		=> 'thumbnail_size_h'
+			),
+			'thumbnail_crop'	=> array(
+				'desc'			=> __( 'Crop thumbnail to exact dimensions' ),
+				'readonly'		=> false,
+				'option'		=> 'thumbnail_crop'
+			),
+			'medium_size_w'	=> array(
+				'desc'			=> __( 'Medium size image width' ),
+				'readonly'		=> false,
+				'option'		=> 'medium_size_w'
+			),
+			'medium_size_h'	=> array(
+				'desc'			=> __( 'Medium size image height' ),
+				'readonly'		=> false,
+				'option'		=> 'medium_size_h'
+			),
+			'large_size_w'	=> array(
+				'desc'			=> __( 'Large size image width' ),
+				'readonly'		=> false,
+				'option'		=> 'large_size_w'
+			),
+			'large_size_h'	=> array(
+				'desc'			=> __( 'Large size image height' ),
+				'readonly'		=> false,
+				'option'		=> 'large_size_h'
 			)
 		);
 
