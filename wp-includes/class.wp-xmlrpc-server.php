@@ -1373,7 +1373,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$blog_id	= (int) $args[0];
 		$username	= $args[1];
 		$password	= $args[2];
-		$options	= (array) $args[3];
+		$options	= isset( $args[3] ) ? (array) $args[3] : array();
 
 		if ( !$user = $this->login($username, $password) )
 			return $this->error;
