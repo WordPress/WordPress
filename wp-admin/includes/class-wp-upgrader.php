@@ -1080,7 +1080,7 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 	}
 
 	function add_strings() {
-		$this->upgrader->strings['skin_upgrade_start'] = __('The update process is starting. This process may take awhile on some hosts, so please be patient.');
+		$this->upgrader->strings['skin_upgrade_start'] = __('The update process is starting. This process may take a while on some hosts, so please be patient.');
 		$this->upgrader->strings['skin_update_failed_error'] = __('An error occured while updating %1$s: <strong>%2$s</strong>.');
 		$this->upgrader->strings['skin_update_failed'] = __('The update of %1$s failed.');
 		$this->upgrader->strings['skin_update_successful'] = __('%1$s updated successfully.').' <a onclick="%2$s" href="#" class="hide-if-no-js"><span>'.__('Show Details').'</span><span class="hidden">'.__('Hide Details').'</span>.</a>';
