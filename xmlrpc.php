@@ -11,6 +11,7 @@
  * @var bool
  */
 define('XMLRPC_REQUEST', true);
+define('WP_SHOW_ADMIN_BAR' , false);
 
 // Some browser-embedded clients send cookies. We don't want them.
 $_COOKIE = array();
