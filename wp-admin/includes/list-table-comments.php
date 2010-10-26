@@ -8,29 +8,6 @@
  */
 
 /**
- * Post Comments List Table class.
- *
- * @package WordPress
- * @subpackage List_Table
- * @since 3.1.0
- *
- * @see WP_Comments_Table
- */
-class WP_Post_Comments_Table extends WP_Comments_Table {
-
-	function get_columns() {
-		return array(
-			'author'   => __( 'Author' ),
-			'comment'  => _x( 'Comment', 'column name' ),
-		);
-	}
-
-	function get_sortable_columns() {
-		return array();
-	}
-}
-
-/**
  * Comments List Table class.
  *
  * @package WordPress
@@ -510,3 +487,28 @@ class WP_Comments_Table extends WP_List_Table {
 		do_action( 'manage_comments_custom_column', $column_name, $comment->comment_ID );
 	}
 }
+
+/**
+ * Post Comments List Table class.
+ *
+ * @package WordPress
+ * @subpackage List_Table
+ * @since 3.1.0
+ *
+ * @see WP_Comments_Table
+ */
+class WP_Post_Comments_Table extends WP_Comments_Table {
+
+	function get_columns() {
+		return array(
+			'author'   => __( 'Author' ),
+			'comment'  => _x( 'Comment', 'column name' ),
+		);
+	}
+
+	function get_sortable_columns() {
+		return array();
+	}
+}
+
+?>
