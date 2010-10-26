@@ -1045,7 +1045,7 @@ function get_hidden_meta_boxes( $screen ) {
 	// Hide slug boxes by default
 	if ( !is_array( $hidden ) ) {
 		if ( 'post' == $screen->base )
-			$hidden = array('slugdiv', 'trackbacksdiv', 'postcustom', 'postexcerpt');
+			$hidden = array('slugdiv', 'trackbacksdiv', 'postcustom', 'postexcerpt', 'commentstatusdiv', 'commentsdiv', 'authordiv', 'revisionsdiv');
 		else
 			$hidden = array();
 		$hidden = apply_filters('default_hidden_meta_boxes', $hidden, $screen);
