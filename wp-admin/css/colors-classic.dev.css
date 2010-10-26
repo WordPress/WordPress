@@ -477,6 +477,10 @@ h3.dashboard-widget-title small,
 	background: #d5e6f2 url(../images/blue-grad.png) repeat-x scroll left top;
 }
 
+th.sortable a:hover, th.sortable a:active, th.sortable a:focus {
+	color: #333;
+}
+
 h3.dashboard-widget-title small a {
 	color: #d7d7d7;
 }

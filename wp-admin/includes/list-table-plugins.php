@@ -191,7 +191,6 @@ class WP_Plugins_Table extends WP_List_Table {
 	function get_sortable_columns() {
 		return array(
 			'name'         => 'name',
-			'description'  => 'description',
 		);
 	}
 
