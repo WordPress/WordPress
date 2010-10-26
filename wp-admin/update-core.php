@@ -341,7 +341,7 @@ function do_core_upgrade( $reinstall = false ) {
 			show_message( __('Installation Failed') );
 	} else {
 		show_message( __('WordPress updated successfully') );
-		show_message( '<strong>' . __('Actions:') . '</strong> <a href="' . esc_url( admin_url() ) . '">' . __('Go to Dashboard') . '</a>' );
+		show_message( '<a href="' . esc_url( admin_url() ) . '">' . __('Go to Dashboard') . '</a>' );
 	}
 	echo '</div>';
 }

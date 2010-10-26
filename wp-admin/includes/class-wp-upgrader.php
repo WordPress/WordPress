@@ -1046,7 +1046,7 @@ class Plugin_Upgrader_Skin extends WP_Upgrader_Skin {
 
 		$update_actions = apply_filters('update_plugin_complete_actions', $update_actions, $this->plugin);
 		if ( ! empty($update_actions) )
-			$this->feedback('<strong>' . __('Actions:') . '</strong> ' . implode(' | ', (array)$update_actions));
+			$this->feedback(implode(' | ', (array)$update_actions));
 	}
 
 	function before() {
@@ -1201,7 +1201,7 @@ class Bulk_Plugin_Upgrader_Skin extends Bulk_Upgrader_Skin {
 
 		$update_actions = apply_filters('update_bulk_plugins_complete_actions', $update_actions, $this->plugin_info);
 		if ( ! empty($update_actions) )
-			$this->feedback('<strong>' . __('Actions:') . '</strong> ' . implode(' | ', (array)$update_actions));
+			$this->feedback(implode(' | ', (array)$update_actions));
 	}
 }
 
@@ -1232,7 +1232,7 @@ class Bulk_Theme_Upgrader_Skin extends Bulk_Upgrader_Skin {
 
 		$update_actions = apply_filters('update_bulk_theme_complete_actions', $update_actions, $this->theme_info);
 		if ( ! empty($update_actions) )
-			$this->feedback('<strong>' . __('Actions:') . '</strong> ' . implode(' | ', (array)$update_actions));
+			$this->feedback(implode(' | ', (array)$update_actions));
 	}
 }
 
@@ -1300,7 +1300,7 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin {
 		}
 		$install_actions = apply_filters('install_plugin_complete_actions', $install_actions, $this->api, $plugin_file);
 		if ( ! empty($install_actions) )
-			$this->feedback('<strong>' . __('Actions:') . '</strong> ' . implode(' | ', (array)$install_actions));
+			$this->feedback(implode(' | ', (array)$install_actions));
 	}
 }
 
@@ -1367,7 +1367,7 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 
 		$install_actions = apply_filters('install_theme_complete_actions', $install_actions, $this->api, $stylesheet, $theme_info);
 		if ( ! empty($install_actions) )
-			$this->feedback('<strong>' . __('Actions:') . '</strong> ' . implode(' | ', (array)$install_actions));
+			$this->feedback(implode(' | ', (array)$install_actions));
 	}
 }
 
@@ -1421,7 +1421,7 @@ class Theme_Upgrader_Skin extends WP_Upgrader_Skin {
 
 		$update_actions = apply_filters('update_theme_complete_actions', $update_actions, $this->theme);
 		if ( ! empty($update_actions) )
-			$this->feedback('<strong>' . __('Actions:') . '</strong> ' . implode(' | ', (array)$update_actions));
+			$this->feedback(implode(' | ', (array)$update_actions));
 	}
 }
 
