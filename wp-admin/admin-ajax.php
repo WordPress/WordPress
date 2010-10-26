@@ -360,42 +360,6 @@ case 'delete-tag' :
 	else
 		die('0');
 	break;
-case 'delete-link-cat' :
-	check_ajax_referer( "delete-link-category_$id" );
-	if ( !current_user_can( 'manage_categories' ) )
-		die('-1');
-
-	$cat = get_term( $id, 'link_category' );
-	if ( !$cat || is_wp_error( $cat ) )
-		die('1');
-
-	$cat_name = get_term_field('name', $id, 'link_category');
-
-	$default = get_option('default_link_category');
-
-	// Don't delete the default cats.
-	if ( $id == $default ) {
-		$x = new WP_AJAX_Response( array(
-			'what' => 'link-cat',
-			'id' => $id,
-			'data' => new WP_Error( 'default-link-cat', sprintf(__("Can&#8217;t delete the <strong>%s</strong> category: this is the default one"), $cat_name) )
-		) );
-		$x->send();
-	}
-
-	$r = wp_delete_term($id, 'link_category', array('default' => $default));
-	if ( !$r )
-		die('0');
-	if ( is_wp_error($r) ) {
-		$x = new WP_AJAX_Response( array(
-			'what' => 'link-cat',
-			'id' => $id,
-			'data' => $r
-		) );
-		$x->send();
-	}
-	die('1');
-	break;
 case 'delete-link' :
 	check_ajax_referer( "delete-bookmark_$id" );
 	if ( !current_user_can( 'manage_links' ) )
