@@ -861,7 +861,7 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  * - permalink_epmask - The default rewrite endpoint bitmasks.
  * - has_archive - True to enable post type archives. Will generate the proper rewrite rules if rewrite is enabled.
  * - rewrite - false to prevent rewrite. Defaults to true. Use array('slug'=>$slug) to customize permastruct;
- *     default will use $post_type as slug. Other options include 'with_front' and 'feeds'.
+ *     default will use $post_type as slug. Other options include 'with_front', 'feeds', and 'pages'.
  * - query_var - false to prevent queries, or string to value of the query var to use for this post type
  * - can_export - true allows this post type to be exported.
  * - show_in_nav_menus - true makes this post type available for selection in navigation menus.
@@ -948,6 +948,8 @@ function register_post_type($post_type, $args = array()) {
 			$args->rewrite['slug'] = $post_type;
 		if ( ! isset( $args->rewrite['with_front'] ) )
 			$args->rewrite['with_front'] = true;
+		if ( ! isset( $args->rewrite['pages'] ) )
+			$args->rewrite['pages'] = true;
 		if ( ! isset( $args->rewrite['feeds'] ) || ! $args->has_archive )
 			$args->rewrite['feeds'] = (bool) $args->has_archive;
 
@@ -964,7 +966,8 @@ function register_post_type($post_type, $args = array()) {
 				$wp_rewrite->add_rule( "{$archive_slug}/feed/$feeds/?$", "index.php?post_type=$post_type" . '&feed=$matches[1]', 'top' );
 				$wp_rewrite->add_rule( "{$archive_slug}/$feeds/?$", "index.php?post_type=$post_type" . '&feed=$matches[1]', 'top' );
 			}
-			$wp_rewrite->add_rule( "{$archive_slug}/page/([0-9]{1,})/?$", "index.php?post_type=$post_type" . '&paged=$matches[1]', 'top' );
+			if ( $args->rewrite['pages'] )
+				$wp_rewrite->add_rule( "{$archive_slug}/page/([0-9]{1,})/?$", "index.php?post_type=$post_type" . '&paged=$matches[1]', 'top' );
 		}
 
 		$wp_rewrite->add_permastruct($post_type, "{$args->rewrite['slug']}/%$post_type%", $args->rewrite['with_front'], $args->permalink_epmask);
