@@ -647,7 +647,7 @@ function is_multisite() {
 	if ( defined( 'MULTISITE' ) )
 		return MULTISITE;
 
-	if ( defined( 'VHOST' ) || defined( 'SUNRISE' ) )
+	if ( defined( 'SUBDOMAIN_INSTALL' ) || defined( 'VHOST' ) || defined( 'SUNRISE' ) )
 		return true;
 
 	return false;
