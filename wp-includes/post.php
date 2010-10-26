@@ -2243,24 +2243,43 @@ function wp_get_post_terms( $post_id = 0, $taxonomy = 'post_tag', $args = array(
  * Retrieve number of recent posts.
  *
  * @since 1.0.0
- * @uses $wpdb
+ * @uses wp_parse_args()
+ * @uses get_posts()
  *
- * @param int $num Optional, default is 10. Number of posts to get.
- * @return array List of posts.
+ * @param string $deprecated Deprecated.
+ * @param array $args Optional. Overrides defaults.
+ * @param string $output Optional.
+ * @return unknown.
  */
-function wp_get_recent_posts($num = 10) {
-	global $wpdb;
+function wp_get_recent_posts( $args = array(), $output = ARRAY_A ) {
 
-	// Set the limit clause, if we got a limit
-	$num = (int) $num;
-	if ( $num ) {
-		$limit = "LIMIT $num";
+	if ( is_numeric( $args ) )
+		$args = array( 'numberposts' => absint( $args ) );
+
+	// Set default arguments
+	$defaults = array(
+		'numberposts' => 10, 'offset' => 0,
+		'category' => 0, 'orderby' => 'post_date',
+		'order' => 'DESC', 'include' => '',
+		'exclude' => '', 'meta_key' => '',
+		'meta_value' =>'', 'post_type' => 'post', 'post_status' => 'draft, publish, future, pending, private',
+		'suppress_filters' => true
+	);
+	
+	$r = wp_parse_args( $args, $defaults );
+
+	$results = get_posts( $r );
+	
+	// Backward compatibility. Prior to 3.1 expected posts to be returned in array
+	if ( ARRAY_A == $output ){
+		foreach( $results as $key => $result ) {
+			$results[$key] = get_object_vars( $result );
+		}
+		return $results ? $results : array();
 	}
 
-	$sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'post' AND post_status IN ( 'draft', 'publish', 'future', 'pending', 'private' ) ORDER BY post_date DESC $limit";
-	$result = $wpdb->get_results($sql, ARRAY_A);
+	return $results ? $results : false;
 
-	return $result ? $result : array();
 }
 
 /**
