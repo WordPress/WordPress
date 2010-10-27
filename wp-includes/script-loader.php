@@ -171,6 +171,9 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'jquery-query', "/wp-includes/js/jquery/jquery.query.js", array('jquery'), '2.1.7' );
 	$scripts->add_data( 'jquery-query', 'group', 1 );
 
+	$scripts->add( 'jquery-serialize-object', "/wp-includes/js/jquery/jquery.serialize-object.js", array('jquery'), '0.2' );
+	$scripts->add_data( 'jquery-serialize-object', 'group', 1 );
+
 	$scripts->add( 'jquery-hotkeys', "/wp-includes/js/jquery/jquery.hotkeys$suffix.js", array('jquery'), '0.0.2m' );
 	$scripts->add_data( 'jquery-hotkeys', 'group', 1 );
 
@@ -354,7 +357,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'theme-preview', "/wp-admin/js/theme-preview$suffix.js", array( 'thickbox', 'jquery' ), '20100407' );
 		$scripts->add_data( 'theme-preview', 'group', 1 );
 
-		$scripts->add( 'list-table', "/wp-admin/js/list-table$suffix.js", array( 'jquery', 'jquery-query' ), '20101023' );
+		$scripts->add( 'list-table', "/wp-admin/js/list-table$suffix.js", array( 'jquery-query', 'jquery-serialize-object' ), '20101027' );
 		$scripts->add_data( 'list-table', 'group', 1 );
 		$scripts->localize( 'list-table', 'listTableL10n', array(
 			'loading' => __('Loading...'),
