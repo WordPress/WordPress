@@ -192,9 +192,22 @@ function get_comments( $args = '' ) {
 	return $query->query( $args );
 }
 
+/**
+ * WordPress Comment Query class.
+ *
+ * @since 3.1.0
+ */
 class WP_Comment_Query extends WP_Object_Query {
 
-	function query( $args ) {
+	/**
+	 * Execute the query
+	 *
+	 * @since 3.1.0
+	 *
+	 * @param string|array $query_vars
+	 * @return int|array
+	 */
+	function query( $query_vars ) {
 		global $wpdb;
 
 		$defaults = array(
@@ -215,8 +228,9 @@ class WP_Comment_Query extends WP_Object_Query {
 			'count' => false
 		);
 
-		$args = wp_parse_args( $args, $defaults );
-		extract( $args, EXTR_SKIP );
+		$this->query_vars = wp_parse_args( $query_vars, $defaults );
+
+		extract( $this->query_vars, EXTR_SKIP );
 
 		// $args can be whatever, only use the args defined in defaults to compute the key
 		$key = md5( serialize( compact(array_keys($defaults)) )  );

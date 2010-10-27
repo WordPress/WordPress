@@ -374,12 +374,18 @@ class WP_User_Query extends WP_Object_Query {
 	function __construct( $query = null ) {
 		if ( !empty( $query ) ) {
 			$this->query_vars = wp_parse_args( $query, array(
-				'role' => '', 'blog_id' => $GLOBALS['blog_id'],
-				'meta_key' => '', 'meta_value' => '', 'meta_compare' => '',
-				'include' => array(), 'exclude' => array(),
+				'blog_id' => $GLOBALS['blog_id'],
+				'role' => '',
+				'meta_key' => '', 
+				'meta_value' => '',
+				'meta_compare' => '',
+				'include' => array(),
+				'exclude' => array(),
 				'search' => '',
-				'orderby' => 'login', 'order' => 'ASC',
-				'offset' => '', 'number' => '', 'count_total' => true,
+				'orderby' => 'login',
+				'order' => 'ASC',
+				'offset' => '', 'number' => '',
+				'count_total' => true,
 				'fields' => 'all',
 			) );
 

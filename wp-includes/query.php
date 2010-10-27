@@ -658,24 +658,14 @@ function the_comment() {
  * @since 1.5.0
  */
 class WP_Query extends WP_Object_Query {
-
 	/**
-	 * Query vars set by the user
+	 * Initial query vars
 	 *
 	 * @since 1.5.0
 	 * @access public
 	 * @var array
 	 */
 	var $query;
-
-	/**
-	 * Query vars, after parsing
-	 *
-	 * @since 1.5.0
-	 * @access public
-	 * @var array
-	 */
-	var $query_vars = array();
 
 	/**
 	 * Holds the data for a single object that is queried.
@@ -1579,35 +1569,6 @@ class WP_Query extends WP_Object_Query {
 		$this->is_404 = true;
 
 		$this->is_feed = $is_feed;
-	}
-
-	/**
-	 * Retrieve query variable.
-	 *
-	 * @since 1.5.0
-	 * @access public
-	 *
-	 * @param string $query_var Query variable key.
-	 * @return mixed
-	 */
-	function get($query_var) {
-		if ( isset($this->query_vars[$query_var]) )
-			return $this->query_vars[$query_var];
-
-		return '';
-	}
-
-	/**
-	 * Set query variable.
-	 *
-	 * @since 1.5.0
-	 * @access public
-	 *
-	 * @param string $query_var Query variable key.
-	 * @param mixed $value Query variable value.
-	 */
-	function set($query_var, $value) {
-		$this->query_vars[$query_var] = $value;
 	}
 
 	/**
