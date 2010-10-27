@@ -460,10 +460,12 @@ function is_network_only_plugin( $plugin ) {
  *
  * @param string $plugin Plugin path to main plugin file with plugin data.
  * @param string $redirect Optional. URL to redirect to.
- * @param bool $network_wide Whether to enable the plugin for all sites in the network or just the current site.  Multisite only. Default is false.
+ * @param bool $network_wide Whether to enable the plugin for all sites in the 
+ *   network or just the current site. Multisite only. Default is false.
+ * @param bool $silent Prevent calling activation hooks. Optional, default is false.
  * @return WP_Error|null WP_Error on invalid file or null on success.
  */
-function activate_plugin( $plugin, $redirect = '', $network_wide = false) {
+function activate_plugin( $plugin, $redirect = '', $network_wide = false, $silent = false ) {
 	$plugin = plugin_basename( trim( $plugin ) );
 
 	if ( is_multisite() && ( $network_wide || is_network_only_plugin($plugin) ) ) {
@@ -482,8 +484,12 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false) {
 			wp_redirect(add_query_arg('_error_nonce', wp_create_nonce('plugin-activation-error_' . $plugin), $redirect)); // we'll override this later if the plugin can be included without fatal error
 		ob_start();
 		include(WP_PLUGIN_DIR . '/' . $plugin);
-		do_action( 'activate_plugin', $plugin, $network_wide );
-		do_action( 'activate_' . $plugin, $network_wide );
+
+		if ( ! $silent ) {
+			do_action( 'activate_plugin', $plugin, $network_wide );
+			do_action( 'activate_' . $plugin, $network_wide );
+		}
+
 		if ( $network_wide ) {
 			$current[$plugin] = time();
 			update_site_option( 'active_sitewide_plugins', $current );
@@ -492,7 +498,11 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false) {
 			sort($current);
 			update_option('active_plugins', $current);
 		}
-		do_action( 'activated_plugin', $plugin, $network_wide );
+
+		if ( ! $silent ) {
+			do_action( 'activated_plugin', $plugin, $network_wide );
+		}
+
 		if ( ob_get_length() > 0 ) {
 			$output = ob_get_clean();
 			return new WP_Error('unexpected_output', __('The plugin generated unexpected output.'), $output);
@@ -512,7 +522,7 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false) {
  * @since unknown
  *
  * @param string|array $plugins Single plugin or list of plugins to deactivate.
- * @param bool $silent Optional, default is false. Prevent calling deactivate hook.
+ * @param bool $silent Prevent calling deactivation hooks. Default is false.
  */
 function deactivate_plugins( $plugins, $silent = false ) {
 	if ( is_multisite() )
@@ -566,17 +576,18 @@ function deactivate_plugins( $plugins, $silent = false ) {
  * @param string|array $plugins
  * @param string $redirect Redirect to page after successful activation.
  * @param bool $network_wide Whether to enable the plugin for all sites in the network.
+ * @param bool $silent Prevent calling activation hooks. Default is false.
  * @return bool|WP_Error True when finished or WP_Error if there were errors during a plugin activation.
  */
-function activate_plugins($plugins, $redirect = '', $network_wide) {
+function activate_plugins( $plugins, $redirect = '', $network_wide = false, $silent = false ) {
 	if ( !is_array($plugins) )
 		$plugins = array($plugins);
 
 	$errors = array();
-	foreach ( (array) $plugins as $plugin ) {
+	foreach ( $plugins as $plugin ) {
 		if ( !empty($redirect) )
 			$redirect = add_query_arg('plugin', $plugin, $redirect);
-		$result = activate_plugin($plugin, $redirect, $network_wide);
+		$result = activate_plugin($plugin, $redirect, $network_wide, $silent);
 		if ( is_wp_error($result) )
 			$errors[$plugin] = $result;
 	}
