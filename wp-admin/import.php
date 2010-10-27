@@ -37,7 +37,7 @@ if ( current_user_can('install_plugins') )
 	);
 
 if ( ! empty( $_GET['invalid'] ) && !empty($popular_importers[$_GET['invalid']][3]) ) {
-	wp_redirect("import.php?import=" . $popular_importers[$_GET['invalid']][3]);
+	wp_redirect( admin_url('import.php?import=' . $popular_importers[$_GET['invalid']][3]) );
 	exit;
 }
 

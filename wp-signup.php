@@ -23,7 +23,7 @@ function signuppageheaders() {
 }
 
 if ( !is_multisite() ) {
-	wp_redirect( get_option( 'siteurl' ) . "/wp-login.php?action=register" );
+	wp_redirect( site_url('wp-login.php?action=register') );
 	die();
 }
 

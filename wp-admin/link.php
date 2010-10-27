@@ -24,7 +24,7 @@ if ( !empty($_POST['move']) )
 if ( !empty($_POST['linkcheck']) )
 	$linkcheck = $_POST['linkcheck'];
 
-$this_file = 'link-manager.php';
+$this_file = admin_url('link-manager.php');
 
 switch ($action) {
 	case 'deletebookmarks' :

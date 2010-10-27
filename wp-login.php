@@ -430,7 +430,7 @@ case 'rp' :
 	$user = check_password_reset_key($_GET['key'], $_GET['login']);
 
 	if ( is_wp_error($user) ) {
-		wp_redirect('wp-login.php?action=lostpassword&error=invalidkey');
+		wp_redirect( site_url('wp-login.php?action=lostpassword&error=invalidkey') );
 		exit;
 	}
 
@@ -484,12 +484,12 @@ break;
 case 'register' :
 	if ( is_multisite() ) {
 		// Multisite uses wp-signup.php
-		wp_redirect( apply_filters( 'wp_signup_location', get_bloginfo('wpurl') . '/wp-signup.php' ) );
+		wp_redirect( apply_filters( 'wp_signup_location', site_url('wp-signup.php') ) );
 		exit;
 	}
 
 	if ( !get_option('users_can_register') ) {
-		wp_redirect('wp-login.php?registration=disabled');
+		wp_redirect( site_url('wp-login.php?registration=disabled') );
 		exit();
 	}
 

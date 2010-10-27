@@ -138,7 +138,7 @@ case 'edit':
 	$editing = true;
 
 	if ( empty( $post_id ) ) {
-		wp_redirect("post.php");
+		wp_redirect( admin_url('post.php') );
 		exit();
 	}
 
@@ -265,7 +265,7 @@ case 'preview':
 	break;
 
 default:
-		wp_redirect('edit.php');
+		wp_redirect( admin_url('edit.php') );
 	exit();
 	break;
 } // end switch

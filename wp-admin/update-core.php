@@ -431,7 +431,7 @@ if ( 'upgrade-core' == $action ) {
 	} elseif ( isset( $_POST['checked'] ) ) {
 		$plugins = (array) $_POST['checked'];
 	} else {
-		wp_redirect('update-core.php');
+		wp_redirect( admin_url('update-core.php') );
 		exit;
 	}
 
@@ -454,7 +454,7 @@ if ( 'upgrade-core' == $action ) {
 	} elseif ( isset( $_POST['checked'] ) ) {
 		$themes = (array) $_POST['checked'];
 	} else {
-		wp_redirect('update-core.php');
+		wp_redirect( admin_url('update-core.php') );
 		exit;
 	}
 

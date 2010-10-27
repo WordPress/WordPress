@@ -16,14 +16,14 @@ if ( current_user_can('switch_themes') && isset($_GET['action']) ) {
 	if ( 'activate' == $_GET['action'] ) {
 		check_admin_referer('switch-theme_' . $_GET['template']);
 		switch_theme($_GET['template'], $_GET['stylesheet']);
-		wp_redirect('themes.php?activated=true');
+		wp_redirect( admin_url('themes.php?activated=true') );
 		exit;
 	} else if ( 'delete' == $_GET['action'] ) {
 		check_admin_referer('delete-theme_' . $_GET['template']);
 		if ( !current_user_can('delete_themes') )
 			wp_die( __( 'Cheatin&#8217; uh?' ) );
 		delete_theme($_GET['template']);
-		wp_redirect('themes.php?deleted=true');
+		wp_redirect( admin_url('themes.php?deleted=true') );
 		exit;
 	}
 }

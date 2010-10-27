@@ -67,9 +67,9 @@ case 'update':
 			wp_redirect(add_query_arg('_wpnonce', wp_create_nonce('edit-plugin-test_' . $file), "plugin-editor.php?file=$file&liveupdate=1&scrollto=$scrollto&networkwide=" . $network_wide));
 			exit;
 		}
-		wp_redirect("plugin-editor.php?file=$file&a=te&scrollto=$scrollto");
+		wp_redirect( adin_url("plugin-editor.php?file=$file&a=te&scrollto=$scrollto") );
 	} else {
-		wp_redirect("plugin-editor.php?file=$file&scrollto=$scrollto");
+		wp_redirect( admin_url("plugin-editor.php?file=$file&scrollto=$scrollto") );
 	}
 	exit;
 
@@ -87,7 +87,7 @@ default:
 		if ( ! is_plugin_active($file) )
 			activate_plugin($file, "plugin-editor.php?file=$file&phperror=1", ! empty( $_GET['networkwide'] ) ); // we'll override this later if the plugin can be included without fatal error
 
-		wp_redirect("plugin-editor.php?file=$file&a=te&scrollto=$scrollto");
+		wp_redirect( admin_url("plugin-editor.php?file=$file&a=te&scrollto=$scrollto") );
 		exit;
 	}
 

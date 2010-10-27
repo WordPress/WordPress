@@ -48,7 +48,7 @@ case 'edit' :
 		$errors = null;
 
 	if ( empty( $_GET['attachment_id'] ) ) {
-		wp_redirect('upload.php');
+		wp_redirect( admin_url('upload.php') );
 		exit();
 	}
 	$att_id = (int) $_GET['attachment_id'];
@@ -118,7 +118,7 @@ case 'edit' :
 	exit;
 
 default:
-	wp_redirect( 'upload.php' );
+	wp_redirect( admin_url('upload.php') );
 	exit;
 
 endswitch;

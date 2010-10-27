@@ -70,9 +70,9 @@ if ( isset($_GET['action']) ) {
 
 		check_admin_referer('activate-plugin_' . $plugin);
 		if ( ! isset($_GET['failure']) && ! isset($_GET['success']) ) {
-			wp_redirect( 'update.php?action=activate-plugin&failure=true&plugin=' . $plugin . '&_wpnonce=' . $_GET['_wpnonce'] );
+			wp_redirect( admin_url('update.php?action=activate-plugin&failure=true&plugin=' . $plugin . '&_wpnonce=' . $_GET['_wpnonce']) );
 			activate_plugin( $plugin, '', ! empty( $_GET['networkwide'] ) );
-			wp_redirect( 'update.php?action=activate-plugin&success=true&plugin=' . $plugin . '&_wpnonce=' . $_GET['_wpnonce'] );
+			wp_redirect( admin_url('update.php?action=activate-plugin&success=true&plugin=' . $plugin . '&_wpnonce=' . $_GET['_wpnonce']) );
 			die();
 		}
 		iframe_header( __('Plugin Reactivation'), true );

@@ -126,7 +126,7 @@ if ( isset($plugin_page) ) {
 				$query_string = $_SERVER[ 'QUERY_STRING' ];
 			else
 				$query_string = 'page=' . $plugin_page;
-			wp_redirect( 'tools.php?' . $query_string );
+			wp_redirect( admin_url('tools.php?' . $query_string) );
 			exit;
 		}
 	}
