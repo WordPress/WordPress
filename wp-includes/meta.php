@@ -44,6 +44,7 @@ function add_metadata($meta_type, $object_id, $meta_key, $meta_value, $unique = 
 
 	// expected_slashed ($meta_key)
 	$meta_key = stripslashes($meta_key);
+	$meta_value = stripslashes_deep($meta_value);
 
 	$check = apply_filters( "add_{$meta_type}_metadata", null, $object_id, $meta_key, $meta_value, $unique );
 	if ( null !== $check )
@@ -55,7 +56,7 @@ function add_metadata($meta_type, $object_id, $meta_key, $meta_value, $unique = 
 		return false;
 
 	$_meta_value = $meta_value;
-	$meta_value = maybe_serialize( stripslashes_deep($meta_value) );
+	$meta_value = maybe_serialize( $meta_value );
 
 	do_action( "add_{$meta_type}_meta", $object_id, $meta_key, $_meta_value );
 
@@ -111,6 +112,7 @@ function update_metadata($meta_type, $object_id, $meta_key, $meta_value, $prev_v
 
 	// expected_slashed ($meta_key)
 	$meta_key = stripslashes($meta_key);
+	$meta_value = stripslashes_deep($meta_value);
 
 	$check = apply_filters( "update_{$meta_type}_metadata", null, $object_id, $meta_key, $meta_value, $prev_value );
 	if ( null !== $check )
@@ -129,7 +131,7 @@ function update_metadata($meta_type, $object_id, $meta_key, $meta_value, $prev_v
 	}
 
 	$_meta_value = $meta_value;
-	$meta_value = maybe_serialize( stripslashes_deep($meta_value) );
+	$meta_value = maybe_serialize( $meta_value );
 
 	$data  = compact( 'meta_value' );
 	$where = array( $column => $object_id, 'meta_key' => $meta_key );
@@ -186,11 +188,14 @@ function delete_metadata($meta_type, $object_id, $meta_key, $meta_value = '', $d
 	$id_column = 'user' == $meta_type ? 'umeta_id' : 'meta_id';
 	// expected_slashed ($meta_key)
 	$meta_key = stripslashes($meta_key);
-	$meta_value = maybe_serialize( stripslashes_deep($meta_value) );
+	$meta_value = stripslashes_deep($meta_value);
 
 	$check = apply_filters( "delete_{$meta_type}_metadata", null, $object_id, $meta_key, $meta_value, $delete_all );
 	if ( null !== $check )
 		return (bool) $check;
+
+	$_meta_value = $meta_value;
+	$meta_value = maybe_serialize( $meta_value );
 
 	$query = $wpdb->prepare( "SELECT $id_column FROM $table WHERE meta_key = %s", $meta_key );
 
@@ -204,7 +209,7 @@ function delete_metadata($meta_type, $object_id, $meta_key, $meta_value = '', $d
 	if ( !count( $meta_ids ) )
 		return false;
 
-	do_action( "delete_{$meta_type}_meta", $meta_ids, $object_id, $meta_key, $meta_value );
+	do_action( "delete_{$meta_type}_meta", $meta_ids, $object_id, $meta_key, $_meta_value );
 
 	$query = "DELETE FROM $table WHERE $id_column IN( " . implode( ',', $meta_ids ) . " )";
 
@@ -218,7 +223,7 @@ function delete_metadata($meta_type, $object_id, $meta_key, $meta_value = '', $d
 	if ( 'user' == $meta_type )
 		clean_user_cache($object_id);
 
-	do_action( "deleted_{$meta_type}_meta", $meta_ids, $object_id, $meta_key, $meta_value );
+	do_action( "deleted_{$meta_type}_meta", $meta_ids, $object_id, $meta_key, $_meta_value );
 
 	return true;
 }
@@ -245,12 +250,10 @@ function get_metadata($meta_type, $object_id, $meta_key = '', $single = false) {
 
 	$check = apply_filters( "get_{$meta_type}_metadata", null, $object_id, $meta_key, $single );
 	if ( null !== $check ) {
-		if ( !is_array( $check ) )
-			return $check;
-		elseif ( $single )
-			return maybe_unserialize( $check[0] );
+		if ( $single && is_array( $check ) )
+			return $check[0];
 		else
-			return array_map( 'maybe_unserialize', $check );
+			return $check;
 	}
 
 	$meta_cache = wp_cache_get($object_id, $meta_type . '_meta');
