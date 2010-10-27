@@ -207,7 +207,7 @@ listTable.init();
 
 	// searchbox
 	function change_search(ev) {
-		if ( 'keypress' == ev.type && 13 != e.keyCode )
+		if ( 'keypress' == ev.type && 13 != ev.keyCode )
 			return;
 
 		ev.preventDefault();
