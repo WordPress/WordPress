@@ -853,6 +853,9 @@ function wp_edit_posts_query( $q = false ) {
 		$query['posts_per_archive_page'] = -1;
 	}
 
+	if ( ! empty( $q['show_sticky'] ) )
+		$query['post__in'] = (array) get_option( 'sticky_posts' );
+
 	wp( $query );
 
 	return $avail_post_stati;
@@ -920,7 +923,7 @@ function wp_edit_attachments_query( $q = false ) {
 	if ( isset($q['detached']) )
 		add_filter('posts_where', '_edit_attachments_query_helper');
 
-	wp($q);
+	wp( $q );
 
 	if ( isset($q['detached']) )
 		remove_filter('posts_where', '_edit_attachments_query_helper');

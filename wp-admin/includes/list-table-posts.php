@@ -21,7 +21,7 @@ class WP_Posts_Table extends WP_List_Table {
 	 * Holds the number of pending comments for each post
 	 *
 	 * @since 3.1.0
-	 * @var bool
+	 * @var int
 	 * @access protected
 	 */
 	var $comment_pending_count;
@@ -30,10 +30,19 @@ class WP_Posts_Table extends WP_List_Table {
 	 * Holds the number of posts for this user
 	 *
 	 * @since 3.1.0
-	 * @var bool
+	 * @var int
 	 * @access private
 	 */
 	var $user_posts_count;
+
+	/**
+	 * Holds the number of posts which are sticky.
+	 *
+	 * @since 3.1.0
+	 * @var int
+	 * @access private
+	 */
+	var $sticky_posts_count = 0;
 
 	function WP_Posts_Table() {
 		global $post_type_object, $post_type, $current_screen, $wpdb;
@@ -51,12 +60,17 @@ class WP_Posts_Table extends WP_List_Table {
 		if ( !current_user_can( $post_type_object->cap->edit_others_posts ) ) {
 			$this->user_posts_count = $wpdb->get_var( $wpdb->prepare( "
 				SELECT COUNT( 1 ) FROM $wpdb->posts
-				WHERE post_type = '%s' AND post_status NOT IN ( 'trash', 'auto-draft' )
+				WHERE post_type = %s AND post_status NOT IN ( 'trash', 'auto-draft' )
 				AND post_author = %d
 			", $post_type, get_current_user_id() ) );
 
-			if ( $this->user_posts_count && empty( $_REQUEST['post_status'] ) && empty( $_REQUEST['all_posts'] ) && empty( $_REQUEST['author'] ) )
+			if ( $this->user_posts_count && empty( $_REQUEST['post_status'] ) && empty( $_REQUEST['all_posts'] ) && empty( $_REQUEST['author'] ) && empty( $_REQUEST['show_sticky'] ) )
 				$_GET['author'] = get_current_user_id();
+		}
+
+		if ( $sticky_posts = get_option( 'sticky_posts' ) ) {
+			$sticky_posts = implode( ', ', array_map( 'absint', (array) $sticky_posts ) );
+			$this->sticky_posts_count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT( 1 ) FROM $wpdb->posts WHERE post_type = %s AND ID IN ($sticky_posts)", $post_type ) );
 		}
 
 		parent::WP_List_Table( array(
@@ -139,7 +153,7 @@ class WP_Posts_Table extends WP_List_Table {
 		foreach ( get_post_stati( array('show_in_admin_all_list' => false) ) as $state )
 			$total_posts -= $num_posts->$state;
 
-		$class = empty($class) && empty($_REQUEST['post_status']) ? ' class="current"' : '';
+		$class = empty( $class ) && empty( $_REQUEST['post_status'] ) && empty( $_REQUEST['show_sticky'] ) ? ' class="current"' : '';
 		$status_links['all'] = "<li><a href='edit.php?post_type=$post_type{$allposts}'$class>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_posts, 'posts' ), number_format_i18n( $total_posts ) ) . '</a>';
 
 		foreach ( get_post_stati(array('show_in_admin_status_list' => true), 'objects') as $status ) {
@@ -157,6 +171,16 @@ class WP_Posts_Table extends WP_List_Table {
 				$class = ' class="current"';
 
 			$status_links[$status_name] = "<li><a href='edit.php?post_status=$status_name&amp;post_type=$post_type'$class>" . sprintf( _n( $status->label_count[0], $status->label_count[1], $num_posts->$status_name ), number_format_i18n( $num_posts->$status_name ) ) . '</a>';
+		}
+
+		if ( ! empty( $this->sticky_posts_count ) ) {
+			$class = ! empty( $_REQUEST['show_sticky'] ) ? ' class="current"' : '';
+
+			$sticky_link = array( 'sticky' => "<li><a href='edit.php?post_type=$post_type&amp;show_sticky=1'$class>" . sprintf( _nx( 'Sticky <span class="count">(%s)</span>', 'Sticky <span class="count">(%s)</span>', $this->sticky_posts_count, 'posts' ), number_format_i18n( $this->sticky_posts_count ) ) . '</a>' );
+
+			// Sticky comes after Publish, or if not listed, after All.
+			$split = 1 + array_search( ( isset( $status_links['publish'] ) ? 'publish' : 'all' ), array_keys( $status_links ) );
+			$status_links = array_merge( array_slice( $status_links, 0, $split ), $sticky_link, array_slice( $status_links, $split ) );
 		}
 
 		return $status_links;
