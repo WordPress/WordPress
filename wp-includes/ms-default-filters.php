@@ -22,6 +22,7 @@ add_action( 'sanitize_user', 'strtolower' );
 
 // Blogs
 add_filter( 'wpmu_validate_blog_signup', 'signup_nonce_check' );
+add_action( 'wpmu_new_blog', 'wpmu_activate_network_plugins', 9 );
 add_action( 'wpmu_new_blog', 'wpmu_log_new_registrations', 10, 2 );
 add_action( 'wpmu_new_blog', 'newblog_notify_siteadmin', 10, 2 );
 

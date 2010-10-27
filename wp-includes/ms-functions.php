@@ -1224,6 +1224,26 @@ function update_posts_count( $deprecated = '' ) {
 	update_option( 'post_count', (int) $wpdb->get_var( "SELECT COUNT(ID) FROM {$wpdb->posts} WHERE post_status = 'publish' and post_type = 'post'" ) );
 }
 
+/**
+ * Fires activation hooks for all active network plugins
+ *
+ * @since 3.1.0
+ *
+ * @param int $blog_id Blog ID
+ */
+function wpmu_activate_network_plugins( $blog_id ) {
+	switch_to_blog( $blog_id );
+
+	$active_sitewide_plugins = (array) get_site_option( 'active_sitewide_plugins', array() );
+
+	foreach ( array_keys( $active_sitewide_plugins ) as $plugin ) {
+		do_action( 'activate_' . $plugin, false );
+		do_action( 'activate_plugin', $plugin, false );
+	}
+
+	restore_current_blog();
+}
+
 function wpmu_log_new_registrations( $blog_id, $user_id ) {
 	global $wpdb;
 	$user = new WP_User( (int) $user_id );
