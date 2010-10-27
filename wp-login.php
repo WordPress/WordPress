@@ -496,8 +496,6 @@ case 'register' :
 	$user_login = '';
 	$user_email = '';
 	if ( $http_post ) {
-		require_once( ABSPATH . WPINC . '/registration.php');
-
 		$user_login = $_POST['user_login'];
 		$user_email = $_POST['user_email'];
 		$errors = register_new_user($user_login, $user_email);

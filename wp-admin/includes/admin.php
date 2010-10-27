@@ -51,9 +51,6 @@ require_once(ABSPATH . 'wp-admin/includes/user.php');
 /** WordPress Update Administration API */
 require_once(ABSPATH . 'wp-admin/includes/update.php');
 
-/** WordPress Registration API */
-require_once(ABSPATH . WPINC . '/registration.php');
-
 /** WordPress Deprecated Administration API */
 require_once(ABSPATH . 'wp-admin/includes/deprecated.php');
 

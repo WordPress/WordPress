@@ -11,8 +11,6 @@ if ( !is_multisite() ) {
 	die();
 }
 
-require_once( ABSPATH . WPINC . '/registration.php');
-
 if ( is_object( $wp_object_cache ) )
 	$wp_object_cache->cache_enabled = false;
 

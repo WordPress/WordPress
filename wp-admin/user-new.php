@@ -15,9 +15,6 @@ if ( !current_user_can('create_users') )
 if ( is_multisite() && !get_site_option( 'add_new_users' ) )
 	wp_die( __('Page disabled by the administrator') );
 
-/** WordPress Registration API */
-require_once( ABSPATH . WPINC . '/registration.php');
-
 if ( is_multisite() ) {
 	function admin_created_user_email( $text ) {
 		/* translators: 1: Site name, 2: site URL, 3: role */
