@@ -464,7 +464,7 @@ function is_network_only_plugin( $plugin ) {
  * @return WP_Error|null WP_Error on invalid file or null on success.
  */
 function activate_plugin( $plugin, $redirect = '', $network_wide = false) {
-	$plugin  = plugin_basename( trim( $plugin ) );
+	$plugin = plugin_basename( trim( $plugin ) );
 
 	if ( is_multisite() && ( $network_wide || is_network_only_plugin($plugin) ) ) {
 		$network_wide = true;
@@ -482,8 +482,8 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false) {
 			wp_redirect(add_query_arg('_error_nonce', wp_create_nonce('plugin-activation-error_' . $plugin), $redirect)); // we'll override this later if the plugin can be included without fatal error
 		ob_start();
 		include(WP_PLUGIN_DIR . '/' . $plugin);
-		do_action( 'activate_plugin', trim( $plugin) );
-		do_action( 'activate_' . trim( $plugin ) );
+		do_action( 'activate_plugin', $plugin, $network_wide );
+		do_action( 'activate_' . $plugin, $network_wide );
 		if ( $network_wide ) {
 			$current[$plugin] = time();
 			update_site_option( 'active_sitewide_plugins', $current );
@@ -492,7 +492,7 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false) {
 			sort($current);
 			update_option('active_plugins', $current);
 		}
-		do_action( 'activated_plugin', trim( $plugin) );
+		do_action( 'activated_plugin', $plugin, $network_wide );
 		if ( ob_get_length() > 0 ) {
 			$output = ob_get_clean();
 			return new WP_Error('unexpected_output', __('The plugin generated unexpected output.'), $output);
@@ -521,29 +521,29 @@ function deactivate_plugins( $plugins, $silent = false ) {
 	$do_blog = $do_network = false;
 
 	foreach ( (array) $plugins as $plugin ) {
-		$plugin = plugin_basename($plugin);
+		$plugin = plugin_basename( trim( $plugin ) );
 		if ( ! is_plugin_active($plugin) )
 			continue;
-		if ( ! $silent )
-			do_action( 'deactivate_plugin', trim( $plugin ) );
 
-		if ( is_plugin_active_for_network($plugin) ) {
-			// Deactivate network wide
+		$network_wide = is_plugin_active_for_network( $plugin );
+
+		if ( ! $silent )
+			do_action( 'deactivate_plugin', $plugin, $network_wide );
+
+		if ( $network_wide ) {
 			$do_network = true;
 			unset( $network_current[ $plugin ] );
 		} else {
-			// Deactivate for this blog only
-			$key = array_search( $plugin, (array) $current );
+			$key = array_search( $plugin, $current );
 			if ( false !== $key ) {
 				$do_blog = true;
 				array_splice( $current, $key, 1 );
 			}
 		}
 
-		//Used by Plugin updater to internally deactivate plugin, however, not to notify plugins of the fact to prevent plugin output.
 		if ( ! $silent ) {
-			do_action( 'deactivate_' . trim( $plugin ) );
-			do_action( 'deactivated_plugin', trim( $plugin ) );
+			do_action( 'deactivate_' . $plugin, $network_wide );
+			do_action( 'deactivated_plugin', $plugin, $network_wide );
 		}
 	}
 
