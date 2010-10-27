@@ -1904,19 +1904,17 @@ class WP_Rewrite {
 		$this->root = '';
 		if ( $this->using_index_permalinks() )
 			$this->root = $this->index . '/';
+
 		unset($this->author_structure);
 		unset($this->date_structure);
 		unset($this->page_structure);
 		unset($this->search_structure);
 		unset($this->feed_structure);
 		unset($this->comment_feed_structure);
+
 		$this->use_trailing_slashes = ( '/' == substr($this->permalink_structure, -1, 1) );
 
-		// Enable generic rules for pages if permalink structure doesn't begin with a wildcard.
-		if ( preg_match("/^[^%]*%(?:postname|category|tag|author)%/", $this->permalink_structure) )
-			 $this->use_verbose_page_rules = true;
-		else
-			$this->use_verbose_page_rules = false;
+		$this->use_verbose_page_rules = preg_match( "#^/%(postname|category|tag|author)%#", $this->permalink_structure );
 	}
 
 	/**
