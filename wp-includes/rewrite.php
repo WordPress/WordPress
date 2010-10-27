@@ -1914,7 +1914,7 @@ class WP_Rewrite {
 
 		$this->use_trailing_slashes = ( '/' == substr($this->permalink_structure, -1, 1) );
 
-		$this->use_verbose_page_rules = preg_match( "#^/%(postname|category|tag|author)%#", $this->permalink_structure );
+		$this->use_verbose_page_rules = !! preg_match( "#^/%(postname|category|tag|author)%#", $this->permalink_structure );
 	}
 
 	/**
