@@ -229,7 +229,7 @@ class WP_Comment_Query extends WP_Object_Query {
 		);
 
 		$this->query_vars = wp_parse_args( $query_vars, $defaults );
-
+		do_action_ref_array( 'pre_get_comments', array( &$this ) );
 		extract( $this->query_vars, EXTR_SKIP );
 
 		// $args can be whatever, only use the args defined in defaults to compute the key
@@ -299,29 +299,35 @@ class WP_Comment_Query extends WP_Object_Query {
 			$limit = '';
 		}
 
-		$post_where = "WHERE $approved";
+		$where = "WHERE $approved";
 
 		if ( ! empty($post_id) )
-			$post_where .= $wpdb->prepare( ' AND comment_post_ID = %d', $post_id );
+			$where .= $wpdb->prepare( ' AND comment_post_ID = %d', $post_id );
 		if ( '' !== $author_email )
-			$post_where .= $wpdb->prepare( 'AND comment_author_email = %s', $author_email );
+			$where .= $wpdb->prepare( ' AND comment_author_email = %s', $author_email );
 		if ( '' !== $karma )
-			$post_where .= $wpdb->prepare( 'AND comment_karma = %d', $karma );
+			$where .= $wpdb->prepare( ' AND comment_karma = %d', $karma );
 		if ( 'comment' == $type )
-			$post_where .= " AND comment_type = ''";
+			$where .= " AND comment_type = ''";
 		elseif ( ! empty( $type ) )
-			$post_where .= $wpdb->prepare( ' AND comment_type = %s', $type );
+			$where .= $wpdb->prepare( ' AND comment_type = %s', $type );
 		if ( '' !== $parent )
-			$post_where .= $wpdb->prepare( ' AND comment_parent = %d', $parent );
+			$where .= $wpdb->prepare( ' AND comment_parent = %d', $parent );
 		if ( '' !== $user_id )
-			$post_where .= $wpdb->prepare( ' AND user_id = %d', $user_id );
+			$where .= $wpdb->prepare( ' AND user_id = %d', $user_id );
 		if ( '' !== $search )
-			$post_where .= $this->get_search_sql( $search, array( 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_author_IP', 'comment_content' ) );
+			$where .= $this->get_search_sql( $search, array( 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_author_IP', 'comment_content' ) );
+
+		$pieces = array( 'where', 'orderby', 'order', 'limit' );
+		$clauses = apply_filters_ref_array( 'comments_clauses', array( compact( $pieces ), &$this ) );
+		foreach ( $pieces as $piece )
+			$$piece = isset( $clauses[ $piece ] ) ? $clauses[ $piece ] : '';
 
 		if ( $count )
-			return $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->comments $post_where ORDER BY $orderby $order $limit" );
+			return $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->comments $where ORDER BY $orderby $order $limit" );
 
-		$comments = $wpdb->get_results( "SELECT * FROM $wpdb->comments $post_where ORDER BY $orderby $order $limit" );
+		$comments = $wpdb->get_results( "SELECT * FROM $wpdb->comments $where ORDER BY $orderby $order $limit" );
+		$comments = apply_filters_ref_array( 'the_comments', array( $comments, &$this ) );
 
 		wp_cache_add( $cache_key, $comments, 'comment' );
 
