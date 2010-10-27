@@ -103,7 +103,7 @@ if ( is_network_admin() )
 else
 	$blog_name = get_bloginfo('name', 'display');
 if ( '' == $blog_name ) {
-	$blog_name = '&nbsp;';
+	$blog_name = __( 'Visit Site' );
 } else {
 	$blog_name_excerpt = wp_html_excerpt($blog_name, 40);
 	if ( $blog_name != $blog_name_excerpt )
