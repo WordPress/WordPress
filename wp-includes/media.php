@@ -177,15 +177,15 @@ function image_downsize($id, $size = 'medium') {
 /**
  * Registers a new image size
  */
-function add_image_size( $name, $width = 0, $height = 0, $crop = FALSE ) {
+function add_image_size( $name, $width = 0, $height = 0, $crop = false ) {
 	global $_wp_additional_image_sizes;
-	$_wp_additional_image_sizes[$name] = array( 'width' => absint( $width ), 'height' => absint( $height ), 'crop' => !!$crop );
+	$_wp_additional_image_sizes[$name] = array( 'width' => absint( $width ), 'height' => absint( $height ), 'crop' => (bool) $crop );
 }
 
 /**
  * Registers an image size for the post thumbnail
  */
-function set_post_thumbnail_size( $width = 0, $height = 0, $crop = FALSE ) {
+function set_post_thumbnail_size( $width = 0, $height = 0, $crop = false ) {
 	add_image_size( 'post-thumbnail', $width, $height, $crop );
 }
 
