@@ -80,51 +80,38 @@ if ( isset( $_REQUEST['updated'] ) && $_REQUEST['updated'] == 'true' && ! empty(
 		$msg = '<div class="updated" id="message"><p>' . $msg . '</p></div>';
 }
 
-$action = isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : 'list';
+$wp_list_table->prepare_items();
 
-switch ( $action ) {
-	// Edit site
-	case 'editblog':
-		// No longer used.
-	break;
+require_once( '../admin-header.php' );
+?>
 
-	// List sites
-	case 'list':
-	default:
-		$wp_list_table->prepare_items();
+<div class="wrap">
+<?php screen_icon('ms-admin'); ?>
+<h2><?php _e('Sites') ?>
+<?php echo $msg; ?>
+<a href="<?php echo network_admin_url('site-new.php'); ?>" class="button add-new-h2"><?php echo esc_html_x( 'Add New', 'sites' ); ?></a>
+<?php if ( isset( $_REQUEST['s'] ) && $_REQUEST['s'] ) {
+	printf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;' ) . '</span>', esc_html( $s ) );
+} ?>
+</h2>
 
-		require_once( '../admin-header.php' );
-		?>
+<form action="" method="get" id="ms-search">
+<p class="search-box">
+<input type="hidden" name="action" value="blogs" />
+<input type="text" name="s" value="<?php echo esc_attr( $s ); ?>" />
+<input type="submit" class="button" value="<?php esc_attr_e( 'Search Site by' ) ?>" />
+<select name="searchaction">
+	<option value="name" selected="selected"><?php _e( 'Name' ); ?></option>
+	<option value="id"><?php _e( 'ID' ); ?></option>
+	<option value="ip"><?php _e( 'IP address' ); ?></option>
+</select>
+</p>
+</form>
 
-		<div class="wrap">
-		<?php screen_icon('ms-admin'); ?>
-		<h2><?php _e('Sites') ?>
-		<?php echo $msg; ?>
-		<a href="<?php echo network_admin_url('site-new.php'); ?>" class="button add-new-h2"><?php echo esc_html_x( 'Add New', 'sites' ); ?></a>
-		<?php if ( isset( $_REQUEST['s'] ) && $_REQUEST['s'] ) {
-			printf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;' ) . '</span>', esc_html( $s ) );
-		} ?>
-		</h2>
-
-		<form action="" method="get" id="ms-search">
-		<p class="search-box">
-		<input type="hidden" name="action" value="blogs" />
-		<input type="text" name="s" value="<?php echo esc_attr( $s ); ?>" />
-		<input type="submit" class="button" value="<?php esc_attr_e( 'Search Site by' ) ?>" />
-		<select name="searchaction">
-			<option value="name" selected="selected"><?php _e( 'Name' ); ?></option>
-			<option value="id"><?php _e( 'ID' ); ?></option>
-			<option value="ip"><?php _e( 'IP address' ); ?></option>
-		</select>
-		</p>
-		</form>
-
-		<form id="form-site-list" action="edit.php?action=allblogs" method="post">
-			<?php $wp_list_table->display(); ?>
-		</form>
-		</div>
-		<?php
-	break;
-} // end switch( $action )
+<form id="form-site-list" action="edit.php?action=allblogs" method="post">
+	<?php $wp_list_table->display(); ?>
+</form>
+</div>
+<?php
 
 require_once( '../admin-footer.php' ); ?>
