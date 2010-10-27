@@ -341,8 +341,9 @@ function load_password_strength_meter() {
 
 	$suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '.dev' : '';
 
-	wp_enqueue_script( 'user-profile', $guessurl . "/wp-admin/js/user-profile$suffix.js", array('jquery'), '20100331' );
-	wp_localize_script( 'user-profile', 'pwsL10n', array(
+	wp_enqueue_script( 'user-profile', $guessurl . "/wp-admin/js/user-profile$suffix.js", array( 'jquery', 'password-strength-meter' ), '20100925' );
+	wp_enqueue_script( 'password-strength-meter', $guessurl . "/wp-admin/js/password-strength-meter$suffix.js", array('jquery'), '20101027' );
+	wp_localize_script( 'password-strength-meter', 'pwsL10n', array(
 		'empty' => __('Strength indicator'),
 		'short' => __('Very weak'),
 		'bad' => __('Weak'),

@@ -244,6 +244,7 @@ switch($step) {
 ?>
 <script type="text/javascript">var t = document.getElementById('weblog_title'); if (t){ t.focus(); }</script>
 <script type="text/javascript" src="../wp-includes/js/jquery/jquery.js"></script>
+<script type="text/javascript" src="js/password-strength-meter.js"></script>
 <script type="text/javascript" src="js/user-profile.js"></script>
 <script type="text/javascript" src="js/utils.js"></script>
 <script type='text/javascript'>
