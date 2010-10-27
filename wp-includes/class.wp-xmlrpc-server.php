@@ -61,6 +61,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			'wp.editComment'		=> 'this:wp_editComment',
 			'wp.newComment'			=> 'this:wp_newComment',
 			'wp.getCommentStatusList' => 'this:wp_getCommentStatusList',
+			'wp.getMediaItem'		=> 'this:wp_getMediaItem',
+			'wp.getMediaLibrary'	=> 'this:wp_getMediaLibrary',
 
 			// Blogger API
 			'blogger.getUsersBlogs' => 'this:blogger_getUsersBlogs',
@@ -1479,6 +1481,100 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		//Now return the updated values
 		return $this->_getOptions($option_names);
+	}
+
+	/**
+	 * Retrieve media item.
+	 *
+	 * @since 3.1.0
+	 * @todo Docment this!
+	 *
+	 * @param array $args Method parameters.
+	 * @return array
+	 */
+	function wp_getMediaItem($args) {
+		$this->escape($args);
+
+		$blog_id		= (int) $args[0];
+		$username		= $args[1];
+		$password		= $args[2];
+		$attachment_id	= (int) $args[3];
+
+		if ( !$user = $this->login($username, $password) )
+			return $this->error;
+
+		if ( !current_user_can( 'upload_files' ) )
+			return new IXR_Error( 403, __( 'You are not allowed to upload files on this site.' ) );
+
+		do_action('xmlrpc_call', 'wp.getMediaItem');
+
+		if ( ! $attachment = get_post($attachment_id) )
+			return new IXR_Error( 404, __( 'Invalid attachment ID.' ) );
+
+		// Format page date.
+		$attachment_date = mysql2date("Ymd\TH:i:s", $attachment->post_date, false);
+		$attachment_date_gmt = mysql2date("Ymd\TH:i:s", $attachment->post_date_gmt, false);
+
+		$link = wp_get_attachment_url($attachment->ID);
+		$thumbnail_link = wp_get_attachment_thumb_url($attachment->ID);
+
+		$attachment_struct = array(
+			"date_created_gmt"		=> new IXR_Date($attachment_date_gmt),
+			"parent"				=> $attachment->post_parent,
+			"link"					=> $link,
+			"thumbnail"				=> $thumbnail_link,
+			"title"					=> $attachment->post_title,
+			"caption"				=> $attachment->post_excerpt,
+			"description"			=> $attachment->post_content,
+			"metadata"				=> wp_get_attachment_metadata($attachment->ID),
+		);
+
+		return $attachment_struct;
+	}
+
+	/**
+	 * Retrieve media library items.
+	 *
+	 * @since 3.1.0
+	 * @todo Document this.
+	 *
+	 * @param array $args Method parameters.
+	 * @return array
+	 */
+	function wp_getMediaLibrary($args) {
+		$raw_args = $args;
+		$this->escape($args);
+
+		$blog_id	= (int) $args[0];
+		$username	= $args[1];
+		$password	= $args[2];
+		$struct		= isset( $args[3] ) ? $args[3] : array() ;
+
+		if ( !$user = $this->login($username, $password) )
+			return $this->error;
+
+		if ( !current_user_can( 'upload_files' ) )
+			return new IXR_Error( 401, __( 'Sorry, you cannot upload files.' ) );
+
+		do_action('xmlrpc_call', 'wp.getMediaLibrary');
+
+		$parent_id = ( isset($struct['parent_id']) ) ? absint($struct['parent_id']) : 0 ;
+		$mime_type = ( isset($struct['mime_type']) ) ? absint($struct['mime_type']) : '' ;		
+		$offset = ( isset($struct['offset']) ) ? absint($struct['offset']) : 0 ;
+		$number = ( isset($struct['number']) ) ? absint($struct['number']) : -1 ;
+		
+		$attachments = get_posts( array('post_type' => 'attachment', 'post_parent' => $parent_id, 'offset' => $offset, 'numberposts' => $number, 'post_mime_type' => $mime_type ) );
+		$num_attachments = count($attachments);
+
+		if ( ! $num_attachments )
+			return array();
+
+		$attachments_struct = array();
+
+		foreach ($attachments as $attachment )
+			$attachments_struct[] = $this->wp_getMediaItem( array( $raw_args[0], $raw_args[1], $raw_args[2], $attachment->ID ) );
+
+		return $attachments_struct;
 	}
 
 	/* Blogger API functions.
