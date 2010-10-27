@@ -292,14 +292,20 @@ class WP_Comment_Query extends WP_Object_Query {
 
 		if ( !empty($number) ) {
 			if ( $offset )
-				$limit = 'LIMIT ' . $offset . ',' . $number;
+				$limits = 'LIMIT ' . $offset . ',' . $number;
 			else
-				$limit = 'LIMIT ' . $number;
+				$limits = 'LIMIT ' . $number;
 		} else {
-			$limit = '';
+			$limits = '';
 		}
 
-		$where = "WHERE $approved";
+		if ( $count )
+			$fields = 'COUNT(*)';
+		else
+			$fields = '*';
+
+		$join = '';
+		$where = $approved;
 
 		if ( ! empty($post_id) )
 			$where .= $wpdb->prepare( ' AND comment_post_ID = %d', $post_id );
@@ -318,15 +324,17 @@ class WP_Comment_Query extends WP_Object_Query {
 		if ( '' !== $search )
 			$where .= $this->get_search_sql( $search, array( 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_author_IP', 'comment_content' ) );
 
-		$pieces = array( 'where', 'orderby', 'order', 'limit' );
+		$pieces = array( 'fields', 'join', 'where', 'orderby', 'order', 'limits' );
 		$clauses = apply_filters_ref_array( 'comments_clauses', array( compact( $pieces ), &$this ) );
 		foreach ( $pieces as $piece )
 			$$piece = isset( $clauses[ $piece ] ) ? $clauses[ $piece ] : '';
 
-		if ( $count )
-			return $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->comments $where ORDER BY $orderby $order $limit" );
+		$query = "SELECT $fields FROM $wpdb->comments $join WHERE $where ORDER BY $orderby $order $limits";
 
-		$comments = $wpdb->get_results( "SELECT * FROM $wpdb->comments $where ORDER BY $orderby $order $limit" );
+		if ( $count )
+			return $wpdb->get_var( $query );
+
+		$comments = $wpdb->get_results( $query );
 		$comments = apply_filters_ref_array( 'the_comments', array( $comments, &$this ) );
 
 		wp_cache_add( $cache_key, $comments, 'comment' );
