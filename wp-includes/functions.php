@@ -2198,14 +2198,14 @@ function wp_upload_dir( $time = null ) {
  * before the extension, and will continue adding numbers until the filename is
  * unique.
  *
- * The callback must accept two parameters, the first one is the directory and
- * the second is the filename. The callback must be a function.
+ * The callback is passed three parameters, the first one is the directory, the
+ * second is the filename, and the third is the extension.
  *
  * @since 2.5
  *
  * @param string $dir
  * @param string $filename
- * @param string $unique_filename_callback Function name, must be a function.
+ * @param mixed $unique_filename_callback Callback.
  * @return string New filename, if given wasn't unique.
  */
 function wp_unique_filename( $dir, $filename, $unique_filename_callback = null ) {
@@ -2221,9 +2221,9 @@ function wp_unique_filename( $dir, $filename, $unique_filename_callback = null )
 	if ( $name === $ext )
 		$name = '';
 
-	// Increment the file number until we have a unique file to save in $dir. Use $override['unique_filename_callback'] if supplied.
+	// Increment the file number until we have a unique file to save in $dir. Use callback if supplied.
 	if ( $unique_filename_callback && is_callable( $unique_filename_callback ) ) {
-		$filename = $unique_filename_callback( $dir, $name );
+		$filename = call_user_func( $unique_filename_callback, $dir, $name, $ext );
 	} else {
 		$number = '';
 
