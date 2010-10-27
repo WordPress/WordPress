@@ -421,7 +421,7 @@ case 'retrievepassword' :
 	$redirect_to = apply_filters( 'lostpassword_redirect', !empty( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '' );
 
 	do_action('lost_password');
-	login_header(__('Lost Password'), '<p class="message">' . __('Please enter your username or e-mail address. You will receive a new password via e-mail.') . '</p>', $errors);
+	login_header(__('Lost Password'), '<p class="message">' . __('Please enter your username or email address. You will receive a link to create a new password via email.') . '</p>', $errors);
 
 	$user_login = isset($_POST['user_login']) ? stripslashes($_POST['user_login']) : '';
 
