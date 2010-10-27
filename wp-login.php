@@ -134,7 +134,7 @@ if(typeof wpOnload=='function')wpOnload();
 	}
 ?>
 <p id="backtoblog"><a href="<?php bloginfo('url'); ?>/" title="<?php _e('Are you lost?') ?>"><?php printf(__('&larr; Back to %s'), get_bloginfo('title', 'display' )); ?></a></p>
-
+<?php do_action('login_footer'); ?>
 </body>
 </html>
 <?php
@@ -334,29 +334,6 @@ function register_new_user( $user_login, $user_email ) {
 	return $user_id;
 }
 
-// TODO: Eliminate duplicated code from wp_default_scripts()
-function load_password_strength_meter() {
-	if ( !$guessurl = site_url() )
-		$guessurl = wp_guess_url();
-
-	$suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '.dev' : '';
-
-	wp_enqueue_script( 'user-profile', $guessurl . "/wp-admin/js/user-profile$suffix.js", array( 'jquery', 'password-strength-meter' ), '20100925' );
-	wp_enqueue_script( 'password-strength-meter', $guessurl . "/wp-admin/js/password-strength-meter$suffix.js", array('jquery'), '20101027' );
-	wp_localize_script( 'password-strength-meter', 'pwsL10n', array(
-		'empty' => __('Strength indicator'),
-		'short' => __('Very weak'),
-		'bad' => __('Weak'),
-		/* translators: password strength */
-		'good' => _x('Medium', 'password strength'),
-		'strong' => __('Strong'),
-		'mismatch' => __('Mismatch'),
-		'l10n_print_after' => 'try{convertEntities(pwsL10n);}catch(e){};'
-	) );
-
-	wp_print_scripts( array('user-profile') );
-}
-
 //
 // Main
 //
@@ -468,9 +445,10 @@ case 'rp' :
 		exit;
 	}
 
-	login_header(__('Reset Password'), '<p class="message reset-pass">' . __('Enter your new password below.') . '</p>', $errors );
+	wp_enqueue_script('utils');
+	wp_enqueue_script('user-profile');
 
-	load_password_strength_meter();
+	login_header(__('Reset Password'), '<p class="message reset-pass">' . __('Enter your new password below.') . '</p>', $errors );
 
 ?>
 <form name="resetpassform" id="resetpassform" action="<?php echo site_url('wp-login.php?action=resetpass&key=' . urlencode($_GET['key']) . '&login=' . urlencode($_GET['login']), 'login_post') ?>" method="post">

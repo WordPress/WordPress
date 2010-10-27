@@ -239,6 +239,22 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'imgareaselect', "/wp-includes/js/imgareaselect/jquery.imgareaselect$suffix.js", array('jquery'), '0.9.1' );
 	$scripts->add_data( 'imgareaselect', 'group', 1 );
 
+	$scripts->add( 'password-strength-meter', "/wp-admin/js/password-strength-meter$suffix.js", array('jquery'), '20101027' );
+	$scripts->add_data( 'password-strength-meter', 'group', 1 );
+	$scripts->localize( 'password-strength-meter', 'pwsL10n', array(
+		'empty' => __('Strength indicator'),
+		'short' => __('Very weak'),
+		'bad' => __('Weak'),
+		/* translators: password strength */
+		'good' => _x('Medium', 'password strength'),
+		'strong' => __('Strong'),
+		'mismatch' => __('Mismatch'),
+		'l10n_print_after' => 'try{convertEntities(pwsL10n);}catch(e){};'
+	) );
+
+	$scripts->add( 'user-profile', "/wp-admin/js/user-profile$suffix.js", array( 'jquery', 'password-strength-meter' ), '20100925' );
+	$scripts->add_data( 'user-profile', 'group', 1 );	
+	
 	if ( is_admin() ) {
 		$scripts->add( 'ajaxcat', "/wp-admin/js/cat$suffix.js", array( 'wp-lists' ), '20090102' );
 		$scripts->add_data( 'ajaxcat', 'group', 1 );
@@ -261,22 +277,6 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'admin-custom-fields', "/wp-admin/js/custom-fields$suffix.js", array('wp-lists'), '20090106' );
 		$scripts->add_data( 'admin-custom-fields', 'group', 1 );
-
-		$scripts->add( 'password-strength-meter', "/wp-admin/js/password-strength-meter$suffix.js", array('jquery'), '20101027' );
-		$scripts->add_data( 'password-strength-meter', 'group', 1 );
-		$scripts->localize( 'password-strength-meter', 'pwsL10n', array(
-			'empty' => __('Strength indicator'),
-			'short' => __('Very weak'),
-			'bad' => __('Weak'),
-			/* translators: password strength */
-			'good' => _x('Medium', 'password strength'),
-			'strong' => __('Strong'),
-			'mismatch' => __('Mismatch'),
-			'l10n_print_after' => 'try{convertEntities(pwsL10n);}catch(e){};'
-		) );
-
-		$scripts->add( 'user-profile', "/wp-admin/js/user-profile$suffix.js", array( 'jquery', 'password-strength-meter' ), '20100925' );
-		$scripts->add_data( 'user-profile', 'group', 1 );
 
 		$scripts->add( 'admin-comments', "/wp-admin/js/edit-comments$suffix.js", array('wp-lists', 'list-table', 'jquery-ui-resizable', 'quicktags'), '20100818' );
 		$scripts->add_data( 'admin-comments', 'group', 1 );

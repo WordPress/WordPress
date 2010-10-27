@@ -211,6 +211,11 @@ add_action( 'wp_footer',           'wp_print_footer_scripts'              );
 add_action( 'wp_head',             'wp_shortlink_wp_head',          10, 0 );
 add_action( 'template_redirect',   'wp_shortlink_header',           11, 0 );
 
+// Login actions
+add_action( 'login_head',          'wp_enqueue_scripts',            1     );
+add_action( 'login_head',          'wp_print_head_scripts',         9     );
+add_action( 'login_footer',        'wp_print_footer_scripts'              );
+
 // Feed Generator Tags
 foreach ( array( 'rss2_head', 'commentsrss2_head', 'rss_head', 'rdf_header', 'atom_head', 'comments_atom_head', 'opml_head', 'app_head' ) as $action ) {
 	add_action( $action, 'the_generator' );
