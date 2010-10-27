@@ -483,7 +483,7 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false, $silen
 		if ( !empty($redirect) )
 			wp_redirect(add_query_arg('_error_nonce', wp_create_nonce('plugin-activation-error_' . $plugin), $redirect)); // we'll override this later if the plugin can be included without fatal error
 		ob_start();
-		include(WP_PLUGIN_DIR . '/' . $plugin);
+		include_once(WP_PLUGIN_DIR . '/' . $plugin);
 
 		if ( ! $silent ) {
 			do_action( 'activate_plugin', $plugin, $network_wide );
