@@ -205,11 +205,11 @@ function edit_post( $post_data = null ) {
 
 	wp_set_post_lock( $post_ID, $GLOBALS['current_user']->ID );
 
-	if ( current_user_can( 'edit_others_posts' ) ) {
-		if ( !empty($post_data['sticky']) )
-			stick_post($post_ID);
+	if ( current_user_can( $ptype->cap->edit_others_posts ) ) {
+		if ( ! empty( $post_data['sticky'] ) )
+			stick_post( $post_ID );
 		else
-			unstick_post($post_ID);
+			unstick_post( $post_ID );
 	}
 
 	return $post_ID;
@@ -336,7 +336,7 @@ function bulk_edit_posts( $post_data = null ) {
 		$post_data['ID'] = $post_ID;
 		$updated[] = wp_update_post( $post_data );
 
-		if ( isset( $post_data['sticky'] ) && current_user_can( 'edit_others_posts' ) ) {
+		if ( isset( $post_data['sticky'] ) && current_user_can( $ptype->cap->edit_others_posts ) ) {
 			if ( 'sticky' == $post_data['sticky'] )
 				stick_post( $post_ID );
 			else

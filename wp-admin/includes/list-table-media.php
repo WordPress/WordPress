@@ -90,6 +90,7 @@ class WP_Media_Table extends WP_List_Table {
 
 	function extra_tablenav( $which ) {
 		global $post_type, $detached;
+		$post_type_obj = get_post_type_object( $post_type );
 ?>
 		<div class="alignleft actions">
 <?php
@@ -104,7 +105,7 @@ class WP_Media_Table extends WP_List_Table {
 
 		if ( $detached ) { ?>
 			<input type="submit" id="find_detached" name="find_detached" value="<?php esc_attr_e( 'Scan for lost attachments' ); ?>" class="button-secondary" />
-		<?php } elseif ( $this->is_trash && current_user_can( 'edit_others_posts' ) ) { ?>
+		<?php } elseif ( $this->is_trash && current_user_can( $post_type_obj->cap->edit_others_posts ) ) { ?>
 			<input type="submit" id="delete_all" name="delete_all" value="<?php esc_attr_e( 'Empty Trash' ); ?>" class="button-secondary apply" />
 		<?php } ?>
 		</div>
