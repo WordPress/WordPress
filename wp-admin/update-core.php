@@ -121,16 +121,25 @@ function core_upgrade_preamble() {
 <?php
 	if ( $upgrade_error ) {
 		echo '<div class="error"><p>';
-		_e('Please select one or more plugins to upgrade.');
+		if ( $upgrade_error == 'themes' )
+			_e('Please select one or more themes to update.');
+		else
+			_e('Please select one or more plugins to update.');
 		echo '</p></div>';
 	}
+
+	echo '<p>';
+	/* translators: %1 date, %2 time. */
+	printf( __('Last checked on %1$s at %2$s.'), date_i18n( get_option( 'date_format' ) ), date_i18n( get_option( 'time_format' ) ) );
+	echo ' &nbsp; <a class="button" href="' . esc_url( self_admin_url('update-core.php') ) . '">' . __( 'Check Again' ) . '</a>';
+	echo '</p>';
 
 	if ( !isset($updates[0]->response) || 'latest' == $updates[0]->response ) {
 		echo '<h3>';
 		_e('You have the latest version of WordPress.');
 		echo '</h3>';
 	} else {
-		echo '<div class="updated"><p>';
+		echo '<div class="updated inline"><p>';
 		_e('<strong>Important:</strong> before updating, please <a href="http://codex.wordpress.org/WordPress_Backups">back up your database and files</a>. For help with updates, visit the <a href="http://codex.wordpress.org/Updating_WordPress">Updating WordPress</a> Codex page.');
 		echo '</p></div>';
 
@@ -373,8 +382,9 @@ function no_update_actions($actions) {
 $action = isset($_GET['action']) ? $_GET['action'] : 'upgrade-core';
 
 $upgrade_error = false;
-if ( 'do-plugin-upgrade' == $action && !isset($_GET['plugins']) && !isset($_POST['checked']) ) {
-	$upgrade_error = true;
+if ( ( 'do-theme-upgrade' == $action || ( 'do-plugin-upgrade' == $action && ! isset( $_GET['plugins'] ) ) )
+	&& ! isset( $_POST['checked'] ) ) {
+	$upgrade_error = $action == 'do-theme-upgrade' ? 'themes' : 'plugins';
 	$action = 'upgrade-core';
 }
 
