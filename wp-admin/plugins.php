@@ -32,10 +32,10 @@ if ( $action ) {
 
 			check_admin_referer('activate-plugin_' . $plugin);
 
-			$result = activate_plugin($plugin, admin_url('plugins.php?error=true&plugin=' . $plugin), $network_wide);
+			$result = activate_plugin($plugin, self_admin_url('plugins.php?error=true&plugin=' . $plugin), $network_wide);
 			if ( is_wp_error( $result ) ) {
 				if ( 'unexpected_output' == $result->get_error_code() ) {
-					$redirect = admin_url('plugins.php?error=true&charsout=' . strlen($result->get_error_data()) . '&plugin=' . $plugin . "&plugin_status=$status&paged=$page&s=$s");
+					$redirect = self_admin_url('plugins.php?error=true&charsout=' . strlen($result->get_error_data()) . '&plugin=' . $plugin . "&plugin_status=$status&paged=$page&s=$s");
 					wp_redirect(add_query_arg('_error_nonce', wp_create_nonce('plugin-activation-error_' . $plugin), $redirect));
 					exit;
 				} else {
@@ -49,9 +49,9 @@ if ( $action ) {
 				update_option('recently_activated', $recent);
 			}
 			if ( isset($_GET['from']) && 'import' == $_GET['from'] ) {
-				wp_redirect( admin_url("import.php?import=" . str_replace('-importer', '', dirname($plugin))) ); // overrides the ?error=true one above and redirects to the Imports page, striping the -importer suffix
+				wp_redirect( self_admin_url("import.php?import=" . str_replace('-importer', '', dirname($plugin))) ); // overrides the ?error=true one above and redirects to the Imports page, striping the -importer suffix
 			} else {
-				wp_redirect( admin_url("plugins.php?activate=true&plugin_status=$status&paged=$page&s=$s") ); // overrides the ?error=true one above
+				wp_redirect( self_admin_url("plugins.php?activate=true&plugin_status=$status&paged=$page&s=$s") ); // overrides the ?error=true one above
 			}
 			exit;
 			break;
@@ -65,11 +65,11 @@ if ( $action ) {
 			$plugins = isset( $_POST['checked'] ) ? (array) $_POST['checked'] : array();
 			$plugins = array_filter($plugins, create_function('$plugin', 'return !is_plugin_active($plugin);') ); // Only activate plugins which are not already active.
 			if ( empty($plugins) ) {
-				wp_redirect( admin_url("plugins.php?plugin_status=$status&paged=$page&s=$s") );
+				wp_redirect( self_admin_url("plugins.php?plugin_status=$status&paged=$page&s=$s") );
 				exit;
 			}
 
-			activate_plugins($plugins, admin_url('plugins.php?error=true'), $network_wide);
+			activate_plugins($plugins, self_admin_url('plugins.php?error=true'), $network_wide);
 
 			$recent = (array)get_option('recently_activated');
 			foreach ( $plugins as $plugin => $time)
@@ -78,7 +78,7 @@ if ( $action ) {
 
 			update_option('recently_activated', $recent);
 
-			wp_redirect( admin_url("plugins.php?activate-multi=true&plugin_status=$status&paged=$page&s=$s") );
+			wp_redirect( self_admin_url("plugins.php?activate-multi=true&plugin_status=$status&paged=$page&s=$s") );
 			exit;
 			break;
 		case 'update-selected' :
@@ -102,7 +102,7 @@ if ( $action ) {
 			echo '<h2>' . esc_html( $title ) . '</h2>';
 
 
-			$url = admin_url('update.php?action=update-selected&amp;plugins=' . urlencode( join(',', $plugins) ));
+			$url = self_admin_url('update.php?action=update-selected&amp;plugins=' . urlencode( join(',', $plugins) ));
 			$url = wp_nonce_url($url, 'bulk-update-plugins');
 
 			echo "<iframe src='$url' style='width: 100%; height:100%; min-height:850px;'></iframe>";
@@ -146,7 +146,7 @@ if ( $action ) {
 			if ( headers_sent() )
 				echo "<meta http-equiv='refresh' content='" . esc_attr( "0;url=plugins.php?deactivate=true&plugin_status=$status&paged=$page&s=$s" ) . "' />";
 			else
-				wp_redirect( admin_url("plugins.php?deactivate=true&plugin_status=$status&paged=$page&s=$s") );
+				wp_redirect( self_admin_url("plugins.php?deactivate=true&plugin_status=$status&paged=$page&s=$s") );
 			exit;
 			break;
 		case 'deactivate-selected':
@@ -158,7 +158,7 @@ if ( $action ) {
 			$plugins = isset( $_POST['checked'] ) ? (array) $_POST['checked'] : array();
 			$plugins = array_filter($plugins, 'is_plugin_active'); //Do not deactivate plugins which are already deactivated.
 			if ( empty($plugins) ) {
-				wp_redirect( admin_url("plugins.php?plugin_status=$status&paged=$page&s=$s") );
+				wp_redirect( self_admin_url("plugins.php?plugin_status=$status&paged=$page&s=$s") );
 				exit;
 			}
 
@@ -169,7 +169,7 @@ if ( $action ) {
 				$deactivated[ $plugin ] = time();
 
 			update_option('recently_activated', $deactivated + (array)get_option('recently_activated'));
-			wp_redirect( admin_url("plugins.php?deactivate-multi=true&plugin_status=$status&paged=$page&s=$s") );
+			wp_redirect( self_admin_url("plugins.php?deactivate-multi=true&plugin_status=$status&paged=$page&s=$s") );
 			exit;
 			break;
 		case 'delete-selected':
@@ -182,7 +182,7 @@ if ( $action ) {
 			$plugins = isset( $_REQUEST['checked'] ) ? (array) $_REQUEST['checked'] : array();
 			$plugins = array_filter($plugins, create_function('$plugin', 'return !is_plugin_active($plugin);') ); //Do not allow to delete Activated plugins.
 			if ( empty($plugins) ) {
-				wp_redirect( admin_url("plugins.php?plugin_status=$status&paged=$page&s=$s") );
+				wp_redirect( self_admin_url("plugins.php?plugin_status=$status&paged=$page&s=$s") );
 				exit;
 			}
 
@@ -276,7 +276,7 @@ if ( $action ) {
 			$delete_result = delete_plugins($plugins);
 
 			set_transient('plugins_delete_result_' . $user_ID, $delete_result); //Store the result in a cache rather than a URL param due to object type & length
-			wp_redirect( admin_url("plugins.php?deleted=true&plugin_status=$status&paged=$page&s=$s") );
+			wp_redirect( self_admin_url("plugins.php?deleted=true&plugin_status=$status&paged=$page&s=$s") );
 			exit;
 			break;
 		case 'clear-recent-list':
