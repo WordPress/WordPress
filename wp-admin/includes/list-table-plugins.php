@@ -263,6 +263,12 @@ class WP_Plugins_Table extends WP_List_Table {
 			$actions['update-selected'] = __( 'Update' );
 		if ( current_user_can( 'delete_plugins' ) && ( 'active' != $status ) )
 			$actions['delete-selected'] = __( 'Delete' );
+			
+		if ( is_multisite() && !is_network_admin() ) {
+			unset( $actions['network-activate-selected'] );
+			unset( $actions['update-selected'] );
+			unset( $actions['delete-selected'] );
+		}
 
 		return $actions;
 	}
@@ -360,7 +366,7 @@ class WP_Plugins_Table extends WP_List_Table {
 
 						$actions['activate'] = '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;plugin=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'activate-plugin_' . $plugin_file) . '" title="' . __('Activate this plugin') . '" class="edit">' . __('Activate') . '</a>';
 
-						if ( current_user_can('delete_plugins') )
+						if ( ! is_multisite() && current_user_can('delete_plugins') )
 							$actions['delete'] = '<a href="' . wp_nonce_url('plugins.php?action=delete-selected&amp;checked[]=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'bulk-plugins') . '" title="' . __('Delete this plugin') . '" class="delete">' . __('Delete') . '</a>';
 					} // end if $is_active
 				 } // end if is_network_admin()
