@@ -205,20 +205,24 @@ class WP_Admin_Bar {
 		$this->need_to_change_locale = ( get_locale() != $this->user->locale );
 		if ( ! $this->need_to_change_locale ) 
 			return;
+		/*
 		$this->previous_translations = get_translations_for_domain( 'default' );
-		//$this->adminbar_locale_filter = lambda( '$_', '$GLOBALS["wp_admin_bar"]->user->locale;' );
+		$this->adminbar_locale_filter = lambda( '$_', '$GLOBALS["wp_admin_bar"]->user->locale;' );
 		unload_textdomain( 'default' );
 		add_filter( 'locale', $this->adminbar_locale_filter );
 		load_default_textdomain();
 		$this->changed_locale = true;
+		*/
 	}
 
 	function unload_user_locale_translations() {
 		global $l10n;
 		if ( ! $this->changed_locale ) 
 			return;
-		//remove_filter( 'locale', $this->adminbar_locale_filter );
+		/*
+		remove_filter( 'locale', $this->adminbar_locale_filter );
 		$l10n['default'] = &$this->previous_translations;
+		*/
 	}
 }
 ?>
