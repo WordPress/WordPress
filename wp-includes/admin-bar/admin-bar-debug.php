@@ -11,7 +11,7 @@
 function wp_admin_bar_debug_menu() {
 	global $wp_admin_bar, $wpdb;
 
-	if ( !is_super_admin() || !apply_filters('wp_admin_bar_enable_debug_menu', false) )
+	if ( ! is_super_admin() || ! apply_filters('wp_admin_bar_enable_debug_menu', false ) )
 		return;
 
 	$queries = $wpdb->num_queries;
@@ -44,6 +44,15 @@ function wp_admin_bar_query_debug_list() {
 ?>
 	<script type="text/javascript">
 	/* <![CDATA[ */
+	var toggle_query_list = function() { 
+		var querylist = document.getElementById( 'querylist' );
+		if( querylist && querylist.style.display == 'block' ) {
+			querylist.style.display='none';
+		} else {
+			querylist.style.display='block';
+		}
+	}
+
 	var clickDebugLink = function( targetsGroupId, obj) {
 		var sectionDivs = document.getElementById( targetsGroupId ).childNodes;
 		for ( var i = 0; i < sectionDivs.length; i++ ) {
