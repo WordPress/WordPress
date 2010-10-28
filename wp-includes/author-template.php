@@ -213,7 +213,7 @@ function the_author_posts_link($deprecated = '') {
 }
 
 /**
- * Retrieve the URL to the author page of the author of the current post.
+ * Retrieve the URL to the author page for the user with the ID provided.
  *
  * @since 2.1.0
  * @uses $wp_rewrite WP_Rewrite
