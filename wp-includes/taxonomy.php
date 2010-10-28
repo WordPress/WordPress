@@ -911,7 +911,7 @@ function &get_terms($taxonomies, $args = '') {
 		$taxonomies = array($taxonomies);
 	}
 
-	foreach ( (array) $taxonomies as $taxonomy ) {
+	foreach ( $taxonomies as $taxonomy ) {
 		if ( ! taxonomy_exists($taxonomy) ) {
 			$error = & new WP_Error('invalid_taxonomy', __('Invalid Taxonomy'));
 			return $error;
@@ -939,6 +939,8 @@ function &get_terms($taxonomies, $args = '') {
 		$args['hierarchical'] = false;
 		$args['pad_counts'] = false;
 	}
+
+	$args = apply_filters( 'get_terms_args', $args, $taxonomies );
 
 	extract($args, EXTR_SKIP);
 
