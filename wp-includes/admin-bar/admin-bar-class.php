@@ -11,7 +11,6 @@ class WP_Admin_Bar {
 
 		/* Only load super admin menu code if the logged in user is a super admin */
 		if ( is_super_admin() ) {
-			require( ABSPATH . WPINC . '/admin-bar/admin-bar-debug.php' );
 			require( ABSPATH . WPINC . '/admin-bar/admin-bar-superadmin.php' );
 		}
 		
