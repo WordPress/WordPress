@@ -460,7 +460,7 @@ class WP_User_Query extends WP_Object_Query {
 			$cap_meta_query['key'] = $wpdb->get_blog_prefix( $blog_id ) . 'capabilities';
 
 			if ( $role ) {
-				$cap_meta_query['value'] = $role;
+				$cap_meta_query['value'] = '"' . $role . '"';
 				$cap_meta_query['compare'] = 'like';
 			}
 
