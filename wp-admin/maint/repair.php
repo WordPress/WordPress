@@ -78,9 +78,9 @@ if ( !defined('WP_ALLOW_REPAIR') ) {
 	}
 } else {
 	if ( isset($_GET['referrer']) && 'is_blog_installed' == $_GET['referrer'] )
-		_e('One or more database tables is unavailable.  To allow WordPress to attempt to repair these tables, press the "Repair Database" button. Repairing can take awhile, so please be patient.');
+		_e('One or more database tables is unavailable.  To allow WordPress to attempt to repair these tables, press the "Repair Database" button. Repairing can take a while, so please be patient.');
 	else
-		_e('WordPress can automatically look for some common database problems and repair them.  Repairing can take awhile, so please be patient.')
+		_e('WordPress can automatically look for some common database problems and repair them.  Repairing can take a while, so please be patient.')
 ?>
 	<p class="step"><a class="button" href="<?php echo wp_nonce_url('repair.php?repair=1', 'repair_db') ?>"><?php _e( 'Repair Database' ); ?></a></p>
 	<?php _e('WordPress can also attempt to optimize the database.  This improves performance in some situations.  Repairing and optimizing the database can take a long time and the database will be locked while optimizing.'); ?>
