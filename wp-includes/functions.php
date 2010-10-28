@@ -1170,6 +1170,8 @@ function debug_fclose( $fp ) {
  */
 function do_enclose( $content, $post_ID ) {
 	global $wpdb;
+	
+	//TODO: Tidy this ghetto code up and make the debug code optional
 	include_once( ABSPATH . WPINC . '/class-IXR.php' );
 
 	$log = debug_fopen( ABSPATH . 'enclosures.log', 'a' );
