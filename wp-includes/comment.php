@@ -1741,7 +1741,8 @@ function generic_ping($post_id = 0) {
 function pingback($content, $post_ID) {
 	global $wp_version;
 	include_once(ABSPATH . WPINC . '/class-IXR.php');
-
+	include_once(ABSPATH . WPINC . '/class.wp-http-ixr-client.php');
+	
 	// original code by Mort (http://mort.mine.nu:8080)
 	$post_links = array();
 
@@ -1791,7 +1792,7 @@ function pingback($content, $post_ID) {
 			$pagelinkedfrom = get_permalink($post_ID);
 
 			// using a timeout of 3 seconds should be enough to cover slow servers
-			$client = new IXR_Client($pingback_server_url);
+			$client = new WP_HTTP_IXR_Client($pingback_server_url);
 			$client->timeout = 3;
 			$client->useragent = apply_filters( 'pingback_useragent', $client->useragent . ' -- WordPress/' . $wp_version, $client->useragent, $pingback_server_url, $pagelinkedto, $pagelinkedfrom);
 			// when set to true, this outputs debug messages by itself
@@ -1870,9 +1871,10 @@ function trackback($trackback_url, $title, $excerpt, $ID) {
 function weblog_ping($server = '', $path = '') {
 	global $wp_version;
 	include_once(ABSPATH . WPINC . '/class-IXR.php');
+	include_once(ABSPATH . WPINC . '/class.wp-http-ixr-client.php');
 
 	// using a timeout of 3 seconds should be enough to cover slow servers
-	$client = new IXR_Client($server, ((!strlen(trim($path)) || ('/' == $path)) ? false : $path));
+	$client = new WP_HTTP_IXR_Client($server, ((!strlen(trim($path)) || ('/' == $path)) ? false : $path));
 	$client->timeout = 3;
 	$client->useragent .= ' -- WordPress/'.$wp_version;
 
