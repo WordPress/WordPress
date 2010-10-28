@@ -1048,7 +1048,7 @@ function edit_bookmark_link( $link = '', $before = '', $after = '', $bookmark = 
 	if ( empty($link) )
 		$link = __('Edit This');
 
-	$link = '<a href="' . get_edit_bookmark_link( $link ) . '" title="' . __( 'Edit Link' ) . '">' . $link . '</a>';
+	$link = '<a href="' . get_edit_bookmark_link( $bookmark ) . '" title="' . __( 'Edit Link' ) . '">' . $link . '</a>';
 	echo $before . apply_filters( 'edit_bookmark_link', $link, $bookmark->link_id ) . $after;
 }
 
