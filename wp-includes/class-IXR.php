@@ -603,6 +603,7 @@ class IXR_Client
     var $message = false;
     var $debug = false;
     var $timeout;
+    var $headers = array();
 
     // Storage place for an error message
     var $error = false;
