@@ -133,7 +133,7 @@ function display_setup_form( $error = null ) {
 			<td colspan="2"><label><input type="checkbox" name="blog_public" value="1" <?php checked( $blog_public ); ?> /> <?php _e( 'Allow my site to appear in search engines like Google and Technorati.' ); ?></label></td>
 		</tr>
 	</table>
-	<p class="step"><input type="submit" name="Submit" value="<?php esc_attr_e( 'Install WordPress' ); ?>" class="button" /></p>
+	<p class="step"><?php submit_button( __( 'Install WordPress' ), 'button', 'Submit', false ); ?></p>
 </form>
 <?php
 } // end display_setup_form()

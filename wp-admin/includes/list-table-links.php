@@ -69,8 +69,8 @@ class WP_Links_Table extends WP_List_Table {
 				'orderby' => 'name',
 			);
 			wp_dropdown_categories( $dropdown_options );
+			submit_button( __( 'Filter' ), 'secondary', 'post-query-submit', false );
 ?>
-			<input type="submit" id="post-query-submit" value="<?php esc_attr_e( 'Filter' ); ?>" class="button-secondary" />
 		</div>
 <?php
 	}

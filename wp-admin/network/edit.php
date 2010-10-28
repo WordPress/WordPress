@@ -347,7 +347,7 @@ switch ( $_GET['action'] ) {
 					<input type="hidden" name="_wp_http_referer" value="<?php echo esc_attr( wp_get_referer() ); ?>" />
 					<?php wp_nonce_field( $_GET['action2'], '_wpnonce', false ); ?>
 					<p><?php echo esc_html( stripslashes( $_GET['msg'] ) ); ?></p>
-					<?php submit_button( __('Confirm'), 'secondary' ); ?>
+					<?php submit_button( __('Confirm'), 'button' ); ?>
 				</form>
 			</body>
 		</html>

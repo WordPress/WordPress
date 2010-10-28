@@ -5123,14 +5123,14 @@ function wp_quickpress_form( $args = array(), $post_type = 'post'){
 	);
 
 	$submit_fields = array(
-		'save' => '<input type="submit" name="save" id="save-post" class="button" tabindex="%s" value="'.  esc_attr('Save Draft') .'" />',
+		'save' => get_submit_button( __( 'Save Draft' ), 'button', 'save', false, array( 'id' => 'save-post', 'tabindex' => '%s' ) ),
 		'reset' => '<input type="reset" tabindex="%s" value="'. esc_attr( 'Reset' ).'" class="button" />',
 	);
 
 	$publishing_action = current_user_can('publish_posts') ? esc_attr('Publish') : esc_attr('Submit for Review');
 
 	$publishing_fields = array(
-	'submit' => '<input type="submit" name="publish" id="publish" accesskey="p" tabindex="%s" class="button-primary" value="' . $publishing_action . '" />',
+	'submit' => get_submit_button( $publishing_action, 'primary', 'publish', false, array( 'accesskey' => 'p', 'tabindex' => '%s' ) ),
 	/*'test' => '<input type="submit" name="publish" id="publish" accesskey="p" tabindex="%n" class="button-primary" value="'. esc_attr('Publish') .'" />', */
 
 	);

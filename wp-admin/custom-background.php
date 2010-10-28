@@ -210,7 +210,7 @@ if ( get_background_image() ) {
 <td>
 <form method="post" action="">
 <?php wp_nonce_field('custom-background-remove', '_wpnonce-custom-background-remove'); ?>
-<input type="submit" class="button" name="remove-background" value="<?php esc_attr_e('Remove Background Image'); ?>" /><br/>
+<?php submit_button( __( 'Remove Background Image' ), 'button', 'remove-background', false ); ?><br/>
 <?php _e('This will remove the background image. You will not be able to restore any customizations.') ?>
 </form>
 </td>
@@ -223,7 +223,7 @@ if ( get_background_image() ) {
 <td>
 <form method="post" action="">
 <?php wp_nonce_field('custom-background-reset', '_wpnonce-custom-background-reset'); ?>
-<input type="submit" class="button" name="reset-background" value="<?php esc_attr_e('Restore Original Image'); ?>" /><br/>
+<?php submit_button( __( 'Restore Original Image' ), 'button', 'reset-background', false ); ?><br/>
 <?php _e('This will restore the original background image. You will not be able to restore any customizations.') ?>
 </form>
 </td>
@@ -236,7 +236,7 @@ if ( get_background_image() ) {
 <label for="upload"><?php _e('Choose an image from your computer:'); ?></label><br /><input type="file" id="upload" name="import" />
 <input type="hidden" name="action" value="save" />
 <?php wp_nonce_field('custom-background-upload', '_wpnonce-custom-background-upload') ?>
-<input type="submit" class="button" value="<?php esc_attr_e('Upload'); ?>" />
+<?php submit_button( __( 'Upload' ), 'button', 'submit', false ); ?>
 </p>
 </form>
 </td>

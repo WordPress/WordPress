@@ -160,7 +160,7 @@ function get_search_form($echo = true) {
 	$form = '<form role="search" method="get" id="searchform" action="' . home_url( '/' ) . '" >
 	<div><label class="screen-reader-text" for="s">' . __('Search for:') . '</label>
 	<input type="text" value="' . get_search_query() . '" name="s" id="s" />
-	<input type="submit" id="searchsubmit" value="'. esc_attr__('Search') .'" />
+	' . get_submit_button( __( 'Search' ), '', 'searchsubmit', false ) . '
 	</div>
 	</form>';
 
@@ -283,7 +283,7 @@ function wp_login_form( $args = array() ) {
 			' . apply_filters( 'login_form_middle', '' ) . '
 			' . ( $args['remember'] ? '<p class="login-remember"><label><input name="rememberme" type="checkbox" id="' . esc_attr( $args['id_remember'] ) . '" value="forever" tabindex="90"' . ( $args['value_remember'] ? ' checked="checked"' : '' ) . ' /> ' . esc_html( $args['label_remember'] ) . '</label></p>' : '' ) . '
 			<p class="login-submit">
-				<input type="submit" name="wp-submit" id="' . esc_attr( $args['id_submit'] ) . '" class="button-primary" value="' . esc_attr( $args['label_log_in'] ) . '" tabindex="100" />
+			' . get_submit_button( $args['label_log_in'], 'primary', 'wp-submit', false, array( 'id' => $args['id_submit'], 'tabindex' => 100 ) ) . '
 				<input type="hidden" name="redirect_to" value="' . esc_attr( $args['redirect'] ) . '" />
 			</p>
 			' . apply_filters( 'login_form_bottom', '' ) . '

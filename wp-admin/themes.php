@@ -133,7 +133,7 @@ if ( ! current_user_can( 'switch_themes' ) ) {
 <p class="search-box">
 	<label class="screen-reader-text" for="theme-search-input"><?php _e('Search Themes'); ?>:</label>
 	<input type="text" id="theme-search-input" name="s" value="<?php _admin_search_query(); ?>" />
-	<input type="submit" value="<?php esc_attr_e('Search Themes'); ?>" class="button" />
+	<?php submit_button( __( 'Search Themes' ), 'button', 'submit', false ); ?>
 	<a id="filter-click" href="?filter=1"><?php _e( 'Feature Filter' ); ?></a>
 </p>
 
@@ -166,7 +166,7 @@ if ( ! current_user_can( 'switch_themes' ) ) {
 	<?php endforeach; ?>
 
 	<div class="feature-container">
-		<input style="margin-left: 120px" type="submit" class="button-secondary submitter" value="<?php esc_attr_e( 'Apply Filters' ); ?>" />
+		<?php submit_button( __( 'Apply Filters' ), 'button-secondary submitter', 'submit', false, array( 'style' => 'margin-left: 120px' ) ); ?>
 		&nbsp;
 		<small><a id="mini-filter-click" href="<?php echo admin_url( 'themes.php' ); ?>"><?php _e( 'Close filters' )?></a></small>
 	</div>

@@ -98,16 +98,14 @@ class WP_Media_Table extends WP_List_Table {
 			$this->months_dropdown( $post_type );
 
 			do_action( 'restrict_manage_posts' );
-?>
-			<input type="submit" id="post-query-submit" value="<?php esc_attr_e( 'Filter' ); ?>" class="button-secondary" />
-<?php
+			submit_button( __( 'Filter' ), 'secondary', 'post-query-submit', false );
 		}
 
-		if ( $detached ) { ?>
-			<input type="submit" id="find_detached" name="find_detached" value="<?php esc_attr_e( 'Scan for lost attachments' ); ?>" class="button-secondary" />
-		<?php } elseif ( $this->is_trash && current_user_can( $post_type_obj->cap->edit_others_posts ) ) { ?>
-			<input type="submit" id="delete_all" name="delete_all" value="<?php esc_attr_e( 'Empty Trash' ); ?>" class="button-secondary apply" />
-		<?php } ?>
+		if ( $detached ) {
+			submit_button( __( 'Scan for lost attachments' ), 'secondary', 'find_detached', false );
+		} elseif ( $this->is_trash && current_user_can( 'edit_others_posts' ) ) { 
+			submit_button( __( 'Empty Trash' ), 'button-secondary apply', 'delete_all', false );
+		} ?>
 		</div>
 <?php
 	}

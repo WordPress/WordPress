@@ -1218,7 +1218,7 @@ function get_media_item( $attachment_id, $args = null ) {
 	);
 
 	if ( $send )
-		$send = "<input type='submit' class='button' name='send[$attachment_id]' value='" . esc_attr__( 'Insert into Post' ) . "' />";
+		$send = get_submit_button( __( 'Insert into Post' ), 'button', "send[$attachment_id]", false );
 	if ( $delete && current_user_can( 'delete_post', $attachment_id ) ) {
 		if ( !EMPTY_TRASH_DAYS ) {
 			$delete = "<a href='" . wp_nonce_url( "post.php?action=delete&amp;post=$attachment_id", 'delete-attachment_' . $attachment_id ) . "' id='del[$attachment_id]' class='delete'>" . __( 'Delete Permanently' ) . '</a>';
@@ -1459,8 +1459,10 @@ SWFUpload.onload = function() {
 <div id="html-upload-ui">
 <?php do_action('pre-html-upload-ui'); ?>
 	<p id="async-upload-wrap">
-	<label class="screen-reader-text" for="async-upload"><?php _e('Upload'); ?></label>
-	<input type="file" name="async-upload" id="async-upload" /> <input type="submit" class="button" name="html-upload" value="<?php esc_attr_e('Upload'); ?>" /> <a href="#" onclick="try{top.tb_remove();}catch(e){}; return false;"><?php _e('Cancel'); ?></a>
+		<label class="screen-reader-text" for="async-upload"><?php _e('Upload'); ?></label>
+		<input type="file" name="async-upload" id="async-upload" />
+		<?php submit_button( __( 'Upload' ), 'button', 'html-upload', false ); ?>
+		<a href="#" onclick="try{top.tb_remove();}catch(e){}; return false;"><?php _e('Cancel'); ?></a>
 	</p>
 	<div class="clear"></div>
 	<p class="media-upload-size"><?php printf( __( 'Maximum upload file size: %d%s' ), $upload_size_unit, $sizes[$u] ); ?></p>
@@ -1492,7 +1494,7 @@ function media_upload_type_form($type = 'file', $errors = null, $id = null) {
 ?>
 
 <form enctype="multipart/form-data" method="post" action="<?php echo esc_attr($form_action_url); ?>" class="media-upload-form type-form validate" id="<?php echo $type; ?>-form">
-<input type="submit" class="hidden" name="save" value="" />
+<?php submit_button( '', 'hidden', 'save', false ); ?>
 <input type="hidden" name="post_id" id="post_id" value="<?php echo (int) $post_id; ?>" />
 <?php wp_nonce_field('media-form'); ?>
 
@@ -1525,7 +1527,7 @@ if ( $id ) {
 ?>
 </div>
 <p class="savebutton ml-submit">
-<input type="submit" class="button" name="save" value="<?php esc_attr_e( 'Save all changes' ); ?>" />
+<?php submit_button( __( 'Save all changes' ), 'button', 'save', false ); ?>
 </p>
 </form>
 <?php
@@ -1705,7 +1707,7 @@ jQuery(function($){
 </div>
 
 <p class="ml-submit">
-<input type="submit" class="button savebutton" style="display:none;" name="save" id="save-all" value="<?php esc_attr_e( 'Save all changes' ); ?>" />
+<?php submit_button( __( 'Save all changes' ), 'button savebutton', 'save', false, array( 'id' => 'save-all', 'style' => 'display: none;' ) ); ?>
 <input type="hidden" name="post_id" id="post_id" value="<?php echo (int) $post_id; ?>" />
 <input type="hidden" name="type" value="<?php echo esc_attr( $GLOBALS['type'] ); ?>" />
 <input type="hidden" name="tab" value="<?php echo esc_attr( $GLOBALS['tab'] ); ?>" />
@@ -1828,7 +1830,7 @@ function media_upload_library_form($errors) {
 <p id="media-search" class="search-box">
 	<label class="screen-reader-text" for="media-search-input"><?php _e('Search Media');?>:</label>
 	<input type="text" id="media-search-input" name="s" value="<?php the_search_query(); ?>" />
-	<input type="submit" value="<?php esc_attr_e( 'Search Media' ); ?>" class="button" />
+	<?php submit_button( __( 'Search Media' ), 'button', '', false ); ?>
 </p>
 
 <ul class="subsubsub">
@@ -1915,7 +1917,7 @@ foreach ($arc_result as $arc_row) {
 </select>
 <?php } ?>
 
-<input type="submit" id="post-query-submit" value="<?php echo esc_attr( __( 'Filter &#187;' ) ); ?>" class="button-secondary" />
+<?php submit_button( __( 'Filter &#187;' ), 'secondary', 'post-query-submit', false ); ?>
 
 </div>
 
@@ -1945,7 +1947,7 @@ jQuery(function($){
 <?php echo get_media_items(null, $errors); ?>
 </div>
 <p class="ml-submit">
-<input type="submit" class="button savebutton" name="save" value="<?php esc_attr_e( 'Save all changes' ); ?>" />
+<?php submit_button( __( 'Save all changes' ), 'button savebutton', 'save', false ); ?>
 <input type="hidden" name="post_id" id="post_id" value="<?php echo (int) $post_id; ?>" />
 </p>
 </form>
@@ -2143,7 +2145,7 @@ function _insert_into_post_button($type) {
 		<tr>
 			<td></td>
 			<td>
-				<input type="submit" class="button" name="insertonlybutton" value="' . esc_attr__('Insert into Post') . '" />
+				' . get_submit_button( __( 'Insert into Post' ), 'button', 'insertonlybutton', false ) . '
 			</td>
 		</tr>
 	';

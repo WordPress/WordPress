@@ -223,16 +223,14 @@ class WP_Posts_Table extends WP_List_Table {
 				wp_dropdown_categories( $dropdown_options );
 			}
 			do_action( 'restrict_manage_posts' );
+			submit_button( __( 'Filter' ), 'secondary', 'post-query-submit', false );
 ?>
-			<input type="submit" id="post-query-submit" value="<?php esc_attr_e( 'Filter' ); ?>" class="button-secondary" />
 		</div>
 <?php
 		}
 
 		if ( $this->is_trash && current_user_can( $post_type_object->cap->edit_others_posts ) ) {
-?>
-		<input type="submit" name="delete_all" id="delete_all" value="<?php esc_attr_e( 'Empty Trash' ); ?>" class="button-secondary apply" />
-<?php
+			submit_button( __( 'Empty Trash' ), 'button-secondary apply', 'delete_all', false );
 		}
 	}
 
@@ -985,10 +983,8 @@ class WP_Posts_Table extends WP_List_Table {
 				<a accesskey="s" href="#inline-edit" title="<?php _e( 'Update' ); ?>" class="button-primary save alignright"><?php echo esc_attr( $update_text ); ?></a>
 				<img class="waiting" style="display:none;" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
 			<?php } else {
-				$update_text = __( 'Update' );
-			?>
-				<input accesskey="s" class="button-primary alignright" type="submit" name="bulk_edit" value="<?php echo esc_attr( $update_text ); ?>" />
-			<?php } ?>
+				submit_button( __( 'Update' ), 'button-primary alignright', 'bulk_edit', false, array( 'accesskey' => 's' ) );
+			} ?>
 			<input type="hidden" name="post_view" value="<?php echo esc_attr( $m ); ?>" />
 			<input type="hidden" name="screen" value="<?php echo esc_attr( $screen->id ); ?>" />
 			<br class="clear" />

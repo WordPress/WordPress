@@ -223,7 +223,7 @@ $_SERVER['REQUEST_URI'] = remove_query_arg( array('locked', 'skipped', 'updated'
 <p class="search-box">
 	<label class="screen-reader-text" for="post-search-input"><?php echo $post_type_object->labels->search_items; ?>:</label>
 	<input type="text" id="post-search-input" name="s" value="<?php the_search_query(); ?>" />
-	<input type="submit" value="<?php echo esc_attr( $post_type_object->labels->search_items  ); ?>" class="button" />
+	<?php submit_button( $post_type_object->labels->search_items, 'button', 'submit', false ); ?>
 </p>
 
 <input type="hidden" name="post_status" class="post_status_page" value="<?php echo !empty($_REQUEST['post_status']) ? esc_attr($_REQUEST['post_status']) : 'all'; ?>" />

@@ -70,7 +70,7 @@ Webmaster
 	<form method="post" name="deletedirect">
 		<input type="hidden" name="action" value="deleteblog" />
 		<p><input id="confirmdelete" type="checkbox" name="confirmdelete" value="1" /> <label for="confirmdelete"><strong><?php printf( __( "I'm sure I want to permanently disable my site, and I am aware I can never get it back or use %s again." ), is_subdomain_install() ? $current_blog->domain : $current_blog->domain . $current_blog->path ); ?></strong></label></p>
-		<p class="submit"><input type="submit" value="<?php esc_attr_e( 'Delete My Site Permanently' ) ?>" /></p>
+		<?php submit_button( __( 'Delete My Site Permanently' ) ); ?>
 	</form>
 	<?php
 }

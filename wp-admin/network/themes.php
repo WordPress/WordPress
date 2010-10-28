@@ -40,8 +40,7 @@ $allowed_themes = get_site_allowed_themes();
 		<?php screen_icon(); ?>
 		<h2><?php _e( 'Network Themes' ) ?></h2>
 		<p><?php _e( 'Themes must be enabled for your network before they will be available to individual sites.' ) ?></p>
-		<p class="submit">
-			<input type="submit" value="<?php _e( 'Apply Changes' ) ?>" /></p>
+		<?php submit_button( __( 'Apply Changes' ), '', '' ); ?>
 		<table class="widefat">
 			<thead>
 				<tr>
@@ -83,9 +82,8 @@ $allowed_themes = get_site_allowed_themes();
 			<?php } ?>
 			</tbody>
 		</table>
-
-		<p class="submit">
-			<input type="submit" value="<?php _e( 'Apply Changes' ) ?>" /></p>
+		
+		<?php submit_button( __( 'Apply Changes' ), '', '' ); ?>
 	</form>
 
 	<h3><?php _e( 'Total' )?></h3>

@@ -112,7 +112,7 @@ class WP_Users_Table extends WP_List_Table {
 			<option value=''><?php _e( 'Change role to&hellip;' ) ?></option>
 			<?php wp_dropdown_roles(); ?>
 		</select>
-		<input type="submit" value="<?php esc_attr_e( 'Change' ); ?>" name="changeit" class="button-secondary" />
+		<?php submit_button( __( 'Change' ), 'secondary', 'changeit', false ); ?>
 	</div>
 <?php
 	}

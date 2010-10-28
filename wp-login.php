@@ -411,7 +411,7 @@ case 'retrievepassword' :
 	</p>
 <?php do_action('lostpassword_form'); ?>
 	<input type="hidden" name="redirect_to" value="<?php echo esc_attr( $redirect_to ); ?>" />
-	<p class="submit"><input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="<?php esc_attr_e('Get New Password'); ?>" tabindex="100" /></p>
+	<?php submit_button( __( 'Get New Password' ), 'primary', 'wp-submit', true, array( 'tabindex' => '100' ) ); ?>
 </form>
 
 <p id="nav">
@@ -467,7 +467,7 @@ case 'rp' :
 	<p class="description indicator-hint"><?php _e('Hint: The password should be at least seven characters long. To make it stronger, use upper and lower case letters, numbers and symbols like ! " ? $ % ^ &amp; ).'); ?></p>
 
 	<br class="clear" />
-	<p class="submit"><input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="<?php esc_attr_e('Reset Password'); ?>" tabindex="100" /></p>
+	<?php submit_button( __( 'Reset Password' ), 'primary', 'wp-submit', true, array( 'tabindex' => '100' ) ); ?>
 </form>
 
 <p id="nav">
@@ -523,7 +523,7 @@ case 'register' :
 	<p id="reg_passmail"><?php _e('A password will be e-mailed to you.') ?></p>
 	<br class="clear" />
 	<input type="hidden" name="redirect_to" value="<?php echo esc_attr( $redirect_to ); ?>" />
-	<p class="submit"><input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="<?php esc_attr_e('Register'); ?>" tabindex="100" /></p>
+	<?php submit_button( __( 'Register' ), 'primary', 'wp-submit', true, array( 'tabindex' => '100' ) ); ?>
 </form>
 
 <p id="nav">
@@ -640,7 +640,7 @@ default:
 <?php do_action('login_form'); ?>
 	<p class="forgetmenot"><label><input name="rememberme" type="checkbox" id="rememberme" value="forever" tabindex="90"<?php checked( $rememberme ); ?> /> <?php esc_attr_e('Remember Me'); ?></label></p>
 	<p class="submit">
-		<input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="<?php esc_attr_e('Log In'); ?>" tabindex="100" />
+		<?php submit_button( __( 'Log In' ), 'primary', 'wp-submit', false, array( 'tabindex' => '100' ) ); ?>
 <?php	if ( $interim_login ) { ?>
 		<input type="hidden" name="interim-login" value="1" />
 <?php	} else { ?>

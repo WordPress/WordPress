@@ -495,7 +495,7 @@ function wp_nav_menu_locations_meta_box() {
 	?>
 	<p class="button-controls">
 		<img class="waiting" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
-		<input type="submit"<?php disabled( $nav_menu_selected_id, 0 ); ?> class="button-primary" name="nav-menu-locations" value="<?php esc_attr_e( 'Save' ); ?>" />
+		<?php submit_button( __( 'Save' ), 'primary', 'nav-menu-locations', false, disabled( $nav_menu_selected_id, 0, false ) ); ?>
 	</p>
 	<?php
 }
@@ -671,7 +671,7 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 			<p class="quick-search-wrap">
 				<input type="text" class="quick-search regular-text input-with-default-title" title="<?php esc_attr_e('Search'); ?>" value="<?php echo $searched; ?>" name="quick-search-posttype-<?php echo $post_type_name; ?>" />
 				<img class="waiting" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
-				<input type="submit" class="quick-search-submit button-secondary hide-if-js" value="<?php esc_attr_e('Search'); ?>" />
+				<?php submit_button( __( 'Search' ), 'quick-search-submit button-secondary hide-if-js', 'submit', false ); ?>
 			</p>
 
 			<ul id="<?php echo $post_type_name; ?>-search-checklist" class="list:<?php echo $post_type_name?> categorychecklist form-no-clear">
@@ -898,7 +898,7 @@ function wp_nav_menu_item_taxonomy_meta_box( $object, $taxonomy ) {
 			<p class="quick-search-wrap">
 				<input type="text" class="quick-search regular-text input-with-default-title" title="<?php esc_attr_e('Search'); ?>" value="<?php echo $searched; ?>" name="quick-search-taxonomy-<?php echo $taxonomy_name; ?>" />
 				<img class="waiting" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
-				<input type="submit" class="quick-search-submit button-secondary hide-if-js" value="<?php esc_attr_e('Search'); ?>" />
+				<?php submit_button( __( 'Search' ), 'quick-search-submit button-secondary hide-if-js', 'submit', false ); ?>
 			</p>
 
 			<ul id="<?php echo $taxonomy_name; ?>-search-checklist" class="list:<?php echo $taxonomy_name?> categorychecklist form-no-clear">

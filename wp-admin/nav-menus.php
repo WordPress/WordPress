@@ -494,7 +494,7 @@ require_once( './admin-header.php' );
 						<option value="0"><?php esc_html_e('Add New Menu'); ?></option>
 					</select>
 					<input type="hidden" name="action" value="edit" />
-					<input class="button-secondary" name="select_menu" type="submit" value="<?php esc_attr_e('Select'); ?>" />
+					<?php submit_button( __( 'Select' ), 'secondary', 'select_menu', false ); ?>
 				</form>
 			</div>
 			<div class="nav-tabs-wrapper">
@@ -556,7 +556,7 @@ require_once( './admin-header.php' );
 								<?php endif; ?>
 								<br class="clear" />
 								<div class="publishing-action">
-									<input class="button-primary menu-save" name="save_menu" type="submit" value="<?php empty($nav_menu_selected_id) ? esc_attr_e('Create Menu') : esc_attr_e('Save Menu'); ?>" />
+									<?php submit_button( empty( $nav_menu_selected_id ) ? __( 'Create Menu' ) : __( 'Save Menu' ), 'button-primary menu-save', 'save_menu', false ); ?>
 								</div><!-- END .publishing-action -->
 
 								<?php if ( ! empty( $nav_menu_selected_id ) ) : ?>
@@ -593,7 +593,7 @@ require_once( './admin-header.php' );
 					<div id="nav-menu-footer">
 						<div class="major-publishing-actions">
 						<div class="publishing-action">
-							<input class="button-primary menu-save" name="save_menu" type="submit" value="<?php empty($nav_menu_selected_id) ? esc_attr_e('Create Menu') : esc_attr_e('Save Menu'); ?>" />
+							<?php submit_button( empty( $nav_menu_selected_id ) ? __( 'Create Menu' ) : __( 'Save Menu' ), 'button-primary menu-save', 'save_menu', false ); ?>
 						</div>
 						</div>
 					</div><!-- /#nav-menu-footer -->

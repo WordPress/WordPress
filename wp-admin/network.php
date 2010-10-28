@@ -275,9 +275,9 @@ function network_step1( $errors = false ) {
 				</td>
 			</tr>
 		</table>
-		<p class='submit'><input class="button-primary" name='submit' type='submit' value='<?php esc_attr_e( 'Install' ); ?>' /></p>
+		<?php submit_button( __( 'Install' ), 'primary', 'submit' ); ?>
 	</form>
-		<?php
+	<?php
 }
 
 /**

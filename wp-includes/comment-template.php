@@ -1572,7 +1572,7 @@ function comment_form( $args = array(), $post_id = null ) {
 						<?php echo apply_filters( 'comment_form_field_comment', $args['comment_field'] ); ?>
 						<?php echo $args['comment_notes_after']; ?>
 						<p class="form-submit">
-							<input name="submit" type="submit" id="<?php echo esc_attr( $args['id_submit'] ); ?>" value="<?php echo esc_attr( $args['label_submit'] ); ?>" />
+							<?php submit_button( $args['label_submit'], 'button', 'submit', false, array( 'id' => $args['id_submit'] ) ); ?>
 							<?php comment_id_fields(); ?>
 						</p>
 						<?php do_action( 'comment_form', $post_id ); ?>

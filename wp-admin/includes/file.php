@@ -1066,10 +1066,8 @@ foreach ( (array) $extra_fields as $field ) {
 	if ( isset( $_POST[ $field ] ) )
 		echo '<input type="hidden" name="' . esc_attr( $field ) . '" value="' . esc_attr( stripslashes( $_POST[ $field ] ) ) . '" />';
 }
+submit_button( __( 'Proceed' ), 'button', 'upgrade' );
 ?>
-<p class="submit">
-<input id="upgrade" name="upgrade" type="submit" class="button" value="<?php esc_attr_e('Proceed'); ?>" />
-</p>
 </div>
 </form>
 <?php

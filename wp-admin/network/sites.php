@@ -99,7 +99,7 @@ require_once( '../admin-header.php' );
 <p class="search-box">
 <input type="hidden" name="action" value="blogs" />
 <input type="text" name="s" value="<?php echo esc_attr( $s ); ?>" />
-<input type="submit" class="button" value="<?php esc_attr_e( 'Search Site by' ) ?>" />
+<?php submit_button( __( 'Search Site by' ), 'button', 'submit', false ); ?>
 <select name="searchaction">
 	<option value="name" selected="selected"><?php _e( 'Name' ); ?></option>
 	<option value="id"><?php _e( 'ID' ); ?></option>

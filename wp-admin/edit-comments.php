@@ -202,7 +202,7 @@ if ( isset($_REQUEST['approved']) || isset($_REQUEST['deleted']) || isset($_REQU
 <p class="search-box">
 	<label class="screen-reader-text" for="comment-search-input"><?php _e( 'Search Comments' ); ?>:</label>
 	<input type="text" id="comment-search-input" name="s" value="<?php _admin_search_query(); ?>" />
-	<input type="submit" value="<?php esc_attr_e( 'Search Comments' ); ?>" class="button" />
+	<?php submit_button( __( 'Search Comments' ), 'button', 'submit', false ); ?>
 </p>
 
 <input type="hidden" name="mode" value="<?php echo esc_attr($mode); ?>" />

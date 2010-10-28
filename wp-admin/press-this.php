@@ -472,12 +472,14 @@ var photostorage = false;
 				<h3><?php _e('Publish') ?></h3>
 				<div class="inside">
 					<p>
-						<input class="button" type="submit" name="draft" value="<?php esc_attr_e('Save Draft') ?>" id="save" />
-						<?php if ( current_user_can('publish_posts') ) { ?>
-							<input class="button-primary" type="submit" name="publish" value="<?php esc_attr_e('Publish') ?>" id="publish" />
-						<?php } else { ?>
-							<br /><br /><input class="button-primary" type="submit" name="review" value="<?php esc_attr_e('Submit for Review') ?>" id="review" />
-						<?php } ?>
+					<?php
+						submit_button( __( 'Save Draft' ), 'button', 'draft', false, array( 'id' => 'save' ) );
+						if ( current_user_can('publish_posts') ) {
+							submit_button( __( 'Publish' ), 'primary', 'publish', false );
+						} else {
+							echo '<br /><br />';
+							submit_button( __( 'Submit for Review' ), 'primary', 'review', false );
+						} ?>
 						<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" id="saving" style="display:none;" />
 					</p>
 				</div>

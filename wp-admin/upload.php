@@ -206,7 +206,7 @@ if ( !empty($message) ) { ?>
 <p class="search-box">
 	<label class="screen-reader-text" for="media-search-input"><?php _e( 'Search Media' ); ?>:</label>
 	<input type="text" id="media-search-input" name="s" value="<?php the_search_query(); ?>" />
-	<input type="submit" value="<?php esc_attr_e( 'Search Media' ); ?>" class="button" />
+	<?php submit_button( __( 'Search Media' ), 'button', 'submit', false ); ?>
 </p>
 </form>
 

@@ -146,7 +146,7 @@ switch($step) {
 		</tr>
 	</table>
 	<?php if ( isset( $_GET['noapi'] ) ) { ?><input name="noapi" type="hidden" value="true" /><?php } ?>
-	<p class="step"><input name="submit" type="submit" value="Submit" class="button" /></p>
+	<p class="step"><?php submit_button( __( 'Submit' ), 'button', 'submit', false ); ?></p>
 </form>
 <?php
 	break;

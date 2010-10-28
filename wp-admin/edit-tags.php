@@ -225,7 +225,7 @@ endif; ?>
 <p class="search-box">
 	<label class="screen-reader-text" for="tag-search-input"><?php echo $tax->labels->search_items; ?>:</label>
 	<input type="text" id="tag-search-input" name="s" value="<?php _admin_search_query(); ?>" />
-	<input type="submit" value="<?php echo esc_attr( $tax->labels->search_items );  ?>" class="button" />
+	<?php submit_button( $tax->labels->search_items, 'button', 'submit', false ); ?>
 </p>
 </form>
 <br class="clear" />
@@ -334,9 +334,9 @@ if ( current_user_can($tax->cap->edit_terms) ) {
 if ( ! is_taxonomy_hierarchical($taxonomy) )
 	do_action('add_tag_form_fields', $taxonomy);
 do_action($taxonomy . '_add_form_fields', $taxonomy);
-?>
-<p class="submit"><input type="submit" class="button" name="submit" id="submit" value="<?php echo esc_attr( $tax->labels->add_new_item ); ?>" /></p>
-<?php
+
+submit_button( $tax->labels->add_new_item );
+
 // Back compat hooks. Deprecated in preference to {$taxonomy}_add_form
 if ( 'category' == $taxonomy )
 	do_action('edit_category_form', (object)array('parent' => 0) );

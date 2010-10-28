@@ -53,7 +53,7 @@ if ( $monthyears = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`
 <p><?php _e('This format, which we call WordPress eXtended RSS or WXR, will contain your posts, pages, comments, custom fields, categories, and tags.'); ?></p>
 <p><?php _e('Once you&#8217;ve saved the download file, you can use the Import function on another WordPress site to import this site.'); ?></p>
 <form action="" method="get">
-<?php submit_button( __('Download Export File'), 'secondary' ); ?>
+<?php submit_button( __('Download Export File'), 'button' ); ?>
 <input type="hidden" name="download" value="true" />
 </p>
 </form>

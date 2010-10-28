@@ -95,7 +95,7 @@ if ( post_password_required($post) ) {  // and it doesn't match the cookie
 	<p>
 	  <input type="hidden" name="comment_post_ID" value="<?php echo $id; ?>" />
 	  <input type="hidden" name="redirect_to" value="<?php echo esc_attr($_SERVER["REQUEST_URI"]); ?>" />
-	  <input name="submit" type="submit" tabindex="5" value="<?php _e('Say It!' ); ?>" />
+	  <?php submit_button( __( 'Say It!' ), '', 'submit', false, array( 'tabindex' => '5' ) ); ?>
 	</p>
 	<?php do_action('comment_form', $post->ID); ?>
 </form>

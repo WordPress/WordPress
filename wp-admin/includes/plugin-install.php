@@ -129,7 +129,7 @@ function install_search_form(){
 		</select>
 		<input type="text" name="s" value="<?php echo esc_attr($term) ?>" />
 		<label class="screen-reader-text" for="plugin-search-input"><?php _e('Search Plugins'); ?></label>
-		<input type="submit" id="plugin-search-input" value="<?php esc_attr_e('Search Plugins'); ?>" class="button" />
+		<?php submit_button( __( 'Search Plugins' ), 'button', 'plugin-search-input', false ); ?>
 	</form><?php
 }
 

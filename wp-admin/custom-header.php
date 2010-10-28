@@ -468,7 +468,7 @@ class Custom_Image_Header {
 		<input type="file" id="upload" name="import" />
 		<input type="hidden" name="action" value="save" />
 		<?php wp_nonce_field( 'custom-header-upload', '_wpnonce-custom-header-upload' ) ?>
-		<input type="submit" class="button" value="<?php esc_attr_e( 'Upload' ); ?>" />
+		<?php submit_button( __( 'Upload' ), 'button', 'submit', false ); ?>
 	</p>
 	</form>
 </td>
@@ -501,7 +501,7 @@ class Custom_Image_Header {
 <th scope="row"><?php _e( 'Remove Image' ); ?></th>
 <td>
 	<p><?php _e( 'This will remove the header image. You will not be able to restore any customizations.' ) ?></p>
-	<input type="submit" class="button" name="removeheader" value="<?php esc_attr_e( 'Remove Header Image' ); ?>" />
+	<?php submit_button( __( 'Remove Header Image' ), 'button', 'removeheader', false ); ?>
 </td>
 </tr>
 	<?php endif;
@@ -511,7 +511,7 @@ class Custom_Image_Header {
 <th scope="row"><?php _e( 'Reset Image' ); ?></th>
 <td>
 	<p><?php _e( 'This will restore the original header image. You will not be able to restore any customizations.' ) ?></p>
-	<input type="submit" class="button" name="resetheader" value="<?php esc_attr_e( 'Restore Original Header Image' ); ?>" />
+	<?php submit_button( __( 'Restore Original Header Image' ), 'button', 'resetheader', false ); ?>
 </td>
 </tr>
 	<?php endif; ?>
@@ -550,7 +550,7 @@ class Custom_Image_Header {
 <th scope="row"><?php _e('Reset Text Color'); ?></th>
 <td>
 	<p><?php _e( 'This will restore the original header text. You will not be able to restore any customizations.' ) ?></p>
-	<input type="submit" class="button" name="resettext" value="<?php esc_attr_e( 'Restore Original Header Text' ); ?>" />
+	<?php submit_button( __( 'Restore Original Header Text' ), 'button', 'resettext', false ); ?>
 </td>
 </tr>
 	<?php } ?>
@@ -563,7 +563,7 @@ do_action( 'custom_header_options' );
 
 wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 
-<?php submit_button(); ?>
+<?php submit_button( null, 'primary', 'save-header-options' ); ?>
 </form>
 </div>
 

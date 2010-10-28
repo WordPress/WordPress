@@ -253,7 +253,8 @@ class WP_List_Table {
 			echo "\t<option value='$name'>$title</option>\n";
 		echo "</select>\n";
 
-		echo "<input type='submit' value='" . esc_attr__( 'Apply' ) . "' name='doaction$two' id='doaction$two' class='button-secondary action' />\n";
+		submit_button( __( 'Apply' ), 'button-secondary action', "doaction$two", false );
+		echo "\n";
 	}
 
 	/**

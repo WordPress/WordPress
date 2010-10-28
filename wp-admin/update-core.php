@@ -58,14 +58,14 @@ function list_core_update( $update ) {
 	echo '<input name="version" value="'. esc_attr($update->current) .'" type="hidden"/>';
 	echo '<input name="locale" value="'. esc_attr($update->locale) .'" type="hidden"/>';
 	if ( $show_buttons ) {
-		echo '<input id="upgrade" class="button" type="submit" value="' . esc_attr($submit) . '" name="upgrade" />&nbsp;';
-		echo '<a href="' . esc_url($update->package) . '" class="button">' . $download . '</a>&nbsp;';
+		submit_button( $submit, 'button', 'upgrade', false );
+		echo '&nbsp;<a href="' . esc_url($update->package) . '" class="button">' . $download . '</a>&nbsp;';
 	}
 	if ( 'en_US' != $update->locale )
 		if ( !isset( $update->dismissed ) || !$update->dismissed )
-			echo '<input id="dismiss" class="button" type="submit" value="' . esc_attr__('Hide this update') . '" name="dismiss" />';
+			submit_button( __('Hide this update'), 'button', 'dismiss', false );
 		else
-			echo '<input id="undismiss" class="button" type="submit" value="' . esc_attr__('Bring back this update') . '" name="undismiss" />';
+			submit_button( __('Bring back this update'), 'button', 'undismiss', false );
 	echo '</p>';
 	if ( 'en_US' != $update->locale && ( !isset($wp_local_package) || $wp_local_package != $update->locale ) )
 	    echo '<p class="hint">'.__('This localized version contains both the translation and various other localization fixes. You can skip upgrading if you want to keep your current translation.').'</p>';

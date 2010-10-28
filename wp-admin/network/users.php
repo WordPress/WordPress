@@ -73,7 +73,7 @@ if ( isset( $_REQUEST['updated'] ) && $_REQUEST['updated'] == 'true' && ! empty(
 	<form action="" method="get" class="search-form">
 		<p class="search-box">
 		<input type="text" name="s" value="<?php echo esc_attr( $usersearch ); ?>" class="search-input" id="user-search-input" />
-		<input type="submit" id="post-query-submit" value="<?php esc_attr_e( 'Search Users' ) ?>" class="button" />
+		<?php submit_button( __( 'Search Users' ), 'button', 'post-query-submit', false ); ?>
 		</p>
 	</form>
 

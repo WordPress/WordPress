@@ -253,10 +253,10 @@ if ( $action ) {
 							echo '<input type="hidden" name="checked[]" value="' . esc_attr($plugin) . '" />';
 					?>
 					<?php wp_nonce_field('bulk-plugins') ?>
-					<input type="submit" name="submit" value="<?php $data_to_delete ? esc_attr_e('Yes, Delete these files and data') : esc_attr_e('Yes, Delete these files') ?>" class="button" />
+					<?php submit_button( $data_to_delete ? __( 'Yes, Delete these files and data' ) : __( 'Yes, Delete these files' ), 'button', 'submit', false ); ?>
 				</form>
 				<form method="post" action="<?php echo esc_url(wp_get_referer()); ?>" style="display:inline;">
-					<input type="submit" name="submit" value="<?php esc_attr_e('No, Return me to the plugin list') ?>" class="button" />
+					<?php submit_button( __( 'No, Return me to the plugin list' ), 'button', 'submit', false ); ?>
 				</form>
 
 				<p><a href="#" onclick="jQuery('#files-list').toggle(); return false;"><?php _e('Click to view entire list of files which will be deleted'); ?></a></p>
@@ -357,7 +357,7 @@ if ( !empty($invalid) )
 <p class="search-box">
 	<label class="screen-reader-text" for="plugin-search-input"><?php _e( 'Search Plugins' ); ?>:</label>
 	<input type="text" id="plugin-search-input" name="s" value="<?php _admin_search_query(); ?>" />
-	<input type="submit" value="<?php esc_attr_e( 'Search Installed Plugins' ); ?>" class="button" />
+	<?php submit_button( __( 'Search Installed Plugins' ), 'button', '', false ); ?>
 </p>
 </form>
 

@@ -212,7 +212,7 @@ endforeach;
 
 <input type="hidden" name="page_options" value="<?php echo esc_attr( implode( ',', $options_to_update ) ); ?>" />
 
-<?php submit_button( __('Save Changes') ); ?>
+<?php submit_button( __( 'Save Changes' ), 'primary', 'Update' ); ?>
 
   </form>
 </div>

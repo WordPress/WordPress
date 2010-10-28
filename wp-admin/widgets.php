@@ -306,12 +306,14 @@ if ( isset($_GET['editwidget']) && $_GET['editwidget'] ) {
 	</div>
 
 	<div class="widget-control-actions">
-<?php	if ( isset($_GET['addnew']) ) { ?>
+<?php
+	if ( isset($_GET['addnew']) ) { ?>
 	<a href="widgets.php" class="button alignleft"><?php _e('Cancel'); ?></a>
-<?php	} else { ?>
-	<input type="submit" name="removewidget" class="button alignleft" value="<?php esc_attr_e('Delete'); ?>" />
-<?php	} ?>
-	<input type="submit" name="savewidget" class="button-primary alignright" value="<?php esc_attr_e('Save Widget'); ?>" />
+<?php
+	} else {
+		submit_button( __( 'Delete' ), 'button alignleft', 'removewidget', false ); 
+	}
+	submit_button( __( 'Save Widget' ), 'button-primary alignright', 'savewidget', false ); ?>
 	<input type="hidden" name="widget-id" class="widget-id" value="<?php echo esc_attr($widget_id); ?>" />
 	<input type="hidden" name="id_base" class="id_base" value="<?php echo esc_attr($id_base); ?>" />
 	<input type="hidden" name="multi_number" class="multi_number" value="<?php echo esc_attr($multi_number); ?>" />

@@ -191,7 +191,7 @@ function signup_another_blog($blogname = '', $blog_title = '', $errors = '') {
 		<input type="hidden" name="stage" value="gimmeanotherblog" />
 		<?php do_action( "signup_hidden_fields" ); ?>
 		<?php show_blog_form($blogname, $blog_title, $errors); ?>
-		<p class="submit"><input type="submit" name="submit" class="submit" value="<?php esc_attr_e( 'Create Site' ) ?>" /></p>
+		<?php submit_button( __( 'Create Site' ), 'submit', 'submit' ); ?>
 	</form>
 	<?php
 }
@@ -270,7 +270,7 @@ function signup_user($user_name = '', $user_email = '', $errors = '') {
 		<?php } ?>
 		</p>
 
-		<p class="submit"><input type="submit" name="submit" class="submit" value="<?php esc_attr_e('Next') ?>" /></p>
+		<?php submit_button( __( 'Next' ), 'submit', 'submit' ); ?>
 	</form>
 	<?php
 }
@@ -326,7 +326,7 @@ function signup_blog($user_name = '', $user_email = '', $blogname = '', $blog_ti
 		<input type="hidden" name="user_email" value="<?php echo esc_attr($user_email) ?>" />
 		<?php do_action( "signup_hidden_fields" ); ?>
 		<?php show_blog_form($blogname, $blog_title, $errors); ?>
-		<p class="submit"><input type="submit" name="submit" class="submit" value="<?php esc_attr_e('Signup') ?>" /></p>
+		<?php submit_button( __( 'Signup' ), 'submit', 'submit', true ); ?>
 	</form>
 	<?php
 }

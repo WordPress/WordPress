@@ -91,7 +91,7 @@ case 'edit' :
 
 <form method="post" action="" class="media-upload-form" id="media-single-form">
 <p class="submit" style="padding-bottom: 0;">
-<input type="submit" class="button-primary" name="save" value="<?php esc_attr_e('Update Media'); ?>" />
+<?php submit_button( __( 'Update Media' ), 'primary', 'save', false ); ?>
 </p>
 
 <div class="media-single">
@@ -100,7 +100,7 @@ case 'edit' :
 </div>
 </div>
 
-<?php submit_button( __('Update Media') ); ?>
+<?php submit_button( __( 'Update Media' ), 'primary', 'save' ); ?>
 <input type="hidden" name="post_id" id="post_id" value="<?php echo isset($post_id) ? esc_attr($post_id) : ''; ?>" />
 <input type="hidden" name="attachment_id" id="attachment_id" value="<?php echo esc_attr($att_id); ?>" />
 <input type="hidden" name="action" value="editattachment" />

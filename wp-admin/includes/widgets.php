@@ -203,7 +203,7 @@ function wp_widget_control( $sidebar_args ) {
 		</div>
 		<div class="alignright<?php if ( 'noform' === $has_form ) echo ' widget-control-noform'; ?>">
 		<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-feedback " title="" alt="" />
-		<input type="submit" name="savewidget" class="button-primary widget-control-save" value="<?php esc_attr_e('Save'); ?>" />
+		<?php submit_button( __( 'Save' ), 'button-primary widget-control-save', 'savewidget', false ); ?>
 		</div>
 		<br class="clear" />
 	</div>

@@ -185,7 +185,7 @@ default:
 	}
 ?>
 		</select>
-		<input type="submit" name="Submit" value="<?php esc_attr_e('Select') ?>" class="button" />
+		<?php submit_button( __( 'Select' ), 'button', 'Submit', false ); ?>
 	</form>
 </div>
 <br class="clear" />
@@ -229,10 +229,12 @@ foreach ( $plugin_files as $plugin_file ) :
 	<?php } ?>
 	<p class="submit">
 	<?php
-		if ( isset($_GET['phperror']) )
-			echo "<input type='hidden' name='phperror' value='1' /><input type='submit' name='submit' class='button-primary' value='" . esc_attr__('Update File and Attempt to Reactivate') . "' tabindex='2' />";
-		else
-			echo "<input type='submit' name='submit' class='button-primary' value='" . esc_attr__('Update File') . "' tabindex='2' />";
+		if ( isset($_GET['phperror']) ) {
+			echo "<input type='hidden' name='phperror' value='1' />";
+			submit_button( __( 'Update File and Attempt to Reactivate' ), 'primary', 'submit', false, array( 'tabindex' => '2' ) );
+		} else {
+			submit_button( __( 'Update File' ), 'primary', 'submit', false, array( 'tabindex' => '2' ) );
+		}
 	?>
 	</p>
 <?php else : ?>

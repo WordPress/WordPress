@@ -495,9 +495,11 @@ function _list_meta_row( $entry, &$count ) {
 	$r .= "\n\t<tr id='meta-{$entry['meta_id']}' class='$style'>";
 	$r .= "\n\t\t<td class='left'><label class='screen-reader-text' for='meta[{$entry['meta_id']}][key]'>" . __( 'Key' ) . "</label><input name='meta[{$entry['meta_id']}][key]' id='meta[{$entry['meta_id']}][key]' tabindex='6' type='text' size='20' value='{$entry['meta_key']}' />";
 
-	$r .= "\n\t\t<div class='submit'><input name='deletemeta[{$entry['meta_id']}]' type='submit' ";
-	$r .= "class='delete:the-list:meta-{$entry['meta_id']}::_ajax_nonce=$delete_nonce deletemeta' tabindex='6' value='". esc_attr__( 'Delete' ) ."' />";
-	$r .= "\n\t\t<input name='updatemeta' type='submit' tabindex='6' value='". esc_attr__( 'Update' ) ."' class='add:the-list:meta-{$entry['meta_id']}::_ajax_nonce-add-meta=$update_nonce updatemeta' /></div>";
+	$r .= "\n\t\t<div class='submit'>";
+	$r .= get_submit_button( __( 'Delete' ), "delete:the-list:meta-{$entry['meta_id']}::_ajax_nonce=$delete_nonce deletemeta", "deletemeta[{$entry['meta_id']}]", false, array( 'tabindex' => '6' ) );
+	$r .= "\n\t\t";
+	$r .= get_submit_button( __( 'Update' ), "add:the-list:meta-{$entry['meta_id']}::_ajax_nonce-add-meta=$update_nonce updatemeta" , 'updatemeta', false, array( 'tabindex' => '6' ) );
+	$r .= "</div>";
 	$r .= wp_nonce_field( 'change-meta', '_ajax_nonce', false, false );
 	$r .= "</td>";
 
@@ -557,7 +559,7 @@ function meta_form() {
 </tr>
 
 <tr><td colspan="2" class="submit">
-<input type="submit" id="addmetasub" name="addmeta" class="add:the-list:newmeta" tabindex="9" value="<?php esc_attr_e( 'Add Custom Field' ) ?>" />
+<?php submit_button( __( 'Add Custom Field' ), 'add:the-list:newmeta', 'addmeta', false, array( 'id' => 'addmetasub', 'tabindex' => '9' ) ); ?>
 <?php wp_nonce_field( 'add-meta', '_ajax_nonce-add-meta', false ); ?>
 </td></tr>
 </tbody>
@@ -843,7 +845,7 @@ function wp_import_upload_form( $action ) {
 <input type="hidden" name="action" value="save" />
 <input type="hidden" name="max_file_size" value="<?php echo $bytes; ?>" />
 </p>
-<?php submit_button( __('Upload file and import'), 'secondary' ); ?>
+<?php submit_button( __('Upload file and import'), 'button' ); ?>
 </form>
 <?php
 	endif;
@@ -1357,7 +1359,7 @@ function find_posts_div($found_action = '') {
 		</div>
 		<div class="find-box-buttons">
 			<input id="find-posts-close" type="button" class="button alignleft" value="<?php esc_attr_e('Close'); ?>" />
-			<input id="find-posts-submit" type="submit" class="button-primary alignright" value="<?php esc_attr_e('Select'); ?>" />
+			<?php submit_button( __( 'Select' ), 'button-primary alignright', 'find-posts-submit', false ); ?>
 		</div>
 	</div>
 <?php
@@ -1889,7 +1891,7 @@ function screen_options($screen) {
 	$return = "<div class='screen-options'>\n";
 	if ( !empty($per_page_label) )
 		$return .= "<input type='text' class='screen-per-page' name='wp_screen_options[value]' id='$option' maxlength='3' value='$per_page' /> <label for='$option'>$per_page_label</label>\n";
-	$return .= "<input type='submit' class='button' value='" . esc_attr__('Apply') . "' />";
+	$return .= get_submit_button( __( 'Apply' ), 'button', '', false );
 	$return .= "<input type='hidden' name='wp_screen_options[option]' value='" . esc_attr($option) . "' />";
 	$return .= "</div>\n";
 	return $return;
@@ -2086,28 +2088,44 @@ function set_current_screen( $id =  '' ) {
 }
 
 /**
- * Echos a paragraph-wrapped submit button, with provided text and appropriate class
+ * Echos a submit button, with provided text and appropriate class
  *
  * @since 3.1.0
  *
  * @param string $text The text of the button (defaults to 'Save Changes')
  * @param string $type The type of button. One of: primary, secondary, delete
- * @param string $name The HTML name of the submit button. Defaults to "submit"
+ * @param string $name The HTML name of the submit button. Defaults to "submit". If no id attribute
+ *               is given in $other_attributes below, $name will be used as the button's id.
+ * @param bool $wrap True if the output button should be wrapped in a paragraph tag,
+ * 			   false otherwise. Defaults to true
+ * @param array|string $other_attributes Other attributes that should be output with the button,
+ *                     mapping attributes to their values, such as array( 'tabindex' => '1' ).
+ *                     These attributes will be ouput as attribute="value", such as tabindex="1".
+ *                     Defaults to no other attributes. Other attributes can also be provided as a
+ *                     string such as 'tabindex="1"', though the array format is typically cleaner.
  */
-function submit_button( $text = NULL, $type = 'primary', $name = 'submit' ) {
-	echo get_submit_button( $text, $type, $name );
+function submit_button( $text = NULL, $type = 'primary', $name = 'submit', $wrap = true, $other_attributes = NULL ) {
+	echo get_submit_button( $text, $type, $name, $wrap, $other_attributes );
 }
 
 /**
- * Returns a paragraph-wrapped submit button, with provided text and appropriate class
+ * Returns a submit button, with provided text and appropriate class
  *
  * @since 3.1.0
  *
  * @param string $text The text of the button (defaults to 'Save Changes')
  * @param string $type The type of button. One of: primary, secondary, delete
- * @param string $name The HTML name of the submit button. Defaults to "submit"
+ * @param string $name The HTML name of the submit button. Defaults to "submit". If no id attribute
+ *               is given in $other_attributes below, $name will be used as the button's id.
+ * @param bool $wrap True if the output button should be wrapped in a paragraph tag,
+ * 			   false otherwise. Defaults to true
+ * @param array|string $other_attributes Other attributes that should be output with the button,
+ *                     mapping attributes to their values, such as array( 'tabindex' => '1' ).
+ *                     These attributes will be ouput as attribute="value", such as tabindex="1".
+ *                     Defaults to no other attributes. Other attributes can also be provided as a
+ *                     string such as 'tabindex="1"', though the array format is typically cleaner.
  */
-function get_submit_button( $text = NULL, $type = 'primary', $name = 'submit' ) {
+function get_submit_button( $text = NULL, $type = 'primary', $name = 'submit', $wrap = true, $other_attributes = NULL ) {
 	switch ( $type ) :
 		case 'primary' :
 		case 'secondary' :
@@ -2120,6 +2138,29 @@ function get_submit_button( $text = NULL, $type = 'primary', $name = 'submit' ) 
 			$class = $type; // Custom cases can just pass in the classes they want to be used
 	endswitch;
 	$text = ( NULL == $text ) ? __( 'Save Changes' ) : $text;
-	return '<p class="submit"><input type="submit" name="' . esc_attr( $name ) . '" class="' . esc_attr( $class ) . '" value="' . esc_attr( $text ) . '" /></p>';
+	
+	$attributes = '';
+	if ( is_array( $other_attributes ) ) {
+		foreach ( $other_attributes as $attribute => $value ) {
+			$attributes .= $attribute . '="' . esc_attr( $value ) . '" '; // Trailing space is important
+		}
+	} else if ( !empty( $other_attributes ) ) { // Attributes provided as a string
+		$attributes = $other_attributes;
+	}
+	
+	// Default the id attribute to $name unless an id was specifically provided in $other_attributes
+	$id = 'id="' . esc_attr( $name ) . '" ';
+	if ( is_array( $other_attributes ) && array_key_exists( 'id', $other_attributes ) ) {
+		$id = 'id="' . esc_attr( $other_attributes['id'] ) . '" ';
+	}
+	
+	$button = '<input type="submit" name="' . esc_attr( $name ) . '" id="' . $id . '" class="' . esc_attr( $class );
+	$button	.= '" value="' . esc_attr( $text ) . '" ' . $attributes . ' />';
+	
+	if ( $wrap ) {
+		$button = '<p class="submit">' . $button . '</p>';
+	}
+	
+	return $button;
 }
 

@@ -201,19 +201,15 @@ class WP_Comments_Table extends WP_List_Table {
 					echo "\t<option value='" . esc_attr( $type ) . "'" . selected( $comment_type, $type, false ) . ">$label</option>\n";
 			?>
 			</select>
-			<input type="submit" id="post-query-submit" value="<?php esc_attr_e( 'Filter' ); ?>" class="button-secondary" />
 <?php
+			submit_button( __( 'Filter' ), 'secondary', 'post-query-submit', false );
 		}
 
 		if ( ( 'spam' == $comment_status || 'trash' == $comment_status ) && current_user_can( 'moderate_comments' ) ) {
 			wp_nonce_field( 'bulk-destroy', '_destroy_nonce' );
 			$title = ( 'spam' == $comment_status ) ? esc_attr__( 'Empty Spam' ) : esc_attr__( 'Empty Trash' );
-?>
-			<input type="submit" name="delete_all" id="delete_all" value="<?php echo $title ?>" class="button-secondary apply" />
-<?php
+			submit_button( $title, 'button-secondary apply', 'delete_all', false );
 		}
-?>
-<?php
 		do_action( 'manage_comments_nav', $comment_status );
 		echo '</div>';
 	}

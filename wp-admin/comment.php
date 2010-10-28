@@ -180,7 +180,7 @@ if ( $comment->comment_approved != '0' ) { // if not unapproved
 <table width="100%">
 <tr>
 <td><a class="button" href="<?php echo admin_url('edit-comments.php'); ?>"><?php esc_attr_e('No'); ?></a></td>
-<td class="textright"><input type='submit' class="button" value='<?php echo esc_attr($button); ?>' /></td>
+<td class="textright"><?php submit_button( $button, 'button' ); ?></td>
 </tr>
 </table>
 

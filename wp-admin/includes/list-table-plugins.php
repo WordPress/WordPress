@@ -287,7 +287,7 @@ class WP_Plugins_Table extends WP_List_Table {
 
 		if ( 'recently_activated' == $status ) { ?>
 			<div class="alignleft actions">
-				<input type="submit" name="clear-recent-list" value="<?php esc_attr_e( 'Clear List' ) ?>" class="button-secondary" />
+				<?php submit_button( __( 'Clear List' ), 'secondary', 'clear-recent-list', false ); ?>
 			</div>
 		<?php }
 	}
