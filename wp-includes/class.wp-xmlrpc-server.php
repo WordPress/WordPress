@@ -1484,13 +1484,24 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieve media item.
+	 * Retrieve a media item by ID
 	 *
 	 * @since 3.1.0
-	 * @todo Docment this!
 	 *
-	 * @param array $args Method parameters.
-	 * @return array
+	 * @param array $args Method parameters. Contains: 
+	 *  - blog_id
+	 *  - username
+	 *  - password
+	 *  - attachment_id
+	 * @return array. Assocciative array containing: 
+	 *  - 'date_created_gmt'
+	 *  - 'parent'
+	 *  - 'link'
+	 *  - 'thumbnail'
+	 *  - 'title'
+	 *  - 'caption'
+	 *  - 'description'
+	 *  - 'metadata'
 	 */
 	function wp_getMediaItem($args) {
 		$this->escape($args);
@@ -1533,13 +1544,27 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieve media library items.
-	 *
+	 * Retrieves a collection of media library items (or attachments)
+	 * 
+	 * Besides the common blog_id, username, and password arguments, it takes a filter 
+	 * array as last argument.
+	 * 
+	 * Accepted 'filter' keys are 'parent_id', 'mime_type', 'offset', and 'number'.
+	 * 
+	 * The defaults are as follows:
+	 * - 'number' - Default is 5. Total number of media items to retrieve.
+	 * - 'offset' - Default is 0. See {@link WP_Query::query()} for more.
+	 * - 'parent_id' - Default is ''. The post where the media item is attached. Empty string shows all media items. 0 shows unattached media items.
+	 * - 'mime_type' - Default is ''. Filter by mime type (e.g., 'image/jpeg', 'application/pdf')
+	 * 
 	 * @since 3.1.0
-	 * @todo Document this.
 	 *
-	 * @param array $args Method parameters.
-	 * @return array
+	 * @param array $args Method parameters. Contains:
+	 *  - blog_id
+	 *  - username
+	 *  - password
+	 *  - filter
+	 * @return array. Contains a collection of media items. See {@link wp_xmlrpc_server::wp_getMediaItem()} for a description of each item contents
 	 */
 	function wp_getMediaLibrary($args) {
 		$raw_args = $args;
@@ -1558,8 +1583,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		do_action('xmlrpc_call', 'wp.getMediaLibrary');
 
-		$parent_id = ( isset($struct['parent_id']) ) ? absint($struct['parent_id']) : 0 ;
-		$mime_type = ( isset($struct['mime_type']) ) ? absint($struct['mime_type']) : '' ;		
+		$parent_id = ( isset($struct['parent_id']) ) ? absint($struct['parent_id']) : '' ;
+		$mime_type = ( isset($struct['mime_type']) ) ? $struct['mime_type'] : '' ;
 		$offset = ( isset($struct['offset']) ) ? absint($struct['offset']) : 0 ;
 		$number = ( isset($struct['number']) ) ? absint($struct['number']) : -1 ;
 		
