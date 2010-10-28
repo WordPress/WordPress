@@ -1016,7 +1016,7 @@ function register_post_type($post_type, $args = array()) {
  *   behave like edit_posts.
  * - publish_posts - Controls publishing objects of this post type.
  * - read_private_posts - Controls whether private objects can be read.
- 
+
  * These four primitive capabilities are checked in core in various locations.
  * There are also seven other primitive capabilities which are not referenced
  * directly in core, except in map_meta_cap(), which takes the three aforementioned
@@ -2265,11 +2265,11 @@ function wp_get_recent_posts( $args = array(), $output = ARRAY_A ) {
 		'meta_value' =>'', 'post_type' => 'post', 'post_status' => 'draft, publish, future, pending, private',
 		'suppress_filters' => true
 	);
-	
+
 	$r = wp_parse_args( $args, $defaults );
 
 	$results = get_posts( $r );
-	
+
 	// Backward compatibility. Prior to 3.1 expected posts to be returned in array
 	if ( ARRAY_A == $output ){
 		foreach( $results as $key => $result ) {
@@ -4141,7 +4141,7 @@ function get_lastpostmodified($timezone = 'server') {
  * @return string The date.
  */
 function _get_last_post_time( $timezone, $field ) {
-	global $wpdb, $blog_id;
+	global $wpdb;
 
 	if ( !in_array( $field, array( 'date', 'modified' ) ) )
 		return false;
@@ -4152,7 +4152,7 @@ function _get_last_post_time( $timezone, $field ) {
 
 	$post_types = apply_filters( "get_lastpost{$field}_post_types", (array) $post_types );
 
-	$key = "lastpost{$field}:$blog_id:$timezone:" . md5( serialize( $post_types ) );
+	$key = "lastpost{$field}:" . get_current_blog_id() . ":$timezone:" . md5( serialize( $post_types ) );
 
 	$date = wp_cache_get( $key, 'timeinfo' );
 

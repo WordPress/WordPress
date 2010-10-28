@@ -376,7 +376,7 @@ class WP_User_Query extends WP_Object_Query {
 			$this->query_vars = wp_parse_args( $query, array(
 				'blog_id' => $GLOBALS['blog_id'],
 				'role' => '',
-				'meta_key' => '', 
+				'meta_key' => '',
 				'meta_value' => '',
 				'meta_compare' => '',
 				'include' => array(),
@@ -572,10 +572,8 @@ function get_users( $args = array() ) {
  * @return array List of users that are part of that Blog ID
  */
 function get_users_of_blog( $id = '' ) {
-	global $blog_id;
-
 	if ( empty( $id ) )
-		$id = (int) $blog_id;
+		$id = get_current_blog_id();
 
 	return get_users( array( 'blog_id' => $id ) );
 }
@@ -593,7 +591,7 @@ function get_blogs_of_user( $id, $all = false ) {
 	global $wpdb;
 
 	if ( !is_multisite() ) {
-		global $blog_id;
+		$blog_id = get_current_blog_id();
 		$blogs = array();
 		$blogs[ $blog_id ]->userblog_id = $blog_id;
 		$blogs[ $blog_id ]->blogname = get_option('blogname');
@@ -757,10 +755,10 @@ function update_user_meta($user_id, $meta_key, $meta_value, $prev_value = '') {
  * @return array Includes a grand total and an array of counts indexed by role strings.
  */
 function count_users($strategy = 'time') {
-	global $wpdb, $blog_id, $wp_roles;
+	global $wpdb, $wp_roles;
 
 	// Initialize
-	$id = (int) $blog_id;
+	$id = get_current_blog_id();
 	$blog_prefix = $wpdb->get_blog_prefix($id);
 	$result = array();
 

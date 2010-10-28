@@ -492,6 +492,18 @@ function get_bloginfo( $show = '', $filter = 'raw' ) {
 }
 
 /**
+ * Retrieve the current blog id
+ *
+ * @since 3.1.0
+ *
+ * @return int Blog id
+ */
+function get_current_blog_id() {
+	global $blog_id;
+	return absint($blog_id);
+}
+
+/**
  * Display or retrieve page title for all areas of blog.
  *
  * By default, the page title will display the separator before the page title,
