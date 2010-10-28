@@ -1030,6 +1030,8 @@ function get_attachment_fields_to_edit($post, $errors = null) {
 
 	foreach ( get_attachment_taxonomies($post) as $taxonomy ) {
 		$t = (array) get_taxonomy($taxonomy);
+		if ( ! $t['public'] )
+			continue;
 		if ( empty($t['label']) )
 			$t['label'] = $taxonomy;
 		if ( empty($t['args']) )
