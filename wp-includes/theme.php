@@ -1361,7 +1361,6 @@ function set_theme_mod( $name, $value ) {
 
 	$theme = get_option( 'stylesheet' );
 	update_option( "theme_mods_$theme", $mods );
-	wp_cache_delete( "theme_mods_$theme", 'options' );
 }
 
 /**
@@ -1388,7 +1387,6 @@ function remove_theme_mod( $name ) {
 
 	$theme = get_option( 'stylesheet' );
 	update_option( "theme_mods_$theme", $mods );
-	wp_cache_delete( "theme_mods_$theme", 'options' );
 }
 
 /**
