@@ -918,8 +918,6 @@ function &get_terms($taxonomies, $args = '') {
 		}
 	}
 
-	$in_taxonomies = "'" . implode("', '", $taxonomies) . "'";
-
 	$defaults = array('orderby' => 'name', 'order' => 'ASC',
 		'hide_empty' => true, 'exclude' => array(), 'exclude_tree' => array(), 'include' => array(),
 		'number' => '', 'fields' => 'all', 'slug' => '', 'parent' => '',
@@ -941,6 +939,7 @@ function &get_terms($taxonomies, $args = '') {
 		$args['hierarchical'] = false;
 		$args['pad_counts'] = false;
 	}
+
 	extract($args, EXTR_SKIP);
 
 	if ( $child_of ) {
@@ -991,7 +990,7 @@ function &get_terms($taxonomies, $args = '') {
 	else
 		$order = '';
 
-	$where = '';
+	$where = "tt.taxonomy IN ('" . implode("', '", $taxonomies) . "')";
 	$inclusions = '';
 	if ( !empty($include) ) {
 		$exclude = '';
@@ -1058,11 +1057,11 @@ function &get_terms($taxonomies, $args = '') {
 	// don't limit the query results when we have to descend the family tree
 	if ( ! empty($number) && ! $hierarchical && empty( $child_of ) && '' === $parent ) {
 		if ( $offset )
-			$limit = 'LIMIT ' . $offset . ',' . $number;
+			$limits = 'LIMIT ' . $offset . ',' . $number;
 		else
-			$limit = 'LIMIT ' . $number;
+			$limits = 'LIMIT ' . $number;
 	} else {
-		$limit = '';
+		$limits = '';
 	}
 
 	if ( !empty($search) ) {
@@ -1087,9 +1086,21 @@ function &get_terms($taxonomies, $args = '') {
 			$order = '';
 			$selects = array('COUNT(*)');
 	}
-	$select_this = implode(', ', apply_filters( 'get_terms_fields', $selects, $args ));
 
-	$query = "SELECT $select_this FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy IN ($in_taxonomies) $where $orderby $order $limit";
+	$_fields = $fields;
+
+	$fields = implode(', ', apply_filters( 'get_terms_fields', $selects, $args ));
+
+	$join = "INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id";
+
+	$pieces = array( 'fields', 'join', 'where', 'orderby', 'order', 'limits' );
+	$clauses = apply_filters( 'terms_clauses', compact( $pieces ), $taxonomies, $args );
+	foreach ( $pieces as $piece )
+		$$piece = isset( $clauses[ $piece ] ) ? $clauses[ $piece ] : '';
+
+	$query = "SELECT $fields FROM $wpdb->terms AS t $join WHERE $where $orderby $order $limits";	
+
+	$fields = $_fields;
 
 	if ( 'count' == $fields ) {
 		$term_count = $wpdb->get_var($query);
