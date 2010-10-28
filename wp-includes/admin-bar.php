@@ -129,7 +129,7 @@ function wp_admin_bar_my_blogs_menu() {
 				//$wp_admin_bar->add_menu( array( 'parent' => 'blog-' . $blog->userblog_id, 'id' => 'blog-' . $blog->userblog_id . '-s', 'title' => __( 'Site Stats' ), 'href' => $wp_admin_bar->proto . $blogdomain . '/wp-admin/index.php?page=stats' ) );
 				
 				$wp_admin_bar->add_menu( array( 'parent' => 'blog-' . $blog->userblog_id, 'id' => 'blog-' . $blog->userblog_id . '-c', 'title' => __( 'Manage Comments' ), 'href' => $wp_admin_bar->proto . $blogdomain . '/wp-admin/edit-comments.php', ) );
-				$wp_admin_bar->add_menu( array( 'parent' => 'blog-' . $blog->userblog_id, 'id' => 'blog-' . $blog->userblog_id . '-v', 'title' => __( 'Read Site' ), 'href' => $wp_admin_bar->proto . $blogdomain, ) );
+				$wp_admin_bar->add_menu( array( 'parent' => 'blog-' . $blog->userblog_id, 'id' => 'blog-' . $blog->userblog_id . '-v', 'title' => __( 'Visit Site' ), 'href' => $wp_admin_bar->proto . $blogdomain, ) );
 			}
 		}
 
@@ -147,7 +147,7 @@ function wp_admin_bar_my_blogs_menu() {
 		//$wp_admin_bar->add_menu( array( 'parent' => 'my-blogs', 'id' => 'blog-1-s', 'title' => __( 'Site Stats' ), 'href' => admin_url('index.php?page=stats') ) );
 
 		$wp_admin_bar->add_menu( array( 'parent' => 'my-blogs', 'id' => 'blog-1-c','title' => __( 'Manage Comments' ), 'href' => admin_url('edit-comments.php'), ) );
-		$wp_admin_bar->add_menu( array( 'parent' => 'my-blogs', 'id' => 'blog-1-v', 'title' => __( 'Read Site' ), 'href' => home_url(),) );
+		$wp_admin_bar->add_menu( array( 'parent' => 'my-blogs', 'id' => 'blog-1-v', 'title' => __( 'Visit Site' ), 'href' => home_url(),) );
 	}
 }
 
