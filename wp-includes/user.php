@@ -468,9 +468,9 @@ class WP_User_Query extends WP_Object_Query {
 		}
 
 		if ( !empty( $qv['meta_query'] ) ) {
-			list( $meta_join, $meta_where ) = $this->get_meta_sql( $qv['meta_query'], $wpdb->users, 'ID', $wpdb->usermeta, 'user_id' );
-			$this->query_from .= $meta_join;
-			$this->query_where .= $meta_where;
+			$clauses = $this->get_meta_sql( $qv['meta_query'], $wpdb->users, 'ID', $wpdb->usermeta, 'user_id' );
+			$this->query_from .= $clauses['join'];
+			$this->query_where .= $clauses['where'];
 		}
 
 		if ( !empty( $qv['include'] ) ) {

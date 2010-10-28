@@ -156,7 +156,7 @@ class WP_Object_Query {
 			unset($meta_compare_string);
 		}
 
-		return array( $join, $where );
+		return compact( 'join', 'where' );
 	}
 
 	/*
