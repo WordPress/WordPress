@@ -144,7 +144,7 @@ function wp_admin_bar_my_blogs_menu() {
 		$wp_admin_bar->add_menu( array( 'parent' => 'my-blogs', 'id' => 'blog-1-n', 'title' => __( 'New Post' ), 'href' => admin_url('post-new.php'),) );
 
 		// @todo Stats plugins should add this.
-		//$wp_admin_bar->add_menu( array( 'parent' => 'my-blogs', 'id' => 'blog-1-s', 'title' => __( 'Site Stats' ), 'href' => admin_ur;('index.php?page=stats') ) );
+		//$wp_admin_bar->add_menu( array( 'parent' => 'my-blogs', 'id' => 'blog-1-s', 'title' => __( 'Site Stats' ), 'href' => admin_url('index.php?page=stats') ) );
 
 		$wp_admin_bar->add_menu( array( 'parent' => 'my-blogs', 'id' => 'blog-1-c','title' => __( 'Manage Comments' ), 'href' => admin_url('edit-comments.php'), ) );
 		$wp_admin_bar->add_menu( array( 'parent' => 'my-blogs', 'id' => 'blog-1-v', 'title' => __( 'Read Site' ), 'href' => home_url(),) );
