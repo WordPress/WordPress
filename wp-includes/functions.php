@@ -554,7 +554,6 @@ function update_option( $option, $newvalue ) {
  * @package WordPress
  * @subpackage Option
  * @since 1.0.0
- * @link http://alex.vort-x.net/blog/ Thanks Alex Stapleton
  *
  * @uses do_action() Calls 'add_option' hook before adding the option.
  * @uses do_action() Calls 'add_option_$option' and 'added_option' hooks on success.

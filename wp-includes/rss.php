@@ -891,7 +891,7 @@ function wp_rss( $url, $num_items = -1 ) {
 				'<li><a href="%1$s" title="%2$s">%3$s</a></li>',
 				esc_url( $item['link'] ),
 				esc_attr( strip_tags( $item['description'] ) ),
-				htmlentities( $item['title'] )
+				esc_html( $item['title'] )
 			);
 		}
 
@@ -926,7 +926,7 @@ function get_rss ($url, $num_items = 5) { // Like get posts, but for RSS
 		foreach ( (array) $rss->items as $item ) {
 			echo "<li>\n";
 			echo "<a href='$item[link]' title='$item[description]'>";
-			echo htmlentities($item['title']);
+			echo esc_html($item['title']);
 			echo "</a><br />\n";
 			echo "</li>\n";
 		}
