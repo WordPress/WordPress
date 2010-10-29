@@ -35,13 +35,13 @@
 			});
 
 			ed.addCommand('WP_Help', function() {
-					ed.windowManager.open({
-						url : tinymce.baseURL + '/wp-mce-help.php',
-						width : 450,
-						height : 420,
-						inline : 1
-					});
+				ed.windowManager.open({
+					url : tinymce.baseURL + '/wp-mce-help.php',
+					width : 450,
+					height : 420,
+					inline : 1
 				});
+			});
 
 			ed.addCommand('WP_Adv', function() {
 				var cm = ed.controlManager, id = cm.get(tbId).id;
@@ -126,41 +126,67 @@
 				}
 			});
 
-			// Add Media buttons to fullscreen
-			ed.onBeforeExecCommand.add(function(ed, cmd, ui, val) {
-				var DOM = tinymce.DOM;
-				if ( 'mceFullScreen' != cmd ) return;
-				if ( 'mce_fullscreen' != ed.id && DOM.get('add_audio') && DOM.get('add_video') && DOM.get('add_image') && DOM.get('add_media') )
-					ed.settings.theme_advanced_buttons1 += ',|,add_image,add_video,add_audio,add_media';
+			// Add Media buttons to fullscreen and handle align buttons for image captions
+			ed.onBeforeExecCommand.add(function(ed, cmd, ui, val, o) {
+				var DOM = tinymce.DOM, n, DL, DIV, cls, a, align;
+				if ( 'mceFullScreen' == cmd ) {
+					if ( 'mce_fullscreen' != ed.id && DOM.get('add_audio') && DOM.get('add_video') && DOM.get('add_image') && DOM.get('add_media') )
+						ed.settings.theme_advanced_buttons1 += ',|,add_image,add_video,add_audio,add_media';
+				}
+
+				if ( 'JustifyLeft' == cmd || 'JustifyRight' == cmd || 'JustifyCenter' == cmd ) {
+					n = ed.selection.getNode();
+
+					if ( n.nodeName == 'IMG' ) {
+						align = cmd.substr(7).toLowerCase();
+						a = 'align' + align;
+						DL = ed.dom.getParent(n, 'dl.wp-caption');
+						DIV = ed.dom.getParent(n, 'div.mceTemp');
+
+						if ( DL && DIV ) {
+							cls = ed.dom.hasClass(DL, a) ? 'alignnone' : a;
+							DL.className = DL.className.replace(/align[^ '"]+\s?/g, '');
+							ed.dom.addClass(DL, cls);
+
+							if (cls == 'aligncenter')
+								ed.dom.addClass(DIV, 'mceIEcenter');
+							else
+								ed.dom.removeClass(DIV, 'mceIEcenter');
+
+							o.terminate = true;
+							ed.execCommand('mceRepaint');
+						} else {
+							if ( ed.dom.hasClass(n, a) )
+								ed.dom.addClass(n, 'alignnone');
+							else
+								ed.dom.removeClass(n, 'alignnone');
+						}
+					}
+				}
 			});
+			
+			ed.onInit.add(function(ed) {
+				ed.onNodeChange.add( function(ed, cm, e) {
+					var DL;
 
+					if ( e.nodeName == 'IMG' ) {
+						DL = ed.dom.getParent(e, 'dl.wp-caption');
+					} else if ( e.nodeName == 'DIV' && ed.dom.hasClass(e, 'mceTemp') ) {
+						DL = e.firstChild;
 
-			// Add class "alignleft", "alignright" and "aligncenter" when selecting align for images.
-			ed.addCommand('JustifyLeft', function() {
-				var n = ed.selection.getNode();
+						if ( ! ed.dom.hasClass(DL, 'wp-caption') )
+							DL = false;
+					}
 
-				if ( n.nodeName != 'IMG' )
-					ed.plugins.wordpress.wpAlign('left');
-				else
-					ed.plugins.wordpress.do_align(n, 'alignleft');
-			});
-
-			ed.addCommand('JustifyRight', function() {
-				var n = ed.selection.getNode();
-
-				if ( n.nodeName != 'IMG' )
-					ed.plugins.wordpress.wpAlign('right');
-				else
-					ed.plugins.wordpress.do_align(n, 'alignright');
-			});
-
-			ed.addCommand('JustifyCenter', function() {
-				var n = ed.selection.getNode(), P = ed.dom.getParent(n, 'p'), DL = ed.dom.getParent(n, 'dl');
-
-				if ( n.nodeName == 'IMG' && ( P || DL ) )
-					ed.plugins.wordpress.do_align(n, 'aligncenter');
-				else
-					ed.plugins.wordpress.wpAlign('center');
+					if ( DL ) {
+						if ( ed.dom.hasClass(DL, 'alignleft') )
+							cm.setActive('justifyleft', 1);
+						else if ( ed.dom.hasClass(DL, 'alignright') )
+							cm.setActive('justifyright', 1);
+						else if ( ed.dom.hasClass(DL, 'aligncenter') )
+							cm.setActive('justifycenter', 1);
+					}
+				});
 			});
 
 			// Word count if script is loaded
@@ -306,46 +332,6 @@
 			clearTimeout(this.mceTout);
 			this.mceTout = 0;
 		},
-		
-		wpAlign : function(value) {
-			var ed = tinyMCE.activeEditor;
-
-			// Remove all other alignments first
-			tinyMCE.each('left,center,right,full'.split(','), function(name) {
-				if (value != name)
-					ed.formatter.remove('align' + name);
-			});
-
-			ed.formatter.toggle('align' + value);
-		},
-
-		do_align : function(n, a) {
-			var P, DL, DIV, cls, c, ed = tinyMCE.activeEditor;
-
-			if ( /^(mceItemFlash|mceItemShockWave|mceItemWindowsMedia|mceItemQuickTime|mceItemRealMedia)$/.test(n.className) )
-				return;
-
-			P = ed.dom.getParent(n, 'p');
-			DL = ed.dom.getParent(n, 'dl');
-			DIV = ed.dom.getParent(n, 'div');
-
-			if ( DL && DIV ) {
-				cls = ed.dom.hasClass(DL, a) ? 'alignnone' : a;
-				DL.className = DL.className.replace(/align[^ '"]+\s?/g, '');
-				ed.dom.addClass(DL, cls);
-				c = (cls == 'aligncenter') ? ed.dom.addClass(DIV, 'mceIEcenter') : ed.dom.removeClass(DIV, 'mceIEcenter');
-			} else if ( P ) {
-				cls = ed.dom.hasClass(n, a) ? 'alignnone' : a;
-				n.className = n.className.replace(/align[^ '"]+\s?/g, '');
-				ed.dom.addClass(n, cls);
-				if ( cls == 'aligncenter' )
-					ed.dom.setStyle(P, 'textAlign', 'center');
-				else if (P.style && P.style.textAlign == 'center')
-					ed.dom.setStyle(P, 'textAlign', '');
-			}
-
-			ed.execCommand('mceRepaint');
-		},
 
 		// Resizes the iframe by a relative height value
 		_resizeIframe : function(ed, tb_id, dy) {
@@ -383,8 +369,10 @@
 
 			// Replace morebreak with images
 			ed.onBeforeSetContent.add(function(ed, o) {
-				o.content = o.content.replace(/<!--more(.*?)-->/g, moreHTML);
-				o.content = o.content.replace(/<!--nextpage-->/g, nextpageHTML);
+				if ( o.content ) {
+					o.content = o.content.replace(/<!--more(.*?)-->/g, moreHTML);
+					o.content = o.content.replace(/<!--nextpage-->/g, nextpageHTML);
+				}
 			});
 
 			// Replace images with morebreak

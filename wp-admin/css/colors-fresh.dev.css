@@ -840,7 +840,7 @@ table.widefat .spam a:hover,
 .wp_themeSkin a.mceButtonEnabled:hover,
 .wp_themeSkin a.mceButtonActive,
 .wp_themeSkin a.mceButtonSelected {
-	background-color: #d5d5d5;
+	background: #d5d5d5;
 	border-color: #777 !important;
 }
 

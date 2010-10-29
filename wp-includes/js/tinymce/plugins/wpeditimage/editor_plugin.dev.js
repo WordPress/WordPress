@@ -43,22 +43,30 @@
 				});
 			});
 
+			// resize the caption <dl> when the image is soft-resized by the user (only possible in Firefox and IE)
 			ed.onMouseUp.add(function(ed, e) {
 				if ( tinymce.isWebKit || tinymce.isOpera )
 					return;
 
-				if ( ed.dom.getParent(e.target, 'div.mceTemp') || ed.dom.is(e.target, 'div.mceTemp') ) {					
+				if ( ed.dom.getParent(e.target, 'div.mceTemp') || ed.dom.is(e.target, 'div.mceTemp') ) {
 					window.setTimeout(function(){
-						var ed = tinyMCE.activeEditor, n = ed.selection.getNode(), DL = ed.dom.getParent(n, 'dl.wp-caption');
+						var ed = tinyMCE.activeEditor, n = ed.selection.getNode(), DL, width;
 
-						if ( DL && n.width != ( parseInt(ed.dom.getStyle(DL, 'width'), 10) - 10 ) ) {
-							ed.dom.setStyle(DL, 'width', parseInt(n.width, 10) + 10);
-							ed.execCommand('mceRepaint');
+						if ( 'IMG' == n.nodeName ) {
+							DL = ed.dom.getParent(n, 'dl.wp-caption');
+							width = ed.dom.getAttrib(n, 'width') || n.width;
+							width = parseInt(width, 10);
+
+							if ( DL && width != ( parseInt(ed.dom.getStyle(DL, 'width'), 10) - 10 ) ) {
+								ed.dom.setStyle(DL, 'width', 10 + width);
+								ed.execCommand('mceRepaint');
+							}
 						}
 					}, 100);
 				}
 			});
 
+			// show editimage buttons
 			ed.onMouseDown.add(function(ed, e) {
 				var p;
 
@@ -69,23 +77,27 @@
 				}
 			});
 
+			// when pressing Return inside a caption move the cursor to a new parapraph under it
 			ed.onKeyPress.add(function(ed, e) {
-				var DL, DIV, P;
+				var n, DL, DIV, P;
 
-				if ( e.keyCode == 13 && (DL = ed.dom.getParent(ed.selection.getNode(), 'DL')) && ed.dom.hasClass(DL, 'wp-caption') ) {
-					P = ed.dom.create('p', {}, '&nbsp;');
-					if ( (DIV = DL.parentNode) && DIV.nodeName == 'DIV' ) 
+				if ( e.keyCode == 13 ) {
+					n = ed.selection.getNode();
+					DL = ed.dom.getParent(n, 'dl.wp-caption');
+					DIV = ed.dom.getParent(DL, 'div.mceTemp');
+
+					if ( DL && DIV ) {
+						P = ed.dom.create('p', {}, '&nbsp;');
 						ed.dom.insertAfter( P, DIV );
-					else
-						ed.dom.insertAfter( P, DL );
-
-					if ( P.firstChild )
-						ed.selection.select(P.firstChild);
-					else
-						ed.selection.select(P);
-
-					tinymce.dom.Event.cancel(e);
-					return false;
+						
+						if ( P.firstChild )
+							ed.selection.select(P.firstChild);
+						else
+							ed.selection.select(P);
+						
+						tinymce.dom.Event.cancel(e);
+						return false;
+					}
 				}
 			});
 

@@ -1442,6 +1442,21 @@ function wp_tiny_mce( $teeny = false, $settings = false ) {
 		'theme_advanced_resizing' => true,
 		'theme_advanced_resize_horizontal' => false,
 		'dialog_type' => 'modal',
+		'formats' => "{
+			alignleft : [
+				{selector : 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li', styles : {textAlign : 'left'}},
+				{selector : 'img,table', classes : 'alignleft'}
+			],
+			aligncenter : [
+				{selector : 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li', styles : {textAlign : 'center'}},
+				{selector : 'img,table', classes : 'aligncenter'}
+			],
+			alignright : [
+				{selector : 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li', styles : {textAlign : 'right'}},
+				{selector : 'img,table', classes : 'alignright'}
+			],
+			strikethrough : {inline : 'del'}
+		}",
 		'relative_urls' => false,
 		'remove_script_host' => false,
 		'convert_urls' => false,
@@ -1526,8 +1541,18 @@ function wp_tiny_mce( $teeny = false, $settings = false ) {
 		include_once(ABSPATH . WPINC . '/js/tinymce/langs/wp-langs.php');
 
 	$mce_options = '';
-	foreach ( $initArray as $k => $v )
-	    $mce_options .= $k . ':"' . $v . '", ';
+	foreach ( $initArray as $k => $v ) {
+		if ( is_bool($v) ) {
+			$val = $v ? 'true' : 'false';
+			$mce_options .= $k . ':' . $val . ', ';
+			continue;
+		} elseif ( is_string($v) && ( '{' == $v{0} || '[' == $v{0} ) ) {
+			$mce_options .= $k . ':' . $v . ', ';
+			continue;
+		}
+
+		$mce_options .= $k . ':"' . $v . '", ';
+	}
 
 	$mce_options = rtrim( trim($mce_options), '\n\r,' ); ?>
 
