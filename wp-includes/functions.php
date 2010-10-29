@@ -1642,7 +1642,7 @@ function wp_get_nocache_headers() {
 	);
 
 	if ( function_exists('apply_filters') ) {
-		$headers = apply_filters('nocache_headers', $headers);
+		$headers = (array) apply_filters('nocache_headers', $headers);
 	}
 	return $headers;
 }
@@ -1658,7 +1658,7 @@ function wp_get_nocache_headers() {
  */
 function nocache_headers() {
 	$headers = wp_get_nocache_headers();
-	foreach( (array) $headers as $name => $field_value )
+	foreach( $headers as $name => $field_value )
 		@header("{$name}: {$field_value}");
 }
 
