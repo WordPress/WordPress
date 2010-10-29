@@ -227,7 +227,7 @@ function wp_admin_bar_comments_menu() {
 	$awaiting_mod = $awaiting_mod->moderated;
 
 	// @todo styling for awaiting mod count. Don't show count if zero?
-	$wp_admin_bar->add_menu( array( 'id' => 'comments', 'title' => sprintf( __('Comments %s'), "<span id='awaiting-mod' class='count-$awaiting_mod'><span class='pending-count'>" . number_format_i18n($awaiting_mod) . "</span></span>" ), 'href' => admin_url('comments.php') ) );
+	$wp_admin_bar->add_menu( array( 'id' => 'comments', 'title' => sprintf( __('Comments %s'), "<span id='awaiting-mod' class='count-$awaiting_mod'><span class='pending-count'>" . number_format_i18n($awaiting_mod) . "</span></span>" ), 'href' => admin_url('edit-comments.php') ) );
 }
 
 function wp_admin_bar_appearance_menu() {
