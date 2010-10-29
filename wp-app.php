@@ -11,6 +11,7 @@
  * @var bool
  */
 define('APP_REQUEST', true);
+define('WP_SHOW_ADMIN_BAR' , false);
 
 /** Set up WordPress environment */
 require_once('./wp-load.php');
