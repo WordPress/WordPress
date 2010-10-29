@@ -245,6 +245,46 @@ function wp_admin_bar_appearance_menu() {
 		$wp_admin_bar->add_menu( array( 'parent' => 'appearance', 'id' => 'menus', 'title' => __('Menus'), 'href' => admin_url('nav-menus.php') ) );
 }
 
+function wp_admin_bar_updates_menu() {
+	global $wp_admin_bar;
+
+	if ( !current_user_can('install_plugins') )
+		return;
+
+	$plugin_update_count = $theme_update_count = $wordpress_update_count = 0;
+	$update_plugins = get_site_transient( 'update_plugins' );
+	if ( !empty($update_plugins->response) )
+		$plugin_update_count = count( $update_plugins->response );
+	$update_themes = get_site_transient( 'update_themes' );
+	if ( !empty($update_themes->response) )
+		$theme_update_count = count( $update_themes->response );
+	/* @todo get_core_updates() is only available on admin page loads
+	$update_wordpress = get_core_updates( array('dismissed' => false) );
+	if ( !empty($update_wordpress) && !in_array( $update_wordpress[0]->response, array('development', 'latest') ) )
+		$wordpress_update_count = 1;
+	*/
+ 
+	$update_count = $plugin_update_count + $theme_update_count + $wordpress_update_count;
+
+	if ( !$update_count )
+		return;
+
+	$update_title = array();
+	if ( $wordpress_update_count )
+		$update_title[] = sprintf(__('%d WordPress Update'), $wordpress_update_count);
+	if ( $plugin_update_count )
+		$update_title[] = sprintf(_n('%d Plugin Update', '%d Plugin Updates', $plugin_update_count), $plugin_update_count);
+	if ( $theme_update_count )
+		$update_title[] = sprintf(_n('%d Theme Update', '%d Themes Updates', $theme_update_count), $theme_update_count);
+
+	$update_title = !empty($update_title) ? esc_attr(implode(', ', $update_title)) : '';
+
+	$update_title = sprintf( __('Updates %s'), "<span class='update-plugins count-$update_count' title='$update_title'><span class='update-count'>" . number_format_i18n($update_count) . "</span></span>" );
+
+	// @todo styling for awaiting mod count. Don't show count if zero?
+	$wp_admin_bar->add_menu( array( 'id' => 'updates', 'title' => $update_title, 'href' => admin_url('update-core.php') ) );
+}
+
 /**
  * Style and scripts for the admin bar.
  *
