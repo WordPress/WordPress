@@ -275,7 +275,7 @@ function _nx($single, $plural, $number, $context, $domain = 'default') {
  * @return array array($single, $plural)
  */
 function _n_noop( $singular, $plural ) {
-	return array( 'singular' => $singular, 'plural' => $plural, 'context' => null );
+	return array( 0 => $singular, 1 => $plural, 'singular' => $singular, 'plural' => $plural, 'context' => null );
 }
 
 /**
@@ -284,7 +284,7 @@ function _n_noop( $singular, $plural ) {
  * @see _n_noop()
  */
 function _nx_noop( $singular, $plural, $context ) {
-	return array( 'singular' => $singular, 'plural' => $plural, 'context' => $context );
+	return array( 0 => $singular, 1 => $plural, 2 => $context, 'singular' => $singular, 'plural' => $plural, 'context' => $context );
 }
 
 /**
