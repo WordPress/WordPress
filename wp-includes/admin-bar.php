@@ -80,10 +80,10 @@ function wp_admin_bar_me_separator() {
  * @since 3.1.0
  */
 function wp_admin_bar_my_account_menu() {
-	global $wp_admin_bar;
+	global $wp_admin_bar, $user_identity;
 
 	/* Add the 'My Account' menu */
-	$wp_admin_bar->add_menu( array( 'id' => 'my-account', 'title' => __( 'My Account' ),  'href' => admin_url('profile.php'), ) );
+	$wp_admin_bar->add_menu( array( 'id' => 'my-account', 'title' => $user_identity,  'href' => admin_url('profile.php'), ) );
 
 	/* Add the "My Account" sub menus */
 	$wp_admin_bar->add_menu( array( 'parent' => 'my-account', 'title' => __( 'Edit My Profile' ), 'href' => admin_url('profile.php'), ) );
@@ -100,55 +100,44 @@ function wp_admin_bar_my_blogs_menu() {
 	global $wpdb, $wp_admin_bar;
 
 	/* Add the 'My Dashboards' menu if the user has more than one site. */
-	if ( count( $wp_admin_bar->user->blogs ) > 1 ) {
-		$wp_admin_bar->add_menu( array(  'id' => 'my-blogs', 'title' => __( 'My Sites' ),  'href' => $wp_admin_bar->user->account_domain, ) );
+	if ( count( $wp_admin_bar->user->blogs ) <= 1 )
+		return;
 
-		$default = includes_url('images/wpmini-blue.png');
+	$wp_admin_bar->add_menu( array(  'id' => 'my-blogs', 'title' => __( 'My Sites' ),  'href' => $wp_admin_bar->user->account_domain, ) );
 
-		foreach ( (array) $wp_admin_bar->user->blogs as $blog ) {
-			$blogdomain = preg_replace( '!^https?://!', '', $blog->siteurl );
-			// @todo Replace with some favicon lookup.
-			//$blavatar = '<img src="' . esc_url( blavatar_url( blavatar_domain( $blog->siteurl ), 'img', 16, $default ) ) . '" alt="Blavatar" width="16" height="16" />';
-			$blavatar = '<img src="' . esc_url($default) . '" alt="' . esc_attr__( 'Blavatar' ) . '" width="16" height="16" />';
+	$default = includes_url('images/wpmini-blue.png');
 
-			$marker = '';
-			if ( strlen($blog->blogname) > 35 )
-				$marker = '...';
+	foreach ( (array) $wp_admin_bar->user->blogs as $blog ) {
+		$blogdomain = preg_replace( '!^https?://!', '', $blog->siteurl );
+		// @todo Replace with some favicon lookup.
+		//$blavatar = '<img src="' . esc_url( blavatar_url( blavatar_domain( $blog->siteurl ), 'img', 16, $default ) ) . '" alt="Blavatar" width="16" height="16" />';
+		$blavatar = '<img src="' . esc_url($default) . '" alt="' . esc_attr__( 'Blavatar' ) . '" width="16" height="16" />';
 
-			if ( empty( $blog->blogname ) )
-				$blogname = $blog->domain;
-			else
-				$blogname = substr( $blog->blogname, 0, 35 ) . $marker;
+		$marker = '';
+		if ( strlen($blog->blogname) > 35 )
+			$marker = '...';
 
-			if ( ! isset( $blog->visible ) || $blog->visible === true ) {
-				$wp_admin_bar->add_menu( array( 'parent' => 'my-blogs', 'id' => 'blog-' . $blog->userblog_id, 'title' => $blavatar . $blogname,  'href' => $wp_admin_bar->proto . $blogdomain . '/wp-admin/', ) );
-				$wp_admin_bar->add_menu( array( 'parent' => 'blog-' . $blog->userblog_id, 'id' => 'blog-' . $blog->userblog_id . '-d', 'title' => __( 'Dashboard' ), 'href' => $wp_admin_bar->proto . $blogdomain . '/wp-admin/', ) );
-				$wp_admin_bar->add_menu( array( 'parent' => 'blog-' . $blog->userblog_id, 'id' => 'blog-' . $blog->userblog_id . '-n', 'title' => __( 'New Post' ), 'href' => $wp_admin_bar->proto . $blogdomain . '/wp-admin/post-new.php', ) );
+		if ( empty( $blog->blogname ) )
+			$blogname = $blog->domain;
+		else
+			$blogname = substr( $blog->blogname, 0, 35 ) . $marker;
 
-				// @todo, stats plugins should add this:
-				//$wp_admin_bar->add_menu( array( 'parent' => 'blog-' . $blog->userblog_id, 'id' => 'blog-' . $blog->userblog_id . '-s', 'title' => __( 'Site Stats' ), 'href' => $wp_admin_bar->proto . $blogdomain . '/wp-admin/index.php?page=stats' ) );
-				
-				$wp_admin_bar->add_menu( array( 'parent' => 'blog-' . $blog->userblog_id, 'id' => 'blog-' . $blog->userblog_id . '-c', 'title' => __( 'Manage Comments' ), 'href' => $wp_admin_bar->proto . $blogdomain . '/wp-admin/edit-comments.php', ) );
-				$wp_admin_bar->add_menu( array( 'parent' => 'blog-' . $blog->userblog_id, 'id' => 'blog-' . $blog->userblog_id . '-v', 'title' => __( 'Visit Site' ), 'href' => $wp_admin_bar->proto . $blogdomain, ) );
-			}
+		if ( ! isset( $blog->visible ) || $blog->visible === true ) {
+			$wp_admin_bar->add_menu( array( 'parent' => 'my-blogs', 'id' => 'blog-' . $blog->userblog_id, 'title' => $blavatar . $blogname,  'href' => $wp_admin_bar->proto . $blogdomain . '/wp-admin/', ) );
+			$wp_admin_bar->add_menu( array( 'parent' => 'blog-' . $blog->userblog_id, 'id' => 'blog-' . $blog->userblog_id . '-d', 'title' => __( 'Dashboard' ), 'href' => $wp_admin_bar->proto . $blogdomain . '/wp-admin/', ) );
+			$wp_admin_bar->add_menu( array( 'parent' => 'blog-' . $blog->userblog_id, 'id' => 'blog-' . $blog->userblog_id . '-n', 'title' => __( 'New Post' ), 'href' => $wp_admin_bar->proto . $blogdomain . '/wp-admin/post-new.php', ) );
+
+			// @todo, stats plugins should add this:
+			//$wp_admin_bar->add_menu( array( 'parent' => 'blog-' . $blog->userblog_id, 'id' => 'blog-' . $blog->userblog_id . '-s', 'title' => __( 'Site Stats' ), 'href' => $wp_admin_bar->proto . $blogdomain . '/wp-admin/index.php?page=stats' ) );
+			
+			$wp_admin_bar->add_menu( array( 'parent' => 'blog-' . $blog->userblog_id, 'id' => 'blog-' . $blog->userblog_id . '-c', 'title' => __( 'Manage Comments' ), 'href' => $wp_admin_bar->proto . $blogdomain . '/wp-admin/edit-comments.php', ) );
+			$wp_admin_bar->add_menu( array( 'parent' => 'blog-' . $blog->userblog_id, 'id' => 'blog-' . $blog->userblog_id . '-v', 'title' => __( 'Visit Site' ), 'href' => $wp_admin_bar->proto . $blogdomain, ) );
 		}
-
-		/* Add the "Manage Sites" menu item */
-		// @todo, use dashboard site.
-		$wp_admin_bar->add_menu( array( 'parent' => 'my-blogs', 'id' => 'manage-blogs', 'title' => __( 'Manage Sites' ), admin_url('my-sites.php'), ) );
-
-	/* Add the 'My Dashboard' menu if the user only has one site. */
-	} else {
-		$wp_admin_bar->add_menu( array( 'id' => 'my-blogs', 'title' => __( 'My Site' ), 'href' => $wp_admin_bar->user->account_domain, ) );
-		$wp_admin_bar->add_menu( array( 'parent' => 'my-blogs', 'id' => 'blog-1-d', 'title' => __( 'Dashboard' ), 'href' => admin_url(),) );
-		$wp_admin_bar->add_menu( array( 'parent' => 'my-blogs', 'id' => 'blog-1-n', 'title' => __( 'New Post' ), 'href' => admin_url('post-new.php'),) );
-
-		// @todo Stats plugins should add this.
-		//$wp_admin_bar->add_menu( array( 'parent' => 'my-blogs', 'id' => 'blog-1-s', 'title' => __( 'Site Stats' ), 'href' => admin_url('index.php?page=stats') ) );
-
-		$wp_admin_bar->add_menu( array( 'parent' => 'my-blogs', 'id' => 'blog-1-c','title' => __( 'Manage Comments' ), 'href' => admin_url('edit-comments.php'), ) );
-		$wp_admin_bar->add_menu( array( 'parent' => 'my-blogs', 'id' => 'blog-1-v', 'title' => __( 'Visit Site' ), 'href' => home_url(),) );
 	}
+
+	/* Add the "Manage Sites" menu item */
+	// @todo, use dashboard site.
+	$wp_admin_bar->add_menu( array( 'parent' => 'my-blogs', 'id' => 'manage-blogs', 'title' => __( 'Manage Sites' ), admin_url('my-sites.php'), ) );
 }
 
 /**
@@ -162,17 +151,19 @@ function wp_admin_bar_blog_separator() {
 	$wp_admin_bar->add_menu( array( 'id' => 'blog', 'title' => '<img class="avatar" src="' . $default . '" alt="' . esc_attr__( 'Current site avatar' ) . '" width="16" height="16" />',  'href' => home_url(), ) );
 }
 
+
 /**
- * Site info menu
+ * Provide a shortlink.
  * 
  * @since 3.1.0
  */
-function wp_admin_bar_bloginfo_menu() {
+function wp_admin_bar_shortlink_menu() {
 	global $wp_admin_bar;
-	
+
 	$short = wp_get_shortlink( 0, 'query' );
+
 	if ( ! empty( $short) )
-		$wp_admin_bar->add_menu( array( 'id' => 'get-shortlink', 'title' => __( 'Get Shortlink' ), 'href' => '', ) );
+		$wp_admin_bar->add_menu( array( 'id' => 'get-shortlink', 'title' => __( 'Shortlink' ), 'href' => '', ) );
 }
 
 /**
@@ -180,19 +171,60 @@ function wp_admin_bar_bloginfo_menu() {
  * 
  * @since 3.1.0
  */
-function wp_admin_bar_edit_menu() {
+function wp_admin_bar_edit_menu () {
 	global $wp_admin_bar, $wp_query;
 
 	$current_object = $wp_query->get_queried_object();
 
-	if ( empty( $current_object ) ) 
-		return false;
+	if ( empty($current_object) )
+		return;
 
+	// @todo Use proper type name in edit strings
 	if ( ! empty( $current_object->post_type ) && ( $post_type_object = get_post_type_object( $current_object->post_type ) ) && current_user_can( $post_type_object->cap->edit_post, $current_object->ID ) ) {
-		$wp_admin_bar->add_menu( array( 'id' => 'edit', 'title' => __( 'Edit' ),  'href' => get_edit_post_link( $current_object->ID ), ) );
+		$wp_admin_bar->add_menu( array( 'id' => 'edit', 'title' => __( 'Edit Post' ),  'href' => get_edit_post_link( $current_object->ID ), ) );
 	} elseif ( ! empty( $current_object->taxonomy ) &&  ( $tax = get_taxonomy( $current_object->taxonomy ) ) && current_user_can( $tax->cap->edit_terms ) ) {
-		$wp_admin_bar->add_menu( array( 'id' => 'edit', 'title' => __( 'Edit' ), 'href' => get_edit_term_link( $current_object->term_id, $current_object->taxonomy ), ) );
+		$wp_admin_bar->add_menu( array( 'id' => 'edit', 'title' => __( 'Edit Post' ), 'href' => get_edit_term_link( $current_object->term_id, $current_object->taxonomy ), ) );
 	}
+}
+
+function wp_admin_bar_new_content_menu() {
+	global $wp_admin_bar;
+
+	// @todo Handle CPTs, use post type object for strings
+	$actions = array(
+		'post-new.php' => array(__('Post'), 'edit_posts', 'new-post'),
+		'post-new.php?post_type=page' => array(__('Page'), 'edit_pages', 'new-page'),
+	);
+
+	$user_can = false;
+	foreach ( $actions as $action ) {
+		if ( current_user_can($action[1]) ) {
+			$user_can = true;
+			break;
+		}
+	}
+
+	if ( !$user_can )
+		return;
+
+	$wp_admin_bar->add_menu( array( 'id' => 'new-content', 'title' => __( 'New Content' ), 'href' => '', ) );
+
+	foreach ( $actions as $link => $action ) {
+		$wp_admin_bar->add_menu( array( 'parent' => 'new-content', 'id' => $action[2], 'title' => $action[0], 'href' => admin_url($link) ) );
+	}
+}
+
+function wp_admin_bar_comments_menu() {
+	global $wp_admin_bar;
+
+	if ( !current_user_can('edit_posts') )
+		return;
+
+	$awaiting_mod = wp_count_comments();
+	$awaiting_mod = $awaiting_mod->moderated;
+
+	// @todo styling for awaiting mod count. Don't show count if zero?
+	$wp_admin_bar->add_menu( array( 'id' => 'comments', 'title' => sprintf( __('Comments %s'), "<span id='awaiting-mod' class='count-$awaiting_mod'><span class='pending-count'>" . number_format_i18n($awaiting_mod) . "</span></span>" ), 'href' => admin_url('comments.php') ) );
 }
 
 /**
