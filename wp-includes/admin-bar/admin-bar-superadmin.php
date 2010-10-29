@@ -37,8 +37,9 @@ function wp_admin_bar_superadmin_settings_menu() {
 	$suspend_url = network_admin_url( "edit.php?action=confirm&amp;action2={$suspendaction}&amp;id={$current_blog->blog_id}&amp;msg=" . urlencode( $suspendtext_confirm ) );
 
 	/* Add the submenu items to the Super Admin menu */
-	$wp_admin_bar->add_menu( array( 'parent' => 'superadmin', 'title' => __( 'Site Dashboard' ), 'href' => admin_url(), 'position' => 10, ) );
-	$wp_admin_bar->add_menu( array( 'parent' => 'superadmin', 'title' => __( 'Site Options' ), 'href' => network_admin_url( "sites.php?action=blogs&amp;searchaction=id&amp;s={$current_blog->blog_id}" ), 'position' => 30, ) );
+	$wp_admin_bar->add_menu( array( 'parent' => 'superadmin', 'title' => __( 'Network Admin' ), 'href' => network_admin_url(), 'position' => 5, ) );
+	$wp_admin_bar->add_menu( array( 'parent' => 'superadmin', 'title' => __( 'Site Admin' ), 'href' => admin_url(), 'position' => 10, ) );
+	$wp_admin_bar->add_menu( array( 'parent' => 'superadmin', 'title' => __( 'Site Options' ), 'href' => network_admin_url( "site-info.php?id={$current_blog->blog_id}" ), 'position' => 30, ) );
 	$wp_admin_bar->add_menu( array( 'parent' => 'superadmin', 'title' => ( $current_blog->mature ? __('Unmark as mature') : __('Mark as mature') ), 'href' => $mature_url, 'position' => 50, ) );
 	$wp_admin_bar->add_menu( array( 'parent' => 'superadmin', 'title' => ( $current_blog->spam ? __('Unsuspend site') : __('Suspend site') ), 'href' => $suspend_url, 'position' => 80, ) );
 }
