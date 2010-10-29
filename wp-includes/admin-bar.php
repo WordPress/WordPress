@@ -87,7 +87,10 @@ function wp_admin_bar_my_account_menu() {
 
 	/* Add the "My Account" sub menus */
 	$wp_admin_bar->add_menu( array( 'parent' => 'my-account', 'title' => __( 'Edit My Profile' ), 'href' => admin_url('profile.php'), ) );
-	$wp_admin_bar->add_menu( array( 'parent' => 'my-account', 'title' => __( 'Global Dashboard' ), 'href' => admin_url(), ) );
+	if ( is_multisite() )
+		$wp_admin_bar->add_menu( array( 'parent' => 'my-account', 'title' => __( 'Global Dashboard' ), 'href' => admin_url(), ) );
+	else
+		$wp_admin_bar->add_menu( array( 'parent' => 'my-account', 'title' => __( 'Dashboard' ), 'href' => admin_url(), ) );
 	$wp_admin_bar->add_menu( array( 'parent' => 'my-account', 'title' => __( 'Log Out' ), 'href' => wp_logout_url(), ) );
 }
 
