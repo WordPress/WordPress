@@ -241,17 +241,12 @@ function wp_admin_body_style() {
  */
 function is_admin_bar_showing() {
 	global $show_admin_bar;
-
 	if ( ! isset( $show_admin_bar ) || null === $show_admin_bar ) {
 		$show_admin_bar = true;
 
 		if ( defined('WP_SHOW_ADMIN_BAR') )
 			$show_admin_bar = (bool) WP_SHOW_ADMIN_BAR;
-
-		if (  
-			! is_user_logged_in() || 
-			( is_admin() && ! is_multisite() )
-		)
+		else if ( ! is_user_logged_in() || ( is_admin() && ! is_multisite() ) )
 			$show_admin_bar = false;
 	}
 
