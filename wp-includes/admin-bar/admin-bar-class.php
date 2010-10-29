@@ -181,7 +181,8 @@ class WP_Admin_Bar {
 		add_action( 'wp_before_admin_bar_render', 'wp_admin_bar_edit_menu', 40 );
 		add_action( 'wp_before_admin_bar_render', 'wp_admin_bar_new_content_menu', 50 );
 		add_action( 'wp_before_admin_bar_render', 'wp_admin_bar_comments_menu', 60 );
-		add_action( 'wp_before_admin_bar_render', 'wp_admin_bar_shortlink_menu', 70 );
+		add_action( 'wp_before_admin_bar_render', 'wp_admin_bar_appearance_menu', 70 );
+		add_action( 'wp_before_admin_bar_render', 'wp_admin_bar_shortlink_menu', 80 );
 		
 		if ( is_multisite() && is_super_admin() && function_exists('wp_admin_bar_superadmin_settings_menu') )
 			add_action( 'wp_before_admin_bar_render', 'wp_admin_bar_superadmin_settings_menu', 1000 );

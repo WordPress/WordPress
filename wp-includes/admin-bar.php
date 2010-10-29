@@ -227,6 +227,24 @@ function wp_admin_bar_comments_menu() {
 	$wp_admin_bar->add_menu( array( 'id' => 'comments', 'title' => sprintf( __('Comments %s'), "<span id='awaiting-mod' class='count-$awaiting_mod'><span class='pending-count'>" . number_format_i18n($awaiting_mod) . "</span></span>" ), 'href' => admin_url('comments.php') ) );
 }
 
+function wp_admin_bar_appearance_menu() {
+	global $wp_admin_bar;
+
+	if ( !current_user_can('switch themes') )
+		return;
+
+	$wp_admin_bar->add_menu( array( 'id' => 'appearance', 'title' => __('Appearance'), 'href' => admin_url('themes.php') ) );
+
+	if ( !current_user_can('edit_theme_options') )
+		return;
+
+	if ( current_theme_supports( 'widgets' )  )
+		$wp_admin_bar->add_menu( array( 'parent' => 'appearance', 'id' => 'widgets', 'title' => __('Widgets'), 'href' => admin_url('widgets.php') ) );
+
+	 if ( current_theme_supports( 'menus' ) || current_theme_supports( 'widgets' ) )
+		$wp_admin_bar->add_menu( array( 'parent' => 'appearance', 'id' => 'menus', 'title' => __('Menus'), 'href' => admin_url('nav-menus.php') ) );
+}
+
 /**
  * Style and scripts for the admin bar.
  *
