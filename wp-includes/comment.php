@@ -1775,7 +1775,7 @@ function pingback($content, $post_ID) {
 			if ( $test = @parse_url($link_test) ) {
 				if ( isset($test['query']) )
 					$post_links[] = $link_test;
-				elseif ( ($test['path'] != '/') && ($test['path'] != '') )
+				elseif ( isset( $test['path'] ) && ( $test['path'] != '/' ) && ( $test['path'] != '' ) )
 					$post_links[] = $link_test;
 			}
 		endif;
@@ -1784,7 +1784,7 @@ function pingback($content, $post_ID) {
 	do_action_ref_array('pre_ping', array(&$post_links, &$pung));
 
 	foreach ( (array) $post_links as $pagelinkedto ) {
-		$pingback_server_url = discover_pingback_server_uri($pagelinkedto, 2048);
+		$pingback_server_url = discover_pingback_server_uri( $pagelinkedto );
 
 		if ( $pingback_server_url ) {
 			@ set_time_limit( 60 );
