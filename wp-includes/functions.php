@@ -1206,7 +1206,7 @@ function do_enclose( $content, $post_ID ) {
 				continue;
 			if ( isset( $test['query'] ) )
 				$post_links[] = $link_test;
-			elseif ( $test['path'] != '/' && $test['path'] != '' )
+			elseif ( isset($test['path']) && ( $test['path'] != '/' ) &&  ($test['path'] != '' ) )
 				$post_links[] = $link_test;
 		}
 	}

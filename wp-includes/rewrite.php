@@ -299,7 +299,7 @@ function url_to_postid($url) {
 	} else {
 		// Chop off /path/to/blog
 		$home_path = parse_url(home_url());
-		$home_path = $home_path['path'];
+		$home_path = isset( $home_path['path'] ) ? $home_path['path'] : '' ;
 		$url = str_replace($home_path, '', $url);
 	}
 
