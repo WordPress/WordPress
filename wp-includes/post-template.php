@@ -1025,11 +1025,7 @@ function get_the_password_form() {
 	$label = 'pwbox-'.(empty($post->ID) ? rand() : $post->ID);
 	$output = '<form action="' . get_option('siteurl') . '/wp-pass.php" method="post">
 	<p>' . __("This post is password protected. To view it please enter your password below:") . '</p>
-	<p>
-		<label for="' . $label . '">' . __("Password:") . '
-			<input name="post_password" id="' . $label . '" type="password" size="20" />
-		</label>' . get_submit_button( __( 'Submit' ), '', 'Submit', false ) . '
-	</p>
+	<p><label for="' . $label . '">' . __("Password:") . ' <input name="post_password" id="' . $label . '" type="password" size="20" /></label> <input type="submit" name="Submit" value="' . esc_attr__("Submit") . '" /></p>
 	</form>
 	';
 	return apply_filters('the_password_form', $output);
@@ -1212,7 +1208,7 @@ function wp_list_post_revisions( $post_id = 0, $args = null ) {
 
 <div class="tablenav">
 	<div class="alignleft">
-		<?php submit_button( __( 'Compare Revisions' ), 'secondary', '', false ); ?>
+		<input type="submit" class="button-secondary" value="<?php esc_attr_e( 'Compare Revisions' ); ?>" />
 		<input type="hidden" name="action" value="diff" />
 		<input type="hidden" name="post_type" value="<?php echo esc_attr($post->post_type); ?>" />
 	</div>
