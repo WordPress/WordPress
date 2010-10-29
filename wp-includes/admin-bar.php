@@ -169,8 +169,10 @@ function wp_admin_bar_blog_separator() {
  */
 function wp_admin_bar_bloginfo_menu() {
 	global $wp_admin_bar;
-
-	$wp_admin_bar->add_menu( array( 'id' => 'get-shortlink', 'title' => __( 'Get Shortlink' ), 'href' => '', ) );
+	
+	$short = wp_get_shortlink( 0, 'query' );
+	if ( ! empty( $short) )
+		$wp_admin_bar->add_menu( array( 'id' => 'get-shortlink', 'title' => __( 'Get Shortlink' ), 'href' => '', ) );
 }
 
 /**
