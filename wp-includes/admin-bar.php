@@ -139,10 +139,6 @@ function wp_admin_bar_my_blogs_menu() {
 			$wp_admin_bar->add_menu( array( 'parent' => 'blog-' . $blog->userblog_id, 'id' => 'blog-' . $blog->userblog_id . '-v', 'title' => __( 'Visit Site' ), 'href' => $wp_admin_bar->proto . $blogdomain, ) );
 		}
 	}
-
-	/* Add the "Manage Sites" menu item */
-	// @todo, use dashboard site.
-	$wp_admin_bar->add_menu( array( 'parent' => 'my-blogs', 'id' => 'manage-blogs', 'title' => __( 'Manage Sites' ), admin_url('my-sites.php'), ) );
 }
 
 /**
