@@ -11,7 +11,7 @@ class WP_Admin_Bar {
 		if ( is_super_admin() ) {
 			require( ABSPATH . WPINC . '/admin-bar/admin-bar-superadmin.php' );
 		}
-		
+
 		/* Set the protocol used throughout this code */
 		if ( is_ssl() ) 
 			$this->proto = 'https://';
@@ -184,7 +184,7 @@ class WP_Admin_Bar {
 		add_action( 'wp_before_admin_bar_render', 'wp_admin_bar_appearance_menu', 70 );
 		add_action( 'wp_before_admin_bar_render', 'wp_admin_bar_updates_menu', 80 );
 		add_action( 'wp_before_admin_bar_render', 'wp_admin_bar_shortlink_menu', 90 );
-		
+
 		if ( is_multisite() && is_super_admin() && function_exists('wp_admin_bar_superadmin_settings_menu') )
 			add_action( 'wp_before_admin_bar_render', 'wp_admin_bar_superadmin_settings_menu', 1000 );
 

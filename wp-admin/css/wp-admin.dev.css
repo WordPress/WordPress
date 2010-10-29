@@ -2602,7 +2602,8 @@ fieldset {
 }
 
 #screen-meta a.show-settings {
-	background-image: url( ../images/screen-options-right.gif?ver=20100531 );
+	background-image: url( ../images/screen-options-toggle.gif?ver=20100531 );
+	background-position: top right;
 }
 
 #screen-meta a.show-settings:hover {
