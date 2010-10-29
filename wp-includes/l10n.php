@@ -267,15 +267,15 @@ function _nx($single, $plural, $number, $context, $domain = 'default') {
  *  );
  *  ...
  *  $message = $messages[$type];
- *  $usable_text = sprintf(_n($message[0], $message[1], $count), $count);
+ *  $usable_text = sprintf( translate_nooped_plural( $message, $count ), $count );
  *
  * @since 2.5
  * @param string $single Single form to be i18ned
  * @param string $plural Plural form to be i18ned
  * @return array array($single, $plural)
  */
-function _n_noop( $single, $plural ) {
-	return array( $single, $plural );
+function _n_noop( $singular, $plural ) {
+	return array( 'singular' => $singular, 'plural' => $plural, 'context' => null );
 }
 
 /**
@@ -283,8 +283,23 @@ function _n_noop( $single, $plural ) {
  *
  * @see _n_noop()
  */
-function _nx_noop( $single, $plural, $context ) {
-	return array( $single, $plural, $context );
+function _nx_noop( $singular, $plural, $context ) {
+	return array( 'singular' => $singular, 'plural' => $plural, 'context' => $context );
+}
+
+/**
+ * Translate the result of _n_noop() or _nx_noop()
+ * 
+ * @since 3.1
+ * @param array $nooped_plural array with singular, plural and context keys, usually the result of _n_noop() or _nx_noop()
+ * @param int $count number of objects
+ * @param string $domain Optional. The domain identifier the text should be retrieved in
+ */
+function translate_nooped_plural( $nooped_plural, $count, $domain = 'default' ) {
+	if ( $nooped_plural['context'] )
+		return _nx( $nooped_plural['singular'], $nooped_plural['plural'], $count, $nooped_plural['context'], $domain );
+	else
+		return _n( $nooped_plural['singular'], $nooped_plural['plural'], $count, $domain );
 }
 
 /**

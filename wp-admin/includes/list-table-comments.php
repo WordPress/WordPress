@@ -149,7 +149,7 @@ class WP_Comments_Table extends WP_List_Table {
 				$link = add_query_arg( 's', esc_attr( stripslashes( $_REQUEST['s'] ) ), $link );
 			*/
 			$status_links[$status] = "<li class='$status'><a href='$link'$class>" . sprintf(
-				_n( $label[0], $label[1], $num_comments->$status ),
+				translate_nooped_plural( $label, $num_comments->$status ),
 				number_format_i18n( $num_comments->$status )
 			) . '</a>';
 		}
