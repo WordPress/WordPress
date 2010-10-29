@@ -71,7 +71,7 @@ add_action( 'admin_footer', 'wp_admin_bar_render', 1000 );
  */
 function wp_admin_bar_me_separator() {
 	global $wp_admin_bar;
-	$wp_admin_bar->add_menu( array( 'id' => 'me', 'title' => get_avatar( get_current_user_id(), 16 ), 'href' => admin_url('profile.php'), ) );
+	$wp_admin_bar->add_menu( array( 'id' => 'me', 'title' => get_avatar( get_current_user_id(), 16 ), 'href' => get_edit_profile_url( get_current_user_id() ), ) );
 }
 
 /**
@@ -85,7 +85,7 @@ function wp_admin_bar_my_account_menu() {
 	$user_id = get_current_user_id();
 
 	/* Add the 'My Account' menu */
-	$wp_admin_bar->add_menu( array( 'id' => 'my-account', 'title' => $user_identity,  'href' => admin_url('profile.php'), ) );
+	$wp_admin_bar->add_menu( array( 'id' => 'my-account', 'title' => $user_identity,  'href' => get_edit_profile_url( $user_id ) ) );
 
 	/* Add the "My Account" sub menus */
 	$wp_admin_bar->add_menu( array( 'parent' => 'my-account', 'title' => __( 'Edit My Profile' ), 'href' => get_edit_profile_url( $user_id ) ) );
