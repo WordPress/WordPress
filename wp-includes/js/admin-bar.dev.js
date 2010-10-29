@@ -40,7 +40,7 @@
 			}
 			t = t.parentNode;
 		}
-	}
+	},
 
 	clickShortlink = function(e) {
 		var t = e.target || e.srcElement, links, i;
@@ -76,7 +76,7 @@
 			alert( adminBarL10n.noShortlink );
 			return false;
 		}
-	},
+	}
 
 	addEvent(w, 'load', function() {
 		var b = d.getElementsByTagName('body')[0],
