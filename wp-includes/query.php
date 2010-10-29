@@ -27,6 +27,37 @@ function get_query_var($var) {
 	return $wp_query->get($var);
 }
 
+
+/**
+ * Retrieve the currently-queried object.  Wrapper for $wp_query->get_queried_object()
+ *
+ * @uses WP_Query::get_queried_object
+ *
+ * @since 3.1.0
+ * @access public
+ *
+ * @return object
+ */
+function get_queried_object() {
+	global $wp_query;
+	return $wp_query->get_queried_object();
+}
+
+/**
+ * Retrieve ID of the current queried object. Wrapper for $wp_query->get_queried_object_id()
+ * 
+ * @uses WP_Query::get_queried_object_id()
+ *
+ * @since 3.1.0
+ * @access public
+ *
+ * @return int
+ */
+function get_queried_object_id() {
+	global $wp_query;
+	return $wp_query->get_queried_object_id();
+}
+
 /**
  * Set query variable.
  *
