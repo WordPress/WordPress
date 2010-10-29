@@ -130,6 +130,13 @@ function network_step1( $errors = false ) {
 		die();
 	}
 
+	if ( defined('DO_NOT_UPGRADE_GLOBAL_TABLES') ) {
+		echo '<div class="error"><p><strong>' . __('Error:') . '</strong> ' . __( 'The constant DO_NOT_UPGRADE_GLOBAL_TABLES cannot be defined when creating a network.' ) . '</p></div>';
+		echo '</div>';
+		include ('./admin-footer.php' );
+		die();
+	}
+
 	$active_plugins = get_option( 'active_plugins' );
 	if ( ! empty( $active_plugins ) ) {
 		echo '<div class="updated"><p><strong>' . __('Warning:') . '</strong> ' . sprintf( __( 'Please <a href="%s">deactivate your plugins</a> before enabling the Network feature.' ), admin_url( 'plugins.php?plugin_status=active' ) ) . '</p></div><p>' . __( 'Once the network is created, you may reactivate your plugins.' ) . '</p>';
