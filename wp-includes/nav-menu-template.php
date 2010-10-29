@@ -320,6 +320,7 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 		$classes = (array) $menu_item->classes;
 		$classes[] = 'menu-item';
 		$classes[] = 'menu-item-type-' . $menu_item->type;
+		$classes[] = 'menu-item-object-' . $menu_item->object;
 
 		// if the menu item corresponds to a taxonomy term for the currently-queried non-hierarchical post object
 		if ( $wp_query->is_singular && 'taxonomy' == $menu_item->type && in_array( $menu_item->object_id, $possible_object_parents ) ) {
