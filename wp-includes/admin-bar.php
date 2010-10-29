@@ -82,13 +82,15 @@ function wp_admin_bar_me_separator() {
 function wp_admin_bar_my_account_menu() {
 	global $wp_admin_bar, $user_identity;
 
+	$user_id = get_current_user_id();
+
 	/* Add the 'My Account' menu */
 	$wp_admin_bar->add_menu( array( 'id' => 'my-account', 'title' => $user_identity,  'href' => admin_url('profile.php'), ) );
 
 	/* Add the "My Account" sub menus */
-	$wp_admin_bar->add_menu( array( 'parent' => 'my-account', 'title' => __( 'Edit My Profile' ), 'href' => admin_url('profile.php'), ) );
+	$wp_admin_bar->add_menu( array( 'parent' => 'my-account', 'title' => __( 'Edit My Profile' ), 'href' => get_edit_profile_url( $user_id ) ) );
 	if ( is_multisite() )
-		$wp_admin_bar->add_menu( array( 'parent' => 'my-account', 'title' => __( 'Global Dashboard' ), 'href' => admin_url(), ) );
+		$wp_admin_bar->add_menu( array( 'parent' => 'my-account', 'title' => __( 'Dashboard' ), 'href' => get_dashboard_url( $user_id ), ) );
 	else
 		$wp_admin_bar->add_menu( array( 'parent' => 'my-account', 'title' => __( 'Dashboard' ), 'href' => admin_url(), ) );
 	$wp_admin_bar->add_menu( array( 'parent' => 'my-account', 'title' => __( 'Log Out' ), 'href' => wp_logout_url(), ) );

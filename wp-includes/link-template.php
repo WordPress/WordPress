@@ -2271,6 +2271,61 @@ function self_admin_url($path = '', $scheme = 'admin') {
 }
 
 /**
+ * Get the URL to the user's dashboard.
+ *
+ * If a user does not belong to any sites, the global user dashboard is used.  If the user belongs to the current site,
+ * the dashboard for the current site is returned.  If the user cannot edit the current site, the dashboard to the user's
+ * primary blog is returned.
+ *
+ * @since 3.1.0
+ *
+ * @param int $user_id User ID
+ * @param string $path Optional path relative to the dashboard.  Use only paths known to both blog and user admins.
+ * @param string $scheme The scheme to use. Default is 'admin', which obeys force_ssl_admin() and is_ssl(). 'http' or 'https' can be passed to force those schemes.
+ * @return string Dashboard url link with optional path appended
+ */
+function get_dashboard_url( $user_id, $path = '', $scheme = 'admin' ) {
+	$user_id = (int) $user_id;
+
+	$blogs = get_blogs_of_user( $user_id );
+	if ( empty($blogs) ) {
+		$url = user_admin_url( $path, $scheme );
+	} elseif ( ! is_multisite() ) {
+		$url = admin_url( $path, $scheme );
+	} else {
+		$current_blog = get_current_blog_id();
+		if ( $current_blog  && in_array($current_blog, array_keys($blogs)) ) {
+			$url = admin_url( $path, $scheme );
+		} else {
+			$active = get_active_blog_for_user( $user_id );
+			if ( $active )
+				$url = get_admin_url( $active->blog_id, $path, $scheme );
+			else
+				$url = user_admin_url( $path, $scheme );
+		}
+	}
+
+	return apply_filters( 'user_dashboard_url', $url, $user_id, $path, $scheme);
+}
+
+/**
+ * Get the URL to the user's profile editor.
+ *
+ * @since 3.1.0
+ *
+ * @param int $user User ID
+ * @param string $scheme The scheme to use. Default is 'admin', which obeys force_ssl_admin() and is_ssl(). 'http' or 'https' can be passed to force those schemes.
+ * @return string Dashboard url link with optional path appended
+ */
+function get_edit_profile_url( $user, $scheme = 'admin' ) {
+	$user = (int) $user;
+
+	$url = get_dashboard_url( $user, 'profile.php', $scheme );
+
+	return apply_filters( 'edit_profile_url', $url, $user, $scheme);
+}
+
+/**
  * Output rel=canonical for singular queries
  *
  * @package WordPress
