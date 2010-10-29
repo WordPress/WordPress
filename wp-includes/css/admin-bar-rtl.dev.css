@@ -25,7 +25,7 @@
 	border-right: 1px solid #808080;
 }
 
-#wpadminbar .quicklinks > ul > li.hover > a {
+#wpadminbar .quicklinks > ul > li:hover > a {
 	border-right-color: #707070;
 	border-left-color: #686868;
 }
@@ -35,7 +35,8 @@
 	float:none;
 }
 
-#wpadminbar .menupop li:hover > ul {
+#wpadminbar .menupop li:hover > ul,
+#wpadminbar .menupop li.hover > ul {
 	margin-left:-100%;
 }
 
@@ -156,8 +157,8 @@
 	padding: 0 0.7em 0 1.15em;
 }
 
-#wpadminbar li.ab-me > a.hover, 
-#wpadminbar li.ab-blog > a.hover {
+#wpadminbar li.ab-me > a:hover, 
+#wpadminbar li.ab-blog > a:hover {
 	background-position: 33% 59.8%;
 }
 
@@ -211,7 +212,8 @@ button.adminbar-button:active span {
 	direction: ltr;
 }
 
-#wpadminbar #admin-bar-micro ul li:hover > ul {
+#wpadminbar #admin-bar-micro ul li:hover > ul,
+#wpadminbar #admin-bar-micro ul li.hover > ul {
 	left: auto;
 	right: 100%;
 }

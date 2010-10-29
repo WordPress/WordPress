@@ -257,6 +257,13 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'user-profile', "/wp-admin/js/user-profile$suffix.js", array( 'jquery', 'password-strength-meter' ), '20100925' );
 	$scripts->add_data( 'user-profile', 'group', 1 );	
+
+	$scripts->add( 'admin-bar', "/wp-includes/js/admin-bar$suffix.js", false, '20101028');
+	$scripts->add_data( 'admin-bar', 'group', 1 );	
+	$scripts->localize( 'admin-bar', 'adminBarL10n', array(
+		'url' => __( 'URL:' ),
+		'noShortlink' => __( 'No shortlink available for this page.' ),
+	) );
 	
 	if ( is_admin() ) {
 		$scripts->add( 'ajaxcat', "/wp-admin/js/cat$suffix.js", array( 'wp-lists' ), '20090102' );
@@ -493,7 +500,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'nav-menu', "/wp-admin/css/nav-menu$suffix.css", array(), '20100907' );
 	
 	// Admin bar
-	$styles->add( 'admin-bar', "/wp-includes/css/admin-bar$suffix.css", array(), '20101028' );
+	$styles->add( 'admin-bar', "/wp-includes/css/admin-bar$suffix.css", array(), '20101029' );
 	$styles->add( 'super-admin-bar', "/wp-includes/css/super-admin-bar$suffix.css", array(), '20101028' );
 
 	foreach ( $rtl_styles as $rtl_style ) {

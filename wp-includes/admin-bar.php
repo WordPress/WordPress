@@ -170,12 +170,7 @@ function wp_admin_bar_blog_separator() {
 function wp_admin_bar_bloginfo_menu() {
 	global $wp_admin_bar;
 
-	/* Add the Site Info menu */
-	$wp_admin_bar->add_menu( array( 'id' => 'bloginfo', 'title' => __( 'Site Info' ), 'href' => '', ) );
-
-	// TODO: Move this js out into a seperate file?
-	$wp_admin_bar->add_menu( array( 'parent' => 'bloginfo', 'title' => __( 'Get Shortlink' ), 'href' => '', 'meta' => array( 
-			'onclick' => 'javascript:function wpcomshort() { var url=document.location;var links=document.getElementsByTagName(&#39;link&#39;);var found=0;for(var i = 0, l; l = links[i]; i++){if(l.getAttribute(&#39;rel&#39;)==&#39;shortlink&#39;) {found=l.getAttribute(&#39;href&#39;);break;}}if (!found) {for (var i = 0; l = document.links[i]; i++) {if (l.getAttribute(&#39;rel&#39;) == &#39;shortlink&#39;) {found = l.getAttribute(&#39;href&#39;);break;}}}if (found) {prompt(&#39;' . esc_js( __( 'URL:' ) ) . '&#39;, found);} else {alert(&#39;' . esc_js( __( 'No shortlink available for this page.' ) ) . '&#39;); } } wpcomshort(); return false;' ) ) );
+	$wp_admin_bar->add_menu( array( 'id' => 'get-shortlink', 'title' => __( 'Get Shortlink' ), 'href' => '', ) );
 }
 
 /**
@@ -208,41 +203,6 @@ function wp_admin_bar_edit_menu() {
 function wp_admin_bar_header() {
 	?>
 	<style type="text/css" media="print">#wpadminbar { display:none; }</style>
-	<script type="text/javascript">
-	/*	<![CDATA[ */
-	(function(d, w) {
-		var init = function() {
-			var b = d.getElementsByTagName('body')[0],
-			aB = d.getElementById('wpadminbar'),
-			s = d.getElementById('adminbar-search');
-
-			if ( b && aB )
-				b.appendChild( aB );
-
-			if ( s ) {
-				if ( '' == s.value )
-					s.value = s.getAttribute('title');
-
-				s.onblur = function() {
-					this.value = '' == this.value ? this.getAttribute('title') : this.value;
-				}
-				s.onfocus = function() {
-					this.value = this.getAttribute('title') == this.value ? '' : this.value;
-				}
-			}
-			
-			if ( w.location.hash )
-				w.scrollBy(0,-32);
-		}
-
-		if ( w.addEventListener )
-			w.addEventListener('load', init, false);
-		else if ( w.attachEvent ) 
-			w.attachEvent('onload', init);
-
-	})(document, window);
-	/*	]]> */
-	</script>
 	<?php
 }
 
@@ -272,9 +232,6 @@ function wp_admin_body_style() {
 	<?php
 }
 
-add_action('wp_head', 'wp_admin_body_style');
-add_action('admin_head', 'wp_admin_body_style');
-
 /**
  * Determine whether the admin bar should be showing.
  *
@@ -291,7 +248,10 @@ function is_admin_bar_showing() {
 		if ( defined('WP_SHOW_ADMIN_BAR') )
 			$show_admin_bar = (bool) WP_SHOW_ADMIN_BAR;
 
-		if ( ! is_user_logged_in() )
+		if (  
+			! is_user_logged_in() || 
+			( is_admin() && ! is_multisite() )
+		)
 			$show_admin_bar = false;
 	}
 

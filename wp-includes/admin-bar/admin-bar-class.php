@@ -33,8 +33,12 @@ class WP_Admin_Bar {
 		$this->user->locale = get_locale();
 
 		add_action( 'wp_head', 'wp_admin_bar_header' );
-		add_action( 'admin_head', 'wp_admin_bar_header' );
+		add_action( 'wp_head', 'wp_admin_body_style');
 
+		add_action( 'admin_head', 'wp_admin_bar_header' );
+		add_action( 'admin_head', 'wp_admin_body_style');
+
+		wp_enqueue_script( 'admin-bar' );
 		wp_enqueue_style( 'admin-bar' );
 
 		if ( is_super_admin() ) {
