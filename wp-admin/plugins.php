@@ -63,7 +63,13 @@ if ( $action ) {
 			check_admin_referer('bulk-plugins');
 
 			$plugins = isset( $_POST['checked'] ) ? (array) $_POST['checked'] : array();
-			$plugins = array_filter($plugins, create_function('$plugin', 'return !is_plugin_active($plugin);') ); // Only activate plugins which are not already active.
+
+			// Only activate plugins which are not already active.
+			$check = $network_wide ? 'is_plugin_active_for_network' : 'is_plugin_active';
+			foreach ( $plugins as $i => $plugin )
+				if ( $check( $plugin ) )
+					unset( $plugins[ $i ] );
+
 			if ( empty($plugins) ) {
 				wp_redirect( self_admin_url("plugins.php?plugin_status=$status&paged=$page&s=$s") );
 				exit;

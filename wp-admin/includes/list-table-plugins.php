@@ -253,21 +253,20 @@ class WP_Plugins_Table extends WP_List_Table {
 		global $status;
 
 		$actions = array();
-		if ( 'active' != $status )
-			$actions['activate-selected'] = __( 'Activate' );
-		if ( is_multisite() && 'network' != $status )
-			$actions['network-activate-selected'] = __( 'Network Activate' );
+
+		if ( 'active' != $status ) {
+			$action = is_network_admin() ? 'network-activate-selected' : 'activate-selected'; 
+			$actions[ $action ] = __( 'Activate' );
+		}
+
 		if ( 'inactive' != $status && 'recent' != $status )
 			$actions['deactivate-selected'] = __( 'Deactivate' );
-		if ( current_user_can( 'update_plugins' ) )
-			$actions['update-selected'] = __( 'Update' );
-		if ( current_user_can( 'delete_plugins' ) && ( 'active' != $status ) )
-			$actions['delete-selected'] = __( 'Delete' );
-			
-		if ( is_multisite() && !is_network_admin() ) {
-			unset( $actions['network-activate-selected'] );
-			unset( $actions['update-selected'] );
-			unset( $actions['delete-selected'] );
+
+		if ( !is_multisite() || is_network_admin() ) {
+			if ( current_user_can( 'update_plugins' ) )
+				$actions['update-selected'] = __( 'Update' );
+			if ( current_user_can( 'delete_plugins' ) && ( 'active' != $status ) )
+				$actions['delete-selected'] = __( 'Delete' );
 		}
 
 		return $actions;
