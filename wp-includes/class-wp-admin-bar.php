@@ -9,7 +9,7 @@ class WP_Admin_Bar {
 	function initialize() {
 		/* Only load super admin menu code if the logged in user is a super admin */
 		if ( is_super_admin() ) {
-			require( ABSPATH . WPINC . '/admin-bar/admin-bar-superadmin.php' );
+			require( ABSPATH . WPINC . '/ms-admin-bar.php' );
 		}
 
 		/* Set the protocol used throughout this code */
