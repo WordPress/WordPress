@@ -1,16 +1,5 @@
 <?php
 /**
- * Holds Most of the WordPress classes.
- *
- * Some of the other classes are contained in other files. For example, the
- * WordPress cache is in cache.php and the WordPress roles API is in
- * capabilities.php. The third party libraries are contained in their own
- * separate files.
- *
- * @package WordPress
- */
-
-/**
  * A class for displaying various tree-like structures.
  *
  * Extend the Walker class to use it, see examples at the below. Child classes

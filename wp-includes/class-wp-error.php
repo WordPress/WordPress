@@ -1,11 +1,8 @@
 <?php
 /**
- * Holds Most of the WordPress classes.
+ * WordPress Error API.
  *
- * Some of the other classes are contained in other files. For example, the
- * WordPress cache is in cache.php and the WordPress roles API is in
- * capabilities.php. The third party libraries are contained in their own
- * separate files.
+ * Contains the WP_Error class and the is_wp_error() function.
  *
  * @package WordPress
  */
