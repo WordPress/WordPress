@@ -2149,12 +2149,11 @@ function get_submit_button( $text = NULL, $type = 'primary', $name = 'submit', $
 	}
 	
 	// Default the id attribute to $name unless an id was specifically provided in $other_attributes
-	$id = 'id="' . esc_attr( $name ) . '" ';
-	if ( is_array( $other_attributes ) && array_key_exists( 'id', $other_attributes ) ) {
-		$id = 'id="' . esc_attr( $other_attributes['id'] ) . '" ';
-	}
+	$id = $name;
+	if ( is_array( $other_attributes ) && isset( $other_attributes['id'] ) )
+		$id = $other_attributes['id'];
 	
-	$button = '<input type="submit" name="' . esc_attr( $name ) . '" id="' . $id . '" class="' . esc_attr( $class );
+	$button = '<input type="submit" name="' . esc_attr( $name ) . '" id="' . esc_attr( $id ) . '" class="' . esc_attr( $class );
 	$button	.= '" value="' . esc_attr( $text ) . '" ' . $attributes . ' />';
 	
 	if ( $wrap ) {
