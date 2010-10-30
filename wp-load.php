@@ -45,7 +45,7 @@ if ( file_exists( ABSPATH . 'wp-config.php') ) {
 		$path = 'wp-admin/';
 
 	// Die with an error message
-	require_once( ABSPATH . '/wp-includes/classes.php' );
+	require_once( ABSPATH . '/wp-includes/class-wp-error.php' );
 	require_once( ABSPATH . '/wp-includes/functions.php' );
 	require_once( ABSPATH . '/wp-includes/plugin.php' );
 	$text_direction = /*WP_I18N_TEXT_DIRECTION*/"ltr"/*/WP_I18N_TEXT_DIRECTION*/;
