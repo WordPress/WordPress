@@ -67,9 +67,6 @@ require( ABSPATH . WPINC . '/compat.php' );
 require( ABSPATH . WPINC . '/functions.php' );
 require( ABSPATH . WPINC . '/class-wp.php' );
 require( ABSPATH . WPINC . '/class-wp-error.php' );
-require( ABSPATH . WPINC . '/class-wp-walker.php' );
-require( ABSPATH . WPINC . '/classes.php' );
-require( ABSPATH . WPINC . '/class-wp-ajax-response.php' );
 require( ABSPATH . WPINC . '/plugin.php' );
 
 // Include the wpdb class and, if present, a db.php database drop-in.
@@ -104,6 +101,8 @@ require( ABSPATH . WPINC . '/l10n.php' );
 wp_not_installed();
 
 // Load most of WordPress.
+require( ABSPATH . WPINC . '/class-wp-walker.php' );
+require( ABSPATH . WPINC . '/class-wp-ajax-response.php' );
 require( ABSPATH . WPINC . '/formatting.php' );
 require( ABSPATH . WPINC . '/capabilities.php' );
 require( ABSPATH . WPINC . '/class.wp-object-query.php' );
