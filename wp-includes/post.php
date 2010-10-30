@@ -3097,6 +3097,7 @@ function &get_page(&$page, $output = OBJECT, $filter = 'raw') {
  */
 function get_page_by_path($page_path, $output = OBJECT, $post_type = 'page') {
 	global $wpdb;
+	$null = null;
 	$page_path = rawurlencode(urldecode($page_path));
 	$page_path = str_replace('%2F', '/', $page_path);
 	$page_path = str_replace('%20', ' ', $page_path);
@@ -3110,7 +3111,7 @@ function get_page_by_path($page_path, $output = OBJECT, $post_type = 'page') {
 	$pages = $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE post_name = %s AND (post_type = %s OR post_type = 'attachment')", $leaf_path, $post_type ));
 
 	if ( empty($pages) )
-		return null;
+		return $null;
 
 	foreach ( $pages as $page ) {
 		$path = '/' . $leaf_path;
@@ -3124,7 +3125,7 @@ function get_page_by_path($page_path, $output = OBJECT, $post_type = 'page') {
 			return get_page($page->ID, $output, $post_type);
 	}
 
-	return null;
+	return $null;
 }
 
 /**

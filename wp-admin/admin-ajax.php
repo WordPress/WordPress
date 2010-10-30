@@ -743,10 +743,9 @@ case 'add-menu-item' :
 
 	require_once ABSPATH . 'wp-admin/includes/nav-menu.php';
 
-	/**
-	 * For performance reasons, we omit some object properties from the checklist.  
-	 * The following is a hacky way to restore them when adding non-custom items.
-	 */
+	// For performance reasons, we omit some object properties from the checklist.  
+	// The following is a hacky way to restore them when adding non-custom items.
+
 	$menu_items_data = (array) $_POST['menu-item'];
 	$menu_item_data = array_shift( $menu_items_data ); 
 	if ( 
@@ -767,11 +766,11 @@ case 'add-menu-item' :
 		$_menu_items = array_map( 'wp_setup_nav_menu_item', array( $_object ) ); 
 		$_menu_item = array_shift( $_menu_items );
 
-		/** Restore the missing menu item properties **/
+		// Restore the missing menu item properties
 		$menu_item_data['menu-item-description'] = $_menu_item->description;
-
-		$menu_items_data = array( $menu_item_data );
 	}
+
+	$menu_items_data = array( $menu_item_data );
 
 	$item_ids = wp_save_nav_menu_items( 0, $menu_items_data );
 	if ( is_wp_error( $item_ids ) )
