@@ -54,7 +54,7 @@ class WP_MS_Themes_Table extends WP_List_Table {
 			'disabled' => array(),
 			'upgrade' => array()
 		);
-		
+
 		$allowed_themes = get_site_allowed_themes();
 		$current = get_site_transient( 'update_themes' );
 
@@ -75,7 +75,7 @@ class WP_MS_Themes_Table extends WP_List_Table {
 			$themes['upgrade'] = array();
 
 		if ( $s ) {
-			$status = 'search'; echo "opopop";
+			$status = 'search';
 			$themes['search'] = array_filter( $themes['all'], array( $this, '_search_callback' ) );
 		}
 
@@ -113,9 +113,10 @@ class WP_MS_Themes_Table extends WP_List_Table {
 		static $term;
 		if ( is_null( $term ) )
 			$term = stripslashes( $_REQUEST['s'] );
-			
-		foreach ( $theme as $key->$theme )
-			if ( stripos( $key, $term ) !== false )
+
+		$search_fields = array( 'Name', 'Title', 'Description', 'Author', 'Author Name', 'Author URI', 'Template', 'Stylesheet' );
+		foreach ( $search_fields as $field )
+			if ( stripos( $theme[ $field ], $term ) !== false )
 				return true;
 
 		return false;
