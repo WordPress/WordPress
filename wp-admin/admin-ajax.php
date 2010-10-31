@@ -52,11 +52,11 @@ if ( isset( $_GET['action'] ) ) :
 switch ( $action = $_GET['action'] ) :
 case 'fetch-list' :
 
+	$current_screen = (object) $_GET['list_args']['screen'];
 	$wp_list_table = get_list_table( $_GET['list_args']['class'] );
 	if ( ! $wp_list_table )
 		die( '0' );
 
-	$current_screen = (object) $_GET['list_args']['screen'];
 	$wp_list_table->ajax_response();
 
 	die( '0' );
