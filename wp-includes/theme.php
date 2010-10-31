@@ -800,16 +800,12 @@ function get_archive_template() {
  * @return string
  */
 function get_author_template() {
-	$author_id = absint( get_query_var( 'author' ) );
-	$author = get_user_by( 'id', $author_id );
-	$author = $author->user_nicename;
+	$author = get_queried_object();
 
 	$templates = array();
 
-	if ( $author )
-		$templates[] = "author-{$author}.php";
-	if ( $author_id )
-		$templates[] = "author-{$author_id}.php";
+	$templates[] = "author-{$author->user_nicename}.php";
+	$templates[] = "author-{$author->ID}.php";
 	$templates[] = 'author.php';
 
 	return get_query_template( 'author', $templates );
@@ -828,15 +824,12 @@ function get_author_template() {
  * @return string
  */
 function get_category_template() {
-	$cat_ID = absint( get_query_var('cat') );
-	$category = get_category( $cat_ID );
+	$category = get_queried_object();
 
 	$templates = array();
 
-	if ( !is_wp_error( $category ) )
-		$templates[] = "category-{$category->slug}.php";
-
-	$templates[] = "category-$cat_ID.php";
+	$templates[] = "category-{$category->slug}.php";
+	$templates[] = "category-{$category->term_id}.php";
 	$templates[] = "category.php";
 
 	return get_query_template( 'category', $templates );
@@ -856,15 +849,11 @@ function get_category_template() {
  */
 function get_tag_template() {
 	$tag = get_queried_object();
-	$tag_name = $tag->slug;
-	$tag_id = $tag->term_id;
 
 	$templates = array();
 
-	if ( $tag_name )
-		$templates[] = "tag-$tag_name.php";
-	if ( $tag_id )
-		$templates[] = "tag-$tag_id.php";
+	$templates[] = "tag-{$tag->slug}.php";
+	$templates[] = "tag-{$tag->term_id}.php";
 	$templates[] = "tag.php";
 
 	return get_query_template( 'tag', $templates );
@@ -888,15 +877,13 @@ function get_tag_template() {
  * @return string
  */
 function get_taxonomy_template() {
-	$taxonomy = get_query_var('taxonomy');
-	$term = get_query_var('term');
+	$term = get_queried_object();
+	$taxonomy = $term->taxonomy;
 
 	$templates = array();
-	if ( $taxonomy && $term )
-		$templates[] = "taxonomy-$taxonomy-$term.php";
-	if ( $taxonomy )
-		$templates[] = "taxonomy-$taxonomy.php";
 
+	$templates[] = "taxonomy-$taxonomy-{$term->slug}.php";
+	$templates[] = "taxonomy-$taxonomy.php";
 	$templates[] = "taxonomy.php";
 
 	return get_query_template( 'taxonomy', $templates );
@@ -1015,7 +1002,11 @@ function get_search_template() {
  */
 function get_single_template() {
 	$object = get_queried_object();
-	$templates = array('single-' . $object->post_type . '.php', 'single.php');
+
+	$templates = array();
+
+	$templates[] = "single-{$object->post_type}.php";
+	$templates[] = "single.php";
 
 	return get_query_template( 'single', $templates );
 }
