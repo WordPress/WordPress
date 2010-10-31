@@ -161,12 +161,6 @@ class WP_MS_Themes_Table extends WP_List_Table {
 		);
 	}
 
-	function display_tablenav( $which ) {
-		global $status;
-
-		parent::display_tablenav( $which );
-	}
-
 	function get_views() {
 		global $totals, $status;
 
@@ -208,9 +202,9 @@ class WP_MS_Themes_Table extends WP_List_Table {
 
 		$actions = array();
 		if ( 'enabled' != $status )
-			$actions['network-enable-selected'] = __( 'Network Enable' );
+			$actions['network-enable-selected'] = __( 'Enable' );
 		if ( 'disabled' != $status )
-			$actions['network-disable-selected'] = __( 'Network Disable' );
+			$actions['network-disable-selected'] = __( 'Disable' );
 		if ( current_user_can( 'update_themes' ) )
 			$actions['update-selected'] = __( 'Update' );
 			
@@ -243,10 +237,10 @@ class WP_MS_Themes_Table extends WP_List_Table {
 
 			if ( empty( $theme['enabled'] ) ) {
 				if ( current_user_can( 'manage_network_themes' ) )
-					$actions['network_enable'] = '<a href="' . wp_nonce_url('themes.php?action=network-enable&amp;theme=' . $theme_key . '&amp;paged=' . $page . '&amp;s=' . $s, 'enable-theme_' . $theme_key) . '" title="' . __('Enable this theme for all sites in this network') . '" class="edit">' . __('Network Enable') . '</a>';
+					$actions['network_enable'] = '<a href="' . wp_nonce_url('themes.php?action=network-enable&amp;theme=' . $theme_key . '&amp;paged=' . $page . '&amp;s=' . $s, 'enable-theme_' . $theme_key) . '" title="' . __('Enable this theme for all sites in this network') . '" class="edit">' . __('Enable') . '</a>';
 			} else {
 				if ( current_user_can( 'manage_network_themes' ) )
-					$actions['network_disable'] = '<a href="' . wp_nonce_url('themes.php?action=network-disable&amp;theme=' . $theme_key . '&amp;paged=' . $page . '&amp;s=' . $s, 'disable-theme_' . $theme_key) . '" title="' . __('Disable this theme') . '">' . __('Network Disable') . '</a>';
+					$actions['network_disable'] = '<a href="' . wp_nonce_url('themes.php?action=network-disable&amp;theme=' . $theme_key . '&amp;paged=' . $page . '&amp;s=' . $s, 'disable-theme_' . $theme_key) . '" title="' . __('Disable this theme') . '">' . __('Disable') . '</a>';
 			}
 			
 			/* @todo link to theme editor	
