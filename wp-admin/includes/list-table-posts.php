@@ -122,9 +122,9 @@ class WP_Posts_Table extends WP_List_Table {
 		global $post_type_object;
 
 		if ( isset( $_REQUEST['post_status'] ) && 'trash' == $_REQUEST['post_status'] )
-			echo $post_type_object->labels->not_found_in_trash . '.';
+			echo $post_type_object->labels->not_found_in_trash;
 		else
-			echo $post_type_object->labels->not_found . '.';
+			echo $post_type_object->labels->not_found;
 	}
 
 	function get_views() {
@@ -313,7 +313,7 @@ class WP_Posts_Table extends WP_List_Table {
 	function _display_rows( $posts ) {
 		global $post, $mode;
 
-		add_filter( 'the_title','esc_html' );
+		add_filter( 'the_title', 'esc_html' );
 
 		// Create array of post IDs.
 		$post_ids = array();
