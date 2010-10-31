@@ -113,6 +113,15 @@ class WP_Comments_Table extends WP_List_Table {
 		) );
 	}
 
+	function no_items() {
+		global $comment_status;
+
+		if ( 'moderated' == $comment_status )
+			_e( 'No comments awaiting moderation&hellip; yet.' );
+		else
+			_e( 'No comments found.' );
+	}
+
 	function get_views() {
 		global $post_id, $comment_status;
 

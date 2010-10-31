@@ -204,7 +204,6 @@ if ( isset($_REQUEST['approved']) || isset($_REQUEST['deleted']) || isset($_REQU
 	<input type="text" id="comment-search-input" name="s" value="<?php _admin_search_query(); ?>" />
 	<?php submit_button( __( 'Search Comments' ), 'button', 'submit', false ); ?>
 </p>
-
 <input type="hidden" name="mode" value="<?php echo esc_attr($mode); ?>" />
 <?php if ( $post_id ) : ?>
 <input type="hidden" name="p" value="<?php echo esc_attr( intval( $post_id ) ); ?>" />
@@ -220,31 +219,11 @@ if ( isset($_REQUEST['approved']) || isset($_REQUEST['deleted']) || isset($_REQU
 	<input type="hidden" name="paged" value="<?php echo esc_attr( absint( $_REQUEST['paged'] ) ); ?>" />
 <?php } ?>
 
-<br class="clear" />
-
-<?php if ( $wp_list_table->has_items() ) { ?>
-
-<?php $wp_list_table->display_table(); ?>
-
-<br class="clear" />
+<?php $wp_list_table->display(); ?>
 </div>
-
 </form>
 
 <div id="ajax-response"></div>
-
-<?php } elseif ( 'moderated' == $comment_status ) { ?>
-<p><?php _e('No comments awaiting moderation&hellip; yet.') ?></p>
-</div>
-</form>
-
-<?php } else { ?>
-<p><?php _e('No comments found.') ?></p>
-</div>
-</form>
-
-<?php } ?>
-</div>
 
 <?php
 wp_comment_reply('-1', true, 'detail');
