@@ -1901,19 +1901,15 @@ class WP_Query extends WP_Object_Query {
 			$where .= $this->get_tax_sql( $q['tax_query'], "$wpdb->posts.ID" );
 
 			// Back-compat
-			if ( !empty( $ids ) ) {
-				$cat_query = wp_list_filter( $q['tax_query'], array( 'taxonomy' => 'category' ) );
-				if ( !empty( $cat_query ) ) {
-					$cat_query = reset( $cat_query );
-					$cat = get_term_by( $cat_query['field'], $cat_query['terms'][0], 'category' );
-					if ( $cat ) {
-						$this->set('cat', $cat->term_id);
-						$this->set('category_name', $cat->slug);
-					}
+			$cat_query = wp_list_filter( $q['tax_query'], array( 'taxonomy' => 'category' ) );
+			if ( !empty( $cat_query ) ) {
+				$cat_query = reset( $cat_query );
+				$cat = get_term_by( $cat_query['field'], $cat_query['terms'][0], 'category' );
+				if ( $cat ) {
+					$this->set( 'cat', $cat->term_id );
+					$this->set( 'category_name', $cat->slug );
 				}
 			}
-
-			unset( $ids );
 		}
 
 		if ( !empty($q['meta_key']) ) {
