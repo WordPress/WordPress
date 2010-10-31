@@ -616,12 +616,10 @@ class WP_List_Table {
 		if ( $this->has_items() ) {
 			$this->display_table();
 		} else {
-			echo '<br class="clear">';
-			$this->extra_tablenav( 'top' );
-			echo '<br class="clear">';
-			echo '<p>';
-			$this->no_items();
-			echo '</p>';
+?>
+		<br class="clear">
+		<p><?php $this->no_items(); ?></p>
+<?php
 		}
 	}
 
