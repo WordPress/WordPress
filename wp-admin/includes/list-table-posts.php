@@ -275,7 +275,7 @@ class WP_Posts_Table extends WP_List_Table {
 			$posts_columns['tags'] = __( 'Tags' );
 		$post_status = !empty( $_REQUEST['post_status'] ) ? $_REQUEST['post_status'] : 'all';
 		if ( !in_array( $post_status, array( 'pending', 'draft', 'future' ) ) && ( empty( $post_type ) || post_type_supports( $post_type, 'comments' ) ) )
-			$posts_columns['comments'] = '<div class="vers"><img alt="Comments" src="' . esc_url( admin_url( 'images/comment-grey-bubble.png' ) ) . '" /></div>';
+			$posts_columns['comments'] = '<div class="vers"><img alt="' . esc_attr__( 'Comments' ) . '" src="' . esc_url( admin_url( 'images/comment-grey-bubble.png' ) ) . '" /></div>';
 		$posts_columns['date'] = __( 'Date' );
 
 		if ( 'page' == $post_type )
