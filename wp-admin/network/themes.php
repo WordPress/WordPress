@@ -4,94 +4,99 @@
  *
  * @package WordPress
  * @subpackage Multisite
- * @since 3.0.0
+ * @since 3.1.0
  */
 
 require_once( './admin.php' );
 
-if ( ! current_user_can( 'manage_network_themes' ) )
-	wp_die( __( 'You do not have permission to access this page.' ) );
+$wp_list_table = get_list_table('WP_MS_Themes_Table');
+$wp_list_table->check_permissions();
 
-$title = __( 'Network Themes' );
-$parent_file = 'themes.php';
+$action = $wp_list_table->current_action();
 
-add_contextual_help($current_screen,
-	'<p>' . __('This screen enables and disables the inclusion of themes available to choose in the Appearance menu for each site. It does not activate or deactivate which theme a site is currently using.') . '</p>' .
-	'<p>' . __('If the network admin disables a theme that is in use, it can still remain selected on that site. If another theme is chosen, the disabled theme will not appear in the site&#8217;s Appearance > Themes screen.') . '</p>' .
-	'<p>' . __('Themes can be enabled on a site by site basis by the network admin on the Edit Site screen you go to via the Edit action link on the Sites screen.') . '</p>' .
-	'<p><strong>' . __('For more information:') . '</strong></p>' .
-	'<p>' . __('<a href="http://codex.wordpress.org/Super_Admin_Themes_SubPanel" target="_blank">Documentation on Network Themes</a>') . '</p>' .
-	'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
-);
+$plugin = isset($_REQUEST['plugin']) ? $_REQUEST['plugin'] : '';
+$s = isset($_REQUEST['s']) ? $_REQUEST['s'] : '';
 
-require_once( '../admin-header.php' );
+// Clean up request URI from temporary args for screen options/paging uri's to work as expected.
+$_SERVER['REQUEST_URI'] = remove_query_arg(array('error', 'deleted', 'activate', 'activate-multi', 'deactivate', 'deactivate-multi', '_error_nonce'), $_SERVER['REQUEST_URI']);
 
-if ( isset( $_GET['updated'] ) ) {
-	?>
-	<div id="message" class="updated"><p><?php _e( 'Site themes saved.' ) ?></p></div>
-	<?php
+if ( $action ) {
+	$allowed_themes = get_site_option( 'allowedthemes' );	
+	switch ( $action ) {
+		case 'network-enable':
+			$allowed_themes[ $_GET['theme'] ] = 1;
+			update_site_option( 'allowedthemes', $allowed_themes );
+			wp_redirect( wp_get_referer() ); // @todo add_query_arg for update message
+			exit;			
+			break;
+		case 'network-disable':
+			unset( $allowed_themes[ $_GET['theme'] ] );
+			update_site_option( 'allowedthemes', $allowed_themes );
+			wp_redirect( wp_get_referer() ); // @todo add_query_arg for update message
+			exit;
+			break;
+		case 'network-enable-selected':
+			check_admin_referer('bulk-plugins');
+
+			$themes = isset( $_POST['checked'] ) ? (array) $_POST['checked'] : array();
+			if ( empty($themes) ) {
+				wp_redirect( wp_get_referer() );
+				exit;
+			}						
+			foreach( (array) $themes as $theme )
+				$allowed_themes[ $theme ] = 1;
+			update_site_option( 'allowedthemes', $allowed_themes );
+			break;
+			case 'network-disable-selected':
+				check_admin_referer('bulk-plugins');
+
+				$themes = isset( $_POST['checked'] ) ? (array) $_POST['checked'] : array();
+				if ( empty($themes) ) {
+					wp_redirect( wp_get_referer() );
+					exit;
+				}						
+				foreach( (array) $themes as $theme )
+					unset( $allowed_themes[ $theme ] );
+				update_site_option( 'allowedthemes', $allowed_themes );
+				break;
+
+	}
 }
 
-$themes = get_themes();
-$allowed_themes = get_site_allowed_themes();
+$wp_list_table->prepare_items();
+
+add_screen_option( 'per_page', array('label' => _x( 'Themes', 'themes per page (screen options)' ), 'default' => 999) );
+
+$title = __('Themes');
+$parent_file = 'themes.php';
+
+require_once(ABSPATH . 'wp-admin/admin-header.php');
+
 ?>
+
 <div class="wrap">
-	<form action="<?php echo esc_url( network_admin_url( 'edit.php?action=updatethemes' ) ); ?>" method="post">
-		<?php screen_icon(); ?>
-		<h2><?php _e( 'Network Themes' ) ?></h2>
-		<p><?php _e( 'Themes must be enabled for your network before they will be available to individual sites.' ) ?></p>
-		<?php submit_button( __( 'Apply Changes' ), '', '' ); ?>
-		<table class="widefat">
-			<thead>
-				<tr>
-					<th style="width:15%;"><?php _e( 'Enable' ) ?></th>
-					<th style="width:25%;"><?php _e( 'Theme' ) ?></th>
-					<th style="width:10%;"><?php _e( 'Version' ) ?></th>
-					<th style="width:60%;"><?php _e( 'Description' ) ?></th>
-				</tr>
-			</thead>
-			<tbody id="plugins">
-			<?php
-			$total_theme_count = $activated_themes_count = 0;
-			$class = '';
-			foreach ( (array) $themes as $key => $theme ) {
-				$total_theme_count++;
-				$theme_key = esc_html( $theme['Stylesheet'] );
-				$class = ( 'alt' == $class ) ? '' : 'alt';
-				$class1 = $enabled = $disabled = '';
-				$enabled = $disabled = false;
+<?php screen_icon('themes'); ?>
+<h2><?php echo esc_html( $title ); if ( current_user_can('install_themes') ) { ?> <a href="theme-install.php" class="button add-new-h2"><?php echo esc_html_x('Add New', 'theme'); ?></a><?php } ?></h2>
+<p><?php _e( 'Themes must be enabled for your network before they will be available to individual sites.' ) ?></p>
 
-				if ( isset( $allowed_themes[$theme_key] ) == true ) {
-					$enabled = true;
-					$activated_themes_count++;
-					$class1 = 'active';
-				} else {
-					$disabled = true;
-				}
-				?>
-				<tr valign="top" class="<?php echo $class . ' ' . $class1; ?>">
-					<td>
-						<label><input name="theme[<?php echo $theme_key ?>]" type="radio" id="enabled_<?php echo $theme_key ?>" value="enabled" <?php checked( $enabled ) ?> /> <?php _e( 'Yes' ) ?></label>
-						&nbsp;&nbsp;&nbsp;
-						<label><input name="theme[<?php echo $theme_key ?>]" type="radio" id="disabled_<?php echo $theme_key ?>" value="disabled" <?php checked( $disabled ) ?> /> <?php _e( 'No' ) ?></label>
-					</td>
-					<th scope="row" style="text-align:left;"><?php echo $key ?></th>
-					<td><?php echo $theme['Version'] ?></td>
-					<td><?php echo $theme['Description'] ?></td>
-				</tr>
-			<?php } ?>
-			</tbody>
-		</table>
-		
-		<?php submit_button( __( 'Apply Changes' ), '', '' ); ?>
-	</form>
+<form method="get" action="">
+<p class="search-box">
+	<label class="screen-reader-text" for="theme-search-input"><?php _e( 'Search Themes' ); ?>:</label>
+	<input type="text" id="theme-search-input" name="s" value="<?php _admin_search_query(); ?>" />
+	<?php submit_button( __( 'Search Installed Themes' ), 'button', '', false ); ?>
+</p>
+</form>
 
-	<h3><?php _e( 'Total' )?></h3>
-	<p>
-		<?php printf( __( 'Themes Installed: %d' ), $total_theme_count); ?>
-		<br />
-		<?php printf( __( 'Themes Enabled: %d' ), $activated_themes_count); ?>
-	</p>
+<?php $wp_list_table->views(); ?>
+
+<form method="post" action="">
+<input type="hidden" name="theme_status" value="<?php echo esc_attr($status) ?>" />
+<input type="hidden" name="paged" value="<?php echo esc_attr($page) ?>" />
+
+<?php $wp_list_table->display(); ?>
+</form>
+
 </div>
 
-<?php include( '../admin-footer.php' ); ?>
+<?php
+include(ABSPATH . 'wp-admin/admin-footer.php');

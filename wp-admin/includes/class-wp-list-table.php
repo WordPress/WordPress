@@ -850,7 +850,7 @@ function require_list_table( $class ) {
 		'WP_Users_Table' => 'users', 'WP_Comments_Table' => 'comments', 'WP_Post_Comments_Table' => 'comments',
 		'WP_Links_Table' => 'links', 'WP_Sites_Table' => 'sites', 'WP_MS_Users_Table' => 'ms-users',
 		'WP_Plugins_Table' => 'plugins', 'WP_Plugin_Install_Table' => 'plugin-install', 'WP_Themes_Table' => 'themes',
-		'WP_Theme_Install_Table' => 'theme-install' );
+		'WP_Theme_Install_Table' => 'theme-install', 'WP_MS_Themes_Table' => 'ms-themes' );
 
 	if ( isset( $core_classes[ $class ] ) ) {
 		require_once( ABSPATH . '/wp-admin/includes/list-table-' . $core_classes[ $class ] . '.php' );
