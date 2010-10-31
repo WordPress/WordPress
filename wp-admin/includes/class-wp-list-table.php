@@ -617,7 +617,7 @@ class WP_List_Table {
 			$this->display_table();
 		} else {
 ?>
-		<br class="clear">
+		<br class="clear" />
 		<p><?php $this->no_items(); ?></p>
 <?php
 		}
@@ -692,10 +692,10 @@ class WP_List_Table {
 		$this->pagination( $which );
 	?>
 
-		<br class="clear">
+		<br class="clear" />
 	</div>
 
-	<br class="clear">
+	<br class="clear" />
 <?php
 	}
 
