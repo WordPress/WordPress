@@ -300,25 +300,6 @@ switch ( $_GET['action'] ) {
 		exit();
 	break;
 
-	// Themes
-    case 'updatethemes':
-	if ( ! current_user_can( 'manage_network_themes' ) )
-		wp_die( __( 'You do not have permission to access this page.' ) );
-
-    	if ( is_array( $_POST['theme'] ) ) {
-			$themes = get_themes();
-			reset( $themes );
-			$allowed_themes = array();
-			foreach ( (array) $themes as $key => $theme ) {
-				if ( $_POST['theme'][ esc_html( $theme['Stylesheet'] ) ] == 'enabled' )
-					$allowed_themes[ esc_html( $theme['Stylesheet'] ) ] = true;
-			}
-			update_site_option( 'allowedthemes', $allowed_themes );
-		}
-		wp_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'themes' ),  wp_get_referer() ) );
-		exit();
-	break;
-
 	// Common
 	case 'confirm':
 		if ( !headers_sent() ) {
