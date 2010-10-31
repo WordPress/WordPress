@@ -855,9 +855,7 @@ function get_category_template() {
  * @return string
  */
 function get_tag_template() {
-	global $wp_query;
-
-	$tag = $wp_query->get_queried_object();
+	$tag = get_queried_object();
 	$tag_name = $tag->slug;
 	$tag_id = $tag->term_id;
 
@@ -961,15 +959,13 @@ function get_front_page_template() {
  * @return string
  */
 function get_page_template() {
-	global $wp_query;
-
-	$id = (int) $wp_query->get_queried_object_id();
+	$id = get_queried_object_id();
 	$template = get_post_meta($id, '_wp_page_template', true);
 	$pagename = get_query_var('pagename');
 
 	if ( !$pagename && $id > 0 ) {
 		// If a static page is set as the front page, $pagename will not be set. Retrieve it from the queried object
-		$post = $wp_query->get_queried_object();
+		$post = get_queried_object();
 		$pagename = $post->post_name;
 	}
 
@@ -1018,9 +1014,7 @@ function get_search_template() {
  * @return string
  */
 function get_single_template() {
-	global $wp_query;
-
-	$object = $wp_query->get_queried_object();
+	$object = get_queried_object();
 	$templates = array('single-' . $object->post_type . '.php', 'single.php');
 
 	return get_query_template( 'single', $templates );

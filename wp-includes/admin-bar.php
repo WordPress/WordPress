@@ -173,9 +173,9 @@ function wp_admin_bar_shortlink_menu() {
  * @since 3.1.0
  */
 function wp_admin_bar_edit_menu () {
-	global $wp_admin_bar, $wp_query;
+	global $wp_admin_bar;
 
-	$current_object = $wp_query->get_queried_object();
+	$current_object = get_queried_object();
 
 	if ( empty($current_object) )
 		return;

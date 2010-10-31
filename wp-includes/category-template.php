@@ -465,8 +465,6 @@ function wp_list_categories( $args = '' ) {
 				$output .= $show_option_none;
 		}
 	} else {
-		global $wp_query;
-
 		if( !empty( $show_option_all ) )
 			if ( 'list' == $style )
 				$output .= '<li><a href="' .  get_bloginfo( 'url' )  . '">' . $show_option_all . '</a></li>';
@@ -474,7 +472,7 @@ function wp_list_categories( $args = '' ) {
 				$output .= '<a href="' .  get_bloginfo( 'url' )  . '">' . $show_option_all . '</a>';
 
 		if ( empty( $r['current_category'] ) && ( is_category() || is_tax() ) )
-			$r['current_category'] = $wp_query->get_queried_object_id();
+			$r['current_category'] = get_queried_object_id();
 
 		if ( $hierarchical )
 			$depth = $r['depth'];
@@ -1025,8 +1023,7 @@ function tag_description( $tag = 0 ) {
  */
 function term_description( $term = 0, $taxonomy = 'post_tag' ) {
 	if ( !$term && ( is_tax() || is_tag() || is_category() ) ) {
-		global $wp_query;
-		$term = $wp_query->get_queried_object();
+		$term = get_queried_object();
 		$taxonomy = $term->taxonomy;
 		$term = $term->term_id;
 	}

@@ -526,7 +526,7 @@ function get_current_blog_id() {
  * @return string|null String on retrieve, null when displaying.
  */
 function wp_title($sep = '&raquo;', $display = true, $seplocation = '') {
-	global $wpdb, $wp_locale, $wp_query;
+	global $wpdb, $wp_locale;
 
 	$m = get_query_var('m');
 	$year = get_query_var('year');
@@ -555,7 +555,7 @@ function wp_title($sep = '&raquo;', $display = true, $seplocation = '') {
 
 	// If there's an author
 	if ( is_author() ) {
-		$author = $wp_query->get_queried_object();
+		$author = get_queried_object();
 		$title = $author->display_name;
 	}
 
@@ -633,10 +633,10 @@ function wp_title($sep = '&raquo;', $display = true, $seplocation = '') {
  * @return string|null Title when retrieving, null when displaying or failure.
  */
 function single_post_title($prefix = '', $display = true) {
-	global $wp_query, $post;
+	global $post;
 
 	if ( ! $post )
-		$_post = $wp_query->get_queried_object();
+		$_post = get_queried_object();
 	else
 		$_post = $post;
 
@@ -736,9 +736,7 @@ function single_tag_title( $prefix = '', $display = true ) {
  * @return string|null Title when retrieving, null when displaying or failure.
  */
 function single_term_title( $prefix = '', $display = true ) {
-	global $wp_query;
-
-	$term = $wp_query->get_queried_object();
+	$term = get_queried_object();
 
 	if ( !$term )
 		return;
@@ -1630,8 +1628,6 @@ function feed_links( $args = array() ) {
  * @param array $args Optional arguments.
  */
 function feed_links_extra( $args = array() ) {
-	global $wp_query;
-
 	$defaults = array(
 		/* translators: Separator between blog name and feed type in feed links */
 		'separator'   => _x('&raquo;', 'feed link'),
@@ -1657,12 +1653,12 @@ function feed_links_extra( $args = array() ) {
 			$href = get_post_comments_feed_link( $post->ID );
 		}
 	} elseif ( is_category() ) {
-		$term = $wp_query->get_queried_object();
+		$term = get_queried_object();
 
 		$title = esc_attr(sprintf( $args['cattitle'], get_bloginfo('name'), $args['separator'], $term->name ));
 		$href = get_category_feed_link( $term->term_id );
 	} elseif ( is_tag() ) {
-		$term = $wp_query->get_queried_object();
+		$term = get_queried_object();
 
 		$title = esc_attr(sprintf( $args['tagtitle'], get_bloginfo('name'), $args['separator'], $term->name ));
 		$href = get_tag_feed_link( $term->term_id );

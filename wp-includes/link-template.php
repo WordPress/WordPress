@@ -716,8 +716,7 @@ function get_edit_term_link( $term_id, $taxonomy, $object_type = '' ) {
  */
 function edit_term_link( $link = '', $before = '', $after = '', $term = null, $echo = true ) {
 	if ( is_null( $term ) ) {
-		global $wp_query;
-		$term = $wp_query->get_queried_object();
+		$term = get_queried_object();
 	}
 
 	$tax = get_taxonomy( $term->taxonomy );
