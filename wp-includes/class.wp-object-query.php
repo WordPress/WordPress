@@ -153,10 +153,11 @@ class WP_Object_Query {
 				$meta_compare_string = '%s';
 			}
 			$where .= $wpdb->prepare( " AND CAST($alias.meta_value AS {$meta_type}) {$meta_compare} {$meta_compare_string}", $meta_value );
-			unset($meta_compare_string);
+
+			unset( $meta_compare_string );
 		}
 
-		return compact( 'join', 'where' );
+		return apply_filters( 'get_meta_sql', compact( 'join', 'where' ), $meta_query, $primary_table, $primary_id_column, $meta_table, $meta_id_column );
 	}
 
 	/*
