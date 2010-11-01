@@ -553,6 +553,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 				echo $this->row_actions( $actions );
 
 				get_inline_data( $post );
+				echo '</td>';
 			break;
 
 			case 'date':
@@ -599,7 +600,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 					$out = array();
 					foreach ( $categories as $c ) {
 						$out[] = sprintf( '<a href="%s">%s</a>',
-							add_query_arg( array( 'post_type' => $post->post_type, 'category_name' => $c->slug ), 'edit.php' ),
+							esc_url( add_query_arg( array( 'post_type' => $post->post_type, 'category_name' => $c->slug ), 'edit.php' ) ),
 							esc_html( sanitize_term_field( 'name', $c->name, $c->term_id, 'category', 'display' ) )
 						);
 					}
@@ -619,7 +620,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 					$out = array();
 					foreach ( $tags as $c ) {
 						$out[] = sprintf( '<a href="%s">%s</a>',
-							add_query_arg( array( 'post_type' => $post->post_type, 'tag' => $c->slug ), 'edit.php' ),
+							esc_url( add_query_arg( array( 'post_type' => $post->post_type, 'tag' => $c->slug ), 'edit.php' ) ),
 							esc_html( sanitize_term_field( 'name', $c->name, $c->term_id, 'tag', 'display' ) )
 						);
 					}
@@ -647,7 +648,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			?>
 			<td <?php echo $attributes ?>><?php
 				printf( '<a href="%s">%s</a>',
-					add_query_arg( array( 'post_type' => $post->post_type, 'author' => get_the_author_meta( 'ID' ) ), 'edit.php' ),
+					esc_url( add_query_arg( array( 'post_type' => $post->post_type, 'author' => get_the_author_meta( 'ID' ) ), 'edit.php' )),
 					get_the_author()
 				);
 			?></td>
