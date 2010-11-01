@@ -87,14 +87,18 @@ class WP_Object_Query {
 	 *		Possible values: 'NUMERIC', 'BINARY', 'CHAR', 'DATE', 'DATETIME', 'DECIMAL', 'SIGNED', 'TIME', 'UNSIGNED'.
 	 *		Default: 'CHAR'
 	 *
+	 * @param string $meta_type
 	 * @param string $primary_table
 	 * @param string $primary_id_column
-	 * @param string $meta_table
-	 * @param string $meta_id_column
 	 * @return array( $join_sql, $where_sql )
 	 */
-	function get_meta_sql( $meta_query, $primary_table, $primary_id_column, $meta_table, $meta_id_column ) {
+	function get_meta_sql( $meta_query, $meta_type, $primary_table, $primary_id_column ) {
 		global $wpdb;
+
+		if ( ! $meta_table = _get_meta_table( $meta_type ) )
+			return false;
+
+		$meta_id_column = esc_sql( $meta_type . '_id' );
 
 		$clauses = array();
 
@@ -157,7 +161,7 @@ class WP_Object_Query {
 			unset( $meta_compare_string );
 		}
 
-		return apply_filters( 'get_meta_sql', compact( 'join', 'where' ), $meta_query, $primary_table, $primary_id_column, $meta_table, $meta_id_column );
+		return apply_filters( 'get_meta_sql', compact( 'join', 'where' ), $meta_query, $meta_type, $primary_table, $primary_id_column );
 	}
 
 	/*
