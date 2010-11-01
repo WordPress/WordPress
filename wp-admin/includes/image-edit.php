@@ -201,10 +201,11 @@ function load_image_to_edit($post_id, $mime_type, $size = 'full') {
 	$filepath = get_attached_file($post_id);
 
 	if ( $filepath && file_exists($filepath) ) {
-		if ( 'full' != $size && ( $data = image_get_intermediate_size($post_id, $size) ) )
-			$filepath = path_join( dirname($filepath), $data['file'] );
+		if ( 'full' != $size && ( $data = image_get_intermediate_size($post_id, $size) ) ) {
+			$filepath = apply_filters('load_image_to_edit_filesystempath', path_join( dirname($filepath), $data['file'] ), $post_id, $size);
+		}
 	} elseif ( WP_Http_Fopen::test() ) {
-		$filepath = wp_get_attachment_url($post_id);
+		$filepath = apply_filters('load_image_to_edit_attachmenturl', wp_get_attachment_url($post_id) , $post_id, $size);
 	}
 
 	$filepath = apply_filters('load_image_to_edit_path', $filepath, $post_id, $size);
