@@ -158,8 +158,8 @@ class WP_Sites_Table extends WP_List_Table {
 			}
 			echo "<tr class='$class'>";
 
-			$blogname = ( is_subdomain_install() ) ? str_replace( '.'.$current_site->domain, '', $blog['domain'] ) : $blog['path'];
-
+			$blogname = ( is_subdomain_install() ) ? $blog['path'] : str_replace( '.'.$current_site->domain, '', $blog['domain'] );
+			
 			list( $columns, $hidden ) = $this->get_column_info();
 
 			foreach ( $columns as $column_name => $column_display_name ) {
@@ -244,9 +244,9 @@ class WP_Sites_Table extends WP_List_Table {
 							echo mysql2date( $date, $blog['registered'] );
 						?>
 						</td>
-				<?php
-				break;
-					case 'users': ?>
+					<?php
+					break;
+				case 'users': ?>
 						<td valign="top">
 							<?php
 							$blogusers = get_users( array( 'blog_id' => $blog['blog_id'], 'number' => 6) );
@@ -270,7 +270,7 @@ class WP_Sites_Table extends WP_List_Table {
 					<?php
 					break;
 
-					case 'plugins': ?>
+				case 'plugins': ?>
 						<?php if ( has_filter( 'wpmublogsaction' ) ) { ?>
 						<td valign="top">
 							<?php do_action( 'wpmublogsaction', $blog['blog_id'] ); ?>
@@ -278,7 +278,7 @@ class WP_Sites_Table extends WP_List_Table {
 						<?php } ?>
 					<?php break;
 
-					default: ?>
+				default: ?>
 						<?php if ( has_filter( 'manage_blogs_custom_column' ) ) { ?>
 						<td valign="top">
 							<?php do_action( 'manage_blogs_custom_column', $column_name, $blog['blog_id'] ); ?>
