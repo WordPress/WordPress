@@ -244,10 +244,8 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 					$actions['network_disable'] = '<a href="' . wp_nonce_url('themes.php?action=network-disable&amp;theme=' . $theme_key . '&amp;paged=' . $page . '&amp;s=' . $s, 'disable-theme_' . $theme_key) . '" title="' . __('Disable this theme') . '">' . __('Disable') . '</a>';
 			}
 			
-			/* @todo link to theme editor	
 			if ( current_user_can('edit_themes') )
-				$actions['edit'] = '<a href="theme-editor.php?file=' . $theme['Stylesheet Files'][0] . '" title="' . __('Open this theme in the Theme Editor') . '" class="edit">' . __('Edit') . '</a>';
-			*/
+				$actions['edit'] = '<a href="theme-editor.php?theme=' . $theme['Name'] . '" title="' . __('Open this theme in the Theme Editor') . '" class="edit">' . __('Edit') . '</a>';
 
 			$actions = apply_filters( 'theme_action_links', array_filter( $actions ), $theme_key, $theme, $context );
 			$actions = apply_filters( "theme_action_links_$theme_key", $actions, $theme_key, $theme, $context );
