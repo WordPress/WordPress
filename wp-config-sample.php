@@ -66,10 +66,10 @@ $table_prefix  = 'wp_';
  *
  * Change this to localize WordPress.  A corresponding MO file for the chosen
  * language must be installed to wp-content/languages. For example, install
- * de.mo to wp-content/languages and set WPLANG to 'de' to enable German
+ * de.mo to wp-content/languages and set WPLANG to 'de_DE' to enable German
  * language support.
  */
-define ('WPLANG', '');
+define('WPLANG', '');
 
 /**
  * For developers: WordPress debugging mode.
