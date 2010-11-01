@@ -180,32 +180,26 @@ function wp_admin_bar_edit_menu () {
 	if ( empty($current_object) )
 		return;
 
-	// @todo Use proper type name in edit strings
 	if ( ! empty( $current_object->post_type ) && ( $post_type_object = get_post_type_object( $current_object->post_type ) ) && current_user_can( $post_type_object->cap->edit_post, $current_object->ID ) ) {
-		$wp_admin_bar->add_menu( array( 'id' => 'edit', 'title' => __( 'Edit Post' ),  'href' => get_edit_post_link( $current_object->ID ), ) );
+		$wp_admin_bar->add_menu( array( 'id' => 'edit', 'title' => $post_type_object->labels->edit_item,  'href' => get_edit_post_link( $current_object->ID ), ) );
 	} elseif ( ! empty( $current_object->taxonomy ) &&  ( $tax = get_taxonomy( $current_object->taxonomy ) ) && current_user_can( $tax->cap->edit_terms ) ) {
-		$wp_admin_bar->add_menu( array( 'id' => 'edit', 'title' => __( 'Edit Post' ), 'href' => get_edit_term_link( $current_object->term_id, $current_object->taxonomy ), ) );
+		$wp_admin_bar->add_menu( array( 'id' => 'edit', 'title' => $tax->labels->edit_item, 'href' => get_edit_term_link( $current_object->term_id, $current_object->taxonomy ), ) );
 	}
 }
 
 function wp_admin_bar_new_content_menu() {
 	global $wp_admin_bar;
 
-	// @todo Handle CPTs, use post type object for strings
-	$actions = array(
-		'post-new.php' => array(__('Post'), 'edit_posts', 'new-post'),
-		'post-new.php?post_type=page' => array(__('Page'), 'edit_pages', 'new-page'),
-	);
-
-	$user_can = false;
-	foreach ( $actions as $action ) {
-		if ( current_user_can($action[1]) ) {
-			$user_can = true;
-			break;
-		}
+	$actions = array();
+	foreach ( (array) get_post_types( array('show_ui' => true, 'show_in_menu' => true) ) as $ptype ) {
+		$ptype_obj = get_post_type_object( $ptype );
+		if ( $ptype_obj->show_in_menu !== true || ! current_user_can( $ptype_obj->cap->edit_posts ) )
+			continue;
+			
+		$actions["post-new.php?post_type=$ptype"] = array( $ptype_obj->labels->singular_name, $ptype_obj->cap->edit_posts, "new-$ptype" );
 	}
 
-	if ( !$user_can )
+	if ( empty( $actions ) )
 		return;
 
 	$wp_admin_bar->add_menu( array( 'id' => 'new-content', 'title' => __( 'New Content' ), 'href' => '', ) );
