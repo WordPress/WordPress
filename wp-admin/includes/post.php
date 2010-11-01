@@ -1470,6 +1470,7 @@ function wp_tiny_mce( $teeny = false, $settings = false ) {
 		'paste_remove_styles' => true,
 		'paste_remove_spans' => true,
 		'paste_strip_class_attributes' => 'all',
+		'paste_text_use_dialog' => true,
 		'wpeditimage_disable_captions' => $no_captions,
 		'plugins' => $plugins
 	);
