@@ -64,6 +64,7 @@ if ( $action ) {
 }
 
 $wp_list_table->prepare_items();
+add_thickbox();
 
 add_screen_option( 'per_page', array('label' => _x( 'Themes', 'themes per page (screen options)' ), 'default' => 999) );
 

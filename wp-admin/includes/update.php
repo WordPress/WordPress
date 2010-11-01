@@ -241,6 +241,43 @@ function wp_update_theme($theme, $feedback = '') {
 	return $upgrader->upgrade($theme);
 }
 
+function wp_theme_update_rows() {
+	if ( !current_user_can('update_themes' ) )
+		return;
+
+	$themes = get_site_transient( 'update_themes' );
+	if ( isset($themes->response) && is_array($themes->response) ) {
+		$themes = array_keys( $themes->response );
+
+		foreach( $themes as $theme ) {
+			add_action( "after_theme_row_$theme", 'wp_theme_update_row', 10, 2 );
+		}
+	}
+}
+add_action( 'admin_init', 'wp_theme_update_rows' );
+
+function wp_theme_update_row( $theme_key, $theme ) {
+	$current = get_site_transient( 'update_themes' );
+	if ( !isset( $current->response[ $theme_key ] ) )
+		return false;
+	$r = $current->response[ $theme_key ];
+	$themes_allowedtags = array('a' => array('href' => array(),'title' => array()),'abbr' => array('title' => array()),'acronym' => array('title' => array()),'code' => array(),'em' => array(),'strong' => array());
+	$theme_name = wp_kses( $theme['Name'], $themes_allowedtags );
+
+	$details_url = self_admin_url("theme-install.php?tab=theme-information&theme=$theme_key&TB_iframe=true&width=600&height=400");
+
+	echo '<tr class="plugin-update-tr"><td colspan="3" class="plugin-update"><div class="update-message">';
+	if ( ! current_user_can('update_themes') )
+		printf( __('There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%3$s">View version %4$s details</a>.'), $theme['Name'], esc_url($details_url), esc_attr($theme['Name']), $r->new_version );
+	else if ( empty( $r['package'] ) )
+		printf( __('There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%3$s">View version %4$s details</a>. <em>Automatic upgrade is unavailable for this plugin.</em>'), $theme['Name'], esc_url($details_url), esc_attr($theme['Name']), $r['new_version'] );
+	else
+		printf( __('There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%3$s">View version %4$s details</a> or <a href="%5$s">upgrade automatically</a>.'), $theme['Name'], esc_url($details_url), esc_attr($theme['Name']), $r['new_version'], wp_nonce_url( self_admin_url('update.php?action=upgrade-theme&theme=') . $theme_key, 'upgrade-theme_' . $theme_key) );
+
+	do_action( "in_theme_update_message-$theme_key", $theme, $r );
+
+	echo '</div></td></tr>';
+}
 
 function wp_update_core($current, $feedback = '') {
 	if ( !empty($feedback) )
