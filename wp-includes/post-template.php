@@ -327,11 +327,15 @@ function get_post_class( $class = '', $post_id = null ) {
 	$classes[] = $post->post_type;
 	$classes[] = 'type-' . $post->post_type;
 
+	// post requires password
+	if ( post_password_required($post->ID) )
+		$classes[] = 'post-password-required';
+	
 	// sticky for Sticky Posts
 	if ( is_sticky($post->ID) && is_home() && !is_paged() )
 		$classes[] = 'sticky';
 
-	// hentry for hAtom compliace
+	// hentry for hAtom compliance
 	$classes[] = 'hentry';
 
 	// Categories
