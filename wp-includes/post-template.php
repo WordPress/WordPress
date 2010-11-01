@@ -326,6 +326,7 @@ function get_post_class( $class = '', $post_id = null ) {
 	$classes[] = 'post-' . $post->ID;
 	$classes[] = $post->post_type;
 	$classes[] = 'type-' . $post->post_type;
+	$classes[] = 'status-' . $post->post_status;
 
 	// post requires password
 	if ( post_password_required($post->ID) )
