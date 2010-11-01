@@ -89,7 +89,7 @@ class WP_List_Table {
 		if ( is_string( $this->_screen ) )
 			$this->_screen = convert_to_screen( $this->_screen );
 
-		add_filter( 'manage_' . $this->_screen->id . '_columns', array( $this, 'get_columns' ), 0 );
+		add_filter( 'manage_' . $this->_screen->id . '_columns', array( &$this, 'get_columns' ), 0 );
 
 		if ( !$args['plural'] )
 			$args['plural'] = $this->_screen->base;
@@ -98,7 +98,7 @@ class WP_List_Table {
 
 		if ( $args['ajax'] ) {
 			wp_enqueue_script( 'list-table' );
-			add_action( 'admin_footer', array( $this, '_js_vars' ) );
+			add_action( 'admin_footer', array( &$this, '_js_vars' ) );
 		}
 	}
 
@@ -762,7 +762,7 @@ class WP_List_Table {
 			}
 			elseif ( method_exists( $this, 'column_' . $column_name ) ) {
 				echo "<td $attributes>";
-				echo call_user_func( array( $this, 'column_' . $column_name ), $item );
+				echo call_user_func( array( &$this, 'column_' . $column_name ), $item );
 				echo "</td>";
 			}
 			else {
@@ -846,11 +846,22 @@ function get_list_table( $class ) {
  * @return bool True on success, false on failure.
  */
 function require_list_table( $class ) {
-	$core_classes = array( 'WP_Posts_Table' => 'posts', 'WP_Media_Table' => 'media', 'WP_Terms_Table' => 'terms',
-		'WP_Users_Table' => 'users', 'WP_Comments_Table' => 'comments', 'WP_Post_Comments_Table' => 'comments',
-		'WP_Links_Table' => 'links', 'WP_Sites_Table' => 'sites', 'WP_MS_Users_Table' => 'ms-users',
-		'WP_Plugins_Table' => 'plugins', 'WP_Plugin_Install_Table' => 'plugin-install', 'WP_Themes_Table' => 'themes',
-		'WP_Theme_Install_Table' => 'theme-install', 'WP_MS_Themes_Table' => 'ms-themes' );
+	$core_classes = array(
+		'WP_Posts_Table' => 'posts',
+		'WP_Media_Table' => 'media',
+		'WP_Terms_Table' => 'terms',
+		'WP_Users_Table' => 'users',
+		'WP_Comments_Table' => 'comments',
+		'WP_Post_Comments_Table' => 'comments',
+		'WP_Links_Table' => 'links',
+		'WP_Sites_Table' => 'sites',
+		'WP_MS_Users_Table' => 'ms-users',
+		'WP_Plugins_Table' => 'plugins',
+		'WP_Plugin_Install_Table' => 'plugin-install',
+		'WP_Themes_Table' => 'themes',
+		'WP_Theme_Install_Table' => 'theme-install',
+		'WP_MS_Themes_Table' => 'ms-themes',
+	);
 
 	if ( isset( $core_classes[ $class ] ) ) {
 		require_once( ABSPATH . '/wp-admin/includes/list-table-' . $core_classes[ $class ] . '.php' );

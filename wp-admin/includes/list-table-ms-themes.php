@@ -76,7 +76,7 @@ class WP_MS_Themes_Table extends WP_List_Table {
 
 		if ( $s ) {
 			$status = 'search';
-			$themes['search'] = array_filter( $themes['all'], array( $this, '_search_callback' ) );
+			$themes['search'] = array_filter( $themes['all'], array( &$this, '_search_callback' ) );
 		}
 
 		$totals = array();
@@ -93,7 +93,7 @@ class WP_MS_Themes_Table extends WP_List_Table {
 			$orderby = ucfirst( $orderby );
 			$order = strtoupper( $order );
 
-			uasort( $this->items, array( $this, '_order_callback' ) );
+			uasort( $this->items, array( &$this, '_order_callback' ) );
 		}
 
 		$themes_per_page = $this->get_items_per_page( 'themes_per_page', 999 );
