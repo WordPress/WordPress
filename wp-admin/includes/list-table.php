@@ -37,26 +37,27 @@ function get_list_table( $class ) {
  */
 function require_list_table( $class ) {
 	$core_classes = array(
-		'WP_Posts_Table' => 'posts',
-		'WP_Media_Table' => 'media',
-		'WP_Terms_Table' => 'terms',
-		'WP_Users_Table' => 'users',
-		'WP_Comments_Table' => 'comments',
-		'WP_Post_Comments_Table' => 'comments',
-		'WP_Links_Table' => 'links',
-		'WP_Sites_Table' => 'sites',
-		'WP_MS_Users_Table' => 'ms-users',
-		'WP_Plugins_Table' => 'plugins',
-		'WP_Plugin_Install_Table' => 'plugin-install',
-		'WP_Themes_Table' => 'themes',
-		'WP_Theme_Install_Table' => 'theme-install',
-		'WP_MS_Themes_Table' => 'ms-themes',
+		'WP_Posts_List_Table' => 'posts',
+		'WP_Media_List_Table' => 'media',
+		'WP_Terms_List_Table' => 'terms',
+		'WP_Users_List_Table' => 'users',
+		'WP_Comments_List_Table' => 'comments',
+		'WP_Post_Comments_List_Table' => 'comments',
+		'WP_Links_List_Table' => 'links',
+		'WP_MS_Sites_List_Table' => 'ms-sites',
+		'WP_MS_Users_List_Table' => 'ms-users',
+		'WP_Plugins_List_Table' => 'plugins',
+		'WP_Plugin_Install_List_Table' => 'plugin-install',
+		'WP_Themes_List_Table' => 'themes',
+		'WP_Theme_Install_List_Table' => 'theme-install',
+		'WP_MS_Themes_List_Table' => 'ms-themes',
 	);
 
 	if ( isset( $core_classes[ $class ] ) ) {
-		require_once( ABSPATH . '/wp-admin/includes/list-table-' . $core_classes[ $class ] . '.php' );
+		require_once( ABSPATH . '/wp-admin/includes/class-wp-' . $core_classes[ $class ] . '-list-table.php' );
 		return true;
 	}
+
 	return false;
 }
 

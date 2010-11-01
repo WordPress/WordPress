@@ -6,9 +6,9 @@
  * @subpackage List_Table
  * @since 3.1.0
  */
-class WP_Plugins_Table extends WP_List_Table {
+class WP_Plugins_List_Table extends WP_List_Table {
 
-	function WP_Plugins_Table() {
+	function WP_Plugins_List_Table() {
 		global $status, $page;
 
 		$default_status = get_user_option( 'plugins_last_view' );

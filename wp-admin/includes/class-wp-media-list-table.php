@@ -6,9 +6,9 @@
  * @subpackage List_Table
  * @since 3.1.0
  */
-class WP_Media_Table extends WP_List_Table {
+class WP_Media_List_Table extends WP_List_Table {
 
-	function WP_Media_Table() {
+	function WP_Media_List_Table() {
 		global $detached;
 
 		$detached = isset( $_REQUEST['detached'] ) || isset( $_REQUEST['find_detached'] );

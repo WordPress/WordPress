@@ -12,7 +12,7 @@ require_once( './admin.php' );
 if ( ! is_multisite() )
 	wp_die( __( 'Multisite support is not enabled.' ) );
 
-$wp_list_table = get_list_table('WP_Sites_Table');
+$wp_list_table = get_list_table('WP_MS_Sites_List_Table');
 $wp_list_table->check_permissions();
 
 $title = __( 'Sites' );
