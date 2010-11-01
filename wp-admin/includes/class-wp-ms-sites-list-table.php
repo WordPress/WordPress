@@ -32,6 +32,17 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 		$s = isset( $_REQUEST['s'] ) ? stripslashes( trim( $_REQUEST[ 's' ] ) ) : '';
 		$like_s = esc_sql( like_escape( $s ) );
 
+		$large_network = false;
+		// If the network is large and a search is not being performed, show only the latest blogs with no paging in order
+		// to avoid expensive count queries.
+		if ( !$s && ( get_blog_count() >= 10000 ) ) {
+			if ( !isset($_REQUEST['orderby']) )
+				$_GET['orderby'] = $_REQUEST['orderby'] = 'registered';
+			if ( !isset($_REQUEST['order']) )
+				$_GET['order'] = $_REQUEST['order'] = 'DESC';
+			$large_network = true;
+		}
+
 		$query = "SELECT * FROM {$wpdb->blogs} WHERE site_id = '{$wpdb->siteid}' ";
 
 		if ( isset( $_REQUEST['searchaction'] ) ) {
@@ -63,10 +74,15 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 		$order = ( isset( $_REQUEST['order'] ) && 'DESC' == strtoupper( $_REQUEST['order'] ) ) ? "DESC" : "ASC";
 		$query .= $order;
 
-		$total = $wpdb->get_var( str_replace( 'SELECT *', 'SELECT COUNT( blog_id )', $query ) );
+		// Don't do an unbounded count on large networks
+		if ( ! $large_network )
+			$total = $wpdb->get_var( str_replace( 'SELECT *', 'SELECT COUNT( blog_id )', $query ) );
 
 		$query .= " LIMIT " . intval( ( $pagenum - 1 ) * $per_page ) . ", " . intval( $per_page );
 		$this->items = $wpdb->get_results( $query, ARRAY_A );
+
+		if ( $large_network )
+			$total = count($this->items);
 
 		$this->set_pagination_args( array(
 			'total_items' => $total,
