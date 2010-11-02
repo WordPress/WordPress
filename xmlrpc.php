@@ -53,7 +53,7 @@ exit;
 
 include_once(ABSPATH . 'wp-admin/includes/admin.php');
 include_once(ABSPATH . WPINC . '/class-IXR.php');
-include_once(ABSPATH . WPINC . '/class.wp-xmlrpc-server.php');
+include_once(ABSPATH . WPINC . '/class-wp-xmlrpc-server.php');
 
 // Turn off all warnings and errors.
 // error_reporting(0);
