@@ -137,7 +137,7 @@ textarea.disabled {
 .widget .widget-top,
 .postbox h3,
 .stuffbox h3 {
-	background: #dfdfdf url("../images/blue-grad.gif") repeat-x left top;
+	background: #dfdfdf url("../images/blue-grad.gif?ver=20101102") repeat-x left top;
 	text-shadow: #fff 0 1px 0;
 }
 
@@ -473,7 +473,7 @@ h3.dashboard-widget-title span,
 h3.dashboard-widget-title small,
 .find-box-head {
 	color: #333;
-	background: #dfdfdf url(../images/blue-grad.png) repeat-x scroll left top;
+	background: #dfdfdf url(../images/blue-grad.png?ver=20101102) repeat-x scroll left top;
 }
 
 th.sortable a:hover, th.sortable a:active, th.sortable a:focus {
@@ -946,7 +946,7 @@ table.widefat .spam a:hover,
 }
 
 .wp_themeSkin tr.mceFirst td.mceToolbar {
-	background: #cfdfe9 url("../images/ed-bg-vs.gif") repeat-x scroll left top;
+	background: #cfdfe9 url("../images/ed-bg-vs.gif?ver=20101102") repeat-x scroll left top;
 	border-color: #cbc7c9;
 }
 
@@ -1048,20 +1048,20 @@ table.widefat .spam a:hover,
 
 #adminmenu li.wp-has-current-submenu.wp-menu-open .wp-menu-toggle,
 #adminmenu li.wp-has-current-submenu:hover .wp-menu-toggle {
-	background: transparent url(../images/menu-bits-vs.gif?ver=20100610) no-repeat scroll left -207px;
+	background: transparent url(../images/menu-bits-vs.gif?ver=20101102) no-repeat scroll left -207px;
 }
 
 #adminmenu .wp-has-submenu:hover .wp-menu-toggle,
 #adminmenu .wp-menu-open .wp-menu-toggle {
-	background: transparent url(../images/menu-bits-vs.gif?ver=20100610) no-repeat scroll left -109px;
+	background: transparent url(../images/menu-bits-vs.gif?ver=20101102) no-repeat scroll left -109px;
 }
 
 #adminmenu a.menu-top {
-	background: #eff8ff url(../images/menu-bits-vs.gif?ver=20100610) repeat-x scroll left -379px;
+	background: #eff8ff url(../images/menu-bits-vs.gif?ver=20101102) repeat-x scroll left -379px;
 }
 
 #adminmenu .wp-submenu a {
-	background: #fff url(../images/menu-bits-vs.gif?ver=20100610) no-repeat scroll 0 -99px;
+	background: #fff url(../images/menu-bits-vs.gif?ver=20101102) no-repeat scroll 0 -99px;
 }
 
 #adminmenu .wp-has-current-submenu ul li a {
@@ -1082,7 +1082,7 @@ table.widefat .spam a:hover,
 
 #adminmenu li.wp-has-current-submenu a.wp-has-current-submenu,
 #adminmenu li.current a.menu-top {
-	background: #e0e0e0 url(../images/menu-bits-vs.gif?ver=20100610) top left repeat-x;
+	background: #e0e0e0 url(../images/menu-bits-vs.gif?ver=20101102) top left repeat-x;
 	border: #5589aa 1px solid;
 	color: #464646;
 }
@@ -1102,7 +1102,7 @@ table.widefat .spam a:hover,
 }
 
 #adminmenu .wp-submenu .current a.current {
-	background: transparent url(../images/menu-bits-vs.gif?ver=20100610) no-repeat scroll  0 -289px;
+	background: transparent url(../images/menu-bits-vs.gif?ver=20101102) no-repeat scroll  0 -289px;
 }
 
 #adminmenu .wp-submenu a:hover {
@@ -1396,7 +1396,7 @@ fieldset.inline-edit-col-right .inline-edit-col {
 }
 
 .meta-box-sortables .postbox:hover .handlediv {
-	background: transparent url(../images/menu-bits-vs.gif?ver=20100610) no-repeat scroll left -111px;
+	background: transparent url(../images/menu-bits-vs.gif?ver=20101102) no-repeat scroll left -111px;
 }
 
 #major-publishing-actions {
@@ -1409,7 +1409,7 @@ fieldset.inline-edit-col-right .inline-edit-col {
 
 .tablenav .tablenav-pages a {
 	border-color: #D1E5EE;
-	background: #eee url('../images/menu-bits-vs.gif?ver=20100610') repeat-x scroll left -379px;
+	background: #eee url('../images/menu-bits-vs.gif?ver=20101102') repeat-x scroll left -379px;
 }
 
 .tablenav .tablenav-pages a:hover {
@@ -1604,7 +1604,7 @@ background-image:url("../images/screen-options-right-vs.gif?ver=20100531");
 }
 
 #header-logo {
-	background: transparent url(../images/wp-logo-vs.png?ver=20100531) no-repeat scroll center center;
+	background: transparent url(../images/wp-logo-vs.png?ver=20101102) no-repeat scroll center center;
 }
 
 .popular-tags,
@@ -1636,7 +1636,7 @@ div.widgets-sortables,
 
 #widgets-left .sidebar-name {
 	background-color: #aaa;
-	background-image: url(../images/ed-bg-vs.gif);
+	background-image: url(../images/ed-bg-vs.gif?ver=20101102);
 	text-shadow: #fff 0 1px 0;
 	border-color: #dfdfdf;
 }
@@ -1659,7 +1659,7 @@ div.widgets-sortables,
 }
 
 #widgets-left .sidebar-name-arrow {
-	background: transparent url(../images/menu-bits-vs.gif?ver=20100610) no-repeat scroll left -109px;
+	background: transparent url(../images/menu-bits-vs.gif?ver=20101102) no-repeat scroll left -109px;
 }
 
 #widgets-right .sidebar-name-arrow {
@@ -1705,7 +1705,7 @@ div.widgets-sortables,
 }
 
 #nav-menu-header, #nav-menu-footer, .menu-item-handle {
-	background: url("../images/ed-bg-vs.gif") repeat-x scroll left top #cfdfe9;
+	background: url("../images/ed-bg-vs.gif?ver=20101102") repeat-x scroll left top #cfdfe9;
 	border-top: solid #cbc7b9 1px;
 }
 

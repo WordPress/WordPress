@@ -231,6 +231,12 @@ $_old_files = array(
 'wp-admin/link-category.php',
 'wp-admin/edit-link-category-form.php',
 'wp-admin/sidebar.php',
+'wp-admin/images/list-vs.png',
+'wp-admin/images/button-grad-vs.png',
+'wp-admin/images/button-grad-active-vs.png',
+'wp-admin/images/fav-arrow-vs.png',
+'wp-admin/images/fav-arrow-vs-rtl.png',
+'wp-admin/images/fav-top-vs.png',
 );
 
 /**
