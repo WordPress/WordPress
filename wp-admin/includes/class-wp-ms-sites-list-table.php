@@ -174,7 +174,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 			}
 			echo "<tr class='$class'>";
 
-			$blogname = ( is_subdomain_install() ) ? $blog['path'] : str_replace( '.'.$current_site->domain, '', $blog['domain'] );
+			$blogname = ( is_subdomain_install() ) ? str_replace( '.'.$current_site->domain, '', $blog['domain'] ) : $blog['path'];
 			
 			list( $columns, $hidden ) = $this->get_column_info();
 
