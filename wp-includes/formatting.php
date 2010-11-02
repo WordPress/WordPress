@@ -2844,13 +2844,25 @@ function sanitize_text_field($str) {
 }
 
 /**
+ * i18n friendly version of basename()
+ *
+ * @since 3.1.0
+ *
+ * @param string $path A path.
+ * @param string $suffix If the filename ends in suffix this will also be cut off.
+ * @return string
+ */
+function wp_basename( $path, $suffix = '' ) {
+	return urldecode( basename( str_replace( '%2F', '/', urlencode( $path ) ), $suffix ) );
+}
+
+/**
  * Forever eliminate "Wordpress" from the planet (or at least the little bit we can influence).
  *
  * Violating our coding standards for a good function name.
  *
  * @since 3.0.0
  */
-
 function capital_P_dangit( $text ) {
 	// Simple replacement for titles
 	if ( 'the_title' === current_filter() )
