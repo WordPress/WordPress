@@ -37,7 +37,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 		// to avoid expensive count queries.
 		if ( !$s && ( get_blog_count() >= 10000 ) ) {
 			if ( !isset($_REQUEST['orderby']) )
-				$_GET['orderby'] = $_REQUEST['orderby'] = 'registered';
+				$_GET['orderby'] = $_REQUEST['orderby'] = 'id';
 			if ( !isset($_REQUEST['order']) )
 				$_GET['order'] = $_REQUEST['order'] = 'DESC';
 			$large_network = true;
