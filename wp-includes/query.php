@@ -1481,7 +1481,7 @@ class WP_Query extends WP_Object_Query {
 					);
 
 					if ( $t->rewrite['hierarchical'] ) {
-						$q[$t->query_var] = $this->_qv_basename( $q[$t->query_var] );
+						$q[$t->query_var] = wp_basename( $q[$t->query_var] );
 					}
 
 					$term = str_replace( ' ', '+', $q[$t->query_var] );
@@ -1810,7 +1810,7 @@ class WP_Query extends WP_Object_Query {
 
 			$page_for_posts = get_option('page_for_posts');
 			if  ( ('page' != get_option('show_on_front') ) || empty($page_for_posts) || ( $reqpage != $page_for_posts ) ) {
-				$q['pagename'] = sanitize_title_for_query( $this->_qv_basename( $q['pagename'] ) );
+				$q['pagename'] = sanitize_title_for_query( wp_basename( $q['pagename'] ) );
 				$q['name'] = $q['pagename'];
 				$where .= " AND ($wpdb->posts.ID = '$reqpage')";
 				$reqpage_obj = get_page($reqpage);
@@ -1822,7 +1822,7 @@ class WP_Query extends WP_Object_Query {
 				}
 			}
 		} elseif ( '' != $q['attachment'] ) {
-			$q['attachment'] = sanitize_title_for_query( $this->_qv_basename( $q['attachment'] ) );
+			$q['attachment'] = sanitize_title_for_query( wp_basename( $q['attachment'] ) );
 			$q['name'] = $q['attachment'];
 			$where .= " AND $wpdb->posts.post_name = '" . $q['attachment'] . "'";
 		}
@@ -3124,19 +3124,6 @@ class WP_Query extends WP_Object_Query {
 	 */
 	function is_404() {
 		return (bool) $this->is_404;
-	}
-
-	/**
-	 * i18n friendly way to get the last segment in a path
-	 *
-	 * @since 3.1.0
-	 * @access private
-	 *
-	 * @param string $path The path
-	 * @return string
-	 */
-	function _qv_basename( $path ) {
-		return basename( str_replace( '%2F', '/', urlencode( urldecode( $path ) ) ) );
 	}
 }
 
