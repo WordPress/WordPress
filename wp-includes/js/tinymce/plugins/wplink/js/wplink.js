@@ -66,23 +66,20 @@
 			inputs.title = $('#link-title-field');
 			// Advanced Options
 			inputs.openInNewTab = $('#link-target-checkbox');
-			// Types
-			inputs.typeDropdown = $('#link-type');
-			inputs.typeOptions = inputs.typeDropdown.find('option');
 			
 			panels = $('.link-panel');
 			active = $('.link-panel-active');
+			$('#link-panel-tab-bar').wpTabs({
+				show: function(e, widget) {
+					active = widget.panel;
+					active.addClass('link-panel-active');
+					wpLink.maybeLoadPanel();
+				},
+				hide: function(e, widget) {
+					active.removeClass('link-panel-active');
+				}
+			})
 			
-			// Extract type names
-			inputs.typeOptions.each( function(){
-				var linkType = this.id.replace(/^link-option-id-/,''),
-					parts = linkType.split('-');
-				$(this).data( 'link-type', {
-					full : linkType,
-					type : parts[0],
-					name : parts[1] || ''
-				});
-			});
 			panels.each( function(){
 				var linkType = this.id.replace(/^link-panel-id-/,''),
 					parts = linkType.split('-');
@@ -94,7 +91,6 @@
 			});
 			
 			// Bind event handlers
-			inputs.typeDropdown.change( wpLink.selectPanel );
 			$('#wp-update').click( wpLink.update );
 			$('#wp-cancel').click( function() { tinyMCEPopup.close(); } );
 			$('.link-panel .wp-tab-bar').wpTabs('option', 'show', wpLink.maybeLoadPanel );
@@ -107,7 +103,6 @@
 			if ( ! e )
 				return;
 			
-			// @TODO: select proper panel/fill values when a link is edited
 			active.find('input.url-field').val( e.href );
 			inputs.title.val( ed.dom.getAttrib(e, 'title') );
 			// Advanced Options
@@ -191,19 +186,6 @@
 
 			tinyMCEPopup.execCommand("mceEndUndoLevel");
 			tinyMCEPopup.close();
-		},
-		
-		selectPanel : function( option ) {
-			var sel = inputs.typeOptions.filter(':selected');
-			
-			if ( option.jquery ) {
-				sel.removeAttr('selected');
-				sel = option.attr('selected', 'selected');
-			}
-			
-			active.removeClass('link-panel-active');
-			active = $('#link-panel-id-' + sel.data('link-type').full ).addClass('link-panel-active');
-			wpLink.maybeLoadPanel();
 		},
 		
 		maybeLoadPanel : function() {

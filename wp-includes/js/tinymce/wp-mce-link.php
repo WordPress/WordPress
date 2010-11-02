@@ -49,6 +49,21 @@ select {
 	padding: 5px;
 	border-bottom: 1px solid #dfdfdf;
 }
+	#link-header {
+		padding-bottom: 0;
+		background: #fff;
+	}
+	#link-panel-tab-bar li {
+		font-weight: bold;
+		border: #dfdfdf solid;
+		margin-right: 5px;
+		border-width: 1px 1px 0;
+	}
+	#link-panel-tab-bar .wp-tab-active {
+		border-color:#ccc;
+		background-color: #f1f1f1;
+	}
+
 #link-type {
 	width: 140px;
 }
@@ -155,28 +170,27 @@ label span {
 </style>
 </head>
 <?php
-
-$pts = get_post_types( array( 'public' => true ), 'objects' );
+// @TODO: Support custom post types.
+// $pts = get_post_types( array( 'public' => true ), 'objects' );
+$pts = array( get_post_type_object( 'post' ), get_post_type_object( 'page' ) );
 $queries = array(
 	array( 'preset' => 'all', 'label' => __('View All') ),
 	array( 'preset' => 'recent', 'label' => __('Most Recent') ),
 	array( 'preset' => 'search', 'label' => __('Search') )
 );
 
+$tb = new WP_Tab_Bar();
+$tb->id = 'link-panel-tab-bar';
+$tb->add( 'link-panel-id-custom', __('External Link') );
+foreach( $pts as $pt ) {
+	$tb->add( "link-panel-id-pt-$pt->name", $pt->labels->singular_name );
+}
+
+
 ?>
 <body id="post-body">
 <div id="link-header">
-	<label for="link-type">
-		<span><strong><?php _e('Link Type:'); ?></strong>
-		</span><select id="link-type">
-			<option id="link-option-id-custom" class="link-custom"><?php _e('External Link'); ?></option>
-		<?php
-		foreach ( $pts as $pt ) {
-			echo "<option id='link-option-id-pt-$pt->name' class='link-option-pt'>";
-			echo $pt->labels->singular_name . '</option>';
-		} ?>
-		</select>
-	</label>
+	<?php $tb->render(); ?>
 </div>
 <div id="link-selector">
 	<?php

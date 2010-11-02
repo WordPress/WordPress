@@ -3,6 +3,9 @@
 class WP_Tab_Bar {
 	var $tabs = array();
 	
+	var $id = '';
+	var $classes = array();
+	
 	var $selected = '';
 	
 	function add( $id, $label, $url='' ) {
@@ -21,7 +24,9 @@ class WP_Tab_Bar {
 		if ( empty( $this->selected ) )
 			$this->selected = $this->tabs[0]['for'];
 
-		$out = "<ul class='wp-tab-bar'>";
+		array_unshift( $this->classes, 'wp-tab-bar' );
+		
+		$out = "<ul id='$this->id' class='" . esc_attr( implode( ' ', $this->classes ) ) . "'>";
 		foreach( $this->tabs as $tab ) {
 			if ( !isset($tab['url']) )
 				$tab['url'] = '';
