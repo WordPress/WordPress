@@ -137,7 +137,7 @@ textarea.disabled {
 .widget .widget-top,
 .postbox h3,
 .stuffbox h3 {
-	background: #dfdfdf url("../images/blue-grad.gif?ver=20101102") repeat-x left top;
+	background: #dfdfdf url("../images/blue-grad.png?ver=20101102") repeat-x left top;
 	text-shadow: #fff 0 1px 0;
 }
 
@@ -1519,17 +1519,12 @@ fieldset.inline-edit-col-right .inline-edit-col {
 	text-decoration: underline;
 }
 
-#screen-meta a.show-settings {
-	background-color: transparent;
-	text-shadow: rgba(255,255,255,0.7) 0 1px 0;
-}
-
 #screen-meta .screen-meta-toggle {
-background: #e3e0d6;
+	background: #e3e0d6;
 }
 
 #screen-meta a.show-settings {
-background-image:url("../images/screen-options-right-vs.gif?ver=20100531");
+	background-image:url("../images/screen-options-toggle-vs.gif?ver=20100531");
 }
 
 #icon-edit,

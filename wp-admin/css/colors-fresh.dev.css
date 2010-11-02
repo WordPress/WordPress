@@ -1520,8 +1520,7 @@ fieldset.inline-edit-col-right .inline-edit-col {
 }
 
 #screen-meta a.show-settings {
-	background-color: transparent;
-	text-shadow: rgba(255,255,255,0.7) 0 1px 0;
+	background-image:url("../images/screen-options-toggle.gif?ver=20100531");
 }
 
 #icon-edit,

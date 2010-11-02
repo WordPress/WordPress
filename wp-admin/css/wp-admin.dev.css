@@ -771,11 +771,9 @@ form.upgrade .hint {
 	font-size: 10px;
 	display: block;
 	background-repeat: no-repeat;
-	background-position: right bottom;
-}
-
-#screen-meta a.show-settings {
-	background-image: url( ../images/screen-options-right.gif?ver=20100531 );
+	background-position: top right;
+	background-color: transparent;
+	text-shadow: rgba(255,255,255,0.7) 0 1px 0;
 }
 
 #screen-meta a.show-settings:hover {
@@ -2456,10 +2454,6 @@ table.diff .diff-deletedline del, table.diff .diff-addedline ins {
 	margin: 0 0 8px;
 }
 
-#screen-meta a.show-settings {
-	background-image: url( ../images/screen-options-toggle.gif?ver=20100531 );
-	background-position: top right;
-}
 /* END */
 
 #side-sortables .category-adder {
