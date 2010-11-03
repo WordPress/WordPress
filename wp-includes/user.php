@@ -411,11 +411,9 @@ class WP_User_Query extends WP_Object_Query {
 		// sorting
 		if ( in_array( $qv['orderby'], array('email', 'url', 'registered') ) ) {
 			$orderby = 'user_' . $qv['orderby'];
-		}
-		elseif ( 'name' == $qv['orderby'] ) {
+		} elseif ( 'name' == $qv['orderby'] ) {
 			$orderby = 'display_name';
-		}
-		elseif ( 'post_count' == $qv['orderby'] ) {
+		} elseif ( 'post_count' == $qv['orderby'] ) {
 			$where = get_posts_by_author_sql('post');
 			$this->query_from .= " LEFT OUTER JOIN (
 				SELECT post_author, COUNT(*) as post_count
@@ -425,8 +423,9 @@ class WP_User_Query extends WP_Object_Query {
 			) p ON ({$wpdb->users}.ID = p.post_author)
 			";
 			$orderby = 'post_count';
-		}
-		else {
+		} elseif ( 'id' == $qv['orderby'] ) {
+			$orderby = 'ID';
+		} else {
 			$orderby = 'user_login';
 		}
 

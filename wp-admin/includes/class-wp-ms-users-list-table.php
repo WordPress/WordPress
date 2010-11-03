@@ -38,6 +38,16 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 			'blog_id' => 0
 		);
 
+		// If the network is large and a search is not being performed, show only the latest users with no paging in order
+		// to avoid expensive count queries.
+		if ( !$usersearch && ( get_blog_count() >= 10000 ) ) {
+			if ( !isset($_REQUEST['orderby']) )
+				$_GET['orderby'] = $_REQUEST['orderby'] = 'id';
+			if ( !isset($_REQUEST['order']) )
+				$_GET['order'] = $_REQUEST['order'] = 'DESC';
+			$args['count_total'] = false;
+		}
+
 		if ( isset( $_REQUEST['orderby'] ) )
 			$args['orderby'] = $_REQUEST['orderby'];
 
