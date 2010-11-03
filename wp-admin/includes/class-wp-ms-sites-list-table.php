@@ -21,7 +21,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	}
 
 	function prepare_items() {
-		global $s, $mode, $wpdb;
+		global $s, $mode, $wpdb, $current_site;
 
 		$mode = ( empty( $_REQUEST['mode'] ) ) ? 'list' : $_REQUEST['mode'];
 
@@ -47,7 +47,15 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 
 		if ( isset( $_REQUEST['searchaction'] ) ) {
 			if ( 'name' == $_REQUEST['searchaction'] ) {
-				$query .= " AND ( {$wpdb->blogs}.domain LIKE '%{$like_s}%' OR {$wpdb->blogs}.path LIKE '%{$like_s}%' ) ";
+				if ( is_subdomain_install() ) {
+					$like_s = str_replace( '.' . $current_site->domain, '', $like_s );
+					$like_s .= '.' . $current_site->domain;
+					$query .= " AND {$wpdb->blogs}.domain LIKE '$like_s' ";
+				} else {
+					if ( $like_s != trim('/', $current_site->path) )
+						$like_s = $current_site->path .= $like_s . '/';
+					$query .= " AND {$wpdb->blogs}.path LIKE '$like_s' ";
+				}
 			} elseif ( 'id' == $_REQUEST['searchaction'] ) {
 				$query .= " AND {$wpdb->blogs}.blog_id = '{$like_s}' ";
 			} elseif ( 'ip' == $_REQUEST['searchaction'] ) {
