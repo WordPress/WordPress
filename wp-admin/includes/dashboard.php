@@ -58,7 +58,7 @@ function wp_dashboard_setup() {
 	}
 
 	// WP Plugins Widget
-	if ( ( is_blog_admin() && current_user_can( 'install_plugins' ) ) || ( is_network_admin() && current_user_can( 'manage_network_plugins' ) ) )
+	if ( ( is_blog_admin() && current_user_can( 'install_plugins' ) ) || ( is_network_admin() && current_user_can( 'manage_network_plugins' ) && current_user_can( 'install_plugins' ) ) )
 		wp_add_dashboard_widget( 'dashboard_plugins', __( 'Plugins' ), 'wp_dashboard_plugins' );
 
 	// QuickPress Widget
