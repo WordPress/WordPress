@@ -30,6 +30,12 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 		$pagenum = $this->get_pagenum();
 
 		$s = isset( $_REQUEST['s'] ) ? stripslashes( trim( $_REQUEST[ 's' ] ) ) : '';
+		$wild = '';
+		if ( false !== strpos($s, '*') ) {
+			$wild = '%';
+			$s = trim($s, '*');
+		}
+
 		$like_s = esc_sql( like_escape( $s ) );
 
 		$large_network = false;
@@ -53,15 +59,15 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 				FROM {$wpdb->blogs}, {$wpdb->registration_log}
 				WHERE site_id = '{$wpdb->siteid}'
 				AND {$wpdb->blogs}.blog_id = {$wpdb->registration_log}.blog_id
-				AND {$wpdb->registration_log}.IP LIKE ( '{$like_s}%' )";
+				AND {$wpdb->registration_log}.IP LIKE ( '{$like_s}$wild' )";
 		} else {
 			if ( is_subdomain_install() ) {
 				$blog_s = str_replace( '.' . $current_site->domain, '', $like_s );
-				$blog_s .= '.' . $current_site->domain;
+				$blog_s .= $wild . '.' . $current_site->domain;
 				$query .= " AND ( {$wpdb->blogs}.domain LIKE '$blog_s' ";
 			} else {
 				if ( $like_s != trim('/', $current_site->path) )
-					$blog_s = $current_site->path .= $like_s . '/';
+					$blog_s = $current_site->path .= $like_s . $wild . '/';
 				else
 					$blog_s = $like_s;
 				$query .= " AND  ( {$wpdb->blogs}.path LIKE '$blog_s' ";
