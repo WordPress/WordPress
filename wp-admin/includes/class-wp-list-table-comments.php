@@ -14,14 +14,14 @@
  * @subpackage List_Table
  * @since 3.1.0
  */
-class WP_Comments_List_Table extends WP_List_Table {
+class WP_List_Table_Comments extends WP_List_Table {
 
 	var $checkbox = true;
 	var $from_ajax = false;
 
 	var $pending_count = array();
 
-	function WP_Comments_List_Table() {
+	function WP_List_Table_Comments() {
 		global $mode;
 
 		$mode = ( empty( $_REQUEST['mode'] ) ) ? 'detail' : $_REQUEST['mode'];
@@ -502,7 +502,7 @@ class WP_Comments_List_Table extends WP_List_Table {
  *
  * @see WP_Comments_Table
  */
-class WP_Post_Comments_List_Table extends WP_Comments_List_Table {
+class WP_List_Table_Post_Comments extends WP_List_Table_Comments {
 
 	function get_columns() {
 		return array(

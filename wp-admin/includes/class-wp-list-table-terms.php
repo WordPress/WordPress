@@ -6,11 +6,11 @@
  * @subpackage List_Table
  * @since 3.1.0
  */
-class WP_Terms_List_Table extends WP_List_Table {
+class WP_List_Table_Terms extends WP_List_Table {
 
 	var $callback_args;
 
-	function WP_Terms_List_Table() {
+	function WP_List_Table_Terms() {
 		global $post_type, $taxonomy, $tax, $current_screen;
 
 		wp_reset_vars( array( 'action', 'taxonomy', 'post_type' ) );

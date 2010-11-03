@@ -6,9 +6,9 @@
  * @subpackage List_Table
  * @since 3.1.0
  */
-class WP_Theme_Install_List_Table extends WP_List_Table {
+class WP_List_Table_Theme_Install extends WP_List_Table {
 
-	function WP_Theme_Install_List_Table() {
+	function WP_List_Table_Theme_Install() {
 		parent::WP_List_Table( array(
 			'screen' => 'theme-install',
 		) );
