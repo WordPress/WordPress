@@ -227,17 +227,19 @@ class WP_Object_Query {
 	 *
 	 * @param string $string
 	 * @param array $cols
+	 * @param bool $wild Whether to allow trailing wildcard searches. Default is false.
 	 * @return string
 	 */
-	function get_search_sql( $string, $cols ) {
+	function get_search_sql( $string, $cols, $wild = false ) {
 		$string = esc_sql( $string );
 
 		$searches = array();
+		$wild_char = ( $wild ) ? '%' : '';
 		foreach ( $cols as $col ) {
 			if ( 'ID' == $col )
 				$searches[] = "$col = '$string'";
 			else
-				$searches[] = "$col LIKE '$string%'";
+				$searches[] = "$col LIKE '$string$wild_char'";
 		}
 
 		return ' AND (' . implode(' OR ', $searches) . ')';
