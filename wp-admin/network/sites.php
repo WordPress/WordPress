@@ -99,12 +99,7 @@ require_once( '../admin-header.php' );
 <p class="search-box">
 <input type="hidden" name="action" value="blogs" />
 <input type="text" name="s" value="<?php echo esc_attr( $s ); ?>" />
-<?php submit_button( __( 'Search Site by' ), 'button', 'submit', false ); ?>
-<select name="searchaction">
-	<option value="name" selected="selected"><?php _e( 'Name' ); ?></option>
-	<option value="id"><?php _e( 'ID' ); ?></option>
-	<option value="ip"><?php _e( 'IP address' ); ?></option>
-</select>
+<?php submit_button( __( 'Search Sites' ), 'button', 'submit', false ); ?>
 </p>
 </form>
 

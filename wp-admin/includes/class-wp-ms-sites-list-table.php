@@ -45,26 +45,32 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 
 		$query = "SELECT * FROM {$wpdb->blogs} WHERE site_id = '{$wpdb->siteid}' ";
 
-		if ( isset( $_REQUEST['searchaction'] ) ) {
-			if ( 'name' == $_REQUEST['searchaction'] ) {
-				if ( is_subdomain_install() ) {
-					$like_s = str_replace( '.' . $current_site->domain, '', $like_s );
-					$like_s .= '.' . $current_site->domain;
-					$query .= " AND {$wpdb->blogs}.domain LIKE '$like_s' ";
-				} else {
-					if ( $like_s != trim('/', $current_site->path) )
-						$like_s = $current_site->path .= $like_s . '/';
-					$query .= " AND {$wpdb->blogs}.path LIKE '$like_s' ";
-				}
-			} elseif ( 'id' == $_REQUEST['searchaction'] ) {
-				$query .= " AND {$wpdb->blogs}.blog_id = '{$like_s}' ";
-			} elseif ( 'ip' == $_REQUEST['searchaction'] ) {
-				$query = "SELECT *
-					FROM {$wpdb->blogs}, {$wpdb->registration_log}
-					WHERE site_id = '{$wpdb->siteid}'
-					AND {$wpdb->blogs}.blog_id = {$wpdb->registration_log}.blog_id
-					AND {$wpdb->registration_log}.IP LIKE ( '%{$like_s}%' )";
+		if ( empty($s) ) {
+			// Nothing to do.
+		} elseif ( false !== strpos($s, '.') ) {
+			// IP address
+			$query = "SELECT *
+				FROM {$wpdb->blogs}, {$wpdb->registration_log}
+				WHERE site_id = '{$wpdb->siteid}'
+				AND {$wpdb->blogs}.blog_id = {$wpdb->registration_log}.blog_id
+				AND {$wpdb->registration_log}.IP LIKE ( '{$like_s}%' )";
+		} else {
+			if ( is_subdomain_install() ) {
+				$blog_s = str_replace( '.' . $current_site->domain, '', $like_s );
+				$blog_s .= '.' . $current_site->domain;
+				$query .= " AND ( {$wpdb->blogs}.domain LIKE '$blog_s' ";
+			} else {
+				if ( $like_s != trim('/', $current_site->path) )
+					$blog_s = $current_site->path .= $like_s . '/';
+				else
+					$blog_s = $like_s;
+				$query .= " AND  ( {$wpdb->blogs}.path LIKE '$blog_s' ";
 			}
+
+			if ( is_numeric($s) )
+				$query .= " OR {$wpdb->blogs}.blog_id = '{$like_s}' ";
+
+			$query .= ' )';
 		}
 
 		$order_by = isset( $_REQUEST['orderby'] ) ? $_REQUEST['orderby'] : 'id';
