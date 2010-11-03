@@ -258,7 +258,7 @@ $new_user_send_password = !$_POST || isset($_POST['send_password']);
 	<?php if ( is_multisite() && is_super_admin() ) { ?>
 	<tr>
 		<th scope="row"><label for="noconfirmation"><?php _e('Skip Confirmation Email') ?></label></th>
-		<td><label for="noconfirmation"><input type="checkbox" name="noconfirmation" id="noconfirmation" value="1" /> <?php _e( 'Site administrators can add a user without sending the confirmation email.' ); ?></label></td>
+		<td><label for="noconfirmation"><input type="checkbox" name="noconfirmation" id="noconfirmation" value="1" /> <?php _e( 'Add the user without sending them a confirmation email.' ); ?></label></td>
 	</tr>
 	<?php } ?>
 </table>
