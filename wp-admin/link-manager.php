@@ -9,7 +9,7 @@
 /** Load WordPress Administration Bootstrap */
 require_once ('admin.php');
 
-$wp_list_table = get_list_table('WP_Links_List_Table');
+$wp_list_table = get_list_table('WP_List_Table_Links');
 $wp_list_table->check_permissions();
 
 // Handle bulk deletes

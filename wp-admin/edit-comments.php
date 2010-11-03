@@ -9,7 +9,7 @@
 /** WordPress Administration Bootstrap */
 require_once('./admin.php');
 
-$wp_list_table = get_list_table('WP_Comments_List_Table');
+$wp_list_table = get_list_table('WP_List_Table_Comments');
 $wp_list_table->check_permissions();
 
 $doaction = $wp_list_table->current_action();

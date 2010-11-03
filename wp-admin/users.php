@@ -9,7 +9,7 @@
 /** WordPress Administration Bootstrap */
 require_once( './admin.php' );
 
-$wp_list_table = get_list_table('WP_Users_List_Table');
+$wp_list_table = get_list_table('WP_List_Table_Users');
 $wp_list_table->check_permissions();
 
 $title = __('Users');
