@@ -47,7 +47,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 
 		if ( empty($s) ) {
 			// Nothing to do.
-		} elseif ( false !== strpos($s, '.') ) {
+		} elseif ( preg_match('/^[0-9]+\./', $s) ) {
 			// IP address
 			$query = "SELECT *
 				FROM {$wpdb->blogs}, {$wpdb->registration_log}
