@@ -501,7 +501,6 @@ function wp_default_styles( &$styles ) {
 	
 	// Admin bar
 	$styles->add( 'admin-bar', "/wp-includes/css/admin-bar$suffix.css", array(), '20101029' );
-	$styles->add( 'super-admin-bar', "/wp-includes/css/super-admin-bar$suffix.css", array(), '20101028' );
 
 	foreach ( $rtl_styles as $rtl_style ) {
 		$styles->add_data( $rtl_style, 'rtl', true );

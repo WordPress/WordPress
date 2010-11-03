@@ -41,10 +41,6 @@ class WP_Admin_Bar {
 		wp_enqueue_script( 'admin-bar' );
 		wp_enqueue_style( 'admin-bar' );
 
-		if ( is_super_admin() ) {
-			wp_enqueue_style( 'super-admin-bar' );
-		}
-		
 		do_action( 'admin_bar_init' );
 	}
 
