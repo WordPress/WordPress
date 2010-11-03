@@ -233,8 +233,12 @@ class WP_Object_Query {
 		$string = esc_sql( $string );
 
 		$searches = array();
-		foreach ( $cols as $col )
-			$searches[] = "$col LIKE '%$string%'";
+		foreach ( $cols as $col ) {
+			if ( 'ID' == $col )
+				$searches[] = "$col = '$string'";
+			else
+				$searches[] = "$col LIKE '$string%'";
+		}
 
 		return ' AND (' . implode(' OR ', $searches) . ')';
 	}

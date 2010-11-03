@@ -446,7 +446,16 @@ class WP_User_Query extends WP_Object_Query {
 
 		$search = trim( $qv['search'] );
 		if ( $search ) {
-			$this->query_where .= $this->get_search_sql( $search, array( 'user_login', 'user_nicename', 'user_email', 'user_url', 'display_name' ) );
+			if ( false !== strpos( $search, '@') )
+				$search_columns[] = array('user_email');
+			elseif ( is_numeric($search) )
+				$search_columns = array('user_login', 'ID');
+			elseif ( preg_match('|^https?://|', $search) )
+				$search_columns = array('user_url');
+			else
+				$search_columns = array('user_login', 'user_nicename', 'display_name');
+
+			$this->query_where .= $this->get_search_sql( $search, $search_columns );
 		}
 
 		$this->parse_meta_query( $qv );
