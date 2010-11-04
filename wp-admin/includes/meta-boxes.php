@@ -154,6 +154,33 @@ echo esc_html( $visibility_trans ); ?></span>
 
 </div><?php // /misc-pub-section ?>
 
+<?php
+$post_formats = get_theme_support( 'post-formats' );
+
+if ( is_array( $post_formats[0] ) ) : 
+	$post_format = get_post_format( $post->ID );
+	if ( !$post_format )
+		$post_format = '0';
+	$post_format_display = ( $post_format ) ? $post_format : __('Default');
+?>
+<div class="misc-pub-section" id="post-formats"><label for="post-format"><?php _e( 'Format:' ); ?></label>
+
+ <b><span id="post-format-display"><?php echo esc_html( $post_format_display ); ?></span></b> <a href="#post-formats-select" class="edit-post-format hide-if-no-js"><?php _e('Edit'); ?></a>
+
+<div id="post-formats-select" class="hide-if-js">
+<input type="hidden" id="old-post-format" value="<?php echo esc_attr( $post_format ); ?>" />
+<select id="post-format" name="post_format">
+	<option value="0" <?php selected( $post_format, '0' ); ?>><?php _e('Default'); ?></option>
+	<?php foreach ( $post_formats[0] as $format ) : ?>
+	<option value="<?php echo esc_attr( $format ); ?>" <?php selected( $post_format, $format ); ?>><?php echo esc_html( $format ); ?></option>
+	<?php endforeach; ?>
+</select>
+	 <a href="#post-formats" class="save-post-format hide-if-no-js button"><?php _e('OK'); ?></a>
+	 <a href="#post-formats" class="cancel-post-format hide-if-no-js"><?php _e('Cancel'); ?></a>
+</div>
+</div><?php // /misc-pub-section ?>
+<?php endif; ?>
+
 
 <?php
 // translators: Publish box date formt, see http://php.net/date

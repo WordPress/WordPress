@@ -484,6 +484,24 @@ jQuery(document).ready( function($) {
 			updateVisibility();
 		});
 
+		$('.edit-post-format', '#post-formats').click(function () {
+			$('#post-formats-select').slideDown("normal");
+			$(this).hide();
+		});
+
+		$('.cancel-post-format', '#post-formats-select').click(function () {
+			$('#post-formats-select').slideUp("normal");
+			$('#post-format').val( $('#old-post-format').val() );
+			$('#post-format-display').text( $('option:selected', '#post-formats-select').text() );
+			$('.edit-post-format').show();
+		});
+
+		$('.save-post-format', '#post-formats-select').click(function () {
+			$('#post-formats-select').slideUp("normal");
+			$('#post-format-display').text( $('option:selected', '#post-formats-select').text() );
+			$('.edit-post-format').show();
+		});
+
 		$('#timestampdiv').siblings('a.edit-timestamp').click(function() {
 			if ($('#timestampdiv').is(":hidden")) {
 				$('#timestampdiv').slideDown("normal");

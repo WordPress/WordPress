@@ -1954,7 +1954,7 @@ input#link_url {
 	padding: 6px;
 }
 
-#post-status-select {
+#post-status-select, #post-format {
 	line-height: 2.5em;
 	margin-top: 3px;
 }

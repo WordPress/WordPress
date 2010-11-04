@@ -1666,6 +1666,21 @@ function add_theme_support( $feature ) {
 }
 
 /**
+ * Gets the theme support arguments passed when registering that support
+ *
+ * @since 3.1
+ * @param string $feature the feature to check
+ * @return array The array of extra arguments
+ */
+function get_theme_support( $feature ) {
+	global $_wp_theme_features;
+	if ( !isset( $_wp_theme_features[$feature] ) )
+		return false;
+	else
+		return $_wp_theme_features[$feature];
+}
+
+/**
  * Allows a theme to de-register its support of a certain feature
  *
  * Should be called in the theme's functions.php file. Generally would
