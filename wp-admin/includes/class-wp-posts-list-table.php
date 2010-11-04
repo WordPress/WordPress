@@ -45,7 +45,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	var $sticky_posts_count = 0;
 
 	function WP_Posts_List_Table() {
-		global $post_type_object, $post_type, $current_screen, $wpdb;
+		global $post_type_object, $post_type, $wpdb;
 
 		if ( !isset( $_REQUEST['post_type'] ) )
 			$post_type = 'post';
@@ -74,7 +74,6 @@ class WP_Posts_List_Table extends WP_List_Table {
 		}
 
 		parent::WP_List_Table( array(
-			'screen' => $current_screen,
 			'plural' => 'posts',
 		) );
 	}

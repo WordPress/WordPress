@@ -8,12 +8,6 @@
  */
 class WP_Plugin_Install_List_Table extends WP_List_Table {
 
-	function WP_Plugin_Install_List_Table() {
-		parent::WP_List_Table( array(
-			'screen' => 'plugin-install',
-		) );
-	}
-
 	function check_permissions() {
 		if ( ! current_user_can('install_plugins') )
 			wp_die(__('You do not have sufficient permissions to install plugins on this site.'));

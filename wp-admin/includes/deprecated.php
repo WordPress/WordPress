@@ -731,7 +731,7 @@ class _WP_List_Table_Compat extends WP_List_Table {
 
 	var $_columns = array();
 
-	function _WP_List_Table_Compat( $screen) {
+	function _WP_List_Table_Compat( $screen ) {
 		parent::WP_List_Table( array(
 			'screen' => $screen,
 			'ajax' => false

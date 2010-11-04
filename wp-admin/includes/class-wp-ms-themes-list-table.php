@@ -23,7 +23,6 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		$page = $this->get_pagenum();
 
 		parent::WP_List_Table( array(
-			'screen' => 'themes',
 			'plural' => 'plugins', // @todo replace with themes and add css
 		) );
 	}

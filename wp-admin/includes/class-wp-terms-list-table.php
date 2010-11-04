@@ -11,7 +11,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 	var $callback_args;
 
 	function WP_Terms_List_Table() {
-		global $post_type, $taxonomy, $tax, $current_screen;
+		global $post_type, $taxonomy, $tax;
 
 		wp_reset_vars( array( 'action', 'taxonomy', 'post_type' ) );
 
@@ -26,11 +26,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 		if ( empty( $post_type ) || !in_array( $post_type, get_post_types( array( 'public' => true ) ) ) )
 			$post_type = 'post';
 
-		if ( !isset( $current_screen ) )
-			set_current_screen( 'edit-' . $taxonomy );
-
 		parent::WP_List_Table( array(
-			'screen' => $current_screen,
 			'plural' => 'tags',
 			'singular' => 'tag',
 		) );

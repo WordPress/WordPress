@@ -10,7 +10,6 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 
 	function WP_MS_Sites_List_Table() {
 		parent::WP_List_Table( array(
-			'screen' => 'sites-network',
 			'plural' => 'sites',
 		) );
 	}

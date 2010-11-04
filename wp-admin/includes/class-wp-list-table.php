@@ -76,9 +76,9 @@ class WP_List_Table {
 	 * @param array $args An associative array with information about the current table
 	 * @access protected
 	 */
-	function WP_List_Table( $args ) {
+	function WP_List_Table( $args = array() ) {
 		$args = wp_parse_args( $args, array(
-			'screen' => '',
+			'screen' => get_current_screen(),
 			'plural' => '',
 			'singular' => '',
 			'ajax' => true
@@ -632,9 +632,7 @@ class WP_List_Table {
 	 * @return array
 	 */
 	function get_table_classes() {
-		extract( $this->_args );
-
-		return array( 'widefat', 'fixed', $plural );
+		return array( 'widefat', 'fixed', $this->_args['plural'] );
 	}
 
 	/**
@@ -807,13 +805,12 @@ class WP_List_Table {
 	 * @access private
 	 */
 	function _js_vars() {
-		extract( $this->_args );
-
-		$class = get_class( $this );
-
-		printf( "<script type='text/javascript'>list_args = %s;</script>\n",
-			json_encode( compact( 'screen', 'class' ) )
+		$args = array(
+			'class' => get_class( $this ),
+			'screen' => $this->_screen
 		);
+
+		printf( "<script type='text/javascript'>list_args = %s;</script>\n", json_encode( $args ) );
 	}
 }
 ?>

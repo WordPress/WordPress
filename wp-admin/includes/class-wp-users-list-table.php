@@ -8,13 +8,6 @@
  */
 class WP_Users_List_Table extends WP_List_Table {
 
-	function WP_Users_List_Table() {
-		parent::WP_List_Table( array(
-			'screen' => 'users',
-			'plural' => 'users'
-		) );
-	}
-
 	function check_permissions() {
 		if ( !current_user_can('list_users') )
 			wp_die(__('Cheatin&#8217; uh?'));

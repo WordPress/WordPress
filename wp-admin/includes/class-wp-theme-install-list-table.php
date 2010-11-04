@@ -8,12 +8,6 @@
  */
 class WP_Theme_Install_List_Table extends WP_List_Table {
 
-	function WP_Theme_Install_List_Table() {
-		parent::WP_List_Table( array(
-			'screen' => 'theme-install',
-		) );
-	}
-
 	function check_permissions() {
 		if ( ! current_user_can('install_themes') )
 			wp_die( __( 'You do not have sufficient permissions to install themes on this site.' ) );

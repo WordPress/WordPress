@@ -11,12 +11,6 @@ class WP_Themes_List_Table extends WP_List_Table {
 	var $search = array();
 	var $features = array();
 
-	function WP_Themes_List_Table() {
-		parent::__construct( array(
-			'screen' => 'themes',
-		) );
-	}
-
 	function check_permissions() {
 		if ( !current_user_can('switch_themes') && !current_user_can('edit_theme_options') )
 			wp_die( __( 'Cheatin&#8217; uh?' ) );
