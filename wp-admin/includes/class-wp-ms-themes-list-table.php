@@ -95,7 +95,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			uasort( $this->items, array( &$this, '_order_callback' ) );
 		}
 
-		$themes_per_page = $this->get_items_per_page( 'themes_per_page', 999 );
+		$themes_per_page = $this->get_items_per_page( 'themes_network_per_page' );
 
 		$start = ( $page - 1 ) * $themes_per_page;
 

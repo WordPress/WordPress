@@ -343,13 +343,16 @@ function set_screen_options() {
 
 		switch ( $map_option ) {
 			case 'edit_per_page':
-			case 'sites_network_per_page':
 			case 'users_per_page':
-			case 'users_network_per_page':
 			case 'edit_comments_per_page':
 			case 'upload_per_page':
 			case 'edit_tags_per_page':
 			case 'plugins_per_page':
+			// Network admin
+			case 'sites_network_per_page':
+			case 'users_network_per_page':
+			case 'plugins_network_per_page':
+			case 'themes_network_per_page':
 				$value = (int) $value;
 				if ( $value < 1 || $value > 999 )
 					return;

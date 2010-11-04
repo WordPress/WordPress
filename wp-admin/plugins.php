@@ -296,7 +296,7 @@ $wp_list_table->prepare_items();
 wp_enqueue_script('plugin-install');
 add_thickbox();
 
-add_screen_option( 'per_page', array('label' => _x( 'Plugins', 'plugins per page (screen options)' ), 'default' => 999) );
+add_screen_option( 'per_page', array('label' => _x( 'Plugins', 'plugins per page (screen options)' )) );
 
 add_contextual_help($current_screen,
 	'<p>' . __('Plugins extend and expand the functionality of WordPress. Once a plugin is installed, you may activate it or deactivate it here.') . '</p>' .

@@ -60,7 +60,7 @@ if ( $action ) {
 $wp_list_table->prepare_items();
 add_thickbox();
 
-add_screen_option( 'per_page', array('label' => _x( 'Themes', 'themes per page (screen options)' ), 'default' => 999) );
+add_screen_option( 'per_page', array('label' => _x( 'Themes', 'themes per page (screen options)' )) );
 
 add_contextual_help($current_screen, 
 	'<p>' . __('This screen enables and disables the inclusion of themes available to choose in the Appearance menu for each site. It does not activate or deactivate which theme a site is currently using.') . '</p>' . 

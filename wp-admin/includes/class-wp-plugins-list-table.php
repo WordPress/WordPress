@@ -20,6 +20,8 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		if ( $status != $default_status && 'search' != $status )
 			update_user_meta( get_current_user_id(), 'plugins_last_view', $status );
 
+		$page = $this->get_pagenum();
+
 		parent::WP_List_Table( array(
 			'plural' => 'plugins',
 		) );
@@ -55,7 +57,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			'dropins' => array()
 		);
 
-		if ( ! is_multisite() || ( is_network_admin() && current_user_can('manage_network_plugins') ) ) {
+		if ( ! is_multisite() || ( $this->_screen->is_network && current_user_can('manage_network_plugins') ) ) {
 			if ( apply_filters( 'show_advanced_plugins', true, 'mustuse' ) )
 				$plugins['mustuse'] = get_mu_plugins();
 			if ( apply_filters( 'show_advanced_plugins', true, 'dropins' ) )
@@ -83,16 +85,16 @@ class WP_Plugins_List_Table extends WP_List_Table {
 
 		foreach ( (array) $plugins['all'] as $plugin_file => $plugin_data ) {
 			// Filter into individual sections
-			if ( is_plugin_active_for_network($plugin_file) && !is_network_admin() ) {
+			if ( is_plugin_active_for_network($plugin_file) && !$this->_screen->is_network ) {
 				unset( $plugins['all'][ $plugin_file ] );
 				continue;
 			} elseif ( is_multisite() && is_network_only_plugin( $plugin_file ) && !current_user_can( 'manage_network_plugins' ) ) {
 				$plugins['network'][ $plugin_file ] = $plugin_data;
-			} elseif ( ( !is_network_admin() && is_plugin_active( $plugin_file ) )
-				|| ( is_network_admin() && is_plugin_active_for_network( $plugin_file ) ) ) {
+			} elseif ( ( !$this->_screen->is_network && is_plugin_active( $plugin_file ) )
+				|| ( $this->_screen->is_network && is_plugin_active_for_network( $plugin_file ) ) ) {
 				$plugins['active'][ $plugin_file ] = $plugin_data;
 			} else {
-				if ( !is_network_admin() && isset( $recently_activated[ $plugin_file ] ) ) // Was the plugin recently activated?
+				if ( !$this->_screen->is_network && isset( $recently_activated[ $plugin_file ] ) ) // Was the plugin recently activated?
 					$plugins['recently_activated'][ $plugin_file ] = $plugin_data;
 				$plugins['inactive'][ $plugin_file ] = $plugin_data;
 			}
@@ -126,7 +128,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			uasort( $this->items, array( &$this, '_order_callback' ) );
 		}
 
-		$plugins_per_page = $this->get_items_per_page( 'plugins_per_page', 999 );
+		$plugins_per_page = $this->get_items_per_page( str_replace( '-', '_', "{$this->_screen->id}_per_page" ) );
 
 		$start = ( $page - 1 ) * $plugins_per_page;
 
@@ -252,14 +254,14 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		$actions = array();
 
 		if ( 'active' != $status ) {
-			$action = is_network_admin() ? 'network-activate-selected' : 'activate-selected'; 
+			$action = $this->_screen->is_network ? 'network-activate-selected' : 'activate-selected'; 
 			$actions[ $action ] = __( 'Activate' );
 		}
 
 		if ( 'inactive' != $status && 'recent' != $status )
 			$actions['deactivate-selected'] = __( 'Deactivate' );
 
-		if ( !is_multisite() || is_network_admin() ) {
+		if ( !is_multisite() || $this->_screen->is_network ) {
 			if ( current_user_can( 'update_plugins' ) )
 				$actions['update-selected'] = __( 'Update' );
 			if ( current_user_can( 'delete_plugins' ) && ( 'active' != $status ) )
@@ -311,11 +313,11 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			);
 
 			if ( 'mustuse' == $context ) {
-				if ( is_multisite() && !is_network_admin() )
+				if ( is_multisite() && !$this->_screen->is_network )
 					continue;
 				$is_active = true;
 			} elseif ( 'dropins' == $context ) {
-				if ( is_multisite() && !is_network_admin() )
+				if ( is_multisite() && !$this->_screen->is_network )
 					continue;
 				$dropins = _get_dropins();
 				$plugin_name = $plugin_file;
@@ -335,15 +337,15 @@ class WP_Plugins_List_Table extends WP_List_Table {
 					$description .= '<p>' . $plugin_data['Description'] . '</p>';
 			} else {
 				$is_active_for_network = is_plugin_active_for_network($plugin_file);
-				if ( is_network_admin() )
+				if ( $this->_screen->is_network )
 					$is_active = $is_active_for_network;
 				else
 					$is_active = is_plugin_active( $plugin_file );
 
-				if ( $is_active_for_network && !is_super_admin() && !is_network_admin() )
+				if ( $is_active_for_network && !is_super_admin() && !$this->_screen->is_network )
 					continue;
 
-				if ( is_network_admin() ) {
+				if ( $this->_screen->is_network ) {
 					if ( $is_active_for_network ) {
 						if ( current_user_can( 'manage_network_plugins' ) )
 							$actions['network_deactivate'] = '<a href="' . wp_nonce_url('plugins.php?action=deactivate&amp;networkwide=1&amp;plugin=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'deactivate-plugin_' . $plugin_file) . '" title="' . __('Deactivate this plugin') . '">' . __('Network Deactivate') . '</a>';
@@ -357,7 +359,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 					if ( $is_active ) {
 						$actions['deactivate'] = '<a href="' . wp_nonce_url('plugins.php?action=deactivate&amp;plugin=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'deactivate-plugin_' . $plugin_file) . '" title="' . __('Deactivate this plugin') . '">' . __('Deactivate') . '</a>';
 					} else {
-						if ( is_network_only_plugin( $plugin_file ) && !is_network_admin() )
+						if ( is_network_only_plugin( $plugin_file ) && !$this->_screen->is_network )
 							continue;
 
 						$actions['activate'] = '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;plugin=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'activate-plugin_' . $plugin_file) . '" title="' . __('Activate this plugin') . '" class="edit">' . __('Activate') . '</a>';
@@ -365,7 +367,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 						if ( ! is_multisite() && current_user_can('delete_plugins') )
 							$actions['delete'] = '<a href="' . wp_nonce_url('plugins.php?action=delete-selected&amp;checked[]=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'bulk-plugins') . '" title="' . __('Delete this plugin') . '" class="delete">' . __('Delete') . '</a>';
 					} // end if $is_active
-				 } // end if is_network_admin()
+				 } // end if $this->_screen->is_network
 
 				if ( current_user_can('edit_plugins') && is_writable(WP_PLUGIN_DIR . '/' . $plugin_file) )
 					$actions['edit'] = '<a href="plugin-editor.php?file=' . $plugin_file . '" title="' . __('Open this file in the Plugin Editor') . '" class="edit">' . __('Edit') . '</a>';
