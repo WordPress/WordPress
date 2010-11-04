@@ -158,11 +158,13 @@ echo esc_html( $visibility_trans ); ?></span>
 if ( 'post' == $post->post_type && current_theme_supports( 'post-formats' ) ) :
 $post_formats = get_theme_support( 'post-formats' );
 
+$post_formats_display = get_post_format_strings();
+
 if ( is_array( $post_formats[0] ) ) : 
 	$post_format = get_post_format( $post->ID );
 	if ( !$post_format )
 		$post_format = '0';
-	$post_format_display = ( $post_format ) ? $post_format : __('Default');
+	$post_format_display = $post_formats_display[$post_format];
 ?>
 <div class="misc-pub-section" id="post-formats"><label for="post-format"><?php _e( 'Format:' ); ?></label>
 
@@ -173,7 +175,7 @@ if ( is_array( $post_formats[0] ) ) :
 <select id="post-format" name="post_format">
 	<option value="0" <?php selected( $post_format, '0' ); ?>><?php _e('Default'); ?></option>
 	<?php foreach ( $post_formats[0] as $format ) : ?>
-	<option value="<?php echo esc_attr( $format ); ?>" <?php selected( $post_format, $format ); ?>><?php echo esc_html( $format ); ?></option>
+	<option value="<?php echo esc_attr( $format ); ?>" <?php selected( $post_format, $format ); ?>><?php echo esc_html( $post_formats_display[$format] ); ?></option>
 	<?php endforeach; ?>
 </select>
 	 <a href="#post-formats" class="save-post-format hide-if-no-js button"><?php _e('OK'); ?></a>

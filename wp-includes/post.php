@@ -5212,4 +5212,24 @@ function wp_quickpress_form( $args = array(), $post_type = 'post'){
 	endif;
 }
 
+/**
+ * Returns an array of post format slugs to their translated and pretty display versions
+ * 
+ * @return array The array of translations 
+ */
+function get_post_format_strings() {
+	$strings = array(
+		'0'       => _x( 'Default', 'Post format' ),
+		'aside'   => _x( 'Aside',   'Post format' ),
+		'chat'    => _x( 'Chat',    'Post format' ),
+		'gallery' => _x( 'Gallery', 'Post format' ),
+		'link'    => _x( 'Link',    'Post format' ),
+		'image'   => _x( 'Image',   'Post format' ),
+		'quote'   => _x( 'Quote',   'Post format' ),
+		'status'  => _x( 'Status',  'Post format' ),
+		'video'   => _x( 'Video',   'Post format' )
+	);
+	return apply_filters( 'post_format_strings', $strings );
+}
+
 ?>
