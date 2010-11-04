@@ -14,7 +14,7 @@ require_once('./admin.php');
 if ( ! is_multisite() )
 	wp_die( __( 'Multisite support is not enabled.' ) );
 
-if ( ! current_user_can('manage_network_users') )
+if ( ! current_user_can('create_users') )
 	wp_die(__('You do not have sufficient permissions to add users to this network.'));
 
 if ( isset($_REQUEST['action']) && 'add-user' == $_REQUEST['action'] ) {

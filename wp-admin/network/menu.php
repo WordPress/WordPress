@@ -19,7 +19,7 @@ $submenu['sites.php'][10]  = array( __('Add New'), 'create_sites', 'site-new.php
 
 $menu[10] = array(__('Users'), 'manage_network_users', 'users.php', '', 'menu-top menu-icon-users', 'menu-users', 'div');
 $submenu['users.php'][5]  = array( __('Users'), 'manage_network_users', 'users.php' );
-$submenu['users.php'][10]  = array( __('Add New'), 'manage_network_users', 'user-new.php' );
+$submenu['users.php'][10]  = array( __('Add New'), 'create_users', 'user-new.php' );
 
 $menu[15] = array(__('Themes'), 'manage_network_themes', 'themes.php', '', 'menu-top menu-icon-appearance', 'menu-appearance', 'div');
 $submenu['themes.php'][5]  = array( __('Themes'), 'manage_network_themes', 'themes.php' );
