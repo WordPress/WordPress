@@ -1393,8 +1393,10 @@ function maybe_add_existing_user_to_blog() {
 }
 
 function add_existing_user_to_blog( $details = false ) {
+	global $blog_id;
+	
 	if ( is_array( $details ) ) {
-		$result = add_user_to_blog( '', $details[ 'user_id' ], $details[ 'role' ] );
+		$result = add_user_to_blog( $blog_id, $details[ 'user_id' ], $details[ 'role' ] );
 		do_action( 'added_existing_user', $details[ 'user_id' ], $result );
 	}
 	return $result;
