@@ -62,9 +62,11 @@ if ( isset( $_REQUEST['updated'] ) && $_REQUEST['updated'] == 'true' && ! empty(
 	?>
 <div class="wrap">
 	<?php screen_icon(); ?>
-	<h2><?php esc_html_e( 'Users' ); ?>
-	<a href="#form-add-user" class="button add-new-h2"><?php echo esc_html_x( 'Add New' , 'users'); ?></a>
-	<?php
+	<h2><?php esc_html_e( 'Users' );
+	if ( current_user_can( 'create_users') ) : ?>
+		<a href="<?php echo network_admin_url('user-new.php'); ?>" class="button add-new-h2"><?php echo esc_html_x( 'Add New', 'users' ); ?></a><?php
+	endif;
+	
 	if ( !empty( $usersearch ) )
 	printf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;' ) . '</span>', esc_html( $usersearch ) );
 	?>
@@ -82,30 +84,4 @@ if ( isset( $_REQUEST['updated'] ) && $_REQUEST['updated'] == 'true' && ! empty(
 	</form>
 </div>
 
-<?php
-if ( apply_filters( 'show_adduser_fields', true ) ) :
-?>
-<div class="wrap" id="form-add-user">
-	<h3><?php _e( 'Add User' ) ?></h3>
-	<form action="edit.php?action=adduser" method="post">
-	<table class="form-table">
-		<tr class="form-field form-required">
-			<th scope="row"><?php _e( 'Username' ) ?></th>
-			<td><input type="text" class="regular-text" name="user[username]" /></td>
-		</tr>
-		<tr class="form-field form-required">
-			<th scope="row"><?php _e( 'Email' ) ?></th>
-			<td><input type="text" class="regular-text" name="user[email]" /></td>
-		</tr>
-		<tr class="form-field">
-			<td colspan="2"><?php _e( 'Username and password will be mailed to the above email address.' ) ?></td>
-		</tr>
-	</table>
-	<p class="submit">
-		<?php wp_nonce_field( 'add-user', '_wpnonce_add-user' ) ?>
-		<input class="button" type="submit" value="<?php esc_attr_e( 'Add user' ) ?>" /></p>
-	</form>
-</div>
-<?php endif;
-
-require_once( '../admin-footer.php' ); ?>
+<?php require_once( '../admin-footer.php' ); ?>

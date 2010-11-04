@@ -444,33 +444,6 @@ switch ( $_GET['action'] ) {
 		wp_redirect( add_query_arg( array( 'updated' => 'true', 'action' => $deletefunction ), network_admin_url( 'users.php' ) ) );
 	break;
 
-	case 'adduser':
-		check_admin_referer( 'add-user', '_wpnonce_add-user' );
-		if ( ! current_user_can( 'manage_network_users' ) )
-			wp_die( __( 'You do not have permission to access this page.' ) );
-
-		if ( is_array( $_POST['user'] ) == false )
-			wp_die( __( 'Cannot create an empty user.' ) );
-		$user = $_POST['user'];
-		if ( empty($user['username']) && empty($user['email']) )
-			wp_die( __( 'Missing username and email.' ) );
-		elseif ( empty($user['username']) )
-			wp_die( __( 'Missing username.' ) );
-		elseif ( empty($user['email']) )
-			wp_die( __( 'Missing email.' ) );
-
-		$password = wp_generate_password();
-		$user_id = wpmu_create_user( esc_html( strtolower( $user['username'] ) ), $password, esc_html( $user['email'] ) );
-
-		if ( false == $user_id )
- 			wp_die( __( 'Duplicated username or email address.' ) );
-		else
-			wp_new_user_notification( $user_id, $password );
-
-		wp_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'add' ), wp_get_referer() ) );
-		exit();
-	break;
-
 	default:
 		wp_redirect( network_admin_url( 'index.php' ) );
 	break;
