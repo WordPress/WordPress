@@ -79,17 +79,17 @@ function get_active_blog_for_user( $user_id ) {
 
 	$primary_blog = get_user_meta( $user_id, 'primary_blog', true );
 	$first_blog = current($blogs);
-	if ( $primary_blog ) {
+	if ( false !== $primary_blog ) {
 		if ( ! isset( $blogs[ $primary_blog ] ) ) {
-			add_user_to_blog( $first_blog->blog_id, $user_id, 'subscriber' );
-			update_user_meta( $user_id, 'primary_blog', $first_blog->blog_id );
+			update_user_meta( $user_id, 'primary_blog', $first_blog->userblog_id );
 			$primary = $first_blog;
 		} else {
 			$primary = get_blog_details( $primary_blog );
 		}
 	} else {
-		add_user_to_blog( $first_blog->blog_id, $user_id, 'subscriber' );
-		update_user_meta( $user_id, 'primary_blog', $first_blog->blog_id );
+		//TODO Review this call to add_user_to_blog too - to get here the user must have a role on this blog?
+		add_user_to_blog( $first_blog->userblog_id, $user_id, 'subscriber' );
+		update_user_meta( $user_id, 'primary_blog', $first_blog->userblog_id );
 		$primary = $first_blog;
 	}
 
