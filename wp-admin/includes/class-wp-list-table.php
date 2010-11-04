@@ -48,9 +48,9 @@ class WP_List_Table {
 	 *
 	 * @since 3.1.0
 	 * @var object
-	 * @access private
+	 * @access protected
 	 */
-	var $_screen;
+	var $screen;
 
 	/**
 	 * Cached bulk actions
@@ -84,15 +84,15 @@ class WP_List_Table {
 			'ajax' => true
 		) );
 
-		$this->_screen = $args['screen'];
+		$this->screen = $args['screen'];
 
-		if ( is_string( $this->_screen ) )
-			$this->_screen = convert_to_screen( $this->_screen );
+		if ( is_string( $this->screen ) )
+			$this->screen = convert_to_screen( $this->screen );
 
-		add_filter( 'manage_' . $this->_screen->id . '_columns', array( &$this, 'get_columns' ), 0 );
+		add_filter( 'manage_' . $this->screen->id . '_columns', array( &$this, 'get_columns' ), 0 );
 
 		if ( !$args['plural'] )
-			$args['plural'] = $this->_screen->base;
+			$args['plural'] = $this->screen->base;
 
 		$this->_args = $args;
 
@@ -204,7 +204,7 @@ class WP_List_Table {
 	 */
 	function views() {
 		$views = $this->get_views();
-		$views = apply_filters( 'views_' . $this->_screen->base, $views );
+		$views = apply_filters( 'views_' . $this->screen->base, $views );
 
 		if ( empty( $views ) )
 			return;
@@ -237,7 +237,7 @@ class WP_List_Table {
 
 		if ( is_null( $this->_actions ) ) {
 			$this->_actions = $this->get_bulk_actions();
-			$this->_actions = apply_filters( 'bulk_actions-' . $this->_screen->base, $this->_actions );
+			$this->_actions = apply_filters( 'bulk_actions-' . $this->screen->base, $this->_actions );
 			$two = '';
 		}
 		else {
@@ -535,9 +535,9 @@ class WP_List_Table {
 	 */
 	function get_column_info() {
 		if ( !isset( $this->_column_headers ) ) {
-			$columns = get_column_headers( $this->_screen );
-			$hidden = get_hidden_columns( $this->_screen );
-			$sortable = apply_filters( 'manage_' . $this->_screen->id . '_sortable_columns', $this->get_sortable_columns() );
+			$columns = get_column_headers( $this->screen );
+			$hidden = get_hidden_columns( $this->screen );
+			$sortable = apply_filters( 'manage_' . $this->screen->id . '_sortable_columns', $this->get_sortable_columns() );
 
 			$this->_column_headers = array( $columns, $hidden, $sortable );
 		}
@@ -554,7 +554,7 @@ class WP_List_Table {
 	 * @param bool $with_id Whether to set the id attribute or not
 	 */
 	function print_column_headers( $with_id = true ) {
-		$screen = $this->_screen;
+		$screen = $this->screen;
 
 		list( $columns, $hidden, $sortable ) = $this->get_column_info();
 
@@ -807,7 +807,7 @@ class WP_List_Table {
 	function _js_vars() {
 		$args = array(
 			'class' => get_class( $this ),
-			'screen' => $this->_screen
+			'screen' => $this->screen
 		);
 
 		printf( "<script type='text/javascript'>list_args = %s;</script>\n", json_encode( $args ) );

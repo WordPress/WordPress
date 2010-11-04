@@ -151,13 +151,13 @@ class WP_Media_List_Table extends WP_List_Table {
 		$posts_columns['author'] = __( 'Author' );
 		//$posts_columns['tags'] = _x( 'Tags', 'column name' );
 		/* translators: column name */
-		if ( 'upload' == $this->_screen->id ) {
+		if ( 'upload' == $this->screen->id ) {
 			$posts_columns['parent'] = _x( 'Attached to', 'column name' );
 			$posts_columns['comments'] = '<div class="vers"><img alt="Comments" src="' . esc_url( admin_url( 'images/comment-grey-bubble.png' ) ) . '" /></div>';
 		}
 		/* translators: column name */
 		$posts_columns['date'] = _x( 'Date', 'column name' );
-		$posts_columns = apply_filters( 'manage_media_columns', $posts_columns, 'upload' != $this->_screen->id );
+		$posts_columns = apply_filters( 'manage_media_columns', $posts_columns, 'upload' != $this->screen->id );
 
 		return $posts_columns;
 	}
