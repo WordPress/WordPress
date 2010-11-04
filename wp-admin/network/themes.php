@@ -9,7 +9,7 @@
 
 require_once( './admin.php' );
 
-$wp_list_table = get_list_table('WP_List_Table_MS_Themes');
+$wp_list_table = get_list_table('WP_MS_Themes_List_Table');
 $wp_list_table->check_permissions();
 
 $action = $wp_list_table->current_action();

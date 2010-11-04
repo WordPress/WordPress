@@ -6,12 +6,12 @@
  * @subpackage List_Table
  * @since 3.1.0
  */
-class WP_List_Table_Themes extends WP_List_Table {
+class WP_Themes_List_Table extends WP_List_Table {
 
 	var $search = array();
 	var $features = array();
 
-	function WP_List_Table_Themes() {
+	function WP_Themes_List_Table() {
 		parent::__construct( array(
 			'screen' => 'themes',
 		) );

@@ -6,9 +6,9 @@
  * @subpackage List_Table
  * @since 3.1.0
  */
-class WP_List_Table_MS_Themes extends WP_List_Table {
+class WP_MS_Themes_List_Table extends WP_List_Table {
 
-	function WP_List_Table_MS_Themes() {
+	function WP_MS_Themes_List_Table() {
 		global $status, $page;
 
 		$default_status = get_user_option( 'themes_last_view' );

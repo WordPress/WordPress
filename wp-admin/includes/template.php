@@ -329,7 +329,7 @@ function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single', 
 		return;
 	}
 
-	$wp_list_table = get_list_table('WP_List_Table_Comments');
+	$wp_list_table = get_list_table('WP_Comments_List_Table');
 
 	list ( $columns, $hidden ) = $wp_list_table->get_column_info();
 	$hidden = array_intersect( array_keys( $columns ), array_filter( $hidden ) );

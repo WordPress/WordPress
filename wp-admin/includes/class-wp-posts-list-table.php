@@ -6,7 +6,7 @@
  * @subpackage List_Table
  * @since 3.1.0
  */
-class WP_List_Table_Posts extends WP_List_Table {
+class WP_Posts_List_Table extends WP_List_Table {
 
 	/**
 	 * Whether the items should be displayed hierarchically or linearly
@@ -44,7 +44,7 @@ class WP_List_Table_Posts extends WP_List_Table {
 	 */
 	var $sticky_posts_count = 0;
 
-	function WP_List_Table_Posts() {
+	function WP_Posts_List_Table() {
 		global $post_type_object, $post_type, $current_screen, $wpdb;
 
 		if ( !isset( $_REQUEST['post_type'] ) )
