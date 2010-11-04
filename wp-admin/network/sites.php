@@ -89,7 +89,10 @@ require_once( '../admin-header.php' );
 <?php screen_icon('ms-admin'); ?>
 <h2><?php _e('Sites') ?>
 <?php echo $msg; ?>
-<a href="<?php echo network_admin_url('site-new.php'); ?>" class="button add-new-h2"><?php echo esc_html_x( 'Add New', 'sites' ); ?></a>
+<?php if ( current_user_can( 'create_sites') ) : ?>
+        <a href="<?php echo network_admin_url('site-new.php'); ?>" class="button add-new-h2"><?php echo esc_html_x( 'Add New', 'sites' ); ?></a>
+<?php endif; ?>
+
 <?php if ( isset( $_REQUEST['s'] ) && $_REQUEST['s'] ) {
 	printf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;' ) . '</span>', esc_html( $s ) );
 } ?>
