@@ -448,7 +448,7 @@ class WP_User_Query extends WP_Object_Query {
 		if ( $search ) {
 			$wild = false;
 			if ( false !== strpos($search, '*') ) {
-				$wild = 'true';
+				$wild = true;
 				$search = trim($search, '*');
 			}
 			if ( false !== strpos( $search, '@') )
