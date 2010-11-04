@@ -2073,8 +2073,8 @@ function set_current_screen( $id =  '' ) {
 		$current_screen->taxonomy = $taxnow;
 	}
 
-	$current_screen->is_network = is_network_admin() ? true : false;
-	$current_screen->is_user = is_user_admin() ? true : false;
+	$current_screen->is_network = is_network_admin();
+	$current_screen->is_user = is_user_admin();
 
 	if ( $current_screen->is_network ) {
 		$current_screen->base .= '-network';

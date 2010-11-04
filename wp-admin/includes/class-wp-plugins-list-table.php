@@ -20,8 +20,6 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		if ( $status != $default_status && 'search' != $status )
 			update_user_meta( get_current_user_id(), 'plugins_last_view', $status );
 
-		$page = $this->get_pagenum();
-
 		parent::WP_List_Table( array(
 			'plural' => 'plugins',
 		) );
