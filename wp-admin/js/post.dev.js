@@ -487,6 +487,7 @@ jQuery(document).ready( function($) {
 		$('.edit-post-format', '#post-formats').click(function () {
 			$('#post-formats-select').slideDown("normal");
 			$(this).hide();
+			return false;
 		});
 
 		$('.cancel-post-format', '#post-formats-select').click(function () {
@@ -494,12 +495,14 @@ jQuery(document).ready( function($) {
 			$('#post-format').val( $('#old-post-format').val() );
 			$('#post-format-display').text( $('option:selected', '#post-formats-select').text() );
 			$('.edit-post-format').show();
+			return false;
 		});
 
 		$('.save-post-format', '#post-formats-select').click(function () {
 			$('#post-formats-select').slideUp("normal");
 			$('#post-format-display').text( $('option:selected', '#post-formats-select').text() );
 			$('.edit-post-format').show();
+			return false;
 		});
 
 		$('#timestampdiv').siblings('a.edit-timestamp').click(function() {
