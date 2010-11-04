@@ -155,6 +155,7 @@ echo esc_html( $visibility_trans ); ?></span>
 </div><?php // /misc-pub-section ?>
 
 <?php
+if ( 'post' == $post->post_type && current_theme_supports( 'post-formats' ) ) :
 $post_formats = get_theme_support( 'post-formats' );
 
 if ( is_array( $post_formats[0] ) ) : 
@@ -179,7 +180,7 @@ if ( is_array( $post_formats[0] ) ) :
 	 <a href="#post-formats" class="cancel-post-format hide-if-no-js"><?php _e('Cancel'); ?></a>
 </div>
 </div><?php // /misc-pub-section ?>
-<?php endif; ?>
+<?php endif; endif; ?>
 
 
 <?php
