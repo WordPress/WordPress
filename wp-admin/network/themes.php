@@ -14,11 +14,10 @@ $wp_list_table->check_permissions();
 
 $action = $wp_list_table->current_action();
 
-$plugin = isset($_REQUEST['plugin']) ? $_REQUEST['plugin'] : '';
 $s = isset($_REQUEST['s']) ? $_REQUEST['s'] : '';
 
 // Clean up request URI from temporary args for screen options/paging uri's to work as expected.
-$_SERVER['REQUEST_URI'] = remove_query_arg(array('error', 'deleted', 'activate', 'activate-multi', 'deactivate', 'deactivate-multi', '_error_nonce'), $_SERVER['REQUEST_URI']);
+$_SERVER['REQUEST_URI'] = remove_query_arg(array('network-enable', 'network-disable', 'network-enable-selected', 'network-disable-selected'), $_SERVER['REQUEST_URI']);
 
 if ( $action ) {
 	$allowed_themes = get_site_option( 'allowedthemes' );	
@@ -36,8 +35,6 @@ if ( $action ) {
 			exit;
 			break;
 		case 'network-enable-selected':
-			check_admin_referer('bulk-plugins');
-
 			$themes = isset( $_POST['checked'] ) ? (array) $_POST['checked'] : array();
 			if ( empty($themes) ) {
 				wp_redirect( wp_get_referer() );
@@ -47,19 +44,16 @@ if ( $action ) {
 				$allowed_themes[ $theme ] = 1;
 			update_site_option( 'allowedthemes', $allowed_themes );
 			break;
-			case 'network-disable-selected':
-				check_admin_referer('bulk-plugins');
-
-				$themes = isset( $_POST['checked'] ) ? (array) $_POST['checked'] : array();
-				if ( empty($themes) ) {
-					wp_redirect( wp_get_referer() );
-					exit;
-				}						
-				foreach( (array) $themes as $theme )
-					unset( $allowed_themes[ $theme ] );
-				update_site_option( 'allowedthemes', $allowed_themes );
-				break;
-
+		case 'network-disable-selected':
+			$themes = isset( $_POST['checked'] ) ? (array) $_POST['checked'] : array();
+			if ( empty($themes) ) {
+				wp_redirect( wp_get_referer() );
+				exit;
+			}						
+			foreach( (array) $themes as $theme )
+				unset( $allowed_themes[ $theme ] );
+			update_site_option( 'allowedthemes', $allowed_themes );
+			break;
 	}
 }
 
