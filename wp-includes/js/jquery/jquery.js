@@ -1,5 +1,5 @@
 /*!
- * jQuery JavaScript Library vPulled Live From Git
+ * jQuery JavaScript Library v1.4.4rc2
  * http://jquery.com/
  *
  * Copyright 2010, John Resig
@@ -11,7 +11,7 @@
  * Copyright 2010, The Dojo Foundation
  * Released under the MIT, BSD, and GPL Licenses.
  *
- * Date: Wed Oct 27 00:55:02 2010
+ * Date: Wed Nov 3 15:46:31 2010 -0400
  */
 (function( window, undefined ) {
 
@@ -211,7 +211,7 @@ jQuery.fn = jQuery.prototype = {
 	selector: "",
 
 	// The current version of jQuery being used
-	jquery: "Pulled Live From Git",
+	jquery: "1.4.4rc2",
 
 	// The default length of a jQuery object is 0
 	length: 0,
@@ -3915,7 +3915,7 @@ Sizzle.getText = function( elems ) {
 
 if ( document.querySelectorAll ) {
 	(function(){
-		var oldSizzle = Sizzle, div = document.createElement("div");
+		var oldSizzle = Sizzle, div = document.createElement("div"), id = "__sizzle__";
 		div.innerHTML = "<p class='TEST'></p>";
 
 		// Safari can't handle uppercase or unicode characters when
@@ -3940,17 +3940,18 @@ if ( document.querySelectorAll ) {
 				// and working up from there (Thanks to Andrew Dupont for the technique)
 				// IE 8 doesn't work on object elements
 				} else if ( context.nodeType === 1 && context.nodeName.toLowerCase() !== "object" ) {
-					var old = context.getAttribute( "id" ), id = context.id = "__sizzle__";
+					var old = context.getAttribute( "id" ), nid = old || id;
+
+					if ( !old ) {
+						context.setAttribute( "id", nid );
+					}
 
 					try {
-						return makeArray( context.querySelectorAll( "#" + id + " " + query ), extra );
+						return makeArray( context.querySelectorAll( "#" + nid + " " + query ), extra );
 
 					} catch(pseudoError) {
 					} finally {
-						if ( old ) {
-							context.id = old;
-
-						} else {
+						if ( !old ) {
 							context.removeAttribute( "id" );
 						}
 					}
@@ -5055,8 +5056,8 @@ var ralpha = /alpha\([^)]*\)/i,
 	cssHeight = [ "Top", "Bottom" ],
 	curCSS,
 
-	// cache check for defaultView.getComputedStyle
-	getComputedStyle = document.defaultView && document.defaultView.getComputedStyle,
+	getComputedStyle,
+	currentStyle,
 
 	fcamelCase = function( all, letter ) {
 		return letter.toUpperCase();
@@ -5215,13 +5216,18 @@ jQuery.each(["height", "width"], function( i, name ) {
 				if ( val <= 0 ) {
 					val = curCSS( elem, name, name );
 
+					if ( val === "0px" && currentStyle ) {
+						val = currentStyle( elem, name, name );
+					}
+
 					if ( val != null ) {
-						return val === "auto" ? "" : val;
+						return val;
 					}
 				}
 
 				if ( val < 0 || val == null ) {
-					return elem.style[ name ];
+					val = elem.style[ name ];
+					return val === "" ? "auto" : val;
 				}
 
 				return typeof val === "string" ? val : val + "px";
@@ -5273,8 +5279,8 @@ if ( !jQuery.support.opacity ) {
 	};
 }
 
-if ( getComputedStyle ) {
-	curCSS = function( elem, newName, name ) {
+if ( document.defaultView && document.defaultView.getComputedStyle ) {
+	getComputedStyle = function( elem, newName, name ) {
 		var ret, defaultView, computedStyle;
 
 		name = name.replace( rupper, "-$1" ).toLowerCase();
@@ -5290,11 +5296,12 @@ if ( getComputedStyle ) {
 			}
 		}
 
-		return ret;
+		return ret === "" ? "auto" : ret;
 	};
+}
 
-} else if ( document.documentElement.currentStyle ) {
-	curCSS = function( elem, name ) {
+if ( document.documentElement.currentStyle ) {
+	currentStyle = function( elem, name ) {
 		var left, rsLeft, ret = elem.currentStyle && elem.currentStyle[ name ], style = elem.style;
 
 		// From the awesome hack by Dean Edwards
@@ -5317,9 +5324,11 @@ if ( getComputedStyle ) {
 			elem.runtimeStyle.left = rsLeft;
 		}
 
-		return ret;
+		return ret === "" ? "auto" : ret;
 	};
 }
+
+curCSS = getComputedStyle || currentStyle;
 
 function getWH( elem, name, extra ) {
 	var which = name === "width" ? cssWidth : cssHeight,
@@ -6105,7 +6114,7 @@ jQuery.fn.extend({
 				// Reset the inline display of this element to learn if it is
 				// being hidden by cascaded rules or not
 				if ( !jQuery.data(elem, "olddisplay") && display === "none" ) {
-					elem.style.display = "";
+					display = elem.style.display = "";
 				}
 
 				// Set elements which have been overridden with display: none
@@ -6189,7 +6198,7 @@ jQuery.fn.extend({
 		}
 
 		return this[ optall.queue === false ? "each" : "queue" ](function() {
-			// XXX â€˜thisâ€™ does not always have a nodeName when running the
+			// XXX 'this' does not always have a nodeName when running the
 			// test suite
 
 			var opt = jQuery.extend({}, optall), p,
