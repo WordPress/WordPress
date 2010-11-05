@@ -473,7 +473,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
 
 	// all colors stylesheets need to have the same query strings (cache manifest compat)
-	$colors_version = '20101103';
+	$colors_version = '20101105';
 
 	// Register "meta" stylesheet for admin colors. All colors-* style sheets should have the same version string.
 	$styles->add( 'colors', true, array(), $colors_version );
@@ -483,7 +483,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'colors-classic', "/wp-admin/css/colors-classic$suffix.css", array(), $colors_version );
 
 	$styles->add( 'ms', "/wp-admin/css/ms$suffix.css", array(), '20100528' );
-	$styles->add( 'global', "/wp-admin/css/global$suffix.css", array(), '20101027' );
+	$styles->add( 'global', "/wp-admin/css/global$suffix.css", array(), '20101105' );
 	$styles->add( 'media', "/wp-admin/css/media$suffix.css", array(), '20101020' );
 	$styles->add( 'widgets', "/wp-admin/css/widgets$suffix.css", array(), '20100610' );
 	$styles->add( 'dashboard', "/wp-admin/css/dashboard$suffix.css", array(), '20101020' );

@@ -187,7 +187,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 					break;
 			}
 
-			$status_links[$type] = sprintf( "<li><a href='%s' %s>%s</a>",
+			$status_links[$type] = sprintf( "<a href='%s' %s>%s</a>",
 				add_query_arg('theme_status', $type, 'themes.php'),
 				( $type == $status ) ? ' class="current"' : '',
 				sprintf( $text, number_format_i18n( $count ) )

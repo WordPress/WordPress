@@ -63,7 +63,7 @@ class WP_Users_List_Table extends WP_List_Table {
 		$current_role = false;
 		$class = empty($role) ? ' class="current"' : '';
 		$role_links = array();
-		$role_links['all'] = "<li><a href='users.php'$class>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_users, 'users' ), number_format_i18n( $total_users ) ) . '</a>';
+		$role_links['all'] = "<a href='users.php'$class>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_users, 'users' ), number_format_i18n( $total_users ) ) . '</a>';
 		foreach ( $wp_roles->get_names() as $this_role => $name ) {
 			if ( !isset($avail_roles[$this_role]) )
 				continue;
@@ -78,7 +78,7 @@ class WP_Users_List_Table extends WP_List_Table {
 			$name = translate_user_role( $name );
 			/* translators: User role name with count */
 			$name = sprintf( __('%1$s <span class="count">(%2$s)</span>'), $name, $avail_roles[$this_role] );
-			$role_links[$this_role] = "<li><a href='users.php?role=$this_role'$class>$name</a>";
+			$role_links[$this_role] = "<a href='users.php?role=$this_role'$class>$name</a>";
 		}
 
 		return $role_links;

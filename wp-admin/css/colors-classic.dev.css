@@ -206,13 +206,13 @@ strong .post-com-count span {
 	border-top-color: #dfdfdf;
 }
 
-.error,
+div.error,
 .login #login_error {
 	background-color: #ffebe8;
 	border-color: #c00;
 }
 
-.error a {
+div.error a {
 	color: #c00;
 }
 
@@ -437,7 +437,7 @@ div.dashboard-widget-submit input:hover,
 	color: #d54e21;
 }
 
-.updated,
+div.updated,
 .login .message {
 	background-color: #ffffe0;
 	border-color: #e6db55;
