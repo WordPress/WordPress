@@ -118,6 +118,23 @@ function date_i18n( $dateformatstring, $unixtimestamp = false, $gmt = false ) {
 
 		$dateformatstring = substr( $dateformatstring, 1, strlen( $dateformatstring ) -1 );
 	}
+	$timezone_formats = array( 'P', 'I', 'O', 'T', 'Z', 'e' );
+	$timezone_formats_re = implode( '|', $timezone_formats );	
+	if ( preg_match( "/$timezone_formats_re/", $dateformatstring ) && wp_timezone_supported() ) {
+		$timezone_string = get_option( 'timezone_string' );
+		if ( $timezone_string ) {
+			$timezone_object = timezone_open( $timezone_string );
+			$date_object = date_create( null, $timezone_object );
+			foreach( $timezone_formats as $timezone_format ) {
+				if ( false !== strpos( $dateformatstring, $timezone_format ) ) {
+					$formatted = date_format( $date_object, $timezone_format );
+					$dateformatstring = ' '.$dateformatstring;
+					$dateformatstring = preg_replace( "/([^\\\])$timezone_format/", "\\1" . backslashit( $formatted ), $dateformatstring );
+					$dateformatstring = substr( $dateformatstring, 1, strlen( $dateformatstring ) -1 );
+				}
+			}			
+		}
+	} 
 	$j = @$datefunc( $dateformatstring, $i );
 	// allow plugins to redo this entirely for languages with untypical grammars
 	$j = apply_filters('date_i18n', $j, $req_format, $i, $gmt);
