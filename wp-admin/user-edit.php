@@ -229,7 +229,7 @@ do_action('personal_options', $profileuser);
 		<td><input type="text" name="user_login" id="user_login" value="<?php echo esc_attr($profileuser->user_login); ?>" disabled="disabled" class="regular-text" /> <span class="description"><?php _e('Usernames cannot be changed.'); ?></span></td>
 	</tr>
 
-<?php if ( !IS_PROFILE_PAGE ): ?>
+<?php if ( !IS_PROFILE_PAGE && !is_network_admin() ): ?>
 <tr><th><label for="role"><?php _e('Role:') ?></label></th>
 <td><select name="role" id="role">
 <?php
@@ -248,11 +248,13 @@ else
 	echo '<option value="" selected="selected">' . __('&mdash; No role for this site &mdash;') . '</option>';
 ?>
 </select>
-<?php if ( is_multisite() && is_network_admin() && current_user_can( 'manage_network_options' ) && !isset($super_admins) ) { ?>
+<?php endif; //!IS_PROFILE_PAGE
+if ( is_multisite() && is_network_admin() && current_user_can( 'manage_network_options' ) && !isset($super_admins) ) { ?>
+<tr><th><label for="role"><?php _e('Super Admin'); ?></label></th>
+<td>
 <p><label><input type="checkbox" id="super_admin" name="super_admin"<?php checked( is_super_admin( $profileuser->ID ) ); ?> /> <?php _e( 'Grant this user super admin privileges for the Network.'); ?></label></p>
 <?php } ?>
 </td></tr>
-<?php endif; //!IS_PROFILE_PAGE ?>
 
 <tr>
 	<th><label for="first_name"><?php _e('First Name') ?></label></th>
