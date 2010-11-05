@@ -77,8 +77,8 @@ function twentyten_setup() {
 	// This theme styles the visual editor with editor-style.css to match the theme style.
 	add_editor_style();
 
-	// Temporarily add Post Format support
-	add_theme_support( 'post-formats', array( 'aside', 'video', 'image' ) );
+	// Post Format support. You can also use the legacy "gallery" or "asides" (note the plural) categories.
+	add_theme_support( 'post-formats', array( 'aside', 'gallery' ) );
 
 	// This theme uses post thumbnails
 	add_theme_support( 'post-thumbnails' );

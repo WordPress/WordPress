@@ -57,7 +57,7 @@
 
 <?php /* How to display posts in the Gallery category. */ ?>
 
-	<?php if ( in_category( _x('gallery', 'gallery category slug', 'twentyten') ) ) : ?>
+	<?php if ( in_category( _x('gallery', 'gallery category slug', 'twentyten') ) || 'gallery' == get_post_format( $post->ID ) ) : ?>
 		<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 			<h2 class="entry-title"><a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'twentyten' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a></h2>
 
@@ -98,7 +98,7 @@
 
 <?php /* How to display posts in the asides category */ ?>
 
-	<?php elseif ( in_category( _x('asides', 'asides category slug', 'twentyten') ) ) : ?>
+	<?php elseif ( in_category( _x('asides', 'asides category slug', 'twentyten') ) || 'aside' == get_post_format( $post->ID ) ) : ?>
 		<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
 		<?php if ( is_archive() || is_search() ) : // Display excerpts for archives and search. ?>
