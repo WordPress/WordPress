@@ -106,6 +106,8 @@ window.listTable = {
 
 			$('.current-page').val($.query.GET('paged'));
 
+			$('th.column-cb :input').attr('checked', false);
+
 			if ( this._callback )
 				this._callback();
 		}
