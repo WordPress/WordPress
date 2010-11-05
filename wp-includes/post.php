@@ -3117,7 +3117,10 @@ function get_page_by_path($page_path, $output = OBJECT, $post_type = 'page') {
 		$path = '/' . $leaf_path;
 		$curpage = $page;
 		while ( $curpage->post_parent != 0 ) {
-			$curpage = $wpdb->get_row( $wpdb->prepare( "SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE ID = %d and post_type = %s", $curpage->post_parent, $post_type ));
+			$post_parent = $curpage->post_parent; 
+			$curpage = wp_cache_get( $post_parent, 'posts' ); 
+			if ( false === $curpage ) 
+				$curpage = $wpdb->get_row( $wpdb->prepare( "SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE ID = %d and post_type = %s", $post_parent, $post_type ) );
 			$path = '/' . $curpage->post_name . $path;
 		}
 
