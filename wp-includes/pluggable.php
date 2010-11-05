@@ -1002,8 +1002,13 @@ function wp_notify_postauthor($comment_id, $comment_type='') {
 	$comment = get_comment($comment_id);
 	$post    = get_post($comment->comment_post_ID);
 	$user    = get_userdata( $post->post_author );
+	$moderating_user = wp_get_current_user();
+	$moderating_uid = (int) $user->id;
 
-	if ( $comment->user_id == $post->post_author ) return false; // The author moderated a comment on his own post
+
+	if ( $comment->user_id == $post->post_author ) return false; // The comment was left by the author.
+       
+	if ( $user->user_id == $moderating_uid ) return false; // The author moderated a comment on his own post
 
 	if ('' == $user->user_email) return false; // If there's no email to send the comment to
 
