@@ -5229,7 +5229,18 @@ function get_post_format_strings() {
 		'status'  => _x( 'Status',  'Post format' ),
 		'video'   => _x( 'Video',   'Post format' )
 	);
-	return apply_filters( 'post_format_strings', $strings );
+	return $strings;
+}
+
+/**
+ * Returns a pretty, translated version of a post format slug
+ * 
+ * @param string $slug A post format slug
+ * @return string The translated post format name
+ */
+function get_post_format_string( $slug ) {
+	$strings = get_post_format_strings();
+	return ( isset( $strings[$slug] ) ) ? $strings[$slug] : '';
 }
 
 ?>

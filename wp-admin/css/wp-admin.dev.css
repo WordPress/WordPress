@@ -1503,6 +1503,11 @@ th.sorted-desc .sorting-indicator, th.sorted-asc:hover .sorting-indicator {
 	padding: 0 0 .2em 1px;
 }
 
+span.post-state span {
+	font-weight: normal;
+	color: #555;
+}
+
 
 /*------------------------------------------------------------------------------
   10.1 - Inline Editing
