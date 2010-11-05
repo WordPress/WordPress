@@ -327,6 +327,10 @@ function get_post_class( $class = '', $post_id = null ) {
 	$classes[] = $post->post_type;
 	$classes[] = 'type-' . $post->post_type;
 	$classes[] = 'status-' . $post->post_status;
+	if ( get_post_format( $post->ID ) )
+		$classes[] = 'format-' . sanitize_html_class( get_post_format( $post->ID ) );
+	else
+		$classes[] = 'format-default';
 
 	// post requires password
 	if ( post_password_required($post->ID) )
@@ -416,6 +420,10 @@ function get_body_class( $class = '' ) {
 		$classes[] = 'single';
 		$classes[] = 'single-' . sanitize_html_class($post->post_type, $post_id);
 		$classes[] = 'postid-' . $post_id;
+		if ( get_post_format( $post_id ) )
+			$classes[] = 'single-format-' . sanitize_html_class( get_post_format( $post_id ) );
+		else
+			$classes[] = 'single-format-default';
 
 		if ( is_attachment() ) {
 			$mime_type = get_post_mime_type($post_id);
