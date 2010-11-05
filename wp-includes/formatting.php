@@ -1768,7 +1768,7 @@ function sanitize_email( $email ) {
 		$sub = trim( $sub, " \t\n\r\0\x0B-" );
 
 		// Test for invalid characters
-		$sub = preg_replace( '/^[^a-z0-9-]+$/i', '', $sub );
+		$sub = preg_replace( '/[^a-z0-9-]+/i', '', $sub );
 
 		// If there's anything left, add it to the valid subs
 		if ( '' !== $sub ) {
