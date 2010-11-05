@@ -656,7 +656,13 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 			default:
 			?>
-			<td <?php echo $attributes ?>><?php do_action( 'manage_posts_custom_column', $column_name, $post->ID ); ?></td>
+			<td <?php echo $attributes ?>><?php 
+				if ( 'page' == $post->post_type )
+					do_action( 'manage_pages_custom_column', $column_name, $post->ID );
+				else
+					do_action( 'manage_posts_custom_column', $column_name, $post->ID );
+				do_action( "manage_{$post->post_type}_posts_custom_column", $column_name, $post->ID );
+			?></td>
 			<?php
 			break;
 		}
