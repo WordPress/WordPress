@@ -290,10 +290,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 	}
 
 	function column_default( $tag, $column_name ) {
-		global $taxonomy;
-
-		return apply_filters( "manage_${taxonomy}_custom_column", '', $column_name, $tag->term_id );
-		$out .= "</td>";
+		return apply_filters( "manage_{$this->screen->taxonomy}_custom_column", '', $column_name, $tag->term_id );
 	}
 
 	/**
