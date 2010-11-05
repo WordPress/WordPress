@@ -155,7 +155,7 @@ echo esc_html( $visibility_trans ); ?></span>
 </div><?php // /misc-pub-section ?>
 
 <?php
-if ( 'post' == $post->post_type && current_theme_supports( 'post-formats' ) ) :
+if ( current_theme_supports( 'post-formats' ) && post_type_supports( $post->post_type, 'post-formats' ) ) :
 $post_formats = get_theme_support( 'post-formats' );
 
 $post_formats_display = get_post_format_strings();
