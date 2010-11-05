@@ -480,7 +480,7 @@ function get_post_mime_type($ID = '') {
  *
  * @return mixed The format if successful. False if no format is set.  WP_Error if errors.
  */
-function get_post_format( $post ) {
+function get_post_format( $post = null ) {
 	$post = get_post($post);
 
 	$format = wp_get_object_terms( $post->ID, 'post_format', array('orderby' => 'none', 'fields' => 'names') );
