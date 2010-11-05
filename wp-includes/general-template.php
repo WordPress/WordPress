@@ -662,7 +662,7 @@ function single_post_title($prefix = '', $display = true) {
  * @param bool $display Optional, default is true. Whether to display or retrieve title.
  * @return string|null Title when retrieving, null when displaying or failure.
  */
-function post_type_archive_title() {
+function post_type_archive_title( $prefix = '', $display = true ) {
 	if ( ! is_post_type_archive() )
 		return;
 
