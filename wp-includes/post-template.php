@@ -344,17 +344,21 @@ function get_post_class( $class = '', $post_id = null ) {
 	$classes[] = 'hentry';
 
 	// Categories
-	foreach ( (array) get_the_category($post->ID) as $cat ) {
-		if ( empty($cat->slug ) )
-			continue;
-		$classes[] = 'category-' . sanitize_html_class($cat->slug, $cat->cat_ID);
+	if ( is_object_in_taxonomy( $post->post_type, 'category' ) ) {
+		foreach ( (array) get_the_category($post->ID) as $cat ) {
+			if ( empty($cat->slug ) )
+				continue;
+			$classes[] = 'category-' . sanitize_html_class($cat->slug, $cat->cat_ID);
+		}
 	}
 
 	// Tags
-	foreach ( (array) get_the_tags($post->ID) as $tag ) {
-		if ( empty($tag->slug ) )
-			continue;
-		$classes[] = 'tag-' . sanitize_html_class($tag->slug, $tag->term_id);
+	if ( is_object_in_taxonomy( $post->post_type, 'post_tag' ) ) {
+		foreach ( (array) get_the_tags($post->ID) as $tag ) {
+			if ( empty($tag->slug ) )
+				continue;
+			$classes[] = 'tag-' . sanitize_html_class($tag->slug, $tag->term_id);
+		}
 	}
 
 	if ( !empty($class) ) {
