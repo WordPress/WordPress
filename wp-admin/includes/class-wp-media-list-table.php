@@ -347,15 +347,6 @@ foreach ( $columns as $column_name => $column_display_name ) {
 <?php
 		break;
 
-	case 'actions':
-?>
-		<td <?php echo $attributes ?>>
-			<a href="media.php?action=edit&amp;attachment_id=<?php the_ID(); ?>" title="<?php echo esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $att_title ) ); ?>"><?php _e( 'Edit' ); ?></a> |
-			<a href="<?php the_permalink(); ?>"><?php _e( 'Get permalink' ); ?></a>
-		</td>
-		<?php
-		break;
-
 	default:
 ?>
 		<td <?php echo $attributes ?>>
