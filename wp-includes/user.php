@@ -616,6 +616,18 @@ function get_blogs_of_user( $id, $all = false ) {
 	}
 
 	$blogs = wp_cache_get( 'blogs_of_user-' . $id, 'users' );
+
+	// Try priming the new cache from the old cache
+	if ( false === $blogs ) {
+		$cache_suffix = $all ? '_all' : '_short';
+		$blogs = wp_cache_get( 'blogs_of_user_' . $id . $cache_suffix, 'users' );
+		if ( is_array( $blogs ) ) {
+			$blogs = array_keys( $blogs );
+			if ( $all )
+				wp_cache_set( 'blogs_of_user-' . $id, $blogs, 'users' );
+		}
+	}
+
 	if ( false === $blogs ) {
 		$user = get_userdata( (int) $id );
 		if ( !$user )
