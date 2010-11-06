@@ -9,7 +9,7 @@
  * @subpackage Administration
  */
 
-define('WP_SHOW_ADMIN_BAR' , false);
+define('IFRAME_REQUEST' , true);
 
 /** Load WordPress Administration Bootstrap */
 require_once('./admin.php');

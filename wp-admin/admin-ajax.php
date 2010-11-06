@@ -13,7 +13,6 @@
  */
 define('DOING_AJAX', true);
 define('WP_ADMIN', true);
-define('WP_SHOW_ADMIN_BAR' , false);
 
 if ( ! isset( $_REQUEST['action'] ) )
 	die('-1');

@@ -6,7 +6,7 @@
  * @subpackage Press_This
  */
 
-define('WP_SHOW_ADMIN_BAR' , false);
+define('IFRAME_REQUEST' , true);
 
 /** WordPress Administration Bootstrap */
 require_once('./admin.php');

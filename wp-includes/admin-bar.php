@@ -328,13 +328,17 @@ function wp_admin_body_style() {
  */
 function is_admin_bar_showing() {
 	global $show_admin_bar;
+	
+	/* For all these types of request we never want an admin bar period */
+	if ( defined('XMLRPC_REQUEST') || defined('APP_REQUEST') || defined('DOING_AJAX') || defined('IFRAME_REQUEST') )
+		return false;
+	
 	if ( ! isset( $show_admin_bar ) || null === $show_admin_bar ) {
-		$show_admin_bar = true;
-
-		if ( defined('WP_SHOW_ADMIN_BAR') )
-			$show_admin_bar = (bool) WP_SHOW_ADMIN_BAR;
-		else if ( ! is_user_logged_in() || ( is_admin() && ! is_multisite() ) )
+		if ( ! is_user_logged_in() || ( is_admin() && ! is_multisite() ) ) {
 			$show_admin_bar = false;
+		} else {
+			$show_admin_bar = true;
+		}
 	}
 
 	$show_admin_bar = apply_filters( 'show_admin_bar', $show_admin_bar );
