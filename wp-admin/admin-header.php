@@ -172,17 +172,14 @@ $current_screen->parent_base = str_replace('.php', '', $current_screen->parent_b
 <?php
 screen_meta($current_screen);
 
-if ( is_multisite() ) {
-	if ( is_network_admin() )
-		do_action('network_admin_notices');
-	else
-		do_action('site_admin_notices');
-} else {
+if ( is_network_admin() )
 	do_action('network_admin_notices');
-	do_action('site_admin_notices');
-}
+elseif ( is_user_admin() )
+	do_action('user_admin_notices');
+else
+	do_action('admin_notices');
 
-do_action('admin_notices');
+do_action('all_admin_notices');
 
 if ( $parent_file == 'options-general.php' )
 	require(ABSPATH . 'wp-admin/options-head.php');
