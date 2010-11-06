@@ -9,12 +9,9 @@
 class WP_Media_List_Table extends WP_List_Table {
 
 	function WP_Media_List_Table() {
-		global $detached;
-
-		$detached = isset( $_REQUEST['detached'] ) || isset( $_REQUEST['find_detached'] );
+		$this->detached = isset( $_REQUEST['detached'] ) || isset( $_REQUEST['find_detached'] );
 
 		parent::WP_List_Table( array(
-			'screen' => $detached ? 'upload-detached' : 'upload',
 			'plural' => 'media'
 		) );
 	}
@@ -44,7 +41,7 @@ class WP_Media_List_Table extends WP_List_Table {
 	}
 
 	function get_views() {
-		global $wpdb, $post_mime_types, $detached, $avail_post_mime_types;
+		global $wpdb, $post_mime_types, $avail_post_mime_types;
 
 		$type_links = array();
 		$_num_posts = (array) wp_count_attachments();
@@ -56,7 +53,7 @@ class WP_Media_List_Table extends WP_List_Table {
 			foreach ( $reals as $real )
 				$num_posts[$type] = ( isset( $num_posts[$type] ) ) ? $num_posts[$type] + $_num_posts[$real] : $_num_posts[$real];
 
-		$class = ( empty($_GET['post_mime_type']) && !$detached && !isset($_GET['status']) ) ? ' class="current"' : '';
+		$class = ( empty($_GET['post_mime_type']) && !$this->detached && !isset($_GET['status']) ) ? ' class="current"' : '';
 		$type_links['all'] = "<a href='upload.php'$class>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $_total_posts, 'uploaded files' ), number_format_i18n( $_total_posts ) ) . '</a>';
 		foreach ( $post_mime_types as $mime_type => $label ) {
 			$class = '';
@@ -69,7 +66,7 @@ class WP_Media_List_Table extends WP_List_Table {
 			if ( !empty( $num_posts[$mime_type] ) )
 				$type_links[$mime_type] = "<a href='upload.php?post_mime_type=$mime_type'$class>" . sprintf( translate_nooped_plural( $label[2], $num_posts[$mime_type] ), number_format_i18n( $num_posts[$mime_type] )) . '</a>';
 		}
-		$type_links['detached'] = '<a href="upload.php?detached=1"' . ( $detached ? ' class="current"' : '' ) . '>' . sprintf( _nx( 'Unattached <span class="count">(%s)</span>', 'Unattached <span class="count">(%s)</span>', $total_orphans, 'detached files' ), number_format_i18n( $total_orphans ) ) . '</a>';
+		$type_links['detached'] = '<a href="upload.php?detached=1"' . ( $this->detached ? ' class="current"' : '' ) . '>' . sprintf( _nx( 'Unattached <span class="count">(%s)</span>', 'Unattached <span class="count">(%s)</span>', $total_orphans, 'detached files' ), number_format_i18n( $total_orphans ) ) . '</a>';
 
 		if ( !empty($_num_posts['trash']) )
 			$type_links['trash'] = '<a href="upload.php?status=trash"' . ( (isset($_GET['status']) && $_GET['status'] == 'trash' ) ? ' class="current"' : '') . '>' . sprintf( _nx( 'Trash <span class="count">(%s)</span>', 'Trash <span class="count">(%s)</span>', $_num_posts['trash'], 'uploaded files' ), number_format_i18n( $_num_posts['trash'] ) ) . '</a>';
@@ -78,30 +75,28 @@ class WP_Media_List_Table extends WP_List_Table {
 	}
 
 	function get_bulk_actions() {
-		global $detached;
-
 		$actions = array();
 		$actions['delete'] = __( 'Delete Permanently' );
-		if ( $detached )
+		if ( $this->detached )
 			$actions['attach'] = __( 'Attach to a post' );
 
 		return $actions;
 	}
 
 	function extra_tablenav( $which ) {
-		global $post_type, $detached;
+		global $post_type;
 		$post_type_obj = get_post_type_object( $post_type );
 ?>
 		<div class="alignleft actions">
 <?php
-		if ( 'top' == $which && !is_singular() && !$detached && !$this->is_trash ) {
+		if ( 'top' == $which && !is_singular() && !$this->detached && !$this->is_trash ) {
 			$this->months_dropdown( $post_type );
 
 			do_action( 'restrict_manage_posts' );
 			submit_button( __( 'Filter' ), 'secondary', 'post-query-submit', false );
 		}
 
-		if ( $detached ) {
+		if ( $this->detached ) {
 			submit_button( __( 'Scan for lost attachments' ), 'secondary', 'find_detached', false );
 		} elseif ( $this->is_trash && current_user_can( 'edit_others_posts' ) ) { 
 			submit_button( __( 'Empty Trash' ), 'button-secondary apply', 'delete_all', false );
@@ -128,9 +123,7 @@ class WP_Media_List_Table extends WP_List_Table {
 	}
 
 	function no_items() {
-		global $detached;
-		
-		if ( $detached ) {
+		if ( $this->detached ) {
 ?>
 		<div class="tablenav">
 			<?php $this->extra_tablenav( 'top' ); ?>
@@ -151,13 +144,13 @@ class WP_Media_List_Table extends WP_List_Table {
 		$posts_columns['author'] = __( 'Author' );
 		//$posts_columns['tags'] = _x( 'Tags', 'column name' );
 		/* translators: column name */
-		if ( 'upload' == $this->screen->id ) {
+		if ( !$this->detached ) {
 			$posts_columns['parent'] = _x( 'Attached to', 'column name' );
 			$posts_columns['comments'] = '<div class="vers"><img alt="Comments" src="' . esc_url( admin_url( 'images/comment-grey-bubble.png' ) ) . '" /></div>';
 		}
 		/* translators: column name */
 		$posts_columns['date'] = _x( 'Date', 'column name' );
-		$posts_columns = apply_filters( 'manage_media_columns', $posts_columns, 'upload' != $this->screen->id );
+		$posts_columns = apply_filters( 'manage_media_columns', $posts_columns, $this->detached );
 
 		return $posts_columns;
 	}
@@ -173,9 +166,9 @@ class WP_Media_List_Table extends WP_List_Table {
 	}
 
 	function display_rows() {
-		global $detached, $post, $id;
+		global $post, $id;
 
-		if ( $detached ) {
+		if ( $this->detached ) {
 			$this->display_orphans();
 			return;
 		}
