@@ -168,11 +168,6 @@ class WP_Media_List_Table extends WP_List_Table {
 	function display_rows() {
 		global $post, $id;
 
-		if ( $this->detached ) {
-			$this->display_orphans();
-			return;
-		}
-
 		add_filter( 'the_title','esc_html' );
 		$alt = '';
 
@@ -239,25 +234,7 @@ foreach ( $columns as $column_name => $column_display_name ) {
 ?>
 			</p>
 <?php
-		$actions = array();
-		if ( current_user_can( 'edit_post', $post->ID ) && !$this->is_trash )
-			$actions['edit'] = '<a href="' . get_edit_post_link( $post->ID, true ) . '">' . __( 'Edit' ) . '</a>';
-		if ( current_user_can( 'delete_post', $post->ID ) ) {
-			if ( $this->is_trash )
-				$actions['untrash'] = "<a class='submitdelete' href='" . wp_nonce_url( "post.php?action=untrash&amp;post=$post->ID", 'untrash-attachment_' . $post->ID ) . "'>" . __( 'Restore' ) . "</a>";
-			elseif ( EMPTY_TRASH_DAYS && MEDIA_TRASH )
-				$actions['trash'] = "<a class='submitdelete' href='" . wp_nonce_url( "post.php?action=trash&amp;post=$post->ID", 'trash-attachment_' . $post->ID ) . "'>" . __( 'Trash' ) . "</a>";
-			if ( $this->is_trash || !EMPTY_TRASH_DAYS || !MEDIA_TRASH ) {
-				$delete_ays = ( !$this->is_trash && !MEDIA_TRASH ) ? " onclick='return showNotice.warn();'" : '';
-				$actions['delete'] = "<a class='submitdelete'$delete_ays href='" . wp_nonce_url( "post.php?action=delete&amp;post=$post->ID", 'delete-attachment_' . $post->ID ) . "'>" . __( 'Delete Permanently' ) . "</a>";
-			}
-		}
-		if ( !$this->is_trash ) {
-			$title =_draft_or_post_title( $post->post_parent );
-			$actions['view'] = '<a href="' . get_permalink( $post->ID ) . '" title="' . esc_attr( sprintf( __( 'View &#8220;%s&#8221;' ), $title ) ) . '" rel="permalink">' . __( 'View' ) . '</a>';
-		}
-		$actions = apply_filters( 'media_row_actions', $actions, $post );
-		echo $this->row_actions( $actions );
+		echo $this->row_actions( $this->_get_row_actions( $post, $att_title ) );
 ?>
 		</td>
 <?php
@@ -361,41 +338,10 @@ foreach ( $columns as $column_name => $column_display_name ) {
 <?php endwhile;
 	}
 
-	function display_orphans() {
-		global $post;
+	function _get_row_actions( $post, $att_title ) {
+		$actions = array();
 
-		$class = '';
-
-		while ( have_posts() ) : the_post();
-
-			$class = ( 'alternate' == $class ) ? '' : 'alternate';
-			$att_title = esc_html( _draft_or_post_title( $post->ID ) );
-
-			$edit_link = '<a href="' . get_edit_post_link( $post->ID ) . '" title="' . esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $att_title ) ) . '">%s</a>';
-?>
-	<tr id='post-<?php echo $post->ID; ?>' class='<?php echo $class; ?>' valign="top">
-		<th scope="row" class="check-column">
-		<?php if ( current_user_can( 'edit_post', $post->ID ) ) { ?>
-			<input type="checkbox" name="media[]" value="<?php echo esc_attr( $post->ID ); ?>" />
-		<?php } ?>
-		</th>
-
-		<td class="media-icon">
-		<?php if ( $thumb = wp_get_attachment_image( $post->ID, array( 80, 60 ), true ) ) {
-			printf( $edit_link, $thumb );
-		} ?>
-		</td>
-
-		<td class="media column-media">
-			<strong><?php printf( $edit_link, $att_title ); ?></strong><br />
-<?php
-			if ( preg_match( '/^.*?\.(\w+)$/', get_attached_file( $post->ID ), $matches ) )
-				echo esc_html( strtoupper( $matches[1] ) );
-			else
-				echo strtoupper( str_replace( 'image/', '', get_post_mime_type() ) );
-?>
-<?php
-			$actions = array();
+		if ( $this->detached ) {
 			if ( current_user_can( 'edit_post', $post->ID ) )
 				$actions['edit'] = '<a href="' . get_edit_post_link( $post->ID, true ) . '">' . __( 'Edit' ) . '</a>';
 			if ( current_user_can( 'delete_post', $post->ID ) )
@@ -408,35 +354,29 @@ foreach ( $columns as $column_name => $column_display_name ) {
 			$actions['view'] = '<a href="' . get_permalink( $post->ID ) . '" title="' . esc_attr( sprintf( __( 'View &#8220;%s&#8221;' ), $att_title ) ) . '" rel="permalink">' . __( 'View' ) . '</a>';
 			if ( current_user_can( 'edit_post', $post->ID ) )
 				$actions['attach'] = '<a href="#the-list" onclick="findPosts.open( \'media[]\',\''.$post->ID.'\' );return false;" class="hide-if-no-js">'.__( 'Attach' ).'</a>';
-			$actions = apply_filters( 'media_row_actions', $actions, $post );
-
-			echo $this->row_actions( $actions );
-?>
-		</td>
-		<td class="author column-author">
-			<?php $author = get_userdata( $post->post_author ); echo $author->display_name; ?>
-		</td>
-<?php
-		if ( '0000-00-00 00:00:00' == $post->post_date && 'date' == $column_name ) {
-			$t_time = $h_time = __( 'Unpublished' );
-		} else {
-			$t_time = get_the_time( __( 'Y/m/d g:i:s A' ) );
-			$m_time = $post->post_date;
-			$time = get_post_time( 'G', true );
-			if ( ( abs( $t_diff = time() - $time ) ) < 86400 ) {
-				if ( $t_diff < 0 )
-					$h_time = sprintf( __( '%s from now' ), human_time_diff( $time ) );
-				else
-					$h_time = sprintf( __( '%s ago' ), human_time_diff( $time ) );
-			} else {
-				$h_time = mysql2date( __( 'Y/m/d' ), $m_time );
+		}
+		else {
+			if ( current_user_can( 'edit_post', $post->ID ) && !$this->is_trash )
+				$actions['edit'] = '<a href="' . get_edit_post_link( $post->ID, true ) . '">' . __( 'Edit' ) . '</a>';
+			if ( current_user_can( 'delete_post', $post->ID ) ) {
+				if ( $this->is_trash )
+					$actions['untrash'] = "<a class='submitdelete' href='" . wp_nonce_url( "post.php?action=untrash&amp;post=$post->ID", 'untrash-attachment_' . $post->ID ) . "'>" . __( 'Restore' ) . "</a>";
+				elseif ( EMPTY_TRASH_DAYS && MEDIA_TRASH )
+					$actions['trash'] = "<a class='submitdelete' href='" . wp_nonce_url( "post.php?action=trash&amp;post=$post->ID", 'trash-attachment_' . $post->ID ) . "'>" . __( 'Trash' ) . "</a>";
+				if ( $this->is_trash || !EMPTY_TRASH_DAYS || !MEDIA_TRASH ) {
+					$delete_ays = ( !$this->is_trash && !MEDIA_TRASH ) ? " onclick='return showNotice.warn();'" : '';
+					$actions['delete'] = "<a class='submitdelete'$delete_ays href='" . wp_nonce_url( "post.php?action=delete&amp;post=$post->ID", 'delete-attachment_' . $post->ID ) . "'>" . __( 'Delete Permanently' ) . "</a>";
+				}
+			}
+			if ( !$this->is_trash ) {
+				$title =_draft_or_post_title( $post->post_parent );
+				$actions['view'] = '<a href="' . get_permalink( $post->ID ) . '" title="' . esc_attr( sprintf( __( 'View &#8220;%s&#8221;' ), $title ) ) . '" rel="permalink">' . __( 'View' ) . '</a>';
 			}
 		}
-?>
-		<td class="date column-date"><?php echo $h_time ?></td>
-	</tr>
-<?php
-		endwhile;
+
+		$actions = apply_filters( 'media_row_actions', $actions, $post, $this->detached );
+
+		return $actions;
 	}
 }
 
