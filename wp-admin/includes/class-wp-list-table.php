@@ -204,7 +204,7 @@ class WP_List_Table {
 	 */
 	function views() {
 		$views = $this->get_views();
-		$views = apply_filters( 'views_' . $this->screen->base, $views );
+		$views = apply_filters( 'views_' . $this->screen->id, $views );
 
 		if ( empty( $views ) )
 			return;
@@ -240,7 +240,7 @@ class WP_List_Table {
 
 		if ( is_null( $this->_actions ) ) {
 			$this->_actions = $this->get_bulk_actions();
-			$this->_actions = apply_filters( 'bulk_actions-' . $this->screen->base, $this->_actions );
+			$this->_actions = apply_filters( 'bulk_actions-' . $this->screen->id, $this->_actions );
 			$two = '';
 		}
 		else {
