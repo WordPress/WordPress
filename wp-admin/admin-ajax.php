@@ -53,6 +53,10 @@ switch ( $action = $_GET['action'] ) :
 case 'fetch-list' :
 
 	$current_screen = (object) $_GET['list_args']['screen'];
+	//TODO fix this in a better way see #15336
+	$curent_screen['is_network'] = (bool) $curent_screen['is_network'];
+	$curent_screen['is_user'] = (bool) $curent_screen['is_user'];
+	
 	$wp_list_table = get_list_table( $_GET['list_args']['class'] );
 	if ( ! $wp_list_table )
 		die( '0' );
