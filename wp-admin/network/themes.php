@@ -23,7 +23,7 @@ if ( $action ) {
 	$allowed_themes = get_site_option( 'allowedthemes' );	
 	switch ( $action ) {
 		case 'network-enable':
-			$allowed_themes[ $_GET['theme'] ] = 1;
+			$allowed_themes[ $_GET['theme'] ] = true;
 			update_site_option( 'allowedthemes', $allowed_themes );
 			wp_redirect( wp_get_referer() ); // @todo add_query_arg for update message
 			exit;			
@@ -41,7 +41,7 @@ if ( $action ) {
 				exit;
 			}						
 			foreach( (array) $themes as $theme )
-				$allowed_themes[ $theme ] = 1;
+				$allowed_themes[ $theme ] = true;
 			update_site_option( 'allowedthemes', $allowed_themes );
 			break;
 		case 'network-disable-selected':

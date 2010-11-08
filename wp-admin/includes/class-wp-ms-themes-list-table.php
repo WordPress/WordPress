@@ -58,7 +58,8 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		$current = get_site_transient( 'update_themes' );
 
 		foreach ( (array) $themes['all'] as $key => $theme ) {
-			if ( array_key_exists( $theme['Template'], $allowed_themes ) ) {
+			$theme_key = esc_html( $theme['Stylesheet'] );
+			if ( isset( $allowed_themes [ $theme_key ] ) )  {
 				$themes['all'][$key]['enabled'] = true;
 				$themes['enabled'][$key] = $themes['all'][$key];
 			}
