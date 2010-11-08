@@ -30,7 +30,6 @@ class WP_Comments_List_Table extends WP_List_Table {
 			add_filter( 'comment_author', 'floated_admin_avatar' );
 
 		parent::WP_List_Table( array(
-			'screen' => 'edit-comments',
 			'plural' => 'comments'
 		) );
 	}

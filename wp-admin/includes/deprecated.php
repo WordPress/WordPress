@@ -703,10 +703,7 @@ function get_others_pending($user_id) {
 function register_column_headers($screen, $columns) {
 	_deprecated_function( __FUNCTION__, '3.1', 'WP_List_Table' );
 
-	global $wp_list_table;
-
-	$wp_list_table = new _WP_List_Table_Compat($screen);
-	$wp_list_table->_columns = $columns;
+	$wp_list_table = new _WP_List_Table_Compat($screen, $columns);
 }
 
 /**
@@ -719,23 +716,34 @@ function register_column_headers($screen, $columns) {
 function print_column_headers($screen, $id = true) {
 	_deprecated_function( __FUNCTION__, '3.1', 'WP_List_Table' );
 
-	global $wp_list_table;
-	if ( !is_a($wp_list_table, 'WP_List_Table') )
-		$wp_list_table = new _WP_List_Table_Compat($screen);
+	$wp_list_table = new _WP_List_Table_Compat($screen);
 
 	$wp_list_table->print_column_headers($id);
 }
 
 // Helper class to be used only by deprecated functions
 class _WP_List_Table_Compat extends WP_List_Table {
+	var $_screen;
+	var $_columns;
 
-	var $_columns = array();
+	function _WP_List_Table_Compat( $screen, $columns = array() ) {
+		if ( is_string( $screen ) )
+			$screen = convert_to_screen( $screen );
 
-	function _WP_List_Table_Compat( $screen ) {
-		parent::WP_List_Table( array(
-			'screen' => $screen,
-			'ajax' => false
-		) );
+		$this->_screen = $screen;
+
+		if ( !empty( $columns ) ) {
+			$this->_columns = $columns;
+			add_filter( 'manage_' . $screen->id . '_columns', array( &$this, 'get_columns' ), 0 );
+		}
+	}
+
+	function get_column_info() {
+		$columns = get_column_headers( $this->_screen );
+		$hidden = get_hidden_columns( $this->_screen );
+		$sortable = array();
+
+		return array( $columns, $hidden, $sortable );
 	}
 
 	function get_columns() {

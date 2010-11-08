@@ -256,7 +256,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	}
 
 	function get_columns() {
-		$screen = $this->screen;
+		$screen = get_current_screen();
 
 		if ( empty( $screen ) )
 			$post_type = 'post';
@@ -681,7 +681,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	function inline_edit() {
 		global $mode;
 
-		$screen = $this->screen;
+		$screen = get_current_screen();
 
 		$post = get_default_post_to_edit( $screen->post_type );
 		$post_type_object = get_post_type_object( $screen->post_type );
