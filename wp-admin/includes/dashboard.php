@@ -441,14 +441,14 @@ function wp_network_dashboard_right_now() {
 	<form name="searchform" action="<?php echo network_admin_url('users.php'); ?>" method="get">
 		<p>
 			<input type="text" name="s" value="" size="17" />
-			<input class="button" type="submit" name="submit" value="<?php esc_attr_e( 'Search Users' ); ?>" />
+			<?php submit_button( __( 'Search Users' ), 'button', 'submit', false ); ?>
 		</p>
 	</form>
 
 	<form name="searchform" action="<?php echo network_admin_url('sites.php'); ?>" method="get">
 		<p>
 			<input type="text" name="s" value="" size="17" />
-			<input class="button" type="submit" name="blog_name" value="<?php esc_attr_e( 'Search Sites' ); ?>" />
+			<?php submit_button( __( 'Search Sites' ), 'button', 'submit', false ); ?>
 		</p>
 	</form>
 <?php
