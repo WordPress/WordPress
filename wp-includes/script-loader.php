@@ -368,7 +368,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add_data( 'list-table', 'group', 1 );
 		$scripts->localize( 'list-table', 'listTableL10n', array(
 			'loading' => __('Loading...'),
-			'error' => __('An error has occured while loading the items.'),
+			'error' => __('An error has occurred while loading the items.'),
 			'search' => __('Search results for &#8220;%s&#8221;')
 		) );
 
