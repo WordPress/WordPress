@@ -426,7 +426,7 @@ function wp_network_dashboard_right_now() {
 
 	if ( $actions ) {
 		echo '<ul class="subsubsub">';
-		foreach ( $action as $class => $action ) {
+		foreach ( $actions as $class => $action ) {
 			 $actions[ $class ] = "\t<li class='$class'>$action";
 		}
 		echo implode( " |</li>\n", $actions ) . "</li>\n";
