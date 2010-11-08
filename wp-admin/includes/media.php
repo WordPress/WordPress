@@ -140,6 +140,11 @@ function image_add_caption( $html, $id, $caption, $title, $align, $url, $size, $
 
 	$width = $matches[1];
 
+	$caption = str_replace(	array( '>',		'<',	'"',		"'" ),
+							array( '&gt;',	'&lt;',	'&quot;',	'&#039;' ),
+							$caption
+						  );
+	
 	$html = preg_replace( '/(class=["\'][^\'"]*)align(none|left|right|center)\s?/', '$1', $html );
 	if ( empty($align) )
 		$align = 'none';
