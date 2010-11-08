@@ -640,6 +640,8 @@ case 'get-comments' :
 case 'replyto-comment' :
 	check_ajax_referer( $action, '_ajax_nonce-replyto-comment' );
 
+	set_current_screen( 'edit-comments' );
+
 	$wp_list_table = get_list_table('WP_Comments_List_Table');
 	$wp_list_table->checkbox = ( isset($_POST['checkbox']) && true == $_POST['checkbox'] ) ? 1 : 0;
 

@@ -721,7 +721,11 @@ function print_column_headers($screen, $id = true) {
 	$wp_list_table->print_column_headers($id);
 }
 
-// Helper class to be used only by deprecated functions
+/**
+ * Helper class to be used only by deprecated functions
+ *
+ * @since 3.1.0
+ */
 class _WP_List_Table_Compat extends WP_List_Table {
 	var $_screen;
 	var $_columns;
