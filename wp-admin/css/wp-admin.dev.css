@@ -3697,7 +3697,7 @@ table#availablethemes td.bottom {
 	color: #cfcfcf;
 }
 
-.themes-php .wrap h2, .theme-install-php .wrap h2 {
+h2.nav-tab-wrapper, h3.nav-tab-wrapper {
 	border-bottom: 1px solid #ccc;
 	padding-bottom: 0;
 }
