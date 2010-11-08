@@ -1,26 +1,32 @@
 <?php
-
 /**
- * Edit Site Themes Administration Screen
+ * Multisite themes administration panel.
  *
  * @package WordPress
- * @subpackage Administration
+ * @subpackage Multisite
  * @since 3.1.0
  */
 
-/** Load WordPress Administration Bootstrap */
-require_once('./admin.php');
+require_once( './admin.php' );
 
-if ( ! is_multisite() )
-	wp_die( __( 'Multisite support is not enabled.' ) );
+$wp_list_table = get_list_table('WP_MS_Themes_List_Table');
+$wp_list_table->check_permissions();
 
-if ( ! current_user_can('manage_sites') )
-	wp_die(__('You do not have sufficient permissions to edit this site.'));
+$action = $wp_list_table->current_action();
+
+$s = isset($_REQUEST['s']) ? $_REQUEST['s'] : '';
+
+// Clean up request URI from temporary args for screen options/paging uri's to work as expected.
+$_SERVER['REQUEST_URI'] = remove_query_arg(array('network-enable', 'network-disable', 'network-enable-selected', 'network-disable-selected'), $_SERVER['REQUEST_URI']);
 
 $id = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0;
 
 if ( ! $id )
 	wp_die( __('Invalid site ID.') );
+	
+$wp_list_table->site_id = $id;
+$wp_list_table->is_site_themes = true;
+$wp_list_table->prepare_items();
 
 $details = get_blog_details( $id );
 if ( $details->site_id != $wpdb->siteid )
@@ -28,28 +34,52 @@ if ( $details->site_id != $wpdb->siteid )
 
 $is_main_site = is_main_site( $id );
 
-if ( isset($_REQUEST['action']) && 'update-site' == $_REQUEST['action'] ) {
-	check_admin_referer( 'edit-site' );
-
+if ( $action ) {
 	switch_to_blog( $id );
+	$allowed_themes = get_option( 'allowedthemes' );
 
-	$allowedthemes = array();
-	if ( isset($_POST['theme']) && is_array( $_POST['theme'] ) ) {
-		foreach ( $_POST['theme'] as $theme => $val ) {
-			if ( 'on' == $val )
-				$allowedthemes[$theme] = true;
-		}
+	switch ( $action ) {
+		case 'enable':
+			$theme = $_GET['theme'];
+			if ( !$allowed_themes )
+				$allowed_themes = array( $theme => true );
+			else
+				$allowed_themes[$theme] = true;
+			break;
+		case 'disable':
+			$theme = $_GET['theme'];
+			if ( !$allowed_themes )
+				$allowed_themes = array();
+			else
+				unset( $allowed_themes[$theme] );
+			break;
+		case 'enable-selected':
+			$themes = isset( $_POST['checked'] ) ? (array) $_POST['checked'] : array();
+			if ( empty($themes) ) {
+				restore_current_blog();
+				wp_redirect( wp_get_referer() );
+				exit;
+			}						
+			foreach( (array) $themes as $theme )
+				$allowed_themes[ $theme ] = true;
+			break;
+		case 'disable-selected':
+			$themes = isset( $_POST['checked'] ) ? (array) $_POST['checked'] : array();
+			if ( empty($themes) ) {
+				restore_current_blog();
+				wp_redirect( wp_get_referer() );
+				exit;
+			}						
+			foreach( (array) $themes as $theme )
+				unset( $allowed_themes[ $theme ] );
+			break;
 	}
-	update_option( 'allowedthemes',  $allowedthemes );
-
+	
+	update_option( 'allowedthemes', $allowed_themes );
 	restore_current_blog();
-	wp_redirect( add_query_arg( array( 'update' => 'updated', 'id' => $id ), 'site-themes.php') );
-}
-
-if ( isset($_GET['update']) ) {
-	$messages = array();
-	if ( 'updated' == $_GET['update'] )
-		$messages[] = __('Site users updated.');
+	
+	wp_redirect( wp_get_referer() ); // @todo add_query_arg for update message
+	exit;	
 }
 
 $title = sprintf( __('Edit Site: %s'), get_blogaddress_by_id($id));
@@ -58,6 +88,11 @@ $submenu_file = 'sites.php';
 
 require('../admin-header.php');
 
+add_thickbox();
+
+add_screen_option( 'per_page', array('label' => _x( 'Themes', 'themes per page (screen options)' ), 'default' => 999) );
+
+require_once(ABSPATH . 'wp-admin/admin-header.php');
 ?>
 
 <div class="wrap">
@@ -73,48 +108,22 @@ foreach ( $tabs as $tab_id => $tab ) {
 }
 ?>
 </h3>
+<p class="description"><?php _e( 'Network enabled themes are not shown on this screen.' ) ?></p>
 <?php
 if ( ! empty( $messages ) ) {
 	foreach ( $messages as $msg )
 		echo '<div id="message" class="updated"><p>' . $msg . '</p></div>';
-} ?>
+}
+
+$wp_list_table->views(); ?>
+
 <form method="post" action="site-themes.php?action=update-site">
 	<?php wp_nonce_field( 'edit-site' ); ?>
 	<input type="hidden" name="id" value="<?php echo esc_attr( $id ) ?>" />
-<?php
-$themes = get_themes();
-$blog_allowed_themes = wpmu_get_blog_allowedthemes( $id );
-$allowed_themes = get_site_option( 'allowedthemes' );
 
-if ( ! $allowed_themes )
-	$allowed_themes = array_keys( $themes );
+<?php $wp_list_table->display(); ?>
 
-$out = '';
-foreach ( $themes as $key => $theme ) {
-	$theme_key = esc_html( $theme['Stylesheet'] );
-	if ( ! isset( $allowed_themes[$theme_key] ) ) {
-		$checked = isset( $blog_allowed_themes[ $theme_key ] ) ? 'checked="checked"' : '';
-		$out .= '<tr class="form-field form-required">
-				<th title="' . esc_attr( $theme["Description"] ).'" scope="row">' . esc_html( $key ) . '</th>
-				<td><label><input name="theme[' . esc_attr( $theme_key ) . ']" type="checkbox" style="width:20px;" value="on" '.$checked.'/> ' . __( 'Active' ) . '</label></td>
-			</tr>';
-	}
-}
-
-if ( $out != '' ) {
-?>
-<p class="description"><?php _e( 'Activate the themename of an existing theme and hit "Update Options" to allow the theme for this site.' ) ?></p>
-<table class="form-table">
-<?php echo $out; ?>
-</table>
-<?php
-submit_button();
-} else {
-	_e('All themes are allowed.');
-}
-?>
 </form>
 
 </div>
-<?php
-require('../admin-footer.php');
+<?php include(ABSPATH . 'wp-admin/admin-footer.php'); ?>

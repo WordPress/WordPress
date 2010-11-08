@@ -17,24 +17,24 @@ $action = $wp_list_table->current_action();
 $s = isset($_REQUEST['s']) ? $_REQUEST['s'] : '';
 
 // Clean up request URI from temporary args for screen options/paging uri's to work as expected.
-$_SERVER['REQUEST_URI'] = remove_query_arg(array('network-enable', 'network-disable', 'network-enable-selected', 'network-disable-selected'), $_SERVER['REQUEST_URI']);
+$_SERVER['REQUEST_URI'] = remove_query_arg(array('enable', 'disable', 'enable-selected', 'disable-selected'), $_SERVER['REQUEST_URI']);
 
 if ( $action ) {
 	$allowed_themes = get_site_option( 'allowedthemes' );	
 	switch ( $action ) {
-		case 'network-enable':
+		case 'enable':
 			$allowed_themes[ $_GET['theme'] ] = true;
 			update_site_option( 'allowedthemes', $allowed_themes );
 			wp_redirect( wp_get_referer() ); // @todo add_query_arg for update message
 			exit;			
 			break;
-		case 'network-disable':
+		case 'disable':
 			unset( $allowed_themes[ $_GET['theme'] ] );
 			update_site_option( 'allowedthemes', $allowed_themes );
 			wp_redirect( wp_get_referer() ); // @todo add_query_arg for update message
 			exit;
 			break;
-		case 'network-enable-selected':
+		case 'enable-selected':
 			$themes = isset( $_POST['checked'] ) ? (array) $_POST['checked'] : array();
 			if ( empty($themes) ) {
 				wp_redirect( wp_get_referer() );
@@ -44,7 +44,7 @@ if ( $action ) {
 				$allowed_themes[ $theme ] = true;
 			update_site_option( 'allowedthemes', $allowed_themes );
 			break;
-		case 'network-disable-selected':
+		case 'disable-selected':
 			$themes = isset( $_POST['checked'] ) ? (array) $_POST['checked'] : array();
 			if ( empty($themes) ) {
 				wp_redirect( wp_get_referer() );
@@ -81,7 +81,6 @@ require_once(ABSPATH . 'wp-admin/admin-header.php');
 <div class="wrap">
 <?php screen_icon('themes'); ?>
 <h2><?php echo esc_html( $title ); if ( current_user_can('install_themes') ) { ?> <a href="theme-install.php" class="button add-new-h2"><?php echo esc_html_x('Add New', 'theme'); ?></a><?php } ?></h2>
-<p><?php _e( 'Themes must be enabled for your network before they will be available to individual sites.' ) ?></p>
 
 <form method="get" action="">
 <p class="search-box">

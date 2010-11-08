@@ -7,6 +7,9 @@
  * @since 3.1.0
  */
 class WP_MS_Themes_List_Table extends WP_List_Table {
+	
+	var $site_id;
+	var $is_site_themes;
 
 	function WP_MS_Themes_List_Table() {
 		global $status, $page;
@@ -37,8 +40,10 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			}
 		}
 
-		if ( !current_user_can('manage_network_themes') )
-			wp_die( __( 'You do not have sufficient permissions to manage themes for this site.' ) );
+		if ( $this->is_site_themes && !current_user_can('manage_sites') ) 
+			wp_die( __( 'You do not have sufficient permissions to manage themes for this site.' ) ); 
+		else if ( !$this->is_site_themes && !current_user_can('manage_network_themes') ) 
+			wp_die( __( 'You do not have sufficient permissions to manage network themes.' ) );
 	}
 
 	function prepare_items() {
@@ -54,11 +59,17 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			'upgrade' => array()
 		);
 
-		$allowed_themes = get_site_allowed_themes();
+		$site_allowed_themes = get_site_allowed_themes(); 
+		if ( !$this->is_site_themes ) 
+			$allowed_themes = $site_allowed_themes; 
+		else 
+			$allowed_themes = wpmu_get_blog_allowedthemes( $this->site_id );
+		
 		$current = get_site_transient( 'update_themes' );
 
 		foreach ( (array) $themes['all'] as $key => $theme ) {
 			$theme_key = esc_html( $theme['Stylesheet'] );
+
 			if ( isset( $allowed_themes [ $theme_key ] ) )  {
 				$themes['all'][$key]['enabled'] = true;
 				$themes['enabled'][$key] = $themes['all'][$key];
@@ -69,6 +80,12 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			}
 			if ( isset( $current->response[ $theme['Template'] ] ) )
 				$themes['upgrade'][$key] = $themes['all'][$key];
+
+			if ( $this->is_site_themes && isset( $site_allowed_themes[$theme_key] ) ) { 
+				unset( $themes['all'][$key] ); 
+				unset( $themes['enabled'][$key] ); 
+				unset( $themes['disabled'][$key] ); 
+			}
 		}
 
 		if ( !current_user_can( 'update_themes' ) )
@@ -188,8 +205,13 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 					break;
 			}
 
+			if ( $this->is_site_themes ) 
+				$url = 'site-themes.php?id=' . $this->site_id; 
+			else 
+				$url = 'themes.php';
+
 			$status_links[$type] = sprintf( "<a href='%s' %s>%s</a>",
-				add_query_arg('theme_status', $type, 'themes.php'),
+				add_query_arg('theme_status', $type, $url),
 				( $type == $status ) ? ' class="current"' : '',
 				sprintf( $text, number_format_i18n( $count ) )
 			);
@@ -203,9 +225,9 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 
 		$actions = array();
 		if ( 'enabled' != $status )
-			$actions['network-enable-selected'] = __( 'Enable' );
+			$actions['enable-selected'] = __( 'Enable' );
 		if ( 'disabled' != $status )
-			$actions['network-disable-selected'] = __( 'Disable' );
+			$actions['disable-selected'] = __( 'Disable' );
 		if ( current_user_can( 'update_themes' ) )
 			$actions['update-selected'] = __( 'Update' );
 			
@@ -225,24 +247,26 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		global $status, $page, $s;
 
 		$context = $status;
+		
+		if ( $this->is_site_themes )
+			$url = "site-themes.php?id={$this->site_id}&amp;";
+		else
+			$url = 'themes.php?';
 
 		foreach ( $this->items as $key => $theme ) {
 			// preorder
 			$actions = array(
-				'network_enable' => '',
-				'network_disable' => '',
+				'enable' => '',
+				'disable' => '',
 				'edit' => ''
 			);
 			
 			$theme_key = esc_html( $theme['Stylesheet'] );
 
-			if ( empty( $theme['enabled'] ) ) {
-				if ( current_user_can( 'manage_network_themes' ) )
-					$actions['network_enable'] = '<a href="' . wp_nonce_url('themes.php?action=network-enable&amp;theme=' . $theme_key . '&amp;paged=' . $page . '&amp;s=' . $s, 'enable-theme_' . $theme_key) . '" title="' . __('Enable this theme for all sites in this network') . '" class="edit">' . __('Enable') . '</a>';
-			} else {
-				if ( current_user_can( 'manage_network_themes' ) )
-					$actions['network_disable'] = '<a href="' . wp_nonce_url('themes.php?action=network-disable&amp;theme=' . $theme_key . '&amp;paged=' . $page . '&amp;s=' . $s, 'disable-theme_' . $theme_key) . '" title="' . __('Disable this theme') . '">' . __('Disable') . '</a>';
-			}
+			if ( empty( $theme['enabled'] ) )
+					$actions['enable'] = '<a href="' . wp_nonce_url($url . 'action=enable&amp;theme=' . $theme_key . '&amp;paged=' . $page . '&amp;s=' . $s, 'enable-theme_' . $theme_key) . '" title="' . __('Enable this theme') . '" class="edit">' . __('Enable') . '</a>';
+			else
+					$actions['disable'] = '<a href="' . wp_nonce_url($url . 'action=disable&amp;theme=' . $theme_key . '&amp;paged=' . $page . '&amp;s=' . $s, 'disable-theme_' . $theme_key) . '" title="' . __('Disable this theme') . '">' . __('Disable') . '</a>';
 			
 			if ( current_user_can('edit_themes') )
 				$actions['edit'] = '<a href="theme-editor.php?theme=' . $theme['Name'] . '" title="' . __('Open this theme in the Theme Editor') . '" class="edit">' . __('Edit') . '</a>';
