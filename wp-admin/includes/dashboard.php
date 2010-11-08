@@ -29,6 +29,9 @@ function wp_dashboard_setup() {
 	if ( is_blog_admin() && current_user_can('edit_posts') )
 		wp_add_dashboard_widget( 'dashboard_right_now', __( 'Right Now' ), 'wp_dashboard_right_now' );
 
+	if ( is_network_admin() )
+		wp_add_dashboard_widget( 'network_dashboard_right_now', __( 'Right Now' ), 'wp_network_dashboard_right_now' );
+
 	// Recent Comments Widget
 	if ( is_blog_admin() && current_user_can('moderate_comments') ) {
 		if ( !isset( $widget_options['dashboard_recent_comments'] ) || !isset( $widget_options['dashboard_recent_comments']['items'] ) ) {
@@ -146,10 +149,14 @@ function wp_add_dashboard_widget( $widget_id, $widget_name, $callback, $control_
 		list($url) = explode( '#', add_query_arg( 'edit', $widget_id ), 2 );
 		$widget_name .= ' <span class="postbox-title-action"><a href="' . esc_url( "$url#$widget_id" ) . '" class="edit-box open-box">' . __( 'Configure' ) . '</a></span>';
 	}
-	if ( is_user_admin() )
-		$side_widgets = array();
-	else
+	
+	if ( is_blog_admin () )
 		$side_widgets = array('dashboard_quick_press', 'dashboard_recent_drafts', 'dashboard_primary', 'dashboard_secondary');
+	else if (is_network_admin() )
+		$side_widgets = array('dashboard_primary', 'dashboard_secondary');
+	else
+		$side_widgets = array();
+
 	$location = 'normal';
 	if ( in_array($widget_id, $side_widgets) )
 		$location = 'side';
@@ -400,6 +407,56 @@ function wp_dashboard_right_now() {
 	echo "\n\t".'<br class="clear" /></div>';
 	do_action( 'rightnow_end' );
 	do_action( 'activity_box_end' );
+}
+
+function wp_network_dashboard_right_now() {
+	$actions = array();
+	if ( current_user_can('create_sites') )
+		$actions['create-site'] = '<a href="' . network_admin_url('site-new.php') . '">' . __( 'Create a New Site' ) . '</a>';
+	if ( current_user_can('create_users') )
+		$actions['create-user'] = '<a href="' . network_admin_url('user-new.php') . '">' . __( 'Create a New User' ) . '</a>';
+
+	$c_users = get_user_count();
+	$c_blogs = get_blog_count();
+
+	$user_text = sprintf( _n( '%s user', '%s users', $c_users ), number_format_i18n( $c_users ) );
+	$blog_text = sprintf( _n( '%s site', '%s sites', $c_blogs ), number_format_i18n( $c_blogs ) );
+	
+	$sentence = sprintf( __( 'You have %1$s and %2$s.' ), $blog_text, $user_text );
+
+	if ( $actions ) {
+		echo '<ul class="subsubsub">';
+		foreach ( $action as $class => $action ) {
+			 $actions[ $class ] = "\t<li class='$class'>$action";
+		}
+		echo implode( " |</li>\n", $actions ) . "</li>\n";
+		echo '</ul>';
+	}
+?>
+	<br class="clear" />
+
+	<p class="youhave"><?php echo $sentence; ?></p>
+	<?php do_action( 'wpmuadminresult', '' ); ?>
+
+	<form name="searchform" action="ms-users.php" method="get">
+		<p>
+			<input type="hidden" name="action" value="users" />
+			<input type="text" name="s" value="" size="17" />
+			<input class="button" type="submit" name="submit" value="<?php esc_attr_e( 'Search Users' ); ?>" />
+		</p>
+	</form>
+
+	<form name="searchform" action="ms-sites.php" method="get">
+		<p>
+			<input type="hidden" name="action" value="blogs" />
+			<input type="hidden" name="searchaction" value="name" />
+			<input type="text" name="s" value="" size="17" />
+			<input class="button" type="submit" name="blog_name" value="<?php esc_attr_e( 'Search Sites' ); ?>" />
+		</p>
+	</form>
+<?php
+	do_action( 'mu_rightnow_end' );
+	do_action( 'mu_activity_box_end' );
 }
 
 function wp_dashboard_quick_press_output() {
