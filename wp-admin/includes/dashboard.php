@@ -438,18 +438,15 @@ function wp_network_dashboard_right_now() {
 	<p class="youhave"><?php echo $sentence; ?></p>
 	<?php do_action( 'wpmuadminresult', '' ); ?>
 
-	<form name="searchform" action="ms-users.php" method="get">
+	<form name="searchform" action="<?php echo network_admin_url('users.php'); ?>" method="get">
 		<p>
-			<input type="hidden" name="action" value="users" />
 			<input type="text" name="s" value="" size="17" />
 			<input class="button" type="submit" name="submit" value="<?php esc_attr_e( 'Search Users' ); ?>" />
 		</p>
 	</form>
 
-	<form name="searchform" action="ms-sites.php" method="get">
+	<form name="searchform" action="<?php echo network_admin_url('sites.php'); ?>" method="get">
 		<p>
-			<input type="hidden" name="action" value="blogs" />
-			<input type="hidden" name="searchaction" value="name" />
 			<input type="text" name="s" value="" size="17" />
 			<input class="button" type="submit" name="blog_name" value="<?php esc_attr_e( 'Search Sites' ); ?>" />
 		</p>
