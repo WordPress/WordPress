@@ -137,7 +137,7 @@ foreach ( (array) get_post_types( array('show_ui' => true, '_builtin' => false, 
 		$submenu["edit.php?post_type=$ptype"][$i++] = array( esc_attr( $tax->labels->menu_name ), $tax->cap->manage_terms, "edit-tags.php?taxonomy=$tax->name&amp;post_type=$ptype" );
 	}
 }
-unset($ptype, $ptype_obj, $ptype_class, $ptype_for_id, $ptype_menu_position, $menu_icon, $i);
+unset($ptype, $ptype_obj, $ptype_class, $ptype_for_id, $ptype_menu_position, $menu_icon, $i, $tax);
 
 $menu[59] = array( '', 'read', 'separator2', '', 'wp-menu-separator' );
 
