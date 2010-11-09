@@ -99,10 +99,12 @@ class WP_Terms_List_Table extends WP_List_Table {
 			'slug'        => __( 'Slug' ),
 		);
 
-		if ( 'link_category' == $taxonomy )
+		if ( 'link_category' == $taxonomy ) {
 			$columns['links'] = __( 'Links' );
-		else
-			$columns['posts'] = __( 'Posts' );
+		} else {
+			$post_type_object = get_post_type_object( $GLOBALS['typenow'] );
+			$columns['posts'] = $post_type_object ? $post_type_object->labels->name : __( 'Posts' );
+		}
 
 		return $columns;
 	}
