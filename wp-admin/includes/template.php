@@ -1049,7 +1049,7 @@ function get_hidden_meta_boxes( $screen ) {
 		if ( 'post' == $screen->base )
 			$hidden = array('slugdiv', 'trackbacksdiv', 'postcustom', 'postexcerpt', 'commentstatusdiv', 'commentsdiv', 'authordiv', 'revisionsdiv');
 		else
-			$hidden = array();
+			$hidden = array( 'slugdiv' );
 		$hidden = apply_filters('default_hidden_meta_boxes', $hidden, $screen);
 	}
 
