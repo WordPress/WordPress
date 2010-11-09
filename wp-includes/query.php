@@ -1472,33 +1472,33 @@ class WP_Query extends WP_Object_Query {
 				'field' => 'slug',
 				'operator' => 'IN',
 			);
-		} else {
-			foreach ( $GLOBALS['wp_taxonomies'] as $taxonomy => $t ) {
-				if ( $t->query_var && !empty( $q[$t->query_var] ) ) {
-					$tax_query_defaults = array(
-						'taxonomy' => $taxonomy,
-						'field' => 'slug',
-						'operator' => 'IN'
-					);
+		}
 
-					if ( $t->rewrite['hierarchical'] ) {
-						$q[$t->query_var] = wp_basename( $q[$t->query_var] );
-					}
+		foreach ( $GLOBALS['wp_taxonomies'] as $taxonomy => $t ) {
+			if ( $t->query_var && !empty( $q[$t->query_var] ) ) {
+				$tax_query_defaults = array(
+					'taxonomy' => $taxonomy,
+					'field' => 'slug',
+					'operator' => 'IN'
+				);
 
-					$term = str_replace( ' ', '+', $q[$t->query_var] );
+				if ( $t->rewrite['hierarchical'] ) {
+					$q[$t->query_var] = wp_basename( $q[$t->query_var] );
+				}
 
-					if ( strpos($term, '+') !== false ) {
-						$terms = preg_split( '/[+]+/', $term );
-						foreach ( $terms as $term ) {
-							$tax_query[] = array_merge( $tax_query_defaults, array(
-								'terms' => array( $term )
-							) );
-						}
-					} else {
+				$term = str_replace( ' ', '+', $q[$t->query_var] );
+
+				if ( strpos($term, '+') !== false ) {
+					$terms = preg_split( '/[+]+/', $term );
+					foreach ( $terms as $term ) {
 						$tax_query[] = array_merge( $tax_query_defaults, array(
-							'terms' => preg_split( '/[,]+/', $term )
+							'terms' => array( $term )
 						) );
 					}
+				} else {
+					$tax_query[] = array_merge( $tax_query_defaults, array(
+						'terms' => preg_split( '/[,]+/', $term )
+					) );
 				}
 			}
 		}
