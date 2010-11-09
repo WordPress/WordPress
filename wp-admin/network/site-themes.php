@@ -1,9 +1,9 @@
 <?php
 /**
- * Multisite themes administration panel.
+ * Edit Site Themes Administration Screen
  *
  * @package WordPress
- * @subpackage Multisite
+ * @subpackage Administration
  * @since 3.1.0
  */
 
@@ -17,7 +17,7 @@ $action = $wp_list_table->current_action();
 $s = isset($_REQUEST['s']) ? $_REQUEST['s'] : '';
 
 // Clean up request URI from temporary args for screen options/paging uri's to work as expected.
-$_SERVER['REQUEST_URI'] = remove_query_arg(array('network-enable', 'network-disable', 'network-enable-selected', 'network-disable-selected'), $_SERVER['REQUEST_URI']);
+$_SERVER['REQUEST_URI'] = remove_query_arg(array('enable', 'disable', 'enable-selected', 'disable-selected'), $_SERVER['REQUEST_URI']);
 
 $id = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0;
 
@@ -109,13 +109,16 @@ foreach ( $tabs as $tab_id => $tab ) {
 ?>
 </h3>
 <p class="description"><?php _e( 'Network enabled themes are not shown on this screen.' ) ?></p>
-<?php
-if ( ! empty( $messages ) ) {
-	foreach ( $messages as $msg )
-		echo '<div id="message" class="updated"><p>' . $msg . '</p></div>';
-}
 
-$wp_list_table->views(); ?>
+<form method="get" action="">
+<p class="search-box">
+	<label class="screen-reader-text" for="theme-search-input"><?php _e( 'Search Themes' ); ?>:</label>
+	<input type="text" id="theme-search-input" name="s" value="<?php _admin_search_query(); ?>" />
+	<?php submit_button( __( 'Search Installed Themes' ), 'button', '', false ); ?>
+</p>
+</form>
+
+<?php $wp_list_table->views(); ?>
 
 <form method="post" action="site-themes.php?action=update-site">
 	<?php wp_nonce_field( 'edit-site' ); ?>
