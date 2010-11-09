@@ -383,10 +383,7 @@ jQuery(document).ready( function($) {
 				$('#publish').val( postL10n.publish );
 			} else {
 				publishOn = postL10n.publishOnPast;
-				if ( page )
-					$('#publish').val( postL10n.updatePage );
-				else
-					$('#publish').val( postL10n.updatePost );
+				$('#publish').val( postL10n.update );
 			}
 			if ( originalDate.toUTCString() == attemptedDate.toUTCString() ) { //hack
 				$('#timestamp').html(stamp);
