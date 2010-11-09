@@ -1470,6 +1470,7 @@ class WP_Query extends WP_Object_Query {
 				'taxonomy' => $q['taxonomy'],
 				'terms' => array( $q['term'] ),
 				'field' => 'slug',
+				'operator' => 'IN',
 			);
 		} else {
 			foreach ( $GLOBALS['wp_taxonomies'] as $taxonomy => $t ) {
