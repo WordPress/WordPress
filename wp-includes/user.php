@@ -458,7 +458,7 @@ class WP_User_Query extends WP_Object_Query {
 			elseif ( preg_match('|^https?://|', $search) )
 				$search_columns = array('user_url');
 			else
-				$search_columns = array('user_login', 'user_nicename', 'display_name');
+				$search_columns = array('user_login', 'user_nicename');
 
 			$this->query_where .= $this->get_search_sql( $search, $search_columns, $wild );
 		}
