@@ -90,7 +90,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 	}
 
 	function get_columns() {
-		global $taxonomy;
+		global $taxonomy, $typenow;
 
 		$columns = array(
 			'cb'          => '<input type="checkbox" />',
@@ -102,7 +102,8 @@ class WP_Terms_List_Table extends WP_List_Table {
 		if ( 'link_category' == $taxonomy ) {
 			$columns['links'] = __( 'Links' );
 		} else {
-			$post_type_object = get_post_type_object( $GLOBALS['typenow'] );
+			$post_type = empty( $typenow ) ? 'post' : $typenow;
+			$post_type_object = get_post_type_object( $post_type );
 			$columns['posts'] = $post_type_object ? $post_type_object->labels->name : __( 'Posts' );
 		}
 
