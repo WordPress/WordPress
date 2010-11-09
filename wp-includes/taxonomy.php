@@ -403,6 +403,7 @@ function get_taxonomy_labels( $tax ) {
 		'add_or_remove_items' => array( __( 'Add or remove tags' ), null ),
 		'choose_from_most_used' => array( __( 'Choose from the most used tags' ), null ),
 	);
+	$nohier_vs_hier_defaults['menu_name'] = $nohier_vs_hier_defaults['name'];
 
 	return _get_custom_object_labels( $tax, $nohier_vs_hier_defaults );
 }
