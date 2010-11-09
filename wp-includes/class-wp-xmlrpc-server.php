@@ -1762,17 +1762,21 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->escape($args);
 
+		// $args[0] = appkey - ignored
 		$blog_ID    = (int) $args[1]; /* though we don't use it yet */
 		$username = $args[2];
 		$password  = $args[3];
-		$num_posts  = $args[4];
+		if ( isset( $args[4] ) )
+			$query = array( 'numberposts' => absint( $args[4] ) );
+		else
+			$query = array();
 
 		if ( !$user = $this->login($username, $password) )
 			return $this->error;
 
 		do_action('xmlrpc_call', 'blogger.getRecentPosts');
 
-		$posts_list = wp_get_recent_posts($num_posts);
+		$posts_list = wp_get_recent_posts( $query );
 
 		if ( !$posts_list ) {
 			$this->error = new IXR_Error(500, __('Either there are no posts, or something went wrong.'));
@@ -2682,14 +2686,17 @@ class wp_xmlrpc_server extends IXR_Server {
 		$blog_ID     = (int) $args[0];
 		$username  = $args[1];
 		$password   = $args[2];
-		$num_posts   = (int) $args[3];
+		if ( isset( $args[3] ) )
+			$query = array( 'numberposts' => absint( $args[3] ) );
+		else
+			$query = array();
 
 		if ( !$user = $this->login($username, $password) )
 			return $this->error;
 
 		do_action('xmlrpc_call', 'metaWeblog.getRecentPosts');
 
-		$posts_list = wp_get_recent_posts($num_posts);
+		$posts_list = wp_get_recent_posts( $query );
 
 		if ( !$posts_list )
 			return array( );
@@ -2914,14 +2921,17 @@ class wp_xmlrpc_server extends IXR_Server {
 		$blog_ID     = (int) $args[0];
 		$username  = $args[1];
 		$password   = $args[2];
-		$num_posts   = (int) $args[3];
+		if ( isset( $args[3] ) )
+			$query = array( 'numberposts' => absint( $args[3] ) );
+		else
+			$query = array();
 
 		if ( !$user = $this->login($username, $password) )
 			return $this->error;
 
 		do_action('xmlrpc_call', 'mt.getRecentPostTitles');
 
-		$posts_list = wp_get_recent_posts($num_posts);
+		$posts_list = wp_get_recent_posts( $query );
 
 		if ( !$posts_list ) {
 			$this->error = new IXR_Error(500, __('Either there are no posts, or something went wrong.'));
