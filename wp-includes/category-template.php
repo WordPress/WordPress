@@ -471,8 +471,11 @@ function wp_list_categories( $args = '' ) {
 			else
 				$output .= '<a href="' .  get_bloginfo( 'url' )  . '">' . $show_option_all . '</a>';
 
-		if ( empty( $r['current_category'] ) && ( is_category() || is_tax() ) )
-			$r['current_category'] = get_queried_object_id();
+		if ( empty( $r['current_category'] ) && ( is_category() || is_tax() || is_tag() ) ) {
+			$current_term_object = get_queried_object();
+			if ( $r['taxonomy'] == $current_term_object->taxonomy )
+				$r['current_category'] = get_queried_object_id();
+		}
 
 		if ( $hierarchical )
 			$depth = $r['depth'];
