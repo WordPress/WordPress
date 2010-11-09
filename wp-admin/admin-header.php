@@ -11,8 +11,10 @@ if ( ! defined( 'WP_ADMIN' ) )
 	require_once( './admin.php' );
 
 get_admin_page_title();
-
 $title = esc_html( strip_tags( $title ) );
+
+$admin_title = sprintf( __( '%1$s &lsaquo; %2$s &#8212; WordPress' ), $title, get_bloginfo( 'name' ) );
+$admin_title = apply_filters( 'admin_title', $admin_title, $title );
 
 wp_user_settings();
 wp_menu_unfold();
@@ -30,7 +32,7 @@ if ( is_multisite() && !is_network_admin() && is_super_admin() ) {
 <html xmlns="http://www.w3.org/1999/xhtml" <?php do_action('admin_xml_ns'); ?> <?php language_attributes(); ?>>
 <head>
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
-<title><?php echo $title; ?> &lsaquo; <?php bloginfo('name') ?>  &#8212; WordPress</title>
+<title><?php echo $admin_title; ?></title>
 <?php
 
 wp_admin_css( 'global' );
