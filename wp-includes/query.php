@@ -1899,7 +1899,7 @@ class WP_Query extends WP_Object_Query {
 				$post_status_join = true;
 			}
 
-			$where .= $this->get_tax_sql( $q['tax_query'], "$wpdb->posts.ID" );
+			$where .= get_tax_sql( $q['tax_query'], "$wpdb->posts.ID" );
 
 			// Back-compat
 			$cat_query = wp_list_filter( $q['tax_query'], array( 'taxonomy' => 'category' ) );

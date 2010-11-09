@@ -554,6 +554,61 @@ function get_objects_in_term( $terms, $taxonomies, $args = array() ) {
 	return $do_query ? $wpdb->get_col( $sql ) : $sql;
 }
 
+/*
+ * Given a meta query, generates SQL to be appended to a main query
+ *
+ * @since 3.1.0
+ *
+ * @param array $tax_query List of taxonomy queries. A single taxonomy query is an associative array:
+ * - 'taxonomy' string|array The taxonomy being queried
+ * - 'terms' string|array The list of terms
+ * - 'field' string (optional) Which term field is being used.
+ *		Possible values: 'term_id', 'slug' or 'name'
+ *		Default: 'slug'
+ * - 'operator' string (optional)
+ *		Possible values: 'IN' and 'NOT IN'.
+ *		Default: 'IN'
+ * - 'include_children' bool (optional) Whether to include child terms.
+ *		Default: true
+ *
+ * @param string $object_id_column
+ * @return string
+ */
+function get_tax_sql( $tax_query, $object_id_column ) {
+	global $wpdb;
+
+	$sql = array();
+	foreach ( $tax_query as $query ) {
+		if ( !isset( $query['include_children'] ) )
+			$query['include_children'] = true;
+
+		$query['do_query'] = false;
+
+		$sql_single = get_objects_in_term( $query['terms'], $query['taxonomy'], $query );
+
+		if ( empty( $sql_single ) )
+			return ' AND 0 = 1';
+
+		$sql[] = $sql_single;
+	}
+
+	if ( 1 == count( $sql ) ) {
+		$ids = $wpdb->get_col( $sql[0] );
+	} else {
+		$r = "SELECT object_id FROM $wpdb->term_relationships WHERE 1=1";
+		foreach ( $sql as $query )
+			$r .= " AND object_id IN ($query)";
+
+		$ids = $wpdb->get_col( $r );
+	}
+
+	if ( !empty( $ids ) )
+		return " AND $object_id_column IN(" . implode( ', ', $ids ) . ")";
+	else
+		return ' AND 0 = 1';
+}
+
+
 /**
  * Get all Term data from database by Term ID.
  *
