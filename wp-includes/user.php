@@ -481,7 +481,7 @@ class WP_User_Query extends WP_Object_Query {
 		}
 
 		if ( !empty( $qv['meta_query'] ) ) {
-			$clauses = $this->get_meta_sql( $qv['meta_query'], 'user', $wpdb->users, 'ID' );
+			$clauses = get_meta_sql( $qv['meta_query'], 'user', $wpdb->users, 'ID' );
 			$this->query_from .= $clauses['join'];
 			$this->query_where .= $clauses['where'];
 		}
