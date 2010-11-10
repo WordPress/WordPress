@@ -58,7 +58,11 @@ function wp_default_scripts( &$scripts ) {
 
 	$suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '.dev' : '';
 
-	$scripts->add( 'utils', "/wp-admin/js/utils$suffix.js", false, '20090102' );
+	// Always ensure that we have the convertEntities function
+	$scripts->add( 'l10n', "/wp-includes/js/l10n$suffix.js", false, '20101110' );
+	$scripts->enqueue( 'l10n' );
+	
+	$scripts->add( 'utils', "/wp-admin/js/utils$suffix.js", false, '20101110' );
 
 	$scripts->add( 'common', "/wp-admin/js/common$suffix.js", array('jquery', 'hoverIntent', 'utils'), '20101007' );
 	$scripts->add_data( 'common', 'group', 1 );
@@ -622,6 +626,7 @@ function print_head_scripts() {
 		$wp_scripts = new WP_Scripts();
 
 	script_concat_settings();
+	$wp_scripts->do_item( 'l10n' );
 	$wp_scripts->do_concat = $concatenate_scripts;
 	$wp_scripts->do_head_items();
 
