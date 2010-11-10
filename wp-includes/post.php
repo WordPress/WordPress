@@ -1124,7 +1124,7 @@ function _post_type_meta_capabilities( $capabilities = null ) {
  * - not_found_in_trash - Default is No posts found in Trash/No pages found in Trash
  * - parent_item_colon - This string isn't used on non-hierarchical types. In hierarchical ones the default is Parent Page:
  *
- * Above, the first default value is for non-hierarchical post types (like posts) and the second one is for hierarchical post types (like pages.)
+ * Above, the first default value is for non-hierarchical post types (like posts) and the second one is for hierarchical post types (like pages).
  *
  * @since 3.0.0
  * @param object $post_type_object
@@ -1161,6 +1161,9 @@ function _get_custom_object_labels( $object, $nohier_vs_hier_defaults ) {
 
 	if ( !isset( $object->labels['singular_name'] ) && isset( $object->labels['name'] ) )
 		$object->labels['singular_name'] = $object->labels['name'];
+
+	if ( !isset( $object->labels['menu_name'] ) && isset( $object->labels['name'] ) )
+		$object->labels['menu_name'] = $object->labels['name'];
 
 	$defaults = array_map( create_function( '$x', $object->hierarchical? 'return $x[1];' : 'return $x[0];' ), $nohier_vs_hier_defaults );
 	$labels = array_merge( $defaults, $object->labels );
