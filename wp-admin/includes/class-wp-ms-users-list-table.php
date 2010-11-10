@@ -23,11 +23,13 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 	}
 
 	function prepare_items() {
-		global $usersearch;
+		global $usersearch, $role, $wpdb;
 
 		$usersearch = isset( $_REQUEST['s'] ) ? $_REQUEST['s'] : '';
 
 		$users_per_page = $this->get_items_per_page( 'users_network_per_page' );
+
+		$role = isset( $_REQUEST['role'] ) ? $_REQUEST['role'] : '';
 
 		$paged = $this->get_pagenum();
 
@@ -37,6 +39,11 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 			'search' => $usersearch,
 			'blog_id' => 0
 		);
+
+		if ( $role == 'super' ) {
+			$logins = implode( "', '", get_super_admins() );
+			$args['include'] = $wpdb->get_col( "SELECT ID FROM $wpdb->users WHERE user_login IN ('$logins')" );
+		}
 
 		// If the network is large and a search is not being performed, show only the latest users with no paging in order
 		// to avoid expensive count queries.
@@ -76,6 +83,25 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 
 	function no_items() {
 		_e( 'No users found.' );
+	}
+
+	function get_views() {
+		global $wp_roles, $role;
+
+		$users_of_blog = count_users();
+		$total_users = $users_of_blog['total_users'];
+		$super_admins = get_super_admins();
+		$total_admins = count( $super_admins );
+		unset($users_of_blog);
+
+		$current_role = false;
+		$class = $role != 'super' ? ' class="current"' : '';
+		$role_links = array();
+		$role_links['all'] = "<a href='" . network_admin_url('users.php') . "'$class>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_users, 'users' ), number_format_i18n( $total_users ) ) . '</a>';
+		$class = $role == 'super' ? ' class="current"' : '';
+		$role_links['super'] = "<a href='" . network_admin_url('users.php?role=super') . "'$class>" . sprintf( _n( 'Super Admin <span class="count">(%s)</span>', 'Super Admins <span class="count">(%s)</span>', $total_admins ), number_format_i18n( $total_admins ) ) . '</a>';
+
+		return $role_links;
 	}
 
 	function pagination( $which ) {
@@ -155,7 +181,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 						<td class="username column-username">
 							<?php echo $avatar; ?><strong><a href="<?php echo esc_url( self_admin_url( $edit_link ) ); ?>" class="edit"><?php echo stripslashes( $user->user_login ); ?></a><?php
 							if ( in_array( $user->user_login, $super_admins ) )
-								echo ' - ' . __( 'Super admin' );
+								echo ' - ' . __( 'Super Admin' );
 							?></strong>
 							<br/>
 							<?php
