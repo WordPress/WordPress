@@ -7,14 +7,9 @@
  */
 
 /**
- * Display list of the available widgets, either all or matching search.
+ * Display list of the available widgets.
  *
- * The search parameter are search terms separated by spaces.
- *
- * @since unknown
- *
- * @param string $show Optional, default is all. What to display, can be 'all', 'unused', or 'used'.
- * @param string $_search Optional. Search for widgets. Should be unsanitized.
+ * @since 2.5.0
  */
 function wp_list_widgets() {
 	global $wp_registered_widgets, $sidebars_widgets, $wp_registered_widget_controls;
