@@ -842,7 +842,7 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  *     show_ui must be true.
  * - menu_position - The position in the menu order the post type should appear. Defaults to the bottom.
  * - menu_icon - The url to the icon to be used for this menu. Defaults to use the posts icon.
- * - capability_type - The post type to use for checking read, edit, and delete capabilities. Defaults to 'post'.
+ * - capability_type - The string to use to build the read, edit, and delete capabilities. Defaults to 'post'.
  *   May be passed as an array to allow for alternative plurals when using this argument as a base to construct the
  *   capabilities, e.g. array('story', 'stories').
  * - capabilities - Array of capabilities for this post type. By default the capability_type is used
@@ -916,9 +916,6 @@ function register_post_type($post_type, $args = array()) {
 	// If not set, default to true if not public, false if public.
 	if ( null === $args->exclude_from_search )
 		$args->exclude_from_search = !$args->public;
-
-	if ( empty($args->capability_type) )
-		$args->capability_type = 'post';
 
 	$args->cap = get_post_type_capabilities( $args );
 	unset($args->capabilities);

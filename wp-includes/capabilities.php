@@ -826,9 +826,9 @@ function map_meta_cap( $cap, $user_id ) {
 		$post = get_post( $args[0] );
 		$post_type = get_post_type_object( $post->post_type );
 
-		if ( 'delete_post' == $cap && $post_type && 'post' != $post_type->capability_type && ! $post_type->map_meta_cap ) {
-			$args = array_merge( array( $post_type->cap->delete_post, $user_id ), $args );
-			return call_user_func_array( 'map_meta_cap', $args );
+		if ( ! $post_type->map_meta_cap ) {
+			$caps[] = $post_type->cap->$cap;
+			break;
 		}
 
 		if ( '' != $post->post_author && post_type_supports( $post_type->name, 'author' ) ) {
@@ -869,9 +869,9 @@ function map_meta_cap( $cap, $user_id ) {
 		$post = get_post( $args[0] );
 		$post_type = get_post_type_object( $post->post_type );
 
-		if ( 'edit_post' == $cap && $post_type && 'post' != $post_type->capability_type && ! $post_type->map_meta_cap ) {
-			$args = array_merge( array( $post_type->cap->edit_post, $user_id ), $args );
-			return call_user_func_array( 'map_meta_cap', $args );
+		if ( ! $post_type->map_meta_cap ) {
+			$caps[] = $post_type->cap->$cap;
+			break;
 		}
 
 		if ( '' != $post->post_author && post_type_supports( $post_type->name, 'author' ) ) {
@@ -911,9 +911,9 @@ function map_meta_cap( $cap, $user_id ) {
 		$post = get_post( $args[0] );
 		$post_type = get_post_type_object( $post->post_type );
 
-		if ( 'read_post' == $cap && $post_type && 'post' != $post_type->capability_type && ! $post_type->map_meta_cap ) {
-			$args = array_merge( array( $post_type->cap->read_post, $user_id ), $args );
-			return call_user_func_array( 'map_meta_cap', $args );
+		if ( ! $post_type->map_meta_cap ) {
+			$caps[] = $post_type->cap->$cap;
+			break;
 		}
 
 		if ( 'private' != $post->post_status ) {
