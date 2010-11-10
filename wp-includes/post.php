@@ -2978,7 +2978,7 @@ function get_enclosed($post_id) {
 			$pung[] = trim( $enclosure[ 0 ] );
 		}
 	}
-	$pung = apply_filters('get_enclosed', $pung);
+	$pung = apply_filters('get_enclosed', $pung, $post_id);
 	return $pung;
 }
 
