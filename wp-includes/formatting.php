@@ -56,9 +56,25 @@ function wptexturize($text) {
 		$static_characters = array_merge(array('---', ' -- ', '--', ' - ', 'xn&#8211;', '...', '``', '\'\'', ' (tm)'), $cockney);
 		$static_replacements = array_merge(array('&#8212;', ' &#8212; ', '&#8211;', ' &#8211; ', 'xn--', '&#8230;', $opening_quote, $closing_quote, ' &#8482;'), $cockneyreplace);
 
-		$dynamic_characters = array('/\'(\d\d(?:&#8217;|\')?s)/', '/\'(\d)/', '/(\s|\A|[([{<]|")\'/', '/(\d)"/', '/(\d)\'/', '/(\S)\'([^\'\s])/', '/(\s|\A|[([{<])"(?!\s)/', '/"(\s|\S|\Z)/', '/\'([\s.]|\Z)/', '/\b(\d+)x(\d+)\b/');
-		$dynamic_replacements = array('&#8217;$1','&#8217;$1', '$1&#8216;', '$1&#8243;', '$1&#8242;', '$1&#8217;$2', '$1' . $opening_quote . '$2', $closing_quote . '$1', '&#8217;$1', '$1&#215;$2');
-
+		$dynamic_map = array(
+			'/\'(\d)/' => '&#8217;$1', // '99
+			
+			'/\'([^\']*)\'([^\']*)\'/' => '&#8216;$1&#8217;$2&#8217;', // 'test's'
+			
+			'/\'([^\']*)\'/' => '&#8216;$1&#8217;', // 'asd'
+			'/"([^"]*)"/' => $opening_quote . '$1' . $closing_quote, // "qwe"
+			
+			'/(\w)\'(\w)/' => '$1&#8217;$2', // test's
+			
+			'/(\d)"/' => '$1&#8243;', // 9" -> 9″
+			'/(\d)\'/' => '$1&#8242;', // 9' -> 9′
+			
+			'/\b(\d+)x(\d+)\b/' => '$1&#215;$2' // 10. 97x34 => 97×34
+		);
+		
+		$dynamic_characters = array_keys($dynamic_map);
+		$dynamic_replacements = array_values($dynamic_map);
+		
 		$static_setup = true;
 	}
 
@@ -69,6 +85,9 @@ function wptexturize($text) {
 
 	$no_texturize_tags_stack = array();
 	$no_texturize_shortcodes_stack = array();
+	
+	$single_quote_state = '&#8216;';
+	$double_quote_state = $opening_quote;
 
 	for ( $i = 0; $i < $stop; $i++ ) {
 		$curl = $textarr[$i];
@@ -80,6 +99,15 @@ function wptexturize($text) {
 			$curl = str_replace($static_characters, $static_replacements, $curl);
 			// regular expressions
 			$curl = preg_replace($dynamic_characters, $dynamic_replacements, $curl);
+			// quotes that span multiple tags & shortcodes
+			while (($pos = strpos($curl, '\'')) !== FALSE) {
+				$curl = preg_replace('/\'/', $single_quote_state, $curl);
+				$single_quote_state = (($single_quote_state == '&#8216;') ? '&#8217;' : '&#8216;');
+			}
+			while (($pos = strpos($curl, '"')) !== FALSE) {
+				$curl = preg_replace('/"/', $double_quote_state, $curl);
+				$double_quote_state = (($double_quote_state == $opening_quote) ? $closing_quote : $opening_quote);
+			}
 		} elseif (!empty($curl)) {
 			/*
 			 * Only call _wptexturize_pushpop_element if first char is correct
