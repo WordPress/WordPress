@@ -1350,7 +1350,7 @@ class WP_Query extends WP_Object_Query {
 
 			if ( !empty( $qv['post_type'] ) && ! is_array( $qv['post_type'] ) ) {
 				$post_type_obj = get_post_type_object( $qv['post_type'] );
-				if ( $post_type_obj->has_archive )
+				if ( ! empty( $post_type_obj->has_archive ) )
 					$this->is_post_type_archive = true;
 			}
 
