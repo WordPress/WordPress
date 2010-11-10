@@ -268,7 +268,7 @@ function get_inline_data($post) {
 	if ( ! current_user_can($post_type_object->cap->edit_post, $post->ID) )
 		return;
 
-	$title = esc_attr( get_the_title( $post->ID ) );
+	$title = esc_attr( trim( $post->post_title ) );
 
 	echo '
 <div class="hidden" id="inline_' . $post->ID . '">
