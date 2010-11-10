@@ -8,6 +8,9 @@
 
 	aB, hc = new RegExp('\\bhover\\b', 'g'), q = [],
 
+	/**
+	 * Get the timeout ID of the given element
+	 */
 	getTOID = function(el) {
 		var i = q.length;
 		while( i-- )
@@ -17,14 +20,33 @@
 	},
 
 	addClass = function(t) {
+		var ancestors = [],
+		ancestorLength = 0,
+		id,
+		i = q.length,
+		inA;
 		while ( t && t != aB && t != d ) {
 			if( 'LI' == t.nodeName.toUpperCase() ) {
-				var id = getTOID(t);	
+				ancestors[ ancestors.length ] = t;
+				id = getTOID(t);	
 				if ( id )
 					clearTimeout( id );
 				t.className = t.className ? ( t.className.replace(hc, '') + ' hover' ) : 'hover';
 			}
 			t = t.parentNode;
+		}
+		
+		/* remove the hover class for any objects not in the immediate element's ancestry */
+		while ( i-- ) {
+			inA = false;	
+			ancestorLength = ancestors.length;
+			while( ancestorLength-- ) {
+				if ( ancestors[ ancestorLength ] == q[i][1] ) 
+					inA = true;	
+			}
+
+			if ( ! inA )
+				q[i][1].className = q[i][1].className ? q[i][1].className.replace(hc, '') : '';
 		}
 	},
 
