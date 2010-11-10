@@ -443,18 +443,22 @@ function get_body_class( $class = '' ) {
 			$author = $wp_query->get_queried_object();
 			$classes[] = 'author';
 			$classes[] = 'author-' . sanitize_html_class( $author->user_nicename , $author->ID );
+			$classes[] = 'author-' . $author->ID;
 		} elseif ( is_category() ) {
 			$cat = $wp_query->get_queried_object();
 			$classes[] = 'category';
 			$classes[] = 'category-' . sanitize_html_class( $cat->slug, $cat->term_id );
+			$classes[] = 'category-' . $cat->term_id;
 		} elseif ( is_tag() ) {
 			$tags = $wp_query->get_queried_object();
 			$classes[] = 'tag';
 			$classes[] = 'tag-' . sanitize_html_class( $tags->slug, $tags->term_id );
+			$classes[] = 'tag-' . $tags->term_id;
 		} elseif ( is_tax() ) {
 			$term = $wp_query->get_queried_object();
 			$classes[] = 'tax-' . sanitize_html_class( $term->taxonomy );
 			$classes[] = 'term-' . sanitize_html_class( $term->slug, $term->term_id );
+			$classes[] = 'term-' . $term->term_id;
 		}
 	} elseif ( is_page() ) {
 		$classes[] = 'page';
