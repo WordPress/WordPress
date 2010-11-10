@@ -7,9 +7,10 @@
  * @since 3.0.0
  */
 
-require_once('./admin.php');
+/** Load WordPress Administration Bootstrap */
+require_once( './admin.php' );
 
-if ( !is_multisite() )
+if ( ! is_multisite() )
 	wp_die( __( 'Multisite support is not enabled.' ) );
 
 require_once( ABSPATH . WPINC . '/http.php' );

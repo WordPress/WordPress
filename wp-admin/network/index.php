@@ -7,11 +7,11 @@
  * @since 3.0.0
  */
 
-/** Load WordPress Bootstrap */
+/** Load WordPress Administration Bootstrap */
 require_once( './admin.php' );
 
 /** Load WordPress dashboard API */
-require_once(ABSPATH . 'wp-admin/includes/dashboard.php');
+require_once( ABSPATH . 'wp-admin/includes/dashboard.php' );
 
 if ( !is_multisite() )
 	wp_die( __( 'Multisite support is not enabled.' ) );

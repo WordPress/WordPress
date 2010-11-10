@@ -7,7 +7,11 @@
  * @since 3.0.0
  */
 
+/** Load WordPress Administration Bootstrap */
 require_once( './admin.php' );
+
+if ( ! is_multisite() )
+	wp_die( __( 'Multisite support is not enabled.' ) );
 
 $wp_list_table = get_list_table('WP_MS_Users_List_Table');
 $wp_list_table->check_permissions();
@@ -71,6 +75,8 @@ if ( isset( $_REQUEST['updated'] ) && $_REQUEST['updated'] == 'true' && ! empty(
 	printf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;' ) . '</span>', esc_html( $usersearch ) );
 	?>
 	</h2>
+
+	<?php $wp_list_table->views(); ?>
 
 	<form action="" method="get" class="search-form">
 		<p class="search-box">

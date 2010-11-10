@@ -3,11 +3,15 @@
  * Edit Site Themes Administration Screen
  *
  * @package WordPress
- * @subpackage Administration
+ * @subpackage Multisite
  * @since 3.1.0
  */
 
+/** Load WordPress Administration Bootstrap */
 require_once( './admin.php' );
+
+if ( ! is_multisite() )
+	wp_die( __( 'Multisite support is not enabled.' ) );
 
 $wp_list_table = get_list_table('WP_MS_Themes_List_Table');
 $wp_list_table->check_permissions();

@@ -3,13 +3,14 @@
  * WordPress Network Administration Bootstrap
  *
  * @package WordPress
- * @subpackage Administration
+ * @subpackage Multisite
  * @since 3.1.0
  */
 
-define('WP_NETWORK_ADMIN', TRUE);
+define( 'WP_NETWORK_ADMIN', TRUE );
 
-require_once( dirname(dirname(__FILE__)) . '/admin.php');
+/** Load WordPress Administration Bootstrap */
+require_once( dirname( dirname( __FILE__ ) ) . '/admin.php' );
 
 if ( ! is_multisite() )
 	wp_die( __( 'Multisite support is not enabled.' ) );

@@ -3,7 +3,7 @@
  * Build Network Administration Menu.
  *
  * @package WordPress
- * @subpackage Administration
+ * @subpackage Multisite
  * @since 3.1.0
  */
 

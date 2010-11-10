@@ -7,6 +7,7 @@
  * @since 3.0.0
  */
 
+/** Load WordPress Administration Bootstrap */
 require_once( './admin.php' );
 
 if ( ! is_multisite() )
