@@ -237,13 +237,10 @@ if (isset($_GET['updated'])) {
 		if ( ! empty( $languages ) ) {
 			$lang = get_site_option( 'WPLANG' );
 ?>
-		<h3><?php _e( 'Network Wide Settings' ); ?></h3>
-		<div class="updated inline"><p><strong><?php _e( 'Notice:' ); ?></strong> <?php _e( 'These settings may be overridden by site owners.' ); ?></p></div>
+		<h3><?php _e( 'Language Settings' ); ?></h3>
 		<table class="form-table">
-			<?php
-				?>
 				<tr valign="top">
-					<th><label for="WPLANG"><?php _e( 'Default Language' ) ?></label></th>
+					<th><label for="WPLANG"><?php _e( 'Default Language' ); ?></label></th>
 					<td>
 						<select name="WPLANG" id="WPLANG">
 							<?php mu_dropdown_languages( $languages, get_site_option( 'WPLANG' ) ); ?>
