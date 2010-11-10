@@ -779,7 +779,7 @@ function wpmu_activate_signup($key) {
 	$meta = unserialize($signup->meta);
 	$user_login = $wpdb->escape($signup->user_login);
 	$user_email = $wpdb->escape($signup->user_email);
-	$password = wp_generate_password();
+	$password = wp_generate_password( 12, false );
 
 	$user_id = username_exists($user_login);
 

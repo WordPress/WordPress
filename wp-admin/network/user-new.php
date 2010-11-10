@@ -31,7 +31,7 @@ if ( isset($_REQUEST['action']) && 'add-user' == $_REQUEST['action'] ) {
 	elseif ( empty($user['email']) )
 		wp_die( __( 'Missing email.' ) );
 
-	$password = wp_generate_password();
+	$password = wp_generate_password( 12, false);
 	$user_id = wpmu_create_user( esc_html( strtolower( $user['username'] ) ), $password, esc_html( $user['email'] ) );
 
 	if ( false == $user_id )

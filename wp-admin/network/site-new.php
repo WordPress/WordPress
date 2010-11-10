@@ -57,7 +57,7 @@ if ( isset($_REQUEST['action']) && 'add-site' == $_REQUEST['action'] ) {
 	$password = 'N/A';
 	$user_id = email_exists($email);
 	if ( !$user_id ) { // Create a new user with a random password
-		$password = wp_generate_password();
+		$password = wp_generate_password( 12, false );
 		$user_id = wpmu_create_user( $domain, $password, $email );
 		if ( false == $user_id )
 			wp_die( __( 'There was an error creating the user.' ) );
