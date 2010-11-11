@@ -732,11 +732,6 @@ table.widefat span.spam a,
 	text-decoration: underline !important;
 }
 
-#user_info a:active,
-#footer a:active {
-	color: #ccc !important;
-}
-
 div#media-upload-error,
 .file-error,
 abbr.required,
