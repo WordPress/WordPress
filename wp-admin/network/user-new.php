@@ -62,7 +62,7 @@ if ( ! empty( $messages ) ) {
 	foreach ( $messages as $msg )
 		echo '<div id="message" class="updated"><p>' . $msg . '</p></div>';
 } ?>
-	<form action="<?php echo network_admin_url('user-new.php?action=add-user'); ?>" method="post">	
+	<form action="<?php echo network_admin_url('user-new.php?action=add-user'); ?>" id="adduser" method="post">	
 	<table class="form-table">
 		<tr class="form-field form-required">
 			<th scope="row"><?php _e( 'Username' ) ?></th>
