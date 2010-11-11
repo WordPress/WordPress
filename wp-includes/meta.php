@@ -369,9 +369,10 @@ function update_meta_cache($meta_type, $object_ids) {
  * @param string $meta_type
  * @param string $primary_table
  * @param string $primary_id_column
+ * @param object $context (optional) The main query object
  * @return array( 'join' => $join_sql, 'where' => $where_sql )
  */
-function get_meta_sql( $meta_query, $meta_type, $primary_table, $primary_id_column ) {
+function get_meta_sql( $meta_query, $meta_type, $primary_table, $primary_id_column, $context = null ) {
 	global $wpdb;
 
 	if ( ! $meta_table = _get_meta_table( $meta_type ) )
@@ -440,7 +441,7 @@ function get_meta_sql( $meta_query, $meta_type, $primary_table, $primary_id_colu
 		unset( $meta_compare_string );
 	}
 
-	return apply_filters( 'get_meta_sql', compact( 'join', 'where' ), $meta_query, $meta_type, $primary_table, $primary_id_column );
+	return apply_filters_ref_array( 'get_meta_sql', array( compact( 'join', 'where' ), $meta_query, $meta_type, $primary_table, $primary_id_column, &$context ) );
 }
 
 /**

@@ -2147,7 +2147,7 @@ class WP_Query extends WP_Object_Query {
 		}
 
 		if ( !empty( $q['meta_query'] ) ) {
-			$clauses = get_meta_sql( $q['meta_query'], 'post', $wpdb->posts, 'ID' );
+			$clauses = call_user_func_array( 'get_meta_sql', array( $q['meta_query'], 'post', $wpdb->posts, 'ID', &$this) );
 			$join .= $clauses['join'];
 			$where .= $clauses['where'];
 		}
