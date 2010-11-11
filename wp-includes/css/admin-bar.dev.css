@@ -125,6 +125,9 @@ html>body #wpadminbar .menupop ul {
 	line-height:28px;
 	text-decoration:none !important;
 }
+#wpadminbar .quicklinks li ul li a {
+	width:160px;
+}
 #wpadminbar .quicklinks a:hover {
 	text-shadow:#333 0px -1px 0px;
 }
@@ -226,7 +229,6 @@ html>body #wpadminbar .menupop ul {
 	height: 28px;
 	padding: 0 1.15em 0 0.7em;
 }
-#wpadminbar li.ab-me > a:hover, 
 #wpadminbar li.ab-blog > a:hover {
 	background-position: 67% 59.8%;
 }
