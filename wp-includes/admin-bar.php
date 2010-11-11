@@ -164,7 +164,7 @@ function wp_admin_bar_shortlink_menu() {
 	$short = wp_get_shortlink( 0, 'query' );
 
 	if ( ! empty( $short) )
-		$wp_admin_bar->add_menu( array( 'id' => 'get-shortlink', 'title' => __( 'Shortlink' ), 'href' => '', ) );
+		$wp_admin_bar->add_menu( array( 'id' => 'get-shortlink', 'title' => __( 'Shortlink' ), 'href' => $short, ) );
 }
 
 /**
