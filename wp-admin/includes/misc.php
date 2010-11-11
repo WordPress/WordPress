@@ -353,6 +353,7 @@ function set_screen_options() {
 			case 'users_network_per_page':
 			case 'plugins_network_per_page':
 			case 'themes_network_per_page':
+			case 'site_themes_network_per_page':
 				$value = (int) $value;
 				if ( $value < 1 || $value > 999 )
 					return;

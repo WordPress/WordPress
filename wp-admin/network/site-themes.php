@@ -86,15 +86,14 @@ if ( $action ) {
 	exit;	
 }
 
+add_thickbox();
+add_screen_option( 'per_page', array( 'label' => _x( 'Themes', 'themes per page (screen options)' ) ) );
+
 $title = sprintf( __('Edit Site: %s'), get_blogaddress_by_id($id));
 $parent_file = 'sites.php';
 $submenu_file = 'sites.php';
 
 require('../admin-header.php');
-
-add_thickbox();
-
-add_screen_option( 'per_page', array('label' => _x( 'Themes', 'themes per page (screen options)' ), 'default' => 999) );
 
 require_once(ABSPATH . 'wp-admin/admin-header.php');
 ?>

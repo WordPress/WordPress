@@ -60,10 +60,13 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		);
 
 		$site_allowed_themes = get_site_allowed_themes(); 
-		if ( !$this->is_site_themes ) 
-			$allowed_themes = $site_allowed_themes; 
-		else 
+		if ( !$this->is_site_themes ) {
+			$allowed_themes = $site_allowed_themes;
+			$themes_per_page = $this->get_items_per_page( 'themes_network_per_page' );
+		} else {
 			$allowed_themes = wpmu_get_blog_allowedthemes( $this->site_id );
+			$themes_per_page = $this->get_items_per_page( 'site_themes_network_per_page' );
+		}
 		
 		$current = get_site_transient( 'update_themes' );
 
@@ -112,8 +115,6 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 
 			uasort( $this->items, array( &$this, '_order_callback' ) );
 		}
-
-		$themes_per_page = $this->get_items_per_page( 'themes_network_per_page' );
 
 		$start = ( $page - 1 ) * $themes_per_page;
 
