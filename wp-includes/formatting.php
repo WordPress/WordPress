@@ -236,7 +236,7 @@ function wpautop($pee, $br = 1) {
 	$pee = preg_replace('!<p>\s*(</?' . $allblocks . '[^>]*>)!', "$1", $pee);
 	$pee = preg_replace('!(</?' . $allblocks . '[^>]*>)\s*</p>!', "$1", $pee);
 	if ($br) {
-		$pee = preg_replace_callback('/<(script|style).*?<\/\\1>/s', '__autop_newline_preservation_helper', $pee);
+		$pee = preg_replace_callback('/<(script|style).*?<\/\\1>/s', '_autop_newline_preservation_helper', $pee);
 		$pee = preg_replace('|(?<!<br />)\s*\n|', "<br />\n", $pee); // optionally make line breaks
 		$pee = str_replace('<WPPreserveNewline />', "\n", $pee);
 	}
@@ -257,7 +257,7 @@ function wpautop($pee, $br = 1) {
  * @param array $matches preg_replace_callback matches array
  * @returns string
  */
-function __autop_newline_preservation_helper( $matches ) {
+function _autop_newline_preservation_helper( $matches ) {
 	return str_replace("\n", "<WPPreserveNewline />", $matches[0]);
 }
 
@@ -1595,7 +1595,7 @@ function wp_iso_descrambler($string) {
 		return $string;
 	} else {
 		$subject = str_replace('_', ' ', $matches[2]);
-		$subject = preg_replace_callback('#\=([0-9a-f]{2})#i', '__wp_iso_convert', $subject);
+		$subject = preg_replace_callback('#\=([0-9a-f]{2})#i', '_wp_iso_convert', $subject);
 		return $subject;
 	}
 }
@@ -1607,7 +1607,7 @@ function wp_iso_descrambler($string) {
  * @access private
  * @param $match the preg_replace_callback matches array
  */
-function __wp_iso_convert( $match ) { 
+function _wp_iso_convert( $match ) { 
 	return chr( hexdec( strtolower( $match[1] ) ) ); 
 } 
 

@@ -223,7 +223,7 @@ function get_the_content($more_link_text = null, $stripteaser = 0) {
 
 	}
 	if ( $preview ) // preview fix for javascript bug with foreign languages
-		$output =	preg_replace_callback('/\%u([0-9A-F]{4})/', '__convert_urlencoded_to_entities', $output);
+		$output =	preg_replace_callback('/\%u([0-9A-F]{4})/', '_convert_urlencoded_to_entities', $output);
 
 	return $output;
 }
@@ -236,8 +236,8 @@ function get_the_content($more_link_text = null, $stripteaser = 0) {
  * @param array $match Match array from preg_replace_callback
  * @returns string
  */
-function __convert_urlencoded_to_entities($match) {
-	return '&#' . base_convert($match[1], 16, 10) . ';'; 
+function _convert_urlencoded_to_entities( $match ) {
+	return '&#' . base_convert( $match[1], 16, 10 ) . ';'; 
 }
 
 /**

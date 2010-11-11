@@ -677,7 +677,7 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 		$tag_link = '#' != $tag->link ? esc_url( $tag->link ) : '#';
 		$tag_id = isset($tags[ $key ]->id) ? $tags[ $key ]->id : $key;
 		$tag_name = $tags[ $key ]->name;
-		$a[] = "<a href='$tag_link' class='tag-link-$tag_id' title='" . esc_attr( $topic_count_text_callback( $real_count ) ) . "' style='font-size: " .
+		$a[] = "<a href='$tag_link' class='tag-link-$tag_id' title='" . esc_attr( call_user_func( 'topic_count_text_callback', $real_count ) ) . "' style='font-size: " .
 			( $smallest + ( ( $count - $min_count ) * $font_step ) )
 			. "$unit;'>$tag_name</a>";
 	}
@@ -700,6 +700,26 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 		return apply_filters( 'wp_generate_tag_cloud', $return, $tags, $args );
 	else
 		return $return;
+}
+
+/**
+ * Callback for comparing tags based on name
+ *
+ * @since 3.1.0
+ * @access private
+ */
+function _wp_tag_cloud_name_sort_cb( $a, $b ) {
+	return strnatcasecmp( $a->name, $b->name );
+}
+
+/**
+ * Callback for comparing tags based on count
+ *
+ * @since 3.1.0
+ * @access private
+ */
+function _wp_tag_cloud_count_sort_cb( $a, $b ) {
+	return ( $a->count > $b->count );
 }
 
 //

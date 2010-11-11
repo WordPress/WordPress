@@ -15,7 +15,7 @@ function wp_list_widgets() {
 	global $wp_registered_widgets, $sidebars_widgets, $wp_registered_widget_controls;
 
 	$sort = $wp_registered_widgets;
-	usort( $sort, create_function( '$a, $b', 'return strnatcasecmp( $a["name"], $b["name"] );' ) );
+	usort( $sort, '_sort_name_callback' );
 	$done = array();
 
 	foreach ( $sort as $widget ) {
@@ -44,6 +44,16 @@ function wp_list_widgets() {
 		$args = wp_list_widget_controls_dynamic_sidebar( array( 0 => $args, 1 => $widget['params'][0] ) );
 		call_user_func_array( 'wp_widget_control', $args );
 	}
+}
+
+/**
+ * Callback to sort array by a 'name' key.
+ *
+ * @since 3.1.0
+ * @access private
+ */
+function _sort_name_callback( $a, $b ) {
+	return strnatcasecmp( $a['name'], $b['name'] );
 }
 
 /**

@@ -260,7 +260,7 @@ function get_plugins($plugin_folder = '') {
 		$wp_plugins[plugin_basename( $plugin_file )] = $plugin_data;
 	}
 
-	uasort( $wp_plugins, create_function( '$a, $b', 'return strnatcasecmp( $a["Name"], $b["Name"] );' ));
+	uasort( $wp_plugins, '_sort_uname_callback' );
 
 	$cache_plugins[ $plugin_folder ] = $wp_plugins;
 	wp_cache_set('plugins', $cache_plugins, 'plugins');
@@ -312,9 +312,19 @@ function get_mu_plugins() {
 	if ( isset( $wp_plugins['index.php'] ) && filesize( WPMU_PLUGIN_DIR . '/index.php') <= 30 ) // silence is golden
 		unset( $wp_plugins['index.php'] );
 
-	uasort( $wp_plugins, create_function( '$a, $b', 'return strnatcasecmp( $a["Name"], $b["Name"] );' ));
+	uasort( $wp_plugins, '_sort_uname_callback' );
 
 	return $wp_plugins;
+}
+
+/**
+ * Callback to sort array by a 'Name' key.
+ *
+ * @since 3.1.0
+ * @access private
+ */
+function _sort_uname_callback( $a, $b ) {
+	return strnatcasecmp( $a['Name'], $b['Name'] );
 }
 
 /**
@@ -353,7 +363,7 @@ function get_dropins() {
 		$dropins[ $plugin_file ] = $plugin_data;
 	}
 
-	uksort( $dropins, create_function( '$a, $b', 'return strnatcasecmp( $a, $b );' ));
+	uksort( $dropins, 'strnatcasecmp' );
 
 	return $dropins;
 }

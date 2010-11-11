@@ -1162,7 +1162,9 @@ function _get_custom_object_labels( $object, $nohier_vs_hier_defaults ) {
 	if ( !isset( $object->labels['menu_name'] ) && isset( $object->labels['name'] ) )
 		$object->labels['menu_name'] = $object->labels['name'];
 
-	$defaults = array_map( create_function( '$x', $object->hierarchical? 'return $x[1];' : 'return $x[0];' ), $nohier_vs_hier_defaults );
+	foreach ( $nohier_vs_hier_defaults as $key => $value )
+			$defaults[$key] = $object->hierarchical ? $value[1] : $value[0];
+
 	$labels = array_merge( $defaults, $object->labels );
 	return (object)$labels;
 }

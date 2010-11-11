@@ -546,8 +546,18 @@ function wp_kses_split($string, $allowed_html, $allowed_protocols) {
 	global $pass_allowed_html, $pass_allowed_protocols;
 	$pass_allowed_html = $allowed_html;
 	$pass_allowed_protocols = $allowed_protocols;
-	return preg_replace_callback('%((<!--.*?(-->|$))|(<[^>]*(>|$)|>))%',
-		create_function('$match', 'global $pass_allowed_html, $pass_allowed_protocols; return wp_kses_split2($match[1], $pass_allowed_html, $pass_allowed_protocols);'), $string);
+	return preg_replace_callback( '%((<!--.*?(-->|$))|(<[^>]*(>|$)|>))%', '_wp_kses_split_callback', $string );
+}
+
+/**
+ * Callback for wp_kses_split.
+ *
+ * @since 3.1.0
+ * @access private
+ */
+function _wp_kses_split_callback( $match ) {
+	global $pass_allowed_html, $pass_allowed_protocols;
+	return wp_kses_split2( $match[1], $pass_allowed_html, $pass_allowed_protocols );
 }
 
 /**
