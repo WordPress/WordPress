@@ -998,18 +998,22 @@ if ( ! function_exists('wp_notify_postauthor') ) :
  * @param string $comment_type Optional. The comment type either 'comment' (default), 'trackback', or 'pingback'
  * @return bool False if user email does not exist. True on completion.
  */
-function wp_notify_postauthor($comment_id, $comment_type='') {
-	$comment = get_comment($comment_id);
-	$post    = get_post($comment->comment_post_ID);
-	$user    = get_userdata( $post->post_author );
-	$moderating_user = wp_get_current_user();
-	$moderating_uid = (int) $user->id;
+function wp_notify_postauthor( $comment_id, $comment_type = '' ) {
+	$comment = get_comment( $comment_id );
+	$post    = get_post( $comment->comment_post_ID );
+	$author  = get_userdata( $post->post_author );
 
-	if ( $comment->user_id == $post->post_author ) return false; // The comment was left by the author.
+	// The comment was left by the author
+	if ( $comment->user_id == $post->post_author )
+		return false;
 
-	if ( $user->user_id == $moderating_uid ) return false; // The author moderated a comment on his own post
+	// The author moderated a comment on his own post
+	if ( $post->post_author == get_current_user_id() )
+		return false;
 
-	if ('' == $user->user_email) return false; // If there's no email to send the comment to
+	// If there's no email to send the comment to
+	if ( '' == $author->user_email )
+		return false;
 
 	$comment_author_domain = @gethostbyaddr($comment->comment_author_IP);
 
@@ -1079,7 +1083,7 @@ function wp_notify_postauthor($comment_id, $comment_type='') {
 	$subject = apply_filters('comment_notification_subject', $subject, $comment_id);
 	$message_headers = apply_filters('comment_notification_headers', $message_headers, $comment_id);
 
-	@wp_mail($user->user_email, $subject, $notify_message, $message_headers);
+	@wp_mail( $author->user_email, $subject, $notify_message, $message_headers );
 
 	return true;
 }
