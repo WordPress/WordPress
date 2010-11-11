@@ -105,7 +105,7 @@ function wp_admin_bar_my_account_menu() {
  *
  * @since 3.1.0
  */
-function wp_admin_bar_my_blogs_menu() {
+function wp_admin_bar_my_sites_menu() {
 	global $wpdb, $wp_admin_bar;
 
 	/* Add the 'My Dashboards' menu if the user has more than one site. */
@@ -117,7 +117,6 @@ function wp_admin_bar_my_blogs_menu() {
 	$default = includes_url('images/wpmini-blue.png');
 
 	foreach ( (array) $wp_admin_bar->user->blogs as $blog ) {
-		$blogdomain = preg_replace( '!^https?://!', '', $blog->siteurl );
 		// @todo Replace with some favicon lookup.
 		//$blavatar = '<img src="' . esc_url( blavatar_url( blavatar_domain( $blog->siteurl ), 'img', 16, $default ) ) . '" alt="Blavatar" width="16" height="16" />';
 		$blavatar = '<img src="' . esc_url($default) . '" alt="' . esc_attr__( 'Blavatar' ) . '" width="16" height="16" />';
@@ -132,15 +131,12 @@ function wp_admin_bar_my_blogs_menu() {
 			$blogname = substr( $blog->blogname, 0, 35 ) . $marker;
 
 		if ( ! isset( $blog->visible ) || $blog->visible === true ) {
-			$wp_admin_bar->add_menu( array( 'parent' => 'my-blogs', 'id' => 'blog-' . $blog->userblog_id, 'title' => $blavatar . $blogname,  'href' => $wp_admin_bar->proto . $blogdomain . '/wp-admin/', ) );
-			$wp_admin_bar->add_menu( array( 'parent' => 'blog-' . $blog->userblog_id, 'id' => 'blog-' . $blog->userblog_id . '-d', 'title' => __( 'Dashboard' ), 'href' => $wp_admin_bar->proto . $blogdomain . '/wp-admin/', ) );
-			$wp_admin_bar->add_menu( array( 'parent' => 'blog-' . $blog->userblog_id, 'id' => 'blog-' . $blog->userblog_id . '-n', 'title' => __( 'New Post' ), 'href' => $wp_admin_bar->proto . $blogdomain . '/wp-admin/post-new.php', ) );
+			$wp_admin_bar->add_menu( array( 'parent' => 'my-blogs', 'id' => 'blog-' . $blog->userblog_id, 'title' => $blavatar . $blogname,  'href' => get_admin_url($blog->userblog_id), ) );
+			$wp_admin_bar->add_menu( array( 'parent' => 'blog-' . $blog->userblog_id, 'id' => 'blog-' . $blog->userblog_id . '-d', 'title' => __( 'Dashboard' ), 'href' => get_admin_url($blog->userblog_id), ) );
+			$wp_admin_bar->add_menu( array( 'parent' => 'blog-' . $blog->userblog_id, 'id' => 'blog-' . $blog->userblog_id . '-n', 'title' => __( 'New Post' ), 'href' => get_admin_url($blog->userblog_id, 'post-new.php'), ) );
 
-			// @todo, stats plugins should add this:
-			//$wp_admin_bar->add_menu( array( 'parent' => 'blog-' . $blog->userblog_id, 'id' => 'blog-' . $blog->userblog_id . '-s', 'title' => __( 'Site Stats' ), 'href' => $wp_admin_bar->proto . $blogdomain . '/wp-admin/index.php?page=stats' ) );
-			
-			$wp_admin_bar->add_menu( array( 'parent' => 'blog-' . $blog->userblog_id, 'id' => 'blog-' . $blog->userblog_id . '-c', 'title' => __( 'Manage Comments' ), 'href' => $wp_admin_bar->proto . $blogdomain . '/wp-admin/edit-comments.php', ) );
-			$wp_admin_bar->add_menu( array( 'parent' => 'blog-' . $blog->userblog_id, 'id' => 'blog-' . $blog->userblog_id . '-v', 'title' => __( 'Visit Site' ), 'href' => $wp_admin_bar->proto . $blogdomain, ) );
+			$wp_admin_bar->add_menu( array( 'parent' => 'blog-' . $blog->userblog_id, 'id' => 'blog-' . $blog->userblog_id . '-c', 'title' => __( 'Manage Comments' ), 'href' => get_admin_url($blog->userblog_id, 'edit-comments.php'), ) );
+			$wp_admin_bar->add_menu( array( 'parent' => 'blog-' . $blog->userblog_id, 'id' => 'blog-' . $blog->userblog_id . '-v', 'title' => __( 'Visit Site' ), 'href' => get_home_url($blog->userblog_id), ) );
 		}
 	}
 }
