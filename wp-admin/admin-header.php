@@ -181,9 +181,9 @@ if ( is_network_admin() )
 elseif ( is_user_admin() )
 	do_action('user_admin_notices');
 else
-	do_action('admin_notices');
+	do_action('blog_admin_notices');
 
-do_action('all_admin_notices');
+do_action('admin_notices');
 
 if ( $parent_file == 'options-general.php' )
 	require(ABSPATH . 'wp-admin/options-head.php');
