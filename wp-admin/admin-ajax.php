@@ -1308,19 +1308,6 @@ case 'find_posts':
 	$x->send();
 
 	break;
-case 'lj-importer' :
-	check_ajax_referer( 'lj-api-import' );
-	if ( !current_user_can( 'publish_posts' ) )
-		die('-1');
-	if ( empty( $_POST['step'] ) )
-		die( '-1' );
-	define('WP_IMPORTING', true);
-	include( ABSPATH . 'wp-admin/import/livejournal.php' );
-	$result = $lj_api_import->{ 'step' . ( (int) $_POST['step'] ) }();
-	if ( is_wp_error( $result ) )
-		echo $result->get_error_message();
-	die;
-	break;
 case 'widgets-order' :
 	check_ajax_referer( 'save-sidebar-widgets', 'savewidgets' );
 
