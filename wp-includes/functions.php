@@ -1344,8 +1344,8 @@ function wp_get_http_headers( $url, $deprecated = false ) {
  * @return int 1 when new day, 0 if not a new day.
  */
 function is_new_day() {
-	global $day, $previousday;
-	if ( $day != $previousday )
+	global $currentday, $previousday;
+	if ( $currentday != $previousday )
 		return 1;
 	else
 		return 0;

@@ -1352,13 +1352,13 @@ function the_date_xml() {
  * @return string|null Null if displaying, string if retrieving.
  */
 function the_date( $d = '', $before = '', $after = '', $echo = true ) {
-	global $day, $previousday;
+	global $currentday, $previousday;
 	$the_date = '';
-	if ( $day != $previousday ) {
+	if ( $currentday != $previousday ) {
 		$the_date .= $before;
 		$the_date .= get_the_date( $d );
 		$the_date .= $after;
-		$previousday = $day;
+		$previousday = $currentday;
 
 		$the_date = apply_filters('the_date', $the_date, $d, $before, $after);
 
@@ -1564,11 +1564,11 @@ function the_weekday() {
 function the_weekday_date($before='',$after='') {
 	global $wp_locale, $post, $day, $previousweekday;
 	$the_weekday_date = '';
-	if ( $day != $previousweekday ) {
+	if ( $currentday != $previousweekday ) {
 		$the_weekday_date .= $before;
 		$the_weekday_date .= $wp_locale->get_weekday(mysql2date('w', $post->post_date, false));
 		$the_weekday_date .= $after;
-		$previousweekday = $day;
+		$previousweekday = $currentday;
 	}
 	$the_weekday_date = apply_filters('the_weekday_date', $the_weekday_date, $before, $after);
 	echo $the_weekday_date;

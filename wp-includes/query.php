@@ -3188,13 +3188,13 @@ function wp_old_slug_redirect() {
  * @return bool True when finished.
  */
 function setup_postdata($post) {
-	global $id, $authordata, $day, $currentmonth, $page, $pages, $multipage, $more, $numpages;
+	global $id, $authordata, $currentday, $currentmonth, $page, $pages, $multipage, $more, $numpages;
 
 	$id = (int) $post->ID;
 
 	$authordata = get_userdata($post->post_author);
 
-	$day = mysql2date('d.m.y', $post->post_date, false);
+	$currentday = mysql2date('d.m.y', $post->post_date, false);
 	$currentmonth = mysql2date('m', $post->post_date, false);
 	$numpages = 1;
 	$page = get_query_var('page');
