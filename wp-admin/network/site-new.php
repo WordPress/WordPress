@@ -23,7 +23,7 @@ if ( isset($_REQUEST['action']) && 'add-site' == $_REQUEST['action'] ) {
 		wp_die( __( 'You do not have permission to access this page.' ) );
 
 	if ( is_array( $_POST['blog'] ) == false )
-		wp_die(  __( 'Can&#8217;t create an empty site.' ) );
+		wp_die( __( 'Can&#8217;t create an empty site.' ) );
 	$blog = $_POST['blog'];
 	$domain = '';
 	if ( ! preg_match( '/(--)/', $blog['domain'] ) && preg_match( '|^([a-zA-Z0-9-])+$|', $blog['domain'] ) )
@@ -72,7 +72,7 @@ if ( isset($_REQUEST['action']) && 'add-site' == $_REQUEST['action'] ) {
 		if ( !is_super_admin( $user_id ) && !get_user_option( 'primary_blog', $user_id ) )
 			update_user_option( $user_id, 'primary_blog', $id, true );
 		$content_mail = sprintf( __( "New site created by %1s\n\nAddress: http://%2s\nName: %3s"), $current_user->user_login , $newdomain . $path, stripslashes( $title ) );
-		wp_mail( get_site_option('admin_email'),  sprintf( __( '[%s] New Site Created' ), $current_site->site_name ), $content_mail, 'From: "Site Admin" <' . get_site_option( 'admin_email' ) . '>' );
+		wp_mail( get_site_option('admin_email'), sprintf( __( '[%s] New Site Created' ), $current_site->site_name ), $content_mail, 'From: "Site Admin" <' . get_site_option( 'admin_email' ) . '>' );
 		wpmu_welcome_notification( $id, $user_id, $password, $title, array( 'public' => 1 ) );
 		wp_redirect( add_query_arg( array('update' => 'added'), 'site-new.php' ) );
 		exit;
