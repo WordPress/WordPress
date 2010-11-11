@@ -9,7 +9,7 @@
 /** WordPress Administration Bootstrap */
 require_once('./admin.php');
 
-if ( ! current_user_can('create_users') || ! current_user_can('promote_users') )
+if ( ! current_user_can('create_users') && ! current_user_can('promote_users') )
 	wp_die(__('Cheatin&#8217; uh?'));
 
 if ( is_multisite() ) {
