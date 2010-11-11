@@ -72,7 +72,8 @@
 	padding-right:1.5em;
 	line-height: 28px;
 }
-#wpadminbar .menupop ul li a span#awaiting-mod {
+#wpadminbar ul li a span#ab-awaiting-mod,
+#wpadminbar ul li a span#ab-updates {
 	display: inline;
 	background: #aaa;
 	color: #fff;
@@ -83,9 +84,13 @@
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
 }
-#wpadminbar .menupop ul li a:hover span#awaiting-mod {
+#wpadminbar ul li a:hover span#ab-awaiting-mod,
+#wpadminbar ul li a:hover span#ab-updates  {
 	background: #fff;
 	color: #888;
+}
+#wpadminbar ul li a span#ab-awaiting-mod.count-0 {
+	display: none;
 }
 #wpadminbar .menupop ul {
 	-moz-box-shadow:0 4px 8px rgba(0,0,0,0.1);
@@ -100,11 +105,6 @@
 html>body #wpadminbar .menupop ul {
 	background:rgba(255,255,255,0.97);
 	border-color:rgba(0,0,0,0.1);
-}
-#wpadminbar .menupop.ab-my-account ul, 
-#wpadminbar .menupop.ab-my-dash ul,
-#wpadminbar .menupop.ab-new-post ul {
-	min-width:140px;
 }
 #wpadminbar .menupop li {
 	float:none;
@@ -245,27 +245,10 @@ html>body #wpadminbar .menupop ul {
 	padding-left: 0.7em !important;
 	margin-top: 0 !important;
 }
-#wpadminbar li.ab-my-account > ul, #wpadminbar li.ab-bloginfo > ul {
-	left: -7px;
-}
+
 #wpadminbar ul li img {
 	width: 16px !important;
 	height: 16px !important;
-}
-
-#wpadminbar ul li a strong.count {
-	text-shadow: none;
-	background: #ddd;
-	color: #555;
-	margin-left: 5px;
-	padding: 1px 6px;
-	top: -1px;
-	position: relative;
-	font-size: 9px;
-	-moz-border-radius: 7px;
-	-webkit-border-radius: 7px;
-	border-radius: 7px;
-	font-weight: normal;
 }
 
 #wpadminbar #adminbar-search {

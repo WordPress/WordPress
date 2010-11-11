@@ -37,7 +37,8 @@
 
 #wpadminbar .menupop li:hover > ul,
 #wpadminbar .menupop li.hover > ul {
-	margin-left:-100%;
+	margin-right:100%;
+	margin-top:-28px;
 }
 
 #wpadminbar .menupop a > span {
@@ -49,32 +50,6 @@
 	background:url(../images/admin-bar-sprite-rtl.png?d=08102010) 0% 97.2% no-repeat;
 	padding-right:0;
 	padding-left:1.5em;
-}
-
-#wpadminbar .menupop ul {
-	right: 0;
-	width:100%;
-	min-width:150px;
-}
-
-#wpadminbar .ab-my-account ul {
-	width:200px;
-}
-
-#wpadminbar .ab-my-blogs ul {
-	width:300px;
-}
-
-#wpadminbar .ab-my-blogs ul ul {
-	width:200px;
-}
-
-#wpadminbar .ab-bloginfo ul {
-	width:200px;
-}
-
-#wpadminbar .ab-subscribe ul {
-	width:150px;
 }
 
 #wpadminbar .menupop ul li {
@@ -157,7 +132,6 @@
 	padding: 0 0.7em 0 1.15em;
 }
 
-#wpadminbar li.ab-me > a:hover, 
 #wpadminbar li.ab-blog > a:hover {
 	background-position: 33% 59.8%;
 }
@@ -166,19 +140,6 @@
 #wpadminbar li.ab-bloginfo a {
 	border-right: none !important;
 	padding-right: 0.7em !important;
-}
-
-#wpadminbar li.ab-my-account > ul,
-#wpadminbar li.ab-bloginfo > ul {
-	right: -7px;
-	left:auto;
-}
-
-
-#wpadminbar ul li a strong.count {
-	margin-right: 5px;
-	margin-left: 0;
-	position:static;
 }
 
 .adminbar-input {

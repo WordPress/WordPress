@@ -110,7 +110,7 @@ function wp_admin_bar_my_account_menu() {
 function wp_admin_bar_my_sites_menu() {
 	global $wpdb, $wp_admin_bar;
 
-	/* Add the 'My Dashboards' menu if the user has more than one site. */
+	/* Add the 'My Sites' menu if the user has more than one site. */
 	if ( count( $wp_admin_bar->user->blogs ) <= 1 )
 		return;
 
@@ -124,13 +124,13 @@ function wp_admin_bar_my_sites_menu() {
 		$blavatar = '<img src="' . esc_url($default) . '" alt="' . esc_attr__( 'Blavatar' ) . '" width="16" height="16" />';
 
 		$marker = '';
-		if ( strlen($blog->blogname) > 35 )
+		if ( strlen($blog->blogname) > 15 )
 			$marker = '...';
 
 		if ( empty( $blog->blogname ) )
 			$blogname = $blog->domain;
 		else
-			$blogname = substr( $blog->blogname, 0, 35 ) . $marker;
+			$blogname = substr( $blog->blogname, 0, 15 ) . $marker;
 
 		if ( ! isset( $blog->visible ) || $blog->visible === true ) {
 			$wp_admin_bar->add_menu( array( 'parent' => 'my-blogs', 'id' => 'blog-' . $blog->userblog_id, 'title' => $blavatar . $blogname,  'href' => get_admin_url($blog->userblog_id), ) );
@@ -220,14 +220,13 @@ function wp_admin_bar_comments_menu() {
 	$awaiting_mod = wp_count_comments();
 	$awaiting_mod = $awaiting_mod->moderated;
 
-	// @todo styling for awaiting mod count. Don't show count if zero?
-	$wp_admin_bar->add_menu( array( 'id' => 'comments', 'title' => sprintf( __('Comments %s'), "<span id='awaiting-mod' class='count-$awaiting_mod'><span class='pending-count'>" . number_format_i18n($awaiting_mod) . "</span></span>" ), 'href' => admin_url('edit-comments.php') ) );
+	$wp_admin_bar->add_menu( array( 'id' => 'comments', 'title' => sprintf( __('Comments %s'), "<span id='ab-awaiting-mod' class='count-$awaiting_mod'><span class='pending-count'>" . number_format_i18n($awaiting_mod) . "</span></span>" ), 'href' => admin_url('edit-comments.php') ) );
 }
 
 function wp_admin_bar_appearance_menu() {
 	global $wp_admin_bar;
 
-	if ( !current_user_can('switch themes') )
+	if ( !current_user_can('switch_themes') )
 		return;
 
 	$wp_admin_bar->add_menu( array( 'id' => 'appearance', 'title' => __('Appearance'), 'href' => admin_url('themes.php') ) );
@@ -276,9 +275,8 @@ function wp_admin_bar_updates_menu() {
 
 	$update_title = !empty($update_title) ? esc_attr(implode(', ', $update_title)) : '';
 
-	$update_title = sprintf( __('Updates %s'), "<span class='update-plugins count-$update_count' title='$update_title'><span class='update-count'>" . number_format_i18n($update_count) . "</span></span>" );
+	$update_title = sprintf( __('Updates %s'), "<span id='ab-updates' class='count-$update_count' title='$update_title'><span class='update-count'>" . number_format_i18n($update_count) . "</span></span>" );
 
-	// @todo styling for awaiting mod count. Don't show count if zero?
 	$wp_admin_bar->add_menu( array( 'id' => 'updates', 'title' => $update_title, 'href' => admin_url('update-core.php') ) );
 }
 
