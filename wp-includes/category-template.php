@@ -229,8 +229,6 @@ function get_the_category_list( $separator = '', $parents='', $post_id = false )
  *
  * @since 1.2.0
  *
- * @uses has_term()
- *
  * @param int|string|array $category Category ID, name or slug, or array of said.
  * @param int|object $_post Optional. Post to check instead of the current post. (since 2.7.0)
  * @return bool True if the current post is in any of the given categories.
@@ -1127,8 +1125,6 @@ function the_terms( $id = 0, $taxonomy, $before = '', $sep = ', ', $after = '' )
  *
  * @since 3.1.0
  *
- * @uses has_term()
- *
  * @param string|int|array $tag Optional. The category name/term_id/slug or array of them to check for.
  * @param int|object $post Optional. Post to check instead of the current post.
  * @return bool True if the current post has any of the given categories (or any category, if no category specified).
@@ -1150,8 +1146,6 @@ function has_category( $category = '', $post = null ) {
  *
  * @since 2.6.0
  *
- * @uses has_term()
- *
  * @param string|int|array $tag Optional. The tag name/term_id/slug or array of them to check for.
  * @param int|object $post Optional. Post to check instead of the current post. (since 2.7.0)
  * @return bool True if the current post has any of the given tags (or any tag, if no tag specified).
@@ -1169,11 +1163,9 @@ function has_tag( $tag = '', $post = null ) {
  *
  * @since 3.1.0
  *
- * @uses is_object_in_term()
- *
  * @param string|int|array $term Optional. The term name/term_id/slug or array of them to check for.
+ * @param string $taxonomy Taxonomy name
  * @param int|post object Optional.  Post to check instead of the current post.
- * @since 2.7.0
  * @return bool True if the current post has any of the given tags (or any tag, if no tag specified).
  */
 function has_term( $term = '', $taxonomy = '', $post = null ) {
