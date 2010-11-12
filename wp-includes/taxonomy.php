@@ -77,7 +77,7 @@ function create_initial_taxonomies() {
 		'_builtin' => true,
 	) ) ;
 
-	register_taxonomy( 'post_format', array('post', 'page', 'attachment'), array(
+	register_taxonomy( 'post_format', 'post', array(
 		'public' => false,
 		'hierarchical' => false,
 		'labels' => array(
