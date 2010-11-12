@@ -74,9 +74,6 @@ switch ( $post->post_status ) {
 	case 'auto-draft':
 		_e('Draft');
 		break;
-	case 'auto-draft':
-		_e('Unsaved');
-		break;
 }
 ?>
 </span>
