@@ -57,18 +57,19 @@ function get_category_parents( $id, $link = false, $separator = '/', $nicename =
 /**
  * Retrieve post categories.
  *
- * @since 3.1
+ * @since 0.71
+ * @uses $post
  *
  * @param int $id Optional, default to current post ID. The post ID.
  * @return array
  */
-function get_the_categories( $id = false ) {
+function get_the_category( $id = false ) {
 	$categories = get_the_terms( $id, 'category' );
 
 	foreach ( (array) array_keys( $categories ) as $key ) {
 		_make_cat_compat( $categories[$key] );
 	}
-
+	// Filter name is plural because we are return alot of categories not just one
 	return apply_filters( 'get_the_categories', $categories );
 }
 
@@ -139,7 +140,7 @@ function get_the_category_by_ID( $cat_ID ) {
  */
 function get_the_category_list( $separator = '', $parents='', $post_id = false ) {
 	global $wp_rewrite;
-	$categories = get_the_categories( $post_id );
+	$categories = get_the_category( $post_id );
 	if ( !is_object_in_taxonomy( get_post_type( $post_id ), 'category' ) )
 		return apply_filters( 'the_category', '', $separator, $parents );
 

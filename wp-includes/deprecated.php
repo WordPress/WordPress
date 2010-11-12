@@ -72,17 +72,17 @@ function start_wp() {
  *
  * @since 0.71
  * @deprecated 0.71
- * @deprecated use get_the_categories()
- * @see get_the_categories()
+ * @deprecated use get_the_category()
+ * @see get_the_category()
  *
  * @param bool $echo
  * @return null|int
  */
 function the_category_ID($echo = true) {
-	_deprecated_function( __FUNCTION__, '0.71', 'get_the_categories()' );
+	_deprecated_function( __FUNCTION__, '0.71', 'get_the_category()' );
 
 	// Grab the first cat in the list.
-	$categories = get_the_categories();
+	$categories = get_the_category();
 	$cat = $categories[0]->term_id;
 
 	if ( $echo )
@@ -108,7 +108,7 @@ function the_category_head($before='', $after='') {
 	_deprecated_function( __FUNCTION__, '0.71', 'get_the_category_by_ID()' );
 
 	// Grab the first cat in the list.
-	$categories = get_the_categories();
+	$categories = get_the_category();
 	$currentcat = $categories[0]->category_id;
 	if ( $currentcat != $previouscat ) {
 		echo $before;
@@ -2555,20 +2555,4 @@ function is_plugin_page() {
 		return true;
 
 	return false;
-}
-
-/**
- * Retrieve post categories.
- *
- * @since 0.71
- * @uses $post
- * @deprecated 3.1
- * @deprecated Use get_post_categories() instead.
- *
- * @param int $id Optional, default to current post ID. The post ID.
- * @return array
- */
-function get_the_category( $id = false ) {
-	_deprecated_function( __FUNCTION__, '3.1', 'get_the_categories()' );
-	return get_the_categories( $id );
 }

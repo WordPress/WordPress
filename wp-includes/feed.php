@@ -299,7 +299,7 @@ function comment_text_rss() {
 function get_the_category_rss($type = null) {
 	if ( empty($type) )
 		$type = get_default_feed();
-	$categories = get_the_categories();
+	$categories = get_the_category();
 	$tags = get_the_tags();
 	$the_list = '';
 	$cat_names = array();
