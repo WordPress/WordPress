@@ -57,35 +57,19 @@ function get_category_parents( $id, $link = false, $separator = '/', $nicename =
 /**
  * Retrieve post categories.
  *
- * @since 0.71
- * @uses $post
+ * @since 3.1
  *
  * @param int $id Optional, default to current post ID. The post ID.
  * @return array
  */
-function get_the_category( $id = false ) {
-	global $post;
-
-	$id = (int) $id;
-	if ( !$id )
-		$id = (int) $post->ID;
-
-	$categories = get_object_term_cache( $id, 'category' );
-	if ( false === $categories ) {
-		$categories = wp_get_object_terms( $id, 'category' );
-		wp_cache_add($id, $categories, 'category_relationships');
-	}
-
-	if ( !empty( $categories ) )
-		usort( $categories, '_usort_terms_by_name' );
-	else
-		$categories = array();
+function get_the_categories( $id = false ) {
+	$categories = get_the_terms( $id, 'category' );
 
 	foreach ( (array) array_keys( $categories ) as $key ) {
 		_make_cat_compat( $categories[$key] );
 	}
 
-	return $categories;
+	return apply_filters( 'get_the_categories', $categories );
 }
 
 /**
@@ -155,7 +139,7 @@ function get_the_category_by_ID( $cat_ID ) {
  */
 function get_the_category_list( $separator = '', $parents='', $post_id = false ) {
 	global $wp_rewrite;
-	$categories = get_the_category( $post_id );
+	$categories = get_the_categories( $post_id );
 	if ( !is_object_in_taxonomy( get_post_type( $post_id ), 'category' ) )
 		return apply_filters( 'the_category', '', $separator, $parents );
 

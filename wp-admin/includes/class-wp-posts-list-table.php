@@ -596,7 +596,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			case 'categories':
 			?>
 			<td <?php echo $attributes ?>><?php
-				$categories = get_the_category();
+				$categories = get_the_categories();
 				if ( !empty( $categories ) ) {
 					$out = array();
 					foreach ( $categories as $c ) {

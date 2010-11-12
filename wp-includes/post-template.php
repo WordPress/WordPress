@@ -349,7 +349,7 @@ function get_post_class( $class = '', $post_id = null ) {
 
 	// Categories
 	if ( is_object_in_taxonomy( $post->post_type, 'category' ) ) {
-		foreach ( (array) get_the_category($post->ID) as $cat ) {
+		foreach ( (array) get_the_categories($post->ID) as $cat ) {
 			if ( empty($cat->slug ) )
 				continue;
 			$classes[] = 'category-' . sanitize_html_class($cat->slug, $cat->term_id);
