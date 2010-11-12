@@ -25,6 +25,11 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 
 		$page = $this->get_pagenum();
 
+		if ( !isset($this->is_site_themes) ) {
+			$screen = get_current_screen();
+			$this->is_site_themes = ( 'site-themes-network' == $screen->id ) ? true : false;
+		}
+
 		parent::WP_List_Table( array(
 			'plural' => 'plugins', // @todo replace with themes and add css
 		) );
