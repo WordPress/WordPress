@@ -163,6 +163,9 @@ if ( is_array( $post_formats[0] ) ) :
 	if ( !$post_format )
 		$post_format = '0';
 	$post_format_display = get_post_format_string( $post_format );
+	// Add in the current one if it isn't there yet, in case the current theme doesn't support it
+	if ( $post_format && !in_array( $post_format, $post_formats[0] ) )
+		$post_formats[0][] = $post_format;
 ?>
 <div class="misc-pub-section" id="post-formats"><label for="post-format"><?php _e( 'Format:' ); ?></label>
 
