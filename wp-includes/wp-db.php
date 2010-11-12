@@ -125,13 +125,13 @@ class wpdb {
 	var $last_query;
 
 	/**
-	 * Results of the last query made
+	 * MySQL result resource of the last query made
 	 *
-	 * @since 1.0.0
+	 * @since 3.1.0
 	 * @access private
-	 * @var array|null
+	 * @var resource|null
 	 */
-	var $last_result;
+	var $_mysql_last_result;
 
 	/**
 	 * Saved info on the table column
@@ -1015,7 +1015,7 @@ class wpdb {
 	 * @return void
 	 */
 	function flush() {
-		$this->last_result = array();
+		@mysql_free_result( $this->_mysql_last_result );
 		$this->col_info    = null;
 		$this->last_query  = null;
 	}
@@ -1085,7 +1085,7 @@ class wpdb {
 		if ( defined( 'SAVEQUERIES' ) && SAVEQUERIES )
 			$this->timer_start();
 
-		$this->result = @mysql_query( $query, $this->dbh );
+		$this->_mysql_last_result = @mysql_query( $query, $this->dbh );
 		$this->num_queries++;
 
 		if ( defined( 'SAVEQUERIES' ) && SAVEQUERIES )
@@ -1107,22 +1107,15 @@ class wpdb {
 			$return_val = $this->rows_affected;
 		} else {
 			$i = 0;
-			while ( $i < @mysql_num_fields( $this->result ) ) {
-				$this->col_info[$i] = @mysql_fetch_field( $this->result );
+			while ( $i < @mysql_num_fields( $this->_mysql_last_result ) ) {
+				$this->col_info[$i] = @mysql_fetch_field( $this->_mysql_last_result );
 				$i++;
 			}
-			$num_rows = 0;
-			while ( $row = @mysql_fetch_object( $this->result ) ) {
-				$this->last_result[$num_rows] = $row;
-				$num_rows++;
-			}
-
-			@mysql_free_result( $this->result );
 
 			// Log number of rows the query returned
 			// and return number of rows selected
-			$this->num_rows = $num_rows;
-			$return_val     = $num_rows;
+			$this->num_rows = @mysql_num_rows( $this->_mysql_last_result );
+			$return_val     = $this->num_rows;
 		}
 
 		return $return_val;
@@ -1281,9 +1274,10 @@ class wpdb {
 		if ( $query )
 			$this->query( $query );
 
-		// Extract var out of cached results based x,y vals
-		if ( !empty( $this->last_result[$y] ) ) {
-			$values = array_values( get_object_vars( $this->last_result[$y] ) );
+		// Extract var from result resource based x,y vals
+		if ( $this->num_rows > $y ) {
+			@mysql_data_seek( $this->_mysql_last_result, $y );
+			$values = @mysql_fetch_row( $this->_mysql_last_result );
 		}
 
 		// If there is a value return it else return null
@@ -1310,15 +1304,17 @@ class wpdb {
 		else
 			return null;
 
-		if ( !isset( $this->last_result[$y] ) )
+		if ( $this->num_rows <= $y )
 			return null;
 
+		@mysql_data_seek( $this->_mysql_last_result, $y );
+
 		if ( $output == OBJECT ) {
-			return $this->last_result[$y] ? $this->last_result[$y] : null;
+			return @mysql_fetch_object( $this->_mysql_last_result );
 		} elseif ( $output == ARRAY_A ) {
-			return $this->last_result[$y] ? get_object_vars( $this->last_result[$y] ) : null;
+			return @mysql_fetch_assoc( $this->_mysql_last_result );
 		} elseif ( $output == ARRAY_N ) {
-			return $this->last_result[$y] ? array_values( get_object_vars( $this->last_result[$y] ) ) : null;
+			return @mysql_fetch_row( $this->_mysql_last_result );
 		} else {
 			$this->print_error(/*WP_I18N_DB_GETROW_ERROR*/" \$db->get_row(string query, output type, int offset) -- Output type must be one of: OBJECT, ARRAY_A, ARRAY_N"/*/WP_I18N_DB_GETROW_ERROR*/);
 		}
@@ -1343,8 +1339,13 @@ class wpdb {
 
 		$new_array = array();
 		// Extract the column values
-		for ( $i = 0, $j = count( $this->last_result ); $i < $j; $i++ ) {
-			$new_array[$i] = $this->get_var( null, $x, $i );
+		@mysql_data_seek( $this->_mysql_last_result, 0 );
+		for ( $i = 0, $j = $this->num_rows; $i < $j; $i++ ) {
+			$values = @mysql_fetch_row( $this->_mysql_last_result );
+			if ( isset( $values[$x] ) && $values[$x] !== '' )
+				$new_array[$i] = $values[$x];
+			else
+				$new_array[$i] = null;			
 		}
 		return $new_array;
 	}
@@ -1371,30 +1372,32 @@ class wpdb {
 			return null;
 
 		$new_array = array();
+		@mysql_data_seek( $this->_mysql_last_result, 0 );
 		if ( $output == OBJECT ) {
 			// Return an integer-keyed array of row objects
-			return $this->last_result;
+			for ( $i = 0, $j = $this->num_rows; $i < $j; $i++ ) {
+				$new_array[] = @mysql_fetch_object( $this->_mysql_last_result );
+			}
+			return $new_array;
 		} elseif ( $output == OBJECT_K ) {
 			// Return an array of row objects with keys from column 1
 			// (Duplicates are discarded)
-			foreach ( $this->last_result as $row ) {
+			while ( $row = @mysql_fetch_object( $this->_mysql_last_result ) ) {
 				$key = array_shift( $var_by_ref = get_object_vars( $row ) );
 				if ( ! isset( $new_array[ $key ] ) )
 					$new_array[ $key ] = $row;
 			}
 			return $new_array;
-		} elseif ( $output == ARRAY_A || $output == ARRAY_N ) {
-			// Return an integer-keyed array of...
-			if ( $this->last_result ) {
-				foreach( (array) $this->last_result as $row ) {
-					if ( $output == ARRAY_N ) {
-						// ...integer-keyed row arrays
-						$new_array[] = array_values( get_object_vars( $row ) );
-					} else {
-						// ...column name-keyed row arrays
-						$new_array[] = get_object_vars( $row );
-					}
-				}
+		} elseif ( $output == ARRAY_A ) {
+			// Return an integer-keyed array of column name-keyed row arrays
+			for ( $i = 0, $j = $this->num_rows; $i < $j; $i++ ) {
+				$new_array[] = @mysql_fetch_assoc( $this->_mysql_last_result );
+			}
+			return $new_array;
+		} elseif ( $output == ARRAY_N ) {
+			// Return an integer-keyed array of integer-keyed row arrays
+			for ( $i = 0, $j = $this->num_rows; $i < $j; $i++ ) {
+				$new_array[] = @mysql_fetch_row( $this->_mysql_last_result );
 			}
 			return $new_array;
 		}
@@ -1558,6 +1561,20 @@ class wpdb {
 	 */
 	function db_version() {
 		return preg_replace( '/[^0-9.].*/', '', mysql_get_server_info( $this->dbh ) );
+	}
+
+	/**
+	 * Magic getter used for the deprecated last_result property.
+	 *
+	 * @since 3.1.0
+	 * @access private
+	 */
+	function __get( $name ) {
+		if ( 'last_result' == $name ) {
+			_deprecated_argument( 'wpdb', '3.1', __( 'The last_result property is deprecated. Use $wpdb->get_result().' ) );
+			return $this->get_results();
+		}
+		return null;
 	}
 }
 
