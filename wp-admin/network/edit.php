@@ -36,6 +36,9 @@ function confirm_delete_users( $users ) {
 		if ( $val != '' && $val != '0' ) {
 			$delete_user = new WP_User( $val );
 
+			if ( ! current_user_can( 'delete_user', $delete_user->ID ) )
+				wp_die( sprintf( __( 'Warning! User %s cannot be deleted.' ), $delete_user->user_login ) );
+
 			if ( in_array( $delete_user->user_login, $site_admins ) )
 				wp_die( sprintf( __( 'Warning! User cannot be deleted. The user %s is a network admnistrator.' ), $delete_user->user_login ) );
 
@@ -166,13 +169,16 @@ switch ( $_GET['action'] ) {
 
 	case 'deleteblog':
 		check_admin_referer('deleteblog');
-		if ( ! current_user_can( 'manage_sites' ) )
+		if ( ! ( current_user_can( 'manage_sites' ) && current_user_can( 'delete_sites' ) ) )
 			wp_die( __( 'You do not have permission to access this page.' ) );
 
-		if ( $id != '0' && $id != $current_site->blog_id )
+		if ( $id != '0' && $id != $current_site->blog_id && current_user_can ( 'delete_site', $id ) ) {
 			wpmu_delete_blog( $id, true );
-
-		wp_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'delete' ), wp_get_referer() ) );
+			wp_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'delete' ), wp_get_referer() ) );
+		} else {
+			wp_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'not_deleted' ), wp_get_referer() ) );
+		}
+		
 		exit();
 	break;
 
@@ -191,6 +197,8 @@ switch ( $_GET['action'] ) {
 				if ( $val != '0' && $val != $current_site->blog_id ) {
 					switch ( $doaction ) {
 						case 'delete':
+							if ( ! current_user_can( 'delete_site', $val ) )
+								wp_die( __( 'You are not allowed to delete the site.' ) );
 							$blogfunction = 'all_delete';
 							wpmu_delete_blog( $val, true );
 						break;
@@ -359,7 +367,7 @@ switch ( $_GET['action'] ) {
 	break;
 
 	case 'allusers':
-		if ( ! current_user_can( 'manage_network_users' ) )
+		if ( current_user_can( 'manage_network_users' ) )
 			wp_die( __( 'You do not have permission to access this page.' ) );
 
 		if ( isset( $_POST['doaction']) || isset($_POST['doaction2'] ) ) {
@@ -372,6 +380,8 @@ switch ( $_GET['action'] ) {
 				if ( !empty( $val ) ) {
 					switch ( $doaction ) {
 						case 'delete':
+							if ( ! current_user_can( 'delete_users' ) )
+								wp_die( __( 'You do not have permission to access this page.' ) );
 							$title = __( 'Users' );
 							$parent_file = 'users.php';
 							require_once( '../admin-header.php' );
@@ -417,12 +427,15 @@ switch ( $_GET['action'] ) {
 
 	case 'dodelete':
 		check_admin_referer( 'ms-users-delete' );
-		if ( ! current_user_can( 'manage_network_users' ) )
+		if ( ! ( current_user_can( 'manage_network_users' ) && current_user_can( 'delete_users' ) ) )
 			wp_die( __( 'You do not have permission to access this page.' ) );
 
 		if ( ! empty( $_POST['blog'] ) && is_array( $_POST['blog'] ) ) {
 			foreach ( $_POST['blog'] as $id => $users ) {
 				foreach ( $users as $blogid => $user_id ) {
+					if ( ! current_user_can( 'delete_user', $id ) )
+						continue;
+
 					if ( ! empty( $_POST['delete'] ) && 'reassign' == $_POST['delete'][$blogid][$id] )
 						remove_user_from_blog( $id, $blogid, $user_id );
 					else
@@ -433,6 +446,8 @@ switch ( $_GET['action'] ) {
 		$i = 0;
 		if ( is_array( $_POST['user'] ) && ! empty( $_POST['user'] ) )
 			foreach( $_POST['user'] as $id ) {
+				if ( ! current_user_can( 'delete_user', $id ) )
+					continue;
 				wpmu_delete_user( $id );
 				$i++;
 			}

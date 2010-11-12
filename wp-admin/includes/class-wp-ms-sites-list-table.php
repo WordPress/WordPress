@@ -115,7 +115,8 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 
 	function get_bulk_actions() {
 		$actions = array();
-		$actions['delete'] = __( 'Delete' );
+		if ( current_user_can( 'delete_sites' ) )
+			$actions['delete'] = __( 'Delete' );
 		$actions['spam'] = _x( 'Mark as Spam', 'site' );
 		$actions['notspam'] = _x( 'Not Spam', 'site' );
 
@@ -247,7 +248,8 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 								else
 									$actions['spam']	= '<span class="spam"><a href="' . esc_url( network_admin_url( 'edit.php?action=confirm&amp;action2=spamblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to mark the site %s as spam.' ), $blogname ) ) ) ) . '">' . _x( 'Spam', 'site' ) . '</a></span>';
 
-								$actions['delete']	= '<span class="delete"><a href="' . esc_url( network_admin_url( 'edit.php?action=confirm&amp;action2=deleteblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to delete the site %s.' ), $blogname ) ) ) ) . '">' . __( 'Delete' ) . '</a></span>';
+								if ( current_user_can( 'delete_site', $blog['blog_id'] ) )
+									$actions['delete']	= '<span class="delete"><a href="' . esc_url( network_admin_url( 'edit.php?action=confirm&amp;action2=deleteblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to delete the site %s.' ), $blogname ) ) ) ) . '">' . __( 'Delete' ) . '</a></span>';
 							}
 
 							$actions['visit']	= "<span class='view'><a href='" . esc_url( get_home_url( $blog['blog_id'] ) ) . "' rel='permalink'>" . __( 'Visit' ) . '</a></span>';
