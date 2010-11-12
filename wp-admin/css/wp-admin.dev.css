@@ -4099,7 +4099,7 @@ table.form-table td .updated {
 #poststuff .inside .submitbox p {
 	margin: 1em 0;
 }
-#post-visibility-select {
+#post-visibility-select, #post-formats-select {
 	line-height: 1.5em;
 	margin-top: 3px;
 }

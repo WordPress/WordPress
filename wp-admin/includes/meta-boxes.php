@@ -170,14 +170,14 @@ if ( is_array( $post_formats[0] ) ) :
 
 <div id="post-formats-select" class="hide-if-js">
 <input type="hidden" id="old-post-format" value="<?php echo esc_attr( $post_format ); ?>" />
-<select id="post-format" name="post_format">
-	<option value="0" <?php selected( $post_format, '0' ); ?>><?php _e('Default'); ?></option>
+	<input type="radio" name="post_format" class="post-format" id="post-format-0" value="0" <?php checked( $post_format, '0' ); ?> /> <label for="post-format-0"><?php _e('Default'); ?></label>
 	<?php foreach ( $post_formats[0] as $format ) : ?>
-	<option value="<?php echo esc_attr( $format ); ?>" <?php selected( $post_format, $format ); ?>><?php echo esc_html( get_post_format_string( $format ) ); ?></option>
-	<?php endforeach; ?>
-</select>
+	<br /><input type="radio" name="post_format" class="post-format" id="post-format-<?php echo esc_attr( $format ); ?>" value="<?php echo esc_attr( $format ); ?>" <?php checked( $post_format, $format ); ?> /> <label for="post-format-<?php echo esc_attr( $format ); ?>"><?php echo esc_html( get_post_format_string( $format ) ); ?></label>
+	<?php endforeach; ?><br />
+	<p>
 	 <a href="#post-formats" class="save-post-format hide-if-no-js button"><?php _e('OK'); ?></a>
 	 <a href="#post-formats" class="cancel-post-format hide-if-no-js"><?php _e('Cancel'); ?></a>
+	</p>
 </div>
 </div><?php // /misc-pub-section ?>
 <?php endif; endif; ?>

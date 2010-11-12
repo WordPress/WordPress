@@ -489,15 +489,15 @@ jQuery(document).ready( function($) {
 
 		$('.cancel-post-format', '#post-formats-select').click(function () {
 			$('#post-formats-select').slideUp("normal");
-			$('#post-format').val( $('#old-post-format').val() );
-			$('#post-format-display').text( $('option:selected', '#post-formats-select').text() );
+			$('#post-format-' + $('#old-post-format').val()).attr('checked', true);
+			$('#post-format-display').text( $('label[for="post-format-' + $('#old-post-format').val() + '"]', '#post-formats-select').text() );
 			$('.edit-post-format').show();
 			return false;
 		});
 
 		$('.save-post-format', '#post-formats-select').click(function () {
 			$('#post-formats-select').slideUp("normal");
-			$('#post-format-display').text( $('option:selected', '#post-formats-select').text() );
+			$('#post-format-display').text( $('label[for="' + $('input:checked', '#post-formats-select').attr('id') + '"]', '#post-formats-select').text() );
 			$('.edit-post-format').show();
 			return false;
 		});
