@@ -23,7 +23,7 @@ $submenu['users.php'][10]  = array( __('Add New'), 'create_users', 'user-new.php
 
 $menu[15] = array(__('Themes'), 'manage_network_themes', 'themes.php', '', 'menu-top menu-icon-appearance', 'menu-appearance', 'div');
 $submenu['themes.php'][5]  = array( __('Themes'), 'manage_network_themes', 'themes.php' );
-$submenu['themes.php'][10] = array( _x('Add New', 'theme'), 'manage_network_themes', 'theme-install.php' );
+$submenu['themes.php'][10] = array( _x('Add New', 'theme'), 'install_themes', 'theme-install.php' );
 $submenu['themes.php'][15] = array( _x('Editor', 'theme editor'), 'edit_themes', 'theme-editor.php' );
 
 $plugin_update_count = $theme_update_count = $wordpress_update_count = 0;
