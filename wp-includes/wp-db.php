@@ -1015,7 +1015,8 @@ class wpdb {
 	 * @return void
 	 */
 	function flush() {
-		@mysql_free_result( $this->_mysql_last_result );
+		if ( is_resource( $this->_mysql_last_result ) )
+			mysql_free_result( $this->_mysql_last_result );
 		$this->col_info    = null;
 		$this->last_query  = null;
 	}
