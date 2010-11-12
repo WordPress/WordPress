@@ -483,15 +483,14 @@ function get_post_mime_type($ID = '') {
 function get_post_format( $post = null ) {
 	$post = get_post($post);
 
-	$format = wp_get_object_terms( $post->ID, 'post_format', array('orderby' => 'none', 'fields' => 'names') );
+	$_format = get_the_terms( $post->ID, 'post_format' );
 
-	if ( is_wp_error($format) )
-		return $format;
-
-	if ( empty($format) )
+	if ( empty( $_format ) )
 		return false;
 
-	return ( str_replace('post-format-', '', $format[0]) );
+	$format = array_shift( $_format );
+
+	return ( str_replace('post-format-', '', $format->name ) );
 }
 
 /**
