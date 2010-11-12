@@ -40,7 +40,7 @@ function get_category_parents( $id, $link = false, $separator = '/', $nicename =
 	if ( $nicename )
 		$name = $parent->slug;
 	else
-		$name = $parent->cat_name;
+		$name = $parent->name;
 
 	if ( $parent->parent && ( $parent->parent != $parent->term_id ) && !in_array( $parent->parent, $visited ) ) {
 		$visited[] = $parent->parent;
@@ -48,7 +48,7 @@ function get_category_parents( $id, $link = false, $separator = '/', $nicename =
 	}
 
 	if ( $link )
-		$chain .= '<a href="' . get_category_link( $parent->term_id ) . '" title="' . esc_attr( sprintf( __( "View all posts in %s" ), $parent->cat_name ) ) . '">'.$name.'</a>' . $separator;
+		$chain .= '<a href="' . get_category_link( $parent->term_id ) . '" title="' . esc_attr( sprintf( __( "View all posts in %s" ), $parent->name ) ) . '">'.$name.'</a>' . $separator;
 	else
 		$chain .= $name.$separator;
 	return $chain;
@@ -183,7 +183,7 @@ function get_the_category_list( $separator = '', $parents='', $post_id = false )
 					break;
 				case '':
 				default:
-					$thelist .= '<a href="' . get_category_link( $category->term_id ) . '" title="' . esc_attr( sprintf( __( "View all posts in %s" ), $category->name ) ) . '" ' . $rel . '>' . $category->cat_name.'</a></li>';
+					$thelist .= '<a href="' . get_category_link( $category->term_id ) . '" title="' . esc_attr( sprintf( __( "View all posts in %s" ), $category->name ) ) . '" ' . $rel . '>' . $category->name.'</a></li>';
 			}
 		}
 		$thelist .= '</ul>';
@@ -196,13 +196,13 @@ function get_the_category_list( $separator = '', $parents='', $post_id = false )
 				case 'multiple':
 					if ( $category->parent )
 						$thelist .= get_category_parents( $category->parent, true, $separator );
-					$thelist .= '<a href="' . get_category_link( $category->term_id ) . '" title="' . esc_attr( sprintf( __( "View all posts in %s" ), $category->name ) ) . '" ' . $rel . '>' . $category->cat_name.'</a>';
+					$thelist .= '<a href="' . get_category_link( $category->term_id ) . '" title="' . esc_attr( sprintf( __( "View all posts in %s" ), $category->name ) ) . '" ' . $rel . '>' . $category->name.'</a>';
 					break;
 				case 'single':
 					$thelist .= '<a href="' . get_category_link( $category->term_id ) . '" title="' . esc_attr( sprintf( __( "View all posts in %s" ), $category->name ) ) . '" ' . $rel . '>';
 					if ( $category->parent )
 						$thelist .= get_category_parents( $category->parent, false, $separator );
-					$thelist .= "$category->cat_name</a>";
+					$thelist .= "$category->name</a>";
 					break;
 				case '':
 				default:

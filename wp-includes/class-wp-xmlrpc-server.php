@@ -946,8 +946,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$args = array('get' => 'all', 'number' => $max_results, 'name__like' => $category);
 		foreach ( (array) get_categories($args) as $cat ) {
 			$category_suggestions[] = array(
-				"category_id"	=> $cat->cat_ID,
-				"category_name"	=> $cat->cat_name
+				"category_id"	=> $cat->term_id,
+				"category_name"	=> $cat->name
 			);
 		}
 
