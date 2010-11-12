@@ -74,7 +74,8 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 
 	function get_bulk_actions() {
 		$actions = array();
-		$actions['delete'] = __( 'Delete' );
+		if ( current_user_can( 'delete_users' ) )
+			$actions['delete'] = __( 'Delete' );
 		$actions['spam'] = _x( 'Mark as Spam', 'user' );
 		$actions['notspam'] = _x( 'Not Spam', 'user' );
 
@@ -187,7 +188,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 								$actions = array();
 								$actions['edit'] = '<a href="' . esc_url( self_admin_url( $edit_link ) ) . '">' . __( 'Edit' ) . '</a>';
 
-								if ( ! in_array( $user->user_login, $super_admins ) ) {
+								if ( current_user_can( 'delete_user', $user->ID) && ! in_array( $user->user_login, $super_admins ) ) {
 									$actions['delete'] = '<a href="' . $delete = esc_url( network_admin_url( add_query_arg( '_wp_http_referer', urlencode( stripslashes( $_SERVER['REQUEST_URI'] ) ), wp_nonce_url( 'edit.php', 'deleteuser' ) . '&amp;action=deleteuser&amp;id=' . $user->ID ) ) ) . '" class="delete">' . __( 'Delete' ) . '</a>';
 								}
 
