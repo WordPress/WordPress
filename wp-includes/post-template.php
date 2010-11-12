@@ -327,8 +327,12 @@ function get_post_class( $class = '', $post_id = null ) {
 	$classes[] = $post->post_type;
 	$classes[] = 'type-' . $post->post_type;
 	$classes[] = 'status-' . $post->post_status;
-	if ( get_post_format( $post->ID ) )
-		$classes[] = 'format-' . sanitize_html_class( get_post_format( $post->ID ) );
+	
+	// Post Format
+	$post_format = get_post_format( $post->ID );
+
+	if ( $post_format && !is_wp_error($post_format) )
+		$classes[] = 'format-' . sanitize_html_class( $post_format );
 	else
 		$classes[] = 'format-default';
 
@@ -424,8 +428,12 @@ function get_body_class( $class = '' ) {
 		$classes[] = 'single';
 		$classes[] = 'single-' . sanitize_html_class($post->post_type, $post_id);
 		$classes[] = 'postid-' . $post_id;
-		if ( get_post_format( $post_id ) )
-			$classes[] = 'single-format-' . sanitize_html_class( get_post_format( $post_id ) );
+		
+		// Post Format
+		$post_format = get_post_format( $post->ID );
+
+		if ( $post_format && !is_wp_error($post_format) )
+			$classes[] = 'single-format-' . sanitize_html_class( $post_format );
 		else
 			$classes[] = 'single-format-default';
 
