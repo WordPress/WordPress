@@ -4275,7 +4275,7 @@ td.media-icon img {
 #loading-items {
 	position: absolute;
 	z-index: 9999;
-	padding: 10px;
+	padding: 10px 0;
 	background-color: #fff;
 	font-weight: bold;
 	text-align: center;
