@@ -441,7 +441,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 					break;
 				default:
 					echo "<td class='$column_name'$style>";
-					do_action( 'manage_plugin_custom_column', $column_name, $plugin_file, $plugin_data );
+					do_action( 'manage_plugins_custom_column', $column_name, $plugin_file, $plugin_data );
 					echo "</td>";
 			}
 		}
