@@ -576,7 +576,7 @@ function win_is_writable($path) {
 	 * see http://bugs.php.net/bug.php?id=30931
 	 */
 
-    if ( $path{strlen($path)-1} == '/' ) // recursively return a temporary file path
+    if ( $path[strlen($path)-1] == '/' ) // recursively return a temporary file path
         return win_is_writable($path . uniqid(mt_rand()) . '.tmp');
     else if ( is_dir($path) )
         return win_is_writable($path . '/' . uniqid(mt_rand()) . '.tmp');

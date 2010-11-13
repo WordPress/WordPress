@@ -2081,7 +2081,7 @@ function path_is_absolute( $path ) {
 	if ( realpath($path) == $path )
 		return true;
 
-	if ( strlen($path) == 0 || $path{0} == '.' )
+	if ( strlen($path) == 0 || $path[0] == '.' )
 		return false;
 
 	// windows allows absolute paths like this

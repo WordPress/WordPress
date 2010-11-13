@@ -62,7 +62,7 @@ $import_root = ABSPATH.$import_loc;
 $imports_dir = @ opendir($import_root);
 if ($imports_dir) {
 	while (($file = readdir($imports_dir)) !== false) {
-		if ($file{0} == '.') {
+		if ($file[0] == '.') {
 			continue;
 		} elseif (substr($file, -4) == '.php') {
 			require_once($import_root . '/' . $file);

@@ -34,7 +34,7 @@ function add_rewrite_rule($regex, $redirect, $after = 'bottom') {
  */
 function add_rewrite_tag($tagname, $regex) {
 	//validation
-	if ( strlen($tagname) < 3 || $tagname{0} != '%' || $tagname{strlen($tagname)-1} != '%' )
+	if ( strlen($tagname) < 3 || $tagname[0] != '%' || $tagname[strlen($tagname)-1] != '%' )
 		return;
 
 	$qv = trim($tagname, '%');

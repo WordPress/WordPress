@@ -597,7 +597,7 @@ function search_theme_directories() {
 
 		while ( ($theme_dir = readdir($themes_dir)) !== false ) {
 			if ( is_dir($theme_root . '/' . $theme_dir) && is_readable($theme_root . '/' . $theme_dir) ) {
-				if ( $theme_dir{0} == '.' || $theme_dir == 'CVS' )
+				if ( $theme_dir[0] == '.' || $theme_dir == 'CVS' )
 					continue;
 
 				$stylish_dir = @opendir($theme_root . '/' . $theme_dir);
@@ -620,7 +620,7 @@ function search_theme_directories() {
 					$found_subdir_themes = false;
 					while ( ($theme_subdir = readdir($theme_subdirs)) !== false ) {
 						if ( is_dir( $subdir . '/' . $theme_subdir) && is_readable($subdir . '/' . $theme_subdir) ) {
-							if ( $theme_subdir{0} == '.' || $theme_subdir == 'CVS' )
+							if ( $theme_subdir[0] == '.' || $theme_subdir == 'CVS' )
 								continue;
 
 							$stylish_dir = @opendir($subdir . '/' . $theme_subdir);

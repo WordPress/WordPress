@@ -92,7 +92,7 @@ function wptexturize($text) {
 	for ( $i = 0; $i < $stop; $i++ ) {
 		$curl = $textarr[$i];
 
-		if ( !empty($curl) && '<' != $curl{0} && '[' != $curl{0}
+		if ( !empty($curl) && '<' != $curl[0] && '[' != $curl[0]
 				&& empty($no_texturize_shortcodes_stack) && empty($no_texturize_tags_stack)) {
 			// This is not a tag, nor is the texturization disabled
 			// static strings
@@ -113,9 +113,9 @@ function wptexturize($text) {
 			 * Only call _wptexturize_pushpop_element if first char is correct
 			 * tag opening
 			 */
-			if ('<' == $curl{0})
+			if ('<' == $curl[0])
 				_wptexturize_pushpop_element($curl, $no_texturize_tags_stack, $no_texturize_tags, '<', '>');
-			elseif ('[' == $curl{0})
+			elseif ('[' == $curl[0])
 				_wptexturize_pushpop_element($curl, $no_texturize_shortcodes_stack, $no_texturize_shortcodes, '[', ']');
 		}
 
@@ -1498,7 +1498,7 @@ function convert_smilies($text) {
 		$stop = count($textarr);// loop stuff
 		for ($i = 0; $i < $stop; $i++) {
 			$content = $textarr[$i];
-			if ((strlen($content) > 0) && ('<' != $content{0})) { // If it's not a tag
+			if ((strlen($content) > 0) && ('<' != $content[0])) { // If it's not a tag
 				$content = preg_replace_callback($wp_smiliessearch, 'translate_smiley', $content);
 			}
 			$output .= $content;
@@ -2632,7 +2632,7 @@ function wp_sprintf( $pattern ) {
 		$fragment = substr($pattern, $start, $end - $start);
 
 		// Fragment has a specifier
-		if ( $pattern{$start} == '%' ) {
+		if ( $pattern[$start] == '%' ) {
 			// Find numbered arguments or take the next one in order
 			if ( preg_match('/^%(\d+)\$/', $fragment, $matches) ) {
 				$arg = isset($args[$matches[1]]) ? $args[$matches[1]] : '';

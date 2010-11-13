@@ -727,7 +727,7 @@ function the_meta() {
 		echo "<ul class='post-meta'>\n";
 		foreach ( (array) $keys as $key ) {
 			$keyt = trim($key);
-			if ( '_' == $keyt{0} )
+			if ( '_' == $keyt[0] )
 				continue;
 			$values = array_map('trim', get_post_custom_values($key));
 			$value = implode($values,', ');

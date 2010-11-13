@@ -1258,7 +1258,7 @@ function get_media_item( $attachment_id, $args = null ) {
 	$hidden_fields = array();
 
 	foreach ( $form_fields as $id => $field ) {
-		if ( $id{0} == '_' )
+		if ( $id[0] == '_' )
 			continue;
 
 		if ( !empty( $field['tr'] ) ) {
