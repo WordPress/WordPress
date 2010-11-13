@@ -526,6 +526,32 @@ class WP_User_Query extends WP_Object_Query {
 		}
 	}
 
+	/*
+	 * Used internally to generate an SQL string for searching across multiple columns
+	 *
+	 * @access protected
+	 * @since 3.1.0
+	 *
+	 * @param string $string
+	 * @param array $cols
+	 * @param bool $wild Whether to allow trailing wildcard searches. Default is false.
+	 * @return string
+	 */
+	function get_search_sql( $string, $cols, $wild = false ) {
+		$string = esc_sql( $string );
+
+		$searches = array();
+		$wild_char = ( $wild ) ? '%' : '';
+		foreach ( $cols as $col ) {
+			if ( 'ID' == $col )
+				$searches[] = "$col = '$string'";
+			else
+				$searches[] = "$col LIKE '$string$wild_char'";
+		}
+
+		return ' AND (' . implode(' OR ', $searches) . ')';
+	}
+
 	/**
 	 * Return the list of users
 	 *

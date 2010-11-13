@@ -341,6 +341,26 @@ class WP_Comment_Query extends WP_Object_Query {
 
 		return $comments;
 	}
+
+	/*
+	 * Used internally to generate an SQL string for searching across multiple columns
+	 *
+	 * @access protected
+	 * @since 3.1.0
+	 *
+	 * @param string $string
+	 * @param array $cols
+	 * @return string
+	 */
+	function get_search_sql( $string, $cols ) {
+		$string = esc_sql( $string );
+
+		$searches = array();
+		foreach ( $cols as $col )
+			$searches[] = "$col LIKE '%$string%'";
+
+		return ' AND (' . implode(' OR ', $searches) . ')';
+	}
 }
 
 /**
