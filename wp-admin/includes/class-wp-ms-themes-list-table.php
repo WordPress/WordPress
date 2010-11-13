@@ -250,79 +250,102 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	}
 
 	function display_rows() {
+		foreach ( $this->items as $key => $theme )
+			$this->single_row( $key, $theme );
+	}
+
+	function single_row( $key, $theme ) {
 		global $status, $page, $s;
 
 		$context = $status;
-		
+
 		if ( $this->is_site_themes )
 			$url = "site-themes.php?id={$this->site_id}&amp;";
 		else
 			$url = 'themes.php?';
 
-		foreach ( $this->items as $key => $theme ) {
-			// preorder
-			$actions = array(
-				'enable' => '',
-				'disable' => '',
-				'edit' => ''
-			);
-			
-			$theme_key = esc_html( $theme['Stylesheet'] );
+		// preorder
+		$actions = array(
+			'enable' => '',
+			'disable' => '',
+			'edit' => ''
+		);
 
-			if ( empty( $theme['enabled'] ) )
-					$actions['enable'] = '<a href="' . wp_nonce_url($url . 'action=enable&amp;theme=' . $theme_key . '&amp;paged=' . $page . '&amp;s=' . $s, 'enable-theme_' . $theme_key) . '" title="' . __('Enable this theme') . '" class="edit">' . __('Enable') . '</a>';
-			else
-					$actions['disable'] = '<a href="' . wp_nonce_url($url . 'action=disable&amp;theme=' . $theme_key . '&amp;paged=' . $page . '&amp;s=' . $s, 'disable-theme_' . $theme_key) . '" title="' . __('Disable this theme') . '">' . __('Disable') . '</a>';
-			
-			if ( current_user_can('edit_themes') )
-				$actions['edit'] = '<a href="theme-editor.php?theme=' . $theme['Name'] . '" title="' . __('Open this theme in the Theme Editor') . '" class="edit">' . __('Edit') . '</a>';
+		$theme_key = esc_html( $theme['Stylesheet'] );
 
-			$actions = apply_filters( 'theme_action_links', array_filter( $actions ), $theme_key, $theme, $context );
-			$actions = apply_filters( "theme_action_links_$theme_key", $actions, $theme_key, $theme, $context );
+		if ( empty( $theme['enabled'] ) )
+			$actions['enable'] = '<a href="' . wp_nonce_url($url . 'action=enable&amp;theme=' . $theme_key . '&amp;paged=' . $page . '&amp;s=' . $s, 'enable-theme_' . $theme_key) . '" title="' . __('Enable this theme') . '" class="edit">' . __('Enable') . '</a>';
+		else
+			$actions['disable'] = '<a href="' . wp_nonce_url($url . 'action=disable&amp;theme=' . $theme_key . '&amp;paged=' . $page . '&amp;s=' . $s, 'disable-theme_' . $theme_key) . '" title="' . __('Disable this theme') . '">' . __('Disable') . '</a>';
 
-			$class = empty( $theme['enabled'] ) ? 'inactive' : 'active';
-			$checkbox = "<input type='checkbox' name='checked[]' value='" . esc_attr( $theme_key ) . "' />";
+		if ( current_user_can('edit_themes') )
+			$actions['edit'] = '<a href="theme-editor.php?theme=' . $theme['Name'] . '" title="' . __('Open this theme in the Theme Editor') . '" class="edit">' . __('Edit') . '</a>';
 
-			$description = '<p>' . $theme['Description'] . '</p>';
-			$theme_name = $theme['Name'];
+		$actions = apply_filters( 'theme_action_links', array_filter( $actions ), $theme_key, $theme, $context );
+		$actions = apply_filters( "theme_action_links_$theme_key", $actions, $theme_key, $theme, $context );
 
+		$class = empty( $theme['enabled'] ) ? 'inactive' : 'active';
+		$checkbox_id = md5($theme['Name']) . "_checkbox";
+		$checkbox = "<input type='checkbox' name='checked[]' value='" . esc_attr( $theme_key ) . "' id='" . $checkbox_id . "' /><label class='screen-reader-text' for='" . $checkbox_id . "' >" . __('Select') . " " . $theme['Name'] . "</label>";
 
-			$id = sanitize_title( $theme_name );
+		$description = '<p>' . $theme['Description'] . '</p>';
+		$theme_name = $theme['Name'];
 
-			echo "
-		<tr id='$id' class='$class'>
-			<th scope='row' class='check-column'>$checkbox</th>
-			<td class='theme-title'><strong>$theme_name</strong></td>
-			<td class='desc'>$description</td>
-		</tr>
-		<tr class='$class second'>
-			<td></td>
-			<td class='theme-title'>";
+		$id = sanitize_title( $theme_name );
 
-			echo $this->row_actions( $actions, true );
+		echo "<tr id='$id' class='$class'>";
 
-			echo "</td>
-			<td class='desc'>";
-			$theme_meta = array();
-			if ( !empty( $theme['Version'] ) )
-				$theme_meta[] = sprintf( __( 'Version %s' ), $theme['Version'] );
-			if ( !empty( $theme['Author'] ) ) {
-				$author = $theme['Author'];
-				if ( !empty( $theme['Author URI'] ) )
-					$author = '<a href="' . $theme['Author URI'] . '" title="' . __( 'Visit author homepage' ) . '">' . $theme['Author'] . '</a>';
-				$theme_meta[] = sprintf( __( 'By %s' ), $author );
+		list( $columns, $hidden ) = $this->get_column_info();
+
+		foreach ( $columns as $column_name => $column_display_name ) {
+			$style = '';
+			if ( in_array( $column_name, $hidden ) )
+				$style = ' style="display:none;"';
+
+			switch ( $column_name ) {
+				case 'cb':
+					echo "<th scope='row' class='check-column'>$checkbox</th>";
+					break;
+				case 'name':
+					echo "<td class='theme-title'$style><strong>$theme_name</strong>";
+					echo $this->row_actions( $actions, true );
+					echo "</td>";
+					break;
+				case 'description':
+					echo "<td class='column-description desc'$style>
+						<div class='theme-description'>$description</div>
+						<div class='$class second theme-version-author-uri'>";
+
+					$theme_meta = array();
+					if ( !empty( $theme['Version'] ) )
+						$theme_meta[] = sprintf( __( 'Version %s' ), $theme['Version'] );
+					if ( !empty( $theme['Author'] ) ) {
+						$author = $theme['Author'];
+						if ( !empty( $theme['Author URI'] ) )
+							$author = '<a href="' . $theme['Author URI'] . '" title="' . __( 'Visit author homepage' ) . '">' . $theme['Author'] . '</a>';
+						$theme_meta[] = sprintf( __( 'By %s' ), $author );
+					}
+					if ( !empty( $theme['Theme URI'] ) )
+						$theme_meta[] = '<a href="' . $theme['Theme URI'] . '" title="' . __( 'Visit theme homepage' ) . '">' . __( 'Visit Theme Site' ) . '</a>';
+
+					$theme_meta = apply_filters( 'theme_row_meta', $theme_meta, $theme_key, $theme, $status );
+					echo implode( ' | ', $theme_meta );
+
+					echo "</div></td>";
+					break;	
+					break;
+				default:
+					echo "<td class='$column_name column-$column_name'$style>";
+					do_action( 'manage_themes_custom_column', $column_name, $theme_key, $theme );
+					echo "</td>";
 			}
-			if ( !empty( $theme['Theme URI'] ) )
-				$theme_meta[] = '<a href="' . $theme['Theme URI'] . '" title="' . __( 'Visit theme homepage' ) . '">' . __( 'Visit Theme Site' ) . '</a>';
-
-			$theme_meta = apply_filters( 'theme_row_meta', $theme_meta, $theme_key, $theme, $status );
-			echo implode( ' | ', $theme_meta );
-			echo "</td>
-		</tr>\n";
-
-			do_action( 'after_theme_row', $theme_key, $theme, $status );
-			do_action( "after_theme_row_$theme_key", $theme_key, $theme, $status );
 		}
+
+		echo "</tr>";
+
+		do_action( 'after_theme_row', $theme_key, $theme, $status );
+		do_action( "after_theme_row_$theme_key", $theme_key, $theme, $status );
 	}
 }
+
 ?>
