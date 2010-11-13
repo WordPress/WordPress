@@ -500,7 +500,7 @@ function switch_to_blog( $new_blog, $validate = false ) {
 	else
 		$global_groups = false;
 
-	wp_cache_init();
+	wp_start_object_cache();
 	if ( function_exists('wp_cache_add_global_groups') ) {
 		if ( is_array( $global_groups ) )
 			wp_cache_add_global_groups( $global_groups );
@@ -564,7 +564,7 @@ function restore_current_blog() {
 	else
 		$global_groups = false;
 
-	wp_cache_init();
+	wp_start_object_cache();
 	if ( function_exists('wp_cache_add_global_groups') ) {
 		if ( is_array( $global_groups ) )
 			wp_cache_add_global_groups( $global_groups );
