@@ -656,9 +656,14 @@ function register_deactivation_hook($file, $function) {
  * @since 2.7
  *
  * @param string $file
- * @param callback $callback The callback to run when the hook is called.
+ * @param callback $callback The callback to run when the hook is called. Must be a static method or function.
  */
-function register_uninstall_hook($file, $callback) {
+function register_uninstall_hook( $file, $callback ) {
+	if ( is_array( $callback ) && is_object( $callback[0] ) ) {
+		_deprecated_argument( __FUNCTION__, '3.1', __( 'Only a static class method or function can be used in an uninstall hook.' ) );
+		return;
+	}
+
 	// The option should not be autoloaded, because it is not needed in most
 	// cases. Emphasis should be put on using the 'uninstall.php' way of
 	// uninstalling the plugin.
