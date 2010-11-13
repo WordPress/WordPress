@@ -438,7 +438,7 @@ function wp_list_categories( $args = '' ) {
 
 	$output = '';
 	if ( $title_li && 'list' == $style )
-			$output = '<li class="' . $class . '">' . $title_li . '<ul>';
+			$output = '<li class="' . esc_attr( $class ) . '">' . $title_li . '<ul>';
 
 	if ( empty( $categories ) ) {
 		if ( ! empty( $show_option_none ) ) {
