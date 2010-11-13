@@ -191,7 +191,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 
 	function get_sortable_columns() {
 		return array(
-			'name'         => 'name',
+			'name' => 'name',
 		);
 	}
 
@@ -308,6 +308,9 @@ class WP_Plugins_List_Table extends WP_List_Table {
 
 		$screen = get_current_screen();
 
+		if ( is_multisite() && !$screen->is_network && in_array( $context, array( 'mustuse', 'dropins' ) ) )
+			return;
+
 		foreach ( $this->items as $plugin_file => $plugin_data ) {
 			// preorder
 			$actions = array(
@@ -319,12 +322,8 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			);
 
 			if ( 'mustuse' == $context ) {
-				if ( is_multisite() && !$screen->is_network )
-					continue;
 				$is_active = true;
 			} elseif ( 'dropins' == $context ) {
-				if ( is_multisite() && !$screen->is_network )
-					continue;
 				$dropins = _get_dropins();
 				$plugin_name = $plugin_file;
 				if ( $plugin_file != $plugin_data['Name'] )
