@@ -467,7 +467,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 		$edit_link = get_edit_post_link( $post->ID );
 		$title = _draft_or_post_title();
 		$post_type_object = get_post_type_object( $post->post_type );
-		$can_edit_post = current_user_can( 'edit_post', $post->ID );
+		$can_edit_post = current_user_can( $post_type_object->cap->edit_post, $post->ID );
 		$post_format = get_post_format( $post->ID );
 		$post_format_class = ( $post_format && !is_wp_error($post_format) ) ? 'format-' . sanitize_html_class( $post_format ) : 'format-default';
 	?>
