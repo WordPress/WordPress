@@ -8,45 +8,6 @@
  * @since 3.1.0
  */
 class WP_Object_Query {
-
-	/**
-	 * Query vars, after parsing
-	 *
-	 * @since 3.1.0
-	 * @access public
-	 * @var array
-	 */
-	var $query_vars;
-
-	/**
-	 * Retrieve query variable.
-	 *
-	 * @since 3.1.0
-	 * @access public
-	 *
-	 * @param string $query_var Query variable key.
-	 * @return mixed
-	 */
-	function get( $query_var ) {
-		if ( isset( $this->query_vars[$query_var] ) )
-			return $this->query_vars[$query_var];
-
-		return '';
-	}
-
-	/**
-	 * Set query variable.
-	 *
-	 * @since 3.1.0
-	 * @access public
-	 *
-	 * @param string $query_var Query variable key.
-	 * @param mixed $value Query variable value.
-	 */
-	function set( $query_var, $value ) {
-		$this->query_vars[ $query_var ] = $value;
-	}
-
 	/*
 	 * Populates the $meta_query property
 	 *
