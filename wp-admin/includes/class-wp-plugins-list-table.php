@@ -302,137 +302,145 @@ class WP_Plugins_List_Table extends WP_List_Table {
 	}
 
 	function display_rows() {
+		global $status;
+
+		$screen = get_current_screen();
+
+		if ( is_multisite() && !$screen->is_network && in_array( $status, array( 'mustuse', 'dropins' ) ) )
+			return;
+
+		foreach ( $this->items as $plugin_file => $plugin_data )
+			$this->single_row( $plugin_file, $plugin_data );
+	}
+
+	function single_row( $plugin_file, $plugin_data ) {
 		global $status, $page, $s;
 
 		$context = $status;
 
 		$screen = get_current_screen();
 
-		if ( is_multisite() && !$screen->is_network && in_array( $context, array( 'mustuse', 'dropins' ) ) )
-			return;
+		// preorder
+		$actions = array(
+			'network_deactivate' => '', 'deactivate' => '',
+			'network_only' => '', 'activate' => '',
+			'network_activate' => '',
+			'edit' => '',
+			'delete' => '',
+		);
 
-		foreach ( $this->items as $plugin_file => $plugin_data ) {
-			// preorder
-			$actions = array(
-				'network_deactivate' => '', 'deactivate' => '',
-				'network_only' => '', 'activate' => '',
-				'network_activate' => '',
-				'edit' => '',
-				'delete' => '',
-			);
-
-			if ( 'mustuse' == $context ) {
+		if ( 'mustuse' == $context ) {
+			$is_active = true;
+		} elseif ( 'dropins' == $context ) {
+			$dropins = _get_dropins();
+			$plugin_name = $plugin_file;
+			if ( $plugin_file != $plugin_data['Name'] )
+				$plugin_name .= '<br/>' . $plugin_data['Name'];
+			if ( true === ( $dropins[ $plugin_file ][1] ) ) { // Doesn't require a constant
 				$is_active = true;
-			} elseif ( 'dropins' == $context ) {
-				$dropins = _get_dropins();
-				$plugin_name = $plugin_file;
-				if ( $plugin_file != $plugin_data['Name'] )
-					$plugin_name .= '<br/>' . $plugin_data['Name'];
-				if ( true === ( $dropins[ $plugin_file ][1] ) ) { // Doesn't require a constant
-					$is_active = true;
-					$description = '<p><strong>' . $dropins[ $plugin_file ][0] . '</strong></p>';
-				} elseif ( constant( $dropins[ $plugin_file ][1] ) ) { // Constant is true
-					$is_active = true;
-					$description = '<p><strong>' . $dropins[ $plugin_file ][0] . '</strong></p>';
-				} else {
-					$is_active = false;
-					$description = '<p><strong>' . $dropins[ $plugin_file ][0] . ' <span class="attention">' . __('Inactive:') . '</span></strong> ' . sprintf( __( 'Requires <code>%s</code> in <code>wp-config.php</code>.' ), "define('" . $dropins[ $plugin_file ][1] . "', true);" ) . '</p>';
-				}
-				if ( $plugin_data['Description'] )
-					$description .= '<p>' . $plugin_data['Description'] . '</p>';
+				$description = '<p><strong>' . $dropins[ $plugin_file ][0] . '</strong></p>';
+			} elseif ( constant( $dropins[ $plugin_file ][1] ) ) { // Constant is true
+				$is_active = true;
+				$description = '<p><strong>' . $dropins[ $plugin_file ][0] . '</strong></p>';
 			} else {
-				$is_active_for_network = is_plugin_active_for_network($plugin_file);
-				if ( $screen->is_network )
-					$is_active = $is_active_for_network;
-				else
-					$is_active = is_plugin_active( $plugin_file );
-
-				if ( $is_active_for_network && !is_super_admin() && !$screen->is_network )
-					continue;
-
-				if ( $screen->is_network ) {
-					if ( $is_active_for_network ) {
-						if ( current_user_can( 'manage_network_plugins' ) )
-							$actions['network_deactivate'] = '<a href="' . wp_nonce_url('plugins.php?action=deactivate&amp;networkwide=1&amp;plugin=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'deactivate-plugin_' . $plugin_file) . '" title="' . __('Deactivate this plugin') . '">' . __('Network Deactivate') . '</a>';
-					} else {
-						if ( current_user_can( 'manage_network_plugins' ) )
-							$actions['network_activate'] = '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;networkwide=1&amp;plugin=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'activate-plugin_' . $plugin_file) . '" title="' . __('Activate this plugin for all sites in this network') . '" class="edit">' . __('Network Activate') . '</a>';
-						if ( current_user_can('delete_plugins') )
-							$actions['delete'] = '<a href="' . wp_nonce_url('plugins.php?action=delete-selected&amp;checked[]=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'bulk-plugins') . '" title="' . __('Delete this plugin') . '" class="delete">' . __('Delete') . '</a>';
-					}
-				} else {
-					if ( $is_active ) {
-						$actions['deactivate'] = '<a href="' . wp_nonce_url('plugins.php?action=deactivate&amp;plugin=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'deactivate-plugin_' . $plugin_file) . '" title="' . __('Deactivate this plugin') . '">' . __('Deactivate') . '</a>';
-					} else {
-						if ( is_network_only_plugin( $plugin_file ) && !$screen->is_network )
-							continue;
-
-						$actions['activate'] = '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;plugin=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'activate-plugin_' . $plugin_file) . '" title="' . __('Activate this plugin') . '" class="edit">' . __('Activate') . '</a>';
-
-						if ( ! is_multisite() && current_user_can('delete_plugins') )
-							$actions['delete'] = '<a href="' . wp_nonce_url('plugins.php?action=delete-selected&amp;checked[]=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'bulk-plugins') . '" title="' . __('Delete this plugin') . '" class="delete">' . __('Delete') . '</a>';
-					} // end if $is_active
-				 } // end if $screen->is_network
-
-				if ( current_user_can('edit_plugins') && is_writable(WP_PLUGIN_DIR . '/' . $plugin_file) )
-					$actions['edit'] = '<a href="plugin-editor.php?file=' . $plugin_file . '" title="' . __('Open this file in the Plugin Editor') . '" class="edit">' . __('Edit') . '</a>';
-			} // end if $context
-
-			$actions = apply_filters( 'plugin_action_links', array_filter( $actions ), $plugin_file, $plugin_data, $context );
-			$actions = apply_filters( "plugin_action_links_$plugin_file", $actions, $plugin_file, $plugin_data, $context );
-
-			$class = $is_active ? 'active' : 'inactive';
-			$checkbox_id = md5($plugin_data['Name']) . "_checkbox";
-			$checkbox = in_array( $status, array( 'mustuse', 'dropins' ) ) ? '' : "<input type='checkbox' name='checked[]' value='" . esc_attr( $plugin_file ) . "' id='" . $checkbox_id . "' /><label class='screen-reader-text' for='" . $checkbox_id . "' >" . __('Select') . " " . $plugin_data['Name'] . "</label>";
-			if ( 'dropins' != $status ) {
-				$description = '<p>' . $plugin_data['Description'] . '</p>';
-				$plugin_name = $plugin_data['Name'];
+				$is_active = false;
+				$description = '<p><strong>' . $dropins[ $plugin_file ][0] . ' <span class="attention">' . __('Inactive:') . '</span></strong> ' . sprintf( __( 'Requires <code>%s</code> in <code>wp-config.php</code>.' ), "define('" . $dropins[ $plugin_file ][1] . "', true);" ) . '</p>';
 			}
+			if ( $plugin_data['Description'] )
+				$description .= '<p>' . $plugin_data['Description'] . '</p>';
+		} else {
+			$is_active_for_network = is_plugin_active_for_network($plugin_file);
+			if ( $screen->is_network )
+				$is_active = $is_active_for_network;
+			else
+				$is_active = is_plugin_active( $plugin_file );
 
-			$id = sanitize_title( $plugin_name );
+			if ( $is_active_for_network && !is_super_admin() && !$screen->is_network )
+				return;
 
-			echo "
-		<tr id='$id' class='$class'>
-			<th scope='row' class='check-column'>$checkbox</th>
-			<td class='plugin-title'>
-				<strong>$plugin_name</strong>
-			";
-			
-			echo $this->row_actions( $actions, true );
+			if ( $screen->is_network ) {
+				if ( $is_active_for_network ) {
+					if ( current_user_can( 'manage_network_plugins' ) )
+						$actions['network_deactivate'] = '<a href="' . wp_nonce_url('plugins.php?action=deactivate&amp;networkwide=1&amp;plugin=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'deactivate-plugin_' . $plugin_file) . '" title="' . __('Deactivate this plugin') . '">' . __('Network Deactivate') . '</a>';
+				} else {
+					if ( current_user_can( 'manage_network_plugins' ) )
+						$actions['network_activate'] = '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;networkwide=1&amp;plugin=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'activate-plugin_' . $plugin_file) . '" title="' . __('Activate this plugin for all sites in this network') . '" class="edit">' . __('Network Activate') . '</a>';
+					if ( current_user_can('delete_plugins') )
+						$actions['delete'] = '<a href="' . wp_nonce_url('plugins.php?action=delete-selected&amp;checked[]=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'bulk-plugins') . '" title="' . __('Delete this plugin') . '" class="delete">' . __('Delete') . '</a>';
+				}
+			} else {
+				if ( $is_active ) {
+					$actions['deactivate'] = '<a href="' . wp_nonce_url('plugins.php?action=deactivate&amp;plugin=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'deactivate-plugin_' . $plugin_file) . '" title="' . __('Deactivate this plugin') . '">' . __('Deactivate') . '</a>';
+				} else {
+					if ( is_network_only_plugin( $plugin_file ) && !$screen->is_network )
+						return;
 
-			echo "
-			</td>
-			<td class='column-description desc'>
-				<div class='plugin-description'>
-					$description
-				</div>
-				<div class='$class second plugin-version-author-uri'>
-					";
+					$actions['activate'] = '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;plugin=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'activate-plugin_' . $plugin_file) . '" title="' . __('Activate this plugin') . '" class="edit">' . __('Activate') . '</a>';
+
+					if ( ! is_multisite() && current_user_can('delete_plugins') )
+						$actions['delete'] = '<a href="' . wp_nonce_url('plugins.php?action=delete-selected&amp;checked[]=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'bulk-plugins') . '" title="' . __('Delete this plugin') . '" class="delete">' . __('Delete') . '</a>';
+				} // end if $is_active
+			 } // end if $screen->is_network
+
+			if ( current_user_can('edit_plugins') && is_writable(WP_PLUGIN_DIR . '/' . $plugin_file) )
+				$actions['edit'] = '<a href="plugin-editor.php?file=' . $plugin_file . '" title="' . __('Open this file in the Plugin Editor') . '" class="edit">' . __('Edit') . '</a>';
+		} // end if $context
+
+		$actions = apply_filters( 'plugin_action_links', array_filter( $actions ), $plugin_file, $plugin_data, $context );
+		$actions = apply_filters( "plugin_action_links_$plugin_file", $actions, $plugin_file, $plugin_data, $context );
+
+		$class = $is_active ? 'active' : 'inactive';
+		$checkbox_id = md5($plugin_data['Name']) . "_checkbox";
+		$checkbox = in_array( $status, array( 'mustuse', 'dropins' ) ) ? '' : "<input type='checkbox' name='checked[]' value='" . esc_attr( $plugin_file ) . "' id='" . $checkbox_id . "' /><label class='screen-reader-text' for='" . $checkbox_id . "' >" . __('Select') . " " . $plugin_data['Name'] . "</label>";
+		if ( 'dropins' != $status ) {
+			$description = '<p>' . $plugin_data['Description'] . '</p>';
+			$plugin_name = $plugin_data['Name'];
+		}
+
+		$id = sanitize_title( $plugin_name );
+
+
+		echo "
+	<tr id='$id' class='$class'>
+		<th scope='row' class='check-column'>$checkbox</th>
+		<td class='plugin-title'>
+			<strong>$plugin_name</strong>
+		";
 		
-					$plugin_meta = array();
-					if ( !empty( $plugin_data['Version'] ) )
-						$plugin_meta[] = sprintf( __( 'Version %s' ), $plugin_data['Version'] );
-					if ( !empty( $plugin_data['Author'] ) ) {
-						$author = $plugin_data['Author'];
-						if ( !empty( $plugin_data['AuthorURI'] ) )
-							$author = '<a href="' . $plugin_data['AuthorURI'] . '" title="' . __( 'Visit author homepage' ) . '">' . $plugin_data['Author'] . '</a>';
-						$plugin_meta[] = sprintf( __( 'By %s' ), $author );
-					}
-					if ( ! empty( $plugin_data['PluginURI'] ) )
-						$plugin_meta[] = '<a href="' . $plugin_data['PluginURI'] . '" title="' . __( 'Visit plugin site' ) . '">' . __( 'Visit plugin site' ) . '</a>';
-		
-					$plugin_meta = apply_filters( 'plugin_row_meta', $plugin_meta, $plugin_file, $plugin_data, $status );
-					echo implode( ' | ', $plugin_meta );
+		echo $this->row_actions( $actions, true );
 
-					echo "
-				</div>
-			</td>
-		</tr>
+		echo "
+		</td>
+		<td class='column-description desc'>
+			<div class='plugin-description'>
+				$description
+			</div>
+			<div class='$class second plugin-version-author-uri'>
+				";
+	
+				$plugin_meta = array();
+				if ( !empty( $plugin_data['Version'] ) )
+					$plugin_meta[] = sprintf( __( 'Version %s' ), $plugin_data['Version'] );
+				if ( !empty( $plugin_data['Author'] ) ) {
+					$author = $plugin_data['Author'];
+					if ( !empty( $plugin_data['AuthorURI'] ) )
+						$author = '<a href="' . $plugin_data['AuthorURI'] . '" title="' . __( 'Visit author homepage' ) . '">' . $plugin_data['Author'] . '</a>';
+					$plugin_meta[] = sprintf( __( 'By %s' ), $author );
+				}
+				if ( ! empty( $plugin_data['PluginURI'] ) )
+					$plugin_meta[] = '<a href="' . $plugin_data['PluginURI'] . '" title="' . __( 'Visit plugin site' ) . '">' . __( 'Visit plugin site' ) . '</a>';
+	
+				$plugin_meta = apply_filters( 'plugin_row_meta', $plugin_meta, $plugin_file, $plugin_data, $status );
+				echo implode( ' | ', $plugin_meta );
+
+				echo "
+			</div>
+		</td>
+	</tr>
 ";
 
-			do_action( 'after_plugin_row', $plugin_file, $plugin_data, $status );
-			do_action( "after_plugin_row_$plugin_file", $plugin_file, $plugin_data, $status );
-		}
+		do_action( 'after_plugin_row', $plugin_file, $plugin_data, $status );
+		do_action( "after_plugin_row_$plugin_file", $plugin_file, $plugin_data, $status );
 	}
 }
 
