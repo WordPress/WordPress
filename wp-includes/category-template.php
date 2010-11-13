@@ -1064,6 +1064,8 @@ function get_the_terms( $id = 0, $taxonomy ) {
 	if ( false === $terms )
 		$terms = wp_get_object_terms( $id, $taxonomy );
 
+	$terms = apply_filters( 'get_the_terms', $terms, $id, $taxonomy );
+
 	if ( empty( $terms ) )
 		return false;
 
