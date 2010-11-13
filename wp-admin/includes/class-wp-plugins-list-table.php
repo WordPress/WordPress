@@ -392,52 +392,61 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		$class = $is_active ? 'active' : 'inactive';
 		$checkbox_id = md5($plugin_data['Name']) . "_checkbox";
 		$checkbox = in_array( $status, array( 'mustuse', 'dropins' ) ) ? '' : "<input type='checkbox' name='checked[]' value='" . esc_attr( $plugin_file ) . "' id='" . $checkbox_id . "' /><label class='screen-reader-text' for='" . $checkbox_id . "' >" . __('Select') . " " . $plugin_data['Name'] . "</label>";
-		if ( 'dropins' != $status ) {
+		if ( 'dropins' != $context ) {
 			$description = '<p>' . $plugin_data['Description'] . '</p>';
 			$plugin_name = $plugin_data['Name'];
 		}
 
 		$id = sanitize_title( $plugin_name );
 
+		echo "<tr id='$id' class='$class'>";
 
-		echo "
-	<tr id='$id' class='$class'>
-		<th scope='row' class='check-column'>$checkbox</th>
-		<td class='plugin-title'>
-			<strong>$plugin_name</strong>
-		";
-		
-		echo $this->row_actions( $actions, true );
+		list( $columns, $hidden ) = $this->get_column_info();
 
-		echo "
-		</td>
-		<td class='column-description desc'>
-			<div class='plugin-description'>
-				$description
-			</div>
-			<div class='$class second plugin-version-author-uri'>
-				";
+		foreach ( $columns as $column_name => $column_display_name ) {
+			$style = '';
+			if ( in_array( $column_name, $hidden ) )
+				$style = ' style="display:none;"';
+
+			switch ( $column_name ) {
+				case 'cb':
+					echo "<th scope='row' class='check-column'>$checkbox</th>";
+					break;
+				case 'name':
+					echo "<td class='plugin-title'$style><strong>$plugin_name</strong>";
+					echo $this->row_actions( $actions, true );
+					echo "</td>";
+					break;
+				case 'description':
+					echo "<td class='column-description desc'$style>
+						<div class='plugin-description'>$description</div>
+						<div class='$class second plugin-version-author-uri'>";
+
+					$plugin_meta = array();
+					if ( !empty( $plugin_data['Version'] ) )
+						$plugin_meta[] = sprintf( __( 'Version %s' ), $plugin_data['Version'] );
+					if ( !empty( $plugin_data['Author'] ) ) {
+						$author = $plugin_data['Author'];
+						if ( !empty( $plugin_data['AuthorURI'] ) )
+							$author = '<a href="' . $plugin_data['AuthorURI'] . '" title="' . __( 'Visit author homepage' ) . '">' . $plugin_data['Author'] . '</a>';
+						$plugin_meta[] = sprintf( __( 'By %s' ), $author );
+					}
+					if ( ! empty( $plugin_data['PluginURI'] ) )
+						$plugin_meta[] = '<a href="' . $plugin_data['PluginURI'] . '" title="' . __( 'Visit plugin site' ) . '">' . __( 'Visit plugin site' ) . '</a>';
 	
-				$plugin_meta = array();
-				if ( !empty( $plugin_data['Version'] ) )
-					$plugin_meta[] = sprintf( __( 'Version %s' ), $plugin_data['Version'] );
-				if ( !empty( $plugin_data['Author'] ) ) {
-					$author = $plugin_data['Author'];
-					if ( !empty( $plugin_data['AuthorURI'] ) )
-						$author = '<a href="' . $plugin_data['AuthorURI'] . '" title="' . __( 'Visit author homepage' ) . '">' . $plugin_data['Author'] . '</a>';
-					$plugin_meta[] = sprintf( __( 'By %s' ), $author );
-				}
-				if ( ! empty( $plugin_data['PluginURI'] ) )
-					$plugin_meta[] = '<a href="' . $plugin_data['PluginURI'] . '" title="' . __( 'Visit plugin site' ) . '">' . __( 'Visit plugin site' ) . '</a>';
-	
-				$plugin_meta = apply_filters( 'plugin_row_meta', $plugin_meta, $plugin_file, $plugin_data, $status );
-				echo implode( ' | ', $plugin_meta );
+					$plugin_meta = apply_filters( 'plugin_row_meta', $plugin_meta, $plugin_file, $plugin_data, $status );
+					echo implode( ' | ', $plugin_meta );
 
-				echo "
-			</div>
-		</td>
-	</tr>
-";
+					echo "</div></td>";
+					break;
+				default:
+					echo "<td class='$column_name'$style>";
+					do_action( 'manage_plugin_custom_column', $column_name, $plugin_file, $plugin_data );
+					echo "</td>";
+			}
+		}
+
+		echo "</tr>";
 
 		do_action( 'after_plugin_row', $plugin_file, $plugin_data, $status );
 		do_action( "after_plugin_row_$plugin_file", $plugin_file, $plugin_data, $status );
