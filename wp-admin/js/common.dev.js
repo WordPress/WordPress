@@ -123,16 +123,21 @@ $(document).ready(function(){ adminMenu.init(); });
 // show/hide/save table columns
 columns = {
 	init : function() {
-		var that = this;
-		$('.hide-column-tog', '#adv-settings').click( function() {
-			var $t = $(this), column = $t.val();
-			if ( $t.attr('checked') )
-				that.checked(column);
-			else
-				that.unchecked(column);
 
+		this.toggleView( $('.hide-column-tog', '#adv-settings').attr('checked'), $('.hide-column-tog', '#adv-settings').val() );
+		$('.column-name').css("width", "auto"); // Otherwise it only wants 50% column width...
+
+		$('.hide-column-tog', '#adv-settings').click( function() {
+			columns.toggleView( $(this).attr('checked'), $(this).val() );
 			columns.saveManageColumnsState();
 		});
+	},
+	
+	toggleView : function(checked, column) {
+		if ( checked )
+			this.checked(column);
+		else
+			this.unchecked(column);
 	},
 
 	saveManageColumnsState : function() {

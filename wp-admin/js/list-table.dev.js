@@ -65,7 +65,7 @@ window.listTable = {
 		data = $.query.get();
 
 		this._callback = callback;
-
+		
 		this.fetch_list(
 			data,
 			$.proxy(this, 'handle_success'),
@@ -107,6 +107,8 @@ window.listTable = {
 			$('.current-page').val($.query.GET('paged'));
 
 			$('th.column-cb :input').attr('checked', false);
+			
+			columns.init();		// To rehide the hidden columns.
 
 			if ( this._callback )
 				this._callback();
