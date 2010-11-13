@@ -883,7 +883,7 @@ function register_post_type($post_type, $args = array()) {
 	// Args prefixed with an underscore are reserved for internal use.
 	$defaults = array(
 		'labels' => array(), 'description' => '', 'publicly_queryable' => null, 'exclude_from_search' => null,
-		'capability_type' => 'post', 'capabilities' => array(), 'map_meta_cap' => false,
+		'capability_type' => 'post', 'capabilities' => array(), 'map_meta_cap' => null,
 		'_builtin' => false, '_edit_link' => 'post.php?post=%d', 'hierarchical' => false,
 		'public' => false, 'rewrite' => true, 'has_archive' => false, 'query_var' => true,
 		'supports' => array(), 'register_meta_box_cb' => null,
@@ -915,6 +915,13 @@ function register_post_type($post_type, $args = array()) {
 	// If not set, default to true if not public, false if public.
 	if ( null === $args->exclude_from_search )
 		$args->exclude_from_search = !$args->public;
+
+	// Back compat with quirky handling in version 3.0. #14122
+	if ( 'post' == $args->capability_type && null === $args->map_meta_cap && empty( $args->capabilities ) )
+		$args->map_meta_cap = true;
+
+	if ( null === $args->map_meta_cap )
+		$args->map_meta_cap = false;
 
 	$args->cap = get_post_type_capabilities( $args );
 	unset($args->capabilities);
