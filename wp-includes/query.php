@@ -688,7 +688,7 @@ function the_comment() {
  *
  * @since 1.5.0
  */
-class WP_Query extends WP_Object_Query {
+class WP_Query {
 
 	/**
 	 * Query vars set by the user
@@ -1347,7 +1347,7 @@ class WP_Query extends WP_Object_Query {
 
 			$this->parse_tax_query( $qv );
 
-			$this->parse_meta_query( $qv );
+			_parse_meta_query( $qv );
 
 			if ( empty($qv['author']) || ($qv['author'] == '0') ) {
 				$this->is_author = false;

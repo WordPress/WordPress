@@ -197,7 +197,7 @@ function get_comments( $args = '' ) {
  *
  * @since 3.1.0
  */
-class WP_Comment_Query extends WP_Object_Query {
+class WP_Comment_Query {
 
 	/**
 	 * Execute the query

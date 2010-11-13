@@ -444,6 +444,30 @@ function get_meta_sql( $meta_query, $meta_type, $primary_table, $primary_id_colu
 	return apply_filters_ref_array( 'get_meta_sql', array( compact( 'join', 'where' ), $meta_query, $meta_type, $primary_table, $primary_id_column, &$context ) );
 }
 
+/*
+ * Populates the $meta_query property
+ *
+ * @access private
+ * @since 3.1.0
+ *
+ * @param array $qv The query variables
+ */
+function _parse_meta_query( &$qv ) {
+	$meta_query = array();
+
+	// Simple query needs to be first for orderby=meta_value to work correctly
+	foreach ( array( 'key', 'value', 'compare', 'type' ) as $key ) {
+		if ( !empty( $qv[ "meta_$key" ] ) )
+			$meta_query[0][ $key ] = $qv[ "meta_$key" ];
+	}
+
+	if ( !empty( $qv['meta_query'] ) && is_array( $qv['meta_query'] ) ) {
+		$meta_query = array_merge( $meta_query, $qv['meta_query'] );
+	}
+
+	$qv['meta_query'] = $meta_query;
+}
+
 /**
  * Retrieve the name of the metadata table for the specified object type.
  *

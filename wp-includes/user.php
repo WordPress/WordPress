@@ -330,7 +330,7 @@ function delete_user_option( $user_id, $option_name, $global = false ) {
  *
  * @since 3.1.0
  */
-class WP_User_Query extends WP_Object_Query {
+class WP_User_Query {
 
 	/**
 	 * List of found user ids
@@ -463,7 +463,7 @@ class WP_User_Query extends WP_Object_Query {
 			$this->query_where .= $this->get_search_sql( $search, $search_columns, $wild );
 		}
 
-		$this->parse_meta_query( $qv );
+		_parse_meta_query( $qv );
 
 		$role = trim( $qv['role'] );
 		$blog_id = absint( $qv['blog_id'] );
