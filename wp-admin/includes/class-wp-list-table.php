@@ -749,7 +749,7 @@ class WP_List_Table {
 		list( $columns, $hidden ) = $this->get_column_info();
 
 		foreach ( $columns as $column_name => $column_display_name ) {
-			$class = "class=\"$column_name column-$column_name\"";
+			$class = "class='$column_name column-$column_name'";
 
 			$style = '';
 			if ( in_array( $column_name, $hidden ) )

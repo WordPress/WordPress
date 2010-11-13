@@ -3807,7 +3807,7 @@ h2 .nav-tab {
   17.0 - Plugins
 ------------------------------------------------------------------------------*/
 
-.plugins #name {width: 33%}
+.plugins #description {width: 60%}
 
 .plugins .name,
 #pass-strength-result.strong,
