@@ -778,7 +778,7 @@ class WP_Query {
 	 *
 	 * @since 1.5.0
 	 * @access public
-	 * @var int
+	 * @var object
 	 */
 	var $post;
 
