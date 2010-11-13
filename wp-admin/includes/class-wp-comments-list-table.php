@@ -241,7 +241,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 		$columns['comment'] = _x( 'Comment', 'column name' );
 
 		if ( 'single' !== $mode )
-			$columns['response'] = _x( 'Comment', 'column name' );
+			$columns['response'] = _x( 'In Response To', 'column name' );
 
 		return $columns;
 	}
