@@ -338,7 +338,7 @@ if ( ! is_taxonomy_hierarchical($taxonomy) )
 	do_action('add_tag_form_fields', $taxonomy);
 do_action($taxonomy . '_add_form_fields', $taxonomy);
 
-submit_button( $tax->labels->add_new_item );
+submit_button( $tax->labels->add_new_item, 'button' );
 
 // Back compat hooks. Deprecated in preference to {$taxonomy}_add_form
 if ( 'category' == $taxonomy )
