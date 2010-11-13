@@ -159,6 +159,12 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 			list( $columns, $hidden ) = $this->get_column_info();
 
 			foreach ( $columns as $column_name => $column_display_name ) :
+				$style = '';
+				if ( in_array( $column_name, $hidden ) )
+					$style = ' style="display:none;"';
+
+				$attributes = "$class$style";
+
 				switch ( $column_name ) {
 					case 'cb': ?>
 						<th scope="row" class="check-column">
@@ -248,7 +254,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 					break;
 
 					default: ?>
-						<td><?php do_action( 'manage_users_custom_column', $column_name, $user->ID ); ?></td>
+						<td><?php echo apply_filters( 'manage_users_custom_column', '', $column_name, $user->ID ); ?></td>
 					<?php
 					break;
 				}

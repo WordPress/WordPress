@@ -214,8 +214,9 @@ class WP_Users_List_Table extends WP_List_Table {
 			$edit = '<strong>' . $user_object->user_login . '</strong>';
 		}
 		$role_name = isset( $wp_roles->role_names[$role] ) ? translate_user_role( $wp_roles->role_names[$role] ) : __( 'None' );
-		$r = "<tr id='user-$user_object->ID'$style>";
 		$avatar = get_avatar( $user_object->ID, 32 );
+
+		$r = "<tr id='user-$user_object->ID'$style>";
 
 		list( $columns, $hidden ) = $this->get_column_info();
 
