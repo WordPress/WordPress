@@ -1427,7 +1427,7 @@ function get_media_buttons() {
 
 	$out .= _media_button( __( 'Add Media' ), 'images/media-button-other.gif?ver=20100531', 'media' );
 
-	$context = apply_filters( 'media_buttons_context', __( 'Upload/Insert %s' ) );
+	$context = apply_filters( 'media_buttons_context', __( 'Upload/Insert: %s' ) );
 
 	return sprintf($context, $out);
 
