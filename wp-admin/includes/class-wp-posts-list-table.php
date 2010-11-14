@@ -264,17 +264,25 @@ class WP_Posts_List_Table extends WP_List_Table {
 			$post_type = $screen->post_type;
 
 		$posts_columns = array();
+
 		$posts_columns['cb'] = '<input type="checkbox" />';
+
 		/* translators: manage posts column name */
 		$posts_columns['title'] = _x( 'Title', 'column name' );
-		$posts_columns['author'] = __( 'Author' );
+
+		if ( post_type_supports( $post_type, 'author' ) )
+			$posts_columns['author'] = __( 'Author' );
+
 		if ( empty( $post_type ) || is_object_in_taxonomy( $post_type, 'category' ) )
 			$posts_columns['categories'] = __( 'Categories' );
+
 		if ( empty( $post_type ) || is_object_in_taxonomy( $post_type, 'post_tag' ) )
 			$posts_columns['tags'] = __( 'Tags' );
+
 		$post_status = !empty( $_REQUEST['post_status'] ) ? $_REQUEST['post_status'] : 'all';
-		if ( !in_array( $post_status, array( 'pending', 'draft', 'future' ) ) && ( empty( $post_type ) || post_type_supports( $post_type, 'comments' ) ) )
+		if ( post_type_supports( $post_type, 'comments' ) && !in_array( $post_status, array( 'pending', 'draft', 'future' ) ) )
 			$posts_columns['comments'] = '<div class="vers"><img alt="' . esc_attr__( 'Comments' ) . '" src="' . esc_url( admin_url( 'images/comment-grey-bubble.png' ) ) . '" /></div>';
+
 		$posts_columns['date'] = __( 'Date' );
 
 		if ( 'page' == $post_type )
