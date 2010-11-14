@@ -966,7 +966,7 @@ function request_filesystem_credentials($form_post, $type = '', $error = false, 
 		$error_string = __('<strong>Error:</strong> There was an error connecting to the server, Please verify the settings are correct.');
 		if ( is_wp_error($error) )
 			$error_string = $error->get_error_message();
-		echo '<div id="message" class="error"><p>' . $error_string . '</p></div>';
+		echo '<div id="message" class="error"><p>' . esc_html( $error_string ) . '</p></div>';
 	}
 
 	$types = array();
