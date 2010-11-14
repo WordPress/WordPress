@@ -64,6 +64,12 @@ class WP_Plugins_List_Table extends WP_List_Table {
 				$plugins['mustuse'] = get_mu_plugins();
 			if ( apply_filters( 'show_advanced_plugins', true, 'dropins' ) )
 				$plugins['dropins'] = get_dropins();
+
+			$current = get_site_transient( 'update_plugins' );
+			foreach ( (array) $plugins['all'] as $plugin_file => $plugin_data ) {
+				if ( isset( $current->response[ $plugin_file ] ) )
+					$plugins['upgrade'][ $plugin_file ] = $plugin_data;
+			}
 		}
 
 		set_transient( 'plugin_slugs', array_keys( $plugins['all'] ), 86400 );
@@ -75,15 +81,6 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			if ( $time + $one_week < time() )
 				unset( $recently_activated[$key] );
 		update_option( 'recently_activated', $recently_activated );
-
-		$current = get_site_transient( 'update_plugins' );
-
-		foreach ( array( 'all', 'mustuse', 'dropins' ) as $type ) {
-			foreach ( (array) $plugins[$type] as $plugin_file => $plugin_data ) {
-				// Translate, Apply Markup, Sanitize HTML
-				$plugins[$type][$plugin_file] = _get_plugin_data_markup_translate( $plugin_file, $plugin_data, false, true );
-			}
-		}
 
 		foreach ( (array) $plugins['all'] as $plugin_file => $plugin_data ) {
 			// Filter into individual sections
@@ -100,9 +97,6 @@ class WP_Plugins_List_Table extends WP_List_Table {
 					$plugins['recently_activated'][ $plugin_file ] = $plugin_data;
 				$plugins['inactive'][ $plugin_file ] = $plugin_data;
 			}
-
-			if ( isset( $current->response[ $plugin_file ] ) )
-				$plugins['upgrade'][ $plugin_file ] = $plugin_data;
 		}
 
 		if ( !current_user_can( 'update_plugins' ) )
@@ -120,7 +114,12 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		if ( empty( $plugins[ $status ] ) && !in_array( $status, array( 'all', 'search' ) ) )
 			$status = 'all';
 
-		$this->items = $plugins[ $status ];
+		$this->items = array();
+		foreach ( $plugins[ $status ] as $plugin_file => $plugin_data ) {
+			// Translate, Apply Markup, Sanitize HTML
+			$this->items[$plugin_file] = _get_plugin_data_markup_translate( $plugin_file, $plugin_data, false, true );
+		}
+
 		$total_this_page = $totals[ $status ];
 
 		if ( $orderby ) {
