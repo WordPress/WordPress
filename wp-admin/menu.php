@@ -24,38 +24,35 @@
 
 $menu[2] = array( __('Dashboard'), 'read', 'index.php', '', 'menu-top menu-top-first menu-icon-dashboard', 'menu-dashboard', 'div' );
 
-if ( is_multisite() || is_super_admin() ) {
-	$submenu[ 'index.php' ][0] = array( __('Dashboard'), 'read', 'index.php' );
+$submenu[ 'index.php' ][0] = array( __('Dashboard'), 'read', 'index.php' );
 
-	if ( is_multisite() )
-		$submenu[ 'index.php' ][5] = array( __('My Sites'), 'read', 'my-sites.php' );
+if ( is_multisite() ) {
+	$submenu[ 'index.php' ][5] = array( __('My Sites'), 'read', 'my-sites.php' );
+} else {
+	$plugin_update_count = $theme_update_count = $wordpress_update_count = 0;
+	$update_plugins = get_site_transient( 'update_plugins' );
+	if ( !empty($update_plugins->response) )
+		$plugin_update_count = count( $update_plugins->response );
+	$update_themes = get_site_transient( 'update_themes' );
+	if ( !empty($update_themes->response) )
+		$theme_update_count = count( $update_themes->response );
+	$update_wordpress = get_core_updates( array('dismissed' => false) );
+	if ( !empty($update_wordpress) && !in_array( $update_wordpress[0]->response, array('development', 'latest') ) )
+		$wordpress_update_count = 1;
 
-	if ( is_super_admin() ) {
-		$plugin_update_count = $theme_update_count = $wordpress_update_count = 0;
-		$update_plugins = get_site_transient( 'update_plugins' );
-		if ( !empty($update_plugins->response) )
-			$plugin_update_count = count( $update_plugins->response );
-		$update_themes = get_site_transient( 'update_themes' );
-		if ( !empty($update_themes->response) )
-			$theme_update_count = count( $update_themes->response );
-		$update_wordpress = get_core_updates( array('dismissed' => false) );
-		if ( !empty($update_wordpress) && !in_array( $update_wordpress[0]->response, array('development', 'latest') ) )
-			$wordpress_update_count = 1;
+	$update_count = $plugin_update_count + $theme_update_count + $wordpress_update_count;
+	$update_title = array();
+	if ( $wordpress_update_count )
+		$update_title[] = sprintf(__('%d WordPress Update'), $wordpress_update_count);
+	if ( $plugin_update_count )
+		$update_title[] = sprintf(_n('%d Plugin Update', '%d Plugin Updates', $plugin_update_count), $plugin_update_count);
+	if ( $theme_update_count )
+		$update_title[] = sprintf(_n('%d Theme Update', '%d Themes Updates', $theme_update_count), $theme_update_count);
 
-		$update_count = $plugin_update_count + $theme_update_count + $wordpress_update_count;
-		$update_title = array();
-		if ( $wordpress_update_count )
-			$update_title[] = sprintf(__('%d WordPress Update'), $wordpress_update_count);
-		if ( $plugin_update_count )
-			$update_title[] = sprintf(_n('%d Plugin Update', '%d Plugin Updates', $plugin_update_count), $plugin_update_count);
-		if ( $theme_update_count )
-			$update_title[] = sprintf(_n('%d Theme Update', '%d Themes Updates', $theme_update_count), $theme_update_count);
+	$update_title = !empty($update_title) ? esc_attr(implode(', ', $update_title)) : '';
 
-		$update_title = !empty($update_title) ? esc_attr(implode(', ', $update_title)) : '';
-
-		$submenu[ 'index.php' ][10] = array( sprintf( __('Updates %s'), "<span class='update-plugins count-$update_count' title='$update_title'><span class='update-count'>" . number_format_i18n($update_count) . "</span></span>" ), 'install_plugins',  'update-core.php');
-		unset($plugin_update_count, $theme_update_count, $wordpress_update_count, $update_count, $update_title, $update_themes, $update_plugins, $update_wordpress);
-	}
+	$submenu[ 'index.php' ][10] = array( sprintf( __('Updates %s'), "<span class='update-plugins count-$update_count' title='$update_title'><span class='update-count'>" . number_format_i18n($update_count) . "</span></span>" ), 'install_plugins',  'update-core.php');
+	unset($plugin_update_count, $theme_update_count, $wordpress_update_count, $update_count, $update_title, $update_themes, $update_plugins, $update_wordpress);
 }
 
 $menu[4] = array( '', 'read', 'separator1', '', 'wp-menu-separator' );
