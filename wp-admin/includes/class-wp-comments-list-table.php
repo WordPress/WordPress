@@ -333,7 +333,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 			$delete_url = esc_url( $url . "&action=deletecomment&$del_nonce" );
 		}
 
-		echo '<div id="submitted-on">';
+		echo '<div class="submitted-on">';
 		/* translators: 2: comment date, 3: comment time */
 		printf( __( 'Submitted on <a href="%1$s">%2$s at %3$s</a>' ), $comment_url,
 			/* translators: comment date format. See http://php.net/date */ get_comment_date( __( 'Y/m/d' ) ),
