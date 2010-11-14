@@ -134,8 +134,15 @@ if ( is_array( $blogusers ) ) {
 	echo '<table class="form-table">';
 	echo "<tr><th>" . __( 'User' ) . "</th><th>" . __( 'Role' ) . "</th><th>" . __( 'Password' ) . "</th><th>" . __( 'Remove' ) . "</th></tr>";
 	$user_count = 0;
-	$blog_prefix = $wpdb->get_blog_prefix( $id );
-	$editblog_roles = get_blog_option( $id, "{$blog_prefix}user_roles" );
+	// @todo This is a hack. Eventually, add API to WP_Roles allowing retrieval of roles for a particular blog.
+	if ( ! empty($wp_roles->use_db) ) {
+		// If using the DB to store roles, consult the user_roles option.
+		$blog_prefix = $wpdb->get_blog_prefix( $id );
+		$editblog_roles = get_blog_option( $id, "{$blog_prefix}user_roles" );
+	} else {
+		// Roles are stored in memory, not the DB.
+		$editblog_roles = $wp_roles->roles;
+	}
 
 	foreach ( $blogusers as $user_id => $user_object ) {
 		$user_count++;
