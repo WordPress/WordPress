@@ -250,7 +250,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 			$actions['delete'] = "<a class='delete-tag' href='" . wp_nonce_url( "edit-tags.php?action=delete&amp;taxonomy=$taxonomy&amp;tag_ID=$tag->term_id", 'delete-tag_' . $tag->term_id ) . "'>" . __( 'Delete' ) . "</a>";
 
 		$actions = apply_filters( 'tag_row_actions', $actions, $tag );
-		$actions = apply_filters( "${taxonomy}_row_actions", $actions, $tag );
+		$actions = apply_filters( "{$taxonomy}_row_actions", $actions, $tag );
 
 		$out .= $this->row_actions( $actions );
 		$out .= '<div class="hidden" id="inline_' . $qe_data->term_id . '">';

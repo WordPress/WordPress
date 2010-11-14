@@ -1383,26 +1383,26 @@ function sanitize_term_field($field, $value, $term_id, $taxonomy, $context) {
 		return $value;
 
 	if ( 'edit' == $context ) {
-		$value = apply_filters("edit_term_$field", $value, $term_id, $taxonomy);
-		$value = apply_filters("edit_${taxonomy}_$field", $value, $term_id);
+		$value = apply_filters("edit_term_{$field}", $value, $term_id, $taxonomy);
+		$value = apply_filters("edit_{$taxonomy}_{$field}", $value, $term_id);
 		if ( 'description' == $field )
 			$value = format_to_edit($value);
 		else
 			$value = esc_attr($value);
 	} else if ( 'db' == $context ) {
-		$value = apply_filters("pre_term_$field", $value, $taxonomy);
-		$value = apply_filters("pre_${taxonomy}_$field", $value);
+		$value = apply_filters("pre_term_{$field}", $value, $taxonomy);
+		$value = apply_filters("pre_{$taxonomy}_{$field}", $value);
 		// Back compat filters
 		if ( 'slug' == $field )
 			$value = apply_filters('pre_category_nicename', $value);
 
 	} else if ( 'rss' == $context ) {
-		$value = apply_filters("term_${field}_rss", $value, $taxonomy);
-		$value = apply_filters("${taxonomy}_${field}_rss", $value);
+		$value = apply_filters("term_{$field}_rss", $value, $taxonomy);
+		$value = apply_filters("{$taxonomy}_{$field}_rss", $value);
 	} else {
 		// Use display filters by default.
-		$value = apply_filters("term_$field", $value, $term_id, $taxonomy, $context);
-		$value = apply_filters("${taxonomy}_$field", $value, $term_id, $context);
+		$value = apply_filters("term_{$field}", $value, $term_id, $taxonomy, $context);
+		$value = apply_filters("{$taxonomy}_{$field}", $value, $term_id, $context);
 	}
 
 	if ( 'attribute' == $context )

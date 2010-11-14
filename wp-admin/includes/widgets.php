@@ -98,7 +98,7 @@ function wp_list_widget_controls_dynamic_sidebar( $params ) {
 	$id = isset($params[0]['_temp_id']) ? $params[0]['_temp_id'] : $widget_id;
 	$hidden = isset($params[0]['_hide']) ? ' style="display:none;"' : '';
 
-	$params[0]['before_widget'] = "<div id='widget-${i}_$id' class='widget'$hidden>";
+	$params[0]['before_widget'] = "<div id='widget-{$i}_{$id}' class='widget'$hidden>";
 	$params[0]['after_widget'] = "</div>";
 	$params[0]['before_title'] = "%BEG_OF_TITLE%"; // deprecated
 	$params[0]['after_title'] = "%END_OF_TITLE%"; // deprecated

@@ -1148,12 +1148,12 @@ function sanitize_user_object($user, $context = 'display') {
  * when calling filters.
  *
  * @since 2.3.0
- * @uses apply_filters() Calls 'edit_$field' and '${field_no_prefix}_edit_pre' passing $value and
+ * @uses apply_filters() Calls 'edit_$field' and '{$field_no_prefix}_edit_pre' passing $value and
  *  $user_id if $context == 'edit' and field name prefix == 'user_'.
  *
  * @uses apply_filters() Calls 'edit_user_$field' passing $value and $user_id if $context == 'db'.
  * @uses apply_filters() Calls 'pre_$field' passing $value if $context == 'db' and field name prefix == 'user_'.
- * @uses apply_filters() Calls '${field}_pre' passing $value if $context == 'db' and field name prefix != 'user_'.
+ * @uses apply_filters() Calls '{$field}_pre' passing $value if $context == 'db' and field name prefix != 'user_'.
  *
  * @uses apply_filters() Calls '$field' passing $value, $user_id and $context if $context == anything
  *  other than 'raw', 'edit' and 'db' and field name prefix == 'user_'.
@@ -1186,9 +1186,9 @@ function sanitize_user_field($field, $value, $user_id, $context) {
 
 	if ( 'edit' == $context ) {
 		if ( $prefixed ) {
-			$value = apply_filters("edit_$field", $value, $user_id);
+			$value = apply_filters("edit_{$field}", $value, $user_id);
 		} else {
-			$value = apply_filters("edit_user_$field", $value, $user_id);
+			$value = apply_filters("edit_user_{$field}", $value, $user_id);
 		}
 
 		if ( 'description' == $field )
@@ -1197,16 +1197,16 @@ function sanitize_user_field($field, $value, $user_id, $context) {
 			$value = esc_attr($value);
 	} else if ( 'db' == $context ) {
 		if ( $prefixed ) {
-			$value = apply_filters("pre_$field", $value);
+			$value = apply_filters("pre_{$field}", $value);
 		} else {
-			$value = apply_filters("pre_user_$field", $value);
+			$value = apply_filters("pre_user_{$field}", $value);
 		}
 	} else {
 		// Use display filters by default.
 		if ( $prefixed )
 			$value = apply_filters($field, $value, $user_id, $context);
 		else
-			$value = apply_filters("user_$field", $value, $user_id, $context);
+			$value = apply_filters("user_{$field}", $value, $user_id, $context);
 	}
 
 	if ( 'user_url' == $field )

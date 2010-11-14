@@ -1022,7 +1022,7 @@ function get_sample_permalink($id, $title = null, $name = null) {
 		$uri = untrailingslashit($uri);
 		if ( !empty($uri) )
 			$uri .= '/';
-		$permalink = str_replace('%pagename%', "${uri}%pagename%", $permalink);
+		$permalink = str_replace('%pagename%', "{$uri}%pagename%", $permalink);
 	}
 
 	$permalink = array($permalink, apply_filters('editable_slug', $post->post_name));

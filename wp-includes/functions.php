@@ -4226,7 +4226,7 @@ function get_file_data( $file, $default_headers, $context = '' ) {
 	fclose( $fp );
 
 	if ( $context != '' ) {
-		$extra_headers = apply_filters( "extra_$context".'_headers', array() );
+		$extra_headers = apply_filters( "extra_{$context}".'_headers', array() );
 
 		$extra_headers = array_flip( $extra_headers );
 		foreach( $extra_headers as $key=>$value ) {

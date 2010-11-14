@@ -1161,9 +1161,9 @@ function wp_transition_comment_status($new_status, $old_status, $comment) {
 	// Call the hooks
 	if ( $new_status != $old_status ) {
 		do_action('transition_comment_status', $new_status, $old_status, $comment);
-		do_action("comment_${old_status}_to_$new_status", $comment);
+		do_action("comment_{$old_status}_to_{$new_status}", $comment);
 	}
-	do_action("comment_${new_status}_$comment->comment_type", $comment->comment_ID, $comment);
+	do_action("comment_{$new_status}_{$comment->comment_type}", $comment->comment_ID, $comment);
 }
 
 /**

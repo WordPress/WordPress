@@ -1121,7 +1121,7 @@ function get_calendar($initial = true, $echo = true) {
 		// We need to get the month from MySQL
 		$thisyear = ''.intval(substr($m, 0, 4));
 		$d = (($w - 1) * 7) + 6; //it seems MySQL's weeks disagree with PHP's
-		$thismonth = $wpdb->get_var("SELECT DATE_FORMAT((DATE_ADD('${thisyear}0101', INTERVAL $d DAY) ), '%m')");
+		$thismonth = $wpdb->get_var("SELECT DATE_FORMAT((DATE_ADD('{$thisyear}0101', INTERVAL $d DAY) ), '%m')");
 	} elseif ( !empty($m) ) {
 		$thisyear = ''.intval(substr($m, 0, 4));
 		if ( strlen($m) < 6 )

@@ -1608,12 +1608,12 @@ function sanitize_post($post, $context = 'display') {
  * when calling filters.
  *
  * @since 2.3.0
- * @uses apply_filters() Calls 'edit_$field' and '${field_no_prefix}_edit_pre' passing $value and
+ * @uses apply_filters() Calls 'edit_$field' and '{$field_no_prefix}_edit_pre' passing $value and
  *  $post_id if $context == 'edit' and field name prefix == 'post_'.
  *
  * @uses apply_filters() Calls 'edit_post_$field' passing $value and $post_id if $context == 'db'.
  * @uses apply_filters() Calls 'pre_$field' passing $value if $context == 'db' and field name prefix == 'post_'.
- * @uses apply_filters() Calls '${field}_pre' passing $value if $context == 'db' and field name prefix != 'post_'.
+ * @uses apply_filters() Calls '{$field}_pre' passing $value if $context == 'db' and field name prefix != 'post_'.
  *
  * @uses apply_filters() Calls '$field' passing $value, $post_id and $context if $context == anything
  *  other than 'raw', 'edit' and 'db' and field name prefix == 'post_'.
@@ -1652,11 +1652,11 @@ function sanitize_post_field($field, $value, $post_id, $context) {
 		$format_to_edit = array('post_content', 'post_excerpt', 'post_title', 'post_password');
 
 		if ( $prefixed ) {
-			$value = apply_filters("edit_$field", $value, $post_id);
+			$value = apply_filters("edit_{$field}", $value, $post_id);
 			// Old school
-			$value = apply_filters("${field_no_prefix}_edit_pre", $value, $post_id);
+			$value = apply_filters("{$field_no_prefix}_edit_pre", $value, $post_id);
 		} else {
-			$value = apply_filters("edit_post_$field", $value, $post_id);
+			$value = apply_filters("edit_post_{$field}", $value, $post_id);
 		}
 
 		if ( in_array($field, $format_to_edit) ) {
@@ -1669,18 +1669,18 @@ function sanitize_post_field($field, $value, $post_id, $context) {
 		}
 	} else if ( 'db' == $context ) {
 		if ( $prefixed ) {
-			$value = apply_filters("pre_$field", $value);
-			$value = apply_filters("${field_no_prefix}_save_pre", $value);
+			$value = apply_filters("pre_{$field}", $value);
+			$value = apply_filters("{$field_no_prefix}_save_pre", $value);
 		} else {
-			$value = apply_filters("pre_post_$field", $value);
-			$value = apply_filters("${field}_pre", $value);
+			$value = apply_filters("pre_post_{$field}", $value);
+			$value = apply_filters("{$field}_pre", $value);
 		}
 	} else {
 		// Use display filters by default.
 		if ( $prefixed )
 			$value = apply_filters($field, $value, $post_id, $context);
 		else
-			$value = apply_filters("post_$field", $value, $post_id, $context);
+			$value = apply_filters("post_{$field}", $value, $post_id, $context);
 	}
 
 	if ( 'attribute' == $context )
@@ -2923,8 +2923,8 @@ function wp_set_post_categories($post_ID = 0, $post_categories = array()) {
  *
  * @uses do_action() Calls 'transition_post_status' on $new_status, $old_status and
  *  $post if there is a status change.
- * @uses do_action() Calls '${old_status}_to_$new_status' on $post if there is a status change.
- * @uses do_action() Calls '${new_status}_$post->post_type' on post ID and $post.
+ * @uses do_action() Calls '{$old_status}_to_{$new_status}' on $post if there is a status change.
+ * @uses do_action() Calls '{$new_status}_{$post->post_type}' on post ID and $post.
  *
  * @param string $new_status Transition to this post status.
  * @param string $old_status Previous post status.
@@ -2932,8 +2932,8 @@ function wp_set_post_categories($post_ID = 0, $post_categories = array()) {
  */
 function wp_transition_post_status($new_status, $old_status, $post) {
 	do_action('transition_post_status', $new_status, $old_status, $post);
-	do_action("${old_status}_to_$new_status", $post);
-	do_action("${new_status}_$post->post_type", $post->ID, $post);
+	do_action("{$old_status}_to_{$new_status}", $post);
+	do_action("{$new_status}_{$post->post_type}", $post->ID, $post);
 }
 
 //
