@@ -519,8 +519,7 @@ case 'add-tag' :
 		$x->send();
 	}
 
-	if ( isset($_POST['screen']) )
-		set_current_screen($_POST['screen']);
+	set_current_screen( $_POST['screen'] );
 
 	$wp_list_table = get_list_table('WP_Terms_List_Table');
 
@@ -581,39 +580,14 @@ case 'get-tagcloud' :
 
 	exit;
 	break;
-case 'add-comment' :
-	check_ajax_referer( $action );
-	if ( !current_user_can( 'edit_posts' ) )
-		die('-1');
-
-	$wp_list_table = get_list_table('WP_Comments_List_Table');
-	$wp_list_table->from_ajax = true;
-
-	$wp_list_table->prepare_items();
-
-	if ( !$wp_list_table->has_items() )
-		die('1');
-
-	$x = new WP_Ajax_Response();
-	foreach ( $wp_list_table->items as $comment ) {
-		ob_start();
-			$wp_list_table->single_row( $comment );
-			$comment_list_item = ob_get_contents();
-		ob_end_clean();
-		$x->add( array(
-			'what' => 'comment',
-			'id' => $comment->comment_ID,
-			'data' => $comment_list_item
-		) );
-	}
-	$x->send();
-	break;
 case 'get-comments' :
 	check_ajax_referer( $action );
 
 	$post_ID = (int) $_POST['post_ID'];
 	if ( !current_user_can( 'edit_post', $post_ID ) )
 		die('-1');
+
+	set_current_screen( 'edit-comments' );
 
 	$wp_list_table = get_list_table('WP_Post_Comments_List_Table');
 
@@ -1161,8 +1135,7 @@ case 'inline-save':
 			die( __('You are not allowed to edit this post.') );
 	}
 
-	if ( isset($_POST['screen']) )
-		set_current_screen($_POST['screen']);
+	set_current_screen( $_POST['screen'] );
 
 	if ( $last = wp_check_post_lock( $post_ID ) ) {
 		$last_user = get_userdata( $last );
@@ -1209,7 +1182,7 @@ case 'inline-save':
 case 'inline-save-tax':
 	check_ajax_referer( 'taxinlineeditnonce', '_inline_edit' );
 
-	set_current_screen('edit-' . $_POST['taxonomy']);
+	set_current_screen( 'edit-' . $_POST['taxonomy'] );
 
 	$wp_list_table = get_list_table('WP_Terms_List_Table');
 

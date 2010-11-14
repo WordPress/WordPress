@@ -17,7 +17,6 @@
 class WP_Comments_List_Table extends WP_List_Table {
 
 	var $checkbox = true;
-	var $from_ajax = false;
 
 	var $pending_count = array();
 
@@ -411,7 +410,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 				( ( ( 'approve' == $action || 'unapprove' == $action ) && 2 === $i ) || 1 === $i ) ? $sep = '' : $sep = ' | ';
 
 				// Reply and quickedit need a hide-if-no-js span when not added with ajax
-				if ( ( 'reply' == $action || 'quickedit' == $action ) && ! $this->from_ajax )
+				if ( ( 'reply' == $action || 'quickedit' == $action ) && ! defined('DOING_AJAX') )
 					$action .= ' hide-if-no-js';
 				elseif ( ( $action == 'untrash' && $the_comment_status == 'trash' ) || ( $action == 'unspam' && $the_comment_status == 'spam' ) ) {
 					if ( '1' == get_comment_meta( $comment->comment_ID, '_wp_trash_meta_status', true ) )
