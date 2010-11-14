@@ -1209,6 +1209,8 @@ case 'inline-save':
 case 'inline-save-tax':
 	check_ajax_referer( 'taxinlineeditnonce', '_inline_edit' );
 
+	set_current_screen('edit-' . $_POST['taxonomy']);
+
 	$wp_list_table = get_list_table('WP_Terms_List_Table');
 
 	$wp_list_table->check_permissions('edit');
