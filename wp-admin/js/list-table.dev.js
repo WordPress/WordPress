@@ -45,8 +45,7 @@ window.listTable = {
 		if ( this.loading )
 			return false;
 
-		var different = false
-			data = {};
+		var different = false, data = {};
 
 		$.each(args, function(key, val) {
 			if ( val != $.query.GET(key) ) {
