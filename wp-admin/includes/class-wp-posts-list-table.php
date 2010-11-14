@@ -703,9 +703,6 @@ class WP_Posts_List_Table extends WP_List_Table {
 				$flat_taxonomies[] = $taxonomy;
 		}
 
-		list( $columns, $hidden ) = $this->get_column_info();
-
-		$col_count = count( $columns ) - count( $hidden );
 		$m = ( isset( $mode ) && 'excerpt' == $mode ) ? 'excerpt' : 'list';
 		$can_publish = current_user_can( $post_type_object->cap->publish_posts );
 		$core_columns = array( 'cb' => true, 'date' => true, 'title' => true, 'categories' => true, 'tags' => true, 'comments' => true, 'author' => true );
@@ -720,12 +717,10 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 		<tr id="<?php echo $bulk ? 'bulk-edit' : 'inline-edit'; ?>" class="inline-edit-row inline-edit-row-<?php echo "$hclass inline-edit-$screen->post_type ";
 			echo $bulk ? "bulk-edit-row bulk-edit-row-$hclass bulk-edit-$screen->post_type" : "quick-edit-row quick-edit-row-$hclass inline-edit-$screen->post_type";
-		?>" style="display: none"><td colspan="<?php echo $col_count; ?>">
+		?>" style="display: none"><td colspan="<?php echo $this->get_column_count(); ?>" class="colspanchange">
 
 		<fieldset class="inline-edit-col-left"><div class="inline-edit-col">
 			<h4><?php echo $bulk ? __( 'Bulk Edit' ) : __( 'Quick Edit' ); ?></h4>
-
-
 	<?php
 
 	if ( post_type_supports( $screen->post_type, 'title' ) ) :
@@ -976,6 +971,8 @@ class WP_Posts_List_Table extends WP_List_Table {
 		</div></fieldset>
 
 	<?php
+		list( $columns ) = $this->get_column_info();
+
 		foreach ( $columns as $column_name => $column_display_name ) {
 			if ( isset( $core_columns[$column_name] ) )
 				continue;

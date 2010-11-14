@@ -550,6 +550,20 @@ class WP_List_Table {
 	}
 
 	/**
+	 * Return number of visible columns
+	 *
+	 * @since 3.1.0
+	 * @access public
+	 *
+	 * @return int
+	 */
+	function get_column_count() {
+		list ( $columns, $hidden ) = $this->get_column_info();
+		$hidden = array_intersect( array_keys( $columns ), array_filter( $hidden ) );
+		return count( $columns ) - count( $hidden );
+	}
+
+	/**
 	 * Print column headers, accounting for hidden and sortable columns.
 	 *
 	 * @since 3.1.0

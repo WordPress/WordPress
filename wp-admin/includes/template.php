@@ -331,14 +331,10 @@ function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single', 
 
 	$wp_list_table = get_list_table('WP_Comments_List_Table');
 
-	list ( $columns, $hidden ) = $wp_list_table->get_column_info();
-	$hidden = array_intersect( array_keys( $columns ), array_filter( $hidden ) );
-	$col_count = count($columns) - count($hidden);
-
 ?>
 <form method="get" action="">
 <?php if ( $table_row ) : ?>
-<table style="display:none;"><tbody id="com-reply"><tr id="replyrow" style="display:none;"><td colspan="<?php echo $col_count; ?>">
+<table style="display:none;"><tbody id="com-reply"><tr id="replyrow" style="display:none;"><td colspan="<?php echo $wp_list_table->get_column_count(); ?>" class="colspanchange">
 <?php else : ?>
 <div id="com-reply" style="display:none;"><div id="replyrow" style="display:none;">
 <?php endif; ?>

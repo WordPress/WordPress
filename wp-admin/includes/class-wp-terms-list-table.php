@@ -308,14 +308,10 @@ class WP_Terms_List_Table extends WP_List_Table {
 
 		if ( ! current_user_can( $tax->cap->edit_terms ) )
 			return;
-
-		list( $columns, $hidden ) = $this->get_column_info();
-
-		$col_count = count( $columns ) - count( $hidden );
-		?>
+?>
 
 	<form method="get" action=""><table style="display: none"><tbody id="inlineedit">
-		<tr id="inline-edit" class="inline-edit-row" style="display: none"><td colspan="<?php echo $col_count; ?>">
+		<tr id="inline-edit" class="inline-edit-row" style="display: none"><td colspan="<?php echo $this->get_column_count(); ?>" class="colspanchange">
 
 			<fieldset><div class="inline-edit-col">
 				<h4><?php _e( 'Quick Edit' ); ?></h4>
@@ -330,11 +326,12 @@ class WP_Terms_List_Table extends WP_List_Table {
 					<span class="input-text-wrap"><input type="text" name="slug" class="ptitle" value="" /></span>
 				</label>
 	<?php } ?>
-
 			</div></fieldset>
 	<?php
 
 		$core_columns = array( 'cb' => true, 'description' => true, 'name' => true, 'slug' => true, 'posts' => true );
+
+		list( $columns ) = $this->get_column_info();
 
 		foreach ( $columns as $column_name => $column_display_name ) {
 			if ( isset( $core_columns[$column_name] ) )

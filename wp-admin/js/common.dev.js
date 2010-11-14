@@ -147,10 +147,12 @@ columns = {
 
 	checked : function(column) {
 		$('.column-' + column).show();
+		this.colSpanChange(+1);
 	},
 
 	unchecked : function(column) {
 		$('.column-' + column).hide();
+		this.colSpanChange(-1);
 	},
 
 	hidden : function() {
@@ -164,6 +166,14 @@ columns = {
 				return id.substring( id, id.length - 5 );
 			}).get().join(',');
 		};
+	},
+
+	colSpanChange : function(diff) {
+		var $t = $('table').find('.colspanchange');
+		if ( !$t.length )
+			return;
+		var n = parseInt( $t.attr('colspan'), 10 ) + diff;
+		$t.attr('colspan', n.toString());
 	}
 }
 
