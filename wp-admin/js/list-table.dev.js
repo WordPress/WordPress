@@ -45,7 +45,8 @@ window.listTable = {
 		if ( this.loading )
 			return false;
 
-		var different = false, data;
+		var different = false
+			data = {};
 
 		$.each(args, function(key, val) {
 			if ( val != $.query.GET(key) ) {
@@ -62,7 +63,12 @@ window.listTable = {
 		if ( reset_paging )
 			$.query.SET('paged', 1);
 
-		data = $.query.get();
+		$.each( $.query.get(), function(key, value) {
+			if ( true === value )
+				data[key] = '';
+			else
+				data[key] = value;		
+		});
 
 		this._callback = callback;
 
