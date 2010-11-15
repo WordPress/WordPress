@@ -1822,7 +1822,7 @@ class WP_Query {
 			unset($ptype_obj);
 		}
 
-		if ( '' != $q['name'] ) {
+		if ( '' != $q['name'] && !$q['p'] ) {
 			$q['name'] = sanitize_title_for_query( $q['name'] );
 			$where .= " AND $wpdb->posts.post_name = '" . $q['name'] . "'";
 		} elseif ( '' != $q['pagename'] ) {
