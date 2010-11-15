@@ -239,15 +239,15 @@ function media_handle_upload($file_id, $post_id, $post_data = array(), $override
 }
 
 /**
- * {@internal Missing Short Description}}
+ * This handles a sideloaded file in the same way as an uploaded file is handled by {@link media_handle_upload()}
  *
- * @since unknown
+ * @since 2.6
  *
- * @param unknown_type $file_array
- * @param unknown_type $post_id
- * @param unknown_type $desc
- * @param unknown_type $post_data
- * @return unknown
+ * @param array $file_array Array similar to a {@link $_FILES} upload array
+ * @param int $post_id The post ID the media is associated with
+ * @param string $desc Description of the sideloaded file
+ * @param array $post_data allows you to overwrite some of the attachment
+ * @return int|object The ID of the attachment or a WP_Error on failure
  */
 function media_handle_sideload($file_array, $post_id, $desc = null, $post_data = array()) {
 	$overrides = array('test_form'=>false);
@@ -283,10 +283,9 @@ function media_handle_sideload($file_array, $post_id, $desc = null, $post_data =
 
 	// Save the attachment metadata
 	$id = wp_insert_attachment($attachment, $file, $post_id);
-	if ( !is_wp_error($id) ) {
+	if ( !is_wp_error($id) )
 		wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $file ) );
-		return $url;
-	}
+
 	return $id;
 }
 
@@ -518,14 +517,14 @@ function media_sideload_image($file, $post_id, $desc = null) {
 		$file_array['tmp_name'] = $tmp;
 
 		// If error storing temporarily, unlink
-		if ( is_wp_error($tmp) ) {
+		if ( is_wp_error( $tmp ) ) {
 			@unlink($file_array['tmp_name']);
 			$file_array['tmp_name'] = '';
 		}
 
 		// do the validation and storage stuff
-		$id = media_handle_sideload($file_array, $post_id, @$desc);
-		$src = $id;
+		$id = media_handle_sideload( $file_array, $post_id, @$desc );
+		$src = get_attachment_link( $id );
 
 		// If error storing permanently, unlink
 		if ( is_wp_error($id) ) {
