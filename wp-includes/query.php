@@ -1461,12 +1461,13 @@ class WP_Query {
 	}
 
 	/*
-	 * Populates the 'tax_query' property
+	 * Parses various taxonomy related query vars and sets the appropriate query flags
 	 *
 	 * @access protected
 	 * @since 3.1.0
 	 *
 	 * @param array &$q The query variables
+	 * @return array tax query
 	 */
 	function parse_tax_query( &$q ) {
 		if ( ! empty( $q['tax_query'] ) && is_array( $q['tax_query'] ) ) {
@@ -1580,9 +1581,7 @@ class WP_Query {
 			);
 		}
 
-		$q['tax_query'] = $tax_query;
-
-		foreach ( $q['tax_query'] as $query ) {
+		foreach ( $tax_query as $query ) {
 			if ( 'IN' == $query['operator'] ) {
 				switch ( $query['taxonomy'] ) {
 					case 'category':
@@ -1596,6 +1595,8 @@ class WP_Query {
 				}
 			}
 		}
+
+		return $tax_query;
 	}
 
 	/**
@@ -1930,6 +1931,7 @@ class WP_Query {
 		$search = apply_filters_ref_array('posts_search', array( $search, &$this ) );
 
 		// Taxonomies
+		$q['tax_query'] = $this->parse_tax_query( $q );
 		if ( !empty( $q['tax_query'] ) ) {
 			if ( empty($post_type) ) {
 				$post_type = 'any';
@@ -1941,7 +1943,7 @@ class WP_Query {
 			$where .= get_tax_sql( $q['tax_query'], "$wpdb->posts.ID" );
 
 			// Back-compat
-			$cat_query = wp_list_filter( $q['tax_query'], array( 'taxonomy' => 'category' ) );
+			$cat_query = wp_list_filter( $q['tax_query'], array( 'taxonomy' => 'category', 'operator' => 'IN' ) );
 			if ( !empty( $cat_query ) ) {
 				$cat_query = reset( $cat_query );
 				$cat = get_term_by( $cat_query['field'], $cat_query['terms'][0], 'category' );
