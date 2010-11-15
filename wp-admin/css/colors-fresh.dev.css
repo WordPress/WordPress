@@ -564,6 +564,7 @@ input.readonly, textarea.readonly {
 
 #edit-slug-box strong,
 .tablenav .displaying-num,
+#submitted-on,
 .submitted-on {
 	color: #777;
 }
