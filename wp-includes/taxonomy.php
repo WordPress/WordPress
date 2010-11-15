@@ -564,7 +564,7 @@ function get_objects_in_term( $terms, $taxonomies, $args = array() ) {
  * - 'terms' string|array The list of terms
  * - 'field' string (optional) Which term field is being used.
  *		Possible values: 'term_id', 'slug' or 'name'
- *		Default: 'slug'
+ *		Default: 'term_id'
  * - 'operator' string (optional)
  *		Possible values: 'IN' and 'NOT IN'.
  *		Default: 'IN'
