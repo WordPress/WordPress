@@ -23,7 +23,11 @@ var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>',
 <?php
 wp_print_scripts( array('jquery', 'jquery-ui-widget') );
 ?>
-<script type="text/javascript" src="plugins/wplink/js/wplink.js?ver=20101023"></script>
+<?php
+	$suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '.dev' : '';
+	$src = "plugins/wplink/js/wplink$suffix.js?ver=20101023";
+?>
+<script type="text/javascript" src="<?php echo $src; ?>"></script>
 <?php
 wp_admin_css( 'global', true );
 wp_admin_css( 'wp-admin', true );
@@ -43,26 +47,11 @@ select {
 	height: 2em;
 }
 
-#link-header,
 #link-options,
 #link-advanced-options {
 	padding: 5px;
 	border-bottom: 1px solid #dfdfdf;
 }
-	#link-header {
-		padding-bottom: 0;
-		background: #fff;
-	}
-	#link-panel-tab-bar li {
-		font-weight: bold;
-		border: #dfdfdf solid;
-		margin-right: 5px;
-		border-width: 1px 1px 0;
-	}
-	#link-panel-tab-bar .wp-tab-active {
-		border-color:#ccc;
-		background-color: #f1f1f1;
-	}
 
 #link-type {
 	width: 140px;
@@ -77,12 +66,9 @@ select {
 	}
 
 label input[type="text"] {
-	width: 220px;
+	width: 360px;
+	margin-top: 5px;
 }
-	.wp-tab-panel label input[type="text"] {
-		float: left;
-		width: 200px;
-	}
 
 label span {
 	display: inline-block;
@@ -90,20 +76,21 @@ label span {
 	text-align: right;
 	padding-right: 5px;
 }
-	.wp-tab-panel label span {
-		width: auto;
-		text-align: left;
-		float: left;
-		margin-top: 3px;
-	}
 	.link-search-wrapper {
 		padding: 5px;
-		border-bottom: solid 1px #dfdfdf;
 		display: block;
 		overflow: hidden;
 	}
+		.link-search-wrapper span {
+			float: left;
+			margin-top: 6px;
+		}
+		.link-search-wrapper input[type="text"] {
+			float: left;
+			width: 220px;
+		}
 		.link-search-wrapper img.waiting {
-			margin: 4px 1px 0 4px;
+			margin: 8px 1px 0 4px;
 			float: left;
 			display: none;
 		}
@@ -116,9 +103,53 @@ label span {
 		margin-left: 10px;
 		font-size: 11px;
 	}
+	
+.query-results {
+	border: #dfdfdf solid;
+	border-width: 1px 0;
+	margin: 5px 0;
+	background: #fff;
+	height: 220px;
+	overflow: auto;
+}
+	.query-results li {
+		margin-bottom: 0;
+		border-bottom: 1px solid #dfdfdf;
+		color: #555;
+		padding: 4px 6px;
+		cursor: pointer;
+	}
+	.query-results li:hover {
+		background: #EAF2FA;
+		color: #333;
+	}
+	.query-results li.selected {
+		background: #f1f1f1;
+		font-weight: bold;
+		color: #333;
+	}
+.item-info {
+	text-transform: uppercase;
+	color: #aaa;
+	font-weight: bold;
+	font-size: 11px;
+	float: right;
+}
+#search-results {
+	display: none;
+}
+	
+.wp-results-pagelinks {
+	padding:4px 0;
+	margin:0 auto;
+	text-align:center;
+}
+	.wp-results-pagelinks-top {
+		border-bottom: 1px solid #dfdfdf;
+	}
 
 .submitbox {
-	padding: 5px;
+	padding: 5px 5px 0;
 	font-size: 11px;
 	overflow: auto;
 	height: 29px;
@@ -134,77 +165,58 @@ label span {
 #wp-update a {
 	display: inline-block;
 }
-.wp-tab-active,
-.wp-tab-panel {
-	background: #fff;
-}
-	.wp-tab-panel {
-		height: 160px;
-		padding: 0;
-	}
-.wp-tab-panel li {
-	margin-bottom: 0;
-	border-bottom: 1px solid #dfdfdf;
-	color: #555;
-	padding: 4px 6px;
-	cursor: pointer;
-}
-	.wp-tab-panel li:hover {
-		background: #EAF2FA;
-		color: #333;
-	}
-	.wp-tab-panel li.selected {
-		background: #f1f1f1;
-		font-weight: bold;
-		color: #333;
-	}
-.wp-tab-panel-pagelinks {
-	display: none;
-	padding:4px 0;
-	margin:0 auto;
-	text-align:center;
-}
-	.wp-tab-panel-pagelinks-top {
-		border-bottom: 1px solid #dfdfdf;
-	}
 </style>
 </head>
 <?php
-// @TODO: Support custom post types.
-// $pts = get_post_types( array( 'public' => true ), 'objects' );
-$pts = array( get_post_type_object( 'post' ), get_post_type_object( 'page' ) );
-$queries = array(
-	array( 'preset' => 'all', 'label' => __('View All') ),
-	array( 'preset' => 'recent', 'label' => __('Most Recent') ),
-	array( 'preset' => 'search', 'label' => __('Search') )
-);
-
-$tb = new WP_Tab_Bar();
-$tb->id = 'link-panel-tab-bar';
-$tb->add( 'link-panel-id-custom', __('External Link') );
-foreach( $pts as $pt ) {
-	$tb->add( "link-panel-id-pt-$pt->name", $pt->labels->singular_name );
-}
 
 
 ?>
 <body id="post-body">
-<div id="link-header">
-	<?php $tb->render(); ?>
-</div>
 <div id="link-selector">
-	<?php
-	wp_link_panel_custom();
-	foreach( $pts as $pt )
-		wp_link_panel_structure('pt', $pt->name, $queries);
-	?>
 	<div id="link-options">
+		<label for="url-field">
+			<span><?php _e('URL:'); ?></span><input id="url-field" type="text" />
+		</label>
 		<label for="link-title-field">
 			<span><?php _e('Description:'); ?></span><input id="link-title-field" type="text" />
 		</label>
 		<label for="link-target-checkbox" id="open-in-new-tab">
 			<input type="checkbox" id="link-target-checkbox" /><span><?php _e('Open in new tab'); ?></span>
 		</label>
+	</div>
+	<div id="search-panel">
+		<label for="search-field" class="link-search-wrapper">
+			<span><?php _e('Search:'); ?></span>
+			<input type="text" id="search-field" class="link-search-field" />
+			<img class="waiting" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
+		</label>
+		
+		<div id="search-results" class="query-results">
+			<div class="wp-results-pagelinks wp-results-pagelinks-top"></div>
+			<ul>
+				<li class="wp-results-loading unselectable"><em><?php _e('Loading...'); ?></em></li>
+			</ul>
+			<div class="wp-results-pagelinks wp-results-pagelinks-bottom"></div>
+		</div>
+		
+		<?php $most_recent = wp_link_query(); ?>
+		<div id="most-recent-results" class="query-results">
+			<div class="wp-results-pagelinks wp-results-pagelinks-top">
+				<?php echo $most_recent['pages']['page_links']; ?>
+			</div>
+			<ul>
+				<?php foreach ( $most_recent['results'] as $item ): ?>
+					<li>
+						<input type="hidden" class="item-permalink" value="<?php echo esc_url( $item['permalink'] ); ?>" />
+						<span class="item-title"><?php echo $item['title']; ?></span>
+						<span class="item-info"><?php echo esc_html( $item['info'] ); ?></span>
+					</li>
+				<?php endforeach; ?>
+			</ul>
+			<div class="wp-results-pagelinks wp-results-pagelinks-bottom">
+				<?php echo $most_recent['pages']['page_links']; ?>
+			</div>
+		</div>
 	</div>
 </div>
 <div class="submitbox">

@@ -13,8 +13,8 @@
 			ed.addCommand('WP_Link', function() {
 				ed.windowManager.open({
 					file : tinymce.baseURL + '/wp-mce-link.php',
-					width : 320,
-					height : 340,
+					width : 480,
+					height : 400,
 					inline : 1
 				}, {
 					plugin_url : url // Plugin absolute URL

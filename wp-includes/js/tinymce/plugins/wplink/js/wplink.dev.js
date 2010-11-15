@@ -1,137 +1,50 @@
-(function($){
-	$.widget('wp.wpTabs', {
-		options: {},
-		_create: function() {
-			var self = this,
-				ul = this.element,
-				lis = ul.children();
-			
-			this.active = lis.filter('.wp-tab-active');
-			// Calculate panel IDs
-			lis.each(function() {
-				var panel = self._getPanel( $(this) );
-				if ( self.active[0] == this )
-					panel.show();
-				else
-					panel.hide();
-			});
-			
-			ul.delegate('li', 'click.wpTabs', function(e) {
-				var li = $(this);
-				
-				// Prevent any child link from redirecting the page.
-				e.preventDefault();
-				// Deactivate previous tab.
-				self._getPanel( self.active ).hide();
-				self.active.removeClass('wp-tab-active');
-				self._trigger("hide", e, self.widget() );
-				
-				// Activate current tab.
-				self.active = li.addClass('wp-tab-active');
-				self._getPanel( self.active ).show();
-				self._trigger("show", e, self.widget() );
-			});
-		},
-		widget: function() {
-			return {
-				ul: this.element,
-				tab: this.active,
-				panel: this._getPanel( this.active )
-			};
-		},
-		_setPanel: function( $el ) {
-			var panel = $( '#' + $el.children('.wp-tab-for-id').val() );
-			$el.data( 'wp-tab-panel', panel );
-			return panel;
-		},
-		_getPanel: function( $el ) {
-			var panel = $el.data('wp-tab-panel');
-			return ( !panel || !panel.length ) ? this._setPanel( $el ) : panel;
-		}
-	});
-	// Create tab bars by default.
-	$(function(){
-		$('.wp-tab-bar').wpTabs();
-	});
-})(jQuery);
-
 (function($){	
-	var inputs = {}, panels, active, ed,
+	var inputs = {}, results = {}, ed,
 	wpLink = {
 		init : function() {
 			var e, etarget, eclass;
 			// Init shared vars
 			ed = tinyMCEPopup.editor;
+			
+			
+			// URL
+			inputs.url = $('#url-field');
 			// Secondary options
 			inputs.title = $('#link-title-field');
 			// Advanced Options
 			inputs.openInNewTab = $('#link-target-checkbox');
-			
-			panels = $('.link-panel');
-			active = $('.link-panel-active');
-			$('#link-panel-tab-bar').wpTabs({
-				show: function(e, widget) {
-					active = widget.panel;
-					active.addClass('link-panel-active');
-					wpLink.maybeLoadPanel();
-				},
-				hide: function(e, widget) {
-					active.removeClass('link-panel-active');
-				}
-			})
-			
-			panels.each( function(){
-				var linkType = this.id.replace(/^link-panel-id-/,''),
-					parts = linkType.split('-');
-				$(this).data( 'link-type', {
-					full : linkType,
-					type : parts[0],
-					name : parts[1] || ''
-				});
-			});
+			inputs.search = $('#search-field');
+			// Result lists
+			results.search = $('#search-results');
+			results.recent = $('#most-recent-results');
 			
 			// Bind event handlers
 			$('#wp-update').click( wpLink.update );
 			$('#wp-cancel').click( function() { tinyMCEPopup.close(); } );
-			$('.link-panel .wp-tab-bar').wpTabs('option', 'show', wpLink.maybeLoadPanel );
-			$('.link-panel .wp-tab-panel').delegate('li', 'click', wpLink.selectInternalLink );
-			$('.wp-tab-panel-pagelinks').delegate('a', 'click', wpLink.selectPageLink );
-			$('.link-panel .link-search-field').keyup( wpLink.searchInternalLinks );
-
-			active.find('input.url-field').focus();
+			$('.query-results').delegate('li', 'click', wpLink.selectInternalLink );
+			$('.wp-results-pagelinks').delegate('a', 'click', wpLink.selectPageLink );
+			inputs.search.keyup( wpLink.searchInternalLinks );
 
 			// If link exists, select proper values.
-			e = ed.dom.getParent(ed.selection.getNode(), 'A');
-			if ( ! e )
-				return;
-			
-			active.find('input.url-field').val( e.href );
-			inputs.title.val( ed.dom.getAttrib(e, 'title') );
-			// Advanced Options
-			
-			if ( "_blank" == ed.dom.getAttrib(e, 'target') )
-				inputs.openInNewTab.attr('checked','checked');
+			if ( e = ed.dom.getParent(ed.selection.getNode(), 'A') ) {
+				// Set URL and description.
+				inputs.url.val( e.href );
+				inputs.title.val( ed.dom.getAttrib(e, 'title') );
+				// Set open in new tab.
+				if ( "_blank" == ed.dom.getAttrib(e, 'target') )
+					inputs.openInNewTab.attr('checked','checked');
+			}
 		},
 		
 		update : function() {
 			var el,
 				ed = tinyMCEPopup.editor,
 				attrs = {
+					href : inputs.url.val(),
 					title : inputs.title.val(),
 					target : inputs.openInNewTab.attr('checked') ? '_blank' : ''
-				}, defaultContent, e, b;
-			
-			if ( active.hasClass('link-panel-custom') ) {
-				attrs.href = active.find('input.url-field').val();
-				defaultContent = attrs.href;
-			} else {
-				el = active.find('li.selected:visible');
-				if ( !el.length )
-					return;
-				
-				attrs.href = el.children('input').val();
-				defaultContent = el.text();
-			}
+				}, e, b,
+				defaultContent = attrs.title ? attrs.title : attrs.href;
 			
 			tinyMCEPopup.restoreSelection();
 			e = ed.dom.getParent(ed.selection.getNode(), 'A');
@@ -190,47 +103,14 @@
 			tinyMCEPopup.close();
 		},
 		
-		maybeLoadPanel : function() {
-			var panel = active.find('.wp-tab-panel:visible');
-			if ( panel.length && panel.find('.wp-tab-panel-loading').length )
-				wpLink.linkPanelAJAX( panel );
-		},
-		
-		linkPanelAJAX : function( $panel, params, callback ) {
-			if ( ! $panel.hasClass('wp-tab-panel') )
-				$panel = $panel.parents('.wp-tab-panel');
-			
-			if ( ! $panel.length )
-				return;
-				
-			var query = $panel.children('.wp-tab-panel-query').val();
-			
-			wpLink.linkAJAX( $panel, $.extend({
-				preset : query,
-				page : 'all' == query ? 1 : 0
-			}, params), function(r, lt) {
-				var pagelinks = $panel.children('.wp-tab-panel-pagelinks');
-				
-				// Set results
-				$panel.children('ul').html( wpLink.generateListMarkup( r['results'], lt ) );
-				
-				// Handle page links
-				if ( r['page_links'] )
-					pagelinks.html( r['page_links'] ).show();
-				else
-					pagelinks.hide();
-				// Run callback
-				if ( callback )
-					callback(r, lt);
-			})
-		},
-		
 		selectInternalLink : function() {
 			var t = $(this);
 			if ( t.hasClass('unselectable') )
 				return;
 			t.siblings('.selected').removeClass('selected');
 			t.addClass('selected');
+			inputs.url.val( t.children('.item-permalink').val() );
+			inputs.title.val( t.children('.item-title').text() );
 		},
 		
 		selectPageLink : function(e) {
@@ -239,37 +119,62 @@
 			page = page ? page[1] : 1; // If there's no match, it's the first page.
 			e.preventDefault(); // Prevent the link from redirecting.
 			
-			wpLink.linkPanelAJAX( $(this), { page : page });
+			wpLink.linkAJAX( $(this), { page : page });
 		},
 		
 		searchInternalLinks : function() {
-			var t = $(this),
+			var t = $(this), waiting,
+				title = t.val();
+			
+			if ( title ) {
+				results.recent.hide();
+				results.search.show();
 				waiting = t.siblings('img.waiting').show();
-				
-			wpLink.linkPanelAJAX( t, { title : t.val() }, function(){ waiting.hide(); });
+				wpLink.linkAJAX( results.search, { title : title }, function(){ waiting.hide(); });
+			} else {
+				results.search.hide();
+				results.recent.show();
+			}
 		},
 		
-		linkAJAX : function( el, params, callback ) {
-			var linkType = el.parents('.link-panel').data('link-type');
+		linkAJAX : function( $panel, params, callback ) {
+			if ( ! $panel.hasClass('query-results') )
+				$panel = $panel.parents('.query-results');
+			
+			if ( ! $panel.length )
+				return;
+			
 			$.post( ajaxurl, $.extend({
-				action : 'wp-link-ajax',
-				type : linkType.type,
-				name : linkType.name
+				action : 'wp-link-ajax'
 			}, params ), function(r) {
-				return callback(r, linkType); 
+				var pagelinks = $panel.children('.wp-results-pagelinks');
+				
+				// Set results
+				$panel.children('ul').html( wpLink.generateListMarkup( r['results'] ) );
+				
+				// Handle page links
+				if ( r['page_links'] )
+					pagelinks.html( r['page_links'] ).show();
+				else
+					pagelinks.hide();
+				
+				// Run callback
+				if ( callback )
+					callback( r['results'] );
 			}, "json" );
 		},
 		
-		generateListMarkup : function( results, linkType ) {
+		generateListMarkup : function( results ) {
 			var s = '';
 			
 			if ( ! results )
-				return '<li class="no-matches-found unselectable"><em>' + wpLinkL10n.noMatchesFound + '</em></li>';
+				return '<li class="no-matches-found unselectable"><span class="item-title"><em>' + wpLinkL10n.noMatchesFound + '</em></span></li>';
 			
 			$.each( results, function() {
-				s+= '<li id="link-to-' + linkType.full + '-' + this['ID'] + '">';
-				s+= '<input type="hidden" value="' + this['permalink'] + '" />';
+				s+= '<li><input type="hidden" class="item-permalink" value="' + this['permalink'] + '" />';
+				s+= '<span class="item-title">'
 				s+= this['title'] ? this['title'] : '<em>'+ wpLinkL10n.untitled + '</em>';
+				s+= '</span><span class="item-info">' + this['info'] + '</span>';
 				s+= '</li>';
 			});
 			return s;
