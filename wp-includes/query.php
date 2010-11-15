@@ -1943,13 +1943,30 @@ class WP_Query {
 			$where .= get_tax_sql( $q['tax_query'], "$wpdb->posts.ID" );
 
 			// Back-compat
-			$cat_query = wp_list_filter( $q['tax_query'], array( 'taxonomy' => 'category', 'operator' => 'IN' ) );
-			if ( !empty( $cat_query ) ) {
-				$cat_query = reset( $cat_query );
-				$cat = get_term_by( $cat_query['field'], $cat_query['terms'][0], 'category' );
-				if ( $cat ) {
-					$this->set( 'cat', $cat->term_id );
-					$this->set( 'category_name', $cat->slug );
+			$tax_query_in = wp_list_filter( $q['tax_query'], array( 'operator' => 'IN' ) );
+			if ( !empty( $tax_query_in ) ) {
+				if ( !isset( $q['taxonomy'] ) ) {
+					foreach ( $tax_query_in as $a_tax_query ) {
+						if ( !in_array( $a_tax_query['taxonomy'], array( 'category', 'post_tag' ) ) ) {
+							$q['taxonomy'] = $a_tax_query['taxonomy'];
+							if ( 'slug' == $a_tax_query['field'] )
+								$q['term'] = $a_tax_query['terms'][0];
+							else
+								$q['term_id'] = $a_tax_query['terms'][0];
+
+							break;
+						}
+					}
+				}
+
+				$cat_query = wp_list_filter( $tax_query_in, array( 'taxonomy' => 'category' ) );
+				if ( !empty( $cat_query ) ) {
+					$cat_query = reset( $cat_query );
+					$cat = get_term_by( $cat_query['field'], $cat_query['terms'][0], 'category' );
+					if ( $cat ) {
+						$this->set( 'cat', $cat->term_id );
+						$this->set( 'category_name', $cat->slug );
+					}
 				}
 			}
 		}

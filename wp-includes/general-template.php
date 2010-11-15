@@ -549,7 +549,8 @@ function wp_title($sep = '&raquo;', $display = true, $seplocation = '') {
 
 	// If there's a taxonomy
 	if ( is_tax() ) {
-		$tax = get_taxonomy( get_query_var('taxonomy') );
+		$term = get_queried_object();
+		$tax = get_taxonomy( $term->taxonomy );
 		$title = single_term_title( $tax->labels->name . $t_sep, false );
 	}
 
