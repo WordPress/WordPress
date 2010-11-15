@@ -917,7 +917,7 @@ function register_post_type($post_type, $args = array()) {
 		$args->exclude_from_search = !$args->public;
 
 	// Back compat with quirky handling in version 3.0. #14122
-	if ( 'post' == $args->capability_type && null === $args->map_meta_cap && empty( $args->capabilities ) )
+	if ( empty( $args->capabilities ) && null === $args->map_meta_cap && in_array( $args->capability_type, array( 'post', 'page' ) ) )
 		$args->map_meta_cap = true;
 
 	if ( null === $args->map_meta_cap )
