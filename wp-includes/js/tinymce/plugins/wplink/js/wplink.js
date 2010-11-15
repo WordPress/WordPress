@@ -97,7 +97,9 @@
 			$('.link-panel .wp-tab-panel').delegate('li', 'click', wpLink.selectInternalLink );
 			$('.wp-tab-panel-pagelinks').delegate('a', 'click', wpLink.selectPageLink );
 			$('.link-panel .link-search-field').keyup( wpLink.searchInternalLinks );
-			
+
+			active.find('input.url-field').focus();
+
 			// If link exists, select proper values.
 			e = ed.dom.getParent(ed.selection.getNode(), 'A');
 			if ( ! e )
