@@ -1420,13 +1420,8 @@ case 'set-post-thumbnail':
 		die( _wp_post_thumbnail_html() );
 	}
 
-	if ( $thumbnail_id && get_post( $thumbnail_id ) ) {
-		$thumbnail_html = wp_get_attachment_image( $thumbnail_id, 'thumbnail' );
-		if ( !empty( $thumbnail_html ) ) {
-			update_post_meta( $post_ID, '_thumbnail_id', $thumbnail_id );
-			die( _wp_post_thumbnail_html( $thumbnail_id ) );
-		}
-	}
+	if ( set_post_thumbnail( $post_ID, $thumbnail_id ) )
+		die( _wp_post_thumbnail_html( $thumbnail_id ) );
 	die( '0' );
 	break;
 case 'date_format' :

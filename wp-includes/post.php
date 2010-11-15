@@ -5257,4 +5257,25 @@ function get_post_format_string( $slug ) {
 	return ( isset( $strings[$slug] ) ) ? $strings[$slug] : '';
 }
 
+/**
+ * Sets a post thumbnail.
+ *
+ * @since 3.1.0
+ *
+ * @param int|object $post Post ID or object where thumbnail should be attached.
+ * @param int $thumbnail_id Thumbnail to attach.
+ * @return bool True on success, false on failure.
+ */
+function set_post_thumbnail( $post, $thumbnail_id ) {
+	$post = get_post( $post );
+	if ( $post && $thumbnail_id && get_post( $thumbnail_id ) ) {
+		$thumbnail_html = wp_get_attachment_image( $thumbnail_id, 'thumbnail' );
+		if ( ! empty( $thumbnail_html ) ) {
+			update_post_meta( $post->ID, '_thumbnail_id', $thumbnail_id );
+			return true;
+		}
+	}
+	return false;
+}
+
 ?>
