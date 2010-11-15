@@ -586,7 +586,7 @@ function get_tax_sql( $tax_query, $object_id_column ) {
 
 		$sql_single = get_objects_in_term( $query['terms'], $query['taxonomy'], $query );
 
-		if ( empty( $sql_single ) )
+		if ( empty( $sql_single ) || is_wp_error( $sql_single ) )
 			return ' AND 0 = 1';
 
 		$sql[] = $sql_single;
