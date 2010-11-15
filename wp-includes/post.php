@@ -5268,6 +5268,7 @@ function get_post_format_string( $slug ) {
  */
 function set_post_thumbnail( $post, $thumbnail_id ) {
 	$post = get_post( $post );
+	$thumbnail_id = absint( $thumbnail_id );
 	if ( $post && $thumbnail_id && get_post( $thumbnail_id ) ) {
 		$thumbnail_html = wp_get_attachment_image( $thumbnail_id, 'thumbnail' );
 		if ( ! empty( $thumbnail_html ) ) {
