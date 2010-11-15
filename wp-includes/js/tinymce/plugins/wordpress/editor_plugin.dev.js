@@ -166,6 +166,7 @@
 			});
 			
 			ed.onInit.add(function(ed) {
+				// make sure these run last
 				ed.onNodeChange.add( function(ed, cm, e) {
 					var DL;
 
@@ -185,6 +186,14 @@
 							cm.setActive('justifyright', 1);
 						else if ( ed.dom.hasClass(DL, 'aligncenter') )
 							cm.setActive('justifycenter', 1);
+					}
+				});
+
+				// remove invalid parent paragraphs when pasting HTML and/or switching to the HTML editor and back
+				ed.onBeforeSetContent.add(function(ed, o) {
+					if ( o.content ) {
+						o.content = o.content.replace(/<p>\s*<(p|div|ul|ol|dl|table|blockquote|h[1-6]|fieldset|pre|address)( [^>]*)?>/gi, '<$1$2>');
+						o.content = o.content.replace(/<\/(p|div|ul|ol|dl|table|blockquote|h[1-6]|fieldset|pre|address)>\s*<\/p>/gi, '</$1>');
 					}
 				});
 			});
