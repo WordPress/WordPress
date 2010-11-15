@@ -4232,7 +4232,7 @@ function get_file_data( $file, $default_headers, $context = '' ) {
 		foreach( $extra_headers as $key=>$value ) {
 			$extra_headers[$key] = $key;
 		}
-		$all_headers = array_merge($extra_headers, $default_headers);
+		$all_headers = array_merge( $extra_headers, (array) $default_headers );
 	} else {
 		$all_headers = $default_headers;
 	}

@@ -13,12 +13,13 @@ $wp_list_table = get_list_table('WP_Posts_List_Table');
 $wp_list_table->check_permissions();
 
 // Back-compat for viewing comments of an entry
-if ( $_redirect = intval( max( @$_REQUEST['p'], @$_REQUEST['attachment_id'], @$_REQUEST['page_id'] ) ) ) {
-	wp_redirect( admin_url('edit-comments.php?p=' . $_redirect ) );
-	exit;
-} else {
-	unset( $_redirect );
+foreach ( array( 'p', 'attachment_id', 'page_id' ) as $_redirect ) {
+	if ( ! empty( $_REQUEST[ $_redirect ] ) ) {
+		wp_redirect( admin_url( 'edit-comments.php?p=' . absint( $_REQUEST[ $_redirect ] ) ) );
+		exit;
+	}
 }
+unset( $_redirect );
 
 // Handle bulk actions
 $doaction = $wp_list_table->current_action();

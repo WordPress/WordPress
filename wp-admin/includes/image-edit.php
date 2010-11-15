@@ -422,7 +422,7 @@ function wp_restore_image($post_id) {
 	$file = get_attached_file($post_id);
 	$backup_sizes = get_post_meta( $post_id, '_wp_attachment_backup_sizes', true );
 	$restored = false;
-	$msg = '';
+	$msg = new stdClass;
 
 	if ( !is_array($backup_sizes) ) {
 		$msg->error = __('Cannot load image metadata.');
@@ -493,7 +493,7 @@ function wp_restore_image($post_id) {
 }
 
 function wp_save_image($post_id) {
-	$return = '';
+	$return = new stdClass;
 	$success = $delete = $scaled = $nocrop = false;
 	$post = get_post($post_id);
 	@ini_set('memory_limit', '256M');
