@@ -65,8 +65,10 @@ function get_category_parents( $id, $link = false, $separator = '/', $nicename =
  */
 function get_the_category( $id = false ) {
 	$categories = get_the_terms( $id, 'category' );
+	if ( ! $categories )
+		$categories = array();
 
-	foreach ( array_keys( (array) $categories ) as $key ) {
+	foreach ( array_keys( $categories ) as $key ) {
 		_make_cat_compat( $categories[$key] );
 	}
 	// Filter name is plural because we are return alot of categories not just one
