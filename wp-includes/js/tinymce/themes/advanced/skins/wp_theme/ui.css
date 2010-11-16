@@ -152,7 +152,9 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 	padding: 1px 2px;
 }
 .wp_themeSkin .mceSplitButton span.mceAction {
-	background: url(../../img/icons.gif) 20px 20px;
+	background-image: url(../../img/icons.gif);
+	background-repeat: no-repeat;
+	background-color: transparent;
 	width:20px; 
 }
 .wp_themeSkin .mceSplitButton a.mceOpen {
