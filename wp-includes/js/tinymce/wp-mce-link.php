@@ -25,7 +25,7 @@ wp_print_scripts( array('jquery', 'jquery-ui-widget') );
 ?>
 <?php
 	$suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '.dev' : '';
-	$src = "plugins/wplink/js/wplink$suffix.js?ver=20101023";
+	$src = "plugins/wplink/js/wplink$suffix.js?ver=20101115";
 ?>
 <script type="text/javascript" src="<?php echo $src; ?>"></script>
 <?php
