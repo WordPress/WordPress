@@ -82,10 +82,9 @@ if (isset($_GET['updated'])) {
 					<label><input name="registration" type="radio" id="registration2" value="user"<?php checked( $reg, 'user') ?> /> <?php _e( 'User accounts may be registered.' ); ?></label><br />
 					<label><input name="registration" type="radio" id="registration3" value="blog"<?php checked( $reg, 'blog') ?> /> <?php _e( 'Logged in users may register new sites.' ); ?></label><br />
 					<label><input name="registration" type="radio" id="registration4" value="all"<?php checked( $reg, 'all') ?> /> <?php _e( 'Both sites and user accounts can be registered.' ); ?></label><br />
-					<p><?php _e( 'Disable or enable registration and who or what can be registered. (Default is disabled.)' ); ?></p>
-					<?php if ( is_subdomain_install() ) {
-						echo '<p>' . __( 'If registration is disabled, please set <code>NOBLOGREDIRECT</code> in <code>wp-config.php</code> to a URL you will redirect visitors to if they visit a non-existent site.' ) . '</p>';
-					} ?>
+					<?php if ( is_subdomain_install() )
+						_e( 'If registration is disabled, please set <code>NOBLOGREDIRECT</code> in <code>wp-config.php</code> to a URL you will redirect visitors to if they visit a non-existent site.' );
+					?>
 				</td>
 			</tr>
 
