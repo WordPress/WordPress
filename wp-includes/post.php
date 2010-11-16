@@ -13,6 +13,8 @@
 
 /**
  * Creates the initial post types when 'init' action is fired.
+ *
+ * @since 2.9.0
  */
 function create_initial_post_types() {
 	register_post_type( 'post', array(
@@ -476,6 +478,8 @@ function get_post_mime_type($ID = '') {
 /**
  * Retrieve the format for a post
  *
+ * @since 3.1.0
+ *
  * @param int|object $post A post
  *
  * @return mixed The format if successful. False if no format is set.  WP_Error if errors.
@@ -494,7 +498,7 @@ function get_post_format( $post = null ) {
 }
 
 /**
- *  Check if a post has a particular format
+ * Check if a post has a particular format
  *
  * @since 3.1.0
  * @uses has_term()
@@ -509,6 +513,8 @@ function has_post_format( $format, $post = null ) {
 
 /**
  * Assign a format to a post
+ *
+ * @since 3.1.0
  *
  * @param int|object $post The post for which to assign a format
  * @param string $format  A format to assign.  Use an empty string or array to remove all formats from the post.
@@ -1421,7 +1427,7 @@ function get_post_meta($post_id, $key, $single = false) {
  *
  * If the meta field for the post does not exist, it will be added.
  *
- * @since 1.5
+ * @since 1.5.0
  * @uses $wpdb
  * @link http://codex.wordpress.org/Function_Reference/update_post_meta
  *
@@ -2737,6 +2743,8 @@ function check_and_publish_future_post($post_id) {
 /**
  * Computes a unique slug for the post, when given the desired slug and some post details.
  *
+ * @since 2.8.0
+ *
  * @global wpdb $wpdb
  * @global WP_Rewrite $wp_rewrite
  * @param string $slug the desired slug (post_name)
@@ -3221,6 +3229,7 @@ function &get_page_hierarchy( &$pages, $page_id = 0 ) {
  * function to traverse and return all the nested children post names of a root page.
  * $children contains parent-chilren relations
  *
+ * @since 2.9.0
  */
 function _page_traverse_name( $page_id, &$children, &$result ){
 	if ( isset( $children[ $page_id ] ) ){
@@ -4545,7 +4554,7 @@ function _save_post_hook($post_id, $post) {
  * complete. The post parent will be an ancestor and the parent of the post
  * parent will be an ancestor. There will only be two ancestors at the most.
  *
- * @since unknown
+ * @since 2.5.0
  * @access private
  * @uses $wpdb
  *
@@ -5030,9 +5039,9 @@ function wp_check_post_hierarchy_for_loops( $post_parent, $post_ID ) {
 /**
  * Default post information to use when populating the "Write Post" form.
  *
- * @since unknown
+ * @since 2.0.0
  *
- *@param string A post type string, defaults to 'post'.
+ * @param string A post type string, defaults to 'post'.
  * @return object stdClass object containing all the default post data as attributes
  */
 function get_default_post_to_edit( $post_type = 'post', $create_in_db = false ) {
@@ -5228,7 +5237,9 @@ function wp_quickpress_form( $args = array(), $post_type = 'post'){
 
 /**
  * Returns an array of post format slugs to their translated and pretty display versions
- * 
+ *
+ * @since 3.1.0
+ *
  * @return array The array of translations 
  */
 function get_post_format_strings() {
@@ -5249,6 +5260,8 @@ function get_post_format_strings() {
 /**
  * Returns a pretty, translated version of a post format slug
  * 
+ * @since 3.1.0
+ *
  * @param string $slug A post format slug
  * @return string The translated post format name
  */
