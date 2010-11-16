@@ -14,7 +14,7 @@
 				ed.windowManager.open({
 					file : tinymce.baseURL + '/wp-mce-link.php',
 					width : 480,
-					height : 400,
+					height : 430,
 					inline : 1
 				}, {
 					plugin_url : url // Plugin absolute URL

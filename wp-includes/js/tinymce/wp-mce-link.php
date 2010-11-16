@@ -23,7 +23,7 @@ var ajaxurl = '<?php echo admin_url( 'admin-ajax.php' ); ?>',
 <?php
 wp_print_scripts( array( 'jquery', 'jquery-ui-widget' ) );
 $suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '.dev' : '';
-$src = "plugins/wplink/js/wplink$suffix.js?ver=20101115";
+$src = "plugins/wplink/js/wplink$suffix.js?ver=20101116";
 ?>
 <script type="text/javascript" src="<?php echo $src; ?>"></script>
 <?php
@@ -127,6 +127,14 @@ img.waiting {
 #search-results {
 	display: none;
 }
+.river-waiting {
+	display: none;
+	padding: 10px 0;
+}
+.river-waiting img.waiting {
+	margin: 0 auto;
+	display: block;
+}
 .submitbox {
 	padding: 5px 5px 0;
 	font-size: 11px;
@@ -157,7 +165,7 @@ img.waiting {
 			<span><?php _e( 'Title' ); ?></span><input id="link-title-field" type="text" />
 		</label>
 		<label for="link-target-checkbox" id="open-in-new-tab">
-			<input type="checkbox" id="link-target-checkbox" /><span><?php _e( 'Open in new tab' ); ?></span>
+			<input type="checkbox" id="link-target-checkbox" /><span><?php _e( 'Open link in a new window/tab' ); ?></span>
 		</label>
 	</div>
 	<div id="search-panel">
@@ -181,7 +189,7 @@ img.waiting {
 		<div id="most-recent-results" class="query-results">
 			<ul>
 				<li class="unselectable"><em><?php _e( 'No search term specified. Showing recent items.' ); ?></em></li>
-				<?php foreach ( $most_recent['results'] as $item ) : ?>
+				<?php foreach ( $most_recent as $item ) : ?>
 					<li>
 						<input type="hidden" class="item-permalink" value="<?php echo esc_url( $item['permalink'] ); ?>" />
 						<span class="item-title"><?php echo $item['title']; ?></span>

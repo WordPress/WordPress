@@ -20,12 +20,7 @@ function wp_link_query( $args = array() ) {
 	if ( isset( $args['s'] ) )
 		$query['s'] = $args['s'];
 
-	$pagination = array(
-		'current'  => $args['pagenum'],
-		'per_page' => $query['posts_per_page'],
-	);
-
-	$query['offset'] = $pagination['offset'] = $args['pagenum'] > 1 ? $query['posts_per_page'] * ( $args['pagenum'] - 1 ) : 0;
+	$query['offset'] = $args['pagenum'] > 1 ? $query['posts_per_page'] * ( $args['pagenum'] - 1 ) : 0;
 
 	// Do main query.
 	$get_posts = new WP_Query;
@@ -47,27 +42,10 @@ function wp_link_query( $args = array() ) {
 			'title' => esc_html( strip_tags($post->post_title) ),
 			'permalink' => get_permalink( $post->ID ),
 			'info' => $info,
-		);;
+		);
 	}
 
-	// Remaining pagination values.
-	$pagination['max'] = $get_posts->max_num_pages;
-	$pagination['page_links'] = paginate_links( array(
-		'prev_text' => __('&laquo;'),
-		'next_text' => __('&raquo;'),
-		'total' => $pagination['max'],
-		'current' => $pagination['current']
-	) );
-
-	// Build response.
-	$resp = array(
-		'query' => $get_posts,
-		'objects' => $posts,
-		'results' => $results,
-		'pages' => $pagination,
-	);
-
-	return $resp;
+	return $results;
 }
 
 function wp_link_ajax( $request ) {
@@ -76,16 +54,12 @@ function wp_link_ajax( $request ) {
 		$args['s'] = stripslashes( $request['title'] );
 	$args['pagenum'] = ! empty( $request['page'] ) ? absint( $request['page'] ) : 1;
 
-	$resp = wp_link_query( $args );
+	$results = wp_link_query( $args );
 
-	if ( ! isset( $resp ) )
+	if ( ! isset( $results ) )
 		die( '0' );
-
-	$json = array( 'results' => $resp['results'] );
-	if ( isset( $resp['pages'] ) && !empty( $resp['pages']['page_links'] ) )
-		$json['page_links'] = $resp['pages']['page_links'];
 	
-	echo json_encode( $json );
+	echo json_encode( $results );
 	echo "\n";
 }
 

@@ -1,8 +1,16 @@
 (function($){	
 	var inputs = {}, results = {}, ed,
 	wpLink = {
+		lastSearch: '',
+		riverDefaults: function() {
+			return {
+				page : 2,
+				allLoaded: false,
+				active: false
+			};
+		},
 		init : function() {
-			var e, etarget, eclass;
+			var e;
 			// Init shared vars
 			ed = tinyMCEPopup.editor;
 			
@@ -17,12 +25,14 @@
 			// Result lists
 			results.search = $('#search-results');
 			results.recent = $('#most-recent-results');
+			results.search.data('river', wpLink.riverDefaults() );
+			results.recent.data('river', wpLink.riverDefaults() );
 			
 			// Bind event handlers
 			$('#wp-update').click( wpLink.update );
 			$('#wp-cancel').click( function() { tinyMCEPopup.close(); } );
 			$('.query-results').delegate('li', 'click', wpLink.selectInternalLink );
-			$('.wp-results-pagelinks').delegate('a', 'click', wpLink.selectPageLink );
+			$('.query-results').scroll( wpLink.maybeLoadRiver );
 			inputs.search.keyup( wpLink.searchInternalLinks );
 
 			// If link exists, select proper values.
@@ -34,6 +44,9 @@
 				if ( "_blank" == ed.dom.getAttrib(e, 'target') )
 					inputs.openInNewTab.attr('checked','checked');
 			}
+			
+			// Focus the URL field
+			inputs.url.focus();
 		},
 		
 		update : function() {
@@ -74,7 +87,7 @@
 				
 				// If no selection exists, create a new link from scratch.
 				if ( ed.selection.isCollapsed() ) {
-					var el = ed.dom.create('a', { href: "#mce_temp_url#" }, defaultContent);
+					el = ed.dom.create('a', { href: "#mce_temp_url#" }, defaultContent);
 					ed.selection.setNode(el);
 				// If a selection exists, wrap it in a link.
 				} else {
@@ -113,23 +126,43 @@
 			inputs.title.val( t.children('.item-title').text() );
 		},
 		
-		selectPageLink : function(e) {
-			var page = e.target.href.match(/page=(\d+)/);
+		maybeLoadRiver : function() {
+			var t = $(this),
+				ul = t.children('ul'),
+				river = t.data('river'),
+				waiting = t.find('.river-waiting');
 			
-			page = page ? page[1] : 1; // If there's no match, it's the first page.
-			e.preventDefault(); // Prevent the link from redirecting.
+			if( t.scrollTop() + t.height() != ul.height() || river.active || river.allLoaded )
+				return;
 			
-			wpLink.linkAJAX( $(this), { page : page });
+			river.active = true;
+			waiting.show();
+			
+			wpLink.linkAJAX( t, { page : river.page }, function(r) {
+				river.page++;
+				river.active = false;
+				river.allLoaded = !r;
+				waiting.hide();
+			}, true);
 		},
 		
 		searchInternalLinks : function() {
 			var t = $(this), waiting,
 				title = t.val();
 			
-			if ( title ) {
+			if ( title.length > 2 ) {
 				results.recent.hide();
 				results.search.show();
+				
+				// Don't search if the keypress didn't change the title.
+				if ( wpLink.lastSearch == title )
+					return;
+				
+				wpLink.lastSearch = title;
 				waiting = t.siblings('img.waiting').show();
+				
+				results.search.data('river', wpLink.riverDefaults() );
+				results.search.scrollTop(0);
 				wpLink.linkAJAX( results.search, { title : title }, function(){ waiting.hide(); });
 			} else {
 				results.search.hide();
@@ -137,7 +170,7 @@
 			}
 		},
 		
-		linkAJAX : function( $panel, params, callback ) {
+		linkAJAX : function( $panel, params, callback, append ) {
 			if ( ! $panel.hasClass('query-results') )
 				$panel = $panel.parents('.query-results');
 			
@@ -146,38 +179,31 @@
 			
 			$.post( ajaxurl, $.extend({
 				action : 'wp-link-ajax'
-			}, params ), function(r) {
-				var pagelinks = $panel.children('.wp-results-pagelinks');
+			}, params ), function( results ) {
+				var list = '';
+				
+				if ( !results ) {
+					if ( !append ) {
+						list += '<li class="no-matches-found unselectable"><span class="item-title"><em>'
+						+ wpLinkL10n.noMatchesFound
+						+ '</em></span></li>';
+					}
+				} else {
+					$.each( results, function() {
+						list += '<li><input type="hidden" class="item-permalink" value="' + this['permalink'] + '" />';
+						list += '<span class="item-title">';
+						list += this['title'] ? this['title'] : '<em>'+ wpLinkL10n.untitled + '</em>';
+						list += '</span><span class="item-info">' + this['info'] + '</span></li>';
+					});
+				}
 				
 				// Set results
-				$panel.children('ul').html( wpLink.generateListMarkup( r['results'] ) );
-				
-				// Handle page links
-				if ( r['page_links'] )
-					pagelinks.html( r['page_links'] ).show();
-				else
-					pagelinks.hide();
+				$panel.children('ul')[ append ? 'append' : 'html' ]( list );
 				
 				// Run callback
 				if ( callback )
-					callback( r['results'] );
+					callback( results );
 			}, "json" );
-		},
-		
-		generateListMarkup : function( results ) {
-			var s = '';
-			
-			if ( ! results )
-				return '<li class="no-matches-found unselectable"><span class="item-title"><em>' + wpLinkL10n.noMatchesFound + '</em></span></li>';
-			
-			$.each( results, function() {
-				s+= '<li><input type="hidden" class="item-permalink" value="' + this['permalink'] + '" />';
-				s+= '<span class="item-title">'
-				s+= this['title'] ? this['title'] : '<em>'+ wpLinkL10n.untitled + '</em>';
-				s+= '</span><span class="item-info">' + this['info'] + '</span>';
-				s+= '</li>';
-			});
-			return s;
 		}
 	}
 	
