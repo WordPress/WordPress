@@ -593,17 +593,15 @@ function get_tax_sql( $tax_query, $object_id_column ) {
 	}
 
 	if ( 1 == count( $sql ) ) {
-		$ids = $wpdb->get_col( $sql[0] );
+		$r = $wpdb->get_col( $sql[0] );
 	} else {
 		$r = "SELECT object_id FROM $wpdb->term_relationships WHERE 1=1";
 		foreach ( $sql as $query )
 			$r .= " AND object_id IN ($query)";
-
-		$ids = $wpdb->get_col( $r );
 	}
 
 	if ( !empty( $ids ) )
-		return " AND $object_id_column IN(" . implode( ', ', $ids ) . ")";
+		return " AND $object_id_column IN($r)";
 	else
 		return ' AND 0 = 1';
 }

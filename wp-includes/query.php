@@ -1931,8 +1931,9 @@ class WP_Query {
 		$search = apply_filters_ref_array('posts_search', array( $search, &$this ) );
 
 		// Taxonomies
-		$q['tax_query'] = $this->parse_tax_query( $q );
-		if ( !empty( $q['tax_query'] ) ) {
+		$tax_query = $this->parse_tax_query( $q );
+
+		if ( !empty( $tax_query ) ) {
 			if ( empty($post_type) ) {
 				$post_type = 'any';
 				$post_status_join = true;
@@ -1940,10 +1941,10 @@ class WP_Query {
 				$post_status_join = true;
 			}
 
-			$where .= get_tax_sql( $q['tax_query'], "$wpdb->posts.ID" );
+			$where .= get_tax_sql( $tax_query, "$wpdb->posts.ID" );
 
 			// Back-compat
-			$tax_query_in = wp_list_filter( $q['tax_query'], array( 'operator' => 'IN' ) );
+			$tax_query_in = wp_list_filter( $tax_query, array( 'operator' => 'IN' ) );
 			if ( !empty( $tax_query_in ) ) {
 				if ( !isset( $q['taxonomy'] ) ) {
 					foreach ( $tax_query_in as $a_tax_query ) {
