@@ -36,12 +36,12 @@ tagBox = {
 	},
 
 	quickClicks : function(el) {
-		var thetags = $('.the-tags', el), tagchecklist = $('.tagchecklist', el), current_tags;
+		var thetags = $('.the-tags', el), tagchecklist = $('.tagchecklist', el), current_tags, disabled;
 
 		if ( !thetags.length )
 			return;
 
-		var disabled = thetags.attr('disabled');
+		disabled = thetags.attr('disabled');
 
 		current_tags = thetags.val().split(',');
 		tagchecklist.empty();
@@ -360,8 +360,8 @@ jQuery(document).ready( function($) {
 		}
 
 		function updateText() {
-			var attemptedDate, originalDate, currentDate, publishOn, page = 'page' == pagenow || 'page-new' == pagenow,
-				postStatus = $('#post_status'),	optPublish = $('option[value=publish]', postStatus), aa = $('#aa').val(),
+			var attemptedDate, originalDate, currentDate, publishOn, postStatus = $('#post_status'),
+				optPublish = $('option[value=publish]', postStatus), aa = $('#aa').val(),
 				mm = $('#mm').val(), jj = $('#jj').val(), hh = $('#hh').val(), mn = $('#mn').val();
 
 			attemptedDate = new Date( aa, mm - 1, jj, hh, mn );
@@ -399,10 +399,7 @@ jQuery(document).ready( function($) {
 			}
 
 			if ( $('input:radio:checked', '#post-visibility-select').val() == 'private' ) {
-				if ( page )
-					$('#publish').val( postL10n.updatePage );
-				else
-					$('#publish').val( postL10n.updatePost );
+				$('#publish').val( postL10n.update );
 				if ( optPublish.length == 0 ) {
 					postStatus.append('<option value="publish">' + postL10n.privatelyPublished + '</option>');
 				} else {
