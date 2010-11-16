@@ -1,6 +1,8 @@
 (function($){	
 	var inputs = {}, results = {}, ed,
 	wpLink = {
+		timeToTriggerRiver: 150,
+		minRiverAJAXDuration: 200,
 		lastSearch: '',
 		riverDefaults: function() {
 			return {
@@ -130,22 +132,34 @@
 			var t = $(this),
 				ul = t.children('ul'),
 				river = t.data('river'),
-				waiting = t.find('.river-waiting');
+				bottom = t.scrollTop() + t.height();
 			
-			if( t.scrollTop() + t.height() != ul.height() || river.active || river.allLoaded )
+			if ( bottom != ul.height() || river.active || river.allLoaded )
 				return;
 			
-			river.active = true;
-			waiting.show();
-			
-			wpLink.linkAJAX( t, { page : river.page }, function(r) {
-				river.page++;
-				river.active = false;
-				river.allLoaded = !r;
-				waiting.hide();
-			}, true);
+			setTimeout(function() {
+				var newTop = t.scrollTop(),
+					newBottom = newTop + t.height(),
+					waiting = t.find('.river-waiting');
+				
+				if ( bottom != newBottom || newBottom != ul.height() || river.active || river.allLoaded )
+					return;
+				
+				river.active = true;
+				waiting.show();
+				t.scrollTop( newTop + waiting.outerHeight() );
+
+				wpLink.linkAJAX( t, { page : river.page }, function(r) {
+					river.page++;
+					river.active = false;
+					river.allLoaded = !r;
+					waiting.hide();
+				}, {
+					append : true,
+					delay : wpLink.minRiverAJAXDuration
+				});
+			}, wpLink.timeToTriggerRiver );
 		},
-		
 		searchInternalLinks : function() {
 			var t = $(this), waiting,
 				title = t.val();
@@ -170,40 +184,72 @@
 			}
 		},
 		
-		linkAJAX : function( $panel, params, callback, append ) {
+		linkAJAX : function( $panel, params, callback, opts ) {
+			var response;
+			opts = opts || {};
+			
 			if ( ! $panel.hasClass('query-results') )
 				$panel = $panel.parents('.query-results');
 			
 			if ( ! $panel.length )
 				return;
 			
+			response = wpLink.delayedCallback( function( results ) {
+				wpLink.processAJAXResponse( $panel, results, callback, opts );
+			}, opts.delay );
+			
 			$.post( ajaxurl, $.extend({
 				action : 'wp-link-ajax'
-			}, params ), function( results ) {
-				var list = '';
-				
-				if ( !results ) {
-					if ( !append ) {
-						list += '<li class="no-matches-found unselectable"><span class="item-title"><em>'
-						+ wpLinkL10n.noMatchesFound
-						+ '</em></span></li>';
-					}
-				} else {
-					$.each( results, function() {
-						list += '<li><input type="hidden" class="item-permalink" value="' + this['permalink'] + '" />';
-						list += '<span class="item-title">';
-						list += this['title'] ? this['title'] : '<em>'+ wpLinkL10n.untitled + '</em>';
-						list += '</span><span class="item-info">' + this['info'] + '</span></li>';
-					});
+			}, params ), response, "json" );
+		},
+		
+		processAJAXResponse: function( $panel, results, callback, opts ) {
+			var list = '';
+			
+			if ( !results ) {
+				if ( !opts.append ) {
+					list += '<li class="no-matches-found unselectable"><span class="item-title"><em>'
+					+ wpLinkL10n.noMatchesFound
+					+ '</em></span></li>';
 				}
-				
-				// Set results
-				$panel.children('ul')[ append ? 'append' : 'html' ]( list );
-				
-				// Run callback
-				if ( callback )
-					callback( results );
-			}, "json" );
+			} else {
+				$.each( results, function() {
+					list += '<li><input type="hidden" class="item-permalink" value="' + this['permalink'] + '" />';
+					list += '<span class="item-title">';
+					list += this['title'] ? this['title'] : '<em>'+ wpLinkL10n.untitled + '</em>';
+					list += '</span><span class="item-info">' + this['info'] + '</span></li>';
+				});
+			}
+			
+			// Set results
+			$panel.children('ul')[ opts.append ? 'append' : 'html' ]( list );
+			
+			// Run callback
+			if ( callback )
+				callback( results );
+		},
+		
+		delayedCallback : function( func, delay ) {
+			var timeoutTriggered, funcTriggered, funcArgs, funcContext;
+			
+			if ( ! delay )
+				return func;
+			
+			setTimeout( function() {
+				if ( funcTriggered )
+					return func.apply( funcContext, funcArgs );
+				// Otherwise, wait.
+				timeoutTriggered = true;
+			}, delay);
+			
+			return function() {
+				if ( timeoutTriggered )
+					return func.apply( this, arguments );
+				// Otherwise, wait.
+				funcArgs = arguments;
+				funcContext = this;
+				funcTriggered = true;
+			};
 		}
 	}
 	

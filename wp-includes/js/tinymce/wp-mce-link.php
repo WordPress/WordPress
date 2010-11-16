@@ -23,7 +23,7 @@ var ajaxurl = '<?php echo admin_url( 'admin-ajax.php' ); ?>',
 <?php
 wp_print_scripts( array( 'jquery', 'jquery-ui-widget' ) );
 $suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '.dev' : '';
-$src = "plugins/wplink/js/wplink$suffix.js?ver=20101116";
+$src = "plugins/wplink/js/wplink$suffix.js?ver=20101116b";
 ?>
 <script type="text/javascript" src="<?php echo $src; ?>"></script>
 <?php
@@ -70,7 +70,7 @@ label span {
 	float: left;
 	width: 220px;
 }
-img.waiting {
+.link-search-wrapper img.waiting {
 	margin: 8px 1px 0 4px;
 	float: left;
 	display: none;
