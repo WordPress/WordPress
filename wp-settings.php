@@ -174,6 +174,9 @@ require( ABSPATH . WPINC . '/vars.php' );
 create_initial_taxonomies();
 create_initial_post_types();
 
+// Register the default theme directory root
+register_theme_directory( get_theme_root() );
+
 // Load active plugins.
 foreach ( wp_get_active_and_valid_plugins() as $plugin )
 	include_once( $plugin );

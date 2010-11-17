@@ -267,9 +267,6 @@ function get_themes() {
 	if ( isset($wp_themes) )
 		return $wp_themes;
 
-	/* Register the default root as a theme directory */
-	register_theme_directory( get_theme_root() );
-
 	if ( !$theme_files = search_theme_directories() )
 		return false;
 
@@ -475,7 +472,7 @@ function get_themes() {
 function get_theme_roots() {
 	global $wp_theme_directories;
 
-	if ( count($wp_theme_directories <= 1) )
+	if ( count($wp_theme_directories) <= 1 )
 		return '/themes';
 
 	$theme_roots = get_site_transient( 'theme_roots' );
@@ -703,19 +700,21 @@ function get_theme_root_uri( $stylesheet_or_template = false ) {
  * @param string $stylesheet_or_template The stylesheet or template name of the theme
  * @return string Theme root
  */
-function get_raw_theme_root( $stylesheet_or_template ) {
+function get_raw_theme_root( $stylesheet_or_template, $no_cache = false ) {
 	global $wp_theme_directories;
 
-	if ( count($wp_theme_directories <= 1) )
+	if ( count($wp_theme_directories) <= 1 )
 		return '/themes';
 
 	$theme_root = false;
 
 	// If requesting the root for the current theme, consult options to avoid calling get_theme_roots()
-	if ( get_option('stylesheet') == $stylesheet_or_template )
-		$theme_root = get_option('stylesheet_root');
-	elseif ( get_option('template') == $stylesheet_or_template )
-		$theme_root = get_option('template_root');
+	if ( !$no_cache ) {
+		if ( get_option('stylesheet') == $stylesheet_or_template )
+			$theme_root = get_option('stylesheet_root');
+		elseif ( get_option('template') == $stylesheet_or_template )
+			$theme_root = get_option('template_root');
+	}
 
 	if ( empty($theme_root) ) {
 		$theme_roots = get_theme_roots();
@@ -1248,8 +1247,8 @@ function switch_theme($template, $stylesheet) {
 	update_option('template', $template);
 	update_option('stylesheet', $stylesheet);
 	if ( count($wp_theme_directories) > 1 ) {
-		update_option('template_root', get_raw_theme_root($template));
-		update_option('stylesheet_root', get_raw_theme_root($stylesheet));
+		update_option('template_root', get_raw_theme_root($template, true));
+		update_option('stylesheet_root', get_raw_theme_root($stylesheet, true));
 	}
 	delete_option('current_theme');
 	$theme = get_current_theme();
