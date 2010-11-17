@@ -1783,23 +1783,6 @@ function add_contextual_help($screen, $help) {
 	$_wp_contextual_help[$screen->id] = $help;
 }
 
-function drag_drop_help() {
-	return '
-	<p>' .	__('Most of the modules on this screen can be moved. If you hover your mouse over the title bar of a module you&rsquo;ll notice the 4 arrow cursor appears to let you know it is movable. Click on it, hold down the mouse button and start dragging the module to a new location. As you drag the module, notice the dotted gray box that also moves. This box indicates where the module will be placed when you release the mouse button.') . '</p>
-	<p>' . __('The same modules can be expanded and collapsed by clicking once on their title bar and also completely hidden from the Screen Options tab.') . '</p>
-';
-}
-
-function plugins_search_help() {
-	return '
-	<p><strong>' . __('Search help') . '</strong></p>' .
-	'<p>' . __('You may search based on 3 criteria:') . '<br />' .
-	__('<strong>Term:</strong> Searches theme names and descriptions for the specified term.') . '<br />' .
-	__('<strong>Tag:</strong> Searches for themes tagged as such.') . '<br />' .
-	__('<strong>Author:</strong> Searches for themes created by the Author, or which the Author contributed to.') . '</p>
-';
-}
-
 function screen_layout($screen) {
 	global $screen_layout_columns, $wp_current_screen_options;
 
