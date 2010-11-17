@@ -151,9 +151,7 @@ function core_upgrade_preamble() {
 	echo '<ul class="core-updates">';
 	$alternate = true;
 	foreach( (array) $updates as $update ) {
-		$class = $alternate? ' class="alternate"' : '';
-		$alternate = !$alternate;
-		echo "<li $class>";
+		echo '<li>';
 		list_core_update( $update );
 		echo '</li>';
 	}
