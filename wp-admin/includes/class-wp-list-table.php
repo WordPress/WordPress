@@ -710,8 +710,6 @@ class WP_List_Table {
 
 		<br class="clear" />
 	</div>
-
-	<br class="clear" />
 <?php
 	}
 
