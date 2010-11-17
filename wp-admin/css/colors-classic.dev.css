@@ -1121,12 +1121,14 @@ table.widefat .spam a:hover,
 
 .folded #adminmenu li.menu-top,
 #adminmenu .wp-submenu .wp-submenu-head {
-	background-color: #F1F1F1;
+	background: #eff8ff url(../images/menu-bits-vs.gif?ver=20101102) repeat-x scroll left -379px;
 }
 
 .folded #adminmenu li.wp-has-current-submenu,
 .folded #adminmenu li.menu-top.current {
-	background-color: #e6e6e6;
+	background: #e0e0e0 url(../images/menu-bits-vs.gif?ver=20101102) top left repeat-x; 
+	border: #5589aa 1px solid; 
+	color: #464646;
 }
 
 #adminmenu .wp-has-current-submenu .wp-submenu .wp-submenu-head {
