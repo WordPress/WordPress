@@ -5,20 +5,6 @@ Hello, this is the main WordPress admin CSS file.
 All the important stuff is in here.
 
 
-IMPORTANT:
-----------
-Please be careful when editing this file, do not just add 
-another ID or Class because it's easy, we want to try and 
-maintain the WordPress CSS with good styles, not easy ones!
-
-Before editing or adding to this file, please review the table 
-of contents and ensure that you add new styles in the correct 
-location. This makes it easier to maintain going forwards.
-
-Be obvious, not clever. Styles which can be easily changed
-are far more desirable than a complex cascading masterpiece.
-
-
 TABLE OF CONTENTS:
 ------------------
  1.0 - Text Elements
@@ -1245,7 +1231,6 @@ body.wp-admin {
 	border-top-left-radius: 6px;
 }
 
-/* TODO: Review this was a conflict - PJW */
 .postbox.closed h3 {
 	-moz-border-radius-bottomleft: 4px;
 	-webkit-border-bottom-left-radius: 4px;
@@ -1256,17 +1241,6 @@ body.wp-admin {
 	-khtml-border-bottom-right-radius: 4px;
 	border-bottom-right-radius: 4px;
 }
-
-.form-table td p {
-	margin-top: 4px;
-}
-
-.form-table table.color-palette {
-	vertical-align: bottom;
-	float: left;
-	margin: -12px 3px 11px;
-}
-/* Conflict END */
 
 .postbox table.form-table {
 	margin-bottom: 0;
@@ -1454,13 +1428,11 @@ th.sorted-desc .sorting-indicator, th.sorted-asc:hover .sorting-indicator {
 	border-radius: 5px;
 }
 
-/* TODO: Review this was a conflict - font-family - PJW */
 .tablenav .displaying-num {
 	margin-right: 10px;
 	font-size: 12px;
 	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 	font-style: italic;
-	font-family: Verdana, Arial, "Bitstream Vera Sans", sans-serif;
 }
 
 .tablenav .actions {
@@ -1642,17 +1614,10 @@ tr.inline-edit-row td {
 	margin-left: 5em;
 }
 
-/* TODO: Review this was a conflict - PJW */
 .quick-edit-row-post fieldset.inline-edit-col-right label span.title {
 	width: auto;
 	padding-right: 0.5em;
 }
-.howto {
-	font-style: italic;
-	display: block;
-	font-family: Verdana, Arial, "Bitstream Vera Sans", sans-serif;
-}
-/* END Conflict */
 
 .inline-edit-row .input-text-wrap input[type=text] {
 	width: 100%;
@@ -1983,14 +1948,13 @@ input#link_url {
 	width: 99%;
 }
 
-/* TODO: Review this was a conflict - PJW */
 #normal-sortables .postbox .submit {
 	background: transparent none;
 	border: 0 none;
 	float: right;
 	padding: 0 12px;
+	margin:0;
 }
-/* END */
 
 #side-sortables .category-add input {
 	width: 94%;
@@ -2098,7 +2062,6 @@ div.tabs-panel-inactive {
 	margin: 0;
 }
 
-/* TODO: Review this was a conflict - PJW */
 #normal-sortables .postbox #replyrow .submit {
 	float: none;
 	margin: 0;
@@ -2125,9 +2088,7 @@ ul.add-menu-item-tabs,
 ul.wp-tab-bar {
 	margin-top: 12px;
 }
-/* END Conflict */
 
-/* TODO: Review this was a conflict - PJW */
 #side-sortables .comments-box thead th,
 #normal-sortables .comments-box thead th {
 	background: transparent;
@@ -2145,7 +2106,6 @@ ul.add-menu-item-tabs li.tabs,
 #commentsdiv img.waiting {
 	padding-left: 5px;
 }
-/* END Conflcit */
 
 #post-body .category-tabs li.tabs,
 #post-body .add-menu-item-tabs li.tabs {
@@ -2216,12 +2176,6 @@ td.plugin-title {
 
 .commentlist .avatar {
 	vertical-align: text-top;
-}
-
-/* TODO: Review this was a conflict - PJW */
-.defaultavatarpicker .avatar {
-	margin: 2px 0;
-	vertical-align: middle;
 }
 
 #post-body .tagsdiv #newtag {
@@ -2429,21 +2383,6 @@ table.diff .diff-deletedline del, table.diff .diff-addedline ins {
 	text-decoration: none;
 }
 
-/* TODO: Review this was a conflict - PJW */
-#screen-options-link-wrap,
-#contextual-help-link-wrap {
-	float: right;
-	height: 22px;
-	padding: 0;
-	margin: 0 6px 0 0;
-	font-family: Verdana, Arial, "Bitstream Vera Sans", sans-serif;
-	background: #e3e3e3;
-	-moz-border-radius-bottomleft: 3px;
-	-moz-border-radius-bottomright: 3px;
-	-webkit-border-bottom-left-radius: 3px;
-	-webkit-border-bottom-right-radius: 3px;
-}
-/* END */
 
 /*------------------------------------------------------------------------------
   12.0 - Categories
@@ -2454,12 +2393,9 @@ table.diff .diff-deletedline del, table.diff .diff-addedline ins {
 	padding: 4px 0;
 }
 
-/* TODO: Review this was a conflict - PJW */
 .category-adder h4 {
 	margin: 0 0 8px;
 }
-
-/* END */
 
 #side-sortables .category-adder {
 	margin: 0;
@@ -2468,25 +2404,6 @@ table.diff .diff-deletedline del, table.diff .diff-addedline ins {
 #post-body .category-add input, .category-add select {
 	width: 30%;
 }
-
-/* TODO: Review this was a conflict - PJW */
-#side-sortables .category-add input {
-	width: 94%;
-}
-
-#screen-options-wrap,
-#contextual-help-wrap {
-	border-style: none solid solid;
-	border-top: 0 none;
-	border-width: 0 1px 1px;
-	margin: 0 15px;
-	padding: 8px 12px 12px;
-	-moz-border-radius: 0 0 4px 4px;
-	-webkit-border-radius: 0 0 4px 4px;
-	-khtml-border-radius: 0 0 4px 4px;
-	border-radius: 0 0 4px 4px;
-}
-/* END */
 
 #side-sortables .category-add select {
 	width: 100%;
@@ -2602,11 +2519,6 @@ ul.categorychecklist li {
 	padding: 0;
 	line-height: 19px;
 	word-wrap: break-word;
-}
-
-.category-adder h4 {
-	margin-top: 4px;
-	margin-bottom: 0px;
 }
 
 .categorydiv .tabs-panel,
@@ -2755,20 +2667,9 @@ p.popular-tags a {
 	text-align: justify;
 }
 
-/* TODO: Review this was a conflict - PJW */
 .tagcloud h3 {
 	margin: 2px 0 12px;
 }
-
-.inline-edit-row fieldset ul.cat-checklist label,
-.inline-edit-row .catshow,
-.inline-edit-row .cathide,
-.inline-edit-row #bulk-titles div {
-	font-family: Verdana, Arial, "Bitstream Vera Sans", sans-serif;
-	font-style: normal;
-	font-size: 11px;
-}
-/* END */
 
 .ac_results {
 	padding: 0;
@@ -3141,12 +3042,11 @@ br.clear {
 	line-height: 2px;
 }
 
-/* TODO: Review this was a conflict - PJW */
 .swfupload {
 	margin: 5px 10px;
 	vertical-align: middle;
 }
-/* END */
+
 
 /*------------------------------------------------------------------------------
   14.2 - Image Editor
@@ -3433,6 +3333,10 @@ span.imgedit-scale-warn {
 	float: left;
 }
 
+.form-table td p {
+	margin-top: 4px;
+}
+
 .form-table table.color-palette {
 	vertical-align: bottom;
 	float: left;
@@ -3697,11 +3601,6 @@ table#availablethemes td.bottom {
 	color: #cfcfcf;
 }
 
-h2.nav-tab-wrapper, h3.nav-tab-wrapper {
-	border-bottom: 1px solid #ccc;
-	padding-bottom: 0;
-}
-
 #broken-themes {
 	text-align: left;
 	width: 50%;
@@ -3791,7 +3690,6 @@ div#custom-background-image img {
 	color: #464646;
 }
 
-/* TODO: Review this was a conflict - PJW */
 h2.nav-tab-wrapper, h3.nav-tab-wrapper {
 	border-bottom: 1px solid #ccc;
 	padding-bottom: 0;
@@ -3801,7 +3699,7 @@ h2 .nav-tab {
 	padding: 4px 20px 6px;
 	font: italic normal normal 24px/35px Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 }
-/* END */
+
 
 /*------------------------------------------------------------------------------
   17.0 - Plugins
