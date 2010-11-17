@@ -13,7 +13,7 @@
  * @see get_term_link()
  *
  * @param int $category_id Category ID.
- * @return string
+ * @return string|WP_Error Link on success, WP_Error if category does not exist.
  */
 function get_category_link( $category_id ) {
 	return get_term_link((int)$category_id, 'category');
@@ -959,7 +959,7 @@ class Walker_CategoryDropdown extends Walker {
  * @see get_term_link()
  *
  * @param int $tag_id Tag (term) ID.
- * @return string
+ * @return string|WP_Error Link on success, WP_Error if tag does not exist.
  */
 function get_tag_link( $tag_id ) {
 	return get_term_link( (int)$tag_id, 'post_tag');
