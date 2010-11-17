@@ -27,13 +27,21 @@ if ( $details->site_id != $wpdb->siteid )
 
 $is_main_site = is_main_site( $id );
 
+// get blog prefix
+$blog_prefix = $wpdb->get_blog_prefix( $id );
+
+// @todo This is a hack. Eventually, add API to WP_Roles allowing retrieval of roles for a particular blog.
+if ( ! empty($wp_roles->use_db) ) {
+	$editblog_roles = get_blog_option( $id, "{$blog_prefix}user_roles" );
+} else {
+	// Roles are stored in memory, not the DB.
+	$editblog_roles = $wp_roles->roles;
+}
+
 if ( isset($_REQUEST['action']) && 'update-site' == $_REQUEST['action'] ) {
 	check_admin_referer( 'edit-site' );
 
 	switch_to_blog( $id );
-
-	// get blog prefix
-	$blog_prefix = $wpdb->get_blog_prefix( $id );
 
 	// user roles
 	if ( isset( $_POST['role'] ) && is_array( $_POST['role'] ) == true ) {
@@ -130,19 +138,11 @@ if ( ! empty( $messages ) ) {
 	<input type="hidden" name="id" value="<?php echo esc_attr( $id ) ?>" />
 <?php
 $blogusers = get_users( array( 'blog_id' => $id, 'number' => 20 ) );
+
 if ( is_array( $blogusers ) ) {
 	echo '<table class="form-table">';
 	echo "<tr><th>" . __( 'User' ) . "</th><th>" . __( 'Role' ) . "</th><th>" . __( 'Password' ) . "</th><th>" . __( 'Remove' ) . "</th></tr>";
 	$user_count = 0;
-	// @todo This is a hack. Eventually, add API to WP_Roles allowing retrieval of roles for a particular blog.
-	if ( ! empty($wp_roles->use_db) ) {
-		// If using the DB to store roles, consult the user_roles option.
-		$blog_prefix = $wpdb->get_blog_prefix( $id );
-		$editblog_roles = get_blog_option( $id, "{$blog_prefix}user_roles" );
-	} else {
-		// Roles are stored in memory, not the DB.
-		$editblog_roles = $wp_roles->roles;
-	}
 
 	foreach ( $blogusers as $user_id => $user_object ) {
 		$user_count++;
@@ -180,6 +180,34 @@ if ( is_array( $blogusers ) ) {
 ?>
 </form>
 
+<h3 id="add-new-user"><?php _e('Add Existing User') ?></h3>
+<p class="description"><?php _e( 'Enter the username of an existing user.' ) ?></p>
+	<form action="site-users.php?action=update-site" id="adduser" method="post">
+	<?php wp_nonce_field( 'edit-site' ); ?>
+	<input type="hidden" name="id" value="<?php echo esc_attr( $id ) ?>" />
+	<table class="form-table">
+		<tr>
+			<th scope="row"><?php _e( 'Username' ); ?></th>
+			<td><input type="text" name="newuser" id="newuser" /></td>
+		</tr>
+		<tr>
+			<th scope="row"><?php _e( 'Role'); ?></th>
+			<td><select name="new_role" id="new_role_0">
+			<?php
+			$default_role = $wpdb->get_var( "SELECT `option_value` FROM {$blog_prefix}options WHERE option_name = 'default_role'" );
+			var_dump( $default_role );
+			reset( $editblog_roles );
+			foreach ( $editblog_roles as $role => $role_assoc ){
+				$name = translate_user_role( $role_assoc['name'] );
+				$selected = ( $role == $default_role ) ? 'selected="selected"' : '';
+				echo '<option ' . $selected . ' value="' . esc_attr( $role ) . '">' . esc_html( $name ) . '</option>';
+			}
+			?>
+			</select></td>
+		</tr>
+	</table>
+	<?php submit_button( __('Add User'), 'primary', 'add-user' ); ?>
+	</form>
 </div>
 <?php
 require('../admin-footer.php');
