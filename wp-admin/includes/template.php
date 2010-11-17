@@ -2119,7 +2119,7 @@ function get_submit_button( $text = NULL, $type = 'primary', $name = 'submit', $
 			$class = $type; // Custom cases can just pass in the classes they want to be used
 	endswitch;
 	$text = ( NULL == $text ) ? __( 'Save Changes' ) : $text;
-	
+
 	$attributes = '';
 	if ( is_array( $other_attributes ) ) {
 		foreach ( $other_attributes as $attribute => $value ) {
@@ -2128,19 +2128,19 @@ function get_submit_button( $text = NULL, $type = 'primary', $name = 'submit', $
 	} else if ( !empty( $other_attributes ) ) { // Attributes provided as a string
 		$attributes = $other_attributes;
 	}
-	
+
 	// Default the id attribute to $name unless an id was specifically provided in $other_attributes
 	$id = $name;
 	if ( is_array( $other_attributes ) && isset( $other_attributes['id'] ) )
 		$id = $other_attributes['id'];
-	
+
 	$button = '<input type="submit" name="' . esc_attr( $name ) . '" id="' . esc_attr( $id ) . '" class="' . esc_attr( $class );
 	$button	.= '" value="' . esc_attr( $text ) . '" ' . $attributes . ' />';
-	
+
 	if ( $wrap ) {
 		$button = '<p class="submit">' . $button . '</p>';
 	}
-	
+
 	return $button;
 }
 

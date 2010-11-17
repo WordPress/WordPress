@@ -257,7 +257,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		$screen = get_current_screen();
 
 		if ( 'active' != $status ) {
-			$action = $screen->is_network ? 'network-activate-selected' : 'activate-selected'; 
+			$action = $screen->is_network ? 'network-activate-selected' : 'activate-selected';
 			$actions[ $action ] = __( 'Activate' );
 		}
 
@@ -432,7 +432,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 					}
 					if ( ! empty( $plugin_data['PluginURI'] ) )
 						$plugin_meta[] = '<a href="' . $plugin_data['PluginURI'] . '" title="' . __( 'Visit plugin site' ) . '">' . __( 'Visit plugin site' ) . '</a>';
-	
+
 					$plugin_meta = apply_filters( 'plugin_row_meta', $plugin_meta, $plugin_file, $plugin_data, $status );
 					echo implode( ' | ', $plugin_meta );
 

@@ -23,7 +23,7 @@ class WP_HTTP_IXR_Client extends IXR_Client
                 $this->path = '/';
             }
         } else {
-        	$this->scheme = 'http'; 
+        	$this->scheme = 'http';
             $this->server = $server;
             $this->path = $path;
             $this->port = $port;
@@ -45,30 +45,30 @@ class WP_HTTP_IXR_Client extends IXR_Client
             'user-agent' => $this->useragent,
             'body'       => $xml,
         );
-        
+
         // Merge Custom headers ala #8145
 		foreach ( $this->headers as $header => $value )
 			$args['headers'][$header] = $value;
-        
+
 		if ( $this->timeout !== false )
 			$args['timeout'] = $this->timeout;
-        	
+
         // Now send the request
         if ($this->debug) {
             echo '<pre class="ixr_request">'.htmlspecialchars($xml)."\n</pre>\n\n";
         }
 
-		$response = wp_remote_post($url, $args); 
+		$response = wp_remote_post($url, $args);
 
-		if ( is_wp_error($response) ) { 
-			$errno    = $response->get_error_code(); 
-			$errorstr = $response->get_error_message(); 
-			$this->error = new IXR_Error(-32300, "transport error: $errno $errstr"); 
+		if ( is_wp_error($response) ) {
+			$errno    = $response->get_error_code();
+			$errorstr = $response->get_error_message();
+			$this->error = new IXR_Error(-32300, "transport error: $errno $errstr");
 			return false;
 		}
- 	
-		$code = $response['response']['code']; 
-		if ( $code != 200 ) { 
+
+		$code = $response['response']['code'];
+		if ( $code != 200 ) {
 			$this->error = new IXR_Error(-32301, "transport error - HTTP status code was not 200 ($code)");             return false;
         }
 

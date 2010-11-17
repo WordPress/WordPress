@@ -66,7 +66,7 @@ case 'edit' :
 	wp_enqueue_script( 'wp-ajax-response' );
 	wp_enqueue_script('image-edit');
 	wp_enqueue_style('imgareaselect');
-	
+
 	add_contextual_help( $current_screen,
 	'<p>' . __('This screen allows you to edit five fields for metadata in a file within the media library.') . '</p>' .
 	'<p>' . __('For images only, you can click on Edit Image under the thumbnail to expand out an inline image editor with icons for cropping, rotating, or flipping the image as well as for undoing and redoing. The boxes on the right give you more options for scaling the image, for cropping it, and for cropping the thumbnail in a different way than you crop the original image. You can click on Help in those boxes to get more information.') . '</p>' .

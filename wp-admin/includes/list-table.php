@@ -17,7 +17,7 @@
  */
 function get_list_table( $class ) {
 	$class = apply_filters( "get_list_table_$class", $class );
-	
+
 	require_list_table( $class );
 
 	if ( class_exists( $class ) )

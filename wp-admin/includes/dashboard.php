@@ -149,7 +149,7 @@ function wp_add_dashboard_widget( $widget_id, $widget_name, $callback, $control_
 		list($url) = explode( '#', add_query_arg( 'edit', $widget_id ), 2 );
 		$widget_name .= ' <span class="postbox-title-action"><a href="' . esc_url( "$url#$widget_id" ) . '" class="edit-box open-box">' . __( 'Configure' ) . '</a></span>';
 	}
-	
+
 	if ( is_blog_admin () )
 		$side_widgets = array('dashboard_quick_press', 'dashboard_recent_drafts', 'dashboard_primary', 'dashboard_secondary');
 	else if (is_network_admin() )
@@ -421,7 +421,7 @@ function wp_network_dashboard_right_now() {
 
 	$user_text = sprintf( _n( '%s user', '%s users', $c_users ), number_format_i18n( $c_users ) );
 	$blog_text = sprintf( _n( '%s site', '%s sites', $c_blogs ), number_format_i18n( $c_blogs ) );
-	
+
 	$sentence = sprintf( __( 'You have %1$s and %2$s.' ), $blog_text, $user_text );
 
 	if ( $actions ) {

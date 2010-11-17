@@ -98,7 +98,7 @@ class WP_Media_List_Table extends WP_List_Table {
 
 		if ( $this->detached ) {
 			submit_button( __( 'Scan for lost attachments' ), 'secondary', 'find_detached', false );
-		} elseif ( $this->is_trash && current_user_can( 'edit_others_posts' ) ) { 
+		} elseif ( $this->is_trash && current_user_can( 'edit_others_posts' ) ) {
 			submit_button( __( 'Empty Trash' ), 'button-secondary apply', 'delete_all', false );
 		} ?>
 		</div>

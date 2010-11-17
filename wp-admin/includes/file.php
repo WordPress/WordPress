@@ -96,7 +96,7 @@ function get_home_path() {
  *
  * @since 1.5.0
  *
- * @uses get_home_path 
+ * @uses get_home_path
  * @uses WP_CONTENT_DIR full filesystem path to the wp-content directory
  * @param string $file filesystem path relative to the WordPress install directory or to the wp-content directory
  * @return string full file system path to edit
@@ -254,7 +254,7 @@ function validate_file_to_edit( $file, $allowed_files = '' ) {
  * @uses current_user_can
  * @uses wp_upload_dir
  * @uses wp_unique_filename
- * @uses delete_transient   
+ * @uses delete_transient
  * @param array $file Reference to a single element of $_FILES. Call the function once for each uploaded file.
  * @param array $overrides Optional. An associative array of names=>values to override default variables with extract( $overrides, EXTR_OVERWRITE ).
  * @return array On success, returns an associative array of file attributes. On failure, returns $overrides['upload_error_handler'](&$file, $message ) or array( 'error'=>$message ).

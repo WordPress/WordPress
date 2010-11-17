@@ -155,7 +155,7 @@ echo esc_html( $visibility_trans ); ?></span>
 if ( current_theme_supports( 'post-formats' ) && post_type_supports( $post->post_type, 'post-formats' ) ) :
 $post_formats = get_theme_support( 'post-formats' );
 
-if ( is_array( $post_formats[0] ) ) : 
+if ( is_array( $post_formats[0] ) ) :
 	$post_format = get_post_format( $post->ID );
 	if ( !$post_format )
 		$post_format = '0';

@@ -311,7 +311,7 @@ if ( isset($_GET['editwidget']) && $_GET['editwidget'] ) {
 	<a href="widgets.php" class="button alignleft"><?php _e('Cancel'); ?></a>
 <?php
 	} else {
-		submit_button( __( 'Delete' ), 'button alignleft', 'removewidget', false ); 
+		submit_button( __( 'Delete' ), 'button alignleft', 'removewidget', false );
 	}
 	submit_button( __( 'Save Widget' ), 'button-primary alignright', 'savewidget', false ); ?>
 	<input type="hidden" name="widget-id" class="widget-id" value="<?php echo esc_attr($widget_id); ?>" />

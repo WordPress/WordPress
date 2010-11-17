@@ -723,13 +723,13 @@ case 'add-menu-item' :
 
 	require_once ABSPATH . 'wp-admin/includes/nav-menu.php';
 
-	// For performance reasons, we omit some object properties from the checklist.  
+	// For performance reasons, we omit some object properties from the checklist.
 	// The following is a hacky way to restore them when adding non-custom items.
 
 	$menu_items_data = array();
 	foreach ( (array) $_POST['menu-item'] as $menu_item_data ) {
 		if (
-			! empty( $menu_item_data['menu-item-type'] ) && 
+			! empty( $menu_item_data['menu-item-type'] ) &&
 			'custom' != $menu_item_data['menu-item-type'] &&
 			! empty( $menu_item_data['menu-item-object-id'] )
 		) {
@@ -739,19 +739,19 @@ case 'add-menu-item' :
 				break;
 
 				case 'taxonomy' :
-					$_object = get_term( $menu_item_data['menu-item-object-id'], $menu_item_data['menu-item-object'] ); 
+					$_object = get_term( $menu_item_data['menu-item-object-id'], $menu_item_data['menu-item-object'] );
 				break;
 			}
 
-			$_menu_items = array_map( 'wp_setup_nav_menu_item', array( $_object ) ); 
+			$_menu_items = array_map( 'wp_setup_nav_menu_item', array( $_object ) );
 			$_menu_item = array_shift( $_menu_items );
 
 			// Restore the missing menu item properties
 			$menu_item_data['menu-item-description'] = $_menu_item->description;
 		}
-		
+
 		$menu_items_data[] = $menu_item_data;
-	}	
+	}
 
 	$item_ids = wp_save_nav_menu_items( 0, $menu_items_data );
 	if ( is_wp_error( $item_ids ) )
@@ -1077,7 +1077,7 @@ case 'wp-link-ajax':
 	require_once ABSPATH . WPINC . '/js/tinymce/wp-mce-link-includes.php';
 
 	wp_link_ajax( $_POST );
-	
+
 	exit;
 	break;
 case 'menu-locations-save':

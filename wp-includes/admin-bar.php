@@ -4,7 +4,7 @@
  *
  * This code handles the building and rendering of the press bar.
  */
- 
+
 /**
  * Instantiate the admin bar object and set it up as a global for access elsewhere.
  *
@@ -22,11 +22,11 @@ function wp_admin_bar_init() {
 
 	/* Instantiate the admin bar */
 	$admin_bar_class = apply_filters( 'wp_admin_bar_class', 'WP_Admin_Bar' );
-	if ( class_exists( $admin_bar_class ) ) 
+	if ( class_exists( $admin_bar_class ) )
 		$wp_admin_bar = new $admin_bar_class;
 	else
 		return false;
-	
+
 	$wp_admin_bar->initialize();
 	$wp_admin_bar->add_menus();
 
@@ -60,7 +60,7 @@ function wp_admin_bar_render() {
 	$wp_admin_bar->render();
 
 	do_action( 'wp_after_admin_bar_render' );
-	
+
 	$wp_admin_bar->unload_user_locale_translations();
 }
 add_action( 'wp_footer', 'wp_admin_bar_render', 1000 );
@@ -87,11 +87,11 @@ function wp_admin_bar_my_account_menu() {
 	global $wp_admin_bar, $user_identity;
 
 	$user_id = get_current_user_id();
-	
+
 	if ( 0 != $user_id ) {
 		/* Add the 'My Account' menu */
 		$wp_admin_bar->add_menu( array( 'id' => 'my-account', 'title' => $user_identity,  'href' => get_edit_profile_url( $user_id ) ) );
-	
+
 		/* Add the "My Account" sub menus */
 		$wp_admin_bar->add_menu( array( 'parent' => 'my-account', 'title' => __( 'Edit My Profile' ), 'href' => get_edit_profile_url( $user_id ) ) );
 		if ( is_multisite() )
@@ -157,7 +157,7 @@ function wp_admin_bar_blog_separator() {
 
 /**
  * Provide a shortlink.
- * 
+ *
  * @since 3.1.0
  */
 function wp_admin_bar_shortlink_menu() {
@@ -171,7 +171,7 @@ function wp_admin_bar_shortlink_menu() {
 
 /**
  * Provide an edit link for posts and terms.
- * 
+ *
  * @since 3.1.0
  */
 function wp_admin_bar_edit_menu () {
@@ -197,7 +197,7 @@ function wp_admin_bar_new_content_menu() {
 		$ptype_obj = get_post_type_object( $ptype );
 		if ( $ptype_obj->show_in_menu !== true || ! current_user_can( $ptype_obj->cap->edit_posts ) )
 			continue;
-			
+
 		$actions["post-new.php?post_type=$ptype"] = array( $ptype_obj->labels->singular_name, $ptype_obj->cap->edit_posts, "new-$ptype" );
 	}
 
@@ -259,7 +259,7 @@ function wp_admin_bar_updates_menu() {
 	if ( !empty($update_wordpress) && !in_array( $update_wordpress[0]->response, array('development', 'latest') ) )
 		$wordpress_update_count = 1;
 	*/
- 
+
 	$update_count = $plugin_update_count + $theme_update_count + $wordpress_update_count;
 
 	if ( !$update_count )
@@ -297,16 +297,16 @@ function wp_admin_bar_header() {
 function wp_admin_body_style() {
 	?>
 	<style type="text/css">
-		<?php 
-		
-		if ( 
-			( empty( $_GET['nobump'] ) || is_admin() ) && 
-			! strpos( $_SERVER['REQUEST_URI'], 'media-upload.php' ) 
-		) : 
+		<?php
+
+		if (
+			( empty( $_GET['nobump'] ) || is_admin() ) &&
+			! strpos( $_SERVER['REQUEST_URI'], 'media-upload.php' )
+		) :
 			?>
 			body { padding-top: 28px !important; }
-			<?php 
-		endif; 
+			<?php
+		endif;
 
 		if ( in_array( get_current_theme(), array('H3', 'H4', 'The Journalist v1.9') ) ) :
 			?>
@@ -328,11 +328,11 @@ function wp_admin_body_style() {
  */
 function is_admin_bar_showing() {
 	global $show_admin_bar;
-	
+
 	/* For all these types of request we never want an admin bar period */
 	if ( defined('XMLRPC_REQUEST') || defined('APP_REQUEST') || defined('DOING_AJAX') || defined('IFRAME_REQUEST') )
 		return false;
-	
+
 	if ( ! isset( $show_admin_bar ) || null === $show_admin_bar ) {
 		if ( ! is_user_logged_in() || ( is_admin() && ! is_multisite() ) ) {
 			$show_admin_bar = false;

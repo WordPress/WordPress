@@ -45,7 +45,7 @@ function get_queried_object() {
 
 /**
  * Retrieve ID of the current queried object. Wrapper for $wp_query->get_queried_object_id()
- * 
+ *
  * @uses WP_Query::get_queried_object_id()
  *
  * @since 3.1.0

@@ -12,11 +12,11 @@ function wp_admin_bar_superadmin_settings_menu() {
 
 	/* Get the settings we need for the current site */
 	$matureaction = $current_blog->mature ? 'unmatureblog' : 'matureblog';
-	$maturetext_confirm = $current_blog->mature ? 
-		sprintf( 
+	$maturetext_confirm = $current_blog->mature ?
+		sprintf(
 			esc_attr__( 'Are you sure you want to unmark %s as mature?' ),
 			$current_blog->domain
-		) : 
+		) :
 		sprintf(
 			esc_attr__( 'Are you sure you want to mark %s as mature?' ),
 			$current_blog->domain
@@ -24,15 +24,15 @@ function wp_admin_bar_superadmin_settings_menu() {
 
 	$suspendaction = $current_blog->spam ? 'unspamblog' : 'spamblog';
 	$suspendtext_confirm = $current_blog->spam ?
-		sprintf( 
+		sprintf(
 			esc_attr__( 'Are you sure you want to unsuspend site %s?' ),
 			$current_blog->domain
-		) : 
+		) :
 		sprintf(
 			esc_attr__( 'Are you sure you want to suspend site %s?' ),
 			$current_blog->domain
 		);
-		
+
 	$mature_url = network_admin_url( "edit.php?action=confirm&amp;action2={$matureaction}&amp;id={$current_blog->blog_id}&amp;msg=" . urlencode( $maturetext_confirm ) );
 	$suspend_url = network_admin_url( "edit.php?action=confirm&amp;action2={$suspendaction}&amp;id={$current_blog->blog_id}&amp;msg=" . urlencode( $suspendtext_confirm ) );
 

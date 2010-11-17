@@ -1488,12 +1488,12 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param array $args Method parameters. Contains: 
+	 * @param array $args Method parameters. Contains:
 	 *  - blog_id
 	 *  - username
 	 *  - password
 	 *  - attachment_id
-	 * @return array. Assocciative array containing: 
+	 * @return array. Assocciative array containing:
 	 *  - 'date_created_gmt'
 	 *  - 'parent'
 	 *  - 'link'
@@ -1545,18 +1545,18 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	/**
 	 * Retrieves a collection of media library items (or attachments)
-	 * 
-	 * Besides the common blog_id, username, and password arguments, it takes a filter 
+	 *
+	 * Besides the common blog_id, username, and password arguments, it takes a filter
 	 * array as last argument.
-	 * 
+	 *
 	 * Accepted 'filter' keys are 'parent_id', 'mime_type', 'offset', and 'number'.
-	 * 
+	 *
 	 * The defaults are as follows:
 	 * - 'number' - Default is 5. Total number of media items to retrieve.
 	 * - 'offset' - Default is 0. See {@link WP_Query::query()} for more.
 	 * - 'parent_id' - Default is ''. The post where the media item is attached. Empty string shows all media items. 0 shows unattached media items.
 	 * - 'mime_type' - Default is ''. Filter by mime type (e.g., 'image/jpeg', 'application/pdf')
-	 * 
+	 *
 	 * @since 3.1.0
 	 *
 	 * @param array $args Method parameters. Contains:
@@ -1587,7 +1587,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$mime_type = ( isset($struct['mime_type']) ) ? $struct['mime_type'] : '' ;
 		$offset = ( isset($struct['offset']) ) ? absint($struct['offset']) : 0 ;
 		$number = ( isset($struct['number']) ) ? absint($struct['number']) : -1 ;
-		
+
 		$attachments = get_posts( array('post_type' => 'attachment', 'post_parent' => $parent_id, 'offset' => $offset, 'numberposts' => $number, 'post_mime_type' => $mime_type ) );
 		$num_attachments = count($attachments);
 

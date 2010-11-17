@@ -119,7 +119,7 @@ function date_i18n( $dateformatstring, $unixtimestamp = false, $gmt = false ) {
 		$dateformatstring = substr( $dateformatstring, 1, strlen( $dateformatstring ) -1 );
 	}
 	$timezone_formats = array( 'P', 'I', 'O', 'T', 'Z', 'e' );
-	$timezone_formats_re = implode( '|', $timezone_formats );	
+	$timezone_formats_re = implode( '|', $timezone_formats );
 	if ( preg_match( "/$timezone_formats_re/", $dateformatstring ) && wp_timezone_supported() ) {
 		$timezone_string = get_option( 'timezone_string' );
 		if ( $timezone_string ) {
@@ -132,9 +132,9 @@ function date_i18n( $dateformatstring, $unixtimestamp = false, $gmt = false ) {
 					$dateformatstring = preg_replace( "/([^\\\])$timezone_format/", "\\1" . backslashit( $formatted ), $dateformatstring );
 					$dateformatstring = substr( $dateformatstring, 1, strlen( $dateformatstring ) -1 );
 				}
-			}			
+			}
 		}
-	} 
+	}
 	$j = @$datefunc( $dateformatstring, $i );
 	// allow plugins to redo this entirely for languages with untypical grammars
 	$j = apply_filters('date_i18n', $j, $req_format, $i, $gmt);
@@ -1184,7 +1184,7 @@ function debug_fclose( $fp ) {
  */
 function do_enclose( $content, $post_ID ) {
 	global $wpdb;
-	
+
 	//TODO: Tidy this ghetto code up and make the debug code optional
 	include_once( ABSPATH . WPINC . '/class-IXR.php' );
 

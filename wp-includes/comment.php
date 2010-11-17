@@ -1764,7 +1764,7 @@ function pingback($content, $post_ID) {
 	global $wp_version;
 	include_once(ABSPATH . WPINC . '/class-IXR.php');
 	include_once(ABSPATH . WPINC . '/class-wp-http-ixr-client.php');
-	
+
 	// original code by Mort (http://mort.mine.nu:8080)
 	$post_links = array();
 

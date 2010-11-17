@@ -590,10 +590,10 @@ function get_tax_sql( $tax_query, $primary_table, $primary_id_column ) {
 		else {
 			// NOT IN is very slow for some reason
 			$where .= " AND $primary_table.$primary_id_column IN (
-				SELECT object_id 
-				FROM $wpdb->term_relationships 
-				WHERE term_taxonomy_id $operator ($terms) 
-			)"; 		
+				SELECT object_id
+				FROM $wpdb->term_relationships
+				WHERE term_taxonomy_id $operator ($terms)
+			)";
 		}
 	}
 
@@ -1179,7 +1179,7 @@ function &get_terms($taxonomies, $args = '') {
 	foreach ( $pieces as $piece )
 		$$piece = isset( $clauses[ $piece ] ) ? $clauses[ $piece ] : '';
 
-	$query = "SELECT $fields FROM $wpdb->terms AS t $join WHERE $where $orderby $order $limits";	
+	$query = "SELECT $fields FROM $wpdb->terms AS t $join WHERE $where $orderby $order $limits";
 
 	$fields = $_fields;
 

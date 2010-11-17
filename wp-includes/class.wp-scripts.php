@@ -185,7 +185,7 @@ class WP_Scripts extends WP_Dependencies {
 
 		if ( 0 === strpos( $src, '/wp-includes/js/l10n' ) )
 			return false;
-			
+
 		foreach ( (array) $this->default_dirs as $test ) {
 			if ( 0 === strpos($src, $test) )
 				return true;

@@ -7,7 +7,7 @@
  * @since 3.1.0
  */
 class WP_MS_Themes_List_Table extends WP_List_Table {
-	
+
 	var $site_id;
 	var $is_site_themes;
 
@@ -34,7 +34,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			'plural' => 'plugins', // @todo replace with themes and add css
 		) );
 	}
-	
+
 	function check_permissions() {
 		if ( is_multisite() ) {
 			$menu_perms = get_site_option( 'menu_items', array() );
@@ -45,9 +45,9 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			}
 		}
 
-		if ( $this->is_site_themes && !current_user_can('manage_sites') ) 
-			wp_die( __( 'You do not have sufficient permissions to manage themes for this site.' ) ); 
-		else if ( !$this->is_site_themes && !current_user_can('manage_network_themes') ) 
+		if ( $this->is_site_themes && !current_user_can('manage_sites') )
+			wp_die( __( 'You do not have sufficient permissions to manage themes for this site.' ) );
+		else if ( !$this->is_site_themes && !current_user_can('manage_network_themes') )
 			wp_die( __( 'You do not have sufficient permissions to manage network themes.' ) );
 	}
 
@@ -64,7 +64,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			'upgrade' => array()
 		);
 
-		$site_allowed_themes = get_site_allowed_themes(); 
+		$site_allowed_themes = get_site_allowed_themes();
 		if ( !$this->is_site_themes ) {
 			$allowed_themes = $site_allowed_themes;
 			$themes_per_page = $this->get_items_per_page( 'themes_network_per_page' );
@@ -72,7 +72,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			$allowed_themes = wpmu_get_blog_allowedthemes( $this->site_id );
 			$themes_per_page = $this->get_items_per_page( 'site_themes_network_per_page' );
 		}
-		
+
 		$current = get_site_transient( 'update_themes' );
 
 		foreach ( (array) $themes['all'] as $key => $theme ) {
@@ -89,10 +89,10 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			if ( isset( $current->response[ $theme['Template'] ] ) )
 				$themes['upgrade'][$key] = $themes['all'][$key];
 
-			if ( $this->is_site_themes && isset( $site_allowed_themes[$theme_key] ) ) { 
-				unset( $themes['all'][$key] ); 
-				unset( $themes['enabled'][$key] ); 
-				unset( $themes['disabled'][$key] ); 
+			if ( $this->is_site_themes && isset( $site_allowed_themes[$theme_key] ) ) {
+				unset( $themes['all'][$key] );
+				unset( $themes['enabled'][$key] );
+				unset( $themes['disabled'][$key] );
 			}
 		}
 
@@ -131,7 +131,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			'per_page' => $themes_per_page,
 		) );
 	}
-	
+
 	function _search_callback( $theme ) {
 		static $term;
 		if ( is_null( $term ) )
@@ -211,9 +211,9 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 					break;
 			}
 
-			if ( $this->is_site_themes ) 
-				$url = 'site-themes.php?id=' . $this->site_id; 
-			else 
+			if ( $this->is_site_themes )
+				$url = 'site-themes.php?id=' . $this->site_id;
+			else
 				$url = 'themes.php';
 
 			$status_links[$type] = sprintf( "<a href='%s' %s>%s</a>",
@@ -236,7 +236,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			$actions['disable-selected'] = __( 'Disable' );
 		if ( current_user_can( 'update_themes' ) )
 			$actions['update-selected'] = __( 'Update' );
-			
+
 		return $actions;
 	}
 
@@ -332,7 +332,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 					echo implode( ' | ', $theme_meta );
 
 					echo "</div></td>";
-					break;	
+					break;
 					break;
 				default:
 					echo "<td class='$column_name column-$column_name'$style>";

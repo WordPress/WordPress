@@ -61,7 +61,7 @@ function wp_default_scripts( &$scripts ) {
 	// Always ensure that we have the convertEntities function
 	$scripts->add( 'l10n', "/wp-includes/js/l10n$suffix.js", false, '20101110' );
 	$scripts->enqueue( 'l10n' );
-	
+
 	$scripts->add( 'utils', "/wp-admin/js/utils$suffix.js", false, '20101110' );
 
 	$scripts->add( 'common', "/wp-admin/js/common$suffix.js", array('jquery', 'hoverIntent', 'utils'), '20101116' );
@@ -260,15 +260,15 @@ function wp_default_scripts( &$scripts ) {
 	) );
 
 	$scripts->add( 'user-profile', "/wp-admin/js/user-profile$suffix.js", array( 'jquery', 'password-strength-meter' ), '20100925' );
-	$scripts->add_data( 'user-profile', 'group', 1 );	
+	$scripts->add_data( 'user-profile', 'group', 1 );
 
 	$scripts->add( 'admin-bar', "/wp-includes/js/admin-bar$suffix.js", false, '20101117');
-	$scripts->add_data( 'admin-bar', 'group', 1 );	
+	$scripts->add_data( 'admin-bar', 'group', 1 );
 	$scripts->localize( 'admin-bar', 'adminBarL10n', array(
 		'url' => __( 'URL:' ),
 		'noShortlink' => __( 'No shortlink available for this page.' ),
 	) );
-	
+
 	if ( is_admin() ) {
 		$scripts->add( 'ajaxcat', "/wp-admin/js/cat$suffix.js", array( 'wp-lists' ), '20090102' );
 		$scripts->add_data( 'ajaxcat', 'group', 1 );
@@ -501,7 +501,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'jcrop', '/wp-includes/js/jcrop/jquery.Jcrop.css', array(), '0.9.8' );
 	$styles->add( 'imgareaselect', '/wp-includes/js/imgareaselect/imgareaselect.css', array(), '0.9.1' );
 	$styles->add( 'nav-menu', "/wp-admin/css/nav-menu$suffix.css", array(), '20100907' );
-	
+
 	// Admin bar
 	$styles->add( 'admin-bar', "/wp-includes/css/admin-bar$suffix.css", array(), '20101117' );
 

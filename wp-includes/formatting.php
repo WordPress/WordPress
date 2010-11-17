@@ -223,7 +223,7 @@ function wpautop($pee, $br = 1) {
 
 /**
  * Newline preservation help function for wpautop
- * 
+ *
  * @since 3.1.0
  * @access private
  * @param array $matches preg_replace_callback matches array
@@ -737,7 +737,7 @@ function sanitize_file_name( $filename ) {
  * Sanitize username stripping out unsafe characters.
  *
  * Removes tags, octets, entities, and if strict is enabled, will only keep
- * alphanumeric, _, space, ., -, @. After sanitizing, it passes the username, 
+ * alphanumeric, _, space, ., -, @. After sanitizing, it passes the username,
  * raw username (the username in the parameter), and the value of $strict as
  * parameters for the 'sanitize_user' filter.
  *
@@ -1574,14 +1574,14 @@ function wp_iso_descrambler($string) {
 
 /**
  * Helper function to convert hex encoded chars to ascii
- * 
+ *
  * @since 3.1.0
  * @access private
  * @param $match the preg_replace_callback matches array
  */
-function _wp_iso_convert( $match ) { 
-	return chr( hexdec( strtolower( $match[1] ) ) ); 
-} 
+function _wp_iso_convert( $match ) {
+	return chr( hexdec( strtolower( $match[1] ) ) );
+}
 
 /**
  * Returns a date in the GMT equivalent.

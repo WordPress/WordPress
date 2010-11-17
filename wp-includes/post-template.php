@@ -230,14 +230,14 @@ function get_the_content($more_link_text = null, $stripteaser = 0) {
 
 /**
  * Preview fix for javascript bug with foreign languages
- * 
+ *
  * @since 3.1.0
  * @access private
  * @param array $match Match array from preg_replace_callback
  * @returns string
  */
 function _convert_urlencoded_to_entities( $match ) {
-	return '&#' . base_convert( $match[1], 16, 10 ) . ';'; 
+	return '&#' . base_convert( $match[1], 16, 10 ) . ';';
 }
 
 /**
@@ -327,7 +327,7 @@ function get_post_class( $class = '', $post_id = null ) {
 	$classes[] = $post->post_type;
 	$classes[] = 'type-' . $post->post_type;
 	$classes[] = 'status-' . $post->post_status;
-	
+
 	// Post Format
 	$post_format = get_post_format( $post->ID );
 
@@ -339,7 +339,7 @@ function get_post_class( $class = '', $post_id = null ) {
 	// post requires password
 	if ( post_password_required($post->ID) )
 		$classes[] = 'post-password-required';
-	
+
 	// sticky for Sticky Posts
 	if ( is_sticky($post->ID) && is_home() && !is_paged() )
 		$classes[] = 'sticky';
@@ -428,7 +428,7 @@ function get_body_class( $class = '' ) {
 		$classes[] = 'single';
 		$classes[] = 'single-' . sanitize_html_class($post->post_type, $post_id);
 		$classes[] = 'postid-' . $post_id;
-		
+
 		// Post Format
 		$post_format = get_post_format( $post->ID );
 

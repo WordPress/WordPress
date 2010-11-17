@@ -13,7 +13,7 @@ class WP_Admin_Bar {
 		}
 
 		/* Set the protocol used throughout this code */
-		if ( is_ssl() ) 
+		if ( is_ssl() )
 			$this->proto = 'https://';
 
 		$this->user = new stdClass;
@@ -97,7 +97,7 @@ class WP_Admin_Bar {
 
 			<div id="adminbarsearch-wrap">
 				<form action="<?php echo home_url(); ?>" method="get" id="adminbarsearch">
-					<input class="adminbar-input" name="s" id="adminbar-search" type="text" title="<?php esc_attr_e( 'Search' ); ?>" value="" maxlength="150" /> 
+					<input class="adminbar-input" name="s" id="adminbar-search" type="text" title="<?php esc_attr_e( 'Search' ); ?>" value="" maxlength="150" />
 					<button type="submit" class="adminbar-button"><span><?php _e('Search'); ?></span></button>
 				</form>
 			</div>
@@ -112,31 +112,31 @@ class WP_Admin_Bar {
 	function recursive_render( $id, &$menu_item ) { ?>
 		<?php $menuclass = ( ! empty( $menu_item['children'] ) ) ? 'menupop ' : ''; ?>
 
-		<li class="<?php echo $menuclass . "ab-$id" ?><?php 
-			if ( ! empty( $menu_item['meta']['class'] ) ) : 
+		<li class="<?php echo $menuclass . "ab-$id" ?><?php
+			if ( ! empty( $menu_item['meta']['class'] ) ) :
 				echo ' ' . $menu_item['meta']['class'];
-			endif; 
+			endif;
 		?>">
-			<a href="<?php echo strip_tags( $menu_item['href'] ) ?>"<?php 
+			<a href="<?php echo strip_tags( $menu_item['href'] ) ?>"<?php
 				if ( ! empty( $menu_item['meta']['onclick'] ) ) :
-					?> onclick="<?php echo $menu_item['meta']['onclick']; ?>"<?php 
+					?> onclick="<?php echo $menu_item['meta']['onclick']; ?>"<?php
 				endif;
 			if ( ! empty( $menu_item['meta']['target'] ) ) :
-				?> target="<?php echo $menu_item['meta']['target']; ?>"<?php 
-			endif; 
-			
-			?>><?php 
-			
-			if ( ! empty( $menuclass ) ) : 
-				?><span><?php 
-			endif; 
-			
+				?> target="<?php echo $menu_item['meta']['target']; ?>"<?php
+			endif;
+
+			?>><?php
+
+			if ( ! empty( $menuclass ) ) :
+				?><span><?php
+			endif;
+
 			echo $menu_item['title'];
-			
-			if ( ! empty( $menuclass ) ) : 
-				?></span><?php 
-			endif; 
-			
+
+			if ( ! empty( $menuclass ) ) :
+				?></span><?php
+			endif;
+
 			?></a>
 
 			<?php if ( ! empty( $menu_item['children'] ) ) : ?>
@@ -164,7 +164,7 @@ class WP_Admin_Bar {
 			if ( ! empty( $menu->{$id}['children'] ) )
 				$this->add_node( $parent_id, $menu->{$id}['children'], $child );
 		}
-		
+
 		$child = null;
 
 		return false;
@@ -204,7 +204,7 @@ class WP_Admin_Bar {
 	// TODO: Convert to a core feature for multisite or remove
 	function load_user_locale_translations() {
 		$this->need_to_change_locale = ( get_locale() != $this->user->locale );
-		if ( ! $this->need_to_change_locale ) 
+		if ( ! $this->need_to_change_locale )
 			return;
 		/*
 		$this->previous_translations = get_translations_for_domain( 'default' );
@@ -218,7 +218,7 @@ class WP_Admin_Bar {
 
 	function unload_user_locale_translations() {
 		global $l10n;
-		if ( ! $this->changed_locale ) 
+		if ( ! $this->changed_locale )
 			return;
 		/*
 		remove_filter( 'locale', $this->adminbar_locale_filter );

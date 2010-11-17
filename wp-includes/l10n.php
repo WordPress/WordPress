@@ -289,7 +289,7 @@ function _nx_noop( $singular, $plural, $context ) {
 
 /**
  * Translate the result of _n_noop() or _nx_noop()
- * 
+ *
  * @since 3.1
  * @param array $nooped_plural array with singular, plural and context keys, usually the result of _n_noop() or _nx_noop()
  * @param int $count number of objects

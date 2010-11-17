@@ -2273,7 +2273,7 @@ function wp_get_recent_posts( $args = array(), $output = ARRAY_A ) {
 		_deprecated_argument( __FUNCTION__, '3.1', __( 'Passing an integer number of posts is deprecated. Pass an array of arguments instead.' ) );
 		$args = array( 'numberposts' => absint( $args ) );
 	}
-	
+
 	// Set default arguments
 	$defaults = array(
 		'numberposts' => 10, 'offset' => 0,
@@ -3137,9 +3137,9 @@ function get_page_by_path($page_path, $output = OBJECT, $post_type = 'page') {
 		$path = '/' . $leaf_path;
 		$curpage = $page;
 		while ( $curpage->post_parent != 0 ) {
-			$post_parent = $curpage->post_parent; 
-			$curpage = wp_cache_get( $post_parent, 'posts' ); 
-			if ( false === $curpage ) 
+			$post_parent = $curpage->post_parent;
+			$curpage = wp_cache_get( $post_parent, 'posts' );
+			if ( false === $curpage )
 				$curpage = $wpdb->get_row( $wpdb->prepare( "SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE ID = %d and post_type = %s", $post_parent, $post_type ) );
 			$path = '/' . $curpage->post_name . $path;
 		}
@@ -5241,7 +5241,7 @@ function wp_quickpress_form( $args = array(), $post_type = 'post'){
  *
  * @since 3.1.0
  *
- * @return array The array of translations 
+ * @return array The array of translations
  */
 function get_post_format_strings() {
 	$strings = array(
@@ -5260,7 +5260,7 @@ function get_post_format_strings() {
 
 /**
  * Returns a pretty, translated version of a post format slug
- * 
+ *
  * @since 3.1.0
  *
  * @param string $slug A post format slug

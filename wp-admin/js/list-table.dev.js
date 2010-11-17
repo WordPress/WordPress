@@ -69,7 +69,7 @@ window.listTable = {
 			if ( true === value )
 				data[key] = '';
 			else
-				data[key] = value;		
+				data[key] = value;
 		});
 
 		this._callback = callback;
