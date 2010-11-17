@@ -380,8 +380,6 @@ function get_meta_sql( $meta_query, $meta_type, $primary_table, $primary_id_colu
 
 	$meta_id_column = esc_sql( $meta_type . '_id' );
 
-	$clauses = array();
-
 	$join = '';
 	$where = '';
 	$i = 0;
@@ -424,9 +422,7 @@ function get_meta_sql( $meta_query, $meta_type, $primary_table, $primary_id_colu
 			continue;
 
 		if ( 'IN' == substr( $meta_compare, -2) ) {
-			$meta_field_types = substr( str_repeat( ',%s', count( $meta_value ) ), 1 );
-			$meta_compare_string = "($meta_field_types)";
-			unset( $meta_field_types );
+			$meta_compare_string = '(' . substr( str_repeat( ',%s', count( $meta_value ) ), 1 ) . ')';
 		} elseif ( 'BETWEEN' == substr( $meta_compare, -7) ) {
 			$meta_value = array_slice( $meta_value, 0, 2 );
 			$meta_compare_string = '%s AND %s';
@@ -437,8 +433,6 @@ function get_meta_sql( $meta_query, $meta_type, $primary_table, $primary_id_colu
 			$meta_compare_string = '%s';
 		}
 		$where .= $wpdb->prepare( " AND CAST($alias.meta_value AS {$meta_type}) {$meta_compare} {$meta_compare_string}", $meta_value );
-
-		unset( $meta_compare_string );
 	}
 
 	return apply_filters_ref_array( 'get_meta_sql', array( compact( 'join', 'where' ), $meta_query, $meta_type, $primary_table, $primary_id_column, &$context ) );
