@@ -1933,14 +1933,17 @@ class WP_Query {
 		// Taxonomies
 		$q['tax_query'] = $this->parse_tax_query( $q );
 		if ( !empty( $q['tax_query'] ) ) {
+			$clauses = call_user_func_array( 'get_tax_sql', array( $q['tax_query'], $wpdb->posts, 'ID', &$this) );
+
+			$join .= $clauses['join'];
+			$where .= $clauses['where'];
+
 			if ( empty($post_type) ) {
 				$post_type = 'any';
 				$post_status_join = true;
 			} elseif ( in_array('attachment', (array) $post_type) ) {
 				$post_status_join = true;
 			}
-
-			$where .= get_tax_sql( $q['tax_query'], "$wpdb->posts.ID" );
 
 			// Back-compat
 			$tax_query_in = wp_list_filter( $q['tax_query'], array( 'operator' => 'IN' ) );

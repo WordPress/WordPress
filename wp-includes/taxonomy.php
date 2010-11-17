@@ -460,98 +460,43 @@ function register_taxonomy_for_object_type( $taxonomy, $object_type) {
  * @uses $wpdb
  * @uses wp_parse_args() Creates an array from string $args.
  *
- * @param mixed $terms Term id/slug/name or array of such to match against
+ * @param int|array $term_ids Term id or array of term ids of terms that will be used
  * @param string|array $taxonomies String of taxonomy name or Array of string values of taxonomy names
- * @param array|string $args
- *   'include_children' bool Whether to include term children (hierarchical taxonomies only)
- *   'field' string Which term field is being used. Can be 'term_id', 'slug' or 'name'
- *   'operator' string Can be 'IN' and 'NOT IN'
- *   'do_query' bool Whether to execute the query or return the SQL string
- *
- * @return WP_Error If the taxonomy does not exist
- * @return array The list of found object_ids
- * @return string The SQL string, if do_query is set to false
+ * @param array|string $args Change the order of the object_ids, either ASC or DESC
+ * @return WP_Error|array If the taxonomy does not exist, then WP_Error will be returned. On success
+ *	the array can be empty meaning that there are no $object_ids found or it will return the $object_ids found.
  */
-function get_objects_in_term( $terms, $taxonomies, $args = array() ) {
+function get_objects_in_term( $term_ids, $taxonomies, $args = array() ) {
 	global $wpdb;
 
-	extract( wp_parse_args( $args, array(
-		'include_children' => false,
-		'field' => 'term_id',
-		'operator' => 'IN',
-		'do_query' => true,
-	) ), EXTR_SKIP );
+	if ( ! is_array( $term_ids ) )
+		$term_ids = array( $term_ids );
 
-	$taxonomies = (array) $taxonomies;
+	if ( ! is_array( $taxonomies ) )
+		$taxonomies = array( $taxonomies );
 
-	foreach ( $taxonomies as $taxonomy ) {
+	foreach ( (array) $taxonomies as $taxonomy ) {
 		if ( ! taxonomy_exists( $taxonomy ) )
-			return new WP_Error( 'invalid_taxonomy', sprintf( __( 'Invalid Taxonomy: %s' ), $taxonomy ) );
+			return new WP_Error( 'invalid_taxonomy', __( 'Invalid Taxonomy' ) );
 	}
 
-	if ( !in_array( $field, array( 'term_id', 'slug', 'name' ) ) )
-		$field = 'term_id';
+	$defaults = array( 'order' => 'ASC' );
+	$args = wp_parse_args( $args, $defaults );
+	extract( $args, EXTR_SKIP );
 
-	if ( !in_array( $operator, array( 'IN', 'NOT IN' ) ) )
-		$operator = 'IN';
+	$order = ( 'desc' == strtolower( $order ) ) ? 'DESC' : 'ASC';
 
-	$terms = array_unique( (array) $terms );
-
-	if ( is_taxonomy_hierarchical( $taxonomy ) && $include_children ) {
-		$children = array();
-		foreach ( $terms as $term ) {
-			if ( 'term_id' != $field ) {
-				if ( $term = get_term_by( $field, $term, $taxonomy ) )
-					$term = $term->term_id;
-				else
-					continue;
-			}
-			$children = array_merge( $children, get_term_children( $term, $taxonomy ) );
-			$children[] = $term;
-		}
-		$terms = $children;
-		$field = 'term_id';
-	}
-
-	if ( empty( $terms ) )
-		return $do_query ? array() : '';
+	$term_ids = array_map('intval', $term_ids );
 
 	$taxonomies = "'" . implode( "', '", $taxonomies ) . "'";
+	$term_ids = "'" . implode( "', '", $term_ids ) . "'";
 
-	switch ( $field ) {
-		case 'term_id':
-			$terms = array_map( 'intval', $terms );
+	$object_ids = $wpdb->get_col("SELECT tr.object_id FROM $wpdb->term_relationships AS tr INNER JOIN $wpdb->term_taxonomy AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy IN ($taxonomies) AND tt.term_id IN ($term_ids) ORDER BY tr.object_id $order");
 
-			$terms = implode( ',', $terms );
-			$sql = "
-				SELECT object_id
-				FROM $wpdb->term_relationships
-				INNER JOIN $wpdb->term_taxonomy USING (term_taxonomy_id)
-				WHERE taxonomy IN ($taxonomies)
-				AND term_id $operator ($terms)
-			";
-		break;
+	if ( ! $object_ids )
+		return array();
 
-		case 'slug':
-		case 'name':
-			foreach ( $terms as $i => $term ) {
-				$terms[$i] = sanitize_title_for_query( $term );
-			}
-			$terms = array_filter($terms);
-
-			$terms = "'" . implode( "','", $terms ) . "'";
-			$sql = "
-				SELECT object_id
-				FROM $wpdb->term_relationships
-				INNER JOIN $wpdb->term_taxonomy USING (term_taxonomy_id)
-				INNER JOIN $wpdb->terms USING (term_id)
-				WHERE taxonomy IN ($taxonomies)
-				AND $field $operator ($terms)
-			";
-		break;
-	}
-
-	return $do_query ? $wpdb->get_col( $sql ) : $sql;
+	return $object_ids;
 }
 
 /*
@@ -571,43 +516,121 @@ function get_objects_in_term( $terms, $taxonomies, $args = array() ) {
  * - 'include_children' bool (optional) Whether to include child terms.
  *		Default: true
  *
- * @param string $object_id_column
+ * @param string $primary_table
+ * @param string $primary_id_column
  * @return string
  */
-function get_tax_sql( $tax_query, $object_id_column ) {
+function get_tax_sql( $tax_query, $primary_table, $primary_id_column ) {
 	global $wpdb;
 
-	$sql = array();
+	$join = '';
+	$where = '';
+	$i = 0;
 	foreach ( $tax_query as $query ) {
-		if ( !isset( $query['include_children'] ) )
-			$query['include_children'] = true;
+		extract( wp_parse_args( $query, array(
+			'taxonomy' => array(),
+			'terms' => array(),
+			'include_children' => true,
+			'field' => 'term_id',
+			'operator' => 'IN',
+		) ) );
 
-		$query['do_query'] = false;
+		$taxonomies = (array) $taxonomy;
 
-		$sql_single = get_objects_in_term( $query['terms'], $query['taxonomy'], $query );
+		foreach ( $taxonomies as $taxonomy ) {
+			if ( ! taxonomy_exists( $taxonomy ) )
+				return ' AND 0 = 1';
+		}
 
-		if ( empty( $sql_single ) || is_wp_error( $sql_single ) )
-			return ' AND 0 = 1';
+		if ( !in_array( $operator, array( 'IN', 'NOT IN' ) ) )
+			$operator = 'IN';
 
-		$sql[] = $sql_single;
+		$taxonomies = "'" . implode( "', '", $taxonomies ) . "'";
+
+		$terms = array_unique( (array) $terms );
+
+		if ( empty( $terms ) )
+			continue;
+
+		if ( is_taxonomy_hierarchical( $taxonomy ) && $include_children ) {
+			_transform_terms( $terms, $taxonomies, $field, 'term_id' );
+
+			if ( empty( $terms ) )
+				continue;
+
+			$children = array();
+			foreach ( $terms as $term ) {
+				$children = array_merge( $children, get_term_children( $term, $taxonomy ) );
+				$children[] = $term;
+			}
+			$terms = $children;
+
+			_transform_terms( $terms, $taxonomies, 'term_id', 'term_taxonomy_id' );
+		}
+		else {
+			_transform_terms( $terms, $taxonomies, $field, 'term_taxonomy_id' );
+		}
+
+		if ( empty( $terms ) )
+			continue;
+
+		$terms = implode( ',', $terms );
+
+		if ( 'IN' == $operator ) {
+			$alias = $i ? 'tt' . $i : $wpdb->term_relationships;
+
+			$join .= " INNER JOIN $wpdb->term_relationships";
+			$join .= $i ? " AS $alias" : '';
+			$join .= " ON ($primary_table.$primary_id_column = $alias.object_id)";
+
+			$where .= " AND $alias.term_taxonomy_id $operator ($terms)";
+
+			$i++;
+		}
+		else {
+			// NOT IN is very slow for some reason
+			$where .= " AND $primary_table.$primary_id_column IN (
+				SELECT object_id 
+				FROM $wpdb->term_relationships 
+				WHERE term_taxonomy_id $operator ($terms) 
+			)"; 		
+		}
 	}
 
-	if ( 1 == count( $sql ) ) {
-		$ids = $wpdb->get_col( $sql[0] );
-	} else {
-		$r = "SELECT object_id FROM $wpdb->term_relationships WHERE 1=1";
-		foreach ( $sql as $query )
-			$r .= " AND object_id IN ($query)";
-
-		$ids = $wpdb->get_col( $r );
-	}
-
-	if ( !empty( $ids ) )
-		return " AND $object_id_column IN(" . implode( ', ', $ids ) . ")";
-	else
-		return ' AND 0 = 1';
+	return compact( 'join', 'where' );
 }
 
+function _transform_terms( &$terms, $taxonomies, $field, $resulting_field ) {
+	global $wpdb;
+
+	if ( $field == $resulting_field )
+		return;
+
+	$resulting_field = esc_sql( $resulting_field );
+
+	switch ( $field ) {
+		case 'slug':
+		case 'name':
+			$terms = "'" . implode( "','", array_map( 'sanitize_title_for_query', $terms ) ) . "'";
+			$terms = $wpdb->get_col( "
+				SELECT $resulting_field
+				FROM $wpdb->term_taxonomy
+				INNER JOIN $wpdb->terms USING (term_id)
+				WHERE taxonomy IN ($taxonomies)
+				AND $field IN ($terms)
+			" );
+			break;
+
+		default:
+			$terms = implode( ',', array_map( 'intval', $terms ) );
+			$terms = $wpdb->get_col( "
+				SELECT $resulting_field
+				FROM $wpdb->term_taxonomy
+				WHERE taxonomy IN ($taxonomies)
+				AND term_id IN ($terms)
+			" );
+	}
+}
 
 /**
  * Get all Term data from database by Term ID.
