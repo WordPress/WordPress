@@ -421,7 +421,7 @@ td.action-links, th.action-links {
 }
 #screen-meta a.show-settings {
 	padding: 0 6px 0 16px;
-	background-position: left bottom;
+	background-position: left top;
 }
 .metabox-prefs label {
 	padding-right: 0;
