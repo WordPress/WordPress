@@ -831,11 +831,10 @@ function map_meta_cap( $cap, $user_id ) {
 			break;
 		}
 
-		if ( '' != $post->post_author && post_type_supports( $post_type->name, 'author' ) ) {
+		if ( '' != $post->post_author ) {
 			$post_author_data = get_userdata( $post->post_author );
 		} else {
-			// No author set yet or post type doesn't support authors,
-			// so default to current user for cap checks.
+			// No author set yet, so default to current user for cap checks.
 			$post_author_data = $author_data;
 		}
 
@@ -874,11 +873,10 @@ function map_meta_cap( $cap, $user_id ) {
 			break;
 		}
 
-		if ( '' != $post->post_author && post_type_supports( $post_type->name, 'author' ) ) {
+		if ( '' != $post->post_author ) {
 			$post_author_data = get_userdata( $post->post_author );
 		} else {
-			// No author set yet or post type doesn't support authors,
-			// so default to current user for cap checks.
+			// No author set yet, so default to current user for cap checks.
 			$post_author_data = $author_data;
 		}
 
@@ -921,11 +919,10 @@ function map_meta_cap( $cap, $user_id ) {
 			break;
 		}
 
-		if ( '' != $post->post_author && post_type_supports( $post_type->name, 'author' ) ) {
+		if ( '' != $post->post_author ) {
 			$post_author_data = get_userdata( $post->post_author );
 		} else {
-			// No author set yet or post type doesn't support authors,
-			// so default to current user for cap checks.
+			// No author set yet, so default to current user for cap checks.
 			$post_author_data = $author_data;
 		}
 

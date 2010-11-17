@@ -1086,7 +1086,8 @@ function get_post_type_capabilities( $args ) {
 	}
 
 	if ( ! post_type_supports( $args->name, 'author' ) ) {
-		// While these may be checked in core, users/roles shouldn't need to be granted these.
+		// While these may be checked in core, users/roles shouldn't need to be
+		// granted these by default if the post type doesn't support authors.
 		$default_capabilities['edit_others_posts']   = $default_capabilities['edit_posts'];
 		if ( $args->map_meta_cap )
 			$default_capabilities['delete_others_posts'] = $default_capabilities['delete_posts'];
