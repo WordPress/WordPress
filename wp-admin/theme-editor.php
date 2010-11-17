@@ -116,7 +116,7 @@ default:
 			$docs_select .= '</select>';
 		}
 
-		$content = htmlspecialchars( $content );
+		$content = esc_textarea( $content );
 	}
 
 	?>

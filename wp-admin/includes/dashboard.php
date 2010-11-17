@@ -518,7 +518,7 @@ function wp_dashboard_quick_press_output() {
 
 		<h4 id="content-label"><label for="content"><?php _e('Content') ?></label></h4>
 		<div class="textarea-wrap">
-			<textarea name="content" id="content" class="mceEditor" rows="3" cols="15" tabindex="2"><?php echo $post->post_content; ?></textarea>
+			<textarea name="content" id="content" class="mceEditor" rows="3" cols="15" tabindex="2"><?php echo esc_textarea( $post->post_content ); ?></textarea>
 		</div>
 
 		<script type="text/javascript">edCanvas = document.getElementById('content');edInsertContent = null;</script>

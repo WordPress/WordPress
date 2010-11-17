@@ -1282,7 +1282,7 @@ function get_media_item( $attachment_id, $args = null ) {
 		if ( !empty( $field[ $field['input'] ] ) )
 			$item .= $field[ $field['input'] ];
 		elseif ( $field['input'] == 'textarea' ) {
-			$item .= "<textarea type='text' id='$name' name='$name' $aria_required>" . esc_html( $field['value'] ) . '</textarea>';
+			$item .= "<textarea type='text' id='$name' name='$name' $aria_required>" . esc_textarea( $field['value'] ) . '</textarea>';
 		} else {
 			$item .= "<input type='text' class='text' id='$name' name='$name' value='" . esc_attr( $field['value'] ) . "' $aria_required />";
 		}

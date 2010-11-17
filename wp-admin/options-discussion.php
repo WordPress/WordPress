@@ -141,7 +141,7 @@ printf( __('Comments should be displayed with the %s comments at the top of each
 
 <p><label for="moderation_keys"><?php _e('When a comment contains any of these words in its content, name, URL, e-mail, or IP, it will be held in the <a href="edit-comments.php?comment_status=moderated">moderation queue</a>. One word or IP per line. It will match inside words, so &#8220;press&#8221; will match &#8220;WordPress&#8221;.') ?></label></p>
 <p>
-<textarea name="moderation_keys" rows="10" cols="50" id="moderation_keys" class="large-text code"><?php form_option('moderation_keys'); ?></textarea>
+<textarea name="moderation_keys" rows="10" cols="50" id="moderation_keys" class="large-text code"><?php esc_textarea( get_option( 'moderation_keys' ) ); ?></textarea>
 </p>
 </fieldset></td>
 </tr>
@@ -150,7 +150,7 @@ printf( __('Comments should be displayed with the %s comments at the top of each
 <td><fieldset><legend class="screen-reader-text"><span><?php _e('Comment Blacklist') ?></span></legend>
 <p><label for="blacklist_keys"><?php _e('When a comment contains any of these words in its content, name, URL, e-mail, or IP, it will be marked as spam. One word or IP per line. It will match inside words, so &#8220;press&#8221; will match &#8220;WordPress&#8221;.') ?></label></p>
 <p>
-<textarea name="blacklist_keys" rows="10" cols="50" id="blacklist_keys" class="large-text code"><?php form_option('blacklist_keys'); ?></textarea>
+<textarea name="blacklist_keys" rows="10" cols="50" id="blacklist_keys" class="large-text code"><?php esc_textarea( get_option( 'blacklist_keys' ) ); ?></textarea>
 </p>
 </fieldset></td>
 </tr>

@@ -136,7 +136,7 @@ default:
 		}
 	}
 
-	$content = htmlspecialchars( $content );
+	$content = esc_textarea( $content );
 	?>
 <?php if (isset($_GET['a'])) : ?>
  <div id="message" class="updated"><p><?php _e('File edited successfully.') ?></p></div>

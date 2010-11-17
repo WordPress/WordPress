@@ -2353,6 +2353,19 @@ function esc_attr( $text ) {
 }
 
 /**
+ * Escaping for textarea values.
+ *
+ * @since 3.1
+ *
+ * @param string $text
+ * @return string
+ */
+function esc_textarea( $text ) {
+	$safe_text = htmlspecialchars( $text );
+	return apply_filters( 'esc_textarea', $safe_text, $text );
+}
+
+/**
  * Escape a HTML tag name.
  *
  * @since 2.5.0

@@ -340,7 +340,7 @@ if ( is_multisite() && is_network_admin() && current_user_can( 'manage_network_o
 <table class="form-table">
 <tr>
 	<th><label for="description"><?php _e('Biographical Info'); ?></label></th>
-	<td><textarea name="description" id="description" rows="5" cols="30"><?php echo esc_html($profileuser->description); ?></textarea><br />
+	<td><textarea name="description" id="description" rows="5" cols="30"><?php echo esc_textarea( $profileuser->description ); ?></textarea><br />
 	<span class="description"><?php _e('Share a little biographical information to fill out your profile. This may be shown publicly.'); ?></span></td>
 </tr>
 

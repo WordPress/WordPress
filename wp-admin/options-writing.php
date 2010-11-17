@@ -137,7 +137,7 @@ wp_dropdown_categories(array('hide_empty' => 0, 'name' => 'default_email_categor
 
 <p><label for="ping_sites"><?php _e('When you publish a new post, WordPress automatically notifies the following site update services. For more about this, see <a href="http://codex.wordpress.org/Update_Services">Update Services</a> on the Codex. Separate multiple service <abbr title="Universal Resource Locator">URL</abbr>s with line breaks.') ?></label></p>
 
-<textarea name="ping_sites" id="ping_sites" class="large-text code" rows="3"><?php form_option('ping_sites'); ?></textarea>
+<textarea name="ping_sites" id="ping_sites" class="large-text code" rows="3"><?php esc_textarea( get_option('ping_sites') ); ?></textarea>
 
 <?php else : ?>
 

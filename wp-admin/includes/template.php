@@ -483,7 +483,7 @@ function _list_meta_row( $entry, &$count ) {
 	}
 
 	$entry['meta_key'] = esc_attr($entry['meta_key']);
-	$entry['meta_value'] = htmlspecialchars($entry['meta_value']); // using a <textarea />
+	$entry['meta_value'] = esc_textarea( $entry['meta_value'] ); // using a <textarea />
 	$entry['meta_id'] = (int) $entry['meta_id'];
 
 	$delete_nonce = wp_create_nonce( 'delete-meta_' . $entry['meta_id'] );
@@ -718,7 +718,7 @@ function the_attachment_links( $id = false ) {
 	<col class="widefat" />
 	<tr>
 		<th scope="row"><?php _e( 'URL' ) ?></th>
-		<td><textarea rows="1" cols="40" type="text" class="attachmentlinks" readonly="readonly"><?php echo wp_get_attachment_url(); ?></textarea></td>
+		<td><textarea rows="1" cols="40" type="text" class="attachmentlinks" readonly="readonly"><?php echo esc_textarea( wp_get_attachment_url() ); ?></textarea></td>
 	</tr>
 <?php if ( $icon ) : ?>
 	<tr>

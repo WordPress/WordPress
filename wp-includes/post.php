@@ -5123,7 +5123,7 @@ function wp_quickpress_form( $args = array(), $post_type = 'post'){
 			'capability' => '',
 			'output' => '<h4 id="%s-content-label"><label for="content">'. __('Content') .'</label></h4>
 		<div class="textarea-wrap">
-			<textarea name="content" id="%s-content" class="mceEditor" rows="3" cols="15" tabindex="%d">'. $post->post_content.'</textarea>
+			<textarea name="content" id="%s-content" class="mceEditor" rows="3" cols="15" tabindex="%d">'. esc_textarea( $post->post_content ) .'</textarea>
 		</div>
 			'."     <script type='text/javascript'>edCanvas = document.getElementById('content');edInsertContent = null;</script>
 		"

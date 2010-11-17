@@ -113,7 +113,7 @@ if ( !empty($_REQUEST['ajax']) ) {
 			<div class="postbox">
 				<h2><label for="embed-code"><?php _e('Embed Code') ?></label></h2>
 				<div class="inside">
-					<textarea name="embed-code" id="embed-code" rows="8" cols="40"><?php echo wp_htmledit_pre( $selection ); ?></textarea>
+					<textarea name="embed-code" id="embed-code" rows="8" cols="40"><?php echo esc_textarea( $selection ); ?></textarea>
 					<p id="options"><a href="#" class="select button"><?php _e('Insert Video'); ?></a> <a href="#" class="close button"><?php _e('Cancel'); ?></a></p>
 				</div>
 			</div>

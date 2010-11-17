@@ -201,7 +201,7 @@ foreach ( (array) $options as $option ) :
 	<th scope='row'><label for='$name'>" . esc_html( $option->option_name ) . "</label></th>
 <td>";
 	if ( strpos( $value, "\n" ) !== false )
-		echo "<textarea class='$class' name='$name' id='$name' cols='30' rows='5'>" . wp_htmledit_pre( $value ) . "</textarea>";
+		echo "<textarea class='$class' name='$name' id='$name' cols='30' rows='5'>" . esc_textarea( $value ) . "</textarea>";
 	else
 		echo "<input class='regular-text $class' type='text' name='$name' id='$name' value='" . esc_attr( $value ) . "'" . disabled( $disabled, true, false ) . " />";
 	echo "</td>

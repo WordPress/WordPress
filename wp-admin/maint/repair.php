@@ -72,7 +72,7 @@ if ( !defined('WP_ALLOW_REPAIR') ) {
 		$problem_output = array();
 		foreach ( $problems as $table => $problem )
 			$problem_output[] = "$table: $problem";
-		echo '<textarea name="errors" id="errors" rows="20" cols="60">' . format_to_edit(implode("\n", $problem_output)) . '</textarea>';
+		echo '<textarea name="errors" id="errors" rows="20" cols="60">' . esc_textarea( implode("\n", $problem_output) ) . '</textarea>';
 	} else {
 		echo '<p>'.__('Repairs complete.  Please remove the following line from wp-config.php to prevent this page from being used by unauthorized users.')."</p><code>define('WP_ALLOW_REPAIR', true);</code>";
 	}

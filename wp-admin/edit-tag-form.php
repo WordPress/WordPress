@@ -61,7 +61,7 @@ do_action($taxonomy . '_pre_edit_form', $tag, $taxonomy);  ?>
 <?php endif; // is_taxonomy_hierarchical() ?>
 		<tr class="form-field">
 			<th scope="row" valign="top"><label for="description"><?php _ex('Description', 'Taxonomy Description'); ?></label></th>
-			<td><textarea name="description" id="description" rows="5" cols="50" style="width: 97%;"><?php echo esc_html($tag->description); ?></textarea><br />
+			<td><textarea name="description" id="description" rows="5" cols="50" style="width: 97%;"><?php echo esc_textarea( $tag->description ); ?></textarea><br />
 			<span class="description"><?php _e('The description is not prominent by default, however some themes may show it.'); ?></span></td>
 		</tr>
 		<?php
