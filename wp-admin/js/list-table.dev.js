@@ -23,7 +23,10 @@ window.listTable = {
 
 	// paging
 	set_total_pages: function(num) {
-		this.total_pages = num || $.query.load( $('.last-page').attr('href') ).get('paged');
+		var last_page_url = $('.last-page').attr('href');
+
+		if ( last_page_url )
+			this.total_pages = num || $.query.load( last_page_url ).get('paged');
 	},
 
 	get_total_pages: function() {
