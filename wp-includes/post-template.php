@@ -498,6 +498,9 @@ function get_body_class( $class = '' ) {
 	if ( is_user_logged_in() )
 		$classes[] = 'logged-in';
 
+	if ( is_admin_bar_showing() )
+		$classes[] = 'admin-bar';
+
 	$page = $wp_query->get( 'page' );
 
 	if ( !$page || $page < 2)
