@@ -22,8 +22,8 @@ window.listTable = {
 	},
 
 	// paging
-	set_total_pages: function() {
-		this.total_pages = parseInt($('.total-pages').eq(0).text());
+	set_total_pages: function(num) {
+		this.total_pages = num || $.query.load( $('.last-page').attr('href') ).get('paged');
 	},
 
 	get_total_pages: function() {
@@ -31,7 +31,7 @@ window.listTable = {
 	},
 
 	change_page: function(paged) {
-		if ( paged < 1 || paged >this.total_pages )
+		if ( paged < 1 || paged > this.total_pages )
 			return false;
 
 		this.update_rows({'paged': paged});
@@ -104,10 +104,10 @@ window.listTable = {
 
 			this.$tbody.html(response.rows);
 
-			$('.displaying-num').html(response.total_items);
+			$('.displaying-num').html(response.total_items_i18n);
+			$('.total-pages').html(response.total_pages_i18n);
 
-			$('.total-pages').html(response.total_pages);
-			this.set_total_pages();
+			this.set_total_pages(response.total_pages);
 
 			$('.current-page').val($.query.GET('paged'));
 

@@ -809,10 +809,12 @@ class WP_List_Table {
 		$response = array( 'rows' => $rows );
 
 		if ( isset( $total_items ) )
-			$response['total_items'] = sprintf( _n( '1 item', '%s items', $total_items ), number_format_i18n( $total_items ) );
+			$response['total_items_i18n'] = sprintf( _n( '1 item', '%s items', $total_items ), number_format_i18n( $total_items ) );
 
-		if ( isset( $total_pages ) )
+		if ( isset( $total_pages ) ) {
 			$response['total_pages'] = $total_pages;
+			$response['total_pages_i18n'] = number_format_i18n( $total_pages );
+		}
 
 		die( json_encode( $response ) );
 	}
