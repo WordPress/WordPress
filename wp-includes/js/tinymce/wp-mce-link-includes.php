@@ -3,7 +3,7 @@
 function wp_link_query( $args = array() ) {
 	$pts = get_post_types( array( 'publicly_queryable' => true ), 'objects' );
 	$pt_names = array_keys( $pts );
-	
+
 	$query = array(
 		'post_type' => $pt_names,
 		'suppress_filters' => true,
@@ -28,7 +28,7 @@ function wp_link_query( $args = array() ) {
 	// Check if any posts were found.
 	if ( ! $get_posts->post_count )
 		return false;
-	
+
 	// Build results.
 	$results = array();
 	foreach ( $posts as $post ) {
@@ -36,7 +36,7 @@ function wp_link_query( $args = array() ) {
 			$info = mysql2date( __( 'Y/m/d' ), $post->post_date );
 		else
 			$info = $pts[ $post->post_type ]->labels->singular_name;
-		
+
 		$results[] = array(
 			'ID' => $post->ID,
 			'title' => esc_html( strip_tags($post->post_title) ),
@@ -58,7 +58,7 @@ function wp_link_ajax( $request ) {
 
 	if ( ! isset( $results ) )
 		die( '0' );
-	
+
 	echo json_encode( $results );
 	echo "\n";
 }

@@ -1,4 +1,4 @@
-(function($){	
+(function($){
 	var inputs = {}, results = {}, ed,
 	wpLink = {
 		timeToTriggerRiver: 150,
@@ -15,8 +15,8 @@
 			var e;
 			// Init shared vars
 			ed = tinyMCEPopup.editor;
-			
-			
+
+
 			// URL
 			inputs.url = $('#url-field');
 			// Secondary options
@@ -29,7 +29,7 @@
 			results.recent = $('#most-recent-results');
 			results.search.data('river', wpLink.riverDefaults() );
 			results.recent.data('river', wpLink.riverDefaults() );
-			
+
 			// Bind event handlers
 			$('#wp-update').click( wpLink.update );
 			$('#wp-cancel').click( function() { tinyMCEPopup.close(); } );
@@ -46,11 +46,11 @@
 				if ( "_blank" == ed.dom.getAttrib(e, 'target') )
 					inputs.openInNewTab.attr('checked','checked');
 			}
-			
+
 			// Focus the URL field
 			inputs.url.focus();
 		},
-		
+
 		update : function() {
 			var el,
 				ed = tinyMCEPopup.editor,
@@ -60,10 +60,10 @@
 					target : inputs.openInNewTab.attr('checked') ? '_blank' : ''
 				}, e, b,
 				defaultContent = attrs.title ? attrs.title : attrs.href;
-			
+
 			tinyMCEPopup.restoreSelection();
 			e = ed.dom.getParent(ed.selection.getNode(), 'A');
-			
+
 			// If the values are empty...
 			if ( ! attrs.href ) {
 				// ...and nothing is selected, we should return
@@ -81,12 +81,12 @@
 					return;
 				}
 			}
-			
+
 			tinyMCEPopup.execCommand("mceBeginUndoLevel");
 
 			if (e == null) {
 				ed.getDoc().execCommand("unlink", false, null);
-				
+
 				// If no selection exists, create a new link from scratch.
 				if ( ed.selection.isCollapsed() ) {
 					el = ed.dom.create('a', { href: "#mce_temp_url#" }, defaultContent);
@@ -117,7 +117,7 @@
 			tinyMCEPopup.execCommand("mceEndUndoLevel");
 			tinyMCEPopup.close();
 		},
-		
+
 		selectInternalLink : function() {
 			var t = $(this);
 			if ( t.hasClass('unselectable') )
@@ -127,24 +127,24 @@
 			inputs.url.val( t.children('.item-permalink').val() );
 			inputs.title.val( t.children('.item-title').text() );
 		},
-		
+
 		maybeLoadRiver : function() {
 			var t = $(this),
 				ul = t.children('ul'),
 				river = t.data('river'),
 				bottom = t.scrollTop() + t.height();
-			
+
 			if ( bottom != ul.height() || river.active || river.allLoaded )
 				return;
-			
+
 			setTimeout(function() {
 				var newTop = t.scrollTop(),
 					newBottom = newTop + t.height(),
 					waiting = t.find('.river-waiting');
-				
+
 				if ( bottom != newBottom || newBottom != ul.height() || river.active || river.allLoaded )
 					return;
-				
+
 				river.active = true;
 				waiting.show();
 				t.scrollTop( newTop + waiting.outerHeight() );
@@ -163,18 +163,18 @@
 		searchInternalLinks : function() {
 			var t = $(this), waiting,
 				title = t.val();
-			
+
 			if ( title.length > 2 ) {
 				results.recent.hide();
 				results.search.show();
-				
+
 				// Don't search if the keypress didn't change the title.
 				if ( wpLink.lastSearch == title )
 					return;
-				
+
 				wpLink.lastSearch = title;
 				waiting = t.siblings('img.waiting').show();
-				
+
 				results.search.data('river', wpLink.riverDefaults() );
 				results.search.scrollTop(0);
 				wpLink.linkAJAX( results.search, { title : title }, function(){ waiting.hide(); });
@@ -183,29 +183,29 @@
 				results.recent.show();
 			}
 		},
-		
+
 		linkAJAX : function( $panel, params, callback, opts ) {
 			var response;
 			opts = opts || {};
-			
+
 			if ( ! $panel.hasClass('query-results') )
 				$panel = $panel.parents('.query-results');
-			
+
 			if ( ! $panel.length )
 				return;
-			
+
 			response = wpLink.delayedCallback( function( results ) {
 				wpLink.processAJAXResponse( $panel, results, callback, opts );
 			}, opts.delay );
-			
+
 			$.post( ajaxurl, $.extend({
 				action : 'wp-link-ajax'
 			}, params ), response, "json" );
 		},
-		
+
 		processAJAXResponse: function( $panel, results, callback, opts ) {
 			var list = '';
-			
+
 			if ( !results ) {
 				if ( !opts.append ) {
 					list += '<li class="no-matches-found unselectable"><span class="item-title"><em>'
@@ -220,28 +220,28 @@
 					list += '</span><span class="item-info">' + this['info'] + '</span></li>';
 				});
 			}
-			
+
 			// Set results
 			$panel.children('ul')[ opts.append ? 'append' : 'html' ]( list );
-			
+
 			// Run callback
 			if ( callback )
 				callback( results );
 		},
-		
+
 		delayedCallback : function( func, delay ) {
 			var timeoutTriggered, funcTriggered, funcArgs, funcContext;
-			
+
 			if ( ! delay )
 				return func;
-			
+
 			setTimeout( function() {
 				if ( funcTriggered )
 					return func.apply( funcContext, funcArgs );
 				// Otherwise, wait.
 				timeoutTriggered = true;
 			}, delay);
-			
+
 			return function() {
 				if ( timeoutTriggered )
 					return func.apply( this, arguments );
@@ -252,6 +252,6 @@
 			};
 		}
 	}
-	
+
 	$(document).ready( wpLink.init );
 })(jQuery);

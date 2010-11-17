@@ -26,7 +26,7 @@
 				title : ed.getLang('advanced.link_desc'),
 				cmd : 'WP_Link'
 			});
-			
+
 			ed.addShortcut('alt+shift+a', ed.getLang('advanced.link_desc'), 'WP_Link');
 
 			// Add a node change handler, selects the button in the UI when a link is selected
