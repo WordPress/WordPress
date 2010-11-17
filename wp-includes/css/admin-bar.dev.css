@@ -75,8 +75,8 @@
 #wpadminbar ul li a span#ab-awaiting-mod,
 #wpadminbar ul li a span#ab-updates {
 	display: inline;
-	background: #aaa;
-	color: #fff;
+	background: #eee;
+	color: #333;
 	padding: 1px 5px;
 	font-size: 10px;
 	font-family: verdana;

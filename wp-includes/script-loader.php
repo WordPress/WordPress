@@ -503,7 +503,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'nav-menu', "/wp-admin/css/nav-menu$suffix.css", array(), '20100907' );
 	
 	// Admin bar
-	$styles->add( 'admin-bar', "/wp-includes/css/admin-bar$suffix.css", array(), '20101111' );
+	$styles->add( 'admin-bar', "/wp-includes/css/admin-bar$suffix.css", array(), '20101117' );
 
 	foreach ( $rtl_styles as $rtl_style ) {
 		$styles->add_data( $rtl_style, 'rtl', true );
