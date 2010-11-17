@@ -1078,7 +1078,7 @@ table.widefat .spam a:hover,
 
 #adminmenu li.wp-has-current-submenu a.wp-has-current-submenu,
 #adminmenu li.current a.menu-top {
-	background: #e0e0e0 url(../images/menu-bits-vs.gif?ver=20101102) top left repeat-x;
+	background: #d0dfe9 url(../images/menu-bits-vs.gif?ver=20101102) top left repeat-x;
 	border: #5589aa 1px solid;
 	color: #464646;
 }
