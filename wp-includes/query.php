@@ -709,6 +709,15 @@ class WP_Query {
 	var $query_vars = array();
 
 	/**
+	 * Taxonomy query, as passed to get_tax_sql()
+	 *
+	 * @since 3.1.0
+	 * @access public
+	 * @var array
+	 */
+	var $tax_query = array();
+
+	/**
 	 * Holds the data for a single object that is queried.
 	 *
 	 * Holds the contents of a post, page, category, attachment.
@@ -1931,9 +1940,9 @@ class WP_Query {
 		$search = apply_filters_ref_array('posts_search', array( $search, &$this ) );
 
 		// Taxonomies
-		$q['tax_query'] = $this->parse_tax_query( $q );
-		if ( !empty( $q['tax_query'] ) ) {
-			$clauses = call_user_func_array( 'get_tax_sql', array( $q['tax_query'], $wpdb->posts, 'ID', &$this) );
+		$this->tax_query = $this->parse_tax_query( $q );
+		if ( !empty( $this->tax_query ) ) {
+			$clauses = call_user_func_array( 'get_tax_sql', array( $this->tax_query, $wpdb->posts, 'ID', &$this) );
 
 			$join .= $clauses['join'];
 			$where .= $clauses['where'];
@@ -1946,7 +1955,7 @@ class WP_Query {
 			}
 
 			// Back-compat
-			$tax_query_in = wp_list_filter( $q['tax_query'], array( 'operator' => 'IN' ) );
+			$tax_query_in = wp_list_filter( $this->tax_query, array( 'operator' => 'IN' ) );
 			if ( !empty( $tax_query_in ) ) {
 				if ( !isset( $q['taxonomy'] ) ) {
 					foreach ( $tax_query_in as $a_tax_query ) {
@@ -2646,10 +2655,8 @@ class WP_Query {
 		$this->queried_object = NULL;
 		$this->queried_object_id = 0;
 
-		$tax_query = $this->get('tax_query');
-
-		if ( !empty( $tax_query ) ) {
-			$query = reset( $tax_query );
+		if ( !empty( $this->tax_query ) ) {
+			$query = reset( $this->tax_query );
 
 			if ( 'term_id' == $query['field'] )
 				$term = get_term( reset( $query['terms'] ), $query['taxonomy'] );
