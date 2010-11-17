@@ -262,7 +262,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'user-profile', "/wp-admin/js/user-profile$suffix.js", array( 'jquery', 'password-strength-meter' ), '20100925' );
 	$scripts->add_data( 'user-profile', 'group', 1 );	
 
-	$scripts->add( 'admin-bar', "/wp-includes/js/admin-bar$suffix.js", false, '20101029');
+	$scripts->add( 'admin-bar', "/wp-includes/js/admin-bar$suffix.js", false, '20101117');
 	$scripts->add_data( 'admin-bar', 'group', 1 );	
 	$scripts->localize( 'admin-bar', 'adminBarL10n', array(
 		'url' => __( 'URL:' ),
