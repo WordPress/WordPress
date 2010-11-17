@@ -346,7 +346,7 @@ function update_meta_cache($meta_type, $object_ids) {
 	}
 
 	foreach ( array_keys($cache) as $object)
-		wp_cache_set($object, $cache[$object], $cache_key);
+		wp_cache_add($object, $cache[$object], $cache_key);
 
 	return $cache;
 }
