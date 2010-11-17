@@ -613,11 +613,11 @@ function _transform_terms( &$terms, $taxonomies, $field, $resulting_field ) {
 		case 'name':
 			$terms = "'" . implode( "','", array_map( 'sanitize_title_for_query', $terms ) ) . "'";
 			$terms = $wpdb->get_col( "
-				SELECT $resulting_field
+				SELECT $wpdb->term_taxonomy.$resulting_field
 				FROM $wpdb->term_taxonomy
 				INNER JOIN $wpdb->terms USING (term_id)
 				WHERE taxonomy IN ($taxonomies)
-				AND $field IN ($terms)
+				AND $wpdb->terms.$field IN ($terms)
 			" );
 			break;
 
