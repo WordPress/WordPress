@@ -195,7 +195,6 @@ if ( is_array( $blogusers ) ) {
 			<td><select name="new_role" id="new_role_0">
 			<?php
 			$default_role = $wpdb->get_var( "SELECT `option_value` FROM {$blog_prefix}options WHERE option_name = 'default_role'" );
-			var_dump( $default_role );
 			reset( $editblog_roles );
 			foreach ( $editblog_roles as $role => $role_assoc ){
 				$name = translate_user_role( $role_assoc['name'] );
