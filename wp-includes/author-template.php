@@ -225,7 +225,7 @@ function get_author_posts_url($author_id, $author_nicename = '') {
 	$link = $wp_rewrite->get_author_permastruct();
 
 	if ( empty($link) ) {
-		$file = home_url() . '/';
+		$file = home_url( '/' );
 		$link = $file . '?author=' . $auth_ID;
 	} else {
 		if ( '' == $author_nicename ) {
