@@ -37,6 +37,10 @@ $submenu['plugins.php'][15] = array( _x('Editor', 'plugin editor'), 'edit_plugin
 
 
 $menu[25] = array(__('Settings'), 'manage_network_options', 'settings.php', '', 'menu-top menu-icon-settings', 'menu-settings', 'div');
+if ( defined( 'MULTISITE' ) && defined( 'WP_ALLOW_MULTISITE' ) && WP_ALLOW_MULTISITE ) {
+	$submenu['settings.php'][5]  = array( __('Settings'), 'manage_network_options', 'settings.php' );
+	$submenu['settings.php'][10] = array( __('Network Setup'), 'manage_network_options', 'setup.php' );
+}
 
 $update_themes = get_site_transient( 'update_themes' );
 if ( !empty($update_themes->response) )

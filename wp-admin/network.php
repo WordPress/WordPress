@@ -89,8 +89,13 @@ function get_clean_basedomain() {
 if ( ! network_domain_check() && ( ! defined( 'WP_ALLOW_MULTISITE' ) || ! WP_ALLOW_MULTISITE ) )
 	wp_die( __( 'You must define the <code>WP_ALLOW_MULTISITE</code> constant as true in your wp-config.php file to allow creation of a Network.' ) );
 
-$title = __( 'Create a Network of WordPress Sites' );
-$parent_file = 'tools.php';
+if ( is_network_admin() ) {
+	$title = __( 'Network Setup' );
+	$parent_file = 'settings.php';
+} else {
+	$title = __( 'Create a Network of WordPress Sites' );
+	$parent_file = 'tools.php';
+}
 
 add_contextual_help($current_screen,
 	'<p>' . __('This screen allows you to configure a network as having subdomains (<code>site1.example.com</code>) or subdirectories (<code>example.com/site1</code>). Subdomains require wildcard subdomains to be enabled in Apache and DNS records, if your host allows it.') . '</p>' .
@@ -105,10 +110,10 @@ add_contextual_help($current_screen,
 	'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
 
-include( './admin-header.php' );
+include( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 <div class="wrap">
-<?php screen_icon(); ?>
+<?php screen_icon('tools'); ?>
 <h2><?php echo esc_html( $title ); ?></h2>
 
 <?php
@@ -306,8 +311,9 @@ function network_step2( $errors = false ) {
 		if ( is_multisite() ) {
 			$subdomain_install = is_subdomain_install();
 ?>
-	<div class="updated"><p><strong><?php _e( 'Notice: The Network feature is already enabled.' ); ?></strong> <?php _e( 'The original configuration steps are shown here for reference.' ); ?></p></div>
-<?php	} else {
+	<p><?php _e( 'The original configuration steps are shown here for reference.' ); ?></p>
+<?php
+		} else {
 			$subdomain_install = (bool) $wpdb->get_var( "SELECT meta_value FROM $wpdb->sitemeta WHERE site_id = 1 AND meta_key = 'subdomain_install'" );
 ?>
 	<div class="error"><p><strong><?php _e('Warning:'); ?></strong> <?php _e( 'An existing WordPress network was detected.' ); ?></p></div>
@@ -527,4 +533,4 @@ if ( $_POST ) {
 ?>
 </div>
 
-<?php include( './admin-footer.php' ); ?>
+<?php include( ABSPATH . 'wp-admin/admin-footer.php' ); ?>
