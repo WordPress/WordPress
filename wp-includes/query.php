@@ -309,12 +309,13 @@ function is_day() {
  * @since 1.5.0
  * @uses $wp_query
  *
+ * @param string|array $feeds Optional feed types to check.
  * @return bool
  */
-function is_feed() {
+function is_feed( $feeds = '' ) {
 	global $wp_query;
 
-	return $wp_query->is_feed();
+	return $wp_query->is_feed( $feeds );
 }
 
 /**
@@ -2936,10 +2937,16 @@ class WP_Query {
 	 *
 	 * @since 3.1.0
 	 *
+	 * @param string|array $feeds Optional feed types to check.
 	 * @return bool
 	 */
-	function is_feed() {
-		return (bool) $this->is_feed;
+	function is_feed( $feeds = '' ) {
+		if ( empty( $feeds ) || ! $this->is_feed )
+			return (bool) $this->is_feed;
+		$qv = $this->get( 'feed' );
+		if ( 'feed' == $qv )
+			$qv = get_default_feed();
+		return in_array( $qv, (array) $feeds );
 	}
 
 	/**
