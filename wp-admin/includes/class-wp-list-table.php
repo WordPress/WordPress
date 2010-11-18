@@ -610,8 +610,7 @@ class WP_List_Table {
 					$order = 'asc';
 					$class[] = 'sortable';
 				}
-				$column_display_name = '<a href="' . esc_url( add_query_arg( compact( 'orderby', 'order' ), $current_url ) ) . '">' . $column_display_name . '</a>';
-				$column_display_name .= '<div class="sorting-indicator"></div>';
+				$column_display_name = '<a href="' . esc_url( add_query_arg( compact( 'orderby', 'order' ), $current_url ) ) . '"><span>' . $column_display_name . '</span><span class="sorting-indicator"></span></a>';
 			}
 
 			$id = $with_id ? "id='$column_key'" : '';

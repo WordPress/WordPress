@@ -1361,13 +1361,17 @@ table.fixed {
 
 .sorting-indicator {
 	display: none;
-	float: left;
 	width: 21px;
 	height: 4px;
 	margin-top: 5px;
 }
 th.sortable a, th.sorted-asc a, th.sorted-desc a {
+	display: block;
+	overflow: hidden;
+}
+th.sortable a span, th.sorted-asc a span, th.sorted-desc a span {
 	float: left;
+	cursor: pointer;
 }
 th.sorted-asc .sorting-indicator, th.sorted-desc:hover .sorting-indicator, th.sortable:hover .sorting-indicator {
 	display: block;
