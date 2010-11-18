@@ -2319,7 +2319,12 @@ function get_dashboard_url( $user_id, $path = '', $scheme = 'admin' ) {
 function get_edit_profile_url( $user, $scheme = 'admin' ) {
 	$user = (int) $user;
 
-	$url = get_dashboard_url( $user, 'profile.php', $scheme );
+	if ( is_user_admin() )
+		$url = user_admin_url( 'profile.php', $scheme );
+	elseif ( is_network_admin() )
+		$url = network_admin_url( 'profile.php', $scheme );
+	else
+		$url = get_dashboard_url( $user, 'profile.php', $scheme );
 
 	return apply_filters( 'edit_profile_url', $url, $user, $scheme);
 }
