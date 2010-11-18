@@ -542,9 +542,6 @@ function get_tax_sql( $tax_query, $primary_table, $primary_id_column ) {
 				return ' AND 0 = 1';
 		}
 
-		if ( !in_array( $operator, array( 'IN', 'NOT IN' ) ) )
-			$operator = 'IN';
-
 		$taxonomies = "'" . implode( "', '", $taxonomies ) . "'";
 
 		$terms = array_unique( (array) $terms );
@@ -587,16 +584,14 @@ function get_tax_sql( $tax_query, $primary_table, $primary_id_column ) {
 
 			$i++;
 		}
-		else {
-			// NOT IN is very slow for some reason
-			$where .= " AND $primary_table.$primary_id_column IN (
-				SELECT object_id
-				FROM $wpdb->term_relationships
-				WHERE term_taxonomy_id $operator ($terms)
+		elseif ( 'NOT IN' == $operator ) {
+			$where .= " AND $primary_table.$primary_id_column NOT IN (
+				SELECT object_id 
+				FROM $wpdb->term_relationships 
+				WHERE term_taxonomy_id IN ($terms)
 			)";
 		}
 	}
-
 	return compact( 'join', 'where' );
 }
 
