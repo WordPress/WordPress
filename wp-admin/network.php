@@ -25,7 +25,7 @@ if ( is_multisite() ) {
 	}
 	if ( ! defined( 'MULTISITE' ) )
 		wp_die( __( 'The Network creation panel is not for WordPress MU networks.' ) );
-}	
+}
 
 // We need to create references to ms global tables to enable Network.
 foreach ( $wpdb->tables( 'ms_global' ) as $table => $prefixed_table )
@@ -312,7 +312,10 @@ function network_step2( $errors = false ) {
 		echo '<div class="error">' . $errors->get_error_message() . '</div>';
 
 	if ( $_POST ) {
-		$subdomain_install = allow_subdomain_install() ? ( allow_subdirectory_install() ? ! empty( $_POST['subdomain_install'] ) : true ) : false;
+		if ( allow_subdomain_install() )
+			$subdomain_install = allow_subdirectory_install() ? ! empty( $_POST['subdomain_install'] ) : true;
+		else
+			$subdomain_install = false;
 	} else {
 		if ( is_multisite() ) {
 			$subdomain_install = is_subdomain_install();
