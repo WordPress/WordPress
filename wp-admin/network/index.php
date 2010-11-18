@@ -19,7 +19,7 @@ if ( !is_multisite() )
 if ( ! current_user_can( 'manage_network' ) )
 	wp_die( __( 'You do not have permission to access this page.' ) );
 
-$title = __( 'Network Dashboard' );
+$title = __( 'Dashboard' );
 $parent_file = 'index.php';
 
 add_contextual_help($current_screen,
