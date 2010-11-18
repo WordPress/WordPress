@@ -1132,8 +1132,9 @@ table.widefat .spam a:hover,
 }
 
 #adminmenu .wp-has-current-submenu .wp-submenu .wp-submenu-head {
-	background-color: #EAEAEA;
-	border-color: #aaa;
+	background: #d0dfe9 url(../images/menu-bits-vs.gif?ver=20101102) repeat-x 0% 0%;
+	border: 1px solid;
+	color: #464646;
 }
 
 #adminmenu div.wp-submenu {
