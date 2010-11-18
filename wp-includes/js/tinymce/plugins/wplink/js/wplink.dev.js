@@ -213,20 +213,22 @@
 		},
 
 		processAJAXResponse: function( $panel, results, callback, opts ) {
-			var list = '';
+			var list = '', alt = true;
 
 			if ( !results ) {
 				if ( !opts.append ) {
-					list += '<li class="no-matches-found unselectable"><span class="item-title"><em>'
+					list += '<li class="unselectable"><span class="item-title"><em>'
 					+ wpLinkL10n.noMatchesFound
 					+ '</em></span></li>';
 				}
 			} else {
 				$.each( results, function() {
-					list += '<li><input type="hidden" class="item-permalink" value="' + this['permalink'] + '" />';
+					list += alt ? '<li class="alternate">' : '<li>';
+					list += '<input type="hidden" class="item-permalink" value="' + this['permalink'] + '" />';
 					list += '<span class="item-title">';
 					list += this['title'] ? this['title'] : '<em>'+ wpLinkL10n.untitled + '</em>';
 					list += '</span><span class="item-info">' + this['info'] + '</span></li>';
+					alt = ! alt;
 				});
 			}
 
