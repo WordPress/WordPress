@@ -439,7 +439,7 @@ class WP_User_Query {
 		// limit
 		if ( $qv['number'] ) {
 			if ( $qv['offset'] )
-				$this->query_limit = $wpdb->prepare(" LIMIT %d, %d", $qv['offset'], $qv['offset'] + $qv['number']);
+				$this->query_limit = $wpdb->prepare(" LIMIT %d, %d", $qv['offset'], $qv['number']);
 			else
 				$this->query_limit = $wpdb->prepare(" LIMIT %d", $qv['number']);
 		}
