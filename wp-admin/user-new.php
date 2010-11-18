@@ -215,25 +215,29 @@ if ( is_multisite() ) {
 	if ( $do_both )
 		echo '<h3 id="add-existing-user">' . __('Add Existing User') . '</h3>';
 	if ( !is_super_admin() ) {
-		_e( 'Enter the email address of an existing user on this network to invite them to this site. That person will be sent an email asking them to confirm the invite.' );
+		_e( 'Enter the email address of an existing user on this network to invite them to this site.  That person will be sent an email asking them to confirm the invite.' );
 		$label = __('E-mail');
 	} else {
-		_e( 'Enter the email address or username of an existing user on this network to invite them to this site. That person will be sent an email asking them to confirm the invite.' );
+		_e( 'Enter the email address or username of an existing user on this network to invite them to this site.  That person will be sent an email asking them to confirm the invite.' );
 		$label = __('E-mail or Username');
 	}
 ?>
-<form action="" method="post" name="adduser" id="adduser" class="add:users: validate"<?php do_action('user_new_form_tag');?>>
+<form action="#add-existing-user" method="post" name="adduser" id="adduser" class="add:users: validate"<?php do_action('user_new_form_tag');?>>
 <input name="action" type="hidden" id="action" value="adduser" />
 <?php wp_nonce_field('add-user') ?>
 <table class="form-table">
 	<tr class="form-field form-required">
 		<th scope="row"><label for="email"><?php echo $label; ?></label></th>
-		<td><input name="email" type="text" id="email" value="" /></td>
+		<td><input name="email" type="text" id="email" value="<?php echo esc_attr($new_user_email); ?>" /></td>
 	</tr>
 	<tr class="form-field">
 		<th scope="row"><label for="role"><?php _e('Role'); ?></label></th>
 		<td><select name="role" id="role">
-			<?php wp_dropdown_roles( get_option('default_role') ); ?>
+			<?php
+			if ( !$new_user_role )
+				$new_user_role = !empty($current_role) ? $current_role : get_option('default_role');
+			wp_dropdown_roles($new_user_role);
+			?>
 			</select>
 		</td>
 	</tr>
@@ -251,25 +255,21 @@ if ( is_multisite() ) {
 
 if ( current_user_can( 'create_users') ) {
 	if ( $do_both )
-		echo '<h3 id="create-new-user">' . __( 'Create New User' ) . '</h3>';
+		echo '<h3 id="create-new-user">' . __('Create New User') . '</h3>';
 ?>
 <p><?php _e('Create a brand new user and add it to this site.'); ?></p>
-<form action="" method="post" name="createuser" id="adduser" class="add:users: validate"<?php do_action('user_new_form_tag');?>>
+<form action="#create-new-user" method="post" name="createuser" id="adduser" class="add:users: validate"<?php do_action('user_new_form_tag');?>>
 <input name="action" type="hidden" id="action" value="createuser" />
 <?php wp_nonce_field('create-user') ?>
 <?php
 // Load up the passed data, else set to a default.
-foreach ( array( 'user_login' => 'login', 'first_name' => 'firstname', 'last_name' => 'lastname',
-				'email' => 'email', 'url' => 'uri', 'role' => 'role', 'send_password' => 'send_password', 'noconfirmation' => 'ignore_pass' ) as $post_field => $var ) {
+foreach ( array('user_login' => 'login', 'first_name' => 'firstname', 'last_name' => 'lastname',
+				'email' => 'email', 'url' => 'uri', 'role' => 'role') as $post_field => $var ) {
 	$var = "new_user_$var";
-	if( isset( $_POST['createuser'] ) ) {
-		if ( ! isset($$var) )
-			$$var = isset( $_POST[$post_field] ) ? stripslashes( $_POST[$post_field] ) : '';
-	} else {
-		$$var = false;
-	}
+	if ( ! isset($$var) )
+		$$var = isset($_POST[$post_field]) ? stripslashes($_POST[$post_field]) : '';
 }
-
+$new_user_send_password = !$_POST || isset($_POST['send_password']);
 ?>
 <table class="form-table">
 	<tr class="form-field form-required">
@@ -306,7 +306,7 @@ foreach ( array( 'user_login' => 'login', 'first_name' => 'firstname', 'last_nam
 	</tr>
 	<tr>
 		<th scope="row"><label for="send_password"><?php _e('Send Password?') ?></label></th>
-		<td><label for="send_password"><input type="checkbox" name="send_password" id="send_password" <?php checked( $new_user_send_password ); ?> /> <?php _e('Send this password to the new user by email.'); ?></label></td>
+		<td><label for="send_password"><input type="checkbox" name="send_password" id="send_password" <?php checked($new_user_send_password, true); ?> /> <?php _e('Send this password to the new user by email.'); ?></label></td>
 	</tr>
 <?php endif; ?>
 <?php } // !is_multisite ?>
@@ -324,7 +324,7 @@ foreach ( array( 'user_login' => 'login', 'first_name' => 'firstname', 'last_nam
 	<?php if ( is_multisite() && is_super_admin() ) { ?>
 	<tr>
 		<th scope="row"><label for="noconfirmation"><?php _e('Skip Confirmation Email') ?></label></th>
-		<td><label for="noconfirmation"><input type="checkbox" name="noconfirmation" id="noconfirmation" value="1"  <?php checked( $new_user_ignore_pass ); ?> /> <?php _e( 'Add the user without sending them a confirmation email.' ); ?></label></td>
+		<td><label for="noconfirmation"><input type="checkbox" name="noconfirmation" id="noconfirmation" value="1" /> <?php _e( 'Add the user without sending them a confirmation email.' ); ?></label></td>
 	</tr>
 	<?php } ?>
 </table>
