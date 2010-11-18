@@ -280,6 +280,7 @@ class WP_Http {
 			$r['headers']['Accept-Encoding'] = WP_Http_Encoding::accept_encoding();
 
 		if ( empty($r['body']) ) {
+			$r['body'] = null;
 			// Some servers fail when sending content without the content-length header being set.
 			// Also, to fix another bug, we only send when doing POST and PUT and the content-length
 			// header isn't already set.
