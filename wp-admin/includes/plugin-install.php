@@ -157,9 +157,6 @@ add_action('install_plugins_upload', 'install_plugins_upload', 10, 1);
  * Display plugin content based on plugin list.
  *
  * @since 2.7.0
- *
- * @param array $plugins List of plugins.
- * @param int $total_plugins Number of plugins.
  */
 function display_plugins_table() {
 	global $wp_list_table;

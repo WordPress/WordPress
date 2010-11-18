@@ -5042,7 +5042,8 @@ function wp_check_post_hierarchy_for_loops( $post_parent, $post_ID ) {
  *
  * @since 2.0.0
  *
- * @param string A post type string, defaults to 'post'.
+ * @param string $post_type A post type string, defaults to 'post'.
+ * @param bool $create_in_db If true then also insert an auto-draft into database
  * @return object stdClass object containing all the default post data as attributes
  */
 function get_default_post_to_edit( $post_type = 'post', $create_in_db = false ) {

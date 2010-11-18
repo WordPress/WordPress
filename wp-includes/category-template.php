@@ -1174,7 +1174,7 @@ function has_tag( $tag = '', $post = null ) {
  *
  * @param string|int|array $term Optional. The term name/term_id/slug or array of them to check for.
  * @param string $taxonomy Taxonomy name
- * @param int|post object Optional.  Post to check instead of the current post.
+ * @param int|object $post Optional. Post to check instead of the current post.
  * @return bool True if the current post has any of the given tags (or any tag, if no tag specified).
  */
 function has_term( $term = '', $taxonomy = '', $post = null ) {

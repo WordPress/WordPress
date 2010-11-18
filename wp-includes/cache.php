@@ -171,8 +171,6 @@ function wp_cache_add_non_persistent_groups( $groups ) {
  * this function instructs the backend to reset those keys and perform any cleanup since blog or site IDs have changed since cache init.
  *
  * @since 2.6.0
- *
- * @param string|array $groups A group or an array of groups to add
  */
 function wp_cache_reset() {
 	global $wp_object_cache;

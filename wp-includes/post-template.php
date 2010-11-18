@@ -675,7 +675,7 @@ function wp_link_pages($args = '') {
  * @since 3.1.0
  * @access private
  *
- * @param $i Page number.
+ * @param int $i Page number.
  * @return string Link.
  */
 function _wp_link_page( $i ) {

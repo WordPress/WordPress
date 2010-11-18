@@ -4360,8 +4360,8 @@ function _wp_mysql_week( $column ) {
  * @access private
  *
  * @param callback $callback function that accepts ( ID, $callback_args ) and outputs parent_ID
- * @param $start The ID to start the loop check at
- * @param $start_parent the parent_ID of $start to use instead of calling $callback( $start ).  Use null to always use $callback
+ * @param int $start The ID to start the loop check at
+ * @param int $start_parent the parent_ID of $start to use instead of calling $callback( $start ). Use null to always use $callback
  * @param array $callback_args optional additional arguments to send to $callback
  * @return array IDs of all members of loop
  */
@@ -4384,7 +4384,7 @@ function wp_find_hierarchy_loop( $callback, $start, $start_parent, $callback_arg
  * @access private
  *
  * @param callback $callback function that accupts ( ID, callback_arg, ... ) and outputs parent_ID
- * @param $start The ID to start the loop check at
+ * @param int $start The ID to start the loop check at
  * @param array $override an array of ( ID => parent_ID, ... ) to use instead of $callback
  * @param array $callback_args optional additional arguments to send to $callback
  * @param bool $_return_loop Return loop members or just detect presence of loop?

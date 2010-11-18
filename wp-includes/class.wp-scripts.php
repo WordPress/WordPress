@@ -39,8 +39,8 @@ class WP_Scripts extends WP_Dependencies {
 	 *
 	 * Prints the scripts passed to it or the print queue.  Also prints all necessary dependencies.
 	 *
-	 * @param mixed handles (optional) Scripts to be printed.  (void) prints queue, (string) prints that script, (array of strings) prints those scripts.
-	 * @param int group (optional) If scripts were queued in groups prints this group number.
+	 * @param mixed $handles (optional) Scripts to be printed.  (void) prints queue, (string) prints that script, (array of strings) prints those scripts.
+	 * @param int $group (optional) If scripts were queued in groups prints this group number.
 	 * @return array Scripts that have been printed
 	 */
 	function print_scripts( $handles = false, $group = false ) {
@@ -135,9 +135,9 @@ class WP_Scripts extends WP_Dependencies {
 	 *
 	 * Localizes only if script has already been added
 	 *
-	 * @param string handle Script name
-	 * @param string object_name Name of JS object to hold l10n info
-	 * @param array l10n Array of JS var name => localized string
+	 * @param string $handle Script name
+	 * @param string $object_name Name of JS object to hold l10n info
+	 * @param array $l10n Array of JS var name => localized string
 	 * @return bool Successful localization
 	 */
 	function localize( $handle, $object_name, $l10n ) {

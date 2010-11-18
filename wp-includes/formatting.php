@@ -1577,7 +1577,7 @@ function wp_iso_descrambler($string) {
  *
  * @since 3.1.0
  * @access private
- * @param $match the preg_replace_callback matches array
+ * @param array $match the preg_replace_callback matches array
  */
 function _wp_iso_convert( $match ) {
 	return chr( hexdec( strtolower( $match[1] ) ) );
