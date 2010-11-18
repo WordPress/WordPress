@@ -205,11 +205,11 @@ if ( apply_filters('custom_menu_order', false) ) {
 	unset($menu_order, $default_menu_order);
 }
 
-$menu = add_menu_classes($menu);
-
 if ( !user_can_access_admin_page() ) {
 	do_action('admin_page_access_denied');
 	wp_die( __('You do not have sufficient permissions to access this page.') );
 }
+
+$menu = add_menu_classes($menu);
 
 ?>
