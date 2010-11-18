@@ -1468,11 +1468,11 @@ function wp_count_terms( $taxonomy, $args = array() ) {
 }
 
 /**
- * Will unlink the term from the taxonomy.
+ * Will unlink the object from the taxonomy or taxonomies.
  *
- * Will remove the term's relationship to the taxonomy, not the term or taxonomy
- * itself. The term and taxonomy will still exist. Will require the term's
- * object ID to perform the operation.
+ * Will remove all relationships between the object and any terms in 
+ * a particular taxonomy or taxonomies. Does not remove the term or 
+ * taxonomy itself.
  *
  * @package WordPress
  * @subpackage Taxonomy
