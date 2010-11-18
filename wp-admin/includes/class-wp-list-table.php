@@ -128,7 +128,6 @@ class WP_List_Table {
 	 */
 	function set_pagination_args( $args ) {
 		$args = wp_parse_args( $args, array(
-			'query_var' => 'paged',
 			'total_items' => 0,
 			'total_pages' => 0,
 			'per_page' => 0,
@@ -409,8 +408,8 @@ class WP_List_Table {
 	 *
 	 * @return int
 	 */
-	function get_pagenum( $query_var = 'paged' ) {
-		$pagenum = isset( $_REQUEST[$query_var] ) ? absint( $_REQUEST[$query_var] ) : 0;
+	function get_pagenum() {
+		$pagenum = isset( $_REQUEST['paged'] ) ? absint( $_REQUEST['paged'] ) : 0;
 
 		return max( 1, $pagenum );
 	}
@@ -453,7 +452,7 @@ class WP_List_Table {
 
 		$output = '<span class="displaying-num">' . sprintf( _n( '1 item', '%s items', $total_items ), number_format_i18n( $total_items ) ) . '</span>';
 
-		$current = $this->get_pagenum( $query_var );
+		$current = $this->get_pagenum();
 
 		$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
@@ -462,20 +461,20 @@ class WP_List_Table {
 		$page_links[] = sprintf( "<a class='%s' title='%s' href='%s'>%s</a>",
 			'first-page',
 			esc_attr__( 'Go to the first page' ),
-			esc_url( remove_query_arg( $query_var, $current_url ) ),
+			esc_url( remove_query_arg( 'paged', $current_url ) ),
 			'&laquo;&laquo;'
 		);
 
 		$page_links[] = sprintf( "<a class='%s' title='%s' href='%s'>%s</a>",
 			'prev-page',
 			esc_attr__( 'Go to the previous page' ),
-			esc_url( add_query_arg( $query_var, max( 1, $current-1 ), $current_url ) ),
+			esc_url( add_query_arg( 'paged', max( 1, $current-1 ), $current_url ) ),
 			'&laquo;'
 		);
 
 		$html_current_page = sprintf( "<input class='current-page' title='%s' type='text' name='%s' value='%s' size='%d' />",
 			esc_attr__( 'Current page' ),
-			esc_attr( $query_var ),
+			esc_attr( 'paged' ),
 			number_format_i18n( $current ),
 			strlen( $total_pages )
 		);
@@ -485,14 +484,14 @@ class WP_List_Table {
 		$page_links[] = sprintf( "<a class='%s' title='%s' href='%s'>%s</a>",
 			'next-page',
 			esc_attr__( 'Go to the next page' ),
-			esc_url( add_query_arg( $query_var, min( $total_pages, $current+1 ), $current_url ) ),
+			esc_url( add_query_arg( 'paged', min( $total_pages, $current+1 ), $current_url ) ),
 			'&raquo;'
 		);
 
 		$page_links[] = sprintf( "<a class='%s' title='%s' href='%s'>%s</a>",
 			'last-page',
 			esc_attr__( 'Go to the last page' ),
-			esc_url( add_query_arg( $query_var, $total_pages, $current_url ) ),
+			esc_url( add_query_arg( 'paged', $total_pages, $current_url ) ),
 			'&raquo;&raquo;'
 		);
 
