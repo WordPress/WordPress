@@ -12,11 +12,7 @@
 			};
 		},
 		init : function() {
-			var e;
-			// Init shared vars
-			ed = tinyMCEPopup.editor;
-
-
+			inputs.dialog = $('#wp-link');
 			// URL
 			inputs.url = $('#url-field');
 			// Secondary options
@@ -29,14 +25,25 @@
 			results.recent = $('#most-recent-results');
 			results.search.data('river', wpLink.riverDefaults() );
 			results.recent.data('river', wpLink.riverDefaults() );
+			results.group = $('.query-results', inputs.dialog);
 
 			// Bind event handlers
-			$('#wp-update').click( wpLink.update );
-			$('#wp-cancel').click( function() { tinyMCEPopup.close(); } );
-			$('.query-results').delegate('li', 'click', wpLink.selectInternalLink );
-			$('.query-results').scroll( wpLink.maybeLoadRiver );
+			$('#wp-link-update').click( wpLink.update );
+			$('#wp-link-cancel').click( function() { tinyMCEPopup.close(); } );
+			
+			results.group.delegate('li', 'click', wpLink.selectInternalLink )
+			results.group.scroll( wpLink.maybeLoadRiver );
+			
 			inputs.search.keyup( wpLink.searchInternalLinks );
+			
+			inputs.dialog.bind('dialogopen', wpLink.refresh);
+		},
 
+		refresh : function() {
+			var e;
+			
+			ed = tinyMCEPopup.editor;
+			
 			// If link exists, select proper values.
 			if ( e = ed.dom.getParent(ed.selection.getNode(), 'A') ) {
 				// Set URL and description.
@@ -47,6 +54,8 @@
 					inputs.openInNewTab.attr('checked','checked');
 			}
 
+			// Clear previously selected links
+			results.group.find('.selected').removeClass('selected');
 			// Focus the URL field
 			inputs.url.focus();
 		},

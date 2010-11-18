@@ -1074,7 +1074,7 @@ case 'menu-quick-search':
 	exit;
 	break;
 case 'wp-link-ajax':
-	require_once ABSPATH . WPINC . '/js/tinymce/wp-mce-link-includes.php';
+	require_once ABSPATH . WPINC . '/js/tinymce/wp-mce-link.php';
 
 	wp_link_ajax( $_POST );
 

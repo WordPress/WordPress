@@ -1327,10 +1327,10 @@ function wp_tiny_mce( $teeny = false, $settings = false ) {
 	$mce_spellchecker_languages = apply_filters('mce_spellchecker_languages', '+English=en,Danish=da,Dutch=nl,Finnish=fi,French=fr,German=de,Italian=it,Polish=pl,Portuguese=pt,Spanish=es,Swedish=sv');
 
 	if ( $teeny ) {
-		$plugins = apply_filters( 'teeny_mce_plugins', array('inlinepopups', 'media', 'fullscreen', 'wordpress', 'wplink') );
+		$plugins = apply_filters( 'teeny_mce_plugins', array('inlinepopups', 'media', 'fullscreen', 'wordpress', 'wplink', 'wpdialogs') );
 		$ext_plugins = '';
 	} else {
-		$plugins = array( 'inlinepopups', 'spellchecker', 'paste', 'wordpress', 'media', 'fullscreen', 'wpeditimage', 'wpgallery', 'tabfocus', 'wplink' );
+		$plugins = array( 'inlinepopups', 'spellchecker', 'paste', 'wordpress', 'media', 'fullscreen', 'wpeditimage', 'wpgallery', 'tabfocus', 'wplink', 'wpdialogs' );
 
 		/*
 		The following filter takes an associative array of external plugins for TinyMCE in the form 'plugin_name' => 'url'.
@@ -1411,8 +1411,6 @@ function wp_tiny_mce( $teeny = false, $settings = false ) {
 		}
 	}
 
-	$plugins = implode($plugins, ',');
-
 	if ( $teeny ) {
 		$mce_buttons = apply_filters( 'teeny_mce_buttons', array('bold, italic, underline, blockquote, separator, strikethrough, bullist, numlist,justifyleft, justifycenter, justifyright, undo, redo, link, unlink, fullscreen') );
 		$mce_buttons = implode($mce_buttons, ',');
@@ -1485,7 +1483,7 @@ function wp_tiny_mce( $teeny = false, $settings = false ) {
 		'paste_strip_class_attributes' => 'all',
 		'paste_text_use_dialog' => true,
 		'wpeditimage_disable_captions' => $no_captions,
-		'plugins' => $plugins
+		'plugins' => implode($plugins, ',')
 	);
 
 	if ( ! empty( $editor_styles ) && is_array( $editor_styles ) ) {
@@ -1608,4 +1606,21 @@ tinyMCE.init(tinyMCEPreInit.mceInit);
 /* ]]> */
 </script>
 <?php
+
+	// Load additional inline scripts based on active plugins.
+	if ( in_array( 'wpdialogs', $plugins ) ) {
+		wp_print_scripts( array('jquery-ui-dialog', 'wpdialogsPopup') );
+		wp_print_styles('wp-jquery-ui-dialog');
+	}
+	if ( in_array( 'wplink', $plugins ) ) {
+		require_once ABSPATH . WPINC . "/js/tinymce/wp-mce-link.php";
+		add_action('tiny_mce_preload_dialogs', 'wp_link_dialog');
+		wp_print_scripts('wplink');
+		wp_print_styles('wplink');
+	}
 }
+function wp_tiny_mce_preload_dialogs() { ?>
+	<div id="preloaded-dialogs" style="display:none;">
+<?php 	do_action('tiny_mce_preload_dialogs'); ?>
+	</div>
+<?php }

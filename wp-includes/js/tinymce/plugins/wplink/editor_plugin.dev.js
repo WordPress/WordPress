@@ -12,10 +12,11 @@
 			// Register the command so that it can be invoked by using tinyMCE.activeEditor.execCommand('mceExample');
 			ed.addCommand('WP_Link', function() {
 				ed.windowManager.open({
-					file : tinymce.baseURL + '/wp-mce-link.php',
+					id : 'wp-link',
 					width : 480,
-					height : 430,
-					inline : 1
+					height : "auto",
+					wpDialog : true,
+					title : ed.getLang('advlink.link_desc')
 				}, {
 					plugin_url : url // Plugin absolute URL
 				});

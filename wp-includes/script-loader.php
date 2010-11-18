@@ -268,6 +268,14 @@ function wp_default_scripts( &$scripts ) {
 		'url' => __( 'URL:' ),
 		'noShortlink' => __( 'No shortlink available for this page.' ),
 	) );
+	
+	$scripts->add( 'wplink', "/wp-includes/js/tinymce/plugins/wplink/js/wplink$suffix.js", array('jquery'), '20101117' );
+	$scripts->localize( 'wplink', 'wpLinkL10n', array(
+		'untitled' => __('Untitled'),
+		'noMatchesFound' => __('No matches found.'),
+	) );
+	
+	$scripts->add( 'wpdialogsPopup', "/wp-includes/js/tinymce/plugins/wpdialogs/js/popup$suffix.js", false, '20101117' );
 
 	if ( is_admin() ) {
 		$scripts->add( 'ajaxcat', "/wp-admin/js/cat$suffix.js", array( 'wp-lists' ), '20090102' );
@@ -504,6 +512,11 @@ function wp_default_styles( &$styles ) {
 
 	// Admin bar
 	$styles->add( 'admin-bar', "/wp-includes/css/admin-bar$suffix.css", array(), '20101117' );
+	
+	// WP jQuery UI Dialog 
+	$styles->add( 'wp-jquery-ui-dialog', "/wp-includes/css/jquery-ui-dialog$suffix.css", array(), '20101117' );
+	// WPLink TinyMCE plugin
+	$styles->add( 'wplink', "/wp-includes/js/tinymce/plugins/wplink/css/wplink$suffix.css", array(), '20101117' );
 
 	foreach ( $rtl_styles as $rtl_style ) {
 		$styles->add_data( $rtl_style, 'rtl', true );

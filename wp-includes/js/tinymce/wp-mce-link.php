@@ -1,160 +1,71 @@
 <?php
+// args expects optionally 'pagenum' and 's'
+function wp_link_query( $args = array() ) {
+	$pts = get_post_types( array( 'publicly_queryable' => true ), 'objects' );
+	$pt_names = array_keys( $pts );
 
-require_once '../../../wp-load.php';
-include './wp-mce-link-includes.php';
+	$query = array(
+		'post_type' => $pt_names,
+		'suppress_filters' => true,
+		'update_post_term_cache' => false,
+		'update_post_meta_cache' => false,
+		'post_status' => 'publish',
+		'order' => 'DESC',
+		'orderby' => 'post_date',
+		'posts_per_page' => 20,
+	);
 
-header( 'Content-Type: text/html; charset=' . get_bloginfo( 'charset' ) );
+	$args['pagenum'] = isset( $args['pagenum'] ) ? absint( $args['pagenum'] ) : 1;
+
+	if ( isset( $args['s'] ) )
+		$query['s'] = $args['s'];
+
+	$query['offset'] = $args['pagenum'] > 1 ? $query['posts_per_page'] * ( $args['pagenum'] - 1 ) : 0;
+
+	// Do main query.
+	$get_posts = new WP_Query;
+	$posts = $get_posts->query( $query );
+	// Check if any posts were found.
+	if ( ! $get_posts->post_count )
+		return false;
+
+	// Build results.
+	$results = array();
+	foreach ( $posts as $post ) {
+		if ( 'post' == $post->post_type )
+			$info = mysql2date( __( 'Y/m/d' ), $post->post_date );
+		else
+			$info = $pts[ $post->post_type ]->labels->singular_name;
+
+		$results[] = array(
+			'ID' => $post->ID,
+			'title' => esc_html( strip_tags($post->post_title) ),
+			'permalink' => get_permalink( $post->ID ),
+			'info' => $info,
+		);
+	}
+
+	return $results;
+}
+
+function wp_link_ajax( $request ) {
+	// Searches have a title term.
+	if ( isset( $request['title'] ) )
+		$args['s'] = stripslashes( $request['title'] );
+	$args['pagenum'] = ! empty( $request['page'] ) ? absint( $request['page'] ) : 1;
+
+	$results = wp_link_query( $args );
+
+	if ( ! isset( $results ) )
+		die( '0' );
+
+	echo json_encode( $results );
+	echo "\n";
+}
+
+function wp_link_dialog() {
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
-<head>
-<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_bloginfo('charset'); ?>" />
-<title><?php _e( 'Insert/edit link' ); ?></title>
-<script type="text/javascript">
-//<![CDATA[
-var ajaxurl = '<?php echo admin_url( 'admin-ajax.php' ); ?>',
-	wpLinkL10n = {
-		untitled : '<?php _e('Untitled'); ?>',
-		noMatchesFound : '<?php _e( 'No matches found.' ); ?>'
-	};
-//]]>
-</script>
-<script type="text/javascript" src="tiny_mce_popup.js?ver=3223"></script>
-<?php
-wp_print_scripts( array( 'jquery', 'jquery-ui-widget' ) );
-$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '.dev' : '';
-$src = "plugins/wplink/js/wplink$suffix.js?ver=20101116b";
-?>
-<script type="text/javascript" src="<?php echo $src; ?>"></script>
-<?php
-wp_admin_css( 'global', true );
-wp_admin_css( 'wp-admin', true );
-register_admin_color_schemes();
-wp_admin_css( 'colors', true );
-?>
-<style>
-html {
-	background: #f1f1f1;
-}
-a:link, a:visited {
-	color: #21759b;
-}
-p.howto {
-	margin: 3px;
-}
-#link-options {
-	padding: 10px 0 14px;
-	border-bottom: 1px solid #dfdfdf;
-	margin: 0 6px 14px;
-}
-label input[type="text"] {
-	width: 360px;
-	margin-top: 5px;
-}
-label span {
-	display: inline-block;
-	width: 80px;
-	text-align: right;
-	padding-right: 5px;
-}
-.link-search-wrapper {
-	margin: 5px 5px 9px;
-	display: block;
-	overflow: hidden;
-}
-.link-search-wrapper span {
-	float: left;
-	margin-top: 6px;
-}
-.link-search-wrapper input[type="text"] {
-	float: left;
-	width: 220px;
-}
-.link-search-wrapper img.waiting {
-	margin: 8px 1px 0 4px;
-	float: left;
-	display: none;
-}
-#open-in-new-tab {
-	display: inline-block;
-	padding: 3px 0 0;
-	margin: 0 0 0 87px;
-}
-#open-in-new-tab span {
-	width: auto;
-	margin-left: 6px;
-	font-size: 11px;
-}
-.query-results {
-	border: 1px #dfdfdf solid;
-	margin: 0 5px 5px;
-	background: #fff;
-	height: 185px;
-	overflow: auto;
-}
-.query-results li {
-	margin-bottom: 0;
-	border-bottom: 1px solid #f1f1f1;
-	color: #555;
-	padding: 4px 6px;
-	cursor: pointer;
-}
-.query-results li:hover {
-	background: #eaf2fa;
-	color: #333;
-}
-.query-results li.unselectable:hover {
-	background: #fff;
-	cursor: auto;
-	color: #555;
-}
-.query-results li.unselectable {
-	border-bottom: 1px solid #dfdfdf;
-}
-.query-results li.selected {
-	background: #f1f1f1;
-	color: #333;
-}
-.query-results li.selected .item-title {
-	font-weight: bold;
-}
-.item-info {
-	text-transform: uppercase;
-	color: #aaa;
-	font-size: 11px;
-	float: right;
-}
-#search-results {
-	display: none;
-}
-.river-waiting {
-	display: none;
-	padding: 10px 0;
-}
-.river-waiting img.waiting {
-	margin: 0 auto;
-	display: block;
-}
-.submitbox {
-	padding: 5px 5px 0;
-	font-size: 11px;
-	overflow: auto;
-	height: 29px;
-}
-#wp-cancel {
-	line-height: 25px;
-	float: left;
-}
-#wp-update {
-	line-height: 23px;
-	float: right;
-}
-#wp-update a {
-	display: inline-block;
-}
-</style>
-</head>
-<body id="post-body">
+<div id="wp-link">
 <div id="link-selector">
 	<div id="link-options">
 		<p class="howto"><?php _e( 'Enter the destination URL:' ); ?></p>
@@ -204,12 +115,12 @@ label span {
 	</div>
 </div>
 <div class="submitbox">
-	<div id="wp-cancel">
+	<div id="wp-link-cancel">
 		<a class="submitdelete deletion"><?php _e( 'Cancel' ); ?></a>
 	</div>
-	<div id="wp-update">
+	<div id="wp-link-update">
 		<a class="button-primary"><?php _e( 'Update' ); ?></a>
 	</div>
 </div>
-</body>
-</html>
+</div>
+<?php } ?>
