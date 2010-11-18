@@ -55,7 +55,7 @@ function add_user() {
  */
 function edit_user( $user_id = 0 ) {
 	global $wp_roles, $wpdb;
-	$user = new WP_User( $user_id );
+	$user = new stdClass;
 	if ( $user_id ) {
 		$update = true;
 		$user->ID = (int) $user_id;
