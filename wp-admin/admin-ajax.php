@@ -1074,9 +1074,21 @@ case 'menu-quick-search':
 	exit;
 	break;
 case 'wp-link-ajax':
-	require_once ABSPATH . WPINC . '/js/tinymce/wp-mce-link.php';
+	require_once ABSPATH . 'wp-admin/includes/internal-linking.php';
 
-	wp_link_ajax( $_POST );
+	$args = array();
+
+	if ( isset( $_POST['title'] ) )
+		$args['s'] = stripslashes( $_POST['title'] );
+	$args['pagenum'] = ! empty( $_POST['page'] ) ? absint( $_POST['page'] ) : 1;
+
+	$results = wp_link_query( $args );
+
+	if ( ! isset( $results ) )
+		die( '0' );
+
+	echo json_encode( $results );
+	echo "\n";
 
 	exit;
 	break;

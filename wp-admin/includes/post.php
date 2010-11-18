@@ -1483,7 +1483,7 @@ function wp_tiny_mce( $teeny = false, $settings = false ) {
 		'paste_strip_class_attributes' => 'all',
 		'paste_text_use_dialog' => true,
 		'wpeditimage_disable_captions' => $no_captions,
-		'plugins' => implode($plugins, ',')
+		'plugins' => implode( ',', $plugins ),
 	);
 
 	if ( ! empty( $editor_styles ) && is_array( $editor_styles ) ) {
@@ -1609,11 +1609,11 @@ tinyMCE.init(tinyMCEPreInit.mceInit);
 
 	// Load additional inline scripts based on active plugins.
 	if ( in_array( 'wpdialogs', $plugins ) ) {
-		wp_print_scripts( array('jquery-ui-dialog', 'wpdialogsPopup') );
+		wp_print_scripts( array( 'wpdialogs-popup' ) );
 		wp_print_styles('wp-jquery-ui-dialog');
 	}
 	if ( in_array( 'wplink', $plugins ) ) {
-		require_once ABSPATH . WPINC . "/js/tinymce/wp-mce-link.php";
+		require_once ABSPATH . 'wp-admin/includes/internal-linking.php';
 		add_action('tiny_mce_preload_dialogs', 'wp_link_dialog');
 		wp_print_scripts('wplink');
 		wp_print_styles('wplink');
