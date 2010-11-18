@@ -196,7 +196,7 @@ function wp_admin_bar_new_content_menu() {
 	foreach ( (array) get_post_types( array( 'show_ui' => true ), 'objects' ) as $ptype_obj ) {
 		if ( true !== $ptype_obj->show_in_menu || ! current_user_can( $ptype_obj->cap->edit_posts ) )
 			continue;
-		$actions["post-new.php?post_type=$ptype"] = array( $ptype_obj->labels->singular_name, $ptype_obj->cap->edit_posts, "new-$ptype" );
+		$actions[ 'post-new.php?post_type=' . $ptype_obj->name ] = array( $ptype_obj->labels->singular_name, $ptype_obj->cap->edit_posts, 'new-' . $ptype_obj->name );
 	}
 
 	if ( empty( $actions ) )
