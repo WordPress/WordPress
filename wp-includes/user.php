@@ -452,7 +452,7 @@ class WP_User_Query {
 				$search = trim($search, '*');
 			}
 			if ( false !== strpos( $search, '@') )
-				$search_columns[] = array('user_email');
+				$search_columns = array('user_email');
 			elseif ( is_numeric($search) )
 				$search_columns = array('user_login', 'ID');
 			elseif ( preg_match('|^https?://|', $search) )
