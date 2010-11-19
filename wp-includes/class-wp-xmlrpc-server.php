@@ -63,6 +63,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			'wp.getCommentStatusList' => 'this:wp_getCommentStatusList',
 			'wp.getMediaItem'		=> 'this:wp_getMediaItem',
 			'wp.getMediaLibrary'	=> 'this:wp_getMediaLibrary',
+			'wp.getPostFormats'     => 'this:wp_getPostFormats',
 
 			// Blogger API
 			'blogger.getUsersBlogs' => 'this:blogger_getUsersBlogs',
@@ -1601,6 +1602,31 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		return $attachments_struct;
 	}
+	
+	/** 
+	  * Retrives a list of post formats used by the site 
+	  * 
+	  * @since 3.1
+	  * 
+	  * @param array $args Method parameters. Contains: 
+	  *  - blog_id 
+	  *  - username 
+	  *  - password 
+	  * @return array 
+	  */ 
+	function wp_getPostFormats( $args ) {
+		$this->escape( $args );
+
+		$blog_id = (int) $args[0];
+		$username = $args[1];
+		$password = $args[2];
+
+		if ( !$user = $this->login( $username, $password ) )
+			return $this->error;
+            
+		do_action( 'xmlrpc_call', 'wp.getPostFormats' );
+		return get_post_format_strings();
+	} 
 
 	/* Blogger API functions.
 	 * specs on http://plant.blogger.com/api and http://groups.yahoo.com/group/bloggerDev/
@@ -2083,6 +2109,14 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( !current_user_can( $cap ) )
 			return new IXR_Error( 401, $error_message );
 
+		// Check for a valid post format if one was given
+		if ( isset( $content_struct['wp_post_format'] ) ) { 
+			$content_struct['wp_post_format'] = sanitize_key( $content_struct['wp_post_format'] ); 
+			if ( !array_key_exists( $content_struct['wp_post_format'], get_post_format_strings() ) ) {
+				return new IXR_Error( 404, __( 'Invalid post format' ) );
+			}
+		}
+
 		// Let WordPress generate the post_name (slug) unless
 		// one has been provided.
 		$post_name = "";
@@ -2266,6 +2300,11 @@ class wp_xmlrpc_server extends IXR_Server {
 		$this->add_enclosure_if_new($post_ID, $content_struct['enclosure']);
 
 		$this->attach_uploads( $post_ID, $post_content );
+		
+		// Handle post formats if assigned, value is validated earlier
+		// in this function
+		if ( isset( $content_struct['wp_post_format'] ) )
+			wp_set_post_terms( $post_ID, array( 'post-format-' . $content_struct['wp_post_format'] ), 'post_format' ); 
 
 		logIO('O', "Posted ! ID: $post_ID");
 
@@ -2357,6 +2396,14 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		if ( !current_user_can( $cap ) )
 			return new IXR_Error( 401, $error_message );
+
+		// Check for a valid post format if one was given
+		if ( isset( $content_struct['wp_post_format'] ) ) { 
+			$content_struct['wp_post_format'] = sanitize_key( $content_struct['wp_post_format'] ); 
+			if ( !array_key_exists( $content_struct['wp_post_format'], get_post_format_strings() ) ) {
+				return new IXR_Error( 404, __( 'Invalid post format' ) );
+			}
+		}
 
 		$postdata = wp_get_single_post($post_ID, ARRAY_A);
 
@@ -2552,6 +2599,11 @@ class wp_xmlrpc_server extends IXR_Server {
 		$this->add_enclosure_if_new($post_ID, $content_struct['enclosure']);
 
 		$this->attach_uploads( $ID, $post_content );
+		
+		// Handle post formats if assigned, validation is handled
+		// earlier in this function
+		if ( isset( $content_struct['wp_post_format'] ) )
+			wp_set_post_terms( $post_ID, array( 'post-format-' . $content_struct['wp_post_format'] ), 'post_format' ); 
 
 		logIO('O',"(MW) Edited ! ID: $post_ID");
 
@@ -2619,6 +2671,11 @@ class wp_xmlrpc_server extends IXR_Server {
 			// Consider future posts as published
 			if ( $postdata['post_status'] === 'future' )
 				$postdata['post_status'] = 'publish';
+				
+			// Get post format 
+			$post_format = get_post_format( $post_ID );
+			if ( empty( $post_format ) )
+				$post_format = 'default';
 
 			$sticky = false;
 			if ( is_sticky( $post_ID ) )
@@ -2660,6 +2717,7 @@ class wp_xmlrpc_server extends IXR_Server {
 				'date_created_gmt' => new IXR_Date($post_date_gmt),
 				'post_status' => $postdata['post_status'],
 				'custom_fields' => $this->get_custom_fields($post_ID),
+				'wp_post_format' => $post_format,
 				'sticky' => $sticky
 			);
 
@@ -2740,6 +2798,11 @@ class wp_xmlrpc_server extends IXR_Server {
 			// Consider future posts as published
 			if ( $entry['post_status'] === 'future' )
 				$entry['post_status'] = 'publish';
+				
+			// Get post format 
+			$post_format = get_post_format( $entry['ID'] );
+			if ( empty( $post_format ) )
+				$post_format = 'default';
 
 			$struct[] = array(
 				'dateCreated' => new IXR_Date($post_date),
@@ -2763,7 +2826,8 @@ class wp_xmlrpc_server extends IXR_Server {
 				'wp_author_display_name' => $author->display_name,
 				'date_created_gmt' => new IXR_Date($post_date_gmt),
 				'post_status' => $entry['post_status'],
-				'custom_fields' => $this->get_custom_fields($entry['ID'])
+				'custom_fields' => $this->get_custom_fields($entry['ID']),
+				'wp_post_format' => $post_format
 			);
 
 		}
