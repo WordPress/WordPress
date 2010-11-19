@@ -5246,7 +5246,7 @@ function wp_quickpress_form( $args = array(), $post_type = 'post'){
  */
 function get_post_format_strings() {
 	$strings = array(
-		'0'       => _x( 'Default', 'Post format' ),
+		'default' => _x( 'Default', 'Post format' ), // Special case. any value that evals to false will be considered default
 		'aside'   => _x( 'Aside',   'Post format' ),
 		'chat'    => _x( 'Chat',    'Post format' ),
 		'gallery' => _x( 'Gallery', 'Post format' ),
@@ -5269,7 +5269,10 @@ function get_post_format_strings() {
  */
 function get_post_format_string( $slug ) {
 	$strings = get_post_format_strings();
-	return ( isset( $strings[$slug] ) ) ? $strings[$slug] : '';
+	if ( !$slug )
+		return $strings['default'];
+	else
+		return ( isset( $strings[$slug] ) ) ? $strings[$slug] : '';
 }
 
 /**
