@@ -168,10 +168,8 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 				if ( ! empty($tax_url['query']) ) { // Custom taxonomies may only be accessable via ?taxonomy=..&term=..
 					parse_str($tax_url['query'], $query_vars);
 					$redirect['query'] = add_query_arg($query_vars, $redirect['query']);
-					error_log('ugly redir');
 				} else { // Taxonomy is accessable via a "pretty-URL"
 					$redirect['path'] = $tax_url['path'];
-					error_log('pretty redir');
 				}
 			}
 		} elseif ( is_single() && strpos($wp_rewrite->permalink_structure, '%category%') !== false ) {
