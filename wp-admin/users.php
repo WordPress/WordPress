@@ -356,7 +356,7 @@ if ( $usersearch )
 <form class="search-form" action="" method="get">
 <p class="search-box">
 	<label class="screen-reader-text" for="user-search-input"><?php _e( 'Search Users' ); ?>:</label>
-	<input type="text" id="user-search-input" name="usersearch" value="<?php echo esc_attr($usersearch); ?>" />
+	<input type="text" id="user-search-input" name="s" value="<?php echo esc_attr($usersearch); ?>" />
 	<?php submit_button( __( 'Search Users' ), 'button', 'submit', false ); ?>
 </p>
 </form>
