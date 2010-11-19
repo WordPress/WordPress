@@ -1122,6 +1122,7 @@ function get_media_item( $attachment_id, $args = null ) {
 
 	$default_args = array( 'errors' => null, 'send' => $post->post_parent ? post_type_supports( get_post_type( $post->post_parent ), 'editor' ) : true, 'delete' => true, 'toggle' => true, 'show_title' => true );
 	$args = wp_parse_args( $args, $default_args );
+	$args = apply_filters( 'get_media_item_args', $args );
 	extract( $args, EXTR_SKIP );
 
 	$toggle_on  = __( 'Show' );
@@ -1397,7 +1398,26 @@ if ( is_multisite() && !is_upload_space_available() ) {
 
 do_action('pre-upload-ui');
 
-if ( $flash ) : ?>
+if ( $flash ) : 
+
+// Set the post params, which SWFUpload will post back with the file, and pass 
+// them through a filter.
+$post_params = array(
+		"post_id" => $post_id,
+		"auth_cookie" => (is_ssl() ? $_COOKIE[SECURE_AUTH_COOKIE] : $_COOKIE[AUTH_COOKIE]),
+		"logged_in_cookie" => $_COOKIE[LOGGED_IN_COOKIE],
+		"_wpnonce" => wp_create_nonce('media-form'),
+		"type" => $type,
+		"tab" => $tab,
+		"short" => "1",
+);
+$post_params = apply_filters( 'swfupload_post_params', $post_params );
+$p = array();
+foreach ( $post_params as $param => & $val )
+	$p[] = "\t\t'$param' : '$val'";
+$post_params_str = implode( ", \n", $p );
+
+?>
 <script type="text/javascript">
 //<![CDATA[
 var swfu;
@@ -1415,13 +1435,7 @@ SWFUpload.onload = function() {
 			file_post_name: "async-upload",
 			file_types: "<?php echo apply_filters('upload_file_glob', '*.*'); ?>",
 			post_params : {
-				"post_id" : "<?php echo $post_id; ?>",
-				"auth_cookie" : "<?php echo (is_ssl() ? $_COOKIE[SECURE_AUTH_COOKIE] : $_COOKIE[AUTH_COOKIE]); ?>",
-				"logged_in_cookie": "<?php echo $_COOKIE[LOGGED_IN_COOKIE]; ?>",
-				"_wpnonce" : "<?php echo wp_create_nonce('media-form'); ?>",
-				"type" : "<?php echo $type; ?>",
-				"tab" : "<?php echo $tab; ?>",
-				"short" : "1"
+				<?php echo $post_params_str; ?>
 			},
 			file_size_limit : "<?php echo $max_upload_size; ?>b",
 			file_dialog_start_handler : fileDialogStart,
@@ -1429,7 +1443,7 @@ SWFUpload.onload = function() {
 			upload_start_handler : uploadStart,
 			upload_progress_handler : uploadProgress,
 			upload_error_handler : uploadError,
-			upload_success_handler : uploadSuccess,
+			upload_success_handler : <?php echo apply_filters( 'swfupload_success_handler', 'uploadSuccess' ); ?>,
 			upload_complete_handler : uploadComplete,
 			file_queue_error_handler : fileQueueError,
 			file_dialog_complete_handler : fileDialogComplete,
