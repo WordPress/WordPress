@@ -64,7 +64,7 @@ var wpLink;
 					href : inputs.url.val(),
 					title : inputs.title.val(),
 					target : inputs.openInNewTab.attr('checked') ? '_blank' : ''
-				}, e, b,
+				}, e, children, b,
 				defaultContent = attrs.title ? attrs.title : attrs.href;
 
 			tinyMCEPopup.restoreSelection();
@@ -112,8 +112,9 @@ var wpLink;
 				ed.dom.setAttribs(e, attrs);
 			}
 
+			children = $(e).children();
 			// Don't move caret if selection was image
-			if (e.childNodes.length != 1 || e.firstChild.nodeName != 'IMG') {
+			if ( children.length != 1 || children.first().not('img') ) {
 				ed.focus();
 				ed.selection.select(e);
 				ed.selection.collapse(0);
