@@ -1078,8 +1078,8 @@ case 'wp-link-ajax':
 
 	$args = array();
 
-	if ( isset( $_POST['title'] ) )
-		$args['s'] = stripslashes( $_POST['title'] );
+	if ( isset( $_POST['search'] ) )
+		$args['s'] = stripslashes( $_POST['search'] );
 	$args['pagenum'] = ! empty( $_POST['page'] ) ? absint( $_POST['page'] ) : 1;
 
 	$results = wp_link_query( $args );

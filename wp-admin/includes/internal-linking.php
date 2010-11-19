@@ -94,29 +94,14 @@ function wp_link_dialog() {
 			</label>
 		</div>
 		<div id="search-results" class="query-results">
-			<ul>
-				<li class="loading-results unselectable"><em><?php _e( 'Loading...' ); ?></em></li>
-			</ul>
+			<ul></ul>
 			<div class="river-waiting">
 				<img class="waiting" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
 			</div>
 		</div>
-		<?php $most_recent = wp_link_query(); ?>
 		<div id="most-recent-results" class="query-results">
-			<ul>
-				<li class="unselectable"><em><?php _e( 'No search term specified. Showing recent items.' ); ?></em></li>
-				<?php
-				$alt = true;
-				foreach ( $most_recent as $item ) : ?>
-					<li<?php if ( $alt ) echo ' class="alternate"'; ?>>
-						<input type="hidden" class="item-permalink" value="<?php echo esc_url( $item['permalink'] ); ?>" />
-						<span class="item-title"><?php echo $item['title']; ?></span>
-						<span class="item-info"><?php echo esc_html( $item['info'] ); ?></span>
-					</li>
-				<?php
-				$alt = ! $alt;
-				endforeach; ?>
-			</ul>
+			<div class="query-notice"><em><?php _e( 'No search term specified. Showing recent items.' ); ?></em></div>
+			<ul></ul>
 			<div class="river-waiting">
 				<img class="waiting" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
 			</div>

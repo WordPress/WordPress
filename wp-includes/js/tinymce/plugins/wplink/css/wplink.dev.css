@@ -47,7 +47,8 @@
 	height: 185px;
 	overflow: auto;
 }
-#wp-link li {
+#wp-link li,
+#wp-link .query-notice {
 	margin-bottom: 0;
 	border-bottom: 1px solid #f1f1f1;
 	color: #333;
@@ -66,7 +67,7 @@
 	cursor: auto;
 	color: #333;
 }
-#wp-link  li.selected {
+#wp-link li.selected {
 	background: #ddd;
 	color: #333;
 }
