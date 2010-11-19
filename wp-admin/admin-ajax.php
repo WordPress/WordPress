@@ -682,6 +682,8 @@ case 'replyto-comment' :
 case 'edit-comment' :
 	check_ajax_referer( 'replyto-comment', '_ajax_nonce-replyto-comment' );
 
+	set_current_screen( 'edit-comments' );
+
 	$comment_post_ID = (int) $_POST['comment_post_ID'];
 	if ( ! current_user_can( 'edit_post', $comment_post_ID ) )
 		die('-1');
