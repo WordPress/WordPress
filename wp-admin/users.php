@@ -376,6 +376,7 @@ if ( is_multisite() ) {
 ?>
 
 <br class="clear" />
+</div>
 <?php
 break;
 
