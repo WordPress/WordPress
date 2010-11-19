@@ -35,8 +35,13 @@ var wpLink;
 
 		refresh : function() {
 			var e;
-			
 			ed = tinyMCEPopup.editor;
+			
+			// Clear previously selected links
+			rivers.elements.find('.selected').removeClass('selected');
+			// Clear fields and focus the URL field
+			inputs.url.val('').focus();
+			inputs.title.val('');
 			
 			// If link exists, select proper values.
 			if ( e = ed.dom.getParent(ed.selection.getNode(), 'A') ) {
@@ -47,11 +52,6 @@ var wpLink;
 				if ( "_blank" == ed.dom.getAttrib(e, 'target') )
 					inputs.openInNewTab.attr('checked','checked');
 			}
-
-			// Clear previously selected links
-			rivers.elements.find('.selected').removeClass('selected');
-			// Focus the URL field
-			inputs.url.focus();
 			// Load the most recent results if this is the first time opening the panel.
 			if ( ! rivers.recent.ul.children().length )
 				rivers.recent.ajax();
