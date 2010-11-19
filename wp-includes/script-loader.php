@@ -269,7 +269,7 @@ function wp_default_scripts( &$scripts ) {
 		'noShortlink' => __( 'No shortlink available for this page.' ),
 	) );
 
-	$scripts->add( 'wplink', "/wp-includes/js/tinymce/plugins/wplink/js/wplink$suffix.js", array('jquery'), '20101119b' );
+	$scripts->add( 'wplink', "/wp-includes/js/tinymce/plugins/wplink/js/wplink$suffix.js", array('jquery'), '20101119c' );
 	$scripts->localize( 'wplink', 'wpLinkL10n', array(
 		'untitled' => __('Untitled'),
 		'noMatchesFound' => __('No matches found.'),
