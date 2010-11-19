@@ -1984,7 +1984,7 @@ class WP_Query {
 			}
 		}
 
-		if ( !empty($q['meta_key']) ) {
+		if ( !empty( $this->tax_query ) || !empty( $q['meta_key'] ) ) {
 			$groupby = "{$wpdb->posts}.ID";
 		}
 
