@@ -40,7 +40,7 @@ var wpLink;
 			// Clear previously selected links
 			rivers.elements.find('.selected').removeClass('selected');
 			// Clear fields and focus the URL field
-			inputs.url.val('').focus();
+			inputs.url.val('http://').focus();
 			inputs.title.val('');
 			
 			// If link exists, select proper values.
