@@ -1066,9 +1066,11 @@ function get_the_terms( $id = 0, $taxonomy ) {
 	}
 
 	$terms = get_object_term_cache( $id, $taxonomy );
-	if ( false === $terms )
+	if ( false === $terms ) {
 		$terms = wp_get_object_terms( $id, $taxonomy );
-
+		wp_cache_add($id, $terms, $taxonomy . '_relationships');
+	}
+	
 	$terms = apply_filters( 'get_the_terms', $terms, $id, $taxonomy );
 
 	if ( empty( $terms ) )
