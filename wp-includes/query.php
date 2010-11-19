@@ -1591,17 +1591,19 @@ class WP_Query {
 			);
 		}
 
-		foreach ( $tax_query as $query ) {
-			if ( 'IN' == $query['operator'] ) {
-				switch ( $query['taxonomy'] ) {
-					case 'category':
-						$this->is_category = true;
-						break;
-					case 'post_tag':
-						$this->is_tag = true;
-						break;
-					default:
-						$this->is_tax = true;
+		if ( !$this->is_singular() ) {
+			foreach ( $tax_query as $query ) {
+				if ( 'IN' == $query['operator'] ) {
+					switch ( $query['taxonomy'] ) {
+						case 'category':
+							$this->is_category = true;
+							break;
+						case 'post_tag':
+							$this->is_tag = true;
+							break;
+						default:
+							$this->is_tax = true;
+					}
 				}
 			}
 		}
