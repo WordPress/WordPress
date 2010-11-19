@@ -54,28 +54,29 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 			// Nothing to do.
 		} elseif ( preg_match('/^[0-9]+\./', $s) ) {
 			// IP address
+			$reg_blog_ids = $wpdb->get_col( "SELECT blog_id FROM {$wpdb->registration_log} WHERE {$wpdb->registration_log}.IP LIKE ( '{$like_s}$wild' )" );
+
+			if ( !$reg_blog_ids )
+				$reg_blog_ids = array( 0 );
+
 			$query = "SELECT *
-				FROM {$wpdb->blogs}, {$wpdb->registration_log}
+				FROM {$wpdb->blogs}
 				WHERE site_id = '{$wpdb->siteid}'
-				AND {$wpdb->blogs}.blog_id = {$wpdb->registration_log}.blog_id
-				AND {$wpdb->registration_log}.IP LIKE ( '{$like_s}$wild' )";
+				AND {$wpdb->blogs}.blog_id IN (" . implode( ', ', $reg_blog_ids ) . ")";
 		} else {
-			if ( is_subdomain_install() ) {
+			if ( is_numeric($s) ) {
+				$query .= " AND ( {$wpdb->blogs}.blog_id = '{$like_s}' )";
+			} elseif ( is_subdomain_install() ) {
 				$blog_s = str_replace( '.' . $current_site->domain, '', $like_s );
 				$blog_s .= $wild . '.' . $current_site->domain;
-				$query .= " AND ( {$wpdb->blogs}.domain LIKE '$blog_s' ";
+				$query .= " AND ( {$wpdb->blogs}.domain LIKE '$blog_s' ) ";
 			} else {
 				if ( $like_s != trim('/', $current_site->path) )
 					$blog_s = $current_site->path .= $like_s . $wild . '/';
 				else
 					$blog_s = $like_s;
-				$query .= " AND  ( {$wpdb->blogs}.path LIKE '$blog_s' ";
+				$query .= " AND  ( {$wpdb->blogs}.path LIKE '$blog_s' )";
 			}
-
-			if ( is_numeric($s) )
-				$query .= " OR {$wpdb->blogs}.blog_id = '{$like_s}' ";
-
-			$query .= ' )';
 		}
 
 		$order_by = isset( $_REQUEST['orderby'] ) ? $_REQUEST['orderby'] : 'id';
@@ -86,12 +87,13 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 		} elseif ( $order_by == 'blogname' ) {
 			$query .= ' ORDER BY domain ';
 		} else {
-			$order_by = 'id';
-			$query .= " ORDER BY {$wpdb->blogs}.blog_id ";
+			$order_by = null;
 		}
 
-		$order = ( isset( $_REQUEST['order'] ) && 'DESC' == strtoupper( $_REQUEST['order'] ) ) ? "DESC" : "ASC";
-		$query .= $order;
+		if ( isset( $order_by ) ) {
+			$order = ( isset( $_REQUEST['order'] ) && 'DESC' == strtoupper( $_REQUEST['order'] ) ) ? "DESC" : "ASC";
+			$query .= $order;
+		}
 
 		// Don't do an unbounded count on large networks
 		if ( ! $large_network )
