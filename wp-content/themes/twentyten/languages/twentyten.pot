@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Ten 1.3-alpha\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyten\n"
-"POT-Creation-Date: 2010-11-06 00:21+0000\n"
+"POT-Creation-Date: 2010-11-19 08:21+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -91,11 +91,11 @@ msgstr ""
 msgid "http://wordpress.org/"
 msgstr ""
 
-#: footer.php:34
+#: footer.php:33
 msgid "Semantic Personal Publishing Platform"
 msgstr ""
 
-#: footer.php:35
+#: footer.php:33
 #, php-format
 msgid "Proudly powered by %s."
 msgstr ""
