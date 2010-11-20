@@ -1770,7 +1770,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			'userid'    => $post_data['post_author'],
 			'dateCreated' => new IXR_Date(mysql2date('Ymd\TH:i:s', $post_data['post_date'], false)),
 			'content'     => $content,
-			'postid'  => $post_data['ID']
+			'postid'  => (string) $post_data['ID']
 		);
 
 		return $struct;
@@ -1824,7 +1824,7 @@ class wp_xmlrpc_server extends IXR_Server {
 				'userid' => $entry['post_author'],
 				'dateCreated' => new IXR_Date($post_date),
 				'content' => $content,
-				'postid' => $entry['ID'],
+				'postid' => (string) $entry['ID'],
 			);
 
 		}
@@ -2807,7 +2807,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			$struct[] = array(
 				'dateCreated' => new IXR_Date($post_date),
 				'userid' => $entry['post_author'],
-				'postid' => $entry['ID'],
+				'postid' => (string) $entry['ID'],
 				'description' => $post['main'],
 				'title' => $entry['post_title'],
 				'link' => $link,
@@ -3016,7 +3016,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			$struct[] = array(
 				'dateCreated' => new IXR_Date($post_date),
 				'userid' => $entry['post_author'],
-				'postid' => $entry['ID'],
+				'postid' => (string) $entry['ID'],
 				'title' => $entry['post_title'],
 				'date_created_gmt' => new IXR_Date($post_date_gmt)
 			);
