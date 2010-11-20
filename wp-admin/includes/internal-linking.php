@@ -113,7 +113,7 @@ function wp_link_dialog() {
 		<a class="submitdelete deletion" href="#"><?php _e( 'Cancel' ); ?></a>
 	</div>
 	<div id="wp-link-update">
-		<a class="button-primary" href="#"><?php _e( 'Update' ); ?></a>
+		<a class="button-primary" href="#"></a>
 	</div>
 </div>
 </div>

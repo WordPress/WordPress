@@ -10,6 +10,7 @@ var wpLink;
 		lastSearch: '',
 		init : function() {
 			inputs.dialog = $('#wp-link');
+			inputs.update = $('#wp-link-update a');
 			// URL
 			inputs.url = $('#url-field');
 			// Secondary options
@@ -23,7 +24,7 @@ var wpLink;
 			rivers.elements = $('.query-results', inputs.dialog);
 
 			// Bind event handlers
-			$('#wp-link-update').click( wpLink.update );
+			inputs.update.click( wpLink.update );
 			$('#wp-link-cancel').click( function() { tinyMCEPopup.close(); } );
 			
 			rivers.elements.delegate('li', 'click', wpLink.selectInternalLink )
@@ -39,11 +40,9 @@ var wpLink;
 			
 			// Clear previously selected links
 			rivers.elements.find('.selected').removeClass('selected');
-			// Clear fields and focus the URL field
-			inputs.url.val('http://');
-			inputs.title.val('');
 			
 			tinyMCEPopup.restoreSelection();
+
 			// If link exists, select proper values.
 			if ( e = ed.dom.getParent(ed.selection.getNode(), 'A') ) {
 				// Set URL and description.
@@ -52,7 +51,19 @@ var wpLink;
 				// Set open in new tab.
 				if ( "_blank" == ed.dom.getAttrib(e, 'target') )
 					inputs.openInNewTab.attr('checked','checked');
+				// Update save prompt.
+				inputs.update.text( wpLinkL10n.update );
+
+			// If there's no link, set the default values.
+			} else {
+				// Set URL and description to defaults.
+				// Leave the new tab setting as-is.
+				inputs.url.val('http://');
+				inputs.title.val('');
+				// Update save prompt.
+				inputs.update.text( wpLinkL10n.save );
 			}
+
 			tinyMCEPopup.storeSelection();
 			// If the focus is moved above the selection changes,
 			// IE will show a flashing cursor over the dialog.
