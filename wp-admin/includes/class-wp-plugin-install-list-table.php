@@ -103,7 +103,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		$display_tabs = array();
 		foreach ( (array) $tabs as $action => $text ) {
 			$class = ( $action == $tab ) ? ' class="current"' : '';
-			$href = admin_url('plugin-install.php?tab=' . $action);
+			$href = self_admin_url('plugin-install.php?tab=' . $action);
 			$display_tabs[$action] = "<a href='$href'$class>$text</a>";
 		}
 
@@ -178,7 +178,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			$author = wp_kses( $author, $plugins_allowedtags );
 
 			$action_links = array();
-			$action_links[] = '<a href="' . admin_url( 'plugin-install.php?tab=plugin-information&amp;plugin=' . $plugin['slug'] .
+			$action_links[] = '<a href="' . self_admin_url( 'plugin-install.php?tab=plugin-information&amp;plugin=' . $plugin['slug'] .
 								'&amp;TB_iframe=true&amp;width=600&amp;height=550' ) . '" class="thickbox" title="' .
 								esc_attr( sprintf( __( 'More information about %s' ), $name ) ) . '">' . __( 'Details' ) . '</a>';
 
