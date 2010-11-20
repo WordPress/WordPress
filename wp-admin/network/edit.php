@@ -367,7 +367,7 @@ switch ( $_GET['action'] ) {
 	break;
 
 	case 'allusers':
-		if ( current_user_can( 'manage_network_users' ) )
+		if ( !current_user_can( 'manage_network_users' ) )
 			wp_die( __( 'You do not have permission to access this page.' ) );
 
 		if ( isset( $_POST['doaction']) || isset($_POST['doaction2'] ) ) {
