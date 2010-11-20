@@ -552,9 +552,6 @@ function get_tax_sql( $tax_query, $primary_table, $primary_id_column ) {
 		if ( is_taxonomy_hierarchical( $taxonomy ) && $include_children ) {
 			_transform_terms( $terms, $taxonomies, $field, 'term_id' );
 
-			if ( empty( $terms ) )
-				continue;
-
 			$children = array();
 			foreach ( $terms as $term ) {
 				$children = array_merge( $children, get_term_children( $term, $taxonomy ) );
@@ -568,12 +565,12 @@ function get_tax_sql( $tax_query, $primary_table, $primary_id_column ) {
 			_transform_terms( $terms, $taxonomies, $field, 'term_taxonomy_id' );
 		}
 
-		if ( empty( $terms ) )
-			continue;
-
-		$terms = implode( ',', $terms );
-
 		if ( 'IN' == $operator ) {
+			if ( empty( $terms ) )
+				return array( 'join' => '', 'where' => ' AND 0 = 1');
+
+			$terms = implode( ',', $terms );
+
 			$alias = $i ? 'tt' . $i : $wpdb->term_relationships;
 
 			$join .= " INNER JOIN $wpdb->term_relationships";
@@ -585,6 +582,11 @@ function get_tax_sql( $tax_query, $primary_table, $primary_id_column ) {
 			$i++;
 		}
 		elseif ( 'NOT IN' == $operator ) {
+			if ( empty( $terms ) )
+				continue;
+
+			$terms = implode( ',', $terms );
+
 			$where .= " AND $primary_table.$primary_id_column NOT IN (
 				SELECT object_id 
 				FROM $wpdb->term_relationships 
@@ -598,6 +600,9 @@ function get_tax_sql( $tax_query, $primary_table, $primary_id_column ) {
 
 function _transform_terms( &$terms, $taxonomies, $field, $resulting_field ) {
 	global $wpdb;
+
+	if ( empty( $terms ) )
+		return;
 
 	if ( $field == $resulting_field )
 		return;

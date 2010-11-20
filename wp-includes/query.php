@@ -1947,12 +1947,8 @@ class WP_Query {
 		if ( !empty( $this->tax_query ) ) {
 			$clauses = call_user_func_array( 'get_tax_sql', array( $this->tax_query, $wpdb->posts, 'ID', &$this) );
 
-			if ( empty($clauses['join']) && empty($clauses['where']) ) {
-				$where .= ' AND 0 = 1';	
-			} else {
-				$join .= $clauses['join'];
-				$where .= $clauses['where'];
-			}
+			$join .= $clauses['join'];
+			$where .= $clauses['where'];
 
 			if ( $this->is_tax ) {
 				if ( empty($post_type) ) {
