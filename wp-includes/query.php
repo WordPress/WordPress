@@ -1950,8 +1950,6 @@ class WP_Query {
 			$join .= $clauses['join'];
 			$where .= $clauses['where'];
 
-debug($this->is_tax, $post_type);
-
 			if ( $this->is_tax ) {
 				if ( empty($post_type) ) {
 					$post_type = 'any';
