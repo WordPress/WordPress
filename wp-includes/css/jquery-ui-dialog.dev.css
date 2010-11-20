@@ -138,4 +138,5 @@
 .ui-widget-overlay {
 	background-color: #000;
 	opacity: 0.6;
+	filter: alpha(opacity=60);
 }

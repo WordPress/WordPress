@@ -269,13 +269,13 @@ function wp_default_scripts( &$scripts ) {
 		'noShortlink' => __( 'No shortlink available for this page.' ),
 	) );
 
-	$scripts->add( 'wplink', "/wp-includes/js/tinymce/plugins/wplink/js/wplink$suffix.js", array('jquery'), '20101119c' );
+	$scripts->add( 'wplink', "/wp-includes/js/tinymce/plugins/wplink/js/wplink$suffix.js", array('jquery'), '20101119d' );
 	$scripts->localize( 'wplink', 'wpLinkL10n', array(
 		'untitled' => __('Untitled'),
 		'noMatchesFound' => __('No matches found.'),
 	) );
 
-	$scripts->add( 'wpdialogs-popup', "/wp-includes/js/tinymce/plugins/wpdialogs/js/popup$suffix.js", array( 'jquery-ui-dialog' ), '20101117' );
+	$scripts->add( 'wpdialogs-popup', "/wp-includes/js/tinymce/plugins/wpdialogs/js/popup$suffix.js", array( 'jquery-ui-dialog' ), '20101119' );
 
 	if ( is_admin() ) {
 		$scripts->add( 'ajaxcat', "/wp-admin/js/cat$suffix.js", array( 'wp-lists' ), '20090102' );
@@ -510,7 +510,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'imgareaselect', '/wp-includes/js/imgareaselect/imgareaselect.css', array(), '0.9.1' );
 	$styles->add( 'nav-menu', "/wp-admin/css/nav-menu$suffix.css", array(), '20100907' );
 	$styles->add( 'admin-bar', "/wp-includes/css/admin-bar$suffix.css", array(), '20101117' );
-	$styles->add( 'wp-jquery-ui-dialog', "/wp-includes/css/jquery-ui-dialog$suffix.css", array(), '20101118' );
+	$styles->add( 'wp-jquery-ui-dialog', "/wp-includes/css/jquery-ui-dialog$suffix.css", array(), '20101119' );
 	$styles->add( 'wplink', "/wp-includes/js/tinymce/plugins/wplink/css/wplink$suffix.css", array(), '20101119' );
 
 	foreach ( $rtl_styles as $rtl_style ) {

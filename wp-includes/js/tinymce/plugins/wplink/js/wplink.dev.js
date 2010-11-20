@@ -40,9 +40,10 @@ var wpLink;
 			// Clear previously selected links
 			rivers.elements.find('.selected').removeClass('selected');
 			// Clear fields and focus the URL field
-			inputs.url.val('http://').focus();
+			inputs.url.val('http://');
 			inputs.title.val('');
 			
+			tinyMCEPopup.restoreSelection();
 			// If link exists, select proper values.
 			if ( e = ed.dom.getParent(ed.selection.getNode(), 'A') ) {
 				// Set URL and description.
@@ -52,6 +53,10 @@ var wpLink;
 				if ( "_blank" == ed.dom.getAttrib(e, 'target') )
 					inputs.openInNewTab.attr('checked','checked');
 			}
+			tinyMCEPopup.storeSelection();
+			// If the focus is moved above the selection changes,
+			// IE will show a flashing cursor over the dialog.
+			inputs.url.focus();
 			// Load the most recent results if this is the first time opening the panel.
 			if ( ! rivers.recent.ul.children().length )
 				rivers.recent.ajax();
@@ -64,14 +69,14 @@ var wpLink;
 					href : inputs.url.val(),
 					title : inputs.title.val(),
 					target : inputs.openInNewTab.attr('checked') ? '_blank' : ''
-				}, e, children, b,
+				}, e, b,
 				defaultContent = attrs.title ? attrs.title : attrs.href;
 
 			tinyMCEPopup.restoreSelection();
 			e = ed.dom.getParent(ed.selection.getNode(), 'A');
 
 			// If the values are empty...
-			if ( ! attrs.href ) {
+			if ( ! attrs.href || attrs.href == 'http://' ) {
 				// ...and nothing is selected, we should return
 				if ( ed.selection.isCollapsed() ) {
 					tinyMCEPopup.close();
@@ -114,7 +119,7 @@ var wpLink;
 
 			children = $(e).children();
 			// Don't move caret if selection was image
-			if ( children.length != 1 || children.first().not('img') ) {
+			if (e.childNodes.length != 1 || e.firstChild.nodeName != 'IMG') {
 				ed.focus();
 				ed.selection.select(e);
 				ed.selection.collapse(0);

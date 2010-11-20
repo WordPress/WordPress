@@ -59,6 +59,9 @@
 			t.onOpen.dispatch(t, f, p);
 			t.element = t.windows[ f.id ] = element;
 			
+			// Store selection
+			t.bookmark = t.editor.selection.getBookmark();
+			
 			if ( tinyMCEPopup )
 				tinyMCEPopup.init();
 			

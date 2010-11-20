@@ -48,7 +48,7 @@ var tinyMCEPopup = {
 			}
 		};
 
-		t.isWindow = !t.getWindowArg('mce_inline');
+		t.isWindow = false;
 		t.id = t.features.id;
 		t.editor.windowManager.onOpen.dispatch(t.editor.windowManager, window);
 	},
