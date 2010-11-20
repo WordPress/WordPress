@@ -1950,11 +1950,15 @@ class WP_Query {
 			$join .= $clauses['join'];
 			$where .= $clauses['where'];
 
-			if ( empty($post_type) ) {
-				$post_type = 'any';
-				$post_status_join = true;
-			} elseif ( in_array('attachment', (array) $post_type) ) {
-				$post_status_join = true;
+debug($this->is_tax, $post_type);
+
+			if ( $this->is_tax ) {
+				if ( empty($post_type) ) {
+					$post_type = 'any';
+					$post_status_join = true;
+				} elseif ( in_array('attachment', (array) $post_type) ) {
+					$post_status_join = true;
+				}
 			}
 
 			// Back-compat
