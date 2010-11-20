@@ -539,7 +539,7 @@ function get_tax_sql( $tax_query, $primary_table, $primary_id_column ) {
 
 		foreach ( $taxonomies as $taxonomy ) {
 			if ( ! taxonomy_exists( $taxonomy ) )
-				return ' AND 0 = 1';
+				return array( 'join' => '', 'where' => ' AND 0 = 1');
 		}
 
 		$taxonomies = "'" . implode( "', '", $taxonomies ) . "'";
@@ -592,6 +592,7 @@ function get_tax_sql( $tax_query, $primary_table, $primary_id_column ) {
 			)";
 		}
 	}
+
 	return compact( 'join', 'where' );
 }
 
