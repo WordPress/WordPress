@@ -8,12 +8,6 @@
  */
 class WP_MS_Users_List_Table extends WP_List_Table {
 
-	function WP_MS_Users_List_Table() {
-		parent::WP_List_Table( array(
-			'plural' => 'users-network'
-		) );
-	}
-
 	function check_permissions() {
 		if ( !is_multisite() )
 			wp_die( __( 'Multisite support is not enabled.' ) );
