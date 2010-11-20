@@ -235,8 +235,8 @@ function wp_default_scripts( &$scripts ) {
 			'dismiss' => __('Dismiss'),
 			'crunching' => __('Crunching&hellip;'),
 			'deleted' => __('moved to the trash.'),
+			'error_uploading' => __('&#8220;%s&#8221; has failed to upload due to an error'),
 			'l10n_print_after' => 'try{convertEntities(swfuploadL10n);}catch(e){};',
-			'error_uploading' => __('&#8220;%s&#8221; has failed to upload due to an error')
 	) );
 
 	$scripts->add( 'comment-reply', "/wp-includes/js/comment-reply$suffix.js", false, '20090102');
@@ -267,12 +267,14 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->localize( 'admin-bar', 'adminBarL10n', array(
 		'url' => __( 'URL:' ),
 		'noShortlink' => __( 'No shortlink available for this page.' ),
+		'l10n_print_after' => 'try{convertEntities(adminBarL10n);}catch(e){};',
 	) );
 
 	$scripts->add( 'wplink', "/wp-includes/js/tinymce/plugins/wplink/js/wplink$suffix.js", array('jquery'), '20101119d' );
 	$scripts->localize( 'wplink', 'wpLinkL10n', array(
 		'untitled' => __('Untitled'),
 		'noMatchesFound' => __('No matches found.'),
+		'l10n_print_after' => 'try{convertEntities(wpLinkL10n);}catch(e){};',
 	) );
 
 	$scripts->add( 'wpdialogs-popup', "/wp-includes/js/tinymce/plugins/wpdialogs/js/popup$suffix.js", array( 'jquery-ui-dialog' ), '20101119' );
@@ -380,7 +382,8 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->localize( 'list-table', 'listTableL10n', array(
 			'loading' => __('Loading...'),
 			'error' => __('An error has occurred while loading the items.'),
-			'search' => __('Search results for &#8220;%s&#8221;')
+			'search' => __('Search results for &#8220;%s&#8221;'),
+			'l10n_print_after' => 'try{convertEntities(listTableL10n);}catch(e){};'
 		) );
 
 		$scripts->add( 'inline-edit-post', "/wp-admin/js/inline-edit-post$suffix.js", array( 'jquery', 'suggest' ), '20100707' );
@@ -429,7 +432,8 @@ function wp_default_scripts( &$scripts ) {
 			'setThumbnail' => __( 'Use as featured image' ),
 			'saving' => __( 'Saving...' ),
 			'error' => __( 'Could not set that as the thumbnail image. Try a different attachment.' ),
-			'done' => __( 'Done' )
+			'done' => __( 'Done' ),
+			'l10n_print_after' => 'try{convertEntities(setPostThumbnailL10n);}catch(e){};'
 		) );
 
 		// Navigation Menus
@@ -438,6 +442,7 @@ function wp_default_scripts( &$scripts ) {
 			'noResultsFound' => _x('No results found.', 'search results'),
 			'warnDeleteMenu' => __( "You are about to permanently delete this menu. \n 'Cancel' to stop, 'OK' to delete." ),
 			'saveAlert' => __('The changes you made will be lost if you navigate away from this page.'),
+			'l10n_print_after' => 'try{convertEntities(navMenuL10n);}catch(e){};'
 		) );
 
 		$scripts->add( 'custom-background', "/wp-admin/js/custom-background$suffix.js", array('farbtastic'), '20101025' );
