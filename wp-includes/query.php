@@ -1546,6 +1546,7 @@ class WP_Query {
 		}
 
 		if ( !empty($q['category__in']) ) {
+			$q['category__in'] = array_unique( $q['category__in'] );
 			$tax_query[] = array(
 				'taxonomy' => 'category',
 				'terms' => $q['category__in'],
@@ -1555,6 +1556,7 @@ class WP_Query {
 		}
 
 		if ( !empty($q['category__not_in']) ) {
+			$q['category__not_in'] = array_unique( $q['category__not_in'] );
 			$tax_query[] = array(
 				'taxonomy' => 'category',
 				'terms' => $q['category__not_in'],
