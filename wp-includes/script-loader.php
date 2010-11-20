@@ -639,7 +639,7 @@ function print_head_scripts() {
 		$wp_scripts = new WP_Scripts();
 
 	script_concat_settings();
-	$wp_scripts->do_item( 'l10n' );
+	$wp_scripts->do_items( 'l10n' );
 	$wp_scripts->do_concat = $concatenate_scripts;
 	$wp_scripts->do_head_items();
 
