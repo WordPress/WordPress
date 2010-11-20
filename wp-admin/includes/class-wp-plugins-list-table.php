@@ -84,9 +84,10 @@ class WP_Plugins_List_Table extends WP_List_Table {
 
 		foreach ( (array) $plugins['all'] as $plugin_file => $plugin_data ) {
 			// Filter into individual sections
-			if ( is_plugin_active_for_network($plugin_file) && !$screen->is_network ) {
+			if ( is_multisite() && is_network_only_plugin( $plugin_file ) && !$screen->is_network ) {
+				unset( $plugins['all'][ $plugin_file] );
+			} elseif ( is_plugin_active_for_network($plugin_file) && !$screen->is_network ) {
 				unset( $plugins['all'][ $plugin_file ] );
-				continue;
 			} elseif ( is_multisite() && is_network_only_plugin( $plugin_file ) && !current_user_can( 'manage_network_plugins' ) ) {
 				$plugins['network'][ $plugin_file ] = $plugin_data;
 			} elseif ( ( !$screen->is_network && is_plugin_active( $plugin_file ) )
