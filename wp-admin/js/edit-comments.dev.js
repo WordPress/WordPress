@@ -460,7 +460,7 @@ $(document).ready(function(){
 
 	setCommentsList();
 	commentReply.init();
-	$('span.delete a.delete').click(function(){return false;});
+	$(document).delegate('span.delete a.delete', 'click', function(){return false;});
 
 	if ( typeof QTags != 'undefined' )
 		ed_reply = new QTags('ed_reply', 'replycontent', 'replycontainer', 'more');
