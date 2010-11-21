@@ -205,26 +205,26 @@ function wp_nav_menu( $args = array() ) {
 
 	// Attributes
 	if ( ! empty( $args->menu_id ) ) {
-		$slug = $args->menu_id;
+		$wrap_id = $args->menu_id;
 	} else {
-		$slug = 'menu-' . $menu->slug;
-		while ( in_array( $slug, $menu_id_slugs ) ) {
-			if ( preg_match( '#-(\d+)$#', $slug, $matches ) )
-				$slug = preg_replace('#-(\d+)$#', '-' . ++$matches[1], $slug);
+		$wrap_id = 'menu-' . $menu->slug;
+		while ( in_array( $wrap_id, $menu_id_slugs ) ) {
+			if ( preg_match( '#-(\d+)$#', $wrap_id, $matches ) )
+				$wrap_id = preg_replace('#-(\d+)$#', '-' . ++$matches[1], $wrap_id );
 			else
-				$slug = $slug . '-1';
+				$wrap_id = $wrap_id . '-1';
 		}
 	}
-	$menu_id_slugs[] = $slug;
-	
+	$menu_id_slugs[] = $wrap_id;
+
 	$wrap_class = $args->menu_class ? $args->menu_class : '';
 
 	// Allow plugins to hook into the menu to add their own <li>'s
 	$items = apply_filters( 'wp_nav_menu_items', $items, $args );
 	$items = apply_filters( "wp_nav_menu_{$menu->slug}_items", $items, $args );
-	
-	$nav_menu .= sprintf( $args->items_wrap, $slug, $wrap_class, $items );
-	unset($items);
+
+	$nav_menu .= sprintf( $args->items_wrap, esc_attr( $wrap_id ), esc_attr( $wrap_class ), $items );
+	unset( $items );
 
 	if ( $show_container )
 		$nav_menu .= '</' . $args->container . '>';
