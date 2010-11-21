@@ -15,14 +15,14 @@ if ( ! current_user_can('create_users') && ! current_user_can('promote_users') )
 if ( is_multisite() ) {
 	function admin_created_user_email( $text ) {
 		/* translators: 1: Site name, 2: site URL, 3: role */
-		return sprintf( __( "Hi,
-You've been invited to join '%1$s' at
+		return sprintf( __( 'Hi,
+You\'ve been invited to join \'%1$s\' at
 %2$s as a %3$s.
 If you do not want to join this site please ignore
 this email. This invitation will expire in a few days.
 
 Please click the following link to activate your user account:
-%%s" ), get_bloginfo('name'), site_url(), esc_html( $_REQUEST[ 'role' ] ) );
+%%s' ), get_bloginfo('name'), site_url(), esc_html( $_REQUEST[ 'role' ] ) );
 	}
 	add_filter( 'wpmu_signup_user_notification_email', 'admin_created_user_email' );
 
@@ -108,7 +108,7 @@ if ( isset($_REQUEST['action']) && 'adduser' == $_REQUEST['action'] ) {
 				add_filter( 'wpmu_signup_user_notification', '__return_false' ); // Disable confirmation email
 			}
 			wpmu_signup_user( $new_user_login, $_REQUEST[ 'email' ], array( 'add_to_blog' => $wpdb->blogid, 'new_role' => $_REQUEST[ 'role' ] ) );
-			if ( isset( $_POST[ 'noconfirmation' ] ) && is_super_admin() ) {
+			if ( isset( $_POST[ 'adduser' ] ) && isset( $_POST[ 'noconfirmation' ] ) && is_super_admin() ) {
 				$key = $wpdb->get_var( $wpdb->prepare( "SELECT activation_key FROM {$wpdb->signups} WHERE user_login = %s AND user_email = %s", $new_user_login, $_REQUEST[ 'email' ] ) );
 				wpmu_activate_signup( $key );
 				$redirect = add_query_arg( array('update' => 'addnoconfirmation'), 'user-new.php' );
