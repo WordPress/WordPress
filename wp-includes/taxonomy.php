@@ -500,7 +500,7 @@ function get_objects_in_term( $term_ids, $taxonomies, $args = array() ) {
 }
 
 /*
- * Given a meta query, generates SQL to be appended to a main query
+ * Given a taxonomy query, generates SQL to be appended to a main query
  *
  * @since 3.1.0
  *
@@ -518,7 +518,7 @@ function get_objects_in_term( $term_ids, $taxonomies, $args = array() ) {
  *
  * @param string $primary_table
  * @param string $primary_id_column
- * @return string
+ * @return array
  */
 function get_tax_sql( $tax_query, $primary_table, $primary_id_column ) {
 	global $wpdb;
