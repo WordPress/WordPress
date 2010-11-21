@@ -226,6 +226,9 @@ listTable.init();
 		var data = $(this).parent('.search-box').find(':input').serializeObject();
 
 		listTable.update_rows(data, true, function() {
+			if ( $('h2.nav-tab-wrapper').length )
+				return;
+
 			$('h2 .subtitle').remove();
 
 			if ( data.s )
