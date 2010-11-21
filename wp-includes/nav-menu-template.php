@@ -128,6 +128,7 @@ class Walker_Nav_Menu extends Walker {
  * depth - how many levels of the hierarchy are to be included.  0 means all.  Defaults to 0.
  * walker - allows a custom walker to be specified.
  * theme_location - the location in the theme to be used.  Must be registered with register_nav_menu() in order to be selectable by the user.
+ * items_wrap - How the list items should be wrapped. Defaults to a ul with an id and class. Uses printf() format with numbered placeholders.
  *
  * @since 3.0.0
  *
@@ -137,7 +138,7 @@ function wp_nav_menu( $args = array() ) {
 	static $menu_id_slugs = array();
 
 	$defaults = array( 'menu' => '', 'container' => 'div', 'container_class' => '', 'container_id' => '', 'menu_class' => 'menu', 'menu_id' => '',
-	'echo' => true, 'fallback_cb' => 'wp_page_menu', 'before' => '', 'after' => '', 'link_before' => '', 'link_after' => '',
+	'echo' => true, 'fallback_cb' => 'wp_page_menu', 'before' => '', 'after' => '', 'link_before' => '', 'link_after' => '', 'items_wrap' => '<ul id="%1$s" class="%2$s">%3$s</ul>',
 	'depth' => 0, 'walker' => '', 'theme_location' => '' );
 
 	$args = wp_parse_args( $args, $defaults );
@@ -215,18 +216,15 @@ function wp_nav_menu( $args = array() ) {
 		}
 	}
 	$menu_id_slugs[] = $slug;
-	$attributes = ' id="' . $slug . '"';
-	$attributes .= $args->menu_class ? ' class="'. $args->menu_class .'"' : '';
-
-	$nav_menu .= '<ul'. $attributes .'>';
+	
+	$wrap_class = $args->menu_class ? $args->menu_class : '';
 
 	// Allow plugins to hook into the menu to add their own <li>'s
 	$items = apply_filters( 'wp_nav_menu_items', $items, $args );
 	$items = apply_filters( "wp_nav_menu_{$menu->slug}_items", $items, $args );
-	$nav_menu .= $items;
+	
+	$nav_menu .= sprintf( $args->items_wrap, $slug, $wrap_class, $items );
 	unset($items);
-
-	$nav_menu .= '</ul>';
 
 	if ( $show_container )
 		$nav_menu .= '</' . $args->container . '>';
