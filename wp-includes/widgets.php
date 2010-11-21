@@ -995,9 +995,6 @@ function wp_get_sidebars_widgets($deprecated = true) {
 	if ( $deprecated !== true )
 		_deprecated_argument( __FUNCTION__, '2.8.1' );
 
-	if ( ! current_theme_supports( 'widgets' ) )
-		return array();
-
 	global $wp_registered_widgets, $wp_registered_sidebars, $_wp_sidebars_widgets;
 
 	// If loading from front page, consult $_wp_sidebars_widgets rather than options
