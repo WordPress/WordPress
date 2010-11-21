@@ -614,7 +614,11 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 		add_action( 'transition_comment_status', array(&$this, 'flush_widget_cache') );
 	}
 
-	function recent_comments_style() { ?>
+	function recent_comments_style() {
+		if ( ! current_theme_supports( 'widgets' ) // Temp hack #14876
+			|| ! apply_filters( 'show_recent_comments_widget_style', true, $this->id_base ) )
+			return;
+		?>
 	<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
 <?php
 	}
