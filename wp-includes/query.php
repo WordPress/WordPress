@@ -1507,7 +1507,7 @@ class WP_Query {
 					$q[$t->query_var] = wp_basename( $q[$t->query_var] );
 				}
 
-				$term = str_replace( ' ', '+', $q[$t->query_var] );
+				$term = $q[$t->query_var];
 
 				if ( strpos($term, '+') !== false ) {
 					$terms = preg_split( '/[+]+/', $term );

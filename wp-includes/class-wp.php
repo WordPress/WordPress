@@ -272,6 +272,11 @@ class WP {
 			}
 		}
 
+		// Convert urldecoded spaces back into +
+		foreach ( $GLOBALS['wp_taxonomies'] as $taxonomy => $t )
+			if ( $t->query_var && isset( $this->query_vars[$t->query_var] ) )
+				$this->query_vars[$t->query_var] = str_replace( ' ', '+', $this->query_vars[$t->query_var] );
+
 		// Limit publicly queried post_types to those that are publicly_queryable
 		if ( isset( $this->query_vars['post_type']) ) {
 			$queryable_post_types = get_post_types( array('publicly_queryable' => true) );
