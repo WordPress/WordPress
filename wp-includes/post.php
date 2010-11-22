@@ -5254,7 +5254,8 @@ function get_post_format_strings() {
 		'image'   => _x( 'Image',   'Post format' ),
 		'quote'   => _x( 'Quote',   'Post format' ),
 		'status'  => _x( 'Status',  'Post format' ),
-		'video'   => _x( 'Video',   'Post format' )
+		'video'   => _x( 'Video',   'Post format' ),
+		'audio'   => _x( 'Audio',   'Post format' ),
 	);
 	return $strings;
 }
