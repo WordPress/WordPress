@@ -4171,23 +4171,20 @@ function _get_last_post_time( $timezone, $field ) {
 	if ( !in_array( $field, array( 'date', 'modified' ) ) )
 		return false;
 
-	$post_types = get_query_var('post_type');
-	if ( empty($post_types) )
-		$post_types = 'post';
+	$timezone = strtolower( $timezone );
 
-	$post_types = apply_filters( "get_lastpost{$field}_post_types", (array) $post_types );
-
-	$key = "lastpost{$field}:" . get_current_blog_id() . ":$timezone:" . md5( serialize( $post_types ) );
+	$key = "lastpost{$field}:$timezone";
 
 	$date = wp_cache_get( $key, 'timeinfo' );
 
 	if ( !$date ) {
 		$add_seconds_server = date('Z');
 
+		$post_types = get_post_types( array( 'publicly_queryable' => true ) );
 		array_walk( $post_types, array( &$wpdb, 'escape_by_ref' ) );
 		$post_types = "'" . implode( "', '", $post_types ) . "'";
 
-		switch ( strtolower( $timezone ) ) {
+		switch ( $timezone ) {
 			case 'gmt':
 				$date = $wpdb->get_var("SELECT post_{$field}_gmt FROM $wpdb->posts WHERE post_status = 'publish' AND post_type IN ({$post_types}) ORDER BY post_{$field}_gmt DESC LIMIT 1");
 				break;
@@ -4450,9 +4447,10 @@ function _transition_post_status($new_status, $old_status, $post) {
 
 	// If published posts changed clear the lastpostmodified cache
 	if ( 'publish' == $new_status || 'publish' == $old_status) {
-		wp_cache_delete( 'lastpostmodified:server', 'timeinfo' );
-		wp_cache_delete( 'lastpostmodified:gmt',    'timeinfo' );
-		wp_cache_delete( 'lastpostmodified:blog',   'timeinfo' );
+		foreach ( array( 'server', 'gmt', 'blog' ) as $timezone ) {
+			wp_cache_delete( "lastpostmodified:$timezone", 'timeinfo' );
+			wp_cache_delete( "lastpostdate:$timezone", 'timeinfo' );
+		}
 	}
 
 	// Always clears the hook in case the post status bounced from future to draft.

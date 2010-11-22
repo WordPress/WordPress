@@ -35,7 +35,7 @@ if ( function_exists( 'date_default_timezone_set' ) )
 wp_unregister_GLOBALS();
 
 // Ensure these global variables do not exist so they do not interfere with WordPress.
-unset( $wp_filter, $cache_lastcommentmodified, $cache_lastpostdate );
+unset( $wp_filter, $cache_lastcommentmodified );
 
 // Standardize $_SERVER variables across setups.
 wp_fix_server_vars();
