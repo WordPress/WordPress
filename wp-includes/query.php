@@ -2662,8 +2662,9 @@ class WP_Query {
 		$this->queried_object = NULL;
 		$this->queried_object_id = 0;
 
-		if ( !empty( $this->tax_query ) ) {
-			$query = reset( $this->tax_query );
+		$tax_query_in = wp_list_filter( $this->tax_query, array( 'operator' => 'IN' ) );
+		if ( !empty( $tax_query_in ) ) {
+			$query = reset( $tax_query_in );
 
 			if ( 'term_id' == $query['field'] )
 				$term = get_term( reset( $query['terms'] ), $query['taxonomy'] );
