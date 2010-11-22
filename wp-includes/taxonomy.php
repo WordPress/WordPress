@@ -2946,49 +2946,6 @@ function get_ancestors($object_id = 0, $object_type = '') {
 	return apply_filters('get_ancestors', $ancestors, $object_id, $object_type);
 }
 
-
-/**
- * {@internal Missing Short Description}}
- *
- * @since unknown
- *
- * @param unknown_type $post_id
- * @return unknown
- */
-function get_tags_to_edit( $post_id, $taxonomy = 'post_tag' ) {
-	return get_terms_to_edit( $post_id, $taxonomy);
-}
-
-/**
- * {@internal Missing Short Description}}
- *
- * @since unknown
- *
- * @param unknown_type $post_id
- * @return unknown
- */
-function get_terms_to_edit( $post_id, $taxonomy = 'post_tag' ) {
-	$post_id = (int) $post_id;
-	if ( !$post_id )
-		return false;
-
-	$tags = wp_get_post_terms($post_id, $taxonomy, array());
-
-	if ( !$tags )
-		return false;
-
-	if ( is_wp_error($tags) )
-		return $tags;
-
-	foreach ( $tags as $tag )
-		$tag_names[] = $tag->name;
-	$tags_to_edit = join( ',', $tag_names );
-	$tags_to_edit = esc_attr( $tags_to_edit );
-	$tags_to_edit = apply_filters( 'terms_to_edit', $tags_to_edit, $taxonomy );
-
-	return $tags_to_edit;
-}
-
 /**
  * Returns the term's parent's term_ID
  *

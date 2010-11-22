@@ -361,7 +361,62 @@ function bulk_edit_posts( $post_data = null ) {
 	return array( 'updated' => $updated, 'skipped' => $skipped, 'locked' => $locked );
 }
 
+/**
+ * Default post information to use when populating the "Write Post" form.
+ *
+ * @since unknown
+ *
+ * @param string $post_type A post type string, defaults to 'post'.
+ * @return object stdClass object containing all the default post data as attributes
+ */
+function get_default_post_to_edit( $post_type = 'post', $create_in_db = false ) {
+	global $wpdb;
 
+	$post_title = '';
+	if ( !empty( $_REQUEST['post_title'] ) )
+		$post_title = esc_html( stripslashes( $_REQUEST['post_title'] ));
+
+	$post_content = '';
+	if ( !empty( $_REQUEST['content'] ) )
+		$post_content = esc_html( stripslashes( $_REQUEST['content'] ));
+
+	$post_excerpt = '';
+	if ( !empty( $_REQUEST['excerpt'] ) )
+		$post_excerpt = esc_html( stripslashes( $_REQUEST['excerpt'] ));
+
+	if ( $create_in_db ) {
+		// Cleanup old auto-drafts more than 7 days old
+		$old_posts = $wpdb->get_col( "SELECT ID FROM $wpdb->posts WHERE post_status = 'auto-draft' AND DATE_SUB( NOW(), INTERVAL 7 DAY ) > post_date" );
+		foreach ( (array) $old_posts as $delete )
+			wp_delete_post( $delete, true ); // Force delete
+		$post_id = wp_insert_post( array( 'post_title' => __( 'Auto Draft' ), 'post_type' => $post_type, 'post_status' => 'auto-draft' ) );
+		$post = get_post( $post_id );
+	} else {
+		$post->ID = 0;
+		$post->post_author = '';
+		$post->post_date = '';
+		$post->post_date_gmt = '';
+		$post->post_password = '';
+		$post->post_type = $post_type;
+		$post->post_status = 'draft';
+		$post->to_ping = '';
+		$post->pinged = '';
+		$post->comment_status = get_option( 'default_comment_status' );
+		$post->ping_status = get_option( 'default_ping_status' );
+		$post->post_pingback = get_option( 'default_pingback_flag' );
+		$post->post_category = get_option( 'default_category' );
+		$post->page_template = 'default';
+		$post->post_parent = 0;
+		$post->menu_order = 0;
+	}
+
+	$post->post_content = apply_filters( 'default_content', $post_content, $post );
+	$post->post_title   = apply_filters( 'default_title',   $post_title, $post   );
+	$post->post_excerpt = apply_filters( 'default_excerpt', $post_excerpt, $post );
+	$post->post_name = '';
+
+	return $post;
+}
 
 /**
  * Get the default page information to use.
