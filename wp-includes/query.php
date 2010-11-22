@@ -1503,7 +1503,7 @@ class WP_Query {
 					'operator' => 'IN'
 				);
 
-				if ( $t->rewrite['hierarchical'] ) {
+ 				if ( isset( $t->rewrite['hierarchical'] ) && $t->rewrite['hierarchical'] ) {
 					$q[$t->query_var] = wp_basename( $q[$t->query_var] );
 				}
 
