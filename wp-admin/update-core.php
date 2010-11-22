@@ -327,7 +327,7 @@ function do_core_upgrade( $reinstall = false ) {
 	}
 ?>
 	<div class="wrap">
-	<?php screen_icon(); ?>
+	<?php screen_icon('tools'); ?>
 	<h2><?php _e('Update WordPress'); ?></h2>
 <?php
 	if ( $wp_filesystem->errors->get_error_code() ) {
