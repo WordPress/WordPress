@@ -76,7 +76,7 @@
 		},
 		close : wpDialogFn(function() {
 			this.element.dialog('close');
-		}),
+		})
 	});
 
 	// Register plugin
