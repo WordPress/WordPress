@@ -692,7 +692,7 @@ function _wp_link_page( $i ) {
 			$url = trailingslashit(get_permalink()) . user_trailingslashit($i, 'single_paged');
 	}
 
-	return '<a href="' . $url  . '">';
+	return '<a href="' . esc_url( $url ) . '">';
 }
 
 //
