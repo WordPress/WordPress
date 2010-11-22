@@ -212,12 +212,12 @@ add_action( 'update_option_home', 'update_home_siteurl', 10, 2 );
 add_action( 'update_option_siteurl', 'update_home_siteurl', 10, 2 );
 
 /**
- * {@internal Missing Short Description}}
+ * Shorten an URL, to be used as link text
  *
- * @since unknown
+ * @since 1.2.1
  *
- * @param unknown_type $url
- * @return unknown
+ * @param string $url
+ * @return string
  */
 function url_shorten( $url ) {
 	$short_url = str_replace( 'http://', '', stripslashes( $url ));

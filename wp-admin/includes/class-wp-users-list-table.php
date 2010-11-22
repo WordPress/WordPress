@@ -171,13 +171,7 @@ class WP_Users_List_Table extends WP_List_Table {
 			$user_object = new WP_User( (int) $user_object );
 		$user_object = sanitize_user_object( $user_object, 'display' );
 		$email = $user_object->user_email;
-		$url = $user_object->user_url;
-		$short_url = str_replace( 'http://', '', $url );
-		$short_url = str_replace( 'www.', '', $short_url );
-		if ( '/' == substr( $short_url, -1 ) )
-			$short_url = substr( $short_url, 0, -1 );
-		if ( strlen( $short_url ) > 35 )
-			$short_url = substr( $short_url, 0, 32 ).'...';
+
 		$checkbox = '';
 		// Check if the user for this row is editable
 		if ( current_user_can( 'list_users' ) ) {

@@ -105,12 +105,7 @@ class WP_Links_List_Table extends WP_List_Table {
 			$link->link_name = esc_attr( $link->link_name );
 			$link->link_category = wp_get_link_cats( $link->link_id );
 
-			$short_url = str_replace( 'http://', '', $link->link_url );
-			$short_url = preg_replace( '/^www\./i', '', $short_url );
-			if ( '/' == substr( $short_url, -1 ) )
-				$short_url = substr( $short_url, 0, -1 );
-			if ( strlen( $short_url ) > 35 )
-				$short_url = substr( $short_url, 0, 32 ).'...';
+			$short_url = url_shorten( $link->link_url );
 
 			$visible = ( $link->link_visible == 'Y' ) ? __( 'Yes' ) : __( 'No' );
 			$rating  = $link->link_rating;
