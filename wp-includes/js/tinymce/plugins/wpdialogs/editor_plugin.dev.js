@@ -70,7 +70,8 @@
 				width: f.width,
 				height: f.height,
 				modal: true,
-				dialogClass: 'wp-dialog'
+				dialogClass: 'wp-dialog',
+				zIndex: 300000
 			});
 		},
 		close : wpDialogFn(function() {
