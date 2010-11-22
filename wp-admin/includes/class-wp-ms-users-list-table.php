@@ -200,7 +200,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 					break;
 
 					case 'name': ?>
-						<td class="name column-name"><?php echo $user->display_name ?></td>
+						<td class="name column-name"><?php echo "$user->first_name $user->last_name"; ?></td>
 					<?php
 					break;
 
