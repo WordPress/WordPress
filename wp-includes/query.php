@@ -2673,7 +2673,7 @@ class WP_Query {
 
 			if ( $term && ! is_wp_error($term) )  {
 				$this->queried_object = $term;
-				$this->queried_object_id = $term->term_id;
+				$this->queried_object_id = (int) $term->term_id;
 			}
 		} elseif ( $this->is_posts_page ) {
 			$page_for_posts = get_option('page_for_posts');
