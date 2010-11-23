@@ -4237,9 +4237,8 @@ function get_file_data( $file, $default_headers, $context = '' ) {
 		$all_headers = $default_headers;
 	}
 
-
 	foreach ( $all_headers as $field => $regex ) {
-		preg_match( '/^[\s\/*#]*' . preg_quote( $regex, '/' ) . ':(.*)$/mi', $file_data, ${$field});
+		preg_match( '/^[ \t\/*#]*' . preg_quote( $regex, '/' ) . ':(.*)$/mi', $file_data, ${$field});
 		if ( !empty( ${$field} ) )
 			${$field} = _cleanup_header_comment( ${$field}[1] );
 		else
