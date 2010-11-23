@@ -200,6 +200,10 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 			list( $columns, $hidden ) = $this->get_column_info();
 
 			foreach ( $columns as $column_name => $column_display_name ) {
+				$style = '';
+				if ( in_array( $column_name, $hidden ) )
+					$style = ' style="display:none;"';
+
 				switch ( $column_name ) {
 					case 'cb': ?>
 						<th scope="row" class="check-column">
@@ -208,15 +212,15 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 					<?php
 					break;
 
-					case 'id': ?>
+					case 'id':?>
 						<th valign="top" scope="row">
 							<?php echo $blog['blog_id'] ?>
 						</th>
 					<?php
 					break;
 
-					case 'blogname': ?>
-						<td class="column-title">
+					case 'blogname':
+						echo "<td class='column-$column_name $column_name'$style>"; ?>
 							<a href="<?php echo esc_url( network_admin_url( 'site-info.php?id=' . $blog['blog_id'] ) ); ?>" class="edit"><?php echo $blogname . $blog_state; ?></a>
 							<?php
 							if ( 'list' != $mode )
@@ -262,9 +266,8 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 					<?php
 					break;
 
-					case 'lastupdated': ?>
-						<td valign="top">
-							<?php
+					case 'lastupdated':
+						echo "<td valign='top'class='$column_name column-$column_name'$style>";
 							if ( 'list' == $mode )
 								$date = 'Y/m/d';
 							else
@@ -273,9 +276,8 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 						</td>
 					<?php
 					break;
-				case 'registered': ?>
-						<td valign="top">
-						<?php
+				case 'registered':
+						echo "<td valign='top'class='$column_name column-$column_name'$style>";
 						if ( $blog['registered'] == '0000-00-00 00:00:00' )
 							echo '&#x2014;';
 						else
@@ -284,9 +286,8 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 						</td>
 					<?php
 					break;
-				case 'users': ?>
-						<td valign="top">
-							<?php
+				case 'users':
+						echo "<td valign='top'class='$column_name column-$column_name'$style>";
 							$blogusers = get_users( array( 'blog_id' => $blog['blog_id'], 'number' => 6) );
 							if ( is_array( $blogusers ) ) {
 								$blogusers_warning = '';
@@ -316,13 +317,11 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 						<?php } ?>
 					<?php break;
 
-				default: ?>
-						<?php if ( has_filter( 'manage_blogs_custom_column' ) ) { ?>
-						<td valign="top">
-							<?php do_action( 'manage_blogs_custom_column', $column_name, $blog['blog_id'] ); ?>
-						</td>
-						<?php } ?>
-					<?php break;
+				default:
+					echo "<td class='$column_name column-$column_name'$style>";
+					do_action( 'manage_themes_custom_column', $column_name, $theme_key, $theme );
+					echo "</td>";
+					break;
 				}
 			}
 			?>
