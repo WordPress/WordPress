@@ -310,13 +310,13 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 					break;
 
 				case 'plugins': ?>
-						<?php if ( has_filter( 'wpmublogsaction' ) ) { ?>
-						<td valign="top">
-							<?php do_action( 'wpmublogsaction', $blog['blog_id'] ); ?>
+						<?php if ( has_filter( 'wpmublogsaction' ) ) {
+						echo "<td valign='top'class='$column_name column-$column_name'$style>";
+							do_action( 'wpmublogsaction', $blog['blog_id'] ); ?>
 						</td>
 						<?php } ?>
 					<?php break;
-
+					
 				default:
 					echo "<td class='$column_name column-$column_name'$style>";
 					do_action( 'manage_themes_custom_column', $column_name, $theme_key, $theme );
