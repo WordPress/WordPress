@@ -319,7 +319,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 					
 				default:
 					echo "<td class='$column_name column-$column_name'$style>";
-					do_action( 'manage_sites_custom_column', $column_name, $theme_key, $theme );
+					do_action( 'manage_sites_custom_column', $column_name, $blog['blog_id'] );
 					echo "</td>";
 					break;
 				}
