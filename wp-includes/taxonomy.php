@@ -524,9 +524,19 @@ function get_tax_sql( $tax_query, $primary_table, $primary_id_column ) {
 	global $wpdb;
 
 	$join = '';
-	$where = '';
+	$where = array();
 	$i = 0;
+
+	if ( isset( $tax_query['relation'] ) && strtoupper( $tax_query['relation'] ) == 'OR' ) {
+		$relation = 'OR';
+	} else {
+		$relation = 'AND';
+	}
+
 	foreach ( $tax_query as $query ) {
+		if ( ! is_array( $query ) )
+			continue;
+
 		extract( wp_parse_args( $query, array(
 			'taxonomy' => array(),
 			'terms' => array(),
@@ -566,8 +576,13 @@ function get_tax_sql( $tax_query, $primary_table, $primary_id_column ) {
 		}
 
 		if ( 'IN' == $operator ) {
-			if ( empty( $terms ) )
-				return array( 'join' => '', 'where' => ' AND 0 = 1');
+
+			if ( empty( $terms ) ) {
+				if ( 'OR' == $relation )
+					continue;
+				else
+					return array( 'join' => '', 'where' => ' AND 0 = 1' );
+			}
 
 			$terms = implode( ',', $terms );
 
@@ -577,23 +592,29 @@ function get_tax_sql( $tax_query, $primary_table, $primary_id_column ) {
 			$join .= $i ? " AS $alias" : '';
 			$join .= " ON ($primary_table.$primary_id_column = $alias.object_id)";
 
-			$where .= " AND $alias.term_taxonomy_id $operator ($terms)";
-
-			$i++;
+			$where[] = "$alias.term_taxonomy_id $operator ($terms)";
 		}
 		elseif ( 'NOT IN' == $operator ) {
+
 			if ( empty( $terms ) )
 				continue;
 
 			$terms = implode( ',', $terms );
 
-			$where .= " AND $primary_table.$primary_id_column NOT IN (
-				SELECT object_id 
-				FROM $wpdb->term_relationships 
+			$where[] = "$primary_table.$primary_id_column NOT IN (
+				SELECT object_id
+				FROM $wpdb->term_relationships
 				WHERE term_taxonomy_id IN ($terms)
 			)";
 		}
+
+		$i++;
 	}
+
+	if ( !empty( $where ) )
+		$where = ' AND ( ' . implode( " $relation ", $where ) . ' )';
+	else
+		$where = '';
 
 	return compact( 'join', 'where' );
 }
