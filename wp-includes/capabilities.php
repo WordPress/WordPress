@@ -985,8 +985,12 @@ function map_meta_cap( $cap, $user_id ) {
 		}
 		break;
 	case 'create_users':
-		if ( !is_multisite() || is_super_admin() || get_site_option( 'add_new_users' ) )
+		if ( !is_multisite() )
 			$caps[] = $cap;
+		elseif ( is_super_admin() || get_site_option( 'add_new_users' ) )
+			$caps[] = $cap;
+		else
+			$caps[] = 'do_not_allow';
 		break;
 	default:
 		// Handle meta capabilities for custom post types.
