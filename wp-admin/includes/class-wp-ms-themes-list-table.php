@@ -30,6 +30,9 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			$this->is_site_themes = ( 'site-themes-network' == $screen->id ) ? true : false;
 		}
 
+		if ( $this->is_site_themes && ! isset( $this->site_id ) )
+			$this->site_id = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0;
+
 		parent::WP_List_Table( array(
 			'plural' => 'plugins', // @todo replace with themes and add css
 		) );
