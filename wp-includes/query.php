@@ -2686,7 +2686,7 @@ class WP_Query {
 			$this->queried_object_id = (int) $this->get('author');
 			$this->queried_object = get_userdata( $this->queried_object_id );
 		}
-debug($this->is_attachment, $this->is_page, $this->is_single);
+
 		return $this->queried_object;
 	}
 
