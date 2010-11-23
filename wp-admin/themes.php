@@ -129,7 +129,7 @@ if ( ! current_user_can( 'switch_themes' ) ) {
 ?>
 <h3><?php _e('Available Themes'); ?></h3>
 
-<form class="search-form" action="" method="get">
+<form class="search-form filter-form" action="" method="get">
 <p class="search-box">
 	<label class="screen-reader-text" for="theme-search-input"><?php _e('Search Themes'); ?>:</label>
 	<input type="text" id="theme-search-input" name="s" value="<?php _admin_search_query(); ?>" />
@@ -139,7 +139,7 @@ if ( ! current_user_can( 'switch_themes' ) ) {
 
 <br class="clear"/>
 
-<div id="filters" style="display: none;">
+<div id="filter-box" style="display: none;">
 <?php $feature_list = get_theme_feature_list(); ?>
 	<div class="feature-filter">
 		<p class="install-help"><?php _e('Theme filters') ?></p>
@@ -154,10 +154,10 @@ if ( ! current_user_can( 'switch_themes' ) ) {
 				<?php foreach ( $features as $key => $feature ) :
 						$feature_name = $feature;
 						$feature_name = esc_html( $feature_name );
-						$feature = esc_attr($feature);
+						$feature = esc_attr( $feature );
 						?>
 				<li>
-					<input type="checkbox" name="features[<?php echo $key; ?>]" id="feature-id-<?php echo $key; ?>" value="<?php echo $key; ?>" <?php checked( in_array( $key, $wp_list_table->features ) ); ?>/>
+					<input type="checkbox" name="features[]" id="feature-id-<?php echo $key; ?>" value="<?php echo $key; ?>" <?php checked( in_array( $key, $wp_list_table->features ) ); ?>/>
 					<label for="feature-id-<?php echo $key; ?>"><?php echo $feature_name; ?></label>
 				</li>
 				<?php endforeach; ?>

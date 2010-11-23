@@ -4,7 +4,7 @@ var ThemeViewer;
 	ThemeViewer = function( args ) {
 
 		function filter_count() {
-			var count = $( '#filters :checked' ).length;
+			var count = $( '#filter-box :checked' ).length;
 			var text  = $( '#filter-click' ).text();
 
 			if ( text.indexOf( '(' ) != -1 )
@@ -19,13 +19,28 @@ var ThemeViewer;
 		function init() {
 			$( '#filter-click, #mini-filter-click' ).unbind( 'click' ).click( function() {
 				$( '#filter-click' ).toggleClass( 'current' );
-				$( '#filters' ).slideToggle();
+				$( '#filter-box' ).slideToggle();
 				$( '#current-theme' ).slideToggle( 300 );
 				return false;
 			});
 
-			$( '#filters :checkbox' ).unbind( 'click' ).click( function() {
+			$( '#filter-box :checkbox' ).unbind( 'click' ).click( function() {
 				filter_count();
+			});
+
+			$('#filter-box :submit').unbind( 'click' ).click(function() {
+				var features = [];
+				$('#filter-box :checked').each(function() {
+					features.push($(this).val());
+				});
+
+				listTable.update_rows({'features': features}, true, function() {
+					$( '#filter-click' ).toggleClass( 'current' );
+					$( '#filter-box' ).slideToggle();
+					$( '#current-theme' ).slideToggle( 300 );
+				});
+				
+				return false;
 			});
 		}
 

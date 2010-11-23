@@ -304,6 +304,15 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'admin-custom-fields', "/wp-admin/js/custom-fields$suffix.js", array('wp-lists'), '20090106' );
 		$scripts->add_data( 'admin-custom-fields', 'group', 1 );
 
+		$scripts->add( 'list-table', "/wp-admin/js/list-table$suffix.js", array( 'jquery-query', 'jquery-serialize-object' ), '20101121' );
+		$scripts->add_data( 'list-table', 'group', 1 );
+		$scripts->localize( 'list-table', 'listTableL10n', array(
+			'loading' => __('Loading...'),
+			'error' => __('An error has occurred while loading the items.'),
+			'search' => __('Search results for &#8220;%s&#8221;'),
+			'l10n_print_after' => 'try{convertEntities(listTableL10n);}catch(e){};'
+		) );
+
 		$scripts->add( 'admin-comments', "/wp-admin/js/edit-comments$suffix.js", array('wp-lists', 'list-table', 'jquery-ui-resizable', 'quicktags'), '20101121' );
 		$scripts->add_data( 'admin-comments', 'group', 1 );
 		$scripts->localize( 'admin-comments', 'adminCommentsL10n', array(
@@ -373,20 +382,11 @@ function wp_default_scripts( &$scripts ) {
 			'l10n_print_after' => 'try{convertEntities(wordCountL10n);}catch(e){};'
 		));
 
-		$scripts->add( 'theme', "/wp-admin/js/theme$suffix.js", array( 'thickbox', 'jquery' ), '20101123' );
+		$scripts->add( 'theme', "/wp-admin/js/theme$suffix.js", array( 'thickbox', 'list-table' ), '20101123' );
 		$scripts->add_data( 'theme', 'group', 1 );
 
 		$scripts->add( 'theme-preview', "/wp-admin/js/theme-preview$suffix.js", array( 'thickbox', 'jquery' ), '20100407' );
 		$scripts->add_data( 'theme-preview', 'group', 1 );
-
-		$scripts->add( 'list-table', "/wp-admin/js/list-table$suffix.js", array( 'jquery-query', 'jquery-serialize-object' ), '20101121' );
-		$scripts->add_data( 'list-table', 'group', 1 );
-		$scripts->localize( 'list-table', 'listTableL10n', array(
-			'loading' => __('Loading...'),
-			'error' => __('An error has occurred while loading the items.'),
-			'search' => __('Search results for &#8220;%s&#8221;'),
-			'l10n_print_after' => 'try{convertEntities(listTableL10n);}catch(e){};'
-		) );
 
 		$scripts->add( 'inline-edit-post', "/wp-admin/js/inline-edit-post$suffix.js", array( 'jquery', 'suggest' ), '20100707' );
 		$scripts->add_data( 'inline-edit-post', 'group', 1 );
