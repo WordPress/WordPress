@@ -311,6 +311,7 @@ switch ( $_GET['action'] ) {
 
 	// Common
 	case 'confirm':
+		check_admin_referer( 'confirm' );
 		if ( !headers_sent() ) {
 			nocache_headers();
 			header( 'Content-Type: text/html; charset=utf-8' );
