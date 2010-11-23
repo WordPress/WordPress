@@ -2679,19 +2679,14 @@ class WP_Query {
 			$page_for_posts = get_option('page_for_posts');
 			$this->queried_object = & get_page( $page_for_posts );
 			$this->queried_object_id = (int) $this->queried_object->ID;
-		} elseif ( $this->is_single && !is_null($this->post) ) {
-			$this->queried_object = $this->post;
-			$this->queried_object_id = (int) $this->post->ID;
-		} elseif ( $this->is_page && !is_null($this->post) ) {
+		} elseif ( $this->is_singular && !is_null($this->post) ) {
 			$this->queried_object = $this->post;
 			$this->queried_object_id = (int) $this->post->ID;
 		} elseif ( $this->is_author ) {
-			$author_id = (int) $this->get('author');
-			$author = get_userdata($author_id);
-			$this->queried_object = $author;
-			$this->queried_object_id = $author_id;
+			$this->queried_object_id = (int) $this->get('author');
+			$this->queried_object = get_userdata( $this->queried_object_id );
 		}
-
+debug($this->is_attachment, $this->is_page, $this->is_single);
 		return $this->queried_object;
 	}
 
