@@ -131,7 +131,7 @@ if ( !is_multisite() ) {
 	$blog_prefix = $wpdb->get_blog_prefix();
 	if ( $user_id != $current_user->ID ) {
 		$cap = $wpdb->get_var( "SELECT meta_value FROM {$wpdb->usermeta} WHERE user_id = '{$user_id}' AND meta_key = '{$blog_prefix}capabilities' AND meta_value = 'a:0:{}'" );
-		if ( null == $cap && $_POST[ 'role' ] == '' ) {
+		if ( !is_network_admin() && null == $cap && $_POST[ 'role' ] == '' ) {
 			$_POST[ 'role' ] = 'contributor';
 			$delete_role = true;
 		}
