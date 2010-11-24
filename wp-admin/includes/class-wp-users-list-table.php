@@ -149,7 +149,7 @@ class WP_Users_List_Table extends WP_List_Table {
 	}
 
 	function get_columns() {
-		return array(
+		$c = array(
 			'cb'       => '<input type="checkbox" />',
 			'username' => __( 'Username' ),
 			'name'     => __( 'Name' ),
@@ -157,15 +157,25 @@ class WP_Users_List_Table extends WP_List_Table {
 			'role'     => __( 'Role' ),
 			'posts'    => __( 'Posts' )
 		);
+
+		if ( $this->is_site_users )
+			unset( $c['posts'] );
+			
+		return $c;
 	}
 
 	function get_sortable_columns() {
-		return array(
+		$c = array(
 			'username' => 'login',
 			'name'     => 'name',
 			'email'    => 'email',
 			'posts'    => 'post_count',
 		);
+		
+		if ( $this->is_site_users )
+			unset( $c['posts'] );
+
+		return $c;
 	}
 
 	function display_rows() {
