@@ -2307,7 +2307,7 @@ class WP_Query {
 			$fields		= apply_filters_ref_array( 'posts_fields',		array( $fields, &$this ) );
 
 			// Filter all clauses at once, for convenience
-			$clauses = apply_filters_ref_array( 'posts_clauses', array( compact( $pieces ), &$this ) );
+			$clauses = (array) apply_filters_ref_array( 'posts_clauses', array( compact( $pieces ), &$this ) );
 			foreach ( $pieces as $piece )
 				$$piece = isset( $clauses[ $piece ] ) ? $clauses[ $piece ] : '';
 		}
@@ -2326,7 +2326,7 @@ class WP_Query {
 			$limits		= apply_filters_ref_array( 'post_limits_request',		array( $limits, &$this ) );
 
 			// Filter all clauses at once, for convenience
-			$clauses = apply_filters_ref_array( 'posts_clauses_request', array( compact( $pieces ), &$this ) );
+			$clauses = (array) apply_filters_ref_array( 'posts_clauses_request', array( compact( $pieces ), &$this ) );
 			foreach ( $pieces as $piece )
 				$$piece = isset( $clauses[ $piece ] ) ? $clauses[ $piece ] : '';
 		}
