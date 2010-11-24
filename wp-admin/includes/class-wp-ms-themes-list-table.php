@@ -25,12 +25,10 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 
 		$page = $this->get_pagenum();
 
-		if ( !isset($this->is_site_themes) ) {
-			$screen = get_current_screen();
-			$this->is_site_themes = ( 'site-themes-network' == $screen->id ) ? true : false;
-		}
+		$screen = get_current_screen();
+		$this->is_site_themes = ( 'site-themes-network' == $screen->id ) ? true : false;
 
-		if ( $this->is_site_themes && ! isset( $this->site_id ) )
+		if ( $this->is_site_themes )
 			$this->site_id = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0;
 
 		parent::WP_List_Table( array(

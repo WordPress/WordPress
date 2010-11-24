@@ -28,8 +28,6 @@ $id = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0;
 if ( ! $id )
 	wp_die( __('Invalid site ID.') );
 
-$wp_list_table->site_id = $id;
-$wp_list_table->is_site_themes = true;
 $wp_list_table->prepare_items();
 
 $details = get_blog_details( $id );
