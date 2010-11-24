@@ -274,17 +274,12 @@ class WP_Terms_List_Table extends WP_List_Table {
 
 		$count = number_format_i18n( $tag->count );
 
-		if ( 'post_tag' == $taxonomy ) {
-			$tagsel = 'tag';
-		} elseif ( 'category' == $taxonomy ) {
-			$tagsel = 'category_name';
-		} elseif ( ! empty( $tax->query_var ) ) {
-			$tagsel = $tax->query_var;
-		} else {
-			$tagsel = $taxonomy;
+		$tax = get_taxonomy( $taxonomy );
+		if ( $tax->query_var ) {
+			return "<a href='" . add_query_arg( array( $tax->query_var => $tag->slug, 'post_type' => $post_type ), 'edit.php' ) . "'>$count</a>";		
 		}
 
-		return "<a href='edit.php?$tagsel=$tag->slug&amp;post_type=$post_type'>$count</a>";
+		return $count;
 	}
 
 	function column_links( $tag ) {
