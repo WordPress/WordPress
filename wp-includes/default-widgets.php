@@ -841,13 +841,10 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 
 		$date = '';
 		if ( $show_date ) {
-			$date = $item->get_date();
+			$date = $item->get_date( 'U' );
 
 			if ( $date ) {
-				if ( $date_stamp = strtotime( $date ) )
-					$date = ' <span class="rss-date">' . date_i18n( get_option( 'date_format' ), $date_stamp ) . '</span>';
-				else
-					$date = '';
+				$date = ' <span class="rss-date">' . date_i18n( get_option( 'date_format' ), $date ) . '</span>';
 			}
 		}
 
