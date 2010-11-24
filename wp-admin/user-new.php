@@ -32,7 +32,7 @@ Please click the following link to activate your user account:
 }
 
 if ( isset($_REQUEST['action']) && 'adduser' == $_REQUEST['action'] ) {
-	check_admin_referer('add-user');
+	check_admin_referer( 'add-user', '_wpnonce_add-user' );
 
 	$user_details = null;
 	if ( false !== strpos($_REQUEST[ 'email' ], '@') ) {
@@ -76,7 +76,7 @@ if ( isset($_REQUEST['action']) && 'adduser' == $_REQUEST['action'] ) {
 	wp_redirect( $redirect );
 	die();
 } elseif ( isset($_REQUEST['action']) && 'createuser' == $_REQUEST['action'] ) {
-	check_admin_referer('create-user');
+	check_admin_referer( 'create-user', '_wpnonce_create-user' );
 
 	if ( ! current_user_can('create_users') )
 		wp_die(__('Cheatin&#8217; uh?'));
@@ -223,25 +223,25 @@ if ( is_multisite() ) {
 	}
 ?>
 <form action="" method="post" name="adduser" id="adduser" class="add:users: validate"<?php do_action('user_new_form_tag');?>>
-<input name="action" type="hidden" id="action" value="adduser" />
-<?php wp_nonce_field('add-user') ?>
+<input name="action" type="hidden" value="adduser" />
+<?php wp_nonce_field( 'add-user', '_wpnonce_add-user' ) ?>
 
 <table class="form-table">
 	<tr class="form-field form-required">
-		<th scope="row"><label for="email"><?php echo $label; ?></label></th>
-		<td><input name="email" type="text" id="email" value="" /></td>
+		<th scope="row"><label for="adduser-email"><?php echo $label; ?></label></th>
+		<td><input name="email" type="text" id="adduser-email" value="" /></td>
 	</tr>
 	<tr class="form-field">
-		<th scope="row"><label for="role"><?php _e('Role'); ?></label></th>
-		<td><select name="role" id="role">
+		<th scope="row"><label for="adduser-role"><?php _e('Role'); ?></label></th>
+		<td><select name="role" id="adduser-role">
 			<?php wp_dropdown_roles( get_option('default_role') ); ?>
 			</select>
 		</td>
 	</tr>
 <?php if ( is_super_admin() ) { ?>
 	<tr>
-		<th scope="row"><label for="noconfirmation"><?php _e('Skip Confirmation Email') ?></label></th>
-		<td><label for="noconfirmation"><input type="checkbox" name="noconfirmation" id="noconfirmation" value="1" /> <?php _e( 'Add the user without sending them a confirmation email.' ); ?></label></td>
+		<th scope="row"><label for="adduser-noconfirmation"><?php _e('Skip Confirmation Email') ?></label></th>
+		<td><label for="adduser-noconfirmation"><input type="checkbox" name="noconfirmation" id="adduser-noconfirmation" value="1" /> <?php _e( 'Add the user without sending them a confirmation email.' ); ?></label></td>
 	</tr>
 <?php } ?>
 </table>
@@ -255,9 +255,9 @@ if ( current_user_can( 'create_users') ) {
 		echo '<h3 id="create-new-user">' . __( 'Create New User' ) . '</h3>';
 ?>
 <p><?php _e('Create a brand new user and add it to this site.'); ?></p>
-<form action="" method="post" name="createuser" id="adduser" class="add:users: validate"<?php do_action('user_new_form_tag');?>>
-<input name="action" type="hidden" id="action" value="createuser" />
-<?php wp_nonce_field('create-user') ?>
+<form action="" method="post" name="createuser" id="createuser" class="add:users: validate"<?php do_action('user_new_form_tag');?>>
+<input name="action" type="hidden" value="createuser" />
+<?php wp_nonce_field( 'create-user', '_wpnonce_create-user' ) ?>
 <?php
 // Load up the passed data, else set to a default.
 foreach ( array( 'user_login' => 'login', 'first_name' => 'firstname', 'last_name' => 'lastname',
