@@ -70,18 +70,18 @@ function wp_link_query( $args = array() ) {
  */
 function wp_link_dialog() {
 ?>
-<div id="wp-link">
+<form id="wp-link" tabindex="-1">
 <div id="link-selector">
 	<div id="link-options">
 		<p class="howto"><?php _e( 'Enter the destination URL:' ); ?></p>
 		<div>
-			<label><span><?php _e( 'URL' ); ?></span><input id="url-field" type="text" /></label>
+			<label><span><?php _e( 'URL' ); ?></span><input id="url-field" type="text" tabindex="10" autocomplete="off" /></label>
 		</div>
 		<div>
-			<label><span><?php _e( 'Title' ); ?></span><input id="link-title-field" type="text" /></label>
+			<label><span><?php _e( 'Title' ); ?></span><input id="link-title-field" type="text" tabindex="20" autocomplete="off" /></label>
 		</div>
 		<div class="link-target">
-			<label><input type="checkbox" id="link-target-checkbox" /> <?php _e( 'Open link in a new window/tab' ); ?></label>
+			<label><input type="checkbox" id="link-target-checkbox" tabindex="30" /> <?php _e( 'Open link in a new window/tab' ); ?></label>
 		</div>
 	</div>
 	<div id="search-panel">
@@ -89,7 +89,7 @@ function wp_link_dialog() {
 			<p class="howto"><?php _e( 'Or, link to existing site content:' ); ?></p>
 			<label for="search-field">
 				<span><?php _e( 'Search' ); ?></span>
-				<input type="text" id="search-field" class="link-search-field" />
+				<input type="text" id="search-field" class="link-search-field" tabindex="60" autocomplete="off" />
 				<img class="waiting" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
 			</label>
 		</div>
@@ -113,10 +113,10 @@ function wp_link_dialog() {
 		<a class="submitdelete deletion" href="#"><?php _e( 'Cancel' ); ?></a>
 	</div>
 	<div id="wp-link-update">
-		<a class="button-primary" href="#"></a>
+		<?php submit_button( __('Update'), 'primary', 'wp-link-submit', false, array('tabindex' => 100)); ?>
 	</div>
 </div>
-</div>
+</form>
 <?php 
 }
 ?>

@@ -7,10 +7,11 @@ var wpLink;
 		timeToTriggerRiver: 150,
 		minRiverAJAXDuration: 200,
 		riverBottomThreshold: 5,
+		keySensitivity: 100,
 		lastSearch: '',
 		init : function() {
 			inputs.dialog = $('#wp-link');
-			inputs.update = $('#wp-link-update a');
+			inputs.submit = $('#wp-link-submit');
 			// URL
 			inputs.url = $('#url-field');
 			// Secondary options
@@ -24,22 +25,28 @@ var wpLink;
 			rivers.elements = $('.query-results', inputs.dialog);
 
 			// Bind event handlers
-			inputs.update.click( wpLink.update );
-			$('#wp-link-cancel').click( function() { tinyMCEPopup.close(); } );
+			inputs.dialog.keydown( wpLink.keydown );
+			inputs.dialog.keyup( wpLink.keyup );
+			inputs.submit.click( function(e){
+				wpLink.update();
+				e.preventDefault();
+			});
+			$('#wp-link-cancel').click( wpLink.cancel );
 			
-			rivers.elements.delegate('li', 'click', wpLink.selectInternalLink )
+			rivers.elements.bind('river-select', wpLink.updateFields );
 			
 			inputs.search.keyup( wpLink.searchInternalLinks );
 			
-			inputs.dialog.bind('dialogopen', wpLink.refresh);
+			inputs.dialog.bind('wpdialogrefresh', wpLink.refresh);
 		},
 
 		refresh : function() {
 			var e;
 			ed = tinyMCEPopup.editor;
 			
-			// Clear previously selected links
-			rivers.elements.find('.selected').removeClass('selected');
+			// Refresh rivers (clear links, check visibility)
+			rivers.search.refresh();
+			rivers.recent.refresh();
 			
 			tinyMCEPopup.restoreSelection();
 
@@ -52,71 +59,58 @@ var wpLink;
 				if ( "_blank" == ed.dom.getAttrib(e, 'target') )
 					inputs.openInNewTab.attr('checked','checked');
 				// Update save prompt.
-				inputs.update.text( wpLinkL10n.update );
+				inputs.submit.val( wpLinkL10n.update );
 
 			// If there's no link, set the default values.
 			} else {
-				// Set URL and description to defaults.
-				// Leave the new tab setting as-is.
-				inputs.url.val('http://');
-				inputs.title.val('');
+				wpLink.setDefaultValues();
 				// Update save prompt.
-				inputs.update.text( wpLinkL10n.save );
+				inputs.submit.val( wpLinkL10n.save );
 			}
 
 			tinyMCEPopup.storeSelection();
-			// If the focus is moved above the selection changes,
-			// IE will show a flashing cursor over the dialog.
-			inputs.url.focus();
+			// Focus the URL field and highlight its contents.
+			//     If this is moved above the selection changes,
+			//     IE will show a flashing cursor over the dialog.
+			inputs.url.focus()[0].select();
 			// Load the most recent results if this is the first time opening the panel.
 			if ( ! rivers.recent.ul.children().length )
 				rivers.recent.ajax();
 		},
+		
+		cancel : function() {
+			tinyMCEPopup.close();
+		},
 
 		update : function() {
-			var el,
-				ed = tinyMCEPopup.editor,
+			var ed = tinyMCEPopup.editor,
 				attrs = {
 					href : inputs.url.val(),
 					title : inputs.title.val(),
 					target : inputs.openInNewTab.attr('checked') ? '_blank' : ''
-				}, e, b,
-				defaultContent = attrs.title ? attrs.title : attrs.href;
+				}, e, b;
 
 			tinyMCEPopup.restoreSelection();
 			e = ed.dom.getParent(ed.selection.getNode(), 'A');
 
-			// If the values are empty...
+			// If the values are empty, unlink and return
 			if ( ! attrs.href || attrs.href == 'http://' ) {
-				// ...and nothing is selected, we should return
-				if ( ed.selection.isCollapsed() ) {
-					tinyMCEPopup.close();
-					return;
-				// ...and a link exists, we should unlink and return
-				} else if ( e ) {
+				if ( e ) {
 					tinyMCEPopup.execCommand("mceBeginUndoLevel");
 					b = ed.selection.getBookmark();
 					ed.dom.remove(e, 1);
 					ed.selection.moveToBookmark(b);
 					tinyMCEPopup.execCommand("mceEndUndoLevel");
 					tinyMCEPopup.close();
-					return;
 				}
+				return;
 			}
 
 			tinyMCEPopup.execCommand("mceBeginUndoLevel");
 
 			if (e == null) {
 				ed.getDoc().execCommand("unlink", false, null);
-
-				// If no selection exists, create a new link from scratch.
-				if ( ed.selection.isCollapsed() ) {
-					el = ed.dom.create('a', { href: "#mce_temp_url#" }, defaultContent);
-					ed.selection.setNode(el);
-				// If a selection exists, wrap it in a link.
-				} else {
-					tinyMCEPopup.execCommand("CreateLink", false, "#mce_temp_url#", {skip_undo : 1});
-				}
+				tinyMCEPopup.execCommand("CreateLink", false, "#mce_temp_url#", {skip_undo : 1});
 
 				tinymce.each(ed.dom.select("a"), function(n) {
 					if (ed.dom.getAttrib(n, 'href') == '#mce_temp_url#') {
@@ -124,13 +118,20 @@ var wpLink;
 						ed.dom.setAttribs(e, attrs);
 					}
 				});
+				
+				// Sometimes WebKit lets a user create a link where
+				// they shouldn't be able to. In this case, CreateLink
+				// injects "#mce_temp_url#" into their content. Fix it.
+				if ( $(e).text() == '#mce_temp_url#' ) {
+					ed.dom.remove(e);
+					e = null;
+				}
 			} else {
 				ed.dom.setAttribs(e, attrs);
 			}
 
-			children = $(e).children();
 			// Don't move caret if selection was image
-			if (e.childNodes.length != 1 || e.firstChild.nodeName != 'IMG') {
+			if ( e && (e.childNodes.length != 1 || e.firstChild.nodeName != 'IMG') ) {
 				ed.focus();
 				ed.selection.select(e);
 				ed.selection.collapse(0);
@@ -141,14 +142,17 @@ var wpLink;
 			tinyMCEPopup.close();
 		},
 
-		selectInternalLink : function() {
-			var t = $(this);
-			if ( t.hasClass('unselectable') )
-				return;
-			t.siblings('.selected').removeClass('selected');
-			t.addClass('selected');
-			inputs.url.val( t.children('.item-permalink').val() );
-			inputs.title.val( t.children('.item-title').text() );
+		updateFields : function( e, li, originalEvent ) {
+			inputs.url.val( li.children('.item-permalink').val() );
+			inputs.title.val( li.children('.item-title').text() );
+			if ( originalEvent && originalEvent.type == "click" )
+				inputs.url.focus();
+		},
+		setDefaultValues : function() {
+			// Set URL and description to defaults.
+			// Leave the new tab setting as-is.
+			inputs.url.val('http://');
+			inputs.title.val('');
 		},
 
 		searchInternalLinks : function() {
@@ -156,8 +160,8 @@ var wpLink;
 				search = t.val();
 
 			if ( search.length > 2 ) {
-				rivers.recent.element.hide();
-				rivers.search.element.show();
+				rivers.recent.hide();
+				rivers.search.show();
 
 				// Don't search if the keypress didn't change the title.
 				if ( wpLink.lastSearch == search )
@@ -169,9 +173,52 @@ var wpLink;
 				rivers.search.change( search );
 				rivers.search.ajax( function(){ waiting.hide(); });
 			} else {
-				rivers.search.element.hide();
-				rivers.recent.element.show();
+				rivers.search.hide();
+				rivers.recent.show();
 			}
+		},
+		
+		next : function() {
+			rivers.search.next();
+			rivers.recent.next();
+		},
+		prev : function() {
+			rivers.search.prev();
+			rivers.recent.prev();
+		},
+		
+		keydown : function( event ) {
+			var fn, key = $.ui.keyCode;
+			
+			switch( event.which ) {
+				case key.UP:
+					fn = 'prev';
+				case key.DOWN:
+					fn = fn || 'next';
+					clearInterval( wpLink.keyInterval );
+					wpLink[ fn ]();
+					wpLink.keyInterval = setInterval( wpLink[ fn ], wpLink.keySensitivity );
+					break;
+				default:
+					return;
+			}
+			event.preventDefault();
+		},
+		keyup: function( event ) {
+			var key = $.ui.keyCode;
+			
+			switch( event.which ) {
+				case key.ESCAPE:
+					wpLink.cancel();
+					break;
+				case key.UP:
+				case key.DOWN:
+					clearInterval( wpLink.keyInterval );
+					break;
+				default:
+					return;
+			}
+			event.preventDefault();
 		},
 
 		delayedCallback : function( func, delay ) {
@@ -205,11 +252,75 @@ var wpLink;
 		this.waiting = element.find('.river-waiting');
 		
 		this.change( search );
+		this.refresh();
 		
 		element.scroll( function(){ self.maybeLoad(); });
+		element.delegate('li', 'click', function(e){ self.select( $(this), e ); });
 	};
 	
 	$.extend( River.prototype, {
+		refresh: function() {
+			this.deselect();
+			this.visible = this.element.is(':visible');
+		},
+		show: function() {
+			if ( ! this.visible ) {
+				this.deselect();
+				this.element.show();
+				this.visible = true;
+			}
+		},
+		hide: function() {
+			this.element.hide();
+			this.visible = false;
+		},
+		// Selects a list item and triggers the river-select event.
+		select: function( li, event ) {
+			var liHeight, elHeight, liTop, elTop;
+			
+			if ( li.hasClass('unselectable') || li == this.selected )
+				return;
+			
+			this.deselect();
+			this.selected = li.addClass('selected');
+			// Make sure the element is visible
+			liHeight = li.outerHeight();
+			elHeight = this.element.height();
+			liTop = li.position().top;
+			elTop = this.element.scrollTop();
+			
+			if ( liTop < 0 ) // Make first visible element
+				this.element.scrollTop( elTop + liTop );
+			else if ( liTop + liHeight > elHeight ) // Make last visible element
+				this.element.scrollTop( elTop + liTop - elHeight + liHeight );
+			
+			// Trigger the river-select event
+			this.element.trigger('river-select', [ li, event, this ]);
+		},
+		deselect: function() {
+			if ( this.selected )
+				this.selected.removeClass('selected');
+			this.selected = false;
+		},
+		prev: function() {
+			if ( ! this.visible )
+				return;
+			
+			var to;
+			if ( this.selected ) {
+				to = this.selected.prev('li');
+				if ( to.length )
+					this.select( to );
+			}
+		},
+		next: function() {
+			if ( ! this.visible )
+				return;
+			
+			var to = this.selected ? this.selected.next('li') : $('li:not(.unselectable):first', this.element);
+			if ( to.length )
+				this.select( to );
+		},
 		ajax: function( callback ) {
 			var self = this,
 				delay = this.query.page == 1 ? 0 : wpLink.minRiverAJAXDuration,

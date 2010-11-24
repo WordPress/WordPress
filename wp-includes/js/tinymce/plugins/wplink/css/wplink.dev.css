@@ -46,6 +46,7 @@
 	background: #fff;
 	height: 185px;
 	overflow: auto;
+	position: relative;
 }
 #wp-link li,
 #wp-link .query-notice {
@@ -104,7 +105,4 @@
 #wp-link-update {
 	line-height: 23px;
 	float: right;
-}
-#wp-link-update a {
-	display: inline-block;
 }

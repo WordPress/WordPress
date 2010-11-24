@@ -36,6 +36,21 @@
 			};
 		}
 	});
+	
+	$(document).ready(function() {
+		$.widget("wp.wpdialog", $.ui.dialog, {
+			open: function() {
+				// Initialize tinyMCEPopup if it exists.
+				if ( tinyMCEPopup )
+					tinyMCEPopup.init();
+				// Open the dialog.
+				$.ui.dialog.prototype.open.apply( this, arguments );
+				// WebKit leaves focus in the TinyMCE editor unless we shift focus.
+				this.element.focus();
+				this._trigger('refresh');
+			}
+		});
+	});
 
 	tinymce.create('tinymce.WPWindowManager:tinymce.InlineWindowManager', {
 		WPWindowManager : function(ed) {
@@ -60,12 +75,9 @@
 			t.element = t.windows[ f.id ] = element;
 			
 			// Store selection
-			t.bookmark = t.editor.selection.getBookmark();
+			t.bookmark = t.editor.selection.getBookmark(1);
 			
-			if ( tinyMCEPopup )
-				tinyMCEPopup.init();
-			
-			element.dialog({
+			element.wpdialog({
 				title: f.title,
 				width: f.width,
 				height: f.height,
@@ -75,7 +87,7 @@
 			});
 		},
 		close : wpDialogFn(function() {
-			this.element.dialog('close');
+			this.element.wpdialog('close');
 		})
 	});
 

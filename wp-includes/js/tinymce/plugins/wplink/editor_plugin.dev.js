@@ -9,8 +9,12 @@
 		 * @param {string} url Absolute URL to where the plugin is located.
 		 */
 		init : function(ed, url) {
+			var disabled = true;
+			
 			// Register the command so that it can be invoked by using tinyMCE.activeEditor.execCommand('mceExample');
 			ed.addCommand('WP_Link', function() {
+				if ( disabled )
+					return;
 				ed.windowManager.open({
 					id : 'wp-link',
 					width : 480,
@@ -29,10 +33,9 @@
 			});
 
 			ed.addShortcut('alt+shift+a', ed.getLang('advanced.link_desc'), 'WP_Link');
-
-			// Add a node change handler, selects the button in the UI when a link is selected
-			ed.onNodeChange.add(function(ed, cm, n) {
-				cm.setActive('wplink', n.nodeName == 'A');
+			
+			ed.onNodeChange.add(function(ed, cm, n, co) {
+				disabled = co && n.nodeName != 'A';
 			});
 		},
 		/**
