@@ -39,7 +39,8 @@ class WP_Users_List_Table extends WP_List_Table {
 
 		$role = isset( $_REQUEST['role'] ) ? $_REQUEST['role'] : '';
 
-		$users_per_page = $this->get_items_per_page( 'users_per_page' );
+		$per_page = ( $this->is_site_users ) ? 'site_users_network_per_page' : 'users_per_page';
+		$users_per_page = $this->get_items_per_page( $per_page );
 
 		$paged = $this->get_pagenum();
 

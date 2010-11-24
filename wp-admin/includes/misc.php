@@ -351,6 +351,7 @@ function set_screen_options() {
 			// Network admin
 			case 'sites_network_per_page':
 			case 'users_network_per_page':
+			case 'site_users_network_per_page':
 			case 'plugins_network_per_page':
 			case 'themes_network_per_page':
 			case 'site_themes_network_per_page':
