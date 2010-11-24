@@ -26,6 +26,35 @@ function is_subdomain_install() {
 }
 
 /**
+ * Returns array of network plugin files to be included in global scope.
+ *
+ * The default directory is wp-content/plugins. To change the default directory
+ * manually, define <code>WP_PLUGIN_DIR</code> and <code>WP_PLUGIN_URL</code>
+ * in wp-config.php.
+ *
+ * @access private
+ * @since 3.1.0
+ * @return array Files to include
+ */
+function wp_get_active_network_plugins() {
+	$active_plugins = (array) get_site_option( 'active_sitewide_plugins', array() );
+	if ( empty( $active_plugins ) )
+		return array();
+
+	$active_plugins = array_keys( $active_plugins );
+	sort( $active_plugins );
+
+	foreach ( $active_plugins as $plugin ) {
+		if ( ! validate_file( $plugin ) // $plugin must validate as file
+			&& '.php' == substr( $plugin, -4 ) // $plugin must end with '.php'
+			&& file_exists( WP_PLUGIN_DIR . '/' . $plugin ) // $plugin must exist
+			)
+		$plugins[] = WP_PLUGIN_DIR . '/' . $plugin;
+	}
+	return $plugins;
+}
+
+/**
  * Checks status of current blog.
  *
  * Checks if the blog is deleted, inactive, archived, or spammed.

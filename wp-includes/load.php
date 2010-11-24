@@ -472,15 +472,6 @@ function wp_get_active_and_valid_plugins() {
 	$plugins = array();
 	$active_plugins = (array) get_option( 'active_plugins', array() );
 
-	// Get active network plugins
-	if ( is_multisite() ) {
-		$active_sitewide_plugins = (array) get_site_option( 'active_sitewide_plugins', array() );
-		if ( !empty($active_sitewide_plugins) ) {
-			$active_plugins = array_merge( $active_plugins, array_keys( $active_sitewide_plugins ) );
-			sort( $active_plugins );
-		}
-	}
-
 	// Check for hacks file if the option is enabled
 	if ( get_option( 'hack_file' ) && file_exists( ABSPATH . 'my-hacks.php' ) ) {
 		_deprecated_file( 'my-hacks.php', '1.5' );
@@ -490,10 +481,14 @@ function wp_get_active_and_valid_plugins() {
 	if ( empty( $active_plugins ) || defined( 'WP_INSTALLING' ) )
 		return $plugins;
 
+	$network_plugins = is_multisite() ? wp_get_active_network_plugins() : false;
+
 	foreach ( $active_plugins as $plugin ) {
 		if ( ! validate_file( $plugin ) // $plugin must validate as file
 			&& '.php' == substr( $plugin, -4 ) // $plugin must end with '.php'
 			&& file_exists( WP_PLUGIN_DIR . '/' . $plugin ) // $plugin must exist
+			// not already included as a network plugin
+			&& ( ! $network_plugins || ! in_array( WP_PLUGIN_DIR . '/' . $plugin, $network_plugins ) )
 			)
 		$plugins[] = WP_PLUGIN_DIR . '/' . $plugin;
 	}

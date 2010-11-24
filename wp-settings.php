@@ -155,6 +155,14 @@ foreach ( wp_get_mu_plugins() as $mu_plugin ) {
 }
 unset( $mu_plugin );
 
+// Load network activated plugins.
+if ( is_multisite() ) {
+	foreach( wp_get_active_network_plugins() as $network_plugin ) {
+		include_once( $network_plugin );
+	}
+	unset( $network_plugin );
+}
+
 do_action( 'muplugins_loaded' );
 
 if ( is_multisite() )
