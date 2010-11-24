@@ -7,10 +7,29 @@
  * @since 3.1.0
  */
 class WP_Users_List_Table extends WP_List_Table {
+	
+	var $site_id;
+	var $is_site_users;
+	
+	function WP_Users_List_Table() {
+		$screen = get_current_screen();
+		$this->is_site_users = ( 'site-users-network' == $screen->id ) ? true : false;
+
+		if ( $this->is_site_users )
+			$this->site_id = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0;
+
+		parent::WP_List_Table( array(
+			'singular' => 'user',
+			'plural'   => 'users'
+		) );
+	}
 
 	function check_permissions() {
 		if ( !current_user_can('list_users') )
 			wp_die(__('Cheatin&#8217; uh?'));
+
+		if ( $this->is_site_users && !current_user_can('manage_sites') )
+			wp_die(__('You do not have sufficient permissions to edit this site.'));
 	}
 
 	function prepare_items() {
@@ -30,6 +49,9 @@ class WP_Users_List_Table extends WP_List_Table {
 			'role' => $role,
 			'search' => $usersearch
 		);
+		
+		if ( $this->is_site_users )
+			$args['blog_id'] = $this->site_id;
 
 		if ( isset( $_REQUEST['orderby'] ) )
 			$args['orderby'] = $_REQUEST['orderby'];
@@ -55,7 +77,15 @@ class WP_Users_List_Table extends WP_List_Table {
 	function get_views() {
 		global $wp_roles, $role;
 
-		$users_of_blog = count_users();
+		if ( $this->is_site_users ) {
+			$url = 'site-users.php?id=' . $this->site_id;			
+			switch_to_blog( $this->site_id );
+			$users_of_blog = count_users();
+			restore_current_blog();
+		} else {
+			$url = 'users.php';
+			$users_of_blog = count_users();
+		}
 		$total_users = $users_of_blog['total_users'];
 		$avail_roles =& $users_of_blog['avail_roles'];
 		unset($users_of_blog);
@@ -63,7 +93,7 @@ class WP_Users_List_Table extends WP_List_Table {
 		$current_role = false;
 		$class = empty($role) ? ' class="current"' : '';
 		$role_links = array();
-		$role_links['all'] = "<a href='users.php'$class>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_users, 'users' ), number_format_i18n( $total_users ) ) . '</a>';
+		$role_links['all'] = "<a href='$url'$class>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_users, 'users' ), number_format_i18n( $total_users ) ) . '</a>';
 		foreach ( $wp_roles->get_names() as $this_role => $name ) {
 			if ( !isset($avail_roles[$this_role]) )
 				continue;
@@ -78,7 +108,7 @@ class WP_Users_List_Table extends WP_List_Table {
 			$name = translate_user_role( $name );
 			/* translators: User role name with count */
 			$name = sprintf( __('%1$s <span class="count">(%2$s)</span>'), $name, $avail_roles[$this_role] );
-			$role_links[$this_role] = "<a href='users.php?role=$this_role'$class>$name</a>";
+			$role_links[$this_role] = "<a href='" . add_query_arg( 'role', $this_role, $url ) . "'$class>$name</a>";
 		}
 
 		return $role_links;
@@ -171,6 +201,11 @@ class WP_Users_List_Table extends WP_List_Table {
 			$user_object = new WP_User( (int) $user_object );
 		$user_object = sanitize_user_object( $user_object, 'display' );
 		$email = $user_object->user_email;
+		
+		if ( $this->is_site_users )
+			$url = "site-users.php?id={$this->site_id}&amp;";
+		else
+			$url = 'users.php?';
 
 		$checkbox = '';
 		// Check if the user for this row is editable
@@ -197,7 +232,7 @@ class WP_Users_List_Table extends WP_List_Table {
 			if ( !is_multisite() && get_current_user_id() != $user_object->ID && current_user_can( 'delete_user', $user_object->ID ) )
 				$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url( "users.php?action=delete&amp;user=$user_object->ID", 'bulk-users' ) . "'>" . __( 'Delete' ) . "</a>";
 			if ( is_multisite() && get_current_user_id() != $user_object->ID && current_user_can( 'remove_user', $user_object->ID ) )
-				$actions['remove'] = "<a class='submitdelete' href='" . wp_nonce_url( "users.php?action=remove&amp;user=$user_object->ID", 'bulk-users' ) . "'>" . __( 'Remove' ) . "</a>";
+				$actions['remove'] = "<a class='submitdelete' href='" . wp_nonce_url( $url."action=remove&amp;user=$user_object->ID", 'bulk-users' ) . "'>" . __( 'Remove' ) . "</a>";
 			$actions = apply_filters( 'user_row_actions', $actions, $user_object );
 			$edit .= $this->row_actions( $actions );
 

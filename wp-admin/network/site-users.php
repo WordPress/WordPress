@@ -16,6 +16,17 @@ if ( ! is_multisite() )
 if ( ! current_user_can('manage_sites') )
 	wp_die(__('You do not have sufficient permissions to edit this site.'));
 
+$wp_list_table = get_list_table('WP_Users_List_Table');
+$wp_list_table->check_permissions();
+$wp_list_table->prepare_items();
+
+$action = $wp_list_table->current_action();
+
+$s = isset($_REQUEST['s']) ? $_REQUEST['s'] : '';
+
+// Clean up request URI from temporary args for screen options/paging uri's to work as expected.
+$_SERVER['REQUEST_URI'] = remove_query_arg(array('enable', 'disable', 'enable-selected', 'disable-selected'), $_SERVER['REQUEST_URI']);
+
 $id = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0;
 
 if ( ! $id )
@@ -38,74 +49,65 @@ if ( ! empty($wp_roles->use_db) ) {
 	$editblog_roles = $wp_roles->roles;
 }
 
-if ( isset($_REQUEST['action']) && 'update-site' == $_REQUEST['action'] ) {
-	check_admin_referer( 'edit-site' );
+$action = $wp_list_table->current_action();
 
+if ( $action ) {
 	switch_to_blog( $id );
-
-	// user roles
-	if ( isset( $_POST['role'] ) && is_array( $_POST['role'] ) == true ) {
-		$newroles = $_POST['role'];
-
-		reset( $newroles );
-		foreach ( (array) $newroles as $userid => $role ) {
-			$user = new WP_User( $userid );
-			if ( empty( $user->ID ) )
-				continue;
-			$user->for_blog( $id );
-			$user->set_role( $role );
-		}
-	}
-
-	// remove user
-	if ( isset( $_POST['blogusers'] ) && is_array( $_POST['blogusers'] ) ) {
-		reset( $_POST['blogusers'] );
-		foreach ( (array) $_POST['blogusers'] as $key => $val )
-			remove_user_from_blog( $key, $id );
-	}
-
-	// change password
-	if ( isset( $_POST['user_password'] ) && is_array( $_POST['user_password'] ) ) {
-		reset( $_POST['user_password'] );
-		$newroles = $_POST['role'];
-		foreach ( (array) $_POST['user_password'] as $userid => $pass ) {
-			unset( $_POST['role'] );
-			$_POST['role'] = $newroles[ $userid ];
-			if ( $pass != '' ) {
-				$cap = $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM {$wpdb->usermeta} WHERE user_id = %d AND meta_key = '{$blog_prefix}capabilities' AND meta_value = 'a:0:{}'", $userid ) );
-				$userdata = get_userdata($userid);
-				$_POST['pass1'] = $_POST['pass2'] = $pass;
-				$_POST['email'] = $userdata->user_email;
-				$_POST['rich_editing'] = $userdata->rich_editing;
-				edit_user( $userid );
-				if ( $cap == null )
-					$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->usermeta} WHERE user_id = %d AND meta_key = '{$blog_prefix}capabilities' AND meta_value = 'a:0:{}'", $userid ) );
+	
+	switch ( $action ) {
+		case 'adduser':
+			if ( !empty( $_POST['newuser'] ) ) {
+				$newuser = $_POST['newuser'];
+				$userid = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM " . $wpdb->users . " WHERE user_login = %s", $newuser ) );
+				if ( $userid ) {
+					$user = $wpdb->get_var( "SELECT user_id FROM " . $wpdb->usermeta . " WHERE user_id='$userid' AND meta_key='{$blog_prefix}capabilities'" );
+					if ( $user == false )
+						add_user_to_blog( $id, $userid, $_POST['new_role'] );
+				}
 			}
-		}
-		unset( $_POST['role'] );
-		$_POST['role'] = $newroles;
-	}
+			break;
+		
+		case 'remove':
+			if ( !current_user_can('remove_users')  )
+				die(__('You can&#8217;t remove users.'));
 
-	// add user
-	if ( !empty( $_POST['newuser'] ) ) {
-		$newuser = $_POST['newuser'];
-		$userid = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM " . $wpdb->users . " WHERE user_login = %s", $newuser ) );
-		if ( $userid ) {
-			$user = $wpdb->get_var( "SELECT user_id FROM " . $wpdb->usermeta . " WHERE user_id='$userid' AND meta_key='{$blog_prefix}capabilities'" );
-			if ( $user == false )
-				add_user_to_blog( $id, $userid, $_POST['new_role'] );
-		}
-	}
+			if ( isset( $_REQUEST['users'] ) ) {
+				$userids = $_REQUEST['users'];
 
+				foreach ( $userids as $user_id ) {
+					$user_id = (int) $user_id;
+					remove_user_from_blog( $user_id, $id );
+				}
+			} else {
+				remove_user_from_blog( $_GET['user'] );
+			}
+			break;
+
+		case 'promote':
+			$editable_roles = get_editable_roles();
+			if ( empty( $editable_roles[$_REQUEST['new_role']] ) )
+				wp_die(__('You can&#8217;t give users that role.'));
+
+			$userids = $_REQUEST['users'];
+			$update = 'promote';
+			foreach ( $userids as $user_id ) {
+				$user_id = (int) $user_id;
+
+				// If the user doesn't already belong to the blog, bail.
+				if ( !is_user_member_of_blog( $user_id ) )
+					wp_die(__('Cheatin&#8217; uh?'));
+
+				$user = new WP_User( $user_id );
+				$user->set_role( $_REQUEST['new_role'] );
+			}
+			break;
+	}
+	
 	restore_current_blog();
-	wp_redirect( add_query_arg( array( 'update' => 'updated', 'id' => $id ), 'site-users.php') );
+	wp_redirect( wp_get_referer() ); // @todo add_query_arg for update message
 }
 
-if ( isset($_GET['update']) ) {
-	$messages = array();
-	if ( 'updated' == $_GET['update'] )
-		$messages[] = __('Site users updated.');
-}
+add_screen_option( 'per_page', array( 'label' => _x( 'Users', 'users per page (screen options)' ) ) );
 
 $title = sprintf( __('Edit Site: %s'), get_blogaddress_by_id($id));
 $parent_file = 'sites.php';
@@ -128,61 +130,27 @@ foreach ( $tabs as $tab_id => $tab ) {
 }
 ?>
 </h3>
-<?php
-if ( ! empty( $messages ) ) {
-	foreach ( $messages as $msg )
-		echo '<div id="message" class="updated"><p>' . $msg . '</p></div>';
-} ?>
+<form class="search-form" action="" method="get">
+<p class="search-box">
+	<label class="screen-reader-text" for="user-search-input"><?php _e( 'Search Users' ); ?>:</label>
+	<input type="text" id="user-search-input" name="s" value="<?php echo esc_attr($usersearch); ?>" />
+	<?php submit_button( __( 'Search Users' ), 'button', 'submit', false ); ?>
+</p>
+</form>
+
+<?php $wp_list_table->views(); ?>
+
 <form method="post" action="site-users.php?action=update-site">
 	<?php wp_nonce_field( 'edit-site' ); ?>
 	<input type="hidden" name="id" value="<?php echo esc_attr( $id ) ?>" />
-<?php
-$blogusers = get_users( array( 'blog_id' => $id, 'number' => 20 ) );
 
-if ( is_array( $blogusers ) ) {
-	echo '<table class="form-table">';
-	echo "<tr><th>" . __( 'User' ) . "</th><th>" . __( 'Role' ) . "</th><th>" . __( 'Password' ) . "</th><th>" . __( 'Remove' ) . "</th></tr>";
-	$user_count = 0;
+<?php $wp_list_table->display(); ?>
 
-	foreach ( $blogusers as $user_id => $user_object ) {
-		$user_count++;
-		$existing_role = reset( $user_object->roles );
-
-		echo '<tr><td><a href="user-edit.php?user_id=' . $user_id . '">' . $user_object->user_login . '</a></td>';
-		if ( $user_id != $current_user->data->ID ) {
-			?>
-			<td>
-				<select name="role[<?php echo $user_id ?>]" id="new_role_1"><?php
-					foreach ( $editblog_roles as $role => $role_assoc ){
-						$name = translate_user_role( $role_assoc['name'] );
-						echo '<option ' . selected( $role, $existing_role, false ) . ' value="' . esc_attr( $role ) . '">' . esc_html( $name ) . '</option>';
-					}
-					?>
-				</select>
-			</td>
-			<td>
-				<input type="text" name="user_password[<?php echo esc_attr( $user_id ) ?>]" />
-			</td>
-			<?php
-			echo '<td><input title="' . __( 'Click to remove user' ) . '" type="checkbox" name="blogusers[' . esc_attr( $user_id ) . ']" /></td>';
-		} else {
-			echo "<td><strong>" . __ ( 'N/A' ) . "</strong></td><td><strong>" . __ ( 'N/A' ) . "</strong></td><td><strong>" . __( 'N/A' ) . "</strong></td>";
-		}
-		echo '</tr>';
-	}
-	echo "</table>";
-	submit_button();
-	if ( 20 == $user_count )
-		echo '<p>' . sprintf( __('First 20 users shown. <a href="%s">Manage all users</a>.'), get_admin_url($id, 'users.php') ) . '</p>';
-} else {
-	_e('This site has no users.');
-}
-?>
 </form>
 
 <h3 id="add-new-user"><?php _e('Add Existing User') ?></h3>
 <p class="description"><?php _e( 'Enter the username of an existing user.' ) ?></p>
-	<form action="site-users.php?action=update-site" id="adduser" method="post">
+	<form action="site-users.php?action=adduser" id="adduser" method="post">
 	<?php wp_nonce_field( 'edit-site' ); ?>
 	<input type="hidden" name="id" value="<?php echo esc_attr( $id ) ?>" />
 	<table class="form-table">
