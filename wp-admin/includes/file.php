@@ -338,7 +338,7 @@ function wp_handle_upload( &$file, $overrides = false, $time = null ) {
 			$file['name'] = $proper_filename;
 
 		if ( ( !$type || !$ext ) && !current_user_can( 'unfiltered_upload' ) )
-			return call_user_func($upload_error_handler, $file, __( 'File type does not meet security guidelines. Try another.' ));
+			return call_user_func($upload_error_handler, $file, __( 'Sorry, this file type is not permitted for security reasons.' ));
 
 		if ( !$ext )
 			$ext = ltrim(strrchr($file['name'], '.'), '.');
@@ -458,7 +458,7 @@ function wp_handle_sideload( &$file, $overrides = false ) {
 			$file['name'] = $proper_filename;
 
 		if ( ( !$type || !$ext ) && !current_user_can( 'unfiltered_upload' ) )
-			return $upload_error_handler( $file, __( 'File type does not meet security guidelines. Try another.' ));
+			return $upload_error_handler( $file, __( 'Sorry, this file type is not permitted for security reasons.' ));
 
 		if ( !$ext )
 			$ext = ltrim(strrchr($file['name'], '.'), '.');
