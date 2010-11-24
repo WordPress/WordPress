@@ -320,7 +320,7 @@ die;
 //<![CDATA[
 addLoadEvent = function(func){if(typeof jQuery!="undefined")jQuery(document).ready(func);else if(typeof wpOnload!='function'){wpOnload=func;}else{var oldonload=wpOnload;wpOnload=function(){oldonload();func();}}};
 var userSettings = {'url':'<?php echo SITECOOKIEPATH; ?>','uid':'<?php if ( ! isset($current_user) ) $current_user = wp_get_current_user(); echo $current_user->ID; ?>','time':'<?php echo time() ?>'};
-var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>', pagenow = 'press-this';
+var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>', pagenow = 'press-this', isRtl = <?php echo (int) is_rtl(); ?>;
 var photostorage = false;
 //]]>
 </script>
@@ -330,8 +330,10 @@ var photostorage = false;
 	do_action('admin_print_scripts');
 	do_action('admin_head');
 
-	if ( user_can_richedit() )
+	if ( user_can_richedit() ) {
 		wp_tiny_mce( true, array( 'height' => '370' ) );
+		wp_tiny_mce_preload_dialogs();	
+	}
 ?>
 	<script type="text/javascript">
 	function insert_plain_editor(text) {
