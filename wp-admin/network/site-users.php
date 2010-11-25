@@ -22,11 +22,6 @@ $wp_list_table->prepare_items();
 
 $action = $wp_list_table->current_action();
 
-$s = isset($_REQUEST['s']) ? $_REQUEST['s'] : '';
-
-// Clean up request URI from temporary args for screen options/paging uri's to work as expected.
-$_SERVER['REQUEST_URI'] = remove_query_arg(array('enable', 'disable', 'enable-selected', 'disable-selected'), $_SERVER['REQUEST_URI']);
-
 $id = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0;
 
 if ( ! $id )
@@ -55,9 +50,27 @@ if ( $action ) {
 	switch_to_blog( $id );
 	
 	switch ( $action ) {
+		case 'newuser':
+			$user = $_POST['user'];
+			if ( !is_array( $_POST['user'] ) || empty( $user['username'] ) || empty( $user['email'] ) ) {
+				$update = 'err_new';
+			} else {
+				$password = wp_generate_password( 12, false);
+				$user_id = wpmu_create_user( esc_html( strtolower( $user['username'] ) ), $password, esc_html( $user['email'] ) );
+
+				if ( false == $user_id ) {
+		 			$update = 'err_new_dup';
+				} else {
+					wp_new_user_notification( $user_id, $password );
+					add_user_to_blog( $id, $user_id, $_POST['new_role'] );
+					$update = 'newuser';
+				}
+			}
+			break;
+
 		case 'adduser':
 			if ( !empty( $_POST['newuser'] ) ) {
-				$update = 'add';
+				$update = 'adduser';
 				$newuser = $_POST['newuser'];				
 				$userid = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM " . $wpdb->users . " WHERE user_login = %s", $newuser ) );
 				if ( $userid ) {
@@ -151,7 +164,7 @@ foreach ( $tabs as $tab_id => $tab ) {
 
 if ( isset($_GET['update']) ) :
 	switch($_GET['update']) {
-	case 'add':
+	case 'adduser':
 		echo '<div id="message" class="updated"><p>' . __( 'User added.' ) . '</p></div>';
 		break;
 	case 'err_add_member':
@@ -167,10 +180,19 @@ if ( isset($_GET['update']) ) :
 		echo '<div id="message" class="error"><p>' . __( 'Select a user to change role.' ) . '</p></div>';
 		break;
 	case 'remove':
-		echo '<div id="message" class="updated fade"><p>' . __( 'User removed from this site.' ) . '</p></div>';
+		echo '<div id="message" class="updated"><p>' . __( 'User removed from this site.' ) . '</p></div>';
 		break;
 	case 'err_remove':
 		echo '<div id="message" class="error"><p>' . __( 'Select a user to remove.' ) . '</p></div>';
+		break;
+	case 'newuser':
+		echo '<div id="message" class="updated"><p>' . __( 'User created.' ) . '</p></div>';
+		break;
+	case 'err_new':
+		echo '<div id="message" class="error"><p>' . __( 'Enter the username and email.' ) . '</p></div>';
+		break;
+	case 'err_new_dup':
+		echo '<div id="message" class="error"><p>' . __( 'Duplicated username or email address.' ) . '</p></div>';
 		break;
 	}
 endif; ?>
@@ -193,15 +215,15 @@ endif; ?>
 
 </form>
 
-<h3 id="add-new-user"><?php _e('Add Existing User') ?></h3>
-<p class="description"><?php _e( 'Enter the username of an existing user.' ) ?></p>
-	<form action="site-users.php?action=adduser" id="adduser" method="post">
+<h3 id="add-existing-user"><?php _e('Add Existing User') ?></h3>
+<p><?php _e( 'Enter the username of an existing user on this network.' ) ?></p>
+<form action="site-users.php?action=adduser" id="adduser" method="post">
 	<?php wp_nonce_field( 'edit-site' ); ?>
 	<input type="hidden" name="id" value="<?php echo esc_attr( $id ) ?>" />
 	<table class="form-table">
 		<tr>
 			<th scope="row"><?php _e( 'Username' ); ?></th>
-			<td><input type="text" name="newuser" id="newuser" /></td>
+			<td><input type="text" class="regular-text" name="newuser" id="newuser" /></td>
 		</tr>
 		<tr>
 			<th scope="row"><?php _e( 'Role'); ?></th>
@@ -219,7 +241,42 @@ endif; ?>
 		</tr>
 	</table>
 	<?php submit_button( __('Add User'), 'primary', 'add-user' ); ?>
-	</form>
+</form>
+
+<h3 id="add-new-user"><?php _e('Create New User') ?></h3>
+<p><?php _e( 'Create a brand new user and add it to this site.' ) ?></p>
+<form action="<?php echo network_admin_url('site-users.php?action=newuser'); ?>" id="newuser" method="post">
+	<?php wp_nonce_field( 'edit-site' ); ?>
+	<input type="hidden" name="id" value="<?php echo esc_attr( $id ) ?>" />
+	<table class="form-table">
+		<tr>
+			<th scope="row"><?php _e( 'Username' ) ?></th>
+			<td><input type="text" class="regular-text" name="user[username]" /></td>
+		</tr>
+		<tr>
+			<th scope="row"><?php _e( 'Email' ) ?></th>
+			<td><input type="text" class="regular-text" name="user[email]" /></td>
+		</tr>
+		<tr>
+			<th scope="row"><?php _e( 'Role'); ?></th>
+			<td><select name="new_role" id="new_role_0">
+			<?php
+			reset( $editblog_roles );
+			foreach ( $editblog_roles as $role => $role_assoc ){
+				$name = translate_user_role( $role_assoc['name'] );
+				$selected = ( $role == $default_role ) ? 'selected="selected"' : '';
+				echo '<option ' . $selected . ' value="' . esc_attr( $role ) . '">' . esc_html( $name ) . '</option>';
+			}
+			?>
+			</select></td>
+		</tr>
+		<tr class="form-field">
+			<td colspan="2"><?php _e( 'Username and password will be mailed to the above email address.' ) ?></td>
+		</tr>
+	</table>
+	<?php wp_nonce_field( 'add-user', '_wpnonce_add-user' ) ?>
+	<?php submit_button( __('Add User'), 'primary', 'add-user' ); ?>
+</form>
 </div>
 <?php
 require('../admin-footer.php');
