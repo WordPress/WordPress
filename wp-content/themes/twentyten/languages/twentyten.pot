@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Ten 1.3-alpha\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyten\n"
-"POT-Creation-Date: 2010-11-23 00:22+0000\n"
+"POT-Creation-Date: 2010-11-25 20:21+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -144,7 +144,7 @@ msgstr ""
 msgid "Sunset"
 msgstr ""
 
-#: functions.php:244 loop-attachment.php:103 loop.php:110 loop.php:138
+#: functions.php:244 loop-attachment.php:103 loop.php:112 loop.php:140
 msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
@@ -292,11 +292,11 @@ msgid "Link to full-size image"
 msgstr ""
 
 #: loop-attachment.php:63 loop-attachment.php:110 loop-page.php:30
-#: loop-single.php:56 loop.php:95 loop.php:118 loop.php:160
+#: loop-single.php:56 loop.php:97 loop.php:120 loop.php:162
 msgid "Edit"
 msgstr ""
 
-#: loop-attachment.php:104 loop-page.php:29 loop-single.php:34 loop.php:139
+#: loop-attachment.php:104 loop-page.php:29 loop-single.php:34 loop.php:141
 msgid "Pages:"
 msgstr ""
 
@@ -315,11 +315,11 @@ msgstr ""
 msgid "View all posts by %s <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: loop.php:25 loop.php:173
+#: loop.php:25 loop.php:175
 msgid "<span class=\"meta-nav\">&larr;</span> Older posts"
 msgstr ""
 
-#: loop.php:26 loop.php:174
+#: loop.php:26 loop.php:176
 msgid "Newer posts <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
@@ -329,12 +329,12 @@ msgid ""
 "searching will help find a related post."
 msgstr ""
 
-#: loop.php:60 loop.php:92
+#: loop.php:60 loop.php:92 loop.php:93
 msgctxt "gallery category slug"
 msgid "gallery"
 msgstr ""
 
-#: loop.php:62 loop.php:83 loop.php:126
+#: loop.php:62 loop.php:83 loop.php:128
 #, php-format
 msgid "Permalink to %s"
 msgstr ""
@@ -344,37 +344,37 @@ msgstr ""
 msgid "This gallery contains <a %1$s>%2$s photos</a>."
 msgstr ""
 
-#: loop.php:92
+#: loop.php:93
 msgid "View posts in the Gallery category"
 msgstr ""
 
-#: loop.php:92
+#: loop.php:93
 msgid "More Galleries"
 msgstr ""
 
-#: loop.php:94 loop.php:117 loop.php:159
+#: loop.php:96 loop.php:119 loop.php:161
 msgid "Leave a comment"
 msgstr ""
 
-#: loop.php:94 loop.php:117 loop.php:159
+#: loop.php:96 loop.php:119 loop.php:161
 msgid "1 Comment"
 msgstr ""
 
-#: loop.php:94 loop.php:117 loop.php:159
+#: loop.php:96 loop.php:119 loop.php:161
 msgid "% Comments"
 msgstr ""
 
-#: loop.php:101
+#: loop.php:103
 msgctxt "asides category slug"
 msgid "asides"
 msgstr ""
 
-#: loop.php:146
+#: loop.php:148
 #, php-format
 msgid "<span class=\"%1$s\">Posted in</span> %2$s"
 msgstr ""
 
-#: loop.php:155
+#: loop.php:157
 #, php-format
 msgid "<span class=\"%1$s\">Tagged</span> %2$s"
 msgstr ""
