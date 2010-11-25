@@ -51,26 +51,37 @@ if ( ! empty($wp_roles->use_db) ) {
 
 $action = $wp_list_table->current_action();
 
+if ( isset( $_GET['action'] ) && 'update-site' == $_GET['action'] )
+	wp_redirect( wp_get_referer() );
+
 if ( $action ) {
 	switch_to_blog( $id );
 	
 	switch ( $action ) {
 		case 'adduser':
 			if ( !empty( $_POST['newuser'] ) ) {
-				$newuser = $_POST['newuser'];
+				$update = 'add';
+				$newuser = $_POST['newuser'];				
 				$userid = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM " . $wpdb->users . " WHERE user_login = %s", $newuser ) );
 				if ( $userid ) {
 					$user = $wpdb->get_var( "SELECT user_id FROM " . $wpdb->usermeta . " WHERE user_id='$userid' AND meta_key='{$blog_prefix}capabilities'" );
 					if ( $user == false )
 						add_user_to_blog( $id, $userid, $_POST['new_role'] );
+					else
+						$update = 'err_add_member';
+				} else {
+					$update = 'err_add_notfound';
 				}
+			} else {
+				$update = 'err_add_notfound';
 			}
 			break;
 		
 		case 'remove':
 			if ( !current_user_can('remove_users')  )
 				die(__('You can&#8217;t remove users.'));
-
+				
+			$update = 'remove';
 			if ( isset( $_REQUEST['users'] ) ) {
 				$userids = $_REQUEST['users'];
 
@@ -78,8 +89,10 @@ if ( $action ) {
 					$user_id = (int) $user_id;
 					remove_user_from_blog( $user_id, $id );
 				}
-			} else {
+			} elseif ( isset( $_GET['user'] ) ) {
 				remove_user_from_blog( $_GET['user'] );
+			} else {
+				$update = 'err_remove';
 			}
 			break;
 
@@ -88,23 +101,27 @@ if ( $action ) {
 			if ( empty( $editable_roles[$_REQUEST['new_role']] ) )
 				wp_die(__('You can&#8217;t give users that role.'));
 
-			$userids = $_REQUEST['users'];
-			$update = 'promote';
-			foreach ( $userids as $user_id ) {
-				$user_id = (int) $user_id;
+			if ( isset( $_REQUEST['users'] ) ) {
+				$userids = $_REQUEST['users'];
+				$update = 'promote';
+				foreach ( $userids as $user_id ) {
+					$user_id = (int) $user_id;
 
-				// If the user doesn't already belong to the blog, bail.
-				if ( !is_user_member_of_blog( $user_id ) )
-					wp_die(__('Cheatin&#8217; uh?'));
+					// If the user doesn't already belong to the blog, bail.
+					if ( !is_user_member_of_blog( $user_id ) )
+						wp_die(__('Cheatin&#8217; uh?'));
 
-				$user = new WP_User( $user_id );
-				$user->set_role( $_REQUEST['new_role'] );
+					$user = new WP_User( $user_id );
+					$user->set_role( $_REQUEST['new_role'] );
+				}
+			} else {
+				$update = 'err_promote';
 			}
 			break;
 	}
 	
 	restore_current_blog();
-	wp_redirect( wp_get_referer() ); // @todo add_query_arg for update message
+	wp_redirect( add_query_arg( 'update', $update, wp_get_referer() ) );
 }
 
 add_screen_option( 'per_page', array( 'label' => _x( 'Users', 'users per page (screen options)' ) ) );
@@ -113,9 +130,7 @@ $title = sprintf( __('Edit Site: %s'), get_blogaddress_by_id($id));
 $parent_file = 'sites.php';
 $submenu_file = 'sites.php';
 
-require('../admin-header.php');
-
-?>
+require('../admin-header.php'); ?>
 
 <div class="wrap">
 <?php screen_icon('ms-admin'); ?>
@@ -129,7 +144,34 @@ foreach ( $tabs as $tab_id => $tab ) {
 	echo '<a href="' . $tab['url'] . '?id=' . $id .'" class="nav-tab' . $class . '">' .  esc_html( $tab['label'] ) . '</a>';
 }
 ?>
-</h3>
+</h3><?php
+
+if ( isset($_GET['update']) ) :
+	switch($_GET['update']) {
+	case 'add':
+		echo '<div id="message" class="updated"><p>' . __( 'User added.' ) . '</p></div>';
+		break;
+	case 'err_add_member':
+		echo '<div id="message" class="error"><p>' . __( 'User is already a member of this site.' ) . '</p></div>';
+		break;
+	case 'err_add_notfound':
+		echo '<div id="message" class="error"><p>' . __( 'Enter the username of an existing user.' ) . '</p></div>';
+		break;
+	case 'promote':
+		echo '<div id="message" class="updated"><p>' . __( 'Changed roles.' ) . '</p></div>';
+		break;
+	case 'err_promote':
+		echo '<div id="message" class="error"><p>' . __( 'Select a user to change role.' ) . '</p></div>';
+		break;
+	case 'remove':
+		echo '<div id="message" class="updated fade"><p>' . __( 'User removed from this site.' ) . '</p></div>';
+		break;
+	case 'err_remove':
+		echo '<div id="message" class="error"><p>' . __( 'Select a user to remove.' ) . '</p></div>';
+		break;
+	}
+endif; ?>
+
 <form class="search-form" action="" method="get">
 <p class="search-box">
 	<label class="screen-reader-text" for="user-search-input"><?php _e( 'Search Users' ); ?>:</label>
