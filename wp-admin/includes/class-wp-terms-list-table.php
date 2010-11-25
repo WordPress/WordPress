@@ -275,11 +275,19 @@ class WP_Terms_List_Table extends WP_List_Table {
 		$count = number_format_i18n( $tag->count );
 
 		$tax = get_taxonomy( $taxonomy );
+
+		if ( ! $tax->public )
+			return $count;
+
 		if ( $tax->query_var ) {
-			return "<a href='" . add_query_arg( array( $tax->query_var => $tag->slug, 'post_type' => $post_type ), 'edit.php' ) . "'>$count</a>";		
+			$args = array( $tax->query_var => $tag->slug );
+		} else {
+			$args = array( 'taxonomy' => $tax->name, 'term' => $tag->slug );
 		}
 
-		return $count;
+		$args['post_type'] = $post_type;
+
+		return "<a href='" . add_query_arg( $args, 'edit.php' ) . "'>$count</a>";		
 	}
 
 	function column_links( $tag ) {
