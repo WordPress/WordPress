@@ -251,7 +251,6 @@ class WP_Comments_List_Table extends WP_List_Table {
 	function get_sortable_columns() {
 		return array(
 			'author'   => 'comment_author',
-			'comment'  => 'comment_content',
 			'response' => 'comment_post_ID'
 		);
 	}
