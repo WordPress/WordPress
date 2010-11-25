@@ -51,9 +51,6 @@ if ( ! empty($wp_roles->use_db) ) {
 
 $action = $wp_list_table->current_action();
 
-if ( isset( $_GET['action'] ) && 'update-site' == $_GET['action'] )
-	wp_redirect( wp_get_referer() );
-
 if ( $action ) {
 	switch_to_blog( $id );
 	
@@ -122,6 +119,12 @@ if ( $action ) {
 	
 	restore_current_blog();
 	wp_redirect( add_query_arg( 'update', $update, wp_get_referer() ) );
+	exit();
+}
+
+if ( isset( $_GET['action'] ) && 'update-site' == $_GET['action'] ) {
+	wp_redirect( wp_get_referer() );
+	exit();
 }
 
 add_screen_option( 'per_page', array( 'label' => _x( 'Users', 'users per page (screen options)' ) ) );
