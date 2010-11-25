@@ -29,7 +29,7 @@ if ( $doaction ) {
 		$doaction = ( $_REQUEST['action'] != -1 ) ? $_REQUEST['action'] : $_REQUEST['action2'];
 	} elseif ( isset( $_REQUEST['ids'] ) ) {
 		$comment_ids = array_map( 'absint', explode( ',', $_REQUEST['ids'] ) );
-	} else {
+	} elseif ( wp_get_referer() ) {
 		wp_redirect( wp_get_referer() );
 		exit;
 	}
