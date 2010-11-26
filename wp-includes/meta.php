@@ -259,8 +259,8 @@ function get_metadata($meta_type, $object_id, $meta_key = '', $single = false) {
 	$meta_cache = wp_cache_get($object_id, $meta_type . '_meta');
 
 	if ( !$meta_cache ) {
-		update_meta_cache($meta_type, $object_id);
-		$meta_cache = wp_cache_get($object_id, $meta_type . '_meta');
+		$meta_cache = update_meta_cache( $meta_type, array( $object_id ) );
+		$meta_cache = $meta_cache[$object_id];
 	}
 
 	if ( !$meta_key )
@@ -309,17 +309,20 @@ function update_meta_cache($meta_type, $object_ids) {
 
 	$cache_key = $meta_type . '_meta';
 	$ids = array();
+	$cache = array();
 	foreach ( $object_ids as $id ) {
-		if ( false === wp_cache_get($id, $cache_key) )
+		$cached_object = wp_cache_get( $id, $cache_key );
+		if ( false === $cached_object )
 			$ids[] = $id;
+		else
+			$cache[$id] = $cached_object;
 	}
 
 	if ( empty( $ids ) )
-		return false;
+		return $cache;
 
 	// Get meta info
 	$id_list = join(',', $ids);
-	$cache = array();
 	$meta_list = $wpdb->get_results( $wpdb->prepare("SELECT $column, meta_key, meta_value FROM $table WHERE $column IN ($id_list)",
 		$meta_type), ARRAY_A );
 
@@ -343,10 +346,8 @@ function update_meta_cache($meta_type, $object_ids) {
 	foreach ( $ids as $id ) {
 		if ( ! isset($cache[$id]) )
 			$cache[$id] = array();
+		wp_cache_add( $id, $cache[$id], $cache_key );
 	}
-
-	foreach ( array_keys($cache) as $object)
-		wp_cache_add($object, $cache[$object], $cache_key);
 
 	return $cache;
 }

@@ -1037,10 +1037,9 @@ function get_user_metavalues($ids) {
 	foreach ( $ids as $id )
 		$objects[$id] = array();
 
-	update_meta_cache('user', $ids);
+	$metas = update_meta_cache('user', $ids);
 
-	foreach ( $ids as $id ) {
-		$meta = get_metadata('user', $id);
+	foreach ( $metas as $id => $meta ) {
 		foreach ( $meta as $key => $metavalues ) {
 			foreach ( $metavalues as $value ) {
 				$objects[$id][] = (object)array( 'user_id' => $id, 'meta_key' => $key, 'meta_value' => $value);
