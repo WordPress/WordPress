@@ -84,6 +84,11 @@ if ( $action ) {
 	exit;	
 }
 
+if ( isset( $_GET['action'] ) && 'update-site' == $_GET['action'] ) {
+	wp_redirect( wp_get_referer() );
+	exit();
+}
+
 add_thickbox();
 add_screen_option( 'per_page', array( 'label' => _x( 'Themes', 'themes per page (screen options)' ) ) );
 
@@ -91,10 +96,7 @@ $title = sprintf( __('Edit Site: %s'), get_blogaddress_by_id($id));
 $parent_file = 'sites.php';
 $submenu_file = 'sites.php';
 
-require('../admin-header.php');
-
-require_once(ABSPATH . 'wp-admin/admin-header.php');
-?>
+require('../admin-header.php'); ?>
 
 <div class="wrap">
 <?php screen_icon('ms-admin'); ?>
@@ -109,7 +111,7 @@ foreach ( $tabs as $tab_id => $tab ) {
 }
 ?>
 </h3>
-<p class="description"><?php _e( 'Network enabled themes are not shown on this screen.' ) ?></p>
+<p><?php _e( 'Network enabled themes are not shown on this screen.' ) ?></p>
 
 <form method="get" action="">
 <p class="search-box">
