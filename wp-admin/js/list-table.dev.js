@@ -185,30 +185,36 @@ listTable.init();
 	});
 
 	// sortable columns
-	$('th a').click(function() {
-		var orderby = $.query.GET('orderby'),
-			order = $.query.GET('order'),
-			$th = $(this).parent('th');
+	$('th.sortable a, th.sorted a').click(function() {
 
-		if ( $th.hasClass('sortable') ) {
-			orderby = $.query.load($(this).attr('href')).get('orderby');
-			order = 'asc';
+		function get_initial_order($el) {
+			return $.query.load( $el.find('a').attr('href') ).get('order');
+		}
 
-			$('th.sorted-desc, th.sorted-asc')
-				.removeClass('sorted-asc')
-				.removeClass('sorted-desc')
-				.addClass('sortable');
+		var $link = $(this),
+			$th = $link.parent('th'),
+			orderby = $.query.load( $link.attr('href') ).get('orderby'),
+			order;
 
-			$th.removeClass('sortable').addClass('sorted-asc');
+		if ( orderby == $.query.get('orderby') ) {
+			// changing the direction
+			order = ( 'asc' == $.query.get('order') ) ? 'desc' : 'asc';
+		} else {
+			// changing the parameter
+			order = get_initial_order($th);
+
+			var $old_th = $('th.sorted');
+			if ( $old_th.length ) {
+				$old_th.removeClass('sorted').addClass('sortable');
+				$old_th.removeClass('desc').removeClass('asc').addClass(
+					'asc' == get_initial_order( $old_th ) ? 'desc' : 'asc'
+				);
+			}
+
+			$th.removeClass('sortable').addClass('sorted');
 		}
-		else if ( $th.hasClass('sorted-asc') ) {
-			order = 'desc';
-			$th.removeClass('sorted-asc').addClass('sorted-desc');
-		}
-		else if ( $th.hasClass('sorted-desc') ) {
-			order = 'asc';
-			$th.removeClass('sorted-desc').addClass('sorted-asc');
-		}
+
+		$th.removeClass('desc').removeClass('asc').addClass(order);
 
 		listTable.update_rows({'orderby': orderby, 'order': order}, true);
 

@@ -1365,19 +1365,23 @@ table.fixed {
 	height: 4px;
 	margin-top: 5px;
 }
-th.sortable a, th.sorted-asc a, th.sorted-desc a {
+th.sortable a,
+th.sorted a {
 	display: block;
 	overflow: hidden;
 }
-th.sortable a span, th.sorted-asc a span, th.sorted-desc a span {
+th.sortable a span,
+th.sorted a span {
 	float: left;
 	cursor: pointer;
 }
-th.sorted-asc .sorting-indicator, th.sorted-desc:hover .sorting-indicator, th.sortable:hover .sorting-indicator {
+th.sorted.asc .sorting-indicator,
+th.desc:hover span.sorting-indicator {
 	display: block;
 	background: url(../images/sort_asc.gif) no-repeat scroll 0 0;
 }
-th.sorted-desc .sorting-indicator, th.sorted-asc:hover .sorting-indicator {
+th.sorted.desc .sorting-indicator,
+th.asc:hover span.sorting-indicator {
 	display: block;
 	background: url(../images/sort_desc.gif) no-repeat scroll 0 0;
 }

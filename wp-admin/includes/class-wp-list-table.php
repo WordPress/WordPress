@@ -515,7 +515,12 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Get a list of sortable columns. The format is internal_name => orderby
+	 * Get a list of sortable columns. The format is: 
+	 * 'internal-name' => 'orderby'
+	 * or
+	 * 'internal-name' => array( 'orderby', true )
+	 *
+	 * The second format will make the first sorting order be descending 
 	 *
 	 * @since 3.1.0
 	 * @access protected
@@ -535,15 +540,29 @@ class WP_List_Table {
 	 * @return array
 	 */
 	function get_column_info() {
-		if ( !isset( $this->_column_headers ) ) {
-			$screen = get_current_screen();
+		if ( isset( $this->_column_headers ) )
+			return $this->_column_headers;
 
-			$columns = get_column_headers( $screen );
-			$hidden = get_hidden_columns( $screen );
-			$sortable = apply_filters( "manage_{$screen->id}_sortable_columns", $this->get_sortable_columns() );
+		$screen = get_current_screen();
 
-			$this->_column_headers = array( $columns, $hidden, $sortable );
+		$columns = get_column_headers( $screen );
+		$hidden = get_hidden_columns( $screen );
+
+		$_sortable = apply_filters( "manage_{$screen->id}_sortable_columns", $this->get_sortable_columns() );
+
+		$sortable = array();
+		foreach ( $_sortable as $id => $data ) {
+			if ( empty( $data ) )
+				continue;
+
+			$data = (array) $data;
+			if ( !isset( $data[1] ) )
+				$data[1] = false;
+			
+			$sortable[$id] = $data;
 		}
+
+		$this->_column_headers = array( $columns, $hidden, $sortable );
 
 		return $this->_column_headers;
 	}
@@ -602,14 +621,18 @@ class WP_List_Table {
 				$class[] = 'num';
 
 			if ( isset( $sortable[$column_key] ) ) {
-				$orderby = $sortable[$column_key];
+				list( $orderby, $desc_first ) = $sortable[$column_key];
+
 				if ( $current_orderby == $orderby ) {
 					$order = 'asc' == $current_order ? 'desc' : 'asc';
-					$class[] = "sorted-$current_order";
+					$class[] = 'sorted';
+					$class[] = $current_order;
 				} else {
-					$order = 'asc';
+					$order = $desc_first ? 'desc' : 'asc';
 					$class[] = 'sortable';
+					$class[] = $desc_first ? 'asc' : 'desc';
 				}
+
 				$column_display_name = '<a href="' . esc_url( add_query_arg( compact( 'orderby', 'order' ), $current_url ) ) . '"><span>' . $column_display_name . '</span><span class="sorting-indicator"></span></a>';
 			}
 
