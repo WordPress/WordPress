@@ -503,7 +503,8 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Get a list of columns. The format is internal_name => title
+	 * Get a list of columns. The format is:
+	 * 'internal-name' => 'Title'
 	 *
 	 * @since 3.1.0
 	 * @access protected
@@ -520,7 +521,7 @@ class WP_List_Table {
 	 * or
 	 * 'internal-name' => array( 'orderby', true )
 	 *
-	 * The second format will make the first sorting order be descending 
+	 * The second format will make the initial sorting order be descending 
 	 *
 	 * @since 3.1.0
 	 * @access protected
