@@ -291,32 +291,6 @@ function wp_admin_bar_header() {
 	<?php
 }
 
-// @TODO do we still need this in core?
-function wp_admin_body_style() {
-	?>
-	<style type="text/css">
-		<?php
-
-		if (
-			( empty( $_GET['nobump'] ) || is_admin() ) &&
-			! strpos( $_SERVER['REQUEST_URI'], 'media-upload.php' )
-		) :
-			?>
-			body { padding-top: 28px !important; }
-			<?php
-		endif;
-
-		if ( in_array( get_current_theme(), array('H3', 'H4', 'The Journalist v1.9') ) ) :
-			?>
-			body { padding-top: 28px; background-position: 0px 28px; }
-			<?php
-		endif;
-
-		?>
-	</style>
-	<?php
-}
-
 /**
  * Determine whether the admin bar should be showing.
  *

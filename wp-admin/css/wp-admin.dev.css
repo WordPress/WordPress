@@ -1140,6 +1140,10 @@ body.wp-admin {
 	min-width: 785px;
 }
 
+body.admin-bar {
+	padding-top: 28px;
+}
+
 .narrow {
 	width: 70%;
 	margin-bottom: 40px;

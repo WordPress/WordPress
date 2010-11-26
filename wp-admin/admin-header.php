@@ -91,6 +91,9 @@ do_action('admin_head');
 
 if ( get_user_setting('mfold') == 'f' )
 	$admin_body_class .= ' folded';
+	
+if ( is_admin_bar_showing() )
+	$admin_body_class .= ' admin-bar'; 
 
 if ( $is_iphone ) { ?>
 <style type="text/css">.row-actions{visibility:visible;}</style>
