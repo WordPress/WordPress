@@ -202,7 +202,7 @@ function wp_admin_bar_new_content_menu() {
 	if ( empty( $actions ) )
 		return;
 
-	$wp_admin_bar->add_menu( array( 'id' => 'new-content', 'title' => __( 'Add New' ), 'href' => '', ) );
+	$wp_admin_bar->add_menu( array( 'id' => 'new-content', 'title' => _x( 'Add New', 'admin bar menu group label' ), 'href' => '', ) );
 
 	foreach ( $actions as $link => $action ) {
 		$wp_admin_bar->add_menu( array( 'parent' => 'new-content', 'id' => $action[2], 'title' => $action[0], 'href' => admin_url($link) ) );
