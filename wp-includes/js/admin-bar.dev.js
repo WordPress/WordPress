@@ -44,8 +44,9 @@
 				if ( ancestors[ ancestorLength ] == q[i][1] ) 
 					inA = true;	
 			}
-
-			if ( ! inA )
+			
+			/* keep delayed hover on mu (superadmin) menu because it's so easy to mouse away from */
+			if ( ! inA && -1 == q[i][1].className.indexOf('ab-superadmin') )
 				q[i][1].className = q[i][1].className ? q[i][1].className.replace(hc, '') : '';
 		}
 	},
