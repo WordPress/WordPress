@@ -334,7 +334,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 
 					echo "</div></td>";
 					break;
-					break;
+
 				default:
 					echo "<td class='$column_name column-$column_name'$style>";
 					do_action( 'manage_themes_custom_column', $column_name, $theme_key, $theme );
