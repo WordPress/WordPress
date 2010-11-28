@@ -719,7 +719,7 @@ class WP_List_Table {
 		if ( 'top' == $which )
 			wp_nonce_field( 'bulk-' . $this->_args['plural'] );
 ?>
-	<div class="tablenav">
+	<div class="tablenav <?php echo esc_attr( $which ); ?>">
 
 		<div class="alignleft actions">
 			<?php $this->bulk_actions( $which ); ?>
