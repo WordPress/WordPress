@@ -574,7 +574,7 @@ function comments_number( $zero = false, $one = false, $more = false, $deprecate
 	if ( !empty( $deprecated ) )
 		_deprecated_argument( __FUNCTION__, '1.3' );
 
-	$number = get_comments_number(get_the_ID());
+	$number = get_comments_number();
 
 	if ( $number > 1 )
 		$output = str_replace('%', number_format_i18n($number), ( false === $more ) ? __('% Comments') : $more);
