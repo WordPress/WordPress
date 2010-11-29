@@ -53,7 +53,10 @@
 	 *
 	 * Without further ado, the loop:
 	 */ ?>
-<?php while ( have_posts() ) : the_post(); ?>
+<?php while ( have_posts() ) : the_post();
+
+$comment_number_template = _n( '% Comment', '% Comments', get_comments_number(), 'twentyten' );
+?>
 
 <?php /* How to display posts in the Gallery category. */ ?>
 
@@ -93,7 +96,7 @@
 				<a href="<?php echo get_term_link( _x( 'gallery', 'gallery category slug', 'twentyten' ), 'category' ); ?>" title="<?php esc_attr_e( 'View posts in the Gallery category', 'twentyten' ); ?>"><?php _e( 'More Galleries', 'twentyten' ); ?></a>
 				<span class="meta-sep">|</span>
 			<?php endif; ?>
-				<span class="comments-link"><?php comments_popup_link( __( 'Leave a comment', 'twentyten' ), __( '1 Comment', 'twentyten' ), __( '% Comments', 'twentyten' ) ); ?></span>
+				<span class="comments-link"><?php comments_popup_link( __( 'Leave a comment', 'twentyten' ), $comment_number_template, $comment_number_template ); ?></span>
 				<?php edit_post_link( __( 'Edit', 'twentyten' ), '<span class="meta-sep">|</span> <span class="edit-link">', '</span>' ); ?>
 			</div><!-- .entry-utility -->
 		</div><!-- #post-## -->
@@ -116,7 +119,7 @@
 			<div class="entry-utility">
 				<?php twentyten_posted_on(); ?>
 				<span class="meta-sep">|</span>
-				<span class="comments-link"><?php comments_popup_link( __( 'Leave a comment', 'twentyten' ), __( '1 Comment', 'twentyten' ), __( '% Comments', 'twentyten' ) ); ?></span>
+				<span class="comments-link"><?php comments_popup_link( __( 'Leave a comment', 'twentyten' ), $comment_number_template, $comment_number_template ); ?></span>
 				<?php edit_post_link( __( 'Edit', 'twentyten' ), '<span class="meta-sep">|</span> <span class="edit-link">', '</span>' ); ?>
 			</div><!-- .entry-utility -->
 		</div><!-- #post-## -->
@@ -158,7 +161,7 @@
 					</span>
 					<span class="meta-sep">|</span>
 				<?php endif; ?>
-				<span class="comments-link"><?php comments_popup_link( __( 'Leave a comment', 'twentyten' ), __( '1 Comment', 'twentyten' ), __( '% Comments', 'twentyten' ) ); ?></span>
+				<span class="comments-link"><?php comments_popup_link( __( 'Leave a comment', 'twentyten' ), $comment_number_template, $comment_number_template ); ?></span>
 				<?php edit_post_link( __( 'Edit', 'twentyten' ), '<span class="meta-sep">|</span> <span class="edit-link">', '</span>' ); ?>
 			</div><!-- .entry-utility -->
 		</div><!-- #post-## -->
