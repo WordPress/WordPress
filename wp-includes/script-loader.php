@@ -331,7 +331,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->localize( 'post', 'postL10n', array(
 			'tagsUsed' =>  __('Tags used on this post:'),
 			'add' => esc_attr(__('Add')),
-			'addTag' => esc_attr(__('Add new tag')),
+			'addTag' => esc_attr(__('Add new Tag')),
 			'separate' => __('Separate tags with commas'),
 			'ok' => __('OK'),
 			'cancel' => __('Cancel'),
