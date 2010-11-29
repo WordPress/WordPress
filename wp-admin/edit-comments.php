@@ -126,7 +126,17 @@ require_once('./admin-header.php');
 
 <div class="wrap">
 <?php screen_icon(); ?>
-<h2><?php echo esc_html( $title );
+<h2><?php 
+if ( $post_id )
+	echo sprintf(__('Comments on &#8220;%s&#8221;'), 
+		sprintf('<a href="%s">%s</a>', 
+			get_edit_post_link($post_id), 
+			wp_html_excerpt(_draft_or_post_title($post_id), 50)
+		)
+	);
+else
+	echo __('Comments');
+
 if ( isset($_REQUEST['s']) && $_REQUEST['s'] )
 	printf( '<span class="subtitle">' . sprintf( __( 'Search results for &#8220;%s&#8221;' ), wp_html_excerpt( esc_html( stripslashes( $_REQUEST['s'] ) ), 50 ) ) . '</span>' ); ?>
 </h2>
