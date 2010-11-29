@@ -199,14 +199,6 @@ function spawn_cron( $local_time = 0 ) {
 		return;
 
 	/*
-	 * do not even start the cron if local server timer has drifted
-	 * such as due to power failure, or misconfiguration
-	 */
-	$timer_accurate = check_server_timer( $local_time );
-	if ( !$timer_accurate )
-		return;
-
-	/*
 	* multiple processes on multiple web servers can run this code concurrently
 	* try to make this as atomic as possible by setting doing_cron switch
 	*/
@@ -410,9 +402,4 @@ function _upgrade_cron_array($cron) {
 	$new_cron['version'] = 2;
 	update_option( 'cron', $new_cron );
 	return $new_cron;
-}
-
-// stub for checking server timer accuracy, using outside standard time sources
-function check_server_timer( $local_time ) {
-	return true;
 }
