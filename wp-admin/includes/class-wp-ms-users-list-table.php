@@ -217,20 +217,36 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 						echo "<td $attributes>";
 							if ( is_array( $blogs ) ) {
 								foreach ( (array) $blogs as $key => $val ) {
-									$path	= ( $val->path == '/' ) ? '' : $val->path;
+									if ( $current_site->id != $val->site_id ) continue;
+									
+										$path	= ( $val->path == '/' ) ? '' : $val->path;
 									echo '<a href="'. esc_url( network_admin_url( 'site-info.php?id=' . $val->userblog_id ) ) .'">' . str_replace( '.' . $current_site->domain, '', $val->domain . $path ) . '</a>';
 									echo ' <small class="row-actions">';
-
-									// Edit
-									echo '<a href="'. esc_url( network_admin_url( 'site-info.php?id=' . $val->userblog_id ) ) .'">' . __( 'Edit' ) . '</a> | ';
-
-									// View
-									echo '<a ';
+									$actions = array();
+									$actions['edit'] = '<a href="'. esc_url( network_admin_url( 'site-info.php?id=' . $val->userblog_id ) ) .'">' . __( 'Edit' ) . '</a>';
+									
+									$class = '';
 									if ( get_blog_status( $val->userblog_id, 'spam' ) == 1 )
-										echo 'style="background-color: #faa" ';
-									echo 'href="' .  esc_url( get_home_url( $val->userblog_id ) )  . '">' . __( 'View' ) . '</a>';
-
-									echo '</small><br />';
+										$class .= 'site-spammed ';
+									if ( get_blog_status( $val->userblog_id, 'mature' ) == 1 )
+										$class .= 'site-mature ';
+									if ( get_blog_status( $val->userblog_id, 'deleted' ) == 1 )
+										$class .= 'site-deleted ';
+									if ( get_blog_status( $val->userblog_id, 'archived' ) == 1 )
+										$class .= 'site-archived ';
+									
+									$actions['view'] = '<a class="' . $class . '" href="' .  esc_url( get_home_url( $val->userblog_id ) )  . '">' . __( 'View' ) . '</a>';
+									
+									$actions = apply_filters('ms_user_list_site_actions', $actions, $val->userblog_id);
+									
+									$i=0;
+									$action_count = count( $actions );
+									foreach ( $actions as $action => $link ) {
+										++$i;
+										( $i == $action_count ) ? $sep = '' : $sep = ' | ';
+										echo "<span class='$action'>$link$sep</span>";
+									}
+									echo '</small><br/>';
 								}
 							}
 							?>

@@ -500,7 +500,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'colors-fresh', "/wp-admin/css/colors-fresh$suffix.css", array(), $colors_version );
 	$styles->add( 'colors-classic', "/wp-admin/css/colors-classic$suffix.css", array(), $colors_version );
 
-	$styles->add( 'ms', "/wp-admin/css/ms$suffix.css", array(), '20100528' );
+	$styles->add( 'ms', "/wp-admin/css/ms$suffix.css", array(), '20101129' );
 	$styles->add( 'global', "/wp-admin/css/global$suffix.css", array(), '20101105' );
 	$styles->add( 'media', "/wp-admin/css/media$suffix.css", array(), '20101020' );
 	$styles->add( 'widgets', "/wp-admin/css/widgets$suffix.css", array(), '20100610' );
