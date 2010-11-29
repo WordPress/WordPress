@@ -15,11 +15,11 @@ $menu[4] = array( '', 'read', 'separator1', '', 'wp-menu-separator' );
 /* translators: Sites menu item */
 $menu[5] = array(__('Sites'), 'manage_sites', 'sites.php', '', 'menu-top menu-icon-site', 'menu-site', 'div');
 $submenu['sites.php'][5]  = array( __('Sites'), 'manage_sites', 'sites.php' );
-$submenu['sites.php'][10]  = array( __('Add New'), 'create_sites', 'site-new.php' );
+$submenu['sites.php'][10]  = array( _x('Add New', 'site'), 'create_sites', 'site-new.php' );
 
 $menu[10] = array(__('Users'), 'manage_network_users', 'users.php', '', 'menu-top menu-icon-users', 'menu-users', 'div');
 $submenu['users.php'][5]  = array( __('Users'), 'manage_network_users', 'users.php' );
-$submenu['users.php'][10]  = array( __('Add New'), 'create_users', 'user-new.php' );
+$submenu['users.php'][10]  = array( _x('Add New', 'user'), 'create_users', 'user-new.php' );
 
 $menu[15] = array(__('Themes'), 'manage_network_themes', 'themes.php', '', 'menu-top menu-icon-appearance', 'menu-appearance', 'div');
 $submenu['themes.php'][5]  = array( __('Themes'), 'manage_network_themes', 'themes.php' );
