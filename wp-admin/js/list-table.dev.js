@@ -15,7 +15,7 @@ window.listTable = {
 
 		this.$tbody = $('#the-list, #the-comment-list');
 
-		this.$overlay = $('<div id="loading-items>')
+		this.$overlay = $('<div id="loading-items">')
 			.html(listTableL10n.loading)
 			.hide()
 			.prependTo($('body'));
@@ -109,8 +109,8 @@ window.listTable = {
 
 			$('th.column-cb :input').attr('checked', false);
 
-			if ( window.history.replaceState ) {
-				window.history.replaceState({}, '', window.location.pathname + $.query);
+			if ( history.replaceState ) {
+				history.replaceState({}, '', location.pathname + $.query);
 			}
 
 			if ( this._callback )
@@ -154,7 +154,7 @@ listTable.init();
 
 		listTable.update_rows({'paged': paged}, false, function() {
 			if ( $el.parents('.tablenav.bottom').length )
-				window.scrollTo(0, 0);
+				scrollTo(0, 0);
 		});
 	}
 
