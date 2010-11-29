@@ -43,6 +43,7 @@ if ( $action ) {
 	switch ( $action ) {
 		case 'enable':
 			$theme = $_GET['theme'];
+			$update = 'enabled';
 			if ( !$allowed_themes )
 				$allowed_themes = array( $theme => true );
 			else
@@ -50,37 +51,38 @@ if ( $action ) {
 			break;
 		case 'disable':
 			$theme = $_GET['theme'];
+			$update = 'disabled';
 			if ( !$allowed_themes )
 				$allowed_themes = array();
 			else
 				unset( $allowed_themes[$theme] );
 			break;
 		case 'enable-selected':
-			$themes = isset( $_POST['checked'] ) ? (array) $_POST['checked'] : array();
-			if ( empty($themes) ) {
-				restore_current_blog();
-				wp_redirect( wp_get_referer() );
-				exit;
-			}						
-			foreach( (array) $themes as $theme )
-				$allowed_themes[ $theme ] = true;
+			if ( isset( $_POST['checked'] ) ) {
+				$update = 'enable';
+				$themes = (array) $_POST['checked'];
+				foreach( (array) $themes as $theme )
+					$allowed_themes[ $theme ] = true;
+			} else {
+				$update = 'error';
+			}
 			break;
 		case 'disable-selected':
-			$themes = isset( $_POST['checked'] ) ? (array) $_POST['checked'] : array();
-			if ( empty($themes) ) {
-				restore_current_blog();
-				wp_redirect( wp_get_referer() );
-				exit;
-			}						
-			foreach( (array) $themes as $theme )
-				unset( $allowed_themes[ $theme ] );
+			if ( isset( $_POST['checked'] ) ) {
+				$update = 'disable';
+				$themes = (array) $_POST['checked'];
+				foreach( (array) $themes as $theme )
+					unset( $allowed_themes[ $theme ] );
+			} else {
+				$update = 'error';
+			}
 			break;
 	}
 	
 	update_option( 'allowedthemes', $allowed_themes );
 	restore_current_blog();
 	
-	wp_redirect( wp_get_referer() ); // @todo add_query_arg for update message
+	wp_redirect( add_query_arg( 'update', $update, wp_get_referer() ) );
 	exit;	
 }
 
@@ -110,7 +112,22 @@ foreach ( $tabs as $tab_id => $tab ) {
 	echo '<a href="' . $tab['url'] . '?id=' . $id .'" class="nav-tab' . $class . '">' .  esc_html( $tab['label'] ) . '</a>';
 }
 ?>
-</h3>
+</h3><?php
+
+if ( isset( $_GET['update'] ) ) {
+	switch ( $_GET['update'] ) {
+	case 'enabled':
+		echo '<div id="message" class="updated"><p>' . __( 'Theme enabled.' ) . '</p></div>';
+		break;
+	case 'disabled':
+		echo '<div id="message" class="updated"><p>' . __( 'Theme disabled.' ) . '</p></div>';
+		break;
+	case 'error':
+		echo '<div id="message" class="error"><p>' . __( 'No theme selected.' ) . '</p></div>';
+		break;
+	}
+} ?>
+
 <p><?php _e( 'Network enabled themes are not shown on this screen.' ) ?></p>
 
 <form method="get" action="">
