@@ -204,7 +204,7 @@ function use_codepress() {
  * @return array List of user IDs.
  */
 function get_author_user_ids() {
-	_deprecated_function( __FUNCTION__, '3.1' );
+	_deprecated_function( __FUNCTION__, '3.1', 'get_users()' );
 
 	global $wpdb;
 	if ( !is_multisite() )
@@ -222,7 +222,7 @@ function get_author_user_ids() {
  * @return array|bool List of editable authors. False if no editable users.
  */
 function get_editable_authors( $user_id ) {
-	_deprecated_function( __FUNCTION__, '3.1' );
+	_deprecated_function( __FUNCTION__, '3.1', 'get_users()' );
 
 	global $wpdb;
 
@@ -246,7 +246,7 @@ function get_editable_authors( $user_id ) {
  * @return unknown
  */
 function get_editable_user_ids( $user_id, $exclude_zeros = true, $post_type = 'post' ) {
-	_deprecated_function( __FUNCTION__, '3.1' );
+	_deprecated_function( __FUNCTION__, '3.1', 'get_users()' );
 
 	global $wpdb;
 
@@ -276,7 +276,7 @@ function get_editable_user_ids( $user_id, $exclude_zeros = true, $post_type = 'p
  * @deprecated 3.1.0
  */
 function get_nonauthor_user_ids() {
-	_deprecated_function( __FUNCTION__, '3.1' );
+	_deprecated_function( __FUNCTION__, '3.1', 'get_users()' );
 
 	global $wpdb;
 
