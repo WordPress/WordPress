@@ -109,6 +109,10 @@ window.listTable = {
 
 			$('th.column-cb :input').attr('checked', false);
 
+			if ( window.history.replaceState ) {
+				window.history.replaceState({}, '', window.location.pathname + $.query);
+			}
+
 			if ( this._callback )
 				this._callback();
 		}
