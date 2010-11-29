@@ -21,11 +21,11 @@ class WP_Comments_List_Table extends WP_List_Table {
 	var $pending_count = array();
 
 	function WP_Comments_List_Table() {
-		global $mode;
+		global $post_id;
 
-		$mode = ( empty( $_REQUEST['mode'] ) ) ? 'detail' : $_REQUEST['mode'];
+		$post_id = isset( $_REQUEST['p'] ) ? absint( $_REQUEST['p'] ) : 0;
 
-		if ( get_option('show_avatars') && 'single' != $mode )
+		if ( get_option('show_avatars') )
 			add_filter( 'comment_author', 'floated_admin_avatar' );
 
 		parent::WP_List_Table( array(
@@ -40,15 +40,6 @@ class WP_Comments_List_Table extends WP_List_Table {
 
 	function prepare_items() {
 		global $post_id, $comment_status, $search;
-
-		if ( isset( $_REQUEST['p'] ) )
-			$post_id = absint( $_REQUEST['p'] );
-		elseif ( isset( $_REQUEST['post'] ) )
-			$post_id = absint( $_REQUEST['post'] );
-		elseif ( isset( $_REQUEST['post_ID'] ) )
-			$post_id = absint( $_REQUEST['post_ID'] );
-		else
-			$post_id = 0;
 
 		$comment_status = isset( $_REQUEST['comment_status'] ) ? $_REQUEST['comment_status'] : 'all';
 		if ( !in_array( $comment_status, array( 'all', 'moderated', 'approved', 'spam', 'trash' ) ) )
@@ -232,7 +223,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 	}
 
 	function get_columns() {
-		global $mode;
+		global $post_id;
 
 		$columns = array();
 
@@ -242,7 +233,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 		$columns['author'] = __( 'Author' );
 		$columns['comment'] = _x( 'Comment', 'column name' );
 
-		if ( 'single' !== $mode )
+		if ( !$post_id )
 			$columns['response'] = _x( 'In Response To', 'column name' );
 
 		return $columns;

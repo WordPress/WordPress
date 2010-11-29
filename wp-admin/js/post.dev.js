@@ -171,7 +171,7 @@ commentsBox = {
 			'action' : 'get-comments',
 			'mode' : 'single',
 			'_ajax_nonce' : $('#add_comment_nonce').val(),
-			'post_ID' : $('#post_ID').val(),
+			'p' : $('#post_ID').val(),
 			'start' : st,
 			'num' : num
 		};

@@ -206,7 +206,6 @@ if ( isset($_REQUEST['approved']) || isset($_REQUEST['deleted']) || isset($_REQU
 	<input type="text" id="comment-search-input" name="s" value="<?php _admin_search_query(); ?>" />
 	<?php submit_button( __( 'Search Comments' ), 'button', 'submit', false ); ?>
 </p>
-<input type="hidden" name="mode" value="<?php echo esc_attr($mode); ?>" />
 <?php if ( $post_id ) : ?>
 <input type="hidden" name="p" value="<?php echo esc_attr( intval( $post_id ) ); ?>" />
 <?php endif; ?>

@@ -583,13 +583,12 @@ case 'get-tagcloud' :
 case 'get-comments' :
 	check_ajax_referer( $action );
 
-	$post_ID = (int) $_POST['post_ID'];
-	if ( !current_user_can( 'edit_post', $post_ID ) )
-		die('-1');
-
 	set_current_screen( 'edit-comments' );
 
 	$wp_list_table = get_list_table('WP_Post_Comments_List_Table');
+
+	if ( !current_user_can( 'edit_post', $post_id ) )
+		die('-1');
 
 	$wp_list_table->prepare_items();
 

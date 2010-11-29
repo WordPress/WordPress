@@ -395,6 +395,7 @@ commentReply = {
 		post.content = $('#replycontent').val();
 		post.id = post.comment_post_ID;
 		post.comments_listing = this.comments_listing;
+		post.p = $('[name=p]').val();
 
 		$.ajax({
 			type : 'POST',
