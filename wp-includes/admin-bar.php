@@ -285,12 +285,23 @@ function wp_admin_bar_updates_menu() {
  * Style and scripts for the admin bar.
  *
  * @since 3.1.0
- * @todo move js into a admin-bar js file
  *
  */
 function wp_admin_bar_header() {
 	?>
-	<style type="text/css" media="print">#wpadminbar { display:none; }</style>
+<style type="text/css" media="print">#wpadminbar { display:none; }</style>
+	<?php
+}
+
+/**
+ * Default admin bar callback.
+ *
+ * @since 3.1.0
+ *
+ */
+function _admin_bar_bump_cb() {
+	?>
+<style type="text/css">body { padding-top: 28px !important; }</style>
 	<?php
 }
 

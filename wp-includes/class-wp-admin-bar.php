@@ -36,6 +36,16 @@ class WP_Admin_Bar {
 
 		add_action( 'admin_head', 'wp_admin_bar_header' );
 
+		if ( current_theme_supports( 'admin-bar' ) ) {
+			$admin_bar_args = get_theme_support( 'admin-bar' ); // add_theme_support( 'admin-bar', array( 'callback' => '__return_false') );
+			$header_callback = $admin_bar_args[0]['callback'];
+		}
+
+		if ( empty($header_callback) )
+			$header_callback = '_admin_bar_bump_cb';
+
+		add_action('wp_head', $header_callback);
+
 		wp_enqueue_script( 'admin-bar' );
 		wp_enqueue_style( 'admin-bar' );
 
