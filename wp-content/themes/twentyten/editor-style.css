@@ -1,13 +1,15 @@
 /*
 Theme Name: Twenty Ten
-Description: Used to style the TinyMCE editor.
+*/
+/*
+Used to style the TinyMCE editor.
 */
 html .mceContentBody {
-	max-width: 640px;
+	max-width:640px;
 }
 * {
-	color: #444;
 	font-family: Georgia, "Bitstream Charter", serif;
+	color: #444;
 	line-height: 1.5;
 }
 p,
@@ -38,10 +40,10 @@ body, input, textarea {
 }
 hr {
 	background-color: #e7e7e7;
-	border: 0;
-	clear: both;
+	border:0;
 	height: 1px;
 	margin-bottom: 18px;
+	clear:both;
 }
 /* Text elements */
 p {
@@ -56,22 +58,22 @@ ol {
 	margin: 0 0 18px 1.5em;
 }
 ol ol {
-	list-style: upper-alpha;
+	list-style:upper-alpha;
 }
 ol ol ol {
-	list-style: lower-roman;
+	list-style:lower-roman;
 }
 ol ol ol ol {
-	list-style: lower-alpha;
+	list-style:lower-alpha;
 }
 ul ul,
 ol ol,
 ul ol,
 ol ul {
-	margin-bottom: 0;
+	margin-bottom:0;
 }
 dl {
-	margin: 0 0 24px 0;
+	margin:0 0 24px 0;
 }
 dt {
 	font-weight: bold;
@@ -80,20 +82,20 @@ dd {
 	margin-bottom: 18px;
 }
 strong {
-	color: #000;
 	font-weight: bold;
+	color: #000;
 }
 cite,
 em,
 i {
-	border: none;
 	font-style: italic;
+	border: none;
 }
 big {
 	font-size: 131.25%;
 }
 ins {
-	background: #ffc;
+	background: #ffffcc;
 	border: none;
 	color: #333;
 }
@@ -127,11 +129,11 @@ ins {
 }
 sup,
 sub {
-	font-size: 10px;
 	height: 0;
 	line-height: 1;
-	position: relative;
 	vertical-align: baseline;
+	position: relative;
+	font-size: 10px;
 }
 sup {
 	bottom: 1ex;
@@ -140,10 +142,10 @@ sub {
 	top: .5ex;
 }
 a:link {
-	color: #06c;
+	color:#0066cc;
 }
 a:visited {
-	color: #743399;
+	color:#743399;
 }
 a:active,
 a:hover {
@@ -155,13 +157,13 @@ ol,
 dd,
 pre,
 hr {
-	margin-bottom: 24px;
+	margin-bottom:24px;
 }
 ul ul,
 ol ol,
 ul ol,
 ol ul {
-	margin-bottom: 0;
+	margin-bottom:0;
 }
 pre,
 kbd,
@@ -186,9 +188,9 @@ h4,
 h5,
 h6 {
 	color: #000;
-	font-weight: normal;
-	line-height: 1.5em;
 	margin: 0 0 20px 0;
+	line-height: 1.5em;
+	font-weight: normal;
 }
 h1 {
 	font-size: 2.4em;
@@ -210,11 +212,11 @@ h6 {
 }
 table {
 	border: 1px solid #e7e7e7 !important;
+	text-align: left;
+	margin: 0 -1px 24px 0;
+	width: 100%;
 	border-collapse: collapse;
 	border-spacing: 0;
-	margin: 0 -1px 24px 0;
-	text-align: left;
-	width: 100%;
 }
 tr th,
 thead th {
@@ -230,15 +232,11 @@ tr td {
 	border-top: 1px solid #e7e7e7 !important;
 	padding: 6px 24px;
 }
+
+
 img {
 	margin: 0;
-}
-img.size-auto,
-img.size-large,
-img.size-full,
-img.size-medium {
-	max-width: 100%;
-	height: auto;
+	max-width: 640px;
 }
 .alignleft,
 img.alignleft {
@@ -267,19 +265,18 @@ img.aligncenter {
 	margin-bottom: 12px;
 }
 .wp-caption {
-	background: #f1f1f1;
 	border: none;
-	-khtml-border-radius: 0;
-	-moz-border-radius: 0;
-	-webkit-border-radius: 0;
-	border-radius: 0;
+	background: #f1f1f1;
 	color: #888;
 	font-size: 12px;
 	line-height: 18px;
-	margin-bottom: 20px;
-	max-width: 632px !important; /* prevent too-wide images from breaking layout */
-	padding: 4px;
 	text-align: center;
+	margin-bottom: 20px;
+	padding: 4px;
+	-moz-border-radius: 0;
+	-khtml-border-radius: 0;
+	-webkit-border-radius: 0;
+	border-radius: 0;
 }
 .wp-caption img {
 	margin: 5px;
@@ -288,5 +285,5 @@ img.aligncenter {
 	margin: 0 0 4px;
 }
 .wp-smiley {
-	margin: 0;
+	margin:0;
 }

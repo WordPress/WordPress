@@ -3,8 +3,8 @@ Theme Name: Twenty Ten
 Theme URI: http://wordpress.org/
 Description: The 2010 theme for WordPress is stylish, customizable, simple, and readable -- make it yours with a custom menu, header image, and background. Twenty Ten supports six widgetized areas (two in the sidebar, four in the footer) and featured images (thumbnails for gallery posts and custom header images for posts and pages). It includes stylesheets for print and the admin Visual Editor, special styles for posts in the "Asides" and "Gallery" categories, and has an optional one-column page template that removes the sidebar.
 Author: the WordPress team
-Version: 1.2-RC1
-Tags: black, blue, white, two-columns, fixed-width, custom-header, custom-background, threaded-comments, sticky-post, translation-ready, microformats, rtl-language-support, editor-style, custom-menu
+Version: 1.1
+Tags: black, blue, white, two-columns, fixed-width, custom-header, custom-background, threaded-comments, sticky-post, translation-ready, microformats, rtl-language-support, editor-style
 */
 
 
@@ -139,9 +139,7 @@ h3#reply-title,
 .pingback p,
 .reply,
 .widget-title,
-.wp-caption-text {
-	font-family: "Helvetica Neue", Arial, Helvetica, "Nimbus Sans L", sans-serif;
-}
+.wp-caption-text,
 input[type=submit] {
 	font-family: "Helvetica Neue", Arial, Helvetica, "Nimbus Sans L", sans-serif;
 }
@@ -352,7 +350,7 @@ a:hover {
 	clear: right;
 	float: right;
 	font-style: italic;
-	margin: 15px 0 18px 0;
+	margin: 14px 0 18px 0;
 	width: 220px;
 }
 
@@ -360,8 +358,8 @@ a:hover {
 #branding img {
 	border-top: 4px solid #000;
 	border-bottom: 1px solid #000;
+	clear: both;
 	display: block;
-	float: left;
 }
 
 
@@ -761,91 +759,86 @@ body.page .edit-link {
 /* =Images
 -------------------------------------------------------------- */
 
-/*
-Resize images to fit the main content area.
-- Applies only to images uploaded via WordPress by targeting size-* classes.
-- Other images will be left alone. Use "size-auto" class to apply to other images.
-*/
-img.size-auto,
-img.size-full,
-img.size-large,
-img.size-medium,
-.attachment img {
-	max-width: 100%; /* When images are too wide for containing element, force them to fit. */
-	height: auto; /* Override height to match resized width for correct aspect ratio. */
+#content img {
+	margin: 0;
+	height: auto;
+	max-width: 640px;
+	width: auto;
 }
-.alignleft,
-img.alignleft {
+#content .attachment img {
+	max-width: 900px;
+}
+#content .alignleft,
+#content img.alignleft {
 	display: inline;
 	float: left;
 	margin-right: 24px;
 	margin-top: 4px;
 }
-.alignright,
-img.alignright {
+#content .alignright,
+#content img.alignright {
 	display: inline;
 	float: right;
 	margin-left: 24px;
 	margin-top: 4px;
 }
-.aligncenter,
-img.aligncenter {
+#content .aligncenter,
+#content img.aligncenter {
 	clear: both;
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
 }
-img.alignleft,
-img.alignright,
-img.aligncenter {
+#content img.alignleft,
+#content img.alignright,
+#content img.aligncenter {
 	margin-bottom: 12px;
 }
-.wp-caption {
+#content .wp-caption {
 	background: #f1f1f1;
 	line-height: 18px;
 	margin-bottom: 20px;
-	max-width: 632px !important; /* prevent too-wide images from breaking layout */
 	padding: 4px;
 	text-align: center;
 }
-.wp-caption img {
+#content .wp-caption img {
 	margin: 5px 5px 0;
 }
-.wp-caption p.wp-caption-text {
+#content .wp-caption p.wp-caption-text {
 	color: #888;
 	font-size: 12px;
 	margin: 5px;
 }
-.wp-smiley {
+#content .wp-smiley {
 	margin: 0;
 }
-.gallery {
+#content .gallery {
 	margin: 0 auto 18px;
 }
-.gallery .gallery-item {
+#content .gallery .gallery-item {
 	float: left;
 	margin-top: 0;
 	text-align: center;
 	width: 33%;
 }
-.gallery img {
+#content .gallery img {
 	border: 2px solid #cfcfcf;
 }
-.gallery .gallery-caption {
+#content .gallery .gallery-caption {
 	color: #888;
 	font-size: 12px;
 	margin: 0 0 12px;
 }
-.gallery dl {
+#content .gallery dl {
 	margin: 0;
 }
-.gallery img {
+#content .gallery img {
 	border: 10px solid #f1f1f1;
 }
-.gallery br+br {
+#content .gallery br+br {
 	display: none;
 }
-#content .attachment img {/* single attachment images should be centered */
+#content .attachment img { /* single attachment images should be centered */
 	display: block;
 	margin: 0 auto;
 }
@@ -1093,9 +1086,6 @@ h3#reply-title {
 .widget-area ul ul {
 	list-style: square;
 	margin-left: 1.3em;
-}
-.widget-area select {
-	max-width: 100%;
 }
 .widget_search #s {/* This keeps the search inputs in line */
 	width: 60%;
