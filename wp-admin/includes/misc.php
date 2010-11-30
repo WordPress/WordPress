@@ -155,14 +155,12 @@ function iis7_save_url_rewrite_rules(){
 	$web_config_file = $home_path . 'web.config';
 
 	// Using win_is_writable() instead of is_writable() because of a bug in Windows PHP
-	if ( ( ! file_exists($web_config_file) && win_is_writable($home_path) && $wp_rewrite->using_mod_rewrite_permalinks() ) || win_is_writable($web_config_file) ) {
-		if ( iis7_supports_permalinks() ) {
-			$rule = $wp_rewrite->iis7_url_rewrite_rules(false, '', '');
-			if ( ! empty($rule) ) {
-				return iis7_add_rewrite_rule($web_config_file, $rule);
-			} else {
-				return iis7_delete_rewrite_rule($web_config_file);
-			}
+	if ( iis7_supports_permalinks() && ( ! file_exists($web_config_file) && win_is_writable($home_path) && $wp_rewrite->using_mod_rewrite_permalinks() ) || win_is_writable($web_config_file) ) {
+		$rule = $wp_rewrite->iis7_url_rewrite_rules(false, '', '');
+		if ( ! empty($rule) ) {
+			return iis7_add_rewrite_rule($web_config_file, $rule);
+		} else {
+			return iis7_delete_rewrite_rule($web_config_file);
 		}
 	}
 	return false;
