@@ -1723,7 +1723,7 @@ function do_trackbacks($post_id) {
 				trackback($tb_ping, $post_title, $excerpt, $post_id);
 				$pinged[] = $tb_ping;
 			} else {
-				$wpdb->query( $wpdb->prepare("UPDATE $wpdb->posts SET to_ping = TRIM(REPLACE(to_ping, '$tb_ping', '')) WHERE ID = %d", $post_id) );
+				$wpdb->query( $wpdb->prepare("UPDATE $wpdb->posts SET to_ping = TRIM(REPLACE(to_ping, %s, '')) WHERE ID = %d", $tb_ping, $post_id) );
 			}
 		}
 	}
