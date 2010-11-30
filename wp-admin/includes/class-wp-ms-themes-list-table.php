@@ -97,7 +97,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			}
 		}
 
-		if ( !current_user_can( 'update_themes' ) )
+		if ( !current_user_can( 'update_themes' ) || $this->is_site_themes )
 			$themes['upgrade'] = array();
 
 		if ( $s ) {
@@ -235,7 +235,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			$actions['enable-selected'] = __( 'Enable' );
 		if ( 'disabled' != $status )
 			$actions['disable-selected'] = __( 'Disable' );
-		if ( current_user_can( 'update_themes' ) )
+		if ( current_user_can( 'update_themes' ) && !$this->is_site_themes )
 			$actions['update-selected'] = __( 'Update' );
 
 		return $actions;
@@ -344,6 +344,8 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 
 		echo "</tr>";
 
+		if ( $this->is_site_themes )
+			remove_action( "after_theme_row_$theme_key", 'wp_theme_update_row' );
 		do_action( 'after_theme_row', $theme_key, $theme, $status );
 		do_action( "after_theme_row_$theme_key", $theme_key, $theme, $status );
 	}
