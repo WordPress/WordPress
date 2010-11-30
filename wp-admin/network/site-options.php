@@ -45,6 +45,7 @@ if ( isset($_REQUEST['action']) && 'update-site' == $_REQUEST['action'] && is_ar
 		$c++;
 	}
 
+	do_action( 'wpmu_update_blog_options' );
 	restore_current_blog();
 	wp_redirect( add_query_arg( array( 'update' => 'updated', 'id' => $id ), 'site-options.php') );
 }
@@ -122,6 +123,7 @@ if ( ! empty( $messages ) ) {
 			<?php
 			}
 		} // End foreach
+		do_action( 'wpmueditblogaction', $id );
 		?>
 	</table>
 	<?php submit_button(); ?>

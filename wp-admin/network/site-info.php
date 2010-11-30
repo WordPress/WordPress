@@ -56,7 +56,6 @@ if ( isset($_REQUEST['action']) && 'update-site' == $_REQUEST['action'] ) {
 	}
 	update_blog_details( $id, $blog_data );
 
-	do_action( 'wpmu_update_blog_options' );
 	restore_current_blog();
 	wp_redirect( add_query_arg( array( 'update' => 'updated', 'id' => $id ), 'site-info.php') );
 }
