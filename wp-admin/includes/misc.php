@@ -567,7 +567,7 @@ function saveDomDocument($doc, $filename) {
  *
  * @since 2.8.0
  *
- * @param object $path
+ * @param string $path
  * @return bool
  */
 function win_is_writable( $path ) {
@@ -582,12 +582,12 @@ function win_is_writable( $path ) {
 	else if ( is_dir( $path ) )
 		return win_is_writable( $path . '/' . uniqid( mt_rand() ) . '.tmp' );
 	// check tmp file for read/write capabilities
-	$rm = file_exists( $path );
+	$should_delete_tmp_file = !file_exists( $path );
 	$f = @fopen( $path, 'a' );
 	if ( $f === false )
 		return false;
 	fclose( $f );
-	if ( ! $rm )
+	if ( $should_delete_tmp_file )
 		unlink( $path );
 	return true;
 }
