@@ -216,7 +216,7 @@ function get_editable_roles() {
 /**
  * Retrieve user data and filter it.
  *
- * @since unknown
+ * @since 2.0.5
  *
  * @param int $user_id User ID.
  * @return object WP_User object with user data.
@@ -241,7 +241,7 @@ function get_user_to_edit( $user_id ) {
 /**
  * Retrieve the user's drafts.
  *
- * @since unknown
+ * @since 2.0.0
  *
  * @param int $user_id User ID.
  * @return array
@@ -261,7 +261,7 @@ function get_users_drafts( $user_id ) {
  * being deleted will be run after the posts are either reassigned or deleted.
  * The user meta will also be deleted that are for that User ID.
  *
- * @since unknown
+ * @since 2.0.0
  *
  * @param int $id User ID.
  * @param int $reassign Optional. Reassign posts and links to new User ID.
@@ -316,7 +316,7 @@ function wp_delete_user( $id, $reassign = 'novalue' ) {
 /**
  * Remove all capabilities from user.
  *
- * @since unknown
+ * @since 2.1.0
  *
  * @param int $id User ID.
  */
@@ -328,6 +328,9 @@ function wp_revoke_user($id) {
 }
 
 add_action('admin_init', 'default_password_nag_handler');
+/**
+ * @since 2.8.0
+ */
 function default_password_nag_handler($errors = false) {
 	global $user_ID;
 	if ( ! get_user_option('default_password_nag') ) //Short circuit it.
@@ -341,6 +344,9 @@ function default_password_nag_handler($errors = false) {
 }
 
 add_action('profile_update', 'default_password_nag_edit_user', 10, 2);
+/**
+ * @since 2.8.0
+ */
 function default_password_nag_edit_user($user_ID, $old_data) {
 	if ( ! get_user_option('default_password_nag', $user_ID) ) //Short circuit it.
 		return;
@@ -354,6 +360,9 @@ function default_password_nag_edit_user($user_ID, $old_data) {
 }
 
 add_action('admin_notices', 'default_password_nag');
+/**
+ * @since 2.8.0
+ */
 function default_password_nag() {
 	global $pagenow;
 	if ( 'profile.php' == $pagenow || ! get_user_option('default_password_nag') ) //Short circuit it.

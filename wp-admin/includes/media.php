@@ -9,7 +9,7 @@
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @return unknown
  */
@@ -27,7 +27,7 @@ function media_upload_tabs() {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @param unknown_type $tabs
  * @return unknown
@@ -59,7 +59,7 @@ add_filter('media_upload_tabs', 'update_gallery_tab');
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.5.0
  */
 function the_media_upload_tabs() {
 	global $redir_tab;
@@ -89,7 +89,7 @@ function the_media_upload_tabs() {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @param unknown_type $id
  * @param unknown_type $alt
@@ -117,7 +117,7 @@ function get_image_send_to_editor($id, $caption, $title, $align, $url='', $rel =
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.6.0
  *
  * @param unknown_type $html
  * @param unknown_type $id
@@ -159,7 +159,7 @@ add_filter( 'image_send_to_editor', 'image_add_caption', 20, 8 );
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @param unknown_type $html
  */
@@ -180,7 +180,7 @@ win.send_to_editor('<?php echo addslashes($html); ?>');
  *
  * This handles the file upload POST itself, creating the attachment post.
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @param string $file_id Index into the {@link $_FILES} array of the upload
  * @param int $post_id The post ID the media is associated with
@@ -241,7 +241,7 @@ function media_handle_upload($file_id, $post_id, $post_data = array(), $override
 /**
  * This handles a sideloaded file in the same way as an uploaded file is handled by {@link media_handle_upload()}
  *
- * @since 2.6
+ * @since 2.6.0
  *
  * @param array $file_array Array similar to a {@link $_FILES} upload array
  * @param int $post_id The post ID the media is associated with
@@ -295,7 +295,7 @@ function media_handle_sideload($file_array, $post_id, $desc = null, $post_data =
  * Wrap iframe content (produced by $content_func) in a doctype, html head/body
  * etc any additional function args will be passed to content_func.
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @param unknown_type $content_func
  */
@@ -401,7 +401,7 @@ function get_upload_iframe_src($type) {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @return unknown
  */
@@ -488,7 +488,7 @@ function media_upload_form_handler() {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @return unknown
  */
@@ -547,7 +547,7 @@ function media_upload_image() {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.6.0
  *
  * @param unknown_type $file
  * @param unknown_type $post_id
@@ -593,7 +593,7 @@ function media_sideload_image($file, $post_id, $desc = null) {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @return unknown
  */
@@ -651,7 +651,7 @@ function media_upload_audio() {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @return unknown
  */
@@ -709,7 +709,7 @@ function media_upload_video() {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @return unknown
  */
@@ -764,7 +764,7 @@ function media_upload_file() {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @return unknown
  */
@@ -787,7 +787,7 @@ function media_upload_gallery() {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @return unknown
  */
@@ -808,7 +808,7 @@ function media_upload_library() {
 /**
  * Retrieve HTML for the image alignment radio buttons with the specified one checked.
  *
- * @since unknown
+ * @since 2.7.0
  *
  * @param unknown_type $post
  * @param unknown_type $checked
@@ -836,7 +836,7 @@ function image_align_input_fields( $post, $checked = '' ) {
 /**
  * Retrieve HTML for the size radio buttons with the specified one checked.
  *
- * @since unknown
+ * @since 2.7.0
  *
  * @param unknown_type $post
  * @param unknown_type $check
@@ -891,7 +891,7 @@ function image_size_input_fields( $post, $check = '' ) {
 /**
  * Retrieve HTML for the Link URL buttons with the default link type as specified.
  *
- * @since unknown
+ * @since 2.7.0
  *
  * @param unknown_type $post
  * @param unknown_type $url_type
@@ -922,7 +922,7 @@ function image_link_input_fields($post, $url_type = '') {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @param unknown_type $form_fields
  * @param unknown_type $post
@@ -961,7 +961,7 @@ add_filter('attachment_fields_to_edit', 'image_attachment_fields_to_edit', 10, 2
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @param unknown_type $form_fields
  * @param unknown_type $post
@@ -972,6 +972,15 @@ function media_single_attachment_fields_to_edit( $form_fields, $post ) {
 	return $form_fields;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since 2.8.0
+ *
+ * @param unknown_type $form_fields
+ * @param unknown_type $post
+ * @return unknown
+ */
 function media_post_single_attachment_fields_to_edit( $form_fields, $post ) {
 	unset($form_fields['image_url']);
 	return $form_fields;
@@ -980,7 +989,7 @@ function media_post_single_attachment_fields_to_edit( $form_fields, $post ) {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @param unknown_type $post
  * @param unknown_type $attachment
@@ -1002,7 +1011,7 @@ add_filter('attachment_fields_to_save', 'image_attachment_fields_to_save', 10, 2
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @param unknown_type $html
  * @param unknown_type $attachment_id
@@ -1029,7 +1038,7 @@ add_filter('media_send_to_editor', 'image_media_send_to_editor', 10, 3);
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @param unknown_type $post
  * @param unknown_type $errors
@@ -1119,7 +1128,7 @@ function get_attachment_fields_to_edit($post, $errors = null) {
  * component. Will also create link for showing and hiding the form to modify
  * the image attachment.
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @param int $post_id Optional. Post ID.
  * @param array $errors Errors for attachment, if any.
@@ -1153,7 +1162,7 @@ function get_media_items( $post_id, $errors ) {
 /**
  * Retrieve HTML form for modifying the image attachment.
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @param int $attachment_id Attachment ID for modification.
  * @param string|array $args Optional. Override defaults.
@@ -1376,7 +1385,7 @@ function get_media_item( $attachment_id, $args = null ) {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.5.0
  */
 function media_upload_header() {
 	?>
@@ -1390,7 +1399,7 @@ function media_upload_header() {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @param unknown_type $errors
  */
@@ -1545,7 +1554,7 @@ SWFUpload.onload = function() {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @param unknown_type $type
  * @param unknown_type $errors
@@ -1603,7 +1612,7 @@ if ( $id ) {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.7.0
  *
  * @param unknown_type $type
  * @param unknown_type $errors
@@ -1721,7 +1730,7 @@ var addExtImage = {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @param unknown_type $errors
  */
@@ -1863,7 +1872,7 @@ jQuery(function($){
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @param unknown_type $errors
  */
@@ -2025,7 +2034,7 @@ jQuery(function($){
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.7.0
  *
  * @return unknown
  */
@@ -2107,7 +2116,7 @@ function type_url_form_image() {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.7.0
  *
  * @return unknown
  */
@@ -2137,7 +2146,7 @@ function type_url_form_audio() {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.7.0
  *
  * @return unknown
  */
@@ -2167,7 +2176,7 @@ function type_url_form_video() {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.7.0
  *
  * @return unknown
  */
@@ -2224,7 +2233,7 @@ function _insert_into_post_button($type) {
  *
  * Support a GET parameter for disabling the flash uploader.
  *
- * @since unknown
+ * @since 2.6.0
  *
  * @param unknown_type $flash
  * @return unknown
@@ -2240,7 +2249,7 @@ add_filter('flash_uploader', 'media_upload_use_flash');
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.6.0
  */
 function media_upload_flash_bypass() {
 	echo '<p class="upload-flash-bypass">';
@@ -2251,7 +2260,7 @@ function media_upload_flash_bypass() {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.6.0
  */
 function media_upload_html_bypass($flash = true) {
 	echo '<p class="upload-html-bypass hide-if-no-js">';
@@ -2272,7 +2281,7 @@ add_action('post-html-upload-ui', 'media_upload_html_bypass');
  *
  * Make sure the GET parameter sticks when we submit a form.
  *
- * @since unknown
+ * @since 2.6.0
  *
  * @param unknown_type $url
  * @return unknown

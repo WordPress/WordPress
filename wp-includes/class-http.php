@@ -1624,7 +1624,7 @@ class WP_HTTP_Proxy {
 	 * hosts that won't be sent through the proxy.
 	 *
 	 * @uses WP_PROXY_BYPASS_HOSTS
-	 * @since unknown
+	 * @since 2.8.0
 	 *
 	 * @param string $uri URI to check.
 	 * @return bool True, to send through the proxy and false if, the proxy should not be used.

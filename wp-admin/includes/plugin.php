@@ -198,7 +198,7 @@ function get_plugin_files($plugin) {
  * be split for maintainability. Keep everything in one file for extreme
  * optimization purposes.
  *
- * @since unknown
+ * @since 1.5.0
  *
  * @param string $plugin_folder Optional. Relative path to single plugin folder.
  * @return array Key is the plugin file path and the value is an array of the plugin data.
@@ -481,7 +481,7 @@ function is_network_only_plugin( $plugin ) {
  * If any errors are found or text is outputted, then it will be captured to
  * ensure that the success redirection will update the error redirection.
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @param string $plugin Plugin path to main plugin file with plugin data.
  * @param string $redirect Optional. URL to redirect to.
@@ -544,7 +544,7 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false, $silen
  * The deactivation hook is disabled by the plugin upgrader by using the $silent
  * parameter.
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @param string|array $plugins Single plugin or list of plugins to deactivate.
  * @param bool $silent Prevent calling deactivation hooks. Default is false.
@@ -596,7 +596,7 @@ function deactivate_plugins( $plugins, $silent = false ) {
  *
  * The execution will be halted as soon as one of the plugins has an error.
  *
- * @since unknown
+ * @since 2.6.0
  *
  * @param string|array $plugins
  * @param string $redirect Redirect to page after successful activation.
@@ -629,7 +629,7 @@ function activate_plugins( $plugins, $redirect = '', $network_wide = false, $sil
  * If the plugins parameter list is empty, false will be returned. True when
  * completed.
  *
- * @since unknown
+ * @since 2.6.0
  *
  * @param array $plugins List of plugin
  * @param string $redirect Redirect to page when complete.
@@ -721,7 +721,7 @@ function delete_plugins($plugins, $redirect = '' ) {
  * Validate all active plugins, deactivates invalid and
  * returns an array of deactivated ones.
  *
- * @since unknown
+ * @since 2.5.0
  * @return array invalid plugins, plugin as key, error as value
  */
 function validate_active_plugins() {
@@ -758,7 +758,7 @@ function validate_active_plugins() {
  *
  * Checks that the file exists and {@link validate_file() is valid file}.
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @param string $plugin Plugin Path
  * @return WP_Error|int 0 on success, WP_Error on failure.
@@ -1597,7 +1597,7 @@ function unregister_setting( $option_group, $option_name, $sanitize_callback = '
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.7.0
  *
  * @param unknown_type $options
  * @return unknown
@@ -1615,7 +1615,7 @@ add_filter( 'whitelist_options', 'option_update_filter' );
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.7.0
  *
  * @param unknown_type $new_options
  * @param unknown_type $options
@@ -1646,7 +1646,7 @@ function add_option_whitelist( $new_options, $options = '' ) {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.7.0
  *
  * @param unknown_type $del_options
  * @param unknown_type $options

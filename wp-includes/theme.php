@@ -870,7 +870,7 @@ function get_tag_template() {
  * template is used. If none of the files exist, then it will fall back on to
  * index.php.
  *
- * @since unknown (2.6.0 most likely)
+ * @since 2.5.0
  * @uses apply_filters() Calls 'taxonomy_template' filter on found path.
  *
  * @return string
@@ -1235,7 +1235,7 @@ function preview_theme_ob_filter_callback( $matches ) {
 /**
  * Switches current theme to new template and stylesheet names.
  *
- * @since unknown
+ * @since 2.5.0
  * @uses do_action() Calls 'switch_theme' action on updated theme display name.
  *
  * @param string $template Template name

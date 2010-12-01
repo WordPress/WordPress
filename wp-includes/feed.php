@@ -204,7 +204,7 @@ function comments_link_feed() {
  *
  * @package WordPress
  * @subpackage Feed
- * @since unknown
+ * @since 2.5.0
  *
  * @param int|object $comment_id Optional comment object or id. Defaults to global comment object.
  */
@@ -217,7 +217,7 @@ function comment_guid($comment_id = null) {
  *
  * @package WordPress
  * @subpackage Feed
- * @since unknown
+ * @since 2.5.0
  *
  * @param int|object $comment_id Optional comment object or id. Defaults to global comment object.
  * @return bool|string false on failure or guid for comment on success.

@@ -9,7 +9,7 @@
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.0.0
  *
  * @return unknown
  */
@@ -106,7 +106,7 @@ function delete_theme($template) {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 1.5.0
  *
  * @return unknown
  */
@@ -159,7 +159,7 @@ function get_allowed_themes() {
 /**
  * Get the Page Templates available in this theme
  *
- * @since unknown
+ * @since 1.5.0
  *
  * @return array Key is template name, Value is template name
  */

@@ -16,7 +16,7 @@
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.5.1
  */
 class Walker_Category_Checklist extends Walker {
 	var $tree_type = 'category';
@@ -54,7 +54,7 @@ class Walker_Category_Checklist extends Walker {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.5.1
  *
  * @param unknown_type $post_id
  * @param unknown_type $descendants_and_self
@@ -75,6 +75,8 @@ function wp_category_checklist( $post_id = 0, $descendants_and_self = 0, $select
 
 /**
  * Taxonomy independent version of wp_category_checklist
+ *
+ * @since 3.0.0
  *
  * @param int $post_id
  * @param array $args
@@ -142,7 +144,7 @@ function wp_terms_checklist($post_id = 0, $args = array()) {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @param unknown_type $taxonomy
  * @param unknown_type $default
@@ -190,7 +192,7 @@ function wp_popular_terms_checklist( $taxonomy, $default = 0, $number = 10, $ech
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.5.1
  *
  * @param unknown_type $link_id
  */
@@ -259,7 +261,7 @@ function get_hidden_columns( $screen ) {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.7.0
  *
  * @param unknown_type $post
  */
@@ -314,7 +316,7 @@ function get_inline_data($post) {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.7.0
  *
  * @param unknown_type $position
  * @param unknown_type $checkbox
@@ -408,7 +410,7 @@ function wp_comment_trashnotice() {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 1.2.0
  *
  * @param unknown_type $meta
  */
@@ -451,7 +453,7 @@ function list_meta( $meta ) {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @param unknown_type $entry
  * @param unknown_type $count
@@ -506,7 +508,7 @@ function _list_meta_row( $entry, &$count ) {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 1.2.0
  */
 function meta_form() {
 	global $wpdb;
@@ -567,7 +569,7 @@ function meta_form() {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 0.71
  *
  * @param unknown_type $edit
  * @param unknown_type $for_post
@@ -641,7 +643,7 @@ function touch_time( $edit = 1, $for_post = 1, $tab_index = 0, $multi = 0 ) {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 1.5.0
  *
  * @param unknown_type $default
  */
@@ -660,7 +662,7 @@ function page_template_dropdown( $default = '' ) {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 1.5.0
  *
  * @param unknown_type $default
  * @param unknown_type $parent
@@ -696,7 +698,7 @@ function parent_dropdown( $default = 0, $parent = 0, $level = 0 ) {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.0.0
  *
  * @param unknown_type $id
  * @return unknown
@@ -748,7 +750,7 @@ function the_attachment_links( $id = false ) {
 /**
  * Print out <option> html elements for role selectors
  *
- * @since 2.1
+ * @since 2.1.0
  *
  * @param string $selected slug for the role that should be already selected
  */
@@ -771,7 +773,7 @@ function wp_dropdown_roles( $selected = false ) {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.3.0
  *
  * @param unknown_type $size
  * @return unknown
@@ -791,7 +793,7 @@ function wp_convert_hr_to_bytes( $size ) {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.3.0
  *
  * @param unknown_type $bytes
  * @return unknown
@@ -807,7 +809,7 @@ function wp_convert_bytes_to_hr( $bytes ) {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @return unknown
  */
@@ -821,7 +823,7 @@ function wp_max_upload_size() {
 /**
  * Outputs the form used by the importers to accept the data to be imported
  *
- * @since 2.0
+ * @since 2.0.0
  *
  * @param string $action The action attribute for the form.
  */
@@ -994,7 +996,7 @@ function remove_meta_box($id, $page, $context) {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.7.0
  *
  * @param unknown_type $screen
  */
@@ -1029,7 +1031,7 @@ function meta_box_prefs($screen) {
 /**
  * Get Hidden Meta Boxes
  *
- * @since 2.7
+ * @since 2.7.0
  *
  * @param string|object $screen Screen identifier
  * @return array Hidden Meta Boxes
@@ -1139,7 +1141,7 @@ function add_settings_field($id, $title, $callback, $page, $section = 'default',
  *
  * @global $wp_settings_sections Storage array of all settings sections added to admin pages
  * @global $wp_settings_fields Storage array of settings fields and info about their pages/sections
- * @since unknown
+ * @since 2.7.0
  *
  * @param string $page The slug name of the page whos settings sections you want to output
  */
@@ -1169,7 +1171,7 @@ function do_settings_sections($page) {
  *
  * @global $wp_settings_fields Storage array of settings fields and their pages/sections
  *
- * @since unknown
+ * @since 2.7.0
  *
  * @param string $page Slug title of the admin page who's settings fields you want to show.
  * @param section $section Slug title of the settings section who's fields you want to show.
@@ -1206,6 +1208,8 @@ function do_settings_fields($page, $section) {
  * Additional calls to settings_errors() can be used to show errors even when the settings
  * page is first accessed.
  *
+ * @since 3.0.0
+ *
  * @global array $wp_settings_errors Storage array of errors registered during this pageload
  *
  * @param string $setting Slug title of the setting to which this error applies
@@ -1241,6 +1245,8 @@ function add_settings_error( $setting, $code, $message, $type = 'error' ) {
  * Use the $sanitize argument to manually re-sanitize the option before returning errors.
  * This is useful if you have errors or notices you want to show even when the user
  * hasn't submitted data (i.e. when they first load an options page, or in admin_notices action hook)
+ *
+ * @since 3.0.0
  *
  * @global array $wp_settings_errors Storage array of errors registered during this pageload
  *
@@ -1294,6 +1300,8 @@ function get_settings_errors( $setting = '', $sanitize = FALSE ) {
  * shown in the default error reporting after submission. This is useful to show general errors like missing
  * settings when the user arrives at the settings page.
  *
+ * @since 3.0.0
+ *
  * @param string $setting Optional slug title of a specific setting who's errors you want.
  * @param boolean $sanitize Whether to re-sanitize the setting value before returning errors.
  * @param boolean $hide_on_update If set to true errors will not be shown if the settings page has already been submitted.
@@ -1320,7 +1328,7 @@ function settings_errors( $setting = '', $sanitize = FALSE, $hide_on_update = FA
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.7.0
  *
  * @param unknown_type $found_action
  */
@@ -1378,7 +1386,7 @@ function the_post_password() {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.7.0
  */
 function favorite_actions( $screen = null ) {
 	$default_action = false;

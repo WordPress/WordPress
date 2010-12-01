@@ -125,7 +125,7 @@ function _wp_translate_postdata( $update = false, $post_data = null ) {
 /**
  * Update an existing post with values provided in $_POST.
  *
- * @since unknown
+ * @since 1.5.0
  *
  * @param array $post_data Optional.
  * @return int Post ID.
@@ -434,7 +434,7 @@ function get_default_page_to_edit() {
 /**
  * Get an existing post and format it for editing.
  *
- * @since unknown
+ * @since 2.0.0
  *
  * @param unknown_type $id
  * @return unknown
@@ -452,7 +452,7 @@ function get_post_to_edit( $id ) {
 /**
  * Determine if a post exists based on title, content, and date
  *
- * @since unknown
+ * @since 2.0.0
  *
  * @param string $title Post title
  * @param string $content Optional post content
@@ -493,7 +493,7 @@ function post_exists($title, $content = '', $date = '') {
 /**
  * Creates a new post from the "Write Post" form using $_POST information.
  *
- * @since unknown
+ * @since 2.1.0
  *
  * @return unknown
  */
@@ -590,7 +590,7 @@ function wp_write_post() {
 /**
  * Calls wp_write_post() and handles the errors.
  *
- * @since unknown
+ * @since 2.0.0
  *
  * @return unknown
  */
@@ -609,7 +609,7 @@ function write_post() {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 1.2.0
  *
  * @param unknown_type $post_ID
  * @return unknown
@@ -652,7 +652,7 @@ function add_meta( $post_ID ) {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 1.2.0
  *
  * @param unknown_type $mid
  * @return unknown
@@ -674,7 +674,7 @@ function delete_meta( $mid ) {
 /**
  * Get a list of previously defined keys.
  *
- * @since unknown
+ * @since 1.2.0
  *
  * @return unknown
  */
@@ -693,7 +693,7 @@ function get_meta_keys() {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.1.0
  *
  * @param unknown_type $mid
  * @return unknown
@@ -713,7 +713,7 @@ function get_post_meta_by_id( $mid ) {
  *
  * Some postmeta stuff.
  *
- * @since unknown
+ * @since 1.2.0
  *
  * @param unknown_type $postid
  * @return unknown
@@ -730,7 +730,7 @@ function has_meta( $postid ) {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 1.2.0
  *
  * @param unknown_type $meta_id
  * @param unknown_type $meta_key Expect Slashed
@@ -773,7 +773,7 @@ function update_meta( $meta_id, $meta_key, $meta_value ) {
 /**
  * Replace hrefs of attachment anchors with up-to-date permalinks.
  *
- * @since unknown
+ * @since 2.3.0
  * @access private
  *
  * @param unknown_type $post_ID
@@ -829,7 +829,7 @@ function _fix_attachment_links_replace_cb($match) {
 /**
  * Move child posts to a new parent.
  *
- * @since unknown
+ * @since 2.3.0
  * @access private
  *
  * @param unknown_type $old_ID
@@ -950,7 +950,7 @@ function get_post_mime_types() {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @param unknown_type $type
  * @return unknown
@@ -965,7 +965,7 @@ function get_available_post_mime_types($type = 'attachment') {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @param unknown_type $q
  * @return unknown
@@ -1008,7 +1008,7 @@ function _edit_attachments_query_helper($where) {
  * {@internal Missing Short Description}}
  *
  * @uses get_user_option()
- * @since unknown
+ * @since 2.5.0
  *
  * @param unknown_type $id
  * @param unknown_type $page
@@ -1031,7 +1031,7 @@ function postbox_classes( $id, $page ) {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @param int|object $id    Post ID or post object.
  * @param string $title (optional) Title
@@ -1095,7 +1095,7 @@ function get_sample_permalink($id, $title = null, $name = null) {
  *
  * intended to be used for the inplace editor of the permalink post slug on in the post (and page?) editor.
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @param int|object $id Post ID or post object.
  * @param string $new_title (optional) New title

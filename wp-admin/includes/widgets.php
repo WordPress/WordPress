@@ -60,7 +60,7 @@ function _sort_name_callback( $a, $b ) {
  * Show the widgets and their settings for a sidebar.
  * Used in the the admin widget config screen.
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @param string $sidebar id slug of the sidebar
  */
@@ -84,7 +84,7 @@ function wp_list_widget_controls( $sidebar ) {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @param array $params
  * @return array
@@ -128,7 +128,7 @@ function next_widget_id_number($id_base) {
  *
  * Called from dynamic_sidebar().
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @param array $sidebar_args
  * @return array

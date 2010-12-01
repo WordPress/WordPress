@@ -1642,7 +1642,7 @@ function status_header( $header ) {
  * The several different headers cover the different ways cache prevention is handled
  * by different browsers
  *
- * @since 2.8
+ * @since 2.8.0
  *
  * @uses apply_filters()
  * @return array The associative array of header names and field values.
@@ -2216,7 +2216,7 @@ function wp_upload_dir( $time = null ) {
  * The callback is passed three parameters, the first one is the directory, the
  * second is the filename, and the third is the extension.
  *
- * @since 2.5
+ * @since 2.5.0
  *
  * @param string $dir
  * @param string $filename

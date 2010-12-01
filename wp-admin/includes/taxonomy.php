@@ -13,7 +13,7 @@
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.0.0
  *
  * @param unknown_type $cat_name
  * @return unknown
@@ -28,7 +28,7 @@ function category_exists($cat_name, $parent = 0) {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.0.0
  *
  * @param unknown_type $id
  * @return unknown
@@ -41,7 +41,7 @@ function get_category_to_edit( $id ) {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.0.0
  *
  * @param unknown_type $cat_name
  * @param unknown_type $parent
@@ -57,7 +57,7 @@ function wp_create_category( $cat_name, $parent = 0 ) {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.0.0
  *
  * @param unknown_type $categories
  * @param unknown_type $post_id
@@ -173,7 +173,7 @@ function wp_update_category($catarr) {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.3.0
  *
  * @param unknown_type $tag_name
  * @return unknown
@@ -185,7 +185,7 @@ function tag_exists($tag_name) {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.3.0
  *
  * @param unknown_type $tag_name
  * @return unknown
@@ -239,7 +239,7 @@ function get_terms_to_edit( $post_id, $taxonomy = 'post_tag' ) {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.8.0
  *
  * @param unknown_type $tag_name
  * @return unknown

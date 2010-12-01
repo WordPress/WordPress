@@ -9,7 +9,7 @@
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.0.0
  *
  * @return unknown
  */
@@ -21,7 +21,7 @@ function got_mod_rewrite() {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 1.5.0
  *
  * @param unknown_type $filename
  * @param unknown_type $marker
@@ -57,7 +57,7 @@ function extract_from_markers( $filename, $marker ) {
  * BEGIN and END markers. Replaces existing marked info. Retains surrounding
  * data. Creates file if none exists.
  *
- * @since unknown
+ * @since 1.5.0
  *
  * @param unknown_type $filename
  * @param unknown_type $marker
@@ -117,7 +117,7 @@ function insert_with_markers( $filename, $marker, $insertion ) {
  * Always writes to the file if it exists and is writable to ensure that we
  * blank out old rules.
  *
- * @since unknown
+ * @since 1.5.0
  */
 function save_mod_rewrite_rules() {
 	if ( is_multisite() )
@@ -169,7 +169,7 @@ function iis7_save_url_rewrite_rules(){
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 1.5.0
  *
  * @param unknown_type $file
  */
@@ -191,7 +191,7 @@ function update_recently_edited( $file ) {
 /**
  * If siteurl or home changed, flush rewrite rules.
  *
- * @since unknown
+ * @since 2.1.0
  *
  * @param unknown_type $old_value
  * @param unknown_type $value
@@ -234,7 +234,7 @@ function url_shorten( $url ) {
  * in the $vars array to the value of $_POST[$var] or $_GET[$var] or ''
  * if neither is defined.
  *
- * @since unknown
+ * @since 2.0.0
  *
  * @param array $vars An array of globals to reset.
  */
@@ -257,7 +257,7 @@ function wp_reset_vars( $vars ) {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.1.0
  *
  * @param unknown_type $message
  */

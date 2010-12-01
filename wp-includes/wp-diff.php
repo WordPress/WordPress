@@ -64,7 +64,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	 *
 	 * This will set class properties based on the key value pairs in the array.
 	 *
-	 * @since unknown
+	 * @since 2.6.0
 	 *
 	 * @param array $params
 	 */

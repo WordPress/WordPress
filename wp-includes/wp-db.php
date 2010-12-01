@@ -455,7 +455,7 @@ class wpdb {
 	/**
 	 * A textual description of the last query/get_row/get_var call
 	 *
-	 * @since unknown
+	 * @since 3.0.0
 	 * @access public
 	 * @var string
 	 */

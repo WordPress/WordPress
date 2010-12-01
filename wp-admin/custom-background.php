@@ -19,7 +19,7 @@ class Custom_Background {
 	 * Callback for administration header.
 	 *
 	 * @var callback
-	 * @since unknown
+	 * @since 3.0.0
 	 * @access private
 	 */
 	var $admin_header_callback;

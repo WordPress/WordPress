@@ -199,7 +199,7 @@ function wp_loginout($redirect = '', $echo = true) {
  *
  * Returns the URL that allows the user to log out of the site
  *
- * @since 2.7
+ * @since 2.7.0
  * @uses wp_nonce_url() To protect against CSRF
  * @uses site_url() To generate the log in URL
  * @uses apply_filters() calls 'logout_url' hook on final logout url
@@ -223,7 +223,7 @@ function wp_logout_url($redirect = '') {
  *
  * Returns the URL that allows the user to log in to the site
  *
- * @since 2.7
+ * @since 2.7.0
  * @uses site_url() To generate the log in URL
  * @uses apply_filters() calls 'login_url' hook on final login url
  *
@@ -2252,7 +2252,7 @@ function get_the_generator( $type = '' ) {
  *
  * Compares the first two arguments and if identical marks as checked
  *
- * @since 1.0
+ * @since 1.0.0
  *
  * @param mixed $checked One of the values to compare
  * @param mixed $current (true) The other value to compare if not just true
@@ -2268,7 +2268,7 @@ function checked( $checked, $current = true, $echo = true ) {
  *
  * Compares the first two arguments and if identical marks as selected
  *
- * @since 1.0
+ * @since 1.0.0
  *
  * @param mixed $selected One of the values to compare
  * @param mixed $current (true) The other value to compare if not just true
@@ -2300,7 +2300,7 @@ function disabled( $disabled, $current = true, $echo = true ) {
  *
  * Compares the first two arguments and if identical marks as $type
  *
- * @since 2.8
+ * @since 2.8.0
  * @access private
  *
  * @param any $helper One of the values to compare

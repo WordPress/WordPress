@@ -24,7 +24,7 @@ if ( !function_exists('wp_install') ) :
  *
  * {@internal Missing Long Description}}
  *
- * @since unknown
+ * @since 2.1.0
  *
  * @param string $blog_title Blog title.
  * @param string $user_name User's username.
@@ -98,7 +98,7 @@ if ( !function_exists('wp_install_defaults') ) :
  *
  * {@internal Missing Long Description}}
  *
- * @since unknown
+ * @since 2.1.0
  *
  * @param int $user_id User ID.
  */
@@ -300,7 +300,7 @@ if ( !function_exists('wp_new_blog_notification') ) :
  *
  * {@internal Missing Long Description}}
  *
- * @since unknown
+ * @since 2.1.0
  *
  * @param string $blog_title Blog title.
  * @param string $blog_url Blog url.
@@ -336,7 +336,7 @@ if ( !function_exists('wp_upgrade') ) :
  *
  * {@internal Missing Long Description}}
  *
- * @since unknown
+ * @since 2.1.0
  *
  * @return null
  */
@@ -375,7 +375,7 @@ endif;
  *
  * {@internal Missing Long Description}}
  *
- * @since unknown
+ * @since 1.0.1
  */
 function upgrade_all() {
 	global $wp_current_db_version, $wp_db_version, $wp_rewrite;
@@ -1187,7 +1187,7 @@ function upgrade_network() {
  *
  * {@internal Missing Long Description}}
  *
- * @since unknown
+ * @since 1.0.0
  *
  * @param string $table_name Database table name to create.
  * @param string $create_ddl SQL statement to create table.
@@ -1210,7 +1210,7 @@ function maybe_create_table($table_name, $create_ddl) {
  *
  * {@internal Missing Long Description}}
  *
- * @since unknown
+ * @since 1.0.1
  *
  * @param string $table Database table name.
  * @param string $index Index name to drop.
@@ -1233,7 +1233,7 @@ function drop_index($table, $index) {
  *
  * {@internal Missing Long Description}}
  *
- * @since unknown
+ * @since 1.0.1
  *
  * @param string $table Database table name.
  * @param string $index Database table index column.
@@ -1296,7 +1296,7 @@ function get_alloptions_110() {
 /**
  * Version of get_option that is private to install/upgrade.
  *
- * @since unknown
+ * @since 1.5.1
  * @access private
  *
  * @param string $setting Option name.
@@ -1333,7 +1333,7 @@ function __get_option($setting) {
  *
  * {@internal Missing Long Description}}
  *
- * @since unknown
+ * @since 1.5.0
  *
  * @param string $content
  * @return string
@@ -1360,7 +1360,7 @@ function deslash($content) {
  *
  * {@internal Missing Long Description}}
  *
- * @since unknown
+ * @since 1.5.0
  *
  * @param unknown_type $queries
  * @param unknown_type $execute
@@ -1567,7 +1567,7 @@ function dbDelta($queries, $execute = true) {
  *
  * {@internal Missing Long Description}}
  *
- * @since unknown
+ * @since 1.5.0
  */
 function make_db_current() {
 	global $wp_queries;
@@ -1583,7 +1583,7 @@ function make_db_current() {
  *
  * {@internal Missing Long Description}}
  *
- * @since unknown
+ * @since 1.5.0
  */
 function make_db_current_silent() {
 	global $wp_queries;
@@ -1596,7 +1596,7 @@ function make_db_current_silent() {
  *
  * {@internal Missing Long Description}}
  *
- * @since unknown
+ * @since 1.5.0
  *
  * @param unknown_type $theme_name
  * @param unknown_type $template
@@ -1675,7 +1675,7 @@ function make_site_theme_from_oldschool($theme_name, $template) {
  *
  * {@internal Missing Long Description}}
  *
- * @since unknown
+ * @since 1.5.0
  *
  * @param unknown_type $theme_name
  * @param unknown_type $template
@@ -1741,7 +1741,7 @@ function make_site_theme_from_default($theme_name, $template) {
  *
  * {@internal Missing Long Description}}
  *
- * @since unknown
+ * @since 1.5.0
  *
  * @return unknown
  */
@@ -1789,7 +1789,7 @@ function make_site_theme() {
 /**
  * Translate user level to user role name.
  *
- * @since unknown
+ * @since 2.0.0
  *
  * @param int $level User level.
  * @return string User role name.
@@ -1820,7 +1820,7 @@ function translate_level_to_role($level) {
  *
  * {@internal Missing Long Description}}
  *
- * @since unknown
+ * @since 2.1.0
  */
 function wp_check_mysql_version() {
 	global $wpdb;
@@ -1834,7 +1834,7 @@ function wp_check_mysql_version() {
  *
  * {@internal Missing Long Description}}
  *
- * @since unknown
+ * @since 2.2.0
  */
 function maybe_disable_automattic_widgets() {
 	$plugins = __get_option( 'active_plugins' );
@@ -1850,6 +1850,8 @@ function maybe_disable_automattic_widgets() {
 
 /**
  * Runs before the schema is upgraded.
+ *
+ * @since 2.9.0
  */
 function pre_schema_upgrade() {
 	global $wp_current_db_version, $wp_db_version, $wpdb;
