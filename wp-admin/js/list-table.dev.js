@@ -149,8 +149,11 @@ listTable.init();
 // Ajaxify various UI elements
 
 	function change_page(paged, $el) {
-		if ( paged < 1 || paged > listTable.get_total_pages() )
-			return false;
+		if ( paged < 1 )
+			paged = 1;
+
+		if ( paged > listTable.get_total_pages() )
+			paged = listTable.get_total_pages();
 
 		listTable.update_rows({'paged': paged}, false, function() {
 			if ( $el.parents('.tablenav.bottom').length )
@@ -189,7 +192,7 @@ listTable.init();
 
 		var $el = $(this);
 
-		change_page(parseInt($el.val()), $el);
+		change_page(parseInt($el.val()) || 1, $el);
 
 		return false;
 	});
