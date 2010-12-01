@@ -235,7 +235,7 @@ function list_plugin_updates() {
 		echo "
 	<tr class='active'>
 		<th scope='row' class='check-column'><input type='checkbox' name='checked[]' value='" . esc_attr($plugin_file) . "' /></th>
-		<td class='plugin-title'><strong>{$plugin_data->Name}</strong>" . sprintf(__('You have version %1$s installed. Update to %2$s.'), $plugin_data->Version, $plugin_data->update->new_version) . $compat . $upgrade_notice . "</td>
+		<td><strong>{$plugin_data->Name}</strong><br />" . sprintf(__('You have version %1$s installed. Update to %2$s.'), $plugin_data->Version, $plugin_data->update->new_version) . $compat . $upgrade_notice . "</td>
 	</tr>";
 	}
 ?>
