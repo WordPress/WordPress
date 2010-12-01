@@ -137,14 +137,14 @@ function network_step1( $errors = false ) {
 	if ( get_option( 'siteurl' ) != get_option( 'home' ) ) {
 		echo '<div class="error"><p><strong>' . __('Error:') . '</strong> ' . sprintf( __( 'Your <strong>WordPress address</strong> must match your <strong>Site address</strong> before creating a Network. See <a href="%s">General Settings</a>.' ), esc_url( admin_url( 'options-general.php' ) ) ) . '</p></div>';
 		echo '</div>';
-		include ('./admin-footer.php' );
+		include ( ABSPATH . 'wp-admin/admin-footer.php' );
 		die();
 	}
 
 	if ( defined('DO_NOT_UPGRADE_GLOBAL_TABLES') ) {
 		echo '<div class="error"><p><strong>' . __('Error:') . '</strong> ' . __( 'The constant DO_NOT_UPGRADE_GLOBAL_TABLES cannot be defined when creating a network.' ) . '</p></div>';
 		echo '</div>';
-		include ('./admin-footer.php' );
+		include ( ABSPATH . 'wp-admin/admin-footer.php' );
 		die();
 	}
 
@@ -152,7 +152,7 @@ function network_step1( $errors = false ) {
 	if ( ! empty( $active_plugins ) ) {
 		echo '<div class="updated"><p><strong>' . __('Warning:') . '</strong> ' . sprintf( __( 'Please <a href="%s">deactivate your plugins</a> before enabling the Network feature.' ), admin_url( 'plugins.php?plugin_status=active' ) ) . '</p></div><p>' . __( 'Once the network is created, you may reactivate your plugins.' ) . '</p>';
 		echo '</div>';
-		include( './admin-footer.php' );
+		include( ABSPATH . 'wp-admin/admin-footer.php' );
 		die();
 	}
 
@@ -163,7 +163,7 @@ function network_step1( $errors = false ) {
 		echo '<p>' . sprintf( __( 'You cannot use port numbers such as <code>%s</code>.' ), $has_ports ) . '</p>';
 		echo '<a href="' . esc_url( admin_url() ) . '">' . __( 'Return to Dashboard' ) . '</a>';
 		echo '</div>';
-		include( './admin-footer.php' );
+		include( ABSPATH . 'wp-admin/admin-footer.php' );
 		die();
 	}
 
@@ -511,9 +511,10 @@ RewriteRule ^ - [L]';
 	}
 }
 
-$base = trailingslashit( stripslashes( dirname( dirname( $_SERVER['SCRIPT_NAME'] ) ) ) );
-
 if ( $_POST ) {
+
+	$base = trailingslashit( stripslashes( dirname( dirname( $_SERVER['SCRIPT_NAME'] ) ) ) );
+
 	check_admin_referer( 'install-network-1' );
 
 	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
