@@ -300,7 +300,7 @@ function update_blog_details( $blog_id, $details = array() ) {
 	}
 
 	if ( isset($details[ 'public' ]) )
-		update_blog_option( $blog_id, 'blog_public', $details[ 'public' ], false );
+		update_blog_option( $blog_id, 'blog_public', $details[ 'public' ] );
 
 	refresh_blog_details($blog_id);
 
@@ -421,17 +421,19 @@ function delete_blog_option( $id, $key ) {
  * @param int $id The blog id
  * @param string $key The option key
  * @param mixed $value The option value
- * @param bool $refresh Whether to refresh blog details or not
  */
-function update_blog_option( $id, $key, $value, $refresh = true ) {
+function update_blog_option( $id, $key, $value, $deprecated = null ) {
 	$id = (int) $id;
+
+	if ( null !== $deprecated  )
+		_deprecated_argument( __FUNCTION__, '3.1.0' );
 
 	switch_to_blog($id);
 	update_option( $key, $value );
 	restore_current_blog();
 
-	if ( $refresh == true )
-		refresh_blog_details( $id );
+	refresh_blog_details( $id );
+
 	wp_cache_set( $id."-".$key."-blog_option", $value, 'site-options');
 }
 
@@ -614,19 +616,20 @@ function update_archived( $id, $archived ) {
  * @param int $blog_id BLog ID
  * @param string $pref A field name
  * @param string $value Value for $pref
- * @param bool $refresh Whether to refresh the blog details cache. Default is true.
  * @return string $value
  */
-function update_blog_status( $blog_id, $pref, $value, $refresh = true ) {
+function update_blog_status( $blog_id, $pref, $value, $deprecated = null ) {
 	global $wpdb;
+
+	if ( null !== $deprecated  )
+		_deprecated_argument( __FUNCTION__, '3.1.0' );
 
 	if ( !in_array( $pref, array( 'site_id', 'domain', 'path', 'registered', 'last_updated', 'public', 'archived', 'mature', 'spam', 'deleted', 'lang_id') ) )
 		return $value;
 
 	$wpdb->update( $wpdb->blogs, array($pref => $value, 'last_updated' => current_time('mysql', true)), array('blog_id' => $blog_id) );
 
-	if ( $refresh )
-		refresh_blog_details($blog_id);
+	refresh_blog_details($blog_id);
 
 	if ( 'spam' == $pref )
 		( $value == 1 ) ? do_action( 'make_spam_blog', $blog_id ) :	do_action( 'make_ham_blog', $blog_id );

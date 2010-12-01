@@ -432,13 +432,15 @@ function upload_space_setting( $id ) {
 }
 add_action( 'wpmueditblogaction', 'upload_space_setting' );
 
-function update_user_status( $id, $pref, $value, $refresh = 1 ) {
+function update_user_status( $id, $pref, $value, $deprecated = null ) {
 	global $wpdb;
+
+	if ( null !== $deprecated  )
+		_deprecated_argument( __FUNCTION__, '3.1.0' );
 
 	$wpdb->update( $wpdb->users, array( $pref => $value ), array( 'ID' => $id ) );
 
-	if ( $refresh == 1 )
-		refresh_user_details( $id );
+	clean_user_cache( $id );
 
 	if ( $pref == 'spam' ) {
 		if ( $value == 1 )
