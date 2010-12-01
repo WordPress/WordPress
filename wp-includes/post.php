@@ -266,7 +266,7 @@ function _wp_relative_upload_path( $path ) {
  * @param string $output Optional. Constant for return type, either OBJECT (default), ARRAY_A, ARRAY_N.
  * @return array|bool False on failure and the type will be determined by $output parameter.
  */
-function &get_children($args = '', $output = OBJECT) {
+function get_children($args = '', $output = OBJECT) {
 	$kids = array();
 	if ( empty( $args ) ) {
 		if ( isset( $GLOBALS['post'] ) ) {
@@ -295,7 +295,7 @@ function &get_children($args = '', $output = OBJECT) {
 	update_post_cache($children);
 
 	foreach ( $children as $key => $child )
-		$kids[$child->ID] =& $children[$key];
+		$kids[$child->ID] = $children[$key];
 
 	if ( $output == OBJECT ) {
 		return $kids;
