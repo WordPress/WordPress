@@ -425,7 +425,7 @@ s100:"100%",
 s110:"110%",
 s120:"120%",
 s130:"130%",
-img_title:"Edit Image Title",
-caption:"Edit Image Caption",
-alt:"Edit Alternate Text"
+img_title:"Title",
+caption:"Caption",
+alt:"Alternate Text"
 });
