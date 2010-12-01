@@ -6,6 +6,9 @@
  * @subpackage Administration
  */
 
+if ( isset( $_GET['tab'] ) && ( 'theme-information' == $_GET['tab'] ) )
+	define( 'IFRAME_REQUEST', true );
+	
 /** WordPress Administration Bootstrap */
 require_once('./admin.php');
 
