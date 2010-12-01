@@ -126,6 +126,7 @@ html>body #wpadminbar .menupop ul {
 	text-decoration:none !important;
 }
 #wpadminbar .quicklinks li ul li a {
+	overflow:hidden;
 	width:160px;
 }
 #wpadminbar .quicklinks a:hover {
