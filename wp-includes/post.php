@@ -526,8 +526,14 @@ function set_post_format( $post, $format ) {
 	if ( empty($post) )
 		return new WP_Error('invalid_post', __('Invalid post'));
 
-	if ( !empty($format) )
-		$format = 'post-format-' . sanitize_key($format);
+	if ( !empty($format) ) {
+		$format = sanitize_key($format);
+		$empty_formats = array( 'post', 'default' );
+		if ( in_array( $format, $empty_formats ) )
+			$format = '';
+		else
+			$format = 'post-format-' . $format;
+	}
 
 	return wp_set_post_terms($post->ID, $format, 'post_format');
 }
