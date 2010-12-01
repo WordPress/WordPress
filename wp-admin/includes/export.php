@@ -25,6 +25,11 @@ define( 'WXR_VERSION', '1.1' );
 function export_wp( $args = array() ) {
 	global $wpdb, $post;
 
+	$defaults = array( 'content' => 'all', 'author' => false, 'category' => false,
+		'start_date' => false, 'end_date' => false, 'status' => false,
+	);
+	$args = wp_parse_args( $args, $defaults );
+
 	do_action( 'export_wp' );
 
 	$sitename = sanitize_key( get_bloginfo( 'name' ) );
@@ -35,31 +40,75 @@ function export_wp( $args = array() ) {
 	header( 'Content-Disposition: attachment; filename=' . $filename );
 	header( 'Content-Type: text/xml; charset=' . get_option( 'blog_charset' ), true );
 
-	// grab a snapshot of post IDs, just in case it changes during the export
-	$post_ids = $wpdb->get_col( "SELECT ID FROM $wpdb->posts WHERE post_type != 'revision' AND post_status != 'auto-draft' ORDER BY post_date_gmt ASC" );
+	if ( 'all' != $args['content'] && post_type_exists( $args['content'] ) ) {
+		$ptype = get_post_type_object( $args['content'] );
+		if ( ! $ptype->can_export )
+			$args['content'] = 'post';
 
-	$categories = (array) get_categories( array( 'get' => 'all' ) );
-	$tags = (array) get_tags( array( 'get' => 'all' ) );
-
-	$custom_taxonomies = get_taxonomies( array( '_builtin' => false ) );
-	$taxonomy_terms = (array) get_terms( $custom_taxonomies, array( 'get' => 'all' ) );
-
-	// put categories in order with no child going before its parent
-	$cats = array();
-	while ( $cat = array_shift( $categories ) ) {
-		if ( $cat->parent == 0 || isset( $cats[$cat->parent] ) )
-			$cats[$cat->term_id] = $cat;
-		else
-			$categories[] = $cat;
+		$where = $wpdb->prepare( "{$wpdb->posts}.post_type = %s", $args['content'] );
+	} else {
+		$post_types = get_post_types( array( 'can_export' => true ) );
+		$esses = array_fill( 0, count($post_types), '%s' );
+		$where = $wpdb->prepare( "{$wpdb->posts}.post_type IN (". implode(',',$esses) .")", $post_types );
 	}
 
-	// put terms in order with no child going before its parent
-	$terms = array();
-	while ( $t = array_shift( $taxonomy_terms ) ) {
-		if ( $t->parent == 0 || isset( $terms[$t->parent] ) )
-			$terms[$t->term_id] = $t;
-		else
-			$taxonomy_terms[] = $t;
+	if ( $args['status'] && ( 'post' == $args['content'] || 'page' == $args['content'] ) )
+		$where .= $wpdb->prepare( " AND {$wpdb->posts}.post_status = %s", $args['status'] );
+	else
+		$where .= " AND {$wpdb->posts}.post_status != 'auto-draft'";
+
+	$join = '';
+	if ( $args['category'] && 'post' == $args['content'] ) {
+		if ( $term = term_exists( $args['category'], 'category' ) ) {
+			$join = "INNER JOIN {$wpdb->term_relationships} ON ({$wpdb->posts}.ID = {$wpdb->term_relationships}.object_id)";
+			$where .= $wpdb->prepare( " AND {$wpdb->term_relationships}.term_taxonomy_id = %d", $term['term_id'] );
+		}
+	}
+
+	if ( 'post' == $args['content'] || 'page' == $args['content'] ) {
+		if ( $args['author'] )
+			$where .= $wpdb->prepare( " AND {$wpdb->posts}.post_author = %d", $args['author'] );
+
+		if ( $args['start_date'] )
+			$where .= $wpdb->prepare( " AND {$wpdb->posts}.post_date >= %s", date( 'Y-m-d', strtotime($args['start_date']) ) );
+
+		if ( $args['end_date'] )
+			$where .= $wpdb->prepare( " AND {$wpdb->posts}.post_date < %s", date( 'Y-m-d', strtotime('+1 month', strtotime($args['end_date'])) ) );
+	}
+
+	// grab a snapshot of post IDs, just in case it changes during the export
+	$post_ids = $wpdb->get_col( "SELECT ID FROM {$wpdb->posts} $join WHERE $where" );
+
+	// get the requested terms ready, empty unless posts filtered by category or all content
+	$cats = $tags = $terms = array();
+	if ( isset( $term ) && $term ) {
+		$cat = get_term( $term['term_id'], 'category' );
+		$cats = array( $cat->term_id => $cat );
+		unset( $term, $cat );
+	} else if ( 'all' == $args['content'] ) {
+		$categories = (array) get_categories( array( 'get' => 'all' ) );
+		$tags = (array) get_tags( array( 'get' => 'all' ) );
+
+		$custom_taxonomies = get_taxonomies( array( '_builtin' => false ) );
+		$custom_terms = (array) get_terms( $custom_taxonomies, array( 'get' => 'all' ) );
+
+		// put categories in order with no child going before its parent
+		while ( $cat = array_shift( $categories ) ) {
+			if ( $cat->parent == 0 || isset( $cats[$cat->parent] ) )
+				$cats[$cat->term_id] = $cat;
+			else
+				$categories[] = $cat;
+		}
+
+		// put terms in order with no child going before its parent
+		while ( $t = array_shift( $custom_terms ) ) {
+			if ( $t->parent == 0 || isset( $terms[$t->parent] ) )
+				$terms[$t->term_id] = $t;
+			else
+				$custom_terms[] = $t;
+		}
+
+		unset( $categories, $custom_taxonomies, $custom_terms );
 	}
 
 	/**
@@ -271,7 +320,7 @@ function export_wp( $args = array() ) {
 	<title><?php bloginfo_rss( 'name' ); ?></title>
 	<link><?php bloginfo_rss( 'url' ); ?></link>
 	<description><?php bloginfo_rss( 'description' ); ?></description>
-	<pubDate><?php echo mysql2date( 'D, d M Y H:i:s +0000', get_lastpostmodified( 'GMT' ), false ); ?></pubDate>
+	<pubDate><?php echo date( 'D, d M Y H:i:s +0000' ); ?></pubDate>
 	<language><?php echo get_option( 'rss_language' ); ?></language>
 	<wp:wxr_version><?php echo WXR_VERSION; ?></wp:wxr_version>
 	<wp:base_site_url><?php echo wxr_site_url(); ?></wp:base_site_url>
@@ -288,7 +337,7 @@ function export_wp( $args = array() ) {
 <?php foreach ( $terms as $t ) : ?>
 	<wp:term><wp:term_id><?php echo $t->term_id ?></wp:term_id><wp:term_taxonomy><?php echo $t->taxonomy; ?></wp:term_taxonomy><wp:term_slug><?php echo $t->slug; ?></wp:term_slug><wp:term_parent><?php echo $t->parent ? $terms[$t->parent]->slug : ''; ?></wp:term_parent><?php wxr_term_name( $t ); ?><?php wxr_term_description( $t ); ?></wp:term>
 <?php endforeach; ?>
-<?php wxr_nav_menu_terms(); ?>
+<?php if ( 'all' == $args['content'] ) wxr_nav_menu_terms(); ?>
 
 	<?php do_action( 'rss2_head' ); ?>
 
@@ -299,7 +348,7 @@ function export_wp( $args = array() ) {
 	// fetch 20 posts at a time rather than loading the entire table into memory
 	while ( $next_posts = array_splice( $post_ids, 0, 20 ) ) {
 	$where = "WHERE ID IN (" . join( ',', $next_posts ) . ")";
-	$posts = $wpdb->get_results( "SELECT * FROM $wpdb->posts $where ORDER BY post_date_gmt ASC" );
+	$posts = $wpdb->get_results( "SELECT * FROM {$wpdb->posts} $where" );
 
 	// Begin Loop
 	foreach ( $posts as $post ) {
@@ -332,7 +381,7 @@ function export_wp( $args = array() ) {
 <?php 	endif; ?>
 <?php 	wxr_post_taxonomy(); ?>
 <?php	$postmeta = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->postmeta WHERE post_id = %d", $post->ID ) );
-		if ( $postmeta ) : foreach( $postmeta as $meta ) : if ( $meta->meta_key != '_edit_lock' && $meta->meta_key != '_edit_last' ) : ?>
+		if ( $postmeta ) : foreach( $postmeta as $meta ) : if ( $meta->meta_key != '_edit_lock' ) : ?>
 		<wp:postmeta>
 			<wp:meta_key><?php echo $meta->meta_key; ?></wp:meta_key>
 			<wp:meta_value><?php echo wxr_cdata( $meta->meta_value ); ?></wp:meta_value>

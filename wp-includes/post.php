@@ -54,7 +54,6 @@ function create_initial_post_types() {
 		'hierarchical' => false,
 		'rewrite' => false,
 		'query_var' => false,
-		'can_export' => false,
 		'show_in_nav_menus' => false,
 	) );
 
@@ -71,6 +70,7 @@ function create_initial_post_types() {
 		'hierarchical' => false,
 		'rewrite' => false,
 		'query_var' => false,
+		'can_export' => false,
 	) );
 
 	register_post_type( 'nav_menu_item', array(

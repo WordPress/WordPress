@@ -16,7 +16,7 @@ if ( !current_user_can('export') )
 require_once('./includes/export.php');
 $title = __('Export');
 
-add_contextual_help($current_screen,
+add_contextual_help( $current_screen,
 	'<p>' . __('You can export a file of your site&#8217;s content in order to import it into another installation or platform. The export file will be an XML file format called WXR. Posts, pages, comments, custom fields, categories, and tags can be included. You can set filters to have the WXR file only include a certain date, author, category, tag, all posts or all pages, certain publishing statuses.') . '</p>' .
 	'<p>' . __('Once generated, your WXR file can be imported by another WordPress site or by another blogging platform able to access this format.') . '</p>' .
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
@@ -25,24 +25,71 @@ add_contextual_help($current_screen,
 );
 
 if ( isset( $_GET['download'] ) ) {
-	export_wp();
+	$args = array();
+
+	if ( ! isset( $_GET['content'] ) || 'all' == $_GET['content'] ) {
+		$args['content'] = 'all';
+	} else if ( 'posts' == $_GET['content'] ) {
+		$args['content'] = 'post';
+
+		if ( $_GET['cat'] )
+			$args['category'] = (int) $_GET['cat'];
+
+		if ( $_GET['post_author'] )
+			$args['author'] = (int) $_GET['post_author'];
+
+		if ( $_GET['post_start_date'] || $_GET['post_end_date'] ) {
+			$args['start_date'] = $_GET['post_start_date'];
+			$args['end_date'] = $_GET['post_end_date'];
+		}
+
+		if ( $_GET['post_status'] )
+			$args['status'] = $_GET['post_status'];
+	} else if ( 'pages' == $_GET['content'] ) {
+		$args['content'] = 'page';
+
+		if ( $_GET['page_author'] )
+			$args['author'] = (int) $_GET['page_author'];
+
+		if ( $_GET['page_start_date'] || $_GET['page_end_date'] ) {
+			$args['start_date'] = $_GET['page_start_date'];
+			$args['end_date'] = $_GET['page_end_date'];
+		}
+
+		if ( $_GET['page_status'] )
+			$args['status'] = $_GET['page_status'];
+	} else {
+		$args['content'] = $_GET['content'];
+	}
+
+	export_wp( $args );
 	die();
 }
 
 require_once ('admin-header.php');
 
-$dateoptions = $edateoptions = '';
-$types = "'" . implode("', '", get_post_types( array( 'public' => true, 'can_export' => true ), 'names' )) . "'";
-$stati = "'" . implode("', '", get_post_stati( array( 'internal' => false ), 'names' )) . "'";
-if ( $monthyears = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, YEAR(DATE_ADD(post_date, INTERVAL 1 MONTH)) AS `eyear`, MONTH(DATE_ADD(post_date, INTERVAL 1 MONTH)) AS `emonth` FROM $wpdb->posts WHERE post_type IN ($types) AND post_status IN ($stati) ORDER BY post_date ASC ") ) {
-	foreach ( $monthyears as $k => $monthyear )
-		$monthyears[$k]->lmonth = $wp_locale->get_month( $monthyear->month, 2 );
-	for( $s = 0, $e = count( $monthyears ) - 1; $e >= 0; $s++, $e-- ) {
-		$dateoptions .= "\t<option value=\"" . $monthyears[$s]->year . '-' . zeroise( $monthyears[$s]->month, 2 ) . '">' . $monthyears[$s]->lmonth . ' ' . $monthyears[$s]->year . "</option>\n";
-		$edateoptions .= "\t<option value=\"" . $monthyears[$e]->eyear . '-' . zeroise( $monthyears[$e]->emonth, 2 ) . '">' . $monthyears[$e]->lmonth . ' ' . $monthyears[$e]->year . "</option>\n";
+function export_date_options() {
+	global $wpdb, $wp_locale;
+
+	$months = $wpdb->get_results( "
+		SELECT DISTINCT YEAR( post_date ) AS year, MONTH( post_date ) AS month
+		FROM $wpdb->posts
+		WHERE post_type = 'post' AND post_status != 'auto-draft'
+		ORDER BY post_date DESC
+	" );
+
+	$month_count = count( $months );
+	if ( !$month_count || ( 1 == $month_count && 0 == $months[0]->month ) )
+		return;
+
+	foreach ( $months as $date ) {
+		if ( 0 == $date->year )
+			continue;
+
+		$month = zeroise( $date->month, 2 );
+		echo '<option value="' . $date->year . '-' . $month . '" />' . $wp_locale->get_month( $month ) . ' ' . $date->year . '</option>';
 	}
 }
-
 ?>
 
 <div class="wrap">
@@ -51,16 +98,81 @@ if ( $monthyears = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`
 
 <p><?php _e('When you click the button below WordPress will create an XML file for you to save to your computer.'); ?></p>
 <p><?php _e('This format, which we call WordPress eXtended RSS or WXR, will contain your posts, pages, comments, custom fields, categories, and tags.'); ?></p>
-<p><?php _e('Once you&#8217;ve saved the download file, you can use the Import function on another WordPress site to import this site.'); ?></p>
-<form action="" method="get">
-<?php submit_button( __('Download Export File'), 'button' ); ?>
+<p><?php _e('Once you&#8217;ve saved the download file, you can use the Import function in another WordPress installation to import this site.'); ?></p>
+
+<h3><?php _e( 'Choose what to export' ); ?></h3>
+<form action="" method="get" id="export-filters">
 <input type="hidden" name="download" value="true" />
-</p>
+<p><label><input type="radio" name="content" value="all" checked="checked" /> <?php _e( 'All content' ); ?></label>
+<span class="description"><?php _e( 'This will contain all of your posts, pages, comments, custom fields, terms, navigation menus and custom posts.' ); ?></span></p>
+
+<p><label><input type="radio" name="content" value="posts" /> <?php _e( 'Posts' ); ?></label></p>
+<ul id="post-filters" class="export-filters">
+	<li>
+		<label><?php _e( 'Categories:' ); ?></label>
+		<?php wp_dropdown_categories( array( 'show_option_all' => __('All') ) ); ?>
+	</li>
+	<li>
+		<label><?php _e( 'Authors:' ); ?></label>
+		<?php wp_dropdown_users( array( 'name' => 'post_author', 'multi' => true, 'show_option_all' => __('All') ) ); ?>
+	</li>
+	<li>
+		<label><?php _e( 'Date range:' ); ?></label>
+		<select name="post_start_date">
+			<option value="0"><?php _e( 'Start Date' ); ?></option>
+			<?php export_date_options(); ?>
+		</select>
+		<select name="post_end_date">
+			<option value="0"><?php _e( 'End Date' ); ?></option>
+			<?php export_date_options(); ?>
+		</select>
+	</li>
+	<li>
+		<label><?php _e( 'Status:' ); ?></label>
+		<select name="post_status">
+			<option value="0"><?php _e( 'All' ); ?></option>
+			<?php $post_stati = get_post_stati( array( 'internal' => false ), 'objects' );
+			foreach ( $post_stati as $status ) : ?>
+			<option value="<?php echo esc_attr( $status->name ); ?>"><?php echo esc_html( $status->label ); ?></option>
+			<?php endforeach; ?>
+		</select>
+	</li>
+</ul>
+
+<p><label><input type="radio" name="content" value="pages" /> <?php _e( 'Pages' ); ?></label></p>
+<ul id="page-filters" class="export-filters">
+	<li>
+		<label><?php _e( 'Author:' ); ?></label>
+		<?php wp_dropdown_users( array( 'name' => 'page_author', 'multi' => true, 'show_option_all' => __('All') ) ); ?>
+	</li>
+	<li>
+		<label><?php _e( 'Date range:' ); ?></label>
+		<select name="page_start_date">
+			<option value="0"><?php _e( 'Start Date' ); ?></option>
+			<?php export_date_options(); ?>
+		</select>
+		<select name="page_end_date">
+			<option value="0"><?php _e( 'End Date' ); ?></option>
+			<?php export_date_options(); ?>
+		</select>
+	</li>
+	<li>
+		<label><?php _e( 'Status:' ); ?></label>
+		<select name="page_status">
+			<option value="0"><?php _e( 'All' ); ?></option>
+			<?php foreach ( $post_stati as $status ) : ?>
+			<option value="<?php echo esc_attr( $status->name ); ?>"><?php echo esc_html( $status->label ); ?></option>
+			<?php endforeach; ?>
+		</select>
+	</li>
+</ul>
+
+<?php foreach ( get_post_types( array( '_builtin' => false, 'can_export' => true ), 'objects' ) as $post_type ) : ?>
+<p><label><input type="radio" name="content" value="<?php echo esc_attr( $post_type->name ); ?>" /> <?php echo esc_html( $post_type->label ); ?></label></p>
+<?php endforeach; ?>
+
+<?php submit_button( __('Download Export File'), 'secondary' ); ?>
 </form>
 </div>
 
-<?php
-
-
-include ('admin-footer.php');
-?>
+<?php include('admin-footer.php'); ?>
