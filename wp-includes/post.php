@@ -884,7 +884,7 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  *
  * @param string $post_type Name of the post type.
  * @param array|string $args See above description.
- * @return object the registered post type object
+ * @return object|WP_Error the registered post type object, or an error object
  */
 function register_post_type($post_type, $args = array()) {
 	global $wp_post_types, $wp_rewrite, $wp;
@@ -907,6 +907,9 @@ function register_post_type($post_type, $args = array()) {
 
 	$post_type = sanitize_key($post_type);
 	$args->name = $post_type;
+
+	if ( strlen( $post_type ) > 20 )
+			return new WP_Error( 'post_type_too_long', __( 'Post types cannot exceed 20 characters in length' ) );
 
 	// If not set, default to the setting for public.
 	if ( null === $args->publicly_queryable )
