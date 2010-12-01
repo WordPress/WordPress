@@ -9,7 +9,8 @@
  * @subpackage Administration
  */
 
-define('IFRAME_REQUEST' , true);
+if ( ! isset( $_GET['inline'] ) )
+	define( 'IFRAME_REQUEST' , true );
 
 /** Load WordPress Administration Bootstrap */
 require_once('./admin.php');
