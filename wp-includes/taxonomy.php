@@ -2775,6 +2775,7 @@ function get_term_link( $term, $taxonomy = '') {
  * 'before' : default is empty string. Display before taxonomies list.
  * 'sep' : default is empty string. Separate every taxonomy with value in this.
  * 'after' : default is empty string. Display this after the taxonomies list.
+ * 'template' : The template to use for displaying the taxonomy terms.
  *
  * @since 2.5.0
  * @uses get_the_taxonomies()
@@ -2787,12 +2788,13 @@ function the_taxonomies($args = array()) {
 		'before' => '',
 		'sep' => ' ',
 		'after' => '',
+		'template' => '%s: %l.'
 	);
 
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	echo $before . join($sep, get_the_taxonomies($post)) . $after;
+	echo $before . join($sep, get_the_taxonomies($post, $template)) . $after;
 }
 
 /**
@@ -2804,9 +2806,10 @@ function the_taxonomies($args = array()) {
  * @since 2.5.0
  *
  * @param int $post Optional. Post ID or will use Global Post ID (in loop).
+ * @param string $template Optional. The template to use for displaying the taxonomy terms.
  * @return array
  */
-function get_the_taxonomies($post = 0) {
+function get_the_taxonomies($post = 0, $template = '%s: %l.') {
 	if ( is_int($post) )
 		$post =& get_post($post);
 	elseif ( !is_object($post) )
@@ -2816,8 +2819,6 @@ function get_the_taxonomies($post = 0) {
 
 	if ( !$post )
 		return $taxonomies;
-
-	$template = apply_filters('taxonomy_template', '%s: %l.');
 
 	foreach ( get_object_taxonomies($post) as $taxonomy ) {
 		$t = (array) get_taxonomy($taxonomy);
