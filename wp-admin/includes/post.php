@@ -641,9 +641,10 @@ function add_meta( $post_ID ) {
 
 		wp_cache_delete($post_ID, 'post_meta');
 		$wpdb->insert( $wpdb->postmeta, array( 'post_id' => $post_ID, 'meta_key' => $metakey, 'meta_value' => $metavalue ) );
-		do_action( 'added_postmeta', $wpdb->insert_id, $post_ID, $metakey, $metavalue );
+		$meta_id = $wpdb->insert_id;
+		do_action( 'added_postmeta', $meta_id, $post_ID, $metakey, $metavalue );
 
-		return $wpdb->insert_id;
+		return $meta_id;
 	}
 	return false;
 } // add_meta
