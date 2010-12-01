@@ -492,14 +492,14 @@ $(document).ready(function(){
 			return function() {
 				var scope = $('select[name="action"]');
 				$('option[value='+value+']', scope).attr('selected', 'selected');
-				$('#comments-form').submit();
+				$('#doaction').click();
 			}
 		};
 
 		$.table_hotkeys(
 			$('table.widefat'),
 			['a', 'u', 's', 'd', 'r', 'q', 'z', ['e', edit_comment], ['shift+x', toggle_all],
-			['shift+a', make_bulk('approve')], ['shift+s', make_bulk('markspam')],
+			['shift+a', make_bulk('approve')], ['shift+s', make_bulk('spam')],
 			['shift+d', make_bulk('delete')], ['shift+t', make_bulk('trash')],
 			['shift+z', make_bulk('untrash')], ['shift+u', make_bulk('unapprove')]],
 			{ highlight_first: adminCommentsL10n.hotkeys_highlight_first, highlight_last: adminCommentsL10n.hotkeys_highlight_last,
