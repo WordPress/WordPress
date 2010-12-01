@@ -80,12 +80,11 @@ function show_blog_form($blogname = '', $blog_title = '', $errors = '') {
 		echo '<input name="blogname" type="text" id="blogname" value="'.esc_attr($blogname).'" maxlength="60" /><span class="suffix_address">.' . ( $site_domain = preg_replace( '|^www\.|', '', $current_site->domain ) ) . '</span><br />';
 
 	if ( !is_user_logged_in() ) {
-		print '(<strong>' . __( 'Your address will be ' );
 		if ( !is_subdomain_install() )
-			print $current_site->domain . $current_site->path . __( 'sitename' );
+			$site = $current_site->domain . $current_site->path . __( 'sitename' );
 		else
-			print __( 'domain.' ) . $site_domain . $current_site->path;
-		echo '.</strong>) ' . __( 'Must be at least 4 characters, letters and numbers only. It cannot be changed, so choose carefully!' ) . '</p>';
+			$site = __( 'domain' ) . '.' . $site_domain . $current_site->path;
+		echo '<p>(<strong>' . sprintf( __('Your address will be %s.'), $site ) . '</strong>) ' . __( 'Must be at least 4 characters, letters and numbers only. It cannot be changed, so choose carefully!' ) . '</p>';
 	}
 
 	// Blog Title
