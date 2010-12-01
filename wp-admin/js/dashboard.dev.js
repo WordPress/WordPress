@@ -19,12 +19,8 @@ jQuery(document).ready( function($) {
 					p.load( ajaxurl.replace( '/admin-ajax.php', '' ) + '/index-extra.php?jax=' + id, '', function() {
 						p.hide().slideDown('normal', function(){
 							$(this).css('display', '');
-							if ( 'dashboard_plugins' == id && $.isFunction(tb_init) )
-								tb_init('#dashboard_plugins a.thickbox');
-							if ( 'dashboard_quick_press' == id && $.isFunction(tb_init) ) {
-								tb_init('#dashboard_quick_press a.thickbox');
+							if ( 'dashboard_quick_press' == id )
 								quickPressLoad();
-							}
 						});
 					});
 				}, i * 500 );
@@ -62,7 +58,6 @@ jQuery(document).ready( function($) {
 				$('#dashboard_quick_press ul').find('li').each( function() {
 					$('#dashboard_recent_drafts ul').prepend( this );
 				} ).end().remove();
-				tb_init('a.thickbox');
 				quickPressLoad();
 			} );
 			return false;
