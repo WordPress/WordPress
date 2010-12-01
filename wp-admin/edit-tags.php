@@ -228,7 +228,7 @@ endif; ?>
 <p class="search-box">
 	<label class="screen-reader-text" for="tag-search-input"><?php echo $tax->labels->search_items; ?>:</label>
 	<input type="text" id="tag-search-input" name="s" value="<?php _admin_search_query(); ?>" />
-	<?php submit_button( $tax->labels->search_items, 'button', 'submit', false ); ?>
+	<?php submit_button( $tax->labels->search_items, 'button', 'search-items', false ); ?>
 </p>
 </form>
 <br class="clear" />
