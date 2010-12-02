@@ -3841,6 +3841,9 @@ input.button-highlighted,
 	width: 15em;
 }
 
+#createuser .form-field input {
+	width: 25em;
+}
 
 /*------------------------------------------------------------------------------
   19.0 - Tools
