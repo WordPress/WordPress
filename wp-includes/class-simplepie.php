@@ -1831,7 +1831,7 @@ class SimplePie
 	}
 
 	/**
-	 * Return the error message for the occured error
+	 * Return the error message for the occurred error
 	 *
 	 * @access public
 	 * @return string Error message

@@ -508,7 +508,7 @@ case 'add-tag' :
 	$tag = wp_insert_term($_POST['tag-name'], $taxonomy, $_POST );
 
 	if ( !$tag || is_wp_error($tag) || (!$tag = get_term( $tag['term_id'], $taxonomy )) ) {
-		$message = __('An error has occured. Please reload the page and try again.');
+		$message = __('An error has occurred. Please reload the page and try again.');
 		if ( is_wp_error($tag) && $tag->get_error_message() )
 			$message = $tag->get_error_message();
 
@@ -1343,7 +1343,7 @@ case 'save-widget' :
 	$sidebar_id = $_POST['sidebar'];
 	$multi_number = !empty($_POST['multi_number']) ? (int) $_POST['multi_number'] : 0;
 	$settings = isset($_POST['widget-' . $id_base]) && is_array($_POST['widget-' . $id_base]) ? $_POST['widget-' . $id_base] : false;
-	$error = '<p>' . __('An error has occured. Please reload the page and try again.') . '</p>';
+	$error = '<p>' . __('An error has occurred. Please reload the page and try again.') . '</p>';
 
 	$sidebars = wp_get_sidebars_widgets();
 	$sidebar = isset($sidebars[$sidebar_id]) ? $sidebars[$sidebar_id] : array();

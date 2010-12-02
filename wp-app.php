@@ -712,7 +712,7 @@ EOD;
 		$filetype = wp_check_filetype($location);
 
 		if ( !isset($location) || 'attachment' != $entry['post_type'] || empty($filetype['ext']) )
-			$this->internal_error(__('Error ocurred while accessing post metadata for file location.'));
+			$this->internal_error(__('Error occurred while accessing post metadata for file location.'));
 
 		// delete file
 		@unlink($location);
@@ -749,7 +749,7 @@ EOD;
 		$filetype = wp_check_filetype($location);
 
 		if ( !isset($location) || 'attachment' != $entry['post_type'] || empty($filetype['ext']) )
-			$this->internal_error(__('Error ocurred while accessing post metadata for file location.'));
+			$this->internal_error(__('Error occurred while accessing post metadata for file location.'));
 
 		status_header('200');
 		header('Content-Type: ' . $entry['post_mime_type']);
@@ -801,7 +801,7 @@ EOD;
 		$location = "{$upload_dir['basedir']}/{$location}";
 
 		if (!isset($location) || 'attachment' != $entry['post_type'] || empty($filetype['ext']))
-			$this->internal_error(__('Error ocurred while accessing post metadata for file location.'));
+			$this->internal_error(__('Error occurred while accessing post metadata for file location.'));
 
 		$fp = fopen("php://input", "rb");
 		$localfp = fopen($location, "w+");
