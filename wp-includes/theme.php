@@ -1478,14 +1478,11 @@ function remove_custom_image_header() {
 	_remove_theme_support( 'custom-header' );
 	remove_theme_support( 'custom-header-uploads' );
 
-	if ( ! is_admin() )
-		return;
+	if ( is_admin() ) {
+		remove_action( 'admin_menu', array( &$GLOBALS['custom_image_header'], 'init' ) );
+		unset( $GLOBALS['custom_image_header'] );
+	}
 
-	global $custom_image_header;
-
-	remove_action( 'admin_menu', array( &$custom_image_header, 'init' ) );
-
-	unset( $GLOBALS['custom_image_header'] );
 	return true;
 }
 
