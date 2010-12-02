@@ -232,9 +232,9 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 
 		$actions = array();
 		if ( 'enabled' != $status )
-			$actions['enable-selected'] = __( 'Enable' );
+			$actions['enable-selected'] = $this->is_site_themes ? __( 'Enable' ) : __( 'Network Enable' );
 		if ( 'disabled' != $status )
-			$actions['disable-selected'] = __( 'Disable' );
+			$actions['disable-selected'] = $this->is_site_themes ? __( 'Disable' ) : __( 'Network Disable' );
 		if ( current_user_can( 'update_themes' ) && !$this->is_site_themes )
 			$actions['update-selected'] = __( 'Update' );
 
@@ -275,9 +275,9 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		$theme_key = esc_html( $theme['Stylesheet'] );
 
 		if ( empty( $theme['enabled'] ) )
-			$actions['enable'] = '<a href="' . wp_nonce_url($url . 'action=enable&amp;theme=' . $theme_key . '&amp;paged=' . $page . '&amp;s=' . $s, 'enable-theme_' . $theme_key) . '" title="' . __('Enable this theme') . '" class="edit">' . __('Enable') . '</a>';
+			$actions['enable'] = '<a href="' . wp_nonce_url($url . 'action=enable&amp;theme=' . $theme_key . '&amp;paged=' . $page . '&amp;s=' . $s, 'enable-theme_' . $theme_key) . '" title="' . __('Enable this theme') . '" class="edit">' . ( $this->is_site_themes ? __( 'Enable' ) : __( 'Network Enable' ) ) . '</a>';
 		else
-			$actions['disable'] = '<a href="' . wp_nonce_url($url . 'action=disable&amp;theme=' . $theme_key . '&amp;paged=' . $page . '&amp;s=' . $s, 'disable-theme_' . $theme_key) . '" title="' . __('Disable this theme') . '">' . __('Disable') . '</a>';
+			$actions['disable'] = '<a href="' . wp_nonce_url($url . 'action=disable&amp;theme=' . $theme_key . '&amp;paged=' . $page . '&amp;s=' . $s, 'disable-theme_' . $theme_key) . '" title="' . __('Disable this theme') . '">' . ( $this->is_site_themes ? __( 'Disable' ) : __( 'Network Disable' ) ) . '</a>';
 
 		if ( current_user_can('edit_themes') )
 			$actions['edit'] = '<a href="theme-editor.php?theme=' . $theme['Name'] . '" title="' . __('Open this theme in the Theme Editor') . '" class="edit">' . __('Edit') . '</a>';
