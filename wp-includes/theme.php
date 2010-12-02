@@ -1444,18 +1444,49 @@ function header_image() {
  * @param callback $admin_header_callback Call on custom header administration screen.
  * @param callback $admin_image_div_callback Output a custom header image div on the custom header administration screen. Optional.
  */
-function add_custom_image_header($header_callback, $admin_header_callback, $admin_image_div_callback = '') {
-	if ( ! empty($header_callback) )
+function add_custom_image_header( $header_callback, $admin_header_callback, $admin_image_div_callback = '' ) {
+	if ( ! empty( $header_callback ) )
 		add_action('wp_head', $header_callback);
 
-	add_theme_support( 'custom-header' );
+	add_theme_support( 'custom-header', array( 'callback' => $header_callback ) );
 	add_theme_support( 'custom-header-uploads' );
 
 	if ( ! is_admin() )
 		return;
-	require_once(ABSPATH . 'wp-admin/custom-header.php');
-	$GLOBALS['custom_image_header'] =& new Custom_Image_Header($admin_header_callback, $admin_image_div_callback);
-	add_action('admin_menu', array(&$GLOBALS['custom_image_header'], 'init'));
+
+	global $custom_image_header;
+
+	require_once( ABSPATH . 'wp-admin/custom-header.php' );
+	$custom_image_header = new Custom_Image_Header( $admin_header_callback, $admin_image_div_callback );
+	add_action( 'admin_menu', array( &$custom_image_header, 'init' ) );
+}
+
+/**
+ * Remove image header support.
+ *
+ * @since 3.1.0
+ * @see add_custom_image_header()
+ *
+ * @return bool Whether support was removed.
+ */
+function remove_custom_image_header() {
+	if ( ! current_theme_supports( 'custom-header' ) )
+		return false;
+	
+	$callback = get_theme_support( 'custom-header' );
+	remove_action( 'wp_head', $callback['callback'] );
+	_remove_theme_support( 'custom-header' );
+	remove_theme_support( 'custom-header-uploads' );
+
+	if ( ! is_admin() )
+		return;
+
+	global $custom_image_header;
+
+	remove_action( 'admin_menu', array( &$custom_image_header, 'init' ) );
+
+	unset( $GLOBALS['custom_image_header'] );
+	return true;
 }
 
 /**
@@ -1694,7 +1725,16 @@ function remove_theme_support( $feature ) {
 	// Blacklist: for internal registrations not used directly by themes.
 	if ( in_array( $feature, array( 'custom-background', 'custom-header', 'editor-style', 'widgets', 'menus' ) ) )
 		return false;
+	return _remove_theme_support( $feature );
+}
 
+/**
+ * Removes theme support internally, ignorant of the blacklist.
+ *
+ * @access private
+ * @since 3.1.0
+ */
+function _remove_theme_support( $feature ) {
 	global $_wp_theme_features;
 
 	if ( ! isset( $_wp_theme_features[$feature] ) )
