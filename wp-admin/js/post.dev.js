@@ -478,27 +478,6 @@ jQuery(document).ready( function($) {
 			updateVisibility();
 		});
 
-		$('.edit-post-format', '#post-formats').click(function () {
-			$('#post-formats-select').slideDown("normal");
-			$(this).hide();
-			return false;
-		});
-
-		$('.cancel-post-format', '#post-formats-select').click(function () {
-			$('#post-formats-select').slideUp("normal");
-			$('#post-format-' + $('#old-post-format').val()).attr('checked', true);
-			$('#post-format-display').text( $('label[for="post-format-' + $('#old-post-format').val() + '"]', '#post-formats-select').text() );
-			$('.edit-post-format').show();
-			return false;
-		});
-
-		$('.save-post-format', '#post-formats-select').click(function () {
-			$('#post-formats-select').slideUp("normal");
-			$('#post-format-display').text( $('label[for="' + $('input:checked', '#post-formats-select').attr('id') + '"]', '#post-formats-select').text() );
-			$('.edit-post-format').show();
-			return false;
-		});
-
 		$('#timestampdiv').siblings('a.edit-timestamp').click(function() {
 			if ($('#timestampdiv').is(":hidden")) {
 				$('#timestampdiv').slideDown("normal");

@@ -108,6 +108,9 @@ require_once('./includes/meta-boxes.php');
 
 add_meta_box('submitdiv', __('Publish'), 'post_submit_meta_box', $post_type, 'side', 'core');
 
+if ( current_theme_supports( 'post-formats' ) && post_type_supports( $post_type, 'post-formats' ) )
+	add_meta_box( 'formatdiv', __('Format'), 'post_format_meta_box', $post_type, 'side', 'core' );
+
 // all taxonomies
 foreach ( get_object_taxonomies($post_type) as $tax_name ) {
 	$taxonomy = get_taxonomy($tax_name);
