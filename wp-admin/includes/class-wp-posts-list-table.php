@@ -68,7 +68,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 				$_GET['author'] = get_current_user_id();
 		}
 
-		if ( $sticky_posts = get_option( 'sticky_posts' ) ) {
+		if ( 'post' == $post_type && $sticky_posts = get_option( 'sticky_posts' ) ) {
 			$sticky_posts = implode( ', ', array_map( 'absint', (array) $sticky_posts ) );
 			$this->sticky_posts_count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT( 1 ) FROM $wpdb->posts WHERE post_type = %s AND ID IN ($sticky_posts)", $post_type ) );
 		}
@@ -950,7 +950,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 					</select>
 				</label>
 
-	<?php if ( post_type_supports( $screen->post_type, 'sticky' ) && $can_publish && current_user_can( $post_type_object->cap->edit_others_posts ) ) : ?>
+	<?php if ( 'post' == $screen->post_type && $can_publish && current_user_can( $post_type_object->cap->edit_others_posts ) ) : ?>
 
 	<?php	if ( $bulk ) : ?>
 
@@ -967,12 +967,12 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 				<label class="alignleft">
 					<input type="checkbox" name="sticky" value="sticky" />
-					<span class="checkbox-title"><?php _e( 'Make this sticky' ); ?></span>
+					<span class="checkbox-title"><?php _e( 'Make this post sticky' ); ?></span>
 				</label>
 
 	<?php	endif; // $bulk ?>
 
-	<?php endif; // post_type_supports(sticky) && $can_publish && current_user_can( 'edit_others_cap' ) ?>
+	<?php endif; // 'post' && $can_publish && current_user_can( 'edit_others_cap' ) ?>
 
 			</div>
 
