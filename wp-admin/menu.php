@@ -63,7 +63,7 @@ $menu[5] = array( __('Posts'), 'edit_posts', 'edit.php', '', 'open-if-no-js menu
 	$submenu['edit.php'][10]  = array( _x('Add New', 'post'), 'edit_posts', 'post-new.php' );
 
 	$i = 15;
-	foreach ( $wp_taxonomies as $tax ) {
+	foreach ( get_taxonomies( array(), 'objects' ) as $tax ) {
 		if ( ! $tax->show_ui || ! in_array('post', (array) $tax->object_type, true) )
 			continue;
 
@@ -87,7 +87,7 @@ $menu[20] = array( __('Pages'), 'edit_pages', 'edit.php?post_type=page', '', 'me
 	/* translators: add new page */
 	$submenu['edit.php?post_type=page'][10] = array( _x('Add New', 'page'), 'edit_pages', 'post-new.php?post_type=page' );
 	$i = 15;
-	foreach ( $wp_taxonomies as $tax ) {
+	foreach ( get_taxonomies( array(), 'objects' ) as $tax ) {
 		if ( ! $tax->show_ui || ! in_array('page', (array) $tax->object_type, true) )
 			continue;
 
@@ -127,7 +127,7 @@ foreach ( (array) get_post_types( array('show_ui' => true, '_builtin' => false, 
 	$submenu["edit.php?post_type=$ptype"][10]  = array( $ptype_obj->labels->add_new, $ptype_obj->cap->edit_posts, "post-new.php?post_type=$ptype" );
 
 	$i = 15;
-	foreach ( $wp_taxonomies as $tax ) {
+	foreach ( get_taxonomies( array(), 'objects' ) as $tax ) {
 		if ( ! $tax->show_ui || ! in_array($ptype, (array) $tax->object_type, true) )
 			continue;
 
