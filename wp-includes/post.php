@@ -528,7 +528,7 @@ function set_post_format( $post, $format ) {
 
 	if ( !empty($format) ) {
 		$format = sanitize_key($format);
-		$empty_formats = array( 'post', 'default' );
+		$empty_formats = array( 'post', 'standard' );
 		if ( in_array( $format, $empty_formats ) )
 			$format = '';
 		else
@@ -5053,16 +5053,16 @@ function wp_check_post_hierarchy_for_loops( $post_parent, $post_ID ) {
  */
 function get_post_format_strings() {
 	$strings = array(
-		'default' => _x( 'Default', 'Post format' ), // Special case. any value that evals to false will be considered default
-		'aside'   => _x( 'Aside',   'Post format' ),
-		'chat'    => _x( 'Chat',    'Post format' ),
-		'gallery' => _x( 'Gallery', 'Post format' ),
-		'link'    => _x( 'Link',    'Post format' ),
-		'image'   => _x( 'Image',   'Post format' ),
-		'quote'   => _x( 'Quote',   'Post format' ),
-		'status'  => _x( 'Status',  'Post format' ),
-		'video'   => _x( 'Video',   'Post format' ),
-		'audio'   => _x( 'Audio',   'Post format' ),
+		'standard' => _x( 'Standard', 'Post format' ), // Special case. any value that evals to false will be considered standard
+		'aside'    => _x( 'Aside',    'Post format' ),
+		'chat'     => _x( 'Chat',     'Post format' ),
+		'gallery'  => _x( 'Gallery',  'Post format' ),
+		'link'     => _x( 'Link',     'Post format' ),
+		'image'    => _x( 'Image',    'Post format' ),
+		'quote'    => _x( 'Quote',    'Post format' ),
+		'status'   => _x( 'Status',   'Post format' ),
+		'video'    => _x( 'Video',    'Post format' ),
+		'audio'    => _x( 'Audio',    'Post format' ),
 	);
 	return $strings;
 }

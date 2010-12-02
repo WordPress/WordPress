@@ -245,7 +245,7 @@ function post_format_meta_box( $post, $box ) {
 			$post_formats[0][] = $post_format;
 	?>
 	<div id="post-formats-select">
-		<input type="radio" name="post_format" class="post-format" id="post-format-0" value="0" <?php checked( $post_format, '0' ); ?> /> <label for="post-format-0"><?php _e('Default'); ?></label>
+		<input type="radio" name="post_format" class="post-format" id="post-format-0" value="0" <?php checked( $post_format, '0' ); ?> /> <label for="post-format-0"><?php _e('Standard'); ?></label>
 		<?php foreach ( $post_formats[0] as $format ) : ?>
 		<br /><input type="radio" name="post_format" class="post-format" id="post-format-<?php echo esc_attr( $format ); ?>" value="<?php echo esc_attr( $format ); ?>" <?php checked( $post_format, $format ); ?> /> <label for="post-format-<?php echo esc_attr( $format ); ?>"><?php echo esc_html( get_post_format_string( $format ) ); ?></label>
 		<?php endforeach; ?><br />
