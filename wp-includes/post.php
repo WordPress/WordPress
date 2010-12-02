@@ -5078,7 +5078,7 @@ function get_post_format_strings() {
 function get_post_format_string( $slug ) {
 	$strings = get_post_format_strings();
 	if ( !$slug )
-		return $strings['default'];
+		return $strings['standard'];
 	else
 		return ( isset( $strings[$slug] ) ) ? $strings[$slug] : '';
 }
