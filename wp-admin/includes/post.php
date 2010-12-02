@@ -1545,7 +1545,7 @@ function wp_tiny_mce( $teeny = false, $settings = false ) {
 	if ( ! empty( $editor_styles ) && is_array( $editor_styles ) ) {
 		$mce_css = array();
 		$style_uri = get_stylesheet_directory_uri();
-		if ( TEMPLATEPATH == STYLESHEETPATH ) {
+		if ( ! is_child_theme() ) {
 			foreach ( $editor_styles as $file )
 				$mce_css[] = "$style_uri/$file";
 		} else {
@@ -1553,10 +1553,10 @@ function wp_tiny_mce( $teeny = false, $settings = false ) {
 			$template_uri = get_template_directory_uri();
 			$template_dir = get_template_directory();
 			foreach ( $editor_styles as $file ) {
-				if ( file_exists( "$style_dir/$file" ) )
-					$mce_css[] = "$style_uri/$file";
 				if ( file_exists( "$template_dir/$file" ) )
 					$mce_css[] = "$template_uri/$file";
+				if ( file_exists( "$style_dir/$file" ) )
+					$mce_css[] = "$style_uri/$file";
 			}
 		}
 		$mce_css = implode( ',', $mce_css );
