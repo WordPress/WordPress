@@ -230,7 +230,13 @@ if ( !in_array( $post->post_status, array('publish', 'future', 'private') ) || 0
 <?php
 }
 
-
+/**
+ * Display post format form elements.
+ *
+ * @since 3.1.0
+ *
+ * @param object $post
+ */
 function post_format_meta_box( $post, $box ) {
 	if ( current_theme_supports( 'post-formats' ) && post_type_supports( $post->post_type, 'post-formats' ) ) :
 	$post_formats = get_theme_support( 'post-formats' );
