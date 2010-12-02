@@ -166,7 +166,7 @@ function get_template_directory_uri() {
  * The description will have the tags filtered with the following HTML elements
  * whitelisted. The <b>'a'</b> element with the <em>href</em> and <em>title</em>
  * attributes. The <b>abbr</b> element with the <em>title</em> attribute. The
- * <b>acronym<b> element with the <em>title</em> attribute allowed. The
+ * <b>acronym</b> element with the <em>title</em> attribute allowed. The
  * <b>code</b>, <b>em</b>, and <b>strong</b> elements also allowed.
  *
  * The style.css file must contain theme name, theme URI, and description. The
