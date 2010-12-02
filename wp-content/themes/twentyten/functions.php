@@ -104,9 +104,12 @@ function twentyten_setup() {
 	add_custom_background();
 
 	// Your changeable header business starts here
-	define( 'HEADER_TEXTCOLOR', '' );
+	if ( ! defined( 'HEADER_TEXTCOLOR' ) )
+		define( 'HEADER_TEXTCOLOR', '' );
+
 	// No CSS, just IMG call. The %s is a placeholder for the theme template directory URI.
-	define( 'HEADER_IMAGE', '%s/images/headers/path.jpg' );
+	if ( ! defined( 'HEADER_IMAGE' ) )
+		define( 'HEADER_IMAGE', '%s/images/headers/path.jpg' );
 
 	// The height and width of your custom header. You can hook into the theme's own filters to change these values.
 	// Add a filter to twentyten_header_image_width and twentyten_header_image_height to change these values.
@@ -119,7 +122,8 @@ function twentyten_setup() {
 	set_post_thumbnail_size( HEADER_IMAGE_WIDTH, HEADER_IMAGE_HEIGHT, true );
 
 	// Don't support text inside the header image.
-	define( 'NO_HEADER_TEXT', true );
+	if ( ! defined( 'NO_HEADER_TEXT' ) )
+		define( 'NO_HEADER_TEXT', true );
 
 	// Add a way for the custom header to be styled in the admin panel that controls
 	// custom headers. See twentyten_admin_header_style(), below.
