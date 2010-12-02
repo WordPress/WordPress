@@ -50,6 +50,8 @@ function wp_schedule_single_event( $timestamp, $hook, $args = array()) {
  * Valid values for the recurrence are hourly, daily and twicedaily.  These can
  * be extended using the cron_schedules filter in wp_get_schedules().
  *
+ * Use wp_next_scheduled() to prevent duplicates
+ *
  * @since 2.1.0
  *
  * @param int $timestamp Timestamp for when to run the event.
