@@ -2675,7 +2675,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			// Get post format 
 			$post_format = get_post_format( $post_ID );
 			if ( empty( $post_format ) )
-				$post_format = 'default';
+				$post_format = 'standard';
 
 			$sticky = false;
 			if ( is_sticky( $post_ID ) )
@@ -2802,7 +2802,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			// Get post format 
 			$post_format = get_post_format( $entry['ID'] );
 			if ( empty( $post_format ) )
-				$post_format = 'default';
+				$post_format = 'standard';
 
 			$struct[] = array(
 				'dateCreated' => new IXR_Date($post_date),
