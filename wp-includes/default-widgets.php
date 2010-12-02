@@ -1013,7 +1013,7 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 		echo $before_widget;
 		if ( $title )
 			echo $before_title . $title . $after_title;
-		echo '<div>';
+		echo '<div class="tagcloud">';
 		wp_tag_cloud( apply_filters('widget_tag_cloud_args', array('taxonomy' => $current_taxonomy) ) );
 		echo "</div>\n";
 		echo $after_widget;
