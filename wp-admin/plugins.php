@@ -98,7 +98,7 @@ if ( $action ) {
 			else
 				$plugins = array();
 
-			$title = __( 'Upgrade Plugins' );
+			$title = __( 'Update Plugins' );
 			$parent_file = 'plugins.php';
 
 			require_once(ABSPATH . 'wp-admin/admin-header.php');
