@@ -334,7 +334,7 @@ function get_post_class( $class = '', $post_id = null ) {
 	if ( $post_format && !is_wp_error($post_format) )
 		$classes[] = 'format-' . sanitize_html_class( $post_format );
 	else
-		$classes[] = 'format-default';
+		$classes[] = 'format-standard';
 
 	// post requires password
 	if ( post_password_required($post->ID) )
@@ -435,7 +435,7 @@ function get_body_class( $class = '' ) {
 		if ( $post_format && !is_wp_error($post_format) )
 			$classes[] = 'single-format-' . sanitize_html_class( $post_format );
 		else
-			$classes[] = 'single-format-default';
+			$classes[] = 'single-format-standard';
 
 		if ( is_attachment() ) {
 			$mime_type = get_post_mime_type($post_id);
