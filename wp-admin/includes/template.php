@@ -1238,7 +1238,7 @@ function add_settings_error( $setting, $code, $message, $type = 'error' ) {
  * Checks the $wp_settings_errors array for any errors declared during the current
  * pageload and returns them.
  *
- * If changes were just submitted ($_GET['updated']) and settings errors were saved
+ * If changes were just submitted ($_GET['settings-updated']) and settings errors were saved
  * to the 'settings_errors' transient then those errors will be returned instead. This
  * is used to pass errors back across pageloads.
  *
@@ -1265,7 +1265,7 @@ function get_settings_errors( $setting = '', $sanitize = FALSE ) {
 
 	// If settings were passed back from options.php then use them
 	// Ignore transients if $sanitize is true, we dont' want the old values anyway
-	if ( isset($_GET['updated']) && $_GET['updated'] && get_transient('settings_errors') ) {
+	if ( isset($_GET['settings-updated']) && $_GET['settings-updated'] && get_transient('settings_errors') ) {
 		$settings_errors = get_transient('settings_errors');
 		delete_transient('settings_errors');
 	// Otherwise check global in case validation has been run on this pageload
@@ -1308,7 +1308,7 @@ function get_settings_errors( $setting = '', $sanitize = FALSE ) {
  */
 function settings_errors( $setting = '', $sanitize = FALSE, $hide_on_update = FALSE ) {
 
-	if ($hide_on_update AND $_GET['updated']) return;
+	if ($hide_on_update AND $_GET['settings-updated']) return;
 
 	$settings_errors = get_settings_errors( $setting, $sanitize );
 

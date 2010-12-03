@@ -157,7 +157,7 @@ if ( 'update' == $action ) {
 	/**
 	 * Redirect back to the settings page that was submitted
 	 */
-	$goback = add_query_arg( 'updated', 'true',  wp_get_referer() );
+	$goback = add_query_arg( 'settings-updated', 'true',  wp_get_referer() );
 	wp_redirect( $goback );
 	exit;
 }
