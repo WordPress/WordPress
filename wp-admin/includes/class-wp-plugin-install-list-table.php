@@ -104,7 +104,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		foreach ( (array) $tabs as $action => $text ) {
 			$class = ( $action == $tab ) ? ' class="current"' : '';
 			$href = self_admin_url('plugin-install.php?tab=' . $action);
-			$display_tabs[$action] = "<a href='$href'$class>$text</a>";
+			$display_tabs['plugin-install-'.$action] = "<a href='$href'$class>$text</a>";
 		}
 
 		return $display_tabs;
