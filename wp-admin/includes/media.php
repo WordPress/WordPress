@@ -1544,7 +1544,7 @@ SWFUpload.onload = function() {
 	<div class="clear"></div>
 	<p class="media-upload-size"><?php printf( __( 'Maximum upload file size: %d%s' ), $upload_size_unit, $sizes[$u] ); ?></p>
 	<?php if ( is_lighttpd_before_150() ): ?>
-	<p><?php _e('If you want to use all capabilities of the uploader, like uploading multiple files at once, please upgrade to lighttpd 1.5.'); ?></p>
+	<p><?php _e('If you want to use all capabilities of the uploader, like uploading multiple files at once, please update to lighttpd 1.5.'); ?></p>
 	<?php endif;?>
 <?php do_action('post-html-upload-ui', $flash); ?>
 </div>

@@ -51,7 +51,7 @@ if ( isset($_GET['action']) ) {
 
 		check_admin_referer('upgrade-plugin_' . $plugin);
 
-		$title = __('Upgrade Plugin');
+		$title = __('Update Plugin');
 		$parent_file = 'plugins.php';
 		$submenu_file = 'plugins.php';
 		require_once(ABSPATH . 'wp-admin/admin-header.php');
@@ -155,7 +155,7 @@ if ( isset($_GET['action']) ) {
 
 		add_thickbox();
 		wp_enqueue_script('theme-preview');
-		$title = __('Upgrade Theme');
+		$title = __('Update Theme');
 		$parent_file = 'themes.php';
 		$submenu_file = 'themes.php';
 		require_once(ABSPATH . 'wp-admin/admin-header.php');
