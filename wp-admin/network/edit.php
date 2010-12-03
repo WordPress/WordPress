@@ -462,6 +462,8 @@ switch ( $_GET['action'] ) {
 	break;
 
 	default:
+		// Let plugins use us as a post handler easily
+		do_action( 'network_admin_edit_' . $_GET['action'] );
 		wp_redirect( network_admin_url( 'index.php' ) );
 	break;
 }

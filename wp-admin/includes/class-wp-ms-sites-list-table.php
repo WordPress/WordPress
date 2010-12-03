@@ -259,7 +259,8 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 							}
 
 							$actions['visit']	= "<span class='view'><a href='" . esc_url( get_home_url( $blog['blog_id'] ) ) . "' rel='permalink'>" . __( 'Visit' ) . '</a></span>';
-							$actions = array_filter( $actions );
+
+							$actions = apply_filters( 'manage_sites_action_links', array_filter( $actions ), $blog['blog_id'], $blogname );
 							echo $this->row_actions( $actions );
 					?>
 						</td>

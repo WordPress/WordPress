@@ -76,7 +76,7 @@ if ( isset( $_REQUEST['updated'] ) && $_REQUEST['updated'] == 'true' && ! empty(
 			$msg = __( 'Site marked as spam.' );
 		break;
 		default:
-			$msg = __( 'Settings saved.' );
+			$msg = apply_filters( 'network_sites_updated_message_' . $_REQUEST['action'] , __( 'Settings saved.' ) );
 		break;
 	}
 	if ( $msg )
