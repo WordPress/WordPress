@@ -221,10 +221,10 @@ switch ( $_GET['action'] ) {
 			}
 
 			wp_redirect( add_query_arg( array( 'updated' => 'true', 'action' => $blogfunction ), wp_get_referer() ) );
-			exit();
 		} else {
 			wp_redirect( network_admin_url( 'sites.php' ) );
 		}
+		exit();
 	break;
 
 	case 'archiveblog':
@@ -343,6 +343,7 @@ switch ( $_GET['action'] ) {
 			</body>
 		</html>
 		<?php
+		exit();
 	break;
 
 	// Users
@@ -361,10 +362,10 @@ switch ( $_GET['action'] ) {
 			confirm_delete_users( $_POST['allusers'] );
 			echo '</div>';
             require_once( '../admin-footer.php' );
-            exit();
-		} else {
+  		} else {
 			wp_redirect( network_admin_url( 'users.php' ) );
 		}
+		exit();
 	break;
 
 	case 'allusers':
@@ -420,10 +421,10 @@ switch ( $_GET['action'] ) {
 			}
 
 			wp_redirect( add_query_arg( array( 'updated' => 'true', 'action' => $userfunction ), wp_get_referer() ) );
-			exit();
 		} else {
 			wp_redirect( network_admin_url( 'users.php' ) );
 		}
+		exit();
 	break;
 
 	case 'dodelete':
@@ -459,12 +460,14 @@ switch ( $_GET['action'] ) {
 			$deletefunction = 'all_delete';
 
 		wp_redirect( add_query_arg( array( 'updated' => 'true', 'action' => $deletefunction ), network_admin_url( 'users.php' ) ) );
+		exit();
 	break;
 
 	default:
 		// Let plugins use us as a post handler easily
 		do_action( 'network_admin_edit_' . $_GET['action'] );
 		wp_redirect( network_admin_url( 'index.php' ) );
+		exit();
 	break;
 }
 ?>
