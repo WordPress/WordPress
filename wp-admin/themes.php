@@ -12,13 +12,13 @@ require_once('./admin.php');
 $wp_list_table = get_list_table('WP_Themes_List_Table');
 $wp_list_table->check_permissions();
 
-if ( current_user_can('switch_themes') && isset($_GET['action']) ) {
+if ( current_user_can( 'switch_themes' ) && isset($_GET['action'] ) ) {
 	if ( 'activate' == $_GET['action'] ) {
 		check_admin_referer('switch-theme_' . $_GET['template']);
 		switch_theme($_GET['template'], $_GET['stylesheet']);
 		wp_redirect( admin_url('themes.php?activated=true') );
 		exit;
-	} else if ( 'delete' == $_GET['action'] ) {
+	} elseif ( 'delete' == $_GET['action'] ) {
 		check_admin_referer('delete-theme_' . $_GET['template']);
 		if ( !current_user_can('delete_themes') )
 			wp_die( __( 'Cheatin&#8217; uh?' ) );
@@ -34,6 +34,10 @@ $title = __('Manage Themes');
 $parent_file = 'themes.php';
 
 if ( current_user_can( 'switch_themes' ) ) :
+
+// Flush rewrite rules on activation once new theme is in place.
+if ( isset( $_GET['activated'] ) && $_GET['activated'] == 'true' )
+	flush_rewrite_rules();
 
 $help = '<p>' . __('Aside from the default theme included with your WordPress installation, themes are designed and developed by third parties.') . '</p>';
 $help .= '<p>' . __('You can see your active theme at the top of the screen. Below are the other themes you have installed that are not currently in use. You can see what your site would look like with one of these themes by clicking the Preview link. To change themes, click the Activate link.') . '</p>';

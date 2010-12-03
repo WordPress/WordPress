@@ -19,10 +19,10 @@ function create_initial_taxonomies() {
 		'hierarchical' => true,
 	 	'update_count_callback' => '_update_post_term_count',
 		'query_var' => 'category_name',
-		'rewrite' => array(
+		'rewrite' => did_action( 'init' ) ? array(
 					'hierarchical' => true,
 					'slug' => get_option('category_base') ? get_option('category_base') : 'category',
-					'with_front' => false),
+					'with_front' => false) : false,
 		'public' => true,
 		'show_ui' => true,
 		'_builtin' => true,
@@ -32,9 +32,9 @@ function create_initial_taxonomies() {
 	 	'hierarchical' => false,
 		'update_count_callback' => '_update_post_term_count',
 		'query_var' => 'tag',
-		'rewrite' => array(
-					'slug' => get_option('tag_base') ? get_option('tag_base') : 'tag' ,
-					'with_front' => false),
+		'rewrite' => did_action( 'init' ) ? array(
+					'slug' => get_option('tag_base') ? get_option('tag_base') : 'tag',
+					'with_front' => false) : false,
 		'public' => true,
 		'show_ui' => true,
 		'_builtin' => true,
@@ -52,7 +52,7 @@ function create_initial_taxonomies() {
 		'show_ui' => false,
 		'_builtin' => true,
 		'show_in_nav_menus' => false,
-	) ) ;
+	) );
 
 	register_taxonomy( 'link_category', 'link', array(
 		'hierarchical' => false,
@@ -75,21 +75,27 @@ function create_initial_taxonomies() {
 		'public' => false,
 		'show_ui' => false,
 		'_builtin' => true,
-	) ) ;
+	) );
+
+	$rewrite = false;
+	if ( did_action( 'init' ) && current_theme_supports( 'post-formats' ) ) {
+		$rewrite = apply_filters( 'post_format_rewrite_base', 'type' );
+		$rewrite = $rewrite ? array( 'slug' => $rewrite ) : false;
+	}
 
 	register_taxonomy( 'post_format', 'post', array(
-		'public' => false,
+		'public' => true,
 		'hierarchical' => false,
 		'labels' => array(
 			'name' => '',
 			'singular_name' => '',
 		),
-		'query_var' => false,
-		'rewrite' => false,
+		'query_var' => 'post_format',
+		'rewrite' => $rewrite,
 		'show_ui' => false,
 		'_builtin' => true,
 		'show_in_nav_menus' => false,
-	) ) ;
+	) );
 }
 add_action( 'init', 'create_initial_taxonomies', 0 ); // highest priority
 
@@ -310,7 +316,7 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 		$wp->add_query_var($args['query_var']);
 	}
 
-	if ( false !== $args['rewrite'] && '' != get_option('permalink_structure') && !empty($wp_rewrite) ) {
+	if ( false !== $args['rewrite'] && '' != get_option('permalink_structure') ) {
 		$args['rewrite'] = wp_parse_args($args['rewrite'], array(
 			'slug' => sanitize_title_with_dashes($taxonomy),
 			'with_front' => true,

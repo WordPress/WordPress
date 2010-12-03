@@ -5067,6 +5067,23 @@ function get_post_format_strings() {
 	return $strings;
 }
 
+function get_post_format_slugs() {
+	$slugs = array(
+		'default' => _x( 'default', 'Post format slug' ),
+		'aside'   => _x( 'aside',   'Post format slug' ),
+		'chat'    => _x( 'chat',    'Post format slug' ),
+		'gallery' => _x( 'gallery', 'Post format slug' ),
+		'link'    => _x( 'link',    'Post format slug' ),
+		'image'   => _x( 'image',   'Post format slug' ),
+		'quote'   => _x( 'quote',   'Post format slug' ),
+		'status'  => _x( 'status',  'Post format slug' ),
+		'video'   => _x( 'video',   'Post format slug' ),
+		'audio'   => _x( 'audio',   'Post format slug' ),
+	);
+	$slugs = array_map( 'sanitize_title_with_dashes', $slugs );
+	return $slugs;
+}
+
 /**
  * Returns a pretty, translated version of a post format slug
  *
@@ -5104,5 +5121,56 @@ function set_post_thumbnail( $post, $thumbnail_id ) {
 	}
 	return false;
 }
+
+/**
+ * Returns a link to a post format index.
+ *
+ * @since 3.1.0
+ *
+ * @param $format string Post format
+ * @return string Link
+ */
+function get_post_format_link( $format ) {
+	$term = get_term_by('slug', 'post-format-' . $format, 'post_format' );
+	if ( ! $term || is_wp_error( $term ) )
+		return false;
+	return get_term_link( $term );
+}
+
+/**
+ * Filters the request to allow for the format prefix.
+ *
+ * @access private
+ * @since 3.1.0
+ */
+function _post_format_request( $qvs ) {
+	if ( ! isset( $qvs['post_format'] ) )
+		return $qvs;
+	$slugs = array_flip( get_post_format_slugs() );
+	if ( isset( $slugs[ $qvs['post_format'] ] ) )
+		$qvs['post_format'] = 'post-format-' . $slugs[ $qvs['post_format'] ];
+	return $qvs;
+}
+add_filter( 'request', '_post_format_request' );
+
+/**
+ * Filters the post format term link to remove the format prefix.
+ *
+ * @access private
+ * @since 3.1.0
+ */
+function _post_format_link( $link, $term, $taxonomy ) {
+	global $wp_rewrite;
+	if ( 'post_format' != $taxonomy )
+		return $link;
+	$slugs = get_post_format_slugs();
+	if ( $wp_rewrite->get_extra_permastruct( $taxonomy ) ) {
+		return str_replace( "/{$term->slug}", '/' . $slugs[ str_replace( 'post-format-', '', $term->slug ) ], $link );
+	} else {
+		$link = remove_query_arg( 'format', $link );
+		return add_query_arg( 'format', str_replace( 'post-format-', $term->slug ), $link );
+	}
+}
+add_filter( 'term_link', '_post_format_link', 10, 3 );
 
 ?>
