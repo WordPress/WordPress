@@ -385,8 +385,8 @@ function get_themes() {
 		$template_files = array_unique($template_files);
 		$stylesheet_files = array_unique($stylesheet_files);
 
-		$template_dir = dirname($template_files[0]);
-		$stylesheet_dir = dirname($stylesheet_files[0]);
+		$template_dir = $template_directory;
+		$stylesheet_dir = $theme_root . '/' . $stylesheet;
 
 		if ( empty($template_dir) )
 			$template_dir = '/';
