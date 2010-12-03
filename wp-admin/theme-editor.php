@@ -224,8 +224,16 @@ if ($allowed_files) :
 	<?php } ?>
 
 		<div>
+		<?php if ( is_child_theme() ) :
+			if ( strpos( $file, $themes[$theme]['Template Dir'] ) === 0 ) { ?>
+				<p><?php if ( is_writeable( $file ) ) { ?><strong><?php _e( 'Caution:' ); ?></strong><?php } ?>
+				<?php printf( __( 'This is a file in your parent theme, &#8220;%s.&#8221;' ), $themes[$theme]['Parent Theme'] ); ?></p>
+			<?php } else { ?>
+				<p><?php printf( __( 'This is a file in your child theme, &#8220;%s.&#8221;' ), $themes[$theme]['Name'] ); ?></p>
+			<?php } ?>
+		<?php endif; ?>
 <?php
-	if ( is_writeable($file) ) :
+	if ( is_writeable( $file ) ) :
 		submit_button( __( 'Update File' ), 'primary', 'submit', true, array( 'tabindex' => '2' ) );
 	else : ?>
 <p><em><?php _e('You need to make this file writable before you can save your changes. See <a href="http://codex.wordpress.org/Changing_File_Permissions">the Codex</a> for more information.'); ?></em></p>
