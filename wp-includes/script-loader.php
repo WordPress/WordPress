@@ -304,7 +304,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'admin-custom-fields', "/wp-admin/js/custom-fields$suffix.js", array('wp-lists'), '20090106' );
 		$scripts->add_data( 'admin-custom-fields', 'group', 1 );
 
-		$scripts->add( 'list-table', "/wp-admin/js/list-table$suffix.js", array( 'jquery-query', 'jquery-serialize-object' ), '20101204' );
+		$scripts->add( 'list-table', "/wp-admin/js/list-table$suffix.js", array( 'jquery-query', 'jquery-serialize-object' ), '20101230' );
 		$scripts->add_data( 'list-table', 'group', 1 );
 		$scripts->localize( 'list-table', 'listTableL10n', array(
 			'loading' => __('Loading...'),
@@ -485,9 +485,9 @@ function wp_default_styles( &$styles ) {
 	// Any rtl stylesheets that don't have a .dev version for ltr
 	$no_suffix = array( 'farbtastic' );
 
-	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20101204' );
+	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20101202' );
 
-	$styles->add( 'ie', "/wp-admin/css/ie$suffix.css", array(), '20101204' );
+	$styles->add( 'ie', "/wp-admin/css/ie$suffix.css", array(), '20101102' );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
 
 	// all colors stylesheets need to have the same query strings (cache manifest compat)

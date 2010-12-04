@@ -463,7 +463,3 @@ table.ie-fixed {
 .menu li.sortable-placeholder {
 	min-width:400px;
 }
-
-#loading-items {
-	filter:alpha(opacity=70);
-}

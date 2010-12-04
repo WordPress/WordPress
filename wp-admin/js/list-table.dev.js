@@ -15,9 +15,8 @@ window.listTable = {
 
 		this.$tbody = $('#the-list, #the-comment-list');
 
-		this.$overlay = $('<div>')
-			.attr('id', 'loading-items')
-			.html('<span>' + listTableL10n.loading + '</span>')
+		this.$overlay = $('<div id="loading-items">')
+			.html(listTableL10n.loading)
 			.hide()
 			.prependTo($('body'));
 	},
@@ -53,8 +52,6 @@ window.listTable = {
 
 		if ( !different )
 			return false;
-
-		scrollTo(0, 0);
 
 		this.show_overlay();
 
@@ -134,8 +131,8 @@ window.listTable = {
 
 		this.$overlay
 			.css({
-				width: this.$tbody.outerWidth(true) + 'px',
-				height: this.$tbody.outerHeight(true) + 'px'
+				width: this.$tbody.width() + 'px',
+				height: this.$tbody.height() - 20 + 'px'
 			})
 			.css(this.$tbody.offset())
 			.show();
@@ -158,7 +155,10 @@ listTable.init();
 		if ( paged > listTable.get_total_pages() )
 			paged = listTable.get_total_pages();
 
-		listTable.update_rows({'paged': paged}, false);
+		listTable.update_rows({'paged': paged}, false, function() {
+			if ( $el.parents('.tablenav.bottom').length )
+				scrollTo(0, 0);
+		});
 	}
 
 	// pagination
