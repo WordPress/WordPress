@@ -7,10 +7,11 @@
  */
 
 /** The descriptions for theme files. */
-$wp_file_descriptions = array (
+$wp_file_descriptions = array(
 	'index.php' => __( 'Main Index Template' ),
 	'style.css' => __( 'Stylesheet' ),
 	'editor-style.css' => __( 'Visual Editor Stylesheet' ),
+	'editor-style-rtl.css' => __( 'Visual Editor RTL Stylesheet' ),
 	'rtl.css' => __( 'RTL Stylesheet' ),
 	'comments.php' => __( 'Comments' ),
 	'comments-popup.php' => __( 'Popup Comments' ),
@@ -36,7 +37,10 @@ $wp_file_descriptions = array (
 	'my-hacks.php' => __( 'my-hacks.php (legacy hacks support)' ),
 	'.htaccess' => __( '.htaccess (for rewrite rules )' ),
 	// Deprecated files
-	'wp-layout.css' => __( 'Stylesheet' ), 'wp-comments.php' => __( 'Comments Template' ), 'wp-comments-popup.php' => __( 'Popup Comments Template' ));
+	'wp-layout.css' => __( 'Stylesheet' ),
+	'wp-comments.php' => __( 'Comments Template' ),
+	'wp-comments-popup.php' => __( 'Popup Comments Template' ),
+);
 
 /**
  * Get the description for standard WordPress theme files and other various standard
