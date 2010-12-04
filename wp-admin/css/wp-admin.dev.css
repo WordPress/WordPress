@@ -4189,11 +4189,19 @@ td.media-icon img {
 #loading-items {
 	position: absolute;
 	z-index: 9999;
-	padding: 10px 0;
-	background-color: #fff;
+	background-color: #eee;
+	opacity: 0.7;
+	height: 100%;
+	width: 100%;
+}
+#loading-items span {
 	font-weight: bold;
 	text-align: center;
-	opacity: 0.5;
+	background: url(../images/loading-lg.gif) no-repeat 50% top;
+	margin-top: 7px;
+	line-height: 32px;
+	display: block;
+	text-indent: -9999px;
 }
 #howto {
 	font-size: 11px;
