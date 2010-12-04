@@ -1,3 +1,7 @@
+.alignleft h3 {
+	margin: 0;
+}
+
 h3 span {
 	font-weight: normal;
 }
