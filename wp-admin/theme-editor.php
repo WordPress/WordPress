@@ -125,7 +125,7 @@ default:
 <?php endif;
 
 $description = get_file_description($file);
-$desc_header = ( $description != $file_show ) ? "$description <span>(%s)</span>" : "<span>%s</span>";
+$desc_header = ( $description != $file_show ) ? "$description <span>($file_show)</span>" : $file_show;
 
 $is_child_theme = $themes[$theme]['Template'] != $themes[$theme]['Stylesheet'];
 ?>
@@ -135,12 +135,7 @@ $is_child_theme = $themes[$theme]['Template'] != $themes[$theme]['Stylesheet'];
 
 <div class="fileedit-sub">
 <div class="alignleft">
-<h3><?php 
-if ( $is_child_theme && strpos( $file, $themes[$theme]['Template Dir'] ) === 0 )
-	echo $themes[$theme]['Parent Theme'] . ': ';
-else
-	echo $themes[$theme]['Name'] . ': ';
-printf( $desc_header, $file_show ); ?></h3>
+<h3><?php echo $themes[$theme]['Name'] . ': ' . $desc_header; ?></h3>
 </div>
 <div class="alignright">
 	<form action="theme-editor.php" method="post">
@@ -182,16 +177,7 @@ if ($allowed_files) :
 		$template_show = basename($template_file);
 		$filedesc = ( $description != $template_file ) ? "$description<br /><span class='nonessential'>($template_show)</span>" : "$description";
 		$filedesc = ( $template_file == $file ) ? "<span class='highlight'>$description<br /><span class='nonessential'>($template_show)</span></span>" : $filedesc;
-
-		// If we have two files of the same name prefer the one in the Template Directory
-		// This means that we display the correct files for child themes which overload Templates as well as Styles
-		if ( array_key_exists($description, $template_mapping ) ) {
-			if ( false !== strpos( $template_file, $template_dir ) )  {
-				$template_mapping[ $description ] = array( _get_template_edit_filename($template_file, $template_dir), $filedesc );
-			}
-		} else {
-			$template_mapping[ $description ] = array( _get_template_edit_filename($template_file, $template_dir), $filedesc );
-		}
+		$template_mapping[ $description ] = array( _get_template_edit_filename($template_file, $template_dir), $filedesc );
 	}
 	ksort( $template_mapping );
 	while ( list( $template_sorted_key, list( $template_file, $filedesc ) ) = each( $template_mapping ) ) :
