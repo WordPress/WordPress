@@ -1674,6 +1674,10 @@ body { <?php echo trim( $style ); ?> }
  * the theme root. It also accepts an array of stylesheets.
  * It is optional and defaults to 'editor-style.css'.
  *
+ * Supports RTL stylesheets automatically by searching for the -rtl prefix, e.g.
+ * editor-style-rtl.css. If an array of stylesheets is passed to add_editor_style(),
+ * RTL is only added for the first stylesheet.
+ *
  * @since 3.0.0
  *
  * @param mixed $stylesheet Optional. Stylesheet name or array thereof, relative to theme root.
@@ -1695,6 +1699,22 @@ function add_editor_style( $stylesheet = 'editor-style.css' ) {
 	}
 
 	$editor_styles = array_merge( $editor_styles, $stylesheet );
+}
+
+/**
+ * Removes all visual editor stylesheets.
+ *
+ * @since 3.1.0
+ *
+ * @return bool True on success, false if there were no stylesheets to remove.
+ */
+function remove_editor_styles() {
+	if ( ! current_theme_supports( 'editor-style' ) )
+		return false;
+	_remove_theme_support( 'editor-style' );
+	if ( is_admin() )
+		$GLOBALS['editor_styles'] = array();
+	return true;
 }
 
 /**
