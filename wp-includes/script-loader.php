@@ -506,7 +506,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'widgets', "/wp-admin/css/widgets$suffix.css", array(), '20100610' );
 	$styles->add( 'dashboard', "/wp-admin/css/dashboard$suffix.css", array(), '20101020' );
 	$styles->add( 'install', "/wp-admin/css/install$suffix.css", array(), '20101020' ); // Readme as well
-	$styles->add( 'theme-editor', "/wp-admin/css/theme-editor$suffix.css", array(), '20100514' );
+	$styles->add( 'theme-editor', "/wp-admin/css/theme-editor$suffix.css", array(), '20101203' );
 	$styles->add( 'press-this', "/wp-admin/css/press-this$suffix.css", array(), '20101020' );
 	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css', array(), '20090514' );
 	$styles->add( 'login', "/wp-admin/css/login$suffix.css", array(), '20101020' );

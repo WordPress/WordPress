@@ -125,7 +125,9 @@ default:
 <?php endif;
 
 $description = get_file_description($file);
-$desc_header = ( $description != $file_show ) ? "<strong>$description</strong> (%s)" : "%s";
+$desc_header = ( $description != $file_show ) ? "$description <span>(%s)</span>" : "<span>%s</span>";
+
+$is_child_theme = $themes[$theme]['Template'] != $themes[$theme]['Stylesheet'];
 ?>
 <div class="wrap">
 <?php screen_icon(); ?>
@@ -133,7 +135,12 @@ $desc_header = ( $description != $file_show ) ? "<strong>$description</strong> (
 
 <div class="fileedit-sub">
 <div class="alignleft">
-<big><?php echo sprintf($desc_header, $file_show); ?></big>
+<h3><?php 
+if ( $is_child_theme && strpos( $file, $themes[$theme]['Template Dir'] ) === 0 )
+	echo $themes[$theme]['Parent Theme'] . ': ';
+else
+	echo $themes[$theme]['Name'] . ': ';
+printf( $desc_header, $file_show ); ?></h3>
 </div>
 <div class="alignright">
 	<form action="theme-editor.php" method="post">
@@ -155,16 +162,22 @@ $desc_header = ( $description != $file_show ) ? "<strong>$description</strong> (
 <br class="clear" />
 </div>
 	<div id="templateside">
-
 <?php
 if ($allowed_files) :
 ?>
 	<h3><?php _e('Templates'); ?></h3>
+	<?php if ( $is_child_theme ) : ?>
+	<p class="howto"><?php printf( __( 'This child theme inherits templates from a parent theme, %s.' ), $themes[$theme]['Parent Theme'] ); ?></p>
+	<?php endif; ?>
 	<ul>
 <?php
 	$template_mapping = array();
 	$template_dir = $themes[$theme]['Template Dir'];
 	foreach ( $themes[$theme]['Template Files'] as $template_file ) {
+		// Don't show parent templates.
+		if ( $is_child_theme && strpos( $template_file, $themes[$theme]['Template Dir'] ) === 0 )
+			continue;
+
 		$description = trim( get_file_description($template_file) );
 		$template_show = basename($template_file);
 		$filedesc = ( $description != $template_file ) ? "$description<br /><span class='nonessential'>($template_show)</span>" : "$description";
@@ -192,6 +205,10 @@ if ($allowed_files) :
 	$template_mapping = array();
 	$stylesheet_dir = $themes[$theme]['Stylesheet Dir'];
 	foreach ( $themes[$theme]['Stylesheet Files'] as $style_file ) {
+		// Don't show parent styles.
+		if ( $is_child_theme && strpos( $style_file, $themes[$theme]['Template Dir'] ) === 0 )
+			continue;
+
 		$description = trim( get_file_description($style_file) );
 		$style_show = basename($style_file);
 		$filedesc = ( $description != $style_file ) ? "$description<br /><span class='nonessential'>($style_show)</span>" : "$description";
@@ -224,13 +241,9 @@ if ($allowed_files) :
 	<?php } ?>
 
 		<div>
-		<?php if ( is_child_theme() ) :
-			if ( strpos( $file, $themes[$theme]['Template Dir'] ) === 0 ) { ?>
-				<p><?php if ( is_writeable( $file ) ) { ?><strong><?php _e( 'Caution:' ); ?></strong><?php } ?>
-				<?php printf( __( 'This is a file in your parent theme, &#8220;%s.&#8221;' ), $themes[$theme]['Parent Theme'] ); ?></p>
-			<?php } else { ?>
-				<p><?php printf( __( 'This is a file in your child theme, &#8220;%s.&#8221;' ), $themes[$theme]['Name'] ); ?></p>
-			<?php } ?>
+		<?php if ( is_child_theme() && ! $is_child_theme && $themes[$theme]['Template'] == get_option('template') ) : ?>
+			<p><?php if ( is_writeable( $file ) ) { ?><strong><?php _e( 'Caution:' ); ?></strong><?php } ?>
+			<?php _e( 'This is a file in your current parent theme.' ); ?></p>
 		<?php endif; ?>
 <?php
 	if ( is_writeable( $file ) ) :
