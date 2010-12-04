@@ -44,10 +44,13 @@ if (empty($theme)) {
 if ( ! isset($themes[$theme]) )
 	wp_die(__('The requested theme does not exist.'));
 
-$allowed_files = array_merge($themes[$theme]['Stylesheet Files'], $themes[$theme]['Template Files']);
+$allowed_files = array_merge( $themes[$theme]['Stylesheet Files'], $themes[$theme]['Template Files'] );
 
-if (empty($file)) {
-	$file = $allowed_files[0];
+if ( empty( $file ) ) {
+	if ( false !== array_search( $themes[$theme]['Stylesheet Dir'] . '/style.css', $allowed_files ) )
+		$file = $themes[$theme]['Stylesheet Dir'] . '/style.css';
+	else
+		$file = $allowed_files[0];
 } else {
 	$file = stripslashes($file);
 	if ( 'theme' == $dir ) {
