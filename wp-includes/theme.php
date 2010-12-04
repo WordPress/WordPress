@@ -1474,7 +1474,7 @@ function remove_custom_image_header() {
 		return false;
 	
 	$callback = get_theme_support( 'custom-header' );
-	remove_action( 'wp_head', $callback['callback'] );
+	remove_action( 'wp_head', $callback[0]['callback'] );
 	_remove_theme_support( 'custom-header' );
 	remove_theme_support( 'custom-header-uploads' );
 
@@ -1583,22 +1583,46 @@ function background_color() {
  * @param callback $admin_header_callback Call on custom background administration screen.
  * @param callback $admin_image_div_callback Output a custom background image div on the custom background administration screen. Optional.
  */
-function add_custom_background($header_callback = '', $admin_header_callback = '', $admin_image_div_callback = '') {
-	if ( isset($GLOBALS['custom_background']) )
+function add_custom_background( $header_callback = '', $admin_header_callback = '', $admin_image_div_callback = '' ) {
+	if ( isset( $GLOBALS['custom_background'] ) )
 		return;
 
-	if ( empty($header_callback) )
+	if ( empty( $header_callback ) )
 		$header_callback = '_custom_background_cb';
 
-	add_action('wp_head', $header_callback);
+	add_action( 'wp_head', $header_callback );
 
-	add_theme_support( 'custom-background' );
+	add_theme_support( 'custom-background', array( 'callback' => $header_callback ) );
 
 	if ( ! is_admin() )
 		return;
-	require_once(ABSPATH . 'wp-admin/custom-background.php');
-	$GLOBALS['custom_background'] =& new Custom_Background($admin_header_callback, $admin_image_div_callback);
-	add_action('admin_menu', array(&$GLOBALS['custom_background'], 'init'));
+	require_once( ABSPATH . 'wp-admin/custom-background.php' );
+	$GLOBALS['custom_background'] =& new Custom_Background( $admin_header_callback, $admin_image_div_callback );
+	add_action( 'admin_menu', array( &$GLOBALS['custom_background'], 'init' ) );
+}
+
+/**
+ * Remove custom background support.
+ *
+ * @since 3.1.0
+ * @see add_custom_background()
+ *
+ * @return bool Whether support was removed.
+ */
+function remove_custom_background() {
+	if ( ! current_theme_supports( 'custom-background' ) )
+		return false;
+	
+	$callback = get_theme_support( 'custom-background' );
+	remove_action( 'wp_head', $callback[0]['callback'] );
+	_remove_theme_support( 'custom-background' );
+
+	if ( is_admin() ) {
+		remove_action( 'admin_menu', array( &$GLOBALS['custom_background'], 'init' ) );
+		unset( $GLOBALS['custom_background'] );
+	}
+
+	return true;
 }
 
 /**
@@ -1726,7 +1750,7 @@ function remove_theme_support( $feature ) {
 }
 
 /**
- * Removes theme support internally, ignorant of the blacklist.
+ * Do not use. Removes theme support internally, ignorant of the blacklist.
  *
  * @access private
  * @since 3.1.0
