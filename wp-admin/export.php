@@ -16,6 +16,28 @@ if ( !current_user_can('export') )
 require_once('./includes/export.php');
 $title = __('Export');
 
+function add_js() {
+?>
+<script type="text/javascript">
+//<![CDATA[
+	jQuery(document).ready(function($){ 		
+ 		var form = $('#export-filters'),
+ 			filters = form.find('.export-filters');
+ 		filters.hide();
+ 		form.find('input:radio').change(function() {
+			filters.slideUp('fast');
+			switch ( $(this).val() ) {
+				case 'posts': $('#post-filters').slideDown(); break;
+				case 'pages': $('#page-filters').slideDown(); break;
+			}
+ 		});
+	});
+//]]>
+</script>
+<?php
+}
+add_action( 'admin_head', 'add_js' );
+
 add_contextual_help( $current_screen,
 	'<p>' . __('You can export a file of your site&#8217;s content in order to import it into another installation or platform. The export file will be an XML file format called WXR. Posts, pages, comments, custom fields, categories, and tags can be included. You can set filters to have the WXR file only include a certain date, author, category, tag, all posts or all pages, certain publishing statuses.') . '</p>' .
 	'<p>' . __('Once generated, your WXR file can be imported by another WordPress site or by another blogging platform able to access this format.') . '</p>' .
@@ -142,7 +164,7 @@ function export_date_options() {
 <p><label><input type="radio" name="content" value="pages" /> <?php _e( 'Pages' ); ?></label></p>
 <ul id="page-filters" class="export-filters">
 	<li>
-		<label><?php _e( 'Author:' ); ?></label>
+		<label><?php _e( 'Authors:' ); ?></label>
 		<?php wp_dropdown_users( array( 'name' => 'page_author', 'multi' => true, 'show_option_all' => __('All') ) ); ?>
 	</li>
 	<li>

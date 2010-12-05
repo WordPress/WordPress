@@ -243,6 +243,7 @@ function export_wp( $args = array() ) {
 
 		foreach( $authors as $author ) {
 			echo "\t<wp:author>";
+			echo '<wp:author_id>' . $author->ID . '</wp:author_id>';
 			echo '<wp:author_login>' . $author->user_login . '</wp:author_login>';
 			echo '<wp:author_email>' . $author->user_email . '</wp:author_email>';
 			echo '<wp:author_display_name>' . wxr_cdata( $author->display_name ) . '</wp:author_display_name>';
