@@ -393,7 +393,7 @@ function themes_api($action, $args = null) {
 		} else {
 			$res = unserialize($request['body']);
 			if ( ! $res )
-			$res = new WP_Error('themes_api_failed', __('An unknown error occurred'), $request['body']);
+			$res = new WP_Error('themes_api_failed', __('An unknown error occurred.'), $request['body']);
 		}
 	}
 	//var_dump(array($args, $res));

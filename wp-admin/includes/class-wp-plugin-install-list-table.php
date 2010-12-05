@@ -209,7 +209,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			</td>
 			<td class="vers"><?php echo $version; ?></td>
 			<td class="vers">
-				<div class="star-holder" title="<?php printf( _n( '( based on %s rating )', '( based on %s ratings )', $plugin['num_ratings'] ), number_format_i18n( $plugin['num_ratings'] ) ) ?>">
+				<div class="star-holder" title="<?php printf( _n( '(based on %s rating)', '(based on %s ratings)', $plugin['num_ratings'] ), number_format_i18n( $plugin['num_ratings'] ) ) ?>">
 					<div class="star star-rating" style="width: <?php echo esc_attr( $plugin['rating'] ) ?>px"></div>
 					<div class="star star5"><img src="<?php echo admin_url( 'images/star.gif' ); ?>" alt="<?php _e( '5 stars' ) ?>" /></div>
 					<div class="star star4"><img src="<?php echo admin_url( 'images/star.gif' ); ?>" alt="<?php _e( '4 stars' ) ?>" /></div>
