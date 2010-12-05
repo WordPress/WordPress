@@ -55,7 +55,7 @@
 	 */ ?>
 <?php while ( have_posts() ) : the_post();
 
-$comment_number_template = _n( '% Comment', '% Comments', get_comments_number(), 'twentyten' );
+$comment_number_template = _n( '1 Comment', '% Comments', get_comments_number(), 'twentyten' );
 ?>
 
 <?php /* How to display posts in the Gallery category. */ ?>
