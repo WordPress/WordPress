@@ -48,7 +48,7 @@ function add_js() {
 			format.siblings('img').css('visibility','visible');
 			$.post(ajaxurl, {
 					action: 'date_format_custom' == format.attr('name') ? 'date_format' : 'time_format',
-					date : format.val(),
+					date : format.val()
 				}, function(d) { format.siblings('img').css('visibility','hidden'); format.siblings('.example').text(d); } );
 		});
 	});
