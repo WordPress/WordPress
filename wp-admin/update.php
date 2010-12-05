@@ -36,7 +36,6 @@ if ( isset($_GET['action']) ) {
 		$url = 'update.php?action=update-selected&amp;plugins=' . urlencode(implode(',', $plugins));
 		$nonce = 'bulk-update-plugins';
 
-		require_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
 		wp_enqueue_script('jquery');
 		iframe_header();
 
@@ -185,7 +184,6 @@ if ( isset($_GET['action']) ) {
 		$url = 'update.php?action=update-selected-themes&amp;themes=' . urlencode(implode(',', $themes));
 		$nonce = 'bulk-update-themes';
 
-		require_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
 		wp_enqueue_script('jquery');
 		iframe_header();
 
