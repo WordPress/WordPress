@@ -1148,7 +1148,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( !empty( $content_struct['date_created_gmt'] ) ) {
 			$dateCreated = str_replace( 'Z', '', $content_struct['date_created_gmt']->getIso() ) . 'Z'; // We know this is supposed to be GMT, so we're going to slap that Z on there by force
 			$comment_date = get_date_from_gmt(iso8601_to_datetime($dateCreated));
-			$comment_date_gmt = iso8601_to_datetime($dateCreated, GMT);
+			$comment_date_gmt = iso8601_to_datetime($dateCreated, 'GMT');
 		}
 
 		if ( isset($content_struct['content']) )
@@ -2259,7 +2259,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		if ( !empty( $dateCreated ) ) {
 			$post_date = get_date_from_gmt(iso8601_to_datetime($dateCreated));
-			$post_date_gmt = iso8601_to_datetime($dateCreated, GMT);
+			$post_date_gmt = iso8601_to_datetime($dateCreated, 'GMT');
 		} else {
 			$post_date = current_time('mysql');
 			$post_date_gmt = current_time('mysql', 1);
@@ -2568,7 +2568,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		if ( !empty( $dateCreated ) ) {
 			$post_date = get_date_from_gmt(iso8601_to_datetime($dateCreated));
-			$post_date_gmt = iso8601_to_datetime($dateCreated, GMT);
+			$post_date_gmt = iso8601_to_datetime($dateCreated, 'GMT');
 		} else {
 			$post_date     = $postdata['post_date'];
 			$post_date_gmt = $postdata['post_date_gmt'];
