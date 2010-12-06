@@ -18,17 +18,6 @@
 	white-space: normal;
 }
 
-/* No drag and drop on ms-sites.php */
-.ms-sites-php .postbox h3 {
-	cursor: auto;
-}
-
-.ms-sites-php .postbox .description {
-	margin:10px 0 0px;
-	padding:0px 10px 10px;
-	border-bottom:1px solid #DFDFDF;
-}
-
 /* Background Color for Site Status */
 tr.site-deleted, a.site-deleted {
 	background: #ff8573;
@@ -42,4 +31,3 @@ tr.site-archived, a.site-archived {
 tr.site-mature, a.site-mature {
 	background: #fecac2;
 }
-
