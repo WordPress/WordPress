@@ -4191,28 +4191,20 @@ function wp_scheduled_delete() {
 }
 
 /**
- * Parse the file contents to retrieve its metadata.
+ * Retrieve metadata from a file.
  *
- * Searches for metadata for a file, such as a plugin or theme.  Each piece of
- * metadata must be on its own line. For a field spanning multple lines, it
- * must not have any newlines or only parts of it will be displayed.
+ * Searches for metadata in the first 8kiB of a file, such as a plugin or theme.
+ * Each piece of metadata must be on its own line. Fields can not span multple
+ * lines, the value will get cut at the end of the first line.
+ * 
+ * If the file data is not within that first 8kiB, then the author should correct
+ * their plugin file and move the data headers to the top.
  *
- * Some users have issues with opening large files and manipulating the contents
- * for want is usually the first 1kiB or 2kiB. This function stops pulling in
- * the file contents when it has all of the required data.
- *
- * The first 8kiB of the file will be pulled in and if the file data is not
- * within that first 8kiB, then the author should correct their plugin file
- * and move the data headers to the top.
- *
- * The file is assumed to have permissions to allow for scripts to read
- * the file. This is not checked however and the file is only opened for
- * reading.
+ * @see http://codex.wordpress.org/File_Header
  *
  * @since 2.9.0
- *
  * @param string $file Path to the file
- * @param array $default_headers Default metadata headers
+ * @param array $default_headers array of regular expressions keyed with a fieldname, e.g. <code>array('Name' => 'Plugin Name')</code>
  * @param string $context If specified adds filter hook "extra_<$context>_headers"
  */
 function get_file_data( $file, $default_headers, $context = '' ) {
