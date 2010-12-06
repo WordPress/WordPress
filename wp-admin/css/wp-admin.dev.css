@@ -3785,10 +3785,8 @@ input.button-highlighted,
 	padding-right: 12px;
 }
 
-.plugins .second td,
-.plugins .second th {
-	border-top: 0 none;
-	padding: 0 7px 5px;
+.plugins .second, .plugins .row-actions-visible {
+	padding: 0 0 5px;
 }
 
 .plugins-php .widefat tfoot th,

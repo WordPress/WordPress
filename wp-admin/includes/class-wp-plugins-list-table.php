@@ -390,7 +390,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		$checkbox_id = md5($plugin_data['Name']) . "_checkbox";
 		$checkbox = in_array( $status, array( 'mustuse', 'dropins' ) ) ? '' : "<input type='checkbox' name='checked[]' value='" . esc_attr( $plugin_file ) . "' id='" . $checkbox_id . "' /><label class='screen-reader-text' for='" . $checkbox_id . "' >" . __('Select') . " " . $plugin_data['Name'] . "</label>";
 		if ( 'dropins' != $context ) {
-			$description = '<p>' . $plugin_data['Description'] . '</p>';
+			$description = '<p>' . ( $plugin_data['Description'] ? $plugin_data['Description'] : '&nbsp;' ) . '</p>';
 			$plugin_name = $plugin_data['Name'];
 		}
 
