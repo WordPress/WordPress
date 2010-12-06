@@ -71,16 +71,18 @@ require_once('./admin-header.php');
 <div id="message3" class="updated"><p><?php _e('Theme deleted.') ?></p></div>
 <?php endif; ?>
 
-<div class="wrap">
-<?php screen_icon(); ?>
+<div class="wrap"><?php
+screen_icon();
+if ( !is_multisite() ) : ?>
 <h2 class="nav-tab-wrapper">
 <a href="themes.php" class="nav-tab nav-tab-active"><?php echo esc_html( $title ); ?></a>
-<?php
-if ( current_user_can('install_themes') ) {
-	$href = is_multisite() ? network_admin_url( 'theme-install.php' ) : admin_url( 'theme-install.php' );
-?>
-<a href="<?php echo $href; ?>" class="nav-tab"><?php echo esc_html_x('Install Themes', 'theme'); ?></a>
-<?php } ?>
+	<?php if ( current_user_can('install_themes') ) : ?>
+<a href="<?php echo admin_url( 'theme-install.php'); ?>" class="nav-tab"><?php echo esc_html_x('Install Themes', 'theme'); ?></a>
+	<?php endif;
+else : ?>
+<h2>
+<?php esc_html_e( $title ); ?>
+<?php endif; ?>
 </h2>
 
 <h3><?php _e('Current Theme'); ?></h3>
