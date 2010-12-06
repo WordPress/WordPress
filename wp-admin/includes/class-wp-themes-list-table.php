@@ -61,10 +61,14 @@ class WP_Themes_List_Table extends WP_List_Table {
 	}
 
 	function no_items() {
-		if ( current_user_can( 'install_themes' ) )
-			printf( __( 'You only have one theme installed right now. Live a little! You can choose from over 1,000 free themes in the WordPress.org Theme Directory at any time: just click on the <em><a href="%s">Install Themes</a></em> tab above.' ), is_multisite() ? network_admin_url( 'theme-install.php' ) : admin_url( 'theme-install.php' ) );
-		else
+		if ( current_user_can( 'install_themes' ) ) {
+			if ( is_multisite() )
+				printf( 'You only have one theme installed right now. Visit the <a href="%s">Network Admin</a> to install more themes.', network_admin_url( 'theme-install.php' ) );
+			else
+				printf( __( 'You only have one theme installed right now. Live a little! You can choose from over 1,000 free themes in the WordPress.org Theme Directory at any time: just click on the <a href="%s">Install Themes</a> tab above.' ), admin_url( 'theme-install.php' ) );
+		} else {
 			printf( __( 'Only the current theme is available to you. Contact the %s administrator for information about accessing additional themes.' ), get_site_option( 'site_name' ) );
+		}
 	}
 
 	function display_table() {
