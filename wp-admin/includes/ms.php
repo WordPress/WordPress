@@ -70,7 +70,7 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
 	// Remove users from this blog.
 	if ( ! empty( $users ) ) {
 		foreach ( $users as $user ) {
-			remove_user_from_blog( $user->user_id, $blog_id) ;
+			remove_user_from_blog( $user->ID, $blog_id) ;
 		}
 	}
 
