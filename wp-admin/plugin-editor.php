@@ -9,6 +9,11 @@
 /** WordPress Administration Bootstrap */
 require_once('./admin.php');
 
+if ( is_multisite() && ! is_network_admin() ) {
+	wp_redirect( network_admin_url( 'plugin-editor.php' ) );
+	exit();
+}
+
 if ( !current_user_can('edit_plugins') )
 	wp_die( __('You do not have sufficient permissions to edit plugins for this site.') );
 

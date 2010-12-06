@@ -278,7 +278,9 @@ function wp_admin_bar_updates_menu() {
 
 	$update_title = sprintf( __('Updates %s'), "<span id='ab-updates' class='count-$update_count' title='$update_title'><span class='update-count'>" . number_format_i18n($update_count) . "</span></span>" );
 
-	$wp_admin_bar->add_menu( array( 'id' => 'updates', 'title' => $update_title, 'href' => admin_url('update-core.php') ) );
+	$href = is_multisite() ? network_admin_url( 'update-core.php' ) : admin_url( 'update-core.php' );
+
+	$wp_admin_bar->add_menu( array( 'id' => 'updates', 'title' => $update_title, 'href' => $href ) );
 }
 
 /**

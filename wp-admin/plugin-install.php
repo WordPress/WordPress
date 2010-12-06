@@ -12,6 +12,11 @@ if ( !defined( 'IFRAME_REQUEST' ) && isset( $_GET['tab'] ) && ( 'plugin-informat
 /** WordPress Administration Bootstrap */
 require_once('./admin.php');
 
+if ( is_multisite() && ! is_network_admin() ) {
+	wp_redirect( network_admin_url( 'plugin-install.php' ) );
+	exit();
+}
+
 $wp_list_table = get_list_table('WP_Plugin_Install_List_Table');
 $wp_list_table->check_permissions();
 $wp_list_table->prepare_items();

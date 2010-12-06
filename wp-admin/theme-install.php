@@ -12,6 +12,11 @@ if ( !defined( 'IFRAME_REQUEST' ) && isset( $_GET['tab'] ) && ( 'theme-informati
 /** WordPress Administration Bootstrap */
 require_once('./admin.php');
 
+if ( is_multisite() && ! is_network_admin() ) {
+	wp_redirect( network_admin_url( 'theme-install.php' ) );
+	exit();
+}
+
 $wp_list_table = get_list_table('WP_Theme_Install_List_Table');
 $wp_list_table->check_permissions();
 $wp_list_table->prepare_items();
