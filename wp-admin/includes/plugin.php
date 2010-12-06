@@ -100,6 +100,8 @@ function get_plugin_data( $plugin_file, $markup = true, $translate = true ) {
 
 	if ( $markup || $translate )
 		$plugin_data = _get_plugin_data_markup_translate( $plugin_file, $plugin_data, $markup, $translate );
+	else
+		$plugin_data['AuthorName'] = $plugin_data['Author'];
 
 	return $plugin_data;
 }
