@@ -287,10 +287,9 @@ function wp_admin_bar_updates_menu() {
  * @since 3.1.0
  *
  */
-function wp_admin_bar_header() {
-	?>
+function wp_admin_bar_header() { ?>
 <style type="text/css" media="print">#wpadminbar { display:none; }</style>
-	<?php
+<?php
 }
 
 /**
@@ -299,10 +298,9 @@ function wp_admin_bar_header() {
  * @since 3.1.0
  *
  */
-function _admin_bar_bump_cb() {
-	?>
+function _admin_bar_bump_cb() { ?>
 <style type="text/css">body { padding-top: 28px !important; }</style>
-	<?php
+<?php
 }
 
 /**
