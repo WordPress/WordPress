@@ -117,6 +117,17 @@ function _get_plugin_data_markup_translate($plugin_file, $plugin_data, $markup =
 			$plugin_data[ $field ] = translate($plugin_data[ $field ], $plugin_data['TextDomain']);
 	}
 
+	$plugins_allowedtags = array(
+		'a'       => array( 'href' => array(), 'title' => array() ),
+		'abbr'    => array( 'title' => array() ),
+		'acronym' => array( 'title' => array() ),
+		'code'    => array(),
+		'em'      => array(),
+		'strong'  => array(),
+	);
+
+	$plugin_data['AuthorName'] = $plugin_data['Author'] = wp_kses( $plugin_data['Author'], $plugins_allowedtags );
+
 	//Apply Markup
 	if ( $markup ) {
 		if ( ! empty($plugin_data['PluginURI']) && ! empty($plugin_data['Name']) )
@@ -132,13 +143,10 @@ function _get_plugin_data_markup_translate($plugin_file, $plugin_data, $markup =
 			$plugin_data['Description'] .= ' <cite>' . sprintf( __('By %s'), $plugin_data['Author'] ) . '.</cite>';
 	}
 
-	$plugins_allowedtags = array('a' => array('href' => array(),'title' => array()),'abbr' => array('title' => array()),'acronym' => array('title' => array()),'code' => array(),'em' => array(),'strong' => array());
-
-	// Sanitize all displayed data
-	$plugin_data['Title']       = wp_kses($plugin_data['Title'], $plugins_allowedtags);
-	$plugin_data['Version']     = wp_kses($plugin_data['Version'], $plugins_allowedtags);
-	$plugin_data['Description'] = wp_kses($plugin_data['Description'], $plugins_allowedtags);
-	$plugin_data['Author']      = wp_kses($plugin_data['Author'], $plugins_allowedtags);
+	// Sanitize all displayed data. Author and AuthorName sanitized above.
+	$plugin_data['Title']       = wp_kses( $plugin_data['Title'],       $plugins_allowedtags );
+	$plugin_data['Version']     = wp_kses( $plugin_data['Version'],     $plugins_allowedtags );
+	$plugin_data['Description'] = wp_kses( $plugin_data['Description'], $plugins_allowedtags );
 
 	return $plugin_data;
 }
