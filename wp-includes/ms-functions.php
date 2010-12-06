@@ -983,7 +983,7 @@ function install_blog($blog_id, $blog_title = '') {
 	update_option('siteurl', $url);
 	update_option('home', $url);
 	update_option('fileupload_url', $url . "files" );
-	update_option('upload_path', "wp-content/blogs.dir/" . $blog_id . "/files");
+	update_option('upload_path', UPLOADBLOGSDIR . "/$blog_id/files");
 	update_option('blogname', stripslashes( $blog_title ) );
 	update_option('admin_email', '');
 	$wpdb->update( $wpdb->options, array('option_value' => ''), array('option_name' => 'admin_email') );
