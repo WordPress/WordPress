@@ -50,6 +50,7 @@
 }
 #wp-link li,
 #wp-link .query-notice {
+	clear: both;
 	margin-bottom: 0;
 	border-bottom: 1px solid #f1f1f1;
 	color: #333;

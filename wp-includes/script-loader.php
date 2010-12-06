@@ -270,11 +270,11 @@ function wp_default_scripts( &$scripts ) {
 		'l10n_print_after' => 'try{convertEntities(adminBarL10n);}catch(e){};',
 	) );
 
-	$scripts->add( 'wplink', "/wp-includes/js/tinymce/plugins/wplink/js/wplink$suffix.js", array('jquery'), '20101123' );
+	$scripts->add( 'wplink', "/wp-includes/js/tinymce/plugins/wplink/js/wplink$suffix.js", array('jquery'), '20101206' );
 	$scripts->localize( 'wplink', 'wpLinkL10n', array(
 		'update' => __('Update'),
 		'save' => __('Save Link'),
-		'untitled' => __('Untitled'),
+		'noTitle' => __('(no title)'),
 		'noMatchesFound' => __('No matches found.'),
 		'l10n_print_after' => 'try{convertEntities(wpLinkL10n);}catch(e){};',
 	) );
@@ -518,7 +518,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'nav-menu', "/wp-admin/css/nav-menu$suffix.css", array(), '20100907' );
 	$styles->add( 'admin-bar', "/wp-includes/css/admin-bar$suffix.css", array(), '20101201' );
 	$styles->add( 'wp-jquery-ui-dialog', "/wp-includes/css/jquery-ui-dialog$suffix.css", array(), '20101119' );
-	$styles->add( 'wplink', "/wp-includes/js/tinymce/plugins/wplink/css/wplink$suffix.css", array(), '20101123' );
+	$styles->add( 'wplink', "/wp-includes/js/tinymce/plugins/wplink/css/wplink$suffix.css", array(), '20101206' );
 
 	foreach ( $rtl_styles as $rtl_style ) {
 		$styles->add_data( $rtl_style, 'rtl', true );

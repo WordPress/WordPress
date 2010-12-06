@@ -355,7 +355,7 @@ var wpLink;
 					list += alt ? '<li class="alternate">' : '<li>';
 					list += '<input type="hidden" class="item-permalink" value="' + this['permalink'] + '" />';
 					list += '<span class="item-title">';
-					list += this['title'] ? this['title'] : '<em>'+ wpLinkL10n.untitled + '</em>';
+					list += this['title'] ? this['title'] : '<em>'+ wpLinkL10n.noTitle + '</em>';
 					list += '</span><span class="item-info">' + this['info'] + '</span></li>';
 					alt = ! alt;
 				});
