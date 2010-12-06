@@ -1190,7 +1190,7 @@ class WP_Embed {
 					return $this->maybe_make_link( $url );
 
 				if ( !empty($cache) )
-					return apply_filters( 'embed_oembed_html', $cache, $url, $attr );
+					return apply_filters( 'embed_oembed_html', $cache, $url, $attr, $post_ID );
 			}
 
 			// Use oEmbed to get the HTML
@@ -1203,7 +1203,7 @@ class WP_Embed {
 
 			// If there was a result, return it
 			if ( $html )
-				return apply_filters( 'embed_oembed_html', $html, $url, $attr );
+				return apply_filters( 'embed_oembed_html', $html, $url, $attr, $post_ID );
 		}
 
 		// Still unknown
