@@ -66,15 +66,18 @@ case 'fetch-list' :
 	die( '0' );
 	break;
 case 'ajax-tag-search' :
-	if ( !current_user_can( 'edit_posts' ) )
-		die('-1');
+	if ( isset( $_GET['tax'] ) ) {
+		$taxonomy = sanitize_key( $_GET['tax'] );
+		$tax = get_taxonomy( $taxonomy );
+		if ( ! $tax )
+			die( '0' );
+		if ( ! current_user_can( $tax->cap->assign_terms ) )
+			die( '-1' );
+	} else {
+		die('0');
+	}
 
 	$s = $_GET['q']; // is this slashed already?
-
-	if ( isset($_GET['tax']) )
-		$taxonomy = sanitize_title($_GET['tax']);
-	else
-		die('0');
 
 	if ( false !== strpos( $s, ',' ) ) {
 		$s = explode( ',', $s );
@@ -547,23 +550,24 @@ case 'add-tag' :
 	$x->send();
 	break;
 case 'get-tagcloud' :
-	if ( !current_user_can( 'edit_posts' ) )
-		die('-1');
-
-	if ( isset($_POST['tax']) )
-		$taxonomy = sanitize_title($_POST['tax']);
-	else
+	if ( isset( $_POST['tax'] ) ) {
+		$taxonomy = sanitize_key( $_POST['tax'] );
+		$tax = get_taxonomy( $taxonomy );
+		if ( ! $tax )
+			die( '0' );
+		if ( ! current_user_can( $tax->cap->assign_terms ) )
+			die( '-1' );
+	} else {
 		die('0');
+	}
 
 	$tags = get_terms( $taxonomy, array( 'number' => 45, 'orderby' => 'count', 'order' => 'DESC' ) );
 
-	if ( empty( $tags ) ) {
-		$tax = get_taxonomy( $taxonomy );
+	if ( empty( $tags ) )
 		die( isset( $tax->no_tagcloud ) ? $tax->no_tagcloud : __('No tags found!') );
-	}
 
-	if ( is_wp_error($tags) )
-		die($tags->get_error_message());
+	if ( is_wp_error( $tags ) )
+		die( $tags->get_error_message() );
 
 	foreach ( $tags as $key => $tag ) {
 		$tags[ $key ]->link = '#';
