@@ -28,7 +28,7 @@ if ( ! $id )
 	wp_die( __('Invalid site ID.') );
 
 $details = get_blog_details( $id );
-if ( $details->site_id != $wpdb->siteid )
+if ( !can_edit_site( $details->site_id ) )
 	wp_die( __( 'You do not have permission to access this page.' ) );
 
 $is_main_site = is_main_site( $id );

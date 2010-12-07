@@ -217,11 +217,12 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 						echo "<td $attributes>";
 							if ( is_array( $blogs ) ) {
 								foreach ( (array) $blogs as $key => $val ) {
-									if ( $current_site->id != $val->site_id ) continue;
+									if ( !can_edit_site( $val->site_id ) )
+										continue;
 									
-										$path	= ( $val->path == '/' ) ? '' : $val->path;
+									$path	= ( $val->path == '/' ) ? '' : $val->path;
 									echo '<a href="'. esc_url( network_admin_url( 'site-info.php?id=' . $val->userblog_id ) ) .'">' . str_replace( '.' . $current_site->domain, '', $val->domain . $path ) . '</a>';
-									echo ' <small class="row-actions">';
+									echo ' <small class="row-actions site-' . $val->site_id . '">';
 									$actions = array();
 									$actions['edit'] = '<a href="'. esc_url( network_admin_url( 'site-info.php?id=' . $val->userblog_id ) ) .'">' . __( 'Edit' ) . '</a>';
 									
