@@ -507,9 +507,10 @@ function wp_handle_sideload( &$file, $overrides = false ) {
  * @since 2.5.0
  *
  * @param string $url the URL of the file to download
+ * @param int $timeout The timeout for the request to download the file default 300 seconds
  * @return mixed WP_Error on failure, string Filename on success.
  */
-function download_url( $url ) {
+function download_url( $url, $timeout = 300 ) {
 	//WARNING: The file is not automatically deleted, The script must unlink() the file.
 	if ( ! $url )
 		return new WP_Error('http_no_url', __('Invalid URL Provided.'));
@@ -522,7 +523,7 @@ function download_url( $url ) {
 	if ( ! $handle )
 		return new WP_Error('http_no_file', __('Could not create Temporary file.'));
 
-	$response = wp_remote_get($url, array('timeout' => 300));
+	$response = wp_remote_get($url, array('timeout' => $timeout));
 
 	if ( is_wp_error($response) ) {
 		fclose($handle);
