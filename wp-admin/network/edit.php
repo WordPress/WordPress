@@ -56,7 +56,7 @@ function confirm_delete_users( $users ) {
 						$user_dropdown = "<select name='blog[$val][{$key}]'>";
 						$user_list = '';
 						foreach ( $blog_users as $user ) {
-							if ( $user->user_id != $val && !in_array( $user->id, $allusers ) )
+							if ( ! in_array( $user->id, $allusers ) )
 								$user_list .= "<option value='{$user->id}'>{$user->user_login}</option>";
 						}
 						if ( '' == $user_list )
