@@ -1226,8 +1226,8 @@ class Bulk_Theme_Upgrader_Skin extends Bulk_Upgrader_Skin {
 	function bulk_footer() {
 		parent::bulk_footer();
 		$update_actions =  array(
-			'themes_page' => '<a href="' . admin_url('themes.php') . '" title="' . esc_attr__('Go to themes page') . '" target="_parent">' . __('Return to Themes page') . '</a>',
-			'updates_page' => '<a href="' . admin_url('update-core.php') . '" title="' . esc_attr__('Go to WordPress Updates page') . '" target="_parent">' . __('Return to WordPress Updates') . '</a>'
+			'themes_page' => '<a href="' . self_admin_url('themes.php') . '" title="' . esc_attr__('Go to themes page') . '" target="_parent">' . __('Return to Themes page') . '</a>',
+			'updates_page' => '<a href="' . self_admin_url('update-core.php') . '" title="' . esc_attr__('Go to WordPress Updates page') . '" target="_parent">' . __('Return to WordPress Updates') . '</a>'
 		);
 
 		$update_actions = apply_filters('update_bulk_theme_complete_actions', $update_actions, $this->theme_info);
@@ -1417,7 +1417,7 @@ class Theme_Upgrader_Skin extends WP_Upgrader_Skin {
 				unset($update_actions['preview'], $update_actions['activate']);
 		}
 
-		$update_actions['themes_page'] = '<a href="' . admin_url('themes.php') . '" title="' . esc_attr__('Return to Themes page') . '" target="_parent">' . __('Return to Themes page') . '</a>';
+		$update_actions['themes_page'] = '<a href="' . self_admin_url('themes.php') . '" title="' . esc_attr__('Return to Themes page') . '" target="_parent">' . __('Return to Themes page') . '</a>';
 
 		$update_actions = apply_filters('update_theme_complete_actions', $update_actions, $this->theme);
 		if ( ! empty($update_actions) )
