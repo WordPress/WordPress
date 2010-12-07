@@ -58,9 +58,9 @@
 $comment_number_template = _n( '1 Comment', '% Comments', get_comments_number(), 'twentyten' );
 ?>
 
-<?php /* How to display posts in the Gallery category. */ ?>
+<?php /* How to display posts of the Gallery format. The gallery category is the old way. */ ?>
 
-	<?php if ( in_category( _x( 'gallery', 'gallery category slug', 'twentyten' ) ) || 'gallery' == get_post_format( $post->ID ) ) : ?>
+	<?php if ( 'gallery' == get_post_format( $post->ID ) || in_category( _x( 'gallery', 'gallery category slug', 'twentyten' ) ) ) : ?>
 		<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 			<h2 class="entry-title"><a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'twentyten' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a></h2>
 
@@ -92,7 +92,10 @@ $comment_number_template = _n( '1 Comment', '% Comments', get_comments_number(),
 			</div><!-- .entry-content -->
 
 			<div class="entry-utility">
-			<?php if ( in_category( _x( 'gallery', 'gallery category slug', 'twentyten' ) ) ) : ?>
+			<?php if ( 'gallery' == get_post_format( $post->ID ) ) : ?>
+				<a href="<?php echo get_post_format_link( 'gallery' ); ?>" title="<?php esc_attr_e( 'View Galleries', 'twentyten' ); ?>"><?php _e( 'More Galleries', 'twentyten' ); ?></a>
+				<span class="meta-sep">|</span>
+			<?php elseif ( in_category( _x( 'gallery', 'gallery category slug', 'twentyten' ) ) ) : ?>
 				<a href="<?php echo get_term_link( _x( 'gallery', 'gallery category slug', 'twentyten' ), 'category' ); ?>" title="<?php esc_attr_e( 'View posts in the Gallery category', 'twentyten' ); ?>"><?php _e( 'More Galleries', 'twentyten' ); ?></a>
 				<span class="meta-sep">|</span>
 			<?php endif; ?>
@@ -101,9 +104,9 @@ $comment_number_template = _n( '1 Comment', '% Comments', get_comments_number(),
 			</div><!-- .entry-utility -->
 		</div><!-- #post-## -->
 
-<?php /* How to display posts in the asides category */ ?>
+<?php /* How to display posts of the Aside format. The asides category is the old way. */ ?>
 
-	<?php elseif ( in_category( _x( 'asides', 'asides category slug', 'twentyten' ) ) || 'aside' == get_post_format( $post->ID ) ) : ?>
+	<?php elseif ( 'aside' == get_post_format( $post->ID ) || in_category( _x( 'asides', 'asides category slug', 'twentyten' ) )  ) : ?>
 		<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
 		<?php if ( is_archive() || is_search() ) : // Display excerpts for archives and search. ?>
