@@ -180,7 +180,8 @@ class WP_Users_List_Table extends WP_List_Table {
 
 	function display_rows() {
 		// Query the post counts for this page
-		$post_counts = count_many_users_posts( array_keys( $this->items ) );
+		if ( $this->is_site_users )
+			$post_counts = count_many_users_posts( array_keys( $this->items ) );
 
 		$style = '';
 		foreach ( $this->items as $userid => $user_object ) {
@@ -190,7 +191,7 @@ class WP_Users_List_Table extends WP_List_Table {
 				continue;
 
 			$style = ( ' class="alternate"' == $style ) ? '' : ' class="alternate"';
-			echo "\n\t", $this->single_row( $user_object, $style, $role, $post_counts[ $userid ] );
+			echo "\n\t", $this->single_row( $user_object, $style, $role, isset( $post_counts ) ? $post_counts[ $userid ] : 0 );
 		}
 	}
 
