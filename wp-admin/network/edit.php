@@ -100,7 +100,7 @@ switch ( $_GET['action'] ) {
 			wp_die( __( 'You do not have permission to access this page.' ) );
 
 		if ( empty( $_POST ) )
-			wp_die( sprintf( __( 'You probably need to go back to the <a href="%s">options page</a>.', esc_url( admin_url( 'settings.php' ) ) ) ) );
+			wp_die( sprintf( __( 'You probably need to go back to the <a href="%s">options page</a>.' ), esc_url( admin_url( 'settings.php' ) ) ) );
 
 		if ( isset($_POST['WPLANG']) && ( '' === $_POST['WPLANG'] || in_array( $_POST['WPLANG'], get_available_languages() ) ) )
 			update_site_option( 'WPLANG', $_POST['WPLANG'] );
@@ -178,7 +178,7 @@ switch ( $_GET['action'] ) {
 		} else {
 			wp_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'not_deleted' ), wp_get_referer() ) );
 		}
-		
+
 		exit();
 	break;
 
