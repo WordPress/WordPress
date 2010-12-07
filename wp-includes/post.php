@@ -3831,10 +3831,12 @@ function wp_get_attachment_url( $post_id = 0 ) {
 	if ( empty($url) ) //If any of the above options failed, Fallback on the GUID as used pre-2.7, not recomended to rely upon this.
 		$url = get_the_guid( $post->ID );
 
-	if ( 'attachment' != $post->post_type || empty($url) )
-		return false;
+	$url = apply_filters( 'wp_get_attachment_url', $url, $post->ID );
 
-	return apply_filters( 'wp_get_attachment_url', $url, $post->ID );
+	if ( 'attachment' != $post->post_type || empty( $url ) )
+		return false;
+	
+	return $url;
 }
 
 /**
