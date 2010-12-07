@@ -141,7 +141,7 @@ if ( !is_multisite() ) {
 	if ( $delete_role ) // stops users being added to current blog when they are edited
 		delete_user_meta( $user_id, $blog_prefix . 'capabilities' );
 
-	if ( is_multisite() && is_network_admin() & !IS_PROFILE_PAGE && current_user_can( 'manage_network_options' ) && !isset($super_admins) && empty( $_POST['super_admin'] ) == is_super_admin( $user_id ) )
+	if ( is_multisite() && is_network_admin() && !IS_PROFILE_PAGE && current_user_can( 'manage_network_options' ) && !isset($super_admins) && empty( $_POST['super_admin'] ) == is_super_admin( $user_id ) )
 		empty( $_POST['super_admin'] ) ? revoke_super_admin( $user_id ) : grant_super_admin( $user_id );
 }
 
@@ -229,7 +229,7 @@ do_action('personal_options', $profileuser);
 		<td><input type="text" name="user_login" id="user_login" value="<?php echo esc_attr($profileuser->user_login); ?>" disabled="disabled" class="regular-text" /> <span class="description"><?php _e('Usernames cannot be changed.'); ?></span></td>
 	</tr>
 
-<?php if ( !IS_PROFILE_PAGE && !is_network_admin() ): ?>
+<?php if ( !IS_PROFILE_PAGE && !is_network_admin() ) : ?>
 <tr><th><label for="role"><?php _e('Role:') ?></label></th>
 <td><select name="role" id="role">
 <?php
@@ -249,12 +249,17 @@ else
 ?>
 </select>
 <?php endif; //!IS_PROFILE_PAGE
-if ( is_multisite() && is_network_admin() && current_user_can( 'manage_network_options' ) && !isset($super_admins) ) { ?>
+
+if ( is_multisite() && is_network_admin() && ! IS_PROFILE_PAGE && current_user_can( 'manage_network_options' ) && !isset($super_admins) ) { ?>
 <tr><th><label for="role"><?php _e('Super Admin'); ?></label></th>
 <td>
-<p><label><input type="checkbox" id="super_admin" name="super_admin"<?php checked( is_super_admin( $profileuser->ID ) ); ?> /> <?php _e( 'Grant this user super admin privileges for the Network.'); ?></label></p>
-<?php } ?>
+<?php if ( $profileuser->user_email != get_site_option( 'admin_email' ) ) : ?>
+<p><label><input type="checkbox" id="super_admin" name="super_admin"<?php checked( is_super_admin( $profileuser->ID ) ); ?> /> <?php _e( 'Grant this user super admin privileges for the Network.' ); ?></label></p>
+<?php else : ?>
+<p><?php _e( 'Super admin privileges cannot be removed because this user has the network admin email.' ); ?></p>
+<?php endif; ?>
 </td></tr>
+<?php } ?>
 
 <tr>
 	<th><label for="first_name"><?php _e('First Name') ?></label></th>
