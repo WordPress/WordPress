@@ -1426,7 +1426,7 @@ class WP_Http_Curl {
 				$theBody = substr( $theResponse, $headerLength );
 			else
 				$theBody = '';
-			if ( false !== strrpos($theHeaders, "\r\n\r\n") ) {
+			if ( false !== strpos($theHeaders, "\r\n\r\n") ) {
 				$headerParts = explode("\r\n\r\n", $theHeaders);
 				$theHeaders = $headerParts[ count($headerParts) -1 ];
 			}
