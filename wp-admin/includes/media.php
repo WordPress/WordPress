@@ -1406,7 +1406,7 @@ function media_upload_header() {
  * @param unknown_type $errors
  */
 function media_upload_form( $errors = null ) {
-	global $type, $tab;
+	global $type, $tab, $pagenow;
 
 	$flash_action_url = admin_url('async-upload.php');
 
@@ -1477,6 +1477,16 @@ foreach ( $post_params as $param => & $val )
 	$p[] = "\t\t'$param' : '$val'";
 $post_params_str = implode( ", \n", $p );
 
+// #8545. wmode=transparent cannot be used with SWFUpload
+if ( 'media-new.php' == $pagenow ) {
+	$upload_image_path = get_user_option( 'admin_color' );
+	if ( 'classic' != $upload_image_path )
+		$upload_image_path = 'fresh';
+	$upload_image_path = admin_url( 'images/upload-' . $upload_image_path . '.png?ver=20101205' );
+} else {
+	$upload_image_path = includes_url( 'images/upload.png?ver=20100531' );
+}
+
 ?>
 <script type="text/javascript">
 //<![CDATA[
@@ -1488,7 +1498,7 @@ SWFUpload.onload = function() {
 			button_height: "23",
 			button_width: "132",
 			button_text_top_padding: 3,
-			button_image_url: '<?php echo includes_url('images/upload.png?ver=20100531'); ?>',
+			button_image_url: '<?php echo $upload_image_path; ?>',
 			button_placeholder_id: "flash-browse-button",
 			upload_url : "<?php echo esc_attr( $flash_action_url ); ?>",
 			flash_url : "<?php echo includes_url('js/swfupload/swfupload.swf'); ?>",
