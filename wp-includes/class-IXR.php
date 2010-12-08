@@ -442,7 +442,7 @@ EOD;
         } else {
             // It's a function - does it exist?
             if (is_array($method)) {
-                if (!method_exists($method[0], $method[1])) {
+                if (!is_callable(array($method[0], $method[1]))) {
                     return new IXR_Error(-32601, 'server error. requested object method "'.$method[1].'" does not exist.');
                 }
             } else if (!function_exists($method)) {
