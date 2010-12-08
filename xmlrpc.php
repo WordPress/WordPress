@@ -1187,7 +1187,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		if ( !current_user_can( 'moderate_comments' ) )
 			return new IXR_Error( 403, __( 'You are not allowed to moderate comments on this site.' ) );
-			
+
 		if ( !$comment = get_comment( $comment_ID ) )
 			return new IXR_Error( 404, __( 'Invalid comment ID.' ) );
 
@@ -1999,7 +1999,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 
 		do_action('xmlrpc_call', 'metaWeblog.newPost');
-		
+
 		$page_template = '';
 		if ( !empty( $content_struct['post_type'] ) ) {
 			if ( $content_struct['post_type'] == 'page' ) {
@@ -2028,7 +2028,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			else
 				$cap = 'edit_posts';
 			$error_message = __( 'Sorry, you are not allowed to publish posts on this site.' );
-			$post_type = 'post';			
+			$post_type = 'post';
 		}
 
 		if ( !current_user_can( $cap ) )
@@ -2318,7 +2318,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			else
 				$cap = 'edit_posts';
 			$error_message = __( 'Sorry, you are not allowed to publish posts on this site.' );
-			$post_type = 'post';			
+			$post_type = 'post';
 		}
 
 		if ( !current_user_can( $cap ) )
