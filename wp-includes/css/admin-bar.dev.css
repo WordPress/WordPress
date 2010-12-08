@@ -89,6 +89,9 @@
 	background: #fff;
 	color: #888;
 }
+#wpadminbar span.update-count {
+	text-shadow: none;
+}
 #wpadminbar ul li a span#ab-awaiting-mod.count-0 {
 	display: none;
 }
