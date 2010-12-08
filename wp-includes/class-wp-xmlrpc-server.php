@@ -2080,30 +2080,48 @@ class wp_xmlrpc_server extends IXR_Server {
 		$username  = $args[1];
 		$password   = $args[2];
 		$content_struct = $args[3];
-		$publish     = $args[4];
+		$publish     = isset( $args[4] ) ? $args[4] : 0;
 
 		if ( !$user = $this->login($username, $password) )
 			return $this->error;
 
 		do_action('xmlrpc_call', 'metaWeblog.newPost');
-
-		$cap = ( $publish ) ? 'publish_posts' : 'edit_posts';
-		$error_message = __( 'Sorry, you are not allowed to publish posts on this site.' );
-		$post_type = 'post';
+		
 		$page_template = '';
 		if ( !empty( $content_struct['post_type'] ) ) {
 			if ( $content_struct['post_type'] == 'page' ) {
-				$cap = ( $publish ) ? 'publish_pages' : 'edit_pages';
+				if ( $publish )
+					$cap  = 'publish_pages';
+				elseif ('publish' == $content_struct['page_status'])
+					$cap  = 'publish_pages';
+				else
+					$cap = 'edit_pages';
 				$error_message = __( 'Sorry, you are not allowed to publish pages on this site.' );
 				$post_type = 'page';
 				if ( !empty( $content_struct['wp_page_template'] ) )
 					$page_template = $content_struct['wp_page_template'];
 			} elseif ( $content_struct['post_type'] == 'post' ) {
-				// This is the default, no changes needed
+				if ( $publish )
+					$cap  = 'publish_posts';
+				elseif ('publish' == $content_struct['post_status'])
+					$cap  = 'publish_posts';
+				else
+					$cap = 'edit_posts';
+				$error_message = __( 'Sorry, you are not allowed to publish posts on this site.' );
+				$post_type = 'post';
 			} else {
 				// No other post_type values are allowed here
 				return new IXR_Error( 401, __( 'Invalid post type.' ) );
 			}
+		} else {
+			if ( $publish )
+				$cap  = 'publish_posts';
+			elseif ('publish' == $content_struct['post_status'])
+				$cap  = 'publish_posts';
+			else
+				$cap = 'edit_posts';
+			$error_message = __( 'Sorry, you are not allowed to publish posts on this site.' );
+			$post_type = 'post';			
 		}
 
 		if ( !current_user_can( $cap ) )
@@ -2381,17 +2399,38 @@ class wp_xmlrpc_server extends IXR_Server {
 		$page_template = '';
 		if ( !empty( $content_struct['post_type'] ) ) {
 			if ( $content_struct['post_type'] == 'page' ) {
-				$cap = ( $publish ) ? 'publish_pages' : 'edit_pages';
+				if ( $publish )
+					$cap  = 'publish_pages';
+				elseif ('publish' == $content_struct['page_status'])
+					$cap  = 'publish_pages';
+				else
+					$cap = 'edit_pages';
 				$error_message = __( 'Sorry, you are not allowed to publish pages on this site.' );
 				$post_type = 'page';
 				if ( !empty( $content_struct['wp_page_template'] ) )
 					$page_template = $content_struct['wp_page_template'];
 			} elseif ( $content_struct['post_type'] == 'post' ) {
-				// This is the default, no changes needed
+				if ( $publish )
+					$cap  = 'publish_posts';
+				elseif ('publish' == $content_struct['post_status'])
+					$cap  = 'publish_posts';
+				else
+					$cap = 'edit_posts';
+				$error_message = __( 'Sorry, you are not allowed to publish posts on this site.' );
+				$post_type = 'post';
 			} else {
 				// No other post_type values are allowed here
 				return new IXR_Error( 401, __( 'Invalid post type.' ) );
 			}
+		} else {
+			if ( $publish )
+				$cap  = 'publish_posts';
+			elseif ('publish' == $content_struct['post_status'])
+				$cap  = 'publish_posts';
+			else
+				$cap = 'edit_posts';
+			$error_message = __( 'Sorry, you are not allowed to publish posts on this site.' );
+			$post_type = 'post';			
 		}
 
 		if ( !current_user_can( $cap ) )
