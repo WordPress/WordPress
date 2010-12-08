@@ -836,11 +836,11 @@ function get_post_type_archive_link( $post_type ) {
 	if ( ! $post_type_obj = get_post_type_object( $post_type ) )
 		return false;
 
-	if ( ! is_array( $post_type_obj->rewrite ) || false === $post_type_obj->rewrite['archive'] )
+	if ( ! $post_type_obj->has_archive )
 		return false;
 
-	if ( get_option( 'permalink_structure' ) ) {
-		$struct = ( true === $post_type_obj->rewrite['archive'] ) ? $post_type_obj->rewrite['slug'] : $post_type_obj->rewrite['archive'];
+	if ( get_option( 'permalink_structure' ) && is_array( $post_type_obj->rewrite ) ) {
+		$struct = $post_type_obj->rewrite['slug'];
 		if ( $post_type_obj->rewrite['with_front'] )
 			$struct = $wp_rewrite->front . $struct;
 		$link = home_url( user_trailingslashit( $struct, 'post_type_archive' ) );
