@@ -4031,7 +4031,7 @@ function wp_check_for_changed_slugs($post_id, $post, $post_before) {
 	$old_slugs = (array) get_post_meta($post_id, '_wp_old_slug');
 
 	// if we haven't added this old slug before, add it now
-	if ( !in_array($post_before->post_name, $old_slugs) )
+	if ( !empty( $post_before->post_name ) && !in_array($post_before->post_name, $old_slugs) )
 		add_post_meta($post_id, '_wp_old_slug', $post_before->post_name);
 
 	// if the new slug was used previously, delete it from the list
