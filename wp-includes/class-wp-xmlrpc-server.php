@@ -2399,9 +2399,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$page_template = '';
 		if ( !empty( $content_struct['post_type'] ) ) {
 			if ( $content_struct['post_type'] == 'page' ) {
-				if ( $publish )
-					$cap  = 'publish_pages';
-				elseif ('publish' == $content_struct['page_status'])
+				if ( $publish || 'publish' == $content_struct['page_status'] )
 					$cap  = 'publish_pages';
 				else
 					$cap = 'edit_pages';
@@ -2410,9 +2408,7 @@ class wp_xmlrpc_server extends IXR_Server {
 				if ( !empty( $content_struct['wp_page_template'] ) )
 					$page_template = $content_struct['wp_page_template'];
 			} elseif ( $content_struct['post_type'] == 'post' ) {
-				if ( $publish )
-					$cap  = 'publish_posts';
-				elseif ('publish' == $content_struct['post_status'])
+				if ( $publish || 'publish' == $content_struct['post_status'] )
 					$cap  = 'publish_posts';
 				else
 					$cap = 'edit_posts';
@@ -2423,9 +2419,7 @@ class wp_xmlrpc_server extends IXR_Server {
 				return new IXR_Error( 401, __( 'Invalid post type.' ) );
 			}
 		} else {
-			if ( $publish )
-				$cap  = 'publish_posts';
-			elseif ('publish' == $content_struct['post_status'])
+			if ( $publish || 'publish' == $content_struct['post_status'] )
 				$cap  = 'publish_posts';
 			else
 				$cap = 'edit_posts';
