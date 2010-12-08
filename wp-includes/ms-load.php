@@ -41,6 +41,7 @@ function wp_get_active_network_plugins() {
 	if ( empty( $active_plugins ) )
 		return array();
 
+	$plugins = array();
 	$active_plugins = array_keys( $active_plugins );
 	sort( $active_plugins );
 
