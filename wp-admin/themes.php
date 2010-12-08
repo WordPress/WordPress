@@ -135,7 +135,7 @@ else : ?>
 
 </div>
 
-<br class="clear">
+<br class="clear" />
 <?php
 if ( ! current_user_can( 'switch_themes' ) ) {
 	echo '</div>';
