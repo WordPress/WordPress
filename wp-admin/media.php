@@ -106,7 +106,7 @@ case 'edit' :
 
 <div class="media-single">
 <div id='media-item-<?php echo $att_id; ?>' class='media-item'>
-<?php echo get_media_item( $att_id, array( 'toggle' => false, 'send' => false, 'delete' => false, 'show_title' => false, 'errors' => $errors ) ); ?>
+<?php echo get_media_item( $att_id, array( 'toggle' => false, 'send' => false, 'delete' => false, 'show_title' => false, 'errors' => !empty($errors[$att_id]) ? $errors[$att_id] : null ) ); ?>
 </div>
 </div>
 
