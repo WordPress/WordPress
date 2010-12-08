@@ -54,7 +54,7 @@ function wp_link_query( $args = array() ) {
 
 		$results[] = array(
 			'ID' => $post->ID,
-			'title' => trim( esc_html( strip_tags( $post->post_title ) ) ),
+			'title' => trim( esc_html( strip_tags( get_the_title( $post ) ) ) ),
 			'permalink' => get_permalink( $post->ID ),
 			'info' => $info,
 		);

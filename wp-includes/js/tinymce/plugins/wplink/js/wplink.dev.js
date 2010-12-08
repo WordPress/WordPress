@@ -144,7 +144,7 @@ var wpLink;
 
 		updateFields : function( e, li, originalEvent ) {
 			inputs.url.val( li.children('.item-permalink').val() );
-			inputs.title.val( li.children('.item-title').text() );
+			inputs.title.val( li.hasClass('no-title') ? '' : li.children('.item-title').text() );
 			if ( originalEvent && originalEvent.type == "click" )
 				inputs.url.focus();
 		},
@@ -341,7 +341,7 @@ var wpLink;
 			this.element.scrollTop(0);
 		},
 		process: function( results, params ) {
-			var list = '', alt = true,
+			var list = '', alt = true, classes = '',
 				firstPage = params.page == 1;
 
 			if ( !results ) {
@@ -352,10 +352,12 @@ var wpLink;
 				}
 			} else {
 				$.each( results, function() {
-					list += alt ? '<li class="alternate">' : '<li>';
+					classes = alt ? 'alternate' : '';
+					classes += this['title'] ? '' : ' no-title';
+					list += classes ? '<li class="' + classes + '">' : '<li>';
 					list += '<input type="hidden" class="item-permalink" value="' + this['permalink'] + '" />';
 					list += '<span class="item-title">';
-					list += this['title'] ? this['title'] : '<em>'+ wpLinkL10n.noTitle + '</em>';
+					list += this['title'] ? this['title'] : wpLinkL10n.noTitle;
 					list += '</span><span class="item-info">' + this['info'] + '</span></li>';
 					alt = ! alt;
 				});
