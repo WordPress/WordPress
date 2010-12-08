@@ -1099,6 +1099,9 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( !current_user_can( 'moderate_comments' ) )
 			return new IXR_Error( 403, __( 'You are not allowed to moderate comments on this site.' ) );
 
+		if ( !current_user_can( 'edit_comment', $comment_ID ) )
+			return new IXR_Error( 403, __( 'You are not allowed to moderate comments on this site.' ) );
+			
 		do_action('xmlrpc_call', 'wp.deleteComment');
 
 		if ( ! get_comment($comment_ID) )
@@ -1130,6 +1133,9 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( !current_user_can( 'moderate_comments' ) )
 			return new IXR_Error( 403, __( 'You are not allowed to moderate comments on this site.' ) );
 
+		if ( !current_user_can( 'edit_comment', $comment_ID ) )
+			return new IXR_Error( 403, __( 'You are not allowed to moderate comments on this site.' ) );
+			
 		do_action('xmlrpc_call', 'wp.editComment');
 
 		if ( ! get_comment($comment_ID) )
