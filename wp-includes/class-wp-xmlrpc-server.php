@@ -1258,7 +1258,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$comment['comment_parent'] = isset($content_struct['comment_parent']) ? absint($content_struct['comment_parent']) : 0;
 
-		$comment['comment_content'] = $content_struct['content'];
+		$comment['comment_content'] =  isset($content_struct['content']) ? $content_struct['content'] : null;
 
 		do_action('xmlrpc_call', 'wp.newComment');
 
@@ -2179,8 +2179,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			$post_author = $content_struct["wp_author_id"];
 		}
 
-		$post_title = $content_struct['title'];
-		$post_content = $content_struct['description'];
+		$post_title = isset( $content_struct['title'] ) ? $content_struct['title'] : null;
+		$post_content = isset( $content_struct['description'] ) ? $content_struct['description'] : null;
 
 		$post_status = $publish ? 'publish' : 'draft';
 
@@ -2202,10 +2202,10 @@ class wp_xmlrpc_server extends IXR_Server {
 			}
 		}
 
-		$post_excerpt = $content_struct['mt_excerpt'];
-		$post_more = $content_struct['mt_text_more'];
+		$post_excerpt = isset($content_struct['mt_excerpt']) ? $content_struct['mt_excerpt'] : null;
+		$post_more = isset($content_struct['mt_text_more']) ? $content_struct['mt_text_more'] : null;
 
-		$tags_input = $content_struct['mt_keywords'];
+		$tags_input = isset($content_struct['mt_keywords']) ? $content_struct['mt_keywords'] : null;
 
 		if ( isset($content_struct["mt_allow_comments"]) ) {
 			if ( !is_numeric($content_struct["mt_allow_comments"]) ) {
@@ -2271,9 +2271,12 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( $post_more )
 			$post_content = $post_content . "<!--more-->" . $post_more;
 
-		$to_ping = $content_struct['mt_tb_ping_urls'];
-		if ( is_array($to_ping) )
-			$to_ping = implode(' ', $to_ping);
+		$to_ping = null;
+		if ( isset( $content_struct['mt_tb_ping_urls'] ) ) {
+			$to_ping = $content_struct['mt_tb_ping_urls'];
+			if ( is_array($to_ping) )
+				$to_ping = implode(' ', $to_ping);
+		}
 
 		// Do some timestamp voodoo
 		if ( !empty( $content_struct['date_created_gmt'] ) )
@@ -2289,13 +2292,15 @@ class wp_xmlrpc_server extends IXR_Server {
 			$post_date_gmt = current_time('mysql', 1);
 		}
 
-		$catnames = $content_struct['categories'];
-		logIO('O', 'Post cats: ' . var_export($catnames,true));
 		$post_category = array();
+		if ( isset( $content_struct['categories'] ) ) {
+			$catnames = $content_struct['categories'];
+			logIO('O', 'Post cats: ' . var_export($catnames,true));
 
-		if ( is_array($catnames) ) {
-			foreach ($catnames as $cat) {
-				$post_category[] = get_cat_ID($cat);
+			if ( is_array($catnames) ) {
+				foreach ($catnames as $cat) {
+					$post_category[] = get_cat_ID($cat);
+				}
 			}
 		}
 
@@ -2321,7 +2326,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			$this->set_custom_fields($post_ID, $content_struct['custom_fields']);
 
 		// Handle enclosures
-		$this->add_enclosure_if_new($post_ID, $content_struct['enclosure']);
+		$thisEnclosure = isset($content_struct['enclosure']) ? $content_struct['enclosure'] : null;
+		$this->add_enclosure_if_new($post_ID, $thisEnclosure);
 
 		$this->attach_uploads( $post_ID, $post_content );
 		
@@ -2549,20 +2555,21 @@ class wp_xmlrpc_server extends IXR_Server {
 			}
 		}
 
-		$post_title = $content_struct['title'];
-		$post_content = $content_struct['description'];
-		$catnames = $content_struct['categories'];
+		$post_title = isset( $content_struct['title'] ) ? $content_struct['title'] : null;
+		$post_content = isset( $content_struct['description'] ) ? $content_struct['description'] : null;
 
 		$post_category = array();
-
-		if ( is_array($catnames) ) {
-			foreach ($catnames as $cat) {
-		 		$post_category[] = get_cat_ID($cat);
+		if ( isset( $content_struct['categories'] ) ) {
+			$catnames = $content_struct['categories'];
+			if ( is_array($catnames) ) {
+				foreach ($catnames as $cat) {
+					$post_category[] = get_cat_ID($cat);
+				}
 			}
 		}
 
-		$post_excerpt = $content_struct['mt_excerpt'];
-		$post_more = $content_struct['mt_text_more'];
+		$post_excerpt = isset( $content_struct['mt_excerpt'] ) ? $content_struct['mt_excerpt'] : null;
+		$post_more = isset( $content_struct['mt_text_more'] ) ? $content_struct['mt_text_more'] : null;
 
 		$post_status = $publish ? 'publish' : 'draft';
 		if ( isset( $content_struct["{$post_type}_status"] ) ) {
@@ -2583,7 +2590,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			}
 		}
 
-		$tags_input = $content_struct['mt_keywords'];
+		$tags_input = isset( $content_struct['mt_keywords'] ) ? $content_struct['mt_keywords'] : null;
 
 		if ( ('publish' == $post_status) ) {
 			if ( ( 'page' == $post_type ) && !current_user_can('publish_pages') )
@@ -2595,9 +2602,12 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( $post_more )
 			$post_content = $post_content . "<!--more-->" . $post_more;
 
-		$to_ping = $content_struct['mt_tb_ping_urls'];
-		if ( is_array($to_ping) )
-			$to_ping = implode(' ', $to_ping);
+		$to_ping = null;
+		if ( isset( $content_struct['mt_tb_ping_urls'] ) ) {
+			$to_ping = $content_struct['mt_tb_ping_urls'];
+			if ( is_array($to_ping) )
+				$to_ping = implode(' ', $to_ping);
+		}
 
 		// Do some timestamp voodoo
 		if ( !empty( $content_struct['date_created_gmt'] ) )
@@ -2635,7 +2645,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			$this->set_custom_fields($post_ID, $content_struct['custom_fields']);
 
 		// Handle enclosures
-		$this->add_enclosure_if_new($post_ID, $content_struct['enclosure']);
+		$thisEnclosure = isset($content_struct['enclosure']) ? $content_struct['enclosure'] : null;
+		$this->add_enclosure_if_new($post_ID, $thisEnclosure);
 
 		$this->attach_uploads( $ID, $post_content );
 		
