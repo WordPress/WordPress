@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>{#advanced_dlg.anchor_title}</title>
+	<script type="text/javascript" src="../../tiny_mce_popup.js?ver=327-1235"></script>
+	<script type="text/javascript" src="js/anchor.js?ver=327-1235"></script>
+</head>
+<body style="display: none">
+<form onsubmit="AnchorDialog.update();return false;" action="#">
+	<table border="0" cellpadding="4" cellspacing="0">
+		<tr>
+			<td colspan="2" class="title">{#advanced_dlg.anchor_title}</td>
+		</tr>
+		<tr>
+			<td class="nowrap">{#advanced_dlg.anchor_name}:</td>
+			<td><input name="anchorName" type="text" class="mceFocus" id="anchorName" value="" style="width: 200px" /></td>
+		</tr>
+	</table>
+
+	<div class="mceActionPanel">
+		<div style="float: left">
+			<input type="button" id="cancel" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();" />
+		</div>
+
+		<div style="float: right">
+			<input type="submit" id="insert" name="insert" value="{#update}" />
+		</div>
+	</div>
+</form>
+</body>
+</html>

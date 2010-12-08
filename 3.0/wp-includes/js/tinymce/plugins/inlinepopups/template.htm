@@ -1,0 +1,387 @@
+<!-- <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Template for dialogs</title>
+<link rel="stylesheet" type="text/css" href="skins/clearlooks2/window.css?ver=327-1235" />
+</head>
+<body>
+
+<div class="mceEditor">
+	<div class="clearlooks2" style="width:400px; height:100px; left:10px;">
+		<div class="mceWrapper">
+			<div class="mceTop">
+				<div class="mceLeft"></div>
+				<div class="mceCenter"></div>
+				<div class="mceRight"></div>
+				<span>Blured</span>
+			</div>
+
+			<div class="mceMiddle">
+				<div class="mceLeft"></div>
+				<span>Content</span>
+				<div class="mceRight"></div>
+			</div>
+
+			<div class="mceBottom">
+				<div class="mceLeft"></div>
+				<div class="mceCenter"></div>
+				<div class="mceRight"></div>
+				<span>Statusbar text.</span>
+			</div>
+
+			<a class="mceMove" href="#"></a>
+			<a class="mceMin" href="#"></a>
+			<a class="mceMax" href="#"></a>
+			<a class="mceMed" href="#"></a>
+			<a class="mceClose" href="#"></a>
+			<a class="mceResize mceResizeN" href="#"></a>
+			<a class="mceResize mceResizeS" href="#"></a>
+			<a class="mceResize mceResizeW" href="#"></a>
+			<a class="mceResize mceResizeE" href="#"></a>
+			<a class="mceResize mceResizeNW" href="#"></a>
+			<a class="mceResize mceResizeNE" href="#"></a>
+			<a class="mceResize mceResizeSW" href="#"></a>
+			<a class="mceResize mceResizeSE" href="#"></a>
+		</div>
+	</div>
+
+	<div class="clearlooks2" style="width:400px; height:100px; left:420px;">
+		<div class="mceWrapper mceMovable mceFocus">
+			<div class="mceTop">
+				<div class="mceLeft"></div>
+				<div class="mceCenter"></div>
+				<div class="mceRight"></div>
+				<span>Focused</span>
+			</div>
+
+			<div class="mceMiddle">
+				<div class="mceLeft"></div>
+				<span>Content</span>
+				<div class="mceRight"></div>
+			</div>
+
+			<div class="mceBottom">
+				<div class="mceLeft"></div>
+				<div class="mceCenter"></div>
+				<div class="mceRight"></div>
+				<span>Statusbar text.</span>
+			</div>
+
+			<a class="mceMove" href="#"></a>
+			<a class="mceMin" href="#"></a>
+			<a class="mceMax" href="#"></a>
+			<a class="mceMed" href="#"></a>
+			<a class="mceClose" href="#"></a>
+			<a class="mceResize mceResizeN" href="#"></a>
+			<a class="mceResize mceResizeS" href="#"></a>
+			<a class="mceResize mceResizeW" href="#"></a>
+			<a class="mceResize mceResizeE" href="#"></a>
+			<a class="mceResize mceResizeNW" href="#"></a>
+			<a class="mceResize mceResizeNE" href="#"></a>
+			<a class="mceResize mceResizeSW" href="#"></a>
+			<a class="mceResize mceResizeSE" href="#"></a>
+		</div>
+	</div>
+
+	<div class="clearlooks2" style="width:400px; height:100px; left:10px; top:120px;">
+		<div class="mceWrapper mceMovable mceFocus mceStatusbar">
+			<div class="mceTop">
+				<div class="mceLeft"></div>
+				<div class="mceCenter"></div>
+				<div class="mceRight"></div>
+				<span>Statusbar</span>
+			</div>
+
+			<div class="mceMiddle">
+				<div class="mceLeft"></div>
+				<span>Content</span>
+				<div class="mceRight"></div>
+			</div>
+
+			<div class="mceBottom">
+				<div class="mceLeft"></div>
+				<div class="mceCenter"></div>
+				<div class="mceRight"></div>
+				<span>Statusbar text.</span>
+			</div>
+
+			<a class="mceMove" href="#"></a>
+			<a class="mceMin" href="#"></a>
+			<a class="mceMax" href="#"></a>
+			<a class="mceMed" href="#"></a>
+			<a class="mceClose" href="#"></a>
+			<a class="mceResize mceResizeN" href="#"></a>
+			<a class="mceResize mceResizeS" href="#"></a>
+			<a class="mceResize mceResizeW" href="#"></a>
+			<a class="mceResize mceResizeE" href="#"></a>
+			<a class="mceResize mceResizeNW" href="#"></a>
+			<a class="mceResize mceResizeNE" href="#"></a>
+			<a class="mceResize mceResizeSW" href="#"></a>
+			<a class="mceResize mceResizeSE" href="#"></a>
+		</div>
+	</div>
+
+	<div class="clearlooks2" style="width:400px; height:100px; left:420px; top:120px;">
+		<div class="mceWrapper mceMovable mceFocus mceStatusbar mceResizable">
+			<div class="mceTop">
+				<div class="mceLeft"></div>
+				<div class="mceCenter"></div>
+				<div class="mceRight"></div>
+				<span>Statusbar, Resizable</span>
+			</div>
+
+			<div class="mceMiddle">
+				<div class="mceLeft"></div>
+				<span>Content</span>
+				<div class="mceRight"></div>
+			</div>
+
+			<div class="mceBottom">
+				<div class="mceLeft"></div>
+				<div class="mceCenter"></div>
+				<div class="mceRight"></div>
+				<span>Statusbar text.</span>
+			</div>
+
+			<a class="mceMove" href="#"></a>
+			<a class="mceMin" href="#"></a>
+			<a class="mceMax" href="#"></a>
+			<a class="mceMed" href="#"></a>
+			<a class="mceClose" href="#"></a>
+			<a class="mceResize mceResizeN" href="#"></a>
+			<a class="mceResize mceResizeS" href="#"></a>
+			<a class="mceResize mceResizeW" href="#"></a>
+			<a class="mceResize mceResizeE" href="#"></a>
+			<a class="mceResize mceResizeNW" href="#"></a>
+			<a class="mceResize mceResizeNE" href="#"></a>
+			<a class="mceResize mceResizeSW" href="#"></a>
+			<a class="mceResize mceResizeSE" href="#"></a>
+		</div>
+	</div>
+
+	<div class="clearlooks2" style="width:400px; height:100px; left:10px; top:230px;">
+		<div class="mceWrapper mceMovable mceFocus mceResizable mceMaximizable">
+			<div class="mceTop">
+				<div class="mceLeft"></div>
+				<div class="mceCenter"></div>
+				<div class="mceRight"></div>
+				<span>Resizable, Maximizable</span>
+			</div>
+
+			<div class="mceMiddle">
+				<div class="mceLeft"></div>
+				<span>Content</span>
+				<div class="mceRight"></div>
+			</div>
+
+			<div class="mceBottom">
+				<div class="mceLeft"></div>
+				<div class="mceCenter"></div>
+				<div class="mceRight"></div>
+				<span>Statusbar text.</span>
+			</div>
+
+			<a class="mceMove" href="#"></a>
+			<a class="mceMin" href="#"></a>
+			<a class="mceMax" href="#"></a>
+			<a class="mceMed" href="#"></a>
+			<a class="mceClose" href="#"></a>
+			<a class="mceResize mceResizeN" href="#"></a>
+			<a class="mceResize mceResizeS" href="#"></a>
+			<a class="mceResize mceResizeW" href="#"></a>
+			<a class="mceResize mceResizeE" href="#"></a>
+			<a class="mceResize mceResizeNW" href="#"></a>
+			<a class="mceResize mceResizeNE" href="#"></a>
+			<a class="mceResize mceResizeSW" href="#"></a>
+			<a class="mceResize mceResizeSE" href="#"></a>
+		</div>
+	</div>
+
+	<div class="clearlooks2" style="width:400px; height:100px; left:420px; top:230px;">
+		<div class="mceWrapper mceMovable mceStatusbar mceResizable mceMaximizable">
+			<div class="mceTop">
+				<div class="mceLeft"></div>
+				<div class="mceCenter"></div>
+				<div class="mceRight"></div>
+				<span>Blurred, Maximizable, Statusbar, Resizable</span>
+			</div>
+
+			<div class="mceMiddle">
+				<div class="mceLeft"></div>
+				<span>Content</span>
+				<div class="mceRight"></div>
+			</div>
+
+			<div class="mceBottom">
+				<div class="mceLeft"></div>
+				<div class="mceCenter"></div>
+				<div class="mceRight"></div>
+				<span>Statusbar text.</span>
+			</div>
+
+			<a class="mceMove" href="#"></a>
+			<a class="mceMin" href="#"></a>
+			<a class="mceMax" href="#"></a>
+			<a class="mceMed" href="#"></a>
+			<a class="mceClose" href="#"></a>
+			<a class="mceResize mceResizeN" href="#"></a>
+			<a class="mceResize mceResizeS" href="#"></a>
+			<a class="mceResize mceResizeW" href="#"></a>
+			<a class="mceResize mceResizeE" href="#"></a>
+			<a class="mceResize mceResizeNW" href="#"></a>
+			<a class="mceResize mceResizeNE" href="#"></a>
+			<a class="mceResize mceResizeSW" href="#"></a>
+			<a class="mceResize mceResizeSE" href="#"></a>
+		</div>
+	</div>
+
+	<div class="clearlooks2" style="width:400px; height:100px; left:10px; top:340px;">
+		<div class="mceWrapper mceMovable mceFocus mceResizable mceMaximized mceMinimizable mceMaximizable">
+			<div class="mceTop">
+				<div class="mceLeft"></div>
+				<div class="mceCenter"></div>
+				<div class="mceRight"></div>
+				<span>Maximized, Maximizable, Minimizable</span>
+			</div>
+
+			<div class="mceMiddle">
+				<div class="mceLeft"></div>
+				<span>Content</span>
+				<div class="mceRight"></div>
+			</div>
+
+			<div class="mceBottom">
+				<div class="mceLeft"></div>
+				<div class="mceCenter"></div>
+				<div class="mceRight"></div>
+				<span>Statusbar text.</span>
+			</div>
+
+			<a class="mceMove" href="#"></a>
+			<a class="mceMin" href="#"></a>
+			<a class="mceMax" href="#"></a>
+			<a class="mceMed" href="#"></a>
+			<a class="mceClose" href="#"></a>
+			<a class="mceResize mceResizeN" href="#"></a>
+			<a class="mceResize mceResizeS" href="#"></a>
+			<a class="mceResize mceResizeW" href="#"></a>
+			<a class="mceResize mceResizeE" href="#"></a>
+			<a class="mceResize mceResizeNW" href="#"></a>
+			<a class="mceResize mceResizeNE" href="#"></a>
+			<a class="mceResize mceResizeSW" href="#"></a>
+			<a class="mceResize mceResizeSE" href="#"></a>
+		</div>
+	</div>
+
+	<div class="clearlooks2" style="width:400px; height:100px; left:420px; top:340px;">
+		<div class="mceWrapper mceMovable mceStatusbar mceResizable mceMaximized mceMinimizable mceMaximizable">
+			<div class="mceTop">
+				<div class="mceLeft"></div>
+				<div class="mceCenter"></div>
+				<div class="mceRight"></div>
+				<span>Blured</span>
+			</div>
+
+			<div class="mceMiddle">
+				<div class="mceLeft"></div>
+				<span>Content</span>
+				<div class="mceRight"></div>
+			</div>
+
+			<div class="mceBottom">
+				<div class="mceLeft"></div>
+				<div class="mceCenter"></div>
+				<div class="mceRight"></div>
+				<span>Statusbar text.</span>
+			</div>
+
+			<a class="mceMove" href="#"></a>
+			<a class="mceMin" href="#"></a>
+			<a class="mceMax" href="#"></a>
+			<a class="mceMed" href="#"></a>
+			<a class="mceClose" href="#"></a>
+			<a class="mceResize mceResizeN" href="#"></a>
+			<a class="mceResize mceResizeS" href="#"></a>
+			<a class="mceResize mceResizeW" href="#"></a>
+			<a class="mceResize mceResizeE" href="#"></a>
+			<a class="mceResize mceResizeNW" href="#"></a>
+			<a class="mceResize mceResizeNE" href="#"></a>
+			<a class="mceResize mceResizeSW" href="#"></a>
+			<a class="mceResize mceResizeSE" href="#"></a>
+		</div>
+	</div>
+
+	<div class="clearlooks2" style="width:400px; height:130px; left:10px; top:450px;">
+		<div class="mceWrapper mceMovable mceFocus mceModal mceAlert">
+			<div class="mceTop">
+				<div class="mceLeft"></div>
+				<div class="mceCenter"></div>
+				<div class="mceRight"></div>
+				<span>Alert</span>
+			</div>
+
+			<div class="mceMiddle">
+				<div class="mceLeft"></div>
+				<span>
+					This is a very long error message. This is a very long error message.
+					This is a very long error message. This is a very long error message.
+					This is a very long error message. This is a very long error message.
+					This is a very long error message. This is a very long error message.
+					This is a very long error message. This is a very long error message.
+					This is a very long error message. This is a very long error message.
+				</span>
+				<div class="mceRight"></div>
+				<div class="mceIcon"></div>
+			</div>
+
+			<div class="mceBottom">
+				<div class="mceLeft"></div>
+				<div class="mceCenter"></div>
+				<div class="mceRight"></div>
+			</div>
+
+			<a class="mceMove" href="#"></a>
+			<a class="mceButton mceOk" href="#">Ok</a>
+			<a class="mceClose" href="#"></a>
+		</div>
+	</div>
+
+	<div class="clearlooks2" style="width:400px; height:130px; left:420px; top:450px;">
+		<div class="mceWrapper mceMovable mceFocus mceModal mceConfirm">
+			<div class="mceTop">
+				<div class="mceLeft"></div>
+				<div class="mceCenter"></div>
+				<div class="mceRight"></div>
+				<span>Confirm</span>
+			</div>
+
+			<div class="mceMiddle">
+				<div class="mceLeft"></div>
+				<span>
+					This is a very long error message. This is a very long error message.
+					This is a very long error message. This is a very long error message.
+					This is a very long error message. This is a very long error message.
+					This is a very long error message. This is a very long error message.
+					This is a very long error message. This is a very long error message.
+					This is a very long error message. This is a very long error message.
+					</span>
+				<div class="mceRight"></div>
+				<div class="mceIcon"></div>
+			</div>
+
+			<div class="mceBottom">
+				<div class="mceLeft"></div>
+				<div class="mceCenter"></div>
+				<div class="mceRight"></div>
+			</div>
+
+			<a class="mceMove" href="#"></a>
+			<a class="mceButton mceOk" href="#">Ok</a>
+			<a class="mceButton mceCancel" href="#">Cancel</a>
+			<a class="mceClose" href="#"></a>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>

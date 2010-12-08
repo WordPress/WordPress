@@ -1,0 +1,130 @@
+body {
+	font-family: Tahoma, Arial;
+}
+
+#poststuff #edButtonPreview,
+#poststuff #edButtonHTML {
+	margin: 0 0 0 5px;
+	float: right;
+}
+
+/* Editor/Main Column */
+div#poststuff {
+	padding-left: 0;
+	padding-right: 10px;
+}
+
+.posting {
+	margin-right: 0;
+	margin-left: 228px;
+	left: auto;
+	right: 0;
+}
+
+#side-info-column {
+	float: left;
+	right: auto;
+	left: 0;
+	margin-right: 0;
+	margin-left: 10px;
+}
+
+#side-info-column .sleeve {
+	padding-left: 0;
+	padding-right: 10px;
+}
+
+h3.tb {
+	margin-left: 0;
+	margin-right: 5px;
+}
+
+#actions {
+	float: left;
+}
+
+#extra_fields #actions {
+	right: auto;
+	left: 4px;
+}
+
+#actions li {
+	float: right;
+	margin-right: 0;
+	margin-left: 10px;
+}
+
+#extra_fields .button {
+	margin-right: 0;
+	margin-left: 5px;
+}
+
+/* Photo Styles */
+#img_container a {
+	float: right;
+}
+
+#category-add input, #category-add select {
+	font-family: Tahoma, Arial;
+}
+
+.inline-editor ul.cat-checklist ul,
+.categorydiv ul.categorychecklist ul,
+#linkcategorydiv ul.categorychecklist ul {
+	margin-left: 0;
+	margin-right: 18px;
+}
+
+/* Tags */
+#tagsdiv #newtag {
+	margin-right: 0;
+	margin-left: 5px;
+}
+
+#tagadd {
+	margin-left: 0;
+	margin-right: 3px;
+}
+
+#tagchecklist span {
+	margin-left: .5em;
+	margin-right: 10px;
+	float: right;
+}
+#tagchecklist span a {
+	margin: 6px -9px 0 0;
+	float: right;
+}
+
+#content {
+	margin-left: 0;
+	margin-right: 1%;
+}
+
+.submit input,
+.button,
+.button-primary,
+.button-secondary,
+.button-highlighted,
+#postcustomstuff .submit input {
+	font-family: Tahoma, Arial, sans-serif;
+}
+
+.ac_results li {
+	text-align: right;
+}
+
+#TB_ajaxContent #options {
+	right: auto;
+	left: 25px;
+}
+
+#post_status {
+	margin-left: 0;
+	margin-right: 10px;
+}
+
+/* Footer */
+#footer {
+	padding: 10px 60px 0 0;
+}

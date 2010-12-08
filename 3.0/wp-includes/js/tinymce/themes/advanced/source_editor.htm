@@ -1,0 +1,31 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<title>{#advanced_dlg.code_title}</title>
+	<script type="text/javascript" src="../../tiny_mce_popup.js?ver=327-1235"></script>
+	<script type="text/javascript" src="js/source_editor.js?ver=327-1235"></script>
+</head>
+<body onresize="resizeInputs();" style="display:none; overflow:hidden;">
+	<form name="source" onsubmit="saveContent();return false;" action="#">
+		<div style="float: left" class="title">{#advanced_dlg.code_title}</div>
+
+		<div id="wrapline" style="float: right">
+			<input type="checkbox" name="wraped" id="wraped" onclick="toggleWordWrap(this);" class="wordWrapCode" /><label for="wraped">{#advanced_dlg.code_wordwrap}</label>
+		</div>
+
+		<br style="clear: both" />
+
+		<textarea name="htmlSource" id="htmlSource" rows="15" cols="100" style="width: 100%; height: 100%; font-family: 'Courier New',Courier,monospace; font-size: 12px;" dir="ltr" wrap="off" class="mceFocus"></textarea>
+
+		<div class="mceActionPanel">
+			<div style="float: left">
+				<input type="button" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();" id="cancel" />
+			</div>
+
+			<div style="float: right">
+				<input type="submit" name="insert" value="{#update}" id="insert" />
+			</div>
+		</div>
+	</form>
+</body>
+</html>

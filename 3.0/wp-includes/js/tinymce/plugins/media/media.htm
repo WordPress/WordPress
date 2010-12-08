@@ -1,0 +1,822 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>{#media_dlg.title}</title>
+	<script type="text/javascript" src="../../tiny_mce_popup.js?ver=327-1235"></script>
+	<script type="text/javascript" src="js/media.js?ver=327-1235"></script>
+	<script type="text/javascript" src="../../utils/mctabs.js?ver=327-1235"></script>
+	<script type="text/javascript" src="../../utils/validate.js?ver=327-1235"></script>
+	<script type="text/javascript" src="../../utils/form_utils.js?ver=327-1235"></script>
+	<script type="text/javascript" src="../../utils/editable_selects.js?ver=327-1235"></script>
+	<link href="css/media.css?ver=327-1235" rel="stylesheet" type="text/css" />
+</head>
+<body style="display: none">
+    <form onsubmit="insertMedia();return false;" action="#">
+		<div class="tabs">
+			<ul>
+				<li id="general_tab" class="current"><span><a href="javascript:mcTabs.displayTab('general_tab','general_panel');generatePreview();" onmousedown="return false;">{#media_dlg.general}</a></span></li>
+				<li id="advanced_tab"><span><a href="javascript:mcTabs.displayTab('advanced_tab','advanced_panel');" onmousedown="return false;">{#media_dlg.advanced}</a></span></li>
+			</ul>
+		</div>
+
+		<div class="panel_wrapper">
+			<div id="general_panel" class="panel current">
+				<fieldset>
+					<legend>{#media_dlg.general}</legend>
+
+					<table border="0" cellpadding="4" cellspacing="0">
+							<tr>
+								<td><label for="media_type">{#media_dlg.type}</label></td>
+								<td>
+									<select id="media_type" name="media_type" onchange="changedType(this.value);generatePreview();">
+										<option value="flash">Flash</option>
+										<!-- <option value="flv">Flash video (FLV)</option> -->
+										<option value="qt">Quicktime</option>
+										<option value="shockwave">Shockwave</option>
+										<option value="wmp">Windows Media</option>
+										<option value="rmp">Real Media</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+							<td><label for="src">{#media_dlg.file}</label></td>
+							  <td>
+									<table border="0" cellspacing="0" cellpadding="0">
+									  <tr>
+										<td><input id="src" name="src" type="text" value="" class="mceFocus" onchange="switchType(this.value);generatePreview();" /></td>
+										<td id="filebrowsercontainer">&nbsp;</td>
+									  </tr>
+									</table>
+								</td>
+							</tr>
+							<tr id="linklistrow">
+								<td><label for="linklist">{#media_dlg.list}</label></td>
+								<td id="linklistcontainer"><select id="linklist"><option value=""></option></select></td>
+							</tr>
+							<tr>
+								<td><label for="width">{#media_dlg.size}</label></td>
+								<td>
+									<table border="0" cellpadding="0" cellspacing="0">
+										<tr>
+											<td><input type="text" id="width" name="width" value="" class="size" onchange="generatePreview('width');" /> x <input type="text" id="height" name="height" value="" class="size"  onchange="generatePreview('height');" /></td>
+											<td>&nbsp;&nbsp;<input id="constrain" type="checkbox" name="constrain" class="checkbox" /></td>
+											<td><label id="constrainlabel" for="constrain">{#media_dlg.constrain_proportions}</label></td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+					</table>
+				</fieldset>
+
+				<fieldset>
+					<legend>{#media_dlg.preview}</legend>
+					<div id="prev"></div>
+				</fieldset>
+			</div>
+
+			<div id="advanced_panel" class="panel">
+				<fieldset>
+					<legend>{#media_dlg.advanced}</legend>
+
+					<table border="0" cellpadding="4" cellspacing="0" width="100%">
+						<tr>
+							<td><label for="id">{#media_dlg.id}</label></td>
+							<td><input type="text" id="id" name="id" onchange="generatePreview();" /></td>
+							<td><label for="name">{#media_dlg.name}</label></td>
+							<td><input type="text" id="name" name="name" onchange="generatePreview();" /></td>
+						</tr>
+
+						<tr>
+							<td><label for="align">{#media_dlg.align}</label></td>
+							<td>
+								<select id="align" name="align" onchange="generatePreview();">
+									<option value="">{#not_set}</option> 
+									<option value="top">{#media_dlg.align_top}</option>
+									<option value="right">{#media_dlg.align_right}</option>
+									<option value="bottom">{#media_dlg.align_bottom}</option>
+									<option value="left">{#media_dlg.align_left}</option>
+								</select>
+							</td>
+
+							<td><label for="bgcolor">{#media_dlg.bgcolor}</label></td>
+							<td>
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input id="bgcolor" name="bgcolor" type="text" value="" size="9" onchange="updateColor('bgcolor_pick','bgcolor');generatePreview();" /></td>
+										<td id="bgcolor_pickcontainer">&nbsp;</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+
+						<tr>
+							<td><label for="vspace">{#media_dlg.vspace}</label></td>
+							<td><input type="text" id="vspace" name="vspace" class="number" onchange="generatePreview();" /></td>
+							<td><label for="hspace">{#media_dlg.hspace}</label></td>
+							<td><input type="text" id="hspace" name="hspace" class="number" onchange="generatePreview();" /></td>
+						</tr>
+					</table>
+				</fieldset>
+
+				<fieldset id="flash_options">
+					<legend>{#media_dlg.flash_options}</legend>
+
+					<table border="0" cellpadding="4" cellspacing="0">
+						<tr>
+							<td><label for="flash_quality">{#media_dlg.quality}</label></td>
+							<td>
+								<select id="flash_quality" name="flash_quality" onchange="generatePreview();">
+									<option value="">{#not_set}</option> 
+									<option value="high">high</option>
+									<option value="low">low</option>
+									<option value="autolow">autolow</option>
+									<option value="autohigh">autohigh</option>
+									<option value="best">best</option>
+								</select>
+							</td>
+
+							<td><label for="flash_scale">{#media_dlg.scale}</label></td>
+							<td>
+								<select id="flash_scale" name="flash_scale" onchange="generatePreview();">
+									<option value="">{#not_set}</option> 
+									<option value="showall">showall</option>
+									<option value="noborder">noborder</option>
+									<option value="exactfit">exactfit</option>
+									<option value="noscale">noscale</option>
+								</select>
+							</td>
+						</tr>
+
+						<tr>
+							<td><label for="flash_wmode">{#media_dlg.wmode}</label></td>
+							<td>
+								<select id="flash_wmode" name="flash_wmode" onchange="generatePreview();">
+									<option value="">{#not_set}</option> 
+									<option value="window">window</option>
+									<option value="opaque">opaque</option>
+									<option value="transparent">transparent</option>
+								</select>
+							</td>
+
+							<td><label for="flash_salign">{#media_dlg.salign}</label></td>
+							<td>
+								<select id="flash_salign" name="flash_salign" onchange="generatePreview();">
+									<option value="">{#not_set}</option> 
+									<option value="l">{#media_dlg.align_left}</option>
+									<option value="t">{#media_dlg.align_top}</option>
+									<option value="r">{#media_dlg.align_right}</option>
+									<option value="b">{#media_dlg.align_bottom}</option>
+									<option value="tl">{#media_dlg.align_top_left}</option>
+									<option value="tr">{#media_dlg.align_top_right}</option>
+									<option value="bl">{#media_dlg.align_bottom_left}</option>
+									<option value="br">{#media_dlg.align_bottom_right}</option>
+								</select>
+							</td>
+						</tr>
+
+						<tr>
+							<td colspan="2">
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input type="checkbox" class="checkbox" id="flash_play" name="flash_play" checked="checked" onchange="generatePreview();" /></td>
+										<td><label for="flash_play">{#media_dlg.play}</label></td>
+									</tr>
+								</table>
+							</td>
+
+							<td colspan="2">
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input type="checkbox" class="checkbox" id="flash_loop" name="flash_loop" checked="checked" onchange="generatePreview();" /></td>
+										<td><label for="flash_loop">{#media_dlg.loop}</label></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+
+						<tr>
+							<td colspan="2">
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input type="checkbox" class="checkbox" id="flash_menu" name="flash_menu" checked="checked" onchange="generatePreview();" /></td>
+										<td><label for="flash_menu">{#media_dlg.menu}</label></td>
+									</tr>
+								</table>
+							</td>
+
+							<td colspan="2">
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input type="checkbox" class="checkbox" id="flash_swliveconnect" name="flash_swliveconnect" onchange="generatePreview();" /></td>
+										<td><label for="flash_swliveconnect">{#media_dlg.liveconnect}</label></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+
+					<table>
+						<tr>
+							<td><label for="flash_base">{#media_dlg.base}</label></td>
+							<td><input type="text" id="flash_base" name="flash_base" onchange="generatePreview();" /></td>
+						</tr>
+
+						<tr>
+							<td><label for="flash_flashvars">{#media_dlg.flashvars}</label></td>
+							<td><input type="text" id="flash_flashvars" name="flash_flashvars" onchange="generatePreview();" /></td>
+						</tr>
+					</table>
+				</fieldset>
+
+				<fieldset id="flv_options">
+					<legend>{#media_dlg.flv_options}</legend>
+
+					<table border="0" cellpadding="4" cellspacing="0">
+						<tr>
+							<td><label for="flv_scalemode">{#media_dlg.flv_scalemode}</label></td>
+							<td>
+								<select id="flv_scalemode" name="flv_scalemode" onchange="generatePreview();">
+									<option value="">{#not_set}</option> 
+									<option value="none">none</option>
+									<option value="double">double</option>
+									<option value="full">full</option>
+								</select>
+							</td>
+
+							<td><label for="flv_buffer">{#media_dlg.flv_buffer}</label></td>
+							<td><input type="text" id="flv_buffer" name="flv_buffer" onchange="generatePreview();" /></td>
+						</tr>
+
+						<tr>
+							<td><label for="flv_startimage">{#media_dlg.flv_startimage}</label></td>
+							<td><input type="text" id="flv_startimage" name="flv_startimage" onchange="generatePreview();" /></td>
+
+							<td><label for="flv_starttime">{#media_dlg.flv_starttime}</label></td>
+							<td><input type="text" id="flv_starttime" name="flv_starttime" onchange="generatePreview();" /></td>
+						</tr>
+
+						<tr>
+							<td><label for="flv_defaultvolume">{#media_dlg.flv_defaultvolume}</label></td>
+							<td><input type="text" id="flv_defaultvolume" name="flv_defaultvolume" onchange="generatePreview();" /></td>
+
+
+						</tr>
+
+						<tr>
+							<td colspan="2">
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input type="checkbox" class="checkbox" id="flv_hiddengui" name="flv_hiddengui" checked="checked" onchange="generatePreview();" /></td>
+										<td><label for="flv_hiddengui">{#media_dlg.flv_hiddengui}</label></td>
+									</tr>
+								</table>
+							</td>
+
+							<td colspan="2">
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input type="checkbox" class="checkbox" id="flv_autostart" name="flv_autostart" checked="checked" onchange="generatePreview();" /></td>
+										<td><label for="flv_autostart">{#media_dlg.flv_autostart}</label></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+
+						<tr>
+							<td colspan="2">
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input type="checkbox" class="checkbox" id="flv_loop" name="flv_loop" checked="checked" onchange="generatePreview();" /></td>
+										<td><label for="flv_loop">{#media_dlg.flv_loop}</label></td>
+									</tr>
+								</table>
+							</td>
+
+							<td colspan="2">
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input type="checkbox" class="checkbox" id="flv_showscalemodes" name="flv_showscalemodes" onchange="generatePreview();" /></td>
+										<td><label for="flv_showscalemodes">{#media_dlg.flv_showscalemodes}</label></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+
+						<tr>
+							<td colspan="2">
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input type="checkbox" class="checkbox" id="flv_smoothvideo" name="flash_flv_flv_smoothvideosmoothvideo" checked="checked" onchange="generatePreview();" /></td>
+										<td><label for="flv_smoothvideo">{#media_dlg.flv_smoothvideo}</label></td>
+									</tr>
+								</table>
+							</td>
+
+							<td colspan="2">
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input type="checkbox" class="checkbox" id="flv_jscallback" name="flv_jscallback" onchange="generatePreview();" /></td>
+										<td><label for="flv_jscallback">{#media_dlg.flv_jscallback}</label></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</fieldset>
+
+				<fieldset id="qt_options">
+					<legend>{#media_dlg.qt_options}</legend>
+
+					<table border="0" cellpadding="4" cellspacing="0">
+						<tr>
+							<td colspan="2">
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input type="checkbox" class="checkbox" id="qt_loop" name="qt_loop" onchange="generatePreview();" /></td>
+										<td><label for="qt_loop">{#media_dlg.loop}</label></td>
+									</tr>
+								</table>
+							</td>
+
+							<td colspan="2">
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input type="checkbox" class="checkbox" id="qt_autoplay" name="qt_autoplay" checked="checked" onchange="generatePreview();" /></td>
+										<td><label for="qt_autoplay">{#media_dlg.play}</label></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+
+						<tr>
+							<td colspan="2">
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input type="checkbox" class="checkbox" id="qt_cache" name="qt_cache" onchange="generatePreview();" /></td>
+										<td><label for="qt_cache">{#media_dlg.cache}</label></td>
+									</tr>
+								</table>
+							</td>
+
+							<td colspan="2">
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input type="checkbox" class="checkbox" id="qt_controller" name="qt_controller" checked="checked" onchange="generatePreview();" /></td>
+										<td><label for="qt_controller">{#media_dlg.controller}</label></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+
+						<tr>
+							<td colspan="2">
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input type="checkbox" class="checkbox" id="qt_correction" name="qt_correction" onchange="generatePreview();" /></td>
+										<td><label for="qt_correction">{#media_dlg.correction}</label></td>
+									</tr>
+								</table>
+							</td>
+
+							<td colspan="2">
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input type="checkbox" class="checkbox" id="qt_enablejavascript" name="qt_enablejavascript" onchange="generatePreview();" /></td>
+										<td><label for="qt_enablejavascript">{#media_dlg.enablejavascript}</label></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+
+						<tr>
+							<td colspan="2">
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input type="checkbox" class="checkbox" id="qt_kioskmode" name="qt_kioskmode" onchange="generatePreview();" /></td>
+										<td><label for="qt_kioskmode">{#media_dlg.kioskmode}</label></td>
+									</tr>
+								</table>
+							</td>
+
+							<td colspan="2">
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input type="checkbox" class="checkbox" id="qt_autohref" name="qt_autohref" onchange="generatePreview();" /></td>
+										<td><label for="qt_autohref">{#media_dlg.autohref}</label></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+
+						<tr>
+							<td colspan="2">
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input type="checkbox" class="checkbox" id="qt_playeveryframe" name="qt_playeveryframe" onchange="generatePreview();" /></td>
+										<td><label for="qt_playeveryframe">{#media_dlg.playeveryframe}</label></td>
+									</tr>
+								</table>
+							</td>
+
+							<td colspan="2">
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input type="checkbox" class="checkbox" id="qt_targetcache" name="qt_targetcache" onchange="generatePreview();" /></td>
+										<td><label for="qt_targetcache">{#media_dlg.targetcache}</label></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+
+						<tr>
+							<td><label for="qt_scale">{#media_dlg.scale}</label></td>
+							<td><select id="qt_scale" name="qt_scale" class="mceEditableSelect" onchange="generatePreview();">
+									<option value="">{#not_set}</option> 
+									<option value="tofit">tofit</option>
+									<option value="aspect">aspect</option>
+								</select>
+							</td>
+
+							<td colspan="2">&nbsp;</td>
+						</tr>
+
+						<tr>
+							<td><label for="qt_starttime">{#media_dlg.starttime}</label></td>
+							<td><input type="text" id="qt_starttime" name="qt_starttime" onchange="generatePreview();" /></td>
+
+							<td><label for="qt_endtime">{#media_dlg.endtime}</label></td>
+							<td><input type="text" id="qt_endtime" name="qt_endtime" onchange="generatePreview();" /></td>
+						</tr>
+
+						<tr>
+							<td><label for="qt_target">{#media_dlg.target}</label></td>
+							<td><input type="text" id="qt_target" name="qt_target" onchange="generatePreview();" /></td>
+
+							<td><label for="qt_href">{#media_dlg.href}</label></td>
+							<td><input type="text" id="qt_href" name="qt_href" onchange="generatePreview();" /></td>
+						</tr>
+
+						<tr>
+							<td><label for="qt_qtsrcchokespeed">{#media_dlg.qtsrcchokespeed}</label></td>
+							<td><input type="text" id="qt_qtsrcchokespeed" name="qt_qtsrcchokespeed" onchange="generatePreview();" /></td>
+
+							<td><label for="qt_volume">{#media_dlg.volume}</label></td>
+							<td><input type="text" id="qt_volume" name="qt_volume" onchange="generatePreview();" /></td>
+						</tr>
+
+						<tr>
+							<td><label for="qt_qtsrc">{#media_dlg.qtsrc}</label></td>
+							<td colspan="4">
+							<table border="0" cellspacing="0" cellpadding="0">
+								  <tr>
+									<td><input type="text" id="qt_qtsrc" name="qt_qtsrc" onchange="generatePreview();" /></td>
+									<td id="qtsrcfilebrowsercontainer">&nbsp;</td>
+								  </tr>
+							</table>
+							</td>
+						</tr>
+					</table>
+				</fieldset>
+
+				<fieldset id="wmp_options">
+					<legend>{#media_dlg.wmp_options}</legend>
+
+					<table border="0" cellpadding="4" cellspacing="0">
+						<tr>
+							<td colspan="2">
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input type="checkbox" class="checkbox" id="wmp_autostart" name="wmp_autostart" checked="checked" onchange="generatePreview();" /></td>
+										<td><label for="wmp_autostart">{#media_dlg.autostart}</label></td>
+									</tr>
+								</table>
+							</td>
+
+							<td colspan="2">
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input type="checkbox" class="checkbox" id="wmp_enabled" name="wmp_enabled" onchange="generatePreview();" /></td>
+										<td><label for="wmp_enabled">{#media_dlg.enabled}</label></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+
+						<tr>
+							<td colspan="2">
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input type="checkbox" class="checkbox" id="wmp_enablecontextmenu" name="wmp_enablecontextmenu" checked="checked" onchange="generatePreview();" /></td>
+										<td><label for="wmp_enablecontextmenu">{#media_dlg.menu}</label></td>
+									</tr>
+								</table>
+							</td>
+
+							<td colspan="2">
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input type="checkbox" class="checkbox" id="wmp_fullscreen" name="wmp_fullscreen" onchange="generatePreview();" /></td>
+										<td><label for="wmp_fullscreen">{#media_dlg.fullscreen}</label></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+
+						<tr>
+							<td colspan="2">
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input type="checkbox" class="checkbox" id="wmp_invokeurls" name="wmp_invokeurls" checked="checked" onchange="generatePreview();" /></td>
+										<td><label for="wmp_invokeurls">{#media_dlg.invokeurls}</label></td>
+									</tr>
+								</table>
+							</td>
+
+							<td colspan="2">
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input type="checkbox" class="checkbox" id="wmp_mute" name="wmp_mute" onchange="generatePreview();" /></td>
+										<td><label for="wmp_mute">{#media_dlg.mute}</label></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+
+						<tr>
+							<td colspan="2">
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input type="checkbox" class="checkbox" id="wmp_stretchtofit" name="wmp_stretchtofit" onchange="generatePreview();" /></td>
+										<td><label for="wmp_stretchtofit">{#media_dlg.stretchtofit}</label></td>
+									</tr>
+								</table>
+							</td>
+
+							<td colspan="2">
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input type="checkbox" class="checkbox" id="wmp_windowlessvideo" name="wmp_windowlessvideo" onchange="generatePreview();" /></td>
+										<td><label for="wmp_windowlessvideo">{#media_dlg.windowlessvideo}</label></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+
+						<tr>
+							<td><label for="wmp_balance">{#media_dlg.balance}</label></td>
+							<td><input type="text" id="wmp_balance" name="wmp_balance" onchange="generatePreview();" /></td>
+
+							<td><label for="wmp_baseurl">{#media_dlg.baseurl}</label></td>
+							<td><input type="text" id="wmp_baseurl" name="wmp_baseurl" onchange="generatePreview();" /></td>
+						</tr>
+
+						<tr>
+							<td><label for="wmp_captioningid">{#media_dlg.captioningid}</label></td>
+							<td><input type="text" id="wmp_captioningid" name="wmp_captioningid" onchange="generatePreview();" /></td>
+
+							<td><label for="wmp_currentmarker">{#media_dlg.currentmarker}</label></td>
+							<td><input type="text" id="wmp_currentmarker" name="wmp_currentmarker" onchange="generatePreview();" /></td>
+						</tr>
+
+						<tr>
+							<td><label for="wmp_currentposition">{#media_dlg.currentposition}</label></td>
+							<td><input type="text" id="wmp_currentposition" name="wmp_currentposition" onchange="generatePreview();" /></td>
+
+							<td><label for="wmp_defaultframe">{#media_dlg.defaultframe}</label></td>
+							<td><input type="text" id="wmp_defaultframe" name="wmp_defaultframe" onchange="generatePreview();" /></td>
+						</tr>
+
+						<tr>
+							<td><label for="wmp_playcount">{#media_dlg.playcount}</label></td>
+							<td><input type="text" id="wmp_playcount" name="wmp_playcount" onchange="generatePreview();" /></td>
+
+							<td><label for="wmp_rate">{#media_dlg.rate}</label></td>
+							<td><input type="text" id="wmp_rate" name="wmp_rate" onchange="generatePreview();" /></td>
+						</tr>
+
+						<tr>
+							<td><label for="wmp_uimode">{#media_dlg.uimode}</label></td>
+							<td><input type="text" id="wmp_uimode" name="wmp_uimode" onchange="generatePreview();" /></td>
+
+							<td><label for="wmp_volume">{#media_dlg.volume}</label></td>
+							<td><input type="text" id="wmp_volume" name="wmp_volume" onchange="generatePreview();" /></td>
+						</tr>
+
+					</table>
+				</fieldset>
+
+				<fieldset id="rmp_options">
+					<legend>{#media_dlg.rmp_options}</legend>
+
+					<table border="0" cellpadding="4" cellspacing="0">
+						<tr>
+							<td colspan="2">
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input type="checkbox" class="checkbox" id="rmp_autostart" name="rmp_autostart" onchange="generatePreview();" /></td>
+										<td><label for="rmp_autostart">{#media_dlg.autostart}</label></td>
+									</tr>
+								</table>
+							</td>
+
+							<td colspan="2">
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input type="checkbox" class="checkbox" id="rmp_loop" name="rmp_loop" onchange="generatePreview();" /></td>
+										<td><label for="rmp_loop">{#media_dlg.loop}</label></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+
+						<tr>
+							<td colspan="2">
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input type="checkbox" class="checkbox" id="rmp_autogotourl" name="rmp_autogotourl" checked="checked" onchange="generatePreview();" /></td>
+										<td><label for="rmp_autogotourl">{#media_dlg.autogotourl}</label></td>
+									</tr>
+								</table>
+							</td>
+
+							<td colspan="2">
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input type="checkbox" class="checkbox" id="rmp_center" name="rmp_center" onchange="generatePreview();" /></td>
+										<td><label for="rmp_center">{#media_dlg.center}</label></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+
+						<tr>
+							<td colspan="2">
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input type="checkbox" class="checkbox" id="rmp_imagestatus" name="rmp_imagestatus" checked="checked" onchange="generatePreview();" /></td>
+										<td><label for="rmp_imagestatus">{#media_dlg.imagestatus}</label></td>
+									</tr>
+								</table>
+							</td>
+
+							<td colspan="2">
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input type="checkbox" class="checkbox" id="rmp_maintainaspect" name="rmp_maintainaspect" onchange="generatePreview();" /></td>
+										<td><label for="rmp_maintainaspect">{#media_dlg.maintainaspect}</label></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+
+						<tr>
+							<td colspan="2">
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input type="checkbox" class="checkbox" id="rmp_nojava" name="rmp_nojava" onchange="generatePreview();" /></td>
+										<td><label for="rmp_nojava">{#media_dlg.nojava}</label></td>
+									</tr>
+								</table>
+							</td>
+
+							<td colspan="2">
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input type="checkbox" class="checkbox" id="rmp_prefetch" name="rmp_prefetch" onchange="generatePreview();" /></td>
+										<td><label for="rmp_prefetch">{#media_dlg.prefetch}</label></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+
+						<tr>
+							<td colspan="2">
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input type="checkbox" class="checkbox" id="rmp_shuffle" name="rmp_shuffle" onchange="generatePreview();" /></td>
+										<td><label for="rmp_shuffle">{#media_dlg.shuffle}</label></td>
+									</tr>
+								</table>
+							</td>
+
+							<td colspan="2">
+								&nbsp;
+							</td>
+						</tr>
+
+						<tr>
+							<td><label for="rmp_console">{#media_dlg.console}</label></td>
+							<td><input type="text" id="rmp_console" name="rmp_console" onchange="generatePreview();" /></td>
+
+							<td><label for="rmp_controls">{#media_dlg.controls}</label></td>
+							<td><input type="text" id="rmp_controls" name="rmp_controls" onchange="generatePreview();" /></td>
+						</tr>
+
+						<tr>
+							<td><label for="rmp_numloop">{#media_dlg.numloop}</label></td>
+							<td><input type="text" id="rmp_numloop" name="rmp_numloop" onchange="generatePreview();" /></td>
+
+							<td><label for="rmp_scriptcallbacks">{#media_dlg.scriptcallbacks}</label></td>
+							<td><input type="text" id="rmp_scriptcallbacks" name="rmp_scriptcallbacks" onchange="generatePreview();" /></td>
+						</tr>
+					</table>
+				</fieldset>
+
+				<fieldset id="shockwave_options">
+					<legend>{#media_dlg.shockwave_options}</legend>
+
+					<table border="0" cellpadding="4" cellspacing="0">
+						<tr>
+							<td><label for="shockwave_swstretchstyle">{#media_dlg.swstretchstyle}</label></td>
+							<td>
+								<select id="shockwave_swstretchstyle" name="shockwave_swstretchstyle" onchange="generatePreview();">
+									<option value="none">{#not_set}</option>
+									<option value="meet">Meet</option>
+									<option value="fill">Fill</option>
+									<option value="stage">Stage</option>
+								</select>
+							</td>
+
+							<td><label for="shockwave_swvolume">{#media_dlg.volume}</label></td>
+							<td><input type="text" id="shockwave_swvolume" name="shockwave_swvolume" onchange="generatePreview();" /></td>
+						</tr>
+
+						<tr>
+							<td><label for="shockwave_swstretchhalign">{#media_dlg.swstretchhalign}</label></td>
+							<td>
+								<select id="shockwave_swstretchhalign" name="shockwave_swstretchhalign" onchange="generatePreview();">
+									<option value="none">{#not_set}</option>
+									<option value="left">{#media_dlg.align_left}</option>
+									<option value="center">{#media_dlg.align_center}</option>
+									<option value="right">{#media_dlg.align_right}</option>
+								</select>
+							</td>
+
+							<td><label for="shockwave_swstretchvalign">{#media_dlg.swstretchvalign}</label></td>
+							<td>
+								<select id="shockwave_swstretchvalign" name="shockwave_swstretchvalign" onchange="generatePreview();">
+									<option value="none">{#not_set}</option>
+									<option value="meet">Meet</option>
+									<option value="fill">Fill</option>
+									<option value="stage">Stage</option>
+								</select>
+							</td>
+						</tr>
+
+						<tr>
+							<td colspan="2">
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input type="checkbox" class="checkbox" id="shockwave_autostart" name="shockwave_autostart" onchange="generatePreview();" checked="checked" /></td>
+										<td><label for="shockwave_autostart">{#media_dlg.autostart}</label></td>
+									</tr>
+								</table>
+							</td>
+
+							<td colspan="2">
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input type="checkbox" class="checkbox" id="shockwave_sound" name="shockwave_sound" onchange="generatePreview();" checked="checked" /></td>
+										<td><label for="shockwave_sound">{#media_dlg.sound}</label></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+
+
+						<tr>
+							<td colspan="2">
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input type="checkbox" class="checkbox" id="shockwave_swliveconnect" name="shockwave_swliveconnect" onchange="generatePreview();" /></td>
+										<td><label for="shockwave_swliveconnect">{#media_dlg.liveconnect}</label></td>
+									</tr>
+								</table>
+							</td>
+
+							<td colspan="2">
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input type="checkbox" class="checkbox" id="shockwave_progress" name="shockwave_progress" onchange="generatePreview();" checked="checked" /></td>
+										<td><label for="shockwave_progress">{#media_dlg.progress}</label></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</fieldset>
+			</div>
+		</div>
+
+		<div class="mceActionPanel">
+			<div style="float: left">
+				<input type="button" id="cancel" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();" />
+			</div>
+
+			<div style="float: right">
+				<input type="submit" id="insert" name="insert" value="{#insert}" />
+			</div>
+		</div>
+	</form>
+</body>
+</html>
