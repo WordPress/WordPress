@@ -13,7 +13,7 @@ class WP_Users_List_Table extends WP_List_Table {
 	
 	function WP_Users_List_Table() {
 		$screen = get_current_screen();
-		$this->is_site_users = ( 'site-users-network' == $screen->id ) ? true : false;
+		$this->is_site_users = 'site-users-network' == $screen->id;
 
 		if ( $this->is_site_users )
 			$this->site_id = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0;
@@ -180,7 +180,7 @@ class WP_Users_List_Table extends WP_List_Table {
 
 	function display_rows() {
 		// Query the post counts for this page
-		if ( $this->is_site_users )
+		if ( ! $this->is_site_users )
 			$post_counts = count_many_users_posts( array_keys( $this->items ) );
 
 		$style = '';
