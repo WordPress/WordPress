@@ -4025,8 +4025,7 @@ function wp_check_for_changed_slugs($post_id, $post, $post_before) {
 		return;
 
 	// we're only concerned with published, non-hierarchical objects
-	$ptype_obj = get_post_type_object( $post->post_type );
-	if ( $post->post_status != 'publish' || !$ptype_obj || $ptype_obj->hierarchical )
+	if ( $post->post_status != 'publish' || is_post_type_hierarchical( $post->post_type ) )
 		return;
 
 	$old_slugs = (array) get_post_meta($post_id, '_wp_old_slug');

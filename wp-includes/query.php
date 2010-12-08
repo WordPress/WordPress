@@ -3232,8 +3232,7 @@ function wp_old_slug_redirect() {
 			$post_type = 'post';
 
 		// Do not attempt redirect for hierarchical post types
-		$ptype_obj = get_post_type_object( $post_type );
-		if ( !$ptype_obj || $ptype_obj->hierarchical )
+		if ( is_post_type_hierarchical( $post_type ) )
 			return;
 
 		$query = $wpdb->prepare("SELECT post_id FROM $wpdb->postmeta, $wpdb->posts WHERE ID = post_id AND post_type = %s AND meta_key = '_wp_old_slug' AND meta_value = %s", $post_type, $wp_query->query_vars['name']);
