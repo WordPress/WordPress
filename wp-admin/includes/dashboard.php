@@ -138,16 +138,17 @@ function wp_dashboard_setup() {
 function wp_add_dashboard_widget( $widget_id, $widget_name, $callback, $control_callback = null ) {
 	$screen = get_current_screen();
 	global $wp_dashboard_control_callbacks;
+
 	if ( $control_callback && current_user_can( 'edit_dashboard' ) && is_callable( $control_callback ) ) {
 		$wp_dashboard_control_callbacks[$widget_id] = $control_callback;
 		if ( isset( $_GET['edit'] ) && $widget_id == $_GET['edit'] ) {
 			list($url) = explode( '#', add_query_arg( 'edit', false ), 2 );
 			$widget_name .= ' <span class="postbox-title-action"><a href="' . esc_url( $url ) . '">' . __( 'Cancel' ) . '</a></span>';
-			add_meta_box( $widget_id, $widget_name, '_wp_dashboard_control_callback', $screen->id, 'normal', 'core' );
-			return;
+			$callback = '_wp_dashboard_control_callback'; 
+		} else { 
+			list($url) = explode( '#', add_query_arg( 'edit', $widget_id ), 2 ); 
+			$widget_name .= ' <span class="postbox-title-action"><a href="' . esc_url( "$url#$widget_id" ) . '" class="edit-box open-box">' . __( 'Configure' ) . '</a></span>';
 		}
-		list($url) = explode( '#', add_query_arg( 'edit', $widget_id ), 2 );
-		$widget_name .= ' <span class="postbox-title-action"><a href="' . esc_url( "$url#$widget_id" ) . '" class="edit-box open-box">' . __( 'Configure' ) . '</a></span>';
 	}
 
 	if ( is_blog_admin () )
