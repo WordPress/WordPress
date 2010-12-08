@@ -221,7 +221,8 @@ function wp_admin_bar_comments_menu() {
 	$awaiting_mod = wp_count_comments();
 	$awaiting_mod = $awaiting_mod->moderated;
 
-	$wp_admin_bar->add_menu( array( 'id' => 'comments', 'title' => sprintf( __('Comments %s'), "<span id='ab-awaiting-mod' class='count-$awaiting_mod'><span class='pending-count'>" . number_format_i18n($awaiting_mod) . "</span></span>" ), 'href' => admin_url('edit-comments.php') ) );
+	$awaiting_mod = $awaiting_mod ? "<span id='ab-awaiting-mod'><span class='pending-count>" . number_format_i18n( $awaiting_mod ) . "</span></span>" : '';
+	$wp_admin_bar->add_menu( array( 'id' => 'comments', 'title' => sprintf( __('Comments %s'), $awaiting_mod ), 'href' => admin_url('edit-comments.php') ) );
 }
 
 function wp_admin_bar_appearance_menu() {
@@ -276,7 +277,9 @@ function wp_admin_bar_updates_menu() {
 
 	$update_title = !empty($update_title) ? esc_attr(implode(', ', $update_title)) : '';
 
-	$update_title = sprintf( __('Updates %s'), "<span id='ab-updates' class='count-$update_count' title='$update_title'><span class='update-count'>" . number_format_i18n($update_count) . "</span></span>" );
+	$update_title = "<span title='$update_title'>";
+	$update_title .= sprintf( __('Updates %s'), "<span id='ab-updates' class='update-count'>" . number_format_i18n($update_count) . '</span>' );
+	$update_title .= '</span>';
 
 	$href = is_multisite() ? network_admin_url( 'update-core.php' ) : admin_url( 'update-core.php' );
 
