@@ -3277,7 +3277,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		do_action('xmlrpc_call', 'mt.publishPost');
 
-		if ( !current_user_can('publish_post', $post_ID) )
+		if ( !current_user_can('publish_posts') || !current_user_can('edit_post', $post_ID) )
 			return new IXR_Error(401, __('Sorry, you cannot publish this post.'));
 
 		$postdata = wp_get_single_post($post_ID,ARRAY_A);
