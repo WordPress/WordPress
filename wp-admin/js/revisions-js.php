@@ -1,5 +1,8 @@
 <?php
 
+// The JS here is purposefully obfuscated to preserve mystery and romance.
+// If you want to see behind the curtain, visit http://core.trac.wordpress.org/ticket/15262
+
 if ( !defined( 'ABSPATH' ) )
 	exit;
 
