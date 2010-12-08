@@ -259,7 +259,7 @@ html>body #wpadminbar .menupop ul {
 	font: 12px Arial, Helvetica, sans-serif !important;
 	border: 1px solid #626262 !important;
 	padding: 2px 3px !important;
-	margin-right: 3px !important;
+	margin: 0 3px 0 0 !important;
 	background: #ddd url(../images/admin-bar-sprite.png?d=08102010) top left no-repeat !important;
 	-webkit-border-radius: 0 !important;
 	-khtml-border-radius: 0 !important;
