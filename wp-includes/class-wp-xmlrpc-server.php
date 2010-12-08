@@ -1362,7 +1362,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( !$user = $this->login($username, $password) )
 			return $this->error;
 
-		if ( !current_user_can( 'edit_posts' ) )
+		if ( !current_user_can( 'edit_pages' ) )
 			return new IXR_Error( 403, __( 'You are not allowed access to details about this site.' ) );
 
 		do_action('xmlrpc_call', 'wp.getPageStatusList');
@@ -2050,7 +2050,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( !$actual_post || $actual_post['post_type'] != 'post' )
 			return new IXR_Error(404, __('Sorry, no such post.'));
 
-		if ( !current_user_can('edit_post', $post_ID) )
+		if ( !current_user_can('delete_post', $post_ID) )
 			return new IXR_Error(401, __('Sorry, you do not have the right to delete this post.'));
 
 		$result = wp_delete_post($post_ID);
@@ -3271,8 +3271,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		do_action('xmlrpc_call', 'mt.publishPost');
 
-		if ( !current_user_can('edit_post', $post_ID) )
-			return new IXR_Error(401, __('Sorry, you cannot edit this post.'));
+		if ( !current_user_can('publish_post', $post_ID) )
+			return new IXR_Error(401, __('Sorry, you cannot publish this post.'));
 
 		$postdata = wp_get_single_post($post_ID,ARRAY_A);
 
