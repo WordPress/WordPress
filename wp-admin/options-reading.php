@@ -64,7 +64,12 @@ include( './admin-header.php' );
 <?php if ( ! get_pages() ) : ?>
 <input name="show_on_front" type="hidden" value="posts" />
 <table class="form-table">
-<?php else :
+<?php
+	if ( 'posts' != get_option( 'show_on_front' ) ) :
+		update_option( 'show_on_front', 'posts' );
+	endif;
+
+else :
 	if ( 'page' == get_option( 'show_on_front' ) && ! get_option( 'page_on_front' ) && ! get_option( 'page_for_posts' ) )
 		update_option( 'show_on_front', 'posts' );
 ?>
