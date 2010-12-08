@@ -2675,6 +2675,8 @@ class WP_Query {
 				$this->queried_object = $term;
 				$this->queried_object_id = (int) $term->term_id;
 			}
+		} elseif ( $this->is_post_type_archive ) {
+			$this->queried_object = get_post_type_object( $this->get('post_type') );
 		} elseif ( $this->is_posts_page ) {
 			$page_for_posts = get_option('page_for_posts');
 			$this->queried_object = & get_page( $page_for_posts );

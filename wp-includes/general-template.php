@@ -667,8 +667,7 @@ function post_type_archive_title( $prefix = '', $display = true ) {
 	if ( ! is_post_type_archive() )
 		return;
 
-
-	$post_type_obj = get_post_type_object( get_query_var( 'post_type' ) );
+	$post_type_obj = get_queried_object();
 	$title = apply_filters('post_type_archive_title', $post_type_obj->labels->name );
 
 	if ( $display )
