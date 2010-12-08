@@ -372,9 +372,6 @@ function get_blog_option( $blog_id, $setting, $default = false ) {
 	if ( 'siteurl' == $setting || 'home' == $setting || 'category_base' == $setting )
 		$value = untrailingslashit( $value );
 
-	if (! @unserialize( $value ) )
-		$value = stripslashes( $value );
-
 	return apply_filters( 'blog_option_' . $setting, maybe_unserialize( $value ), $blog_id );
 }
 
