@@ -243,7 +243,15 @@ function wp_install_defaults($user_id) {
 								));
 
 	// First Page
-	$first_page = __('This is an example of a WordPress page. You could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress.');
+	$first_page = sprintf( __( "This is an example page. It's different from a blog post because it will stay in one place and will show up in your site navigation (in most themes). Most people start with an About page that introduces them to potential site visitors. It might say something like this:
+
+<blockquote>Hi there! I'm a bike messenger by day, aspiring actor by night, and this is my blog. I live in Los Angeles, have a great dog named Jack, and I like pi&#241;a coladas. (And gettin' caught in the rain.)</blockquote>
+
+...or something like this:
+
+<blockquote>The XYZ Doohickey Company was founded in 1971, and has been providing quality doohickies to the public ever since. Located in Gotham City, XYZ employs over 2,000 people and does all kinds of awesome things for the Gotham community.</blockquote>
+
+As a new WordPress user, you should go to <a href=\"%s\">your dashboard</a> to delete this page and create new pages for your content. Have fun!" ), admin_url() );
 	if ( is_multisite() )
 		$first_page = get_site_option( 'first_page', $first_page );
 	$first_post_guid = get_option('home') . '/?page_id=2';
@@ -253,9 +261,9 @@ function wp_install_defaults($user_id) {
 								'post_date_gmt' => $now_gmt,
 								'post_content' => $first_page,
 								'post_excerpt' => '',
-								'post_title' => __('About'),
+								'post_title' => __( 'Example About Page' ),
 								/* translators: Default page slug */
-								'post_name' => _x('about', 'Default page slug'),
+								'post_name' => __( 'example-about-page' ),
 								'post_modified' => $now,
 								'post_modified_gmt' => $now_gmt,
 								'guid' => $first_post_guid,
