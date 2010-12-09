@@ -61,14 +61,26 @@ class WP_Themes_List_Table extends WP_List_Table {
 	}
 
 	function no_items() {
-		if ( current_user_can( 'install_themes' ) ) {
-			if ( is_multisite() )
-				printf( 'You only have one theme installed right now. Visit the <a href="%s">Network Admin</a> to install more themes.', network_admin_url( 'theme-install.php' ) );
-			else
-				printf( __( 'You only have one theme installed right now. Live a little! You can choose from over 1,000 free themes in the WordPress.org Theme Directory at any time: just click on the <a href="%s">Install Themes</a> tab above.' ), admin_url( 'theme-install.php' ) );
+		if ( is_multisite() ) {
+			if ( current_user_can( 'install_themes' ) && current_user_can( 'manage_network_themes' ) ) {
+				printf( __( 'You only have one theme enabled for this site right now. Visit the Network Admin to <a href="%1$s">enable</a> or <a href="%2$s">install</a> more themes.' ), network_admin_url( 'site-themes.php?id=' . $GLOBALS['blog_id'] ), network_admin_url( 'theme-install.php' ) );
+
+				return;
+			} elseif ( current_user_can( 'manage_network_themes' ) ) {
+				printf( __( 'You only have one theme enabled for this site right now. Visit the Network Admin to <a href="%1$s">enable</a> more themes.' ), network_admin_url( 'site-themes.php?id=' . $GLOBALS['blog_id'] ) );
+
+				return;
+			}
+			// else, fallthrough. install_themes doesn't help if you can't enable it.
 		} else {
-			printf( __( 'Only the current theme is available to you. Contact the %s administrator for information about accessing additional themes.' ), get_site_option( 'site_name' ) );
+			if ( current_user_can( 'install_themes' ) ) {
+				printf( __( 'You only have one theme installed right now. Live a little! You can choose from over 1,000 free themes in the WordPress.org Theme Directory at any time: just click on the <a href="%s">Install Themes</a> tab above.' ), admin_url( 'theme-install.php' ) );
+
+				return;
+			}
 		}
+		// Fallthrough.
+		printf( __( 'Only the current theme is available to you. Contact the %s administrator for information about accessing additional themes.' ), get_site_option( 'site_name' ) );
 	}
 
 	function display_table() {
