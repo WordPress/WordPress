@@ -75,13 +75,13 @@ function wp_link_dialog() {
 	<div id="link-options">
 		<p class="howto"><?php _e( 'Enter the destination URL:' ); ?></p>
 		<div>
-			<label><span><?php _e( 'URL' ); ?></span><input id="url-field" type="text" tabindex="10" autocomplete="off" /></label>
+			<label for="url-field"><span><?php _e( 'URL' ); ?></span><input id="url-field" type="text" tabindex="10" autocomplete="off" /></label>
 		</div>
 		<div>
-			<label><span><?php _e( 'Title' ); ?></span><input id="link-title-field" type="text" tabindex="20" autocomplete="off" /></label>
+			<label for="link-title-field"><span><?php _e( 'Title' ); ?></span><input id="link-title-field" type="text" tabindex="20" autocomplete="off" /></label>
 		</div>
 		<div class="link-target">
-			<label><input type="checkbox" id="link-target-checkbox" tabindex="30" /> <?php _e( 'Open link in a new window/tab' ); ?></label>
+			<label for="link-target-checkbox"><input type="checkbox" id="link-target-checkbox" tabindex="30" /> <?php _e( 'Open link in a new window/tab' ); ?></label>
 		</div>
 	</div>
 	<div id="search-panel">
