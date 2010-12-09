@@ -90,7 +90,7 @@ function create_initial_taxonomies() {
 			'name' => '',
 			'singular_name' => '',
 		),
-		'query_var' => 'post_format',
+		'query_var' => true,
 		'rewrite' => $rewrite,
 		'show_ui' => false,
 		'_builtin' => true,

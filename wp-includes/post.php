@@ -5161,8 +5161,8 @@ function _post_format_link( $link, $term, $taxonomy ) {
 	if ( $wp_rewrite->get_extra_permastruct( $taxonomy ) ) {
 		return str_replace( "/{$term->slug}", '/' . $slugs[ str_replace( 'post-format-', '', $term->slug ) ], $link );
 	} else {
-		$link = remove_query_arg( 'format', $link );
-		return add_query_arg( 'format', str_replace( 'post-format-', $term->slug ), $link );
+		$link = remove_query_arg( 'post_format', $link );
+		return add_query_arg( 'post_format', str_replace( 'post-format-', '', $term->slug ), $link );
 	}
 }
 add_filter( 'term_link', '_post_format_link', 10, 3 );
