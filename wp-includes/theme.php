@@ -1415,9 +1415,16 @@ function header_textcolor() {
  * @return string
  */
 function get_header_image() {
-	$default = defined('HEADER_IMAGE') ? HEADER_IMAGE : '';
+	$default = defined( 'HEADER_IMAGE' ) ? HEADER_IMAGE : '';
 
-	return get_theme_mod('header_image', $default);
+	$url = get_theme_mod( 'header_image', $default );
+
+	if ( is_ssl() )
+		$url = str_replace( 'http://', 'https://', $url );
+	else
+		$url = str_replace( 'https://', 'http://', $url );
+
+	return $url;
 }
 
 /**
