@@ -511,7 +511,7 @@ function get_objects_in_term( $term_ids, $taxonomies, $args = array() ) {
  * @since 3.1.0
  *
  * @param array $tax_query List of taxonomy queries. A single taxonomy query is an associative array:
- * - 'taxonomy' string|array The taxonomy being queried
+ * - 'taxonomy' string The taxonomy being queried
  * - 'terms' string|array The list of terms
  * - 'field' string (optional) Which term field is being used.
  *		Possible values: 'term_id', 'slug' or 'name'
@@ -547,14 +547,8 @@ function get_tax_sql( $tax_query, $primary_table, $primary_id_column ) {
 
 		extract( $query );
 
-		$taxonomies = (array) $taxonomy;
-
-		foreach ( $taxonomies as $taxonomy ) {
-			if ( ! taxonomy_exists( $taxonomy ) )
-				return array( 'join' => '', 'where' => ' AND 0 = 1');
-		}
-
-		$taxonomies = "'" . implode( "', '", $taxonomies ) . "'";
+		if ( ! taxonomy_exists( $taxonomy ) )
+			return array( 'join' => '', 'where' => ' AND 0 = 1');
 
 		$terms = array_unique( (array) $terms );
 
@@ -562,7 +556,7 @@ function get_tax_sql( $tax_query, $primary_table, $primary_id_column ) {
 			continue;
 
 		if ( is_taxonomy_hierarchical( $taxonomy ) && $include_children ) {
-			_transform_terms( $terms, $taxonomies, $field, 'term_id' );
+			_transform_terms( $terms, $taxonomy, $field, 'term_id' );
 
 			$children = array();
 			foreach ( $terms as $term ) {
@@ -571,10 +565,10 @@ function get_tax_sql( $tax_query, $primary_table, $primary_id_column ) {
 			}
 			$terms = $children;
 
-			_transform_terms( $terms, $taxonomies, 'term_id', 'term_taxonomy_id' );
+			_transform_terms( $terms, $taxonomy, 'term_id', 'term_taxonomy_id' );
 		}
 		else {
-			_transform_terms( $terms, $taxonomies, $field, 'term_taxonomy_id' );
+			_transform_terms( $terms, $taxonomy, $field, 'term_taxonomy_id' );
 		}
 
 		if ( 'IN' == $operator ) {
@@ -626,7 +620,7 @@ function _set_tax_query_defaults( &$tax_query ) {
 		$tax_query['relation'] = 'AND';
 
 	$defaults = array(
-		'taxonomy' => array(),
+		'taxonomy' => '',
 		'terms' => array(),
 		'include_children' => true,
 		'field' => 'term_id',
@@ -643,7 +637,7 @@ function _set_tax_query_defaults( &$tax_query ) {
 	}
 }
 
-function _transform_terms( &$terms, $taxonomies, $field, $resulting_field ) {
+function _transform_terms( &$terms, $taxonomy, $field, $resulting_field ) {
 	global $wpdb;
 
 	if ( empty( $terms ) )
@@ -662,7 +656,7 @@ function _transform_terms( &$terms, $taxonomies, $field, $resulting_field ) {
 				SELECT $wpdb->term_taxonomy.$resulting_field
 				FROM $wpdb->term_taxonomy
 				INNER JOIN $wpdb->terms USING (term_id)
-				WHERE taxonomy IN ($taxonomies)
+				WHERE taxonomy = '$taxonomy'
 				AND $wpdb->terms.$field IN ($terms)
 			" );
 			break;
@@ -672,7 +666,7 @@ function _transform_terms( &$terms, $taxonomies, $field, $resulting_field ) {
 			$terms = $wpdb->get_col( "
 				SELECT $resulting_field
 				FROM $wpdb->term_taxonomy
-				WHERE taxonomy IN ($taxonomies)
+				WHERE taxonomy = '$taxonomy'
 				AND term_id IN ($terms)
 			" );
 	}
