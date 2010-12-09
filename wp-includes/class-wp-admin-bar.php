@@ -178,13 +178,16 @@ class WP_Admin_Bar {
 		add_action( 'admin_bar_menu', 'wp_admin_bar_my_account_menu', 20 );
 		add_action( 'admin_bar_menu', 'wp_admin_bar_my_sites_menu', 30 );
 		add_action( 'admin_bar_menu', 'wp_admin_bar_edit_menu', 40 );
-		add_action( 'admin_bar_menu', 'wp_admin_bar_new_content_menu', 50 );
-		add_action( 'admin_bar_menu', 'wp_admin_bar_comments_menu', 60 );
-		add_action( 'admin_bar_menu', 'wp_admin_bar_appearance_menu', 70 );
-		add_action( 'admin_bar_menu', 'wp_admin_bar_updates_menu', 80 );
 		add_action( 'admin_bar_menu', 'wp_admin_bar_shortlink_menu', 90 );
-
-		do_action('add_admin_bar_menus');
+		add_action( 'admin_bar_menu', 'wp_admin_bar_updates_menu', 80 );
+		
+		if ( !is_network_admin() && !is_user_admin() ) {
+			add_action( 'admin_bar_menu', 'wp_admin_bar_new_content_menu', 50 );
+			add_action( 'admin_bar_menu', 'wp_admin_bar_comments_menu', 60 );
+			add_action( 'admin_bar_menu', 'wp_admin_bar_appearance_menu', 70 );
+		}
+		
+		do_action( 'add_admin_bar_menus' );
 	}
 
 	function remove_node( $id, &$menu ) {
