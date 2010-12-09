@@ -398,19 +398,19 @@ function is_month() {
 }
 
 /**
- * Is the query for a single Page?
+ * Is the query for a single page?
  *
  * If the $page parameter is specified, this function will additionally
- * check if the query is for one of the Pages specified.
+ * check if the query is for one of the pages specified.
  *
  * @see is_single()
  * @see is_singular()
  *
- * @see WP_Query::is_single()
+ * @see WP_Query::is_page()
  * @since 1.5.0
  * @uses $wp_query
  *
- * @param mixed $page Page ID, title, slug, or array of Page IDs, titles, and slugs.
+ * @param mixed $page Page ID, title, slug, or array of such.
  * @return bool
  */
 function is_page( $page = '' ) {
@@ -482,10 +482,10 @@ function is_search() {
 /**
  * Is the query for a single post?
  *
+ * Works for any post type, except attachments and pages
+ *
  * If the $post parameter is specified, this function will additionally
  * check if the query is for one of the Posts specified.
- *
- * Can also be used for attachments or any other post type except pages.
  *
  * @see is_page()
  * @see is_singular()
@@ -494,7 +494,7 @@ function is_search() {
  * @since 1.5.0
  * @uses $wp_query
  *
- * @param mixed $post Post ID, title, slug, or array of Post IDs, titles, and slugs.
+ * @param mixed $post Post ID, title, slug, or array of such.
  * @return bool
  */
 function is_single( $post = '' ) {
@@ -3024,17 +3024,17 @@ class WP_Query {
 	}
 
 	/**
-	 * Is the query for a single Page?
+	 * Is the query for a single page?
 	 *
 	 * If the $page parameter is specified, this function will additionally
-	 * check if the query is for one of the Pages specified.
+	 * check if the query is for one of the pages specified.
 	 *
 	 * @see WP_Query::is_single()
 	 * @see WP_Query::is_singular()
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param mixed $page Page ID, title, slug, or array of Page IDs, titles, and slugs.
+	 * @param mixed $page Page ID, title, slug, or array of such.
 	 * @return bool
 	 */
 	function is_page( $page = '' ) {
@@ -3105,17 +3105,17 @@ class WP_Query {
 	/**
 	 * Is the query for a single post?
 	 *
+	 * Works for any post type, except attachments and pages
+	 *
 	 * If the $post parameter is specified, this function will additionally
 	 * check if the query is for one of the Posts specified.
-	 *
-	 * Can also be used for attachments or any other post type except pages.
 	 *
 	 * @see WP_Query::is_page()
 	 * @see WP_Query::is_singular()
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param mixed $post Post ID, title, slug, or array of Post IDs, titles, and slugs.
+	 * @param mixed $post Post ID, title, slug, or array of such.
 	 * @return bool
 	 */
 	function is_single( $post = '' ) {
