@@ -7,11 +7,6 @@ class WP_Admin_Bar {
 	var $user;
 
 	function initialize() {
-		/* Only load super admin menu code if the logged in user is a super admin */
-		if ( is_super_admin() ) {
-			require( ABSPATH . WPINC . '/ms-admin-bar.php' );
-		}
-
 		/* Set the protocol used throughout this code */
 		if ( is_ssl() )
 			$this->proto = 'https://';
@@ -188,9 +183,6 @@ class WP_Admin_Bar {
 		add_action( 'admin_bar_menu', 'wp_admin_bar_appearance_menu', 70 );
 		add_action( 'admin_bar_menu', 'wp_admin_bar_updates_menu', 80 );
 		add_action( 'admin_bar_menu', 'wp_admin_bar_shortlink_menu', 90 );
-
-		if ( is_multisite() && is_super_admin() && function_exists('wp_admin_bar_superadmin_settings_menu') )
-			add_action( 'admin_bar_menu', 'wp_admin_bar_superadmin_settings_menu', 1000 );
 
 		do_action('add_admin_bar_menus');
 	}
