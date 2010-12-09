@@ -1491,7 +1491,6 @@ class WP_Query {
 				'taxonomy' => $q['taxonomy'],
 				'terms' => array( $q['term'] ),
 				'field' => 'slug',
-				'operator' => 'IN',
 			);
 		}
 
@@ -1500,7 +1499,6 @@ class WP_Query {
 				$tax_query_defaults = array(
 					'taxonomy' => $taxonomy,
 					'field' => 'slug',
-					'operator' => 'IN'
 				);
 
  				if ( isset( $t->rewrite['hierarchical'] ) && $t->rewrite['hierarchical'] ) {
@@ -1550,7 +1548,6 @@ class WP_Query {
 			$tax_query[] = array(
 				'taxonomy' => 'category',
 				'terms' => $q['category__in'],
-				'operator' => 'IN',
 				'field' => 'term_id'
 			);
 		}
@@ -1561,7 +1558,6 @@ class WP_Query {
 				'taxonomy' => 'category',
 				'terms' => $q['category__not_in'],
 				'operator' => 'NOT IN',
-				'field' => 'term_id'
 			);
 		}
 
@@ -1570,8 +1566,6 @@ class WP_Query {
 			$tax_query[] = array(
 				'taxonomy' => 'post_tag',
 				'terms' => $qv['tag_id'],
-				'operator' => 'IN',
-				'field' => 'term_id'
 			);
 		}
 
@@ -1579,8 +1573,6 @@ class WP_Query {
 			$tax_query[] = array(
 				'taxonomy' => 'post_tag',
 				'terms' => $q['tag__in'],
-				'operator' => 'IN',
-				'field' => 'term_id'
 			);
 		}
 
@@ -1589,11 +1581,15 @@ class WP_Query {
 				'taxonomy' => 'post_tag',
 				'terms' => $q['tag__not_in'],
 				'operator' => 'NOT IN',
-				'field' => 'term_id'
 			);
 		}
 
+		_set_tax_query_defaults( $tax_query );
+
 		foreach ( $tax_query as $query ) {
+			if ( ! is_array( $query ) )
+				continue;
+
 			if ( 'IN' == $query['operator'] ) {
 				switch ( $query['taxonomy'] ) {
 					case 'category':
@@ -1945,7 +1941,8 @@ class WP_Query {
 		// Taxonomies
 		if ( !$this->is_singular ) {
 			$this->tax_query = $this->parse_tax_query( $q );
-			if ( !empty( $this->tax_query ) ) {
+
+			if ( ! empty( $this->tax_query ) ) {
 				$clauses = call_user_func_array( 'get_tax_sql', array( $this->tax_query, $wpdb->posts, 'ID', &$this) );
 
 				$join .= $clauses['join'];

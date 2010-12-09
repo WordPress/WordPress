@@ -533,7 +533,9 @@ function get_tax_sql( $tax_query, $primary_table, $primary_id_column ) {
 	$where = array();
 	$i = 0;
 
-	if ( isset( $tax_query['relation'] ) && strtoupper( $tax_query['relation'] ) == 'OR' ) {
+	_set_tax_query_defaults( $tax_query );
+
+	if ( strtoupper( $tax_query['relation'] ) == 'OR' ) {
 		$relation = 'OR';
 	} else {
 		$relation = 'AND';
@@ -543,13 +545,7 @@ function get_tax_sql( $tax_query, $primary_table, $primary_id_column ) {
 		if ( ! is_array( $query ) )
 			continue;
 
-		extract( wp_parse_args( $query, array(
-			'taxonomy' => array(),
-			'terms' => array(),
-			'include_children' => true,
-			'field' => 'term_id',
-			'operator' => 'IN',
-		) ) );
+		extract( $query );
 
 		$taxonomies = (array) $taxonomy;
 
@@ -623,6 +619,28 @@ function get_tax_sql( $tax_query, $primary_table, $primary_id_column ) {
 		$where = '';
 
 	return compact( 'join', 'where' );
+}
+
+function _set_tax_query_defaults( &$tax_query ) {
+	if ( ! isset( $tax_query['relation'] ) )
+		$tax_query['relation'] = 'AND';
+
+	$defaults = array(
+		'taxonomy' => array(),
+		'terms' => array(),
+		'include_children' => true,
+		'field' => 'term_id',
+		'operator' => 'IN',
+	);
+
+	foreach ( $tax_query as $i => $query ) {
+		if ( ! is_array( $query ) )
+			continue;
+
+		$tax_query[$i] = array_merge( $defaults, $query );
+
+		$tax_query[$i]['terms'] = (array) $tax_query[$i]['terms'];
+	}
 }
 
 function _transform_terms( &$terms, $taxonomies, $field, $resulting_field ) {
