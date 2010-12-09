@@ -13,8 +13,10 @@ require_once( './admin.php' );
 if ( ! is_multisite() )
 	wp_die( __( 'Multisite support is not enabled.' ) );
 
-if ( empty( $_GET['action'] ) )
+if ( empty( $_GET['action'] ) ) {
 	wp_redirect( admin_url( 'index.php' ) );
+	exit;
+}
 
 function confirm_delete_users( $users ) {
 	$current_user = wp_get_current_user();

@@ -85,6 +85,7 @@ function redirect_post($post_id = '') {
 	}
 
 	wp_redirect( apply_filters( 'redirect_post_location', $location, $post_id ) );
+	exit;
 }
 
 if ( isset( $_POST['deletepost'] ) )
@@ -265,7 +266,7 @@ case 'preview':
 	break;
 
 default:
-		wp_redirect( admin_url('edit.php') );
+	wp_redirect( admin_url('edit.php') );
 	exit();
 	break;
 } // end switch

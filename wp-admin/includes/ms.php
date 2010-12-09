@@ -507,12 +507,10 @@ function redirect_user_to_blog() {
 
 	if ( is_object( $blog ) ) {
 		wp_redirect( get_admin_url( $blog->blog_id, '?c=' . $c ) ); // redirect and count to 5, "just in case"
-		exit;
 	} else {
 		wp_redirect( user_admin_url( '?c=' . $c ) ); // redirect and count to 5, "just in case"
 	}
-
-	wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
+	exit;
 }
 add_action( 'admin_page_access_denied', 'redirect_user_to_blog', 99 );
 

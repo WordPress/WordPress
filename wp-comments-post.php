@@ -101,5 +101,5 @@ $location = empty($_POST['redirect_to']) ? get_comment_link($comment_id) : $_POS
 $location = apply_filters('comment_post_redirect', $location, $comment);
 
 wp_redirect($location);
-
+exit;
 ?>

@@ -58,6 +58,7 @@ if ( isset($_REQUEST['action']) && 'update-site' == $_REQUEST['action'] ) {
 
 	restore_current_blog();
 	wp_redirect( add_query_arg( array( 'update' => 'updated', 'id' => $id ), 'site-info.php') );
+	exit;
 }
 
 if ( isset($_GET['update']) ) {

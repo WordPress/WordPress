@@ -16,4 +16,5 @@ if ( get_magic_quotes_gpc() )
 setcookie('wp-postpass_' . COOKIEHASH, $_POST['post_password'], time() + 864000, COOKIEPATH);
 
 wp_safe_redirect(wp_get_referer());
+exit;
 ?>

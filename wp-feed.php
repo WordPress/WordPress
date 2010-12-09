@@ -8,5 +8,5 @@
 
 require( './wp-load.php' );
 wp_redirect( get_bloginfo( get_default_feed() . '_url' ), 301 );
-
+exit;
 ?>

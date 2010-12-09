@@ -366,6 +366,7 @@ function do_dismiss_core_update() {
 		return;
 	dismiss_core_update( $update );
 	wp_redirect( wp_nonce_url('update-core.php?action=upgrade-core', 'upgrade-core') );
+	exit;
 }
 
 function do_undismiss_core_update() {
@@ -376,6 +377,7 @@ function do_undismiss_core_update() {
 		return;
 	undismiss_core_update( $version, $locale );
 	wp_redirect( wp_nonce_url('update-core.php?action=upgrade-core', 'upgrade-core') );
+	exit;
 }
 
 function no_update_actions($actions) {

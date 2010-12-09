@@ -55,6 +55,7 @@ if ( isset($_GET['inline']) ) {
 			$location .= '?message=3';
 
 		wp_redirect( admin_url($location) );
+		exit;
 	}
 
 	$title = __('Upload New Media');
