@@ -722,14 +722,14 @@ function revoke_super_admin( $user_id ) {
 	return false;
 }
 /**
- * Whether or not we can edit this site from this page
+ * Whether or not we can edit this network from this page
  * 
- * By default editing of sites is restricted to the Network Admin for that site_id this allows for this to be overridden
+ * By default editing of network is restricted to the Network Admin for that site_id this allows for this to be overridden
  * 
  * @since 3.1.0
- * @param integer $site_id The site id to check.
+ * @param integer $site_id The network/site id to check.
  */
-function can_edit_site( $site_id ) {
+function can_edit_network( $site_id ) {
 	global $wpdb;
 		
 	if ($site_id == $wpdb->siteid )
@@ -737,6 +737,6 @@ function can_edit_site( $site_id ) {
 	else
 		$result = false;
 	
-	return apply_filters( 'can_edit_site', $result, $site_id );
+	return apply_filters( 'can_edit_network', $result, $site_id );
 }
 ?>

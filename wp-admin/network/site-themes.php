@@ -31,7 +31,7 @@ if ( ! $id )
 $wp_list_table->prepare_items();
 
 $details = get_blog_details( $id );
-if ( !can_edit_site( $details->site_id ) )
+if ( !can_edit_network( $details->site_id ) )
 	wp_die( __( 'You do not have permission to access this page.' ) );
 
 $is_main_site = is_main_site( $id );

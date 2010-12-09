@@ -217,7 +217,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 						echo "<td $attributes>";
 							if ( is_array( $blogs ) ) {
 								foreach ( (array) $blogs as $key => $val ) {
-									if ( !can_edit_site( $val->site_id ) )
+									if ( !can_edit_network( $val->site_id ) )
 										continue;
 									
 									$path	= ( $val->path == '/' ) ? '' : $val->path;
