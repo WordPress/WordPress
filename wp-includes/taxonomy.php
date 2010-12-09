@@ -535,7 +535,7 @@ class WP_Tax_Query {
 	var $relation = '';
 	var $queries = array();
 
-	function __construct( &$tax_query ) {
+	function WP_Tax_Query( &$tax_query ) {
 		if ( isset( $tax_query['relation'] ) && strtoupper( $tax_query['relation'] ) == 'OR' ) {
 			$this->relation = 'OR';
 		} else {
@@ -599,7 +599,7 @@ class WP_Tax_Query {
 			if ( 'IN' == $operator ) {
 
 				if ( empty( $terms ) ) {
-					if ( 'OR' == $relation )
+					if ( 'OR' == $this->relation )
 						continue;
 					else
 						return array( 'join' => '', 'where' => ' AND 0 = 1' );
@@ -633,7 +633,7 @@ class WP_Tax_Query {
 		}
 
 		if ( !empty( $where ) )
-			$where = ' AND ( ' . implode( " $relation ", $where ) . ' )';
+			$where = ' AND ( ' . implode( " $this->relation ", $where ) . ' )';
 		else
 			$where = '';
 
