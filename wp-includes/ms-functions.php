@@ -843,7 +843,7 @@ function wpmu_create_user( $user_name, $password, $email) {
 }
 
 function wpmu_create_blog($domain, $path, $title, $user_id, $meta = '', $site_id = 1) {
-	$domain = preg_replace( '/\s+/', '', sanitize_key( $domain ) );
+	$domain = preg_replace( '/\s+/', '', sanitize_user( $domain, true ) );
 
 	if ( is_subdomain_install() )
 		$domain = str_replace( '@', '', $domain );
