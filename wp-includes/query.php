@@ -1939,55 +1939,53 @@ class WP_Query {
 		$search = apply_filters_ref_array('posts_search', array( $search, &$this ) );
 
 		// Taxonomies
-		if ( !$this->is_singular ) {
+		if ( $this->is_category || $this->is_tag || $this->is_tax ) {
 			$this->tax_query = $this->parse_tax_query( $q );
 
-			if ( ! empty( $this->tax_query ) ) {
-				$clauses = call_user_func_array( 'get_tax_sql', array( $this->tax_query, $wpdb->posts, 'ID', &$this) );
+			$clauses = call_user_func_array( 'get_tax_sql', array( $this->tax_query, $wpdb->posts, 'ID', &$this) );
 
-				$join .= $clauses['join'];
-				$where .= $clauses['where'];
+			$join .= $clauses['join'];
+			$where .= $clauses['where'];
 
-				if ( $this->is_tax ) {
-					if ( empty($post_type) ) {
-						$post_type = 'any';
-						$post_status_join = true;
-					} elseif ( in_array('attachment', (array) $post_type) ) {
-						$post_status_join = true;
+			if ( $this->is_tax ) {
+				if ( empty($post_type) ) {
+					$post_type = 'any';
+					$post_status_join = true;
+				} elseif ( in_array('attachment', (array) $post_type) ) {
+					$post_status_join = true;
+				}
+			}
+
+			// Back-compat
+			$tax_query_in = wp_list_filter( $this->tax_query, array( 'operator' => 'IN' ) );
+			if ( !empty( $tax_query_in ) ) {
+				if ( !isset( $q['taxonomy'] ) ) {
+					foreach ( $tax_query_in as $a_tax_query ) {
+						if ( !in_array( $a_tax_query['taxonomy'], array( 'category', 'post_tag' ) ) ) {
+							$q['taxonomy'] = $a_tax_query['taxonomy'];
+							if ( 'slug' == $a_tax_query['field'] )
+								$q['term'] = $a_tax_query['terms'][0];
+							else
+								$q['term_id'] = $a_tax_query['terms'][0];
+
+							break;
+						}
 					}
 				}
 
-				// Back-compat
-				$tax_query_in = wp_list_filter( $this->tax_query, array( 'operator' => 'IN' ) );
-				if ( !empty( $tax_query_in ) ) {
-					if ( !isset( $q['taxonomy'] ) ) {
-						foreach ( $tax_query_in as $a_tax_query ) {
-							if ( !in_array( $a_tax_query['taxonomy'], array( 'category', 'post_tag' ) ) ) {
-								$q['taxonomy'] = $a_tax_query['taxonomy'];
-								if ( 'slug' == $a_tax_query['field'] )
-									$q['term'] = $a_tax_query['terms'][0];
-								else
-									$q['term_id'] = $a_tax_query['terms'][0];
-
-								break;
-							}
-						}
-					}
-
-					$cat_query = wp_list_filter( $tax_query_in, array( 'taxonomy' => 'category' ) );
-					if ( !empty( $cat_query ) ) {
-						$cat_query = reset( $cat_query );
-						$cat = get_term_by( $cat_query['field'], $cat_query['terms'][0], 'category' );
-						if ( $cat ) {
-							$this->set( 'cat', $cat->term_id );
-							$this->set( 'category_name', $cat->slug );
-						}
+				$cat_query = wp_list_filter( $tax_query_in, array( 'taxonomy' => 'category' ) );
+				if ( !empty( $cat_query ) ) {
+					$cat_query = reset( $cat_query );
+					$cat = get_term_by( $cat_query['field'], $cat_query['terms'][0], 'category' );
+					if ( $cat ) {
+						$this->set( 'cat', $cat->term_id );
+						$this->set( 'category_name', $cat->slug );
 					}
 				}
 			}
 		}
 
-		if ( !empty( $this->tax_query ) || !empty( $q['meta_key'] ) ) {
+		if ( $this->is_category || $this->is_tag || $this->is_tax || !empty( $q['meta_key'] ) ) {
 			$groupby = "{$wpdb->posts}.ID";
 		}
 
