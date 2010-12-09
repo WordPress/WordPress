@@ -1936,9 +1936,9 @@ class WP_Query {
 		$search = apply_filters_ref_array('posts_search', array( $search, &$this ) );
 
 		// Taxonomies
-		if ( $this->is_category || $this->is_tag || $this->is_tax ) {
-			$this->tax_query = $this->parse_tax_query( $q );
+		$this->tax_query = $this->parse_tax_query( $q );
 
+		if ( $this->is_category || $this->is_tag || $this->is_tax ) {
 			$clauses = $this->tax_query->get_sql( $wpdb->posts, 'ID' );
 
 			$join .= $clauses['join'];
