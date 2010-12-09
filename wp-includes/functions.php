@@ -4204,8 +4204,8 @@ function wp_scheduled_delete() {
  *
  * @since 2.9.0
  * @param string $file Path to the file
- * @param array $default_headers array of regular expressions keyed with a fieldname, e.g. <code>array('Name' => 'Plugin Name')</code>
- * @param string $context If specified adds filter hook "extra_<$context>_headers"
+ * @param array $default_headers List of headers, in the format array('HeaderKey' => 'Header Name')
+ * @param string $context If specified adds filter hook "extra_{$context}_headers"
  */
 function get_file_data( $file, $default_headers, $context = '' ) {
 	// We don't need to write to the file, so just open for reading.
