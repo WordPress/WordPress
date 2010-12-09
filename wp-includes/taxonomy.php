@@ -781,7 +781,7 @@ function get_term_by($field, $value, $taxonomy, $output = OBJECT, $filter = 'raw
 
 	if ( 'slug' == $field ) {
 		$field = 't.slug';
-		$value = sanitize_title($value);
+		$value = sanitize_title_for_query($value);
 		if ( empty($value) )
 			return false;
 	} else if ( 'name' == $field ) {
