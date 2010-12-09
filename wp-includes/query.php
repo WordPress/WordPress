@@ -714,9 +714,9 @@ class WP_Query {
 	 *
 	 * @since 3.1.0
 	 * @access public
-	 * @var array
+	 * @var object WP_Tax_Query
 	 */
-	var $tax_query = array();
+	var $tax_query;
 
 	/**
 	 * Holds the data for a single object that is queried.
@@ -1584,12 +1584,9 @@ class WP_Query {
 			);
 		}
 
-		_set_tax_query_defaults( $tax_query );
+		$tax_query_obj = new WP_Tax_Query( $tax_query );
 
-		foreach ( $tax_query as $query ) {
-			if ( ! is_array( $query ) )
-				continue;
-
+		foreach ( $tax_query_obj->queries as $query ) {
 			if ( 'IN' == $query['operator'] ) {
 				switch ( $query['taxonomy'] ) {
 					case 'category':
@@ -1604,7 +1601,7 @@ class WP_Query {
 			}
 		}
 
-		return $tax_query;
+		return $tax_query_obj;
 	}
 
 	/**
@@ -1942,7 +1939,7 @@ class WP_Query {
 		if ( $this->is_category || $this->is_tag || $this->is_tax ) {
 			$this->tax_query = $this->parse_tax_query( $q );
 
-			$clauses = call_user_func_array( 'get_tax_sql', array( $this->tax_query, $wpdb->posts, 'ID', &$this) );
+			$clauses = $this->tax_query->get_sql( $wpdb->posts, 'ID' );
 
 			$join .= $clauses['join'];
 			$where .= $clauses['where'];
@@ -1957,7 +1954,7 @@ class WP_Query {
 			}
 
 			// Back-compat
-			$tax_query_in = wp_list_filter( $this->tax_query, array( 'operator' => 'IN' ) );
+			$tax_query_in = wp_list_filter( $this->tax_query->queries, array( 'operator' => 'IN' ) );
 			if ( !empty( $tax_query_in ) ) {
 				if ( !isset( $q['taxonomy'] ) ) {
 					foreach ( $tax_query_in as $a_tax_query ) {
@@ -2657,7 +2654,7 @@ class WP_Query {
 		$this->queried_object = NULL;
 		$this->queried_object_id = 0;
 
-		$tax_query_in = wp_list_filter( $this->tax_query, array( 'operator' => 'IN' ) );
+		$tax_query_in = wp_list_filter( $this->tax_query->queries, array( 'operator' => 'IN' ) );
 		if ( !empty( $tax_query_in ) ) {
 			$query = reset( $tax_query_in );
 

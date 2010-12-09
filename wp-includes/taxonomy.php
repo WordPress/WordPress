@@ -527,148 +527,152 @@ function get_objects_in_term( $term_ids, $taxonomies, $args = array() ) {
  * @return array
  */
 function get_tax_sql( $tax_query, $primary_table, $primary_id_column ) {
-	global $wpdb;
+	$tax_query_obj = new WP_Tax_Query( $tax_query );
+	return $tax_query_obj->get_sql( $primary_table, $primary_id_column );
+}
 
-	$join = '';
-	$where = array();
-	$i = 0;
+class WP_Tax_Query {
+	var $relation = '';
+	var $queries = array();
 
-	_set_tax_query_defaults( $tax_query );
+	function __construct( &$tax_query ) {
+		if ( isset( $tax_query['relation'] ) && strtoupper( $tax_query['relation'] ) == 'OR' ) {
+			$this->relation = 'OR';
+		} else {
+			$this->relation = 'AND';
+		}
 
-	if ( strtoupper( $tax_query['relation'] ) == 'OR' ) {
-		$relation = 'OR';
-	} else {
-		$relation = 'AND';
+		$defaults = array(
+			'taxonomy' => '',
+			'terms' => array(),
+			'include_children' => true,
+			'field' => 'term_id',
+			'operator' => 'IN',
+		);
+
+		foreach ( $tax_query as $query ) {
+			if ( ! is_array( $query ) )
+				continue;
+
+			$query = array_merge( $defaults, $query );
+
+			$query['terms'] = (array) $query['terms'];
+			
+			$this->queries[] = $query;
+		}
 	}
 
-	foreach ( $tax_query as $query ) {
-		if ( ! is_array( $query ) )
-			continue;
+	function get_sql( $primary_table, $primary_id_column ) {
+		global $wpdb;
 
-		extract( $query );
+		$join = '';
+		$where = array();
+		$i = 0;
 
-		if ( ! taxonomy_exists( $taxonomy ) )
-			return array( 'join' => '', 'where' => ' AND 0 = 1');
+		foreach ( $this->queries as $query ) {
+			extract( $query );
 
-		$terms = array_unique( (array) $terms );
+			if ( ! taxonomy_exists( $taxonomy ) )
+				return array( 'join' => '', 'where' => ' AND 0 = 1');
 
-		if ( empty( $terms ) )
-			continue;
-
-		if ( is_taxonomy_hierarchical( $taxonomy ) && $include_children ) {
-			_transform_terms( $terms, $taxonomy, $field, 'term_id' );
-
-			$children = array();
-			foreach ( $terms as $term ) {
-				$children = array_merge( $children, get_term_children( $term, $taxonomy ) );
-				$children[] = $term;
-			}
-			$terms = $children;
-
-			_transform_terms( $terms, $taxonomy, 'term_id', 'term_taxonomy_id' );
-		}
-		else {
-			_transform_terms( $terms, $taxonomy, $field, 'term_taxonomy_id' );
-		}
-
-		if ( 'IN' == $operator ) {
-
-			if ( empty( $terms ) ) {
-				if ( 'OR' == $relation )
-					continue;
-				else
-					return array( 'join' => '', 'where' => ' AND 0 = 1' );
-			}
-
-			$terms = implode( ',', $terms );
-
-			$alias = $i ? 'tt' . $i : $wpdb->term_relationships;
-
-			$join .= " INNER JOIN $wpdb->term_relationships";
-			$join .= $i ? " AS $alias" : '';
-			$join .= " ON ($primary_table.$primary_id_column = $alias.object_id)";
-
-			$where[] = "$alias.term_taxonomy_id $operator ($terms)";
-		}
-		elseif ( 'NOT IN' == $operator ) {
+			$terms = array_unique( (array) $terms );
 
 			if ( empty( $terms ) )
 				continue;
 
-			$terms = implode( ',', $terms );
+			if ( is_taxonomy_hierarchical( $taxonomy ) && $include_children ) {
+				$this->_transform_terms( $terms, $taxonomy, $field, 'term_id' );
 
-			$where[] = "$primary_table.$primary_id_column NOT IN (
-				SELECT object_id
-				FROM $wpdb->term_relationships
-				WHERE term_taxonomy_id IN ($terms)
-			)";
+				$children = array();
+				foreach ( $terms as $term ) {
+					$children = array_merge( $children, get_term_children( $term, $taxonomy ) );
+					$children[] = $term;
+				}
+				$terms = $children;
+
+				$this->_transform_terms( $terms, $taxonomy, 'term_id', 'term_taxonomy_id' );
+			}
+			else {
+				$this->_transform_terms( $terms, $taxonomy, $field, 'term_taxonomy_id' );
+			}
+
+			if ( 'IN' == $operator ) {
+
+				if ( empty( $terms ) ) {
+					if ( 'OR' == $relation )
+						continue;
+					else
+						return array( 'join' => '', 'where' => ' AND 0 = 1' );
+				}
+
+				$terms = implode( ',', $terms );
+
+				$alias = $i ? 'tt' . $i : $wpdb->term_relationships;
+
+				$join .= " INNER JOIN $wpdb->term_relationships";
+				$join .= $i ? " AS $alias" : '';
+				$join .= " ON ($primary_table.$primary_id_column = $alias.object_id)";
+
+				$where[] = "$alias.term_taxonomy_id $operator ($terms)";
+			}
+			elseif ( 'NOT IN' == $operator ) {
+
+				if ( empty( $terms ) )
+					continue;
+
+				$terms = implode( ',', $terms );
+
+				$where[] = "$primary_table.$primary_id_column NOT IN (
+					SELECT object_id
+					FROM $wpdb->term_relationships
+					WHERE term_taxonomy_id IN ($terms)
+				)";
+			}
+
+			$i++;
 		}
 
-		$i++;
+		if ( !empty( $where ) )
+			$where = ' AND ( ' . implode( " $relation ", $where ) . ' )';
+		else
+			$where = '';
+
+		return compact( 'join', 'where' );
 	}
 
-	if ( !empty( $where ) )
-		$where = ' AND ( ' . implode( " $relation ", $where ) . ' )';
-	else
-		$where = '';
+	function _transform_terms( &$terms, $taxonomy, $field, $resulting_field ) {
+		global $wpdb;
 
-	return compact( 'join', 'where' );
-}
+		if ( empty( $terms ) )
+			return;
 
-function _set_tax_query_defaults( &$tax_query ) {
-	if ( ! isset( $tax_query['relation'] ) )
-		$tax_query['relation'] = 'AND';
+		if ( $field == $resulting_field )
+			return;
 
-	$defaults = array(
-		'taxonomy' => '',
-		'terms' => array(),
-		'include_children' => true,
-		'field' => 'term_id',
-		'operator' => 'IN',
-	);
+		$resulting_field = esc_sql( $resulting_field );
 
-	foreach ( $tax_query as $i => $query ) {
-		if ( ! is_array( $query ) )
-			continue;
+		switch ( $field ) {
+			case 'slug':
+			case 'name':
+				$terms = "'" . implode( "','", array_map( 'sanitize_title_for_query', $terms ) ) . "'";
+				$terms = $wpdb->get_col( "
+					SELECT $wpdb->term_taxonomy.$resulting_field
+					FROM $wpdb->term_taxonomy
+					INNER JOIN $wpdb->terms USING (term_id)
+					WHERE taxonomy = '$taxonomy'
+					AND $wpdb->terms.$field IN ($terms)
+				" );
+				break;
 
-		$tax_query[$i] = array_merge( $defaults, $query );
-
-		$tax_query[$i]['terms'] = (array) $tax_query[$i]['terms'];
-	}
-}
-
-function _transform_terms( &$terms, $taxonomy, $field, $resulting_field ) {
-	global $wpdb;
-
-	if ( empty( $terms ) )
-		return;
-
-	if ( $field == $resulting_field )
-		return;
-
-	$resulting_field = esc_sql( $resulting_field );
-
-	switch ( $field ) {
-		case 'slug':
-		case 'name':
-			$terms = "'" . implode( "','", array_map( 'sanitize_title_for_query', $terms ) ) . "'";
-			$terms = $wpdb->get_col( "
-				SELECT $wpdb->term_taxonomy.$resulting_field
-				FROM $wpdb->term_taxonomy
-				INNER JOIN $wpdb->terms USING (term_id)
-				WHERE taxonomy = '$taxonomy'
-				AND $wpdb->terms.$field IN ($terms)
-			" );
-			break;
-
-		default:
-			$terms = implode( ',', array_map( 'intval', $terms ) );
-			$terms = $wpdb->get_col( "
-				SELECT $resulting_field
-				FROM $wpdb->term_taxonomy
-				WHERE taxonomy = '$taxonomy'
-				AND term_id IN ($terms)
-			" );
+			default:
+				$terms = implode( ',', array_map( 'intval', $terms ) );
+				$terms = $wpdb->get_col( "
+					SELECT $resulting_field
+					FROM $wpdb->term_taxonomy
+					WHERE taxonomy = '$taxonomy'
+					AND term_id IN ($terms)
+				" );
+		}
 	}
 }
 
