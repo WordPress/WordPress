@@ -823,7 +823,9 @@ function gallery_shortcode($attr) {
 
 	$selector = "gallery-{$instance}";
 
-	$output = apply_filters('gallery_style', "
+	$gallery_style = $gallery_div = '';
+	if ( apply_filters( 'use_default_gallery_style', true ) )
+		$gallery_style = "
 		<style type='text/css'>
 			#{$selector} {
 				margin: auto;
@@ -832,7 +834,8 @@ function gallery_shortcode($attr) {
 				float: {$float};
 				margin-top: 10px;
 				text-align: center;
-				width: {$itemwidth}%;			}
+				width: {$itemwidth}%;
+			}
 			#{$selector} img {
 				border: 2px solid #cfcfcf;
 			}
@@ -840,8 +843,10 @@ function gallery_shortcode($attr) {
 				margin-left: 0;
 			}
 		</style>
-		<!-- see gallery_shortcode() in wp-includes/media.php -->
-		<div id='$selector' class='gallery galleryid-{$id}'>");
+		<!-- see gallery_shortcode() in wp-includes/media.php -->";
+	$size_class = sanitize_html_class( $size );
+	$gallery_div = "<div id='$selector' class='gallery galleryid-{$id} gallery-columns-{$columns} gallery-size-{$size_class}'>";
+	$output = apply_filters( 'gallery_style', $gallery_style . "\n\t\t" . $gallery_div );
 
 	$i = 0;
 	foreach ( $attachments as $id => $attachment ) {
