@@ -2654,8 +2654,9 @@ class WP_Query {
 		$this->queried_object = NULL;
 		$this->queried_object_id = 0;
 
-		$tax_query_in = wp_list_filter( $this->tax_query->queries, array( 'operator' => 'IN' ) );
-		if ( !empty( $tax_query_in ) ) {
+		if ( $this->is_category || $this->is_tag || $this->is_tax ) {
+			$tax_query_in = wp_list_filter( $this->tax_query->queries, array( 'operator' => 'IN' ) );
+
 			$query = reset( $tax_query_in );
 
 			if ( 'term_id' == $query['field'] )
