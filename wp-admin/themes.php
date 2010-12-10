@@ -143,9 +143,13 @@ if ( ! current_user_can( 'switch_themes' ) ) {
 	exit;
 }
 ?>
+
 <h3><?php _e('Available Themes'); ?></h3>
 
+<?php if ( $wp_list_table->has_items() ) : ?>
+
 <form class="search-form filter-form" action="" method="get">
+
 <p class="search-box">
 	<label class="screen-reader-text" for="theme-search-input"><?php _e('Search Themes'); ?>:</label>
 	<input type="text" id="theme-search-input" name="s" value="<?php _admin_search_query(); ?>" />
@@ -193,6 +197,8 @@ if ( ! current_user_can( 'switch_themes' ) ) {
 
 </form>
 <br class="clear" />
+
+<?php endif; ?>
 
 <?php $wp_list_table->display(); ?>
 
