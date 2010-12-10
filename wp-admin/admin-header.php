@@ -30,14 +30,6 @@ $admin_title = apply_filters( 'admin_title', $admin_title, $title );
 wp_user_settings();
 wp_menu_unfold();
 
-// Save the ID of the last blog admin area visited if super admin.
-if ( is_multisite() && is_blog_admin() && is_super_admin() ) {
-	$last_blog = get_user_option('last-blog-admin-visited');
-	if ( $last_blog != $blog_id )
-		update_user_option(get_current_user_id(), 'last-blog-admin-visited', $blog_id, true);
-	unset($last_blog);
-}
-
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" <?php do_action('admin_xml_ns'); ?> <?php language_attributes(); ?>>
@@ -160,8 +152,8 @@ $links[5] = sprintf(__('Howdy, <a href="%1$s" title="Edit your profile">%2$s</a>
 if ( is_multisite() && is_super_admin() ) {
 	if ( !is_network_admin() )
 		$links[10] = '| <a href="' . network_admin_url() . '" title="' . esc_attr__('Network Admin') . '">' . __('Network Admin') . '</a>';
-	elseif ($last_blog = get_user_option('last-blog-admin-visited') )
-		$links[10] = '| <a href="' . get_admin_url($last_blog) . '" title="' . esc_attr__('Site Admin') . '">' . __('Site Admin') . '</a>';
+	else
+		$links[10] = '| <a href="' . get_dashboard_url( get_current_user_id() ) . '" title="' . esc_attr__('Site Admin') . '">' . __('Site Admin') . '</a>';
 }
 $links[15] = '| <a href="' . wp_logout_url() . '" title="' . esc_attr__('Log Out') . '">' . __('Log Out') . '</a>';
 
