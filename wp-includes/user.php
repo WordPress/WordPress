@@ -547,7 +547,7 @@ class WP_User_Query {
 			if ( 'ID' == $col )
 				$searches[] = "$col = '$string'";
 			else
-				$searches[] = "$col LIKE '$string$wild_char'";
+				$searches[] = "$col LIKE '" . like_escape($string) . "$wild_char'";
 		}
 
 		return ' AND (' . implode(' OR ', $searches) . ')';
