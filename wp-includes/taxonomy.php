@@ -506,22 +506,13 @@ function get_objects_in_term( $term_ids, $taxonomies, $args = array() ) {
 }
 
 /*
- * Given a taxonomy query, generates SQL to be appended to a main query
+ * Given a taxonomy query, generates SQL to be appended to a main query.
  *
  * @since 3.1.0
  *
- * @param array $tax_query List of taxonomy queries. A single taxonomy query is an associative array:
- * - 'taxonomy' string The taxonomy being queried
- * - 'terms' string|array The list of terms
- * - 'field' string (optional) Which term field is being used.
- *		Possible values: 'term_id', 'slug' or 'name'
- *		Default: 'term_id'
- * - 'operator' string (optional)
- *		Possible values: 'IN' and 'NOT IN'.
- *		Default: 'IN'
- * - 'include_children' bool (optional) Whether to include child terms.
- *		Default: true
+ * @see WP_Tax_Query
  *
+ * @param array $tax_query A compact tax query
  * @param string $primary_table
  * @param string $primary_id_column
  * @return array
@@ -531,11 +522,67 @@ function get_tax_sql( $tax_query, $primary_table, $primary_id_column ) {
 	return $tax_query_obj->get_sql( $primary_table, $primary_id_column );
 }
 
+/**
+ * Container class for a multiple taxonomy query.
+ *
+ * @since 3.1.0
+ */
 class WP_Tax_Query {
-	var $relation = '';
+
+	/**
+	 * List of taxonomy queries. A single taxonomy query is an associative array:
+	 * - 'taxonomy' string The taxonomy being queried
+	 * - 'terms' string|array The list of terms
+	 * - 'field' string (optional) Which term field is being used.
+	 *		Possible values: 'term_id', 'slug' or 'name'
+	 *		Default: 'term_id'
+	 * - 'operator' string (optional)
+	 *		Possible values: 'IN' and 'NOT IN'.
+	 *		Default: 'IN'
+	 * - 'include_children' bool (optional) Whether to include child terms.
+	 *		Default: true
+	 *
+	 * @since 3.1.0
+	 * @access public
+	 * @var array
+	 */
 	var $queries = array();
 
-	function WP_Tax_Query( &$tax_query ) {
+	/**
+	 * The relation between the queries. Can be one of 'AND' or 'OR'.
+	 *
+	 * @since 3.1.0
+	 * @access public
+	 * @var string
+	 */
+	var $relation;
+
+	/**
+	 * PHP4 type constructor.
+	 *
+	 * Parses a compact tax query and sets defaults.
+	 *
+	 * @since 3.1.0
+	 * @access public
+	 *
+	 * @param array $tax_query A compact tax query:
+	 *  array(
+	 *    'relation' => 'OR',
+	 *    array(
+	 *      'taxonomy' => 'tax1',
+	 *      'terms' => array( 'term1', 'term2' ),
+	 *      'field' => 'slug',
+	 *    ),
+	 *    array(
+	 *      'taxonomy' => 'tax2',
+	 *      'terms' => array( 'term-a', 'term-b' ),
+	 *      'field' => 'slug',
+	 *    ),
+	 *  )
+	 *
+	 * @return WP_Tax_Query
+	 */
+	function WP_Tax_Query( $tax_query ) {
 		if ( isset( $tax_query['relation'] ) && strtoupper( $tax_query['relation'] ) == 'OR' ) {
 			$this->relation = 'OR';
 		} else {
@@ -562,6 +609,16 @@ class WP_Tax_Query {
 		}
 	}
 
+	/**
+	 * Generates SQL clauses to be appended to a main query.
+	 *
+	 * @since 3.1.0
+	 * @access public
+	 *
+	 * @param string $primary_table
+	 * @param string $primary_id_column
+	 * @return array
+	 */
 	function get_sql( $primary_table, $primary_id_column ) {
 		global $wpdb;
 
@@ -640,6 +697,17 @@ class WP_Tax_Query {
 		return compact( 'join', 'where' );
 	}
 
+	/**
+	 * Transforms a list of terms, from one field to another.
+	 *
+	 * @since 3.1.0
+	 * @access private
+	 *
+	 * @param array &$terms The list of terms
+	 * @param string $taxonomy The taxonomy of the terms
+	 * @param string $field The initial field
+	 * @param string $resulting_field The resulting field	 
+	 */
 	function _transform_terms( &$terms, $taxonomy, $field, $resulting_field ) {
 		global $wpdb;
 

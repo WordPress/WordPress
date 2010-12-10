@@ -1471,13 +1471,13 @@ class WP_Query {
 	}
 
 	/*
-	 * Parses various taxonomy related query vars and sets the appropriate query flags
+	 * Parses various taxonomy related query vars and sets the appropriate query flags.
 	 *
 	 * @access protected
 	 * @since 3.1.0
 	 *
 	 * @param array &$q The query variables
-	 * @return array tax query
+	 * @return WP_Tax_Query
 	 */
 	function parse_tax_query( &$q ) {
 		if ( ! empty( $q['tax_query'] ) && is_array( $q['tax_query'] ) ) {
