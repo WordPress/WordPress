@@ -36,11 +36,8 @@ if ( $doaction ) {
 	}
 
 	$approved = $unapproved = $spammed = $unspammed = $trashed = $untrashed = $deleted = 0;
-	$redirect_to = remove_query_arg( array( 'trashed', 'untrashed', 'deleted', 'spammed', 'unspammed', 'approved', 'unapproved', 'ids' ), wp_get_referer() );
 
-	// Fix the problem with wrong page number. This happens when the user use the javascript
-	// pagination feature to navigate to a certain page, then does some bulk actions there,
-	// he will be redirected back to te original page number instead of the navigated one.
+	$redirect_to = remove_query_arg( array( 'trashed', 'untrashed', 'deleted', 'spammed', 'unspammed', 'approved', 'unapproved', 'ids' ), wp_get_referer() );
 	$redirect_to = add_query_arg( 'paged', $pagenum, $redirect_to );
 
 	foreach ( $comment_ids as $comment_id ) { // Check the permissions on each
@@ -105,8 +102,6 @@ if ( $doaction ) {
 
 $wp_list_table->prepare_items();
 
-// redirect to the last page if the page number is larger than the total number of pages
-// this can happen when all the items in the last page are deleted, for example
 $total_pages = $wp_list_table->get_pagination_arg( 'total_pages' );
 if ( $pagenum > $total_pages && $total_pages > 0 ) {
 	wp_redirect( add_query_arg( 'paged', $total_pages ) );
