@@ -1,15 +1,17 @@
 #wpadminbar {
-	background:#666 url(../images/admin-bar-sprite-rtl.png?d=08102010) 0 -222px repeat-x;
-	direction:rtl;
+	background: #666 url(../images/admin-bar-sprite-rtl.png?d=08102010) 0 -222px repeat-x;
+	direction: rtl;
 	font-family: Tahoma, Arial ,sans-serif;
-	right:0;
-	left:auto;
+	right: 0;
+	left: auto;
 }
+
 #wpadminbar div, 
 #wpadminbar ul,
 #wpadminbar ul li {
 	min-height: 0;
 }
+
 #wpadminbar ul li img {
 	margin-left: 8px !important;
 	margin-right: 0 !important;
@@ -32,103 +34,56 @@
 
 #wpadminbar .avatar {
 	margin: -3px  0 0 5px !important;
-	float:none;
+	float: none;
 }
 
 #wpadminbar .menupop li:hover > ul,
 #wpadminbar .menupop li.hover > ul {
-	margin-right:100%;
-	margin-top:-28px;
+	margin-right: 100%;
+	margin-top: -28px;
 }
 
 #wpadminbar .menupop a > span {
-	background:url(../images/admin-bar-sprite-rtl.png?d=08102010) 0 100.4% no-repeat;
-	padding-left:.8em;
+	background: url(../images/admin-bar-sprite-rtl.png?d=08102010) 0 100.4% no-repeat;
+	padding-left: .8em;
 }
 
 #wpadminbar .menupop ul li a > span {
-	background:url(../images/admin-bar-sprite-rtl.png?d=08102010) 0% 97.2% no-repeat;
-	padding-right:0;
-	padding-left:1.5em;
+	background: url(../images/admin-bar-sprite-rtl.png?d=08102010) 0% 97.2% no-repeat;
+	padding-right: 0;
+	padding-left: 1.5em;
 }
 
 #wpadminbar .menupop ul li {
-	width:auto;
+	width: auto;
 }
 
 #wpadminbar .quicklinks a {
 	font-family: Tahoma, Arial, Helvetica, sans-serif;
 }
 
-#wpadminbar li.ab-sadmin {
-	float: left;
-}
-
-#wpadminbar li.ab-sadmin ul {
-	right: auto;
-	left: 0;
-	float: left;
-}
-
-#wpadminbar li.ab-sadmin > a {
-	border-right: 1px solid #666 !important;
-	border-left:none !important;
-}
-
-
-#wpadminbar li.ab-sadmin ul a {
-	border-right: none !important;
-	border-left: none !important;
-}
-
-#wpadminbar li.ab-sadmin ul li {
-	left: 0;
-	right:auto;
-	float: left;
-	text-align: right;
-}
-
-#wpadminbar li.ab-sadmin ul li a {
-	padding-right: 1.75em;
-	padding-left: 0;
-}
- 
-#wpadminbar li.ab-sadmin ul li a > span {
-	background:url(../images/admin-bar-sprite-rtl.png?d=08102010) 100% 101.8% no-repeat;
-	padding-right: 1.25em !important;
-	padding-left: 0 !important;
-	margin-right: -1.25em;
-	margin-left: 0;
-}
-
 #wpadminbar li:hover {
 	background: #555 url(../images/admin-bar-sprite-rtl.png?d=08102010) 0 -282px repeat-x;
 }
+
 #wpadminbar li li:hover {
 	background: #888 url(../images/admin-bar-sprite-rtl.png?d=08102010) 0 -222px repeat-x !important;
 }
 
 .quicklinks ul {
-	text-align:right;
+	text-align: right;
 }
 
 .quicklinks ul li {
-	float:right;
+	float: right;
 }
 
 #adminbarsearch {
-	display:none;
+	display: none;
 }
 
-#adminbarsearch label, 
-#adminbarsearch a {
-	float:right;
-}
-
-
-#wpadminbar li.ab-me > a, 
-#wpadminbar li.ab-blog > a {
-	background:url(../images/admin-bar-sprite-rtl.png?d=08102010) 0% 59.8% no-repeat;
+#wpadminbar li.ab-me > a {
+	background: url(../images/admin-bar-sprite-rtl.png?d=08102010) 0% 59.8% no-repeat;
 	padding: 0 0.7em 0 1.15em;
 }
 
@@ -136,49 +91,36 @@
 	background-position: 33% 59.8%;
 }
 
-#wpadminbar li.ab-my-account a,
-#wpadminbar li.ab-bloginfo a {
+#wpadminbar li.ab-my-account a {
 	border-right: none !important;
 	padding-right: 0.7em !important;
 }
 
 .adminbar-input {
-	background:#ddd url(../images/admin-bar-sprite-rtl.png?d=08102010) right top no-repeat !important;
-	float:right !important;
+	background: #ddd url(../images/admin-bar-sprite-rtl.png?d=08102010) right top no-repeat !important;
+	float: right !important;
 	font-family: Tahoma, Arial,Helvetica,sans-serif !important;
-	margin-right:3px !important;
-	margin-left:0 !important;
+	margin-right: 3px !important;
+	margin-left: 0 !important;
 }
+
 button.adminbar-button {
-	background:url(../images/admin-bar-sprite-rtl.png?d=08102010) left -107px no-repeat;
-	float:right;
-	padding:0 0 0 14px;
+	background: url(../images/admin-bar-sprite-rtl.png?d=08102010) left -107px no-repeat;
+	float: right;
+	padding: 0 0 0 14px;
 }
+
 button.adminbar-button span {
-	background:url(../images/admin-bar-sprite-rtl.png?d=08102010) right -69px no-repeat;
-	padding:3px 14px 0 0;
-	font-family: Tahoma, Arial,Helvetica,sans-serif !important;
+	background: url(../images/admin-bar-sprite-rtl.png?d=08102010) right -69px no-repeat;
+	padding: 3px 14px 0 0;
+	font-family: Tahoma, Arial, Helvetica, sans-serif !important;
 }
+
 button.adminbar-button:active {
-	background-position:left -184px !important;
+	background-position: left -184px !important;
 }
+
 button.adminbar-button:active span {
-	background-position:right -146px !important;
+	background-position: right -146px !important;
 }
 
-/**
- * Super admin styling
- */
-#querylist {
-	direction: ltr;
-}
-
-#wpadminbar #admin-bar-micro ul li:hover > ul,
-#wpadminbar #admin-bar-micro ul li.hover > ul {
-	left: auto;
-	right: 100%;
-}
-
-/**
-* End super admin styling
-*/
