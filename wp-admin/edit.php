@@ -10,6 +10,7 @@
 require_once( './admin.php' );			
 $wp_list_table = get_list_table('WP_Posts_List_Table');
 $wp_list_table->check_permissions();
+$pagenum = $wp_list_table->get_pagenum();
 
 // Back-compat for viewing comments of an entry
 foreach ( array( 'p', 'attachment_id', 'page_id' ) as $_redirect ) {
@@ -26,6 +27,11 @@ $doaction = $wp_list_table->current_action();
 if ( $doaction ) {
 	check_admin_referer('bulk-posts');
 	$sendback = remove_query_arg( array('trashed', 'untrashed', 'deleted', 'ids'), wp_get_referer() );
+	
+	// Fix the problem with wrong page number. This happens when the user use the javascript
+	// pagination feature to navigate to a certain page, then does some bulk actions there,
+	// he will be redirected back to te original page number instead of the navigated one.
+	$sendback = add_query_arg( 'paged', $pagenum, $sendback );
 
 	if ( strpos($sendback, 'post.php') !== false )
 		$sendback = admin_url($post_new_file);
@@ -60,7 +66,7 @@ if ( $doaction ) {
 
 				$trashed++;
 			}
-			$sendback = add_query_arg( array('trashed' => $trashed, 'ids' => join(',', $post_ids)), $sendback );
+			$sendback = add_query_arg( array('trashed' => $trashed, 'ids' => join(',', $post_ids) ), $sendback );
 			break;
 		case 'untrash':
 			$untrashed = 0;
@@ -126,6 +132,14 @@ if ( 'post' != $post_type ) {
 }
 
 $wp_list_table->prepare_items();
+
+// redirect to the last page if the page number is larger than the total number of pages
+// this can happen when all the items in the last page are deleted, for example
+$total_pages = $wp_list_table->get_pagination_arg( 'total_pages' );
+if ( $pagenum > $total_pages && $total_pages > 0 ) {
+	wp_redirect( add_query_arg( 'paged', $total_pages ) );
+	exit;
+}
 
 wp_enqueue_script('inline-edit-post');
 
