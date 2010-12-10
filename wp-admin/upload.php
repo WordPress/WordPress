@@ -202,16 +202,20 @@ if ( !empty($message) ) { ?>
 
 <?php $wp_list_table->views(); ?>
 
-<form class="search-form" action="" method="get">
+<form id="posts-filter" action="" method="post">
+
+<?php if ( $wp_list_table->has_items() ) : ?>
+
 <p class="search-box">
 	<label class="screen-reader-text" for="media-search-input"><?php _e( 'Search Media' ); ?>:</label>
 	<input type="text" id="media-search-input" name="s" value="<?php the_search_query(); ?>" />
 	<?php submit_button( __( 'Search Media' ), 'button', 'submit', false ); ?>
 </p>
-</form>
 
-<form id="posts-filter" action="" method="post">
+<?php endif; ?>
+
 <?php $wp_list_table->display(); ?>
+
 <div id="ajax-response"></div>
 <?php find_posts_div(); ?>
 <br class="clear" />

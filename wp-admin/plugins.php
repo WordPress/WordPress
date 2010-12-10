@@ -362,19 +362,22 @@ if ( !empty($invalid) )
 <?php screen_icon(); ?>
 <h2><?php echo esc_html( $title ); if ( current_user_can('install_plugins') ) { ?> <a href="plugin-install.php" class="button add-new-h2"><?php echo esc_html_x('Add New', 'plugin'); ?></a><?php } ?></h2>
 
-<form method="get" action="">
-<p class="search-box">
-	<label class="screen-reader-text" for="plugin-search-input"><?php _e( 'Search Plugins' ); ?>:</label>
-	<input type="text" id="plugin-search-input" name="s" value="<?php _admin_search_query(); ?>" />
-	<?php submit_button( __( 'Search Installed Plugins' ), 'button', '', false ); ?>
-</p>
-</form>
-
 <?php do_action( 'pre_current_active_plugins', $plugins['all'] ) ?>
 
 <?php $wp_list_table->views(); ?>
 
 <form method="post" action="">
+
+<?php if ( $wp_list_table->has_items() ) : ?>
+
+<p class="search-box">
+	<label class="screen-reader-text" for="plugin-search-input"><?php _e( 'Search Plugins' ); ?>:</label>
+	<input type="text" id="plugin-search-input" name="s" value="<?php _admin_search_query(); ?>" />
+	<?php submit_button( __( 'Search Installed Plugins' ), 'button', '', false ); ?>
+</p>
+
+<?php endif; ?>
+
 <input type="hidden" name="plugin_status" value="<?php echo esc_attr($status) ?>" />
 <input type="hidden" name="paged" value="<?php echo esc_attr($page) ?>" />
 

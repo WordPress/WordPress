@@ -220,11 +220,17 @@ if ( isset($_REQUEST['approved']) || isset($_REQUEST['deleted']) || isset($_REQU
 <?php $wp_list_table->views(); ?>
 
 <form id="comments-form" action="" method="post">
+
+<?php if ( $wp_list_table->has_items() ) : ?>
+
 <p class="search-box">
 	<label class="screen-reader-text" for="comment-search-input"><?php _e( 'Search Comments' ); ?>:</label>
 	<input type="text" id="comment-search-input" name="s" value="<?php _admin_search_query(); ?>" />
 	<?php submit_button( __( 'Search Comments' ), 'button', 'submit', false ); ?>
 </p>
+
+<?php endif; ?>
+
 <?php if ( $post_id ) : ?>
 <input type="hidden" name="p" value="<?php echo esc_attr( intval( $post_id ) ); ?>" />
 <?php endif; ?>

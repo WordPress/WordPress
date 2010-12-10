@@ -227,11 +227,16 @@ $_SERVER['REQUEST_URI'] = remove_query_arg( array('locked', 'skipped', 'updated'
 <?php $wp_list_table->views(); ?>
 
 <form id="posts-filter" action="" method="get">
+
+<?php if ( $wp_list_table->has_items() ) : ?>
+
 <p class="search-box">
 	<label class="screen-reader-text" for="post-search-input"><?php echo $post_type_object->labels->search_items; ?>:</label>
 	<input type="text" id="post-search-input" name="s" value="<?php the_search_query(); ?>" />
 	<?php submit_button( $post_type_object->labels->search_items, 'button', 'submit', false ); ?>
 </p>
+
+<?php endif; ?>
 
 <input type="hidden" name="post_status" class="post_status_page" value="<?php echo !empty($_REQUEST['post_status']) ? esc_attr($_REQUEST['post_status']) : 'all'; ?>" />
 <input type="hidden" name="post_type" class="post_type_page" value="<?php echo $post_type; ?>" />
