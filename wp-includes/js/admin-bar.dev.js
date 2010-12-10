@@ -28,14 +28,14 @@
 		while ( t && t != aB && t != d ) {
 			if( 'LI' == t.nodeName.toUpperCase() ) {
 				ancestors[ ancestors.length ] = t;
-				id = getTOID(t);	
+				id = getTOID(t);
 				if ( id )
 					clearTimeout( id );
 				t.className = t.className ? ( t.className.replace(hc, '') + ' hover' ) : 'hover';
 			}
 			t = t.parentNode;
 		}
-		
+
 		/* remove the hover class for any objects not in the immediate element's ancestry */
 		while ( i-- ) {
 			inA = false;	
@@ -44,9 +44,8 @@
 				if ( ancestors[ ancestorLength ] == q[i][1] ) 
 					inA = true;	
 			}
-			
-			/* keep delayed hover on mu (superadmin) menu because it's so easy to mouse away from */
-			if ( ! inA && -1 == q[i][1].className.indexOf('ab-superadmin') )
+
+			if ( ! inA )
 				q[i][1].className = q[i][1].className ? q[i][1].className.replace(hc, '') : '';
 		}
 	},
@@ -67,7 +66,6 @@
 
 	clickShortlink = function(e) {
 		var t = e.target || e.srcElement, links, i;
-		
 
 		if ( 'undefined' == typeof adminBarL10n )
 			return;
@@ -95,7 +93,7 @@
 					return false;
 				}
 			}
-			
+
 			alert( adminBarL10n.noShortlink );
 			return false;
 		}
@@ -104,7 +102,7 @@
 	addEvent(w, 'load', function() {
 		var b = d.getElementsByTagName('body')[0],
 		s = d.getElementById('adminbar-search');
-		
+
 		aB = d.getElementById('wpadminbar');
 
 		if ( b && aB ) {
@@ -132,7 +130,7 @@
 				this.value = this.getAttribute('title') == this.value ? '' : this.value;
 			}
 		}
-		
+
 		if ( w.location.hash )
 			w.scrollBy(0,-32);
 	});

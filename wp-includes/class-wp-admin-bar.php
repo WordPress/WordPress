@@ -89,7 +89,7 @@ class WP_Admin_Bar {
 
 	function render() {
 		?>
-		<div id="wpadminbar" class="snap_nopreview no-grav">
+		<div id="wpadminbar">
 			<div class="quicklinks">
 				<ul>
 					<?php foreach ( (array) $this->menu as $id => $menu_item ) : ?>

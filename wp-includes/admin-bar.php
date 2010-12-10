@@ -121,16 +121,16 @@ function wp_admin_bar_my_sites_menu() {
 	foreach ( (array) $wp_admin_bar->user->blogs as $blog ) {
 		// @todo Replace with some favicon lookup.
 		//$blavatar = '<img src="' . esc_url( blavatar_url( blavatar_domain( $blog->siteurl ), 'img', 16, $default ) ) . '" alt="Blavatar" width="16" height="16" />';
-		$blavatar = '<img src="' . esc_url($default) . '" alt="' . esc_attr__( 'Blavatar' ) . '" width="16" height="16" />';
+		$blavatar = '<img src="' . esc_url($default) . '" alt="' . esc_attr__( 'Blavatar' ) . '" width="16" height="16" class="blavatar"/>';
 
 		$marker = '';
-		if ( strlen($blog->blogname) > 15 )
+		if ( strlen($blog->blogname) > 18 )
 			$marker = '...';
 
 		if ( empty( $blog->blogname ) )
 			$blogname = $blog->domain;
 		else
-			$blogname = substr( $blog->blogname, 0, 15 ) . $marker;
+			$blogname = substr( $blog->blogname, 0, 18 ) . $marker;
 
 		if ( ! isset( $blog->visible ) || $blog->visible === true ) {
 			$wp_admin_bar->add_menu( array( 'parent' => 'my-blogs', 'id' => 'blog-' . $blog->userblog_id, 'title' => $blavatar . $blogname,  'href' => get_admin_url($blog->userblog_id), ) );
