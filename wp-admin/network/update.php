@@ -7,6 +7,9 @@
  * @since 3.1.0
  */
 
+if ( isset( $_GET['action'] ) && in_array( $_GET['action'], array( 'update-selected', 'activate-plugin', 'update-selected-themes' ) ) )
+	define( 'IFRAME_REQUEST', true );
+
 /** Load WordPress Administration Bootstrap */
 require_once( './admin.php' );
 
