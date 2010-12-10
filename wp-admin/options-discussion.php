@@ -212,7 +212,8 @@ $avatar_defaults = array(
 	'gravatar_default' => __('Gravatar Logo'),
 	'identicon' => __('Identicon (Generated)'),
 	'wavatar' => __('Wavatar (Generated)'),
-	'monsterid' => __('MonsterID (Generated)')
+	'monsterid' => __('MonsterID (Generated)'),
+	'retro' => __('Retro (Generated)')
 );
 $avatar_defaults = apply_filters('avatar_defaults', $avatar_defaults);
 $default = get_option('avatar_default');
