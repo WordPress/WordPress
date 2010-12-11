@@ -337,7 +337,7 @@ function url_to_postid($url) {
 
 			// Do the query
 			$query = new WP_Query($query);
-			if ( $query->is_single || $query->is_page )
+			if ( !empty($query->posts) && ($query->is_single || $query->is_page) )
 				return $query->post->ID;
 			else
 				return 0;
