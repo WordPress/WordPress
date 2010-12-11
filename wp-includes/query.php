@@ -1355,7 +1355,24 @@ class WP_Query {
 				$this->is_date = true;
 			}
 
-			$this->parse_tax_query( $qv );
+			$tax_query_obj = $this->parse_tax_query( $qv );
+
+			foreach ( $tax_query_obj->queries as $tax_query ) {
+				if ( 'IN' == $tax_query['operator'] ) {
+					switch ( $tax_query['taxonomy'] ) {
+						case 'category':
+							$this->is_category = true;
+							break;
+						case 'post_tag':
+							$this->is_tag = true;
+							break;
+						default:
+							$this->is_tax = true;
+					}
+				}
+			}
+
+			unset( $tax_query_obj, $tax_query );
 
 			_parse_meta_query( $qv );
 
@@ -1471,7 +1488,7 @@ class WP_Query {
 	}
 
 	/*
-	 * Parses various taxonomy related query vars and sets the appropriate query flags.
+	 * Parses various taxonomy related query vars.
 	 *
 	 * @access protected
 	 * @since 3.1.0
@@ -1584,24 +1601,7 @@ class WP_Query {
 			);
 		}
 
-		$tax_query_obj = new WP_Tax_Query( $tax_query );
-
-		foreach ( $tax_query_obj->queries as $query ) {
-			if ( 'IN' == $query['operator'] ) {
-				switch ( $query['taxonomy'] ) {
-					case 'category':
-						$this->is_category = true;
-						break;
-					case 'post_tag':
-						$this->is_tag = true;
-						break;
-					default:
-						$this->is_tax = true;
-				}
-			}
-		}
-
-		return $tax_query_obj;
+		return new WP_Tax_Query( $tax_query );
 	}
 
 	/**
