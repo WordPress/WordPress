@@ -3462,13 +3462,14 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$comment_post_ID = (int) $post_ID;
 		$comment_author = $title;
+		$comment_author_email = '';
 		$this->escape($comment_author);
 		$comment_author_url = $pagelinkedfrom;
 		$comment_content = $context;
 		$this->escape($comment_content);
 		$comment_type = 'pingback';
 
-		$commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_url', 'comment_content', 'comment_type');
+		$commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_url', 'comment_author_email', 'comment_content', 'comment_type');
 
 		$comment_ID = wp_new_comment($commentdata);
 		do_action('pingback_post', $comment_ID);
