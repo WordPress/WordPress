@@ -774,8 +774,9 @@ table.widefat .spam a:hover,
 
 /* editors */
 #quicktags {
-	border-color: #dfdfdf;
-	background-color: #dfdfdf;
+	border-color: #cfdfe9;
+	background-color: #cfdfe9;
+	background-image: url("../images/ed-bg-vs.gif?ver=20101102");
 }
 
 #ed_toolbar input {
@@ -944,7 +945,7 @@ table.widefat .spam a:hover,
 
 .wp_themeSkin tr.mceFirst td.mceToolbar {
 	background: #cfdfe9 url("../images/ed-bg-vs.gif?ver=20101102") repeat-x scroll left top;
-	border-color: #cbc7c9;
+	border-color: #cfdfe9;
 }
 
 .wp-admin #mceModalBlocker {

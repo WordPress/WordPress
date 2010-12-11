@@ -776,6 +776,7 @@ table.widefat .spam a:hover,
 #quicktags {
 	border-color: #dfdfdf;
 	background-color: #dfdfdf;
+	background-image: url("../images/ed-bg.gif");
 }
 
 #ed_toolbar input {
