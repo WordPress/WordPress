@@ -828,8 +828,22 @@ img.aligncenter {
 	text-align: center;
 	width: 33%;
 }
+.gallery-columns-2 .gallery-item {
+	width: 50%;
+}
+.gallery-columns-4 .gallery-item {
+	width: 25%;
+}
 .gallery img {
 	border: 2px solid #cfcfcf;
+}
+.gallery-columns-2 .attachment-medium {
+	max-width: 92%;
+	height: auto;
+}
+.gallery-columns-4 .attachment-thumbnail {
+	max-width: 84%;
+	height: auto;
 }
 .gallery .gallery-caption {
 	color: #888;
