@@ -671,11 +671,17 @@ function wp_attempt_focus(){
 setTimeout( function(){ try{
 <?php if ( $user_login || $interim_login ) { ?>
 d = document.getElementById('user_pass');
+d.value = '';
 <?php } else { ?>
 d = document.getElementById('user_login');
-<?php } ?>
+<?php if ( 'invalid_username' == $errors->get_error_code() ) { ?>
+if( d.value != '' )
 d.value = '';
+<?php 
+}
+}?>
 d.focus();
+d.select();
 } catch(e){}
 }, 200);
 }
