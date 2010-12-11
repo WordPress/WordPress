@@ -100,7 +100,7 @@ class WP_Admin_Bar {
 
 			<div id="adminbarsearch-wrap">
 				<form action="<?php echo home_url(); ?>" method="get" id="adminbarsearch">
-					<input class="adminbar-input" name="s" id="adminbar-search" type="text" title="<?php esc_attr_e( 'Search' ); ?>" value="" maxlength="150" />
+					<input class="adminbar-input" name="s" id="adminbar-search" type="text" value="" maxlength="150" />
 					<button type="submit" class="adminbar-button"><span><?php _e('Search'); ?></span></button>
 				</form>
 			</div>

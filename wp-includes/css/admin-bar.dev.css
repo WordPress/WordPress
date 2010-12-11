@@ -149,7 +149,7 @@
 	background: url(../images/admin-bar-sprite.png?d=08102010) 100% 59.8% no-repeat;
 }
 
-#wpadminbar .quicklinks li.ab-my-account a {
+#wpadminbar .quicklinks li.ab-my-account > a {
 	border-left: none;
 }
 

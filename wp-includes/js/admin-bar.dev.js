@@ -101,7 +101,6 @@
 
 	addEvent(w, 'load', function() {
 		var b = d.getElementsByTagName('body')[0],
-		s = d.getElementById('adminbar-search');
 
 		aB = d.getElementById('wpadminbar');
 
@@ -117,18 +116,6 @@
 			});
 
 			addEvent(aB, 'click', clickShortlink );
-		}
-
-		if ( s ) {
-			if ( '' == s.value )
-				s.value = s.getAttribute('title');
-
-			s.onblur = function() {
-				this.value = '' == this.value ? this.getAttribute('title') : this.value;
-			}
-			s.onfocus = function() {
-				this.value = this.getAttribute('title') == this.value ? '' : this.value;
-			}
 		}
 
 		if ( w.location.hash )
