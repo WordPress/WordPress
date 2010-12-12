@@ -1355,9 +1355,8 @@ class WP_Query {
 				$this->is_date = true;
 			}
 
-			$tax_query_obj = $this->parse_tax_query( $qv );
-
-			foreach ( $tax_query_obj->queries as $tax_query ) {
+			$this->parse_tax_query( $qv );
+			foreach ( $this->tax_query->queries as $tax_query ) {
 				if ( 'IN' == $tax_query['operator'] ) {
 					switch ( $tax_query['taxonomy'] ) {
 						case 'category':
@@ -1371,8 +1370,7 @@ class WP_Query {
 					}
 				}
 			}
-
-			unset( $tax_query_obj, $tax_query );
+			unset( $tax_query );
 
 			_parse_meta_query( $qv );
 
@@ -1494,7 +1492,6 @@ class WP_Query {
 	 * @since 3.1.0
 	 *
 	 * @param array &$q The query variables
-	 * @return WP_Tax_Query
 	 */
 	function parse_tax_query( &$q ) {
 		if ( ! empty( $q['tax_query'] ) && is_array( $q['tax_query'] ) ) {
@@ -1601,7 +1598,7 @@ class WP_Query {
 			);
 		}
 
-		return new WP_Tax_Query( $tax_query );
+		$this->tax_query = new WP_Tax_Query( $tax_query );
 	}
 
 	/**
@@ -1936,7 +1933,7 @@ class WP_Query {
 		$search = apply_filters_ref_array('posts_search', array( $search, &$this ) );
 
 		// Taxonomies
-		$this->tax_query = $this->parse_tax_query( $q );
+		$this->parse_tax_query( $q );
 
 		if ( $this->is_category || $this->is_tag || $this->is_tax ) {
 			$clauses = $this->tax_query->get_sql( $wpdb->posts, 'ID' );
