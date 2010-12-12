@@ -206,8 +206,12 @@ listTable.init();
 
 		var $link = $(this),
 			$th = $link.parent('th'),
+			thIndex = $th.index(),
 			orderby = $.query.load( $link.attr('href') ).get('orderby'),
 			order;
+
+		// th should include both headers in thead and tfoot
+		$th = $th.closest('table').find('thead th:eq(' + thIndex + '), tfoot th:eq(' + thIndex + ')');
 
 		if ( orderby == $.query.get('orderby') ) {
 			// changing the direction
