@@ -545,7 +545,7 @@ case 'add-tag' :
 	$x->add( array(
 		'what' => 'term',
 		'position' => $level,
-		'supplemental' => $tag
+		'supplemental' => (array) $tag
 		) );
 	$x->send();
 	break;
