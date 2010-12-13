@@ -5063,16 +5063,16 @@ function get_post_format_strings() {
 
 function get_post_format_slugs() {
 	$slugs = array(
-		'default' => _x( 'default', 'Post format slug' ),
-		'aside'   => _x( 'aside',   'Post format slug' ),
-		'chat'    => _x( 'chat',    'Post format slug' ),
-		'gallery' => _x( 'gallery', 'Post format slug' ),
-		'link'    => _x( 'link',    'Post format slug' ),
-		'image'   => _x( 'image',   'Post format slug' ),
-		'quote'   => _x( 'quote',   'Post format slug' ),
-		'status'  => _x( 'status',  'Post format slug' ),
-		'video'   => _x( 'video',   'Post format slug' ),
-		'audio'   => _x( 'audio',   'Post format slug' ),
+		'standard' => _x( 'standard', 'Post format slug' ),
+		'aside'    => _x( 'aside',    'Post format slug' ),
+		'chat'     => _x( 'chat',     'Post format slug' ),
+		'gallery'  => _x( 'gallery',  'Post format slug' ),
+		'link'     => _x( 'link',     'Post format slug' ),
+		'image'    => _x( 'image',    'Post format slug' ),
+		'quote'    => _x( 'quote',    'Post format slug' ),
+		'status'   => _x( 'status',   'Post format slug' ),
+		'video'    => _x( 'video',    'Post format slug' ),
+		'audio'    => _x( 'audio',    'Post format slug' ),
 	);
 	$slugs = array_map( 'sanitize_title_with_dashes', $slugs );
 	return $slugs;
