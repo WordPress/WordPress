@@ -1356,6 +1356,7 @@ class WP_Query {
 			}
 
 			$this->parse_tax_query( $qv );
+
 			foreach ( $this->tax_query->queries as $tax_query ) {
 				if ( 'IN' == $tax_query['operator'] ) {
 					switch ( $tax_query['taxonomy'] ) {
@@ -1935,22 +1936,22 @@ class WP_Query {
 		// Taxonomies
 		$this->parse_tax_query( $q );
 
-		if ( $this->is_category || $this->is_tag || $this->is_tax ) {
-			$clauses = $this->tax_query->get_sql( $wpdb->posts, 'ID' );
+		$clauses = $this->tax_query->get_sql( $wpdb->posts, 'ID' );
 
-			$join .= $clauses['join'];
-			$where .= $clauses['where'];
+		$join .= $clauses['join'];
+		$where .= $clauses['where'];
 
-			if ( $this->is_tax ) {
-				if ( empty($post_type) ) {
-					$post_type = 'any';
-					$post_status_join = true;
-				} elseif ( in_array('attachment', (array) $post_type) ) {
-					$post_status_join = true;
-				}
+		if ( $this->is_tax ) {
+			if ( empty($post_type) ) {
+				$post_type = 'any';
+				$post_status_join = true;
+			} elseif ( in_array('attachment', (array) $post_type) ) {
+				$post_status_join = true;
 			}
+		}
 
-			// Back-compat
+		// Back-compat
+		if ( $this->is_category || $this->is_tag || $this->is_tax ) {
 			$tax_query_in = wp_list_filter( $this->tax_query->queries, array( 'operator' => 'IN' ) );
 			if ( !empty( $tax_query_in ) ) {
 				if ( !isset( $q['taxonomy'] ) ) {
