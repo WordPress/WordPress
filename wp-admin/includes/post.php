@@ -1201,13 +1201,17 @@ function wp_check_post_lock( $post_id ) {
 	if ( !$post = get_post( $post_id ) )
 		return false;
 
-	$lock = get_post_meta( $post->ID, '_edit_lock', true );
-	$last = get_post_meta( $post->ID, '_edit_last', true );
+	if ( !$lock = get_post_meta( $post->ID, '_edit_lock', true ) )
+		return false;
 
+	$lock = explode( ':', $lock );
+	$time = $lock[0];
+	$user = isset( $lock[1] ) ? $lock[1] : get_post_meta( $post->ID, '_edit_last', true );
+	
 	$time_window = apply_filters( 'wp_check_post_lock_window', AUTOSAVE_INTERVAL * 2 );
 
-	if ( $lock && $lock > time() - $time_window && $last != get_current_user_id() )
-		return $last;
+	if ( $time && $time > time() - $time_window && $user != get_current_user_id() )
+		return $user;
 	return false;
 }
 
@@ -1222,12 +1226,13 @@ function wp_check_post_lock( $post_id ) {
 function wp_set_post_lock( $post_id ) {
 	if ( !$post = get_post( $post_id ) )
 		return false;
-	if ( 0 == get_current_user_id() )
+	if ( 0 == ($user_id = get_current_user_id()) )
 		return false;
 
 	$now = time();
+	$lock = "$now:$user_id";
 
-	update_post_meta( $post->ID, '_edit_lock', $now );
+	update_post_meta( $post->ID, '_edit_lock', $lock );
 }
 
 /**
@@ -1238,7 +1243,10 @@ function wp_set_post_lock( $post_id ) {
  */
 function _admin_notice_post_locked() {
 	global $post;
-	$last_user = get_userdata( get_post_meta( $post->ID, '_edit_last', true ) );
+
+	$lock = explode( ':', get_post_meta( $post->ID, '_edit_lock', true ) );
+	$user = isset( $lock[1] ) ? $lock[1] : get_post_meta( $post->ID, '_edit_last', true );
+	$last_user = get_userdata( $user );
 	$last_user_name = $last_user ? $last_user->display_name : __('Somebody');
 
 	switch ($post->post_type) {
