@@ -135,11 +135,11 @@ require_once('./admin-header.php');
 
 <div class="wrap">
 <?php screen_icon(); ?>
-<h2><?php 
+<h2><?php
 if ( $post_id )
-	echo sprintf(__('Comments on &#8220;%s&#8221;'), 
-		sprintf('<a href="%s">%s</a>', 
-			get_edit_post_link($post_id), 
+	echo sprintf(__('Comments on &#8220;%s&#8221;'),
+		sprintf('<a href="%s">%s</a>',
+			get_edit_post_link($post_id),
 			wp_html_excerpt(_draft_or_post_title($post_id), 50)
 		)
 	);

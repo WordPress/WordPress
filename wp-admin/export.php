@@ -20,7 +20,7 @@ function add_js() {
 ?>
 <script type="text/javascript">
 //<![CDATA[
-	jQuery(document).ready(function($){ 		
+	jQuery(document).ready(function($){
  		var form = $('#export-filters'),
  			filters = form.find('.export-filters');
  		filters.hide();

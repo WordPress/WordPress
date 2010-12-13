@@ -516,12 +516,12 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Get a list of sortable columns. The format is: 
+	 * Get a list of sortable columns. The format is:
 	 * 'internal-name' => 'orderby'
 	 * or
 	 * 'internal-name' => array( 'orderby', true )
 	 *
-	 * The second format will make the initial sorting order be descending 
+	 * The second format will make the initial sorting order be descending
 	 *
 	 * @since 3.1.0
 	 * @access protected
@@ -559,7 +559,7 @@ class WP_List_Table {
 			$data = (array) $data;
 			if ( !isset( $data[1] ) )
 				$data[1] = false;
-			
+
 			$sortable[$id] = $data;
 		}
 

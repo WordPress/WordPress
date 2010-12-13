@@ -286,7 +286,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 
 		$args['post_type'] = $post_type;
 
-		return "<a href='" . add_query_arg( $args, 'edit.php' ) . "'>$count</a>";		
+		return "<a href='" . add_query_arg( $args, 'edit.php' ) . "'>$count</a>";
 	}
 
 	function column_links( $tag ) {

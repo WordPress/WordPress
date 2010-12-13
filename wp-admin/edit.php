@@ -7,7 +7,7 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once( './admin.php' );			
+require_once( './admin.php' );
 $wp_list_table = get_list_table('WP_Posts_List_Table');
 $wp_list_table->check_permissions();
 $pagenum = $wp_list_table->get_pagenum();

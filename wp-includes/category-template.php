@@ -67,7 +67,7 @@ function get_the_category( $id = false ) {
 	$categories = get_the_terms( $id, 'category' );
 	if ( ! $categories )
 		$categories = array();
-	
+
 	$categories = array_values( $categories );
 
 	foreach ( array_keys( $categories ) as $key ) {
@@ -1073,7 +1073,7 @@ function get_the_terms( $id = 0, $taxonomy ) {
 		$terms = wp_get_object_terms( $id, $taxonomy );
 		wp_cache_add($id, $terms, $taxonomy . '_relationships');
 	}
-	
+
 	$terms = apply_filters( 'get_the_terms', $terms, $id, $taxonomy );
 
 	if ( empty( $terms ) )

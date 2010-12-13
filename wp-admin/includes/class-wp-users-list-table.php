@@ -7,10 +7,10 @@
  * @since 3.1.0
  */
 class WP_Users_List_Table extends WP_List_Table {
-	
+
 	var $site_id;
 	var $is_site_users;
-	
+
 	function WP_Users_List_Table() {
 		$screen = get_current_screen();
 		$this->is_site_users = 'site-users-network' == $screen->id;
@@ -50,7 +50,7 @@ class WP_Users_List_Table extends WP_List_Table {
 			'role' => $role,
 			'search' => $usersearch
 		);
-		
+
 		if ( $this->is_site_users )
 			$args['blog_id'] = $this->site_id;
 
@@ -79,7 +79,7 @@ class WP_Users_List_Table extends WP_List_Table {
 		global $wp_roles, $role;
 
 		if ( $this->is_site_users ) {
-			$url = 'site-users.php?id=' . $this->site_id;			
+			$url = 'site-users.php?id=' . $this->site_id;
 			switch_to_blog( $this->site_id );
 			$users_of_blog = count_users();
 			restore_current_blog();
@@ -160,7 +160,7 @@ class WP_Users_List_Table extends WP_List_Table {
 
 		if ( $this->is_site_users )
 			unset( $c['posts'] );
-			
+
 		return $c;
 	}
 
@@ -171,7 +171,7 @@ class WP_Users_List_Table extends WP_List_Table {
 			'email'    => 'email',
 			'posts'    => 'post_count',
 		);
-		
+
 		if ( $this->is_site_users )
 			unset( $c['posts'] );
 
@@ -213,7 +213,7 @@ class WP_Users_List_Table extends WP_List_Table {
 			$user_object = new WP_User( (int) $user_object );
 		$user_object = sanitize_user_object( $user_object, 'display' );
 		$email = $user_object->user_email;
-		
+
 		if ( $this->is_site_users )
 			$url = "site-users.php?id={$this->site_id}&amp;";
 		else

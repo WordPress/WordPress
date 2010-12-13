@@ -4196,7 +4196,7 @@ function wp_scheduled_delete() {
  * Searches for metadata in the first 8kiB of a file, such as a plugin or theme.
  * Each piece of metadata must be on its own line. Fields can not span multple
  * lines, the value will get cut at the end of the first line.
- * 
+ *
  * If the file data is not within that first 8kiB, then the author should correct
  * their plugin file and move the data headers to the top.
  *

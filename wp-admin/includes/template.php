@@ -875,7 +875,7 @@ function add_meta_box($id, $title, $callback, $page, $context = 'advanced', $pri
 		foreach ( array('high', 'core', 'default', 'low') as $a_priority ) {
 			if ( !isset($wp_meta_boxes[$page][$a_context][$a_priority][$id]) )
 				continue;
-	
+
 			// If a core box was previously added or removed by a plugin, don't add.
 			if ( 'core' == $priority ) {
 				// If core box previously deleted, don't add
@@ -1538,7 +1538,7 @@ function iframe_header( $title = '', $limit_styles = false ) {
 	show_admin_bar( false );
 	global $hook_suffix, $current_screen, $current_user, $admin_body_class, $wp_locale;
 	$admin_body_class = preg_replace('/[^a-z0-9_-]+/i', '-', $hook_suffix);
-	
+
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" <?php do_action('admin_xml_ns'); ?> <?php language_attributes(); ?>>
 <head>

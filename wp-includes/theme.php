@@ -1479,7 +1479,7 @@ function add_custom_image_header( $header_callback, $admin_header_callback, $adm
 function remove_custom_image_header() {
 	if ( ! current_theme_supports( 'custom-header' ) )
 		return false;
-	
+
 	$callback = get_theme_support( 'custom-header' );
 	remove_action( 'wp_head', $callback[0]['callback'] );
 	_remove_theme_support( 'custom-header' );
@@ -1619,7 +1619,7 @@ function add_custom_background( $header_callback = '', $admin_header_callback = 
 function remove_custom_background() {
 	if ( ! current_theme_supports( 'custom-background' ) )
 		return false;
-	
+
 	$callback = get_theme_support( 'custom-background' );
 	remove_action( 'wp_head', $callback[0]['callback'] );
 	_remove_theme_support( 'custom-background' );

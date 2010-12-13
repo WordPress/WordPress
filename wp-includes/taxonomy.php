@@ -604,7 +604,7 @@ class WP_Tax_Query {
 			$query = array_merge( $defaults, $query );
 
 			$query['terms'] = (array) $query['terms'];
-			
+
 			$this->queries[] = $query;
 		}
 	}
@@ -706,7 +706,7 @@ class WP_Tax_Query {
 	 * @param array &$terms The list of terms
 	 * @param string $taxonomy The taxonomy of the terms
 	 * @param string $field The initial field
-	 * @param string $resulting_field The resulting field	 
+	 * @param string $resulting_field The resulting field
 	 */
 	function _transform_terms( &$terms, $taxonomy, $field, $resulting_field ) {
 		global $wpdb;
@@ -1582,8 +1582,8 @@ function wp_count_terms( $taxonomy, $args = array() ) {
 /**
  * Will unlink the object from the taxonomy or taxonomies.
  *
- * Will remove all relationships between the object and any terms in 
- * a particular taxonomy or taxonomies. Does not remove the term or 
+ * Will remove all relationships between the object and any terms in
+ * a particular taxonomy or taxonomies. Does not remove the term or
  * taxonomy itself.
  *
  * @package WordPress
@@ -1697,8 +1697,8 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 	// Clean the relationship caches for all object types using this term
 	$tax_object = get_taxonomy( $taxonomy );
 	foreach ( $tax_object->object_type as $object_type )
-		clean_object_term_cache( $objects, $object_type ); 
-	
+		clean_object_term_cache( $objects, $object_type );
+
 	do_action( 'delete_term_taxonomy', $tt_id );
 	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->term_taxonomy WHERE term_taxonomy_id = %d", $tt_id ) );
 	do_action( 'deleted_term_taxonomy', $tt_id );

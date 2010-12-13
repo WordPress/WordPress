@@ -1458,9 +1458,9 @@ if ( is_multisite() && !is_upload_space_available() ) {
 
 do_action('pre-upload-ui');
 
-if ( $flash ) : 
+if ( $flash ) :
 
-// Set the post params, which SWFUpload will post back with the file, and pass 
+// Set the post params, which SWFUpload will post back with the file, and pass
 // them through a filter.
 $post_params = array(
 		"post_id" => $post_id,

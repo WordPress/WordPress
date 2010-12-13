@@ -365,7 +365,7 @@ define( 'BLOG_ID_CURRENT_SITE', 1 );</textarea>
 		if ( defined( $c ) )
 			unset( $keys_salts[ $c ] );
 	}
-	if ( ! empty( $keys_salts ) ) {	
+	if ( ! empty( $keys_salts ) ) {
 		$keys_salts_str = '';
 		$from_api = wp_remote_get( 'https://api.wordpress.org/secret-key/1.1/salt/' );
 		if ( is_wp_error( $from_api ) ) {

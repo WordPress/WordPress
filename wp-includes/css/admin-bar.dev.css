@@ -23,7 +23,7 @@
 	text-decoration: none;
 }
 
-#wpadminbar ul, 
+#wpadminbar ul,
 #wpadminbar ul li {
 	background: none;
 	list-style: none;
@@ -111,7 +111,7 @@
 #wpadminbar .quicklinks li:hover {
 	background: #555;
 	background: -moz-linear-gradient(bottom,  #555,  #3e3e3e);
-	background: -webkit-gradient(linear, left bottom, left top, from(#555), to(#3e3e3e));	
+	background: -webkit-gradient(linear, left bottom, left top, from(#555), to(#3e3e3e));
 }
 
 #wpadminbar .quicklinks .menupop li:hover {
@@ -209,7 +209,7 @@
 	text-shadow: 0px 1px 0px #eee;
 	cursor: pointer;
 	float: left;
-	background: #aaa; 
+	background: #aaa;
 	background: -moz-linear-gradient(bottom,  #aaa,  #cecece);
 	background: -webkit-gradient(linear, left bottom, left top, from(#aaa), to(#cecece));
 	-webkit-border-radius: 10px;
@@ -222,7 +222,7 @@
 }
 
 #wpadminbar #adminbarsearch .adminbar-button:active {
-	background: #a0a0a0; 
+	background: #a0a0a0;
 	background:-moz-linear-gradient(bottom,  #a0a0a0,  #c1c1c1);
 	background:-webkit-gradient(linear, left bottom, left top, from(#a0a0a0), to(#c1c1c1));
 	-moz-box-shadow: inset 1px 1px 1px #9b9b9b;

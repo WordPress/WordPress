@@ -2318,7 +2318,7 @@ function wp_get_single_post($postid = 0, $mode = OBJECT) {
 
 	$post = get_post($postid, $mode);
 
-	if ( 
+	if (
 		( OBJECT == $mode && empty( $post->ID ) ) ||
 		( OBJECT != $mode && empty( $post['ID'] ) )
 	)
@@ -3827,7 +3827,7 @@ function wp_get_attachment_url( $post_id = 0 ) {
 
 	if ( 'attachment' != $post->post_type || empty( $url ) )
 		return false;
-	
+
 	return $url;
 }
 

@@ -160,7 +160,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 					$style = ' style="display:none;"';
 
 				$attributes = "$class$style";
-				
+
 
 				switch ( $column_name ) {
 					case 'cb': ?>
@@ -219,14 +219,14 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 								foreach ( (array) $blogs as $key => $val ) {
 									if ( !can_edit_network( $val->site_id ) )
 										continue;
-									
+
 									$path	= ( $val->path == '/' ) ? '' : $val->path;
 									echo '<span class="site-' . $val->site_id . '" >';
 									echo '<a href="'. esc_url( network_admin_url( 'site-info.php?id=' . $val->userblog_id ) ) .'">' . str_replace( '.' . $current_site->domain, '', $val->domain . $path ) . '</a>';
 									echo ' <small class="row-actions">';
 									$actions = array();
 									$actions['edit'] = '<a href="'. esc_url( network_admin_url( 'site-info.php?id=' . $val->userblog_id ) ) .'">' . __( 'Edit' ) . '</a>';
-									
+
 									$class = '';
 									if ( get_blog_status( $val->userblog_id, 'spam' ) == 1 )
 										$class .= 'site-spammed ';
@@ -236,11 +236,11 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 										$class .= 'site-deleted ';
 									if ( get_blog_status( $val->userblog_id, 'archived' ) == 1 )
 										$class .= 'site-archived ';
-									
+
 									$actions['view'] = '<a class="' . $class . '" href="' .  esc_url( get_home_url( $val->userblog_id ) )  . '">' . __( 'View' ) . '</a>';
-									
+
 									$actions = apply_filters('ms_user_list_site_actions', $actions, $val->userblog_id);
-									
+
 									$i=0;
 									$action_count = count( $actions );
 									foreach ( $actions as $action => $link ) {

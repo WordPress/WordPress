@@ -677,7 +677,7 @@ d = document.getElementById('user_login');
 <?php if ( 'invalid_username' == $errors->get_error_code() ) { ?>
 if( d.value != '' )
 d.value = '';
-<?php 
+<?php
 }
 }?>
 d.focus();

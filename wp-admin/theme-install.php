@@ -8,7 +8,7 @@
 
 if ( !defined( 'IFRAME_REQUEST' ) && isset( $_GET['tab'] ) && ( 'theme-information' == $_GET['tab'] ) )
 	define( 'IFRAME_REQUEST', true );
-	
+
 /** WordPress Administration Bootstrap */
 require_once('./admin.php');
 if ( ! current_user_can('install_themes') )

@@ -45,13 +45,13 @@ adminMenu = {
 		});
 	},
 
-	toggle : function(el) {			
+	toggle : function(el) {
 		el.slideToggle(150, function() {
-			var id = el.parent().toggleClass( 'wp-menu-open' ).attr('id');			
+			var id = el.parent().toggleClass( 'wp-menu-open' ).attr('id');
 			if ( id ) {
 				$('li.wp-has-submenu', '#adminmenu').each(function(i, e) {
 					if ( id == e.id ) {
-						var v = $(e).hasClass('wp-menu-open') ? 'o' : 'c';						
+						var v = $(e).hasClass('wp-menu-open') ? 'o' : 'c';
 						setUserSetting( 'm'+i, v );
 					}
 				});

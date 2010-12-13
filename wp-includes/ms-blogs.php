@@ -671,10 +671,10 @@ function get_blog_status( $id, $pref ) {
  */
 function get_last_updated( $deprecated = '', $start = 0, $quantity = 40 ) {
 	global $wpdb;
-	
+
 	if ( ! empty( $deprecated ) )
 		_deprecated_argument( __FUNCTION__, 'MU' ); // never used
-	
+
 	return $wpdb->get_results( $wpdb->prepare("SELECT blog_id, domain, path FROM $wpdb->blogs WHERE site_id = %d AND public = '1' AND archived = '0' AND mature = '0' AND spam = '0' AND deleted = '0' AND last_updated != '0000-00-00 00:00:00' ORDER BY last_updated DESC limit %d, %d", $wpdb->siteid, $start, $quantity ) , ARRAY_A );
 }
 

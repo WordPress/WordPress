@@ -1101,7 +1101,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		if ( !current_user_can( 'edit_comment', $comment_ID ) )
 			return new IXR_Error( 403, __( 'You are not allowed to moderate comments on this site.' ) );
-			
+
 		do_action('xmlrpc_call', 'wp.deleteComment');
 
 		if ( ! get_comment($comment_ID) )
@@ -1135,7 +1135,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		if ( !current_user_can( 'edit_comment', $comment_ID ) )
 			return new IXR_Error( 403, __( 'You are not allowed to moderate comments on this site.' ) );
-			
+
 		do_action('xmlrpc_call', 'wp.editComment');
 
 		if ( ! get_comment($comment_ID) )
@@ -1608,18 +1608,18 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		return $attachments_struct;
 	}
-	
-	/** 
-	  * Retrives a list of post formats used by the site 
-	  * 
+
+	/**
+	  * Retrives a list of post formats used by the site
+	  *
 	  * @since 3.1
-	  * 
-	  * @param array $args Method parameters. Contains: 
-	  *  - blog_id 
-	  *  - username 
-	  *  - password 
-	  * @return array 
-	  */ 
+	  *
+	  * @param array $args Method parameters. Contains:
+	  *  - blog_id
+	  *  - username
+	  *  - password
+	  * @return array
+	  */
 	function wp_getPostFormats( $args ) {
 		$this->escape( $args );
 
@@ -1629,10 +1629,10 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		if ( !$user = $this->login( $username, $password ) )
 			return $this->error;
-            
+
 		do_action( 'xmlrpc_call', 'wp.getPostFormats' );
 		return get_post_format_strings();
-	} 
+	}
 
 	/* Blogger API functions.
 	 * specs on http://plant.blogger.com/api and http://groups.yahoo.com/group/bloggerDev/
@@ -2092,7 +2092,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 
 		do_action('xmlrpc_call', 'metaWeblog.newPost');
-		
+
 		$page_template = '';
 		if ( !empty( $content_struct['post_type'] ) ) {
 			if ( $content_struct['post_type'] == 'page' ) {
@@ -2127,15 +2127,15 @@ class wp_xmlrpc_server extends IXR_Server {
 			else
 				$cap = 'edit_posts';
 			$error_message = __( 'Sorry, you are not allowed to publish posts on this site.' );
-			$post_type = 'post';			
+			$post_type = 'post';
 		}
 
 		if ( !current_user_can( $cap ) )
 			return new IXR_Error( 401, $error_message );
 
 		// Check for a valid post format if one was given
-		if ( isset( $content_struct['wp_post_format'] ) ) { 
-			$content_struct['wp_post_format'] = sanitize_key( $content_struct['wp_post_format'] ); 
+		if ( isset( $content_struct['wp_post_format'] ) ) {
+			$content_struct['wp_post_format'] = sanitize_key( $content_struct['wp_post_format'] );
 			if ( !array_key_exists( $content_struct['wp_post_format'], get_post_format_strings() ) ) {
 				return new IXR_Error( 404, __( 'Invalid post format' ) );
 			}
@@ -2330,11 +2330,11 @@ class wp_xmlrpc_server extends IXR_Server {
 		$this->add_enclosure_if_new($post_ID, $thisEnclosure);
 
 		$this->attach_uploads( $post_ID, $post_content );
-		
+
 		// Handle post formats if assigned, value is validated earlier
 		// in this function
 		if ( isset( $content_struct['wp_post_format'] ) )
-			wp_set_post_terms( $post_ID, array( 'post-format-' . $content_struct['wp_post_format'] ), 'post_format' ); 
+			wp_set_post_terms( $post_ID, array( 'post-format-' . $content_struct['wp_post_format'] ), 'post_format' );
 
 		logIO('O', "Posted ! ID: $post_ID");
 
@@ -2436,15 +2436,15 @@ class wp_xmlrpc_server extends IXR_Server {
 			else
 				$cap = 'edit_posts';
 			$error_message = __( 'Sorry, you are not allowed to publish posts on this site.' );
-			$post_type = 'post';			
+			$post_type = 'post';
 		}
 
 		if ( !current_user_can( $cap ) )
 			return new IXR_Error( 401, $error_message );
 
 		// Check for a valid post format if one was given
-		if ( isset( $content_struct['wp_post_format'] ) ) { 
-			$content_struct['wp_post_format'] = sanitize_key( $content_struct['wp_post_format'] ); 
+		if ( isset( $content_struct['wp_post_format'] ) ) {
+			$content_struct['wp_post_format'] = sanitize_key( $content_struct['wp_post_format'] );
 			if ( !array_key_exists( $content_struct['wp_post_format'], get_post_format_strings() ) ) {
 				return new IXR_Error( 404, __( 'Invalid post format' ) );
 			}
@@ -2649,11 +2649,11 @@ class wp_xmlrpc_server extends IXR_Server {
 		$this->add_enclosure_if_new($post_ID, $thisEnclosure);
 
 		$this->attach_uploads( $ID, $post_content );
-		
+
 		// Handle post formats if assigned, validation is handled
 		// earlier in this function
 		if ( isset( $content_struct['wp_post_format'] ) )
-			wp_set_post_terms( $post_ID, array( 'post-format-' . $content_struct['wp_post_format'] ), 'post_format' ); 
+			wp_set_post_terms( $post_ID, array( 'post-format-' . $content_struct['wp_post_format'] ), 'post_format' );
 
 		logIO('O',"(MW) Edited ! ID: $post_ID");
 
@@ -2721,8 +2721,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			// Consider future posts as published
 			if ( $postdata['post_status'] === 'future' )
 				$postdata['post_status'] = 'publish';
-				
-			// Get post format 
+
+			// Get post format
 			$post_format = get_post_format( $post_ID );
 			if ( empty( $post_format ) )
 				$post_format = 'standard';
@@ -2848,8 +2848,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			// Consider future posts as published
 			if ( $entry['post_status'] === 'future' )
 				$entry['post_status'] = 'publish';
-				
-			// Get post format 
+
+			// Get post format
 			$post_format = get_post_format( $entry['ID'] );
 			if ( empty( $post_format ) )
 				$post_format = 'standard';

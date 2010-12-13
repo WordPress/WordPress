@@ -35,7 +35,7 @@ var ThemeViewer;
 					$( '#filter-box' ).slideToggle();
 					$( '#current-theme' ).slideToggle( 300 );
 				});
-				
+
 				return false;
 			});
 		}

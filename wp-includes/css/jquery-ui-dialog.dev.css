@@ -71,7 +71,7 @@
  * http://docs.jquery.com/UI/Dialog#theming
  */
 .wp-dialog { position: absolute; width: 300px; overflow: hidden; }
-.wp-dialog .ui-dialog-titlebar { position: relative; } 
+.wp-dialog .ui-dialog-titlebar { position: relative; }
 .wp-dialog .ui-dialog-titlebar-close span { display: block; margin: 1px; }
 .wp-dialog .ui-dialog-content { position: relative; border: 0; padding: 0; background: none; overflow: auto; zoom: 1; }
 .wp-dialog .ui-dialog-buttonpane { text-align: left; border-width: 1px 0 0 0; background-image: none; margin: .5em 0 0 0; padding: .3em 1em .5em .4em; }

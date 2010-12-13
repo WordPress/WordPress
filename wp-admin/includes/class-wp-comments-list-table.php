@@ -53,7 +53,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 
 		$orderby = ( isset( $_REQUEST['orderby'] ) ) ? $_REQUEST['orderby'] : '';
 		$order = ( isset( $_REQUEST['order'] ) ) ? $_REQUEST['order'] : '';
-		
+
 		$comments_per_page = $this->get_items_per_page( 'edit_comments_per_page' );
 		$comments_per_page = apply_filters( 'comments_per_page', $comments_per_page, $comment_status );
 
@@ -70,7 +70,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 			'moderated' => 'hold',
 			'approved' => 'approve'
 		);
-		
+
 		$args = array(
 			'status' => isset( $status_map[$comment_status] ) ? $status_map[$comment_status] : $comment_status,
 			'search' => $search,

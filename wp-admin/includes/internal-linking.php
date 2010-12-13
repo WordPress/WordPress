@@ -117,6 +117,6 @@ function wp_link_dialog() {
 	</div>
 </div>
 </form>
-<?php 
+<?php
 }
 ?>
