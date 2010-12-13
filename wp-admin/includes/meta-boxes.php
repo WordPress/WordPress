@@ -38,11 +38,14 @@ function post_submit_meta_box($post) {
 <div id="preview-action">
 <?php
 if ( 'publish' == $post->post_status ) {
-	$preview_link = esc_url(get_permalink($post->ID));
-	$preview_button = __('Preview Changes');
+	$preview_link = esc_url( get_permalink( $post->ID ) );
+	$preview_button = __( 'Preview Changes' );
 } else {
-	$preview_link = esc_url(apply_filters('preview_post_link', add_query_arg('preview', 'true', get_permalink($post->ID))));
-	$preview_button = __('Preview');
+	$preview_link = get_permalink( $post->ID );
+	if ( is_ssl() )
+		$preview_link = str_replace( 'http://', 'https://', $preview_link );
+	$preview_link = esc_url( apply_filters( 'preview_post_link', add_query_arg( 'preview', 'true', $preview_link ) ) );
+	$preview_button = __( 'Preview' );
 }
 ?>
 <a class="preview button" href="<?php echo $preview_link; ?>" target="wp-preview" id="post-preview" tabindex="4"><?php echo $preview_button; ?></a>
