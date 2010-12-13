@@ -1980,7 +1980,7 @@ class WP_Query {
 			}
 		}
 
-		if ( $this->is_category || $this->is_tag || $this->is_tax || !empty( $q['meta_key'] ) ) {
+		if ( !empty( $this->tax_query->queries ) || !empty( $q['meta_key'] ) ) {
 			$groupby = "{$wpdb->posts}.ID";
 		}
 
