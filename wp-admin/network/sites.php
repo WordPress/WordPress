@@ -54,6 +54,7 @@ if ( isset( $_REQUEST['updated'] ) && $_REQUEST['updated'] == 'true' && ! empty(
 		break;
 		case 'delete':
 			$msg = __( 'Site deleted.' );
+		break;
 		case 'not_deleted':
 			$msg = __( 'You do not have permission to delete that site.' );
 		break;
