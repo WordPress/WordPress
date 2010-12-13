@@ -19,15 +19,15 @@
 }
 
 /* Background Color for Site Status */
-tr.site-deleted, a.site-deleted {
+.site-deleted {
 	background: #ff8573;
 }
-tr.site-spammed, a.site-spammed {
-	background: #faa;
+.site-spammed {
+	background: #faafaa;
 }
-tr.site-archived, a.site-archived {
-	background:#ffebe8;
+.site-archived {
+	background: #ffebe8;
 }
-tr.site-mature, a.site-mature {
+.site-mature {
 	background: #fecac2;
 }
