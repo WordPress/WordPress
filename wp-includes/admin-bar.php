@@ -67,18 +67,6 @@ add_action( 'wp_footer', 'wp_admin_bar_render', 1000 );
 add_action( 'admin_footer', 'wp_admin_bar_render', 1000 );
 
 /**
- * Show the logged in user's gravatar as a separator.
- *
- * @since 3.1.0
- */
-function wp_admin_bar_me_separator() {
-	global $wp_admin_bar;
-	$user_id = get_current_user_id();
-	if ( 0 != $user_id )
-		$wp_admin_bar->add_menu( array( 'id' => 'me', 'title' => get_avatar( get_current_user_id(), 16 ), 'href' => get_edit_profile_url( $user_id ), ) );
-}
-
-/**
  * Add the "My Account" menu and all submenus.
  *
  * @since 3.1.0
@@ -90,7 +78,8 @@ function wp_admin_bar_my_account_menu() {
 
 	if ( 0 != $user_id ) {
 		/* Add the 'My Account' menu */
-		$wp_admin_bar->add_menu( array( 'id' => 'my-account', 'title' => $user_identity,  'href' => get_edit_profile_url( $user_id ) ) );
+		$avatar = get_avatar( get_current_user_id(), 16 );
+		$wp_admin_bar->add_menu( array( 'id' => 'my-account', 'title' => $avatar . $user_identity,  'href' => get_edit_profile_url( $user_id ) ) );
 
 		/* Add the "My Account" sub menus */
 		$wp_admin_bar->add_menu( array( 'parent' => 'my-account', 'title' => __( 'Edit My Profile' ), 'href' => get_edit_profile_url( $user_id ) ) );
@@ -147,18 +136,6 @@ function wp_admin_bar_my_sites_menu() {
 }
 
 /**
- * Show the blavatar of the current site as a separator.
- *
- * @since 3.1.0
- */
-function wp_admin_bar_blog_separator() {
-	global $wp_admin_bar, $current_blog;
-	$default = includes_url('images/wpmini-blue.png');
-	$wp_admin_bar->add_menu( array( 'id' => 'blog', 'title' => '<img class="avatar" src="' . $default . '" alt="' . esc_attr__( 'Current site avatar' ) . '" width="16" height="16" />',  'href' => home_url(), ) );
-}
-
-
-/**
  * Provide a shortlink.
  *
  * @since 3.1.0
@@ -192,6 +169,11 @@ function wp_admin_bar_edit_menu () {
 	}
 }
 
+/**
+ * Add "Add New" menu.
+ *
+ * @since 3.1.0
+ */
 function wp_admin_bar_new_content_menu() {
 	global $wp_admin_bar;
 
@@ -199,6 +181,7 @@ function wp_admin_bar_new_content_menu() {
 	foreach ( (array) get_post_types( array( 'show_ui' => true ), 'objects' ) as $ptype_obj ) {
 		if ( true !== $ptype_obj->show_in_menu || ! current_user_can( $ptype_obj->cap->edit_posts ) )
 			continue;
+
 		$actions[ 'post-new.php?post_type=' . $ptype_obj->name ] = array( $ptype_obj->labels->singular_name, $ptype_obj->cap->edit_posts, 'new-' . $ptype_obj->name );
 	}
 
@@ -212,6 +195,11 @@ function wp_admin_bar_new_content_menu() {
 	}
 }
 
+/**
+ * Add edit comments link with awaiting moderation count bubble.
+ *
+ * @since 3.1.0
+ */
 function wp_admin_bar_comments_menu() {
 	global $wp_admin_bar;
 
@@ -225,6 +213,11 @@ function wp_admin_bar_comments_menu() {
 	$wp_admin_bar->add_menu( array( 'id' => 'comments', 'title' => sprintf( __('Comments %s'), $awaiting_mod ), 'href' => admin_url('edit-comments.php') ) );
 }
 
+/**
+ * Add "Appearance" menu with widget and nav menu submenu.
+ *
+ * @since 3.1.0
+ */
 function wp_admin_bar_appearance_menu() {
 	global $wp_admin_bar;
 
@@ -243,6 +236,11 @@ function wp_admin_bar_appearance_menu() {
 		$wp_admin_bar->add_menu( array( 'parent' => 'appearance', 'id' => 'menus', 'title' => __('Menus'), 'href' => admin_url('nav-menus.php') ) );
 }
 
+/**
+ * Provide an update link if theme/plugin/core updates are available.
+ *
+ * @since 3.1.0
+ */
 function wp_admin_bar_updates_menu() {
 	global $wp_admin_bar;
 
