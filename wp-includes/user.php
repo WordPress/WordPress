@@ -469,7 +469,7 @@ class WP_User_Query {
 		$role = trim( $qv['role'] );
 		$blog_id = absint( $qv['blog_id'] );
 
-		if ( $role || ( is_multisite() && $blog_id ) ) {
+		if ( $blog_id && ( $role || is_multisite() ) ) {
 			$cap_meta_query = array();
 			$cap_meta_query['key'] = $wpdb->get_blog_prefix( $blog_id ) . 'capabilities';
 
