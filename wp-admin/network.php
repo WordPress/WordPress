@@ -336,10 +336,12 @@ function network_step2( $errors = false ) {
 		<h3><?php esc_html_e( 'Enabling the Network' ); ?></h3>
 		<p><?php _e( 'Complete the following steps to enable the features for creating a network of sites.' ); ?></p>
 		<div class="updated inline"><p><?php
-			if ( iis7_supports_permalinks() )
-				_e( '<strong>Caution:</strong> We recommend you back up your existing <code>wp-config.php</code> file.' );
+			if ( file_exists( ABSPATH . '.htaccess' ) )
+				printf( __( '<strong>Caution:</strong> We recommend you back up your existing <code>wp-config.php</code> and <code>%s</code> files.' ), '.htaccess' );
+			elseif ( file_exists( ABSPATH . 'web.config' ) )
+				printf( __( '<strong>Caution:</strong> We recommend you back up your existing <code>wp-config.php</code> and <code>%s</code> files.' ), 'web.config' );
 			else
-				_e( '<strong>Caution:</strong> We recommend you back up your existing <code>wp-config.php</code> and <code>.htaccess</code> files.' );
+				_e( '<strong>Caution:</strong> We recommend you back up your existing <code>wp-config.php</code> file.' );
 		?></p></div>
 <?php
 	}
