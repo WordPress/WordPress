@@ -228,7 +228,6 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 			if ( !empty( $addl_path ) )
 				$redirect['path'] = trailingslashit($redirect['path']) . $addl_path;
 			$redirect_url = $redirect['scheme'] . '://' . $redirect['host'] . $redirect['path'];
-			$redirect['path'] = $redirect['path'];
 		}
 	}
 
