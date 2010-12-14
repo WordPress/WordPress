@@ -412,7 +412,7 @@ class WP_User_Query {
 		// sorting
 		if ( in_array( $qv['orderby'], array('email', 'url', 'registered') ) ) {
 			$orderby = 'user_' . $qv['orderby'];
-		} elseif ( 'name' == $qv['orderby'] ) {
+		} elseif ( 'name' == $qv['orderby'] || 'display_name' == $qv['orderby'] ) {
 			$orderby = 'display_name';
 		} elseif ( 'post_count' == $qv['orderby'] ) {
 			$where = get_posts_by_author_sql('post');
@@ -928,15 +928,13 @@ function setup_userdata($for_user_id = '') {
  * The available arguments are as follows:
  * <ol>
  * <li>show_option_all - Text to show all and whether HTML option exists.</li>
- * <li>show_option_none - Text for show none and whether HTML option exists.
- *     </li>
- * <li>orderby - SQL order by clause for what order the users appear. Default is
- * 'display_name'.</li>
+ * <li>show_option_none - Text for show none and whether HTML option exists.</li>
+ * <li>orderby - SQL order by clause for what order the users appear. Default is 'display_name'.</li>
  * <li>order - Default is 'ASC'. Can also be 'DESC'.</li>
  * <li>include - User IDs to include.</li>
  * <li>exclude - User IDs to exclude.</li>
  * <li>multi - Default is 'false'. Whether to skip the ID attribute on the 'select' element. A 'true' value is overridden when id argument is set.</li>
- * <li>show - Default is 'display_name'. User table column to display. If the selected item is empty then the user_login will be displayed in parentesis</li>
+ * <li>show - Default is 'display_name'. User table column to display. If the selected item is empty then the user_login will be displayed in parentheses</li>
  * <li>echo - Default is '1'. Whether to display or retrieve content.</li>
  * <li>selected - Which User ID is selected.</li>
  * <li>name - Default is 'user'. Name attribute of select element.</li>
@@ -967,7 +965,7 @@ function wp_dropdown_users( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	$users = get_users( wp_array_slice_assoc( $args, array( 'blog_id', 'include', 'exclude', 'orderby', 'order' ) ) );
+	$users = get_users( wp_array_slice_assoc( $r, array( 'blog_id', 'include', 'exclude', 'orderby', 'order' ) ) );
 
 	$output = '';
 	if ( !empty($users) ) {
