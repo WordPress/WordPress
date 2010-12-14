@@ -35,9 +35,9 @@
  *		not needed or the string of the URL
  */
 function redirect_canonical( $requested_url = null, $do_redirect = true ) {
-	global $wp_rewrite, $is_IIS, $wp_query, $wpdb;
+	global $wp_rewrite, $is_iis7, $wp_query, $wpdb;
 
-	if ( is_trackback() || is_search() || is_comments_popup() || is_admin() || !empty($_POST) || is_preview() || is_robots() || ( $is_IIS && !iis7_supports_permalinks() ) )
+	if ( is_trackback() || is_search() || is_comments_popup() || is_admin() || !empty($_POST) || is_preview() || is_robots() || ( $is_iis7 && !iis7_supports_permalinks() ) )
 		return;
 
 	if ( !$requested_url ) {
