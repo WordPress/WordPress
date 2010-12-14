@@ -606,10 +606,8 @@ function wp_dashboard_recent_comments() {
 	$start = 0;
 
 	$widgets = get_option( 'dashboard_widget_options' );
-	if ( isset( $widgets['dashboard_recent_comments'] ) && isset( $widgets['dashboard_recent_comments']['items'] ) )
-		$total_items = (int) $widgets['dashboard_recent_comments']['items'];
-	else
-		$total_items = 5;
+	$total_items = isset( $widgets['dashboard_recent_comments'] ) && isset( $widgets['dashboard_recent_comments']['items'] )
+		? absint( $widgets['dashboard_recent_comments']['items'] ) : 5;
 
 	while ( count( $comments ) < 5 && $possible = $wpdb->get_results( "SELECT * FROM $wpdb->comments c LEFT JOIN $wpdb->posts p ON c.comment_post_ID = p.ID WHERE p.post_status != 'trash' ORDER BY c.comment_date_gmt DESC LIMIT $start, 50" ) ) {
 
@@ -757,9 +755,7 @@ function wp_dashboard_recent_comments_control() {
 		$widget_options['dashboard_recent_comments'] = array();
 
 	if ( 'POST' == $_SERVER['REQUEST_METHOD'] && isset($_POST['widget-recent-comments']) ) {
-		$number = (int) stripslashes($_POST['widget-recent-comments']['items']);
-		if ( $number < 1 || $number > 30 )
-			$number = 5;
+		$number = absint( stripslashes($_POST['widget-recent-comments']['items']) );
 		$widget_options['dashboard_recent_comments']['items'] = $number;
 		update_option( 'dashboard_widget_options', $widget_options );
 	}
@@ -767,7 +763,7 @@ function wp_dashboard_recent_comments_control() {
 	$number = isset( $widget_options['dashboard_recent_comments']['items'] ) ? (int) $widget_options['dashboard_recent_comments']['items'] : '';
 
 	echo '<p><label for="comments-number">' . __('Number of comments to show:') . '</label>';
-	echo '<input id="comments-number" name="widget-recent-comments[items]" type="text" value="' . $number . '" size="3" /> <small>' . __( '(at most 30)' ) . '</small></p>';
+	echo '<input id="comments-number" name="widget-recent-comments[items]" type="text" value="' . $number . '" size="3" /></p>';
 }
 
 function wp_dashboard_incoming_links() {

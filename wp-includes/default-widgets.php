@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Default Widgets
  *
@@ -535,12 +534,8 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 		extract($args);
 
 		$title = apply_filters('widget_title', empty($instance['title']) ? __('Recent Posts') : $instance['title'], $instance, $this->id_base);
-		if ( !$number = (int) $instance['number'] )
-			$number = 10;
-		else if ( $number < 1 )
-			$number = 1;
-		else if ( $number > 15 )
-			$number = 15;
+		if ( ! $number = absint( $instance['number'] ) )
+ 			$number = 10;
 
 		$r = new WP_Query(array('posts_per_page' => $number, 'nopaging' => 0, 'post_status' => 'publish', 'ignore_sticky_posts' => true));
 		if ($r->have_posts()) :
@@ -582,15 +577,13 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 
 	function form( $instance ) {
 		$title = isset($instance['title']) ? esc_attr($instance['title']) : '';
-		if ( !isset($instance['number']) || !$number = (int) $instance['number'] )
-			$number = 5;
+		$number = isset($instance['number']) ? absint($instance['number']) : 5;
 ?>
 		<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label>
 		<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /></p>
 
 		<p><label for="<?php echo $this->get_field_id('number'); ?>"><?php _e('Number of posts to show:'); ?></label>
 		<input id="<?php echo $this->get_field_id('number'); ?>" name="<?php echo $this->get_field_name('number'); ?>" type="text" value="<?php echo $number; ?>" size="3" /></p>
-		<small><?php _e('(at most 15)'); ?></small>
 <?php
 	}
 }
@@ -644,10 +637,8 @@ class WP_Widget_Recent_Comments extends WP_Widget {
  		$output = '';
  		$title = apply_filters('widget_title', empty($instance['title']) ? __('Recent Comments') : $instance['title']);
 
-		if ( ! $number = (int) $instance['number'] )
+		if ( ! $number = absint( $instance['number'] ) )
  			$number = 5;
- 		else if ( $number < 1 )
- 			$number = 1;
 
 		$comments = get_comments( array( 'number' => $number, 'status' => 'approve' ) );
 		$output .= $before_widget;
@@ -671,7 +662,7 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 	function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 		$instance['title'] = strip_tags($new_instance['title']);
-		$instance['number'] = (int) $new_instance['number'];
+		$instance['number'] = absint( $new_instance['number'] );
 		$this->flush_widget_cache();
 
 		$alloptions = wp_cache_get( 'alloptions', 'options' );
