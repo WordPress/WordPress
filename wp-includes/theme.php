@@ -912,7 +912,11 @@ function get_date_template() {
  * @return string
  */
 function get_home_template() {
+	$template = get_post_meta( get_queried_object_id(), '_wp_page_template', true);
 	$templates = array( 'home.php', 'index.php' );
+
+	if ( ! empty( $template ) )
+		array_unshift( $templates, $template );
 
 	return get_query_template( 'home', $templates );
 }
