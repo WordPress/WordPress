@@ -29,11 +29,11 @@
 	border-left-color: #686868;
 }
 
-#wpadminbar .quicklinks li.ab-my-account a img.avatar  {
+#wpadminbar .quicklinks li.ab-my-account-with-avatar a img  {
 	margin: -2px -5px 0 23px;
 }
 
-#wpadminbar .quicklinks li.ab-my-account ul {
+#wpadminbar .quicklinks li.ab-my-account-with-avatar ul {
 	left: auto;
 	right: 30px;
 }

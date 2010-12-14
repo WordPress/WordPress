@@ -152,19 +152,21 @@
 	color: #000;
 }
 
-#wpadminbar .quicklinks li.ab-my-account > a {
+#wpadminbar .quicklinks li.ab-my-account-with-avatar > a {
 	border-left: none;
 	background: url(../images/admin-bar-sprite.png?d=11122010) top left no-repeat;
 }
 
-#wpadminbar .quicklinks li.ab-my-account a img.avatar {
+#wpadminbar .quicklinks li.ab-my-account-with-avatar > a img {
+	display: inline;
 	border: 1px solid #999;
 	vertical-align: middle;
 	margin: -2px 23px 0 -5px;
+	padding: 0;
 	background: #eee;
 }
 
-#wpadminbar .quicklinks li.ab-my-account ul {
+#wpadminbar .quicklinks li.ab-my-account-with-avatar ul {
 	left: 30px;
 }
 

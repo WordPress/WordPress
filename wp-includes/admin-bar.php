@@ -79,14 +79,16 @@ function wp_admin_bar_my_account_menu() {
 	if ( 0 != $user_id ) {
 		/* Add the 'My Account' menu */
 		$avatar = get_avatar( get_current_user_id(), 16 );
-		$wp_admin_bar->add_menu( array( 'id' => 'my-account', 'title' => $avatar . $user_identity,  'href' => get_edit_profile_url( $user_id ) ) );
+		$id = ( ! empty( $avatar ) ) ? 'my-account-with-avatar' : 'my-account';
+
+		$wp_admin_bar->add_menu( array( 'id' => $id, 'title' => $avatar . $user_identity,  'href' => get_edit_profile_url( $user_id ) ) );
 
 		/* Add the "My Account" sub menus */
-		$wp_admin_bar->add_menu( array( 'parent' => 'my-account', 'title' => __( 'Edit My Profile' ), 'href' => get_edit_profile_url( $user_id ) ) );
+		$wp_admin_bar->add_menu( array( 'parent' => $id, 'title' => __( 'Edit My Profile' ), 'href' => get_edit_profile_url( $user_id ) ) );
 		if ( is_multisite() )
-			$wp_admin_bar->add_menu( array( 'parent' => 'my-account', 'title' => __( 'Dashboard' ), 'href' => get_dashboard_url( $user_id ), ) );
+			$wp_admin_bar->add_menu( array( 'parent' => $id, 'title' => __( 'Dashboard' ), 'href' => get_dashboard_url( $user_id ), ) );
 		else
-			$wp_admin_bar->add_menu( array( 'parent' => 'my-account', 'title' => __( 'Dashboard' ), 'href' => admin_url(), ) );
+			$wp_admin_bar->add_menu( array( 'parent' => $id, 'title' => __( 'Dashboard' ), 'href' => admin_url(), ) );
 		$wp_admin_bar->add_menu( array( 'parent' => 'my-account', 'title' => __( 'Log Out' ), 'href' => wp_logout_url(), ) );
 	}
 }
