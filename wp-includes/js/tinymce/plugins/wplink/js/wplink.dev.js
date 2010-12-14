@@ -2,7 +2,7 @@ var wpLink;
 
 (function($){
 	var inputs = {}, rivers = {}, ed, River, Query;
-	
+
 	wpLink = {
 		timeToTriggerRiver: 150,
 		minRiverAJAXDuration: 200,
@@ -32,22 +32,22 @@ var wpLink;
 				e.preventDefault();
 			});
 			$('#wp-link-cancel').click( wpLink.cancel );
-			
+
 			rivers.elements.bind('river-select', wpLink.updateFields );
-			
+
 			inputs.search.keyup( wpLink.searchInternalLinks );
-			
+
 			inputs.dialog.bind('wpdialogrefresh', wpLink.refresh);
 		},
 
 		refresh : function() {
 			var e;
 			ed = tinyMCEPopup.editor;
-			
+
 			// Refresh rivers (clear links, check visibility)
 			rivers.search.refresh();
 			rivers.recent.refresh();
-			
+
 			tinyMCEPopup.restoreSelection();
 
 			// If link exists, select proper values.
@@ -77,7 +77,7 @@ var wpLink;
 			if ( ! rivers.recent.ul.children().length )
 				rivers.recent.ajax();
 		},
-		
+
 		cancel : function() {
 			tinyMCEPopup.close();
 		},
@@ -118,7 +118,7 @@ var wpLink;
 						ed.dom.setAttribs(e, attrs);
 					}
 				});
-				
+
 				// Sometimes WebKit lets a user create a link where
 				// they shouldn't be able to. In this case, CreateLink
 				// injects "#mce_temp_url#" into their content. Fix it.
@@ -177,7 +177,7 @@ var wpLink;
 				rivers.recent.show();
 			}
 		},
-		
+
 		next : function() {
 			rivers.search.next();
 			rivers.recent.next();
@@ -186,10 +186,10 @@ var wpLink;
 			rivers.search.prev();
 			rivers.recent.prev();
 		},
-		
+
 		keydown : function( event ) {
 			var fn, key = $.ui.keyCode;
-			
+
 			switch( event.which ) {
 				case key.UP:
 					fn = 'prev';
@@ -206,7 +206,7 @@ var wpLink;
 		},
 		keyup: function( event ) {
 			var key = $.ui.keyCode;
-			
+
 			switch( event.which ) {
 				case key.ESCAPE:
 					wpLink.cancel();
@@ -244,20 +244,20 @@ var wpLink;
 			};
 		}
 	}
-	
+
 	River = function( element, search ) {
 		var self = this;
 		this.element = element;
 		this.ul = element.children('ul');
 		this.waiting = element.find('.river-waiting');
-		
+
 		this.change( search );
 		this.refresh();
-		
+
 		element.scroll( function(){ self.maybeLoad(); });
 		element.delegate('li', 'click', function(e){ self.select( $(this), e ); });
 	};
-	
+
 	$.extend( River.prototype, {
 		refresh: function() {
 			this.deselect();
@@ -277,10 +277,10 @@ var wpLink;
 		// Selects a list item and triggers the river-select event.
 		select: function( li, event ) {
 			var liHeight, elHeight, liTop, elTop;
-			
+
 			if ( li.hasClass('unselectable') || li == this.selected )
 				return;
-			
+
 			this.deselect();
 			this.selected = li.addClass('selected');
 			// Make sure the element is visible
@@ -288,12 +288,12 @@ var wpLink;
 			elHeight = this.element.height();
 			liTop = li.position().top;
 			elTop = this.element.scrollTop();
-			
+
 			if ( liTop < 0 ) // Make first visible element
 				this.element.scrollTop( elTop + liTop );
 			else if ( liTop + liHeight > elHeight ) // Make last visible element
 				this.element.scrollTop( elTop + liTop - elHeight + liHeight );
-			
+
 			// Trigger the river-select event
 			this.element.trigger('river-select', [ li, event, this ]);
 		},
@@ -305,7 +305,7 @@ var wpLink;
 		prev: function() {
 			if ( ! this.visible )
 				return;
-			
+
 			var to;
 			if ( this.selected ) {
 				to = this.selected.prev('li');
@@ -316,7 +316,7 @@ var wpLink;
 		next: function() {
 			if ( ! this.visible )
 				return;
-			
+
 			var to = this.selected ? this.selected.next('li') : $('li:not(.unselectable):first', this.element);
 			if ( to.length )
 				this.select( to );
@@ -329,13 +329,13 @@ var wpLink;
 					if ( callback )
 						callback( results, params );
 				}, delay );
-			
+
 			this.query.ajax( response );
 		},
 		change: function( search ) {
 			if ( this.query && this._search == search )
 				return;
-			
+
 			this._search = search;
 			this.query = new Query( search );
 			this.element.scrollTop(0);
@@ -387,14 +387,14 @@ var wpLink;
 			}, wpLink.timeToTriggerRiver );
 		}
 	});
-	
+
 	Query = function( search ) {
 		this.page = 1;
 		this.allLoaded = false;
 		this.querying = false;
 		this.search = search;
 	};
-	
+
 	$.extend( Query.prototype, {
 		ready: function() {
 			return !( this.querying || this.allLoaded );
@@ -410,7 +410,7 @@ var wpLink;
 				query.search = this.search;
 
 			this.querying = true;
-			
+
 			$.post( ajaxurl, query, function(r) {
 				self.page++;
 				self.querying = false;
