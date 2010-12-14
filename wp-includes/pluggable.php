@@ -876,6 +876,8 @@ if ( !function_exists('wp_redirect') ) :
  * @return bool False if $location is not set
  */
 function wp_redirect($location, $status = 302) {
+	global $is_IIS;
+
 	$location = apply_filters('wp_redirect', $location, $status);
 	$status = apply_filters('wp_redirect_status', $status, $location);
 
@@ -884,8 +886,9 @@ function wp_redirect($location, $status = 302) {
 
 	$location = wp_sanitize_redirect($location);
 
-	if ( php_sapi_name() != 'cgi-fcgi' )
+	if ( !$is_IIS && php_sapi_name() != 'cgi-fcgi' )
 		status_header($status); // This causes problems on IIS and some FastCGI setups
+
 	header("Location: $location", true, $status);
 }
 endif;
