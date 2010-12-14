@@ -97,6 +97,8 @@ if ( isset($_POST['permalink_structure']) || isset($_POST['category_base']) ) {
 			$tag_base = $blog_prefix . preg_replace('#/+#', '/', '/' . str_replace( '#', '', $tag_base ) );
 		$wp_rewrite->set_tag_base( $tag_base );
 	}
+
+	create_initial_taxonomies();
 }
 
 $permalink_structure = get_option('permalink_structure');
