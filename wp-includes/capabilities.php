@@ -828,6 +828,9 @@ function map_meta_cap( $cap, $user_id ) {
 
 		if ( ! $post_type->map_meta_cap ) {
 			$caps[] = $post_type->cap->$cap;
+			// Prior to 3.1 we would re-call map_meta_cap here.
+			if ( $cap == 'delete_post' )
+				$cap = $post_type->cap->$cap;
 			break;
 		}
 
@@ -870,6 +873,9 @@ function map_meta_cap( $cap, $user_id ) {
 
 		if ( ! $post_type->map_meta_cap ) {
 			$caps[] = $post_type->cap->$cap;
+			// Prior to 3.1 we would re-call map_meta_cap here.
+			if ( $cap == 'edit_post' )
+				$cap = $post_type->cap->$cap;
 			break;
 		}
 
@@ -911,6 +917,9 @@ function map_meta_cap( $cap, $user_id ) {
 
 		if ( ! $post_type->map_meta_cap ) {
 			$caps[] = $post_type->cap->$cap;
+			// Prior to 3.1 we would re-call map_meta_cap here.
+			if ( $cap == 'read_post' )
+				$cap = $post_type->cap->$cap;
 			break;
 		}
 
