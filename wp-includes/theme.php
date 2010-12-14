@@ -1286,7 +1286,7 @@ function validate_current_theme() {
 		switch_theme( WP_DEFAULT_THEME, WP_DEFAULT_THEME );
 		return false;
 	}
-	
+
 	if ( is_child_theme() && ! file_exists( get_stylesheet_directory() . '/style.css' ) ) {
 		switch_theme( WP_DEFAULT_THEME, WP_DEFAULT_THEME );
 		return false;
