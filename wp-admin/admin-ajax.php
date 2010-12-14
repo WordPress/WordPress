@@ -664,7 +664,7 @@ case 'replyto-comment' :
 	$x = new WP_Ajax_Response();
 
 	ob_start();
-		if ( 'dashboard' == $mode ) {
+		if ( 'dashboard' == $_REQUEST['mode'] ) {
 			require_once( ABSPATH . 'wp-admin/includes/dashboard.php' );
 			_wp_dashboard_recent_comments_row( $comment );
 		} else {
