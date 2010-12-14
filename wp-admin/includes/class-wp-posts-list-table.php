@@ -518,7 +518,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 							$find_main_page = (int) $parent->post_parent;
 
 							if ( !isset( $parent_name ) )
-								$parent_name = $parent->post_title;
+								$parent_name = apply_filters( 'the_title', $parent->post_title, $parent->ID );
 						}
 					}
 
