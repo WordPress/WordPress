@@ -10,7 +10,7 @@
 		 */
 		init : function(ed, url) {
 			var disabled = true;
-			
+
 			// Register the command so that it can be invoked by using tinyMCE.activeEditor.execCommand('mceExample');
 			ed.addCommand('WP_Link', function() {
 				if ( disabled )
@@ -33,7 +33,7 @@
 			});
 
 			ed.addShortcut('alt+shift+a', ed.getLang('advanced.link_desc'), 'WP_Link');
-			
+
 			ed.onNodeChange.add(function(ed, cm, n, co) {
 				disabled = co && n.nodeName != 'A';
 			});
