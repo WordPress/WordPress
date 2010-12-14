@@ -210,10 +210,26 @@ setCommentsList = function() {
 
 		theList.get(0).wpList.add( theExtraList.children(':eq(0)').remove().clone() );
 
-		// Refill the extra list
-		var args = $.query.get();
-		args.number = 1;
-		args.paged++;
+		refillTheExtraList();
+	};
+	
+	var refillTheExtraList = function(ev) {
+		var args = $.query.get(), total_pages = listTable.get_total_pages(), per_page = $('input[name=_per_page]', '#comments-form').val();
+		
+		if (args.paged > total_pages) {
+			return;
+		}
+
+		if (ev) {
+			theExtraList.empty();
+			args.number = Math.min(8, per_page); // see WP_Comments_List_Table::prepare_items() @ class-wp-comments-list-table.php
+		} else {
+			args.number = 1;
+			args.offset = per_page - 1; // fetch only the last item of the next page
+		}
+		
+		args.paged ++;
+
 		listTable.fetch_list(args, function(response) {
 			theExtraList.get(0).wpList.add( response.rows );
 		});
@@ -227,6 +243,7 @@ setCommentsList = function() {
 			if ( s.target.className.indexOf(':trash=1') != -1 || s.target.className.indexOf(':spam=1') != -1 )
 				$('#undo-' + id).fadeIn(300, function(){ $(this).show() });
 		});
+	$(listTable).bind('changePage', refillTheExtraList);
 };
 
 commentReply = {

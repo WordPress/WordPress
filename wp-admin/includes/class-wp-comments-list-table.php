@@ -57,14 +57,22 @@ class WP_Comments_List_Table extends WP_List_Table {
 		$comments_per_page = $this->get_items_per_page( 'edit_comments_per_page' );
 		$comments_per_page = apply_filters( 'comments_per_page', $comments_per_page, $comment_status );
 
-		if ( isset( $_POST['number'] ) )
-			$number = (int) $_POST['number'];
-		else
+		$doing_ajax = defined( 'DOING_AJAX' ) && DOING_AJAX;
+
+		if ( isset( $_REQUEST['number'] ) ) {
+			$number = (int) $_REQUEST['number'];
+		}
+		else {
 			$number = $comments_per_page + min( 8, $comments_per_page ); // Grab a few extra
+		}
 
 		$page = $this->get_pagenum();
 
-		$start = $offset = ( $page - 1 ) * $comments_per_page;
+		$start = ( $page - 1 ) * $comments_per_page;
+		
+		if ( $doing_ajax && isset( $_REQUEST['offset'] ) ) {
+			$start += $_REQUEST['offset'];
+		}
 
 		$status_map = array(
 			'moderated' => 'hold',

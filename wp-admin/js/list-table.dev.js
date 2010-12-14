@@ -158,6 +158,8 @@ listTable.init();
 		listTable.update_rows({'paged': paged}, false, function() {
 			if ( $el.parents('.tablenav.bottom').length )
 				scrollTo(0, 0);
+				
+			$(listTable).trigger('changePage');
 		});
 	}
 
