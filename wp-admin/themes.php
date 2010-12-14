@@ -83,7 +83,7 @@ if ( !is_multisite() ) : ?>
 	<?php endif;
 else : ?>
 <h2>
-<?php esc_html_e( $title ); ?>
+<?php echo esc_html( $title ); ?>
 <?php endif; ?>
 </h2>
 

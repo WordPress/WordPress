@@ -360,7 +360,10 @@ if ( !empty($invalid) )
 
 <div class="wrap">
 <?php screen_icon(); ?>
-<h2><?php echo esc_html( $title ); if ( current_user_can('install_plugins') ) { ?> <a href="plugin-install.php" class="button add-new-h2"><?php echo esc_html_x('Add New', 'plugin'); ?></a><?php } ?></h2>
+<h2><?php echo esc_html( $title );
+if ( ( ! is_multisite() || is_network_admin() ) && current_user_can('install_plugins') ) { ?>
+<a href="<?php echo self_admin_url( 'plugin-install.php' ); ?>" class="button add-new-h2"><?php echo esc_html_x('Add New', 'plugin'); ?></a>
+<?php } ?></h2>
 
 <?php do_action( 'pre_current_active_plugins', $plugins['all'] ) ?>
 
