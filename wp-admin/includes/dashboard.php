@@ -755,7 +755,7 @@ function wp_dashboard_recent_comments_control() {
 		$widget_options['dashboard_recent_comments'] = array();
 
 	if ( 'POST' == $_SERVER['REQUEST_METHOD'] && isset($_POST['widget-recent-comments']) ) {
-		$number = absint( stripslashes($_POST['widget-recent-comments']['items']) );
+		$number = absint( $_POST['widget-recent-comments']['items'] );
 		$widget_options['dashboard_recent_comments']['items'] = $number;
 		update_option( 'dashboard_widget_options', $widget_options );
 	}
