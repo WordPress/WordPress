@@ -532,15 +532,15 @@ class Moxiecode_JSON {
 							$i += 2;
 							$output .= sprintf('\u%04s', bin2hex($this->_utf82utf16($char)));
 						} if (($byte & 0xF8) == 0xF0) {
-							$char = pack('C*', $byte, ord($input[$i + 1]), ord($input[$i + 2], ord($input[$i + 3])));
+							$char = pack('C*', $byte, ord($input[$i + 1]), ord($input[$i + 2]), ord($input[$i + 3]));
 							$i += 3;
 							$output .= sprintf('\u%04s', bin2hex($this->_utf82utf16($char)));
 						} if (($byte & 0xFC) == 0xF8) {
-							$char = pack('C*', $byte, ord($input[$i + 1]), ord($input[$i + 2], ord($input[$i + 3]), ord($input[$i + 4])));
+							$char = pack('C*', $byte, ord($input[$i + 1]), ord($input[$i + 2]), ord($input[$i + 3]), ord($input[$i + 4]));
 							$i += 4;
 							$output .= sprintf('\u%04s', bin2hex($this->_utf82utf16($char)));
 						} if (($byte & 0xFE) == 0xFC) {
-							$char = pack('C*', $byte, ord($input[$i + 1]), ord($input[$i + 2], ord($input[$i + 3]), ord($input[$i + 4]), ord($input[$i + 5])));
+							$char = pack('C*', $byte, ord($input[$i + 1]), ord($input[$i + 2]), ord($input[$i + 3]), ord($input[$i + 4]), ord($input[$i + 5]));
 							$i += 5;
 							$output .= sprintf('\u%04s', bin2hex($this->_utf82utf16($char)));
 						} else if ($byte < 128)
