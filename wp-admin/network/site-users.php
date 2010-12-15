@@ -218,8 +218,13 @@ endif; ?>
 <?php do_action( 'network_site_users_after_list_table', '' );?>
 
 <?php if ( current_user_can( 'promote_users' ) && apply_filters( 'show_network_site_users_add_existing_form', true ) ) : ?>
-<h3 id="add-existing-user"><?php _e('Add Existing User') ?></h3>
-<p><?php _e( 'Enter the username of an existing user on this network.' ) ?></p>
+<h4 id="add-user"><?php _e('Add User to This Site') ?></h4>
+	<?php if ( current_user_can( 'create_users' ) && apply_filters( 'show_network_site_users_add_new_form', true ) ) : ?>
+<p><?php _e( 'You may add from existing network users, or set up a new user to add to this site.' ); ?></p>
+	<?php else : ?>
+<p><?php _e( 'You may add from existing network users to this site.' ); ?></p>
+	<?php endif; ?>
+<h5 id="add-existing-user"><?php _e('Add Existing User') ?></h5>
 <form action="site-users.php?action=adduser" id="adduser" method="post">
 	<?php wp_nonce_field( 'edit-site' ); ?>
 	<input type="hidden" name="id" value="<?php echo esc_attr( $id ) ?>" />
@@ -247,9 +252,8 @@ endif; ?>
 </form>
 <?php endif; ?>
 
-<?php if (  current_user_can( 'create_users' ) && apply_filters( 'show_network_site_users_add_new_form', true ) ) : ?>
-<h3 id="add-new-user"><?php _e('Create New User') ?></h3>
-<p><?php _e( 'Create a brand new user and add it to this site.' ) ?></p>
+<?php if ( current_user_can( 'create_users' ) && apply_filters( 'show_network_site_users_add_new_form', true ) ) : ?>
+<h5 id="add-new-user"><?php _e('Add New User') ?></h5>
 <form action="<?php echo network_admin_url('site-users.php?action=newuser'); ?>" id="newuser" method="post">
 	<?php wp_nonce_field( 'edit-site' ); ?>
 	<input type="hidden" name="id" value="<?php echo esc_attr( $id ) ?>" />
@@ -280,7 +284,7 @@ endif; ?>
 		</tr>
 	</table>
 	<?php wp_nonce_field( 'add-user', '_wpnonce_add-user' ) ?>
-	<?php submit_button( __('Add User'), 'primary', 'add-user' ); ?>
+	<?php submit_button( __('Add New User'), 'primary', 'add-user' ); ?>
 </form>
 </div>
 <?php endif; ?>
