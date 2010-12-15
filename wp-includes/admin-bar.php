@@ -53,7 +53,7 @@ function wp_admin_bar_render() {
 
 	$wp_admin_bar->load_user_locale_translations();
 
-	do_action( 'admin_bar_menu' );
+	do_action_ref_array( 'admin_bar_menu', array( &$wp_admin_bar ) );
 
 	do_action( 'wp_before_admin_bar_render' );
 
