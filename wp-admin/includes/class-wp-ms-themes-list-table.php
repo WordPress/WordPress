@@ -37,13 +37,11 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	}
 
 	function check_permissions() {
-		if ( is_multisite() ) {
-			$menu_perms = get_site_option( 'menu_items', array() );
+		$menu_perms = get_site_option( 'menu_items', array() );
 
-			if ( empty( $menu_perms['themes'] ) ) {
-				if ( !is_super_admin() )
-					wp_die( __( 'Cheatin&#8217; uh?' ) );
-			}
+		if ( empty( $menu_perms['themes'] ) ) {
+			if ( !is_super_admin() )
+				wp_die( __( 'Cheatin&#8217; uh?' ) );
 		}
 
 		if ( $this->is_site_themes && !current_user_can('manage_sites') )
