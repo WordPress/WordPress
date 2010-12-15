@@ -9,9 +9,6 @@
 class WP_MS_Users_List_Table extends WP_List_Table {
 
 	function check_permissions() {
-		if ( !is_multisite() )
-			wp_die( __( 'Multisite support is not enabled.' ) );
-
 		if ( ! current_user_can( 'manage_network_users' ) )
 			wp_die( __( 'You do not have permission to access this page.' ) );
 	}
