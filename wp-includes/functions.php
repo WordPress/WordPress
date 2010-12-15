@@ -3264,9 +3264,9 @@ function atom_service_url_filter($url)
  * to get the backtrace up to what file and function called the deprecated
  * function.
  *
- * The current behavior is to trigger an user error if WP_DEBUG is true.
+ * The current behavior is to trigger a user error if WP_DEBUG is true.
  *
- * This function is to be used in every function in depreceated.php
+ * This function is to be used in every function that is deprecated.
  *
  * @package WordPress
  * @subpackage Debug
@@ -3302,9 +3302,9 @@ function _deprecated_function( $function, $version, $replacement=null ) {
  * to get the backtrace up to what file and function included the deprecated
  * file.
  *
- * The current behavior is to trigger an user error if WP_DEBUG is true.
+ * The current behavior is to trigger a user error if WP_DEBUG is true.
  *
- * This function is to be used in every file that is depreceated
+ * This function is to be used in every file that is deprecated.
  *
  * @package WordPress
  * @subpackage Debug
@@ -3350,7 +3350,7 @@ function _deprecated_file( $file, $version, $replacement = null, $message = '' )
  * to get the backtrace up to what file and function used the deprecated
  * argument.
  *
- * The current behavior is to trigger an user error if WP_DEBUG is true.
+ * The current behavior is to trigger a user error if WP_DEBUG is true.
  *
  * @package WordPress
  * @subpackage Debug
@@ -3386,7 +3386,7 @@ function _deprecated_argument( $function, $version, $message = null ) {
  * to get the backtrace up to what file and function called the deprecated
  * function.
  *
- * The current behavior is to trigger an user error if WP_DEBUG is true.
+ * The current behavior is to trigger a user error if WP_DEBUG is true.
  *
  * @package WordPress
  * @subpackage Debug
