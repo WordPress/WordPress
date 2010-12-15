@@ -4482,8 +4482,8 @@ function _doing_it_wrong( $function, $message, $version = null ) {
 	// Allow plugin to filter the output error trigger
 	if ( WP_DEBUG && apply_filters( 'doing_it_wrong_trigger_error', true ) ) {
 		if ( is_null( $version ) )
-			trigger_error( sprintf( __('%1$s was called with an argument that is <strong>incorrect</strong> - %2$s'), $function, $message ) );
+			trigger_error( sprintf( __('%1$s was called <strong>incorrectly</strong> - %2$s'), $function, $message ) );
 		else
-			trigger_error( sprintf( __('%1$s was called with an argument that is <strong>incorrect</strong> since version %2$s - %3$s'), $function, $version, $message ) );
+			trigger_error( sprintf( __('%1$s was called in a way which has been <strong>incorrect</strong> since version %2$s - %3$s'), $function, $version, $message ) );
 	}
 }
