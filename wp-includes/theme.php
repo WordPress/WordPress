@@ -1256,6 +1256,10 @@ function switch_theme($template, $stylesheet) {
 	}
 	delete_option('current_theme');
 	$theme = get_current_theme();
+	if ( is_admin() && false === get_option( "theme_mods_$stylesheet" ) ) {
+		$default_theme_mods = (array) get_option( "mods_$theme" );
+		add_option( "theme_mods_$stylesheet", $default_theme_mods );
+	}
 	do_action('switch_theme', $theme);
 }
 
