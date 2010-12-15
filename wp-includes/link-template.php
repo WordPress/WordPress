@@ -950,7 +950,7 @@ function edit_post_link( $link = null, $before = '', $after = '', $id = 0 ) {
  */
 function get_delete_post_link( $id = 0, $deprecated = '', $force_delete = false ) {
 	if ( ! empty( $deprecated ) )
-		_deprecated_argument( __FUNCTION__, '3.0.0' );
+		_deprecated_argument( __FUNCTION__, '3.0' );
 
 	if ( !$post = &get_post( $id ) )
 		return;

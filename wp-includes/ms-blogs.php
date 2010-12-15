@@ -423,7 +423,7 @@ function update_blog_option( $id, $key, $value, $deprecated = null ) {
 	$id = (int) $id;
 
 	if ( null !== $deprecated  )
-		_deprecated_argument( __FUNCTION__, '3.1.0' );
+		_deprecated_argument( __FUNCTION__, '3.1' );
 
 	switch_to_blog($id);
 	update_option( $key, $value );
@@ -619,7 +619,7 @@ function update_blog_status( $blog_id, $pref, $value, $deprecated = null ) {
 	global $wpdb;
 
 	if ( null !== $deprecated  )
-		_deprecated_argument( __FUNCTION__, '3.1.0' );
+		_deprecated_argument( __FUNCTION__, '3.1' );
 
 	if ( !in_array( $pref, array( 'site_id', 'domain', 'path', 'registered', 'last_updated', 'public', 'archived', 'mature', 'spam', 'deleted', 'lang_id') ) )
 		return $value;
