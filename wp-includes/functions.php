@@ -4461,7 +4461,7 @@ function show_admin_bar( $show ) {
  * function.
  *
  * The current behavior is to trigger an user error if WP_DEBUG is true.
- * *
+ *
  * @package WordPress
  * @subpackage Debug
  * @since 3.1.0
