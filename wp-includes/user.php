@@ -410,9 +410,9 @@ class WP_User_Query {
 		$this->query_where = " WHERE 1=1";
 
 		// sorting
-		if ( in_array( $qv['orderby'], array('email', 'url', 'registered') ) ) {
+		if ( in_array( $qv['orderby'], array('nicename', 'email', 'url', 'registered') ) ) {
 			$orderby = 'user_' . $qv['orderby'];
-		} elseif ( in_array( $qv['orderby'], array('user_email', 'user_url', 'user_registered') ) ) {
+		} elseif ( in_array( $qv['orderby'], array('user_nicename', 'user_email', 'user_url', 'user_registered') ) ) {
 			$orderby = $qv['orderby'];
 		} elseif ( 'name' == $qv['orderby'] || 'display_name' == $qv['orderby'] ) {
 			$orderby = 'display_name';
@@ -426,7 +426,7 @@ class WP_User_Query {
 			) p ON ({$wpdb->users}.ID = p.post_author)
 			";
 			$orderby = 'post_count';
-		} elseif ( 'id' == $qv['orderby'] ) {
+		} elseif ( 'ID' == $qv['orderby'] || 'id' == $qv['orderby'] ) {
 			$orderby = 'ID';
 		} else {
 			$orderby = 'user_login';
