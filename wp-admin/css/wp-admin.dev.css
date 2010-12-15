@@ -4135,7 +4135,7 @@ table .column-rating {
 }
 
 /* Scrollbar fix for bulk upgrade iframe */
-body.update-php {
+body.iframe {
 	height: 98%;
 }
 
