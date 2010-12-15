@@ -1629,7 +1629,7 @@ function _post_states($post) {
 		$post_states[] = _x('Pending', 'post state');
 	if ( is_sticky($post->ID) )
 		$post_states[] = __('Sticky');
-	if ( current_theme_supports('post-formats') && get_post_format( $post->ID ) )
+	if ( get_post_format( $post->ID ) )
 		$post_states[] = '<span>[</span>' . get_post_format_string( get_post_format( $post->ID ) ) . '<span>]</span>';
 
 	$post_states = apply_filters( 'display_post_states', $post_states );
