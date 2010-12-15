@@ -173,7 +173,7 @@ div.postbox div.inside {
 
 #dashboard_right_now .versions {
 	padding: 6px 10px 12px;
-	clear: left;
+	clear: both;
 }
 
 #dashboard_right_now .versions .b {
