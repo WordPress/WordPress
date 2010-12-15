@@ -62,6 +62,7 @@
 	color: #333;
 	padding: 4px 6px;
 	cursor: pointer;
+	position: relative;
 }
 #wp-link li:hover {
 	background: #eaf2fa;
@@ -82,14 +83,24 @@
 #wp-link li.selected .item-title {
 	font-weight: bold;
 }
+#wp-link .item-title {
+	width: 80%;
+}
 #wp-link .item-info {
 	text-transform: uppercase;
 	color: #666;
 	font-size: 11px;
-	float: right;
+	position: absolute;
+	right: 5px;
+	top: 4px;
+	bottom: 0;
 }
 #search-results {
 	display: none;
+}
+#search-panel {
+	float: left;
+	width: 100%;
 }
 #wp-link .river-waiting {
 	display: none;

@@ -253,6 +253,8 @@ var wpLink;
 				win = $(window);
 			
 			$(this).toggleClass('toggle-arrow-active', visible);
+			
+			inputs.dialog.height('auto');
 			panel.slideToggle( 300, function() {
 				setUserSetting('wplink', visible ? '1' : '0');
 				inputs[ visible ? 'search' : 'url' ].focus();
