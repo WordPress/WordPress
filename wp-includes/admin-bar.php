@@ -89,7 +89,7 @@ function wp_admin_bar_my_account_menu() {
 			$wp_admin_bar->add_menu( array( 'parent' => $id, 'title' => __( 'Dashboard' ), 'href' => get_dashboard_url( $user_id ), ) );
 		else
 			$wp_admin_bar->add_menu( array( 'parent' => $id, 'title' => __( 'Dashboard' ), 'href' => admin_url(), ) );
-		$wp_admin_bar->add_menu( array( 'parent' => 'my-account', 'title' => __( 'Log Out' ), 'href' => wp_logout_url(), ) );
+		$wp_admin_bar->add_menu( array( 'parent' => $id, 'title' => __( 'Log Out' ), 'href' => wp_logout_url(), ) );
 	}
 }
 
