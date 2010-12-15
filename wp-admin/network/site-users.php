@@ -43,6 +43,7 @@ if ( ! empty($wp_roles->use_db) ) {
 	// Roles are stored in memory, not the DB.
 	$editblog_roles = $wp_roles->roles;
 }
+$default_role = get_blog_option( $id, 'default_role' );
 
 $action = $wp_list_table->current_action();
 
@@ -237,7 +238,6 @@ endif; ?>
 			<th scope="row"><?php _e( 'Role'); ?></th>
 			<td><select name="new_role" id="new_role_0">
 			<?php
-			$default_role = $wpdb->get_var( "SELECT `option_value` FROM {$blog_prefix}options WHERE option_name = 'default_role'" );
 			reset( $editblog_roles );
 			foreach ( $editblog_roles as $role => $role_assoc ){
 				$name = translate_user_role( $role_assoc['name'] );
@@ -286,7 +286,7 @@ endif; ?>
 	<?php wp_nonce_field( 'add-user', '_wpnonce_add-user' ) ?>
 	<?php submit_button( __('Add New User'), 'primary', 'add-user' ); ?>
 </form>
-</div>
 <?php endif; ?>
+</div>
 <?php
 require('../admin-footer.php');
