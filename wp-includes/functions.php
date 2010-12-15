@@ -3380,6 +3380,39 @@ function _deprecated_argument( $function, $version, $message = null ) {
 }
 
 /**
+ * Marks something as being incorrectly called.
+ *
+ * There is a hook doing_it_wrong_run that will be called that can be used
+ * to get the backtrace up to what file and function called the deprecated
+ * function.
+ *
+ * The current behavior is to trigger an user error if WP_DEBUG is true.
+ *
+ * @package WordPress
+ * @subpackage Debug
+ * @since 3.1.0
+ * @access private
+ *
+ * @uses do_action() Calls 'doing_it_wrong_run' and passes the function arguments.
+ * @uses apply_filters() Calls 'doing_it_wrong_trigger_error' and expects boolean value of true to do
+ *   trigger or false to not trigger error.
+ *
+ * @param string $function The function that was called.
+ * @param string $message A message explaining what has been done incorrectly.
+ * @param string $version The version of WordPress where the message was added.
+ */
+function _doing_it_wrong( $function, $message, $version ) {
+
+	do_action( 'doing_it_wrong_run', $function, $message, $version );
+
+	// Allow plugin to filter the output error trigger
+	if ( WP_DEBUG && apply_filters( 'doing_it_wrong_trigger_error', true ) ) {
+		$version = is_null( $version ) ? '' : sprintf( __( '(This message was added in version %s.)' ), $version );
+		trigger_error( sprintf( __( '%1$s was called <strong>incorrectly</strong>. %2$s %3$s' ), $function, $message, $version ) );
+	}
+}
+
+/**
  * Is the server running earlier than 1.5.0 version of lighttpd
  *
  * @since 2.5.0
@@ -4453,37 +4486,4 @@ function show_admin_bar( $show ) {
 	$show_admin_bar = (bool) $show;
 }
 
-/**
- * Marks something as being incorrectly called.
- *
- * There is a hook doing_it_wrong_run that will be called that can be used
- * to get the backtrace up to what file and function called the deprecated
- * function.
- *
- * The current behavior is to trigger an user error if WP_DEBUG is true.
- *
- * @package WordPress
- * @subpackage Debug
- * @since 3.1.0
- * @access private
- *
- * @uses do_action() Calls 'doing_it_wrong_run' and passes the function arguments.
- * @uses apply_filters() Calls 'doing_it_wrong_trigger_error' and expects boolean value of true to do
- *   trigger or false to not trigger error.
- *
- * @param string $function The function that was called
- * @param string $message Optional. The function that should have been called
- * @param string $version Optional. The version of WordPress that deprecated the function
- */
-function _doing_it_wrong( $function, $message, $version = null ) {
-
-	do_action( 'doing_it_wrong_run', $function, $message, $version );
-
-	// Allow plugin to filter the output error trigger
-	if ( WP_DEBUG && apply_filters( 'doing_it_wrong_trigger_error', true ) ) {
-		if ( is_null( $version ) )
-			trigger_error( sprintf( __('%1$s was called <strong>incorrectly</strong> - %2$s'), $function, $message ) );
-		else
-			trigger_error( sprintf( __('%1$s was called in a way which has been <strong>incorrect</strong> since version %2$s - %3$s'), $function, $version, $message ) );
-	}
-}
+?>
