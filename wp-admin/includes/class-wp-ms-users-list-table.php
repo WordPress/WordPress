@@ -190,7 +190,6 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 
 								echo $this->row_actions( $actions );
 							?>
-							</div>
 						</td>
 					<?php
 					break;
@@ -248,7 +247,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 										( $i == $action_count ) ? $sep = '' : $sep = ' | ';
 										echo "<span class='$action'>$link$sep</span>";
 									}
-									echo '</span></small><br/>';
+									echo '</small></span><br/>';
 								}
 							}
 							?>
