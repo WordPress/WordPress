@@ -1387,7 +1387,7 @@ function add_new_user_to_blog( $user_id, $email, $meta ) {
 	if ( $meta[ 'add_to_blog' ] ) {
 		$blog_id = $meta[ 'add_to_blog' ];
 		$role = $meta[ 'new_role' ];
-		remove_user_from_blog($user_id, $current_site->blogid); // remove user from main blog.
+		remove_user_from_blog($user_id, $current_site->blog_id); // remove user from main blog.
 		add_user_to_blog( $blog_id, $user_id, $role );
 		update_user_meta( $user_id, 'primary_blog', $blog_id );
 	}
