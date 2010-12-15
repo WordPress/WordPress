@@ -254,12 +254,21 @@ listTable.init();
 			if ( $('h2.nav-tab-wrapper').length )
 				return;
 
-			$('h2 .subtitle').remove();
+			if ( 'site-users-network' == pagenow || 'site-themes-network' == pagenow ) { 
+				$('h4.search-text').remove();
 
-			if ( data.s )
-				$('h2').append($('<span class="subtitle">').html(
-					listTableL10n.search.replace('%s', this.htmlencode(data.s))
-				));
+				if ( data.s )
+					$('ul.subsubsub').after($('<h4 class="clear search-text">').html( 
+						listTableL10n.search.replace('%s', this.htmlencode(data.s)) 
+					));
+			} else { 
+				$('h2 .subtitle').remove();
+
+				if ( data.s ) 
+					$('h2').append($('<span class="subtitle">').html( 
+						listTableL10n.search.replace('%s', this.htmlencode(data.s)) 
+					)); 
+			}
 		});
 	}
 	$('.search-box :submit').click(change_search);
