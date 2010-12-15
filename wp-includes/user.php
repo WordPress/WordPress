@@ -351,7 +351,8 @@ class WP_User_Query {
 	 */
 	var $total_users = 0;
 
-	// SQL pieces
+	// SQL clauses
+	var $query_fields;
 	var $query_from;
 	var $query_where;
 	var $query_orderby;
@@ -406,8 +407,19 @@ class WP_User_Query {
 
 		$qv = &$this->query_vars;
 
-		$this->query_from = " FROM $wpdb->users";
-		$this->query_where = " WHERE 1=1";
+		if ( is_array( $qv['fields'] ) ) {
+			$qv['fields'] = array_unique( $qv['fields'] );
+
+			$this->query_fields = array();
+			foreach ( $qv['fields'] as $field )
+				$this->query_fields[] = $wpdb->users . '.' . esc_sql( $field );
+			$this->query_fields = implode( ',', $this->query_fields );
+		} else {
+			$this->query_fields = "$wpdb->users.ID";
+		}
+
+		$this->query_from = "FROM $wpdb->users";
+		$this->query_where = "WHERE 1=1";
 
 		// sorting
 		if ( in_array( $qv['orderby'], array('nicename', 'email', 'url', 'registered') ) ) {
@@ -437,14 +449,14 @@ class WP_User_Query {
 			$order = 'ASC';
 		else
 			$order = 'DESC';
-		$this->query_orderby = " ORDER BY $orderby $order";
+		$this->query_orderby = "ORDER BY $orderby $order";
 
 		// limit
 		if ( $qv['number'] ) {
 			if ( $qv['offset'] )
-				$this->query_limit = $wpdb->prepare(" LIMIT %d, %d", $qv['offset'], $qv['number']);
+				$this->query_limit = $wpdb->prepare("LIMIT %d, %d", $qv['offset'], $qv['number']);
 			else
-				$this->query_limit = $wpdb->prepare(" LIMIT %d", $qv['number']);
+				$this->query_limit = $wpdb->prepare("LIMIT %d", $qv['number']);
 		}
 
 		$search = trim( $qv['search'] );
@@ -510,13 +522,17 @@ class WP_User_Query {
 	function query() {
 		global $wpdb;
 
-		$this->results = $wpdb->get_col("SELECT $wpdb->users.ID" . $this->query_from . $this->query_where . $this->query_orderby . $this->query_limit);
+		if ( is_array( $this->query_vars['fields'] ) ) {
+			$this->results = $wpdb->get_results("SELECT $this->query_fields $this->query_from $this->query_where $this->query_orderby $this->query_limit");
+		} else {
+			$this->results = $wpdb->get_col("SELECT $this->query_fields $this->query_from $this->query_where $this->query_orderby $this->query_limit");
+		}
 
 		if ( !$this->results )
 			return;
 
 		if ( $this->query_vars['count_total'] )
-			$this->total_users = $wpdb->get_var("SELECT COUNT($wpdb->users.ID)" . $this->query_from . $this->query_where);
+			$this->total_users = $wpdb->get_var("SELECT COUNT($wpdb->users.ID) $this->query_from $this->query_where $this->query_orderby $this->query_limit");
 
 		if ( 'all' == $this->query_vars['fields'] ) {
 			cache_users($this->results);
@@ -967,7 +983,10 @@ function wp_dropdown_users( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	$users = get_users( wp_array_slice_assoc( $r, array( 'blog_id', 'include', 'exclude', 'orderby', 'order' ) ) );
+	$query_args = wp_array_slice_assoc( $r, array( 'blog_id', 'include', 'exclude', 'orderby', 'order' ) );
+	$query_args['fields'] = array( 'ID', $show );
+
+	$users = get_users( $query_args );
 
 	$output = '';
 	if ( !empty($users) ) {
