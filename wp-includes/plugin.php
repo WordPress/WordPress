@@ -660,7 +660,7 @@ function register_deactivation_hook($file, $function) {
  */
 function register_uninstall_hook( $file, $callback ) {
 	if ( is_array( $callback ) && is_object( $callback[0] ) ) {
-		_deprecated_argument( __FUNCTION__, '3.1', __( 'Only a static class method or function can be used in an uninstall hook.' ) );
+		_doing_it_wrong( __FUNCTION__, __( 'Only a static class method or function can be used in an uninstall hook.' ) );
 		return;
 	}
 
