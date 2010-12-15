@@ -34,9 +34,6 @@
 #dashboard_right_now .table_discussion {
 	float:left;
 }
-#dashboard_right_now .versions {
-	clear:right;
-}
 #dashboard_right_now .versions a {
 	font-family: Tahoma, Arial;
 }
