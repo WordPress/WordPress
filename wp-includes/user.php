@@ -412,6 +412,8 @@ class WP_User_Query {
 		// sorting
 		if ( in_array( $qv['orderby'], array('email', 'url', 'registered') ) ) {
 			$orderby = 'user_' . $qv['orderby'];
+		} elseif ( in_array( $qv['orderby'], array('user_email', 'user_url', 'user_registered') ) ) {
+			$orderby = $qv['orderby'];
 		} elseif ( 'name' == $qv['orderby'] || 'display_name' == $qv['orderby'] ) {
 			$orderby = 'display_name';
 		} elseif ( 'post_count' == $qv['orderby'] ) {

@@ -352,7 +352,7 @@ function update_meta_cache($meta_type, $object_ids) {
 	return $cache;
 }
 
-/*
+/**
  * Given a meta query, generates SQL clauses to be appended to a main query
  *
  * @since 3.1.0
