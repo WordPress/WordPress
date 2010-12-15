@@ -258,6 +258,9 @@ function post_format_meta_box( $post, $box ) {
 		<?php foreach ( $post_formats[0] as $format ) : ?>
 		<br /><input type="radio" name="post_format" class="post-format" id="post-format-<?php echo esc_attr( $format ); ?>" value="<?php echo esc_attr( $format ); ?>" <?php checked( $post_format, $format ); ?> /> <label for="post-format-<?php echo esc_attr( $format ); ?>"><?php echo esc_html( get_post_format_string( $format ) ); ?></label>
 		<?php endforeach; ?><br />
+		<?php if ( 'post' == $post->post_type ) : ?>
+		<p class="howto"><?php _e( 'Need help? Use the Help tab in the upper right of your screen.' ); ?></p>
+		<?php endif; ?>
 	</div>
 	<?php endif; endif;
 }
