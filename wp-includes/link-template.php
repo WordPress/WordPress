@@ -1054,42 +1054,42 @@ function edit_bookmark_link( $link = '', $before = '', $after = '', $bookmark = 
 // Navigation links
 
 /**
- * Retrieve previous post link that is adjacent to current post.
+ * Retrieve previous post that is adjacent to current post.
  *
  * @since 1.5.0
  *
- * @param bool $in_same_cat Optional. Whether link should be in same category.
+ * @param bool $in_same_cat Optional. Whether post should be in same category.
  * @param string $excluded_categories Optional. Excluded categories IDs.
- * @return string
+ * @return mixed Post object if successful. Null if global $post is not set. Empty string if no corresponding post exists.
  */
 function get_previous_post($in_same_cat = false, $excluded_categories = '') {
 	return get_adjacent_post($in_same_cat, $excluded_categories);
 }
 
 /**
- * Retrieve next post link that is adjacent to current post.
+ * Retrieve next post that is adjacent to current post.
  *
  * @since 1.5.0
  *
- * @param bool $in_same_cat Optional. Whether link should be in same category.
+ * @param bool $in_same_cat Optional. Whether post should be in same category.
  * @param string $excluded_categories Optional. Excluded categories IDs.
- * @return string
+ * @return mixed Post object if successful. Null if global $post is not set. Empty string if no corresponding post exists.
  */
 function get_next_post($in_same_cat = false, $excluded_categories = '') {
 	return get_adjacent_post($in_same_cat, $excluded_categories, false);
 }
 
 /**
- * Retrieve adjacent post link.
+ * Retrieve adjacent post.
  *
- * Can either be next or previous post link.
+ * Can either be next or previous post.
  *
  * @since 2.5.0
  *
- * @param bool $in_same_cat Optional. Whether link should be in same category.
+ * @param bool $in_same_cat Optional. Whether post should be in same category.
  * @param string $excluded_categories Optional. Excluded categories IDs.
  * @param bool $previous Optional. Whether to retrieve previous post.
- * @return string
+ * @return mixed Post object if successful. Null if global $post is not set. Empty string if no corresponding post exists.
  */
 function get_adjacent_post($in_same_cat = false, $excluded_categories = '', $previous = true) {
 	global $post, $wpdb;
