@@ -747,7 +747,17 @@ form.upgrade .hint {
 	list-style-type: disc;
 	margin-left: 18px;
 }
-
+.toggle-arrow {
+	background-repeat: no-repeat;
+	background-position: top left;
+	background-color: transparent;
+	height: 22px;
+	line-height: 22px;
+	display: block;
+}
+.toggle-arrow-active {
+	background-position: bottom left;
+}
 #screen-meta a.show-settings {
 	text-decoration: none;
 	z-index: 1;

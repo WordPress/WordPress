@@ -1524,7 +1524,8 @@ fieldset.inline-edit-col-right .inline-edit-col {
 	background: #D1E5ee;
 }
 
-#screen-meta a.show-settings {
+#screen-meta a.show-settings,
+.toggle-arrow {
 	background-image:url("../images/screen-options-toggle-vs.gif?ver=20100531");
 }
 

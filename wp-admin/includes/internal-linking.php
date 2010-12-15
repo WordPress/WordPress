@@ -84,9 +84,10 @@ function wp_link_dialog() {
 			<label for="link-target-checkbox"><input type="checkbox" id="link-target-checkbox" tabindex="30" /> <?php _e( 'Open link in a new window/tab' ); ?></label>
 		</div>
 	</div>
-	<div id="search-panel">
+	<?php $show_internal = '1' == get_user_setting( 'wplink', '0' ); ?>
+	<p class="howto" id="internal-toggle"><a href="#" class="toggle-arrow <?php if ( $show_internal ) echo 'toggle-arrow-active'; ?>"><?php _e( 'Link to Content on this Site' ); ?></a></p>
+	<div id="search-panel"<?php if ( ! $show_internal ) echo ' style="display:none"'; ?>>
 		<div class="link-search-wrapper">
-			<p class="howto"><?php _e( 'Or, link to existing site content:' ); ?></p>
 			<label for="search-field">
 				<span><?php _e( 'Search' ); ?></span>
 				<input type="text" id="search-field" class="link-search-field" tabindex="60" autocomplete="off" />

@@ -1,10 +1,16 @@
-#wp-link p.howto {
-	margin: 3px;
-}
-#link-options {
+#wp-link #link-options {
 	padding: 10px 0 14px;
 	border-bottom: 1px solid #dfdfdf;
 	margin: 0 6px 14px;
+}
+#wp-link p.howto {
+	margin: 3px;
+}
+#wp-link #internal-toggle {
+	margin: 0 5px;
+}
+#wp-link #internal-toggle a {
+	padding-left: 18px;
 }
 #wp-link label input[type="text"] {
 	width: 360px;
@@ -17,7 +23,7 @@
 	padding-right: 5px;
 }
 #wp-link .link-search-wrapper {
-	margin: 5px 5px 9px;
+	margin: 5px 6px 9px;
 	display: block;
 	overflow: hidden;
 }

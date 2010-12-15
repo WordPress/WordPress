@@ -32,6 +32,7 @@ var wpLink;
 				e.preventDefault();
 			});
 			$('#wp-link-cancel').click( wpLink.cancel );
+			$('#internal-toggle a').click( wpLink.toggleInternalLinking );
 
 			rivers.elements.bind('river-select', wpLink.updateFields );
 
@@ -242,6 +243,33 @@ var wpLink;
 				funcContext = this;
 				funcTriggered = true;
 			};
+		},
+
+		toggleInternalLinking : function( event ) {
+			var panel = $('#search-panel'),
+				widget = inputs.dialog.wpdialog('widget'),
+				// We're about to toggle visibility; it's currently the opposite
+				visible = !panel.is(':visible'),
+				win = $(window);
+			
+			$(this).toggleClass('toggle-arrow-active', visible);
+			panel.slideToggle( 300, function() {
+				setUserSetting('wplink', visible ? '1' : '0');
+				inputs[ visible ? 'search' : 'url' ].focus();
+				
+				// Move the box if the box is now expanded, was opened in a collapsed state,
+				// and if it needs to be moved. (Judged by bottom not being positive or
+				// bottom being smaller than top.)
+				var scroll = win.scrollTop(),
+					top = widget.offset().top,
+					bottom = top + widget.outerHeight(),
+					diff = bottom - win.height();
+				
+				if ( diff > scroll ) {
+					widget.animate({'top': diff < top ?  top - diff : scroll }, 200);
+				}
+			});
+			event.preventDefault();
 		}
 	}
 

@@ -1517,7 +1517,8 @@ fieldset.inline-edit-col-right .inline-edit-col {
 	text-decoration: underline;
 }
 
-#screen-meta a.show-settings {
+#screen-meta a.show-settings,
+.toggle-arrow {
 	background-image:url("../images/screen-options-toggle.gif?ver=20100531");
 }
 
