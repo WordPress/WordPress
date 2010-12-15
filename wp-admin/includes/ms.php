@@ -719,6 +719,7 @@ function revoke_super_admin( $user_id ) {
 	}
 	return false;
 }
+
 /**
  * Whether or not we can edit this network from this page
  *
@@ -737,4 +738,22 @@ function can_edit_network( $site_id ) {
 
 	return apply_filters( 'can_edit_network', $result, $site_id );
 }
+
+/**
+ * Thickbox image paths for Network Admin.
+ *
+ * @since 3.1.0
+ * @access private
+ */
+function _thickbox_path_admin_subfolder() {
+?>
+<script type="text/javascript">
+//<![CDATA[
+var tb_pathToImage = "../../wp-includes/js/thickbox/loadingAnimation.gif";
+var tb_closeImage = "../../wp-includes/js/thickbox/tb-close.png";
+//]]>
+</script>
+<?
+}
+
 ?>
