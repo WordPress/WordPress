@@ -753,7 +753,7 @@ var tb_pathToImage = "../../wp-includes/js/thickbox/loadingAnimation.gif";
 var tb_closeImage = "../../wp-includes/js/thickbox/tb-close.png";
 //]]>
 </script>
-<?
+<?php
 }
 
 ?>
