@@ -770,11 +770,15 @@ function wpmu_activate_signup($key) {
 
 	$signup = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->signups WHERE activation_key = %s", $key) );
 
-	if ( empty($signup) )
-		return new WP_Error('invalid_key', __('Invalid activation key.'));
+	if ( empty( $signup ) )
+		return new WP_Error( 'invalid_key', __( 'Invalid activation key.' ) );
 
-	if ( $signup->active )
-		return new WP_Error('already_active', __('The site is already active.'), $signup);
+	if ( $signup->active ) {
+		if ( empty( $signup->domain ) )
+			return new WP_Error( 'already_active', __( 'The user is already active.' ), $signup );
+		else
+			return new WP_Error( 'already_active', __( 'The site is already active.' ), $signup );
+	}
 
 	$meta = unserialize($signup->meta);
 	$user_login = $wpdb->escape($signup->user_login);
