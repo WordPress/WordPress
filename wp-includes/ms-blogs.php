@@ -30,11 +30,15 @@ function wpmu_update_blogs_date() {
  * @since MU
  *
  * @param int $blog_id Blog ID
+ * @param  string $scheme Optional. Scheme to give the URL. Currently 'http', 'https'
  * @return string
  */
-function get_blogaddress_by_id( $blog_id ) {
+function get_blogaddress_by_id( $blog_id, $scheme = null ) {
+	if ( ! in_array( $scheme, array( 'http', 'https' ) ) )
+		$scheme = is_ssl() ? 'https' : 'http';
+
 	$bloginfo = get_blog_details( (int) $blog_id, false ); // only get bare details!
-	return esc_url( 'http://' . $bloginfo->domain . $bloginfo->path );
+	return esc_url( "$scheme://" . $bloginfo->domain . $bloginfo->path );
 }
 
 /**
@@ -67,20 +71,24 @@ function get_blogaddress_by_name( $blogname ) {
  *
  * @param string $domain
  * @param string $path
+ * @param  string $scheme Optional. Scheme to give the URL. Currently 'http', 'https'
  * @return string
  */
-function get_blogaddress_by_domain( $domain, $path ) {
+function get_blogaddress_by_domain( $domain, $path, $scheme = null ) {
+	if ( ! in_array( $scheme, array( 'http', 'https' ) ) )
+		$scheme = is_ssl() ? 'https' : 'http';
+
 	if ( is_subdomain_install() ) {
-		$url = "http://".$domain.$path;
+		$url = "$scheme://" . $domain.$path;
 	} else {
 		if ( $domain != $_SERVER['HTTP_HOST'] ) {
 			$blogname = substr( $domain, 0, strpos( $domain, '.' ) );
-			$url = 'http://' . substr( $domain, strpos( $domain, '.' ) + 1 ) . $path;
+			$url = "$scheme://" . substr( $domain, strpos( $domain, '.' ) + 1 ) . $path;
 			// we're not installing the main blog
 			if ( $blogname != 'www.' )
 				$url .= $blogname . '/';
 		} else { // main blog
-			$url = 'http://' . $domain . $path;
+			$url = "$scheme://" . $domain . $path;
 		}
 	}
 	return esc_url( $url );
