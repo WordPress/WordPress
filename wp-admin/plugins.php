@@ -222,7 +222,7 @@ if ( $action ) {
 							// Get plugins list from that folder
 							if ( $plugins['folder'] = get_plugins( '/' . dirname($plugin)) ) {
 								foreach( $plugins['folder'] as $plugin_file => $data ) {
-									$plugin_info[ $plugin_file ] = $data;
+									$plugin_info[ $plugin_file ] = _get_plugin_data_markup_translate( $plugin_file, $data );
 									$plugin_info[ $plugin_file ]['is_uninstallable'] = is_uninstallable_plugin( $plugin );
 								}
 							}
