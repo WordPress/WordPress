@@ -18,7 +18,7 @@ $parent_file = 'options-general.php';
 add_contextual_help($current_screen,
 	'<p>' . __('You can set maximum sizes for images inserted into your written content; you can also insert an image as Full Size.') . '</p>' .
 	'<p>' . __('The Embed option allows you embed a video, image, or other media content into your content automatically by typing the URL (of the web page where the file lives) on its own line when you create your content.') . '</p>' .
-	'<p>' . __('Uploading Options gives you folder and path choices for storing your files in your installation&#8217;s directory.') . '</p>' .
+	( is_multisite() ? '' : '<p>' . __('Uploading Options gives you folder and path choices for storing your files in your installation&#8217;s directory.') . '</p>' ) .
 	'<p>' . __('You must click the Save Changes button at the bottom of the screen for new settings to take effect.') . '</p>' .
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
 	'<p>' . __('<a href="http://codex.wordpress.org/Settings_Media_SubPanel" target="_blank">Documentation on Media Settings</a>') . '</p>' .
