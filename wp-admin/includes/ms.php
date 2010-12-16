@@ -340,7 +340,7 @@ function is_upload_space_available() {
 	return true;
 }
 
-/*
+/**
  * @since 3.0.0
  *
  * @return int of upload size limit in bytes

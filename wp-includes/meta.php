@@ -439,7 +439,7 @@ function get_meta_sql( $meta_query, $meta_type, $primary_table, $primary_id_colu
 	return apply_filters_ref_array( 'get_meta_sql', array( compact( 'join', 'where' ), $meta_query, $meta_type, $primary_table, $primary_id_column, &$context ) );
 }
 
-/*
+/**
  * Populates the $meta_query property
  *
  * @access private

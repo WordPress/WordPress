@@ -2035,7 +2035,7 @@ function get_attachment_innerHTML($id = 0, $fullsize = false, $max_dims = false)
 	return apply_filters('attachment_innerHTML', $innerHTML, $post->ID);
 }
 
-/*
+/**
  * Retrieve bookmark data based on ID.
  *
  * @since 2.0.0

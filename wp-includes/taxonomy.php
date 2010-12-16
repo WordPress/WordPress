@@ -505,7 +505,7 @@ function get_objects_in_term( $term_ids, $taxonomies, $args = array() ) {
 	return $object_ids;
 }
 
-/*
+/**
  * Given a taxonomy query, generates SQL to be appended to a main query.
  *
  * @since 3.1.0
@@ -1715,7 +1715,7 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 	return true;
 }
 
-/*
+/**
  * Deletes one existing category.
  *
  * @since 2.0.0

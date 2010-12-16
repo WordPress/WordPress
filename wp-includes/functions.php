@@ -4303,7 +4303,7 @@ function get_file_data( $file, $default_headers, $context = '' ) {
 	return $file_data;
 }
 
-/*
+/**
  * Used internally to tidy up the search terms
  *
  * @access private
