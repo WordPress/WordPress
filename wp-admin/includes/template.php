@@ -1897,7 +1897,7 @@ function screen_options($screen) {
 	$return = "<div class='screen-options'>\n";
 	if ( !empty($per_page_label) )
 		$return .= "<input type='text' class='screen-per-page' name='wp_screen_options[value]' id='$option' maxlength='3' value='$per_page' /> <label for='$option'>$per_page_label</label>\n";
-	$return .= get_submit_button( __( 'Apply' ), 'button', '', false );
+	$return .= get_submit_button( __( 'Apply' ), 'button', 'screen-options-apply', false );
 	$return .= "<input type='hidden' name='wp_screen_options[option]' value='" . esc_attr($option) . "' />";
 	$return .= "</div>\n";
 	return $return;
