@@ -210,7 +210,7 @@ $broken_themes = get_broken_themes();
 if ( current_user_can('edit_themes') && count( $broken_themes ) ) {
 ?>
 
-<h2><?php _e('Broken Themes'); ?> <?php if ( is_multisite() ) _e( '(Site admin only)' ); ?></h2>
+<h2><?php _e('Broken Themes'); ?></h2>
 <p><?php _e('The following themes are installed but incomplete. Themes must have a stylesheet and a template.'); ?></p>
 
 <table id="broken-themes">
