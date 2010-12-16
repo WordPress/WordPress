@@ -21,7 +21,7 @@ add_contextual_help($current_screen,
 	'<p>' . __('<strong>Options</strong> This page shows a list of all options associated with this site. Some are created by WordPress and others are created by plugins you activate. Note that some fields are grayed out and say Serialized Data. You cannot modify these values due to the way the option is stored in the database.') . '</p>' .
 	'<p>' . __('See the contextual help on the next tab. ') . '</p>' .
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
-	'<p>' . __('<a href="http://codex.wordpress.org/Super_Admin_Options_SubPanel" target="_blank">Network Options Documentation</a>') . '</p>' .
+	'<p>' . __('<a href="http://codex.wordpress.org/Super_Admin_Options_SubPanel" target="_blank">Documentation on Network Settings</a>') . '</p>' .
 	'<p>' . __('<a href="http://wordpress.org/support/multisite/" target="_blank">Support Forums</a>') . '</p>'
 );
 

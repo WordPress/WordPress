@@ -21,7 +21,7 @@ add_contextual_help($current_screen,
 	'<p>' . __('<strong>Info</strong> The domain and path are rarely edited as this can cause the site to not work properly. The Registered date and Last Updated date are displayed. Network admins can mark a site as Archived, Spammed, Deleted and Mature, to remove from public listings or disable.') . '</p>' .
 	'<p>' . __('See the contextual help on the next tab. ') . '</p>' .
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
-	'<p>' . __('<a href="http://codex.wordpress.org/Super_Admin_Options_SubPanel" target="_blank">Network Options Documentation</a>') . '</p>' .
+	'<p>' . __('<a href="http://codex.wordpress.org/Super_Admin_Options_SubPanel" target="_blank">Documentation on Network Settings</a>') . '</p>' .
 	'<p>' . __('<a href="http://wordpress.org/support/multisite/" target="_blank">Support Forums</a>') . '</p>'
 );
 

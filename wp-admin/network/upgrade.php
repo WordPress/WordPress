@@ -23,7 +23,7 @@ add_contextual_help($current_screen,
 	'<p>' . __('If a version update to core has not happened, clicking this button won&#8217;t affect anything.') . '</p>' .
 	'<p>' . __('If this process fails for any reason, users logging in to their sites will force the same update.') . '</p>' .
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
-	'<p>' . __('<a href="http://codex.wordpress.org/Super_Admin_Update_SubPanel" target="_blank">Update Network Documentation</a>') . '</p>' .
+	'<p>' . __('<a href="http://codex.wordpress.org/Super_Admin_Update_SubPanel" target="_blank">Documentation on Update Network</a>') . '</p>' .
 	'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
 
