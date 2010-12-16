@@ -25,7 +25,8 @@ if ( !current_user_can('manage_sites') )
 
 add_contextual_help($current_screen,
 	'<p>' . __('The menu is for editing information specific to individual sites, particularly if the admin area of a site is unavailable.') . '</p>' .
-	'<p>' . __('<strong>Themes</strong> This areas shows themes that are not enabled across the network. Enabling a theme in this menu makes it accessible to this site only. It does not activate the theme, but allows it to show in the site&#8217;s Appearance menu. ') . '</p>' .
+	'<p>' . __('<strong>Themes</strong> - This areas shows themes that are not already enabled across the network. Enabling a theme in this menu makes it accessible to this site. It does not activate the theme, but allows it to show in the site&#8217;s Appearance menu. ') . '</p>' .
+	'<p>' . sprintf( __( 'To enable a theme for the entire network, see the <a href="%s">Network Themes</a> screen.' ), network_admin_url( 'themes.php' ) ) . '</p>' .
 	'<p>' . __('See the contextual help on the next tab. ') . '</p>' .
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
 	'<p>' . __('<a href="http://codex.wordpress.org/Super_Admin_Options_SubPanel" target="_blank">Network Options Documentation</a>') . '</p>' .

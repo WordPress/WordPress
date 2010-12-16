@@ -18,7 +18,7 @@ if ( ! current_user_can('manage_sites') )
 
 add_contextual_help($current_screen,
 	'<p>' . __('The menu is for editing information specific to individual sites, particularly if the admin area of a site is unavailable.') . '</p>' .
-	'<p>' . __('<strong>Options</strong> This information is filled in my default as well as plugin data. Note that some fields are grayed out and say Serialized Data. These are stored values in the database which you cannot change from here. ') . '</p>' .
+	'<p>' . __('<strong>Options</strong> This page shows a list of all options associated with this site. Some are created by WordPress and others are created by plugins you activate. Note that some fields are grayed out and say Serialized Data. You cannot modify these values due to the way the option is stored in the database.') . '</p>' .
 	'<p>' . __('See the contextual help on the next tab. ') . '</p>' .
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
 	'<p>' . __('<a href="http://codex.wordpress.org/Super_Admin_Options_SubPanel" target="_blank">Network Options Documentation</a>') . '</p>' .
