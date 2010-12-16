@@ -136,16 +136,10 @@ function export_date_options() {
 	</li>
 	<li>
 		<label><?php _e( 'Authors:' ); ?></label>
-		<select name="author" id="author">
-		<option value="all" selected="selected"><?php _e('All'); ?></option>
-		<?php
+<?php
 		$authors = $wpdb->get_col( "SELECT DISTINCT post_author FROM {$wpdb->posts} WHERE post_type = 'post'" );
-		$authors = $wpdb->get_results( "SELECT ID, display_name FROM $wpdb->users WHERE ID IN (" . implode( ',', $authors ) . ") ORDER BY display_name" );
-		foreach ( (array) $authors as $author ) {
-			echo "<option value='{$author->id}'>{$author->display_name}</option>\n";
-		}
-		?>
-		</select>
+		wp_dropdown_users( array( 'include' => $authors, 'name' => 'post_author', 'multi' => true, 'show_option_all' => __('All') ) );
+?>
 	</li>
 	<li>
 		<label><?php _e( 'Date range:' ); ?></label>
@@ -174,16 +168,10 @@ function export_date_options() {
 <ul id="page-filters" class="export-filters">
 	<li>
 		<label><?php _e( 'Authors:' ); ?></label>
-		<select name="author" id="author">
-		<option value="all" selected="selected"><?php _e('All'); ?></option>
-		<?php
+<?php
 		$authors = $wpdb->get_col( "SELECT DISTINCT post_author FROM {$wpdb->posts} WHERE post_type = 'page'" );
-		$authors = $wpdb->get_results( "SELECT ID, display_name FROM $wpdb->users WHERE ID IN (" . implode( ',', $authors ) . ") ORDER BY display_name" );
-		foreach ( (array) $authors as $author ) {
-			echo "<option value='{$author->id}'>{$author->display_name}</option>\n";
-		}
-		?>
-		</select>
+		wp_dropdown_users( array( 'include' => $authors, 'name' => 'post_author', 'multi' => true, 'show_option_all' => __('All') ) );
+?>
 	</li>
 	<li>
 		<label><?php _e( 'Date range:' ); ?></label>
