@@ -2368,7 +2368,7 @@ function esc_attr( $text ) {
  * @return string
  */
 function esc_textarea( $text ) {
-	$safe_text = htmlspecialchars( $text );
+	$safe_text = htmlspecialchars( $text, ENT_QUOTES );
 	return apply_filters( 'esc_textarea', $safe_text, $text );
 }
 
