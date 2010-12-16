@@ -2223,6 +2223,9 @@ function network_home_url( $path = '', $scheme = null ) {
  * @return string Admin url link with optional path appended
 */
 function network_admin_url( $path = '', $scheme = 'admin' ) {
+	if ( ! is_multisite() )
+		return admin_url( $path, $scheme );
+
 	$url = network_site_url('wp-admin/network/', $scheme);
 
 	if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
@@ -2267,23 +2270,6 @@ function self_admin_url($path = '', $scheme = 'admin') {
 		return user_admin_url($path, $scheme);
 	else
 		return admin_url($path, $scheme);
-}
-
-/**
- * Retrieve the url to the admin area for either the current blog or the network
- * depending on whether multisite is enabled.
- *
- * @since 3.1.0
- *
- * @param string $path Optional path relative to the admin url
- * @param string $scheme The scheme to use. Default is 'admin', which obeys force_ssl_admin() and is_ssl(). 'http' or 'https' can be passed to force those schemes.
- * @return string Admin url link with optional path appended
-*/
-function maybe_network_admin_url( $path = '', $scheme = 'admin' ) {
-	if ( is_multisite() )
-		return network_admin_url( $path, $scheme );
-	else
-		return admin_url( $path, $scheme );
 }
 
 /**

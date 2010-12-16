@@ -108,7 +108,7 @@ if (empty ($importers)) {
 				}
 			}
 			if ( empty($action) )
-				$action = '<a href="' . esc_url( maybe_network_admin_url( 'plugin-install.php?tab=plugin-information&plugin=' . $plugin_slug .
+				$action = '<a href="' . esc_url( network_admin_url( 'plugin-install.php?tab=plugin-information&plugin=' . $plugin_slug .
 										'&from=import&TB_iframe=true&width=600&height=550' ) ) . '" class="thickbox" title="' .
 										esc_attr__('Install importer') . '">' . $data[0] . '</a>';
 		} else {
@@ -130,7 +130,7 @@ if (empty ($importers)) {
 }
 
 if ( current_user_can('install_plugins') )
-	echo '<p>' . sprintf( __('If the importer you need is not listed, <a href="%s">search the plugins directory</a> to see if an importer is available.'), esc_url( maybe_network_admin_url( 'plugin-install.php?tab=search&type=tag&s=importer' ) ) ) . '</p>';
+	echo '<p>' . sprintf( __('If the importer you need is not listed, <a href="%s">search the plugins directory</a> to see if an importer is available.'), esc_url( network_admin_url( 'plugin-install.php?tab=search&type=tag&s=importer' ) ) ) . '</p>';
 ?>
 
 </div>
