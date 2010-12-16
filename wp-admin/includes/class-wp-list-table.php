@@ -816,7 +816,6 @@ class WP_List_Table {
 	 * @access public
 	 */
 	function ajax_response() {
-		$this->check_permissions();
 		$this->prepare_items();
 
 		extract( $this->_args );

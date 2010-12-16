@@ -61,6 +61,7 @@ case 'fetch-list' :
 	if ( ! $wp_list_table )
 		die( '0' );
 
+	$wp_list_table->check_permissions();
 	$wp_list_table->ajax_response();
 
 	die( '0' );
