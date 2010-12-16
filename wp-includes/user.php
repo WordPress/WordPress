@@ -1211,7 +1211,7 @@ function sanitize_user_field($field, $value, $user_id, $context) {
 		}
 
 		if ( 'description' == $field )
-			$value = esc_html($value);
+			$value = esc_textarea( $value );
 		else
 			$value = esc_attr($value);
 	} else if ( 'db' == $context ) {
