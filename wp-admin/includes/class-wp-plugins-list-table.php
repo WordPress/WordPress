@@ -117,7 +117,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 
 		$this->items = array();
 		foreach ( $plugins[ $status ] as $plugin_file => $plugin_data ) {
-			// Translate, Apply Markup, Sanitize HTML
+			// Translate, Don't Apply Markup, Sanitize HTML
 			$this->items[$plugin_file] = _get_plugin_data_markup_translate( $plugin_file, $plugin_data, false, true );
 		}
 
