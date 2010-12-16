@@ -119,7 +119,7 @@ function install_themes_upload($page = 1) {
 <form method="post" enctype="multipart/form-data" action="<?php echo self_admin_url('update.php?action=upload-theme') ?>">
 	<?php wp_nonce_field( 'theme-upload') ?>
 	<input type="file" name="themezip" />
-	<?php submit_button( __( 'Install Now' ), 'button', '', false ); ?>
+	<?php submit_button( __( 'Install Now' ), 'button', 'install-theme-submit', false ); ?>
 </form>
 	<?php
 }
