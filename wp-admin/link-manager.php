@@ -76,15 +76,7 @@ if ( isset($_REQUEST['deleted']) ) {
 
 <form id="posts-filter" action="" method="post">
 
-<?php if ( $wp_list_table->has_items() ) : ?>
-
-<p class="search-box">
-	<label class="screen-reader-text" for="link-search-input"><?php _e( 'Search Links' ); ?>:</label>
-	<input type="text" id="link-search-input" name="s" value="<?php _admin_search_query(); ?>" />
-	<?php submit_button( __( 'Search Links' ), 'button', '', false ); ?>
-</p>
-
-<?php endif; ?>
+<?php $wp_list_table->search_box( __( 'Search Links' ), 'link' ); ?>
 
 <?php $wp_list_table->display(); ?>
 

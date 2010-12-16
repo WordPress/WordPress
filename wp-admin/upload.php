@@ -206,15 +206,7 @@ if ( !empty($message) ) { ?>
 
 <form id="posts-filter" action="" method="post">
 
-<?php if ( $wp_list_table->has_items() ) : ?>
-
-<p class="search-box">
-	<label class="screen-reader-text" for="media-search-input"><?php _e( 'Search Media' ); ?>:</label>
-	<input type="text" id="media-search-input" name="s" value="<?php the_search_query(); ?>" />
-	<?php submit_button( __( 'Search Media' ), 'button', 'submit', false ); ?>
-</p>
-
-<?php endif; ?>
+<?php $wp_list_table->search_box( __( 'Search Media' ), 'media' ); ?>
 
 <?php $wp_list_table->display(); ?>
 

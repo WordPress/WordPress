@@ -357,15 +357,7 @@ if ( $usersearch )
 
 <form action="" method="post">
 
-<?php if ( $wp_list_table->has_items() ) : ?>
-
-<p class="search-box">
-	<label class="screen-reader-text" for="user-search-input"><?php _e( 'Search Users' ); ?>:</label>
-	<input type="text" id="user-search-input" name="s" value="<?php echo esc_attr($usersearch); ?>" />
-	<?php submit_button( __( 'Search Users' ), 'button', 'submit', false ); ?>
-</p>
-
-<?php endif; ?>
+<?php $wp_list_table->search_box( __( 'Search Users' ), 'user' ); ?>
 
 <?php $wp_list_table->display(); ?>
 </form>

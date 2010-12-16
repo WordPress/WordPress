@@ -179,6 +179,30 @@ class WP_List_Table {
 	}
 
 	/**
+	 * Display the search box.
+	 *
+	 * @since 3.1.0
+	 * @access public
+	 *
+	 * @param string $text The search button text
+	 * @param string $input_id The search input id 
+	 */
+	function search_box( $text, $input_id ) {
+		if ( empty( $_REQUEST['s'] ) && !$this->has_items() )
+			return;
+
+		$input_id = $input_id . '-search-input';
+
+?>
+<p class="search-box">
+	<label class="screen-reader-text" for="<?php echo $input_id ?>"><?php echo $text; ?>:</label>
+	<input type="text" id="<?php echo $input_id ?>" name="s" value="<?php _admin_search_query(); ?>" />
+	<?php submit_button( $text, 'button', 'submit', false ); ?>
+</p>
+<?php
+	}
+
+	/**
 	 * Get an associative array ( id => link ) with the list
 	 * of views available on this table.
 	 *

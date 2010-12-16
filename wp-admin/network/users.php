@@ -79,10 +79,7 @@ if ( isset( $_REQUEST['updated'] ) && $_REQUEST['updated'] == 'true' && ! empty(
 	<?php $wp_list_table->views(); ?>
 
 	<form action="" method="get" class="search-form">
-		<p class="search-box">
-		<input type="text" name="s" value="<?php echo esc_attr( $usersearch ); ?>" class="search-input" id="user-search-input" />
-		<?php submit_button( __( 'Search Users' ), 'button', 'post-query-submit', false ); ?>
-		</p>
+		<?php $wp_list_table->search_box( __( 'Search Users' ), 'user' ); ?>
 	</form>
 
 	<form id="form-user-list" action='edit.php?action=allusers' method='post'>

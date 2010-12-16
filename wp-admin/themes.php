@@ -146,7 +146,7 @@ if ( ! current_user_can( 'switch_themes' ) ) {
 
 <h3><?php _e('Available Themes'); ?></h3>
 
-<?php if ( $wp_list_table->has_items() ) : ?>
+<?php if ( !empty( $_REQUEST['s'] ) || $wp_list_table->has_items() ) : ?>
 
 <form class="search-form filter-form" action="" method="get">
 

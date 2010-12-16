@@ -211,11 +211,7 @@ if ( isset($_GET['update']) ) :
 endif; ?>
 
 <form class="search-form" action="" method="get">
-<p class="search-box">
-	<label class="screen-reader-text" for="user-search-input"><?php _e( 'Search Users' ); ?>:</label>
-	<input type="text" id="user-search-input" name="s" value="<?php echo esc_attr($usersearch); ?>" />
-	<?php submit_button( __( 'Search Users' ), 'button', 'submit', false ); ?>
-</p>
+<?php $wp_list_table->search_box( __( 'Search Users' ), 'user' ); ?>
 </form>
 
 <?php $wp_list_table->views(); ?>

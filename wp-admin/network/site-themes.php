@@ -152,11 +152,7 @@ if ( isset( $_GET['update'] ) ) {
 <p><?php _e( 'Network enabled themes are not shown on this screen.' ) ?></p>
 
 <form method="get" action="">
-<p class="search-box">
-	<label class="screen-reader-text" for="theme-search-input"><?php _e( 'Search Themes' ); ?>:</label>
-	<input type="text" id="theme-search-input" name="s" value="<?php _admin_search_query(); ?>" />
-	<?php submit_button( __( 'Search Installed Themes' ), 'button', '', false ); ?>
-</p>
+<?php $wp_list_table->search_box( __( 'Search Installed Themes' ), 'theme' ); ?>
 </form>
 
 <?php $wp_list_table->views(); ?>

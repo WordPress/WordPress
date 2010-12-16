@@ -237,11 +237,9 @@ endif; ?>
 <form class="search-form" action="" method="get">
 <input type="hidden" name="taxonomy" value="<?php echo esc_attr($taxonomy); ?>" />
 <input type="hidden" name="post_type" value="<?php echo esc_attr($post_type); ?>" />
-<p class="search-box">
-	<label class="screen-reader-text" for="tag-search-input"><?php echo $tax->labels->search_items; ?>:</label>
-	<input type="text" id="tag-search-input" name="s" value="<?php _admin_search_query(); ?>" />
-	<?php submit_button( $tax->labels->search_items, 'button', 'search-items', false ); ?>
-</p>
+
+<?php $wp_list_table->search_box( $tax->labels->search_items, 'tag' ); ?>
+
 </form>
 <br class="clear" />
 

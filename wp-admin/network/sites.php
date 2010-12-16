@@ -104,11 +104,8 @@ require_once( '../admin-header.php' );
 </h2>
 
 <form action="" method="get" id="ms-search">
-<p class="search-box">
+<?php $wp_list_table->search_box( __( 'Search Sites' ), 'site' ); ?>
 <input type="hidden" name="action" value="blogs" />
-<input type="text" name="s" value="<?php echo esc_attr( $s ); ?>" />
-<?php submit_button( __( 'Search Sites' ), 'button', 'submit', false ); ?>
-</p>
 </form>
 
 <form id="form-site-list" action="edit.php?action=allblogs" method="post">
