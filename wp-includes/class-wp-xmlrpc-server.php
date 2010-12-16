@@ -780,11 +780,11 @@ class wp_xmlrpc_server extends IXR_Server {
 		do_action('xmlrpc_call', 'wp.getAuthors');
 
 		$authors = array();
-		foreach ( get_users() as $user_id => $user_object ) {
+		foreach ( get_users( array( 'fields' => array('ID','user_login','display_name') ) ) as $user ) {
 			$authors[] = array(
-				"user_id"       => $user_id,
-				"user_login"    => $user_object->user_login,
-				"display_name"  => $user_object->display_name
+				"user_id"       => $user->ID,
+				"user_login"    => $user->user_login,
+				"display_name"  => $user->display_name
 			);
 		}
 
