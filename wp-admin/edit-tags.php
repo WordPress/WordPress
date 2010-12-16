@@ -158,6 +158,7 @@ if ( current_user_can($tax->cap->edit_terms) )
 	wp_enqueue_script('inline-edit-tax');
 
 if ( 'category' == $taxonomy || 'link_category' == $taxonomy || 'post_tag' == $taxonomy  ) {
+	$help ='';
 	if ( 'category' == $taxonomy )
 		$help .= '<p>' . sprintf(__( 'You can use categories to define sections of your site and group related posts. The default category is &#8220;Uncategorized&#8221; until you change it in your <a href="%s">writing settings</a>.' ) , 'options-writing.php' ) . '</p>';
 	elseif ( 'link_category' == $taxonomy ) 
