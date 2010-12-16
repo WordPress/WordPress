@@ -174,7 +174,7 @@ switch ( $_GET['action'] ) {
 		if ( ! ( current_user_can( 'manage_sites' ) && current_user_can( 'delete_sites' ) ) )
 			wp_die( __( 'You do not have permission to access this page.' ) );
 
-		if ( $id != '0' && $id != $current_site->blog_id && current_user_can ( 'delete_site', $id ) ) {
+		if ( $id != '0' && $id != $current_site->blog_id && current_user_can( 'delete_site', $id ) ) {
 			wpmu_delete_blog( $id, true );
 			wp_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'delete' ), wp_get_referer() ) );
 		} else {

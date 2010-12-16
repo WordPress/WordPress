@@ -13,8 +13,8 @@ require_once( './admin.php' );
 if ( ! is_multisite() )
 	wp_die( __( 'Multisite support is not enabled.' ) );
 
-if ( ! current_user_can('manage_sites') )
-	wp_die(__('You do not have sufficient permissions to edit this site.'));
+if ( ! current_user_can( 'manage_sites' ) )
+	wp_die( __( 'You do not have sufficient permissions to edit this site.' ) );
 
 add_contextual_help($current_screen,
 	'<p>' . __('The menu is for editing information specific to individual sites, particularly if the admin area of a site is unavailable.') . '</p>' .
