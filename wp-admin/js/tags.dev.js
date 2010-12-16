@@ -45,6 +45,8 @@ jQuery(document).ready(function($) {
 			else
 				$('.tags').prepend( res.responses[0].supplemental['parents'] ); // As the parent is not visible, Insert the version with Parent - Child - ThisTerm
 
+			$('.tags .no-items').remove();
+
 			if ( form.find('select#parent') ) {
 				// Parents field exists, Add new term to the list.
 				var term = res.responses[1].supplemental;
