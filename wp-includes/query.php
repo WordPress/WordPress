@@ -2045,11 +2045,11 @@ class WP_Query {
 			$n = !empty($q['exact']) ? '' : '%';
 			$searchand = '';
 			foreach( (array) $q['search_terms'] as $term ) {
-				$term = addslashes_gpc($term);
+				$term = esc_sql( like_escape( $term ) );
 				$search .= "{$searchand}(($wpdb->posts.post_title LIKE '{$n}{$term}{$n}') OR ($wpdb->posts.post_content LIKE '{$n}{$term}{$n}'))";
 				$searchand = ' AND ';
 			}
-			$term = esc_sql($q['s']);
+			$term = esc_sql( like_escape( $q['s'] ) );
 			if ( empty($q['sentence']) && count($q['search_terms']) > 1 && $q['search_terms'][0] != $q['s'] )
 				$search .= " OR ($wpdb->posts.post_title LIKE '{$n}{$term}{$n}') OR ($wpdb->posts.post_content LIKE '{$n}{$term}{$n}')";
 

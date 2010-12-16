@@ -1237,7 +1237,7 @@ function &get_terms($taxonomies, $args = '') {
 	}
 
 	if ( !empty($name__like) )
-		$where .= " AND t.name LIKE '{$name__like}%'";
+		$where .= " AND t.name LIKE '" . like_escape( $name__like ) . "%'";
 
 	if ( '' !== $parent ) {
 		$parent = (int) $parent;

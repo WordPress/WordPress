@@ -345,7 +345,7 @@ class WP_Comment_Query {
 	 * @return string
 	 */
 	function get_search_sql( $string, $cols ) {
-		$string = esc_sql( $string );
+		$string = esc_sql( like_escape( $string ) );
 
 		$searches = array();
 		foreach ( $cols as $col )

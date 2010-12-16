@@ -1255,11 +1255,11 @@ case 'find_posts':
 
 	$searchand = $search = '';
 	foreach ( (array) $search_terms as $term ) {
-		$term = addslashes_gpc($term);
+		$term = esc_sql( like_escape( $term ) );
 		$search .= "{$searchand}(($wpdb->posts.post_title LIKE '%{$term}%') OR ($wpdb->posts.post_content LIKE '%{$term}%'))";
 		$searchand = ' AND ';
 	}
-	$term = $wpdb->escape($s);
+	$term = esc_sql( like_escape( $s ) );
 	if ( count($search_terms) > 1 && $search_terms[0] != $s )
 		$search .= " OR ($wpdb->posts.post_title LIKE '%{$term}%') OR ($wpdb->posts.post_content LIKE '%{$term}%')";
 
