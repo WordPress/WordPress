@@ -172,12 +172,6 @@ case 'delete':
 			$go_delete = true;
 		}
 	}
-	$all_logins = get_users();
-	$user_dropdown = '<select name="reassign_user">';
-	foreach ( (array) $all_logins as $login )
-		if ( $login->ID == $current_user->ID || !in_array($login->ID, $userids) )
-			$user_dropdown .= "<option value=\"" . esc_attr($login->ID) . "\">{$login->user_login}</option>";
-	$user_dropdown .= '</select>';
 	?>
 	</ul>
 <?php if ( $go_delete ) : ?>
@@ -186,7 +180,8 @@ case 'delete':
 		<li><label><input type="radio" id="delete_option0" name="delete_option" value="delete" checked="checked" />
 		<?php _e('Delete all posts and links.'); ?></label></li>
 		<li><input type="radio" id="delete_option1" name="delete_option" value="reassign" />
-		<?php echo '<label for="delete_option1">'.__('Attribute all posts and links to:')."</label> $user_dropdown"; ?></li>
+		<?php echo '<label for="delete_option1">'.__('Attribute all posts and links to:').'</label>';
+		wp_dropdown_users( array( 'exclude' => array_diff( $userids, array($current_user->ID) ) ) ); ?></li>
 	</ul></fieldset>
 	<input type="hidden" name="action" value="dodelete" />
 	<?php submit_button( __('Confirm Deletion'), 'secondary' ); ?>
