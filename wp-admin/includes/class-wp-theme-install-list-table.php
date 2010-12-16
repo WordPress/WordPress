@@ -125,7 +125,7 @@ class WP_Theme_Install_List_Table extends WP_List_Table {
 		return array();
 	}
 
-	function display_table() {
+	function display() {
 ?>
 		<div class="tablenav">
 			<div class="alignleft actions">

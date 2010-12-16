@@ -253,7 +253,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 		);
 	}
 
-	function display_table() {
+	function display() {
 		extract( $this->_args );
 
 		$this->display_tablenav( 'top' );

@@ -425,6 +425,10 @@ ol.ol-decimal > li {
 	font-size: 11px;
 }
 
+.widefat .no-items td {
+	border-bottom-width: 0;
+}
+
 .widefat td {
 	padding: 3px 7px;
 	vertical-align: top;

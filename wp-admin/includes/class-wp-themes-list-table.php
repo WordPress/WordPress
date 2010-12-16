@@ -83,7 +83,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 		printf( __( 'Only the current theme is available to you. Contact the %s administrator for information about accessing additional themes.' ), get_site_option( 'site_name' ) );
 	}
 
-	function display_table() {
+	function display() {
 ?>
 		<div class="tablenav">
 			<?php $this->pagination( 'top' ); ?>

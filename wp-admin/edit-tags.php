@@ -253,7 +253,7 @@ endif; ?>
 <input type="hidden" name="taxonomy" value="<?php echo esc_attr($taxonomy); ?>" />
 <input type="hidden" name="post_type" value="<?php echo esc_attr($post_type); ?>" />
 
-<?php $wp_list_table->display_table(); ?>
+<?php $wp_list_table->display(); ?>
 
 <br class="clear" />
 </form>

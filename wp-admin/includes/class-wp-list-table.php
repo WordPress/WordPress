@@ -647,41 +647,12 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Display the table or a message if there are no items
+	 * Display the table
 	 *
 	 * @since 3.1.0
 	 * @access public
 	 */
 	function display() {
-		if ( $this->has_items() ) {
-			$this->display_table();
-		} else {
-?>
-		<br class="clear" />
-		<p><?php $this->no_items(); ?></p>
-<?php
-		}
-	}
-
-	/**
-	 * Get a list of CSS classes for the <table> tag
-	 *
-	 * @since 3.1.0
-	 * @access protected
-	 *
-	 * @return array
-	 */
-	function get_table_classes() {
-		return array( 'widefat', 'fixed', $this->_args['plural'] );
-	}
-
-	/**
-	 * Display the full table
-	 *
-	 * @since 3.1.0
-	 * @access public
-	 */
-	function display_table() {
 		extract( $this->_args );
 
 		$this->display_tablenav( 'top' );
@@ -701,12 +672,23 @@ class WP_List_Table {
 	</tfoot>
 
 	<tbody id="the-list"<?php if ( $singular ) echo " class='list:$singular'"; ?>>
-		<?php $this->display_rows(); ?>
+		<?php $this->display_rows_or_placeholder(); ?>
 	</tbody>
 </table>
 <?php
-
 		$this->display_tablenav( 'bottom' );
+	}
+
+	/**
+	 * Get a list of CSS classes for the <table> tag
+	 *
+	 * @since 3.1.0
+	 * @access protected
+	 *
+	 * @return array
+	 */
+	function get_table_classes() {
+		return array( 'widefat', 'fixed', $this->_args['plural'] );
 	}
 
 	/**
@@ -745,6 +727,22 @@ class WP_List_Table {
 
 	/**
 	 * Generate the <tbody> part of the table
+	 *
+	 * @since 3.1.0
+	 * @access protected
+	 */
+	function display_rows_or_placeholder() {
+		if ( $this->has_items() ) {
+			$this->display_rows();
+		} else {
+			echo '<tr class="no-items"><td colspan="2">';
+			$this->no_items();
+			echo '</td></tr>';
+		}
+	}
+
+	/**
+	 * Generate the table rows
 	 *
 	 * @since 3.1.0
 	 * @access protected
@@ -822,7 +820,7 @@ class WP_List_Table {
 		extract( $this->_pagination_args );
 
 		ob_start();
-		$this->display_rows();
+		$this->display_rows_or_placeholder();
 		$rows = ob_get_clean();
 
 		$response = array( 'rows' => $rows );
