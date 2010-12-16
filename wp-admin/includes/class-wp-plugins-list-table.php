@@ -380,8 +380,9 @@ class WP_Plugins_List_Table extends WP_List_Table {
 				$actions['edit'] = '<a href="plugin-editor.php?file=' . $plugin_file . '" title="' . __('Open this file in the Plugin Editor') . '" class="edit">' . __('Edit') . '</a>';
 		} // end if $context
 
-		$actions = apply_filters( 'plugin_action_links', array_filter( $actions ), $plugin_file, $plugin_data, $context );
-		$actions = apply_filters( "plugin_action_links_$plugin_file", $actions, $plugin_file, $plugin_data, $context );
+		$prefix = $screen->is_network ? 'network_admin_' : '';
+		$actions = apply_filters( $prefix . 'plugin_action_links', array_filter( $actions ), $plugin_file, $plugin_data, $context );
+		$actions = apply_filters( $prefix . "plugin_action_links_$plugin_file", $actions, $plugin_file, $plugin_data, $context );
 
 		$class = $is_active ? 'active' : 'inactive';
 		$checkbox_id = md5($plugin_data['Name']) . "_checkbox";
