@@ -2270,6 +2270,23 @@ function self_admin_url($path = '', $scheme = 'admin') {
 }
 
 /**
+ * Retrieve the url to the admin area for either the current blog or the network
+ * depending on whether multisite is enabled.
+ *
+ * @since 3.1.0
+ *
+ * @param string $path Optional path relative to the admin url
+ * @param string $scheme The scheme to use. Default is 'admin', which obeys force_ssl_admin() and is_ssl(). 'http' or 'https' can be passed to force those schemes.
+ * @return string Admin url link with optional path appended
+*/
+function maybe_network_admin_url( $path = '', $scheme = 'admin' ) {
+	if ( is_multisite() )
+		return network_admin_url( $path, $scheme );
+	else
+		return admin_url( $path, $scheme );
+}
+
+/**
  * Get the URL to the user's dashboard.
  *
  * If a user does not belong to any sites, the global user dashboard is used.  If the user belongs to the current site,
