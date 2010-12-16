@@ -33,9 +33,8 @@ class WP_Comments_List_Table extends WP_List_Table {
 		) );
 	}
 
-	function check_permissions() {
-		if ( !current_user_can('edit_posts') )
-			wp_die(__('Cheatin&#8217; uh?'));
+	function ajax_user_can() {
+		return current_user_can('edit_posts');
 	}
 
 	function prepare_items() {

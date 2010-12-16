@@ -61,7 +61,9 @@ case 'fetch-list' :
 	if ( ! $wp_list_table )
 		die( '0' );
 
-	$wp_list_table->check_permissions();
+	if ( ! $wp_list_table->ajax_user_can() )
+		die( '-1' );
+
 	$wp_list_table->ajax_response();
 
 	die( '0' );
@@ -1200,11 +1202,17 @@ case 'inline-save':
 case 'inline-save-tax':
 	check_ajax_referer( 'taxinlineeditnonce', '_inline_edit' );
 
-	set_current_screen( 'edit-' . $_POST['taxonomy'] );
+	$taxonomy = sanitize_key( $_POST['taxonomy'] );
+	$tax = get_taxonomy( $taxonomy );
+	if ( ! $tax )
+		die( '0' );
+
+	if ( ! current_user_can( $tax->cap->edit_terms ) )
+		die( '-1' );
+
+	set_current_screen( 'edit-' . $taxonomy );
 
 	$wp_list_table = get_list_table('WP_Terms_List_Table');
-
-	$wp_list_table->check_permissions('edit');
 
 	if ( ! isset($_POST['tax_ID']) || ! ( $id = (int) $_POST['tax_ID'] ) )
 		die(-1);

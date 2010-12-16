@@ -36,16 +36,17 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		) );
 	}
 
-	function check_permissions() {
+	function ajax_user_can() {
 		$menu_perms = get_site_option( 'menu_items', array() );
 
 		if ( empty( $menu_perms['themes'] ) && ! is_super_admin() )
-			wp_die( __( 'Cheatin&#8217; uh?' ) );
+			return false;
 
 		if ( $this->is_site_themes && !current_user_can('manage_sites') )
-			wp_die( __( 'You do not have sufficient permissions to manage themes for this site.' ) );
+			return false;
 		elseif ( !$this->is_site_themes && !current_user_can('manage_network_themes') )
-			wp_die( __( 'You do not have sufficient permissions to manage network themes.' ) );
+			return false;
+		return true;
 	}
 
 	function prepare_items() {

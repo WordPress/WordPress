@@ -78,11 +78,10 @@ class WP_Posts_List_Table extends WP_List_Table {
 		) );
 	}
 
-	function check_permissions() {
+	function ajax_user_can() {
 		global $post_type_object;
 
-		if ( !current_user_can( $post_type_object->cap->edit_posts ) )
-			wp_die( __( 'Cheatin&#8217; uh?' ) );
+		return current_user_can( $post_type_object->cap->edit_posts );
 	}
 
 	function prepare_items() {

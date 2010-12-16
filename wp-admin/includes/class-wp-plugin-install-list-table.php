@@ -8,9 +8,8 @@
  */
 class WP_Plugin_Install_List_Table extends WP_List_Table {
 
-	function check_permissions() {
-		if ( ! current_user_can('install_plugins') )
-			wp_die(__('You do not have sufficient permissions to install plugins on this site.'));
+	function ajax_user_can() {
+		return current_user_can('install_plugins');
 	}
 
 	function prepare_items() {

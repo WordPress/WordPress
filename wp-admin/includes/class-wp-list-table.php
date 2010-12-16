@@ -105,8 +105,8 @@ class WP_List_Table {
 	 * @since 3.1.0
 	 * @access public
 	 */
-	function check_permissions() {
-		die( 'function WP_List_Table::check_permissions() must be over-ridden in a sub-class.' );
+	function ajax_user_can() {
+		die( 'function WP_List_Table::ajax_user_can() must be over-ridden in a sub-class.' );
 	}
 
 	/**

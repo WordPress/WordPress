@@ -32,12 +32,10 @@ class WP_Terms_List_Table extends WP_List_Table {
 		) );
 	}
 
-	function check_permissions( $type = '' ) {
+	function ajax_user_can() {
 		global $tax;
 
-		$cap = 'edit' == $type ? $tax->cap->edit_terms : $tax->cap->manage_terms;
-		if ( !current_user_can( $cap ) )
-			wp_die( __( 'Cheatin&#8217; uh?' ) );
+		return current_user_can( $tax->cap->manage_terms );
 	}
 
 	function prepare_items() {

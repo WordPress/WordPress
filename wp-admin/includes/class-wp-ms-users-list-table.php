@@ -8,9 +8,8 @@
  */
 class WP_MS_Users_List_Table extends WP_List_Table {
 
-	function check_permissions() {
-		if ( ! current_user_can( 'manage_network_users' ) )
-			wp_die( __( 'You do not have permission to access this page.' ) );
+	function ajax_user_can() {
+		return current_user_can( 'manage_network_users' );
 	}
 
 	function prepare_items() {

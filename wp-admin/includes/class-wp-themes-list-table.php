@@ -11,10 +11,9 @@ class WP_Themes_List_Table extends WP_List_Table {
 	var $search = array();
 	var $features = array();
 
-	function check_permissions() {
+	function ajax_user_can() {
 		// Do not check edit_theme_options here. AJAX calls for available themes require switch_themes.
-		if ( !current_user_can('switch_themes') )
-			wp_die( __( 'Cheatin&#8217; uh?' ) );
+		return current_user_can('switch_themes');
 	}
 
 	function prepare_items() {

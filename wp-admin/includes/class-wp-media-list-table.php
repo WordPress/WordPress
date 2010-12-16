@@ -16,9 +16,8 @@ class WP_Media_List_Table extends WP_List_Table {
 		) );
 	}
 
-	function check_permissions() {
-		if ( !current_user_can('upload_files') )
-			wp_die( __( 'You do not have permission to upload files.' ) );
+	function ajax_user_can() {
+		return current_user_can('upload_files');
 	}
 
 	function prepare_items() {
