@@ -56,7 +56,7 @@ if ( isset($_REQUEST['action']) && 'update-site' == $_REQUEST['action'] && is_ar
 
 	do_action( 'wpmu_update_blog_options' );
 	restore_current_blog();
-	wp_redirect( add_query_arg( array( 'update' => 'updated', 'id' => $id ), 'site-options.php') );
+	wp_redirect( add_query_arg( array( 'update' => 'updated', 'id' => $id ), 'site-settings.php') );
 	exit;
 }
 
@@ -96,7 +96,7 @@ if ( ! empty( $messages ) ) {
 	foreach ( $messages as $msg )
 		echo '<div id="message" class="updated"><p>' . $msg . '</p></div>';
 } ?>
-<form method="post" action="site-options.php?action=update-site">
+<form method="post" action="site-settings.php?action=update-site">
 	<?php wp_nonce_field( 'edit-site' ); ?>
 	<input type="hidden" name="id" value="<?php echo esc_attr( $id ) ?>" />
 	<table class="form-table">
