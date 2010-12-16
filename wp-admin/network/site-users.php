@@ -22,6 +22,15 @@ $wp_list_table->prepare_items();
 
 $action = $wp_list_table->current_action();
 
+add_contextual_help($current_screen,
+	'<p>' . __('The menu is for editing information specific to individual sites, particularly if the admin area of a site is unavailable.') . '</p>' .
+	'<p>' . __('<strong>Users</strong> This displays the users associated with this site. You can also change their role, reset their passowrd, or remove them from the site. Removing the user from the site does not remove the user from the network. ') . '</p>' .
+	'<p>' . __('See the contextual help on the next tab. ') . '</p>' .
+	'<p><strong>' . __('For more information:') . '</strong></p>' .
+	'<p>' . __('<a href="http://codex.wordpress.org/Super_Admin_Options_SubPanel" target="_blank">Network Options Documentation</a>') . '</p>' .
+	'<p>' . __('<a href="http://wordpress.org/support/multisite/" target="_blank">Support Forums</a>') . '</p>'
+);
+
 $id = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0;
 
 if ( ! $id )

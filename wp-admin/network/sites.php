@@ -32,10 +32,9 @@ add_contextual_help($current_screen,
 	'<li>' . __('Visit to go to the frontend site live.') . '</li></ul>' .
 	'<p>' . __('The site ID is used internally, and is not shown on the front end of the site or to users/viewers.') . '</p>' .
 	'<p>' . __('Clicking on bold settings can re-sort this table. The upper right icons switch between list and excerpt views.') . '</p>' .
-	'<p>' . __('If the admin email for the new site does not exist in the database, a new user will also be created.') . '</p>' .
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
 	'<p>' . __('<a href="http://codex.wordpress.org/Super_Admin_Sites_SubPanel" target="_blank">Documentation on Sites</a>') . '</p>' .
-	'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
+	'<p>' . __('<a href="http://wordpress.org/support/multisite/" target="_blank">Support Forums</a>') . '</p>'
 );
 
 $id = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0;

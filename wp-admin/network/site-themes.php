@@ -23,6 +23,15 @@ if ( empty( $menu_perms['themes'] ) ) {
 if ( !current_user_can('manage_sites') )
 	wp_die( __( 'You do not have sufficient permissions to manage themes for this site.' ) );
 
+add_contextual_help($current_screen,
+	'<p>' . __('The menu is for editing information specific to individual sites, particularly if the admin area of a site is unavailable.') . '</p>' .
+	'<p>' . __('<strong>Themes</strong> This areas shows themes that are not enabled across the network. Enabling a theme in this menu makes it accessible to this site only. It does not activate the theme, but allows it to show in the site&#8217;s Appearance menu. ') . '</p>' .
+	'<p>' . __('See the contextual help on the next tab. ') . '</p>' .
+	'<p><strong>' . __('For more information:') . '</strong></p>' .
+	'<p>' . __('<a href="http://codex.wordpress.org/Super_Admin_Options_SubPanel" target="_blank">Network Options Documentation</a>') . '</p>' .
+	'<p>' . __('<a href="http://wordpress.org/support/multisite/" target="_blank">Support Forums</a>') . '</p>'
+);
+
 $wp_list_table = get_list_table('WP_MS_Themes_List_Table');
 $wp_list_table->check_permissions();
 

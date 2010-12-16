@@ -16,6 +16,15 @@ if ( ! is_multisite() )
 if ( ! current_user_can('create_users') )
 	wp_die(__('You do not have sufficient permissions to add users to this network.'));
 
+
+add_contextual_help($current_screen,
+	'<p>' . __('Add User will add that person to this table and send them an email.') . '</p>' .
+	'<p>' . __('Users who are signed up to the network without a site are added as subscribers to the main or primary dashboard site, giving them profile pages to manage their accounts. These users will only see Dashboard and My Sites in the main navigation until a site is created for them.') . '</p>' .
+	'<p><strong>' . __('For more information:') . '</strong></p>' .
+	'<p>' . __('<a href="http://codex.wordpress.org/Super_Admin_Users_SubPanel" target="_blank">Network Users Documentation</a>') . '</p>' .
+	'<p>' . __('<a href="http://wordpress.org/support/multisite/" target="_blank">Support Forums</a>') . '</p>'
+);
+
 if ( isset($_REQUEST['action']) && 'add-user' == $_REQUEST['action'] ) {
 	check_admin_referer( 'add-user', '_wpnonce_add-user' );
 	if ( ! current_user_can( 'manage_network_users' ) )
