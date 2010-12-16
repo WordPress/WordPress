@@ -17,7 +17,6 @@ if ( ! current_user_can('manage_sites') )
 	wp_die(__('You do not have sufficient permissions to edit this site.'));
 
 $wp_list_table = get_list_table('WP_Users_List_Table');
-$wp_list_table->check_permissions();
 $wp_list_table->prepare_items();
 
 $action = $wp_list_table->current_action();

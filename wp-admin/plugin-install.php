@@ -11,6 +11,7 @@ if ( !defined( 'IFRAME_REQUEST' ) && isset( $_GET['tab'] ) && ( 'plugin-informat
 
 /** WordPress Administration Bootstrap */
 require_once('./admin.php');
+
 if ( ! current_user_can('install_plugins') )
 	wp_die(__('You do not have sufficient permissions to install plugins on this site.'));
 
@@ -20,7 +21,6 @@ if ( is_multisite() && ! is_network_admin() ) {
 }
 
 $wp_list_table = get_list_table('WP_Plugin_Install_List_Table');
-$wp_list_table->check_permissions();
 $wp_list_table->prepare_items();
 
 $title = __('Install Plugins');

@@ -13,7 +13,6 @@ if ( !current_user_can( $tax->cap->manage_terms ) )
 	wp_die( __( 'Cheatin&#8217; uh?' ) );
 
 $wp_list_table = get_list_table('WP_Terms_List_Table');
-$wp_list_table->check_permissions();
 
 $title = $tax->labels->name;
 

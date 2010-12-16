@@ -9,8 +9,10 @@
 /** WordPress Administration Bootstrap */
 require_once( './admin.php' );
 
+if ( ! current_user_can( 'list_users' ) )
+	wp_die( __( 'Cheatin&#8217; uh?' ) );
+
 $wp_list_table = get_list_table('WP_Users_List_Table');
-$wp_list_table->check_permissions();
 
 $title = __('Users');
 $parent_file = 'users.php';

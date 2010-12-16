@@ -9,11 +9,17 @@
 /** WordPress Administration Bootstrap */
 require_once('./admin.php');
 
+if ( is_multisite() ) {
+	$menu_perms = get_site_option( 'menu_items', array() );
+
+	if ( empty( $menu_perms['plugins'] ) && ! is_super_admin() )
+		wp_die( __( 'Cheatin&#8217; uh?' ) );
+}
+
 if ( !current_user_can('activate_plugins') )
 	wp_die( __( 'You do not have sufficient permissions to manage plugins for this site.' ) );
 
 $wp_list_table = get_list_table('WP_Plugins_List_Table');
-$wp_list_table->check_permissions();
 
 $action = $wp_list_table->current_action();
 

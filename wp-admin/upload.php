@@ -9,8 +9,10 @@
 /** WordPress Administration Bootstrap */
 require_once( './admin.php' );
 
+if ( !current_user_can('upload_files') )
+	wp_die( __( 'You do not have permission to upload files.' ) );
+
 $wp_list_table = get_list_table('WP_Media_List_Table');
-$wp_list_table->check_permissions();
 
 // Handle bulk actions
 $doaction = $wp_list_table->current_action();

@@ -39,14 +39,12 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	function check_permissions() {
 		$menu_perms = get_site_option( 'menu_items', array() );
 
-		if ( empty( $menu_perms['themes'] ) ) {
-			if ( !is_super_admin() )
-				wp_die( __( 'Cheatin&#8217; uh?' ) );
-		}
+		if ( empty( $menu_perms['themes'] ) && ! is_super_admin() )
+			wp_die( __( 'Cheatin&#8217; uh?' ) );
 
 		if ( $this->is_site_themes && !current_user_can('manage_sites') )
 			wp_die( __( 'You do not have sufficient permissions to manage themes for this site.' ) );
-		else if ( !$this->is_site_themes && !current_user_can('manage_network_themes') )
+		elseif ( !$this->is_site_themes && !current_user_can('manage_network_themes') )
 			wp_die( __( 'You do not have sufficient permissions to manage network themes.' ) );
 	}
 

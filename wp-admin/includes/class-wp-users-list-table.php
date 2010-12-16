@@ -25,11 +25,11 @@ class WP_Users_List_Table extends WP_List_Table {
 	}
 
 	function check_permissions() {
-		if ( !current_user_can('list_users') )
-			wp_die(__('Cheatin&#8217; uh?'));
+		if ( ! $this->is_site_users && ! current_user_can( 'list_users' ) )
+			wp_die( __( 'Cheatin&#8217; uh?' ) );
 
-		if ( $this->is_site_users && !current_user_can('manage_sites') )
-			wp_die(__('You do not have sufficient permissions to edit this site.'));
+		if ( $this->is_site_users && ! current_user_can( 'manage_sites' ) )
+			wp_die(__( 'You do not have sufficient permissions to edit this site.' ) );
 	}
 
 	function prepare_items() {

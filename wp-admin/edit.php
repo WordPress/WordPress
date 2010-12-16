@@ -24,7 +24,6 @@ if ( !current_user_can($post_type_object->cap->edit_posts) )
 	wp_die(__('Cheatin&#8217; uh?'));
 
 $wp_list_table = get_list_table('WP_Posts_List_Table');
-$wp_list_table->check_permissions();
 $pagenum = $wp_list_table->get_pagenum();
 
 // Back-compat for viewing comments of an entry

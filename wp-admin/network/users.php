@@ -13,8 +13,10 @@ require_once( './admin.php' );
 if ( ! is_multisite() )
 	wp_die( __( 'Multisite support is not enabled.' ) );
 
+if ( ! current_user_can( 'manage_network_users' ) )
+	wp_die( __( 'You do not have permission to access this page.' ) );
+
 $wp_list_table = get_list_table('WP_MS_Users_List_Table');
-$wp_list_table->check_permissions();
 $wp_list_table->prepare_items();
 
 $title = __( 'Users' );
