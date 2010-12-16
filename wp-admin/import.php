@@ -44,7 +44,6 @@ if ( ! empty( $_GET['invalid'] ) && !empty($popular_importers[$_GET['invalid']][
 add_thickbox();
 require_once ('admin-header.php');
 $parent_file = 'tools.php';
-$href = is_multisite() ? network_admin_url( 'plugin-install.php' ) : admin_url( 'plugin-install.php' );
 ?>
 
 <div class="wrap">
@@ -109,8 +108,8 @@ if (empty ($importers)) {
 				}
 			}
 			if ( empty($action) )
-				$action = '<a href="' . esc_url( $href . '?tab=plugin-information&plugin=' . $plugin_slug .
-										'&from=import&TB_iframe=true&width=600&height=550' ) . '" class="thickbox" title="' .
+				$action = '<a href="' . esc_url( maybe_network_admin_url( 'plugin-install.php?tab=plugin-information&plugin=' . $plugin_slug .
+										'&from=import&TB_iframe=true&width=600&height=550' ) ) . '" class="thickbox" title="' .
 										esc_attr__('Install importer') . '">' . $data[0] . '</a>';
 		} else {
 			$action = "<a href='" . esc_url("admin.php?import=$id") . "' title='" . esc_attr( wptexturize(strip_tags($data[1])) ) ."'>{$data[0]}</a>";
@@ -131,7 +130,7 @@ if (empty ($importers)) {
 }
 
 if ( current_user_can('install_plugins') )
-	echo '<p>' . sprintf( __('If the importer you need is not listed, <a href="%s">search the plugins directory</a> to see if an importer is available.'), esc_url( $href . '?tab=search&type=tag&s=importer' ) ) . '</p>';
+	echo '<p>' . sprintf( __('If the importer you need is not listed, <a href="%s">search the plugins directory</a> to see if an importer is available.'), esc_url( maybe_network_admin_url( 'plugin-install.php?tab=search&type=tag&s=importer' ) ) ) . '</p>';
 ?>
 
 </div>
