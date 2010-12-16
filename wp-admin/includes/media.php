@@ -1343,7 +1343,10 @@ function get_media_item( $attachment_id, $args = null ) {
 		if ( !empty( $field[ $field['input'] ] ) )
 			$item .= $field[ $field['input'] ];
 		elseif ( $field['input'] == 'textarea' ) {
-			$item .= "<textarea type='text' id='$name' name='$name' $aria_required>" . esc_textarea( $field['value'] ) . '</textarea>';
+			if ( user_can_richedit() ) { // already escaped when user_can_richedit() = false
+				$field['value'] = esc_textarea( $field['value'] );
+			}
+			$item .= "<textarea type='text' id='$name' name='$name' $aria_required>" . $field['value'] . '</textarea>';
 		} else {
 			$item .= "<input type='text' class='text' id='$name' name='$name' value='" . esc_attr( $field['value'] ) . "' $aria_required />";
 		}

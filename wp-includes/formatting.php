@@ -1126,7 +1126,7 @@ function force_balance_tags( $text ) {
 function format_to_edit($content, $richedit = false) {
 	$content = apply_filters('format_to_edit', $content);
 	if (! $richedit )
-		$content = htmlspecialchars($content);
+		$content = esc_textarea($content);
 	return $content;
 }
 
