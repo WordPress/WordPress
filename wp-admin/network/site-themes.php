@@ -125,8 +125,12 @@ require('../admin-header.php'); ?>
 <h2 id="edit-site"><?php echo $title ?></h2>
 <h3 class="nav-tab-wrapper">
 <?php
-$tabs = array( 'site-info' => array( 'label' => __('Info'), 'url' => 'site-info.php'),  'site-options' => array( 'label' => __('Options'), 'url' => 'site-options.php'),
-			  'site-users' => array( 'label' => __('Users'), 'url' => 'site-users.php'),  'site-themes' => array( 'label' => __('Themes'), 'url' => 'site-themes.php'));
+$tabs = array(
+	'site-info'     => array( 'label' => __( 'Info' ),     'url' => 'site-info.php'     ),
+	'site-users'    => array( 'label' => __( 'Users' ),    'url' => 'site-users.php'    ),
+	'site-themes'   => array( 'label' => __( 'Themes' ),   'url' => 'site-themes.php'   ),
+	'site-settings' => array( 'label' => __( 'Settings' ), 'url' => 'site-settings.php' ),
+);
 foreach ( $tabs as $tab_id => $tab ) {
 	$class = ( $tab['url'] == $pagenow ) ? ' nav-tab-active' : '';
 	echo '<a href="' . $tab['url'] . '?id=' . $id .'" class="nav-tab' . $class . '">' .  esc_html( $tab['label'] ) . '</a>';

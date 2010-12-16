@@ -18,7 +18,7 @@ if ( ! current_user_can('manage_sites') )
 
 add_contextual_help($current_screen,
 	'<p>' . __('The menu is for editing information specific to individual sites, particularly if the admin area of a site is unavailable.') . '</p>' .
-	'<p>' . __('<strong>Info</strong> The domain and path are rarely edited as this can cause the site to not work properly. The Registered date and Last Updated date are displayed. Network admins can mark a site as Archived, Spammed, Deleted and Mature, to remove from public listings or disable.') . '</p>' .
+	'<p>' . __('<strong>Info</strong> - The domain and path are rarely edited as this can cause the site to not work properly. The Registered date and Last Updated date are displayed. Network admins can mark a site as Archived, Spammed, Deleted and Mature, to remove from public listings or disable.') . '</p>' .
 	'<p>' . __('See the contextual help on the next tab. ') . '</p>' .
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
 	'<p>' . __('<a href="http://codex.wordpress.org/Super_Admin_Options_SubPanel" target="_blank">Documentation on Network Settings</a>') . '</p>' .
@@ -89,8 +89,12 @@ require('../admin-header.php');
 <h2 id="edit-site"><?php echo $title ?></h2>
 <h3 class="nav-tab-wrapper">
 <?php
-$tabs = array( 'site-info' => array( 'label' => __('Info'), 'url' => 'site-info.php'),  'site-options' => array( 'label' => __('Options'), 'url' => 'site-options.php'),
-			  'site-users' => array( 'label' => __('Users'), 'url' => 'site-users.php'),  'site-themes' => array( 'label' => __('Themes'), 'url' => 'site-themes.php'));
+$tabs = array(
+	'site-info'     => array( 'label' => __( 'Info' ),     'url' => 'site-info.php'     ),
+	'site-users'    => array( 'label' => __( 'Users' ),    'url' => 'site-users.php'    ),
+	'site-themes'   => array( 'label' => __( 'Themes' ),   'url' => 'site-themes.php'   ),
+	'site-settings' => array( 'label' => __( 'Settings' ), 'url' => 'site-settings.php' ),
+);
 foreach ( $tabs as $tab_id => $tab ) {
 	$class = ( $tab['url'] == $pagenow ) ? ' nav-tab-active' : '';
 	echo '<a href="' . $tab['url'] . '?id=' . $id .'" class="nav-tab' . $class . '">' .  esc_html( $tab['label'] ) . '</a>';
