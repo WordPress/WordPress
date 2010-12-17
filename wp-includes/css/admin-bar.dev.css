@@ -179,6 +179,7 @@
 	float: right;
 	height: 18px;
 	padding: 3px;
+	margin: 0;
 }
 
 #wpadminbar #adminbarsearch .adminbar-input {
