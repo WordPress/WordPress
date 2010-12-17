@@ -232,7 +232,7 @@ class WP_List_Table {
 
 		echo "<ul class='subsubsub'>\n";
 		foreach ( $views as $class => $view ) {
-			 $views[ $class ] = "\t<li class='$class'>$view";
+			$views[ $class ] = "\t<li class='$class'>$view";
 		}
 		echo implode( " |</li>\n", $views ) . "</li>\n";
 		echo "</ul>";

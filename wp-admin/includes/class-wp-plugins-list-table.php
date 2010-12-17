@@ -232,16 +232,15 @@ class WP_Plugins_List_Table extends WP_List_Table {
 				case 'upgrade':
 					$text = _n( 'Update Available <span class="count">(%s)</span>', 'Update Available <span class="count">(%s)</span>', $count );
 					break;
-				case 'search':
-					$text = _n( 'Search Results <span class="count">(%s)</span>', 'Search Results <span class="count">(%s)</span>', $count );
-					break;
 			}
-
-			$status_links[$type] = sprintf( "<a href='%s' %s>%s</a>",
-				add_query_arg('plugin_status', $type, 'plugins.php'),
-				( $type == $status ) ? ' class="current"' : '',
-				sprintf( $text, number_format_i18n( $count ) )
-			);
+			
+			if ( 'search' != $type ) {
+				$status_links[$type] = sprintf( "<a href='%s' %s>%s</a>",
+					add_query_arg('plugin_status', $type, 'plugins.php'),
+					( $type == $status ) ? ' class="current"' : '',
+					sprintf( $text, number_format_i18n( $count ) )
+					);
+			}
 		}
 
 		return $status_links;
