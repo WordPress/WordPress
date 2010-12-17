@@ -169,7 +169,6 @@ class WP_Users_List_Table extends WP_List_Table {
 			'username' => 'login',
 			'name'     => 'name',
 			'email'    => 'email',
-			'posts'    => 'post_count',
 		);
 
 		if ( $this->is_site_users )

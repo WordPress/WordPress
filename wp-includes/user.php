@@ -431,6 +431,7 @@ class WP_User_Query {
 		} elseif ( 'name' == $qv['orderby'] || 'display_name' == $qv['orderby'] ) {
 			$orderby = 'display_name';
 		} elseif ( 'post_count' == $qv['orderby'] ) {
+			// todo: avoid the JOIN
 			$where = get_posts_by_author_sql('post');
 			$this->query_from .= " LEFT OUTER JOIN (
 				SELECT post_author, COUNT(*) as post_count
