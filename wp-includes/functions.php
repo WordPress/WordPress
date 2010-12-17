@@ -4471,24 +4471,4 @@ function wp_find_hierarchy_loop_tortoise_hare( $callback, $start, $override = ar
 	return false;
 }
 
-/**
- * Set the display status of the admin bar
- *
- * This can be called immediately upon plugin load.  It does not need to be called from a function hooked to the init action.
- *
- * @since 3.1.0
- *
- * @param bool $show Whether to allow the admin bar to show.
- * @return void
- */
-function show_admin_bar( $show ) {
-	global $show_admin_bar;
-	$show_admin_bar = (bool) $show;
-	
-	// Remove the object if we are not going to be showing
-	// Otherwise you have to call this function prior to the init hook for it to work!
-	if ( ! $show_admin_bar && isset( $GLOBALS['wp_admin_bar'] ) )
-		$GLOBALS['wp_admin_bar'] = null;
-}
-
 ?>

@@ -300,6 +300,26 @@ function _admin_bar_bump_cb() { ?>
 }
 
 /**
+ * Set the display status of the admin bar
+ *
+ * This can be called immediately upon plugin load.  It does not need to be called from a function hooked to the init action.
+ *
+ * @since 3.1.0
+ *
+ * @param bool $show Whether to allow the admin bar to show.
+ * @return void
+ */
+function show_admin_bar( $show ) {
+	global $show_admin_bar;
+	$show_admin_bar = (bool) $show;
+	
+	// Remove the object if we are not going to be showing
+	// Otherwise you have to call this function prior to the init hook for it to work!
+	if ( ! $show_admin_bar && isset( $GLOBALS['wp_admin_bar'] ) )
+		$GLOBALS['wp_admin_bar'] = null;
+}
+
+/**
  * Determine whether the admin bar should be showing.
  *
  * @since 3.1.0
@@ -314,15 +334,34 @@ function is_admin_bar_showing() {
 		return false;
 
 	if ( ! isset( $show_admin_bar ) ) {
-		if ( ! is_user_logged_in() || ( is_admin() && ! is_multisite() ) ) {
+		if ( ! is_user_logged_in() ) {
 			$show_admin_bar = false;
 		} else {
-			$show_admin_bar = true;
+			$context = is_admin() ? 'admin' : 'front';
+			$show_admin_bar = _get_admin_bar_pref( $context );
 		}
 	}
 
 	$show_admin_bar = apply_filters( 'show_admin_bar', $show_admin_bar );
 
 	return $show_admin_bar;
+}
+
+/**
+ * Retrieve the admin bar display preference of a user based on context.
+ *
+ * @since 3.1.0
+ * @access private
+ *
+ * @param string $context Context of this preference check, either 'admin' or 'front'
+ * @param int $user Optional. ID of the user to check, defaults to 0 for current user
+ * @return bool Whether the admin bar should be showing for this user
+ */
+function _get_admin_bar_pref( $context, $user = 0 ) {
+	$pref = get_user_option( "show_admin_bar_{$context}", $user );
+	if ( false === $pref )
+		return 'admin' != $context || is_multisite();
+	
+	return 'true' === $pref;
 }
 ?>

@@ -507,8 +507,7 @@ class WP_User_Query {
 		if ( !empty( $qv['include'] ) ) {
 			$ids = implode( ',', wp_parse_id_list( $qv['include'] ) );
 			$this->query_where .= " AND $wpdb->users.ID IN ($ids)";
-		}
-		elseif ( !empty($qv['exclude']) ) {
+		} elseif ( !empty($qv['exclude']) ) {
 			$ids = implode( ',', wp_parse_id_list( $qv['exclude'] ) );
 			$this->query_where .= " AND $wpdb->users.ID NOT IN ($ids)";
 		}
@@ -1446,6 +1445,12 @@ function wp_insert_user($userdata) {
 
 	if ( empty($user_registered) )
 		$user_registered = gmdate('Y-m-d H:i:s');
+		
+	if ( empty($show_admin_bar_front) )
+		$show_admin_bar_front = 'true';
+			
+	if ( empty($show_admin_bar_admin) )
+		$show_admin_bar_admin = is_multisite() ? 'true' : 'false';
 
 	$user_nicename_check = $wpdb->get_var( $wpdb->prepare("SELECT ID FROM $wpdb->users WHERE user_nicename = %s AND user_login != %s LIMIT 1" , $user_nicename, $user_login));
 
@@ -1470,14 +1475,16 @@ function wp_insert_user($userdata) {
 		$user_id = (int) $wpdb->insert_id;
 	}
 
-	update_user_meta( $user_id, 'first_name', $first_name);
-	update_user_meta( $user_id, 'last_name', $last_name);
+	update_user_meta( $user_id, 'first_name', $first_name );
+	update_user_meta( $user_id, 'last_name', $last_name );
 	update_user_meta( $user_id, 'nickname', $nickname );
 	update_user_meta( $user_id, 'description', $description );
-	update_user_meta( $user_id, 'rich_editing', $rich_editing);
-	update_user_meta( $user_id, 'comment_shortcuts', $comment_shortcuts);
-	update_user_meta( $user_id, 'admin_color', $admin_color);
-	update_user_meta( $user_id, 'use_ssl', $use_ssl);
+	update_user_meta( $user_id, 'rich_editing', $rich_editing );
+	update_user_meta( $user_id, 'comment_shortcuts', $comment_shortcuts );
+	update_user_meta( $user_id, 'admin_color', $admin_color );
+	update_user_meta( $user_id, 'use_ssl', $use_ssl );
+	update_user_meta( $user_id, 'show_admin_bar_front', $show_admin_bar_front );
+	update_user_meta( $user_id, 'show_admin_bar_admin', $show_admin_bar_admin );
 
 	$user = new WP_User($user_id);
 
