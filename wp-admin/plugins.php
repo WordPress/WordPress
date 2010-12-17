@@ -217,12 +217,15 @@ if ( $action ) {
 			<div class="wrap">
 				<?php
 					$files_to_delete = $plugin_info = array();
+					$have_non_network_plugins = false;
 					foreach ( (array) $plugins as $plugin ) {
 						if ( '.' == dirname($plugin) ) {
 							$files_to_delete[] = WP_PLUGIN_DIR . '/' . $plugin;
 							if( $data = get_plugin_data(WP_PLUGIN_DIR . '/' . $plugin) ) {
 								$plugin_info[ $plugin ] = $data;
 								$plugin_info[ $plugin ]['is_uninstallable'] = is_uninstallable_plugin( $plugin );
+								if ( ! $plugin_info[ $plugin ]['Network'] )
+									$have_non_network_plugins = true;
 							}
 						} else {
 							// Locate all the files in that folder
@@ -235,6 +238,8 @@ if ( $action ) {
 								foreach( $plugins['folder'] as $plugin_file => $data ) {
 									$plugin_info[ $plugin_file ] = _get_plugin_data_markup_translate( $plugin_file, $data );
 									$plugin_info[ $plugin_file ]['is_uninstallable'] = is_uninstallable_plugin( $plugin );
+									if ( ! $plugin_info[ $plugin_file ]['Network'] )
+										$have_non_network_plugins = true;
 								}
 							}
 						}
@@ -243,6 +248,9 @@ if ( $action ) {
 					$plugins_to_delete = count( $plugin_info );
 					echo '<h2>' . _n( 'Delete Plugin', 'Delete Plugins', $plugins_to_delete ) . '</h2>';
 				?>
+				<?php if ( $have_non_network_plugins && is_network_admin() ) : ?>
+				<div class="error"><p><strong><?php _e( 'Caution:' ); ?></strong> <?php echo _n( 'This plugin may be active on other sites in the network.', 'These plugins may be active on other sites in the network.', $plugins_to_delete ); ?></p></div>
+				<?php endif; ?>
 				<p><?php echo _n( 'You are about to remove the following plugin:', 'You are about to remove the following plugins:', $plugins_to_delete ); ?></p>
 					<ul class="ul-disc">
 						<?php
