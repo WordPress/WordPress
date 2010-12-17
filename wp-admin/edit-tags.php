@@ -160,27 +160,27 @@ if ( current_user_can($tax->cap->edit_terms) )
 if ( 'category' == $taxonomy || 'link_category' == $taxonomy || 'post_tag' == $taxonomy  ) {
 	$help ='';
 	if ( 'category' == $taxonomy )
-		$help .= '<p>' . sprintf(__( 'You can use categories to define sections of your site and group related posts. The default category is &#8220;Uncategorized&#8221; until you change it in your <a href="%s">writing settings</a>.' ) , 'options-writing.php' ) . '</p>';
-	elseif ( 'link_category' == $taxonomy ) 
-		$help .= '<p>' . __( 'You can create groups of links by using link categories. Link category names must be unique and link categories are separate from the categories you use for posts.' ) . '</p>';
+		$help = '<p>' . sprintf(__( 'You can use categories to define sections of your site and group related posts. The default category is &#8220;Uncategorized&#8221; until you change it in your <a href="%s">writing settings</a>.' ) , 'options-writing.php' ) . '</p>';
+	elseif ( 'link_category' == $taxonomy )
+		$help = '<p>' . __( 'You can create groups of links by using link categories. Link category names must be unique and link categories are separate from the categories you use for posts.' ) . '</p>';
 	else
-		$help .= '<p>' . __( 'You can assign keywords to your posts using Post Tags. Unlike categories, tags have no hierarchy, meaning there&#8217;s no relationship from one tag to another.' ) . '</p>';
-		
-	if ( 'link_category' == $taxonomy ) 
+		$help = '<p>' . __( 'You can assign keywords to your posts using Post Tags. Unlike categories, tags have no hierarchy, meaning there&#8217;s no relationship from one tag to another.' ) . '</p>';
+
+	if ( 'link_category' == $taxonomy )
 		$help .= '<p>' . __( 'You can delete link categories in the Bulk Action pulldown, but that action does not delete the links within the category. Instead, it moves them to the default link category.' ) . '</p>';
 	else
 		$help .='<p>' . __( 'What&#8217;s the difference between categories and tags? Normally, tags are ad-hoc keywords that identify important information in your post (names, subjects, etc) that may or may not recur in other posts, while categories are pre-determined sections. If you think of your site like a book, the categories are like the Table of Contents and the tags are like the terms in the index.' ) . '</p>';
 
 	if ( 'category' == $taxonomy )
 		$help .= '<p>' . __( 'When adding a new category on this screen, you&#8217;ll fill in the following fields:' ) . '</p>';
-	elseif ( 'post_tag' == $taxonomy ) 
+	elseif ( 'post_tag' == $taxonomy )
 		$help .= '<p>' . __( 'When adding a new tag on this screen, you&#8217;ll fill in the following fields:' ) . '</p>';
 
 	if ( 'category' == $taxonomy || 'post_tag' == $taxonomy  )
 
 		$help .= '<ul>' .
 		'<li>' . __( '<strong>Name</strong> - The name is how it appears on your site.' ) . '</li>';
-	
+
 	if ( ! global_terms_enabled()  )
 	if ( 'category' == $taxonomy || 'post_tag' == $taxonomy  )
 		$help .= '<li>' . __( '<strong>Slug</strong> - The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.' ) . '</li>';
