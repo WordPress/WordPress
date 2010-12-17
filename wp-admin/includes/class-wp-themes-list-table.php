@@ -146,7 +146,7 @@ foreach ( $cols as $col => $theme_name ) {
 	$preview_link = esc_url( get_option( 'home' ) . '/' );
 	if ( is_ssl() )
 		$preview_link = str_replace( 'http://', 'https://', $preview_link );
-	$preview_link = htmlspecialchars( add_query_arg( array( 'preview' => 1, 'template' => $template, 'stylesheet' => $stylesheet, 'TB_iframe' => 'true' ), $preview_link ) );
+	$preview_link = htmlspecialchars( add_query_arg( array( 'preview' => 1, 'template' => $template, 'stylesheet' => $stylesheet, 'preview_iframe' => true, 'TB_iframe' => 'true' ), $preview_link ) );
 	$preview_text = esc_attr( sprintf( __( 'Preview of &#8220;%s&#8221;' ), $title ) );
 	$tags = $themes[$theme_name]['Tags'];
 	$thickbox_class = 'thickbox thickbox-preview';
