@@ -27,7 +27,8 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 			'number' => $users_per_page,
 			'offset' => ( $paged-1 ) * $users_per_page,
 			'search' => $usersearch,
-			'blog_id' => 0
+			'blog_id' => 0,
+			'fields' => 'all_with_meta'
 		);
 
 		if ( $role == 'super' ) {

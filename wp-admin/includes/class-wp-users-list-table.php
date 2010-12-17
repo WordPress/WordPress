@@ -47,7 +47,8 @@ class WP_Users_List_Table extends WP_List_Table {
 			'number' => $users_per_page,
 			'offset' => ( $paged-1 ) * $users_per_page,
 			'role' => $role,
-			'search' => $usersearch
+			'search' => $usersearch,
+			'fields' => 'all_with_meta'
 		);
 
 		if ( $this->is_site_users )

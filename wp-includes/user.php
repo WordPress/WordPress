@@ -414,6 +414,8 @@ class WP_User_Query {
 			foreach ( $qv['fields'] as $field )
 				$this->query_fields[] = $wpdb->users . '.' . esc_sql( $field );
 			$this->query_fields = implode( ',', $this->query_fields );
+		} elseif ( 'all' == $qv['fields'] ) {
+			$this->query_fields = "$wpdb->users.*";
 		} else {
 			$this->query_fields = "$wpdb->users.ID";
 		}
@@ -522,7 +524,7 @@ class WP_User_Query {
 	function query() {
 		global $wpdb;
 
-		if ( is_array( $this->query_vars['fields'] ) ) {
+		if ( is_array( $this->query_vars['fields'] ) || 'all' == $this->query_vars['fields'] ) {
 			$this->results = $wpdb->get_results("SELECT $this->query_fields $this->query_from $this->query_where $this->query_orderby $this->query_limit");
 		} else {
 			$this->results = $wpdb->get_col("SELECT $this->query_fields $this->query_from $this->query_where $this->query_orderby $this->query_limit");
@@ -534,8 +536,8 @@ class WP_User_Query {
 		if ( $this->query_vars['count_total'] )
 			$this->total_users = $wpdb->get_var("SELECT COUNT($wpdb->users.ID) $this->query_from $this->query_where $this->query_orderby $this->query_limit");
 
-		if ( 'all' == $this->query_vars['fields'] ) {
-			cache_users($this->results);
+		if ( 'all_with_meta' == $this->query_vars['fields'] ) {
+			cache_users( $this->results );
 
 			$r = array();
 			foreach ( $this->results as $userid )
