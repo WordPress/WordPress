@@ -350,7 +350,8 @@ class WP_Terms_List_Table extends WP_List_Table {
 		foreach ( $columns as $column_name => $column_display_name ) {
 			if ( isset( $core_columns[$column_name] ) )
 				continue;
-			do_action( 'quick_edit_custom_box', $column_name, $type, $tax->taxonomy );
+
+			do_action( 'quick_edit_custom_box', $column_name, $tax->name );
 		}
 
 	?>
