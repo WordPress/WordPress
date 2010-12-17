@@ -71,6 +71,11 @@ class WP_Terms_List_Table extends WP_List_Table {
 			'per_page' => $tags_per_page,
 		) );
 	}
+	
+	function has_items() {
+		// todo: populate $this->items in prepare_items()
+		return true;
+	}
 
 	function get_bulk_actions() {
 		$actions = array();
