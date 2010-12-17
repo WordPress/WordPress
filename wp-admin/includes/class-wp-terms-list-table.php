@@ -117,7 +117,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 		);
 	}
 
-	function display_rows() {
+	function display_rows_or_placeholder() {
 		global $taxonomy;
 
 		$args = wp_parse_args( $this->callback_args, array(
@@ -134,6 +134,9 @@ class WP_Terms_List_Table extends WP_List_Table {
 		// convert it to table rows
 		$out = '';
 		$count = 0;
+		
+		$terms = array();
+
 		if ( is_taxonomy_hierarchical( $taxonomy ) && !isset( $orderby ) ) {
 			// We'll need the full set of terms then.
 			$args['number'] = $args['offset'] = 0;
@@ -152,8 +155,14 @@ class WP_Terms_List_Table extends WP_List_Table {
 				$out .= $this->single_row( $term, 0, $taxonomy );
 			$count = $number; // Only displaying a single page.
 		}
-
-		echo $out;
+		
+		if ( empty( $terms ) ) {
+			echo '<tr class="no-items"><td colspan="2">';
+			$this->no_items();
+			echo '</td></tr>';
+		} else {
+			echo $out;
+		}
 	}
 
 	function _rows( $taxonomy, $terms, &$children, $start = 0, $per_page = 20, &$count, $parent = 0, $level = 0 ) {
