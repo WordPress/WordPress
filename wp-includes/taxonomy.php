@@ -2889,7 +2889,7 @@ function the_taxonomies($args = array()) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	echo $before . join($sep, get_the_taxonomies($post, $template)) . $after;
+	echo $before . join($sep, get_the_taxonomies($post, $r)) . $after;
 }
 
 /**
@@ -2901,14 +2901,19 @@ function the_taxonomies($args = array()) {
  * @since 2.5.0
  *
  * @param int $post Optional. Post ID or will use Global Post ID (in loop).
- * @param string $template Optional. The template to use for displaying the taxonomy terms.
+ * @param array $args Override the defaults.
  * @return array
  */
-function get_the_taxonomies($post = 0, $template = '%s: %l.') {
+function get_the_taxonomies($post = 0, $args = array() ) {
 	if ( is_int($post) )
 		$post =& get_post($post);
 	elseif ( !is_object($post) )
 		$post =& $GLOBALS['post'];
+
+	$args = wp_parse_args( $args, array(
+		'template' => '%s: %l.',
+	) );	
+	extract( $args, EXTR_SKIP );
 
 	$taxonomies = array();
 
