@@ -234,11 +234,8 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 	// tack on any additional query vars
 	$redirect['query'] = preg_replace( '#^\??&*?#', '', $redirect['query'] );
 	if ( $redirect_url && !empty($redirect['query']) ) {
-		if ( strpos($redirect_url, '?') !== false )
-			$redirect_url .= '&';
-		else
-			$redirect_url .= '?';
-		$redirect_url .= $redirect['query'];
+		parse_str( $redirect['query'], $_parsed_query );
+		$redirect_url = add_query_arg( $_parsed_query, $redirect_url );
 	}
 
 	if ( $redirect_url )
