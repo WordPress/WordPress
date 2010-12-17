@@ -1147,6 +1147,10 @@ function preview_theme() {
 	if ( !current_user_can( 'switch_themes' ) )
 		return;
 
+	// Admin Thickbox requests
+	if ( isset( $_GET['preview_iframe'] ) )
+    	show_admin_bar( false );
+		
 	$_GET['template'] = preg_replace('|[^a-z0-9_./-]|i', '', $_GET['template']);
 
 	if ( validate_file($_GET['template']) )
@@ -1160,7 +1164,7 @@ function preview_theme() {
 			return;
 		add_filter( 'stylesheet', '_preview_theme_stylesheet_filter' );
 	}
-
+	
 	// Prevent theme mods to current theme being used on theme being previewed
 	add_filter( 'pre_option_mods_' . get_current_theme(), '__return_empty_array' );
 
