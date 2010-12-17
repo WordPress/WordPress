@@ -534,7 +534,7 @@ class WP_User_Query {
 			return;
 
 		if ( $this->query_vars['count_total'] )
-			$this->total_users = $wpdb->get_var("SELECT COUNT($wpdb->users.ID) $this->query_from $this->query_where $this->query_orderby $this->query_limit");
+			$this->total_users = $wpdb->get_var("SELECT COUNT(*) $this->query_from $this->query_where");
 
 		if ( 'all_with_meta' == $this->query_vars['fields'] ) {
 			cache_users( $this->results );
