@@ -313,7 +313,7 @@ function is_admin_bar_showing() {
 	if ( defined('XMLRPC_REQUEST') || defined('APP_REQUEST') || defined('DOING_AJAX') || defined('IFRAME_REQUEST') )
 		return false;
 
-	if ( ! isset( $show_admin_bar ) || null === $show_admin_bar ) {
+	if ( ! isset( $show_admin_bar ) ) {
 		if ( ! is_user_logged_in() || ( is_admin() && ! is_multisite() ) ) {
 			$show_admin_bar = false;
 		} else {
