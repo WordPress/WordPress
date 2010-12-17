@@ -4487,8 +4487,8 @@ function show_admin_bar( $show ) {
 	
 	// Remove the object if we are not going to be showing
 	// Otherwise you have to call this function prior to the init hook for it to work!
-	if ( ! $show_admin_bar && isset( $GLOBALS['wp_admin_bar'] ) )  	  	 
-		$GLOBALS['wp_admin_bar'] = null; 
+	if ( ! $show_admin_bar && isset( $GLOBALS['wp_admin_bar'] ) )
+		$GLOBALS['wp_admin_bar'] = null;
 }
 
 ?>
