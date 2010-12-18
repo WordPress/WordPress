@@ -14,7 +14,7 @@ if ( is_multisite() && ! is_network_admin() ) {
 	exit();
 }
 
-if ( ! current_user_can( 'update_plugins' ) )
+if ( ! current_user_can( 'update_core' ) )
 	wp_die( __( 'You do not have sufficient permissions to update this site.' ) );
 
 function list_core_update( $update ) {
@@ -164,8 +164,10 @@ function core_upgrade_preamble() {
 	echo '<p>' . __( 'While your site is being updated, it will be in maintenance mode. As soon as your updates are complete, your site will return to normal.' ) . '</p>';
 	dismissed_updates();
 
-	list_plugin_updates();
-	list_theme_updates();
+	if ( current_user_can( 'update_plugins' ) )
+		list_plugin_updates();
+	if ( current_user_can( 'update_themes' ) )
+		list_theme_updates();
 	do_action('core_upgrade_preamble');
 	echo '</div>';
 }
@@ -406,9 +408,11 @@ add_contextual_help($current_screen,
 );
 
 if ( 'upgrade-core' == $action ) {
+
 	wp_version_check();
 	require_once(ABSPATH . 'wp-admin/admin-header.php');
 	core_upgrade_preamble();
+
 } elseif ( 'do-core-upgrade' == $action || 'do-core-reinstall' == $action ) {
 	check_admin_referer('upgrade-core');
 
@@ -429,6 +433,10 @@ if ( 'upgrade-core' == $action ) {
 		do_core_upgrade($reinstall);
 
 } elseif ( 'do-plugin-upgrade' == $action ) {
+
+	if ( ! current_user_can( 'update_plugins' ) )
+		wp_die( __( 'You do not have sufficient permissions to update this site.' ) );
+
 	check_admin_referer('upgrade-core');
 
 	if ( isset( $_GET['plugins'] ) ) {
@@ -451,7 +459,12 @@ if ( 'upgrade-core' == $action ) {
 	echo '<h2>' . esc_html__('Update Plugins') . '</h2>';
 	echo "<iframe src='$url' style='width: 100%; height: 100%; min-height: 750px;' frameborder='0'></iframe>";
 	echo '</div>';
+
 } elseif ( 'do-theme-upgrade' == $action ) {
+
+	if ( ! current_user_can( 'update_themes' ) )
+		wp_die( __( 'You do not have sufficient permissions to update this site.' ) );
+
 	check_admin_referer('upgrade-core');
 
 	if ( isset( $_GET['themes'] ) ) {
