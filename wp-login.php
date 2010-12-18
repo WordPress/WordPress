@@ -691,6 +691,7 @@ wp_attempt_focus();
 <?php } ?>
 if(typeof wpOnload=='function')wpOnload();
 </script>
+<?php do_action( 'login_footer' ); ?>
 </body>
 </html>
 <?php
