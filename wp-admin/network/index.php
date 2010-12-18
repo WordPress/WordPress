@@ -28,7 +28,7 @@ add_contextual_help($current_screen,
 	'<li>' . __('Blogs are now called Sites; Site is now called Network.') . '</li></ul>' .
 	'<p>' . __('This screen provides the network administrator with links to the screens for Sites and Users to either create a new site or user, or to search existing users and sites, as well as Dashboard widgets. Those screens are also accessible through the left-hand navigation in the Network Admin section.') . '</p>' .
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
-	'<p>' . __('<a href="http://codex.wordpress.org/Super_Admin_Super_Admin_Menu" target="_blank">Documentation on Super Admin Menu</a>') . '</p>' .
+	'<p>' . __('<a href="http://codex.wordpress.org/Network_Admin" target="_blank">Documentation on the Network Admin</a>') . '</p>' .
 	'<p>' . __('<a href="http://wordpress.org/support/multisite/" target="_blank">Support Forums</a>') . '</p>'
 );
 
