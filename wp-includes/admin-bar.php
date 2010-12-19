@@ -48,7 +48,7 @@ add_action( 'init', 'wp_admin_bar_init' );
 function wp_admin_bar_render() {
 	global $wp_admin_bar;
 
-	if ( ! is_object( $wp_admin_bar ) )
+	if ( ! is_admin_bar_showing() || ! is_object( $wp_admin_bar ) )
 		return false;
 
 	$wp_admin_bar->load_user_locale_translations();
@@ -312,11 +312,6 @@ function _admin_bar_bump_cb() { ?>
 function show_admin_bar( $show ) {
 	global $show_admin_bar;
 	$show_admin_bar = (bool) $show;
-	
-	// Remove the object if we are not going to be showing
-	// Otherwise you have to call this function prior to the init hook for it to work!
-	if ( ! $show_admin_bar && isset( $GLOBALS['wp_admin_bar'] ) )
-		$GLOBALS['wp_admin_bar'] = null;
 }
 
 /**
