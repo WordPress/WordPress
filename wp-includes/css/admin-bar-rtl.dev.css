@@ -65,11 +65,12 @@
 	margin-left: 8px;
 }
 
-#wpadminbar .quicklinks li.ab-my-account > a {
+#wpadminbar .quicklinks li.ab-my-account-with-avatar > a {
 	background: url(../images/admin-bar-sprite-rtl.png?d=11122010) top right no-repeat;
 }
 
-#wpadminbar .quicklinks li.ab-my-account > a {
+#wpadminbar .quicklinks li.ab-my-account > a,
+#wpadminbar .quicklinks li.ab-my-account-with-avatar > a {
 	border-right: none;
 	border-left: 1px solid #686868;
 }

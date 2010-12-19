@@ -204,7 +204,7 @@ function wp_admin_bar_comments_menu() {
 	$awaiting_mod = wp_count_comments();
 	$awaiting_mod = $awaiting_mod->moderated;
 
-	$awaiting_mod = $awaiting_mod ? "<span id='ab-awaiting-mod'><span class='pending-count'>" . number_format_i18n( $awaiting_mod ) . "</span></span>" : '';
+	$awaiting_mod = $awaiting_mod ? "<span id='ab-awaiting-mod' class='pending-count'>" . number_format_i18n( $awaiting_mod ) . "</span>" : '';
 	$wp_admin_bar->add_menu( array( 'id' => 'comments', 'title' => sprintf( __('Comments %s'), $awaiting_mod ), 'href' => admin_url('edit-comments.php') ) );
 }
 

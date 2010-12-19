@@ -1,26 +1,43 @@
+#wpadminbar * {
+	height: auto;
+	width: auto;
+	margin: 0;
+	padding: 0;
+	position: static;
+	text-transform: none;
+	letter-spacing: normal;
+	line-height: 1;
+}
+
+#wpadminbar :before,
+#wpadminbar :after {
+	content: normal;
+}
+
+#wpadminbar a,
+#wpadminbar a:hover,
+#wpadminbar a img, 
+#wpadminbar a img:hover {
+	outline: none;
+	border: none;
+	text-decoration: none;
+	background: none;
+}
+
 #wpadminbar {
 	direction: ltr;
 	background: #666;
 	background: -moz-linear-gradient(bottom,  #666,  #7f7f7f);
 	background: -webkit-gradient(linear, left bottom, left top, from(#666), to(#7f7f7f));
 	color: #ddd;
-	font: 12px Arial, Helvetica, sans-serif;
+	font: normal 12px/28px Arial, Helvetica, sans-serif;
 	height: 28px;
-	margin: 0;
-	padding: 0;
 	position: fixed;
 	top: 0;
 	left: 0;
 	width: 100%;
 	z-index: 99999;
 	min-width: 960px;
-}
-
-#wpadminbar a,
-#wpadminbar a:hover {
-	outline: none;
-	border: none;
-	text-decoration: none;
 }
 
 #wpadminbar ul,
@@ -59,10 +76,12 @@
 	height: 28px;
 	text-shadow: #555 0px -1px 0px;
 	display: block;
-	font: 13px Arial, Helvetica, sans-serif;
-	font-weight: normal;
-	letter-spacing: normal;
+	font: normal 13px/28px Arial, Helvetica, sans-serif;
 	padding: 0 0.85em;
+	margin: 0;
+}
+
+#wpadminbar .quicklinks a > span {
 	line-height: 28px;
 }
 
@@ -86,7 +105,6 @@
 #wpadminbar .quicklinks .menupop ul li a {
 	color: #555;
 	text-shadow: none;
-	font-weight: normal;
 	white-space: nowrap;
 	overflow: hidden;
 	width: 160px;
@@ -121,6 +139,7 @@
 }
 
 #wpadminbar .quicklinks .menupop a > span {
+	display: inline;
 	background: url(../images/admin-bar-sprite.png?d=11122010) right -58px no-repeat;
 	padding-right: .8em;
 }
@@ -151,6 +170,9 @@
 	background: #fff;
 	color: #000;
 }
+#wpadminbar .quicklinks li.ab-my-account > a {
+	border-left: none;
+}
 
 #wpadminbar .quicklinks li.ab-my-account-with-avatar > a {
 	border-left: none;
@@ -164,6 +186,7 @@
 	margin: -2px 23px 0 -5px;
 	padding: 0;
 	background: #eee;
+	float: none;
 }
 
 #wpadminbar .quicklinks li.ab-my-account-with-avatar ul {
@@ -172,7 +195,8 @@
 
 #wpadminbar .quicklinks .menupop li a img.blavatar {
 	vertical-align: middle;
-	margin-right: 8px;
+	margin: 0 8px 0 0;
+	padding: 0;
 }
 
 #wpadminbar #adminbarsearch {
@@ -184,6 +208,7 @@
 
 #wpadminbar #adminbarsearch .adminbar-input {
 	width: 140px;
+	height: auto;
 	float: left;
 	font: 12px Arial, Helvetica, sans-serif;
 	color: #555;
@@ -191,7 +216,7 @@
 	border: 1px solid #626262;
 	padding: 2px 3px;
 	margin: 0 3px 0 0;
-	background-color: #ddd;
+	background: #ddd;
 	-moz-box-shadow: inset 2px 2px 1px #cdcdcd;
 	-webkit-box-shadow: inset 2px 2px 1px #cdcdcd;
 	box-shadow: inset 2px 2px 1px #cdcdcd;
@@ -222,6 +247,8 @@
 	border: 1px solid #626262;
 	padding: 2px 13px;
 	margin: 0;
+	width: auto;
+	height: auto;
 }
 
 #wpadminbar #adminbarsearch .adminbar-button:active {
@@ -254,9 +281,6 @@
 	float: left;
 }
 
-* html #wpadminbar,
-* html #wpadminbar .menupop a span,
-* html #wpadminbar .quicklinks li,
-* html #wpadminbar .quicklinks li:hover {
+* html #wpadminbar .menupop a span {
 	background-image: none;
 }
