@@ -1762,7 +1762,7 @@ function pingback($content, $post_ID) {
 	$post_links = array();
 
 	$pung = get_pung($post_ID);
-var_Dump(compact('pung'));
+
 	// Variables
 	$ltrs = '\w';
 	$gunk = '/#~:.?+=&%@!\-';
@@ -1785,7 +1785,7 @@ var_Dump(compact('pung'));
 	// We don't wanna ping first and second types, even if they have a valid <link/>
 
 	foreach ( (array) $post_links_temp[0] as $link_test ) :
-		if ( !in_array($link_test, $pung) && !in_array($link_test, $post_links) && (url_to_postid($link_test) != $post_ID) // If we haven't pung it already and it isn't a link to itself
+		if ( !in_array($link_test, $pung) && (url_to_postid($link_test) != $post_ID) // If we haven't pung it already and it isn't a link to itself
 				&& !is_local_attachment($link_test) ) : // Also, let's never ping local attachments.
 			if ( $test = @parse_url($link_test) ) {
 				if ( isset($test['query']) )
@@ -1795,12 +1795,11 @@ var_Dump(compact('pung'));
 			}
 		endif;
 	endforeach;
-var_dump(compact('post_links', 'post_links_temp'));
+
 	do_action_ref_array('pre_ping', array(&$post_links, &$pung));
 
 	foreach ( (array) $post_links as $pagelinkedto ) {
 		$pingback_server_url = discover_pingback_server_uri( $pagelinkedto );
-		var_dump(compact('pagelinkedto', 'pingback_server_url'));
 
 		if ( $pingback_server_url ) {
 			@ set_time_limit( 60 );
@@ -1809,15 +1808,13 @@ var_dump(compact('post_links', 'post_links_temp'));
 
 			// using a timeout of 3 seconds should be enough to cover slow servers
 			$client = new WP_HTTP_IXR_Client($pingback_server_url);
-			$client->timeout = 5;
+			$client->timeout = 3;
 			$client->useragent = apply_filters( 'pingback_useragent', $client->useragent . ' -- WordPress/' . $wp_version, $client->useragent, $pingback_server_url, $pagelinkedto, $pagelinkedfrom);
 			// when set to true, this outputs debug messages by itself
-			$client->debug = true;
+			$client->debug = false;
 
 			if ( $client->query('pingback.ping', $pagelinkedfrom, $pagelinkedto) || ( isset($client->error->code) && 48 == $client->error->code ) ) // Already registered
 				add_ping( $post_ID, $pagelinkedto );
-			var_Dump($client);
-			echo '<hr />';
 		}
 	}
 }
