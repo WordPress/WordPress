@@ -204,9 +204,6 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 				case 'upgrade':
 					$text = _n( 'Update Available <span class="count">(%s)</span>', 'Update Available <span class="count">(%s)</span>', $count );
 					break;
-				case 'search':
-					$text = _n( 'Search Results <span class="count">(%s)</span>', 'Search Results <span class="count">(%s)</span>', $count );
-					break;
 			}
 
 			if ( $this->is_site_themes )
@@ -214,11 +211,13 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			else
 				$url = 'themes.php';
 
-			$status_links[$type] = sprintf( "<a href='%s' %s>%s</a>",
-				add_query_arg('theme_status', $type, $url),
-				( $type == $status ) ? ' class="current"' : '',
-				sprintf( $text, number_format_i18n( $count ) )
-			);
+			if ( 'search' != $type ) {
+				$status_links[$type] = sprintf( "<a href='%s' %s>%s</a>",
+					add_query_arg('theme_status', $type, $url),
+					( $type == $status ) ? ' class="current"' : '',
+					sprintf( $text, number_format_i18n( $count ) )
+				);
+			}
 		}
 
 		return $status_links;
