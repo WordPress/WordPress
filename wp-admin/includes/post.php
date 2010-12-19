@@ -391,6 +391,8 @@ function get_default_post_to_edit( $post_type = 'post', $create_in_db = false ) 
 			wp_delete_post( $delete, true ); // Force delete
 		$post_id = wp_insert_post( array( 'post_title' => __( 'Auto Draft' ), 'post_type' => $post_type, 'post_status' => 'auto-draft' ) );
 		$post = get_post( $post_id );
+		if ( current_theme_supports( 'post-formats' ) && post_type_supports( $post->post_type, 'post-formats' ) && get_option( 'default_post_format' ) )
+			set_post_format( $post, get_option( 'default_post_format' ) );
 	} else {
 		$post->ID = 0;
 		$post->post_author = '';
