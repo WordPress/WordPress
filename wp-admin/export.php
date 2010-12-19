@@ -170,7 +170,7 @@ function export_date_options() {
 		<label><?php _e( 'Authors:' ); ?></label>
 <?php
 		$authors = $wpdb->get_col( "SELECT DISTINCT post_author FROM {$wpdb->posts} WHERE post_type = 'page'" );
-		wp_dropdown_users( array( 'include' => $authors, 'name' => 'post_author', 'multi' => true, 'show_option_all' => __('All') ) );
+		wp_dropdown_users( array( 'include' => $authors, 'name' => 'page_author', 'multi' => true, 'show_option_all' => __('All') ) );
 ?>
 	</li>
 	<li>
