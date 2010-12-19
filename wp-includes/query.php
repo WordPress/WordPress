@@ -144,7 +144,7 @@ function is_archive() {
 
 	if ( ! isset( $wp_query ) ) {
 		_doing_it_wrong( __FUNCTION__, __( 'Conditional query tags do not work before the init hook. They always return false.' ), '3.1' );
-		// return false;
+		return false;
 	}
 
 	return $wp_query->is_archive();
@@ -165,7 +165,7 @@ function is_post_type_archive( $post_types = '' ) {
 
 	if ( ! isset( $wp_query ) ) {
 		_doing_it_wrong( __FUNCTION__, __( 'Conditional query tags do not work before the init hook. They always return false.' ), '3.1' );
-		// return false;
+		return false;
 	}
 
 	return $wp_query->is_post_type_archive( $post_types );
@@ -185,7 +185,7 @@ function is_attachment() {
 
 	if ( ! isset( $wp_query ) ) {
 		_doing_it_wrong( __FUNCTION__, __( 'Conditional query tags do not work before the init hook. They always return false.' ), '3.1' );
-		// return false;
+		return false;
 	}
 
 	return $wp_query->is_attachment();
@@ -209,7 +209,7 @@ function is_author( $author = '' ) {
 
 	if ( ! isset( $wp_query ) ) {
 		_doing_it_wrong( __FUNCTION__, __( 'Conditional query tags do not work before the init hook. They always return false.' ), '3.1' );
-		// return false;
+		return false;
 	}
 
 	return $wp_query->is_author( $author );
@@ -233,7 +233,7 @@ function is_category( $category = '' ) {
 
 	if ( ! isset( $wp_query ) ) {
 		_doing_it_wrong( __FUNCTION__, __( 'Conditional query tags do not work before the init hook. They always return false.' ), '3.1' );
-		// return false;
+		return false;
 	}
 
 	return $wp_query->is_category( $category );
@@ -257,7 +257,7 @@ function is_tag( $slug = '' ) {
 
 	if ( ! isset( $wp_query ) ) {
 		_doing_it_wrong( __FUNCTION__, __( 'Conditional query tags do not work before the init hook. They always return false.' ), '3.1' );
-		// return false;
+		return false;
 	}
 
 	return $wp_query->is_tag( $slug );
@@ -286,7 +286,7 @@ function is_tax( $taxonomy = '', $term = '' ) {
 
 	if ( ! isset( $wp_query ) ) {
 		_doing_it_wrong( __FUNCTION__, __( 'Conditional query tags do not work before the init hook. They always return false.' ), '3.1' );
-		// return false;
+		return false;
 	}
 
 	return $wp_query->is_tax( $taxonomy, $term );
@@ -306,7 +306,7 @@ function is_comments_popup() {
 
 	if ( ! isset( $wp_query ) ) {
 		_doing_it_wrong( __FUNCTION__, __( 'Conditional query tags do not work before the init hook. They always return false.' ), '3.1' );
-		// return false;
+		return false;
 	}
 
 	return $wp_query->is_comments_popup();
@@ -326,7 +326,7 @@ function is_date() {
 
 	if ( ! isset( $wp_query ) ) {
 		_doing_it_wrong( __FUNCTION__, __( 'Conditional query tags do not work before the init hook. They always return false.' ), '3.1' );
-		// return false;
+		return false;
 	}
 
 	return $wp_query->is_date();
@@ -346,7 +346,7 @@ function is_day() {
 
 	if ( ! isset( $wp_query ) ) {
 		_doing_it_wrong( __FUNCTION__, __( 'Conditional query tags do not work before the init hook. They always return false.' ), '3.1' );
-		// return false;
+		return false;
 	}
 
 	return $wp_query->is_day();
@@ -367,7 +367,7 @@ function is_feed( $feeds = '' ) {
 
 	if ( ! isset( $wp_query ) ) {
 		_doing_it_wrong( __FUNCTION__, __( 'Conditional query tags do not work before the init hook. They always return false.' ), '3.1' );
-		// return false;
+		return false;
 	}
 
 	return $wp_query->is_feed( $feeds );
@@ -387,7 +387,7 @@ function is_comment_feed() {
 
 	if ( ! isset( $wp_query ) ) {
 		_doing_it_wrong( __FUNCTION__, __( 'Conditional query tags do not work before the init hook. They always return false.' ), '3.1' );
-		// return false;
+		return false;
 	}
 
 	return $wp_query->is_comment_feed();
@@ -417,7 +417,7 @@ function is_front_page() {
 
 	if ( ! isset( $wp_query ) ) {
 		_doing_it_wrong( __FUNCTION__, __( 'Conditional query tags do not work before the init hook. They always return false.' ), '3.1' );
-		// return false;
+		return false;
 	}
 
 	return $wp_query->is_front_page();
@@ -446,7 +446,7 @@ function is_home() {
 
 	if ( ! isset( $wp_query ) ) {
 		_doing_it_wrong( __FUNCTION__, __( 'Conditional query tags do not work before the init hook. They always return false.' ), '3.1' );
-		// return false;
+		return false;
 	}
 
 	return $wp_query->is_home();
@@ -466,7 +466,7 @@ function is_month() {
 
 	if ( ! isset( $wp_query ) ) {
 		_doing_it_wrong( __FUNCTION__, __( 'Conditional query tags do not work before the init hook. They always return false.' ), '3.1' );
-		// return false;
+		return false;
 	}
 
 	return $wp_query->is_month();
@@ -493,7 +493,7 @@ function is_page( $page = '' ) {
 
 	if ( ! isset( $wp_query ) ) {
 		_doing_it_wrong( __FUNCTION__, __( 'Conditional query tags do not work before the init hook. They always return false.' ), '3.1' );
-		// return false;
+		return false;
 	}
 
 	return $wp_query->is_page( $page );
@@ -513,7 +513,7 @@ function is_paged() {
 
 	if ( ! isset( $wp_query ) ) {
 		_doing_it_wrong( __FUNCTION__, __( 'Conditional query tags do not work before the init hook. They always return false.' ), '3.1' );
-		// return false;
+		return false;
 	}
 
 	return $wp_query->is_paged();
@@ -533,7 +533,7 @@ function is_preview() {
 
 	if ( ! isset( $wp_query ) ) {
 		_doing_it_wrong( __FUNCTION__, __( 'Conditional query tags do not work before the init hook. They always return false.' ), '3.1' );
-		// return false;
+		return false;
 	}
 
 	return $wp_query->is_preview();
@@ -553,7 +553,7 @@ function is_robots() {
 
 	if ( ! isset( $wp_query ) ) {
 		_doing_it_wrong( __FUNCTION__, __( 'Conditional query tags do not work before the init hook. They always return false.' ), '3.1' );
-		// return false;
+		return false;
 	}
 
 	return $wp_query->is_robots();
@@ -573,7 +573,7 @@ function is_search() {
 
 	if ( ! isset( $wp_query ) ) {
 		_doing_it_wrong( __FUNCTION__, __( 'Conditional query tags do not work before the init hook. They always return false.' ), '3.1' );
-		// return false;
+		return false;
 	}
 
 	return $wp_query->is_search();
@@ -602,7 +602,7 @@ function is_single( $post = '' ) {
 
 	if ( ! isset( $wp_query ) ) {
 		_doing_it_wrong( __FUNCTION__, __( 'Conditional query tags do not work before the init hook. They always return false.' ), '3.1' );
-		// return false;
+		return false;
 	}
 
 	return $wp_query->is_single( $post );
@@ -629,7 +629,7 @@ function is_singular( $post_types = '' ) {
 
 	if ( ! isset( $wp_query ) ) {
 		_doing_it_wrong( __FUNCTION__, __( 'Conditional query tags do not work before the init hook. They always return false.' ), '3.1' );
-		// return false;
+		return false;
 	}
 
 	return $wp_query->is_singular( $post_types );
@@ -649,7 +649,7 @@ function is_time() {
 
 	if ( ! isset( $wp_query ) ) {
 		_doing_it_wrong( __FUNCTION__, __( 'Conditional query tags do not work before the init hook. They always return false.' ), '3.1' );
-		// return false;
+		return false;
 	}
 
 	return $wp_query->is_time();
@@ -669,7 +669,7 @@ function is_trackback() {
 
 	if ( ! isset( $wp_query ) ) {
 		_doing_it_wrong( __FUNCTION__, __( 'Conditional query tags do not work before the init hook. They always return false.' ), '3.1' );
-		// return false;
+		return false;
 	}
 
 	return $wp_query->is_trackback();
@@ -689,7 +689,7 @@ function is_year() {
 
 	if ( ! isset( $wp_query ) ) {
 		_doing_it_wrong( __FUNCTION__, __( 'Conditional query tags do not work before the init hook. They always return false.' ), '3.1' );
-		// return false;
+		return false;
 	}
 
 	return $wp_query->is_year();
@@ -709,7 +709,7 @@ function is_404() {
 
 	if ( ! isset( $wp_query ) ) {
 		_doing_it_wrong( __FUNCTION__, __( 'Conditional query tags do not work before the init hook. They always return false.' ), '3.1' );
-		// return false;
+		return false;
 	}
 
 	return $wp_query->is_404();
