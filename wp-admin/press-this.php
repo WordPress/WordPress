@@ -27,6 +27,7 @@ if ( ! current_user_can('edit_posts') )
  */
 function press_it() {
 	// define some basic variables
+	$quick = array();
 	$quick['post_status'] = 'draft'; // set as draft first
 	$quick['post_category'] = isset($_POST['post_category']) ? $_POST['post_category'] : null;
 	$quick['tax_input'] = isset($_POST['tax_input']) ? $_POST['tax_input'] : null;
@@ -64,6 +65,19 @@ function press_it() {
 	} else {
 		$quick['ID'] = $post_ID;
 		wp_update_post($quick);
+
+		// Post formats
+		if ( current_theme_supports( 'post-formats' ) && isset( $_POST['post_format'] ) ) {
+			$post_formats = get_theme_support( 'post-formats' );
+			if ( is_array( $post_formats ) ) {
+				$post_formats = $post_formats[0];
+				if ( in_array( $_POST['post_format'], $post_formats ) )
+					set_post_format( $post_ID, $_POST['post_format'] );
+				elseif ( '0' == $_POST['post_format'] )
+					set_post_format( $post_ID, false );
+			}
+		}
+
 	}
 	return $post_ID;
 }
@@ -468,10 +482,6 @@ var photostorage = false;
 			<div class="photolist"></div>
 
 			<div id="submitdiv" class="stuffbox">
-				<div class="handlediv" title="<?php _e( 'Click to toggle' ); ?>">
-					<br/>
-				</div>
-				<h3><?php _e('Publish') ?></h3>
 				<div class="inside">
 					<p>
 					<?php
@@ -484,6 +494,21 @@ var photostorage = false;
 						} ?>
 						<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" id="saving" style="display:none;" />
 					</p>
+					<?php if ( current_theme_supports( 'post-formats' ) && post_type_supports( 'post', 'post-formats' ) ) :
+							$post_formats = get_theme_support( 'post-formats' );
+							if ( is_array( $post_formats[0] ) ) :
+								$default_format = get_option( 'default_post_format', '0' );
+						?>
+					<p>
+						<label for="post_format"><?php _e( 'Post Format:' ); ?>
+						<select name="post_format" id="post_format">
+							<option value="0"><?php _e( 'Standard' ); ?></option>
+						<?php foreach ( $post_formats[0] as $format ): ?>
+							<option<?php selected( $default_format, $format ); ?> value="<?php echo esc_attr( $format ); ?>"> <?php echo esc_html( get_post_format_string( $format ) ); ?></option>
+						<?php endforeach; ?>
+						</select></label>
+					</p>
+					<?php endif; endif; ?>
 				</div>
 			</div>
 
