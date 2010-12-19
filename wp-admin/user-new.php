@@ -245,14 +245,14 @@ if ( is_multisite() ) {
 	</tr>
 <?php } ?>
 </table>
-<?php submit_button( __( 'Add User '), 'primary', 'adduser', true, array( 'id' => 'addusersub' ) ); ?>
+<?php submit_button( __( 'Add Existing User '), 'primary', 'adduser', true, array( 'id' => 'addusersub' ) ); ?>
 </form>
 <?php
 } // is_multisite()
 
 if ( current_user_can( 'create_users') ) {
 	if ( $do_both )
-		echo '<h3 id="create-new-user">' . __( 'Create New User' ) . '</h3>';
+		echo '<h3 id="create-new-user">' . __( 'Add New User' ) . '</h3>';
 ?>
 <p><?php _e('Create a brand new user and add it to this site.'); ?></p>
 <form action="" method="post" name="createuser" id="createuser" class="add:users: validate"<?php do_action('user_new_form_tag');?>>
@@ -330,7 +330,7 @@ foreach ( array( 'user_login' => 'login', 'first_name' => 'firstname', 'last_nam
 	<?php } ?>
 </table>
 
-<?php submit_button( __( 'Add User '), 'primary', 'createuser', true, array( 'id' => 'createusersub' ) ); ?>
+<?php submit_button( __( 'Add New User '), 'primary', 'createuser', true, array( 'id' => 'createusersub' ) ); ?>
 
 </form>
 <?php } // current_user_can('create_users') ?>
