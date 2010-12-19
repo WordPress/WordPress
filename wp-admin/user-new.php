@@ -182,7 +182,13 @@ if ( isset($_GET['update']) ) {
 ?>
 <div class="wrap">
 <?php screen_icon(); ?>
-<h2 id="add-new-user"><?php _e('Add New User') ?></h2>
+<h2 id="add-new-user"> <?php
+if ( current_user_can( 'create_users' ) ) {
+	echo _x( 'Add New User', 'user' );
+} elseif ( current_user_can( 'promote_users' ) ) {
+	echo _x( 'Add Existing User', 'user' );
+} ?>
+</h2>
 
 <?php if ( isset($errors) && is_wp_error( $errors ) ) : ?>
 	<div class="error">
