@@ -56,6 +56,23 @@ wp_dropdown_categories(array('hide_empty' => 0, 'name' => 'default_category', 'o
 ?>
 </td>
 </tr>
+<?php
+if ( current_theme_supports( 'post-formats' ) ) :
+	$post_formats = get_theme_support( 'post-formats' );
+	if ( is_array( $post_formats[0] ) ) :
+?>
+<tr valign="top">
+<th scope="row"><label for="default_post_format"><?php _e('Default Post Format') ?></label></th>
+<td>
+	<select name="default_post_format" id="default_post_format">
+		<option value="0"><?php _e('Standard'); ?></option>
+<?php foreach ( $post_formats[0] as $format ): ?>
+		<option<?php selected( get_option('default_post_format'), $format ); ?> value="<?php echo esc_attr( $format ); ?>"><?php echo esc_html( get_post_format_string( $format ) ); ?></option>
+<?php endforeach; ?>
+	</select></label>
+</td>
+</tr>
+<?php endif; endif; ?>
 <tr valign="top">
 <th scope="row"><label for="default_link_category"><?php _e('Default Link Category') ?></label></th>
 <td>

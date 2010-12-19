@@ -318,6 +318,9 @@ function populate_options() {
 	// 3.0
 	'page_for_posts' => 0,
 	'page_on_front' => 0,
+
+	// 3.1
+	'default_post_format' => 0,
 	);
 
 	// 3.0 multisite
