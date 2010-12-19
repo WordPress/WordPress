@@ -204,7 +204,7 @@ setCommentsList = function() {
 			}
 		}
 
-		if ( theExtraList.size() == 0 || theExtraList.children().size() == 0 || untrash ) {
+		if ( theExtraList.size() == 0 || theExtraList.children().size() == 0 || untrash || unspam ) {
 			return;
 		}
 
