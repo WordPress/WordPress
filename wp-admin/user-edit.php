@@ -217,10 +217,10 @@ if ( !( IS_PROFILE_PAGE && !$user_can_edit ) ) : ?>
 <td><fieldset><legend class="screen-reader-text"><span><?php _e('Admin Bar') ?></span></legend>
 <label for="admin_bar_front">
 <input name="admin_bar_front" type="checkbox" id="admin_bar_front" value="1" <?php checked( _get_admin_bar_pref( 'front', $profileuser->ID ) ); ?> />
-<?php _e( 'Display the admin bar on the front end' ); ?></label><br />
+<?php _e( 'Display the admin bar when viewing your site' ); ?></label><br />
 <label for="admin_bar_admin">
 <input name="admin_bar_admin" type="checkbox" id="admin_bar_admin" value="1" <?php checked( _get_admin_bar_pref( 'admin', $profileuser->ID ) ); ?> />
-<?php _e( 'Display the admin bar in the dashboard' ); ?></label>
+<?php _e( 'Display the admin bar when accessing the dashboard' ); ?></label>
 </td>
 </tr>
 <?php do_action('personal_options', $profileuser); ?>
