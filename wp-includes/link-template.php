@@ -185,11 +185,11 @@ function get_post_permalink( $id = 0, $leavename = false, $sample = false ) {
 
 	$slug = $post->post_name;
 
-	$draft_or_pending = in_array( $post->post_status, array( 'draft', 'pending', 'auto-draft' ) );
+	$draft_or_pending = isset($post->post_status) && in_array( $post->post_status, array( 'draft', 'pending', 'auto-draft' ) );
 
 	$post_type = get_post_type_object($post->post_type);
 
-	if ( !empty($post_link) && ( ( isset($post->post_status) && !$draft_or_pending ) || $sample ) ) {
+	if ( !empty($post_link) && ( !$draft_or_pending || $sample ) ) {
 		if ( ! $leavename ) {
 			if ( $post_type->hierarchical )
 				$slug = get_page_uri($id);
