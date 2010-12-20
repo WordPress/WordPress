@@ -1894,6 +1894,10 @@ function screen_options($screen) {
 	else
 		$per_page = apply_filters( $option, $per_page );
 
+	// Back compat
+	if ( isset( $screen->post_type ) )
+		$per_page = apply_filters( 'edit_posts_per_page', $per_page, $screen->post_type );
+
 	$return = "<div class='screen-options'>\n";
 	if ( !empty($per_page_label) )
 		$return .= "<input type='text' class='screen-per-page' name='wp_screen_options[value]' id='$option' maxlength='3' value='$per_page' /> <label for='$option'>$per_page_label</label>\n";
