@@ -610,6 +610,11 @@ function is_blog_admin() {
  * @return bool True if inside WordPress network administration pages.
  */
 function is_network_admin() {
+	if ( defined('DOING_AJAX') && function_exists('get_current_screen') ) {
+		$screen = get_current_screen();
+		return (bool) $screen->is_network;
+	}
+
 	if ( defined( 'WP_NETWORK_ADMIN' ) )
 		return WP_NETWORK_ADMIN;
 	return false;
