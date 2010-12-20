@@ -192,13 +192,23 @@ function edit_post( $post_data = null ) {
 
 	// Meta Stuff
 	if ( isset($post_data['meta']) && $post_data['meta'] ) {
-		foreach ( $post_data['meta'] as $key => $value )
+		foreach ( $post_data['meta'] as $key => $value ) {
+			if ( !$meta = get_post_meta_by_id( $key ) )
+				continue;
+			if ( $meta->post_id != $post_ID )
+				continue;
 			update_meta( $key, $value['key'], $value['value'] );
+		}
 	}
 
 	if ( isset($post_data['deletemeta']) && $post_data['deletemeta'] ) {
-		foreach ( $post_data['deletemeta'] as $key => $value )
+		foreach ( $post_data['deletemeta'] as $key => $value ) {
+			if ( !$meta = get_post_meta_by_id( $key ) )
+				continue;
+			if ( $meta->post_id != $post_ID )
+				continue;
 			delete_meta( $key );
+		}
 	}
 
 	add_meta( $post_ID );
