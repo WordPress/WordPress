@@ -1212,26 +1212,26 @@ function comment_form_title( $noreplytext = false, $replytext = false, $linktopa
  *
  * @package WordPress
  * @uses Walker
- * @since unknown
+ * @since 2.7.0
  */
 class Walker_Comment extends Walker {
 	/**
 	 * @see Walker::$tree_type
-	 * @since unknown
+	 * @since 2.7.0
 	 * @var string
 	 */
 	var $tree_type = 'comment';
 
 	/**
 	 * @see Walker::$db_fields
-	 * @since unknown
+	 * @since 2.7.0
 	 * @var array
 	 */
 	var $db_fields = array ('parent' => 'comment_parent', 'id' => 'comment_ID');
 
 	/**
 	 * @see Walker::start_lvl()
-	 * @since unknown
+	 * @since 2.7.0
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param int $depth Depth of comment.
@@ -1255,7 +1255,7 @@ class Walker_Comment extends Walker {
 
 	/**
 	 * @see Walker::end_lvl()
-	 * @since unknown
+	 * @since 2.7.0
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param int $depth Depth of comment.
@@ -1318,7 +1318,7 @@ class Walker_Comment extends Walker {
 
 	/**
 	 * @see Walker::start_el()
-	 * @since unknown
+	 * @since 2.7.0
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param object $comment Comment data object.
@@ -1378,7 +1378,7 @@ class Walker_Comment extends Walker {
 
 	/**
 	 * @see Walker::end_el()
-	 * @since unknown
+	 * @since 2.7.0
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param object $comment

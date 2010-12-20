@@ -14,7 +14,7 @@
  */
 
 /**
- * @since unknown
+ * @since MU
  * @deprecated 3.0.0
  * @deprecated Use wp_generate_password()
  * @see wp_generate_password()

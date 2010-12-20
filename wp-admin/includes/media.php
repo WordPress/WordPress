@@ -354,7 +354,7 @@ if ( is_string($content_func) )
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.5.0
  */
 function media_buttons() {
 	$do_image = $do_audio = $do_video = true;

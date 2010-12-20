@@ -570,7 +570,7 @@ class WP_Rewrite {
 	/**
 	 * Endpoints permalinks
 	 *
-	 * @since unknown
+	 * @since 2.1.0
 	 * @access private
 	 * @var array
 	 */
@@ -1002,7 +1002,7 @@ class WP_Rewrite {
 	/**
 	 * Retrieve extra permalink structure by name.
 	 *
-	 * @since unknown
+	 * @since 2.5.0
 	 * @access public
 	 *
 	 * @param string $name Permalink structure name.
@@ -1847,7 +1847,7 @@ class WP_Rewrite {
 	 * These are added along with the extra rewrite rules that are merged to the
 	 * top.
 	 *
-	 * @since unknown
+	 * @since 2.5.0
 	 * @access public
 	 *
 	 * @param string $name Name for permalink structure.

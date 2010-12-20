@@ -364,7 +364,7 @@ function bulk_edit_posts( $post_data = null ) {
 /**
  * Default post information to use when populating the "Write Post" form.
  *
- * @since unknown
+ * @since 2.0.0
  *
  * @param string $post_type A post type string, defaults to 'post'.
  * @return object stdClass object containing all the default post data as attributes

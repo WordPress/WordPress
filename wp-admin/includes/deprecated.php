@@ -57,7 +57,7 @@ function wp_shrink_dimensions( $width, $height, $wmax = 128, $hmax = 96 ) {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 0.71
  * @deprecated 2.6.0
  * @deprecated Use wp_category_checklist()
  * @see wp_category_checklist()
@@ -75,7 +75,7 @@ function dropdown_categories( $default = 0, $parent = 0, $popular_ids = array() 
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.1.0
  * @deprecated 2.6.0
  * @deprecated Use wp_link_category_checklist()
  * @see wp_link_category_checklist()
@@ -91,7 +91,7 @@ function dropdown_link_categories( $default = 0 ) {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 1.2.0
  * @deprecated 3.0.0
  * @deprecated Use wp_dropdown_categories()
  * @see wp_dropdown_categories()
@@ -292,7 +292,7 @@ if ( !class_exists('WP_User_Search') ) :
 /**
  * WordPress User Search class.
  *
- * @since 2.1
+ * @since 2.1.0
  * @deprecated 3.1.0
  */
 class WP_User_Search {
@@ -300,7 +300,7 @@ class WP_User_Search {
 	/**
 	 * {@internal Missing Description}}
 	 *
-	 * @since unknown
+	 * @since 2.1.0
 	 * @access private
 	 * @var unknown_type
 	 */
@@ -309,7 +309,7 @@ class WP_User_Search {
 	/**
 	 * {@internal Missing Description}}
 	 *
-	 * @since unknown
+	 * @since 2.1.0
 	 * @access private
 	 * @var unknown_type
 	 */
@@ -318,7 +318,7 @@ class WP_User_Search {
 	/**
 	 * Page number.
 	 *
-	 * @since unknown
+	 * @since 2.1.0
 	 * @access private
 	 * @var int
 	 */
@@ -327,7 +327,7 @@ class WP_User_Search {
 	/**
 	 * Role name that users have.
 	 *
-	 * @since unknown
+	 * @since 2.5.0
 	 * @access private
 	 * @var string
 	 */
@@ -336,7 +336,7 @@ class WP_User_Search {
 	/**
 	 * Raw page number.
 	 *
-	 * @since unknown
+	 * @since 2.1.0
 	 * @access private
 	 * @var int|bool
 	 */
@@ -345,7 +345,7 @@ class WP_User_Search {
 	/**
 	 * Amount of users to display per page.
 	 *
-	 * @since unknown
+	 * @since 2.1.0
 	 * @access public
 	 * @var int
 	 */
@@ -354,7 +354,7 @@ class WP_User_Search {
 	/**
 	 * {@internal Missing Description}}
 	 *
-	 * @since unknown
+	 * @since 2.1.0
 	 * @access private
 	 * @var unknown_type
 	 */
@@ -363,7 +363,7 @@ class WP_User_Search {
 	/**
 	 * {@internal Missing Description}}
 	 *
-	 * @since unknown
+	 * @since 2.1.0
 	 * @access private
 	 * @var int
 	 */
@@ -372,7 +372,7 @@ class WP_User_Search {
 	/**
 	 * {@internal Missing Description}}
 	 *
-	 * @since unknown
+	 * @since 2.1.0
 	 * @access private
 	 * @var string
 	 */
@@ -408,7 +408,7 @@ class WP_User_Search {
 	/**
 	 * {@internal Missing Description}}
 	 *
-	 * @since unknown
+	 * @since 2.1.0
 	 * @access private
 	 * @var int
 	 */
@@ -417,7 +417,7 @@ class WP_User_Search {
 	/**
 	 * {@internal Missing Description}}
 	 *
-	 * @since unknown
+	 * @since 2.1.0
 	 * @access private
 	 * @var bool
 	 */
@@ -426,7 +426,7 @@ class WP_User_Search {
 	/**
 	 * {@internal Missing Description}}
 	 *
-	 * @since unknown
+	 * @since 2.1.0
 	 * @access private
 	 * @var unknown_type
 	 */
@@ -435,7 +435,7 @@ class WP_User_Search {
 	/**
 	 * {@internal Missing Description}}
 	 *
-	 * @since unknown
+	 * @since 2.7.0
 	 * @access private
 	 * @var unknown_type
 	 */
@@ -444,7 +444,7 @@ class WP_User_Search {
 	/**
 	 * PHP4 Constructor - Sets up the object properties.
 	 *
-	 * @since unknown
+	 * @since 2.1.0
 	 *
 	 * @param string $search_term Search terms string.
 	 * @param int $page Optional. Page ID.
@@ -470,7 +470,7 @@ class WP_User_Search {
 	 *
 	 * {@internal Missing Long Description}}
 	 *
-	 * @since unknown
+	 * @since 2.1.0
 	 * @access public
 	 */
 	function prepare_query() {
@@ -510,7 +510,7 @@ class WP_User_Search {
 	 *
 	 * {@internal Missing Long Description}}
 	 *
-	 * @since unknown
+	 * @since 2.1.0
 	 * @access public
 	 */
 	function query() {
@@ -529,7 +529,7 @@ class WP_User_Search {
 	 *
 	 * {@internal Missing Long Description}}
 	 *
-	 * @since unknown
+	 * @since 2.1.0
 	 * @access public
 	 */
 	function prepare_vars_for_template_usage() {
@@ -541,7 +541,7 @@ class WP_User_Search {
 	 *
 	 * {@internal Missing Long Description}}
 	 *
-	 * @since unknown
+	 * @since 2.1.0
 	 * @access public
 	 */
 	function do_paging() {
@@ -575,7 +575,7 @@ class WP_User_Search {
 	 *
 	 * {@internal Missing Long Description}}
 	 *
-	 * @since unknown
+	 * @since 2.1.0
 	 * @access public
 	 *
 	 * @return unknown
@@ -589,7 +589,7 @@ class WP_User_Search {
 	 *
 	 * @see do_paging() Builds paging text.
 	 *
-	 * @since unknown
+	 * @since 2.1.0
 	 * @access public
 	 */
 	function page_links() {
@@ -601,7 +601,7 @@ class WP_User_Search {
 	 *
 	 * @see do_paging() Builds paging text.
 	 *
-	 * @since unknown
+	 * @since 2.1.0
 	 * @access public
 	 *
 	 * @return bool
@@ -615,7 +615,7 @@ class WP_User_Search {
 	/**
 	 * Whether there are search terms.
 	 *
-	 * @since unknown
+	 * @since 2.1.0
 	 * @access public
 	 *
 	 * @return bool

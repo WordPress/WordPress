@@ -394,7 +394,7 @@ if ( !function_exists('fetch_rss') ) :
 /**
  * Build Magpie object based on RSS from URL.
  *
- * @since unknown
+ * @since 1.5.0
  * @package External
  * @subpackage MagpieRSS
  *
@@ -532,7 +532,7 @@ endif;
 /**
  * Retrieve URL headers and content using WP HTTP Request API.
  *
- * @since unknown
+ * @since 1.5.0
  * @package External
  * @subpackage MagpieRSS
  *
@@ -576,7 +576,7 @@ function _fetch_remote_file($url, $headers = "" ) {
 /**
  * Retrieve
  *
- * @since unknown
+ * @since 1.5.0
  * @package External
  * @subpackage MagpieRSS
  *
@@ -626,7 +626,7 @@ function _response_to_rss ($resp) {
 /**
  * Set up constants with default values, unless user overrides.
  *
- * @since unknown
+ * @since 1.5.0
  * @package External
  * @subpackage MagpieRSS
  */
@@ -871,7 +871,7 @@ if ( !function_exists('wp_rss') ) :
 /**
  * Display all RSS items in a HTML ordered list.
  *
- * @since unknown
+ * @since 1.5.0
  * @package External
  * @subpackage MagpieRSS
  *
@@ -911,7 +911,7 @@ if ( !function_exists('get_rss') ) :
  * to display. You can't display all of them like you can with wp_rss()
  * function.
  *
- * @since unknown
+ * @since 1.5.0
  * @package External
  * @subpackage MagpieRSS
  *

@@ -197,7 +197,7 @@ function wp_create_tag($tag_name) {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.3.0
  *
  * @param unknown_type $post_id
  * @return unknown
@@ -209,7 +209,7 @@ function get_tags_to_edit( $post_id, $taxonomy = 'post_tag' ) {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.8.0
  *
  * @param unknown_type $post_id
  * @return unknown
