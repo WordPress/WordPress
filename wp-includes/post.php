@@ -476,7 +476,7 @@ function get_post_mime_type($ID = '') {
 }
 
 /**
- * Retrieve the format for a post
+ * Retrieve the format slug for a post
  *
  * @since 3.1.0
  *
@@ -494,7 +494,7 @@ function get_post_format( $post = null ) {
 
 	$format = array_shift( $_format );
 
-	return ( str_replace('post-format-', '', $format->name ) );
+	return ( str_replace('post-format-', '', $format->slug ) );
 }
 
 /**
@@ -5174,5 +5174,59 @@ function _post_format_link( $link, $term, $taxonomy ) {
 	}
 }
 add_filter( 'term_link', '_post_format_link', 10, 3 );
+
+/**
+ * Remove the post format prefix from the name property of the term object created by get_term().
+ *
+ * @access private
+ * @since 3.1.0
+ */
+function _post_format_get_term( $term ) {
+	if ( isset( $term->slug ) ) {
+		$term->name = get_post_format_string( str_replace( 'post-format-', '', $term->slug ) );
+	}
+	return $term;
+}
+add_filter( 'get_post_format', '_post_format_get_term' );
+
+/**
+ * Remove the post format prefix from the name property of the term objects created by get_terms().
+ *
+ * @access private
+ * @since 3.1.0
+ */
+function _post_format_get_terms( $terms, $taxonomies, $args ) {
+	if ( in_array( 'post_format', (array) $taxonomies ) ) {
+		if ( isset( $args['fields'] ) && 'names' == $args['fields'] ) {
+			foreach( $terms as $order => $name ) {
+				$terms[$order] = get_post_format_string( str_replace( 'post-format-', '', $name ) );
+			}
+		} else {
+			foreach ( (array) $terms as $order => $term ) {
+				if ( isset( $term->taxonomy ) && 'post_format' == $term->taxonomy ) {
+					$terms[$order]->name = get_post_format_string( str_replace( 'post-format-', '', $term->slug ) );
+				}
+			}
+		}
+	}
+	return $terms;
+}
+add_filter( 'get_terms', '_post_format_get_terms', 10, 3 );
+
+/**
+ * Remove the post format prefix from the name property of the term objects created by wp_get_object_terms().
+ *
+ * @access private
+ * @since 3.1.0
+ */
+function _post_format_wp_get_object_terms( $terms ) {
+	foreach ( (array) $terms as $order => $term ) {
+		if ( isset( $term->taxonomy ) && 'post_format' == $term->taxonomy ) {
+			$terms[$order]->name = get_post_format_string( str_replace( 'post-format-', '', $term->slug ) );
+		}
+	}
+	return $terms;
+}
+add_filter( 'wp_get_object_terms', '_post_format_wp_get_object_terms' );
 
 ?>
