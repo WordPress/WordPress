@@ -276,7 +276,10 @@ commentReply = {
 		});
 
 		this.comments_listing = $('#comments-form > input[name="comment_status"]').val() || '';
-
+		
+		$(listTable).bind('beforeChangePage', function(){
+			commentReply.close();
+		});
 	},
 
 	addEvents : function(r) {
