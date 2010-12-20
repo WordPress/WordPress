@@ -65,12 +65,12 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
 
 	do_action( 'delete_blog', $blog_id, $drop );
 
-	$users = get_users_of_blog( $blog_id );
+	$users = get_users( array( 'blog_id' => $blog_id, 'fields' => 'ids' ) );
 
 	// Remove users from this blog.
 	if ( ! empty( $users ) ) {
-		foreach ( $users as $user ) {
-			remove_user_from_blog( $user->ID, $blog_id) ;
+		foreach ( $users as $user_id ) {
+			remove_user_from_blog( $user_id, $blog_id) ;
 		}
 	}
 

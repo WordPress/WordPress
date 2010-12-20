@@ -52,7 +52,7 @@ function confirm_delete_users( $users ) {
 				<br /><fieldset><p><legend><?php printf( __( "What should be done with posts and links owned by <em>%s</em>?" ), $delete_user->user_login ); ?></legend></p>
 				<?php
 				foreach ( (array) $blogs as $key => $details ) {
-					$blog_users = get_users_of_blog( $details->userblog_id );
+					$blog_users = get_users( array( 'blog_id' => $details->userblog_id ) );
 					if ( is_array( $blog_users ) && !empty( $blog_users ) ) {
 						$user_site = "<a href='" . esc_url( get_home_url( $details->userblog_id ) ) . "'>{$details->blogname}</a>";
 						$user_dropdown = "<select name='blog[$val][{$key}]'>";

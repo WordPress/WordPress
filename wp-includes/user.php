@@ -619,26 +619,6 @@ function get_users( $args = array() ) {
 }
 
 /**
- * Get users for the blog.
- *
- * For setups that use the multi-blog feature. Can be used outside of the
- * multi-blog feature.
- *
- * @since 2.2.0
- * @uses get_users() for queries
- * @uses $blog_id The Blog id of the blog for those that use more than one blog
- *
- * @param int $id Blog ID.
- * @return array List of users that are part of that Blog ID
- */
-function get_users_of_blog( $id = '' ) {
-	if ( empty( $id ) )
-		$id = get_current_blog_id();
-
-	return get_users( array( 'blog_id' => $id ) );
-}
-
-/**
  * Get the blogs a user belongs to.
  *
  * @since 3.0.0
