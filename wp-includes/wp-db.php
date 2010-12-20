@@ -64,7 +64,7 @@ class wpdb {
 	 * Whether to suppress errors during the DB bootstrapping.
 	 *
 	 * @access private
-	 * @since 2.5
+	 * @since 2.5.0
 	 * @var bool
 	 */
 	var $suppress_errors = false;
@@ -73,7 +73,7 @@ class wpdb {
 	 * The last error during query.
 	 *
 	 * @see get_last_error()
-	 * @since 2.5
+	 * @since 2.5.0
 	 * @access private
 	 * @var string
 	 */
@@ -91,7 +91,7 @@ class wpdb {
 	/**
 	 * Count of rows returned by previous query
 	 *
-	 * @since 1.2
+	 * @since 1.2.0
 	 * @access private
 	 * @var int
 	 */
@@ -522,6 +522,8 @@ class wpdb {
 
 	/**
 	 * Set $this->charset and $this->collate
+	 *
+	 * @since 3.1.0
 	 */
 	function init_charset() {
 		if ( function_exists('is_multisite') && is_multisite() ) {
@@ -540,6 +542,8 @@ class wpdb {
 
 	/**
 	 * Sets the connection's character set.
+	 *
+	 * @since 3.1.0
 	 *
 	 * @param resource $dbh     The resource given by mysql_connect
 	 * @param string   $charset The character set (optional)
@@ -776,7 +780,7 @@ class wpdb {
 	 *
 	 * @see mysql_real_escape_string()
 	 * @see addslashes()
-	 * @since 2.8
+	 * @since 2.8.0
 	 * @access private
 	 *
 	 * @param  string $string to escape
@@ -794,7 +798,7 @@ class wpdb {
 	 *
 	 * @uses wpdb::_escape()
 	 * @uses wpdb::_real_escape()
-	 * @since  2.8
+	 * @since  2.8.0
 	 * @access private
 	 *
 	 * @param  string|array $data
@@ -997,7 +1001,7 @@ class wpdb {
 	 * By default database errors are suppressed, with a simple
 	 * call to this function they can be enabled.
 	 *
-	 * @since 2.5
+	 * @since 2.5.0
 	 * @see wpdb::hide_errors()
 	 * @param bool $suppress Optional. New value. Defaults to true.
 	 * @return bool Old value
@@ -1022,6 +1026,8 @@ class wpdb {
 
 	/**
 	 * Connect to and select database
+	 *
+	 * @since 3.0.0
 	 */
 	function db_connect() {
 		global $db_list, $global_db_list;
@@ -1511,7 +1517,7 @@ class wpdb {
 	/**
 	 * Determine if a database supports a particular feature
 	 *
-	 * @since 2.7
+	 * @since 2.7.0
 	 * @see   wpdb::db_version()
 	 *
 	 * @param string $db_cap the feature
@@ -1557,6 +1563,8 @@ class wpdb {
 
 	/**
 	 * The database version number.
+	 *
+	 * @since 2.7.0
 	 *
 	 * @return false|string false on failure, version number on success
 	 */
