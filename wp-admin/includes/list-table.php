@@ -56,7 +56,7 @@ function require_list_table( $class ) {
 	);
 
 	if ( isset( $core_classes[ $class ] ) ) {
-		require_once( ABSPATH . '/wp-admin/includes/class-wp-' . $core_classes[ $class ] . '-list-table.php' );
+		require_once( ABSPATH . 'wp-admin/includes/class-wp-' . $core_classes[ $class ] . '-list-table.php' );
 		return true;
 	}
 
