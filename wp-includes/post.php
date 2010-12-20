@@ -5061,6 +5061,14 @@ function get_post_format_strings() {
 	return $strings;
 }
 
+/**
+ * Retrieves an array of (translated and sanitized) post format slugs.
+ *
+ * @since 3.1.0
+ *
+ * @uses sanitize_title_with_dashes()
+ * @return array The array of (translated and sanitized) post format slugs.
+ */
 function get_post_format_slugs() {
 	$slugs = array(
 		'standard' => _x( 'standard', 'Post format slug' ),
