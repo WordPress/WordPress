@@ -85,8 +85,9 @@ class WP_Themes_List_Table extends WP_List_Table {
 
 	function display() {
 ?>
-		<div class="tablenav">
+		<div class="tablenav top">
 			<?php $this->pagination( 'top' ); ?>
+			<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading list-ajax-loading" alt="" />
 			<br class="clear" />
 		</div>
 
@@ -96,8 +97,9 @@ class WP_Themes_List_Table extends WP_List_Table {
 			</tbody>
 		</table>
 
-		<div class="tablenav">
+		<div class="tablenav bottom">
 			<?php $this->pagination( 'bottom' ); ?>
+			<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading list-ajax-loading" alt="" />
 			<br class="clear" />
 		</div>
 <?php

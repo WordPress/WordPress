@@ -4193,14 +4193,13 @@ td.media-icon img {
 }
 * html #template div {margin-right: 0;}
 #save {width: 15em;}
-#loading-items {
-	position: absolute;
-	z-index: 9999;
-	padding: 10px 0;
-	background-color: #fff;
-	font-weight: bold;
-	text-align: center;
-	opacity: 0.5;
+.list-ajax-loading {
+	float: right;
+	margin-right: 9px;
+	margin-top: -1px;
+}
+.tablenav .list-ajax-loading {
+	margin-top: 7px;
 }
 #howto {
 	font-size: 11px;

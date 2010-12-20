@@ -14,11 +14,6 @@ window.listTable = {
 		this.set_total_pages();
 
 		this.$tbody = $('#the-list, #the-comment-list');
-
-		this.$overlay = $('<div id="loading-items">')
-			.html(listTableL10n.loading)
-			.hide()
-			.prependTo($('body'));
 	},
 
 	// paging
@@ -53,7 +48,7 @@ window.listTable = {
 		if ( !different )
 			return false;
 
-		this.show_overlay();
+		this.start_loading();
 
 		if ( reset_paging )
 			$.query.SET('paged', 1);
@@ -96,7 +91,7 @@ window.listTable = {
 		if ( 'object' != typeof response ) {
 			this.handle_error();
 		} else {
-			this.hide_overlay();
+			this.stop_loading();
 
 			this.$tbody.html(response.rows);
 
@@ -119,28 +114,23 @@ window.listTable = {
 	},
 
 	handle_error: function() {
-		this.hide_overlay();
+		this.stop_loading();
 
 		$('h2').after('<div class="error ajax below-h2"><p>' + listTableL10n.error + '</p></div>');
 	},
 
-	show_overlay: function() {
+	start_loading: function() {
 		this.loading = true;
 
 		$('.error.ajax').remove();
 
-		this.$overlay
-			.css({
-				width: this.$tbody.width() + 'px',
-				height: this.$tbody.height() - 20 + 'px'
-			})
-			.css(this.$tbody.offset())
-			.show();
+		$('.list-ajax-loading').css('visibility', 'visible');
 	},
 
-	hide_overlay: function() {
+	stop_loading: function() {
 		this.loading = false;
-		this.$overlay.hide();
+
+		$('.list-ajax-loading').css('visibility', 'hidden');
 	}
 }
 

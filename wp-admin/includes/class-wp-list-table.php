@@ -199,6 +199,7 @@ class WP_List_Table {
 	<input type="text" id="<?php echo $input_id ?>" name="s" value="<?php _admin_search_query(); ?>" />
 	<?php submit_button( $text, 'button', 'submit', false ); ?>
 </p>
+<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading list-ajax-loading" alt="" />
 <?php
 	}
 
@@ -730,11 +731,14 @@ class WP_List_Table {
 		<div class="alignleft actions">
 			<?php $this->bulk_actions( $which ); ?>
 		</div>
-
-	<?php
+<?php
 		$this->extra_tablenav( $which );
 		$this->pagination( $which );
-	?>
+
+if ( 'bottom' == $which ) {
+?>
+<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading list-ajax-loading" alt="" />
+<?php } ?>
 
 		<br class="clear" />
 	</div>
