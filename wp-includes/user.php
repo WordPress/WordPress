@@ -389,6 +389,7 @@ class WP_User_Query {
 				'offset' => '', 'number' => '',
 				'count_total' => true,
 				'fields' => 'all',
+				'who' => ''
 			) );
 
 			$this->prepare_query();
