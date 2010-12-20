@@ -481,10 +481,18 @@ class WP_User_Query {
 			$this->query_where .= $this->get_search_sql( $search, $search_columns, $wild );
 		}
 
+		$blog_id = absint( $qv['blog_id'] );
+
+		if ( 'authors' == $qv['who'] && $blog_id ) {
+			$qv['meta_key'] = $wpdb->get_blog_prefix( $blog_id ) . 'user_level';
+			$qv['meta_value'] = '_wp_zero_value'; // Hack to pass '0'
+			$qv['meta_compare'] = '!=';
+			$qv['blog_id'] = $blog_id = 0; // Prevent extra meta query
+		}
+
 		_parse_meta_query( $qv );
 
 		$role = trim( $qv['role'] );
-		$blog_id = absint( $qv['blog_id'] );
 
 		if ( $blog_id && ( $role || is_multisite() ) ) {
 			$cap_meta_query = array();
@@ -929,6 +937,7 @@ function setup_userdata($for_user_id = '') {
  * <ol>
  * <li>show_option_all - Text to show all and whether HTML option exists.</li>
  * <li>show_option_none - Text for show none and whether HTML option exists.</li>
+ * <li>hide_if_only_one_author - Don't create the dropdown if there is only one user.</li>
  * <li>orderby - SQL order by clause for what order the users appear. Default is 'display_name'.</li>
  * <li>order - Default is 'ASC'. Can also be 'DESC'.</li>
  * <li>include - User IDs to include.</li>
@@ -941,6 +950,7 @@ function setup_userdata($for_user_id = '') {
  * <li>id - Default is the value of the 'name' parameter. ID attribute of select element.</li>
  * <li>class - Class attribute of select element.</li>
  * <li>blog_id - ID of blog (Multisite only). Defaults to ID of current blog.</li>
+ * <li>who - Which users to query.  Currently only 'authors' is supported. Default is all users.</li>
  * </ol>
  *
  * @since 2.3.0
@@ -950,14 +960,13 @@ function setup_userdata($for_user_id = '') {
  * @return string|null Null on display. String of HTML content on retrieve.
  */
 function wp_dropdown_users( $args = '' ) {
-	global $wpdb;
 	$defaults = array(
-		'show_option_all' => '', 'show_option_none' => '',
+		'show_option_all' => '', 'show_option_none' => '', 'hide_if_only_one_author' => '',
 		'orderby' => 'display_name', 'order' => 'ASC',
 		'include' => '', 'exclude' => '', 'multi' => 0,
 		'show' => 'display_name', 'echo' => 1,
-		'selected' => 0, 'name' => 'user', 'class' => '', 'blog_id' => $GLOBALS['blog_id'],
-		'id' => '',
+		'selected' => 0, 'name' => 'user', 'class' => '', 'id' => '',
+		'blog_id' => $GLOBALS['blog_id'], 'who' => ''
 	);
 
 	$defaults['selected'] = is_author() ? get_query_var( 'author' ) : 0;
@@ -965,13 +974,12 @@ function wp_dropdown_users( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	$query_args = wp_array_slice_assoc( $r, array( 'blog_id', 'include', 'exclude', 'orderby', 'order' ) );
+	$query_args = wp_array_slice_assoc( $r, array( 'blog_id', 'include', 'exclude', 'orderby', 'order', 'who' ) );
 	$query_args['fields'] = array( 'ID', $show );
-
 	$users = get_users( $query_args );
 
 	$output = '';
-	if ( !empty($users) ) {
+	if ( !empty($users) && ( empty($hide_if_only_one_author) || count($users) > 1 ) ) {
 		$name = esc_attr( $name );
 		if ( $multi && ! $id )
 			$id = '';

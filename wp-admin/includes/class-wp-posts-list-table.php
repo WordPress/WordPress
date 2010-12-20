@@ -757,7 +757,6 @@ class WP_Posts_List_Table extends WP_List_Table {
 				<?php touch_time( 1, 1, 4, 1 ); ?>
 			</div>
 			<br class="clear" />
-
 	<?php endif; // $bulk
 
 		if ( post_type_supports( $screen->post_type, 'author' ) ) :
@@ -765,6 +764,8 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 			if ( is_super_admin() || current_user_can( $post_type_object->cap->edit_others_posts ) ) :
 				$users_opt = array(
+					'hide_if_only_one_author' => true,
+					'who' => 'authors',
 					'name' => 'post_author',
 					'class'=> 'authors',
 					'multi' => 1,
@@ -772,10 +773,13 @@ class WP_Posts_List_Table extends WP_List_Table {
 				);
 				if ( $bulk )
 					$users_opt['show_option_none'] = __( '&mdash; No Change &mdash;' );
-				$authors_dropdown  = '<label>';
-				$authors_dropdown .= '<span class="title">' . __( 'Author' ) . '</span>';
-				$authors_dropdown .= wp_dropdown_users( $users_opt );
-				$authors_dropdown .= '</label>';
+
+				if ( $authors = wp_dropdown_users( $users_opt ) ) :
+					$authors_dropdown  = '<label>';
+					$authors_dropdown .= '<span class="title">' . __( 'Author' ) . '</span>';
+					$authors_dropdown .= $authors;
+					$authors_dropdown .= '</label>';
+				endif;
 			endif; // authors
 	?>
 

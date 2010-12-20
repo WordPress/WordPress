@@ -433,6 +433,11 @@ function get_meta_sql( $meta_query, $meta_type, $primary_table, $primary_id_colu
 		} else {
 			$meta_compare_string = '%s';
 		}
+
+		// @todo Temporary hack to support empty values. Do not use outside of core.
+		if ( '_wp_zero_value' == $meta_value )
+			$meta_value = 0;
+
 		$where .= $wpdb->prepare( " AND CAST($alias.meta_value AS {$meta_type}) {$meta_compare} {$meta_compare_string}", $meta_value );
 	}
 
