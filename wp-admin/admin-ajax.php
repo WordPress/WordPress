@@ -57,6 +57,9 @@ case 'fetch-list' :
 	$current_screen->is_network = 'false' === $current_screen->is_network ? false : true;
 	$current_screen->is_user = 'false' === $current_screen->is_user ? false : true;
 
+	define( 'WP_NETWORK_ADMIN', $current_screen->is_network );
+	define( 'WP_USER_ADMIN', $current_screen->is_user );
+
 	$wp_list_table = get_list_table( $_GET['list_args']['class'] );
 	if ( ! $wp_list_table )
 		die( '0' );
