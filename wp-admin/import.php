@@ -42,6 +42,9 @@ if ( ! empty( $_GET['invalid'] ) && !empty($popular_importers[$_GET['invalid']][
 }
 
 add_thickbox();
+wp_enqueue_script( 'plugin-install' );
+wp_admin_css( 'plugin-install' );
+
 require_once ('admin-header.php');
 $parent_file = 'tools.php';
 ?>

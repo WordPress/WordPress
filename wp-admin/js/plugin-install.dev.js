@@ -15,7 +15,7 @@ jQuery(document).ready(function($) {
 				tbWindow.css({'top': 20 + adminbar_height + 'px','margin-top':'0'});
 		};
 
-		return $('#dashboard_plugins a.thickbox, .plugins a.thickbox').each( function() {
+		return $('a.thickbox').each( function() {
 			var href = $(this).attr('href');
 			if ( ! href )
 				return;
