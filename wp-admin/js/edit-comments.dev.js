@@ -228,6 +228,8 @@ setCommentsList = function() {
 			args.offset = per_page - 1; // fetch only the last item of the next page
 		}
 		
+		args.no_placeholder = true;
+
 		args.paged ++;
 
 		listTable.fetch_list(args, function(response) {

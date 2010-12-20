@@ -844,7 +844,11 @@ class WP_List_Table {
 		extract( $this->_pagination_args );
 
 		ob_start();
-		$this->display_rows_or_placeholder();
+		if ( ! empty( $_REQUEST['no_placeholder'] ) )
+			$this->display_rows();
+		else
+			$this->display_rows_or_placeholder();
+
 		$rows = ob_get_clean();
 
 		$response = array( 'rows' => $rows );
