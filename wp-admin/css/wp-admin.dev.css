@@ -796,6 +796,7 @@ form.upgrade .hint {
 }
 
 .metabox-prefs label {
+	display: inline-block;
 	padding-right: 15px;
 	white-space: nowrap;
 	line-height: 30px;
