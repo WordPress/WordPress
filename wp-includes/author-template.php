@@ -284,13 +284,16 @@ function wp_list_authors($args = '') {
 
 	$return = '';
 
-	$authors = get_users( wp_array_slice_assoc( $args, array( 'orderby', 'order', 'number' ) ) );
+	$query_args = wp_array_slice_assoc( $args, array( 'orderby', 'order', 'number' ) );
+	$query_args['fields'] = 'ids';
+	$authors = get_users( $query_args );
 
 	$author_count = array();
 	foreach ( (array) $wpdb->get_results("SELECT DISTINCT post_author, COUNT(ID) AS count FROM $wpdb->posts WHERE post_type = 'post' AND " . get_private_posts_cap_sql( 'post' ) . " GROUP BY post_author") as $row )
 		$author_count[$row->post_author] = $row->count;
 
-	foreach ( $authors as $author ) {
+	foreach ( $authors as $author_id ) {
+		$author = get_userdata( $author_id );
 
 		if ( $exclude_admin && 'admin' == $author->display_name )
 			continue;
