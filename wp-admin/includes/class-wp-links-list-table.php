@@ -142,7 +142,7 @@ class WP_Links_List_Table extends WP_List_Table {
 						echo '</td>';
 						break;
 					case 'url':
-						echo "<td $attributes><a href='$link->link_url' title='".sprintf( __( 'Visit %s' ), $link->link_name )."'>$short_url</a></td>";
+						echo "<td $attributes><a href='$link->link_url' title='". esc_attr( sprintf( __( 'Visit %s' ), $link->link_name ) )."'>$short_url</a></td>";
 						break;
 					case 'categories':
 						?><td <?php echo $attributes ?>><?php

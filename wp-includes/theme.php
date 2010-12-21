@@ -239,7 +239,7 @@ function get_theme_data( $theme_file ) {
 		if ( empty( $theme_data['AuthorURI'] ) ) {
 			$theme_data['Author'] = $theme_data['AuthorName'];
 		} else {
-			$theme_data['Author'] = sprintf( '<a href="%1$s" title="%2$s">%3$s</a>', $theme_data['AuthorURI'], __( 'Visit author homepage' ), $theme_data['AuthorName'] );
+			$theme_data['Author'] = sprintf( '<a href="%1$s" title="%2$s">%3$s</a>', $theme_data['AuthorURI'], esc_attr__( 'Visit author homepage' ), $theme_data['AuthorName'] );
 		}
 	}
 

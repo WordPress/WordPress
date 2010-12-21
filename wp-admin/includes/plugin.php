@@ -133,12 +133,12 @@ function _get_plugin_data_markup_translate($plugin_file, $plugin_data, $markup =
 	//Apply Markup
 	if ( $markup ) {
 		if ( ! empty($plugin_data['PluginURI']) && ! empty($plugin_data['Name']) )
-			$plugin_data['Title'] = '<a href="' . $plugin_data['PluginURI'] . '" title="' . __( 'Visit plugin homepage' ) . '">' . $plugin_data['Name'] . '</a>';
+			$plugin_data['Title'] = '<a href="' . $plugin_data['PluginURI'] . '" title="' . esc_attr__( 'Visit plugin homepage' ) . '">' . $plugin_data['Name'] . '</a>';
 		else
 			$plugin_data['Title'] = $plugin_data['Name'];
 
 		if ( ! empty($plugin_data['AuthorURI']) && ! empty($plugin_data['Author']) )
-			$plugin_data['Author'] = '<a href="' . $plugin_data['AuthorURI'] . '" title="' . __( 'Visit author homepage' ) . '">' . $plugin_data['Author'] . '</a>';
+			$plugin_data['Author'] = '<a href="' . $plugin_data['AuthorURI'] . '" title="' . esc_attr__( 'Visit author homepage' ) . '">' . $plugin_data['Author'] . '</a>';
 
 		$plugin_data['Description'] = wptexturize( $plugin_data['Description'] );
 		if ( ! empty($plugin_data['Author']) )

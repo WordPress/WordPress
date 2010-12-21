@@ -280,7 +280,7 @@ class WP_Users_List_Table extends WP_List_Table {
 					$r .= "<td $attributes>$user_object->first_name $user_object->last_name</td>";
 					break;
 				case 'email':
-					$r .= "<td $attributes><a href='mailto:$email' title='" . sprintf( __( 'E-mail: %s' ), $email ) . "'>$email</a></td>";
+					$r .= "<td $attributes><a href='mailto:$email' title='" . esc_attr( sprintf( __( 'E-mail: %s' ), $email ) ) . "'>$email</a></td>";
 					break;
 				case 'role':
 					$r .= "<td $attributes>$role_name</td>";
@@ -289,7 +289,7 @@ class WP_Users_List_Table extends WP_List_Table {
 					$attributes = 'class="posts column-posts num"' . $style;
 					$r .= "<td $attributes>";
 					if ( $numposts > 0 ) {
-						$r .= "<a href='edit.php?author=$user_object->ID' title='" . __( 'View posts by this author' ) . "' class='edit'>";
+						$r .= "<a href='edit.php?author=$user_object->ID' title='" . esc_attr__( 'View posts by this author' ) . "' class='edit'>";
 						$r .= $numposts;
 						$r .= '</a>';
 					} else {
