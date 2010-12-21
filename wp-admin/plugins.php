@@ -234,8 +234,8 @@ if ( $action ) {
 								$files_to_delete = array_merge($files_to_delete, $files);
 							}
 							// Get plugins list from that folder
-							if ( $plugins['folder'] = get_plugins( '/' . dirname($plugin)) ) {
-								foreach( $plugins['folder'] as $plugin_file => $data ) {
+							if ( $folder_plugins = get_plugins( '/' . dirname($plugin)) ) {
+								foreach( $folder_plugins as $plugin_file => $data ) {
 									$plugin_info[ $plugin_file ] = _get_plugin_data_markup_translate( $plugin_file, $data );
 									$plugin_info[ $plugin_file ]['is_uninstallable'] = is_uninstallable_plugin( $plugin );
 									if ( ! $plugin_info[ $plugin_file ]['Network'] )
