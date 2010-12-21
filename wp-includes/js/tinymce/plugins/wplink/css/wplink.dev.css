@@ -95,10 +95,10 @@
 	top: 4px;
 	bottom: 0;
 }
-#search-results {
+#wp-link #search-results {
 	display: none;
 }
-#search-panel {
+#wp-link  #search-panel {
 	float: left;
 	width: 100%;
 }
