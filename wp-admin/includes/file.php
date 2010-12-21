@@ -62,7 +62,7 @@ function get_file_description( $file ) {
 	elseif ( file_exists( $file ) && is_file( $file ) ) {
 		$template_data = implode( '', file( $file ) );
 		if ( preg_match( '|Template Name:(.*)$|mi', $template_data, $name ))
-			return _cleanup_header_comment($name[1]) . ' Page Template';
+			return sprintf( __( '%s Page Template' ), _cleanup_header_comment($name[1]) );
 	}
 
 	return basename( $file );
