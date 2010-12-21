@@ -273,7 +273,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 	</tfoot>
 
 	<tbody id="the-comment-list" class="list:comment">
-		<?php $this->display_rows(); ?>
+		<?php $this->display_rows_or_placeholder(); ?>
 	</tbody>
 
 	<tbody id="the-extra-comment-list" class="list:comment" style="display: none;">
