@@ -231,9 +231,12 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			$actions['enable-selected'] = $this->is_site_themes ? __( 'Enable' ) : __( 'Network Enable' );
 		if ( 'disabled' != $status )
 			$actions['disable-selected'] = $this->is_site_themes ? __( 'Disable' ) : __( 'Network Disable' );
-		if ( current_user_can( 'update_themes' ) && !$this->is_site_themes )
-			$actions['update-selected'] = __( 'Update' );
-
+		if ( ! $this->is_site_themes ) {
+			if ( current_user_can( 'delete_themes' ) )
+				$actions['delete-selected'] = __( 'Delete' );
+			if ( current_user_can( 'update_themes' ) )
+				$actions['update-selected'] = __( 'Update' );
+		}
 		return $actions;
 	}
 
@@ -265,22 +268,26 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		$actions = array(
 			'enable' => '',
 			'disable' => '',
-			'edit' => ''
+			'edit' => '',
+			'delete' => ''
 		);
 
 		$theme_key = esc_html( $theme['Stylesheet'] );
 
 		if ( empty( $theme['enabled'] ) )
-			$actions['enable'] = '<a href="' . wp_nonce_url($url . 'action=enable&amp;theme=' . $theme_key . '&amp;paged=' . $page . '&amp;s=' . $s, 'enable-theme_' . $theme_key) . '" title="' . __('Enable this theme') . '" class="edit">' . ( $this->is_site_themes ? __( 'Enable' ) : __( 'Network Enable' ) ) . '</a>';
+			$actions['enable'] = '<a href="' . esc_url( wp_nonce_url($url . 'action=enable&amp;theme=' . $theme_key . '&amp;paged=' . $page . '&amp;s=' . $s, 'enable-theme_' . $theme_key) ) . '" title="' . esc_attr__('Enable this theme') . '" class="edit">' . ( $this->is_site_themes ? __( 'Enable' ) : __( 'Network Enable' ) ) . '</a>';
 		else
-			$actions['disable'] = '<a href="' . wp_nonce_url($url . 'action=disable&amp;theme=' . $theme_key . '&amp;paged=' . $page . '&amp;s=' . $s, 'disable-theme_' . $theme_key) . '" title="' . __('Disable this theme') . '">' . ( $this->is_site_themes ? __( 'Disable' ) : __( 'Network Disable' ) ) . '</a>';
+			$actions['disable'] = '<a href="' . esc_url( wp_nonce_url($url . 'action=disable&amp;theme=' . $theme_key . '&amp;paged=' . $page . '&amp;s=' . $s, 'disable-theme_' . $theme_key) ) . '" title="' . esc_attr__('Disable this theme') . '">' . ( $this->is_site_themes ? __( 'Disable' ) : __( 'Network Disable' ) ) . '</a>';
 
 		if ( current_user_can('edit_themes') )
-			$actions['edit'] = '<a href="theme-editor.php?theme=' . $theme['Name'] . '" title="' . __('Open this theme in the Theme Editor') . '" class="edit">' . __('Edit') . '</a>';
+			$actions['edit'] = '<a href="' . esc_url('theme-editor.php?theme=' . $theme['Name'] ) . '" title="' . esc_attr__('Open this theme in the Theme Editor') . '" class="edit">' . __('Edit') . '</a>';
+			
+		if ( empty( $theme['enabled'] ) && current_user_can( 'delete_themes' ) && ! $this->is_site_themes )
+			$actions['delete'] = '<a href="' . esc_url( wp_nonce_url( 'themes.php?action=delete-selected&amp;checked[]=' . $theme_key . '&amp;theme_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'bulk-themes' ) ) . '" title="' . esc_attr__( 'Delete this theme' ) . '" class="delete">' . __( 'Delete' ) . '</a>';
 
 		$actions = apply_filters( 'theme_action_links', array_filter( $actions ), $theme_key, $theme, $context );
 		$actions = apply_filters( "theme_action_links_$theme_key", $actions, $theme_key, $theme, $context );
-
+ 
 		$class = empty( $theme['enabled'] ) ? 'inactive' : 'active';
 		$checkbox_id = md5($theme['Name']) . "_checkbox";
 		$checkbox = "<input type='checkbox' name='checked[]' value='" . esc_attr( $theme_key ) . "' id='" . $checkbox_id . "' /><label class='screen-reader-text' for='" . $checkbox_id . "' >" . __('Select') . " " . $theme['Name'] . "</label>";
@@ -319,11 +326,11 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 					if ( !empty( $theme['Author'] ) ) {
 						$author = $theme['Author'];
 						if ( !empty( $theme['Author URI'] ) )
-							$author = '<a href="' . $theme['Author URI'] . '" title="' . __( 'Visit author homepage' ) . '">' . $theme['Author'] . '</a>';
+							$author = '<a href="' . $theme['Author URI'] . '" title="' . esc_attr__( 'Visit author homepage' ) . '">' . $theme['Author'] . '</a>';
 						$theme_meta[] = sprintf( __( 'By %s' ), $author );
 					}
 					if ( !empty( $theme['Theme URI'] ) )
-						$theme_meta[] = '<a href="' . $theme['Theme URI'] . '" title="' . __( 'Visit theme homepage' ) . '">' . __( 'Visit Theme Site' ) . '</a>';
+						$theme_meta[] = '<a href="' . $theme['Theme URI'] . '" title="' . esc_attr__( 'Visit theme homepage' ) . '">' . __( 'Visit Theme Site' ) . '</a>';
 
 					$theme_meta = apply_filters( 'theme_row_meta', $theme_meta, $theme_key, $theme, $status );
 					echo implode( ' | ', $theme_meta );
