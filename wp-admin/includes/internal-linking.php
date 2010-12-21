@@ -73,7 +73,7 @@ function wp_link_dialog() {
 <form id="wp-link" tabindex="-1">
 <div id="link-selector">
 	<div id="link-options">
-		<p class="howto"><?php _e( 'Enter the destination URL:' ); ?></p>
+		<p class="howto"><?php _e( 'Enter the destination URL' ); ?></p>
 		<div>
 			<label for="url-field"><span><?php _e( 'URL' ); ?></span><input id="url-field" type="text" tabindex="10" autocomplete="off" /></label>
 		</div>
@@ -85,7 +85,7 @@ function wp_link_dialog() {
 		</div>
 	</div>
 	<?php $show_internal = '1' == get_user_setting( 'wplink', '0' ); ?>
-	<p class="howto" id="internal-toggle"><a href="#" class="toggle-arrow <?php if ( $show_internal ) echo 'toggle-arrow-active'; ?>"><?php _e( 'Link to Content on this Site' ); ?></a></p>
+	<p class="howto" id="internal-toggle"><a href="#" class="toggle-arrow <?php if ( $show_internal ) echo 'toggle-arrow-active'; ?>"><?php _e( 'Or link to existing content' ); ?></a></p>
 	<div id="search-panel"<?php if ( ! $show_internal ) echo ' style="display:none"'; ?>>
 		<div class="link-search-wrapper">
 			<label for="search-field">
