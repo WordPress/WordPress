@@ -755,8 +755,8 @@ function single_term_title( $prefix = '', $display = true ) {
 
 	if ( $display )
 		echo $prefix . $term_name;
-
-	return $term_name;
+	else
+		return $term_name;
 }
 
 /**
