@@ -70,6 +70,7 @@ case 'update':
 			update_option('recently_activated', array($file => time()) + (array)get_option('recently_activated'));
 
 			wp_redirect(add_query_arg('_wpnonce', wp_create_nonce('edit-plugin-test_' . $file), "plugin-editor.php?file=$file&liveupdate=1&scrollto=$scrollto&networkwide=" . $network_wide));
+			exit;
 		}
 		wp_redirect( self_admin_url("plugin-editor.php?file=$file&a=te&scrollto=$scrollto") );
 	} else {
