@@ -1373,7 +1373,30 @@ table.fixed {
 #comments-form .fixed .column-author {
 	width: 20%;
 }
-
+#commentsdiv.postbox .inside {
+	line-height:1.4em;
+	margin:0;
+}
+#commentsdiv.postbox .inside .row-actions {
+	line-height:18px;
+}
+#commentsdiv.postbox .inside td {
+	padding:1em 10px;
+}
+#commentsdiv.postbox .inside .column-comment p {
+}
+#commentsdiv.postbox .inside .column-author {
+	width:33%;
+}
+#commentsdiv.postbox .inside p {
+	margin:6px 10px 8px;
+}
+#commentsdiv.postbox .column-comment p {
+	margin:0.6em 0;
+}
+#commentsdiv.postbox #replyrow td {
+	padding:0;
+}
 .sorting-indicator {
 	display: none;
 	width: 7px;
@@ -3426,6 +3449,7 @@ span.imgedit-scale-warn {
 #replysubmit {
 	margin: 0;
 	padding: 3px 7px;
+	text-align:center;
 }
 
 #replysubmit img.waiting,
@@ -3437,6 +3461,13 @@ span.imgedit-scale-warn {
 
 #replysubmit .button {
 	margin-right: 5px;
+}
+
+#replysubmit .error {
+	color:red;
+	line-height:21px;
+	text-align:center;
+	vertical-align:center;
 }
 
 #replyrow #editor-toolbar {

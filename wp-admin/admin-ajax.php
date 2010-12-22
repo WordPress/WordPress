@@ -625,9 +625,6 @@ case 'replyto-comment' :
 
 	set_current_screen( 'edit-comments' );
 
-	$wp_list_table = get_list_table('WP_Comments_List_Table');
-	$wp_list_table->checkbox = ( isset($_POST['checkbox']) && true == $_POST['checkbox'] ) ? 1 : 0;
-
 	$comment_post_ID = (int) $_POST['comment_post_ID'];
 	if ( !current_user_can( 'edit_post', $comment_post_ID ) )
 		die('-1');
@@ -674,6 +671,11 @@ case 'replyto-comment' :
 			require_once( ABSPATH . 'wp-admin/includes/dashboard.php' );
 			_wp_dashboard_recent_comments_row( $comment );
 		} else {
+			if ( 'single' == $_REQUEST['mode'] ) {
+				$wp_list_table = get_list_table('WP_Post_Comments_List_Table');
+			} else {				
+				$wp_list_table = get_list_table('WP_Comments_List_Table');
+			}
 			$wp_list_table->single_row( $comment );
 		}
 		$comment_list_item = ob_get_contents();

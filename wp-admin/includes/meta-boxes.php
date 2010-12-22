@@ -488,14 +488,8 @@ function post_comment_meta_box($post) {
 	wp_nonce_field( 'get-comments', 'add_comment_nonce', false );
 
 	$wp_list_table = get_list_table('WP_Post_Comments_List_Table');
+	$wp_list_table->display( true );
 ?>
-
-<table class="widefat comments-box fixed" cellspacing="0" style="display:none;">
-<thead><tr>
-	<?php $wp_list_table->print_column_headers(); ?>
-</tr></thead>
-<tbody id="the-comment-list" class="list:comment"></tbody>
-</table>
 <p class="hide-if-no-js"><a href="#commentstatusdiv" id="show-comments" onclick="commentsBox.get(<?php echo $total; ?>);return false;"><?php _e('Show comments'); ?></a> <img class="waiting" style="display:none;" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" /></p>
 <?php
 	$hidden = get_hidden_meta_boxes('post');

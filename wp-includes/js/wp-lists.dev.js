@@ -207,7 +207,7 @@ wpList = {
 		element = $('#' + s.element);
 		isClass = element.toggleClass(s.dimClass).is('.' + s.dimClass);
 		color = wpList.getColor( element );
-		element.toggleClass( s.dimClass )
+		element.toggleClass( s.dimClass );
 		dimColor = isClass ? s.dimAddColor : s.dimDelColor;
 		if ( 'none' != dimColor ) {
 			element
@@ -323,7 +323,7 @@ wpList = {
 	process: function(el) {
 		var list = this,
 			$el = $(el || document);
-
+	
 		$el.delegate( "form[class^=add:" + list.id + ":]", 'submit', function(){
 			return list.wpList.add(this);
 		});
@@ -331,7 +331,7 @@ wpList = {
 		$el.delegate( "[class^=add:" + list.id + ":]:not(form)", 'click', function(){
 			return list.wpList.add(this);
 		});
-
+		
 		$el.delegate( "[class^=delete:" + list.id + ":]", 'click', function(){
 			return list.wpList.del(this);
 		});

@@ -204,7 +204,8 @@ setCommentsList = function() {
 			}
 		}
 
-		if ( theExtraList.size() == 0 || theExtraList.children().size() == 0 || untrash || unspam ) {
+
+		if ( ! theExtraList || theExtraList.size() == 0 || theExtraList.children().size() == 0 || untrash || unspam ) {
 			return;
 		}
 
@@ -408,6 +409,7 @@ commentReply = {
 	send : function() {
 		var post = {};
 
+		$('#replysubmit .error').hide();
 		$('#replysubmit .waiting').show();
 
 		$('#replyrow input').each(function() {
@@ -461,7 +463,7 @@ commentReply = {
 			.animate( { 'backgroundColor':'#CCEEBB' }, 600 )
 			.animate( { 'backgroundColor': bg }, 600 );
 
-		$.fn.wpList.process($(id))
+		$.fn.wpList.process($(id));
 	},
 
 	error : function(r) {

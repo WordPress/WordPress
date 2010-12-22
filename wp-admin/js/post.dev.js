@@ -173,7 +173,7 @@ commentsBox = {
 			'_ajax_nonce' : $('#add_comment_nonce').val(),
 			'p' : $('#post_ID').val(),
 			'start' : st,
-			'num' : num
+			'number' : num
 		};
 
 		$.post(ajaxurl, data,
@@ -187,7 +187,6 @@ commentsBox = {
 
 					theList = theExtraList = null;
 					$("a[className*=':']").unbind();
-					setCommentsList();
 
 					if ( commentsBox.st > commentsBox.total )
 						$('#show-comments').hide();
