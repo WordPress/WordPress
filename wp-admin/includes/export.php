@@ -61,7 +61,7 @@ function export_wp( $args = array() ) {
 	if ( $args['category'] && 'post' == $args['content'] ) {
 		if ( $term = term_exists( $args['category'], 'category' ) ) {
 			$join = "INNER JOIN {$wpdb->term_relationships} ON ({$wpdb->posts}.ID = {$wpdb->term_relationships}.object_id)";
-			$where .= $wpdb->prepare( " AND {$wpdb->term_relationships}.term_taxonomy_id = %d", $term['term_id'] );
+			$where .= $wpdb->prepare( " AND {$wpdb->term_relationships}.term_taxonomy_id = %d", $term['term_taxonomy_id'] );
 		}
 	}
 
