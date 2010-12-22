@@ -1376,14 +1376,29 @@ table.fixed {
 
 .sorting-indicator {
 	display: none;
-	width: 21px;
+	width: 7px;
 	height: 4px;
 	margin-top: 5px;
+	margin-left: 7px;
+	background-image: url(../images/sort.gif);
+	background-repeat: no-repeat;
+}
+.fixed .column-comments .sorting-indicator {
+	margin-top: 3px;
+}
+.widefat th.sortable,
+.widefat th.sorted {
+	padding: 0;
 }
 th.sortable a,
 th.sorted a {
 	display: block;
 	overflow: hidden;
+	padding: 7px 7px 8px;
+}
+.fixed .column-comments.sortable a,
+.fixed .column-comments.sorted a {
+	padding: 8px 0;
 }
 th.sortable a span,
 th.sorted a span {
@@ -1393,12 +1408,12 @@ th.sorted a span {
 th.sorted.asc .sorting-indicator,
 th.desc:hover span.sorting-indicator {
 	display: block;
-	background: url(../images/sort_asc.gif) no-repeat scroll 0 0;
+	background-position: 0 0;
 }
 th.sorted.desc .sorting-indicator,
 th.asc:hover span.sorting-indicator {
 	display: block;
-	background: url(../images/sort_desc.gif) no-repeat scroll 0 0;
+	background-position: -7px 0;
 }
 
 /* Bulk Actions */
