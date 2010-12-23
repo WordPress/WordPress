@@ -69,17 +69,10 @@ if ( $action ) {
 				unset( $allowed_themes[ $theme ] );
 			update_site_option( 'allowedthemes', $allowed_themes );
 			break;
-		case 'delete':
-			check_admin_referer('delete-theme_' . $_GET['template']);
-			if ( !current_user_can('delete_themes') )
-				wp_die( __( 'Cheatin&#8217; uh?' ) );
-			delete_theme($_GET['template']);
-			wp_redirect( network_admin_url('themes.php?deleted=true') );
-			exit;
-			break;
 		case 'delete-selected':
 			if ( ! current_user_can( 'delete_themes' ) )
 				wp_die( __('You do not have sufficient permissions to delete themes for this site.') );
+			check_admin_referer( 'bulk-themes' );
 
 			$themes = isset( $_REQUEST['checked'] ) ? (array) $_REQUEST['checked'] : array();
 			if ( empty( $themes ) ) {
