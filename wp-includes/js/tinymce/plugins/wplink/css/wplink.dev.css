@@ -13,9 +13,11 @@
 }
 #wp-link .toggle-arrow {
 	background: transparent url( '../img/toggle-arrow.png' ) top left no-repeat;
+	height: 23px;
+	line-height: 23px;
 }
 #wp-link .toggle-arrow-active {
-	background-position: -23px left;
+	background-position: center left;
 }
 #wp-link label input[type="text"] {
 	width: 360px;
@@ -89,6 +91,7 @@
 	font-weight: bold;
 }
 #wp-link .item-title {
+	display: inline-block;
 	width: 80%;
 }
 #wp-link .item-info {
