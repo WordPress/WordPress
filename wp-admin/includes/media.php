@@ -270,7 +270,7 @@ function media_handle_sideload($file_array, $post_id, $desc = null, $post_data =
 			$content = $image_meta['caption'];
 	}
 
-	$title = @$desc;
+	$title = isset($desc) ? $desc : '';
 
 	// Construct the attachment array
 	$attachment = array_merge( array(
@@ -547,19 +547,19 @@ function media_upload_image() {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Download an image from the specified URL and attach it to a post.
  *
  * @since 2.6.0
  *
- * @param unknown_type $file
- * @param unknown_type $post_id
- * @param unknown_type $desc
- * @return unknown
+ * @param string $file The URL of the image to download
+ * @param int $post_id The post ID the media is to be associated with
+ * @param string $desc Optional. Description of the image
+ * @return string|WP_Error Populated HTML img tag on success
  */
 function media_sideload_image($file, $post_id, $desc = null) {
-	if (!empty($file) ) {
+	if ( ! empty($file) ) {
 		// Download file to temp location
-		$tmp = download_url($file);
+		$tmp = download_url( $file );
 
 		// Set variables for storage
 		// fix file filename for query strings
@@ -574,19 +574,19 @@ function media_sideload_image($file, $post_id, $desc = null) {
 		}
 
 		// do the validation and storage stuff
-		$id = media_handle_sideload( $file_array, $post_id, @$desc );
-		$src = get_attachment_link( $id );
-
+		$id = media_handle_sideload( $file_array, $post_id, $desc );
 		// If error storing permanently, unlink
 		if ( is_wp_error($id) ) {
 			@unlink($file_array['tmp_name']);
 			return $id;
 		}
+
+		$src = wp_get_attachment_url( $id );
 	}
 
 	// Finally check to make sure the file has been saved, then return the html
-	if ( !empty($src) ) {
-		$alt = @$desc;
+	if ( ! empty($src) ) {
+		$alt = isset($desc) ? esc_attr($desc) : '';
 		$html = "<img src='$src' alt='$alt' />";
 		return $html;
 	}
