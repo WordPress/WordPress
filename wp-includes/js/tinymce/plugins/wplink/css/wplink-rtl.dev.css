@@ -1,4 +1,4 @@
-#wp-link #internal-toggle a {
+#wp-link #internal-toggle {
 	padding-right: 18px;
 	padding-left: 0;
 }
@@ -46,9 +46,9 @@
 }
 
 #wp-link .toggle-arrow {
-	background-position: top right;
+	background-position: bottom right;
 }
 
 #wp-link .toggle-arrow-active {
-	background-position: bottom right;
+	background-position: -23px right;
 }

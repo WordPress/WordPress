@@ -32,7 +32,7 @@ var wpLink;
 				e.preventDefault();
 			});
 			$('#wp-link-cancel').click( wpLink.cancel );
-			$('#internal-toggle a').click( wpLink.toggleInternalLinking );
+			$('#internal-toggle').click( wpLink.toggleInternalLinking );
 
 			rivers.elements.bind('river-select', wpLink.updateFields );
 

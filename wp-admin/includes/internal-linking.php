@@ -85,7 +85,7 @@ function wp_link_dialog() {
 		</div>
 	</div>
 	<?php $show_internal = '1' == get_user_setting( 'wplink', '0' ); ?>
-	<p class="howto" id="internal-toggle"><a href="#" class="toggle-arrow <?php if ( $show_internal ) echo 'toggle-arrow-active'; ?>"><?php _e( 'Or link to existing content' ); ?></a></p>
+	<p class="howto toggle-arrow <?php if ( $show_internal ) echo 'toggle-arrow-active'; ?>" id="internal-toggle"><?php _e( 'Or link to existing content' ); ?></p>
 	<div id="search-panel"<?php if ( ! $show_internal ) echo ' style="display:none"'; ?>>
 		<div class="link-search-wrapper">
 			<label for="search-field">

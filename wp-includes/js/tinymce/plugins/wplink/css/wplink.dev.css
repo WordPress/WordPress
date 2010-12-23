@@ -7,10 +7,15 @@
 	margin: 3px;
 }
 #wp-link #internal-toggle {
-	margin: 0 5px;
-}
-#wp-link #internal-toggle a {
+	display: inline-block;
+	cursor: pointer;
 	padding-left: 18px;
+}
+#wp-link .toggle-arrow {
+	background: transparent url( '../img/toggle-arrow.png' ) top left no-repeat;
+}
+#wp-link .toggle-arrow-active {
+	background-position: -23px left;
 }
 #wp-link label input[type="text"] {
 	width: 360px;
