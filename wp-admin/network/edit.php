@@ -185,7 +185,7 @@ switch ( $_GET['action'] ) {
 	break;
 
 	case 'allblogs':
-		if ( isset( $_POST['doaction']) || isset($_POST['doaction2'] ) ) {
+		if ( ( isset( $_POST['doaction'] ) || isset( $_POST['doaction2'] ) ) && isset( $_POST['allblogs'] ) ) {
 			check_admin_referer( 'bulk-sites' );
 
 			if ( ! current_user_can( 'manage_sites' ) )
@@ -194,6 +194,7 @@ switch ( $_GET['action'] ) {
 			if ( $_GET['action'] != -1 || $_POST['action2'] != -1 )
 				$doaction = $_POST['action'] != -1 ? $_POST['action'] : $_POST['action2'];
 
+			$blogfunction = '';
 
 			foreach ( (array) $_POST['allblogs'] as $key => $val ) {
 				if ( $val != '0' && $val != $current_site->blog_id ) {
@@ -374,11 +375,13 @@ switch ( $_GET['action'] ) {
 		if ( !current_user_can( 'manage_network_users' ) )
 			wp_die( __( 'You do not have permission to access this page.' ) );
 
-		if ( isset( $_POST['doaction']) || isset($_POST['doaction2'] ) ) {
+		if ( ( isset( $_POST['doaction']) || isset($_POST['doaction2'] ) ) && isset( $_POST['allusers'] ) ) {
 			check_admin_referer( 'bulk-users-network' );
 
 			if ( $_GET['action'] != -1 || $_POST['action2'] != -1 )
 				$doaction = $_POST['action'] != -1 ? $_POST['action'] : $_POST['action2'];
+
+			$userfunction = '';
 
 			foreach ( (array) $_POST['allusers'] as $key => $val ) {
 				if ( !empty( $val ) ) {
