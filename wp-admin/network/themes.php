@@ -85,7 +85,7 @@ if ( $action ) {
 
 			$main_theme = get_current_theme();
 			$files_to_delete = $theme_info = array();
-			foreach( $themes as $key => $theme ) {
+			foreach ( $themes as $key => $theme ) {
 				$data = get_theme_data( WP_CONTENT_DIR . '/themes/' . $theme . '/style.css' );
 				if ( $data['Name'] == $main_theme ) {
 					unset( $themes[$key] );
@@ -99,7 +99,7 @@ if ( $action ) {
 				wp_redirect( add_query_arg( 'error', 'main', wp_get_referer() ) );
 				exit;
 			}
-			
+
 			include(ABSPATH . 'wp-admin/update.php');
 
 			$parent_file = 'themes.php';
@@ -148,8 +148,9 @@ if ( $action ) {
 				<?php
 				require_once(ABSPATH . 'wp-admin/admin-footer.php');
 				exit;
-			} //Endif verify-delete
-			foreach( $themes as $theme )
+			} // Endif verify-delete
+			check_admin_referer('bulk-themes');
+			foreach ( $themes as $theme )
 				$delete_result = delete_theme( $theme );
 			wp_redirect( network_admin_url( 'themes.php?deleted=true' ) );
 			exit;
