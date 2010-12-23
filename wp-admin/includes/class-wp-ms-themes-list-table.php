@@ -32,8 +32,12 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			$this->site_id = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0;
 
 		parent::WP_List_Table( array(
-			'plural' => 'plugins', // @todo replace with themes and add css
+			'plural' => 'themes'
 		) );
+	}
+
+	function get_table_classes() {
+		return array( 'widefat', 'fixed', 'plugins' );	// todo: remove and add CSS for .themes
 	}
 
 	function ajax_user_can() {
