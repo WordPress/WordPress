@@ -146,7 +146,7 @@ if ( $action ) {
 				require_once(ABSPATH . 'wp-admin/admin-footer.php');
 				exit;
 			} // Endif verify-delete
-			check_admin_referer('bulk-themes');
+
 			foreach ( $themes as $theme )
 				$delete_result = delete_theme( $theme );
 			wp_redirect( network_admin_url( 'themes.php?deleted=true' ) );
