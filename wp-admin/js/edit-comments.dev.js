@@ -338,7 +338,6 @@ commentReply = {
 		t.close();
 		t.cid = id;
 
-		$('td', '#replyrow').attr('colspan', $('table.widefat thead th:visible').length);
 		editRow = $('#replyrow');
 		rowData = $('#inline-'+id);
 		act = t.act = (a == 'edit') ? 'edit-comment' : 'replyto-comment';
