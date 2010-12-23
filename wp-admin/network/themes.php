@@ -34,18 +34,21 @@ if ( $action ) {
 	$allowed_themes = get_site_option( 'allowedthemes' );	
 	switch ( $action ) {
 		case 'enable':
+			check_admin_referer('enable-theme_' . $_GET['theme']);
 			$allowed_themes[ $_GET['theme'] ] = true;
 			update_site_option( 'allowedthemes', $allowed_themes );
 			wp_redirect( wp_get_referer() ); // @todo add_query_arg for update message
 			exit;			
 			break;
 		case 'disable':
+			check_admin_referer('disable-theme_' . $_GET['theme']);
 			unset( $allowed_themes[ $_GET['theme'] ] );
 			update_site_option( 'allowedthemes', $allowed_themes );
 			wp_redirect( wp_get_referer() ); // @todo add_query_arg for update message
 			exit;
 			break;
 		case 'enable-selected':
+			check_admin_referer('bulk-themes');
 			$themes = isset( $_POST['checked'] ) ? (array) $_POST['checked'] : array();
 			if ( empty($themes) ) {
 				wp_redirect( wp_get_referer() );
@@ -56,6 +59,7 @@ if ( $action ) {
 			update_site_option( 'allowedthemes', $allowed_themes );
 			break;
 		case 'disable-selected':
+			check_admin_referer('bulk-themes');
 			$themes = isset( $_POST['checked'] ) ? (array) $_POST['checked'] : array();
 			if ( empty($themes) ) {
 				wp_redirect( wp_get_referer() );
