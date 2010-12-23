@@ -2224,10 +2224,6 @@ td.post-title p, td.plugin-title p {
 	margin: 6px 0;
 }
 
-td.plugin-title {
-	white-space: nowrap;
-}
-
 /* Global classes */
 
 .wp-hidden-children .wp-hidden-child,
@@ -3807,10 +3803,6 @@ input.button-highlighted,
 	list-style-type: disc;
 }
 
-.plugins .action-links {
-	white-space: nowrap;
-}
-
 .plugins .row-actions-visible {
 	padding: 0;
 }
@@ -4084,9 +4076,6 @@ td.post-title strong, td.plugin-title strong {
 }
 td.post-title p, td.plugin-title p {
 	margin: 6px 0;
-}
-td.plugin-title {
-	white-space: nowrap;
 }
 
 
