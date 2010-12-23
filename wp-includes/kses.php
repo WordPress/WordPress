@@ -680,7 +680,7 @@ function wp_kses_attr($element, $attr, $allowed_html, $allowed_protocols) {
 					break;
 				}
 
-			if ( $arreach['name'] == 'style' ) {
+			if ( strtolower($arreach['name']) == 'style' ) {
 				$orig_value = $arreach['value'];
 
 				$value = safecss_filter_attr($orig_value);
@@ -772,7 +772,7 @@ function wp_kses_hair($attr, $allowed_protocols) {
 					# "value"
 					{
 					$thisval = $match[1];
-					if ( in_array($attrname, $uris) )
+					if ( in_array(strtolower($attrname), $uris) )
 						$thisval = wp_kses_bad_protocol($thisval, $allowed_protocols);
 
 					if(FALSE === array_key_exists($attrname, $attrarr)) {
@@ -788,7 +788,7 @@ function wp_kses_hair($attr, $allowed_protocols) {
 					# 'value'
 					{
 					$thisval = $match[1];
-					if ( in_array($attrname, $uris) )
+					if ( in_array(strtolower($attrname), $uris) )
 						$thisval = wp_kses_bad_protocol($thisval, $allowed_protocols);
 
 					if(FALSE === array_key_exists($attrname, $attrarr)) {
@@ -804,7 +804,7 @@ function wp_kses_hair($attr, $allowed_protocols) {
 					# value
 					{
 					$thisval = $match[1];
-					if ( in_array($attrname, $uris) )
+					if ( in_array(strtolower($attrname), $uris) )
 						$thisval = wp_kses_bad_protocol($thisval, $allowed_protocols);
 
 					if(FALSE === array_key_exists($attrname, $attrarr)) {
@@ -1098,10 +1098,9 @@ function wp_kses_normalize_entities($string) {
 	$string = str_replace('&', '&amp;', $string);
 
 	# Change back the allowed entities in our entity whitelist
-
 	$string = preg_replace_callback('/&amp;([A-Za-z]{2,8});/', 'wp_kses_named_entities', $string);
-	$string = preg_replace_callback('/&amp;#(0*[0-9]{1,7});/', 'wp_kses_normalize_entities2', $string);
-	$string = preg_replace_callback('/&amp;#[Xx](0*[0-9A-Fa-f]{1,6});/', 'wp_kses_normalize_entities3', $string);
+	$string = preg_replace_callback('/&amp;#0*([0-9]{1,5});/', 'wp_kses_normalize_entities2', $string);
+	$string = preg_replace_callback('/&amp;#[Xx]0*(([0-9A-Fa-f]{2}){1,2});/', 'wp_kses_normalize_entities3', $string);
 
 	return $string;
 }
@@ -1144,14 +1143,7 @@ function wp_kses_normalize_entities2($matches) {
 		return '';
 
 	$i = $matches[1];
-	if (valid_unicode($i)) {
-		$i = str_pad(ltrim($i,'0'), 3, '0', STR_PAD_LEFT);
-		$i = "&#$i;";
-	} else {
-		$i = "&amp;#$i;";
-	}
-
-	return $i;
+	return ( ($i > 65535 || ! valid_unicode($i)) ? "&amp;#$i;" : "&#$i;" );
 }
 
 /**
@@ -1170,7 +1162,7 @@ function wp_kses_normalize_entities3($matches) {
 		return '';
 
 	$hexchars = $matches[1];
-	return ( ( ! valid_unicode(hexdec($hexchars)) ) ? "&amp;#x$hexchars;" : '&#x'.ltrim($hexchars,'0').';' );
+	return ( ( ! valid_unicode(hexdec($hexchars)) ) ? "&amp;#x$hexchars;" : "&#x$hexchars;" );
 }
 
 /**
