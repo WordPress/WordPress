@@ -1,3 +1,32 @@
+#wp-link {
+	line-height: 1.4em;
+	font-size: 12px;
+}
+
+#wp-link ol,
+#wp-link ul { 
+	list-style: none;
+	margin: 0;
+	padding: 0; 
+}
+
+#wp-link input[type="text"] {
+	-webkit-box-sizing: border-box;
+}
+
+#wp-link input[type="text"],
+#wp-link textarea {
+	border-width: 1px;
+	border-style: solid;
+	-moz-border-radius: 4px;
+	-khtml-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	font-size: 12px;
+	margin: 1px;
+	padding: 3px;
+}
+
 #wp-link #link-options {
 	padding: 10px 0 14px;
 	border-bottom: 1px solid #dfdfdf;
