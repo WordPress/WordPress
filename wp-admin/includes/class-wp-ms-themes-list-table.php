@@ -78,7 +78,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		$current = get_site_transient( 'update_themes' );
 
 		foreach ( (array) $themes['all'] as $key => $theme ) {
-			$theme_key = esc_html( $theme['Stylesheet'] );
+			$theme_key = $theme['Stylesheet'];
 
 			if ( isset( $allowed_themes [ $theme_key ] ) )  {
 				$themes['all'][$key]['enabled'] = true;
@@ -276,7 +276,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			'delete' => ''
 		);
 
-		$theme_key = esc_html( $theme['Stylesheet'] );
+		$theme_key = $theme['Stylesheet'];
 
 		if ( empty( $theme['enabled'] ) )
 			$actions['enable'] = '<a href="' . esc_url( wp_nonce_url($url . 'action=enable&amp;theme=' . $theme_key . '&amp;paged=' . $page . '&amp;s=' . $s, 'enable-theme_' . $theme_key) ) . '" title="' . esc_attr__('Enable this theme') . '" class="edit">' . ( $this->is_site_themes ? __( 'Enable' ) : __( 'Network Enable' ) ) . '</a>';
@@ -285,8 +285,8 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 
 		if ( current_user_can('edit_themes') )
 			$actions['edit'] = '<a href="' . esc_url('theme-editor.php?theme=' . $theme['Name'] ) . '" title="' . esc_attr__('Open this theme in the Theme Editor') . '" class="edit">' . __('Edit') . '</a>';
-			
-		if ( empty( $theme['enabled'] ) && current_user_can( 'delete_themes' ) && ! $this->is_site_themes )
+
+		if ( empty( $theme['enabled'] ) && current_user_can( 'delete_themes' ) && ! $this->is_site_themes && $theme_key != get_option( 'stylesheet' ) && $theme_key != get_option( 'template' ) )
 			$actions['delete'] = '<a href="' . esc_url( wp_nonce_url( 'themes.php?action=delete-selected&amp;checked[]=' . $theme_key . '&amp;theme_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'bulk-themes' ) ) . '" title="' . esc_attr__( 'Delete this theme' ) . '" class="delete">' . __( 'Delete' ) . '</a>';
 
 		$actions = apply_filters( 'theme_action_links', array_filter( $actions ), $theme_key, $theme, $context );

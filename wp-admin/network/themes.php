@@ -28,7 +28,9 @@ $action = $wp_list_table->current_action();
 $s = isset($_REQUEST['s']) ? $_REQUEST['s'] : '';
 
 // Clean up request URI from temporary args for screen options/paging uri's to work as expected.
-$_SERVER['REQUEST_URI'] = remove_query_arg(array('enable', 'disable', 'enable-selected', 'disable-selected'), $_SERVER['REQUEST_URI']);
+$temp_args = array( 'enabled', 'disabled', 'deleted', 'error', 'enabled', 'disabled', 'deleted', 'error' );
+$_SERVER['REQUEST_URI'] = remove_query_arg( $temp_args, $_SERVER['REQUEST_URI'] );
+$referer = remove_query_arg( $temp_args, wp_get_referer() );
 
 if ( $action ) {
 	$allowed_themes = get_site_option( 'allowedthemes' );	
@@ -37,37 +39,41 @@ if ( $action ) {
 			check_admin_referer('enable-theme_' . $_GET['theme']);
 			$allowed_themes[ $_GET['theme'] ] = true;
 			update_site_option( 'allowedthemes', $allowed_themes );
-			wp_redirect( wp_get_referer() ); // @todo add_query_arg for update message
-			exit;			
+			wp_redirect( add_query_arg( 'enabled', '1', $referer ) );
+			exit;
 			break;
 		case 'disable':
 			check_admin_referer('disable-theme_' . $_GET['theme']);
 			unset( $allowed_themes[ $_GET['theme'] ] );
 			update_site_option( 'allowedthemes', $allowed_themes );
-			wp_redirect( wp_get_referer() ); // @todo add_query_arg for update message
+			wp_redirect( add_query_arg( 'disabled', '1', $referer ) );
 			exit;
 			break;
 		case 'enable-selected':
 			check_admin_referer('bulk-themes');
 			$themes = isset( $_POST['checked'] ) ? (array) $_POST['checked'] : array();
 			if ( empty($themes) ) {
-				wp_redirect( wp_get_referer() );
+				wp_redirect( add_query_arg( 'error', 'none', $referer ) );
 				exit;
-			}						
+			}
 			foreach( (array) $themes as $theme )
 				$allowed_themes[ $theme ] = true;
 			update_site_option( 'allowedthemes', $allowed_themes );
+			wp_redirect( add_query_arg( 'enabled', count( $themes ), $referer ) );
+			exit;
 			break;
 		case 'disable-selected':
 			check_admin_referer('bulk-themes');
 			$themes = isset( $_POST['checked'] ) ? (array) $_POST['checked'] : array();
 			if ( empty($themes) ) {
-				wp_redirect( wp_get_referer() );
+				wp_redirect( add_query_arg( 'error', 'none', $referer ) );
 				exit;
-			}						
+			}
 			foreach( (array) $themes as $theme )
 				unset( $allowed_themes[ $theme ] );
 			update_site_option( 'allowedthemes', $allowed_themes );
+			wp_redirect( add_query_arg( 'disabled', count( $themes ), $referer ) );
+			exit;
 			break;
 		case 'delete-selected':
 			if ( ! current_user_can( 'delete_themes' ) )
@@ -75,8 +81,14 @@ if ( $action ) {
 			check_admin_referer( 'bulk-themes' );
 
 			$themes = isset( $_REQUEST['checked'] ) ? (array) $_REQUEST['checked'] : array();
+
+			if ( isset( $themes[ get_option( 'template' ) ] ) )
+				unset( $themes[ get_option( 'template' ) ] );
+			if ( isset( $themes[ get_option( 'stylesheet' ) ] ) )
+				unset( $themes[ get_option( 'stylesheet' ) ] );
+
 			if ( empty( $themes ) ) {
-				wp_redirect( wp_get_referer() );
+				wp_redirect( add_query_arg( 'error', 'none', $referer ) );
 				exit;
 			}
 
@@ -93,7 +105,7 @@ if ( $action ) {
 			}
 			
 			if ( empty( $themes ) ) {
-				wp_redirect( add_query_arg( 'error', 'main', wp_get_referer() ) );
+				wp_redirect( add_query_arg( 'error', 'main', $referer ) );
 				exit;
 			}
 
@@ -149,7 +161,7 @@ if ( $action ) {
 
 			foreach ( $themes as $theme )
 				$delete_result = delete_theme( $theme );
-			wp_redirect( network_admin_url( 'themes.php?deleted=true' ) );
+			wp_redirect( add_query_arg( 'deleted', count( $themes ), $referer ) );
 			exit;
 			break;
 	}
@@ -174,11 +186,6 @@ $parent_file = 'themes.php';
 
 require_once(ABSPATH . 'wp-admin/admin-header.php');
 
-if ( isset( $_GET['deleted'] ) ) : ?>
-<div class="updated"><p><?php _e('Theme deleted.') ?></p></div><?php
-elseif ( isset( $_GET['error'] ) && 'main' == $_GET['error'] ) : ?>
-<div class="error"><p><?php _e( 'You cannot delete a theme while it is active on the main site.' ); ?></p></div><?php
-endif;
 ?>
 
 <div class="wrap">
@@ -187,6 +194,24 @@ endif;
 if ( $s ) 
 	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', esc_html( $s ) ); ?> 
 </h2>
+
+<?php
+if ( isset( $_GET['enabled'] ) ) {
+	$_GET['enabled'] = absint( $_GET['enabled'] );
+	echo '<div id="message" class="updated"><p>' . sprintf( _n( 'Theme enabled.', '%s themes enabled.', $_GET['enabled'] ), number_format_i18n( $_GET['enabled'] ) ) . '</p></div>';
+} elseif ( isset( $_GET['disabled'] ) ) {
+	$_GET['disabled'] = absint( $_GET['disabled'] );
+	echo '<div id="message" class="updated"><p>' . sprintf( _n( 'Theme disabled.', '%s themes disabled.', $_GET['disabled'] ), number_format_i18n( $_GET['disabled'] ) ) . '</p></div>';
+} elseif ( isset( $_GET['deleted'] ) ) {
+	$_GET['disabled'] = absint( $_GET['deleted'] );
+	echo '<div id="message" class="updated"><p>' . sprintf( _n( 'Theme deleted.', '%s themes deleted.', $_GET['deleted'] ), number_format_i18n( $_GET['deleted'] ) ) . '</p></div>';
+} elseif ( isset( $_GET['error'] ) && 'none' == $_GET['error'] ) {
+	echo '<div id="message" class="error"><p>' . __( 'No theme selected.' ) . '</p></div>';
+} elseif ( isset( $_GET['error'] ) && 'main' == $_GET['error'] ) {
+	echo '<div class="error"><p>' . __( 'You cannot delete a theme while it is active on the main site.' ) . '</p></div>';
+}
+
+?>
 
 <form method="get" action="">
 <?php $wp_list_table->search_box( __( 'Search Installed Themes' ), 'theme' ); ?>
