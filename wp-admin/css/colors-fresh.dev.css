@@ -501,15 +501,6 @@ a,
 	color: #21759b;
 }
 
-/* Because we don't want visited on these links */
-body.press-this .tabs a,
-body.press-this .tabs a:hover {
-	background-color: #fff;
-	border-color: #c6d9e9;
-	border-bottom-color: #fff;
-	color: #d54e21;
-}
-
 #adminmenu #awaiting-mod,
 #adminmenu .update-plugins,
 #sidemenu a .update-plugins,
@@ -1469,7 +1460,8 @@ fieldset.inline-edit-col-right .inline-edit-col {
 }
 
 #post-body ul.category-tabs li.tabs a,
-#post-body ul.add-menu-item-tabs li.tabs a {
+#post-body ul.add-menu-item-tabs li.tabs a,
+body.press-this ul.category-tabs li.tabs a {
 	color: #333;
 }
 
