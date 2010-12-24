@@ -213,10 +213,8 @@ if ( !empty($message) ) { ?>
 <div id="ajax-response"></div>
 <?php find_posts_div(); ?>
 <br class="clear" />
-</div>
-</form>
-<br class="clear" />
 
+</form>
 </div>
 
 <?php

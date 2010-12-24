@@ -217,7 +217,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 
 			if ( 'search' != $type ) {
 				$status_links[$type] = sprintf( "<a href='%s' %s>%s</a>",
-					add_query_arg('theme_status', $type, $url),
+					esc_url( add_query_arg('theme_status', $type, $url) ),
 					( $type == $status ) ? ' class="current"' : '',
 					sprintf( $text, number_format_i18n( $count ) )
 				);
@@ -293,7 +293,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		$actions = apply_filters( "theme_action_links_$theme_key", $actions, $theme_key, $theme, $context );
  
 		$class = empty( $theme['enabled'] ) ? 'inactive' : 'active';
-		$checkbox_id = md5($theme['Name']) . "_checkbox";
+		$checkbox_id = "checkbox_" . md5($theme['Name']);
 		$checkbox = "<input type='checkbox' name='checked[]' value='" . esc_attr( $theme_key ) . "' id='" . $checkbox_id . "' /><label class='screen-reader-text' for='" . $checkbox_id . "' >" . __('Select') . " " . $theme['Name'] . "</label>";
 
 		$description = '<p>' . $theme['Description'] . '</p>';
@@ -325,14 +325,13 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 						<div class='$class second theme-version-author-uri'>";
 
 					$theme_meta = array();
+
 					if ( !empty( $theme['Version'] ) )
 						$theme_meta[] = sprintf( __( 'Version %s' ), $theme['Version'] );
-					if ( !empty( $theme['Author'] ) ) {
-						$author = $theme['Author'];
-						if ( !empty( $theme['Author URI'] ) )
-							$author = '<a href="' . $theme['Author URI'] . '" title="' . esc_attr__( 'Visit author homepage' ) . '">' . $theme['Author'] . '</a>';
-						$theme_meta[] = sprintf( __( 'By %s' ), $author );
-					}
+
+					if ( !empty( $theme['Author'] ) )
+						$theme_meta[] = sprintf( __( 'By %s' ), $theme['Author'] );
+
 					if ( !empty( $theme['Theme URI'] ) )
 						$theme_meta[] = '<a href="' . $theme['Theme URI'] . '" title="' . esc_attr__( 'Visit theme homepage' ) . '">' . __( 'Visit Theme Site' ) . '</a>';
 

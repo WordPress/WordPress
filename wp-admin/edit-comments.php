@@ -237,8 +237,8 @@ if ( isset($_REQUEST['approved']) || isset($_REQUEST['deleted']) || isset($_REQU
 <?php } ?>
 
 <?php $wp_list_table->display(); ?>
-</div>
 </form>
+</div>
 
 <div id="ajax-response"></div>
 
