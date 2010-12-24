@@ -62,6 +62,7 @@ if ( $action ) {
 	
 	switch ( $action ) {
 		case 'newuser':
+			check_admin_referer( 'add-user', '_wpnonce_add-new-user' );
 			$user = $_POST['user'];
 			if ( !is_array( $_POST['user'] ) || empty( $user['username'] ) || empty( $user['email'] ) ) {
 				$update = 'err_new';
@@ -80,6 +81,7 @@ if ( $action ) {
 			break;
 
 		case 'adduser':
+			check_admin_referer( 'add-user', '_wpnonce_add-user' );
 			if ( !empty( $_POST['newuser'] ) ) {
 				$update = 'adduser';
 				$newuser = $_POST['newuser'];				
@@ -101,7 +103,8 @@ if ( $action ) {
 		case 'remove':
 			if ( !current_user_can('remove_users')  )
 				die(__('You can&#8217;t remove users.'));
-				
+			check_admin_referer( 'bulk-users' );
+			
 			$update = 'remove';
 			if ( isset( $_REQUEST['users'] ) ) {
 				$userids = $_REQUEST['users'];
@@ -118,6 +121,7 @@ if ( $action ) {
 			break;
 
 		case 'promote':
+			check_admin_referer( 'bulk-users' );
 			$editable_roles = get_editable_roles();
 			if ( empty( $editable_roles[$_REQUEST['new_role']] ) )
 				wp_die(__('You can&#8217;t give users that role.'));
@@ -258,6 +262,7 @@ endif; ?>
 			</select></td>
 		</tr>
 	</table>
+	<?php wp_nonce_field( 'add-user', '_wpnonce_add-user' ) ?>
 	<?php submit_button( __('Add User'), 'primary', 'add-user' ); ?>
 </form>
 <?php endif; ?>
@@ -293,7 +298,7 @@ endif; ?>
 			<td colspan="2"><?php _e( 'Username and password will be mailed to the above email address.' ) ?></td>
 		</tr>
 	</table>
-	<?php wp_nonce_field( 'add-user', '_wpnonce_add-user' ) ?>
+	<?php wp_nonce_field( 'add-user', '_wpnonce_add-new-user' ) ?>
 	<?php submit_button( __('Add New User'), 'primary', 'add-user' ); ?>
 </form>
 <?php endif; ?>
