@@ -60,6 +60,7 @@ if ( $action ) {
 
 	switch ( $action ) {
 		case 'enable':
+			check_admin_referer( 'enable-theme_' . $_GET['theme'] );
 			$theme = $_GET['theme'];
 			$update = 'enabled';
 			if ( !$allowed_themes )
@@ -68,6 +69,7 @@ if ( $action ) {
 				$allowed_themes[$theme] = true;
 			break;
 		case 'disable':
+			check_admin_referer( 'disable-theme_' . $_GET['theme'] );
 			$theme = $_GET['theme'];
 			$update = 'disabled';
 			if ( !$allowed_themes )
@@ -76,6 +78,7 @@ if ( $action ) {
 				unset( $allowed_themes[$theme] );
 			break;
 		case 'enable-selected':
+			check_admin_referer( 'bulk-themes' );
 			if ( isset( $_POST['checked'] ) ) {
 				$update = 'enable';
 				$themes = (array) $_POST['checked'];
@@ -86,6 +89,7 @@ if ( $action ) {
 			}
 			break;
 		case 'disable-selected':
+			check_admin_referer( 'bulk-themes' );
 			if ( isset( $_POST['checked'] ) ) {
 				$update = 'disable';
 				$themes = (array) $_POST['checked'];
