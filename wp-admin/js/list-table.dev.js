@@ -93,6 +93,8 @@ window.listTable = {
 		} else {
 			this.stop_loading();
 
+			$('div.updated, div.error').not('.persistent, .inline').remove();
+
 			this.$tbody.html(response.rows);
 
 			$('.displaying-num').html(response.total_items_i18n);
