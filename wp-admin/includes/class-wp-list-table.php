@@ -487,14 +487,14 @@ class WP_List_Table {
 			'first-page',
 			esc_attr__( 'Go to the first page' ),
 			esc_url( remove_query_arg( 'paged', $current_url ) ),
-			'&laquo;&laquo;'
+			is_rtl() ? '&raquo;' : '&laquo;'
 		);
 
 		$page_links[] = sprintf( "<a class='%s' title='%s' href='%s'>%s</a>",
 			'prev-page',
 			esc_attr__( 'Go to the previous page' ),
 			esc_url( add_query_arg( 'paged', max( 1, $current-1 ), $current_url ) ),
-			'&laquo;'
+			is_rtl() ? '&rsaquo;' : '&lsaquo;'
 		);
 
 		$html_current_page = sprintf( "<input class='current-page' title='%s' type='text' name='%s' value='%s' size='%d' />",
@@ -504,23 +504,26 @@ class WP_List_Table {
 			strlen( $total_pages )
 		);
 		$html_total_pages = sprintf( "<span class='total-pages'>%s</span>", number_format_i18n( $total_pages ) );
-		$page_links[] = sprintf( _x( '%s of %s', 'paging' ), $html_current_page, $html_total_pages );
+		$page_links[] = '<span class="paging-input">' . sprintf( _x( '%1$s of %2$s', 'paging' ), $html_current_page, $html_total_pages ) . '</span>';
 
 		$page_links[] = sprintf( "<a class='%s' title='%s' href='%s'>%s</a>",
 			'next-page',
 			esc_attr__( 'Go to the next page' ),
 			esc_url( add_query_arg( 'paged', min( $total_pages, $current+1 ), $current_url ) ),
-			'&raquo;'
+			is_rtl() ? '&lsaquo;' : '&rsaquo;'
 		);
 
 		$page_links[] = sprintf( "<a class='%s' title='%s' href='%s'>%s</a>",
 			'last-page',
 			esc_attr__( 'Go to the last page' ),
 			esc_url( add_query_arg( 'paged', $total_pages, $current_url ) ),
-			'&raquo;&raquo;'
+			is_rtl() ? '&laquo;' : '&raquo;'
 		);
 
-		$output .= join( "\n", $page_links );
+		if ( is_rtl() )
+			$page_links = array_reverse( $page_links );
+
+		$output .= "\n" . join( "\n", $page_links );
 
 		$this->_pagination = "<div class='tablenav-pages'>$output</div>";
 

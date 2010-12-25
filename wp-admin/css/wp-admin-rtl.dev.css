@@ -89,9 +89,14 @@ td.available-theme {
 }
 .tablenav .tablenav-pages {
 	float: left;
+	direction: ltr;
+}
+.tablenav .tablenav-pages .paging-input {
+	direction: rtl;
 }
 .tablenav .displaying-num {
 	margin-right: 0;
+	float: right;
 	margin-left: 10px;
 	font-family: Tahoma, Arial, sans-serif;
 }
