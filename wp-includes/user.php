@@ -1202,7 +1202,7 @@ function sanitize_user_field($field, $value, $user_id, $context) {
 		}
 
 		if ( 'description' == $field )
-			$value = esc_textarea( $value );
+			$value = esc_html( $value ); // textarea_escaped?
 		else
 			$value = esc_attr($value);
 	} else if ( 'db' == $context ) {

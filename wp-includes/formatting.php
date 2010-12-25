@@ -1114,8 +1114,8 @@ function force_balance_tags( $text ) {
  * Acts on text which is about to be edited.
  *
  * Unless $richedit is set, it is simply a holder for the 'format_to_edit'
- * filter. If $richedit is set true htmlspecialchars() will be run on the
- * content, converting special characters to HTMl entities.
+ * filter. If $richedit is set true htmlspecialchars(), through esc_textarea(),
+ * will be run on the content, converting special characters to HTML entities.
  *
  * @since 0.71
  *
@@ -1123,10 +1123,10 @@ function force_balance_tags( $text ) {
  * @param bool $richedit Whether the $content should pass through htmlspecialchars(). Default false.
  * @return string The text after the filter (and possibly htmlspecialchars()) has been run.
  */
-function format_to_edit($content, $richedit = false) {
-	$content = apply_filters('format_to_edit', $content);
-	if (! $richedit )
-		$content = esc_textarea($content);
+function format_to_edit( $content, $richedit = false ) {
+	$content = apply_filters( 'format_to_edit', $content );
+	if ( ! $richedit )
+		$content = esc_textarea( $content );
 	return $content;
 }
 
