@@ -39,7 +39,9 @@ $action = $wp_list_table->current_action();
 $s = isset($_REQUEST['s']) ? $_REQUEST['s'] : '';
 
 // Clean up request URI from temporary args for screen options/paging uri's to work as expected.
-$_SERVER['REQUEST_URI'] = remove_query_arg(array('enable', 'disable', 'enable-selected', 'disable-selected'), $_SERVER['REQUEST_URI']);
+$temp_args = array( 'enabled', 'disabled', 'deleted', 'error', 'enabled', 'disabled', 'deleted', 'error' ); 
+$_SERVER['REQUEST_URI'] = remove_query_arg( $temp_args, $_SERVER['REQUEST_URI'] ); 
+$referer = remove_query_arg( $temp_args, wp_get_referer() );
 
 $id = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0;
 
@@ -62,7 +64,8 @@ if ( $action ) {
 		case 'enable':
 			check_admin_referer( 'enable-theme_' . $_GET['theme'] );
 			$theme = $_GET['theme'];
-			$update = 'enabled';
+			$action = 'enabled';
+			$n = 1;
 			if ( !$allowed_themes )
 				$allowed_themes = array( $theme => true );
 			else
@@ -71,7 +74,8 @@ if ( $action ) {
 		case 'disable':
 			check_admin_referer( 'disable-theme_' . $_GET['theme'] );
 			$theme = $_GET['theme'];
-			$update = 'disabled';
+			$action = 'disabled';
+			$n = 1;			
 			if ( !$allowed_themes )
 				$allowed_themes = array();
 			else
@@ -80,23 +84,27 @@ if ( $action ) {
 		case 'enable-selected':
 			check_admin_referer( 'bulk-themes' );
 			if ( isset( $_POST['checked'] ) ) {
-				$update = 'enable';
 				$themes = (array) $_POST['checked'];
+				$action = 'enabled';
+				$n = count( $themes );
 				foreach( (array) $themes as $theme )
 					$allowed_themes[ $theme ] = true;
 			} else {
-				$update = 'error';
+				$action = 'error';
+				$n = 'none';
 			}
 			break;
 		case 'disable-selected':
 			check_admin_referer( 'bulk-themes' );
 			if ( isset( $_POST['checked'] ) ) {
-				$update = 'disable';
 				$themes = (array) $_POST['checked'];
+				$action = 'disabled';
+				$n = count( $themes );
 				foreach( (array) $themes as $theme )
 					unset( $allowed_themes[ $theme ] );
 			} else {
-				$update = 'error';
+				$action = 'error';
+				$n = 'none';
 			}
 			break;
 	}
@@ -104,12 +112,12 @@ if ( $action ) {
 	update_option( 'allowedthemes', $allowed_themes );
 	restore_current_blog();
 	
-	wp_redirect( add_query_arg( 'update', $update, wp_get_referer() ) );
+	wp_redirect( add_query_arg( $action, $n, $referer ) );
 	exit;	
 }
 
 if ( isset( $_GET['action'] ) && 'update-site' == $_GET['action'] ) {
-	wp_redirect( wp_get_referer() );
+	wp_redirect( $referer );
 	exit();
 }
 
@@ -140,18 +148,14 @@ foreach ( $tabs as $tab_id => $tab ) {
 ?>
 </h3><?php
 
-if ( isset( $_GET['update'] ) ) {
-	switch ( $_GET['update'] ) {
-	case 'enabled':
-		echo '<div id="message" class="updated"><p>' . __( 'Theme enabled.' ) . '</p></div>';
-		break;
-	case 'disabled':
-		echo '<div id="message" class="updated"><p>' . __( 'Theme disabled.' ) . '</p></div>';
-		break;
-	case 'error':
-		echo '<div id="message" class="error"><p>' . __( 'No theme selected.' ) . '</p></div>';
-		break;
-	}
+if ( isset( $_GET['enabled'] ) ) {
+	$_GET['enabled'] = absint( $_GET['enabled'] ); 
+	echo '<div id="message" class="updated"><p>' . sprintf( _n( 'Theme enabled.', '%s themes enabled.', $_GET['enabled'] ), number_format_i18n( $_GET['enabled'] ) ) . '</p></div>'; 
+} elseif ( isset( $_GET['disabled'] ) ) { 
+	$_GET['disabled'] = absint( $_GET['disabled'] ); 
+	echo '<div id="message" class="updated"><p>' . sprintf( _n( 'Theme disabled.', '%s themes disabled.', $_GET['disabled'] ), number_format_i18n( $_GET['disabled'] ) ) . '</p></div>'; 
+} elseif ( isset( $_GET['error'] ) && 'none' == $_GET['error'] ) { 
+	echo '<div id="message" class="error"><p>' . __( 'No theme selected.' ) . '</p></div>'; 
 } ?>
 
 <p><?php _e( 'Network enabled themes are not shown on this screen.' ) ?></p>
