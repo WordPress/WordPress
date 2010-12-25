@@ -2081,7 +2081,7 @@ class WP_Query {
 		}
 
 		// Back-compat
-		if ( $this->is_category || $this->is_tag || $this->is_tax ) {
+		if ( !empty($this->tax_query->queries) ) {
 			$tax_query_in = wp_list_filter( $this->tax_query->queries, array( 'operator' => 'IN' ) );
 			if ( !empty( $tax_query_in ) ) {
 				if ( !isset( $q['taxonomy'] ) ) {
