@@ -1521,7 +1521,7 @@ function sanitize_term_field($field, $value, $term_id, $taxonomy, $context) {
 		$value = apply_filters("edit_term_{$field}", $value, $term_id, $taxonomy);
 		$value = apply_filters("edit_{$taxonomy}_{$field}", $value, $term_id);
 		if ( 'description' == $field )
-			$value = format_to_edit($value);
+			$value = esc_html($value); // textarea_escaped
 		else
 			$value = esc_attr($value);
 	} else if ( 'db' == $context ) {

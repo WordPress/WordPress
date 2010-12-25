@@ -334,11 +334,10 @@ function sanitize_bookmark_field($field, $value, $bookmark_id, $context) {
 		return $value;
 
 	if ( 'edit' == $context ) {
-		$format_to_edit = array('link_notes');
 		$value = apply_filters("edit_$field", $value, $bookmark_id);
 
-		if ( in_array($field, $format_to_edit) ) {
-			$value = format_to_edit($value);
+		if ( 'link_notes' == $field ) {
+			$value = esc_html( $value ); // textarea_escaped
 		} else {
 			$value = esc_attr($value);
 		}
