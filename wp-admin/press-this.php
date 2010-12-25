@@ -346,7 +346,7 @@ var photostorage = false;
 
 	if ( user_can_richedit() ) {
 		wp_tiny_mce( true, array( 'height' => '370' ) );
-		wp_tiny_mce_preload_dialogs();
+		add_action( 'admin_print_footer_scripts', 'wp_tiny_mce_preload_dialogs', 30 );
 	}
 ?>
 	<script type="text/javascript">
