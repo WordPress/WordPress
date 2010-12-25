@@ -1343,7 +1343,7 @@ function get_media_item( $attachment_id, $args = null ) {
 		if ( !empty( $field[ $field['input'] ] ) )
 			$item .= $field[ $field['input'] ];
 		elseif ( $field['input'] == 'textarea' ) {
-			if ( user_can_richedit() ) { // already escaped when user_can_richedit() = false
+			if ( user_can_richedit() ) { // textarea_escaped when user_can_richedit() = false
 				$field['value'] = esc_textarea( $field['value'] );
 			}
 			$item .= "<textarea type='text' id='$name' name='$name' $aria_required>" . $field['value'] . '</textarea>';
