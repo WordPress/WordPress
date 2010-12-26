@@ -352,7 +352,7 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 	unset( $args['capabilities'] );
 
 	$args['name'] = $taxonomy;
-	$args['object_type'] = is_array($object_type) ? array_map('sanitize_key', $object_type) : (array) sanitize_key($object_type);
+	$args['object_type'] = (array) $object_type;
 
 	$args['labels'] = get_taxonomy_labels( (object) $args );
 	$args['label'] = $args['labels']->name;
