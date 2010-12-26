@@ -480,7 +480,7 @@ function wp_default_styles( &$styles ) {
 
 	$suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '.dev' : '';
 
-	$rtl_styles = array( 'wp-admin', 'global', 'colors', 'colors-fresh', 'colors-classic', 'dashboard', 'ie', 'install', 'login', 'media', 'theme-editor', 'upload', 'widgets', 'press-this', 'plugin-install', 'nav-menu', 'farbtastic', 'admin-bar', 'wplink' );
+	$rtl_styles = array( 'wp-admin', 'global', 'colors', 'colors-fresh', 'colors-classic', 'dashboard', 'ie', 'install', 'login', 'media', 'theme-editor', 'upload', 'widgets', 'press-this', 'plugin-install', 'nav-menu', 'farbtastic', 'admin-bar', 'wplink', 'theme-install' );
 	// Any rtl stylesheets that don't have a .dev version for ltr
 	$no_suffix = array( 'farbtastic' );
 
@@ -510,7 +510,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css', array(), '20090514' );
 	$styles->add( 'login', "/wp-admin/css/login$suffix.css", array(), '20101020' );
 	$styles->add( 'plugin-install', "/wp-admin/css/plugin-install$suffix.css", array(), '20100402' );
-	$styles->add( 'theme-install', "/wp-admin/css/theme-install$suffix.css", array(), '20100523' );
+	$styles->add( 'theme-install', "/wp-admin/css/theme-install$suffix.css", array(), '20101226' );
 	$styles->add( 'farbtastic', '/wp-admin/css/farbtastic.css', array(), '1.3u' );
 	$styles->add( 'jcrop', '/wp-includes/js/jcrop/jquery.Jcrop.css', array(), '0.9.8' );
 	$styles->add( 'imgareaselect', '/wp-includes/js/imgareaselect/imgareaselect.css', array(), '0.9.1' );

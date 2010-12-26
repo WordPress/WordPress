@@ -170,7 +170,7 @@ if ( ! current_user_can( 'switch_themes' ) ) {
 		<div class="feature-container">
 			<div class="feature-name"><?php echo $feature_name ?></div>
 
-			<ol style="float: left; width: 725px;" class="feature-group">
+			<ol class="feature-group">
 				<?php foreach ( $features as $key => $feature ) :
 						$feature_name = $feature;
 						$feature_name = esc_html( $feature_name );

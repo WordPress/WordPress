@@ -87,7 +87,7 @@ function install_themes_dashboard() {
 		$feature_name = esc_html( $feature_name );
 		echo '<div class="feature-name">' . $feature_name . '</div>';
 
-		echo '<ol style="float: left; width: 725px;" class="feature-group">';
+		echo '<ol class="feature-group">';
 		foreach ( $features as $feature => $feature_name ) {
 			$feature_name = esc_html( $feature_name );
 			$feature = esc_attr($feature);
