@@ -1476,6 +1476,10 @@ th.asc:hover span.sorting-indicator {
 	font-size: 11px;
 }
 
+.tablenav .one-page {
+	display: none;
+}
+
 .tablenav .tablenav-pages a,
 .tablenav-pages span.current  {
 	text-decoration: none;

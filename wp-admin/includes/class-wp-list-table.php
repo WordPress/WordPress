@@ -472,9 +472,6 @@ class WP_List_Table {
 
 		extract( $this->_pagination_args );
 
-		if ( $total_pages < 2 )
-			return;
-
 		$output = '<span class="displaying-num">' . sprintf( _n( '1 item', '%s items', $total_items ), number_format_i18n( $total_items ) ) . '</span>';
 
 		$current = $this->get_pagenum();
@@ -522,7 +519,9 @@ class WP_List_Table {
 
 		$output .= "\n" . join( "\n", $page_links );
 
-		$this->_pagination = "<div class='tablenav-pages'>$output</div>";
+		$page_class = $total_pages < 2 ? ' one-page' : '';
+
+		$this->_pagination = "<div class='tablenav-pages{$page_class}'>$output</div>";
 
 		echo $this->_pagination;
 	}

@@ -102,6 +102,9 @@ window.listTable = {
 
 			this.set_total_pages(response.total_pages);
 
+			if ( response.total_pages > 1 )
+				$('.tablenav-pages').removeClass('one-page');
+
 			$('.current-page').val($.query.GET('paged'));
 
 			$('th.column-cb :input').attr('checked', false);
