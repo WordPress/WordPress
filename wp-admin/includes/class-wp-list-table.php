@@ -487,14 +487,14 @@ class WP_List_Table {
 			'first-page',
 			esc_attr__( 'Go to the first page' ),
 			esc_url( remove_query_arg( 'paged', $current_url ) ),
-			is_rtl() ? '&raquo;' : '&laquo;'
+			'&laquo;'
 		);
 
 		$page_links[] = sprintf( "<a class='%s' title='%s' href='%s'>%s</a>",
 			'prev-page',
 			esc_attr__( 'Go to the previous page' ),
 			esc_url( add_query_arg( 'paged', max( 1, $current-1 ), $current_url ) ),
-			is_rtl() ? '&rsaquo;' : '&lsaquo;'
+			'&lsaquo;'
 		);
 
 		$html_current_page = sprintf( "<input class='current-page' title='%s' type='text' name='%s' value='%s' size='%d' />",
@@ -510,18 +510,15 @@ class WP_List_Table {
 			'next-page',
 			esc_attr__( 'Go to the next page' ),
 			esc_url( add_query_arg( 'paged', min( $total_pages, $current+1 ), $current_url ) ),
-			is_rtl() ? '&lsaquo;' : '&rsaquo;'
+			'&rsaquo;'
 		);
 
 		$page_links[] = sprintf( "<a class='%s' title='%s' href='%s'>%s</a>",
 			'last-page',
 			esc_attr__( 'Go to the last page' ),
 			esc_url( add_query_arg( 'paged', $total_pages, $current_url ) ),
-			is_rtl() ? '&laquo;' : '&raquo;'
+			'&raquo;'
 		);
-
-		if ( is_rtl() )
-			$page_links = array_reverse( $page_links );
 
 		$output .= "\n" . join( "\n", $page_links );
 
