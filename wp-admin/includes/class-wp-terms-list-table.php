@@ -303,6 +303,8 @@ class WP_Terms_List_Table extends WP_List_Table {
 
 	function column_links( $tag ) {
 		$count = number_format_i18n( $tag->count );
+		if ( $count )
+			$count = "<a href='link-manager.php?cat_id=$tag->term_id'>$count</a>";
 		return $count;
 	}
 
