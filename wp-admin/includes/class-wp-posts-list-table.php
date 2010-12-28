@@ -666,7 +666,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			default:
 			?>
 			<td <?php echo $attributes ?>><?php
-				if ( 'page' == $post->post_type )
+				if ( is_post_type_hierarchical( $post->post_type ) )
 					do_action( 'manage_pages_custom_column', $column_name, $post->ID );
 				else
 					do_action( 'manage_posts_custom_column', $column_name, $post->ID );
