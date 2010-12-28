@@ -359,4 +359,28 @@ function _get_admin_bar_pref( $context, $user = 0 ) {
 	
 	return 'true' === $pref;
 }
+
+/**
+ * Add the admin bar display preferences to user profiles.
+ *
+ * @since 3.1.0
+ * @access private
+ */
+function _admin_bar_preferences( $profileuser ) {
+?>
+<tr>
+<th scope="row"><?php _e('Show Admin Bar')?></th>
+<td><fieldset><legend class="screen-reader-text"><span><?php _e('Show Admin Bar') ?></span></legend>
+<label for="admin_bar_front">
+<input name="admin_bar_front" type="checkbox" id="admin_bar_front" value="1" <?php checked( _get_admin_bar_pref( 'front', $profileuser->ID ) ); ?> />
+<?php /* translators: Show admin bar when viewing site */ _e( 'when viewing site' ); ?></label><br />
+<label for="admin_bar_admin">
+<input name="admin_bar_admin" type="checkbox" id="admin_bar_admin" value="1" <?php checked( _get_admin_bar_pref( 'admin', $profileuser->ID ) ); ?> />
+<?php /* translators: Show admin bar in dashboard */ _e( 'in dashboard' ); ?></label>
+</td>
+</tr>
+<?php
+}
+add_action( 'personal_options', '_admin_bar_preferences' );
+
 ?>
