@@ -356,6 +356,7 @@ function update_meta_cache($meta_type, $object_ids) {
  * Given a meta query, generates SQL clauses to be appended to a main query
  *
  * @since 3.1.0
+ * @access private
  *
  * @param array $meta_query List of metadata queries. A single query is an associative array:
  * - 'key' string The meta key
@@ -373,7 +374,7 @@ function update_meta_cache($meta_type, $object_ids) {
  * @param object $context (optional) The main query object
  * @return array( 'join' => $join_sql, 'where' => $where_sql )
  */
-function get_meta_sql( $meta_query, $meta_type, $primary_table, $primary_id_column, $context = null ) {
+function _get_meta_sql( $meta_query, $meta_type, $primary_table, $primary_id_column, $context = null ) {
 	global $wpdb;
 
 	if ( ! $meta_table = _get_meta_table( $meta_type ) )

@@ -508,7 +508,7 @@ class WP_User_Query {
 		}
 
 		if ( !empty( $qv['meta_query'] ) ) {
-			$clauses = call_user_func_array( 'get_meta_sql', array( $qv['meta_query'], 'user', $wpdb->users, 'ID', &$this ) );
+			$clauses = call_user_func_array( '_get_meta_sql', array( $qv['meta_query'], 'user', $wpdb->users, 'ID', &$this ) );
 			$this->query_from .= $clauses['join'];
 			$this->query_where .= $clauses['where'];
 		}
