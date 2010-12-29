@@ -2236,7 +2236,8 @@ function esc_url( $url, $protocols = null, $_context = 'display' ) {
 
 	// Replace ampersands and single quotes only when displaying.
 	if ( 'display' == $_context ) {
-		$url = preg_replace('/&([^#])(?![a-z]{2,8};)/', '&#038;$1', $url);
+		$url = wp_kses_normalize_entities( $url );
+		$url = str_replace( '&amp;', '&#038;', $url );
 		$url = str_replace( "'", '&#039;', $url );
 	}
 

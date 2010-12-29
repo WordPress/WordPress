@@ -670,7 +670,7 @@ function wp_kses_attr($element, $attr, $allowed_html, $allowed_protocols) {
 					break;
 				}
 
-			if ( $arreach['name'] == 'style' ) {
+			if ( strtolower($arreach['name']) == 'style' ) {
 				$orig_value = $arreach['value'];
 
 				$value = safecss_filter_attr($orig_value);
@@ -762,7 +762,7 @@ function wp_kses_hair($attr, $allowed_protocols) {
 					# "value"
 					{
 					$thisval = $match[1];
-					if ( in_array($attrname, $uris) )
+					if ( in_array(strtolower($attrname), $uris) )
 						$thisval = wp_kses_bad_protocol($thisval, $allowed_protocols);
 
 					if(FALSE === array_key_exists($attrname, $attrarr)) {
@@ -778,7 +778,7 @@ function wp_kses_hair($attr, $allowed_protocols) {
 					# 'value'
 					{
 					$thisval = $match[1];
-					if ( in_array($attrname, $uris) )
+					if ( in_array(strtolower($attrname), $uris) )
 						$thisval = wp_kses_bad_protocol($thisval, $allowed_protocols);
 
 					if(FALSE === array_key_exists($attrname, $attrarr)) {
@@ -794,7 +794,7 @@ function wp_kses_hair($attr, $allowed_protocols) {
 					# value
 					{
 					$thisval = $match[1];
-					if ( in_array($attrname, $uris) )
+					if ( in_array(strtolower($attrname), $uris) )
 						$thisval = wp_kses_bad_protocol($thisval, $allowed_protocols);
 
 					if(FALSE === array_key_exists($attrname, $attrarr)) {
@@ -1017,14 +1017,9 @@ function wp_kses_html_error($string) {
  * @return string Sanitized content
  */
 function wp_kses_bad_protocol_once($string, $allowed_protocols) {
-	global $_kses_allowed_protocols;
-	$_kses_allowed_protocols = $allowed_protocols;
-
-	$string2 = preg_split('/:|&#58;|&#x3a;/i', $string, 2);
-	if ( isset($string2[1]) && !preg_match('%/\?%', $string2[0]) )
-		$string = wp_kses_bad_protocol_once2($string2[0]) . trim($string2[1]);
-	else
-		$string = preg_replace_callback('/^((&[^;]*;|[\sA-Za-z0-9])*)'.'(:|&#58;|&#[Xx]3[Aa];)\s*/', 'wp_kses_bad_protocol_once2', $string);
+	$string2 = preg_split( '/:|&#0*58;|&#x0*3a;/i', $string, 2 );
+	if ( isset($string2[1]) && ! preg_match('%/\?%', $string2[0]) )
+		$string = wp_kses_bad_protocol_once2( $string2[0], $allowed_protocols ) . trim( $string2[1] );
 
 	return $string;
 }
@@ -1038,29 +1033,19 @@ function wp_kses_bad_protocol_once($string, $allowed_protocols) {
  * @access private
  * @since 1.0.0
  *
- * @param mixed $matches string or preg_replace_callback() matches array to check for bad protocols
+ * @param string $string URI scheme to check against the whitelist
+ * @param string $allowed_protocols Allowed protocols
  * @return string Sanitized content
  */
-function wp_kses_bad_protocol_once2($matches) {
-	global $_kses_allowed_protocols;
-
-	if ( is_array($matches) ) {
-		if ( empty($matches[1]) )
-			return '';
-
-		$string = $matches[1];
-	} else {
-		$string = $matches;
-	}
-
+function wp_kses_bad_protocol_once2( $string, $allowed_protocols ) {
 	$string2 = wp_kses_decode_entities($string);
 	$string2 = preg_replace('/\s/', '', $string2);
 	$string2 = wp_kses_no_null($string2);
 	$string2 = strtolower($string2);
 
 	$allowed = false;
-	foreach ( (array) $_kses_allowed_protocols as $one_protocol)
-		if (strtolower($one_protocol) == $string2) {
+	foreach ( (array) $allowed_protocols as $one_protocol )
+		if ( strtolower($one_protocol) == $string2 ) {
 			$allowed = true;
 			break;
 		}
