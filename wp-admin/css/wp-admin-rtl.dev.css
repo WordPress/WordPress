@@ -253,6 +253,18 @@ td.available-theme {
 .description, .form-wrap p {
 	font-family: Tahoma, Arial, sans-serif;
 }
+.sorting-indicator {
+	margin-left: 0;
+	margin-right: 7px;
+}
+th.sortable a span,
+th.sorted a span {
+	float: right;
+}
+.fixed .column-comments a {
+	float: right;
+}
+
 /* 1500 - 1800
 =================================== */
 .autosave-info {
