@@ -669,12 +669,13 @@ button.dismiss {
 }
 
 /* Custom Header */
-table#available-headers td {
-	padding: 0 0 10px 20px;
+.appearance_page_custom-header #available-headers .default-header {
+	float: right;
+	margin: 0 0 20px 20px;
 }
-table#available-headers label input {
+.appearance_page_custom-header #available-headers label input {
 	margin-right: 0;
-	margin-left: 8px;
+	margin-left: 10px;
 }
 
 /* ltr
