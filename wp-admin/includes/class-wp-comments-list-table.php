@@ -54,8 +54,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 		$orderby = ( isset( $_REQUEST['orderby'] ) ) ? $_REQUEST['orderby'] : '';
 		$order = ( isset( $_REQUEST['order'] ) ) ? $_REQUEST['order'] : '';
 
-		$comments_per_page = $this->get_items_per_page( 'edit_comments_per_page' );
-		$comments_per_page = apply_filters( 'comments_per_page', $comments_per_page, $comment_status );
+		$comments_per_page = $this->get_per_page( $comment_status );
 
 		$doing_ajax = defined( 'DOING_AJAX' ) && DOING_AJAX;
 
@@ -115,6 +114,12 @@ class WP_Comments_List_Table extends WP_List_Table {
 			'total_items' => $total_comments,
 			'per_page' => $comments_per_page,
 		) );
+	}
+	
+	function get_per_page( $comment_status = 'all' ) {
+		$comments_per_page = $this->get_items_per_page( 'edit_comments_per_page' );
+		$comments_per_page = apply_filters( 'comments_per_page', $comments_per_page, $comment_status );
+		return $comments_per_page;
 	}
 
 	function no_items() {
@@ -535,6 +540,10 @@ class WP_Post_Comments_List_Table extends WP_Comments_List_Table {
 	</tbody>
 </table>
 <?php
+	}
+	
+	function get_per_page( $comment_status = false ) {
+		return 10;
 	}
 }
 
