@@ -2,7 +2,7 @@
 /**
  * Internal linking functions.
  *
- * @package WordPres
+ * @package WordPress
  * @subpackage Administration
  * @since 3.1.0
  */
