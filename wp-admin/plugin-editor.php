@@ -89,7 +89,7 @@ default:
 		if ( is_wp_error($error) )
 			wp_die( $error );
 
-		if ( ! is_plugin_active($file) )
+		if ( ( ! empty( $_GET['networkwide'] ) && ! is_plugin_active_for_network($file) ) || ! is_plugin_active($file) )
 			activate_plugin($file, "plugin-editor.php?file=$file&phperror=1", ! empty( $_GET['networkwide'] ) ); // we'll override this later if the plugin can be included without fatal error
 
 		wp_redirect( self_admin_url("plugin-editor.php?file=$file&a=te&scrollto=$scrollto") );
