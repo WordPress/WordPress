@@ -41,7 +41,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 		// to avoid expensive count queries.
 		if ( !$s && ( get_blog_count() >= 10000 ) ) {
 			if ( !isset($_REQUEST['orderby']) )
-				$_GET['orderby'] = $_REQUEST['orderby'] = 'id';
+				$_GET['orderby'] = $_REQUEST['orderby'] = '';
 			if ( !isset($_REQUEST['order']) )
 				$_GET['order'] = $_REQUEST['order'] = 'DESC';
 			$large_network = true;
@@ -78,13 +78,18 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 			}
 		}
 
-		$order_by = isset( $_REQUEST['orderby'] ) ? $_REQUEST['orderby'] : 'id';
+		$order_by = isset( $_REQUEST['orderby'] ) ? $_REQUEST['orderby'] : '';
 		if ( $order_by == 'registered' ) {
 			$query .= ' ORDER BY registered ';
 		} elseif ( $order_by == 'lastupdated' ) {
 			$query .= ' ORDER BY last_updated ';
 		} elseif ( $order_by == 'blogname' ) {
-			$query .= ' ORDER BY domain ';
+			if ( is_subdomain_install() )
+				$query .= ' ORDER BY domain ';
+			else
+				$query .= ' ORDER BY path ';
+		} elseif ( $order_by == 'blog_id' ) {
+			$query .= ' ORDER BY blog_id ';
 		} else {
 			$order_by = null;
 		}
@@ -155,7 +160,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 		return array(
 			'blogname'    => 'blogname',
 			'lastupdated' => 'lastupdated',
-			'registered'  => 'id',
+			'registered'  => 'blog_id',
 		);
 	}
 
