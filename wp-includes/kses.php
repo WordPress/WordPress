@@ -1,6 +1,24 @@
 <?php
 /**
- * HTML/XHTML filter that only allows some elements and attributes
+ * kses 0.2.2 - HTML/XHTML filter that only allows some elements and attributes
+ * Copyright (C) 2002, 2003, 2005  Ulf Harnhammar
+ *
+ * This program is free software and open source software; you can redistribute
+ * it and/or modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the License,
+ * or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ * more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA  or visit
+ * http://www.gnu.org/licenses/gpl.html
+ * 
+ * [kses strips evil scripts!]
  *
  * Added wp_ prefix to avoid conflicts with existing kses users
  *
@@ -11,16 +29,6 @@
  * @package External
  * @subpackage KSES
  *
- * @internal
- * *** CONTACT INFORMATION ***
- * E-mail:      metaur at users dot sourceforge dot net
- * Web page:    http://sourceforge.net/projects/kses
- * Paper mail:  Ulf Harnhammar
- *              Ymergatan 17 C
- *              753 25  Uppsala
- *              SWEDEN
- *
- * [kses strips evil scripts!]
  */
 
 /**
