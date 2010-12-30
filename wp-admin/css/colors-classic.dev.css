@@ -457,9 +457,7 @@ a.page-numbers {
 }
 
 .widefat td,
-.widefat th,
-#install-plugins .plugins td,
-#install-plugins .plugins th {
+.widefat th {
 	border-color: #dfdfdf;
 }
 

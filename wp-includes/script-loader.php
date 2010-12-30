@@ -403,7 +403,7 @@ function wp_default_scripts( &$scripts ) {
 			'l10n_print_after' => 'try{convertEntities(inlineEditL10n);}catch(e){};'
 		) );
 
-		$scripts->add( 'plugin-install', "/wp-admin/js/plugin-install$suffix.js", array( 'jquery', 'thickbox' ), '20101220' );
+		$scripts->add( 'plugin-install', "/wp-admin/js/plugin-install$suffix.js", array( 'jquery', 'thickbox' ), '20101230' );
 		$scripts->add_data( 'plugin-install', 'group', 1 );
 		$scripts->localize( 'plugin-install', 'plugininstallL10n', array(
 			'plugin_information' => __('Plugin Information:'),
@@ -484,13 +484,13 @@ function wp_default_styles( &$styles ) {
 	// Any rtl stylesheets that don't have a .dev version for ltr
 	$no_suffix = array( 'farbtastic' );
 
-	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20101229' );
+	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20101230' );
 
 	$styles->add( 'ie', "/wp-admin/css/ie$suffix.css", array(), '20101102' );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
 
 	// all colors stylesheets need to have the same query strings (cache manifest compat)
-	$colors_version = '20101224';
+	$colors_version = '20101230';
 
 	// Register "meta" stylesheet for admin colors. All colors-* style sheets should have the same version string.
 	$styles->add( 'colors', true, array(), $colors_version );
@@ -509,7 +509,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'press-this', "/wp-admin/css/press-this$suffix.css", array(), '20101224' );
 	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css', array(), '20090514' );
 	$styles->add( 'login', "/wp-admin/css/login$suffix.css", array(), '20101020' );
-	$styles->add( 'plugin-install', "/wp-admin/css/plugin-install$suffix.css", array(), '20100402' );
+	$styles->add( 'plugin-install', "/wp-admin/css/plugin-install$suffix.css", array(), '20101230' );
 	$styles->add( 'theme-install', "/wp-admin/css/theme-install$suffix.css", array(), '20101226' );
 	$styles->add( 'farbtastic', '/wp-admin/css/farbtastic.css', array(), '1.3u' );
 	$styles->add( 'jcrop', '/wp-includes/js/jcrop/jquery.Jcrop.css', array(), '0.9.8' );
