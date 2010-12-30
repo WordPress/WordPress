@@ -13,7 +13,17 @@ td.available-theme {
 }
 /* 200 - 500
 =================================== */
+#doaction,
+#doaction2,
+#post-query-submit {
+	margin-right: 0;
+	margin-left: 8px;
+}
 #save-post {
+	float: right;
+}
+#minor-publishing .ajax-loading {
+	padding: 3px 4px 0 0;
 	float: right;
 }
 .preview {
@@ -92,7 +102,7 @@ td.available-theme {
 	margin-left: 10px;
 }
 .tablenav a.button-secondary {
-	margin: 8px 0 0 8px;
+	margin: 3px 0 0 8px;
 }
 .tablenav .tablenav-pages {
 	float: left;
@@ -101,7 +111,7 @@ td.available-theme {
 	margin-right: 0;
 	margin-left: 10px;
 	font-family: Tahoma, Arial, sans-serif;
-	font-style:normal;
+	font-style: normal;
 }
 #postcustomstuff table input,
 #postcustomstuff table select,
