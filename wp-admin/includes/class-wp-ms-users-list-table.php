@@ -31,6 +31,8 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 			'fields' => 'all_with_meta'
 		);
 
+		$args['search'] = ltrim($args['search'], '*');
+
 		if ( $role == 'super' ) {
 			$logins = implode( "', '", get_super_admins() );
 			$args['include'] = $wpdb->get_col( "SELECT ID FROM $wpdb->users WHERE user_login IN ('$logins')" );

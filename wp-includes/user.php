@@ -465,11 +465,19 @@ class WP_User_Query {
 
 		$search = trim( $qv['search'] );
 		if ( $search ) {
-			$wild = false;
-			if ( false !== strpos($search, '*') ) {
-				$wild = true;
+			$leading_wild = ( ltrim($search, '*') != $search );
+			$trailing_wild = ( rtrim($search, '*') != $search );
+			if ( $leading_wild && $trailing_wild )
+				$wild = 'both';
+			elseif ( $leading_wild )
+				$wild = 'leading';
+			elseif ( $trailing_wild )
+				$wild = 'trailing';
+			else
+				$wild = false;
+			if ( $wild )
 				$search = trim($search, '*');
-			}
+
 			if ( false !== strpos( $search, '@') )
 				$search_columns = array('user_email');
 			elseif ( is_numeric($search) )
@@ -564,19 +572,21 @@ class WP_User_Query {
 	 *
 	 * @param string $string
 	 * @param array $cols
-	 * @param bool $wild Whether to allow trailing wildcard searches. Default is false.
+	 * @param bool $wild Whether to allow wildcard searches. Default is false for Network Admin, true for
+	 *  single site. Single site allows leading and trailing wildcards, Network Admin only trailing.
 	 * @return string
 	 */
 	function get_search_sql( $string, $cols, $wild = false ) {
 		$string = esc_sql( $string );
 
 		$searches = array();
-		$wild_char = ( $wild ) ? '%' : '';
+		$leading_wild = ( 'leading' == $wild || 'both' == $wild ) ? '%' : '';
+		$trailing_wild = ( 'trailing' == $wild || 'both' == $wild ) ? '%' : '';
 		foreach ( $cols as $col ) {
 			if ( 'ID' == $col )
 				$searches[] = "$col = '$string'";
 			else
-				$searches[] = "$col LIKE '" . like_escape($string) . "$wild_char'";
+				$searches[] = "$col LIKE '$leading_wild" . like_escape($string) . "$trailing_wild'";
 		}
 
 		return ' AND (' . implode(' OR ', $searches) . ')';
