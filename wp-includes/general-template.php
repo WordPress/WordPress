@@ -620,7 +620,6 @@ function wp_title($sep = '&raquo;', $display = true, $seplocation = '') {
  * Display or retrieve page title for post.
  *
  * This is optimized for single.php template file for displaying the post title.
- * Only useful for posts, does not support pages for example.
  *
  * It does not support placing the separator after the title, but by leaving the
  * prefix parameter empty, you can set the title separator manually. The prefix
@@ -634,12 +633,7 @@ function wp_title($sep = '&raquo;', $display = true, $seplocation = '') {
  * @return string|null Title when retrieving, null when displaying or failure.
  */
 function single_post_title($prefix = '', $display = true) {
-	global $post;
-
-	if ( ! $post )
-		$_post = get_queried_object();
-	else
-		$_post = $post;
+	$_post = get_queried_object();
 
 	if ( !isset($_post->post_title) )
 		return;
