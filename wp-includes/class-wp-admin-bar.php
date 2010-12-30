@@ -190,12 +190,12 @@ class WP_Admin_Bar {
 	}
 
 	function remove_node( $id, &$menu ) {
-		foreach( $menu as $menu_item_id => &$menu_item ) {
-			if ( $menu_item_id == $id ) {
-				$menu_item = null;
-				return true;
-			}
+		if ( isset( $menu->$id ) ) {
+			unset( $menu->$id );
+			return true;
+		}
 
+		foreach( $menu as $menu_item_id => $menu_item ) {
 			if ( ! empty( $menu->{$menu_item_id}['children'] ) )
 				$this->remove_node( $id, $menu->{$menu_item_id}['children'] );
 		}
