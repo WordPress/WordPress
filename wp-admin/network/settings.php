@@ -16,7 +16,7 @@ if ( ! is_multisite() )
 if ( ! current_user_can( 'manage_network_options' ) )
 	wp_die( __( 'You do not have permission to access this page.' ) );
 
-$title = __( 'Network Options' );
+$title = __( 'Settings' );
 $parent_file = 'settings.php';
 
 add_contextual_help($current_screen,
@@ -45,7 +45,7 @@ if (isset($_GET['updated'])) {
 
 <div class="wrap">
 	<?php screen_icon('options-general'); ?>
-	<h2><?php _e( 'Network Options' ) ?></h2>
+	<h2><?php _e( 'Settings' ) ?></h2>
 	<form method="post" action="edit.php?action=siteoptions">
 		<?php wp_nonce_field( 'siteoptions' ); ?>
 		<h3><?php _e( 'Operational Settings' ); ?></h3>
