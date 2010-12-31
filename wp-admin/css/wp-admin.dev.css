@@ -1540,9 +1540,8 @@ th.asc:hover span.sorting-indicator {
 	padding: 0 0 .2em 1px;
 }
 
-span.post-state span {
+span.post-state-format {
 	font-weight: normal;
-	color: #555;
 }
 
 
