@@ -108,7 +108,7 @@ function get_plugin_data( $plugin_file, $markup = true, $translate = true ) {
 
 function _get_plugin_data_markup_translate($plugin_file, $plugin_data, $markup = true, $translate = true) {
 
-	//Translate fields30
+	//Translate fields
 	if ( $translate && ! empty($plugin_data['TextDomain']) ) {
 		if ( ! empty( $plugin_data['DomainPath'] ) )
 			load_plugin_textdomain($plugin_data['TextDomain'], false, dirname($plugin_file). $plugin_data['DomainPath']);
