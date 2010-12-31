@@ -256,6 +256,8 @@ function timer_stop( $display = 0, $precision = 3 ) { // if called like timer_st
  */
 function wp_debug_mode() {
 	if ( WP_DEBUG ) {
+		// E_DEPRECATED is a core PHP constant in PHP 5.3. Don't define this yourself.
+		// The two statements are equivalent, just one is for 5.3+ and for less than 5.3.
 		if ( defined( 'E_DEPRECATED' ) )
 			error_reporting( E_ALL & ~E_DEPRECATED & ~E_STRICT );
 		else
