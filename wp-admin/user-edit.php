@@ -147,7 +147,8 @@ if ( !is_multisite() ) {
 
 if ( !is_wp_error( $errors ) ) {
 	$redirect = (IS_PROFILE_PAGE ? "profile.php?" : "user-edit.php?user_id=$user_id&"). "updated=true";
-	$redirect = add_query_arg('wp_http_referer', urlencode($wp_http_referer), $redirect);
+	if ( $wp_http_referer )
+		$redirect = add_query_arg('wp_http_referer', urlencode($wp_http_referer), $redirect);
 	wp_redirect($redirect);
 	exit;
 }
@@ -168,7 +169,7 @@ include (ABSPATH . 'wp-admin/admin-header.php');
 <div id="message" class="updated">
 	<p><strong><?php _e('User updated.') ?></strong></p>
 	<?php if ( $wp_http_referer && !IS_PROFILE_PAGE ) : ?>
-	<p><a href="users.php"><?php _e('&larr; Back to Authors and Users'); ?></a></p>
+	<p><a href="<?php echo esc_url( $wp_http_referer ); ?>"><?php _e('&larr; Back to Authors and Users'); ?></a></p>
 	<?php endif; ?>
 </div>
 <?php endif; ?>
