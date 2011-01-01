@@ -1200,7 +1200,7 @@ function _add_post_type_submenus() {
 		// Submenus only.
 		if ( ! $ptype_obj->show_in_menu || $ptype_obj->show_in_menu === true )
 			continue;
-		add_submenu_page( $ptype_obj->show_in_menu, $ptype_obj->labels->name, $ptype_obj->labels->name, $ptype_obj->cap->edit_posts, "edit.php?post_type=$ptype" );
+		add_submenu_page( $ptype_obj->show_in_menu, $ptype_obj->labels->name, $ptype_obj->labels->menu_name, $ptype_obj->cap->edit_posts, "edit.php?post_type=$ptype" );
 	}
 }
 add_action( 'admin_menu', '_add_post_type_submenus' );
