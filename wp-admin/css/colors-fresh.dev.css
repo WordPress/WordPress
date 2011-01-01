@@ -1399,13 +1399,15 @@ fieldset.inline-edit-col-right .inline-edit-col {
 	background: #eee url('../images/menu-bits.gif?ver=20100610') repeat-x scroll left -379px;
 }
 
-.tablenav .tablenav-pages a:hover {
+.tablenav .tablenav-pages a:hover,
+.tablenav .tablenav-pages a:focus {
 	color: #d54e21;
-	border-color: #d54321;
 }
 
-.tablenav .tablenav-pages a:active {
-	color: #fff !important;
+.tablenav .tablenav-pages a.disabled,
+.tablenav .tablenav-pages a.disabled:hover,
+.tablenav .tablenav-pages a.disabled:focus {
+	color: #aaa;
 }
 
 .tablenav .tablenav-pages .current {

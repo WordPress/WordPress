@@ -1493,6 +1493,14 @@ th.asc:hover span.sorting-indicator {
 	border-radius: 5px;
 }
 
+.tablenav .tablenav-pages a.disabled:hover {
+	cursor: default;
+}
+
+.tablenav .tablenav-pages a.disabled:active {
+	cursor: default;
+}
+
 .tablenav .displaying-num {
 	margin-right: 10px;
 	font-size: 12px;

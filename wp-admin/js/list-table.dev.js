@@ -91,6 +91,8 @@ window.listTable = {
 		if ( 'object' != typeof response ) {
 			this.handle_error();
 		} else {
+			var tablenav = $('.tablenav-pages');
+
 			this.stop_loading();
 
 			$('div.updated, div.error').not('.persistent, .inline').remove();
@@ -103,9 +105,13 @@ window.listTable = {
 			this.set_total_pages(response.total_pages);
 
 			if ( response.total_pages > 1 )
-				$('.tablenav-pages').removeClass('one-page');
+				tablenav.removeClass('one-page');
 
 			$('.current-page').val($.query.GET('paged'));
+
+			// Disable buttons that should noop.
+			tablenav.find('.first-page, .prev-page').toggleClass('disabled', 1 == $.query.GET('paged'));
+			tablenav.find('.next-page, .last-page').toggleClass('disabled', response.total_pages_i18n == $.query.GET('paged'));
 
 			$('th.column-cb :input').attr('checked', false);
 

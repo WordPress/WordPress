@@ -1400,17 +1400,19 @@ body.press-this .stuffbox:hover .handlediv,
 }
 
 .tablenav .tablenav-pages a {
-	border-color: #D1E5EE;
+	border-color: #d1e5ee;
 	background: #eee url('../images/menu-bits-vs.gif?ver=20101102') repeat-x scroll left -379px;
 }
 
-.tablenav .tablenav-pages a:hover {
+.tablenav .tablenav-pages a:hover,
+.tablenav .tablenav-pages a:focus {
 	color: #d54e21;
-	border-color: #d54321;
 }
 
-.tablenav .tablenav-pages a:active {
-	color: #fff !important;
+.tablenav .tablenav-pages a.disabled,
+.tablenav .tablenav-pages a.disabled:hover,
+.tablenav .tablenav-pages a.disabled:focus {
+	color: #aaa;
 }
 
 .tablenav .tablenav-pages .current {

@@ -480,15 +480,21 @@ class WP_List_Table {
 
 		$page_links = array();
 
+		$disable_first = $disable_last = '';
+		if ( $current == 1 )
+			$disable_first = ' disabled';
+		if ( $current == $total_items )
+			$disable_last = ' disabled';
+
 		$page_links[] = sprintf( "<a class='%s' title='%s' href='%s'>%s</a>",
-			'first-page',
+			'first-page' . $disable_first,
 			esc_attr__( 'Go to the first page' ),
 			esc_url( remove_query_arg( 'paged', $current_url ) ),
 			'&laquo;'
 		);
 
 		$page_links[] = sprintf( "<a class='%s' title='%s' href='%s'>%s</a>",
-			'prev-page',
+			'prev-page' . $disable_first,
 			esc_attr__( 'Go to the previous page' ),
 			esc_url( add_query_arg( 'paged', max( 1, $current-1 ), $current_url ) ),
 			'&lsaquo;'
@@ -504,14 +510,14 @@ class WP_List_Table {
 		$page_links[] = '<span class="paging-input">' . sprintf( _x( '%1$s of %2$s', 'paging' ), $html_current_page, $html_total_pages ) . '</span>';
 
 		$page_links[] = sprintf( "<a class='%s' title='%s' href='%s'>%s</a>",
-			'next-page',
+			'next-page' . $disable_last,
 			esc_attr__( 'Go to the next page' ),
 			esc_url( add_query_arg( 'paged', min( $total_pages, $current+1 ), $current_url ) ),
 			'&rsaquo;'
 		);
 
 		$page_links[] = sprintf( "<a class='%s' title='%s' href='%s'>%s</a>",
-			'last-page',
+			'last-page' . $disable_last,
 			esc_attr__( 'Go to the last page' ),
 			esc_url( add_query_arg( 'paged', $total_pages, $current_url ) ),
 			'&raquo;'
