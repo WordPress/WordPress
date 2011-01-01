@@ -957,6 +957,7 @@ function setup_userdata($for_user_id = '') {
  * <li>show - Default is 'display_name'. User table column to display. If the selected item is empty then the user_login will be displayed in parentheses</li>
  * <li>echo - Default is '1'. Whether to display or retrieve content.</li>
  * <li>selected - Which User ID is selected.</li>
+ * <li>include_selected - Always include the selected user ID in the dropdown. Default is false.</li>
  * <li>name - Default is 'user'. Name attribute of select element.</li>
  * <li>id - Default is the value of the 'name' parameter. ID attribute of select element.</li>
  * <li>class - Class attribute of select element.</li>
@@ -977,7 +978,7 @@ function wp_dropdown_users( $args = '' ) {
 		'include' => '', 'exclude' => '', 'multi' => 0,
 		'show' => 'display_name', 'echo' => 1,
 		'selected' => 0, 'name' => 'user', 'class' => '', 'id' => '',
-		'blog_id' => $GLOBALS['blog_id'], 'who' => ''
+		'blog_id' => $GLOBALS['blog_id'], 'who' => '', 'include_selected' => false
 	);
 
 	$defaults['selected'] = is_author() ? get_query_var( 'author' ) : 0;
@@ -1007,8 +1008,18 @@ function wp_dropdown_users( $args = '' ) {
 			$output .= "\t<option value='-1'$_selected>$show_option_none</option>\n";
 		}
 
+		$found_selected = false;
 		foreach ( (array) $users as $user ) {
 			$user->ID = (int) $user->ID;
+			$_selected = selected( $user->ID, $selected, false );
+			if ( $_selected )
+				$found_selected = true;
+			$display = !empty($user->$show) ? $user->$show : '('. $user->user_login . ')';
+			$output .= "\t<option value='$user->ID'$_selected>" . esc_html($display) . "</option>\n";
+		}
+
+		if ( $include_selected && ! $found_selected && ( $selected > 0 ) ) {
+			$user = get_userdata( $selected );
 			$_selected = selected( $user->ID, $selected, false );
 			$display = !empty($user->$show) ? $user->$show : '('. $user->user_login . ')';
 			$output .= "\t<option value='$user->ID'$_selected>" . esc_html($display) . "</option>\n";

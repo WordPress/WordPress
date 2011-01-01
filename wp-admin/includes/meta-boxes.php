@@ -530,7 +530,8 @@ function post_author_meta_box($post) {
 	wp_dropdown_users( array(
 		'who' => 'authors',
 		'name' => 'post_author_override',
-		'selected' => empty($post->ID) ? $user_ID : $post->post_author
+		'selected' => empty($post->ID) ? $user_ID : $post->post_author,
+		'include_selected' => true
 	) );
 }
 
