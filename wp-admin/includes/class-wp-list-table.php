@@ -483,7 +483,7 @@ class WP_List_Table {
 		$disable_first = $disable_last = '';
 		if ( $current == 1 )
 			$disable_first = ' disabled';
-		if ( $current == $total_items )
+		if ( $current == $total_pages )
 			$disable_last = ' disabled';
 
 		$page_links[] = sprintf( "<a class='%s' title='%s' href='%s'>%s</a>",

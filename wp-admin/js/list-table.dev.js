@@ -111,7 +111,7 @@ window.listTable = {
 
 			// Disable buttons that should noop.
 			tablenav.find('.first-page, .prev-page').toggleClass('disabled', 1 == $.query.GET('paged'));
-			tablenav.find('.next-page, .last-page').toggleClass('disabled', response.total_pages_i18n == $.query.GET('paged'));
+			tablenav.find('.next-page, .last-page').toggleClass('disabled', response.total_pages == $.query.GET('paged'));
 
 			$('th.column-cb :input').attr('checked', false);
 
