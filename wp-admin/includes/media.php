@@ -1476,7 +1476,7 @@ $post_params = array(
 );
 $post_params = apply_filters( 'swfupload_post_params', $post_params );
 $p = array();
-foreach ( $post_params as $param => & $val )
+foreach ( $post_params as $param => $val )
 	$p[] = "\t\t'$param' : '$val'";
 $post_params_str = implode( ", \n", $p );
 

@@ -157,7 +157,7 @@ class WP_Admin_Bar {
 	}
 
 	function add_node( $parent_id, &$menu, $child ) {
-		foreach( $menu as $id => &$menu_item ) {
+		foreach( $menu as $id => $menu_item ) {
 			if ( $parent_id == $id ) {
 				$menu->{$parent_id}['children']->{$child['id']} = $child;
 				$child = null;
