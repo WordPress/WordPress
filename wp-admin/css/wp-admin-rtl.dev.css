@@ -469,6 +469,13 @@ td.action-links, th.action-links {
 .inline-edit-save img.waiting {
 	float: left;
 }
+.trash-undo-inside,
+.spam-undo-inside,
+.spam-undo-inside .avatar,
+.trash-undo-inside .avatar {
+	margin-right: 0;
+	margin-left: 8px;
+}
 /* 2500 - 2700
 =================================== */
 #bulk-titles div a {
