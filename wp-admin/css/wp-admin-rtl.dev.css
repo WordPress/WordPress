@@ -102,7 +102,12 @@ td.available-theme {
 	margin-left: 10px;
 }
 .tablenav a.button-secondary {
-	margin: 3px 0 0 8px;
+	margin-right: 0;
+	margin-left: 8px;
+}
+.tablenav .actions {
+	padding-right: 0;
+	padding-left: 8px;
 }
 .tablenav .tablenav-pages {
 	float: left;
