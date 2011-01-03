@@ -285,7 +285,7 @@ add_filter( 'get_the_excerpt', 'twentyten_custom_excerpt_more' );
  * Galleries are styled by the theme in Twenty Ten's style.css. This is just
  * a simple filter call that tells WordPress to not use the default styles.
  *
- * @since Twenty Ten 1.3
+ * @since Twenty Ten 1.2
  */
 add_filter( 'use_default_gallery_style', '__return_false' );
 
@@ -296,7 +296,7 @@ add_filter( 'use_default_gallery_style', '__return_false' );
  * filter instead, as seen above.
  *
  * @since Twenty Ten 1.0
- * @deprecated Deprecated in Twenty Ten 1.3 for WordPress 3.1
+ * @deprecated Deprecated in Twenty Ten 1.2 for WordPress 3.1
  *
  * @return string The gallery style filter, with the styles themselves removed.
  */
