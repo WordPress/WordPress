@@ -575,7 +575,7 @@ function secret_salt_warning() {
 		echo "<div class='update-nag'>$msg</div>";
 	}
 }
-add_action( 'admin_notices', 'secret_salt_warning' );
+add_action( 'network_admin_notices', 'secret_salt_warning' );
 
 function site_admin_notice() {
 	global $wp_db_version;
@@ -585,6 +585,7 @@ function site_admin_notice() {
 		echo "<div class='update-nag'>" . sprintf( __( 'Thank you for Updating! Please visit the <a href="%s">Update Network</a> page to update all your sites.' ), esc_url( network_admin_url( 'upgrade.php' ) ) ) . "</div>";
 }
 add_action( 'admin_notices', 'site_admin_notice' );
+add_action( 'network_admin_notices', 'site_admin_notice' );
 
 function avoid_blog_page_permalink_collision( $data, $postarr ) {
 	if ( is_subdomain_install() )
@@ -663,7 +664,7 @@ function ms_deprecated_blogs_file() {
 		return;
 	echo '<div class="update-nag">' . sprintf( __( 'The <code>%1$s</code> file is deprecated. Please remove it and update your server rewrite rules to use <code>%2$s</code> instead.' ), 'wp-content/blogs.php', 'wp-includes/ms-files.php' ) . '</div>';
 }
-add_action( 'admin_notices', 'ms_deprecated_blogs_file' );
+add_action( 'network_admin_notices', 'ms_deprecated_blogs_file' );
 
 /**
  * Grants super admin privileges.
