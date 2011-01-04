@@ -151,7 +151,7 @@ $links = array();
 $links[5] = sprintf(__('Howdy, <a href="%1$s" title="Edit your profile">%2$s</a>'), 'profile.php', $user_identity);
 if ( is_multisite() && is_super_admin() ) {
 	if ( !is_network_admin() )
-		$links[10] = '| <a href="' . network_admin_url() . '" title="' . esc_attr__('Network Admin') . '">' . __('Network Admin') . '</a>';
+		$links[10] = '| <a href="' . network_admin_url() . '" title="' . ( ! empty( $update_title ) ? $update_title : esc_attr__('Network Admin') ) . '">' . __('Network Admin') . ( ! empty( $total_update_count ) ? ' (' . number_format_i18n( $total_update_count ) . ')' : '' ) . '</a>';
 	else
 		$links[10] = '| <a href="' . get_dashboard_url( get_current_user_id() ) . '" title="' . esc_attr__('Site Admin') . '">' . __('Site Admin') . '</a>';
 }
@@ -170,7 +170,7 @@ echo implode(' ', $links);
 
 <div id="wpbody">
 <?php
-unset($title_class, $blog_name);
+unset($title_class, $blog_name, $total_update_count, $update_title);
 
 require(ABSPATH . 'wp-admin/menu-header.php');
 
