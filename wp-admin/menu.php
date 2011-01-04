@@ -55,7 +55,7 @@ if ( ! is_multisite() || is_super_admin() ) {
 }
 
 if ( ! is_multisite() ) {
-	$submenu[ 'index.php' ][10] = array( sprintf( __('Updates %s'), "<span class='update-plugins count-$total_update_count' title='$total_update_title'><span class='update-count'>" . number_format_i18n($total_update_count) . "</span></span>" ), 'update_core',  'update-core.php');
+	$submenu[ 'index.php' ][10] = array( sprintf( __('Updates %s'), "<span class='update-plugins count-$total_update_count' title='$update_title'><span class='update-count'>" . number_format_i18n($total_update_count) . "</span></span>" ), 'update_core',  'update-core.php');
 }
 
 unset($plugin_update_count, $theme_update_count, $wordpress_update_count, $update_themes, $update_plugins, $update_wordpress);
