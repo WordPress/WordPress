@@ -728,30 +728,26 @@ function get_raw_theme_root( $stylesheet_or_template, $no_cache = false ) {
 /**
  * Retrieve path to a template
  *
- * Used to quickly retrieve the path of file without including the file
- * extension. It will also check the parent template, if the file exists, with
- * the use of {@link locate_template()}. Allows for more generic file location
+ * Used to quickly retrieve the path of a template without including the file
+ * extension. It will also check the parent theme, if the file exists, with
+ * the use of {@link locate_template()}. Allows for more generic template location
  * without the use of the other get_*_template() functions.
- *
- * Can be used with include() or require() to retrieve path.
- * <code>
- * if( '' != get_query_template( '404' ) )
- *     include( get_query_template( '404' ) );
- * </code>
- * or the same can be accomplished with
- * <code>
- * if( '' != get_404_template() )
- *     include( get_404_template() );
- * </code>
  *
  * @since 1.5.0
  *
  * @param string $type Filename without extension.
+ * @param array $templates An optional list of template candidates
  * @return string Full path to file.
  */
-function get_query_template($type) {
+function get_query_template( $type, $templates = array() ) {
 	$type = preg_replace( '|[^a-z0-9-]+|', '', $type );
-	return apply_filters("{$type}_template", locate_template(array("{$type}.php")));
+
+	if ( empty( $templates ) )
+		$templates = array("{$type}.php");
+
+	$templates = apply_filters( "{$type}_template_hierarchy", $templates );
+
+	return apply_filters( "{$type}_template", locate_template( $templates ) );
 }
 
 /**
@@ -811,8 +807,7 @@ function get_author_template() {
 	$templates[] = "author-{$author->ID}.php";
 	$templates[] = 'author.php';
 
-	$template = locate_template( $templates );
-	return apply_filters( 'author_template', $template );
+	return get_query_template( 'author', $templates );
 }
 
 /**
@@ -836,8 +831,7 @@ function get_category_template() {
 	$templates[] = "category-{$category->term_id}.php";
 	$templates[] = "category.php";
 
-	$template = locate_template($templates);
-	return apply_filters('category_template', $template);
+	return get_query_template( 'category', $templates );
 }
 
 /**
@@ -861,8 +855,7 @@ function get_tag_template() {
 	$templates[] = "tag-{$tag->term_id}.php";
 	$templates[] = "tag.php";
 
-	$template = locate_template($templates);
-	return apply_filters('tag_template', $template);
+	return get_query_template( 'tag', $templates );
 }
 
 /**
@@ -892,8 +885,7 @@ function get_taxonomy_template() {
 	$templates[] = "taxonomy-$taxonomy.php";
 	$templates[] = "taxonomy.php";
 
-	$template = locate_template($templates);
-	return apply_filters('taxonomy_template', $template);
+	return get_query_template( 'taxonomy', $templates );
 }
 
 /**
@@ -920,8 +912,9 @@ function get_date_template() {
  * @return string
  */
 function get_home_template() {
-	$template = locate_template(array('home.php', 'index.php'));
-	return apply_filters('home_template', $template);
+	$templates = array( 'home.php', 'index.php' );
+
+	return get_query_template( 'home', $templates );
 }
 
 /**
@@ -935,7 +928,9 @@ function get_home_template() {
  * @return string
  */
 function get_front_page_template() {
-	return apply_filters( 'front_page_template', locate_template( array('front-page.php') ) );
+	$templates = array('front-page.php');
+
+	return get_query_template( 'front_page', $templates );
 }
 
 /**
@@ -972,7 +967,7 @@ function get_page_template() {
 		$templates[] = "page-$id.php";
 	$templates[] = "page.php";
 
-	return apply_filters('page_template', locate_template($templates));
+	return get_query_template( 'page', $templates );
 }
 
 /**
@@ -1055,13 +1050,13 @@ function get_attachment_template() {
  * @return string
  */
 function get_comments_popup_template() {
-	$template = locate_template(array("comments-popup.php"));
+	$template = get_query_template( 'comments_popup', array( 'comments-popup.php' ) );
 
 	// Backward compat code will be removed in a future release
 	if ('' == $template)
 		$template = ABSPATH . WPINC . '/theme-compat/comments-popup.php';
 
-	return apply_filters('comments_popup_template', $template);
+	return $template;
 }
 
 /**
