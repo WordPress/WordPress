@@ -1,1 +1,1 @@
-ul#widget-list li.widget-list-item div.widget-description{margin:0 200px 0 0;padding:0 4em 0 0;}.widget-control-save,.widget-control-remove{margin-right:0;margin-left:8px;float:right;}
+#widget-list .widget,#wp_inactive_widgets .widget{float:right;}ul#widget-list li.widget-list-item div.widget-description{margin:0 200px 0 0;padding:0 4em 0 0;}.widget-control-save,.widget-control-remove{margin-right:0;margin-left:8px;float:right;}

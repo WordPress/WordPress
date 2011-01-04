@@ -502,7 +502,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'ms', "/wp-admin/css/ms$suffix.css", array(), '20101213' );
 	$styles->add( 'global', "/wp-admin/css/global$suffix.css", array(), '20101216' );
 	$styles->add( 'media', "/wp-admin/css/media$suffix.css", array(), '20101020' );
-	$styles->add( 'widgets', "/wp-admin/css/widgets$suffix.css", array(), '20100610' );
+	$styles->add( 'widgets', "/wp-admin/css/widgets$suffix.css", array(), '20110104' );
 	$styles->add( 'dashboard', "/wp-admin/css/dashboard$suffix.css", array(), '20101215' );
 	$styles->add( 'install', "/wp-admin/css/install$suffix.css", array(), '20101020' ); // Readme as well
 	$styles->add( 'theme-editor', "/wp-admin/css/theme-editor$suffix.css", array(), '20101203' );
