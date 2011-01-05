@@ -122,15 +122,6 @@ class WP_Media_List_Table extends WP_List_Table {
 	}
 
 	function no_items() {
-		if ( $this->detached ) {
-?>
-		<div class="tablenav">
-			<?php $this->extra_tablenav( 'top' ); ?>
-		</div>
-		<br class="clear">
-<?php
-		}
-
 		_e( 'No media attachments found.' );
 	}
 
