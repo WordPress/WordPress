@@ -402,9 +402,9 @@ if ( $s )
 
 <?php
 if ( 'mustuse' == $status )
-	echo '<br class="clear"><p>' . __( 'Files in the <code>/wp-content/mu-plugins</code> directory are executed automatically.' ) . '</p>';
+	echo '<br class="clear" /><p>' . __( 'Files in the <code>/wp-content/mu-plugins</code> directory are executed automatically.' ) . '</p>';
 elseif ( 'dropins' == $status )
-	echo '<br class="clear"><p>' . __( 'Drop-ins are advanced plugins in the <code>/wp-content</code> directory that replace WordPress functionality when present.' ) . '</p>';
+	echo '<br class="clear" /><p>' . __( 'Drop-ins are advanced plugins in the <code>/wp-content</code> directory that replace WordPress functionality when present.' ) . '</p>';
 ?>
 
 <?php $wp_list_table->display(); ?>
