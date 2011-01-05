@@ -528,8 +528,7 @@ function set_post_format( $post, $format ) {
 
 	if ( !empty($format) ) {
 		$format = sanitize_key($format);
-		$empty_formats = array( 'post', 'standard' );
-		if ( in_array( $format, $empty_formats ) )
+		if ( 'standard' == $format || !in_array( $format, array_keys( get_post_format_slugs() ) ) )
 			$format = '';
 		else
 			$format = 'post-format-' . $format;
