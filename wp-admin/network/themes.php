@@ -203,7 +203,7 @@ if ( isset( $_GET['enabled'] ) ) {
 	$_GET['disabled'] = absint( $_GET['disabled'] );
 	echo '<div id="message" class="updated"><p>' . sprintf( _n( 'Theme disabled.', '%s themes disabled.', $_GET['disabled'] ), number_format_i18n( $_GET['disabled'] ) ) . '</p></div>';
 } elseif ( isset( $_GET['deleted'] ) ) {
-	$_GET['disabled'] = absint( $_GET['deleted'] );
+	$_GET['deleted'] = absint( $_GET['deleted'] );
 	echo '<div id="message" class="updated"><p>' . sprintf( _n( 'Theme deleted.', '%s themes deleted.', $_GET['deleted'] ), number_format_i18n( $_GET['deleted'] ) ) . '</p></div>';
 } elseif ( isset( $_GET['error'] ) && 'none' == $_GET['error'] ) {
 	echo '<div id="message" class="error"><p>' . __( 'No theme selected.' ) . '</p></div>';
