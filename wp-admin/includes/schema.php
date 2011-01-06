@@ -217,7 +217,7 @@ function populate_options() {
 	'default_comment_status' => 'open',
 	'default_ping_status' => 'open',
 	'default_pingback_flag' => 1,
-	'default_post_edit_rows' => 10,
+	'default_post_edit_rows' => 20,
 	'posts_per_page' => 10,
 	/* translators: default date format, see http://php.net/date */
 	'date_format' => __('F j, Y'),
