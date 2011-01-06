@@ -114,7 +114,7 @@ function wp_version_check() {
  *
  * @package WordPress
  * @since 2.3.0
- * @uses $wp_version Used to notidy the WordPress version.
+ * @uses $wp_version Used to notify the WordPress version.
  *
  * @return mixed Returns null if update is unsupported. Returns false if check is too soon.
  */
@@ -199,7 +199,7 @@ function wp_update_plugins() {
  *
  * @package WordPress
  * @since 2.7.0
- * @uses $wp_version Used to notidy the WordPress version.
+ * @uses $wp_version Used to notify the WordPress version.
  *
  * @return mixed Returns null if update is unsupported. Returns false if check is too soon.
  */
