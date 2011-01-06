@@ -671,6 +671,9 @@ function wp_set_auth_cookie($user_id, $remember = false, $secure = '') {
 	if ( '' === $secure )
 		$secure = is_ssl();
 
+	$secure = apply_filters('secure_auth_cookie', $secure, $user_id);
+	$secure_logged_in_cookie = apply_filters('secure_logged_in_cookie', false, $user_id, $secure);
+
 	if ( $secure ) {
 		$auth_cookie_name = SECURE_AUTH_COOKIE;
 		$scheme = 'secure_auth';
@@ -689,18 +692,18 @@ function wp_set_auth_cookie($user_id, $remember = false, $secure = '') {
 	if ( version_compare(phpversion(), '5.2.0', 'ge') ) {
 		setcookie($auth_cookie_name, $auth_cookie, $expire, PLUGINS_COOKIE_PATH, COOKIE_DOMAIN, $secure, true);
 		setcookie($auth_cookie_name, $auth_cookie, $expire, ADMIN_COOKIE_PATH, COOKIE_DOMAIN, $secure, true);
-		setcookie(LOGGED_IN_COOKIE, $logged_in_cookie, $expire, COOKIEPATH, COOKIE_DOMAIN, false, true);
+		setcookie(LOGGED_IN_COOKIE, $logged_in_cookie, $expire, COOKIEPATH, COOKIE_DOMAIN, $secure_logged_in_cookie, true);
 		if ( COOKIEPATH != SITECOOKIEPATH )
-			setcookie(LOGGED_IN_COOKIE, $logged_in_cookie, $expire, SITECOOKIEPATH, COOKIE_DOMAIN, false, true);
+			setcookie(LOGGED_IN_COOKIE, $logged_in_cookie, $expire, SITECOOKIEPATH, COOKIE_DOMAIN, $secure_logged_in_cookie, true);
 	} else {
 		$cookie_domain = COOKIE_DOMAIN;
 		if ( !empty($cookie_domain) )
 			$cookie_domain .= '; HttpOnly';
 		setcookie($auth_cookie_name, $auth_cookie, $expire, PLUGINS_COOKIE_PATH, $cookie_domain, $secure);
 		setcookie($auth_cookie_name, $auth_cookie, $expire, ADMIN_COOKIE_PATH, $cookie_domain, $secure);
-		setcookie(LOGGED_IN_COOKIE, $logged_in_cookie, $expire, COOKIEPATH, $cookie_domain);
+		setcookie(LOGGED_IN_COOKIE, $logged_in_cookie, $expire, COOKIEPATH, $cookie_domain, $secure_logged_in_cookie);
 		if ( COOKIEPATH != SITECOOKIEPATH )
-			setcookie(LOGGED_IN_COOKIE, $logged_in_cookie, $expire, SITECOOKIEPATH, $cookie_domain);
+			setcookie(LOGGED_IN_COOKIE, $logged_in_cookie, $expire, SITECOOKIEPATH, $cookie_domain, $secure_logged_in_cookie);
 	}
 }
 endif;
@@ -763,6 +766,8 @@ function auth_redirect() {
 	// Checks if a user is logged in, if not redirects them to the login page
 
 	$secure = ( is_ssl() || force_ssl_admin() );
+
+	$secure = apply_filters('secure_auth_redirect', $secure);
 
 	// If https is required and request is http, redirect
 	if ( $secure && !is_ssl() && false !== strpos($_SERVER['REQUEST_URI'], 'wp-admin') ) {
