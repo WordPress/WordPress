@@ -233,7 +233,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 					$text = _n( 'Update Available <span class="count">(%s)</span>', 'Update Available <span class="count">(%s)</span>', $count );
 					break;
 			}
-			
+
 			if ( 'search' != $type ) {
 				$status_links[$type] = sprintf( "<a href='%s' %s>%s</a>",
 					add_query_arg('plugin_status', $type, 'plugins.php'),

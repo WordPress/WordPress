@@ -213,10 +213,10 @@ setCommentsList = function() {
 
 		refillTheExtraList();
 	};
-	
+
 	var refillTheExtraList = function(ev) {
 		var args = $.query.get(), total_pages = listTable.get_total_pages(), per_page = $('input[name=_per_page]', '#comments-form').val();
-		
+
 		if (args.paged > total_pages) {
 			return;
 		}
@@ -228,7 +228,7 @@ setCommentsList = function() {
 			args.number = 1;
 			args.offset = per_page - 1; // fetch only the last item of the next page
 		}
-		
+
 		args.no_placeholder = true;
 
 		args.paged ++;
@@ -277,7 +277,7 @@ commentReply = {
 		});
 
 		this.comments_listing = $('#comments-form > input[name="comment_status"]').val() || '';
-		
+
 		$(listTable).bind('beforeChangePage', function(){
 			commentReply.close();
 		});

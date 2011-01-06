@@ -1754,7 +1754,7 @@ function add_theme_support( $feature ) {
 		$_wp_theme_features[$feature] = true;
 	else
 		$_wp_theme_features[$feature] = array_slice( func_get_args(), 1 );
-		
+
 	if ( $feature == 'post-formats' && is_array( $_wp_theme_features[$feature][0] ) )
 		$_wp_theme_features[$feature][0] = array_intersect( $_wp_theme_features[$feature][0], array_keys( get_post_format_slugs() ) );
 }

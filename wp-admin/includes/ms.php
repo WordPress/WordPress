@@ -349,7 +349,7 @@ function upload_size_limit_filter( $size ) {
 	$fileupload_maxk = 1024 * get_site_option( 'fileupload_maxk', 1500 );
 	if ( get_site_option( 'upload_space_check_disabled' ) )
 		return min( $size, $fileupload_maxk );
-		
+
 	return min( $size, $fileupload_maxk, get_upload_space_available() );
 }
 /**

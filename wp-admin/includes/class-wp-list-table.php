@@ -185,7 +185,7 @@ class WP_List_Table {
 	 * @access public
 	 *
 	 * @param string $text The search button text
-	 * @param string $input_id The search input id 
+	 * @param string $input_id The search input id
 	 */
 	function search_box( $text, $input_id ) {
 		if ( empty( $_REQUEST['s'] ) && !$this->has_items() )

@@ -71,7 +71,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 			'per_page' => $tags_per_page,
 		) );
 	}
-	
+
 	function has_items() {
 		// todo: populate $this->items in prepare_items()
 		return true;
@@ -139,7 +139,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 		// convert it to table rows
 		$out = '';
 		$count = 0;
-		
+
 		$terms = array();
 
 		if ( is_taxonomy_hierarchical( $taxonomy ) && !isset( $orderby ) ) {
@@ -160,7 +160,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 				$out .= $this->single_row( $term, 0, $taxonomy );
 			$count = $number; // Only displaying a single page.
 		}
-		
+
 		if ( empty( $terms ) ) {
 			echo '<tr class="no-items"><td colspan="2">';
 			$this->no_items();

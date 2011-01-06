@@ -4,10 +4,10 @@
 }
 
 #wp-link ol,
-#wp-link ul { 
+#wp-link ul {
 	list-style: none;
 	margin: 0;
-	padding: 0; 
+	padding: 0;
 }
 
 #wp-link input[type="text"] {

@@ -66,13 +66,13 @@ class WP_Comments_List_Table extends WP_List_Table {
 		}
 
 		$page = $this->get_pagenum();
-		
+
 		if ( isset( $_REQUEST['start'] ) ) {
 			$start = $_REQUEST['start'];
 		} else {
 			$start = ( $page - 1 ) * $comments_per_page;
 		}
-		
+
 		if ( $doing_ajax && isset( $_REQUEST['offset'] ) ) {
 			$start += $_REQUEST['offset'];
 		}
@@ -115,7 +115,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 			'per_page' => $comments_per_page,
 		) );
 	}
-	
+
 	function get_per_page( $comment_status = 'all' ) {
 		$comments_per_page = $this->get_items_per_page( 'edit_comments_per_page' );
 		$comments_per_page = apply_filters( 'comments_per_page', $comments_per_page, $comment_status );
@@ -513,7 +513,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 class WP_Post_Comments_List_Table extends WP_Comments_List_Table {
 
 	function get_column_info() {
-		$this->_column_headers = array( 
+		$this->_column_headers = array(
 			array(
 			'author'   => __( 'Author' ),
 			'comment'  => _x( 'Comment', 'column name' ),
@@ -521,16 +521,16 @@ class WP_Post_Comments_List_Table extends WP_Comments_List_Table {
 			array(),
 			array(),
 		);
-		
+
 		return $this->_column_headers;
 	}
-	
+
 	function get_table_classes() {
 		$classes = parent::get_table_classes();
 		$classes[] = 'comments-box';
 		return $classes;
 	}
-	
+
 	function display( $output_empty = false ) {
 		extract( $this->_args );
 ?>
@@ -541,7 +541,7 @@ class WP_Post_Comments_List_Table extends WP_Comments_List_Table {
 </table>
 <?php
 	}
-	
+
 	function get_per_page( $comment_status = false ) {
 		return 10;
 	}

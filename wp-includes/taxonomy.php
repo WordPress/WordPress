@@ -2912,7 +2912,7 @@ function get_the_taxonomies($post = 0, $args = array() ) {
 
 	$args = wp_parse_args( $args, array(
 		'template' => '%s: %l.',
-	) );	
+	) );
 	extract( $args, EXTR_SKIP );
 
 	$taxonomies = array();

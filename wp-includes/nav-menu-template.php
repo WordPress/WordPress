@@ -426,7 +426,7 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 					'taxonomy' == $parent_item->type &&
 					isset( $possible_taxonomy_ancestors[ $parent_item->object ] ) &&
 					in_array( $parent_item->object_id, $possible_taxonomy_ancestors[ $parent_item->object ] ) &&
-					(	
+					(
 						! isset( $queried_object->term_id ) ||
 						$parent_item->object_id != $queried_object->term_id
 					)

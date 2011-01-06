@@ -673,7 +673,7 @@ case 'replyto-comment' :
 		} else {
 			if ( 'single' == $_REQUEST['mode'] ) {
 				$wp_list_table = get_list_table('WP_Post_Comments_List_Table');
-			} else {				
+			} else {
 				$wp_list_table = get_list_table('WP_Comments_List_Table');
 			}
 			$wp_list_table->single_row( $comment );

@@ -1313,11 +1313,11 @@ function antispambot($emailaddy, $mailto=0) {
 function _make_url_clickable_cb($matches) {
 	$url = $matches[2];
 	$suffix = '';
-	
+
 	/** Include parentheses in the URL only if paired **/
 	while ( substr_count( $url, '(' ) < substr_count( $url, ')' ) ) {
-		$suffix = strrchr( $url, ')' ) . $suffix; 
-		$url = substr( $url, 0, strrpos( $url, ')' ) ); 
+		$suffix = strrchr( $url, ')' ) . $suffix;
+		$url = substr( $url, 0, strrpos( $url, ')' ) );
 	}
 
 	$url = esc_url($url);

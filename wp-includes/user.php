@@ -1457,10 +1457,10 @@ function wp_insert_user($userdata) {
 
 	if ( empty($user_registered) )
 		$user_registered = gmdate('Y-m-d H:i:s');
-		
+
 	if ( empty($show_admin_bar_front) )
 		$show_admin_bar_front = 'true';
-			
+
 	if ( empty($show_admin_bar_admin) )
 		$show_admin_bar_admin = is_multisite() ? 'true' : 'false';
 

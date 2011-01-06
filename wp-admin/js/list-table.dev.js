@@ -160,7 +160,7 @@ listTable.init();
 		listTable.update_rows({'paged': paged}, false, function() {
 			if ( $el.parents('.tablenav.bottom').length )
 				scrollTo(0, 0);
-				
+
 			$(listTable).trigger('changePage');
 		});
 	}
@@ -256,20 +256,20 @@ listTable.init();
 			if ( $('h2.nav-tab-wrapper').length )
 				return;
 
-			if ( 'site-users-network' == pagenow || 'site-themes-network' == pagenow ) { 
+			if ( 'site-users-network' == pagenow || 'site-themes-network' == pagenow ) {
 				$('h4.search-text').remove();
 
 				if ( data.s )
-					$('ul.subsubsub').after($('<h4 class="clear search-text">').html( 
-						listTableL10n.search.replace('%s', this.htmlencode(data.s)) 
+					$('ul.subsubsub').after($('<h4 class="clear search-text">').html(
+						listTableL10n.search.replace('%s', this.htmlencode(data.s))
 					));
-			} else { 
+			} else {
 				$('h2 .subtitle').remove();
 
-				if ( data.s ) 
-					$('h2').append($('<span class="subtitle">').html( 
-						listTableL10n.search.replace('%s', this.htmlencode(data.s)) 
-					)); 
+				if ( data.s )
+					$('h2').append($('<span class="subtitle">').html(
+						listTableL10n.search.replace('%s', this.htmlencode(data.s))
+					));
 			}
 		});
 	}

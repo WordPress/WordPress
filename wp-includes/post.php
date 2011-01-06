@@ -619,9 +619,9 @@ function get_page_statuses( ) {
  * public - Whether posts of this status should be shown in the front end of the site. Defaults to true.
  * exclude_from_search - Whether to exclude posts with this post status from search results. Defaults to true.
  * show_in_admin_all_list - Whether to include posts in the edit listing for their post type
- * show_in_admin_status_list - Show in the list of statuses with post counts at the top of the edit 
+ * show_in_admin_status_list - Show in the list of statuses with post counts at the top of the edit
  *                             listings, e.g. All (12) | Published (9) | My Custom Status (2) ...
- * 
+ *
  * Arguments prefixed with an _underscore shouldn't be used by plugins and themes.
  *
  * @package WordPress

@@ -455,7 +455,7 @@ function wpmu_admin_redirect_add_updated_param( $url = '' ) {
  * This function checks against the Banned Email Domains list
  * at wp-admin/network/settings.php. The check is only run on
  * self-registrations; user creation at wp-admin/network/users.php
- * bypasses this check. 
+ * bypasses this check.
  *
  * @since MU
  *
@@ -612,7 +612,7 @@ function wpmu_validate_user_signup($user_name, $user_email) {
  * $user parameter to the function, where $user is the other user, is
  * effectively an override of this limitation.
  *
- * Filter 'wpmu_validate_blog_signup' if you want to modify 
+ * Filter 'wpmu_validate_blog_signup' if you want to modify
  * the way that WordPress validates new site signups.
  *
  * @since MU
@@ -1577,11 +1577,11 @@ function upload_is_user_over_quota( $echo = true ) {
 /**
  * Check an array of MIME types against a whitelist.
  *
- * WordPress ships with a set of allowed upload filetypes, 
+ * WordPress ships with a set of allowed upload filetypes,
  * which is defined in wp-includes/functions.php in
  * get_allowed_mime_types(). This function is used to filter
- * that list against the filetype whitelist provided by Multisite 
- * Super Admins at wp-admin/network/settings.php. 
+ * that list against the filetype whitelist provided by Multisite
+ * Super Admins at wp-admin/network/settings.php.
  *
  * @since MU
  *
@@ -1806,7 +1806,7 @@ function maybe_redirect_404() {
  *
  * @since MU
  * @uses add_existing_user_to_blog()
- */	
+ */
 function maybe_add_existing_user_to_blog() {
 	if ( false === strpos( $_SERVER[ 'REQUEST_URI' ], '/newbloguser/' ) )
 		return false;
@@ -1832,9 +1832,9 @@ function maybe_add_existing_user_to_blog() {
  *
  * @since MU
  * @uses add_user_to_blog()
- * 
+ *
  * @param array $details
- */	
+ */
 function add_existing_user_to_blog( $details = false ) {
 	global $blog_id;
 
@@ -1849,11 +1849,11 @@ function add_existing_user_to_blog( $details = false ) {
  * Add a newly created user to the appropriate blog
  *
  * @since MU
- * 
+ *
  * @param int $user_id
  * @param string $email
  * @param array $meta
- */	
+ */
 function add_new_user_to_blog( $user_id, $email, $meta ) {
 	global $current_site;
 	if ( $meta[ 'add_to_blog' ] ) {
@@ -1869,7 +1869,7 @@ function add_new_user_to_blog( $user_id, $email, $meta ) {
  * Correct From host on outgoing mail to match the site domain
  *
  * @since MU
- */	
+ */
 function fix_phpmailer_messageid( $phpmailer ) {
 	global $current_site;
 	$phpmailer->Hostname = $current_site->domain;
@@ -1884,7 +1884,7 @@ function fix_phpmailer_messageid( $phpmailer ) {
  *
  * @param string $username
  * @return bool
- */	
+ */
 function is_user_spammy( $username = 0 ) {
 	if ( $username == 0 ) {
 		$user_id = get_current_user_id();
@@ -1907,7 +1907,7 @@ function is_user_spammy( $username = 0 ) {
  * @param int $old_value
  * @param int $value The new public value
  * @return bool
- */	
+ */
 function update_blog_public( $old_value, $value ) {
 	global $wpdb;
 	do_action('update_blog_public');
@@ -1922,7 +1922,7 @@ add_action('update_option_blog_public', 'update_blog_public', 10, 2);
  * @uses get_blog_details()
  *
  * @return int
- */	
+ */
 function get_dashboard_blog() {
 	if ( $blog = get_site_option( 'dashboard_blog' ) )
 		return get_blog_details( $blog );
@@ -1940,7 +1940,7 @@ function get_dashboard_blog() {
  * @param int $user_id Optional. Defaults to current user.
  * @param int $blog_id Optional. Defaults to current blog.
  * @return bool
- */	
+ */
 function is_user_option_local( $key, $user_id = 0, $blog_id = 0 ) {
 	global $wpdb;
 
@@ -1964,7 +1964,7 @@ function is_user_option_local( $key, $user_id = 0, $blog_id = 0 ) {
  * @since MU
  *
  * @return bool
- */	
+ */
 function users_can_register_signup_filter() {
 	$registration = get_site_option('registration');
 	if ( $registration == 'all' || $registration == 'user' )
@@ -1981,7 +1981,7 @@ add_filter('option_users_can_register', 'users_can_register_signup_filter');
  *
  * @param string $text
  * @return string
- */	
+ */
 function welcome_user_msg_filter( $text ) {
 	if ( !$text ) {
 		return __( 'Dear User,

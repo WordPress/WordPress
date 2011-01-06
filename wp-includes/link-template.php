@@ -274,8 +274,8 @@ function _get_page_link( $id = false, $leavename = false, $sample = false ) {
 	$draft_or_pending = in_array( $post->post_status, array( 'draft', 'pending', 'auto-draft' ) );
 
 	$link = $wp_rewrite->get_page_permastruct();
-		
-	if ( !empty($link) && ( ( isset($post->post_status) && !$draft_or_pending ) || $sample ) ) {	
+
+	if ( !empty($link) && ( ( isset($post->post_status) && !$draft_or_pending ) || $sample ) ) {
 		if ( ! $leavename ) {
 			$link = str_replace('%pagename%', get_page_uri($id), $link);
 		}

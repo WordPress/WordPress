@@ -330,7 +330,7 @@ function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single', 
 		echo $content;
 		return;
 	}
-	
+
 	if ( $mode == 'single' ) {
 		$wp_list_table = get_list_table('WP_Post_Comments_List_Table');
 	} else {
