@@ -5,15 +5,27 @@ window.listTable = {
 	init: function() {
 		this.loading = false;
 
-		$('form').each(function() {
-			this.reset();
-		});
+		this.reset( '.tablenav, .search-box, .wp-list-table' );
 
 		if ( '' == $.query.GET('paged') )
 			$.query.SET('paged', 1);
 		this.set_total_pages();
 
 		this.$tbody = $('#the-list, #the-comment-list');
+	},
+
+	reset: function( context ) {
+		context = $( context );
+		$('input', context).each( function(){
+			this.value = this.defaultValue;
+			this.checked = this.defaultChecked;
+		});
+		$('option', context).each( function(){
+			this.selected = this.defaultSelected;
+		});
+		$('textarea', context).each( function(){
+			this.value = this.defaultValue;
+		});
 	},
 
 	// paging
