@@ -32,10 +32,9 @@ function comment_exists($comment_author, $comment_date) {
  * @since 2.0.0
  */
 function edit_comment() {
-	$comment_post_ID = (int) $_POST['comment_post_ID'];
 
-	if (!current_user_can( 'edit_post', $comment_post_ID ))
-		wp_die( __('You are not allowed to edit comments on this post, so you cannot edit this comment.' ) );
+	if ( ! current_user_can( 'edit_comment', (int) $_POST['comment_ID'] ) )
+		wp_die ( __( 'You are not allowed to edit comments on this post.' ) );
 
 	$_POST['comment_author'] = $_POST['newcomment_author'];
 	$_POST['comment_author_email'] = $_POST['newcomment_author_email'];
