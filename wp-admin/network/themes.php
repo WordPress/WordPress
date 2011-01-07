@@ -161,7 +161,8 @@ if ( $action ) {
 
 			foreach ( $themes as $theme )
 				$delete_result = delete_theme( $theme, esc_url( add_query_arg( array('verify-delete' => 1), $_SERVER['REQUEST_URI'] ) ) );
-			wp_redirect( add_query_arg( 'deleted', count( $themes ), $referer ) );
+			$paged = ( $_REQUEST['paged'] ) ? $_REQUEST['paged'] : 1; 
+			wp_redirect( network_admin_url( "themes.php?deleted=".count( $themes )."&paged=$paged&s=$s" ) );
 			exit;
 			break;
 	}
