@@ -78,7 +78,7 @@ function create_initial_taxonomies() {
 	) );
 
 	$rewrite = false;
-	if ( did_action( 'init' ) && current_theme_supports( 'post-formats' ) ) {
+	if ( did_action( 'init' ) ) {
 		$rewrite = apply_filters( 'post_format_rewrite_base', 'type' );
 		$rewrite = $rewrite ? array( 'slug' => $rewrite ) : false;
 	}
