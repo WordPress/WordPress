@@ -37,10 +37,6 @@ $parent_file = 'themes.php';
 
 if ( current_user_can( 'switch_themes' ) ) :
 
-// Flush rewrite rules on activation once new theme is in place.
-if ( isset( $_GET['activated'] ) && $_GET['activated'] == 'true' )
-	flush_rewrite_rules();
-
 $help = '<p>' . __('Aside from the default theme included with your WordPress installation, themes are designed and developed by third parties.') . '</p>';
 $help .= '<p>' . __('You can see your active theme at the top of the screen. Below are the other themes you have installed that are not currently in use. You can see what your site would look like with one of these themes by clicking the Preview link. To change themes, click the Activate link.') . '</p>';
 if ( current_user_can('install_themes') )
