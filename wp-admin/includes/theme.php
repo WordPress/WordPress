@@ -43,17 +43,19 @@ function current_theme_info() {
  * @since 2.8.0
  *
  * @param string $template Template directory of the theme to delete
+ * @param string $redirect Redirect to page when complete.
  * @return mixed
  */
-function delete_theme($template) {
+function delete_theme($template, $redirect = '') {
 	global $wp_filesystem;
 
 	if ( empty($template) )
 		return false;
 
 	ob_start();
-	$url = wp_nonce_url('themes.php?action=delete&template=' . $template, 'delete-theme_' . $template);
-	if ( false === ($credentials = request_filesystem_credentials($url)) ) {
+	if ( empty( $redirect ) )
+		$redirect = wp_nonce_url('themes.php?action=delete&template=' . $template, 'delete-theme_' . $template);
+	if ( false === ($credentials = request_filesystem_credentials($redirect)) ) {
 		$data = ob_get_contents();
 		ob_end_clean();
 		if ( ! empty($data) ){
