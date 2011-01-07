@@ -714,15 +714,18 @@ body.page .edit-link {
 /* =Asides
 -------------------------------------------------------------- */
 
+.home #content .format-aside p,
 .home #content .category-asides p {
 	font-size: 14px;
 	line-height: 20px;
 	margin-bottom: 10px;
 	margin-top: 0;
 }
+.home .hentry.format-aside,
 .home .hentry.category-asides {
 	padding: 0;
 }
+.home #content .format-aside .entry-content,
 .home #content .category-asides .entry-content {
 	padding-top: 0;
 }
@@ -731,15 +734,18 @@ body.page .edit-link {
 /* =Gallery listing
 -------------------------------------------------------------- */
 
+.format-gallery .size-thumbnail img,
 .category-gallery .size-thumbnail img {
 	border: 10px solid #f1f1f1;
 	margin-bottom: 0;
 }
+.format-gallery .gallery-thumb,
 .category-gallery .gallery-thumb {
 	float: left;
 	margin-right: 20px;
 	margin-top: -4px;
 }
+.home #content .format-gallery .entry-utility,
 .home #content .category-gallery .entry-utility {
 	padding-top: 4px;
 }
