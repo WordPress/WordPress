@@ -454,6 +454,10 @@ td.action-links, th.action-links {
 	font-family: Tahoma, Arial, sans-serif;
 	margin: 0 0 0 6px;
 }
+#contextual-help-wrap li {
+	margin-left: 0;
+	margin-right: 18px;
+}
 #screen-meta a.show-settings {
 	padding: 0 6px 0 16px;
 	background-position: left top;
