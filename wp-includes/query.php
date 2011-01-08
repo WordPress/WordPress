@@ -1710,10 +1710,10 @@ class WP_Query {
 		}
 
 		// Tag stuff
-		if ( !empty($qv['tag_id']) ) {
+		if ( !empty($q['tag_id']) ) {
 			$tax_query[] = array(
 				'taxonomy' => 'post_tag',
-				'terms' => $qv['tag_id'],
+				'terms' => $q['tag_id'],
 			);
 		}
 
