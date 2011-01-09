@@ -1231,6 +1231,15 @@ class WP_Query {
 	var $is_post_type_archive = false;
 
 	/**
+	 * Whether the tax query has been parsed once.
+	 *
+	 * @since 3.1.0
+	 * @access private
+	 * @var bool
+	 */
+	var $parsed_tax_query = false;
+
+	/**
 	 * Resets query flags to false.
 	 *
 	 * The query flags are what page info WordPress was able to figure out.
@@ -1485,6 +1494,7 @@ class WP_Query {
 				$this->is_date = true;
 			}
 
+			$this->parsed_tax_query = false;
 			$this->parse_tax_query( $qv );
 
 			foreach ( $this->tax_query->queries as $tax_query ) {
@@ -1671,7 +1681,7 @@ class WP_Query {
 		}
 
 		// Category stuff
-		if ( !empty($q['cat']) && '0' != $q['cat'] && !$this->is_singular ) {
+		if ( !empty($q['cat']) && '0' != $q['cat'] && !$this->is_singular && !$this->parsed_tax_query ) {
 			$q['cat'] = ''.urldecode($q['cat']).'';
 			$q['cat'] = addslashes_gpc($q['cat']);
 			$cat_array = preg_split('/[,\s]+/', $q['cat']);
@@ -1684,8 +1694,10 @@ class WP_Query {
 				$cat = abs($cat);
 				if ( $in ) {
 					$q['category__in'][] = $cat;
+					$q['category__in'] = array_merge( $q['category__in'], get_term_children($cat, 'category') );
 				} else {
 					$q['category__not_in'][] = $cat;
+					$q['category__not_in'] = array_merge( $q['category__not_in'], get_term_children($cat, 'category') );
 				}
 			}
 			$q['cat'] = implode(',', $req_cats);
@@ -1696,7 +1708,8 @@ class WP_Query {
 			$tax_query[] = array(
 				'taxonomy' => 'category',
 				'terms' => $q['category__in'],
-				'field' => 'term_id'
+				'field' => 'term_id',
+				'include_children' => false
 			);
 		}
 
@@ -1705,7 +1718,8 @@ class WP_Query {
 			$tax_query[] = array(
 				'taxonomy' => 'category',
 				'terms' => $q['category__not_in'],
-				'operator' => 'NOT IN'
+				'operator' => 'NOT IN',
+				'include_children' => false 
 			);
 		}
 
@@ -1715,7 +1729,8 @@ class WP_Query {
 				'taxonomy' => 'category',
 				'terms' => $q['category__and'],
 				'field' => 'term_id',
-				'operator' => 'AND'
+				'operator' => 'AND',
+				'include_children' => false
 			);
 		}
 
@@ -1772,6 +1787,8 @@ class WP_Query {
 				'operator' => 'AND'
 			);
 		}
+
+		$this->parsed_tax_query = true;
 
 		$this->tax_query = new WP_Tax_Query( $tax_query );
 	}
