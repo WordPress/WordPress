@@ -671,8 +671,7 @@ class WP_Tax_Query {
 				$join .= " ON ($primary_table.$primary_id_column = $alias.object_id)";
 
 				$where[] = "$alias.term_taxonomy_id $operator ($terms)";
-			}
-			elseif ( 'NOT IN' == $operator ) {
+			} elseif ( 'NOT IN' == $operator ) {
 
 				if ( empty( $terms ) )
 					continue;
@@ -683,6 +682,21 @@ class WP_Tax_Query {
 					SELECT object_id
 					FROM $wpdb->term_relationships
 					WHERE term_taxonomy_id IN ($terms)
+				)";
+			} elseif ( 'AND' == $operator ) {
+
+				if ( empty( $terms ) )
+					continue;
+
+				$num_terms = count( $terms );
+
+				$terms = implode( ',', $terms );
+
+				$where[] = "$primary_table.$primary_id_column IN (
+					SELECT object_id
+					FROM $wpdb->term_relationships
+					WHERE term_taxonomy_id IN ($terms)
+					GROUP BY object_id HAVING COUNT(object_id) = $num_terms
 				)";
 			}
 
