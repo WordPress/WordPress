@@ -632,11 +632,24 @@ ol {
 	padding: 0 5px 0 0 ;
 }
 
+.media-item .error-div a.dismiss,
+.describe-toggle-on,
+.describe-toggle-off {
+	float: left;
+	margin-right: 0;
+	margin-left: 20px;
+}
+
 .describe-toggle-on,
 .describe-toggle-off {
 	float: left;
 	margin-left: 20px;
 	margin-right: 0;
+}
+
+.media-item .error-div {
+	padding-left: 0;
+	padding-right: 10px;
 }
 
 .media-item .pinkynail {
@@ -647,15 +660,6 @@ ol {
 	text-align: left;
 	margin-left: 5px;
 	margin-right: 0;
-}
-
-button.dismiss {
-	right: auto;
-	left: 5px;
-}
-
-.file-error {
-	float: right;
 }
 
 .bar {
