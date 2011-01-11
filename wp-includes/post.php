@@ -5155,6 +5155,8 @@ function _post_format_request( $qvs ) {
 	$slugs = array_flip( get_post_format_slugs() );
 	if ( isset( $slugs[ $qvs['post_format'] ] ) )
 		$qvs['post_format'] = 'post-format-' . $slugs[ $qvs['post_format'] ];
+	$tax = get_taxonomy( 'post_format' );
+	$qvs['post_type'] = $tax->object_type;
 	return $qvs;
 }
 add_filter( 'request', '_post_format_request' );
