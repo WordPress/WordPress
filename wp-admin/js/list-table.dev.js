@@ -14,15 +14,33 @@ window.listTable = {
 		this.$tbody = $('#the-list, #the-comment-list');
 	},
 
+	/**
+	 * Simulates form.reset() for all input, select, and textarea elements
+	 * within a provided context.
+	 */
 	reset: function( context ) {
-		context = $( context );
+		context = $(context);
+
 		$('input', context).each( function(){
 			this.value = this.defaultValue;
 			this.checked = this.defaultChecked;
 		});
-		$('option', context).each( function(){
-			this.selected = this.defaultSelected;
+
+		$('select', context).each( function(){
+			var options = $('option', this),
+				anySelected = false;
+			
+			options.each( function(){
+				this.selected = this.defaultSelected;
+				anySelected = anySelected || this.defaultSelected;
+			});
+			
+			// If no options are selected within a single-select dropdown,
+			// select the first element by default.
+			if ( ! this.multiple && ! anySelected )
+				options[0].selected = true;
 		});
+
 		$('textarea', context).each( function(){
 			this.value = this.defaultValue;
 		});
