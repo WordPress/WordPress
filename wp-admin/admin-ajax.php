@@ -86,7 +86,7 @@ case 'ajax-tag-search' :
 		die('0');
 	}
 
-	$s = $_GET['q']; // is this slashed already?
+	$s = stripslashes( $_GET['q'] );
 
 	if ( false !== strpos( $s, ',' ) ) {
 		$s = explode( ',', $s );
@@ -96,7 +96,7 @@ case 'ajax-tag-search' :
 	if ( strlen( $s ) < 2 )
 		die; // require 2 chars for matching
 
-	$results = $wpdb->get_col( "SELECT t.name FROM $wpdb->term_taxonomy AS tt INNER JOIN $wpdb->terms AS t ON tt.term_id = t.term_id WHERE tt.taxonomy = '$taxonomy' AND t.name LIKE ('%" . $s . "%')" );
+	$results = $wpdb->get_col( $wpdb->prepare( "SELECT t.name FROM $wpdb->term_taxonomy AS tt INNER JOIN $wpdb->terms AS t ON tt.term_id = t.term_id WHERE tt.taxonomy = %s AND t.name LIKE (%s)", $taxonomy, '%' . like_escape( $s ) . '%' ) );
 
 	echo join( $results, "\n" );
 	die;
