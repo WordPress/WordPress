@@ -2143,10 +2143,10 @@ class WP_Query {
 
 		// Back-compat
 		if ( !empty($this->tax_query->queries) ) {
-			$tax_query_in = wp_list_filter( $this->tax_query->queries, array( 'operator' => 'IN' ) );
-			if ( !empty( $tax_query_in ) ) {
+			$tax_query_in_and = wp_list_filter( $this->tax_query->queries, array( 'operator' => 'NOT IN' ), 'NOT' );
+			if ( !empty( $tax_query_in_and ) ) {
 				if ( !isset( $q['taxonomy'] ) ) {
-					foreach ( $tax_query_in as $a_tax_query ) {
+					foreach ( $tax_query_in_and as $a_tax_query ) {
 						if ( !in_array( $a_tax_query['taxonomy'], array( 'category', 'post_tag' ) ) ) {
 							$q['taxonomy'] = $a_tax_query['taxonomy'];
 							if ( 'slug' == $a_tax_query['field'] )
@@ -2159,15 +2159,28 @@ class WP_Query {
 					}
 				}
 
-				$cat_query = wp_list_filter( $tax_query_in, array( 'taxonomy' => 'category' ) );
+				$cat_query = wp_list_filter( $tax_query_in_and, array( 'taxonomy' => 'category' ) );
 				if ( !empty( $cat_query ) ) {
 					$cat_query = reset( $cat_query );
-					$cat = get_term_by( $cat_query['field'], $cat_query['terms'][0], 'category' );
-					if ( $cat ) {
-						$this->set( 'cat', $cat->term_id );
-						$this->set( 'category_name', $cat->slug );
+					$the_cat = get_term_by( $cat_query['field'], $cat_query['terms'][0], 'category' );
+					if ( $the_cat ) {
+						$this->set( 'cat', $the_cat->term_id );
+						$this->set( 'category_name', $the_cat->slug );
 					}
+					unset( $the_cat );
 				}
+				unset( $cat_query );
+
+				$tag_query = wp_list_filter( $tax_query_in_and, array( 'taxonomy' => 'post_tag' ) );
+				if ( !empty( $tag_query ) ) {
+					$tag_query = reset( $tag_query );
+					$the_tag = get_term_by( $tag_query['field'], $tag_query['terms'][0], 'post_tag' );
+					if ( $the_tag ) {
+						$this->set( 'tag_id', $the_tag->term_id );
+					}
+					unset( $the_tag );
+				}
+				unset( $tag_query );
 			}
 		}
 
@@ -2844,9 +2857,9 @@ class WP_Query {
 		$this->queried_object_id = 0;
 
 		if ( $this->is_category || $this->is_tag || $this->is_tax ) {
-			$tax_query_in = wp_list_filter( $this->tax_query->queries, array( 'operator' => 'IN' ) );
+			$tax_query_in_and = wp_list_filter( $this->tax_query->queries, array( 'operator' => 'NOT IN' ), 'NOT' );
 
-			$query = reset( $tax_query_in );
+			$query = reset( $tax_query_in_and );
 
 			if ( 'term_id' == $query['field'] )
 				$term = get_term( reset( $query['terms'] ), $query['taxonomy'] );

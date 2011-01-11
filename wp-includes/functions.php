@@ -3049,21 +3049,26 @@ function wp_filter_object_list( $list, $args = array(), $operator = 'and', $fiel
  *
  * @param array $list An array of objects to filter
  * @param array $args An array of key => value arguments to match against each object
- * @param string $operator The logical operation to perform. 'or' means only one element
- *	from the array needs to match; 'and' means all elements must match. The default is 'and'.
+ * @param string $operator The logical operation to perform:
+ *    'AND' means all elements from the array must match;
+ *    'OR' means only one element needs to match;
+ *    'NOT' means no elements may match.
+ *   The default is 'AND'.
  * @return array
  */
-function wp_list_filter( $list, $args = array(), $operator = 'and' ) {
+function wp_list_filter( $list, $args = array(), $operator = 'AND' ) {
 	if ( empty( $args ) )
 		return $list;
 
+	$operator = strtoupper( $operator );
 	$count = count( $args );
-
 	$filtered = array();
 
 	foreach ( $list as $key => $obj ) {
 		$matched = count( array_intersect_assoc( (array) $obj, $args ) );
-		if ( ('and' == $operator && $matched == $count) || ('or' == $operator && $matched <= $count) ) {
+		if ( ( 'AND' == $operator && $matched == $count ) 
+		  || ( 'OR' == $operator && $matched <= $count )
+		  || ( 'NOT' == $operator && 0 == $matched ) ) {
 			$filtered[$key] = $obj;
 		}
 	}
