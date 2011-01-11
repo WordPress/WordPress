@@ -712,6 +712,10 @@ class WP_Widget_RSS extends WP_Widget {
 		if ( empty($url) )
 			return;
 
+		// self-url destruction sequence
+		if ( $url == site_url() || $url == home_url() )
+			return;
+
 		$rss = fetch_feed($url);
 		$title = $instance['title'];
 		$desc = '';
