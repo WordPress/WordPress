@@ -169,7 +169,7 @@ if ( !empty($update_plugins->response) )
 	$update_count = count( $update_plugins->response );
 
 $menu_perms = get_site_option('menu_items', array());
-if ( is_super_admin() || ( is_multisite() && isset($menu_perms['plugins']) && $menu_perms['plugins'] ) ) {
+if ( ! is_multisite() || ! empty( $menu_perms['plugins'] ) ) {
 	$count = "<span class='update-plugins count-$update_count'><span class='plugin-count'>" . number_format_i18n($update_count) . "</span></span>";
 	if ( is_multisite() )
 		$count = '';
@@ -206,7 +206,7 @@ $menu[75] = array( __('Tools'), 'edit_posts', 'tools.php', '', 'menu-top menu-ic
 	$submenu['tools.php'][15] = array( __('Export'), 'import', 'export.php' );
 	if ( is_multisite() && !is_main_site() )
 		$submenu['tools.php'][25] = array( __('Delete Site'), 'manage_options', 'ms-delete-site.php' );
-	if ( ! is_multisite() && defined('WP_ALLOW_MULTISITE') && WP_ALLOW_MULTISITE && is_super_admin() )
+	if ( ! is_multisite() && defined('WP_ALLOW_MULTISITE') && WP_ALLOW_MULTISITE )
 		$submenu['tools.php'][50] = array(__('Network'), 'manage_options', 'network.php');
 
 $menu[80] = array( __('Settings'), 'manage_options', 'options-general.php', '', 'menu-top menu-icon-settings', 'menu-settings', 'div' );
