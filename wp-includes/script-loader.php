@@ -262,11 +262,9 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'user-profile', "/wp-admin/js/user-profile$suffix.js", array( 'jquery', 'password-strength-meter' ), '20100925' );
 	$scripts->add_data( 'user-profile', 'group', 1 );
 
-	$scripts->add( 'admin-bar', "/wp-includes/js/admin-bar$suffix.js", false, '20101210');
+	$scripts->add( 'admin-bar', "/wp-includes/js/admin-bar$suffix.js", false, '20110111');
 	$scripts->add_data( 'admin-bar', 'group', 1 );
 	$scripts->localize( 'admin-bar', 'adminBarL10n', array(
-		'url' => __( 'URL:' ),
-		'noShortlink' => __( 'No shortlink available for this page.' ),
 		'l10n_print_after' => 'try{convertEntities(adminBarL10n);}catch(e){};',
 	) );
 
@@ -515,7 +513,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'jcrop', '/wp-includes/js/jcrop/jquery.Jcrop.css', array(), '0.9.8' );
 	$styles->add( 'imgareaselect', '/wp-includes/js/imgareaselect/imgareaselect.css', array(), '0.9.1' );
 	$styles->add( 'nav-menu', "/wp-admin/css/nav-menu$suffix.css", array(), '20100907' );
-	$styles->add( 'admin-bar', "/wp-includes/css/admin-bar$suffix.css", array(), '20100111' );
+	$styles->add( 'admin-bar', "/wp-includes/css/admin-bar$suffix.css", array(), '20110111' );
 	$styles->add( 'wp-jquery-ui-dialog', "/wp-includes/css/jquery-ui-dialog$suffix.css", array(), '20101224' );
 	$styles->add( 'wplink', "/wp-includes/js/tinymce/plugins/wplink/css/wplink$suffix.css", array(), '20101224' );
 

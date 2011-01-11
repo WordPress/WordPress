@@ -7,6 +7,7 @@
 	},
 
 	aB, hc = new RegExp('\\bhover\\b', 'g'), q = [],
+	rselected = new RegExp('\\bselected\\b', 'g'),
 
 	/**
 	 * Get the timeout ID of the given element
@@ -19,12 +20,11 @@
 		return false;
 	},
 
-	addClass = function(t) {
-		var ancestors = [],
-		ancestorLength = 0,
-		id,
-		i = q.length,
-		inA;
+	addHoverClass = function(t) {
+		var i, id, inA, hovering, ul, li,
+			ancestors = [],
+			ancestorLength = 0;
+
 		while ( t && t != aB && t != d ) {
 			if( 'LI' == t.nodeName.toUpperCase() ) {
 				ancestors[ ancestors.length ] = t;
@@ -32,11 +32,24 @@
 				if ( id )
 					clearTimeout( id );
 				t.className = t.className ? ( t.className.replace(hc, '') + ' hover' ) : 'hover';
+				hovering = t;
 			}
 			t = t.parentNode;
 		}
 
+		// Remove any selected classes.
+		ul = hovering.parentNode;
+		if ( ul && 'UL' == ul.nodeName.toUpperCase() ) {
+			i = ul.childNodes.length;
+			while ( i-- ) {
+				li = ul.childNodes[i];
+				if ( li != hovering )
+					li.className = li.className ? li.className.replace( rselected, '' ) : '';
+			}
+		}
+
 		/* remove the hover class for any objects not in the immediate element's ancestry */
+		i = q.length;
 		while ( i-- ) {
 			inA = false;	
 			ancestorLength = ancestors.length;
@@ -50,7 +63,7 @@
 		}
 	},
 
-	removeClass = function(t) {
+	removeHoverClass = function(t) {
 		while ( t && t != aB && t != d ) {
 			if( 'LI' == t.nodeName.toUpperCase() ) {
 				(function(t) {
@@ -65,54 +78,55 @@
 	},
 
 	clickShortlink = function(e) {
-		var t = e.target || e.srcElement, links, i;
+		var i, l, node, className,
+			t = e.target || e.srcElement,
+			shortlink = t.href;
 
-		if ( 'undefined' == typeof adminBarL10n )
-			return;
-
-		while( t && t != aB && t != d && (
-			! t.className ||
-			-1 == t.className.indexOf('ab-get-shortlink')
-		) )
+		// Make t the shortlink menu item, or return.
+		while ( true ) {
+			// Check if we've gone past the shortlink node,
+			// or if the user is clicking on the input.
+			if ( ! t || t == d || t == aB || -1 != t.className.indexOf('shortlink-input') )
+				return;
+			// Check if we've found the shortlink node.
+			if ( t.className && -1 != t.className.indexOf('ab-get-shortlink') )
+				break;
 			t = t.parentNode;
-
-		if ( t && t.className && -1 != t.className.indexOf('ab-get-shortlink') ) {
-			links = d.getElementsByTagName('link');
-			if ( ! links.length )
-				links = d.links;
-
-			i = links.length;
-
-			if ( e.preventDefault )
-				e.preventDefault();
-			e.returnValue = false;
-
-			while( i-- ) {
-				if ( links[i] && 'shortlink' == links[i].getAttribute('rel') ) {
-					prompt( adminBarL10n.url, links[i].href );
-					return false;
-				}
-			}
-
-			alert( adminBarL10n.noShortlink );
-			return false;
 		}
-	}
+		
+		if ( e.preventDefault )
+			e.preventDefault();
+		e.returnValue = false;
+		
+		if ( -1 == t.className.indexOf('selected') )
+			t.className += ' selected';
+
+		for ( i = 0, l = t.childNodes.length; i < l; i++ ) {
+			node = t.childNodes[i];
+			if ( node.className && -1 != node.className.indexOf('shortlink-input') ) {
+				node.focus();
+				node.select();
+				node.onblur = function() {
+					t.className = t.className ? t.className.replace( rselected, '' ) : '';
+				};
+				break;
+			}
+		}
+		return false;
+	};
 
 	addEvent(w, 'load', function() {
-		var b = d.getElementsByTagName('body')[0],
-
 		aB = d.getElementById('wpadminbar');
 
-		if ( b && aB ) {
-			b.appendChild( aB );
+		if ( d.body && aB ) {
+			d.body.appendChild( aB );
 
 			addEvent(aB, 'mouseover', function(e) {
-				addClass( e.target || e.srcElement );
+				addHoverClass( e.target || e.srcElement );
 			});
 
 			addEvent(aB, 'mouseout', function(e) {
-				removeClass( e.target || e.srcElement );	
+				removeHoverClass( e.target || e.srcElement );
 			});
 
 			addEvent(aB, 'click', clickShortlink );

@@ -139,9 +139,19 @@ function wp_admin_bar_shortlink_menu() {
 	global $wp_admin_bar;
 
 	$short = wp_get_shortlink( 0, 'query' );
+	$id = 'get-shortlink';
 
-	if ( ! empty( $short) )
-		$wp_admin_bar->add_menu( array( 'id' => 'get-shortlink', 'title' => __( 'Shortlink' ), 'href' => $short ) );
+	if ( empty( $short ) )
+		return;
+	
+	$html = '<input class="shortlink-input" type="text" readonly="readonly" value="' . esc_attr( $short ) . '" />';
+	
+	$wp_admin_bar->add_menu( array(
+		'id' => $id,
+		'title' => __( 'Shortlink' ),
+		'href' => $short,
+		'meta' => array( 'html' => $html ),
+	) );
 }
 
 /**
