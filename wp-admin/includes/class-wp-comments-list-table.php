@@ -266,6 +266,8 @@ class WP_Comments_List_Table extends WP_List_Table {
 	function display() {
 		extract( $this->_args );
 
+		wp_nonce_field( "fetch-list-" . get_class( $this ), '_ajax_fetch_list_nonce' );
+
 		$this->display_tablenav( 'top' );
 
 ?>
@@ -533,6 +535,8 @@ class WP_Post_Comments_List_Table extends WP_Comments_List_Table {
 
 	function display( $output_empty = false ) {
 		extract( $this->_args );
+
+		wp_nonce_field( "fetch-list-" . get_class( $this ), '_ajax_fetch_list_nonce' );
 ?>
 <table class="<?php echo implode( ' ', $this->get_table_classes() ); ?>" cellspacing="0" style="display:none;">
 	<tbody id="the-comment-list"<?php if ( $singular ) echo " class='list:$singular'"; ?>>

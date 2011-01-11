@@ -126,6 +126,8 @@ class WP_Theme_Install_List_Table extends WP_List_Table {
 	}
 
 	function display() {
+
+		wp_nonce_field( "fetch-list-" . get_class( $this ), '_ajax_fetch_list_nonce' );
 ?>
 		<div class="tablenav top">
 			<div class="alignleft actions">
