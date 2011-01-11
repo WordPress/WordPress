@@ -26,9 +26,9 @@
 
 #wpadminbar {
 	direction: ltr;
-	background: #666;
-	background: -moz-linear-gradient(bottom,  #666,  #7f7f7f);
-	background: -webkit-gradient(linear, left bottom, left top, from(#666), to(#7f7f7f));
+	background-color: #777;
+	background-image: -moz-linear-gradient(bottom,  #666,  #7f7f7f);
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#666), to(#7f7f7f));
 	color: #ddd;
 	font: normal 12px/28px Arial, Helvetica, sans-serif;
 	height: 28px;
