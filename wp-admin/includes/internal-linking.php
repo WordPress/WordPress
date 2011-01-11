@@ -71,6 +71,7 @@ function wp_link_query( $args = array() ) {
 function wp_link_dialog() {
 ?>
 <form id="wp-link" tabindex="-1">
+<?php wp_nonce_field( 'internal-linking', '_ajax_linking_nonce', false ); ?>
 <div id="link-selector">
 	<div id="link-options">
 		<p class="howto"><?php _e( 'Enter the destination URL' ); ?></p>

@@ -52,6 +52,9 @@ if ( isset( $_GET['action'] ) ) :
 switch ( $action = $_GET['action'] ) :
 case 'fetch-list' :
 
+	$list_class = $_GET['list_args']['class'];
+	check_ajax_referer( "fetch-list-$list_class", '_ajax_fetch_list_nonce' );
+
 	$current_screen = (object) $_GET['list_args']['screen'];
 	//TODO fix this in a better way see #15336
 	$current_screen->is_network = 'false' === $current_screen->is_network ? false : true;
@@ -60,7 +63,7 @@ case 'fetch-list' :
 	define( 'WP_NETWORK_ADMIN', $current_screen->is_network );
 	define( 'WP_USER_ADMIN', $current_screen->is_user );
 
-	$wp_list_table = get_list_table( $_GET['list_args']['class'] );
+	$wp_list_table = get_list_table( $list_class );
 	if ( ! $wp_list_table )
 		die( '0' );
 
@@ -1088,6 +1091,8 @@ case 'menu-quick-search':
 	break;
 case 'wp-link-ajax':
 	require_once ABSPATH . 'wp-admin/includes/internal-linking.php';
+
+	check_ajax_referer( 'internal-linking', '_ajax_linking_nonce' );
 
 	$args = array();
 

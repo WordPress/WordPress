@@ -433,7 +433,8 @@ var wpLink;
 			var self = this,
 				query = {
 					action : 'wp-link-ajax',
-					page : this.page
+					page : this.page,
+					'_ajax_linking_nonce' : $('#_ajax_linking_nonce').val()
 				};
 
 			if ( this.search )

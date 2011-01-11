@@ -104,7 +104,8 @@ window.listTable = {
 	fetch_list: function(data, success_callback, error_callback) {
 		data = $.extend(data, {
 			'action': 'fetch-list',
-			'list_args': list_args
+			'list_args': list_args,
+			'_ajax_fetch_list_nonce': $('#_ajax_fetch_list_nonce').val()
 		});
 
 		$.ajax({
