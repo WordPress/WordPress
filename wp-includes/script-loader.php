@@ -270,7 +270,7 @@ function wp_default_scripts( &$scripts ) {
 		'l10n_print_after' => 'try{convertEntities(adminBarL10n);}catch(e){};',
 	) );
 
-	$scripts->add( 'wplink', "/wp-includes/js/tinymce/plugins/wplink/js/wplink$suffix.js", array('jquery'), '20100111' );
+	$scripts->add( 'wplink', "/wp-includes/js/tinymce/plugins/wplink/js/wplink$suffix.js", array('jquery'), '20110111' );
 	$scripts->localize( 'wplink', 'wpLinkL10n', array(
 		'update' => __('Update'),
 		'save' => __('Add Link'),
@@ -304,7 +304,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'admin-custom-fields', "/wp-admin/js/custom-fields$suffix.js", array('wp-lists'), '20090106' );
 		$scripts->add_data( 'admin-custom-fields', 'group', 1 );
 
-		$scripts->add( 'list-table', "/wp-admin/js/list-table$suffix.js", array( 'jquery-query', 'jquery-serialize-object' ), '20110111' );
+		$scripts->add( 'list-table', "/wp-admin/js/list-table$suffix.js", array( 'jquery-query', 'jquery-serialize-object' ), '20110111a' );
 		$scripts->add_data( 'list-table', 'group', 1 );
 		$scripts->localize( 'list-table', 'listTableL10n', array(
 			'error' => __('An error has occurred while loading the items.'),
