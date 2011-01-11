@@ -63,9 +63,6 @@ function press_it() {
 		wp_delete_post($post_ID);
 		wp_die($upload);
 	} else {
-		$quick['ID'] = $post_ID;
-		wp_update_post($quick);
-
 		// Post formats
 		if ( current_theme_supports( 'post-formats' ) && isset( $_POST['post_format'] ) ) {
 			$post_formats = get_theme_support( 'post-formats' );
@@ -78,6 +75,8 @@ function press_it() {
 			}
 		}
 
+		$quick['ID'] = $post_ID;
+		wp_update_post($quick);
 	}
 	return $post_ID;
 }
