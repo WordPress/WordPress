@@ -13,6 +13,7 @@ if ( !current_user_can('upload_files') )
 	wp_die( __( 'You do not have permission to upload files.' ) );
 
 $wp_list_table = get_list_table('WP_Media_List_Table');
+$pagenum = $wp_list_table->get_pagenum();
 
 // Handle bulk actions
 $doaction = $wp_list_table->current_action();
@@ -130,6 +131,12 @@ if ( $doaction ) {
 }
 
 $wp_list_table->prepare_items();
+
+$total_pages = $wp_list_table->get_pagination_arg( 'total_pages' );
+if ( $pagenum > $total_pages && $total_pages > 0 ) {
+	wp_redirect( add_query_arg( 'paged', $total_pages ) );
+	exit;
+}
 
 $title = __('Media Library');
 $parent_file = 'upload.php';

@@ -438,6 +438,9 @@ class WP_List_Table {
 	function get_pagenum() {
 		$pagenum = isset( $_REQUEST['paged'] ) ? absint( $_REQUEST['paged'] ) : 0;
 
+		if( isset( $this->_pagination_args['total_pages'] ) && $pagenum > $this->_pagination_args['total_pages'] )
+			$pagenum = $this->_pagination_args['total_pages'];
+
 		return max( 1, $pagenum );
 	}
 
