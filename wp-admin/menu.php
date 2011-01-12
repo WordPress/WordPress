@@ -169,7 +169,7 @@ if ( !empty($update_plugins->response) )
 	$update_count = count( $update_plugins->response );
 
 $menu_perms = get_site_option('menu_items', array());
-if ( ! is_multisite() || ! empty( $menu_perms['plugins'] ) ) {
+if ( ! is_multisite() || is_super_admin() || ! empty( $menu_perms['plugins'] ) ) {
 	$count = "<span class='update-plugins count-$update_count'><span class='plugin-count'>" . number_format_i18n($update_count) . "</span></span>";
 	if ( is_multisite() )
 		$count = '';
