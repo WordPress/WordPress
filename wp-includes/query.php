@@ -1735,6 +1735,25 @@ class WP_Query {
 		}
 
 		// Tag stuff
+		if ( '' != $q['tag'] && !$this->is_singular && !$this->parsed_tax_query ) {
+			if ( strpos($q['tag'], ',') !== false ) {
+				$tags = preg_split('/[,\s]+/', $q['tag']);
+				foreach ( (array) $tags as $tag ) {
+					$tag = sanitize_term_field('slug', $tag, 0, 'post_tag', 'db');
+					$q['tag_slug__in'][] = $tag;
+				}
+			} else if ( preg_match('/[+\s]+/', $q['tag']) || !empty($q['cat']) ) {
+				$tags = preg_split('/[+\s]+/', $q['tag']);
+				foreach ( (array) $tags as $tag ) {
+					$tag = sanitize_term_field('slug', $tag, 0, 'post_tag', 'db');
+					$q['tag_slug__and'][] = $tag;
+				}
+			} else {
+				$q['tag'] = sanitize_term_field('slug', $q['tag'], 0, 'post_tag', 'db');
+				$q['tag_slug__in'][] = $q['tag'];
+			}
+		}
+
 		if ( !empty($q['tag_id']) ) {
 			$q['tag_id'] = absint( $q['tag_id'] );
 			$tax_query[] = array(
