@@ -78,6 +78,7 @@ case 'delete':
 
 	wp_delete_term( $tag_ID, $taxonomy );
 
+	$location = $wp_list_table->add_query_args( $location );
 	$location = add_query_arg( 'message', 2, $location );
 	wp_redirect( $location );
 	exit;
@@ -104,6 +105,7 @@ case 'bulk-delete':
 	}
 
 	$location = add_query_arg( 'message', 6, $location );
+	$location = $wp_list_table->add_query_args( $location );
 	wp_redirect( $location );
 	exit;
 

@@ -37,7 +37,7 @@ if ( $doaction ) {
 	$approved = $unapproved = $spammed = $unspammed = $trashed = $untrashed = $deleted = 0;
 
 	$redirect_to = remove_query_arg( array( 'trashed', 'untrashed', 'deleted', 'spammed', 'unspammed', 'approved', 'unapproved', 'ids' ), wp_get_referer() );
-	$redirect_to = add_query_arg( 'paged', $pagenum, $redirect_to );
+	$redirect_to = $wp_list_table->add_query_args( $redirect_to );
 
 	foreach ( $comment_ids as $comment_id ) { // Check the permissions on each
 		if ( !current_user_can( 'edit_comment', $comment_id ) )

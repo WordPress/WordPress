@@ -614,6 +614,29 @@ class WP_List_Table {
 		$hidden = array_intersect( array_keys( $columns ), array_filter( $hidden ) );
 		return count( $columns ) - count( $hidden );
 	}
+	
+	function get_order_info() {
+		$current_orderby = isset( $_GET['orderby'] ) ? $_GET['orderby'] : '';
+
+		if ( ! $current_orderby )
+			$current_order = '';
+		elseif ( isset( $_GET['order'] ) && 'desc' == $_GET['order'] )
+			$current_order = 'desc';
+		else
+			$current_order = 'asc';
+
+		return array( $current_orderby, $current_order );
+	}
+	
+	function add_query_args( $location ) {
+		$pagenum = $this->get_pagenum();
+		list( $current_orderby, $current_order ) = $this->get_order_info();
+		$location = add_query_arg( 'paged', $pagenum, $location );
+		if ( $current_orderby )
+			$location = add_query_arg( array( 'orderby' => $current_orderby, 'order' => $current_order ), $location );
+
+		return $location;
+	}
 
 	/**
 	 * Print column headers, accounting for hidden and sortable columns.
@@ -630,15 +653,7 @@ class WP_List_Table {
 
 		$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
-		if ( isset( $_GET['orderby'] ) )
-			$current_orderby = $_GET['orderby'];
-		else
-			$current_orderby = '';
-
-		if ( isset( $_GET['order'] ) && 'desc' == $_GET['order'] )
-			$current_order = 'desc';
-		else
-			$current_order = 'asc';
+		list( $current_orderby, $current_order ) = $this->get_order_info();
 
 		foreach ( $columns as $column_key => $column_display_name ) {
 			$class = array( 'manage-column', "column-$column_key" );
@@ -733,8 +748,11 @@ class WP_List_Table {
 	 * @access protected
 	 */
 	function display_tablenav( $which ) {
-		if ( 'top' == $which )
+		if ( 'top' == $which ) {
 			wp_nonce_field( 'bulk-' . $this->_args['plural'] );
+			list( $current_orderby, $current_order ) = $this->get_order_info();
+			echo '<input type="hidden" name="orderby" value="' . esc_attr( $current_orderby ) . '" /><input type="hidden" name="order" value="' . esc_attr( $current_order ) . '" />';
+		}
 ?>
 	<div class="tablenav <?php echo esc_attr( $which ); ?>">
 

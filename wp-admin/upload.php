@@ -83,6 +83,7 @@ if ( $doaction ) {
 						$location = $referer;
 				}
 
+				$location = $wp_list_table->add_query_args( $locations );
 				$location = add_query_arg( array( 'attached' => $attached ) , $location );
 				wp_redirect( $location );
 				exit;
@@ -120,6 +121,7 @@ if ( $doaction ) {
 			break;
 	}
 
+	$location = $wp_list_table->add_query_args( $locations );
 	wp_redirect( $location );
 	exit;
 } elseif ( ! empty( $_REQUEST['_wp_http_referer'] ) ) {
