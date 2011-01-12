@@ -53,7 +53,7 @@ class WP_Admin_Bar {
 			'href' => false,
 			'parent' => false, // false for a root menu, pass the ID value for a submenu of that menu.
 			'id' => false, // defaults to a sanitized title value.
-			'meta' => false // array of any of the following options: array( 'html' => '', 'class' => '', 'onclick' => '', target => '' );
+			'meta' => false // array of any of the following options: array( 'html' => '', 'class' => '', 'onclick' => '', target => '', title => '' );
 		);
 
 		$r = wp_parse_args( $args, $defaults );
@@ -117,15 +117,18 @@ class WP_Admin_Bar {
 
 		<li class="<?php echo $menuclass . "ab-$id" ?><?php
 			if ( ! empty( $menu_item['meta']['class'] ) ) :
-				echo ' ' . $menu_item['meta']['class'];
+				echo ' ' . esc_attr( $menu_item['meta']['class'] );
 			endif;
 		?>">
-			<a href="<?php echo strip_tags( $menu_item['href'] ) ?>"<?php
+			<a href="<?php echo esc_url( $menu_item['href'] ) ?>"<?php
 				if ( ! empty( $menu_item['meta']['onclick'] ) ) :
-					?> onclick="<?php echo $menu_item['meta']['onclick']; ?>"<?php
+					?> onclick="<?php echo esc_js( $menu_item['meta']['onclick'] ); ?>"<?php
 				endif;
 			if ( ! empty( $menu_item['meta']['target'] ) ) :
-				?> target="<?php echo $menu_item['meta']['target']; ?>"<?php
+				?> target="<?php echo esc_attr( $menu_item['meta']['target'] ); ?>"<?php
+			endif;
+			if ( ! empty( $menu_item['meta']['title'] ) ) :
+				?> title="<?php echo esc_attr( $menu_item['meta']['title'] ); ?>"<?php
 			endif;
 
 			?>><?php
