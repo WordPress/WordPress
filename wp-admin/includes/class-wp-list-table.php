@@ -104,6 +104,7 @@ class WP_List_Table {
 	 *
 	 * @since 3.1.0
 	 * @access public
+	 * @abstract
 	 */
 	function ajax_user_can() {
 		die( 'function WP_List_Table::ajax_user_can() must be over-ridden in a sub-class.' );
@@ -115,6 +116,7 @@ class WP_List_Table {
 	 *
 	 * @since 3.1.0
 	 * @access public
+	 * @abstract
 	 */
 	function prepare_items() {
 		die( 'function WP_List_Table::prepare_items() must be over-ridden in a sub-class.' );
@@ -538,6 +540,7 @@ class WP_List_Table {
 	 *
 	 * @since 3.1.0
 	 * @access protected
+	 * @abstract
 	 *
 	 * @return array
 	 */
