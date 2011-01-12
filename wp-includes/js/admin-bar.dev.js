@@ -38,13 +38,15 @@
 		}
 
 		// Remove any selected classes.
-		ul = hovering.parentNode;
-		if ( ul && 'UL' == ul.nodeName.toUpperCase() ) {
-			i = ul.childNodes.length;
-			while ( i-- ) {
-				li = ul.childNodes[i];
-				if ( li != hovering )
-					li.className = li.className ? li.className.replace( rselected, '' ) : '';
+		if ( hovering ) {
+			ul = hovering.parentNode;
+			if ( ul && 'UL' == ul.nodeName.toUpperCase() ) {
+				i = ul.childNodes.length;
+				while ( i-- ) {
+					li = ul.childNodes[i];
+					if ( li != hovering )
+						li.className = li.className ? li.className.replace( rselected, '' ) : '';
+				}
 			}
 		}
 
@@ -78,15 +80,14 @@
 	},
 
 	clickShortlink = function(e) {
-		var i, l, node, className,
-			t = e.target || e.srcElement,
-			shortlink = t.href;
+		var i, l, node,
+			t = e.target || e.srcElement;
 
 		// Make t the shortlink menu item, or return.
 		while ( true ) {
 			// Check if we've gone past the shortlink node,
 			// or if the user is clicking on the input.
-			if ( ! t || t == d || t == aB || -1 != t.className.indexOf('shortlink-input') )
+			if ( ! t || t == d || t == aB )
 				return;
 			// Check if we've found the shortlink node.
 			if ( t.className && -1 != t.className.indexOf('ab-get-shortlink') )

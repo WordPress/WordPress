@@ -117,6 +117,10 @@
 	width: 160px;
 }
 
+#wpadminbar .shortlink-input {
+	width: 200px;
+}
+
 #wpadminbar .quicklinks .menupop ul li:hover > a {
 	color: #fff;
 	text-shadow: #666 0px -1px 0px;
