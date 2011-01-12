@@ -38,7 +38,7 @@
 		}
 
 		// Remove any selected classes.
-		if ( hovering ) {
+		if ( hovering && hovering.parentNode ) {
 			ul = hovering.parentNode;
 			if ( ul && 'UL' == ul.nodeName.toUpperCase() ) {
 				i = ul.childNodes.length;
