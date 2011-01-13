@@ -146,6 +146,9 @@ inlineEditPost = {
 			// author no longer has edit caps, so we need to add them to the list of authors
 			$(':input[name="post_author"]', editRow).prepend('<option value="' + $('.post_author', rowData).text() + '">' + $('#' + t.type + '-' + id + ' .author').text() + '</option>');
 		}
+		if ( $(':input[name="post_author"] option', editRow).length == 1 ) {
+			$('label.inline-edit-author', editRow).hide();
+		}
 
 		for ( var f = 0; f < fields.length; f++ ) {
 			$(':input[name="'+fields[f]+'"]', editRow).val( $('.'+fields[f], rowData).text() );

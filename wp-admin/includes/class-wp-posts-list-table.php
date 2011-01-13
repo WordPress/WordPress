@@ -764,7 +764,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 			if ( is_super_admin() || current_user_can( $post_type_object->cap->edit_others_posts ) ) :
 				$users_opt = array(
-					'hide_if_only_one_author' => true,
+					'hide_if_only_one_author' => false,
 					'who' => 'authors',
 					'name' => 'post_author',
 					'class'=> 'authors',
@@ -775,7 +775,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 					$users_opt['show_option_none'] = __( '&mdash; No Change &mdash;' );
 
 				if ( $authors = wp_dropdown_users( $users_opt ) ) :
-					$authors_dropdown  = '<label>';
+					$authors_dropdown  = '<label class="inline-edit-author">';
 					$authors_dropdown .= '<span class="title">' . __( 'Author' ) . '</span>';
 					$authors_dropdown .= $authors;
 					$authors_dropdown .= '</label>';
