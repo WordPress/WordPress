@@ -225,6 +225,7 @@ $_old_files = array(
 // 3.1
 'wp-includes/js/tinymce/blank.htm',
 'wp-includes/js/tinymce/plugins/safari',
+'wp-includes/js/tinymce/plugins/media',
 'wp-admin/edit-link-categories.php',
 'wp-admin/edit-post-rows.php',
 'wp-admin/edit-attachment-rows.php',
@@ -234,12 +235,14 @@ $_old_files = array(
 'wp-admin/images/list-vs.png',
 'wp-admin/images/button-grad-vs.png',
 'wp-admin/images/button-grad-active-vs.png',
-'wp-admin/images/fav-arrow-vs.png',
-'wp-admin/images/fav-arrow-vs-rtl.png',
-'wp-admin/images/fav-top-vs.png',
+'wp-admin/images/fav-arrow-vs.gif',
+'wp-admin/images/fav-arrow-vs-rtl.gif',
+'wp-admin/images/fav-top-vs.gif',
+'wp-admin/images/screen-options-right.gif',
+'wp-admin/images/screen-options-right-up.gif',
 'wp-admin/images/visit-site-button-grad-vs.gif',
 'wp-admin/images/visit-site-button-grad.gif',
-'wp-includes/js/tinymce/plugins/media',
+'wp-includes/classes.php',
 );
 
 /**
