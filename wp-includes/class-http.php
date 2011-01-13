@@ -1138,7 +1138,7 @@ class WP_Http_Streams {
  * @subpackage HTTP
  * @since 2.7.0
  */
-class WP_Http_ExtHTTP {
+class WP_Http_ExtHttp {
 	/**
 	 * Send a HTTP request to a URI using HTTP extension.
 	 *
