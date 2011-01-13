@@ -194,11 +194,7 @@ if ( ! current_user_can( 'switch_themes' ) ) {
 </form>
 <br class="clear" />
 
-<?php elseif ( ! $wp_list_table->has_items() ) :
-
-	$wp_list_table->no_items();
-
-endif; ?>
+<?php endif; ?>
 
 <?php $wp_list_table->display(); ?>
 
