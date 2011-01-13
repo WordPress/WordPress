@@ -20,6 +20,7 @@ if ( !current_user_can('activate_plugins') )
 	wp_die( __( 'You do not have sufficient permissions to manage plugins for this site.' ) );
 
 $wp_list_table = get_list_table('WP_Plugins_List_Table');
+$pagenum = $wp_list_table->get_pagenum();
 
 $action = $wp_list_table->current_action();
 
@@ -314,6 +315,12 @@ if ( $action ) {
 }
 
 $wp_list_table->prepare_items();
+
+$total_pages = $wp_list_table->get_pagination_arg( 'total_pages' );
+if ( $pagenum > $total_pages && $total_pages > 0 ) {
+	wp_redirect( add_query_arg( 'paged', $total_pages ) );
+	exit;
+}
 
 wp_enqueue_script('plugin-install');
 add_thickbox();

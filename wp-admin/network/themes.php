@@ -22,6 +22,7 @@ if ( !current_user_can('manage_network_themes') )
 	wp_die( __( 'You do not have sufficient permissions to manage network themes.' ) );
 
 $wp_list_table = get_list_table('WP_MS_Themes_List_Table');
+$pagenum = $wp_list_table->get_pagenum();
 
 $action = $wp_list_table->current_action();
 
@@ -169,6 +170,13 @@ if ( $action ) {
 }
 
 $wp_list_table->prepare_items();
+
+$total_pages = $wp_list_table->get_pagination_arg( 'total_pages' );
+if ( $pagenum > $total_pages && $total_pages > 0 ) {
+	wp_redirect( add_query_arg( 'paged', $total_pages ) );
+	exit;
+}
+
 add_thickbox();
 
 add_screen_option( 'per_page', array('label' => _x( 'Themes', 'themes per page (screen options)' )) );

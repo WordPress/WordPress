@@ -17,6 +17,7 @@ if ( ! current_user_can( 'manage_sites' ) )
 	wp_die( __( 'You do not have permission to access this page.' ) );
 
 $wp_list_table = get_list_table('WP_MS_Sites_List_Table');
+$pagenum = $wp_list_table->get_pagenum();
 
 $title = __( 'Sites' );
 $parent_file = 'sites.php';
@@ -86,6 +87,12 @@ if ( isset( $_REQUEST['updated'] ) && $_REQUEST['updated'] == 'true' && ! empty(
 }
 
 $wp_list_table->prepare_items();
+
+$total_pages = $wp_list_table->get_pagination_arg( 'total_pages' );
+if ( $pagenum > $total_pages && $total_pages > 0 ) {
+	wp_redirect( add_query_arg( 'paged', $total_pages ) );
+	exit;
+}
 
 require_once( '../admin-header.php' );
 ?>
