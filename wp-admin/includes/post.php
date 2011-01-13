@@ -1497,10 +1497,7 @@ function wp_tiny_mce( $teeny = false, $settings = false ) {
 		$mce_buttons = apply_filters('mce_buttons', array('bold', 'italic', 'strikethrough', '|', 'bullist', 'numlist', 'blockquote', '|', 'justifyleft', 'justifycenter', 'justifyright', '|', 'link', 'unlink', 'wp_more', '|', 'spellchecker', 'fullscreen', 'wp_adv' ));
 		$mce_buttons = implode($mce_buttons, ',');
 
-		$mce_buttons_2 = array('formatselect', 'underline', 'justifyfull', 'forecolor', '|', 'pastetext', 'pasteword', 'removeformat', '|' );
-		if ( ! is_multisite() )
-			$mce_buttons_2[] = 'media';
-		array_push( $mce_buttons_2,  'charmap', '|', 'outdent', 'indent', '|', 'undo', 'redo', 'wp_help' );
+		$mce_buttons_2 = array( 'formatselect', 'underline', 'justifyfull', 'forecolor', '|', 'pastetext', 'pasteword', 'removeformat', '|', 'charmap', '|', 'outdent', 'indent', '|', 'undo', 'redo', 'wp_help' );
 		$mce_buttons_2 = apply_filters('mce_buttons_2', $mce_buttons_2);
 		$mce_buttons_2 = implode($mce_buttons_2, ',');
 
