@@ -90,15 +90,16 @@
 			if ( ! t || t == d || t == aB )
 				return;
 			// Check if we've found the shortlink node.
-			if ( t.className && -1 != t.className.indexOf('ab-get-shortlink') )
+			if ( t.id && t.id == 'wp-admin-bar-get-shortlink' )
 				break;
 			t = t.parentNode;
 		}
-		
+
+		// IE doesn't support preventDefault, and does support returnValue
 		if ( e.preventDefault )
 			e.preventDefault();
 		e.returnValue = false;
-		
+
 		if ( -1 == t.className.indexOf('selected') )
 			t.className += ' selected';
 
