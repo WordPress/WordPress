@@ -4169,11 +4169,16 @@ td.post-title p, td.plugin-title p {
 	border-radius: 6px;
 }
 
+.plugin-install #description, .plugin-install-network #description {
+	width: 60%;
+}
+
 table .vers,
 table .column-visible,
 table .column-rating {
-	text-align: center;
+	text-align: left;
 }
+
 
 /* Scrollbar fix for bulk upgrade iframe */
 body.iframe {

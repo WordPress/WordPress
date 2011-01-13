@@ -151,6 +151,13 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			'code' => array(), 'pre' => array(), 'em' => array(),'strong' => array(),
 			'ul' => array(), 'ol' => array(), 'li' => array(), 'p' => array(), 'br' => array()
 		);
+		
+		list( $columns, $hidden ) = $this->get_column_info();
+
+		$style = array();
+		foreach ( $columns as $column_name => $column_display_name ) {
+			$style[ $column_name ] = in_array( $column_name, $hidden ) ? 'style="display:none;"' : '';
+		}
 
 		foreach ( (array) $this->items as $plugin ) {
 			if ( is_object( $plugin ) )
@@ -205,11 +212,11 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			$action_links = apply_filters( 'plugin_install_action_links', $action_links, $plugin );
 		?>
 		<tr>
-			<td class="name"><strong><?php echo $title; ?></strong>
+			<td class="name column-name"<?php echo $style['name']; ?>><strong><?php echo $title; ?></strong>
 				<div class="action-links"><?php if ( !empty( $action_links ) ) echo implode( ' | ', $action_links ); ?></div>
 			</td>
-			<td class="vers"><?php echo $version; ?></td>
-			<td class="vers">
+			<td class="vers column-version"<?php echo $style['version']; ?>><?php echo $version; ?></td>
+			<td class="vers column-rating"<?php echo $style['rating']; ?>>
 				<div class="star-holder" title="<?php printf( _n( '(based on %s rating)', '(based on %s ratings)', $plugin['num_ratings'] ), number_format_i18n( $plugin['num_ratings'] ) ) ?>">
 					<div class="star star-rating" style="width: <?php echo esc_attr( $plugin['rating'] ) ?>px"></div>
 					<div class="star star5"><img src="<?php echo admin_url( 'images/star.gif' ); ?>" alt="<?php _e( '5 stars' ) ?>" /></div>
@@ -219,7 +226,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 					<div class="star star1"><img src="<?php echo admin_url( 'images/star.gif' ); ?>" alt="<?php _e( '1 star' ) ?>" /></div>
 				</div>
 			</td>
-			<td class="desc"><?php echo $description, $author; ?></td>
+			<td class="desc column-description"<?php echo $style['description']; ?>><?php echo $description, $author; ?></td>
 		</tr>
 		<?php
 		}
