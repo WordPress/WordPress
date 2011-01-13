@@ -166,7 +166,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'jquery-color', "/wp-includes/js/jquery/jquery.color$suffix.js", array('jquery'), '2.0-4561m');
 	$scripts->add_data( 'jquery-color', 'group', 1 );
 
-	$scripts->add( 'suggest', "/wp-includes/js/jquery/suggest$suffix.js", array('jquery'), '1.1-20090125');
+	$scripts->add( 'suggest', "/wp-includes/js/jquery/suggest$suffix.js", array('jquery'), '1.1-20110113');
 	$scripts->add_data( 'suggest', 'group', 1 );
 
 	$scripts->add( 'schedule', '/wp-includes/js/jquery/jquery.schedule.js', array('jquery'), '20m');
@@ -197,11 +197,11 @@ function wp_default_scripts( &$scripts ) {
 	) );
 
 
-	$scripts->add( 'jcrop', "/wp-includes/js/jcrop/jquery.Jcrop$suffix.js", array('jquery'), '0.9.8');
+	$scripts->add( 'jcrop', "/wp-includes/js/jcrop/jquery.Jcrop$suffix.js", array('jquery'), '0.9.8-20110113');
 
 	$scripts->add( 'swfobject', "/wp-includes/js/swfobject.js", false, '2.2');
 
-	$scripts->add( 'swfupload', '/wp-includes/js/swfupload/swfupload.js', false, '2201');
+	$scripts->add( 'swfupload', '/wp-includes/js/swfupload/swfupload.js', false, '2201-20110113');
 	$scripts->add( 'swfupload-swfobject', '/wp-includes/js/swfupload/plugins/swfupload.swfobject.js', array('swfupload', 'swfobject'), '2201');
 	$scripts->add( 'swfupload-queue', '/wp-includes/js/swfupload/plugins/swfupload.queue.js', array('swfupload'), '2201');
 	$scripts->add( 'swfupload-speed', '/wp-includes/js/swfupload/plugins/swfupload.speed.js', array('swfupload'), '2201');
@@ -241,9 +241,9 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'comment-reply', "/wp-includes/js/comment-reply$suffix.js", false, '20090102');
 
-	$scripts->add( 'json2', "/wp-includes/js/json2$suffix.js", false, '20090817');
+	$scripts->add( 'json2', "/wp-includes/js/json2$suffix.js", false, '20110113');
 
-	$scripts->add( 'imgareaselect', "/wp-includes/js/imgareaselect/jquery.imgareaselect$suffix.js", array('jquery'), '0.9.1' );
+	$scripts->add( 'imgareaselect', "/wp-includes/js/imgareaselect/jquery.imgareaselect$suffix.js", array('jquery'), '0.9.1-20110113' );
 	$scripts->add_data( 'imgareaselect', 'group', 1 );
 
 	$scripts->add( 'password-strength-meter', "/wp-admin/js/password-strength-meter$suffix.js", array('jquery'), '20101027' );
@@ -259,7 +259,7 @@ function wp_default_scripts( &$scripts ) {
 		'l10n_print_after' => 'try{convertEntities(pwsL10n);}catch(e){};'
 	) );
 
-	$scripts->add( 'user-profile', "/wp-admin/js/user-profile$suffix.js", array( 'jquery', 'password-strength-meter' ), '20100925' );
+	$scripts->add( 'user-profile', "/wp-admin/js/user-profile$suffix.js", array( 'jquery', 'password-strength-meter' ), '20110113' );
 	$scripts->add_data( 'user-profile', 'group', 1 );
 
 	$scripts->add( 'admin-bar', "/wp-includes/js/admin-bar$suffix.js", false, '20110112a' );
@@ -366,7 +366,7 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'admin-gallery', "/wp-admin/js/gallery$suffix.js", array( 'jquery-ui-sortable' ), '20090516' );
 
-		$scripts->add( 'media-upload', "/wp-admin/js/media-upload$suffix.js", array( 'thickbox' ), '20101201' );
+		$scripts->add( 'media-upload', "/wp-admin/js/media-upload$suffix.js", array( 'thickbox' ), '20110113' );
 		$scripts->add_data( 'media-upload', 'group', 1 );
 
 		$scripts->add( 'admin-widgets', "/wp-admin/js/widgets$suffix.js", array( 'jquery-ui-sortable', 'jquery-ui-draggable', 'jquery-ui-droppable' ), '20101007' );
@@ -401,7 +401,7 @@ function wp_default_scripts( &$scripts ) {
 			'l10n_print_after' => 'try{convertEntities(inlineEditL10n);}catch(e){};'
 		) );
 
-		$scripts->add( 'plugin-install', "/wp-admin/js/plugin-install$suffix.js", array( 'jquery', 'thickbox' ), '20101230' );
+		$scripts->add( 'plugin-install', "/wp-admin/js/plugin-install$suffix.js", array( 'jquery', 'thickbox' ), '20110113' );
 		$scripts->add_data( 'plugin-install', 'group', 1 );
 		$scripts->localize( 'plugin-install', 'plugininstallL10n', array(
 			'plugin_information' => __('Plugin Information:'),
@@ -411,7 +411,7 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'farbtastic', '/wp-admin/js/farbtastic.js', array('jquery'), '1.2' );
 
-		$scripts->add( 'dashboard', "/wp-admin/js/dashboard$suffix.js", array( 'jquery', 'admin-comments', 'postbox' ), '20101201' );
+		$scripts->add( 'dashboard', "/wp-admin/js/dashboard$suffix.js", array( 'jquery', 'admin-comments', 'postbox' ), '20110113' );
 		$scripts->add_data( 'dashboard', 'group', 1 );
 
 		$scripts->add( 'hoverIntent', "/wp-includes/js/hoverIntent$suffix.js", array('jquery'), '20090102' );
