@@ -42,16 +42,16 @@ if ( empty($_REQUEST) ) {
 
 $update = '';
 
-switch ( $wp_list_table->current_action() ) {
+if ( $doaction = $wp_list_table->current_action() ) {
+
+switch ( $doaction ) {
 
 /* Bulk Dropdown menu Role changes */
 case 'promote':
 	check_admin_referer('bulk-users');
 
-	if ( empty($_REQUEST['users']) ) {
-		wp_redirect($redirect);
-		exit();
-	}
+	if ( empty($_REQUEST['users']) )
+		break;
 
 	$editable_roles = get_editable_roles();
 	if ( empty( $editable_roles[$_REQUEST['new_role']] ) )
@@ -65,7 +65,7 @@ case 'promote':
 		if ( ! current_user_can('promote_user', $id) )
 			wp_die(__('You can&#8217;t edit that user.'));
 		// The new role of the current user must also have promote_users caps
-		if ( $id == $current_user->ID && !$wp_roles->role_objects[$_REQUEST['new_role']]->has_cap('promote_users') ) {
+		if ( $id == $current_user->ID && ! current_user_can('promote_users') ) {
 			$update = 'err_admin_role';
 			continue;
 		}
@@ -78,8 +78,7 @@ case 'promote':
 		$user->set_role($_REQUEST['new_role']);
 	}
 
-	wp_redirect(add_query_arg('update', $update, $redirect));
-	exit();
+	$redirect = add_query_arg( 'update', $update, $redirect );
 
 break;
 
@@ -89,10 +88,8 @@ case 'dodelete':
 
 	check_admin_referer('delete-users');
 
-	if ( empty($_REQUEST['users']) ) {
-		wp_redirect($redirect);
-		exit();
-	}
+	if ( empty($_REQUEST['users']) )
+		break;
 
 	if ( ! current_user_can( 'delete_users' ) )
 		wp_die(__('You can&#8217;t delete users.'));
@@ -125,8 +122,6 @@ case 'dodelete':
 	}
 
 	$redirect = add_query_arg( array('delete_count' => $delete_count, 'update' => $update), $redirect);
-	wp_redirect($redirect);
-	exit();
 
 break;
 
@@ -136,10 +131,8 @@ case 'delete':
 
 	check_admin_referer('bulk-users');
 
-	if ( empty($_REQUEST['users']) && empty($_REQUEST['user']) ) {
-		wp_redirect($redirect);
-		exit();
-	}
+	if ( empty($_REQUEST['users']) && empty($_REQUEST['user']) )
+		break;
 
 	if ( ! current_user_can( 'delete_users' ) )
 		$errors = new WP_Error( 'edit_users', __( 'You can&#8217;t delete users.' ) );
@@ -148,6 +141,8 @@ case 'delete':
 		$userids = array(intval($_REQUEST['user']));
 	else
 		$userids = $_REQUEST['users'];
+
+	$redirect = false;
 
 	include ('admin-header.php');
 ?>
@@ -191,16 +186,15 @@ case 'delete':
 </div>
 </form>
 <?php
+include('./admin-footer.php');
 
 break;
 
 case 'doremove':
 	check_admin_referer('remove-users');
 
-	if ( empty($_REQUEST['users']) ) {
-		wp_redirect($redirect);
-		exit;
-	}
+	if ( empty($_REQUEST['users']) )
+		break;
 
 	if ( !current_user_can('remove_users')  )
 		die(__('You can&#8217;t remove users.'));
@@ -222,8 +216,6 @@ case 'doremove':
 	}
 
 	$redirect = add_query_arg( array('update' => $update), $redirect);
-	wp_redirect($redirect);
-	exit;
 
 break;
 
@@ -231,10 +223,8 @@ case 'remove':
 
 	check_admin_referer('bulk-users');
 
-	if ( empty($_REQUEST['users']) && empty($_REQUEST['user']) ) {
-		wp_redirect($redirect);
-		exit();
-	}
+	if ( empty($_REQUEST['users']) && empty($_REQUEST['user']) )
+		break;
 
 	if ( !current_user_can('remove_users') )
 		$error = new WP_Error('edit_users', __('You can&#8217;t remove users.'));
@@ -243,6 +233,8 @@ case 'remove':
 		$userids = array(intval($_REQUEST['user']));
 	else
 		$userids = $_REQUEST['users'];
+
+	$redirect = false;
 
 	include ('admin-header.php');
 ?>
@@ -279,15 +271,23 @@ case 'remove':
 </div>
 </form>
 <?php
+include('./admin-footer.php');
 
 break;
 
 default:
 
-	if ( !empty($_GET['_wp_http_referer']) ) {
+} // end of the $doaction switch
+
+	if ( $redirect )
+		wp_redirect( $redirect );
+	exit();
+
+} // end of the $doaction if
+elseif ( !empty($_GET['_wp_http_referer']) ) {
 		wp_redirect(remove_query_arg(array('_wp_http_referer', '_wpnonce'), stripslashes($_SERVER['REQUEST_URI'])));
 		exit;
-	}
+}
 
 	$wp_list_table->prepare_items();
 
@@ -378,8 +378,5 @@ if ( is_multisite() ) {
 <br class="clear" />
 </div>
 <?php
-break;
-
-} // end of the $doaction switch
 
 include('./admin-footer.php');
