@@ -331,10 +331,12 @@ function get_post_class( $class = '', $post_id = null ) {
 	// Post Format
 	$post_format = get_post_format( $post->ID );
 
-	if ( $post_format && !is_wp_error($post_format) )
-		$classes[] = 'format-' . sanitize_html_class( $post_format );
-	else
-		$classes[] = 'format-standard';
+	if ( post_type_supports( $post->post_type, 'post-formats' ) ) {
+		if ( $post_format && !is_wp_error($post_format) )
+			$classes[] = 'format-' . sanitize_html_class( $post_format );
+		else
+			$classes[] = 'format-standard';
+	}
 
 	// post requires password
 	if ( post_password_required($post->ID) )
