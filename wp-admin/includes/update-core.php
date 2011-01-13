@@ -238,7 +238,8 @@ $_old_files = array(
 'wp-admin/images/fav-arrow-vs-rtl.png',
 'wp-admin/images/fav-top-vs.png',
 'wp-admin/images/visit-site-button-grad-vs.gif',
-'wp-admin/images/visit-site-button-grad.gif'
+'wp-admin/images/visit-site-button-grad.gif',
+'wp-includes/js/tinymce/plugins/media',
 );
 
 /**

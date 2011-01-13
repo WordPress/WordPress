@@ -174,7 +174,6 @@ function &get_manifest() {
 		array('../wp-includes/js/tinymce/plugins/inlinepopups/skins/clearlooks2/img/confirm.gif'),
 		array('../wp-includes/js/tinymce/plugins/inlinepopups/skins/clearlooks2/img/vertical.gif'),
 		array('../wp-includes/js/tinymce/plugins/media/img/flash.gif'),
-		array('../wp-includes/js/tinymce/plugins/media/img/flv_player.swf'),
 		array('../wp-includes/js/tinymce/plugins/media/img/quicktime.gif'),
 		array('../wp-includes/js/tinymce/plugins/media/img/realmedia.gif'),
 		array('../wp-includes/js/tinymce/plugins/media/img/shockwave.gif'),
