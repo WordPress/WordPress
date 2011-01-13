@@ -40,8 +40,8 @@ require_once(ABSPATH . 'wp-admin/includes/taxonomy.php');
 require_once(ABSPATH . 'wp-admin/includes/template.php');
 
 /** WordPress List Table Administration API and base class */
-require_once(ABSPATH . 'wp-admin/includes/list-table.php');
 require_once(ABSPATH . 'wp-admin/includes/class-wp-list-table.php');
+require_once(ABSPATH . 'wp-admin/includes/list-table.php');
 
 /** WordPress Theme Administration API */
 require_once(ABSPATH . 'wp-admin/includes/theme.php');
