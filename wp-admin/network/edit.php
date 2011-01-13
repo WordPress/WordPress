@@ -410,7 +410,7 @@ switch ( $_GET['action'] ) {
 								if ( $details->userblog_id != $current_site->blog_id ) // main blog not a spam !
 									update_blog_status( $details->userblog_id, 'spam', '1' );
 							}
-							update_user_status( $val, 'spam', '1', 1 );
+							update_user_status( $val, 'spam', '1' );
 						break;
 
 						case 'notspam':
@@ -419,7 +419,7 @@ switch ( $_GET['action'] ) {
 							foreach ( (array) $blogs as $key => $details )
 								update_blog_status( $details->userblog_id, 'spam', '0' );
 
-							update_user_status( $val, 'spam', '0', 1 );
+							update_user_status( $val, 'spam', '0' );
 						break;
 					}
 				}
