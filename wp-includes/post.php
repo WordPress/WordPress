@@ -966,7 +966,7 @@ function register_post_type($post_type, $args = array()) {
 	if ( false !== $args->rewrite && '' != get_option('permalink_structure') ) {
 		if ( ! is_array( $args->rewrite ) )
 			$args->rewrite = array();
-		if ( ! isset( $args->rewrite['slug'] ) )
+		if ( empty( $args->rewrite['slug'] ) )
 			$args->rewrite['slug'] = $post_type;
 		if ( ! isset( $args->rewrite['with_front'] ) )
 			$args->rewrite['with_front'] = true;
