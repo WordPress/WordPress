@@ -114,7 +114,7 @@
 	text-shadow: none;
 	white-space: nowrap;
 	overflow: hidden;
-	width: 160px;
+	min-width: 140px;
 }
 
 #wpadminbar .shortlink-input {

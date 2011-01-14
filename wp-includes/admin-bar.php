@@ -114,13 +114,9 @@ function wp_admin_bar_my_sites_menu() {
 		//$blavatar = '<img src="' . esc_url( blavatar_url( blavatar_domain( $blog->siteurl ), 'img', 16, $default ) ) . '" alt="Blavatar" width="16" height="16" />';
 		$blavatar = '<img src="' . esc_url($default) . '" alt="' . esc_attr__( 'Blavatar' ) . '" width="16" height="16" class="blavatar"/>';
 
-		$full_blogname = $blogname = empty( $blog->blogname ) ? $blog->domain : $blog->blogname;
-		if ( strlen( $blogname ) > 15 )
-			$blogname = substr( $blogname, 0, 15 ) . '&hellip;';
-		else
-			$full_blogname = '';
+		$blogname = empty( $blog->blogname ) ? $blog->domain : $blog->blogname;
 
-		$wp_admin_bar->add_menu( array( 'parent' => 'my-blogs', 'id' => 'blog-' . $blog->userblog_id, 'title' => $blavatar . $blogname,  'href' => get_admin_url($blog->userblog_id), 'meta' => array( 'title' => $full_blogname ) ) );
+		$wp_admin_bar->add_menu( array( 'parent' => 'my-blogs', 'id' => 'blog-' . $blog->userblog_id, 'title' => $blavatar . $blogname,  'href' => get_admin_url($blog->userblog_id) ) );
 		$wp_admin_bar->add_menu( array( 'parent' => 'blog-' . $blog->userblog_id, 'id' => 'blog-' . $blog->userblog_id . '-d', 'title' => __( 'Dashboard' ), 'href' => get_admin_url($blog->userblog_id) ) );
 
 		if ( current_user_can_for_blog( $blog->userblog_id, 'edit_posts' ) ) {
