@@ -307,7 +307,10 @@ function wp_admin_bar_header() { ?>
  *
  */
 function _admin_bar_bump_cb() { ?>
-<style type="text/css">body { padding-top: 28px !important; }</style>
+<style type="text/css">
+	html { margin-top: 28px !important; }
+	* html body { margin-top: 28px !important; }
+</style>
 <?php
 }
 
