@@ -8,10 +8,14 @@
 /**
  * Instantiate the admin bar object and set it up as a global for access elsewhere.
  *
+ * To hide the admin bar, you're looking in the wrong place. Unhooking this function will not
+ * properly remove the admin bar. For that, use show_admin_bar(false) or the show_admin_bar filter.
+ *
  * @since 3.1.0
+ * @access private
  * @return bool Whether the admin bar was successfully initialized.
  */
-function wp_admin_bar_init() {
+function _wp_admin_bar_init() {
 	global $wp_admin_bar;
 
 	if ( ! is_admin_bar_showing() )
@@ -32,7 +36,7 @@ function wp_admin_bar_init() {
 
 	return true;
 }
-add_action( 'init', 'wp_admin_bar_init' );
+add_action( 'init', '_wp_admin_bar_init' ); // Don't remove. Wrong way to disable.
 
 /**
  * Render the admin bar to the page based on the $wp_admin_bar->menu member var.
