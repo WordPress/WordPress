@@ -1527,7 +1527,7 @@ function _draft_or_post_title( $post_id = 0 ) {
  *
  */
 function _admin_search_query() {
-	echo isset($_GET['s']) ? esc_attr( stripslashes( $_GET['s'] ) ) : '';
+	echo isset($_REQUEST['s']) ? esc_attr( stripslashes( $_REQUEST['s'] ) ) : '';
 }
 
 /**
