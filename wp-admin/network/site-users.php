@@ -218,6 +218,7 @@ endif; ?>
 
 <form class="search-form" action="" method="get">
 <?php $wp_list_table->search_box( __( 'Search Users' ), 'user' ); ?>
+<input type="hidden" name="id" value="<?php echo esc_attr( $id ) ?>" />
 </form>
 
 <?php $wp_list_table->views(); ?>

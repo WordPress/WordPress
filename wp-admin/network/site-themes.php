@@ -162,6 +162,7 @@ if ( isset( $_GET['enabled'] ) ) {
 
 <form method="get" action="">
 <?php $wp_list_table->search_box( __( 'Search Installed Themes' ), 'theme' ); ?>
+<input type="hidden" name="id" value="<?php echo esc_attr( $id ) ?>" />
 </form>
 
 <?php $wp_list_table->views(); ?>
