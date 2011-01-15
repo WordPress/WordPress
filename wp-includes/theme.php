@@ -745,8 +745,6 @@ function get_query_template( $type, $templates = array() ) {
 	if ( empty( $templates ) )
 		$templates = array("{$type}.php");
 
-	$templates = apply_filters( "{$type}_template_hierarchy", $templates );
-
 	return apply_filters( "{$type}_template", locate_template( $templates ) );
 }
 
