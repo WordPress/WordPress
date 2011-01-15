@@ -86,8 +86,9 @@
 	}
 ?>
 						<p class="attachment"><a href="<?php echo $next_attachment_url; ?>" title="<?php echo esc_attr( get_the_title() ); ?>" rel="attachment"><?php
-							$attachment_size = apply_filters( 'twentyten_attachment_size', 900 );
-							echo wp_get_attachment_image( $post->ID, array( $attachment_size, 9999 ) ); // filterable image width with, essentially, no limit for image height.
+							$attachment_width  = apply_filters( 'twentyten_attachment_size', 900 );
+							$attachment_height = apply_filters( 'twentyten_attachment_height', 900 );
+							echo wp_get_attachment_image( $post->ID, array( $attachment_width, $attachment_height ) ); // filterable image width with, essentially, no limit for image height.
 						?></a></p>
 
 						<div id="nav-below" class="navigation">
