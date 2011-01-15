@@ -149,6 +149,7 @@ function _get_plugin_data_markup_translate($plugin_file, $plugin_data, $markup =
 	$plugin_data['Title']       = wp_kses( $plugin_data['Title'],       $plugins_allowedtags );
 	$plugin_data['Version']     = wp_kses( $plugin_data['Version'],     $plugins_allowedtags );
 	$plugin_data['Description'] = wp_kses( $plugin_data['Description'], $plugins_allowedtags );
+	$plugin_data['Name']        = wp_kses( $plugin_data['Name'],        $plugins_allowedtags );
 
 	return $plugin_data;
 }
