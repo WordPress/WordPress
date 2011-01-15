@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Ten 1.2\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyten\n"
-"POT-Creation-Date: 2010-12-28 23:26:58+00:00\n"
+"POT-Creation-Date: 2011-01-15 01:27:01+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -40,16 +40,16 @@ msgstr ""
 msgid "Link to full-size image"
 msgstr ""
 
-#: loop-attachment.php:63 loop-attachment.php:110 loop.php:100 loop.php:123
+#: loop-attachment.php:63 loop-attachment.php:111 loop.php:100 loop.php:123
 #: loop.php:165 loop-page.php:30 loop-single.php:56
 msgid "Edit"
 msgstr ""
 
-#: loop-attachment.php:103 loop.php:115 loop.php:143 functions.php:248
+#: loop-attachment.php:104 loop.php:115 loop.php:143 functions.php:248
 msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: loop-attachment.php:104 loop.php:144 loop-page.php:29 loop-single.php:34
+#: loop-attachment.php:105 loop.php:144 loop-page.php:29 loop-single.php:34
 msgid "Pages:"
 msgstr ""
 
