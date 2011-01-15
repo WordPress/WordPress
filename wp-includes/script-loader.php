@@ -264,9 +264,6 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'admin-bar', "/wp-includes/js/admin-bar$suffix.js", false, '20110112a' );
 	$scripts->add_data( 'admin-bar', 'group', 1 );
-	$scripts->localize( 'admin-bar', 'adminBarL10n', array(
-		'l10n_print_after' => 'try{convertEntities(adminBarL10n);}catch(e){};',
-	) );
 
 	$scripts->add( 'wplink', "/wp-includes/js/tinymce/plugins/wplink/js/wplink$suffix.js", array('jquery'), '20110111' );
 	$scripts->localize( 'wplink', 'wpLinkL10n', array(
