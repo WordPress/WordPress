@@ -140,7 +140,7 @@ class WP_Theme_Install_List_Table extends WP_List_Table {
 
 		<table id="availablethemes" cellspacing="0" cellpadding="0">
 			<tbody id="the-list" class="list:themes">
-				<?php $this->display_rows(); ?>
+				<?php $this->display_rows_or_placeholder(); ?>
 			</tbody>
 		</table>
 
