@@ -113,7 +113,6 @@
 	color: #555;
 	text-shadow: none;
 	white-space: nowrap;
-	overflow: hidden;
 	min-width: 140px;
 }
 
@@ -182,6 +181,7 @@
 	background: #fff;
 	color: #000;
 }
+
 #wpadminbar .quicklinks li#wp-admin-bar-my-account > a {
 	border-left: none;
 }
