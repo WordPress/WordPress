@@ -1661,6 +1661,12 @@ function _post_states($post) {
  */
 function convert_to_screen( $screen ) {
 	$screen = str_replace( array('.php', '-new', '-add' ), '', $screen);
+
+	if ( is_network_admin() )
+		$screen .= '-network';
+	elseif ( is_user_admin() )
+		$screen .= '-user';
+
 	$screen = (string) apply_filters( 'screen_meta_screen', $screen );
 	$screen = (object) array('id' => $screen, 'base' => $screen);
 	return $screen;
