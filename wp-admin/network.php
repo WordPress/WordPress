@@ -307,6 +307,9 @@ function network_step2( $errors = false ) {
 	global $base, $wpdb;
 	$hostname = get_clean_basedomain();
 
+	if ( ! isset( $base ) )
+		$base = trailingslashit( stripslashes( dirname( dirname( $_SERVER['SCRIPT_NAME'] ) ) ) );
+
 	// Wildcard DNS message.
 	if ( is_wp_error( $errors ) )
 		echo '<div class="error">' . $errors->get_error_message() . '</div>';
