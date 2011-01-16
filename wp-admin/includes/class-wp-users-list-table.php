@@ -230,7 +230,6 @@ class WP_Users_List_Table extends WP_List_Table {
 			} else {
 				$edit_link = esc_url( add_query_arg( 'wp_http_referer', urlencode( esc_url( stripslashes( $_SERVER['REQUEST_URI'] ) ) ), "user-edit.php?user_id=$user_object->ID" ) );
 			}
-			$edit = "<strong><a href=\"$edit_link\">$user_object->user_login</a></strong><br />";
 
 			// Set up the hover actions for this user
 			$actions = array();
