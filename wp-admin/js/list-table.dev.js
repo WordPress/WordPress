@@ -122,9 +122,7 @@ window.listTable = {
 		if ( 'object' != typeof response ) {
 			this.handle_error();
 		} else {
-			var tablenav = $('.tablenav-pages'),
-				order = $.query.GET('order'),
-				orderby = order ? $.query.GET('orderby') : '';
+			var tablenav = $('.tablenav-pages');
 
 			this.stop_loading();
 
@@ -145,9 +143,6 @@ window.listTable = {
 			// Disable buttons that should noop.
 			tablenav.find('.first-page, .prev-page').toggleClass('disabled', 1 == $.query.GET('paged'));
 			tablenav.find('.next-page, .last-page').toggleClass('disabled', response.total_pages == $.query.GET('paged'));
-
-			$('input[name=order]').val(order);
-			$('input[name=orderby]').val(orderby);
 
 			$('th.column-cb :input').attr('checked', false);
 

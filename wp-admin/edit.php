@@ -41,7 +41,7 @@ if ( $doaction ) {
 	check_admin_referer('bulk-posts');
 
 	$sendback = remove_query_arg( array('trashed', 'untrashed', 'deleted', 'ids'), wp_get_referer() );
-	$sendback = $wp_list_table->add_query_args( $sendback );
+	$sendback = add_query_arg( 'paged', $pagenum, $sendback );
 	if ( strpos($sendback, 'post.php') !== false )
 		$sendback = admin_url($post_new_file);
 
