@@ -16,7 +16,7 @@ if ( ! is_multisite() )
 if ( ! current_user_can( 'manage_sites' ) )
 	wp_die( __( 'You do not have permission to access this page.' ) );
 
-$wp_list_table = get_list_table('WP_MS_Sites_List_Table');
+$wp_list_table = _get_list_table('WP_MS_Sites_List_Table');
 $pagenum = $wp_list_table->get_pagenum();
 
 $title = __( 'Sites' );

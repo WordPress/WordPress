@@ -12,7 +12,7 @@ require_once( './admin.php' );
 if ( !current_user_can('upload_files') )
 	wp_die( __( 'You do not have permission to upload files.' ) );
 
-$wp_list_table = get_list_table('WP_Media_List_Table');
+$wp_list_table = _get_list_table('WP_Media_List_Table');
 $pagenum = $wp_list_table->get_pagenum();
 
 // Handle bulk actions

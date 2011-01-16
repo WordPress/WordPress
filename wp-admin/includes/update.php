@@ -194,7 +194,7 @@ function wp_plugin_update_row( $file, $plugin_data ) {
 
 	$details_url = self_admin_url('plugin-install.php?tab=plugin-information&plugin=' . $r->slug . '&TB_iframe=true&width=600&height=800');
 
-	$wp_list_table = get_list_table('WP_Plugins_List_Table');
+	$wp_list_table = _get_list_table('WP_Plugins_List_Table');
 
 	if ( is_network_admin() || !is_multisite() ) {
 		echo '<tr class="plugin-update-tr"><td colspan="' . $wp_list_table->get_column_count() . '" class="plugin-update colspanchange"><div class="update-message">';
@@ -270,7 +270,7 @@ function wp_theme_update_row( $theme_key, $theme ) {
 
 	$details_url = self_admin_url("theme-install.php?tab=theme-information&theme=$theme_key&TB_iframe=true&width=600&height=400");
 
-	$wp_list_table = get_list_table('WP_MS_Themes_List_Table');
+	$wp_list_table = _get_list_table('WP_MS_Themes_List_Table');
 
 	echo '<tr class="plugin-update-tr"><td colspan="' . $wp_list_table->get_column_count() . '" class="plugin-update colspanchange"><div class="update-message">';
 	if ( ! current_user_can('update_themes') )

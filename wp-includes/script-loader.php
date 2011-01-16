@@ -299,14 +299,6 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'admin-custom-fields', "/wp-admin/js/custom-fields$suffix.js", array('wp-lists'), '20090106' );
 		$scripts->add_data( 'admin-custom-fields', 'group', 1 );
 
-		$scripts->add( 'list-table', "/wp-admin/js/list-table$suffix.js", array( 'jquery-query', 'jquery-serialize-object' ), '20110111a' );
-		$scripts->add_data( 'list-table', 'group', 1 );
-		$scripts->localize( 'list-table', 'listTableL10n', array(
-			'error' => __('An error has occurred while loading the items.'),
-			'search' => __('Search results for &#8220;%s&#8221;'),
-			'l10n_print_after' => 'try{convertEntities(listTableL10n);}catch(e){};'
-		) );
-
 		$scripts->add( 'admin-comments', "/wp-admin/js/edit-comments$suffix.js", array('wp-lists', 'list-table', 'jquery-ui-resizable', 'quicktags'), '20101223' );
 		$scripts->add_data( 'admin-comments', 'group', 1 );
 		$scripts->localize( 'admin-comments', 'adminCommentsL10n', array(

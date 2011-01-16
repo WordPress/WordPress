@@ -11,7 +11,7 @@ require_once('./admin.php');
 if ( !current_user_can('edit_posts') )
 	wp_die(__('Cheatin&#8217; uh?'));
 
-$wp_list_table = get_list_table('WP_Comments_List_Table');
+$wp_list_table = _get_list_table('WP_Comments_List_Table');
 $pagenum = $wp_list_table->get_pagenum();
 
 $doaction = $wp_list_table->current_action();

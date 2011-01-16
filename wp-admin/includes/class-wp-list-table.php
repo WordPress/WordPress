@@ -13,6 +13,7 @@
  * @package WordPress
  * @subpackage List_Table
  * @since 3.1.0
+ * @access private
  */
 class WP_List_Table {
 
@@ -92,10 +93,10 @@ class WP_List_Table {
 
 		$this->_args = $args;
 
-		if ( $args['ajax'] ) {
-			wp_enqueue_script( 'list-table' );
-			add_action( 'admin_footer', array( &$this, '_js_vars' ) );
-		}
+		// if ( $args['ajax'] ) {
+		//	wp_enqueue_script( 'list-table' );
+		//	add_action( 'admin_footer', array( &$this, '_js_vars' ) );
+		// }
 	}
 
 	/**
@@ -199,9 +200,8 @@ class WP_List_Table {
 <p class="search-box">
 	<label class="screen-reader-text" for="<?php echo $input_id ?>"><?php echo $text; ?>:</label>
 	<input type="text" id="<?php echo $input_id ?>" name="s" value="<?php _admin_search_query(); ?>" />
-	<?php submit_button( $text, 'button', 'submit', false, array('id' => 'search-submit') ); ?>
+	<?php submit_button( $text, 'button', false, false, array('id' => 'search-submit') ); ?>
 </p>
-<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading list-ajax-loading" alt="" />
 <?php
 	}
 
@@ -467,12 +467,7 @@ class WP_List_Table {
 	 * @since 3.1.0
 	 * @access protected
 	 */
-	function pagination() {
-		if ( $this->_pagination ) {
-			echo $this->_pagination;
-			return;
-		}
-
+	function pagination( $which ) {
 		if ( empty( $this->_pagination_args ) )
 			return;
 
@@ -506,12 +501,16 @@ class WP_List_Table {
 			'&lsaquo;'
 		);
 
-		$html_current_page = sprintf( "<input class='current-page' title='%s' type='text' name='%s' value='%s' size='%d' />",
-			esc_attr__( 'Current page' ),
-			esc_attr( 'paged' ),
-			number_format_i18n( $current ),
-			strlen( $total_pages )
-		);
+		if ( 'bottom' == $which )
+			$html_current_page = $current;
+		else
+			$html_current_page = sprintf( "<input class='current-page' title='%s' type='text' name='%s' value='%s' size='%d' />",
+				esc_attr__( 'Current page' ),
+				esc_attr( 'paged' ),
+				$current,
+				strlen( $total_pages )
+			);
+
 		$html_total_pages = sprintf( "<span class='total-pages'>%s</span>", number_format_i18n( $total_pages ) );
 		$page_links[] = '<span class="paging-input">' . sprintf( _x( '%1$s of %2$s', 'paging' ), $html_current_page, $html_total_pages ) . '</span>';
 
@@ -633,6 +632,7 @@ class WP_List_Table {
 		list( $columns, $hidden, $sortable ) = $this->get_column_info();
 
 		$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+		$current_url = remove_query_arg( 'paged', $current_url );
 
 		if ( isset( $_GET['orderby'] ) )
 			$current_orderby = $_GET['orderby'];
@@ -692,8 +692,6 @@ class WP_List_Table {
 	function display() {
 		extract( $this->_args );
 
-		wp_nonce_field( "fetch-list-" . get_class( $this ), '_ajax_fetch_list_nonce' );
-
 		$this->display_tablenav( 'top' );
 
 ?>
@@ -748,11 +746,7 @@ class WP_List_Table {
 <?php
 		$this->extra_tablenav( $which );
 		$this->pagination( $which );
-
-if ( 'bottom' == $which ) {
 ?>
-<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading list-ajax-loading" alt="" />
-<?php } ?>
 
 		<br class="clear" />
 	</div>
