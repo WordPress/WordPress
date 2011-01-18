@@ -24,7 +24,7 @@ var ThemeViewer;
 					$( '#filter-click' ).text( text + ' (' + count + ')' );
 			});
 
-			$('#filter-box :submit').unbind( 'click' ).click(function() {
+			/* $('#filter-box :submit').unbind( 'click' ).click(function() {
 				var features = [];
 				$('#filter-box :checked').each(function() {
 					features.push($(this).val());
@@ -37,7 +37,7 @@ var ThemeViewer;
 				});
 
 				return false;
-			});
+			}); */
 		}
 
 		// These are the functions we expose

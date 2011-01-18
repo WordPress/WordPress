@@ -211,10 +211,10 @@ setCommentsList = function() {
 
 		theList.get(0).wpList.add( theExtraList.children(':eq(0)').remove().clone() );
 
-		refillTheExtraList();
+		// refillTheExtraList();
 	};
 
-	var refillTheExtraList = function(ev) {
+	/* var refillTheExtraList = function(ev) {
 		var args = $.query.get(), total_pages = listTable.get_total_pages(), per_page = $('input[name=_per_page]', '#comments-form').val();
 
 		if (args.paged > total_pages) {
@@ -236,7 +236,7 @@ setCommentsList = function() {
 		listTable.fetch_list(args, function(response) {
 			theExtraList.get(0).wpList.add( response.rows );
 		});
-	};
+	}; */
 
 	theExtraList = $('#the-extra-comment-list').wpList( { alt: '', delColor: 'none', addColor: 'none' } );
 	theList = $('#the-comment-list').wpList( { alt: '', delBefore: delBefore, dimAfter: dimAfter, delAfter: delAfter, addColor: 'none' } )
@@ -246,7 +246,7 @@ setCommentsList = function() {
 			if ( s.target.className.indexOf(':trash=1') != -1 || s.target.className.indexOf(':spam=1') != -1 )
 				$('#undo-' + id).fadeIn(300, function(){ $(this).show() });
 		});
-	$(listTable).bind('changePage', refillTheExtraList);
+	// $(listTable).bind('changePage', refillTheExtraList);
 };
 
 commentReply = {
@@ -278,9 +278,9 @@ commentReply = {
 
 		this.comments_listing = $('#comments-form > input[name="comment_status"]').val() || '';
 
-		$(listTable).bind('beforeChangePage', function(){
+		/* $(listTable).bind('beforeChangePage', function(){
 			commentReply.close();
-		});
+		}); */
 	},
 
 	addEvents : function(r) {
@@ -462,7 +462,7 @@ commentReply = {
 			.animate( { 'backgroundColor':'#CCEEBB' }, 600 )
 			.animate( { 'backgroundColor': bg }, 600 );
 
-		$.fn.wpList.process($(id));
+		// $.fn.wpList.process($(id));
 	},
 
 	error : function(r) {
