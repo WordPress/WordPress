@@ -63,7 +63,7 @@ case 'fetch-list' :
 	define( 'WP_NETWORK_ADMIN', $current_screen->is_network );
 	define( 'WP_USER_ADMIN', $current_screen->is_user );
 
-	$wp_list_table = get_list_table( $list_class );
+	$wp_list_table = _get_list_table( $list_class );
 	if ( ! $wp_list_table )
 		die( '0' );
 
@@ -533,7 +533,7 @@ case 'add-tag' :
 
 	set_current_screen( $_POST['screen'] );
 
-	$wp_list_table = get_list_table('WP_Terms_List_Table');
+	$wp_list_table = _get_list_table('WP_Terms_List_Table');
 
 	$level = 0;
 	if ( is_taxonomy_hierarchical($taxonomy) ) {
@@ -598,7 +598,7 @@ case 'get-comments' :
 
 	set_current_screen( 'edit-comments' );
 
-	$wp_list_table = get_list_table('WP_Post_Comments_List_Table');
+	$wp_list_table = _get_list_table('WP_Post_Comments_List_Table');
 
 	if ( !current_user_can( 'edit_post', $post_id ) )
 		die('-1');
@@ -675,9 +675,9 @@ case 'replyto-comment' :
 			_wp_dashboard_recent_comments_row( $comment );
 		} else {
 			if ( 'single' == $_REQUEST['mode'] ) {
-				$wp_list_table = get_list_table('WP_Post_Comments_List_Table');
+				$wp_list_table = _get_list_table('WP_Post_Comments_List_Table');
 			} else {
-				$wp_list_table = get_list_table('WP_Comments_List_Table');
+				$wp_list_table = _get_list_table('WP_Comments_List_Table');
 			}
 			$wp_list_table->single_row( $comment );
 		}
@@ -713,7 +713,7 @@ case 'edit-comment' :
 	$comments_status = isset($_POST['comments_listing']) ? $_POST['comments_listing'] : '';
 
 	$checkbox = ( isset($_POST['checkbox']) && true == $_POST['checkbox'] ) ? 1 : 0;
-	$wp_list_table = get_list_table( $checkbox ? 'WP_Comments_List_Table' : 'WP_Post_Comments_List_Table' );
+	$wp_list_table = _get_list_table( $checkbox ? 'WP_Comments_List_Table' : 'WP_Post_Comments_List_Table' );
 
 	ob_start();
 		$wp_list_table->single_row( get_comment( $comment_id ) );
@@ -890,7 +890,7 @@ case 'add-user' :
 	}
 	$user_object = new WP_User( $user_id );
 
-	$wp_list_table = get_list_table('WP_Users_List_Table');
+	$wp_list_table = _get_list_table('WP_Users_List_Table');
 
 	$x = new WP_Ajax_Response( array(
 		'what' => 'user',
@@ -1202,7 +1202,7 @@ case 'inline-save':
 	// update the post
 	edit_post();
 
-	$wp_list_table = get_list_table('WP_Posts_List_Table');
+	$wp_list_table = _get_list_table('WP_Posts_List_Table');
 
 	$mode = $_POST['post_view'];
 	$wp_list_table->display_rows( array( get_post( $_POST['post_ID'] ) ) );
@@ -1222,7 +1222,7 @@ case 'inline-save-tax':
 
 	set_current_screen( 'edit-' . $taxonomy );
 
-	$wp_list_table = get_list_table('WP_Terms_List_Table');
+	$wp_list_table = _get_list_table('WP_Terms_List_Table');
 
 	if ( ! isset($_POST['tax_ID']) || ! ( $id = (int) $_POST['tax_ID'] ) )
 		die(-1);
