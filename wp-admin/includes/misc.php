@@ -149,6 +149,9 @@ function save_mod_rewrite_rules() {
  * @return bool True if web.config was updated successfully
  */
 function iis7_save_url_rewrite_rules(){
+	if ( is_multisite() )
+		return;
+
 	global $wp_rewrite;
 
 	$home_path = get_home_path();
