@@ -640,6 +640,7 @@ div.menu li {
 	width: 33%;
 }
 .page-link {
+	clear: both;
 	color: #000;
 	font-weight: bold;
 	margin: 0 0 22px 0;
