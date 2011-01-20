@@ -299,10 +299,10 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 								$blogusers_warning = '';
 								if ( count( $blogusers ) > 5 ) {
 									$blogusers = array_slice( $blogusers, 0, 5 );
-									$blogusers_warning = __( 'Only showing first 5 users.' ) . ' <a href="' . esc_url( get_admin_url( $blog['blog_id'], 'users.php' ) ) . '">' . __( 'More' ) . '</a>';
+									$blogusers_warning = __( 'Only showing first 5 users.' ) . ' <a href="' . esc_url( network_admin_url( 'site-users.php?id=' . $blog['blog_id'] ) ) . '">' . __( 'More' ) . '</a>';
 								}
 								foreach ( $blogusers as $user_object ) {
-									echo '<a href="' . esc_url( admin_url( 'user-edit.php?user_id=' . $user_object->ID ) ) . '">' . esc_html( $user_object->user_login ) . '</a> ';
+									echo '<a href="' . esc_url( network_admin_url( 'user-edit.php?user_id=' . $user_object->ID ) ) . '">' . esc_html( $user_object->user_login ) . '</a> ';
 									if ( 'list' != $mode )
 										echo '( ' . $user_object->user_email . ' )';
 									echo '<br />';
