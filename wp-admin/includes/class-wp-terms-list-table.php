@@ -163,7 +163,8 @@ class WP_Terms_List_Table extends WP_List_Table {
 		}
 
 		if ( empty( $terms ) ) {
-			echo '<tr class="no-items"><td colspan="2">';
+			list( $columns, $hidden ) = $this->get_column_info();
+			echo '<tr class="no-items"><td class="colspanchange" colspan="' . ( count( $columns ) - count( array_filter( $hidden ) ) ) . '">';
 			$this->no_items();
 			echo '</td></tr>';
 		} else {
