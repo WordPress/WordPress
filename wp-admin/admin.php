@@ -224,8 +224,11 @@ if ( isset($plugin_page) ) {
 			do_action( 'load-page-new.php' );
 		elseif ( $pagenow == 'post.php' )
 			do_action( 'load-page.php' );
-	}  elseif ( $taxnow == 'category' && $pagenow == 'edit-tags.php' ) {
-		do_action( 'load-categories.php' );
+	}  elseif ( $pagenow == 'edit-tags.php' ) {
+		if ( $taxnow == 'category' )
+			do_action( 'load-categories.php' );
+		elseif ( $taxnow == 'link_category' )
+			do_action( 'load-edit-link-categories.php' );
 	}
 }
 
