@@ -2815,7 +2815,7 @@ function _update_post_term_count( $terms, $taxonomy ) {
  *
  * @param object|int|string $term
  * @param string $taxonomy (optional if $term is object)
- * @return string HTML link to taxonomy term archive
+ * @return string|WP_Error HTML link to taxonomy term archive on success, WP_Error if term does not exist.
  */
 function get_term_link( $term, $taxonomy = '') {
 	global $wp_rewrite;
