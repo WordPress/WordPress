@@ -188,9 +188,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 	}
 
 	function get_sortable_columns() {
-		return array(
-			'name' => 'name',
-		);
+		return array();
 	}
 
 	function display_tablenav( $which ) {
