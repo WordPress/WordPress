@@ -3072,12 +3072,6 @@ abbr.required {
 	border-bottom: none;
 }
 
-#utc-time, #local-time {
-	padding-left: 25px;
-	font-style: italic;
-	font-family: Verdana, Arial, "Bitstream Vera Sans", sans-serif;
-}
-
 ul#dismissed-updates {
 	display: none;
 }
