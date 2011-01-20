@@ -1729,7 +1729,7 @@ function screen_meta($screen) {
 		<h5><?php echo ( isset( $columns['_title'] ) ?  $columns['_title'] :  _x('Show on screen', 'Columns') ) ?></h5>
 		<div class="metabox-prefs">
 <?php
-	$special = array('_title', 'cb', 'comment', 'media', 'name', 'title', 'username');
+	$special = array('_title', 'cb', 'comment', 'media', 'name', 'title', 'username', 'blogname');
 
 	foreach ( $columns as $column => $title ) {
 		// Can't hide these for they are special
