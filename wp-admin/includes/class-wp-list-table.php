@@ -81,7 +81,7 @@ class WP_List_Table {
 		$args = wp_parse_args( $args, array(
 			'plural' => '',
 			'singular' => '',
-			'ajax' => true
+			'ajax' => false
 		) );
 
 		$screen = get_current_screen();
@@ -93,10 +93,10 @@ class WP_List_Table {
 
 		$this->_args = $args;
 
-		// if ( $args['ajax'] ) {
-		//	wp_enqueue_script( 'list-table' );
-		//	add_action( 'admin_footer', array( &$this, '_js_vars' ) );
-		// }
+		if ( $args['ajax'] ) {
+			// wp_enqueue_script( 'list-table' );
+			add_action( 'admin_footer', array( &$this, '_js_vars' ) );
+		}
 	}
 
 	/**

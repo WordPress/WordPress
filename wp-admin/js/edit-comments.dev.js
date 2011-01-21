@@ -211,12 +211,16 @@ setCommentsList = function() {
 
 		theList.get(0).wpList.add( theExtraList.children(':eq(0)').remove().clone() );
 
-		// refillTheExtraList();
+		refillTheExtraList();
 	};
 
-	/* var refillTheExtraList = function(ev) {
-		var args = $.query.get(), total_pages = listTable.get_total_pages(), per_page = $('input[name=_per_page]', '#comments-form').val();
-
+	var refillTheExtraList = function(ev) {
+		// var args = $.query.get(), total_pages = listTable.get_total_pages(), per_page = $('input[name=_per_page]', '#comments-form').val(), r;
+		var args = $.query.get(), total_pages = $('.total-pages').text(), per_page = $('input[name=_per_page]', '#comments-form').val(), r;
+		
+		if (! args.paged)
+			args.paged = 1;
+		
 		if (args.paged > total_pages) {
 			return;
 		}
@@ -226,17 +230,29 @@ setCommentsList = function() {
 			args.number = Math.min(8, per_page); // see WP_Comments_List_Table::prepare_items() @ class-wp-comments-list-table.php
 		} else {
 			args.number = 1;
-			args.offset = per_page - 1; // fetch only the last item of the next page
+			args.offset = Math.min(8, per_page) - 1; // fetch only the next item on the extra list
 		}
 
 		args.no_placeholder = true;
 
 		args.paged ++;
-
-		listTable.fetch_list(args, function(response) {
-			theExtraList.get(0).wpList.add( response.rows );
+		
+		args = $.extend(args, {
+			'action': 'fetch-list',
+			'list_args': list_args,
+			'_ajax_fetch_list_nonce': $('#_ajax_fetch_list_nonce').val()
 		});
-	}; */
+
+		$.ajax({
+			url: ajaxurl,
+			global: false,
+			dataType: 'json',
+			data: args,
+			success: function(response) {
+				theExtraList.get(0).wpList.add( response.rows );
+			}
+		});
+	};
 
 	theExtraList = $('#the-extra-comment-list').wpList( { alt: '', delColor: 'none', addColor: 'none' } );
 	theList = $('#the-comment-list').wpList( { alt: '', delBefore: delBefore, dimAfter: dimAfter, delAfter: delAfter, addColor: 'none' } )
