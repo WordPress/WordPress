@@ -495,7 +495,7 @@ $(document).ready(function(){
 				var first_last, l;
 
 				first_last = 'next' == which? 'first' : 'last';
-				l = $('.'+which+'.page-numbers');
+				l = $('.tablenav-pages .'+which+'-page:not(.disabled)');
 				if (l.length)
 					window.location = l[0].href.replace(/\&hotkeys_highlight_(first|last)=1/g, '')+'&hotkeys_highlight_'+first_last+'=1';
 			}
