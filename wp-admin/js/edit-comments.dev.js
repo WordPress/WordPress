@@ -4,9 +4,9 @@ var theList, theExtraList, toggleWithKeyboard = false;
 setCommentsList = function() {
 	var totalInput, perPageInput, pageInput, lastConfidentTime = 0, dimAfter, delBefore, updateTotalCount, delAfter;
 
-	totalInput = $('.tablenav input[name="_total"]', '#comments-form');
-	perPageInput = $('.tablenav input[name="_per_page"]', '#comments-form');
-	pageInput = $('.tablenav input[name="_page"]', '#comments-form');
+	totalInput = $('input[name="_total"]', '#comments-form');
+	perPageInput = $('input[name="_per_page"]', '#comments-form');
+	pageInput = $('input[name="_page"]', '#comments-form');
 
 	dimAfter = function( r, settings ) {
 		var c = $('#' + settings.element);
@@ -38,6 +38,7 @@ setCommentsList = function() {
 		settings.data._per_page = perPageInput.val() || 0;
 		settings.data._page = pageInput.val() || 0;
 		settings.data._url = document.location.href;
+		settings.data.comment_status = $('input[name=comment_status]', '#comments-form').val();
 
 		if ( cl.indexOf(':trash=1') != -1 )
 			action = 'trash';
@@ -192,12 +193,12 @@ setCommentsList = function() {
 				total = 0;
 
 			if ( ( 'object' == typeof r ) && lastConfidentTime < settings.parsed.responses[0].supplemental.time ) {
-				pageLinks = settings.parsed.responses[0].supplemental.pageLinks || '';
-				if ( $.trim( pageLinks ) )
-					$('.tablenav-pages').find( '.page-numbers' ).remove().end().append( $( pageLinks ) );
-				else
-					$('.tablenav-pages').find( '.page-numbers' ).remove();
-
+				total_items_i18n = settings.parsed.responses[0].supplemental.total_items_i18n || '';
+				if ( total_items_i18n ) {
+					$('.displaying-num').text( total_items_i18n );
+					$('.total-pages').text( settings.parsed.responses[0].supplemental.total_pages_i18n );
+					$('.tablenav-pages').find('.next-page, .last-page').toggleClass('disabled', settings.parsed.responses[0].supplemental.total_pages == $('.current-page').val());
+				}
 				updateTotalCount( total, settings.parsed.responses[0].supplemental.time, true );
 			} else {
 				updateTotalCount( total, r, false );
@@ -236,7 +237,11 @@ setCommentsList = function() {
 		args.no_placeholder = true;
 
 		args.paged ++;
-		
+
+		// $.query.get() needs some correction to be sent into an ajax request
+		if ( true === args.comment_type )
+			args.comment_type = '';
+
 		args = $.extend(args, {
 			'action': 'fetch-list',
 			'list_args': list_args,
