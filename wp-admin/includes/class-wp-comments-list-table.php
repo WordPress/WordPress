@@ -41,7 +41,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 	}
 
 	function prepare_items() {
-		global $post_id, $comment_status, $search;
+		global $post_id, $comment_status, $search, $comment_type;
 
 		$comment_status = isset( $_REQUEST['comment_status'] ) ? $_REQUEST['comment_status'] : 'all';
 		if ( !in_array( $comment_status, array( 'all', 'moderated', 'approved', 'spam', 'trash' ) ) )
