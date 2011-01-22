@@ -211,7 +211,7 @@ if ( !empty($message) ) { ?>
 
 <?php $wp_list_table->views(); ?>
 
-<form id="posts-filter" action="" method="post">
+<form id="posts-filter" action="" method="get">
 
 <?php $wp_list_table->search_box( __( 'Search Media' ), 'media' ); ?>
 

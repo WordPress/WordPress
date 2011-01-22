@@ -358,7 +358,7 @@ if ( $usersearch )
 
 <?php $wp_list_table->views(); ?>
 
-<form action="" method="post">
+<form action="" method="get">
 
 <?php $wp_list_table->search_box( __( 'Search Users' ), 'user' ); ?>
 
