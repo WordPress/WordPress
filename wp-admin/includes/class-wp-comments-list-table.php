@@ -222,7 +222,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 			?>
 			</select>
 <?php
-			submit_button( __( 'Filter' ), 'secondary', 'post-query-submit', false );
+			submit_button( __( 'Filter' ), 'secondary', false, false, array( 'id' => 'post-query-submit' ) );
 		}
 
 		if ( ( 'spam' == $comment_status || 'trash' == $comment_status ) && current_user_can( 'moderate_comments' ) ) {
