@@ -282,7 +282,7 @@ class WP_List_Table {
 			echo "\t<option value='$name'>$title</option>\n";
 		echo "</select>\n";
 
-		submit_button( __( 'Apply' ), 'button-secondary action', "doaction$two", false );
+		submit_button( __( 'Apply' ), 'button-secondary action', false, false, array( 'id' => "doaction$two" ) );
 		echo "\n";
 	}
 
