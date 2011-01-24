@@ -1660,7 +1660,7 @@ function _post_states($post) {
  * @return object An object containing the safe screen name and id
  */
 function convert_to_screen( $screen ) {
-	$screen = str_replace( array('.php', '-new', '-add' ), '', $screen);
+	$screen = str_replace( array('.php', '-new', '-add', '-network', '-user' ), '', $screen);
 
 	if ( is_network_admin() )
 		$screen .= '-network';
