@@ -2966,12 +2966,9 @@ class WP_Query {
 		if ( empty( $post_types ) || !$this->is_post_type_archive )
 			return (bool) $this->is_post_type_archive;
 
-		if ( ! isset( $this->posts[0] ) )
-			return false;
+		$post_type_object = $this->get_queried_object();
 
-		$post = $this->posts[0];
-
-		return in_array( $post->post_type, (array) $post_types );
+		return in_array( $post_type_object->name, (array) $post_types );
 	}
 
 	/**
