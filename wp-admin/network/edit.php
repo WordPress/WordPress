@@ -208,13 +208,13 @@ switch ( $_GET['action'] ) {
 
 						case 'spam':
 							$blogfunction = 'all_spam';
-							update_blog_status( $val, 'spam', '1', 0 );
+							update_blog_status( $val, 'spam', '1' );
 							set_time_limit( 60 );
 						break;
 
 						case 'notspam':
 							$blogfunction = 'all_notspam';
-							update_blog_status( $val, 'spam', '0', 0 );
+							update_blog_status( $val, 'spam', '0' );
 							set_time_limit( 60 );
 						break;
 					}
