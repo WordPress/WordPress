@@ -35,6 +35,16 @@ foreach ( array( 'p', 'attachment_id', 'page_id' ) as $_redirect ) {
 }
 unset( $_redirect );
 
+if ( 'post' != $post_type ) {
+	$parent_file = "edit.php?post_type=$post_type";
+	$submenu_file = "edit.php?post_type=$post_type";
+	$post_new_file = "post-new.php?post_type=$post_type";
+} else {
+	$parent_file = 'edit.php';
+	$submenu_file = 'edit.php';
+	$post_new_file = 'post-new.php';
+}
+
 $doaction = $wp_list_table->current_action();
 
 if ( $doaction ) {
@@ -59,7 +69,7 @@ if ( $doaction ) {
 	}
 
 	if ( !isset( $post_ids ) ) {
-		wp_redirect( admin_url("edit.php?post_type=$post_type") );
+		wp_redirect( $sendback );
 		exit;
 	}
 
@@ -128,16 +138,6 @@ if ( $doaction ) {
 } elseif ( ! empty($_REQUEST['_wp_http_referer']) ) {
 	 wp_redirect( remove_query_arg( array('_wp_http_referer', '_wpnonce'), stripslashes($_SERVER['REQUEST_URI']) ) );
 	 exit;
-}
-
-if ( 'post' != $post_type ) {
-	$parent_file = "edit.php?post_type=$post_type";
-	$submenu_file = "edit.php?post_type=$post_type";
-	$post_new_file = "post-new.php?post_type=$post_type";
-} else {
-	$parent_file = 'edit.php';
-	$submenu_file = 'edit.php';
-	$post_new_file = 'post-new.php';
 }
 
 $wp_list_table->prepare_items();
@@ -246,6 +246,9 @@ $_SERVER['REQUEST_URI'] = remove_query_arg( array('locked', 'skipped', 'updated'
 
 <input type="hidden" name="post_status" class="post_status_page" value="<?php echo !empty($_REQUEST['post_status']) ? esc_attr($_REQUEST['post_status']) : 'all'; ?>" />
 <input type="hidden" name="post_type" class="post_type_page" value="<?php echo $post_type; ?>" />
+<?php if ( ! empty( $_REQUEST['show_sticky'] ) ) { ?>
+<input type="hidden" name="show_sticky" value="1" />
+<?php } ?>
 
 <?php $wp_list_table->display(); ?>
 
