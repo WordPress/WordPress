@@ -13,6 +13,7 @@ if ( !current_user_can( $tax->cap->manage_terms ) )
 	wp_die( __( 'Cheatin&#8217; uh?' ) );
 
 $wp_list_table = _get_list_table('WP_Terms_List_Table');
+$pagenum = $wp_list_table->get_pagenum();
 
 $title = $tax->labels->name;
 
@@ -148,13 +149,23 @@ case 'editedtag':
 break;
 
 default:
-
 if ( ! empty($_REQUEST['_wp_http_referer']) ) {
-	 wp_redirect( remove_query_arg( array('_wp_http_referer', '_wpnonce'), stripslashes($_SERVER['REQUEST_URI']) ) );
-	 exit;
+	$location = remove_query_arg( array('_wp_http_referer', '_wpnonce'), stripslashes($_SERVER['REQUEST_URI']) );
+
+	if ( ! empty( $_REQUEST['paged'] ) )
+		$location = add_query_arg( 'paged', (int) $_REQUEST['paged'] );
+	
+	wp_redirect( $location );
+	exit;
 }
 
 $wp_list_table->prepare_items();
+$total_pages = $wp_list_table->get_pagination_arg( 'total_pages' );
+
+if ( $pagenum > $total_pages ) {
+	wp_redirect( add_query_arg( 'paged', $total_pages ) );
+	exit;
+}
 
 wp_enqueue_script('admin-tags');
 if ( current_user_can($tax->cap->edit_terms) )

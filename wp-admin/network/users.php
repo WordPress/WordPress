@@ -17,8 +17,14 @@ if ( ! current_user_can( 'manage_network_users' ) )
 	wp_die( __( 'You do not have permission to access this page.' ) );
 
 $wp_list_table = _get_list_table('WP_MS_Users_List_Table');
+$pagenum = $wp_list_table->get_pagenum();
 $wp_list_table->prepare_items();
+$total_pages = $wp_list_table->get_pagination_arg( 'total_pages' );
 
+if ( $pagenum > $total_pages ) {
+	wp_redirect( add_query_arg( 'paged', $total_pages ) );
+	exit;
+}
 $title = __( 'Users' );
 $parent_file = 'users.php';
 

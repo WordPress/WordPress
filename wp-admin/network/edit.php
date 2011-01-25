@@ -427,7 +427,11 @@ switch ( $_GET['action'] ) {
 
 			wp_redirect( add_query_arg( array( 'updated' => 'true', 'action' => $userfunction ), wp_get_referer() ) );
 		} else {
-			wp_redirect( network_admin_url( 'users.php' ) );
+			$location = network_admin_url( 'users.php' );
+
+			if ( ! empty( $_REQUEST['paged'] ) )
+				$location = add_query_arg( 'paged', (int) $_REQUEST['paged'], $location );
+			wp_redirect( $location );
 		}
 		exit();
 	break;
