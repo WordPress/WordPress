@@ -142,7 +142,7 @@ if ( ! current_user_can( 'switch_themes' ) ) {
 
 <h3><?php _e('Available Themes'); ?></h3>
 
-<?php if ( !empty( $_REQUEST['s'] ) || $wp_list_table->has_items() ) : ?>
+<?php if ( !empty( $_REQUEST['s'] ) || !empty( $_REQUEST['filter'] ) || $wp_list_table->has_items() ) : ?>
 
 <form class="search-form filter-form" action="" method="get">
 
@@ -155,11 +155,13 @@ if ( ! current_user_can( 'switch_themes' ) ) {
 
 <br class="clear"/>
 
-<div id="filter-box" style="display: none;">
+<div id="filter-box" style="<?php if ( empty($_REQUEST['filter']) ) echo 'display: none;'; ?>">
 <?php $feature_list = get_theme_feature_list(); ?>
 	<div class="feature-filter">
 		<p class="install-help"><?php _e('Theme filters') ?></p>
-
+	<?php if ( !empty( $_REQUEST['filter'] ) ) : ?>
+		<input type="hidden" name="filter" value="1" />
+	<?php endif; ?>
 	<?php foreach ( $feature_list as $feature_name => $features ) :
 			$feature_name = esc_html( $feature_name ); ?>
 
@@ -184,20 +186,20 @@ if ( ! current_user_can( 'switch_themes' ) ) {
 	<div class="feature-container">
 		<?php submit_button( __( 'Apply Filters' ), 'button-secondary submitter', 'submit', false, array( 'style' => 'margin-left: 120px' ) ); ?>
 		&nbsp;
-		<small><a id="mini-filter-click" href="<?php echo admin_url( 'themes.php' ); ?>"><?php _e( 'Close filters' )?></a></small>
+		<small><a id="mini-filter-click" href="<?php echo esc_url( remove_query_arg( array('filter', 'features', 'submit') ) ); ?>"><?php _e( 'Close filters' )?></a></small>
 	</div>
 	<br/>
 	</div>
 	<br class="clear"/>
 </div>
 
-</form>
 <br class="clear" />
 
 <?php endif; ?>
 
 <?php $wp_list_table->display(); ?>
 
+</form>
 <br class="clear" />
 
 <?php
