@@ -181,7 +181,7 @@ case 'delete':
 		<?php _e('Delete all posts and links.'); ?></label></li>
 		<li><input type="radio" id="delete_option1" name="delete_option" value="reassign" />
 		<?php echo '<label for="delete_option1">'.__('Attribute all posts and links to:').'</label>';
-		wp_dropdown_users( array( 'exclude' => array_diff( $userids, array($current_user->ID) ) ) ); ?></li>
+		wp_dropdown_users( array( 'name' => 'reassign_user', 'exclude' => array_diff( $userids, array($current_user->ID) ) ) ); ?></li>
 	</ul></fieldset>
 	<input type="hidden" name="action" value="dodelete" />
 	<?php submit_button( __('Confirm Deletion'), 'secondary' ); ?>
