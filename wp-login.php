@@ -588,7 +588,7 @@ default:
 			if ( is_multisite() && !get_active_blog_for_user($user->id) )
 				$redirect_to = user_admin_url();
 			elseif ( is_multisite() && !$user->has_cap('read') )
-				$redirect_to = user_admin_url();
+				$redirect_to = get_dashboard_url( $user->id );
 			elseif ( !$user->has_cap('edit_posts') )
 				$redirect_to = admin_url('profile.php');
 		}
