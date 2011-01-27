@@ -1151,7 +1151,7 @@ body.wp-admin {
 	min-width: 785px;
 }
 
-body.admin-bar {
+body.admin-bar #wphead {
 	padding-top: 28px;
 }
 
