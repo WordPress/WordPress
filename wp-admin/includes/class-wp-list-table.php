@@ -271,7 +271,7 @@ class WP_List_Table {
 			$no_new_actions = $this->_actions = $this->get_bulk_actions();
 			// This filter can currently only be used to remove actions.
 			$this->_actions = apply_filters( 'bulk_actions-' . $screen->id, $this->_actions );
-			$this->_actions = array_intersect_key( $this->_actions, $no_new_actions );
+			$this->_actions = array_intersect_assoc( $this->_actions, $no_new_actions );
 			$two = '';
 		} else {
 			$two = '2';
