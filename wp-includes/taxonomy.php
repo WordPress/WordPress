@@ -87,8 +87,8 @@ function create_initial_taxonomies() {
 		'public' => true,
 		'hierarchical' => false,
 		'labels' => array(
-			'name' => __( 'Format' ),
-			'singular_name' => __( 'Format' ),
+			'name' => _x( 'Format', 'post format' ),
+			'singular_name' => _x( 'Format', 'post format' ),
 		),
 		'query_var' => true,
 		'rewrite' => $rewrite,
