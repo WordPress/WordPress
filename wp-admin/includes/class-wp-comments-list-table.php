@@ -48,7 +48,6 @@ class WP_Comments_List_Table extends WP_List_Table {
 			$comment_status = 'all';
 
 		$comment_type = !empty( $_REQUEST['comment_type'] ) ? $_REQUEST['comment_type'] : '';
-		error_log( var_export( $comment_type, true ) );
 
 		$search = ( isset( $_REQUEST['s'] ) ) ? $_REQUEST['s'] : '';
 
