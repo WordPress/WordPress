@@ -97,14 +97,6 @@ if ( is_multisite() && IS_PROFILE_PAGE && isset( $_GET[ 'newuseremail' ] ) && $c
 }
 
 switch ($action) {
-case 'switchposts':
-
-check_admin_referer();
-
-/* TODO: Switch all posts from one user to another user */
-
-break;
-
 case 'update':
 
 check_admin_referer('update-user_' . $user_id);
