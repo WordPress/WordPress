@@ -209,8 +209,10 @@ function add_user_to_blog( $blog_id, $user_id, $role ) {
 
 	$user = new WP_User($user_id);
 
-	if ( empty( $user->ID ) )
+	if ( empty( $user->ID ) ) {
+		restore_current_blog();
 		return new WP_Error('user_does_not_exist', __('That user does not exist.'));
+	}
 
 	if ( !get_user_meta($user_id, 'primary_blog', true) ) {
 		update_user_meta($user_id, 'primary_blog', $blog_id);
@@ -269,8 +271,10 @@ function remove_user_from_blog($user_id, $blog_id = '', $reassign = '') {
 
 	// wp_revoke_user($user_id);
 	$user = new WP_User($user_id);
-	if ( empty( $user->ID ) )
+	if ( empty( $user->ID ) ) {
+		restore_current_blog();
 		return new WP_Error('user_does_not_exist', __('That user does not exist.'));
+	}
 
 	$user->remove_all_caps();
 
