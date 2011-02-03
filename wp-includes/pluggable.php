@@ -825,7 +825,7 @@ function check_admin_referer($action = -1, $query_arg = '_wpnonce') {
 	$adminurl = strtolower(admin_url());
 	$referer = strtolower(wp_get_referer());
 	$result = isset($_REQUEST[$query_arg]) ? wp_verify_nonce($_REQUEST[$query_arg], $action) : false;
-	if ( !$result && !(-1 == $action && strpos($referer, $adminurl) !== false) ) {
+	if ( !$result && !(-1 == $action && strpos($referer, $adminurl) === 0) ) {
 		wp_nonce_ays($action);
 		die();
 	}
