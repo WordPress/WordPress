@@ -5066,28 +5066,15 @@ function get_post_format_strings() {
 }
 
 /**
- * Retrieves an array of (translated and sanitized) post format slugs.
+ * Retrieves an array of post format slugs.
  *
  * @since 3.1.0
  *
- * @uses sanitize_title_with_dashes()
- * @return array The array of (translated and sanitized) post format slugs.
+ * @return array The array of post format slugs.
  */
 function get_post_format_slugs() {
-	$slugs = array(
-		'standard' => _x( 'standard', 'Post format slug' ),
-		'aside'    => _x( 'aside',    'Post format slug' ),
-		'chat'     => _x( 'chat',     'Post format slug' ),
-		'gallery'  => _x( 'gallery',  'Post format slug' ),
-		'link'     => _x( 'link',     'Post format slug' ),
-		'image'    => _x( 'image',    'Post format slug' ),
-		'quote'    => _x( 'quote',    'Post format slug' ),
-		'status'   => _x( 'status',   'Post format slug' ),
-		'video'    => _x( 'video',    'Post format slug' ),
-		'audio'    => _x( 'audio',    'Post format slug' ),
-	);
-	$slugs = array_map( 'sanitize_title_with_dashes', $slugs );
-	return $slugs;
+	$slugs = array_keys( get_post_format_strings() );
+	return array_combine( $slugs, $slugs );
 }
 
 /**
@@ -5152,7 +5139,7 @@ function get_post_format_link( $format ) {
 function _post_format_request( $qvs ) {
 	if ( ! isset( $qvs['post_format'] ) )
 		return $qvs;
-	$slugs = array_flip( get_post_format_slugs() );
+	$slugs = get_post_format_slugs();
 	if ( isset( $slugs[ $qvs['post_format'] ] ) )
 		$qvs['post_format'] = 'post-format-' . $slugs[ $qvs['post_format'] ];
 	$tax = get_taxonomy( 'post_format' );
@@ -5171,9 +5158,8 @@ function _post_format_link( $link, $term, $taxonomy ) {
 	global $wp_rewrite;
 	if ( 'post_format' != $taxonomy )
 		return $link;
-	$slugs = get_post_format_slugs();
 	if ( $wp_rewrite->get_extra_permastruct( $taxonomy ) ) {
-		return str_replace( "/{$term->slug}", '/' . $slugs[ str_replace( 'post-format-', '', $term->slug ) ], $link );
+		return str_replace( "/{$term->slug}", '/' . str_replace( 'post-format-', '', $term->slug ), $link );
 	} else {
 		$link = remove_query_arg( 'post_format', $link );
 		return add_query_arg( 'post_format', str_replace( 'post-format-', '', $term->slug ), $link );
