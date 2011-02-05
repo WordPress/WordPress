@@ -36,30 +36,39 @@ tagBox = {
 	},
 
 	quickClicks : function(el) {
-		var thetags = $('.the-tags', el), tagchecklist = $('.tagchecklist', el), current_tags;
+		var thetags = $('.the-tags', el),
+			tagchecklist = $('.tagchecklist', el),
+			id = $(el).attr('id'),
+			current_tags, disabled;
 
 		if ( !thetags.length )
 			return;
 
-		var disabled = thetags.attr('disabled');
+		disabled = thetags.attr('disabled');
 
 		current_tags = thetags.val().split(',');
 		tagchecklist.empty();
 
 		$.each( current_tags, function( key, val ) {
-			var txt, button_id, id = $(el).attr('id');
+			var span, xbutton;
 
-			val = $.trim(val);
-			if ( !val.match(/^\s+$/) && '' != val ) {
-				button_id = id + '-check-num-' + key;
-				if ( disabled )
-		 			txt = '<span>' + val + '</span> ';
-				else
-		 			txt = '<span><a id="' + button_id + '" class="ntdelbutton">X</a>&nbsp;' + val + '</span> ';
-	 			tagchecklist.append(txt);
-				if ( ! disabled )
-		 			$( '#' + button_id ).click( function(){ tagBox.parseTags(this); });
+			val = $.trim( val );
+
+			if ( ! val )
+				return;
+
+			// Create a new span, and ensure the text is properly escaped.
+			span = $('<span />').text( val );
+
+			// If tags editing isn't disabled, create the X button.
+			if ( ! disabled ) {
+				xbutton = $( '<a id="' + id + '-check-num-' + key + '" class="ntdelbutton">X</a>' );
+				xbutton.click( function(){ tagBox.parseTags(this); });
+				span.prepend('&nbsp;').prepend( xbutton );
 			}
+
+			// Append the span to the tag list.
+			tagchecklist.append( span );
 		});
 	},
 

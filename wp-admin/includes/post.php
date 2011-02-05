@@ -689,6 +689,8 @@ function get_post_meta_by_id( $mid ) {
 	$mid = (int) $mid;
 
 	$meta = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->postmeta WHERE meta_id = %d", $mid) );
+	if ( empty($meta) )
+		return false;
 	if ( is_serialized_string( $meta->meta_value ) )
 		$meta->meta_value = maybe_unserialize( $meta->meta_value );
 	return $meta;
