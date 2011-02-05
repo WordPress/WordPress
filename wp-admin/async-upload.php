@@ -30,6 +30,13 @@ if ( !current_user_can('upload_files') )
 
 // just fetch the detail form for that attachment
 if ( isset($_REQUEST['attachment_id']) && ($id = intval($_REQUEST['attachment_id'])) && $_REQUEST['fetch'] ) {
+	$post = get_post( $id );
+	if ( 'attachment' != $post->post_type )
+		wp_die( __( 'Unknown post type.' ) );
+	$post_type_object = get_post_type_object( 'attachment' );
+	if ( ! current_user_can( $post_type_object->cap->edit_post, $id ) )
+		wp_die( __( 'You are not allowed to edit this item.' ) );
+
 	if ( 2 == $_REQUEST['fetch'] ) {
 		add_filter('attachment_fields_to_edit', 'media_single_attachment_fields_to_edit', 10, 2);
 		echo get_media_item($id, array( 'send' => false, 'delete' => true ));
