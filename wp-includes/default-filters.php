@@ -81,6 +81,9 @@ foreach ( array( 'pre_term_slug' ) as $filter ) {
 foreach ( array( 'pre_post_type' ) as $filter ) {
 	add_filter( $filter, 'sanitize_user' );
 }
+foreach ( array( 'pre_post_status', 'pre_post_comment_status', 'pre_post_ping_status' ) as $filter ) {
+	add_filter( $filter, 'sanitize_key' );
+}
 
 // Places to balance tags on input
 foreach ( array( 'content_save_pre', 'excerpt_save_pre', 'comment_save_pre', 'pre_comment_content' ) as $filter ) {
