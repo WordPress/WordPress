@@ -241,6 +241,8 @@ function export_wp( $args = array() ) {
 		foreach ( (array) $results as $result )
 			$authors[] = get_userdata( $result->post_author );
 
+		$authors = array_filter( $authors );
+
 		foreach( $authors as $author ) {
 			echo "\t<wp:author>";
 			echo '<wp:author_id>' . $author->ID . '</wp:author_id>';
