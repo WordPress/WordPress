@@ -1192,9 +1192,9 @@ function get_inline_data($post) {
 	<div class="post_title">' . $title . '</div>
 	<div class="post_name">' . apply_filters('editable_slug', $post->post_name) . '</div>
 	<div class="post_author">' . $post->post_author . '</div>
-	<div class="comment_status">' . $post->comment_status . '</div>
-	<div class="ping_status">' . $post->ping_status . '</div>
-	<div class="_status">' . $post->post_status . '</div>
+	<div class="comment_status">' . esc_html( $post->comment_status ) . '</div>
+	<div class="ping_status">' . esc_html( $post->ping_status ) . '</div>
+	<div class="_status">' . esc_html( $post->post_status ) . '</div>
 	<div class="jj">' . mysql2date( 'd', $post->post_date, false ) . '</div>
 	<div class="mm">' . mysql2date( 'm', $post->post_date, false ) . '</div>
 	<div class="aa">' . mysql2date( 'Y', $post->post_date, false ) . '</div>
