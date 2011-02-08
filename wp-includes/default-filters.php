@@ -32,9 +32,11 @@ foreach ( array( 'pre_term_description', 'pre_link_description', 'pre_link_notes
 }
 
 // Kses only for textarea admin displays
-foreach ( array( 'term_description', 'link_description', 'link_notes', 'user_description', 'comment_text' ) as $filter ) {
+foreach ( array( 'term_description', 'link_description', 'link_notes', 'user_description' ) as $filter ) {
 	add_filter( $filter, 'wp_kses_data' );
 }
+if ( is_admin() )
+	add_filter( 'comment_text', 'wp_kses_post' );
 
 // Email saves
 foreach ( array( 'pre_comment_author_email', 'pre_user_email' ) as $filter ) {
