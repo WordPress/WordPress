@@ -36,9 +36,10 @@ foreach ( array( 'pre_term_description', 'pre_link_description', 'pre_link_notes
 
 // Kses only for textarea admin displays
 if ( is_admin() ) {
-	foreach ( array( 'term_description', 'link_description', 'link_notes', 'user_description', 'comment_text' ) as $filter ) {
+	foreach ( array( 'term_description', 'link_description', 'link_notes', 'user_description' ) as $filter ) {
 		add_filter( $filter, 'wp_kses_data' );
 	}
+	add_filter( 'comment_text', 'wp_kses_post' );
 }
 
 // Email saves
