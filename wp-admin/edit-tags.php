@@ -154,7 +154,7 @@ if ( ! empty($_REQUEST['_wp_http_referer']) ) {
 
 	if ( ! empty( $_REQUEST['paged'] ) )
 		$location = add_query_arg( 'paged', (int) $_REQUEST['paged'] );
-	
+
 	wp_redirect( $location );
 	exit;
 }

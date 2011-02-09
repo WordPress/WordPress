@@ -53,11 +53,11 @@
 		/* remove the hover class for any objects not in the immediate element's ancestry */
 		i = q.length;
 		while ( i-- ) {
-			inA = false;	
+			inA = false;
 			ancestorLength = ancestors.length;
 			while( ancestorLength-- ) {
-				if ( ancestors[ ancestorLength ] == q[i][1] ) 
-					inA = true;	
+				if ( ancestors[ ancestorLength ] == q[i][1] )
+					inA = true;
 			}
 
 			if ( ! inA )

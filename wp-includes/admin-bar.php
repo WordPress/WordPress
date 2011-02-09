@@ -145,9 +145,9 @@ function wp_admin_bar_shortlink_menu() {
 
 	if ( empty( $short ) )
 		return;
-	
+
 	$html = '<input class="shortlink-input" type="text" readonly="readonly" value="' . esc_attr( $short ) . '" />';
-	
+
 	$wp_admin_bar->add_menu( array(
 		'id' => $id,
 		'title' => __( 'Shortlink' ),

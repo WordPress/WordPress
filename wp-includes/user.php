@@ -542,13 +542,13 @@ class WP_User_Query {
 	 */
 	function query() {
 		global $wpdb;
-		
+
 		if ( is_array( $this->query_vars['fields'] ) || 'all' == $this->query_vars['fields'] ) {
 			$this->results = $wpdb->get_results("SELECT $this->query_fields $this->query_from $this->query_where $this->query_orderby $this->query_limit");
 		} else {
 			$this->results = $wpdb->get_col("SELECT $this->query_fields $this->query_from $this->query_where $this->query_orderby $this->query_limit");
 		}
-		
+
 		if ( $this->query_vars['count_total'] )
 			$this->total_users = $wpdb->get_var("SELECT COUNT(*) $this->query_from $this->query_where");
 

@@ -66,7 +66,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 			_e( 'No items found.' );
 			return;
 		}
-		
+
 		if ( is_multisite() ) {
 			if ( current_user_can( 'install_themes' ) && current_user_can( 'manage_network_themes' ) ) {
 				printf( __( 'You only have one theme enabled for this site right now. Visit the Network Admin to <a href="%1$s">enable</a> or <a href="%2$s">install</a> more themes.' ), network_admin_url( 'site-themes.php?id=' . $GLOBALS['blog_id'] ), network_admin_url( 'theme-install.php' ) );
@@ -88,23 +88,23 @@ class WP_Themes_List_Table extends WP_List_Table {
 		// Fallthrough.
 		printf( __( 'Only the current theme is available to you. Contact the %s administrator for information about accessing additional themes.' ), get_site_option( 'site_name' ) );
 	}
-	
-	function tablenav( $which = 'top' ) { 
+
+	function tablenav( $which = 'top' ) {
 		if ( $this->get_pagination_arg( 'total_pages' ) <= 1 )
 			return;
-		?> 
-		<div class="tablenav <?php echo $which; ?>"> 
-			<?php $this->pagination( $which ); ?> 
-		   <img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading list-ajax-loading" alt="" /> 
-		  <br class="clear" /> 
-		</div> 
-		<?php 
+		?>
+		<div class="tablenav <?php echo $which; ?>">
+			<?php $this->pagination( $which ); ?>
+		   <img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading list-ajax-loading" alt="" />
+		  <br class="clear" />
+		</div>
+		<?php
 	}
 
 	function display() {
 		// wp_nonce_field( "fetch-list-" . get_class( $this ), '_ajax_fetch_list_nonce' );
 ?>
-		<?php $this->tablenav( 'top' ); ?> 
+		<?php $this->tablenav( 'top' ); ?>
 
 		<table id="availablethemes" cellspacing="0" cellpadding="0">
 			<tbody id="the-list" class="list:themes">
@@ -112,7 +112,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 			</tbody>
 		</table>
 
-		<?php $this->tablenav( 'bottom' ); ?> 
+		<?php $this->tablenav( 'bottom' ); ?>
 <?php
 	}
 
