@@ -218,10 +218,10 @@ setCommentsList = function() {
 	var refillTheExtraList = function(ev) {
 		// var args = $.query.get(), total_pages = listTable.get_total_pages(), per_page = $('input[name=_per_page]', '#comments-form').val(), r;
 		var args = $.query.get(), total_pages = $('.total-pages').text(), per_page = $('input[name=_per_page]', '#comments-form').val(), r;
-		
+
 		if (! args.paged)
 			args.paged = 1;
-		
+
 		if (args.paged > total_pages) {
 			return;
 		}

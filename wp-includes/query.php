@@ -1719,7 +1719,7 @@ class WP_Query {
 				'taxonomy' => 'category',
 				'terms' => $q['category__not_in'],
 				'operator' => 'NOT IN',
-				'include_children' => false 
+				'include_children' => false
 			);
 		}
 

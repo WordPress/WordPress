@@ -115,7 +115,7 @@ class WP_Admin_Bar {
 	function recursive_render( $id, &$menu_item ) { ?>
 		<?php
 		$is_parent =  ! empty( $menu_item['children'] );
-		
+
 		$menuclass = $is_parent ? 'menupop' : '';
 		if ( ! empty( $menu_item['meta']['class'] ) )
 			$menuclass .= ' ' . $menu_item['meta']['class'];

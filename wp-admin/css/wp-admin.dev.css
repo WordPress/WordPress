@@ -3575,9 +3575,9 @@ span.imgedit-scale-warn {
   16.0 - Themes
 ------------------------------------------------------------------------------*/
 
-.theme-install-php .tablenav { 
-	height:auto; 
-} 
+.theme-install-php .tablenav {
+	height:auto;
+}
 
 table#availablethemes {
 	border-spacing: 0;
@@ -3587,10 +3587,10 @@ table#availablethemes {
 	width: 100%;
 }
 
-table#availablethemes .no-items td{ 
-	border-width:0; 
-	padding:5px; 
-} 
+table#availablethemes .no-items td{
+	border-width:0;
+	padding:5px;
+}
 
 td.available-theme {
 	vertical-align: top;

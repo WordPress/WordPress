@@ -152,7 +152,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			'code' => array(), 'pre' => array(), 'em' => array(),'strong' => array(),
 			'ul' => array(), 'ol' => array(), 'li' => array(), 'p' => array(), 'br' => array()
 		);
-		
+
 		list( $columns, $hidden ) = $this->get_column_info();
 
 		$style = array();

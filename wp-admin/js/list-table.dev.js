@@ -29,12 +29,12 @@ window.listTable = {
 		$('select', context).each( function(){
 			var options = $('option', this),
 				anySelected = false;
-			
+
 			options.each( function(){
 				this.selected = this.defaultSelected;
 				anySelected = anySelected || this.defaultSelected;
 			});
-			
+
 			// If no options are selected within a single-select dropdown,
 			// select the first element by default.
 			if ( ! this.multiple && ! anySelected )
