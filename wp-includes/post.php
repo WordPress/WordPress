@@ -487,6 +487,9 @@ function get_post_mime_type($ID = '') {
 function get_post_format( $post = null ) {
 	$post = get_post($post);
 
+	if ( ! post_type_supports( $post->post_type, 'post-formats' ) )
+		return false;
+
 	$_format = get_the_terms( $post->ID, 'post_format' );
 
 	if ( empty( $_format ) )
