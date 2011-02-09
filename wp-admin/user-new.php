@@ -9,8 +9,12 @@
 /** WordPress Administration Bootstrap */
 require_once('./admin.php');
 
-if ( ! current_user_can('create_users') && ! current_user_can('promote_users') )
-	wp_die(__('Cheatin&#8217; uh?'));
+if ( is_multisite() ) {
+	if ( ! current_user_can( 'create_users' ) && ! current_user_can( 'promote_users' ) )
+		wp_die( __( 'Cheatin&#8217; uh?' ) );
+} elseif ( ! current_user_can( 'create_users' ) ) {
+	wp_die( __( 'Cheatin&#8217; uh?' ) );
+}
 
 if ( is_multisite() ) {
 	function admin_created_user_email( $text ) {
