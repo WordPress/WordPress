@@ -132,6 +132,8 @@ class WP_Users_List_Table extends WP_List_Table {
 	function extra_tablenav( $which ) {
 		if ( 'top' != $which )
 			return;
+		if ( ! current_user_can( 'promote_users' ) )
+			return;
 ?>
 	<div class="alignleft actions">
 		<label class="screen-reader-text" for="new_role"><?php _e( 'Change role to&hellip;' ) ?></label>
