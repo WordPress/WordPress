@@ -2815,7 +2815,7 @@ function _update_post_term_count( $terms, $taxonomy ) {
  *
  * @param object|int|string $term
  * @param string $taxonomy (optional if $term is object)
- * @return string HTML link to taxonomy term archive on success, empty string if term does not exist.
+ * @return string|WP_Error HTML link to taxonomy term archive on success, WP_Error if term does not exist.
  */
 function get_term_link( $term, $taxonomy = '') {
 	global $wp_rewrite;
@@ -2832,7 +2832,7 @@ function get_term_link( $term, $taxonomy = '') {
 		$term = new WP_Error('invalid_term', __('Empty Term'));
 
 	if ( is_wp_error( $term ) )
-		return '';
+		return $term;
 
 	$taxonomy = $term->taxonomy;
 
