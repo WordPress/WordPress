@@ -12,11 +12,11 @@
  * @since 1.0.0
  * @see get_term_link()
  *
- * @param int $category_id Category ID.
- * @return string|WP_Error Link on success, WP_Error if category does not exist.
+ * @param int $category Category ID, object, or slug.
+ * @return string Link on success, empty string if category does not exist.
  */
-function get_category_link( $category_id ) {
-	return get_term_link((int)$category_id, 'category');
+function get_category_link( $category ) {
+	return get_term_link( $category, 'category' );
 }
 
 /**
@@ -964,11 +964,11 @@ class Walker_CategoryDropdown extends Walker {
  * @since 2.3.0
  * @see get_term_link()
  *
- * @param int $tag_id Tag (term) ID.
- * @return string|WP_Error Link on success, WP_Error if tag does not exist.
+ * @param object|string|int $tag Tag ID, object, or slug.
+ * @return string Link on success, empty string if tag does not exist.
  */
-function get_tag_link( $tag_id ) {
-	return get_term_link( (int)$tag_id, 'post_tag');
+function get_tag_link( $tag ) {
+	return get_term_link( $tag, 'post_tag' );
 }
 
 /**
