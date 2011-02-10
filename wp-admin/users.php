@@ -200,13 +200,16 @@ break;
 case 'doremove':
 	check_admin_referer('remove-users');
 
+	if ( ! is_multisite() )
+		wp_die( __( 'You can&#8217;t remove users.' ) );
+
 	if ( empty($_REQUEST['users']) ) {
 		wp_redirect($redirect);
 		exit;
 	}
 
-	if ( !current_user_can('remove_users')  )
-		die(__('You can&#8217;t remove users.'));
+	if ( ! current_user_can( 'remove_users' ) )
+		wp_die( __( 'You can&#8217;t remove users.' ) );
 
 	$userids = $_REQUEST['users'];
 
@@ -233,6 +236,9 @@ break;
 case 'remove':
 
 	check_admin_referer('bulk-users');
+
+	if ( ! is_multisite() )
+		wp_die( __( 'You can&#8217;t remove users.' ) );
 
 	if ( empty($_REQUEST['users']) && empty($_REQUEST['user']) ) {
 		wp_redirect($redirect);
