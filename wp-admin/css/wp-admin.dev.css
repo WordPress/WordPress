@@ -1620,7 +1620,7 @@ tr.inline-edit-row td {
 }
 
 #wpbody-content .inline-edit-row-page .inline-edit-col-right,
-#owpbody-content .bulk-edit-row-post .inline-edit-col-right {
+#wpbody-content .bulk-edit-row-post .inline-edit-col-right {
 	margin-top: 27px;
 }
 
