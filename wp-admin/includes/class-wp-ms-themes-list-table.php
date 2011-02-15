@@ -38,7 +38,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	}
 
 	function get_table_classes() {
-		return array( 'widefat', 'fixed', 'plugins' );	// todo: remove and add CSS for .themes
+		return array( 'widefat', 'plugins' );	// todo: remove and add CSS for .themes
 	}
 
 	function ajax_user_can() {
