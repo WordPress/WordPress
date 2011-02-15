@@ -1312,7 +1312,7 @@ class WP_Query {
 	 * @access public
 	 */
 	function parse_query_vars() {
-		$this->parse_query('');
+		$this->parse_query();
 	}
 
 	/**
@@ -1383,12 +1383,14 @@ class WP_Query {
 	 * @since 1.5.0
 	 * @access public
 	 *
-	 * @param string|array $query
+	 * @param string|array $query Optional query.
 	 */
-	function parse_query($query) {
-		if ( !empty($query) || !isset($this->query) ) {
+	function parse_query( $query =  '' ) {
+		if ( ! empty( $query ) ) {
 			$this->init();
-			$this->query = $this->query_vars = wp_parse_args($query);
+			$this->query = $this->query_vars = wp_parse_args( $query );
+		} elseif ( ! isset( $this->query ) ) {
+			$this->query = $this->query_vars;
 		}
 
 		$this->query_vars = $this->fill_query_vars($this->query_vars);
@@ -1870,6 +1872,8 @@ class WP_Query {
 	 */
 	function &get_posts() {
 		global $wpdb, $user_ID, $_wp_using_ext_object_cache;
+
+		$this->parse_query();
 
 		do_action_ref_array('pre_get_posts', array(&$this));
 
@@ -2851,8 +2855,9 @@ class WP_Query {
 	 * @param string $query URL query string.
 	 * @return array List of posts.
 	 */
-	function &query($query) {
-		$this->parse_query($query);
+	function &query( $query ) {
+		$this->init();
+		$this->query = $this->query_vars = wp_parse_args( $query );
 		return $this->get_posts();
 	}
 
