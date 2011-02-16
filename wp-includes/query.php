@@ -1570,7 +1570,7 @@ class WP_Query {
 
 		// Correct is_* for page_on_front and page_for_posts
 		if ( $this->is_home && 'page' == get_option('show_on_front') && get_option('page_on_front') ) {
-			$_query = wp_parse_args($query);
+			$_query = wp_parse_args($this->query);
 			// pagename can be set and empty depending on matched rewrite rules. Ignore an empty pagename.
 			if ( isset($_query['pagename']) && '' == $_query['pagename'] )
 				unset($_query['pagename']);
@@ -1627,8 +1627,7 @@ class WP_Query {
 		if ( '404' == $qv['error'] )
 			$this->set_404();
 
-		if ( !empty($query) )
-			do_action_ref_array('parse_query', array(&$this));
+		do_action_ref_array('parse_query', array(&$this));
 	}
 
 	/*
