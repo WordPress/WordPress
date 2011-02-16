@@ -136,6 +136,8 @@ function edit_post( $post_data = null ) {
 		$post_data = &$_POST;
 
 	$post_ID = (int) $post_data['post_ID'];
+	$post = get_post( $post_ID );
+	$post_data['post_type'] = $post->post_type;
 
 	$ptype = get_post_type_object($post_data['post_type']);
 	if ( !current_user_can( $ptype->cap->edit_post, $post_ID ) ) {
