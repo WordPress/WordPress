@@ -2734,10 +2734,10 @@ function wp_html_excerpt( $str, $count ) {
  * @return string The processed content.
  */
 function links_add_base_url( $content, $base, $attrs = array('src', 'href') ) {
+	global $_links_add_base;
+	$_links_add_base = $base;
 	$attrs = implode('|', (array)$attrs);
-	return preg_replace_callback("!($attrs)=(['\"])(.+?)\\2!i",
-			create_function('$m', 'return _links_add_base($m, "' . $base . '");'),
-			$content);
+	return preg_replace_callback( "!($attrs)=(['\"])(.+?)\\2!i", '_links_add_base', $content );
 }
 
 /**
@@ -2747,14 +2747,14 @@ function links_add_base_url( $content, $base, $attrs = array('src', 'href') ) {
  * @access private
  *
  * @param string $m The matched link.
- * @param string $base The base URL to prefix to links.
  * @return string The processed link.
  */
-function _links_add_base($m, $base) {
+function _links_add_base($m) {
+	global $_links_add_base;
 	//1 = attribute name  2 = quotation mark  3 = URL
 	return $m[1] . '=' . $m[2] .
 		(strpos($m[3], 'http://') === false ?
-			path_join($base, $m[3]) :
+			path_join($_links_add_base, $m[3]) :
 			$m[3])
 		. $m[2];
 }
@@ -2775,10 +2775,10 @@ function _links_add_base($m, $base) {
  * @return string The processed content.
  */
 function links_add_target( $content, $target = '_blank', $tags = array('a') ) {
+	global $_links_add_target;
+	$_links_add_target = $target;
 	$tags = implode('|', (array)$tags);
-	return preg_replace_callback("!<($tags)(.+?)>!i",
-			create_function('$m', 'return _links_add_target($m, "' . $target . '");'),
-			$content);
+	return preg_replace_callback( "!<($tags)(.+?)>!i", '_links_add_target', $content );
 }
 
 /**
@@ -2788,13 +2788,13 @@ function links_add_target( $content, $target = '_blank', $tags = array('a') ) {
  * @access private
  *
  * @param string $m The matched link.
- * @param string $target The Target to add to the links.
  * @return string The processed link.
  */
-function _links_add_target( $m, $target ) {
+function _links_add_target( $m ) {
+	global $_links_add_target;
 	$tag = $m[1];
 	$link = preg_replace('|(target=[\'"](.*?)[\'"])|i', '', $m[2]);
-	return '<' . $tag . $link . ' target="' . $target . '">';
+	return '<' . $tag . $link . ' target="' . esc_attr( $_links_add_target ) . '">';
 }
 
 // normalize EOL characters and strip duplicate whitespace
