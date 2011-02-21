@@ -279,3 +279,10 @@ POSSIBILITY OF SUCH DAMAGES.
 
 		     END OF TERMS AND CONDITIONS
 
+
+WRITTEN OFFER
+
+The source code for any program binaries that are included with WordPress
+can be freely obtained at the following URL:
+
+	http://wordpress.org/download/source/
