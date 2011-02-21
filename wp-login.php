@@ -79,7 +79,8 @@ function login_header($title = 'Log In', $message = '', $wp_error = '') {
 <?php
 	}
 
-	do_action('login_head'); ?>
+	do_action( 'login_enqueue_scripts' );
+	do_action( 'login_head' ); ?>
 </head>
 <body class="login">
 <?php   if ( !is_multisite() ) { ?>
