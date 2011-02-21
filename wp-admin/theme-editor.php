@@ -180,7 +180,7 @@ if ($allowed_files) :
 	$template_dir = $themes[$theme]['Template Dir'];
 	foreach ( $themes[$theme]['Template Files'] as $template_file ) {
 		// Don't show parent templates.
-		if ( $is_child_theme && strpos( $template_file, $themes[$theme]['Template Dir'] ) === 0 )
+		if ( $is_child_theme && strpos( $template_file, trailingslashit( $template_dir ) ) === 0 )
 			continue;
 
 		$description = trim( get_file_description($template_file) );
@@ -202,7 +202,7 @@ if ($allowed_files) :
 	$stylesheet_dir = $themes[$theme]['Stylesheet Dir'];
 	foreach ( $themes[$theme]['Stylesheet Files'] as $style_file ) {
 		// Don't show parent styles.
-		if ( $is_child_theme && strpos( $style_file, $themes[$theme]['Template Dir'] ) === 0 )
+		if ( $is_child_theme && strpos( $style_file, trailingslashit( $template_dir ) ) === 0 )
 			continue;
 
 		$description = trim( get_file_description($style_file) );
