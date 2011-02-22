@@ -303,6 +303,9 @@ add_filter( 'use_default_gallery_style', '__return_false' );
 function twentyten_remove_gallery_css( $css ) {
 	return preg_replace( "#<style type='text/css'>(.*?)</style>#s", '', $css );
 }
+// Backwards compatibility with WordPress 3.0.
+if ( version_compare( $GLOBALS['wp_version'], '3.1', '<' ) )
+	add_filter( 'gallery_style', 'twentyten_remove_gallery_css' );
 
 if ( ! function_exists( 'twentyten_comment' ) ) :
 /**
@@ -442,6 +445,10 @@ add_action( 'widgets_init', 'twentyten_widgets_init' );
  *
  * To override this in a child theme, remove the filter and optionally add your own
  * function tied to the widgets_init action hook.
+ *
+ * This function uses a filter (show_recent_comments_widget_style) new in WordPress 3.1
+ * to remove the default style. Using Twenty Ten 1.2 in WordPress 3.0 will show the styles,
+ * but they won't have any effect on the widget in default Twenty Ten styling.
  *
  * @since Twenty Ten 1.0
  */
