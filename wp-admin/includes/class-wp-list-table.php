@@ -420,9 +420,7 @@ class WP_List_Table {
 		if ( $pending_comments )
 			echo '<strong>';
 
-		$link = "<a href='" . esc_url( add_query_arg( 'p', $post_id, admin_url( 'edit-comments.php' ) ) ) . "' title='" . esc_attr( $pending_phrase ) . "' class='post-com-count'><span class='comment-count'>%s</span></a>";
-
-		printf( $link, number_format_i18n( get_comments_number() ) );
+		echo "<a href='" . esc_url( add_query_arg( 'p', $post_id, admin_url( 'edit-comments.php' ) ) ) . "' title='" . esc_attr( $pending_phrase ) . "' class='post-com-count'><span class='comment-count'>" . number_format_i18n( get_comments_number() ) . "</span></a>";
 
 		if ( $pending_comments )
 			echo '</strong>';
