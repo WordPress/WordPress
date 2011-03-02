@@ -72,7 +72,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 				$query .= " AND ( {$wpdb->blogs}.domain LIKE '$blog_s' ) ";
 			} else {
 				if ( $like_s != trim('/', $current_site->path) )
-					$blog_s = $current_site->path .= $like_s . $wild . '/';
+					$blog_s = $current_site->path . $like_s . $wild . '/';
 				else
 					$blog_s = $like_s;
 				$query .= " AND  ( {$wpdb->blogs}.path LIKE '$blog_s' )";
