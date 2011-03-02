@@ -2842,7 +2842,9 @@ function get_term_link( $term, $taxonomy = '') {
 	$t = get_taxonomy($taxonomy);
 
 	if ( empty($termlink) ) {
-		if ( $t->query_var )
+		if ( 'category' == $taxonomy )
+			$termlink = '?cat=' . $term->term_id;
+		elseif ( $t->query_var )
 			$termlink = "?$t->query_var=$slug";
 		else
 			$termlink = "?taxonomy=$taxonomy&term=$slug";
