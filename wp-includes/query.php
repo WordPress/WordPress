@@ -1231,13 +1231,13 @@ class WP_Query {
 	var $is_post_type_archive = false;
 
 	/**
-	 * Whether the tax query has been parsed once.
+	 * Stores the ->query_vars state like md5(serialize( $this->query_vars ) ) so we know
+	 * whether we have to re-parse because something has changed
 	 *
 	 * @since 3.1.0
 	 * @access private
-	 * @var bool
 	 */
-	var $parsed_tax_query = false;
+	var $query_vars_hash = false;
 
 	/**
 	 * Resets query flags to false.
@@ -1496,7 +1496,7 @@ class WP_Query {
 				$this->is_date = true;
 			}
 
-			$this->parsed_tax_query = false;
+			$this->query_vars_hash = false;
 			$this->parse_tax_query( $qv );
 
 			foreach ( $this->tax_query->queries as $tax_query ) {
@@ -1682,7 +1682,7 @@ class WP_Query {
 		}
 
 		// Category stuff
-		if ( !empty($q['cat']) && '0' != $q['cat'] && !$this->is_singular && !$this->parsed_tax_query ) {
+		if ( !empty($q['cat']) && '0' != $q['cat'] && !$this->is_singular && md5(serialize( $this->query_vars ) ) != $this->query_vars_hash ) {
 			$q['cat'] = ''.urldecode($q['cat']).'';
 			$q['cat'] = addslashes_gpc($q['cat']);
 			$cat_array = preg_split('/[,\s]+/', $q['cat']);
@@ -1736,7 +1736,7 @@ class WP_Query {
 		}
 
 		// Tag stuff
-		if ( '' != $q['tag'] && !$this->is_singular && !$this->parsed_tax_query ) {
+		if ( '' != $q['tag'] && !$this->is_singular && md5(serialize( $this->query_vars ) ) != $this->query_vars_hash ) {
 			if ( strpos($q['tag'], ',') !== false ) {
 				$tags = preg_split('/[,\s]+/', $q['tag']);
 				foreach ( (array) $tags as $tag ) {
@@ -1808,7 +1808,7 @@ class WP_Query {
 			);
 		}
 
-		$this->parsed_tax_query = true;
+		$this->query_vars_hash = md5(serialize( $this->query_vars ) );
 
 		$this->tax_query = new WP_Tax_Query( $tax_query );
 	}
