@@ -195,7 +195,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 			}
 
 			$addl_path = '';
-			if ( is_feed() ) {
+			if ( is_feed() && in_array( get_query_var('feed'), $wp_rewrite->feeds ) ) {
 				$addl_path = !empty( $addl_path ) ? trailingslashit($addl_path) : '';
 				if ( get_query_var( 'withcomments' ) )
 					$addl_path .= 'comments/';
