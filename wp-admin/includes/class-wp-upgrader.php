@@ -1349,7 +1349,7 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 		$stylesheet = $this->upgrader->result['destination_name'];
 		$template = !empty($theme_info['Template']) ? $theme_info['Template'] : $stylesheet;
 
-		$preview_link = htmlspecialchars( add_query_arg( array('preview' => 1, 'template' => $template, 'stylesheet' => $stylesheet, 'TB_iframe' => 'true' ), trailingslashit(esc_url(get_option('home'))) ) );
+		$preview_link = htmlspecialchars( add_query_arg( array('preview' => 1, 'template' => $template, 'stylesheet' => $stylesheet, 'preview_iframe' => 1, 'TB_iframe' => 'true' ), trailingslashit(esc_url(get_option('home'))) ) );
 		$activate_link = wp_nonce_url("themes.php?action=activate&amp;template=" . urlencode($template) . "&amp;stylesheet=" . urlencode($stylesheet), 'switch-theme_' . $template);
 
 		$install_actions = array(
