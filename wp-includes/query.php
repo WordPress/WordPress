@@ -2150,12 +2150,14 @@ class WP_Query {
 		$search = apply_filters_ref_array('posts_search', array( $search, &$this ) );
 
 		// Taxonomies
-		$this->parse_tax_query( $q );
+		if ( !$this->is_singular ) {
+			$this->parse_tax_query( $q );
 
-		$clauses = $this->tax_query->get_sql( $wpdb->posts, 'ID' );
+			$clauses = $this->tax_query->get_sql( $wpdb->posts, 'ID' );
 
-		$join .= $clauses['join'];
-		$where .= $clauses['where'];
+			$join .= $clauses['join'];
+			$where .= $clauses['where'];
+		}
 
 		if ( $this->is_tax ) {
 			if ( empty($post_type) ) {
