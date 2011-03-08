@@ -337,14 +337,14 @@ function show_admin_bar( $show ) {
  * @return bool Whether the admin bar should be showing.
  */
 function is_admin_bar_showing() {
-	global $show_admin_bar;
+	global $show_admin_bar, $pagenow;
 
 	/* For all these types of request we never want an admin bar period */
 	if ( defined('XMLRPC_REQUEST') || defined('APP_REQUEST') || defined('DOING_AJAX') || defined('IFRAME_REQUEST') )
 		return false;
 
 	if ( ! isset( $show_admin_bar ) ) {
-		if ( ! is_user_logged_in() ) {
+		if ( ! is_user_logged_in() || 'wp-login.php' == $pagenow ) {
 			$show_admin_bar = false;
 		} else {
 			$context = is_admin() ? 'admin' : 'front';
