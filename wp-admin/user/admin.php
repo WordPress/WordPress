@@ -16,7 +16,7 @@ if ( ! is_multisite() ) {
 	exit;
 }
 
-if ( ! is_main_site() ) {
+if ( ( $current_blog->domain != $current_site->domain ) || ( $current_blog->path != $current_site->path ) ) {
 	wp_redirect( user_admin_url() );
 	exit;
 }
