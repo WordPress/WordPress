@@ -29,7 +29,7 @@ $wp_version = '3.2-bleeding';
  *
  * @global int $wp_db_version
  */
-$wp_db_version = 17056;
+$wp_db_version = 17510;
 
 /**
  * Holds the TinyMCE version
