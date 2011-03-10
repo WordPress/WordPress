@@ -1857,6 +1857,8 @@ class WP_Rewrite {
 	function add_permastruct($name, $struct, $with_front = true, $ep_mask = EP_NONE) {
 		if ( $with_front )
 			$struct = $this->front . $struct;
+		else
+			$struct = $this->root . $struct;
 		$this->extra_permastructs[$name] = array($struct, $ep_mask);
 	}
 

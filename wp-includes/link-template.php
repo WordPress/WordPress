@@ -847,6 +847,8 @@ function get_post_type_archive_link( $post_type ) {
 		$struct = ( true === $post_type_obj->has_archive ) ? $post_type_obj->rewrite['slug'] : $post_type_obj->has_archive;
 		if ( $post_type_obj->rewrite['with_front'] )
 			$struct = $wp_rewrite->front . $struct;
+		else
+			$struct = $wp_rewrite->root . $struct;
 		$link = home_url( user_trailingslashit( $struct, 'post_type_archive' ) );
 	} else {
 		$link = home_url( '?post_type=' . $post_type );
