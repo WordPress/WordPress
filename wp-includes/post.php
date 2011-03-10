@@ -987,6 +987,8 @@ function register_post_type($post_type, $args = array()) {
 			$archive_slug = $args->has_archive === true ? $args->rewrite['slug'] : $args->has_archive;
 			if ( $args->rewrite['with_front'] )
 				$archive_slug = substr( $wp_rewrite->front, 1 ) . $archive_slug;
+			else
+				$archive_slug = $wp_rewrite->root . $archive_slug;
 
 			$wp_rewrite->add_rule( "{$archive_slug}/?$", "index.php?post_type=$post_type", 'top' );
 			if ( $args->rewrite['feeds'] && $wp_rewrite->feeds ) {
