@@ -1635,7 +1635,7 @@ function wp_tiny_mce( $teeny = false, $settings = false ) {
 			$val = $v ? 'true' : 'false';
 			$mce_options .= $k . ':' . $val . ', ';
 			continue;
-		} elseif ( !empty($v) && is_string($v) && ( '{' == $v{0} || '[' == $v{0} ) ) {
+		} elseif ( !empty($v) && is_string($v) && ( '{' == $v{0} || '[' == $v{0} || preg_match('/^\(?function ?\(/', $v) ) ) {
 			$mce_options .= $k . ':' . $v . ', ';
 			continue;
 		}
