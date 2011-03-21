@@ -50,11 +50,11 @@ $manifest_version = '20111113';
  *
  * @global string $required_php_version
  */
-$required_php_version = '4.3';
+$required_php_version = '5.2.4';
 
 /**
  * Holds the required MySQL version
  *
  * @global string $required_mysql_version
  */
-$required_mysql_version = '4.1.2';
+$required_mysql_version = '5.0';
