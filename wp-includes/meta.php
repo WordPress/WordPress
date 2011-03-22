@@ -368,19 +368,19 @@ function update_meta_cache($meta_type, $object_ids) {
  *		Possible values: 'NUMERIC', 'BINARY', 'CHAR', 'DATE', 'DATETIME', 'DECIMAL', 'SIGNED', 'TIME', 'UNSIGNED'.
  *		Default: 'CHAR'
  *
- * @param string $meta_type
+ * @param string $type Type of meta
  * @param string $primary_table
  * @param string $primary_id_column
  * @param object $context (optional) The main query object
  * @return array( 'join' => $join_sql, 'where' => $where_sql )
  */
-function _get_meta_sql( $meta_query, $meta_type, $primary_table, $primary_id_column, $context = null ) {
+function _get_meta_sql( $meta_query, $type, $primary_table, $primary_id_column, $context = null ) {
 	global $wpdb;
 
-	if ( ! $meta_table = _get_meta_table( $meta_type ) )
+	if ( ! $meta_table = _get_meta_table( $type ) )
 		return false;
 
-	$meta_id_column = esc_sql( $meta_type . '_id' );
+	$meta_id_column = esc_sql( $type . '_id' );
 
 	$join = '';
 	$where = '';
@@ -442,7 +442,7 @@ function _get_meta_sql( $meta_query, $meta_type, $primary_table, $primary_id_col
 		$where .= $wpdb->prepare( " AND CAST($alias.meta_value AS {$meta_type}) {$meta_compare} {$meta_compare_string}", $meta_value );
 	}
 
-	return apply_filters_ref_array( 'get_meta_sql', array( compact( 'join', 'where' ), $meta_query, $meta_type, $primary_table, $primary_id_column, &$context ) );
+	return apply_filters_ref_array( 'get_meta_sql', array( compact( 'join', 'where' ), $meta_query, $type, $primary_table, $primary_id_column, &$context ) );
 }
 
 /**
