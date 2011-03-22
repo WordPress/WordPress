@@ -889,7 +889,10 @@ function get_term_by($field, $value, $taxonomy, $output = OBJECT, $filter = 'raw
 		$value = stripslashes($value);
 		$field = 't.name';
 	} else {
-		return get_term( (int) $value, $taxonomy, $output, $filter);
+		$term = get_term( (int) $value, $taxonomy, $output, $filter);
+		if ( is_wp_error( $term ) )
+			$term = false;
+		return $term;
 	}
 
 	$term = $wpdb->get_row( $wpdb->prepare( "SELECT t.*, tt.* FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy = %s AND $field = %s LIMIT 1", $taxonomy, $value) );

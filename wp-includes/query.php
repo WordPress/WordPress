@@ -2190,7 +2190,7 @@ class WP_Query {
 				if ( !empty( $cat_query ) ) {
 					$cat_query = reset( $cat_query );
 					$the_cat = get_term_by( $cat_query['field'], $cat_query['terms'][0], 'category' );
-					if ( $the_cat && ! is_wp_error( $the_cat ) ) {
+					if ( $the_cat ) {
 						$this->set( 'cat', $the_cat->term_id );
 						$this->set( 'category_name', $the_cat->slug );
 					}
@@ -2202,7 +2202,7 @@ class WP_Query {
 				if ( !empty( $tag_query ) ) {
 					$tag_query = reset( $tag_query );
 					$the_tag = get_term_by( $tag_query['field'], $tag_query['terms'][0], 'post_tag' );
-					if ( $the_tag && ! is_wp_error( $the_tag ) ) {
+					if ( $the_tag ) {
 						$this->set( 'tag_id', $the_tag->term_id );
 					}
 					unset( $the_tag );
