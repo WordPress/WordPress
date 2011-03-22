@@ -2897,6 +2897,9 @@ class WP_Query {
 			if ( $term && ! is_wp_error($term) )  {
 				$this->queried_object = $term;
 				$this->queried_object_id = (int) $term->term_id;
+
+				if ( $this->is_category )
+					_make_cat_compat( $this->queried_object );
 			}
 		} elseif ( $this->is_post_type_archive ) {
 			$this->queried_object = get_post_type_object( $this->get('post_type') );
