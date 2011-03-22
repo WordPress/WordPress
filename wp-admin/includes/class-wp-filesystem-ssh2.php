@@ -238,28 +238,28 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 		return $grouparray['name'];
 	}
 
-	function copy($source, $destination, $overwrite = false ) {
+	function copy($source, $destination, $overwrite = false, $mode = false) {
 		if ( ! $overwrite && $this->exists($destination) )
 			return false;
 		$content = $this->get_contents($source);
 		if ( false === $content)
 			return false;
-		return $this->put_contents($destination, $content);
+		return $this->put_contents($destination, $content, $mode);
 	}
 
 	function move($source, $destination, $overwrite = false) {
 		return @ssh2_sftp_rename($this->link, $source, $destination);
 	}
 
-	function delete($file, $recursive = false) {
-		if ( $this->is_file($file) )
+	function delete($file, $recursive = false, $type = false) {
+		if ( 'f' == $type || $this->is_file($file) )
 			return ssh2_sftp_unlink($this->sftp_link, $file);
 		if ( ! $recursive )
 			 return ssh2_sftp_rmdir($this->sftp_link, $file);
 		$filelist = $this->dirlist($file);
 		if ( is_array($filelist) ) {
 			foreach ( $filelist as $filename => $fileinfo) {
-				$this->delete($file . '/' . $filename, $recursive);
+				$this->delete($file . '/' . $filename, $recursive, $fileinfo['type']);
 			}
 		}
 		return ssh2_sftp_rmdir($this->sftp_link, $file);

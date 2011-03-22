@@ -193,11 +193,14 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 		return $grouparray['name'];
 	}
 
-	function copy($source, $destination, $overwrite = false) {
+	function copy($source, $destination, $overwrite = false, $mode = false) {
 		if ( ! $overwrite && $this->exists($destination) )
 			return false;
 
-		return copy($source, $destination);
+		$rtval = copy($source, $destination);
+		if ( $mode )
+			$this->chmod($destination, $mode);
+		return $rtval;
 	}
 
 	function move($source, $destination, $overwrite = false) {
@@ -216,12 +219,12 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 		}
 	}
 
-	function delete($file, $recursive = false) {
+	function delete($file, $recursive = false, $type = false) {
 		if ( empty($file) ) //Some filesystems report this as /, which can cause non-expected recursive deletion of all files in the filesystem.
 			return false;
 		$file = str_replace('\\', '/', $file); //for win32, occasional problems deleteing files otherwise
 
-		if ( $this->is_file($file) )
+		if ( 'f' == $type || $this->is_file($file) )
 			return @unlink($file);
 		if ( ! $recursive && $this->is_dir($file) )
 			return @rmdir($file);
@@ -233,7 +236,7 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 		$retval = true;
 		if ( is_array($filelist) ) //false if no files, So check first.
 			foreach ($filelist as $filename => $fileinfo)
-				if ( ! $this->delete($file . $filename, $recursive) )
+				if ( ! $this->delete($file . $filename, $recursive, $fileinfo['type']) )
 					$retval = false;
 
 		if ( file_exists($file) && ! @rmdir($file) )

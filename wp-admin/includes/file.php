@@ -80,9 +80,9 @@ function get_home_path() {
 	$home = get_option( 'home' );
 	$siteurl = get_option( 'siteurl' );
 	if ( $home != '' && $home != $siteurl ) {
-	        $wp_path_rel_to_home = str_replace($home, '', $siteurl); /* $siteurl - $home */
-	        $pos = strpos($_SERVER["SCRIPT_FILENAME"], $wp_path_rel_to_home);
-	        $home_path = substr($_SERVER["SCRIPT_FILENAME"], 0, $pos);
+		$wp_path_rel_to_home = str_replace($home, '', $siteurl); /* $siteurl - $home */
+		$pos = strpos($_SERVER["SCRIPT_FILENAME"], $wp_path_rel_to_home);
+		$home_path = substr($_SERVER["SCRIPT_FILENAME"], 0, $pos);
 		$home_path = trailingslashit( $home_path );
 	} else {
 		$home_path = ABSPATH;
@@ -773,13 +773,12 @@ function copy_dir($from, $to) {
 
 	foreach ( (array) $dirlist as $filename => $fileinfo ) {
 		if ( 'f' == $fileinfo['type'] ) {
-			if ( ! $wp_filesystem->copy($from . $filename, $to . $filename, true) ) {
+			if ( ! $wp_filesystem->copy($from . $filename, $to . $filename, true, FS_CHMOD_FILE) ) {
 				// If copy failed, chmod file to 0644 and try again.
 				$wp_filesystem->chmod($to . $filename, 0644);
-				if ( ! $wp_filesystem->copy($from . $filename, $to . $filename, true) )
+				if ( ! $wp_filesystem->copy($from . $filename, $to . $filename, true, FS_CHMOD_FILE) )
 					return new WP_Error('copy_failed', __('Could not copy file.'), $to . $filename);
 			}
-			$wp_filesystem->chmod($to . $filename, FS_CHMOD_FILE);
 		} elseif ( 'd' == $fileinfo['type'] ) {
 			if ( !$wp_filesystem->is_dir($to . $filename) ) {
 				if ( !$wp_filesystem->mkdir($to . $filename, FS_CHMOD_DIR) )

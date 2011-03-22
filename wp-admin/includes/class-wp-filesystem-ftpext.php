@@ -183,22 +183,22 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 		$dir = $this->dirlist($file);
 		return $dir[$file]['group'];
 	}
-	function copy($source, $destination, $overwrite = false ) {
+	function copy($source, $destination, $overwrite = false, $mode = false) {
 		if ( ! $overwrite && $this->exists($destination) )
 			return false;
 		$content = $this->get_contents($source);
 		if ( false === $content)
 			return false;
-		return $this->put_contents($destination, $content);
+		return $this->put_contents($destination, $content, $mode);
 	}
 	function move($source, $destination, $overwrite = false) {
 		return ftp_rename($this->link, $source, $destination);
 	}
 
-	function delete($file, $recursive = false ) {
+	function delete($file, $recursive = false, $type = false) {
 		if ( empty($file) )
 			return false;
-		if ( $this->is_file($file) )
+		if ( 'f' == $type || $this->is_file($file) )
 			return @ftp_delete($this->link, $file);
 		if ( !$recursive )
 			return @ftp_rmdir($this->link, $file);
@@ -206,7 +206,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 		$filelist = $this->dirlist( trailingslashit($file) );
 		if ( !empty($filelist) )
 			foreach ( $filelist as $delete_file )
-				$this->delete( trailingslashit($file) . $delete_file['name'], $recursive);
+				$this->delete( trailingslashit($file) . $delete_file['name'], $recursive, $delete_file['type'] );
 		return @ftp_rmdir($this->link, $file);
 	}
 
