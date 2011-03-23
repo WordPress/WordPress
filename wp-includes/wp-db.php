@@ -1051,8 +1051,8 @@ class wpdb {
 "/*/WP_I18N_DB_CONN_ERROR*/, $this->dbhost ), 'db_connect_fail' );
 
 			// If show errors is disabled then we need to die anyway as we don't have a working DB connection
-			// unless we're trying to test the initial connection, in which case setup-config.php will handle.
-			if ( defined( 'WP_SETUP_CONFIG' ) )
+			// unless we're trying to test the initial connection, in which case setup-config.php/install.php will handle.
+			if ( defined( 'WP_SETUP_CONFIG' ) || defined( 'WP_INSTALLING' ) )
 				return;
 
 			die();
