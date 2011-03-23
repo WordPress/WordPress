@@ -1030,8 +1030,6 @@ class wpdb {
 	 * @since 3.0.0
 	 */
 	function db_connect() {
-		global $db_list, $global_db_list;
-
 		if ( WP_DEBUG ) {
 			$this->dbh = mysql_connect( $this->dbhost, $this->dbuser, $this->dbpassword, true );
 		} else {
