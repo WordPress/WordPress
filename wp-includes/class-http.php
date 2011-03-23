@@ -69,7 +69,7 @@ class WP_Http {
 	 * Tests all of the objects and returns the object that passes. Also caches that object to be
 	 * used later.
 	 *
-	 * The order for the GET/HEAD requests are HTTP Extension, cURL, Streams, Fopen, and finally
+	 * The order for the GET/HEAD requests are HTTP Extension, cURL, Streams, and finally
 	 * Fsockopen. fsockopen() is used last, because it has the most overhead in its implementation.
 	 * There isn't any real way around it, since redirects have to be supported, much the same way
 	 * the other transports also handle redirects.
@@ -98,15 +98,12 @@ class WP_Http {
 			} else if ( true === WP_Http_Streams::test($args) ) {
 				$working_transport['streams'] = new WP_Http_Streams();
 				$blocking_transport[] = &$working_transport['streams'];
-			} else if ( true === WP_Http_Fopen::test($args) ) {
-				$working_transport['fopen'] = new WP_Http_Fopen();
-				$blocking_transport[] = &$working_transport['fopen'];
 			} else if ( true === WP_Http_Fsockopen::test($args) ) {
 				$working_transport['fsockopen'] = new WP_Http_Fsockopen();
 				$blocking_transport[] = &$working_transport['fsockopen'];
 			}
 
-			foreach ( array('curl', 'streams', 'fopen', 'fsockopen', 'exthttp') as $transport ) {
+			foreach ( array('curl', 'streams', 'fsockopen', 'exthttp') as $transport ) {
 				if ( isset($working_transport[$transport]) )
 					$nonblocking_transport[] = &$working_transport[$transport];
 			}
@@ -125,9 +122,7 @@ class WP_Http {
 	 *
 	 * Tests all of the objects and returns the object that passes. Also caches
 	 * that object to be used later. This is for posting content to a URL and
-	 * is used when there is a body. The plain Fopen Transport can not be used
-	 * to send content, but the streams transport can. This is a limitation that
-	 * is addressed here, by just not including that transport.
+	 * is used when there is a body.
 	 *
 	 * @since 2.7.0
 	 * @access private
@@ -803,155 +798,6 @@ class WP_Http_Fsockopen {
 			$use = false;
 
 		return apply_filters('use_fsockopen_transport', $use, $args);
-	}
-}
-
-/**
- * HTTP request method uses fopen function to retrieve the url.
- *
- * Requires PHP version greater than 4.3.0 for stream support. Does not allow for $context support,
- * but should still be okay, to write the headers, before getting the response. Also requires that
- * 'allow_url_fopen' to be enabled.
- *
- * @package WordPress
- * @subpackage HTTP
- * @since 2.7.0
- */
-class WP_Http_Fopen {
-	/**
-	 * Send a HTTP request to a URI using fopen().
-	 *
-	 * This transport does not support sending of headers and body, therefore should not be used in
-	 * the instances, where there is a body and headers.
-	 *
-	 * Notes: Does not support non-blocking mode. Ignores 'redirection' option.
-	 *
-	 * @see WP_Http::retrieve For default options descriptions.
-	 *
-	 * @access public
-	 * @since 2.7.0
-	 *
-	 * @param string $url URI resource.
-	 * @param str|array $args Optional. Override the defaults.
-	 * @return array 'headers', 'body', 'cookies' and 'response' keys.
-	 */
-	function request($url, $args = array()) {
-		$defaults = array(
-			'method' => 'GET', 'timeout' => 5,
-			'redirection' => 5, 'httpversion' => '1.0',
-			'blocking' => true,
-			'headers' => array(), 'body' => null, 'cookies' => array()
-		);
-
-		$r = wp_parse_args( $args, $defaults );
-
-		$arrURL = parse_url($url);
-
-		if ( false === $arrURL )
-			return new WP_Error('http_request_failed', sprintf(__('Malformed URL: %s'), $url));
-
-		if ( 'http' != $arrURL['scheme'] && 'https' != $arrURL['scheme'] )
-			$url = str_replace($arrURL['scheme'], 'http', $url);
-
-		if ( is_null( $r['headers'] ) )
-			$r['headers'] = array();
-
-		if ( is_string($r['headers']) ) {
-			$processedHeaders = WP_Http::processHeaders($r['headers']);
-			$r['headers'] = $processedHeaders['headers'];
-		}
-
-		$initial_user_agent = ini_get('user_agent');
-
-		if ( !empty($r['headers']) && is_array($r['headers']) ) {
-			$user_agent_extra_headers = '';
-			foreach ( $r['headers'] as $header => $value )
-				$user_agent_extra_headers .= "\r\n$header: $value";
-			@ini_set('user_agent', $r['user-agent'] . $user_agent_extra_headers);
-		} else {
-			@ini_set('user_agent', $r['user-agent']);
-		}
-
-		if ( !WP_DEBUG )
-			$handle = @fopen($url, 'r');
-		else
-			$handle = fopen($url, 'r');
-
-		if (! $handle)
-			return new WP_Error('http_request_failed', sprintf(__('Could not open handle for fopen() to %s'), $url));
-
-		$timeout = (int) floor( $r['timeout'] );
-		$utimeout = $timeout == $r['timeout'] ? 0 : 1000000 * $r['timeout'] % 1000000;
-		stream_set_timeout( $handle, $timeout, $utimeout );
-
-		if ( ! $r['blocking'] ) {
-			fclose($handle);
-			@ini_set('user_agent', $initial_user_agent); //Clean up any extra headers added
-			return array( 'headers' => array(), 'body' => '', 'response' => array('code' => false, 'message' => false), 'cookies' => array() );
-		}
-
-		$strResponse = '';
-		while ( ! feof($handle) )
-			$strResponse .= fread($handle, 4096);
-
-		if ( function_exists('stream_get_meta_data') ) {
-			$meta = stream_get_meta_data($handle);
-
-			$theHeaders = $meta['wrapper_data'];
-			if ( isset( $meta['wrapper_data']['headers'] ) )
-				$theHeaders = $meta['wrapper_data']['headers'];
-		} else {
-			//$http_response_header is a PHP reserved variable which is set in the current-scope when using the HTTP Wrapper
-			//see http://php.oregonstate.edu/manual/en/reserved.variables.httpresponseheader.php
-			$theHeaders = $http_response_header;
-		}
-
-		fclose($handle);
-
-		@ini_set('user_agent', $initial_user_agent); //Clean up any extra headers added
-
-		$processedHeaders = WP_Http::processHeaders($theHeaders);
-
-		if ( ! empty( $strResponse ) && isset( $processedHeaders['headers']['transfer-encoding'] ) && 'chunked' == $processedHeaders['headers']['transfer-encoding'] )
-			$strResponse = WP_Http::chunkTransferDecode($strResponse);
-
-		if ( true === $r['decompress'] && true === WP_Http_Encoding::should_decode($processedHeaders['headers']) )
-			$strResponse = WP_Http_Encoding::decompress( $strResponse );
-
-		return array('headers' => $processedHeaders['headers'], 'body' => $strResponse, 'response' => $processedHeaders['response'], 'cookies' => $processedHeaders['cookies']);
-	}
-
-	/**
-	 * Whether this class can be used for retrieving an URL.
-	 *
-	 * @since 2.7.0
-	 * @static
-	 * @return boolean False means this class can not be used, true means it can.
-	 */
-	function test($args = array()) {
-		if ( ! function_exists('fopen') || (function_exists('ini_get') && true != ini_get('allow_url_fopen')) )
-			return false;
-
-		if ( isset($args['method']) && 'HEAD' == $args['method'] ) //This transport cannot make a HEAD request
-			return false;
-
-		$use = true;
-		//PHP does not verify SSL certs, We can only make a request via this transports if SSL Verification is turned off.
-		$is_ssl = isset($args['ssl']) && $args['ssl'];
-		if ( $is_ssl ) {
-			$is_local = isset($args['local']) && $args['local'];
-			$ssl_verify = isset($args['sslverify']) && $args['sslverify'];
-			if ( $is_local && true != apply_filters('https_local_ssl_verify', true) )
-				$use = true;
-			elseif ( !$is_local && true != apply_filters('https_ssl_verify', true) )
-				$use = true;
-			elseif ( !$ssl_verify )
-				$use = true;
-			else
-				$use = false;
-		}
-
-		return apply_filters('use_fopen_transport', $use, $args);
 	}
 }
 
