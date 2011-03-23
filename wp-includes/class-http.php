@@ -288,10 +288,7 @@ class WP_Http {
 			$transports = WP_Http::_getTransport( $r );
 		} else {
 			if ( is_array( $r['body'] ) || is_object( $r['body'] ) ) {
-				if ( ! version_compare(phpversion(), '5.1.2', '>=') )
-					$r['body'] = _http_build_query( $r['body'], null, '&' );
-				else
-					$r['body'] = http_build_query( $r['body'], null, '&' );
+				$r['body'] = http_build_query( $r['body'], null, '&' );
 				$r['headers']['Content-Type'] = 'application/x-www-form-urlencoded; charset=' . get_option( 'blog_charset' );
 				$r['headers']['Content-Length'] = strlen( $r['body'] );
 			}
@@ -954,21 +951,6 @@ class WP_Http_Streams {
 		if ( ! function_exists('fopen') || (function_exists('ini_get') && true != ini_get('allow_url_fopen')) )
 			return false;
 
-		if ( version_compare(PHP_VERSION, '5.0', '<') )
-			return false;
-
-		//HTTPS via Proxy was added in 5.1.0
-		$is_ssl = isset($args['ssl']) && $args['ssl'];
-		if ( $is_ssl && version_compare(PHP_VERSION, '5.1.0', '<') ) {
-			$proxy = new WP_HTTP_Proxy();
-			/**
-			 * No URL check, as its not currently passed to the ::test() function
-			 * In the case where a Proxy is in use, Just bypass this transport for HTTPS.
-			 */
-			if ( $proxy->is_enabled() )
-				return false;
-		}
-
 		return apply_filters('use_streams_transport', true, $args);
 	}
 }
@@ -1175,20 +1157,12 @@ class WP_Http_Curl {
 
 		if ( $proxy->is_enabled() && $proxy->send_through_proxy( $url ) ) {
 
-			$isPHP5 = version_compare(PHP_VERSION, '5.0.0', '>=');
-
-			if ( $isPHP5 ) {
-				curl_setopt( $handle, CURLOPT_PROXYTYPE, CURLPROXY_HTTP );
-				curl_setopt( $handle, CURLOPT_PROXY, $proxy->host() );
-				curl_setopt( $handle, CURLOPT_PROXYPORT, $proxy->port() );
-			} else {
-				curl_setopt( $handle, CURLOPT_PROXY, $proxy->host() .':'. $proxy->port() );
-			}
+			curl_setopt( $handle, CURLOPT_PROXYTYPE, CURLPROXY_HTTP );
+			curl_setopt( $handle, CURLOPT_PROXY, $proxy->host() );
+			curl_setopt( $handle, CURLOPT_PROXYPORT, $proxy->port() );
 
 			if ( $proxy->use_authentication() ) {
-				if ( $isPHP5 )
-					curl_setopt( $handle, CURLOPT_PROXYAUTH, CURLAUTH_ANY );
-
+				curl_setopt( $handle, CURLOPT_PROXYAUTH, CURLAUTH_ANY );
 				curl_setopt( $handle, CURLOPT_PROXYUSERPWD, $proxy->authentication() );
 			}
 		}
