@@ -1323,7 +1323,7 @@ function get_category_children( $id, $before = '/', $after = '', $visited = arra
  *
  * @since 1.5
  * @deprecated 2.8
- * @deprecated Use the_author_meta('description')
+ * @deprecated Use get_the_author_meta('description')
  * @see get_the_author_meta()
  *
  * @return string The author's description.
@@ -1351,7 +1351,7 @@ function the_author_description() {
  *
  * @since 1.5
  * @deprecated 2.8
- * @deprecated Use the_author_meta('login')
+ * @deprecated Use get_the_author_meta('login')
  * @see get_the_author_meta()
  *
  * @return string The author's login name (username).
@@ -1379,7 +1379,7 @@ function the_author_login() {
  *
  * @since 1.5
  * @deprecated 2.8
- * @deprecated Use the_author_meta('first_name')
+ * @deprecated Use get_the_author_meta('first_name')
  * @see get_the_author_meta()
  *
  * @return string The author's first name.
