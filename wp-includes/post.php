@@ -1061,7 +1061,7 @@ function register_post_type($post_type, $args = array()) {
  *   can be deleted. If the post type does not support an author, then this will
  *   behave like delete_posts.
  * - edit_private_posts - Controls whether private objects can be edited.
- * - edit_published_posts - Controls whether published objects can be deleted.
+ * - edit_published_posts - Controls whether published objects can be edited.
  *
  * These additional capabilities are only used in map_meta_cap(). Thus, they are
  * only assigned by default if the post type is registered with the 'map_meta_cap'
