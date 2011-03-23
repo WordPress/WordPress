@@ -1623,16 +1623,16 @@ function _post_states($post) {
 		$post_status = '';
 
 	if ( !empty($post->post_password) )
-		$post_states[] = __('Password protected');
+		$post_states['protected'] = __('Password protected');
 	if ( 'private' == $post->post_status && 'private' != $post_status )
-		$post_states[] = __('Private');
+		$post_states['private'] = __('Private');
 	if ( 'draft' == $post->post_status && 'draft' != $post_status )
-		$post_states[] = __('Draft');
+		$post_states['draft'] = __('Draft');
 	if ( 'pending' == $post->post_status && 'pending' != $post_status )
 		/* translators: post state */
-		$post_states[] = _x('Pending', 'post state');
+		$post_states['pending'] = _x('Pending', 'post state');
 	if ( is_sticky($post->ID) )
-		$post_states[] = __('Sticky');
+		$post_states['sticky'] = __('Sticky');
 
 	$post_states = apply_filters( 'display_post_states', $post_states );
 
