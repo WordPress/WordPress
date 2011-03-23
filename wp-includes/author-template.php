@@ -203,6 +203,8 @@ function the_author_posts_link($deprecated = '') {
 		_deprecated_argument( __FUNCTION__, '2.1' );
 
 	global $authordata;
+	if ( !is_object( $authordata ) )
+		return false;
 	$link = sprintf(
 		'<a href="%1$s" title="%2$s">%3$s</a>',
 		get_author_posts_url( $authordata->ID, $authordata->user_nicename ),
