@@ -125,7 +125,7 @@ function image_hwstring($width, $height) {
  *		resize services.
  *
  * @param int $id Attachment ID for image.
- * @param string $size Optional, default is 'medium'. Size of image, can be 'thumbnail'.
+ * @param array|string $size Optional, default is 'medium'. Size of image, either array or string.
  * @return bool|array False on failure, array on success.
  */
 function image_downsize($id, $size = 'medium') {
