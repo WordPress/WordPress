@@ -38,131 +38,6 @@
 class WP_Http {
 
 	/**
-	 * PHP4 style Constructor - Calls PHP5 Style Constructor
-	 *
-	 * @since 2.7.0
-	 * @return WP_Http
-	 */
-	function WP_Http() {
-		$this->__construct();
-	}
-
-	/**
-	 * PHP5 style Constructor - Set up available transport if not available.
-	 *
-	 * PHP4 does not have the 'self' keyword and since WordPress supports PHP4, the class needs to
-	 * be used for the static call. The transport are set up to save time and will only be created
-	 * once. This class can be created many times without having to go through the step of finding
-	 * which transports are available.
-	 *
-	 * @since 2.7.0
-	 * @return WP_Http
-	 */
-	function __construct() {
-		WP_Http::_getTransport();
-		WP_Http::_postTransport();
-	}
-
-	/**
-	 * Tests the WordPress HTTP objects for an object to use and returns it.
-	 *
-	 * Tests all of the objects and returns the object that passes. Also caches that object to be
-	 * used later.
-	 *
-	 * The order for the GET/HEAD requests are HTTP Extension, cURL, Streams, and finally
-	 * Fsockopen. fsockopen() is used last, because it has the most overhead in its implementation.
-	 * There isn't any real way around it, since redirects have to be supported, much the same way
-	 * the other transports also handle redirects.
-	 *
-	 * There are currently issues with "localhost" not resolving correctly with DNS. This may cause
-	 * an error "failed to open stream: A connection attempt failed because the connected party did
-	 * not properly respond after a period of time, or established connection failed because [the]
-	 * connected host has failed to respond."
-	 *
-	 * @since 2.7.0
-	 * @access private
-	 *
-	 * @param array $args Request args, default us an empty array
-	 * @return object|null Null if no transports are available, HTTP transport object.
-	 */
-	function &_getTransport( $args = array() ) {
-		static $working_transport, $blocking_transport, $nonblocking_transport;
-
-		if ( is_null($working_transport) ) {
-			if ( true === WP_Http_ExtHttp::test($args) ) {
-				$working_transport['exthttp'] = new WP_Http_ExtHttp();
-				$blocking_transport[] = &$working_transport['exthttp'];
-			} else if ( true === WP_Http_Curl::test($args) ) {
-				$working_transport['curl'] = new WP_Http_Curl();
-				$blocking_transport[] = &$working_transport['curl'];
-			} else if ( true === WP_Http_Streams::test($args) ) {
-				$working_transport['streams'] = new WP_Http_Streams();
-				$blocking_transport[] = &$working_transport['streams'];
-			} else if ( true === WP_Http_Fsockopen::test($args) ) {
-				$working_transport['fsockopen'] = new WP_Http_Fsockopen();
-				$blocking_transport[] = &$working_transport['fsockopen'];
-			}
-
-			foreach ( array('curl', 'streams', 'fsockopen', 'exthttp') as $transport ) {
-				if ( isset($working_transport[$transport]) )
-					$nonblocking_transport[] = &$working_transport[$transport];
-			}
-		}
-
-		do_action( 'http_transport_get_debug', $working_transport, $blocking_transport, $nonblocking_transport );
-
-		if ( isset($args['blocking']) && !$args['blocking'] )
-			return $nonblocking_transport;
-		else
-			return $blocking_transport;
-	}
-
-	/**
-	 * Tests the WordPress HTTP objects for an object to use and returns it.
-	 *
-	 * Tests all of the objects and returns the object that passes. Also caches
-	 * that object to be used later. This is for posting content to a URL and
-	 * is used when there is a body.
-	 *
-	 * @since 2.7.0
-	 * @access private
-	 *
-	 * @param array $args Request args, default us an empty array
-	 * @return object|null Null if no transports are available, HTTP transport object.
-	 */
-	function &_postTransport( $args = array() ) {
-		static $working_transport, $blocking_transport, $nonblocking_transport;
-
-		if ( is_null($working_transport) ) {
-			if ( true === WP_Http_ExtHttp::test($args) ) {
-				$working_transport['exthttp'] = new WP_Http_ExtHttp();
-				$blocking_transport[] = &$working_transport['exthttp'];
-			} else if ( true === WP_Http_Curl::test($args) ) {
-				$working_transport['curl'] = new WP_Http_Curl();
-				$blocking_transport[] = &$working_transport['curl'];
-			} else if ( true === WP_Http_Streams::test($args) ) {
-				$working_transport['streams'] = new WP_Http_Streams();
-				$blocking_transport[] = &$working_transport['streams'];
-			} else if ( true === WP_Http_Fsockopen::test($args) ) {
-				$working_transport['fsockopen'] = new WP_Http_Fsockopen();
-				$blocking_transport[] = &$working_transport['fsockopen'];
-			}
-
-			foreach ( array('curl', 'streams', 'fsockopen', 'exthttp') as $transport ) {
-				if ( isset($working_transport[$transport]) )
-					$nonblocking_transport[] = &$working_transport[$transport];
-			}
-		}
-
-		do_action( 'http_transport_post_debug', $working_transport, $blocking_transport, $nonblocking_transport );
-
-		if ( isset($args['blocking']) && !$args['blocking'] )
-			return $nonblocking_transport;
-		else
-			return $blocking_transport;
-	}
-
-	/**
 	 * Send a HTTP request to a URI.
 	 *
 	 * The body and headers are part of the arguments. The 'body' argument is for the body and will
@@ -205,7 +80,7 @@ class WP_Http {
 	 *
 	 * @param string $url URI resource.
 	 * @param str|array $args Optional. Override the defaults.
-	 * @return array containing 'headers', 'body', 'response', 'cookies'
+	 * @return array|object Array containing 'headers', 'body', 'response', 'cookies'. A WP_Error instance upon error
 	 */
 	function request( $url, $args = array() ) {
 		global $wp_version;
@@ -281,11 +156,6 @@ class WP_Http {
 			// header isn't already set.
 			if ( ($r['method'] == 'POST' || $r['method'] == 'PUT') && ! isset( $r['headers']['Content-Length'] ) )
 				$r['headers']['Content-Length'] = 0;
-
-			// The method is ambiguous, because we aren't talking about HTTP methods, the "get" in
-			// this case is simply that we aren't sending any bodies and to get the transports that
-			// don't support sending bodies along with those which do.
-			$transports = WP_Http::_getTransport( $r );
 		} else {
 			if ( is_array( $r['body'] ) || is_object( $r['body'] ) ) {
 				$r['body'] = http_build_query( $r['body'], null, '&' );
@@ -295,27 +165,65 @@ class WP_Http {
 
 			if ( ! isset( $r['headers']['Content-Length'] ) && ! isset( $r['headers']['content-length'] ) )
 				$r['headers']['Content-Length'] = strlen( $r['body'] );
-
-			// The method is ambiguous, because we aren't talking about HTTP methods, the "post" in
-			// this case is simply that we are sending HTTP body and to get the transports that do
-			// support sending the body. Not all do, depending on the limitations of the PHP core
-			// limitations.
-			$transports = WP_Http::_postTransport( $r );
 		}
 
-		do_action( 'http_api_debug', $transports, 'transports_list' );
+		return $this->_dispatch_request($url, $r);
+	}
 
-		$response = array( 'headers' => array(), 'body' => '', 'response' => array('code' => false, 'message' => false), 'cookies' => array() );
-		foreach ( (array) $transports as $transport ) {
-			$response = $transport->request( $url, $r );
+	/**
+	 * Dispatches a HTTP request to a supporting transport.
+	 *
+	 * Tests each transport in order to find a transport which matches the request arguements.
+	 * Also caches the transport instance to be used later.
+	 *
+	 * The order for blocking requests is HTTP Extension, cURL, Streams, and finally Fsockopen.
+	 * The order for non-blocking requests is cURL, Streams, Fsockopen() and finally, HTTP Extension.
+	 * The HTTP Extension does not support non-blocking requests, but is included as a final resort.
+	 *
+	 * There are currently issues with "localhost" not resolving correctly with DNS. This may cause
+	 * an error "failed to open stream: A connection attempt failed because the connected party did
+	 * not properly respond after a period of time, or established connection failed because [the]
+	 * connected host has failed to respond."
+	 *
+	 * @since 3.2.0
+	 * @access private
+	 *
+	 * @param string $url URL to Request
+	 * @param array $args Request arguments
+	 * @return array|object Array containing 'headers', 'body', 'response', 'cookies'. A WP_Error instance upon error
+	 */
+	private function _dispatch_request($url, $args) {
+		static $transports = null;
+		if ( is_null($transports) )
+			$transports = array();
 
-			do_action( 'http_api_debug', $response, 'response', get_class( $transport ) );
+		$request_order = isset($r['blocking']) && !$r['blocking'] ?
+							array('curl', 'streams', 'fsockopen', 'exthttp') : // non-blocking order
+							array('exthttp', 'curl', 'streams', 'fsockopen'); // blocking order
 
-			if ( ! is_wp_error( $response ) )
-				return apply_filters( 'http_response', $response, $r, $url );
+		// Loop over each transport on each HTTP request looking for one which will serve this requests needs
+		foreach ( $request_order as $transport ) {
+			$class = 'WP_HTTP_' . $transport;
+
+			// Check to see if this transport is a possibility, calls the transport statically
+			if ( ! call_user_func( array($class, 'test'), $args, $url) )
+				continue;
+
+			// Transport claims to support request, Instantate it and give it a whirl.
+			if ( empty( $transports[ $transport ] ) )
+				$transports[ $transport ] = new $class;
+
+			$response = $transports[ $transport ]->request( $url, $args );
+
+			do_action( 'http_api_debug', $response, 'response', $class );
+
+			if ( is_wp_error( $response ) )
+				return $response;
+
+			return apply_filters( 'http_response', $response, $args, $url );
 		}
 
-		return $response;
+		return new WP_Error('http_failure', __('There are no HTTP transports available which can complete the requested request.') );
 	}
 
 	/**
@@ -328,7 +236,7 @@ class WP_Http {
 	 *
 	 * @param string $url URI resource.
 	 * @param str|array $args Optional. Override the defaults.
-	 * @return boolean
+	 * @return array|object Array containing 'headers', 'body', 'response', 'cookies'. A WP_Error instance upon error
 	 */
 	function post($url, $args = array()) {
 		$defaults = array('method' => 'POST');
@@ -346,7 +254,7 @@ class WP_Http {
 	 *
 	 * @param string $url URI resource.
 	 * @param str|array $args Optional. Override the defaults.
-	 * @return boolean
+	 * @return array|object Array containing 'headers', 'body', 'response', 'cookies'. A WP_Error instance upon error
 	 */
 	function get($url, $args = array()) {
 		$defaults = array('method' => 'GET');
@@ -364,7 +272,7 @@ class WP_Http {
 	 *
 	 * @param string $url URI resource.
 	 * @param str|array $args Optional. Override the defaults.
-	 * @return boolean
+	 * @return array|object Array containing 'headers', 'body', 'response', 'cookies'. A WP_Error instance upon error
 	 */
 	function head($url, $args = array()) {
 		$defaults = array('method' => 'HEAD');
