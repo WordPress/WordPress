@@ -100,8 +100,19 @@ class WP_Http {
 			'sslverify' => true
 		);
 
+		
+		// Pre-parse for the HEAD checks.
+		$args = wp_parse_args( $args );
+
+		// By default, Head requests do not cause redirections.
+		if ( isset($args['method']) && 'HEAD' == $args['method'] )
+			$defaults['redirection'] = 0;
+
 		$r = wp_parse_args( $args, $defaults );
 		$r = apply_filters( 'http_request_args', $r, $url );
+
+		// Certain classes decrement this, store a copy of the original value for loop purposes.
+		$r['_redirection'] = $r['redirection'];
 
 		// Allow plugins to short-circuit the request
 		$pre = apply_filters( 'pre_http_request', false, $r, $url );
@@ -664,7 +675,7 @@ class WP_Http_Fsockopen {
 			return new WP_Error('http_request_failed', $arrHeaders['response']['code'] . ': ' . $arrHeaders['response']['message']);
 
 		// If location is found, then assume redirect and redirect to location.
-		if ( 'HEAD' != $r['method'] && isset($arrHeaders['headers']['location']) ) {
+		if ( isset($arrHeaders['headers']['location']) && 0 !== $r['_redirection'] ) {
 			if ( $r['redirection']-- > 0 ) {
 				return $this->request($arrHeaders['headers']['location'], $r);
 			} else {
@@ -800,9 +811,6 @@ class WP_Http_Streams {
 				$arrContext['http']['header'] .= $proxy->authentication_header() . "\r\n";
 		}
 
-		if ( 'HEAD' == $r['method'] ) // Disable redirects for HEAD requests
-			$arrContext['http']['max_redirects'] = 1;
-
 		if ( ! empty($r['body'] ) )
 			$arrContext['http']['content'] = $r['body'];
 
@@ -836,6 +844,11 @@ class WP_Http_Streams {
 			$processedHeaders = WP_Http::processHeaders($meta['wrapper_data']['headers']);
 		else
 			$processedHeaders = WP_Http::processHeaders($meta['wrapper_data']);
+
+		// Streams does not provide an error code which we can use to see why the request stream stoped. 
+		// We can however test to see if a location header is present and return based on that.
+		if ( isset($processedHeaders['headers']['location']) && 0 !== $args['_redirection'] )
+			return new WP_Error('http_request_failed', __('Too many redirects.'));
 
 		if ( ! empty( $strResponse ) && isset( $processedHeaders['headers']['transfer-encoding'] ) && 'chunked' == $processedHeaders['headers']['transfer-encoding'] )
 			$strResponse = WP_Http::chunkTransferDecode($strResponse);
@@ -948,9 +961,6 @@ class WP_Http_ExtHttp {
 				'verifyhost' => $ssl_verify
 			)
 		);
-
-		if ( HTTP_METH_HEAD == $r['method'] )
-			$options['redirect'] = 0; // Assumption: Docs seem to suggest that this means do not follow. Untested.
 
 		// The HTTP extensions offers really easy proxy support.
 		$proxy = new WP_HTTP_Proxy();
@@ -1116,8 +1126,7 @@ class WP_Http_Curl {
 			curl_setopt( $handle, CURLOPT_HEADER, false );
 
 		// The option doesn't work with safe mode or when open_basedir is set.
-		// Disable HEAD when making HEAD requests.
-		if ( !ini_get('safe_mode') && !ini_get('open_basedir') && 'HEAD' != $r['method'] )
+		if ( !ini_get('safe_mode') && !ini_get('open_basedir') && 0 !== $r['_redirection'] )
 			curl_setopt( $handle, CURLOPT_FOLLOWLOCATION, true );
 
 		if ( !empty( $r['headers'] ) ) {
@@ -1176,7 +1185,7 @@ class WP_Http_Curl {
 		curl_close( $handle );
 
 		// See #11305 - When running under safe mode, redirection is disabled above. Handle it manually.
-		if ( !empty($theHeaders['headers']['location']) && (ini_get('safe_mode') || ini_get('open_basedir')) ) {
+		if ( !empty($theHeaders['headers']['location']) && (ini_get('safe_mode') || ini_get('open_basedir')) && 0 !== $r['_redirection'] ) {
 			if ( $r['redirection']-- > 0 ) {
 				return $this->request($theHeaders['headers']['location'], $r);
 			} else {
