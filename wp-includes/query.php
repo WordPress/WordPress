@@ -1240,6 +1240,15 @@ class WP_Query {
 	var $query_vars_hash = false;
 
 	/**
+	 * Whether query vars have changed since the initial parse_query() call.  Used to catch modifications to query vars made
+	 * via pre_get_posts hooks.
+	 *
+	 * @since 3.1.1
+	 * @access private
+	 */
+	var $query_vars_changed = true;
+
+	/**
 	 * Resets query flags to false.
 	 *
 	 * The query flags are what page info WordPress was able to figure out.
@@ -1395,6 +1404,7 @@ class WP_Query {
 
 		$this->query_vars = $this->fill_query_vars($this->query_vars);
 		$qv = &$this->query_vars;
+		$this->query_vars_changed = true;
 
 		if ( ! empty($qv['robots']) )
 			$this->is_robots = true;
@@ -1627,6 +1637,9 @@ class WP_Query {
 		if ( '404' == $qv['error'] )
 			$this->set_404();
 
+		$this->query_vars_hash = md5( serialize( $this->query_vars ) );
+		$this->query_vars_changed = false;
+
 		do_action_ref_array('parse_query', array(&$this));
 	}
 
@@ -1685,7 +1698,7 @@ class WP_Query {
 		}
 
 		// Category stuff
-		if ( !empty($q['cat']) && '0' != $q['cat'] && !$this->is_singular && md5(serialize( $this->query_vars ) ) != $this->query_vars_hash ) {
+		if ( !empty($q['cat']) && '0' != $q['cat'] && !$this->is_singular && $this->query_vars_changed ) {
 			$q['cat'] = ''.urldecode($q['cat']).'';
 			$q['cat'] = addslashes_gpc($q['cat']);
 			$cat_array = preg_split('/[,\s]+/', $q['cat']);
@@ -1739,7 +1752,7 @@ class WP_Query {
 		}
 
 		// Tag stuff
-		if ( '' != $q['tag'] && !$this->is_singular && md5(serialize( $this->query_vars ) ) != $this->query_vars_hash ) {
+		if ( '' != $q['tag'] && !$this->is_singular && $this->query_vars_changed ) {
 			if ( strpos($q['tag'], ',') !== false ) {
 				$tags = preg_split('/[,\s]+/', $q['tag']);
 				foreach ( (array) $tags as $tag ) {
@@ -1811,8 +1824,6 @@ class WP_Query {
 			);
 		}
 
-		$this->query_vars_hash = md5(serialize( $this->query_vars ) );
-
 		$this->tax_query = new WP_Tax_Query( $tax_query );
 	}
 
@@ -1882,7 +1893,16 @@ class WP_Query {
 		// Shorthand.
 		$q = &$this->query_vars;
 
+		// Fill again in case pre_get_posts unset some vars.
 		$q = $this->fill_query_vars($q);
+
+		// Set a flag if a pre_get_posts hook changed the query vars.
+		$hash = md5( serialize( $this->query_vars ) );
+		if ( $hash != $this->query_vars_hash ) {
+			$this->query_vars_changed = true;
+			$this->query_vars_hash = $hash;
+		}
+		unset($hash);
 
 		// First let's clear some variables
 		$distinct = '';
@@ -2442,6 +2462,16 @@ class WP_Query {
 			}
 
 			$where .= ')';
+		}
+
+		// Parse the meta query again if query vars have changed.
+		if ( $this->query_vars_changed ) {
+			$meta_query_hash = md5( serialize( $q['meta_query'] ) );
+			$_meta_query = $q['meta_query'];
+			unset( $q['meta_query'] );
+			_parse_meta_query( $q );
+			if ( md5( serialize( $q['meta_query'] ) ) != $meta_query_hash && is_array( $_meta_query ) )
+				$q['meta_query'] = array_merge( $_meta_query, $q['meta_query'] );
 		}
 
 		if ( !empty( $q['meta_query'] ) ) {
