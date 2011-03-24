@@ -1522,7 +1522,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 
 		if ( !current_user_can( 'upload_files' ) )
-			return new IXR_Error( 403, __( 'You are not allowed to upload files on this site.' ) );
+			return new IXR_Error( 403, __( 'You are not allowed to upload files to this site.' ) );
 
 		do_action('xmlrpc_call', 'wp.getMediaItem');
 
