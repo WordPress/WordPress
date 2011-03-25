@@ -153,42 +153,6 @@ function list_files( $folder = '', $levels = 100 ) {
 }
 
 /**
- * Determines a writable directory for temporary files.
- * Function's preference is to WP_CONTENT_DIR followed by the return value of <code>sys_get_temp_dir()</code>, before finally defaulting to /tmp/
- *
- * In the event that this function does not find a writable location, It may be overridden by the <code>WP_TEMP_DIR</code> constant in your <code>wp-config.php</code> file.
- *
- * @since 2.5.0
- *
- * @return string Writable temporary directory
- */
-function get_temp_dir() {
-	static $temp;
-	if ( defined('WP_TEMP_DIR') )
-		return trailingslashit(WP_TEMP_DIR);
-
-	if ( $temp )
-		return trailingslashit($temp);
-
-	$temp = WP_CONTENT_DIR . '/';
-	if ( is_dir($temp) && @is_writable($temp) )
-		return $temp;
-
-	if  ( function_exists('sys_get_temp_dir') ) {
-		$temp = sys_get_temp_dir();
-		if ( @is_writable($temp) )
-			return trailingslashit($temp);
-	}
-
-	$temp = ini_get('upload_tmp_dir');
-	if ( is_dir($temp) && @is_writable($temp) )
-		return trailingslashit($temp);
-
-	$temp = '/tmp/';
-	return $temp;
-}
-
-/**
  * Returns a filename of a Temporary unique file.
  * Please note that the calling function must unlink() this itself.
  *
@@ -519,26 +483,17 @@ function download_url( $url, $timeout = 300 ) {
 	if ( ! $tmpfname )
 		return new WP_Error('http_no_file', __('Could not create Temporary file.'));
 
-	$handle = @fopen($tmpfname, 'wb');
-	if ( ! $handle )
-		return new WP_Error('http_no_file', __('Could not create Temporary file.'));
+	$response = wp_remote_get( $url, array( 'timeout' => $timeout, 'stream' => true, 'filename' => $tmpfname ) );
 
-	$response = wp_remote_get($url, array('timeout' => $timeout));
-
-	if ( is_wp_error($response) ) {
-		fclose($handle);
-		unlink($tmpfname);
+	if ( is_wp_error( $response ) ) {
+		unlink( $tmpfname );
 		return $response;
 	}
 
 	if ( $response['response']['code'] != '200' ){
-		fclose($handle);
-		unlink($tmpfname);
-		return new WP_Error('http_404', trim($response['response']['message']));
+		unlink( $tmpfname );
+		return new WP_Error( 'http_404', trim( $response['response']['message'] ) );
 	}
-
-	fwrite($handle, $response['body']);
-	fclose($handle);
 
 	return $tmpfname;
 }

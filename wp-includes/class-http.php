@@ -97,7 +97,9 @@ class WP_Http {
 			'body' => null,
 			'compress' => false,
 			'decompress' => true,
-			'sslverify' => true
+			'sslverify' => true,
+			'stream' => false,
+			'filename' => null
 		);
 
 		
@@ -135,6 +137,18 @@ class WP_Http {
 		$homeURL = parse_url( get_bloginfo( 'url' ) );
 		$r['local'] = $homeURL['host'] == $arrURL['host'] || 'localhost' == $arrURL['host'];
 		unset( $homeURL );
+
+		// If we are streaming to a file but no filename was given drop it in the WP temp dir
+		// and pick it's name using the basename of the $url
+		if ( $r['stream']  && empty( $r['filename'] ) )
+			$r['filename'] = get_temp_dir() . basename( $url );
+
+		// Force some settings if we are streaming to a file and check for existence and perms of destination directory
+		if ( $r['stream'] ) {
+			$r['blocking'] = true;
+			if ( ! is_writable( dirname( $r['filename'] ) ) )
+				return new WP_Error( 'http_request_failed', __( 'Destination directory for file streaming does not exist or is not writable.' ) );
+		}
 
 		if ( is_null( $r['headers'] ) )
 			$r['headers'] = array();
@@ -659,16 +673,49 @@ class WP_Http_Fsockopen {
 		}
 
 		$strResponse = '';
-		while ( ! feof($handle) )
-			$strResponse .= fread($handle, 4096);
+		$bodyStarted = false;
 
-		fclose($handle);
+		// If streaming to a file setup the file handle
+		if ( $r['stream'] ) {
+			if ( ! WP_DEBUG )
+				$stream_handle = @fopen( $r['filename'], 'w+' );
+			else
+				$stream_handle = fopen( $r['filename'], 'w+' );
+			if ( ! $stream_handle )
+				return new WP_Error( 'http_request_failed', sprintf( __( 'Could not open handle for fopen() to %s' ), $r['filename'] ) );
+
+			while ( ! feof($handle) ) {
+				$block = fread( $handle, 4096 );
+				if ( $bodyStarted ) {
+					fwrite( $stream_handle, $block );
+				} else {
+					$strResponse .= $block;
+					if ( strpos( $strResponse, "\r\n\r\n" ) ) {
+						$process = WP_Http::processResponse( $strResponse );
+						$bodyStarted = true;
+						fwrite( $stream_handle, $process['body'] );
+						unset( $strResponse );
+						$process['body'] = '';
+					}
+				}
+			}
+
+			fclose( $stream_handle );
+
+		} else { 
+			while ( ! feof($handle) )
+				$strResponse .= fread( $handle, 4096 );
+
+			$process = WP_Http::processResponse( $strResponse );
+			unset( $strResponse );
+		}
+
+		fclose( $handle );
 
 		if ( true === $secure_transport )
 			error_reporting($error_reporting);
 
-		$process = WP_Http::processResponse($strResponse);
-		$arrHeaders = WP_Http::processHeaders($process['headers']);
+		$arrHeaders = WP_Http::processHeaders( $process['headers'] );
 
 		// Is the response code within the 400 range?
 		if ( (int) $arrHeaders['response']['code'] >= 400 && (int) $arrHeaders['response']['code'] < 500 )
@@ -690,7 +737,7 @@ class WP_Http_Fsockopen {
 		if ( true === $r['decompress'] && true === WP_Http_Encoding::should_decode($arrHeaders['headers']) )
 			$process['body'] = WP_Http_Encoding::decompress( $process['body'] );
 
-		return array('headers' => $arrHeaders['headers'], 'body' => $process['body'], 'response' => $arrHeaders['response'], 'cookies' => $arrHeaders['cookies']);
+		return array( 'headers' => $arrHeaders['headers'], 'body' => $process['body'], 'response' => $arrHeaders['response'], 'cookies' => $arrHeaders['cookies'], 'filename' => $r['filename'] );
 	}
 
 	/**
@@ -834,10 +881,26 @@ class WP_Http_Streams {
 			return array( 'headers' => array(), 'body' => '', 'response' => array('code' => false, 'message' => false), 'cookies' => array() );
 		}
 
-		$strResponse = stream_get_contents($handle);
-		$meta = stream_get_meta_data($handle);
+		if ( $r['stream'] ) {
+			if ( ! WP_DEBUG )
+				$stream_handle = @fopen( $r['filename'], 'w+' );
+			else
+				$stream_handle = fopen( $r['filename'], 'w+' );
 
-		fclose($handle);
+			if ( ! $stream_handle )
+				return new WP_Error( 'http_request_failed', sprintf( __( 'Could not open handle for fopen() to %s' ), $r['filename'] ) );
+
+			stream_copy_to_stream( $handle, $stream_handle );
+
+			fclose( $stream_handle );
+			$strResponse = '';
+		} else {
+			$strResponse = stream_get_contents( $handle );
+		}
+
+		$meta = stream_get_meta_data( $handle );
+
+		fclose( $handle );
 
 		$processedHeaders = array();
 		if ( isset( $meta['wrapper_data']['headers'] ) )
@@ -856,7 +919,7 @@ class WP_Http_Streams {
 		if ( true === $r['decompress'] && true === WP_Http_Encoding::should_decode($processedHeaders['headers']) )
 			$strResponse = WP_Http_Encoding::decompress( $strResponse );
 
-		return array('headers' => $processedHeaders['headers'], 'body' => $strResponse, 'response' => $processedHeaders['response'], 'cookies' => $processedHeaders['cookies']);
+		return array( 'headers' => $processedHeaders['headers'], 'body' => $strResponse, 'response' => $processedHeaders['response'], 'cookies' => $processedHeaders['cookies'], 'filename' => $r['filename'] );
 	}
 
 	/**
@@ -1006,11 +1069,25 @@ class WP_Http_ExtHttp {
 		if ( true === $r['decompress'] && true === WP_Http_Encoding::should_decode($theHeaders['headers']) )
 			$theBody = http_inflate( $theBody );
 
+		if ( $r['stream'] ) {
+			if ( !WP_DEBUG )
+				$stream_handle = @fopen( $r['filename'], 'w+' );
+			else
+				$stream_handle = fopen( $r['filename'], 'w+' );
+
+			if ( ! $stream_handle )
+				return new WP_Error( 'http_request_failed', sprintf( __( 'Could not open handle for fopen() to %s' ), $r['filename'] ) );
+
+			fwrite( $stream_handle, $theBody );
+			fclose( $stream_handle );
+			$theBody = '';
+		}
+
 		$theResponse = array();
 		$theResponse['code'] = $info['response_code'];
 		$theResponse['message'] = get_status_header_desc($info['response_code']);
 
-		return array('headers' => $theHeaders['headers'], 'body' => $theBody, 'response' => $theResponse, 'cookies' => $theHeaders['cookies']);
+		return array( 'headers' => $theHeaders['headers'], 'body' => $theBody, 'response' => $theResponse, 'cookies' => $theHeaders['cookies'], 'filename' => $r['filename'] );
 	}
 
 	/**
@@ -1036,6 +1113,15 @@ class WP_Http_ExtHttp {
  * @since 2.7
  */
 class WP_Http_Curl {
+
+	/**
+	 * Temporary header storage for use with streaming to a file.
+	 *
+	 * @since 3.2.0
+	 * @access private
+	 * @var string
+	 */
+	private $headers;
 
 	/**
 	 * Send a HTTP request to a URI using cURL extension.
@@ -1121,9 +1207,20 @@ class WP_Http_Curl {
 		}
 
 		if ( true === $r['blocking'] )
-			curl_setopt( $handle, CURLOPT_HEADER, true );
-		else
-			curl_setopt( $handle, CURLOPT_HEADER, false );
+			curl_setopt( $handle, CURLOPT_HEADERFUNCTION, array( &$this, 'stream_headers' ) );
+
+		curl_setopt( $handle, CURLOPT_HEADER, false );
+
+		// If streaming to a file open a file handle, and setup our curl streaming handler
+		if ( $r['stream'] ) {
+			if ( ! WP_DEBUG )
+				$stream_handle = @fopen( $r['filename'], 'w+' );
+			else
+				$stream_handle = fopen( $r['filename'], 'w+' );
+			if ( ! $stream_handle )
+				return new WP_Error( 'http_request_failed', sprintf( __( 'Could not open handle for fopen() to %s' ), $r['filename'] ) );
+			curl_setopt( $handle, CURLOPT_FILE, $stream_handle );
+		}
 
 		// The option doesn't work with safe mode or when open_basedir is set.
 		if ( !ini_get('safe_mode') && !ini_get('open_basedir') && 0 !== $r['_redirection'] )
@@ -1155,28 +1252,21 @@ class WP_Http_Curl {
 		}
 
 		$theResponse = curl_exec( $handle );
+		$theBody = '';
+		$theHeaders = WP_Http::processHeaders( $this->headers );
 
-		if ( !empty($theResponse) ) {
-			$headerLength = curl_getinfo($handle, CURLINFO_HEADER_SIZE);
-			$theHeaders = trim( substr($theResponse, 0, $headerLength) );
-			if ( strlen($theResponse) > $headerLength )
-				$theBody = substr( $theResponse, $headerLength );
-			else
-				$theBody = '';
-			if ( false !== strpos($theHeaders, "\r\n\r\n") ) {
-				$headerParts = explode("\r\n\r\n", $theHeaders);
-				$theHeaders = $headerParts[ count($headerParts) -1 ];
-			}
-			$theHeaders = WP_Http::processHeaders($theHeaders);
-		} else {
+		if ( ! empty($theResponse) && ! is_bool( $theResponse ) ) // is_bool: when using $args['stream'], curl_exec will return (bool)true
+			$theBody = $theResponse;
+
+		// If no response, and It's not a HEAD request with valid headers returned
+		if ( empty($theResponse) && 'HEAD' != $args['method'] && ! empty($this->headers) ) {
 			if ( $curl_error = curl_error($handle) )
 				return new WP_Error('http_request_failed', $curl_error);
 			if ( in_array( curl_getinfo( $handle, CURLINFO_HTTP_CODE ), array(301, 302) ) )
 				return new WP_Error('http_request_failed', __('Too many redirects.'));
-
-			$theHeaders = array( 'headers' => array(), 'cookies' => array() );
-			$theBody = '';
 		}
+
+		unset( $this->headers );
 
 		$response = array();
 		$response['code'] = curl_getinfo( $handle, CURLINFO_HTTP_CODE );
@@ -1184,19 +1274,36 @@ class WP_Http_Curl {
 
 		curl_close( $handle );
 
+		if ( $r['stream'] )
+			fclose( $stream_handle );
+
 		// See #11305 - When running under safe mode, redirection is disabled above. Handle it manually.
-		if ( !empty($theHeaders['headers']['location']) && (ini_get('safe_mode') || ini_get('open_basedir')) && 0 !== $r['_redirection'] ) {
+		if ( ! empty( $theHeaders['headers']['location'] ) && ( ini_get( 'safe_mode' ) || ini_get( 'open_basedir' ) ) && 0 !== $r['_redirection'] ) {
 			if ( $r['redirection']-- > 0 ) {
-				return $this->request($theHeaders['headers']['location'], $r);
+				return $this->request( $theHeaders['headers']['location'], $r );
 			} else {
-				return new WP_Error('http_request_failed', __('Too many redirects.'));
+				return new WP_Error( 'http_request_failed', __( 'Too many redirects.' ) );
 			}
 		}
 
 		if ( true === $r['decompress'] && true === WP_Http_Encoding::should_decode($theHeaders['headers']) )
 			$theBody = WP_Http_Encoding::decompress( $theBody );
 
-		return array('headers' => $theHeaders['headers'], 'body' => $theBody, 'response' => $response, 'cookies' => $theHeaders['cookies']);
+		return array( 'headers' => $theHeaders['headers'], 'body' => $theBody, 'response' => $response, 'cookies' => $theHeaders['cookies'], 'filename' => $r['filename'] );
+	}
+
+	/**
+	 * Grab the headers of the cURL request
+	 *
+	 * Each header is sent individually to this callback, so we append to the $header property for temporary storage
+	 *
+	 * @since 3.2.0
+	 * @access private
+	 * @return int
+	 */
+	private function stream_headers( $handle, $headers ) {
+		$this->headers .= $headers;
+		return strlen( $headers );
 	}
 
 	/**
