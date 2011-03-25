@@ -207,6 +207,10 @@
 	left: 30px;
 }
 
+#wpadminbar .quicklinks li#wp-admin-bar-my-account-with-avatar ul ul { 
+ 	left: 0; 
+}
+
 #wpadminbar .quicklinks .menupop li a img.blavatar {
 	vertical-align: middle;
 	margin: 0 8px 0 0;
