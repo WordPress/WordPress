@@ -359,7 +359,7 @@ class WP_Http {
 
 		$cookies = array();
 		$newheaders = array();
-		foreach ( $headers as $tempheader ) {
+		foreach ( (array) $headers as $tempheader ) {
 			if ( empty($tempheader) )
 				continue;
 
@@ -1121,7 +1121,7 @@ class WP_Http_Curl {
 	 * @access private
 	 * @var string
 	 */
-	private $headers;
+	private $headers = '';
 
 	/**
 	 * Send a HTTP request to a URI using cURL extension.
@@ -1259,7 +1259,7 @@ class WP_Http_Curl {
 			$theBody = $theResponse;
 
 		// If no response, and It's not a HEAD request with valid headers returned
-		if ( empty($theResponse) && 'HEAD' != $args['method'] && ! empty($this->headers) ) {
+		if ( empty($theResponse) && ('HEAD' != $args['method'] || empty($this->headers)) ) {
 			if ( $curl_error = curl_error($handle) )
 				return new WP_Error('http_request_failed', $curl_error);
 			if ( in_array( curl_getinfo( $handle, CURLINFO_HTTP_CODE ), array(301, 302) ) )
