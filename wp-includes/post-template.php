@@ -1349,7 +1349,7 @@ function wp_list_post_revisions( $post_id = 0, $args = null ) {
 	if ( $parent )
 		array_unshift( $revisions, $post );
 
-	$rows = '';
+	$rows = $right_checked = '';
 	$class = false;
 	$can_edit_post = current_user_can( 'edit_post', $post->ID );
 	foreach ( $revisions as $revision ) {
