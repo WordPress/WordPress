@@ -38,6 +38,7 @@ if ( isset($_GET['inline']) ) {
 	$errors = array();
 
 	if ( isset($_POST['html-upload']) && !empty($_FILES) ) {
+		check_admin_referer('media-form');
 		// Upload File button was clicked
 		$id = media_handle_upload('async-upload', $_REQUEST['post_id']);
 		unset($_FILES);
