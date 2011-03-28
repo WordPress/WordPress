@@ -218,11 +218,9 @@ class WP_Http {
 	 * @return array|object Array containing 'headers', 'body', 'response', 'cookies'. A WP_Error instance upon error
 	 */
 	private function _dispatch_request($url, $args) {
-		static $transports = null;
-		if ( is_null($transports) )
-			$transports = array();
+		static $transports = array();
 
-		$request_order = isset($r['blocking']) && !$r['blocking'] ?
+		$request_order = isset($args['blocking']) && !$args['blocking'] ?
 							array('curl', 'streams', 'fsockopen', 'exthttp') : // non-blocking order
 							array('exthttp', 'curl', 'streams', 'fsockopen'); // blocking order
 
