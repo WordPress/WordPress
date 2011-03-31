@@ -283,8 +283,10 @@ function wp_debug_mode() {
  *
  * To set directory manually, define <code>WP_LANG_DIR</code> in wp-config.php.
  *
- * First looks for language folder in WP_CONTENT_DIR and uses that folder if it
- * exists. Or it uses the "languages" folder in WPINC.
+ * If the language directory exists within WP_CONTENT_DIR that is used
+ * Otherwise if the language directory exists within WPINC, that's used
+ * Finally, If neither of the preceeding directories is found,
+ * WP_CONTENT_DIR/languages is used.
  *
  * The WP_LANG_DIR constant was introduced in 2.1.0.
  *
@@ -293,7 +295,7 @@ function wp_debug_mode() {
  */
 function wp_set_lang_dir() {
 	if ( !defined( 'WP_LANG_DIR' ) ) {
-		if ( file_exists( WP_CONTENT_DIR . '/languages' ) && @is_dir( WP_CONTENT_DIR . '/languages' ) ) {
+		if ( file_exists( WP_CONTENT_DIR . '/languages' ) && @is_dir( WP_CONTENT_DIR . '/languages' ) || !@is_dir(ABSPATH . WPINC . '/languages') ) {
 			define( 'WP_LANG_DIR', WP_CONTENT_DIR . '/languages' ); // no leading slash, no trailing slash, full path, not relative to ABSPATH
 			if ( !defined( 'LANGDIR' ) ) {
 				// Old static relative path maintained for limited backwards compatibility - won't work in some cases
