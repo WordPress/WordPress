@@ -51,10 +51,7 @@ add_contextual_help($current_screen,
 
 $wp_http_referer = remove_query_arg(array('update', 'delete_count'), stripslashes($wp_http_referer));
 
-$all_post_caps = array('posts', 'pages');
-$user_can_edit = false;
-foreach ( $all_post_caps as $post_cap )
-	$user_can_edit |= current_user_can("edit_$post_cap");
+$user_can_edit = current_user_can( 'edit_posts' ) || current_user_can( 'edit_pages' );
 
 /**
  * Optional SSL preference that can be turned on by hooking to the 'personal_options' action.
