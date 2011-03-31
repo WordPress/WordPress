@@ -82,7 +82,18 @@ class WP_Filesystem_Base {
 	 * @return string The location of the remote path.
 	 */
 	function wp_themes_dir() {
-		return $this->wp_content_dir() . '/themes';
+		return $this->wp_content_dir() . 'themes/';
+	}
+	/**
+	 * Returns the path on the remote filesystem of WP_LANG_DIR
+	 *
+	 * @since 3.2
+	 * @access public
+	 *
+	 * @return string The location of the remote path.
+	 */
+	function wp_lang_dir() {
+		return $this->find_folder(WP_LANG_DIR);
 	}
 
 	/**

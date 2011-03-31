@@ -716,9 +716,10 @@ function _unzip_file_pclzip($file, $to, $needed_dirs = array()) {
  *
  * @param string $from source directory
  * @param string $to destination directory
+ * @param array $skip_list a list of files/folders to skip copying
  * @return mixed WP_Error on failure, True on success.
  */
-function copy_dir($from, $to) {
+function copy_dir($from, $to, $skip_list = array() ) {
 	global $wp_filesystem;
 
 	$dirlist = $wp_filesystem->dirlist($from);
@@ -726,7 +727,18 @@ function copy_dir($from, $to) {
 	$from = trailingslashit($from);
 	$to = trailingslashit($to);
 
+	$skip_regex = '';
+	foreach ( (array)$skip_list as $key => $skip_file )
+		$skip_regex .= preg_quote($skip_file, '!') . '|';
+
+	if ( !empty($skip_regex) )
+		$skip_regex = '!(' . rtrim($skip_regex, '|') . ')$!i';
+
 	foreach ( (array) $dirlist as $filename => $fileinfo ) {
+		if ( !empty($skip_regex) )
+			if ( preg_match($skip_regex, $from . $filename) )
+				continue;
+
 		if ( 'f' == $fileinfo['type'] ) {
 			if ( ! $wp_filesystem->copy($from . $filename, $to . $filename, true, FS_CHMOD_FILE) ) {
 				// If copy failed, chmod file to 0644 and try again.
@@ -739,7 +751,7 @@ function copy_dir($from, $to) {
 				if ( !$wp_filesystem->mkdir($to . $filename, FS_CHMOD_DIR) )
 					return new WP_Error('mkdir_failed', __('Could not create directory.'), $to . $filename);
 			}
-			$result = copy_dir($from . $filename, $to . $filename);
+			$result = copy_dir($from . $filename, $to . $filename, $skip_list);
 			if ( is_wp_error($result) )
 				return $result;
 		}
