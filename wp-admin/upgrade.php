@@ -73,7 +73,7 @@ $mysql_compat   = version_compare( $mysql_version, $required_mysql_version, '>='
 switch ( $step ) :
 	case 0:
 		$goback = stripslashes( wp_get_referer() );
-		$goback = esc_url_raw( $goback );
+		$goback = esc_url( $goback );
 		$goback = urlencode( $goback );
 ?>
 <h2><?php _e( 'Database Update Required' ); ?></h2>
@@ -86,7 +86,7 @@ switch ( $step ) :
 		wp_upgrade();
 
 			$backto = !empty($_GET['backto']) ? stripslashes( urldecode( $_GET['backto'] ) ) :  __get_option( 'home' ) . '/';
-			$backto = esc_url_raw( $backto );
+			$backto = esc_url( $backto );
 			$backto = wp_validate_redirect($backto, __get_option( 'home' ) . '/');
 ?>
 <h2><?php _e( 'Update Complete' ); ?></h2>
