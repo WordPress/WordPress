@@ -73,7 +73,7 @@ $mysql_compat   = version_compare( $mysql_version, $required_mysql_version, '>='
 switch ( $step ) :
 	case 0:
 		$goback = stripslashes( wp_get_referer() );
-		$goback = esc_url( $goback );
+		$goback = esc_url_raw( $goback );
 		$goback = urlencode( $goback );
 ?>
 <h2><?php _e( 'Database Update Required' ); ?></h2>
