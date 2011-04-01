@@ -281,23 +281,29 @@ if ( is_multisite() && is_network_admin() && ! IS_PROFILE_PAGE && current_user_c
 		<select name="display_name" id="display_name">
 		<?php
 			$public_display = array();
-			$public_display['display_username']  = $profileuser->user_login;
 			$public_display['display_nickname']  = $profileuser->nickname;
+			$public_display['display_username']  = $profileuser->user_login;
+
 			if ( !empty($profileuser->first_name) )
 				$public_display['display_firstname'] = $profileuser->first_name;
+
 			if ( !empty($profileuser->last_name) )
 				$public_display['display_lastname'] = $profileuser->last_name;
+
 			if ( !empty($profileuser->first_name) && !empty($profileuser->last_name) ) {
 				$public_display['display_firstlast'] = $profileuser->first_name . ' ' . $profileuser->last_name;
 				$public_display['display_lastfirst'] = $profileuser->last_name . ' ' . $profileuser->first_name;
 			}
+
 			if ( !in_array( $profileuser->display_name, $public_display ) ) // Only add this if it isn't duplicated elsewhere
 				$public_display = array( 'display_displayname' => $profileuser->display_name ) + $public_display;
+
 			$public_display = array_map( 'trim', $public_display );
 			$public_display = array_unique( $public_display );
+
 			foreach ( $public_display as $id => $item ) {
 		?>
-			<option id="<?php echo $id; ?>" value="<?php echo esc_attr($item); ?>"<?php selected( $profileuser->display_name, $item ); ?>><?php echo $item; ?></option>
+			<option id="<?php echo $id; ?>"<?php selected( $profileuser->display_name, $item ); ?>><?php echo $item; ?></option>
 		<?php
 			}
 		?>
