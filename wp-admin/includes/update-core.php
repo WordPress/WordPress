@@ -454,12 +454,13 @@ function update_core($from, $to) {
 	$wp_filesystem->delete($maintenance_file);
 }
 
-/**#@+
+/**
  * Copies a directory from one location to another via the WordPress Filesystem Abstraction.
  * Assumes that WP_Filesystem() has already been called and setup.
  *
  * This is a temporary function for the 3.1 -> 3.2 upgrade only and will be removed in 3.3
  *
+ * @ignore
  * @since 3.2
  * @see copy_dir()
  *
@@ -507,6 +508,5 @@ function _copy_dir($from, $to, $skip_list = array() ) {
 	}
 	return true;
 }
-/**#@-*/
 
 ?>
