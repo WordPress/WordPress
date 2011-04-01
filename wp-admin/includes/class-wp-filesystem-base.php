@@ -148,7 +148,7 @@ class WP_Filesystem_Base {
 	function find_folder($folder) {
 
 		if ( strpos($this->method, 'ftp') !== false ) {
-			$constant_overrides = array( 'FTP_BASE' => ABSPATH, 'FTP_CONTENT_DIR' => WP_CONTENT_DIR, 'FTP_PLUGIN_DIR' => WP_PLUGIN_DIR );
+			$constant_overrides = array( 'FTP_BASE' => ABSPATH, 'FTP_CONTENT_DIR' => WP_CONTENT_DIR, 'FTP_PLUGIN_DIR' => WP_PLUGIN_DIR, 'FTP_LANG_DIR' => WP_LANG_DIR );
 			foreach ( $constant_overrides as $constant => $dir )
 				if ( defined($constant) && $folder === $dir )
 					return trailingslashit(constant($constant));
