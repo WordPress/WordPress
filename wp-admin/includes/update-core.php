@@ -363,7 +363,7 @@ function update_core($from, $to) {
 	$wp_filesystem->put_contents($maintenance_file, $maintenance_string, FS_CHMOD_FILE);
 
 	// Copy new versions of WP files into place.
-	$result = copy_dir($from . $distro, $to, array('wp-content') );
+	$result = _copy_dir($from . $distro, $to, array('wp-content') );
 
 	// Custom Content Directory needs updating now.
 	// Copy Languages
@@ -394,19 +394,22 @@ function update_core($from, $to) {
 			if ( version_compare($introduced_version, $old_version, '>') ) {
 				$directory = ('/' == $file[ strlen($file)-1 ]);
 				list($type, $filename) = explode('/', $file, 2);
+
 				if ( 'plugins' == $type )
 					$dest = $wp_filesystem->wp_plugins_dir();
 				elseif ( 'themes' == $type )
-					$dest = $wp_filesystem->wp_themes_dir();
+					$dest = trailingslashit($wp_filesystem->wp_themes_dir()); // Back-compat, ::wp_themes_dir() did not return trailingslash'd pre-3.2
+				else
+					continue;
 
 				if ( ! $directory ) {
-					if ( $wp_filesystem->exists($dest . '/' . $filename) )
+					if ( $wp_filesystem->exists($dest . $filename) )
 						continue;
 
-					if ( ! $wp_filesystem->copy($from . $distro . 'wp-content/' . $file, $dest . '/' . $filename, FS_CHMOD_FILE) )
-						$result = new WP_Error('copy_failed', __('Could not copy file.'), $dest . '/' . $filename);
+					if ( ! $wp_filesystem->copy($from . $distro . 'wp-content/' . $file, $dest . $filename, FS_CHMOD_FILE) )
+						$result = new WP_Error('copy_failed', __('Could not copy file.'), $dest . $filename);
 				} else {
-					if ( $wp_filesystem->is_dir($dest . '/' . $filename) )
+					if ( $wp_filesystem->is_dir($dest . $filename) )
 						continue;
 
 					$wp_filesystem->mkdir($dest . $filename, FS_CHMOD_DIR);
@@ -450,5 +453,60 @@ function update_core($from, $to) {
 	// Remove maintenance file, we're done.
 	$wp_filesystem->delete($maintenance_file);
 }
+
+/**#@+
+ * Copies a directory from one location to another via the WordPress Filesystem Abstraction.
+ * Assumes that WP_Filesystem() has already been called and setup.
+ *
+ * This is a temporary function for the 3.1 -> 3.2 upgrade only and will be removed in 3.3
+ *
+ * @since 3.2
+ * @see copy_dir()
+ *
+ * @param string $from source directory
+ * @param string $to destination directory
+ * @param array $skip_list a list of files/folders to skip copying
+ * @return mixed WP_Error on failure, True on success.
+ */
+function _copy_dir($from, $to, $skip_list = array() ) {
+	global $wp_filesystem;
+
+	$dirlist = $wp_filesystem->dirlist($from);
+
+	$from = trailingslashit($from);
+	$to = trailingslashit($to);
+
+	$skip_regex = '';
+	foreach ( (array)$skip_list as $key => $skip_file )
+		$skip_regex .= preg_quote($skip_file, '!') . '|';
+
+	if ( !empty($skip_regex) )
+		$skip_regex = '!(' . rtrim($skip_regex, '|') . ')$!i';
+
+	foreach ( (array) $dirlist as $filename => $fileinfo ) {
+		if ( !empty($skip_regex) )
+			if ( preg_match($skip_regex, $from . $filename) )
+				continue;
+
+		if ( 'f' == $fileinfo['type'] ) {
+			if ( ! $wp_filesystem->copy($from . $filename, $to . $filename, true, FS_CHMOD_FILE) ) {
+				// If copy failed, chmod file to 0644 and try again.
+				$wp_filesystem->chmod($to . $filename, 0644);
+				if ( ! $wp_filesystem->copy($from . $filename, $to . $filename, true, FS_CHMOD_FILE) )
+					return new WP_Error('copy_failed', __('Could not copy file.'), $to . $filename);
+			}
+		} elseif ( 'd' == $fileinfo['type'] ) {
+			if ( !$wp_filesystem->is_dir($to . $filename) ) {
+				if ( !$wp_filesystem->mkdir($to . $filename, FS_CHMOD_DIR) )
+					return new WP_Error('mkdir_failed', __('Could not create directory.'), $to . $filename);
+			}
+			$result = _copy_dir($from . $filename, $to . $filename, $skip_list);
+			if ( is_wp_error($result) )
+				return $result;
+		}
+	}
+	return true;
+}
+/**#@-*/
 
 ?>
