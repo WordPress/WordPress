@@ -211,25 +211,25 @@ class WP_Upgrader {
 			$destination = trailingslashit($destination) . trailingslashit(basename($source));
 		}
 
-		if ( $wp_filesystem->exists($remote_destination) ) {
-			if ( $clear_destination ) {
-				//We're going to clear the destination if theres something there
-				$this->skin->feedback('remove_old');
+		if ( $clear_destination ) {
+			//We're going to clear the destination if theres something there
+			$this->skin->feedback('remove_old');
+			$removed = true;
+			if ( $wp_filesystem->exists($remote_destination) )
 				$removed = $wp_filesystem->delete($remote_destination, true);
-				$removed = apply_filters('upgrader_clear_destination', $removed, $local_destination, $remote_destination, $hook_extra);
+			$removed = apply_filters('upgrader_clear_destination', $removed, $local_destination, $remote_destination, $hook_extra);
 
-				if ( is_wp_error($removed) )
-					return $removed;
-				else if ( ! $removed )
-					return new WP_Error('remove_old_failed', $this->strings['remove_old_failed']);
-			} else {
-				//If we're not clearing the destination folder and something exists there allready, Bail.
-				//But first check to see if there are actually any files in the folder.
-				$_files = $wp_filesystem->dirlist($remote_destination);
-				if ( ! empty($_files) ) {
-					$wp_filesystem->delete($remote_source, true); //Clear out the source files.
-					return new WP_Error('folder_exists', $this->strings['folder_exists'], $remote_destination );
-				}
+			if ( is_wp_error($removed) )
+				return $removed;
+			else if ( ! $removed )
+				return new WP_Error('remove_old_failed', $this->strings['remove_old_failed']);
+		} elseif ( $wp_filesystem->exists($remote_destination) ) {
+			//If we're not clearing the destination folder and something exists there allready, Bail.
+			//But first check to see if there are actually any files in the folder.
+			$_files = $wp_filesystem->dirlist($remote_destination);
+			if ( ! empty($_files) ) {
+				$wp_filesystem->delete($remote_source, true); //Clear out the source files.
+				return new WP_Error('folder_exists', $this->strings['folder_exists'], $remote_destination );
 			}
 		}
 
@@ -566,7 +566,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 	//Hooked to upgrade_clear_destination
 	function delete_old_plugin($removed, $local_destination, $remote_destination, $plugin) {
 		global $wp_filesystem;
-
+var_dump("delete_old_plugin($removed, $local_destination, $remote_destination, $plugin)");
 		if ( is_wp_error($removed) )
 			return $removed; //Pass errors through.
 
@@ -576,7 +576,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 
 		$plugins_dir = $wp_filesystem->wp_plugins_dir();
 		$this_plugin_dir = trailingslashit( dirname($plugins_dir . $plugin) );
-
+var_dump(compact('plugins_dir', 'this_plugin_dir'), array('exists'=>  $wp_filesystem->exists($this_plugin_dir)) );
 		if ( ! $wp_filesystem->exists($this_plugin_dir) ) //If its already vanished.
 			return $removed;
 
@@ -585,11 +585,11 @@ class Plugin_Upgrader extends WP_Upgrader {
 			$deleted = $wp_filesystem->delete($this_plugin_dir, true);
 		else
 			$deleted = $wp_filesystem->delete($plugins_dir . $plugin);
-
+var_dump($deleted);
 		if ( ! $deleted )
 			return new WP_Error('remove_old_failed', $this->strings['remove_old_failed']);
 
-		return $removed;
+		return true;
 	}
 }
 
