@@ -566,7 +566,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 	//Hooked to upgrade_clear_destination
 	function delete_old_plugin($removed, $local_destination, $remote_destination, $plugin) {
 		global $wp_filesystem;
-var_dump("delete_old_plugin($removed, $local_destination, $remote_destination, $plugin)");
+
 		if ( is_wp_error($removed) )
 			return $removed; //Pass errors through.
 
@@ -576,7 +576,7 @@ var_dump("delete_old_plugin($removed, $local_destination, $remote_destination, $
 
 		$plugins_dir = $wp_filesystem->wp_plugins_dir();
 		$this_plugin_dir = trailingslashit( dirname($plugins_dir . $plugin) );
-var_dump(compact('plugins_dir', 'this_plugin_dir'), array('exists'=>  $wp_filesystem->exists($this_plugin_dir)) );
+
 		if ( ! $wp_filesystem->exists($this_plugin_dir) ) //If its already vanished.
 			return $removed;
 
@@ -585,7 +585,7 @@ var_dump(compact('plugins_dir', 'this_plugin_dir'), array('exists'=>  $wp_filesy
 			$deleted = $wp_filesystem->delete($this_plugin_dir, true);
 		else
 			$deleted = $wp_filesystem->delete($plugins_dir . $plugin);
-var_dump($deleted);
+
 		if ( ! $deleted )
 			return new WP_Error('remove_old_failed', $this->strings['remove_old_failed']);
 
