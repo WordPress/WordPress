@@ -210,7 +210,7 @@ if ( !( IS_PROFILE_PAGE && !$user_can_edit ) ) : ?>
 <?php /* translators: Show admin bar when viewing site */ _e( 'when viewing site' ); ?></label><br />
 <label for="admin_bar_admin">
 <input name="admin_bar_admin" type="checkbox" id="admin_bar_admin" value="1" <?php checked( _get_admin_bar_pref( 'admin', $profileuser->ID ) ); ?> />
-<?php /* translators: Show admin bar in dashboard */ _e( 'in dashboard' ); ?></label>
+<?php /* translators: Show admin bar in dashboard */ _e( 'in dashboard' ); ?></label></fieldset>
 </td>
 </tr>
 <?php do_action('personal_options', $profileuser); ?>
