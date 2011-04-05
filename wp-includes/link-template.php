@@ -2215,7 +2215,7 @@ function wp_shortlink_wp_head() {
 	if ( empty( $shortlink ) )
 		return;
 
-	echo "<link rel='shortlink' href='" . esc_url_raw( $shortlink ) . "' />\n";
+	echo "<link rel='shortlink' href='" . esc_url( $shortlink ) . "' />\n";
 }
 
 /**
