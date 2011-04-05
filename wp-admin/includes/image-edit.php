@@ -551,7 +551,7 @@ function wp_save_image($post_id) {
 
 	// generate new filename
 	$path = get_attached_file($post_id);
-	$path_parts = pathinfo52( $path );
+	$path_parts = pathinfo( $path );
 	$filename = $path_parts['filename'];
 	$suffix = time() . rand(100, 999);
 
