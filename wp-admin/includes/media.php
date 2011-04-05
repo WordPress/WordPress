@@ -493,6 +493,7 @@ function media_upload_image() {
 	$id = 0;
 
 	if ( isset($_POST['html-upload']) && !empty($_FILES) ) {
+		check_admin_referer('media-form');
 		// Upload File button was clicked
 		$id = media_handle_upload('async-upload', $_REQUEST['post_id']);
 		unset($_FILES);
@@ -598,6 +599,7 @@ function media_upload_audio() {
 	$id = 0;
 
 	if ( isset($_POST['html-upload']) && !empty($_FILES) ) {
+		check_admin_referer('media-form');
 		// Upload File button was clicked
 		$id = media_handle_upload('async-upload', $_REQUEST['post_id']);
 		unset($_FILES);
@@ -656,6 +658,7 @@ function media_upload_video() {
 	$id = 0;
 
 	if ( isset($_POST['html-upload']) && !empty($_FILES) ) {
+		check_admin_referer('media-form');
 		// Upload File button was clicked
 		$id = media_handle_upload('async-upload', $_REQUEST['post_id']);
 		unset($_FILES);
@@ -714,6 +717,7 @@ function media_upload_file() {
 	$id = 0;
 
 	if ( isset($_POST['html-upload']) && !empty($_FILES) ) {
+		check_admin_referer('media-form');
 		// Upload File button was clicked
 		$id = media_handle_upload('async-upload', $_REQUEST['post_id']);
 		unset($_FILES);
