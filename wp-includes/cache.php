@@ -457,17 +457,6 @@ class WP_Object_Cache {
 	}
 
 	/**
-	 * PHP4 constructor; Calls PHP 5 style constructor
-	 *
-	 * @since 2.0.0
-	 *
-	 * @return WP_Object_Cache
-	 */
-	function WP_Object_Cache() {
-		return $this->__construct();
-	}
-
-	/**
 	 * Sets up object properties; PHP 5 style constructor
 	 *
 	 * @since 2.0.8

@@ -464,23 +464,6 @@ class wpdb {
 	/**
 	 * Connects to the database server and selects a database
 	 *
-	 * PHP4 compatibility layer for calling the PHP5 constructor.
-	 *
-	 * @uses wpdb::__construct() Passes parameters and returns result
-	 * @since 0.71
-	 *
-	 * @param string $dbuser MySQL database user
-	 * @param string $dbpassword MySQL database password
-	 * @param string $dbname MySQL database name
-	 * @param string $dbhost MySQL database host
-	 */
-	function wpdb( $dbuser, $dbpassword, $dbname, $dbhost ) {
-		return $this->__construct( $dbuser, $dbpassword, $dbname, $dbhost );
-	}
-
-	/**
-	 * Connects to the database server and selects a database
-	 *
 	 * PHP5 style constructor for compatibility with PHP5. Does
 	 * the actual setting up of the class properties and connection
 	 * to the database.
