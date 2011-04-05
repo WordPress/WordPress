@@ -715,10 +715,6 @@ class WP_Http_Fsockopen {
 
 		$arrHeaders = WP_Http::processHeaders( $process['headers'] );
 
-		// Is the response code within the 400 range?
-		if ( (int) $arrHeaders['response']['code'] >= 400 && (int) $arrHeaders['response']['code'] < 500 )
-			return new WP_Error('http_request_failed', $arrHeaders['response']['code'] . ': ' . $arrHeaders['response']['message']);
-
 		// If location is found, then assume redirect and redirect to location.
 		if ( isset($arrHeaders['headers']['location']) && 0 !== $r['_redirection'] ) {
 			if ( $r['redirection']-- > 0 ) {
