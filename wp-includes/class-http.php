@@ -362,7 +362,9 @@ class WP_Http {
 				continue;
 
 			if ( false === strpos($tempheader, ':') ) {
-				list( , $response['code'], $response['message']) = explode(' ', $tempheader, 3);
+				$stack = explode(' ', $tempheader, 3);
+				$stack[] = '';
+				list( , $response['code'], $response['message']) = $stack;
 				continue;
 			}
 
