@@ -742,19 +742,18 @@ class WP_Http_Fsockopen {
 	 * @return boolean False means this class can not be used, true means it can.
 	 */
 	function test( $args = array() ) {
+		if ( ! function_exists( 'fsockopen' ) )
+			return false;
+
 		if ( false !== ($option = get_option( 'disable_fsockopen' )) && time()-$option < 43200 ) // 12 hours
 			return false;
 
-		$is_ssl = isset($args['ssl']) && $args['ssl'];
+		$is_ssl = isset( $args['ssl'] ) && $args['ssl'];
 
-		if ( ! $is_ssl && function_exists( 'fsockopen' ) )
-			$use = true;
-		elseif ( $is_ssl && extension_loaded('openssl') && function_exists( 'fsockopen' ) )
-			$use = true;
-		else
-			$use = false;
+		if ( $is_ssl && ! extension_loaded( 'openssl' ) )
+			return false;
 
-		return apply_filters('use_fsockopen_transport', $use, $args);
+		return apply_filters( 'use_fsockopen_transport', true, $args );
 	}
 }
 
@@ -925,11 +924,19 @@ class WP_Http_Streams {
 	 *
 	 * @return boolean False means this class can not be used, true means it can.
 	 */
-	function test($args = array()) {
-		if ( ! function_exists('fopen') || (function_exists('ini_get') && true != ini_get('allow_url_fopen')) )
+	function test( $args = array() ) {
+		if ( ! function_exists( 'fopen' ) )
 			return false;
 
-		return apply_filters('use_streams_transport', true, $args);
+		if ( ! function_exists( 'ini_get' ) || true != ini_get( 'allow_url_fopen' ) )
+			return false;
+
+		$is_ssl = isset( $args['ssl'] ) && $args['ssl'];
+
+		if ( $is_ssl && ! extension_loaded( 'openssl' ) )
+			return false;
+
+		return apply_filters( 'use_streams_transport', true, $args );
 	}
 }
 
@@ -1308,11 +1315,19 @@ class WP_Http_Curl {
 	 *
 	 * @return boolean False means this class can not be used, true means it can.
 	 */
-	function test($args = array()) {
-		if ( function_exists('curl_init') && function_exists('curl_exec') )
-			return apply_filters('use_curl_transport', true, $args);
+	function test( $args = array() ) {
+		if ( ! function_exists( 'curl_init' ) || ! function_exists( 'curl_exec' ) )
+			return false;
 
-		return false;
+		$is_ssl = isset( $args['ssl'] ) && $args['ssl'];
+
+		if ( $is_ssl ) {
+			$curl_version = curl_version();
+			if ( ! (CURL_VERSION_SSL & $curl_version['features']) ) // Does this cURL version support SSL requests?
+				return false;
+		}
+
+		return apply_filters( 'use_curl_transport', true, $args );
 	}
 }
 
