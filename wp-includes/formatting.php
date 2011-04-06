@@ -876,7 +876,7 @@ function sanitize_sql_orderby( $orderby ){
 /**
  * Santizes a html classname to ensure it only contains valid characters
  *
- * Strips the string down to A-Z,a-z,0-9,'-' if this results in an empty
+ * Strips the string down to A-Z,a-z,0-9,_,-. If this results in an empty
  * string then it will return the alternative value supplied.
  *
  * @todo Expand to support the full range of CDATA that a class attribute can contain.
@@ -890,10 +890,10 @@ function sanitize_sql_orderby( $orderby ){
  */
 function sanitize_html_class( $class, $fallback = '' ) {
 	//Strip out any % encoded octets
-	$sanitized = preg_replace('|%[a-fA-F0-9][a-fA-F0-9]|', '', $class);
+	$sanitized = preg_replace( '|%[a-fA-F0-9][a-fA-F0-9]|', '', $class );
 
-	//Limit to A-Z,a-z,0-9,'-'
-	$sanitized = preg_replace('/[^A-Za-z0-9-]/', '', $sanitized);
+	//Limit to A-Z,a-z,0-9,_,-
+	$sanitized = preg_replace( '/[^A-Za-z0-9_-]/', '', $sanitized );
 
 	if ( '' == $sanitized )
 		$sanitized = $fallback;
