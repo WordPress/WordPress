@@ -6,10 +6,10 @@
 */
 
 if ( typeof tb_pathToImage != 'string' ) {
-	var tb_pathToImage = "../wp-includes/js/thickbox/loadingAnimation.gif";
+	var tb_pathToImage = thickboxL10n.loadingAnimation;
 }
 if ( typeof tb_closeImage != 'string' ) {
-	var tb_closeImage = "../wp-includes/js/thickbox/tb-close.png";
+	var tb_closeImage = thickboxL10n.closeImage;
 }
 
 /*!!!!!!!!!!!!!!!!! edit below this line at your own risk !!!!!!!!!!!!!!!!!!!!!!!*/
