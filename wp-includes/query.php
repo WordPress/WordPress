@@ -1510,7 +1510,7 @@ class WP_Query {
 			$this->parse_tax_query( $qv );
 
 			foreach ( $this->tax_query->queries as $tax_query ) {
-				if ( ( 'NOT' != $tax_query['operator'] ) && ( 'NOT IN' != $tax_query['operator'] ) ) {
+				if ( 'NOT IN' != $tax_query['operator'] ) {
 					switch ( $tax_query['taxonomy'] ) {
 						case 'category':
 							$this->is_category = true;
