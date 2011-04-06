@@ -509,7 +509,7 @@ function update_option( $option, $newvalue ) {
 	wp_protect_special_option( $option );
 
 	if ( is_object($newvalue) )
-		$newvalue = wp_clone($newvalue);
+		$newvalue = clone $newvalue;
 
 	$newvalue = sanitize_option( $option, $newvalue );
 	$oldvalue = get_option( $option );
@@ -590,8 +590,12 @@ function add_option( $option, $value = '', $deprecated = '', $autoload = 'yes' )
 
 	wp_protect_special_option( $option );
 
+	/* 
+	 * FIXME the next two lines of code are not necessary and should be removed.
+	 * @see http://core.trac.wordpress.org/ticket/13480
+	 */
 	if ( is_object($value) )
-		$value = wp_clone($value);
+		$value = clone $value;
 
 	$value = sanitize_option( $option, $value );
 

@@ -350,7 +350,7 @@ class WP_Object_Cache {
 		if ( isset ($this->cache[$group][$id]) ) {
 			$this->cache_hits += 1;
 			if ( is_object($this->cache[$group][$id]) )
-				return wp_clone($this->cache[$group][$id]);
+				return clone $this->cache[$group][$id];
 			else
 				return $this->cache[$group][$id];
 		}
@@ -426,7 +426,7 @@ class WP_Object_Cache {
 			$data = '';
 
 		if ( is_object($data) )
-			$data = wp_clone($data);
+			$data = clone $data;
 
 		$this->cache[$group][$id] = $data;
 
