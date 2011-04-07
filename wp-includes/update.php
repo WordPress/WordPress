@@ -280,11 +280,11 @@ function wp_update_themes( ) {
 
 	$new_update = new stdClass;
 	$new_update->last_checked = time( );
+	$new_update->checked = $checked;
+
 	$response = unserialize( $raw_response['body'] );
-	if ( $response ) {
-		$new_update->checked = $checked;
+	if ( false !== $response )
 		$new_update->response = $response;
-	}
 
 	set_site_transient( 'update_themes', $new_update );
 }
