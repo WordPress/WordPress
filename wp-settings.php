@@ -63,6 +63,7 @@ if ( WP_CACHE )
 wp_set_lang_dir();
 
 // Load early WordPress files.
+require( ABSPATH . WPINC . '/compat.php' );
 require( ABSPATH . WPINC . '/functions.php' );
 require( ABSPATH . WPINC . '/class-wp.php' );
 require( ABSPATH . WPINC . '/class-wp-error.php' );
