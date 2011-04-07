@@ -1350,7 +1350,7 @@ function get_media_item( $attachment_id, $args = null ) {
 			if ( user_can_richedit() ) { // textarea_escaped when user_can_richedit() = false
 				$field['value'] = esc_textarea( $field['value'] );
 			}
-			$item .= "<textarea type='text' id='$name' name='$name' $aria_required>" . $field['value'] . '</textarea>';
+			$item .= "<textarea id='$name' name='$name' $aria_required>" . $field['value'] . '</textarea>';
 		} else {
 			$item .= "<input type='text' class='text' id='$name' name='$name' value='" . esc_attr( $field['value'] ) . "' $aria_required />";
 		}
