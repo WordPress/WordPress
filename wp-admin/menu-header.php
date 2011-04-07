@@ -36,6 +36,9 @@ get_admin_page_parent();
 function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 	global $self, $parent_file, $submenu_file, $plugin_page, $pagenow, $typenow;
 
+	$menu_setting_increment = -1;
+	$user_settings = get_all_user_settings();
+
 	$first = true;
 	// 0 = name, 1 = capability, 2 = file, 3 = class, 4 = id, 5 = icon src
 	foreach ( $menu as $key => $item ) {
@@ -45,14 +48,18 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 			$class[] = 'wp-first-item';
 			$first = false;
 		}
-		if ( !empty($submenu[$item[2]]) )
+		if ( !empty($submenu[$item[2]]) ) {
 			$class[] = 'wp-has-submenu';
+			$menu_setting_increment++;
+		}
 
 		if ( ( $parent_file && $item[2] == $parent_file ) || ( empty($typenow) && $self == $item[2] ) ) {
 			if ( !empty($submenu[$item[2]]) )
 				$class[] = 'wp-has-current-submenu wp-menu-open';
 			else
 				$class[] = 'current';
+		} elseif ( ! empty( $submenu[ $item[2] ] ) && isset( $user_settings[ 'm' . $menu_setting_increment ] ) && 'o' == $user_settings[ 'm' . $menu_setting_increment ] ) {
+				$class[] = 'wp-menu-open';
 		}
 
 		if ( ! empty($item[4]) )

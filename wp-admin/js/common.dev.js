@@ -28,26 +28,15 @@ adminMenu = {
 
 		if ( $('body').hasClass('folded') )
 			this.fold();
-
-		this.restoreMenuState();
 	},
 
 	restoreMenuState : function() {
-		$('li.wp-has-submenu', '#adminmenu').each(function(i, e) {
-			var v = getUserSetting( 'm'+i );
-			if ( $(e).hasClass('wp-has-current-submenu') )
-				return true; // leave the current parent open
-
-			if ( 'o' == v )
-				$(e).addClass('wp-menu-open');
-			else if ( 'c' == v )
-				$(e).removeClass('wp-menu-open');
-		});
+		// (perhaps) needed for back-compat
 	},
 
 	toggle : function(el) {
 		el.slideToggle(150, function() {
-			var id = el.parent().toggleClass( 'wp-menu-open' ).attr('id');
+			var id = el.removeAttr('style').parent().toggleClass( 'wp-menu-open' ).attr('id');
 			if ( id ) {
 				$('li.wp-has-submenu', '#adminmenu').each(function(i, e) {
 					if ( id == e.id ) {

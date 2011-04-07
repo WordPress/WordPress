@@ -854,19 +854,23 @@ form.upgrade .hint {
 }
 
 .folded #adminmenu div.wp-submenu-head,
-.folded #adminmenu li.wp-has-submenu div.sub-open {
+body.js.folded #adminmenu li.wp-has-submenu div.sub-open {
 	display: block;
 }
 
 .folded #adminmenu a.menu-top,
 .folded #adminmenu .wp-submenu,
-.folded #adminmenu li.wp-menu-open .wp-submenu,
+.folded #adminmenu li.wp-has-current-submenu .wp-submenu,
+body.no-js.folded #adminmenu .open-if-no-js .wp-submenu,
+body.js.folded #adminmenu li.wp-menu-open .wp-submenu,
+body.no-js #adminmenu .wp-menu-toggle,
 .folded #adminmenu div.wp-menu-toggle {
 	display: none;
 }
 
-#adminmenu li.wp-menu-open .wp-submenu,
-.no-js #adminmenu .open-if-no-js .wp-submenu {
+body.js #adminmenu li.wp-menu-open .wp-submenu,
+body.no-js #adminmenu .open-if-no-js .wp-submenu,
+body.no-js #adminmenu li.wp-has-current-submenu .wp-submenu {
 	display: block;
 }
 
