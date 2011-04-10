@@ -11,10 +11,14 @@
 var themeBaseURL = tinyMCEPopup.editor.baseURI.toAbsolute('themes/' + tinyMCEPopup.getParam("theme"));
 
 function getColorPickerHTML(id, target_form_element) {
-	var h = "";
+	var h = "", dom = tinyMCEPopup.dom;
 
-	h += '<a id="' + id + '_link" href="javascript:;" onclick="tinyMCEPopup.pickColor(event,\'' + target_form_element +'\');" onmousedown="return false;" class="pickcolor">';
-	h += '<span id="' + id + '" title="' + tinyMCEPopup.getLang('browse') + '">&nbsp;</span></a>';
+	if (label = dom.select('label[for=' + target_form_element + ']')[0]) {
+		label.id = label.id || dom.uniqueId();
+	}
+
+	h += '<a role="button" aria-labelledby="' + id + '_label" id="' + id + '_link" href="javascript:;" onclick="tinyMCEPopup.pickColor(event,\'' + target_form_element +'\');" onmousedown="return false;" class="pickcolor">';
+	h += '<span id="' + id + '" title="' + tinyMCEPopup.getLang('browse') + '">&nbsp;<span id="' + id + '_label" class="mceVoiceLabel mceIconOnly" style="display:none;">' + tinyMCEPopup.getLang('browse') + '</span></span></a>';
 
 	return h;
 }
@@ -66,6 +70,9 @@ function openBrowser(img_id, target_form_element, type, option) {
 function selectByValue(form_obj, field_name, value, add_custom, ignore_case) {
 	if (!form_obj || !form_obj.elements[field_name])
 		return;
+
+	if (!value)
+		value = "";
 
 	var sel = form_obj.elements[field_name];
 
@@ -171,7 +178,7 @@ function convertHexToRGB(col) {
 }
 
 function trimSize(size) {
-	return size.replace(/([0-9\.]+)px|(%|in|cm|mm|em|ex|pt|pc)/, '$1$2');
+	return size.replace(/([0-9\.]+)(px|%|in|cm|mm|em|ex|pt|pc)/i, '$1$2');
 }
 
 function getCSSSize(size) {
@@ -183,6 +190,9 @@ function getCSSSize(size) {
 	// Add px
 	if (/^[0-9]+$/.test(size))
 		size += 'px';
+	// Sanity check, IE doesn't like broken values
+	else if (!(/^[0-9\.]+(px|%|in|cm|mm|em|ex|pt|pc)$/i.test(size)))
+		return "";
 
 	return size;
 }

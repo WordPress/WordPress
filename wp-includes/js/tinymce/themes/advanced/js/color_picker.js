@@ -1,6 +1,6 @@
 tinyMCEPopup.requireLangPack();
 
-var detail = 50, strhex = "0123456789abcdef", i, isMouseDown = false, isMouseOver = false;
+var detail = 50, strhex = "0123456789ABCDEF", i, isMouseDown = false, isMouseOver = false;
 
 var colors = [
 	"#000000","#000033","#000066","#000099","#0000cc","#0000ff","#330000","#330033",
@@ -33,37 +33,41 @@ var colors = [
 ];
 
 var named = {
-	'#F0F8FF':'AliceBlue','#FAEBD7':'AntiqueWhite','#00FFFF':'Aqua','#7FFFD4':'Aquamarine','#F0FFFF':'Azure','#F5F5DC':'Beige',
-	'#FFE4C4':'Bisque','#000000':'Black','#FFEBCD':'BlanchedAlmond','#0000FF':'Blue','#8A2BE2':'BlueViolet','#A52A2A':'Brown',
-	'#DEB887':'BurlyWood','#5F9EA0':'CadetBlue','#7FFF00':'Chartreuse','#D2691E':'Chocolate','#FF7F50':'Coral','#6495ED':'CornflowerBlue',
-	'#FFF8DC':'Cornsilk','#DC143C':'Crimson','#00FFFF':'Cyan','#00008B':'DarkBlue','#008B8B':'DarkCyan','#B8860B':'DarkGoldenRod',
-	'#A9A9A9':'DarkGray','#A9A9A9':'DarkGrey','#006400':'DarkGreen','#BDB76B':'DarkKhaki','#8B008B':'DarkMagenta','#556B2F':'DarkOliveGreen',
-	'#FF8C00':'Darkorange','#9932CC':'DarkOrchid','#8B0000':'DarkRed','#E9967A':'DarkSalmon','#8FBC8F':'DarkSeaGreen','#483D8B':'DarkSlateBlue',
-	'#2F4F4F':'DarkSlateGray','#2F4F4F':'DarkSlateGrey','#00CED1':'DarkTurquoise','#9400D3':'DarkViolet','#FF1493':'DeepPink','#00BFFF':'DeepSkyBlue',
-	'#696969':'DimGray','#696969':'DimGrey','#1E90FF':'DodgerBlue','#B22222':'FireBrick','#FFFAF0':'FloralWhite','#228B22':'ForestGreen',
-	'#FF00FF':'Fuchsia','#DCDCDC':'Gainsboro','#F8F8FF':'GhostWhite','#FFD700':'Gold','#DAA520':'GoldenRod','#808080':'Gray','#808080':'Grey',
-	'#008000':'Green','#ADFF2F':'GreenYellow','#F0FFF0':'HoneyDew','#FF69B4':'HotPink','#CD5C5C':'IndianRed','#4B0082':'Indigo','#FFFFF0':'Ivory',
-	'#F0E68C':'Khaki','#E6E6FA':'Lavender','#FFF0F5':'LavenderBlush','#7CFC00':'LawnGreen','#FFFACD':'LemonChiffon','#ADD8E6':'LightBlue',
-	'#F08080':'LightCoral','#E0FFFF':'LightCyan','#FAFAD2':'LightGoldenRodYellow','#D3D3D3':'LightGray','#D3D3D3':'LightGrey','#90EE90':'LightGreen',
-	'#FFB6C1':'LightPink','#FFA07A':'LightSalmon','#20B2AA':'LightSeaGreen','#87CEFA':'LightSkyBlue','#778899':'LightSlateGray','#778899':'LightSlateGrey',
-	'#B0C4DE':'LightSteelBlue','#FFFFE0':'LightYellow','#00FF00':'Lime','#32CD32':'LimeGreen','#FAF0E6':'Linen','#FF00FF':'Magenta','#800000':'Maroon',
-	'#66CDAA':'MediumAquaMarine','#0000CD':'MediumBlue','#BA55D3':'MediumOrchid','#9370D8':'MediumPurple','#3CB371':'MediumSeaGreen','#7B68EE':'MediumSlateBlue',
-	'#00FA9A':'MediumSpringGreen','#48D1CC':'MediumTurquoise','#C71585':'MediumVioletRed','#191970':'MidnightBlue','#F5FFFA':'MintCream','#FFE4E1':'MistyRose','#FFE4B5':'Moccasin',
-	'#FFDEAD':'NavajoWhite','#000080':'Navy','#FDF5E6':'OldLace','#808000':'Olive','#6B8E23':'OliveDrab','#FFA500':'Orange','#FF4500':'OrangeRed','#DA70D6':'Orchid',
-	'#EEE8AA':'PaleGoldenRod','#98FB98':'PaleGreen','#AFEEEE':'PaleTurquoise','#D87093':'PaleVioletRed','#FFEFD5':'PapayaWhip','#FFDAB9':'PeachPuff',
-	'#CD853F':'Peru','#FFC0CB':'Pink','#DDA0DD':'Plum','#B0E0E6':'PowderBlue','#800080':'Purple','#FF0000':'Red','#BC8F8F':'RosyBrown','#4169E1':'RoyalBlue',
-	'#8B4513':'SaddleBrown','#FA8072':'Salmon','#F4A460':'SandyBrown','#2E8B57':'SeaGreen','#FFF5EE':'SeaShell','#A0522D':'Sienna','#C0C0C0':'Silver',
-	'#87CEEB':'SkyBlue','#6A5ACD':'SlateBlue','#708090':'SlateGray','#708090':'SlateGrey','#FFFAFA':'Snow','#00FF7F':'SpringGreen',
-	'#4682B4':'SteelBlue','#D2B48C':'Tan','#008080':'Teal','#D8BFD8':'Thistle','#FF6347':'Tomato','#40E0D0':'Turquoise','#EE82EE':'Violet',
-	'#F5DEB3':'Wheat','#FFFFFF':'White','#F5F5F5':'WhiteSmoke','#FFFF00':'Yellow','#9ACD32':'YellowGreen'
+	'#F0F8FF':'Alice Blue','#FAEBD7':'Antique White','#00FFFF':'Aqua','#7FFFD4':'Aquamarine','#F0FFFF':'Azure','#F5F5DC':'Beige',
+	'#FFE4C4':'Bisque','#000000':'Black','#FFEBCD':'Blanched Almond','#0000FF':'Blue','#8A2BE2':'Blue Violet','#A52A2A':'Brown',
+	'#DEB887':'Burly Wood','#5F9EA0':'Cadet Blue','#7FFF00':'Chartreuse','#D2691E':'Chocolate','#FF7F50':'Coral','#6495ED':'Cornflower Blue',
+	'#FFF8DC':'Cornsilk','#DC143C':'Crimson','#00FFFF':'Cyan','#00008B':'Dark Blue','#008B8B':'Dark Cyan','#B8860B':'Dark Golden Rod',
+	'#A9A9A9':'Dark Gray','#A9A9A9':'Dark Grey','#006400':'Dark Green','#BDB76B':'Dark Khaki','#8B008B':'Dark Magenta','#556B2F':'Dark Olive Green',
+	'#FF8C00':'Darkorange','#9932CC':'Dark Orchid','#8B0000':'Dark Red','#E9967A':'Dark Salmon','#8FBC8F':'Dark Sea Green','#483D8B':'Dark Slate Blue',
+	'#2F4F4F':'Dark Slate Gray','#2F4F4F':'Dark Slate Grey','#00CED1':'Dark Turquoise','#9400D3':'Dark Violet','#FF1493':'Deep Pink','#00BFFF':'Deep Sky Blue',
+	'#696969':'Dim Gray','#696969':'Dim Grey','#1E90FF':'Dodger Blue','#B22222':'Fire Brick','#FFFAF0':'Floral White','#228B22':'Forest Green',
+	'#FF00FF':'Fuchsia','#DCDCDC':'Gainsboro','#F8F8FF':'Ghost White','#FFD700':'Gold','#DAA520':'Golden Rod','#808080':'Gray','#808080':'Grey',
+	'#008000':'Green','#ADFF2F':'Green Yellow','#F0FFF0':'Honey Dew','#FF69B4':'Hot Pink','#CD5C5C':'Indian Red','#4B0082':'Indigo','#FFFFF0':'Ivory',
+	'#F0E68C':'Khaki','#E6E6FA':'Lavender','#FFF0F5':'Lavender Blush','#7CFC00':'Lawn Green','#FFFACD':'Lemon Chiffon','#ADD8E6':'Light Blue',
+	'#F08080':'Light Coral','#E0FFFF':'Light Cyan','#FAFAD2':'Light Golden Rod Yellow','#D3D3D3':'Light Gray','#D3D3D3':'Light Grey','#90EE90':'Light Green',
+	'#FFB6C1':'Light Pink','#FFA07A':'Light Salmon','#20B2AA':'Light Sea Green','#87CEFA':'Light Sky Blue','#778899':'Light Slate Gray','#778899':'Light Slate Grey',
+	'#B0C4DE':'Light Steel Blue','#FFFFE0':'Light Yellow','#00FF00':'Lime','#32CD32':'Lime Green','#FAF0E6':'Linen','#FF00FF':'Magenta','#800000':'Maroon',
+	'#66CDAA':'Medium Aqua Marine','#0000CD':'Medium Blue','#BA55D3':'Medium Orchid','#9370D8':'Medium Purple','#3CB371':'Medium Sea Green','#7B68EE':'Medium Slate Blue',
+	'#00FA9A':'Medium Spring Green','#48D1CC':'Medium Turquoise','#C71585':'Medium Violet Red','#191970':'Midnight Blue','#F5FFFA':'Mint Cream','#FFE4E1':'Misty Rose','#FFE4B5':'Moccasin',
+	'#FFDEAD':'Navajo White','#000080':'Navy','#FDF5E6':'Old Lace','#808000':'Olive','#6B8E23':'Olive Drab','#FFA500':'Orange','#FF4500':'Orange Red','#DA70D6':'Orchid',
+	'#EEE8AA':'Pale Golden Rod','#98FB98':'Pale Green','#AFEEEE':'Pale Turquoise','#D87093':'Pale Violet Red','#FFEFD5':'Papaya Whip','#FFDAB9':'Peach Puff',
+	'#CD853F':'Peru','#FFC0CB':'Pink','#DDA0DD':'Plum','#B0E0E6':'Powder Blue','#800080':'Purple','#FF0000':'Red','#BC8F8F':'Rosy Brown','#4169E1':'Royal Blue',
+	'#8B4513':'Saddle Brown','#FA8072':'Salmon','#F4A460':'Sandy Brown','#2E8B57':'Sea Green','#FFF5EE':'Sea Shell','#A0522D':'Sienna','#C0C0C0':'Silver',
+	'#87CEEB':'Sky Blue','#6A5ACD':'Slate Blue','#708090':'Slate Gray','#708090':'Slate Grey','#FFFAFA':'Snow','#00FF7F':'Spring Green',
+	'#4682B4':'Steel Blue','#D2B48C':'Tan','#008080':'Teal','#D8BFD8':'Thistle','#FF6347':'Tomato','#40E0D0':'Turquoise','#EE82EE':'Violet',
+	'#F5DEB3':'Wheat','#FFFFFF':'White','#F5F5F5':'White Smoke','#FFFF00':'Yellow','#9ACD32':'Yellow Green'
 };
 
+var namedLookup = {};
+
 function init() {
-	var inputColor = convertRGBToHex(tinyMCEPopup.getWindowArg('input_color'));
+	var inputColor = convertRGBToHex(tinyMCEPopup.getWindowArg('input_color')), key, value;
 
 	tinyMCEPopup.resizeToInnerSize();
 
 	generatePicker();
+	generateWebColors();
+	generateNamedColors();
 
 	if (inputColor) {
 		changeFinalColor(inputColor);
@@ -73,6 +77,45 @@ function init() {
 		if (col)
 			updateLight(col.r, col.g, col.b);
 	}
+	
+	for (key in named) {
+		value = named[key];
+		namedLookup[value.replace(/\s+/, '').toLowerCase()] = key.replace(/#/, '').toLowerCase();
+	}
+}
+
+function toHexColor(color) {
+	var matches, red, green, blue, toInt = parseInt;
+
+	function hex(value) {
+		value = parseInt(value).toString(16);
+
+		return value.length > 1 ? value : '0' + value; // Padd with leading zero
+	};
+
+	color = color.replace(/[\s#]+/g, '').toLowerCase();
+	color = namedLookup[color] || color;
+	matches = /^rgb\((\d{1,3}),(\d{1,3}),(\d{1,3})\)|([a-f0-9]{2})([a-f0-9]{2})([a-f0-9]{2})|([a-f0-9])([a-f0-9])([a-f0-9])$/.exec(color);
+
+	if (matches) {
+		if (matches[1]) {
+			red = toInt(matches[1]);
+			green = toInt(matches[2]);
+			blue = toInt(matches[3]);
+		} else if (matches[4]) {
+			red = toInt(matches[4], 16);
+			green = toInt(matches[5], 16);
+			blue = toInt(matches[6], 16);
+		} else if (matches[7]) {
+			red = toInt(matches[7] + matches[7], 16);
+			green = toInt(matches[8] + matches[8], 16);
+			blue = toInt(matches[9] + matches[9], 16);
+		}
+
+		return '#' + hex(red) + hex(green) + hex(blue);
+	}
+
+	return '';
 }
 
 function insertAction() {
@@ -81,7 +124,7 @@ function insertAction() {
 	tinyMCEPopup.restoreSelection();
 
 	if (f)
-		f(color);
+		f(toHexColor(color));
 
 	tinyMCEPopup.close();
 }
@@ -91,7 +134,7 @@ function showColor(color, name) {
 		document.getElementById("colorname").innerHTML = name;
 
 	document.getElementById("preview").style.backgroundColor = color;
-	document.getElementById("color").value = color.toLowerCase();
+	document.getElementById("color").value = color.toUpperCase();
 }
 
 function convertRGBToHex(col) {
@@ -153,23 +196,40 @@ function generateWebColors() {
 	if (el.className == 'generated')
 		return;
 
-	h += '<table border="0" cellspacing="1" cellpadding="0">'
+	// TODO: VoiceOver doesn't seem to support legend as a label referenced by labelledby.
+	h += '<div role="listbox" aria-labelledby="webcolors_title" tabindex="0"><table role="presentation" border="0" cellspacing="1" cellpadding="0">'
 		+ '<tr>';
 
 	for (i=0; i<colors.length; i++) {
 		h += '<td bgcolor="' + colors[i] + '" width="10" height="10">'
-			+ '<a href="javascript:insertAction();" onfocus="showColor(\'' + colors[i] +  '\');" onmouseover="showColor(\'' + colors[i] +  '\');" style="display:block;width:10px;height:10px;overflow:hidden;">'
-			+ '</a></td>';
+			+ '<a href="javascript:insertAction();" role="option" tabindex="-1" aria-labelledby="web_colors_' + i + '" onfocus="showColor(\'' + colors[i] + '\');" onmouseover="showColor(\'' + colors[i] + '\');" style="display:block;width:10px;height:10px;overflow:hidden;">';
+		if (tinyMCEPopup.editor.forcedHighContrastMode) {
+			h += '<canvas class="mceColorSwatch" height="10" width="10" data-color="' + colors[i] + '"></canvas>';
+		}
+		h += '<span class="mceVoiceLabel" style="display:none;" id="web_colors_' + i + '">' + colors[i].toUpperCase() + '</span>';
+		h += '</a></td>';
 		if ((i+1) % 18 == 0)
 			h += '</tr><tr>';
 	}
 
-	h += '</table>';
+	h += '</table></div>';
 
 	el.innerHTML = h;
 	el.className = 'generated';
+
+	paintCanvas(el);
+	enableKeyboardNavigation(el.firstChild);
 }
 
+function paintCanvas(el) {
+	tinyMCEPopup.getWin().tinymce.each(tinyMCEPopup.dom.select('canvas.mceColorSwatch', el), function(canvas) {
+		var context;
+		if (canvas.getContext && (context = canvas.getContext("2d"))) {
+			context.fillStyle = canvas.getAttribute('data-color');
+			context.fillRect(0, 0, 10, 10);
+		}
+	});
+}
 function generateNamedColors() {
 	var el = document.getElementById('namedcolors'), h = '', n, v, i = 0;
 
@@ -178,11 +238,27 @@ function generateNamedColors() {
 
 	for (n in named) {
 		v = named[n];
-		h += '<a href="javascript:insertAction();" onmouseover="showColor(\'' + n +  '\',\'' + v + '\');" style="background-color: ' + n + '"><!-- IE --></a>'
+		h += '<a href="javascript:insertAction();" role="option" tabindex="-1" aria-labelledby="named_colors_' + i + '" onfocus="showColor(\'' + n + '\',\'' + v + '\');" onmouseover="showColor(\'' + n + '\',\'' + v + '\');" style="background-color: ' + n + '">';
+		if (tinyMCEPopup.editor.forcedHighContrastMode) {
+			h += '<canvas class="mceColorSwatch" height="10" width="10" data-color="' + colors[i] + '"></canvas>';
+		}
+		h += '<span class="mceVoiceLabel" style="display:none;" id="named_colors_' + i + '">' + v + '</span>';
+		h += '</a>';
+		i++;
 	}
 
 	el.innerHTML = h;
 	el.className = 'generated';
+
+	paintCanvas(el);
+	enableKeyboardNavigation(el);
+}
+
+function enableKeyboardNavigation(el) {
+	tinyMCEPopup.editor.windowManager.createInstance('tinymce.ui.KeyboardNavigation', {
+		root: el,
+		items: tinyMCEPopup.dom.select('a', el)
+	}, tinyMCEPopup.dom);
 }
 
 function dechex(n) {

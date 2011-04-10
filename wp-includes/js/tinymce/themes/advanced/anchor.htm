@@ -2,18 +2,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>{#advanced_dlg.anchor_title}</title>
-	<script type="text/javascript" src="../../tiny_mce_popup.js?ver=3392"></script>
-	<script type="text/javascript" src="js/anchor.js?ver=3392"></script>
+	<script type="text/javascript" src="../../tiny_mce_popup.js?ver=342-20110407"></script>
+	<script type="text/javascript" src="js/anchor.js?ver=342-20110407"></script>
 </head>
-<body style="display: none">
+<body style="display: none" role="application" aria-labelledby="app_title">
 <form onsubmit="AnchorDialog.update();return false;" action="#">
-	<table border="0" cellpadding="4" cellspacing="0">
+	<table border="0" cellpadding="4" cellspacing="0" role="presentation">
 		<tr>
-			<td colspan="2" class="title">{#advanced_dlg.anchor_title}</td>
+			<td colspan="2" class="title" id="app_title">{#advanced_dlg.anchor_title}</td>
 		</tr>
 		<tr>
-			<td class="nowrap">{#advanced_dlg.anchor_name}:</td>
-			<td><input name="anchorName" type="text" class="mceFocus" id="anchorName" value="" style="width: 200px" /></td>
+			<td class="nowrap"><label for="anchorName">{#advanced_dlg.anchor_name}:</label></td>
+			<td><input name="anchorName" type="text" class="mceFocus" id="anchorName" value="" style="width: 200px" aria-required="true" /></td>
 		</tr>
 	</table>
 

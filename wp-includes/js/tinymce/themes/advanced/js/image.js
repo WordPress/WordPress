@@ -29,7 +29,6 @@ var ImageDialog = {
 			f.width.value = ed.dom.getAttrib(e, 'width');
 			f.height.value = ed.dom.getAttrib(e, 'height');
 			f.insert.value = ed.getLang('update');
-			f.class_name.value = ed.dom.getAttrib(e, 'class');
 			this.styleVal = ed.dom.getAttrib(e, 'style');
 			selectByValue(f, 'image_list', f.src.value);
 			selectByValue(f, 'align', this.getAttrib(e, 'align'));
@@ -78,10 +77,10 @@ var ImageDialog = {
 			args.style = this.styleVal;
 
 		tinymce.extend(args, {
-			src : f.src.value,
+			src : f.src.value.replace(/ /g, '%20'),
 			alt : f.alt.value,
 			width : f.width.value,
-			height : f.height.value,
+			height : f.height.value
 			'class' : f.class_name.value
 		});
 
@@ -89,6 +88,8 @@ var ImageDialog = {
 
 		if (el && el.nodeName == 'IMG') {
 			ed.dom.setAttribs(el, args);
+			tinyMCEPopup.editor.execCommand('mceRepaint');
+			tinyMCEPopup.editor.focus();
 		} else {
 			ed.execCommand('mceInsertContent', false, '<img id="__mce_tmp" />', {skip_undo : 1});
 			ed.dom.setAttribs('__mce_tmp', args);

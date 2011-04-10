@@ -32,7 +32,7 @@ var Validator = {
 	},
 
 	isSize : function(s) {
-		return this.test(s, '^[0-9]+(%|in|cm|mm|em|ex|pt|pc|px)?$');
+		return this.test(s, '^[0-9.]+(%|in|cm|mm|em|ex|pt|pc|px)?$');
 	},
 
 	isId : function(s) {
@@ -96,8 +96,10 @@ var AutoValidator = {
 		var i, nl, s = this.settings, c = 0;
 
 		nl = this.tags(f, 'label');
-		for (i=0; i<nl.length; i++)
+		for (i=0; i<nl.length; i++) {
 			this.removeClass(nl[i], s.invalid_cls);
+			nl[i].setAttribute('aria-invalid', false);
+		}
 
 		c += this.validateElms(f, 'input');
 		c += this.validateElms(f, 'select');
@@ -109,6 +111,33 @@ var AutoValidator = {
 	invalidate : function(n) {
 		this.mark(n.form, n);
 	},
+	
+	getErrorMessages : function(f) {
+		var nl, i, s = this.settings, field, msg, values, messages = [], ed = tinyMCEPopup.editor;
+		nl = this.tags(f, "label");
+		for (i=0; i<nl.length; i++) {
+			if (this.hasClass(nl[i], s.invalid_cls)) {
+				field = document.getElementById(nl[i].getAttribute("for"));
+				values = { field: nl[i].textContent };
+				if (this.hasClass(field, s.min_cls, true)) {
+					message = ed.getLang('invalid_data_min');
+					values.min = this.getNum(field, s.min_cls);
+				} else if (this.hasClass(field, s.number_cls)) {
+					message = ed.getLang('invalid_data_number');
+				} else if (this.hasClass(field, s.size_cls)) {
+					message = ed.getLang('invalid_data_size');
+				} else {
+					message = ed.getLang('invalid_data');
+				}
+				
+				message = message.replace(/{\#([^}]+)\}/g, function(a, b) {
+					return values[b] || '{#' + b + '}';
+				});
+				messages.push(message);
+			}
+		}
+		return messages;
+	},
 
 	reset : function(e) {
 		var t = ['label', 'input', 'select', 'textarea'];
@@ -119,8 +148,10 @@ var AutoValidator = {
 
 		for (i=0; i<t.length; i++) {
 			nl = this.tags(e.form ? e.form : e, t[i]);
-			for (j=0; j<nl.length; j++)
+			for (j=0; j<nl.length; j++) {
 				this.removeClass(nl[j], s.invalid_cls);
+				nl[j].setAttribute('aria-invalid', false);
+			}
 		}
 	},
 
@@ -201,6 +232,7 @@ var AutoValidator = {
 		var s = this.settings;
 
 		this.addClass(n, s.invalid_cls);
+		n.setAttribute('aria-invalid', 'true');
 		this.markLabels(f, n, s.invalid_cls);
 
 		return false;

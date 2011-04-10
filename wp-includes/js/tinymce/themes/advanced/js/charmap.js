@@ -173,7 +173,7 @@ var charmap = [
 	['&yacute;',  '&#253;',  true, 'y - acute'],
 	['&thorn;',   '&#254;',  true, 'thorn'],
 	['&yuml;',    '&#255;',  true, 'y - diaeresis'],
-    ['&Alpha;',   '&#913;',  true, 'Alpha'],
+	['&Alpha;',   '&#913;',  true, 'Alpha'],
 	['&Beta;',    '&#914;',  true, 'Beta'],
 	['&Gamma;',   '&#915;',  true, 'Gamma'],
 	['&Delta;',   '&#916;',  true, 'Delta'],
@@ -258,8 +258,8 @@ var charmap = [
 	['&rfloor;',  '&#8971;', false,'right floor'],
 	['&lang;',    '&#9001;', false,'left-pointing angle bracket'],
 	['&rang;',    '&#9002;', false,'right-pointing angle bracket'],
-	['&loz;',     '&#9674;', true,'lozenge'],
-	['&spades;',  '&#9824;', false,'black spade suit'],
+	['&loz;',     '&#9674;', true, 'lozenge'],
+	['&spades;',  '&#9824;', true, 'black spade suit'],
 	['&clubs;',   '&#9827;', true, 'black club suit'],
 	['&hearts;',  '&#9829;', true, 'black heart suit'],
 	['&diams;',   '&#9830;', true, 'black diamond suit'],
@@ -275,19 +275,38 @@ var charmap = [
 
 tinyMCEPopup.onInit.add(function() {
 	tinyMCEPopup.dom.setHTML('charmapView', renderCharMapHTML());
+	addKeyboardNavigation();
 });
+
+function addKeyboardNavigation(){
+	var tableElm, cells, settings;
+
+	cells = tinyMCEPopup.dom.select(".charmaplink", "charmapgroup");
+
+	settings ={
+		root: "charmapgroup",
+		items: cells
+	};
+
+	tinyMCEPopup.editor.windowManager.createInstance('tinymce.ui.KeyboardNavigation', settings, tinyMCEPopup.dom);
+}
 
 function renderCharMapHTML() {
 	var charsPerRow = 20, tdWidth=20, tdHeight=20, i;
-	var html = '<table border="0" cellspacing="1" cellpadding="0" width="' + (tdWidth*charsPerRow) + '"><tr height="' + tdHeight + '">';
+	var html = '<div id="charmapgroup" aria-labelledby="charmap_label" tabindex="0" role="listbox">'+
+	'<table role="presentation" border="0" cellspacing="1" cellpadding="0" width="' + (tdWidth*charsPerRow) + 
+	'"><tr height="' + tdHeight + '">';
 	var cols=-1;
 
 	for (i=0; i<charmap.length; i++) {
+		var previewCharFn;
+
 		if (charmap[i][2]==true) {
 			cols++;
+			previewCharFn = 'previewChar(\'' + charmap[i][1].substring(1,charmap[i][1].length) + '\',\'' + charmap[i][0].substring(1,charmap[i][0].length) + '\',\'' + charmap[i][3] + '\');';
 			html += ''
 				+ '<td class="charmap">'
-				+ '<a onmouseover="previewChar(\'' + charmap[i][1].substring(1,charmap[i][1].length) + '\',\'' + charmap[i][0].substring(1,charmap[i][0].length) + '\',\'' + charmap[i][3] + '\');" onfocus="previewChar(\'' + charmap[i][1].substring(1,charmap[i][1].length) + '\',\'' + charmap[i][0].substring(1,charmap[i][0].length) + '\',\'' + charmap[i][3] + '\');" href="javascript:void(0)" onclick="insertChar(\'' + charmap[i][1].substring(2,charmap[i][1].length-1) + '\');" onclick="return false;" onmousedown="return false;" title="' + charmap[i][3] + '">'
+				+ '<a class="charmaplink" role="button" onmouseover="'+previewCharFn+'" onfocus="'+previewCharFn+'" href="javascript:void(0)" onclick="insertChar(\'' + charmap[i][1].substring(2,charmap[i][1].length-1) + '\');" onclick="return false;" onmousedown="return false;" title="' + charmap[i][3] + '">'
 				+ charmap[i][1]
 				+ '</a></td>';
 			if ((cols+1) % charsPerRow == 0)
@@ -301,7 +320,8 @@ function renderCharMapHTML() {
 			html += '<td width="' + tdWidth + '" height="' + tdHeight + '" class="charmap">&nbsp;</td>';
 	}
 
-	html += '</tr></table>';
+	html += '</tr></table></div>';
+	html = html.replace(/<tr height="20"><\/tr>/g, '');
 
 	return html;
 }

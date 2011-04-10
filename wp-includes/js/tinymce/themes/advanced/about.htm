@@ -2,16 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>{#advanced_dlg.about_title}</title>
-	<script type="text/javascript" src="../../tiny_mce_popup.js?ver=3392"></script>
-	<script type="text/javascript" src="../../utils/mctabs.js?ver=3392"></script>
-	<script type="text/javascript" src="js/about.js?ver=3392"></script>
+	<script type="text/javascript" src="../../tiny_mce_popup.js?ver=342-20110407"></script>
+	<script type="text/javascript" src="../../utils/mctabs.js?ver=342-20110407"></script>
+	<script type="text/javascript" src="js/about.js?ver=342-20110407"></script>
 </head>
 <body id="about" style="display: none">
 		<div class="tabs">
 			<ul>
-				<li id="general_tab" class="current"><span><a href="javascript:mcTabs.displayTab('general_tab','general_panel');" onmousedown="return false;">{#advanced_dlg.about_general}</a></span></li>
-				<li id="help_tab" style="display:none"><span><a href="javascript:mcTabs.displayTab('help_tab','help_panel');" onmousedown="return false;">{#advanced_dlg.about_help}</a></span></li>
-				<li id="plugins_tab"><span><a href="javascript:mcTabs.displayTab('plugins_tab','plugins_panel');" onmousedown="return false;">{#advanced_dlg.about_plugins}</a></span></li>
+				<li id="general_tab" class="current" aria-controls="general_panel"><span><a href="javascript:mcTabs.displayTab('general_tab','general_panel');" onmousedown="return false;">{#advanced_dlg.about_general}</a></span></li>
+				<li id="help_tab" style="display:none" aria-hidden="true" aria-controls="help_panel"><span><a href="javascript:mcTabs.displayTab('help_tab','help_panel');" onmousedown="return false;">{#advanced_dlg.about_help}</a></span></li>
+				<li id="plugins_tab" aria-controls="plugins_panel"><span><a href="javascript:mcTabs.displayTab('plugins_tab','plugins_panel');" onmousedown="return false;">{#advanced_dlg.about_plugins}</a></span></li>
 			</ul>
 		</div>
 
@@ -26,8 +26,6 @@
 
 				<div id="buttoncontainer">
 					<a href="http://www.moxiecode.com" target="_blank"><img src="http://tinymce.moxiecode.com/images/gotmoxie.png" alt="Got Moxie?" border="0" /></a>
-					<a href="http://sourceforge.net/projects/tinymce/" target="_blank"><img src="http://sourceforge.net/sflogo.php?group_id=103281" alt="Hosted By Sourceforge" border="0" /></a>
-					<a href="http://www.freshmeat.net/projects/tinymce" target="_blank"><img src="http://tinymce.moxiecode.com/images/fm.gif" alt="Also on freshmeat" border="0" /></a>
 				</div>
 			</div>
 
@@ -48,9 +46,7 @@
 		</div>
 
 		<div class="mceActionPanel">
-			<div style="float: right">
 			<input type="button" id="cancel" name="cancel" value="{#close}" onclick="tinyMCEPopup.close();" />
-			</div>
 		</div>
 </body>
 </html>

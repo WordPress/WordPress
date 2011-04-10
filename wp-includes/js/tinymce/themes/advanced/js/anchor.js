@@ -19,6 +19,11 @@ var AnchorDialog = {
 	update : function() {
 		var ed = this.editor, elm, name = document.forms[0].anchorName.value;
 
+		if (!name || !/^[a-z][a-z0-9\-\_:\.]*$/i.test(name)) {
+			tinyMCEPopup.alert('advanced_dlg.anchor_invalid');
+			return;
+		}
+
 		tinyMCEPopup.restoreSelection();
 
 		if (this.action != 'update')
