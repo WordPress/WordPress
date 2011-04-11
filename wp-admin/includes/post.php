@@ -1615,7 +1615,7 @@ function wp_tiny_mce( $teeny = false, $settings = false ) {
 	$language = $initArray['language'];
 
 	$compressed = $compress_scripts && $concatenate_scripts && isset($_SERVER['HTTP_ACCEPT_ENCODING'])
-		&& false !== strpos( strtolower($_SERVER['HTTP_ACCEPT_ENCODING']), 'gzip');
+		&& false !== stripos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip');
 
 	/**
 	 * Deprecated

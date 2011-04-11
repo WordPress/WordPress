@@ -27,7 +27,7 @@ header('Expires: ' . gmdate( "D, d M Y H:i:s", time() + $expires_offset ) . ' GM
 header("Cache-Control: public, max-age=$expires_offset");
 
 if ( isset($_GET['c']) && 1 == $_GET['c'] && isset($_SERVER['HTTP_ACCEPT_ENCODING'])
-	&& false !== strpos( strtolower($_SERVER['HTTP_ACCEPT_ENCODING']), 'gzip') && ( $file = get_file($basepath . '/wp-tinymce.js.gz') ) ) {
+	&& false !== stripos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') && ( $file = get_file($basepath . '/wp-tinymce.js.gz') ) ) {
 
 	header('Content-Encoding: gzip');
 	echo $file;
