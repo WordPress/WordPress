@@ -7,6 +7,9 @@
 	text-transform: none;
 	letter-spacing: normal;
 	line-height: 1;
+	font: normal 12px/28px Arial, Helvetica, sans-serif;
+	color: #ddd;
+	text-shadow: #555 0px -1px 0px;
 }
 
 #wpadminbar :before,
@@ -73,11 +76,8 @@
 
 #wpadminbar .quicklinks a,
 #wpadminbar .shortlink-input {
-	color: #ddd;
 	height: 28px;
-	text-shadow: #555 0px -1px 0px;
 	display: block;
-	font: normal 13px/28px Arial, Helvetica, sans-serif;
 	padding: 0 0.85em;
 	margin: 0;
 }
