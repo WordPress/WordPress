@@ -1025,14 +1025,7 @@ class WP_Embed {
 	var $linkifunknown = true;
 
 	/**
-	 * PHP4 constructor
-	 */
-	function WP_Embed() {
-		return $this->__construct();
-	}
-
-	/**
-	 * PHP5 constructor
+	 * Constructor
 	 */
 	function __construct() {
 		// Hack to get the [embed] shortcode to run before wpautop()
