@@ -28,14 +28,10 @@
  */
 function wptexturize($text) {
 	global $wp_cockneyreplace;
-	static $static_setup = false, $opening_quote, $closing_quote, $default_no_texturize_tags, $default_no_texturize_shortcodes, $static_characters, $static_replacements, $dynamic_characters, $dynamic_replacements;
-	$output = '';
-	$curl = '';
-	$textarr = preg_split('/(<.*>|\[.*\])/Us', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
-	$stop = count($textarr);
+	static $opening_quote, $closing_quote, $default_no_texturize_tags, $default_no_texturize_shortcodes, $static_characters, $static_replacements, $dynamic_characters, $dynamic_replacements;
 
-	// No need to set up these variables more than once
-	if (!$static_setup) {
+	// No need to set up these static variables more than once
+	if ( empty( $opening_quote ) ) {
 		/* translators: opening curly quote */
 		$opening_quote = _x('&#8220;', 'opening curly quote');
 		/* translators: closing curly quote */
@@ -58,8 +54,6 @@ function wptexturize($text) {
 
 		$dynamic_characters = array('/\'(\d\d(?:&#8217;|\')?s)/', '/\'(\d)/', '/(\s|\A|[([{<]|")\'/', '/(\d)"/', '/(\d)\'/', '/(\S)\'([^\'\s])/', '/(\s|\A|[([{<])"(?!\s)/', '/"(\s|\S|\Z)/', '/\'([\s.]|\Z)/', '/\b(\d+)x(\d+)\b/');
 		$dynamic_replacements = array('&#8217;$1','&#8217;$1', '$1&#8216;', '$1&#8243;', '$1&#8242;', '$1&#8217;$2', '$1' . $opening_quote . '$2', $closing_quote . '$1', '&#8217;$1', '$1&#215;$2');
-
-		$static_setup = true;
 	}
 
 	// Transform into regexp sub-expression used in _wptexturize_pushpop_element
@@ -70,32 +64,27 @@ function wptexturize($text) {
 	$no_texturize_tags_stack = array();
 	$no_texturize_shortcodes_stack = array();
 
-	for ( $i = 0; $i < $stop; $i++ ) {
-		$curl = $textarr[$i];
+	$textarr = preg_split('/(<.*>|\[.*\])/Us', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
 
-		if ( !empty($curl) && '<' != $curl[0] && '[' != $curl[0]
-				&& empty($no_texturize_shortcodes_stack) && empty($no_texturize_tags_stack)) {
-			// This is not a tag, nor is the texturization disabled
-			// static strings
+	foreach ( $textarr as &$curl ) {
+		if ( empty( $curl ) )
+			continue;
+
+		// Only call _wptexturize_pushpop_element if first char is correct tag opening
+		$first = $curl[0];
+		if ( '<' === $first ) {
+			_wptexturize_pushpop_element($curl, $no_texturize_tags_stack, $no_texturize_tags, '<', '>');
+		} elseif ( '[' === $first ) {
+			_wptexturize_pushpop_element($curl, $no_texturize_shortcodes_stack, $no_texturize_shortcodes, '[', ']');
+		} elseif ( empty($no_texturize_shortcodes_stack) && empty($no_texturize_tags_stack) ) {
+			// This is not a tag, nor is the texturization disabled static strings
 			$curl = str_replace($static_characters, $static_replacements, $curl);
 			// regular expressions
 			$curl = preg_replace($dynamic_characters, $dynamic_replacements, $curl);
-		} elseif (!empty($curl)) {
-			/*
-			 * Only call _wptexturize_pushpop_element if first char is correct
-			 * tag opening
-			 */
-			if ('<' == $curl[0])
-				_wptexturize_pushpop_element($curl, $no_texturize_tags_stack, $no_texturize_tags, '<', '>');
-			elseif ('[' == $curl[0])
-				_wptexturize_pushpop_element($curl, $no_texturize_shortcodes_stack, $no_texturize_shortcodes, '[', ']');
 		}
-
 		$curl = preg_replace('/&([^#])(?![a-zA-Z1-4]{1,8};)/', '&#038;$1', $curl);
-		$output .= $curl;
 	}
-
-	return $output;
+	return implode( '', $textarr );
 }
 
 /**
