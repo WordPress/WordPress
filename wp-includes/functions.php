@@ -120,7 +120,7 @@ function date_i18n( $dateformatstring, $unixtimestamp = false, $gmt = false ) {
 	}
 	$timezone_formats = array( 'P', 'I', 'O', 'T', 'Z', 'e' );
 	$timezone_formats_re = implode( '|', $timezone_formats );
-	if ( preg_match( "/$timezone_formats_re/", $dateformatstring ) && wp_timezone_supported() ) {
+	if ( preg_match( "/$timezone_formats_re/", $dateformatstring ) ) {
 		$timezone_string = get_option( 'timezone_string' );
 		if ( $timezone_string ) {
 			$timezone_object = timezone_open( $timezone_string );
@@ -4062,9 +4062,6 @@ function global_terms_enabled() {
  * @return float|bool
  */
 function wp_timezone_override_offset() {
-	if ( !wp_timezone_supported() ) {
-		return false;
-	}
 	if ( !$timezone_string = get_option( 'timezone_string' ) ) {
 		return false;
 	}
@@ -4075,27 +4072,6 @@ function wp_timezone_override_offset() {
 		return false;
 	}
 	return round( timezone_offset_get( $timezone_object, $datetime_object ) / 3600, 2 );
-}
-
-/**
- * Check for PHP timezone support
- *
- * @since 2.9.0
- *
- * @return bool
- */
-function wp_timezone_supported() {
-	$support = false;
-	if (
-		function_exists( 'date_create' ) &&
-		function_exists( 'date_default_timezone_set' ) &&
-		function_exists( 'timezone_identifiers_list' ) &&
-		function_exists( 'timezone_open' ) &&
-		function_exists( 'timezone_offset_get' )
-	) {
-		$support = true;
-	}
-	return apply_filters( 'timezone_support', $support );
 }
 
 /**
