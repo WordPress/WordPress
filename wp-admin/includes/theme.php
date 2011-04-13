@@ -163,7 +163,7 @@ function get_allowed_themes() {
  *
  * @since 1.5.0
  *
- * @return array Key is template name, Value is template name
+ * @return array Key is the template name, value is the filename of the template
  */
 function get_page_templates() {
 	$themes = get_themes();
