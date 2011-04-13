@@ -438,7 +438,7 @@ class WP_User_Query {
 			$where = get_posts_by_author_sql('post');
 			$this->query_from .= " LEFT OUTER JOIN (
 				SELECT post_author, COUNT(*) as post_count
-				FROM wp_posts
+				FROM $wpdb->posts
 				$where
 				GROUP BY post_author
 			) p ON ({$wpdb->users}.ID = p.post_author)
