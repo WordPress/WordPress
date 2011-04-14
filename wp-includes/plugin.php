@@ -135,18 +135,22 @@ function apply_filters($tag, $value) {
 	global $wp_filter, $merged_filters, $wp_current_filter;
 
 	$args = array();
-	$wp_current_filter[] = $tag;
 
 	// Do 'all' actions first
 	if ( isset($wp_filter['all']) ) {
+		$wp_current_filter[] = $tag;
 		$args = func_get_args();
 		_wp_call_all_hook($args);
 	}
 
 	if ( !isset($wp_filter[$tag]) ) {
-		array_pop($wp_current_filter);
+		if ( isset($wp_filter['all']) )
+			array_pop($wp_current_filter);
 		return $value;
 	}
+
+	if ( !isset($wp_filter['all']) )
+		$wp_current_filter[] = $tag;
 
 	// Sort
 	if ( !isset( $merged_filters[ $tag ] ) ) {
@@ -193,18 +197,21 @@ function apply_filters($tag, $value) {
 function apply_filters_ref_array($tag, $args) {
 	global $wp_filter, $merged_filters, $wp_current_filter;
 
-	$wp_current_filter[] = $tag;
-
 	// Do 'all' actions first
 	if ( isset($wp_filter['all']) ) {
+		$wp_current_filter[] = $tag;
 		$all_args = func_get_args();
 		_wp_call_all_hook($all_args);
 	}
 
 	if ( !isset($wp_filter[$tag]) ) {
-		array_pop($wp_current_filter);
+		if ( isset($wp_filter['all']) )
+			array_pop($wp_current_filter);
 		return $args[0];
 	}
+
+	if ( !isset($wp_filter['all']) )
+		$wp_current_filter[] = $tag;
 
 	// Sort
 	if ( !isset( $merged_filters[ $tag ] ) ) {
@@ -360,18 +367,21 @@ function do_action($tag, $arg = '') {
 	else
 		++$wp_actions[$tag];
 
-	$wp_current_filter[] = $tag;
-
 	// Do 'all' actions first
 	if ( isset($wp_filter['all']) ) {
+		$wp_current_filter[] = $tag;
 		$all_args = func_get_args();
 		_wp_call_all_hook($all_args);
 	}
 
 	if ( !isset($wp_filter[$tag]) ) {
-		array_pop($wp_current_filter);
+		if ( isset($wp_filter['all']) )
+			array_pop($wp_current_filter);
 		return;
 	}
+
+	if ( !isset($wp_filter['all']) )
+		$wp_current_filter[] = $tag;
 
 	$args = array();
 	if ( is_array($arg) && 1 == count($arg) && isset($arg[0]) && is_object($arg[0]) ) // array(&$this)
@@ -446,18 +456,21 @@ function do_action_ref_array($tag, $args) {
 	else
 		++$wp_actions[$tag];
 
-	$wp_current_filter[] = $tag;
-
 	// Do 'all' actions first
 	if ( isset($wp_filter['all']) ) {
+		$wp_current_filter[] = $tag;
 		$all_args = func_get_args();
 		_wp_call_all_hook($all_args);
 	}
 
 	if ( !isset($wp_filter[$tag]) ) {
-		array_pop($wp_current_filter);
+		if ( isset($wp_filter['all']) )
+			array_pop($wp_current_filter);
 		return;
 	}
+
+	if ( !isset($wp_filter['all']) )
+		$wp_current_filter[] = $tag;
 
 	// Sort
 	if ( !isset( $merged_filters[ $tag ] ) ) {
