@@ -110,18 +110,10 @@ wpgallery = {
 		return window.dialogArguments || opener || parent || top;
 	},
 
-	restoreSelection : function() {
-		var t = this;
-
-		if (tinymce.isIE)
-			t.editor.selection.moveToBookmark(t.editor.windowManager.bookmark);
-	},
-
 	setup : function() {
 		var t = this, a, ed = t.editor, g, columns, link, order, orderby;
 		if ( ! t.mcemode ) return;
 
-		t.restoreSelection();
 		t.el = ed.selection.getNode();
 
 		if ( t.el.nodeName != 'IMG' || ! ed.dom.hasClass(t.el, 'wpGallery') ) {
