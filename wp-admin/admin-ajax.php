@@ -916,7 +916,7 @@ case 'autosave' : // The name of this action is hardcoded in edit_post()
 	$do_autosave = (bool) $_POST['autosave'];
 	$do_lock = true;
 
-	$data = '';
+	$data = $alert = '';
 	/* translators: draft saved date format, see http://php.net/date */
 	$draft_saved_date_format = __('g:i:s a');
 	/* translators: %s: date and time */
@@ -924,7 +924,7 @@ case 'autosave' : // The name of this action is hardcoded in edit_post()
 
 	$supplemental = array();
 	if ( isset($login_grace_period) )
-		$supplemental['session_expired'] = add_query_arg( 'interim-login', 1, wp_login_url() );
+		$alert .= sprintf( __('Your login has expired. Please open a new browser window and <a href="%s" target="_blank">login again</a>. '), add_query_arg( 'interim-login', 1, wp_login_url() ) );
 
 	$id = $revision_id = 0;
 
@@ -939,12 +939,10 @@ case 'autosave' : // The name of this action is hardcoded in edit_post()
 
 		$last_user = get_userdata( $last );
 		$last_user_name = $last_user ? $last_user->display_name : __( 'Someone' );
-		$data = new WP_Error( 'locked', sprintf(
-			$_POST['post_type'] == 'page' ? __( 'Autosave disabled: %s is currently editing this page.' ) : __( 'Autosave disabled: %s is currently editing this post.' ),
-			esc_html( $last_user_name )
-		) );
+		$data = __( 'Autosave disabled.' );
 
 		$supplemental['disable_autosave'] = 'disable';
+		$alert .= sprintf( __( '%s is currently editing this article. If you update it, you will overwrite the changes.' ), esc_html( $last_user_name ) );
 	}
 
 	if ( 'page' == $post->post_type ) {
@@ -989,6 +987,9 @@ case 'autosave' : // The name of this action is hardcoded in edit_post()
 				$supplemental['replace-_wpnonce'] = wp_create_nonce('update-page_' . $id);
 		}
 	}
+
+	if ( ! empty($alert) )
+		$supplemental['alert'] = $alert;
 
 	$x = new WP_Ajax_Response( array(
 		'what' => 'autosave',

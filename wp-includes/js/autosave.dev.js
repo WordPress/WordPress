@@ -1,4 +1,4 @@
-var autosave, autosaveLast = '', autosavePeriodical, autosaveOldMessage = '', autosaveDelayPreview = false, notSaved = true, blockSave = false, interimLogin = false;
+var autosave, autosaveLast = '', autosavePeriodical, autosaveOldMessage = '', autosaveDelayPreview = false, notSaved = true, blockSave = false;
 
 jQuery(document).ready( function($) {
 	var dotabkey = true;
@@ -83,7 +83,7 @@ jQuery(document).ready( function($) {
 });
 
 function autosave_parse_response(response) {
-	var res = wpAjax.parseAjaxResponse(response, 'autosave'), message = '', postID, sup, url;
+	var res = wpAjax.parseAjaxResponse(response, 'autosave'), message = '', postID, sup;
 
 	if ( res && res.responses && res.responses.length ) {
 		message = res.responses[0].data; // The saved message or error.
@@ -94,13 +94,13 @@ function autosave_parse_response(response) {
 				autosave = function() {};
 				res = { errors: true };
 			}
-			if ( sup['session_expired'] && (url = sup['session_expired']) ) {
-				if ( !interimLogin || interimLogin.closed ) {
-					interimLogin = window.open(url, 'login', 'width=600,height=450,resizable=yes,scrollbars=yes,status=yes');
-					interimLogin.focus();
-				}
-				delete sup['session_expired'];
+
+			if ( sup['alert'] ) {
+				jQuery('#autosave-alert').remove();
+				jQuery('#titlediv').after('<div id="autosave-alert" class="error below-h2"><p>' + sup['alert'] + '</p></div>');
+				alert( jQuery('#autosave-alert').text() );
 			}
+
 			jQuery.each(sup, function(selector, value) {
 				if ( selector.match(/^replace-/) ) {
 					jQuery('#'+selector.replace('replace-', '')).val(value);
@@ -131,7 +131,7 @@ function autosave_saved(response) {
 // called when autosaving new post
 function autosave_saved_new(response) {
 	blockSave = false;
-	var res = autosave_parse_response(response), tempID, postID;
+	var res = autosave_parse_response(response), postID;
 	if ( res && res.responses.length && !res.errors ) {
 		// An ID is sent only for real auto-saves, not for autosave=0 "keepalive" saves
 		postID = parseInt( res.responses[0].id, 10 );
