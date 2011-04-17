@@ -2855,6 +2855,42 @@ if ( 'rtl' == $text_direction ) : ?>
 }
 
 /**
+ * Kill WordPress execution and display XML message with error message.
+ *
+ * This is the handler for wp_die when processing XMLRPC requests.
+ *
+ * @since 3.2.0
+ * @access private
+ *
+ * @param string $message Error message.
+ * @param string $title Error title.
+ * @param string|array $args Optional arguements to control behaviour.
+ */
+function _xmlrpc_wp_die_handler( $message, $title = '', $args = array() ) { 
+	global $wp_xmlrpc_server;
+	$defaults = array( 'response' => 500 );
+
+	$r = wp_parse_args($args, $defaults);
+
+	if ( $wp_xmlrpc_server ) { 
+		$error = new IXR_Error( $r['response'] , $message); 
+		$wp_xmlrpc_server->output( $error->getXml() ); 
+	}
+	die();
+}
+
+/**
+ * Filter to enable special wp_die handler for xmlrpc requests.
+ * 
+ * @since 3.2.0
+ * @access private
+ */
+function _xmlrpc_wp_die_filter() { 
+	return '_xmlrpc_wp_die_handler';
+}
+
+
+/**
  * Retrieve the WordPress home page URL.
  *
  * If the constant named 'WP_HOME' exists, then it willl be used and returned by
