@@ -191,9 +191,6 @@ add_filter( 'pings_open',           '_close_comments_for_old_post', 10, 2 );
 add_filter( 'editable_slug',        'urldecode'                           );
 add_filter( 'nav_menu_meta_box_object', '_wp_nav_menu_meta_box_object'    );
 
-// Atom SSL support
-add_filter( 'atom_service_url','atom_service_url_filter' );
-
 // Actions
 add_action( 'wp_head',             'wp_enqueue_scripts',            1     );
 add_action( 'wp_head',             'feed_links',                    2     );

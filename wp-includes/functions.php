@@ -3323,22 +3323,6 @@ function url_is_accessable_via_ssl($url)
 }
 
 /**
- * Secure URL, if available or the given URL.
- *
- * @since 2.5.0
- *
- * @param string $url Complete URL path with transport.
- * @return string Secure or regular URL path.
- */
-function atom_service_url_filter($url)
-{
-	if ( url_is_accessable_via_ssl($url) )
-		return preg_replace( '/^http:\/\//', 'https://',  $url );
-	else
-		return $url;
-}
-
-/**
  * Marks a function as deprecated and informs when it has been used.
  *
  * There is a hook deprecated_function_run that will be called that can be used
