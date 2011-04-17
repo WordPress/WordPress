@@ -1,5 +1,5 @@
 <?php
-define( "WP_INSTALLING", true );
+define( 'WP_INSTALLING', true );
 
 /** Sets up the WordPress Environment. */
 require( dirname(__FILE__) . '/wp-load.php' );
@@ -14,10 +14,10 @@ if ( !is_multisite() ) {
 if ( is_object( $wp_object_cache ) )
 	$wp_object_cache->cache_enabled = false;
 
-do_action("activate_header");
+do_action( 'activate_header' );
 
 function do_activate_header() {
-	do_action("activate_wp_head");
+	do_action( 'activate_wp_head' );
 }
 add_action( 'wp_head', 'do_activate_header' );
 
