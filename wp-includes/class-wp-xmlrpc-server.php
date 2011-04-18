@@ -2281,14 +2281,10 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( isset( $content_struct["{$post_type}_status"] ) ) {
 			switch ( $content_struct["{$post_type}_status"] ) {
 				case 'draft':
+				case 'pending':
 				case 'private':
 				case 'publish':
 					$post_status = $content_struct["{$post_type}_status"];
-					break;
-				case 'pending':
-					// Pending is only valid for posts, not pages.
-					if ( $post_type === 'post' )
-						$post_status = $content_struct["{$post_type}_status"];
 					break;
 				default:
 					$post_status = $publish ? 'publish' : 'draft';
@@ -2670,14 +2666,10 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( isset( $content_struct["{$post_type}_status"] ) ) {
 			switch( $content_struct["{$post_type}_status"] ) {
 				case 'draft':
+				case 'pending':
 				case 'private':
 				case 'publish':
 					$post_status = $content_struct["{$post_type}_status"];
-					break;
-				case 'pending':
-					// Pending is only valid for posts, not pages.
-					if ( $post_type === 'post' )
-						$post_status = $content_struct["{$post_type}_status"];
 					break;
 				default:
 					$post_status = $publish ? 'publish' : 'draft';
