@@ -1918,7 +1918,11 @@ function screen_options($screen) {
 	return $return;
 }
 
-function screen_icon($screen = '') {
+function screen_icon( $screen = '' ) {
+	echo get_screen_icon( $screen );
+}
+
+function get_screen_icon( $screen = '' ) {
 	global $current_screen, $typenow;
 
 	if ( empty($screen) )
@@ -1946,9 +1950,7 @@ function screen_icon($screen = '') {
 			$class .= ' ' . sanitize_html_class( 'icon32-posts-' . $post_type );
 	}
 
-?>
-	<div id="icon-<?php echo $name; ?>" class="<?php echo $class; ?>"><br /></div>
-<?php
+	return '<div id="icon-' . esc_attr( $name ) . '" class="' . $class . '"><br /></div>';
 }
 
 /**
@@ -2185,4 +2187,3 @@ function get_submit_button( $text = NULL, $type = 'primary', $name = 'submit', $
 
 	return $button;
 }
-
