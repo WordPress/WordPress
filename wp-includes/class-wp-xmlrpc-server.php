@@ -2540,6 +2540,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		// Let WordPress manage slug if none was provided.
 		$post_name = "";
+		$post_name = $postdata['post_name'];
 		if ( isset($content_struct["wp_slug"]) )
 			$post_name = $content_struct["wp_slug"];
 
