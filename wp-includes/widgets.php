@@ -74,7 +74,7 @@ class WP_Widget {
 	 * PHP4 constructor
 	 */
 	function WP_Widget( $id_base = false, $name, $widget_options = array(), $control_options = array() ) {
-		$this->__construct( $id_base, $name, $widget_options, $control_options );
+		WP_Widget::__construct( $id_base, $name, $widget_options, $control_options );
 	}
 
 	/**
