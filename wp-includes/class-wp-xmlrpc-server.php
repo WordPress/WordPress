@@ -382,8 +382,15 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @since 2.6.0
 	 *
-	 * @param array $args Method parameters.
-	 * @return array
+	 * @param array $args Method parameters. Contains:
+	 *  - username
+	 *  - password
+	 * @return array. Contains:
+	 *  - 'isAdmin'
+	 *  - 'url'
+	 *  - 'blogid'
+	 *  - 'blogName'
+	 *  - 'xmlrpc' - url of xmlrpc endpoint
 	 */
 	function wp_getUsersBlogs( $args ) {
 		global $current_site;
@@ -435,7 +442,11 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @since 2.2.0
 	 *
-	 * @param array $args Method parameters.
+	 * @param array $args Method parameters. Contains:
+	 *  - blog_id
+	 *  - page_id
+	 *  - username
+	 *  - password
 	 * @return array
 	 */
 	function wp_getPage($args) {
@@ -536,7 +547,11 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @since 2.2.0
 	 *
-	 * @param array $args Method parameters.
+	 * @param array $args Method parameters. Contains:
+	 *  - blog_id
+	 *  - username
+	 *  - password
+	 *  - num_pages
 	 * @return array
 	 */
 	function wp_getPages($args) {
@@ -582,7 +597,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @since 2.2.0
 	 *
-	 * @param array $args Method parameters.
+	 * @param array $args Method parameters. See {@link wp_xmlrpc_server::mw_newPost()}
 	 * @return unknown
 	 */
 	function wp_newPage($args) {
@@ -2073,10 +2088,36 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	/**
 	 * Create a new post.
+	 * 
+	 * The 'content_struct' argument must contain:
+	 *  - title
+	 *  - description
+	 *  - mt_excerpt
+	 *  - mt_text_more
+	 *  - mt_keywords
+	 *  - mt_tb_ping_urls
+	 *  - categories
+	 * 
+	 * Also, it can optionally contain:
+	 *  - wp_slug
+	 *  - wp_password
+	 *  - wp_page_parent_id
+	 *  - wp_page_order
+	 *  - wp_author_id
+	 *  - post_status | page_status - can be 'draft', 'private', 'publish', or 'pending'
+	 *  - mt_allow_comments - can be 'open' or 'closed'
+	 *  - mt_allow_pings - can be 'open' or 'closed'
+	 *  - date_created_gmt
+	 *  - dateCreated
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param array $args Method parameters.
+	 * @param array $args Method parameters. Contains:
+	 *  - blog_id
+	 *  - username
+	 *  - password
+	 *  - content_struct
+	 *  - publish
 	 * @return int
 	 */
 	function mw_newPost($args) {
