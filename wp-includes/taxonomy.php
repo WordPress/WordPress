@@ -694,12 +694,12 @@ class WP_Tax_Query {
 
 				$terms = implode( ',', $terms );
 
-				$where[] = "$primary_table.$primary_id_column IN (
-					SELECT object_id
+				$where[] = "(
+					SELECT COUNT(1)
 					FROM $wpdb->term_relationships
 					WHERE term_taxonomy_id IN ($terms)
-					GROUP BY object_id HAVING COUNT(object_id) = $num_terms
-				)";
+					AND object_id = $primary_table.$primary_id_column
+				) = $num_terms";
 			}
 
 			$i++;
