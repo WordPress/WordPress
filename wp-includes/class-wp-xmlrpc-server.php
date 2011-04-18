@@ -3146,6 +3146,7 @@ class wp_xmlrpc_server extends IXR_Server {
 				'userid' => $entry['post_author'],
 				'postid' => (string) $entry['ID'],
 				'title' => $entry['post_title'],
+				'post_status' => $entry['post_status'],
 				'date_created_gmt' => new IXR_Date($post_date_gmt)
 			);
 
