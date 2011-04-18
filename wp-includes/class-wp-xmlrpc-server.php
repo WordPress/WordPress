@@ -1682,7 +1682,24 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 
 		do_action( 'xmlrpc_call', 'wp.getPostFormats' );
-		return get_post_format_strings();
+
+		$formats = get_post_format_strings(); 
+
+		# find out if they want a list of currently supports formats 
+		if ( isset( $args[3] ) && is_array( $args[3] ) ) { 
+			if ( $args[3]['show-supported'] ) { 
+				if ( current_theme_supports( 'post-formats' ) ) { 
+					$supported = get_theme_support( 'post-formats' ); 
+
+					$data['all'] = $formats; 
+					$data['supported'] = $supported[0]; 
+
+					$formats = $data; 
+				} 
+			} 
+		} 
+
+		return $formats;
 	}
 
 	/* Blogger API functions.
