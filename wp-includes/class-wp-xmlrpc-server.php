@@ -1035,10 +1035,21 @@ class wp_xmlrpc_server extends IXR_Server {
 	/**
 	 * Retrieve comments.
 	 *
+	 * Besides the common blog_id, username, and password arguments, it takes a filter
+	 * array as last argument.
+	 *
+	 * Accepted 'filter' keys are 'status', 'post_id', 'offset', and 'number'.
+	 *
+	 * The defaults are as follows:
+	 * - 'status' - Default is ''. Filter by status (e.g., 'approve', 'hold')
+	 * - 'post_id' - Default is ''. The post where the comment is posted. Empty string shows all comments.
+	 * - 'number' - Default is 10. Total number of media items to retrieve.
+	 * - 'offset' - Default is 0. See {@link WP_Query::query()} for more.
+	 * 
 	 * @since 2.7.0
 	 *
 	 * @param array $args Method parameters.
-	 * @return array
+	 * @return array. Contains a collection of comments. See {@link wp_xmlrpc_server::wp_getComment()} for a description of each item contents
 	 */
 	function wp_getComments($args) {
 		$raw_args = $args;
@@ -1082,6 +1093,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$comments_struct = array();
 
+    // FIXME: we already have the comments, why query them again?
 		for ( $i = 0; $i < $num_comments; $i++ ) {
 			$comment = wp_xmlrpc_server::wp_getComment(array(
 				$raw_args[0], $raw_args[1], $raw_args[2], $comments[$i]->comment_ID,
@@ -1093,11 +1105,19 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Remove comment.
+	 * Delete a comment.
+	 *
+	 * By default, the comment will be moved to the trash instead of deleted.
+	 * See {@link wp_delete_comment()} for more information on
+	 * this behavior.
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param array $args Method parameters.
+	 * @param array $args Method parameters. Contains:
+	 *  - blog_id
+	 *  - username
+	 *  - password
+	 *  - comment_id
 	 * @return mixed {@link wp_delete_comment()}
 	 */
 	function wp_deleteComment($args) {
@@ -1128,9 +1148,25 @@ class wp_xmlrpc_server extends IXR_Server {
 	/**
 	 * Edit comment.
 	 *
+	 * Besides the common blog_id, username, and password arguments, it takes a 
+	 * comment_id integer and a content_struct array as last argument.
+	 *
+	 * The allowed keys in the content_struct array are:
+	 *  - 'author'
+	 *  - 'author_url'
+	 *  - 'author_email'
+	 *  - 'content'
+	 *  - 'date_created_gmt'
+	 *  - 'status'. Common statuses are 'approve', 'hold', 'spam'. See {@link get_comment_statuses()} for more details
+	 *
 	 * @since 2.7.0
 	 *
-	 * @param array $args Method parameters.
+	 * @param array $args. Contains:
+	 *  - blog_id
+	 *  - username
+	 *  - password
+	 *  - comment_id
+	 *  - content_struct
 	 * @return bool True, on success.
 	 */
 	function wp_editComment($args) {
