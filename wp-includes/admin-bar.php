@@ -75,8 +75,8 @@ add_action( 'admin_footer', 'wp_admin_bar_render', 1000 );
  *
  * @since 3.1.0
  */
-function wp_admin_bar_my_account_menu() {
-	global $wp_admin_bar, $user_identity;
+function wp_admin_bar_my_account_menu( $wp_admin_bar ) {
+	global $user_identity;
 
 	$user_id = get_current_user_id();
 
@@ -102,8 +102,8 @@ function wp_admin_bar_my_account_menu() {
  *
  * @since 3.1.0
  */
-function wp_admin_bar_my_sites_menu() {
-	global $wpdb, $wp_admin_bar;
+function wp_admin_bar_my_sites_menu( $wp_admin_bar ) {
+	global $wpdb;
 
 	/* Add the 'My Sites' menu if the user has more than one site. */
 	if ( count( $wp_admin_bar->user->blogs ) <= 1 )
@@ -137,9 +137,7 @@ function wp_admin_bar_my_sites_menu() {
  *
  * @since 3.1.0
  */
-function wp_admin_bar_shortlink_menu() {
-	global $wp_admin_bar;
-
+function wp_admin_bar_shortlink_menu( $wp_admin_bar ) {
 	$short = wp_get_shortlink( 0, 'query' );
 	$id = 'get-shortlink';
 
@@ -161,9 +159,7 @@ function wp_admin_bar_shortlink_menu() {
  *
  * @since 3.1.0
  */
-function wp_admin_bar_edit_menu () {
-	global $wp_admin_bar;
-
+function wp_admin_bar_edit_menu( $wp_admin_bar ) {
 	$current_object = get_queried_object();
 
 	if ( empty($current_object) )
@@ -181,9 +177,7 @@ function wp_admin_bar_edit_menu () {
  *
  * @since 3.1.0
  */
-function wp_admin_bar_new_content_menu() {
-	global $wp_admin_bar;
-
+function wp_admin_bar_new_content_menu( $wp_admin_bar ) {
 	$actions = array();
 	foreach ( (array) get_post_types( array( 'show_ui' => true ), 'objects' ) as $ptype_obj ) {
 		if ( true !== $ptype_obj->show_in_menu || ! current_user_can( $ptype_obj->cap->edit_posts ) )
@@ -207,9 +201,7 @@ function wp_admin_bar_new_content_menu() {
  *
  * @since 3.1.0
  */
-function wp_admin_bar_comments_menu() {
-	global $wp_admin_bar;
-
+function wp_admin_bar_comments_menu( $wp_admin_bar ) {
 	if ( !current_user_can('edit_posts') )
 		return;
 
@@ -225,9 +217,7 @@ function wp_admin_bar_comments_menu() {
  *
  * @since 3.1.0
  */
-function wp_admin_bar_appearance_menu() {
-	global $wp_admin_bar;
-
+function wp_admin_bar_appearance_menu( $wp_admin_bar ) {
 	if ( !current_user_can('switch_themes') )
 		return;
 
@@ -248,9 +238,7 @@ function wp_admin_bar_appearance_menu() {
  *
  * @since 3.1.0
  */
-function wp_admin_bar_updates_menu() {
-	global $wp_admin_bar;
-
+function wp_admin_bar_updates_menu( $wp_admin_bar ) {
 	if ( !current_user_can('install_plugins') )
 		return;
 
