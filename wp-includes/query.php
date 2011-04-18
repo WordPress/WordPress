@@ -2291,9 +2291,9 @@ class WP_Query {
 
 		// Order by
 		if ( empty($q['orderby']) ) {
-			$q['orderby'] = "$wpdb->posts.post_date " . $q['order'];
+			$orderby = "$wpdb->posts.post_date " . $q['order'];
 		} elseif ( 'none' == $q['orderby'] ) {
-			$q['orderby'] = '';
+			$orderby = '';
 		} else {
 			// Used to filter values
 			$allowed_keys = array('author', 'date', 'title', 'modified', 'menu_order', 'parent', 'ID', 'rand', 'comment_count');
@@ -2304,10 +2304,9 @@ class WP_Query {
 			}
 			$q['orderby'] = urldecode($q['orderby']);
 			$q['orderby'] = addslashes_gpc($q['orderby']);
-			$orderby_array = explode(' ', $q['orderby']);
-			$q['orderby'] = '';
 
-			foreach ( $orderby_array as $i => $orderby ) {
+			$orderby_array = array();
+			foreach ( explode( ' ', $q['orderby'] ) as $i => $orderby ) {
 				// Only allow certain values for safety
 				if ( ! in_array($orderby, $allowed_keys) )
 					continue;
@@ -2335,15 +2334,14 @@ class WP_Query {
 						$orderby = "$wpdb->posts.post_" . $orderby;
 				}
 
-				$q['orderby'] .= (($i == 0) ? '' : ',') . $orderby;
+				$orderby_array[] = $orderby;
 			}
+			$orderby = implode( ',', $orderby_array );
 
-			// append ASC or DESC at the end
-			if ( !empty($q['orderby']))
-				$q['orderby'] .= " {$q['order']}";
-
-			if ( empty($q['orderby']) )
-				$q['orderby'] = "$wpdb->posts.post_date ".$q['order'];
+			if ( empty( $orderby ) )
+				$orderby = "$wpdb->posts.post_date ".$q['order'];
+			else
+				$orderby .= " {$q['order']}";
 		}
 
 		if ( is_array( $post_type ) ) {
@@ -2541,8 +2539,6 @@ class WP_Query {
 			else
 				$where = "AND 0";
 		}
-
-		$orderby = $q['orderby'];
 
 		$pieces = array( 'where', 'groupby', 'join', 'orderby', 'distinct', 'fields', 'limits' );
 
