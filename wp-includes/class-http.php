@@ -201,9 +201,8 @@ class WP_Http {
 	 * Tests each transport in order to find a transport which matches the request arguements.
 	 * Also caches the transport instance to be used later.
 	 *
-	 * The order for blocking requests is HTTP Extension, cURL, Streams, and finally Fsockopen.
-	 * The order for non-blocking requests is cURL, Streams, Fsockopen() and finally, HTTP Extension.
-	 * The HTTP Extension does not support non-blocking requests, but is included as a final resort.
+	 * The order for blocking requests is cURL, Streams, and finally Fsockopen.
+	 * The order for non-blocking requests is cURL, Streams and Fsockopen().
 	 *
 	 * There are currently issues with "localhost" not resolving correctly with DNS. This may cause
 	 * an error "failed to open stream: A connection attempt failed because the connected party did
@@ -220,9 +219,7 @@ class WP_Http {
 	private function _dispatch_request($url, $args) {
 		static $transports = array();
 
-		$request_order = isset($args['blocking']) && !$args['blocking'] ?
-							array('curl', 'streams', 'fsockopen', 'exthttp') : // non-blocking order
-							array('exthttp', 'curl', 'streams', 'fsockopen'); // blocking order
+		$request_order = array('curl', 'streams', 'fsockopen');
 
 		// Loop over each transport on each HTTP request looking for one which will serve this requests needs
 		foreach ( $request_order as $transport ) {
@@ -702,7 +699,7 @@ class WP_Http_Fsockopen {
 
 			fclose( $stream_handle );
 
-		} else { 
+		} else {
 			while ( ! feof($handle) )
 				$strResponse .= fread( $handle, 4096 );
 
@@ -903,7 +900,7 @@ class WP_Http_Streams {
 		else
 			$processedHeaders = WP_Http::processHeaders($meta['wrapper_data']);
 
-		// Streams does not provide an error code which we can use to see why the request stream stoped. 
+		// Streams does not provide an error code which we can use to see why the request stream stoped.
 		// We can however test to see if a location header is present and return based on that.
 		if ( isset($processedHeaders['headers']['location']) && 0 !== $args['_redirection'] )
 			return new WP_Error('http_request_failed', __('Too many redirects.'));
@@ -939,170 +936,6 @@ class WP_Http_Streams {
 			return false;
 
 		return apply_filters( 'use_streams_transport', true, $args );
-	}
-}
-
-/**
- * HTTP request method uses HTTP extension to retrieve the url.
- *
- * Requires the HTTP extension to be installed. This would be the preferred transport since it can
- * handle a lot of the problems that forces the others to use the HTTP version 1.0. Even if PHP 5.2+
- * is being used, it doesn't mean that the HTTP extension will be enabled.
- *
- * @package WordPress
- * @subpackage HTTP
- * @since 2.7.0
- */
-class WP_Http_ExtHttp {
-	/**
-	 * Send a HTTP request to a URI using HTTP extension.
-	 *
-	 * Does not support non-blocking.
-	 *
-	 * @access public
-	 * @since 2.7
-	 *
-	 * @param string $url
-	 * @param str|array $args Optional. Override the defaults.
-	 * @return array 'headers', 'body', 'cookies' and 'response' keys.
-	 */
-	function request($url, $args = array()) {
-		$defaults = array(
-			'method' => 'GET', 'timeout' => 5,
-			'redirection' => 5, 'httpversion' => '1.0',
-			'blocking' => true,
-			'headers' => array(), 'body' => null, 'cookies' => array()
-		);
-
-		$r = wp_parse_args( $args, $defaults );
-
-		if ( isset($r['headers']['User-Agent']) ) {
-			$r['user-agent'] = $r['headers']['User-Agent'];
-			unset($r['headers']['User-Agent']);
-		} else if ( isset($r['headers']['user-agent']) ) {
-			$r['user-agent'] = $r['headers']['user-agent'];
-			unset($r['headers']['user-agent']);
-		}
-
-		// Construct Cookie: header if any cookies are set
-		WP_Http::buildCookieHeader( $r );
-
-		switch ( $r['method'] ) {
-			case 'POST':
-				$r['method'] = HTTP_METH_POST;
-				break;
-			case 'HEAD':
-				$r['method'] = HTTP_METH_HEAD;
-				break;
-			case 'PUT':
-				$r['method'] =  HTTP_METH_PUT;
-				break;
-			case 'GET':
-			default:
-				$r['method'] = HTTP_METH_GET;
-		}
-
-		$arrURL = parse_url($url);
-
-		if ( 'http' != $arrURL['scheme'] && 'https' != $arrURL['scheme'] )
-			$url = preg_replace('|^' . preg_quote($arrURL['scheme'], '|') . '|', 'http', $url);
-
-		$is_local = isset($args['local']) && $args['local'];
-		$ssl_verify = isset($args['sslverify']) && $args['sslverify'];
-		if ( $is_local )
-			$ssl_verify = apply_filters('https_local_ssl_verify', $ssl_verify);
-		elseif ( ! $is_local )
-			$ssl_verify = apply_filters('https_ssl_verify', $ssl_verify);
-
-		$r['timeout'] = (int) ceil( $r['timeout'] );
-
-		$options = array(
-			'timeout' => $r['timeout'],
-			'connecttimeout' => $r['timeout'],
-			'redirect' => $r['redirection'],
-			'useragent' => $r['user-agent'],
-			'headers' => $r['headers'],
-			'ssl' => array(
-				'verifypeer' => $ssl_verify,
-				'verifyhost' => $ssl_verify
-			)
-		);
-
-		// The HTTP extensions offers really easy proxy support.
-		$proxy = new WP_HTTP_Proxy();
-
-		if ( $proxy->is_enabled() && $proxy->send_through_proxy( $url ) ) {
-			$options['proxyhost'] = $proxy->host();
-			$options['proxyport'] = $proxy->port();
-			$options['proxytype'] = HTTP_PROXY_HTTP;
-
-			if ( $proxy->use_authentication() ) {
-				$options['proxyauth'] = $proxy->authentication();
-				$options['proxyauthtype'] = HTTP_AUTH_ANY;
-			}
-		}
-
-		if ( !WP_DEBUG ) //Emits warning level notices for max redirects and timeouts
-			$strResponse = @http_request($r['method'], $url, $r['body'], $options, $info);
-		else
-			$strResponse = http_request($r['method'], $url, $r['body'], $options, $info); //Emits warning level notices for max redirects and timeouts
-
-		// Error may still be set, Response may return headers or partial document, and error
-		// contains a reason the request was aborted, eg, timeout expired or max-redirects reached.
-		if ( false === $strResponse || ! empty($info['error']) )
-			return new WP_Error('http_request_failed', $info['response_code'] . ': ' . $info['error']);
-
-		if ( ! $r['blocking'] )
-			return array( 'headers' => array(), 'body' => '', 'response' => array('code' => false, 'message' => false), 'cookies' => array() );
-
-		$headers_body = WP_HTTP::processResponse($strResponse);
-		$theHeaders = $headers_body['headers'];
-		$theBody = $headers_body['body'];
-		unset($headers_body);
-
-		$theHeaders = WP_Http::processHeaders($theHeaders);
-
-		if ( ! empty( $theBody ) && isset( $theHeaders['headers']['transfer-encoding'] ) && 'chunked' == $theHeaders['headers']['transfer-encoding'] ) {
-			if ( !WP_DEBUG )
-				$theBody = @http_chunked_decode($theBody);
-			else
-				$theBody = http_chunked_decode($theBody);
-		}
-
-		if ( true === $r['decompress'] && true === WP_Http_Encoding::should_decode($theHeaders['headers']) )
-			$theBody = http_inflate( $theBody );
-
-		if ( $r['stream'] ) {
-			if ( !WP_DEBUG )
-				$stream_handle = @fopen( $r['filename'], 'w+' );
-			else
-				$stream_handle = fopen( $r['filename'], 'w+' );
-
-			if ( ! $stream_handle )
-				return new WP_Error( 'http_request_failed', sprintf( __( 'Could not open handle for fopen() to %s' ), $r['filename'] ) );
-
-			fwrite( $stream_handle, $theBody );
-			fclose( $stream_handle );
-			$theBody = '';
-		}
-
-		$theResponse = array();
-		$theResponse['code'] = $info['response_code'];
-		$theResponse['message'] = get_status_header_desc($info['response_code']);
-
-		return array( 'headers' => $theHeaders['headers'], 'body' => $theBody, 'response' => $theResponse, 'cookies' => $theHeaders['cookies'], 'filename' => $r['filename'] );
-	}
-
-	/**
-	 * Whether this class can be used for retrieving an URL.
-	 *
-	 * @static
-	 * @since 2.7.0
-	 *
-	 * @return boolean False means this class can not be used, true means it can.
-	 */
-	function test($args = array()) {
-		return apply_filters('use_http_extension_transport', function_exists('http_request'), $args );
 	}
 }
 
@@ -1341,7 +1174,7 @@ class WP_Http_Curl {
  * constants.
  *
  * Please note that only BASIC authentication is supported by most transports.
- * cURL and the PHP HTTP Extension MAY support more methods (such as NTLM authentication) depending on your environment.
+ * cURL MAY support more methods (such as NTLM authentication) depending on your environment.
  *
  * The constants are as follows:
  * <ol>
