@@ -302,8 +302,10 @@ class WP_Upgrader {
 			return $download;
 		}
 
+		$delete_package = ($download != $package); // Do not delete a "local" file
+
 		//Unzip's the file into a temporary directory
-		$working_dir = $this->unpack_package( $download );
+		$working_dir = $this->unpack_package( $download, $delete_package );
 		if ( is_wp_error($working_dir) ) {
 			$this->skin->error($working_dir);
 			$this->skin->after();
