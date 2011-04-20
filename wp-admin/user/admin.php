@@ -16,8 +16,12 @@ if ( ! is_multisite() ) {
 	exit;
 }
 
-if ( ( $current_blog->domain != $current_site->domain ) || ( $current_blog->path != $current_site->path ) ) {
+$redirect_user_admin_request = ( ( $current_blog->domain != $current_site->domain ) || ( $current_blog->path != $current_site->path ) );
+$redirect_user_admin_request = apply_filters( 'redirect_user_admin_request', $redirect_user_admin_request );
+if ( $redirect_user_admin_request ) {
 	wp_redirect( user_admin_url() );
 	exit;
 }
+unset( $redirect_user_admin_request );
+
 ?>
