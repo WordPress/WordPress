@@ -225,7 +225,6 @@ $_old_files = array(
 // 3.1
 'wp-includes/js/tinymce/blank.htm',
 'wp-includes/js/tinymce/plugins/safari',
-'wp-includes/js/tinymce/plugins/media',
 'wp-admin/edit-link-categories.php',
 'wp-admin/edit-post-rows.php',
 'wp-admin/edit-attachment-rows.php',
