@@ -213,6 +213,11 @@ class WP_Comment_Query {
 			'parent' => '',
 			'post_ID' => '',
 			'post_id' => 0,
+			'post_author' => '',
+			'post_name' => '',
+			'post_parent' => '',
+			'post_status' => '',
+			'post_type' => '',
 			'status' => '',
 			'type' => '',
 			'user_id' => '',
@@ -318,6 +323,13 @@ class WP_Comment_Query {
 			$where .= $wpdb->prepare( ' AND user_id = %d', $user_id );
 		if ( '' !== $search )
 			$where .= $this->get_search_sql( $search, array( 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_author_IP', 'comment_content' ) );
+
+		$post_fields = array_filter( compact( array( 'post_author', 'post_name', 'post_parent', 'post_status', 'post_type', ) ) );
+		if ( ! empty( $post_fields ) ) {
+			$join = "JOIN $wpdb->posts ON $wpdb->posts.ID = $wpdb->comments.comment_post_ID";
+			foreach( $post_fields as $field_name => $field_value )
+				$where .= $wpdb->prepare( " AND {$wpdb->posts}.{$field_name} = %s", $field_value );
+		}
 
 		$pieces = array( 'fields', 'join', 'where', 'orderby', 'order', 'limits' );
 		$clauses = apply_filters_ref_array( 'comments_clauses', array( compact( $pieces ), &$this ) );

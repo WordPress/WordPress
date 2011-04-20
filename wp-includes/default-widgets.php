@@ -640,7 +640,7 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 		if ( ! $number = absint( $instance['number'] ) )
  			$number = 5;
 
-		$comments = get_comments( array( 'number' => $number, 'status' => 'approve' ) );
+		$comments = get_comments( array( 'number' => $number, 'status' => 'approve', 'post_status' => 'publish' ) );
 		$output .= $before_widget;
 		if ( $title )
 			$output .= $before_title . $title . $after_title;
