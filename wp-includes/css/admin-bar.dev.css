@@ -109,6 +109,7 @@
 }
 
 #wpadminbar .quicklinks .menupop ul li a,
+#wpadminbar .quicklinks .menupop ul li a span,
 #wpadminbar .shortlink-input {
 	color: #555;
 	text-shadow: none;
