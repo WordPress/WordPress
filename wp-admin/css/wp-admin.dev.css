@@ -3905,7 +3905,80 @@ input.button-highlighted,
   19.0 - Tools
 ------------------------------------------------------------------------------*/
 
+.pressthis {
+	margin: 20px 0;
+}
 
+.pressthis a { 
+	display: inline-block;
+	width: 113px;
+	position: relative;
+	cursor: move;
+	color: #333;
+	background: #dfdfdf;
+	-webkit-gradient(
+		linear,
+		left bottom,
+		left top,
+		color-stop(0.07, rgb(230,230,230)),
+		color-stop(0.77, rgb(216,216,216))
+	);
+	-moz-linear-gradient(
+		center bottom,
+		rgb(230,230,230) 7%,
+		rgb(216,216,216) 77%
+	);
+	background-repeat: no-repeat;
+	background-image-position: 10px 8px;	
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-o-border-radius: 5px;	
+	border: 1px #b4b4b4 solid;
+	font: normal normal normal 14px/16px Georgia, "Times New Roman", "Bitstream Charter", Times, serif;	
+	text-decoration: none;
+	text-shadow: #fff 0 1px 0px;
+	-webkit-text-shadow: #fff 0 1px 0px;
+	-moz-text-shadow: #fff 0 1px 0px;
+	-o-text-shadow: #fff 0 1px 0px;
+}
+
+.pressthis a:hover,
+.pressthis a:active {
+	color: #333
+}
+
+.pressthis a:hover:after {
+	transform: skew(20deg) rotate(9deg);
+	-webkit-transform: skew(20deg) rotate(9deg);
+	-moz-transform: skew(20deg) rotate(9deg);
+	box-shadow: 0 10px 8px rgba(0, 0, 0, 0.7); 
+	-webkit-box-shadow: 0 10px 8px rgba(0, 0, 0, 0.7); 
+	-moz-box-shadow: 0 10px 8px rgba(0, 0, 0, 0.7); 
+}
+
+.pressthis a span {
+	background: url(../images/press-this.png) no-repeat 10px 7px ; 
+	padding: 8px 0 8px 32px;
+	display: inline-block;
+}
+
+.pressthis a:after { 
+	content: ''; 
+	width: 70%; 
+	height: 55%;
+	z-index: -1; 
+	position: absolute; 
+	right: 10px; 
+	bottom: 9px; 
+	background: transparent;  
+	transform: skew(20deg) rotate(6deg);
+	-webkit-transform: skew(20deg) rotate(6deg);
+	-moz-transform: skew(20deg) rotate(6deg);
+	box-shadow: 0 10px 8px rgba(0, 0, 0, 0.6); 
+	-webkit-box-shadow: 0 10px 8px rgba(0, 0, 0, 0.6); 
+	-moz-box-shadow: 0 10px 8px rgba(0, 0, 0, 0.6); 
+} 
 
 
 /*------------------------------------------------------------------------------
