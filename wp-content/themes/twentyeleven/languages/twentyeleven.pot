@@ -1,0 +1,437 @@
+# Copyright (C) 2010 Twenty Eleven
+# This file is distributed under the same license as the Twenty Eleven package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Twenty Eleven 1.0\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyeleven\n"
+"POT-Creation-Date: 2011-04-20 19:02:02+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: 404.php:14
+msgid "This is somewhat embarrassing, isn&rsquo;t it?"
+msgstr ""
+
+#: 404.php:18
+msgid ""
+"It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps "
+"searching, or one of the links below, can help."
+msgstr ""
+
+#: 404.php:25
+msgid "Most Used Categories"
+msgstr ""
+
+#: 404.php:32
+msgid "Try looking in the monthly archives. %1$s"
+msgstr ""
+
+#: archive.php:17
+msgid "Daily Archives: <span>%s</span>"
+msgstr ""
+
+#: archive.php:19
+msgid "Monthly Archives: <span>%s</span>"
+msgstr ""
+
+#: archive.php:21
+msgid "Yearly Archives: <span>%s</span>"
+msgstr ""
+
+#: archive.php:23
+msgid "Blog Archives"
+msgstr ""
+
+#: author.php:15
+msgid "Author Archives: %s"
+msgstr ""
+
+#: author.php:30 content-single.php:57
+msgid "About %s"
+msgstr ""
+
+#: category.php:14
+msgid "Category Archives: %s"
+msgstr ""
+
+#: comments.php:9
+msgid ""
+"This post is password protected. Enter the password to view any comments."
+msgstr ""
+
+#: comments.php:20
+msgid "One thought on &ldquo;%2$s&rdquo;"
+msgid_plural "%1$s thoughts on &ldquo;%2$s&rdquo;"
+msgstr[0] ""
+msgstr[1] ""
+
+#: comments.php:27 comments.php:39
+msgid "Comment navigation"
+msgstr ""
+
+#: comments.php:28 comments.php:40
+msgid "&larr; Older Comments"
+msgstr ""
+
+#: comments.php:29 comments.php:41
+msgid "Newer Comments &rarr;"
+msgstr ""
+
+#: comments.php:57
+msgid "Comments are closed."
+msgstr ""
+
+#: content-aside.php:10 content-featured.php:11 content-gallery.php:10
+#: content-gallery.php:49 content-link.php:10 content.php:10 showcase.php:68
+#: showcase.php:70 showcase.php:112 widgets.php:91
+msgid "Permalink to %s"
+msgstr ""
+
+#: content-aside.php:17 content-link.php:17 content.php:29
+msgid "<span class=\"leave-reply\">Reply</span>"
+msgstr ""
+
+#: content-aside.php:17 content-link.php:17 content.php:29
+msgid "1"
+msgstr ""
+
+#: content-aside.php:17 content-link.php:17 content.php:29
+msgid "%"
+msgstr ""
+
+#: content-aside.php:24 content-aside.php:28 content-gallery.php:28
+#: content-gallery.php:33 content-link.php:24 content-link.php:28
+#: content.php:36 content.php:40 functions.php:201
+msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
+msgstr ""
+
+#: content-aside.php:29 content-featured.php:29 content-gallery.php:55
+#: content-intro.php:15 content-link.php:29 content-page.php:15 image.php:85
+msgid "Pages:"
+msgstr ""
+
+#: content-aside.php:35 content-featured.php:15 content-gallery.php:14
+#: content-link.php:35 content-single.php:14 content.php:15
+msgid ""
+"<span class=\"sep\">Posted on </span><a href=\"%1$s\" rel=\"bookmark\"><time "
+"class=\"entry-date\" datetime=\"%2$s\" pubdate>%3$s</time></a> <span class="
+"\"sep\"> by </span> <span class=\"author vcard\"><a class=\"url fn n\" href="
+"\"%4$s\" title=\"%5$s\">%6$s</a></span>"
+msgstr ""
+
+#: content-aside.php:40 content-featured.php:20 content-gallery.php:19
+#: content-link.php:40 content-single.php:19 content.php:20
+msgid "View all posts by %s"
+msgstr ""
+
+#: content-aside.php:46 content-link.php:46 content.php:53 showcase.php:114
+msgid "<span class=\"leave-reply\">Leave a reply</span>"
+msgstr ""
+
+#: content-aside.php:46 content-link.php:46 content.php:53 showcase.php:114
+msgid "<b>1</b> Reply"
+msgstr ""
+
+#: content-aside.php:46 content-link.php:46 content.php:53 showcase.php:114
+msgid "<b>%</b> Replies"
+msgstr ""
+
+#: content-aside.php:48 content-featured.php:49 content-gallery.php:64
+#: content-intro.php:16 content-link.php:48 content-page.php:16
+#: content-single.php:49 content.php:56 image.php:36 image.php:100
+msgid "Edit"
+msgstr ""
+
+#: content-featured.php:36
+msgid ""
+"This entry was posted in %1$s and tagged %2$s. Bookmark the <a href=\"%3$s\" "
+"title=\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>."
+msgstr ""
+
+#: content-featured.php:38
+msgid ""
+"This entry was posted in %1$s. Bookmark the <a href=\"%3$s\" title="
+"\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>."
+msgstr ""
+
+#: content-gallery.php:48
+msgid "This gallery contains <a %1$s>%2$s photo</a>."
+msgid_plural "This gallery contains <a %1$s>%2$s photos</a>."
+msgstr[0] ""
+msgstr[1] ""
+
+#: content-gallery.php:60 content.php:47
+msgid "Posted in "
+msgstr ""
+
+#: content-gallery.php:62 content.php:48
+msgid "Tagged "
+msgstr ""
+
+#: content-gallery.php:63
+msgid "Leave a reply"
+msgstr ""
+
+#: content-gallery.php:63
+msgid "1 reply"
+msgstr ""
+
+#: content-gallery.php:63
+msgid "% replies"
+msgstr ""
+
+#: content-single.php:28 content.php:41
+msgid "<span>Pages:</span>"
+msgstr ""
+
+#: content-single.php:35
+msgid ""
+"This entry was posted in %1$s and tagged %2$s by <a href=\"%6$s\">%5$s</a>. "
+"Bookmark the <a href=\"%3$s\" title=\"Permalink to %4$s\" rel=\"bookmark"
+"\">permalink</a>."
+msgstr ""
+
+#: content-single.php:37
+msgid ""
+"This entry was posted in %1$s by <a href=\"%6$s\">%5$s</a>. Bookmark the <a "
+"href=\"%3$s\" title=\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>."
+msgstr ""
+
+#: content-single.php:61
+msgid "View all posts by %s <span class=\"meta-nav\">&rarr;</span>"
+msgstr ""
+
+#: footer.php:35
+msgid "Theme: %1$s."
+msgstr ""
+
+#: functions.php:30
+msgid "Primary Menu"
+msgstr ""
+
+#: functions.php:261
+msgid "Main Sidebar"
+msgstr ""
+
+#: functions.php:270
+msgid "Showcase Sidebar"
+msgstr ""
+
+#: functions.php:272
+msgid "The sidebar for the optional Showcase Template"
+msgstr ""
+
+#: functions.php:280
+msgid "Footer Area One"
+msgstr ""
+
+#: functions.php:282 functions.php:292 functions.php:302
+msgid "An optional widget area for your site footer"
+msgstr ""
+
+#: functions.php:290
+msgid "Footer Area Two"
+msgstr ""
+
+#: functions.php:300
+msgid "Footer Area Three"
+msgstr ""
+
+#: functions.php:325 single.php:15
+msgid "Post navigation"
+msgstr ""
+
+#: functions.php:326
+msgid "<span class=\"meta-nav\">&larr;</span> Older posts"
+msgstr ""
+
+#: functions.php:327
+msgid "Newer posts <span class=\"meta-nav\">&rarr;</span>"
+msgstr ""
+
+#: functions.php:417
+msgid "%1$s on %2$s%3$s at %4$s%5$s <span class=\"says\">said:</span>"
+msgstr ""
+
+#: functions.php:426
+msgid "[Edit]"
+msgstr ""
+
+#: functions.php:430
+msgid "Your comment is awaiting moderation."
+msgstr ""
+
+#: functions.php:439
+msgid "Reply &darr;"
+msgstr ""
+
+#: functions.php:449
+msgid "Pingback:"
+msgstr ""
+
+#: functions.php:449
+msgid "(Edit)"
+msgstr ""
+
+#: header.php:34
+msgid "Page %s"
+msgstr ""
+
+#: header.php:90
+msgid "Main menu"
+msgstr ""
+
+#: header.php:91
+msgid "Skip to content"
+msgstr ""
+
+#: image.php:15 single.php:16
+msgid "&larr; Previous"
+msgstr ""
+
+#: image.php:16 single.php:17
+msgid "Next &rarr;"
+msgstr ""
+
+#: image.php:26
+msgid ""
+"<span class=\"meta-prep meta-prep-entry-date\">Published </span> <span class="
+"\"entry-date\"><abbr class=\"published\" title=\"%1$s\">%2$s</abbr></span> "
+"at <a href=\"%3$s\" title=\"Link to full-size image\">%4$s &times; %5$s</a> "
+"in <a href=\"%6$s\" title=\"Return to %7$s\" rel=\"gallery\">%7$s</a>"
+msgstr ""
+
+#: image.php:92
+msgid ""
+"<a class=\"comment-link\" href=\"#respond\" title=\"Post a comment\">Post a "
+"comment</a> or leave a trackback: <a class=\"trackback-link\" href=\"%s\" "
+"title=\"Trackback URL for your post\" rel=\"trackback\">Trackback URL</a>."
+msgstr ""
+
+#: image.php:94
+msgid ""
+"Comments are closed, but you can leave a trackback: <a class=\"trackback-link"
+"\" href=\"%s\" title=\"Trackback URL for your post\" rel=\"trackback"
+"\">Trackback URL</a>."
+msgstr ""
+
+#: image.php:96
+msgid ""
+"Trackbacks are closed, but you can <a class=\"comment-link\" href=\"#respond"
+"\" title=\"Post a comment\">post a comment</a>."
+msgstr ""
+
+#: image.php:98
+msgid "Both comments and trackbacks are currently closed."
+msgstr ""
+
+#: search.php:15
+msgid "Search Results for: %s"
+msgstr ""
+
+#: search.php:33
+msgid "Nothing Found"
+msgstr ""
+
+#: search.php:37
+msgid ""
+"Sorry, but nothing matched your search criteria. Please try again with some "
+"different keywords."
+msgstr ""
+
+#: searchform.php:8 searchform.php:9
+msgid "Search"
+msgstr ""
+
+#: showcase.php:63
+msgid "Featured Post"
+msgstr ""
+
+#: showcase.php:79
+msgid "Recent Posts"
+msgstr ""
+
+#: sidebar.php:11
+msgid "Archives"
+msgstr ""
+
+#: sidebar.php:18
+msgid "Meta"
+msgstr ""
+
+#: tag.php:18
+msgid "Tag Archives: %s"
+msgstr ""
+
+#: widgets.php:15
+msgid "Use this widget to list your recent Aside and Link posts"
+msgstr ""
+
+#: widgets.php:16
+msgid "Twenty Eleven Ephemera"
+msgstr ""
+
+#: widgets.php:49
+msgid "Ephemera"
+msgstr ""
+
+#: widgets.php:93 widgets.php:108
+msgid "0 <span class=\"reply\">comments &rarr;</span>"
+msgstr ""
+
+#: widgets.php:93 widgets.php:108
+msgid "1 <span class=\"reply\">comment &rarr;</span>"
+msgstr ""
+
+#: widgets.php:93 widgets.php:108
+msgid "% <span class=\"reply\">comments &rarr;</span>"
+msgstr ""
+
+#: widgets.php:106
+msgid "Link to %s"
+msgstr ""
+
+#: widgets.php:158
+msgid "Title:"
+msgstr ""
+
+#: widgets.php:161
+msgid "Number of posts to show:"
+msgstr ""
+
+#. Theme Name of the plugin/theme
+msgid "Twenty Eleven"
+msgstr ""
+
+#. Theme URI of the plugin/theme
+msgid "http://wordpress.org/extend/themes/twentyeleven"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"Twenty Eleven is a sophisticated theme designed and developed by the "
+"WordPress team, offering a unique page template to turn your blog into a "
+"showcase of different kinds of posts – Featured with an image, Asides, Link "
+"posts, and more. It also supports customization options like custom "
+"backgrounds, headers, menus, and widgets."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "the WordPress team"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://wordpress.org/"
+msgstr ""
+
+#. Tags of the plugin/theme
+msgid ""
+"light, white, two-columns, left-sidebar, right-sidebar, flexible-width, "
+"fixed-width, custom-background, custom-header, featured-images, featured-"
+"image-header, sticky-post, custom-menu, sticky-post, microformats, rtl-"
+"language-support, translation-ready"
+msgstr ""
