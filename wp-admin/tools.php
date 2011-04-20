@@ -34,7 +34,7 @@ require_once('./admin-header.php');
 
 	<p><?php _e('Use Press This to clip text, images and videos from any web page. Then edit and add more straight from Press This before you save or publish it in a post on your site.'); ?></p>
 	<p class="description"><?php _e('Drag-and-drop the following link to your bookmarks bar or right click it and add it to your favorites for a posting shortcut.') ?></p>
-	<p class="pressthis"><a href="<?php echo htmlspecialchars( get_shortcut_link() ); ?>" title="<?php echo esc_attr(__('Press This')) ?>"><span><?php _e('Press This') ?></span></a></p>
+	<p class="pressthis"><a onclick="return false;" href="<?php echo htmlspecialchars( get_shortcut_link() ); ?>" title="<?php echo esc_attr(__('Press This')) ?>"><span><?php _e('Press This') ?></span></a></p>
 </div>
 <?php
 endif;
