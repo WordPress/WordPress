@@ -126,13 +126,13 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'jquery-ui-core', '/wp-includes/js/jquery/ui.core.js', array('jquery'), '1.8.9' );
 	$scripts->add_data( 'jquery-ui-core', 'group', 1 );
 
-	$scripts->add( 'jquery-ui-position', '/wp-includes/js/jquery/ui.position.js', array('jquery'), '1.8.9' );
+	$scripts->add( 'jquery-ui-position', '/wp-includes/js/jquery/ui.position.js', array('jquery-ui-core'), '1.8.9' );
 	$scripts->add_data( 'jquery-ui-position', 'group', 1 );
 
-	$scripts->add( 'jquery-ui-widget', '/wp-includes/js/jquery/ui.widget.js', array('jquery'), '1.8.9' );
+	$scripts->add( 'jquery-ui-widget', '/wp-includes/js/jquery/ui.widget.js', array('jquery-ui-core'), '1.8.9' );
 	$scripts->add_data( 'jquery-ui-widget', 'group', 1 );
 
-	$scripts->add( 'jquery-ui-mouse', '/wp-includes/js/jquery/ui.mouse.js', array('jquery', 'jquery-ui-widget'), '1.8.9' );
+	$scripts->add( 'jquery-ui-mouse', '/wp-includes/js/jquery/ui.mouse.js', array('jquery-ui-widget'), '1.8.9' );
 	$scripts->add_data( 'jquery-ui-mouse', 'group', 1 );
 
 	$scripts->add( 'jquery-ui-button', '/wp-includes/js/jquery/ui.button.js', array('jquery-ui-core', 'jquery-ui-widget'), '1.8.9' );
