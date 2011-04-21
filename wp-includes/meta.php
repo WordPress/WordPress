@@ -387,7 +387,6 @@ function _get_meta_sql( $meta_query, $type, $primary_table, $primary_id_column, 
 	$i = 0;
 	foreach ( $meta_query as $q ) {
 		$meta_key = isset( $q['key'] ) ? trim( $q['key'] ) : '';
-		$meta_value = isset( $q['value'] ) ? $q['value'] : '';
 		$meta_compare = isset( $q['compare'] ) ? strtoupper( $q['compare'] ) : '=';
 		$meta_type = isset( $q['type'] ) ? strtoupper( $q['type'] ) : 'CHAR';
 
@@ -413,15 +412,19 @@ function _get_meta_sql( $meta_query, $type, $primary_table, $primary_id_column, 
 		if ( !empty( $meta_key ) )
 			$where .= $wpdb->prepare( " AND $alias.meta_key = %s", $meta_key );
 
+		if ( !isset( $q['value'] ) )
+			continue;
+		$meta_value = $q['value'];
+
 		if ( in_array( $meta_compare, array( 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN' ) ) ) {
 			if ( ! is_array( $meta_value ) )
 				$meta_value = preg_split( '/[,\s]+/', $meta_value );
+
+			if ( empty( $meta_value ) )
+				continue;
 		} else {
 			$meta_value = trim( $meta_value );
 		}
-
-		if ( empty( $meta_value ) )
-			continue;
 
 		if ( 'IN' == substr( $meta_compare, -2) ) {
 			$meta_compare_string = '(' . substr( str_repeat( ',%s', count( $meta_value ) ), 1 ) . ')';
@@ -434,10 +437,6 @@ function _get_meta_sql( $meta_query, $type, $primary_table, $primary_id_column, 
 		} else {
 			$meta_compare_string = '%s';
 		}
-
-		// @todo Temporary hack to support empty values. Do not use outside of core.
-		if ( '_wp_zero_value' == $meta_value )
-			$meta_value = 0;
 
 		$where .= $wpdb->prepare( " AND CAST($alias.meta_value AS {$meta_type}) {$meta_compare} {$meta_compare_string}", $meta_value );
 	}
@@ -457,10 +456,14 @@ function _parse_meta_query( &$qv ) {
 	$meta_query = array();
 
 	// Simple query needs to be first for orderby=meta_value to work correctly
-	foreach ( array( 'key', 'value', 'compare', 'type' ) as $key ) {
+	foreach ( array( 'key', 'compare', 'type' ) as $key ) {
 		if ( !empty( $qv[ "meta_$key" ] ) )
 			$meta_query[0][ $key ] = $qv[ "meta_$key" ];
 	}
+
+	// WP_Query sets 'meta_value' = '' by default
+	if ( isset( $qv[ 'meta_value' ] ) && '' !== $qv[ 'meta_value' ] )
+		$meta_query[0]['value'] = $qv[ 'meta_value' ];
 
 	if ( !empty( $qv['meta_query'] ) && is_array( $qv['meta_query'] ) ) {
 		$meta_query = array_merge( $meta_query, $qv['meta_query'] );
