@@ -3,13 +3,13 @@
  * Portable PHP password hashing framework.
  * @package phpass
  * @since 2.5
- * @version 0.2 / genuine.
+ * @version 0.3 / WordPress
  * @link http://www.openwall.com/phpass/
  */
 
 #
 # Written by Solar Designer <solar at openwall.com> in 2004-2006 and placed in
-# the public domain.
+# the public domain.  Revised in subsequent years, still public domain.
 #
 # There's absolutely no warranty.
 #
@@ -29,7 +29,7 @@
  * Portable PHP password hashing framework.
  *
  * @package phpass
- * @version 0.2 / genuine.
+ * @version 0.3 / WordPress
  * @link http://www.openwall.com/phpass/
  * @since 2.5
  */
@@ -114,7 +114,9 @@ class PasswordHash {
 		if (substr($setting, 0, 2) == $output)
 			$output = '*1';
 
-		if (substr($setting, 0, 3) != '$P$')
+		$id = substr($setting, 0, 3);
+		# We use "$P$", phpBB3 uses "$H$" for the same thing
+		if ($id != '$P$' && $id != '$H$')
 			return $output;
 
 		$count_log2 = strpos($this->itoa64, $setting[3]);
