@@ -19,7 +19,7 @@ get_header(); ?>
 
 					<?php get_search_form(); ?>
 
-					<?php the_widget( 'WP_Widget_Recent_Posts' ); ?>
+					<?php the_widget( 'WP_Widget_Recent_Posts', array( 'number' => 10 ), array( 'widget_id' => '404' ) ); ?>
 
 					<div class="widget">
 						<h2 class="widgettitle"><?php _e( 'Most Used Categories', 'twentyeleven' ); ?></h2>
@@ -30,7 +30,7 @@ get_header(); ?>
 
 					<?php
 					$archive_content = '<p>' . sprintf( __( 'Try looking in the monthly archives. %1$s', 'twentyeleven' ), convert_smilies( ':)' ) ) . '</p>';
-					the_widget( 'WP_Widget_Archives', 'dropdown=1', "after_title=</h2>$archive_content" );
+					the_widget( 'WP_Widget_Archives', array('count' => 0 , 'dropdown' => 1 ), "after_title=</h2>$archive_content" );
 					?>
 
 					<?php the_widget( 'WP_Widget_Tag_Cloud' ); ?>
