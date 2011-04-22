@@ -2602,24 +2602,6 @@ function update_category_cache() {
 	return true;
 }
 
-
-/**
- * Copy an object.
- *
- * Returns a cloned copy of an object.
- *
- * @since 2.7.0
- * @deprecated 3.2
- *
- * @param object $object The object to clone
- * @return object The cloned object
- */
-function wp_clone( $object ) {
-	_deprecated_function( __FUNCTION__, '3.2' );
-
-	return clone $object;
-}
-
 /**
  * Check for PHP timezone support
  *
