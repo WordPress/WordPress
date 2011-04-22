@@ -310,6 +310,8 @@ class WP_Posts_List_Table extends WP_List_Table {
 		if ( empty( $posts ) )
 			$posts = $wp_query->posts;
 
+		add_filter( 'the_title', 'esc_html' );
+
 		if ( $this->hierarchical_display ) {
 			$this->_display_rows_hierarchical( $posts, $this->get_pagenum(), $per_page );
 		} else {
@@ -319,8 +321,6 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 	function _display_rows( $posts ) {
 		global $post, $mode;
-
-		add_filter( 'the_title', 'esc_html' );
 
 		// Create array of post IDs.
 		$post_ids = array();
