@@ -668,7 +668,7 @@ function _unzip_file_pclzip($file, $to, $needed_dirs = array()) {
 		mb_internal_encoding($previous_encoding);
 
 	// Is the archive valid?
-	if ( false === $archive_files )
+	if ( !is_array($archive_files) )
 		return new WP_Error('incompatible_archive', __('Incompatible Archive.'), $archive->errorInfo(true));
 
 	if ( 0 == count($archive_files) )
