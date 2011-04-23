@@ -24,9 +24,8 @@ class WP_Themes_List_Table extends WP_List_Table {
 
 		$themes = get_allowed_themes();
 
-		$search = !empty( $_REQUEST['s'] ) ? trim( stripslashes( $_REQUEST['s'] ) ) : '';
-
-		if ( '' !== $search ) {
+		if ( ! empty( $_REQUEST['s'] ) ) {
+			$search = strtolower( stripslashes( $_REQUEST['s'] ) );
 			$this->search = array_merge( $this->search, array_filter( array_map( 'trim', explode( ',', $search ) ) ) );
 			$this->search = array_unique( $this->search );
 		}
