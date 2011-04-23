@@ -9,6 +9,8 @@ var wpLink;
 		riverBottomThreshold: 5,
 		keySensitivity: 100,
 		lastSearch: '',
+		textarea: edCanvas,
+
 		init : function() {
 			inputs.dialog = $('#wp-link');
 			inputs.submit = $('#wp-link-submit');
@@ -31,7 +33,7 @@ var wpLink;
 				wpLink.update();
 				e.preventDefault();
 			});
-			$('#wp-link-cancel').click( wpLink.cancel );
+			$('#wp-link-cancel').click( wpLink.close );
 			$('#internal-toggle').click( wpLink.toggleInternalLinking );
 
 			rivers.elements.bind('river-select', wpLink.updateFields );
@@ -39,15 +41,61 @@ var wpLink;
 			inputs.search.keyup( wpLink.searchInternalLinks );
 
 			inputs.dialog.bind('wpdialogrefresh', wpLink.refresh);
+			inputs.dialog.bind('wpdialogbeforeopen', wpLink.beforeOpen);
+			inputs.dialog.bind('wpdialogclose', wpLink.onClose);
+		},
+
+		beforeOpen : function() {
+			wpLink.range = null;
+
+			if ( ! wpLink.isMCE() && document.selection ) {
+				wpLink.textarea.focus();
+				wpLink.range = document.selection.createRange();
+			}
+		},
+
+		open : function() {
+			// Initialize the dialog if necessary (html mode).
+			if ( ! inputs.dialog.data('wpdialog') ) {
+				inputs.dialog.wpdialog({
+					title: wpLinkL10n.title,
+					width: 480,
+					height: 'auto',
+					modal: true,
+					dialogClass: 'wp-dialog',
+					zIndex: 300000
+				});
+			}
+
+			inputs.dialog.wpdialog('open');
+		},
+
+		isMCE : function() {
+			return tinyMCEPopup && ( ed = tinyMCEPopup.editor ) && ! ed.isHidden();
 		},
 
 		refresh : function() {
-			var e;
-			ed = tinyMCEPopup.editor;
-
 			// Refresh rivers (clear links, check visibility)
 			rivers.search.refresh();
 			rivers.recent.refresh();
+
+			if ( wpLink.isMCE() )
+				wpLink.mceRefresh();
+			else
+				wpLink.setDefaultValues();
+
+			// Focus the URL field and highlight its contents.
+			//     If this is moved above the selection changes,
+			//     IE will show a flashing cursor over the dialog.
+			inputs.url.focus()[0].select();
+			// Load the most recent results if this is the first time opening the panel.
+			if ( ! rivers.recent.ul.children().length )
+				rivers.recent.ajax();
+		},
+
+		mceRefresh : function() {
+			var e;
+			ed = tinyMCEPopup.editor;
 
 			tinyMCEPopup.restoreSelection();
 
@@ -65,31 +113,106 @@ var wpLink;
 			// If there's no link, set the default values.
 			} else {
 				wpLink.setDefaultValues();
-				// Update save prompt.
-				inputs.submit.val( wpLinkL10n.save );
 			}
 
 			tinyMCEPopup.storeSelection();
-			// Focus the URL field and highlight its contents.
-			//     If this is moved above the selection changes,
-			//     IE will show a flashing cursor over the dialog.
-			inputs.url.focus()[0].select();
-			// Load the most recent results if this is the first time opening the panel.
-			if ( ! rivers.recent.ul.children().length )
-				rivers.recent.ajax();
 		},
 
-		cancel : function() {
-			tinyMCEPopup.close();
+		close : function() {
+			if ( wpLink.isMCE() )
+				tinyMCEPopup.close();
+			else
+				inputs.dialog.wpdialog('close');
+		},
+
+		onClose: function() {
+			if ( ! wpLink.isMCE() ) {
+				wpLink.textarea.focus();
+				if ( wpLink.range ) {
+					wpLink.range.moveToBookmark( wpLink.range.getBookmark() );
+					wpLink.range.select();
+				}
+			}
+		},
+
+		getAttrs : function() {
+			return {
+				href : inputs.url.val(),
+				title : inputs.title.val(),
+				target : inputs.openInNewTab.attr('checked') ? '_blank' : ''
+			};
 		},
 
 		update : function() {
+			if ( wpLink.isMCE() )
+				wpLink.mceUpdate();
+			else
+				wpLink.htmlUpdate();
+		},
+
+		htmlUpdate : function() {
+			var attrs, html, start, end, cursor,
+				textarea = wpLink.textarea;
+
+			if ( ! textarea )
+				return;
+
+			attrs = wpLink.getAttrs();
+
+			// If there's no href, return.
+			if ( ! attrs.href || attrs.href == 'http://' )
+				return;
+
+			// Build HTML
+			html = '<a href="' + attrs.href + '"';
+
+			if ( attrs.title )
+				html += ' title="' + attrs.title + '"';
+			if ( attrs.target )
+				html += ' target="' + attrs.target + '"';
+
+			html += '>';
+
+			// Insert HTML
+			// W3C
+			if ( typeof textarea.selectionStart !== 'undefined' ) {
+				start       = textarea.selectionStart;
+				end         = textarea.selectionEnd;
+				selection   = textarea.value.substring( start, end );
+				html        = html + selection + '</a>';
+				cursor      = start + html.length;
+
+				// If no next is selected, place the cursor inside the closing tag.
+				if ( start == end )
+					cursor -= '</a>'.length;
+
+				textarea.value = textarea.value.substring( 0, start )
+				               + html
+				               + textarea.value.substring( end, textarea.value.length );
+
+				// Update cursor position
+				textarea.selectionStart = textarea.selectionEnd = cursor;
+
+			// IE
+			// Note: If no text is selected, IE will not place the cursor
+			//       inside the closing tag.
+			} else if ( document.selection && wpLink.range ) {
+				textarea.focus();
+				wpLink.range.text = html + wpLink.range.text + '</a>';
+				wpLink.range.moveToBookmark( wpLink.range.getBookmark() );
+				wpLink.range.select();
+
+				wpLink.range = null;
+			}
+
+			wpLink.close();
+			textarea.focus();
+		},
+
+		mceUpdate : function() {
 			var ed = tinyMCEPopup.editor,
-				attrs = {
-					href : inputs.url.val(),
-					title : inputs.title.val(),
-					target : inputs.openInNewTab.attr('checked') ? '_blank' : ''
-				}, e, b;
+				attrs = wpLink.getAttrs(),
+				e, b;
 
 			tinyMCEPopup.restoreSelection();
 			e = ed.dom.getParent(ed.selection.getNode(), 'A');
@@ -102,7 +225,7 @@ var wpLink;
 					ed.dom.remove(e, 1);
 					ed.selection.moveToBookmark(b);
 					tinyMCEPopup.execCommand("mceEndUndoLevel");
-					tinyMCEPopup.close();
+					wpLink.close();
 				}
 				return;
 			}
@@ -140,7 +263,7 @@ var wpLink;
 			}
 
 			tinyMCEPopup.execCommand("mceEndUndoLevel");
-			tinyMCEPopup.close();
+			wpLink.close();
 		},
 
 		updateFields : function( e, li, originalEvent ) {
@@ -154,6 +277,9 @@ var wpLink;
 			// Leave the new tab setting as-is.
 			inputs.url.val('http://');
 			inputs.title.val('');
+
+			// Update save prompt.
+			inputs.submit.val( wpLinkL10n.save );
 		},
 
 		searchInternalLinks : function() {
@@ -210,7 +336,7 @@ var wpLink;
 
 			switch( event.which ) {
 				case key.ESCAPE:
-					wpLink.cancel();
+					wpLink.close();
 					break;
 				case key.UP:
 				case key.DOWN:

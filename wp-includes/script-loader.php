@@ -267,8 +267,10 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'admin-bar', "/wp-includes/js/admin-bar$suffix.js", false, '20110131' );
 	$scripts->add_data( 'admin-bar', 'group', 1 );
 
-	$scripts->add( 'wplink', "/wp-includes/js/tinymce/plugins/wplink/js/wplink$suffix.js", array('jquery'), '20110111' );
+	$scripts->add( 'wplink', "/wp-includes/js/tinymce/plugins/wplink/js/wplink$suffix.js", array( 'jquery', 'wpdialogs' ), '20110421' );
+	$scripts->add_data( 'wplink', 'group', 1 );
 	$scripts->localize( 'wplink', 'wpLinkL10n', array(
+		'title' => __('Insert/edit link'),
 		'update' => __('Update'),
 		'save' => __('Add Link'),
 		'noTitle' => __('(no title)'),
@@ -276,7 +278,11 @@ function wp_default_scripts( &$scripts ) {
 		'l10n_print_after' => 'try{convertEntities(wpLinkL10n);}catch(e){};',
 	) );
 
-	$scripts->add( 'wpdialogs-popup', "/wp-includes/js/tinymce/plugins/wpdialogs/js/popup$suffix.js", array( 'jquery-ui-dialog' ), '20101119' );
+	$scripts->add( 'wpdialogs', "/wp-includes/js/tinymce/plugins/wpdialogs/js/wpdialog$suffix.js", array( 'jquery-ui-dialog' ), '20110421' );
+	$scripts->add_data( 'wpdialogs', 'group', 1 );
+
+	$scripts->add( 'wpdialogs-popup', "/wp-includes/js/tinymce/plugins/wpdialogs/js/popup$suffix.js", array( 'wpdialogs' ), '20110421' );
+	$scripts->add_data( 'wpdialogs-popup', 'group', 1 );
 
 	if ( is_admin() ) {
 		$scripts->add( 'ajaxcat', "/wp-admin/js/cat$suffix.js", array( 'wp-lists' ), '20090102' );

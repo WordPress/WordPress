@@ -8,18 +8,56 @@
  * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
-(function($) {
-	var wpDialogFn = function( fn ) {
-		return function() {
-			if ( this.features.wpDialog )
-				return fn.apply( this, arguments );
-			else
-				return this.parent.apply( this, arguments );
-		};
-	};
-
+(function() {
 	tinymce.create('tinymce.plugins.WPDialogs', {
 		init : function(ed, url) {
+			tinymce.create('tinymce.WPWindowManager:tinymce.InlineWindowManager', {
+				WPWindowManager : function(ed) {
+					this.parent(ed);
+				},
+
+				open : function(f, p) {
+					var t = this, element;
+
+					if ( ! f.wpDialog )
+						return this.parent( f, p );
+					else if ( ! f.id )
+						return;
+
+					element = jQuery('#' + f.id);
+					if ( ! element.length )
+						return;
+
+					t.features = f;
+					t.params = p;
+					t.onOpen.dispatch(t, f, p);
+					t.element = t.windows[ f.id ] = element;
+
+					// Store selection
+					t.bookmark = t.editor.selection.getBookmark(1);
+
+					// Create the dialog if necessary
+					if ( ! element.data('wpdialog') ) {
+						element.wpdialog({
+							title: f.title,
+							width: f.width,
+							height: f.height,
+							modal: true,
+							dialogClass: 'wp-dialog',
+							zIndex: 300000
+						});
+					}
+
+					element.wpdialog('open');
+				},
+				close : function() {
+					if ( ! this.features.wpDialog )
+						return this.parent.apply( this, arguments );
+
+					this.element.wpdialog('close');
+				}
+			});
+
 			// Replace window manager
 			ed.onBeforeRenderUI.add(function() {
 				ed.windowManager = new tinymce.WPWindowManager(ed);
@@ -36,62 +74,7 @@
 			};
 		}
 	});
-	
-	$(document).ready(function() {
-		$.widget("wp.wpdialog", $.ui.dialog, {
-			open: function() {
-				// Initialize tinyMCEPopup if it exists.
-				if ( tinyMCEPopup )
-					tinyMCEPopup.init();
-				// Open the dialog.
-				$.ui.dialog.prototype.open.apply( this, arguments );
-				// WebKit leaves focus in the TinyMCE editor unless we shift focus.
-				this.element.focus();
-				this._trigger('refresh');
-			}
-		});
-	});
-
-	tinymce.create('tinymce.WPWindowManager:tinymce.InlineWindowManager', {
-		WPWindowManager : function(ed) {
-			this.parent(ed);
-		},
-
-		open : function(f, p) {
-			var t = this, element;
-			// Can't use wpDialogFn here; this.features isn't set yet.
-			if ( ! f.wpDialog )
-				return this.parent( f, p );
-			else if ( ! f.id )
-				return;
-			
-			element = $('#' + f.id);
-			if ( ! element.length )
-				return;
-			
-			t.features = f;
-			t.params = p;
-			t.onOpen.dispatch(t, f, p);
-			t.element = t.windows[ f.id ] = element;
-			
-			// Store selection
-			t.bookmark = t.editor.selection.getBookmark(1);
-			
-			element.wpdialog({
-				title: f.title,
-				width: f.width,
-				height: f.height,
-				modal: true,
-				dialogClass: 'wp-dialog',
-				zIndex: 300000
-			});
-		},
-		close : wpDialogFn(function() {
-			this.element.wpdialog('close');
-		})
-	});
 
 	// Register plugin
 	tinymce.PluginManager.add('wpdialogs', tinymce.plugins.WPDialogs);
-})(jQuery);
-
+})();
