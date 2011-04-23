@@ -1091,11 +1091,11 @@ class WP_Http_Curl {
 		$theBody = '';
 		$theHeaders = WP_Http::processHeaders( $this->headers );
 
-		if ( ! empty($theResponse) && ! is_bool( $theResponse ) ) // is_bool: when using $args['stream'], curl_exec will return (bool)true
+		if ( strlen($theResponse) > 0 && ! is_bool( $theResponse ) ) // is_bool: when using $args['stream'], curl_exec will return (bool)true
 			$theBody = $theResponse;
 
 		// If no response, and It's not a HEAD request with valid headers returned
-		if ( empty($theResponse) && ('HEAD' != $args['method'] || empty($this->headers)) ) {
+		if ( 0 == strlen($theResponse) && ('HEAD' != $args['method'] || empty($this->headers)) ) {
 			if ( $curl_error = curl_error($handle) )
 				return new WP_Error('http_request_failed', $curl_error);
 			if ( in_array( curl_getinfo( $handle, CURLINFO_HTTP_CODE ), array(301, 302) ) )
