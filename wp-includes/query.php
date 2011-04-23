@@ -1625,8 +1625,12 @@ class WP_Query {
 				$qv['post_type'] = sanitize_key($qv['post_type']);
 		}
 
-		if ( !empty($qv['post_status']) )
-			$qv['post_status'] = preg_replace('|[^a-z0-9_,-]|', '', $qv['post_status']);
+		if ( ! empty( $qv['post_status'] ) ) {
+			if ( is_array( $qv['post_status'] ) )
+				$qv['post_status'] = array_map('sanitize_key', $qv['post_status']);
+			else
+				$qv['post_status'] = preg_replace('|[^a-z0-9_,-]|', '', $qv['post_status']);
+		}
 
 		if ( $this->is_posts_page && ( ! isset($qv['withcomments']) || ! $qv['withcomments'] ) )
 			$this->is_comment_feed = false;
@@ -2387,13 +2391,15 @@ class WP_Query {
 			$read_private_cap = 'read_private_' . $post_type_cap . 's';
 		}
 
-		if ( isset($q['post_status']) && '' != $q['post_status'] ) {
+		if ( ! empty( $q['post_status'] ) ) {
 			$statuswheres = array();
-			$q_status = explode(',', $q['post_status']);
+			$q_status = $q['post_status'];
+			if ( ! is_array( $q_status ) )
+				$q_status = explode(',', $q_status);
 			$r_status = array();
 			$p_status = array();
 			$e_status = array();
-			if ( $q['post_status'] == 'any' ) {
+			if ( in_array('any', $q_status) ) {
 				foreach ( get_post_stati( array('exclude_from_search' => true) ) as $status )
 					$e_status[] = "$wpdb->posts.post_status <> '$status'";
 			} else {
