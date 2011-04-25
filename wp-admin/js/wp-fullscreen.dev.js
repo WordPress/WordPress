@@ -243,7 +243,7 @@ var fullscreen, wp_fullscreen_enabled = false;
 	};
 
 	api.fade = {
-		transitionend: 'transitionend webkitTransitionEnd OTransitionEnd',
+		transitionend: 'transitionend webkitTransitionEnd oTransitionEnd',
 
 		// Sensitivity to allow browsers to render the blank element before animating.
 		sensitivity: 100,
