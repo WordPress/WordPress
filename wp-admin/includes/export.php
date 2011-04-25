@@ -384,14 +384,14 @@ function export_wp( $args = array() ) {
 <?php 	endif; ?>
 <?php 	wxr_post_taxonomy(); ?>
 <?php	$postmeta = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->postmeta WHERE post_id = %d", $post->ID ) );
-		if ( $postmeta ) : foreach( $postmeta as $meta ) : if ( $meta->meta_key != '_edit_lock' ) : ?>
+		foreach( $postmeta as $meta ) : if ( $meta->meta_key != '_edit_lock' ) : ?>
 		<wp:postmeta>
 			<wp:meta_key><?php echo $meta->meta_key; ?></wp:meta_key>
 			<wp:meta_value><?php echo wxr_cdata( $meta->meta_value ); ?></wp:meta_value>
 		</wp:postmeta>
-<?php	endif; endforeach; endif; ?>
+<?php	endif; endforeach; ?>
 <?php	$comments = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->comments WHERE comment_post_ID = %d AND comment_approved <> 'spam'", $post->ID ) );
-		if ( $comments ) : foreach ( $comments as $c ) : ?>
+		foreach ( $comments as $c ) : ?>
 		<wp:comment>
 			<wp:comment_id><?php echo $c->comment_ID; ?></wp:comment_id>
 			<wp:comment_author><?php echo wxr_cdata( $c->comment_author ); ?></wp:comment_author>
@@ -405,8 +405,15 @@ function export_wp( $args = array() ) {
 			<wp:comment_type><?php echo $c->comment_type; ?></wp:comment_type>
 			<wp:comment_parent><?php echo $c->comment_parent; ?></wp:comment_parent>
 			<wp:comment_user_id><?php echo $c->user_id; ?></wp:comment_user_id>
+<?php		$c_meta = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->commentmeta WHERE comment_id = %d", $c->comment_ID ) );
+			foreach ( $c_meta as $meta ) : ?>
+			<wp:commentmeta>
+				<wp:meta_key><?php echo $meta->meta_key; ?></wp:meta_key>
+				<wp:meta_value><?php echo wxr_cdata( $meta->meta_value ); ?></wp:meta_value>
+			</wp:commentmeta>
+<?php		endforeach; ?>
 		</wp:comment>
-<?php	endforeach; endif; ?>
+<?php	endforeach; ?>
 	</item>
 <?php
 	}
