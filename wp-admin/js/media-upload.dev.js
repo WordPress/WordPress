@@ -3,7 +3,9 @@ function send_to_editor(h) {
 	var ed;
 
 	if ( typeof tinyMCE != 'undefined' && ( ed = tinyMCE.activeEditor ) && !ed.isHidden() ) {
-		ed.focus();
+		// restore caret position on IE
+		if ( tinymce.isIE && ed.windowManager.insertimagebookmark )
+			ed.selection.moveToBookmark(ed.windowManager.insertimagebookmark);
 
 		if ( h.indexOf('[caption') === 0 ) {
 			if ( ed.plugins.wpeditimage )
@@ -54,5 +56,17 @@ var tb_position;
 	};
 
 	$(window).resize(function(){ tb_position(); });
+
+	// store caret position in IE
+	$(document).ready(function($){ 
+		$('a.thickbox').click(function(){ 
+			var ed;
+
+			if ( typeof tinyMCE != 'undefined' && tinymce.isIE && ( ed = tinyMCE.activeEditor ) && !ed.isHidden() ) {  
+				ed.focus();
+				ed.windowManager.insertimagebookmark = ed.selection.getBookmark(); 
+			} 
+		}); 
+	}); 
 
 })(jQuery);
