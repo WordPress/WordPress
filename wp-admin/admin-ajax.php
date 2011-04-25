@@ -1468,6 +1468,68 @@ case 'date_format' :
 case 'time_format' :
 	die( date_i18n( sanitize_option( 'time_format', $_POST['date'] ) ) );
 	break;
+case 'wp-fullscreen-save-post' :
+	if ( isset($_POST['post_ID']) )
+		$post_id = (int) $_POST['post_ID'];
+	else
+		$post_id = 0;
+
+	$post = null;
+	$post_type_object = null;
+	$post_type = null;
+	if ( $post_id ) {
+		$post = get_post($post_id);
+		if ( $post ) {
+			$post_type_object = get_post_type_object($post->post_type);
+			if ( $post_type_object ) {
+				$post_type = $post->post_type;
+				$current_screen->post_type = $post->post_type;
+				$current_screen->id = $current_screen->post_type;
+			}
+		}
+	} elseif ( isset($_POST['post_type']) ) {
+		$post_type_object = get_post_type_object($_POST['post_type']);
+		if ( $post_type_object ) {
+			$post_type = $post_type_object->name;
+			$current_screen->post_type = $post_type;
+			$current_screen->id = $current_screen->post_type;
+		}
+	}
+
+	check_ajax_referer('update-' . $post_type . '_' . $post_id, '_wpnonce');
+
+	$post_id = edit_post();
+
+	if ( is_wp_error($post_id) ) {
+		if ( $post_id->get_error_message() )
+			$message = $post_id->get_error_message();
+		else
+			$message = __('Save failed');
+
+		echo json_encode( array( 'message' => $message, 'last_edited' => '' ) );
+		die();
+	} else {
+		$message = __('Saved.');
+	}
+
+	if ( $post ) {
+		$last_date = mysql2date( get_option('date_format'), $post->post_modified );
+		$last_time = mysql2date( get_option('time_format'), $post->post_modified );
+	} else {
+		$last_date = date_i18n( get_option('date_format') );
+		$last_time = date_i18n( get_option('time_format') );
+	}
+
+	if ( $last_id = get_post_meta($post_id, '_edit_last', true) ) {
+		$last_user = get_userdata($last_id);
+		$last_edited = sprintf( __('Last edited by %1$s on %2$s at %3$s'), esc_html( $last_user->display_name ), $last_date, $last_time );
+	} else {
+		$last_edited = sprintf( __('Last edited on %1$s at %2$s'), $last_date, $last_time );
+	}
+
+	echo json_encode( array( 'message' => $message, 'last_edited' => $last_edited ) );
+	die();
+	break;
 default :
 	do_action( 'wp_ajax_' . $_POST['action'] );
 	die('0');

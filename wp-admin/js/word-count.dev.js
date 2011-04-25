@@ -5,7 +5,7 @@
 		init : function() {
 			var t = this, last = 0, co = $('#content');
 
-			$('#wp-word-count').html( wordCountL10n.count.replace( /%d/, '<span id="word-count">0</span>' ) );
+			$('#wp-word-count').html( wordCountL10n.count.replace( /%d/, '<span class="word-count">0</span>' ) );
 			t.block = 0;
 			t.wc(co.val());
 			co.keyup( function(e) {
@@ -17,7 +17,7 @@
 		},
 
 		wc : function(tx) {
-			var t = this, w = $('#word-count'), tc = 0;
+			var t = this, w = $('.word-count'), tc = 0;
 
 			if ( t.block ) return;
 			t.block = 1;

@@ -1841,6 +1841,12 @@ function the_editor($content, $id = 'content', $prev_id = 'title', $media_button
 	edCanvas = document.getElementById('<?php echo $id; ?>');
 	</script>
 <?php
+	// queue scripts
+	if ( $richedit )
+		add_action( 'admin_print_footer_scripts', 'wp_tiny_mce', 25 );
+	else
+		add_action( 'admin_print_footer_scripts', 'wp_quicktags', 25 );
+
 }
 
 /**

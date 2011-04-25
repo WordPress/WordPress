@@ -92,6 +92,10 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'colorpicker', "/wp-includes/js/colorpicker$suffix.js", array('prototype'), '3517m' );
 
 	$scripts->add( 'editor', "/wp-admin/js/editor$suffix.js", array('utils','jquery'), '20110411' );
+	$scripts->add_data( 'editor', 'group', 1 );
+	
+	$scripts->add( 'wp-fullscreen', "/wp-admin/js/wp-fullscreen$suffix.js", array('jquery'), '20110424' );
+	$scripts->add_data( 'wp-fullscreen', 'group', 1 );
 
 	$scripts->add( 'prototype', '/wp-includes/js/prototype.js', false, '1.6.1');
 
@@ -103,7 +107,7 @@ function wp_default_scripts( &$scripts ) {
 		'l10n_print_after' => 'try{convertEntities(wpAjax);}catch(e){};'
 	) );
 
-	$scripts->add( 'autosave', "/wp-includes/js/autosave$suffix.js", array('schedule', 'wp-ajax-response'), '20110415' );
+	$scripts->add( 'autosave', "/wp-includes/js/autosave$suffix.js", array('schedule', 'wp-ajax-response'), '20110424' );
 	$scripts->add_data( 'autosave', 'group', 1 );
 
 	$scripts->add( 'wp-lists', "/wp-includes/js/wp-lists$suffix.js", array('wp-ajax-response'), '20101222' );
@@ -320,7 +324,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'postbox', "/wp-admin/js/postbox$suffix.js", array('jquery-ui-sortable'), '20091012' );
 		$scripts->add_data( 'postbox', 'group', 1 );
 
-		$scripts->add( 'post', "/wp-admin/js/post$suffix.js", array('suggest', 'wp-lists', 'postbox'), '20110203' );
+		$scripts->add( 'post', "/wp-admin/js/post$suffix.js", array('suggest', 'wp-lists', 'postbox'), '20110424' );
 		$scripts->add_data( 'post', 'group', 1 );
 		$scripts->localize( 'post', 'postL10n', array(
 			'tagsUsed' =>  __('Tags used on this post:'),
@@ -369,7 +373,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'admin-widgets', "/wp-admin/js/widgets$suffix.js", array( 'jquery-ui-sortable', 'jquery-ui-draggable', 'jquery-ui-droppable' ), '20101007' );
 		$scripts->add_data( 'admin-widgets', 'group', 1 );
 
-		$scripts->add( 'word-count', "/wp-admin/js/word-count$suffix.js", array( 'jquery' ), '20090422' );
+		$scripts->add( 'word-count', "/wp-admin/js/word-count$suffix.js", array( 'jquery' ), '20110424' );
 		$scripts->add_data( 'word-count', 'group', 1 );
 		$scripts->localize( 'word-count', 'wordCountL10n', array(
 			'count' => __('Word count: %d'),
@@ -479,7 +483,7 @@ function wp_default_styles( &$styles ) {
 	// Any rtl stylesheets that don't have a .dev version for ltr
 	$no_suffix = array( 'farbtastic' );
 
-	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20110419' );
+	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20110424' );
 
 	$styles->add( 'ie', "/wp-admin/css/ie$suffix.css", array(), '20101102' );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
@@ -495,7 +499,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'colors-classic', "/wp-admin/css/colors-classic$suffix.css", array(), $colors_version );
 
 	$styles->add( 'ms', "/wp-admin/css/ms$suffix.css", array(), '20101213' );
-	$styles->add( 'global', "/wp-admin/css/global$suffix.css", array(), '20110121' );
+	$styles->add( 'global', "/wp-admin/css/global$suffix.css", array(), '20110424' );
 	$styles->add( 'media', "/wp-admin/css/media$suffix.css", array(), '20110121' );
 	$styles->add( 'widgets', "/wp-admin/css/widgets$suffix.css", array(), '20110104' );
 	$styles->add( 'dashboard', "/wp-admin/css/dashboard$suffix.css", array(), '20110121' );

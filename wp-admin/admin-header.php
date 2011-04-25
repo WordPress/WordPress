@@ -68,8 +68,6 @@ var userSettings = {
 <?php
 
 if ( in_array( $pagenow, array('post.php', 'post-new.php') ) ) {
-	add_action( 'admin_print_footer_scripts', 'wp_tiny_mce', 25 );
-	add_action( 'admin_print_footer_scripts', 'wp_tiny_mce_preload_dialogs', 30 );
 	wp_enqueue_script('quicktags');
 }
 

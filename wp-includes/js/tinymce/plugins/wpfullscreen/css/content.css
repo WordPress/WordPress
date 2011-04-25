@@ -1,0 +1,295 @@
+/*
+Distraction Free Writing mode TinyMCE Styles
+*/
+
+html, body.mceContentBody {
+	background: transparent;
+	margin: 0;
+	padding: 0;
+}
+
+* {
+	color: #444;
+	font-family: Georgia, "Bitstream Charter", serif;
+	line-height: 1.5;
+}
+p,
+dl,
+td,
+th,
+ul,
+ol,
+blockquote {
+	font-size: 16px;
+}
+tr th,
+thead th,
+label,
+tr th,
+thead th {
+	font-family: "Helvetica Neue", Arial, Helvetica, "Nimbus Sans L", sans-serif;
+}
+pre {
+	font-family: "Courier 10 Pitch", Courier, monospace;
+}
+code, code var {
+	font-family: Monaco, Consolas, "Andale Mono", "DejaVu Sans Mono", monospace;
+}
+body, input, textarea {
+	font-size: 12px;
+	line-height: 18px;
+}
+hr {
+	background-color: #e7e7e7;
+	border: 0;
+	clear: both;
+	height: 1px;
+	margin-bottom: 18px;
+}
+/* Text elements */
+p {
+	margin-bottom: 18px;
+}
+ul {
+	list-style: square;
+	margin: 0 0 18px 1.5em;
+}
+ol {
+	list-style: decimal;
+	margin: 0 0 18px 1.5em;
+}
+ol ol {
+	list-style: upper-alpha;
+}
+ol ol ol {
+	list-style: lower-roman;
+}
+ol ol ol ol {
+	list-style: lower-alpha;
+}
+ul ul,
+ol ol,
+ul ol,
+ol ul {
+	margin-bottom: 0;
+}
+dl {
+	margin: 0 0 24px 0;
+}
+dt {
+	font-weight: bold;
+}
+dd {
+	margin-bottom: 18px;
+}
+strong {
+	color: #000;
+	font-weight: bold;
+}
+cite,
+em,
+i {
+	border: none;
+	font-style: italic;
+}
+big {
+	font-size: 131.25%;
+}
+ins {
+	background: #ffc;
+	border: none;
+	color: #333;
+}
+del {
+	text-decoration: line-through;
+	color: #555;
+}
+blockquote {
+	font-style: italic;
+	padding: 0 3em;
+}
+blockquote cite,
+blockquote em,
+blockquote i {
+	font-style: normal;
+}
+pre {
+	background: #f7f7f7;
+	color: #222;
+	line-height: 18px;
+	margin-bottom: 18px;
+	padding: 1.5em;
+}
+abbr,
+acronym {
+	border-bottom: 1px dotted #666;
+	cursor: help;
+}
+ins {
+	text-decoration: none;
+}
+sup,
+sub {
+	font-size: 10px;
+	height: 0;
+	line-height: 1;
+	position: relative;
+	vertical-align: baseline;
+}
+sup {
+	bottom: 1ex;
+}
+sub {
+	top: .5ex;
+}
+a:link {
+	color: #06c;
+}
+a:visited {
+	color: #743399;
+}
+a:active,
+a:hover {
+	color: #ff4b33;
+}
+p,
+ul,
+ol,
+dd,
+pre,
+hr {
+	margin-bottom: 24px;
+}
+ul ul,
+ol ol,
+ul ol,
+ol ul {
+	margin-bottom: 0;
+}
+pre,
+kbd,
+tt,
+var {
+	font-size: 15px;
+	line-height: 21px;
+}
+code {
+	font-size: 13px;
+}
+strong,
+b,
+dt,
+th {
+	color: #000;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	color: #000;
+	font-weight: normal;
+	line-height: 1.5em;
+	margin: 0 0 20px 0;
+}
+h1 {
+	font-size: 2.4em;
+}
+h2 {
+	font-size: 1.8em;
+}
+h3 {
+	font-size: 1.4em;
+}
+h4 {
+	font-size: 1.2em;
+}
+h5 {
+	font-size: 1em;
+}
+h6 {
+	font-size: 0.9em;
+}
+table {
+	border: 1px solid #e7e7e7 !important;
+	border-collapse: collapse;
+	border-spacing: 0;
+	margin: 0 -1px 24px 0;
+	text-align: left;
+	width: 100%;
+}
+tr th,
+thead th {
+	border: none !important;
+	color: #888;
+	font-size: 12px;
+	font-weight: bold;
+	line-height: 18px;
+	padding: 9px 24px;
+}
+tr td {
+	border: none !important;
+	border-top: 1px solid #e7e7e7 !important;
+	padding: 6px 24px;
+}
+img {
+	margin: 0;
+}
+img.size-auto,
+img.size-large,
+img.size-full,
+img.size-medium {
+	max-width: 100%;
+	height: auto;
+}
+.alignleft,
+img.alignleft {
+	display: inline;
+	float: left;
+	margin-right: 24px;
+	margin-top: 4px;
+}
+.alignright,
+img.alignright {
+	display: inline;
+	float: right;
+	margin-left: 24px;
+	margin-top: 4px;
+}
+.aligncenter,
+img.aligncenter {
+	clear: both;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+img.alignleft,
+img.alignright,
+img.aligncenter {
+	margin-bottom: 12px;
+}
+.wp-caption {
+	background: #f1f1f1;
+	border: none;
+	-khtml-border-radius: 0;
+	-moz-border-radius: 0;
+	-webkit-border-radius: 0;
+	border-radius: 0;
+	color: #888;
+	font-size: 12px;
+	line-height: 18px;
+	margin-bottom: 20px;
+	max-width: 632px !important; /* prevent too-wide images from breaking layout */
+	padding: 4px;
+	text-align: center;
+}
+.wp-caption img {
+	margin: 5px;
+}
+.wp-caption p.wp-caption-text {
+	margin: 0 0 4px;
+}
+.wp-smiley {
+	margin: 0;
+}

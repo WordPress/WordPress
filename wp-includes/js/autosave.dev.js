@@ -1,4 +1,4 @@
-var autosave, autosaveLast = '', autosavePeriodical, autosaveOldMessage = '', autosaveDelayPreview = false, notSaved = true, blockSave = false;
+var autosave, autosaveLast = '', autosavePeriodical, autosaveOldMessage = '', autosaveDelayPreview = false, notSaved = true, blockSave = false, wp_fullscreen_enabled;
 
 jQuery(document).ready( function($) {
 	var dotabkey = true;
@@ -34,7 +34,14 @@ jQuery(document).ready( function($) {
 			if ( mce.isDirty() )
 				return autosaveL10n.saveAlert;
 		} else {
-			title = $('#post #title').val(), content = $('#post #content').val();
+			if ( wp_fullscreen_enabled ) {
+				title = $('#wp-fullscreen-title').val();
+				content = $("#wp_mce_fullscreen").val();
+			} else {
+				title = $('#post #title').val();
+				content = $('#post #content').val();
+			}
+
 			if ( ( title || content ) && title + content != autosaveLast )
 				return autosaveL10n.saveAlert;
 		}
@@ -116,8 +123,11 @@ function autosave_parse_response(response) {
 			}
 		}
 	}
-	if ( message ) { jQuery('#autosave').html(message); } // update autosave message
-	else if ( autosaveOldMessage && res ) { jQuery('#autosave').html( autosaveOldMessage ); }
+	if ( message ) { // update autosave message
+		jQuery('.autosave-message').html(message);
+	} else if ( autosaveOldMessage && res ) {
+		jQuery('.autosave-message').html( autosaveOldMessage );
+	}
 	return res;
 }
 
@@ -152,12 +162,10 @@ function autosave_saved_new(response) {
 function autosave_update_slug(post_id) {
 	// create slug area only if not already there
 	if ( 'undefined' != makeSlugeditClickable && jQuery.isFunction(makeSlugeditClickable) && !jQuery('#edit-slug-box > *').size() ) {
-		jQuery.post(
-			ajaxurl,
-			{
+		jQuery.post( ajaxurl, {
 				action: 'sample-permalink',
 				post_id: post_id,
-				new_title: jQuery('#title').val(),
+				new_title: wp_fullscreen_enabled ? jQuery('#wp-fullscreen-title').val() : jQuery('#title').val(),
 				samplepermalinknonce: jQuery('#samplepermalinknonce').val()
 			},
 			function(data) {
@@ -171,7 +179,7 @@ function autosave_update_slug(post_id) {
 }
 
 function autosave_loading() {
-	jQuery('#autosave').html(autosaveL10n.savingText);
+	jQuery('.autosave-message').html(autosaveL10n.savingText);
 }
 
 function autosave_enable_buttons() {
@@ -199,14 +207,14 @@ function delayed_autosave() {
 autosave = function() {
 	// (bool) is rich editor enabled and active
 	blockSave = true;
-	var rich = (typeof tinyMCE != "undefined") && tinyMCE.activeEditor && !tinyMCE.activeEditor.isHidden(), post_data, doAutoSave, ed, origStatus, successCallback;
+	var rich = (typeof tinyMCE != "undefined") && tinyMCE.activeEditor && !tinyMCE.activeEditor.isHidden(),
+		post_data, doAutoSave, ed, origStatus, successCallback;
 
 	autosave_disable_buttons();
 
 	post_data = {
 		action: "autosave",
 		post_ID:  jQuery("#post_ID").val() || 0,
-		post_title: jQuery("#title").val() || "",
 		autosavenonce: jQuery('#autosavenonce').val(),
 		post_type: jQuery('#post_type').val() || "",
 		autosave: 1
@@ -231,13 +239,20 @@ autosave = function() {
 		if ( ed.plugins.spellchecker && ed.plugins.spellchecker.active ) {
 			doAutoSave = false;
 		} else {
-			if ( 'mce_fullscreen' == ed.id )
+			if ( 'mce_fullscreen' == ed.id || 'wp_mce_fullscreen' == ed.id )
 				tinyMCE.get('content').setContent(ed.getContent({format : 'raw'}), {format : 'raw'});
-			tinyMCE.get('content').save();
+			tinyMCE.triggerSave();
 		}
 	}
 
-	post_data["content"] = jQuery("#content").val();
+	if ( wp_fullscreen_enabled ) {
+		post_data["post_title"] = jQuery('#wp-fullscreen-title').val();
+		post_data["content"] = jQuery("#wp_mce_fullscreen").val();
+	} else {
+		post_data["post_title"] = jQuery("#title").val()
+		post_data["content"] = jQuery("#content").val();
+	}
+
 	if ( jQuery('#post_name').val() )
 		post_data["post_name"] = jQuery('#post_name').val();
 
@@ -269,7 +284,7 @@ autosave = function() {
 		post_data["auto_draft"] = '1';
 
 	if ( doAutoSave ) {
-		autosaveLast = jQuery("#title").val() + jQuery("#content").val();
+		autosaveLast = post_data["post_title"] + post_data["content"];
 	} else {
 		post_data['autosave'] = 0;
 	}

@@ -512,3 +512,34 @@ div.error p {
 .wrap h2.long-header {
 	padding-right: 0;
 }
+
+
+/* =CSS 3 transitions
+-------------------------------------------------------------- */
+.fade-600 {
+	opacity: 0;
+	-moz-transition-property: opacity;
+	-moz-transition-duration: 0.6s;
+	-webkit-transition-property: opacity;
+	-webkit-transition-duration: 0.6s;
+	-o-transition-property: opacity;
+	-o-transition-duration: 0.6s;
+	transition-property: opacity;
+	transition-duration: 0.6s;
+}
+
+.fade-400 {
+	opacity: 0;
+	-moz-transition-property: opacity;
+	-moz-transition-duration: 0.4s;
+	-webkit-transition-property: opacity;
+	-webkit-transition-duration: 0.4s;
+	-o-transition-property: opacity;
+	-o-transition-duration: 0.4s;
+	transition-property: opacity;
+	transition-duration: 0.4s;
+}
+
+.fade-trigger {
+	opacity: 1;
+}

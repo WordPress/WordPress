@@ -1410,7 +1410,7 @@ function wp_tiny_mce( $teeny = false, $settings = false ) {
 		$plugins = apply_filters( 'teeny_mce_plugins', array('inlinepopups', 'fullscreen', 'wordpress', 'wplink', 'wpdialogs') );
 		$ext_plugins = '';
 	} else {
-		$plugins = array( 'inlinepopups', 'spellchecker', 'paste', 'wordpress', 'fullscreen', 'media', 'wpeditimage', 'wpgallery', 'tabfocus', 'wplink', 'wpdialogs' );
+		$plugins = array( 'inlinepopups', 'spellchecker', 'tabfocus', 'paste', 'media', 'wordpress', 'wpfullscreen', 'wpeditimage', 'wpgallery', 'wplink', 'wpdialogs' );
 
 		/*
 		The following filter takes an associative array of external plugins for TinyMCE in the form 'plugin_name' => 'url'.
@@ -1561,6 +1561,7 @@ function wp_tiny_mce( $teeny = false, $settings = false ) {
 		'paste_text_use_dialog' => true,
 		'extended_valid_elements' => 'article[*],aside[*],audio[*],canvas[*],command[*],datalist[*],details[*],embed[*],figcaption[*],figure[*],footer[*],header[*],hgroup[*],keygen[*],mark[*],meter[*],nav[*],output[*],progress[*],section[*],source[*],summary,time[*],video[*],wbr',
 		'wpeditimage_disable_captions' => $no_captions,
+		'wp_fullscreen_content_css' => "$baseurl/plugins/wpfullscreen/css/content.css",
 		'plugins' => implode( ',', $plugins ),
 	);
 
@@ -1644,7 +1645,9 @@ function wp_tiny_mce( $teeny = false, $settings = false ) {
 		$mce_options .= $k . ':"' . $v . '", ';
 	}
 
-	$mce_options = rtrim( trim($mce_options), '\n\r,' ); ?>
+	$mce_options = rtrim( trim($mce_options), '\n\r,' );
+
+	wp_print_scripts('editor'); ?>
 
 <script type="text/javascript">
 /* <![CDATA[ */
@@ -1685,20 +1688,135 @@ tinyMCE.init(tinyMCEPreInit.mceInit);
 </script>
 <?php
 
-	// Load additional inline scripts based on active plugins.
-	if ( in_array( 'wpdialogs', $plugins ) ) {
-		wp_print_scripts( array( 'wpdialogs-popup' ) );
+do_action('tiny_mce_preload_dialogs', $plugins);
+}
+
+// Load additional inline scripts based on active plugins.
+function wp_preload_dialogs($plugins) {
+
+	if ( in_array( 'wpdialogs', $plugins, true ) ) {
+		wp_print_scripts('wpdialogs-popup');
 		wp_print_styles('wp-jquery-ui-dialog');
 	}
-	if ( in_array( 'wplink', $plugins ) ) {
+
+	if ( in_array( 'wplink', $plugins, true ) ) {
 		require_once ABSPATH . 'wp-admin/includes/internal-linking.php';
-		add_action('tiny_mce_preload_dialogs', 'wp_link_dialog');
+		?><div style="display:none;"><?php wp_link_dialog(); ?></div><?php
 		wp_print_scripts('wplink');
 		wp_print_styles('wplink');
 	}
+
+	// Distraction Free Writing mode
+	if ( in_array( 'wpfullscreen', $plugins, true ) ) {
+		wp_fullscreen_html();
+		wp_print_scripts('wp-fullscreen');
+	}
+
+	wp_print_scripts('word-count');
 }
-function wp_tiny_mce_preload_dialogs() { ?>
-	<div id="preloaded-dialogs" style="display:none;">
-<?php 	do_action('tiny_mce_preload_dialogs'); ?>
+
+function wp_quicktags() {
+	wp_preload_dialogs( array( 'wpdialogs', 'wplink', 'wp_fullscreen' ) );
+}
+
+function wp_fullscreen_html() {
+	global $content_width, $post;
+
+	$width = isset($content_width) && 800 > $content_width ? $content_width : 800;
+	$width = $width + 10; // compensate for the padding
+	$save = $post->post_status == 'publish' ? __('Update') : __('Save');
+?> 
+<div id="wp-fullscreen-body">
+<div id="fullscreen-topbar" class="fade-600">
+	<div id="wp-fullscreen-info">
+		<span id="wp-fullscreen-saved"> </span>
+		<span class="autosave-message">&nbsp;</span>
+		<span id="wp-fullscreen-last-edit"> </span> 
 	</div>
-<?php }
+
+	<div id="wp-fullscreen-toolbar">
+		<div id="wp-fullscreen-close"><a href="#" onclick="fullscreen.off();return false;"><?php _e('Back'); ?></a></div>
+		<div id="wp-fullscreen-save"><input type="button" class="button-primary" value="<?php echo $save; ?>" onclick="fullscreen.save();" /></div>
+		<div id="wp-fullscreen-buttons" style="width:<?php echo $width; ?>px;" class="wp_themeSkin">
+			<div>
+			<a title="<?php _e('Bold (Ctrl + B)'); ?>" aria-labelledby="wp_fs_bold_voice" onclick="fullscreen.b();return false;" class="mceButton mceButtonEnabled mce_bold" href="javascript:;" id="wp_fs_bold" role="button" tabindex="-1" aria-pressed="false">
+			<span class="mceIcon mce_bold"></span>
+			<span id="wp_fs_bold_voice" style="display: none;" class="mceVoiceLabel mceIconOnly"><?php _e('Bold (Ctrl + B)'); ?></span>
+			</a>
+			</div>
+
+			<div>
+			<a title="<?php _e('Italic (Ctrl + I)'); ?>" aria-labelledby="wp_fs_italic_voice" onclick="fullscreen.i();return false;" class="mceButton mceButtonEnabled mce_italic" href="javascript:;" id="wp_fs_italic" role="button" tabindex="-1" aria-pressed="false">
+			<span class="mceIcon mce_italic"></span>
+			<span id="wp_fs_italic_voice" style="display: none;" class="mceVoiceLabel mceIconOnly"><?php _e('Italic (Ctrl + I)'); ?></span>
+			</a>
+			</div>
+
+			<div>
+			<span tabindex="-1" aria-orientation="vertical" role="separator" class="mceSeparator"></span>
+			</div>
+
+			<div>
+			<a title="<?php _e('Unordered list (Alt + Shift + U)'); ?>" aria-labelledby="wp_fs_bullist_voice" onclick="fullscreen.ul();return false;" onmousedown="return false;" class="mceButton mceButtonEnabled mce_bullist" href="javascript:;" id="wp_fs_bullist" role="button" tabindex="-1" aria-pressed="false">
+			<span class="mceIcon mce_bullist"></span>
+			<span id="wp_fs_bullist_voice" style="display: none;" class="mceVoiceLabel mceIconOnly"><?php _e('Unordered list (Alt + Shift + U)'); ?></span>
+			</a>
+			</div>
+
+			<div>
+			<a title="<?php _e('Ordered list (Alt + Shift + O)'); ?>" aria-labelledby="wp_fs_numlist_voice" onclick="fullscreen.ol();return false;" class="mceButton mceButtonEnabled mce_numlist" href="javascript:;" id="wp_fs_numlist" role="button" tabindex="-1" aria-pressed="false">
+			<span class="mceIcon mce_numlist"></span>
+			<span id="wp_fs_numlist_voice" style="display: none;" class="mceVoiceLabel mceIconOnly"><?php _e('Ordered list (Alt + Shift + O)'); ?></span>
+			</a>
+			</div>
+
+			<div>
+			<span tabindex="-1" aria-orientation="vertical" role="separator" class="mceSeparator"></span>
+			</div>
+
+			<div>
+			<a title="<?php _e('Insert/edit image (Alt + Shift + M)'); ?>" aria-labelledby="wp_fs_image_voice" onclick="jQuery('#add_image').click();return false;" class="mceButton mceButtonEnabled mce_image" href="javascript:;" id="wp_fs_image" role="button" tabindex="-1">
+			<span class="mceIcon mce_image"></span>
+			<span id="wp_fs_image_voice" style="display: none;" class="mceVoiceLabel mceIconOnly"><?php _e('Insert/edit image (Alt + Shift + M)'); ?></span>
+			</a>
+			</div>
+
+			<div>
+			<span tabindex="-1" aria-orientation="vertical" role="separator" class="mceSeparator"></span>
+			</div>
+
+			<div>
+			<a title="<?php _e('Insert/edit link (Alt + Shift + A)'); ?>" aria-labelledby="wp_fs_link_voice" onclick="fullscreen.link();return false;" class="mceButton mce_link mceButtonEnabled" href="javascript:;" id="wp_fs_link" role="button" tabindex="-1" aria-pressed="false">
+			<span class="mceIcon mce_link"></span>
+			<span id="wp_fs_link_voice" style="display: none;" class="mceVoiceLabel mceIconOnly"><?php _e('Insert/edit link (Alt + Shift + A)'); ?></span>
+			</a>
+			</div>
+
+			<div>
+			<a title="<?php _e('Unlink (Alt + Shift + S)'); ?>" aria-labelledby="wp_fs_unlink_voice" onclick="fullscreen.unlink();return false;" class="mceButton mce_unlink mceButtonEnabled" href="javascript:;" id="wp_fs_unlink" role="button" tabindex="-1" aria-pressed="false">
+			<span class="mceIcon mce_unlink"></span>
+			<span id="wp_fs_unlink_voice" style="display: none;" class="mceVoiceLabel mceIconOnly"><?php _e('Unlink (Alt + Shift + S)'); ?></span>
+			</a>
+			</div>
+
+			<div id="wp-fullscreen-count"><?php _e('Word Count:'); ?> <span class="word-count">0</span></div>
+		</div>
+	</div>
+</div>
+
+<div id="wp-fullscreen-wrap" style="width:<?php echo $width; ?>px;">
+	<label id="wp-fullscreen-title-prompt-text" for="wp-fullscreen-title"><?php echo apply_filters( 'enter_title_here', __( 'Enter title here' ), $post ); ?></label>
+	<input type="text" id="wp-fullscreen-title" value="" autocomplete="off" />
+
+	<div id="wp-fullscreen-container">
+		<textarea id="wp_mce_fullscreen"></textarea>
+	</div>
+</div>
+</div>
+
+<div class="fullscreen-overlay" id="fullscreen-overlay"></div>
+<div class="fullscreen-overlay fullscreen-fader fade-600" id="fullscreen-fader"></div>
+<?php
+}
+
+
