@@ -2455,7 +2455,7 @@ function wp_insert_post($postarr, $wp_error = false) {
 		$post_before = get_post($post_ID);
 	}
 
-	// Don't allow contributors to set to set the post slug for pending review posts
+	// Don't allow contributors to set the post slug for pending review posts
 	if ( 'pending' == $post_status && !current_user_can( 'publish_posts' ) )
 		$post_name = '';
 
