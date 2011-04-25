@@ -355,121 +355,190 @@ function update_meta_cache($meta_type, $object_ids) {
 /**
  * Given a meta query, generates SQL clauses to be appended to a main query
  *
- * @since 3.1.0
- * @access private
+ * @since 3.2.0
  *
- * @param array $meta_query List of metadata queries. A single query is an associative array:
- * - 'key' string The meta key
- * - 'value' string|array The meta value
- * - 'compare' (optional) string How to compare the key to the value.
- *		Possible values: '=', '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE', 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN'.
- *		Default: '='
- * - 'type' string (optional) The type of the value.
- *		Possible values: 'NUMERIC', 'BINARY', 'CHAR', 'DATE', 'DATETIME', 'DECIMAL', 'SIGNED', 'TIME', 'UNSIGNED'.
- *		Default: 'CHAR'
+ * @see WP_Meta_Query
  *
+ * @param array (optional) $meta_query A meta query
  * @param string $type Type of meta
  * @param string $primary_table
  * @param string $primary_id_column
  * @param object $context (optional) The main query object
  * @return array( 'join' => $join_sql, 'where' => $where_sql )
  */
-function _get_meta_sql( $meta_query, $type, $primary_table, $primary_id_column, $context = null ) {
-	global $wpdb;
-
-	if ( ! $meta_table = _get_meta_table( $type ) )
-		return false;
-
-	$meta_id_column = esc_sql( $type . '_id' );
-
-	$join = '';
-	$where = '';
-	$i = 0;
-	foreach ( $meta_query as $q ) {
-		$meta_key = isset( $q['key'] ) ? trim( $q['key'] ) : '';
-		$meta_compare = isset( $q['compare'] ) ? strtoupper( $q['compare'] ) : '=';
-		$meta_type = isset( $q['type'] ) ? strtoupper( $q['type'] ) : 'CHAR';
-
-		if ( ! in_array( $meta_compare, array( '=', '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE', 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN' ) ) )
-			$meta_compare = '=';
-
-		if ( 'NUMERIC' == $meta_type )
-			$meta_type = 'SIGNED';
-		elseif ( ! in_array( $meta_type, array( 'BINARY', 'CHAR', 'DATE', 'DATETIME', 'DECIMAL', 'SIGNED', 'TIME', 'UNSIGNED' ) ) )
-			$meta_type = 'CHAR';
-
-		if ( empty( $meta_key ) && empty( $meta_value ) )
-			continue;
-
-		$alias = $i ? 'mt' . $i : $meta_table;
-
-		$join .= "\nINNER JOIN $meta_table";
-		$join .= $i ? " AS $alias" : '';
-		$join .= " ON ($primary_table.$primary_id_column = $alias.$meta_id_column)";
-
-		$i++;
-
-		if ( !empty( $meta_key ) )
-			$where .= $wpdb->prepare( " AND $alias.meta_key = %s", $meta_key );
-
-		if ( !isset( $q['value'] ) )
-			continue;
-		$meta_value = $q['value'];
-
-		if ( in_array( $meta_compare, array( 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN' ) ) ) {
-			if ( ! is_array( $meta_value ) )
-				$meta_value = preg_split( '/[,\s]+/', $meta_value );
-
-			if ( empty( $meta_value ) )
-				continue;
-		} else {
-			$meta_value = trim( $meta_value );
-		}
-
-		if ( 'IN' == substr( $meta_compare, -2) ) {
-			$meta_compare_string = '(' . substr( str_repeat( ',%s', count( $meta_value ) ), 1 ) . ')';
-		} elseif ( 'BETWEEN' == substr( $meta_compare, -7) ) {
-			$meta_value = array_slice( $meta_value, 0, 2 );
-			$meta_compare_string = '%s AND %s';
-		} elseif ( 'LIKE' == substr( $meta_compare, -4 ) ) {
-			$meta_value = '%' . like_escape( $meta_value ) . '%';
-			$meta_compare_string = '%s';
-		} else {
-			$meta_compare_string = '%s';
-		}
-
-		$where .= $wpdb->prepare( " AND CAST($alias.meta_value AS {$meta_type}) {$meta_compare} {$meta_compare_string}", $meta_value );
-	}
-
-	return apply_filters_ref_array( 'get_meta_sql', array( compact( 'join', 'where' ), $meta_query, $type, $primary_table, $primary_id_column, &$context ) );
+function get_meta_sql( $meta_query = false, $type, $primary_table, $primary_id_column, $context = null ) {
+	$meta_query_obj = new WP_Meta_Query( $meta_query );
+	return $meta_query_obj->get_sql( $type, $primary_table, $primary_id_column, $context );
 }
 
 /**
- * Populates the $meta_query property
+ * Container class for a multiple metadata query
  *
- * @access private
- * @since 3.1.0
- *
- * @param array $qv The query variables
+ * @since 3.2
  */
-function _parse_meta_query( &$qv ) {
-	$meta_query = array();
+class WP_Meta_Query {
+	/**
+	* List of metadata queries. A single query is an associative array:
+	* - 'key' string The meta key
+	* - 'value' string|array The meta value
+	* - 'compare' (optional) string How to compare the key to the value.
+	*              Possible values: '=', '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE', 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN'.
+	*              Default: '='
+	* - 'type' string (optional) The type of the value.
+	*              Possible values: 'NUMERIC', 'BINARY', 'CHAR', 'DATE', 'DATETIME', 'DECIMAL', 'SIGNED', 'TIME', 'UNSIGNED'.
+	*              Default: 'CHAR'
+	*
+	* @since 3.2
+	* @access public
+	* @var array
+	*/
+	public $queries = array();
 
-	// Simple query needs to be first for orderby=meta_value to work correctly
-	foreach ( array( 'key', 'compare', 'type' ) as $key ) {
-		if ( !empty( $qv[ "meta_$key" ] ) )
-			$meta_query[0][ $key ] = $qv[ "meta_$key" ];
+	/**
+	 * The relation between the queries. Can be one of 'AND' or 'OR'.
+	 *
+	 * @since 3.2
+	 * @access public
+	 * @var string
+	 */	
+	public $relation;
+
+	/**
+	 * Constructor
+	 *
+	 * @param array (optional) $meta_query A meta query
+	 */
+	function __construct( $meta_query = false ) {
+		if ( !$meta_query )
+			return;
+
+		if ( isset( $meta_query['relation'] ) && strtoupper( $meta_query['relation'] ) == 'OR' ) {
+			$this->relation = 'OR';
+		} else {
+			$this->relation = 'AND';
+		}
+
+		$this->queries = array();
+
+		foreach ( $meta_query as $key => $query ) {
+			if ( ! is_array( $query ) )
+				continue;
+
+			$this->queries[] = $query;
+		}
 	}
 
-	// WP_Query sets 'meta_value' = '' by default
-	if ( isset( $qv[ 'meta_value' ] ) && '' !== $qv[ 'meta_value' ] )
-		$meta_query[0]['value'] = $qv[ 'meta_value' ];
+	/**
+	 * Constructs a meta query based on 'meta_*' query vars
+	 *
+	 * @since 3.2
+	 * @access public
+	 *
+	 * @param array $qv The query variables
+	 */
+	function parse_query_vars( $qv ) {
+		$meta_query = array();
 
-	if ( !empty( $qv['meta_query'] ) && is_array( $qv['meta_query'] ) ) {
-		$meta_query = array_merge( $meta_query, $qv['meta_query'] );
+		// Simple query needs to be first for orderby=meta_value to work correctly
+		foreach ( array( 'key', 'compare', 'type' ) as $key ) {
+			if ( !empty( $qv[ "meta_$key" ] ) )
+				$meta_query[0][ $key ] = $qv[ "meta_$key" ];
+		}
+
+		// WP_Query sets 'meta_value' = '' by default
+		if ( isset( $qv[ 'meta_value' ] ) && '' !== $qv[ 'meta_value' ] )
+			$meta_query[0]['value'] = $qv[ 'meta_value' ];
+
+		if ( !empty( $qv['meta_query'] ) && is_array( $qv['meta_query'] ) ) {
+			$meta_query = array_merge( $meta_query, $qv['meta_query'] );
+		}
+
+		$this->__construct( $meta_query );
 	}
 
-	$qv['meta_query'] = $meta_query;
+	/**
+	 * Generates SQL clauses to be appended to a main query.
+	 *
+	 * @since 3.2
+	 * @access public
+	 *
+	 * @param string $type Type of meta
+	 * @param string $primary_table
+	 * @param string $primary_id_column
+	 * @param object $context (optional) The main query object
+	 * @return array( 'join' => $join_sql, 'where' => $where_sql )
+	 */
+	function get_sql( $type, $primary_table, $primary_id_column, $context = null ) {
+		global $wpdb;
+
+		if ( ! $meta_table = _get_meta_table( $type ) )
+			return false;
+
+		$meta_id_column = esc_sql( $type . '_id' );
+
+		$join = '';
+		$where = array();
+		$i = 0;
+		foreach ( $this->queries as $k => $q ) {
+			$meta_key = isset( $q['key'] ) ? trim( $q['key'] ) : '';
+			$meta_compare = isset( $q['compare'] ) ? strtoupper( $q['compare'] ) : '=';
+			$meta_type = isset( $q['type'] ) ? strtoupper( $q['type'] ) : 'CHAR';
+
+			if ( ! in_array( $meta_compare, array( '=', '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE', 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN' ) ) )
+				$meta_compare = '=';
+
+			if ( 'NUMERIC' == $meta_type )
+				$meta_type = 'SIGNED';
+			elseif ( ! in_array( $meta_type, array( 'BINARY', 'CHAR', 'DATE', 'DATETIME', 'DECIMAL', 'SIGNED', 'TIME', 'UNSIGNED' ) ) )
+				$meta_type = 'CHAR';
+
+			if ( empty( $meta_key ) && empty( $meta_value ) )
+				continue;
+
+			$alias = $i ? 'mt' . $i : $meta_table;
+
+			$join .= "\nINNER JOIN $meta_table";
+			$join .= $i ? " AS $alias" : '';
+			$join .= " ON ($primary_table.$primary_id_column = $alias.$meta_id_column)";
+
+			$i++;
+
+			if ( !empty( $meta_key ) )
+				$where[$k] = $wpdb->prepare( "$alias.meta_key = %s", $meta_key );
+
+			if ( !isset( $q['value'] ) )
+				continue;
+			$meta_value = $q['value'];
+
+			if ( in_array( $meta_compare, array( 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN' ) ) ) {
+				if ( ! is_array( $meta_value ) )
+					$meta_value = preg_split( '/[,\s]+/', $meta_value );
+
+				if ( empty( $meta_value ) )
+					continue;
+			} else {
+				$meta_value = trim( $meta_value );
+			}
+
+			if ( 'IN' == substr( $meta_compare, -2) ) {
+				$meta_compare_string = '(' . substr( str_repeat( ',%s', count( $meta_value ) ), 1 ) . ')';
+			} elseif ( 'BETWEEN' == substr( $meta_compare, -7) ) {
+				$meta_value = array_slice( $meta_value, 0, 2 );
+				$meta_compare_string = '%s AND %s';
+			} elseif ( 'LIKE' == substr( $meta_compare, -4 ) ) {
+				$meta_value = '%' . like_escape( $meta_value ) . '%';
+				$meta_compare_string = '%s';
+			} else {
+				$meta_compare_string = '%s';
+			}
+
+			$where[$k] = ' (' . $where[$k] . $wpdb->prepare( " AND CAST($alias.meta_value AS {$meta_type}) {$meta_compare} {$meta_compare_string})", $meta_value );
+		}
+		$where = ' AND (' . implode( " {$this->relation} ", $where ) . ' )';
+
+		return apply_filters_ref_array( 'get_meta_sql', array( compact( 'join', 'where' ), $this->queries, $type, $primary_table, $primary_id_column, $context ) );
+	}
+
 }
 
 /**

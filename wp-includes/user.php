@@ -501,8 +501,6 @@ class WP_User_Query {
 			$qv['blog_id'] = $blog_id = 0; // Prevent extra meta query
 		}
 
-		_parse_meta_query( $qv );
-
 		$role = trim( $qv['role'] );
 
 		if ( $blog_id && ( $role || is_multisite() ) ) {
@@ -517,8 +515,11 @@ class WP_User_Query {
 			$qv['meta_query'][] = $cap_meta_query;
 		}
 
-		if ( !empty( $qv['meta_query'] ) ) {
-			$clauses = call_user_func_array( '_get_meta_sql', array( $qv['meta_query'], 'user', $wpdb->users, 'ID', &$this ) );
+		$meta_query = new WP_Meta_Query();
+		$meta_query->parse_query_vars( $qv );
+
+		if ( !empty( $meta_query->queries ) ) {
+			$clauses = $meta_query->get_sql( 'user', $wpdb->users, 'ID', $this );
 			$this->query_from .= $clauses['join'];
 			$this->query_where .= $clauses['where'];
 		}

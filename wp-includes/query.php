@@ -849,6 +849,15 @@ class WP_Query {
 	var $tax_query;
 
 	/**
+	 * Metadata query container
+	 *
+	 * @since 3.2
+	 * @access public
+	 * @var object WP_Meta_Query
+	 */
+	var $meta_query = false;
+
+	/**
 	 * Holds the data for a single object that is queried.
 	 *
 	 * Holds the contents of a post, page, category, attachment.
@@ -1525,8 +1534,6 @@ class WP_Query {
 			}
 			unset( $tax_query );
 
-			_parse_meta_query( $qv );
-
 			if ( empty($qv['author']) || ($qv['author'] == '0') ) {
 				$this->is_author = false;
 			} else {
@@ -1900,6 +1907,10 @@ class WP_Query {
 		// Fill again in case pre_get_posts unset some vars.
 		$q = $this->fill_query_vars($q);
 
+		// Parse meta query
+		$this->meta_query = new WP_Meta_Query();
+		$this->meta_query->parse_query_vars( $q );
+
 		// Set a flag if a pre_get_posts hook changed the query vars.
 		$hash = md5( serialize( $this->query_vars ) );
 		if ( $hash != $this->query_vars_hash ) {
@@ -2235,7 +2246,7 @@ class WP_Query {
 			}
 		}
 
-		if ( !empty( $this->tax_query->queries ) || !empty( $q['meta_key'] ) ) {
+		if ( !empty( $this->tax_query->queries ) || !empty( $this->meta_query->queries ) ) {
 			$groupby = "{$wpdb->posts}.ID";
 		}
 
@@ -2468,18 +2479,8 @@ class WP_Query {
 			$where .= ')';
 		}
 
-		// Parse the meta query again if query vars have changed.
-		if ( $this->query_vars_changed ) {
-			$meta_query_hash = md5( serialize( $q['meta_query'] ) );
-			$_meta_query = $q['meta_query'];
-			unset( $q['meta_query'] );
-			_parse_meta_query( $q );
-			if ( md5( serialize( $q['meta_query'] ) ) != $meta_query_hash && is_array( $_meta_query ) )
-				$q['meta_query'] = array_merge( $_meta_query, $q['meta_query'] );
-		}
-
-		if ( !empty( $q['meta_query'] ) ) {
-			$clauses = call_user_func_array( '_get_meta_sql', array( $q['meta_query'], 'post', $wpdb->posts, 'ID', &$this) );
+		if ( !empty( $this->meta_query->queries ) ) {
+			$clauses = $this->meta_query->get_sql( 'post', $wpdb->posts, 'ID', $this );
 			$join .= $clauses['join'];
 			$where .= $clauses['where'];
 		}
