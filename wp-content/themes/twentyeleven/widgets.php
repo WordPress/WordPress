@@ -5,7 +5,7 @@
  * @see http://codex.wordpress.org/Widgets_API#Developing_Widgets
  */
 class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
-	
+
 	/**
 	 * Constructor
 	 *
@@ -15,18 +15,18 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 		$widget_ops = array( 'classname' => 'widget_twentyeleven_ephemera', 'description' => __( 'Use this widget to list your recent Aside and Link posts', 'twentyeleven' ) );
 		$this->WP_Widget( 'widget_twentyeleven_ephemera', __( 'Twenty Eleven Ephemera', 'twentyeleven' ), $widget_ops );
 		$this->alt_option_name = 'widget_twentyeleven_ephemera';
-		
+
 		add_action( 'save_post', array(&$this, 'flush_widget_cache' ) );
 		add_action( 'deleted_post', array(&$this, 'flush_widget_cache' ) );
 		add_action( 'switch_theme', array(&$this, 'flush_widget_cache' ) );
-		
+
 	}
 
 	/**
 	 * Outputs the HTML for this widget.
 	 *
-	 * @param array An array of standard parameters for widgets in this theme 
-	 * @param array An array of settings for this widget instance 
+	 * @param array An array of standard parameters for widgets in this theme
+	 * @param array An array of settings for this widget instance
 	 * @return void Echoes it's output
 	 **/
 	function widget( $args, $instance ) {
@@ -43,14 +43,14 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 			return;
 		}
 
-		ob_start();		
+		ob_start();
 		extract( $args, EXTR_SKIP );
-		
+
 		$title = apply_filters( 'widget_title', empty($instance['title']) ? __( 'Ephemera' ) : $instance['title'], $instance, $this->id_base);
-		
+
 		if ( ! isset( $instance['number'] ) )
 			$instance['number'] = '10';
-			
+
 		if ( ! $number = absint( $instance['number'] ) )
  			$number = 10;
 
@@ -73,33 +73,33 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 		$ephemera->query( $ephemera_args );
 
 		if ( $ephemera->have_posts() ) :
-		
+
 		echo $before_widget;
 		echo $before_title;
 		echo $title; // Can set this with a widget option, or omit altogether
 		echo $after_title;
 
 		global $post;
-		
+
 		?>
 		<ol>
 		<?php while ( $ephemera->have_posts() ) : $ephemera->the_post(); ?>
-			
+
 			<?php if ( 'aside' == get_post_format( $post->ID ) ) : ?>
-				
+
 			<li class="entry-title">
 				<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'twentyeleven' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a>
 				<span class="comments-link">
 					<?php comments_popup_link( __( '0 <span class="reply">comments &rarr;</span>', 'twentyeleven' ), __( '1 <span class="reply">comment &rarr;</span>', 'twentyeleven' ), __( '% <span class="reply">comments &rarr;</span>', 'twentyeleven' ) ); ?>
 				</span>
 			</li>
-			
+
 			<?php elseif ( 'link' == get_post_format( $post->ID ) ) : ?>
 
 			<li class="entry-title">
 				<?php
 					$link_url = get_permalink();
-					
+
 					if ( false != twentyeleven_url_grabber() )
 						$link_url = twentyeleven_url_grabber();
 				?>
@@ -108,15 +108,15 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 					<?php comments_popup_link( __( '0 <span class="reply">comments &rarr;</span>', 'twentyeleven' ), __( '1 <span class="reply">comment &rarr;</span>', 'twentyeleven' ), __( '% <span class="reply">comments &rarr;</span>', 'twentyeleven' ) ); ?>
 				</span>
 			</li>
-			
+
 			<?php endif; ?>
-			
+
 		<?php endwhile; ?>
 		</ol>
 		<?php
 
 		echo $after_widget;
-		
+
 		// Reset the global $the_post as this query will have stomped on it
 		wp_reset_postdata();
 
@@ -143,10 +143,10 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 
 		return $instance;
 	}
-	
+
 	function flush_widget_cache() {
 		wp_cache_delete( 'widget_twentyeleven_ephemera', 'widget' );
-	}	
+	}
 
 	/**
 	 * Displays the form for this widget on the Widgets page of the WP Admin area.

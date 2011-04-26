@@ -11,7 +11,7 @@
 
 			<?php if ( 'post' == $post->post_type ) : ?>
 			<?php endif; ?>
-			
+
 			<?php if ( comments_open() ) : ?>
 			<div class="comments-link">
 				<?php comments_popup_link( __( '<span class="leave-reply">Reply</span>', 'twentyeleven' ), __( '1', 'twentyeleven' ), __( '%', 'twentyeleven' ) ); ?>

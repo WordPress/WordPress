@@ -28,7 +28,7 @@
 		<?php wp_link_pages( array( 'before' => '<div class="page-link">' . __( '<span>Pages:</span>', 'twentyeleven' ), 'after' => '</div>' ) ); ?>
 	</div><!-- .entry-content -->
 
-	<footer class="entry-meta">		
+	<footer class="entry-meta">
 		<?php
 			$tag_list = get_the_tag_list( '', ', ' );
 			if ( '' != $tag_list ) {
@@ -47,7 +47,7 @@
 			);
 		?>
 		<?php edit_post_link( __( 'Edit', 'twentyeleven' ), '<span class="edit-link">', '</span>' ); ?>
-		
+
 		<?php if ( get_the_author_meta( 'description' ) ) : // If a user has filled out their description, show a bio on their entries ?>
 		<div id="author-info">
 			<div id="author-avatar">

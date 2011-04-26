@@ -31,7 +31,7 @@
 	<div class="entry-content">
 		<?php if ( post_password_required() ) : ?>
 			<?php the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'twentyeleven' ) ); ?>
-			
+
 			<?php else : ?>
 				<?php
 					$images = get_children( array( 'post_parent' => $post->ID, 'post_type' => 'attachment', 'post_mime_type' => 'image', 'orderby' => 'menu_order', 'order' => 'ASC', 'numberposts' => 999 ) );
@@ -44,7 +44,7 @@
 				<figure class="gallery-thumb">
 					<a href="<?php the_permalink(); ?>"><?php echo $image_img_tag; ?></a>
 				</figure><!-- .gallery-thumb -->
-				
+
 				<p><em><?php printf( _n( 'This gallery contains <a %1$s>%2$s photo</a>.', 'This gallery contains <a %1$s>%2$s photos</a>.', $total_images, 'twentyeleven' ),
 						'href="' . get_permalink() . '" title="' . sprintf( esc_attr__( 'Permalink to %s', 'twentyeleven' ), the_title_attribute( 'echo=0' ) ) . '" rel="bookmark"',
 						number_format_i18n( $total_images )

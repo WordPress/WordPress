@@ -10,11 +10,11 @@ get_header(); ?>
 			<div id="content" role="main">
 
 			<?php the_post(); ?>
-			
+
 			<nav id="nav-single">
 				<span class="nav-previous"><?php previous_image_link( false, __( '&larr; Previous' , 'twentyeleven' ) ); ?></span>
 				<span class="nav-next"><?php next_image_link( false, __( 'Next &rarr;' , 'twentyeleven' ) ); ?></span>
-			</nav><!-- #nav-single -->			
+			</nav><!-- #nav-single -->
 
 				<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 					<header class="entry-header">
@@ -70,12 +70,12 @@ get_header(); ?>
 								$attachment_size = apply_filters( 'theme_attachment_size', 848 );
 								echo wp_get_attachment_image( $post->ID, array( $attachment_size, 1024 ) ); // filterable image width with 1024px limit for image height.
 								?></a>
-								
+
 								<?php if ( ! empty( $post->post_excerpt ) ) : ?>
 								<div class="entry-caption">
 									<?php the_excerpt(); ?>
 								</div>
-								<?php endif; ?>								
+								<?php endif; ?>
 							</div><!-- .attachment -->
 
 						</div><!-- .entry-attachment -->

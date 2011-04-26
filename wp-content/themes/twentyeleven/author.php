@@ -31,7 +31,7 @@ get_header(); ?>
 						<?php the_author_meta( 'description' ); ?>
 					</div><!-- #author-description	-->
 				</div><!-- #entry-author-info -->
-				<?php endif; ?>								
+				<?php endif; ?>
 
 				<?php /* Start the Loop */ ?>
 				<?php while ( have_posts() ) : the_post(); ?>

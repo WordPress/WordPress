@@ -285,7 +285,7 @@ function twentyeleven_widgets_init() {
 		'before_title' => '<h1 class="widget-title">',
 		'after_title' => '</h1>',
 	) );
-	
+
 	register_sidebar( array(
 		'name' => __( 'Footer Area Two', 'twentyeleven' ),
 		'id' => 'sidebar-4',
@@ -295,7 +295,7 @@ function twentyeleven_widgets_init() {
 		'before_title' => '<h1 class="widget-title">',
 		'after_title' => '</h1>',
 	) );
-	
+
 	register_sidebar( array(
 		'name' => __( 'Footer Area Three', 'twentyeleven' ),
 		'id' => 'sidebar-5',
@@ -305,7 +305,6 @@ function twentyeleven_widgets_init() {
 		'before_title' => '<h1 class="widget-title">',
 		'after_title' => '</h1>',
 	) );
-	
 }
 add_action( 'init', 'twentyeleven_widgets_init' );
 
@@ -355,7 +354,7 @@ function twentyeleven_url_grabber() {
  */
 function twentyeleven_footer_sidebar_class() {
 	$count = 0;
-	
+
 	if ( is_active_sidebar( 'sidebar-3' ) )
 		$count++;
 
@@ -364,7 +363,7 @@ function twentyeleven_footer_sidebar_class() {
 
 	if ( is_active_sidebar( 'sidebar-5' ) )
 		$count++;
-		
+
 	switch ( $count ) {
 		case '1':
 			$class = 'one';
@@ -377,12 +376,12 @@ function twentyeleven_footer_sidebar_class() {
 		case '3':
 			$class = 'three';
 			break;
-		
+
 		default:
 			$class = '';
 			break;
 	}
-	
+
 	if ( '' != $class )
 		echo 'class="' . $class . '"';
 }
@@ -411,19 +410,19 @@ function twentyeleven_comment( $comment, $args, $depth ) {
 						$avatar_size = 68;
 						if ( '0' != $comment->comment_parent )
 							$avatar_size = 39;
-							
+
 						echo get_avatar( $comment, $avatar_size );
-					
+
 						printf( __( '%1$s on %2$s%3$s at %4$s%5$s <span class="says">said:</span>', 'twentyeleven' ),
 							sprintf( '<cite class="fn">%s</cite>', get_comment_author_link() ),
 							'<a href="' . esc_url( get_comment_link( $comment->comment_ID ) ) . '"><time pubdate datetime="' . get_comment_time( 'c' ) . '">',
 							get_comment_date(),
 							get_comment_time(),
-							'</time></a>'							
+							'</time></a>'
 						);
 					?>
-					
-					<?php edit_comment_link( __( '[Edit]', 'twentyeleven' ), ' ' ); ?>					
+
+					<?php edit_comment_link( __( '[Edit]', 'twentyeleven' ), ' ' ); ?>
 				</div><!-- .comment-author .vcard -->
 
 				<?php if ( $comment->comment_approved == '0' ) : ?>

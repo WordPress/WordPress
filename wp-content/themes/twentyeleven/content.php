@@ -23,7 +23,7 @@
 				?>
 			</div><!-- .entry-meta -->
 			<?php endif; ?>
-			
+
 			<?php if ( comments_open() ) : ?>
 			<div class="comments-link">
 				<?php comments_popup_link( __( '<span class="leave-reply">Reply</span>', 'twentyeleven' ), __( '1', 'twentyeleven' ), __( '%', 'twentyeleven' ) ); ?>
@@ -47,12 +47,12 @@
 			<span class="cat-links"><span class="entry-utility-prep entry-utility-prep-cat-links"><?php _e( 'Posted in ', 'twentyeleven' ); ?></span><?php the_category( ', ' ); ?></span>
 			<?php the_tags( '<span class="sep"> | </span><span class="tag-links">' . __( 'Tagged ', 'twentyeleven' ) . '</span>', ', ', '' ); ?>
 			<?php endif; ?>
-			
+
 			<?php if ( comments_open() ) : ?>
 			<span class="sep"> | </span>
 			<span class="comments-link"><?php comments_popup_link( __( '<span class="leave-reply">Leave a reply</span>', 'twentyeleven' ), __( '<b>1</b> Reply', 'twentyeleven' ), __( '<b>%</b> Replies', 'twentyeleven' ) ); ?></span>
 			<?php endif; ?>
-			
+
 			<?php edit_post_link( __( 'Edit', 'twentyeleven' ), '<span class="edit-link">', '</span>' ); ?>
 		</footer><!-- #entry-meta -->
 	</article><!-- #post-<?php the_ID(); ?> -->
