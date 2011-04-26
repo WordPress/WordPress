@@ -1,21 +1,42 @@
 <?php
 /**
+ * Twenty Eleven functions and definitions
+ *
+ * Sets up the theme and provides some helper functions. Some helper functions
+ * are used in the theme as custom template tags. Others are attached to action and
+ * filter hooks in WordPress to change core functionality.
+ *
+ * The first function, twentyeleven_setup(), sets up the theme by registering support
+ * for various features in WordPress, such as post thumbnails, navigation menus, and the like.
+ *
+ * When using a child theme (see http://codex.wordpress.org/Theme_Development and
+ * http://codex.wordpress.org/Child_Themes), you can override certain functions
+ * (those wrapped in a function_exists() call) by defining them first in your child theme's
+ * functions.php file. The child theme's functions.php file is included before the parent
+ * theme's file, so the child theme functions would be used.
+ *
+ * Functions that are not pluggable (not wrapped in function_exists()) are instead attached
+ * to a filter or action hook. The hook can be removed by using remove_action() or
+ * remove_filter() and you can attach your own function to the hook.
+ *
+ * We can remove the parent theme's hook only after it is attached, which means we need to
+ * wait until setting up the child theme:
+ *
+ * <code>
+ * add_action( 'after_setup_theme', 'my_child_theme_setup' );
+ * function my_child_theme_setup() {
+ *     // We are providing our own filter for excerpt_length (or using the unfiltered value)
+ *     remove_filter( 'excerpt_length', 'twentyeleven_excerpt_length' );
+ *     ...
+ * }
+ * </code>
+ *
+ * For more information on hooks, actions, and filters, see http://codex.wordpress.org/Plugin_API.
+ *
  * @package WordPress
  * @subpackage Twenty Eleven
+ * @since Twenty Eleven 1.0
  */
-
-/**
- * Make theme available for translation
- * Translations can be filed in the /languages/ directory
- * If you're building a theme based on Twenty Eleven, use a find and replace
- * to change 'twentyeleven' to the name of your theme in all the template files
- */
-load_theme_textdomain( 'twentyeleven', TEMPLATEPATH . '/languages' );
-
-$locale = get_locale();
-$locale_file = TEMPLATEPATH . "/languages/$locale.php";
-if ( is_readable( $locale_file ) )
-	require_once( $locale_file );
 
 /**
  * Set the content width based on the theme's design and stylesheet.
@@ -24,53 +45,110 @@ if ( ! isset( $content_width ) )
 	$content_width = 584;
 
 /**
- * This theme uses wp_nav_menu() in one location.
+ * Tell WordPress to run twentyeleven_setup() when the 'after_setup_theme' hook is run.
  */
-register_nav_menus( array(
-	'primary' => __( 'Primary Menu', 'twentyeleven' ),
-) );
+add_action( 'after_setup_theme', 'twentyeleven_setup' );
 
+if ( ! function_exists( 'twentyeleven_setup' ) ):
 /**
- * Add default posts and comments RSS feed links to head
+ * Sets up theme defaults and registers support for various WordPress features.
+ *
+ * Note that this function is hooked into the after_setup_theme hook, which runs
+ * before the init hook. The init hook is too late for some features, such as indicating
+ * support post thumbnails.
+ *
+ * To override twentyeleven_setup() in a child theme, add your own twentyeleven_setup to your child theme's
+ * functions.php file.
+ *
+ * @uses add_theme_support() To add support for post thumbnails and automatic feed links.
+ * @uses register_nav_menus() To add support for navigation menus.
+ * @uses add_custom_background() To add support for a custom background.
+ * @uses load_theme_textdomain() For translation/localization support.
+ * @uses add_custom_image_header() To add support for a custom header.
+ * @uses register_default_headers() To register the default custom header images provided with the theme.
+ * @uses set_post_thumbnail_size() To set a custom post thumbnail size.
+ *
+ * @since Twenty Eleven 1.0
  */
-add_theme_support( 'automatic-feed-links' );
+function twentyeleven_setup() {
 
-/**
- * Add support for an Aside Post Format
- */
-add_theme_support( 'post-formats', array( 'aside', 'link', 'gallery', 'status', 'quote' ) );
+	/**
+	 * Make theme available for translation
+	 * Translations can be filed in the /languages/ directory
+	 * If you're building a theme based on Twenty Eleven, use a find and replace
+	 * to change 'twentyeleven' to the name of your theme in all the template files
+	 */
+	load_theme_textdomain( 'twentyeleven', TEMPLATEPATH . '/languages' );
 
-/**
- * Add support for custom backgrounds
- */
-add_custom_background();
+	$locale = get_locale();
+	$locale_file = TEMPLATEPATH . "/languages/$locale.php";
+	if ( is_readable( $locale_file ) )
+		require_once( $locale_file );
 
-// This theme uses Feature Images for per-post/per-page Custom Header images
-add_theme_support( 'post-thumbnails' );
+	/**
+	 * Load up our theme options page
+	 */
+	require( dirname( __FILE__ ) . '/inc/theme-options/theme-options.php' );
 
-/**
- * Add support for Custom Headers
- */
-define( 'HEADER_TEXTCOLOR', '000' );
+	/**
+	 * Grab Twenty Eleven's Custom Widgets
+	 */
+	require( dirname( __FILE__ ) . '/inc/widgets.php' );
 
-// No CSS, just an IMG call. The %s is a placeholder for the theme template directory URI.
-define( 'HEADER_IMAGE', '%s/images/headers/default.jpg' );
+	/**
+	 * Add default posts and comments RSS feed links to head
+	 */
+	add_theme_support( 'automatic-feed-links' );
 
-// The height and width of your custom header. You can hook into the theme's own filters to change these values.
-// Add a filter to twentyeleven_header_image_width and twentyeleven_header_image_height to change these values.
-define( 'HEADER_IMAGE_WIDTH', apply_filters( 'twentyeleven_header_image_width', 1000 ) );
-define( 'HEADER_IMAGE_HEIGHT', apply_filters( 'twentyeleven_header_image_height', 300 ) );
+	/**
+	 * This theme uses wp_nav_menu() in one location.
+	 */
+	register_nav_menus( array(
+		'primary' => __( 'Primary Menu', 'twentyeleven' ),
+	) );
 
-// We'll be using post thumbnails for custom header images on posts and pages.
-// We want them to be 940 pixels wide by 198 pixels tall.
-// Larger images will be auto-cropped to fit, smaller ones will be ignored. See header.php.
-set_post_thumbnail_size( HEADER_IMAGE_WIDTH, HEADER_IMAGE_HEIGHT, true );
+	/**
+	 * Add support for an Aside Post Format
+	 */
+	add_theme_support( 'post-formats', array( 'aside', 'link', 'gallery', 'status', 'quote' ) );
 
-// Add a way for the custom header to be styled in the admin panel that controls
-// custom headers. See twentyeleven_admin_header_style(), below.
-add_custom_image_header( 'twentyeleven_header_style', 'twentyeleven_admin_header_style', 'twentyeleven_admin_header_image' );
+	/**
+	 * Add support for custom backgrounds
+	 */
+	add_custom_background();
 
-// ... and thus ends the changeable header business.
+	// This theme uses Feature Images for per-post/per-page Custom Header images
+	add_theme_support( 'post-thumbnails' );
+
+	/**
+	 * Add support for Custom Headers
+	 */
+	define( 'HEADER_TEXTCOLOR', '000' );
+
+	// No CSS, just an IMG call. The %s is a placeholder for the theme template directory URI.
+	define( 'HEADER_IMAGE', '%s/images/headers/default.jpg' );
+
+	// The height and width of your custom header. You can hook into the theme's own filters to change these values.
+	// Add a filter to twentyeleven_header_image_width and twentyeleven_header_image_height to change these values.
+	define( 'HEADER_IMAGE_WIDTH', apply_filters( 'twentyeleven_header_image_width', 1000 ) );
+	define( 'HEADER_IMAGE_HEIGHT', apply_filters( 'twentyeleven_header_image_height', 300 ) );
+
+	// We'll be using post thumbnails for custom header images on posts and pages.
+	// We want them to be 940 pixels wide by 198 pixels tall.
+	// Larger images will be auto-cropped to fit, smaller ones will be ignored. See header.php.
+	set_post_thumbnail_size( HEADER_IMAGE_WIDTH, HEADER_IMAGE_HEIGHT, true );
+
+	// Add Twenty Eleven's custom image sizes
+	add_image_size( 'large-feature', HEADER_IMAGE_WIDTH, 500, true ); // Used for large feature images
+	add_image_size( 'small-feature', 500, 500 ); // Used for featured posts if a large-feature doesn't exist
+
+	// Add a way for the custom header to be styled in the admin panel that controls
+	// custom headers. See twentyeleven_admin_header_style(), below.
+	add_custom_image_header( 'twentyeleven_header_style', 'twentyeleven_admin_header_style', 'twentyeleven_admin_header_image' );
+
+	// ... and thus ends the changeable header business.
+}
+endif; // twentyeleven_setup
 
 if ( ! function_exists( 'twentyeleven_header_style' ) ) :
 /**
@@ -79,6 +157,7 @@ if ( ! function_exists( 'twentyeleven_header_style' ) ) :
  * @since Twenty Eleven 1.0
  */
 function twentyeleven_header_style() {
+
 	// If no custom options for text are set, let's bail
 	// get_header_textcolor() options: HEADER_TEXTCOLOR is default, hide text (returns 'blank') or any hex value
 	if ( HEADER_TEXTCOLOR == get_header_textcolor() )
@@ -108,7 +187,7 @@ function twentyeleven_header_style() {
 	</style>
 	<?php
 }
-endif;
+endif; // twentyeleven_header_style
 
 if ( ! function_exists( 'twentyeleven_admin_header_style' ) ) :
 /**
@@ -158,7 +237,7 @@ function twentyeleven_admin_header_style() {
 	</style>
 <?php
 }
-endif;
+endif; // twentyeleven_admin_header_style
 
 if ( ! function_exists( 'twentyeleven_admin_header_image' ) ) :
 /**
@@ -181,7 +260,7 @@ function twentyeleven_admin_header_image() { ?>
 		<img src="<?php esc_url ( header_image() ); ?>" alt="" />
 	</div>
 <?php }
-endif;
+endif; // twentyeleven_admin_header_image
 
 /**
  * Sets the post excerpt length to 40 characters.
@@ -226,23 +305,16 @@ function twentyeleven_custom_excerpt_more( $output ) {
 }
 add_filter( 'get_the_excerpt', 'twentyeleven_custom_excerpt_more' );
 
-
-/**
- * Add Twenty Eleven's custom image sizes
- */
-add_image_size( 'large-feature', HEADER_IMAGE_WIDTH, 500, true ); // Used for large feature images
-add_image_size( 'small-feature', 500, 500 ); // Used for featured posts if a large-feature doesn't exist
-
 /**
  * Add custom body classes
  */
-function twentyeleven_body_class($classes) {
+function twentyeleven_singular_class( $classes ) {
 	if ( is_singular() && ! is_home() && ! is_page_template( 'showcase.php' ) )
 		$classes[] = 'singular';
 
 	return $classes;
 }
-add_filter( 'body_class', 'twentyeleven_body_class' );
+add_filter( 'body_class', 'twentyeleven_singular_class' );
 
 /**
  * Get our wp_nav_menu() fallback, wp_page_menu(), to show a home link.
@@ -309,14 +381,9 @@ function twentyeleven_widgets_init() {
 add_action( 'init', 'twentyeleven_widgets_init' );
 
 /**
- * Grab Twenty Eleven's Custom Widgets
- */
-require( dirname( __FILE__ ) . '/inc/widgets.php' );
-
-/**
  * Display navigation to next/previous pages when applicable
  */
-function twentyeleven_content_nav($nav_id) {
+function twentyeleven_content_nav( $nav_id ) {
 	global $wp_query;
 
 	if ( $wp_query->max_num_pages > 1 ) : ?>

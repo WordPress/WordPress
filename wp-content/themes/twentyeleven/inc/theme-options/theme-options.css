@@ -1,0 +1,22 @@
+#wpcontent select option {
+	padding-right: 5px;
+}
+.image-radio-option td {
+	padding-top: 15px;
+}
+.image-radio-option label {
+	display: block;
+	float: left;
+	margin: 0 30px 20px 2px;
+	position: relative;
+}
+.image-radio-option input {
+	margin: 0 0 10px;
+}
+.image-radio-option span {
+	display: block;
+	width: 136px;
+}
+.image-radio-option img {
+	margin: 0 0 0 -2px;
+}
