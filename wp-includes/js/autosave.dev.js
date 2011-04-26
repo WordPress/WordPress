@@ -1,4 +1,4 @@
-var autosave, autosaveLast = '', autosavePeriodical, autosaveOldMessage = '', autosaveDelayPreview = false, notSaved = true, blockSave = false, wp_fullscreen_enabled;
+var autosave, autosaveLast = '', autosavePeriodical, autosaveOldMessage = '', autosaveDelayPreview = false, notSaved = true, blockSave = false, fullscreen;
 
 jQuery(document).ready( function($) {
 	var dotabkey = true;
@@ -34,7 +34,7 @@ jQuery(document).ready( function($) {
 			if ( mce.isDirty() )
 				return autosaveL10n.saveAlert;
 		} else {
-			if ( wp_fullscreen_enabled ) {
+			if ( fullscreen && fullscreen.visible ) {
 				title = $('#wp-fullscreen-title').val();
 				content = $("#wp_mce_fullscreen").val();
 			} else {
@@ -165,7 +165,7 @@ function autosave_update_slug(post_id) {
 		jQuery.post( ajaxurl, {
 				action: 'sample-permalink',
 				post_id: post_id,
-				new_title: wp_fullscreen_enabled ? jQuery('#wp-fullscreen-title').val() : jQuery('#title').val(),
+				new_title: fullscreen && fullscreen.visible ? jQuery('#wp-fullscreen-title').val() : jQuery('#title').val(),
 				samplepermalinknonce: jQuery('#samplepermalinknonce').val()
 			},
 			function(data) {
@@ -245,7 +245,7 @@ autosave = function() {
 		}
 	}
 
-	if ( wp_fullscreen_enabled ) {
+	if ( fullscreen && fullscreen.visible ) {
 		post_data["post_title"] = jQuery('#wp-fullscreen-title').val();
 		post_data["content"] = jQuery("#wp_mce_fullscreen").val();
 	} else {

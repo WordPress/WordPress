@@ -1,7 +1,9 @@
 /**
  * PubSub -- A lightweight publish/subscribe implementation. Private use only!
  */
-var PubSub = function() {
+var PubSub, fullscreen, wptitlehint;
+
+PubSub = function() {
 	this.topics = {};
 };
 
@@ -50,8 +52,6 @@ PubSub.prototype.publish = function( topic, args ) {
 };
 
 // Distraction Free Writing (wp-fullscreen) access the API globally using the fullscreen variable.
-var fullscreen, wp_fullscreen_enabled = false;
-
 (function($){
 	var api, ps, bounder;
 
@@ -76,7 +76,7 @@ var fullscreen, wp_fullscreen_enabled = false;
 			return;
 
 		api.block = true;
-		
+
 		setTimeout( function() {
 			api.block = false;
 		}, 500 );
@@ -137,12 +137,12 @@ var fullscreen, wp_fullscreen_enabled = false;
 	}
 
 	ps.subscribe( 'showToolbar', function() {
-		api.fade.fadein( api.ui.topbar, 600 );
+		api.fade.In( api.ui.topbar, 600 );
 		$('#wp-fullscreen-body').addClass('wp-fullscreen-focus');
 	});
 
 	ps.subscribe( 'hideToolbar', function() {
-		api.fade.fadeout( api.ui.topbar, 600 );
+		api.fade.Out( api.ui.topbar, 600 );
 		$('#wp-fullscreen-body').removeClass('wp-fullscreen-focus');
 	});
 
@@ -173,11 +173,11 @@ var fullscreen, wp_fullscreen_enabled = false;
 	});
 
 	ps.subscribe( 'shown', function() {
-		api.visible = wp_fullscreen_enabled = true;
+		api.visible = true;
 	});
 
 	ps.subscribe( 'hidden', function() {
-		api.visible = wp_fullscreen_enabled = false;
+		api.visible = false;
 		$('#wp_mce_fullscreen').removeAttr('style');
 		tinyMCE.execCommand('wpFullScreenClose');
 	});
@@ -222,7 +222,7 @@ var fullscreen, wp_fullscreen_enabled = false;
 			api.ui.element = $('#fullscreen-fader');
 			api.ui.topbar  = $('#fullscreen-topbar');
 
-			if ( 'undefined' != wptitlehint )
+			if ( wptitlehint )
 				wptitlehint('wp-fullscreen-title');
 		},
 
@@ -230,11 +230,11 @@ var fullscreen, wp_fullscreen_enabled = false;
 			if ( before )
 				ps.publish( before );
 
-			api.fade.fadein( api.ui.element, 600, function() {
+			api.fade.In( api.ui.element, 600, function() {
 				if ( during )
 					ps.publish( during );
 
-				api.fade.fadeout( api.ui.element, 600, function() {
+				api.fade.Out( api.ui.element, 600, function() {
 					if ( after )
 						ps.publish( after );
 				})
@@ -248,7 +248,7 @@ var fullscreen, wp_fullscreen_enabled = false;
 		// Sensitivity to allow browsers to render the blank element before animating.
 		sensitivity: 100,
 
-		fadein: function( element, speed, callback ) {
+		In: function( element, speed, callback ) {
 
 			callback = callback || $.noop;
 			speed = speed || 400;
@@ -260,10 +260,10 @@ var fullscreen, wp_fullscreen_enabled = false;
 				}
 
 				element.show();
-				setTimeout( function() { element.addClass( 'fade-trigger' ); }, this.sensitivity );
 				element.one( this.transitionend, function() {
 					callback();
 				});
+				setTimeout( function() { element.addClass( 'fade-trigger' ); }, this.sensitivity );
 			} else {
 				element.css( 'opacity', 1 ).fadeIn( speed, callback );
 			}
@@ -271,7 +271,7 @@ var fullscreen, wp_fullscreen_enabled = false;
 			return element;
 		},
 
-		fadeout: function( element, speed, callback ) {
+		Out: function( element, speed, callback ) {
 
 			callback = callback || $.noop;
 			speed = speed || 400;
@@ -280,7 +280,6 @@ var fullscreen, wp_fullscreen_enabled = false;
 				return element;
 
 			if ( api.fade.transitions ) {
-				element.removeClass( 'fade-trigger' );
 				element.one( api.fade.transitionend, function() {
 					if ( element.hasClass('fade-trigger') )
 						return;
@@ -288,6 +287,7 @@ var fullscreen, wp_fullscreen_enabled = false;
 					element.hide();
 					callback();
 				});
+				setTimeout( function() { element.removeClass( 'fade-trigger' ); }, this.sensitivity );
 			} else {
 				element.fadeOut( speed, callback );
 			}
