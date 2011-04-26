@@ -56,7 +56,12 @@ function press_it() {
 		}
 	}
 	// set the post_content and status
-	$quick['post_status'] = isset($_POST['publish']) ? 'publish' : 'draft';
+	if ( isset( $_POST['publish'] ) && current_user_can( 'publish_posts' ) )
+		$quick['post_status'] = 'publish';
+	elseif ( isset( $_POST['review'] ) )
+		$quick['post_status'] = 'pending';
+	else
+		$quick['post_status'] = 'draft';
 	$quick['post_content'] = $content;
 	// error handling for media_sideload
 	if ( is_wp_error($upload) ) {
