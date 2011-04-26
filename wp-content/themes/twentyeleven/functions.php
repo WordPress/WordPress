@@ -311,7 +311,7 @@ add_action( 'init', 'twentyeleven_widgets_init' );
 /**
  * Grab Twenty Eleven's Custom Widgets
  */
-require( dirname( __FILE__ ) . '/widgets.php' );
+require( dirname( __FILE__ ) . '/inc/widgets.php' );
 
 /**
  * Display navigation to next/previous pages when applicable
