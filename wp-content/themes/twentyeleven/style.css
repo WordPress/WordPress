@@ -31,7 +31,7 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 	padding: 0;
 	vertical-align: baseline;
 }
-:focus { /* remember to define focus styles! */
+:focus {/* remember to define focus styles! */
 	outline: 0;
 }
 body {
@@ -41,9 +41,9 @@ body {
 ol, ul {
 	list-style: none;
 }
-table { /* tables still need 'cellspacing="0"' in the markup */
-	border-collapse: separate;
-	border-spacing: 0;
+table {/* tables still need 'cellspacing="0"' in the markup */
+border-collapse: separate;
+border-spacing: 0;
 }
 caption, th, td {
 	font-weight: normal;
@@ -290,9 +290,9 @@ sub {
 input[type=text],
 textarea {
 	background: #fafafa;
-	-moz-box-shadow:inset 0 1px 1px rgba(0,0,0,0.1);
-	-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,0.1);
-	box-shadow:inset 0 1px 1px rgba(0,0,0,0.1);
+	-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.1);
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.1);
+	box-shadow: inset 0 1px 1px rgba(0,0,0,0.1);
 	border: 1px solid #ddd;
 	color: #888;
 }
@@ -404,8 +404,8 @@ a:hover {
 	float: left;
 	margin: 0;
 	position: absolute;
-		top: 3.333em;
-		left: 0;
+	top: 3.333em;
+	left: 0;
 	width: 188px;
 	z-index: 99999;
 }
@@ -718,9 +718,10 @@ dl.gallery-item {
 	color: #777;
 	font-size: 18px;
 	height: 48px;
+	overflow: hidden;
 	position: absolute;
-		top: 0;
-		right: 0;
+	top: 0;
+	right: 0;
 	text-align: center;
 	text-decoration: none;
 	width: 48px;
@@ -790,10 +791,10 @@ dl.gallery-item {
 }
 .singular .entry-meta .edit-link a {
 	position: absolute;
-		bottom: auto;
-		left: 50px;
-		right: auto;
-		top: 80px;
+	bottom: auto;
+	left: 50px;
+	right: auto;
+	top: 80px;
 }
 
 
@@ -937,7 +938,7 @@ article.intro {
 	box-shadow: 0 -5px 0 #305A7A;
 	margin: -1.855em -8.9% 1.625em;
 	padding: 0 8.9%;
-/*	border-top: 5px solid #94BB32;
+	/* border-top: 5px solid #94BB32;
 	-webkit-box-shadow: 0 -5px 0 #506815; */
 }
 article.intro .entry-title {
@@ -1033,8 +1034,8 @@ section.feature-image.large .hentry {
 	border-bottom: none;
 	margin: 1.625em 9% 0 0;
 	position: absolute;
-		top: 0;
-		left: 9%;
+	top: 0;
+	left: 9%;
 }
 article.feature-image.large .entry-title a {
 	background: #222;
@@ -1108,8 +1109,8 @@ section.recent-posts .other-recent-posts .comments-link > span {
 	line-height: 2.76333em;
 	padding: 0.3125em 0 0.3125em 1em;
 	position: absolute;
-		bottom: -2px;
-		right: 0;
+	bottom: -2px;
+	right: 0;
 	text-transform: uppercase;
 	z-index: 1;
 }
@@ -1195,7 +1196,7 @@ p img,
 }
 .wp-caption .wp-caption-text:before {
 	color: #9b8a62;
-	content: '⎯';
+	content: '\2014';
 	font-size: 14px;
 	font-style: normal;
 	font-weight: bold;
@@ -1246,8 +1247,8 @@ p img,
 	display: inline-block;
 	overflow: visible !important;
 	position: absolute;
-		top: -4px;
-		right: 0;
+	top: -4px;
+	right: 0;
 	z-index: 1000;
 }
 #nav-single .nav-previous,
@@ -1486,8 +1487,8 @@ section.ephemera .entry-title a span {
 	border-radius: 3px;
 	padding: 0;
 	position: absolute;
-		top: 0;
-		left: -102px;
+	top: 0;
+	left: -102px;
 	-webkit-box-shadow: 0 1px 2px #ccc;
 	-moz-box-shadow: 0 1px 2px #ccc;
 	box-shadow: 0 1px 2px #ccc;
@@ -1656,11 +1657,11 @@ section.ephemera .entry-title a span {
 	font-size: 13px;
 	padding: 4px 10px;
 	position: relative;
-		top: 41px;
-		left: 4px;
-	width: 60px;
+	top: 41px;
+	left: 4px;
+	min-width: 60px;
 	z-index: 1;
-/*	text-shadow: 1px 1px 1px #fff; */
+	/*text-shadow: 1px 1px 1px #fff; */
 }
 #respond input[type="text"]:focus,
 #respond textarea:focus {
@@ -1676,8 +1677,8 @@ section.ephemera .entry-title a span {
 	font-size: 22px;
 	font-weight: bold;
 	position: absolute;
-		top: 52px;
-		left: 68%;
+	top: 52px;
+	left: 68%;
 	z-index: 1;
 }
 #respond .comment-notes,
@@ -1711,7 +1712,7 @@ section.ephemera .entry-title a span {
 	padding: 5px 42px 5px 22px;
 	text-shadow: 0 -1px 0 rgba(0,0,0,0.3);
 	position: relative;
-		left: 30px;
+	left: 30px;
 }
 #respond input#submit:active {
 	background: #1b8be0;
@@ -1893,8 +1894,8 @@ p.comment-form-comment {
 	}
 	.singular .entry-meta .edit-link a {
 		position: absolute;
-			left: 0px;
-			top: 40px;
+		left: 0px;
+		top: 40px;
 	}
 	.singular #author-info {
 		margin: 2.2em -8.8% 0px;
