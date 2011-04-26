@@ -79,7 +79,7 @@ PubSub.prototype.publish = function( topic, args ) {
 
 		setTimeout( function() {
 			api.block = false;
-		}, 500 );
+		}, 400 );
 
 		if ( api.timer )
 			clearTimeout( api.timer );
@@ -136,20 +136,38 @@ PubSub.prototype.publish = function( topic, args ) {
 			title.siblings('label').css( 'visibility', 'hidden' );
 	}
 
+	api._make_sticky = function() {
+		$( document ).unbind( '.fullscreen' );
+		clearTimeout( api.timer );
+		api.timer = 0;
+	}
+
 	ps.subscribe( 'showToolbar', function() {
-		api.fade.In( api.ui.topbar, 600 );
+		api.fade.In( api.ui.topbar, 600, function(){ ps.publish('toolbarShown'); } );
 		$('#wp-fullscreen-body').addClass('wp-fullscreen-focus');
 	});
 
 	ps.subscribe( 'hideToolbar', function() {
-		api.fade.Out( api.ui.topbar, 600 );
+		api.fade.Out( api.ui.topbar, 600, function(){ ps.publish('toolbarHidden'); } );
 		$('#wp-fullscreen-body').removeClass('wp-fullscreen-focus');
+		api.toolbarShown = false;
+	});
+
+	ps.subscribe( 'toolbarShown', function() {
+		api.topbarshown = true;
+		if ( api.mouseisover )
+			api._make_sticky();
+	});
+
+	ps.subscribe( 'toolbarHidden', function() {
+		$( document ).unbind( '.fullscreen2' )
+			.bind( 'mousemove.fullscreen', function(e) { bounder( 'showToolbar', 'hideToolbar', 2500 ); } );
 	});
 
 	ps.subscribe( 'show', function() {
 		var title = $('#wp-fullscreen-title').val( $('#title').val() );
 		this.set_title_hint(title);
-		$( document ).bind( 'mousemove.fullscreen', function(e) { bounder( 'showToolbar', 'hideToolbar', 3000 ); } );
+		$( document ).bind( 'mousemove.fullscreen', function(e) { bounder( 'showToolbar', 'hideToolbar', 2500 ); } );
 	});
 
 	ps.subscribe( 'hide', function() {
@@ -219,11 +237,20 @@ PubSub.prototype.publish = function( topic, args ) {
 		 */
 
 		init: function() {
+			var topbar = api.ui.topbar  = $('#fullscreen-topbar');
 			api.ui.element = $('#fullscreen-fader');
-			api.ui.topbar  = $('#fullscreen-topbar');
 
 			if ( wptitlehint )
 				wptitlehint('wp-fullscreen-title');
+
+			topbar.mouseenter(function(e){
+				api.mouseisover = true;
+				if ( api.topbarshown )
+					api._make_sticky();
+			}).mouseleave(function(e){
+				api.mouseisover = false;
+				$( document ).bind( 'mousemove.fullscreen2', function(e) { bounder( 'showToolbar', 'hideToolbar', 600 ); } );
+			});
 		},
 
 		fade: function( before, during, after ) {
