@@ -22,7 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * @global string $wp_version
  */
-$wp_version = '3.1.2-alpha';
+$wp_version = '3.1.2';
 
 /**
  * Holds the WordPress DB revision, increments when changes are made to the WordPress DB schema.
