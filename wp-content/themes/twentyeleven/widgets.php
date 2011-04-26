@@ -12,7 +12,7 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 	 * @return void
 	 **/
 	function Twenty_Eleven_Ephemera_Widget() {
-		$widget_ops = array( 'classname' => 'widget_twentyeleven_ephemera', 'description' => __( 'Use this widget to list your recent Aside and Link posts', 'twentyeleven' ) );
+		$widget_ops = array( 'classname' => 'widget_twentyeleven_ephemera', 'description' => __( 'Use this widget to list your recent Aside, Status, Quote, and Link posts', 'twentyeleven' ) );
 		$this->WP_Widget( 'widget_twentyeleven_ephemera', __( 'Twenty Eleven Ephemera', 'twentyeleven' ), $widget_ops );
 		$this->alt_option_name = 'widget_twentyeleven_ephemera';
 
@@ -63,7 +63,7 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 			'tax_query' => array(
 				array(
 					'taxonomy' => 'post_format',
-					'terms' => array( 'post-format-aside', 'post-format-link' ),
+					'terms' => array( 'post-format-aside', 'post-format-link', 'post-format-status', 'post-format-quote' ),
 					'field' => 'slug',
 					'operator' => 'IN',
 				),
@@ -85,7 +85,7 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 		<ol>
 		<?php while ( $ephemera->have_posts() ) : $ephemera->the_post(); ?>
 
-			<?php if ( 'aside' == get_post_format( $post->ID ) ) : ?>
+			<?php if ( 'link' != get_post_format( $post->ID ) ) : ?>
 
 			<li class="entry-title">
 				<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'twentyeleven' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a>
@@ -94,7 +94,7 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 				</span>
 			</li>
 
-			<?php elseif ( 'link' == get_post_format( $post->ID ) ) : ?>
+			<?php else : ?>
 
 			<li class="entry-title">
 				<?php

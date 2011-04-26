@@ -796,7 +796,10 @@ dl.gallery-item {
 		top: 80px;
 }
 
-/* Aside */
+
+/* =Aside
+----------------------------------------------- */
+
 .format-aside .entry-title,
 .format-aside .entry-header .comments-link {
 	display: none;
@@ -811,7 +814,10 @@ dl.gallery-item {
 	padding: 1.625em 0 0;
 }
 
-/* Link */
+
+/* =Link
+----------------------------------------------- */
+
 .format-link .entry-title,
 .format-link .entry-header .comments-link {
 	display: none;
@@ -826,14 +832,57 @@ dl.gallery-item {
 	padding: 1.625em 0 0;
 }
 
-/* Gallery */
+
+/* =Gallery
+----------------------------------------------- */
+
 .format-gallery .gallery-thumb {
 	float: left;
 	display: block;
 	margin-right: 1.625em;
 }
 
-/* error404 */
+
+/* =Status
+----------------------------------------------- */
+
+.format-status .entry-title,
+.format-status .entry-header .comments-link {
+	display: none;
+}
+.singular .format-status .entry-title {
+	display: block;
+}
+.format-status .entry-content {
+	padding: 0;
+}
+.singular .format-status .entry-content {
+	padding: 1.625em 0 0;
+}
+.format-status img.avatar {
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	-webkit-box-shadow: 0 1px 2px #ccc;
+	-moz-box-shadow: 0 1px 2px #ccc;
+	box-shadow: 0 1px 2px #ccc;
+	float: left;
+	margin: 4px 10px 1.625em 0;
+	padding: 0;
+}
+
+
+/* =Quote
+----------------------------------------------- */
+
+.format-quote blockquote {
+	color: #555;
+	font-size: 17px;
+	margin: 0;
+}
+
+
+/* =error404
+----------------------------------------------- */
 .error404 #main #searchform {
 	background: #f9f9f9;
 	border: 1px solid #ddd;

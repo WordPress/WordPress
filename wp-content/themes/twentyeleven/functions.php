@@ -38,7 +38,7 @@ add_theme_support( 'automatic-feed-links' );
 /**
  * Add support for an Aside Post Format
  */
-add_theme_support( 'post-formats', array( 'aside', 'link', 'gallery' ) );
+add_theme_support( 'post-formats', array( 'aside', 'link', 'gallery', 'status', 'quote' ) );
 
 /**
  * Add support for custom backgrounds

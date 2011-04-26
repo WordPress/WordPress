@@ -87,7 +87,7 @@ get_header(); ?>
 						'tax_query' => array(
 							array(
 								'taxonomy' => 'post_format',
-								'terms' => array( 'post-format-aside', 'post-format-link' ),
+								'terms' => array( 'post-format-aside', 'post-format-link', 'post-format-quote', 'post-format-status' ),
 								'field' => 'slug',
 								'operator' => 'NOT IN',
 							),
