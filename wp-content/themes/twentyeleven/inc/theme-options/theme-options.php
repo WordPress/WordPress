@@ -76,14 +76,21 @@ function twentyeleven_layouts() {
 }
 
 /**
+ *  Return the default Twenty Eleven theme option values
+ */
+function twentyeleven_get_default_theme_options() {
+	return array(
+		'color_scheme' => 'light',
+		'link_color' => '#1b8be0',
+		'theme_layout' => 'content-sidebar',
+	);
+}
+
+/**
  *  Return the current Twenty Eleven theme options, with default values as fallback
  */
 function twentyeleven_get_theme_options() {
-	$defaults = array(
-		'color_scheme' => 'light',
-		'link_color' => '1b8be0',
-		'theme_layout' => 'content-sidebar',
-	);
+	$defaults = twentyeleven_get_default_theme_options();
 	$options = get_option( 'twentyeleven_theme_options', $defaults );
 
 	return $options;
@@ -205,7 +212,7 @@ function theme_options_do_page() {
 			</table>
 
 			<p class="submit">
-				<input type="submit" class="button-primary" value="<?php _e( 'Save Options', 'twentyeleven' ); ?>" />
+				<input type="submit" class="button-primary" value="<?php esc_attr_e( 'Save Options', 'twentyeleven' ); ?>" />
 			</p>
 		</form>
 	</div>
@@ -214,25 +221,33 @@ function theme_options_do_page() {
 
 /**
  * Sanitize and validate input. Accepts an array, return a sanitized array.
+ *
+ * todo set up Reset Options action
  */
 function twentyeleven_theme_options_validate( $input ) {
-	// todo get defaults, and use insteadd of null for fallback
-	// could also be used to trigger a Reset Options action
+	$defaults = twentyeleven_get_default_theme_options();
 
-	// Our color scheme option must actually be in our array of color scheme options
-	if ( ! isset( $input['color_scheme'] ) )
-		$input['color_scheme'] = null;
-	if ( ! array_key_exists( $input['color_scheme'], twentyeleven_color_schemes() ) )
-		$input['color_scheme'] = null;
+	// Color scheme must be in our array of color scheme options
+	if ( ! isset( $input['color_scheme'] ) || ! array_key_exists( $input['color_scheme'], twentyeleven_color_schemes() ) )
+		$input['color_scheme'] = $defaults['color_scheme'];
 
-	// Our link color option must be safe text with no HTML tags
-	$input['link_color'] = wp_filter_nohtml_kses( $input['link_color'] );
+	// Link color must be 3 or 6 hexadecimal characters
+	if ( ! isset( $input[ 'link_color' ] ) ) {
+		$input['link_color'] = $defaults['link_color'];
+	} else {
+		if ( preg_match( '/^#?([a-f0-9]{3}){1,2}$/i', $input['link_color'] ) ) {
+			$link_color = $input['link_color'];
+			// If color value doesn't have a preceding hash, add it
+			if ( false === strpos( $link_color, '#' ) )
+				$link_color = '#' . $link_color;
+		} else {
+			$input['link_color'] = $defaults['link_color'];
+		}
+	}
 
-	// Our theme layout option must actually be in our array of theme layout options
-	if ( ! isset( $input['theme_layout'] ) )
-		$input['theme_layout'] = null;
-	if ( ! array_key_exists( $input['theme_layout'], twentyeleven_layouts() ) )
-		$input['theme_layout'] = null;
+	// Theme layout must be in our array of theme layout options
+	if ( ! isset( $input['theme_layout'] ) || ! array_key_exists( $input['theme_layout'], twentyeleven_layouts() ) )
+		$input['theme_layout'] = $defaults['theme_layout'];
 
 	return $input;
 }
@@ -286,16 +301,15 @@ function twentyeleven_link_color() {
 	$current_link_color = $options['link_color'];
 
 	// Is the link color just the default color?
-	if ( '1b8be0' == $current_link_color ) :
+	if ( '#1b8be0' == $current_link_color ) :
 		return; // we don't need to do anything then
-
 	else :
 		?>
 			<style>
 				/* Link color */
 				a,
 				.entry-title a:hover {
-				    color: <?php echo $current_link_color ?>;
+				    color: <?php echo $current_link_color; ?>;
 				}
 			</style>
 		<?php

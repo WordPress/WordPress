@@ -310,15 +310,15 @@ input[type=text] {
 
 /* Links */
 a {
-	color: #444;
+	color: #1B8BE0;
+	text-decoration: none;
 }
 a:visited {
-	color: #444;
 }
 a:focus,
 a:active,
 a:hover {
-	color: #1b8be0;
+	text-decoration: underline;
 }
 
 
@@ -454,6 +454,8 @@ a:hover {
 }
 #branding #s {
 	background: url(images/search.png) no-repeat 5px 6px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
 	float: right;
 	font-size: 14px;
 	height: 22px;
@@ -515,7 +517,6 @@ a:hover {
 	font-size: 12px;
 	font-weight: bold;
 	letter-spacing: 0;
-	text-decoration: none;
 	text-transform: none;
 }
 .hentry {
@@ -556,14 +557,11 @@ a:hover {
 	line-height: 18px;
 }
 .entry-meta a {
-	color: #222;
 	font-weight: bold;
-	text-decoration: none;
 }
 .entry-meta a:focus,
 .entry-meta a:active,
 .entry-meta a:hover {
-	color: #1b8be0;
 }
 .entry-content,
 .entry-summary {
@@ -585,10 +583,8 @@ a:hover {
 	text-transform: uppercase;
 }
 .entry-content a {
-	color: #1b8be0;
 }
 .entry-content a:hover {
-	color: #ff4b33;
 }
 .entry-content table,
 .comment-content table {
@@ -642,8 +638,8 @@ dl.gallery-item {
 	text-decoration: none;
 }
 .page-link a:hover {
-	background: #1b8be0;
-	color: #bfddf3;
+	background: #777;
+	color: #fff;
 	font-weight: bold;
 }
 .page-link span {
@@ -729,9 +725,9 @@ dl.gallery-item {
 	line-height: 46px;
 }
 .entry-header .comments-link a:hover {
-	background: #1b8be0;
-	border-color: #0861a5;
-	color: #bfddf3;
+	background: #777;
+	color: #fff;
+	border-color: #555;
 }
 .entry-header .comments-link .leave-reply {
 	font-size: 14px;
@@ -766,10 +762,8 @@ dl.gallery-item {
 	left: 0;
 }
 .singular .entry-header a {
-	color: #1b8be0;
 }
 .singular .entry-header a:hover {
-	color: #ff4b33;
 }
 .singular footer.entry-meta {
 }
@@ -790,6 +784,7 @@ dl.gallery-item {
 	width: 33%;
 }
 .singular .entry-meta .edit-link a {
+	color: #fff;
 	position: absolute;
 	bottom: auto;
 	left: 50px;
@@ -1218,16 +1213,13 @@ p img,
 	padding: 0 0 1.625em;
 }
 #content nav a {
-	color: #1b8be0;
 	font-size: 12px;
 	font-weight: bold;
 	line-height: 2.2em;
-	text-decoration: none;
 }
 #content nav a:focus,
 #content nav a:active,
 #content nav a:hover {
-	color: #ff4b33;
 }
 #nav-above {
 	padding: 0 0 1.625em;
@@ -1292,12 +1284,11 @@ p img,
 	font-size: 13px;
 }
 .widget a {
-	color: #1b8be0;
 	font-weight: bold;
 	text-decoration: none;
 }
 .widget a:hover {
-	color: #ff4b33;
+	text-decoration: underline;
 }
 
 /* Search Widget */
@@ -1473,14 +1464,11 @@ section.ephemera .entry-title a span {
 	margin: 1.625em 0 0;
 }
 .comment-meta a {
-	color: #1b8be0;
-	text-decoration: none;
 	font-weight: bold;
 }
 .comment-meta a:focus,
 .comment-meta a:active,
 .comment-meta a:hover {
-	color: #ff4b33;
 }
 .commentlist .avatar {
 	-moz-border-radius: 3px;
@@ -1512,13 +1500,13 @@ section.ephemera .entry-title a span {
 }
 .commentlist .children .bypostauthor > article .comment-meta .vcard .avatar {
 }
-.comment-reply-link {
-	color: #1778c2;
+a.comment-reply-link {
 	font-size: 12px;
 	font-weight: bold;
-	text-decoration: none;
 }
-.comment-reply-link:hover {
+.comment-reply-link:hover,
+.comment-reply-link:active,
+.comment-reply-link:focus {
 }
 
 /* Post author highlighting */
@@ -1531,33 +1519,26 @@ section.ephemera .entry-title a span {
 	color: #ccc;
 }
 .commentlist > li.bypostauthor .comment-meta a {
-	color: #ccc;
-	text-decoration: none;
 	font-weight: bold;
 }
 .commentlist > li.bypostauthor .comment-meta a:focus,
 .commentlist > li.bypostauthor .comment-meta a:active,
 .commentlist > li.bypostauthor .comment-meta a:hover {
-	color: #ff4b33;
 }
 .commentlist > li.bypostauthor:before {
 	content: url(images/comment-arrow-bypostauthor.png);
 }
 .commentlist > li.bypostauthor .comment-content a {
-	color: #1b8be0;
 }
 .commentlist > li.bypostauthor .comment-content a:focus,
 .commentlist > li.bypostauthor .comment-content a:active,
 .commentlist > li.bypostauthor .comment-content a:hover {
-	color: #ff4b33;
 }
 .commentlist > li.bypostauthor .comment-reply-link {
-	color: #ccc;
 }
 .commentlist > li.bypostauthor .comment-reply-link:focus,
 .commentlist > li.bypostauthor .comment-reply-link:active,
 .commentlist > li.bypostauthor .comment-reply-link:hover {
-	color: #ff4b33;
 }
 
 /* Post Author threaded comments */
@@ -1565,12 +1546,10 @@ section.ephemera .entry-title a span {
 .commentlist > li.bypostauthor .children .comment-meta,
 .commentlist > li.bypostauthor .children .comment-meta a,
 .commentlist > li.bypostauthor .children .comment-reply-link {
-	color: #333;
 }
 .commentlist > li.bypostauthor .children .comment-meta a:focus,
 .commentlist > li.bypostauthor .children .comment-meta a:active,
 .commentlist > li.bypostauthor .children .comment-meta a:hover {
-	color: #ff4b33;
 }
 .commentlist .children > li.bypostauthor {
 	background: #222;
@@ -1581,8 +1560,6 @@ section.ephemera .entry-title a span {
 	color: #ccc;
 }
 .commentlist .children > li.bypostauthor > article .comment-meta a {
-	color: #ccc;
-	text-decoration: none;
 	font-weight: bold;
 }
 .commentlist .children > li.bypostauthor > article .comment-reply-link {
@@ -1594,7 +1571,6 @@ section.ephemera .entry-title a span {
 .commentlist .children > li.bypostauthor > article .comment-reply-link:focus,
 .commentlist .children > li.bypostauthor > article .comment-reply-link:active,
 .commentlist .children > li.bypostauthor > article .comment-reply-link:hover {
-	color: #ff4b33;
 }
 .commentlist .children > li.bypostauthor > article .comment-content a {
 	color: #1b8be0;
@@ -1602,7 +1578,6 @@ section.ephemera .entry-title a span {
 .commentlist .children > li.bypostauthor > article .comment-content a:focus,
 .commentlist .children > li.bypostauthor > article .comment-content a:active,
 .commentlist .children > li.bypostauthor > article .comment-content a:hover {
-	color: #ff4b33;
 }
 
 /* Comment Form */
@@ -1618,12 +1593,10 @@ section.ephemera .entry-title a span {
 	width: 68.9%;
 }
 #respond a {
-	color: #ccc;
 }
 #respond a:focus,
 #respond a:active,
 #respond a:hover {
-	color: #ff4b33;
 }
 #respond input[type="text"],
 #respond textarea {
@@ -1686,9 +1659,6 @@ section.ephemera .entry-title a span {
 	font-size: 13px;
 }
 #respond .logged-in-as a {
-	color: #478fa2;
-	font-weight: bold;
-	text-decoration: none;
 }
 #respond p {
 	margin: 10px 0;
@@ -1816,7 +1786,6 @@ p.comment-form-comment {
 	text-align: center;
 }
 #site-generator a {
-	text-decoration: none;
 	font-weight: bold;
 }
 #site-generator a:focus,
