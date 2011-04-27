@@ -19,7 +19,6 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 		add_action( 'save_post', array(&$this, 'flush_widget_cache' ) );
 		add_action( 'deleted_post', array(&$this, 'flush_widget_cache' ) );
 		add_action( 'switch_theme', array(&$this, 'flush_widget_cache' ) );
-
 	}
 
 	/**
@@ -32,13 +31,13 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 	function widget( $args, $instance ) {
 		$cache = wp_cache_get( 'widget_twentyeleven_ephemera', 'widget' );
 
-		if ( !is_array($cache) )
+		if ( !is_array( $cache ) )
 			$cache = array();
 
 		if ( ! isset( $args['widget_id'] ) )
 			$args['widget_id'] = null;
 
-		if ( isset($cache[$args['widget_id']]) ) {
+		if ( isset( $cache[$args['widget_id']] ) ) {
 			echo $cache[$args['widget_id']];
 			return;
 		}
@@ -46,7 +45,7 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 		ob_start();
 		extract( $args, EXTR_SKIP );
 
-		$title = apply_filters( 'widget_title', empty($instance['title']) ? __( 'Ephemera' ) : $instance['title'], $instance, $this->id_base);
+		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? __( 'Ephemera' ) : $instance['title'], $instance, $this->id_base);
 
 		if ( ! isset( $instance['number'] ) )
 			$instance['number'] = '10';
@@ -133,12 +132,12 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 	 **/
 	function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
-		$instance['title'] = strip_tags($new_instance['title']);
+		$instance['title'] = strip_tags( $new_instance['title'] );
 		$instance['number'] = (int) $new_instance['number'];
 		$this->flush_widget_cache();
 
 		$alloptions = wp_cache_get( 'alloptions', 'options' );
-		if ( isset($alloptions['widget_twentyeleven_ephemera']) )
+		if ( isset( $alloptions['widget_twentyeleven_ephemera'] ) )
 			delete_option( 'widget_twentyeleven_ephemera' );
 
 		return $instance;
@@ -152,14 +151,14 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 	 * Displays the form for this widget on the Widgets page of the WP Admin area.
 	 **/
 	function form( $instance ) {
-				$title = isset($instance['title']) ? esc_attr($instance['title']) : '';
-				$number = isset($instance['number']) ? absint($instance['number']) : 10;
-		?>
-				<p><label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'twentyeleven' ); ?></label>
-				<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" /></p>
+		$title = isset( $instance['title']) ? esc_attr( $instance['title'] ) : '';
+		$number = isset( $instance['number'] ) ? absint( $instance['number'] ) : 10;
+?>
+			<p><label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php _e( 'Title:', 'twentyeleven' ); ?></label>
+			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" /></p>
 
-				<p><label for="<?php echo $this->get_field_id( 'number' ); ?>"><?php _e( 'Number of posts to show:', 'twentyeleven' ); ?></label>
-				<input id="<?php echo $this->get_field_id( 'number' ); ?>" name="<?php echo $this->get_field_name( 'number' ); ?>" type="text" value="<?php echo $number; ?>" size="3" /></p>
+			<p><label for="<?php echo esc_attr( $this->get_field_id( 'number' ) ); ?>"><?php _e( 'Number of posts to show:', 'twentyeleven' ); ?></label>
+			<input id="<?php echo esc_attr( $this->get_field_id( 'number' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'number' ) ); ?>" type="text" value="<?php echo esc_attr( $number ); ?>" size="3" /></p>
 		<?php
 	}
 }
