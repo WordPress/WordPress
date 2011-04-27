@@ -273,10 +273,12 @@ require( ABSPATH . WPINC . '/locale.php' );
 $wp_locale = new WP_Locale();
 
 // Load the functions for the active theme, for both parent and child theme if applicable.
-if ( TEMPLATEPATH !== STYLESHEETPATH && file_exists( STYLESHEETPATH . '/functions.php' ) )
-	include( STYLESHEETPATH . '/functions.php' );
-if ( file_exists( TEMPLATEPATH . '/functions.php' ) )
-	include( TEMPLATEPATH . '/functions.php' );
+if ( ! defined( 'WP_INSTALLING' ) ) {
+	if ( TEMPLATEPATH !== STYLESHEETPATH && file_exists( STYLESHEETPATH . '/functions.php' ) )
+		include( STYLESHEETPATH . '/functions.php' );
+	if ( file_exists( TEMPLATEPATH . '/functions.php' ) )
+		include( TEMPLATEPATH . '/functions.php' );
+}
 
 do_action( 'after_setup_theme' );
 
