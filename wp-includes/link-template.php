@@ -1579,7 +1579,7 @@ function next_posts( $max_page = 0, $echo = true ) {
  * @param int $max_page Optional. Max pages.
  * @return string|null
  */
-function get_next_posts_link( $label = 'Next Page &raquo;', $max_page = 0 ) {
+function get_next_posts_link( $label = null, $max_page = 0 ) {
 	global $paged, $wp_query;
 
 	if ( !$max_page )
@@ -1589,6 +1589,9 @@ function get_next_posts_link( $label = 'Next Page &raquo;', $max_page = 0 ) {
 		$paged = 1;
 
 	$nextpage = intval($paged) + 1;
+		
+	if ( null === $label )
+		$label = __( 'Next Page &raquo;' );
 
 	if ( !is_single() && ( $nextpage <= $max_page ) ) {
 		$attr = apply_filters( 'next_posts_link_attributes', '' );
@@ -1605,7 +1608,7 @@ function get_next_posts_link( $label = 'Next Page &raquo;', $max_page = 0 ) {
  * @param string $label Content for link text.
  * @param int $max_page Optional. Max pages.
  */
-function next_posts_link( $label = 'Next Page &raquo;', $max_page = 0 ) {
+function next_posts_link( $label = null, $max_page = 0 ) {
 	echo get_next_posts_link( $label, $max_page );
 }
 
@@ -1655,8 +1658,11 @@ function previous_posts( $echo = true ) {
  * @param string $label Optional. Previous page link text.
  * @return string|null
  */
-function get_previous_posts_link( $label = '&laquo; Previous Page' ) {
+function get_previous_posts_link( $label = null ) {
 	global $paged;
+
+	if ( null === $label )
+		$label = __( '&laquo; Previous Page' );
 
 	if ( !is_single() && $paged > 1 ) {
 		$attr = apply_filters( 'previous_posts_link_attributes', '' );
@@ -1672,7 +1678,7 @@ function get_previous_posts_link( $label = '&laquo; Previous Page' ) {
  *
  * @param string $label Optional. Previous page link text.
  */
-function previous_posts_link( $label = '&laquo; Previous Page' ) {
+function previous_posts_link( $label = null ) {
 	echo get_previous_posts_link( $label );
 }
 
