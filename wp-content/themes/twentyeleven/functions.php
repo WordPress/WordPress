@@ -126,7 +126,7 @@ function twentyeleven_setup() {
 	define( 'HEADER_TEXTCOLOR', '000' );
 
 	// No CSS, just an IMG call. The %s is a placeholder for the theme template directory URI.
-	define( 'HEADER_IMAGE', '%s/images/headers/default.jpg' );
+	define( 'HEADER_IMAGE', '' ); // Leaving empty for random image rotation.
 
 	// The height and width of your custom header. You can hook into the theme's own filters to change these values.
 	// Add a filter to twentyeleven_header_image_width and twentyeleven_header_image_height to change these values.
@@ -147,6 +147,46 @@ function twentyeleven_setup() {
 	add_custom_image_header( 'twentyeleven_header_style', 'twentyeleven_admin_header_style', 'twentyeleven_admin_header_image' );
 
 	// ... and thus ends the changeable header business.
+
+	// Default custom headers packaged with the theme. %s is a placeholder for the theme template directory URI.
+	register_default_headers( array(
+		'wheel' => array(
+			'url' => '%s/images/headers/wheel.jpg',
+			'thumbnail_url' => '%s/images/headers/wheel-thumbnail.jpg',
+			/* translators: header image description */
+			'description' => __( 'Wheel', 'twentyeleven' )
+		),
+		'shore' => array(
+			'url' => '%s/images/headers/shore.jpg',
+			'thumbnail_url' => '%s/images/headers/shore-thumbnail.jpg',
+			/* translators: header image description */
+			'description' => __( 'Shore', 'twentyeleven' )
+		),
+		'trolley' => array(
+			'url' => '%s/images/headers/trolley.jpg',
+			'thumbnail_url' => '%s/images/headers/trolley-thumbnail.jpg',
+			/* translators: header image description */
+			'description' => __( 'Trolley', 'twentyeleven' )
+		),
+		'pine-cone' => array(
+			'url' => '%s/images/headers/pine-cone.jpg',
+			'thumbnail_url' => '%s/images/headers/pine-cone-thumbnail.jpg',
+			/* translators: header image description */
+			'description' => __( 'Pine Cone', 'twentyeleven' )
+		),
+		'chessboard' => array(
+			'url' => '%s/images/headers/chessboard.jpg',
+			'thumbnail_url' => '%s/images/headers/chessboard-thumbnail.jpg',
+			/* translators: header image description */
+			'description' => __( 'Chessboard', 'twentyeleven' )
+		),
+		'lanterns' => array(
+			'url' => '%s/images/headers/lanterns.jpg',
+			'thumbnail_url' => '%s/images/headers/lanterns-thumbnail.jpg',
+			/* translators: header image description */
+			'description' => __( 'Lanterns', 'twentyeleven' )
+		)
+	) );
 }
 endif; // twentyeleven_setup
 
