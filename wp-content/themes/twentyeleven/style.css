@@ -1963,7 +1963,165 @@ p.comment-form-comment {
 	}
 }
 
-/* IE 7 */
+
+/* =Print
+----------------------------------------------- */
+
+@media print {
+	body {
+		background: none !important;
+		font-size: 10pt;
+	}
+	footer.entry-meta a[rel=bookmark]:link:after,
+	footer.entry-meta a[rel=bookmark]:visited:after,
+	#author-info a:link:after,
+	#author-info a:visited:after {
+		content:" [" attr(href) "] "; /* Show URLs */
+	}	
+	#page {
+		clear: both !important;
+		display: block !important;
+		float: none !important;
+		position: relative !important;
+		max-width: 100%;
+	}
+	#branding {
+		border-top: none;
+		padding: 0;
+	}
+	#branding hgroup {
+	    margin: 0;
+	}
+	#site-title a {
+		font-size: 21pt;
+	}
+	#site-description {
+		font-size: 10pt;
+	}
+	#branding #searchform {
+		display: none;
+	}
+	#branding img {
+		display: none;
+	}
+	#access {
+		display: none;
+	}
+	#main {
+		border-top: none;
+		box-shadow: none;
+	}
+	#primary {
+	    float: left;
+	    margin: 0;
+	    width: 100%;
+	}
+	#content {
+	    margin: 0;
+	    width: auto;
+	}
+	.singular #content {
+	    margin: 0;
+		width: 100%;
+	}
+	.singular .entry-header .entry-meta {
+	    position: static;
+	}
+	#content nav {
+		display: none;
+	}
+	.singular .entry-header,
+	.singular .entry-content,
+	.singular footer.entry-meta,
+	.singular #comments-title {
+	    width: 100%;
+		margin: 0;
+	}
+	.singular .hentry {
+		padding: 0;
+	}
+	.entry-title,
+	.singular .entry-title {
+		font-size: 21pt;
+	}
+	.entry-meta {
+		font-size: 10pt;
+	}
+	.entry-header .comments-link {
+		display: none;
+	}
+	.page-link {
+		display: none;
+	}
+	.singular #author-info {
+	    background: none;
+	    border-bottom: none;
+	    border-top: none;
+	    margin: 2.2em 0 0;
+	    padding: 0;
+	}
+	#respond {
+		display: none;
+	}
+	.widget-area {
+		display: none;
+	}
+	#colophon {
+		display: none;
+	}
+	
+	/* Comments */
+	.commentlist > li.comment {
+	    background: none;
+	    border: 1px solid #DDDDDD;
+	    border-radius: 3px 3px 3px 3px;
+	    margin: 0 auto 1.625em;
+	    padding: 1.625em;
+	    position: relative;
+	    width: auto;
+	}
+	.commentlist .avatar {
+		width: 39px;
+		height: 39px;
+	    left: 2.2em;
+	    top: 2.2em;
+	}
+	.commentlist li.comment .comment-meta {
+	    line-height: 1.625em;
+	    margin-left: 50px;
+	}
+	.commentlist li.comment .fn {
+	    display: block;
+	}
+	.commentlist li.comment .comment-content {
+	    margin: 1.625em 0 0;
+	}
+	
+	/* Post author highlighting */
+	.commentlist > li.bypostauthor {
+		color: #444;
+	}
+	.commentlist > li.bypostauthor .comment-meta {
+		color: #666;
+	}
+	.commentlist > li.bypostauthor:before {
+		content: none;
+	}
+
+	/* Post Author threaded comments */
+	.commentlist .children > li.bypostauthor {
+		background: #fff;
+		border-color: #ddd;
+	}
+	.commentlist .children > li.bypostauthor > article,
+	.commentlist .children > li.bypostauthor > article .comment-meta {
+		color: #666;
+	}
+}
+
+/* =IE7
+----------------------------------------------- */
+
 #ie7 article.intro {
 	margin-left: -7.6%;
 	margin-right: -7.6%;
