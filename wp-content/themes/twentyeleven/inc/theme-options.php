@@ -192,7 +192,8 @@ function theme_options_render_page() {
 					<td>
 						<fieldset><legend class="screen-reader-text"><span><?php _e( 'Link Color', 'twentyeleven' ); ?></span></legend>
 							<input type="text" name="twentyeleven_theme_options[link_color]" id="link-color" value="<?php echo esc_attr( $options['link_color'] ); ?>" />
-							<span id="link-color-example"></span> <a class="hide-if-no-js" href="#" id="pickcolor"><?php _e( 'Select a Color', 'twentyeleven' ); ?></a>
+							<a href="#" class="pickcolor hide-if-no-js" id="link-color-example"></a>
+							<input type="button" class="pickcolor button hide-if-no-js" value="<?php esc_attr_e( 'Select a Color', 'twentyeleven' ); ?>">
 							<div id="colorPickerDiv" style="z-index: 100; background:#eee; border:1px solid #ccc; position:absolute; display:none;"></div>
 							<br />
 							<small class="description"><?php printf( __( 'Default color: %s', 'twentyeleven' ), $default_options['link_color'] ); ?></small>
@@ -283,7 +284,7 @@ function twentyeleven_print_link_color_style() {
 	$link_color = $options['link_color'];
 
 	$default_options = twentyeleven_get_default_theme_options();
-	
+
 	// Don't do anything if the current link color is the default.
 	if ( $default_options['link_color'] == $link_color )
 		return;

@@ -5,14 +5,14 @@ var farbtastic;
 		farbtastic.setColor(a);
 		$('#link-color').val(a);
 		$('#link-color-example').css('background-color', a);
-	}
+	};
 
 	$(document).ready( function() {
 		farbtastic = $.farbtastic('#colorPickerDiv', pickColor);
 
 		pickColor( $('#link-color').val() );
 
-		$('#pickcolor').click( function(e) {
+		$('.pickcolor').click( function(e) {
 			$('#colorPickerDiv').show();
 			e.preventDefault();
 		});

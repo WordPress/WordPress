@@ -21,11 +21,10 @@
 	margin: 0 0 0 -2px;
 }
 #link-color-example {
-	padding: 4px 14px;
-	margin: 0 7px 0 3px;
 	-moz-border-radius: 4px;
-	-khtml-border-radius: 4px;
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
 	border: 1px solid #dfdfdf;
+	margin: 0 7px 0 3px;
+	padding: 4px 14px;
 }
