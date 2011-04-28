@@ -403,7 +403,7 @@ add_contextual_help($current_screen,
 	'<p>' . __('Updating your WordPress installation is a simple one-click procedure; just click on the Update button when it says a new version is available.') . '</p>' .
 	'<p>' . __('To update themes or plugins from this screen, use the checkboxes to make your selection and click on the appropriate Update button. Check the box at the top of the Themes or Plugins section to select all and update them all at once.') . '</p>' .
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
-	'<p>' . __('<a href="http://codex.wordpress.org/Dashboard_Updates_SubPanel" target="_blank">Documentation on Updating WordPress</a>') . '</p>' .
+	'<p>' . __('<a href="http://codex.wordpress.org/Dashboard_Updates_Screen" target="_blank">Documentation on Updating WordPress</a>') . '</p>' .
 	'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
 

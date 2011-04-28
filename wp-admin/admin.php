@@ -7,7 +7,7 @@
  */
 
 /**
- * In WordPress Administration Panels
+ * In WordPress Administration Screens
  *
  * @since 2.3.2
  */

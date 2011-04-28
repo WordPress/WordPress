@@ -742,7 +742,7 @@ function is_blog_user( $blog_id = 0 ) {
 /**
  * Add meta data field to a user.
  *
- * Post meta data is called "Custom Fields" on the Administration Panels.
+ * Post meta data is called "Custom Fields" on the Administration Screens.
  *
  * @since 3.0.0
  * @uses add_metadata()

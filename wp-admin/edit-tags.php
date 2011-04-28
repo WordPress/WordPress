@@ -1,6 +1,6 @@
 <?php
 /**
- * Edit Tags Administration Panel.
+ * Edit Tags Administration Screen.
  *
  * @package WordPress
  * @subpackage Administration
@@ -209,11 +209,11 @@ if ( 'category' == $taxonomy || 'link_category' == $taxonomy || 'post_tag' == $t
 		'<p><strong>' . __( 'For more information:' ) . '</strong></p>';
 
 	if ( 'category' == $taxonomy )
-		$help .= '<p>' . __( '<a href="http://codex.wordpress.org/Posts_Categories_SubPanel" target="_blank">Documentation on Categories</a>' ) . '</p>';
+		$help .= '<p>' . __( '<a href="http://codex.wordpress.org/Posts_Categories_Screen" target="_blank">Documentation on Categories</a>' ) . '</p>';
 	elseif ( 'link_category' == $taxonomy )
-		$help .= '<p>' . __( '<a href="http://codex.wordpress.org/Links_Link_Categories_SubPanel" target="_blank">Documentation on Link Categories</a>' ) . '</p>';
+		$help .= '<p>' . __( '<a href="http://codex.wordpress.org/Links_Link_Categories_Screen" target="_blank">Documentation on Link Categories</a>' ) . '</p>';
 	else
-		$help .= '<p>' . __( '<a href="http://codex.wordpress.org/Posts_Post_Tags_SubPanel" target="_blank">Documentation on Post Tags</a>' ) . '</p>';
+		$help .= '<p>' . __( '<a href="http://codex.wordpress.org/Posts_Post_Tags_Screen" target="_blank">Documentation on Post Tags</a>' ) . '</p>';
 
 	$help .= '<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>';
 

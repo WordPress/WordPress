@@ -44,7 +44,7 @@ add_contextual_help($current_screen,
     '<p>' . __('Required fields are indicated; the rest are optional. Profile information will only be displayed if your theme is set up to do so.') . '</p>' .
     '<p>' . __('Remember to click the Update Profile button when you are finished.') . '</p>' .
     '<p><strong>' . __('For more information:') . '</strong></p>' .
-    '<p>' . __('<a href="http://codex.wordpress.org/Users_Your_Profile_SubPanel" target="_blank">Documentation on User Profiles</a>') . '</p>' .
+    '<p>' . __('<a href="http://codex.wordpress.org/Users_Your_Profile_Screen" target="_blank">Documentation on User Profiles</a>') . '</p>' .
     '<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
 

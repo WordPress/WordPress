@@ -119,7 +119,7 @@ default:
 		'<p>' . __('If you want to make changes but don&#8217;t want them to be overwritten when the plugin is updated, you may be ready to think about writing your own plugin. For information on how to edit plugins, write your own from scratch, or just better understand their anatomy, check out the links below.') . '</p>' .
 		( is_network_admin() ? '<p>' . __('Any edits to files from this screen will be reflected on all sites in the network.') . '</p>' : '' ) .
 		'<p><strong>' . __('For more information:') . '</strong></p>' .
-		'<p>' . __('<a href="http://codex.wordpress.org/Plugins_Editor_SubPanel" target="_blank">Documentation on Editing Plugins</a>') . '</p>' .
+		'<p>' . __('<a href="http://codex.wordpress.org/Plugins_Editor_Screen" target="_blank">Documentation on Editing Plugins</a>') . '</p>' .
 		'<p>' . __('<a href="http://codex.wordpress.org/Writing_a_Plugin" target="_blank">Documentation on Writing Plugins</a>') . '</p>' .
 		'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 	);

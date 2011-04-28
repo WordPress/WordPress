@@ -1,6 +1,6 @@
 <?php
 /**
- * User Dashboard Administration Panel
+ * User Dashboard Administration Screen
  *
  * @package WordPress
  * @subpackage Administration

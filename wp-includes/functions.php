@@ -3643,7 +3643,7 @@ function force_ssl_login( $force = null ) {
 }
 
 /**
- * Whether to force SSL used for the Administration Panels.
+ * Whether to force SSL used for the Administration Screens.
  *
  * @since 2.6.0
  *

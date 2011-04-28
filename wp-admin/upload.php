@@ -151,7 +151,7 @@ add_contextual_help( $current_screen,
 	'<p>' . __( 'Hovering over a row reveals action links: <em>Edit</em>, <em>Delete Permanently</em>, and <em>View</em>. Clicking <em>Edit</em> or on the media file&#8217;s name displays a simple screen to edit that individual file&#8217;s metadata. Clicking <em>Delete Permanently</em> will delete the file from the media library (as well as from any posts to which it is currently attached). <em>View</em> will take you to the display page for that file.' ) . '</p>' .
 	'<p>' . __( 'If a media file has not been attached to any post, you will see that in the <em>Attached To</em> column, and can click on <em>Attach File</em> to launch a small popup that will allow you to search for a post and attach the file.' ) . '</p>' .
 	'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
-	'<p>' . __( '<a href="http://codex.wordpress.org/Media_Library_SubPanel" target="_blank">Documentation on Media Library</a>' ) . '</p>' .
+	'<p>' . __( '<a href="http://codex.wordpress.org/Media_Library_Screen" target="_blank">Documentation on Media Library</a>' ) . '</p>' .
 	'<p>' . __( '<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>' ) . '</p>'
 );
 

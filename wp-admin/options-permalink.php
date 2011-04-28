@@ -1,6 +1,6 @@
 <?php
 /**
- * Permalink settings administration panel.
+ * Permalink Settings Administration Screen.
  *
  * @package WordPress
  * @subpackage Administration
@@ -23,7 +23,7 @@ add_contextual_help($current_screen,
 	'<p>' . __('The Optional fields let you customize the &#8220;category&#8221; and &#8220;tag&#8221; base names that will appear in archive URLs. For example, the page listing all posts in the &#8220;Uncategorized&#8221; category could be <code>/topics/uncategorized</code> instead of <code>/category/uncategorized</code>.') . '</p>' .
 	'<p>' . __('You must click the Save Changes button at the bottom of the screen for new settings to take effect.') . '</p>' .
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
-	'<p>' . __('<a href="http://codex.wordpress.org/Settings_Permalinks_SubPanel" target="_blank">Documentation on Permalinks Settings</a>') . '</p>' .
+	'<p>' . __('<a href="http://codex.wordpress.org/Settings_Permalinks_Screen" target="_blank">Documentation on Permalinks Settings</a>') . '</p>' .
 	'<p>' . __('<a href="http://codex.wordpress.org/Using_Permalinks" target="_blank">Documentation on Using Permalinks</a>') . '</p>' .
 	'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
@@ -32,7 +32,7 @@ add_contextual_help($current_screen,
  * Display JavaScript on the page.
  *
  * @package WordPress
- * @subpackage Permalink_Settings_Panel
+ * @subpackage Permalink_Settings_Screen
  */
 function add_js() {
 	?>

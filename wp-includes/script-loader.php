@@ -37,7 +37,7 @@ require( ABSPATH . WPINC . '/class.wp-styles.php' );
 require( ABSPATH . WPINC . '/functions.wp-styles.php' );
 
 /**
- * Set up WordPress scripts to load by default for Administration Panels.
+ * Set up WordPress scripts to load by default for Administration Screen.
  *
  * Localizes a few of the scripts.
  * $scripts->add_data( 'script-handle', 'group', 1 ); queues the script for the footer
@@ -572,11 +572,11 @@ function wp_just_in_time_script_localization() {
 }
 
 /**
- * Administration Panel CSS for changing the styles.
+ * Administration Screen CSS for changing the styles.
  *
  * If installing the 'wp-admin/' directory will be replaced with './'.
  *
- * The $_wp_admin_css_colors global manages the Administration Panels CSS
+ * The $_wp_admin_css_colors global manages the Administration Screens CSS
  * stylesheet that is loaded. The option that is set is 'admin_color' and is the
  * color and key for the array. The value for the color key is an object with
  * a 'url' parameter that has the URL path to the CSS file.
@@ -589,7 +589,7 @@ function wp_just_in_time_script_localization() {
  *
  * @param string $src Source URL.
  * @param string $handle Either 'colors' or 'colors-rtl'.
- * @return string URL path to CSS stylesheet for Administration Panels.
+ * @return string URL path to CSS stylesheet for Administration Screens.
  */
 function wp_style_loader_src( $src, $handle ) {
 	if ( defined('WP_INSTALLING') )

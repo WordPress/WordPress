@@ -1372,7 +1372,7 @@ function get_posts($args = null) {
 /**
  * Add meta data field to a post.
  *
- * Post meta data is called "Custom Fields" on the Administration Panels.
+ * Post meta data is called "Custom Fields" on the Administration Screen.
  *
  * @since 1.5.0
  * @uses $wpdb

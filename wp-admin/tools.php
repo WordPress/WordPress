@@ -1,6 +1,6 @@
 <?php
 /**
- * Tools Administration Panel.
+ * Tools Administration Screen.
  *
  * @package WordPress
  * @subpackage Administration
@@ -16,7 +16,7 @@ add_contextual_help($current_screen,
 	'<p>' . __('The Use This link for the Categories and Tags Converter will take you to the Import page, where that Converter is one of the plugins you can download. Once installed, the link on this page takes you to a screen where you can choose conversion either way.') . '</p>' .
 	'<p>' . __('Note: Turbo/Gears is no longer promoted on this screen as it was in previous versions due to the fact that Google has discontinued support for it.') . '</p>' .
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
-	'<p>' . __('<a href="http://codex.wordpress.org/Tools_Tools_SubPanel" target="_blank">Documentation on Tools</a>') . '</p>' .
+	'<p>' . __('<a href="http://codex.wordpress.org/Tools_Screen" target="_blank">Documentation on Tools</a>') . '</p>' .
 	'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * New Post Administration Panel.
+ * New Post Administration Screen.
  *
  * @package WordPress
  * @subpackage Administration

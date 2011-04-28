@@ -1,6 +1,6 @@
 <?php
 /**
- * Add Link Administration Panel.
+ * Add Link Administration Screen.
  *
  * @package WordPress
  * @subpackage Administration

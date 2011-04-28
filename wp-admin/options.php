@@ -1,6 +1,6 @@
 <?php
 /**
- * Options Management Administration Panel.
+ * Options Management Administration Screen.
  *
  * If accessed directly in a browser this page shows a list of all saved options
  * along with editable fields for their values. Serialized data is not supported

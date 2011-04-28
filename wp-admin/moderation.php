@@ -1,6 +1,6 @@
 <?php
 /**
- * Comment Moderation Administration Panel.
+ * Comment Moderation Administration Screen.
  *
  * Redirects to edit-comments.php?comment_status=moderated.
  *

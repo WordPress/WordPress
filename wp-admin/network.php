@@ -112,7 +112,7 @@ add_contextual_help($current_screen,
 	'<p>' . __('The choice of subdirectory sites is disabled if this setup is more than a month old because of permalink problems with &#8220;/blog/&#8221; from the main site. This disabling will be addressed soon in a future version.') . '</p>' .
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
 	'<p>' . __('<a href="http://codex.wordpress.org/Create_A_Network" target="_blank">Documentation on Creating a Network</a>') . '</p>' .
-	'<p>' . __('<a href="http://codex.wordpress.org/Tools_Network_SubPanel" target="_blank">Documentation on the Network Screen</a>') . '</p>' .
+	'<p>' . __('<a href="http://codex.wordpress.org/Tools_Network_Screen" target="_blank">Documentation on the Network Screen</a>') . '</p>' .
 	'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
 
