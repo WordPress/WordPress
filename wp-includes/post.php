@@ -4047,63 +4047,49 @@ function wp_check_for_changed_slugs($post_id, $post, $post_before) {
  * Retrieve the private post SQL based on capability.
  *
  * This function provides a standardized way to appropriately select on the
- * post_status of posts/pages. The function will return a piece of SQL code that
- * can be added to a WHERE clause; this SQL is constructed to allow all
+ * post_status of a post type. The function will return a piece of SQL code
+ * that can be added to a WHERE clause; this SQL is constructed to allow all
  * published posts, and all private posts to which the user has access.
- *
- * It also allows plugins that define their own post type to control the cap by
- * using the hook 'pub_priv_sql_capability'. The plugin is expected to return
- * the capability the user must have to read the private post type.
  *
  * @since 2.2.0
  *
  * @uses $user_ID
- * @uses apply_filters() Call 'pub_priv_sql_capability' filter for plugins with different post types.
  *
  * @param string $post_type currently only supports 'post' or 'page'.
  * @return string SQL code that can be added to a where clause.
  */
-function get_private_posts_cap_sql($post_type) {
-	return get_posts_by_author_sql($post_type, FALSE);
+function get_private_posts_cap_sql( $post_type ) {
+	return get_posts_by_author_sql( $post_type, false );
 }
 
 /**
  * Retrieve the post SQL based on capability, author, and type.
  *
- * See above for full description.
+ * @see get_private_posts_cap_sql() for full description.
  *
  * @since 3.0.0
- * @param string $post_type currently only supports 'post' or 'page'.
+ * @param string $post_type Post type.
  * @param bool $full Optional.  Returns a full WHERE statement instead of just an 'andalso' term.
  * @param int $post_author Optional.  Query posts having a single author ID.
  * @return string SQL WHERE code that can be added to a query.
  */
-function get_posts_by_author_sql($post_type, $full = TRUE, $post_author = NULL) {
+function get_posts_by_author_sql( $post_type, $full = true, $post_author = null ) {
 	global $user_ID, $wpdb;
 
 	// Private posts
-	if ($post_type == 'post') {
-		$cap = 'read_private_posts';
-	// Private pages
-	} elseif ($post_type == 'page') {
-		$cap = 'read_private_pages';
-	// Dunno what it is, maybe plugins have their own post type?
-	} else {
-		$cap = '';
-		$cap = apply_filters('pub_priv_sql_capability', $cap);
+	$post_type_obj = get_post_type_object( $post_type );
+	if ( ! $post_type_obj )
+		return ' 1 = 0 ';
 
-		if (empty($cap)) {
-			// We don't know what it is, filters don't change anything,
-			// so set the SQL up to return nothing.
-			return ' 1 = 0 ';
-		}
-	}
+	// This hook is deprecated. Why you'd want to use it, I dunno.
+	if ( ! $cap = apply_filters( 'pub_priv_sql_capability', '' ) )
+		$cap = $post_type_obj->cap->read_private_posts;
 
-	if ($full) {
-		if (is_null($post_author)) {
-			$sql = $wpdb->prepare('WHERE post_type = %s AND ', $post_type);
+	if ( $full ) {
+		if ( null === $post_author ) {
+			$sql = $wpdb->prepare( 'WHERE post_type = %s AND ', $post_type );
 		} else {
-			$sql = $wpdb->prepare('WHERE post_author = %d AND post_type = %s AND ', $post_author, $post_type);
+			$sql = $wpdb->prepare( 'WHERE post_author = %d AND post_type = %s AND ', $post_author, $post_type );
 		}
 	} else {
 		$sql = '';
@@ -4111,15 +4097,15 @@ function get_posts_by_author_sql($post_type, $full = TRUE, $post_author = NULL) 
 
 	$sql .= "(post_status = 'publish'";
 
-	if (current_user_can($cap)) {
+	if ( current_user_can( $cap ) ) {
 		// Does the user have the capability to view private posts? Guess so.
 		$sql .= " OR post_status = 'private'";
-	} elseif (is_user_logged_in()) {
+	} elseif ( is_user_logged_in() ) {
 		// Users can view their own private posts.
 		$id = (int) $user_ID;
-		if (is_null($post_author) || !$full) {
+		if ( null === $post_author || ! $full ) {
 			$sql .= " OR post_status = 'private' AND post_author = $id";
-		} elseif ($id == (int)$post_author) {
+		} elseif ( $id == (int) $post_author ) {
 			$sql .= " OR post_status = 'private'";
 		} // else none
 	} // else none
