@@ -72,11 +72,10 @@ if ( ! function_exists( 'twentyeleven_setup' ) ):
  */
 function twentyeleven_setup() {
 
-	/**
-	 * Make theme available for translation
-	 * Translations can be filed in the /languages/ directory
+	/* Make Twenty Eleven available for translation.
+	 * Translations can be added to the /languages/ directory.
 	 * If you're building a theme based on Twenty Eleven, use a find and replace
-	 * to change 'twentyeleven' to the name of your theme in all the template files
+	 * to change 'twentyeleven' to the name of your theme in all the template files.
 	 */
 	load_theme_textdomain( 'twentyeleven', TEMPLATEPATH . '/languages' );
 
@@ -85,27 +84,17 @@ function twentyeleven_setup() {
 	if ( is_readable( $locale_file ) )
 		require_once( $locale_file );
 
-	/**
-	 * Load up our theme options page
-	 */
+	// Load up our theme options page and related code.
 	require( dirname( __FILE__ ) . '/inc/theme-options.php' );
 
-	/**
-	 * Grab Twenty Eleven's Custom Widgets
-	 */
+	// Grab Twenty Eleven's Epherma widget.
 	require( dirname( __FILE__ ) . '/inc/widgets.php' );
 
-	/**
-	 * Add default posts and comments RSS feed links to head
-	 */
+	// Add default posts and comments RSS feed links to <head>.
 	add_theme_support( 'automatic-feed-links' );
 
-	/**
-	 * This theme uses wp_nav_menu() in one location.
-	 */
-	register_nav_menus( array(
-		'primary' => __( 'Primary Menu', 'twentyeleven' ),
-	) );
+	// This theme uses wp_nav_menu() in one location.
+	register_nav_menu( 'primary', __( 'Primary Menu', 'twentyeleven' ) );
 
 	/**
 	 * Add support for an Aside Post Format
@@ -476,25 +465,21 @@ function twentyeleven_footer_sidebar_class() {
 	if ( is_active_sidebar( 'sidebar-5' ) )
 		$count++;
 
+	$class = '';
+
 	switch ( $count ) {
 		case '1':
 			$class = 'one';
 			break;
-
 		case '2':
 			$class = 'two';
 			break;
-
 		case '3':
 			$class = 'three';
 			break;
-
-		default:
-			$class = '';
-			break;
 	}
 
-	if ( '' != $class )
+	if ( $class )
 		echo 'class="' . $class . '"';
 }
 
@@ -545,7 +530,7 @@ function twentyeleven_comment( $comment, $args, $depth ) {
 				</div><!-- .comment-author .vcard -->
 
 				<?php if ( $comment->comment_approved == '0' ) : ?>
-					<em><?php _e( 'Your comment is awaiting moderation.', 'twentyeleven' ); ?></em>
+					<em class="comment-awaiting-moderation"><?php _e( 'Your comment is awaiting moderation.', 'twentyeleven' ); ?></em>
 					<br />
 				<?php endif; ?>
 
