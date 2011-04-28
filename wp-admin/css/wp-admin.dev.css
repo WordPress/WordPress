@@ -902,6 +902,8 @@ form.upgrade .hint {
 	-moz-border-radius-bottomright: 3px;
 	-webkit-border-bottom-left-radius: 3px;
 	-webkit-border-bottom-right-radius: 3px;
+	border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px;
 }
 
 #contextual-help-wrap li {
