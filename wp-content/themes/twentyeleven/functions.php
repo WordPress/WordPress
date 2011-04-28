@@ -88,7 +88,7 @@ function twentyeleven_setup() {
 	/**
 	 * Load up our theme options page
 	 */
-	require( dirname( __FILE__ ) . '/inc/theme-options/theme-options.php' );
+	require( dirname( __FILE__ ) . '/inc/theme-options.php' );
 
 	/**
 	 * Grab Twenty Eleven's Custom Widgets

@@ -21,8 +21,8 @@ function twentyeleven_admin_enqueue_scripts( $hook_suffix ) {
 	if ( $hook_suffix != 'appearance_page_theme_options' )
 		return;
 
-	wp_enqueue_style(  'twentyeleven-theme-options', get_template_directory_uri() . '/inc/theme-options/theme-options.css', '', '0.1' );
-	wp_enqueue_script( 'twentyeleven-theme-options', get_template_directory_uri() . '/inc/theme-options/theme-options.js' );
+	wp_enqueue_style(  'twentyeleven-theme-options', get_template_directory_uri() . '/inc/theme-options.css', '', '0.1' );
+	wp_enqueue_script( 'twentyeleven-theme-options', get_template_directory_uri() . '/inc/theme-options.js' );
 	wp_enqueue_style( 'farbtastic' );
 	wp_enqueue_script( 'farbtastic' );
 }
@@ -83,12 +83,12 @@ function twentyeleven_color_schemes() {
 		'light' => array(
 			'value' => 'light',
 			'label' => __( 'Light', 'twentyeleven' ),
-			'thumbnail' => get_template_directory_uri() . '/inc/theme-options/images/light.png',
+			'thumbnail' => get_template_directory_uri() . '/inc/images/light.png',
 		),
 		'dark' => array(
 			'value' => 'dark',
 			'label' => __( 'Dark', 'twentyeleven' ),
-			'thumbnail' => get_template_directory_uri() . '/inc/theme-options/images/dark.png',
+			'thumbnail' => get_template_directory_uri() . '/inc/images/dark.png',
 		),
 	);
 
@@ -105,17 +105,17 @@ function twentyeleven_layouts() {
 		'content-sidebar' => array(
 			'value' => 'content-sidebar',
 			'label' => __( 'Content on left', 'twentyeleven' ),
-			'thumbnail' => get_template_directory_uri() . '/inc/theme-options/images/content-sidebar.png',
+			'thumbnail' => get_template_directory_uri() . '/inc/images/content-sidebar.png',
 		),
 		'sidebar-content' => array(
 			'value' => 'sidebar-content',
 			'label' => __( 'Content on right', 'twentyeleven' ),
-			'thumbnail' => get_template_directory_uri() . '/inc/theme-options/images/sidebar-content.png',
+			'thumbnail' => get_template_directory_uri() . '/inc/images/sidebar-content.png',
 		),
 		'content' => array(
 			'value' => 'content',
 			'label' => __( 'One-column, no Sidebar', 'twentyeleven' ),
-			'thumbnail' => get_template_directory_uri() . '/inc/theme-options/images/content.png',
+			'thumbnail' => get_template_directory_uri() . '/inc/images/content.png',
 		),
 	);
 
