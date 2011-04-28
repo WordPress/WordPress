@@ -3197,20 +3197,6 @@ function wp_list_pluck( $list, $field ) {
 }
 
 /**
- * Determines if default embed handlers should be loaded.
- *
- * Checks to make sure that the embeds library hasn't already been loaded. If
- * it hasn't, then it will load the embeds library.
- *
- * @since 2.9.0
- */
-function wp_maybe_load_embeds() {
-	if ( ! apply_filters('load_default_embeds', true) )
-		return;
-	require_once( ABSPATH . WPINC . '/default-embeds.php' );
-}
-
-/**
  * Determines if Widgets library should be loaded.
  *
  * Checks to make sure that the widgets library hasn't already been loaded. If
