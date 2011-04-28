@@ -167,6 +167,131 @@ body {
 	margin-right: auto;
 }
 
+/* Right Content */
+.sidebar-content #primary {
+	float: right;
+	margin: 0 0 0 -26.4%;
+	width: 100%;
+}
+.sidebar-content #content {
+	margin: 0 7.6% 0 34%;
+	width: 58.4%;
+}
+.sidebar-content #secondary {
+	float: left;
+	margin-left: 7.6%;
+	margin-right: 0;
+	width: 18.8%;
+}
+
+/* One column */
+.one-column #page {
+	max-width: 690px;
+}
+.one-column #content {
+	margin: 0 7.6%;
+	width: auto;
+}
+.one-column #nav-below {
+	border-bottom: 1px solid #ddd;
+	margin-bottom: 1.625em;
+}
+.one-column #secondary {
+	float: none;
+	margin: 0 7.6%;
+	width: auto;
+}
+/* Simplify the showcase template */
+.one-column .page-template-showcase-php section.recent-posts {
+	float: none;
+	margin: 0;
+	width: 100%;
+}
+.one-column .page-template-showcase-php #main .widget-area {
+	float: none;
+	margin: 0;
+	width: auto;
+}
+.one-column .page-template-showcase-php .other-recent-posts {
+	border-bottom: 1px solid #ddd;
+}
+/* Simplify the showcase template when small feature */
+.one-column section.featured-post .attachment-small-feature {
+	border: none;
+	display: block;
+	float: none;
+	margin: 0.625em auto 1.025em;
+	max-width: 100%;
+	height: auto;
+	position: static;
+}
+.one-column article.feature-image.small {
+	float: none;
+	margin: 0 0 1.625em;
+	width: auto;
+}
+.one-column article.feature-image.small .entry-summary a {
+	left: -9%;
+}
+/* Remove the margin on singular articles */
+.one-column.singular .entry-header,
+.one-column.singular .entry-content,
+.one-column.singular footer.entry-meta,
+.one-column.singular #comments-title {
+	width: 100%;
+}
+/* Simplify the pullquotes and pull styles */
+.one-column.singular blockquote.pull {
+	margin: 0 0 1.625em;
+}
+.one-column.singular .pull.alignleft {
+	margin: 0 1.625em 0 0;
+}
+.one-column.singular .pull.alignright {
+	margin: 0 0 0 1.625em;
+}
+.one-column.singular .entry-meta .edit-link a {
+	position: absolute;
+	left: 0px;
+	top: 40px;
+}
+.one-column.singular #author-info {
+	margin: 2.2em -8.8% 0px;
+	padding: 20px 8.8%;
+}
+/* Make sure we have room for our comment avatars */
+.one-column .commentlist > li.comment {
+	margin-left: 102px;
+	width: auto;
+}
+/* Make sure the logo and search form don't collide */
+.one-column #branding #searchform {
+	right: 40px;
+	top: 1.625em;
+}
+/* Talking avatars take up too much room at this size */
+.one-column .commentlist > li.comment {
+	margin-left: 0;
+}
+.one-column .commentlist > li.comment .comment-meta,
+.one-column .commentlist > li.comment .comment-content {
+	margin-right: 85px;
+}
+.one-column .commentlist .avatar {
+	background: transparent;
+	display: block;
+	padding: 0;
+	top: 1.625em;
+	left: auto;
+	right: 1.625em;
+}
+.one-column .commentlist .children .avatar {
+	position: absolute;
+	background: none;
+	padding: 0;
+	top: 2.2em;
+	left: 2.2em;
+}
 
 /* =Global
 ----------------------------------------------- */
