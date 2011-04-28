@@ -518,7 +518,7 @@ function unzip_file($file, $to) {
 		return new WP_Error('fs_unavailable', __('Could not access filesystem.'));
 
 	// Unzip can use a lot of memory, but not this much hopefully
-	@ini_set('memory_limit', '256M');
+	@ini_set( 'memory_limit', apply_filters( 'admin_memory_limit', WP_MAX_MEMORY_LIMIT ) );
 
 	$needed_dirs = array();
 	$to = trailingslashit($to);

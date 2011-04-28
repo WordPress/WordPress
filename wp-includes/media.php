@@ -250,7 +250,7 @@ function wp_load_image( $file ) {
 		return __('The GD image library is not installed.');
 
 	// Set artificially high because GD uses uncompressed images in memory
-	@ini_set('memory_limit', '256M');
+	@ini_set( 'memory_limit', apply_filters( 'image_memory_limit', WP_MAX_MEMORY_LIMIT ) );
 	$image = imagecreatefromstring( file_get_contents( $file ) );
 
 	if ( !is_resource( $image ) )

@@ -391,7 +391,7 @@ function image_edit_apply_changes($img, $changes) {
 
 function stream_preview_image($post_id) {
 	$post = get_post($post_id);
-	@ini_set('memory_limit', '256M');
+	@ini_set( 'memory_limit', apply_filters( 'admin_memory_limit', WP_MAX_MEMORY_LIMIT ) );
 	$img = load_image_to_edit( $post_id, $post->post_mime_type, array(400, 400) );
 
 	if ( !is_resource($img) )
@@ -496,7 +496,7 @@ function wp_save_image($post_id) {
 	$return = new stdClass;
 	$success = $delete = $scaled = $nocrop = false;
 	$post = get_post($post_id);
-	@ini_set('memory_limit', '256M');
+	@ini_set( 'memory_limit', apply_filters( 'admin_memory_limit', WP_MAX_MEMORY_LIMIT ) );
 	$img = load_image_to_edit($post_id, $post->post_mime_type);
 
 	if ( !is_resource($img) ) {

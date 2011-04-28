@@ -24,6 +24,10 @@ function wp_initial_constants( ) {
 		}
 	}
 
+	if ( ! defined( 'WP_MAX_MEMORY_LIMIT' ) ) {
+		define( 'WP_MAX_MEMORY_LIMIT', '256M' );
+	}
+
 	/**
 	 * The $blog_id global, which you can change in the config allows you to create a simple
 	 * multiple blog installation using just one WordPress and changing $blog_id around.
