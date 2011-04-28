@@ -260,16 +260,16 @@ function twentyeleven_theme_options_validate( $input ) {
  *
  * @since Twenty Eleven 1.0
  */
-function twentyeleven_color_styles() {
+function twentyeleven_enqueue_color_scheme() {
 	$options = twentyeleven_get_theme_options();
 	$color_scheme = $options['color_scheme'];
 
 	if ( 'dark' == $color_scheme )
-		wp_enqueue_style( 'dark', get_template_directory_uri() . '/colors/dark.css', null, null );
+		wp_enqueue_style( 'dark', get_template_directory_uri() . '/colors/dark.css', array(), null );
 
-	do_action( 'twentyeleven_color_schemes', $color_scheme );
+	do_action( 'twentyeleven_enqueue_color_scheme', $color_scheme );
 }
-add_action( 'wp_enqueue_scripts', 'twentyeleven_color_styles' );
+add_action( 'wp_enqueue_scripts', 'twentyeleven_enqueue_color_scheme' );
 
 /**
  * Add a style block to the theme for the current link color.
@@ -278,7 +278,7 @@ add_action( 'wp_enqueue_scripts', 'twentyeleven_color_styles' );
  *
  * @since Twenty Eleven 1.0
  */
-function twentyeleven_link_color() {
+function twentyeleven_print_link_color_style() {
 	$options = twentyeleven_get_theme_options();
 	$link_color = $options['link_color'];
 
@@ -297,30 +297,26 @@ function twentyeleven_link_color() {
 	</style>
 <?php
 }
-add_action( 'wp_head', 'twentyeleven_link_color' );
+add_action( 'wp_head', 'twentyeleven_print_link_color_style' );
 
 /**
  * Adds Twenty Eleven layout classes to the array of body classes.
  *
  * @since Twenty Eleven 1.0
  */
-function twentyeleven_layout_classes( $classes ) {
+function twentyeleven_layout_classes( $existing_classes ) {
 	$options = twentyeleven_get_theme_options();
 	$current_layout = $options['theme_layout'];
 
-	$twentyeleven_classes = array();
-
-	$two_column_layouts = array( 'content-sidebar', 'sidebar-content' );
-
-	if ( in_array( $current_layout, $two_column_layouts ) )
-		$twentyeleven_classes[] = 'two-column';
+	if ( in_array( $current_layout, array( 'content-sidebar', 'sidebar-content' ) ) )
+		$classes = array( 'two-column' );
 	else
-		$twentyeleven_classes[] = 'one-column';
+		$classes = array( 'one-column' );
 
-	$twentyeleven_classes[] = $current_layout;
+	$classes[] = $current_layout;
 
-	$twentyeleven_classes = apply_filters( 'twentyeleven_layout_classes', $twentyeleven_classes, $current_layout );
+	$classes = apply_filters( 'twentyeleven_layout_classes', $classes, $current_layout );
 
-	return array_merge( $classes, $twentyeleven_classes );
+	return array_merge( $existing_classes, $classes );
 }
 add_filter( 'body_class', 'twentyeleven_layout_classes' );
