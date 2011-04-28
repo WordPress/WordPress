@@ -366,9 +366,14 @@ function twentyeleven_page_menu_args( $args ) {
 add_filter( 'wp_page_menu_args', 'twentyeleven_page_menu_args' );
 
 /**
- * Register widgetized area and update sidebar with default widgets
+ * Register our sidebars and widgetized areas. Also register the default Epherma widget.
+ *
+ * @since Twenty Eleven 1.0
  */
 function twentyeleven_widgets_init() {
+
+	register_widget( 'Twenty_Eleven_Ephemera_Widget' );
+
 	register_sidebar( array(
 		'name' => __( 'Main Sidebar', 'twentyeleven' ),
 		'id' => 'sidebar-1',
@@ -418,7 +423,7 @@ function twentyeleven_widgets_init() {
 		'after_title' => '</h1>',
 	) );
 }
-add_action( 'init', 'twentyeleven_widgets_init' );
+add_action( 'widgets_init', 'twentyeleven_widgets_init' );
 
 /**
  * Display navigation to next/previous pages when applicable

@@ -78,13 +78,11 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 		echo $title; // Can set this with a widget option, or omit altogether
 		echo $after_title;
 
-		global $post;
-
 		?>
 		<ol>
 		<?php while ( $ephemera->have_posts() ) : $ephemera->the_post(); ?>
 
-			<?php if ( 'link' != get_post_format( $post->ID ) ) : ?>
+			<?php if ( 'link' != get_post_format() ) : ?>
 
 			<li class="entry-title">
 				<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'twentyeleven' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a>
@@ -116,7 +114,7 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 
 		echo $after_widget;
 
-		// Reset the global $the_post as this query will have stomped on it
+		// Reset the post globals as this query will have stomped on it
 		wp_reset_postdata();
 
 		// end check for ephemeral posts
@@ -162,5 +160,3 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 		<?php
 	}
 }
-
-add_action( 'widgets_init', create_function( '', "register_widget( 'Twenty_Eleven_Ephemera_Widget' );" ) );
