@@ -42,6 +42,16 @@ class Custom_Image_Header {
 	 */
 	var $default_headers = array();
 
+
+	/**
+	 * Holds custom headers uploaded by the user
+	 *
+	 * @var array
+	 * @since 3.2.0
+	 * @access private
+	 */
+	var $uploaded_headers = array();
+
 	/**
 	 * Holds the page menu hook.
 	 *
@@ -199,11 +209,20 @@ class Custom_Image_Header {
 			}
 		}
 
-		if ( isset($_POST['default-header']) ) {
+		if ( isset( $_POST['default-header'] ) ) {
 			check_admin_referer( 'custom-header-options', '_wpnonce-custom-header-options' );
-			$this->process_default_headers();
-			if ( isset($this->default_headers[$_POST['default-header']]) )
-				set_theme_mod('header_image', esc_url($this->default_headers[$_POST['default-header']]['url']));
+			if ( 'random-default-image' == $_POST['default-header'] ) {
+				set_theme_mod( 'header_image', 'random-default-image' );
+			} elseif ( 'random-uploaded-image' == $_POST['default-header'] ) {
+				set_theme_mod( 'header_image', 'random-uploaded-image' );
+			} else {
+				$this->process_default_headers();
+				$uploaded = get_uploaded_header_images();
+				if ( isset( $uploaded[$_POST['default-header']] ) )
+					set_theme_mod( 'header_image', esc_url( $uploaded[$_POST['default-header']]['url'] ) );
+				elseif ( isset( $this->default_headers[$_POST['default-header']] ) )
+					set_theme_mod( 'header_image', esc_url( $this->default_headers[$_POST['default-header']]['url'] ) );
+			}
 		}
 	}
 
@@ -226,22 +245,43 @@ class Custom_Image_Header {
 			$this->default_headers[$header]['url'] =  sprintf( $this->default_headers[$header]['url'], get_template_directory_uri(), get_stylesheet_directory_uri() );
 			$this->default_headers[$header]['thumbnail_url'] =  sprintf( $this->default_headers[$header]['thumbnail_url'], get_template_directory_uri(), get_stylesheet_directory_uri() );
 		}
+
 	}
 
 	/**
 	 * Display UI for selecting one of several default headers.
 	 *
+	 * Show the random image option if this theme has multiple header images.
+	 * Random image option is on by default if no header has been set.
+	 *
 	 * @since 3.0.0
 	 */
-	function show_default_header_selector() {
+	function show_header_selector( $type = 'default' ) {
 		echo '<div id="available-headers">';
-		foreach ( $this->default_headers as $header_key => $header ) {
+		if ( 'default' == $type ) {
+			$headers = $this->default_headers;
+		} else {
+			$headers = get_uploaded_header_images();
+			$type = 'uploaded';
+		}
+
+		foreach ( $headers as $header_key => $header ) {
 			$header_thumbnail = $header['thumbnail_url'];
 			$header_url = $header['url'];
-			$header_desc = $header['description'];
+			$header_desc = empty( $header['description'] ) ? '' : $header['description'];
 			echo '<div class="default-header">';
-			echo '<label><input name="default-header" type="radio" value="' . esc_attr($header_key) . '" ' . checked($header_url, get_theme_mod( 'header_image' ), false) . ' />';
-			echo '<img src="' . $header_thumbnail . '" alt="' . esc_attr($header_desc) .'" title="' . esc_attr($header_desc) .'" /></label>';
+			echo '<label><input name="default-header" type="radio" value="' . esc_attr( $header_key ) . '" ' . checked( $header_url, get_theme_mod( 'header_image' ), false ) . ' />';
+			$width = '';
+			if ( !empty( $header['uploaded'] ) )
+				$width = ' width="230"';
+			echo '<img src="' . $header_thumbnail . '" alt="' . esc_attr( $header_desc ) .'" title="' . esc_attr( $header_desc ) . '"' . $width . ' /></label>';
+			echo '</div>';
+		}
+		if ( 1 < count( $headers ) ) {
+			echo '<div class="default-header">';
+			echo '<label><input name="default-header" type="radio" value="random-' . $type . '-image"' . checked( is_random_header_image( $type ), true, false ) . ' />';
+			echo __( '<strong>Random:</strong> Show a different image on each page.' );
+			echo '</label>';
 			echo '</div>';
 		}
 		echo '<div class="clear"></div></div>';
@@ -480,7 +520,18 @@ class Custom_Image_Header {
 <form method="post" action="<?php echo esc_attr( add_query_arg( 'step', 1 ) ) ?>">
 <table class="form-table">
 <tbody>
-	<?php if ( ! empty( $this->default_headers ) ) : ?>
+	<?php if ( get_uploaded_header_images() ) : ?>
+<tr valign="top">
+<th scope="row"><?php _e( 'Uploaded Images' ); ?></th>
+<td>
+	<p><?php _e( 'You can use one of your previously uploaded headers.' ) ?></p>
+	<?php
+		$this->show_header_selector( 'uploaded' );
+	?>
+</td>
+</tr>
+	<?php endif;
+	if ( ! empty( $this->default_headers ) ) : ?>
 <tr valign="top">
 <th scope="row"><?php _e( 'Default Images' ); ?></th>
 <td>
@@ -490,13 +541,12 @@ class Custom_Image_Header {
 	<p><?php _e( 'You can use one of these cool headers.' ) ?>
 <?php endif; ?>
 	<?php
-		$this->show_default_header_selector();
+		$this->show_header_selector( 'default' );
 	?>
 </td>
 </tr>
 	<?php endif;
-
-	if ( get_header_image() ) : ?>
+	if ( get_header_image() && !is_random_header_image() ) : ?>
 <tr valign="top">
 <th scope="row"><?php _e( 'Remove Image' ); ?></th>
 <td>
@@ -506,7 +556,7 @@ class Custom_Image_Header {
 </tr>
 	<?php endif;
 
-	if ( defined( 'HEADER_IMAGE' ) ) : ?>
+	if ( defined( 'HEADER_IMAGE' ) && !is_random_header_image() ) : ?>
 <tr valign="top">
 <th scope="row"><?php _e( 'Reset Image' ); ?></th>
 <td>
@@ -693,6 +743,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 		// Update the attachment
 		wp_insert_attachment($object, $cropped);
 		wp_update_attachment_metadata( $_POST['attachment_id'], wp_generate_attachment_metadata( $_POST['attachment_id'], $cropped ) );
+		update_post_meta( $_POST['attachment_id'], '_wp_attachment_is_custom_header', get_option('stylesheet' ) );
 
 		set_theme_mod('header_image', $url);
 
