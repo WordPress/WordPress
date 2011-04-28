@@ -37,10 +37,21 @@ add_action( 'admin_enqueue_scripts', 'twentyeleven_admin_enqueue_scripts' );
  * which is used when the option is saved, to ensure that our option values are complete, properly
  * formatted, and safe.
  *
+ * We also use this function to add our theme option if it doesn't already exist.
+ *
  * @since Twenty Eleven 1.0
  */
 function twentyeleven_theme_options_init() {
-	register_setting( 'twentyeleven_options', 'twentyeleven_theme_options', 'twentyeleven_theme_options_validate' );
+
+	// If we have no options in the database, let's add them now.
+	if ( false === twentyeleven_get_theme_options() )
+		add_option( 'twentyeleven_theme_options', twentyeleven_get_default_theme_options() );
+
+	register_setting(
+		'twentyeleven_options',       // Options group, see settings_fields() call in theme_options_render_page()
+		'twentyeleven_theme_options', // Database option, see twentyeleven_get_theme_options()
+		'twentyeleven_theme_options_validate' // The sanitization callback, see twentyeleven_theme_options_validate()
+	);
 }
 add_action( 'admin_init', 'twentyeleven_theme_options_init' );
 
@@ -119,7 +130,7 @@ function twentyeleven_layouts() {
 function twentyeleven_get_default_theme_options() {
 	$default_theme_options = array(
 		'color_scheme' => 'light',
-		'link_color' => '#1b8be0',
+		'link_color'   => '#1b8be0',
 		'theme_layout' => 'content-sidebar',
 	);
 
@@ -132,10 +143,7 @@ function twentyeleven_get_default_theme_options() {
  * @since Twenty Eleven 1.0
  */
 function twentyeleven_get_theme_options() {
-	$defaults = twentyeleven_get_default_theme_options();
-	$options = get_option( 'twentyeleven_theme_options', $defaults );
-
-	return $options;
+	return get_option( 'twentyeleven_theme_options' );
 }
 
 /**
@@ -228,10 +236,10 @@ function theme_options_render_page() {
  * @see twentyeleven_theme_options_init()
  * @todo set up Reset Options action
  *
- * @since Twenty Ten 1.0
+ * @since Twenty Eleven 1.0
  */
 function twentyeleven_theme_options_validate( $input ) {
-	$output = twentyeleven_get_default_theme_options();
+	$output = $defaults = twentyeleven_get_default_theme_options();
 
 	// Color scheme must be in our array of color scheme options
 	if ( isset( $input['color_scheme'] ) && array_key_exists( $input['color_scheme'], twentyeleven_color_schemes() ) )
@@ -245,11 +253,13 @@ function twentyeleven_theme_options_validate( $input ) {
 	if ( isset( $input['theme_layout'] ) && array_key_exists( $input['theme_layout'], twentyeleven_layouts() ) )
 		$output['theme_layout'] = $input['theme_layout'];
 
-	return $output;
+	return apply_filters( 'twentyeleven_theme_options_validate', $output, $input, $defaults );
 }
 
 /**
- * Register our color schemes and add them to the queue
+ * Enqueue the styles for the current color scheme.
+ *
+ * @since Twenty Eleven 1.0
  */
 function twentyeleven_color_styles() {
 	$options = twentyeleven_get_theme_options();
@@ -291,7 +301,7 @@ function twentyeleven_link_color() {
 add_action( 'wp_head', 'twentyeleven_link_color' );
 
 /**
- *  Adds Twenty Ten layout classes to the array of body classes
+ * Adds Twenty Eleven layout classes to the array of body classes.
  *
  * @since Twenty Eleven 1.0
  */
