@@ -286,6 +286,7 @@ div.postbox div.inside {
 	margin: 0 0 .5em 5em;
 	padding: 0 0 0 10px;
 	font-size: 11px;
+	line-height: 17px;
 }
 
 #dashboard_quick_press #media-buttons a {
