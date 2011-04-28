@@ -292,9 +292,15 @@ function twentyeleven_print_link_color_style() {
 	<style>
 		/* Link color */
 		a,
-		.entry-title a:hover {
+		.entry-title a:hover,
+		.widget_twentyeleven_ephemera .comments-link a:hover,
+		section.recent-posts .other-recent-posts a[rel="bookmark"]:hover,
+		section.recent-posts .other-recent-posts .comments-link a:hover {
 			color: <?php echo $link_color; ?>;
 		}
+		section.recent-posts .other-recent-posts .comments-link a:hover {
+			border-color: <?php echo $link_color; ?>;
+		}		
 	</style>
 <?php
 }

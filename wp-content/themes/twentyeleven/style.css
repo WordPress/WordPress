@@ -298,7 +298,7 @@ body {
 
 body, input, textarea {
 	color: #333;
-	font: 15px "Helvetica Neue", Helvetica, Arial, serif;
+	font: 15px "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-weight: 300;
 	line-height: 1.625;
 }
@@ -435,7 +435,7 @@ input[type=text] {
 
 /* Links */
 a {
-	color: #1B8BE0;
+	color: #1b8be0;
 	text-decoration: none;
 }
 a:visited {
@@ -445,7 +445,6 @@ a:active,
 a:hover {
 	text-decoration: underline;
 }
-
 
 /* Assitive text */
 .section-heading,
@@ -491,9 +490,9 @@ a:hover {
 -------------------------------------------------------------- */
 
 #access {
-	background: #222;
+	background: #222; /* Show a solid color for older browsers */
 	background: -moz-linear-gradient(#252525, #0a0a0a);
-	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#252525), to(#0a0a0a));
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#252525), to(#0a0a0a)); /* older webkit syntax */
 	background: -webkit-linear-gradient(#252525, #0a0a0a);
 	-webkit-box-shadow: rgba(0, 0, 0, 0.4) 0px 1px 2px;
 	-moz-box-shadow: rgba(0, 0, 0, 0.4) 0px 1px 2px;
@@ -554,9 +553,9 @@ a:hover {
 	background: #efefef;
 }
 #access li:hover > a {
-	background: #f9f9f9;
+	background: #f9f9f9; /* Show a solid color for older browsers */
 	background: -moz-linear-gradient(#f9f9f9, #e5e5e5);
-	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f9f9f9), to(#e5e5e5));
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f9f9f9), to(#e5e5e5)); /* Older webkit syntax */
 	background: -webkit-linear-gradient(#f9f9f9, #e5e5e5);
 	color: #333;
 }
@@ -1216,7 +1215,6 @@ section.recent-posts .other-recent-posts a[rel="bookmark"]:after {
 	font-size: 11px;
 }
 section.recent-posts .other-recent-posts a[rel="bookmark"]:hover {
-	color: #1b8be0;
 }
 section.recent-posts .other-recent-posts .comments-link a,
 section.recent-posts .other-recent-posts .comments-link > span {
@@ -1446,23 +1444,16 @@ section.ephemera ol,
 	list-style: square;
 	margin: 5px 0 0;
 }
-section.ephemera .entry-title,
-.widget_twentyeleven_ephemera .entry-title {
+.widget_twentyeleven_ephemera .widget-entry-title {
 	font-size: 15px;
 	font-weight: bold;
 	padding: 0;
 }
-section.ephemera .entry-title a,
 .widget_twentyeleven_ephemera .entry-title a {
-	color: #1b8be0;
 }
-section.ephemera .entry-title a:hover,
 .widget_twentyeleven_ephemera .entry-title a:hover {
-	color: #ff4b33;
 }
-section.ephemera .entry-title .comments-link a,
-.widget_twentyeleven_ephemera .entry-title .comments-link a,
-.widget_twentyeleven_ephemera .entry-title .comments-link {
+.widget_twentyeleven_ephemera .comments-link a {
 	color: #666;
 	display: block;
 	font-size: 10px;
@@ -1472,7 +1463,6 @@ section.ephemera .entry-title .comments-link a,
 }
 section.ephemera .entry-title .comments-link a:hover,
 .widget_twentyeleven_ephemera .entry-title .comments-link a:hover {
-	color: #1b8be0;
 }
 section.ephemera .entry-title a span {
 	color: #29628d;
