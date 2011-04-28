@@ -21,10 +21,9 @@ function twentyeleven_admin_enqueue_scripts( $hook_suffix ) {
 	if ( $hook_suffix != 'appearance_page_theme_options' )
 		return;
 
-	wp_enqueue_style(  'twentyeleven-theme-options', get_template_directory_uri() . '/inc/theme-options.css', '', '0.1' );
-	wp_enqueue_script( 'twentyeleven-theme-options', get_template_directory_uri() . '/inc/theme-options.js' );
+	wp_enqueue_style( 'twentyeleven-theme-options', get_template_directory_uri() . '/inc/theme-options.css', false, '2011-04-28' );
+	wp_enqueue_script( 'twentyeleven-theme-options', get_template_directory_uri() . '/inc/theme-options.js', array( 'farbtastic' ), '2011-04-28' );
 	wp_enqueue_style( 'farbtastic' );
-	wp_enqueue_script( 'farbtastic' );
 }
 add_action( 'admin_enqueue_scripts', 'twentyeleven_admin_enqueue_scripts' );
 
@@ -193,7 +192,7 @@ function theme_options_render_page() {
 					<td>
 						<fieldset><legend class="screen-reader-text"><span><?php _e( 'Link Color', 'twentyeleven' ); ?></span></legend>
 							<input type="text" name="twentyeleven_theme_options[link_color]" id="link-color" value="<?php echo esc_attr( $options['link_color'] ); ?>" />
-							<a class="hide-if-no-js" href="#" id="pickcolor"><?php _e( 'Select a Color', 'twentyeleven' ); ?></a>
+							<span id="link-color-example"></span> <a class="hide-if-no-js" href="#" id="pickcolor"><?php _e( 'Select a Color', 'twentyeleven' ); ?></a>
 							<div id="colorPickerDiv" style="z-index: 100; background:#eee; border:1px solid #ccc; position:absolute; display:none;"></div>
 							<br />
 							<small class="description"><?php printf( __( 'Default color: %s', 'twentyeleven' ), $default_options['link_color'] ); ?></small>
