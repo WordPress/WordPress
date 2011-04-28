@@ -281,7 +281,7 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 	if ( !is_object( $phpmailer ) || !is_a( $phpmailer, 'PHPMailer' ) ) {
 		require_once ABSPATH . WPINC . '/class-phpmailer.php';
 		require_once ABSPATH . WPINC . '/class-smtp.php';
-		$phpmailer = new PHPMailer();
+		$phpmailer = new PHPMailer( true );
 	}
 
 	// Headers
@@ -400,7 +400,11 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 		$to = explode( ',', $to );
 
 	foreach ( (array) $to as $recipient ) {
-		$phpmailer->AddAddress( trim( $recipient ) );
+		try {
+			$phpmailer->AddAddress( trim( $recipient ) );
+		} catch ( phpmailerException $e ) {
+			continue;
+		}
 	}
 
 	// Set mail's subject and body
@@ -410,13 +414,21 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 	// Add any CC and BCC recipients
 	if ( !empty( $cc ) ) {
 		foreach ( (array) $cc as $recipient ) {
-			$phpmailer->AddCc( trim($recipient) );
+			try {
+				$phpmailer->AddCc( trim($recipient) );
+			} catch ( phpmailerException $e ) {
+				continue;
+			}
 		}
 	}
 
 	if ( !empty( $bcc ) ) {
 		foreach ( (array) $bcc as $recipient) {
-			$phpmailer->AddBcc( trim($recipient) );
+			try {
+				$phpmailer->AddBcc( trim($recipient) );
+			} catch ( phpmailerException $e ) {
+				continue;
+			}
 		}
 	}
 
@@ -455,16 +467,24 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 
 	if ( !empty( $attachments ) ) {
 		foreach ( $attachments as $attachment ) {
-			$phpmailer->AddAttachment($attachment);
+			try {
+				$phpmailer->AddAttachment($attachment);
+			} catch ( phpmailerException $e ) {
+				continue;
+			}
 		}
 	}
 
 	do_action_ref_array( 'phpmailer_init', array( &$phpmailer ) );
 
 	// Send!
-	$result = @$phpmailer->Send();
+	try {
+		$phpmailer->Send();
+	} catch ( phpmailerException $e ) {
+		return false;
+	}
 
-	return $result;
+	return true;
 }
 endif;
 
