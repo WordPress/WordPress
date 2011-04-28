@@ -481,7 +481,7 @@ a:hover {
 }
 #branding img {
 	height: auto;
-	margin-bottom: -6px;
+	margin-bottom: -7px;
 	width: 100%;
 }
 
@@ -621,10 +621,6 @@ a:hover {
 ----------------------------------------------- */
 
 #main {
-	border-top: 2px solid #eee;
-	-webkit-box-shadow: 0 -1px 0 #dee7b1;
-	-moz-box-shadow: 0 -1px 0 #dee7b1;
-	box-shadow: 0 -1px 0 #dee7b1;
 	clear: both;
 	padding: 1.625em 0 0;
 }
@@ -1051,14 +1047,8 @@ h1.showcase-heading {
 article.intro {
 	background: #f9f9f9;
 	border-bottom: none;
-	border-top: 5px solid #6F98A8;
-	-webkit-box-shadow: 0 -5px 0 #305A7A;
-	-moz-box-shadow: 0 -5px 0 #305A7A;
-	box-shadow: 0 -5px 0 #305A7A;
 	margin: -1.855em -8.9% 1.625em;
 	padding: 0 8.9%;
-	/* border-top: 5px solid #94BB32;
-	-webkit-box-shadow: 0 -5px 0 #506815; */
 }
 article.intro .entry-title {
 	display: none;
