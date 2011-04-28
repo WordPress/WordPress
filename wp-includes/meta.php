@@ -476,9 +476,9 @@ class WP_Meta_Query {
 
 		$meta_id_column = esc_sql( $type . '_id' );
 
-		$join = '';
+		$join = array();
 		$where = array();
-		$i = 0;
+
 		foreach ( $this->queries as $k => $q ) {
 			$meta_key = isset( $q['key'] ) ? trim( $q['key'] ) : '';
 			$meta_compare = isset( $q['compare'] ) ? strtoupper( $q['compare'] ) : '=';
@@ -492,30 +492,34 @@ class WP_Meta_Query {
 			elseif ( ! in_array( $meta_type, array( 'BINARY', 'CHAR', 'DATE', 'DATETIME', 'DECIMAL', 'SIGNED', 'TIME', 'UNSIGNED' ) ) )
 				$meta_type = 'CHAR';
 
-			if ( empty( $meta_key ) && empty( $meta_value ) )
-				continue;
-
+			$i = count( $join );
 			$alias = $i ? 'mt' . $i : $meta_table;
 
-			$join .= "\nINNER JOIN $meta_table";
-			$join .= $i ? " AS $alias" : '';
-			$join .= " ON ($primary_table.$primary_id_column = $alias.$meta_id_column)";
+			// Set JOIN
+			$join[$i]  = "INNER JOIN $meta_table";
+			$join[$i] .= $i ? " AS $alias" : '';
+			$join[$i] .= " ON ($primary_table.$primary_id_column = $alias.$meta_id_column)";
 
-			$i++;
-
+			$where[$k] = '';
 			if ( !empty( $meta_key ) )
 				$where[$k] = $wpdb->prepare( "$alias.meta_key = %s", $meta_key );
 
-			if ( !isset( $q['value'] ) )
+			if ( !isset( $q['value'] ) ) {
+				if ( empty( $where[$k] ) )
+					unset( $join[$i] );
 				continue;
+			}
+
 			$meta_value = $q['value'];
 
 			if ( in_array( $meta_compare, array( 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN' ) ) ) {
 				if ( ! is_array( $meta_value ) )
 					$meta_value = preg_split( '/[,\s]+/', $meta_value );
 
-				if ( empty( $meta_value ) )
+				if ( empty( $meta_value ) ) {
+					unset( $join[$i] );
 					continue;
+				}
 			} else {
 				$meta_value = trim( $meta_value );
 			}
@@ -532,13 +536,25 @@ class WP_Meta_Query {
 				$meta_compare_string = '%s';
 			}
 
-			$where[$k] = ' (' . $where[$k] . $wpdb->prepare( " AND CAST($alias.meta_value AS {$meta_type}) {$meta_compare} {$meta_compare_string})", $meta_value );
+			if ( ! empty( $where[$k] ) )
+				$where[$k] .= ' AND ';
+
+			$where[$k] = ' (' . $where[$k] . $wpdb->prepare( "CAST($alias.meta_value AS {$meta_type}) {$meta_compare} {$meta_compare_string})", $meta_value );
 		}
-		$where = ' AND (' . implode( " {$this->relation} ", $where ) . ' )';
+
+		$where = array_filter( $where );
+
+		if ( empty( $where ) )
+			$where = '';
+		else
+			$where = ' AND (' . implode( "\n{$this->relation} ", $where ) . ' )';
+
+		$join = implode( "\n", $join );
+		if ( ! empty( $join ) )
+			$join = ' ' . $join;
 
 		return apply_filters_ref_array( 'get_meta_sql', array( compact( 'join', 'where' ), $this->queries, $type, $primary_table, $primary_id_column, $context ) );
 	}
-
 }
 
 /**
