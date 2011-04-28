@@ -7,7 +7,6 @@ jQuery(document).ready( function($) {
 		'dashboard_primary',
 		'dashboard_secondary',
 		'dashboard_plugins',
-		'dashboard_quick_press'
 	];
 
 	ajaxPopulateWidgets = function(el) {
@@ -19,8 +18,6 @@ jQuery(document).ready( function($) {
 					p.load( ajaxurl.replace( '/admin-ajax.php', '' ) + '/index-extra.php?jax=' + id, '', function() {
 						p.hide().slideDown('normal', function(){
 							$(this).css('display', '');
-							if ( 'dashboard_quick_press' == id )
-								quickPressLoad();
 						});
 					});
 				}, i * 500 );
@@ -66,5 +63,6 @@ jQuery(document).ready( function($) {
 		$('#publish').click( function() { act.val( 'post-quickpress-publish' ); } );
 
 	};
+	quickPressLoad();
 
 } );

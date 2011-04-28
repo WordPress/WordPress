@@ -33,10 +33,6 @@ case 'dashboard_plugins' :
 	wp_dashboard_plugins_output();
 	break;
 
-case 'dashboard_quick_press' :
-	wp_dashboard_quick_press_output();
-	break;
-
 }
 
 ?>

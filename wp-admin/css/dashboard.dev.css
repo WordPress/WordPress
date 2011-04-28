@@ -277,14 +277,6 @@ div.postbox div.inside {
 	margin-right: 10px;
 }
 
-#dashboard_quick_press {
-	min-height: 200px;
-}
-
-#dashboard_quick_press.closed {
-	min-height: 0;
-}
-
 #dashboard_quick_press .input-text-wrap,
 #dashboard_quick_press .textarea-wrap {
 	margin: 0 0 1em 5em;

@@ -127,7 +127,7 @@ case 'post-quickpress-save':
 		$_POST['post_ID'] = $post_id;
 		// output the quickpress dashboard widget
 		require_once(ABSPATH . 'wp-admin/includes/dashboard.php');
-		wp_dashboard_quick_press_output();
+		wp_dashboard_quick_press();
 		exit;
 	}
 

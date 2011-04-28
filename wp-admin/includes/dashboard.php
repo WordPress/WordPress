@@ -457,7 +457,7 @@ function wp_network_dashboard_right_now() {
 	do_action( 'mu_activity_box_end' );
 }
 
-function wp_dashboard_quick_press_output() {
+function wp_dashboard_quick_press() {
 	global $post_ID;
 
 	$drafts = false;
@@ -548,10 +548,6 @@ function wp_dashboard_quick_press_output() {
 <?php
 	if ( $drafts )
 		wp_dashboard_recent_drafts( $drafts );
-}
-
-function wp_dashboard_quick_press() {
-	echo '<p class="widget-loading hide-if-no-js">' . __( 'Loading&#8230;' ) . '</p><p class="describe hide-if-js">' . __('This widget requires JavaScript.') . '</p>';
 }
 
 function wp_dashboard_recent_drafts( $drafts = false ) {
