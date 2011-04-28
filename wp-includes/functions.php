@@ -84,16 +84,6 @@ function current_time( $type, $gmt = 0 ) {
 function date_i18n( $dateformatstring, $unixtimestamp = false, $gmt = false ) {
 	global $wp_locale;
 	$i = $unixtimestamp;
-	// Sanity check for PHP 5.1.0-
-	if ( false === $i || intval($i) < 0 ) {
-		if ( ! $gmt )
-			$i = current_time( 'timestamp' );
-		else
-			$i = time();
-		// we should not let date() interfere with our
-		// specially computed timestamp
-		$gmt = true;
-	}
 
 	// store original value for language with untypical grammars
 	// see http://core.trac.wordpress.org/ticket/9396
