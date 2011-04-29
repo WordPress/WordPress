@@ -1605,6 +1605,8 @@ section.ephemera .entry-title a span {
 .commentlist .children li.comment {
 	background: #fff;
 	border-left: 1px solid #ddd;
+	-moz-border-radius: 0 3px 3px 0;
+	border-radius: 0 3px 3px 0;
 	margin: 1.625em 0 0;
 	padding: 1.625em;
 	position: relative;
@@ -1646,7 +1648,7 @@ section.ephemera .entry-title a span {
 	top: 0;
 }
 .commentlist > li:before {
-	content: url(images/comment-arrow.png) no-repeat;
+	content: url(images/comment-arrow.png);
 	left: -21px;
 	position: absolute;
 }
@@ -1669,15 +1671,8 @@ a.comment-reply-link {
 
 /* Post author highlighting */
 .commentlist > li.bypostauthor {
-	background: #222;
-	border-color: #000;
-	color: #ccc;
-}
-.commentlist > li.bypostauthor .comment-meta {
-	color: #ccc;
-}
-.commentlist > li.bypostauthor .comment-meta a {
-	font-weight: bold;
+	background: #ddd;
+	border-color: #d3d3d3;
 }
 .commentlist > li.bypostauthor .comment-meta a:focus,
 .commentlist > li.bypostauthor .comment-meta a:active,
@@ -1686,56 +1681,11 @@ a.comment-reply-link {
 .commentlist > li.bypostauthor:before {
 	content: url(images/comment-arrow-bypostauthor.png);
 }
-.commentlist > li.bypostauthor .comment-content a {
-}
-.commentlist > li.bypostauthor .comment-content a:focus,
-.commentlist > li.bypostauthor .comment-content a:active,
-.commentlist > li.bypostauthor .comment-content a:hover {
-}
-.commentlist > li.bypostauthor .comment-reply-link {
-}
-.commentlist > li.bypostauthor .comment-reply-link:focus,
-.commentlist > li.bypostauthor .comment-reply-link:active,
-.commentlist > li.bypostauthor .comment-reply-link:hover {
-}
 
 /* Post Author threaded comments */
-.commentlist > li.bypostauthor .children,
-.commentlist > li.bypostauthor .children .comment-meta,
-.commentlist > li.bypostauthor .children .comment-meta a,
-.commentlist > li.bypostauthor .children .comment-reply-link {
-}
-.commentlist > li.bypostauthor .children .comment-meta a:focus,
-.commentlist > li.bypostauthor .children .comment-meta a:active,
-.commentlist > li.bypostauthor .children .comment-meta a:hover {
-}
 .commentlist .children > li.bypostauthor {
-	background: #222;
-	border-color: #000;
-}
-.commentlist .children > li.bypostauthor > article,
-.commentlist .children > li.bypostauthor > article .comment-meta {
-	color: #ccc;
-}
-.commentlist .children > li.bypostauthor > article .comment-meta a {
-	font-weight: bold;
-}
-.commentlist .children > li.bypostauthor > article .comment-reply-link {
-	color: #ccc;
-}
-.commentlist .children > li.bypostauthor > article .comment-meta a:focus,
-.commentlist .children > li.bypostauthor > article .comment-meta a:active,
-.commentlist .children > li.bypostauthor > article .comment-meta a:hover,
-.commentlist .children > li.bypostauthor > article .comment-reply-link:focus,
-.commentlist .children > li.bypostauthor > article .comment-reply-link:active,
-.commentlist .children > li.bypostauthor > article .comment-reply-link:hover {
-}
-.commentlist .children > li.bypostauthor > article .comment-content a {
-	color: #1b8be0;
-}
-.commentlist .children > li.bypostauthor > article .comment-content a:focus,
-.commentlist .children > li.bypostauthor > article .comment-content a:active,
-.commentlist .children > li.bypostauthor > article .comment-content a:hover {
+	background: #ddd;
+	border-color: #d3d3d3;
 }
 
 /* Comment Form */

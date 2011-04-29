@@ -396,33 +396,22 @@ section.recent-posts .other-recent-posts .comments-link a:hover {
 	color: #999;
 }
 .commentlist > li:before {
-	content: url(images/comment-arrow.png) no-repeat;
+	content: url(../images/comment-arrow-dark.png);
 }
 
 /* Post author highlighting */
 .commentlist > li.bypostauthor {
-	background: #ddd;
-	border-color: #fff;
-	color: #333;
-}
-.commentlist > li.bypostauthor .comment-meta {
-	color: #333;
+	background: #222;
+	border-color: #2c2c2c;
 }
 .commentlist > li.bypostauthor:before {
-	content: url(images/comment-arrow-bypostauthor.png);
+	content: url(../images/comment-arrow-bypostauthor-dark.png);
 }
 
 /* Post Author threaded comments */
 .commentlist .children > li.bypostauthor {
-	background: #ddd;
-	border-color: #fff;
-}
-.commentlist .children > li.bypostauthor > article,
-.commentlist .children > li.bypostauthor > article .comment-meta {
-	color: #333;
-}
-.commentlist .children > li.bypostauthor > article .comment-reply-link {
-	color: #333;
+	background: #222;
+	border-color: #2c2c2c;
 }
 
 /* Comment Form */
@@ -519,7 +508,7 @@ section.recent-posts .other-recent-posts .comments-link a:hover {
 		color: #666;
 	}
 	.commentlist > li:before {
-		content: none;
+		content: none !important;
 	}
 
 	/* Post Author threaded comments */
@@ -531,3 +520,4 @@ section.recent-posts .other-recent-posts .comments-link a:hover {
 	.commentlist .children > li.bypostauthor > article .comment-meta {
 		color: #666;
 	}
+}
