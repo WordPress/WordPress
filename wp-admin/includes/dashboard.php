@@ -763,7 +763,7 @@ function wp_dashboard_recent_comments_control() {
 }
 
 function wp_dashboard_incoming_links() {
-	echo '<p class="widget-loading hide-if-no-js">' . __( 'Loading&#8230;' ) . '</p><p class="describe hide-if-js">' . __('This widget requires JavaScript.') . '</p>';
+	wp_dashboard_cached_rss_widget( 'dashboard_incoming_links', 'wp_dashboard_incoming_links_output' );
 }
 
 /**
@@ -851,7 +851,7 @@ function wp_dashboard_incoming_links_control() {
 }
 
 function wp_dashboard_primary() {
-	echo '<p class="widget-loading hide-if-no-js">' . __( 'Loading&#8230;' ) . '</p><p class="describe hide-if-js">' . __('This widget requires JavaScript.') . '</p>';
+	wp_dashboard_cached_rss_widget( 'dashboard_primary', 'wp_dashboard_rss_output' );
 }
 
 function wp_dashboard_primary_control() {
@@ -873,7 +873,7 @@ function wp_dashboard_rss_output( $widget_id ) {
 }
 
 function wp_dashboard_secondary() {
-	echo '<p class="widget-loading hide-if-no-js">' . __( 'Loading&#8230;' ) . '</p><p class="describe hide-if-js">' . __('This widget requires JavaScript.') . '</p>';
+	wp_dashboard_cached_rss_widget( 'dashboard_secondary', 'wp_dashboard_secondary_output' );
 }
 
 function wp_dashboard_secondary_control() {
@@ -912,7 +912,11 @@ function wp_dashboard_secondary_output() {
 }
 
 function wp_dashboard_plugins() {
-	echo '<p class="widget-loading hide-if-no-js">' . __( 'Loading&#8230;' ) . '</p><p class="describe hide-if-js">' . __('This widget requires JavaScript.') . '</p>';
+	wp_dashboard_cached_rss_widget( 'dashboard_plugins', 'wp_dashboard_plugins_output', array(
+		'http://wordpress.org/extend/plugins/rss/browse/popular/',
+		'http://wordpress.org/extend/plugins/rss/browse/new/',
+		'http://wordpress.org/extend/plugins/rss/browse/updated/'
+	) );
 }
 
 /**
