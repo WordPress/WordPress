@@ -47,55 +47,72 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 
 /* Button */
 .wp_themeSkin .mceButton {
-	display:block; 
-	width: 20px; 
-	height: 20px; 
-	cursor: default; 
-	padding: 1px 2px; 
-	margin: 1px; 
-	background-image: url(img/butt2.png);
-	background-position: left top;
-	background-repeat: repeat-x;
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	-khtml-border-radius: 3px;
-	border-radius: 3px;
+	display:block;
+	width: 20px;
+	height: 20px;
+	cursor: default;
+	padding: 1px 2px;
+	margin: 1px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-khtml-border-radius: 2px;
+	border-radius: 2px;
+	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 0 2px 1px #fff;
+	-moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 0 2px 1px #fff;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 0 2px 1px #fff;
 }
+
+.wp_themeSkin a.mceButtonEnabled:hover {
+	background-image: inherit 0 -10px;
+}
+
 .wp_themeSkin a.mceButton span, .wp_themeSkin a.mceButton img {}
 .wp_themeSkin .mceOldBoxModel a.mceButton span, .wp_themeSkin .mceOldBoxModel a.mceButton img {margin:0 0 0 1px}
-.wp_themeSkin a.mceButtonEnabled:hover {
-	background-position:0 -10px;
-}
-.wp_themeSkin a.mceButtonActive, .wp_themeSkin a.mceButtonSelected {
+
+.wp_themeSkin a.mceButton:active,
+.wp_themeSkin a.mceButtonActive,
+.wp_themeSkin a.mceButtonActive:hover,
+.wp_themeSkin a.mceButtonSelected {
 	background-image: inherit;
+	-webkit-box-shadow:	 0 1px 1px rgba(0, 0, 0, 0.15), inset 0 0 2px 1px #fff;
+	-moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), inset 0 0 2px 1px #fff;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), inset 0 0 2px 1px #fff;
 }
-.wp_themeSkin .mceButtonDisabled .mceIcon {opacity:0.3; filter:alpha(opacity=30);}
+.wp_themeSkin .mceButtonDisabled .mceIcon {opacity:0.4; filter:alpha(opacity=40);}
 .wp_themeSkin .mceButtonDisabled {}
 
 /* Separator */
-.wp_themeSkin .mceSeparator { 
-	height: 24px; 
+.wp_themeSkin .mceSeparator {
+	height: 24px;
 	width: 1px;
 	display: block;
 	background: transparent;
-	overflow: hidden; 
-	margin: 0 2px; 
+	overflow: hidden;
+	margin: 0 2px;
 }
 
 /* ListBox */
 .wp_themeSkin .mceListBox, .wp_themeSkin .mceListBox a {display:block}
 .wp_themeSkin .mceListBox .mceText {
 	padding: 1px 2px 1px 5px;
-	text-align:left; 
+	text-align:left;
 	text-decoration: none !important;
-	width:70px;  
-	background-image: url(img/butt2.png);
-	background-position: left top;
-	background-repeat: repeat-x;
-	font-family: Tahoma,Verdana,Arial,Helvetica; 
-	font-size: 11px; 
-	height: 20px; 
-	line-height: 20px; 
+	width:70px;
+	-moz-border-bottom-left-radius: 2px;
+	-webkit-border-bottom-left-radius: 2px;
+	-khtml-border-bottom-left-radius: 2px;
+	border-bottom-left-radius: 2px;
+	-moz-border-top-left-radius: 2px;
+	-webkit-border-top-left-radius: 2px;
+	-khtml-border-top-left-radius: 2px;
+	border-top-left-radius: 2px;
+	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 0 2px 1px #fff;
+	-moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 0 2px 1px #fff;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 0 2px 1px #fff;
+	font-family: Tahoma,Verdana,Arial,Helvetica;
+	font-size: 11px;
+	height: 20px;
+	line-height: 20px;
 	overflow: hidden;
 }
 .wp_themeSkin .mceListBox {
@@ -104,13 +121,20 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 }
 .wp_themeSkin .mceListBox .mceOpen {
 	width: 14px;
-	height: 20px; 
+	height: 20px;
 	border-collapse: separate;
-	background-image: url(img/butt2.png);
-	background-position: left top;
-	background-repeat: repeat-x;
 	padding: 1px;
-	border-left: 0 none !important;
+	-moz-border-bottom-left-radius: 0;
+	-webkit-border-bottom-left-radius: 0;
+	-khtml-border-bottom-left-radius: 0;
+	border-bottom-left-radius: 0;
+	-moz-border-top-left-radius: 0;
+	-webkit-border-top-left-radius: 0;
+	-khtml-border-top-left-radius: 0;
+	border-top-left-radius: 0;
+	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 0 2px 1px #fff;
+	-moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 0 2px 1px #fff;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 0 2px 1px #fff;
 }
 .wp_themeSkin .mceListBox .mceOpen span {
 	display: block;
@@ -120,11 +144,11 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 	background-position: 2px 1px;
 	background-repeat: no-repeat;
 }
-.wp_themeSkin table.mceListBoxEnabled:hover .mceText, 
-.wp_themeSkin .mceListBoxHover .mceText, 
+.wp_themeSkin table.mceListBoxEnabled:hover .mceText,
+.wp_themeSkin .mceListBoxHover .mceText,
 .wp_themeSkin .mceListBoxSelected .mceText,
-.wp_themeSkin table.mceListBoxEnabled:hover .mceOpen, 
-.wp_themeSkin .mceListBoxHover .mceOpen, 
+.wp_themeSkin table.mceListBoxEnabled:hover .mceOpen,
+.wp_themeSkin .mceListBoxHover .mceOpen,
 .wp_themeSkin .mceListBoxSelected .mceOpen {
 	background-image: none;
 }
@@ -135,17 +159,33 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 
 /* SplitButton */
 .wp_themeSkin .mceSplitButton a, .wp_themeSkin .mceSplitButton span {display:block; height:20px}
-.wp_themeSkin .mceSplitButton { 
+.wp_themeSkin .mceSplitButton {
 	display:block;
 	margin: 1px;
 	direction: ltr;
 }
 .wp_themeSkin table.mceSplitButton td {
 	padding: 2px;
-	background-image: url(img/butt2.png);
-	background-position: left top;
-	background-repeat: repeat-x;
+	-moz-border-bottom-left-radius: 0;
+	-webkit-border-bottom-left-radius: 0;
+	-khtml-border-bottom-left-radius: 0;
+	border-bottom-left-radius: 0;
+	-moz-border-top-left-radius: 0;
+	-webkit-border-top-left-radius: 0;
+	-khtml-border-top-left-radius: 0;
+	border-top-left-radius: 0;
 }
+
+.wp_themeSkin table.mceSplitButton td a {
+	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 0 2px 1px #fff;
+	-moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 0 2px 1px #fff;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 0 2px 1px #fff;
+}
+
+.wp_themeSkin table.mceSplitButton:hover td {
+	background-image: inherit 0 -10px;
+}
+
 .wp_themeSkin .mceSplitButton a.mceAction {
 	height:20px;
 	width:20px;
@@ -155,7 +195,7 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 	background-image: url(../../img/icons.gif);
 	background-repeat: no-repeat;
 	background-color: transparent;
-	width:20px; 
+	width:20px;
 }
 .wp_themeSkin .mceSplitButton a.mceOpen {
 	width:10px;
@@ -214,17 +254,17 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 	text-decoration: none !important;
 }
 .wp_themeSkin .mceMenu .mceText {
-	position:relative; 
-	display:block; 
-	font-family:Tahoma,Verdana,Arial,Helvetica; 
-	cursor:default; 
-	margin:0; 
+	position:relative;
+	display:block;
+	font-family:Tahoma,Verdana,Arial,Helvetica;
+	cursor:default;
+	margin:0;
 	padding:0 25px;
 }
 .wp_themeSkin .mceMenu span.mceText, .wp_themeSkin .mceMenu .mcePreview {font-size:11px}
 .wp_themeSkin .mceMenu pre.mceText {font-family:Monospace}
 .wp_themeSkin .mceMenu .mceIcon {position:absolute; top:0; left:0; width:22px;}
-.wp_themeSkin .mceMenu .mceMenuItemEnabled a:hover, 
+.wp_themeSkin .mceMenu .mceMenuItemEnabled a:hover,
 .wp_themeSkin .mceMenu .mceMenuItemActive {}
 .wp_themeSkin td.mceMenuItemSeparator {height:1px}
 .wp_themeSkin .mceMenuItemTitle a {
@@ -351,32 +391,32 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 .wp_themeSkin span.mce_spellchecker {background-position:-540px -20px}
 
 /* border */
-.wp_themeSkin .mceExternalToolbar, 
-.wp_themeSkin .mceButton, 
-.wp_themeSkin a.mceButtonEnabled:hover, 
-.wp_themeSkin a.mceButtonActive, 
-.wp_themeSkin a.mceButtonSelected, 
-.wp_themeSkin .mceListBox .mceText, 
-.wp_themeSkin .mceListBox .mceOpen, 
-.wp_themeSkin table.mceListBoxEnabled:hover .mceText, 
-.wp_themeSkin .mceListBoxHover .mceText, 
-.wp_themeSkin .mceListBoxSelected .mceText, 
-.wp_themeSkin table.mceListBoxEnabled:hover .mceOpen, 
-.wp_themeSkin .mceListBoxHover .mceOpen, 
-.wp_themeSkin .mceListBoxSelected .mceOpen, 
-.wp_themeSkin select.mceListBox, 
-.wp_themeSkin .mceSplitButton a.mceAction, 
+.wp_themeSkin .mceExternalToolbar,
+.wp_themeSkin .mceButton,
+.wp_themeSkin a.mceButtonEnabled:hover,
+.wp_themeSkin a.mceButtonActive,
+.wp_themeSkin a.mceButtonSelected,
+.wp_themeSkin .mceListBox .mceText,
+.wp_themeSkin .mceListBox .mceOpen,
+.wp_themeSkin table.mceListBoxEnabled:hover .mceText,
+.wp_themeSkin .mceListBoxHover .mceText,
+.wp_themeSkin .mceListBoxSelected .mceText,
+.wp_themeSkin table.mceListBoxEnabled:hover .mceOpen,
+.wp_themeSkin .mceListBoxHover .mceOpen,
+.wp_themeSkin .mceListBoxSelected .mceOpen,
+.wp_themeSkin select.mceListBox,
+.wp_themeSkin .mceSplitButton a.mceAction,
 .wp_themeSkin .mceSplitButton a.mceOpen,
-.wp_themeSkin .mceSplitButton a.mceOpen:hover, 
-.wp_themeSkin .mceSplitButtonSelected a.mceOpen, 
-.wp_themeSkin table.mceSplitButtonEnabled:hover a.mceAction, 
-.wp_themeSkin .mceSplitButton a.mceAction:hover, 
-.wp_themeSkin div.mceColorSplitMenu table, 
-.wp_themeSkin .mceColorSplitMenu a, 
-.wp_themeSkin .mceColorSplitMenu a.mceMoreColors, 
-.wp_themeSkin .mceColorSplitMenu a.mceMoreColors:hover, 
-.wp_themeSkin a.mceMoreColors:hover, 
+.wp_themeSkin .mceSplitButton a.mceOpen:hover,
+.wp_themeSkin .mceSplitButtonSelected a.mceOpen,
+.wp_themeSkin table.mceSplitButtonEnabled:hover a.mceAction,
+.wp_themeSkin .mceSplitButton a.mceAction:hover,
+.wp_themeSkin div.mceColorSplitMenu table,
+.wp_themeSkin .mceColorSplitMenu a,
+.wp_themeSkin .mceColorSplitMenu a.mceMoreColors,
+.wp_themeSkin .mceColorSplitMenu a.mceMoreColors:hover,
+.wp_themeSkin a.mceMoreColors:hover,
 .wp_themeSkin .mceMenu {
-	border-style: solid; 
+	border-style: solid;
 	border-width: 1px;
 }

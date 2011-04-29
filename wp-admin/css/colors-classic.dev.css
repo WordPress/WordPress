@@ -516,7 +516,7 @@ a,
 }
 
 #adminmenu li.current a #awaiting-mod,
-#adminmenu  li a.wp-has-current-submenu .update-plugins{
+#adminmenu	li a.wp-has-current-submenu .update-plugins{
 	background-color: #464646;
 	color: #fff;
 	-moz-box-shadow: #fff 0 -1px 0;
@@ -571,7 +571,7 @@ input.readonly, textarea.readonly {
 	color: #777;
 	border-color: #b0c8d7;
 	background: #cfdfe9; /* fallback color */
-	background:-moz-linear-gradient(bottom,  #cfdfe9,  #eff8ff);
+	background:-moz-linear-gradient(bottom,	#cfdfe9, #eff8ff);
 	background:-webkit-gradient(linear, left bottom, left top, from(#cfdfe9), to(#eff8ff));
 }
 
@@ -697,7 +697,7 @@ table.widefat span.spam a,
 #wphead {
 	border-bottom:#b0c8d7 1px solid;
 	background: #cfdfe9; /* fallback color */
-	background:-moz-linear-gradient(bottom,  #cfdfe9,  #eff8ff);
+	background:-moz-linear-gradient(bottom,	#cfdfe9, #eff8ff);
 	background:-webkit-gradient(linear, left bottom, left top, from(#cfdfe9), to(#eff8ff));
 }
 
@@ -804,7 +804,7 @@ table.widefat .spam a:hover,
 .wp_themeSkin a:link,
 .wp_themeSkin a:visited,
 .wp_themeSkin a:active {
-	 color: #000;
+	color: #000;
 }
 
 /* Containers */
@@ -821,38 +821,81 @@ table.widefat .spam a:hover,
 /* Button */
 .wp_themeSkin .mceButton {
 	background-color: #e9e8e8;
-	border-color: #B2B2B2;
+	border-color: #B0C8D7;
+	background-image: -ms-linear-gradient(bottom, #cfdfe9, #fff); /* IE10 */
+	background-image: -moz-linear-gradient(bottom, #cfdfe9, #fff); /* Firefox */
+	background-image: -o-linear-gradient(bottom, #cfdfe9, #fff); /* Opera */
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#cfdfe9), to(#fff)); /* old Webkit	*/
+	background-image: -webkit-linear-gradient(bottom, #cfdfe9, #fff) !important; /* new Webkit */
+	background-image: linear-gradient(bottom, #cfdfe9, #fff); /* proposed W3C Markup */
 }
 
-.wp_themeSkin a.mceButtonEnabled:hover,
-.wp_themeSkin a.mceButtonActive,
-.wp_themeSkin a.mceButtonSelected {
+.wp_themeSkin a.mceButtonEnabled:hover {
 	background: #d5d5d5;
-	border-color: #777 !important;
+	border-color: #5589AA !important;
+	background-color: #c9c9c9; /* Fallback */
+	background-image: -ms-linear-gradient(bottom, #eee, #fff); /* IE10 */
+	background-image: -moz-linear-gradient(bottom, #eee, #fff)); /* Firefox */
+	background-image: -o-linear-gradient(bottom, #eee, #fff)); /* Opera */
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#eee), to(#fff)); /* old Webkit	 */
+	background-image: -webkit-linear-gradient(bottom, #eee, #fff) !important; /* new Webkit */
+	background-image: linear-gradient(bottom, #eee, #fff); /* proposed W3C Markup */
+}
+
+.wp_themeSkin a.mceButton:active,
+.wp_themeSkin a.mceButtonEnabled:active,
+.wp_themeSkin a.mceButtonSelected:active,
+.wp_themeSkin a.mceButtonActive,
+.wp_themeSkin a.mceButtonActive:active,
+.wp_themeSkin a.mceButtonActive:hover {
+	background: #B0C8D7 !important;
+	border-color: #5589AA !important;
 }
 
 .wp_themeSkin .mceButtonDisabled {
-	border-color: #ccc !important;
+	border-color: #B0C8D7 !important;
 }
 
 /* ListBox */
 .wp_themeSkin .mceListBox .mceText,
-.wp_themeSkin .mceListBox .mceOpen  {
-	border-color: #B2B2B2;
-	background-color: #d5d5d5;
+.wp_themeSkin .mceListBox .mceOpen	{
+	border-color: #B0C8D7;
+	background-color: #cfdfe9; /* Fallback */
+	background-image: -ms-linear-gradient(bottom, #cfdfe9, #fff); /* IE10 */
+	background-image: -moz-linear-gradient(bottom, #cfdfe9, #fff); /* Firefox */
+	background-image: -o-linear-gradient(bottom, #cfdfe9, #fff); /* Opera */
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#cfdfe9), to(#fff)); /* old Webkit	*/
+	background-image: -webkit-linear-gradient(bottom, #cfdfe9, #fff) !important; /* new Webkit */
+	background-image: linear-gradient(bottom, #cfdfe9, #fff); /* proposed W3C Markup */
+}
+
+.wp_themeSkin .mceListBox .mceOpen {
+	border-left: 0px !important;
 }
 
 .wp_themeSkin table.mceListBoxEnabled:hover .mceOpen,
 .wp_themeSkin .mceListBoxHover .mceOpen,
+.wp_themeSkin .mceListBoxHover:active .mceOpen,
 .wp_themeSkin .mceListBoxSelected .mceOpen,
-.wp_themeSkin .mceListBoxSelected .mceText {
-	border-color: #777 !important;
-	background-color: #d5d5d5;
+.wp_themeSkin .mceListBoxSelected .mceText,
+.wp_themeSkin table.mceListBoxEnabled:active .mceText {
+	background: #B0C8D7;
+	border-color: #5589AA !important;
 }
 
+/* List Box Hover */
 .wp_themeSkin table.mceListBoxEnabled:hover .mceText,
-.wp_themeSkin .mceListBoxHover .mceText {
-	border-color: #777 !important;
+.wp_themeSkin .mceListBoxHover .mceText,
+.wp_themeSkin table.mceListBoxEnabled:hover .mceOpen,
+.wp_themeSkin .mceListBoxHover .mceOpen {
+	border-color: #5589AA !important;
+	background-color: #c9c9c9; /* Fallback */
+	background-image: -ms-linear-gradient(bottom, #cfdfe9, #fff); /* IE10 */
+	background-image: -moz-linear-gradient(bottom, #cfdfe9, #fff); /* Firefox */
+	background-image: -o-linear-gradient(bottom, #cfdfe9, #fff); /* Opera */
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#cfdfe9), to(#fff)); /* old Webkit	*/
+	background-image: -webkit-linear-gradient(bottom, #cfdfe9, #fff) !important; /* new Webkit */
+	background-image: linear-gradient(bottom, #cfdfe9, #fff); /* proposed W3C Markup */
 }
 
 .wp_themeSkin select.mceListBox {
@@ -863,19 +906,38 @@ table.widefat .spam a:hover,
 /* SplitButton */
 .wp_themeSkin .mceSplitButton a.mceAction,
 .wp_themeSkin .mceSplitButton a.mceOpen {
-	border-color: #B2B2B2;
+	border-color: #B0C8D7;
 }
 
 .wp_themeSkin .mceSplitButton a.mceOpen:hover,
 .wp_themeSkin .mceSplitButtonSelected a.mceOpen,
 .wp_themeSkin table.mceSplitButtonEnabled:hover a.mceAction,
 .wp_themeSkin .mceSplitButton a.mceAction:hover {
-	background-color: #d5d5d5;
-	border-color: #777 !important;
+	border-color: #5589AA !important;
+}
+
+
+.wp_themeSkin table.mceSplitButton td {
+	background-color: #cfdfe9; /* Fallback */
+	background-image: -ms-linear-gradient(bottom, #cfdfe9, #fff); /* IE10 */
+	background-image: -moz-linear-gradient(bottom, #cfdfe9, #fff); /* Firefox */
+	background-image: -o-linear-gradient(bottom, #cfdfe9, #fff); /* Opera */
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#cfdfe9), to(#fff)); /* old Webkit	*/
+	background-image: -webkit-linear-gradient(bottom, #cfdfe9, #fff) !important; /* new Webkit */
+	background-image: linear-gradient(bottom, #cfdfe9, #fff); /* proposed W3C Markup */
+}
+
+.wp_themeSkin table.mceSplitButton:hover td {
+	background-image: -ms-linear-gradient(bottom, #cfdfe9, #fff); /* IE10 */
+	background-image: -moz-linear-gradient(bottom, #cfdfe9, #fff); /* Firefox */
+	background-image: -o-linear-gradient(bottom, #cfdfe9, #fff); /* Opera */
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#cfdfe9), to(#fff)); /* old Webkit	*/
+	background-image: -webkit-linear-gradient(bottom, #cfdfe9, #fff) !important; /* new Webkit */
+	background-image: linear-gradient(bottom, #cfdfe9, #fff); /* proposed W3C Markup */
 }
 
 .wp_themeSkin .mceSplitButtonActive {
-	background-color: #B2B2B2;
+	background-color: #B0C8D7;
 }
 
 /* ColorSplitButton */
@@ -1089,7 +1151,7 @@ table.widefat .spam a:hover,
 }
 
 #adminmenu .wp-submenu .current a.current {
-	background: transparent url(../images/menu-bits-vs.gif?ver=20101102) no-repeat scroll  0 -289px;
+	background: transparent url(../images/menu-bits-vs.gif?ver=20101102) no-repeat scroll 0 -289px;
 }
 
 #adminmenu .wp-submenu a:hover {
@@ -1489,7 +1551,7 @@ body.press-this ul.category-tabs li.tabs a {
 #favorite-first {
 	border-color: #c0c0c0;
 	background: #f1f1f1; /* fallback color */
-	background:-moz-linear-gradient(bottom,  #e7e7e7,  #fff);
+	background:-moz-linear-gradient(bottom,	#e7e7e7, #fff);
 	background:-webkit-gradient(linear, left bottom, left top, from(#e7e7e7), to(#fff));
 }
 
