@@ -496,26 +496,41 @@ function sync_category_tag_slugs( $term, $taxonomy ) {
 }
 add_filter( 'get_term', 'sync_category_tag_slugs', 10, 2 );
 
-function redirect_user_to_blog() {
-	$c = 0;
-	if ( isset( $_GET['c'] ) )
-		$c = (int) $_GET['c'];
+function _access_denied_splash() {
+	if ( ! is_user_logged_in() )
+		return;
 
-	if ( $c >= 5 ) {
-		wp_die( __( "You don&#8217;t have permission to view this site. Please contact the system administrator." ) );
+	$blogs = get_blogs_of_user( get_current_user_id() );
+
+	$blog_name = get_bloginfo( 'name' );
+
+	if ( empty( $blogs ) ) {
+		wp_die( sprintf( __( 'You attempted to access the "%s" dashboard, but you do not currently have privileges on this site. If you believe you should be able to access the "Test" dashboard, please contact your network administrator.' ), $blog_name ) );
+		exit;
 	}
-	$c ++;
 
-	$blog = get_active_blog_for_user( get_current_user_id() );
+	$output = '<p>' . sprintf( __( 'You attempted to access the "%s" dashboard, but you do not currently have privileges on this site. If you believe you should be able to access the "Test" dashboard, please contact your network administrator.' ), $blog_name ) . '</p>';
+	$output .= '<p>' . __( 'If you reached this screen by accident and meant to visit one your own sites, here are some shortcuts to help you find your way.' ) . '</p>';
 
-	if ( is_object( $blog ) ) {
-		wp_redirect( get_admin_url( $blog->blog_id, '?c=' . $c ) ); // redirect and count to 5, "just in case"
-	} else {
-		wp_redirect( user_admin_url( '?c=' . $c ) ); // redirect and count to 5, "just in case"
+	$output .= '<h3>' . __('Your Sites') . '</h3>';
+	$output .= '<table>';
+
+	foreach ( $blogs as $blog ) {
+		$output .= "<tr>";
+		$output .= "<td valign='top'>";
+		$output .= "{$blog->blogname}";
+		$output .= "</td>";
+		$output .= "<td valign='top'>";
+		$output .= "<a href='" . esc_url( get_admin_url( $blog->userblog_id ) ) . "'>" . __( 'Visit Dashboard' ) . "</a> | <a href='" . esc_url( get_home_url( $blog->userblog_id ) ). "'>" . __( 'View Site' ) . "</a>" ;
+		$output .= "</td>";
+		$output .= "</tr>";
 	}
+	$output .= '</table>';
+
+	wp_die( $output );
 	exit;
 }
-add_action( 'admin_page_access_denied', 'redirect_user_to_blog', 99 );
+add_action( 'admin_page_access_denied', '_access_denied_splash', 99 );
 
 function check_import_new_users( $permission ) {
 	if ( !is_super_admin() )
