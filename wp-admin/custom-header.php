@@ -471,7 +471,6 @@ class Custom_Image_Header {
 </div>
 <?php } ?>
 
-<h3><?php _e( 'Header Image' ) ?></h3>
 <table class="form-table">
 <tbody>
 
@@ -569,7 +568,6 @@ class Custom_Image_Header {
 </table>
 
 	<?php if ( $this->header_text() ) : ?>
-<h3><?php _e( 'Header Text' ) ?></h3>
 <table class="form-table">
 <tbody>
 <tr valign="top" class="hide-if-no-js">
