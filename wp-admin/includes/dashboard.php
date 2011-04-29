@@ -925,17 +925,9 @@ function wp_dashboard_plugins() {
  * @since 2.5.0
  */
 function wp_dashboard_plugins_output() {
-	ob_start();
-	$check_urls = array(
-		'http://wordpress.org/extend/plugins/rss/browse/popular/',
-		'http://wordpress.org/extend/plugins/rss/browse/new/',
-		'http://wordpress.org/extend/plugins/rss/browse/updated/'
-	);
-	$transient_key = __FUNCTION__ . serialize( '' ) . implode( '|', $check_urls );
-
-	$popular = fetch_feed( $check_urls[0] );
-	$new     = fetch_feed( $check_urls[1] );
-	$updated = fetch_feed( $check_urls[2] );
+	$popular = fetch_feed( 'http://wordpress.org/extend/plugins/rss/browse/popular/' );
+	$new     = fetch_feed( 'http://wordpress.org/extend/plugins/rss/browse/new/' );
+	$updated = fetch_feed( 'http://wordpress.org/extend/plugins/rss/browse/updated/' );
 
 	if ( false === $plugin_slugs = get_transient( 'plugin_slugs' ) ) {
 		$plugin_slugs = array_keys( get_plugins() );
@@ -1006,7 +998,6 @@ function wp_dashboard_plugins_output() {
 		$$feed->__destruct();
 		unset($$feed);
 	}
-	set_transient( $transient_key, ob_get_flush() );
 }
 
 /**
@@ -1027,13 +1018,10 @@ function wp_dashboard_plugins_output() {
 function wp_dashboard_cached_rss_widget( $widget_id, $callback, $check_urls = array() ) {
 	$loading = '<p class="widget-loading">' . __( 'Loading&#8230;' ) . '</p>';
 
-	$widgets = get_option( 'dashboard_widget_options' );
-	$output_cache = 'dashboard_' . md5( $callback . serialize( isset( $widgets[$widget_id] ) ? $widgets[$widget_id] : '' ) . implode( '|', $check_urls ) );
-
 	if ( empty($check_urls) ) {
+		$widgets = get_option( 'dashboard_widget_options' );
 		if ( empty($widgets[$widget_id]['url']) ) {
 			echo $loading;
-			delete_transient( $output_cache );
 			return false;
 		}
 		$check_urls = array( $widgets[$widget_id]['url'] );
@@ -1044,19 +1032,10 @@ function wp_dashboard_cached_rss_widget( $widget_id, $callback, $check_urls = ar
 		$cache = new WP_Feed_Cache_Transient('', md5($check_url), '');
 		if ( ! $cache->load() ) {
 			echo $loading;
-			delete_transient( $output_cache );
 			return false;
 		}
 	}
 
-	if ( false === $cache = get_transient( $output_cache ) ) {
-		echo $loading;
-		return false;
-	}
-
-	echo $cache;
-	return true;
-	/*		
 	if ( $callback && is_callable( $callback ) ) {
 		$args = array_slice( func_get_args(), 2 );
 		array_unshift( $args, $widget_id );
@@ -1064,7 +1043,6 @@ function wp_dashboard_cached_rss_widget( $widget_id, $callback, $check_urls = ar
 	}
 
 	return true;
-	*/
 }
 
 /* Dashboard Widgets Controls */
