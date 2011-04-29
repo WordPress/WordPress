@@ -1429,6 +1429,9 @@ function get_header_image() {
 	$default = defined( 'HEADER_IMAGE' ) ? HEADER_IMAGE : '';
 	$url = get_theme_mod( 'header_image', $default );
 
+	if ( 'remove-header' == $url )
+		return false;
+
 	if ( is_random_header_image() )
 		$url = get_random_header_image();
 
@@ -1488,6 +1491,8 @@ function is_random_header_image( $type = 'any' ) {
 			return true;
 	} else {
 		if ( "random-$type-image" == $header_image_mod )
+			return true;
+		elseif ( 'default' == $type && empty( $header_image_mod ) && '' != get_random_header_image()  )
 			return true;
 	}
 

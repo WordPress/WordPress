@@ -193,7 +193,7 @@ class Custom_Image_Header {
 
 		if ( isset( $_POST['removeheader'] ) ) {
 			check_admin_referer( 'custom-header-options', '_wpnonce-custom-header-options' );
-			set_theme_mod( 'header_image', '' );
+			set_theme_mod( 'header_image', 'remove-header' );
 			return;
 		}
 
@@ -546,7 +546,7 @@ class Custom_Image_Header {
 </td>
 </tr>
 	<?php endif;
-	if ( get_header_image() && !is_random_header_image() ) : ?>
+	if ( get_header_image() ) : ?>
 <tr valign="top">
 <th scope="row"><?php _e( 'Remove Image' ); ?></th>
 <td>
@@ -556,7 +556,7 @@ class Custom_Image_Header {
 </tr>
 	<?php endif;
 
-	if ( defined( 'HEADER_IMAGE' ) && !is_random_header_image() ) : ?>
+	if ( defined( 'HEADER_IMAGE' ) && '' != HEADER_IMAGE ) : ?>
 <tr valign="top">
 <th scope="row"><?php _e( 'Reset Image' ); ?></th>
 <td>
