@@ -128,8 +128,8 @@ function twentyeleven_setup() {
 	set_post_thumbnail_size( HEADER_IMAGE_WIDTH, HEADER_IMAGE_HEIGHT, true );
 
 	// Add Twenty Eleven's custom image sizes
-	add_image_size( 'large-feature', HEADER_IMAGE_WIDTH, 500, true ); // Used for large feature images
-	add_image_size( 'small-feature', 500, 500 ); // Used for featured posts if a large-feature doesn't exist
+	add_image_size( 'large-feature', HEADER_IMAGE_WIDTH, HEADER_IMAGE_HEIGHT, true ); // Used for large feature images
+	add_image_size( 'small-feature', 500, 300 ); // Used for featured posts if a large-feature doesn't exist
 
 	// Add a way for the custom header to be styled in the admin panel that controls
 	// custom headers. See twentyeleven_admin_header_style(), below.

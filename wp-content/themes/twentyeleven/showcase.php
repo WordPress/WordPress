@@ -3,9 +3,18 @@
  * Template Name: Showcase Template
  * Description: A Page Template that showcases Sticky Posts, Asides, and Blog Posts
  *
+ * The showcase template in Twenty Eleven consists of a featured posts section using sticky posts,
+ * another recent posts area (with the latest post shown in full and the rest as a list)
+ * and a left sidebar holding aside posts.
+ *
+ * We are creating two queries to fetch the proper posts and a custom widget for the sidebar.
+ *
  * @package WordPress
  * @subpackage Twenty Eleven
  */
+
+// Enqueue showcase script for the slider
+wp_enqueue_script( 'twentyeleven-showcase', get_template_directory_uri() . '/js/showcase.js', array( 'jquery' ), '2011-04-28' );
 
 get_header(); ?>
 
@@ -15,33 +24,56 @@ get_header(); ?>
 				<?php the_post(); ?>
 
 				<?php
-					// If we have content for this page, let's display it.
+					/**
+					 * We are using a heading by rendering the_content
+					 * If we have content for this page, let's display it.
+					 */
 					if ( '' != get_the_content() )
 						get_template_part( 'content', 'intro' );
 				?>
 
 				<?php
-					// See if we have any sticky posts and use the latest to create a featured post
+					/**
+					 * Begin the featured posts section.
+					 *
+					 * See if we have any sticky posts and use them to create our featured posts.
+					 */
 					$sticky = get_option( 'sticky_posts' );
 					$featured_args = array(
-						'posts_per_page' => 1,
+						'posts_per_page' => 4,
 						'post__in' => $sticky,
 					);
 
+					// The Featured Posts query.
 					$featured = new WP_Query();
 					$featured->query( $featured_args );
 
+					/**
+					 * We will need to count featured posts starting from zero
+					 * to create the slider navigation.
+					 */
+					$counter_slider = 0;
+
+					?>
+
+				<div class="featured-posts">
+					<h1 class="showcase-heading"><?php _e( 'Featured Post', 'twentyeleven' ); ?></h1>
+
+				<?php
 					// Let's roll.
-					if ( $sticky ) :
+					while ( $featured->have_posts() ) : $featured->the_post();
 
-					$featured->the_post();
+					// Increase the counter.
+					$counter_slider++;
 
-					// We're going to add a class to our featured post for featured images
-					// by default it'll have no class though
+					/**
+					 * We're going to add a class to our featured post for featured images
+					 * by default it'll have no class though.
+					 */
 					$feature_class = '';
 
 					if ( has_post_thumbnail() ) {
-						// … but if it has a featured image let's add some class
+						// ... but if it has a featured image let's add some class
 						$feature_class = 'feature-image small';
 
 						// Hang on. Let's check this here image out.
@@ -49,20 +81,23 @@ get_header(); ?>
 
 						// Is it bigger than or equal to our header?
 						if ( $image[1] >= HEADER_IMAGE_WIDTH ) {
-							// Let's add a BIGGER class. It's EXTRA classy now.
+							// If bigger, let's add a BIGGER class. It's EXTRA classy now.
 							$feature_class = 'feature-image large';
 						}
 					}
-					?>
+				?>
 
 				<?php if ( has_post_thumbnail() ) : ?>
-				<section class="featured-post <?php echo $feature_class; ?>">
+				<section class="featured-post <?php echo $feature_class; ?>" id="featured-post-<?php echo $counter_slider; ?>">
 				<?php else : ?>
-				<section class="featured-post">
+				<section class="featured-post" id="featured-post-<?php echo $counter_slider; ?>">
 				<?php endif; ?>
-					<h1 class="showcase-heading"><?php _e( 'Featured Post', 'twentyeleven' ); ?></h1>
+
 					<?php
-						// Dynamic thumbnails!
+						/**
+						 * If the thumbnail is as big as the header image
+						 * make it a large featured post, otherwise render it small
+						 */
 						if ( has_post_thumbnail() ) {
 							if ( $image[1] >= HEADER_IMAGE_WIDTH ) { ?>
 								<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'twentyeleven' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"> <?php the_post_thumbnail( 'large-feature' ); ?></a>
@@ -73,14 +108,43 @@ get_header(); ?>
 					?>
 					<?php get_template_part( 'content', 'featured' ); ?>
 				</section>
-				<?php endif; ?>
+				<?php endwhile;	?>
+
+				<nav class="feature-slider">
+					<ul>
+					<?php
+						/**
+						 * We need to query the same set of posts again
+						 * to populate the navigation dots
+						 */
+				    	$featured->query( $featured_args );
+
+						// Reset the counter so that we end up with matching elements
+				    	$counter_slider = 0;
+
+						// Begin from zero
+				    	rewind_posts();
+
+						// Let's roll again.
+				    	while ( $featured->have_posts() ) : $featured->the_post();
+				    		$counter_slider++;
+				    ?>
+						<li><a href="#featured-post-<?php echo $counter_slider; ?>" title="<?php printf( esc_attr__( 'Featuring: %s', 'twentyeleven' ), the_title_attribute( 'echo=0' ) ); ?>" <?php
+						if ( 1 == $counter_slider ) :
+							echo 'class="active"';
+						endif;
+						?>></a></li>
+					<?php endwhile;	?>
+					</ul>
+				</nav>
+				</div>
 
 				<section class="recent-posts">
 					<h1 class="showcase-heading"><?php _e( 'Recent Posts', 'twentyeleven' ); ?></h1>
 
 					<?php
 
-					// Display our recent posts, showing full content for the very latest, ignoring Aside posts
+					// Display our recent posts, showing full content for the very latest, ignoring Aside posts.
 					$recent_args = array(
 						'order' => 'DESC',
 						'post__not_in' => get_option( 'sticky_posts' ),
@@ -93,12 +157,13 @@ get_header(); ?>
 							),
 						),
 					);
+					// Our new query for the Recent Posts section.
 					$recent = new WP_Query();
 					$recent->query( $recent_args );
 					$counter = 0;
 
 					while ( $recent->have_posts() ) : $recent->the_post();
-						// set $more to 0 in order to only get the first part of the post
+						// Set $more to 0 in order to only get the first part of the post.
 						global $more;
 						$more = 0;
 						$counter++;
