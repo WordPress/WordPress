@@ -49,7 +49,7 @@ case 'editcomment' :
 	'<p>' . __( 'You can also moderate the comment from this screen using the Status box, where you can also change the timestamp of the comment.' ) . '</p>' .
 	'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
 	'<p>' . __( '<a href="http://codex.wordpress.org/Administration_Screens#Comments" target="_blank">Documentation on Comments</a>' ) . '</p>' .
-	'<p>' . __( '<a href="http://wordpress.org/support/" target="_blank" >Support Forums</a>' ) . '</p>'
+	'<p>' . __( '<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>' ) . '</p>'
 	);
 
 	wp_enqueue_script('comment');
