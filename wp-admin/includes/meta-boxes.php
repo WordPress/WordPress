@@ -248,7 +248,6 @@ function post_format_meta_box( $post, $box ) {
 		$post_format = get_post_format( $post->ID );
 		if ( !$post_format )
 			$post_format = '0';
-		$post_format_display = get_post_format_string( $post_format );
 		// Add in the current one if it isn't there yet, in case the current theme doesn't support it
 		if ( $post_format && !in_array( $post_format, $post_formats[0] ) )
 			$post_formats[0][] = $post_format;
