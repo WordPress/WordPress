@@ -61,7 +61,8 @@
 
 			<?php
 				// Check to see if the header image has been removed
-				if ( get_header_image() != '' ) :
+				$header_image = get_header_image();
+				if ( ! empty( $header_image ) ) :
 			?>
 			<a href="<?php echo home_url( '/' ); ?>">
 				<?php
@@ -83,7 +84,7 @@
 				// Has the text been hidden?
 				if ( 'blank' == get_header_textcolor() ) :
 			?>
-				<div class="only-search<?php if ( get_header_image() != '' ) : ?> with-image<?php endif; ?>">
+				<div class="only-search<?php if ( ! empty( $header_image ) ) : ?> with-image<?php endif; ?>">
 				<?php get_search_form(); ?>
 				</div>
 			<?php

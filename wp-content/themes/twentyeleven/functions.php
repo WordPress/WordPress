@@ -286,7 +286,10 @@ function twentyeleven_admin_header_image() { ?>
 		?>
 		<h1><a id="name"<?php echo $style; ?> onclick="return false;" href="<?php echo home_url( '/' ); ?>"><?php bloginfo( 'name' ); ?></a></h1>
 		<div id="desc"<?php echo $style; ?>><?php bloginfo( 'description' ); ?></div>
-		<img src="<?php esc_url ( header_image() ); ?>" alt="" />
+		<?php $header_image = get_header_image();
+		if ( ! empty( $header_image ) ) : ?>
+			<img src="<?php esc_url( $header_image ); ?>" alt="" />
+		<?php endif; ?>
 	</div>
 <?php }
 endif; // twentyeleven_admin_header_image
