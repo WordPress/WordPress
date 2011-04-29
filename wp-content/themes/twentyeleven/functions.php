@@ -99,7 +99,7 @@ function twentyeleven_setup() {
 	/**
 	 * Add support for an Aside Post Format
 	 */
-	add_theme_support( 'post-formats', array( 'aside', 'link', 'gallery', 'status', 'quote' ) );
+	add_theme_support( 'post-formats', array( 'aside', 'link', 'gallery', 'status', 'quote', 'image' ) );
 
 	/**
 	 * Add support for custom backgrounds

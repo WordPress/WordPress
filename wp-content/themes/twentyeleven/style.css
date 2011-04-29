@@ -219,16 +219,23 @@ body {
 .one-column section.featured-post .attachment-small-feature {
 	border: none;
 	display: block;
-	float: none;
-	margin: 0.625em auto 1.025em;
-	max-width: 100%;
+	max-width: 60%;
 	height: auto;
 	position: static;
 }
 .one-column article.feature-image.small {
-	float: none;
 	margin: 0 0 1.625em;
-	width: auto;
+	padding: 0;
+}
+.one-column article.feature-image.small .entry-title {
+	font-size: 20px;
+	line-height: 1.3em;
+}
+.one-column article.feature-image.small .entry-summary {
+	height: 150px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	padding: 0;
 }
 .one-column article.feature-image.small .entry-summary a {
 	left: -9%;
@@ -267,7 +274,7 @@ body {
 /* Make sure the logo and search form don't collide */
 .one-column #branding #searchform {
 	right: 40px;
-	top: 1.625em;
+	top: 4em;
 }
 /* Talking avatars take up too much room at this size */
 .one-column .commentlist > li.comment {
@@ -625,7 +632,7 @@ a:hover {
 	padding: 1.625em 0 0;
 }
 .page-title {
-	color: #333;
+	color: #666;
 	font-size: 10px;
 	font-weight: 500;
 	letter-spacing: 0.1em;
@@ -982,6 +989,48 @@ dl.gallery-item {
 }
 
 
+/* =Image
+----------------------------------------------- */
+
+.format-image .entry-content {
+	padding-top: 0.5em;
+}
+.format-image p {
+	margin: 0;
+}
+.format-image footer.entry-meta {
+	background: #e0e6e8;
+	margin-right: 2px;
+	margin-top: -6px;
+	padding: 20px 30px;
+}
+.format-image div.entry-meta {
+	display: inline-block;
+	float: left;
+	width: 40%;
+}
+.format-image div.entry-meta + div.entry-meta {
+	float: none;
+	width: 60%;
+}
+.format-image .wp-caption {
+	background: #111;
+	margin-bottom: 0;
+	max-width: 96%;
+	padding: 11px;
+}
+.format-image .wp-caption .wp-caption-text {
+	color: #ddd;
+}
+.format-image .wp-caption .wp-caption-text:before {
+	color: #444;
+}
+.single .format-image footer.entry-meta {
+	background: transparent;
+	padding: 30px 0;
+}
+
+
 /* =error404
 ----------------------------------------------- */
 .error404 #main #searchform {
@@ -1020,7 +1069,7 @@ dl.gallery-item {
 ----------------------------------------------- */
 
 h1.showcase-heading {
-	color: #333;
+	color: #666;
 	font-size: 10px;
 	font-weight: 500;
 	letter-spacing: 0.1em;
@@ -1153,7 +1202,6 @@ article.feature-image.large .entry-summary {
 	display: none;
 }
 section.feature-image.large img {
-	border-bottom: 1px solid #ddd;
 	display: block;
 	height: auto;
 	max-width: 117.9%;
@@ -1175,7 +1223,6 @@ section.feature-image.large img {
 }
 .featured-posts section.featured-post {
 	background: #fff;
-	height: 300px;
 	left: 0;
 	margin: 0;
 	position: absolute;
@@ -1433,7 +1480,7 @@ p img,
 	margin: 0 0 2.2em;
 }
 .widget-title {
-	color: #333;
+	color: #666;
 	font-size: 10px;
 	font-weight: 500;
 	letter-spacing: 0.1em;
@@ -1570,7 +1617,7 @@ section.ephemera .entry-title a span {
 ----------------------------------------------- */
 
 #comments-title {
-	color: #444;
+	color: #666;
 	font-size: 10px;
 	font-weight: 500;
 	line-height: 2.6em;
@@ -1908,6 +1955,9 @@ p.comment-form-comment {
 		width: auto;
 	}
 	/* Simplify the showcase template */
+	.page-template-showcase-php .featured-posts {
+		height: 280px;
+	}
 	.page-template-showcase-php section.recent-posts {
 		float: none;
 		margin: 0;
@@ -1922,19 +1972,23 @@ p.comment-form-comment {
 		border-bottom: 1px solid #ddd;
 	}
 	/* Simplify the showcase template when small feature */
-	section.featured-post .attachment-small-feature {
+	section.featured-post .attachment-small-feature,
+	.one-column section.featured-post .attachment-small-feature {
 		border: none;
 		display: block;
-		float: none;
+		float: left;
 		height: auto;
 		margin: 0.625em auto 1.025em;
-		max-width: 100%;
+		max-width: 30%;
 		position: static;
 	}
 	article.feature-image.small {
-		float: none;
+		float: right;
 		margin: 0 0 1.625em;
-		width: auto;
+		width: 64%;
+	}
+	.one-column article.feature-image.small .entry-summary {
+		height: auto;
 	}
 	article.feature-image.small .entry-summary a {
 		left: -9%;
@@ -2050,7 +2104,7 @@ p.comment-form-comment {
 		position: relative !important;
 	}
 	#branding {
-		border-top: none;
+		border-top: none !important;
 		padding: 0;
 	}
 	#branding hgroup {
