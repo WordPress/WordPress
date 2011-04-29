@@ -24,7 +24,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	/**
 	 * Register all of the XMLRPC methods that XMLRPC server understands.
 	 *
-	 * PHP4 constructor and sets up server and method property. Passes XMLRPC
+	 * Sets up server and method property. Passes XMLRPC
 	 * methods through the 'xmlrpc_methods' filter to allow plugins to extend
 	 * or replace XMLRPC methods.
 	 *
@@ -32,7 +32,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @return wp_xmlrpc_server
 	 */
-	function wp_xmlrpc_server() {
+	function __construct() {
 		$this->methods = array(
 			// WordPress API
 			'wp.getUsersBlogs'		=> 'this:wp_getUsersBlogs',

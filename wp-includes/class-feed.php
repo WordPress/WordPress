@@ -5,15 +5,6 @@ if ( !class_exists('SimplePie') )
 
 class WP_Feed_Cache extends SimplePie_Cache {
 	/**
-	 * Don't call the constructor. Please.
-	 *
-	 * @access private
-	 */
-	function WP_Feed_Cache() {
-		trigger_error('Please call SimplePie_Cache::create() instead of the constructor', E_USER_ERROR);
-	}
-
-	/**
 	 * Create a new SimplePie_Cache object
 	 *
 	 * @static
@@ -29,7 +20,7 @@ class WP_Feed_Cache_Transient {
 	var $mod_name;
 	var $lifetime = 43200; //Default lifetime in cache of 12 hours
 
-	function WP_Feed_Cache_Transient($location, $filename, $extension) {
+	function __construct($location, $filename, $extension) {
 		$this->name = 'feed_' . $filename;
 		$this->mod_name = 'feed_mod_' . $filename;
 		$this->lifetime = apply_filters('wp_feed_cache_transient_lifetime', $this->lifetime, $filename);
@@ -65,7 +56,7 @@ class WP_Feed_Cache_Transient {
 
 class WP_SimplePie_File extends SimplePie_File {
 
-	function WP_SimplePie_File($url, $timeout = 10, $redirects = 5, $headers = null, $useragent = null, $force_fsockopen = false) {
+	function __construct($url, $timeout = 10, $redirects = 5, $headers = null, $useragent = null, $force_fsockopen = false) {
 		$this->url = $url;
 		$this->timeout = $timeout;
 		$this->redirects = $redirects;

@@ -9,7 +9,7 @@
  */
 class WP_Plugins_List_Table extends WP_List_Table {
 
-	function WP_Plugins_List_Table() {
+	function __construct() {
 		global $status, $page;
 
 		$default_status = get_user_option( 'plugins_last_view' );
@@ -23,7 +23,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 
 		$page = $this->get_pagenum();
 
-		parent::WP_List_Table( array(
+		parent::__construct( array(
 			'plural' => 'plugins',
 		) );
 	}

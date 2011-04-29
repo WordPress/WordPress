@@ -9,10 +9,10 @@
  */
 class WP_Media_List_Table extends WP_List_Table {
 
-	function WP_Media_List_Table() {
+	function __construct() {
 		$this->detached = isset( $_REQUEST['detached'] ) || isset( $_REQUEST['find_detached'] );
 
-		parent::WP_List_Table( array(
+		parent::__construct( array(
 			'plural' => 'media'
 		) );
 	}

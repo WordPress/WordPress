@@ -456,7 +456,7 @@ class WP_User {
 	var $filter = null;
 
 	/**
-	 * PHP4 Constructor - Sets up the object properties.
+	 * Constructor - Sets up the object properties.
 	 *
 	 * Retrieves the userdata and then assigns all of the data keys to direct
 	 * properties of the object. Calls {@link WP_User::_init_caps()} after
@@ -470,7 +470,7 @@ class WP_User {
 	 * @param int $blog_id Optional Blog ID, defaults to current blog.
 	 * @return WP_User
 	 */
-	function WP_User( $id, $name = '', $blog_id = '' ) {
+	function __construct( $id, $name = '', $blog_id = '' ) {
 
 		if ( empty( $id ) && empty( $name ) )
 			return;

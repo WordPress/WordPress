@@ -11,7 +11,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 
 	var $callback_args;
 
-	function WP_Terms_List_Table() {
+	function __construct() {
 		global $post_type, $taxonomy, $tax;
 
 		wp_reset_vars( array( 'action', 'taxonomy', 'post_type' ) );
@@ -27,7 +27,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 		if ( empty( $post_type ) || !in_array( $post_type, get_post_types( array( 'public' => true ) ) ) )
 			$post_type = 'post';
 
-		parent::WP_List_Table( array(
+		parent::__construct( array(
 			'plural' => 'tags',
 			'singular' => 'tag',
 		) );

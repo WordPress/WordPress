@@ -43,14 +43,14 @@ class Custom_Background {
 	var $page = '';
 
 	/**
-	 * PHP4 Constructor - Register administration header callback.
+	 * Constructor - Register administration header callback.
 	 *
 	 * @since 3.0.0
 	 * @param callback $admin_header_callback
 	 * @param callback $admin_image_div_callback Optional custom image div output callback.
 	 * @return Custom_Background
 	 */
-	function Custom_Background($admin_header_callback = '', $admin_image_div_callback = '') {
+	function __construct($admin_header_callback = '', $admin_image_div_callback = '') {
 		$this->admin_header_callback = $admin_header_callback;
 		$this->admin_image_div_callback = $admin_image_div_callback;
 	}

@@ -10,10 +10,6 @@ class WP_Importer {
 	 */
 	function __construct() {}
 
-	function WP_Importer() {
-		$this->__construct();
-	}
-
 	/**
 	 * Returns array with imported permalinks from WordPress database
 	 *

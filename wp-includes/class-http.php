@@ -1409,17 +1409,6 @@ class WP_Http_Cookie {
 	var $domain;
 
 	/**
-	 * PHP4 style Constructor - Calls PHP5 Style Constructor.
-	 *
-	 * @access public
-	 * @since 2.8.0
-	 * @param string|array $data Raw cookie data.
-	 */
-	function WP_Http_Cookie( $data ) {
-		$this->__construct( $data );
-	}
-
-	/**
 	 * Sets up this cookie object.
 	 *
 	 * The parameter $data should be either an associative array containing the indices names below

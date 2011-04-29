@@ -21,7 +21,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 
 	var $pending_count = array();
 
-	function WP_Comments_List_Table() {
+	function __construct() {
 		global $post_id;
 
 		$post_id = isset( $_REQUEST['p'] ) ? absint( $_REQUEST['p'] ) : 0;
@@ -29,7 +29,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 		if ( get_option('show_avatars') )
 			add_filter( 'comment_author', 'floated_admin_avatar' );
 
-		parent::WP_List_Table( array(
+		parent::__construct( array(
 			'plural' => 'comments',
 			'singular' => 'comment',
 			'ajax' => true,

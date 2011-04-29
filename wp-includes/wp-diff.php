@@ -60,7 +60,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	var $inline_diff_renderer = 'WP_Text_Diff_Renderer_inline';
 
 	/**
-	 * PHP4 Constructor - Call parent constructor with params array.
+	 * Constructor - Call parent constructor with params array.
 	 *
 	 * This will set class properties based on the key value pairs in the array.
 	 *
@@ -68,7 +68,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	 *
 	 * @param array $params
 	 */
-	function Text_Diff_Renderer_Table( $params = array() ) {
+	function __construct( $params = array() ) {
 		$parent = get_parent_class($this);
 		$this->$parent( $params );
 	}

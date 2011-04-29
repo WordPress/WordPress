@@ -62,14 +62,14 @@ class Custom_Image_Header {
 	var $page = '';
 
 	/**
-	 * PHP4 Constructor - Register administration header callback.
+	 * Constructor - Register administration header callback.
 	 *
 	 * @since 2.1.0
 	 * @param callback $admin_header_callback
 	 * @param callback $admin_image_div_callback Optional custom image div output callback.
 	 * @return Custom_Image_Header
 	 */
-	function Custom_Image_Header($admin_header_callback, $admin_image_div_callback = '') {
+	function __construct($admin_header_callback, $admin_image_div_callback = '') {
 		$this->admin_header_callback = $admin_header_callback;
 		$this->admin_image_div_callback = $admin_image_div_callback;
 	}

@@ -45,7 +45,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	 */
 	var $sticky_posts_count = 0;
 
-	function WP_Posts_List_Table() {
+	function __construct() {
 		global $post_type_object, $post_type, $wpdb;
 
 		if ( !isset( $_REQUEST['post_type'] ) )
@@ -74,7 +74,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			$this->sticky_posts_count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT( 1 ) FROM $wpdb->posts WHERE post_type = %s AND post_status != 'trash' AND ID IN ($sticky_posts)", $post_type ) );
 		}
 
-		parent::WP_List_Table( array(
+		parent::__construct( array(
 			'plural' => 'posts',
 		) );
 	}

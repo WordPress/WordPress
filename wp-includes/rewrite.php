@@ -1976,14 +1976,14 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * PHP4 Constructor - Calls init(), which runs setup.
+	 * Constructor - Calls init(), which runs setup.
 	 *
 	 * @since 1.5.0
 	 * @access public
 	 *
 	 * @return WP_Rewrite
 	 */
-	function WP_Rewrite() {
+	function __construct() {
 		$this->init();
 	}
 }

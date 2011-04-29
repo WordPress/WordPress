@@ -21,7 +21,7 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	 *
 	 * @param mixed $arg ingored argument
 	 */
-	function WP_Filesystem_Direct($arg) {
+	function __construct($arg) {
 		$this->method = 'direct';
 		$this->errors = new WP_Error();
 	}

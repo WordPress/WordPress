@@ -361,12 +361,6 @@ class WP_User_Query {
 	var $query_orderby;
 	var $query_limit;
 
-	/**
-	 * PHP4 constructor
-	 */
-	function WP_User_Query( $query = null ) {
-		$this->__construct( $query );
-	}
 
 	/**
 	 * PHP5 constructor

@@ -77,7 +77,7 @@ class WP_List_Table {
 	 * @param array $args An associative array with information about the current table
 	 * @access protected
 	 */
-	function WP_List_Table( $args = array() ) {
+	function __construct( $args = array() ) {
 		$args = wp_parse_args( $args, array(
 			'plural' => '',
 			'singular' => '',

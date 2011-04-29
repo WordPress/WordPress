@@ -12,14 +12,14 @@ class WP_Users_List_Table extends WP_List_Table {
 	var $site_id;
 	var $is_site_users;
 
-	function WP_Users_List_Table() {
+	function __construct() {
 		$screen = get_current_screen();
 		$this->is_site_users = 'site-users-network' == $screen->id;
 
 		if ( $this->is_site_users )
 			$this->site_id = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0;
 
-		parent::WP_List_Table( array(
+		parent::__construct( array(
 			'singular' => 'user',
 			'plural'   => 'users'
 		) );

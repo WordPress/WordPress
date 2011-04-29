@@ -19,7 +19,7 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 	var $errors = null;
 	var $options = array();
 
-	function WP_Filesystem_ftpsockets($opt = '') {
+	function __construct($opt = '') {
 		$this->method = 'ftpsockets';
 		$this->errors = new WP_Error();
 

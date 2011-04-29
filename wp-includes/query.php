@@ -2970,7 +2970,7 @@ class WP_Query {
 	}
 
 	/**
-	 * PHP4 type constructor.
+	 * Constructor.
 	 *
 	 * Sets up the WordPress query, if parameter is not empty.
 	 *
@@ -2980,7 +2980,7 @@ class WP_Query {
 	 * @param string $query URL query string.
 	 * @return WP_Query
 	 */
-	function WP_Query($query = '') {
+	function __construct($query = '') {
 		if ( ! empty($query) ) {
 			$this->query($query);
 		}

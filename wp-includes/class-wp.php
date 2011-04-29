@@ -504,18 +504,6 @@ class WP {
 		do_action_ref_array('wp', array(&$this));
 	}
 
-	/**
-	 * PHP4 Constructor - Does nothing.
-	 *
-	 * Call main() method when ready to run setup.
-	 *
-	 * @since 2.0.0
-	 *
-	 * @return WP
-	 */
-	function WP() {
-		// Empty.
-	}
 }
 
 /**
