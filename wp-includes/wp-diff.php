@@ -69,8 +69,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	 * @param array $params
 	 */
 	function __construct( $params = array() ) {
-		$parent = get_parent_class($this);
-		$this->$parent( $params );
+		parent::__construct( $params );
 	}
 
 	/**
