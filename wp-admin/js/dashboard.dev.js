@@ -10,7 +10,7 @@ jQuery(document).ready( function($) {
 	];
 
 	ajaxPopulateWidgets = function(el) {
-		show = function(id, i) {
+		function show(i, id) {
 			var p, e = $('#' + id + ' div.inside:visible').find('.widget-loading');
 			if ( e.length ) {
 				p = e.parent();
@@ -23,14 +23,13 @@ jQuery(document).ready( function($) {
 				}, i * 500 );
 			}
 		}
+
 		if ( el ) {
 			el = el.toString();
 			if ( $.inArray(el, ajaxWidgets) != -1 )
-				show(el, 0);
+				show(0, el);
 		} else {
-			$.each( ajaxWidgets, function(i, id) {
-				show(id, i);
-			});
+			$.each( ajaxWidgets, show );
 		}
 	};
 	ajaxPopulateWidgets();
