@@ -165,7 +165,7 @@ function wp_admin_bar_edit_menu( $wp_admin_bar ) {
 	if ( empty($current_object) )
 		return;
 
-	if ( ! empty( $current_object->post_type ) && ( $post_type_object = get_post_type_object( $current_object->post_type ) ) && current_user_can( $post_type_object->cap->edit_post, $current_object->ID ) && $post_type_object->show_ui ) {
+	if ( ! empty( $current_object->post_type ) && ( $post_type_object = get_post_type_object( $current_object->post_type ) ) && current_user_can( $post_type_object->cap->edit_post, $current_object->ID ) && ( $post_type_object->show_ui || 'attachment' == $current_object->post_type ) ) {
 		$wp_admin_bar->add_menu( array( 'id' => 'edit', 'title' => $post_type_object->labels->edit_item,  'href' => get_edit_post_link( $current_object->ID ) ) );
 	} elseif ( ! empty( $current_object->taxonomy ) &&  ( $tax = get_taxonomy( $current_object->taxonomy ) ) && current_user_can( $tax->cap->edit_terms ) && $tax->show_ui ) {
 		$wp_admin_bar->add_menu( array( 'id' => 'edit', 'title' => $tax->labels->edit_item, 'href' => get_edit_term_link( $current_object->term_id, $current_object->taxonomy ) ) );
