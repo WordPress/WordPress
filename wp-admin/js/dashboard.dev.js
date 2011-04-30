@@ -6,7 +6,7 @@ jQuery(document).ready( function($) {
 		'dashboard_incoming_links',
 		'dashboard_primary',
 		'dashboard_secondary',
-		'dashboard_plugins',
+		'dashboard_plugins'
 	];
 
 	ajaxPopulateWidgets = function(el) {
@@ -28,8 +28,8 @@ jQuery(document).ready( function($) {
 			if ( $.inArray(el, ajaxWidgets) != -1 )
 				show(el, 0);
 		} else {
-			$.each( ajaxWidgets, function(i) {
-				show(this, i);
+			$.each( ajaxWidgets, function(i, id) {
+				show(id, i);
 			});
 		}
 	};
