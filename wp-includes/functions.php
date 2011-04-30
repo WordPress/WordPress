@@ -278,9 +278,19 @@ function is_serialized_string( $data ) {
 	if ( !is_string( $data ) )
 		return false;
 	$data = trim( $data );
-	if ( preg_match( '/^s:[0-9]+:.*;$/s', $data ) ) // this should fetch all serialized strings
+	$length = strlen( $data );
+	if ( $length < 4 )
+		return false;
+	elseif ( ':' !== $data[1] )
+		return false;
+	elseif ( ';' !== $data[$length-1] )
+		return false;
+	elseif ( $data[0] !== 's' )
+		return false;
+	elseif ( '"' !== $data[$length-2] )
+		return false;
+	else
 		return true;
-	return false;
 }
 
 /**
