@@ -36,7 +36,7 @@ jQuery(document).ready( function($) {
 		$('.edit-timestamp').show();
 		$('#timestamp').html(
 			commentL10n.submittedOn + ' <b>' +
-			$( '#mm option[value=' + mm + ']' ).text() + ' ' +
+			$( '#mm option[value="' + mm + '"]' ).text() + ' ' +
 			jj + ', ' +
 			aa + ' @ ' +
 			hh + ':' +

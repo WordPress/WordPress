@@ -2,7 +2,7 @@ jQuery(document).ready( function($) {
 	var before, addBefore, addAfter, delBefore;
 
 	before = function() {
-		var nonce = $('#newmeta [name=_ajax_nonce]').val(), postId = $('#post_ID').val();
+		var nonce = $('#newmeta [name="_ajax_nonce"]').val(), postId = $('#post_ID').val();
 		if ( !nonce || !postId ) { return false; }
 		return [nonce,postId];
 	}

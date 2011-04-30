@@ -18,7 +18,7 @@ wpList = {
 
 	nonce: function(e,s) {
 		var url = wpAjax.unserialize(e.attr('href'));
-		return s.nonce || url._ajax_nonce || $('#' + s.element + ' input[name=_ajax_nonce]').val() || url._wpnonce || $('#' + s.element + ' input[name=_wpnonce]').val() || 0;
+		return s.nonce || url._ajax_nonce || $('#' + s.element + ' input[name="_ajax_nonce"]').val() || url._wpnonce || $('#' + s.element + ' input[name="_wpnonce"]').val() || 0;
 	},
 
 	parseClass: function(e,t) {
@@ -62,7 +62,7 @@ wpList = {
 
 		if ( !s ) { return false; }
 
-		if ( !e.is("[class^=add:" + list.id + ":]") ) { return !wpList.add.call( list, e, s ); }
+		if ( !e.is('[class^="add:' + list.id + ':"]') ) { return !wpList.add.call( list, e, s ); }
 
 		if ( !s.element ) { return true; }
 
@@ -70,7 +70,7 @@ wpList = {
 
 		s.nonce = wpList.nonce(e,s);
 
-		es = $('#' + s.element + ' :input').not('[name=_ajax_nonce], [name=_wpnonce], [name=action]');
+		es = $('#' + s.element + ' :input').not('[name="_ajax_nonce"], [name="_wpnonce"], [name="action"]');
 		valid = wpAjax.validateForm( '#' + s.element );
 		if ( !valid ) { return false; }
 
@@ -324,19 +324,19 @@ wpList = {
 		var list = this,
 			$el = $(el || document);
 
-		$el.delegate( "form[class^=add:" + list.id + ":]", 'submit', function(){
+		$el.delegate( 'form[class^="add:' + list.id + ':"]', 'submit', function(){
 			return list.wpList.add(this);
 		});
 
-		$el.delegate( "[class^=add:" + list.id + ":]:not(form)", 'click', function(){
+		$el.delegate( '[class^="add:' + list.id + ':"]:not(form)', 'click', function(){
 			return list.wpList.add(this);
 		});
 
-		$el.delegate( "[class^=delete:" + list.id + ":]", 'click', function(){
+		$el.delegate( '[class^="delete:' + list.id + ':"]', 'click', function(){
 			return list.wpList.del(this);
 		});
 
-		$el.delegate( "[class^=dim:" + list.id + ":]", 'click', function(){
+		$el.delegate( '[class^="dim:' + list.id + ':"]', 'click', function(){
 			return list.wpList.dim(this);
 		});
 	},

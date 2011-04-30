@@ -11,7 +11,7 @@ jQuery(document).ready(function($) {
 					$('#ajax-response').empty();
 					tr.fadeOut('normal', function(){ tr.remove(); });
 					// Remove the term from the parent box and tag cloud
-					$('select#parent option[value=' + data.match(/tag_ID=(\d+)/)[1] + ']').remove();
+					$('select#parent option[value="' + data.match(/tag_ID=(\d+)/)[1] + '"]').remove();
 					$('a.tag-link-' + data.match(/tag_ID=(\d+)/)[1]).remove();
 				} else if ( '-1' == r ) {
 					$('#ajax-response').empty().append('<div class="error"><p>' + tagsl10n.noPerm + '</p></div>');

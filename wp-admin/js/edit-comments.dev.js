@@ -38,7 +38,7 @@ setCommentsList = function() {
 		settings.data._per_page = perPageInput.val() || 0;
 		settings.data._page = pageInput.val() || 0;
 		settings.data._url = document.location.href;
-		settings.data.comment_status = $('input[name=comment_status]', '#comments-form').val();
+		settings.data.comment_status = $('input[name="comment_status"]', '#comments-form').val();
 
 		if ( cl.indexOf(':trash=1') != -1 )
 			action = 'trash';
@@ -216,8 +216,8 @@ setCommentsList = function() {
 	};
 
 	var refillTheExtraList = function(ev) {
-		// var args = $.query.get(), total_pages = listTable.get_total_pages(), per_page = $('input[name=_per_page]', '#comments-form').val(), r;
-		var args = $.query.get(), total_pages = $('.total-pages').text(), per_page = $('input[name=_per_page]', '#comments-form').val(), r;
+		// var args = $.query.get(), total_pages = listTable.get_total_pages(), per_page = $('input[name="_per_page"]', '#comments-form').val(), r;
+		var args = $.query.get(), total_pages = $('.total-pages').text(), per_page = $('input[name="_per_page"]', '#comments-form').val(), r;
 
 		if (! args.paged)
 			args.paged = 1;
@@ -439,7 +439,7 @@ commentReply = {
 		post.content = $('#replycontent').val();
 		post.id = post.comment_post_ID;
 		post.comments_listing = this.comments_listing;
-		post.p = $('[name=p]').val();
+		post.p = $('[name="p"]').val();
 
 		$.ajax({
 			type : 'POST',
@@ -535,7 +535,7 @@ $(document).ready(function(){
 		make_bulk = function(value) {
 			return function() {
 				var scope = $('select[name="action"]');
-				$('option[value='+value+']', scope).attr('selected', 'selected');
+				$('option[value="' + value + '"]', scope).attr('selected', 'selected');
 				$('#doaction').click();
 			}
 		};

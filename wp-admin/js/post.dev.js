@@ -220,7 +220,7 @@ WPSetThumbnailHTML = function(html){
 };
 
 WPSetThumbnailID = function(id){
-	var field = $('input[value=_thumbnail_id]', '#list-table');
+	var field = $('input[value="_thumbnail_id"]', '#list-table');
 	if ( field.size() > 0 ) {
 		$('#meta\\[' + field.attr('id').match(/[0-9]+/) + '\\]\\[value\\]').text(id);
 	}
@@ -369,7 +369,7 @@ jQuery(document).ready( function($) {
 
 		function updateText() {
 			var attemptedDate, originalDate, currentDate, publishOn, postStatus = $('#post_status'),
-				optPublish = $('option[value=publish]', postStatus), aa = $('#aa').val(),
+				optPublish = $('option[value="publish"]', postStatus), aa = $('#aa').val(),
 				mm = $('#mm').val(), jj = $('#jj').val(), hh = $('#hh').val(), mn = $('#mn').val();
 
 			attemptedDate = new Date( aa, mm - 1, jj, hh, mn );
@@ -398,7 +398,7 @@ jQuery(document).ready( function($) {
 			} else {
 				$('#timestamp').html(
 					publishOn + ' <b>' +
-					$('option[value=' + $('#mm').val() + ']', '#mm').text() + ' ' +
+					$('option[value="' + $('#mm').val() + '"]', '#mm').text() + ' ' +
 					jj + ', ' +
 					aa + ' @ ' +
 					hh + ':' +
@@ -413,7 +413,7 @@ jQuery(document).ready( function($) {
 				} else {
 					optPublish.html( postL10n.privatelyPublished );
 				}
-				$('option[value=publish]', postStatus).attr('selected', true);
+				$('option[value="publish"]', postStatus).attr('selected', true);
 				$('.edit-post-status', '#misc-publishing-actions').hide();
 			} else {
 				if ( $('#original_post_status').val() == 'future' || $('#original_post_status').val() == 'draft' ) {

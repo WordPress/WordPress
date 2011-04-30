@@ -461,7 +461,7 @@ var wpNavMenu;
 			var loc = $('#nav-menu-theme-locations'), params = {};
 			params['action'] = 'menu-locations-save';
 			params['menu-settings-column-nonce'] = $('#menu-settings-column-nonce').val();
-			loc.find('input[type=submit]').click(function() {
+			loc.find('input[type="submit"]').click(function() {
 				loc.find('select').each(function() {
 					params[this.name] = $(this).val();
 				});

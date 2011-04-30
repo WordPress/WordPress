@@ -32,7 +32,7 @@ inlineEditPost = {
 			return inlineEditPost.revert();
 		});
 
-		$('#inline-edit .inline-edit-private input[value=private]').click( function(){
+		$('#inline-edit .inline-edit-private input[value="private"]').click( function(){
 			var pw = $('input.inline-edit-password-input');
 			if ( $(this).attr('checked') ) {
 				pw.val('').attr('disabled', 'disabled');
@@ -109,7 +109,7 @@ inlineEditPost = {
 		$('#bulk-titles a').click(function(){
 			var id = $(this).attr('id').substr(1);
 
-			$('table.widefat input[value="'+id+'"]').attr('checked', '');
+			$('table.widefat input[value="' + id + '"]').attr('checked', '');
 			$('#ttle'+id).remove();
 		});
 
@@ -142,7 +142,7 @@ inlineEditPost = {
 
 		// populate the data
 		rowData = $('#inline_'+id);
-		if ( !$(':input[name="post_author"] option[value=' + $('.post_author', rowData).text() + ']', editRow).val() ) {
+		if ( !$(':input[name="post_author"] option[value="' + $('.post_author', rowData).text() + '"]', editRow).val() ) {
 			// author no longer has edit caps, so we need to add them to the list of authors
 			$(':input[name="post_author"]', editRow).prepend('<option value="' + $('.post_author', rowData).text() + '">' + $('#' + t.type + '-' + id + ' .author').text() + '</option>');
 		}
@@ -151,7 +151,7 @@ inlineEditPost = {
 		}
 
 		for ( var f = 0; f < fields.length; f++ ) {
-			$(':input[name="'+fields[f]+'"]', editRow).val( $('.'+fields[f], rowData).text() );
+			$(':input[name="' + fields[f] + '"]', editRow).val( $('.'+fields[f], rowData).text() );
 		}
 
 		if ( $('.comment_status', rowData).text() == 'open' )
@@ -193,7 +193,7 @@ inlineEditPost = {
 		}
 
 		// remove the current page and children from the parent dropdown
-		pageOpt = $('select[name="post_parent"] option[value="'+id+'"]', editRow);
+		pageOpt = $('select[name="post_parent"] option[value="' + id + '"]', editRow);
 		if ( pageOpt.length > 0 ) {
 			pageLevel = pageOpt[0].className.split('-')[1];
 			nextPage = pageOpt;

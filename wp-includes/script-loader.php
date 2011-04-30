@@ -110,7 +110,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'autosave', "/wp-includes/js/autosave$suffix.js", array('schedule', 'wp-ajax-response'), '20110425' );
 	$scripts->add_data( 'autosave', 'group', 1 );
 
-	$scripts->add( 'wp-lists', "/wp-includes/js/wp-lists$suffix.js", array('wp-ajax-response'), '20101222' );
+	$scripts->add( 'wp-lists', "/wp-includes/js/wp-lists$suffix.js", array('wp-ajax-response'), '20110429' );
 	$scripts->add_data( 'wp-lists', 'group', 1 );
 
 	$scripts->add( 'scriptaculous-root', '/wp-includes/js/scriptaculous/wp-scriptaculous.js', array('prototype'), '1.8.3');
@@ -265,7 +265,7 @@ function wp_default_scripts( &$scripts ) {
 		'l10n_print_after' => 'try{convertEntities(pwsL10n);}catch(e){};'
 	) );
 
-	$scripts->add( 'user-profile', "/wp-admin/js/user-profile$suffix.js", array( 'jquery', 'password-strength-meter' ), '20110401' );
+	$scripts->add( 'user-profile', "/wp-admin/js/user-profile$suffix.js", array( 'jquery', 'password-strength-meter' ), '20110429' );
 	$scripts->add_data( 'user-profile', 'group', 1 );
 
 	$scripts->add( 'admin-bar', "/wp-includes/js/admin-bar$suffix.js", false, '20110131' );
@@ -300,7 +300,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'admin-categories', "/wp-admin/js/categories$suffix.js", array('wp-lists'), '20091201' );
 		$scripts->add_data( 'admin-categories', 'group', 1 );
 
-		$scripts->add( 'admin-tags', "/wp-admin/js/tags$suffix.js", array('jquery', 'wp-ajax-response'), '20101216' );
+		$scripts->add( 'admin-tags', "/wp-admin/js/tags$suffix.js", array('jquery', 'wp-ajax-response'), '20110429' );
 		$scripts->add_data( 'admin-tags', 'group', 1 );
 		$scripts->localize( 'admin-tags', 'tagsl10n', array(
 			'noPerm' => __('You do not have permission to do that.'),
@@ -308,10 +308,10 @@ function wp_default_scripts( &$scripts ) {
 			'l10n_print_after' => 'try{convertEntities(tagsl10n);}catch(e){};'
 		));
 
-		$scripts->add( 'admin-custom-fields', "/wp-admin/js/custom-fields$suffix.js", array('wp-lists'), '20090106' );
+		$scripts->add( 'admin-custom-fields', "/wp-admin/js/custom-fields$suffix.js", array('wp-lists'), '20110429' );
 		$scripts->add_data( 'admin-custom-fields', 'group', 1 );
 
-		$scripts->add( 'admin-comments', "/wp-admin/js/edit-comments$suffix.js", array('wp-lists', 'jquery-ui-resizable', 'quicktags', 'jquery-query'), '20110122' );
+		$scripts->add( 'admin-comments', "/wp-admin/js/edit-comments$suffix.js", array('wp-lists', 'jquery-ui-resizable', 'quicktags', 'jquery-query'), '20110429' );
 		$scripts->add_data( 'admin-comments', 'group', 1 );
 		$scripts->localize( 'admin-comments', 'adminCommentsL10n', array(
 			'hotkeys_highlight_first' => isset($_GET['hotkeys_highlight_first']),
@@ -324,7 +324,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'postbox', "/wp-admin/js/postbox$suffix.js", array('jquery-ui-sortable'), '20091012' );
 		$scripts->add_data( 'postbox', 'group', 1 );
 
-		$scripts->add( 'post', "/wp-admin/js/post$suffix.js", array('suggest', 'wp-lists', 'postbox'), '20110424' );
+		$scripts->add( 'post', "/wp-admin/js/post$suffix.js", array('suggest', 'wp-lists', 'postbox'), '20110429' );
 		$scripts->add_data( 'post', 'group', 1 );
 		$scripts->localize( 'post', 'postL10n', array(
 			'tagsUsed' =>  __('Tags used on this post:'),
@@ -356,7 +356,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'link', "/wp-admin/js/link$suffix.js", array('wp-lists', 'postbox'), '20090526' );
 		$scripts->add_data( 'link', 'group', 1 );
 
-		$scripts->add( 'comment', "/wp-admin/js/comment$suffix.js", array('jquery'), '20091202' );
+		$scripts->add( 'comment', "/wp-admin/js/comment$suffix.js", array('jquery'), '20110429' );
 		$scripts->add_data( 'comment', 'group', 1 );
 		$scripts->localize( 'comment', 'commentL10n', array(
 			'cancel' => __('Cancel'),
@@ -386,7 +386,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'theme-preview', "/wp-admin/js/theme-preview$suffix.js", array( 'thickbox', 'jquery' ), '20100407' );
 		$scripts->add_data( 'theme-preview', 'group', 1 );
 
-		$scripts->add( 'inline-edit-post', "/wp-admin/js/inline-edit-post$suffix.js", array( 'jquery', 'suggest' ), '20110113' );
+		$scripts->add( 'inline-edit-post', "/wp-admin/js/inline-edit-post$suffix.js", array( 'jquery', 'suggest' ), '20110429' );
 		$scripts->add_data( 'inline-edit-post', 'group', 1 );
 		$scripts->localize( 'inline-edit-post', 'inlineEditL10n', array(
 			'error' => __('Error while saving the changes.'),
@@ -423,7 +423,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'media', "/wp-admin/js/media$suffix.js", array( 'jquery-ui-draggable' ), '20101022' );
 		$scripts->add_data( 'media', 'group', 1 );
 
-		$scripts->add( 'image-edit', "/wp-admin/js/image-edit$suffix.js", array('jquery', 'json2', 'imgareaselect'), '20091111' );
+		$scripts->add( 'image-edit', "/wp-admin/js/image-edit$suffix.js", array('jquery', 'json2', 'imgareaselect'), '20110429' );
 		$scripts->add_data( 'image-edit', 'group', 1 );
 
 		$scripts->add( 'set-post-thumbnail', "/wp-admin/js/set-post-thumbnail$suffix.js", array( 'jquery' ), '20100518' );
@@ -437,7 +437,7 @@ function wp_default_scripts( &$scripts ) {
 		) );
 
 		// Navigation Menus
-		$scripts->add( 'nav-menu', "/wp-admin/js/nav-menu$suffix.js", array('jquery-ui-sortable'), '20100814' );
+		$scripts->add( 'nav-menu', "/wp-admin/js/nav-menu$suffix.js", array('jquery-ui-sortable'), '20110429' );
 		$scripts->localize( 'nav-menu', 'navMenuL10n', array(
 			'noResultsFound' => _x('No results found.', 'search results'),
 			'warnDeleteMenu' => __( "You are about to permanently delete this menu. \n 'Cancel' to stop, 'OK' to delete." ),
