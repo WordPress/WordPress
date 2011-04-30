@@ -242,16 +242,9 @@ wpList = {
 		return false;
 	},
 
-	// From jquery.color.js: jQuery Color Animation by John Resig
 	getColor: function( el ) {
-		if ( el.constructor == Object )
-			el = el.get(0);
-		var elem = el, color, rgbaTrans = new RegExp( "rgba\\(\\s*0,\\s*0,\\s*0,\\s*0\\s*\\)", "i" );
-		do {
-			color = jQuery.curCSS(elem, 'backgroundColor');
-			if ( color != '' && color != 'transparent' && !color.match(rgbaTrans) || jQuery.nodeName(elem, "body") )
-				break;
-		} while ( elem = elem.parentNode );
+		var color = jQuery(el).css('backgroundColor');
+
 		return color || '#ffffff';
 	},
 
