@@ -1,7 +1,12 @@
 <?php
 /**
+ * The template for displaying posts in the Link Post Format on index and archive pages
+ *
+ * Learn more: http://codex.wordpress.org/Post_Formats
+ * 
  * @package WordPress
  * @subpackage Twenty Eleven
+ * @since Twenty Eleven 1.0
  */
 ?>
 

@@ -1,7 +1,10 @@
 <?php
 /**
+ * The template for displaying content in the single.php template
+ *
  * @package WordPress
  * @subpackage Twenty Eleven
+ * @since Twenty Eleven 1.0
  */
 ?>
 

@@ -1,7 +1,10 @@
 <?php
 /**
+ * The template for displaying search forms in Twenty Eleven
+ *
  * @package WordPress
  * @subpackage Twenty Eleven
+ * @since Twenty Eleven 1.0
  */
 ?>
 	<form method="get" id="searchform" action="<?php echo home_url( '/' ); ?>">

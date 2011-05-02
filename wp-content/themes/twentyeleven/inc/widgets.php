@@ -1,8 +1,12 @@
 <?php
 /**
- * new WordPress Widget format
- * Wordpress 2.8 and above
- * @see http://codex.wordpress.org/Widgets_API#Developing_Widgets
+ * Makes a custom Widget for displaying Aside, Link, Status, and Quote Posts available with Twenty Eleven
+ *
+ * Learn more: http://codex.wordpress.org/Widgets_API#Developing_Widgets
+ *
+ * @package WordPress
+ * @subpackage Twenty Eleven
+ * @since Twenty Eleven 1.0
  */
 class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 

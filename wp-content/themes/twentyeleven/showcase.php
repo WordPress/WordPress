@@ -11,6 +11,7 @@
  *
  * @package WordPress
  * @subpackage Twenty Eleven
+ * @since Twenty Eleven 1.0
  */
 
 // Enqueue showcase script for the slider
