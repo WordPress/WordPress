@@ -21,7 +21,7 @@
 					}, 10);
 				}
 			});
-			
+
 			ed.addCommand('wpFullScreenSave', function() {
 				var ed = tinyMCE.get('wp_mce_fullscreen'), edd;
 
@@ -30,14 +30,13 @@
 
 				edd.setContent( ed.getContent({format : 'raw'}), {format : 'raw'} );
 			});
-			
-			ed.addCommand('wpFullScreenSaveContent', function() {
-				ed.execCommand('wpFullScreenSave');
-				tinyMCE.triggerSave();
-			});
-			
-			ed.addCommand('wpFullScreenOpen', function() {
-				var d = ed.getDoc(), b = d.body;
+
+			ed.addCommand('wpFullScreenInit', function() {
+				var d = ed.getDoc(), b = d.body, fsed;
+
+				// Only init the editor if necessary. Needed?
+				if ( ed.id == 'wp_mce_fullscreen' )
+					return;
 
 				tinyMCE.oldSettings = tinyMCE.settings; // Store old settings
 
@@ -53,27 +52,33 @@
 				s.theme_advanced_statusbar_location = 'none';
 				s.content_css = s.wp_fullscreen_content_css || '';
 				s.height = tinymce.isIE ? b.scrollHeight : b.offsetHeight;
-				s.save_onsavecallback = function() {
-					ed.setContent(tinyMCE.get(s.id).getContent({format : 'raw'}), {format : 'raw'});
-					ed.execCommand('mceSave');
-				};
+	//			s.setup = function(ed) {
+	//			}
 
 				tinymce.each(ed.getParam('wp_fullscreen_settings'), function(v, k) {
 					s[k] = v;
 				});
 
-				t.fullscreenEditor = new tinymce.Editor('wp_mce_fullscreen', s);
-				t.fullscreenEditor.onInit.add(function() {
-					t.fullscreenEditor.setContent(ed.getContent());
-					t.fullscreenEditor.focus();
+				fsed = new tinymce.Editor('wp_mce_fullscreen', s);
+				fsed.onInit.add(function(edd) {
+
+					if ( !ed.isHidden() )
+						edd.setContent( ed.getContent() );
+					else
+						edd.setContent( switchEditors.wpautop( edd.getElement().value ) );
+
+					edd.focus();
 				});
 
-				fullscreen.on();
-				t.fullscreenEditor.render();
+				fsed.render();
 			});
 
 			// Register buttons
-			ed.addButton('fullscreen', {title : 'fullscreen.desc', cmd : 'wpFullScreenOpen'});
+			if ( 'undefined' != fullscreen )
+				ed.addButton('fullscreen', {
+					title : 'fullscreen.desc',
+					onclick : function(){ fullscreen.on(); }
+				});
 
 			// END fullscreen
 //----------------------------------------------------------------
@@ -115,7 +120,6 @@
 				ed.onPostRender.add(resize);
 
 				ed.getBody().style.overflowY = "hidden";
-				ed.dom.setStyle( ed.getBody(), 'paddingBottom', ed.getParam('autoresize_bottom_margin', 50) + 'px' );
 			});
 
 			if (ed.getParam('autoresize_on_init', true)) {
@@ -132,7 +136,7 @@
 			}
 
 			// Register the command so that it can be invoked by using tinyMCE.activeEditor.execCommand('mceExample');
-			ed.addCommand('mceAutoResize', resize);
+			ed.addCommand('wpAutoResize', resize);
 		},
 
 		getInfo : function() {

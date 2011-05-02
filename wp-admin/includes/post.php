@@ -1647,7 +1647,7 @@ function wp_tiny_mce( $teeny = false, $settings = false ) {
 
 	$mce_options = rtrim( trim($mce_options), '\n\r,' );
 
-	wp_print_scripts('editor'); ?>
+	do_action('before_wp_tiny_mce', $initArray); ?>
 
 <script type="text/javascript">
 /* <![CDATA[ */
@@ -1688,11 +1688,12 @@ tinyMCE.init(tinyMCEPreInit.mceInit);
 </script>
 <?php
 
-do_action('tiny_mce_preload_dialogs', $plugins);
+do_action('after_wp_tiny_mce', $initArray);
 }
 
 // Load additional inline scripts based on active plugins.
-function wp_preload_dialogs($plugins) {
+function wp_preload_dialogs($init) {
+	$plugins = (array) $init['plugins'];
 
 	if ( in_array( 'wpdialogs', $plugins, true ) ) {
 		wp_print_scripts('wpdialogs-popup');
@@ -1716,7 +1717,11 @@ function wp_preload_dialogs($plugins) {
 }
 
 function wp_quicktags() {
-	wp_preload_dialogs( array( 'wpdialogs', 'wplink', 'wp_fullscreen' ) );
+	wp_preload_dialogs( array( 'plugins' => array( 'wpdialogs', 'wplink', 'wpfullscreen' ) ) );
+}
+
+function wp_print_editor_js() {
+	wp_print_scripts('editor');
 }
 
 function wp_fullscreen_html() {
@@ -1725,19 +1730,31 @@ function wp_fullscreen_html() {
 	$width = isset($content_width) && 800 > $content_width ? $content_width : 800;
 	$width = $width + 10; // compensate for the padding
 	$save = $post->post_status == 'publish' ? __('Update') : __('Save');
-?> 
+?>
 <div id="wp-fullscreen-body">
 <div id="fullscreen-topbar" class="fade-600">
 	<div id="wp-fullscreen-info">
 		<span id="wp-fullscreen-saved"> </span>
 		<span class="autosave-message">&nbsp;</span>
-		<span id="wp-fullscreen-last-edit"> </span> 
+		<span id="wp-fullscreen-last-edit"> </span>
 	</div>
 
 	<div id="wp-fullscreen-toolbar">
+
 		<div id="wp-fullscreen-close"><a href="#" onclick="fullscreen.off();return false;"><?php _e('Back'); ?></a></div>
-		<div id="wp-fullscreen-save"><input type="button" class="button-primary" value="<?php echo $save; ?>" onclick="fullscreen.save();" /></div>
-		<div id="wp-fullscreen-buttons" style="width:<?php echo $width; ?>px;" class="wp_themeSkin">
+		<div id="wp-fullscreen-save">
+			<span><?php if ( $post->post_status == 'publish' ) _e('Updated.'); else _e('Saved.'); ?></span>
+			<img src="images/wpspin_light.gif" alt="" />
+			<input type="button" class="button-primary" value="<?php echo $save; ?>" onclick="fullscreen.save();" />
+		</div>
+		<div id="wp-fullscreen-central-toolbar" style="width:<?php echo $width; ?>px;">
+
+		<div id="wp-fullscreen-mode-bar"><div id="wp-fullscreen-modes">
+			<a href="#" onclick="fullscreen.switchmode('tinymce');return false;"><?php _e('Visual'); ?></a>
+			<a href="#" onclick="fullscreen.switchmode('html');return false;"><?php _e('HTML'); ?></a>
+		</div></div>
+
+		<div id="wp-fullscreen-button-bar"><div id="wp-fullscreen-buttons" class="wp_themeSkin">
 			<div>
 			<a title="<?php _e('Bold (Ctrl + B)'); ?>" aria-labelledby="wp_fs_bold_voice" onclick="fullscreen.b();return false;" class="mceButton mceButtonEnabled mce_bold" href="javascript:;" id="wp_fs_bold" role="button" tabindex="-1" aria-pressed="false">
 			<span class="mceIcon mce_bold"></span>
@@ -1774,18 +1791,18 @@ function wp_fullscreen_html() {
 			<span tabindex="-1" aria-orientation="vertical" role="separator" class="mceSeparator"></span>
 			</div>
 
-			<div>
+			<div class="wp-fullscreen-both">
 			<a title="<?php _e('Insert/edit image (Alt + Shift + M)'); ?>" aria-labelledby="wp_fs_image_voice" onclick="jQuery('#add_image').click();return false;" class="mceButton mceButtonEnabled mce_image" href="javascript:;" id="wp_fs_image" role="button" tabindex="-1">
 			<span class="mceIcon mce_image"></span>
 			<span id="wp_fs_image_voice" style="display: none;" class="mceVoiceLabel mceIconOnly"><?php _e('Insert/edit image (Alt + Shift + M)'); ?></span>
 			</a>
 			</div>
 
-			<div>
+			<div class="wp-fullscreen-both">
 			<span tabindex="-1" aria-orientation="vertical" role="separator" class="mceSeparator"></span>
 			</div>
 
-			<div>
+			<div class="wp-fullscreen-both">
 			<a title="<?php _e('Insert/edit link (Alt + Shift + A)'); ?>" aria-labelledby="wp_fs_link_voice" onclick="fullscreen.link();return false;" class="mceButton mce_link mceButtonEnabled" href="javascript:;" id="wp_fs_link" role="button" tabindex="-1" aria-pressed="false">
 			<span class="mceIcon mce_link"></span>
 			<span id="wp_fs_link_voice" style="display: none;" class="mceVoiceLabel mceIconOnly"><?php _e('Insert/edit link (Alt + Shift + A)'); ?></span>
@@ -1798,9 +1815,11 @@ function wp_fullscreen_html() {
 			<span id="wp_fs_unlink_voice" style="display: none;" class="mceVoiceLabel mceIconOnly"><?php _e('Unlink (Alt + Shift + S)'); ?></span>
 			</a>
 			</div>
+		</div></div>
 
-			<div id="wp-fullscreen-count"><?php _e('Word Count:'); ?> <span class="word-count">0</span></div>
+		<div id="wp-fullscreen-count"><?php _e('Word Count:'); ?> <span class="word-count">0</span></div>
 		</div>
+
 	</div>
 </div>
 

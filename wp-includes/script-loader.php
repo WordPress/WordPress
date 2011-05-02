@@ -86,6 +86,8 @@ function wp_default_scripts( &$scripts ) {
 		'enterURL' => __('Enter the URL'),
 		'enterImageURL' => __('Enter the URL of the image'),
 		'enterImageDescription' => __('Enter a description of the image'),
+		'fullscreen' => __('fullscreen'),
+		'toggleFullscreen' => esc_attr( __('Toggle fullscreen mode') ),
 		'l10n_print_after' => 'try{convertEntities(quicktagsL10n);}catch(e){};'
 	) );
 
@@ -93,8 +95,8 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'editor', "/wp-admin/js/editor$suffix.js", array('utils','jquery'), '20110411' );
 	$scripts->add_data( 'editor', 'group', 1 );
-	
-	$scripts->add( 'wp-fullscreen', "/wp-admin/js/wp-fullscreen$suffix.js", array('jquery'), '20110425b' );
+
+	$scripts->add( 'wp-fullscreen', "/wp-admin/js/wp-fullscreen$suffix.js", array('jquery'), '20110501' );
 	$scripts->add_data( 'wp-fullscreen', 'group', 1 );
 
 	$scripts->add( 'prototype', '/wp-includes/js/prototype.js', false, '1.6.1');
@@ -271,7 +273,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'admin-bar', "/wp-includes/js/admin-bar$suffix.js", false, '20110131' );
 	$scripts->add_data( 'admin-bar', 'group', 1 );
 
-	$scripts->add( 'wplink', "/wp-includes/js/tinymce/plugins/wplink/js/wplink$suffix.js", array( 'jquery', 'wpdialogs' ), '20110421' );
+	$scripts->add( 'wplink', "/wp-includes/js/tinymce/plugins/wplink/js/wplink$suffix.js", array( 'jquery', 'wpdialogs' ), '20110501' );
 	$scripts->add_data( 'wplink', 'group', 1 );
 	$scripts->localize( 'wplink', 'wpLinkL10n', array(
 		'title' => __('Insert/edit link'),
@@ -483,7 +485,7 @@ function wp_default_styles( &$styles ) {
 	// Any rtl stylesheets that don't have a .dev version for ltr
 	$no_suffix = array( 'farbtastic' );
 
-	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20110428' );
+	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20110501' );
 
 	$styles->add( 'ie', "/wp-admin/css/ie$suffix.css", array(), '20101102' );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );

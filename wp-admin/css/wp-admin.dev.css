@@ -589,7 +589,8 @@ form.upgrade .hint {
 	filter: inherit;
 }
 
-.fullscreen-active .fullscreen-overlay {
+.fullscreen-active .fullscreen-overlay,
+.fullscreen-active #wp-fullscreen-body {
 	display: block;
 }
 
@@ -613,7 +614,7 @@ form.upgrade .hint {
 }
 
 #wp-fullscreen-wrap {
-	margin: 75px auto 50px;
+	margin: 60px auto 50px;
 	position: relative;
 }
 
@@ -627,7 +628,7 @@ form.upgrade .hint {
 }
 
 #wp-fullscreen-container {
-	padding: 4px 9px;
+	padding: 4px 10px;
 }
 
 #wp-fullscreen-title,
@@ -657,6 +658,12 @@ form.upgrade .hint {
 	width: 100%;
 	min-height: 300px;
 	border: 0;
+	background: transparent;
+	line-height: 1.6em;
+	padding: 0;
+	overflow-y: hidden;
+	outline: none;
+	resize: none;
 }
 
 /* =Top bar
@@ -671,24 +678,30 @@ form.upgrade .hint {
 	border-bottom: 1px solid #C6C6C6;
 	min-width: 800px;
 	width: 100%;
-	height: 62px;
-	background: #d9d9d9;
-	background: -moz-linear-gradient(bottom,  #d7d7d7,  #e4e4e4);
-	background: -webkit-gradient(linear, left bottom, left top, from(#d7d7d7), to(#e4e4e4));
+	height: 40px;
+	background-color: #d9d9d9;
+	background-image: -moz-linear-gradient(bottom,  #d7d7d7,  #e4e4e4);
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#d7d7d7), to(#e4e4e4));
 }
 
 #wp-fullscreen-toolbar {
-	padding: 6px 12px 0;
+	padding: 6px 2% 0;
 	clear: both;
 }
 
+#wp-fullscreen-mode-bar,
+#wp-fullscreen-button-bar,
 #wp-fullscreen-close {
 	float: left;
 }
 
 #wp-fullscreen-save,
-#wp-fullscreen-buttons #wp-fullscreen-count {
+#wp-fullscreen-count {
 	float: right;
+}
+
+#wp-fullscreen-save {
+	padding-top: 2px;
 }
 
 #wp-fullscreen-count,
@@ -699,15 +712,103 @@ form.upgrade .hint {
 #wp-fullscreen-info {
 	float: right;
 	padding: 3px 10px;
+	
+	display: none;
 }
 
-#wp-fullscreen-buttons {
+#wp-fullscreen-central-toolbar {
 	margin: auto;
 	padding: 0;
 }
 
 #wp-fullscreen-buttons > div {
 	float: left;
+}
+
+#wp-fullscreen-mode-bar {
+	padding: 1px 14px 0 0;
+}
+
+#wp-fullscreen-modes a {
+	display: block;
+	font-size: 11px;
+	text-decoration: none;
+	float: left;
+	margin: 1px 0 0 0;
+	padding: 2px 6px 2px;
+	border-width: 1px 1px 1px 0;
+	border-style: solid;
+	border-color: #bbb;
+	color: #777;
+	text-shadow: 0 1px 0 #fff;
+	background-color: #f4f4f4;
+	background-image: -moz-linear-gradient(bottom,  #e4e4e4,  #f9f9f9);
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#e4e4e4), to(#f9f9f9));
+}
+
+#wp-fullscreen-modes a:hover,
+.wp-html-mode #wp-fullscreen-modes a:last-child,
+.wp-tmce-mode #wp-fullscreen-modes a:first-child {
+	color: #333;
+	border-color: #999;
+	background-color: #eee;
+	background-image: -moz-linear-gradient(bottom,  #f9f9f9,  #e0e0e0);
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#f9f9f9), to(#e0e0e0));
+}
+
+#wp-fullscreen-modes a:first-child {
+	border-width: 1px;
+	-moz-border-radius: 4px 0 0 4px;
+	-webkit-border-top-left-radius: 4px;
+	-webkit-border-bottom-left-radius: 4px;
+	-khtml-border-top-left-radius: 4px;
+	-khtml-border-bottom-left-radius: 4px;
+	border-top-left-radius: 4px;
+	border-bottom-left-radius: 4px;
+}
+
+#wp-fullscreen-modes a:last-child {
+	-moz-border-radius: 0 4px 4px 0;
+	-webkit-border-top-right-radius: 4px;
+	-webkit-border-bottom-right-radius: 4px;
+	-khtml-border-top-right-radius: 4px;
+	-khtml-border-bottom-right-radius: 4px;
+	border-top-right-radius: 4px;
+	border-bottom-right-radius: 4px;
+}
+
+#wp-fullscreen-buttons .active a {
+	background: inherit;
+}
+
+#wp-fullscreen-buttons .hidden {
+	display: none;
+}
+
+#wp-fullscreen-buttons .disabled {
+	opacity: 0.5;
+}
+
+.wp-html-mode #wp-fullscreen-buttons div {
+	display: none;
+}
+
+.wp-html-mode #wp-fullscreen-buttons div.wp-fullscreen-both {
+	display: block;
+}
+
+#fullscreen-topbar.fullscreen-make-sticky {
+	display: block !important;
+}
+
+#wp-fullscreen-save img {
+	vertical-align: middle;
+}
+
+#wp-fullscreen-save img,
+#wp-fullscreen-save span {
+	padding-right: 4px;
+	display: none;
 }
 
 /* =Thickbox Adjustments
@@ -4078,7 +4179,7 @@ input.button-highlighted,
 	margin: 20px 0;
 }
 
-.pressthis a { 
+.pressthis a {
 	display: inline-block;
 	width: 113px;
 	position: relative;
@@ -4098,13 +4199,13 @@ input.button-highlighted,
 		rgb(216,216,216) 77%
 	);
 	background-repeat: no-repeat;
-	background-image-position: 10px 8px;	
+	background-image-position: 10px 8px;
 	border-radius: 5px;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
-	-o-border-radius: 5px;	
+	-o-border-radius: 5px;
 	border: 1px #b4b4b4 solid;
-	font: normal normal normal 14px/16px Georgia, "Times New Roman", "Bitstream Charter", Times, serif;	
+	font: normal normal normal 14px/16px Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 	text-decoration: none;
 	text-shadow: #fff 0 1px 0px;
 	-webkit-text-shadow: #fff 0 1px 0px;
@@ -4121,33 +4222,33 @@ input.button-highlighted,
 	transform: skew(20deg) rotate(9deg);
 	-webkit-transform: skew(20deg) rotate(9deg);
 	-moz-transform: skew(20deg) rotate(9deg);
-	box-shadow: 0 10px 8px rgba(0, 0, 0, 0.7); 
-	-webkit-box-shadow: 0 10px 8px rgba(0, 0, 0, 0.7); 
-	-moz-box-shadow: 0 10px 8px rgba(0, 0, 0, 0.7); 
+	box-shadow: 0 10px 8px rgba(0, 0, 0, 0.7);
+	-webkit-box-shadow: 0 10px 8px rgba(0, 0, 0, 0.7);
+	-moz-box-shadow: 0 10px 8px rgba(0, 0, 0, 0.7);
 }
 
 .pressthis a span {
-	background: url(../images/press-this.png) no-repeat 10px 7px ; 
+	background: url(../images/press-this.png) no-repeat 10px 7px ;
 	padding: 8px 0 8px 32px;
 	display: inline-block;
 }
 
-.pressthis a:after { 
-	content: ''; 
-	width: 70%; 
+.pressthis a:after {
+	content: '';
+	width: 70%;
 	height: 55%;
-	z-index: -1; 
-	position: absolute; 
-	right: 10px; 
-	bottom: 9px; 
-	background: transparent;  
+	z-index: -1;
+	position: absolute;
+	right: 10px;
+	bottom: 9px;
+	background: transparent;
 	transform: skew(20deg) rotate(6deg);
 	-webkit-transform: skew(20deg) rotate(6deg);
 	-moz-transform: skew(20deg) rotate(6deg);
-	box-shadow: 0 10px 8px rgba(0, 0, 0, 0.6); 
-	-webkit-box-shadow: 0 10px 8px rgba(0, 0, 0, 0.6); 
-	-moz-box-shadow: 0 10px 8px rgba(0, 0, 0, 0.6); 
-} 
+	box-shadow: 0 10px 8px rgba(0, 0, 0, 0.6);
+	-webkit-box-shadow: 0 10px 8px rgba(0, 0, 0, 0.6);
+	-moz-box-shadow: 0 10px 8px rgba(0, 0, 0, 0.6);
+}
 
 
 /*------------------------------------------------------------------------------
