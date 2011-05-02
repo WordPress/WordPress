@@ -36,7 +36,7 @@ function create_initial_taxonomies() {
 		'query_var' => 'tag',
 		'rewrite' => did_action( 'init' ) ? array(
 					'slug' => get_option('tag_base') ? get_option('tag_base') : 'tag',
-					'with_front' => ( get_option('category_base') && ! $wp_rewrite->using_index_permalinks() ) ? false : true ) : false,
+					'with_front' => ( get_option('tag_base') && ! $wp_rewrite->using_index_permalinks() ) ? false : true ) : false,
 		'public' => true,
 		'show_ui' => true,
 		'_builtin' => true,
