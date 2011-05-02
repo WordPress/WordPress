@@ -42,8 +42,8 @@ ol, ul {
 	list-style: none;
 }
 table {/* tables still need 'cellspacing="0"' in the markup */
-border-collapse: separate;
-border-spacing: 0;
+	border-collapse: separate;
+	border-spacing: 0;
 }
 caption, th, td {
 	font-weight: normal;
@@ -59,7 +59,8 @@ blockquote, q {
 a img {
 	border: 0;
 }
-header, hgroup, footer, section, article, nav, aside {
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
 	display: block;
 }
 
@@ -219,8 +220,8 @@ body {
 .one-column section.featured-post .attachment-small-feature {
 	border: none;
 	display: block;
-	max-width: 60%;
 	height: auto;
+	max-width: 60%;
 	position: static;
 }
 .one-column article.feature-image.small {
@@ -234,8 +235,8 @@ body {
 .one-column article.feature-image.small .entry-summary {
 	height: 150px;
 	overflow: hidden;
-	text-overflow: ellipsis;
 	padding: 0;
+	text-overflow: ellipsis;
 }
 .one-column article.feature-image.small .entry-summary a {
 	left: -9%;
@@ -293,9 +294,9 @@ body {
 	right: 1.625em;
 }
 .one-column .commentlist .children .avatar {
-	position: absolute;
 	background: none;
 	padding: 0;
+	position: absolute;
 	top: 2.2em;
 	left: 2.2em;
 }
@@ -445,8 +446,6 @@ a {
 	color: #1b8be0;
 	text-decoration: none;
 }
-a:visited {
-}
 a:focus,
 a:active,
 a:hover {
@@ -576,9 +575,9 @@ a:hover {
 /* Search Form */
 #branding #searchform {
 	position: absolute;
-	text-align: right;
 	top: 4.3em;
 	right: 7.6%;
+	text-align: right;
 }
 #branding #searchform div {
 	margin: 0;
@@ -591,13 +590,13 @@ a:hover {
 	font-size: 14px;
 	height: 22px;
 	padding: 4px 10px 4px 28px;
-	width: 26%;
 	-webkit-transition-duration: 400ms;
 	-webkit-transition-property: width, background;
 	-webkit-transition-timing-function: ease;
 	-moz-transition-duration: 400ms;
 	-moz-transition-property: width, background;
 	-moz-transition-timing-function: ease;
+	width: 26%;
 }
 #branding #s:focus {
 	background-color: #f9f9f9;
@@ -619,8 +618,8 @@ a:hover {
 	background-color: #bbb;
 }
 #branding .with-image #searchform {
-	bottom: -27px;
 	top: auto;
+	bottom: -27px;
 }
 
 
@@ -653,9 +652,9 @@ a:hover {
 	position: relative;
 }
 .blog .sticky .entry-header .entry-meta {
-	position: absolute !important;
 	clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
 	clip: rect(1px, 1px, 1px, 1px);
+	position: absolute !important;
 }
 .entry-title,
 .entry-header .entry-meta {
@@ -668,6 +667,7 @@ a:hover {
 	font-weight: bold;
 	line-height: 1.5em;
 	padding-bottom: .3em;
+	padding-top: 15px;
 }
 .entry-title,
 .entry-title a {
@@ -833,7 +833,6 @@ dl.gallery-item {
 	color: #777;
 	font-size: 18px;
 	font-weight: 300;
-	height: 48px;
 	line-height: 46px;	
 	overflow: hidden;
 	position: absolute;
@@ -842,6 +841,7 @@ dl.gallery-item {
 	top: 0;
 	right: 0;
 	width: 48px;
+	height: 48px;
 }
 .entry-header .comments-link a:hover {
 	background: #777;
@@ -853,7 +853,31 @@ dl.gallery-item {
 	font-weight: bold;
 	text-transform: lowercase;
 }
-
+/* Post Formats */
+.entry-header .entry-format {
+	color: #666;
+	font-size: 10px;
+	font-weight: 500;
+	letter-spacing: 0.1em;
+	line-height: 2.6em;
+	position: absolute;
+	text-transform: uppercase;
+	top: -5px;
+}
+.entry-header hgroup .entry-title {
+	padding-top: 15px;
+}
+article.format-aside .entry-content,
+article.format-link .entry-content,
+article.format-status .entry-content {
+	padding: 20px 0 0;
+}
+.recent-posts .entry-header .entry-format {
+	display: none;
+}
+.recent-posts .entry-header hgroup .entry-title {
+	padding-top: 0;
+}
 
 /* Singular content styles for Posts and Pages */
 .singular .hentry {
@@ -974,7 +998,7 @@ dl.gallery-item {
 	-moz-box-shadow: 0 1px 2px #ccc;
 	box-shadow: 0 1px 2px #ccc;
 	float: left;
-	margin: 4px 10px 1.625em 0;
+	margin: 4px 10px 2px 0;
 	padding: 0;
 }
 
@@ -1007,11 +1031,11 @@ dl.gallery-item {
 .format-image div.entry-meta {
 	display: inline-block;
 	float: left;
-	width: 40%;
+	width: 35%;
 }
 .format-image div.entry-meta + div.entry-meta {
 	float: none;
-	width: 60%;
+	width: 65%;
 }
 .format-image .wp-caption {
 	background: #111;
@@ -1033,6 +1057,7 @@ dl.gallery-item {
 
 /* =error404
 ----------------------------------------------- */
+
 .error404 #main #searchform {
 	background: #f9f9f9;
 	border: 1px solid #ddd;
@@ -1093,16 +1118,16 @@ article.intro .entry-content {
 	padding: 1.625em 0px 0.625em;
 }
 article.intro .edit-link a {
-	position: absolute;
 	background: #aaa;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 	color: #fff;
-	padding: 0px 8px;
 	font-size: 12px;
+	padding: 0px 8px;
+	position: absolute;
+	top: 30px;
 	right: 20px;
 	text-decoration: none;
-	top: 30px;
 }
 article.intro .edit-link a:hover {
 	background: #777;
@@ -1122,9 +1147,9 @@ section.featured-post .hentry {
 	margin: 0;
 }
 section.featured-post .entry-meta {
-	position: absolute !important;
 	clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
 	clip: rect(1px, 1px, 1px, 1px);
+	position: absolute !important;
 }
 
 /* Small featured post */
@@ -1156,8 +1181,8 @@ article.feature-image.small .entry-summary p a {
 	left: -23.8%;
 	padding: 4px 26px 4px 85px;
 	position: relative;
-	text-decoration: none;
 	top: 20px;
+	text-decoration: none;
 	width: 180px;
 }
 article.feature-image.small .entry-summary p a:hover {
@@ -1271,8 +1296,8 @@ section.feature-image.large img {
 	-moz-box-shadow: inset 1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(255,255,255,0.5);
 	box-shadow: inset 1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(255,255,255,0.5);
 	display: block;
-	height: 14px;
 	width: 14px;
+	height: 14px;
 }
 .feature-slider a.active {
 	background: #fff;
@@ -1362,7 +1387,9 @@ section.recent-posts .other-recent-posts li:after {
 }
 .image-attachment div.attachment img {
 	display: block;
+	height: auto;
 	margin: 0 auto 1.625em;
+	width: 100%;
 }
 .image-attachment .entry-caption p {
 	font-size: 10px;
@@ -1544,10 +1571,6 @@ section.ephemera ol,
 	font-size: 15px;
 	font-weight: bold;
 	padding: 0;
-}
-.widget_twentyeleven_ephemera .entry-title a {
-}
-.widget_twentyeleven_ephemera .entry-title a:hover {
 }
 .widget_twentyeleven_ephemera .comments-link a {
 	color: #666;
@@ -2238,6 +2261,7 @@ p.comment-form-comment {
 	}
 }
 
+
 /* =IE7
 ----------------------------------------------- */
 
@@ -2255,6 +2279,4 @@ p.comment-form-comment {
 }
 #ie7 section.recent-posts {
 	margin-right: 7.6%;
-}
-#ie7 .page-template-showcase-php {
 }
