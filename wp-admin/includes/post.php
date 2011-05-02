@@ -1693,7 +1693,7 @@ do_action('after_wp_tiny_mce', $initArray);
 
 // Load additional inline scripts based on active plugins.
 function wp_preload_dialogs($init) {
-	$plugins = (array) $init['plugins'];
+	$plugins = preg_split('/[ ,-]+/', $init['plugins']);
 
 	if ( in_array( 'wpdialogs', $plugins, true ) ) {
 		wp_print_scripts('wpdialogs-popup');
@@ -1717,7 +1717,7 @@ function wp_preload_dialogs($init) {
 }
 
 function wp_quicktags() {
-	wp_preload_dialogs( array( 'plugins' => array( 'wpdialogs', 'wplink', 'wpfullscreen' ) ) );
+	wp_preload_dialogs( array( 'plugins' => 'wpdialogs,wplink,wpfullscreen' ) );
 }
 
 function wp_print_editor_js() {
