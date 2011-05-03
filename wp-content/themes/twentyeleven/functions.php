@@ -174,6 +174,18 @@ function twentyeleven_setup() {
 			'thumbnail_url' => '%s/images/headers/lanterns-thumbnail.jpg',
 			/* translators: header image description */
 			'description' => __( 'Lanterns', 'twentyeleven' )
+		),
+		'willow' => array(
+			'url' => '%s/images/headers/willow.jpg',
+			'thumbnail_url' => '%s/images/headers/willow-thumbnail.jpg',
+			/* translators: header image description */
+			'description' => __( 'Willow', 'twentyeleven' )
+		),
+		'hanoi' => array(
+			'url' => '%s/images/headers/hanoi.jpg',
+			'thumbnail_url' => '%s/images/headers/hanoi-thumbnail.jpg',
+			/* translators: header image description */
+			'description' => __( 'Hanoi Plant', 'twentyeleven' )
 		)
 	) );
 }

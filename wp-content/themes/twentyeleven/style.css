@@ -300,6 +300,9 @@ body {
 	top: 2.2em;
 	left: 2.2em;
 }
+.one-column #respond {
+	width: auto;
+}
 
 /* =Global
 ----------------------------------------------- */
@@ -853,7 +856,11 @@ dl.gallery-item {
 	font-weight: bold;
 	text-transform: lowercase;
 }
-/* Post Formats */
+/*
+	Post Formats Headings
+	To hide the headings, display: none the ".entry-header .entry-format" selector,
+	and remove the padding rules below.
+*/
 .entry-header .entry-format {
 	color: #666;
 	font-size: 10px;
@@ -1668,6 +1675,11 @@ section.ephemera .entry-title a span {
 	position: relative;
 	width: 68.9%;
 }
+.commentlist .pingback {
+	margin: 0 auto 1.625em;
+	padding: 0 1.625em;
+	width: 68.9%;
+}
 .commentlist .children {
 	list-style: none;
 	margin: 0;
@@ -2043,7 +2055,8 @@ p.comment-form-comment {
 		padding: 20px 8.8%;
 	}
 	/* Make sure we have room for our comment avatars */
-	.commentlist > li.comment {
+	.commentlist > li.comment,
+	.commentlist .pingback {
 		margin-left: 102px;
 		width: auto;
 	}
@@ -2081,7 +2094,8 @@ p.comment-form-comment {
 		position: static;
 	}
 	/* Talking avatars take up too much room at this size */
-	.commentlist > li.comment {
+	.commentlist > li.comment,
+	.commentlist > li.pingback {
 		margin-left: 0;
 	}
 	.commentlist .avatar {

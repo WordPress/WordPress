@@ -38,10 +38,11 @@ get_header(); ?>
 					 * Begin the featured posts section.
 					 *
 					 * See if we have any sticky posts and use them to create our featured posts.
+					 * We limit the featured posts at ten.
 					 */
 					$sticky = get_option( 'sticky_posts' );
 					$featured_args = array(
-						'posts_per_page' => 4,
+						'posts_per_page' => 10,
 						'post__in' => $sticky,
 					);
 
