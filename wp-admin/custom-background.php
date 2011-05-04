@@ -345,6 +345,7 @@ if ( get_background_image() ) {
 
 		// Add the meta-data
 		wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $file ) );
+		update_post_meta( $id, '_wp_attachment_is_custom_background', get_option('stylesheet' ) );
 
 		set_theme_mod('background_image', esc_url($url));
 

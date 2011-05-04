@@ -1651,6 +1651,36 @@ function _post_states($post) {
 		echo ' - <span class="post-state-format">' . get_post_format_string( get_post_format( $post->ID ) ) . '</span>';
 }
 
+function _media_states( $post ) {
+	$media_states = array();
+	$stylesheet = get_option('stylesheet');
+
+	if ( current_theme_supports( 'custom-header') ) {
+		$meta_header = get_post_meta($post->ID, '_wp_attachment_is_custom_header', true );
+		if ( ! empty( $meta_header ) && $meta_header == $stylesheet )
+			$media_states[] = __( 'Header Image' );
+	}
+
+	if ( current_theme_supports( 'custom-background') ) {
+		$meta_background = get_post_meta($post->ID, '_wp_attachment_is_custom_background', true );
+		if ( ! empty( $meta_background ) && $meta_background == $stylesheet )
+			$media_states[] = __( 'Background Image' );
+	}
+
+	$media_states = apply_filters( 'display_media_states', $media_states );
+
+	if ( ! empty( $media_states ) ) {
+		$state_count = count( $media_states );
+		$i = 0;
+		echo ' - ';
+		foreach ( $media_states as $state ) {
+			++$i;
+			( $i == $state_count ) ? $sep = '' : $sep = ', ';
+			echo "<span class='post-state'>$state$sep</span>";
+		}
+	}
+}
+
 /**
  * Convert a screen string to a screen object
  *
