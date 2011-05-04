@@ -1860,7 +1860,7 @@ function add_existing_user_to_blog( $details = false ) {
  */
 function add_new_user_to_blog( $user_id, $email, $meta ) {
 	global $current_site;
-	if ( $meta[ 'add_to_blog' ] ) {
+	if ( !empty( $meta[ 'add_to_blog' ] ) ) {
 		$blog_id = $meta[ 'add_to_blog' ];
 		$role = $meta[ 'new_role' ];
 		remove_user_from_blog($user_id, $current_site->blog_id); // remove user from main blog.
