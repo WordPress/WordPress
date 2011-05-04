@@ -62,20 +62,25 @@ table {
 	height: auto;
 	min-height: 100%;
 	width: 100%;
+	position: relative;
 }
 
 #wpcontent {
 	height: 100%;
+}
+
+#wpcontent,
+#footer {
+	margin-left: 160px;
+}
+
+#wpbody-content {
 	padding-bottom: 50px;
 }
 
-#wpbody {
-	clear: both;
-	margin-left: 175px;
-}
-
-.folded #wpbody {
-	margin-left: 60px;
+.folded #wpcontent,
+.folded #footer {
+	margin-left: 47px;
 }
 
 #wpbody-content {
@@ -83,32 +88,39 @@ table {
 	width: 100%;
 }
 
-#adminmenu {
-	float: left;
-	clear: left;
+#adminmenuback,
+#adminmenuwrap,
+#adminmenu,
+#adminmenu .wp-submenu ul {
 	width: 145px;
-	margin-top: 15px;
-	margin-right: 5px;
-	margin-bottom: 15px;
-	margin-left: -160px;
-	position: relative;
+}
+
+#adminmenuback {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	z-index: -1;
+}
+
+#adminmenuwrap {
+	float: left;
+}
+
+#adminmenu {
+	clear: left;
 	padding: 0;
 	list-style: none;
 }
 
-.folded #adminmenu {
-	margin-left: -45px;
-}
-
+.folded #adminmenuback,
+.folded #adminmenuwrap,
 .folded #adminmenu,
 .folded #adminmenu li.menu-top {
-	width: 28px;
+	width: 32px;
 }
 
 #footer {
-	clear: both;
 	position: relative;
-	width: 100%;
 }
 
 /* inner 2 column liquid layout */
@@ -228,7 +240,7 @@ td,
 textarea,
 input,
 select {
-	font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+	font-family: Arial, "Bitstream Vera Sans", Helvetica, Verdana, sans-serif;
 	font-size: 13px;
 }
 
@@ -502,7 +514,9 @@ div.error p {
 }
 
 .wrap h2 {
-	font: italic normal normal 24px/29px Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-weight: 200;
+	font-size: 24px;
 	margin: 0;
 	padding: 14px 15px 3px 0;
 	line-height: 35px;

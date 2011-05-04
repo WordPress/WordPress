@@ -1,6 +1,6 @@
 html,
 .wp-dialog {
-	background-color: #fcfcfb;
+	background-color: #fff;
 }
 
 * html input,
@@ -570,9 +570,6 @@ input.readonly, textarea.readonly {
 #footer {
 	color: #777;
 	border-color: #b0c8d7;
-	background: #cfdfe9; /* fallback color */
-	background:-moz-linear-gradient(bottom,	#cfdfe9, #eff8ff);
-	background:-webkit-gradient(linear, left bottom, left top, from(#cfdfe9), to(#eff8ff));
 }
 
 #media-items,
@@ -696,9 +693,6 @@ table.widefat span.spam a,
 
 #wphead {
 	border-bottom:#b0c8d7 1px solid;
-	background: #cfdfe9; /* fallback color */
-	background:-moz-linear-gradient(bottom,	#cfdfe9, #eff8ff);
-	background:-webkit-gradient(linear, left bottom, left top, from(#cfdfe9), to(#eff8ff));
 }
 
 #wphead h1 a {

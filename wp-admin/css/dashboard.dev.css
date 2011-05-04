@@ -9,6 +9,7 @@ h3:hover .edit-box {
 }
 
 form .input-text-wrap {
+	background: #fff;
 	border-style: solid;
 	border-width: 1px;
 	padding: 2px 3px;
@@ -25,6 +26,7 @@ form .input-text-wrap {
 }
 
 form .textarea-wrap {
+	background: #fff;
 	border-style: solid;
 	border-width: 1px;
 	padding: 2px;
@@ -57,7 +59,7 @@ form .textarea-wrap {
 }
 
 div.postbox div.inside {
-	margin: 10px;
+	margin: 10px 0;
 	position: relative;
 }
 
@@ -95,19 +97,17 @@ div.postbox div.inside {
 }
 
 #dashboard_right_now p.sub {
-	font-style: italic;
-	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
-	padding: 5px 10px 15px;
-	color: #777;
-	font-size: 13px;
+	padding: 5px 0 15px;
+	color: #8f8f8f;
+	font-size: 14px;
 	position: absolute;
 	top: -17px;
 	left: 15px;
 }
 
 #dashboard_right_now .table {
-	margin: 0 -9px;
-	padding: 0 10px;
+	margin: 0;
+	padding: 0;
 	position: relative;
 }
 
@@ -199,7 +199,7 @@ div.postbox div.inside {
 
 #dashboard_recent_comments .comment-meta .approve {
 	font-style: italic;
-	font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+	font-family: Arial, "Bitstream Vera Sans", Helvetica, Verdana, sans-serif;
 	font-size: 10px;
 }
 
@@ -267,7 +267,7 @@ div.postbox div.inside {
 /* QuickPress */
 
 #dashboard_quick_press h4 {
-	font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+	font-family: Arial, "Bitstream Vera Sans", Helvetica, Verdana, sans-serif;
 	float: left;
 	width: 5.5em;
 	clear: both;
@@ -335,7 +335,7 @@ div.postbox div.inside {
 }
 
 #dashboard_recent_drafts h4 abbr {
-	font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+	font-family: Arial, "Bitstream Vera Sans", Helvetica, Verdana, sans-serif;
 	font-size: 11px;
 	color: #999;
 	margin-left: 3px;
@@ -383,7 +383,7 @@ a.rsswidget {
 /* Plugins */
 
 #dashboard_plugins h4 {
-	font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+	font-family: Arial, "Bitstream Vera Sans", Helvetica, Verdana, sans-serif;
 }
 
 #dashboard_plugins h5 {

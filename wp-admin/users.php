@@ -359,12 +359,7 @@ if ( ! empty($messages) ) {
 <h2>
 <?php
 echo esc_html( $title );
-if ( current_user_can( 'create_users' ) ) { ?>
-	<a href="user-new.php" class="button add-new-h2"><?php echo esc_html_x( 'Add New', 'user' ); ?></a>
-<?php } elseif ( is_multisite() && current_user_can( 'promote_users' ) ) { ?>
-	<a href="user-new.php" class="button add-new-h2"><?php echo esc_html_x( 'Add Existing', 'user' ); ?></a>
-<?php }
-
+favorite_actions( $current_screen );
 if ( $usersearch )
 	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', esc_html( $usersearch ) ); ?>
 </h2>

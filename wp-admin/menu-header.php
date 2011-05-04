@@ -76,6 +76,7 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 				$img = '<img src="' . $item[6] . '" alt="" />';
 		}
 		$toggle = '<div class="wp-menu-toggle"><br /></div>';
+		$arrow = '<div class="wp-menu-arrow"><div></div></div>';
 
 		$title = wptexturize($item[0]);
 
@@ -91,9 +92,9 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 				$menu_file = substr($menu_file, 0, $pos);
 			if ( ( ('index.php' != $submenu[$item[2]][0][2]) && file_exists(WP_PLUGIN_DIR . "/$menu_file") ) || !empty($menu_hook)) {
 				$admin_is_parent = true;
-				echo "<div class='wp-menu-image'><a href='admin.php?page={$submenu[$item[2]][0][2]}'>$img</a></div>$toggle<a href='admin.php?page={$submenu[$item[2]][0][2]}'$class$tabindex>$title</a>";
+				echo "<div class='wp-menu-image'><a href='admin.php?page={$submenu[$item[2]][0][2]}'>$img</a></div>$arrow$toggle<a href='admin.php?page={$submenu[$item[2]][0][2]}'$class$tabindex>$title</a>";
 			} else {
-				echo "\n\t<div class='wp-menu-image'><a href='{$submenu[$item[2]][0][2]}'>$img</a></div>$toggle<a href='{$submenu[$item[2]][0][2]}'$class$tabindex>$title</a>";
+				echo "\n\t<div class='wp-menu-image'><a href='{$submenu[$item[2]][0][2]}'>$img</a></div>$arrow$toggle<a href='{$submenu[$item[2]][0][2]}'$class$tabindex>$title</a>";
 			}
 		} else if ( current_user_can($item[1]) ) {
 			$menu_hook = get_plugin_page_hook($item[2], 'admin.php');
@@ -102,9 +103,9 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 				$menu_file = substr($menu_file, 0, $pos);
 			if ( ('index.php' != $item[2]) && file_exists(WP_PLUGIN_DIR . "/$menu_file") || !empty($menu_hook) ) {
 				$admin_is_parent = true;
-				echo "\n\t<div class='wp-menu-image'><a href='admin.php?page={$item[2]}'>$img</a></div>$toggle<a href='admin.php?page={$item[2]}'$class$tabindex>{$item[0]}</a>";
+				echo "\n\t<div class='wp-menu-image'><a href='admin.php?page={$item[2]}'>$img</a></div>$arrow$toggle<a href='admin.php?page={$item[2]}'$class$tabindex>{$item[0]}</a>";
 			} else {
-				echo "\n\t<div class='wp-menu-image'><a href='{$item[2]}'>$img</a></div>$toggle<a href='{$item[2]}'$class$tabindex>{$item[0]}</a>";
+				echo "\n\t<div class='wp-menu-image'><a href='{$item[2]}'>$img</a></div>$arrow$toggle<a href='{$item[2]}'$class$tabindex>{$item[0]}</a>";
 			}
 		}
 
@@ -170,6 +171,9 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 
 ?>
 
+<div id="adminmenuback"></div>
+<div id="adminmenuwrap">
+<div id="adminmenushadow"></div>
 <ul id="adminmenu">
 
 <?php
@@ -179,3 +183,4 @@ do_action( 'adminmenu' );
 
 ?>
 </ul>
+</div>

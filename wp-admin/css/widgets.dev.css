@@ -116,6 +116,7 @@ div.sidebar-name {
 	width: 250px;
 	margin: 0 10px 15px;
 	border: 0 none;
+	background: transparent;
 	float: left;
 }
 

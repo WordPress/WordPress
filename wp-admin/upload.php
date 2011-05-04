@@ -160,7 +160,9 @@ require_once('./admin-header.php');
 
 <div class="wrap">
 <?php screen_icon(); ?>
-<h2><?php echo esc_html( $title ); ?> <a href="media-new.php" class="button add-new-h2"><?php echo esc_html_x('Add New', 'file'); ?></a> <?php
+<h2><?php
+echo esc_html( $title );
+favorite_actions( $current_screen );
 if ( isset($_REQUEST['s']) && $_REQUEST['s'] )
 	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', get_search_query() ); ?>
 </h2>

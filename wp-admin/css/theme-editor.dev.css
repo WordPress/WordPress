@@ -10,6 +10,8 @@ h3 span {
 	font-family: Consolas, Monaco, Courier, monospace;
 	font-size: 12px;
 	width: 97%;
+	background: #f9f9f9;
+	outline: none;
 }
 
 #template p {

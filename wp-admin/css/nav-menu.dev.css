@@ -31,7 +31,6 @@ body {
 
 #menu-settings-column .inside {
 	clear: both;
-	padding:0 10px;
 }
 
 .metabox-holder-disabled .postbox {
@@ -57,55 +56,34 @@ body {
 	margin-top: -3px;
 	width: 100%;
 }
-	#menu-management .menu-edit {
-		margin-bottom: 20px;
-	}
-
-	#nav-menu-header, #post-body, #nav-menu-footer {
-		border-color: #ccc;
-		border-style: solid;
-	}
-
-	#nav-menu-header {
-		border-width: 1px 1px 0 1px;
-		-moz-border-radius-topleft: 6px;
-		-webkit-border-top-left-radius: 6px;
-		-khtml-border-top-left-radius: 6px;
-		border-top-left-radius: 6px;
-		-moz-border-radius-topright: 6px;
-		-webkit-border-top-right-radius: 6px;
-		-khtml-border-top-right-radius: 6px;
-		border-top-right-radius: 6px;
-	}
-
-	#post-body {
-		background: #fff;
-		padding: 10px;
-		border-width: 0 1px;
-	}
-
-	#post-body div.updated {
-		margin: 0;
-	}
-
-	#post-body-content {
-		position: relative;
-	}
-
-	#menu-management .menu-add-new abbr {
-		font-weight:bold;
-	}
-
+#menu-management .menu-edit {
+	background: #f9f9f9;
+	padding: 0 10px;
+	border: 1px solid #dfdfdf;
+	margin-bottom: 20px;
+}
+#post-body {
+	padding: 10px 0;
+	border-top: 1px solid #fff;
+	border-bottom: 1px solid #dfdfdf;
+}
+#nav-menu-header {
+	border-bottom: 1px solid #dfdfdf;
+}
 #nav-menu-footer {
-	border-width: 0 1px 1px 1px;
-	-moz-border-radius-bottomleft: 6px;
-	-webkit-border-bottom-left-radius: 6px;
-	-khtml-border-bottom-left-radius: 6px;
-	border-bottom-left-radius: 6px;
-	-moz-border-radius-bottomright: 6px;
-	-webkit-border-bottom-right-radius: 6px;
-	-khtml-border-bottom-right-radius: 6px;
-	border-bottom-right-radius: 6px;
+	border-top: 1px solid #fff;
+}
+
+#post-body div.updated {
+	margin: 0;
+}
+
+#post-body-content {
+	position: relative;
+}
+
+#menu-management .menu-add-new abbr {
+	font-weight:bold;
 }
 
 /* Menu Tabs */
@@ -155,13 +133,14 @@ body {
 
 #menu-management .nav-tab {
 	margin-bottom: 0;
-	background: #f4f4f4;
-	font-weight: bold;
+	background: #fff;
 	border-color: #dfdfdf;
+	font-size: 14px;
+	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 }
 
 #menu-management .nav-tab-active {
-	border-color:#ccc;
+	border-color: #dfdfdf;
 }
 
 #select-nav-menu-container {
@@ -199,7 +178,7 @@ body {
 	float: right;
 }
 .customlinkdiv .howto input {
-	width: 210px;
+	width: 200px;
 }
 #nav-menu-theme-locations .howto select {
 	width: 100%;
@@ -298,20 +277,19 @@ body {
 	margin-top: 13px;
 }
 .menu-item-handle {
-	border: 1px solid #E6E6E6;
+	border: 1px solid #dfdfdf;
 	position: relative;
 	padding-left: 10px;
 	height: auto;
 	width: 400px;
 	line-height: 35px;
 	text-shadow: 0 1px 0 #FFFFFF;
-	font-weight:bold;
 	overflow: hidden;
+	word-wrap: break-word;
 	border-radius: 6px;
 	-webkit-border-radius: 6px;
 	-moz-border-radius: 6px;
 	-khtml-border-radius: 6px;
-	word-wrap: break-word;
 }
 .menu-item-edit-active .menu-item-handle {
 	-moz-border-radius: 6px 6px 0 0;
@@ -335,6 +313,8 @@ body {
 }
 
 .menu-item-handle .item-title {
+	font-size: 12px;
+	font-weight: bold;
 	padding: 7px 0;
 	line-height: 20px;
 	display:block;
@@ -395,7 +375,11 @@ body.menu-max-depth-10 { min-width: 1250px !important; }
 body.menu-max-depth-11 { min-width: 1280px !important; }
 
 /* Menu item controls */
-.item-type { text-transform: uppercase; font-size: 11px; color: #999999; padding-right: 10px; }
+.item-type {
+	font-size: 11px;
+	color: #999999;
+	padding-right: 10px;
+}
 .item-controls { font-size: 11px; position: absolute; right: 20px; top: -1px; }
 .item-controls a { text-decoration: none; }
 .item-controls a:hover { cursor: pointer; }
@@ -436,7 +420,7 @@ body.js .item-order {
 	display:block;
 	width: 400px;
 	padding: 10px 0 10px 10px;
-	border: solid #E6E6E6;
+	border: solid #dfdfdf;
 	border-width: 0 1px 1px 1px;
 	-moz-border-radius: 0 0 6px 6px;
 	-webkit-border-bottom-right-radius: 6px;
@@ -506,7 +490,7 @@ body.js .item-order {
 /* Major/minor publishing actions (classes) */
 .major-publishing-actions {
 	clear:both;
-	padding: 5px 10px;
+	padding: 5px 0;
 }
 .major-publishing-actions .publishing-action {
 	text-align: right;
@@ -547,12 +531,12 @@ body.js .item-order {
 }
 
 .major-publishing-actions .form-invalid {
+	padding-left: 4px;
+	margin-left: -4px;
 	border-radius: 4px;
 	-webkit-border-radius: 4px;
 	-moz-border-radius: 4px;
 	-khtml-border-radius: 4px;
-	padding-left: 4px;
-	margin-left: -4px;
 }
 
 /* Clearfix */

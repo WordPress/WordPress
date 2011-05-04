@@ -101,6 +101,7 @@ document.body.className = c;
 </script>
 
 <div id="wpwrap">
+<?php require(ABSPATH . 'wp-admin/menu-header.php'); ?>
 <div id="wpcontent">
 <div id="wphead">
 <?php
@@ -130,7 +131,7 @@ if ( function_exists('mb_strlen') ) {
 }
 ?>
 
-<img id="header-logo" src="<?php echo esc_url( includes_url( 'images/blank.gif' ) ); ?>" alt="" width="32" height="32" />
+<img id="header-logo" src="<?php echo esc_url( includes_url( 'images/blank.gif' ) ); ?>" alt="" width="16" height="16" />
 <h1 id="site-heading" <?php echo $title_class ?>>
 	<a href="<?php echo trailingslashit( get_bloginfo( 'url' ) ); ?>" title="<?php esc_attr_e('Visit Site') ?>">
 		<span id="site-title"><?php echo $blog_name ?></span>
@@ -161,16 +162,12 @@ ksort($links);
 echo implode(' ', $links);
 ?></p>
 </div>
-
-<?php favorite_actions($current_screen); ?>
 </div>
 </div>
 
 <div id="wpbody">
 <?php
 unset($title_class, $blog_name, $total_update_count, $update_title);
-
-require(ABSPATH . 'wp-admin/menu-header.php');
 
 $current_screen->parent_file = $parent_file;
 $current_screen->parent_base = preg_replace('/\?.*$/', '', $parent_file);
