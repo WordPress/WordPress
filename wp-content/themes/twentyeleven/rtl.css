@@ -45,23 +45,24 @@ textarea {
 #access ul ul {
 	float: right;
 	right: 0;
-	right: auto;
 }
 #access ul ul ul {
 	right: 100%;
-	right: auto;
 }
 
 /* Search Form */
 #branding #searchform {
 	left: 7.6%;
 	text-align: left;
-	left: auto;
 }
 
 #branding #s {
 	float: left;
 	padding: 4px 28px 4px 10px;
+	width: 8%;
+}
+#branding #s:focus {
+	width: 26%;
 }
 
 
@@ -114,7 +115,6 @@ textarea {
 }
 .singular .entry-header .entry-meta {
 	right: 0;
-	right: auto;
 }
 .singular .pull.alignright {
 	margin: 0 -22.25% 0 1.625em;
@@ -188,7 +188,6 @@ textarea {
 /* Intro */
 article.intro .edit-link a {
 	left: 20px;
-	left: auto;
 }
 
 /* Featured post */
@@ -202,7 +201,6 @@ section.featured-post .attachment-small-feature {
 	float: left;
 	margin: -10px 0 1.625em -8.9%;
 	left: -35px;
-	left: auto;
 	border-right: none;
 }
 article.feature-image.small {
@@ -211,14 +209,12 @@ article.feature-image.small {
 article.feature-image.small .entry-summary p a {
 	right: -23.8%;
 	padding: 4px 85px 4px 26px;
-	right: auto;
 }
 
 /* Large featured post */
 section.feature-image.large .hentry {
 	right: 9%;
 	margin: 1.625em 0 0 9%;
-	right: auto;
 }
 
 /* Featured Slider */
@@ -228,11 +224,9 @@ section.feature-image.large .hentry {
 }
 .featured-posts section.featured-post {
 	right: 0;
-	right: auto;
 }
 #content .feature-slider {
 	right: 8.9%;
-	right: auto;
 }
 .feature-slider li {
 	float: right;
@@ -247,7 +241,6 @@ section.recent-posts .other-recent-posts .comments-link > span {
 	padding: 0.3125em 1em 0.3125em 0;
 	left: 0;
 	text-align: left;
-	left: auto;
 }
 
 
@@ -260,7 +253,6 @@ section.recent-posts .other-recent-posts .comments-link > span {
 .wp-caption .wp-caption-text:before {
 	margin-left: 5px;
 	right: 10px;
-	right: auto;
 	margin-right: auto;
 }
 
@@ -279,7 +271,7 @@ section.recent-posts .other-recent-posts .comments-link > span {
 /* Singular navigation */
 #nav-single {
 	left: 0;
-	left: auto;
+	right: auto;
 }
 #nav-single .nav-next {
 	padding-right: .5em;
@@ -308,8 +300,8 @@ section.recent-posts .other-recent-posts .comments-link > span {
 
 .commentlist .children li.comment {
 	border-right: 1px solid #ddd;
-	-moz-border-radius: 0 0 3px 3px;
-	border-radius: 0 0 3px 3px;
+	-moz-border-radius: 3px 0 0 3px;
+	border-radius: 3px 0 0 3px;
 	border-left: none;
 }
 .commentlist .children li.comment .comment-meta {
@@ -318,15 +310,16 @@ section.recent-posts .other-recent-posts .comments-link > span {
 }
 .commentlist .avatar {
 	right: -102px;
-	right: auto;
 }
 .commentlist > li:before {
+	content: url(images/comment-arrow-rtl.png);
 	right: -21px;
-	right: auto;
+}
+.commentlist > li.bypostauthor:before {
+	content: url(images/comment-arrow-bypostauthor-rtl.png);
 }
 .commentlist .children .avatar {
 	right: 2.2em;
-	right: auto;
 }
 
 /* Comment Form */
@@ -335,12 +328,10 @@ section.recent-posts .other-recent-posts .comments-link > span {
 #respond .comment-form-url label,
 #respond .comment-form-comment label {
 	right: 4px;
-	right: auto;
 }
 #respond .comment-form-author .required,
 #respond .comment-form-email .required {
 	right: 68%;
-	right: auto;
 }
 #respond .form-submit {
 	float: left;
@@ -348,7 +339,6 @@ section.recent-posts .other-recent-posts .comments-link > span {
 #respond input#submit {
 	right: 30px;
 	padding: 5px 22px 5px 42px;
-	right: auto;
 }
 #respond #cancel-comment-reply-link {
 	margin-right: 10px;
@@ -356,7 +346,6 @@ section.recent-posts .other-recent-posts .comments-link > span {
 }
 #cancel-comment-reply-link {
 	left: 1.625em;
-	left: auto;
 }
 
 
@@ -395,7 +384,6 @@ article.feature-image.small {
 }
 article.feature-image.small .entry-summary a {
 	right: -9%;
-	right: auto;
 }
 
 
@@ -404,42 +392,34 @@ article.feature-image.small .entry-summary a {
 
 @media (max-width: 800px) {
 
-/* Three Footer Widget Areas */
-#supplementary.three .widget-area {
-	float: right;
-	margin-left: 3.7%;
-	margin-right: auto;
-}
-#supplementary.three .widget-area + .widget-area + .widget-area {
-	margin-left: 0;
-	margin-right: auto;
-}
+	/* Three Footer Widget Areas */
+	#supplementary.three .widget-area {
+		float: right;
+		margin-left: 3.7%;
+		margin-right: auto;
+	}
+	#supplementary.three .widget-area + .widget-area + .widget-area {
+		margin-left: 0;
+		margin-right: auto;
+	}
 
-/* Simplify the showcase template when small feature */
-	section.featured-post .attachment-small-feature,
-	.one-column section.featured-post .attachment-small-feature {
-	float: right;
-}
-article.feature-image.small {
-	float: left;
-}
-article.feature-image.small .entry-summary a {
-	right: -9%;
-	right: auto;
-}
-}
+	/* Simplify the showcase template when small feature */
+		section.featured-post .attachment-small-feature,
+		.one-column section.featured-post .attachment-small-feature {
+		float: right;
+	}
+	article.feature-image.small {
+		float: left;
+	}
+	article.feature-image.small .entry-summary a {
+		right: -9%;
+	}
 
-/* Make sure the logo and search form don't collide */
-	#branding #searchform {
-	left: 1px;
+	/* Make sure the logo and search form don't collide */
+		#branding #searchform {
+		left: 1px;
+	}
 }
-
-@media (max-width: 650px) {
-
-/* Remove the margin on singular articles */
-
-/* =Responsive Structure
------------------------------------------------ */
 
 @media (max-width: 800px) {
 
@@ -470,7 +450,6 @@ article.feature-image.small .entry-summary a {
 	/* Make sure the logo and search form don't collide */
 	#branding #searchform {
 	left: 1px;
-	left: auto;
 	}
 }
 
@@ -480,7 +459,6 @@ article.feature-image.small .entry-summary a {
 	}
 	.commentlist .avatar {
 		right: 2.2em;
-		right: auto;
 	}
 }
 
@@ -496,7 +474,6 @@ article.feature-image.small .entry-summary a {
 	/* Comments */
 	.commentlist .avatar {
 		right: 2.2em;
-		right: auto;
 	}
 }
 

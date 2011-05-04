@@ -392,11 +392,17 @@ section.recent-posts .other-recent-posts .comments-link a:hover {
 	background: #000;
 	border-color: #222;
 }
+.rtl .commentlist .children li.comment {
+	border-color: #222;
+}
 .comment-meta {
 	color: #999;
 }
 .commentlist > li:before {
 	content: url(../images/comment-arrow-dark.png);
+}
+.rtl .commentlist > li:before {
+	content: url(../images/comment-arrow-dark-rtl.png);
 }
 
 /* Post author highlighting */
@@ -406,6 +412,9 @@ section.recent-posts .other-recent-posts .comments-link a:hover {
 }
 .commentlist > li.bypostauthor:before {
 	content: url(../images/comment-arrow-bypostauthor-dark.png);
+}
+.rtl .commentlist > li.bypostauthor:before {
+	content: url(../images/comment-arrow-bypostauthor-dark-rtl.png);
 }
 
 /* Post Author threaded comments */
@@ -424,19 +433,27 @@ section.recent-posts .other-recent-posts .comments-link a:hover {
 #respond textarea {
 	background: #000;
 	border: 4px solid #111;
-	-webkit-box-shadow: inset 0 1px 3px #333;
-	-moz-box-shadow: inset 0 1px 3px #333;
-	box-shadow: inset 0 1px 3px #333;
+	-webkit-box-shadow: inset 0 1px 3px rgba(51,51,51,0.95);
+	-moz-box-shadow: inset 0 1px 3px rgba(51,51,51,0.95);
+	box-shadow: inset 0 1px 3px rgba(51,51,51,0.95);
 }
 #respond .comment-form-author label,
 #respond .comment-form-email label,
 #respond .comment-form-url label,
 #respond .comment-form-comment label {
 	background: #111;
-	-webkit-box-shadow: 1px 1px 2px #333;
-	-moz-box-shadow: 1px 1px 2px #333;
-	box-shadow: 1px 1px 2px #333;
+	-webkit-box-shadow: 1px 2px 2px rgba(51,51,51,0.8);
+	-moz-box-shadow: 1px 2px 2px rgba(51,51,51,0.8);
+	box-shadow: 1px 1px 2px rgba(51,51,51,0.8);
 	color: #aaa;
+}
+.rtl #respond .comment-form-author label,
+.rtl #respond .comment-form-email label,
+.rtl #respond .comment-form-url label,
+.rtl #respond .comment-form-comment label {
+	-webkit-box-shadow: -1px 2px 2px rgba(51,51,51,0.8);
+	-moz-box-shadow: -1px 2px 2px rgba(51,51,51,0.8);
+	box-shadow: -1px 1px 2px rgba(51,51,51,0.8);
 }
 #respond .comment-form-author .required,
 #respond .comment-form-email .required {

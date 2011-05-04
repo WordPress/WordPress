@@ -47,8 +47,8 @@
 
 		<footer class="entry-meta">
 			<?php if ( 'post' == $post->post_type ) : // Hide category and tag text for pages on Search ?>
-			<span class="cat-links"><span class="entry-utility-prep entry-utility-prep-cat-links"><?php _e( 'Posted in ', 'twentyeleven' ); ?></span><?php the_category( ', ' ); ?></span>
-			<?php the_tags( '<span class="sep"> | </span><span class="tag-links">' . __( 'Tagged ', 'twentyeleven' ) . '</span>', ', ', '' ); ?>
+			<span class="cat-links"><span class="entry-utility-prep entry-utility-prep-cat-links"><?php _e( 'Posted in', 'twentyeleven' ); ?></span> <?php the_category( ', ' ); ?></span>
+			<?php the_tags( '<span class="sep"> | </span> <span class="tag-links"><span class="entry-utility-prep entry-utility-prep-tag-links">' . __( 'Tagged', 'twentyeleven' ) . '</span> ', ', ', '</span>' ); ?>
 			<?php endif; ?>
 
 			<?php if ( comments_open() ) : ?>

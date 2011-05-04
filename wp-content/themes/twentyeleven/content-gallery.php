@@ -3,7 +3,7 @@
  * The template for displaying posts in the Gallery Post Format on index and archive pages
  *
  * Learn more: http://codex.wordpress.org/Post_Formats
- * 
+ *
  * @package WordPress
  * @subpackage Twenty Eleven
  * @since Twenty Eleven 1.0
@@ -65,10 +65,14 @@
 	<?php endif; ?>
 
 	<footer class="entry-meta">
-		<span class="cat-links"><span class="entry-utility-prep entry-utility-prep-cat-links"><?php _e( 'Posted in ', 'twentyeleven' ); ?></span><?php the_category( ', ' ); ?></span>
+		<span class="cat-links"><span class="entry-utility-prep entry-utility-prep-cat-links"><?php _e( 'Posted in', 'twentyeleven' ); ?></span> <?php the_category( ', ' ); ?></span>
+		<?php the_tags( '<span class="sep"> | </span> <span class="tag-links"><span class="entry-utility-prep entry-utility-prep-tag-links">' . __( 'Tagged', 'twentyeleven' ) . '</span> ', ', ', '</span>' ); ?>
+
+		<?php if ( comments_open() ) : ?>
 		<span class="sep"> | </span>
-		<?php the_tags( '<span class="tag-links">' . __( 'Tagged ', 'twentyeleven' ) . '</span>', ', ', '<span class="sep"> | </span>' ); ?>
-		<span class="comments-link"><?php comments_popup_link( __( 'Leave a reply', 'twentyeleven' ), __( '1 reply', 'twentyeleven' ), __( '% replies', 'twentyeleven' ) ); ?></span>
+		<span class="comments-link"><?php comments_popup_link( __( '<span class="leave-reply">Leave a reply</span>', 'twentyeleven' ), __( '<b>1</b> Reply', 'twentyeleven' ), __( '<b>%</b> Replies', 'twentyeleven' ) ); ?></span>
+		<?php endif; ?>
+
 		<?php edit_post_link( __( 'Edit', 'twentyeleven' ), '<span class="edit-link">', '</span>' ); ?>
 	</footer><!-- #entry-meta -->
 </article><!-- #post-<?php the_ID(); ?> -->

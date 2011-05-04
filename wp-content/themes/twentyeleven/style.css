@@ -471,7 +471,7 @@ a:hover {
 	border-top: 2px solid #bbb;
 	padding-bottom: 10px;
 	position: relative;
-	z-index: 1;
+	z-index: 2;
 }
 #site-title {
 	padding: 4em 0 0;
@@ -836,7 +836,7 @@ dl.gallery-item {
 	color: #777;
 	font-size: 18px;
 	font-weight: 300;
-	line-height: 46px;	
+	line-height: 48px;	
 	overflow: hidden;
 	position: absolute;
 	text-align: center;
@@ -854,7 +854,9 @@ dl.gallery-item {
 .entry-header .comments-link .leave-reply {
 	font-size: 14px;
 	font-weight: bold;
+	position: relative;
 	text-transform: lowercase;
+	top: -1px;
 }
 /*
 	Post Formats Headings
@@ -1034,6 +1036,7 @@ article.format-status .entry-content {
 	margin-right: 2px;
 	margin-top: -6px;
 	padding: 20px 30px;
+	overflow: hidden;
 }
 .format-image div.entry-meta {
 	display: inline-block;
@@ -1043,6 +1046,11 @@ article.format-status .entry-content {
 .format-image div.entry-meta + div.entry-meta {
 	float: none;
 	width: 65%;
+}
+.format-image .entry-meta span.cat-links,
+.format-image .entry-meta span.tag-links,
+.format-image .entry-meta span.comments-link {
+	display: block;
 }
 .format-image .wp-caption {
 	background: #111;
@@ -1493,6 +1501,7 @@ p img,
 	position: absolute;
 	top: -4px;
 	right: 0;
+	z-index: 1;
 }
 #nav-single .nav-previous,
 #nav-single .nav-next {
@@ -1788,9 +1797,9 @@ a.comment-reply-link {
 	border: 4px solid #eee;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
-	-webkit-box-shadow: inset 0 1px 3px #ccc;
-	-moz-box-shadow: inset 0 1px 3px #ccc;
-	box-shadow: inset 0 1px 3px #ccc;
+	-webkit-box-shadow: inset 0 1px 3px rgba(204,204,204,0.95);
+	-moz-box-shadow: inset 0 1px 3px rgba(204,204,204,0.95);
+	box-shadow: inset 0 1px 3px rgba(204,204,204,0.95);
 	position: relative;
 	padding: 10px;
 	text-indent: 80px;
@@ -1806,9 +1815,9 @@ a.comment-reply-link {
 #respond .comment-form-url label,
 #respond .comment-form-comment label {
 	background: #eee;
-	-webkit-box-shadow: 1px 1px 2px #ccc;
-	-moz-box-shadow: 1px 1px 2px #ccc;
-	box-shadow: 1px 1px 2px #ccc;
+	-webkit-box-shadow: 1px 2px 2px rgba(204,204,204,0.8);
+	-moz-box-shadow: 1px 2px 2px rgba(204,204,204,0.8);
+	box-shadow: 1px 2px 2px rgba(204,204,204,0.8);
 	color: #555;
 	display: inline-block;
 	font-size: 13px;
@@ -1816,8 +1825,16 @@ a.comment-reply-link {
 	min-width: 60px;
 	padding: 4px 10px;
 	position: relative;
-	top: 41px;
+	top: 40px;
 	z-index: 1;
+}
+.rtl #respond .comment-form-author label,
+.rtl #respond .comment-form-email label,
+.rtl #respond .comment-form-url label,
+.rtl #respond .comment-form-comment label {
+	-webkit-box-shadow: -1px 2px 2px rgba(204,204,204,0.8);
+	-moz-box-shadow: -1px 2px 2px rgba(204,204,204,0.8);
+	box-shadow: -1px 2px 2px rgba(204,204,204,0.8);
 }
 #respond input[type="text"]:focus,
 #respond textarea:focus {
@@ -1832,9 +1849,9 @@ a.comment-reply-link {
 	color: #bd3500;
 	font-size: 22px;
 	font-weight: bold;
-	left: 68%;
+	left: 75%;
 	position: absolute;
-	top: 52px;
+	top: 45px;
 	z-index: 1;
 }
 #respond .comment-notes,
@@ -1911,6 +1928,7 @@ a.comment-reply-link {
 }
 #respond input[type=text] {
 	display: block;
+	height: 24px;
 	width: 75%;
 }
 #respond p {
