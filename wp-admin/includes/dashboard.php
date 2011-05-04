@@ -384,22 +384,18 @@ function wp_dashboard_right_now() {
 		$num = number_format_i18n( $num_widgets );
 
 		$switch_themes = $ct->title;
-		if ( current_user_can( 'switch_themes') ) {
-			echo '<a href="themes.php" class="button rbutton">' . __('Change Theme') . '</a>';
+		if ( current_user_can( 'switch_themes') )
 			$switch_themes = '<a href="themes.php">' . $switch_themes . '</a>';
-		}
 		if ( current_user_can( 'edit_theme_options' ) ) {
 			printf(_n('Theme <span class="b">%1$s</span> with <span class="b"><a href="widgets.php">%2$s Widget</a></span>', 'Theme <span class="b">%1$s</span> with <span class="b"><a href="widgets.php">%2$s Widgets</a></span>', $num_widgets), $switch_themes, $num);
 		} else {
 			printf(_n('Theme <span class="b">%1$s</span> with <span class="b">%2$s Widget</span>', 'Theme <span class="b">%1$s</span> with <span class="b">%2$s Widgets</span>', $num_widgets), $switch_themes, $num);
 		}
 	} else {
-		if ( current_user_can( 'switch_themes' ) ) {
-			echo '<a href="themes.php" class="button rbutton">' . __('Change Theme') . '</a>';
+		if ( current_user_can( 'switch_themes' ) )
 			printf( __('Theme <span class="b"><a href="themes.php">%1$s</a></span>'), $ct->title );
-		} else {
+		else
 			printf( __('Theme <span class="b">%1$s</span>'), $ct->title );
-		}
 	}
 	echo '</p>';
 
@@ -577,7 +573,7 @@ function wp_dashboard_recent_drafts( $drafts = false ) {
 	<ul>
 		<li><?php echo join( "</li>\n<li>", $list ); ?></li>
 	</ul>
-	<p class="textright"><a href="edit.php?post_status=draft" class="button"><?php _e('View all'); ?></a></p>
+	<p class="textright"><a href="edit.php?post_status=draft" ><?php _e('View all'); ?></a></p>
 <?php
 	} else {
 		_e('There are no drafts at the moment');
@@ -630,7 +626,7 @@ function wp_dashboard_recent_comments() {
 
 <?php
 		if ( current_user_can('edit_posts') ) { ?>
-			<p class="textright"><a href="edit-comments.php" class="button"><?php _e('View all'); ?></a></p>
+			<?php _get_list_table('WP_Comments_List_Table')->views(); ?>
 <?php	}
 
 		wp_comment_reply( -1, false, 'dashboard', false );

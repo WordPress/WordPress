@@ -203,6 +203,10 @@ div.postbox div.inside {
 	font-size: 10px;
 }
 
+#dashboard_recent_comments .subsubsub {
+	float: none;
+}
+
 #the-comment-list {
 	position: relative;
 }
