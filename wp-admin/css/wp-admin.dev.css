@@ -1744,7 +1744,8 @@ th.asc:hover span.sorting-indicator {
 	font-size: 11px;
 }
 
-.tablenav .one-page {
+.tablenav .no-pages,
+.tablenav .one-page .pagination-links {
 	display: none;
 }
 

@@ -528,9 +528,12 @@ class WP_List_Table {
 			'&raquo;'
 		);
 
-		$output .= "\n" . join( "\n", $page_links );
+		$output .= "\n<span class='pagination-links'>" . join( "\n", $page_links ) . '</span>';
 
-		$page_class = $total_pages < 2 ? ' one-page' : '';
+		if ( $total_pages )
+			$page_class = $total_pages < 2 ? ' one-page' : '';
+		else
+			$page_class = ' no-pages';
 
 		$this->_pagination = "<div class='tablenav-pages{$page_class}'>$output</div>";
 
