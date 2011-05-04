@@ -70,7 +70,7 @@ get_header(); ?>
 	}
 ?>
 								<a href="<?php echo $next_attachment_url; ?>" title="<?php echo esc_attr( get_the_title() ); ?>" rel="attachment"><?php
-								$attachment_size = apply_filters( 'theme_attachment_size', 848 );
+								$attachment_size = apply_filters( 'twentyeleven_attachment_size', 848 );
 								echo wp_get_attachment_image( $post->ID, array( $attachment_size, 1024 ) ); // filterable image width with 1024px limit for image height.
 								?></a>
 

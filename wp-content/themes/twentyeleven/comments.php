@@ -16,7 +16,12 @@
 	<?php if ( post_password_required() ) : ?>
 		<div class="nopassword"><?php _e( 'This post is password protected. Enter the password to view any comments.', 'twentyeleven' ); ?></div>
 	</div><!-- .comments -->
-	<?php return;
+	<?php
+			/* Stop the rest of comments.php from being processed,
+			 * but don't kill the script entirely -- we still have
+			 * to fully load the template.
+			 */
+			return;
 		endif;
 	?>
 
@@ -39,7 +44,15 @@
 		<?php endif; // check for comment navigation ?>
 
 		<ol class="commentlist">
-			<?php wp_list_comments( array( 'callback' => 'twentyeleven_comment' ) ); ?>
+			<?php
+				/* Loop through and list the comments. Tell wp_list_comments()
+				 * to use twentyeleven_comment() to format the comments.
+				 * If you want to overload this in a child theme then you can
+				 * define twentyeleven_comment() and that will be used instead.
+				 * See twentyeleven_comment() in twentyeleven/functions.php for more.
+				 */
+				wp_list_comments( array( 'callback' => 'twentyeleven_comment' ) );
+			?>
 		</ol>
 
 		<?php if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) : // are there comments to navigate through ?>

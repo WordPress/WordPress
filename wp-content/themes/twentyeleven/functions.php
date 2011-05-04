@@ -353,7 +353,7 @@ add_filter( 'get_the_excerpt', 'twentyeleven_custom_excerpt_more' );
  * Add custom body classes
  */
 function twentyeleven_singular_class( $classes ) {
-	if ( is_singular() && ! is_home() && ! is_page_template( 'showcase.php' ) )
+	if ( is_singular() && ! is_home() && ! is_page_template( 'showcase.php' ) && ! is_page_template( 'sidebar-page.php' ) )
 		$classes[] = 'singular';
 
 	return $classes;

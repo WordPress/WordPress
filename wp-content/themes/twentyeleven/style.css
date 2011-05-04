@@ -1052,6 +1052,9 @@ article.format-status .entry-content {
 .format-image .entry-meta span.comments-link {
 	display: block;
 }
+.format-image footer.entry-meta a {
+	color: #444;
+}
 .format-image .wp-caption {
 	background: #111;
 	margin-bottom: 0;
@@ -1779,6 +1782,18 @@ a.comment-reply-link {
 	border-color: #d3d3d3;
 }
 
+/* sidebar-page.php comments */
+/* Make sure we have room for our comment avatars */
+.page-template-sidebar-page-php .commentlist > li.comment,
+.page-template-sidebar-page-php.commentlist .pingback {
+	margin-left: 102px;
+	width: auto;
+}
+/* And a full-width comment form */
+.page-template-sidebar-page-php #respond {
+	width: auto;
+}
+
 /* Comment Form */
 #respond {
 	background: #ddd;
@@ -2114,7 +2129,7 @@ p.comment-form-comment {
 	/* Talking avatars take up too much room at this size */
 	.commentlist > li.comment,
 	.commentlist > li.pingback {
-		margin-left: 0;
+		margin-left: 0 !important;
 	}
 	.commentlist .avatar {
 		background: transparent;
@@ -2146,9 +2161,7 @@ p.comment-form-comment {
 		font-size: 10pt;
 	}
 	footer.entry-meta a[rel=bookmark]:link:after,
-	footer.entry-meta a[rel=bookmark]:visited:after,
-	#author-info a:link:after,
-	#author-info a:visited:after {
+	footer.entry-meta a[rel=bookmark]:visited:after {
 		content:" [" attr(href) "] "; /* Show URLs */
 	}	
 	#page {
@@ -2199,6 +2212,9 @@ p.comment-form-comment {
 	}
 	.singular .entry-header .entry-meta {
 	    position: static;
+	}
+	.entry-meta .edit-link a {
+		display: none;
 	}
 	#content nav {
 		display: none;
@@ -2269,6 +2285,16 @@ p.comment-form-comment {
 	}
 	.commentlist li.comment .comment-content {
 	    margin: 1.625em 0 0;
+	}
+	.commentlist .comment-edit-link {
+		display: none;
+	}
+	.commentlist > li::before,
+	.commentlist > li.bypostauthor::before {
+		content: '';
+	}
+	.commentlist .reply {
+		display: none;
 	}
 	
 	/* Post author highlighting */
