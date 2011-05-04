@@ -207,6 +207,21 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu  {
  * @uses Walker_Nav_Menu
  */
 class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu  {
+	function __construct( $fields = false ) {
+		if ( $fields ) {
+			$this->db_fields = $fields;
+		}
+	}
+
+	function start_lvl( &$output, $depth ) {
+		$indent = str_repeat( "\t", $depth );
+		$output .= "\n$indent<ul class='children'>\n";
+	}
+
+	function end_lvl( &$output, $depth ) {
+		$indent = str_repeat( "\t", $depth );
+		$output .= "\n$indent</ul>";
+	}
 
 	/**
 	 * @see Walker::start_el()
@@ -613,8 +628,13 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 
 	if ( !$posts )
 		$error = '<li id="error">'. $post_type['args']->labels->not_found .'</li>';
+	
+	$db_fields = false;
+	if ( is_post_type_hierarchical( $post_type_name ) ) {
+		$db_fields = array( 'parent' => 'post_parent', 'id' => 'ID' );
+	}
 
-	$walker = new Walker_Nav_Menu_Checklist;
+	$walker = new Walker_Nav_Menu_Checklist( $db_fields );
 
 	$current_tab = 'most-recent';
 	if ( isset( $_REQUEST[$post_type_name . '-tab'] ) && in_array( $_REQUEST[$post_type_name . '-tab'], array('all', 'search') ) ) {
@@ -716,6 +736,7 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 							'object_id' => $_nav_menu_placeholder,
 							'post_content' => '',
 							'post_excerpt' => '',
+							'post_parent' => '',
 							'post_title' => _x('Home', 'nav menu home label'),
 							'post_type' => 'nav_menu_item',
 							'type' => 'custom',
@@ -821,7 +842,12 @@ function wp_nav_menu_item_taxonomy_meta_box( $object, $taxonomy ) {
 		'current' => $pagenum
 	));
 
-	$walker = new Walker_Nav_Menu_Checklist;
+	$db_fields = false;
+	if ( is_taxonomy_hierarchical( $taxonomy_name ) ) {
+		$db_fields = array( 'parent' => 'parent', 'id' => 'term_id' );
+	}
+
+	$walker = new Walker_Nav_Menu_Checklist( $db_fields );
 
 	$current_tab = 'most-used';
 	if ( isset( $_REQUEST[$taxonomy_name . '-tab'] ) && in_array( $_REQUEST[$taxonomy_name . '-tab'], array('all', 'most-used', 'search') ) ) {
