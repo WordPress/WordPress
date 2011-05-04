@@ -1112,7 +1112,7 @@ function wp_dashboard_quota() {
 		$percentused = '100';
 	else
 		$percentused = ( $used / $quota ) * 100;
-	$used_color = ( $percentused < 70 ) ? ( ( $percentused >= 40 ) ? 'waiting' : 'approved' ) : 'spam';
+	$used_color = ( $percentused >= 70 ) ? ' spam' : '';
 	$used = round( $used, 2 );
 	$percentused = number_format( $percentused );
 
@@ -1130,7 +1130,7 @@ function wp_dashboard_quota() {
 	<table>
 		<tr class="first">
 			<td class="b b-comments"><?php printf( __( '<a href="%1$s" title="Manage Uploads" class="musublink">%2$sMB (%3$s%%)</a>' ), esc_url( admin_url( 'upload.php' ) ), $used, $percentused ); ?></td>
-			<td class="last t comments <?php echo $used_color;?>"><?php _e( 'Space Used' );?></td>
+			<td class="last t comments<?php echo $used_color;?>"><?php _e( 'Space Used' );?></td>
 		</tr>
 	</table>
 	</div>
