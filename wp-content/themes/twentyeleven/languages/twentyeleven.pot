@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Eleven 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyeleven\n"
-"POT-Creation-Date: 2011-05-04 09:58:41+00:00\n"
+"POT-Creation-Date: 2011-05-05 17:29:17+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,13 +13,13 @@ msgstr ""
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
 #: content-quote.php:14 showcase.php:105 showcase.php:107 showcase.php:179
-#: content.php:13 content-image.php:16 content-gallery.php:16
+#: content.php:15 content.php:19 content-image.php:16 content-gallery.php:16
 #: content-gallery.php:57 content-aside.php:16 content-status.php:15
 #: inc/widgets.php:92 content-link.php:16 content-featured.php:14
 msgid "Permalink to %s"
 msgstr ""
 
-#: content-quote.php:21 content.php:18 content-single.php:17
+#: content-quote.php:21 content.php:25 content-single.php:17
 #: content-gallery.php:22 content-aside.php:43 content-status.php:44
 #: content-link.php:43 content-featured.php:18
 msgid ""
@@ -29,28 +29,28 @@ msgid ""
 "\"%4$s\" title=\"%5$s\">%6$s</a></span>"
 msgstr ""
 
-#: content-quote.php:26 content.php:23 content-image.php:47
+#: content-quote.php:26 content.php:30 content-image.php:47
 #: content-single.php:22 content-gallery.php:27 content-aside.php:48
 #: content-status.php:49 content-link.php:48 content-featured.php:23
 msgid "View all posts by %s"
 msgstr ""
 
-#: content-quote.php:35 content.php:32 content-image.php:22
+#: content-quote.php:35 content.php:39 content-image.php:22
 #: content-aside.php:25 content-status.php:24 content-link.php:25
 msgid "<span class=\"leave-reply\">Reply</span>"
 msgstr ""
 
-#: content-quote.php:35 content.php:32 content-image.php:22
+#: content-quote.php:35 content.php:39 content-image.php:22
 #: content-aside.php:25 content-status.php:24 content-link.php:25
 msgid "1"
 msgstr ""
 
-#: content-quote.php:35 content.php:32 content-image.php:22
+#: content-quote.php:35 content.php:39 content-image.php:22
 #: content-aside.php:25 content-status.php:24 content-link.php:25
 msgid "%"
 msgstr ""
 
-#: content-quote.php:42 content-quote.php:46 content.php:39 content.php:43
+#: content-quote.php:42 content-quote.php:46 content.php:46 content.php:50
 #: content-image.php:29 content-image.php:33 content-gallery.php:36
 #: content-gallery.php:41 content-aside.php:32 content-aside.php:36
 #: functions.php:324 content-status.php:31 content-status.php:37
@@ -58,39 +58,39 @@ msgstr ""
 msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: content-quote.php:47 content.php:44 content-image.php:34
+#: content-quote.php:47 content.php:51 content-image.php:34
 #: content-single.php:31
 msgid "<span>Pages:</span>"
 msgstr ""
 
-#: content-quote.php:53 content.php:50 content-gallery.php:68
+#: content-quote.php:53 content.php:57 content-gallery.php:68
 msgid "Posted in"
 msgstr ""
 
-#: content-quote.php:54 content.php:51 content-image.php:54
+#: content-quote.php:54 content.php:58 content-image.php:54
 #: content-gallery.php:69
 msgid "Tagged"
 msgstr ""
 
-#: content-quote.php:59 showcase.php:181 content.php:56 content-image.php:56
+#: content-quote.php:59 showcase.php:181 content.php:63 content-image.php:56
 #: content-gallery.php:73 content-aside.php:54 content-status.php:55
 #: content-link.php:54
 msgid "<span class=\"leave-reply\">Leave a reply</span>"
 msgstr ""
 
-#: content-quote.php:59 showcase.php:181 content.php:56 content-image.php:56
+#: content-quote.php:59 showcase.php:181 content.php:63 content-image.php:56
 #: content-gallery.php:73 content-aside.php:54 content-status.php:55
 #: content-link.php:54
 msgid "<b>1</b> Reply"
 msgstr ""
 
-#: content-quote.php:59 showcase.php:181 content.php:56 content-image.php:56
+#: content-quote.php:59 showcase.php:181 content.php:63 content-image.php:56
 #: content-gallery.php:73 content-aside.php:54 content-status.php:55
 #: content-link.php:54
 msgid "<b>%</b> Replies"
 msgstr ""
 
-#: content-quote.php:62 content.php:59 content-image.php:61
+#: content-quote.php:62 content.php:66 content-image.php:61
 #: content-single.php:52 content-intro.php:19 content-gallery.php:76
 #: content-aside.php:56 image.php:39 image.php:103 content-status.php:57
 #: content-page.php:19 content-link.php:56 content-featured.php:52
@@ -109,7 +109,11 @@ msgstr ""
 msgid "Recent Posts"
 msgstr ""
 
-#: footer.php:40
+#: content.php:16
+msgid "Featured"
+msgstr ""
+
+#: footer.php:25
 msgid "Theme: %1$s."
 msgstr ""
 
@@ -150,7 +154,7 @@ msgid ""
 "href=\"%3$s\" title=\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>."
 msgstr ""
 
-#: content-single.php:60 author.php:33
+#: content-single.php:60 author.php:48
 msgid "About %s"
 msgstr ""
 
@@ -179,25 +183,25 @@ msgid ""
 "This post is password protected. Enter the password to view any comments."
 msgstr ""
 
-#: comments.php:28
+#: comments.php:33
 msgid "One thought on &ldquo;%2$s&rdquo;"
 msgid_plural "%1$s thoughts on &ldquo;%2$s&rdquo;"
 msgstr[0] ""
 msgstr[1] ""
 
-#: comments.php:35 comments.php:47
+#: comments.php:40 comments.php:60
 msgid "Comment navigation"
 msgstr ""
 
-#: comments.php:36 comments.php:48
+#: comments.php:41 comments.php:61
 msgid "&larr; Older Comments"
 msgstr ""
 
-#: comments.php:37 comments.php:49
+#: comments.php:42 comments.php:62
 msgid "Newer Comments &rarr;"
 msgstr ""
 
-#: comments.php:65
+#: comments.php:78
 msgid "Comments are closed."
 msgstr ""
 
@@ -363,15 +367,15 @@ msgstr ""
 msgid "Page %s"
 msgstr ""
 
-#: header.php:102
+#: header.php:113
 msgid "Main menu"
 msgstr ""
 
-#: header.php:103
+#: header.php:115
 msgid "Skip to content"
 msgstr ""
 
-#: author.php:18
+#: author.php:27
 msgid "Author Archives: %s"
 msgstr ""
 
@@ -466,29 +470,29 @@ msgstr ""
 msgid "Search Results for: %s"
 msgstr ""
 
-#: search.php:36
+#: search.php:42
 msgid "Nothing Found"
 msgstr ""
 
-#: search.php:40
+#: search.php:46
 msgid ""
 "Sorry, but nothing matched your search criteria. Please try again with some "
 "different keywords."
 msgstr ""
 
-#: archive.php:25
+#: archive.php:34
 msgid "Daily Archives: %s"
 msgstr ""
 
-#: archive.php:27
+#: archive.php:36
 msgid "Monthly Archives: %s"
 msgstr ""
 
-#: archive.php:29
+#: archive.php:38
 msgid "Yearly Archives: %s"
 msgstr ""
 
-#: archive.php:31
+#: archive.php:40
 msgid "Blog Archives"
 msgstr ""
 
@@ -518,11 +522,17 @@ msgstr ""
 
 #. Description of the plugin/theme
 msgid ""
-"Twenty Eleven is a sophisticated theme designed and developed by the "
-"WordPress team, offering a unique page template to turn your blog into a "
-"showcase of different kinds of posts –- Featured with an image, Asides, Link "
-"posts, and more. It also supports customization options like custom "
-"backgrounds, headers, menus, and widgets."
+"The 2011 theme for WordPress is sophisticated, lightweight, and adaptable. "
+"Make it yours with a custom menu, header image, and background -- then go "
+"further with available theme options for light or dark color scheme, custom "
+"link colors, and three layout choices. Twenty Eleven comes equipped with a "
+"Showcase page template that transforms your front page into a showcase to "
+"show off your best content, widget support galore (sidebar, three footer "
+"areas, and a Showcase page widget area), and a custom \"Ephemera\" widget to "
+"display your Aside, Link, Quote, or Status posts. Included are styles for "
+"print and for the admin editor, support for featured images (as custom "
+"header images on posts and pages and as large images on featured \"sticky\" "
+"posts), and special styles for six different post formats."
 msgstr ""
 
 #. Author of the plugin/theme
@@ -535,8 +545,9 @@ msgstr ""
 
 #. Tags of the plugin/theme
 msgid ""
-"light, white, two-columns, left-sidebar, right-sidebar, flexible-width, "
-"fixed-width, custom-background, custom-header, featured-images, featured-"
-"image-header, sticky-post, custom-menu, sticky-post, microformats, rtl-"
-"language-support, translation-ready"
+"dark, light, white, black, gray, one-column, two-columns, left-sidebar, "
+"right-sidebar, fixed-width, flexible-width, custom-background, custom-"
+"colors, custom-header, custom-menu, editor-style, featured-image-header, "
+"featured-images, full-width-template, microformats, post-formats, rtl-"
+"language-support, sticky-post, theme-options, translation-ready"
 msgstr ""
