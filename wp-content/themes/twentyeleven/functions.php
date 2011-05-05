@@ -60,10 +60,11 @@ if ( ! function_exists( 'twentyeleven_setup' ) ):
  * To override twentyeleven_setup() in a child theme, add your own twentyeleven_setup to your child theme's
  * functions.php file.
  *
- * @uses add_theme_support() To add support for post thumbnails and automatic feed links.
+ * @uses load_theme_textdomain() For translation/localization support.
+ * @uses add_editor_style() To style the visual editor.
+ * @uses add_theme_support() To add support for post thumbnails, automatic feed links, and Post Formats.
  * @uses register_nav_menus() To add support for navigation menus.
  * @uses add_custom_background() To add support for a custom background.
- * @uses load_theme_textdomain() For translation/localization support.
  * @uses add_custom_image_header() To add support for a custom header.
  * @uses register_default_headers() To register the default custom header images provided with the theme.
  * @uses set_post_thumbnail_size() To set a custom post thumbnail size.
@@ -83,6 +84,9 @@ function twentyeleven_setup() {
 	$locale_file = TEMPLATEPATH . "/languages/$locale.php";
 	if ( is_readable( $locale_file ) )
 		require_once( $locale_file );
+
+	// This theme styles the visual editor with editor-style.css to match the theme style.
+	add_editor_style();
 
 	// Load up our theme options page and related code.
 	require( dirname( __FILE__ ) . '/inc/theme-options.php' );
