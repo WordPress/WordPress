@@ -3512,7 +3512,7 @@ function wp_old_slug_redirect() {
 		if ( !$link )
 			return;
 
-		wp_redirect($link, '301'); // Permanent redirect
+		wp_redirect( $link, 301 ); // Permanent redirect
 		exit;
 	endif;
 }
