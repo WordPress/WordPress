@@ -23,48 +23,66 @@ wpList = {
 
 	parseClass: function(e,t) {
 		var c = [], cl;
+
 		try {
 			cl = $(e).attr('class') || '';
 			cl = cl.match(new RegExp(t+':[\\S]+'));
-			if ( cl ) { c = cl[0].split(':'); }
+
+			if ( cl )
+				c = cl[0].split(':');
 		} catch(r) {}
+
 		return c;
 	},
 
 	pre: function(e,s,a) {
 		var bg, r;
+
 		s = $.extend( {}, this.wpList.settings, {
 			element: null,
 			nonce: 0,
 			target: e.get(0)
 		}, s || {} );
+
 		if ( $.isFunction( s.confirm ) ) {
 			if ( 'add' != a ) {
 				bg = $('#' + s.element).css('backgroundColor');
 				$('#' + s.element).css('backgroundColor', '#FF9966');
 			}
-			r = s.confirm.call(this,e,s,a,bg);
-			if ( 'add' != a ) { $('#' + s.element).css('backgroundColor', bg ); }
-			if ( !r ) { return false; }
+			r = s.confirm.call(this, e, s, a, bg);
+
+			if ( 'add' != a )
+				$('#' + s.element).css('backgroundColor', bg );
+
+			if ( !r )
+				return false;
 		}
+
 		return s;
 	},
 
 	ajaxAdd: function( e, s ) {
 		e = $(e);
 		s = s || {};
-		var list = this, cls = wpList.parseClass(e,'add'), es, valid, formData;
+		var list = this, cls = wpList.parseClass(e,'add'), es, valid, formData, res, rres;
+
 		s = wpList.pre.call( list, e, s, 'add' );
 
 		s.element = cls[2] || e.attr( 'id' ) || s.element || null;
-		if ( cls[3] ) { s.addColor = '#' + cls[3]; }
-		else { s.addColor = s.addColor || '#FFFF33'; }
 
-		if ( !s ) { return false; }
+		if ( cls[3] )
+			s.addColor = '#' + cls[3];
+		else
+			s.addColor = s.addColor || '#FFFF33';
 
-		if ( !e.is('[class^="add:' + list.id + ':"]') ) { return !wpList.add.call( list, e, s ); }
+		if ( !s )
+			return false;
 
-		if ( !s.element ) { return true; }
+		if ( !e.is('[class^="add:' + list.id + ':"]') )
+			return !wpList.add.call( list, e, s );
+
+		if ( !s.element )
+			return true;
 
 		s.action = 'add-' + s.what;
 
@@ -72,23 +90,35 @@ wpList = {
 
 		es = $('#' + s.element + ' :input').not('[name="_ajax_nonce"], [name="_wpnonce"], [name="action"]');
 		valid = wpAjax.validateForm( '#' + s.element );
-		if ( !valid ) { return false; }
+
+		if ( !valid )
+			return false;
 
 		s.data = $.param( $.extend( { _ajax_nonce: s.nonce, action: s.action }, wpAjax.unserialize( cls[4] || '' ) ) );
 		formData = $.isFunction(es.fieldSerialize) ? es.fieldSerialize() : es.serialize();
-		if ( formData ) { s.data += '&' + formData; }
+
+		if ( formData )
+			s.data += '&' + formData;
 
 		if ( $.isFunction(s.addBefore) ) {
 			s = s.addBefore( s );
-			if ( !s ) { return true; }
+			if ( !s )
+				return true;
 		}
-		if ( !s.data.match(/_ajax_nonce=[a-f0-9]+/) ) { return true; }
+
+		if ( !s.data.match(/_ajax_nonce=[a-f0-9]+/) )
+			return true;
 
 		s.success = function(r) {
-			var res = wpAjax.parseAjaxResponse(r, s.response, s.element), o;
-			if ( !res || res.errors ) { return false; }
+			res = wpAjax.parseAjaxResponse(r, s.response, s.element);
 
-			if ( true === res ) { return true; }
+			rres = r;
+
+			if ( !res || res.errors )
+				return false;
+
+			if ( true === res )
+				return true;
 
 			jQuery.each( res.responses, function() {
 				wpList.add.call( list, this.data, $.extend( {}, s, { // this.firstChild.nodevalue
@@ -98,17 +128,16 @@ wpList = {
 				} ) );
 			} );
 
-			if ( $.isFunction(s.addAfter) ) {
-				o = this.complete;
-				this.complete = function(x,st) {
-					var _s = $.extend( { xml: x, status: st, parsed: res }, s );
-					s.addAfter( r, _s );
-					if ( $.isFunction(o) ) { o(x,st); }
-				};
-			}
 			list.wpList.recolor();
 			$(list).trigger( 'wpListAddEnd', [ s, list.wpList ] );
 			wpList.clear.call(list,'#' + s.element);
+		};
+
+		s.complete = function(x, st) {
+			if ( $.isFunction(s.addAfter) ) {
+				var _s = $.extend( { xml: x, status: st, parsed: res }, s );
+				s.addAfter( rres, _s );
+			}
 		};
 
 		$.ajax( s );
@@ -116,15 +145,21 @@ wpList = {
 	},
 
 	ajaxDel: function( e, s ) {
-		e = $(e); s = s || {};
-		var list = this, cls = wpList.parseClass(e,'delete'), element;
+		e = $(e);
+		s = s || {};
+		var list = this, cls = wpList.parseClass(e,'delete'), element, res, rres;
+
 		s = wpList.pre.call( list, e, s, 'delete' );
 
 		s.element = cls[2] || s.element || null;
-		if ( cls[3] ) { s.delColor = '#' + cls[3]; }
-		else { s.delColor = s.delColor || '#faa'; }
 
-		if ( !s || !s.element ) { return false; }
+		if ( cls[3] )
+			s.delColor = '#' + cls[3];
+		else
+			s.delColor = s.delColor || '#faa';
+
+		if ( !s || !s.element )
+			return false;
 
 		s.action = 'delete-' + s.what;
 
@@ -137,9 +172,12 @@ wpList = {
 
 		if ( $.isFunction(s.delBefore) ) {
 			s = s.delBefore( s, list );
-			if ( !s ) { return true; }
+			if ( !s )
+				return true;
 		}
-		if ( !s.data._ajax_nonce ) { return true; }
+
+		if ( !s.data._ajax_nonce )
+			return true;
 
 		element = $('#' + s.element);
 
@@ -154,22 +192,24 @@ wpList = {
 		}
 
 		s.success = function(r) {
-			var res = wpAjax.parseAjaxResponse(r, s.response, s.element), o;
+			res = wpAjax.parseAjaxResponse(r, s.response, s.element);
+			rres = r;
+
 			if ( !res || res.errors ) {
 				element.stop().stop().css( 'backgroundColor', '#faa' ).show().queue( function() { list.wpList.recolor(); $(this).dequeue(); } );
 				return false;
 			}
-			if ( $.isFunction(s.delAfter) ) {
-				o = this.complete;
-				this.complete = function(x,st) {
-					element.queue( function() {
-						var _s = $.extend( { xml: x, status: st, parsed: res }, s );
-						s.delAfter( r, _s );
-						if ( $.isFunction(o) ) { o(x,st); }
-					} ).dequeue();
-				};
-			}
 		};
+
+		s.complete = function(x, st) {
+			if ( $.isFunction(s.delAfter) ) {
+				element.queue( function() {
+					var _s = $.extend( { xml: x, status: st, parsed: res }, s );
+					s.delAfter( rres, _s );
+				}).dequeue();
+			}
+		}
+
 		$.ajax( s );
 		return false;
 	},
@@ -177,18 +217,29 @@ wpList = {
 	ajaxDim: function( e, s ) {
 		if ( $(e).parent().css('display') == 'none' ) // Prevent hidden links from being clicked by hotkeys
 			return false;
-		e = $(e); s = s || {};
-		var list = this, cls = wpList.parseClass(e,'dim'), element, isClass, color, dimColor;
+
+		e = $(e);
+		s = s || {};
+
+		var list = this, cls = wpList.parseClass(e,'dim'), element, isClass, color, dimColor, res, rres;
+
 		s = wpList.pre.call( list, e, s, 'dim' );
 
 		s.element = cls[2] || s.element || null;
 		s.dimClass =  cls[3] || s.dimClass || null;
-		if ( cls[4] ) { s.dimAddColor = '#' + cls[4]; }
-		else { s.dimAddColor = s.dimAddColor || '#FFFF33'; }
-		if ( cls[5] ) { s.dimDelColor = '#' + cls[5]; }
-		else { s.dimDelColor = s.dimDelColor || '#FF3333'; }
 
-		if ( !s || !s.element || !s.dimClass ) { return true; }
+		if ( cls[4] )
+			s.dimAddColor = '#' + cls[4];
+		else
+			s.dimAddColor = s.dimAddColor || '#FFFF33';
+
+		if ( cls[5] )
+			s.dimDelColor = '#' + cls[5];
+		else
+			s.dimDelColor = s.dimDelColor || '#FF3333';
+
+		if ( !s || !s.element || !s.dimClass )
+			return true;
 
 		s.action = 'dim-' + s.what;
 
@@ -201,7 +252,8 @@ wpList = {
 
 		if ( $.isFunction(s.dimBefore) ) {
 			s = s.dimBefore( s );
-			if ( !s ) { return true; }
+			if ( !s )
+				return true;
 		}
 
 		element = $('#' + s.element);
@@ -209,32 +261,39 @@ wpList = {
 		color = wpList.getColor( element );
 		element.toggleClass( s.dimClass );
 		dimColor = isClass ? s.dimAddColor : s.dimDelColor;
+
 		if ( 'none' != dimColor ) {
 			element
 				.animate( { backgroundColor: dimColor }, 'fast' )
 				.queue( function() { element.toggleClass(s.dimClass); $(this).dequeue(); } )
-				.animate( { backgroundColor: color }, { complete: function() { $(this).css( 'backgroundColor', '' ); $(list).trigger( 'wpListDimEnd', [ s, list.wpList ] ); } } );
+				.animate( { backgroundColor: color }, { complete: function() {
+						$(this).css( 'backgroundColor', '' );
+						$(list).trigger( 'wpListDimEnd', [ s, list.wpList ] );
+					}
+				});
 		} else {
 			$(list).trigger( 'wpListDimEnd', [ s, list.wpList ] );
 		}
 
-		if ( !s.data._ajax_nonce ) { return true; }
+		if ( !s.data._ajax_nonce )
+			return true;
 
 		s.success = function(r) {
-			var res = wpAjax.parseAjaxResponse(r, s.response, s.element), o;
+			res = wpAjax.parseAjaxResponse(r, s.response, s.element);
+			rres = r;
+
 			if ( !res || res.errors ) {
 				element.stop().stop().css( 'backgroundColor', '#FF3333' )[isClass?'removeClass':'addClass'](s.dimClass).show().queue( function() { list.wpList.recolor(); $(this).dequeue(); } );
 				return false;
 			}
+		};
+
+		s.complete = function(x, st) {
 			if ( $.isFunction(s.dimAfter) ) {
-				o = this.complete;
-				this.complete = function(x,st) {
-					element.queue( function() {
-						var _s = $.extend( { xml: x, status: st, parsed: res }, s );
-						s.dimAfter( r, _s );
-						if ( $.isFunction(o) ) { o(x,st); }
-					} ).dequeue();
-				};
+				element.queue( function() {
+					var _s = $.extend( { xml: x, status: st, parsed: res }, s );
+					s.dimAfter( rres, _s );
+				}).dequeue();
 			}
 		};
 
@@ -272,13 +331,19 @@ wpList = {
 			old.remove();
 		} else if ( isNaN(s.pos) ) {
 			ba = 'after';
+
 			if ( '-' == s.pos.substr(0,1) ) {
 				s.pos = s.pos.substr(1);
 				ba = 'before';
 			}
+
 			ref = list.find( '#' + s.pos );
-			if ( 1 === ref.size() ) { ref[ba](e); }
-			else { list.append(e); }
+
+			if ( 1 === ref.size() )
+				ref[ba](e);
+			else
+				list.append(e);
+
 		} else if ( s.pos < 0 ) {
 			list.prepend(e);
 		} else {
@@ -300,16 +365,25 @@ wpList = {
 
 	clear: function(e) {
 		var list = this, t, tag;
+
 		e = $(e);
-		if ( list.wpList && e.parents( '#' + list.id ).size() ) { return; }
+
+		if ( list.wpList && e.parents( '#' + list.id ).size() )
+			return;
+
 		e.find(':input').each( function() {
 			if ( $(this).parents('.form-no-clear').size() )
 				return;
+
 			t = this.type.toLowerCase();
 			tag = this.tagName.toLowerCase();
-			if ( 'text' == t || 'password' == t || 'textarea' == tag ) { this.value = ''; }
-			else if ( 'checkbox' == t || 'radio' == t ) { this.checked = false; }
-			else if ( 'select' == tag ) { this.selectedIndex = null; }
+
+			if ( 'text' == t || 'password' == t || 'textarea' == tag )
+				this.value = '';
+			else if ( 'checkbox' == t || 'radio' == t )
+				this.checked = false;
+			else if ( 'select' == tag )
+				this.selectedIndex = null;
 		});
 	},
 
@@ -336,21 +410,32 @@ wpList = {
 
 	recolor: function() {
 		var list = this, items, eo;
-		if ( !list.wpList.settings.alt ) { return; }
+
+		if ( !list.wpList.settings.alt )
+			return;
+
 		items = $('.list-item:visible', list);
-		if ( !items.size() ) { items = $(list).children(':visible'); }
+
+		if ( !items.size() )
+			items = $(list).children(':visible');
+
 		eo = [':even',':odd'];
-		if ( list.wpList.settings.altOffset % 2 ) { eo.reverse(); }
+
+		if ( list.wpList.settings.altOffset % 2 )
+			eo.reverse();
+
 		items.filter(eo[0]).addClass(list.wpList.settings.alt).end().filter(eo[1]).removeClass(list.wpList.settings.alt);
 	},
 
 	init: function() {
 		var lists = this;
+
 		lists.wpList.process = function(a) {
 			lists.each( function() {
 				this.wpList.process(a);
 			} );
 		};
+
 		lists.wpList.recolor = function() {
 			lists.each( function() {
 				this.wpList.recolor();
@@ -362,11 +447,15 @@ wpList = {
 $.fn.wpList = function( settings ) {
 	this.each( function() {
 		var _this = this;
+
 		this.wpList = { settings: $.extend( {}, wpList.settings, { what: wpList.parseClass(this,'list')[1] || '' }, settings ) };
 		$.each( fs, function(i,f) { _this.wpList[i] = function( e, s ) { return wpList[f].call( _this, e, s ); }; } );
 	} );
+
 	wpList.init.call(this);
+
 	this.wpList.process();
+
 	return this;
 };
 
