@@ -814,7 +814,7 @@ form.upgrade .hint {
 	z-index: 150102;
 }
 
-/* =TinyMCS Adjustments
+/* =TinyMCE Adjustments
 -------------------------------------------------------------- */
 #wp_mce_fullscreen_ifr {
 	background: transparent;
@@ -867,6 +867,10 @@ form.upgrade .hint {
 #header-logo {
 	float: left;
 	margin: 7px 0;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	user-select: none;
 }
 
 #wphead h1 {
@@ -874,11 +878,6 @@ form.upgrade .hint {
 	padding: 7px 8px 5px;
 	margin: 0;
 	float: left;
-}
-
-#wphead h1.long-title {
-	font: normal 18px Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
-	padding: 12px 10px 5px;
 }
 
 #wphead #privacy-on-link {
@@ -955,6 +954,8 @@ form.upgrade .hint {
 	right: 0;
 	top: 1px;
 	width: 28px;
+	border-width: 0 0 0 1px;
+	border-style: solid;
 }
 
 #favorite-actions .slide-down {
@@ -1024,9 +1025,6 @@ form.upgrade .hint {
 	line-height: 22px;
 	font-size: 11px;
 	display: block;
-	background-repeat: no-repeat;
-	background-position: top right;
-	background-color: transparent;
 	text-shadow: rgba(255,255,255,0.7) 0 1px 0;
 }
 
@@ -1045,12 +1043,8 @@ form.upgrade .hint {
 	border-style: none solid solid;
 	border-top: 0 none;
 	border-width: 0 1px 1px;
-	margin: 0 15px;
+	margin: 0 15px 0 0;
 	padding: 8px 12px 12px;
-	-moz-border-radius: 0 0 4px 4px;
-	-webkit-border-radius: 0 0 4px 4px;
-	-khtml-border-radius: 0 0 4px 4px;
-	border-radius: 0 0 4px 4px;
 }
 
 .metabox-prefs label {
@@ -1246,15 +1240,10 @@ body.no-js #adminmenu li.wp-has-current-submenu .wp-submenu {
 }
 
 #adminmenu a.separator {
-	cursor: w-resize;
 	height: 1px;
 	padding: 0;
 	border-width: 1px 0 0 0;
 	border-style: solid;
-}
-
-.folded #adminmenu a.separator {
- 	cursor: e-resize;
 }
 
 #adminmenu .wp-submenu .wp-submenu-head {
@@ -1278,13 +1267,13 @@ body.no-js #adminmenu li.wp-has-current-submenu .wp-submenu {
 }
 
 #adminmenu .wp-menu-toggle {
-	width: 22px;
+	width: 28px;
 	clear: right;
 	float: right;
 	margin: 1px 0 0;
 	height: 27px;
 	padding: 1px 2px 0 0;
-	cursor: default;
+	cursor: pointer;
 }
 
 #adminmenu .wp-menu-image a {
@@ -1374,6 +1363,29 @@ strong .post-com-count {
 
 #the-comment-list .attachment-80x60 {
 	padding: 4px 8px;
+}
+
+#collapse-menu {
+	font-size: 11px;
+	line-height: 32px;
+}
+.folded #collapse-menu span {
+	display: none;
+}
+#collapse-button,
+#collapse-button div {
+	width: 15px;
+	height: 15px;
+}
+#collapse-button {
+	float: left;
+	margin: 8px;
+	border-width: 1px;
+	border-style: solid;
+	-moz-border-radius: 10px;
+	-khtml-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
 }
 
 

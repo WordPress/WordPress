@@ -1,4 +1,4 @@
-var showNotice, adminMenu, columns, validateForm;
+var showNotice, adminMenu, columns, validateForm, screenMeta;
 (function($){
 // sidebar admin menu
 adminMenu = {
@@ -15,7 +15,7 @@ adminMenu = {
 
 		this.favorites();
 
-		$('.separator', menu).click(function(){
+		$('#collapse-menu', menu).click(function(){
 			if ( $('body').hasClass('folded') ) {
 				adminMenu.fold(1);
 				deleteUserSetting( 'mfold' );
@@ -171,8 +171,6 @@ validateForm = function( form ) {
 	return !$( form ).find('.form-required').filter( function() { return $('input:visible', this).val() == ''; } ).addClass( 'form-invalid' ).find('input:visible').change( function() { $(this).closest('.form-invalid').removeClass( 'form-invalid' ); } ).size();
 }
 
-})(jQuery);
-
 // stub for doing better warnings
 showNotice = {
 	warn : function() {
@@ -189,48 +187,53 @@ showNotice = {
 	}
 };
 
-jQuery(document).ready( function($) {
-	var lastClicked = false, checks, first, last, checked, bgx = ( isRtl ? 'left' : 'right' );
+screenMeta = {
+	links: {
+		'screen-options-link-wrap': 'screen-options-wrap',
+		'contextual-help-link-wrap': 'contextual-help-wrap'
+	},
+	init: function() {
+		$('.screen-meta-toggle').click( screenMeta.toggleEvent );
+	},
+	toggleEvent: function( e ) {
+		var panel;
+		e.preventDefault();
+
+		// Check to see if we found a panel.
+		if ( ! screenMeta.links[ this.id ] )
+			return;
+
+		panel = $('#' + screenMeta.links[ this.id ]);
+
+		if ( panel.is(':visible') )
+			screenMeta.close( panel, $(this) );
+		else
+			screenMeta.open( panel, $(this) );
+	},
+	open: function( panel, link ) {
+		$('.screen-meta-toggle').not( link ).css('visibility', 'hidden');
+
+		panel.slideDown( 'fast', function() {
+			link.addClass('screen-meta-active');
+		});
+	},
+	close: function( panel, link ) {
+		panel.slideUp( 'fast', function() {
+			link.removeClass('screen-meta-active');
+			$('.screen-meta-toggle').css('visibility', '');
+		});
+	}
+};
+
+$(document).ready( function() {
+	var lastClicked = false, checks, first, last, checked;
 
 	// Move .updated and .error alert boxes. Don't move boxes designed to be inline.
 	$('div.wrap h2:first').nextAll('div.updated, div.error').addClass('below-h2');
 	$('div.updated, div.error').not('.below-h2, .inline').insertAfter( $('div.wrap h2:first') );
 
-	// screen settings tab
-	$('#show-settings-link').click(function () {
-		if ( ! $('#screen-options-wrap').hasClass('screen-options-open') )
-			$('#contextual-help-link-wrap').css('visibility', 'hidden');
-
-		$('#screen-options-wrap').slideToggle('fast', function(){
-			if ( $(this).hasClass('screen-options-open') ) {
-				$('#show-settings-link').css({'backgroundPosition':'top '+bgx});
-				$('#contextual-help-link-wrap').css('visibility', '');
-				$(this).removeClass('screen-options-open');
-			} else {
-				$('#show-settings-link').css({'backgroundPosition':'bottom '+bgx});
-				$(this).addClass('screen-options-open');
-			}
-		});
-		return false;
-	});
-
-	// help tab
-	$('#contextual-help-link').click(function () {
-		if ( ! $('#contextual-help-wrap').hasClass('contextual-help-open') )
-			$('#screen-options-link-wrap').css('visibility', 'hidden');
-
-		$('#contextual-help-wrap').slideToggle('fast', function() {
-			if ( $(this).hasClass('contextual-help-open') ) {
-				$('#contextual-help-link').css({'backgroundPosition':'top '+bgx});
-				$('#screen-options-link-wrap').css('visibility', '');
-				$(this).removeClass('contextual-help-open');
-			} else {
-				$('#contextual-help-link').css({'backgroundPosition':'bottom '+bgx});
-				$(this).addClass('contextual-help-open');
-			}
-		});
-		return false;
-	});
+	// Init screen meta
+	screenMeta.init();
 
 	// check all checkboxes
 	$('tbody').children().children('.check-column').find(':checkbox').click( function(e) {
@@ -321,3 +324,5 @@ jQuery(document).ready( function($) {
 			this.focus();
 	});
 });
+
+})(jQuery);

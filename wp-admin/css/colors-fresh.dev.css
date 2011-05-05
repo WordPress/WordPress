@@ -1107,13 +1107,12 @@ table.widefat .spam a:hover,
 
 #adminmenu li.wp-has-current-submenu.wp-menu-open .wp-menu-toggle,
 #adminmenu li.wp-has-current-submenu:hover .wp-menu-toggle {
-/*	background: transparent url(../images/menu-bits.gif?ver=20100610) no-repeat scroll left -207px;*/
-	background: transparent;
+	background: transparent url(../images/arrows-dark.png) no-repeat 8px 6px;
 }
 
 #adminmenu .wp-has-submenu:hover .wp-menu-toggle,
 #adminmenu .wp-menu-open .wp-menu-toggle {
-	background: transparent url(../images/menu-bits.gif?ver=20100610) no-repeat scroll left -109px;
+	background: transparent url(../images/arrows.png) no-repeat 8px 6px;
 }
 
 #adminmenu a.menu-top,
@@ -1181,6 +1180,29 @@ table.widefat .spam a:hover,
 
 #adminmenu div.wp-submenu {
 	background-color: transparent;
+}
+
+/* collapse menu button */
+#collapse-menu {
+	color: #aaa;
+}
+#collapse-menu:hover {
+	color: #999;
+}
+#collapse-button {
+	border-color: #ccc;
+	background-color: #f4f4f4;
+	background-image: -moz-linear-gradient(bottom,  #dfdfdf,  #fff);
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#dfdfdf), to(#fff));
+}
+#collapse-menu:hover #collapse-button {
+	border-color: #aaa;
+}
+#collapse-button div {
+	background: transparent url(../images/arrows.png) no-repeat 0 -72px;
+}
+.folded #collapse-button div {
+	background-position: 0 -108px;
 }
 
 /* menu icons */
@@ -1293,6 +1315,7 @@ table.widefat .spam a:hover,
 #adminmenu .menu-icon-site.wp-has-current-submenu div.wp-menu-image {
 	background: transparent url('../images/menu.png?ver=20100531') no-repeat scroll -361px -1px;
 }
+
 /* end menu */
 
 
@@ -1551,7 +1574,11 @@ body.press-this ul.category-tabs li.tabs a {
 }
 
 #favorite-toggle {
-	background: transparent url(../images/fav-arrow.gif?ver=20100531) no-repeat 0 -6px;
+	background: transparent url(../images/arrows.png) no-repeat 4px 2px;
+	border-color: #dfdfdf;
+	-moz-box-shadow: inset 1px 0 0 #fff;
+	-webkit-box-shadow: inset 1px 0 0 #fff;
+	box-shadow: inset 1px 0 0 #fff;
 }
 
 #favorite-actions a {
@@ -1568,7 +1595,11 @@ body.press-this ul.category-tabs li.tabs a {
 
 #screen-meta a.show-settings,
 .toggle-arrow {
-	background-image:url("../images/screen-options-toggle.gif?ver=20100531");
+	background: transparent url(../images/arrows.png) no-repeat right 3px;
+}
+
+#screen-meta .screen-meta-active a.show-settings {
+	background: transparent url(../images/arrows.png) no-repeat right -33px;
 }
 
 #icon-edit,
