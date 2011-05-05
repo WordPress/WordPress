@@ -8,13 +8,13 @@
  */
 class WP_HTTP_IXR_Client extends IXR_Client {
 
-	function __construct($server, $path = false, $port = 80, $timeout = 15) {
+	function __construct($server, $path = false, $port = false, $timeout = 15) {
 		if ( ! $path ) {
 			// Assume we have been given a URL instead
 			$bits = parse_url($server);
 			$this->scheme = $bits['scheme'];
 			$this->server = $bits['host'];
-			$this->port = isset($bits['port']) ? $bits['port'] : 80;
+			$this->port = isset($bits['port']) ? $bits['port'] : $port;
 			$this->path = !empty($bits['path']) ? $bits['path'] : '/';
 
 			// Make absolutely sure we have a path
@@ -36,7 +36,8 @@ class WP_HTTP_IXR_Client extends IXR_Client {
 		$request = new IXR_Request($method, $args);
 		$xml = $request->getXml();
 
-		$url = $this->scheme . '://' . $this->server . ':' . $this->port . $this->path;
+		$port = $this->port ? ":$this->port" : '';
+		$url = $this->scheme . '://' . $this->server . $port . $this->path;
 		$args = array(
 			'headers'    => array('Content-Type' => 'text/xml'),
 			'user-agent' => $this->useragent,
