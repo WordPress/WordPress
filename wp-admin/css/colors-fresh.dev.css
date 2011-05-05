@@ -1116,7 +1116,8 @@ table.widefat .spam a:hover,
 }
 
 #adminmenu a.menu-top,
-.folded #adminmenu li.menu-top {
+.folded #adminmenu li.menu-top,
+#adminmenu .wp-submenu .wp-submenu-head {
 	border-top-color: #f9f9f9;
 	border-bottom-color: #dfdfdf;
 }
@@ -1129,14 +1130,16 @@ table.widefat .spam a:hover,
 #adminmenu li.current a.menu-top,
 .folded #adminmenu li.wp-has-current-submenu,
 .folded #adminmenu li.current.menu-top,
-#adminmenu .wp-menu-arrow {
+#adminmenu .wp-menu-arrow,
+#adminmenu .wp-has-current-submenu .wp-submenu .wp-submenu-head {
 	background: #777; /* fallback color */
 	background:-moz-linear-gradient(bottom,	#6d6d6d, #808080);
 	background:-webkit-gradient(linear, left bottom, left top, from(#6d6d6d), to(#808080));
 }
 
 #adminmenu li.wp-has-current-submenu a.wp-has-current-submenu,
-#adminmenu li.current a.menu-top {
+#adminmenu li.current a.menu-top,
+#adminmenu .wp-has-current-submenu .wp-submenu .wp-submenu-head {
 	text-shadow: 0 -1px 0 #333;
 	color: #fff;
 	border-top-color: #808080;
@@ -1164,18 +1167,20 @@ table.widefat .spam a:hover,
 	background-color: #fff;
 }
 
-.folded #adminmenu li.menu-top,
+.folded #adminmenu .wp-submenu-wrap,
+.folded #adminmenu .wp-submenu ul {
+	border-color: #dfdfdf;
+}
+
+.folded #adminmenu .wp-submenu-wrap {
+	-moz-box-shadow: 2px 2px 5px rgba( 0, 0, 0, 0.4 );
+	-webkit-box-shadow: 2px 2px 5px rgba( 0, 0, 0, 0.4 );
+	box-shadow: 2px 2px 5px rgba( 0, 0, 0, 0.4 );
+}
+
 #adminmenu .wp-submenu .wp-submenu-head {
-	background-color: #F1F1F1;
-}
-
-.folded #adminmenu li.wp-has-current-submenu,
-.folded #adminmenu li.menu-top.current {
-	background-color: #e6e6e6;
-}
-
-#adminmenu .wp-has-current-submenu .wp-submenu .wp-submenu-head {
-	background-color: #EAEAEA;
+	border-right-color: #dfdfdf;
+	background-color: #ececec;
 }
 
 #adminmenu div.wp-submenu {

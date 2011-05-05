@@ -1123,16 +1123,11 @@ form.upgrade .hint {
 	display: none;
 }
 
-.folded #adminmenu div.wp-submenu-head,
-body.js.folded #adminmenu li.wp-has-submenu div.sub-open {
+.folded #adminmenu div.wp-submenu-head {
 	display: block;
 }
 
 .folded #adminmenu a.menu-top,
-.folded #adminmenu .wp-submenu,
-.folded #adminmenu li.wp-has-current-submenu .wp-submenu,
-body.no-js.folded #adminmenu .open-if-no-js .wp-submenu,
-body.js.folded #adminmenu li.wp-menu-open .wp-submenu,
 body.no-js #adminmenu .wp-menu-toggle,
 .folded #adminmenu div.wp-menu-toggle {
 	display: none;
@@ -1246,16 +1241,41 @@ body.no-js #adminmenu li.wp-has-current-submenu .wp-submenu {
 	border-style: solid;
 }
 
-#adminmenu .wp-submenu .wp-submenu-head {
-	padding: 6px 4px 6px 10px;
-	cursor: default;
+.folded #adminmenu .wp-submenu {
+	display: block;
+	position: absolute;
+	top: -5px;
+	left: 26px;
+	z-index: 999;
+	width: 0;
+	padding: 0;
+	overflow: hidden;
+	-moz-transition: width 200ms ease-out;
+	-webkit-transition: width 200ms ease-out;
+	-o-transition: width 200ms ease-out;
+	transition: width 200ms ease-out;
+}
+.folded #adminmenu .wp-submenu.sub-open {
+	padding: 0 8px 8px 0;
 }
 
-.folded #adminmenu .wp-submenu {
-	position: absolute;
-	margin: -1px 0 0 28px;
-	padding: 0 8px 8px;
-	z-index: 999;
+#adminmenu .wp-submenu .wp-submenu-head {
+	padding: 6px 4px 5px 10px;
+	cursor: default;
+	border-width: 1px 0;
+	border-style: solid;
+}
+
+.folded #adminmenu .wp-submenu-wrap {
+	margin-top: 4px;
+	border-width: 0 1px 1px 0;
+	border-style: solid;
+	position: relative;
+}
+
+.folded #adminmenu .wp-submenu ul {
+	border-width: 0 0 0 1px;
+	border-style: solid;
 }
 
 .folded #adminmenu .wp-submenu a {
@@ -1379,7 +1399,7 @@ strong .post-com-count {
 }
 #collapse-button {
 	float: left;
-	margin: 8px;
+	margin: 8px 6px;
 	border-width: 1px;
 	border-style: solid;
 	-moz-border-radius: 10px;

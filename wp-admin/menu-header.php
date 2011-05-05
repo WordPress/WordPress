@@ -110,7 +110,8 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 		}
 
 		if ( !empty($submenu[$item[2]]) ) {
-			echo "\n\t<div class='wp-submenu'><div class='wp-submenu-head'>{$item[0]}</div><ul>";
+			echo "\n\t<div class='wp-submenu'><div class='wp-submenu-wrap'>";
+			echo "<div class='wp-submenu-head'>{$item[0]}</div><ul>";
 			$first = true;
 			foreach ( $submenu[$item[2]] as $sub_key => $sub_item ) {
 				if ( !current_user_can($sub_item[1]) )
@@ -163,7 +164,7 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 					echo "<li$class><a href='{$sub_item[2]}'$class$tabindex>$title</a></li>";
 				}
 			}
-			echo "</ul></div>";
+			echo "</ul></div></div>";
 		}
 		echo "</li>";
 	}
