@@ -3881,16 +3881,23 @@ table#availablethemes td.bottom {
 	font-size: 11px;
 }
 
-.appearance_page_custom-header  #available-headers .default-header {
+.appearance_page_custom-header .available-headers .default-header {
 	float: left;
 	margin: 0 20px 20px 0;
 }
 
-.appearance_page_custom-header #available-headers label input {
+.appearance_page_custom-header .random-header {
+	clear: both;
+	margin: 0 20px 20px 0;
+	vertical-align: middle;
+}
+
+.appearance_page_custom-header .available-headers label input,
+.appearance_page_custom-header .random-header label input {
 	margin-right: 10px;
 }
 
-.appearance_page_custom-header #available-headers label img {
+.appearance_page_custom-header .available-headers label img {
 	vertical-align: middle;
 }
 

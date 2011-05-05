@@ -257,7 +257,6 @@ class Custom_Image_Header {
 	 * @since 3.0.0
 	 */
 	function show_header_selector( $type = 'default' ) {
-		echo '<div id="available-headers">';
 		if ( 'default' == $type ) {
 			$headers = $this->default_headers;
 		} else {
@@ -265,6 +264,15 @@ class Custom_Image_Header {
 			$type = 'uploaded';
 		}
 
+		if ( 1 < count( $headers ) ) {
+			echo '<div class="random-header">';
+			echo '<label><input name="default-header" type="radio" value="random-' . $type . '-image"' . checked( is_random_header_image( $type ), true, false ) . ' />';
+			echo __( '<strong>Random:</strong> Show a different image on each page.' );
+			echo '</label>';
+			echo '</div>';
+		}
+
+		echo '<div class="available-headers">';
 		foreach ( $headers as $header_key => $header ) {
 			$header_thumbnail = $header['thumbnail_url'];
 			$header_url = $header['url'];
@@ -275,13 +283,6 @@ class Custom_Image_Header {
 			if ( !empty( $header['uploaded'] ) )
 				$width = ' width="230"';
 			echo '<img src="' . $header_thumbnail . '" alt="' . esc_attr( $header_desc ) .'" title="' . esc_attr( $header_desc ) . '"' . $width . ' /></label>';
-			echo '</div>';
-		}
-		if ( 1 < count( $headers ) ) {
-			echo '<div class="default-header">';
-			echo '<label><input name="default-header" type="radio" value="random-' . $type . '-image"' . checked( is_random_header_image( $type ), true, false ) . ' />';
-			echo __( '<strong>Random:</strong> Show a different image on each page.' );
-			echo '</label>';
 			echo '</div>';
 		}
 		echo '<div class="clear"></div></div>';
@@ -523,7 +524,7 @@ class Custom_Image_Header {
 <tr valign="top">
 <th scope="row"><?php _e( 'Uploaded Images' ); ?></th>
 <td>
-	<p><?php _e( 'You can use one of your previously uploaded headers.' ) ?></p>
+	<p><?php _e( 'You can choose one of your previously uploaded headers, or show a random one.' ) ?></p>
 	<?php
 		$this->show_header_selector( 'uploaded' );
 	?>
@@ -535,9 +536,9 @@ class Custom_Image_Header {
 <th scope="row"><?php _e( 'Default Images' ); ?></th>
 <td>
 <?php if ( current_theme_supports( 'custom-header-uploads' ) ) : ?>
-	<p><?php _e( 'If you don&lsquo;t want to upload your own image, you can use one of these cool headers.' ) ?></p>
+	<p><?php _e( 'If you don&lsquo;t want to upload your own image, you can use one of these cool headers, or show a random one.' ) ?></p>
 <?php else: ?>
-	<p><?php _e( 'You can use one of these cool headers.' ) ?>
+	<p><?php _e( 'You can use one of these cool headers or show a random one on each page.' ) ?></p>
 <?php endif; ?>
 	<?php
 		$this->show_header_selector( 'default' );
