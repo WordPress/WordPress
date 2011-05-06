@@ -485,13 +485,13 @@ function wp_default_styles( &$styles ) {
 	// Any rtl stylesheets that don't have a .dev version for ltr
 	$no_suffix = array( 'farbtastic' );
 
-	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20110505b' );
+	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20110506' );
 
 	$styles->add( 'ie', "/wp-admin/css/ie$suffix.css", array(), '20101102' );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
 
 	// all colors stylesheets need to have the same query strings (cache manifest compat)
-	$colors_version = '20110505b';
+	$colors_version = '20110506';
 
 	// Register "meta" stylesheet for admin colors. All colors-* style sheets should have the same version string.
 	$styles->add( 'colors', true, array(), $colors_version );
@@ -501,10 +501,10 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'colors-classic', "/wp-admin/css/colors-classic$suffix.css", array(), $colors_version );
 
 	$styles->add( 'ms', "/wp-admin/css/ms$suffix.css", array(), '20101213' );
-	$styles->add( 'global', "/wp-admin/css/global$suffix.css", array(), '20110504' );
+	$styles->add( 'global', "/wp-admin/css/global$suffix.css", array(), '20110506' );
 	$styles->add( 'media', "/wp-admin/css/media$suffix.css", array(), '20110121' );
 	$styles->add( 'widgets', "/wp-admin/css/widgets$suffix.css", array(), '20110504' );
-	$styles->add( 'dashboard', "/wp-admin/css/dashboard$suffix.css", array(), '20110504b' );
+	$styles->add( 'dashboard', "/wp-admin/css/dashboard$suffix.css", array(), '20110506' );
 	$styles->add( 'install', "/wp-admin/css/install$suffix.css", array(), '20110121' ); // Readme as well
 	$styles->add( 'theme-editor', "/wp-admin/css/theme-editor$suffix.css", array(), '20110504' );
 	$styles->add( 'press-this', "/wp-admin/css/press-this$suffix.css", array(), '20110121' );
