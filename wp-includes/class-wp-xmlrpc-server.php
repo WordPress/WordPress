@@ -475,7 +475,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$page = get_page($page_id);
 
 		// If we found the page then format the data.
-		if ( $page->ID && ($page->post_type == "page") ) {
+		if ( $page->ID && ($page->post_type == 'page') ) {
 			// Get all of the page content and link.
 			$full_page = get_extended($page->post_content);
 			$link = post_permalink($page->ID);
@@ -492,8 +492,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			$allow_pings = pings_open($page->ID) ? 1 : 0;
 
 			// Format page date.
-			$page_date = mysql2date("Ymd\TH:i:s", $page->post_date, false);
-			$page_date_gmt = mysql2date("Ymd\TH:i:s", $page->post_date_gmt, false);
+			$page_date = mysql2date('Ymd\TH:i:s', $page->post_date, false);
+			$page_date_gmt = mysql2date('Ymd\TH:i:s', $page->post_date_gmt, false);
 
 			// For drafts use the GMT version of the date
 			if ( $page->post_status == 'draft' )
@@ -513,37 +513,37 @@ class wp_xmlrpc_server extends IXR_Server {
 				$page_template = 'default';
 
 			$page_struct = array(
-				"dateCreated"			=> new IXR_Date($page_date),
-				"userid"				=> $page->post_author,
-				"page_id"				=> $page->ID,
-				"page_status"			=> $page->post_status,
-				"description"			=> $full_page["main"],
-				"title"					=> $page->post_title,
-				"link"					=> $link,
-				"permaLink"				=> $link,
-				"categories"			=> $categories,
-				"excerpt"				=> $page->post_excerpt,
-				"text_more"				=> $full_page["extended"],
-				"mt_allow_comments"		=> $allow_comments,
-				"mt_allow_pings"		=> $allow_pings,
-				"wp_slug"				=> $page->post_name,
-				"wp_password"			=> $page->post_password,
-				"wp_author"				=> $author->display_name,
-				"wp_page_parent_id"		=> $page->post_parent,
-				"wp_page_parent_title"	=> $parent_title,
-				"wp_page_order"			=> $page->menu_order,
-				"wp_author_id"			=> $author->ID,
-				"wp_author_display_name"	=> $author->display_name,
-				"date_created_gmt"		=> new IXR_Date($page_date_gmt),
-				"custom_fields"			=> $this->get_custom_fields($page_id),
-				"wp_page_template"		=> $page_template
+				'dateCreated'			=> new IXR_Date($page_date),
+				'userid'				=> $page->post_author,
+				'page_id'				=> $page->ID,
+				'page_status'			=> $page->post_status,
+				'description'			=> $full_page['main'],
+				'title'					=> $page->post_title,
+				'link'					=> $link,
+				'permaLink'				=> $link,
+				'categories'			=> $categories,
+				'excerpt'				=> $page->post_excerpt,
+				'text_more'				=> $full_page['extended'],
+				'mt_allow_comments'		=> $allow_comments,
+				'mt_allow_pings'		=> $allow_pings,
+				'wp_slug'				=> $page->post_name,
+				'wp_password'			=> $page->post_password,
+				'wp_author'				=> $author->display_name,
+				'wp_page_parent_id'		=> $page->post_parent,
+				'wp_page_parent_title'	=> $parent_title,
+				'wp_page_order'			=> $page->menu_order,
+				'wp_author_id'			=> $author->ID,
+				'wp_author_display_name'	=> $author->display_name,
+				'date_created_gmt'		=> new IXR_Date($page_date_gmt),
+				'custom_fields'			=> $this->get_custom_fields($page_id),
+				'wp_page_template'		=> $page_template
 			);
 
 			return($page_struct);
 		}
 		// If the page doesn't exist indicate that.
 		else {
-			return(new IXR_Error(404, __("Sorry, no such page.")));
+			return(new IXR_Error(404, __('Sorry, no such page.')));
 		}
 	}
 
@@ -618,11 +618,11 @@ class wp_xmlrpc_server extends IXR_Server {
 		do_action('xmlrpc_call', 'wp.newPage');
 
 		// Make sure the user is allowed to add new pages.
-		if ( !current_user_can("publish_pages") )
-			return(new IXR_Error(401, __("Sorry, you cannot add new pages.")));
+		if ( !current_user_can('publish_pages') )
+			return(new IXR_Error(401, __('Sorry, you cannot add new pages.')));
 
 		// Mark this as content for a page.
-		$args[3]["post_type"] = "page";
+		$args[3]["post_type"] = 'page';
 
 		// Let mw_newPost do all of the heavy lifting.
 		return($this->mw_newPost($args));
@@ -652,17 +652,17 @@ class wp_xmlrpc_server extends IXR_Server {
 		// Get the current page based on the page_id and
 		// make sure it is a page and not a post.
 		$actual_page = wp_get_single_post($page_id, ARRAY_A);
-		if ( !$actual_page || ($actual_page["post_type"] != "page") )
-			return(new IXR_Error(404, __("Sorry, no such page.")));
+		if ( !$actual_page || ($actual_page['post_type'] != 'page') )
+			return(new IXR_Error(404, __('Sorry, no such page.')));
 
 		// Make sure the user can delete pages.
-		if ( !current_user_can("delete_page", $page_id) )
-			return(new IXR_Error(401, __("Sorry, you do not have the right to delete this page.")));
+		if ( !current_user_can('delete_page', $page_id) )
+			return(new IXR_Error(401, __('Sorry, you do not have the right to delete this page.')));
 
 		// Attempt to delete the page.
 		$result = wp_delete_post($page_id);
 		if ( !$result )
-			return(new IXR_Error(500, __("Failed to delete the page.")));
+			return(new IXR_Error(500, __('Failed to delete the page.')));
 
 		return(true);
 	}
@@ -691,15 +691,15 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		// Get the page data and make sure it is a page.
 		$actual_page = wp_get_single_post($page_id, ARRAY_A);
-		if ( !$actual_page || ($actual_page["post_type"] != "page") )
-			return(new IXR_Error(404, __("Sorry, no such page.")));
+		if ( !$actual_page || ($actual_page['post_type'] != 'page') )
+			return(new IXR_Error(404, __('Sorry, no such page.')));
 
 		// Make sure the user is allowed to edit pages.
-		if ( !current_user_can("edit_page", $page_id) )
-			return(new IXR_Error(401, __("Sorry, you do not have the right to edit this page.")));
+		if ( !current_user_can('edit_page', $page_id) )
+			return(new IXR_Error(401, __('Sorry, you do not have the right to edit this page.')));
 
 		// Mark this as content for a page.
-		$content["post_type"] = "page";
+		$content['post_type'] = 'page';
 
 		// Arrange args in the way mw_editPost understands.
 		$args = array(
@@ -755,8 +755,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		// The date needs to be formated properly.
 		$num_pages = count($page_list);
 		for ( $i = 0; $i < $num_pages; $i++ ) {
-			$post_date = mysql2date("Ymd\TH:i:s", $page_list[$i]->post_date, false);
-			$post_date_gmt = mysql2date("Ymd\TH:i:s", $page_list[$i]->post_date_gmt, false);
+			$post_date = mysql2date('Ymd\TH:i:s', $page_list[$i]->post_date, false);
+			$post_date_gmt = mysql2date('Ymd\TH:i:s', $page_list[$i]->post_date_gmt, false);
 
 			$page_list[$i]->dateCreated = new IXR_Date($post_date);
 			$page_list[$i]->date_created_gmt = new IXR_Date($post_date_gmt);
@@ -794,17 +794,17 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( !$user = $this->login($username, $password) )
 			return $this->error;
 
-		if ( !current_user_can("edit_posts") )
-			return(new IXR_Error(401, __("Sorry, you cannot edit posts on this site.")));
+		if ( !current_user_can('edit_posts') )
+			return(new IXR_Error(401, __('Sorry, you cannot edit posts on this site.')));
 
 		do_action('xmlrpc_call', 'wp.getAuthors');
 
 		$authors = array();
 		foreach ( get_users( array( 'fields' => array('ID','user_login','display_name') ) ) as $user ) {
 			$authors[] = array(
-				"user_id"       => $user->ID,
-				"user_login"    => $user->user_login,
-				"display_name"  => $user->display_name
+				'user_id'       => $user->ID,
+				'user_login'    => $user->user_login,
+				'display_name'  => $user->display_name
 			);
 		}
 
@@ -874,28 +874,28 @@ class wp_xmlrpc_server extends IXR_Server {
 		do_action('xmlrpc_call', 'wp.newCategory');
 
 		// Make sure the user is allowed to add a category.
-		if ( !current_user_can("manage_categories") )
-			return(new IXR_Error(401, __("Sorry, you do not have the right to add a category.")));
+		if ( !current_user_can('manage_categories') )
+			return(new IXR_Error(401, __('Sorry, you do not have the right to add a category.')));
 
 		// If no slug was provided make it empty so that
 		// WordPress will generate one.
-		if ( empty($category["slug"]) )
-			$category["slug"] = "";
+		if ( empty($category['slug']) )
+			$category['slug'] = '';
 
 		// If no parent_id was provided make it empty
 		// so that it will be a top level page (no parent).
-		if ( !isset($category["parent_id"]) )
-			$category["parent_id"] = "";
+		if ( !isset($category['parent_id']) )
+			$category['parent_id'] = '';
 
 		// If no description was provided make it empty.
 		if ( empty($category["description"]) )
 			$category["description"] = "";
 
 		$new_category = array(
-			"cat_name"				=> $category["name"],
-			"category_nicename"		=> $category["slug"],
-			"category_parent"		=> $category["parent_id"],
-			"category_description"	=> $category["description"]
+			'cat_name'				=> $category['name'],
+			'category_nicename'		=> $category['slug'],
+			'category_parent'		=> $category['parent_id'],
+			'category_description'	=> $category['description']
 		);
 
 		$cat_id = wp_insert_category($new_category, true);
@@ -903,9 +903,9 @@ class wp_xmlrpc_server extends IXR_Server {
 			if ( 'term_exists' == $cat_id->get_error_code() )
 				return (int) $cat_id->get_error_data();
 			else
-				return(new IXR_Error(500, __("Sorry, the new category failed.")));
+				return(new IXR_Error(500, __('Sorry, the new category failed.')));
 		} elseif ( ! $cat_id ) {
-			return(new IXR_Error(500, __("Sorry, the new category failed.")));
+			return(new IXR_Error(500, __('Sorry, the new category failed.')));
 		}
 
 		return($cat_id);
@@ -932,8 +932,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		do_action('xmlrpc_call', 'wp.deleteCategory');
 
-		if ( !current_user_can("manage_categories") )
-			return new IXR_Error( 401, __( "Sorry, you do not have the right to delete a category." ) );
+		if ( !current_user_can('manage_categories') )
+			return new IXR_Error( 401, __( 'Sorry, you do not have the right to delete a category.' ) );
 
 		return wp_delete_term( $category_id, 'category' );
 	}
@@ -967,8 +967,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$args = array('get' => 'all', 'number' => $max_results, 'name__like' => $category);
 		foreach ( (array) get_categories($args) as $cat ) {
 			$category_suggestions[] = array(
-				"category_id"	=> $cat->term_id,
-				"category_name"	=> $cat->name
+				'category_id'	=> $cat->term_id,
+				'category_name'	=> $cat->name
 			);
 		}
 
@@ -1003,8 +1003,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			return new IXR_Error( 404, __( 'Invalid comment ID.' ) );
 
 		// Format page date.
-		$comment_date = mysql2date("Ymd\TH:i:s", $comment->comment_date, false);
-		$comment_date_gmt = mysql2date("Ymd\TH:i:s", $comment->comment_date_gmt, false);
+		$comment_date = mysql2date('Ymd\TH:i:s', $comment->comment_date, false);
+		$comment_date_gmt = mysql2date('Ymd\TH:i:s', $comment->comment_date_gmt, false);
 
 		if ( '0' == $comment->comment_approved )
 			$comment_status = 'hold';
@@ -1018,20 +1018,20 @@ class wp_xmlrpc_server extends IXR_Server {
 		$link = get_comment_link($comment);
 
 		$comment_struct = array(
-			"date_created_gmt"		=> new IXR_Date($comment_date_gmt),
-			"user_id"				=> $comment->user_id,
-			"comment_id"			=> $comment->comment_ID,
-			"parent"				=> $comment->comment_parent,
-			"status"				=> $comment_status,
-			"content"				=> $comment->comment_content,
-			"link"					=> $link,
-			"post_id"				=> $comment->comment_post_ID,
-			"post_title"			=> get_the_title($comment->comment_post_ID),
-			"author"				=> $comment->comment_author,
-			"author_url"			=> $comment->comment_author_url,
-			"author_email"			=> $comment->comment_author_email,
-			"author_ip"				=> $comment->comment_author_IP,
-			"type"					=> $comment->comment_type,
+			'date_created_gmt'		=> new IXR_Date($comment_date_gmt),
+			'user_id'				=> $comment->user_id,
+			'comment_id'			=> $comment->comment_ID,
+			'parent'				=> $comment->comment_parent,
+			'status'				=> $comment_status,
+			'content'				=> $comment->comment_content,
+			'link'					=> $link,
+			'post_id'				=> $comment->comment_post_ID,
+			'post_title'			=> get_the_title($comment->comment_post_ID),
+			'author'				=> $comment->comment_author,
+			'author_url'			=> $comment->comment_author_url,
+			'author_email'			=> $comment->comment_author_email,
+			'author_ip'				=> $comment->comment_author_IP,
+			'type'					=> $comment->comment_type,
 		);
 
 		return $comment_struct;
@@ -1373,10 +1373,10 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$count = wp_count_comments( $post_id );
 		return array(
-			"approved" => $count->approved,
-			"awaiting_moderation" => $count->moderated,
-			"spam" => $count->spam,
-			"total_comments" => $count->total_comments
+			'approved' => $count->approved,
+			'awaiting_moderation' => $count->moderated,
+			'spam' => $count->spam,
+			'total_comments' => $count->total_comments
 		);
 	}
 
@@ -1586,21 +1586,21 @@ class wp_xmlrpc_server extends IXR_Server {
 			return new IXR_Error( 404, __( 'Invalid attachment ID.' ) );
 
 		// Format page date.
-		$attachment_date = mysql2date("Ymd\TH:i:s", $attachment->post_date, false);
-		$attachment_date_gmt = mysql2date("Ymd\TH:i:s", $attachment->post_date_gmt, false);
+		$attachment_date = mysql2date('Ymd\TH:i:s', $attachment->post_date, false);
+		$attachment_date_gmt = mysql2date('Ymd\TH:i:s', $attachment->post_date_gmt, false);
 
 		$link = wp_get_attachment_url($attachment->ID);
 		$thumbnail_link = wp_get_attachment_thumb_url($attachment->ID);
 
 		$attachment_struct = array(
-			"date_created_gmt"		=> new IXR_Date($attachment_date_gmt),
-			"parent"				=> $attachment->post_parent,
-			"link"					=> $link,
-			"thumbnail"				=> $thumbnail_link,
-			"title"					=> $attachment->post_title,
-			"caption"				=> $attachment->post_excerpt,
-			"description"			=> $attachment->post_content,
-			"metadata"				=> wp_get_attachment_metadata($attachment->ID),
+			'date_created_gmt'		=> new IXR_Date($attachment_date_gmt),
+			'parent'				=> $attachment->post_parent,
+			'link'					=> $link,
+			'thumbnail'				=> $thumbnail_link,
+			'title'					=> $attachment->post_title,
+			'caption'				=> $attachment->post_excerpt,
+			'description'			=> $attachment->post_content,
+			'metadata'				=> wp_get_attachment_metadata($attachment->ID),
 		);
 
 		return $attachment_struct;
@@ -2243,39 +2243,39 @@ class wp_xmlrpc_server extends IXR_Server {
 		// Let WordPress generate the post_name (slug) unless
 		// one has been provided.
 		$post_name = "";
-		if ( isset($content_struct["wp_slug"]) )
-			$post_name = $content_struct["wp_slug"];
+		if ( isset($content_struct['wp_slug']) )
+			$post_name = $content_struct['wp_slug'];
 
 		// Only use a password if one was given.
-		if ( isset($content_struct["wp_password"]) )
-			$post_password = $content_struct["wp_password"];
+		if ( isset($content_struct['wp_password']) )
+			$post_password = $content_struct['wp_password'];
 
 		// Only set a post parent if one was provided.
-		if ( isset($content_struct["wp_page_parent_id"]) )
-			$post_parent = $content_struct["wp_page_parent_id"];
+		if ( isset($content_struct['wp_page_parent_id']) )
+			$post_parent = $content_struct['wp_page_parent_id'];
 
 		// Only set the menu_order if it was provided.
-		if ( isset($content_struct["wp_page_order"]) )
-			$menu_order = $content_struct["wp_page_order"];
+		if ( isset($content_struct['wp_page_order']) )
+			$menu_order = $content_struct['wp_page_order'];
 
 		$post_author = $user->ID;
 
 		// If an author id was provided then use it instead.
-		if ( isset($content_struct["wp_author_id"]) && ($user->ID != $content_struct["wp_author_id"]) ) {
+		if ( isset($content_struct['wp_author_id']) && ($user->ID != $content_struct['wp_author_id']) ) {
 			switch ( $post_type ) {
 				case "post":
-					if ( !current_user_can("edit_others_posts") )
-						return(new IXR_Error(401, __("You are not allowed to post as this user")));
+					if ( !current_user_can('edit_others_posts') )
+						return(new IXR_Error(401, __('You are not allowed to post as this user')));
 					break;
 				case "page":
-					if ( !current_user_can("edit_others_pages") )
-						return(new IXR_Error(401, __("You are not allowed to create pages as this user")));
+					if ( !current_user_can('edit_others_pages') )
+						return(new IXR_Error(401, __('You are not allowed to create pages as this user')));
 					break;
 				default:
-					return(new IXR_Error(401, __("Invalid post type.")));
+					return(new IXR_Error(401, __('Invalid post type.')));
 					break;
 			}
-			$post_author = $content_struct["wp_author_id"];
+			$post_author = $content_struct['wp_author_id'];
 		}
 
 		$post_title = isset( $content_struct['title'] ) ? $content_struct['title'] : null;
@@ -2302,69 +2302,69 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$tags_input = isset($content_struct['mt_keywords']) ? $content_struct['mt_keywords'] : null;
 
-		if ( isset($content_struct["mt_allow_comments"]) ) {
-			if ( !is_numeric($content_struct["mt_allow_comments"]) ) {
-				switch ( $content_struct["mt_allow_comments"] ) {
-					case "closed":
-						$comment_status = "closed";
+		if ( isset($content_struct['mt_allow_comments']) ) {
+			if ( !is_numeric($content_struct['mt_allow_comments']) ) {
+				switch ( $content_struct['mt_allow_comments'] ) {
+					case 'closed':
+						$comment_status = 'closed';
 						break;
-					case "open":
-						$comment_status = "open";
+					case 'open':
+						$comment_status = 'open';
 						break;
 					default:
-						$comment_status = get_option("default_comment_status");
+						$comment_status = get_option('default_comment_status');
 						break;
 				}
 			} else {
-				switch ( (int) $content_struct["mt_allow_comments"] ) {
+				switch ( (int) $content_struct['mt_allow_comments'] ) {
 					case 0:
 					case 2:
-						$comment_status = "closed";
+						$comment_status = 'closed';
 						break;
 					case 1:
-						$comment_status = "open";
+						$comment_status = 'open';
 						break;
 					default:
-						$comment_status = get_option("default_comment_status");
+						$comment_status = get_option('default_comment_status');
 						break;
 				}
 			}
 		} else {
-			$comment_status = get_option("default_comment_status");
+			$comment_status = get_option('default_comment_status');
 		}
 
-		if ( isset($content_struct["mt_allow_pings"]) ) {
-			if ( !is_numeric($content_struct["mt_allow_pings"]) ) {
+		if ( isset($content_struct['mt_allow_pings']) ) {
+			if ( !is_numeric($content_struct['mt_allow_pings']) ) {
 				switch ( $content_struct['mt_allow_pings'] ) {
-					case "closed":
-						$ping_status = "closed";
+					case 'closed':
+						$ping_status = 'closed';
 						break;
-					case "open":
-						$ping_status = "open";
+					case 'open':
+						$ping_status = 'open';
 						break;
 					default:
-						$ping_status = get_option("default_ping_status");
+						$ping_status = get_option('default_ping_status');
 						break;
 				}
 			} else {
-				switch ( (int) $content_struct["mt_allow_pings"] ) {
+				switch ( (int) $content_struct['mt_allow_pings'] ) {
 					case 0:
-						$ping_status = "closed";
+						$ping_status = 'closed';
 						break;
 					case 1:
-						$ping_status = "open";
+						$ping_status = 'open';
 						break;
 					default:
-						$ping_status = get_option("default_ping_status");
+						$ping_status = get_option('default_ping_status');
 						break;
 				}
 			}
 		} else {
-			$ping_status = get_option("default_ping_status");
+			$ping_status = get_option('default_ping_status');
 		}
 
 		if ( $post_more )
-			$post_content = $post_content . "<!--more-->" . $post_more;
+			$post_content = $post_content . '<!--more-->' . $post_more;
 
 		$to_ping = null;
 		if ( isset( $content_struct['mt_tb_ping_urls'] ) ) {
@@ -2551,7 +2551,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		// now and return an error.  Other wise a new post will be
 		// created (which was the old behavior).
 		if ( empty($postdata["ID"]) )
-			return(new IXR_Error(404, __("Invalid post ID.")));
+			return(new IXR_Error(404, __('Invalid post ID.')));
 
 		$this->escape($postdata);
 		extract($postdata, EXTR_SKIP);
@@ -2559,93 +2559,93 @@ class wp_xmlrpc_server extends IXR_Server {
 		// Let WordPress manage slug if none was provided.
 		$post_name = "";
 		$post_name = $postdata['post_name'];
-		if ( isset($content_struct["wp_slug"]) )
-			$post_name = $content_struct["wp_slug"];
+		if ( isset($content_struct['wp_slug']) )
+			$post_name = $content_struct['wp_slug'];
 
 		// Only use a password if one was given.
-		if ( isset($content_struct["wp_password"]) )
-			$post_password = $content_struct["wp_password"];
+		if ( isset($content_struct['wp_password']) )
+			$post_password = $content_struct['wp_password'];
 
 		// Only set a post parent if one was given.
-		if ( isset($content_struct["wp_page_parent_id"]) )
-			$post_parent = $content_struct["wp_page_parent_id"];
+		if ( isset($content_struct['wp_page_parent_id']) )
+			$post_parent = $content_struct['wp_page_parent_id'];
 
 		// Only set the menu_order if it was given.
-		if ( isset($content_struct["wp_page_order"]) )
-			$menu_order = $content_struct["wp_page_order"];
+		if ( isset($content_struct['wp_page_order']) )
+			$menu_order = $content_struct['wp_page_order'];
 
-		$post_author = $postdata["post_author"];
+		$post_author = $postdata['post_author'];
 
 		// Only set the post_author if one is set.
-		if ( isset($content_struct["wp_author_id"]) && ($user->ID != $content_struct["wp_author_id"]) ) {
+		if ( isset($content_struct['wp_author_id']) && ($user->ID != $content_struct['wp_author_id']) ) {
 			switch ( $post_type ) {
-				case "post":
-					if ( !current_user_can("edit_others_posts") )
-						return(new IXR_Error(401, __("You are not allowed to change the post author as this user.")));
+				case 'post':
+					if ( !current_user_can('edit_others_posts') )
+						return(new IXR_Error(401, __('You are not allowed to change the post author as this user.')));
 					break;
-				case "page":
-					if ( !current_user_can("edit_others_pages") )
-						return(new IXR_Error(401, __("You are not allowed to change the page author as this user.")));
+				case 'page':
+					if ( !current_user_can('edit_others_pages') )
+						return(new IXR_Error(401, __('You are not allowed to change the page author as this user.')));
 					break;
 				default:
-					return(new IXR_Error(401, __("Invalid post type.")));
+					return(new IXR_Error(401, __('Invalid post type.')));
 					break;
 			}
-			$post_author = $content_struct["wp_author_id"];
+			$post_author = $content_struct['wp_author_id'];
 		}
 
-		if ( isset($content_struct["mt_allow_comments"]) ) {
-			if ( !is_numeric($content_struct["mt_allow_comments"]) ) {
-				switch ( $content_struct["mt_allow_comments"] ) {
-					case "closed":
-						$comment_status = "closed";
+		if ( isset($content_struct['mt_allow_comments']) ) {
+			if ( !is_numeric($content_struct['mt_allow_comments']) ) {
+				switch ( $content_struct['mt_allow_comments'] ) {
+					case 'closed':
+						$comment_status = 'closed';
 						break;
-					case "open":
-						$comment_status = "open";
+					case 'open':
+						$comment_status = 'open';
 						break;
 					default:
-						$comment_status = get_option("default_comment_status");
+						$comment_status = get_option('default_comment_status');
 						break;
 				}
 			} else {
-				switch ( (int) $content_struct["mt_allow_comments"] ) {
+				switch ( (int) $content_struct['mt_allow_comments'] ) {
 					case 0:
 					case 2:
-						$comment_status = "closed";
+						$comment_status = 'closed';
 						break;
 					case 1:
-						$comment_status = "open";
+						$comment_status = 'open';
 						break;
 					default:
-						$comment_status = get_option("default_comment_status");
+						$comment_status = get_option('default_comment_status');
 						break;
 				}
 			}
 		}
 
-		if ( isset($content_struct["mt_allow_pings"]) ) {
-			if ( !is_numeric($content_struct["mt_allow_pings"]) ) {
-				switch ( $content_struct["mt_allow_pings"] ) {
-					case "closed":
-						$ping_status = "closed";
+		if ( isset($content_struct['mt_allow_pings']) ) {
+			if ( !is_numeric($content_struct['mt_allow_pings']) ) {
+				switch ( $content_struct['mt_allow_pings'] ) {
+					case 'closed':
+						$ping_status = 'closed';
 						break;
-					case "open":
-						$ping_status = "open";
+					case 'open':
+						$ping_status = 'open';
 						break;
 					default:
-						$ping_status = get_option("default_ping_status");
+						$ping_status = get_option('default_ping_status');
 						break;
 				}
 			} else {
 				switch ( (int) $content_struct["mt_allow_pings"] ) {
 					case 0:
-						$ping_status = "closed";
+						$ping_status = 'closed';
 						break;
 					case 1:
-						$ping_status = "open";
+						$ping_status = 'open';
 						break;
 					default:
-						$ping_status = get_option("default_ping_status");
+						$ping_status = get_option('default_ping_status');
 						break;
 				}
 			}
@@ -3062,10 +3062,10 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 		}
 
-		if ( $upload_err = apply_filters( "pre_upload_error", false ) )
+		if ( $upload_err = apply_filters( 'pre_upload_error', false ) )
 			return new IXR_Error(500, $upload_err);
 
-		if ( !empty($data["overwrite"]) && ($data["overwrite"] == true) ) {
+		if ( !empty($data['overwrite']) && ($data['overwrite'] == true) ) {
 			// Get postmeta info on the object.
 			$old_file = $wpdb->get_row("
 				SELECT ID
@@ -3079,7 +3079,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 			// Make sure the new name is different by pre-pending the
 			// previous post id.
-			$filename = preg_replace("/^wpid\d+-/", "", $name);
+			$filename = preg_replace('/^wpid\d+-/', '', $name);
 			$name = "wpid{$old_file->ID}-{$filename}";
 		}
 
