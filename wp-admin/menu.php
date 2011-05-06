@@ -32,15 +32,24 @@ if ( is_multisite() ) {
 
 if ( ! is_multisite() || is_super_admin() ) {
 	$plugin_update_count = $theme_update_count = $wordpress_update_count = 0;
-	$update_plugins = get_site_transient( 'update_plugins' );
-	if ( !empty($update_plugins->response) && current_user_can('update_plugins') )
-		$plugin_update_count = count( $update_plugins->response );
-	$update_themes = get_site_transient( 'update_themes' );
-	if ( !empty($update_themes->response) && current_user_can('update_themes') )
-		$theme_update_count = count( $update_themes->response );
-	$update_wordpress = get_core_updates( array('dismissed' => false) );
-	if ( !empty($update_wordpress) && !in_array( $update_wordpress[0]->response, array('development', 'latest') ) && current_user_can('update_core') )
-		$wordpress_update_count = 1;
+
+	if ( current_user_can( 'update_plugins' ) ) {
+		$update_plugins = get_site_transient( 'update_plugins' );
+		if ( ! empty( $update_plugins->response ) )
+			$plugin_update_count = count( $update_plugins->response );
+	}
+
+	if ( current_user_can( 'update_themes' ) ) {
+		$update_themes = get_site_transient( 'update_themes' );
+		if ( !empty($update_themes->response) )
+			$theme_update_count = count( $update_themes->response );
+	}
+
+	if ( current_user_can( 'update_core' ) ) {
+		$update_wordpress = get_core_updates( array('dismissed' => false) );
+		if ( !empty($update_wordpress) && !in_array( $update_wordpress[0]->response, array('development', 'latest') ) && current_user_can('update_core') )
+			$wordpress_update_count = 1;
+	}
 
 	$total_update_count = $plugin_update_count + $theme_update_count + $wordpress_update_count;
 	$update_title = array();
@@ -58,7 +67,7 @@ if ( ! is_multisite() ) {
 	$submenu[ 'index.php' ][10] = array( sprintf( __('Updates %s'), "<span class='update-plugins count-$total_update_count' title='$update_title'><span class='update-count'>" . number_format_i18n($total_update_count) . "</span></span>" ), 'update_core',  'update-core.php');
 }
 
-unset($plugin_update_count, $theme_update_count, $wordpress_update_count, $update_themes, $update_plugins, $update_wordpress);
+unset($theme_update_count, $wordpress_update_count, $update_themes, $update_plugins, $update_wordpress);
 
 $menu[4] = array( '', 'read', 'separator1', '', 'wp-menu-separator' );
 
@@ -163,14 +172,9 @@ function _add_themes_utility_last() {
 	add_submenu_page('themes.php', _x('Editor', 'theme editor'), _x('Editor', 'theme editor'), 'edit_themes', 'theme-editor.php');
 }
 
-$update_plugins = get_site_transient( 'update_plugins' );
-$update_count = 0;
-if ( !empty($update_plugins->response) )
-	$update_count = count( $update_plugins->response );
-
 $menu_perms = get_site_option('menu_items', array());
 if ( ! is_multisite() || is_super_admin() || ! empty( $menu_perms['plugins'] ) ) {
-	$count = "<span class='update-plugins count-$update_count'><span class='plugin-count'>" . number_format_i18n($update_count) . "</span></span>";
+	$count = "<span class='update-plugins count-$plugin_update_count'><span class='plugin-count'>" . number_format_i18n($plugin_update_count) . "</span></span>";
 	if ( is_multisite() || ! current_user_can( 'update_plugins' ) )
 		$count = '';
 	$menu[65] = array( sprintf( __('Plugins %s'), $count ), 'activate_plugins', 'plugins.php', '', 'menu-top menu-icon-plugins', 'menu-plugins', 'div' );
@@ -181,7 +185,7 @@ if ( ! is_multisite() || is_super_admin() || ! empty( $menu_perms['plugins'] ) )
 			$submenu['plugins.php'][15] = array( _x('Editor', 'plugin editor'), 'edit_plugins', 'plugin-editor.php' );
 		}
 }
-unset($menu_perms, $update_plugins, $update_count);
+unset($menu_perms, $update_plugins, $plugin_update_count);
 
 if ( current_user_can('list_users') )
 	$menu[70] = array( __('Users'), 'list_users', 'users.php', '', 'menu-top menu-icon-users', 'menu-users', 'div' );
