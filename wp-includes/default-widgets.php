@@ -537,7 +537,7 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 		if ( ! $number = absint( $instance['number'] ) )
  			$number = 10;
 
-		$r = new WP_Query(array('posts_per_page' => $number, 'nopaging' => 0, 'post_status' => 'publish', 'ignore_sticky_posts' => true));
+		$r = new WP_Query(array('posts_per_page' => $number, 'no_found_rows' => true, 'post_status' => 'publish', 'ignore_sticky_posts' => true));
 		if ($r->have_posts()) :
 ?>
 		<?php echo $before_widget; ?>
