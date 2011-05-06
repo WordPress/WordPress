@@ -948,19 +948,10 @@ form.upgrade .hint {
 	float: left;
 }
 
-#wphead #privacy-on-link {
-	font-size: 65%;
-	font-style: normal;
-	line-height: 16px;
-	padding: 0 6px;
-	vertical-align: middle;
-}
-
 #wphead h1 a:hover {
 	text-decoration:none;
 }
-#wphead h1 a:hover #site-title,
-#wphead h1 a#privacy-on-link:hover {
+#wphead h1 a:hover #site-title {
 	text-decoration:underline;
 }
 

@@ -399,6 +399,14 @@ function wp_dashboard_right_now() {
 	}
 	echo '</p>';
 
+	// Check if search engines are blocked.
+	if ( !is_network_admin() && !is_user_admin() && current_user_can('manage_options') && '1' != get_option('blog_public') ) {
+		$title = apply_filters('privacy_on_link_title', __('Your site is asking search engines not to index its content') );
+		$content = apply_filters('privacy_on_link_text', __('Search Engines Blocked') );
+
+		echo "<p><a href='options-privacy.php' title='$title'>$content</a></p>";
+	}
+
 	update_right_now_message();
 
 	echo "\n\t".'<br class="clear" /></div>';
