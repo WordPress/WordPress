@@ -95,7 +95,7 @@ div.dashboard-widget,
 
 .widefat {
 	border-color: #dfdfdf;
-	background-color: #fff;
+	background-color: #f9f9f9;
 }
 
 div.dashboard-widget-error {
@@ -188,7 +188,7 @@ strong .post-com-count span {
 
 .alternate,
 .alt {
-	background-color: #f9f9f9;
+	background-color: #f4f4f4;
 }
 
 .available-theme a.screenshot {
@@ -461,11 +461,21 @@ a.page-numbers {
 
 .widefat td,
 .widefat th {
-	border-color: #dfdfdf;
+	border-top-color: #fff;
+	border-bottom-color: #dfdfdf;
 }
 
 .widefat th {
 	text-shadow: rgba(255,255,255,0.8) 0 1px 0;
+}
+
+.widefat td {
+	color: #555;
+}
+.widefat p,
+.widefat ol,
+.widefat ul {
+	color: #333;
 }
 
 .widefat thead tr th,
@@ -475,7 +485,7 @@ h3.dashboard-widget-title span,
 h3.dashboard-widget-title small,
 .find-box-head {
 	color: #333;
-	background: #dfdfdf url(../images/gray-grad.png) repeat-x scroll left top;
+	background: #e9e9e9;
 }
 
 th.sortable a:hover, th.sortable a:active, th.sortable a:focus {

@@ -392,10 +392,10 @@ ol.ol-decimal > li {
 	width: 100%;
 	clear: both;
 	margin: 0;
-	-moz-border-radius: 4px;
-	-khtml-border-radius: 4px;
-	-webkit-border-radius: 4px;
-	border-radius: 4px;
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
 }
 
 .widefat * {
@@ -433,9 +433,11 @@ ol.ol-decimal > li {
 
 .widefat td,
 .widefat th {
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	font-size: 11px;
+	border-width: 1px 0;
+	border-style: solid;
+}
+.widefat tfoot th {
+	border-bottom: none;
 }
 
 .widefat .no-items td {
@@ -443,20 +445,22 @@ ol.ol-decimal > li {
 }
 
 .widefat td {
-	padding: 3px 7px;
+	font-size: 12px;
+	padding: 6px 7px 2px;
 	vertical-align: top;
 }
 
 .widefat td p,
 .widefat td ol,
 .widefat td ul {
-	font-size: 11px;
+	font-size: 12px;
 }
 
 .widefat th {
-	padding: 7px 7px 8px;
+	padding: 10px 7px 11px;
 	text-align: left;
 	line-height: 1.3em;
+	font-size: 14px;
 }
 
 .widefat th input {
@@ -467,13 +471,12 @@ ol.ol-decimal > li {
 
 .widefat .check-column {
 	width: 2.2em;
-	padding: 0;
-
+	padding: 14px 0 0;
+	vertical-align: top;
 }
 
 .widefat tbody th.check-column {
-	padding: 7px 0 22px;
-	vertical-align: top;
+	padding: 9px 0 22px;
 }
 
 .widefat .num,

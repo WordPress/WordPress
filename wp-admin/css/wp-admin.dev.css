@@ -1436,6 +1436,11 @@ body.admin-bar #adminmenu {
 	overflow: hidden;
 }
 
+.widefat th {
+	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
+	font-weight: normal;
+}
+
 .widefat td p {
 	margin: 2px 0 0.8em;
 }
@@ -1574,10 +1579,6 @@ body.admin-bar #adminmenu {
 	word-wrap: break-word;
 }
 
-#the-comment-list .check-column {
-	padding-top: 8px;
-}
-
 
 /*------------------------------------------------------------------------------
   10.0 - List Posts (/Pages/etc)
@@ -1655,7 +1656,7 @@ table.fixed {
 	display: none;
 	width: 7px;
 	height: 4px;
-	margin-top: 5px;
+	margin-top: 8px;
 	margin-left: 7px;
 	background-image: url(../images/sort.gif);
 	background-repeat: no-repeat;
@@ -1671,7 +1672,7 @@ th.sortable a,
 th.sorted a {
 	display: block;
 	overflow: hidden;
-	padding: 7px 7px 8px;
+	padding: 10px 7px 11px;
 }
 .fixed .column-comments.sortable a,
 .fixed .column-comments.sorted a {
@@ -4256,14 +4257,14 @@ p.pagenav {
 }
 
 .row-title {
-	font-size: 12px !important;
+	font-size: 13px !important;
 	font-weight: bold;
 }
 
 .column-author img, .column-username img {
 	float: left;
 	margin-right: 10px;
-	margin-top: 3px;
+	margin-top: 1px;
 }
 
 .row-actions {
