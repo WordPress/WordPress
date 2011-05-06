@@ -103,7 +103,7 @@
 	padding-left: 0;
 }
 .menu-item-edit-active .menu-item-handle {
-	-moz-border-radius: 6px 6px 0 0;
+	-moz-border-radius: 3px 3px 0 0;
 	-webkit-border-bottom-left-radius: 0;
 	-webkit-border-bottom-right-radius: 0;
 	-khtml-border-bottom-left-radius: 0;

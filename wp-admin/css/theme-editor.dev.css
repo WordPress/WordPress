@@ -57,10 +57,10 @@ h3 span {
 	padding: 3px 3px 3px 12px;
 	margin-left: -12px;
 	font-weight: bold;
-	-moz-border-radius: 8px;
-	-khtml-border-radius: 8px;
-	-webkit-border-radius: 8px;
-	border-radius: 8px;
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
 }
 
 div.tablenav {

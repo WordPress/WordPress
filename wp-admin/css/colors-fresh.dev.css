@@ -1016,20 +1016,20 @@ table.widefat .spam a:hover,
 	background: #444444;
 	border-left: 1px solid #999;
 	border-top: 1px solid #999;
-	-moz-border-radius: 4px 0 0 0;
-	-webkit-border-top-left-radius: 4px;
-	-khtml-border-top-left-radius: 4px;
-	border-top-left-radius: 4px;
+	-moz-border-radius: 3px 0 0 0;
+	-webkit-border-top-left-radius: 3px;
+	-khtml-border-top-left-radius: 3px;
+	border-top-left-radius: 3px;
 }
 
 .wp-admin .clearlooks2 .mceFocus .mceTop .mceRight {
 	background: #444444;
 	border-right: 1px solid #999;
 	border-top: 1px solid #999;
-	border-top-right-radius: 4px;
-	-khtml-border-top-right-radius: 4px;
-	-webkit-border-top-right-radius: 4px;
-	-moz-border-radius: 0 4px 0 0;
+	border-top-right-radius: 3px;
+	-khtml-border-top-right-radius: 3px;
+	-webkit-border-top-right-radius: 3px;
+	-moz-border-radius: 0 3px 0 0;
 }
 
 .wp-admin .clearlooks2 .mceMiddle .mceLeft {

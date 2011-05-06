@@ -59,10 +59,10 @@ input.text {
 }
 
 #message {
-	-moz-border-radius: 6px;
-	-khtml-border-radius: 6px;
-	-webkit-border-radius: 6px;
-	border-radius: 6px;
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
 }
 
 /* Editor/Main Column */
@@ -127,10 +127,10 @@ h3.tb {
 
 #TB_window {
 	border: 1px solid #333;
-	-moz-border-radius: 6px;
-	-khtml-border-radius: 6px;
-	-webkit-border-radius: 6px;
-	border-radius: 6px;
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
 }
 
 .postbox,
@@ -139,10 +139,10 @@ h3.tb {
 	border-width: 1px;
 	border-style: solid;
 	line-height: 1;
-	-moz-border-radius: 6px;
-	-khtml-border-radius: 6px;
-	-webkit-border-radius: 6px;
-	border-radius: 6px;
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
 }
 
 .postbox:hover .handlediv,
@@ -158,10 +158,10 @@ h3.tb {
 
 #title,
 .tbtitle {
-	-moz-border-radius: 6px;
-	-khtml-border-radius: 6px;
-	-webkit-border-radius: 6px;
-	border-radius: 6px;
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
 	border-style: solid;
 	border-width: 1px;
 	font-size: 1.7em;
@@ -180,10 +180,10 @@ h3.tb {
 }
 
 .editor-container {
-	-moz-border-radius: 6px;
-	-khtml-border-radius: 6px;
-	-webkit-border-radius: 6px;
-	border-radius: 6px;
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
 	border: 1px solid #dfdfdf;
 	background-color: #fff;
 }
