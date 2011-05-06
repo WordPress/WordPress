@@ -186,6 +186,21 @@ function wp_admin_bar_new_content_menu( $wp_admin_bar ) {
 		$actions[ 'post-new.php?post_type=' . $ptype_obj->name ] = array( $ptype_obj->labels->singular_name, $ptype_obj->cap->edit_posts, 'new-' . $ptype_obj->name );
 	}
 
+	if ( current_user_can( 'upload_files' ) )
+		$actions[ 'upload.php' ] = array( __( 'Media' ), 'upload_files', 'new-media' );
+
+	if ( current_user_can( 'manage_links' ) )
+		$actions[ 'link-add.php' ] = array( __( 'Link' ), 'manage_links', 'new-link' );
+
+	if ( current_user_can( 'create_users' ) || current_user_can( 'promote_users' ) )
+		$actions[ 'user-new.php' ] = array( __( 'User' ), 'create_users', 'new-user' );
+
+	if ( ! is_multisite() && current_user_can( 'install_themes' ) )
+		$actions[ 'theme-install.php' ] = array( __( 'Theme' ), 'install_themes', 'new-theme' );
+
+	if ( ! is_multisite() && current_user_can( 'install_plugins' ) )
+		$actions[ 'plugin-install.php' ] = array( __( 'Plugin' ), 'install_plugins', 'new-plugin' );
+			
 	if ( empty( $actions ) )
 		return;
 
