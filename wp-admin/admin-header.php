@@ -141,28 +141,42 @@ if ( function_exists('mb_strlen') ) {
 <?php endif; ?>
 </h1>
 
-<?php do_action('in_admin_header'); ?>
+<?php
+
+do_action('in_admin_header');
+
+// Generate user profile and info links.
+$howdy = sprintf( __('Howdy, <a href="%1$s" title="Edit your profile">%2$s</a>'), 'profile.php', $user_identity );
+$links = array();
+
+if ( is_multisite() && is_super_admin() ) {
+	if ( !is_network_admin() )
+		$links[10] = '<a href="' . network_admin_url() . '" title="' . ( ! empty( $update_title ) ? $update_title : esc_attr__('Network Admin') ) . '">' . __('Network Admin') . ( ! empty( $total_update_count ) ? ' (' . number_format_i18n( $total_update_count ) . ')' : '' ) . '</a>';
+	else
+		$links[10] = '<a href="' . get_dashboard_url( get_current_user_id() ) . '" title="' . esc_attr__('Site Admin') . '">' . __('Site Admin') . '</a>';
+}
+$links[15] = '<a href="' . wp_logout_url() . '" title="' . esc_attr__('Log Out') . '">' . __('Log Out') . '</a>';
+
+$links = apply_filters( 'admin_user_info_links', $links, $current_user );
+ksort( $links );
+
+// Trim whitespace and pipes from links, then convert to list items.
+$links = array_map( 'trim', $links, array_fill( 0, count( $links ), " |\n\t" ) );
+$links = '<li>' . implode( '</li><li>', $links ) . '</li>';
+
+?>
 
 <div id="wphead-info">
 <div id="user_info">
-<p><?php
-$links = array();
-$links[5] = sprintf(__('Howdy, <a href="%1$s" title="Edit your profile">%2$s</a>'), 'profile.php', $user_identity);
-if ( is_multisite() && is_super_admin() ) {
-	if ( !is_network_admin() )
-		$links[10] = '| <a href="' . network_admin_url() . '" title="' . ( ! empty( $update_title ) ? $update_title : esc_attr__('Network Admin') ) . '">' . __('Network Admin') . ( ! empty( $total_update_count ) ? ' (' . number_format_i18n( $total_update_count ) . ')' : '' ) . '</a>';
-	else
-		$links[10] = '| <a href="' . get_dashboard_url( get_current_user_id() ) . '" title="' . esc_attr__('Site Admin') . '">' . __('Site Admin') . '</a>';
-}
-$links[15] = '| <a href="' . wp_logout_url() . '" title="' . esc_attr__('Log Out') . '">' . __('Log Out') . '</a>';
-
-$links = apply_filters('admin_user_info_links', $links, $current_user);
-ksort($links);
-
-echo implode(' ', $links);
-?></p>
+<p><?php echo $howdy; ?></p>
+<div id="user_info_arrow">
+	<div id="user_info_links_wrap"><div id="user_info_links">
+		<ul><?php echo $links; ?></ul>
+	</div></div>
 </div>
 </div>
+</div>
+
 </div>
 
 <div id="wpbody">

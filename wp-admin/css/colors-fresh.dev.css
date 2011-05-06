@@ -719,6 +719,33 @@ table.widefat span.spam a,
 	color: #777;
 }
 
+#user_info_arrow {
+	background: transparent url(../images/arrows.png) no-repeat 6px 6px;
+}
+
+#user_info_arrow:hover {
+	background: transparent url(../images/arrows-dark.png) no-repeat 6px 6px;
+}
+
+#user_info_links ul {
+	background: #f9f9f9;
+	border-color: #dfdfdf;
+	-moz-box-shadow: inset 0 1px 0 #fff;
+	-webkit-box-shadow: inset 0 1px 0 #fff;
+	box-shadow: inset 0 1px 0 #fff;
+}
+
+#user_info_links li:hover {
+	background-color: #EAF2FA;
+	color: #333;
+}
+
+#user_info_links li:hover a,
+#user_info_links li a:hover {
+	color: #333;
+	text-decoration: none;
+}
+
 #user_info a:link,
 #user_info a:visited,
 #footer a:link,
@@ -729,7 +756,7 @@ table.widefat span.spam a,
 #user_info a:hover,
 #footer a:hover {
 	color: #000;
-	text-decoration: underline !important;
+	text-decoration: underline;
 }
 
 div#media-upload-error,
