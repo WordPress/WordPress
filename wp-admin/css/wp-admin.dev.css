@@ -81,19 +81,13 @@ kbd, code {
 
 .icon32 {
 	float: left;
-	height: 36px;
-	margin: 14px 6px 0 0;
-	width: 36px;
+	height: 28px;
+	margin: 6px 1px 0 -5px;
+	width: 28px;
 }
 
 .key-labels label {
 	line-height: 24px;
-}
-
-.subtitle {
-	font-size: 0.75em;
-	line-height: 1;
-	padding-left: 25px;
 }
 
 .pre {
@@ -267,7 +261,7 @@ label,
 
 p.search-box {
 	float: right;
-	margin: -5px 0 0;
+	margin: 0;
 }
 
 
@@ -961,11 +955,11 @@ form.upgrade .hint {
 ------------------------------------------------------------------------------*/
 
 #favorite-actions {
-	margin: 6px 12px 0;
+	margin: 0 12px 0 15px;
 	min-width: 130px;
 	position: relative;
 	display: inline-block;
-	top: -3px;
+	top: -1px;
 }
 
 #favorite-first {
@@ -2529,11 +2523,6 @@ form#tags-filter {
 	position: relative;
 }
 
-p.search-box {
-	float: right;
-	margin: -5px 0 0;
-}
-
 .screen-per-page {
 	width: 3em;
 }
@@ -4041,11 +4030,11 @@ h2.nav-tab-wrapper, h3.nav-tab-wrapper {
 }
 
 h2 .nav-tab {
-	padding: 4px 20px 6px;
+	padding: 2px 10px 3px;
 	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-weight: 200;
-	font-size: 24px;
-	line-height: 35px;
+	font-size: 16px;
+	line-height: 20px;
 
 }
 

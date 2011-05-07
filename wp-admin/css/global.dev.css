@@ -80,7 +80,7 @@ table {
 
 .folded #wpcontent,
 .folded #footer {
-	margin-left: 47px;
+	margin-left: 52px;
 }
 
 #wpbody-content {
@@ -491,7 +491,7 @@ ol.ol-decimal > li {
 }
 
 .wrap {
-	margin: 0 15px 0 5px;
+	margin: 0 15px 0 0;
 }
 
 div.updated,
@@ -517,14 +517,20 @@ div.error p {
 	margin: 5px 0 15px;
 }
 
-.wrap h2 {
+.wrap h2,
+.subtitle {
 	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-weight: 200;
-	font-size: 24px;
 	margin: 0;
-	padding: 14px 15px 3px 0;
-	line-height: 35px;
 	text-shadow: rgba(255,255,255,1) 0 1px 0;
+}
+.wrap h2 {
+	font-size: 16px;
+	padding: 8px 15px 3px 0;
+	line-height: 24px;
+}
+.subtitle {
+	font-size: 14px;
 }
 
 .wrap h2.long-header {
