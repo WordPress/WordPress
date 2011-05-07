@@ -666,9 +666,7 @@ case 'replyto-comment' :
 	$comment = get_comment($comment_id);
 	if ( ! $comment ) die('1');
 
-	$position = ( isset($_POST['position']) && (int) $_POST['position']) ? (int) $_POST['position'] : '-1';
-
-	$x = new WP_Ajax_Response();
+	$position = ( isset($_POST['position']) && (int) $_POST['position'] ) ? (int) $_POST['position'] : '-1';
 
 	ob_start();
 		if ( 'dashboard' == $_REQUEST['mode'] ) {
@@ -685,13 +683,25 @@ case 'replyto-comment' :
 		$comment_list_item = ob_get_contents();
 	ob_end_clean();
 
-	$x->add( array(
+	$response =  array(
 		'what' => 'comment',
 		'id' => $comment->comment_ID,
 		'data' => $comment_list_item,
 		'position' => $position
-	));
+	);
 
+	// automatically approve parent comment
+	if ( !empty($_POST['approve_parent']) ) {
+		$parent = get_comment( $comment_parent );
+
+		if ( $parent && $parent->comment_approved === '0' && $parent->comment_post_ID == $comment_post_ID ) {
+			if ( wp_set_comment_status( $parent->comment_ID, 'approve' ) )
+				$response['supplemental'] = array( 'parent_approved' => $parent->comment_ID );
+		}
+	}
+
+	$x = new WP_Ajax_Response();
+	$x->add( $response );
 	$x->send();
 	break;
 case 'edit-comment' :

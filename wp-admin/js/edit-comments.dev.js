@@ -1,20 +1,31 @@
-var theList, theExtraList, toggleWithKeyboard = false;
+var theList, theExtraList, toggleWithKeyboard = false, getCount, updateCount, updatePending, dashboardTotals;
 (function($) {
 
 setCommentsList = function() {
-	var totalInput, perPageInput, pageInput, lastConfidentTime = 0, dimAfter, delBefore, updateTotalCount, delAfter;
+	var totalInput, perPageInput, pageInput, lastConfidentTime = 0, dimAfter, delBefore, updateTotalCount, delAfter, refillTheExtraList;
 
 	totalInput = $('input[name="_total"]', '#comments-form');
 	perPageInput = $('input[name="_per_page"]', '#comments-form');
 	pageInput = $('input[name="_page"]', '#comments-form');
 
 	dimAfter = function( r, settings ) {
-		var c = $('#' + settings.element);
+		var c = $('#' + settings.element), editRow, replyID, replyButton;
 
-		if ( c.is('.unapproved') )
-			c.find('div.comment_status').html('0')
-		else
-			c.find('div.comment_status').html('1')
+		editRow = $('#replyrow');
+		replyID = $('#comment_ID', editRow).val();
+		replyButton = $('#replybtn', editRow);
+
+		if ( c.is('.unapproved') ) {
+			if ( settings.data.id == replyID )
+				replyButton.text(adminCommentsL10n.replyApprove);
+
+			c.find('div.comment_status').html('0');
+		} else {
+			if ( settings.data.id == replyID )
+				replyButton.text(adminCommentsL10n.reply);
+
+			c.find('div.comment_status').html('1');
+		}
 
 		$('span.pending-count').each( function() {
 			var a = $(this), n, dif;
@@ -99,7 +110,7 @@ setCommentsList = function() {
 		});
 	};
 
-	function dashboardTotals(n) {
+	dashboardTotals = function(n) {
 		var dash = $('#dashboard_right_now'), total, appr, totalN, apprN;
 
 		n = n || 0;
@@ -115,16 +126,16 @@ setCommentsList = function() {
 		updateCount(total, totalN);
 		updateCount(appr, apprN);
 
-	}
+	};
 
-	function getCount(el) {
+	getCount = function(el) {
 		var n = parseInt( el.html().replace(/[^0-9]+/g, ''), 10 );
 		if ( isNaN(n) )
 			return 0;
 		return n;
-	}
+	};
 
-	function updateCount(el, n) {
+	updateCount = function(el, n) {
 		var n1 = '';
 		if ( isNaN(n) )
 			return;
@@ -137,11 +148,26 @@ setCommentsList = function() {
 			n = n + n1;
 		}
 		el.html(n);
-	}
+	};
+
+	updatePending = function(n) {
+		$('span.pending-count').each( function() {
+			var a = $(this);
+
+			if ( n < 0 )
+				n = 0;
+
+			a.closest('#awaiting-mod')[ 0 == n ? 'addClass' : 'removeClass' ]('count-0');
+			updateCount(a, n);
+			dashboardTotals();
+		});
+	};
 
 	// In admin-ajax.php, we send back the unix time stamp instead of 1 on success
 	delAfter = function( r, settings ) {
-		var total, pageLinks, N, untrash = $(settings.target).parent().is('span.untrash'), unspam = $(settings.target).parent().is('span.unspam'), spam, trash;
+		var total, N, untrash = $(settings.target).parent().is('span.untrash'),
+			unspam = $(settings.target).parent().is('span.unspam'), spam, trash, pending,
+			unapproved = $('#' + settings.element).is('.unapproved');
 
 		function getUpdate(s) {
 			if ( $(settings.target).parent().is('span.' + s) )
@@ -151,6 +177,7 @@ setCommentsList = function() {
 
 			return 0;
 		}
+
 		spam = getUpdate('spam');
 		trash = getUpdate('trash');
 
@@ -159,19 +186,15 @@ setCommentsList = function() {
 		if ( unspam )
 			spam = -1;
 
-		$('span.pending-count').each( function() {
-			var a = $(this), n = getCount(a), unapproved = $('#' + settings.element).is('.unapproved');
+		pending = getCount( $('span.pending-count').eq(0) );
 
-			if ( $(settings.target).parent().is('span.unapprove') || ( ( untrash || unspam ) && unapproved ) ) { // we "deleted" an approved comment from the approved list by clicking "Unapprove"
-				n = n + 1;
-			} else if ( unapproved ) { // we deleted a formerly unapproved comment
-				n = n - 1;
-			}
-			if ( n < 0 ) { n = 0; }
-			a.closest('#awaiting-mod')[ 0 == n ? 'addClass' : 'removeClass' ]('count-0');
-			updateCount(a, n);
-			dashboardTotals();
-		});
+		if ( $(settings.target).parent().is('span.unapprove') || ( ( untrash || unspam ) && unapproved ) ) { // we "deleted" an approved comment from the approved list by clicking "Unapprove"
+			pending = pending + 1;
+		} else if ( unapproved ) { // we deleted a formerly unapproved comment
+			pending = pending - 1;
+		}
+
+		updatePending(pending);
 
 		$('span.spam-count').each( function() {
 			var a = $(this), n = getCount(a) + spam;
@@ -215,9 +238,8 @@ setCommentsList = function() {
 		refillTheExtraList();
 	};
 
-	var refillTheExtraList = function(ev) {
-		// var args = $.query.get(), total_pages = listTable.get_total_pages(), per_page = $('input[name="_per_page"]', '#comments-form').val(), r;
-		var args = $.query.get(), total_pages = $('.total-pages').text(), per_page = $('input[name="_per_page"]', '#comments-form').val(), r;
+	refillTheExtraList = function(ev) {
+		var args = $.query.get(), total_pages = $('.total-pages').text(), per_page = $('input[name="_per_page"]', '#comments-form').val();
 
 		if (! args.paged)
 			args.paged = 1;
@@ -267,7 +289,6 @@ setCommentsList = function() {
 			if ( s.target.className.indexOf(':trash=1') != -1 || s.target.className.indexOf(':spam=1') != -1 )
 				$('#undo-' + id).fadeIn(300, function(){ $(this).show() });
 		});
-	// $(listTable).bind('changePage', refillTheExtraList);
 };
 
 commentReply = {
@@ -355,7 +376,8 @@ commentReply = {
 	},
 
 	open : function(id, p, a) {
-		var t = this, editRow, rowData, act, h, c = $('#comment-' + id);
+		var t = this, editRow, rowData, act, h, c = $('#comment-' + id), replyButton;
+
 		t.close();
 		t.cid = id;
 
@@ -387,21 +409,19 @@ commentReply = {
 				$('#replyrow').fadeIn(300, function(){ $(this).show() });
 			});
 		} else {
+			replyButton = $('#replybtn', editRow);
 			$('#edithead, #savebtn', editRow).hide();
 			$('#replyhead, #replybtn', editRow).show();
 			c.after(editRow);
+
+			if ( c.hasClass('unapproved') ) {
+				replyButton.text(adminCommentsL10n.replyApprove);
+			} else {
+				replyButton.text(adminCommentsL10n.reply);
+			}
+
 			$('#replyrow').fadeIn(300, function(){ $(this).show() });
 		}
-
-		if ( ! $.browser.msie )
-			$('#replycontainer').resizable({
-				handles : 's',
-				axis : 'y',
-				minHeight : 80,
-				stop : function() {
-					$('#replycontainer').width('auto');
-				}
-			});
 
 		setTimeout(function() {
 			var rtop, rbottom, scrollTop, vp, scrollBottom;
@@ -441,6 +461,9 @@ commentReply = {
 		post.comments_listing = this.comments_listing;
 		post.p = $('[name="p"]').val();
 
+		if ( $('#comment-' + $('#comment_ID').val()).hasClass('unapproved') )
+			post.approve_parent = 1;
+
 		$.ajax({
 			type : 'POST',
 			url : ajaxurl,
@@ -453,37 +476,50 @@ commentReply = {
 	},
 
 	show : function(xml) {
-		var r, c, id, bg;
+		var t = this, r, c, id, bg, pid;
 
 		if ( typeof(xml) == 'string' ) {
-			this.error({'responseText': xml});
+			t.error({'responseText': xml});
 			return false;
 		}
 
 		r = wpAjax.parseAjaxResponse(xml);
 		if ( r.errors ) {
-			this.error({'responseText': wpAjax.broken});
+			t.error({'responseText': wpAjax.broken});
 			return false;
 		}
 
 		r = r.responses[0];
 		c = r.data;
 		id = '#comment-' + r.id;
-		if ( 'edit-comment' == this.act )
+		if ( 'edit-comment' == t.act )
 			$(id).remove();
 
 		$(c).hide()
 		$('#replyrow').after(c);
 
-		this.revert();
-		this.addEvents($(id));
-		bg = $(id).hasClass('unapproved') ? '#ffffe0' : '#fff';
+		if ( r.supplemental.parent_approved ) {
+			pid = '#comment-' + r.supplemental.parent_approved;
+			updatePending( getCount( $('span.pending-count').eq(0) ) - 1 );
+		}
+
+		t.revert();
+		t.addEvents($(id));
+		bg = $(id).hasClass('unapproved') ? '#FFFFE0' : '#FFFFFF';
 
 		$(id)
-			.animate( { 'backgroundColor':'#CCEEBB' }, 600 )
-			.animate( { 'backgroundColor': bg }, 600 );
+			.animate( { 'backgroundColor':'#CCEEBB' }, 300 )
+			.animate( { 'backgroundColor': bg }, 300, function() {
+				if ( pid ) {
+					pid  = $(pid)
+						.animate( { 'backgroundColor':'#CCEEBB' }, 300 )
+						.animate( { 'backgroundColor': '#FFFFFF' }, 300 )
+						.removeClass('unapproved').addClass('approved');
 
-		// $.fn.wpList.process($(id));
+					pid.find('div.comment_status').html('1');
+				}
+			});
+
 	},
 
 	error : function(r) {
