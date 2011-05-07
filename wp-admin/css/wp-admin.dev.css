@@ -968,7 +968,7 @@ form.upgrade .hint {
 	-webkit-border-radius: 12px;
 	border-radius: 12px;
 	line-height: 15px;
-	padding: 2px 30px 2px 12px;
+	padding: 0 30px 0 0;
 	border-width: 1px;
 	border-style: solid;
 }
@@ -988,6 +988,10 @@ form.upgrade .hint {
 	-khtml-border-bottom-left-radius: 12px;
 	border-bottom-right-radius: 12px;
 	border-bottom-left-radius: 12px;
+}
+
+#favorite-first a {
+	padding: 2px 0 2px 12px;
 }
 
 #favorite-actions a {
