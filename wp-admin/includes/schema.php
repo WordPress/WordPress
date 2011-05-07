@@ -689,7 +689,7 @@ BLOG_URL
 You can log in to the administrator account with the following information:
 Username: USERNAME
 Password: PASSWORD
-Login Here: BLOG_URLwp-login.php
+Log in Here: BLOG_URLwp-login.php
 
 We hope you enjoy your new site.
 Thanks!

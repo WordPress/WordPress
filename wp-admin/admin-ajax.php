@@ -924,7 +924,7 @@ case 'autosave' : // The name of this action is hardcoded in edit_post()
 
 	$supplemental = array();
 	if ( isset($login_grace_period) )
-		$alert .= sprintf( __('Your login has expired. Please open a new browser window and <a href="%s" target="_blank">login again</a>. '), add_query_arg( 'interim-login', 1, wp_login_url() ) );
+		$alert .= sprintf( __('Your login has expired. Please open a new browser window and <a href="%s" target="_blank">log in again</a>. '), add_query_arg( 'interim-login', 1, wp_login_url() ) );
 
 	$id = $revision_id = 0;
 
