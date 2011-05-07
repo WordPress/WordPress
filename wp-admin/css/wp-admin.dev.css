@@ -81,13 +81,19 @@ kbd, code {
 
 .icon32 {
 	float: left;
-	height: 28px;
-	margin: 6px 1px 0 -5px;
-	width: 28px;
+	height: 36px;
+	margin: 14px 6px 0 0;
+	width: 36px;
 }
 
 .key-labels label {
 	line-height: 24px;
+}
+
+.subtitle {
+	font-size: 0.75em;
+	line-height: 1;
+	padding-left: 25px;
 }
 
 .pre {
@@ -261,7 +267,7 @@ label,
 
 p.search-box {
 	float: right;
-	margin: 0;
+	margin: -5px 0 0;
 }
 
 
@@ -955,11 +961,11 @@ form.upgrade .hint {
 ------------------------------------------------------------------------------*/
 
 #favorite-actions {
-	margin: 0 12px 0 15px;
+	margin: 6px 12px 0;
 	min-width: 130px;
 	position: relative;
 	display: inline-block;
-	top: -1px;
+	top: -3px;
 }
 
 #favorite-first {
@@ -968,7 +974,7 @@ form.upgrade .hint {
 	-webkit-border-radius: 12px;
 	border-radius: 12px;
 	line-height: 15px;
-	padding: 0 30px 0 0;
+	padding: 2px 30px 2px 12px;
 	border-width: 1px;
 	border-style: solid;
 }
@@ -988,10 +994,6 @@ form.upgrade .hint {
 	-khtml-border-bottom-left-radius: 12px;
 	border-bottom-right-radius: 12px;
 	border-bottom-left-radius: 12px;
-}
-
-#favorite-first a {
-	padding: 2px 0 2px 12px;
 }
 
 #favorite-actions a {
@@ -1328,6 +1330,14 @@ body.no-js #adminmenu li.wp-has-current-submenu .wp-submenu {
 	border-width: 0 1px 1px 0;
 	border-style: solid;
 	position: relative;
+	-webkit-border-bottom-right-radius: 3px;
+	-webkit-border-top-right-radius: 3px;
+	-khtml-border-bottom-right-radius: 3px;
+	-khtml-border-top-right-radius: 3px;
+	-moz-border-radius-bottomright: 3px;
+	-moz-border-radius-topright: 3px;
+	border-bottom-right-radius: 3px;
+	border-top-right-radius: 3px;
 }
 
 .folded #adminmenu .wp-submenu ul {
@@ -2525,6 +2535,11 @@ ul.wp-tab-bar li {
 
 form#tags-filter {
 	position: relative;
+}
+
+p.search-box {
+	float: right;
+	margin: -5px 0 0;
 }
 
 .screen-per-page {
@@ -4034,11 +4049,11 @@ h2.nav-tab-wrapper, h3.nav-tab-wrapper {
 }
 
 h2 .nav-tab {
-	padding: 2px 10px 3px;
+	padding: 4px 20px 6px;
 	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-weight: 200;
-	font-size: 16px;
-	line-height: 20px;
+	font-size: 24px;
+	line-height: 35px;
 
 }
 
