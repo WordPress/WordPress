@@ -474,7 +474,7 @@ a:hover {
 	z-index: 2;
 }
 #site-title {
-	padding: 4em 0 0;
+	padding: 3.65625em 0 0;
 }
 #site-title a {
 	color: #111;
@@ -486,7 +486,7 @@ a:hover {
 #site-description {
 	color: #7a7a7a;
 	font-size: 14px;
-	margin: 0 0 4em;
+	margin: 0 0 3.65625em;
 }
 #branding img {
 	height: auto;
@@ -578,7 +578,7 @@ a:hover {
 /* Search Form */
 #branding #searchform {
 	position: absolute;
-	top: 4.3em;
+	top: 3.8em;
 	right: 7.6%;
 	text-align: right;
 }
@@ -1468,6 +1468,10 @@ p img,
 	top: 7px;
 }
 .gallery-caption {
+}
+img#wpstats {
+    display: block;
+    margin: 0 auto 1.625em;
 }
 
 

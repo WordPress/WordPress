@@ -124,7 +124,7 @@ function twentyeleven_setup() {
 	// The height and width of your custom header. You can hook into the theme's own filters to change these values.
 	// Add a filter to twentyeleven_header_image_width and twentyeleven_header_image_height to change these values.
 	define( 'HEADER_IMAGE_WIDTH', apply_filters( 'twentyeleven_header_image_width', 1000 ) );
-	define( 'HEADER_IMAGE_HEIGHT', apply_filters( 'twentyeleven_header_image_height', 300 ) );
+	define( 'HEADER_IMAGE_HEIGHT', apply_filters( 'twentyeleven_header_image_height', 288 ) );
 
 	// We'll be using post thumbnails for custom header images on posts and pages.
 	// We want them to be 940 pixels wide by 198 pixels tall.
