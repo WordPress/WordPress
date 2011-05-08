@@ -540,6 +540,18 @@ div.error p {
 
 /* =CSS 3 transitions
 -------------------------------------------------------------- */
+.fade-1000 {
+	opacity: 0;
+	-moz-transition-property: opacity;
+	-moz-transition-duration: 1s;
+	-webkit-transition-property: opacity;
+	-webkit-transition-duration: 1s;
+	-o-transition-property: opacity;
+	-o-transition-duration: 1s;
+	transition-property: opacity;
+	transition-duration: 1s;
+}
+
 .fade-600 {
 	opacity: 0;
 	-moz-transition-property: opacity;
@@ -562,6 +574,18 @@ div.error p {
 	-o-transition-duration: 0.4s;
 	transition-property: opacity;
 	transition-duration: 0.4s;
+}
+
+.fade-300 {
+	opacity: 0;
+	-moz-transition-property: opacity;
+	-moz-transition-duration: 0.3s;
+	-webkit-transition-property: opacity;
+	-webkit-transition-duration: 0.3s;
+	-o-transition-property: opacity;
+	-o-transition-duration: 0.3s;
+	transition-property: opacity;
+	transition-duration: 0.3s;
 }
 
 .fade-trigger {

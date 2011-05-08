@@ -34,7 +34,7 @@
 			ed.addCommand('wpFullScreenInit', function() {
 				var d = ed.getDoc(), b = d.body, fsed;
 
-				// Only init the editor if necessary. Needed?
+				// Only init the editor if necessary.
 				if ( ed.id == 'wp_mce_fullscreen' )
 					return;
 
@@ -50,7 +50,7 @@
 				s.theme_advanced_resizing = false;
 				s.theme_advanced_toolbar_location = 'external';
 				s.theme_advanced_statusbar_location = 'none';
-				s.content_css = s.wp_fullscreen_content_css || '';
+				s.content_css = s.content_css + ',' + s.wp_fullscreen_content_css;
 				s.height = tinymce.isIE ? b.scrollHeight : b.offsetHeight;
 	//			s.setup = function(ed) {
 	//			}

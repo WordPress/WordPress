@@ -190,7 +190,7 @@ PubSub.prototype.publish = function( topic, args ) {
 			message.show();
 
 			setTimeout( function(){
-				message.fadeOut(800);
+				message.fadeOut(1000);
 			}, 3000 );
 
 			if ( r.last_edited )
@@ -222,14 +222,40 @@ PubSub.prototype.publish = function( topic, args ) {
 			title.siblings('label').css( 'visibility', 'hidden' );
 	}
 
+	api.dfw_width = function(n) {
+		var el = $('#wp-fullscreen-wrap'), w = el.width();
+
+		if ( !n ) { // reset to theme width
+			el.width( $('#wp-fullscreen-central-toolbar').width() );
+			deleteUserSetting('dfw_width');
+			return;
+		}
+
+		if ( w < 200 || w > 1200 ) // sanity check
+			return;
+
+		el.width( n + w );
+		setUserSetting('dfw_width', n + w);
+	}
+
 	ps.subscribe( 'showToolbar', function() {
-		api.fade.In( s.topbar, 600, function(){ ps.publish('toolbarShown'); } );
+		s.topbar.removeClass('fade-1000').addClass('fade-300');
+		api.fade.In( s.topbar, 300, function(){ ps.publish('toolbarShown'); }, true );
 		$('#wp-fullscreen-body').addClass('wp-fullscreen-focus');
 	});
 
 	ps.subscribe( 'hideToolbar', function() {
-		api.fade.Out( s.topbar, 600, function(){ ps.publish('toolbarHidden'); } );
+		s.topbar.removeClass('fade-300').addClass('fade-1000');
+		api.fade.Out( s.topbar, 1000, function(){ ps.publish('toolbarHidden'); }, true );
 		$('#wp-fullscreen-body').removeClass('wp-fullscreen-focus');
+	});
+
+	ps.subscribe( 'toolbarShown', function() {
+		s.topbar.removeClass('fade-300');
+	});
+
+	ps.subscribe( 'toolbarHidden', function() {
+		s.topbar.removeClass('fade-1000');
 	});
 
 	ps.subscribe( 'show', function() { // This event occurs before the overlay blocks the UI.
@@ -255,8 +281,8 @@ PubSub.prototype.publish = function( topic, args ) {
 		$( document.body ).addClass( 'fullscreen-active' );
 		api.refresh_buttons();
 
-		$( document ).bind( 'mousemove.fullscreen', function(e) { bounder( 'showToolbar', 'hideToolbar', 2500 ); } );
-		bounder( 'showToolbar', 'hideToolbar', 2500 );
+		$( document ).bind( 'mousemove.fullscreen', function(e) { bounder( 'showToolbar', 'hideToolbar', 2000 ); } );
+		bounder( 'showToolbar', 'hideToolbar', 2000 );
 
 		api.bind_resize();
 		setTimeout( api.resize_textarea, 200 );
@@ -352,7 +378,7 @@ PubSub.prototype.publish = function( topic, args ) {
 	});
 
 	ps.subscribe( 'switchedMode', function( from, to ) {
-		api.refresh_buttons();
+		api.refresh_buttons(true);
 
 		if ( to === 'html' )
 			setTimeout( api.resize_textarea, 200 );
@@ -393,18 +419,28 @@ PubSub.prototype.publish = function( topic, args ) {
 			tinyMCE.execCommand('unlink');
 	}
 
-	api.refresh_buttons = function() {
+	api.refresh_buttons = function( fade ) {
+		fade = fade || false;
 
 		if ( s.mode === 'html' ) {
 			$('#wp-fullscreen-mode-bar').removeClass('wp-tmce-mode').addClass('wp-html-mode');
-			$('#wp-fullscreen-button-bar').fadeOut( 200, function(){
-				$(this).addClass('wp-html-mode').fadeIn( 250 );
-			});
+
+			if ( fade )
+				$('#wp-fullscreen-button-bar').fadeOut( 150, function(){
+					$(this).addClass('wp-html-mode').fadeIn( 150 );
+				});
+			else
+				$('#wp-fullscreen-button-bar').addClass('wp-html-mode');
+
 		} else if ( s.mode === 'tinymce' ) {
 			$('#wp-fullscreen-mode-bar').removeClass('wp-html-mode').addClass('wp-tmce-mode');
-			$('#wp-fullscreen-button-bar').fadeOut( 200, function(){
-				$(this).removeClass('wp-html-mode').fadeIn( 250 );
-			});
+
+			if ( fade )
+				$('#wp-fullscreen-button-bar').fadeOut( 150, function(){
+					$(this).removeClass('wp-html-mode').fadeIn( 150 );
+				});
+			else
+				$('#wp-fullscreen-button-bar').removeClass('wp-html-mode');
 		}
 	}
 
@@ -426,6 +462,28 @@ PubSub.prototype.publish = function( topic, args ) {
 			if ( wptitlehint )
 				wptitlehint('wp-fullscreen-title');
 
+			$(document).keypress(function(e){
+				if ( 27 != e.keyCode )
+					return true;
+
+				if ( fullscreen.settings.visible )
+					fullscreen.off();
+
+				return true;
+			});
+
+			$('#wp-fullscreen-plus').click(function(){
+				fullscreen.dfw_width(25);
+			});
+
+			$('#wp-fullscreen-minus').click(function(){
+				fullscreen.dfw_width(-25);
+			});
+
+			$('#wp-fullscreen-reset').click(function(){
+				fullscreen.dfw_width(0);
+			});
+
 			topbar.mouseenter(function(e){
 				$('#fullscreen-topbar').addClass('fullscreen-make-sticky');
 				$( document ).unbind( '.fullscreen' );
@@ -433,7 +491,7 @@ PubSub.prototype.publish = function( topic, args ) {
 				s.timer = 0;
 			}).mouseleave(function(e){
 				$('#fullscreen-topbar').removeClass('fullscreen-make-sticky');
-				$( document ).bind( 'mousemove.fullscreen', function(e) { bounder( 'showToolbar', 'hideToolbar', 2500 ); } );
+				$( document ).bind( 'mousemove.fullscreen', function(e) { bounder( 'showToolbar', 'hideToolbar', 2000 ); } );
 			});
 		},
 
@@ -463,10 +521,11 @@ PubSub.prototype.publish = function( topic, args ) {
 		// Sensitivity to allow browsers to render the blank element before animating.
 		sensitivity: 100,
 
-		In: function( element, speed, callback ) {
+		In: function( element, speed, callback, stop ) {
 
 			callback = callback || $.noop;
 			speed = speed || 400;
+			stop = stop || false;
 
 			if ( api.fade.transitions ) {
 				if ( element.is(':visible') ) {
@@ -480,16 +539,20 @@ PubSub.prototype.publish = function( topic, args ) {
 				});
 				setTimeout( function() { element.addClass( 'fade-trigger' ); }, this.sensitivity );
 			} else {
+				if ( stop )
+					element.stop();
+
 				element.css( 'opacity', 1 ).fadeIn( speed, callback );
 			}
 
 			return element;
 		},
 
-		Out: function( element, speed, callback ) {
+		Out: function( element, speed, callback, stop ) {
 
 			callback = callback || $.noop;
 			speed = speed || 400;
+			stop = stop || false;
 
 			if ( ! element.is(':visible') )
 				return element;
@@ -504,6 +567,9 @@ PubSub.prototype.publish = function( topic, args ) {
 				});
 				setTimeout( function() { element.removeClass( 'fade-trigger' ); }, this.sensitivity );
 			} else {
+				if ( stop )
+					element.stop();
+
 				element.fadeOut( speed, callback );
 			}
 
@@ -535,13 +601,12 @@ PubSub.prototype.publish = function( topic, args ) {
 
 	api.oldheight = 0;
 	api.resize_textarea = function() {
-		var txt = s.textarea_obj, newheight, scroll = document.body.scrollTop || document.documentElement.scrollTop;
+		var txt = s.textarea_obj, newheight;
 
 		newheight = txt.scrollHeight > 300 ? txt.scrollHeight : 300;
 
 		if ( newheight != api.oldheight ) {
 			txt.style.height = newheight + 'px';
-	//		window.scrollTo(0, scroll);
 			api.oldheight = newheight;
 		}
 	};

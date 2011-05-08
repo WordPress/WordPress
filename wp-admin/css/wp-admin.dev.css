@@ -672,8 +672,11 @@ form.upgrade .hint {
 }
 
 #wp-fullscreen-toolbar {
-	padding: 6px 2% 0;
+	padding: 6px 10px 0;
 	clear: both;
+	max-width: 1100px;
+	min-width: 820px;
+	margin: 0 auto;
 }
 
 #wp-fullscreen-mode-bar,
@@ -688,19 +691,12 @@ form.upgrade .hint {
 }
 
 #wp-fullscreen-save {
-	padding-top: 2px;
+	padding: 2px 2px 0 5px;
 }
 
 #wp-fullscreen-count,
 #wp-fullscreen-close {
 	padding-top: 5px;
-}
-
-#wp-fullscreen-info {
-	float: right;
-	padding: 3px 10px;
-
-	display: none;
 }
 
 #wp-fullscreen-central-toolbar {
@@ -796,6 +792,15 @@ form.upgrade .hint {
 #wp-fullscreen-save span {
 	padding-right: 4px;
 	display: none;
+}
+
+#wp-fullscreen-plus,
+#wp-fullscreen-minus,
+#wp-fullscreen-reset {
+	font-size: 14px;
+	border: 1px solid #aaa;
+	padding: 0 4px;
+	cursor: default;
 }
 
 /* =Thickbox Adjustments

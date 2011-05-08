@@ -3,7 +3,9 @@ Distraction Free Writing mode TinyMCE Styles
 */
 
 html, body.mceContentBody {
-	background: transparent;
+	background: transparent !important;
+	width: auto !important;
+	max-width: none !important;
 	margin: 0;
 	padding: 0;
 }
@@ -29,10 +31,9 @@ tr th,
 thead th {
 	font-family: "Helvetica Neue", Arial, Helvetica, "Nimbus Sans L", sans-serif;
 }
-pre {
-	font-family: "Courier 10 Pitch", Courier, monospace;
-}
-code, code var {
+pre,
+code,
+code var {
 	font-family: Monaco, Consolas, "Andale Mono", "DejaVu Sans Mono", monospace;
 }
 body, input, textarea {
@@ -57,15 +58,6 @@ ul {
 ol {
 	list-style: decimal;
 	margin: 0 0 18px 1.5em;
-}
-ol ol {
-	list-style: upper-alpha;
-}
-ol ol ol {
-	list-style: lower-roman;
-}
-ol ol ol ol {
-	list-style: lower-alpha;
 }
 ul ul,
 ol ol,

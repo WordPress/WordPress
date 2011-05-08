@@ -1729,19 +1729,14 @@ function wp_fullscreen_html() {
 
 	$width = isset($content_width) && 800 > $content_width ? $content_width : 800;
 	$width = $width + 10; // compensate for the padding
+	$dfw_width = get_user_setting( 'dfw_width', $width );
 	$save = $post->post_status == 'publish' ? __('Update') : __('Save');
 ?>
 <div id="wp-fullscreen-body">
-<div id="fullscreen-topbar" class="fade-600">
-	<div id="wp-fullscreen-info">
-		<span id="wp-fullscreen-saved"> </span>
-		<span class="autosave-message">&nbsp;</span>
-		<span id="wp-fullscreen-last-edit"> </span>
-	</div>
-
+<div id="fullscreen-topbar">
 	<div id="wp-fullscreen-toolbar">
 
-		<div id="wp-fullscreen-close"><a href="#" onclick="fullscreen.off();return false;"><?php _e('Back'); ?></a></div>
+		<div id="wp-fullscreen-close"><a href="#" onclick="fullscreen.off();return false;"><?php _e('Close'); ?></a></div>
 		<div id="wp-fullscreen-save">
 			<span><?php if ( $post->post_status == 'publish' ) _e('Updated.'); else _e('Saved.'); ?></span>
 			<img src="images/wpspin_light.gif" alt="" />
@@ -1817,13 +1812,17 @@ function wp_fullscreen_html() {
 			</div>
 		</div></div>
 
-		<div id="wp-fullscreen-count"><?php _e('Word Count:'); ?> <span class="word-count">0</span></div>
+		<div id="wp-fullscreen-count">
+			<span title="<?php _e('Wider'); ?>" id="wp-fullscreen-plus">+</span>
+			<span title="<?php _e('Narrower'); ?>" id="wp-fullscreen-minus">&ndash;</span>
+			<span title="<?php _e('Reset width'); ?>" id="wp-fullscreen-reset">&times;</span> &nbsp;
+			<?php _e('Word Count:'); ?> <span class="word-count">0</span>
 		</div>
-
+		</div>
 	</div>
 </div>
 
-<div id="wp-fullscreen-wrap" style="width:<?php echo $width; ?>px;">
+<div id="wp-fullscreen-wrap" style="width:<?php echo $dfw_width; ?>px;">
 	<label id="wp-fullscreen-title-prompt-text" for="wp-fullscreen-title"><?php echo apply_filters( 'enter_title_here', __( 'Enter title here' ), $post ); ?></label>
 	<input type="text" id="wp-fullscreen-title" value="" autocomplete="off" />
 
