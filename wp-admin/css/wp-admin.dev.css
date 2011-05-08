@@ -1324,6 +1324,14 @@ body.no-js #adminmenu li.wp-has-current-submenu .wp-submenu {
 	border-width: 0 1px 1px 0;
 	border-style: solid;
 	position: relative;
+	-webkit-border-bottom-right-radius: 3px;
+	-webkit-border-top-right-radius: 3px;
+	-khtml-border-bottom-right-radius: 3px;
+	-khtml-border-top-right-radius: 3px;
+	-moz-border-radius-bottomright: 3px;
+	-moz-border-radius-topright: 3px;
+	border-bottom-right-radius: 3px;
+	border-top-right-radius: 3px;
 }
 
 .folded #adminmenu .wp-submenu ul {
