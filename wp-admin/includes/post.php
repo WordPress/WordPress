@@ -1736,7 +1736,7 @@ function wp_fullscreen_html() {
 <div id="fullscreen-topbar">
 	<div id="wp-fullscreen-toolbar">
 
-		<div id="wp-fullscreen-close"><a href="#" onclick="fullscreen.off();return false;"><?php _e('Close'); ?></a></div>
+		<div id="wp-fullscreen-close"><a href="#" onclick="fullscreen.off();return false;"><?php _e('Exit fullscreen'); ?></a></div>
 		<div id="wp-fullscreen-save">
 			<span><?php if ( $post->post_status == 'publish' ) _e('Updated.'); else _e('Saved.'); ?></span>
 			<img src="images/wpspin_light.gif" alt="" />
