@@ -1813,9 +1813,6 @@ function wp_fullscreen_html() {
 		</div></div>
 
 		<div id="wp-fullscreen-count">
-			<span title="<?php _e('Wider'); ?>" id="wp-fullscreen-plus">+</span>
-			<span title="<?php _e('Narrower'); ?>" id="wp-fullscreen-minus">&ndash;</span>
-			<span title="<?php _e('Reset width'); ?>" id="wp-fullscreen-reset">&times;</span> &nbsp;
 			<?php _e('Word Count:'); ?> <span class="word-count">0</span>
 		</div>
 		</div>

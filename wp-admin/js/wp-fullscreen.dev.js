@@ -462,26 +462,30 @@ PubSub.prototype.publish = function( topic, args ) {
 			if ( wptitlehint )
 				wptitlehint('wp-fullscreen-title');
 
-			$(document).keypress(function(e){
-				if ( 27 != e.keyCode )
+			$(document).keyup(function(e){
+				var c = e.charCode || e.keyCode, a;
+
+				if ( !fullscreen.settings.visible )
 					return true;
 
-				if ( fullscreen.settings.visible )
+				if ( navigator.platform && navigator.platform.indexOf('Mac') != -1 )
+					a = e.ctrlKey; // Ctrl key for Mac
+				else
+					a = e.altKey; // Alt key for Win & Linux
+
+				if ( 27 == c ) // Esc
 					fullscreen.off();
 
+				if ( a && (61 == c || 187 == c) ) // +
+					api.dfw_width(25);
+
+				if ( a && (45 == c || 189 == c) ) // -
+					api.dfw_width(-25);
+
+				if ( a && 48 == c ) // 0
+					api.dfw_width(0);
+
 				return true;
-			});
-
-			$('#wp-fullscreen-plus').click(function(){
-				fullscreen.dfw_width(25);
-			});
-
-			$('#wp-fullscreen-minus').click(function(){
-				fullscreen.dfw_width(-25);
-			});
-
-			$('#wp-fullscreen-reset').click(function(){
-				fullscreen.dfw_width(0);
 			});
 
 			topbar.mouseenter(function(e){

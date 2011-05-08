@@ -794,15 +794,6 @@ form.upgrade .hint {
 	display: none;
 }
 
-#wp-fullscreen-plus,
-#wp-fullscreen-minus,
-#wp-fullscreen-reset {
-	font-size: 14px;
-	border: 1px solid #aaa;
-	padding: 0 4px;
-	cursor: default;
-}
-
 /* =Thickbox Adjustments
 -------------------------------------------------------------- */
 .fullscreen-active #TB_overlay {
