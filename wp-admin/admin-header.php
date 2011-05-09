@@ -165,12 +165,11 @@ $links = '<li>' . implode( '</li><li>', $links ) . '</li>';
 
 <div id="wphead-info">
 <div id="user_info">
-<p><?php echo $howdy; ?></p>
-<div id="user_info_arrow">
+	<p><?php echo $howdy; ?></p>
+	<div id="user_info_arrow"></div>
 	<div id="user_info_links_wrap"><div id="user_info_links">
 		<ul><?php echo $links; ?></ul>
 	</div></div>
-</div>
 </div>
 </div>
 

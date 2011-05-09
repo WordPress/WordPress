@@ -726,7 +726,7 @@ table.widefat span.spam a,
 	background: transparent url(../images/arrows.png) no-repeat 6px 6px;
 }
 
-#user_info_arrow:hover {
+#user_info:hover #user_info_arrow {
 	background: transparent url(../images/arrows-dark.png) no-repeat 6px 6px;
 }
 

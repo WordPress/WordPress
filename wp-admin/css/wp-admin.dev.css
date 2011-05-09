@@ -833,6 +833,7 @@ form.upgrade .hint {
 	line-height: 32px;
 	height: 32px;
 	position: relative;
+	z-index: 999;
 }
 
 #user_info p {
@@ -842,18 +843,17 @@ form.upgrade .hint {
 }
 
 #user_info_arrow {
-	height: 32px;
+	height: 30px;
 	width: 24px;
 	position: absolute;
 	right: -2px;
 	top: 2px;
-	z-index: 999;
 }
 
 #user_info_links_wrap {
 	width: 160px;
 	position: absolute;
-	top: 30px;
+	top: 32px;
 	right: 0;
 	padding: 0;
 	text-shadow: rgba(255,255,255,0.7) 0 1px 0;
@@ -863,28 +863,28 @@ form.upgrade .hint {
 	overflow: hidden;
 }
 
-#user_info_arrow:hover #user_info_links_wrap {
-	top: 22px;
+#user_info:hover #user_info_links_wrap {
+	top: 24px;
 	right: -8px;
 	padding: 8px;
 }
 
-#user_info_arrow:hover #user_info_links ul {
+#user_info:hover #user_info_links ul {
 	margin-top: 0;
-	-moz-transition: margin-top 150ms ease-out;
-	-webkit-transition: margin-top 150ms ease-out;
-	-o-transition: margin-top 150ms ease-out;
-	transition: margin-top 150ms ease-out;
+	-moz-transition: margin-top 150ms ease-out 300ms;
+	-webkit-transition: margin-top 150ms ease-out 300ms;
+	-o-transition: margin-top 150ms ease-out 300ms;
+	transition: margin-top 150ms ease-out 300ms;
 }
 
 #user_info_links ul {
 	border-width: 1px;
 	border-style: solid;
 	margin-top: -100%;
-	-moz-transition: margin-top 300ms ease-in;
-	-webkit-transition: margin-top 300ms ease-in;
-	-o-transition: margin-top 300ms ease-in;
-	transition: margin-top 300ms ease-in;
+	-moz-transition: margin-top 300ms ease-in 400ms;
+	-webkit-transition: margin-top 300ms ease-in 400ms;
+	-o-transition: margin-top 300ms ease-in 400ms;
+	transition: margin-top 300ms ease-in 400ms;
 }
 
 #user_info_links ul,
