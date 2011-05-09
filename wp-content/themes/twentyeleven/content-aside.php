@@ -14,7 +14,7 @@
 		<header class="entry-header">
 			<hgroup>
 				<h1 class="entry-title"><a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'twentyeleven' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a></h1>
-				<h2 class="entry-format">Aside</h2>
+				<h2 class="entry-format"><?php _e( 'Aside', 'twentyeleven' ); ?></h2>
 			</hgroup>
 
 			<?php if ( 'post' == $post->post_type ) : ?>

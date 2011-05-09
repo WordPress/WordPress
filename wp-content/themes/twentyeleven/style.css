@@ -617,12 +617,19 @@ a:hover {
 	border-color: #000;
 	color: #222;
 }
+#branding .only-search #s,
+#branding .only-search #s:focus {
+	width: 85%;
+}
 #branding .only-search #s:focus {
 	background-color: #bbb;
 }
 #branding .with-image #searchform {
 	top: auto;
 	bottom: -27px;
+}
+#branding .only-search + #access div {
+	padding-right: 160px;
 }
 
 
@@ -1033,7 +1040,6 @@ article.format-status .entry-content {
 }
 .format-image footer.entry-meta {
 	background: #e0e6e8;
-	margin-right: 2px;
 	margin-top: -6px;
 	padding: 20px 30px;
 	overflow: hidden;
