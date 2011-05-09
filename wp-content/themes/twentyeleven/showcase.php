@@ -42,13 +42,17 @@ get_header(); ?>
 					 */
 					$sticky = get_option( 'sticky_posts' );
 					$featured_args = array(
-						'posts_per_page' => 10,
 						'post__in' => $sticky,
+						'post_status' => 'published',
+						'posts_per_page' => 10,
 					);
 
 					// The Featured Posts query.
 					$featured = new WP_Query();
 					$featured->query( $featured_args );
+
+					// Proceed only if sticky posts exist.
+					if ( 0 < $featured->post_count ) :
 
 					/**
 					 * We will need to count featured posts starting from zero
@@ -112,6 +116,10 @@ get_header(); ?>
 				</section>
 				<?php endwhile;	?>
 
+				<?php
+					// Show slider only if we have more than one featured post.
+					if ( 1 < $featured->post_count ) :
+				?>
 				<nav class="feature-slider">
 					<ul>
 					<?php
@@ -139,7 +147,9 @@ get_header(); ?>
 					<?php endwhile;	?>
 					</ul>
 				</nav>
-				</div>
+				<?php endif; // End check for more than one sticky post. ?>
+				</div><!-- .featured-posts -->
+				<?php endif; // End check for sticky posts. ?>
 
 				<section class="recent-posts">
 					<h1 class="showcase-heading"><?php _e( 'Recent Posts', 'twentyeleven' ); ?></h1>
@@ -187,7 +197,7 @@ get_header(); ?>
 					?>
 
 					</ol>
-				</section>
+				</section><!-- .recent-posts -->
 
 				<div class="widget-area" role="complementary">
 					<?php if ( ! dynamic_sidebar( 'sidebar-2' ) ) : ?>
