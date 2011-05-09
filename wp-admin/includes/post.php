@@ -1717,7 +1717,14 @@ function wp_preload_dialogs($init) {
 }
 
 function wp_quicktags() {
+	global $tinymce_version;
+	
 	wp_preload_dialogs( array( 'plugins' => 'wpdialogs,wplink,wpfullscreen' ) );
+	
+	if ( !user_can_richedit() ) {
+		wp_enqueue_style( 'tinymce-buttons', includes_url('js/tinymce/themes/advanced/skins/wp_theme/ui.css'), array(), $tinymce_version );
+		wp_print_styles('tinymce-buttons');
+	}
 }
 
 function wp_print_editor_js() {

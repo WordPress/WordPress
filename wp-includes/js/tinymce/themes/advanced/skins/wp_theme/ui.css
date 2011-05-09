@@ -13,7 +13,7 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 /* External */
 .wp_themeSkin .mceExternalToolbar {position:absolute; border-bottom:0; display:none}
 .wp_themeSkin .mceExternalToolbar td.mceToolbar {padding-right:13px;}
-.wp_themeSkin .mceExternalClose {position:absolute; top:3px; right:3px; width:7px; height:7px; background:url(../../img/icons.gif) -820px 0}
+.wp_themeSkin .mceExternalClose {position:absolute; top:3px; right:3px; width:7px; height:7px; background:url(../../img/wpicons.png) -820px 0}
 
 /* Layout */
 .wp_themeSkin table.mceToolbar, .wp_themeSkin tr.mceFirst .mceToolbar tr td, .wp_themeSkin tr.mceLast .mceToolbar tr td {border:0; margin:0; padding:0}
@@ -33,7 +33,7 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 .wp_themeSkin .mceStatusbar a.mceResize {
 	display: block;
 	float: right;
-	background: url(../../img/icons.gif) -800px 0;
+	background: url(../../img/wpicons.png) -800px 0;
 	width: 20px;
 	height: 20px;
 	cursor: se-resize
@@ -43,7 +43,7 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 .wp_themeSkin #content_toolbar1 {margin-top: 2px;}
 .wp_themeSkin .mceToolbar .mceToolbarEndListBox span {display:none}
 .wp_themeSkin span.mceIcon, .wp_themeSkin img.mceIcon {display:block; width:20px; height:20px}
-.wp_themeSkin .mceIcon {background:url(../../img/icons.gif) no-repeat 20px 20px}
+.wp_themeSkin .mceIcon {background:url(../../img/wpicons.png) no-repeat 20px 20px}
 
 /* Button */
 .wp_themeSkin .mceButton {
@@ -192,7 +192,7 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 	padding: 1px 2px;
 }
 .wp_themeSkin .mceSplitButton span.mceAction {
-	background-image: url(../../img/icons.gif);
+	background-image: url(../../img/wpicons.png);
 	background-repeat: no-repeat;
 	background-color: transparent;
 	width:20px;
@@ -304,7 +304,7 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 .wp_themeSkin span.mce_italic {background-position:-60px 0}
 .wp_themeSkin span.mce_underline {background-position:-140px 0}
 .wp_themeSkin span.mce_strikethrough {background-position:-120px 0}
-.wp_themeSkin span.mce_undo {background-position:-160px 0}
+.wp_themeSkin span.mce_undo {background-position:-159px 0}
 .wp_themeSkin span.mce_redo {background-position:-100px 0}
 .wp_themeSkin span.mce_cleanup {background-position:-40px 0}
 .wp_themeSkin span.mce_bullist {background-position:-20px 0}
@@ -314,13 +314,13 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 .wp_themeSkin span.mce_justifycenter {background-position:-420px 0}
 .wp_themeSkin span.mce_justifyfull {background-position:-440px 0}
 .wp_themeSkin span.mce_anchor {background-position:-200px 0}
-.wp_themeSkin span.mce_indent {background-position:-400px 0}
+.wp_themeSkin span.mce_indent {background-position:-400px -1px}
 .wp_themeSkin span.mce_outdent {background-position:-540px 0}
-.wp_themeSkin span.mce_link {background-position:-500px 0}
+.wp_themeSkin span.mce_link {background-position:-499px -1px}
 .wp_themeSkin span.mce_unlink {background-position:-640px 0}
 .wp_themeSkin span.mce_sub {background-position:-600px 0}
 .wp_themeSkin span.mce_sup {background-position:-620px 0}
-.wp_themeSkin span.mce_removeformat {background-position:-580px 0}
+.wp_themeSkin span.mce_removeformat {background-position:-581px 0}
 .wp_themeSkin span.mce_newdocument {background-position:-520px 0}
 .wp_themeSkin span.mce_image {background-position:-380px 0}
 .wp_themeSkin span.mce_help {background-position:-340px 0}
@@ -343,7 +343,7 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 .wp_themeSkin span.mce_rtl {background-position:-40px -20px}
 .wp_themeSkin span.mce_emotions {background-position:-60px -20px}
 .wp_themeSkin span.mce_fullpage {background-position:-80px -20px}
-.wp_themeSkin span.mce_fullscreen {background-position:-100px -20px}
+.wp_themeSkin span.mce_fullscreen {background-position:-99px -20px}
 .wp_themeSkin span.mce_iespell {background-position:-120px -20px}
 .wp_themeSkin span.mce_insertdate {background-position:-140px -20px}
 .wp_themeSkin span.mce_inserttime {background-position:-160px -20px}
@@ -389,6 +389,10 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 .wp_themeSkin span.mce_ins {background-position:-960px -20px}
 .wp_themeSkin span.mce_pagebreak {background-position:0 -40px}
 .wp_themeSkin span.mce_spellchecker {background-position:-540px -20px}
+
+.wp_themeSkin span.mce_wp_adv {background-position:-935px 1px}
+.wp_themeSkin span.mce_wp_more {background-position:0 -40px}
+.wp_themeSkin span.mce_wp_help {background-position:-340px 0}
 
 /* border */
 .wp_themeSkin .mceExternalToolbar,
