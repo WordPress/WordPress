@@ -861,12 +861,12 @@ table.widefat .spam a:hover,
 .wp_themeSkin .mceButton {
 	border-color: #ccc;
 	background-color: #c9c9c9; /* Fallback */
-	background-image: -ms-linear-gradient(bottom, #c9c9c9, #f6f6f6); /* IE10 */
-	background-image: -moz-linear-gradient(bottom, #c9c9c9, #f6f6f6); /* Firefox */
-	background-image: -o-linear-gradient(bottom, #c9c9c9, #f6f6f6); /* Opera */
+	background-image: -ms-linear-gradient(bottom, #ddd, #fff); /* IE10 */
+	background-image: -moz-linear-gradient(bottom, #ddd, #fff); /* Firefox */
+	background-image: -o-linear-gradient(bottom, #ddd, #fff); /* Opera */
 	background-image: -webkit-gradient(linear, left bottom, left top, from(#c9c9c9), to(#f6f6f6)); /* old Webkit	 */
-	background-image: -webkit-linear-gradient(bottom, #c9c9c9, #f6f6f6) !important; /* new Webkit */
-	background-image: linear-gradient(bottom, #c9c9c9, #f6f6f6); /* proposed W3C Markup */
+	background-image: -webkit-linear-gradient(bottom, #ddd, #fff) !important; /* new Webkit */
+	background-image: linear-gradient(bottom, #ddd, #fff); /* proposed W3C Markup */
 }
 
 .wp_themeSkin a.mceButtonEnabled:hover {
@@ -887,7 +887,12 @@ table.widefat .spam a:hover,
 .wp_themeSkin a.mceButtonActive,
 .wp_themeSkin a.mceButtonActive:active,
 .wp_themeSkin a.mceButtonActive:hover {
-	background: #d5d5d5 !important;
+	background-image: -ms-linear-gradient(bottom, #eee, #bbb); /* IE10 */
+	background-image: -moz-linear-gradient(bottom, #eee, #bbb)); /* Firefox */
+	background-image: -o-linear-gradient(bottom, #eee, #bbb)); /* Opera */
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#eee), to(#bbb)); /* old Webkit	 */
+	background-image: -webkit-linear-gradient(bottom, #eee, #bbb) !important; /* new Webkit */
+	background-image: linear-gradient(bottom, #eee, #bbb); /* proposed W3C Markup */
 	border-color: #909090 !important;
 }
 
@@ -900,12 +905,12 @@ table.widefat .spam a:hover,
 .wp_themeSkin .mceListBox .mceOpen	{
 	border-color: #ccc;
 	background-color: #c9c9c9; /* Fallback */
-	background-image: -ms-linear-gradient(bottom, #c9c9c9, #f6f6f6); /* IE10 */
-	background-image: -moz-linear-gradient(bottom, #c9c9c9, #f6f6f6); /* Firefox */
-	background-image: -o-linear-gradient(bottom, #c9c9c9, #f6f6f6); /* Opera */
+	background-image: -ms-linear-gradient(bottom, #ddd, #fff); /* IE10 */
+	background-image: -moz-linear-gradient(bottom, #ddd, #fff); /* Firefox */
+	background-image: -o-linear-gradient(bottom, #ddd, #fff); /* Opera */
 	background-image: -webkit-gradient(linear, left bottom, left top, from(#c9c9c9), to(#f6f6f6)); /* old Webkit	 */
-	background-image: -webkit-linear-gradient(bottom, #c9c9c9, #f6f6f6); !important/* new Webkit */
-	background-image: linear-gradient(bottom, #c9c9c9, #f6f6f6); /* proposed W3C Markup */
+	background-image: -webkit-linear-gradient(bottom, #ddd, #fff); !important/* new Webkit */
+	background-image: linear-gradient(bottom, #ddd, #fff); /* proposed W3C Markup */
 }
 
 .wp_themeSkin .mceListBox .mceOpen {
@@ -958,12 +963,12 @@ table.widefat .spam a:hover,
 
 .wp_themeSkin table.mceSplitButton td {
 	background-color: #c9c9c9; /* Fallback */
-	background-image: -ms-linear-gradient(bottom, #c9c9c9, #f6f6f6); /* IE10 */
-	background-image: -moz-linear-gradient(bottom, #c9c9c9, #f6f6f6); /* Firefox */
-	background-image: -o-linear-gradient(bottom, #c9c9c9, #f6f6f6); /* Opera */
+	background-image: -ms-linear-gradient(bottom, #ddd, #fff); /* IE10 */
+	background-image: -moz-linear-gradient(bottom, #ddd, #fff); /* Firefox */
+	background-image: -o-linear-gradient(bottom, #ddd, #fff); /* Opera */
 	background-image: -webkit-gradient(linear, left bottom, left top, from(#c9c9c9), to(#f6f6f6)); /* old Webkit	 */
-	background-image: -webkit-linear-gradient(bottom, #c9c9c9, #f6f6f6)!important ; /* new Webkit */
-	background-image: linear-gradient(bottom, #c9c9c9, #f6f6f6); /* proposed W3C Markup */
+	background-image: -webkit-linear-gradient(bottom, #ddd, #fff)!important ; /* new Webkit */
+	background-image: linear-gradient(bottom, #ddd, #fff); /* proposed W3C Markup */
 }
 
 .wp_themeSkin table.mceSplitButton:hover td {

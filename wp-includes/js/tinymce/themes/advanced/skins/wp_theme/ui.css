@@ -57,9 +57,9 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 	-webkit-border-radius: 2px;
 	-khtml-border-radius: 2px;
 	border-radius: 2px;
-	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 0 2px 1px #fff;
-	-moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 0 2px 1px #fff;
-	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 0 2px 1px #fff;
+	-webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15), inset 0 0 2px 1px #fff;
+	-moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15), inset 0 0 2px 1px #fff;
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15), inset 0 0 2px 1px #fff;
 }
 
 .wp_themeSkin a.mceButtonEnabled:hover {
@@ -75,8 +75,8 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 .wp_themeSkin a.mceButtonSelected {
 	background-image: inherit;
 	-webkit-box-shadow:	 0 1px 1px rgba(0, 0, 0, 0.15), inset 0 0 2px 1px #fff;
-	-moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), inset 0 0 2px 1px #fff;
-	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), inset 0 0 2px 1px #fff;
+	-moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15), inset 0 0 2px 1px #fff;
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15), inset 0 0 2px 1px #fff;
 }
 .wp_themeSkin .mceButtonDisabled .mceIcon {opacity:0.4; filter:alpha(opacity=40);}
 .wp_themeSkin .mceButtonDisabled {}
@@ -106,9 +106,9 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 	-webkit-border-top-left-radius: 2px;
 	-khtml-border-top-left-radius: 2px;
 	border-top-left-radius: 2px;
-	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 0 2px 1px #fff;
-	-moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 0 2px 1px #fff;
-	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 0 2px 1px #fff;
+	-webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15), inset 0 0 2px 1px #fff;
+	-moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15), inset 0 0 2px 1px #fff;
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15), inset 0 0 2px 1px #fff;
 	font-family: Tahoma,Verdana,Arial,Helvetica;
 	font-size: 11px;
 	height: 20px;
@@ -132,9 +132,9 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 	-webkit-border-top-left-radius: 0;
 	-khtml-border-top-left-radius: 0;
 	border-top-left-radius: 0;
-	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 0 2px 1px #fff;
-	-moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 0 2px 1px #fff;
-	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 0 2px 1px #fff;
+	-webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15), inset 0 0 2px 1px #fff;
+	-moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15), inset 0 0 2px 1px #fff;
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15), inset 0 0 2px 1px #fff;
 }
 .wp_themeSkin .mceListBox .mceOpen span {
 	display: block;
@@ -177,9 +177,9 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 }
 
 .wp_themeSkin table.mceSplitButton td a {
-	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 0 2px 1px #fff;
-	-moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 0 2px 1px #fff;
-	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 0 2px 1px #fff;
+	-webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15), inset 0 0 2px 1px #fff;
+	-moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15), inset 0 0 2px 1px #fff;
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15), inset 0 0 2px 1px #fff;
 }
 
 .wp_themeSkin table.mceSplitButton:hover td {
