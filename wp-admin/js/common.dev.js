@@ -226,7 +226,7 @@ screenMeta = {
 };
 
 $(document).ready( function() {
-	var lastClicked = false, checks, first, last, checked;
+	var lastClicked = false, checks, first, last, checked, dropdown;
 
 	// Move .updated and .error alert boxes. Don't move boxes designed to be inline.
 	$('div.wrap h2:first').nextAll('div.updated, div.error').addClass('below-h2');
@@ -234,6 +234,24 @@ $(document).ready( function() {
 
 	// Init screen meta
 	screenMeta.init();
+
+	// User info dropdown.
+	dropdown = {
+		doc: $(document),
+		element: $('#user_info'),
+		open: function() {
+			if ( ! dropdown.element.hasClass('active') ) {
+				dropdown.element.addClass('active');
+				dropdown.doc.one( 'click', dropdown.close );
+				return false;
+			}
+		},
+		close: function() {
+			dropdown.element.removeClass('active');
+		}
+	};
+
+	dropdown.element.click( dropdown.open );
 
 	// check all checkboxes
 	$('tbody').children().children('.check-column').find(':checkbox').click( function(e) {
