@@ -48,12 +48,9 @@
 				s.wp_fullscreen_is_enabled = true;
 				s.wp_fullscreen_editor_id = ed.id;
 				s.theme_advanced_resizing = false;
-				s.theme_advanced_toolbar_location = 'external';
 				s.theme_advanced_statusbar_location = 'none';
 				s.content_css = s.content_css + ',' + s.wp_fullscreen_content_css;
 				s.height = tinymce.isIE ? b.scrollHeight : b.offsetHeight;
-	//			s.setup = function(ed) {
-	//			}
 
 				tinymce.each(ed.getParam('wp_fullscreen_settings'), function(v, k) {
 					s[k] = v;
@@ -61,11 +58,27 @@
 
 				fsed = new tinymce.Editor('wp_mce_fullscreen', s);
 				fsed.onInit.add(function(edd) {
+					var DOM = tinymce.DOM, buttons = DOM.select('a.mceButton', DOM.get('wp-fullscreen-buttons'));
 
 					if ( !ed.isHidden() )
 						edd.setContent( ed.getContent() );
 					else
 						edd.setContent( switchEditors.wpautop( edd.getElement().value ) );
+
+					setTimeout(function(){ // add last
+						edd.onNodeChange.add(function(ed, cm, e){
+							tinymce.each(buttons, function(c) {
+								var btn, cls;
+
+								if ( btn = DOM.get( 'wp_mce_fullscreen_' + c.id.substr(6) ) ) {
+									cls = btn.className;
+
+									if ( cls )
+										c.className = cls;
+								}
+							});
+						});
+					}, 1000);
 
 					edd.focus();
 				});

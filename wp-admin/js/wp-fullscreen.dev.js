@@ -419,6 +419,21 @@ PubSub.prototype.publish = function( topic, args ) {
 			tinyMCE.execCommand('unlink');
 	}
 
+	api.atd = function() {
+		if ( s.has_tinymce && 'tinymce' === s.mode )
+			tinyMCE.execCommand('mceWritingImprovementTool');
+	}
+
+	api.help = function() {
+		if ( s.has_tinymce && 'tinymce' === s.mode )
+			tinyMCE.execCommand('WP_Help');
+	}
+
+	api.blockquote = function() {
+		if ( s.has_tinymce && 'tinymce' === s.mode )
+			tinyMCE.execCommand('mceBlockQuote');
+	}
+
 	api.refresh_buttons = function( fade ) {
 		fade = fade || false;
 

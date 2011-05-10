@@ -810,8 +810,7 @@ form.upgrade .hint {
 	background: transparent;
 }
 
-#wp_mce_fullscreen_parent div:first-child,
-#wp_mce_fullscreen_parent #wp_mce_fullscreen_external_close {
+#wp_mce_fullscreen_parent #wp_mce_fullscreen_tbl tr.mceFirst {
 	display : none;
 }
 

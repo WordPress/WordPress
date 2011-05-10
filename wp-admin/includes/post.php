@@ -1709,7 +1709,12 @@ function wp_preload_dialogs($init) {
 
 	// Distraction Free Writing mode
 	if ( in_array( 'wpfullscreen', $plugins, true ) ) {
-		wp_fullscreen_html();
+		$enable = array();
+
+		if ( in_array( 'AtD', $plugins, true ) )
+			$enable[] = 'AtD';
+
+		wp_fullscreen_html($enable);
 		wp_print_scripts('wp-fullscreen');
 	}
 
@@ -1731,7 +1736,7 @@ function wp_print_editor_js() {
 	wp_print_scripts('editor');
 }
 
-function wp_fullscreen_html() {
+function wp_fullscreen_html( $extra = array() ) {
 	global $content_width, $post;
 
 	$width = isset($content_width) && 800 > $content_width ? $content_width : 800;
@@ -1758,63 +1763,80 @@ function wp_fullscreen_html() {
 
 		<div id="wp-fullscreen-button-bar"><div id="wp-fullscreen-buttons" class="wp_themeSkin">
 			<div>
-			<a title="<?php _e('Bold (Ctrl + B)'); ?>" aria-labelledby="wp_fs_bold_voice" onclick="fullscreen.b();return false;" class="mceButton mceButtonEnabled mce_bold" href="javascript:;" id="wp_fs_bold" role="button" tabindex="-1" aria-pressed="false">
+			<a title="<?php _e('Bold (Ctrl + B)'); ?>" onclick="fullscreen.b();return false;" class="mceButton mceButtonEnabled mce_bold" href="#" id="wp_fs_bold" role="button" aria-pressed="false">
 			<span class="mceIcon mce_bold"></span>
-			<span id="wp_fs_bold_voice" style="display: none;" class="mceVoiceLabel mceIconOnly"><?php _e('Bold (Ctrl + B)'); ?></span>
 			</a>
 			</div>
 
 			<div>
-			<a title="<?php _e('Italic (Ctrl + I)'); ?>" aria-labelledby="wp_fs_italic_voice" onclick="fullscreen.i();return false;" class="mceButton mceButtonEnabled mce_italic" href="javascript:;" id="wp_fs_italic" role="button" tabindex="-1" aria-pressed="false">
+			<a title="<?php _e('Italic (Ctrl + I)'); ?>" onclick="fullscreen.i();return false;" class="mceButton mceButtonEnabled mce_italic" href="#" id="wp_fs_italic" role="button" aria-pressed="false">
 			<span class="mceIcon mce_italic"></span>
-			<span id="wp_fs_italic_voice" style="display: none;" class="mceVoiceLabel mceIconOnly"><?php _e('Italic (Ctrl + I)'); ?></span>
 			</a>
 			</div>
 
 			<div>
-			<span tabindex="-1" aria-orientation="vertical" role="separator" class="mceSeparator"></span>
+			<span aria-orientation="vertical" role="separator" class="mceSeparator"></span>
 			</div>
 
 			<div>
-			<a title="<?php _e('Unordered list (Alt + Shift + U)'); ?>" aria-labelledby="wp_fs_bullist_voice" onclick="fullscreen.ul();return false;" onmousedown="return false;" class="mceButton mceButtonEnabled mce_bullist" href="javascript:;" id="wp_fs_bullist" role="button" tabindex="-1" aria-pressed="false">
+			<a title="<?php _e('Unordered list (Alt + Shift + U)'); ?>" onclick="fullscreen.ul();return false;" onmousedown="return false;" class="mceButton mceButtonEnabled mce_bullist" href="#" id="wp_fs_bullist" role="button" aria-pressed="false">
 			<span class="mceIcon mce_bullist"></span>
-			<span id="wp_fs_bullist_voice" style="display: none;" class="mceVoiceLabel mceIconOnly"><?php _e('Unordered list (Alt + Shift + U)'); ?></span>
 			</a>
 			</div>
 
 			<div>
-			<a title="<?php _e('Ordered list (Alt + Shift + O)'); ?>" aria-labelledby="wp_fs_numlist_voice" onclick="fullscreen.ol();return false;" class="mceButton mceButtonEnabled mce_numlist" href="javascript:;" id="wp_fs_numlist" role="button" tabindex="-1" aria-pressed="false">
+			<a title="<?php _e('Ordered list (Alt + Shift + O)'); ?>" onclick="fullscreen.ol();return false;" class="mceButton mceButtonEnabled mce_numlist" href="#" id="wp_fs_numlist" role="button" aria-pressed="false">
 			<span class="mceIcon mce_numlist"></span>
-			<span id="wp_fs_numlist_voice" style="display: none;" class="mceVoiceLabel mceIconOnly"><?php _e('Ordered list (Alt + Shift + O)'); ?></span>
 			</a>
 			</div>
 
 			<div>
-			<span tabindex="-1" aria-orientation="vertical" role="separator" class="mceSeparator"></span>
+			<span aria-orientation="vertical" role="separator" class="mceSeparator"></span>
+			</div>
+
+			<div>
+			<a title="<?php _e('Blockquote (Alt+Shift+Q)'); ?>" onclick="fullscreen.blockquote();return false;" class="mceButton mceButtonEnabled mce_blockquote" href="#" id="wp_fs_blockquote" role="button" tabindex="-1">
+			<span class="mceIcon mce_blockquote"></span>
+			</a>
 			</div>
 
 			<div class="wp-fullscreen-both">
-			<a title="<?php _e('Insert/edit image (Alt + Shift + M)'); ?>" aria-labelledby="wp_fs_image_voice" onclick="jQuery('#add_image').click();return false;" class="mceButton mceButtonEnabled mce_image" href="javascript:;" id="wp_fs_image" role="button" tabindex="-1">
+			<a title="<?php _e('Insert/edit image (Alt + Shift + M)'); ?>" onclick="jQuery('#add_image').click();return false;" class="mceButton mceButtonEnabled mce_image" href="#" id="wp_fs_image" role="button" tabindex="-1">
 			<span class="mceIcon mce_image"></span>
-			<span id="wp_fs_image_voice" style="display: none;" class="mceVoiceLabel mceIconOnly"><?php _e('Insert/edit image (Alt + Shift + M)'); ?></span>
 			</a>
 			</div>
 
 			<div class="wp-fullscreen-both">
-			<span tabindex="-1" aria-orientation="vertical" role="separator" class="mceSeparator"></span>
+			<span aria-orientation="vertical" role="separator" class="mceSeparator"></span>
 			</div>
 
 			<div class="wp-fullscreen-both">
-			<a title="<?php _e('Insert/edit link (Alt + Shift + A)'); ?>" aria-labelledby="wp_fs_link_voice" onclick="fullscreen.link();return false;" class="mceButton mce_link mceButtonEnabled" href="javascript:;" id="wp_fs_link" role="button" tabindex="-1" aria-pressed="false">
+			<a title="<?php _e('Insert/edit link (Alt + Shift + A)'); ?>" onclick="fullscreen.link();return false;" class="mceButton mce_link mceButtonEnabled" href="#" id="wp_fs_link" role="button" aria-pressed="false">
 			<span class="mceIcon mce_link"></span>
-			<span id="wp_fs_link_voice" style="display: none;" class="mceVoiceLabel mceIconOnly"><?php _e('Insert/edit link (Alt + Shift + A)'); ?></span>
 			</a>
 			</div>
 
 			<div>
-			<a title="<?php _e('Unlink (Alt + Shift + S)'); ?>" aria-labelledby="wp_fs_unlink_voice" onclick="fullscreen.unlink();return false;" class="mceButton mce_unlink mceButtonEnabled" href="javascript:;" id="wp_fs_unlink" role="button" tabindex="-1" aria-pressed="false">
+			<a title="<?php _e('Unlink (Alt + Shift + S)'); ?>" onclick="fullscreen.unlink();return false;" class="mceButton mce_unlink mceButtonEnabled" href="#" id="wp_fs_unlink" role="button" aria-pressed="false">
 			<span class="mceIcon mce_unlink"></span>
-			<span id="wp_fs_unlink_voice" style="display: none;" class="mceVoiceLabel mceIconOnly"><?php _e('Unlink (Alt + Shift + S)'); ?></span>
+			</a>
+			</div>
+			
+			<div>
+			<span aria-orientation="vertical" role="separator" class="mceSeparator"></span>
+			</div>
+			
+<?php	if ( in_array( 'AtD', $extra, true ) ) { ?>
+			<div>
+			<a title="<?php _e('Proofread Writing'); ?>" onclick="fullscreen.atd();return false;" class="mceButton mceButtonEnabled" href="#" id="wp_fs_spellchecker" role="button" aria-pressed="false">
+			<span class="mceIcon mce_spellchecker"></span>
+			</a>
+			</div>
+<?php	} ?>
+
+			<div>
+			<a title="<?php _e('Help (Alt + Shift + H)'); ?>" onclick="fullscreen.help();return false;" class="mceButton mce_help mceButtonEnabled" href="#" id="wp_fs_help" role="button" aria-pressed="false">
+			<span class="mceIcon mce_help"></span>
 			</a>
 			</div>
 		</div></div>
