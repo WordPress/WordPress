@@ -72,14 +72,13 @@ if ( isset( $_REQUEST['updated'] ) && $_REQUEST['updated'] == 'true' && ! empty(
 	?>
 <div class="wrap">
 	<?php screen_icon(); ?>
-	<h2><?php
-	esc_html_e( 'Users' );
-	if ( current_user_can( 'create_users' ) ) {
-		favorite_actions( $current_screen );
-	}
-	if ( !empty( $usersearch ) ) {
-		printf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;' ) . '</span>', esc_html( $usersearch ) );
-	}
+	<h2><?php esc_html_e( 'Users' );
+	if ( current_user_can( 'create_users') ) : ?>
+		<a href="<?php echo network_admin_url('user-new.php'); ?>" class="button add-new-h2"><?php echo esc_html_x( 'Add New', 'user' ); ?></a><?php
+	endif;
+	
+	if ( !empty( $usersearch ) )
+	printf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;' ) . '</span>', esc_html( $usersearch ) );
 	?>
 	</h2>
 
