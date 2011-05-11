@@ -1747,13 +1747,7 @@ function wp_fullscreen_html( $extra = array() ) {
 <div id="wp-fullscreen-body">
 <div id="fullscreen-topbar">
 	<div id="wp-fullscreen-toolbar">
-
 		<div id="wp-fullscreen-close"><a href="#" onclick="fullscreen.off();return false;"><?php _e('Exit fullscreen'); ?></a></div>
-		<div id="wp-fullscreen-save">
-			<span><?php if ( $post->post_status == 'publish' ) _e('Updated.'); else _e('Saved.'); ?></span>
-			<img src="images/wpspin_light.gif" alt="" />
-			<input type="button" class="button-primary" value="<?php echo $save; ?>" onclick="fullscreen.save();" />
-		</div>
 		<div id="wp-fullscreen-central-toolbar" style="width:<?php echo $width; ?>px;">
 
 		<div id="wp-fullscreen-mode-bar"><div id="wp-fullscreen-modes">
@@ -1841,9 +1835,12 @@ function wp_fullscreen_html( $extra = array() ) {
 			</div>
 		</div></div>
 
-		<div id="wp-fullscreen-count">
-			<?php _e('Word Count:'); ?> <span class="word-count">0</span>
+		<div id="wp-fullscreen-save">
+			<span><?php if ( $post->post_status == 'publish' ) _e('Updated.'); else _e('Saved.'); ?></span>
+			<img src="images/wpspin_light.gif" alt="" />
+			<input type="button" class="button-primary" value="<?php echo $save; ?>" onclick="fullscreen.save();" />
 		</div>
+
 		</div>
 	</div>
 </div>
@@ -1855,7 +1852,14 @@ function wp_fullscreen_html( $extra = array() ) {
 	<div id="wp-fullscreen-container">
 		<textarea id="wp_mce_fullscreen"></textarea>
 	</div>
+
+	<div id="wp-fullscreen-status">
+		<div id="wp-fullscreen-count"><?php _e('Word Count:'); ?> <span class="word-count">0</span></div>
+	</div>
+
 </div>
+<div id="wp-fullscreen-tagline"><?php _e('Just write.'); ?></div>
+
 </div>
 
 <div class="fullscreen-overlay" id="fullscreen-overlay"></div>

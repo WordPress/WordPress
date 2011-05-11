@@ -239,23 +239,23 @@ PubSub.prototype.publish = function( topic, args ) {
 	}
 
 	ps.subscribe( 'showToolbar', function() {
-		s.topbar.removeClass('fade-1000').addClass('fade-300');
-		api.fade.In( s.topbar, 300, function(){ ps.publish('toolbarShown'); }, true );
+		s.toolbars.removeClass('fade-1000').addClass('fade-300');
+		api.fade.In( s.toolbars, 300, function(){ ps.publish('toolbarShown'); }, true );
 		$('#wp-fullscreen-body').addClass('wp-fullscreen-focus');
 	});
 
 	ps.subscribe( 'hideToolbar', function() {
-		s.topbar.removeClass('fade-300').addClass('fade-1000');
-		api.fade.Out( s.topbar, 1000, function(){ ps.publish('toolbarHidden'); }, true );
+		s.toolbars.removeClass('fade-300').addClass('fade-1000');
+		api.fade.Out( s.toolbars, 1000, function(){ ps.publish('toolbarHidden'); }, true );
 		$('#wp-fullscreen-body').removeClass('wp-fullscreen-focus');
 	});
 
 	ps.subscribe( 'toolbarShown', function() {
-		s.topbar.removeClass('fade-300');
+		s.toolbars.removeClass('fade-300');
 	});
 
 	ps.subscribe( 'toolbarHidden', function() {
-		s.topbar.removeClass('fade-1000');
+		s.toolbars.removeClass('fade-1000');
 	});
 
 	ps.subscribe( 'show', function() { // This event occurs before the overlay blocks the UI.
@@ -466,7 +466,8 @@ PubSub.prototype.publish = function( topic, args ) {
 	 */
 	api.ui = {
 		init: function() {
-			var topbar = s.topbar = $('#fullscreen-topbar');
+			var topbar = $('#fullscreen-topbar');
+			s.toolbars = topbar.add( $('#wp-fullscreen-status') );
 			s.element = $('#fullscreen-fader');
 			s.textarea_obj = document.getElementById('wp_mce_fullscreen');
 			s.has_tinymce = typeof(tinyMCE) != 'undefined';
@@ -504,12 +505,12 @@ PubSub.prototype.publish = function( topic, args ) {
 			});
 
 			topbar.mouseenter(function(e){
-				$('#fullscreen-topbar').addClass('fullscreen-make-sticky');
+				s.toolbars.addClass('fullscreen-make-sticky');
 				$( document ).unbind( '.fullscreen' );
 				clearTimeout( s.timer );
 				s.timer = 0;
 			}).mouseleave(function(e){
-				$('#fullscreen-topbar').removeClass('fullscreen-make-sticky');
+				s.toolbars.removeClass('fullscreen-make-sticky');
 				$( document ).bind( 'mousemove.fullscreen', function(e) { bounder( 'showToolbar', 'hideToolbar', 2000 ); } );
 			});
 		},
@@ -553,7 +554,7 @@ PubSub.prototype.publish = function( topic, args ) {
 				}
 
 				element.show();
-				element.one( this.transitionend, function() {
+				element.first().one( this.transitionend, function() {
 					callback();
 				});
 				setTimeout( function() { element.addClass( 'fade-trigger' ); }, this.sensitivity );
@@ -561,7 +562,11 @@ PubSub.prototype.publish = function( topic, args ) {
 				if ( stop )
 					element.stop();
 
-				element.css( 'opacity', 1 ).fadeIn( speed, callback );
+				element.css( 'opacity', 1 );
+				element.first().fadeIn( speed, callback );
+
+				if ( element.length > 1 )
+					element.not(':first').fadeIn( speed );
 			}
 
 			return element;
@@ -577,7 +582,7 @@ PubSub.prototype.publish = function( topic, args ) {
 				return element;
 
 			if ( api.fade.transitions ) {
-				element.one( api.fade.transitionend, function() {
+				element.first().one( api.fade.transitionend, function() {
 					if ( element.hasClass('fade-trigger') )
 						return;
 
@@ -589,7 +594,10 @@ PubSub.prototype.publish = function( topic, args ) {
 				if ( stop )
 					element.stop();
 
-				element.fadeOut( speed, callback );
+				element.first().fadeOut( speed, callback );
+
+				if ( element.length > 1 )
+					element.not(':first').fadeOut( speed );
 			}
 
 			return element;

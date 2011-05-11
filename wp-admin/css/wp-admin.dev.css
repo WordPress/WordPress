@@ -653,11 +653,18 @@ form.upgrade .hint {
 	resize: none;
 }
 
+#wp-fullscreen-tagline {
+	bottom: 20px;
+	color: #BBBBBB;
+	font-size: 18px;
+	position: fixed;
+	right: 20px;
+}
+
 /* =Top bar
 -------------------------------------------------------------- */
 #fullscreen-topbar {
 	position: fixed;
-	display: none;
 	filter: inherit;
 	top: 0;
 	left: 0;
@@ -681,12 +688,12 @@ form.upgrade .hint {
 
 #wp-fullscreen-mode-bar,
 #wp-fullscreen-button-bar,
-#wp-fullscreen-close {
+#wp-fullscreen-close,
+#wp-fullscreen-count {
 	float: left;
 }
 
-#wp-fullscreen-save,
-#wp-fullscreen-count {
+#wp-fullscreen-save {
 	float: right;
 }
 
