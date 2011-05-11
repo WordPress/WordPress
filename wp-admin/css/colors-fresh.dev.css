@@ -722,6 +722,18 @@ table.widefat span.spam a,
 	color: #777;
 }
 
+#user_info:hover,
+#user_info.active {
+	color: #333;
+}
+
+#user_info.active {
+	background-color: #f1f1f1;
+	background-image: -webkit-linear-gradient( bottom, #e9e9e9, #f9f9f9 );
+	background-image: -moz-linear-gradient( bottom, #e9e9e9, #f9f9f9 );
+	border-color: #aaa #aaa #dfdfdf;
+}
+
 #user_info_arrow {
 	background: transparent url(../images/arrows.png) no-repeat 6px 6px;
 }
@@ -731,22 +743,26 @@ table.widefat span.spam a,
 	background: transparent url(../images/arrows-dark.png) no-repeat 6px 6px;
 }
 
+#user_info_links {
+	-moz-box-shadow: 0 3px 2px -2px rgba( 0, 0, 0, 0.2 );
+	-webkit-box-shadow: 0 3px 2px -2px rgba( 0, 0, 0, 0.2 );
+	box-shadow: 0 3px 2px -2px rgba( 0, 0, 0, 0.2 );
+}
+
 #user_info_links ul {
-	background: #f9f9f9;
-	border-color: #dfdfdf;
-	-moz-box-shadow: inset 0 1px 0 #fff;
-	-webkit-box-shadow: inset 0 1px 0 #fff;
-	box-shadow: inset 0 1px 0 #fff;
+	background: #f1f1f1;
+	border-color: #ccc #aaa #aaa;
+	-moz-box-shadow: inset 0 1px 0 #f9f9f9;
+	-webkit-box-shadow: inset 0 1px 0 #f9f9f9;
+	box-shadow: inset 0 1px 0 #f9f9f9;
 }
 
 #user_info_links li:hover {
-	background-color: #EAF2FA;
-	color: #333;
+	background-color: #dfdfdf;
 }
 
 #user_info_links li:hover a,
 #user_info_links li a:hover {
-	color: #333;
 	text-decoration: none;
 }
 
@@ -757,7 +773,6 @@ table.widefat span.spam a,
 	text-decoration: none;
 }
 
-#user_info a:hover,
 #footer a:hover {
 	color: #000;
 	text-decoration: underline;
