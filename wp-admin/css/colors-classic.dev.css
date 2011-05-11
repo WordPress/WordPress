@@ -819,7 +819,7 @@ table.widefat .spam a:hover,
 	background-image: -ms-linear-gradient(bottom, #cfdfe9, #fff); /* IE10 */
 	background-image: -moz-linear-gradient(bottom, #cfdfe9, #fff); /* Firefox */
 	background-image: -o-linear-gradient(bottom, #cfdfe9, #fff); /* Opera */
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#cfdfe9), to(#fff)); /* old Webkit	*/
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#cfdfe9), to(#fff)); /* old Webkit */
 	background-image: -webkit-linear-gradient(bottom, #cfdfe9, #fff) !important; /* new Webkit */
 	background-image: linear-gradient(bottom, #cfdfe9, #fff); /* proposed W3C Markup */
 }
@@ -828,9 +828,9 @@ table.widefat .spam a:hover,
 	border-color: #5589AA !important;
 	background-color: #c9c9c9; /* Fallback */
 	background-image: -ms-linear-gradient(bottom, #bdccd5, #fff); /* IE10 */
-	background-image: -moz-linear-gradient(bottom, #bdccd5, #fff)); /* Firefox */
-	background-image: -o-linear-gradient(bottom, #bdccd5, #fff)); /* Opera */
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#bdccd5), to(#fff)); /* old Webkit	 */
+	background-image: -moz-linear-gradient(bottom, #bdccd5, #fff); /* Firefox */
+	background-image: -o-linear-gradient(bottom, #bdccd5, #fff); /* Opera */
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#bdccd5), to(#fff)); /* old Webkit */
 	background-image: -webkit-linear-gradient(bottom, #bdccd5, #fff) !important; /* new Webkit */
 	background-image: linear-gradient(bottom, #bdccd5, #fff); /* proposed W3C Markup */
 }
@@ -843,9 +843,9 @@ table.widefat .spam a:hover,
 .wp_themeSkin a.mceButtonActive:hover {
 	background: #B0C8D7 !important;
 	background-image: -ms-linear-gradient(bottom, #fff, #cfdfe9); /* IE10 */
-	background-image: -moz-linear-gradient(bottom, #fff, #cfdfe9)); /* Firefox */
-	background-image: -o-linear-gradient(bottom, #fff, #cfdfe9)); /* Opera */
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#fff), to(#cfdfe9)); /* old Webkit	 */
+	background-image: -moz-linear-gradient(bottom, #fff, #cfdfe9); /* Firefox */
+	background-image: -o-linear-gradient(bottom, #fff, #cfdfe9); /* Opera */
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#fff), to(#cfdfe9)); /* old Webkit */
 	background-image: -webkit-linear-gradient(bottom, #fff, #cfdfe9) !important; /* new Webkit */
 	background-image: linear-gradient(bottom, #fff, #cfdfe9); /* proposed W3C Markup */
 	border-color: #5589AA !important;
@@ -863,7 +863,7 @@ table.widefat .spam a:hover,
 	background-image: -ms-linear-gradient(bottom, #cfdfe9, #fff); /* IE10 */
 	background-image: -moz-linear-gradient(bottom, #cfdfe9, #fff); /* Firefox */
 	background-image: -o-linear-gradient(bottom, #cfdfe9, #fff); /* Opera */
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#cfdfe9), to(#fff)); /* old Webkit	*/
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#cfdfe9), to(#fff)); /* old Webkit */
 	background-image: -webkit-linear-gradient(bottom, #cfdfe9, #fff) !important; /* new Webkit */
 	background-image: linear-gradient(bottom, #cfdfe9, #fff); /* proposed W3C Markup */
 }
@@ -892,7 +892,7 @@ table.widefat .spam a:hover,
 	background-image: -ms-linear-gradient(bottom, #cfdfe9, #fff); /* IE10 */
 	background-image: -moz-linear-gradient(bottom, #cfdfe9, #fff); /* Firefox */
 	background-image: -o-linear-gradient(bottom, #cfdfe9, #fff); /* Opera */
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#cfdfe9), to(#fff)); /* old Webkit	*/
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#cfdfe9), to(#fff)); /* old Webkit */
 	background-image: -webkit-linear-gradient(bottom, #cfdfe9, #fff) !important; /* new Webkit */
 	background-image: linear-gradient(bottom, #cfdfe9, #fff); /* proposed W3C Markup */
 }
@@ -921,7 +921,7 @@ table.widefat .spam a:hover,
 	background-image: -ms-linear-gradient(bottom, #cfdfe9, #fff); /* IE10 */
 	background-image: -moz-linear-gradient(bottom, #cfdfe9, #fff); /* Firefox */
 	background-image: -o-linear-gradient(bottom, #cfdfe9, #fff); /* Opera */
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#cfdfe9), to(#fff)); /* old Webkit	*/
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#cfdfe9), to(#fff)); /* old Webkit */
 	background-image: -webkit-linear-gradient(bottom, #cfdfe9, #fff) !important; /* new Webkit */
 	background-image: linear-gradient(bottom, #cfdfe9, #fff); /* proposed W3C Markup */
 }
@@ -930,7 +930,7 @@ table.widefat .spam a:hover,
 	background-image: -ms-linear-gradient(bottom, #cfdfe9, #fff); /* IE10 */
 	background-image: -moz-linear-gradient(bottom, #cfdfe9, #fff); /* Firefox */
 	background-image: -o-linear-gradient(bottom, #cfdfe9, #fff); /* Opera */
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#cfdfe9), to(#fff)); /* old Webkit	*/
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#cfdfe9), to(#fff)); /* old Webkit */
 	background-image: -webkit-linear-gradient(bottom, #cfdfe9, #fff) !important; /* new Webkit */
 	background-image: linear-gradient(bottom, #cfdfe9, #fff); /* proposed W3C Markup */
 }
