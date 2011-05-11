@@ -1573,7 +1573,7 @@ fieldset.inline-edit-col-right .inline-edit-col {
 }
 
 .meta-box-sortables .postbox:hover .handlediv {
-	background: transparent url(../images/arrows.png) no-repeat 6px 6px;
+	background: transparent url(../images/arrows.png) no-repeat 6px 7px;
 }
 
 .tablenav .tablenav-pages {
@@ -1835,7 +1835,6 @@ div.widgets-sortables,
 	background-image: -webkit-gradient(linear, left bottom, left top, from(#dfdfdf), to(#f1f1f1)); /* old Webkit */
 	background-image: -webkit-linear-gradient(bottom, #dfdfdf, #f1f1f1) !important; /* new Webkit */
 	background-image: linear-gradient(bottom, #dfdfdf, #f1f1f1); /* proposed W3C Markup */
-	border-color: #aaa #aaa #dfdfdf;
 }
 
 #menu-management .nav-tab-active {
