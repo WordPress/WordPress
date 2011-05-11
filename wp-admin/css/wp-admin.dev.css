@@ -4249,7 +4249,7 @@ input.button-highlighted,
 }
 
 .pressthis a span {
-	background: url(../images/press-this.png) no-repeat 10px 7px ;
+	background: url(../images/press-this.png) no-repeat -45px 5px ;
 	padding: 8px 0 8px 32px;
 	display: inline-block;
 }
