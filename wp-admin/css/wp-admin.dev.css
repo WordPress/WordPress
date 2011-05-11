@@ -4292,7 +4292,11 @@ input.button-highlighted,
 ------------------------------------------------------------------------------*/
 
 #footer {
-	margin-top: -46px;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	padding: 10px 0;
 	margin-right: 15px;
 	border-top: 1px;
 	border-style: solid;
@@ -4305,8 +4309,7 @@ input.button-highlighted,
 
 #footer p {
 	margin: 0;
-	padding: 15px 0;
-	line-height: 15px;
+	line-height: 25px;
 }
 
 #footer a {
