@@ -270,12 +270,10 @@ p.search-box {
 ------------------------------------------------------------------------------*/
 
 #major-publishing-actions {
-	padding: 6px;
+	padding: 6px 0;
 	clear: both;
 	border-top: none;
 }
-
-
 
 #delete-action {
 	line-height: 25px;
@@ -326,7 +324,7 @@ p.search-box {
 }
 
 #minor-publishing-actions {
-	padding: 6px;
+	padding: 6px 0;
 	text-align: right;
 }
 
@@ -1536,15 +1534,6 @@ body.admin-bar #adminmenu {
 	margin: 0.6em 0;
 }
 
-.widget .widget-top,
-.postbox h3 {
-	cursor: move;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-khtml-user-select: none;
-	user-select: none;
-}
-
 .postbox-container {
 	float: left;
 	padding-right: 0.5%;
@@ -1569,7 +1558,7 @@ body.admin-bar #adminmenu {
 
 .postbox .handlediv {
 	float: right;
-	width: 23px;
+	width: 27px;
 	height: 26px;
 }
 
@@ -1583,7 +1572,7 @@ body.admin-bar #adminmenu {
 .postbox,
 .stuffbox {
 	margin-bottom: 20px;
-	padding: 0 10px;
+	padding: 0;
 	border-width: 1px;
 	border-style: solid;
 	line-height: 1;
@@ -1592,8 +1581,19 @@ body.admin-bar #adminmenu {
 .widget .widget-top,
 .postbox h3,
 .stuffbox h3 {
+	margin-top: 1px;
 	border-bottom-width: 1px;
 	border-style: solid;
+	cursor: move;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	user-select: none;
+}
+
+.postbox .inside,
+.stuffbox .inside {
+	padding: 0 10px;
 }
 
 .postbox.closed h3 {
@@ -1716,8 +1716,9 @@ table.fixed {
 	width: 20%;
 }
 #commentsdiv.postbox .inside {
-	line-height:1.4em;
-	margin:0;
+	line-height: 1.4em;
+	margin: 0;
+	padding: 0;
 }
 #commentsdiv.postbox .inside .row-actions {
 	line-height:18px;
@@ -3041,7 +3042,6 @@ span.description,
 }
 
 .ajaxtag .newtag {
-	background: transparent;
 	position: relative;
 }
 
@@ -4420,8 +4420,8 @@ table.form-table td .updated {
 	font-size: 15px;
 	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 	font-weight: normal;
-	padding: 7px 0;
-	margin: 0;
+	padding: 7px 10px;
+	margin: 1px 0 0 0;
 	line-height: 1;
 }
 #poststuff .inside,
@@ -4664,11 +4664,6 @@ br.clear {
 }
 fieldset {
 	border: 0;
-	padding: 0;
-	margin: 0;
-}
-#linksubmitdiv div.inside,
-div.inside {
 	padding: 0;
 	margin: 0;
 }

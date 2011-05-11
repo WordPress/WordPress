@@ -138,6 +138,8 @@ textarea.disabled {
 .widget .widget-top,
 .postbox h3,
 .stuffbox h3 {
+	background-image: -moz-linear-gradient( top, #f4f4f4, #e9e9e9 );
+	background-image: -webkit-linear-gradient( top, #f4f4f4, #e9e9e9 );
 	border-bottom-color: #dfdfdf;
 	text-shadow: #fff 0 1px 0;
 	-moz-box-shadow: 0 1px 0 #fff;
@@ -662,7 +664,7 @@ table.widefat span.spam a,
 .widget,
 #widget-list .widget-top,
 .postbox {
-	background-color: #f9f9f9;
+	background-color: #f4f4f4;
 }
 
 .ui-sortable .postbox h3 {
@@ -1551,7 +1553,7 @@ fieldset.inline-edit-col-right .inline-edit-col {
 }
 
 .meta-box-sortables .postbox:hover .handlediv {
-	background: transparent url(../images/menu-bits.gif?ver=20100610) no-repeat scroll left -111px;
+	background: transparent url(../images/arrows.png) no-repeat 6px 6px;
 }
 
 .tablenav .tablenav-pages {
