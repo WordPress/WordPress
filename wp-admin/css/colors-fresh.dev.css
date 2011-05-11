@@ -663,6 +663,10 @@ table.widefat span.spam a,
 	-moz-box-shadow: inset 0 1px 0 #fff;
 	-webkit-box-shadow: inset 0 1px 0 #fff;
 	box-shadow: inset 0 1px 0 #fff;
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
 }
 
 .widget,
@@ -1798,12 +1802,8 @@ div.widgets-sortables,
 	color: black;
 }
 
-#widgets-left .sidebar-name-arrow {
-	background: transparent url(../images/menu-bits.gif?ver=20100610) no-repeat scroll left -109px;
-}
-
-#widgets-right .sidebar-name-arrow {
-	background: transparent url(../images/widgets-arrow.gif?ver=20100531) no-repeat scroll 0 -1px;
+.sidebar-name-arrow {
+	background: transparent url(../images/arrows.png) no-repeat 5px 6px;
 }
 
 .in-widget-title {
