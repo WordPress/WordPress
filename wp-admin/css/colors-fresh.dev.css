@@ -719,12 +719,12 @@ table.widefat span.spam a,
 }
 
 #user_info {
-	color: #777;
+	color: #555;
 }
 
 #user_info:hover,
 #user_info.active {
-	color: #333;
+	color: #222;
 }
 
 #user_info.active {
@@ -1815,3 +1815,9 @@ div.widgets-sortables,
 	background: #f9f9f9;
 	border-bottom-color: #f9f9f9;
 }
+
+/* custom header page */
+.appearance_page_custom-header #upload-form p label {
+	color: #777;
+}
+/* end custom header page */

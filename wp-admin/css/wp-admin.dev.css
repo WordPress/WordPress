@@ -162,7 +162,7 @@ input.button-secondary,
 input.button-highlighted,
 #postcustomstuff .submit input {
 	text-decoration: none;
-	font-size: 11px !important;
+	font-size: 12px !important;
 	line-height: 13px;
 	padding: 3px 8px;
 	cursor: pointer;
@@ -1102,7 +1102,7 @@ form.upgrade .hint {
 	padding: 0 16px 0 6px;
 	height: 22px;
 	line-height: 22px;
-	font-size: 11px;
+	font-size: 12px;
 	display: block;
 	text-shadow: rgba(255,255,255,0.7) 0 1px 0;
 }
@@ -1436,10 +1436,10 @@ body.no-js #adminmenu li.wp-has-current-submenu .wp-submenu {
 }
 
 .post-com-count span {
-	font-size: 9px;
+	font-size: 11px;
 	font-weight: bold;
-	height: 1.7em;
-	line-height: 1.70em;
+	height: 1.4em;
+	line-height: 1.4em;
 	min-width: 0.7em;
 	padding: 0 6px;
 	display: inline-block;
@@ -1473,8 +1473,8 @@ strong .post-com-count {
 }
 
 #collapse-menu {
-	font-size: 11px;
-	line-height: 32px;
+	font-size: 12px;
+	line-height: 34px;
 }
 .folded #collapse-menu span {
 	display: none;
@@ -2620,7 +2620,7 @@ td.post-title p, td.plugin-title p {
 }
 
 #post-status-info td {
-	font-size: 11px;
+	font-size: 12px;
 }
 
 .autosave-info {
@@ -3985,7 +3985,7 @@ table#availablethemes td.bottom {
 }
 
 .appearance_page_custom-header #upload-form p label {
-	font-size: 11px;
+	font-size: 12px;
 }
 
 .appearance_page_custom-header .available-headers .default-header {
@@ -4417,7 +4417,7 @@ table.form-table td .updated {
 }
 #poststuff h3,
 .metabox-holder h3 {
-	font-size: 14px;
+	font-size: 15px;
 	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 	font-weight: normal;
 	padding: 7px 0;
@@ -4426,7 +4426,7 @@ table.form-table td .updated {
 }
 #poststuff .inside,
 #poststuff .inside p {
-	font-size: 11px;
+	font-size: 12px;
 	margin: 6px 0 8px;
 }
 #poststuff .inside .submitbox p {
