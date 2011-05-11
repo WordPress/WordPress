@@ -1166,6 +1166,7 @@ function get_post_type_labels( $post_type_object ) {
 		'not_found' => array( __('No posts found.'), __('No pages found.') ),
 		'not_found_in_trash' => array( __('No posts found in Trash.'), __('No pages found in Trash.') ),
 		'parent_item_colon' => array( null, __('Parent Page:') ),
+		'all_items' => array( __( 'All Posts' ), __( 'All Pages' ) )
 	);
 	$nohier_vs_hier_defaults['menu_name'] = $nohier_vs_hier_defaults['name'];
 	return _get_custom_object_labels( $post_type_object, $nohier_vs_hier_defaults );
@@ -1188,6 +1189,9 @@ function _get_custom_object_labels( $object, $nohier_vs_hier_defaults ) {
 	if ( !isset( $object->labels['menu_name'] ) && isset( $object->labels['name'] ) )
 		$object->labels['menu_name'] = $object->labels['name'];
 
+	if ( !isset( $object->labels['all_items'] ) && isset( $object->labels['menu_name'] ) )
+		$object->labels['all_items'] = $object->labels['menu_name'];
+
 	foreach ( $nohier_vs_hier_defaults as $key => $value )
 			$defaults[$key] = $object->hierarchical ? $value[1] : $value[0];
 
@@ -1207,7 +1211,7 @@ function _add_post_type_submenus() {
 		// Submenus only.
 		if ( ! $ptype_obj->show_in_menu || $ptype_obj->show_in_menu === true )
 			continue;
-		add_submenu_page( $ptype_obj->show_in_menu, $ptype_obj->labels->name, $ptype_obj->labels->menu_name, $ptype_obj->cap->edit_posts, "edit.php?post_type=$ptype" );
+		add_submenu_page( $ptype_obj->show_in_menu, $ptype_obj->labels->name, $ptype_obj->labels->all_items, $ptype_obj->cap->edit_posts, "edit.php?post_type=$ptype" );
 	}
 }
 add_action( 'admin_menu', '_add_post_type_submenus' );
