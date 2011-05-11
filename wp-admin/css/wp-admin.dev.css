@@ -225,7 +225,7 @@ input.small-text {
 #wpcontent select {
 	padding: 2px;
 	height: 2em;
-	font-size: 11px;
+	font-size: 12px;
 }
 
 #wpcontent option {
@@ -249,7 +249,7 @@ label,
 	border-style: solid;
 	border-width: 1px;
 	float: left;
-	margin: 12px 5px 5px 1px;
+	margin: 13px 5px 5px 1px;
 	padding: 3px 5px;
 	text-align: center;
 	width: 200px;
@@ -1808,7 +1808,7 @@ th.asc:hover span.sorting-indicator {
 	cursor: default;
 	height: 30px;
 	line-height: 30px;
-	font-size: 11px;
+	font-size: 12px;
 }
 
 .tablenav .no-pages,
@@ -3638,7 +3638,7 @@ span.imgedit-scale-warn {
 	margin-bottom: 9px;
 	padding: 8px 10px;
 	line-height: 20px;
-	font-size: 11px;
+	font-size: 12px;
 }
 
 .form-table th,
