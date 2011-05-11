@@ -525,12 +525,18 @@ div.error p {
 	text-shadow: rgba(255,255,255,1) 0 1px 0;
 }
 .wrap h2 {
-	font-size: 16px;
+	font-size: 20px;
 	padding: 8px 15px 3px 0;
-	line-height: 24px;
+	line-height: 28px;
 }
 .subtitle {
 	font-size: 14px;
+}
+.wrap .add-new-h2 {
+	position: relative;
+	top: -2px;
+	margin-left: 2px;
+	font-family: Arial, "Bitstream Vera Sans", Helvetica, Verdana, sans-serif;
 }
 
 .wrap h2.long-header {
