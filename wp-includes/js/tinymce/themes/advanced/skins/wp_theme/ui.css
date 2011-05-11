@@ -21,9 +21,10 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 .wp_themeSkin .mceIframeContainer {}
 .wp_themeSkin .mceStatusbar {
 	display: block;
-	font-family: 'MS Sans Serif',sans-serif,Verdana,Arial;
-	font-size: 9pt;
+	font-family: Arial, "Bitstream Vera Sans", Helvetica, Verdana, sans-serif;
+	font-size: 12px;
 	line-height: 16px;
+	padding-left: 5px;
 	overflow: visible;
 	height: 20px;
 	border-top-width: 1px;
@@ -66,20 +67,17 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 	background-image: inherit 0 -10px;
 }
 
-.wp_themeSkin a.mceButton span, .wp_themeSkin a.mceButton img {}
 .wp_themeSkin .mceOldBoxModel a.mceButton span, .wp_themeSkin .mceOldBoxModel a.mceButton img {margin:0 0 0 1px}
 
 .wp_themeSkin a.mceButton:active,
 .wp_themeSkin a.mceButtonActive,
 .wp_themeSkin a.mceButtonActive:hover,
 .wp_themeSkin a.mceButtonSelected {
-	background-image: inherit;
 	-webkit-box-shadow:	 0 1px 1px rgba(0, 0, 0, 0.15), inset 0 0 2px 1px #fff;
 	-moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15), inset 0 0 2px 1px #fff;
 	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15), inset 0 0 2px 1px #fff;
 }
 .wp_themeSkin .mceButtonDisabled .mceIcon {opacity:0.4; filter:alpha(opacity=40);}
-.wp_themeSkin .mceButtonDisabled {}
 
 /* Separator */
 .wp_themeSkin .mceSeparator {
@@ -96,7 +94,7 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 .wp_themeSkin .mceListBox .mceText {
 	padding: 1px 2px 1px 5px;
 	text-align:left;
-	text-decoration: none !important;
+	text-decoration: none;
 	width:70px;
 	-moz-border-bottom-left-radius: 2px;
 	-webkit-border-bottom-left-radius: 2px;
@@ -109,8 +107,8 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 	-webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15), inset 0 0 2px 1px #fff;
 	-moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15), inset 0 0 2px 1px #fff;
 	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15), inset 0 0 2px 1px #fff;
-	font-family: Tahoma,Verdana,Arial,Helvetica;
-	font-size: 11px;
+	font-family: Arial, "Bitstream Vera Sans", Helvetica, Verdana, sans-serif;
+	font-size: 12px;
 	height: 20px;
 	line-height: 20px;
 	overflow: hidden;
@@ -155,7 +153,10 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 .wp_themeSkin .mceListBoxDisabled .mceText {color:gray}
 .wp_themeSkin .mceListBoxMenu {overflow:auto; overflow-x:hidden}
 .wp_themeSkin .mceOldBoxModel .mceListBox .mceText {height:22px}
-.wp_themeSkin select.mceListBox {font-family:Tahoma,Verdana,Arial,Helvetica; font-size:12px;}
+.wp_themeSkin select.mceListBox {
+	font-family: Arial, "Bitstream Vera Sans", Helvetica, Verdana, sans-serif;
+	font-size:12px;
+}
 
 /* SplitButton */
 .wp_themeSkin .mceSplitButton a, .wp_themeSkin .mceSplitButton span {display:block; height:20px}
@@ -261,7 +262,9 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 	margin:0;
 	padding:0 25px;
 }
-.wp_themeSkin .mceMenu span.mceText, .wp_themeSkin .mceMenu .mcePreview {font-size:11px}
+.wp_themeSkin .mceMenu span.mceText, .wp_themeSkin .mceMenu .mcePreview {
+	font-size: 12px;
+}
 .wp_themeSkin .mceMenu pre.mceText {font-family:Monospace}
 .wp_themeSkin .mceMenu .mceIcon {position:absolute; top:0; left:0; width:22px;}
 .wp_themeSkin .mceMenu .mceMenuItemEnabled a:hover,
@@ -288,16 +291,15 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 .wp_themeSkin .mcePlaceHolder {border:1px dotted gray}
 
 /* Formats */
-.wp_themeSkin .mce_formatPreview a {font-size:10px}
 .wp_themeSkin .mce_p span.mceText {}
 .wp_themeSkin .mce_address span.mceText {font-style:italic}
 .wp_themeSkin .mce_pre span.mceText {font-family:monospace}
-.wp_themeSkin .mce_h1 span.mceText {font-weight:bolder; font-size: 2em}
-.wp_themeSkin .mce_h2 span.mceText {font-weight:bolder; font-size: 1.5em}
-.wp_themeSkin .mce_h3 span.mceText {font-weight:bolder; font-size: 1.17em}
-.wp_themeSkin .mce_h4 span.mceText {font-weight:bolder; font-size: 1em}
-.wp_themeSkin .mce_h5 span.mceText {font-weight:bolder; font-size: .83em}
-.wp_themeSkin .mce_h6 span.mceText {font-weight:bolder; font-size: .75em}
+.wp_themeSkin .mce_h1 span.mceText {font-weight:bolder; font-size: 17px}
+.wp_themeSkin .mce_h2 span.mceText {font-weight:bolder; font-size: 16px}
+.wp_themeSkin .mce_h3 span.mceText {font-weight:bolder; font-size: 15px}
+.wp_themeSkin .mce_h4 span.mceText {font-weight:bolder; font-size: 14px}
+.wp_themeSkin .mce_h5 span.mceText {font-weight:bolder; font-size: 13px}
+.wp_themeSkin .mce_h6 span.mceText {font-weight:bolder; font-size: 12px}
 
 /* Theme */
 .wp_themeSkin span.mce_bold {background-position:0 0}

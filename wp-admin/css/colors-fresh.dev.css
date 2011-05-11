@@ -828,7 +828,7 @@ table.widefat .spam a:hover,
 
 /* editors */
 #quicktags {
-	border-color: #dfdfdf;
+	border-color: #ccc;
 	background-color: #dfdfdf;
 	background-image: url("../images/ed-bg.gif");
 }
@@ -843,18 +843,21 @@ table.widefat .spam a:hover,
 }
 
 #poststuff .wp_themeSkin .mceStatusbar {
-	border-color: #EDEDED;
+	border-color: #dfdfdf;
+}
+#poststuff .wp_themeSkin .mceStatusbar * {
+	color: #555;
 }
 
 #poststuff #edButtonPreview,
 #poststuff #edButtonHTML {
 	background-color: #f1f1f1;
-	border-color: #dfdfdf;
+	border-color: #dfdfdf #dfdfdf #ccc;
 	color: #999;
 }
 
 #poststuff #editor-toolbar .active {
-	border-bottom-color: #e9e9e9;
+	border-color: #ccc #ccc #e9e9e9;
 	background-color: #e9e9e9;
 	color: #333;
 }
@@ -873,8 +876,17 @@ table.widefat .spam a:hover,
 }
 
 /* Containers */
+.wp_themeSkin table.mceLayout {
+	border-color: #ccc #ccc #dfdfdf;
+}
+#editorcontainer #content,
+.wp_themeSkin .mceIframeContainer {
+	-moz-box-shadow: inset 1px 1px 2px rgba( 0, 0, 0, 0.1 );
+	-webkit-box-shadow: inset 1px 1px 2px rgba( 0, 0, 0, 0.1 );
+	box-shadow: inset 1px 1px 2px rgba( 0, 0, 0, 0.1 );
+}
 .wp_themeSkin iframe {
-	background: #fff;
+	background: transparent;
 }
 
 /* Layout */
@@ -891,19 +903,18 @@ table.widefat .spam a:hover,
 	background-image: -moz-linear-gradient(bottom, #ddd, #fff); /* Firefox */
 	background-image: -o-linear-gradient(bottom, #ddd, #fff); /* Opera */
 	background-image: -webkit-gradient(linear, left bottom, left top, from(#ddd), to(#fff)); /* old Webkit */
-	background-image: -webkit-linear-gradient(bottom, #ddd, #fff) !important; /* new Webkit */
+	background-image: -webkit-linear-gradient(bottom, #ddd, #fff); /* new Webkit */
 	background-image: linear-gradient(bottom, #ddd, #fff); /* proposed W3C Markup */
 }
 
 .wp_themeSkin a.mceButtonEnabled:hover {
-	background: #d5d5d5;
-	border-color: #a0a0a0 !important;
-	background-color: #c9c9c9; /* Fallback */
+	border-color: #a0a0a0;
+	background: #ddd; /* Fallback */
 	background-image: -ms-linear-gradient(bottom, #ccc, #fff); /* IE10 */
 	background-image: -moz-linear-gradient(bottom, #ccc, #fff); /* Firefox */
 	background-image: -o-linear-gradient(bottom, #ccc, #fff); /* Opera */
 	background-image: -webkit-gradient(linear, left bottom, left top, from(#ccc), to(#fff)); /* old Webkit */
-	background-image: -webkit-linear-gradient(bottom, #ccc, #fff) !important; /* new Webkit */
+	background-image: -webkit-linear-gradient(bottom, #ccc, #fff); /* new Webkit */
 	background-image: linear-gradient(bottom, #ccc, #fff); /* proposed W3C Markup */
 }
 
@@ -913,13 +924,14 @@ table.widefat .spam a:hover,
 .wp_themeSkin a.mceButtonActive,
 .wp_themeSkin a.mceButtonActive:active,
 .wp_themeSkin a.mceButtonActive:hover {
+	background-color: #ddd; /* Fallback */
 	background-image: -ms-linear-gradient(bottom, #eee, #bbb); /* IE10 */
 	background-image: -moz-linear-gradient(bottom, #eee, #bbb); /* Firefox */
 	background-image: -o-linear-gradient(bottom, #eee, #bbb); /* Opera */
 	background-image: -webkit-gradient(linear, left bottom, left top, from(#eee), to(#bbb)); /* old Webkit */
-	background-image: -webkit-linear-gradient(bottom, #eee, #bbb) !important; /* new Webkit */
+	background-image: -webkit-linear-gradient(bottom, #eee, #bbb); /* new Webkit */
 	background-image: linear-gradient(bottom, #eee, #bbb); /* proposed W3C Markup */
-	border-color: #909090 !important;
+	border-color: #909090;
 }
 
 .wp_themeSkin .mceButtonDisabled {
@@ -930,17 +942,17 @@ table.widefat .spam a:hover,
 .wp_themeSkin .mceListBox .mceText,
 .wp_themeSkin .mceListBox .mceOpen	{
 	border-color: #ccc;
-	background-color: #c9c9c9; /* Fallback */
+	background-color: #eee; /* Fallback */
 	background-image: -ms-linear-gradient(bottom, #ddd, #fff); /* IE10 */
 	background-image: -moz-linear-gradient(bottom, #ddd, #fff); /* Firefox */
 	background-image: -o-linear-gradient(bottom, #ddd, #fff); /* Opera */
 	background-image: -webkit-gradient(linear, left bottom, left top, from(#ddd), to(#fff)); /* old Webkit */
-	background-image: -webkit-linear-gradient(bottom, #ddd, #fff); !important/* new Webkit */
+	background-image: -webkit-linear-gradient(bottom, #ddd, #fff); /* new Webkit */
 	background-image: linear-gradient(bottom, #ddd, #fff); /* proposed W3C Markup */
 }
 
 .wp_themeSkin .mceListBox .mceOpen {
-	border-left: 0px !important;
+	border-left: 0 !important;
 }
 
 .wp_themeSkin table.mceListBoxEnabled:hover .mceOpen,
@@ -950,7 +962,7 @@ table.widefat .spam a:hover,
 .wp_themeSkin .mceListBoxSelected .mceText,
 .wp_themeSkin table.mceListBoxEnabled:active .mceText {
 	background: #ccc;
-	border-color: #999 !important;
+	border-color: #999;
 }
 
 /* List Box Hover */
@@ -958,13 +970,13 @@ table.widefat .spam a:hover,
 .wp_themeSkin .mceListBoxHover .mceText,
 .wp_themeSkin table.mceListBoxEnabled:hover .mceOpen,
 .wp_themeSkin .mceListBoxHover .mceOpen {
-	border-color: #909090 !important;
-	background-color: #c9c9c9; /* Fallback */
+	border-color: #909090;
+	background-color: #eee; /* Fallback */
 	background-image: -ms-linear-gradient(bottom, #ccc, #fff); /* IE10 */
 	background-image: -moz-linear-gradient(bottom, #ccc, #fff); /* Firefox */
 	background-image: -o-linear-gradient(bottom, #ccc, #fff); /* Opera */
 	background-image: -webkit-gradient(linear, left bottom, left top, from(#ccc), to(#fff)); /* old Webkit */
-	background-image: -webkit-linear-gradient(bottom, #ccc, #fff) !important; /* new Webkit */
+	background-image: -webkit-linear-gradient(bottom, #ccc, #fff); /* new Webkit */
 	background-image: linear-gradient(bottom, #ccc, #fff); /* proposed W3C Markup */
 }
 
@@ -983,17 +995,17 @@ table.widefat .spam a:hover,
 .wp_themeSkin .mceSplitButtonSelected a.mceOpen,
 .wp_themeSkin table.mceSplitButtonEnabled:hover a.mceAction,
 .wp_themeSkin .mceSplitButton a.mceAction:hover {
-	border-color: #909090 !important;
+	border-color: #909090;
 }
 
 
 .wp_themeSkin table.mceSplitButton td {
-	background-color: #c9c9c9; /* Fallback */
+	background-color: #eee; /* Fallback */
 	background-image: -ms-linear-gradient(bottom, #ddd, #fff); /* IE10 */
 	background-image: -moz-linear-gradient(bottom, #ddd, #fff); /* Firefox */
 	background-image: -o-linear-gradient(bottom, #ddd, #fff); /* Opera */
 	background-image: -webkit-gradient(linear, left bottom, left top, from(#ddd), to(#fff)); /* old Webkit */
-	background-image: -webkit-linear-gradient(bottom, #ddd, #fff) !important; /* new Webkit */
+	background-image: -webkit-linear-gradient(bottom, #ddd, #fff); /* new Webkit */
 	background-image: linear-gradient(bottom, #ddd, #fff); /* proposed W3C Markup */
 }
 
@@ -1002,7 +1014,7 @@ table.widefat .spam a:hover,
 	background-image: -moz-linear-gradient(bottom, #ccc, #fff); /* Firefox */
 	background-image: -o-linear-gradient(bottom, #ccc, #fff); /* Opera */
 	background-image: -webkit-gradient(linear, left bottom, left top, from(#ccc), to(#fff)); /* old Webkit */
-	background-image: -webkit-linear-gradient(bottom, #ccc, #fff) !important; /* new Webkit */
+	background-image: -webkit-linear-gradient(bottom, #ccc, #fff); /* new Webkit */
 	background-image: linear-gradient(bottom, #ccc, #fff); /* proposed W3C Markup */
 }
 
@@ -1066,7 +1078,7 @@ table.widefat .spam a:hover,
 
 .wp_themeSkin tr.mceFirst td.mceToolbar {
 	background: #dfdfdf url("../images/ed-bg.gif") repeat-x scroll left top;
-	border-color: #dfdfdf;
+	border-color: #ccc;
 }
 
 .wp-admin #mceModalBlocker {
@@ -1130,9 +1142,18 @@ table.widefat .spam a:hover,
 }
 /* end TinyMCE */
 
-#editorcontainer,
-#post-status-info,
-#titlediv #title,
+#titlediv #title {
+	border-color: #ccc;
+}
+
+#editorcontainer {
+	border-color: #ccc #ccc #dfdfdf;
+}
+
+#post-status-info {
+	border-color: #dfdfdf #ccc #ccc;
+}
+
 .editwidget .widget-inside {
 	border-color: #dfdfdf;
 }
