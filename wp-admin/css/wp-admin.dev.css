@@ -1243,6 +1243,7 @@ body.no-js #adminmenu li.wp-has-current-submenu .wp-submenu {
 }
 
 #adminmenu a.menu-top {
+	font-weight: bold;
 	line-height: 18px;
 	min-width: 10em;
 	padding: 5px 5px;
@@ -1257,7 +1258,7 @@ body.no-js #adminmenu li.wp-has-current-submenu .wp-submenu {
 
 #adminmenu .wp-submenu a {
 	margin: 0;
-	padding-left: 28px;
+	padding-left: 12px;
 }
 
 .wp-menu-arrow {
