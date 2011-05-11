@@ -1021,7 +1021,7 @@ function _edit_attachments_query_helper($where) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Returns the list of classes to be used by a metabox
  *
  * @uses get_user_option()
  * @since 2.5.0
@@ -1031,17 +1031,19 @@ function _edit_attachments_query_helper($where) {
  * @return unknown
  */
 function postbox_classes( $id, $page ) {
-	if ( isset( $_GET['edit'] ) && $_GET['edit'] == $id )
-		return '';
-
-	if ( $closed = get_user_option('closedpostboxes_'.$page ) ) {
+	if ( isset( $_GET['edit'] ) && $_GET['edit'] == $id ) {
+		$classes = array( '' );
+	} elseif ( $closed = get_user_option('closedpostboxes_'.$page ) ) {
 		if ( !is_array( $closed ) ) {
-			return '';
+			$classes = array( '' );
 		}
-		return in_array( $id, $closed )? 'closed' : '';
+		$classes =  in_array( $id, $closed ) ? array( 'closed' ) : array( '' );
 	} else {
-		return '';
+		$classes = array( '' );
 	}
+
+	$classes = apply_filters( "postbox_classes_{$page}_{$id}", $classes );
+	return implode( ' ', $classes );
 }
 
 /**
