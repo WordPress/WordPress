@@ -1036,8 +1036,9 @@ function postbox_classes( $id, $page ) {
 	} elseif ( $closed = get_user_option('closedpostboxes_'.$page ) ) {
 		if ( !is_array( $closed ) ) {
 			$classes = array( '' );
+		} else {
+			$classes = in_array( $id, $closed ) ? array( 'closed' ) : array( '' );
 		}
-		$classes =  in_array( $id, $closed ) ? array( 'closed' ) : array( '' );
 	} else {
 		$classes = array( '' );
 	}
