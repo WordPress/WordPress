@@ -2010,7 +2010,17 @@ p.comment-form-comment {
 	text-align: center;
 }
 #site-generator a {
+	color: #555;
 	font-weight: bold;
+}
+#site-generator .sep {
+	background: url(images/wordpress.png) center left no-repeat;
+	color: transparent;
+	display: inline-block;
+	height: 16px;
+	line-height: 16px;
+	margin: 0 7px;
+	width: 16px;
 }
 
 

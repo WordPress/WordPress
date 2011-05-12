@@ -296,7 +296,8 @@ function twentyeleven_print_link_color_style() {
 		.widget_twentyeleven_ephemera .comments-link a:hover,
 		section.recent-posts .other-recent-posts a[rel="bookmark"]:hover,
 		section.recent-posts .other-recent-posts .comments-link a:hover,
-		.format-image footer.entry-meta a:hover {
+		.format-image footer.entry-meta a:hover,
+		#site-generator a:hover {
 			color: <?php echo $link_color; ?>;
 		}
 		section.recent-posts .other-recent-posts .comments-link a:hover {
