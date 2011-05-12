@@ -212,6 +212,9 @@ add_action( 'wp_footer',           'wp_print_footer_scripts'              );
 add_action( 'wp_head',             'wp_shortlink_wp_head',          10, 0 );
 add_action( 'template_redirect',   'wp_shortlink_header',           11, 0 );
 
+if ( isset( $_GET['replytocom'] ) )
+    add_filter( 'pre_option_blog_public', '__return_zero' );
+
 // Login actions
 add_action( 'login_head',          'wp_print_head_scripts',         9     );
 add_action( 'login_footer',        'wp_print_footer_scripts'              );
