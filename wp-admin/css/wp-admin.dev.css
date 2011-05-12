@@ -270,7 +270,7 @@ p.search-box {
 ------------------------------------------------------------------------------*/
 
 #major-publishing-actions {
-	padding: 6px 0;
+	padding: 10px 0;
 	clear: both;
 	border-top: none;
 }
@@ -310,13 +310,11 @@ p.search-box {
 }
 
 #misc-publishing-actions {
-	padding: 6px 0 16px 0;
+	padding: 6px 0 10px 0;
 }
 
 .misc-pub-section {
 	padding: 6px;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
 }
 
 .misc-pub-section-last {
@@ -324,13 +322,16 @@ p.search-box {
 }
 
 #minor-publishing-actions {
-	padding: 6px 0;
+	padding: 12px 0 5px 0;
 	text-align: right;
 }
 
 #minor-publishing {
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
+	-webkit-box-shadow: 0 1px 0 #fff;
+	-moz-box-shadow: 0 1px 0 #fff;
+	box-shadow: 0 1px 0 #fff;
 }
 
 #save-post {
