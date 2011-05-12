@@ -1742,6 +1742,8 @@ function screen_meta($screen) {
 
 	if ( !empty($wp_current_screen_options) )
 		$show_screen = true;
+		
+	$show_screen = apply_filters('screen_options_show_screen', $show_screen, $screen);
 
 ?>
 <div id="screen-meta">
