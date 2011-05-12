@@ -22,14 +22,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * @global string $wp_version
  */
-$wp_version = '3.2-bleeding';
+$wp_version = '3.2-beta1';
 
 /**
  * Holds the WordPress DB revision, increments when changes are made to the WordPress DB schema.
  *
  * @global int $wp_db_version
  */
-$wp_db_version = 17516;
+$wp_db_version = 17517;
 
 /**
  * Holds the TinyMCE version
