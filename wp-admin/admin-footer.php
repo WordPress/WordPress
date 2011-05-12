@@ -22,7 +22,7 @@ $upgrade = apply_filters( 'update_footer', '' );
 $footer_text = array(
 	'<span id="footer-thankyou">' . __( 'Thank you for creating with <a href="http://wordpress.org/">WordPress</a>.' ) . '</span>',
 	__( '<a href="http://codex.wordpress.org/">Documentation</a>' ),
-	sprintf( __( '<a href="%s">Rights</a>' ), admin_url( 'rights.php' ) ),
+	sprintf( __( '<a href="%s">Freedoms</a>' ), admin_url( 'freedoms.php' ) ),
 	__('<a href="http://wordpress.org/support/forum/4">Feedback</a>'),
 	sprintf(__('<a href="%s">Credits</a>'), admin_url('credits.php') ),
 );

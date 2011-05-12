@@ -9,14 +9,14 @@
 /** WordPress Administration Bootstrap */
 require_once( './admin.php' );
 
-$title = __( 'Your Rights' );
+$title = __( 'Freedoms' );
 $parent_file = 'index.php';
 
 include( './admin-header.php' );
 ?>
 <div class="wrap">
 <?php screen_icon(); ?>
-<h2><?php _e( 'Your Rights' ); ?></h2>
+<h2><?php _e( 'Freedoms' ); ?></h2>
 
 <p><?php _e( 'WordPress is Free and open source software, built by a distributed community of mostly volunteer developers from around the world. WordPress comes with some awesome, worldview-changing rights courtesy of its <a href="http://wordpress.org/about/license/">license</a>, the GPL.' ); ?></p>
 
