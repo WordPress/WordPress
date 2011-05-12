@@ -1200,7 +1200,7 @@ function dashboard_browser_nag_class( $classes ) {
 function wp_check_browser_version() {
 	$key = md5( $_SERVER['HTTP_USER_AGENT'] );
 
-	if ( false === ($response = get_site_transient('browsehappy_' . $key) ) ) {
+	if ( false === ($response = get_site_transient('browser_' . $key) ) ) {
 		global $wp_version;
 
 		$options = array(
@@ -1229,7 +1229,7 @@ function wp_check_browser_version() {
 		if ( ! $response )
 			return;
 
-		set_site_transient( 'browsehappy_' . $key, $response, 604800 ); // cache for 1 week
+		set_site_transient( 'browser_' . $key, $response, 604800 ); // cache for 1 week
 	}
 
 	return $response;
