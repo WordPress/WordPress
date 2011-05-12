@@ -34,7 +34,7 @@ include( './admin-header.php' );
 $plugins_url = current_user_can( 'activate_plugins' ) ? admin_url( 'plugins.php' ) : 'http://wordpress.org/extend/plugins/';
 $themes_url = current_user_can( 'switch_themes' ) ? admin_url( 'themes.php' ) : 'http://wordpress.org/extend/themes/';
 
-printf( __( 'Every plugin and theme in WordPress.org&#8217;s directory is 100%% GPL or a similarly free and compatible license, so you can feel safe finding <a href="%1$s">plugins</a> and <a href="%2$s">themes</a> there. If you get a plugin or theme from another source, make sure to <a href="http:wordpress.org/about/license/">ask them if it&#8217;s GPL</a> first. If they don&#8217;t respect the WordPress license, we don&#8217;t recommend them.' ), $plugins_url, $themes_url ); ?></p> 
+printf( __( 'Every plugin and theme in WordPress.org&#8217;s directory is 100%% GPL or a similarly free and compatible license, so you can feel safe finding <a href="%1$s">plugins</a> and <a href="%2$s">themes</a> there. If you get a plugin or theme from another source, make sure to <a href="http://wordpress.org/about/license/">ask them if it&#8217;s GPL</a> first. If they don&#8217;t respect the WordPress license, we don&#8217;t recommend them.' ), $plugins_url, $themes_url ); ?></p> 
 
 <p><?php _e( 'Don&#8217;t you wish all software came with these freedoms? So do we! For more information, check out the <a href="http://www.fsf.org/">Free Software Foundation</a>.' ); ?></p>
 
