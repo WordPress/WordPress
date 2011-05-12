@@ -102,7 +102,7 @@ require_once( '../admin-header.php' );
 <h2><?php _e('Sites') ?>
 <?php echo $msg; ?>
 <?php if ( current_user_can( 'create_sites') ) : ?>
-        <a href="<?php echo network_admin_url('site-new.php'); ?>" class="button add-new-h2"><?php echo esc_html_x( 'Add New', 'site' ); ?></a>
+        <a href="<?php echo network_admin_url('site-new.php'); ?>" class="add-new-h2"><?php echo esc_html_x( 'Add New', 'site' ); ?></a>
 <?php endif; ?>
 
 <?php if ( isset( $_REQUEST['s'] ) && $_REQUEST['s'] ) {

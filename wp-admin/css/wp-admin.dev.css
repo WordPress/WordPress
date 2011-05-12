@@ -81,9 +81,9 @@ kbd, code {
 
 .icon32 {
 	float: left;
-	height: 28px;
-	margin: 6px 1px 0 -5px;
-	width: 28px;
+	height: 34px;
+	margin: 7px 8px 0 0;
+	width: 36px;
 }
 
 .key-labels label {
@@ -834,24 +834,33 @@ form.upgrade .hint {
 #user_info {
 	float: right;
 	font-size: 12px;
-	line-height: 36px;
-	height: 36px;
+	line-height: 26px;
+	height: 25px;
 	position: relative;
 	z-index: 49;
 	border-style: solid;
 	border-width: 0;
+	margin-top: 3px;
 	padding: 0 2px 0 6px;
 }
 
 #user_info.active {
-	border-width: 0 1px;
+	border-width: 1px;
 	margin-right: -1px;
+	margin-top: 2px;
+	-moz-border-radius: 3px 3px 0 0;
+	-webkit-border-top-right-radius: 3px;
+	-webkit-border-top-left-radius: 3px;
+	-khtml-border-top-right-radius: 3px;
+	-khtml-border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+	border-top-left-radius: 3px;
 }
 
 #user_info p {
 	margin: 0;
 	padding: 0;
-	line-height: 36px;
+	line-height: 25px;
 	cursor: pointer;
 }
 
@@ -867,11 +876,11 @@ form.upgrade .hint {
 }
 
 #user_info_arrow {
-	height: 34px;
-	width: 24px;
+	height: 22px;
+	width: 22px;
 	position: absolute;
-	right: 1px;
-	top: 4px;
+	right: 3px;
+	top: 0;
 	cursor: pointer;
 }
 
@@ -879,7 +888,7 @@ form.upgrade .hint {
 	min-width: 100px;
 	width: 100%;
 	position: absolute;
-	top: 36px;
+	top: 25px;
 	right: 0;
 	padding: 0;
 	text-shadow: rgba(255,255,255,0.7) 0 1px 0;
@@ -933,8 +942,9 @@ form.upgrade .hint {
 }
 
 #wphead {
-	height: 36px;
+	height: 32px;
 	margin-right: 15px;
+	margin-left: 2px;
 }
 
 #wphead a,
@@ -948,7 +958,7 @@ form.upgrade .hint {
 
 #header-logo {
 	float: left;
-	margin: 9px 0;
+	margin: 7px 0;
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-khtml-user-select: none;
@@ -956,8 +966,8 @@ form.upgrade .hint {
 }
 
 #wphead h1 {
-	font: normal 18px Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
-	padding: 7px 8px 5px;
+	font: normal 16px Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
+	padding: 6px 8px 5px;
 	margin: 0;
 	float: left;
 }
@@ -1057,7 +1067,7 @@ form.upgrade .hint {
 }
 
 #screen-meta-links {
-	margin: 0 15px 0 0;
+	margin: 0 19px 0 0;
 }
 
 #screen-meta .screen-reader-text {
@@ -4065,7 +4075,7 @@ h2.nav-tab-wrapper, h3.nav-tab-wrapper {
 }
 
 h2 .nav-tab {
-	padding: 2px 10px 3px;
+	padding: 4px 10px 6px;
 	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-weight: 200;
 	font-size: 20px;

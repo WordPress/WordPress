@@ -360,9 +360,9 @@ if ( ! empty($messages) ) {
 <?php
 echo esc_html( $title );
 if ( current_user_can( 'create_users' ) ) { ?>
-	<a href="user-new.php" class="button add-new-h2"><?php echo esc_html_x( 'Add New', 'user' ); ?></a>
+	<a href="user-new.php" class="add-new-h2"><?php echo esc_html_x( 'Add New', 'user' ); ?></a>
 <?php } elseif ( is_multisite() && current_user_can( 'promote_users' ) ) { ?>
-	<a href="user-new.php" class="button add-new-h2"><?php echo esc_html_x( 'Add Existing', 'user' ); ?></a>
+	<a href="user-new.php" class="add-new-h2"><?php echo esc_html_x( 'Add Existing', 'user' ); ?></a>
 <?php }
 
 if ( $usersearch )
