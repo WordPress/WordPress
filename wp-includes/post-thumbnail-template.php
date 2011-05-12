@@ -48,6 +48,36 @@ function the_post_thumbnail( $size = 'post-thumbnail', $attr = '' ) {
 }
 
 /**
+ * Update cache for thumbnails in the current loop
+ *
+ * @sicne 3.2
+ */
+function update_post_thumbnail_cache() {
+	global $wp_query;
+
+	if ( $wp_query->thumbnails_cached )
+		return;
+
+	$thumb_ids = array();
+	foreach ( $wp_query->posts as $post ) {
+		if ( $id = get_post_thumbnail_id( $post->ID ) )
+			$thumb_ids[] = $id;
+	}
+
+	if ( ! empty ( $thumb_ids ) ) {
+		get_posts( array(
+				'update_post_term_cache' => false,
+				'include' => $thumb_ids,
+				'post_type' => 'attachment',
+				'post_status' => 'inherit',
+				'nopaging' => true
+		) );
+	}
+
+	$wp_query->thumbnails_cached = true;
+}
+
+/**
  * Retrieve Post Thumbnail.
  *
  * @since 2.9.0
@@ -62,6 +92,8 @@ function get_the_post_thumbnail( $post_id = null, $size = 'post-thumbnail', $att
 	$size = apply_filters( 'post_thumbnail_size', $size );
 	if ( $post_thumbnail_id ) {
 		do_action( 'begin_fetch_post_thumbnail_html', $post_id, $post_thumbnail_id, $size ); // for "Just In Time" filtering of all of wp_get_attachment_image()'s filters
+		if ( in_the_loop() )
+			update_post_thumbnail_cache();
 		$html = wp_get_attachment_image( $post_thumbnail_id, $size, false, $attr );
 		do_action( 'end_fetch_post_thumbnail_html', $post_id, $post_thumbnail_id, $size );
 	} else {

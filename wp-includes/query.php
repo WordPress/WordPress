@@ -1258,6 +1258,15 @@ class WP_Query {
 	var $query_vars_changed = true;
 
 	/**
+	 * Set if post thumbnails are cached
+	 *
+	 * @since 3.2
+	 * @access public
+	 * @var bool
+	 */
+	 var $thumbnails_cached = false;
+
+	/**
 	 * Resets query flags to false.
 	 *
 	 * The query flags are what page info WordPress was able to figure out.
