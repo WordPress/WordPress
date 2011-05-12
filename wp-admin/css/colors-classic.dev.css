@@ -820,7 +820,7 @@ table.widefat .spam a:hover,
 	background-image: -moz-linear-gradient(bottom, #cfdfe9, #fff); /* Firefox */
 	background-image: -o-linear-gradient(bottom, #cfdfe9, #fff); /* Opera */
 	background-image: -webkit-gradient(linear, left bottom, left top, from(#cfdfe9), to(#fff)); /* old Webkit */
-	background-image: -webkit-linear-gradient(bottom, #cfdfe9, #fff) !important; /* new Webkit */
+	background-image: -webkit-linear-gradient(bottom, #cfdfe9, #fff); /* new Webkit */
 	background-image: linear-gradient(bottom, #cfdfe9, #fff); /* proposed W3C Markup */
 }
 
@@ -831,7 +831,7 @@ table.widefat .spam a:hover,
 	background-image: -moz-linear-gradient(bottom, #bdccd5, #fff); /* Firefox */
 	background-image: -o-linear-gradient(bottom, #bdccd5, #fff); /* Opera */
 	background-image: -webkit-gradient(linear, left bottom, left top, from(#bdccd5), to(#fff)); /* old Webkit */
-	background-image: -webkit-linear-gradient(bottom, #bdccd5, #fff) !important; /* new Webkit */
+	background-image: -webkit-linear-gradient(bottom, #bdccd5, #fff); /* new Webkit */
 	background-image: linear-gradient(bottom, #bdccd5, #fff); /* proposed W3C Markup */
 }
 
@@ -846,7 +846,7 @@ table.widefat .spam a:hover,
 	background-image: -moz-linear-gradient(bottom, #fff, #cfdfe9); /* Firefox */
 	background-image: -o-linear-gradient(bottom, #fff, #cfdfe9); /* Opera */
 	background-image: -webkit-gradient(linear, left bottom, left top, from(#fff), to(#cfdfe9)); /* old Webkit */
-	background-image: -webkit-linear-gradient(bottom, #fff, #cfdfe9) !important; /* new Webkit */
+	background-image: -webkit-linear-gradient(bottom, #fff, #cfdfe9); /* new Webkit */
 	background-image: linear-gradient(bottom, #fff, #cfdfe9); /* proposed W3C Markup */
 	border-color: #5589AA !important;
 }
@@ -864,7 +864,7 @@ table.widefat .spam a:hover,
 	background-image: -moz-linear-gradient(bottom, #cfdfe9, #fff); /* Firefox */
 	background-image: -o-linear-gradient(bottom, #cfdfe9, #fff); /* Opera */
 	background-image: -webkit-gradient(linear, left bottom, left top, from(#cfdfe9), to(#fff)); /* old Webkit */
-	background-image: -webkit-linear-gradient(bottom, #cfdfe9, #fff) !important; /* new Webkit */
+	background-image: -webkit-linear-gradient(bottom, #cfdfe9, #fff); /* new Webkit */
 	background-image: linear-gradient(bottom, #cfdfe9, #fff); /* proposed W3C Markup */
 }
 
@@ -893,7 +893,7 @@ table.widefat .spam a:hover,
 	background-image: -moz-linear-gradient(bottom, #cfdfe9, #fff); /* Firefox */
 	background-image: -o-linear-gradient(bottom, #cfdfe9, #fff); /* Opera */
 	background-image: -webkit-gradient(linear, left bottom, left top, from(#cfdfe9), to(#fff)); /* old Webkit */
-	background-image: -webkit-linear-gradient(bottom, #cfdfe9, #fff) !important; /* new Webkit */
+	background-image: -webkit-linear-gradient(bottom, #cfdfe9, #fff); /* new Webkit */
 	background-image: linear-gradient(bottom, #cfdfe9, #fff); /* proposed W3C Markup */
 }
 
@@ -922,7 +922,7 @@ table.widefat .spam a:hover,
 	background-image: -moz-linear-gradient(bottom, #cfdfe9, #fff); /* Firefox */
 	background-image: -o-linear-gradient(bottom, #cfdfe9, #fff); /* Opera */
 	background-image: -webkit-gradient(linear, left bottom, left top, from(#cfdfe9), to(#fff)); /* old Webkit */
-	background-image: -webkit-linear-gradient(bottom, #cfdfe9, #fff) !important; /* new Webkit */
+	background-image: -webkit-linear-gradient(bottom, #cfdfe9, #fff); /* new Webkit */
 	background-image: linear-gradient(bottom, #cfdfe9, #fff); /* proposed W3C Markup */
 }
 
@@ -931,7 +931,7 @@ table.widefat .spam a:hover,
 	background-image: -moz-linear-gradient(bottom, #cfdfe9, #fff); /* Firefox */
 	background-image: -o-linear-gradient(bottom, #cfdfe9, #fff); /* Opera */
 	background-image: -webkit-gradient(linear, left bottom, left top, from(#cfdfe9), to(#fff)); /* old Webkit */
-	background-image: -webkit-linear-gradient(bottom, #cfdfe9, #fff) !important; /* new Webkit */
+	background-image: -webkit-linear-gradient(bottom, #cfdfe9, #fff); /* new Webkit */
 	background-image: linear-gradient(bottom, #cfdfe9, #fff); /* proposed W3C Markup */
 }
 
