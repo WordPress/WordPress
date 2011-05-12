@@ -139,6 +139,12 @@ class WP_List_Table {
 		if ( !$args['total_pages'] && $args['per_page'] > 0 )
 			$args['total_pages'] = ceil( $args['total_items'] / $args['per_page'] );
 
+		// redirect if page number is invalid and headers are not already sent
+		if ( ! headers_sent() && ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) && $args['total_pages'] > 0 && $this->get_pagenum() > $args['total_pages'] ) {
+			wp_redirect( add_query_arg( 'paged', $args['total_pages'] ) );
+			exit;
+		}
+
 		$this->_pagination_args = $args;
 	}
 

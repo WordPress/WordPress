@@ -130,12 +130,6 @@ if ( $doaction ) {
 
 $wp_list_table->prepare_items();
 
-$total_pages = $wp_list_table->get_pagination_arg( 'total_pages' );
-if ( $pagenum > $total_pages && $total_pages > 0 ) {
-	wp_redirect( add_query_arg( 'paged', $total_pages ) );
-	exit;
-}
-
 $title = __('Media Library');
 $parent_file = 'upload.php';
 

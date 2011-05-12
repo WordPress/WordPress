@@ -313,12 +313,6 @@ if ( $action ) {
 
 $wp_list_table->prepare_items();
 
-$total_pages = $wp_list_table->get_pagination_arg( 'total_pages' );
-if ( $pagenum > $total_pages && $total_pages > 0 ) {
-	wp_redirect( add_query_arg( 'paged', $total_pages ) );
-	exit;
-}
-
 wp_enqueue_script('plugin-install');
 add_thickbox();
 
