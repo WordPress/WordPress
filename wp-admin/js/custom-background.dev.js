@@ -4,12 +4,21 @@ function pickColor(color) {
 	farbtastic.setColor(color);
 	jQuery('#background-color').val(color);
 	jQuery('#custom-background-image').css('background-color', color);
+	if ( color && color !== '#' )
+		jQuery('#clearcolor').show();
+	else
+		jQuery('#clearcolor').hide();
 }
 
 jQuery(document).ready(function() {
 	jQuery('#pickcolor').click(function() {
 		jQuery('#colorPickerDiv').show();
 		return false;
+	});
+
+	jQuery('#clearcolor a').click( function(e) {
+		pickColor('');
+		e.preventDefault();
 	});
 
 	jQuery('#background-color').keyup(function() {
