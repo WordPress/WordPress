@@ -3322,7 +3322,9 @@ function &get_pages($args = '') {
 		return false;
 
 	// Make sure we have a valid post status
-	if ( !in_array($post_status, get_post_stati()) )
+	if ( !is_array( $post_status ) )
+		$post_status = explode( ',', $post_status );
+	if ( array_diff( $post_status, get_post_stati() ) )
 		return false;
 
 	$cache = array();
@@ -3417,7 +3419,12 @@ function &get_pages($args = '') {
 	if ( $parent >= 0 )
 		$where .= $wpdb->prepare(' AND post_parent = %d ', $parent);
 
-	$where_post_type = $wpdb->prepare( "post_type = '%s' AND post_status = '%s'", $post_type, $post_status );
+	if ( 1 == count( $post_status ) ) {
+		$where_post_type = $wpdb->prepare( "post_type = %s AND post_status = %s", $post_type, array_shift( $post_status ) );
+	} else {
+		$post_status = implode( "', '", $post_status );
+		$where_post_type = $wpdb->prepare( "post_type = %s AND post_status IN ('$post_status')", $post_type );
+	}
 
 	$query = "SELECT * FROM $wpdb->posts $join WHERE ($where_post_type) $where ";
 	$query .= $author_query;
