@@ -368,4 +368,34 @@ function wp_list_authors($args = '') {
 	echo $return;
 }
 
+/**
+ * Does this site have more than one author
+ * 
+ * Checks to see if more than one author has published posts.
+ *
+ * @since 3.2 
+ * @return bool Whether or not we have more than one author
+ */
+function is_multi_author() {
+	global $wpdb;
+	
+	if ( false === ( $is_multi_author = wp_cache_get('is_multi_author', 'posts') ) ) {
+		$rows = (array) $wpdb->get_col("SELECT DISTINCT post_author FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'publish' LIMIT 2");
+		$is_multi_author = 1 < count( $rows ) ? 1 : 0;
+		wp_cache_set('is_multi_author', $is_multi_author, 'posts');
+	}
+
+	return (bool) $is_multi_author;
+}
+
+/** 
+ * Helper function to clear the cache for number of authors.
+ * 
+ * @private
+ */
+function __clear_multi_author_cache() {
+	wp_cache_delete('is_multi_author', 'posts');
+}
+add_action('transition_post_status', '__clear_multi_author_cache');
+
 ?>
