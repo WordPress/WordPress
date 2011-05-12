@@ -5,7 +5,7 @@ inlineEditTax = {
 	init : function() {
 		var t = this, row = $('#inline-edit');
 
-		t.type = $('#the-list').attr('className').substr(5);
+		t.type = $('#the-list').attr('class').substr(5);
 		t.what = '#'+t.type+'-';
 
 		$('.editinline').live('click', function(){

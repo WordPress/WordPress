@@ -43,7 +43,7 @@ setCommentsList = function() {
 
 	// Send current total, page, per_page and url
 	delBefore = function( settings, list ) {
-		var cl = $(settings.target).attr('className'), id, el, n, h, a, author, action = false;
+		var cl = $(settings.target).attr('class'), id, el, n, h, a, author, action = false;
 
 		settings.data._total = totalInput.val() || 0;
 		settings.data._per_page = perPageInput.val() || 0;
@@ -80,7 +80,7 @@ setCommentsList = function() {
 			$('strong', '#undo-' + id).text(author + ' ');
 			a = $('.undo a', '#undo-' + id);
 			a.attr('href', 'comment.php?action=un' + action + 'comment&c=' + id + '&_wpnonce=' + settings.data._ajax_nonce);
-			a.attr('className', 'delete:the-comment-list:comment-' + id + '::un' + action + '=1 vim-z vim-destructive');
+			a.attr('class', 'delete:the-comment-list:comment-' + id + '::un' + action + '=1 vim-z vim-destructive');
 			$('.avatar', el).clone().prependTo('#undo-' + id + ' .' + action + '-undo-inside');
 
 			a.click(function(){
