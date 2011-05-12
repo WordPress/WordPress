@@ -45,10 +45,13 @@ div.widget-liquid-right {
 }
 
 div.sidebar-name h3 {
+	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
+	font-weight: normal;
 	margin: 0;
 	padding: 5px 12px;
-	font-size: 13px;
-	height: 19px;
+	font-size: 15px;
+	margin: 1px 0 0 0;
+	padding: 7px 10px;
 	overflow: hidden;
 	white-space: nowrap;
 }
@@ -108,6 +111,12 @@ div.sidebar-name {
 	padding: 7px 5px 0;
 }
 
+#available-widgets .widget {
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
 #wp_inactive_widgets {
 	padding: 5px 5px 0;
 }
@@ -164,6 +173,7 @@ ul#widget-list {
 }
 
 .widget .widget-top {
+	margin-bottom: -1px;
 	font-size: 12px;
 	font-weight: bold;
 	height: 26px;
@@ -192,10 +202,14 @@ a.widget-action {
 	background: transparent url(../images/arrows.png) no-repeat 4px 6px;
 }
 
+.widget-top a.widget-action:hover {
+	background: transparent url(../images/arrows-dark.png) no-repeat 4px 6px;
+}
+
 .widget .widget-inside,
 .widget .widget-description {
 	padding: 12px 12px 10px;
-	font-size: 11px;
+	font-size: 12px;
 	line-height: 16px;
 }
 
@@ -247,7 +261,7 @@ a.widget-action {
 div#sidebar-info {
 	padding: 0 1em;
 	margin-bottom: 1em;
-	font-size: 11px;
+	font-size: 12px;
 }
 
 .widget-title a,
@@ -258,7 +272,7 @@ div#sidebar-info {
 
 .widget-control-edit {
 	display: block;
-	font-size: 11px;
+	font-size: 12px;
 	font-weight: normal;
 	line-height: 26px;
 	padding: 0 8px 0 0;
@@ -317,7 +331,7 @@ a.widget-control-edit {
 }
 
 .widget-title .in-widget-title {
-	font-size: 11px;
+	font-size: 12px;
 	white-space: nowrap;
 }
 

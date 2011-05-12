@@ -690,7 +690,11 @@ table.widefat span.spam a,
 	color: #464646;
 }
 
-.widget .widget-top,
+.widget .widget-top {
+	color: #222;
+}
+
+.sidebar-name:hover h3,
 .ui-sortable .postbox h3:hover {
 	color: #000;
 }
@@ -1818,28 +1822,33 @@ body.press-this ul.category-tabs li.tabs a {
 
 div.widgets-sortables,
 #widgets-left .inactive {
-	background-color: #f1f1f1;
-	border-color: #ddd;
-}
-
-#available-widgets .widget-holder {
-	background-color: #fff;
-	border-color: #ddd;
-}
-
-#widgets-left .sidebar-name {
-	background-color: #aaa;
-	background-image: url(../images/ed-bg.gif);
-	text-shadow: #fff 0 1px 0;
+	background-color: #fcfcfc;
 	border-color: #dfdfdf;
 }
 
-#widgets-right .sidebar-name {
-	background-image: url(../images/fav.png);
-	text-shadow: #3f3f3f 0 -1px 0;
-	background-color: #636363;
-	border-color: #636363;
-	color: #fff;
+#available-widgets .widget-holder {
+	background-color: #fcfcfc;
+	border-color: #dfdfdf;
+}
+
+#available-widgets .widget-description {
+	color: #555;
+}
+
+.sidebar-name {
+	color: #464646;
+	background-color: #e9e9e9; /* Fallback */
+	background-image: -ms-linear-gradient(top, #f4f4f4, #e9e9e9); /* IE10 */
+	background-image: -moz-linear-gradient(top, #f4f4f4, #e9e9e9); /* Firefox */
+	background-image: -o-linear-gradient(top, #f4f4f4, #e9e9e9); /* Opera */
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#f4f4f4), to(#e9e9e9)); /* old Webkit */
+	background-image: -webkit-linear-gradient(top, #f4f4f4, #e9e9e9); /* new Webkit */
+	background-image: linear-gradient(top, #f4f4f4, #e9e9e9); /* proposed W3C Markup */
+	text-shadow: #fff 0 1px 0;
+	border-color: #dfdfdf;
+	-moz-box-shadow: inset 0 1px 0 #fff;
+	-webkit-box-shadow: inset 0 1px 0 #fff;
+	box-shadow: inset 0 1px 0 #fff;
 }
 
 .sidebar-name:hover,
@@ -1852,7 +1861,10 @@ div.widgets-sortables,
 }
 
 .sidebar-name-arrow {
-	background: transparent url(../images/arrows.png) no-repeat 5px 6px;
+	background: transparent url(../images/arrows.png) no-repeat 5px 9px;
+}
+.sidebar-name:hover .sidebar-name-arrow {
+	background: transparent url(../images/arrows-dark.png) no-repeat 5px 9px;
 }
 
 .in-widget-title {
