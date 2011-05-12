@@ -18,6 +18,11 @@ var postboxes;
 			$('.postbox h3 a').click( function(e) {
 				e.stopPropagation();
 			} );
+			$('.postbox a.dismiss').click( function(e) {
+				var hide_id = $(this).parents('.postbox').attr('id') + '-hide';
+				$( '#' + hide_id ).attr('checked', false).triggerHandler('click');
+				return false;
+			} );
 			$('.hide-postbox-tog').click( function() {
 				var box = $(this).val();
 

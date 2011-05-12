@@ -73,8 +73,22 @@ div.postbox div.inside {
 	text-decoration: none;
 }
 
+#dashboard-widgets a.update-browser-link {
+	font-size:1.2em;
+	font-weight:bold;
+}
+
+#dashboard-widgets #dashboard_browser_nag a,
 #dashboard-widgets h3 a {
 	text-decoration: underline;
+}
+
+#dashboard-widgets p.browser-update-nag.has-browser-icon {
+	padding-right:125px;
+}
+
+#dashboard-widgets .browser-icon {
+	margin-top: -35px;
 }
 
 #dashboard-widgets h3 .postbox-title-action {

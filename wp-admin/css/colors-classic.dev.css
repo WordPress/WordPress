@@ -641,6 +641,56 @@ table.widefat span.spam a,
 	border-color: #D1E5EE;
 }
 
+#dashboard_browser_nag.postbox.browser-insecure {
+	background-color: #AC1B1B;
+	border-color: #AC1B1B;
+}
+
+#dashboard_browser_nag.postbox {
+	background-color: #e29808;
+	border-color: #EDC048;
+}
+
+#dashboard_browser_nag.postbox {
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow:none;
+}
+
+#dashboard_browser_nag.browser-insecure.postbox h3 {
+	border-bottom-color: #CD5A5A;
+}
+
+#dashboard_browser_nag.postbox h3 {
+	border-bottom-color: #F6E2AC;
+}
+
+#dashboard_browser_nag.postbox h3 {
+	background:none;
+	text-shadow: none;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+.ui-sortable #dashboard_browser_nag.postbox,
+.ui-sortable #dashboard_browser_nag.postbox h3 {
+	color: #fff;
+}
+
+#dashboard_browser_nag a {
+	color: #fff;
+}
+
+#dashboard_browser_nag.browser-insecure a.browse-happy-link,
+#dashboard_browser_nag.browser-insecure a.update-browser-link {
+	text-shadow: #871B15 0 1px 0;
+}
+
+#dashboard_browser_nag a.browse-happy-link,
+#dashboard_browser_nag a.update-browser-link {
+	text-shadow: #D29A04 0 1px 0;
+}
+
 .widget,
 .postbox {
 	background-color: #fff;
