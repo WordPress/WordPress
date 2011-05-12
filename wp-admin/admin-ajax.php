@@ -609,15 +609,15 @@ case 'get-comments' :
 	if ( !$wp_list_table->has_items() )
 		die('1');
 
-	$comment_list_item = '';
 	$x = new WP_Ajax_Response();
+	ob_start();
 	foreach ( $wp_list_table->items as $comment ) {
 		get_comment( $comment );
-		ob_start();
-			$wp_list_table->single_row( $comment );
-			$comment_list_item .= ob_get_contents();
-		ob_end_clean();
+		$wp_list_table->single_row( $comment );
 	}
+	$comment_list_item = ob_get_contents();
+	ob_end_clean();
+
 	$x->add( array(
 		'what' => 'comments',
 		'data' => $comment_list_item
