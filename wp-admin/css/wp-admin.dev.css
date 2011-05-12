@@ -270,7 +270,7 @@ p.search-box {
 ------------------------------------------------------------------------------*/
 
 #major-publishing-actions {
-	padding: 10px 0;
+	padding: 10px 10px 8px;
 	clear: both;
 	border-top: none;
 }
@@ -310,19 +310,24 @@ p.search-box {
 }
 
 #misc-publishing-actions {
-	padding: 6px 0 10px 0;
+	padding: 6px 0 16px 0;
 }
 
 .misc-pub-section {
-	padding: 6px;
+	padding: 6px 10px;
+	border-width: 1px 0;
+	border-style: solid;
 }
 
+.misc-pub-section:first-child {
+	border-top-width: 0;
+}
 .misc-pub-section-last {
-	border-bottom: 0 none;
+	border-bottom-width: 0;
 }
 
 #minor-publishing-actions {
-	padding: 12px 0 5px 0;
+	padding: 10px 10px 2px 0;
 	text-align: right;
 }
 
@@ -4450,6 +4455,7 @@ table.form-table td .updated {
 }
 #poststuff #submitdiv .inside {
 	margin: 0;
+	padding: 0;
 }
 #titlediv, #poststuff .postarea {
 	margin-bottom: 20px;

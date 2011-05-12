@@ -1746,6 +1746,11 @@ fieldset.inline-edit-col-right .inline-edit-col {
 	color: #ccc;
 }
 
+.misc-pub-section {
+	border-top-color: #fff;
+	border-bottom-color: #dfdfdf;
+}
+
 #minor-publishing {
 	border-bottom-color: #dfdfdf;
 }
