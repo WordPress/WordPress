@@ -1771,7 +1771,7 @@ th.sortable a,
 th.sorted a {
 	display: block;
 	overflow: hidden;
-	padding: 10px 7px 11px;
+	padding: 7px 7px 8px;
 }
 .fixed .column-comments.sortable a,
 .fixed .column-comments.sorted a {
@@ -4126,10 +4126,6 @@ input.button-highlighted,
 
 .plugins tbody th.check-column {
 	padding: 7px 0;
-}
-
-.plugins td, .plugins th {
-	border-bottom: 0 none;
 }
 
 .plugins .inactive td,

@@ -446,7 +446,7 @@ ol.ol-decimal > li {
 
 .widefat td {
 	font-size: 12px;
-	padding: 6px 7px 2px;
+	padding: 4px 7px 2px;
 	vertical-align: top;
 }
 
@@ -457,7 +457,7 @@ ol.ol-decimal > li {
 }
 
 .widefat th {
-	padding: 10px 7px 11px;
+	padding: 7px 7px 8px;
 	text-align: left;
 	line-height: 1.3em;
 	font-size: 14px;
@@ -471,7 +471,7 @@ ol.ol-decimal > li {
 
 .widefat .check-column {
 	width: 2.2em;
-	padding: 14px 0 0;
+	padding: 11px 0 0;
 	vertical-align: top;
 }
 

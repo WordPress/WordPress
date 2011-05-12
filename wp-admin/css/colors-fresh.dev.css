@@ -499,6 +499,12 @@ h3.dashboard-widget-title small,
 .find-box-head {
 	color: #333;
 	background: #e9e9e9;
+	background-image: -ms-linear-gradient(top, #f4f4f4, #e9e9e9); /* IE10 */
+	background-image: -moz-linear-gradient(top, #f4f4f4, #e9e9e9); /* Firefox */
+	background-image: -o-linear-gradient(top, #f4f4f4, #e9e9e9); /* Opera */
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#f4f4f4), to(#e9e9e9)); /* old Webkit */
+	background-image: -webkit-linear-gradient(top, #f4f4f4, #e9e9e9); /* new Webkit */
+	background-image: linear-gradient(top, #f4f4f4, #e9e9e9); /* proposed W3C Markup */
 }
 
 th.sortable a:hover, th.sortable a:active, th.sortable a:focus {
@@ -607,14 +613,14 @@ input.readonly, textarea.readonly {
 .side-info,
 .plugins tr,
 #your-profile #rich_editing {
-	background-color: #fff;
+	background-color: #fcfcfc;
 }
 
 .plugins .inactive,
 .plugins .inactive th,
 .plugins .inactive td,
 tr.inactive + tr.plugin-update-tr .plugin-update {
-	background-color: #eee;
+	background-color: #f4f4f4;
 }
 
 .plugin-update-tr .update-message {
