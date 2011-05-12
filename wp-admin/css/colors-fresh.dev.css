@@ -1930,8 +1930,8 @@ div.widgets-sortables,
 	border-bottom-color: #f4f4f4;
 }
 
-/* custom header page */
-.appearance_page_custom-header #upload-form p label {
+/* custom header & background pages */
+#upload-form label {
 	color: #777;
 }
-/* end custom header page */
+/* custom header & background pages */
