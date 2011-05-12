@@ -1712,12 +1712,7 @@ function wp_preload_dialogs($init) {
 
 	// Distraction Free Writing mode
 	if ( in_array( 'wpfullscreen', $plugins, true ) ) {
-		$enable = array();
-
-		if ( in_array( 'AtD', $plugins, true ) )
-			$enable[] = 'AtD';
-
-		wp_fullscreen_html($enable);
+		wp_fullscreen_html();
 		wp_print_scripts('wp-fullscreen');
 	}
 
@@ -1739,7 +1734,7 @@ function wp_print_editor_js() {
 	wp_print_scripts('editor');
 }
 
-function wp_fullscreen_html( $extra = array() ) {
+function wp_fullscreen_html() {
 	global $content_width, $post;
 
 	$width = isset($content_width) && 800 > $content_width ? $content_width : 800;
@@ -1759,83 +1754,41 @@ function wp_fullscreen_html( $extra = array() ) {
 		</div></div>
 
 		<div id="wp-fullscreen-button-bar"><div id="wp-fullscreen-buttons" class="wp_themeSkin">
-			<div>
-			<a title="<?php _e('Bold (Ctrl + B)'); ?>" onclick="fullscreen.b();return false;" class="mceButton mceButtonEnabled mce_bold" href="#" id="wp_fs_bold" role="button" aria-pressed="false">
-			<span class="mceIcon mce_bold"></span>
-			</a>
-			</div>
+<?php
 
-			<div>
-			<a title="<?php _e('Italic (Ctrl + I)'); ?>" onclick="fullscreen.i();return false;" class="mceButton mceButtonEnabled mce_italic" href="#" id="wp_fs_italic" role="button" aria-pressed="false">
-			<span class="mceIcon mce_italic"></span>
-			</a>
-			</div>
+	$buttons = array(
+		// format: title, onclick, show in both editors
+		'bold' => array( 'title' => __('Bold (Ctrl + B)'), 'onclick' => 'fullscreen.b();', 'both' => false ),
+		'italic' => array( 'title' => __('Italic (Ctrl + I)'), 'onclick' => 'fullscreen.i();', 'both' => false ),
+		'0' => 'separator',
+		'bullist' => array( 'title' => __('Unordered list (Alt + Shift + U)'), 'onclick' => 'fullscreen.ul();', 'both' => false ),
+		'numlist' => array( 'title' => __('Ordered list (Alt + Shift + O)'), 'onclick' => 'fullscreen.ol();', 'both' => false ),
+		'1' => 'separator',
+		'blockquote' => array( 'title' => __('Blockquote (Alt+Shift+Q)'), 'onclick' => 'fullscreen.blockquote();', 'both' => false ),
+		'image' => array( 'title' => __('Insert/edit image (Alt + Shift + M)'), 'onclick' => "jQuery('#add_image').click();", 'both' => true ),
+		'2' => 'separator',
+		'link' => array( 'title' => __('Insert/edit link (Alt + Shift + A)'), 'onclick' => 'fullscreen.link();', 'both' => true ),
+		'unlink' => array( 'title' => __('Unlink (Alt + Shift + S)'), 'onclick' => 'fullscreen.unlink();', 'both' => false ),
+		'3' => 'separator',
+		'help' => array( 'title' => __('Help (Alt + Shift + H)'), 'onclick' => 'fullscreen.help();', 'both' => false )
+	);
 
-			<div>
-			<span aria-orientation="vertical" role="separator" class="mceSeparator"></span>
-			</div>
+	$buttons = apply_filters( 'wp_fullscreen_buttons', $buttons );
 
-			<div>
-			<a title="<?php _e('Unordered list (Alt + Shift + U)'); ?>" onclick="fullscreen.ul();return false;" onmousedown="return false;" class="mceButton mceButtonEnabled mce_bullist" href="#" id="wp_fs_bullist" role="button" aria-pressed="false">
-			<span class="mceIcon mce_bullist"></span>
-			</a>
-			</div>
+	foreach ( $buttons as $button => $args ) {
+		if ( 'separator' == $args ) { ?> 
+			<div><span aria-orientation="vertical" role="separator" class="mceSeparator"></span></div>
+<?php		continue;
+		} ?>
 
-			<div>
-			<a title="<?php _e('Ordered list (Alt + Shift + O)'); ?>" onclick="fullscreen.ol();return false;" class="mceButton mceButtonEnabled mce_numlist" href="#" id="wp_fs_numlist" role="button" aria-pressed="false">
-			<span class="mceIcon mce_numlist"></span>
-			</a>
-			</div>
+		<div<?php if ( $args['both'] ) { ?> class="wp-fullscreen-both"<?php } ?>>
+		<a title="<?php echo $args['title']; ?>" onclick="<?php echo $args['onclick']; ?>return false;" class="mceButton mceButtonEnabled mce_<?php echo $button; ?>" href="#" id="wp_fs_<?php echo $button; ?>" role="button" aria-pressed="false">
+		<span class="mceIcon mce_<?php echo $button; ?>"></span>
+		</a>
+		</div>
+<?php
+	} ?>
 
-			<div>
-			<span aria-orientation="vertical" role="separator" class="mceSeparator"></span>
-			</div>
-
-			<div>
-			<a title="<?php _e('Blockquote (Alt+Shift+Q)'); ?>" onclick="fullscreen.blockquote();return false;" class="mceButton mceButtonEnabled mce_blockquote" href="#" id="wp_fs_blockquote" role="button" tabindex="-1">
-			<span class="mceIcon mce_blockquote"></span>
-			</a>
-			</div>
-
-			<div class="wp-fullscreen-both">
-			<a title="<?php _e('Insert/edit image (Alt + Shift + M)'); ?>" onclick="jQuery('#add_image').click();return false;" class="mceButton mceButtonEnabled mce_image" href="#" id="wp_fs_image" role="button" tabindex="-1">
-			<span class="mceIcon mce_image"></span>
-			</a>
-			</div>
-
-			<div class="wp-fullscreen-both">
-			<span aria-orientation="vertical" role="separator" class="mceSeparator"></span>
-			</div>
-
-			<div class="wp-fullscreen-both">
-			<a title="<?php _e('Insert/edit link (Alt + Shift + A)'); ?>" onclick="fullscreen.link();return false;" class="mceButton mce_link mceButtonEnabled" href="#" id="wp_fs_link" role="button" aria-pressed="false">
-			<span class="mceIcon mce_link"></span>
-			</a>
-			</div>
-
-			<div>
-			<a title="<?php _e('Unlink (Alt + Shift + S)'); ?>" onclick="fullscreen.unlink();return false;" class="mceButton mce_unlink mceButtonEnabled" href="#" id="wp_fs_unlink" role="button" aria-pressed="false">
-			<span class="mceIcon mce_unlink"></span>
-			</a>
-			</div>
-			
-			<div>
-			<span aria-orientation="vertical" role="separator" class="mceSeparator"></span>
-			</div>
-			
-<?php	if ( in_array( 'AtD', $extra, true ) ) { ?>
-			<div>
-			<a title="<?php _e('Proofread Writing'); ?>" onclick="fullscreen.atd();return false;" class="mceButton mceButtonEnabled" href="#" id="wp_fs_spellchecker" role="button" aria-pressed="false">
-			<span class="mceIcon mce_spellchecker"></span>
-			</a>
-			</div>
-<?php	} ?>
-
-			<div>
-			<a title="<?php _e('Help (Alt + Shift + H)'); ?>" onclick="fullscreen.help();return false;" class="mceButton mce_help mceButtonEnabled" href="#" id="wp_fs_help" role="button" aria-pressed="false">
-			<span class="mceIcon mce_help"></span>
-			</a>
-			</div>
 		</div></div>
 
 		<div id="wp-fullscreen-save">

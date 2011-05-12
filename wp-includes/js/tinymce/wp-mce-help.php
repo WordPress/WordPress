@@ -168,8 +168,6 @@ wp_admin_css( 'wp-admin', true );
 </head>
 <body>
 
-<div id="wphead"><h1><?php echo get_bloginfo('blogtitle'); ?></h1></div>
-
 <ul id="tabs">
 	<li><a id="tab1" href="javascript:flipTab(1)" title="<?php _e('Basics of Rich Editing') ?>" accesskey="1" tabindex="1" class="current"><?php _e('Basics') ?></a></li>
 	<li><a id="tab2" href="javascript:flipTab(2)" title="<?php _e('Advanced use of the Rich Editor') ?>" accesskey="2" tabindex="2"><?php _e('Advanced') ?></a></li>
