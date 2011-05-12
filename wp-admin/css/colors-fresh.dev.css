@@ -1893,23 +1893,29 @@ div.widgets-sortables,
 	background-color: #f1f1f1;
 }
 
-#nav-menu-header, #nav-menu-footer {
-	background: #f9f9f9;
+#nav-menu-header,
+#nav-menu-footer,
+.menu-item-handle {
+	background-color: #f4f4f4; /* Fallback */
+	background-image: -ms-linear-gradient(bottom, #e9e9e9, #f4f4f4); /* IE10 */
+	background-image: -moz-linear-gradient(bottom, #e9e9e9, #f4f4f4); /* Firefox */
+	background-image: -o-linear-gradient(bottom, #e9e9e9, #f4f4f4); /* Opera */
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#e9e9e9), to(#f4f4f4)); /* old Webkit */
+	background-image: -webkit-linear-gradient(bottom, #e9e9e9, #f4f4f4); /* new Webkit */
+	background-image: linear-gradient(bottom, #e9e9e9, #f4f4f4); /* proposed W3C Markup */
 }
 
-.menu-item-handle {
-	background-color: #e3e3e3; /* Fallback */
-	background-image: -ms-linear-gradient(bottom, #dfdfdf, #f1f1f1); /* IE10 */
-	background-image: -moz-linear-gradient(bottom, #dfdfdf, #f1f1f1); /* Firefox */
-	background-image: -o-linear-gradient(bottom, #dfdfdf, #f1f1f1); /* Opera */
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#dfdfdf), to(#f1f1f1)); /* old Webkit */
-	background-image: -webkit-linear-gradient(bottom, #dfdfdf, #f1f1f1); /* new Webkit */
-	background-image: linear-gradient(bottom, #dfdfdf, #f1f1f1); /* proposed W3C Markup */
+#menu-management .nav-tab-active,
+.menu-item-handle,
+.menu-item-settings {
+	-moz-box-shadow: inset 0 1px 0 #fff;
+	-webkit-box-shadow: inset 0 1px 0 #fff;
+	box-shadow: inset 0 1px 0 #fff;
 }
 
 #menu-management .nav-tab-active {
-	background: #f9f9f9;
-	border-bottom-color: #f9f9f9;
+	background: #f4f4f4;
+	border-bottom-color: #f4f4f4;
 }
 
 /* custom header page */

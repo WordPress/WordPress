@@ -4045,9 +4045,9 @@ div#custom-background-image img {
 
 .nav-tab {
 	border-style: solid;
-	border-color: #ccc #ccc #fff;
+	border-color: #dfdfdf #dfdfdf #fff;
 	border-width: 1px 1px 0;
-	color: #c1c1c1;
+	color: #aaa;
 	text-shadow: rgba(255,255,255,1) 0 1px 0;
 	font-size: 12px;
 	line-height: 16px;
@@ -4067,6 +4067,11 @@ div#custom-background-image img {
 .nav-tab-active {
 	border-width: 1px;
 	color: #464646;
+}
+
+.nav-tab:hover,
+.nav-tab-active {
+	border-color: #ccc #ccc #fff;
 }
 
 h2.nav-tab-wrapper, h3.nav-tab-wrapper {

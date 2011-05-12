@@ -50,15 +50,15 @@ body {
 	float: left;
 	min-width: 100%;
 }
+
 #menu-management {
 	position: relative;
 	margin-right: 20px;
 	margin-top: -3px;
 	width: 100%;
 }
+
 #menu-management .menu-edit {
-	background: #f9f9f9;
-	padding: 0 10px;
 	border: 1px solid #dfdfdf;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
@@ -66,14 +66,23 @@ body {
 	border-radius: 3px;
 	margin-bottom: 20px;
 }
+
 #post-body {
-	padding: 10px 0;
+	background: #fcfcfc;
+	padding: 10px;
 	border-top: 1px solid #fff;
 	border-bottom: 1px solid #dfdfdf;
 }
+
+#nav-menu-header,
+#nav-menu-footer {
+	padding: 0 10px;
+}
+
 #nav-menu-header {
 	border-bottom: 1px solid #dfdfdf;
 }
+
 #nav-menu-footer {
 	border-top: 1px solid #fff;
 }
@@ -137,7 +146,7 @@ body {
 
 #menu-management .nav-tab {
 	margin-bottom: 0;
-	background: #fff;
+	background: #f9f9f9;
 	border-color: #dfdfdf;
 	font-size: 14px;
 	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
@@ -202,7 +211,7 @@ body {
 .submitcancel {
 	display:block;
 	float:left;
-	font-size: 11px;
+	font-size: 12px;
 	margin: 4px 0;
 	line-height: 15px;
 }
@@ -210,11 +219,23 @@ body {
 	padding: 0 2px;
 }
 
-#cancel-save { color: #ff0000; text-decoration: underline; font-size: 11px; margin-left: 20px; margin-top: 5px; }
-#cancel-save:hover { background-color: #FF0000; color: #fff; }
+#cancel-save {
+	color: #ff0000;
+	text-decoration: underline;
+	font-size: 12px;
+	margin-left: 20px;
+	margin-top: 5px;
+}
+#cancel-save:hover {
+	background-color: #FF0000;
+	color: #fff;
+}
 
 /* Button Secondary Actions */
-.list-controls { float: left; margin-top: 5px; }
+.list-controls {
+	float: left;
+	margin-top: 5px;
+}
 .add-to-menu {
 	float: right;
 }
@@ -237,7 +258,7 @@ body {
 
 /* Custom Links */
 #available-links dt { display: block; }
-#add-custom-link .howto { font-size: 11px; }
+#add-custom-link .howto { font-size: 12px; }
 #add-custom-link label span { display: block; float: left; margin-top: 5px; padding-right: 5px; }
 .menu-item-textbox { width: 180px; }
 .howto span { margin-top: 4px; display: block; float: left; }
@@ -380,11 +401,11 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 
 /* Menu item controls */
 .item-type {
-	font-size: 11px;
+	font-size: 12px;
 	color: #999999;
 	padding-right: 10px;
 }
-.item-controls { font-size: 11px; position: absolute; right: 20px; top: -1px; }
+.item-controls { font-size: 12px; position: absolute; right: 20px; top: -1px; }
 .item-controls a { text-decoration: none; }
 .item-controls a:hover { cursor: pointer; }
 .item-controls .item-order { padding-right: 10px;}
@@ -399,12 +420,12 @@ body.js .item-order {
 .item-controls .menu-item-delete:hover { color: #ff0000; }
 
 .item-edit {
-	background: url("../images/menu-bits.gif?ver=20100610") no-repeat scroll 0 -105px;
+	background: transparent url(../images/arrows.png) no-repeat 8px 10px;
 	position: absolute;
 	right: -20px;
 	top: 0;
 	display: block;
-	width: 23px;
+	width:30px;
 	height: 36px;
 	overflow: hidden;
 	text-indent:-999em;
@@ -414,13 +435,16 @@ body.js .item-order {
 	-khtml-border-bottom-left-radius: 3px;
 	border-bottom-left-radius: 3px;
 }
+.item-edit:hover {
+	background: transparent url(../images/arrows-dark.png) no-repeat 8px 10px;
+}
 
 /* Menu editing */
 .menu-instructions-inactive {
 	display: none;
 }
 .menu-item-settings {
-	background: #F9F9F9;
+	background: #f4f4f4;
 	display:block;
 	width: 400px;
 	padding: 10px 0 10px 10px;
@@ -449,7 +473,7 @@ body.js .item-order {
 	display: block;
 	margin: 0 0 10px;
 	padding: 3px 5px 5px;
-	font-size: 11px;
+	font-size: 12px;
 	color: #777;
 	font-style: italic;
 	border: 1px solid #dfdfdf;
@@ -494,7 +518,7 @@ body.js .item-order {
 /* Major/minor publishing actions (classes) */
 .major-publishing-actions {
 	clear:both;
-	padding: 5px 0;
+	padding: 3px 0 5px;
 }
 .major-publishing-actions .publishing-action {
 	text-align: right;
@@ -510,7 +534,7 @@ body.js .item-order {
 	margin-top: 5px;
 }
 .menu-name-label span, .auto-add-pages label {
-	font-size: 11px;
+	font-size: 12px;
 	font-style: normal;
 }
 .menu-name-label {
