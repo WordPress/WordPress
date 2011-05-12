@@ -1222,6 +1222,7 @@ function wp_check_browser_version() {
 		 *  'insecure' - boolean - Whether the browser is deemed insecure
 		 *  'upgrade_url' - string - The url to visit to upgrade
 		 *  'img_src' - string - An image representing the browser
+		 *  'img_src_ssl' - string - An image (over SSL) representing the browser
 		 */
 		$response = unserialize( $raw_response['body'] );
 
