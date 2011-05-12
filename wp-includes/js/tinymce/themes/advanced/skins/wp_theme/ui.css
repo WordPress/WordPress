@@ -302,15 +302,35 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 .wp_themeSkin .mce_h6 span.mceText {font-weight:bolder; font-size: 12px}
 
 /* Theme */
+.wp_themeSkin span.mce_undo {background-position:-159px 0}
+.wp_themeSkin .mceButtonEnabled:hover span.mce_undo,
+.wp_themeSkin .mceButtonActive span.mce_undo {background-position:-159px -60px}
+
+.wp_themeSkin span.mce_redo {background-position:-100px 0}
+.wp_themeSkin .mceButtonEnabled:hover span.mce_redo,
+.wp_themeSkin .mceButtonActive span.mce_redo {background-position:-100px -60px}
+
+.wp_themeSkin span.mce_bullist {background-position:-20px 0}
+.wp_themeSkin .mceButtonEnabled:hover span.mce_bullist,
+.wp_themeSkin .mceButtonActive span.mce_bullist {background-position:-20px -61px}
+
+.wp_themeSkin span.mce_numlist {background-position:-80px 0}
+.wp_themeSkin .mceButtonEnabled:hover span.mce_numlist,
+.wp_themeSkin .mceButtonActive span.mce_numlist {background-position:-80px -60px}
+
+.wp_themeSkin span.mce_blockquote {background-position:-220px 0}
+.wp_themeSkin .mceButtonEnabled:hover span.mce_blockquote,
+.wp_themeSkin .mceButtonActive span.mce_blockquote {background-position:-220px -60px}
+
+.wp_themeSkin span.mce_charmap {background-position:-240px 0}
+.wp_themeSkin .mceButtonEnabled:hover span.mce_charmap,
+.wp_themeSkin .mceButtonActive span.mce_charmap {background-position:-240px -60px}
+
 .wp_themeSkin span.mce_bold {background-position:0 0}
 .wp_themeSkin span.mce_italic {background-position:-60px 0}
-.wp_themeSkin span.mce_underline {background-position:-140px 0}
+.wp_themeSkin span.mce_underline {background-position:-141px 0}
 .wp_themeSkin span.mce_strikethrough {background-position:-120px 0}
-.wp_themeSkin span.mce_undo {background-position:-159px 0}
-.wp_themeSkin span.mce_redo {background-position:-100px 0}
 .wp_themeSkin span.mce_cleanup {background-position:-40px 0}
-.wp_themeSkin span.mce_bullist {background-position:-20px 0}
-.wp_themeSkin span.mce_numlist {background-position:-80px 0}
 .wp_themeSkin span.mce_justifyleft {background-position:-460px 0}
 .wp_themeSkin span.mce_justifyright {background-position:-480px 0}
 .wp_themeSkin span.mce_justifycenter {background-position:-420px 0}
@@ -329,23 +349,44 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 .wp_themeSkin span.mce_code {background-position:-260px 0}
 .wp_themeSkin span.mce_hr {background-position:-360px 0}
 .wp_themeSkin span.mce_visualaid {background-position:-660px 0}
-.wp_themeSkin span.mce_charmap {background-position:-240px 0}
 .wp_themeSkin span.mce_paste {background-position:-560px 0}
 .wp_themeSkin span.mce_copy {background-position:-700px 0}
 .wp_themeSkin span.mce_cut {background-position:-680px 0}
-.wp_themeSkin span.mce_blockquote {background-position:-220px 0}
 .wp_themeSkin .mce_forecolor span.mceAction {background-position:-720px 0}
 .wp_themeSkin .mce_backcolor span.mceAction {background-position:-760px 0}
 .wp_themeSkin .mce_forecolorpicker {background-position:-720px 0}
 .wp_themeSkin .mce_backcolorpicker {background-position:-760px 0}
 
 /* Plugins */
+.wp_themeSkin span.mce_fullscreen {background-position:-99px -20px}
+.wp_themeSkin .mceButtonEnabled:hover span.mce_fullscreen,
+.wp_themeSkin .mceButtonActive span.mce_fullscreen {background-position:-99px -80px}
+
+.wp_themeSkin span.mce_media {background-position:-320px -20px}
+.wp_themeSkin .mceButtonEnabled:hover span.mce_media,
+.wp_themeSkin .mceButtonActive span.mce_media {background-position:-320px -80px}
+
+.wp_themeSkin span.mce_pastetext {background-position:-360px -20px}
+.wp_themeSkin .mceButtonEnabled:hover span.mce_pastetext,
+.wp_themeSkin .mceButtonActive span.mce_pastetext {background-position:-360px -80px}
+
+.wp_themeSkin span.mce_pasteword {background-position:-380px -20px}
+.wp_themeSkin .mceButtonEnabled:hover span.mce_pasteword,
+.wp_themeSkin .mceButtonActive span.mce_pasteword {background-position:-380px -80px}
+
+.wp_themeSkin span.mce_spellchecker {background-position:-540px -20px}
+.wp_themeSkin .mceButtonEnabled:hover span.mce_spellchecker,
+.wp_themeSkin .mceButtonActive span.mce_spellchecker {background-position:-540px -80px}
+
+.wp_themeSkin span.mce_wp_help {background-position:-340px 0}
+.wp_themeSkin .mceButtonEnabled:hover span.mce_wp_help,
+.wp_themeSkin .mceButtonActive span.mce_wp_help {background-position:-340px -60px}
+
 .wp_themeSkin span.mce_advhr {background-position:-0px -20px}
 .wp_themeSkin span.mce_ltr {background-position:-20px -20px}
 .wp_themeSkin span.mce_rtl {background-position:-40px -20px}
 .wp_themeSkin span.mce_emotions {background-position:-60px -20px}
 .wp_themeSkin span.mce_fullpage {background-position:-80px -20px}
-.wp_themeSkin span.mce_fullscreen {background-position:-99px -20px}
 .wp_themeSkin span.mce_iespell {background-position:-120px -20px}
 .wp_themeSkin span.mce_insertdate {background-position:-140px -20px}
 .wp_themeSkin span.mce_inserttime {background-position:-160px -20px}
@@ -356,10 +397,7 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 .wp_themeSkin span.mce_insertlayer {background-position:-260px -20px}
 .wp_themeSkin span.mce_movebackward {background-position:-280px -20px}
 .wp_themeSkin span.mce_moveforward {background-position:-300px -20px}
-.wp_themeSkin span.mce_media {background-position:-320px -20px}
 .wp_themeSkin span.mce_nonbreaking {background-position:-340px -20px}
-.wp_themeSkin span.mce_pastetext {background-position:-360px -20px}
-.wp_themeSkin span.mce_pasteword {background-position:-380px -20px}
 .wp_themeSkin span.mce_selectall {background-position:-400px -20px}
 .wp_themeSkin span.mce_preview {background-position:-420px -20px}
 .wp_themeSkin span.mce_print {background-position:-440px -20px}
@@ -390,11 +428,8 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 .wp_themeSkin span.mce_del {background-position:-940px -20px}
 .wp_themeSkin span.mce_ins {background-position:-960px -20px}
 .wp_themeSkin span.mce_pagebreak {background-position:0 -40px}
-.wp_themeSkin span.mce_spellchecker {background-position:-540px -20px}
-
 .wp_themeSkin span.mce_wp_adv {background-position:-935px 1px}
 .wp_themeSkin span.mce_wp_more {background-position:0 -40px}
-.wp_themeSkin span.mce_wp_help {background-position:-340px 0}
 
 /* border */
 .wp_themeSkin .mceExternalToolbar,
