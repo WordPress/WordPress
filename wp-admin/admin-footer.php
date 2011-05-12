@@ -19,7 +19,16 @@ if ( !defined('ABSPATH') )
 <p id="footer-left" class="alignleft"><?php
 do_action( 'in_admin_footer' );
 $upgrade = apply_filters( 'update_footer', '' );
-echo apply_filters( 'admin_footer_text', '<span id="footer-thankyou">' . __('Thank you for creating with <a href="http://wordpress.org/">WordPress</a>.').'</span> &bull; '.__('<a href="http://codex.wordpress.org/">Documentation</a>').' &bull; '.sprintf( __( '<a href="%s">Rights</a>' ), admin_url( 'rights.php' ) ).' &bull; '.__('<a href="http://wordpress.org/support/forum/4">Feedback</a>').' &bull; '.sprintf(__('<a href="%s">Credits</a>'), admin_url('credits.php') ) ); ?></p>
+$footer_text = array(
+	'<span id="footer-thankyou">' . __( 'Thank you for creating with <a href="http://wordpress.org/">WordPress</a>.' ) . '</span>',
+	__( '<a href="http://codex.wordpress.org/">Documentation</a>' ),
+	sprintf( __( '<a href="%s">Rights</a>' ), admin_url( 'rights.php' ) ),
+	__('<a href="http://wordpress.org/support/forum/4">Feedback</a>'),
+	sprintf(__('<a href="%s">Credits</a>'), admin_url('credits.php') ),
+);
+echo apply_filters( 'admin_footer_text', implode( ' &bull; ', $footer_text ) );
+unset( $footer_text );
+?></p>
 <p id="footer-upgrade" class="alignright"><?php echo $upgrade; ?></p>
 <div class="clear"></div>
 </div>
