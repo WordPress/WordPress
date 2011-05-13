@@ -27,7 +27,7 @@ function wp_credits() {
 	global $wp_version;
 	$locale = get_locale();
 
-	$people = get_site_transient( 'wordpress_credits' );
+	$results = get_site_transient( 'wordpress_credits' );
 
 	if ( false === $people ) {
 		$response = wp_remote_get( "http://api.wordpress.org/core/credits/1.0/?version=$wp_version&locale=$locale" );
@@ -40,14 +40,14 @@ function wp_credits() {
 		if ( ! $results )
 			return false;
 
-		set_site_transient( 'wordpress_credits', $people, 604800 ); // One week.
+		set_site_transient( 'wordpress_credits', $results, 604800 ); // One week.
 	}
 
 	return $results;
 }
 
-function _wp_credits_add_profile_link( &$user, $key, $prefix ) {
-	$user = '<a href="' . esc_url( $prefix . $user ) . '">' . esc_html( $user ) . '</a>';
+function _wp_credits_add_profile_link( &$display_name, $username, $prefix ) {
+	$display_name = '<a href="' . esc_url( $prefix . $username ) . '">' . esc_html( $display_name ) . '</a>';
 }
 
 include( './admin-header.php' );
@@ -60,7 +60,7 @@ include( './admin-header.php' );
 
 $results = wp_credits();
 
-if ( false === $results ) {
+if ( ! $results ) {
 	echo '<p>' . sprintf( __( 'WordPress is created by a <a href="%1$s">worldwide team</a> of passionate individuals. <a href="%2$s">Get involved in WordPress</a>.' ),
 		'http://wordpress.org/about/',
 		'http://codex.wordpress.org/Contributing_to_WordPress' ) . '</p>';
