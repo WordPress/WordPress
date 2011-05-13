@@ -38,7 +38,7 @@ if( $mime[ 'type' ] )
 else
 	$mimetype = 'image/' . substr( $file, strrpos( $file, '.' ) + 1 );
 
-header( 'Content-type: ' . $mimetype ); // always send this
+header( 'Content-Type: ' . $mimetype ); // always send this
 if ( false === strpos( $_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS' ) )
 	header( 'Content-Length: ' . filesize( $file ) );
 
