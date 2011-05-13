@@ -276,8 +276,7 @@ PubSub.prototype.publish = function( topic, args ) {
 	});
 
 	ps.subscribe( 'showing', function() { // This event occurs while the DFW overlay blocks the UI.
-		var scrollY = s.mode === 'html' ? 220 + s._edCanvas.scrollTop : 140 + tinyMCE.get(s.editor_id).getBody().scrollTop;
-		
+
 		$( document.body ).addClass( 'fullscreen-active' );
 		api.refresh_buttons();
 
@@ -287,10 +286,8 @@ PubSub.prototype.publish = function( topic, args ) {
 		api.bind_resize();
 		setTimeout( api.resize_textarea, 200 );
 
-		if ( scrollY < 171 )
-			scrollY = 0;
-
-		scrollTo(0, scrollY);
+		// scroll to top so the user is not disoriented
+		scrollTo(0, 0);
 	});
 
 	ps.subscribe( 'shown', function() { // This event occurs after the DFW overlay is shown
