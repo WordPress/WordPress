@@ -29,7 +29,7 @@ function wp_credits() {
 
 	$results = get_site_transient( 'wordpress_credits' );
 
-	if ( false === $people ) {
+	if ( false === $results ) {
 		$response = wp_remote_get( "http://api.wordpress.org/core/credits/1.0/?version=$wp_version&locale=$locale" );
 
 		if ( is_wp_error( $response ) || 200 != wp_remote_retrieve_response_code( $response ) )
