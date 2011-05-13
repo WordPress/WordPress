@@ -368,7 +368,7 @@ if ( SITECOOKIEPATH != COOKIEPATH )
 	setcookie(TEST_COOKIE, 'WP Cookie check', 0, SITECOOKIEPATH, COOKIE_DOMAIN);
 
 // allow plugins to override the default actions, and to add extra actions if they want
-do_action( 'login_form' );
+do_action( 'login_init' );
 do_action( 'login_form_' . $action );
 
 $http_post = ('POST' == $_SERVER['REQUEST_METHOD']);

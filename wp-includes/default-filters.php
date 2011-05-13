@@ -218,7 +218,7 @@ if ( isset( $_GET['replytocom'] ) )
 // Login actions
 add_action( 'login_head',          'wp_print_head_scripts',         9     );
 add_action( 'login_footer',        'wp_print_footer_scripts'              );
-add_action( 'login_form',          'send_frame_options_header',     10, 0 );
+add_action( 'login_init',          'send_frame_options_header',     10, 0 );
 
 // Feed Generator Tags
 foreach ( array( 'rss2_head', 'commentsrss2_head', 'rss_head', 'rdf_header', 'atom_head', 'comments_atom_head', 'opml_head', 'app_head' ) as $action ) {
