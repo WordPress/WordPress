@@ -99,10 +99,11 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 
 			<li class="widget-entry-title">
 				<?php
-					$link_url = get_permalink();
+					// Grab first link from the post content. If none found, use the post permalink as fallback.
+					$link_url = twentyeleven_url_grabber();
 
-					if ( false != twentyeleven_url_grabber() )
-						$link_url = twentyeleven_url_grabber();
+					if ( empty( $link_url ) )
+						$link_url = get_permalink();
 				?>
 				<a href="<?php echo esc_url( $link_url ); ?>" title="<?php printf( esc_attr__( 'Link to %s', 'twentyeleven' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?>&nbsp;<span>&rarr;</span></a>
 				<span class="comments-link">
