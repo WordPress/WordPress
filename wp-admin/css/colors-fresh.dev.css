@@ -912,6 +912,7 @@ table.widefat .spam a:hover,
 #poststuff .wp_themeSkin .mceStatusbar {
 	border-color: #dfdfdf;
 }
+
 #poststuff .wp_themeSkin .mceStatusbar * {
 	color: #555;
 }
@@ -946,6 +947,7 @@ table.widefat .spam a:hover,
 .wp_themeSkin table.mceLayout {
 	border-color: #ccc #ccc #dfdfdf;
 }
+
 #editorcontainer #content,
 #editorcontainer .wp_themeSkin .mceIframeContainer {
 	-moz-box-shadow: inset 1px 1px 2px rgba( 0, 0, 0, 0.1 );
@@ -1353,9 +1355,11 @@ table.widefat .spam a:hover,
 #collapse-menu {
 	color: #aaa;
 }
+
 #collapse-menu:hover {
 	color: #999;
 }
+
 #collapse-button {
 	border-color: #ccc;
 	background-color: #f4f4f4; /* Fallback */
@@ -1590,6 +1594,9 @@ table.diff .diff-addedline ins {
 #screen-options-link-wrap,
 #contextual-help-link-wrap {
 	background-color: #e3e3e3; /* Fallback */
+	border-right: 1px solid transparent;
+	border-left: 1px solid transparent;
+	border-bottom: 1px solid transparent;
 	background-image: -ms-linear-gradient(bottom, #dfdfdf, #f1f1f1); /* IE10 */
 	background-image: -moz-linear-gradient(bottom, #dfdfdf, #f1f1f1); /* Firefox */
 	background-image: -o-linear-gradient(bottom, #dfdfdf, #f1f1f1); /* Opera */
@@ -1912,6 +1919,7 @@ div.widgets-sortables,
 .sidebar-name-arrow {
 	background: transparent url(../images/arrows.png) no-repeat 5px 9px;
 }
+
 .sidebar-name:hover .sidebar-name-arrow {
 	background: transparent url(../images/arrows-dark.png) no-repeat 5px 9px;
 }
@@ -1965,6 +1973,125 @@ div.widgets-sortables,
 	background-image: -webkit-linear-gradient(bottom, #e9e9e9, #f4f4f4); /* new Webkit */
 	background-image: linear-gradient(bottom, #e9e9e9, #f4f4f4); /* proposed W3C Markup */
 }
+
+/* added from nav-menu.css */
+#menu-management .menu-edit {
+	border-color: #dfdfdf;
+}
+
+#post-body {
+	background: #fcfcfc;
+	border-top-color: #fff;
+	border-bottom-color: #dfdfdf;
+}
+
+#nav-menu-header {
+	border-bottom-color: #dfdfdf;
+}
+
+#nav-menu-footer {
+	border-top-color: #fff;
+}
+
+#menu-management .nav-tabs-arrow a {
+	color: #C1C1C1;
+}
+
+#menu-management .nav-tabs-arrow a:hover {
+	color: #D54E21;
+}
+
+#menu-management .nav-tabs-arrow a:active {
+	color: #464646;
+}
+
+#menu-management .nav-tab-active {
+	border-color: #dfdfdf;
+}
+
+#menu-management .nav-tab {
+	background: #f9f9f9;
+	border-color: #dfdfdf;
+}
+
+.js .input-with-default-title {
+	color: #aaa;
+}
+
+#cancel-save {
+	color: #ff0000;
+}
+
+#cancel-save:hover {
+	background-color: #FF0000;
+	color: #fff;
+}
+
+.list-container {
+	border-color: #DFDFDF;
+}
+
+.menu-item-handle {
+	border-color: #dfdfdf;
+}
+
+.menu li.deleting .menu-item-handle {
+	background-color: #f66;
+	text-shadow: #ccc;
+}
+
+.item-type { /* Menu item controls */
+	color: #999999;
+}
+
+.item-controls .menu-item-delete:hover {
+	color: #ff0000;
+}
+
+.item-edit {
+	background: transparent url(../images/arrows.png) no-repeat 8px 10px;
+	border-bottom-color: #eee;
+}
+
+.item-edit:hover {
+	background: transparent url(../images/arrows-dark.png) no-repeat 8px 10px;
+}
+
+.menu-item-settings { /* Menu editing */
+	background: #f4f4f4;
+	border-color: #dfdfdf;
+}
+
+.link-to-original {
+	color: #777;
+	border-color: #dfdfdf;
+}
+
+#cancel-save:hover {
+	color: #fff !important;
+}
+
+#update-menu-item {
+	color: #fff !important;
+}
+
+#update-menu-item:hover,
+#update-menu-item:active,
+#update-menu-item:focus {
+	color: #eaf2fa !important;
+	border-color: #13455b !important;
+}
+
+.submitbox .submitcancel {
+	color: #21759B;
+	border-bottom-color: #21759B;
+}
+
+.submitbox .submitcancel:hover {
+	background: #21759B;
+	color: #fff;
+}
+/* end added from nav-menu.css */
 
 #menu-management .nav-tab-active,
 .menu-item-handle,

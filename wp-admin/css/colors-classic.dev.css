@@ -49,7 +49,7 @@ a.page-numbers:hover {
 body,
 #wpbody,
 .form-table .pre {
-	color: #174f69;
+	color: #333;
 }
 
 body > #upload-menu {
@@ -680,7 +680,7 @@ table.widefat span.spam a,
 	border-radius: 3px;
 }
 
-.widget, 
+.widget,
 #widget-list .widget-top,
 .postbox {
 	background-color: #F7FCFE;
@@ -797,18 +797,18 @@ table.widefat span.spam a,
 
 #user_info:hover,
 #user_info.active {
-	color: #222;
+	color: #185069;
 }
 
 #user_info.active {
-	background-color: #f1f1f1; /* Fallback */
+	background-color: #f7fcfe; /* Fallback */
 	background-image: -ms-linear-gradient(bottom, #f7fcfe, #f9f9f9); /* IE10 */
 	background-image: -moz-linear-gradient(bottom, #f7fcfe, #f9f9f9); /* Firefox */
 	background-image: -o-linear-gradient(bottom, #f7fcfe, #f9f9f9); /* Opera */
 	background-image: -webkit-gradient(linear, left bottom, left top, from(#f7fcfe), to(#f9f9f9)); /* old Webkit */
 	background-image: -webkit-linear-gradient(bottom, #f7fcfe, #f9f9f9); /* new Webkit */
 	background-image: linear-gradient(bottom, #f7fcfe, #f9f9f9); /* proposed W3C Markup */
-	border-color: #aaa #aaa #d0dfe9;
+	border-color: #d0dfe9 #d0dfe9 #d0dfe9;
 }
 
 #user_info_arrow {
@@ -827,15 +827,15 @@ table.widefat span.spam a,
 }
 
 #user_info_links ul {
-	background: #f1f1f1;
-	border-color: #ccc #aaa #aaa;
+	background: #f7fcfe;
+	border-color: #d0dfe9 #d0dfe9 #d0dfe9;
 	-moz-box-shadow: inset 0 1px 0 #f9f9f9;
 	-webkit-box-shadow: inset 0 1px 0 #f9f9f9;
 	box-shadow: inset 0 1px 0 #f9f9f9;
 }
 
 #user_info_links li:hover {
-	background-color: #dfdfdf;
+	background-color: #ECF8FE;
 }
 
 #user_info_links li:hover a,
@@ -912,6 +912,7 @@ table.widefat .spam a:hover,
 #poststuff .wp_themeSkin .mceStatusbar {
 	border-color: #d0dfe9;
 }
+
 #poststuff .wp_themeSkin .mceStatusbar * {
 	color: #555;
 }
@@ -946,6 +947,7 @@ table.widefat .spam a:hover,
 .wp_themeSkin table.mceLayout {
 	border-color: #bed1dd #bed1dd #d0dfe9;
 }
+
 #editorcontainer #content,
 #editorcontainer .wp_themeSkin .mceIframeContainer {
 	-moz-box-shadow: inset 1px 1px 2px rgba( 0, 0, 0, 0.1 );
@@ -1277,11 +1279,11 @@ table.widefat .spam a:hover,
 .folded #adminmenu li.menu-top,
 #adminmenu .wp-submenu .wp-submenu-head {
 	border-top-color: #ffffff;
-	border-bottom-color: #D1E5EE;
+	border-bottom-color: #d1e5ee;
 }
 
 #adminmenu li.wp-menu-open {
-	border-color: #bed1dd;
+	border-color: #d1e5ee;
 }
 
 #adminmenu li.wp-has-current-submenu a.wp-has-current-submenu,
@@ -1353,21 +1355,23 @@ table.widefat .spam a:hover,
 #collapse-menu {
 	color: #A0C3D5;
 }
+
 #collapse-menu:hover {
 	color: #5A8FAD;
 }
+
 #collapse-button {
-	border-color: #A0C3D5;
-	background-color: #f4f4f4; /* Fallback */
-	background-image: -ms-linear-gradient(bottom, #b0c8d7, #fff); /* IE10 */
-	background-image: -moz-linear-gradient(bottom, #b0c8d7, #fff); /* Firefox */
-	background-image: -o-linear-gradient(bottom, #b0c8d7, #fff); /* Opera */
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#b0c8d7), to(#fff)); /* old Webkit */
-	background-image: -webkit-linear-gradient(bottom, #b0c8d7, #fff); /* new Webkit */
-	background-image: linear-gradient(bottom, #b0c8d7, #fff); /* proposed W3C Markup */
+	border-color: #d0dfe9;
+	background-color: #eff8ff; /* Fallback */
+	background-image: -ms-linear-gradient(bottom, #eff8ff, #fff); /* IE10 */
+	background-image: -moz-linear-gradient(bottom, #eff8ff, #fff); /* Firefox */
+	background-image: -o-linear-gradient(bottom, #eff8ff, #fff); /* Opera */
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#eff8ff), to(#fff)); /* old Webkit */
+	background-image: -webkit-linear-gradient(bottom, #eff8ff, #fff); /* new Webkit */
+	background-image: linear-gradient(bottom, #eff8ff, #fff); /* proposed W3C Markup */
 }
 #collapse-menu:hover #collapse-button {
-	border-color: #aaa;
+	border-color: #A0C3D5;
 }
 #collapse-button div {
 	background: transparent url(../images/arrows-vs.png) no-repeat 0 -72px;
@@ -1589,13 +1593,16 @@ table.diff .diff-addedline ins {
 
 #screen-options-link-wrap,
 #contextual-help-link-wrap {
-	background-color: #D1e5ee;
-	background-image: -ms-linear-gradient(bottom, #d0dfe9, #D1e5ee); /* IE10 */
-	background-image: -moz-linear-gradient(bottom,  #d0dfe9,  #D1e5ee); /* Firefox */
-	background-image: -o-linear-gradient(bottom, #d0dfe9, #D1e5ee); /* Opera */
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#d0dfe9), to(#D1e5ee)); /* old Webkit */
-	background-image: -webkit-linear-gradient(bottom, #d0dfe9, #D1e5ee); /* new Webkit */
-	background-image: linear-gradient(bottom, #d0dfe9, #D1e5ee); /* proposed W3C Markup */
+	background-color: #eff8ff; /* Fallback */
+	border-right: 1px solid #D1E5EE;
+	border-left: 1px solid #D1E5EE;
+	border-bottom: 1px solid #D1E5EE;
+	background-image: -ms-linear-gradient(bottom, #eff8ff, #fff); /* IE10 */
+	background-image: -moz-linear-gradient(bottom, #eff8ff, #fff); /* Firefox */
+	background-image: -o-linear-gradient(bottom, #eff8ff, #fff); /* Opera */
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#eff8ff), to(#fff)); /* old Webkit */
+	background-image: -webkit-linear-gradient(bottom, #eff8ff, #fff); /* new Webkit */
+	background-image: linear-gradient(bottom, #eff8ff, #fff); /* proposed W3C Markup */
 }
 
 #screen-meta-links a.show-settings {
@@ -1912,6 +1919,7 @@ div.widgets-sortables,
 .sidebar-name-arrow {
 	background: transparent url(../images/arrows-vs.png) no-repeat 5px 9px;
 }
+
 .sidebar-name:hover .sidebar-name-arrow {
 	background: transparent url(../images/arrows-dark-vs.png) no-repeat 5px 9px;
 }
@@ -1958,13 +1966,132 @@ div.widgets-sortables,
 #nav-menu-footer,
 .menu-item-handle {
 	background: #eff8ff; /* Fallback */
-	background-image: -ms-linear-gradient(bottom, #f7fcfe, #eff8ff); /* IE10 */
-	background-image: -moz-linear-gradient(bottom, #f7fcfe, #eff8ff); /* Firefox */
-	background-image: -o-linear-gradient(bottom, #f7fcfe, #eff8ff); /* Opera */
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#f7fcfe), to(#eff8ff)); /* old Webkit */
-	background-image: -webkit-linear-gradient(bottom, #f7fcfe, #eff8ff); /* new Webkit */
-	background-image: linear-gradient(bottom, #f7fcfe, #eff8ff); /* proposed W3C Markup */
+	background-image: -ms-linear-gradient(top, #f7fcfe, #eff8ff); /* IE10 */
+	background-image: -moz-linear-gradient(top, #f7fcfe, #eff8ff); /* Firefox */
+	background-image: -o-linear-gradient(top, #f7fcfe, #eff8ff); /* Opera */
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#f7fcfe), to(#eff8ff)); /* old Webkit */
+	background-image: -webkit-linear-gradient(top, #f7fcfe, #eff8ff); /* new Webkit */
+	background-image: linear-gradient(top, #f7fcfe, #eff8ff); /* proposed W3C Markup */
 }
+
+/* added from nav-menu.css */
+#menu-management .menu-edit {
+	border-color: #d0dfe9;
+}
+
+#post-body {
+	background: #ffffff;
+	border-top-color: #fff;
+	border-bottom-color: #d0dfe9;
+}
+
+#nav-menu-header {
+	border-bottom-color: #d0dfe9;
+}
+
+#nav-menu-footer {
+	border-top-color: #fff;
+}
+
+#menu-management .nav-tabs-arrow a {
+	color: #C1C1C1;
+}
+
+#menu-management .nav-tabs-arrow a:hover {
+	color: #D54E21;
+}
+
+#menu-management .nav-tabs-arrow a:active {
+	color: #464646;
+}
+
+#menu-management .nav-tab-active {
+	border-color: #dfdfdf;
+}
+
+#menu-management .nav-tab {
+	background: #f7fcfe;
+	border-color: #d0dfe9;
+}
+
+.js .input-with-default-title {
+	color: #aaa;
+}
+
+#cancel-save {
+	color: #ff0000;
+}
+
+#cancel-save:hover {
+	background-color: #FF0000;
+	color: #fff;
+}
+
+.list-container {
+	border-color: #dfdfdf;
+}
+
+.menu-item-handle {
+	border-color: #d0dfe9;
+}
+
+.menu li.deleting .menu-item-handle {
+	background-color: #f66;
+	text-shadow: #ccc;
+}
+
+.item-type { /* Menu item controls */
+	color: #999999;
+}
+
+.item-controls .menu-item-delete:hover {
+	color: #ff0000;
+}
+
+.item-edit {
+	background: transparent url(../images/arrows-vs.png) no-repeat 8px 10px;
+	border-bottom-color: #eee;
+}
+
+.item-edit:hover {
+	background: transparent url(../images/arrows-dark-vs.png) no-repeat 8px 10px;
+}
+
+.menu-item-settings { /* Menu editing */
+	background: #f7fcfe;
+	border-color: #d0dfe9;
+}
+
+.link-to-original {
+	color: #777;
+	border-color: #d0dfe9;
+}
+
+#cancel-save:hover {
+	color: #fff !important;
+}
+
+#update-menu-item {
+	color: #fff !important;
+}
+
+#update-menu-item:hover,
+#update-menu-item:active,
+#update-menu-item:focus {
+	color: #eaf2fa !important;
+	border-color: #13455b !important;
+}
+
+.submitbox .submitcancel {
+	color: #21759B;
+	border-bottom-color: #21759B;
+}
+
+.submitbox .submitcancel:hover {
+	background: #21759B;
+	color: #fff;
+}
+/* end added from nav-menu.css */
 
 #menu-management .nav-tab-active,
 .menu-item-handle,
