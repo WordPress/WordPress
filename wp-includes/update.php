@@ -71,13 +71,10 @@ function wp_version_check() {
 
 	$response = wp_remote_get($url, $options);
 
-	if ( is_wp_error( $response ) )
+	if ( is_wp_error( $response ) || 200 != wp_remote_retrieve_response_code( $response ) )
 		return false;
 
-	if ( 200 != $response['response']['code'] )
-		return false;
-
-	$body = trim( $response['body'] );
+	$body = trim( wp_remote_retrieve_body( $response ) );
 	$body = str_replace(array("\r\n", "\r"), "\n", $body);
 	$new_options = array();
 	foreach ( explode( "\n\n", $body ) as $entry ) {
@@ -175,13 +172,10 @@ function wp_update_plugins() {
 
 	$raw_response = wp_remote_post('http://api.wordpress.org/plugins/update-check/1.0/', $options);
 
-	if ( is_wp_error( $raw_response ) )
+	if ( is_wp_error( $raw_response ) || 200 != wp_remote_retrieve_response_code( $raw_response ) )
 		return false;
 
-	if ( 200 != $raw_response['response']['code'] )
-		return false;
-
-	$response = unserialize( $raw_response['body'] );
+	$response = unserialize( wp_remote_retrieve_body( $raw_response ) );
 
 	if ( false !== $response )
 		$new_option->response = $response;
@@ -273,17 +267,14 @@ function wp_update_themes() {
 
 	$raw_response = wp_remote_post( 'http://api.wordpress.org/themes/update-check/1.0/', $options );
 
-	if ( is_wp_error( $raw_response ) )
-		return false;
-
-	if ( 200 != $raw_response['response']['code'] )
+	if ( is_wp_error( $raw_response ) || 200 != wp_remote_retrieve_response_code( $raw_response ) )
 		return false;
 
 	$new_update = new stdClass;
 	$new_update->last_checked = time( );
 	$new_update->checked = $checked;
 
-	$response = unserialize( $raw_response['body'] );
+	$response = unserialize( wp_remote_retrieve_body( $raw_response ) );
 	if ( false !== $response )
 		$new_update->response = $response;
 

@@ -490,9 +490,9 @@ function download_url( $url, $timeout = 300 ) {
 		return $response;
 	}
 
-	if ( $response['response']['code'] != '200' ){
+	if ( 200 != wp_remote_retrieve_response_code( $response ) ){
 		unlink( $tmpfname );
-		return new WP_Error( 'http_404', trim( $response['response']['message'] ) );
+		return new WP_Error( 'http_404', trim( wp_remote_retrieve_response_message( $response ) ) );
 	}
 
 	return $tmpfname;

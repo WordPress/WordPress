@@ -762,7 +762,7 @@ Thanks!
 		$page = wp_remote_get( 'http://' . $hostname, array( 'timeout' => 5, 'httpversion' => '1.1' ) );
 		if ( is_wp_error( $page ) )
 			$errstr = $page->get_error_message();
-		elseif ( 200 == $page['response']['code'] )
+		elseif ( 200 == wp_remote_retrieve_response_code( $page ) )
 				$vhost_ok = true;
 
 		if ( ! $vhost_ok ) {

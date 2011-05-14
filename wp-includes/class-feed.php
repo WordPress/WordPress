@@ -80,9 +80,9 @@ class WP_SimplePie_File extends SimplePie_File {
 				$this->error = 'WP HTTP Error: ' . $res->get_error_message();
 				$this->success = false;
 			} else {
-				$this->headers = $res['headers'];
-				$this->body = $res['body'];
-				$this->status_code = $res['response']['code'];
+				$this->headers = wp_remote_retrieve_headers( $res );
+				$this->body = wp_remote_retrieve_body( $res );
+				$this->status_code = wp_remote_retrieve_response_code( $res );
 			}
 		} else {
 			if ( ! $this->body = file_get_contents($url) ) {

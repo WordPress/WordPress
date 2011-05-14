@@ -1208,10 +1208,10 @@ function wp_check_browser_version() {
 			'user-agent'	=> 'WordPress/' . $wp_version . '; ' . get_bloginfo( 'url' )
 		);
 
-		$raw_response = wp_remote_post( 'http://api.wordpress.org/core/browse-happy/1.0/', $options );
+		$response = wp_remote_post( 'http://api.wordpress.org/core/browse-happy/1.0/', $options );
 
-		if ( is_wp_error( $raw_response ) || 200 != $raw_response['response']['code'] )
-			return;
+		if ( is_wp_error( $response ) || 200 != wp_remote_retrieve_response_code( $response ) )
+			return false;
 
 		/**
 		 * Response should be an array with:
@@ -1224,7 +1224,7 @@ function wp_check_browser_version() {
 		 *  'img_src' - string - An image representing the browser
 		 *  'img_src_ssl' - string - An image (over SSL) representing the browser
 		 */
-		$response = unserialize( $raw_response['body'] );
+		$response = unserialize( wp_remote_retrieve_body( $response ) );
 
 		if ( ! $response )
 			return;

@@ -555,7 +555,7 @@ function _fetch_remote_file($url, $headers = "" ) {
 	// Snoopy returns headers unprocessed.
 	// Also note, WP_HTTP lowercases all keys, Snoopy did not.
 	$return_headers = array();
-	foreach ( $resp['headers'] as $key => $value ) {
+	foreach ( wp_remote_retrieve_headers( $resp ) as $key => $value ) {
 		if ( !is_array($value) ) {
 			$return_headers[] = "$key: $value";
 		} else {
@@ -565,10 +565,10 @@ function _fetch_remote_file($url, $headers = "" ) {
 	}
 
 	$response = new stdClass;
-	$response->status = $resp['response']['code'];
-	$response->response_code = $resp['response']['code'];
+	$response->status = wp_remote_retrieve_response_code( $resp );
+	$response->response_code = wp_remote_retrieve_response_code( $resp );
 	$response->headers = $return_headers;
-	$response->results = $resp['body'];
+	$response->results = wp_remote_retrieve_body( $resp );
 
 	return $response;
 }

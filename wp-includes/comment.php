@@ -1619,11 +1619,11 @@ function discover_pingback_server_uri( $url, $deprecated = '' ) {
 	if ( is_wp_error( $response ) )
 		return false;
 
-	if ( isset( $response['headers']['x-pingback'] ) )
-		return $response['headers']['x-pingback'];
+	if ( wp_remote_retrieve_header( $response, 'x-pingback' ) )
+		return wp_remote_retrieve_header( $response, 'x-pingback' );
 
 	// Not an (x)html, sgml, or xml page, no use going further.
-	if ( isset( $response['headers']['content-type'] ) && preg_match('#(image|audio|video|model)/#is', $response['headers']['content-type']) )
+	if ( preg_match('#(image|audio|video|model)/#is', wp_remote_retrieve_header( $response, 'content-type' )) )
 		return false;
 
 	// Now do a GET since we're going to look in the html headers (and we're sure its not a binary file)
@@ -1632,7 +1632,7 @@ function discover_pingback_server_uri( $url, $deprecated = '' ) {
 	if ( is_wp_error( $response ) )
 		return false;
 
-	$contents = $response['body'];
+	$contents = wp_remote_retrieve_body( $response );
 
 	$pingback_link_offset_dquote = strpos($contents, $pingback_str_dquote);
 	$pingback_link_offset_squote = strpos($contents, $pingback_str_squote);

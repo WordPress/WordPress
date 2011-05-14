@@ -64,16 +64,16 @@ class WP_HTTP_IXR_Client extends IXR_Client {
 			return false;
 		}
 
-		if ( $response['response']['code'] != 200 ) {
-			$this->error = new IXR_Error(-32301, "transport error - HTTP status code was not 200 ({$response['response']['code']})");
+		if ( 200 != wp_remote_retrieve_response_code( $response ) ) {
+			$this->error = new IXR_Error(-32301, 'transport error - HTTP status code was not 200 (' . wp_remote_retrieve_response_code( $response ) . ')');
 			return false;
 		}
 
 		if ( $this->debug )
-			echo '<pre class="ixr_response">' . htmlspecialchars($response['body']) . "\n</pre>\n\n";
+			echo '<pre class="ixr_response">' . htmlspecialchars( wp_remote_retrieve_body( $response ) ) . "\n</pre>\n\n";
 
 		// Now parse what we've got back
-		$this->message = new IXR_Message( $response['body'] );
+		$this->message = new IXR_Message( wp_remote_retrieve_body( $response ) );
 		if ( ! $this->message->parse() ) {
 			// XML error
 			$this->error = new IXR_Error(-32700, 'parse error. not well formed');

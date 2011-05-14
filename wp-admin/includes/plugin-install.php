@@ -45,9 +45,9 @@ function plugins_api($action, $args = null) {
 		if ( is_wp_error($request) ) {
 			$res = new WP_Error('plugins_api_failed', __('An Unexpected HTTP Error occurred during the API request.'), $request->get_error_message() );
 		} else {
-			$res = unserialize($request['body']);
+			$res = unserialize( wp_remote_retrieve_body( $request ) );
 			if ( false === $res )
-				$res = new WP_Error('plugins_api_failed', __('An unknown error occurred.'), $request['body']);
+				$res = new WP_Error('plugins_api_failed', __('An unknown error occurred.'), wp_remote_retrieve_body( $request ) );
 		}
 	} elseif ( !is_wp_error($res) ) {
 		$res->external = true;
@@ -367,4 +367,3 @@ function install_plugin_information() {
 	exit;
 }
 add_action('install_plugins_pre_plugin-information', 'install_plugin_information');
-
