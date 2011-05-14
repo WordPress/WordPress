@@ -393,7 +393,7 @@ if ( $s )
 
 <form method="post" action="">
 
-<?php $wp_list_table->search_box( __( 'Search Plugins' ), 'plugin' ); ?>
+<?php $wp_list_table->search_box( __( 'Search Installed Plugins' ), 'plugin' ); ?>
 
 <input type="hidden" name="plugin_status" value="<?php echo esc_attr($status) ?>" />
 <input type="hidden" name="paged" value="<?php echo esc_attr($page) ?>" />
