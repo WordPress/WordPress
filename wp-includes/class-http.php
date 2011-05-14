@@ -192,7 +192,7 @@ class WP_Http {
 	}
 
 	/**
-	 * Tests which transports are capabable of supporting the request.
+	 * Tests which transports are capable of supporting the request.
 	 * 
 	 * @since 3.2.0
 	 * @access private
@@ -247,7 +247,7 @@ class WP_Http {
 		if ( !$class )
 			return new WP_Error( 'http_failure', __( 'There are no HTTP transports available which can complete the requested request.' ) );
 
-		// Transport claims to support request, Instantate it and give it a whirl.
+		// Transport claims to support request, instantiate it and give it a whirl.
 		if ( empty( $transports[$class] ) )
 			$transports[$class] = new $class;
 

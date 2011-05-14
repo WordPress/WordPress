@@ -1227,7 +1227,7 @@ function addslashes_gpc($gpc) {
  *
  * @since 2.0.0
  *
- * @param array|string $value The array or string to be striped.
+ * @param array|string $value The array or string to be stripped.
  * @return array|string Stripped array (or string in the callback).
  */
 function stripslashes_deep($value) {
@@ -2748,7 +2748,7 @@ function _links_add_base($m) {
  * This function by default only applies to <a> tags, however this can be
  * modified by the 3rd param.
  *
- * <b>NOTE:</b> Any current target attributed will be striped and replaced.
+ * <b>NOTE:</b> Any current target attributed will be stripped and replaced.
  *
  * @since 2.7.0
  *

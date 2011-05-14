@@ -186,8 +186,8 @@ function esc_html_e( $text, $domain = 'default' ) {
  * @param string $domain Optional. Domain to retrieve the translated text
  * @return string Translated context string without pipe
  */
-function _x( $single, $context, $domain = 'default' ) {
-	return translate_with_gettext_context( $single, $context, $domain );
+function _x( $text, $context, $domain = 'default' ) {
+	return translate_with_gettext_context( $text, $context, $domain );
 }
 
 /**
@@ -201,8 +201,8 @@ function _x( $single, $context, $domain = 'default' ) {
  * @param string $domain Optional. Domain to retrieve the translated text
  * @return string Translated context string without pipe
  */
-function _ex( $single, $context, $domain = 'default' ) {
-	echo _x( $single, $context, $domain );
+function _ex( $text, $context, $domain = 'default' ) {
+	echo _x( $text, $context, $domain );
 }
 
 function esc_attr_x( $single, $context, $domain = 'default' ) {
@@ -270,9 +270,9 @@ function _nx($single, $plural, $number, $context, $domain = 'default') {
  *  $usable_text = sprintf( translate_nooped_plural( $message, $count ), $count );
  *
  * @since 2.5
- * @param string $single Single form to be i18ned
+ * @param string $singular Single form to be i18ned
  * @param string $plural Plural form to be i18ned
- * @return array array($single, $plural)
+ * @return array array($singular, $plural)
  */
 function _n_noop( $singular, $plural ) {
 	return array( 0 => $singular, 1 => $plural, 'singular' => $singular, 'plural' => $plural, 'context' => null );
