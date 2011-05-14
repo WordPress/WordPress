@@ -30,7 +30,7 @@ function add_js() {
 			staticPage = section.find('input:radio[value="page"]'),
 			selects = section.find('select'),
 			check_disabled = function(){
-				selects.attr('disabled', staticPage.is(':checked') ? '' : 'disabled');
+				selects.prop( 'disabled', ! staticPage.prop('checked') );
 			};
 		check_disabled();
  		section.find('input:radio').change(check_disabled);
