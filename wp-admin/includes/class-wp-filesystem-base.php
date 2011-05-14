@@ -21,7 +21,7 @@ class WP_Filesystem_Base {
 	 */
 	var $verbose = false;
 	/**
-	 * Cached list of local filepaths to maped remote filepaths.
+	 * Cached list of local filepaths to mapped remote filepaths.
 	 *
 	 * @since 2.7
 	 * @access private
@@ -215,14 +215,14 @@ class WP_Filesystem_Base {
 			}
 		}
 
-		//Only check this as a last resort, to prevent locating the incorrect install. All above proceeedures will fail quickly if this is the right branch to take.
+		//Only check this as a last resort, to prevent locating the incorrect install. All above procedures will fail quickly if this is the right branch to take.
 		if (isset( $files[ $last_path ] ) ) {
 			if ( $this->verbose )
 				printf( __('Found %s') . '<br/>',  $base . $last_path );
 			return trailingslashit($base . $last_path);
 		}
 		if ( $loop )
-			return false; //Prevent tihs function looping again.
+			return false; //Prevent this function from looping again.
 		//As an extra last resort, Change back to / if the folder wasnt found. This comes into effect when the CWD is /home/user/ but WP is at /var/www/.... mainly dedicated setups.
 		return $this->search_for_folder($folder, '/', true);
 

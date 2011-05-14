@@ -19,7 +19,7 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	/**
 	 * constructor
 	 *
-	 * @param mixed $arg ingored argument
+	 * @param mixed $arg ignored argument
 	 */
 	function __construct($arg) {
 		$this->method = 'direct';
@@ -222,7 +222,7 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	function delete($file, $recursive = false, $type = false) {
 		if ( empty($file) ) //Some filesystems report this as /, which can cause non-expected recursive deletion of all files in the filesystem.
 			return false;
-		$file = str_replace('\\', '/', $file); //for win32, occasional problems deleteing files otherwise
+		$file = str_replace('\\', '/', $file); //for win32, occasional problems deleting files otherwise
 
 		if ( 'f' == $type || $this->is_file($file) )
 			return @unlink($file);
