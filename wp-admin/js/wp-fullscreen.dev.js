@@ -213,6 +213,9 @@ PubSub.prototype.publish = function( topic, args ) {
 		}
 
 		$('#' + s.editor_id).val( content );
+
+		if ( 'undefined' != wpWordCount )
+			wpWordCount.wc( content );
 	}
 
 	set_title_hint = function( title ) {
