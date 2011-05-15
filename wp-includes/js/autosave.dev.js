@@ -105,7 +105,6 @@ function autosave_parse_response(response) {
 			if ( sup['alert'] ) {
 				jQuery('#autosave-alert').remove();
 				jQuery('#titlediv').after('<div id="autosave-alert" class="error below-h2"><p>' + sup['alert'] + '</p></div>');
-				alert( jQuery('#autosave-alert').text() );
 			}
 
 			jQuery.each(sup, function(selector, value) {
