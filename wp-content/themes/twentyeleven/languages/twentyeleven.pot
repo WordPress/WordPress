@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Eleven 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyeleven\n"
-"POT-Creation-Date: 2011-05-05 17:29:17+00:00\n"
+"POT-Creation-Date: 2011-05-16 12:30:20+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,11 +12,15 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: content-quote.php:14 showcase.php:105 showcase.php:107 showcase.php:179
+#: content-quote.php:14 showcase.php:108 showcase.php:110 showcase.php:188
 #: content.php:15 content.php:19 content-image.php:16 content-gallery.php:16
 #: content-gallery.php:57 content-aside.php:16 content-status.php:15
 #: inc/widgets.php:92 content-link.php:16 content-featured.php:14
 msgid "Permalink to %s"
+msgstr ""
+
+#: content-quote.php:15
+msgid "Quote"
 msgstr ""
 
 #: content-quote.php:21 content.php:25 content-single.php:17
@@ -53,7 +57,7 @@ msgstr ""
 #: content-quote.php:42 content-quote.php:46 content.php:46 content.php:50
 #: content-image.php:29 content-image.php:33 content-gallery.php:36
 #: content-gallery.php:41 content-aside.php:32 content-aside.php:36
-#: functions.php:324 content-status.php:31 content-status.php:37
+#: functions.php:328 content-status.php:31 content-status.php:37
 #: content-link.php:32 content-link.php:36
 msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
@@ -72,19 +76,19 @@ msgstr ""
 msgid "Tagged"
 msgstr ""
 
-#: content-quote.php:59 showcase.php:181 content.php:63 content-image.php:56
+#: content-quote.php:59 showcase.php:190 content.php:63 content-image.php:56
 #: content-gallery.php:73 content-aside.php:54 content-status.php:55
 #: content-link.php:54
 msgid "<span class=\"leave-reply\">Leave a reply</span>"
 msgstr ""
 
-#: content-quote.php:59 showcase.php:181 content.php:63 content-image.php:56
+#: content-quote.php:59 showcase.php:190 content.php:63 content-image.php:56
 #: content-gallery.php:73 content-aside.php:54 content-status.php:55
 #: content-link.php:54
 msgid "<b>1</b> Reply"
 msgstr ""
 
-#: content-quote.php:59 showcase.php:181 content.php:63 content-image.php:56
+#: content-quote.php:59 showcase.php:190 content.php:63 content-image.php:56
 #: content-gallery.php:73 content-aside.php:54 content-status.php:55
 #: content-link.php:54
 msgid "<b>%</b> Replies"
@@ -97,15 +101,15 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: showcase.php:62
+#: showcase.php:65
 msgid "Featured Post"
 msgstr ""
 
-#: showcase.php:134
+#: showcase.php:141
 msgid "Featuring: %s"
 msgstr ""
 
-#: showcase.php:145
+#: showcase.php:154
 msgid "Recent Posts"
 msgstr ""
 
@@ -119,6 +123,10 @@ msgstr ""
 
 #: category.php:17
 msgid "Category Archives: %s"
+msgstr ""
+
+#: content-image.php:17
+msgid "Image"
 msgstr ""
 
 #: content-image.php:42
@@ -172,6 +180,10 @@ msgstr ""
 msgid "Tag Archives: %s"
 msgstr ""
 
+#: content-gallery.php:17
+msgid "Gallery"
+msgstr ""
+
 #: content-gallery.php:56
 msgid "This gallery contains <a %1$s>%2$s photo</a>."
 msgid_plural "This gallery contains <a %1$s>%2$s photos</a>."
@@ -203,6 +215,10 @@ msgstr ""
 
 #: comments.php:78
 msgid "Comments are closed."
+msgstr ""
+
+#: content-aside.php:17
+msgid "Aside"
 msgstr ""
 
 #: 404.php:17
@@ -263,103 +279,103 @@ msgstr ""
 msgid "Both comments and trackbacks are currently closed."
 msgstr ""
 
-#: functions.php:97
+#: functions.php:101
 msgid "Primary Menu"
 msgstr ""
 
-#: functions.php:146
+#: functions.php:150
 msgid "Wheel"
 msgstr ""
 
-#: functions.php:152
+#: functions.php:156
 msgid "Shore"
 msgstr ""
 
-#: functions.php:158
+#: functions.php:162
 msgid "Trolley"
 msgstr ""
 
-#: functions.php:164
+#: functions.php:168
 msgid "Pine Cone"
 msgstr ""
 
-#: functions.php:170
+#: functions.php:174
 msgid "Chessboard"
 msgstr ""
 
-#: functions.php:176
+#: functions.php:180
 msgid "Lanterns"
 msgstr ""
 
-#: functions.php:182
+#: functions.php:186
 msgid "Willow"
 msgstr ""
 
-#: functions.php:188
+#: functions.php:192
 msgid "Hanoi Plant"
 msgstr ""
 
-#: functions.php:382
+#: functions.php:386
 msgid "Main Sidebar"
 msgstr ""
 
-#: functions.php:391
+#: functions.php:395
 msgid "Showcase Sidebar"
 msgstr ""
 
-#: functions.php:393
+#: functions.php:397
 msgid "The sidebar for the optional Showcase Template"
 msgstr ""
 
-#: functions.php:401
+#: functions.php:405
 msgid "Footer Area One"
 msgstr ""
 
-#: functions.php:403 functions.php:413 functions.php:423
+#: functions.php:407 functions.php:417 functions.php:427
 msgid "An optional widget area for your site footer"
 msgstr ""
 
-#: functions.php:411
+#: functions.php:415
 msgid "Footer Area Two"
 msgstr ""
 
-#: functions.php:421
+#: functions.php:425
 msgid "Footer Area Three"
 msgstr ""
 
-#: functions.php:440 single.php:18
+#: functions.php:444 single.php:18
 msgid "Post navigation"
 msgstr ""
 
-#: functions.php:441
+#: functions.php:445
 msgid "<span class=\"meta-nav\">&larr;</span> Older posts"
 msgstr ""
 
-#: functions.php:442
+#: functions.php:446
 msgid "Newer posts <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: functions.php:519
+#: functions.php:523
 msgid "Pingback:"
 msgstr ""
 
-#: functions.php:519
+#: functions.php:523
 msgid "(Edit)"
 msgstr ""
 
-#: functions.php:535
+#: functions.php:539
 msgid "%1$s on %2$s%3$s at %4$s%5$s <span class=\"says\">said:</span>"
 msgstr ""
 
-#: functions.php:544
+#: functions.php:548
 msgid "[Edit]"
 msgstr ""
 
-#: functions.php:548
+#: functions.php:552
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: functions.php:557
+#: functions.php:561
 msgid "Reply &darr;"
 msgstr ""
 
@@ -377,6 +393,10 @@ msgstr ""
 
 #: author.php:27
 msgid "Author Archives: %s"
+msgstr ""
+
+#: content-status.php:16
+msgid "Status"
 msgstr ""
 
 #. Name of page
@@ -442,27 +462,27 @@ msgstr ""
 msgid "Ephemera"
 msgstr ""
 
-#: inc/widgets.php:94 inc/widgets.php:109
+#: inc/widgets.php:94 inc/widgets.php:110
 msgid "0 <span class=\"reply\">comments &rarr;</span>"
 msgstr ""
 
-#: inc/widgets.php:94 inc/widgets.php:109
+#: inc/widgets.php:94 inc/widgets.php:110
 msgid "1 <span class=\"reply\">comment &rarr;</span>"
 msgstr ""
 
-#: inc/widgets.php:94 inc/widgets.php:109
+#: inc/widgets.php:94 inc/widgets.php:110
 msgid "% <span class=\"reply\">comments &rarr;</span>"
 msgstr ""
 
-#: inc/widgets.php:107
+#: inc/widgets.php:108
 msgid "Link to %s"
 msgstr ""
 
-#: inc/widgets.php:159
+#: inc/widgets.php:160
 msgid "Title:"
 msgstr ""
 
-#: inc/widgets.php:162
+#: inc/widgets.php:163
 msgid "Number of posts to show:"
 msgstr ""
 
@@ -494,6 +514,10 @@ msgstr ""
 
 #: archive.php:40
 msgid "Blog Archives"
+msgstr ""
+
+#: content-link.php:17
+msgid "Link"
 msgstr ""
 
 #: content-featured.php:39
