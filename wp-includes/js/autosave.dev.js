@@ -34,7 +34,7 @@ jQuery(document).ready( function($) {
 			if ( mce.isDirty() )
 				return autosaveL10n.saveAlert;
 		} else {
-			if ( fullscreen && fullscreen.visible ) {
+			if ( fullscreen && fullscreen.settings.visible ) {
 				title = $('#wp-fullscreen-title').val();
 				content = $("#wp_mce_fullscreen").val();
 			} else {
@@ -164,7 +164,7 @@ function autosave_update_slug(post_id) {
 		jQuery.post( ajaxurl, {
 				action: 'sample-permalink',
 				post_id: post_id,
-				new_title: fullscreen && fullscreen.visible ? jQuery('#wp-fullscreen-title').val() : jQuery('#title').val(),
+				new_title: fullscreen && fullscreen.settings.visible ? jQuery('#wp-fullscreen-title').val() : jQuery('#title').val(),
 				samplepermalinknonce: jQuery('#samplepermalinknonce').val()
 			},
 			function(data) {
@@ -244,7 +244,7 @@ autosave = function() {
 		}
 	}
 
-	if ( fullscreen && fullscreen.visible ) {
+	if ( fullscreen && fullscreen.settings.visible ) {
 		post_data["post_title"] = jQuery('#wp-fullscreen-title').val();
 		post_data["content"] = jQuery("#wp_mce_fullscreen").val();
 	} else {
@@ -284,6 +284,7 @@ autosave = function() {
 
 	if ( doAutoSave ) {
 		autosaveLast = post_data["post_title"] + post_data["content"];
+		jQuery(document).triggerHandler('wpcountwords', [ post_data["content"] ]);
 	} else {
 		post_data['autosave'] = 0;
 	}
@@ -299,7 +300,7 @@ autosave = function() {
 		data: post_data,
 		beforeSend: doAutoSave ? autosave_loading : null,
 		type: "POST",
-		url: autosaveL10n.requestFile,
+		url: ajaxurl,
 		success: successCallback
 	});
 }

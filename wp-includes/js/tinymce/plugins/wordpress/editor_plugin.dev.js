@@ -195,12 +195,18 @@
 				});
 			});
 
-			// Word count if script is loaded
-			if ( 'undefined' != typeof wpWordCount ) {
+			// Word count
+			if ( 'undefined' != typeof(jQuery) ) {
 				ed.onKeyUp.add(function(ed, e) {
-					if ( e.keyCode == last ) return;
-					if ( 13 == e.keyCode || 8 == last || 46 == last ) wpWordCount.wc( ed.getContent({format : 'raw'}) );
-					last = e.keyCode;
+					var k = e.keyCode || e.charCode;
+
+					if ( k == last )
+						return;
+
+					if ( 13 == k || 8 == last || 46 == last )
+						jQuery(document).triggerHandler('wpcountwords', [ ed.getContent({format : 'raw'}) ]);
+
+					last = k;
 				});
 			};
 

@@ -242,7 +242,7 @@ WPRemoveThumbnail = function(nonce){
 })(jQuery);
 
 jQuery(document).ready( function($) {
-	var stamp, visibility, sticky = '';
+	var stamp, visibility, sticky = '', last = 0, co = $('#content');
 
 	postboxes.add_postbox_toggles(pagenow);
 
@@ -598,6 +598,24 @@ jQuery(document).ready( function($) {
 			});
 		}
 		makeSlugeditClickable();
+	}
+
+	// word count
+	if ( typeof(wpWordCount) != 'undefined' ) {
+		$(document).triggerHandler('wpcountwords', [ co.val() ]);
+
+		co.keyup( function(e) {
+			var k = e.keyCode || e.charCode;
+
+			if ( k == last )
+				return true;
+
+			if ( 13 == k || 8 == last || 46 == last )
+				$(document).triggerHandler('wpcountwords', [ co.val() ]);
+
+			last = k;
+			return true;
+		});
 	}
 
 	wptitlehint = function(id) {
