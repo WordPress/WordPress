@@ -654,11 +654,10 @@ form.upgrade .hint {
 }
 
 #wp-fullscreen-tagline {
-	bottom: 20px;
 	color: #BBBBBB;
 	font-size: 18px;
-	position: fixed;
-	right: 20px;
+	float: right;
+	padding-top: 5px;
 }
 
 /* =Top bar
@@ -797,6 +796,15 @@ form.upgrade .hint {
 #wp-fullscreen-save span {
 	padding-right: 4px;
 	display: none;
+}
+
+#wp-fullscreen-buttons .mce_image .mce_image {
+	background-image: url("../images/menu.png?ver=20100531");
+	background-position: -124px -38px;
+}
+
+#wp-fullscreen-buttons .mce_image .mce_image:hover {
+	background-position: -124px -6px;
 }
 
 /* =Thickbox Adjustments

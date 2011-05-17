@@ -1811,10 +1811,9 @@ function wp_fullscreen_html() {
 
 	<div id="wp-fullscreen-status">
 		<div id="wp-fullscreen-count"><?php printf( __( 'Word count: %s' ), '<span class="word-count">0</span>' ); ?></div>
+		<div id="wp-fullscreen-tagline"><?php _e('Just write.'); ?></div>
 	</div>
-
 </div>
-<div id="wp-fullscreen-tagline"><?php _e('Just write.'); ?></div>
 
 </div>
 
