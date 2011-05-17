@@ -68,7 +68,7 @@ if ( ! $results ) {
 	exit;
 }
 
-echo '<p>' . __( "WordPress is created by a worldwide team of passionate individuals. We couldn't possibly list them all, but here some of the most influential people currently involved with the project:" ) . "<p>\n";
+echo '<p>' . __( "WordPress is created by a worldwide team of passionate individuals. We couldn't possibly list them all, but here some of the most influential people currently involved with the project:" ) . "</p>\n";
 
 $gravatar = is_ssl() ? 'https://secure.gravatar.com/avatar/' : 'http://0.gravatar.com/avatar/';
 
@@ -77,7 +77,10 @@ foreach ( $results['people'] as $group_slug => $members ) {
 	echo '<ul class="wp-people-group" id="wp-people-group-' . $group_slug . '">' . "\n";
 	shuffle( $members ); // We were going to sort by ability to pronounce "hierarchical," but that wouldn't be fair to Matt.
 	foreach ( $members as $member_slug => $member ) {
-		echo '<li class="wp-person" id="wp-person-' . $member_slug . '"><img src="' . $gravatar . $member[3] . '?s=60" class="gravatar" /><a class="web" href="' . $results['data']['profile_prefix'] . $member[2] . '">' . $member[0] . '</a><br /><span class="title">' . translate( $member[1] ) . "</span></li>\n";
+		echo '<li class="wp-person" id="wp-person-' . $member_slug . '">' . "\n\t";
+		echo '<a href="' . $results['data']['profile_prefix'] . $member[2] . '"><img src="' . $gravatar . $member[3] . '?s=60" class="gravatar" alt="' . esc_attr( $member[0] ) . '" /></a>' . "\n\t";
+		echo '<a class="web" href="' . $results['data']['profile_prefix'] . $member[2] . '">' . $member[0] . "</a>\n\t";
+		echo '<br /><span class="title">' . translate( $member[1] ) . "</span>\n</li>\n";
 	}
 	echo "</ul>\n";
 }
