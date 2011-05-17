@@ -69,7 +69,7 @@ if ( ! is_multisite() ) {
 
 unset($theme_update_count, $wordpress_update_count, $update_themes, $update_plugins, $update_wordpress);
 
-$menu[4] = array( '', 'read', 'separator1', '', 'wp-menu-separator' );
+$menu[4] = array( '', 'read', '', '', 'wp-menu-separator' );
 
 $menu[5] = array( __('Posts'), 'edit_posts', 'edit.php', '', 'open-if-no-js menu-top menu-icon-post', 'menu-posts', 'div' );
 	$submenu['edit.php'][5]  = array( __('All Posts'), 'edit_posts', 'edit.php' );
@@ -152,7 +152,7 @@ foreach ( (array) get_post_types( array('show_ui' => true, '_builtin' => false, 
 }
 unset($ptype, $ptype_obj, $ptype_class, $ptype_for_id, $ptype_menu_position, $menu_icon, $i, $tax);
 
-$menu[59] = array( '', 'read', 'separator2', '', 'wp-menu-separator' );
+$menu[59] = array( '', 'read', '', '', 'wp-menu-separator' );
 
 if ( current_user_can( 'switch_themes') ) {
 	$menu[60] = array( __('Appearance'), 'switch_themes', 'themes.php', '', 'menu-top menu-icon-appearance', 'menu-appearance', 'div' );
@@ -232,7 +232,7 @@ $menu[80] = array( __('Settings'), 'manage_options', 'options-general.php', '', 
 
 $_wp_last_utility_menu = 80; // The index of the last top-level menu in the utility menu group
 
-$menu[99] = array( '', 'read', 'separator-last', '', 'wp-menu-separator-last' );
+$menu[99] = array( '', 'read', '', '', 'wp-menu-separator-last' );
 
 // Back-compat for old top-levels
 $_wp_real_parent_file['post.php'] = 'edit.php';

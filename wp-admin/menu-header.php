@@ -82,9 +82,7 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 
 		echo "\n\t<li$class$id>";
 
-		if ( false !== strpos($class, 'wp-menu-separator') ) {
-			echo '<a class="separator" href="?unfoldmenu=1"><br /></a>';
-		} elseif ( $submenu_as_parent && !empty($submenu[$item[2]]) ) {
+		if ( $submenu_as_parent && !empty($submenu[$item[2]]) ) {
 			$submenu[$item[2]] = array_values($submenu[$item[2]]);  // Re-index.
 			$menu_hook = get_plugin_page_hook($submenu[$item[2]][0][2], $item[2]);
 			$menu_file = $submenu[$item[2]][0][2];
@@ -96,7 +94,7 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 			} else {
 				echo "\n\t<div class='wp-menu-image'><a href='{$submenu[$item[2]][0][2]}'>$img</a></div>$arrow$toggle<a href='{$submenu[$item[2]][0][2]}'$class$tabindex>$title</a>";
 			}
-		} else if ( current_user_can($item[1]) ) {
+		} else if ( !empty($item[2]) && current_user_can($item[1]) ) {
 			$menu_hook = get_plugin_page_hook($item[2], 'admin.php');
 			$menu_file = $item[2];
 			if ( false !== $pos = strpos($menu_file, '?') )
