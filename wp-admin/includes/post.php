@@ -1810,7 +1810,7 @@ function wp_fullscreen_html() {
 	</div>
 
 	<div id="wp-fullscreen-status">
-		<div id="wp-fullscreen-count"><?php _e('Word Count:'); ?> <span class="word-count">0</span></div>
+		<div id="wp-fullscreen-count"><?php printf( __( 'Word count: %s' ), '<span class="word-count">0</span>' ); ?></div>
 	</div>
 
 </div>

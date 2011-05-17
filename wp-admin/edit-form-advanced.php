@@ -270,7 +270,7 @@ wp_nonce_field( 'samplepermalink', 'samplepermalinknonce', false );
 <?php the_editor($post->post_content); ?>
 
 <table id="post-status-info" cellspacing="0"><tbody><tr>
-	<td id="wp-word-count"><?php _e('Word count:'); ?> <span class="word-count">0</span></td>
+	<td id="wp-word-count"><?php printf( __( 'Word count: %s' ), '<span class="word-count">0</span>' ); ?></td>
 	<td class="autosave-info">
 	<span id="autosave">&nbsp;</span>
 <?php
