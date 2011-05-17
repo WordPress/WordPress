@@ -37,6 +37,7 @@
 		left: 0;
 		right:auto;
 		text-align: left;
+		font-family: Tahoma, Arial, sans-serif;
 	}
 
 #menu-management .nav-tabs {
@@ -83,10 +84,15 @@
 	float:right;
 }
 
-#cancel-save { margin-right: 20px; margin-left: 0; }
+#cancel-save {
+	margin-left: 0;
+	margin-right: 20px;
+}
 
 /* Button Secondary Actions */
-.list-controls { float: right;  }
+.list-controls {
+	 float: right;  
+}
 .add-to-menu {
 	float: left;
 }
@@ -150,8 +156,6 @@
 .item-controls .item-order { padding-left: 10px; padding-right: 0;}
 
 .item-edit {
-	background-image: url("../images/menu-bits-rtl.gif?ver=20100531");
-	background-position: 100% -105px;
 	left: -20px;
 	right:auto;
 	-moz-border-radius-bottomright: 3px;

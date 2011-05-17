@@ -1,212 +1,511 @@
-/* 0 - 200
-=================================== */
-td.available-theme {
-	text-align: right;
+/*------------------------------------------------------------------------------
+
+
+Hello, this is the RTL version of the  main WordPress admin CSS file.
+All the important stuff is in here.
+
+
+TABLE OF CONTENTS:
+------------------
+ 1.0 - Text Elements
+ 2.0 - Forms
+ 3.0 - Actions
+ 4.0 - Notifications
+ 5.0 - TinyMCE
+ 6.0 - Admin Header
+	6.1 - Favorites Menu
+	6.2 - Screen Options Tabs
+ 7.0 - Main Navigation
+ 8.0 - Layout Blocks
+ 9.0 - Dashboard
+10.0 - List Posts
+	10.1 - Inline Editing
+11.0 - Write/Edit Post Screen
+	11.1 - Custom Fields
+	11.2 - Post Revisions
+12.0 - Categories
+13.0 - Tags
+14.0 - Media Screen
+	14.1 - Media Uploader
+	14.2 - Image Editor
+15.0 - Comments Screen
+16.0 - Themes
+	16.1 - Custom Header
+	16.2 - Custom Background
+	16.3 - Tabbed Admin Screen Interface
+17.0 - Plugins
+18.0 - Users
+19.0 - Tools
+20.0 - Settings
+21.0 - Admin Footer
+22.0 - Misc
+23.0 - Dead
+
+
+------------------------------------------------------------------------------*/
+
+
+
+
+/*------------------------------------------------------------------------------
+  1.0 - Text Styles
+------------------------------------------------------------------------------*/
+
+ol {
+	margin-left: 0;
+	margin-right: 2em;
 }
-#current-theme img {
-	float: right;
-	margin-right: 0;
-	margin-left: 1em;
-}
-.quicktags, .search {
+
+.code, code {
 	font-family: Tahoma, Arial, sans-serif;
 }
-/* 200 - 500
-=================================== */
+
+
+.quicktags, .search {
+	font: 12px Tahoma, Arial, sans-serif;
+}
+
+.icon32 {
+	float: right;
+	margin: 7px 0 0 8px;
+}
+
+.howto {
+	font-style: normal;
+	font-family: Tahoma, Arial, sans-serif;
+}
+
+p.install-help {
+	font-style: normal;
+}
+
+
+/*------------------------------------------------------------------------------
+  2.0 - Forms
+------------------------------------------------------------------------------*/
+
 #doaction,
 #doaction2,
 #post-query-submit {
 	margin-right: 0;
 	margin-left: 8px;
 }
-#save-post {
-	float: right;
+
+#timezone_string option {
+	margin-left: 0;
+	margin-right: 1em;
 }
-#minor-publishing .ajax-loading {
-	padding: 3px 4px 0 0;
+
+#pass-strength-result {
 	float: right;
+	margin: 13px 1px 5px 5px;
 }
-.preview {
+
+p.search-box {
 	float: left;
 }
-#sticky-span {
-	margin-left: 0;
-	margin-right: 18px;
-}
-#post-body .misc-pub-section {
-	border-right-width: 0;
-	border-left-width: 1px;
-	border-right-style: none;
-	border-left-style: solid;
-	float: right;
-}
-#post-body .misc-pub-section-last {
-	border-left: 0;
-}
+
+
+/*------------------------------------------------------------------------------
+  3.0 - Actions
+------------------------------------------------------------------------------*/
+
 #delete-action {
 	text-align: right;
 	float: right;
 }
+
 #publishing-action {
 	text-align: left;
 	float: left;
 }
+
+#post-body .misc-pub-section {
+	border-right:0;
+	border-left-width: 1px;
+	border-left-style: solid;
+	float: right;
+}
+
+#post-body .misc-pub-section-last {
+	border-left: 0;
+}
+
+#minor-publishing-actions {
+	padding: 10px 8px 2px 10px;
+	text-align: left;
+}
+
+#save-post {
+	float: right;
+}
+
+#minor-publishing .ajax-loading {
+	padding: 3px 4px 0 0;
+	float: right;
+}
+
+.preview {
+	float: left;
+}
+
+#sticky-span {
+	margin-left: 0;
+	margin-right: 18px;
+}
+
 .side-info ul {
 	padding-left: 0;
 	padding-right: 18px;
 }
-.submit input,
-.button,
-.button-primary,
-.button-secondary,
-.button-highlighted,
-#postcustomstuff .submit input {
-	font-family: Tahoma, Arial, sans-serif;
-}
-#wpcontent select {
-	font-family: Tahoma, Arial, sans-serif;
-}
-#quicktags {
-	background-position: right top;
-}
-/* 500 - 700
-=================================== */
-#template div {
-	margin-right: 0;
-	margin-left: 190px;
-}
-* html #template div {
-	margin-left: 0;
+
+td.action-links,
+th.action-links {
+	text-align: left;
 }
 
-.list-ajax-loading {
-	float: left;
-	margin-right: 0;
-	margin-left: 9px;
+.describe .del-link {
+	padding-left: 0;
+	padding-right: 5px;
 }
 
-#your-profile legend {
-	font-family: Tahoma, Arial, sans-serif;
+
+/*------------------------------------------------------------------------------
+  4.0 - Notifications
+------------------------------------------------------------------------------*/
+
+.plugin-update .update-message {
+	margin: 0 31px 8px 10px;
 }
+
+form.upgrade .hint {
+	font-style: normal;
+}
+
 #ajax-response.alignleft {
 	margin-left: 0;
 	margin-right: 2em;
 }
-.page-numbers {
-	margin-right: 0;
-	margin-left: 1px;
+
+
+/*------------------------------------------------------------------------------
+  5.0 - TinyMCE
+------------------------------------------------------------------------------*/
+
+#quicktags {
+	background-position: right top;
 }
-.column-author img, .column-username img {
+
+#ed_reply_toolbar input {
+	margin: 1px 1px 1px 2px;
+}
+
+/* Distraction Free Writing mode
+ * =Overlay Styles
+-------------------------------------------------------------- */
+
+/* No RTL for now, this space intentionally left blank */
+
+/* =Overlay Body
+-------------------------------------------------------------- */
+#wp-fullscreen-body {
+	right: 0;
+	left:auto;
+}
+
+#wp-fullscreen-tagline {
+	left: 20px;
+}
+
+/* =Top bar
+-------------------------------------------------------------- */
+#fullscreen-topbar {
+	left:auto;
+	right: 0;
+}
+
+#wp-fullscreen-mode-bar,
+#wp-fullscreen-button-bar,
+#wp-fullscreen-close,
+#wp-fullscreen-count {
 	float: right;
-	margin-right: 0;
-	margin-left: 10px;
 }
-.tablenav a.button-secondary {
-	margin-right: 0;
-	margin-left: 8px;
-}
-.tablenav .actions {
-	padding-right: 0;
-	padding-left: 8px;
-}
-.tablenav .tablenav-pages {
+
+#wp-fullscreen-save {
 	float: left;
 }
-.tablenav .displaying-num {
-	margin-right: 0;
-	margin-left: 10px;
-	font-family: Tahoma, Arial, sans-serif;
-	font-style: normal;
+
+#wp-fullscreen-save {
+	padding: 2px 5px 0 2px;
 }
-#postcustomstuff table input,
-#postcustomstuff table select,
-#postcustomstuff table textarea {
-	margin: 8px 8px 8px 0;
-}
-/* 700 - 1000
-=================================== */
-#pass-strength-result {
+
+#wp-fullscreen-buttons > div {
 	float: right;
-	margin: 12px 1px 5px 5px;
 }
-/* Admin Header */
+
+#wp-fullscreen-mode-bar {
+	padding: 1px 0 0 14px;
+}
+
+#wp-fullscreen-modes a {
+	float: right;
+	border-width: 1px 0 1px 1px;
+}
+
+#wp-fullscreen-modes a:first-child {
+	border-width: 1px;
+	-moz-border-radius: 3px 3px 0 0;
+	-webkit-border-top-left-radius: 0;
+	-webkit-border-top-right-radius: 3px;
+	-webkit-border-bottom-left-radius: 0;
+	-webkit-border-bottom-right-radius: 3px;
+	-khtml-border-top-left-radius: 0;
+	-khtml-border-top-right-radius: 3px;
+	-khtml-border-bottom-left-radius: 0;
+	-khtml-border-bottom-right-radius: 3px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 3px;
+	border-bottom-right-left: 0;
+	border-bottom-right-radius: 3px;
+}
+
+#wp-fullscreen-modes a:last-child {
+	-moz-border-radius: 0 0 3px 3px;
+	-webkit-border-top-right-radius: 0;
+	-webkit-border-top-left-radius: 3px;
+	-webkit-border-bottom-right-radius: 0;
+	-webkit-border-bottom-left-radius: 3px;
+	-khtml-border-top-right-radius: 0;
+	-khtml-border-top-left-radius: 3px;
+	-khtml-border-bottom-right-radius: 0;
+	-khtml-border-bottom-left-radius: 3px;
+	border-top-right-radius: 0;
+	border-top-left-radius: 3px;
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 3px;
+}
+
+#wp-fullscreen-save img,
+#wp-fullscreen-save span {
+	padding-right: 0;
+	padding-left: 4px;
+}
+
+/* =Thickbox Adjustments
+-------------------------------------------------------------- */
+/* No RTL for now, this space intentionally left blank */
+
+
+/* =TinyMCE Adjustments
+-------------------------------------------------------------- */
+/* No RTL for now, this space intentionally left blank */
+
+
+
+/*------------------------------------------------------------------------------
+  6.0 - Admin Header
+------------------------------------------------------------------------------*/
+#wphead-info {
+	margin: 0 15px 0 0;
+}
+
 #user_info {
 	float: left;
+	padding: 0 6px 0 2px;
 }
+
+#user_info.active {
+	margin-right: 0;
+	margin-left: -1px;
+}
+
+#user_info .hide-if-no-js p {
+	margin: 0 0 0 20px;
+}
+
+#user_info_arrow {
+	right: auto;
+	left: 3px;
+}
+
+#user_info_links_wrap {
+	right: auto;
+	left: 0;
+}
+
+#wphead {
+	height: 32px;
+	margin-left: 15px;
+	margin-right: 2px;
+}
+
 #header-logo {
 	float: right;
-	margin: 7px 15px 0 0;
 }
+
 #wphead h1 {
-	font-family: Tahoma, Arial, sans-serif;
+	font: Tahoma, Arial, sans-serif;
 	float: right;
 }
-#wphead h1.long-title {
+
+/*------------------------------------------------------------------------------
+  6.1 - Favorites Menu
+------------------------------------------------------------------------------*/
+
+#favorite-actions {
+	margin: 0 15px 0 12px;
+}
+
+#favorite-first a {
+	padding: 2px 12px 2px 0;
+}
+
+#favorite-inside a {
+	padding: 3px 10px 3px 5px;
+}
+
+#favorite-toggle {
+	right: auto;
+	left: 0;
+}
+
+
+/*------------------------------------------------------------------------------
+  6.2 - Screen Options Tabs
+------------------------------------------------------------------------------*/
+
+#screen-meta-links {
+	margin: 0 0 0 19px;
+}
+
+#screen-meta .screen-reader-text {
+	visibility: hidden;
+}
+
+#screen-options-link-wrap,
+#contextual-help-link-wrap {
+	float: left;
+	margin: 0 6px 0 0;
 	font-family: Tahoma, Arial, sans-serif;
 }
+
+#contextual-help-wrap li {
+	list-style-type: disc;
+	margin-left: auto;
+	margin-right: 18px;
+}
+.toggle-arrow {
+	background-position: top right;
+}
+.toggle-arrow-active {
+	background-position: bottom right;
+}
+#screen-meta a.show-settings {
+	padding: 0 6px 0 16px;
+}
+
+#screen-options-wrap,
+#contextual-help-wrap {
+	margin: 0 0 0 15px;
+}
+
+.metabox-prefs label {
+	padding-right: auto;
+	padding-left: 15px;
+}
+
+.metabox-prefs label input {
+	margin: 0 2px 0 5px;
+}
+
+/*------------------------------------------------------------------------------
+  7.0 - Main Navigation (Right Menu) (RTL: Left Menu)
+------------------------------------------------------------------------------*/
+
+#adminmenushadow {
+	right: auto;
+	left: 0;
+}
+
+#adminmenu div.wp-menu-image {
+	float: right;
+}
+
 #adminmenu .wp-submenu a {
 	padding-left: 0;
 	padding-right: 12px;
-	border-width: 0 0 0 1px;
-	border-style: none none none solid;
-	font-family: Tahoma, Arial, sans-serif;
 }
-#adminmenu a.menu-top,
-#adminmenu .wp-submenu-head {
-	font-family: Tahoma, Arial, sans-serif;
+
+#adminmenu li.wp-has-current-submenu .wp-menu-arrow,
+#adminmenu li.menu-top.current .wp-menu-arrow {
+	right: auto;
+	left: -9px;
 }
-#adminmenu img.wp-menu-image {
+#adminmenu .wp-menu-arrow div {
+	background: url(../images/menu-arrow-frame-rtl.png) top left no-repeat;
+}
+
+#adminmenu .wp-menu-image img {
 	float: right;
 }
-.folded #adminmenu img.wp-menu-image {
-	padding: 7px 6px 0 0;
+
+.folded #adminmenu .wp-submenu {
+	display: block;
+	left: auto;
+	right: 26px;
 }
-#adminmenu a.separator {
-	cursor: e-resize;
+
+.folded #adminmenu .wp-submenu.sub-open {
+	padding: 0 0 8px 8px;
 }
-.folded #adminmenu a.separator {
- 	cursor: w-resize;
+
+#adminmenu .wp-submenu .wp-submenu-head {
+	padding: 6px 10px 5px 4px;
 }
+
 .folded #adminmenu .wp-submenu-wrap {
+	-webkit-border-bottom-right-radius: 0;
 	-webkit-border-bottom-left-radius: 3px;
+	-webkit-border-top-right-radius: 0;
 	-webkit-border-top-left-radius: 3px;
+	-khtml-border-bottom-right-radius: 0;
 	-khtml-border-bottom-left-radius: 3px;
+	-khtml-border-top-left-radius: 0;
 	-khtml-border-top-left-radius: 3px;
+	-moz-border-radius-bottomright: 0;
 	-moz-border-radius-bottomleft: 3px;
+	-moz-border-radius-topright: 0;
 	-moz-border-radius-topleft: 3px;
+	border-bottom-right-radius: 0;
 	border-bottom-left-radius: 3px;
+	border-top-right-radius: 0;
 	border-top-left-radius: 3px;
 }
-#adminmenu .wp-submenu .wp-submenu-head {
-	padding: 6px 10px 6px 4px;
+
+.folded #adminmenu .wp-submenu ul {
+	border-width: 0 1px 0 0;
 }
-.folded #adminmenu .wp-submenu {
-	margin: -1px 28px 0 0;
-}
+
 .folded #adminmenu .wp-submenu a {
 	padding-left: 0;
 	padding-right: 10px;
 }
+
 .folded #adminmenu a.wp-has-submenu {
 	margin-left: 0;
 	margin-right: 40px;
 }
+
 #adminmenu .wp-menu-toggle {
+	clear: left;
 	float: left;
 	padding: 1px 0 0 2px;
-	clear: left;
 }
-#adminmenu div.wp-menu-image {
-	float: right;
+
+#adminmenu .wp-menu-image img {
+	padding: 6px 1px 0 0;
 }
-#wphead-info {
-	margin: 0 15px 0 0;
-	padding-right:0;
-	padding-left: 15px;
-}
-/* end side admin menu */
-/* 1000 - 1300
-=================================== */
+
 #adminmenu #awaiting-mod,
 #adminmenu span.update-plugins,
 #sidemenu li a span.update-plugins {
@@ -214,69 +513,70 @@ td.available-theme {
 	margin-left: 0;
 	margin-right: 7px;
 }
+
 .post-com-count-wrapper {
 	font-family: Tahoma, Arial, sans-serif;
 }
+
 .column-response .post-com-count {
 	float: right;
 	margin-right: 0;
 	margin-left: 5px;
 }
-/* Tables used on comment.php and option/setting pages */
-.form-table th {
-	text-align: right;
-}
-.form-table input.tog {
-	margin-right: 0;
-	margin-left: 2px;
+
+.response-links {
 	float: right;
 }
-.form-table table.color-palette {
+
+#collapse-button {
 	float: right;
 }
-#profile-page .form-table #rich_editing {
-	margin-right: 0;
-	margin-left: 5px;
+
+/*------------------------------------------------------------------------------
+  8.0 - Layout Blocks
+------------------------------------------------------------------------------*/
+
+.widefat th {
+	font-family: Tahoma, Arial, sans-serif;
 }
-/* Post Screen */
-/* 1300 - 1500
-=================================== */
-#normal-sortables .postbox .submit {
+
+.widefat td p {
+	margin: 2px 0 0.8em;
+}
+
+.postbox-container {
+	float: right;
+	padding-right: 0;
+	padding-left: 0.5%;
+}
+
+.postbox .handlediv {
 	float: left;
 }
-#post-body .tagsdiv #newtag {
+
+/*------------------------------------------------------------------------------
+  9.0 - Dashboard
+------------------------------------------------------------------------------*/
+
+#the-comment-list p.comment-author img {
+	float: right;
 	margin-right: 0;
-	margin-left: 5px;
+	margin-left: 8px;
 }
-#post-status-info {
-	padding: 0 7px 0 15px;
-}
-#comment-status-radio input {
-	margin: 2px 0 5px 3px;
-}
-.tagchecklist {
-	margin-left: 0;
-	margin-right: 10px;
-}
-.tagchecklist strong {
-	margin-left: 0;
-	margin-right: -8px;
-}
-.tagchecklist span {
-	float: right;
-}
-.tagchecklist span a {
-	margin: 6px -9px 0 0;
-	float: right;
-}
-.ac_results li {
+
+/*------------------------------------------------------------------------------
+  10.0 - List Posts (/Pages/etc)
+------------------------------------------------------------------------------*/
+
+.fixed .column-comments {
 	text-align: right;
 }
-#poststuff h2 {
-	clear: right;
+.fixed .column-comments .vers {
+	padding-left: 0;
+	padding-right: 3px;
 }
-.description, .form-wrap p {
-	font-family: Tahoma, Arial, sans-serif;
+.fixed .column-comments a {
+	float: right;
 }
 .sorting-indicator {
 	margin-left: 0;
@@ -286,45 +586,167 @@ th.sortable a span,
 th.sorted a span {
 	float: right;
 }
-.fixed .column-comments a {
+
+/* Bulk Actions */
+
+.tablenav-pages a {
+	margin-right: 0;
+	margin-left: 1px;
+}
+.tablenav-pages .next-page {
+	margin-left: 0;
+	margin-right: 2px;
+}
+
+.tablenav a.button-secondary {
+	margin: 3px 0 0 8px;
+}
+
+.tablenav .tablenav-pages {
+	float: left;
+}
+
+.tablenav .displaying-num {
+	margin-right: 0;
+	margin-left: 10px;
+	font-family: Tahoma, Arial, sans-serif;
+	font-style: bold;
+}
+
+.tablenav .actions {
+	padding: 2px 0 0 8px;
+}
+
+.tablenav .delete {
+	margin-right: 0;
+	margin-left: 20px;
+}
+
+.view-switch {
+	float: left;
+}
+
+.filter {
+	float: right;
+	margin: -5px 10px 0 0;
+}
+
+.filter .subsubsub {
+	margin-left: 0;
+	margin-right: -10px;
+}
+
+#posts-filter fieldset {
+	float: right;
+	margin: 0 0 1em 1.5ex;
+}
+
+#posts-filter fieldset legend {
+	padding: 0 1px .2em 0;
+}
+
+/*------------------------------------------------------------------------------
+  10.1 - Inline Editing
+------------------------------------------------------------------------------*/
+
+#wpbody-content .inline-edit-row fieldset {
 	float: right;
 }
 
-/* 1500 - 1800
-=================================== */
-.autosave-info {
-	padding: 2px 2px 2px 15px;
-	text-align: left;
+#wpbody-content .quick-edit-row-page fieldset.inline-edit-col-right .inline-edit-col {
+	border-width: 0 1px 0 0;
 }
-.meta-box-sortables .postbox .handlediv {
+
+#wpbody-content .bulk-edit-row .inline-edit-col-bottom {
 	float: left;
 }
-.howto {
+
+.inline-edit-row fieldset label span.title {
+	float: right;
+}
+
+.inline-edit-row fieldset label span.input-text-wrap {
+	margin-left: 0;
+	margin-right: 5em;
+}
+
+.quick-edit-row-post fieldset.inline-edit-col-right label span.title {
+	padding-right: 0;
+	padding-left: 0.5em;
+}
+
+#wpbody-content .quick-edit-row fieldset .inline-edit-group label.alignleft:first-child {
+	margin-right: 0;
+	margin-left: 0.5em
+}
+
+/*	Styling */
+
+.inline-edit-row fieldset span.title,
+.inline-edit-row fieldset span.checkbox-title {
+	font-family: Tahoma, Arial, sans-serif;
+	font-style: normal;
+}
+
+.inline-edit-row fieldset .inline-edit-date {
+	float: right;
+}
+
+.inline-edit-row fieldset ul.cat-checklist label,
+.inline-edit-row .catshow,
+.inline-edit-row .cathide,
+.inline-edit-row #bulk-titles div {
 	font-family: Tahoma, Arial, sans-serif;
 }
+
+.quick-edit-row-post fieldset label.inline-edit-status {
+	float: right;
+}
+
+#bulk-titles div a {
+	float: right;
+	margin: 3px -2px 0 3px;
+	overflow: hidden;
+	text-indent: -9999px;
+}
+
+
+/*------------------------------------------------------------------------------
+  11.0 - Write/Edit Post Screen
+------------------------------------------------------------------------------*/
+
+
+#wp-fullscreen-title-prompt-text {
+	left: auto;
+	right: 0;
+}
+
 .postarea h3 label {
 	float: right;
 }
+
 .postarea #add-media-button {
 	float: left;
 	right: auto;
 	left: 10px;
 }
-.wp_themeSkin tr.mceFirst td.mceToolbar {
-	background-position: right top;
-}
-#poststuff #edButtonPreview,
-#poststuff #edButtonHTML {
+
+
+#edButtonPreview,
+#edButtonHTML {
 	margin: 5px 0 0 5px;
 	float: left;
 }
+
 #poststuff #edButtonHTML {
 	margin-right: 0;
 	margin-left: 15px;
 }
+
 #media-buttons a {
 	padding: 0 10px 5px 0;
 }
+
 .submitbox .submit {
 	text-align: right;
 }
@@ -332,292 +754,205 @@ th.sorted a span {
 .inside-submitbox #post_status {
 	margin: 2px -2px 2px 0;
 }
+
 .submitbox .submit input {
 	margin-right: 0;
 	margin-left: 4px;
 }
-/* Categories */
-.category-adder {
-	margin-left: 0;
-	margin-right: 120px;
+
+#normal-sortables .postbox .submit {
+	float: left;
 }
+
+
+#post-body ul.category-tabs,
+#post-body ul.add-menu-item-tabs {
+	float: right;
+	text-align: left;
+	/* Negative margin for the sake of those without JS: all tabs display */
+	margin: 0 5px 0 -120px;
+}
+
+
 #post-body ul.category-tabs li.tabs,
 #post-body ul.add-menu-item-tabs li.tabs {
-	-moz-border-radius: 0 3px 3px 0;
+	-moz-border-radius: 3px 3px 0 0;
 	-webkit-border-top-left-radius: 0;
 	-webkit-border-top-right-radius: 3px;
 	-webkit-border-bottom-left-radius: 0;
 	-webkit-border-bottom-right-radius: 3px;
+	-khtml-border-top-left-radius: 0;
+	-khtml-border-top-right-radius: 3px;
+	-khtml-border-bottom-left-radius: 0;
+	-khtml-border-bottom-right-radius: 3px;
 	border-top-left-radius: 0;
 	border-top-right-radius: 3px;
 	border-bottom-left-radius: 0;
 	border-bottom-right-radius: 3px;
 }
-#post-body ul.category-tabs,
-#post-body ul.add-menu-item-tabs {
-	float: right;
-	text-align: left;
-	margin: 0 0 0 -120px;
-}
+
 #post-body .categorydiv div.tabs-panel,
-#post-body .taxonomy div.tabs-panel,
+.taxonomy div.tabs-panel,
 #post-body #linkcategorydiv div.tabs-panel {
-	margin: 0 120px 0 5px;
+	margin: 0 125px 0 5px;
 }
-/* 1800 - 2000
-=================================== */
-#front-page-warning,
-#front-static-pages ul,
-.inline-editor ul.cat-checklist ul,
-.categorydiv ul.categorychecklist ul,
-.customlinkdiv ul.categorychecklist ul,
-.posttypediv ul.categorychecklist ul,
-.taxonomydiv ul.categorychecklist ul,
-#linkcategorydiv ul.categorychecklist ul{
-	margin-left: 0;
-	margin-right: 18px;
+
+#side-sortables .comments-box thead th,
+#normal-sortables .comments-box thead th {
+	font-style: normal;
 }
+
+#commentsdiv img.waiting {
+	padding-left: 0;
+	padding-right: 5px;
+}
+
+#post-body .category-tabs li.tabs,
+#post-body .add-menu-item-tabs li.tabs {
+	border-width: 1px 1px 1px 0;
+	margin-right: 0;
+	margin-left: -1px;
+}
+
 /* positioning etc. */
-p.search-box {
-	float: left;
-}
+
 #posts-filter fieldset {
 	float: right;
 	margin: 0 0 1em 1.5ex;
 }
+
 #posts-filter fieldset legend {
 	padding: 0 1px .2em 0;
 }
-.view-switch {
-	float: left;
-}
-.filter {
-	float: right;
-	margin: -5px 10px 0 0;
-}
-#the-comment-list td.comment p.comment-author {
+
+/* Global classes */
+
+#post-body .tagsdiv #newtag {
 	margin-right: 0;
+	margin-left: 5px;
 }
-#the-comment-list p.comment-author img {
-	float: right;
-	margin-right: 0;
-	margin-left: 8px;
-}
-.tablenav .delete {
-	margin-right: 0;
-	margin-left: 20px;
-}
-td.action-links, th.action-links {
+
+.autosave-info {
+	padding: 2px 2px 2px 15px;
 	text-align: left;
 }
-/* 2000 - 2300
-=================================== */
-.filter .subsubsub {
-	margin-left: 0;
-	margin-right: -10px;
+
+#post-body .wp_themeSkin .mceStatusbar a.mceResize {
+	background: transparent url(../images/resize-rtl.gif) no-repeat scroll right bottom;
+	cursor: sw-resize;
 }
-#wp-word-count {
-	margin-right: 10px;
-}
-.tool-box .title {
-	font-family: Tahoma, Arial, sans-serif;
-}
-.settings-toggle {
-	text-align: left;
-	margin: 5px 0 15px 7px;
-}
+
 .curtime #timestamp {
 	background-position: right top;
 	padding-left: 0;
 	padding-right: 18px;
 }
-/* media popup 0819 */
-#sidemenu {
-	margin: -30px 315px 0 15px;
-	float: left;
-	padding-left: 0;
-	padding-right: 10px;
+
+/*------------------------------------------------------------------------------
+  11.1 - Custom Fields
+------------------------------------------------------------------------------*/
+
+#postcustomstuff table input,
+#postcustomstuff table select,
+#postcustomstuff table textarea {
+	margin: 8px 8px 8px 0;
 }
-#sidemenu a {
+
+/*------------------------------------------------------------------------------
+  11.2 - Post Revisions
+------------------------------------------------------------------------------*/
+
+table.diff td, table.diff th {
+	font-family: Courier, monospace;
+}
+
+/*------------------------------------------------------------------------------
+  12.0 - Categories
+------------------------------------------------------------------------------*/
+
+.category-adder {
+	margin-left: 0;
+	margin-right: 120px;
+}
+
+
+#post-body ul.category-tabs,
+#post-body ul.add-menu-item-tabs {
 	float: right;
+	text-align: left;
+	/* Negative margin for the sake of those without JS: all tabs display */
+	margin: 0 5px 0 -120px;
 }
-#replysubmit .button {
-	margin-right: 0;
-	margin-left: 5px;
+
+#post-body ul.category-tabs li.tabs,
+#post-body ul.add-menu-item-tabs li.tabs {
+	-moz-border-radius: 3px 3px 0 0;
+	-webkit-border-top-left-radius: 0;
+	-webkit-border-top-right-radius: 3px;
+	-webkit-border-bottom-left-radius: 0;
+	-webkit-border-bottom-right-radius: 3px;
+	-khtml-border-top-left-radius: 0;
+	-khtml-border-top-right-radius: 3px;
+	-khtml-border-bottom-left-radius: 0;
+	-khtml-border-bottom-right-radius: 3px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 3px;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 3px;
 }
-/* 2300 - 2500
-=================================== */
-#edithead .inside {
-	float: right;
-	margin: 3px 5px 2px 0;
-}
-#replyrow #ed_reply_toolbar input {
-	margin: 1px 1px 1px 2px;
-}
-/* show/hide settings */
-#screen-meta-links {
-	margin: 0 0 0 18px;
-}
-#screen-options-link-wrap,
-#contextual-help-link-wrap {
-	float: left;
-	font-family: Tahoma, Arial, sans-serif;
-	margin: 0 0 0 6px;
-}
-#contextual-help-wrap li {
+
+#front-page-warning,
+#front-static-pages ul,
+ul.export-filters,
+.inline-editor ul.cat-checklist ul,
+.categorydiv ul.categorychecklist ul,
+.customlinkdiv ul.categorychecklist ul,
+.posttypediv ul.categorychecklist ul,
+.taxonomydiv ul.categorychecklist ul,
+#linkcategorydiv ul.categorychecklist ul {
 	margin-left: 0;
 	margin-right: 18px;
 }
-#screen-meta a.show-settings {
-	padding: 0 6px 0 16px;
-	background-position: left top;
-}
-.metabox-prefs label {
-	padding-right: 0;
-	padding-left: 15px;
-}
-.metabox-prefs label input {
-	margin: 0 2px 0 5px;
-}
-.inline-editor .save,
-.inline-editor .cancel {
+
+#post-body .category-tabs li.tabs,
+#post-body .add-menu-item-tabs li.tabs {
+	border-style: solid solid solid none;
+	border-width: 1px 1px 1px 0;
 	margin-right: 0;
-	margin-left: 5px;
+	margin-left: -1px;
 }
-#replysubmit img.waiting,
-.inline-edit-save img.waiting {
-	float: left;
-}
-.trash-undo-inside,
-.spam-undo-inside,
-.spam-undo-inside .avatar,
-.trash-undo-inside .avatar {
-	margin-right: 0;
-	margin-left: 8px;
-}
-/* 2500 - 2700
-=================================== */
-#bulk-titles div a {
-	float: right;
-	margin: 3px -2px 0 3px;
-}
-#wpbody-content .filename {
-	margin-left: 0;
-	margin-right: 10px;
-}
-#wpbody-content .inline-edit-row fieldset {
-	float: right;
-}
-#wpbody-content .quick-edit-row-page fieldset.inline-edit-col-right .inline-edit-col {
-	border-left: 0 none;
-	border-right: 1px solid;
-}
-#wpbody-content .bulk-edit-row .inline-edit-col-bottom {
-	float: left;
-}
-.inline-edit-row fieldset label span.title {
-	float: right;
-}
-.inline-edit-row fieldset label span.input-text-wrap {
-	margin-left: 0;
-	margin-right: 5em;
-}
-.quick-edit-row-post fieldset.inline-edit-col-right label span.title {
-	padding-right: 0;
-	padding-left: 0.5em;
-}
-#wpbody-content .quick-edit-row fieldset .inline-edit-group label.alignleft:first-child {
-	margin-right: 0;
-	margin-left: 0.5em;
-}
-/* 2700 - 3000
-=================================== */
-.inline-edit-row fieldset span.title,
-.inline-edit-row fieldset span.checkbox-title {
+
+p.help,
+p.description,
+span.description,
+.form-wrap p {
+	font-style: normal;
 	font-family: Tahoma, Arial, sans-serif;
 }
-.inline-edit-row fieldset .inline-edit-date {
-	float: right;
-}
-.inline-edit-row fieldset ul.cat-checklist label,
-.inline-edit-row .catshow,
-.inline-edit-row .cathide,
-.inline-edit-row #bulk-titles div {
-	font-family: Tahoma, Arial, sans-serif;
-}
-.quick-edit-row-post fieldset label.inline-edit-status {
-	float: right;
-}
-.describe-toggle-on, .describe-toggle-off {
-	float: left;
-	margin-right: 0;
-	margin-left: 20px;
-}
-#wpbody-content #media-items .filename {
-	float: right;
-	margin-left: 0;
-	margin-right: 10px;
-}
-.media-item .pinkynail {
-	float: right;
-}
-#find-posts-response .found-radio {
-	padding: 8px 8px 0 0;
-}
-.find-box-buttons {
-	left: auto;
-	right: 12px;
-}
-.find-box-search label {
-	padding-right: 0;
-	padding-left: 6px;
-}
-/* favorite-actions */
-#favorite-actions {
-	float: left;
-}
-#favorite-first {
-	padding: 3px 12px 4px 30px;
-}
-#favorite-inside {
-}
-#favorite-inside a {
-	padding: 3px 10px 3px 5px;
-}
-#favorite-toggle {
-	right: auto;
-	left: 0;
-	background:transparent url(../images/fav-arrow-rtl.gif?ver=20100531) no-repeat 10px -4px;
-}
-#utc-time, #local-time {
-	padding-left: 0;
-	padding-right: 25px;
-	font-family: Tahoma, Arial;
-}
-.icon32 {
-	float: right;
-	margin: 14px 0 0 6px;
-}
-.subtitle {
-	padding-left: 0;
-	padding-right: 25px;
+
+/*------------------------------------------------------------------------------
+  13.0 - Tags
+------------------------------------------------------------------------------*/
+
+.taghint {
+	margin: 15px 12px -24px 0;
 }
 
-ol {
-	list-style-type:decimal;
-	margin-left:0;
-	margin-right:2em;
+#poststuff .tagsdiv .howto {
+	margin: 0 8px 6px 0;
 }
 
-.postbox-container {
-	float: right;
-	padding-left: 0.5%;
-	padding-right: 0;
+.ac_results li {
+	text-align: right;
 }
 
-/* Media library */
+/*------------------------------------------------------------------------------
+  14.0 - Media Screen
+------------------------------------------------------------------------------*/
+
 #wpbody-content .describe th {
 	text-align: right;
+
 }
 
 .describe .media-item-info .A1B1 {
@@ -635,11 +970,11 @@ ol {
 }
 
 .media-upload-form tr.image-size label {
-	margin: 0 3px 0 0 ;
+	margin: 0 3px 0 0;
 }
 
 #wpbody-content .describe p.help {
-	padding: 0 5px 0 0 ;
+	padding: 0 5px 0 0;
 }
 
 .media-item .error-div a.dismiss,
@@ -648,13 +983,6 @@ ol {
 	float: left;
 	margin-right: 0;
 	margin-left: 20px;
-}
-
-.describe-toggle-on,
-.describe-toggle-off {
-	float: left;
-	margin-left: 20px;
-	margin-right: 0;
 }
 
 .media-item .error-div {
@@ -668,71 +996,307 @@ ol {
 
 .crunching {
 	text-align: left;
-	margin-left: 5px;
 	margin-right: 0;
+	margin-left: 5px;
 }
 
 .bar {
+	border-right-width: 0;
 	border-left-width: 3px;
+	border-right-style: none;
 	border-left-style: solid;
-	border-right: none;
+}
+
+/*------------------------------------------------------------------------------
+  14.1 - Media Uploader
+------------------------------------------------------------------------------*/
+
+#find-posts-response .found-radio {
+	padding: 5px 8px 0 0;
 }
 
 
-/* TinyMCE
-=================================== */
-.clearlooks2 .mceTop .mceLeft {
-	width:100% !important;
+.find-box-search label {
+	padding-right: 0;
+	padding-left: 6px;
 }
 
-/* tag hints */
-.taghint {
-	margin: 15px 12px -24px 0;
+.find-box #resize-se {
+	right: auto;
+	left: 1px;
 }
 
-#poststuff .tagsdiv .howto {
-	margin: 0 8px 6px 0;
+
+form.upgrade .hint {
+	font-style: normal;
+}
+
+
+/*------------------------------------------------------------------------------
+  14.2 - Image Editor
+------------------------------------------------------------------------------*/
+
+.imgedit-menu div {
+	float: right;
+}
+
+.imgedit-help {
+	font-style: normal;
+}
+
+.imgedit-submit-btn {
+	margin-left: 0;
+	margin-right: 20px;
+}
+
+
+/*------------------------------------------------------------------------------
+  15.0 - Comments Screen
+------------------------------------------------------------------------------*/
+
+.form-table th {
+	text-align: right;
+}
+
+.form-table input.tog {
+	margin-right: 0;
+	margin-left: 2px;
+	float: right;
+}
+
+.form-table table.color-palette {
+	float: right;
+}
+
+/* reply to comments */
+
+#replysubmit img.waiting,
+.inline-edit-save img.waiting {
+	float: left;
+}
+
+#replysubmit .button {
+	margin-right: 0;
+	margin-left: 5px;
+}
+
+#edithead .inside {
+	float: right;
+	padding: 3px 5px 2px 0;
+}
+
+.comment-ays th {
+	border-right-style: none;
+	border-left-style: solid;
+	border-right-width: 0;
+	border-left-width: 1px;
+}
+
+.spam-undo-inside .avatar,
+.trash-undo-inside .avatar {
+	margin-left: 8px;
+}
+
+#comment-status-radio input {
+	margin: 2px 0 5px 3px;
+}
+
+
+
+/*------------------------------------------------------------------------------
+  16.0 - Themes
+------------------------------------------------------------------------------*/
+
+td.available-theme {
+	text-align: right;
+}
+
+#current-theme img {
+	float: right;
+	margin-right: 0;
+	margin-left: 1em;
 }
 
 #broken-themes {
 	text-align: right;
 }
 
-.describe .del-link {
-	padding-right: 5px;
-	padding-left: 0;
-}
+/*------------------------------------------------------------------------------
+  16.1 - Custom Header Screen
+------------------------------------------------------------------------------*/
 
-.comment-ays th {
-	border-left-style: solid;
-	border-left-width: 1px;
-}
-
-/* Custom Header */
-.appearance_page_custom-header #available-headers .default-header {
+.appearance_page_custom-header .available-headers .default-header {
 	float: right;
 	margin: 0 0 20px 20px;
 }
-.appearance_page_custom-header #available-headers label input {
+
+.appearance_page_custom-header .random-header {
+	margin: 0 0 20px 20px;
+}
+
+.appearance_page_custom-header .available-headers label input,
+.appearance_page_custom-header .random-header label input {
 	margin-right: 0;
 	margin-left: 10px;
 }
 
-#custom-background label {
+/*------------------------------------------------------------------------------
+  16.2 - Custom Background Screen
+------------------------------------------------------------------------------*/
+
+/* No RTL for now, this space intentionally left blank */
+
+
+/*------------------------------------------------------------------------------
+  16.3 - Tabbed Admin Screen Interface (Experimental)
+------------------------------------------------------------------------------*/
+
+.nav-tab {
+	margin: 0 0 -1px 6px;
+}
+
+h2 .nav-tab {
+	font-family: Tahoma, Arial, sans-serif;
+}
+
+
+/*------------------------------------------------------------------------------
+  17.0 - Plugins
+------------------------------------------------------------------------------*/
+
+.plugins .desc ul,
+.plugins .desc ol {
+	margin: 0 2em 0 0;
+}
+
+#wpbody-content .plugins .plugin-title, #wpbody-content .plugins .theme-title {
 	padding-right: 0;
-	padding-left: 15px;
+	padding-left: 12px;
 }
 
-/* ltr
-=================================== */
-#author-email, #author-url, #rss-url-1, #edit-slug-box, #post_name, #trackback_url, #metakeyinput, #post_password, #slug, #category_nicename, #link_url, #link_image, #rss_uri, #menu_order, #email, #newcomment_author_url, #pages-exclude, #template textarea, #user_login, #url, #pass1, #pass2, #aim, #yim, #jabber, #siteurl, #home, #admin_email, #gmt_offset, #default_post_edit_rows, #mailserver_url, #mailserver_login, #mailserver_pass, #mailserver_port, #ping_sites, #posts_per_page, #posts_per_rss, #blog_charset, #close_comments_days_old, #comments_per_page, #comment_max_links, #moderation_keys, #blacklist_keys, #thumbnail_size_w, #thumbnail_size_h, #medium_size_w, #medium_size_h, #large_size_w, #large_size_h, #permalink_structure, #category_base, #tag_base, #upload_path, #upload_url_path, #rules {
-	direction: ltr;
+
+/*------------------------------------------------------------------------------
+  18.0 - Users
+------------------------------------------------------------------------------*/
+
+#profile-page .form-table #rich_editing {
+	margin-right: 0;
+	margin-left: 5px
 }
 
-/* no italic
-=================================== */
+#your-profile legend {
+	font-family: Tahoma, Arial, sans-serif;
+}
 
-#quicktags #ed_em, #ed_reply_toolbar #ed_reply_em, .tablenav .displaying-num, #footer, #footer a, p.help, p.description, span.description, .form-wrap p, #side-sortables .comments-box thead th,
-#normal-sortables .comments-box thead th, .howto, .inline-edit-row fieldset span.title, .inline-edit-row fieldset span.checkbox-title, #utc-time, #local-time, form.upgrade .hint, p.install-help, .imgedit-help  {
+/*------------------------------------------------------------------------------
+  19.0 - Tools
+------------------------------------------------------------------------------*/
+
+/* Intentionally didn't RTLized the new press-this button;
+
+/*------------------------------------------------------------------------------
+  20.0 - Settings
+------------------------------------------------------------------------------*/
+
+#utc-time, #local-time {
+	padding-left: 0;
+	padding-right: 25px;
 	font-style: normal;
+	font-family: Tahoma, Arial, sans-serif;
 }
+
+/*------------------------------------------------------------------------------
+  21.0 - Admin Footer
+------------------------------------------------------------------------------*/
+
+#footer {
+	margin-right: 0;
+	margin-left: 15px;
+}
+
+/*------------------------------------------------------------------------------
+  22.0 - Misc
+------------------------------------------------------------------------------*/
+
+#template div {
+	margin-right: 0;
+	margin-left: 190px;
+}
+
+.column-author img, .column-username img {
+	float: right;
+	margin-right: 0;
+	margin-left: 10px;
+}
+
+.tagchecklist strong {
+	margin-left: 0;
+	margin-right: -8px;
+}
+
+.tagchecklist span {
+	margin-right: 0;
+	margin-left: 25px;
+	float: right;
+
+}
+.tagchecklist span a {
+	margin: 6px -9px 0pt 0pt;
+	float: right;
+}
+
+#poststuff h2 {
+	clear: right;
+}
+
+#poststuff h3,
+.metabox-holder h3 {
+	font-family: Tahoma, Arial, sans-serif;
+}
+
+.tool-box .title {
+	font-family: Tahoma, Arial, sans-serif;
+}
+
+#sidemenu {
+	margin: -30px 315px 0 15px;
+	float: left;
+	padding-left: 0;
+	padding-right: 10px;
+}
+#sidemenu a {
+	float: right;
+}
+
+table .vers,
+table .column-visible,
+table .column-rating {
+	text-align: right;
+}
+
+
+/*------------------------------------------------------------------------------
+  23.0  - Dead
+------------------------------------------------------------------------------*/
+
+/* - Not used anywhere in WordPress - verify and then deprecate
+------------------------------------------------------------------------------*/
+
+/* No RTL for now, this space intentionally left blank */
+
+
+/* - Only used once or twice in all of WP - deprecate for global style
+------------------------------------------------------------------------------*/
+
+* html #template div {margin-left: 0;}
+
+.list-ajax-loading {
+	float: left;
+	margin-right: 0;
+	margin-left: 9px;
+}
+
+/* - Used - but could/should be deprecated with a CSS reset
+------------------------------------------------------------------------------*/
+/* No RTL for now, this space intentionally left blank */
+

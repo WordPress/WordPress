@@ -1,78 +1,93 @@
 .bar {
-	border-right-color: transparent;
+	border-right-color: none;
 	border-left-color: #99d;
-}
-
-.plugins .togl {
-	border-right-color: transparent;
-	border-left-color: #ccc;
 }
 
 .post-com-count {
 	background-image: url(../images/bubble_bg-rtl.gif);
 }
-.tablenav .tablenav-pages a {
-	background: #eee url('../images/menu-bits-rtl.gif?ver=20100531') repeat-x scroll right -379px;
-}
-#upload-menu li.current {
-	border-right-color: transparent;
-	border-left-color: #448abd;
+
+#user_info_arrow {
+	background: transparent url(../images/arrows.png) no-repeat 0 5px;
 }
 
-#adminmenu .wp-submenu .current a.current {
-	background: transparent url(../images/menu-bits-rtl.gif?ver=20100531) no-repeat scroll  right -289px;
+#user_info:hover #user_info_arrow,
+#user_info.active #user_info_arrow {
+	background: transparent url(../images/arrows-dark.png) no-repeat 0 5px;
 }
 
-#adminmenu li.wp-menu-separator {
-	background: transparent url(../images/menu-arrows.gif) no-repeat scroll right -34px;
+/* editors */
+
+/* menu */
+
+#adminmenushadow,
+#adminmenuback {
+	background-image: url(../images/menu-shadow-rtl.png);
+	background-position: top left;
 }
 
-.folded #adminmenu li.wp-menu-separator {
-	background: transparent url(../images/menu-arrows.gif) no-repeat scroll left 5px;
-}
-
-#adminmenu li.wp-has-current-submenu .wp-menu-toggle,
+#adminmenu li.wp-has-current-submenu.wp-menu-open .wp-menu-toggle,
 #adminmenu li.wp-has-current-submenu:hover .wp-menu-toggle {
-	background: transparent url(../images/menu-bits-rtl.gif?ver=20100531) repeat-x scroll right -207px;
-}
-
-#adminmenu .wp-has-current-submenu ul li a.current {
-	background: url(../images/menu-dark-rtl.gif) top right no-repeat !important;
-}
-
-#adminmenu li.wp-has-current-submenu a.wp-has-current-submenu,
-#adminmenu .menu-top .current {
-	background: url(../images/menu-bits-rtl.gif?ver=20100531) top right repeat-x;
-}
-
-#adminmenu li.wp-has-current-submenu ul li a {
-	background: url(../images/menu-dark-rtl.gif) bottom right no-repeat !important;
-}
-
-#adminmenu li.wp-has-current-submenu.wp-menu-open .wp-menu-toggle, #adminmenu li.wp-has-current-submenu:hover .wp-menu-toggle {
-	background: transparent url(../images/menu-bits-rtl.gif?ver=20100531) no-repeat right -207px;
+	background: transparent url(../images/arrows-dark.png) no-repeat 8px 6px;
 }
 
 #adminmenu .wp-has-submenu:hover .wp-menu-toggle,
 #adminmenu .wp-menu-open .wp-menu-toggle {
-	background: transparent url(../images/menu-bits-rtl.gif?ver=20100531) repeat-x scroll right -109px;
+	background: transparent url(../images/arrows.png) no-repeat 8px 6px;
 }
 
-#adminmenu a.wp-has-submenu {
-	background: #f1f1f1 url(../images/menu-bits-rtl.gif?ver=20100531) repeat-x scroll right -379px;
+
+#adminmenu .wp-submenu .wp-submenu-head {
+	border-right-color: none;
+	border-left-color: #dfdfdf;
 }
 
-#adminmenu .wp-submenu a {
-	background: #fff url(../images/menu-bits-rtl.gif?ver=20100531) no-repeat scroll right -310px;
+
+/* collapse menu button */
+#collapse-button div {
+	background-position: 0 -108px;
+}
+.folded #collapse-button div {
+	background-position: 0 -72px;
 }
 
-#adminmenu li.wp-has-current-submenu a.wp-has-submenu {
-	background: #b5b5b5 url(../images/menu-bits-rtl.gif?ver=20100531) repeat-x scroll right top;
-}
+/* edit image */
 
 .meta-box-sortables .postbox:hover .handlediv {
-	background: transparent url(../images/menu-bits-rtl.gif?ver=20100531) no-repeat scroll right -111px;
+	background: transparent url(../images/arrows.png) no-repeat 6px 7px;
 }
+
+.tablenav .tablenav-pages a {
+	border-color: #e3e3e3;
+	background: #eee url('../images/menu-bits-rtl.gif?ver=20100610') repeat-x scroll right -379px;
+}
+
+#post-body .misc-pub-section {
+	border-right-color: none;
+	border-left-color: #eee;
+}
+
 #favorite-toggle {
-	background: transparent url(../images/fav-arrow-rtl.gif?ver=20100531) no-repeat right -4px;
+	background: transparent url(../images/arrows.png) no-repeat 4px 2px;
 }
+
+#screen-meta a.show-settings,
+.toggle-arrow {
+	background: transparent url(../images/arrows.png) no-repeat left 3px;
+}
+
+#screen-meta .screen-meta-active a.show-settings {
+	background: transparent url(../images/arrows.png) no-repeat left -33px;
+}
+
+.sidebar-name-arrow {
+	background: transparent url(../images/arrows.png) no-repeat 5px 9px;
+}
+.sidebar-name:hover .sidebar-name-arrow {
+	background: transparent url(../images/arrows-dark.png) no-repeat 5px 9px;
+}
+
+
+/* custom header & background pages */
+
+/* custom header & background pages */
