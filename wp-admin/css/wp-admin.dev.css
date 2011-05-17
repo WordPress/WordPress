@@ -640,10 +640,6 @@ form.upgrade .hint {
 	transition-duration: 0.6s;
 }
 
-.wp-fullscreen-focus #wp-fullscreen-title,
-.wp-fullscreen-focus #wp-fullscreen-container {
-	border-color: #ccc;
-}
 
 #wp_mce_fullscreen {
 	width: 100%;
@@ -673,13 +669,11 @@ form.upgrade .hint {
 	top: 0;
 	left: 0;
 	z-index: 150050;
-	border-bottom: 1px solid #C6C6C6;
+	border-bottom-style: solid;
+    border-bottom-width: 1px;
 	min-width: 800px;
 	width: 100%;
 	height: 40px;
-	background-color: #d9d9d9;
-	background-image: -moz-linear-gradient(bottom,  #d7d7d7,  #e4e4e4);
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#d7d7d7), to(#e4e4e4));
 }
 
 #wp-fullscreen-toolbar {

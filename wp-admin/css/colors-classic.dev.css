@@ -2111,3 +2111,20 @@ div.widgets-sortables,
 	color: #777;
 }
 /* custom header & background pages */
+
+/* full screen */ 
+ 
+.wp-fullscreen-focus #wp-fullscreen-title, 
+.wp-fullscreen-focus #wp-fullscreen-container { 
+    border-color: #BED1DD;     
+} 
+
+#fullscreen-topbar { 
+	border-bottom-color: #D1E5EE;
+	background-image: -ms-linear-gradient(top, #f7fcfe, #eff8ff); /* IE10 */
+	background-image: -moz-linear-gradient(top, #f7fcfe, #eff8ff); /* Firefox */
+	background-image: -o-linear-gradient(top, #f7fcfe, #eff8ff); /* Opera */
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#f7fcfe), to(#eff8ff)); /* old Webkit */
+	background-image: -webkit-linear-gradient(top, #f7fcfe, #eff8ff); /* new Webkit */
+	background-image: linear-gradient(top, #f7fcfe, #eff8ff); /* proposed W3C Markup */
+}
