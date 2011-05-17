@@ -29,7 +29,7 @@ function wp_credits() {
 
 	$results = get_site_transient( 'wordpress_credits' );
 
-	if ( false === $results ) {
+	if ( !is_array( $results ) ) {
 		$response = wp_remote_get( "http://api.wordpress.org/core/credits/1.0/?version=$wp_version&locale=$locale" );
 
 		if ( is_wp_error( $response ) || 200 != wp_remote_retrieve_response_code( $response ) )
@@ -37,7 +37,7 @@ function wp_credits() {
 	
 		$results = unserialize( wp_remote_retrieve_body( $response ) );
 
-		if ( ! $results )
+		if ( !is_array( $results ) )
 			return false;
 
 		set_site_transient( 'wordpress_credits', $results, 604800 ); // One week.
@@ -60,7 +60,7 @@ include( './admin-header.php' );
 
 $results = wp_credits();
 
-if ( ! $results ) {
+if ( !isset( $results['people'] ) ) {
 	echo '<p>' . sprintf( __( 'WordPress is created by a <a href="%1$s">worldwide team</a> of passionate individuals. <a href="%2$s">Get involved in WordPress</a>.' ),
 		'http://wordpress.org/about/',
 		'http://codex.wordpress.org/Contributing_to_WordPress' ) . '</p>';
@@ -72,7 +72,7 @@ echo '<p>' . __( "WordPress is created by a worldwide team of passionate individ
 
 $gravatar = is_ssl() ? 'https://secure.gravatar.com/avatar/' : 'http://0.gravatar.com/avatar/';
 
-foreach ( $results['people'] as $group_slug => $members ) {
+foreach ( (array) $results['people'] as $group_slug => $members ) {
 	echo '<h3 class="wp-people-group">' . translate( $results['groups'][ $group_slug ] ) . "</h3>\n";
 	echo '<ul class="wp-people-group" id="wp-people-group-' . $group_slug . '">' . "\n";
 	shuffle( $members ); // We were going to sort by ability to pronounce "hierarchical," but that wouldn't be fair to Matt.
