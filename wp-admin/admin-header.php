@@ -85,6 +85,10 @@ if ( get_user_setting('mfold') == 'f' )
 if ( is_admin_bar_showing() )
 	$admin_body_class .= ' admin-bar';
 
+$admin_body_class .= ' branch-' . str_replace( '.', '-', floatval( $wp_version ) );
+$admin_body_class .= ' version-' . str_replace( '.', '-', preg_replace( '/^([.0-9]+).*/', '$1', $wp_version ) );
+$admin_body_class .= ' admin-color-' . sanitize_html_class( get_user_option( 'admin_color' ), 'fresh' );
+
 if ( $is_iphone ) { ?>
 <style type="text/css">.row-actions{visibility:visible;}</style>
 <?php } ?>
