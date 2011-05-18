@@ -967,7 +967,7 @@ table.widefat .spam a:hover,
 /* Button */
 .wp_themeSkin .mceButton {
 	border-color: #B0C8D7;
-	background-color: #e9e8e8; /* Fallback */
+	background-color: #cfdfe9; /* Fallback */
 	background-image: -ms-linear-gradient(bottom, #cfdfe9, #fff); /* IE10 */
 	background-image: -moz-linear-gradient(bottom, #cfdfe9, #fff); /* Firefox */
 	background-image: -o-linear-gradient(bottom, #cfdfe9, #fff); /* Opera */
