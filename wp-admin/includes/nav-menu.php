@@ -628,7 +628,7 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 
 	if ( !$posts )
 		$error = '<li id="error">'. $post_type['args']->labels->not_found .'</li>';
-	
+
 	$db_fields = false;
 	if ( is_post_type_hierarchical( $post_type_name ) ) {
 		$db_fields = array( 'parent' => 'post_parent', 'id' => 'ID' );
@@ -745,6 +745,7 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 					}
 				}
 
+				$posts = apply_filters( 'nav_menu_items_'.$post_type_name, $posts, $args, $post_type );
 				$checkbox_items = walk_nav_menu_tree( array_map('wp_setup_nav_menu_item', $posts), 0, (object) $args );
 
 				if ( 'all' == $current_tab && ! empty( $_REQUEST['selectall'] ) ) {
