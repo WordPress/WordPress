@@ -5,7 +5,7 @@
  * Learn more: http://codex.wordpress.org/Post_Formats
  * 
  * @package WordPress
- * @subpackage Twenty Eleven
+ * @subpackage Twenty_Eleven
  */
 ?>
 

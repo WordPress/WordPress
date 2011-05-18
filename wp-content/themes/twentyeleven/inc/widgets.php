@@ -5,7 +5,7 @@
  * Learn more: http://codex.wordpress.org/Widgets_API#Developing_Widgets
  *
  * @package WordPress
- * @subpackage Twenty Eleven
+ * @subpackage Twenty_Eleven
  * @since Twenty Eleven 1.0
  */
 class Twenty_Eleven_Ephemera_Widget extends WP_Widget {

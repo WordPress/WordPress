@@ -3,7 +3,7 @@
  * The default template for displaying content
  *
  * @package WordPress
- * @subpackage Twenty Eleven
+ * @subpackage Twenty_Eleven
  * @since Twenty Eleven 1.0
  */
 ?>
