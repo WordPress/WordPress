@@ -490,10 +490,10 @@ PubSub.prototype.publish = function( topic, args ) {
 				if ( 27 == c ) // Esc
 					fullscreen.off();
 
-				if ( a && (61 == c || 187 == c) ) // +
+				if ( a && (61 == c || 107 == c || 187 == c) ) // +
 					api.dfw_width(25);
 
-				if ( a && (45 == c || 189 == c) ) // -
+				if ( a && (45 == c || 109 == c || 189 == c) ) // -
 					api.dfw_width(-25);
 
 				if ( a && 48 == c ) // 0
