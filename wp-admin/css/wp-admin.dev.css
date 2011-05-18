@@ -1328,9 +1328,10 @@ body.no-js #adminmenu li.wp-has-current-submenu .wp-submenu {
 	margin: 0;
 	border-width: 1px 0;
 	border-style: solid;
+	cursor: inherit;
 }
 
-#adminmenu a.separator {
+#adminmenu div.separator {
 	height: 1px;
 	padding: 0;
 	border-width: 1px 0 0 0;

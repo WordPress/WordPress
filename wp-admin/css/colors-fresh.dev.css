@@ -1261,7 +1261,7 @@ table.widefat .spam a:hover,
 	border-color: #cfcfcf;
 }
 
-#adminmenu a.separator {
+#adminmenu div.separator {
 	border-color: #e1e1e1;
 }
 

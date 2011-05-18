@@ -82,7 +82,9 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 
 		echo "\n\t<li$class$id>";
 
-		if ( $submenu_as_parent && !empty($submenu[$item[2]]) ) {
+		if ( false !== strpos( $class, 'wp-menu-separator' ) ) {
+			echo '<div class="separator"></div>';
+		} elseif ( $submenu_as_parent && !empty($submenu[$item[2]]) ) {
 			$submenu[$item[2]] = array_values($submenu[$item[2]]);  // Re-index.
 			$menu_hook = get_plugin_page_hook($submenu[$item[2]][0][2], $item[2]);
 			$menu_file = $submenu[$item[2]][0][2];
