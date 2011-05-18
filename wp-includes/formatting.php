@@ -1588,7 +1588,8 @@ function _wp_iso_convert( $match ) {
  *
  * Requires and returns a date in the Y-m-d H:i:s format. Simply subtracts the
  * value of the 'gmt_offset' option. Return format can be overridden using the
- * $format parameter. 
+ * $format parameter. The DateTime and DateTimeZone classes are used to respect
+ * time zone differences in DST.
  *
  * @since 1.2.0
  *
@@ -1600,13 +1601,19 @@ function _wp_iso_convert( $match ) {
 function get_gmt_from_date($string, $format = 'Y-m-d H:i:s') {
 	preg_match('#([0-9]{1,4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})#', $string, $matches);
 	$tz = get_option('timezone_string');
-	date_default_timezone_set( $tz );
-	$datetime = new DateTime( $string );
-	$datetime->setTimezone( new DateTimeZone('UTC') );
-	$offset = $datetime->getOffset();
-	$datetime->modify( '+' . $offset / 3600 . ' hours');
-	$string_gmt = gmdate($format, $datetime->format('U'));
-	date_default_timezone_set('UTC');
+	if ( $tz ) {
+		date_default_timezone_set( $tz );
+		$datetime = new DateTime( $string );
+		$datetime->setTimezone( new DateTimeZone('UTC') );
+		$offset = $datetime->getOffset();
+		$datetime->modify( '+' . $offset / 3600 . ' hours');
+		$string_gmt = gmdate($format, $datetime->format('U'));
+
+		date_default_timezone_set('UTC');
+	} else {
+		$string_time = gmmktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+		$string_gmt = gmdate($format, $string_time - get_option('gmt_offset') * 3600);
+	}
 	return $string_gmt;
 }
 
