@@ -5,6 +5,8 @@ var postboxes;
 			this.init(page,args);
 			$('.postbox h3, .postbox .handlediv').click( function() {
 				var p = $(this).parent('.postbox'), id = p.attr('id');
+				if ( 'dashboard_browser_nag' == id )
+					return;
 
 				p.toggleClass('closed');
 				postboxes.save_state(page);

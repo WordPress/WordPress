@@ -957,7 +957,8 @@ function do_meta_boxes($page, $context, $object) {
 					$style = '';
 					$hidden_class = in_array($box['id'], $hidden) ? ' hide-if-js' : '';
 					echo '<div id="' . $box['id'] . '" class="postbox ' . postbox_classes($box['id'], $page) . $hidden_class . '" ' . '>' . "\n";
-					echo '<div class="handlediv" title="' . esc_attr__('Click to toggle') . '"><br /></div>';
+					if ( 'dashboard_browser_nag' != $box['id'] )
+						echo '<div class="handlediv" title="' . esc_attr__('Click to toggle') . '"><br /></div>';
 					echo "<h3 class='hndle'><span>{$box['title']}</span></h3>\n";
 					echo '<div class="inside">' . "\n";
 					call_user_func($box['callback'], $object, $box);
@@ -1742,7 +1743,7 @@ function screen_meta($screen) {
 
 	if ( !empty($wp_current_screen_options) )
 		$show_screen = true;
-		
+
 	$show_screen = apply_filters('screen_options_show_screen', $show_screen, $screen);
 
 ?>
