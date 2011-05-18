@@ -34,7 +34,7 @@ function wp_credits() {
 
 		if ( is_wp_error( $response ) || 200 != wp_remote_retrieve_response_code( $response ) )
 			return false;
-	
+
 		$results = unserialize( wp_remote_retrieve_body( $response ) );
 
 		if ( !is_array( $results ) )
@@ -61,14 +61,12 @@ include( './admin-header.php' );
 $results = wp_credits();
 
 if ( !isset( $results['people'] ) ) {
-	echo '<p>' . sprintf( __( 'WordPress is created by a <a href="%1$s">worldwide team</a> of passionate individuals. <a href="%2$s">Get involved in WordPress</a>.' ),
-		'http://wordpress.org/about/',
-		'http://codex.wordpress.org/Contributing_to_WordPress' ) . '</p>';
+	echo '<p>' . sprintf( __( 'WordPress is created by a <a href="%s">worldwide team</a> of passionate individuals. <a href="http://codex.wordpress.org/Contributing_to_WordPress">Get involved in WordPress</a>.' ), 'http://wordpress.org/about/' ) . '</p>';
 	include( './admin-footer.php' );
 	exit;
 }
 
-echo '<p>' . __( "WordPress is created by a worldwide team of passionate individuals. We couldn't possibly list them all, but here some of the most influential people currently involved with the project:" ) . "</p>\n";
+echo '<p>' . __( 'WordPress is created by a worldwide team of passionate individuals. We couldn&#8217;t possibly list them all, but here some of the most influential people currently involved with the project:' ) . "</p>\n";
 
 $gravatar = is_ssl() ? 'https://secure.gravatar.com/avatar/' : 'http://0.gravatar.com/avatar/';
 
@@ -93,7 +91,7 @@ if ( isset( $results['props'] ) ) {
 }
 
 ?>
-<p class="clear"><?php printf( __( 'Want to see your name in lights on this page? <a href="%s">Get involved in WordPress</a>.' ), 'http://codex.wordpress.org/Contributing_to_WordPress' ); ?></p>
+<p class="clear"><?php _e( 'Want to see your name in lights on this page? <a href="http://codex.wordpress.org/Contributing_to_WordPress">Get involved in WordPress</a>.' ); ?></p>
 
 </div>
 <?php
