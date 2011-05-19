@@ -664,7 +664,6 @@ form.upgrade .hint {
 -------------------------------------------------------------- */
 #fullscreen-topbar {
 	position: fixed;
-	filter: inherit;
 	top: 0;
 	left: 0;
 	z-index: 150050;
@@ -673,6 +672,7 @@ form.upgrade .hint {
 	min-width: 800px;
 	width: 100%;
 	height: 40px;
+	display: none;
 }
 
 #wp-fullscreen-toolbar {

@@ -96,7 +96,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'editor', "/wp-admin/js/editor$suffix.js", array('utils','jquery'), '20110411' );
 	$scripts->add_data( 'editor', 'group', 1 );
 
-	$scripts->add( 'wp-fullscreen', "/wp-admin/js/wp-fullscreen$suffix.js", array('jquery'), '20110517' );
+	$scripts->add( 'wp-fullscreen', "/wp-admin/js/wp-fullscreen$suffix.js", array('jquery'), '20110518' );
 	$scripts->add_data( 'wp-fullscreen', 'group', 1 );
 
 	$scripts->add( 'prototype', '/wp-includes/js/prototype.js', false, '1.6.1');
@@ -482,9 +482,9 @@ function wp_default_styles( &$styles ) {
 	// Any rtl stylesheets that don't have a .dev version for ltr
 	$no_suffix = array( 'farbtastic' );
 
-	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20110517a' );
+	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20110518' );
 
-	$styles->add( 'ie', "/wp-admin/css/ie$suffix.css", array(), '20101102' );
+	$styles->add( 'ie', "/wp-admin/css/ie$suffix.css", array(), '20110518' );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
 
 	// all colors stylesheets need to have the same query strings (cache manifest compat)

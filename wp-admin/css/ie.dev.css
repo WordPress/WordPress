@@ -1,5 +1,30 @@
 /* Fixes for IE bugs */
 
+#wp-fullscreen-tagline {
+	color: #888;
+	font-size: 14px;
+}
+
+#adminmenuback {
+	left: 0;
+}
+
+#adminmenu li.wp-menu-separator,
+#adminmenu li.wp-menu-separator-last {
+	font-size: 1px;
+	line-height: 1;
+}
+
+#adminmenu a.menu-top {
+	border-bottom: 0 none;
+	border-top: 1px solid #ddd;
+}
+
+#adminmenu .separator {
+	font-size: 1px;
+	line-height: 1px;
+}
+
 #wpbody-content input.button,
 #wpbody-content input.button-secondary,
 #wpbody-content input.button-highlighted {
@@ -108,10 +133,6 @@ ul#adminmenu {
 .wp-submenu li,
 .wp-menu-toggle {
 	zoom: 100%;
-}
-
-.folded #adminmenu li.wp-menu-separator {
-	width: 28px;
 }
 
 #wpcontent #adminmenu .wp-submenu li.wp-submenu-head {

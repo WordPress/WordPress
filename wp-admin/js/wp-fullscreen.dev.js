@@ -287,6 +287,8 @@ PubSub.prototype.publish = function( topic, args ) {
 		api.bind_resize();
 		setTimeout( api.resize_textarea, 200 );
 
+		s.toolbars.show();
+
 		// scroll to top so the user is not disoriented
 		scrollTo(0, 0);
 	});

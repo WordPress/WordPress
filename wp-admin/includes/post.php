@@ -1742,7 +1742,6 @@ function wp_fullscreen_html() {
 	$dfw_width = get_user_setting( 'dfw_width', $width );
 	$save = $post->post_status == 'publish' ? __('Update') : __('Save');
 ?>
-<div id="wp-fullscreen-body">
 <div id="fullscreen-topbar">
 	<div id="wp-fullscreen-toolbar">
 		<div id="wp-fullscreen-close"><a href="#" onclick="fullscreen.off();return false;"><?php _e('Exit fullscreen'); ?></a></div>
@@ -1801,6 +1800,7 @@ function wp_fullscreen_html() {
 	</div>
 </div>
 
+<div id="wp-fullscreen-body">
 <div id="wp-fullscreen-wrap" style="width:<?php echo $dfw_width; ?>px;">
 	<label id="wp-fullscreen-title-prompt-text" for="wp-fullscreen-title"><?php echo apply_filters( 'enter_title_here', __( 'Enter title here' ), $post ); ?></label>
 	<input type="text" id="wp-fullscreen-title" value="" autocomplete="off" />
@@ -1814,7 +1814,6 @@ function wp_fullscreen_html() {
 		<div id="wp-fullscreen-tagline"><?php _e('Just write.'); ?></div>
 	</div>
 </div>
-
 </div>
 
 <div class="fullscreen-overlay" id="fullscreen-overlay"></div>
