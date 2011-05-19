@@ -2235,8 +2235,8 @@ table .inline-edit-row fieldset ul.cat-hover {
 }
 
 #wp-fullscreen-title-prompt-text {
-	top: 3px;
 	left: 0;
+	padding: 11px;
 }
 
 #poststuff .inside-submitbox,
