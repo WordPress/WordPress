@@ -337,7 +337,16 @@ if ( is_string($content_func) )
 	do_action( "admin_head_{$content_func}" );
 ?>
 </head>
-<body<?php if ( isset($GLOBALS['body_id']) ) echo ' id="' . $GLOBALS['body_id'] . '"'; ?>>
+<body<?php if ( isset($GLOBALS['body_id']) ) echo ' id="' . $GLOBALS['body_id'] . '"'; ?> class="no-js">
+<script type="text/javascript">
+//<![CDATA[
+(function(){
+var c = document.body.className;
+c = c.replace(/no-js/, 'js');
+document.body.className = c;
+})();
+//]]>
+</script>
 <?php
 	$args = func_get_args();
 	$args = array_slice($args, 1);
@@ -1551,7 +1560,7 @@ SWFUpload.onload = function() {
 </div>
 <?php endif; // $flash ?>
 
-<div id="html-upload-ui">
+<div id="html-upload-ui" class="hide-if-js">
 <?php do_action('pre-html-upload-ui'); ?>
 	<p id="async-upload-wrap">
 		<label class="screen-reader-text" for="async-upload"><?php _e('Upload'); ?></label>
