@@ -161,12 +161,14 @@ case 'edit':
 	if ( 'post' == $post_type ) {
 		$parent_file = "edit.php";
 		$submenu_file = "edit.php";
+		$post_new_file = "post-new.php";
 	} else {
 		if ( isset( $post_type_object ) && $post_type_object->show_in_menu && $post_type_object->show_in_menu !== true )
 			$parent_file = $post_type_object->show_in_menu;
 		else
 			$parent_file = "edit.php?post_type=$post_type";
 		$submenu_file = "edit.php?post_type=$post_type";
+		$post_new_file = "post-new.php?post_type=$post_type";
 	}
 
 	if ( $last = wp_check_post_lock( $post->ID ) ) {
