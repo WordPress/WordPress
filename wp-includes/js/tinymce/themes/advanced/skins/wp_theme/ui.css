@@ -75,14 +75,9 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 .wp_themeSkin span.mce_wp_help,
 .wp_themeSkin span.mce_wp_adv,
 .wp_themeSkin span.mce_wp_more,
+.wp_themeSkin span.mce_strikethrough,
 .wp_themeSkin .mceSplitButton .mce_forecolor span.mce_forecolor {
 	background: url(../../img/wpicons.png) no-repeat 20px 20px;
-}
-
-/* missing */
-.wp_themeSkin span.mce_strikethrough {
-	background: url(../../img/allicons.png) no-repeat 20px 20px;
-	background-position:-120px 0;
 }
 
 /* Button */
@@ -416,6 +411,10 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 .wp_themeSkin span.mce_removeformat {background-position:-381px -20px}
 .wp_themeSkin .mceButtonEnabled:hover span.mce_removeformat,
 .wp_themeSkin .mceButtonActive span.mce_removeformat {background-position:-381px 0}
+
+.wp_themeSkin span.mce_strikethrough {background-position:-540px -18px;}
+.wp_themeSkin .mceButtonEnabled:hover span.mce_strikethrough,
+.wp_themeSkin .mceButtonActive span.mce_strikethrough {background-position:-540px 0}
 
 .wp_themeSkin .mceSplitButton .mce_forecolor span.mce_forecolor {background-position:-321px -22px}
 .wp_themeSkin .mceSplitButtonEnabled:hover span.mce_forecolor,
