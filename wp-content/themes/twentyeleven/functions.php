@@ -449,24 +449,16 @@ function twentyeleven_content_nav( $nav_id ) {
 }
 
 /**
- * Grab the first URL from a Link post
+ * Return the URL for the first link found in the post content.
+ *
+ * @since Twenty Eleven 1.0
+ * @return string|bool URL or false when no link is present.
  */
 function twentyeleven_url_grabber() {
-	global $post, $posts;
-
-	$first_url = '';
-
-	ob_start();
-	ob_end_clean();
-
-	$output = preg_match_all('/<a.+href=[\'"]([^\'"]+)[\'"].*>/i', $post->post_content, $matches);
-
-	$first_url = $matches [1] [0];
-
-	if ( empty( $first_url ) )
+	if ( ! preg_match( '/<a\s[^>]*?href=[\'"](.+?)[\'"]/is', get_the_content(), $matches ) )
 		return false;
 
-	return $first_url;
+	return esc_url_raw( $matches[1] );
 }
 
 /**
