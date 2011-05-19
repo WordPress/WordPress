@@ -168,7 +168,17 @@ include (ABSPATH . 'wp-admin/admin-header.php');
 
 <div class="wrap" id="profile-page">
 <?php screen_icon(); ?>
-<h2><?php echo esc_html( $title ); ?></h2>
+<h2>
+<?php
+echo esc_html( $title );
+if ( ! IS_PROFILE_PAGE ) {
+	if ( current_user_can( 'create_users' ) ) { ?>
+		<a href="user-new.php" class="add-new-h2"><?php echo esc_html_x( 'Add New', 'user' ); ?></a>
+	<?php } elseif ( is_multisite() && current_user_can( 'promote_users' ) ) { ?>
+		<a href="user-new.php" class="add-new-h2"><?php echo esc_html_x( 'Add Existing', 'user' ); ?></a>
+	<?php }
+} ?>
+</h2>
 
 <form id="your-profile" action="<?php echo esc_url( self_admin_url( IS_PROFILE_PAGE ? 'profile.php' : 'user-edit.php' ) ); ?>" method="post"<?php do_action('user_edit_form_tag'); ?>>
 <?php wp_nonce_field('update-user_' . $user_id) ?>
