@@ -61,7 +61,9 @@ include( './admin-header.php' );
 $results = wp_credits();
 
 if ( !isset( $results['people'] ) ) {
-	echo '<p>' . sprintf( __( 'WordPress is created by a <a href="%s">worldwide team</a> of passionate individuals. <a href="http://codex.wordpress.org/Contributing_to_WordPress">Get involved in WordPress</a>.' ), 'http://wordpress.org/about/' ) . '</p>';
+	echo '<p>' . sprintf( __( 'WordPress is created by a <a href="%1$s">worldwide team</a> of passionate individuals. <a href="%2$s">Get involved in WordPress</a>.' ),
+		'http://wordpress.org/about/',
+		_x( 'http://codex.wordpress.org/Contributing_to_WordPress', 'Url to the codex documentation on contributing to WordPress used on the credits page' ) ) . '</p>';
 	include( './admin-footer.php' );
 	exit;
 }
@@ -91,7 +93,8 @@ if ( isset( $results['props'] ) ) {
 }
 
 ?>
-<p class="clear"><?php _e( 'Want to see your name in lights on this page? <a href="http://codex.wordpress.org/Contributing_to_WordPress">Get involved in WordPress</a>.' ); ?></p>
+<p class="clear"><?php printf( __( 'Want to see your name in lights on this page? <a href="%s">Get involved in WordPress</a>.' ),
+								_x( 'http://codex.wordpress.org/Contributing_to_WordPress', 'Url to the codex documentation on contributing to WordPress used on the credits page' ) ); ?></p>
 
 </div>
 <?php
