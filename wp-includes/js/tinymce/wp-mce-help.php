@@ -14,7 +14,7 @@ header('Content-Type: text/html; charset=' . get_bloginfo('charset'));
 <head>
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
 <title><?php _e('Rich Editor Help') ?></title>
-<script type="text/javascript" src="tiny_mce_popup.js?ver=3223"></script>
+<script type="text/javascript" src="tiny_mce_popup.js?ver=342"></script>
 <?php
 wp_admin_css( 'global', true );
 wp_admin_css( 'wp-admin', true );
@@ -127,6 +127,20 @@ wp_admin_css( 'wp-admin', true );
 	#buttoncontainer a, #buttoncontainer a:hover {
 		border-bottom: 0px;
 	}
+
+	.mac,
+	.macos .win {
+		display: none;
+	}
+
+	.macos span.mac {
+		display: inline;
+	}
+
+	.macwebkit tr.mac {
+		display: table-row;
+	}
+	
 </style>
 <?php if ( is_rtl() ) : ?>
 <style type="text/css">
@@ -159,11 +173,25 @@ wp_admin_css( 'wp-admin', true );
 		}
 	}
 
-    function init() {
-        document.getElementById('version').innerHTML = tinymce.majorVersion + "." + tinymce.minorVersion;
+    tinyMCEPopup.onInit.add(function() {
+        var win = tinyMCEPopup.getWin();
+
+		document.getElementById('version').innerHTML = tinymce.majorVersion + "." + tinymce.minorVersion;
         document.getElementById('date').innerHTML = tinymce.releaseDate;
-    }
-    tinyMCEPopup.onInit.add(init);
+ 
+		if ( win.fullscreen && win.fullscreen.settings.visible ) {
+			d('content1').className = 'hidden';
+			d('tabs').className = 'hidden';
+			d('content3').className = 'dfw';
+		}
+
+		if ( tinymce.isMac )
+			document.body.className = 'macos';
+		
+		if ( tinymce.isMac && tinymce.isWebKit )
+			document.body.className = 'macos macwebkit';
+
+    });
 </script>
 </head>
 <body>
@@ -200,28 +228,33 @@ wp_admin_css( 'wp-admin', true );
 <div id="content3" class="hidden">
 	<h2><?php _e('Writing at Full Speed') ?></h2>
     <p><?php _e('Rather than reaching for your mouse to click on the toolbar, use these access keys. Windows and Linux use Ctrl + letter. Macintosh uses Command + letter.') ?></p>
+	<p class="dfw-extra"><?php
+
+	printf( __('In Distraction free writing mode use %1$s to make the editor wider, %2$s to make it narrower and %3$s to reset it to the original theme width.'),
+		'<span class="win">Alt +</span><span class="mac">Ctrl +</span>',
+		'<span class="win">Alt -</span><span class="mac">Ctrl -</span>',
+		'<span class="win">Alt 0</span><span class="mac">Ctrl 0</span>'
+	);
+
+	?></p>
 	<table class="keys" width="100%" style="border: 0 none;">
 		<tr class="top"><th class="key center"><?php _e('Letter') ?></th><th class="left"><?php _e('Action') ?></th><th class="key center"><?php _e('Letter') ?></th><th class="left"><?php _e('Action') ?></th></tr>
 		<tr><th>c</th><td><?php _e('Copy') ?></td><th>v</th><td><?php _e('Paste') ?></td></tr>
 		<tr><th>a</th><td><?php _e('Select all') ?></td><th>x</th><td><?php _e('Cut') ?></td></tr>
 		<tr><th>z</th><td><?php _e('Undo') ?></td><th>y</th><td><?php _e('Redo') ?></td></tr>
-		<script type="text/javascript">
-		if ( ! tinymce.isWebKit )
-			document.write("<tr><th>b</th><td><?php _e('Bold') ?></td><th>i</th><td><?php _e('Italic') ?></td></tr>"+
-			"<tr><th>u</th><td><?php _e('Underline') ?></td><th>1</th><td><?php _e('Heading 1') ?></td></tr>"+
-			"<tr><th>2</th><td><?php _e('Heading 2') ?></td><th>3</th><td><?php _e('Heading 3') ?></td></tr>"+
-			"<tr><th>4</th><td><?php _e('Heading 4') ?></td><th>5</th><td><?php _e('Heading 5') ?></td></tr>"+
-			"<tr><th>6</th><td><?php _e('Heading 6') ?></td><th>9</th><td><?php _e('Address') ?></td></tr>")
-		</script>
+		
+		<tr class="win"><th>b</th><td><?php _e('Bold') ?></td><th>i</th><td><?php _e('Italic') ?></td></tr>
+		<tr class="win"><th>u</th><td><?php _e('Underline') ?></td><th>1</th><td><?php _e('Heading 1') ?></td></tr>
+		<tr class="win"><th>2</th><td><?php _e('Heading 2') ?></td><th>3</th><td><?php _e('Heading 3') ?></td></tr>
+		<tr class="win"><th>4</th><td><?php _e('Heading 4') ?></td><th>5</th><td><?php _e('Heading 5') ?></td></tr>
+		<tr class="win"><th>6</th><td><?php _e('Heading 6') ?></td><th>9</th><td><?php _e('Address') ?></td></tr>
 	</table>
 
 	<p><?php _e('The following shortcuts use different access keys: Alt + Shift + letter.') ?></p>
 	<table class="keys" width="100%" style="border: 0 none;">
 		<tr class="top"><th class="key center"><?php _e('Letter') ?></th><th class="left"><?php _e('Action') ?></th><th class="key center"><?php _e('Letter') ?></th><th class="left"><?php _e('Action') ?></th></tr>
-		<script type="text/javascript">
-		if ( tinymce.isWebKit )
-			document.write("<tr><th>b</th><td><?php _e('Bold') ?></td><th>i</th><td><?php _e('Italic') ?></td></tr>")
-		</script>
+		<tr class="mac"><th>b</th><td><?php _e('Bold') ?></td><th>i</th><td><?php _e('Italic') ?></td></tr>
+
 		<tr><th>n</th><td><?php _e('Check Spelling') ?></td><th>l</th><td><?php _e('Align Left') ?></td></tr>
 		<tr><th>j</th><td><?php _e('Justify Text') ?></td><th>c</th><td><?php _e('Align Center') ?></td></tr>
 		<tr><th>d</th><td><span style="text-decoration: line-through;"><?php _e('Strikethrough') ?></span></td><th>r</th><td><?php _e('Align Right') ?></td></tr>
