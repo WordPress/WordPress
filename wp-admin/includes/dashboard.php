@@ -1120,7 +1120,7 @@ function wp_dashboard_rss_control( $widget_id, $form_inputs = array() ) {
 
 // Display File upload quota on dashboard
 function wp_dashboard_quota() {
-	if ( !is_multisite() || !current_user_can('edit_posts') || get_site_option( 'upload_space_check_disabled' ) )
+	if ( !is_multisite() || !current_user_can('upload_files') || get_site_option( 'upload_space_check_disabled' ) )
 		return true;
 
 	$quota = get_space_allowed();
