@@ -1,5 +1,13 @@
 /* Fixes for IE bugs */
 
+#wp-fullscreen-title {
+	width: 97%;
+}
+
+#wp_mce_fullscreen_ifr {
+	background-color: #f9f9f9;
+}
+
 #wp-fullscreen-tagline {
 	color: #888;
 	font-size: 14px;

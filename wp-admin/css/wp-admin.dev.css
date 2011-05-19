@@ -605,8 +605,9 @@ form.upgrade .hint {
 }
 
 #wp-fullscreen-wrap {
-	margin: 60px auto 50px;
+	margin: 0 auto 50px;
 	position: relative;
+	padding-top: 60px;
 }
 
 #wp-fullscreen-title {
@@ -672,7 +673,6 @@ form.upgrade .hint {
 	min-width: 800px;
 	width: 100%;
 	height: 40px;
-	display: none;
 }
 
 #wp-fullscreen-toolbar {

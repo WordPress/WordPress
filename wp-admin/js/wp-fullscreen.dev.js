@@ -277,7 +277,6 @@ PubSub.prototype.publish = function( topic, args ) {
 	});
 
 	ps.subscribe( 'showing', function() { // This event occurs while the DFW overlay blocks the UI.
-
 		$( document.body ).addClass( 'fullscreen-active' );
 		api.refresh_buttons();
 
@@ -286,8 +285,6 @@ PubSub.prototype.publish = function( topic, args ) {
 
 		api.bind_resize();
 		setTimeout( api.resize_textarea, 200 );
-
-		s.toolbars.show();
 
 		// scroll to top so the user is not disoriented
 		scrollTo(0, 0);
@@ -528,7 +525,9 @@ PubSub.prototype.publish = function( topic, args ) {
 				s.timer = 0;
 			}).mouseleave(function(e){
 				s.toolbars.removeClass('fullscreen-make-sticky');
-				$( document ).bind( 'mousemove.fullscreen', function(e) { bounder( 'showToolbar', 'hideToolbar', 2000 ); } );
+
+				if ( s.visible )
+					$( document ).bind( 'mousemove.fullscreen', function(e) { bounder( 'showToolbar', 'hideToolbar', 2000 ); } );
 			});
 		},
 

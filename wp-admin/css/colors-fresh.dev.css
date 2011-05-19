@@ -2121,6 +2121,7 @@ div.widgets-sortables,
 
 #fullscreen-topbar {
 	border-bottom-color: #DFDFDF;
+	background-color: #eee;
 	background-image: -ms-linear-gradient(top, #f4f4f4, #e9e9e9); /* IE10 */
 	background-image: -moz-linear-gradient(top, #f4f4f4, #e9e9e9); /* Firefox */
 	background-image: -o-linear-gradient(top, #f4f4f4, #e9e9e9); /* Opera */
