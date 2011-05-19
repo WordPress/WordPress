@@ -1786,7 +1786,7 @@ function wp_default_editor() {
  * @param bool $media_buttons Optional, default is true. Whether to display media buttons.
  * @param int $tab_index Optional, default is 2. Tabindex for textarea element.
  */
-function the_editor($content, $id = 'content', $prev_id = 'title', $media_buttons = true, $tab_index = 2) {
+function the_editor($content, $id = 'content', $prev_id = 'title', $media_buttons = true, $tab_index = 2, $extended = true) {
 	$rows = get_option('default_post_edit_rows');
 	if (($rows < 3) || ($rows > 100))
 		$rows = 12;
@@ -1839,12 +1839,13 @@ function the_editor($content, $id = 'content', $prev_id = 'title', $media_button
 ?>
 	<script type="text/javascript">
 	edCanvas = document.getElementById('<?php echo $id; ?>');
+<?php if ( ! $extended ) { ?>	jQuery('#ed_fullscreen, #ed_more').hide();<?php } ?>
 	</script>
 <?php
 	// queue scripts
 	if ( $richedit )
 		add_action( 'admin_print_footer_scripts', 'wp_tiny_mce', 25 );
-	else
+	elseif ( $extended )
 		add_action( 'admin_print_footer_scripts', 'wp_quicktags', 25 );
 
 }

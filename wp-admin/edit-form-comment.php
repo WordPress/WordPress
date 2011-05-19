@@ -120,7 +120,7 @@ $date = date_i18n( $datef, strtotime( $comment->comment_date ) );
 </div>
 
 <div id="postdiv" class="postarea">
-<?php the_editor($comment->comment_content, 'content', 'newcomment_author_url', false, 4); ?>
+<?php the_editor($comment->comment_content, 'content', 'newcomment_author_url', false, 4, false); ?>
 <?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
 </div>
 

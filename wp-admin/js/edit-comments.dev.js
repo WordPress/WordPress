@@ -544,7 +544,7 @@ $(document).ready(function(){
 	$(document).delegate('span.delete a.delete', 'click', function(){return false;});
 
 	if ( typeof QTags != 'undefined' )
-		ed_reply = new QTags('ed_reply', 'replycontent', 'replycontainer', 'more');
+		ed_reply = new QTags('ed_reply', 'replycontent', 'replycontainer', 'more,fullscreen');
 
 	if ( typeof $.table_hotkeys != 'undefined' ) {
 		make_hotkeys_redirect = function(which) {
