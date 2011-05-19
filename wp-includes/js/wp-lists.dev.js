@@ -344,10 +344,13 @@ wpList = {
 			else
 				list.append(e);
 
-		} else if ( s.pos < 0 ) {
-			list.prepend(e);
-		} else {
-			list.append(e);
+		} else if ( 0 === $('#' + s.element).size() ) {
+
+			if ( s.pos < 0 ) {
+				list.prepend(e);
+			} else {
+				list.append(e);
+			}
 		}
 
 		if ( s.alt ) {
