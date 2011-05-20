@@ -92,7 +92,7 @@ function login_header($title = 'Log In', $message = '', $wp_error = '') {
 	$message = apply_filters('login_message', $message);
 	if ( !empty( $message ) ) echo $message . "\n";
 
-	// Incase a plugin uses $error rather than the $errors object
+	// In case a plugin uses $error rather than the $wp_errors object
 	if ( !empty( $error ) ) {
 		$wp_error->add('error', $error);
 		unset($error);
