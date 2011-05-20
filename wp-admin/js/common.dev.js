@@ -276,30 +276,30 @@ $(document).ready( function() {
 	});
 
 	$('thead, tfoot').find('.check-column :checkbox').click( function(e) {
-		var c = $(this).attr('checked'),
+		var c = $(this).prop('checked'),
 			kbtoggle = 'undefined' == typeof toggleWithKeyboard ? false : toggleWithKeyboard,
 			toggle = e.shiftKey || kbtoggle;
 
 		$(this).closest( 'table' ).children( 'tbody' ).filter(':visible')
 		.children().children('.check-column').find(':checkbox')
-		.attr('checked', function() {
+		.prop('checked', function() {
 			if ( $(this).closest('tr').is(':hidden') )
-				return '';
+				return false;
 			if ( toggle )
-				return $(this).attr( 'checked' ) ? '' : 'checked';
+				return $(this).prop( 'checked' );
 			else if (c)
-				return 'checked';
-			return '';
+				return true;
+			return false;
 		});
 
 		$(this).closest('table').children('thead,  tfoot').filter(':visible')
 		.children().children('.check-column').find(':checkbox')
-		.attr('checked', function() {
+		.prop('checked', function() {
 			if ( toggle )
-				return '';
+				return false;
 			else if (c)
-				return 'checked';
-			return '';
+				return true;
+			return false;
 		});
 	});
 
@@ -310,7 +310,7 @@ $(document).ready( function() {
 	});
 
 	// tab in textareas
-	$('#newcontent').keydown(function(e) {
+	$('#newcontent').bind('keydown.wpevent_InsertTab', function(e) {
 		if ( e.keyCode != 9 )
 			return true;
 
@@ -337,7 +337,7 @@ $(document).ready( function() {
 			e.preventDefault();
 	});
 
-	$('#newcontent').blur(function(e) {
+	$('#newcontent').bind('blur.wpevent_InsertTab', function(e) {
 		if ( this.lastKey && 9 == this.lastKey )
 			this.focus();
 	});
