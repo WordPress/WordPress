@@ -32,7 +32,7 @@ class WP_oEmbed {
 		$this->providers = apply_filters( 'oembed_providers', array(
 			'#http://(www\.)?youtube.com/watch.*#i'         => array( 'http://www.youtube.com/oembed',            true  ),
 			'http://youtu.be/*'                             => array( 'http://www.youtube.com/oembed',            false ),
-			'http://blip.tv/file/*'                         => array( 'http://blip.tv/oembed/',                   false ),
+			'http://blip.tv/*'                              => array( 'http://blip.tv/oembed/',                   false ),
 			'#http://(www\.)?vimeo\.com/.*#i'               => array( 'http://www.vimeo.com/api/oembed.{format}', true  ),
 			'#http://(www\.)?dailymotion\.com/.*#i'         => array( 'http://www.dailymotion.com/api/oembed',    true  ),
 			'#http://(www\.)?flickr\.com/.*#i'              => array( 'http://www.flickr.com/services/oembed/',   true  ),
