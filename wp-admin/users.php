@@ -378,16 +378,6 @@ if ( $usersearch )
 <?php $wp_list_table->display(); ?>
 </form>
 
-<?php
-if ( is_multisite() ) {
-	foreach ( array('user_login' => 'user_login', 'first_name' => 'user_firstname', 'last_name' => 'user_lastname', 'email' => 'user_email', 'url' => 'user_uri', 'role' => 'user_role') as $formpost => $var ) {
-		$var = 'new_' . $var;
-		$$var = isset($_REQUEST[$formpost]) ? esc_attr(stripslashes($_REQUEST[$formpost])) : '';
-	}
-	unset($name);
-}
-?>
-
 <br class="clear" />
 </div>
 <?php
