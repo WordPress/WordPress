@@ -452,7 +452,7 @@ commentReply = {
 		$('#replysubmit .error').hide();
 		$('#replysubmit .waiting').show();
 
-		$('#replyrow input').each(function() {
+		$('#replyrow input').not(':button').each(function() {
 			post[ $(this).attr('name') ] = $(this).val();
 		});
 
@@ -478,6 +478,8 @@ commentReply = {
 	show : function(xml) {
 		var t = this, r, c, id, bg, pid;
 
+		t.revert();
+
 		if ( typeof(xml) == 'string' ) {
 			t.error({'responseText': xml});
 			return false;
@@ -495,28 +497,31 @@ commentReply = {
 		if ( 'edit-comment' == t.act )
 			$(id).remove();
 
-		$(c).hide()
-		$('#replyrow').after(c);
-
 		if ( r.supplemental.parent_approved ) {
-			pid = '#comment-' + r.supplemental.parent_approved;
+			pid = $('#comment-' + r.supplemental.parent_approved);
 			updatePending( getCount( $('span.pending-count').eq(0) ) - 1 );
+			
+			if ( this.comments_listing == 'moderated' ) {
+				pid.animate( { 'backgroundColor':'#CCEEBB' }, 400, function(){
+					pid.fadeOut();
+				});
+				return;
+			}
 		}
 
-		t.revert();
-		t.addEvents($(id));
-		bg = $(id).hasClass('unapproved') ? '#FFFFE0' : '#FFFFFF';
+		$(c).hide()
+		$('#replyrow').after(c);
+		id = $(id);
+		t.addEvents(id);
+		bg = id.css('background-color');
 
-		$(id)
-			.animate( { 'backgroundColor':'#CCEEBB' }, 300 )
+		id.animate( { 'backgroundColor':'#CCEEBB' }, 300 )
 			.animate( { 'backgroundColor': bg }, 300, function() {
-				if ( pid ) {
-					pid  = $(pid)
-						.animate( { 'backgroundColor':'#CCEEBB' }, 300 )
-						.animate( { 'backgroundColor': '#FFFFFF' }, 300 )
-						.removeClass('unapproved').addClass('approved');
-
-					pid.find('div.comment_status').html('1');
+				if ( pid && pid.length ) {
+					pid.animate( { 'backgroundColor':'#CCEEBB' }, 300 )
+						.animate( { 'backgroundColor': bg }, 300 )
+						.removeClass('unapproved').addClass('approved')
+						.find('div.comment_status').html('1');
 				}
 			});
 
