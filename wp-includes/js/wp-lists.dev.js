@@ -344,8 +344,7 @@ wpList = {
 			else
 				list.append(e);
 
-		} else if ( 0 === $('#' + s.element).size() ) {
-
+		} else if ( 'comment' != s.what || 0 === $('#' + s.element).length ) {
 			if ( s.pos < 0 ) {
 				list.prepend(e);
 			} else {
