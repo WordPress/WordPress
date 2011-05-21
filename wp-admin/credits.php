@@ -12,8 +12,8 @@ require_once( './admin.php' );
 $title = __( 'Credits' );
 $parent_file = 'index.php';
 
-add_action( 'admin_head', 'add_css' );
-function add_css() { ?>
+add_action( 'admin_head', '_wp_credits_add_css' );
+function _wp_credits_add_css() { ?>
 <style type="text/css">
 h3.wp-people-group, h3.wp-props-group { clear: both; }
 ul.wp-people-group { margin-bottom: 50px; }
