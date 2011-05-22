@@ -200,7 +200,7 @@ function edit_post( $post_data = null ) {
 				continue;
 			if ( $meta->post_id != $post_ID )
 				continue;
-			if ( is_protected_meta( $key ) )
+			if ( is_protected_meta( $value['key'] ) )
 				continue;
 			update_meta( $key, $value['key'], $value['value'] );
 		}
@@ -212,7 +212,7 @@ function edit_post( $post_data = null ) {
 				continue;
 			if ( $meta->post_id != $post_ID )
 				continue;
-			if ( is_protected_meta( $key ) )
+			if ( is_protected_meta( $meta->meta_key ) )
 				continue;
 			delete_meta( $key );
 		}
