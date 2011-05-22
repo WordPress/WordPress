@@ -55,6 +55,25 @@ function twentyeleven_theme_options_init() {
 add_action( 'admin_init', 'twentyeleven_theme_options_init' );
 
 /**
+ * Change the capability required to save the 'twentyeleven_options' options group.
+ *
+ * @see twentyeleven_theme_options_init() First parameter to register_setting() is the name of the options group.
+ * @see twentyeleven_theme_options_add_page() The edit_theme_options capability is used for viewing the page.
+ *
+ * By default, the options groups for all registered settings require the manage_options capability.
+ * This filter is required to change our theme options page to edit_theme_options instead.
+ * By default, only administrators have either of these capabilities, but the desire here is
+ * to allow for finer-grained control for roles and users.
+ *
+ * @param string $capability The capability used for the page, which is manage_options by default.
+ * @return string The capability to actually use.
+ */
+function twentyeleven_option_page_capability( $capability ) {
+	return 'edit_theme_options';
+}
+add_filter( 'option_page_capability_twentyeleven_options', 'twentyeleven_option_page_capability' );
+
+/**
  * Add our theme options page to the admin menu.
  *
  * This function is attached to the admin_menu action hook.
