@@ -79,7 +79,7 @@ function get_stylesheet_directory_uri() {
  */
 function get_stylesheet_uri() {
 	$stylesheet_dir_uri = get_stylesheet_directory_uri();
-	$stylesheet_uri = $stylesheet_dir_uri . "/style.css";
+	$stylesheet_uri = $stylesheet_dir_uri . '/style.css';
 	return apply_filters('stylesheet_uri', $stylesheet_uri, $stylesheet_dir_uri);
 }
 
@@ -827,7 +827,7 @@ function get_category_template() {
 
 	$templates[] = "category-{$category->slug}.php";
 	$templates[] = "category-{$category->term_id}.php";
-	$templates[] = "category.php";
+	$templates[] = 'category.php';
 
 	return get_query_template( 'category', $templates );
 }
@@ -851,7 +851,7 @@ function get_tag_template() {
 
 	$templates[] = "tag-{$tag->slug}.php";
 	$templates[] = "tag-{$tag->term_id}.php";
-	$templates[] = "tag.php";
+	$templates[] = 'tag.php';
 
 	return get_query_template( 'tag', $templates );
 }
@@ -881,7 +881,7 @@ function get_taxonomy_template() {
 
 	$templates[] = "taxonomy-$taxonomy-{$term->slug}.php";
 	$templates[] = "taxonomy-$taxonomy.php";
-	$templates[] = "taxonomy.php";
+	$templates[] = 'taxonomy.php';
 
 	return get_query_template( 'taxonomy', $templates );
 }
@@ -963,7 +963,7 @@ function get_page_template() {
 		$templates[] = "page-$pagename.php";
 	if ( $id )
 		$templates[] = "page-$id.php";
-	$templates[] = "page.php";
+	$templates[] = 'page.php';
 
 	return get_query_template( 'page', $templates );
 }

@@ -13,7 +13,7 @@ if ( is_array( get_site_option( 'illegal_names' )) && isset( $_GET[ 'new' ] ) &&
 }
 
 function do_signup_header() {
-	do_action("signup_header");
+	do_action( 'signup_header' );
 }
 add_action( 'wp_head', 'do_signup_header' );
 
@@ -188,7 +188,7 @@ function signup_another_blog($blogname = '', $blog_title = '', $errors = '') {
 	<p><?php _e( 'If you&#8217;re not going to use a great site domain, leave it for a new user. Now have at it!' ) ?></p>
 	<form id="setupform" method="post" action="wp-signup.php">
 		<input type="hidden" name="stage" value="gimmeanotherblog" />
-		<?php do_action( "signup_hidden_fields" ); ?>
+		<?php do_action( 'signup_hidden_fields' ); ?>
 		<?php show_blog_form($blogname, $blog_title, $errors); ?>
 		<p class="submit"><input type="submit" name="submit" class="submit" value="<?php esc_attr_e( 'Create Site' ) ?>" /></p>
 	</form>
@@ -252,7 +252,7 @@ function signup_user($user_name = '', $user_email = '', $errors = '') {
 	<h2><?php printf( __( 'Get your own %s account in seconds' ), $current_site->site_name ) ?></h2>
 	<form id="setupform" method="post" action="wp-signup.php">
 		<input type="hidden" name="stage" value="validate-user-signup" />
-		<?php do_action( "signup_hidden_fields" ); ?>
+		<?php do_action( 'signup_hidden_fields' ); ?>
 		<?php show_user_form($user_name, $user_email, $errors); ?>
 
 		<p>
@@ -288,7 +288,7 @@ function validate_user_signup() {
 		return false;
 	}
 
-	wpmu_signup_user($user_name, $user_email, apply_filters( "add_signup_meta", array() ) );
+	wpmu_signup_user($user_name, $user_email, apply_filters( 'add_signup_meta', array() ) );
 
 	confirm_user_signup($user_name, $user_email);
 	return true;
@@ -323,7 +323,7 @@ function signup_blog($user_name = '', $user_email = '', $blogname = '', $blog_ti
 		<input type="hidden" name="stage" value="validate-blog-signup" />
 		<input type="hidden" name="user_name" value="<?php echo esc_attr($user_name) ?>" />
 		<input type="hidden" name="user_email" value="<?php echo esc_attr($user_email) ?>" />
-		<?php do_action( "signup_hidden_fields" ); ?>
+		<?php do_action( 'signup_hidden_fields' ); ?>
 		<?php show_blog_form($blogname, $blog_title, $errors); ?>
 		<p class="submit"><input type="submit" name="submit" class="submit" value="<?php esc_attr_e('Signup') ?>" /></p>
 	</form>
@@ -350,7 +350,7 @@ function validate_blog_signup() {
 
 	$public = (int) $_POST['blog_public'];
 	$meta = array ('lang_id' => 1, 'public' => $public);
-	$meta = apply_filters( "add_signup_meta", $meta );
+	$meta = apply_filters( 'add_signup_meta', $meta );
 
 	wpmu_signup_blog($domain, $path, $blog_title, $user_name, $user_email, $meta);
 	confirm_blog_signup($domain, $path, $blog_title, $user_name, $user_email, $meta);
@@ -396,7 +396,7 @@ if ( is_super_admin() )
 $newblogname = isset($_GET['new']) ? strtolower(preg_replace('/^-|-$|[^-a-zA-Z0-9]/', '', $_GET['new'])) : null;
 
 $current_user = wp_get_current_user();
-if ( $active_signup == "none" ) {
+if ( $active_signup == 'none' ) {
 	_e( 'Registration has been disabled.' );
 } elseif ( $active_signup == 'blog' && !is_user_logged_in() ) {
 	if ( is_ssl() )
@@ -426,7 +426,7 @@ if ( $active_signup == "none" ) {
 		case 'default':
 		default :
 			$user_email = isset( $_POST[ 'user_email' ] ) ? $_POST[ 'user_email' ] : '';
-			do_action( "preprocess_signup_form" ); // populate the form from invites, elsewhere?
+			do_action( 'preprocess_signup_form' ); // populate the form from invites, elsewhere?
 			if ( is_user_logged_in() && ( $active_signup == 'all' || $active_signup == 'blog' ) )
 				signup_another_blog($newblogname);
 			elseif ( is_user_logged_in() == false && ( $active_signup == 'all' || $active_signup == 'user' ) )

@@ -49,7 +49,7 @@ function export_wp( $args = array() ) {
 	} else {
 		$post_types = get_post_types( array( 'can_export' => true ) );
 		$esses = array_fill( 0, count($post_types), '%s' );
-		$where = $wpdb->prepare( "{$wpdb->posts}.post_type IN (". implode(',',$esses) .")", $post_types );
+		$where = $wpdb->prepare( "{$wpdb->posts}.post_type IN (" . implode( ',', $esses ) . ')', $post_types );
 	}
 
 	if ( $args['status'] && ( 'post' == $args['content'] || 'page' == $args['content'] ) )
@@ -123,7 +123,7 @@ function export_wp( $args = array() ) {
 			$str = utf8_encode( $str );
 
 		// $str = ent2ncr(esc_html($str));
-		$str = "<![CDATA[$str" . ( ( substr( $str, -1 ) == ']' ) ? ' ' : '') . "]]>";
+		$str = "<![CDATA[$str" . ( ( substr( $str, -1 ) == ']' ) ? ' ' : '' ) . ']]>';
 
 		return $str;
 	}
@@ -350,7 +350,7 @@ function export_wp( $args = array() ) {
 
 	// fetch 20 posts at a time rather than loading the entire table into memory
 	while ( $next_posts = array_splice( $post_ids, 0, 20 ) ) {
-	$where = "WHERE ID IN (" . join( ',', $next_posts ) . ")";
+	$where = 'WHERE ID IN (' . join( ',', $next_posts ) . ')';
 	$posts = $wpdb->get_results( "SELECT * FROM {$wpdb->posts} $where" );
 
 	// Begin Loop

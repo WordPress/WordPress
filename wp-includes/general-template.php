@@ -28,7 +28,7 @@ function get_header( $name = null ) {
 	if ( isset($name) )
 		$templates[] = "header-{$name}.php";
 
-	$templates[] = "header.php";
+	$templates[] = 'header.php';
 
 	// Backward compat code will be removed in a future release
 	if ('' == locate_template($templates, true))
@@ -57,7 +57,7 @@ function get_footer( $name = null ) {
 	if ( isset($name) )
 		$templates[] = "footer-{$name}.php";
 
-	$templates[] = "footer.php";
+	$templates[] = 'footer.php';
 
 	// Backward compat code will be removed in a future release
 	if ('' == locate_template($templates, true))
@@ -86,7 +86,7 @@ function get_sidebar( $name = null ) {
 	if ( isset($name) )
 		$templates[] = "sidebar-{$name}.php";
 
-	$templates[] = "sidebar.php";
+	$templates[] = 'sidebar.php';
 
 	// Backward compat code will be removed in a future release
 	if ('' == locate_template($templates, true))
@@ -569,7 +569,7 @@ function wp_title($sep = '&raquo;', $display = true, $seplocation = '') {
 		$my_year = substr($m, 0, 4);
 		$my_month = $wp_locale->get_month(substr($m, 4, 2));
 		$my_day = intval(substr($m, 6, 2));
-		$title = $my_year . ($my_month ? $t_sep . $my_month : "") . ($my_day ? $t_sep . $my_day : "");
+		$title = $my_year . ( $my_month ? $t_sep . $my_month : '' ) . ( $my_day ? $t_sep . $my_day : '' );
 	}
 
 	// If there's a year
@@ -843,7 +843,7 @@ function get_archives_link($url, $text, $format = 'html', $before = '', $after =
 	else // custom
 		$link_html = "\t$before<a href='$url' title='$title_text'>$text</a>$after\n";
 
-	$link_html = apply_filters( "get_archives_link", $link_html );
+	$link_html = apply_filters( 'get_archives_link', $link_html );
 
 	return $link_html;
 }
@@ -915,8 +915,8 @@ function wp_get_archives($args = '') {
 	}
 
 	//filters
-	$where = apply_filters('getarchives_where', "WHERE post_type = 'post' AND post_status = 'publish'", $r );
-	$join = apply_filters('getarchives_join', "", $r);
+	$where = apply_filters( 'getarchives_where', "WHERE post_type = 'post' AND post_status = 'publish'", $r );
+	$join = apply_filters( 'getarchives_join', '', $r );
 
 	$output = '';
 
@@ -1016,7 +1016,7 @@ function wp_get_archives($args = '') {
 				}
 		}
 	} elseif ( ( 'postbypost' == $type ) || ('alpha' == $type) ) {
-		$orderby = ('alpha' == $type) ? "post_title ASC " : "post_date DESC ";
+		$orderby = ('alpha' == $type) ? 'post_title ASC ' : 'post_date DESC ';
 		$query = "SELECT * FROM $wpdb->posts $join $where ORDER BY $orderby $limit";
 		$key = md5($query);
 		$cache = wp_cache_get( 'wp_get_archives' , 'general');
@@ -1248,7 +1248,7 @@ function get_calendar($initial = true, $echo = true) {
 			$calendar_output .= '<td>';
 
 		if ( in_array($day, $daywithpost) ) // any posts today?
-				$calendar_output .= '<a href="' . get_day_link($thisyear, $thismonth, $day) . "\" title=\"" . esc_attr($ak_titles_for_day[$day]) . "\">$day</a>";
+				$calendar_output .= '<a href="' . get_day_link( $thisyear, $thismonth, $day ) . '" title="' . esc_attr( $ak_titles_for_day[ $day ] ) . "\">$day</a>";
 		else
 			$calendar_output .= $day;
 		$calendar_output .= '</td>';
@@ -1997,7 +1997,7 @@ function paginate_links( $args = '' ) {
 		if ( $add_args )
 			$link = add_query_arg( $add_args, $link );
 		$link .= $add_fragment;
-		$page_links[] = "<a class='prev page-numbers' href='" . esc_url( apply_filters( 'paginate_links', $link ) ) . "'>$prev_text</a>";
+		$page_links[] = '<a class="prev page-numbers" href="' . esc_url( apply_filters( 'paginate_links', $link ) ) . '">' . $prev_text . '</a>';
 	endif;
 	for ( $n = 1; $n <= $total; $n++ ) :
 		$n_display = number_format_i18n($n);
@@ -2014,7 +2014,7 @@ function paginate_links( $args = '' ) {
 				$page_links[] = "<a class='page-numbers' href='" . esc_url( apply_filters( 'paginate_links', $link ) ) . "'>$n_display</a>";
 				$dots = true;
 			elseif ( $dots && !$show_all ) :
-				$page_links[] = "<span class='page-numbers dots'>...</span>";
+				$page_links[] = '<span class="page-numbers dots">...</span>';
 				$dots = false;
 			endif;
 		endif;
@@ -2025,7 +2025,7 @@ function paginate_links( $args = '' ) {
 		if ( $add_args )
 			$link = add_query_arg( $add_args, $link );
 		$link .= $add_fragment;
-		$page_links[] = "<a class='next page-numbers' href='" . esc_url( apply_filters( 'paginate_links', $link ) ) . "'>$next_text</a>";
+		$page_links[] = '<a class="next page-numbers" href="' . esc_url( apply_filters( 'paginate_links', $link ) ) . '">' . $next_text . '</a>';
 	endif;
 	switch ( $type ) :
 		case 'array' :
