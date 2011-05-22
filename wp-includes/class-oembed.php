@@ -158,8 +158,8 @@ class WP_oEmbed {
 	function fetch( $provider, $url, $args = '' ) {
 		$args = wp_parse_args( $args, wp_embed_defaults() );
 
-		$provider = add_query_arg( 'maxwidth', $args['width'], $provider );
-		$provider = add_query_arg( 'maxheight', $args['height'], $provider );
+		$provider = add_query_arg( 'maxwidth', (int) $args['width'], $provider );
+		$provider = add_query_arg( 'maxheight', (int) $args['height'], $provider );
 		$provider = add_query_arg( 'url', urlencode($url), $provider );
 
 		foreach( array( 'json', 'xml' ) as $format ) {
