@@ -257,6 +257,7 @@ add_action( 'wp_scheduled_delete',        'wp_scheduled_delete'            );
 add_action( 'before_wp_tiny_mce',         'wp_print_editor_js'             );
 add_action( 'after_wp_tiny_mce',          'wp_preload_dialogs',      10, 1 );
 add_action( 'admin_init',                 'send_frame_options_header', 10, 0 );
+add_action( 'importer_scheduled_cleanup', 'wp_delete_attachment'           );
 
 // Navigation menu actions
 add_action( 'delete_post',                '_wp_delete_post_menu_item'      );

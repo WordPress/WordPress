@@ -338,7 +338,8 @@ if ( get_background_image() ) {
 			'post_title' => $filename,
 			'post_content' => $url,
 			'post_mime_type' => $type,
-			'guid' => $url
+			'guid' => $url,
+			'context' => 'custom-background'
 		);
 
 		// Save the data

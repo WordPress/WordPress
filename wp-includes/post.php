@@ -557,12 +557,18 @@ function get_post_status($ID = '') {
 	if ( !is_object($post) )
 		return false;
 
-	// Unattached attachments are assumed to be published.
-	if ( ('attachment' == $post->post_type) && ('inherit' == $post->post_status) && ( 0 == $post->post_parent) )
-		return 'publish';
+	if ( 'attachment' == $post->post_type ) {
+		if ( 'private' == $post->post_status )
+			return 'private';
 
-	if ( ('attachment' == $post->post_type) && $post->post_parent && ($post->ID != $post->post_parent) )
-		return get_post_status($post->post_parent);
+		// Unattached attachments are assumed to be published
+		if ( ( 'inherit' == $post->post_status ) && ( 0 == $post->post_parent) )
+			return 'publish';
+
+		// Inherit status from the parent
+		if ( $post->post_parent && ( $post->ID != $post->post_parent ) )
+			return get_post_status($post->post_parent);
+	}
 
 	return $post->post_status;
 }
@@ -3543,10 +3549,10 @@ function is_local_attachment($url) {
 function wp_insert_attachment($object, $file = false, $parent = 0) {
 	global $wpdb, $user_ID;
 
-	$defaults = array('post_status' => 'draft', 'post_type' => 'post', 'post_author' => $user_ID,
+	$defaults = array('post_status' => 'inherit', 'post_type' => 'post', 'post_author' => $user_ID,
 		'ping_status' => get_option('default_ping_status'), 'post_parent' => 0,
 		'menu_order' => 0, 'to_ping' =>  '', 'pinged' => '', 'post_password' => '',
-		'guid' => '', 'post_content_filtered' => '', 'post_excerpt' => '', 'import_id' => 0);
+		'guid' => '', 'post_content_filtered' => '', 'post_excerpt' => '', 'import_id' => 0, 'context' => '');
 
 	$object = wp_parse_args($object, $defaults);
 	if ( !empty($parent) )
@@ -3561,7 +3567,9 @@ function wp_insert_attachment($object, $file = false, $parent = 0) {
 		$post_author = $user_ID;
 
 	$post_type = 'attachment';
-	$post_status = 'inherit';
+
+	if ( ! in_array( $post_status, array( 'inherit', 'private' ) ) )
+		$post_status = 'inherit';
 
 	// Make sure we set a valid category.
 	if ( !isset($post_category) || 0 == count($post_category) || !is_array($post_category) ) {
@@ -3663,6 +3671,9 @@ function wp_insert_attachment($object, $file = false, $parent = 0) {
 
 	if ( isset($post_parent) && $post_parent < 0 )
 		add_post_meta($post_ID, '_wp_attachment_temp_parent', $post_parent, true);
+
+	if ( ! empty( $context ) )
+		add_post_meta( $post_ID, '_wp_attachment_context', $context, true );
 
 	if ( $update) {
 		do_action('edit_attachment', $post_ID);
