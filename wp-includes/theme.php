@@ -1440,7 +1440,7 @@ function get_header_image() {
 	else
 		$url = str_replace( 'https://', 'http://', $url );
 
-	return $url;
+	return esc_url_raw( $url );
 }
 
 /**
@@ -1525,7 +1525,7 @@ function get_uploaded_header_images() {
 		return array();
 
 	foreach ( (array) $headers as $header ) {
-		$url = $header->guid;
+		$url = esc_url_raw( $header->guid );
 		$header = basename($url);
 		$header_images[$header] = array();
 		$header_images[$header]['url'] =  $url;

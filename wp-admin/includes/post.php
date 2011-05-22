@@ -138,6 +138,7 @@ function edit_post( $post_data = null ) {
 	$post_ID = (int) $post_data['post_ID'];
 	$post = get_post( $post_ID );
 	$post_data['post_type'] = $post->post_type;
+	$post_data['post_mime_type'] = $post->post_mime_type;
 
 	$ptype = get_post_type_object($post_data['post_type']);
 	if ( !current_user_can( $ptype->cap->edit_post, $post_ID ) ) {
@@ -199,6 +200,8 @@ function edit_post( $post_data = null ) {
 				continue;
 			if ( $meta->post_id != $post_ID )
 				continue;
+			if ( is_protected_meta( $key ) )
+				continue;
 			update_meta( $key, $value['key'], $value['value'] );
 		}
 	}
@@ -208,6 +211,8 @@ function edit_post( $post_data = null ) {
 			if ( !$meta = get_post_meta_by_id( $key ) )
 				continue;
 			if ( $meta->post_id != $post_ID )
+				continue;
+			if ( is_protected_meta( $key ) )
 				continue;
 			delete_meta( $key );
 		}
@@ -527,6 +532,8 @@ function wp_write_post() {
 			return new WP_Error( 'edit_posts', __( 'You are not allowed to create posts or drafts on this site.' ) );
 	}
 
+	$_POST['post_mime_type'] = '';
+
 	// Check for autosave collisions
 	// Does this need to be updated? ~ Mark
 	$temp_id = false;
@@ -632,8 +639,6 @@ function add_meta( $post_ID ) {
 	global $wpdb;
 	$post_ID = (int) $post_ID;
 
-	$protected = array( '_wp_attached_file', '_wp_attachment_metadata', '_wp_old_slug', '_wp_page_template' );
-
 	$metakeyselect = isset($_POST['metakeyselect']) ? stripslashes( trim( $_POST['metakeyselect'] ) ) : '';
 	$metakeyinput = isset($_POST['metakeyinput']) ? stripslashes( trim( $_POST['metakeyinput'] ) ) : '';
 	$metavalue = isset($_POST['metavalue']) ? maybe_serialize( stripslashes_deep( $_POST['metavalue'] ) ) : '';
@@ -650,7 +655,7 @@ function add_meta( $post_ID ) {
 		if ( $metakeyinput)
 			$metakey = $metakeyinput; // default
 
-		if ( in_array($metakey, $protected) )
+		if ( is_protected_meta( $metakey ) )
 			return false;
 
 		wp_cache_delete($post_ID, 'post_meta');
@@ -756,11 +761,9 @@ function has_meta( $postid ) {
 function update_meta( $meta_id, $meta_key, $meta_value ) {
 	global $wpdb;
 
-	$protected = array( '_wp_attached_file', '_wp_attachment_metadata', '_wp_old_slug', '_wp_page_template' );
-
 	$meta_key = stripslashes($meta_key);
 
-	if ( in_array($meta_key, $protected) )
+	if ( is_protected_meta( $meta_key ) )
 		return false;
 
 	if ( '' === trim( $meta_value ) )

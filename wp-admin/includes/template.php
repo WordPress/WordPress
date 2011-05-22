@@ -465,6 +465,10 @@ function list_meta( $meta ) {
  */
 function _list_meta_row( $entry, &$count ) {
 	static $update_nonce = false;
+
+	if ( is_protected_meta( $entry['meta_key'] ) )
+		return;
+
 	if ( !$update_nonce )
 		$update_nonce = wp_create_nonce( 'add-meta' );
 
