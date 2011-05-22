@@ -1284,8 +1284,10 @@ function &get_terms($taxonomies, $args = '') {
 		$where .= " AND t.slug = '$slug'";
 	}
 
-	if ( !empty($name__like) )
-		$where .= " AND t.name LIKE '" . like_escape( $name__like ) . "%'";
+	if ( !empty($name__like) ) {
+		$name__like = like_escape( $name__like );
+		$where .= $wpdb->prepare( " AND t.name LIKE %s", $name__like . '%' );
+	}
 
 	if ( '' !== $parent ) {
 		$parent = (int) $parent;
@@ -1307,7 +1309,7 @@ function &get_terms($taxonomies, $args = '') {
 
 	if ( !empty($search) ) {
 		$search = like_escape($search);
-		$where .= " AND (t.name LIKE '%$search%')";
+		$where .= $wpdb->prepare( " AND (t.name LIKE %s)", '%' . $search . '%');
 	}
 
 	$selects = array();
