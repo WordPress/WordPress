@@ -71,7 +71,7 @@ function get_blogaddress_by_name( $blogname ) {
  */
 function get_blogaddress_by_domain( $domain, $path ) {
 	if ( is_subdomain_install() ) {
-		$url = "http://".$domain.$path;
+		$url = "http://" . $domain.$path;
 	} else {
 		if ( $domain != $_SERVER['HTTP_HOST'] ) {
 			$blogname = substr( $domain, 0, strpos( $domain, '.' ) );
@@ -96,7 +96,7 @@ function get_blogaddress_by_domain( $domain, $path ) {
  */
 function get_id_from_blogname( $name ) {
 	global $wpdb, $current_site;
-	$blog_id = wp_cache_get( "get_id_from_blogname_" . $name, 'blog-details' );
+	$blog_id = wp_cache_get( 'get_id_from_blogname_' . $name, 'blog-details' );
 	if ( $blog_id )
 		return $blog_id;
 
@@ -331,8 +331,8 @@ function update_blog_details( $blog_id, $details = array() ) {
 function get_blog_option( $blog_id, $setting, $default = false ) {
 	global $wpdb;
 
-	$key = $blog_id."-".$setting."-blog_option";
-	$value = wp_cache_get( $key, "site-options" );
+	$key = $blog_id . '-' . $setting . '-blog_option';
+	$value = wp_cache_get( $key, 'site-options' );
 	if ( $value == null ) {
 		if ( $blog_id == $wpdb->blogid ) {
 			$value = get_option( $setting, $default );
@@ -390,7 +390,7 @@ function add_blog_option( $id, $key, $value ) {
 	switch_to_blog($id);
 	add_option( $key, $value );
 	restore_current_blog();
-	wp_cache_set( $id."-".$key."-blog_option", $value, 'site-options' );
+	wp_cache_set( $id . '-' . $key . '-blog_option', $value, 'site-options' );
 }
 
 /**
@@ -407,7 +407,7 @@ function delete_blog_option( $id, $key ) {
 	switch_to_blog($id);
 	delete_option( $key );
 	restore_current_blog();
-	wp_cache_set( $id."-".$key."-blog_option", '', 'site-options' );
+	wp_cache_set( $id . '-' . $key . '-blog_option', '', 'site-options' );
 }
 
 /**
@@ -431,7 +431,7 @@ function update_blog_option( $id, $key, $value, $deprecated = null ) {
 
 	refresh_blog_details( $id );
 
-	wp_cache_set( $id."-".$key."-blog_option", $value, 'site-options');
+	wp_cache_set( $id . '-' . $key . '-blog_option', $value, 'site-options');
 }
 
 /**
