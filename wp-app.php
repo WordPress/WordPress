@@ -607,13 +607,13 @@ EOD;
 
 		$slug = '';
 		if ( isset( $_SERVER['HTTP_SLUG'] ) )
-			$slug = sanitize_file_name( $_SERVER['HTTP_SLUG'] );
+			$slug = $_SERVER['HTTP_SLUG'];
 		elseif ( isset( $_SERVER['HTTP_TITLE'] ) )
-			$slug = sanitize_file_name( $_SERVER['HTTP_TITLE'] );
+			$slug = $_SERVER['HTTP_TITLE'];
 		elseif ( empty( $slug ) ) // just make a random name
 			$slug = substr( md5( uniqid( microtime() ) ), 0, 7);
 		$ext = preg_replace( '|.*/([a-z0-9]+)|', '$1', $_SERVER['CONTENT_TYPE'] );
-		$slug = "$slug.$ext";
+		$slug = sanitize_file_name( "$slug.$ext" );
 		$file = wp_upload_bits( $slug, NULL, $bits);
 
 		log_app('wp_upload_bits returns:',print_r($file,true));
