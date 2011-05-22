@@ -24,10 +24,14 @@ $parent_file = 'options-general.php';
 
 wp_reset_vars(array('action', 'option_page'));
 
+$capability = 'manage_options';
+
 if ( empty($option_page) ) // This is for back compat and will eventually be removed.
 	$option_page = 'options';
+else
+	$capability = apply_filters( "option_page_capability_{$option_page}", $capability );
 
-if ( !current_user_can('manage_options') )
+if ( !current_user_can( $capability ) )
 	wp_die(__('Cheatin&#8217; uh?'));
 
 // Handle admin email change requests
