@@ -304,7 +304,7 @@ function twentyeleven_admin_header_image() { ?>
 		<div id="desc"<?php echo $style; ?>><?php bloginfo( 'description' ); ?></div>
 		<?php $header_image = get_header_image();
 		if ( ! empty( $header_image ) ) : ?>
-			<img src="<?php esc_url( $header_image ); ?>" alt="" />
+			<img src="<?php echo esc_url( $header_image ); ?>" alt="" />
 		<?php endif; ?>
 	</div>
 <?php }
