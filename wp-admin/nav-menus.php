@@ -556,7 +556,7 @@ require_once( './admin-header.php' );
 								<?php endif; ?>
 								<br class="clear" />
 								<div class="publishing-action">
-									<?php submit_button( empty( $nav_menu_selected_id ) ? __( 'Create Menu' ) : __( 'Save Menu' ), 'button-primary menu-save', 'save_menu', false ); ?>
+									<?php submit_button( empty( $nav_menu_selected_id ) ? __( 'Create Menu' ) : __( 'Save Menu' ), 'button-primary menu-save', 'save_menu', false, array( 'id' => 'save_menu_header' ) ); ?>
 								</div><!-- END .publishing-action -->
 
 								<?php if ( ! empty( $nav_menu_selected_id ) ) : ?>
@@ -595,7 +595,7 @@ require_once( './admin-header.php' );
 						<div class="publishing-action">
 							<?php
 							if ( ! empty( $nav_menu_selected_id ) )
-								submit_button( __( 'Save Menu' ), 'button-primary menu-save', 'save_menu', false );
+								submit_button( __( 'Save Menu' ), 'button-primary menu-save', 'save_menu', false, array( 'id' => 'save_menu_footer' ) );
 							?>
 						</div>
 						</div>

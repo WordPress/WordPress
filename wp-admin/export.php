@@ -109,7 +109,7 @@ function export_date_options() {
 			continue;
 
 		$month = zeroise( $date->month, 2 );
-		echo '<option value="' . $date->year . '-' . $month . '" />' . $wp_locale->get_month( $month ) . ' ' . $date->year . '</option>';
+		echo '<option value="' . $date->year . '-' . $month . '">' . $wp_locale->get_month( $month ) . ' ' . $date->year . '</option>';
 	}
 }
 ?>

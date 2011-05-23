@@ -237,7 +237,6 @@ if ( get_background_image() ) {
 <input type="hidden" name="action" value="save" />
 <?php wp_nonce_field('custom-background-upload', '_wpnonce-custom-background-upload') ?>
 <?php submit_button( __( 'Upload' ), 'button', 'submit', false ); ?>
-</p>
 </form>
 </td>
 </tr>
@@ -270,10 +269,10 @@ if ( get_background_image() ) {
 <tr valign="top">
 <th scope="row"><?php _e( 'Repeat' ); ?></th>
 <td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Background Repeat' ); ?></span></legend>
-<label><input type="radio" name="background-repeat" value="no-repeat"<?php checked('no-repeat', get_theme_mod('background_repeat', 'repeat')); ?>> <?php _e('No Repeat'); ?></option></label>
-	<label><input type="radio" name="background-repeat" value="repeat"<?php checked('repeat', get_theme_mod('background_repeat', 'repeat')); ?>> <?php _e('Tile'); ?></option></label>
-	<label><input type="radio" name="background-repeat" value="repeat-x"<?php checked('repeat-x', get_theme_mod('background_repeat', 'repeat')); ?>> <?php _e('Tile Horizontally'); ?></option></label>
-	<label><input type="radio" name="background-repeat" value="repeat-y"<?php checked('repeat-y', get_theme_mod('background_repeat', 'repeat')); ?>> <?php _e('Tile Vertically'); ?></option></label>
+<label><input type="radio" name="background-repeat" value="no-repeat"<?php checked('no-repeat', get_theme_mod('background_repeat', 'repeat')); ?> /> <?php _e('No Repeat'); ?></label>
+	<label><input type="radio" name="background-repeat" value="repeat"<?php checked('repeat', get_theme_mod('background_repeat', 'repeat')); ?> /> <?php _e('Tile'); ?></label>
+	<label><input type="radio" name="background-repeat" value="repeat-x"<?php checked('repeat-x', get_theme_mod('background_repeat', 'repeat')); ?> /> <?php _e('Tile Horizontally'); ?></label>
+	<label><input type="radio" name="background-repeat" value="repeat-y"<?php checked('repeat-y', get_theme_mod('background_repeat', 'repeat')); ?> /> <?php _e('Tile Vertically'); ?></label>
 </fieldset></td>
 </tr>
 

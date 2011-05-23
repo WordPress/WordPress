@@ -69,7 +69,7 @@ if ( current_theme_supports( 'post-formats' ) ) :
 <?php foreach ( $post_formats[0] as $format ): ?>
 		<option<?php selected( get_option('default_post_format'), $format ); ?> value="<?php echo esc_attr( $format ); ?>"><?php echo esc_html( get_post_format_string( $format ) ); ?></option>
 <?php endforeach; ?>
-	</select></label>
+	</select>
 </td>
 </tr>
 <?php endif; endif; ?>

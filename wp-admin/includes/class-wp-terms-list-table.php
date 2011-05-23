@@ -250,7 +250,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 		$pad = str_repeat( '&#8212; ', max( 0, $this->level ) );
 		$name = apply_filters( 'term_name', $pad . ' ' . $tag->name, $tag );
 		$qe_data = get_term( $tag->term_id, $taxonomy, OBJECT, 'edit' );
-		$edit_link = get_edit_term_link( $tag->term_id, $taxonomy, $post_type );
+		$edit_link = esc_url( get_edit_term_link( $tag->term_id, $taxonomy, $post_type ) );
 
 		$out = '<strong><a class="row-title" href="' . $edit_link . '" title="' . esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $name ) ) . '">' . $name . '</a></strong><br />';
 
@@ -269,7 +269,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 		$out .= '<div class="hidden" id="inline_' . $qe_data->term_id . '">';
 		$out .= '<div class="name">' . $qe_data->name . '</div>';
 		$out .= '<div class="slug">' . apply_filters( 'editable_slug', $qe_data->slug ) . '</div>';
-		$out .= '<div class="parent">' . $qe_data->parent . '</div></div></td>';
+		$out .= '<div class="parent">' . $qe_data->parent . '</div></div>';
 
 		return $out;
 	}
@@ -300,7 +300,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 
 		$args['post_type'] = $post_type;
 
-		return "<a href='" . add_query_arg( $args, 'edit.php' ) . "'>$count</a>";
+		return "<a href='" . esc_url ( add_query_arg( $args, 'edit.php' ) ) . "'>$count</a>";
 	}
 
 	function column_links( $tag ) {

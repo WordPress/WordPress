@@ -388,7 +388,8 @@ class Custom_Image_Header {
 		<?php if ( 'blank' == get_theme_mod( 'header_textcolor', HEADER_TEXTCOLOR ) || '' == get_theme_mod('header_textcolor', HEADER_TEXTCOLOR) || ! $this->header_text() ) { ?>
 		toggle_text();
 		<?php } ?>
-		});
+	});
+/* ]]> */
 </script>
 <?php
 	}

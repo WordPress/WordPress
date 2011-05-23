@@ -182,7 +182,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu  {
 							remove_query_arg($removed_args, admin_url( 'nav-menus.php' ) )
 						),
 						'delete-menu_item_' . $item_id
-					); ?>"><?php _e('Remove'); ?></a> <span class="meta-sep"> | </span> <a class="item-cancel submitcancel" id="cancel-<?php echo $item_id; ?>" href="<?php	echo add_query_arg( array('edit-menu-item' => $item_id, 'cancel' => time()), remove_query_arg( $removed_args, admin_url( 'nav-menus.php' ) ) );
+					); ?>"><?php _e('Remove'); ?></a> <span class="meta-sep"> | </span> <a class="item-cancel submitcancel" id="cancel-<?php echo $item_id; ?>" href="<?php	echo esc_url( add_query_arg( array('edit-menu-item' => $item_id, 'cancel' => time()), remove_query_arg( $removed_args, admin_url( 'nav-menus.php' ) ) ) );
 						?>#menu-item-settings-<?php echo $item_id; ?>"><?php _e('Cancel'); ?></a>
 				</div>
 
@@ -690,7 +690,7 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 			<p class="quick-search-wrap">
 				<input type="text" class="quick-search input-with-default-title" title="<?php esc_attr_e('Search'); ?>" value="<?php echo $searched; ?>" name="quick-search-posttype-<?php echo $post_type_name; ?>" />
 				<img class="waiting" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
-				<?php submit_button( __( 'Search' ), 'quick-search-submit button-secondary hide-if-js', 'submit', false ); ?>
+				<?php submit_button( __( 'Search' ), 'quick-search-submit button-secondary hide-if-js', 'submit', false, array( 'id' => 'submit-quick-search-posttype-' . $post_type_name ) ); ?>
 			</p>
 
 			<ul id="<?php echo $post_type_name; ?>-search-checklist" class="list:<?php echo $post_type_name?> categorychecklist form-no-clear">
@@ -924,7 +924,7 @@ function wp_nav_menu_item_taxonomy_meta_box( $object, $taxonomy ) {
 			<p class="quick-search-wrap">
 				<input type="text" class="quick-search input-with-default-title" title="<?php esc_attr_e('Search'); ?>" value="<?php echo $searched; ?>" name="quick-search-taxonomy-<?php echo $taxonomy_name; ?>" />
 				<img class="waiting" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
-				<?php submit_button( __( 'Search' ), 'quick-search-submit button-secondary hide-if-js', 'submit', false ); ?>
+				<?php submit_button( __( 'Search' ), 'quick-search-submit button-secondary hide-if-js', 'submit', false, array( 'id' => 'submit-quick-search-taxonomy-' . $taxonomy_name ) ); ?>
 			</p>
 
 			<ul id="<?php echo $taxonomy_name; ?>-search-checklist" class="list:<?php echo $taxonomy_name?> categorychecklist form-no-clear">

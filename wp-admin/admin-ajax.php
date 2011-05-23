@@ -508,7 +508,7 @@ case 'add-link-category' : // On the Fly
 	$x->send();
 	break;
 case 'add-tag' :
-	check_ajax_referer( 'add-tag' );
+	check_ajax_referer( 'add-tag', '_wpnonce_add-tag' );
 	$post_type = !empty($_POST['post_type']) ? $_POST['post_type'] : 'post';
 	$taxonomy = !empty($_POST['taxonomy']) ? $_POST['taxonomy'] : 'post_tag';
 	$tax = get_taxonomy($taxonomy);

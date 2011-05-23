@@ -207,8 +207,8 @@ function wp_widget_control( $sidebar_args ) {
 		<a class="widget-control-close" href="#close"><?php _e('Close'); ?></a>
 		</div>
 		<div class="alignright<?php if ( 'noform' === $has_form ) echo ' widget-control-noform'; ?>">
-		<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-feedback " title="" alt="" />
-		<?php submit_button( __( 'Save' ), 'button-primary widget-control-save', 'savewidget', false ); ?>
+		<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-feedback" title="" alt="" />
+		<?php submit_button( __( 'Save' ), 'button-primary widget-control-save', 'savewidget', false, array( 'id' => 'widget-' . esc_attr( $id_format ) . '-savewidget' ) ); ?>
 		</div>
 		<br class="clear" />
 	</div>

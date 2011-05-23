@@ -264,7 +264,7 @@ endif; ?>
 		</tr>
 	</table>
 	<?php wp_nonce_field( 'add-user', '_wpnonce_add-user' ) ?>
-	<?php submit_button( __('Add User'), 'primary', 'add-user' ); ?>
+	<?php submit_button( __('Add User'), 'primary', 'add-user', false, array( 'id' => 'submit-add-existing-user' ) ); ?>
 </form>
 <?php endif; ?>
 
@@ -300,7 +300,7 @@ endif; ?>
 		</tr>
 	</table>
 	<?php wp_nonce_field( 'add-user', '_wpnonce_add-new-user' ) ?>
-	<?php submit_button( __('Add New User'), 'primary', 'add-user' ); ?>
+	<?php submit_button( __('Add New User'), 'primary', 'add-user', false, array( 'id' => 'submit-add-user' ) ); ?>
 </form>
 <?php endif; ?>
 </div>

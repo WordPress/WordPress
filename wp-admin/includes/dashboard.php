@@ -552,7 +552,7 @@ function wp_dashboard_quick_press() {
 			<input type="reset" value="<?php esc_attr_e( 'Reset' ); ?>" class="button" />
 			<span id="publishing-action">
 				<input type="submit" name="publish" id="publish" accesskey="p" tabindex="5" class="button-primary" value="<?php current_user_can('publish_posts') ? esc_attr_e('Publish') : esc_attr_e('Submit for Review'); ?>" />
-				<img class="waiting" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" />
+				<img class="waiting" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
 			</span>
 			<br class="clear" />
 		</p>

@@ -195,7 +195,7 @@ function theme_options_render_page() {
 								<label class="description">
 									<input type="radio" name="twentyeleven_theme_options[color_scheme]" value="<?php echo esc_attr( $color['value'] ); ?>" <?php checked( $options['color_scheme'], $color['value'] ); ?> />
 									<span>
-										<img src="<?php echo esc_url( $color['thumbnail'] ); ?>"/>
+										<img src="<?php echo esc_url( $color['thumbnail'] ); ?>" alt=""/>
 										<?php echo $color['label']; ?>
 									</span>
 								</label>
@@ -212,7 +212,7 @@ function theme_options_render_page() {
 						<fieldset><legend class="screen-reader-text"><span><?php _e( 'Link Color', 'twentyeleven' ); ?></span></legend>
 							<input type="text" name="twentyeleven_theme_options[link_color]" id="link-color" value="<?php echo esc_attr( $options['link_color'] ); ?>" />
 							<a href="#" class="pickcolor hide-if-no-js" id="link-color-example"></a>
-							<input type="button" class="pickcolor button hide-if-no-js" value="<?php esc_attr_e( 'Select a Color', 'twentyeleven' ); ?>">
+							<input type="button" class="pickcolor button hide-if-no-js" value="<?php esc_attr_e( 'Select a Color', 'twentyeleven' ); ?>" />
 							<div id="colorPickerDiv" style="z-index: 100; background:#eee; border:1px solid #ccc; position:absolute; display:none;"></div>
 							<br />
 							<small class="description"><?php printf( __( 'Default color: %s', 'twentyeleven' ), $default_options['link_color'] ); ?></small>
@@ -230,7 +230,7 @@ function theme_options_render_page() {
 								<label class="description">
 									<input type="radio" name="twentyeleven_theme_options[theme_layout]" value="<?php echo esc_attr( $layout['value'] ); ?>" <?php checked( $options['theme_layout'], $layout['value'] ); ?> />
 									<span>
-										<img src="<?php echo esc_url( $layout['thumbnail'] ); ?>"/>
+										<img src="<?php echo esc_url( $layout['thumbnail'] ); ?>" alt=""/>
 										<?php echo $layout['label']; ?>
 									</span>
 								</label>

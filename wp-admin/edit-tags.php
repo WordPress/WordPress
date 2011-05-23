@@ -34,7 +34,7 @@ switch ( $wp_list_table->current_action() ) {
 
 case 'add-tag':
 
-	check_admin_referer( 'add-tag' );
+	check_admin_referer( 'add-tag', '_wpnonce_add-tag' );
 
 	if ( !current_user_can( $tax->cap->edit_terms ) )
 		wp_die( __( 'Cheatin&#8217; uh?' ) );
@@ -328,7 +328,7 @@ if ( current_user_can($tax->cap->edit_terms) ) {
 <input type="hidden" name="screen" value="<?php echo esc_attr($current_screen->id); ?>" />
 <input type="hidden" name="taxonomy" value="<?php echo esc_attr($taxonomy); ?>" />
 <input type="hidden" name="post_type" value="<?php echo esc_attr($post_type); ?>" />
-<?php wp_nonce_field('add-tag'); ?>
+<?php wp_nonce_field('add-tag', '_wpnonce_add-tag'); ?>
 
 <div class="form-field form-required">
 	<label for="tag-name"><?php _ex('Name', 'Taxonomy Name'); ?></label>
