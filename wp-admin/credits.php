@@ -102,7 +102,7 @@ foreach ( (array) $results['lists'] as $group_slug => $members ) {
 	echo '<h3 class="wp-props-group">' . $title . "</h3>\n\n";
 	array_walk( $members, '_wp_credits_add_profile_link', $results['data']['profile_prefix'] );
 	shuffle( $members );
-	echo wp_sprintf( '%l.', $members );
+	echo '<p>' . wp_sprintf( '%l.', $members ) . "</p>\n\n";
 }
 
 ?>
