@@ -497,7 +497,7 @@ function sync_category_tag_slugs( $term, $taxonomy ) {
 add_filter( 'get_term', 'sync_category_tag_slugs', 10, 2 );
 
 function _access_denied_splash() {
-	if ( ! is_user_logged_in() )
+	if ( ! is_user_logged_in() || is_network_admin() )
 		return;
 
 	$blogs = get_blogs_of_user( get_current_user_id() );
