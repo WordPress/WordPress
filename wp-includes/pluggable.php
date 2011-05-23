@@ -296,6 +296,8 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 			$tempheaders = $headers;
 		}
 		$headers = array();
+		$cc = array();
+		$bcc = array();
 
 		// If it's actually got contents
 		if ( !empty( $tempheaders ) ) {
@@ -401,7 +403,15 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 
 	foreach ( (array) $to as $recipient ) {
 		try {
-			$phpmailer->AddAddress( trim( $recipient ) );
+			// Break $recipient into name and address parts if in the format "Foo <bar@baz.com>"
+			$recipient_name = '';
+			if( preg_match( '/(.+)\s?<(.+)>/', $recipient, $matches ) ) {
+				if ( count( $matches ) == 3 ) {
+					$recipient_name = $matches[1];
+					$recipient = $matches[2];
+				}
+			}
+			$phpmailer->AddAddress( trim( $recipient ), $recipient_name);
 		} catch ( phpmailerException $e ) {
 			continue;
 		}
@@ -415,7 +425,15 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 	if ( !empty( $cc ) ) {
 		foreach ( (array) $cc as $recipient ) {
 			try {
-				$phpmailer->AddCc( trim($recipient) );
+				// Break $recipient into name and address parts if in the format "Foo <bar@baz.com>"
+				$recipient_name = '';
+				if( preg_match( '/(.+)\s?<(.+)>/', $recipient, $matches ) ) {
+					if ( count( $matches ) == 3 ) {
+						$recipient_name = $matches[1];
+						$recipient = $matches[2];
+					}
+				}
+				$phpmailer->AddCc( trim($recipient), $recipient_name );
 			} catch ( phpmailerException $e ) {
 				continue;
 			}
@@ -425,7 +443,15 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 	if ( !empty( $bcc ) ) {
 		foreach ( (array) $bcc as $recipient) {
 			try {
-				$phpmailer->AddBcc( trim($recipient) );
+				// Break $recipient into name and address parts if in the format "Foo <bar@baz.com>"
+				$recipient_name = '';
+				if( preg_match( '/(.+)\s?<(.+)>/', $recipient, $matches ) ) {
+					if ( count( $matches ) == 3 ) {
+						$recipient_name = $matches[1];
+						$recipient = $matches[2];
+					}
+				}
+				$phpmailer->AddBcc( trim($recipient), $recipient_name );
 			} catch ( phpmailerException $e ) {
 				continue;
 			}
