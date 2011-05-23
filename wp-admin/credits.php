@@ -27,9 +27,9 @@ function wp_credits() {
 	global $wp_version;
 	$locale = get_locale();
 
-	$results = get_site_transient( 'wordpress_credits' );
+	$results = get_site_transient( 'wordpress_credits_' . $locale );
 
-	if ( !is_array( $results ) || !isset( $results['people'] ) ) {
+	if ( ! is_array( $results ) || ! isset( $results['people'] ) || ! isset( $results['lists'] ) ) {
 		$response = wp_remote_get( "http://api.wordpress.org/core/credits/1.0/?version=$wp_version&locale=$locale" );
 
 		if ( is_wp_error( $response ) || 200 != wp_remote_retrieve_response_code( $response ) )
@@ -37,10 +37,10 @@ function wp_credits() {
 
 		$results = unserialize( wp_remote_retrieve_body( $response ) );
 
-		if ( !is_array( $results ) )
+		if ( ! is_array( $results ) )
 			return false;
 
-		set_site_transient( 'wordpress_credits', $results, 604800 ); // One week.
+		set_site_transient( 'wordpress_credits_' . $locale, $results, 86400 ); // @todo Set to one week.
 	}
 
 	return $results;
@@ -60,7 +60,7 @@ include( './admin-header.php' );
 
 $results = wp_credits();
 
-if ( !isset( $results['people'] ) ) {
+if ( ! $results ) {
 	echo '<p>' . sprintf( __( 'WordPress is created by a <a href="%1$s">worldwide team</a> of passionate individuals. <a href="%2$s">Get involved in WordPress</a>.' ),
 		'http://wordpress.org/about/',
 		_x( 'http://codex.wordpress.org/Contributing_to_WordPress', 'Url to the codex documentation on contributing to WordPress used on the credits page' ) ) . '</p>';
@@ -85,11 +85,14 @@ foreach ( (array) $results['people'] as $group_slug => $members ) {
 	echo "</ul>\n";
 }
 
-if ( isset( $results['props'] ) ) {
-	echo '<h3 class="wp-props-group">' . sprintf( translate( $results['groups']['props'] ), $results['data']['version'] ) . "</h3>\n\n";
-	array_walk( $results['props'], '_wp_credits_add_profile_link', $results['data']['profile_prefix'] );
-	shuffle( $results['props'] );
-	echo wp_sprintf( '%l.', $results['props'] );
+foreach ( (array) $results['lists'] as $group_slug => $members ) {
+	$title = translate( $results['groups'][ $group_slug ] );
+	if ( isset( $results['data']['placeholders'][ $group_slug ] ) )
+		$title = vsprintf( $title, $results['data']['placeholders'][ $group_slug ] );
+	echo '<h3 class="wp-props-group">' . $title . "</h3>\n\n";
+	array_walk( $members, '_wp_credits_add_profile_link', $results['data']['profile_prefix'] );
+	shuffle( $members );
+	echo wp_sprintf( '%l.', $members );
 }
 
 ?>
@@ -107,6 +110,7 @@ __( 'Project Leaders' );
 __( 'Extended Core Team' );
 __( 'Recent Rockstars' );
 __( 'Core Contributors to WordPress %s' );
+__( 'Translators for %s' );
 __( 'Cofounder, Project Lead' );
 __( 'Lead Developer' );
 __( 'UI/UX and Community Lead' );
@@ -115,5 +119,6 @@ __( 'Developer' );
 __( 'Designer' );
 __( 'XML-RPC Developer' );
 __( 'Internationalization' );
+__( 'Twenty Eleven' );
 
 ?>
