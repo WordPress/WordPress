@@ -502,6 +502,9 @@ function _access_denied_splash() {
 
 	$blogs = get_blogs_of_user( get_current_user_id() );
 
+	if ( wp_list_filter( $blogs, array( 'userblog_id' => get_current_blog_id() ) ) )
+		return;
+
 	$blog_name = get_bloginfo( 'name' );
 
 	if ( empty( $blogs ) )
