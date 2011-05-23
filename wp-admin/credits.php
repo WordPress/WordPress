@@ -89,10 +89,7 @@ foreach ( (array) $results['people'] as $group_slug => $members ) {
 foreach ( (array) $results['lists'] as $group_slug => $members ) {
 	if ( $group_slug === 'translators' ) {
 		// Considered a special slug in the API response. (Also, will never be returned for en_US.)
-		/* translators: use the name of your own language here */
-		$title = __( 'English Translators' );
-		if ( 'English Translators' == $title )
-			$title = __( 'Translators' );
+		$title = _x( 'Translators', 'Translate this to be the equivalent of English Translators in your language for the credits page Translators section' );
 	} else {
 		$title = translate( $results['groups'][ $group_slug ] );
 		if ( isset( $results['data']['placeholders'][ $group_slug ] ) )
@@ -117,6 +114,7 @@ include( './admin-footer.php' );
 
 return;
 
+// These are strings returned by the API that we want to be translatable
 __( 'Project Leaders' );
 __( 'Extended Core Team' );
 __( 'Recent Rockstars' );
