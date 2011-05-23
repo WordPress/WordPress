@@ -39,9 +39,8 @@ define( 'ARRAY_N', 'ARRAY_N' );
  *
  * It is possible to replace this class with your own
  * by setting the $wpdb global variable in wp-content/db.php
- * file with your class. You can name it wpdb also, since
- * this file will not be included, if the other file is
- * available.
+ * file to your class. The wpdb class will still be included,
+ * so you can extend it or simply use your own.
  *
  * @link http://codex.wordpress.org/Function_Reference/wpdb_Class
  *
