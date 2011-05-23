@@ -1967,7 +1967,7 @@ function wp_delete_post( $postid = 0, $force_delete = false ) {
 	if ( $post->post_type == 'attachment' )
 		return wp_delete_attachment( $postid, $force_delete );
 
-	do_action('delete_post', $postid);
+	do_action('before_delete_post', $postid);
 
 	delete_post_meta($postid,'_wp_trash_meta_status');
 	delete_post_meta($postid,'_wp_trash_meta_time');
@@ -2039,7 +2039,7 @@ function wp_delete_post( $postid = 0, $force_delete = false ) {
 
 	wp_clear_scheduled_hook('publish_future_post', array( $postid ) );
 
-	do_action('deleted_post', $postid);
+	do_action('after_delete_post', $postid);
 
 	return $post;
 }
