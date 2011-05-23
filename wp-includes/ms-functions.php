@@ -882,8 +882,7 @@ function wpmu_signup_user_notification($user, $user_email, $key, $meta = '') {
 			__( "To activate your user, please click the following link:\n\n%s\n\nAfter you activate, you will receive *another email* with your login.\n\n" ),
 			$user, $user_email, $key, $meta
 		),
-		site_url( "wp-activate.php?key=$key" ),
-		$key
+		site_url( "wp-activate.php?key=$key" )
 	);
 	// TODO: Don't hard code activation link.
 	$subject = sprintf(
@@ -1340,7 +1339,7 @@ Thanks!
 	$message = $welcome_email;
 
 	if ( empty( $current_site->site_name ) )
-		$current_site->site_name = 'WordPress MU';
+		$current_site->site_name = 'WordPress';
 
 	$subject = apply_filters( 'update_welcome_subject', sprintf(__('New %1$s Site: %2$s'), $current_site->site_name, stripslashes( $title ) ) );
 	wp_mail($user->user_email, $subject, $message, $message_headers);
@@ -1388,7 +1387,7 @@ function wpmu_welcome_user_notification($user_id, $password, $meta = '') {
 	$message = $welcome_email;
 
 	if ( empty( $current_site->site_name ) )
-		$current_site->site_name = 'WordPress MU';
+		$current_site->site_name = 'WordPress';
 
 	$subject = apply_filters( 'update_welcome_user_subject', sprintf(__('New %1$s User: %2$s'), $current_site->site_name, $user->user_login) );
 	wp_mail($user->user_email, $subject, $message, $message_headers);
