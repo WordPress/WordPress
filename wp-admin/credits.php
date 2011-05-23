@@ -121,7 +121,7 @@ __( 'Recent Rockstars' );
 __( 'Core Contributors to WordPress %s' );
 __( 'Cofounder, Project Lead' );
 __( 'Lead Developer' );
-__( 'UI/UX and Community Lead' );
+__( 'User Experience Lead' );
 __( 'Developer, Core Committer' );
 __( 'Developer' );
 __( 'Designer' );
