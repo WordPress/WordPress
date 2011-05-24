@@ -213,13 +213,13 @@ if ( current_user_can('list_users') ) {
 }
 
 $menu[75] = array( __('Tools'), 'edit_posts', 'tools.php', '', 'menu-top menu-icon-tools', 'menu-tools', 'div' );
-	$submenu['tools.php'][5] = array( __('Tools'), 'edit_posts', 'tools.php' );
+	$submenu['tools.php'][5] = array( __('Available Tools'), 'edit_posts', 'tools.php' );
 	$submenu['tools.php'][10] = array( __('Import'), 'import', 'import.php' );
 	$submenu['tools.php'][15] = array( __('Export'), 'export', 'export.php' );
 	if ( is_multisite() && !is_main_site() )
 		$submenu['tools.php'][25] = array( __('Delete Site'), 'manage_options', 'ms-delete-site.php' );
 	if ( ! is_multisite() && defined('WP_ALLOW_MULTISITE') && WP_ALLOW_MULTISITE )
-		$submenu['tools.php'][50] = array(__('Network'), 'manage_options', 'network.php');
+		$submenu['tools.php'][50] = array(__('Network Setup'), 'manage_options', 'network.php');
 
 $menu[80] = array( __('Settings'), 'manage_options', 'options-general.php', '', 'menu-top menu-icon-settings', 'menu-settings', 'div' );
 	$submenu['options-general.php'][10] = array(_x('General', 'settings screen'), 'manage_options', 'options-general.php');

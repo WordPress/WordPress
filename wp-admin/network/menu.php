@@ -14,11 +14,11 @@ $menu[4] = array( '', 'read', 'separator1', '', 'wp-menu-separator' );
 
 /* translators: Sites menu item */
 $menu[5] = array(__('Sites'), 'manage_sites', 'sites.php', '', 'menu-top menu-icon-site', 'menu-site', 'div');
-$submenu['sites.php'][5]  = array( __('Sites'), 'manage_sites', 'sites.php' );
+$submenu['sites.php'][5]  = array( __('All Sites'), 'manage_sites', 'sites.php' );
 $submenu['sites.php'][10]  = array( _x('Add New', 'site'), 'create_sites', 'site-new.php' );
 
 $menu[10] = array(__('Users'), 'manage_network_users', 'users.php', '', 'menu-top menu-icon-users', 'menu-users', 'div');
-$submenu['users.php'][5]  = array( __('Users'), 'manage_network_users', 'users.php' );
+$submenu['users.php'][5]  = array( __('All Users'), 'manage_network_users', 'users.php' );
 $submenu['users.php'][10]  = array( _x('Add New', 'user'), 'create_users', 'user-new.php' );
 
 if ( current_user_can( 'update_themes' ) ) {
@@ -30,7 +30,7 @@ if ( current_user_can( 'update_themes' ) ) {
 } else {
 	$menu[15] = array( __( 'Themes' ), 'manage_network_themes', 'themes.php', '', 'menu-top menu-icon-appearance', 'menu-appearance', 'div' );
 }
-$submenu['themes.php'][5]  = array( __('Themes'), 'manage_network_themes', 'themes.php' );
+$submenu['themes.php'][5]  = array( __('Installed Themes'), 'manage_network_themes', 'themes.php' );
 $submenu['themes.php'][10] = array( _x('Add New', 'theme'), 'install_themes', 'theme-install.php' );
 $submenu['themes.php'][15] = array( _x('Editor', 'theme editor'), 'edit_themes', 'theme-editor.php' );
 
@@ -42,14 +42,14 @@ if ( current_user_can( 'update_plugins' ) ) {
 } else {
 	$menu[20] = array( __('Plugins'), 'manage_network_plugins', 'plugins.php', '', 'menu-top menu-icon-plugins', 'menu-plugins', 'div' );
 }
-$submenu['plugins.php'][5]  = array( __('Plugins'), 'manage_network_plugins', 'plugins.php' );
+$submenu['plugins.php'][5]  = array( __('Installed Plugins'), 'manage_network_plugins', 'plugins.php' );
 $submenu['plugins.php'][10] = array( _x('Add New', 'plugin editor'), 'install_plugins', 'plugin-install.php' );
 $submenu['plugins.php'][15] = array( _x('Editor', 'plugin editor'), 'edit_plugins', 'plugin-editor.php' );
 
 
 $menu[25] = array(__('Settings'), 'manage_network_options', 'settings.php', '', 'menu-top menu-icon-settings', 'menu-settings', 'div');
 if ( defined( 'MULTISITE' ) && defined( 'WP_ALLOW_MULTISITE' ) && WP_ALLOW_MULTISITE ) {
-	$submenu['settings.php'][5]  = array( __('Settings'), 'manage_network_options', 'settings.php' );
+	$submenu['settings.php'][5]  = array( __('Network Settings'), 'manage_network_options', 'settings.php' );
 	$submenu['settings.php'][10] = array( __('Network Setup'), 'manage_network_options', 'setup.php' );
 }
 
@@ -74,7 +74,7 @@ if ( current_user_can( 'update_core' ) ) {
 	$menu[30] = array( __( 'Updates' ), 'manage_network', 'upgrade.php', '', 'menu-top menu-icon-tools', 'menu-update', 'div' );
 }
 
-$submenu[ 'upgrade.php' ][10] = array( __( 'Updates' ), 'update_core',  'update-core.php' );
+$submenu[ 'upgrade.php' ][10] = array( __( 'Available Updates' ), 'update_core',  'update-core.php' );
 $submenu[ 'upgrade.php' ][15] = array( __( 'Update Network' ), 'manage_network', 'upgrade.php' );
 unset($plugin_update_count, $theme_update_count, $wordpress_update_count, $update_count, $update_title, $update_themes, $update_plugins, $update_wordpress);
 
