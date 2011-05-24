@@ -41,7 +41,7 @@ jQuery(document).ready( function($) {
 		var act = $('#quickpost-action'), t;
 		t = $('#quick-press').submit( function() {
 			$('#dashboard_quick_press #publishing-action img.waiting').css('visibility', 'visible');
-			$('#quick-press .submit input[type="submit"], #quick-press .submit input[type="reset"]').attr('disabled','disabled');
+			$('#quick-press .submit input[type="submit"], #quick-press .submit input[type="reset"]').prop('disabled', true);
 
 			if ( 'post' == act.val() ) {
 				act.val( 'post-quickpress-publish' );
@@ -49,7 +49,7 @@ jQuery(document).ready( function($) {
 
 			$('#dashboard_quick_press div.inside').load( t.attr( 'action' ), t.serializeArray(), function() {
 				$('#dashboard_quick_press #publishing-action img.waiting').css('visibility', 'hidden');
-				$('#quick-press .submit input[type="submit"], #quick-press .submit input[type="reset"]').attr('disabled','');
+				$('#quick-press .submit input[type="submit"], #quick-press .submit input[type="reset"]').prop('disabled', false);
 				$('#dashboard_quick_press ul').next('p').remove();
 				$('#dashboard_quick_press ul').find('li').each( function() {
 					$('#dashboard_recent_drafts ul').prepend( this );
