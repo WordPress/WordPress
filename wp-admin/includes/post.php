@@ -1562,6 +1562,7 @@ function wp_tiny_mce( $teeny = false, $settings = false ) {
 		'apply_source_formatting' => false,
 		'remove_linebreaks' => true,
 		'gecko_spellcheck' => true,
+		'keep_styles' => false,
 		'entities' => '38,amp,60,lt,62,gt',
 		'accessibility_focus' => true,
 		'tabfocus_elements' => 'major-publishing-actions',
