@@ -718,7 +718,7 @@ function sanitize_file_name( $filename ) {
 		if ( preg_match("/^[a-zA-Z]{2,5}\d?$/", $part) ) {
 			$allowed = false;
 			foreach ( $mimes as $ext_preg => $mime_match ) {
-				$ext_preg = '!(^' . $ext_preg . ')$!i';
+				$ext_preg = '!^(' . $ext_preg . ')$!i';
 				if ( preg_match( $ext_preg, $part ) ) {
 					$allowed = true;
 					break;
