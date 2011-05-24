@@ -225,7 +225,7 @@ if ( !empty($_REQUEST['ajax']) ) {
 						$src = 'http://'.str_replace('//','/', $host['host'].'/'.$src);
 					else
 						$src = 'http://'.str_replace('//','/', $host['host'].'/'.dirname($host['path']).'/'.$src);
-				$sources[] = esc_attr($src);
+				$sources[] = esc_url($src);
 			}
 			return "'" . implode("','", $sources) . "'";
 		}
