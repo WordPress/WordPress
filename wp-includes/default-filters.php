@@ -218,6 +218,7 @@ add_action( 'template_redirect',   'wp_shortlink_header',           11, 0 );
 // Login actions
 add_action( 'login_head',          'wp_print_head_scripts',         9     );
 add_action( 'login_footer',        'wp_print_footer_scripts'              );
+add_action( 'login_init',          'send_frame_options_header',     10, 0 );
 
 // Feed Generator Tags
 foreach ( array( 'rss2_head', 'commentsrss2_head', 'rss_head', 'rdf_header', 'atom_head', 'comments_atom_head', 'opml_head', 'app_head' ) as $action ) {
@@ -249,6 +250,7 @@ add_action( 'save_post',                  '_save_post_hook',          5, 2 );
 add_action( 'transition_post_status',     '_transition_post_status',  5, 3 );
 add_action( 'comment_form', 'wp_comment_form_unfiltered_html_nonce'        );
 add_action( 'wp_scheduled_delete',        'wp_scheduled_delete'            );
+add_action( 'admin_init',                 'send_frame_options_header', 10, 0 );
 
 // Navigation menu actions
 add_action( 'delete_post',                '_wp_delete_post_menu_item'      );

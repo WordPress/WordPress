@@ -4482,4 +4482,16 @@ function wp_find_hierarchy_loop_tortoise_hare( $callback, $start, $override = ar
 	return false;
 }
 
+/**
+ * Send a HTTP header to limit rendering of pages to same origin iframes.
+ *
+ * @link https://developer.mozilla.org/en/the_x-frame-options_response_header
+ *
+ * @since 3.2.0
+ * @return none
+ */
+function send_frame_options_header() {
+	@header( 'X-Frame-Options: SAMEORIGIN' );
+}
+
 ?>
