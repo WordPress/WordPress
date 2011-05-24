@@ -58,14 +58,14 @@ foreach ( array( 'comment_author_email', 'user_email' ) as $filter ) {
 
 // Save URL
 foreach ( array( 'pre_comment_author_url', 'pre_user_url', 'pre_link_url', 'pre_link_image',
-	'pre_link_rss' ) as $filter ) {
+	'pre_link_rss', 'pre_post_guid' ) as $filter ) {
 	add_filter( $filter, 'wp_strip_all_tags' );
 	add_filter( $filter, 'esc_url_raw'       );
 	add_filter( $filter, 'wp_filter_kses'    );
 }
 
 // Display URL
-foreach ( array( 'user_url', 'link_url', 'link_image', 'link_rss', 'comment_url' ) as $filter ) {
+foreach ( array( 'user_url', 'link_url', 'link_image', 'link_rss', 'comment_url', 'post_guid' ) as $filter ) {
 	if ( is_admin() )
 		add_filter( $filter, 'wp_strip_all_tags' );
 	add_filter( $filter, 'esc_url'           );
@@ -85,6 +85,10 @@ foreach ( array( 'pre_post_type' ) as $filter ) {
 foreach ( array( 'pre_post_status', 'pre_post_comment_status', 'pre_post_ping_status' ) as $filter ) {
 	add_filter( $filter, 'sanitize_key' );
 }
+
+// Mime types
+add_filter( 'pre_post_mime_type', 'sanitize_mime_type' );
+add_filter( 'post_mime_type', 'sanitize_mime_type' );
 
 // Places to balance tags on input
 foreach ( array( 'content_save_pre', 'excerpt_save_pre', 'comment_save_pre', 'pre_comment_content' ) as $filter ) {

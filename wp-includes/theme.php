@@ -1435,7 +1435,7 @@ function get_header_image() {
 	else
 		$url = str_replace( 'https://', 'http://', $url );
 
-	return $url;
+	return esc_url_raw( $url );
 }
 
 /**

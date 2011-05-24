@@ -45,6 +45,7 @@ function add_metadata($meta_type, $object_id, $meta_key, $meta_value, $unique = 
 	// expected_slashed ($meta_key)
 	$meta_key = stripslashes($meta_key);
 	$meta_value = stripslashes_deep($meta_value);
+	$meta_value = sanitize_meta( $meta_key, $meta_value, $meta_type );
 
 	$check = apply_filters( "add_{$meta_type}_metadata", null, $object_id, $meta_key, $meta_value, $unique );
 	if ( null !== $check )
@@ -113,6 +114,7 @@ function update_metadata($meta_type, $object_id, $meta_key, $meta_value, $prev_v
 	// expected_slashed ($meta_key)
 	$meta_key = stripslashes($meta_key);
 	$meta_value = stripslashes_deep($meta_value);
+	$meta_value = sanitize_meta( $meta_key, $meta_value, $meta_type );
 
 	$check = apply_filters( "update_{$meta_type}_metadata", null, $object_id, $meta_key, $meta_value, $prev_value );
 	if ( null !== $check )
@@ -488,4 +490,33 @@ function _get_meta_table($type) {
 
 	return $wpdb->$table_name;
 }
+
+/**
+ * Determine whether a meta key is protected
+ *
+ * @since 3.2.0
+ *
+ * @param string $meta_key Meta key
+ * @return bool True if the key is protected, false otherwise.
+ */
+function is_protected_meta( $meta_key, $meta_type = null ) {
+	$protected = (  '_' == $meta_key[0] );
+
+	return apply_filters( 'is_protected_meta', $protected, $meta_key, $meta_type );
+}
+
+/**
+ * Sanitize meta value
+ *
+ * @since 3.2.0
+ *
+ * @param string $meta_key Meta key
+ * @param mixed $meta_value Meta value to sanitize
+ * @param string $meta_type Type of meta
+ * @return mixed Sanitized $meta_value
+ */
+function sanitize_meta( $meta_key, $meta_value, $meta_type = null ) {
+	return apply_filters( 'sanitize_meta', $meta_value, $meta_key, $meta_type );
+}
+
 ?>
