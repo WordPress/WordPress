@@ -529,7 +529,7 @@ function twentyeleven_comment( $comment, $args, $depth ) {
 						echo get_avatar( $comment, $avatar_size );
 
 						printf( __( '%1$s on %2$s%3$s at %4$s%5$s <span class="says">said:</span>', 'twentyeleven' ),
-							sprintf( '<cite class="fn">%s</cite>', get_comment_author_link() ),
+							sprintf( '<span class="fn">%s</span>', get_comment_author_link() ),
 							'<a href="' . esc_url( get_comment_link( $comment->comment_ID ) ) . '"><time pubdate datetime="' . get_comment_time( 'c' ) . '">',
 							get_comment_date(),
 							get_comment_time(),
