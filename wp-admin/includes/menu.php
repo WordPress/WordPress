@@ -102,6 +102,15 @@ foreach ( $menu as $id => $data ) {
 	if ( ! current_user_can($data[1]) )
 		$_wp_menu_nopriv[$data[2]] = true;
 
+	// If there is only one submenu and it is has same destination as the parent,
+	// remove the submenu.
+	if ( 1 == count ( $submenu[$data[2]] ) ) {
+		$subs = $submenu[$data[2]];
+		$first_sub = array_shift($subs);
+		if ( $data[2] == $first_sub[2] )
+			unset( $submenu[$data[2]] );
+	}
+
 	// If submenu is empty...
 	if ( empty($submenu[$data[2]]) ) {
 		// And user doesn't have privs, remove menu.
@@ -110,7 +119,7 @@ foreach ( $menu as $id => $data ) {
 		}
 	}
 }
-unset($id, $data);
+unset($id, $data, $subs, $first_sub);
 
 // Remove any duplicated seperators
 $seperator_found = false;
