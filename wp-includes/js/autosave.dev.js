@@ -190,7 +190,7 @@ function autosave_enable_buttons() {
 }
 
 function autosave_disable_buttons() {
-	jQuery(':button, :submit', '#submitpost').attr('disabled', 'disabled');
+	jQuery(':button, :submit', '#submitpost').prop('disabled', true);
 	// Re-enable 5 sec later.  Just gives autosave a head start to avoid collisions.
 	setTimeout(autosave_enable_buttons, 5000);
 }
@@ -268,9 +268,9 @@ autosave = function() {
 	} );
 	post_data["catslist"] = goodcats.join(",");
 
-	if ( jQuery("#comment_status").attr("checked") )
+	if ( jQuery("#comment_status").prop("checked") )
 		post_data["comment_status"] = 'open';
-	if ( jQuery("#ping_status").attr("checked") )
+	if ( jQuery("#ping_status").prop("checked") )
 		post_data["ping_status"] = 'open';
 	if ( jQuery("#excerpt").size() )
 		post_data["excerpt"] = jQuery("#excerpt").val();

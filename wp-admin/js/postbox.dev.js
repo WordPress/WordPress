@@ -22,13 +22,13 @@ var postboxes;
 			} );
 			$('.postbox a.dismiss').click( function(e) {
 				var hide_id = $(this).parents('.postbox').attr('id') + '-hide';
-				$( '#' + hide_id ).attr('checked', false).triggerHandler('click');
+				$( '#' + hide_id ).prop('checked', false).triggerHandler('click');
 				return false;
 			} );
 			$('.hide-postbox-tog').click( function() {
 				var box = $(this).val();
 
-				if ( $(this).attr('checked') ) {
+				if ( $(this).prop('checked') ) {
 					$('#' + box).show();
 					if ( $.isFunction( postboxes.pbshow ) )
 						postboxes.pbshow( box );

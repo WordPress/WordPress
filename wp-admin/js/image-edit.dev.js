@@ -16,7 +16,7 @@ imageEdit = {
 			$('input', el).removeAttr('disabled');
 		} else {
 			el.addClass('disabled');
-			$('input', el).attr('disabled', 'disabled');
+			$('input', el).prop('disabled', true);
 		}
 	},
 
@@ -178,7 +178,7 @@ imageEdit = {
 			if ( $('#imgedit-history-' + postid).val() && $('#imgedit-undone-' + postid).val() == 0 )
 				$('input.imgedit-submit-btn', '#imgedit-panel-' + postid).removeAttr('disabled');
 			else
-				$('input.imgedit-submit-btn', '#imgedit-panel-' + postid).attr('disabled', 'disabled');
+				$('input.imgedit-submit-btn', '#imgedit-panel-' + postid).prop('disabled', true);
 
 			t.toggleEditor(postid, 0);
 		}).attr('src', ajaxurl + '?' + $.param(data));
@@ -271,7 +271,7 @@ imageEdit = {
 		var data, elem = $('#image-editor-' + postid), head = $('#media-head-' + postid),
 			btn = $('#imgedit-open-btn-' + postid), spin = btn.siblings('img');
 
-		btn.attr('disabled', 'disabled');
+		btn.prop('disabled', true);
 		spin.css('visibility', 'visible');
 
 		data = {

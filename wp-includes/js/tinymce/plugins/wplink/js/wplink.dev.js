@@ -106,7 +106,7 @@ var wpLink;
 				inputs.title.val( ed.dom.getAttrib(e, 'title') );
 				// Set open in new tab.
 				if ( "_blank" == ed.dom.getAttrib(e, 'target') )
-					inputs.openInNewTab.attr('checked','checked');
+					inputs.openInNewTab.prop('checked', true);
 				// Update save prompt.
 				inputs.submit.val( wpLinkL10n.update );
 
@@ -139,7 +139,7 @@ var wpLink;
 			return {
 				href : inputs.url.val(),
 				title : inputs.title.val(),
-				target : inputs.openInNewTab.attr('checked') ? '_blank' : ''
+				target : inputs.openInNewTab.prop('checked') ? '_blank' : ''
 			};
 		},
 

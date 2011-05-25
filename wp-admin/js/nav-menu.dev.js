@@ -598,7 +598,7 @@ var wpNavMenu;
 				};
 			} else {
 				// Make the post boxes read-only, as they can't be used yet
-				$('#menu-settings-column').find('input,select').attr('disabled', 'disabled').end().find('a').attr('href', '#').unbind('click');
+				$('#menu-settings-column').find('input,select').prop('disabled', true).end().find('a').attr('href', '#').unbind('click');
 			}
 		},
 
@@ -640,7 +640,7 @@ var wpNavMenu;
 						if( items.length === items.filter(':checked').length )
 							items.removeAttr('checked');
 						else
-							items.attr('checked', 'checked');
+							items.prop('checked', true);
 						return false;
 					}
 				} else if ( target.hasClass('submit-add-to-menu') ) {

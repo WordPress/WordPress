@@ -114,7 +114,7 @@ columns = {
 		var that = this;
 		$('.hide-column-tog', '#adv-settings').click( function() {
 			var $t = $(this), column = $t.val();
-			if ( $t.attr('checked') )
+			if ( $t.prop('checked') )
 				that.checked(column);
 			else
 				that.unchecked(column);
@@ -261,13 +261,13 @@ $(document).ready( function() {
 			checks = $( lastClicked ).closest( 'form' ).find( ':checkbox' );
 			first = checks.index( lastClicked );
 			last = checks.index( this );
-			checked = $(this).attr('checked');
+			checked = $(this).prop('checked');
 			if ( 0 < first && 0 < last && first != last ) {
-				checks.slice( first, last ).attr( 'checked', function(){
+				checks.slice( first, last ).prop( 'checked', function(){
 					if ( $(this).closest('tr').is(':visible') )
-						return checked ? 'checked' : '';
+						return checked;
 
-					return '';
+					return false;
 				});
 			}
 		}

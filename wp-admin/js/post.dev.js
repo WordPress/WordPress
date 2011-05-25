@@ -44,7 +44,7 @@ tagBox = {
 		if ( !thetags.length )
 			return;
 
-		disabled = thetags.attr('disabled');
+		disabled = thetags.prop('disabled');
 
 		current_tags = thetags.val().split(',');
 		tagchecklist.empty();
@@ -294,7 +294,7 @@ jQuery(document).ready( function($) {
 				return;
 			noSyncChecks = true;
 			var th = jQuery(this), c = th.is(':checked'), id = th.val().toString();
-			$('#in-' + taxonomy + '-' + id + ', #in-' + taxonomy + '-category-' + id).attr( 'checked', c );
+			$('#in-' + taxonomy + '-' + id + ', #in-' + taxonomy + '-category-' + id).prop( 'checked', c );
 			noSyncChecks = false;
 		};
 
@@ -331,7 +331,7 @@ jQuery(document).ready( function($) {
 		$('#' + taxonomy + 'checklist li.popular-category :checkbox, #' + taxonomy + 'checklist-pop :checkbox').live( 'click', function(){
 			var t = $(this), c = t.is(':checked'), id = t.val();
 			if ( id && t.parents('#taxonomy-'+taxonomy).length )
-				$('#in-' + taxonomy + '-' + id + ', #in-popular-' + taxonomy + '-' + id).attr( 'checked', c );
+				$('#in-' + taxonomy + '-' + id + ', #in-popular-' + taxonomy + '-' + id).prop( 'checked', c );
 		});
 
 	}); // end cats
@@ -355,7 +355,7 @@ jQuery(document).ready( function($) {
 		function updateVisibility() {
 			var pvSelect = $('#post-visibility-select');
 			if ( $('input:radio:checked', pvSelect).val() != 'public' ) {
-				$('#sticky').attr('checked', false);
+				$('#sticky').prop('checked', false);
 				$('#sticky-span').hide();
 			} else {
 				$('#sticky-span').show();
@@ -413,7 +413,7 @@ jQuery(document).ready( function($) {
 				} else {
 					optPublish.html( postL10n.privatelyPublished );
 				}
-				$('option[value="publish"]', postStatus).attr('selected', true);
+				$('option[value="publish"]', postStatus).prop('selected', true);
 				$('.edit-post-status', '#misc-publishing-actions').hide();
 			} else {
 				if ( $('#original_post_status').val() == 'future' || $('#original_post_status').val() == 'draft' ) {
@@ -452,9 +452,9 @@ jQuery(document).ready( function($) {
 
 		$('.cancel-post-visibility', '#post-visibility-select').click(function () {
 			$('#post-visibility-select').slideUp('fast');
-			$('#visibility-radio-' + $('#hidden-post-visibility').val()).attr('checked', true);
+			$('#visibility-radio-' + $('#hidden-post-visibility').val()).prop('checked', true);
 			$('#post_password').val($('#hidden_post_password').val());
-			$('#sticky').attr('checked', $('#hidden-post-sticky').attr('checked'));
+			$('#sticky').prop('checked', $('#hidden-post-sticky').prop('checked'));
 			$('#post-visibility-display').html(visibility);
 			$('.edit-visibility', '#visibility').show();
 			updateText();
@@ -469,10 +469,10 @@ jQuery(document).ready( function($) {
 			updateText();
 
 			if ( $('input:radio:checked', pvSelect).val() != 'public' ) {
-				$('#sticky').attr('checked', false);
+				$('#sticky').prop('checked', false);
 			} // WEAPON LOCKED
 
-			if ( true == $('#sticky').attr('checked') ) {
+			if ( true == $('#sticky').prop('checked') ) {
 				sticky = 'Sticky';
 			} else {
 				sticky = '';
@@ -556,7 +556,7 @@ jQuery(document).ready( function($) {
 				}, function(data) {
 					$('#edit-slug-box').html(data);
 					b.html(revert_b);
-					real_slug.attr('value', new_slug);
+					real_slug.val(new_slug);
 					makeSlugeditClickable();
 					$('#view-post-btn').show();
 				});
@@ -567,7 +567,7 @@ jQuery(document).ready( function($) {
 				$('#view-post-btn').show();
 				e.html(revert_e);
 				b.html(revert_b);
-				real_slug.attr('value', revert_slug);
+				real_slug.val(revert_slug);
 				return false;
 			});
 
@@ -588,7 +588,7 @@ jQuery(document).ready( function($) {
 					b.children('.cancel').click();
 					return false;
 				}
-				real_slug.attr('value', this.value);
+				real_slug.val(this.value);
 			}).focus();
 		}
 

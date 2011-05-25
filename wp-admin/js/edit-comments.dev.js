@@ -61,7 +61,7 @@ setCommentsList = function() {
 			el = $('#comment-' + id);
 			note = $('#' + action + '-undo-holder').html();
 
-			el.find('.check-column :checkbox').attr('checked', ''); // Uncheck the row so as not to be affected by Bulk Edits.
+			el.find('.check-column :checkbox').prop('checked', false); // Uncheck the row so as not to be affected by Bulk Edits.
 
 			if ( el.siblings('#replyrow').length && commentReply.cid == id )
 				commentReply.close();
@@ -569,14 +569,14 @@ $(document).ready(function(){
 
 		toggle_all = function() {
 			toggleWithKeyboard = true;
-			$('input:checkbox', '#cb').click().attr('checked', '');
+			$('input:checkbox', '#cb').click().prop('checked', false);
 			toggleWithKeyboard = false;
 		};
 
 		make_bulk = function(value) {
 			return function() {
 				var scope = $('select[name="action"]');
-				$('option[value="' + value + '"]', scope).attr('selected', 'selected');
+				$('option[value="' + value + '"]', scope).prop('selected', true);
 				$('#doaction').click();
 			}
 		};

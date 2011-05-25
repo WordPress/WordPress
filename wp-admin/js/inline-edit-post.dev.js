@@ -34,10 +34,10 @@ inlineEditPost = {
 
 		$('#inline-edit .inline-edit-private input[value="private"]').click( function(){
 			var pw = $('input.inline-edit-password-input');
-			if ( $(this).attr('checked') ) {
-				pw.val('').attr('disabled', 'disabled');
+			if ( $(this).prop('checked') ) {
+				pw.val('').prop('disabled', true);
 			} else {
-				pw.attr('disabled', '');
+				pw.prop('disabled', false);
 			}
 		});
 
@@ -94,7 +94,7 @@ inlineEditPost = {
 		$('#bulk-edit').addClass('inline-editor').show();
 
 		$('tbody th.check-column input[type="checkbox"]').each(function(i){
-			if ( $(this).attr('checked') ) {
+			if ( $(this).prop('checked') ) {
 				c = false;
 				var id = $(this).val(), theTitle;
 				theTitle = $('#inline_'+id+' .post_title').text() || inlineEditL10n.notitle;
@@ -109,7 +109,7 @@ inlineEditPost = {
 		$('#bulk-titles a').click(function(){
 			var id = $(this).attr('id').substr(1);
 
-			$('table.widefat input[value="' + id + '"]').attr('checked', '');
+			$('table.widefat input[value="' + id + '"]').prop('checked', false);
 			$('#ttle'+id).remove();
 		});
 
@@ -155,11 +155,11 @@ inlineEditPost = {
 		}
 
 		if ( $('.comment_status', rowData).text() == 'open' )
-			$('input[name="comment_status"]', editRow).attr("checked", "checked");
+			$('input[name="comment_status"]', editRow).prop("checked", true);
 		if ( $('.ping_status', rowData).text() == 'open' )
-			$('input[name="ping_status"]', editRow).attr("checked", "checked");
+			$('input[name="ping_status"]', editRow).prop("checked", true);
 		if ( $('.sticky', rowData).text() == 'sticky' )
-			$('input[name="sticky"]', editRow).attr("checked", "checked");
+			$('input[name="sticky"]', editRow).prop("checked", true);
 
 		// hierarchical taxonomies
 		$('.post_category', rowData).each(function(){
@@ -188,8 +188,8 @@ inlineEditPost = {
 			$('select[name="_status"] option[value="future"]', editRow).remove();
 
 		if ( 'private' == status ) {
-			$('input[name="keep_private"]', editRow).attr("checked", "checked");
-			$('input.inline-edit-password-input').val('').attr('disabled', 'disabled');
+			$('input[name="keep_private"]', editRow).prop("checked", true);
+			$('input.inline-edit-password-input').val('').prop('disabled', true);
 		}
 
 		// remove the current page and children from the parent dropdown
