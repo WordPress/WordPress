@@ -311,7 +311,7 @@ function twentyeleven_admin_header_image() { ?>
 endif; // twentyeleven_admin_header_image
 
 /**
- * Sets the post excerpt length to 40 characters.
+ * Sets the post excerpt length to 40 words.
  *
  * To override this length in a child theme, remove the filter and add your own
  * function tied to the excerpt_length filter hook.
