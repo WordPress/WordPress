@@ -61,7 +61,7 @@ a {
 	color: #858585;
 }
 #branding #s {
-	background-color: #fff;
+	background-color: #ddd;
 }
 
 
@@ -69,6 +69,10 @@ a {
 ----------------------------------------------- */
 
 #access {
+	background: #333; /* Show a solid color for older browsers */
+	background: -moz-linear-gradient(#383838, #272727);
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#383838), to(#272727)); /* older webkit syntax */
+	background: -webkit-linear-gradient(#383838, #272727);
 	border-bottom: 1px solid #222;
 }
 

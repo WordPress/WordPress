@@ -321,7 +321,10 @@ function twentyeleven_print_link_color_style() {
 		}
 		section.recent-posts .other-recent-posts .comments-link a:hover {
 			border-color: <?php echo $link_color; ?>;
-		}		
+		}	
+		article.feature-image.small .entry-summary p a:hover {
+			background: <?php echo $link_color; ?>;
+		}	
 	</style>
 <?php
 }
