@@ -392,6 +392,7 @@ pre {
 	font: 13px "Courier 10 Pitch", Courier, monospace;
 	line-height: 1.5;
 	margin-bottom: 1.625em;
+	overflow: auto;
 	padding: 0.75em 1.625em;
 }
 code, kbd {
