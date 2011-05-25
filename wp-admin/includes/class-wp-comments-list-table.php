@@ -110,6 +110,8 @@ class WP_Comments_List_Table extends WP_List_Table {
 			$_comment_post_ids[] = $_c->comment_post_ID;
 		}
 
+		$_comment_post_ids = array_unique( $_comment_post_ids );
+
 		$this->pending_count = get_pending_comments_num( $_comment_post_ids );
 
 		$this->set_pagination_args( array(
