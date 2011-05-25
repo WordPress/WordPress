@@ -2906,7 +2906,7 @@ function capital_P_dangit( $text ) {
 /**
  * Sanitize a mime type
  *
- * @since 3.2.0
+ * @since 3.1.3
  *
  * @param string $mime_type Mime type
  * @return string Sanitized mime type
