@@ -1676,6 +1676,7 @@ section.ephemera .entry-title a span {
 	padding: 0 0 2.6em;
 	text-transform: uppercase;
 }
+.nopassword,
 .nocomments {
 	color: #aaa;
 	font-size: 24px;
