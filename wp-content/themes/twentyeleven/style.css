@@ -1534,6 +1534,7 @@ img#wpstats {
 	font-size: 12px;
 }
 .widget {
+	clear: both;
 	margin: 0 0 2.2em;
 }
 .widget-title {
