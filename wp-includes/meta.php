@@ -582,7 +582,7 @@ function _get_meta_table($type) {
 /**
  * Determine whether a meta key is protected
  *
- * @since 3.2.0
+ * @since 3.1.3
  *
  * @param string $meta_key Meta key
  * @return bool True if the key is protected, false otherwise.
@@ -596,7 +596,7 @@ function is_protected_meta( $meta_key, $meta_type = null ) {
 /**
  * Sanitize meta value
  *
- * @since 3.2.0
+ * @since 3.1.3
  *
  * @param string $meta_key Meta key
  * @param mixed $meta_value Meta value to sanitize

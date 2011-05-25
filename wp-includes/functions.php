@@ -4549,7 +4549,7 @@ function wp_find_hierarchy_loop_tortoise_hare( $callback, $start, $override = ar
  *
  * @link https://developer.mozilla.org/en/the_x-frame-options_response_header
  *
- * @since 3.2.0
+ * @since 3.1.3
  * @return none
  */
 function send_frame_options_header() {
