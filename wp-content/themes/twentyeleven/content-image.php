@@ -50,11 +50,27 @@
 				?>
 			</div><!-- .entry-meta -->
 			<div class="entry-meta">
-				<span class="cat-links"><span class="entry-utility-prep entry-utility-prep-cat-links"><?php _e( 'Posted in ', 'twentyeleven' ); ?></span><?php the_category( ', ' ); ?></span>
-				<?php the_tags( '<span class="tag-links"><span class="entry-utility-prep entry-utility-prep-tag-links">' . __( 'Tagged', 'twentyeleven' ) . '</span> ', ', ', '</span>' ); ?>
+				<?php
+				/* translators: used between list items, there is a space after the comma */
+					$categories_list = get_the_category_list( __( ', ', 'twentyeleven' ) );
+					if ( $categories_list ):
+				?>
+				<span class="cat-links">
+					<?php printf( __( '<span class="%1$s">Posted in</span> %2$s', 'twentyeleven' ), 'entry-utility-prep entry-utility-prep-cat-links', $categories_list ); ?>
+				</span>
+				<?php endif; // End if categories ?>
+				<?php
+					/* translators: used between list items, there is a space after the comma */
+					$tags_list = get_the_tag_list( '', __( ', ', 'twentyeleven' ) );
+					if ( $tags_list ): ?>
+				<span class="tag-links">
+					<?php printf( __( '<span class="%1$s">Tagged</span> %2$s', 'twentyeleven' ), 'entry-utility-prep entry-utility-prep-tag-links', $tags_list ); ?>
+				</span>
+				<?php endif; // End if $tags_list ?>
+
 				<?php if ( comments_open() ) : ?>
 				<span class="comments-link"><?php comments_popup_link( __( '<span class="leave-reply">Leave a reply</span>', 'twentyeleven' ), __( '<b>1</b> Reply', 'twentyeleven' ), __( '<b>%</b> Replies', 'twentyeleven' ) ); ?></span>
-				<?php endif; ?>
+				<?php endif; // End if comments_open() ?>
 			</div><!-- .entry-meta -->
 			<?php endif; ?>
 

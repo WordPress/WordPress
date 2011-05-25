@@ -33,7 +33,8 @@
 
 	<footer class="entry-meta">
 		<?php
-			$tag_list = get_the_tag_list( '', ', ' );
+			/* translators: used between list items, there is a space after the comma */
+			$tag_list = get_the_tag_list( '', __( ', ', 'twentyeleven' ) );
 			if ( '' != $tag_list ) {
 				$utility_text = __( 'This entry was posted in %1$s and tagged %2$s by <a href="%6$s">%5$s</a>. Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'twentyeleven' );
 			} else {
@@ -41,7 +42,8 @@
 			}
 			printf(
 				$utility_text,
-				get_the_category_list( ', ' ),
+				/* translators: used between list items, there is a space after the comma */
+				get_the_category_list( __( ', ', 'twentyeleven' ) ),
 				$tag_list,
 				get_permalink(),
 				the_title_attribute( 'echo=0' ),
