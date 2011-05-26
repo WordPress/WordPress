@@ -997,9 +997,9 @@ function wp_edit_attachments_query( $q = false ) {
 	$q['cat'] = isset( $q['cat'] ) ? (int) $q['cat'] : 0;
 	$q['post_type'] = 'attachment';
 	$post_type = get_post_type_object( 'attachment' );
-	$states = array( 'inherit' );
+	$states = 'inherit';
 	if ( current_user_can( $post_type->cap->read_private_posts ) )
-		$states[] = 'private';
+		$states .= ',private';
 
 	$q['post_status'] = isset( $q['status'] ) && 'trash' == $q['status'] ? 'trash' : $states;
 	$media_per_page = (int) get_user_option( 'upload_per_page' );
