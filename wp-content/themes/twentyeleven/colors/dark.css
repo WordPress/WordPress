@@ -57,6 +57,11 @@ a {
 #site-title a {
 	color: #eee;
 }
+#site-title a:hover,
+#site-title a:focus,
+#site-title a:active {
+	color: #e4741f;
+}
 #site-description {
 	color: #858585;
 }
@@ -92,7 +97,9 @@ a {
 .entry-title a {
 	color: #ddd;
 }
-.entry-title a:hover {
+.entry-title a:hover,
+.entry-title a:focus,
+.entry-title a:active {
 	color: #e4741f;
 }
 .entry-meta {
@@ -133,7 +140,9 @@ a {
 	background: #555;
 	color: #000;
 }
-.entry-meta .edit-link a:hover {
+.entry-meta .edit-link a:hover,
+.entry-meta .edit-link a:focus,
+.entry-meta .edit-link a:active {
 	background: #888;
 }
 
@@ -161,7 +170,9 @@ a {
 	border-color: #222;
 	color: #888;
 }
-.entry-header .comments-link a:hover {
+.entry-header .comments-link a:hover,
+.entry-header .comments-link a:focus,
+.entry-header .comments-link a:active {
 	background: #888;
 	border-color: #aaa;
 	color: #000;

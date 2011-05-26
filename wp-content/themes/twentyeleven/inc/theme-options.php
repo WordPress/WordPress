@@ -311,7 +311,12 @@ function twentyeleven_print_link_color_style() {
 	<style>
 		/* Link color */
 		a,
+		#site-title a:focus,
+		#site-title a:hover,
+		#site-title a:active,
 		.entry-title a:hover,
+		.entry-title a:focus,
+		.entry-title a:active,
 		.widget_twentyeleven_ephemera .comments-link a:hover,
 		section.recent-posts .other-recent-posts a[rel="bookmark"]:hover,
 		section.recent-posts .other-recent-posts .comments-link a:hover,

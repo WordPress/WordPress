@@ -484,6 +484,11 @@ a:hover {
 	line-height: 36px;
 	text-decoration: none;
 }
+#site-title a:hover,
+#site-title a:focus,
+#site-title a:active {
+	color: #1b8be0;
+}
 #site-description {
 	color: #7a7a7a;
 	font-size: 14px;
@@ -559,10 +564,12 @@ a:hover {
 	width: 168px;
 }
 #access li:hover > a,
-#access ul ul :hover > a {
+#access ul ul :hover > a,
+#access a:focus {
 	background: #efefef;
 }
-#access li:hover > a {
+#access li:hover > a,
+#access a:focus {
 	background: #f9f9f9; /* Show a solid color for older browsers */
 	background: -moz-linear-gradient(#f9f9f9, #e5e5e5);
 	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f9f9f9), to(#e5e5e5)); /* Older webkit syntax */
@@ -689,7 +696,9 @@ a:hover {
 	color: #222;
 	text-decoration: none;
 }
-.entry-title a:hover {
+.entry-title a:hover,
+.entry-title a:focus,
+.entry-title a:active {
 	color: #1b8be0;
 }
 .entry-meta {
@@ -858,7 +867,9 @@ dl.gallery-item {
 	width: 48px;
 	height: 48px;
 }
-.entry-header .comments-link a:hover {
+.entry-header .comments-link a:hover,
+.entry-header .comments-link a:focus,
+.entry-header .comments-link a:active {
 	background: #777;
 	border-color: #555;
 	color: #fff;
@@ -1161,7 +1172,9 @@ article.intro .edit-link a {
 	right: 20px;
 	text-decoration: none;
 }
-article.intro .edit-link a:hover {
+article.intro .edit-link a:hover,
+article.intro .edit-link a:focus,
+article.intro .edit-link a:active {
 	background: #777;
 }
 
