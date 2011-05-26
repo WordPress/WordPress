@@ -17,7 +17,11 @@ get_header(); ?>
 						printf( __( 'Category Archives: %s', 'twentyeleven' ), '<span>' . single_cat_title( '', false ) . '</span>' );
 					?></h1>
 
-					<?php $categorydesc = category_description(); if ( ! empty( $categorydesc ) ) echo apply_filters( 'archive_meta', '<div class="archive-meta">' . $categorydesc . '</div>' ); ?>
+					<?php
+						$category_description = category_description();
+						if ( ! empty( $category_description ) )
+							echo apply_filters( 'category_archive_meta', '<div class="category-archive-meta">' . $category_description . '</div>' );
+					?>
 				</header>
 
 				<?php twentyeleven_content_nav( 'nav-above' ); ?>
