@@ -475,6 +475,7 @@ a:hover {
 	z-index: 2;
 }
 #site-title {
+	margin-right: 270px;
 	padding: 3.65625em 0 0;
 }
 #site-title a {
@@ -492,7 +493,7 @@ a:hover {
 #site-description {
 	color: #7a7a7a;
 	font-size: 14px;
-	margin: 0 0 3.65625em;
+	margin: 0 270px 3.65625em 0;
 }
 #branding img {
 	height: auto;
@@ -608,11 +609,11 @@ a:hover {
 	-moz-transition-duration: 400ms;
 	-moz-transition-property: width, background;
 	-moz-transition-timing-function: ease;
-	width: 26%;
+	width: 45px;
 }
 #branding #s:focus {
 	background-color: #f9f9f9;
-	width: 114%;
+	width: 196px;
 }
 #branding #searchsubmit {
 	display: none;
@@ -2141,6 +2142,9 @@ p.comment-form-comment {
 		margin: 2.2em -8.8% 0px;
 		padding: 20px 8.8%;
 	}
+	.page-link {
+		margin: 1.625em 0;
+	}
 	/* Make sure we have room for our comment avatars */
 	.commentlist > li.comment,
 	.commentlist .pingback {
@@ -2170,10 +2174,17 @@ p.comment-form-comment {
 	}
 }
 @media (max-width: 650px) {
+	/* Reposition the site title and description slightly */
+	#site-title {
+		padding: 5.30625em 0 0;
+	}
+	#site-title,
+	#site-description {
+		margin-right: 0;
+	}
 	/* Make sure the logo and search form don't collide */
 	#branding #searchform {
-		right: 1px;
-		top: 0;
+		top: 1.625em !important;
 	}
 	/* Make sure the post-post navigation doesn't collide with anything */
 	#nav-single {
@@ -2197,6 +2208,14 @@ p.comment-form-comment {
 		padding: 0;
 		position: absolute;
 		top: 2.2em;
+	}
+	/* Use the available space in the smaller comment form */
+	#respond input[type="text"] {
+	    width: 95%;
+	}
+	#respond .comment-form-author .required,
+	#respond .comment-form-email .required {
+	    left: 95%;
 	}
 }
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
