@@ -1242,7 +1242,7 @@ function is_page_template($template = '') {
 
 	// We have no argument passed so just see if a page_template has been specified
 	if ( empty( $template ) ) {
-		if (!empty( $page_template ) ) {
+		if ( !empty( $page_template ) and ( 'default' != $page_template ) ) {
 			return true;
 		}
 	} elseif ( $template == $page_template) {
