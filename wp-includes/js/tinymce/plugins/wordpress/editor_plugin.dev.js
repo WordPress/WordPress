@@ -210,6 +210,11 @@
 				});
 			};
 
+			// keep empty paragraphs :(
+			ed.onSaveContent.addToTop(function(ed, o) {
+				o.content = o.content.replace(/<p>(<br ?\/?>|\u00a0|\uFEFF)?<\/p>/g, '<p>&nbsp;</p>');
+			});
+
 			ed.onSaveContent.add(function(ed, o) {
 				if ( typeof(switchEditors) == 'object' ) {
 					if ( ed.isHidden() )

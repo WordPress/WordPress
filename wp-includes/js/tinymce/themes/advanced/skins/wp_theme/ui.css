@@ -65,17 +65,18 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 .wp_themeSkin span.mce_unlink,
 .wp_themeSkin span.mce_help,
 .wp_themeSkin span.mce_removeformat,
-.wp_themeSkin  span.mce_forecolor,
-.wp_themeSkin .mce_forecolorpicker,
 .wp_themeSkin span.mce_fullscreen,
 .wp_themeSkin span.mce_media,
 .wp_themeSkin span.mce_pastetext,
 .wp_themeSkin span.mce_pasteword,
-.wp_themeSkin span.mce_spellchecker,
 .wp_themeSkin span.mce_wp_help,
 .wp_themeSkin span.mce_wp_adv,
 .wp_themeSkin span.mce_wp_more,
 .wp_themeSkin span.mce_strikethrough,
+.wp_themeSkin span.mce_spellchecker,
+.wp_themeSkin span.mce_forecolor,
+.wp_themeSkin .mce_forecolorpicker,
+.wp_themeSkin .mceSplitButton .mce_spellchecker span.mce_spellchecker,
 .wp_themeSkin .mceSplitButton .mce_forecolor span.mce_forecolor {
 	background: url(../../img/wpicons.png) no-repeat 20px 20px;
 }
@@ -274,7 +275,7 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 .wp_themeSkin .mceColorSplitMenu a.mceMoreColors {width:100%; height:auto; text-align:center; font-family:Tahoma,Verdana,Arial,Helvetica; font-size:11px; line-height:20px;}
 .wp_themeSkin .mceColorSplitMenu a.mceMoreColors:hover {}
 .wp_themeSkin a.mceMoreColors:hover {}
-.wp_themeSkin .mceColorPreview {margin: -4px 0 0 2px; width:16px; height:4px; overflow:hidden}
+.wp_themeSkin .mceColorPreview {margin: -5px 0 0 2px; width:16px; height:4px; overflow:hidden}
 
 /* Menu */
 .wp_themeSkin .mceMenu {position:absolute; left:0; top:0; z-index:1000;}
