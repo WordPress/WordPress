@@ -46,41 +46,6 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 .wp_themeSkin span.mceIcon, .wp_themeSkin img.mceIcon {display:block; width:20px; height:20px}
 .wp_themeSkin .mceIcon {background:url(../../img/icons.gif) no-repeat 20px 20px}
 
-.wp_themeSkin span.mce_undo,
-.wp_themeSkin span.mce_redo,
-.wp_themeSkin span.mce_bullist,
-.wp_themeSkin span.mce_numlist,
-.wp_themeSkin span.mce_blockquote,
-.wp_themeSkin span.mce_charmap,
-.wp_themeSkin span.mce_bold,
-.wp_themeSkin span.mce_italic,
-.wp_themeSkin span.mce_underline,
-.wp_themeSkin span.mce_justifyleft,
-.wp_themeSkin span.mce_justifyright,
-.wp_themeSkin span.mce_justifycenter,
-.wp_themeSkin span.mce_justifyfull,
-.wp_themeSkin span.mce_indent,
-.wp_themeSkin span.mce_outdent,
-.wp_themeSkin span.mce_link,
-.wp_themeSkin span.mce_unlink,
-.wp_themeSkin span.mce_help,
-.wp_themeSkin span.mce_removeformat,
-.wp_themeSkin span.mce_fullscreen,
-.wp_themeSkin span.mce_media,
-.wp_themeSkin span.mce_pastetext,
-.wp_themeSkin span.mce_pasteword,
-.wp_themeSkin span.mce_wp_help,
-.wp_themeSkin span.mce_wp_adv,
-.wp_themeSkin span.mce_wp_more,
-.wp_themeSkin span.mce_strikethrough,
-.wp_themeSkin span.mce_spellchecker,
-.wp_themeSkin span.mce_forecolor,
-.wp_themeSkin .mce_forecolorpicker,
-.wp_themeSkin .mceSplitButton .mce_spellchecker span.mce_spellchecker,
-.wp_themeSkin .mceSplitButton .mce_forecolor span.mce_forecolor {
-	background: url(../../img/wpicons.png) no-repeat 20px 20px;
-}
-
 /* Button */
 .wp_themeSkin .mceButton {
 	display:block;
@@ -267,6 +232,41 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 	border-top-right-radius: 3px;
 }
 
+.wp_themeSkin span.mce_undo,
+.wp_themeSkin span.mce_redo,
+.wp_themeSkin span.mce_bullist,
+.wp_themeSkin span.mce_numlist,
+.wp_themeSkin span.mce_blockquote,
+.wp_themeSkin span.mce_charmap,
+.wp_themeSkin span.mce_bold,
+.wp_themeSkin span.mce_italic,
+.wp_themeSkin span.mce_underline,
+.wp_themeSkin span.mce_justifyleft,
+.wp_themeSkin span.mce_justifyright,
+.wp_themeSkin span.mce_justifycenter,
+.wp_themeSkin span.mce_justifyfull,
+.wp_themeSkin span.mce_indent,
+.wp_themeSkin span.mce_outdent,
+.wp_themeSkin span.mce_link,
+.wp_themeSkin span.mce_unlink,
+.wp_themeSkin span.mce_help,
+.wp_themeSkin span.mce_removeformat,
+.wp_themeSkin span.mce_fullscreen,
+.wp_themeSkin span.mce_media,
+.wp_themeSkin span.mce_pastetext,
+.wp_themeSkin span.mce_pasteword,
+.wp_themeSkin span.mce_wp_help,
+.wp_themeSkin span.mce_wp_adv,
+.wp_themeSkin span.mce_wp_more,
+.wp_themeSkin span.mce_strikethrough,
+.wp_themeSkin span.mce_spellchecker,
+.wp_themeSkin span.mce_forecolor,
+.wp_themeSkin .mce_forecolorpicker,
+.wp_themeSkin .mceSplitButton .mce_spellchecker span.mce_spellchecker,
+.wp_themeSkin .mceSplitButton .mce_forecolor span.mce_forecolor {
+	background-image: url(../../img/wpicons.png);
+}
+
 /* ColorSplitButton */
 .wp_themeSkin div.mceColorSplitMenu table {}
 .wp_themeSkin .mceColorSplitMenu td {padding:2px}
@@ -440,9 +440,11 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 .wp_themeSkin .mceButtonEnabled:hover span.mce_pasteword,
 .wp_themeSkin .mceButtonActive span.mce_pasteword {background-position:-360px 0}
 
-.wp_themeSkin span.mce_spellchecker {background-position:-220px -20px}
+.wp_themeSkin span.mce_spellchecker {background-position:-220px -19px}
 .wp_themeSkin .mceButtonEnabled:hover span.mce_spellchecker,
-.wp_themeSkin .mceButtonActive span.mce_spellchecker {background-position:-220px 0}
+.wp_themeSkin .mceSplitButtonEnabled:hover span.mce_spellchecker,
+.wp_themeSkin .mceButtonActive span.mce_spellchecker,
+.wp_themeSkin .mceSplitButtonActive span.mce_spellchecker {background-position:-220px 1px}
 
 .wp_themeSkin span.mce_wp_help {background-position:-521px -20px}
 .wp_themeSkin .mceButtonEnabled:hover span.mce_wp_help,
