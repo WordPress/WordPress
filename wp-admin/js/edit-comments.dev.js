@@ -513,7 +513,7 @@ commentReply = {
 		$('#replyrow').after(c);
 		id = $(id);
 		t.addEvents(id);
-		bg = id.css('background-color');
+		bg = id.hasClass('unapproved') ? '#FFFFE0' : id.closest('.widefat').css('backgroundColor'); 		
 
 		id.animate( { 'backgroundColor':'#CCEEBB' }, 300 )
 			.animate( { 'backgroundColor': bg }, 300, function() {
