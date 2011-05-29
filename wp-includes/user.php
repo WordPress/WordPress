@@ -1351,9 +1351,7 @@ function validate_username( $username ) {
  * 'user_url' - A string containing the user's URL for the user's web site.
  * 'user_email' - A string containing the user's email address.
  * 'display_name' - A string that will be shown on the site. Defaults to user's
- *		username. It is likely that you will want to change this, for both
- *		appearance and security through obscurity (that is if you don't use and
- *		delete the default 'admin' user).
+ *		username. It is likely that you will want to change this, for appearance.
  * 'nickname' - The user's nickname, defaults to the user's username.
  * 'first_name' - The user's first name.
  * 'last_name' - The user's last name.
