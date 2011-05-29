@@ -498,7 +498,7 @@ PubSub.prototype.publish = function( topic, args ) {
 						}
 					};
 
-					if ( ! jQuery(document).triggerHandler( 'wp_ColseOnEscape', [data] ) )
+					if ( ! jQuery(document).triggerHandler( 'wp_CloseOnEscape', [data] ) )
 						fullscreen.off();
 				}
 

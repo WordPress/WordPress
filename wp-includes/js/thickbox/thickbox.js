@@ -162,7 +162,7 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 				e.stopImmediatePropagation();
 
 				if ( e.which == 27 ){ // close
-					if ( ! jQuery(document).triggerHandler( 'wp_ColseOnEscape', [{ event: e, what: 'thickbox', cb: tb_remove }] ) )
+					if ( ! jQuery(document).triggerHandler( 'wp_CloseOnEscape', [{ event: e, what: 'thickbox', cb: tb_remove }] ) )
 						tb_remove();
 
 				} else if ( e.which == 190 ){ // display previous image
@@ -253,7 +253,7 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 
 				if ( e.which == 27 ){ // close
 					e.stopImmediatePropagation();
-					if ( ! jQuery(document).triggerHandler( 'wp_ColseOnEscape', [{ event: e, what: 'thickbox', cb: tb_remove }] ) )
+					if ( ! jQuery(document).triggerHandler( 'wp_CloseOnEscape', [{ event: e, what: 'thickbox', cb: tb_remove }] ) )
 						tb_remove();
 
 					return false;

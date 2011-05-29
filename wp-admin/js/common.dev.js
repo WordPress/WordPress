@@ -344,7 +344,7 @@ $(document).ready( function() {
 });
 
 // internal use
-$(document).bind( 'wp_ColseOnEscape', function( e, data ) {
+$(document).bind( 'wp_CloseOnEscape', function( e, data ) {
 	if ( typeof(data.cb) != 'function' )
 		return;
 
