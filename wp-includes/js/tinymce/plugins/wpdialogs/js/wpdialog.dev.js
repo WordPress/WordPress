@@ -1,5 +1,10 @@
 (function($){
+	$.ui.dialog.prototype.options.closeOnEscape = false;
 	$.widget("wp.wpdialog", $.ui.dialog, {
+		options: {
+			closeOnEscape: false
+		},
+
 		open: function() {
 			var ed;
 

@@ -476,7 +476,7 @@ PubSub.prototype.publish = function( topic, args ) {
 				wptitlehint('wp-fullscreen-title');
 
 			$(document).keyup(function(e){
-				var c = e.keyCode || e.charCode, a;
+				var c = e.keyCode || e.charCode, a, data;
 
 				if ( !fullscreen.settings.visible )
 					return true;
@@ -486,8 +486,21 @@ PubSub.prototype.publish = function( topic, args ) {
 				else
 					a = e.altKey; // Alt key for Win & Linux
 
-				if ( 27 == c ) // Esc
-					fullscreen.off();
+				if ( 27 == c ) { // Esc
+					data = {
+						event: e,
+						what: 'dfw',
+						cb: fullscreen.off,
+						condition: function(){
+							if ( $('#TB_window').is(':visible') || $('.wp-dialog').is(':visible') )
+								return false;
+							return true;
+						}
+					};
+
+					if ( ! jQuery(document).triggerHandler( 'wp_ColseOnEscape', [data] ) )
+						fullscreen.off();
+				}
 
 				if ( a && (61 == c || 107 == c || 187 == c) ) // +
 					api.dfw_width(25);
@@ -498,7 +511,7 @@ PubSub.prototype.publish = function( topic, args ) {
 				if ( a && 48 == c ) // 0
 					api.dfw_width(0);
 
-				return true;
+				return false;
 			});
 
 			// word count in HTML mode

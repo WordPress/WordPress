@@ -158,26 +158,26 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 
 			}
 
-			document.onkeydown = function(e){
-				if (e == null) { // ie
-					keycode = event.keyCode;
-				} else { // mozilla
-					keycode = e.which;
-				}
-				if(keycode == 27){ // close
-					tb_remove();
-				} else if(keycode == 190){ // display previous image
+			jQuery(document).bind('keydown.thickbox', function(e){
+				e.stopImmediatePropagation();
+
+				if ( e.which == 27 ){ // close
+					if ( ! jQuery(document).triggerHandler( 'wp_ColseOnEscape', [{ event: e, what: 'thickbox', cb: tb_remove }] ) )
+						tb_remove();
+
+				} else if ( e.which == 190 ){ // display previous image
 					if(!(TB_NextHTML == "")){
-						document.onkeydown = "";
+						jQuery(document).unbind('thickbox');
 						goNext();
 					}
-				} else if(keycode == 188){ // display next image
+				} else if ( e.which == 188 ){ // display next image
 					if(!(TB_PrevHTML == "")){
-						document.onkeydown = "";
+						jQuery(document).unbind('thickbox');
 						goPrev();
 					}
 				}
-			};
+				return false;
+			});
 
 			tb_position();
 			jQuery("#TB_load").remove();
@@ -249,16 +249,16 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 		}
 
 		if(!params['modal']){
-			document.onkeyup = function(e){
-				if (e == null) { // ie
-					keycode = event.keyCode;
-				} else { // mozilla
-					keycode = e.which;
+			jQuery(document).bind('keyup.thickbox', function(e){
+
+				if ( e.which == 27 ){ // close
+					e.stopImmediatePropagation();
+					if ( ! jQuery(document).triggerHandler( 'wp_ColseOnEscape', [{ event: e, what: 'thickbox', cb: tb_remove }] ) )
+						tb_remove();
+
+					return false;
 				}
-				if(keycode == 27){ // close
-					tb_remove();
-				}
-			};
+			});
 		}
 
 	} catch(e) {
@@ -281,8 +281,7 @@ function tb_remove() {
 		jQuery("body","html").css({height: "auto", width: "auto"});
 		jQuery("html").css("overflow","");
 	}
-	document.onkeydown = "";
-	document.onkeyup = "";
+	jQuery(document).unbind('.thickbox');
 	return false;
 }
 

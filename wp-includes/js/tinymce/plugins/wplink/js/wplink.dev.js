@@ -336,7 +336,11 @@ var wpLink;
 
 			switch( event.which ) {
 				case key.ESCAPE:
-					wpLink.close();
+					event.stopImmediatePropagation();
+					if ( ! $(document).triggerHandler( 'wp_ColseOnEscape', [{ event: event, what: 'wplink', cb: wpLink.close }] ) )
+						wpLink.close();
+
+					return false;
 					break;
 				case key.UP:
 				case key.DOWN:
