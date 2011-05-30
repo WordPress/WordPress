@@ -288,6 +288,9 @@ PubSub.prototype.publish = function( topic, args ) {
 
 		// scroll to top so the user is not disoriented
 		scrollTo(0, 0);
+
+		// needed it for IE7 and compat mode
+		$('#wpadminbar').hide(); 
 	});
 
 	ps.subscribe( 'shown', function() { // This event occurs after the DFW overlay is shown
@@ -339,6 +342,7 @@ PubSub.prototype.publish = function( topic, args ) {
 
 		$( document.body ).removeClass( 'fullscreen-active' );
 		scrollTo(0, s.orig_y);
+		$('#wpadminbar').show();
 	});
 
 	ps.subscribe( 'hidden', function() { // This event occurs after DFW is removed.
