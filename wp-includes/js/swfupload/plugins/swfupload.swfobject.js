@@ -43,13 +43,13 @@
 var SWFUpload;
 if (typeof(SWFUpload) === "function") {
 	SWFUpload.onload = function () {};
-	
+
 	swfobject.addDomLoadEvent(function () {
 		if (typeof(SWFUpload.onload) === "function") {
-			SWFUpload.onload.call(window);
+			setTimeout(function(){SWFUpload.onload.call(window);}, 200);
 		}
 	});
-	
+
 	SWFUpload.prototype.initSettings = (function (oldInitSettings) {
 		return function () {
 			if (typeof(oldInitSettings) === "function") {
