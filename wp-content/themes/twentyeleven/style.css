@@ -148,6 +148,7 @@ body {
 }
 .error404 #content {
 	margin: 0 7.6%;
+	width: auto;
 }
 
 /* Alignment */
@@ -1148,9 +1149,10 @@ blockquote.pull {
 	padding: 1.625em 8.9%;
 }
 .error404 #main #s {
-	width: 80%;
+	width: 95%;
 }
 .error404 #main .widget {
+	clear: none;
 	float: left;
 	margin-right: 3.7%;
 	width: 30.85%;
