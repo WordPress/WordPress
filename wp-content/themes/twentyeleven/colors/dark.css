@@ -41,10 +41,12 @@ textarea {
 input[type=text]:focus,
 textarea:focus {
 }
+input#s {
+	background-color: #ddd;
+}
 
 /* Links */
 a {
-	color: #e4741f;
 }
 
 
@@ -52,7 +54,7 @@ a {
 ----------------------------------------------- */
 
 #branding {
-	border-top: 2px solid #444;
+	border-top: 2px solid #0a0a0a;
 }
 #site-title a {
 	color: #eee;
@@ -60,7 +62,6 @@ a {
 #site-title a:hover,
 #site-title a:focus,
 #site-title a:active {
-	color: #e4741f;
 }
 #site-description {
 	color: #858585;
@@ -100,7 +101,6 @@ a {
 .entry-title a:hover,
 .entry-title a:focus,
 .entry-title a:active {
-	color: #e4741f;
 }
 .entry-meta {
 	color: #999;
@@ -166,16 +166,12 @@ a {
 
 /* Comments link */
 .entry-header .comments-link a {
-	background: #111;
+	background: #1a1a1a;
 	border-color: #222;
 	color: #888;
 }
-.entry-header .comments-link a:hover,
-.entry-header .comments-link a:focus,
-.entry-header .comments-link a:active {
-	background: #888;
-	border-color: #aaa;
-	color: #000;
+.entry-header .comments-link a .leave-reply {
+	background-position-y: -24px;
 }
 
 /* Singular content styles for Posts and Pages */
@@ -202,6 +198,17 @@ a {
 
 .format-quote blockquote {
 	color: #aaa;
+}
+
+
+/* =Image
+----------------------------------------------- */
+
+.format-image .entry-meta .edit-link a {
+	color: #ddd;
+}
+.format-image .entry-meta .edit-link a:hover {
+	color: #fff;
 }
 
 
@@ -255,7 +262,6 @@ article.feature-image.small .entry-summary p a {
 	color: #111;
 }
 article.feature-image.small .entry-summary p a:hover {
-	background: #e4741f;
 	color: #40220c;
 }
 
@@ -308,7 +314,6 @@ section.recent-posts .other-recent-posts a[rel="bookmark"] {
 	color: #ccc;
 }
 section.recent-posts .other-recent-posts a[rel="bookmark"]:hover {
-	color: #e4741f;
 }
 section.recent-posts .other-recent-posts .comments-link a,
 section.recent-posts .other-recent-posts .comments-link > span {
@@ -320,8 +325,6 @@ section.recent-posts .other-recent-posts .comments-link > span {
 	color: #777;
 }
 section.recent-posts .other-recent-posts .comments-link a:hover {
-	color: #e4741f;
-	border-color: #e4741f;
 }
 
 
@@ -368,8 +371,6 @@ section.recent-posts .other-recent-posts .comments-link a:hover {
 	color: #777;
 }
 .widget_search #searchsubmit:active {
-	background: #e4741f;
-	border-color: #f79e5a;
 	-webkit-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.1);
 	-moz-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.1);
 	box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.1);
@@ -484,7 +485,6 @@ section.recent-posts .other-recent-posts .comments-link a:hover {
 	text-shadow: 0 -1px 0 rgba(0,0,0,0.3);
 }
 #respond input#submit:active {
-	background: #e4741f;
 	color: #40220c;
 }
 #respond #cancel-comment-reply-link {
@@ -513,7 +513,7 @@ section.recent-posts .other-recent-posts .comments-link a:hover {
 /* Site Generator Line */
 #site-generator {
 	background: #060606;
-	border-color: #222;
+	border-color: #000;
 }
 
 
