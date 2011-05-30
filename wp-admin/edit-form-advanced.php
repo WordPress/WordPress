@@ -272,7 +272,7 @@ wp_nonce_field( 'samplepermalink', 'samplepermalinknonce', false );
 <table id="post-status-info" cellspacing="0"><tbody><tr>
 	<td id="wp-word-count"><?php printf( __( 'Word count: %s' ), '<span class="word-count">0</span>' ); ?></td>
 	<td class="autosave-info">
-	<span id="autosave">&nbsp;</span>
+	<span class="autosave-message">&nbsp;</span>
 <?php
 	if ( 'auto-draft' != $post->post_status ) {
 		echo '<span id="last-edit">';
