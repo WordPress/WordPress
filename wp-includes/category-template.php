@@ -1064,8 +1064,6 @@ function term_description( $term = 0, $taxonomy = 'post_tag' ) {
 /**
  * Retrieve the terms of the taxonomy that are attached to the post.
  *
- * This function can only be used within the loop.
- *
  * @since 2.5.0
  *
  * @param int $id Post ID. Is not optional.
