@@ -1333,7 +1333,7 @@ function set_post_type( $post_id = 0, $post_type = 'post' ) {
  *     'meta_value' - See {@link WP_Query::query()} for more.
  *     'post_type' - Default is 'post'. Can be 'page', or 'attachment' to name a few.
  *     'post_parent' - The parent of the post or post type.
- *     'post_status' - Default is 'published'. Post status to retrieve.
+ *     'post_status' - Default is 'publish'. Post status to retrieve.
  *
  * @since 1.2.0
  * @uses $wpdb
