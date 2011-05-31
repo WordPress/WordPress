@@ -25,9 +25,16 @@ function _wp_translate_postdata( $update = false, $post_data = null ) {
 
 	if ( $update )
 		$post_data['ID'] = (int) $post_data['post_ID'];
-	$post_data['post_content'] = isset($post_data['content']) ? $post_data['content'] : '';
-	$post_data['post_excerpt'] = isset($post_data['excerpt']) ? $post_data['excerpt'] : '';
-	$post_data['post_parent'] = isset($post_data['parent_id'])? $post_data['parent_id'] : '';
+
+	if ( isset( $post_data['content'] ) )
+		$post_data['post_content'] = $post_data['content'];
+
+	if ( isset( $post_data['excerpt'] ) )
+		$post_data['post_excerpt'] = $post_data['excerpt'];
+
+	if ( isset( $post_data['parent_id'] ) )
+		$post_data['post_parent'] = (int) $post_data['parent_id'];
+
 	if ( isset($post_data['trackback_url']) )
 		$post_data['to_ping'] = $post_data['trackback_url'];
 
