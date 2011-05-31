@@ -5089,20 +5089,8 @@ function get_post_format_strings() {
  * @return array The array of post format slugs.
  */
 function get_post_format_slugs() {
-	// 3.2-early: use array_combine() and array_keys( get_post_format_strings() )
-	$slugs = array(
-		'standard' => 'standard', // Special case. any value that evals to false will be considered standard
-		'aside'    => 'aside',
-		'chat'     => 'chat',
-		'gallery'  => 'gallery',
-		'link'     => 'link',
-		'image'    => 'image',
-		'quote'    => 'quote',
-		'status'   => 'status',
-		'video'    => 'video',
-		'audio'    => 'audio',
-	);
-	return $slugs;
+	$slugs = array_keys( get_post_format_strings() );
+	return array_combine( $slugs, $slugs );
 }
 
 /**
