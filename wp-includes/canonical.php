@@ -154,35 +154,42 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 			$obj = $wp_query->get_queried_object();
 			if ( $term_count <= 1 && !empty($obj->term_id) && ( $tax_url = get_term_link((int)$obj->term_id, $obj->taxonomy) ) && !is_wp_error($tax_url) ) {
 				if ( !empty($redirect['query']) ) {
+					// Strip taxonomy query vars off the url.
+					$qv_remove = array( 'term', 'taxonomy');
 					if ( is_category() ) {
-						$redirect['query'] = remove_query_arg( array( 'category_name', 'category', 'cat'), $redirect['query']);
+						$qv_remove[] = 'category_name';
+						$qv_remove[] = 'cat';
 					} elseif ( is_tag() ) {
-						$redirect['query'] = remove_query_arg( array( 'tag', 'tag_id'), $redirect['query']);
-					} elseif ( is_tax() ) { // Custom taxonomies will have a custom query var, remove those too:
-						$tax = get_taxonomy( $obj->taxonomy );
-						if ( false !== $tax->query_var)
-							$redirect['query'] = remove_query_arg($tax->query_var, $redirect['query']);
-						else
-							$redirect['query'] = remove_query_arg( array( 'term', 'taxonomy'), $redirect['query']);
+						$qv_remove[] = 'tag';
+						$qv_remove[] = 'tag_id';
+					} else { // Custom taxonomies will have a custom query var, remove those too:
+						$tax_obj = get_taxonomy( $obj->taxonomy );
+						if ( false !== $tax_obj->query_var )
+							$qv_remove[] = $tax_obj->query_var;
+					}
+
+					$rewrite_vars = array_diff( array_keys($wp_query->query), array_keys($_GET) );
+
+					if ( !array_diff($rewrite_vars, array_keys($_GET))  ) { // Check to see if all the Query vars are coming from the rewrite, none are set via $_GET
+						$redirect['query'] = remove_query_arg($qv_remove, $redirect['query']); //Remove all of the per-tax qv's
+
+						// Create the destination url for this taxonomy
+						$tax_url = parse_url($tax_url);
+						if ( ! empty($tax_url['query']) ) { // Taxonomy accessable via ?taxonomy=..&term=.. or any custom qv..
+							parse_str($tax_url['query'], $query_vars);
+							$redirect['query'] = add_query_arg($query_vars, $redirect['query']);
+						} else { // Taxonomy is accessable via a "pretty-URL"
+							$redirect['path'] = $tax_url['path'];
+						}
+
+					} else { // Some query vars are set via $_GET. Unset those from $_GET that exist via the rewrite
+						foreach ( $qv_remove as $_qv ) {
+							if ( isset($rewrite_vars[$_qv]) ) 
+								$redirect['query'] = remove_query_arg($_qv, $redirect['query']);
+						}
 					}
 				}
 
-				$tax_obj = get_taxonomy( $obj->taxonomy );
-				$tax_query_vars = array_diff( array_keys( $wp_query->query ), array_keys( $_GET ), array( 'taxonomy', 'term', $tax_obj->query_var ) );
-
-				$tax_url = parse_url($tax_url);
-				if ( ! empty($tax_query_vars) ) {
-					foreach ( array( 'taxonomy', 'term', $tax_obj->query_var ) as $qv ) {
-						if ( !empty($wp_query->query[$qv]) )
-							$redirect['query'] = add_query_arg($qv, $wp_query->query[$qv], $redirect['query']);
-					}
-						
-				} elseif ( ! empty($tax_url['query']) ) { // Custom taxonomies may only be accessable via ?taxonomy=..&term=..
-					parse_str($tax_url['query'], $query_vars);
-					$redirect['query'] = add_query_arg($query_vars, $redirect['query']);
-				} else { // Taxonomy is accessable via a "pretty-URL"
-					$redirect['path'] = $tax_url['path'];
-				}
 			}
 		} elseif ( is_single() && strpos($wp_rewrite->permalink_structure, '%category%') !== false ) {
 			$category = get_category_by_path(get_query_var('category_name'));
