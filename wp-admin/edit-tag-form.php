@@ -68,7 +68,7 @@ do_action($taxonomy . '_pre_edit_form', $tag, $taxonomy);  ?>
 		// Back compat hooks
 		if ( 'category' == $taxonomy )
 			do_action('edit_category_form_fields', $tag);
-		if ( 'link_category' == $taxonomy )
+		elseif ( 'link_category' == $taxonomy )
 			do_action('edit_link_category_form_fields', $tag);
 		else
 			do_action('edit_tag_form_fields', $tag);
@@ -80,7 +80,7 @@ do_action($taxonomy . '_pre_edit_form', $tag, $taxonomy);  ?>
 // Back compat hooks
 if ( 'category' == $taxonomy )
 	do_action('edit_category_form', $tag);
-if ( 'link_category' == $taxonomy )
+elseif ( 'link_category' == $taxonomy )
 	do_action('edit_link_category_form', $tag);
 else
 	do_action('edit_tag_form', $tag);
