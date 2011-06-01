@@ -192,7 +192,7 @@ if ($allowed_files) :
 	ksort( $template_mapping );
 	while ( list( $template_sorted_key, list( $template_file, $filedesc ) ) = each( $template_mapping ) ) :
 	?>
-		<li><a href="theme-editor.php?file=<?php echo "$template_file"; ?>&amp;theme=<?php echo urlencode($theme) ?>&amp;dir=theme"><?php echo $filedesc ?></a></li>
+		<li><a href="theme-editor.php?file=<?php echo urlencode( $template_file ) ?>&amp;theme=<?php echo urlencode( $theme ) ?>&amp;dir=theme"><?php echo $filedesc ?></a></li>
 <?php endwhile; ?>
 	</ul>
 	<h3><?php /* translators: Theme stylesheets in theme editor */ _ex('Styles', 'Theme stylesheets in theme editor'); ?></h3>
@@ -214,7 +214,7 @@ if ($allowed_files) :
 	ksort( $template_mapping );
 	while ( list( $template_sorted_key, list( $style_file, $filedesc ) ) = each( $template_mapping ) ) :
 		?>
-		<li><a href="theme-editor.php?file=<?php echo "$style_file"; ?>&amp;theme=<?php echo urlencode($theme) ?>&amp;dir=style"><?php echo $filedesc ?></a></li>
+		<li><a href="theme-editor.php?file=<?php echo urlencode( $style_file ) ?>&amp;theme=<?php echo urlencode($theme) ?>&amp;dir=style"><?php echo $filedesc ?></a></li>
 <?php endwhile; ?>
 	</ul>
 <?php endif; ?>

@@ -215,7 +215,7 @@ foreach ( $plugin_files as $plugin_file ) :
 		continue;
 	}
 ?>
-		<li<?php echo $file == $plugin_file ? ' class="highlight"' : ''; ?>><a href="plugin-editor.php?file=<?php echo $plugin_file; ?>&amp;plugin=<?php echo $plugin; ?>"><?php echo $plugin_file ?></a></li>
+		<li<?php echo $file == $plugin_file ? ' class="highlight"' : ''; ?>><a href="plugin-editor.php?file=<?php echo urlencode( $plugin_file ) ?>&amp;plugin=<?php echo urlencode( $plugin ) ?>"><?php echo $plugin_file ?></a></li>
 <?php endforeach; ?>
 	</ul>
 </div>
