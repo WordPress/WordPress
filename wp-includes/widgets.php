@@ -899,7 +899,7 @@ function dynamic_sidebar($index = 1) {
 }
 
 /**
- * Whether widget is displayied on the front-end.
+ * Whether widget is displayed on the front-end.
  *
  * Either $callback or $id_base can be used
  * $id_base is the first argument when extending WP_Widget class
