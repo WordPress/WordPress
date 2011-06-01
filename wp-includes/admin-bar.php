@@ -320,7 +320,7 @@ function wp_admin_bar_header() { ?>
  *
  */
 function _admin_bar_bump_cb() { ?>
-<style type="text/css">
+<style type="text/css" media="screen">
 	html { margin-top: 28px !important; }
 	* html body { margin-top: 28px !important; }
 </style>
