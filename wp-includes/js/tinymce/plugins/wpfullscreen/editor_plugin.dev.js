@@ -49,7 +49,6 @@
 				s.wp_fullscreen_editor_id = ed.id;
 				s.theme_advanced_resizing = false;
 				s.theme_advanced_statusbar_location = 'none';
-				s.content_css = s.content_css + ',' + s.wp_fullscreen_content_css;
 				s.height = tinymce.isIE ? b.scrollHeight : b.offsetHeight;
 
 				tinymce.each(ed.getParam('wp_fullscreen_settings'), function(v, k) {

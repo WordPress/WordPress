@@ -228,15 +228,7 @@ wp_admin_css( 'wp-admin', true );
 <div id="content3" class="hidden">
 	<h2><?php _e('Writing at Full Speed') ?></h2>
     <p><?php _e('Rather than reaching for your mouse to click on the toolbar, use these access keys. Windows and Linux use Ctrl + letter. Macintosh uses Command + letter.') ?></p>
-	<p class="dfw-extra"><?php
 
-	printf( __('In Distraction free writing mode use %1$s to make the editor wider, %2$s to make it narrower and %3$s to reset it to the original theme width.'),
-		'<span class="win">Alt +</span><span class="mac">Ctrl +</span>',
-		'<span class="win">Alt -</span><span class="mac">Ctrl -</span>',
-		'<span class="win">Alt 0</span><span class="mac">Ctrl 0</span>'
-	);
-
-	?></p>
 	<table class="keys" width="100%" style="border: 0 none;">
 		<tr class="top"><th class="key center"><?php _e('Letter') ?></th><th class="left"><?php _e('Action') ?></th><th class="key center"><?php _e('Letter') ?></th><th class="left"><?php _e('Action') ?></th></tr>
 		<tr><th>c</th><td><?php _e('Copy') ?></td><th>v</th><td><?php _e('Paste') ?></td></tr>
