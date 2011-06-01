@@ -192,6 +192,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 									$actions['delete'] = '<a href="' . $delete = esc_url( network_admin_url( add_query_arg( '_wp_http_referer', urlencode( stripslashes( $_SERVER['REQUEST_URI'] ) ), wp_nonce_url( 'edit.php', 'deleteuser' ) . '&amp;action=deleteuser&amp;id=' . $user->ID ) ) ) . '" class="delete">' . __( 'Delete' ) . '</a>';
 								}
 
+								$actions = apply_filters( 'ms_user_row_actions', $actions, $user ); 
 								echo $this->row_actions( $actions );
 							?>
 						</td>
