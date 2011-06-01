@@ -1965,6 +1965,10 @@ function _close_comments_for_old_posts( $posts ) {
 	if ( empty($posts) || !is_singular() || !get_option('close_comments_for_old_posts') )
 		return $posts;
 
+	$post_types = apply_filters( 'close_comments_for_post_types', array( 'post' ) );
+	if ( ! in_array( $posts[0]->post_type, $post_types ) )
+		return $posts;
+
 	$days_old = (int) get_option('close_comments_days_old');
 	if ( !$days_old )
 		return $posts;
@@ -1999,6 +2003,10 @@ function _close_comments_for_old_post( $open, $post_id ) {
 		return $open;
 
 	$post = get_post($post_id);
+
+	$post_types = apply_filters( 'close_comments_for_post_types', array( 'post' ) );
+	if ( ! in_array( $post->post_type, $post_types ) )
+		return $open;
 
 	if ( time() - strtotime( $post->post_date_gmt ) > ( $days_old * 24 * 60 * 60 ) )
 		return false;
