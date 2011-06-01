@@ -1580,7 +1580,6 @@ function wp_tiny_mce( $teeny = false, $settings = false ) {
 		'paste_text_use_dialog' => true,
 		'extended_valid_elements' => 'article[*],aside[*],audio[*],canvas[*],command[*],datalist[*],details[*],embed[*],figcaption[*],figure[*],footer[*],header[*],hgroup[*],keygen[*],mark[*],meter[*],nav[*],output[*],progress[*],section[*],source[*],summary,time[*],video[*],wbr',
 		'wpeditimage_disable_captions' => $no_captions,
-		'wp_fullscreen_content_css' => "$baseurl/plugins/wpfullscreen/css/content.css",
 		'plugins' => implode( ',', $plugins ),
 	);
 
