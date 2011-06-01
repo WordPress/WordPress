@@ -660,6 +660,7 @@ case 'replyto-comment' :
 		die( __('Error: please type a comment.') );
 
 	$comment_parent = absint($_POST['comment_ID']);
+	$comment_auto_approved = false;
 	$commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_content', 'comment_type', 'comment_parent', 'user_ID');
 
 	$comment_id = wp_new_comment( $commentdata );
@@ -667,6 +668,17 @@ case 'replyto-comment' :
 	if ( ! $comment ) die('1');
 
 	$position = ( isset($_POST['position']) && (int) $_POST['position'] ) ? (int) $_POST['position'] : '-1';
+
+
+	// automatically approve parent comment
+	if ( !empty($_POST['approve_parent']) ) {
+		$parent = get_comment( $comment_parent );
+
+		if ( $parent && $parent->comment_approved === '0' && $parent->comment_post_ID == $comment_post_ID ) {
+			if ( wp_set_comment_status( $parent->comment_ID, 'approve' ) )
+				$comment_auto_approved = true;
+		}
+	}
 
 	ob_start();
 		if ( 'dashboard' == $_REQUEST['mode'] ) {
@@ -690,15 +702,8 @@ case 'replyto-comment' :
 		'position' => $position
 	);
 
-	// automatically approve parent comment
-	if ( !empty($_POST['approve_parent']) ) {
-		$parent = get_comment( $comment_parent );
-
-		if ( $parent && $parent->comment_approved === '0' && $parent->comment_post_ID == $comment_post_ID ) {
-			if ( wp_set_comment_status( $parent->comment_ID, 'approve' ) )
-				$response['supplemental'] = array( 'parent_approved' => $parent->comment_ID );
-		}
-	}
+	if ( $comment_auto_approved )
+		$response['supplemental'] = array( 'parent_approved' => $parent->comment_ID );
 
 	$x = new WP_Ajax_Response();
 	$x->add( $response );
