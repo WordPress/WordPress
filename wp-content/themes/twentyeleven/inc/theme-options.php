@@ -74,20 +74,32 @@ function twentyeleven_option_page_capability( $capability ) {
 add_filter( 'option_page_capability_twentyeleven_options', 'twentyeleven_option_page_capability' );
 
 /**
- * Add our theme options page to the admin menu.
+ * Add our theme options page to the admin menu, including some help documentation.
  *
  * This function is attached to the admin_menu action hook.
  *
  * @since Twenty Eleven 1.0
  */
 function twentyeleven_theme_options_add_page() {
-	add_theme_page(
+	$theme_page = add_theme_page(
 		__( 'Theme Options', 'twentyeleven' ), // Name of page
 		__( 'Theme Options', 'twentyeleven' ), // Label in menu
 		'edit_theme_options',                  // Capability required
 		'theme_options',                       // Menu slug, used to uniquely identify the page
 		'theme_options_render_page'            // Function that renders the options page
 	);
+	$help = '<p>' . __( 'Some themes provide customization options that are grouped together on a Theme Options screen. If you change themes, options may change or disappear, as they are theme-specific. Your current theme, Twenty Eleven, provides the following Theme Options:' ) . '</p>' .
+			'<ol>' .
+				'<li>' . __( '<strong>Color Scheme</strong>: You can choose a color palette of "Light" (light background with dark text) or "Dark" (dark background with light text) for your site.' ) . '</li>' .
+				'<li>' . __( '<strong>Link Color</strong>: You can choose the color used for text links on your site. You can enter the HTML color or hex code, or you can choose visually by clicking the "Select a Color" button to pick from a color wheel.' ) . '</li>' .
+				'<li>' . __( '<strong>Default Layout</strong>: You can choose if you want your site&#8217;s default layout to have a sidebar on the left, the right, or not at all.' ) . '</li>' .
+			'</ol>' .
+			'<p>' . __( 'Remember to click "Save Changes" to save any changes you have made to the theme options.' ) . '</p>' .
+			'<p><strong>' . __('For more information:') . '</strong></p>' .
+			'<p>' . __( '<a href="http://codex.wordpress.org/Appearance_Theme_Options_Screen" target="_blank">Documentation on Theme Options</a>' ) . '</p>' .
+			'<p>' . __( '<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>' ) . '</p>';
+
+	add_contextual_help( $theme_page, $help );
 }
 add_action( 'admin_menu', 'twentyeleven_theme_options_add_page' );
 
@@ -132,7 +144,7 @@ function twentyeleven_layouts() {
 		),
 		'content' => array(
 			'value' => 'content',
-			'label' => __( 'One-column, no Sidebar', 'twentyeleven' ),
+			'label' => __( 'One-column, no sidebar', 'twentyeleven' ),
 			'thumbnail' => get_template_directory_uri() . '/inc/images/content.png',
 		),
 	);
@@ -220,7 +232,7 @@ function theme_options_render_page() {
 					</td>
 				</tr>
 
-				<tr valign="top" class="image-radio-option"><th scope="row"><?php _e( 'Layout', 'twentyeleven' ); ?></th>
+				<tr valign="top" class="image-radio-option"><th scope="row"><?php _e( 'Default Layout', 'twentyeleven' ); ?></th>
 					<td>
 						<fieldset><legend class="screen-reader-text"><span><?php _e( 'Color Scheme', 'twentyeleven' ); ?></span></legend>
 						<?php
