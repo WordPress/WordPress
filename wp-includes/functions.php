@@ -2573,6 +2573,7 @@ function get_allowed_mime_types() {
 		'txt|asc|c|cc|h' => 'text/plain',
 		'csv' => 'text/csv',
 		'tsv' => 'text/tab-separated-values',
+		'ics' => 'text/calendar',
 		'rtx' => 'text/richtext',
 		'css' => 'text/css',
 		'htm|html' => 'text/html',
