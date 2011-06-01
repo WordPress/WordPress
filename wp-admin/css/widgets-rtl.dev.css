@@ -1,14 +1,47 @@
-#widget-list .widget,
+/* 2 column liquid layout */
+div.widget-liquid-left {
+	float: right;
+	clear: right;
+	margin-right: 0;
+	margin-left: -325px;
+}
+
+div#widgets-left {
+	margin-right: 5px;
+	margin-left: 325px;
+}
+
+div.widget-liquid-right {
+	float: left;
+	clear: left;
+}
+
 #wp_inactive_widgets .widget {
 	float: right;
 }
-ul#widget-list li.widget-list-item div.widget-description {
-	margin: 0 200px 0 0;
-	padding: 0 4em 0 0;
+
+div.sidebar-name h3 {
+	font-family: Tahoma, Arial, sans-serif;
 }
-.widget-control-save,
-.widget-control-remove {
-	margin-right: 0;
-	margin-left: 8px;
+
+#widget-list .widget {
 	float: right;
 }
+
+#wp_inactive_widgets .widget-placeholder {
+	float: right;
+}
+
+.widget-top .widget-title-action {
+	float: left;
+}
+
+.widget-control-edit {
+	padding: 0 0 0 8px;
+}
+
+
+.sidebar-name-arrow {
+	float: left;
+}
+

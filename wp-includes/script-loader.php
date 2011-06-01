@@ -373,7 +373,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'media-upload', "/wp-admin/js/media-upload$suffix.js", array( 'thickbox' ), '20110425' );
 		$scripts->add_data( 'media-upload', 'group', 1 );
 
-		$scripts->add( 'admin-widgets', "/wp-admin/js/widgets$suffix.js", array( 'jquery-ui-sortable', 'jquery-ui-draggable', 'jquery-ui-droppable' ), '20110506' );
+		$scripts->add( 'admin-widgets', "/wp-admin/js/widgets$suffix.js", array( 'jquery-ui-sortable', 'jquery-ui-draggable', 'jquery-ui-droppable' ), '20110601' );
 		$scripts->add_data( 'admin-widgets', 'group', 1 );
 
 		$scripts->add( 'word-count', "/wp-admin/js/word-count$suffix.js", array( 'jquery' ), '20110515' );
@@ -500,7 +500,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'ms', "/wp-admin/css/ms$suffix.css", array(), '20110601' );
 	$styles->add( 'global', "/wp-admin/css/global$suffix.css", array(), '20110511g' );
 	$styles->add( 'media', "/wp-admin/css/media$suffix.css", array(), '20110519' );
-	$styles->add( 'widgets', "/wp-admin/css/widgets$suffix.css", array(), '20110511b' );
+	$styles->add( 'widgets', "/wp-admin/css/widgets$suffix.css", array(), '20110601' );
 	$styles->add( 'dashboard', "/wp-admin/css/dashboard$suffix.css", array(), '20110511c' );
 	$styles->add( 'install', "/wp-admin/css/install$suffix.css", array(), '20110506' ); // Readme as well
 	$styles->add( 'theme-editor', "/wp-admin/css/theme-editor$suffix.css", array(), '20110506' );
