@@ -1681,7 +1681,8 @@ section.ephemera ol,
 	font-weight: bold;
 	padding: 0;
 }
-.widget_twentyeleven_ephemera .comments-link a {
+.widget_twentyeleven_ephemera .comments-link a,
+.widget_twentyeleven_ephemera .comments-link > span {
 	color: #666;
 	display: block;
 	font-size: 10px;
