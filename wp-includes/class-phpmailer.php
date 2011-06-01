@@ -451,7 +451,7 @@ class PHPMailer {
    */
   private function AddAnAddress($kind, $address, $name = '') {
     if (!preg_match('/^(to|cc|bcc|ReplyTo)$/', $kind)) {
-      echo 'Invalid recipient array: ' . kind;
+      echo 'Invalid recipient array: ' . $kind;
       return false;
     }
     $address = trim($address);
