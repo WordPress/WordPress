@@ -234,7 +234,7 @@ $menu[80] = array( __('Settings'), 'manage_options', 'options-general.php', '', 
 
 $_wp_last_utility_menu = 80; // The index of the last top-level menu in the utility menu group
 
-$menu[99] = array( '', 'read', 'separator-last', '', 'wp-menu-separator-last' );
+$menu[99] = array( '', 'read', 'separator-last', '', 'wp-menu-separator' );
 
 // Back-compat for old top-levels
 $_wp_real_parent_file['post.php'] = 'edit.php';

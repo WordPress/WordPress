@@ -214,6 +214,13 @@ if ( apply_filters('custom_menu_order', false) ) {
 	unset($menu_order, $default_menu_order);
 }
 
+// Remove the last menu item if it is a separator.
+$last_menu_item = end( $menu );
+if ( 'wp-menu-separator' == $last_menu_item[ 4 ] )
+	array_pop( $menu );
+reset( $menu );
+unset( $last_menu_item );
+
 if ( !user_can_access_admin_page() ) {
 	do_action('admin_page_access_denied');
 	wp_die( __('You do not have sufficient permissions to access this page.') );
