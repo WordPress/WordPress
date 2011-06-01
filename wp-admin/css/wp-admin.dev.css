@@ -476,6 +476,7 @@ form.upgrade .hint {
 ------------------------------------------------------------------------------*/
 
 #editorcontainer #content {
+	font-family: Consolas, Monaco, Courier, monospace;
 	padding: 6px;
 	line-height: 150%;
 	border: 0 none;
@@ -647,6 +648,7 @@ form.upgrade .hint {
 	min-height: 300px;
 	border: 0;
 	background: transparent;
+	font-family: Consolas, Monaco, Courier, monospace;
 	line-height: 1.6em;
 	padding: 0;
 	overflow-y: hidden;

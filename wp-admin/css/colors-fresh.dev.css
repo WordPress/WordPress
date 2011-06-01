@@ -47,6 +47,7 @@ a.page-numbers:hover {
 }
 
 body,
+#editorcontainer #content,
 #wpbody,
 .form-table .pre {
 	color: #333;
