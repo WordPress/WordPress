@@ -2114,6 +2114,9 @@ div.widgets-sortables,
 /* custom header & background pages */
 
 /* full screen */
+.fullscreen-overlay {
+	background: #fff;
+}
 
 .wp-fullscreen-focus #wp-fullscreen-title,
 .wp-fullscreen-focus #wp-fullscreen-container {
