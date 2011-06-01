@@ -108,8 +108,13 @@
 	float: none;
 }
 
+#wpadminbar .quicklinks .menupop ul li a strong {
+	font-weight: bold;
+}
+
 #wpadminbar .quicklinks .menupop ul li a,
 #wpadminbar .quicklinks .menupop ul li a span,
+#wpadminbar .quicklinks .menupop ul li a strong,
 #wpadminbar .shortlink-input {
 	color: #555;
 	text-shadow: none;
@@ -121,7 +126,9 @@
 	width: 200px;
 }
 
-#wpadminbar .quicklinks .menupop ul li:hover > a {
+#wpadminbar .quicklinks .menupop ul li:hover > a,
+#wpadminbar .quicklinks .menupop ul li:hover > a span,
+#wpadminbar .quicklinks .menupop ul li:hover > a strong {
 	color: #fff;
 	text-shadow: #666 0px -1px 0px;
 }
