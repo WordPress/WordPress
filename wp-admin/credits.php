@@ -12,6 +12,15 @@ require_once( './admin.php' );
 $title = __( 'Credits' );
 $parent_file = 'index.php';
 
+add_contextual_help($current_screen,
+	'<p>' . __('Each name or handle is a link to that person&#8217;s profile in the WordPress.org community directory.') . '</p>' .
+	'<p>' . __('You can register your own profile at <a href="http://wordpress.org/support/register.php" target="_blank">this link</a> to start contributing.') . '</p>' .
+	'<p>' . __('WordPress always needs more people to report bugs, patch bugs, test betas, work on UI design, translate strings, write documentation, and add questions/answers/suggestions to the Support Forums. Join in!') . '</p>' .
+	'<p><strong>' . __('For more information:') . '</strong></p>' .
+	'<p>' . __('<a href="http://codex.wordpress.org/Contributing_to_WordPress" target="_blank">Documentation on Contributing to WordPress</a>') . '</p>' .
+	'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
+);
+
 add_action( 'admin_head', '_wp_credits_add_css' );
 function _wp_credits_add_css() { ?>
 <style type="text/css">

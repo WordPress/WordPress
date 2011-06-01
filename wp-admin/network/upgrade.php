@@ -19,7 +19,7 @@ $title = __( 'Update Network' );
 $parent_file = 'upgrade.php';
 
 add_contextual_help($current_screen,
-	'<p>' . __('Only use this screen once you have updated to a new version of WordPress through Dashboard > Updates. Clicking the Update Network button will step through each site in the network, five at a time, and make sure any database updates are applied.') . '</p>' .
+	'<p>' . __('Only use this screen once you have updated to a new version of WordPress through Updates/Available Updates (via the Network Administration navigation menu or the Admin Bar). Clicking the Update Network button will step through each site in the network, five at a time, and make sure any database updates are applied.') . '</p>' .
 	'<p>' . __('If a version update to core has not happened, clicking this button won&#8217;t affect anything.') . '</p>' .
 	'<p>' . __('If this process fails for any reason, users logging in to their sites will force the same update.') . '</p>' .
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
