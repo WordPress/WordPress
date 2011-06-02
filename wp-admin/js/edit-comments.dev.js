@@ -35,7 +35,7 @@ setCommentsList = function() {
 			dif = $('#' + settings.element).is('.' + settings.dimClass) ? 1 : -1;
 			n = n + dif;
 			if ( n < 0 ) { n = 0; }
-			a.closest('#awaiting-mod')[ 0 == n ? 'addClass' : 'removeClass' ]('count-0');
+			a.closest('.awaiting-mod')[ 0 == n ? 'addClass' : 'removeClass' ]('count-0');
 			updateCount(a, n);
 			dashboardTotals();
 		});
@@ -157,7 +157,7 @@ setCommentsList = function() {
 			if ( n < 0 )
 				n = 0;
 
-			a.closest('#awaiting-mod')[ 0 == n ? 'addClass' : 'removeClass' ]('count-0');
+			a.closest('.awaiting-mod')[ 0 == n ? 'addClass' : 'removeClass' ]('count-0');
 			updateCount(a, n);
 			dashboardTotals();
 		});

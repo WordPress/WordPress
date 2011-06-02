@@ -111,7 +111,7 @@ $menu[20] = array( __('Pages'), 'edit_pages', 'edit.php?post_type=page', '', 'me
 
 $awaiting_mod = wp_count_comments();
 $awaiting_mod = $awaiting_mod->moderated;
-$menu[25] = array( sprintf( __('Comments %s'), "<span id='awaiting-mod' class='count-$awaiting_mod'><span class='pending-count'>" . number_format_i18n($awaiting_mod) . "</span></span>" ), 'edit_posts', 'edit-comments.php', '', 'menu-top menu-icon-comments', 'menu-comments', 'div' );
+$menu[25] = array( sprintf( __('Comments %s'), "<span class='awaiting-mod count-$awaiting_mod'><span class='pending-count'>" . number_format_i18n($awaiting_mod) . "</span></span>" ), 'edit_posts', 'edit-comments.php', '', 'menu-top menu-icon-comments', 'menu-comments', 'div' );
 unset($awaiting_mod);
 
 $submenu[ 'edit-comments.php' ][0] = array( __('All Comments'), 'edit_posts', 'edit-comments.php' );

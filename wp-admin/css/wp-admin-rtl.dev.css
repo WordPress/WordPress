@@ -506,7 +506,7 @@ form.upgrade .hint {
 	padding: 6px 1px 0 0;
 }
 
-#adminmenu #awaiting-mod,
+#adminmenu .awaiting-mod,
 #adminmenu span.update-plugins,
 #sidemenu li a span.update-plugins {
 	font-family: Tahoma, Arial, sans-serif;

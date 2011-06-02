@@ -1410,7 +1410,7 @@ body.no-js #adminmenu li.wp-has-current-submenu .wp-submenu {
 	padding: 6px 0 0 1px;
 }
 
-#adminmenu #awaiting-mod,
+#adminmenu .awaiting-mod,
 #adminmenu span.update-plugins,
 #sidemenu li a span.update-plugins {
 	position: absolute;
@@ -1426,7 +1426,7 @@ body.no-js #adminmenu li.wp-has-current-submenu .wp-submenu {
 	border-radius: 10px;
 }
 
-#adminmenu li #awaiting-mod span,
+#adminmenu li .awaiting-mod span,
 #adminmenu li span.update-plugins span,
 #sidemenu li a span.update-plugins span {
 	display: block;

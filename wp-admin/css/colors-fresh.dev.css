@@ -532,7 +532,7 @@ a,
 	color: #21759b;
 }
 
-#adminmenu #awaiting-mod,
+#adminmenu .awaiting-mod,
 #adminmenu .update-plugins,
 #sidemenu a .update-plugins,
 #rightnow .reallynow {
@@ -548,7 +548,7 @@ a,
 	color: #fff;
 }
 
-#adminmenu li.current a #awaiting-mod,
+#adminmenu li.current a .awaiting-mod,
 #adminmenu	li a.wp-has-current-submenu .update-plugins{
 	background-color: #464646;
 	color: #fff;
