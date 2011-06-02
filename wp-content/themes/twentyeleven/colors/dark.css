@@ -35,6 +35,7 @@ ins {
 	background: #00063f;
 }
 input[type=text],
+.post-password-required input[type=password],
 textarea {
 	border: 1px solid #222;
 }
@@ -124,26 +125,32 @@ a {
 	border-color: #222;
 }
 .page-link {
-	background: #0e0e0e;
-	border-color: #222;
-	color: #777;
 }
 .page-link a {
-	background: #272727;
+	background: #242424;
 	color: #bbb;
 }
 .page-link a:hover {
-	background: #888;
+	background: #999;
 	color: #000;
 }
 .entry-meta .edit-link a {
-	background: #555;
-	color: #000;
+	background: #242424;
+	color: #bbb;
 }
 .entry-meta .edit-link a:hover,
 .entry-meta .edit-link a:focus,
 .entry-meta .edit-link a:active {
-	background: #888;
+	background: #999;
+	color: #000;
+}
+
+/* Password Protected Posts */
+.post-password-required input[type=password] {
+	background: #ddd;
+}
+.post-password-required input[type=password]:focus {
+	background: #fff;
 }
 
 /* Author Info */
@@ -166,7 +173,7 @@ a {
 
 /* Comments link */
 .entry-header .comments-link a {
-	background: #1a1a1a;
+	background: #242424;
 	border-color: #222;
 	color: #888;
 }
@@ -177,9 +184,6 @@ a {
 /* Singular content styles for Posts and Pages */
 .singular .entry-title {
 	color: #fff;
-}
-.singular .entry-meta .edit-link a {
-	color: #000;
 }
 
 
@@ -317,7 +321,7 @@ section.recent-posts .other-recent-posts a[rel="bookmark"]:hover {
 }
 section.recent-posts .other-recent-posts .comments-link a,
 section.recent-posts .other-recent-posts .comments-link > span {
-	border-color: #666;
+	border-color: #959595;
 	color: #bbb;
 }
 section.recent-posts .other-recent-posts .comments-link > span {
@@ -438,12 +442,14 @@ section.recent-posts .other-recent-posts .comments-link a:hover {
 	background: #222;
 	border-color: #2c2c2c;
 }
+.commentlist > li.bypostauthor .comment-meta {
+	color: #a8a8a8;
+}
 
 /* Comment Form */
 #respond {
 	background: #222;
 	border-color: #2c2c2c;
-	color: #bbb;
 }
 #respond input[type="text"],
 #respond textarea {
@@ -538,7 +544,7 @@ section.recent-posts .other-recent-posts .comments-link a:hover {
 		color: #333;
 	}
 	.commentlist > li.bypostauthor .comment-meta {
-		color: #666;
+		color: #959595;
 	}
 	.commentlist > li:before {
 		content: none !important;
@@ -551,6 +557,6 @@ section.recent-posts .other-recent-posts .comments-link a:hover {
 	}
 	.commentlist .children > li.bypostauthor > article,
 	.commentlist .children > li.bypostauthor > article .comment-meta {
-		color: #666;
+		color: #959595;
 	}
 }

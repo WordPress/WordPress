@@ -309,7 +309,7 @@ body {
 ----------------------------------------------- */
 
 body, input, textarea {
-	color: #333;
+	color: #373737;
 	font: 15px "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-weight: 300;
 	line-height: 1.625;
@@ -428,6 +428,7 @@ sub {
 
 /* Forms */
 input[type=text],
+input[type=password],
 textarea {
 	background: #fafafa;
 	-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.1);
@@ -438,7 +439,7 @@ textarea {
 }
 input[type=text]:focus,
 textarea:focus {
-	color: #333;
+	color: #373737;
 }
 textarea {
 	padding-left: 3px;
@@ -462,7 +463,7 @@ input#searchsubmit {
 
 /* Links */
 a {
-	color: #1b8be0;
+	color: #1982d1;
 	text-decoration: none;
 }
 a:focus,
@@ -471,12 +472,23 @@ a:hover {
 	text-decoration: underline;
 }
 
-/* Assitive text */
-.section-heading,
-.screen-reader-text {
+/* Assistive text */
+.assistive-text {
 	position: absolute !important;
 	clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
 	clip: rect(1px, 1px, 1px, 1px);
+}
+#access a.assistive-text:active,
+#access a.assistive-text:focus {
+	background: #eee;
+	border-bottom: 1px solid #ddd;
+	color: #1982d1;
+	clip: auto !important;
+	font-size: 12px;
+	position: absolute;
+	text-decoration: underline;
+	top: 0;
+	left: 7.6%;
 }
 
 
@@ -503,7 +515,7 @@ a:hover {
 #site-title a:hover,
 #site-title a:focus,
 #site-title a:active {
-	color: #1b8be0;
+	color: #1982d1;
 }
 #site-description {
 	color: #7a7a7a;
@@ -590,7 +602,7 @@ a:hover {
 	background: -moz-linear-gradient(#f9f9f9, #e5e5e5);
 	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f9f9f9), to(#e5e5e5)); /* Older webkit syntax */
 	background: -webkit-linear-gradient(#f9f9f9, #e5e5e5);
-	color: #333;
+	color: #373737;
 }
 #access ul li:hover > ul {
 	display: block;
@@ -710,7 +722,7 @@ a:hover {
 .entry-title a:hover,
 .entry-title a:focus,
 .entry-title a:active {
-	color: #1b8be0;
+	color: #1982d1;
 }
 .entry-meta {
 	color: #666;
@@ -777,25 +789,19 @@ dl.gallery-item {
 	margin: 0;
 }
 .page-link {
-	background: #f1f1f1;
-	border-top: 1px solid #ddd;
 	clear: both;
-	color: #888;
 	display: block;
-	font-size: 13px;
-	margin: 1.625em -30px;
-	padding: 4px 30px;
-	text-decoration: none;
+	margin: 0 0 1.625em;
 }
 .page-link a {
-	background: #d8d8d8;
-	color: #444;
+	background: #eee;
+	color: #373737;
 	margin: 0;
 	padding: 2px 3px;
 	text-decoration: none;
 }
 .page-link a:hover {
-	background: #777;
+	background: #888;
 	color: #fff;
 	font-weight: bold;
 }
@@ -803,10 +809,10 @@ dl.gallery-item {
 	margin-right: 6px;
 }
 .entry-meta .edit-link a {
-	background: #aaa;
+	background: #eee;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
-	color: #fff;
+	color: #666;
 	float: right;
 	font-size: 12px;
 	font-weight: 300;
@@ -814,11 +820,23 @@ dl.gallery-item {
 	padding: 0px 8px;
 }
 .entry-meta .edit-link a:hover {
-	background: #777;
+	background: #888;
+	color: #fff;
 }
 .entry-content .edit-link {
 	clear: both;
 	display: block;
+}
+
+/* Password Protected Posts */
+.post-password-required .entry-header .comments-link {
+	margin: 1.625em 0 0;
+}
+.post-password-required input[type=password] {
+	margin: 0.8125em 0;
+}
+.post-password-required input[type=password]:focus {
+	background: #f7f7f7;
 }
 
 /* Author Info */
@@ -884,7 +902,7 @@ dl.gallery-item {
 .entry-header .comments-link a:hover,
 .entry-header .comments-link a:focus,
 .entry-header .comments-link a:active {
-	background: #1b8be0;
+	background: #1982d1;
 	border-color: #1573bb;
 	border-color: rgba(0,0,0,0.2);
 	color: #fff;
@@ -992,7 +1010,6 @@ blockquote.pull {
 }
 .singular .entry-meta .edit-link a {
 	bottom: auto;
-	color: #fff;
 	left: 50px;	
 	position: absolute;
 	right: auto;
@@ -1042,7 +1059,7 @@ blockquote.pull {
 .format-gallery .gallery-thumb {
 	float: left;
 	display: block;
-	margin-right: 1.625em;
+	margin: .375em 1.625em 0 0;
 }
 
 
@@ -1277,7 +1294,7 @@ article.feature-image.small .entry-summary p a {
 	width: 180px;
 }
 article.feature-image.small .entry-summary p a:hover {
-	background: #1b8be0;
+	background: #1982d1;
 	color: #eee;
 	color: rgba(255,255,255,0.8);
 }
@@ -1423,7 +1440,7 @@ section.recent-posts .other-recent-posts .entry-title {
 	font-size: 17px;
 }
 section.recent-posts .other-recent-posts a[rel="bookmark"] {
-	color: #333;
+	color: #373737;
 	float: left;
 	max-width: 84%;
 }
@@ -1455,8 +1472,8 @@ section.recent-posts .other-recent-posts .comments-link > span {
 	color: #888;
 }
 section.recent-posts .other-recent-posts .comments-link a:hover {
-	color: #1b8be0;
-	border-color: #1b8be0;
+	color: #1982d1;
+	border-color: #1982d1;
 }
 section.recent-posts .other-recent-posts li:after {
 	clear: both;
@@ -1545,6 +1562,9 @@ p img,
 }
 .gallery {
 	margin: 0 auto 1.625em !important;
+}
+#content .gallery a img {
+    border: none;
 }
 .gallery-caption {
 }
@@ -1662,7 +1682,7 @@ img#wpstats {
 	top: -2px;
 }
 .widget_search #searchsubmit:active {
-	background: #1b8be0;
+	background: #1982d1;
 	border-color: #0861a5;
 	-webkit-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.1);
 	-moz-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.1);
@@ -1860,6 +1880,9 @@ a.comment-reply-link {
 	background: #ddd;
 	border-color: #d3d3d3;
 }
+.commentlist > li.bypostauthor .comment-meta {
+	color: #575757;
+}
 .commentlist > li.bypostauthor .comment-meta a:focus,
 .commentlist > li.bypostauthor .comment-meta a:active,
 .commentlist > li.bypostauthor .comment-meta a:hover {
@@ -1892,7 +1915,6 @@ a.comment-reply-link {
 	border: 1px solid #d3d3d3;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
-	color: #444;
 	margin: 0 auto 1.625em;
 	padding: 1.625em;
 	position: relative;
@@ -1990,7 +2012,7 @@ a.comment-reply-link {
 	text-shadow: 0 -1px 0 rgba(0,0,0,0.3);
 }
 #respond input#submit:active {
-	background: #1b8be0;
+	background: #1982d1;
 	color: #bfddf3;
 }
 #respond #cancel-comment-reply-link {
@@ -2007,7 +2029,7 @@ a.comment-reply-link {
 	width: auto;
 }
 #reply-title {
-	color: #333;
+	color: #373737;
 	font-size: 24px;
 	font-weight: bold;
 	line-height: 30px;
@@ -2194,9 +2216,6 @@ p.comment-form-comment {
 	.singular #author-info {
 		margin: 2.2em -8.8% 0px;
 		padding: 20px 8.8%;
-	}
-	.page-link {
-		margin: 1.625em 0;
 	}
 	/* Make sure we have room for our comment avatars */
 	.commentlist > li.comment,

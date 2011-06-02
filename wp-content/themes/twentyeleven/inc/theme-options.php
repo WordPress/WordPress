@@ -199,7 +199,7 @@ function theme_options_render_page() {
 
 				<tr valign="top" class="image-radio-option"><th scope="row"><?php _e( 'Color Scheme', 'twentyeleven' ); ?></th>
 					<td>
-						<fieldset><legend class="screen-reader-text"><span><?php _e( 'Color Scheme', 'twentyeleven' ); ?></span></legend>
+						<fieldset><legend class="assistive-text"><span><?php _e( 'Color Scheme', 'twentyeleven' ); ?></span></legend>
 						<?php
 							foreach ( twentyeleven_color_schemes() as $color ) {
 								?>
@@ -221,7 +221,7 @@ function theme_options_render_page() {
 
 				<tr valign="top"><th scope="row"><?php _e( 'Link Color', 'twentyeleven' ); ?></th>
 					<td>
-						<fieldset><legend class="screen-reader-text"><span><?php _e( 'Link Color', 'twentyeleven' ); ?></span></legend>
+						<fieldset><legend class="assistive-text"><span><?php _e( 'Link Color', 'twentyeleven' ); ?></span></legend>
 							<input type="text" name="twentyeleven_theme_options[link_color]" id="link-color" value="<?php echo esc_attr( $options['link_color'] ); ?>" />
 							<a href="#" class="pickcolor hide-if-no-js" id="link-color-example"></a>
 							<input type="button" class="pickcolor button hide-if-no-js" value="<?php esc_attr_e( 'Select a Color', 'twentyeleven' ); ?>" />
@@ -234,7 +234,7 @@ function theme_options_render_page() {
 
 				<tr valign="top" class="image-radio-option"><th scope="row"><?php _e( 'Default Layout', 'twentyeleven' ); ?></th>
 					<td>
-						<fieldset><legend class="screen-reader-text"><span><?php _e( 'Color Scheme', 'twentyeleven' ); ?></span></legend>
+						<fieldset><legend class="assistive-text"><span><?php _e( 'Color Scheme', 'twentyeleven' ); ?></span></legend>
 						<?php
 							foreach ( twentyeleven_layouts() as $layout ) {
 								?>
