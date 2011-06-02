@@ -3,6 +3,9 @@ Theme Name: Twenty Eleven
 Description: Used to style the TinyMCE editor.
 */
 
+html .mceContentBody {
+	max-width: 584px;
+}
 * {
 	color: #333;
 	font: 15px "Helvetica Neue", Helvetica, Arial, sans-serif;
