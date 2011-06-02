@@ -214,7 +214,7 @@ form.upgrade .hint {
 }
 
 #wp-fullscreen-tagline {
-	left: 20px;
+	float: left;
 }
 
 /* =Top bar
@@ -715,7 +715,18 @@ th.sorted a span {
   11.0 - Write/Edit Post Screen
 ------------------------------------------------------------------------------*/
 
+#titlediv #title-prompt-text,
+#wp-fullscreen-title-prompt-text {
+	right:0;
+}
 
+#sample-permalink {
+	direction:ltr;
+}
+
+#sample-permalink #editable-post-name {
+	unicode-bidi:embed;
+}
 #wp-fullscreen-title-prompt-text {
 	left: auto;
 	right: 0;

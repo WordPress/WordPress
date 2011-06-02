@@ -76,9 +76,8 @@
 }
 
 /* Hide visually but not from screen readers */
-.screen-reader-text,
-.screen-reader-text span {
-	left: auto
+.screen-reader-text, .screen-reader-text span {
+	left: auto;
 	right: -1000em;
 }
 
