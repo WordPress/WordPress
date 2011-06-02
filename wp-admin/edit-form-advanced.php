@@ -204,7 +204,6 @@ require_once('./admin-header.php');
 <?php endif; ?>
 <form name="post" action="post.php" method="post" id="post"<?php do_action('post_edit_form_tag'); ?>>
 <?php wp_nonce_field($nonce_action); ?>
-<input type="hidden" name="parent_id" value="<?php echo esc_attr( $post->post_parent ); ?>" />
 <input type="hidden" id="user-id" name="user_ID" value="<?php echo (int) $user_ID ?>" />
 <input type="hidden" id="hiddenaction" name="action" value="<?php echo esc_attr( $form_action ) ?>" />
 <input type="hidden" id="originalaction" name="originalaction" value="<?php echo esc_attr( $form_action ) ?>" />
