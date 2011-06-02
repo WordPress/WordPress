@@ -286,7 +286,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @since 2.6.0
 	 */
 	function initialise_blog_option_info( ) {
-		global $wp_version, $content_width;
+		global $wp_version;
 
 		$this->blog_options = array(
 			// Read only options
@@ -304,11 +304,6 @@ class wp_xmlrpc_server extends IXR_Server {
 				'desc'			=> __( 'Site URL' ),
 				'readonly'		=> true,
 				'option'		=> 'siteurl'
-			),
-			'content_width'			=> array(
-				'desc'			=> __( 'Content Width' ),
-				'readonly'		=> true,
-				'value'			=> isset( $content_width ) ? (int) $content_width : 0,
 			),
 
 			// Updatable options
