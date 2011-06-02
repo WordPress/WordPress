@@ -28,3 +28,8 @@
 	margin: 0 7px 0 3px;
 	padding: 4px 14px;
 }
+
+body.rtl .image-radio-option label {
+	float: right;
+	margin: 0 2px 20px 30px;
+}
