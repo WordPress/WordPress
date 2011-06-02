@@ -1268,7 +1268,7 @@ table.widefat .spam a:hover,
 
 #adminmenu li.wp-has-current-submenu.wp-menu-open .wp-menu-toggle,
 #adminmenu li.wp-has-current-submenu:hover .wp-menu-toggle {
-	background: transparent url(../images/arrows-dark.png) no-repeat 8px 6px;
+	background: transparent url(../images/arrows-dark.png) no-repeat -1px 6px;
 }
 
 #adminmenu .wp-has-submenu:hover .wp-menu-toggle,
