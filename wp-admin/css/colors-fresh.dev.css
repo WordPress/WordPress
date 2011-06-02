@@ -1273,7 +1273,7 @@ table.widefat .spam a:hover,
 
 #adminmenu .wp-has-submenu:hover .wp-menu-toggle,
 #adminmenu .wp-menu-open .wp-menu-toggle {
-	background: transparent url(../images/arrows.png) no-repeat 8px 6px;
+	background: transparent url(../images/arrows.png) no-repeat -2px 6px;
 }
 
 #adminmenu a.menu-top,
