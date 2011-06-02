@@ -874,7 +874,7 @@ th.sorted a span {
 ------------------------------------------------------------------------------*/
 
 table.diff td, table.diff th {
-	font-family: Courier, monospace;
+	font-family: Consolas, Monaco, monospace;
 }
 
 /*------------------------------------------------------------------------------

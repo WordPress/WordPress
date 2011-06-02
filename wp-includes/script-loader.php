@@ -482,7 +482,7 @@ function wp_default_styles( &$styles ) {
 	// Any rtl stylesheets that don't have a .dev version for ltr
 	$no_suffix = array( 'farbtastic' );
 
-	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20110602' );
+	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20110602b' );
 
 	$styles->add( 'ie', "/wp-admin/css/ie$suffix.css", array(), '20110601' );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
@@ -502,8 +502,8 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'media', "/wp-admin/css/media$suffix.css", array(), '20110519' );
 	$styles->add( 'widgets', "/wp-admin/css/widgets$suffix.css", array(), '20110601' );
 	$styles->add( 'dashboard', "/wp-admin/css/dashboard$suffix.css", array(), '20110511c' );
-	$styles->add( 'install', "/wp-admin/css/install$suffix.css", array(), '20110506' ); // Readme as well
-	$styles->add( 'theme-editor', "/wp-admin/css/theme-editor$suffix.css", array(), '20110506' );
+	$styles->add( 'install', "/wp-admin/css/install$suffix.css", array(), '20110602' ); // Readme as well
+	$styles->add( 'theme-editor', "/wp-admin/css/theme-editor$suffix.css", array(), '20110602' );
 	$styles->add( 'press-this', "/wp-admin/css/press-this$suffix.css", array(), '20110506' );
 	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css', array(), '20090514' );
 	$styles->add( 'login', "/wp-admin/css/login$suffix.css", array(), '20110121' );

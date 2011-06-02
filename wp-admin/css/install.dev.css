@@ -170,7 +170,7 @@ textarea {
 }
 
 #error-page code, .code {
-	font-family: Consolas, Monaco, Courier, monospace;
+	font-family: Consolas, Monaco, monospace;
 }
 
 #pass-strength-result {
