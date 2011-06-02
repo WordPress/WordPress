@@ -1146,7 +1146,7 @@ function get_calendar($initial = true, $echo = true) {
 
 	/* translators: Calendar caption: 1: month name, 2: 4-digit year */
 	$calendar_caption = _x('%1$s %2$s', 'calendar caption');
-	$calendar_output = '<table id="wp-calendar" summary="' . esc_attr__('Calendar') . '">
+	$calendar_output = '<table id="wp-calendar">
 	<caption>' . sprintf($calendar_caption, $wp_locale->get_month($thismonth), date('Y', $unixmonth)) . '</caption>
 	<thead>
 	<tr>';
