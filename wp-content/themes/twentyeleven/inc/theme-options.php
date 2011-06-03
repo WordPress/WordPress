@@ -88,6 +88,10 @@ function twentyeleven_theme_options_add_page() {
 		'theme_options',                       // Menu slug, used to uniquely identify the page
 		'theme_options_render_page'            // Function that renders the options page
 	);
+
+	if ( ! $theme_page )
+		return;
+
 	$help = '<p>' . __( 'Some themes provide customization options that are grouped together on a Theme Options screen. If you change themes, options may change or disappear, as they are theme-specific. Your current theme, Twenty Eleven, provides the following Theme Options:' ) . '</p>' .
 			'<ol>' .
 				'<li>' . __( '<strong>Color Scheme</strong>: You can choose a color palette of "Light" (light background with dark text) or "Dark" (dark background with light text) for your site.' ) . '</li>' .
