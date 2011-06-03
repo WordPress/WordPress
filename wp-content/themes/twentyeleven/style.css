@@ -883,8 +883,8 @@ p img,
 	left: 10px;
 	top: 7px;
 }
-.gallery {
-	margin: 0 auto 1.625em !important;
+#content .gallery {
+	margin: 0 auto 1.625em;
 }
 #content .gallery a img {
     border: none;
@@ -892,6 +892,14 @@ p img,
 img#wpstats {
     display: block;
     margin: 0 auto 1.625em;
+}
+#content .gallery-columns-4 .gallery-item {
+	width:23%;
+	padding-right:2%;
+}
+#content .gallery-columns-4 .gallery-item img {
+	width:100%;
+	height:auto;
 }
 
 /* Image borders */
@@ -2267,10 +2275,10 @@ p.comment-form-comment {
 		width: auto;
 	}
 	/* No need to float footer widgets at this size */
-	#supplementary .widget-area {
-		float: none !important;
-		margin-right: 0 !important;
-		width: auto !important;
+	#colophon #supplementary .widget-area {
+		float: none;
+		margin-right: 0;
+		width: auto;
 	}
 	/* No need to float 404 widgets at this size */
 	.error404 #main .widget {
@@ -2334,6 +2342,24 @@ p.comment-form-comment {
 	#respond .comment-form-author .required,
 	#respond .comment-form-email .required {
 	    left: 95%;
+	}
+	#content .gallery-columns-3 .gallery-item {
+		width:31%;
+		padding-right:2%;
+	}
+	#content .gallery-columns-3 .gallery-item img {
+		width:100%;
+		height:auto;
+	}
+}
+@media (max-width: 450px) {
+	#content .gallery-columns-2 .gallery-item {
+		width:45%;
+		padding-right:4%;
+	}
+	#content .gallery-columns-2 .gallery-item img {
+		width:100%;
+		height:auto;
 	}
 }
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
