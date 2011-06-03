@@ -145,6 +145,42 @@ a {
 	color: #000;
 }
 
+/* Images */
+.wp-caption {
+	background: #2c2c2c;
+}
+.wp-caption .wp-caption-text {
+	color: #999;
+}
+.wp-caption .wp-caption-text:before {
+	color: #999;
+}
+
+/* Image borders */
+.entry-content img,
+.widget img,
+#content .gallery .gallery-icon img {
+	border-color: #2c2c2c;
+}
+.wp-caption img {
+	border-color: #2c2c2c;
+}
+.entry-content a:focus img,
+.entry-content a:hover img,
+.entry-content a:active img,
+.widget a:focus img,
+.widget a:hover img,
+.widget a:active img {
+	background: #2c2c2c;
+	border-color: #444;
+}
+.wp-caption a:focus img,
+.wp-caption a:active img,
+.wp-caption a:hover img {
+	background: #0f0f0f;
+	border-color: #2c2c2c;
+}
+
 /* Password Protected Posts */
 .post-password-required input[type=password] {
 	background: #ddd;
@@ -208,10 +244,13 @@ a {
 /* =Image
 ----------------------------------------------- */
 
-.format-image .entry-meta .edit-link a {
+.indexed.format-image .wp-caption {
+	background: #242424;
+}
+.indexed.format-image .entry-meta .edit-link a {
 	color: #ddd;
 }
-.format-image .entry-meta .edit-link a:hover {
+.indexed.format-image .entry-meta .edit-link a:hover {
 	color: #fff;
 }
 
@@ -339,19 +378,14 @@ section.recent-posts .other-recent-posts .comments-link a:hover {
 	background: #060606;
 	border-color: #222;
 }
-
-
-/* =Images
------------------------------------------------ */
-
-.wp-caption {
-	background: #0b0d12;
+.image-attachment div.attachment a img {
+	border-color: #060606;
 }
-.wp-caption .wp-caption-text {
-	color: #999;
-}
-.wp-caption .wp-caption-text:before {
-	color: #64759d;
+.image-attachment div.attachment a:focus img,
+.image-attachment div.attachment a:hover img,
+.image-attachment div.attachment a:active img {
+	border-color: #2c2c2c;
+	background: #0f0f0f;
 }
 
 

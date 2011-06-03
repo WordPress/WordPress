@@ -49,6 +49,9 @@ hr {
 }
 
 /* Text elements */
+p, ul, ol, dl {
+	font-weight: 300;
+}
 p {
 	margin-bottom: 1.625em;
 }
@@ -247,17 +250,27 @@ p img,
 .wp-caption {
 	margin-top: 0.4em;
 }
+img {
+	border: 1px solid #ddd;
+	padding: 6px;
+}
+img.alignleft,
+img.alignright,
+img.aligncenter {
+	margin-bottom: 1.625em;
+}
 .wp-caption {
-	background: #f4f2ed;
+	background: #eee;
 	border: none;
 	margin-bottom: 1.625em;
 	max-width: 96%;
-	padding: 12px;
+	padding: 9px;
 }
 .wp-caption img {
 	display: block;
 	margin: 5px auto 0 !important;
 	max-width: 98%;
+	border-color: #eee;
 }
 .wp-caption .wp-caption-text,
 .wp-caption-dd {
@@ -270,7 +283,7 @@ p img,
 	text-align: left;
 }
 .wp-caption .wp-caption-text:before {
-	color: #9b8a62;
+	color: #666;
 	content: '\2014';
 	font-size: 14px;
 	font-style: normal;
@@ -279,4 +292,16 @@ p img,
 	position: absolute;
 	left: 10px;
 	top: 7px;
+}
+a:focus img,
+a:hover img,
+a:active img {
+	background: #eee;
+	border-color: #bbb;
+}
+.wp-caption a:focus img,
+.wp-caption a:active img,
+.wp-caption a:hover img {
+	background: #fff;
+	border-color: #ddd;
 }
