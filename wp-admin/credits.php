@@ -25,12 +25,12 @@ add_action( 'admin_head', '_wp_credits_add_css' );
 function _wp_credits_add_css() { ?>
 <style type="text/css">
 h3.wp-people-group, h3.wp-props-group { clear: both; }
-ul.wp-people-group { margin-bottom: 50px; }
+ul.wp-people-group { margin-bottom: 30px; float: left; clear: both; }
 <?php if ( is_rtl() ) { ?>
-li.wp-person { float: right; height: 100px; width: 240px; margin-left: 20px; }
+li.wp-person { float: right; height: 70px; width: 220px; margin-left: 10px; }
 li.wp-person img.gravatar { float: right; margin-left: 10px; margin-bottom: 10px; width: 60px; height: 60px }
 <?php } else { ?>
-li.wp-person { float: left; height: 100px; width: 240px; margin-right: 20px; }
+li.wp-person { float: left; height: 70px; width: 220px; margin-right: 10px; }
 li.wp-person img.gravatar { float: left; margin-right: 10px; margin-bottom: 10px; width: 60px; height: 60px }
 <?php } ?>
 li.wp-person a.web { font-size: 16px; text-decoration: none; }
