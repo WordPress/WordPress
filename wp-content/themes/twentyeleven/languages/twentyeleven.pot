@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Eleven 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyeleven\n"
-"POT-Creation-Date: 2011-05-27 03:29:06+00:00\n"
+"POT-Creation-Date: 2011-06-03 21:29:23+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
 #: content-quote.php:14 showcase.php:108 showcase.php:110 showcase.php:188
-#: content.php:15 content.php:19 content-image.php:16 content-gallery.php:16
+#: content.php:15 content.php:19 content-image.php:15 content-gallery.php:16
 #: content-gallery.php:57 content-aside.php:16 content-status.php:15
 #: inc/widgets.php:92 content-link.php:16 content-featured.php:14
 msgid "Permalink to %s"
@@ -33,74 +33,74 @@ msgid ""
 "\"%4$s\" title=\"%5$s\">%6$s</a></span>"
 msgstr ""
 
-#: content-quote.php:26 content.php:30 content-image.php:47
+#: content-quote.php:26 content.php:30 content-image.php:40
 #: content-single.php:22 content-gallery.php:27 content-aside.php:48
 #: content-status.php:49 content-link.php:48 content-featured.php:23
 msgid "View all posts by %s"
 msgstr ""
 
-#: content-quote.php:35 content.php:39 content-image.php:22
+#: content-quote.php:35 content.php:39 content-image.php:21
 #: content-aside.php:25 content-status.php:24 content-link.php:25
 msgid "<span class=\"leave-reply\">Reply</span>"
 msgstr ""
 
-#: content-quote.php:35 content.php:39 content-image.php:22
+#: content-quote.php:35 content.php:39 content-image.php:21
 #: content-aside.php:25 content-status.php:24 content-link.php:25
 msgid "1"
 msgstr ""
 
-#: content-quote.php:35 content.php:39 content-image.php:22
+#: content-quote.php:35 content.php:39 content-image.php:21
 #: content-aside.php:25 content-status.php:24 content-link.php:25
 msgid "%"
 msgstr ""
 
-#: content-quote.php:46 content.php:50 content-image.php:33
+#: content-quote.php:46 content.php:50 content-image.php:27
 #: content-gallery.php:41 content-aside.php:36 functions.php:328
 #: content-status.php:37 content-link.php:36
 msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: content-quote.php:47 content.php:51 content-image.php:34
+#: content-quote.php:47 content.php:51 content-image.php:28
 #: content-single.php:31
 msgid "<span>Pages:</span>"
 msgstr ""
 
 #: content-quote.php:55 content-quote.php:65 content.php:59 content.php:69
-#: content-image.php:55 content-image.php:64 content-single.php:37
+#: content-image.php:48 content-image.php:57 content-single.php:37
 #: content-single.php:46 content-gallery.php:70 content-gallery.php:80
 #: content-featured.php:38 content-featured.php:47
 msgid ", "
 msgstr ""
 
-#: content-quote.php:59 content.php:63 content-image.php:59
+#: content-quote.php:59 content.php:63 content-image.php:52
 #: content-gallery.php:74
 msgid "<span class=\"%1$s\">Posted in</span> %2$s"
 msgstr ""
 
-#: content-quote.php:71 content.php:75 content-image.php:67
+#: content-quote.php:71 content.php:75 content-image.php:60
 #: content-gallery.php:86
 msgid "<span class=\"%1$s\">Tagged</span> %2$s"
 msgstr ""
 
-#: content-quote.php:81 showcase.php:190 content.php:85 content-image.php:72
+#: content-quote.php:81 showcase.php:190 content.php:85 content-image.php:65
 #: content-gallery.php:95 content-aside.php:54 content-status.php:55
 #: content-link.php:54
 msgid "<span class=\"leave-reply\">Leave a reply</span>"
 msgstr ""
 
-#: content-quote.php:81 showcase.php:190 content.php:85 content-image.php:72
+#: content-quote.php:81 showcase.php:190 content.php:85 content-image.php:65
 #: content-gallery.php:95 content-aside.php:54 content-status.php:55
 #: content-link.php:54
 msgid "<b>1</b> Reply"
 msgstr ""
 
-#: content-quote.php:81 showcase.php:190 content.php:85 content-image.php:72
+#: content-quote.php:81 showcase.php:190 content.php:85 content-image.php:65
 #: content-gallery.php:95 content-aside.php:54 content-status.php:55
 #: content-link.php:54
 msgid "<b>%</b> Replies"
 msgstr ""
 
-#: content-quote.php:84 content.php:88 content-image.php:77
+#: content-quote.php:84 content.php:88 content-image.php:70
 #: content-single.php:54 content-intro.php:19 content-gallery.php:98
 #: content-aside.php:56 image.php:39 image.php:103 content-status.php:57
 #: content-page.php:19 content-link.php:56 content-featured.php:54
@@ -141,11 +141,11 @@ msgstr ""
 msgid "Category Archives: %s"
 msgstr ""
 
-#: content-image.php:17
+#: content-image.php:16
 msgid "Image"
 msgstr ""
 
-#: content-image.php:42
+#: content-image.php:35
 msgid ""
 "<a href=\"%1$s\" rel=\"bookmark\"><time class=\"entry-date\" datetime=\"%2$s"
 "\" pubdate>%3$s</time></a> <span class=\"sep\"> by </span> <span class="
@@ -153,11 +153,11 @@ msgid ""
 "a></span>"
 msgstr ""
 
-#: sidebar.php:14
+#: sidebar.php:19
 msgid "Archives"
 msgstr ""
 
-#: sidebar.php:21
+#: sidebar.php:26
 msgid "Meta"
 msgstr ""
 
@@ -400,7 +400,11 @@ msgid "Main menu"
 msgstr ""
 
 #: header.php:115
-msgid "Skip to content"
+msgid "Skip to primary content"
+msgstr ""
+
+#: header.php:116
+msgid "Skip to secondary content"
 msgstr ""
 
 #: author.php:27
@@ -416,49 +420,100 @@ msgstr ""
 msgid "Theme Options"
 msgstr ""
 
-#: inc/theme-options.php:103
+#: inc/theme-options.php:91
+msgid ""
+"Some themes provide customization options that are grouped together on a "
+"Theme Options screen. If you change themes, options may change or disappear, "
+"as they are theme-specific. Your current theme, Twenty Eleven, provides the "
+"following Theme Options:"
+msgstr ""
+
+#: inc/theme-options.php:93
+msgid ""
+"<strong>Color Scheme</strong>: You can choose a color palette of \"Light"
+"\" (light background with dark text) or \"Dark\" (dark background with light "
+"text) for your site."
+msgstr ""
+
+#: inc/theme-options.php:94
+msgid ""
+"<strong>Link Color</strong>: You can choose the color used for text links on "
+"your site. You can enter the HTML color or hex code, or you can choose "
+"visually by clicking the \"Select a Color\" button to pick from a color "
+"wheel."
+msgstr ""
+
+#: inc/theme-options.php:95
+msgid ""
+"<strong>Default Layout</strong>: You can choose if you want your site&#8217;"
+"s default layout to have a sidebar on the left, the right, or not at all."
+msgstr ""
+
+#: inc/theme-options.php:97
+msgid ""
+"Remember to click \"Save Changes\" to save any changes you have made to the "
+"theme options."
+msgstr ""
+
+#: inc/theme-options.php:98
+msgid "For more information:"
+msgstr ""
+
+#: inc/theme-options.php:99
+msgid ""
+"<a href=\"http://codex.wordpress.org/Appearance_Theme_Options_Screen\" "
+"target=\"_blank\">Documentation on Theme Options</a>"
+msgstr ""
+
+#: inc/theme-options.php:100
+msgid ""
+"<a href=\"http://wordpress.org/support/\" target=\"_blank\">Support Forums</"
+"a>"
+msgstr ""
+
+#: inc/theme-options.php:115
 msgid "Light"
 msgstr ""
 
-#: inc/theme-options.php:108
+#: inc/theme-options.php:120
 msgid "Dark"
 msgstr ""
 
-#: inc/theme-options.php:125
+#: inc/theme-options.php:137
 msgid "Content on left"
 msgstr ""
 
-#: inc/theme-options.php:130
+#: inc/theme-options.php:142
 msgid "Content on right"
 msgstr ""
 
-#: inc/theme-options.php:135
-msgid "One-column, no Sidebar"
+#: inc/theme-options.php:147
+msgid "One-column, no sidebar"
 msgstr ""
 
-#: inc/theme-options.php:176
+#: inc/theme-options.php:188
 msgid "%s Theme Options"
 msgstr ""
 
-#: inc/theme-options.php:188 inc/theme-options.php:190
-#: inc/theme-options.php:225
+#: inc/theme-options.php:200 inc/theme-options.php:202
+#: inc/theme-options.php:237
 msgid "Color Scheme"
 msgstr ""
 
-#: inc/theme-options.php:210 inc/theme-options.php:212
+#: inc/theme-options.php:222 inc/theme-options.php:224
 msgid "Link Color"
 msgstr ""
 
-#: inc/theme-options.php:215
+#: inc/theme-options.php:227
 msgid "Select a Color"
 msgstr ""
 
-#: inc/theme-options.php:218
+#: inc/theme-options.php:230
 msgid "Default color: %s"
 msgstr ""
 
-#: inc/theme-options.php:223
-msgid "Layout"
+#: inc/theme-options.php:235
+msgid "Default Layout"
 msgstr ""
 
 #: inc/widgets.php:19
