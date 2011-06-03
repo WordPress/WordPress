@@ -30,26 +30,26 @@ if ( isset($_REQUEST['action']) && 'add-user' == $_REQUEST['action'] ) {
 	if ( ! current_user_can( 'manage_network_users' ) )
 		wp_die( __( 'You do not have permission to access this page.' ) );
 
-	if ( is_array( $_POST['user'] ) == false )
+	if ( ! is_array( $_POST['user'] ) )
 		wp_die( __( 'Cannot create an empty user.' ) );
+
 	$user = $_POST['user'];
-	if ( empty($user['username']) && empty($user['email']) )
-		wp_die( __( 'Missing username and email.' ) );
-	elseif ( empty($user['username']) )
-		wp_die( __( 'Missing username.' ) );
-	elseif ( empty($user['email']) )
-		wp_die( __( 'Missing email.' ) );
 
-	$password = wp_generate_password( 12, false);
-	$user_id = wpmu_create_user( esc_html( strtolower( $user['username'] ) ), $password, esc_html( $user['email'] ) );
+	$user_details = wpmu_validate_user_signup( $user['username'], $user['email'] ); 
+	if ( is_wp_error( $user_details[ 'errors' ] ) && ! empty( $user_details[ 'errors' ]->errors ) ) {
+		$add_user_errors = $user_details[ 'errors' ];
+	} else {
+		$password = wp_generate_password( 12, false);
+		$user_id = wpmu_create_user( esc_html( strtolower( $user['username'] ) ), $password, esc_html( $user['email'] ) );
 
-	if ( false == $user_id )
- 		wp_die( __( 'Duplicated username or email address.' ) );
-	else
-		wp_new_user_notification( $user_id, $password );
-		
-	wp_redirect( add_query_arg( array('update' => 'added'), 'user-new.php' ) );
-	exit;
+		if ( ! $user_id ) {
+	 		$add_user_errors = new WP_Error( 'add_user_fail', __( 'Cannot add user.' ) );
+		} else {
+			wp_new_user_notification( $user_id, $password );
+			wp_redirect( add_query_arg( array('update' => 'added'), 'user-new.php' ) );
+			exit;
+		}
+	}
 }
 
 if ( isset($_GET['update']) ) {
@@ -70,7 +70,16 @@ require('../admin-header.php'); ?>
 if ( ! empty( $messages ) ) {
 	foreach ( $messages as $msg )
 		echo '<div id="message" class="updated"><p>' . $msg . '</p></div>';
-} ?>
+}
+
+if ( isset( $add_user_errors ) && is_wp_error( $add_user_errors ) ) { ?>
+	<div class="error">
+		<?php
+			foreach ( $add_user_errors->get_error_messages() as $message )
+				echo "<p>$message</p>";
+		?>
+	</div>
+<?php } ?>
 	<form action="<?php echo network_admin_url('user-new.php?action=add-user'); ?>" id="adduser" method="post">	
 	<table class="form-table">
 		<tr class="form-field form-required">
