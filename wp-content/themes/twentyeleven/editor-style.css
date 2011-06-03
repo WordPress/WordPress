@@ -9,7 +9,8 @@ html .mceContentBody {
 * {
 	color: #333;
 	font: 15px "Helvetica Neue", Helvetica, Arial, sans-serif;
-	font-weight: 300;
+	font-style: inherit;
+	font-weight: inherit;
 	line-height: 1.625;
 }
 body {
@@ -174,7 +175,9 @@ input[type=text] {
 }
 
 /* Links */
-a {
+a,
+a em,
+a strong {
 	color: #1b8be0;
 	text-decoration: none;
 }
