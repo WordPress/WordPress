@@ -74,7 +74,9 @@ adminMenu = {
 					}
 					m.addClass('sub-open');
 				},
-				out: function(){ $(this).find('.wp-submenu').removeClass('sub-open').css({'marginTop':''}); },
+				out: function(){
+					$(this).find('.wp-submenu').removeClass('sub-open');
+				},
 				timeout: 220,
 				sensitivity: 8,
 				interval: 100
