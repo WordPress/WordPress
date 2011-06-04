@@ -1207,12 +1207,13 @@ blockquote.pull {
 .indexed.format-image .entry-content {
 	padding-top: 0.5em;
 }
+.indexed.format-image p,
 .indexed.format-image p img {
 	margin-bottom: 0;
 }
 .indexed.format-image footer.entry-meta {
 	background: #e0e6e8;
-	margin-top: -6px;
+	margin-top: -7px;
 	padding: 20px 30px;
 	overflow: hidden;
 }
