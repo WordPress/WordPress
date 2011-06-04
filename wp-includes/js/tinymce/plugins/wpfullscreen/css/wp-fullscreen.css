@@ -1,0 +1,11 @@
+/*
+Distraction Free Writing mode TinyMCE Styles
+*/
+
+html, body {
+	background: transparent;
+	width: auto !important;
+	max-width: none !important;
+	margin: 0 !important;
+	padding: 0 !important;
+}

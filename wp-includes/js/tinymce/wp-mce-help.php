@@ -234,12 +234,17 @@ wp_admin_css( 'wp-admin', true );
 		<tr><th>c</th><td><?php _e('Copy') ?></td><th>v</th><td><?php _e('Paste') ?></td></tr>
 		<tr><th>a</th><td><?php _e('Select all') ?></td><th>x</th><td><?php _e('Cut') ?></td></tr>
 		<tr><th>z</th><td><?php _e('Undo') ?></td><th>y</th><td><?php _e('Redo') ?></td></tr>
-		
+
 		<tr class="win"><th>b</th><td><?php _e('Bold') ?></td><th>i</th><td><?php _e('Italic') ?></td></tr>
 		<tr class="win"><th>u</th><td><?php _e('Underline') ?></td><th>1</th><td><?php _e('Heading 1') ?></td></tr>
 		<tr class="win"><th>2</th><td><?php _e('Heading 2') ?></td><th>3</th><td><?php _e('Heading 3') ?></td></tr>
 		<tr class="win"><th>4</th><td><?php _e('Heading 4') ?></td><th>5</th><td><?php _e('Heading 5') ?></td></tr>
 		<tr class="win"><th>6</th><td><?php _e('Heading 6') ?></td><th>9</th><td><?php _e('Address') ?></td></tr>
+
+		<tr><th colspan="4" style="font-weight: normal;padding: 15px 10px 10px;"><?php _e('Editor width in Distraction-free writing mode:'); ?></th></tr>
+		<tr><th><span class="win">Alt +</span><span class="mac">Ctrl +</span></th><td><?php _e('Wider') ?></td>
+			<th><span class="win">Alt -</span><span class="mac">Ctrl -</span></th><td><?php _e('Narrower') ?></td></tr>
+		<tr><th><span class="win">Alt 0</span><span class="mac">Ctrl 0</span></th><td><?php _e('Default width') ?></td><th></th><td></td></tr>
 	</table>
 
 	<p><?php _e('The following shortcuts use different access keys: Alt + Shift + letter.') ?></p>

@@ -78,7 +78,8 @@ PubSub.prototype.publish = function( topic, args ) {
 		mode : 'tinymce',
 		editor_id : 'content',
 		title_id : 'title',
-		timer : 0
+		timer : 0,
+		toolbar_shown : false
 	}
 
 	/**
@@ -87,7 +88,7 @@ PubSub.prototype.publish = function( topic, args ) {
 	 * Creates a function that publishes start/stop topics.
 	 * Used to throttle events.
 	 */
-	bounder = function( start, stop, delay ) {
+	bounder = api.bounder = function( start, stop, delay ) {
 		delay = delay || 1250;
 
 		if ( block )
@@ -243,6 +244,7 @@ PubSub.prototype.publish = function( topic, args ) {
 		s.toolbars.removeClass('fade-1000').addClass('fade-300');
 		api.fade.In( s.toolbars, 300, function(){ ps.publish('toolbarShown'); }, true );
 		$('#wp-fullscreen-body').addClass('wp-fullscreen-focus');
+		s.toolbar_shown = true;
 	});
 
 	ps.subscribe( 'hideToolbar', function() {
@@ -257,6 +259,7 @@ PubSub.prototype.publish = function( topic, args ) {
 
 	ps.subscribe( 'toolbarHidden', function() {
 		s.toolbars.removeClass('fade-1000');
+		s.toolbar_shown = false;
 	});
 
 	ps.subscribe( 'show', function() { // This event occurs before the overlay blocks the UI.
@@ -480,10 +483,15 @@ PubSub.prototype.publish = function( topic, args ) {
 				wptitlehint('wp-fullscreen-title');
 
 			$(document).keyup(function(e){
-				var c = e.keyCode || e.charCode, data;
+				var c = e.keyCode || e.charCode, a, data;
 
 				if ( !fullscreen.settings.visible )
 					return true;
+
+				if ( navigator.platform && navigator.platform.indexOf('Mac') != -1 )
+					a = e.ctrlKey; // Ctrl key for Mac
+				else
+					a = e.altKey; // Alt key for Win & Linux
 
 				if ( 27 == c ) { // Esc
 					data = {
@@ -500,6 +508,15 @@ PubSub.prototype.publish = function( topic, args ) {
 					if ( ! jQuery(document).triggerHandler( 'wp_CloseOnEscape', [data] ) )
 						fullscreen.off();
 				}
+
+				if ( a && (61 == c || 107 == c || 187 == c) ) // +
+					api.dfw_width(25);
+
+				if ( a && (45 == c || 109 == c || 189 == c) ) // -
+					api.dfw_width(-25);
+
+				if ( a && 48 == c ) // 0
+					api.dfw_width(0);
 
 				return false;
 			});
