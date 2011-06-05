@@ -16,8 +16,8 @@ if ( !defined('ABSPATH') )
 <div class="clear"></div></div><!-- wpcontent -->
 
 <div id="footer">
+<?php do_action( 'in_admin_footer' ); ?>
 <p id="footer-left" class="alignleft"><?php
-do_action( 'in_admin_footer' );
 $upgrade = apply_filters( 'update_footer', '' );
 $footer_text = array(
 	'<span id="footer-thankyou">' . __( 'Thank you for creating with <a href="http://wordpress.org/">WordPress</a>.' ) . '</span>',
