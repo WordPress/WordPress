@@ -177,10 +177,7 @@ function twentyeleven_get_default_theme_options() {
  * @since Twenty Eleven 1.0
  */
 function twentyeleven_get_theme_options() {
-	$options = get_option( 'twentyeleven_theme_options' );
-	if ( false === $options )
-		return twentyeleven_get_default_theme_options();
-	return $options;
+	return get_option( 'twentyeleven_theme_options', twentyeleven_get_default_theme_options() );
 }
 
 /**
