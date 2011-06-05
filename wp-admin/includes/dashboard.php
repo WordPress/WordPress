@@ -27,7 +27,7 @@ function wp_dashboard_setup() {
 
 	$response = wp_check_browser_version();
 
-	if ( $response['upgrade'] ) {
+	if ( $response && $response['upgrade'] ) {
 		add_filter( 'postbox_classes_dashboard_dashboard_browser_nag', 'dashboard_browser_nag_class' );
 		if ( $response['insecure'] )
 			wp_add_dashboard_widget( 'dashboard_browser_nag', __( 'You are using an insecure browser!' ), 'wp_dashboard_browser_nag' );
@@ -1162,23 +1162,25 @@ function wp_dashboard_browser_nag() {
 	$notice = '';
 	$response = wp_check_browser_version();
 
-	if ( $response['insecure'] ) {
-		$msg = sprintf( __( 'It looks like you\'re using an insecure version of <a href="%1$s">%2$s</a>. Using an outdated browser makes your computer unsafe.  For the best WordPress experience, please update your browser.' ), esc_attr( $response['update_url'] ), esc_html( $response['name'] ) );
-	} else {
-		$msg = sprintf( __( 'It looks like you\'re using an old version of <a href="%1$s">%2$s</a>. Using an outdated browser makes your computer unsafe.  For the best WordPress experience, please update your browser.' ), esc_attr( $response['update_url'] ), esc_html( $response['name'] ) );
-	}
+	if ( $response ) {
+		if ( $response['insecure'] ) {
+			$msg = sprintf( __( 'It looks like you\'re using an insecure version of <a href="%1$s">%2$s</a>. Using an outdated browser makes your computer unsafe.  For the best WordPress experience, please update your browser.' ), esc_attr( $response['update_url'] ), esc_html( $response['name'] ) );
+		} else {
+			$msg = sprintf( __( 'It looks like you\'re using an old version of <a href="%1$s">%2$s</a>. Using an outdated browser makes your computer unsafe.  For the best WordPress experience, please update your browser.' ), esc_attr( $response['update_url'] ), esc_html( $response['name'] ) );
+		}
 
-	$browser_nag_class = '';
-	if ( !empty( $response['img_src'] ) ) {
-		$img_src = ( is_ssl() && ! empty( $response['img_src_ssl'] ) )? $response['img_src_ssl'] : $response['img_src'];
+		$browser_nag_class = '';
+		if ( !empty( $response['img_src'] ) ) {
+			$img_src = ( is_ssl() && ! empty( $response['img_src_ssl'] ) )? $response['img_src_ssl'] : $response['img_src'];
 
-		$notice .= '<div class="alignright browser-icon"><a href="' . esc_attr($response['update_url']) . '"><img src="' . esc_attr( $img_src ) . '" alt="" /></a></div>';
-		$browser_nag_class = ' has-browser-icon';
+			$notice .= '<div class="alignright browser-icon"><a href="' . esc_attr($response['update_url']) . '"><img src="' . esc_attr( $img_src ) . '" alt="" /></a></div>';
+			$browser_nag_class = ' has-browser-icon';
+		}
+		$notice .= "<p class='browser-update-nag{$browser_nag_class}'>{$msg}</p>";
+		$notice .= sprintf( __( '<p><a href="%1$s" class="update-browser-link">Update %2$s</a> or learn how to <a href="%3$s" class="browse-happy-link">browse happy</a></p>' ), esc_attr( $response['update_url'] ), esc_html( $response['name'] ), 'http://browsehappy.com/' );
+		$notice .= '<p><a href="" class="dismiss">' . __( 'Dismiss' ) . '</a></p>';
+		$notice .= '<div class="clear"></div>';
 	}
-	$notice .= "<p class='browser-update-nag{$browser_nag_class}'>{$msg}</p>";
-	$notice .= sprintf( __( '<p><a href="%1$s" class="update-browser-link">Update %2$s</a> or learn how to <a href="%3$s" class="browse-happy-link">browse happy</a></p>' ), esc_attr( $response['update_url'] ), esc_html( $response['name'] ), 'http://browsehappy.com/' );
-	$notice .= '<p><a href="" class="dismiss">' . __( 'Dismiss' ) . '</a></p>';
-	$notice .= '<div class="clear"></div>';
 
 	echo apply_filters( 'browse-happy-notice', $notice, $response );
 }
@@ -1186,7 +1188,7 @@ function wp_dashboard_browser_nag() {
 function dashboard_browser_nag_class( $classes ) {
 	$response = wp_check_browser_version();
 
-	if ( $response['insecure'] )
+	if ( $response && $response['insecure'] )
 		$classes[] = 'browser-insecure';
 
 	return $classes;
@@ -1196,8 +1198,13 @@ function dashboard_browser_nag_class( $classes ) {
  * Check if the user needs a browser update
  *
  * @since 3.2
+ *
+ * @return array|bool False on failure, array of browser data on success.
  */
 function wp_check_browser_version() {
+	if ( empty( $_SERVER['HTTP_USER_AGENT'] ) )
+		return false;
+
 	$key = md5( $_SERVER['HTTP_USER_AGENT'] );
 
 	if ( false === ($response = get_site_transient('browser_' . $key) ) ) {
@@ -1215,7 +1222,7 @@ function wp_check_browser_version() {
 
 		/**
 		 * Response should be an array with:
-		 *  'name' - string- A user friendly browser name
+		 *  'name' - string - A user friendly browser name
 		 *  'version' - string - The most recent version of the browser
 		 *  'current_version' - string - The version of the browser the user is using
 		 *  'upgrade' - boolean - Whether the browser needs an upgrade
@@ -1227,7 +1234,7 @@ function wp_check_browser_version() {
 		$response = unserialize( wp_remote_retrieve_body( $response ) );
 
 		if ( ! $response )
-			return;
+			return false;
 
 		set_site_transient( 'browser_' . $key, $response, 604800 ); // cache for 1 week
 	}
