@@ -480,6 +480,7 @@ form.upgrade .hint {
 	border-bottom-left-radius: 3px;
 	border-top-right-radius: 0;
 	border-top-left-radius: 3px;
+	border-width: 0 0 1px 1px;
 }
 
 .folded #adminmenu .wp-submenu ul {

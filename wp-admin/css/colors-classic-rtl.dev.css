@@ -40,8 +40,14 @@
 .folded #collapse-button div {
 	background-position: 0 -72px;
 }
-/* inline editor */
 
+.folded #adminmenu .wp-submenu-wrap {
+	-moz-box-shadow: -2px 2px 5px rgba( 0, 0, 0, 0.4 );
+	-webkit-box-shadow: -2px 2px 5px rgba( 0, 0, 0, 0.4 );
+	box-shadow: -2px 2px 5px rgba( 0, 0, 0, 0.4 );
+}
+
+/* inline editor */
 .tablenav .tablenav-pages a {
 	background: #eee url('../images/menu-bits-rtl-vs.gif?ver=20101102') repeat-x scroll right -379px;
 }
