@@ -312,7 +312,7 @@ if ( !empty($_REQUEST['ajax']) ) {
 			jQuery('#extra-fields').html('');
 			return false;
 		}
-			jQuery('#extra-fields').html('<div class="postbox"><h2>Add Photos <small id="photo_directions">(<?php _e("click images to select") ?>)</small></h2><ul class="actions"><li><a href="#" id="photo-add-url" class="thickbox button"><?php _e("Add from URL") ?> +</a></li></ul><div class="inside"><div class="titlewrap"><div id="img_container"></div></div><p id="options"><a href="#" class="close button"><?php _e('Cancel'); ?></a><a href="#" class="refresh button"><?php _e('Refresh'); ?></a></p></div>');
+			jQuery('#extra-fields').html('<div class="postbox"><h2><?php _e( 'Add Photos' ); ?> <small id="photo_directions">(<?php _e("click images to select") ?>)</small></h2><ul class="actions"><li><a href="#" id="photo-add-url" class="thickbox button"><?php _e("Add from URL") ?> +</a></li></ul><div class="inside"><div class="titlewrap"><div id="img_container"></div></div><p id="options"><a href="#" class="close button"><?php _e('Cancel'); ?></a><a href="#" class="refresh button"><?php _e('Refresh'); ?></a></p></div>');
 			jQuery('#img_container').html(strtoappend);
 		<?php break;
 }
@@ -602,9 +602,9 @@ var photostorage = false;
 
 		<div class="postdivrich">
 			<ul id="actions" class="actions">
-
+				<li><?php _e( 'Add:' ); ?></li> 
 				<li id="photo_button">
-					Add: <?php if ( current_user_can('upload_files') ) { ?><a title="<?php _e('Insert an Image'); ?>" href="#">
+					<?php if ( current_user_can('upload_files') ) { ?><a title="<?php _e('Insert an Image'); ?>" href="#">
 <img alt="<?php _e('Insert an Image'); ?>" src="<?php echo esc_url( admin_url( 'images/media-button-image.gif?ver=20100531' ) ); ?>"/></a>
 					<?php } ?>
 				</li>
