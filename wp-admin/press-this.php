@@ -346,10 +346,6 @@ var photostorage = false;
 	do_action('admin_print_styles');
 	do_action('admin_print_scripts');
 	do_action('admin_head');
-
-	if ( user_can_richedit() ) {
-		wp_tiny_mce( true, array( 'height' => '370' ) );
-	}
 ?>
 	<script type="text/javascript">
 	function insert_plain_editor(text) {
@@ -467,6 +463,11 @@ var photostorage = false;
 </script>
 </head>
 <body class="press-this wp-admin">
+<?php
+if ( user_can_richedit() ) {
+	wp_tiny_mce( true, array( 'height' => '370' ) );
+}
+?>
 <div id="wphead"></div>
 <form action="press-this.php?action=post" method="post">
 <div id="poststuff" class="metabox-holder">
