@@ -240,22 +240,22 @@ if ( !empty($_REQUEST['ajax']) ) {
 		if(photostorage == false) {
 		var my_src = eval(
 			jQuery.ajax({
-		   		type: "GET",
-		   		url: "<?php echo esc_url($_SERVER['PHP_SELF']); ?>",
+				type: "GET",
+				url: "<?php echo esc_url($_SERVER['PHP_SELF']); ?>",
 				cache : false,
 				async : false,
-		   		data: "ajax=photo_images&u=<?php echo urlencode($url); ?>",
+				data: "ajax=photo_images&u=<?php echo urlencode($url); ?>",
 				dataType : "script"
 			}).responseText
 		);
 		if(my_src.length == 0) {
 			var my_src = eval(
 				jQuery.ajax({
-		   			type: "GET",
-		   			url: "<?php echo esc_url($_SERVER['PHP_SELF']); ?>",
+					type: "GET",
+					url: "<?php echo esc_url($_SERVER['PHP_SELF']); ?>",
 					cache : false,
 					async : false,
-		   			data: "ajax=photo_images&u=<?php echo urlencode($url); ?>",
+					data: "ajax=photo_images&u=<?php echo urlencode($url); ?>",
 					dataType : "script"
 				}).responseText
 			);
@@ -447,7 +447,7 @@ var photostorage = false;
 		//resize screen
 		window.resizeTo(720,540);
 		// set button actions
-    	jQuery('#photo_button').click(function() { show('photo'); return false; });
+		jQuery('#photo_button').click(function() { show('photo'); return false; });
 		jQuery('#video_button').click(function() { show('video'); return false; });
 		// auto select
 		<?php if ( preg_match("/youtube\.com\/watch/i", $url) ) { ?>
