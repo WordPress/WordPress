@@ -366,7 +366,6 @@ var photostorage = false;
 	function append_editor(text) {
 		if ( '' != text && tinyMCE.activeEditor && ! tinyMCE.activeEditor.isHidden()) {
 			tinyMCE.execCommand('mceSetContent', false, tinyMCE.activeEditor.getContent({format : 'raw'}) + '<p>' + text + '</p>');
-			tinyMCE.execCommand('mceCleanup');
 		} else {
 			insert_plain_editor(text);
 		}
