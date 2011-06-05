@@ -1,7 +1,12 @@
-body, td, pre {color:#000; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:10px; margin:8px;}
-body {background:#FFF;}
+body {
+	font: 13px/19px Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
+	margin: 0.6em;
+	background: #fff;
+	color: #000;
+}
 body.mceForceColors {background:#FFF; color:#000;}
 body.mceBrowserDefaults {background:transparent; color:inherit; font-size:inherit; font-family:inherit;}
+td {color:#000; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:10px; margin:8px;}
 h1 {font-size: 2em}
 h2 {font-size: 1.5em}
 h3 {font-size: 1.17em}
@@ -63,6 +68,10 @@ dl.aligncenter {
 	border-radius: 3px;
 }
 
+.mceIEcenter {
+	text-align: center;
+}
+
 .wp-caption img {
 	margin: 0;
 	padding: 0;
@@ -76,13 +85,8 @@ dl.aligncenter {
 	margin: 0;
 }
 
-body.mceContentBody {
-	font: 13px/19px Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
-	margin: 0.6em;
-}
-
 pre {
-	font: 12px/18px Consolas, Monaco, "Courier New", Courier, monospace;
+	font: 12px/18px Consolas, Monaco, monospace;
 }
 
 td {
@@ -91,6 +95,3 @@ td {
 	margin: 8px;
 }
 
-.mceIEcenter {
-	text-align: center;
-}

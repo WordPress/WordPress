@@ -8,7 +8,7 @@
 	tinymce.create('tinymce.plugins.wpFullscreenPlugin', {
 
 		init : function(ed, url) {
-			var t = this, oldHeight = 0, s = {}, DOM = tinymce.DOM;
+			var t = this, oldHeight = 0, s = {}, DOM = tinymce.DOM, resized = false;
 
 			// Register commands
 			ed.addCommand('wpFullScreenClose', function() {
@@ -80,13 +80,14 @@
 						});
 					}, 1000);
 
+					edd.dom.addClass(edd.getBody(), 'wp-fullscreen-editor');
 					edd.focus();
 				});
 
 				fsed.render();
 
-				fsed.dom.bind( fsed.getWin(), 'mousemove', function(e){
-					if ( !fullscreen.settings.toolbar_shown )
+				fsed.dom.bind( fsed.dom.doc, 'mousemove', function(e){
+					if ( 'undefined' != fullscreen )
 						fullscreen.bounder( 'showToolbar', 'hideToolbar', 2000 );
 				});
 			});
@@ -109,22 +110,28 @@
 			 * This method gets executed each time the editor needs to resize.
 			 */
 			function resize() {
-				var d = ed.getDoc(), b = d.body, de = d.documentElement, DOM = tinymce.DOM, resizeHeight, myHeight;
+				if ( resized )
+					return;
+
+				var d = ed.getDoc(), DOM = tinymce.DOM, resizeHeight, myHeight;
 
 				// Get height differently depending on the browser used
 				if ( tinymce.isIE )
-					myHeight = b.scrollHeight;
+					myHeight = d.body.scrollHeight;
 				else if ( tinymce.isWebKit )
-					myHeight = b.offsetHeight;
+					myHeight = d.height;
 				else
-					myHeight = de.offsetHeight;
+					myHeight = d.documentElement.offsetHeight;
 
-				// Don't make it smaller than the minimum height
+				// Don't make it smaller than 300px
 				resizeHeight = (myHeight > 300) ? myHeight : 300;
 
 				// Resize content element
 				if ( oldHeight != resizeHeight ) {
 					oldHeight = resizeHeight;
+					resized = true;
+					setTimeout(function(){ resized = false; }, 100);
+
 					DOM.setStyle(DOM.get(ed.id + '_ifr'), 'height', resizeHeight + 'px');
 				}
 			};
@@ -142,8 +149,6 @@
 
 			if (ed.getParam('autoresize_on_init', true)) {
 				ed.onLoadContent.add(function(ed, l) {
-				//	resize(); // runs before onInit, useless?
-
 					// Because the content area resizes when its content CSS loads,
 					// and we can't easily add a listener to its onload event,
 					// we'll just trigger a resize after a short loading period

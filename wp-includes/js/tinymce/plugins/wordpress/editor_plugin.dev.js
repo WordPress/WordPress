@@ -186,6 +186,9 @@
 					}
 				});
 
+				if ( ed.id != 'wp_mce_fullscreen' )
+					ed.dom.addClass(ed.getBody(), 'wp-editor');
+
 				// remove invalid parent paragraphs when pasting HTML and/or switching to the HTML editor and back
 				ed.onBeforeSetContent.add(function(ed, o) {
 					if ( o.content ) {
