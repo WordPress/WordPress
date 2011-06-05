@@ -1581,6 +1581,7 @@ body.admin-bar #adminmenu {
 	float: right;
 	width: 27px;
 	height: 30px;
+	cursor: pointer;
 }
 
 .sortable-placeholder {
