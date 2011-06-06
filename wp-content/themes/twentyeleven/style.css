@@ -100,7 +100,8 @@ body {
 .singular #primary {
 	margin: 0;
 }
-.singular #content {
+.singular #content,
+.sidebar-content.singular #content {
 	margin: 0 7.6%;
 	position: relative;
 	width: auto;
@@ -306,6 +307,7 @@ body {
 .one-column #respond {
 	width: auto;
 }
+
 
 /* =Global
 ----------------------------------------------- */
@@ -842,9 +844,11 @@ img.size-thumbnail {
 img.size-full {
 	width: auto; /* Prevent stretching of full-size images in IE8 */
 }
-img.wp-smiley {
+.entry-content img.wp-smiley {
+	border: none;
 	margin-bottom: 0;
 	margin-top: 0;
+	padding: 0;
 }
 img.alignleft,
 img.alignright,
