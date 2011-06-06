@@ -1709,7 +1709,9 @@ section.recent-posts .other-recent-posts li:after {
 	font-weight: bold;
 	text-decoration: none;
 }
-.widget a:hover {
+.widget a:hover,
+.widget a:focus,
+.widget a:active {
 	text-decoration: underline;
 }
 
