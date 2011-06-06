@@ -1005,6 +1005,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			} ?>
 			<input type="hidden" name="post_view" value="<?php echo esc_attr( $m ); ?>" />
 			<input type="hidden" name="screen" value="<?php echo esc_attr( $screen->id ); ?>" />
+			<span class="error" style="display:none"></span>
 			<br class="clear" />
 		</p>
 		</td></tr>

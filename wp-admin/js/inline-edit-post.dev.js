@@ -249,10 +249,10 @@ inlineEditPost = {
 						$(inlineEditPost.what+id).hide().fadeIn();
 					} else {
 						r = r.replace( /<.[^<>]*?>/g, '' );
-						$('#edit-'+id+' .inline-edit-save').append('<span class="error">'+r+'</span>');
+						$('#edit-'+id+' .inline-edit-save .error').html(r).show();
 					}
 				} else {
-					$('#edit-'+id+' .inline-edit-save').append('<span class="error">'+inlineEditL10n.error+'</span>');
+					$('#edit-'+id+' .inline-edit-save .error').html(inlineEditL10n.error).show();
 				}
 			}
 		, 'html');

@@ -1985,8 +1985,7 @@ tr.inline-edit-row td {
 	width: 69%;
 }
 
-#wpbody-content .inline-edit-row-page .inline-edit-col-right,
-#wpbody-content .bulk-edit-row-post .inline-edit-col-right {
+#wpbody-content .inline-edit-row-page .inline-edit-col-right {
 	margin-top: 27px;
 }
 
@@ -2077,6 +2076,11 @@ tr.inline-edit-row td {
 #wpbody-content .quick-edit-row fieldset .inline-edit-group label.alignleft:first-child {
 	margin-right: 0.5em
 }
+
+.inline-edit-col-right .input-text-wrap input.inline-edit-menu-order-input {
+	width: 6em;
+}
+
 
 /*	Styling */
 .inline-edit-row h4 {
