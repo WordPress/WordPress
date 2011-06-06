@@ -187,7 +187,7 @@ function wp_admin_bar_new_content_menu( $wp_admin_bar ) {
 	}
 
 	if ( current_user_can( 'upload_files' ) )
-		$actions[ 'upload.php' ] = array( __( 'Media' ), 'upload_files', 'new-media' );
+		$actions[ 'media-new.php' ] = array( __( 'Media' ), 'upload_files', 'new-media' );
 
 	if ( current_user_can( 'manage_links' ) )
 		$actions[ 'link-add.php' ] = array( __( 'Link' ), 'manage_links', 'new-link' );
