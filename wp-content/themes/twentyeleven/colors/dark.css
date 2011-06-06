@@ -312,13 +312,13 @@ article.feature-image.small .entry-summary p a:hover {
 article.feature-image.large .entry-title a {
 	background: #ddd;
 	background: rgba(0,0,0,0.8);
-	color: #000;
+	color: #fff;
 }
 section.feature-image.large:hover .entry-title a,
 section.feature-image.large .entry-title:hover a {
 	background: #111;
 	background: rgba(255,255,255,0.8);
-	color: #ddd;
+	color: #000;
 }
 section.feature-image.large img {
 	border-bottom: 1px solid #222;
