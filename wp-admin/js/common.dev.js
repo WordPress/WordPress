@@ -36,7 +36,7 @@ adminMenu = {
 
 	toggle : function(el) {
 		el.slideToggle(150, function() {
-			var id = el.removeAttr('style').parent().toggleClass( 'wp-menu-open' ).attr('id');
+			var id = el.css('display','').parent().toggleClass( 'wp-menu-open' ).attr('id');
 			if ( id ) {
 				$('li.wp-has-submenu', '#adminmenu').each(function(i, e) {
 					if ( id == e.id ) {
