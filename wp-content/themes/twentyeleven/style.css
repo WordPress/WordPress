@@ -124,10 +124,12 @@ body {
 }
 
 /* Showcase */
-.page-template-showcase-php #primary {
+.page-template-showcase-php #primary,
+.sidebar-content.page-template-showcase-php #primary {
 	margin: 0;
 }
-.page-template-showcase-php #content {
+.page-template-showcase-php #content,
+.sidebar-content.page-template-showcase-php #content {
 	margin: 0 7.6%;
 	width: auto;
 }
