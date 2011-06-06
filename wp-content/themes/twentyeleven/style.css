@@ -837,6 +837,9 @@ img.size-thumbnail {
 	height: auto;
 	max-width: 97.5%;
 }
+img.size-full {
+	width: auto; /* Prevent stretching of full-size images in IE8 */
+}
 img.wp-smiley {
 	margin-bottom: 0;
 	margin-top: 0;
