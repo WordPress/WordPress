@@ -47,18 +47,14 @@ div.widget-liquid-right {
 div.sidebar-name h3 {
 	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 	font-weight: normal;
-	margin: 0;
-	padding: 5px 12px;
 	font-size: 15px;
-	margin: 1px 0 0 0;
-	padding: 7px 10px;
+	margin: 0;
+	padding: 8px 10px;
 	overflow: hidden;
 	white-space: nowrap;
 }
 
 div.sidebar-name {
-	background-repeat: repeat-x;
-	background-position: 0 0;
 	cursor: pointer;
 	font-size: 13px;
 	border-width: 1px;
@@ -181,7 +177,7 @@ ul#widget-list {
 }
 
 .widget-top .widget-title {
-	padding: 5px 9px;
+	padding: 7px 9px;
 }
 
 .widget-top .widget-title-action {
@@ -229,7 +225,7 @@ a.widget-action {
 
 .widget-title h4 {
 	margin: 0;
-	line-height: 1.3;
+	line-height: 1;
 	overflow: hidden;
 	white-space: nowrap;
 }
@@ -340,6 +336,7 @@ a.widget-control-edit {
 	font-weight: normal;
 	padding-left: 15px;
 	font-size: 12px;
+	line-height: 1;
 }
 
 .widget-control-noform,

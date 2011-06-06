@@ -1564,10 +1564,6 @@ body.admin-bar #adminmenu {
 	min-height: 300px;
 }
 
-.postbox .hndle span {
-	padding: 6px 0;
-}
-
 .postbox .hndle {
 	cursor: move;
 }
@@ -4433,7 +4429,6 @@ table.form-table td .updated {
 	position: absolute;
 }
 
-
 #poststuff h2 {
 	margin-top: 20px;
 	font-size: 1.5em;
@@ -4441,44 +4436,49 @@ table.form-table td .updated {
 	padding: 0 0 3px;
 	clear: left;
 }
+
 #poststuff h3,
 .metabox-holder h3 {
 	font-size: 15px;
 	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 	font-weight: normal;
 	padding: 7px 10px;
-	margin: 1px 0 0 0;
+	margin: 0;
 	line-height: 1;
 }
+
 #poststuff .inside,
 #poststuff .inside p {
 	font-size: 12px;
 	margin: 6px 0 8px;
 }
+
 #poststuff .inside .submitbox p {
 	margin: 1em 0;
 }
+
 #post-visibility-select, #post-formats-select {
 	line-height: 1.5em;
 	margin-top: 3px;
 }
+
 #poststuff #submitdiv .inside {
 	margin: 0;
 	padding: 0;
 }
+
 #titlediv, #poststuff .postarea {
 	margin-bottom: 20px;
 }
-
 
 td.post-title strong, td.plugin-title strong {
 	display: block;
 	margin-bottom: .2em;
 }
+
 td.post-title p, td.plugin-title p {
 	margin: 6px 0;
 }
-
 
 .wp-hidden-children .wp-hidden-child,
 .ui-tabs-hide {
@@ -4488,7 +4488,6 @@ td.post-title p, td.plugin-title p {
 #templateside ul li a {
 	text-decoration: none;
 }
-
 
 .tool-box {
 	margin: 15px 0 35px;
@@ -4501,11 +4500,9 @@ td.post-title p, td.plugin-title p {
 	font: 18px/24px Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 }
 
-
 .pressthis a {
 	font-size: 1.2em;
 }
-
 
 #sidemenu {
 	margin: -30px 15px 0 315px;
@@ -4515,6 +4512,7 @@ td.post-title p, td.plugin-title p {
 	padding-left: 10px;
 	font-size: 12px;
 }
+
 #sidemenu a {
 	padding: 0 7px;
 	display: block;
@@ -4525,6 +4523,7 @@ td.post-title p, td.plugin-title p {
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
 }
+
 #sidemenu li {
 	display: inline;
 	line-height: 200%;
@@ -4534,6 +4533,7 @@ td.post-title p, td.plugin-title p {
 	margin: 0;
 	padding: 0;
 }
+
 #sidemenu a.current {
 	font-weight: normal;
 	padding-left: 6px;
@@ -4548,6 +4548,7 @@ td.post-title p, td.plugin-title p {
 	border-width: 1px;
 	border-style: solid;
 }
+
 #sidemenu li a .count-0 {
 	display: none;
 }
@@ -4591,27 +4592,28 @@ body.iframe {
 .anchors {
 	margin: 10px 20px 10px 20px;
 }
+
 div.nav {
 	height: 2em;
 	padding: 7px 10px;
 	vertical-align: text-top;
 	margin: 5px 0;
 }
+
 .nav .button-secondary {
 	padding: 2px 4px;
 }
-* html #themeselect {
-	padding: 0 3px;
-	height: 22px;
-}
+
 .settings-toggle {
 	text-align: right;
 	margin: 5px 7px 15px 0;
 	font-size: 12px;
 }
+
 .settings-toggle h3 {
 	margin: 0;
 }
+
 form#tags-filter {
 	position: relative;
 }
@@ -4629,38 +4631,45 @@ td.media-icon img {
 	max-width: 80px;
 	max-height: 60px;
 }
+
 .screen-per-page {
 	width: 3em;
 }
-* html #template div {margin-right: 0;}
 
 .list-ajax-loading {
 	float: right;
 	margin-right: 9px;
 	margin-top: -1px;
 }
+
 .tablenav .list-ajax-loading {
 	margin-top: 7px;
 }
+
 #howto {
 	font-size: 11px;
 	margin: 0 5px;
 	display: block;
 }
+
 .import-system {font-size: 16px;}
 #namediv table {
 	width: 100%;
 }
+
 #namediv td.first {
 	width: 10px;
 	white-space: nowrap;
 }
+
 #namediv input {
 	width: 98%;
 }
+
 #namediv p {
 	margin: 10px 0;
 }
+
 #submitdiv h3 {
 	margin-bottom: 0 !important;
 }
@@ -4676,29 +4685,35 @@ td.media-icon img {
 	overflow: hidden;
 	position: absolute;
 }
+
 br.clear {
 	height: 2px;
 	line-height: 2px;
 }
+
 .checkbox {
 	border: none;
 	margin: 0;
 	padding: 0;
 }
+
 #content {
 	margin: 0;
 	width: 100%;
 }
+
 fieldset {
 	border: 0;
 	padding: 0;
 	margin: 0;
 }
+
 .post-categories {
 	display: inline;
 	margin: 0;
 	padding: 0;
 }
+
 .post-categories li {
 	display: inline;
 }

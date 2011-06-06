@@ -95,6 +95,7 @@ div.postbox div.inside {
 	position: absolute;
 	right: 30px;
 	padding: 0;
+	top: 8px;
 }
 
 #dashboard-widgets h4 {
