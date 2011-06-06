@@ -65,7 +65,7 @@ if ( current_user_can( 'update_core' ) ) {
 	if ( $plugin_update_count )
 		$update_title[] = sprintf(_n('%d Plugin Update', '%d Plugin Updates', $plugin_update_count), $plugin_update_count);
 	if ( $theme_update_count )
-		$update_title[] = sprintf(_n('%d Theme Update', '%d Themes Updates', $theme_update_count), $theme_update_count);
+		$update_title[] = sprintf(_n('%d Theme Update', '%d Theme Updates', $theme_update_count), $theme_update_count);
 	
 	$update_title = !empty($update_title) ? esc_attr(implode(', ', $update_title)) : '';
 	
