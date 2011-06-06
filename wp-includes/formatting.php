@@ -562,7 +562,7 @@ function remove_accents($string) {
 		chr(195).chr(176) => 'd', chr(195).chr(177) => 'n',
 		chr(195).chr(178) => 'o', chr(195).chr(179) => 'o',
 		chr(195).chr(180) => 'o', chr(195).chr(181) => 'o',
-		chr(195).chr(182) => 'o', chr(195).chr(182) => 'o',
+		chr(195).chr(182) => 'o', chr(195).chr(184) => 'o',
 		chr(195).chr(185) => 'u', chr(195).chr(186) => 'u',
 		chr(195).chr(187) => 'u', chr(195).chr(188) => 'u',
 		chr(195).chr(189) => 'y', chr(195).chr(190) => 'th',
