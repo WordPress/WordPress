@@ -2192,7 +2192,7 @@ p.comment-form-comment {
 
 @media (max-width: 800px) {
 	/* Simplify the basic layout */
-	#content {
+	#main #content {
 		margin: 0 7.6%;
 		width: auto;
 	}
@@ -2200,7 +2200,7 @@ p.comment-form-comment {
 		border-bottom: 1px solid #ddd;
 		margin-bottom: 1.625em;
 	}
-	#secondary {
+	#main #secondary {
 		float: none;
 		margin: 0 7.6%;
 		width: auto;
