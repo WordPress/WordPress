@@ -833,9 +833,13 @@ dl.gallery-item {
 }
 
 /* Images */
+.entry-content img,
+.comment-content img,
+.widget img {
+	max-width: 97.5%;
+}
 img[class*="wp-image-"] {
 	height: auto;
-	max-width: 97.5%;
 }
 img.size-full {
 	max-width: 97.5%;	
