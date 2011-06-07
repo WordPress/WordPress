@@ -529,10 +529,13 @@ function get_body_class( $class = '' ) {
 			$classes[] = 'post-type-paged-' . $page;
 	}
 
-	if ( !empty( $class ) ) {
+	if ( ! empty( $class ) ) {
 		if ( !is_array( $class ) )
 			$class = preg_split( '#\s+#', $class );
 		$classes = array_merge( $classes, $class );
+	} else {
+		// Ensure that we always coerce class to being an array.
+		$class = array();
 	}
 
 	$classes = array_map( 'esc_attr', $classes );
