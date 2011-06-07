@@ -89,6 +89,8 @@ get_header(); ?>
 							// If bigger, let's add a BIGGER class. It's EXTRA classy now.
 							$feature_class = 'feature-image large';
 						}
+					} else {
+						$feature_class = 'feature-text';
 					}
 				?>
 

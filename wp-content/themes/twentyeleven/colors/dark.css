@@ -157,20 +157,16 @@ a {
 }
 
 /* Image borders */
-.entry-content img,
-.widget img,
+img[class*="wp-image-"],
 #content .gallery .gallery-icon img {
 	border-color: #2c2c2c;
 }
 .wp-caption img {
 	border-color: #2c2c2c;
 }
-.entry-content a:focus img,
-.entry-content a:hover img,
-.entry-content a:active img,
-.widget a:focus img,
-.widget a:hover img,
-.widget a:active img {
+a:focus img[class*="wp-image-"],
+a:hover img[class*="wp-image-"],
+a:active img[class*="wp-image-"] {
 	background: #2c2c2c;
 	border-color: #444;
 }
@@ -325,11 +321,18 @@ section.feature-image.large img {
 }
 
 /* Featured Slider */
-.featured-posts {
-	border-bottom: 1px solid #171717;
-}
 .featured-posts section.featured-post {
 	background: #000;
+}
+.featured-post .feature-text:after,
+.featured-post .feature-image.small:after {
+	background: -moz-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,1))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,1) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,1) 100%); /* Opera11.10+ */
+	background: -ms-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,1) 100%); /* IE10+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#000000',GradientType=0 ); /* IE6-9 */
+	background: linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,1) 100%); /* W3C */
 }
 .feature-slider a {
 	background: #c3c3c3;

@@ -833,11 +833,7 @@ dl.gallery-item {
 }
 
 /* Images */
-img.size-auto,
-img.size-large,
-img.size-full,
-img.size-medium,
-img.size-thumbnail {
+img[class*="wp-image-"] {
 	height: auto;
 	max-width: 97.5%;
 }
@@ -912,8 +908,7 @@ img#wpstats {
 }
 
 /* Image borders */
-.entry-content img,
-.widget img,
+img[class*="wp-image-"],
 #content .gallery .gallery-icon img {
 	border: 1px solid #ddd;
 	padding: 6px;
@@ -921,12 +916,9 @@ img#wpstats {
 .wp-caption img {
 	border-color: #eee;
 }
-.entry-content a:focus img,
-.entry-content a:hover img,
-.entry-content a:active img,
-.widget a:focus img,
-.widget a:hover img,
-.widget a:active img {
+a:focus img[class*="wp-image-"],
+a:hover img[class*="wp-image-"],
+a:active img[class*="wp-image-"] {
 	background: #eee;
 	border-color: #bbb;
 }
@@ -1367,19 +1359,20 @@ section.featured-post .entry-meta {
 
 /* Small featured post */
 section.featured-post .attachment-small-feature {
-	border-right: 20px solid #bbb;
 	float: right;
 	height: auto;
 	margin: 0 -8.9% 1.625em 0;
 	max-width: 59%;
 	position: relative;
-	right: -35px;
+	right: -15px;
 }
 section.featured-post.small {
 	padding-top: 0;
 }
-section.featured-post .attachment-small-feature:hover {
-	border-color: #888;
+section.featured-post .attachment-small-feature:hover,
+section.featured-post .attachment-small-feature:focus,
+section.featured-post .attachment-small-feature:active {
+	opacity: .8;
 }
 article.feature-image.small {
 	float: left;
@@ -1403,6 +1396,7 @@ article.feature-image.small .entry-summary p a {
 	text-decoration: none;
 	top: 20px;
 	width: 180px;
+	z-index: 1;
 }
 article.feature-image.small .entry-summary p a:hover {
 	background: #1982d1;
@@ -1455,13 +1449,14 @@ section.feature-image.large img {
 
 /* Featured Slider */
 .featured-posts {
-	border-bottom: 1px solid #e8e8e8;
+	border-bottom: 1px solid #ddd;
 	display: block;
 	height: 328px;
 	margin: 1.625em -8.9% 20px;
 	max-width: 1000px;
 	padding: 0;
 	position: relative;
+	overflow: hidden;
 }
 .featured-posts .showcase-heading {
 	padding-left: 8.9%;
@@ -1495,6 +1490,24 @@ section.feature-image.large img {
 	opacity: 1;
 	visibility: visible;
 }
+.featured-post .feature-text:after,
+.featured-post .feature-image.small:after {
+	content: ' ';
+	background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* Opera11.10+ */
+	background: -ms-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* IE10+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+	background: linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* W3C */
+	width: 100%;
+    height: 45px;
+    position: absolute;
+	top: 230px;
+}
+.featured-post .feature-image.small:after {
+	top: 253px;
+}
 #content .feature-slider {
 	top: 5px;
 	right: 8.9%;
@@ -1522,11 +1535,12 @@ section.feature-image.large img {
 	height: 14px;
 }
 .feature-slider a.active {
-	background: #fff;
-	background: rgba(255,255,255,0.8);
+	background: #1982d1;
 	-webkit-box-shadow: inset 1px 1px 5px rgba(0,0,0,0.4), inset 0 0 2px rgba(255,255,255,0.8);
 	-moz-box-shadow: inset 1px 1px 5px rgba(0,0,0,0.4), inset 0 0 2px rgba(255,255,255,0.8);
 	box-shadow: inset 1px 1px 5px rgba(0,0,0,0.4), inset 0 0 2px rgba(255,255,255,0.8);
+	cursor: default;
+	opacity: 0.5;
 }
 
 /* Recent Posts */
@@ -2169,7 +2183,7 @@ p.comment-form-comment {
 	color: #666;
 	font-size: 12px;
 	line-height: 2.2em;
-	padding: 2.2em 0;
+	padding: 2.2em 0.5em;
 	text-align: center;
 }
 #site-generator a {
@@ -2305,6 +2319,40 @@ p.comment-form-comment {
 	}
 }
 @media (max-width: 650px) {
+	/* @media (max-width: 650px) Reduce font-sizes for better readability on smaller devices */
+	body, input, textarea {
+		font-size: 13px;
+	}
+	#site-title a {
+		font-size: 24px;
+	}
+	#site-description {
+		font-size: 12px;
+	}
+	#access ul {
+		font-size: 12px;
+	}
+	article.intro .entry-content {
+		font-size: 12px;
+	}
+	.entry-title {
+		font-size: 21px;
+	}
+	.featured-post .entry-title {
+		font-size: 14px;
+	}
+	.singular .entry-title {
+		font-size: 28px;
+	}
+	.entry-meta {
+		font-size: 12px;
+	}
+	blockquote {
+		margin: 0;
+	}
+	blockquote.pull {
+		font-size: 17px;
+	}
 	/* Reposition the site title and description slightly */
 	#site-title {
 		padding: 5.30625em 0 0;
@@ -2328,6 +2376,12 @@ p.comment-form-comment {
 	#nav-single {
 		display: block;
 		position: static;
+	}
+	.singular .hentry {
+		padding: 1.625em 0 0;
+	}
+	.singular.page .hentry {
+	    padding: 1.625em 0 0;
 	}
 	/* Talking avatars take up too much room at this size */
 	.commentlist > li.comment,
@@ -2376,7 +2430,13 @@ p.comment-form-comment {
 }
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
 	body {
-		padding: 0 .5em;
+		padding: 0;
+	}
+	#page {
+		margin-top: 0;
+	}
+	#branding {
+		border-top: none;
 	}
 }
 

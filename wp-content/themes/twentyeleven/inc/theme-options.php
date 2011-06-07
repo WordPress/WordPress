@@ -346,7 +346,8 @@ function twentyeleven_print_link_color_style() {
 		article.feature-image.small .entry-summary p a:hover,
 		.entry-header .comments-link a:hover,
 		.entry-header .comments-link a:focus,
-		.entry-header .comments-link a:active {
+		.entry-header .comments-link a:active,
+		.feature-slider a.active {
 			background: <?php echo $link_color; ?>;
 		}
 	</style>
