@@ -52,7 +52,8 @@ class WP_Users_List_Table extends WP_List_Table {
 			'fields' => 'all_with_meta'
 		);
 
-		$args['search'] = '*' . $args['search'] . '*';
+		if ( '' !== $args['search'] )
+			$args['search'] = '*' . $args['search'] . '*';
 
 		if ( $this->is_site_users )
 			$args['blog_id'] = $this->site_id;
