@@ -76,7 +76,7 @@ class WP_Http {
 	 *
 	 * @param string $url URI resource.
 	 * @param str|array $args Optional. Override the defaults.
-	 * @return array|object Array containing 'headers', 'body', 'response', 'cookies'. A WP_Error instance upon error
+	 * @return array|object Array containing 'headers', 'body', 'response', 'cookies', 'filename'. A WP_Error instance upon error
 	 */
 	function request( $url, $args = array() ) {
 		global $wp_version;
@@ -238,7 +238,7 @@ class WP_Http {
 	 *
 	 * @param string $url URL to Request
 	 * @param array $args Request arguments
-	 * @return array|object Array containing 'headers', 'body', 'response', 'cookies'. A WP_Error instance upon error
+	 * @return array|object Array containing 'headers', 'body', 'response', 'cookies', 'filename'. A WP_Error instance upon error
 	 */
 	private function _dispatch_request( $url, $args ) {
 		static $transports = array();
@@ -271,7 +271,7 @@ class WP_Http {
 	 *
 	 * @param string $url URI resource.
 	 * @param str|array $args Optional. Override the defaults.
-	 * @return array|object Array containing 'headers', 'body', 'response', 'cookies'. A WP_Error instance upon error
+	 * @return array|object Array containing 'headers', 'body', 'response', 'cookies', 'filename'. A WP_Error instance upon error
 	 */
 	function post($url, $args = array()) {
 		$defaults = array('method' => 'POST');
@@ -289,7 +289,7 @@ class WP_Http {
 	 *
 	 * @param string $url URI resource.
 	 * @param str|array $args Optional. Override the defaults.
-	 * @return array|object Array containing 'headers', 'body', 'response', 'cookies'. A WP_Error instance upon error
+	 * @return array|object Array containing 'headers', 'body', 'response', 'cookies', 'filename'. A WP_Error instance upon error
 	 */
 	function get($url, $args = array()) {
 		$defaults = array('method' => 'GET');
@@ -307,7 +307,7 @@ class WP_Http {
 	 *
 	 * @param string $url URI resource.
 	 * @param str|array $args Optional. Override the defaults.
-	 * @return array|object Array containing 'headers', 'body', 'response', 'cookies'. A WP_Error instance upon error
+	 * @return array|object Array containing 'headers', 'body', 'response', 'cookies', 'filename'. A WP_Error instance upon error
 	 */
 	function head($url, $args = array()) {
 		$defaults = array('method' => 'HEAD');
@@ -561,7 +561,7 @@ class WP_Http_Fsockopen {
 	 * @access public
 	 * @param string $url URI resource.
 	 * @param str|array $args Optional. Override the defaults.
-	 * @return array 'headers', 'body', 'cookies' and 'response' keys.
+	 * @return array 'headers', 'body', 'response', 'cookies' and 'filename' keys.
 	 */
 	function request($url, $args = array()) {
 		$defaults = array(
@@ -792,7 +792,7 @@ class WP_Http_Streams {
 	 *
 	 * @param string $url
 	 * @param str|array $args Optional. Override the defaults.
-	 * @return array 'headers', 'body', 'cookies' and 'response' keys.
+	 * @return array 'headers', 'body', 'response', 'cookies' and 'filename' keys.
 	 */
 	function request($url, $args = array()) {
 		$defaults = array(
@@ -982,7 +982,7 @@ class WP_Http_Curl {
 	 *
 	 * @param string $url
 	 * @param str|array $args Optional. Override the defaults.
-	 * @return array 'headers', 'body', 'cookies' and 'response' keys.
+	 * @return array 'headers', 'body', 'response', 'cookies' and 'filename' keys.
 	 */
 	function request($url, $args = array()) {
 		$defaults = array(
