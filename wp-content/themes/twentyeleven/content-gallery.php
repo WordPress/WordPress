@@ -65,6 +65,7 @@
 	<?php endif; ?>
 
 	<footer class="entry-meta">
+		<?php $show_sep = false; ?>
 		<?php
 			/* translators: used between list items, there is a space after the comma */
 			$categories_list = get_the_category_list( __( ', ', 'twentyeleven' ) );

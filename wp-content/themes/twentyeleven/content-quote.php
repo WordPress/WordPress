@@ -49,6 +49,7 @@
 		<?php endif; ?>
 
 		<footer class="entry-meta">
+			<?php $show_sep = false; ?>
 			<?php if ( 'post' == $post->post_type ) : // Hide category and tag text for pages on Search ?>
 			<?php
 				/* translators: used between list items, there is a space after the comma */
