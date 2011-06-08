@@ -293,7 +293,7 @@ PubSub.prototype.publish = function( topic, args ) {
 		scrollTo(0, 0);
 
 		// needed it for IE7 and compat mode
-		$('#wpadminbar').hide(); 
+		$('#wpadminbar').hide();
 	});
 
 	ps.subscribe( 'shown', function() { // This event occurs after the DFW overlay is shown
@@ -320,7 +320,16 @@ PubSub.prototype.publish = function( topic, args ) {
 
 	ps.subscribe( 'hide', function() { // This event occurs before the overlay blocks DFW.
 
+		// Make sure the correct editor is displaying.
+		if ( s.has_tinymce && s.mode === 'tinymce' && $('#' + s.editor_id).is(':visible') ) {
+			switchEditors.go( s.editor_id, 'tinymce' );
+		} else if ( s.mode === 'html' && $('#' + s.editor_id).is(':hidden') ) {
+			switchEditors.go( s.editor_id, 'html' );
+		}
+
+		// Save content must be after switchEditors or content will be overwritten. See #17229.
 		api.savecontent();
+
 		$( document ).unbind( '.fullscreen' );
 		$(s.textarea_obj).unbind('.grow');
 
@@ -335,13 +344,6 @@ PubSub.prototype.publish = function( topic, args ) {
 	});
 
 	ps.subscribe( 'hiding', function() { // This event occurs while the overlay blocks the DFW UI.
-
-		// Make sure the correct editor is displaying.
-		if ( s.has_tinymce && s.mode === 'tinymce' && $('#' + s.editor_id).is(':visible') ) {
-			switchEditors.go( s.editor_id, 'tinymce' );
-		} else if ( s.mode == 'html' && $('#' + s.editor_id).is(':hidden') ) {
-			switchEditors.go( s.editor_id, 'html' );
-		}
 
 		$( document.body ).removeClass( 'fullscreen-active' );
 		scrollTo(0, s.orig_y);
