@@ -820,6 +820,11 @@ function map_meta_cap( $cap, $user_id ) {
 	case 'delete_page':
 		$author_data = get_userdata( $user_id );
 		$post = get_post( $args[0] );
+
+		if ( 'revision' == $post->post_type ) {
+			$post = get_post( $post->post_parent );
+		}
+
 		$post_type = get_post_type_object( $post->post_type );
 
 		if ( ! $post_type->map_meta_cap ) {
@@ -865,6 +870,11 @@ function map_meta_cap( $cap, $user_id ) {
 	case 'edit_page':
 		$author_data = get_userdata( $user_id );
 		$post = get_post( $args[0] );
+
+		if ( 'revision' == $post->post_type ) {
+			$post = get_post( $post->post_parent );
+		}
+
 		$post_type = get_post_type_object( $post->post_type );
 
 		if ( ! $post_type->map_meta_cap ) {
@@ -909,6 +919,11 @@ function map_meta_cap( $cap, $user_id ) {
 	case 'read_page':
 		$author_data = get_userdata( $user_id );
 		$post = get_post( $args[0] );
+
+		if ( 'revision' == $post->post_type ) {
+			$post = get_post( $post->post_parent );
+		}
+
 		$post_type = get_post_type_object( $post->post_type );
 
 		if ( ! $post_type->map_meta_cap ) {
