@@ -147,9 +147,10 @@ body {
 
 /* error404 */
 .error404 #primary {
+	float: none;
 	margin: 0;
 }
-.error404 #content {
+.error404 #primary #content {
 	margin: 0 7.6%;
 	width: auto;
 }
