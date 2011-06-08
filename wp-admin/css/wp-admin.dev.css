@@ -2411,7 +2411,8 @@ input#link_url {
 	width: 100%;
 }
 
-#side-sortables .category-add input.category-add-sumbit, #post-body .category-add input.category-add input.category-add-sumbit {
+#side-sortables .category-add input.category-add-sumbit,
+#post-body .category-add input.category-add input.category-add-sumbit {
 	width: auto;
 }
 
@@ -2485,6 +2486,7 @@ div.tabs-panel-inactive {
 #side-sortables .add-menu-item-tabs li,
 .wp-tab-bar li {
 	display: inline;
+	line-height: 1.35em;
 }
 
 #side-sortables .category-tabs a,
@@ -2914,21 +2916,6 @@ div.tabs-panel-inactive {
 .taxonomy div.tabs-panel,
 #post-body #linkcategorydiv div.tabs-panel {
 	margin: 0 5px 0 125px;
-}
-
-#side-sortables .category-tabs li,
-#side-sortables .add-menu-item-tabs li {
-	display: inline;
-}
-
-#side-sortables .category-tabs a,
-#side-sortables .add-menu-item-tabs a {
-	text-decoration: none;
-}
-
-#side-sortables .category-tabs,
-#side-sortables .add-menu-item-tabs {
-	margin-bottom: 3px;
 }
 
 .categorydiv ul,
