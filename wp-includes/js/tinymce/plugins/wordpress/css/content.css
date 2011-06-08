@@ -8,10 +8,10 @@
 	margin: 15px auto 0;
 }
 .mceWPmore {
-	background: #ffffff url(../img/more_bug.gif) no-repeat right top;
+	background: transparent url(../img/more_bug.gif) no-repeat right top;
 }
 .mceWPnextpage {
-    background: #ffffff url(../img/page_bug.gif) no-repeat right top;
+    background: transparent url(../img/page_bug.gif) no-repeat right top;
 }
 
 img.wpGallery {
