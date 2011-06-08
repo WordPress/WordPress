@@ -118,11 +118,13 @@ function twentyeleven_color_schemes() {
 			'value' => 'light',
 			'label' => __( 'Light', 'twentyeleven' ),
 			'thumbnail' => get_template_directory_uri() . '/inc/images/light.png',
+			'default_link_color' => '#1b8be0',
 		),
 		'dark' => array(
 			'value' => 'dark',
 			'label' => __( 'Dark', 'twentyeleven' ),
 			'thumbnail' => get_template_directory_uri() . '/inc/images/dark.png',
+			'default_link_color' => '#e4741f',
 		),
 	);
 
@@ -164,11 +166,32 @@ function twentyeleven_layouts() {
 function twentyeleven_get_default_theme_options() {
 	$default_theme_options = array(
 		'color_scheme' => 'light',
-		'link_color'   => '#1b8be0',
+		'link_color'   => twentyeleven_get_default_link_color( 'light' ),
 		'theme_layout' => 'content-sidebar',
 	);
 
 	return apply_filters( 'twentyeleven_default_theme_options', $default_theme_options );
+}
+
+/**
+ * Returns the default link color for Twenty Eleven, based on color scheme.
+ *
+ * @since Twenty Eleven 1.0
+ *
+ * @param $string $color_scheme Color scheme. Defaults to the active color scheme.
+ * @return $string Color.
+*/
+function twentyeleven_get_default_link_color( $color_scheme = null ) {
+	if ( null === $color_scheme ) {
+		$options = twentyeleven_get_theme_options();
+		$color_scheme = $options['color_scheme'];
+	}
+
+	$color_schemes = twentyeleven_color_schemes();
+	if ( ! isset( $color_schemes[ $color_scheme ] ) )
+		return false;
+
+	return $color_schemes[ $color_scheme ]['default_link_color'];
 }
 
 /**
@@ -205,14 +228,15 @@ function theme_options_render_page() {
 					<td>
 						<fieldset><legend class="screen-reader-text"><span><?php _e( 'Color Scheme', 'twentyeleven' ); ?></span></legend>
 						<?php
-							foreach ( twentyeleven_color_schemes() as $color ) {
+							foreach ( twentyeleven_color_schemes() as $scheme ) {
 								?>
 								<div class="layout">
 								<label class="description">
-									<input type="radio" name="twentyeleven_theme_options[color_scheme]" value="<?php echo esc_attr( $color['value'] ); ?>" <?php checked( $options['color_scheme'], $color['value'] ); ?> />
+									<input type="radio" name="twentyeleven_theme_options[color_scheme]" value="<?php echo esc_attr( $scheme['value'] ); ?>" <?php checked( $options['color_scheme'], $scheme['value'] ); ?> />
+									<input type="hidden" id="default-color-<?php echo esc_attr( $scheme['value'] ); ?>" value="<?php echo esc_attr( $scheme['default_link_color'] ); ?>" />
 									<span>
-										<img src="<?php echo esc_url( $color['thumbnail'] ); ?>" alt=""/>
-										<?php echo $color['label']; ?>
+										<img src="<?php echo esc_url( $scheme['thumbnail'] ); ?>" width="136" height="122" alt="" />
+										<?php echo $scheme['label']; ?>
 									</span>
 								</label>
 								</div>
@@ -231,7 +255,7 @@ function theme_options_render_page() {
 							<input type="button" class="pickcolor button hide-if-no-js" value="<?php esc_attr_e( 'Select a Color', 'twentyeleven' ); ?>" />
 							<div id="colorPickerDiv" style="z-index: 100; background:#eee; border:1px solid #ccc; position:absolute; display:none;"></div>
 							<br />
-							<small class="description"><?php printf( __( 'Default color: %s', 'twentyeleven' ), $default_options['link_color'] ); ?></small>
+							<span><?php printf( __( 'Default color: %s', 'twentyeleven' ), '<span id="default-color">' . twentyeleven_get_default_link_color( $options['color_scheme'] ) . '</span>' ); ?></span> 
 						</fieldset>
 					</td>
 				</tr>
@@ -246,7 +270,7 @@ function theme_options_render_page() {
 								<label class="description">
 									<input type="radio" name="twentyeleven_theme_options[theme_layout]" value="<?php echo esc_attr( $layout['value'] ); ?>" <?php checked( $options['theme_layout'], $layout['value'] ); ?> />
 									<span>
-										<img src="<?php echo esc_url( $layout['thumbnail'] ); ?>" alt=""/>
+										<img src="<?php echo esc_url( $layout['thumbnail'] ); ?>" width="136" height="122" alt="" />
 										<?php echo $layout['label']; ?>
 									</span>
 								</label>
@@ -279,6 +303,9 @@ function twentyeleven_theme_options_validate( $input ) {
 	// Color scheme must be in our array of color scheme options
 	if ( isset( $input['color_scheme'] ) && array_key_exists( $input['color_scheme'], twentyeleven_color_schemes() ) )
 		$output['color_scheme'] = $input['color_scheme'];
+		
+	// Our defaults for the link color may have changed, based on the color scheme. 
+	$output['link_color'] = $defaults['link_color'] = twentyeleven_get_default_link_color( $output['color_scheme'] );
 
 	// Link color must be 3 or 6 hexadecimal characters
 	if ( isset( $input['link_color'] ) && preg_match( '/^#?([a-f0-9]{3}){1,2}$/i', $input['link_color'] ) )
