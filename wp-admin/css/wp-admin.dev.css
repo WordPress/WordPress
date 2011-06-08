@@ -912,20 +912,20 @@ form.upgrade .hint {
 
 #user_info.active #user_info_links ul {
 	margin-top: 0;
-	-moz-transition: margin-top 150ms ease-out;
-	-webkit-transition: margin-top 150ms ease-out;
-	-o-transition: margin-top 150ms ease-out;
-	transition: margin-top 150ms ease-out;
+	-moz-transition: margin-top 200ms;
+	-webkit-transition: margin-top 200ms;
+	-o-transition: margin-top 200ms;
+	transition: margin-top 200ms;
 }
 
 #user_info_links ul {
 	border-width: 1px;
 	border-style: solid;
-	margin-top: -100%;
-	-moz-transition: margin-top 250ms ease-in;
-	-webkit-transition: margin-top 250ms ease-in;
-	-o-transition: margin-top 250ms ease-in;
-	transition: margin-top 250ms ease-in;
+	margin-top: -1000px;
+	-moz-transition: margin-top 500ms ease-in;
+	-webkit-transition: margin-top 500ms ease-in;
+	-o-transition: margin-top 500ms ease-in;
+	transition: margin-top 500ms ease-in;
 }
 
 #user_info_links,
