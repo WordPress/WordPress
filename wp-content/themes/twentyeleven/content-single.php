@@ -14,7 +14,7 @@
 
 		<div class="entry-meta">
 			<?php
-				printf( __( '<span class="sep">Posted on </span><a href="%1$s" rel="bookmark"><time class="entry-date" datetime="%2$s" pubdate>%3$s</time></a> <span class="sep"> by </span> <span class="author vcard"><a class="url fn n" href="%4$s" title="%5$s">%6$s</a></span>', 'twentyeleven' ),
+				printf( __( '<span class="sep">Posted on </span><a href="%1$s" rel="bookmark"><time class="entry-date" datetime="%2$s" pubdate>%3$s</time></a> <span class="sep"> by </span> <span class="author vcard"><a class="url fn n" href="%4$s" title="%5$s" rel="author">%6$s</a></span>', 'twentyeleven' ),
 					get_permalink(),
 					get_the_date( 'c' ),
 					get_the_date(),
@@ -62,7 +62,7 @@
 				<h2><?php printf( esc_attr__( 'About %s', 'twentyeleven' ), get_the_author() ); ?></h2>
 				<?php the_author_meta( 'description' ); ?>
 				<div id="author-link">
-					<a href="<?php echo get_author_posts_url( get_the_author_meta( 'ID' ) ); ?>">
+					<a href="<?php echo get_author_posts_url( get_the_author_meta( 'ID' ) ); ?>" rel="author">
 						<?php printf( __( 'View all posts by %s <span class="meta-nav">&rarr;</span>', 'twentyeleven' ), get_the_author() ); ?>
 					</a>
 				</div><!-- #author-link	-->
