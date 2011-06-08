@@ -321,6 +321,9 @@ section.feature-image.large img {
 }
 
 /* Featured Slider */
+.featured-posts {
+	border-color: #222;	
+}
 .featured-posts section.featured-post {
 	background: #000;
 }
