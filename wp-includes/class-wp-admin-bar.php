@@ -180,6 +180,7 @@ class WP_Admin_Bar {
 
 	function add_menus() {
 		add_action( 'admin_bar_menu', 'wp_admin_bar_my_account_menu', 10 );
+		add_action( 'admin_bar_menu', 'wp_admin_bar_dashboard_view_site_menu', 15 );
 		add_action( 'admin_bar_menu', 'wp_admin_bar_my_sites_menu', 20 );
 		add_action( 'admin_bar_menu', 'wp_admin_bar_edit_menu', 30 );
 		add_action( 'admin_bar_menu', 'wp_admin_bar_shortlink_menu', 80 );

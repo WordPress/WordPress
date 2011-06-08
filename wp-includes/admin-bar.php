@@ -89,12 +89,22 @@ function wp_admin_bar_my_account_menu( $wp_admin_bar ) {
 
 		/* Add the "My Account" sub menus */
 		$wp_admin_bar->add_menu( array( 'parent' => $id, 'title' => __( 'Edit My Profile' ), 'href' => get_edit_profile_url( $user_id ) ) );
-		if ( is_multisite() )
-			$wp_admin_bar->add_menu( array( 'parent' => $id, 'title' => __( 'Dashboard' ), 'href' => get_dashboard_url( $user_id ) ) );
-		else
-			$wp_admin_bar->add_menu( array( 'parent' => $id, 'title' => __( 'Dashboard' ), 'href' => admin_url() ) );
 		$wp_admin_bar->add_menu( array( 'parent' => $id, 'title' => __( 'Log Out' ), 'href' => wp_logout_url() ) );
 	}
+}
+
+/**
+ * Add the "Dashboard"/"View Site" menu.
+ *
+ * @since 3.2.0
+ */
+function wp_admin_bar_dashboard_view_site_menu( $wp_admin_bar ) {
+	if ( is_admin() )
+		$wp_admin_bar->add_menu( array( 'title' => __( 'Visit Site' ), 'href' => home_url() ) );
+	elseif ( is_multisite() )
+		$wp_admin_bar->add_menu( array( 'title' => __( 'Dashboard' ), 'href' => get_dashboard_url( get_current_user_id() ) ) );
+	else
+		$wp_admin_bar->add_menu( array( 'title' => __( 'Dashboard' ), 'href' => admin_url() ) );
 }
 
 /**
@@ -160,15 +170,60 @@ function wp_admin_bar_shortlink_menu( $wp_admin_bar ) {
  * @since 3.1.0
  */
 function wp_admin_bar_edit_menu( $wp_admin_bar ) {
-	$current_object = get_queried_object();
+	global $post, $tag;
 
-	if ( empty($current_object) )
-		return;
+	if ( is_admin() ) {
+		$current_screen = get_current_screen();
 
-	if ( ! empty( $current_object->post_type ) && ( $post_type_object = get_post_type_object( $current_object->post_type ) ) && current_user_can( $post_type_object->cap->edit_post, $current_object->ID ) && ( $post_type_object->show_ui || 'attachment' == $current_object->post_type ) ) {
-		$wp_admin_bar->add_menu( array( 'id' => 'edit', 'title' => $post_type_object->labels->edit_item,  'href' => get_edit_post_link( $current_object->ID ) ) );
-	} elseif ( ! empty( $current_object->taxonomy ) &&  ( $tax = get_taxonomy( $current_object->taxonomy ) ) && current_user_can( $tax->cap->edit_terms ) && $tax->show_ui ) {
-		$wp_admin_bar->add_menu( array( 'id' => 'edit', 'title' => $tax->labels->edit_item, 'href' => get_edit_term_link( $current_object->term_id, $current_object->taxonomy ) ) );
+		if ( 'post' == $current_screen->base
+			&& 'add' != $current_screen->action
+			&& ( $post_type_object = get_post_type_object( $post->post_type ) )
+			&& current_user_can( $post_type_object->cap->read_post, $post->ID )
+			&& ( $post_type_object->public ) )
+		{
+			$wp_admin_bar->add_menu( array(
+				'id' => 'view',
+				'title' => $post_type_object->labels->view_item,
+				'href' => get_permalink( $post->ID )
+			) );
+		} elseif ( 'edit-tags' == $current_screen->base
+			&& isset( $tag ) && is_object( $tag )
+			&& ( $tax = get_taxonomy( $tag->taxonomy ) )
+			&& $tax->public )
+		{
+			$wp_admin_bar->add_menu( array(
+				'id' => 'view',
+				'title' => $tax->labels->view_item,
+				'href' => get_term_link( $tag )
+			) );
+		}
+	} else {
+		$current_object = get_queried_object();
+
+		if ( empty($current_object) )
+			return;
+
+		if ( ! empty( $current_object->post_type )
+			&& ( $post_type_object = get_post_type_object( $current_object->post_type ) )
+			&& current_user_can( $post_type_object->cap->edit_post, $current_object->ID )
+			&& ( $post_type_object->show_ui || 'attachment' == $current_object->post_type ) )
+		{
+			$wp_admin_bar->add_menu( array(
+				'id' => 'edit',
+				'title' => $post_type_object->labels->edit_item,
+				'href' => get_edit_post_link( $current_object->ID )
+			) );
+		} elseif ( ! empty( $current_object->taxonomy )
+			&& ( $tax = get_taxonomy( $current_object->taxonomy ) )
+			&& current_user_can( $tax->cap->edit_terms )
+			&& $tax->show_ui )
+		{
+			$wp_admin_bar->add_menu( array(
+				'id' => 'edit',
+				'title' => $tax->labels->edit_item,
+				'href' => get_edit_term_link( $current_object->term_id, $current_object->taxonomy )
+			) );
+		}
 	}
 }
 

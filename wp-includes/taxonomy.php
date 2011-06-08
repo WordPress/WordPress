@@ -404,6 +404,7 @@ function get_taxonomy_labels( $tax ) {
 		'parent_item' => array( null, __( 'Parent Category' ) ),
 		'parent_item_colon' => array( null, __( 'Parent Category:' ) ),
 		'edit_item' => array( __( 'Edit Tag' ), __( 'Edit Category' ) ),
+		'view_item' => array( __( 'View Tag' ), __( 'View Category' ) ),
 		'update_item' => array( __( 'Update Tag' ), __( 'Update Category' ) ),
 		'add_new_item' => array( __( 'Add New Tag' ), __( 'Add New Category' ) ),
 		'new_item_name' => array( __( 'New Tag Name' ), __( 'New Category Name' ) ),
