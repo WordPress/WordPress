@@ -165,6 +165,11 @@ ol.ol-decimal {
 	padding: 9px 0 4px 15px;
 }
 
+.subtitle {
+	padding-left: 0;
+	padding-right: 25px;
+}
+
 .wrap .add-new-h2 {
 	font-family: Tahoma, Arial, sans-serif;
 	margin-left: 0;

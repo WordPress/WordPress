@@ -531,6 +531,7 @@ div.error p {
 }
 .subtitle {
 	font-size: 14px;
+	padding-left: 25px;
 }
 .wrap .add-new-h2 {
 	font-family: Arial, "Bitstream Vera Sans", Helvetica, Verdana, sans-serif;
