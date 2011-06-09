@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Eleven 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyeleven\n"
-"POT-Creation-Date: 2011-06-09 11:47:38+00:00\n"
+"POT-Creation-Date: 2011-06-09 16:47:40+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: content-quote.php:14 showcase.php:110 showcase.php:112 showcase.php:190
+#: content-quote.php:14 showcase.php:111 showcase.php:113 showcase.php:191
 #: content.php:15 content.php:19 content-image.php:15 content-gallery.php:16
 #: content-gallery.php:57 content-aside.php:16 content-status.php:15
 #: inc/widgets.php:92 content-link.php:16 content-featured.php:14
@@ -82,19 +82,19 @@ msgstr ""
 msgid "<span class=\"%1$s\">Tagged</span> %2$s"
 msgstr ""
 
-#: content-quote.php:82 showcase.php:192 content.php:86 content-image.php:65
+#: content-quote.php:82 showcase.php:193 content.php:86 content-image.php:65
 #: content-gallery.php:96 content-aside.php:54 content-status.php:55
 #: content-link.php:54
 msgid "<span class=\"leave-reply\">Leave a reply</span>"
 msgstr ""
 
-#: content-quote.php:82 showcase.php:192 content.php:86 content-image.php:65
+#: content-quote.php:82 showcase.php:193 content.php:86 content-image.php:65
 #: content-gallery.php:96 content-aside.php:54 content-status.php:55
 #: content-link.php:54
 msgid "<b>1</b> Reply"
 msgstr ""
 
-#: content-quote.php:82 showcase.php:192 content.php:86 content-image.php:65
+#: content-quote.php:82 showcase.php:193 content.php:86 content-image.php:65
 #: content-gallery.php:96 content-aside.php:54 content-status.php:55
 #: content-link.php:54
 msgid "<b>%</b> Replies"
@@ -107,15 +107,15 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: showcase.php:65
+#: showcase.php:66
 msgid "Featured Post"
 msgstr ""
 
-#: showcase.php:143
+#: showcase.php:144
 msgid "Featuring: %s"
 msgstr ""
 
-#: showcase.php:156
+#: showcase.php:157
 msgid "Recent Posts"
 msgstr ""
 
