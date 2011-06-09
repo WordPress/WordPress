@@ -513,7 +513,7 @@ function wp_kses($string, $allowed_html, $allowed_protocols = array ()) {
  * You add any kses hooks here.
  *
  * There is currently only one kses WordPress hook and it is called here. All
- * parameters are passed to the hooks and expected to recieve a string.
+ * parameters are passed to the hooks and expected to receive a string.
  *
  * @since 1.0.0
  *
