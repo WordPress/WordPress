@@ -185,7 +185,7 @@ strong .post-com-count span {
 }
 
 .subtitle {
-	color: #999;
+	color: #777;
 }
 
 .ac_over {
@@ -2113,17 +2113,17 @@ div.widgets-sortables,
 }
 /* custom header & background pages */
 
-/* full screen */ 
+/* full screen */
 .fullscreen-overlay {
 	background: #fff;
 }
 
-.wp-fullscreen-focus #wp-fullscreen-title, 
-.wp-fullscreen-focus #wp-fullscreen-container { 
-    border-color: #BED1DD;     
-} 
+.wp-fullscreen-focus #wp-fullscreen-title,
+.wp-fullscreen-focus #wp-fullscreen-container {
+    border-color: #BED1DD;
+}
 
-#fullscreen-topbar { 
+#fullscreen-topbar {
 	border-bottom-color: #D1E5EE;
 	background-color: #f5fafd;
 	background-image: -ms-linear-gradient(top, #f7fcfe, #eff8ff); /* IE10 */
