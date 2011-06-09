@@ -53,6 +53,9 @@ get_header(); ?>
 
 					// The Featured Posts query.
 					$featured = new WP_Query( $featured_args );
+					
+					// Proceed only if published posts exist
+					if ( $featured->have_posts() ) :
 
 					/**
 					 * We will need to count featured posts starting from zero
@@ -151,6 +154,7 @@ get_header(); ?>
 				</nav>
 				<?php endif; // End check for more than one sticky post. ?>
 				</div><!-- .featured-posts -->
+				<?php endif; // End check for published posts. ?>
 				<?php endif; // End check for sticky posts. ?>
 
 				<section class="recent-posts">
