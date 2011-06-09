@@ -99,12 +99,16 @@ function wp_admin_bar_my_account_menu( $wp_admin_bar ) {
  * @since 3.2.0
  */
 function wp_admin_bar_dashboard_view_site_menu( $wp_admin_bar ) {
-	if ( is_admin() )
-		$wp_admin_bar->add_menu( array( 'title' => __( 'Visit Site' ), 'href' => home_url() ) );
-	elseif ( is_multisite() )
-		$wp_admin_bar->add_menu( array( 'title' => __( 'Dashboard' ), 'href' => get_dashboard_url( get_current_user_id() ) ) );
-	else
-		$wp_admin_bar->add_menu( array( 'title' => __( 'Dashboard' ), 'href' => admin_url() ) );
+	$user_id = get_current_user_id();
+	
+	if ( 0 != $user_id ) {
+		if ( is_admin() )
+			$wp_admin_bar->add_menu( array( 'title' => __( 'Visit Site' ), 'href' => home_url() ) );
+		elseif ( is_multisite() )
+			$wp_admin_bar->add_menu( array( 'title' => __( 'Dashboard' ), 'href' => get_dashboard_url( $user_id ) ) );
+		else
+			$wp_admin_bar->add_menu( array( 'title' => __( 'Dashboard' ), 'href' => admin_url() ) );
+	}
 }
 
 /**
