@@ -55,6 +55,7 @@ function create_initial_post_types() {
 		'rewrite' => false,
 		'query_var' => false,
 		'show_in_nav_menus' => false,
+		'supports' => array( 'comments' ),
 	) );
 
 	register_post_type( 'revision', array(
