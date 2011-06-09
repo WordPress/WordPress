@@ -41,6 +41,10 @@ get_header(); ?>
 					 * We limit the featured posts at ten.
 					 */
 					$sticky = get_option( 'sticky_posts' );
+
+					// Proceed only if sticky posts exist.
+					if ( ! empty( $sticky ) ) :
+
 					$featured_args = array(
 						'post__in' => $sticky,
 						'post_status' => 'publish',
@@ -49,9 +53,6 @@ get_header(); ?>
 
 					// The Featured Posts query.
 					$featured = new WP_Query( $featured_args );
-
-					// Proceed only if sticky posts exist.
-					if ( $featured->have_posts() ) :
 
 					/**
 					 * We will need to count featured posts starting from zero
