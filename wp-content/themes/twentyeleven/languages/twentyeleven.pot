@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Eleven 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyeleven\n"
-"POT-Creation-Date: 2011-06-08 14:29:39+00:00\n"
+"POT-Creation-Date: 2011-06-09 10:47:45+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -475,44 +475,44 @@ msgstr ""
 msgid "Light"
 msgstr ""
 
-#: inc/theme-options.php:124
+#: inc/theme-options.php:125
 msgid "Dark"
 msgstr ""
 
-#: inc/theme-options.php:141
+#: inc/theme-options.php:143
 msgid "Content on left"
 msgstr ""
 
-#: inc/theme-options.php:146
+#: inc/theme-options.php:148
 msgid "Content on right"
 msgstr ""
 
-#: inc/theme-options.php:151
+#: inc/theme-options.php:153
 msgid "One-column, no sidebar"
 msgstr ""
 
-#: inc/theme-options.php:192
+#: inc/theme-options.php:215
 msgid "%s Theme Options"
 msgstr ""
 
-#: inc/theme-options.php:204 inc/theme-options.php:206
-#: inc/theme-options.php:241
+#: inc/theme-options.php:227 inc/theme-options.php:229
+#: inc/theme-options.php:265
 msgid "Color Scheme"
 msgstr ""
 
-#: inc/theme-options.php:226 inc/theme-options.php:228
+#: inc/theme-options.php:250 inc/theme-options.php:252
 msgid "Link Color"
 msgstr ""
 
-#: inc/theme-options.php:231
+#: inc/theme-options.php:255
 msgid "Select a Color"
 msgstr ""
 
-#: inc/theme-options.php:234
+#: inc/theme-options.php:258
 msgid "Default color: %s"
 msgstr ""
 
-#: inc/theme-options.php:239
+#: inc/theme-options.php:263
 msgid "Default Layout"
 msgstr ""
 
