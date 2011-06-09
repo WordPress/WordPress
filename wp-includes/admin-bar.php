@@ -94,7 +94,7 @@ function wp_admin_bar_my_account_menu( $wp_admin_bar ) {
 }
 
 /**
- * Add the "Dashboard"/"View Site" menu.
+ * Add the "Dashboard"/"Visit Site" menu.
  *
  * @since 3.2.0
  */
@@ -387,7 +387,7 @@ function _admin_bar_bump_cb() { ?>
 }
 
 /**
- * Set the display status of the admin bar
+ * Set the display status of the admin bar.
  *
  * This can be called immediately upon plugin load.  It does not need to be called from a function hooked to the init action.
  *
@@ -435,9 +435,9 @@ function is_admin_bar_showing() {
  * @since 3.1.0
  * @access private
  *
- * @param string $context Context of this preference check, either 'admin' or 'front'
- * @param int $user Optional. ID of the user to check, defaults to 0 for current user
- * @return bool Whether the admin bar should be showing for this user
+ * @param string $context Context of this preference check, either 'admin' or 'front'.
+ * @param int $user Optional. ID of the user to check, defaults to 0 for current user.
+ * @return bool Whether the admin bar should be showing for this user.
  */
 function _get_admin_bar_pref( $context, $user = 0 ) {
 	$pref = get_user_option( "show_admin_bar_{$context}", $user );
