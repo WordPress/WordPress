@@ -15,7 +15,7 @@
 				<h2 class="entry-format"><?php _e( 'Quote', 'twentyeleven' ); ?></h2>
 			</hgroup>
 
-			<?php if ( 'post' == $post->post_type ) : ?>
+			<?php if ( 'post' == get_post_type() ) : ?>
 			<div class="entry-meta">
 				<?php twentyeleven_posted_on(); ?>
 			</div><!-- .entry-meta -->
@@ -41,7 +41,7 @@
 
 		<footer class="entry-meta">
 			<?php $show_sep = false; ?>
-			<?php if ( 'post' == $post->post_type ) : // Hide category and tag text for pages on Search ?>
+			<?php if ( 'post' == get_post_type() ) : // Hide category and tag text for pages on Search ?>
 			<?php
 				/* translators: used between list items, there is a space after the comma */
 				$categories_list = get_the_category_list( __( ', ', 'twentyeleven' ) );

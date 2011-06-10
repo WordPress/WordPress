@@ -14,7 +14,7 @@ get_header(); ?>
 
 				<?php
 					/* Queue the first post, that way we know
-					 * what date we're dealing with (if that is the case).
+					 * what author we're dealing with (if that is the case).
 					 *
 					 * We reset this later so we can run the loop
 					 * properly with a call to rewind_posts().

@@ -17,17 +17,6 @@ get_header(); ?>
 		<section id="primary">
 			<div id="content" role="main">
 
-				<?php
-					/* Queue the first post, that way we know
-					 * what date we're dealing with (if that is the case).
-					 *
-					 * We reset this later so we can run the loop
-					 * properly with a call to rewind_posts().
-					 */
-					if ( have_posts() )
-						the_post();
-				?>
-
 				<header class="page-header">
 					<h1 class="page-title">
 						<?php if ( is_day() ) : ?>
@@ -41,14 +30,6 @@ get_header(); ?>
 						<?php endif; ?>
 					</h1>
 				</header>
-
-				<?php
-					/* Since we called the_post() above, we need to
-					 * rewind the loop back to the beginning that way
-					 * we can run the loop properly, in full.
-					 */
-					rewind_posts();
-				?>
 
 				<?php twentyeleven_content_nav( 'nav-above' ); ?>
 

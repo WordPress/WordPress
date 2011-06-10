@@ -14,18 +14,13 @@
  *
  * @since Twenty Eleven 1.0
  *
- * @param string $hook_suffix The action passes the current page to the function. We don't
- * 	do anything if we're not on our theme options page.
  */
 function twentyeleven_admin_enqueue_scripts( $hook_suffix ) {
-	if ( $hook_suffix != 'appearance_page_theme_options' )
-		return;
-
 	wp_enqueue_style( 'twentyeleven-theme-options', get_template_directory_uri() . '/inc/theme-options.css', false, '2011-04-28' );
 	wp_enqueue_script( 'twentyeleven-theme-options', get_template_directory_uri() . '/inc/theme-options.js', array( 'farbtastic' ), '2011-06-10' );
 	wp_enqueue_style( 'farbtastic' );
 }
-add_action( 'admin_enqueue_scripts', 'twentyeleven_admin_enqueue_scripts' );
+add_action( 'admin_print_styles-appearance_page_theme_options', 'twentyeleven_admin_enqueue_scripts' );
 
 /**
  * Register the form setting for our twentyeleven_options array.
@@ -309,7 +304,7 @@ function twentyeleven_theme_options_validate( $input ) {
 
 	// Link color must be 3 or 6 hexadecimal characters
 	if ( isset( $input['link_color'] ) && preg_match( '/^#?([a-f0-9]{3}){1,2}$/i', $input['link_color'] ) )
-			$output['link_color'] = '#' . strtolower( ltrim( $input['link_color'], '#' ) );
+		$output['link_color'] = '#' . strtolower( ltrim( $input['link_color'], '#' ) );
 
 	// Theme layout must be in our array of theme layout options
 	if ( isset( $input['theme_layout'] ) && array_key_exists( $input['theme_layout'], twentyeleven_layouts() ) )

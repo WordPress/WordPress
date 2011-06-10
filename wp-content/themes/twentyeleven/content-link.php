@@ -17,7 +17,7 @@
 				<h2 class="entry-format"><?php _e( 'Link', 'twentyeleven' ); ?></h2>
 			</hgroup>
 
-			<?php if ( 'post' == $post->post_type ) : ?>
+			<?php if ( 'post' == get_post_type() ) : ?>
 			<?php endif; ?>
 
 			<?php if ( comments_open() ) : ?>

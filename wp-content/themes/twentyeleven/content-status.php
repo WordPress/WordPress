@@ -15,9 +15,6 @@
 				<h1 class="entry-title"><a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'twentyeleven' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a></h1>
 				<h2 class="entry-format"><?php _e( 'Status', 'twentyeleven' ); ?></h2>
 			</hgroup>
-
-			<?php if ( 'post' == $post->post_type ) : ?>
-			<?php endif; ?>
 			
 			<?php if ( comments_open() ) : ?>
 			<div class="comments-link">
@@ -32,7 +29,7 @@
 		</div><!-- .entry-summary -->
 		<?php else : ?>
 		<div class="entry-content">
-			<div class="avatar"><?php echo get_avatar( $post->post_author, apply_filters( 'twentyeleven_status_avatar', '65' ) ); ?></div>
+			<div class="avatar"><?php echo get_avatar( get_the_author_meta( 'ID' ), apply_filters( 'twentyeleven_status_avatar', '65' ) ); ?></div>
 			
 			<?php the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'twentyeleven' ) ); ?>
 			<?php wp_link_pages( array( 'before' => '<div class="page-link">' . __( 'Pages:', 'twentyeleven' ), 'after' => '</div>' ) ); ?>
