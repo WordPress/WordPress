@@ -139,13 +139,30 @@ textarea.disabled {
 
 .widget .widget-top,
 .postbox h3,
-.stuffbox h3 {
+.stuffbox h3,
+.widefat thead tr th,
+.widefat tfoot tr th,
+h3.dashboard-widget-title,
+h3.dashboard-widget-title span,
+h3.dashboard-widget-title small,
+.find-box-head,
+.sidebar-name,
+#nav-menu-header,
+#nav-menu-footer,
+.menu-item-handle,
+#fullscreen-topbar {
+	background-color: #f5fafd; /* Fallback */
 	background-image: -ms-linear-gradient(top, #f7fcfe, #eff8ff); /* IE10 */
 	background-image: -moz-linear-gradient(top, #f7fcfe, #eff8ff); /* Firefox */
 	background-image: -o-linear-gradient(top, #f7fcfe, #eff8ff); /* Opera */
 	background-image: -webkit-gradient(linear, left top, left bottom, from(#f7fcfe), to(#eff8ff)); /* old Webkit */
 	background-image: -webkit-linear-gradient(top, #f7fcfe, #eff8ff); /* new Webkit */
 	background-image: linear-gradient(top, #f7fcfe, #eff8ff); /* proposed W3C Markup */
+}
+
+.widget .widget-top,
+.postbox h3,
+.stuffbox h3 {
 	border-bottom-color: #D1E5EE;
 	text-shadow: #fff 0 1px 0;
 	-moz-box-shadow: 0 1px 0 #fff;
@@ -500,13 +517,6 @@ h3.dashboard-widget-title span,
 h3.dashboard-widget-title small,
 .find-box-head {
 	color: #333;
-	background: #cfdfe9;
-	background-image: -ms-linear-gradient(top, #f7fcfe, #eff8ff); /* IE10 */
-	background-image: -moz-linear-gradient(top, #f7fcfe, #eff8ff); /* Firefox */
-	background-image: -o-linear-gradient(top, #f7fcfe, #eff8ff); /* Opera */
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#f7fcfe), to(#eff8ff)); /* old Webkit */
-	background-image: -webkit-linear-gradient(top, #f7fcfe, #eff8ff); /* new Webkit */
-	background-image: linear-gradient(top, #f7fcfe, #eff8ff); /* proposed W3C Markup */
 }
 
 th.sortable a:hover, th.sortable a:active, th.sortable a:focus {
@@ -686,7 +696,8 @@ table.widefat span.spam a,
 
 .widget,
 #widget-list .widget-top,
-.postbox {
+.postbox,
+.menu-item-settings {
 	background-color: #F7FCFE;
 }
 
@@ -1966,18 +1977,6 @@ div.widgets-sortables,
 	background-color: #f1f1f1;
 }
 
-#nav-menu-header,
-#nav-menu-footer,
-.menu-item-handle {
-	background: #eff8ff; /* Fallback */
-	background-image: -ms-linear-gradient(top, #f7fcfe, #eff8ff); /* IE10 */
-	background-image: -moz-linear-gradient(top, #f7fcfe, #eff8ff); /* Firefox */
-	background-image: -o-linear-gradient(top, #f7fcfe, #eff8ff); /* Opera */
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#f7fcfe), to(#eff8ff)); /* old Webkit */
-	background-image: -webkit-linear-gradient(top, #f7fcfe, #eff8ff); /* new Webkit */
-	background-image: linear-gradient(top, #f7fcfe, #eff8ff); /* proposed W3C Markup */
-}
-
 /* added from nav-menu.css */
 #menu-management .menu-edit {
 	border-color: #d0dfe9;
@@ -2062,7 +2061,6 @@ div.widgets-sortables,
 }
 
 .menu-item-settings { /* Menu editing */
-	background: #f7fcfe;
 	border-color: #d0dfe9;
 }
 
@@ -2128,11 +2126,4 @@ div.widgets-sortables,
 
 #fullscreen-topbar {
 	border-bottom-color: #D1E5EE;
-	background-color: #f5fafd;
-	background-image: -ms-linear-gradient(top, #f7fcfe, #eff8ff); /* IE10 */
-	background-image: -moz-linear-gradient(top, #f7fcfe, #eff8ff); /* Firefox */
-	background-image: -o-linear-gradient(top, #f7fcfe, #eff8ff); /* Opera */
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#f7fcfe), to(#eff8ff)); /* old Webkit */
-	background-image: -webkit-linear-gradient(top, #f7fcfe, #eff8ff); /* new Webkit */
-	background-image: linear-gradient(top, #f7fcfe, #eff8ff); /* proposed W3C Markup */
 }
