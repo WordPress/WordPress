@@ -171,6 +171,6 @@ __( 'XML-RPC' );
 __( 'Internationalization' );
 __( 'External Libraries' );
 __( 'Icon Design' );
-__( 'Classic Color Scheme' );
+__( 'Blue Color Scheme' );
 
 ?>
