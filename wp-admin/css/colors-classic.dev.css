@@ -117,12 +117,13 @@ ul.category-tabs li.tabs,
 ul.add-menu-item-tabs li.tabs,
 .wp-tab-active {
 	border-color: #dfdfdf;
+	background-color: #fff;
 }
 
 ul.category-tabs li.tabs,
 ul.add-menu-item-tabs li.tabs,
 .wp-tab-active {
-	background-color: #f4f4f4;
+	background-color: #fff;
 }
 
 input.disabled,
