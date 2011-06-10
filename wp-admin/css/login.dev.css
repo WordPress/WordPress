@@ -20,10 +20,10 @@ form {
 	border-radius: 3px;
 	background: #fff;
 	border: 1px solid #e5e5e5;
-	-moz-box-shadow: rgba(200, 200, 200, 0.7) 0px 7px 6px -6px;
-	-webkit-box-shadow: rgba(200, 200, 200, 0.7) 0px 7px 6px -6px;
-	-khtml-box-shadow: rgba(200, 200, 200, 0.7) 0px 7px 6px -6px;
-	box-shadow: rgba(200, 200, 200, 0.7) 0px 7px 6px -6px;
+	-moz-box-shadow: rgba(200, 200, 200, 0.7) 0px 4px 10px -1px;
+	-webkit-box-shadow: rgba(200, 200, 200, 0.7) 0px 4px 10px -1px;
+	-khtml-box-shadow: rgba(200, 200, 200, 0.7) 0px 4px 10px -1px;
+	box-shadow: rgba(200, 200, 200, 0.7) 0px 4px 10px -1px;
 }
 
 form .forgetmenot {
