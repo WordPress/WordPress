@@ -167,8 +167,10 @@ __( 'Core Committer' );
 __( 'Guest Committer' );
 __( 'Developer' );
 __( 'Designer' );
-__( 'XML-RPC Developer' );
+__( 'XML-RPC' );
 __( 'Internationalization' );
 __( 'External Libraries' );
+__( 'Icon Design' );
+__( 'Blue Color Scheme' );
 
 ?>
