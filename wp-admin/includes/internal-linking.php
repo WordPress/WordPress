@@ -16,7 +16,7 @@
  * @return array Results.
  */
 function wp_link_query( $args = array() ) {
-	$pts = get_post_types( array( 'publicly_queryable' => true ), 'objects' );
+	$pts = get_post_types( array( 'public' => true ), 'objects' );
 	$pt_names = array_keys( $pts );
 
 	$query = array(

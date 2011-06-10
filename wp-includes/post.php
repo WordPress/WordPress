@@ -31,6 +31,7 @@ function create_initial_post_types() {
 
 	register_post_type( 'page', array(
 		'public' => true,
+		'publicly_queryable' => false,
 		'_builtin' => true, /* internal use only. don't use this when registering your own post type. */
 		'_edit_link' => 'post.php?post=%d', /* internal use only. don't use this when registering your own post type. */
 		'capability_type' => 'page',
@@ -4204,7 +4205,7 @@ function _get_last_post_time( $timezone, $field ) {
 	if ( !$date ) {
 		$add_seconds_server = date('Z');
 
-		$post_types = get_post_types( array( 'publicly_queryable' => true ) );
+		$post_types = get_post_types( array( 'public' => true ) );
 		array_walk( $post_types, array( &$wpdb, 'escape_by_ref' ) );
 		$post_types = "'" . implode( "', '", $post_types ) . "'";
 
