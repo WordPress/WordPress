@@ -39,14 +39,14 @@ var farbtastic;
 			e.preventDefault();
 		});
 
-		$('.image-radio-option input:radio').change( function() {
+		$('.image-radio-option.color-scheme input:radio').change( function() {
 			var currentDefault = $('#default-color a'),
-				newDefault;
-			if ( $('#link-color').val() !== currentDefault.text() )
-				return;
-			newDefault = $(this).next().val();
+				newDefault = $(this).next().val();
+
+			if ( $('#link-color').val() == currentDefault.text() )
+				pickColor( newDefault );
+
 			currentDefault.text( newDefault );
-			pickColor( newDefault );
 		});
 	});
 })(jQuery);

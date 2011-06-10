@@ -22,7 +22,7 @@ function twentyeleven_admin_enqueue_scripts( $hook_suffix ) {
 		return;
 
 	wp_enqueue_style( 'twentyeleven-theme-options', get_template_directory_uri() . '/inc/theme-options.css', false, '2011-04-28' );
-	wp_enqueue_script( 'twentyeleven-theme-options', get_template_directory_uri() . '/inc/theme-options.js', array( 'farbtastic' ), '2011-04-28' );
+	wp_enqueue_script( 'twentyeleven-theme-options', get_template_directory_uri() . '/inc/theme-options.js', array( 'farbtastic' ), '2011-06-10' );
 	wp_enqueue_style( 'farbtastic' );
 }
 add_action( 'admin_enqueue_scripts', 'twentyeleven_admin_enqueue_scripts' );
@@ -224,7 +224,7 @@ function theme_options_render_page() {
 
 			<table class="form-table">
 
-				<tr valign="top" class="image-radio-option"><th scope="row"><?php _e( 'Color Scheme', 'twentyeleven' ); ?></th>
+				<tr valign="top" class="image-radio-option color-scheme"><th scope="row"><?php _e( 'Color Scheme', 'twentyeleven' ); ?></th>
 					<td>
 						<fieldset><legend class="screen-reader-text"><span><?php _e( 'Color Scheme', 'twentyeleven' ); ?></span></legend>
 						<?php
@@ -260,7 +260,7 @@ function theme_options_render_page() {
 					</td>
 				</tr>
 
-				<tr valign="top" class="image-radio-option"><th scope="row"><?php _e( 'Default Layout', 'twentyeleven' ); ?></th>
+				<tr valign="top" class="image-radio-option theme-layout"><th scope="row"><?php _e( 'Default Layout', 'twentyeleven' ); ?></th>
 					<td>
 						<fieldset><legend class="screen-reader-text"><span><?php _e( 'Color Scheme', 'twentyeleven' ); ?></span></legend>
 						<?php
