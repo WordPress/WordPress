@@ -98,7 +98,7 @@ class WP_Http {
 			'filename' => null
 		);
 
-		
+
 		// Pre-parse for the HEAD checks.
 		$args = wp_parse_args( $args );
 
@@ -193,7 +193,7 @@ class WP_Http {
 
 	/**
 	 * Tests which transports are capable of supporting the request.
-	 * 
+	 *
 	 * @since 3.2.0
 	 * @access private
 	 *

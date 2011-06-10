@@ -100,7 +100,7 @@ function wp_admin_bar_my_account_menu( $wp_admin_bar ) {
  */
 function wp_admin_bar_dashboard_view_site_menu( $wp_admin_bar ) {
 	$user_id = get_current_user_id();
-	
+
 	if ( 0 != $user_id ) {
 		if ( is_admin() )
 			$wp_admin_bar->add_menu( array( 'title' => __( 'Visit Site' ), 'href' => home_url() ) );
@@ -259,7 +259,7 @@ function wp_admin_bar_new_content_menu( $wp_admin_bar ) {
 
 	if ( ! is_multisite() && current_user_can( 'install_plugins' ) )
 		$actions[ 'plugin-install.php' ] = array( _x( 'Plugin', 'add new from admin bar' ), 'install_plugins', 'new-plugin' );
-			
+
 	if ( empty( $actions ) )
 		return;
 

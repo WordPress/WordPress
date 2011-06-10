@@ -58,15 +58,15 @@ var tb_position;
 	$(window).resize(function(){ tb_position(); });
 
 	// store caret position in IE
-	$(document).ready(function($){ 
-		$('a.thickbox').click(function(){ 
+	$(document).ready(function($){
+		$('a.thickbox').click(function(){
 			var ed;
 
-			if ( typeof tinyMCE != 'undefined' && tinymce.isIE && ( ed = tinyMCE.activeEditor ) && !ed.isHidden() ) {  
+			if ( typeof tinyMCE != 'undefined' && tinymce.isIE && ( ed = tinyMCE.activeEditor ) && !ed.isHidden() ) {
 				ed.focus();
-				ed.windowManager.insertimagebookmark = ed.selection.getBookmark(); 
-			} 
-		}); 
-	}); 
+				ed.windowManager.insertimagebookmark = ed.selection.getBookmark();
+			}
+		});
+	});
 
 })(jQuery);

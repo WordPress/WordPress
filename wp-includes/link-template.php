@@ -1589,7 +1589,7 @@ function get_next_posts_link( $label = null, $max_page = 0 ) {
 		$paged = 1;
 
 	$nextpage = intval($paged) + 1;
-		
+
 	if ( null === $label )
 		$label = __( 'Next Page &raquo;' );
 

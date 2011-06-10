@@ -119,7 +119,7 @@ inlineEditPost = {
 			tax = 'post_tag';
 			$('tr.inline-editor textarea[name="tags_input"]').suggest( 'admin-ajax.php?action=ajax-tag-search&tax='+tax, { delay: 500, minchars: 2, multiple: true, multipleSep: ", " } );
 		}
-		$('html, body').animate( { scrollTop: 0 }, 'fast' ); 
+		$('html, body').animate( { scrollTop: 0 }, 'fast' );
 	},
 
 	edit : function(id) {

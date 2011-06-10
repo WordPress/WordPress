@@ -31,7 +31,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			'plural' => 'plugins',
 		) );
 	}
-	
+
 	function get_table_classes() {
 		return array( 'widefat', $this->_args['plural'] );
 	}

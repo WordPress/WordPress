@@ -184,7 +184,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 
 					} else { // Some query vars are set via $_GET. Unset those from $_GET that exist via the rewrite
 						foreach ( $qv_remove as $_qv ) {
-							if ( isset($rewrite_vars[$_qv]) ) 
+							if ( isset($rewrite_vars[$_qv]) )
 								$redirect['query'] = remove_query_arg($_qv, $redirect['query']);
 						}
 					}

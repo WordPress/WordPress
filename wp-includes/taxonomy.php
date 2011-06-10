@@ -1131,7 +1131,7 @@ function get_term_to_edit( $id, $taxonomy ) {
  * of term Y only if term X is the father of term Y, not its grandfather or great-grandfather, etc.
  *
  * The 'cache_domain' argument enables a unique cache key to be produced when this query is stored
- * in object cache. For instance, if you are using one of this function's filters to modify the 
+ * in object cache. For instance, if you are using one of this function's filters to modify the
  * query (such as 'terms_clauses'), setting 'cache_domain' to a unique value will not overwrite
  * the cache for similar queries. Default value is 'core'.
  *

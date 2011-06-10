@@ -249,7 +249,7 @@ $_old_files = array(
  *
  * The contents of this array indicate any new bundled plugins/themes which
  * should be installed with the WordPress Upgrade. These items will not be
- * re-installed in future upgrades, this behaviour is controlled by the 
+ * re-installed in future upgrades, this behaviour is controlled by the
  * introduced version present here being older than the current installed version.
  *
  * The content of this array should follow the following format:

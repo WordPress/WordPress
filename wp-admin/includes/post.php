@@ -1581,7 +1581,7 @@ function wp_tiny_mce( $teeny = false, $settings = false ) {
 		'paste_text_use_dialog' => true,
 		'extended_valid_elements' => 'article[*],aside[*],audio[*],canvas[*],command[*],datalist[*],details[*],embed[*],figcaption[*],figure[*],footer[*],header[*],hgroup[*],keygen[*],mark[*],meter[*],nav[*],output[*],progress[*],section[*],source[*],summary,time[*],video[*],wbr',
 		'wpeditimage_disable_captions' => $no_captions,
-		'wp_fullscreen_content_css' => "$baseurl/plugins/wpfullscreen/css/wp-fullscreen.css", 
+		'wp_fullscreen_content_css' => "$baseurl/plugins/wpfullscreen/css/wp-fullscreen.css",
 		'plugins' => implode( ',', $plugins ),
 	);
 
@@ -1738,9 +1738,9 @@ function wp_preload_dialogs($init) {
 
 function wp_quicktags() {
 	global $tinymce_version;
-	
+
 	wp_preload_dialogs( array( 'plugins' => 'wpdialogs,wplink,wpfullscreen' ) );
-	
+
 	if ( !user_can_richedit() ) {
 		wp_enqueue_style( 'tinymce-buttons', includes_url('js/tinymce/themes/advanced/skins/wp_theme/ui.css'), array(), $tinymce_version );
 		wp_print_styles('tinymce-buttons');
@@ -1793,7 +1793,7 @@ function wp_fullscreen_html() {
 	$buttons = apply_filters( 'wp_fullscreen_buttons', $buttons );
 
 	foreach ( $buttons as $button => $args ) {
-		if ( 'separator' == $args ) { ?> 
+		if ( 'separator' == $args ) { ?>
 			<div><span aria-orientation="vertical" role="separator" class="mceSeparator"></span></div>
 <?php		continue;
 		} ?>

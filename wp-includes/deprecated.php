@@ -2612,6 +2612,6 @@ function update_category_cache() {
  */
 function wp_timezone_supported() {
 	_deprecated_function( __FUNCTION__, '3.2' );
- 
+
 	return true;
 }

@@ -402,7 +402,7 @@ class WP_Meta_Query {
 	 * @since 3.2
 	 * @access public
 	 * @var string
-	 */	
+	 */
 	public $relation;
 
 	/**

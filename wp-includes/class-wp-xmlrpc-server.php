@@ -1045,7 +1045,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * - 'post_id' - Default is ''. The post where the comment is posted. Empty string shows all comments.
 	 * - 'number' - Default is 10. Total number of media items to retrieve.
 	 * - 'offset' - Default is 0. See {@link WP_Query::query()} for more.
-	 * 
+	 *
 	 * @since 2.7.0
 	 *
 	 * @param array $args Method parameters.
@@ -1148,7 +1148,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	/**
 	 * Edit comment.
 	 *
-	 * Besides the common blog_id, username, and password arguments, it takes a 
+	 * Besides the common blog_id, username, and password arguments, it takes a
 	 * comment_id integer and a content_struct array as last argument.
 	 *
 	 * The allowed keys in the content_struct array are:
@@ -1683,21 +1683,21 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		do_action( 'xmlrpc_call', 'wp.getPostFormats' );
 
-		$formats = get_post_format_strings(); 
+		$formats = get_post_format_strings();
 
-		# find out if they want a list of currently supports formats 
-		if ( isset( $args[3] ) && is_array( $args[3] ) ) { 
-			if ( $args[3]['show-supported'] ) { 
-				if ( current_theme_supports( 'post-formats' ) ) { 
-					$supported = get_theme_support( 'post-formats' ); 
+		# find out if they want a list of currently supports formats
+		if ( isset( $args[3] ) && is_array( $args[3] ) ) {
+			if ( $args[3]['show-supported'] ) {
+				if ( current_theme_supports( 'post-formats' ) ) {
+					$supported = get_theme_support( 'post-formats' );
 
-					$data['all'] = $formats; 
-					$data['supported'] = $supported[0]; 
+					$data['all'] = $formats;
+					$data['supported'] = $supported[0];
 
-					$formats = $data; 
-				} 
-			} 
-		} 
+					$formats = $data;
+				}
+			}
+		}
 
 		return $formats;
 	}
@@ -2141,7 +2141,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	/**
 	 * Create a new post.
-	 * 
+	 *
 	 * The 'content_struct' argument must contain:
 	 *  - title
 	 *  - description
@@ -2150,7 +2150,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *  - mt_keywords
 	 *  - mt_tb_ping_urls
 	 *  - categories
-	 * 
+	 *
 	 * Also, it can optionally contain:
 	 *  - wp_slug
 	 *  - wp_password

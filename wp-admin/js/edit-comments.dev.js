@@ -500,7 +500,7 @@ commentReply = {
 		if ( r.supplemental.parent_approved ) {
 			pid = $('#comment-' + r.supplemental.parent_approved);
 			updatePending( getCount( $('span.pending-count').eq(0) ) - 1 );
-			
+
 			if ( this.comments_listing == 'moderated' ) {
 				pid.animate( { 'backgroundColor':'#CCEEBB' }, 400, function(){
 					pid.fadeOut();
@@ -513,7 +513,7 @@ commentReply = {
 		$('#replyrow').after(c);
 		id = $(id);
 		t.addEvents(id);
-		bg = id.hasClass('unapproved') ? '#FFFFE0' : id.closest('.widefat').css('backgroundColor'); 		
+		bg = id.hasClass('unapproved') ? '#FFFFE0' : id.closest('.widefat').css('backgroundColor');
 
 		id.animate( { 'backgroundColor':'#CCEEBB' }, 300 )
 			.animate( { 'backgroundColor': bg }, 300, function() {

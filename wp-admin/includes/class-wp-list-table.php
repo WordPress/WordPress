@@ -288,7 +288,7 @@ class WP_List_Table {
 
 		echo "<select name='action$two'>\n";
 		echo "<option value='-1' selected='selected'>" . __( 'Bulk Actions' ) . "</option>\n";
-		
+
 		foreach ( $this->_actions as $name => $title ) {
 			$class = 'edit' == $name ? ' class="hide-if-no-js"' : '';
 

@@ -602,7 +602,7 @@ if ( user_can_richedit() ) {
 
 		<div class="postdivrich">
 			<ul id="actions" class="actions">
-				<li><?php _e( 'Add:' ); ?></li> 
+				<li><?php _e( 'Add:' ); ?></li>
 				<li id="photo_button">
 					<?php if ( current_user_can('upload_files') ) { ?><a title="<?php _e('Insert an Image'); ?>" href="#">
 <img alt="<?php _e('Insert an Image'); ?>" src="<?php echo esc_url( admin_url( 'images/media-button-image.gif?ver=20100531' ) ); ?>"/></a>

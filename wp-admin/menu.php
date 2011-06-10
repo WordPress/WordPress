@@ -181,7 +181,7 @@ if ( ! is_multisite() || is_super_admin() || ! empty( $menu_perms['plugins'] ) )
 		$count = "<span class='update-plugins count-$plugin_update_count'><span class='plugin-count'>" . number_format_i18n($plugin_update_count) . "</span></span>";
 
 	$menu[65] = array( sprintf( __('Plugins %s'), $count ), 'activate_plugins', 'plugins.php', '', 'menu-top menu-icon-plugins', 'menu-plugins', 'div' );
-	
+
 	$submenu['plugins.php'][5]  = array( __('Installed Plugins'), 'activate_plugins', 'plugins.php' );
 
 		if ( ! is_multisite() ) {
