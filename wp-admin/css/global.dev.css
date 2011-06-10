@@ -520,7 +520,7 @@ div.error p {
 .wrap h2,
 .subtitle {
 	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
-	font-weight: 200;
+	font-weight: normal;
 	margin: 0;
 	text-shadow: rgba(255,255,255,1) 0 1px 0;
 }
