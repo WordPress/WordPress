@@ -738,6 +738,9 @@ a:hover {
 .entry-meta a {
 	font-weight: bold;
 }
+.single-author .entry-meta .by-author {
+	display: none;
+}
 .entry-content,
 .entry-summary {
 	padding: 1.625em 0 0;

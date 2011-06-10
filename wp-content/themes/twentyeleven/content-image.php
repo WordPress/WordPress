@@ -32,11 +32,11 @@
 			<?php if ( 'post' == $post->post_type ) : // Hide category and tag text for pages on Search ?>
 			<div class="entry-meta">
 				<?php
-					printf( __( '<a href="%1$s" rel="bookmark"><time class="entry-date" datetime="%2$s" pubdate>%3$s</time></a> <span class="sep"> by </span> <span class="author vcard"><a class="url fn n" href="%4$s" title="%5$s" rel="author">%6$s</a></span>', 'twentyeleven' ),
-						get_permalink(),
+					printf( __( '<a href="%1$s" rel="bookmark"><time class="entry-date" datetime="%2$s" pubdate>%3$s</time></a></a><span class="by-author"> <span class="sep"> by </span> <span class="author vcard"><a class="url fn n" href="%4$s" title="%5$s" rel="author">%6$s</a></span></span>', 'twentyeleven' ),
+						esc_url( get_permalink() ),
 						get_the_date( 'c' ),
 						get_the_date(),
-						get_author_posts_url( get_the_author_meta( 'ID' ) ),
+						esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
 						sprintf( esc_attr__( 'View all posts by %s', 'twentyeleven' ), get_the_author() ),
 						get_the_author()
 					);

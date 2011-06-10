@@ -300,7 +300,7 @@ function twentyeleven_admin_header_image() { ?>
 		else
 			$style = ' style="color:#' . get_theme_mod( 'header_textcolor', HEADER_TEXTCOLOR ) . ';"';
 		?>
-		<h1><a id="name"<?php echo $style; ?> onclick="return false;" href="<?php echo home_url( '/' ); ?>"><?php bloginfo( 'name' ); ?></a></h1>
+		<h1><a id="name"<?php echo $style; ?> onclick="return false;" href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php bloginfo( 'name' ); ?></a></h1>
 		<div id="desc"<?php echo $style; ?>><?php bloginfo( 'description' ); ?></div>
 		<?php $header_image = get_header_image();
 		if ( ! empty( $header_image ) ) : ?>
@@ -325,7 +325,7 @@ add_filter( 'excerpt_length', 'twentyeleven_excerpt_length' );
  * Returns a "Continue Reading" link for excerpts
  */
 function twentyeleven_continue_reading_link() {
-	return ' <a href="'. get_permalink() . '">' . __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'twentyeleven' ) . '</a>';
+	return ' <a href="'. esc_url( get_permalink() ) . '">' . __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'twentyeleven' ) . '</a>';
 }
 
 /**
@@ -559,3 +559,37 @@ function twentyeleven_comment( $comment, $args, $depth ) {
 	endswitch;
 }
 endif; // ends check for twentyeleven_comment()
+
+if ( ! function_exists( 'twentyeleven_posted_on' ) ) :
+/**
+ * Prints HTML with meta information for the current post-date/time and author.
+ *
+ * @since Twenty Eleven 1.0
+ */
+function twentyeleven_posted_on() {
+	printf( __( '<span class="sep">Posted on </span><a href="%1$s" title="%2$s" rel="bookmark"><time class="entry-date" datetime="%3$s" pubdate>%4$s</time></a><span class="by-author"> <span class="sep"> by </span> <span class="author vcard"><a class="url fn n" href="%5$s" title="%6$s" rel="author">%7$s</a></span></span>', 'twentyeleven' ),
+		esc_url( get_permalink() ),
+		esc_attr( get_the_time() ),
+		esc_attr( get_the_date( 'c' ) ),
+		esc_html( get_the_date() ),
+		esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
+		sprintf( esc_attr__( 'View all posts by %s', 'twentyeleven' ), get_the_author() ),
+		esc_html( get_the_author() )
+	);
+}
+endif;
+
+/**
+ * Adds Twenty Eleven author class to the array of body classes.
+ *
+ * @since Twenty Eleven 1.0
+ */
+function twentyeleven_author_class( $classes ) {
+
+	if ( ! is_multi_author() ) {
+		$classes[] = 'single-author';
+	}
+	
+	return $classes;
+}
+add_filter( 'body_class', 'twentyeleven_author_class' );

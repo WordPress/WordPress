@@ -29,10 +29,10 @@ get_header(); ?>
 								printf( __( '<span class="meta-prep meta-prep-entry-date">Published </span> <span class="entry-date"><abbr class="published" title="%1$s">%2$s</abbr></span> at <a href="%3$s" title="Link to full-size image">%4$s &times; %5$s</a> in <a href="%6$s" title="Return to %7$s" rel="gallery">%7$s</a>', 'twentyeleven' ),
 									esc_attr( get_the_time() ),
 									get_the_date(),
-									wp_get_attachment_url(),
+									esc_url( wp_get_attachment_url() ),
 									$metadata['width'],
 									$metadata['height'],
-									get_permalink( $post->post_parent ),
+									esc_url( get_permalink( $post->post_parent ) ),
 									get_the_title( $post->post_parent )
 								);
 							?>
@@ -69,7 +69,7 @@ get_header(); ?>
 		$next_attachment_url = wp_get_attachment_url();
 	}
 ?>
-								<a href="<?php echo $next_attachment_url; ?>" title="<?php echo esc_attr( get_the_title() ); ?>" rel="attachment"><?php
+								<a href="<?php echo esc_url( $next_attachment_url ); ?>" title="<?php echo esc_attr( get_the_title() ); ?>" rel="attachment"><?php
 								$attachment_size = apply_filters( 'twentyeleven_attachment_size', 848 );
 								echo wp_get_attachment_image( $post->ID, array( $attachment_size, 1024 ) ); // filterable image width with 1024px limit for image height.
 								?></a>
@@ -92,9 +92,9 @@ get_header(); ?>
 
 					<footer class="entry-meta">
 						<?php if ( comments_open() && pings_open() ) : // Comments and trackbacks open ?>
-							<?php printf( __( '<a class="comment-link" href="#respond" title="Post a comment">Post a comment</a> or leave a trackback: <a class="trackback-link" href="%s" title="Trackback URL for your post" rel="trackback">Trackback URL</a>.', 'twentyeleven' ), get_trackback_url() ); ?>
+							<?php printf( __( '<a class="comment-link" href="#respond" title="Post a comment">Post a comment</a> or leave a trackback: <a class="trackback-link" href="%s" title="Trackback URL for your post" rel="trackback">Trackback URL</a>.', 'twentyeleven' ), esc_url( get_trackback_url() ) ); ?>
 						<?php elseif ( ! comments_open() && pings_open() ) : // Only trackbacks open ?>
-							<?php printf( __( 'Comments are closed, but you can leave a trackback: <a class="trackback-link" href="%s" title="Trackback URL for your post" rel="trackback">Trackback URL</a>.', 'twentyeleven' ), get_trackback_url() ); ?>
+							<?php printf( __( 'Comments are closed, but you can leave a trackback: <a class="trackback-link" href="%s" title="Trackback URL for your post" rel="trackback">Trackback URL</a>.', 'twentyeleven' ), esc_url( get_trackback_url() ) ); ?>
 						<?php elseif ( comments_open() && ! pings_open() ) : // Only comments open ?>
 							<?php _e( 'Trackbacks are closed, but you can <a class="comment-link" href="#respond" title="Post a comment">post a comment</a>.', 'twentyeleven' ); ?>
 						<?php elseif ( ! comments_open() && ! pings_open() ) : // Comments and trackbacks closed ?>
