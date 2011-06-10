@@ -71,15 +71,11 @@ require_once('./admin-header.php');
 
 <div class="wrap"><?php
 screen_icon();
-if ( !is_multisite() ) : ?>
+if ( ! is_multisite() && current_user_can( 'install_themes' ) ) : ?>
 <h2 class="nav-tab-wrapper">
-<a href="themes.php" class="nav-tab nav-tab-active"><?php echo esc_html( $title ); ?></a>
-	<?php if ( current_user_can('install_themes') ) : ?>
-<a href="<?php echo admin_url( 'theme-install.php'); ?>" class="nav-tab"><?php echo esc_html_x('Install Themes', 'theme'); ?></a>
-	<?php endif;
-else : ?>
-<h2>
-<?php echo esc_html( $title ); ?>
+<a href="themes.php" class="nav-tab nav-tab-active"><?php echo esc_html( $title ); ?></a><a href="<?php echo admin_url( 'theme-install.php'); ?>" class="nav-tab"><?php echo esc_html_x('Install Themes', 'theme'); ?></a>
+<?php else : ?>
+<h2><?php echo esc_html( $title ); ?>
 <?php endif; ?>
 </h2>
 
