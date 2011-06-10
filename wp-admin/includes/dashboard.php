@@ -1031,29 +1031,34 @@ function wp_dashboard_plugins_output() {
  */
 function wp_dashboard_cached_rss_widget( $widget_id, $callback, $check_urls = array() ) {
 	$loading = '<p class="widget-loading hide-if-no-js">' . __( 'Loading&#8230;' ) . '</p><p class="hide-if-js">' . __( 'This widget requires JavaScript.' ) . '</p>';
+	$doing_ajax = ( defined('DOING_AJAX') && DOING_AJAX );
 
 	if ( empty($check_urls) ) {
 		$widgets = get_option( 'dashboard_widget_options' );
-		if ( empty($widgets[$widget_id]['url']) ) {
+		if ( empty($widgets[$widget_id]['url']) && ! $doing_ajax ) {
 			echo $loading;
 			return false;
 		}
 		$check_urls = array( $widgets[$widget_id]['url'] );
 	}
 
-	include_once ABSPATH . WPINC . '/class-feed.php';
-	foreach ( $check_urls as $check_url ) {
-		$cache = new WP_Feed_Cache_Transient('', md5($check_url), '');
-		if ( ! $cache->load() ) {
-			echo $loading;
-			return false;
-		}
+	$cache_key = 'dash_' . md5( $callback . implode(',', $check_urls) );
+	if ( false !== ( $output = get_transient( $cache_key ) ) ) {
+		echo $output;
+		return true;
+	}
+
+	if ( ! $doing_ajax ) {
+		echo $loading;
+		return false;
 	}
 
 	if ( $callback && is_callable( $callback ) ) {
 		$args = array_slice( func_get_args(), 2 );
 		array_unshift( $args, $widget_id );
+		ob_start();
 		call_user_func_array( $callback, $args );
+		set_transient( $cache_key, ob_get_flush(), 43200); // Default lifetime in cache of 12 hours (same as the feeds)		
 	}
 
 	return true;
