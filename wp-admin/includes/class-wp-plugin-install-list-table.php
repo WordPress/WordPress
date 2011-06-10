@@ -138,7 +138,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 
 	function get_columns() {
 		return array(
-			'name'        => __( 'Name' ),
+			'name'        => _x( 'Name', 'plugin name' ),
 			'version'     => __( 'Version' ),
 			'rating'      => __( 'Rating' ),
 			'description' => __( 'Description' ),

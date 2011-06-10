@@ -83,7 +83,7 @@ $side_meta_boxes = do_meta_boxes( 'link', 'side', $link );
 <div id="post-body">
 <div id="post-body-content">
 <div id="namediv" class="stuffbox">
-<h3><label for="link_name"><?php _e('Name') ?></label></h3>
+<h3><label for="link_name"><?php _ex('Name', 'link name') ?></label></h3>
 <div class="inside">
 	<input type="text" name="link_name" size="30" tabindex="1" value="<?php echo esc_attr($link->link_name); ?>" id="link_name" />
     <p><?php _e('Example: Nifty blogging software'); ?></p>

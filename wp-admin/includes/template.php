@@ -425,7 +425,7 @@ function list_meta( $meta ) {
 <table id="list-table" style="display: none;">
 	<thead>
 	<tr>
-		<th class="left">' . __( 'Name' ) . '</th>
+		<th class="left">' . _x( 'Name', 'meta name' ) . '</th>
 		<th>' . __( 'Value' ) . '</th>
 	</tr>
 	</thead>
@@ -440,7 +440,7 @@ function list_meta( $meta ) {
 <table id="list-table">
 	<thead>
 	<tr>
-		<th class="left"><?php _e( 'Name' ) ?></th>
+		<th class="left"><?php _ex( 'Name', 'meta name' ) ?></th>
 		<th><?php _e( 'Value' ) ?></th>
 	</tr>
 	</thead>
@@ -535,7 +535,7 @@ function meta_form() {
 <table id="newmeta">
 <thead>
 <tr>
-<th class="left"><label for="metakeyselect"><?php _e( 'Name' ) ?></label></th>
+<th class="left"><label for="metakeyselect"><?php _ex( 'Name', 'meta name' ) ?></label></th>
 <th><label for="metavalue"><?php _e( 'Value' ) ?></label></th>
 </tr>
 </thead>

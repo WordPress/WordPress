@@ -77,7 +77,7 @@ class WP_Links_List_Table extends WP_List_Table {
 	function get_columns() {
 		return array(
 			'cb'         => '<input type="checkbox" />',
-			'name'       => __( 'Name' ),
+			'name'       => _x( 'Name', 'link name' ),
 			'url'        => __( 'URL' ),
 			'categories' => __( 'Categories' ),
 			'rel'        => __( 'Relationship' ),

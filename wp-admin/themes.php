@@ -213,7 +213,7 @@ if ( current_user_can('edit_themes') && count( $broken_themes ) ) {
 
 <table id="broken-themes">
 	<tr>
-		<th><?php _e('Name'); ?></th>
+		<th><?php _ex('Name', 'theme name'); ?></th>
 		<th><?php _e('Description'); ?></th>
 	</tr>
 <?php

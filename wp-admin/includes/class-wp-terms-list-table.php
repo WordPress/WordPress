@@ -97,7 +97,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 
 		$columns = array(
 			'cb'          => '<input type="checkbox" />',
-			'name'        => __( 'Name' ),
+			'name'        => _x( 'Name', 'term name' ),
 			'description' => __( 'Description' ),
 			'slug'        => __( 'Slug' ),
 		);
@@ -336,7 +336,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 				<h4><?php _e( 'Quick Edit' ); ?></h4>
 
 				<label>
-					<span class="title"><?php _e( 'Name' ); ?></span>
+					<span class="title"><?php _ex( 'Name', 'term name' ); ?></span>
 					<span class="input-text-wrap"><input type="text" name="name" class="ptitle" value="" /></span>
 				</label>
 	<?php if ( !global_terms_enabled() ) { ?>
