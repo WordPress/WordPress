@@ -867,7 +867,7 @@ class Core_Upgrader extends WP_Upgrader {
 	}
 
 	function upgrade($current) {
-		global $wp_filesystem;
+		global $wp_filesystem, $wp_version;
 
 		$this->init();
 		$this->upgrade_strings();
@@ -889,7 +889,7 @@ class Core_Upgrader extends WP_Upgrader {
 		// If we cross the new_bundled version number, then use the new_bundled zip.
 		// Don't though if the constant is set to skip bundled items.
 		// If the API returns a no_content zip, go with it. Finally, default to the full zip.
-		if ( $current->packages->partial && 'reinstall' != $current->response )
+		if ( $current->packages->partial && 'reinstall' != $current->response && $wp_version == $current->partial_version )
 			$to_download = 'partial';
 		elseif ( $current->packages->new_bundled && version_compare( $wp_version, $current->new_bundled, '<' )
 			&& ( ! defined( 'CORE_UPGRADE_SKIP_NEW_BUNDLED' ) || ! CORE_UPGRADE_SKIP_NEW_BUNDLED ) )

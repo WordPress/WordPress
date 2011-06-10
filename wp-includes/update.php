@@ -91,8 +91,8 @@ function wp_version_check() {
 			else
 				$offer[ $offer_key ] = esc_html( $value );
 		}
-		$offer = (object) array_intersect_key( $offer, array_fill_keys( array( 'response', 'download',
-			'locale', 'packages', 'current', 'php_version', 'mysql_version', 'new_bundled' ), '' ) );
+		$offer = (object) array_intersect_key( $offer, array_fill_keys( array( 'response', 'download', 'locale',
+			'packages', 'current', 'php_version', 'mysql_version', 'new_bundled', 'partial_version' ), '' ) );
 	}
 
 	$updates = new stdClass();
