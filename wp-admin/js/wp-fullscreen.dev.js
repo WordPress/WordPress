@@ -88,8 +88,21 @@ PubSub.prototype.publish = function( topic, args ) {
 	 * Creates a function that publishes start/stop topics.
 	 * Used to throttle events.
 	 */
-	bounder = api.bounder = function( start, stop, delay ) {
+	bounder = api.bounder = function( start, stop, delay, e ) {
+		var y, top;
+
 		delay = delay || 1250;
+
+		if ( e ) {
+			y = e.pageY || e.clientY || e.offsetY;
+			top = $(document).scrollTop();
+
+			if ( !e.isDefaultPrevented ) // test if e ic jQuery normalized
+				y = 135 + y;
+
+			if ( y - top > 120 )
+				return;
+		}
 
 		if ( block )
 			return;
@@ -283,7 +296,7 @@ PubSub.prototype.publish = function( topic, args ) {
 		$( document.body ).addClass( 'fullscreen-active' );
 		api.refresh_buttons();
 
-		$( document ).bind( 'mousemove.fullscreen', function(e) { bounder( 'showToolbar', 'hideToolbar', 2000 ); } );
+		$( document ).bind( 'mousemove.fullscreen', function(e) { bounder( 'showToolbar', 'hideToolbar', 2000, e ); } );
 		bounder( 'showToolbar', 'hideToolbar', 2000 );
 
 		api.bind_resize();
@@ -549,7 +562,7 @@ PubSub.prototype.publish = function( topic, args ) {
 				s.toolbars.removeClass('fullscreen-make-sticky');
 
 				if ( s.visible )
-					$( document ).bind( 'mousemove.fullscreen', function(e) { bounder( 'showToolbar', 'hideToolbar', 2000 ); } );
+					$( document ).bind( 'mousemove.fullscreen', function(e) { bounder( 'showToolbar', 'hideToolbar', 2000, e ); } );
 			});
 		},
 

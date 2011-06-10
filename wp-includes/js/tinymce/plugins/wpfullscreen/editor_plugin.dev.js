@@ -88,7 +88,7 @@
 
 				if ( 'undefined' != fullscreen ) {
 					fsed.dom.bind( fsed.dom.doc, 'mousemove', function(e){
-						fullscreen.bounder( 'showToolbar', 'hideToolbar', 2000 );
+						fullscreen.bounder( 'showToolbar', 'hideToolbar', 2000, e );
 					});
 				}
 			});
