@@ -84,13 +84,15 @@ function wp_version_check() {
 	foreach ( $offers as &$offer ) {
 		foreach ( $offer as $offer_key => $value ) {
 			if ( 'packages' == $offer_key )
-				$offer['packages'] = (object) array_intersect_key( array_map( 'esc_url', $offer['packages'] ), array_fill_keys( array( 'full', 'no_content', 'new_bundled', 'partial' ), '' ) );
+				$offer['packages'] = (object) array_intersect_key( array_map( 'esc_url', $offer['packages'] ),
+					array_fill_keys( array( 'full', 'no_content', 'new_bundled', 'partial' ), '' ) );
 			elseif ( 'download' == $offer_key )
 				$offer['download'] = esc_url( $value );
 			else
 				$offer[ $offer_key ] = esc_html( $value );
 		}
-		$offer = (object) array_intersect_key( $offer, array_fill_keys( array( 'response', 'download', 'locale', 'packages', 'current', 'php_version', 'mysql_version', 'new_bundled' ), '' ) );
+		$offer = (object) array_intersect_key( $offer, array_fill_keys( array( 'response', 'download',
+			'locale', 'packages', 'current', 'php_version', 'mysql_version', 'new_bundled' ), '' ) );
 	}
 
 	$updates = new stdClass();
