@@ -205,12 +205,9 @@ a:active img[class*="wp-image-"] {
 
 /* Comments link */
 .entry-header .comments-link a {
-	background: #242424;
+	background: #282828 url(../images/comment-bubble-dark.png) no-repeat;
 	border-color: #222;
 	color: #888;
-}
-.entry-header .comments-link a .leave-reply {
-	background-position-y: -24px;
 }
 
 /* Singular content styles for Posts and Pages */

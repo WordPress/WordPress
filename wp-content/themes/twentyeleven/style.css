@@ -992,48 +992,32 @@ a:active img[class*="wp-image-"] {
 
 /* Comments link */
 .entry-header .comments-link a {
-	background: #eee;
-	border: 1px solid #ddd;
-	-moz-border-radius: 24px;
-	border-radius: 24px;
-	color: #777;
-	font-size: 18px;
-	font-weight: 300;
-	line-height: 48px;	
+	background: #eee url(images/comment-bubble.png) no-repeat;
+	color: #666;
+	font-size: 13px;
+	font-weight: normal;
+	line-height: 36px;
 	overflow: hidden;
+	padding: 0 0 0;
 	position: absolute;
+	top: 1.5em;
+	right: 0;
 	text-align: center;
 	text-decoration: none;
-	top: .5em;
-	right: 0;
-	width: 48px;
-	height: 48px;
+	width: 43px;
+	height: 36px;
 }
 .entry-header .comments-link a:hover,
 .entry-header .comments-link a:focus,
 .entry-header .comments-link a:active {
-	background: #1982d1;
-	border-color: #1573bb;
-	border-color: rgba(0,0,0,0.2);
+	background-color: #1982d1;
 	color: #fff;
 	color: rgba(255,255,255,0.8);
 }
 .entry-header .comments-link .leave-reply {
-	background: url(images/icon-comment.png) no-repeat;
-	color: transparent;
-	display: inline-block;
-	font-family: "Arial Unicode MS", "Helvetica Neue", Helvetica, Arial, sans-serif;
-	font-size: 26px;
-	height: 24px;
-	line-height: 12px;
-	opacity: 0.25;
-	position: relative;
-	width: 24px;
+	 visibility: hidden;
 }
-.entry-header .comments-link a:hover .leave-reply {
-	background-position-y: -24px;
-	opacity: 0.5;
-}
+
 /*
 	Post Formats Headings
 	To hide the headings, display: none the ".entry-header .entry-format" selector,
@@ -1214,6 +1198,9 @@ blockquote.pull {
 /* =Image
 ----------------------------------------------- */
 
+.indexed.format-image .entry-header {
+	min-height: 61px; /* Prevent the comment icon from colliding with the image when there is no title */
+}
 .indexed.format-image .entry-content {
 	padding-top: 0.5em;
 }
