@@ -60,7 +60,7 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 		$ephemera_args = array(
 			'order' => 'DESC',
 			'posts_per_page' => $number,
-			'nopaging' => 0,
+			'no_found_rows' => true,
 			'post_status' => 'publish',
 			'post__not_in' => get_option( 'sticky_posts' ),
 			'tax_query' => array(

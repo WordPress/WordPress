@@ -49,6 +49,7 @@ get_header(); ?>
 						'post__in' => $sticky,
 						'post_status' => 'publish',
 						'posts_per_page' => 10,
+						'no_found_rows' => true,
 					);
 
 					// The Featured Posts query.
@@ -174,6 +175,7 @@ get_header(); ?>
 								'operator' => 'NOT IN',
 							),
 						),
+						'no_found_rows' => true,
 					);
 					// Our new query for the Recent Posts section.
 					$recent = new WP_Query();
