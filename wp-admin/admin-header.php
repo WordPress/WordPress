@@ -149,11 +149,12 @@ if ( function_exists('mb_strlen') ) {
 
 do_action('in_admin_header');
 
-// Generate user profile and info links.
-$howdy = sprintf( __('Howdy, %1$s'), $user_identity );
 $links = array();
 
-$links[5] = '<a href="profile.php" title="' . esc_attr__('Edit your profile') . '">' . __('Your Profile') . '</a>';
+// Generate user profile and info links.
+$links[5] = sprintf( __('Howdy, %1$s'), $user_identity );
+
+$links[8] = '<a href="profile.php" title="' . esc_attr__('Edit your profile') . '">' . __('Your Profile') . '</a>';
 
 if ( is_multisite() && is_super_admin() ) {
 	if ( !is_network_admin() )
@@ -169,6 +170,8 @@ ksort( $links );
 
 // Trim whitespace and pipes from links, then convert to list items.
 $links = array_map( 'trim', $links, array_fill( 0, count( $links ), " |\n\t" ) );
+
+$howdy = array_shift( $links );
 
 $links_no_js = implode( ' | ', $links );
 $links_js = '<li>' . implode( '</li><li>', $links ) . '</li>';
