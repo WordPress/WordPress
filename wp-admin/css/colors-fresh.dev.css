@@ -592,11 +592,13 @@ input.readonly, textarea.readonly {
 	color: #777;
 }
 
-.login #nav a {
+.login #nav a,
+.login #backtoblog a {
 	color: #21759b !important;
 }
 
-.login #nav a:hover {
+.login #nav a:hover,
+.login #backtoblog a:hover {
 	color: #d54e21 !important;
 }
 
