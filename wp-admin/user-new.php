@@ -31,7 +31,7 @@ Please click the following link to activate your user account:
 	add_filter( 'wpmu_signup_user_notification_email', 'admin_created_user_email' );
 
 	function admin_created_user_subject( $text ) {
-		return sprintf( __( '[ %s ] Your site invite' ), get_bloginfo( 'name' ) );
+		return sprintf( __( '[%s] Your site invite' ), get_bloginfo( 'name' ) );
 	}
 }
 
