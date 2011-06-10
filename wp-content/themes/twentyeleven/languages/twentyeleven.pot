@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Eleven 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyeleven\n"
-"POT-Creation-Date: 2011-06-10 22:47:37+00:00\n"
+"POT-Creation-Date: 2011-06-10 23:47:30+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,34 +24,34 @@ msgid "Quote"
 msgstr ""
 
 #: content-quote.php:26 content.php:30 content-image.php:21
-#: content-aside.php:25 content-status.php:24 content-link.php:25
+#: content-aside.php:25 content-status.php:21 content-link.php:25
 msgid "<span class=\"leave-reply\">Reply</span>"
 msgstr ""
 
 #: content-quote.php:26 content.php:30 content-image.php:21
-#: content-aside.php:25 content-status.php:24 content-link.php:25
+#: content-aside.php:25 content-status.php:21 content-link.php:25
 msgid "1"
 msgstr ""
 
 #: content-quote.php:26 content.php:30 content-image.php:21
-#: content-aside.php:25 content-status.php:24 content-link.php:25
+#: content-aside.php:25 content-status.php:21 content-link.php:25
 msgid "%"
 msgstr ""
 
 #: content-quote.php:37 content.php:41 content-image.php:27
 #: content-gallery.php:32 content-aside.php:36 functions.php:328
-#: content-status.php:37 content-link.php:36
+#: content-status.php:34 content-link.php:36
 msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
 #: content-quote.php:38 content.php:42 content-image.php:28
-#: content-single.php:22
+#: content-single.php:24
 msgid "<span>Pages:</span>"
 msgstr ""
 
 #: content-quote.php:47 content-quote.php:57 content.php:51 content.php:61
-#: content-image.php:48 content-image.php:57 content-single.php:28
-#: content-single.php:37 content-gallery.php:62 content-gallery.php:72
+#: content-image.php:48 content-image.php:57 content-single.php:30
+#: content-single.php:39 content-gallery.php:62 content-gallery.php:72
 #: content-featured.php:29 content-featured.php:38
 msgid ", "
 msgstr ""
@@ -67,26 +67,26 @@ msgid "<span class=\"%1$s\">Tagged</span> %2$s"
 msgstr ""
 
 #: content-quote.php:73 showcase.php:199 content.php:77 content-image.php:65
-#: content-gallery.php:87 content-aside.php:45 content-status.php:46
+#: content-gallery.php:87 content-aside.php:45 content-status.php:43
 #: content-link.php:45
 msgid "<span class=\"leave-reply\">Leave a reply</span>"
 msgstr ""
 
 #: content-quote.php:73 showcase.php:199 content.php:77 content-image.php:65
-#: content-gallery.php:87 content-aside.php:45 content-status.php:46
+#: content-gallery.php:87 content-aside.php:45 content-status.php:43
 #: content-link.php:45
 msgid "<b>1</b> Reply"
 msgstr ""
 
 #: content-quote.php:73 showcase.php:199 content.php:77 content-image.php:65
-#: content-gallery.php:87 content-aside.php:45 content-status.php:46
+#: content-gallery.php:87 content-aside.php:45 content-status.php:43
 #: content-link.php:45
 msgid "<b>%</b> Replies"
 msgstr ""
 
 #: content-quote.php:76 content.php:80 content-image.php:70
-#: content-single.php:45 content-intro.php:19 content-gallery.php:90
-#: content-aside.php:47 image.php:39 image.php:103 content-status.php:48
+#: content-single.php:47 content-intro.php:19 content-gallery.php:90
+#: content-aside.php:47 image.php:39 image.php:103 content-status.php:45
 #: content-page.php:19 content-link.php:47 content-featured.php:45
 msgid "Edit"
 msgstr ""
@@ -132,9 +132,9 @@ msgstr ""
 #: content-image.php:35
 msgid ""
 "<a href=\"%1$s\" rel=\"bookmark\"><time class=\"entry-date\" datetime=\"%2$s"
-"\" pubdate>%3$s</time></a></a><span class=\"by-author\"> <span class=\"sep"
-"\"> by </span> <span class=\"author vcard\"><a class=\"url fn n\" href=\"%4$s"
-"\" title=\"%5$s\" rel=\"author\">%6$s</a></span></span>"
+"\" pubdate>%3$s</time></a><span class=\"by-author\"> <span class=\"sep\"> by "
+"</span> <span class=\"author vcard\"><a class=\"url fn n\" href=\"%4$s\" "
+"title=\"%5$s\" rel=\"author\">%6$s</a></span></span>"
 msgstr ""
 
 #: content-image.php:40 functions.php:576
@@ -149,29 +149,29 @@ msgstr ""
 msgid "Meta"
 msgstr ""
 
-#: content-single.php:30
+#: content-single.php:32
 msgid ""
 "This entry was posted in %1$s and tagged %2$s by <a href=\"%6$s\">%5$s</a>. "
 "Bookmark the <a href=\"%3$s\" title=\"Permalink to %4$s\" rel=\"bookmark"
 "\">permalink</a>."
 msgstr ""
 
-#: content-single.php:32
+#: content-single.php:34
 msgid ""
 "This entry was posted in %1$s by <a href=\"%6$s\">%5$s</a>. Bookmark the <a "
 "href=\"%3$s\" title=\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>."
 msgstr ""
 
-#: content-single.php:53 author.php:48
+#: content-single.php:55 author.php:48
 msgid "About %s"
 msgstr ""
 
-#: content-single.php:57
+#: content-single.php:59
 msgid "View all posts by %s <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
 #: content-intro.php:18 content-gallery.php:54 content-aside.php:37
-#: image.php:88 content-status.php:38 content-page.php:18 content-link.php:37
+#: image.php:88 content-status.php:35 content-page.php:18 content-link.php:37
 #: content-featured.php:23
 msgid "Pages:"
 msgstr ""
@@ -413,11 +413,11 @@ msgid "Status"
 msgstr ""
 
 #. Name of page
-#: inc/theme-options.php:85 inc/theme-options.php:86
+#: inc/theme-options.php:80 inc/theme-options.php:81
 msgid "Theme Options"
 msgstr ""
 
-#: inc/theme-options.php:95
+#: inc/theme-options.php:90
 msgid ""
 "Some themes provide customization options that are grouped together on a "
 "Theme Options screen. If you change themes, options may change or disappear, "
@@ -425,14 +425,14 @@ msgid ""
 "following Theme Options:"
 msgstr ""
 
-#: inc/theme-options.php:97
+#: inc/theme-options.php:92
 msgid ""
 "<strong>Color Scheme</strong>: You can choose a color palette of \"Light"
 "\" (light background with dark text) or \"Dark\" (dark background with light "
 "text) for your site."
 msgstr ""
 
-#: inc/theme-options.php:98
+#: inc/theme-options.php:93
 msgid ""
 "<strong>Link Color</strong>: You can choose the color used for text links on "
 "your site. You can enter the HTML color or hex code, or you can choose "
@@ -440,76 +440,76 @@ msgid ""
 "wheel."
 msgstr ""
 
-#: inc/theme-options.php:99
+#: inc/theme-options.php:94
 msgid ""
 "<strong>Default Layout</strong>: You can choose if you want your site&#8217;"
 "s default layout to have a sidebar on the left, the right, or not at all."
 msgstr ""
 
-#: inc/theme-options.php:101
+#: inc/theme-options.php:96
 msgid ""
 "Remember to click \"Save Changes\" to save any changes you have made to the "
 "theme options."
 msgstr ""
 
-#: inc/theme-options.php:102
+#: inc/theme-options.php:97
 msgid "For more information:"
 msgstr ""
 
-#: inc/theme-options.php:103
+#: inc/theme-options.php:98
 msgid ""
 "<a href=\"http://codex.wordpress.org/Appearance_Theme_Options_Screen\" "
 "target=\"_blank\">Documentation on Theme Options</a>"
 msgstr ""
 
-#: inc/theme-options.php:104
+#: inc/theme-options.php:99
 msgid ""
 "<a href=\"http://wordpress.org/support/\" target=\"_blank\">Support Forums</"
 "a>"
 msgstr ""
 
-#: inc/theme-options.php:119
+#: inc/theme-options.php:114
 msgid "Light"
 msgstr ""
 
-#: inc/theme-options.php:125
+#: inc/theme-options.php:120
 msgid "Dark"
 msgstr ""
 
-#: inc/theme-options.php:143
+#: inc/theme-options.php:138
 msgid "Content on left"
 msgstr ""
 
-#: inc/theme-options.php:148
+#: inc/theme-options.php:143
 msgid "Content on right"
 msgstr ""
 
-#: inc/theme-options.php:153
+#: inc/theme-options.php:148
 msgid "One-column, no sidebar"
 msgstr ""
 
-#: inc/theme-options.php:215
+#: inc/theme-options.php:210
 msgid "%s Theme Options"
 msgstr ""
 
-#: inc/theme-options.php:227 inc/theme-options.php:229
-#: inc/theme-options.php:265
+#: inc/theme-options.php:222 inc/theme-options.php:224
+#: inc/theme-options.php:260
 msgid "Color Scheme"
 msgstr ""
 
-#: inc/theme-options.php:250 inc/theme-options.php:252
+#: inc/theme-options.php:245 inc/theme-options.php:247
 msgid "Link Color"
 msgstr ""
 
-#: inc/theme-options.php:255
+#: inc/theme-options.php:250
 msgid "Select a Color"
 msgstr ""
 
-#: inc/theme-options.php:258
+#: inc/theme-options.php:253
 msgid "Default color: %s"
 msgstr ""
 
-#: inc/theme-options.php:263
+#: inc/theme-options.php:258
 msgid "Default Layout"
 msgstr ""
 
@@ -564,19 +564,19 @@ msgid ""
 "different keywords."
 msgstr ""
 
-#: archive.php:34
+#: archive.php:23
 msgid "Daily Archives: %s"
 msgstr ""
 
-#: archive.php:36
+#: archive.php:25
 msgid "Monthly Archives: %s"
 msgstr ""
 
-#: archive.php:38
+#: archive.php:27
 msgid "Yearly Archives: %s"
 msgstr ""
 
-#: archive.php:40
+#: archive.php:29
 msgid "Blog Archives"
 msgstr ""
 
