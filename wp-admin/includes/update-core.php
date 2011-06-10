@@ -242,6 +242,17 @@ $_old_files = array(
 'wp-admin/images/visit-site-button-grad-vs.gif',
 'wp-admin/images/visit-site-button-grad.gif',
 'wp-includes/classes.php',
+// 3.2
+'wp-includes/default-embeds.php',
+'wp-includes/class-json.php',
+'wp-includes/js/tinymce/plugins/wordpress/img/more.gif',
+'wp-includes/js/tinymce/plugins/wordpress/img/toolbars.gif',
+'wp-includes/js/tinymce/plugins/wordpress/img/help.gif',
+'wp-includes/js/tinymce/themes/advanced/img/fm.gif',
+'wp-includes/js/tinymce/themes/advanced/img/sflogo.png',
+'wp-admin/js/list-table.js',
+'wp-admin/js/list-table.dev.js',
+'wp-admin/images/logo-login.gif'
 );
 
 /**
