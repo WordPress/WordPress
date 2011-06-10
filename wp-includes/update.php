@@ -58,7 +58,7 @@ function wp_version_check() {
 	}
 
 	$local_package = isset( $wp_local_package )? $wp_local_package : '';
-	$url = "http://api.wordpress.org/core/version-check/1.5/?version=$wp_version&php=$php_version&locale=$locale&mysql=$mysql_version&local_package=$local_package&blogs=$num_blogs&users={$user_count['total_users']}&multisite_enabled=$multisite_enabled";
+	$url = "http://api.wordpress.org/core/version-check/1.6-beta/?version=$wp_version&php=$php_version&locale=$locale&mysql=$mysql_version&local_package=$local_package&blogs=$num_blogs&users={$user_count['total_users']}&multisite_enabled=$multisite_enabled";
 
 	$options = array(
 		'timeout' => ( ( defined('DOING_CRON') && DOING_CRON ) ? 30 : 3 ),
@@ -75,29 +75,26 @@ function wp_version_check() {
 		return false;
 
 	$body = trim( wp_remote_retrieve_body( $response ) );
-	$body = str_replace(array("\r\n", "\r"), "\n", $body);
-	$new_options = array();
-	foreach ( explode( "\n\n", $body ) as $entry ) {
-		$returns = explode("\n", $entry);
-		$new_option = new stdClass();
-		$new_option->response = esc_attr( $returns[0] );
-		if ( isset( $returns[1] ) )
-			$new_option->url = esc_url( $returns[1] );
-		if ( isset( $returns[2] ) )
-			$new_option->package = esc_url( $returns[2] );
-		if ( isset( $returns[3] ) )
-			$new_option->current = esc_attr( $returns[3] );
-		if ( isset( $returns[4] ) )
-			$new_option->locale = esc_attr( $returns[4] );
-		if ( isset( $returns[5] ) )
-			$new_option->php_version = esc_attr( $returns[5] );
-		if ( isset( $returns[6] ) )
-			$new_option->mysql_version = esc_attr( $returns[6] );
-		$new_options[] = $new_option;
+	if ( ! $body = maybe_unserialize( $body ) )
+		return false;
+	if ( ! isset( $body['offers'] ) )
+		return false;
+	$offers = $body['offers'];
+
+	foreach ( $offers as &$offer ) {
+		foreach ( $offer as $offer_key => $value ) {
+			if ( 'packages' == $offer_key )
+				$offer['packages'] = (object) array_intersect_key( array_map( 'esc_url', $offer['packages'] ), array_fill_keys( array( 'full', 'no_content', 'new_bundled', 'partial' ), '' ) );
+			elseif ( 'download' == $offer_key )
+				$offer['download'] = esc_url( $value );
+			else
+				$offer[ $offer_key ] = esc_html( $value );
+		}
+		$offer = (object) array_intersect_key( $offer, array_fill_keys( array( 'response', 'download', 'locale', 'packages', 'current', 'php_version', 'mysql_version', 'new_bundled' ), '' ) );
 	}
 
 	$updates = new stdClass();
-	$updates->updates = $new_options;
+	$updates->updates = $offers;
 	$updates->last_checked = time();
 	$updates->version_checked = $wp_version;
 	set_site_transient( 'update_core',  $updates);

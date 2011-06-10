@@ -71,7 +71,7 @@ function list_core_update( $update ) {
 		} else {
 			submit_button( $submit, 'button', 'upgrade', false );
 		}
-		echo '&nbsp;<a href="' . esc_url( $update->package ) . '" class="button">' . $download . '</a>&nbsp;';
+		echo '&nbsp;<a href="' . esc_url( $update->download ) . '" class="button">' . $download . '</a>&nbsp;';
 	}
 	if ( 'en_US' != $update->locale )
 		if ( !isset( $update->dismissed ) || !$update->dismissed )
