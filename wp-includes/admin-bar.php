@@ -246,19 +246,19 @@ function wp_admin_bar_new_content_menu( $wp_admin_bar ) {
 	}
 
 	if ( current_user_can( 'upload_files' ) )
-		$actions[ 'media-new.php' ] = array( __( 'Media' ), 'upload_files', 'new-media' );
+		$actions[ 'media-new.php' ] = array( _x( 'Media', 'add new from admin bar' ), 'upload_files', 'new-media' );
 
 	if ( current_user_can( 'manage_links' ) )
-		$actions[ 'link-add.php' ] = array( __( 'Link' ), 'manage_links', 'new-link' );
+		$actions[ 'link-add.php' ] = array( _x( 'Link', 'add new from admin bar' ), 'manage_links', 'new-link' );
 
 	if ( current_user_can( 'create_users' ) || current_user_can( 'promote_users' ) )
-		$actions[ 'user-new.php' ] = array( __( 'User' ), 'create_users', 'new-user' );
+		$actions[ 'user-new.php' ] = array( _x( 'User', 'add new from admin bar' ), 'create_users', 'new-user' );
 
 	if ( ! is_multisite() && current_user_can( 'install_themes' ) )
-		$actions[ 'theme-install.php' ] = array( __( 'Theme' ), 'install_themes', 'new-theme' );
+		$actions[ 'theme-install.php' ] = array( _x( 'Theme', 'add new from admin bar' ), 'install_themes', 'new-theme' );
 
 	if ( ! is_multisite() && current_user_can( 'install_plugins' ) )
-		$actions[ 'plugin-install.php' ] = array( __( 'Plugin' ), 'install_plugins', 'new-plugin' );
+		$actions[ 'plugin-install.php' ] = array( _x( 'Plugin', 'add new from admin bar' ), 'install_plugins', 'new-plugin' );
 			
 	if ( empty( $actions ) )
 		return;
