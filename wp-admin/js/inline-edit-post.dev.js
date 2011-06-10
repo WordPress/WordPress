@@ -74,9 +74,9 @@ inlineEditPost = {
 			}
 		});
 
-		$('#post-query-submit').click(function(e){
-			if ( $('form#posts-filter tr.inline-editor').length > 0 )
-				t.revert();
+		$('#post-query-submit').mousedown(function(e){
+			t.revert();
+			$('select[name^="action"]').val('-1');
 		});
 	},
 

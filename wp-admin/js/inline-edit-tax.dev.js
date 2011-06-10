@@ -20,9 +20,8 @@ inlineEditTax = {
 		$('a.save', row).click(function() { return inlineEditTax.save(this); });
 		$('input, select', row).keydown(function(e) { if(e.which == 13) return inlineEditTax.save(this); });
 
-		$('#posts-filter input[type="submit"]').click(function(e){
-			if ( $('form#posts-filter tr.inline-editor').length > 0 )
-				t.revert();
+		$('#posts-filter input[type="submit"]').mousedown(function(e){
+			t.revert();
 		});
 	},
 
