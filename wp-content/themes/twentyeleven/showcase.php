@@ -54,7 +54,7 @@ get_header(); ?>
 
 					// The Featured Posts query.
 					$featured = new WP_Query( $featured_args );
-					
+
 					// Proceed only if published posts exist
 					if ( $featured->have_posts() ) :
 
@@ -98,7 +98,7 @@ get_header(); ?>
 					?>
 
 					<section class="featured-post <?php echo $feature_class; ?>" id="featured-post-<?php echo $counter_slider; ?>">
-	
+
 						<?php
 							/**
 							 * If the thumbnail is as big as the header image

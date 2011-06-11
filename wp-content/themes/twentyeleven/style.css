@@ -846,7 +846,7 @@ img[class*="wp-image-"] {
 	height: auto;
 }
 img.size-full {
-	max-width: 97.5%;	
+	max-width: 97.5%;
 	width: auto; /* Prevent stretching of full-size images in IE8 */
 }
 .entry-content img.wp-smiley {
@@ -1104,7 +1104,7 @@ blockquote.pull {
 }
 .singular .entry-meta .edit-link a {
 	bottom: auto;
-	left: 50px;	
+	left: 50px;
 	position: absolute;
 	right: auto;
 	top: 80px;
@@ -2448,7 +2448,7 @@ p.comment-form-comment {
 	footer.entry-meta a[rel=bookmark]:link:after,
 	footer.entry-meta a[rel=bookmark]:visited:after {
 		content:" [" attr(href) "] "; /* Show URLs */
-	}	
+	}
 	#page {
 		clear: both !important;
 		display: block !important;
@@ -2543,7 +2543,7 @@ p.comment-form-comment {
 	#colophon {
 		display: none;
 	}
-	
+
 	/* Comments */
 	.commentlist > li.comment {
 	    background: none;
@@ -2581,7 +2581,7 @@ p.comment-form-comment {
 	.commentlist .reply {
 		display: none;
 	}
-	
+
 	/* Post author highlighting */
 	.commentlist > li.bypostauthor {
 		color: #444;

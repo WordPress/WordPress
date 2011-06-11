@@ -387,13 +387,13 @@ body {
 	-khtml-border-radius: 3px;
 }
 
-#menu-to-edit .menu-item-invalid .menu-item-handle { 
-	background-color: #f6c9cc; /* Fallback */ 
-	background-image: -ms-linear-gradient(bottom, #f6c9cc, #fdf8ff); /* IE10 */  
-	background-image: -moz-linear-gradient(bottom, #f6c9cc, #fdf8ff); /* Firefox */  
-	background-image: -o-linear-gradient(bottom, #f6c9cc, #fdf8ff); /* Opera */  
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#f6c9cc), to(#fdf8ff)); /* old Webkit  */  
-	background-image: -webkit-linear-gradient(bottom, #f6c9cc, #fdf8ff); /* new Webkit */  
+#menu-to-edit .menu-item-invalid .menu-item-handle {
+	background-color: #f6c9cc; /* Fallback */
+	background-image: -ms-linear-gradient(bottom, #f6c9cc, #fdf8ff); /* IE10 */
+	background-image: -moz-linear-gradient(bottom, #f6c9cc, #fdf8ff); /* Firefox */
+	background-image: -o-linear-gradient(bottom, #f6c9cc, #fdf8ff); /* Opera */
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#f6c9cc), to(#fdf8ff)); /* old Webkit  */
+	background-image: -webkit-linear-gradient(bottom, #f6c9cc, #fdf8ff); /* new Webkit */
 	background-image: linear-gradient(bottom, #f6c9cc, #fdf8ff); /* proposed W3C Markup */
 }
 

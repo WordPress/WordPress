@@ -528,8 +528,8 @@ function wp_get_nav_menu_items( $menu, $args = array() ) {
 	}
 
 	$items = array_map( 'wp_setup_nav_menu_item', $items );
-	
-	if ( ! in_array( $args['post_status'], array( 'draft', 'any' ) ) ) 
+
+	if ( ! in_array( $args['post_status'], array( 'draft', 'any' ) ) )
 		$items = array_filter( $items, '_is_valid_nav_menu_item' );
 
 	if ( ARRAY_A == $args['output'] ) {

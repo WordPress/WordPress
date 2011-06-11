@@ -3,7 +3,7 @@
  * The template for displaying posts in the Aside Post Format on index and archive pages
  *
  * Learn more: http://codex.wordpress.org/Post_Formats
- * 
+ *
  * @package WordPress
  * @subpackage Twenty_Eleven
  * @since Twenty Eleven 1.0
@@ -16,7 +16,7 @@
 				<h1 class="entry-title"><a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'twentyeleven' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a></h1>
 				<h2 class="entry-format"><?php _e( 'Aside', 'twentyeleven' ); ?></h2>
 			</hgroup>
-			
+
 			<?php if ( comments_open() ) : ?>
 			<div class="comments-link">
 				<?php comments_popup_link( __( '<span class="leave-reply">Reply</span>', 'twentyeleven' ), __( '1', 'twentyeleven' ), __( '%', 'twentyeleven' ) ); ?>

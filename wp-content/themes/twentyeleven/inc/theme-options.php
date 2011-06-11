@@ -250,7 +250,7 @@ function theme_options_render_page() {
 							<input type="button" class="pickcolor button hide-if-no-js" value="<?php esc_attr_e( 'Select a Color', 'twentyeleven' ); ?>" />
 							<div id="colorPickerDiv" style="z-index: 100; background:#eee; border:1px solid #ccc; position:absolute; display:none;"></div>
 							<br />
-							<span><?php printf( __( 'Default color: %s', 'twentyeleven' ), '<span id="default-color">' . twentyeleven_get_default_link_color( $options['color_scheme'] ) . '</span>' ); ?></span> 
+							<span><?php printf( __( 'Default color: %s', 'twentyeleven' ), '<span id="default-color">' . twentyeleven_get_default_link_color( $options['color_scheme'] ) . '</span>' ); ?></span>
 						</fieldset>
 					</td>
 				</tr>
@@ -298,8 +298,8 @@ function twentyeleven_theme_options_validate( $input ) {
 	// Color scheme must be in our array of color scheme options
 	if ( isset( $input['color_scheme'] ) && array_key_exists( $input['color_scheme'], twentyeleven_color_schemes() ) )
 		$output['color_scheme'] = $input['color_scheme'];
-		
-	// Our defaults for the link color may have changed, based on the color scheme. 
+
+	// Our defaults for the link color may have changed, based on the color scheme.
 	$output['link_color'] = $defaults['link_color'] = twentyeleven_get_default_link_color( $output['color_scheme'] );
 
 	// Link color must be 3 or 6 hexadecimal characters
@@ -364,7 +364,7 @@ function twentyeleven_print_link_color_style() {
 		}
 		section.recent-posts .other-recent-posts .comments-link a:hover {
 			border-color: <?php echo $link_color; ?>;
-		}	
+		}
 		article.feature-image.small .entry-summary p a:hover,
 		.entry-header .comments-link a:hover,
 		.entry-header .comments-link a:focus,

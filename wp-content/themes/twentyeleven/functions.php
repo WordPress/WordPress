@@ -115,7 +115,7 @@ function twentyeleven_setup() {
 	define( 'HEADER_TEXTCOLOR', '000' );
 
 	// By leaving empty, we default to random image rotation
-	define( 'HEADER_IMAGE', '' ); 
+	define( 'HEADER_IMAGE', '' );
 
 	// The height and width of your custom header.
 	// Add a filter to twentyeleven_header_image_width and twentyeleven_header_image_height to change these values.
