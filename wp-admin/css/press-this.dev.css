@@ -21,7 +21,7 @@ img {
 
 #header-logo {
 	float: left;
-	margin: 7px 0;
+	margin: 7px 7px 0;
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-khtml-user-select: none;
@@ -30,16 +30,16 @@ img {
 
 #wphead h1 {
 	font: normal 16px Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
-	padding: 6px 8px 5px;
+	padding: 6px 0 0;
 	margin: 0;
 	float: left;
 }
 
 #wphead h1 a {
-	text-decoration:none;
+	text-decoration: none;
 }
-#wphead h1 a:hover #site-title {
-	text-decoration:underline;
+#wphead h1 a:hover {
+	text-decoration: underline;
 }
 
 .tagchecklist span a {
@@ -150,7 +150,7 @@ div.zerosize {
 }
 
 #submitdiv .inside p {
-	padding: 8px;
+	padding: 5px 8px;
 	margin: 0;
 }
 
@@ -367,7 +367,7 @@ h3.tb {
 	margin: 1px;
 }
 
-.category-add select {
+select {
 	width: 100%;
 	-x-system-font: none;
 	border-style: solid;
@@ -534,6 +534,7 @@ ul.category-tabs li {
 	font-size: 12px !important;
 	line-height: 16px;
 	padding: 2px 8px;
+	margin: 2px;
 	cursor: pointer;
 	border-width: 1px;
 	border-style: solid;
