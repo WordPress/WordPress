@@ -238,11 +238,11 @@ function wp_admin_bar_edit_menu( $wp_admin_bar ) {
  */
 function wp_admin_bar_new_content_menu( $wp_admin_bar ) {
 	$actions = array();
-	foreach ( (array) get_post_types( array( 'show_ui' => true ), 'objects' ) as $ptype_obj ) {
-		if ( true !== $ptype_obj->show_in_menu || ! current_user_can( $ptype_obj->cap->edit_posts ) )
+	foreach ( (array) get_post_types( array( 'show_in_admin_bar' => true ), 'objects' ) as $ptype_obj ) {
+		if ( ! current_user_can( $ptype_obj->cap->edit_posts ) )
 			continue;
 
-		$actions[ 'post-new.php?post_type=' . $ptype_obj->name ] = array( $ptype_obj->labels->singular_name, $ptype_obj->cap->edit_posts, 'new-' . $ptype_obj->name );
+		$actions[ 'post-new.php?post_type=' . $ptype_obj->name ] = array( $ptype_obj->labels->name_admin_bar, $ptype_obj->cap->edit_posts, 'new-' . $ptype_obj->name );
 	}
 
 	if ( current_user_can( 'upload_files' ) )

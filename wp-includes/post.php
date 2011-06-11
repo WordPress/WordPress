@@ -18,6 +18,9 @@
  */
 function create_initial_post_types() {
 	register_post_type( 'post', array(
+		'labels' => array(
+			'name_admin_bar' => _x( 'Post', 'add new on admin bar' ),
+		),
 		'public'  => true,
 		'_builtin' => true, /* internal use only. don't use this when registering your own post type. */
 		'_edit_link' => 'post.php?post=%d', /* internal use only. don't use this when registering your own post type. */
@@ -30,6 +33,9 @@ function create_initial_post_types() {
 	) );
 
 	register_post_type( 'page', array(
+		'labels' => array(
+			'name_admin_bar' => _x( 'Page', 'add new on admin bar' ),
+		),
 		'public' => true,
 		'publicly_queryable' => false,
 		'_builtin' => true, /* internal use only. don't use this when registering your own post type. */
@@ -915,7 +921,8 @@ function register_post_type($post_type, $args = array()) {
 		'public' => false, 'rewrite' => true, 'has_archive' => false, 'query_var' => true,
 		'supports' => array(), 'register_meta_box_cb' => null,
 		'taxonomies' => array(), 'show_ui' => null, 'menu_position' => null, 'menu_icon' => null,
-		'permalink_epmask' => EP_PERMALINK, 'can_export' => true, 'show_in_nav_menus' => null, 'show_in_menu' => null,
+		'permalink_epmask' => EP_PERMALINK, 'can_export' => true,
+		'show_in_nav_menus' => null, 'show_in_menu' => null, 'show_in_admin_bar' => null,
 	);
 	$args = wp_parse_args($args, $defaults);
 	$args = (object) $args;
@@ -937,6 +944,10 @@ function register_post_type($post_type, $args = array()) {
 	// If not set, default to the setting for show_ui.
 	if ( null === $args->show_in_menu || ! $args->show_ui )
 		$args->show_in_menu = $args->show_ui;
+
+	// If not set, default to the whether the full UI is shown.
+	if ( null === $args->show_in_admin_bar )
+		$args->show_in_admin_bar = true === $args->show_in_menu;
 
 	// Whether to show this type in nav-menus.php.  Defaults to the setting for public.
 	if ( null === $args->show_in_nav_menus )
@@ -1193,6 +1204,9 @@ function _get_custom_object_labels( $object, $nohier_vs_hier_defaults ) {
 
 	if ( !isset( $object->labels['singular_name'] ) && isset( $object->labels['name'] ) )
 		$object->labels['singular_name'] = $object->labels['name'];
+
+	if ( ! isset( $object->labels['name_admin_bar'] ) )
+		$object->labels['name_admin_bar'] = isset( $object->labels['singular_name'] ) ? $object->labels['singular_name'] : $object->name;
 
 	if ( !isset( $object->labels['menu_name'] ) && isset( $object->labels['name'] ) )
 		$object->labels['menu_name'] = $object->labels['name'];
