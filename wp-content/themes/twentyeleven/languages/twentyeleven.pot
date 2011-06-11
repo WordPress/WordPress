@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Eleven 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyeleven\n"
-"POT-Creation-Date: 2011-06-11 05:47:28+00:00\n"
+"POT-Creation-Date: 2011-06-11 06:47:35+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -39,7 +39,7 @@ msgid "%"
 msgstr ""
 
 #: content-quote.php:37 content.php:41 content-image.php:27
-#: content-gallery.php:32 content-aside.php:36 functions.php:328
+#: content-gallery.php:32 content-aside.php:36 functions.php:324
 #: content-status.php:34 content-link.php:36
 msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
@@ -137,7 +137,7 @@ msgid ""
 "title=\"%5$s\" rel=\"author\">%6$s</a></span></span>"
 msgstr ""
 
-#: content-image.php:40 functions.php:576
+#: content-image.php:40 functions.php:562
 msgid "View all posts by %s"
 msgstr ""
 
@@ -259,103 +259,103 @@ msgstr ""
 msgid "Primary Menu"
 msgstr ""
 
-#: functions.php:150
+#: functions.php:146
 msgid "Wheel"
 msgstr ""
 
-#: functions.php:156
+#: functions.php:152
 msgid "Shore"
 msgstr ""
 
-#: functions.php:162
+#: functions.php:158
 msgid "Trolley"
 msgstr ""
 
-#: functions.php:168
+#: functions.php:164
 msgid "Pine Cone"
 msgstr ""
 
-#: functions.php:174
+#: functions.php:170
 msgid "Chessboard"
 msgstr ""
 
-#: functions.php:180
+#: functions.php:176
 msgid "Lanterns"
 msgstr ""
 
-#: functions.php:186
+#: functions.php:182
 msgid "Willow"
 msgstr ""
 
-#: functions.php:192
+#: functions.php:188
 msgid "Hanoi Plant"
 msgstr ""
 
-#: functions.php:386
+#: functions.php:371
 msgid "Main Sidebar"
 msgstr ""
 
-#: functions.php:395
+#: functions.php:380
 msgid "Showcase Sidebar"
 msgstr ""
 
-#: functions.php:397
+#: functions.php:382
 msgid "The sidebar for the optional Showcase Template"
 msgstr ""
 
-#: functions.php:405
+#: functions.php:390
 msgid "Footer Area One"
 msgstr ""
 
-#: functions.php:407 functions.php:417 functions.php:427
+#: functions.php:392 functions.php:402 functions.php:412
 msgid "An optional widget area for your site footer"
 msgstr ""
 
-#: functions.php:415
+#: functions.php:400
 msgid "Footer Area Two"
 msgstr ""
 
-#: functions.php:425
+#: functions.php:410
 msgid "Footer Area Three"
 msgstr ""
 
-#: functions.php:444 single.php:18
+#: functions.php:429 single.php:18
 msgid "Post navigation"
 msgstr ""
 
-#: functions.php:445
+#: functions.php:430
 msgid "<span class=\"meta-nav\">&larr;</span> Older posts"
 msgstr ""
 
-#: functions.php:446
+#: functions.php:431
 msgid "Newer posts <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: functions.php:515
+#: functions.php:500
 msgid "Pingback:"
 msgstr ""
 
-#: functions.php:515
+#: functions.php:500
 msgid "(Edit)"
 msgstr ""
 
-#: functions.php:531
+#: functions.php:516
 msgid "%1$s on %2$s%3$s at %4$s%5$s <span class=\"says\">said:</span>"
 msgstr ""
 
-#: functions.php:540
+#: functions.php:525
 msgid "[Edit]"
 msgstr ""
 
-#: functions.php:544
+#: functions.php:529
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: functions.php:553
+#: functions.php:538
 msgid "Reply &darr;"
 msgstr ""
 
-#: functions.php:570
+#: functions.php:556
 msgid ""
 "<span class=\"sep\">Posted on </span><a href=\"%1$s\" title=\"%2$s\" rel="
 "\"bookmark\"><time class=\"entry-date\" datetime=\"%3$s\" pubdate>%4$s</"
