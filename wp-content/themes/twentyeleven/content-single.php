@@ -12,7 +12,7 @@
 	<header class="entry-header">
 		<h1 class="entry-title"><?php the_title(); ?></h1>
 
-		<?php if ( 'post' == get_post_type() ) : /* Bit of a disconnect here, Some files include this test, not all do. */ ?>
+		<?php if ( 'post' == get_post_type() ) : ?>
 		<div class="entry-meta">
 			<?php twentyeleven_posted_on(); ?>
 		</div><!-- .entry-meta -->

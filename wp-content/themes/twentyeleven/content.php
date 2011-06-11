@@ -12,7 +12,7 @@
 		<header class="entry-header">
 			<?php if ( is_sticky() ) : ?>
 				<hgroup>
-					<h1 class="entry-title"><a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'twentyeleven' ), the_title_attribute( 'echo=0' ) /* Y NO ARRAY! */ ); ?>" rel="bookmark"><?php the_title(); ?></a></h1>
+					<h1 class="entry-title"><a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'twentyeleven' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a></h1>
 					<h2 class="entry-format"><?php _e( 'Featured', 'twentyeleven' ); ?></h2>
 				</hgroup>
 			<?php else : ?>
@@ -44,7 +44,7 @@
 		<?php endif; ?>
 
 		<footer class="entry-meta">
-			<?php $show_sep = false; //  perhaps a implode(' | ', $utilities) could be used instead of this $show_sep business? ?>
+			<?php $show_sep = false; ?>
 			<?php if ( 'post' == get_post_type() ) : // Hide category and tag text for pages on Search ?>
 			<?php
 				/* translators: used between list items, there is a space after the comma */

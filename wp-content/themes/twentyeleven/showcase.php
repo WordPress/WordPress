@@ -178,8 +178,7 @@ get_header(); ?>
 						'no_found_rows' => true,
 					);
 					// Our new query for the Recent Posts section.
-					$recent = new WP_Query();
-					$recent->query( $recent_args );
+					$recent = new WP_Query( $recent_args );
 					$counter = 0;
 
 					while ( $recent->have_posts() ) : $recent->the_post();

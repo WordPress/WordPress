@@ -72,8 +72,7 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 				),
 			),
 		);
-		$ephemera = new WP_Query();
-		$ephemera->query( $ephemera_args );
+		$ephemera = new WP_Query( $ephemera_args );
 
 		if ( $ephemera->have_posts() ) :
 
