@@ -86,7 +86,7 @@ body {
 	border-top: 1px solid;
 }
 
-#post-body div.updated {
+#post-body div.updated, #post-body div.error {
 	margin: 0;
 }
 

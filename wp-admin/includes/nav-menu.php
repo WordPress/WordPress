@@ -1103,14 +1103,19 @@ function wp_get_nav_menu_to_edit( $menu_id = 0 ) {
 		else
 			return new WP_Error( 'menu_walker_not_exist', sprintf( __('The Walker class named <strong>%s</strong> does not exist.'), $walker_class_name ) );
 
-		$some_pending_menu_items = false;
+		$some_pending_menu_items = $some_invalid_menu_items = false;
 		foreach( (array) $menu_items as $menu_item ) {
 			if ( isset( $menu_item->post_status ) && 'draft' == $menu_item->post_status )
 				$some_pending_menu_items = true;
+			if ( ! empty( $menu_item->_invalid ) )
+				$some_invalid_menu_items = true;
 		}
 
 		if ( $some_pending_menu_items )
 			$result .= '<div class="updated inline"><p>' . __('Click Save Menu to make pending menu items public.') . '</p></div>';
+
+		if ( $some_invalid_menu_items )
+			$result .= '<div class="error inline"><p>' . __('There are some invalid menu items. Please check or delete them.') . '</p></div>';
 
 		$result .= '<ul class="menu" id="menu-to-edit"> ';
 		$result .= walk_nav_menu_tree( array_map('wp_setup_nav_menu_item', $menu_items), 0, (object) array('walker' => $walker ) );
