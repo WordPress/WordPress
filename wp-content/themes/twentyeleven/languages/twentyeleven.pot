@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Eleven 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyeleven\n"
-"POT-Creation-Date: 2011-06-11 03:47:31+00:00\n"
+"POT-Creation-Date: 2011-06-11 05:47:28+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,8 +12,8 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: content-quote.php:14 showcase.php:115 showcase.php:117 showcase.php:196
-#: content.php:15 content.php:19 content-image.php:15 content-gallery.php:16
+#: content-quote.php:14 showcase.php:113 showcase.php:192 content.php:15
+#: content.php:19 content-image.php:15 content-gallery.php:16
 #: content-gallery.php:48 content-aside.php:16 content-status.php:15
 #: inc/widgets.php:91 content-link.php:16 content-featured.php:14
 msgid "Permalink to %s"
@@ -66,19 +66,19 @@ msgstr ""
 msgid "<span class=\"%1$s\">Tagged</span> %2$s"
 msgstr ""
 
-#: content-quote.php:73 showcase.php:198 content.php:77 content-image.php:65
+#: content-quote.php:73 showcase.php:194 content.php:77 content-image.php:65
 #: content-gallery.php:87 content-aside.php:45 content-status.php:43
 #: content-link.php:45
 msgid "<span class=\"leave-reply\">Leave a reply</span>"
 msgstr ""
 
-#: content-quote.php:73 showcase.php:198 content.php:77 content-image.php:65
+#: content-quote.php:73 showcase.php:194 content.php:77 content-image.php:65
 #: content-gallery.php:87 content-aside.php:45 content-status.php:43
 #: content-link.php:45
 msgid "<b>1</b> Reply"
 msgstr ""
 
-#: content-quote.php:73 showcase.php:198 content.php:77 content-image.php:65
+#: content-quote.php:73 showcase.php:194 content.php:77 content-image.php:65
 #: content-gallery.php:87 content-aside.php:45 content-status.php:43
 #: content-link.php:45
 msgid "<b>%</b> Replies"
@@ -86,8 +86,8 @@ msgstr ""
 
 #: content-quote.php:76 content.php:80 content-image.php:70
 #: content-single.php:47 content-intro.php:19 content-gallery.php:90
-#: content-aside.php:47 image.php:39 image.php:103 content-status.php:45
-#: content-page.php:19 content-link.php:47 content-featured.php:45
+#: content-aside.php:47 image.php:39 content-status.php:45 content-page.php:19
+#: content-link.php:47 content-featured.php:45
 msgid "Edit"
 msgstr ""
 
@@ -95,11 +95,11 @@ msgstr ""
 msgid "Featured Post"
 msgstr ""
 
-#: showcase.php:148
+#: showcase.php:143
 msgid "Featuring: %s"
 msgstr ""
 
-#: showcase.php:162
+#: showcase.php:153
 msgid "Recent Posts"
 msgstr ""
 
@@ -253,30 +253,6 @@ msgid ""
 "\"entry-date\"><abbr class=\"published\" title=\"%1$s\">%2$s</abbr></span> "
 "at <a href=\"%3$s\" title=\"Link to full-size image\">%4$s &times; %5$s</a> "
 "in <a href=\"%6$s\" title=\"Return to %7$s\" rel=\"gallery\">%7$s</a>"
-msgstr ""
-
-#: image.php:95
-msgid ""
-"<a class=\"comment-link\" href=\"#respond\" title=\"Post a comment\">Post a "
-"comment</a> or leave a trackback: <a class=\"trackback-link\" href=\"%s\" "
-"title=\"Trackback URL for your post\" rel=\"trackback\">Trackback URL</a>."
-msgstr ""
-
-#: image.php:97
-msgid ""
-"Comments are closed, but you can leave a trackback: <a class=\"trackback-link"
-"\" href=\"%s\" title=\"Trackback URL for your post\" rel=\"trackback"
-"\">Trackback URL</a>."
-msgstr ""
-
-#: image.php:99
-msgid ""
-"Trackbacks are closed, but you can <a class=\"comment-link\" href=\"#respond"
-"\" title=\"Post a comment\">post a comment</a>."
-msgstr ""
-
-#: image.php:101
-msgid "Both comments and trackbacks are currently closed."
 msgstr ""
 
 #: functions.php:101
