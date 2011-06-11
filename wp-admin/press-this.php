@@ -411,7 +411,6 @@ var photostorage = false;
 						show('photo');
 					});
 					jQuery('#photo-add-url').attr('href', '?ajax=photo_thickbox_url&height=200&width=500');
-					tb_init('#extra-fields .thickbox');
 					jQuery('#waiting').hide();
 					jQuery('#extra-fields').show();
 				}

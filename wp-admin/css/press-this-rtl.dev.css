@@ -58,21 +58,17 @@ h3.tb {
 	margin-left: 10px;
 }
 
-#extra_fields .actions {
-	margin-left: -5px;
-	margin-right: 0px;
+#extra-fields .actions {
+    margin: -23px 0 0 -7px;
 }
 
-#extra_fields .button {
-	margin-right: 0;
-	margin-left: 5px;
-}
 /* Photo Styles */
 #img_container a {
 	float: right;
 }
 
-#category-add input, #category-add select {
+#category-add input,
+#category-add select {
 	font-family: Tahoma, Arial;
 }
 
