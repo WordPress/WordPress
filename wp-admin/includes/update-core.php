@@ -354,8 +354,7 @@ function update_core($from, $to) {
 	$distro = '';
 	$roots = array( '/wordpress/', '/wordpress-mu/' );
 	foreach( $roots as $root ) {
-		if ( $wp_filesystem->exists($from . $root . 'wp-settings.php') && $wp_filesystem->exists($from . $root . 'wp-admin/admin.php') &&
-			$wp_filesystem->exists($from . $root . 'wp-includes/functions.php') ) {
+		if ( $wp_filesystem->exists($from . $root . 'readme.html') && $wp_filesystem->exists($from . $root . 'wp-includes/version.php') ) {
 			$distro = $root;
 			break;
 		}
