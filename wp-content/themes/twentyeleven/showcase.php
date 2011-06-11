@@ -78,9 +78,9 @@ get_header(); ?>
 
 					/**
 					 * We're going to add a class to our featured post for featured images
-					 * by default it'll have no class though.
+					 * by default it'll have the feature-text class.
 					 */
-					$feature_class = '';
+					$feature_class = 'feature-text';
 
 					if ( has_post_thumbnail() ) {
 						// ... but if it has a featured image let's add some class
@@ -94,32 +94,28 @@ get_header(); ?>
 							// If bigger, let's add a BIGGER class. It's EXTRA classy now.
 							$feature_class = 'feature-image large';
 						}
-					} else {
-						$feature_class = 'feature-text';
 					}
-				?>
-
-				<?php if ( has_post_thumbnail() ) : ?>
-				<section class="featured-post <?php echo $feature_class; ?>" id="featured-post-<?php echo $counter_slider; ?>">
-				<?php else : ?>
-				<section class="featured-post" id="featured-post-<?php echo $counter_slider; ?>">
-				<?php endif; ?>
-
-					<?php
-						/**
-						 * If the thumbnail is as big as the header image
-						 * make it a large featured post, otherwise render it small
-						 */
-						if ( has_post_thumbnail() ) {
-							if ( $image[1] >= HEADER_IMAGE_WIDTH ) { ?>
-								<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'twentyeleven' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"> <?php the_post_thumbnail( 'large-feature' ); ?></a>
-							<?php } else { ?>
-								<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'twentyeleven' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_post_thumbnail( 'small-feature' ); ?></a>
-							<?php }
-						}
 					?>
-					<?php get_template_part( 'content', 'featured' ); ?>
-				</section>
+
+					<section class="featured-post <?php echo $feature_class; ?>" id="featured-post-<?php echo $counter_slider; ?>">
+	
+						<?php
+							/**
+							 * If the thumbnail is as big as the header image
+							 * make it a large featured post, otherwise render it small
+							 */
+							if ( has_post_thumbnail() ) {
+								if ( $image[1] >= HEADER_IMAGE_WIDTH )
+									$thumbnail_size = 'large-feature';
+								else
+									$thumbnail_size = 'small-feature';
+								?>
+								<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'twentyeleven' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_post_thumbnail( $thumbnail_size ); ?></a>
+								<?php
+							}
+						?>
+						<?php get_template_part( 'content', 'featured' ); ?>
+					</section>
 				<?php endwhile;	?>
 
 				<?php
@@ -129,11 +125,6 @@ get_header(); ?>
 				<nav class="feature-slider">
 					<ul>
 					<?php
-						/**
-						 * We need to query the same set of posts again
-						 * to populate the navigation dots
-						 */
-				    	$featured->query( $featured_args );
 
 						// Reset the counter so that we end up with matching elements
 				    	$counter_slider = 0;
@@ -144,12 +135,12 @@ get_header(); ?>
 						// Let's roll again.
 				    	while ( $featured->have_posts() ) : $featured->the_post();
 				    		$counter_slider++;
-				    ?>
-						<li><a href="#featured-post-<?php echo $counter_slider; ?>" title="<?php printf( esc_attr__( 'Featuring: %s', 'twentyeleven' ), the_title_attribute( 'echo=0' ) ); ?>" <?php
-						if ( 1 == $counter_slider ) :
-							echo 'class="active"';
-						endif;
-						?>></a></li>
+							if ( 1 == $counter_slider )
+								$class = 'class="active"';
+							else
+								$class = '';
+				    	?>
+						<li><a href="#featured-post-<?php echo $counter_slider; ?>" title="<?php printf( esc_attr__( 'Featuring: %s', 'twentyeleven' ), the_title_attribute( 'echo=0' ) ); ?>" <?php echo $class; ?>></a></li>
 					<?php endwhile;	?>
 					</ul>
 				</nav>
@@ -177,33 +168,40 @@ get_header(); ?>
 						),
 						'no_found_rows' => true,
 					);
+
 					// Our new query for the Recent Posts section.
 					$recent = new WP_Query( $recent_args );
-					$counter = 0;
 
-					while ( $recent->have_posts() ) : $recent->the_post();
+					// The first Recent post is displayed normally
+					if ( $recent->have_posts() ) : $recent->the_post();
+
 						// Set $more to 0 in order to only get the first part of the post.
 						global $more;
 						$more = 0;
-						$counter++;
 
-						if ( 1 == $counter ) :
-							get_template_part( 'content', get_post_format() );
-							echo '<ol class="other-recent-posts">';
+						get_template_part( 'content', get_post_format() );
 
-						else : ?>
-							<li class="entry-title">
-								<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'twentyeleven' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a>
-								<span class="comments-link">
-									<?php comments_popup_link( __( '<span class="leave-reply">Leave a reply</span>', 'twentyeleven' ), __( '<b>1</b> Reply', 'twentyeleven' ), __( '<b>%</b> Replies', 'twentyeleven' ) ); ?>
-								</span>
-							</li>
+						echo '<ol class="other-recent-posts">';
 
-						<?php endif;
+					endif;
+
+					// For all other recent posts, just display the title and comment status.
+					while ( $recent->have_posts() ) : $recent->the_post(); ?>
+
+						<li class="entry-title">
+							<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'twentyeleven' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a>
+							<span class="comments-link">
+								<?php comments_popup_link( __( '<span class="leave-reply">Leave a reply</span>', 'twentyeleven' ), __( '<b>1</b> Reply', 'twentyeleven' ), __( '<b>%</b> Replies', 'twentyeleven' ) ); ?>
+							</span>
+						</li>
+
+					<?php
 					endwhile;
-					?>
 
-					</ol>
+					// If we had some posts, close the <ol>
+					if ( $recent->post_count > 0 )
+						echo '</ol>';
+					?>
 				</section><!-- .recent-posts -->
 
 				<div class="widget-area" role="complementary">
