@@ -1042,7 +1042,7 @@ function wp_dashboard_cached_rss_widget( $widget_id, $callback, $check_urls = ar
 		$check_urls = array( $widgets[$widget_id]['url'] );
 	}
 
-	$cache_key = 'dash_' . md5( $callback . implode(',', $check_urls) );
+	$cache_key = 'dash_' . $widget_id;
 	if ( false !== ( $output = get_transient( $cache_key ) ) ) {
 		echo $output;
 		return true;
@@ -1118,6 +1118,8 @@ function wp_dashboard_rss_control( $widget_id, $form_inputs = array() ) {
 			}
 		}
 		update_option( 'dashboard_widget_options', $widget_options );
+		$cache_key = 'dash_' . $widget_id;
+		delete_transient( $cache_key );
 	}
 
 	wp_widget_rss_form( $widget_options[$widget_id], $form_inputs );
