@@ -273,7 +273,7 @@ require( ABSPATH . WPINC . '/locale.php' );
 $wp_locale = new WP_Locale();
 
 // Load the functions for the active theme, for both parent and child theme if applicable.
-if ( ! defined( 'WP_INSTALLING' ) ) {
+if ( ! defined( 'WP_INSTALLING' ) || 'wp-activate.php' === $pagenow ) {
 	if ( TEMPLATEPATH !== STYLESHEETPATH && file_exists( STYLESHEETPATH . '/functions.php' ) )
 		include( STYLESHEETPATH . '/functions.php' );
 	if ( file_exists( TEMPLATEPATH . '/functions.php' ) )
