@@ -684,7 +684,7 @@ table.widefat span.spam a,
 #titlediv,
 #poststuff .postarea,
 .stuffbox {
-	border-color: #D1E5EE;
+	border-color: #d1e5ee;
 	-moz-box-shadow: inset 0 1px 0 #fff;
 	-webkit-box-shadow: inset 0 1px 0 #fff;
 	box-shadow: inset 0 1px 0 #fff;
@@ -698,55 +698,7 @@ table.widefat span.spam a,
 #widget-list .widget-top,
 .postbox,
 .menu-item-settings {
-	background-color: #F7FCFE;
-}
-
-#dashboard_browser_nag.postbox.browser-insecure {
-	background-color: #AC1B1B;
-	border-color: #AC1B1B;
-}
-
-#dashboard_browser_nag.postbox {
-	background-color: #e29808;
-	border-color: #EDC048;
-}
-
-#dashboard_browser_nag.postbox {
-	-moz-box-shadow: none;
-	-webkit-box-shadow: none;
-	box-shadow:none;
-}
-
-#dashboard_browser_nag.postbox.browser-insecure h3 {
-	border-bottom-color: #CD5A5A;
-}
-
-#dashboard_browser_nag.postbox h3 {
-	border-bottom-color: #F6E2AC;
-	text-shadow: none;
-	-moz-box-shadow: none;
-	-webkit-box-shadow: none;
-	box-shadow: none;
-	background-image: none;
-}
-
-.ui-sortable #dashboard_browser_nag.postbox,
-.ui-sortable #dashboard_browser_nag.postbox h3 {
-	color: #fff;
-}
-
-#dashboard_browser_nag a {
-	color: #fff;
-}
-
-#dashboard_browser_nag.browser-insecure a.browse-happy-link,
-#dashboard_browser_nag.browser-insecure a.update-browser-link {
-	text-shadow: #871B15 0 1px 0;
-}
-
-#dashboard_browser_nag a.browse-happy-link,
-#dashboard_browser_nag a.update-browser-link {
-	text-shadow: #D29A04 0 1px 0;
+	background-color: #f7fcfe;
 }
 
 .ui-sortable .postbox h3 {
@@ -789,8 +741,8 @@ table.widefat span.spam a,
 }
 
 #update-nag, .update-nag {
-	background-color: #FFFBCC;
-	border-color: #E6DB55;
+	background-color: #fffbcc;
+	border-color: #e6db55;
 	color: #555;
 }
 

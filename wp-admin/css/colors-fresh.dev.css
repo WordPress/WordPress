@@ -707,54 +707,6 @@ table.widefat span.spam a,
 	background-image: linear-gradient(top, #f9f9f9, #f5f5f5); /* proposed W3C Markup */
 }
 
-#dashboard_browser_nag.postbox.browser-insecure {
-	background-color: #AC1B1B;
-	border-color: #AC1B1B;
-}
-
-#dashboard_browser_nag.postbox {
-	background-color: #e29808;
-	border-color: #EDC048;
-}
-
-#dashboard_browser_nag.postbox {
-	-moz-box-shadow: none;
-	-webkit-box-shadow: none;
-	box-shadow:none;
-}
-
-#dashboard_browser_nag.postbox.browser-insecure h3 {
-	border-bottom-color: #CD5A5A;
-}
-
-#dashboard_browser_nag.postbox h3 {
-	border-bottom-color: #F6E2AC;
-	text-shadow: none;
-	-moz-box-shadow: none;
-	-webkit-box-shadow: none;
-	box-shadow: none;
-	background-image: none;
-}
-
-.ui-sortable #dashboard_browser_nag.postbox,
-.ui-sortable #dashboard_browser_nag.postbox h3 {
-	color: #fff;
-}
-
-#dashboard_browser_nag a {
-	color: #fff;
-}
-
-#dashboard_browser_nag.browser-insecure a.browse-happy-link,
-#dashboard_browser_nag.browser-insecure a.update-browser-link {
-	text-shadow: #871B15 0 1px 0;
-}
-
-#dashboard_browser_nag a.browse-happy-link,
-#dashboard_browser_nag a.update-browser-link {
-	text-shadow: #D29A04 0 1px 0;
-}
-
 .ui-sortable .postbox h3 {
 	color: #464646;
 }
