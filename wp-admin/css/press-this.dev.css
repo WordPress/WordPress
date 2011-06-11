@@ -1,5 +1,6 @@
 body {
-	font: 13px "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+	font-size: 13px;
+	font-family: Arial, "Bitstream Vera Sans", Helvetica, Verdana, sans-serif;
 	color: #333;
 	margin: 0;
 	padding: 0;
@@ -13,17 +14,47 @@ img {
 
 /* Header */
 #wphead {
-	border-top: none;
-	padding-top: 4px;
-	background: #444 !important;
+	height: 32px;
+	margin-right: 5px;
+	margin-bottom: 5px;
+}
+
+#header-logo {
+	float: left;
+	margin: 7px 0;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	user-select: none;
+}
+
+#wphead h1 {
+	font: normal 16px Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
+	padding: 6px 8px 5px;
+	margin: 0;
+	float: left;
+}
+
+#wphead h1 a {
+	text-decoration:none;
+}
+#wphead h1 a:hover #site-title {
+	text-decoration:underline;
 }
 
 .tagchecklist span a {
 	background: transparent url(../images/xit.gif) no-repeat 0 0;
 }
 
-#poststuff #edButtonPreview,
-#poststuff #edButtonHTML {
+#edButtonPreview,
+#edButtonHTML {
+	height: 18px;
+	margin: 5px 5px 0 0;
+	padding: 4px 5px 2px;
+	float: right;
+	cursor: pointer;
+	border-width: 1px;
+	border-style: solid;
 	-moz-border-radius: 3px 3px 0 0;
 	-webkit-border-top-right-radius: 3px;
 	-webkit-border-top-left-radius: 3px;
@@ -31,22 +62,32 @@ img {
 	-khtml-border-top-left-radius: 3px;
 	border-top-right-radius: 3px;
 	border-top-left-radius: 3px;
-	border-style: solid;
-	border-width: 1px;
+}
+
+#poststuff #edButtonHTML {
+	margin-right: 15px;
+}
+
+#media-buttons {
+	cursor: default;
+	padding: 8px 8px 0;
+}
+
+#media-buttons a {
 	cursor: pointer;
-	display: block;
-	height: 18px;
-	margin: 0 5px 0 0;
-	padding: 0 5px 0;
-	font-size: 10px;
-	line-height: 18px;
-	float: left;
+	padding: 0 0 5px 10px;
+}
+
+#media-buttons img,
+#submitpost #ajax-loading,
+#submitpost .ajax-loading {
+	vertical-align: middle;
 }
 
 .howto {
 	margin-top: 2px;
 	margin-bottom: 3px;
-	font-size: 11px;
+	font-size: 12px;
 	font-style: italic;
 	display: block;
 }
@@ -67,7 +108,11 @@ input.text {
 
 /* Editor/Main Column */
 div#poststuff {
-	margin: 10px;
+	margin: 0 10px 10px;
+}
+
+#poststuff #editor-toolbar {
+	height: 30px;
 }
 
 div.zerosize {
@@ -77,11 +122,6 @@ div.zerosize {
 	overflow: hidden;
 	padding: 0;
 	width: 0;
-}
-
-#poststuff #edButtonPreview.active,
-#poststuff #edButtonHTML.active {
-	display: none;
 }
 
 .posting {
@@ -101,16 +141,44 @@ div.zerosize {
 }
 
 #poststuff .inside {
-	font-size: 11px;
+	font-size: 12px;
 	margin: 8px;
 }
 
+#submitdiv .inside {
+	margin: 0;
+}
+
+#submitdiv .inside p {
+	padding: 8px;
+	margin: 0;
+}
+
+#submitdiv #publishing-actions {
+	padding-left: 6px;
+	border-bottom: 1px solid #dfdfdf;
+	-webkit-box-shadow: 0 1px 0 #fff;
+	-moz-box-shadow: 0 1px 0 #fff;
+	box-shadow: 0 1px 0 #fff;
+}
+
+#publish {
+	float: right;
+}
+
 #poststuff h2,#poststuff h3 {
-	font-size: 12px;
-	font-weight: bold;
+	font-size: 13px;
+	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
+	font-weight: normal;
 	line-height: 1;
 	margin: 0;
 	padding: 7px 9px;
+	border-width: 0 0 1px 0;
+	border-style: solid;
+}
+
+#poststuff h2 {
+	border-color: #dfdfdf;
 }
 
 #tagsdiv-post_tag h3,
@@ -147,17 +215,19 @@ h3.tb {
 
 .postbox:hover .handlediv,
 .stuffbox:hover .handlediv {
-	background: transparent url(../images/menu-bits.gif) no-repeat scroll left -111px;
+	background: transparent url(../images/arrows.png) no-repeat 6px 7px;
 }
 
-.handlediv {
+.postbox .handlediv {
 	float: right;
-	height: 26px;
-	width: 23px;
+	width: 27px;
+	height: 30px;
+	cursor: pointer;
 }
 
 #title,
 .tbtitle {
+	font-family: Arial, "Bitstream Vera Sans", Helvetica, Verdana, sans-serif;
 	-moz-border-radius: 3px;
 	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;
@@ -184,13 +254,8 @@ h3.tb {
 	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
-	border: 1px solid #dfdfdf;
+	border: 1px solid #ccc;
 	background-color: #fff;
-}
-
-.postdivrich {
-	padding-top: 25px;
-	position: relative;
 }
 
 .actions {
@@ -218,17 +283,9 @@ h3.tb {
 }
 
 /* Photo Styles */
-.photolist {
-	margin-top: -10px;
-}
-
 #photo_saving {
 	margin: 0 8px 8px;
 	vertical-align: middle;
-}
-
-#img_container {
-	background-color: #fff;
 }
 
 #img_container_container {
@@ -296,13 +353,6 @@ h3.tb {
 }
 
 /* Submit Column */
-#viewsite {
-	padding: 0;
-	margin: 0 0 20px 5px;
-	font-size: 10px;
-	clear: both;
-}
-
 .wp-hidden-children
 .wp-hidden-child {
 	display: none;
@@ -312,7 +362,7 @@ h3.tb {
 
 .category-add input {
 	width: 94%;
-	font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+	font-family: Arial, "Bitstream Vera Sans", Helvetica, Verdana, sans-serif;
 	font-size: 12px;
 	margin: 1px;
 }
@@ -322,8 +372,8 @@ h3.tb {
 	-x-system-font: none;
 	border-style: solid;
 	border-width: 1px;
-	font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
-	font-size: 11px;
+	font-family: Arial, "Bitstream Vera Sans", Helvetica, Verdana, sans-serif;
+	font-size: 12px;
 	height: 2em;
 	line-height: 20px;
 	padding: 2px;
@@ -379,7 +429,7 @@ ul.categorychecklist li {
 
 ul.category-tabs {
 	margin-top: 12px;
-	margin-bottom: 6px;
+	margin-bottom: 5px;
 }
 
 ul.category-tabs li.tabs {
@@ -433,7 +483,7 @@ ul.category-tabs li {
 	margin-left: 10px;
 	display: block;
 	float: left;
-	font-size: 11px;
+	font-size: 12px;
 	line-height: 1.8em;
 	white-space: nowrap;
 	cursor: default;
@@ -457,6 +507,10 @@ ul.category-tabs li {
 	border: 0 none;
 	height: 365px;
 	width: 97% !important;
+	font-family: Consolas, Monaco, monospace;
+	font-size: 13px;
+	line-height: 19px;
+	background: transparent;
 }
 
 * html .postdivrich {
@@ -475,9 +529,9 @@ ul.category-tabs li {
 .button-secondary,
 .button-highlighted,
 #postcustomstuff .submit input {
-	font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+	font-family: Arial, "Bitstream Vera Sans", Helvetica, Verdana, sans-serif;
 	text-decoration: none;
-	font-size: 11px !important;
+	font-size: 12px !important;
 	line-height: 16px;
 	padding: 2px 8px;
 	cursor: pointer;
@@ -615,4 +669,9 @@ input.newtag ~ div.taghint {
 
 input.newtag:focus ~ div.taghint {
 	visibility: hidden;
+}
+
+/* TinyMCE */
+#mce_fullscreen_container {
+	background: #fff;
 }

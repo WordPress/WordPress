@@ -82,7 +82,7 @@ class WP_Locale {
 	 * @var string
 	 * @access private
 	 */
-	var $text_direction = 'ltr';
+	var $text_direction = 'rtl';
 
 	/**
 	 * Imports the global version to the class property.

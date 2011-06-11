@@ -467,13 +467,10 @@ if ( user_can_richedit() ) {
 	wp_tiny_mce( true, array( 'height' => '370' ) );
 }
 ?>
-<div id="wphead"></div>
 <form action="press-this.php?action=post" method="post">
 <div id="poststuff" class="metabox-holder">
 	<div id="side-info-column">
 		<div class="sleeve">
-			<h1 id="viewsite"><a href="<?php echo get_option('home'); ?>/" target="_blank"><?php bloginfo('name'); ?> &rsaquo; <?php _e('Press This') ?></a></span></h1>
-
 			<?php wp_nonce_field('press-this') ?>
 			<input type="hidden" name="post_type" id="post_type" value="text"/>
 			<input type="hidden" name="autosave" id="autosave" />
@@ -483,9 +480,11 @@ if ( user_can_richedit() ) {
 			<!-- This div holds the photo metadata -->
 			<div class="photolist"></div>
 
-			<div id="submitdiv" class="stuffbox">
+			<div id="submitdiv" class="postbox">
+				<div class="handlediv" title="<?php _e( 'Click to toggle' ); ?>"><br /></div>
+				<h3 class="hndle"><?php _e('Press This') ?></h3>
 				<div class="inside">
-					<p>
+					<p id="publishing-actions">
 					<?php
 						submit_button( __( 'Save Draft' ), 'button', 'draft', false, array( 'id' => 'save' ) );
 						if ( current_user_can('publish_posts') ) {
@@ -565,7 +564,7 @@ if ( user_can_richedit() ) {
 				</div>
 			</div>
 
-			<div id="tagsdiv-post_tag" class="stuffbox" >
+			<div id="tagsdiv-post_tag" class="postbox">
 				<div class="handlediv" title="<?php _e( 'Click to toggle' ); ?>">
 					<br/>
 				</div>
@@ -582,12 +581,22 @@ if ( user_can_richedit() ) {
 						</p>
 						<div class="tagchecklist"></div>
 					</div>
-					<p class="tagcloud-link"><a href="#titlediv" class="tagcloud-link" id="link-post_tag"><?php _e('Choose from the most used tags in Post Tags'); ?></a></p>
+					<p class="tagcloud-link"><a href="#titlediv" class="tagcloud-link" id="link-post_tag"><?php _e('Choose from the most used tags'); ?></a></p>
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="posting">
+
+		<div id="wphead">
+			<img id="header-logo" src="<?php echo esc_url( includes_url( 'images/blank.gif' ) ); ?>" alt="" width="16" height="16" />
+			<h1 id="site-heading">
+				<a href="<?php echo get_option('home'); ?>/" target="_blank">
+					<span id="site-title"><?php bloginfo('name'); ?></span>
+				</a>
+			</h1>
+		</div>
+
 		<?php if ( isset($posted) && intval($posted) ) { $post_ID = intval($posted); ?>
 		<div id="message" class="updated"><p><strong><?php _e('Your post has been saved.'); ?></strong> <a onclick="window.opener.location.replace(this.href); window.close();" href="<?php echo get_permalink( $post_ID); ?>"><?php _e('View post'); ?></a> | <a href="<?php echo get_edit_post_link( $post_ID ); ?>" onclick="window.opener.location.replace(this.href); window.close();"><?php _e('Edit Post'); ?></a> | <a href="#" onclick="window.close();"><?php _e('Close Window'); ?></a></p></div>
 		<?php } ?>
@@ -601,26 +610,26 @@ if ( user_can_richedit() ) {
 		<div id="extra-fields" style="display: none"></div>
 
 		<div class="postdivrich">
-			<ul id="actions" class="actions">
-				<li><?php _e( 'Add:' ); ?></li>
-				<li id="photo_button">
-					<?php if ( current_user_can('upload_files') ) { ?><a title="<?php _e('Insert an Image'); ?>" href="#">
-<img alt="<?php _e('Insert an Image'); ?>" src="<?php echo esc_url( admin_url( 'images/media-button-image.gif?ver=20100531' ) ); ?>"/></a>
-					<?php } ?>
-				</li>
-				<li id="video_button">
-					<a title="<?php _e('Embed a Video'); ?>" href="#"><img alt="<?php _e('Embed a Video'); ?>" src="<?php echo esc_url( admin_url( 'images/media-button-video.gif?ver=20100531' ) ); ?>"/></a>
-				</li>
-				<?php if ( user_can_richedit() ) { ?>
-				<li id="switcher">
-					<?php wp_print_scripts( 'quicktags' ); ?>
-					<?php add_filter('the_editor_content', 'wp_richedit_pre'); ?>
+			<div id="editor-toolbar">
+				<?php if ( user_can_richedit() ) :
+					wp_print_scripts( 'quicktags' );
+					add_filter('the_editor_content', 'wp_richedit_pre'); ?>
 					<a id="edButtonHTML" onclick="switchEditors.go('content', 'html');"><?php _e('HTML'); ?></a>
 					<a id="edButtonPreview" class="active" onclick="switchEditors.go('content', 'tinymce');"><?php _e('Visual'); ?></a>
 					<div class="zerosize"><input accesskey="e" type="button" onclick="switchEditors.go('content')" /></div>
-				</li>
-				<?php } ?>
-			</ul>
+				<?php endif; ?>
+
+				<div id="media-buttons">
+					<?php
+					_e( 'Add:' );
+
+					if ( current_user_can('upload_files') ) : ?>
+						<a id="photo_button" title="<?php _e('Insert an Image'); ?>" href="#">
+<img alt="<?php _e('Insert an Image'); ?>" src="<?php echo esc_url( admin_url( 'images/media-button-image.gif?ver=20100531' ) ); ?>"/></a><?php
+					endif;
+					?><a id="video_button" title="<?php _e('Embed a Video'); ?>" href="#"><img alt="<?php _e('Embed a Video'); ?>" src="<?php echo esc_url( admin_url( 'images/media-button-video.gif?ver=20100531' ) ); ?>"/></a>
+				</div>
+			</div>
 			<div id="quicktags"></div>
 			<div class="editor-container">
 				<textarea name="content" id="content" style="width:100%;" class="theEditor" rows="15"><?php
