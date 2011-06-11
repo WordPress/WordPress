@@ -443,6 +443,22 @@ function _sort_nav_menu_items( $a, $b ) {
 }
 
 /**
+ * Returns if a menu item is valid. Bug #13958
+ *
+ * @since 3.2.0
+ * @access private
+ *
+ * @param object $menu_item The menu item to check
+ * @return bool false if invalid, else true.
+ */
+function _is_valid_nav_menu_item( $item ) {
+	if ( ! empty( $item->_invalid ) )
+		return false;
+
+	return true;
+}
+
+/**
  * Returns all menu items of a navigation menu.
  *
  * @since 3.0.0
@@ -512,6 +528,9 @@ function wp_get_nav_menu_items( $menu, $args = array() ) {
 	}
 
 	$items = array_map( 'wp_setup_nav_menu_item', $items );
+	
+	if ( ! in_array( $args['post_status'], array( 'draft', 'any' ) ) ) 
+		$items = array_filter( $items, '_is_valid_nav_menu_item' );
 
 	if ( ARRAY_A == $args['output'] ) {
 		$GLOBALS['_menu_item_sort_prop'] = $args['output_key'];
@@ -560,7 +579,14 @@ function wp_setup_nav_menu_item( $menu_item ) {
 
 			if ( 'post_type' == $menu_item->type ) {
 				$object = get_post_type_object( $menu_item->object );
-				$menu_item->type_label = $object->labels->singular_name;
+				if ( $object ) {
+					$menu_item->type_label = $object->labels->singular_name;
+				} else {
+					$menu_item->type_label = $menu_item->object;
+					$menu_item->post_status = 'draft';
+					$menu_item->_invalid = true;
+				}
+
 				$menu_item->url = get_permalink( $menu_item->object_id );
 
 				$original_object = get_post( $menu_item->object_id );
@@ -569,7 +595,14 @@ function wp_setup_nav_menu_item( $menu_item ) {
 
 			} elseif ( 'taxonomy' == $menu_item->type ) {
 				$object = get_taxonomy( $menu_item->object );
-				$menu_item->type_label = $object->labels->singular_name;
+				if ( $object ) {
+					$menu_item->type_label = $object->labels->singular_name;
+				} else {
+					$menu_item->type_label = $menu_item->object;
+					$menu_item->post_status = 'draft';
+					$menu_item->_invalid = true;
+				}
+
 				$term_url = get_term_link( (int) $menu_item->object_id, $menu_item->object );
 				$menu_item->url = !is_wp_error( $term_url ) ? $term_url : '';
 

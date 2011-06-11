@@ -67,7 +67,11 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu  {
 
 		$title = $item->title;
 
-		if ( isset( $item->post_status ) && 'draft' == $item->post_status ) {
+		if ( ! empty( $item->_invalid ) ) {
+			$classes[] = 'menu-item-invalid';
+			/* translators: %s: title of menu item which is invalid */
+			$title = sprintf( __( '%s (Invalid)' ), $item->title );
+		} elseif ( isset( $item->post_status ) && 'draft' == $item->post_status ) {
 			$classes[] = 'pending';
 			/* translators: %s: title of menu item in draft status */
 			$title = sprintf( __('%s (Pending)'), $item->title );
