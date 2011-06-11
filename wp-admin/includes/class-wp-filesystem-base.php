@@ -87,7 +87,7 @@ class WP_Filesystem_Base {
 	/**
 	 * Returns the path on the remote filesystem of WP_LANG_DIR
 	 *
-	 * @since 3.2
+	 * @since 3.2.0
 	 * @access public
 	 *
 	 * @return string The location of the remote path.

@@ -267,7 +267,7 @@ $_old_files = array(
  *  Filename (relative to wp-content) => Introduced version
  * Directories should be noted by suffixing it with a trailing slash (/)
  *
- * @since 3.2
+ * @since 3.2.0
  * @global array $_new_bundled_files
  * @var array
  * @name $_new_bundled_files
@@ -471,7 +471,7 @@ function update_core($from, $to) {
  * This is a temporary function for the 3.1 -> 3.2 upgrade only and will be removed in 3.3
  *
  * @ignore
- * @since 3.2
+ * @since 3.2.0
  * @see copy_dir()
  *
  * @param string $from source directory

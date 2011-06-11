@@ -373,7 +373,7 @@ function wp_list_authors($args = '') {
  *
  * Checks to see if more than one author has published posts.
  *
- * @since 3.2
+ * @since 3.2.0
  * @return bool Whether or not we have more than one author
  */
 function is_multi_author() {

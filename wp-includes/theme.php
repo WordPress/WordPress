@@ -1446,7 +1446,7 @@ function get_header_image() {
 /**
  * Get random header image from registered images in theme.
  *
- * @since 3.2
+ * @since 3.2.0
  *
  * @return string Path to header image
  */
@@ -1476,7 +1476,7 @@ function get_random_header_image() {
  * Always true if user expressly chooses the option in Appearance > Header.
  * Also true if theme has multiple header images registered and no specific header image is chosen.
  *
- * @since 3.2
+ * @since 3.2.0
  * @uses HEADER_IMAGE
  *
  * @param string $type The random pool to use. any|default|uploaded

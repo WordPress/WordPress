@@ -376,7 +376,7 @@ function get_meta_sql( $meta_query = false, $type, $primary_table, $primary_id_c
 /**
  * Container class for a multiple metadata query
  *
- * @since 3.2
+ * @since 3.2.0
  */
 class WP_Meta_Query {
 	/**
@@ -390,7 +390,7 @@ class WP_Meta_Query {
 	*              Possible values: 'NUMERIC', 'BINARY', 'CHAR', 'DATE', 'DATETIME', 'DECIMAL', 'SIGNED', 'TIME', 'UNSIGNED'.
 	*              Default: 'CHAR'
 	*
-	* @since 3.2
+	* @since 3.2.0
 	* @access public
 	* @var array
 	*/
@@ -399,7 +399,7 @@ class WP_Meta_Query {
 	/**
 	 * The relation between the queries. Can be one of 'AND' or 'OR'.
 	 *
-	 * @since 3.2
+	 * @since 3.2.0
 	 * @access public
 	 * @var string
 	 */
@@ -433,7 +433,7 @@ class WP_Meta_Query {
 	/**
 	 * Constructs a meta query based on 'meta_*' query vars
 	 *
-	 * @since 3.2
+	 * @since 3.2.0
 	 * @access public
 	 *
 	 * @param array $qv The query variables
@@ -461,7 +461,7 @@ class WP_Meta_Query {
 	/**
 	 * Generates SQL clauses to be appended to a main query.
 	 *
-	 * @since 3.2
+	 * @since 3.2.0
 	 * @access public
 	 *
 	 * @param string $type Type of meta

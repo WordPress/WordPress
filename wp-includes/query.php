@@ -851,7 +851,7 @@ class WP_Query {
 	/**
 	 * Metadata query container
 	 *
-	 * @since 3.2
+	 * @since 3.2.0
 	 * @access public
 	 * @var object WP_Meta_Query
 	 */
@@ -1260,7 +1260,7 @@ class WP_Query {
 	/**
 	 * Set if post thumbnails are cached
 	 *
-	 * @since 3.2
+	 * @since 3.2.0
 	 * @access public
 	 * @var bool
 	 */

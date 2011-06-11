@@ -82,7 +82,7 @@ function get_the_category( $id = false ) {
 		_make_cat_compat( $categories[$key] );
 	}
 
-	// Filter name is plural because we return alot of categories not just one
+	// Filter name is plural because we return alot of categories (possibly more than #13237) not just one
 	return apply_filters( 'get_the_categories', $categories );
 }
 
