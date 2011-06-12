@@ -540,6 +540,7 @@ a:hover {
 #access {
 	background: #222; /* Show a solid color for older browsers */
 	background: -moz-linear-gradient(#252525, #0a0a0a);
+	background: -o-linear-gradient(#252525, #0a0a0a);
 	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#252525), to(#0a0a0a)); /* older webkit syntax */
 	background: -webkit-linear-gradient(#252525, #0a0a0a);
 	-webkit-box-shadow: rgba(0, 0, 0, 0.4) 0px 1px 2px;
@@ -605,6 +606,7 @@ a:hover {
 #access a:focus {
 	background: #f9f9f9; /* Show a solid color for older browsers */
 	background: -moz-linear-gradient(#f9f9f9, #e5e5e5);
+	background: -o-linear-gradient(#f9f9f9, #e5e5e5);
 	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f9f9f9), to(#e5e5e5)); /* Older webkit syntax */
 	background: -webkit-linear-gradient(#f9f9f9, #e5e5e5);
 	color: #373737;
@@ -635,6 +637,9 @@ a:hover {
 	-moz-transition-duration: 400ms;
 	-moz-transition-property: width, background;
 	-moz-transition-timing-function: ease;
+	-o-transition-duration: 400ms;
+	-o-transition-property: width, background;
+	-o-transition-timing-function: ease;
 	width: 45px;
 }
 #branding #s:focus {
