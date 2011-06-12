@@ -1560,7 +1560,7 @@ SWFUpload.onload = function() {
 </div>
 <?php endif; // $flash ?>
 
-<div id="html-upload-ui" class="hide-if-js">
+<div id="html-upload-ui" <?php if ( $flash ) echo 'class="hide-if-js"'; ?>>
 <?php do_action('pre-html-upload-ui'); ?>
 	<p id="async-upload-wrap">
 		<label class="screen-reader-text" for="async-upload"><?php _e('Upload'); ?></label>
