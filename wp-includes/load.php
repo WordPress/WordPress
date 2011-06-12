@@ -561,8 +561,6 @@ function shutdown_action_hook() {
  */
 
 function wp_clone( $object ) {
-	_deprecated_function( __FUNCTION__, '3.2' );
-
 	return clone $object;
 }
 
