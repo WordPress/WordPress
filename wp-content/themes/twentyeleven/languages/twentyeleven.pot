@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Eleven 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyeleven\n"
-"POT-Creation-Date: 2011-06-11 07:47:26+00:00\n"
+"POT-Creation-Date: 2011-06-12 17:47:43+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -103,6 +103,17 @@ msgstr ""
 msgid "Recent Posts"
 msgstr ""
 
+#: index.php:37 category.php:50 tag.php:50 author.php:74 search.php:42
+#: archive.php:57
+msgid "Nothing Found"
+msgstr ""
+
+#: index.php:41 category.php:54 tag.php:54 author.php:78 archive.php:61
+msgid ""
+"Apologies, but no results were found for the requested archive. Perhaps "
+"searching will help find a related post."
+msgstr ""
+
 #: content.php:16
 msgid "Featured"
 msgstr ""
@@ -121,7 +132,7 @@ msgstr ""
 msgid "Proudly powered by %s"
 msgstr ""
 
-#: category.php:17
+#: category.php:19
 msgid "Category Archives: %s"
 msgstr ""
 
@@ -162,7 +173,7 @@ msgid ""
 "href=\"%3$s\" title=\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>."
 msgstr ""
 
-#: content-single.php:55 author.php:48
+#: content-single.php:55 author.php:49
 msgid "About %s"
 msgstr ""
 
@@ -380,7 +391,7 @@ msgstr ""
 msgid "Skip to secondary content"
 msgstr ""
 
-#: author.php:27
+#: author.php:28
 msgid "Author Archives: %s"
 msgstr ""
 
@@ -530,29 +541,25 @@ msgstr ""
 msgid "Search Results for: %s"
 msgstr ""
 
-#: search.php:42
-msgid "Nothing Found"
-msgstr ""
-
 #: search.php:46
 msgid ""
 "Sorry, but nothing matched your search criteria. Please try again with some "
 "different keywords."
 msgstr ""
 
-#: archive.php:23
+#: archive.php:25
 msgid "Daily Archives: %s"
 msgstr ""
 
-#: archive.php:25
+#: archive.php:27
 msgid "Monthly Archives: %s"
 msgstr ""
 
-#: archive.php:27
+#: archive.php:29
 msgid "Yearly Archives: %s"
 msgstr ""
 
-#: archive.php:29
+#: archive.php:31
 msgid "Blog Archives"
 msgstr ""
 
