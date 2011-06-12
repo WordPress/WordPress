@@ -612,7 +612,8 @@ a:hover {
 #access ul li:hover > ul {
 	display: block;
 }
-#access .current_page_item a {
+#access .current_page_item > a,
+#access .current_page_ancestor > a {
 	font-weight: bold;
 }
 
