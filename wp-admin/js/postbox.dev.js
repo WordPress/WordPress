@@ -100,24 +100,18 @@ var postboxes;
 				forcePlaceholderSize: true,
 				helper: 'clone',
 				opacity: 0.65,
-				start: function(e,ui) {
-					$('body').css({
-						WebkitUserSelect: 'none',
-						KhtmlUserSelect: 'none'
-					});
-					/*
-					if ( $.browser.msie )
-						return;
-					ui.item.addClass('noclick');
-					*/
-				},
 				stop: function(e,ui) {
+					if ( $(this).find('#dashboard_browser_nag').is(':visible') && 'dashboard_browser_nag' != this.firstChild.id ) {
+						$(this).sortable('cancel');
+						return;
+					}
+
 					postboxes.save_order(page);
 					ui.item.parent().removeClass('temp-border');
-					$('body').css({
-						WebkitUserSelect: '',
-						KhtmlUserSelect: ''
-					});
+				},
+				receive: function(e,ui) {
+					if ( 'dashboard_browser_nag' == ui.item[0].id )
+						$(ui.sender).sortable('cancel');
 				}
 			});
 		},

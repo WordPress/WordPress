@@ -324,7 +324,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'xfn', "/wp-admin/js/xfn$suffix.js", array('jquery'), '20110524' );
 		$scripts->add_data( 'xfn', 'group', 1 );
 
-		$scripts->add( 'postbox', "/wp-admin/js/postbox$suffix.js", array('jquery-ui-sortable'), '20110524' );
+		$scripts->add( 'postbox', "/wp-admin/js/postbox$suffix.js", array('jquery-ui-sortable'), '20110612' );
 		$scripts->add_data( 'postbox', 'group', 1 );
 
 		$scripts->add( 'post', "/wp-admin/js/post$suffix.js", array('suggest', 'wp-lists', 'postbox'), '20110524' );
