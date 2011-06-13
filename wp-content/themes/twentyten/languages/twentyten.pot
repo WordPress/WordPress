@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Ten 1.2\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyten\n"
-"POT-Creation-Date: 2011-02-22 08:27:25+00:00\n"
+"POT-Creation-Date: 2011-06-13 13:27:43+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -16,6 +16,7 @@ msgstr ""
 msgid "Return to %s"
 msgstr ""
 
+#. translators: %s - title of parent post
 #: loop-attachment.php:23
 msgid "<span class=\"meta-nav\">&larr;</span> %s"
 msgstr ""
@@ -186,34 +187,42 @@ msgstr ""
 msgid "Primary Navigation"
 msgstr ""
 
+#. translators: header image description
 #: functions.php:140
 msgid "Berries"
 msgstr ""
 
+#. translators: header image description
 #: functions.php:146
 msgid "Cherry Blossoms"
 msgstr ""
 
+#. translators: header image description
 #: functions.php:152
 msgid "Concave"
 msgstr ""
 
+#. translators: header image description
 #: functions.php:158
 msgid "Fern"
 msgstr ""
 
+#. translators: header image description
 #: functions.php:164
 msgid "Forest Floor"
 msgstr ""
 
+#. translators: header image description
 #: functions.php:170
 msgid "Inkwell"
 msgstr ""
 
+#. translators: header image description
 #: functions.php:176
 msgid "Path"
 msgstr ""
 
+#. translators: header image description
 #: functions.php:182
 msgid "Sunset"
 msgstr ""
@@ -226,6 +235,7 @@ msgstr ""
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
+#. translators: 1: date, 2: time
 #: functions.php:340
 msgid "%1$s at %2$s"
 msgstr ""
