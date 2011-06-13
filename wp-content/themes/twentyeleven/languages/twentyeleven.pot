@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Eleven 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyeleven\n"
-"POT-Creation-Date: 2011-06-12 17:47:43+00:00\n"
+"POT-Creation-Date: 2011-06-13 13:47:35+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -49,6 +49,7 @@ msgstr ""
 msgid "<span>Pages:</span>"
 msgstr ""
 
+#. translators: used between list items, there is a space after the comma
 #: content-quote.php:44 content-quote.php:54 content.php:51 content.php:61
 #: content-image.php:47 content-image.php:56 content-single.php:30
 #: content-single.php:39 content-gallery.php:62 content-gallery.php:72
@@ -270,34 +271,42 @@ msgstr ""
 msgid "Primary Menu"
 msgstr ""
 
+#. translators: header image description
 #: functions.php:146
 msgid "Wheel"
 msgstr ""
 
+#. translators: header image description
 #: functions.php:152
 msgid "Shore"
 msgstr ""
 
+#. translators: header image description
 #: functions.php:158
 msgid "Trolley"
 msgstr ""
 
+#. translators: header image description
 #: functions.php:164
 msgid "Pine Cone"
 msgstr ""
 
+#. translators: header image description
 #: functions.php:170
 msgid "Chessboard"
 msgstr ""
 
+#. translators: header image description
 #: functions.php:176
 msgid "Lanterns"
 msgstr ""
 
+#. translators: header image description
 #: functions.php:182
 msgid "Willow"
 msgstr ""
 
+#. translators: header image description
 #: functions.php:188
 msgid "Hanoi Plant"
 msgstr ""
@@ -399,7 +408,6 @@ msgstr ""
 msgid "Status"
 msgstr ""
 
-#. Name of page
 #: inc/theme-options.php:80 inc/theme-options.php:81
 msgid "Theme Options"
 msgstr ""
