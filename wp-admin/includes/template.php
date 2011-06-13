@@ -942,7 +942,7 @@ function do_meta_boxes($page, $context, $object) {
 	do {
 		// Grab the ones the user has manually sorted. Pull them out of their previous context/priority and into the one the user chose
 		if ( !$already_sorted && $sorted = get_user_option( "meta-box-order_$page" ) ) {
-			foreach ( $sorted as $box_context => $ids )
+			foreach ( $sorted as $box_context => $ids ) {
 				$_ids = explode(',', $ids);
 
 				if ( $k = array_search('dashboard_browser_nag', $_ids, true) ) { // it's ok if this is the first value, i.e. $k == 0
@@ -954,6 +954,7 @@ function do_meta_boxes($page, $context, $object) {
 					if ( $id )
 						add_meta_box( $id, null, null, $page, $box_context, 'sorted' );
 				}
+			}
 		}
 		$already_sorted = true;
 
