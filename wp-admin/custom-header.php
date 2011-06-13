@@ -721,21 +721,22 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 			$_POST['height'] = $_POST['height'] * $_POST['oitar'];
 		}
 
-		$original = get_attached_file( $_POST['attachment_id'] );
+		$attachment_id = absint( $_POST['attachment_id'] );
+		$original = get_attached_file($attachment_id);
 
-		$cropped = wp_crop_image($_POST['attachment_id'], $_POST['x1'], $_POST['y1'], $_POST['width'], $_POST['height'], HEADER_IMAGE_WIDTH, HEADER_IMAGE_HEIGHT);
+		$cropped = wp_crop_image( $attachment_id, (int) $_POST['x1'], (int) $_POST['y1'], (int) $_POST['width'], (int) $_POST['height'], HEADER_IMAGE_WIDTH, HEADER_IMAGE_HEIGHT );
 		if ( is_wp_error( $cropped ) )
 			wp_die( __( 'Image could not be processed.  Please go back and try again.' ), __( 'Image Processing Error' ) );
 
-		$cropped = apply_filters('wp_create_file_in_uploads', $cropped, $_POST['attachment_id']); // For replication
+		$cropped = apply_filters('wp_create_file_in_uploads', $cropped, $attachment_id); // For replication
 
-		$parent = get_post($_POST['attachment_id']);
+		$parent = get_post($attachment_id);
 		$parent_url = $parent->guid;
 		$url = str_replace(basename($parent_url), basename($cropped), $parent_url);
 
 		// Construct the object array
 		$object = array(
-			'ID' => $_POST['attachment_id'],
+			'ID' => $attachment_id,
 			'post_title' => basename($cropped),
 			'post_content' => $url,
 			'post_mime_type' => 'image/jpeg',
@@ -745,8 +746,8 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 
 		// Update the attachment
 		wp_insert_attachment($object, $cropped);
-		wp_update_attachment_metadata( $_POST['attachment_id'], wp_generate_attachment_metadata( $_POST['attachment_id'], $cropped ) );
-		update_post_meta( $_POST['attachment_id'], '_wp_attachment_is_custom_header', get_option('stylesheet' ) );
+		wp_update_attachment_metadata( $attachment_id, wp_generate_attachment_metadata( $attachment_id, $cropped ) );
+		update_post_meta( $attachment_id, '_wp_attachment_is_custom_header', get_option('stylesheet' ) );
 
 		set_theme_mod('header_image', $url);
 
