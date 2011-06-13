@@ -513,12 +513,15 @@ function twentyeleven_comment( $comment, $args, $depth ) {
 
 						echo get_avatar( $comment, $avatar_size );
 
-						printf( __( '%1$s on %2$s%3$s at %4$s%5$s <span class="says">said:</span>', 'twentyeleven' ),
+						/* translators: 1: comment author, 2: date and time */
+						printf( __( '%1$s on %2$s <span class="says">said:</span>', 'twentyeleven' ),
 							sprintf( '<span class="fn">%s</span>', get_comment_author_link() ),
-							'<a href="' . esc_url( get_comment_link( $comment->comment_ID ) ) . '"><time pubdate datetime="' . get_comment_time( 'c' ) . '">',
-							get_comment_date(),
-							get_comment_time(),
-							'</time></a>'
+							sprintf( '<a href="%1$s"><time pubdate datetime="%2$s">%3$s</time></a>',
+								esc_url( get_comment_link( $comment->comment_ID ) ),
+								get_comment_time( 'c' ),
+								/* translators: 1: date, 2: time*/
+								sprintf( __('%1$s at %2$s', 'twentyeleven' ), get_comment_date(), get_comment_time() )
+							)
 						);
 					?>
 
