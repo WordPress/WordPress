@@ -19,9 +19,6 @@ tr.image-size div.image-size-item {
 tr.image-size label {
 	margin: 0 1em 0 0;
 }
-.filename.original {
-	float: right;
-}
 .crunching {
 	text-align: left;
 	margin-right: 0;
@@ -51,11 +48,6 @@ button.dismiss {
 /* Specific to Uploader */
 #media-upload .media-upload-form p {
 	margin: 0 0 1em 1em;
-}
-.filename {
-	float: right;
-	margin-left: 0;
-	margin-right: 10px;
 }
 #media-upload .describe th.label {
 	text-align: right;
