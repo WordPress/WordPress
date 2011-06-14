@@ -85,7 +85,7 @@ get_header(); ?>
 
 						<div class="entry-description">
 							<?php the_content(); ?>
-							<?php wp_link_pages( array( 'before' => '<div class="page-link">' . __( 'Pages:', 'twentyeleven' ), 'after' => '</div>' ) ); ?>
+							<?php wp_link_pages( array( 'before' => '<div class="page-link"><span>' . __( 'Pages:', 'twentyeleven' ) . '</span>', 'after' => '</div>' ) ); ?>
 						</div><!-- .entry-description -->
 
 					</div><!-- .entry-content -->
