@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Eleven 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyeleven\n"
-"POT-Creation-Date: 2011-06-13 15:47:33+00:00\n"
+"POT-Creation-Date: 2011-06-14 15:47:34+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -45,8 +45,10 @@ msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
 #: content-quote.php:36 content.php:42 content-image.php:28
-#: content-single.php:24
-msgid "<span>Pages:</span>"
+#: content-single.php:24 content-intro.php:18 content-gallery.php:54
+#: content-aside.php:34 image.php:88 content-status.php:35 content-page.php:18
+#: content-link.php:34 content-featured.php:23
+msgid "Pages:"
 msgstr ""
 
 #. translators: used between list items, there is a space after the comma
@@ -180,12 +182,6 @@ msgstr ""
 
 #: content-single.php:59
 msgid "View all posts by %s <span class=\"meta-nav\">&rarr;</span>"
-msgstr ""
-
-#: content-intro.php:18 content-gallery.php:54 content-aside.php:34
-#: image.php:88 content-status.php:35 content-page.php:18 content-link.php:34
-#: content-featured.php:23
-msgid "Pages:"
 msgstr ""
 
 #: tag.php:19
