@@ -40,6 +40,7 @@ TABLE OF CONTENTS:
 21.0 - Admin Footer
 22.0 - Misc
 23.0 - Dead
+24.0 - TinyMCE tweaks
 
 
 ------------------------------------------------------------------------------*/
@@ -850,7 +851,7 @@ th.sorted a span {
 }
 
 #post-body .wp_themeSkin .mceStatusbar a.mceResize {
-	background: transparent url(../images/resize-rtl.gif) no-repeat scroll right bottom;
+	background: transparent url(../images/resize-rtl.gif) no-repeat scroll left bottom;
 	cursor: sw-resize;
 }
 
@@ -1317,3 +1318,19 @@ table .column-rating {
 ------------------------------------------------------------------------------*/
 /* No RTL for now, this space intentionally left blank */
 
+
+/*------------------------------------------------------------------------------
+ 24.0 - TinyMCE tweaks
+		Small tweaks for until tinymce css files are proprely RTLized
+------------------------------------------------------------------------------*/
+#editorcontainer .wp_themeSkin .mceStatusbar {
+	padding-left: 0;
+	padding-right: 5px;
+}
+#editorcontainer .wp_themeSkin .mceStatusbar div {
+	float: right;
+}
+
+#editorcontainer .wp_themeSkin .mceStatusbar a.mceResize {
+	float: left;
+}
