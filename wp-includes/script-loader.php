@@ -482,7 +482,7 @@ function wp_default_styles( &$styles ) {
 	// Any rtl stylesheets that don't have a .dev version for ltr
 	$no_suffix = array( 'farbtastic' );
 
-	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20110608b' );
+	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20110614' );
 
 	$styles->add( 'ie', "/wp-admin/css/ie$suffix.css", array(), '20110601' );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
@@ -499,7 +499,7 @@ function wp_default_styles( &$styles ) {
 
 	$styles->add( 'ms', "/wp-admin/css/ms$suffix.css", array(), '20110601' );
 	$styles->add( 'global', "/wp-admin/css/global$suffix.css", array(), '20110610' );
-	$styles->add( 'media', "/wp-admin/css/media$suffix.css", array(), '20110519' );
+	$styles->add( 'media', "/wp-admin/css/media$suffix.css", array(), '20110614' );
 	$styles->add( 'widgets', "/wp-admin/css/widgets$suffix.css", array(), '20110606' );
 	$styles->add( 'dashboard', "/wp-admin/css/dashboard$suffix.css", array(), '20110611' );
 	$styles->add( 'install', "/wp-admin/css/install$suffix.css", array(), '20110602' ); // Readme as well
