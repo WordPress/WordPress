@@ -1241,6 +1241,11 @@ h2 .nav-tab {
 	margin-left: 10px;
 }
 
+.tagchecklist {
+	margin-left: 0;
+	margin-right: 14px;
+}
+
 .tagchecklist strong {
 	margin-left: 0;
 	margin-right: -8px;
