@@ -75,3 +75,18 @@ button.dismiss {
 #gallery-settings .align .field label {
 	margin: 0 0 0 1.5em;
 }
+#sort-buttons {
+	margin: 3px 0 -8px 25px;
+	text-align: left;
+}
+
+#sort-buttons #asc,
+#sort-buttons #showall {
+	padding-left: 0;
+	padding-right: 5px;
+}
+
+#sort-buttons span {
+	margin-right: 0;
+	margin-left: 25px;
+}
