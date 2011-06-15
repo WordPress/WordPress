@@ -171,7 +171,12 @@ function wp_add_dashboard_widget( $widget_id, $widget_name, $callback, $control_
 	$location = 'normal';
 	if ( in_array($widget_id, $side_widgets) )
 		$location = 'side';
-	add_meta_box( $widget_id, $widget_name , $callback, $screen->id, $location, 'core' );
+
+	$priority = 'core';
+	if ( 'dashboard_browser_nag' === $widget_id )
+		$priority = 'high';
+
+	add_meta_box( $widget_id, $widget_name, $callback, $screen->id, $location, $priority );
 }
 
 function _wp_dashboard_control_callback( $dashboard, $meta_box ) {
