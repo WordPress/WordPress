@@ -846,14 +846,15 @@ dl.gallery-item {
 .entry-content img,
 .comment-content img,
 .widget img {
-	max-width: 97.5%;
+	max-width: 97.5%; /* Fluid images for posts, comments, and widgets */
 }
+img[class*="align"],
 img[class*="wp-image-"] {
-	height: auto;
+	height: auto; /* Make sure images with WordPress-added height and width attributes are scaled correctly */
 }
 img.size-full {
 	max-width: 97.5%;
-	width: auto; /* Prevent stretching of full-size images in IE8 */
+	width: auto; /* Prevent stretching of full-size images with height and width attributes in IE8 */
 }
 .entry-content img.wp-smiley {
 	border: none;
@@ -923,23 +924,30 @@ img#wpstats {
 }
 
 /* Image borders */
+img[class*="align"],
 img[class*="wp-image-"],
-#content .gallery .gallery-icon img {
+#content .gallery .gallery-icon img { /* Add fancy borders to all WordPress-added images but not things like badges and icons and the like */
 	border: 1px solid #ddd;
 	padding: 6px;
 }
 .wp-caption img {
 	border-color: #eee;
 }
+a:focus img[class*="align"],
+a:hover img[class*="align"],
+a:active img[class*="align"],
 a:focus img[class*="wp-image-"],
 a:hover img[class*="wp-image-"],
-a:active img[class*="wp-image-"] {
+a:active img[class*="wp-image-"],
+#content .gallery .gallery-icon a:focus img,
+#content .gallery .gallery-icon a:hover img,
+#content .gallery .gallery-icon a:active img { /* Add some useful style to those fancy borders for linked images ... */
 	background: #eee;
 	border-color: #bbb;
 }
 .wp-caption a:focus img,
 .wp-caption a:active img,
-.wp-caption a:hover img {
+.wp-caption a:hover img { /* ... including captioned images!  */
 	background: #fff;
 	border-color: #ddd;
 }
@@ -1627,7 +1635,7 @@ section.recent-posts .other-recent-posts li:after {
 	display: block;
 	height: auto;
 	margin: 0 auto 1.625em;
-	width: 100%;
+	max-width: 100%;
 }
 .image-attachment div.attachment a img {
 	border-color: #f9f9f9;
@@ -1862,22 +1870,25 @@ section.ephemera .entry-title a span {
 }
 .commentlist {
 	list-style: none;
-	margin: 0;
+	margin: 0 auto;
+	width: 68.9%;
+}
+.content .commentlist,
+.page-template-sidebar-page-php .commentlist {
+	width: 100%; /* reset the width for the one-column and sidebar page layout */
 }
 .commentlist > li.comment {
 	background: #f6f6f6;
 	border: 1px solid #ddd;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
-	margin: 0 auto 1.625em;
+	margin: 0 0 1.625em;
 	padding: 1.625em;
 	position: relative;
-	width: 68.9%;
 }
 .commentlist .pingback {
-	margin: 0 auto 1.625em;
+	margin: 0 0 1.625em;
 	padding: 0 1.625em;
-	width: 68.9%;
 }
 .commentlist .children {
 	list-style: none;
@@ -2293,6 +2304,9 @@ p.comment-form-comment {
 		padding: 20px 8.8%;
 	}
 	/* Make sure we have room for our comment avatars */
+	.commentlist {
+		width: 100%;
+	}
 	.commentlist > li.comment,
 	.commentlist .pingback {
 		margin-left: 102px;
