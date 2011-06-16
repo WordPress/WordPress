@@ -106,7 +106,7 @@ foreach ( $credits['groups'] as $group_slug => $group_data ) {
 		} elseif ( isset( $group_data['placeholders'] ) ) {
 			$title = vsprintf( translate( $group_data['name'] ), $group_data['placeholders'] );
 		} else {
-			$title = $group_data['name'];
+			$title = translate( $group_data['name'] );
 		}
 
 		echo '<h3 class="wp-people-group">' . $title . "</h3>\n";
