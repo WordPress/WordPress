@@ -252,7 +252,8 @@ $_old_files = array(
 'wp-includes/js/tinymce/themes/advanced/img/sflogo.png',
 'wp-admin/js/list-table.js',
 'wp-admin/js/list-table.dev.js',
-'wp-admin/images/logo-login.gif'
+'wp-admin/images/logo-login.gif',
+'wp-admin/images/star.gif'
 );
 
 /**

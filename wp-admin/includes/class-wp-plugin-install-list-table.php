@@ -220,11 +220,18 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			<td class="vers column-rating"<?php echo $style['rating']; ?>>
 				<div class="star-holder" title="<?php printf( _n( '(based on %s rating)', '(based on %s ratings)', $plugin['num_ratings'] ), number_format_i18n( $plugin['num_ratings'] ) ) ?>">
 					<div class="star star-rating" style="width: <?php echo esc_attr( $plugin['rating'] ) ?>px"></div>
-					<div class="star star5"><img src="<?php echo admin_url( 'images/star.gif' ); ?>" alt="<?php _e( '5 stars' ) ?>" /></div>
-					<div class="star star4"><img src="<?php echo admin_url( 'images/star.gif' ); ?>" alt="<?php _e( '4 stars' ) ?>" /></div>
-					<div class="star star3"><img src="<?php echo admin_url( 'images/star.gif' ); ?>" alt="<?php _e( '3 stars' ) ?>" /></div>
-					<div class="star star2"><img src="<?php echo admin_url( 'images/star.gif' ); ?>" alt="<?php _e( '2 stars' ) ?>" /></div>
-					<div class="star star1"><img src="<?php echo admin_url( 'images/star.gif' ); ?>" alt="<?php _e( '1 star' ) ?>" /></div>
+					<?php
+						$color = get_user_option('admin_color');
+						if ( empty($color) || 'fresh' == $color )
+							$star_url = admin_url( 'images/gray-star.png?v=20110615' ); // 'Fresh' Gray star for list tables
+						else
+							$star_url = admin_url( 'images/star.png?v=20110615' ); // 'Classic' Blue star
+					?>
+					<div class="star star5"><img src="<?php echo $star_url; ?>" alt="<?php _e( '5 stars' ) ?>" /></div>
+					<div class="star star4"><img src="<?php echo $star_url; ?>" alt="<?php _e( '4 stars' ) ?>" /></div>
+					<div class="star star3"><img src="<?php echo $star_url; ?>" alt="<?php _e( '3 stars' ) ?>" /></div>
+					<div class="star star2"><img src="<?php echo $star_url; ?>" alt="<?php _e( '2 stars' ) ?>" /></div>
+					<div class="star star1"><img src="<?php echo $star_url; ?>" alt="<?php _e( '1 star' ) ?>" /></div>
 				</div>
 			</td>
 			<td class="desc column-description"<?php echo $style['description']; ?>><?php echo $description, $author; ?></td>
