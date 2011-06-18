@@ -944,7 +944,7 @@ function do_meta_boxes($page, $context, $object) {
 		if ( !$already_sorted && $sorted = get_user_option( "meta-box-order_$page" ) ) {
 			foreach ( $sorted as $box_context => $ids ) {
 				foreach ( explode(',', $ids ) as $id ) {
-					if ( $id )
+					if ( $id && 'dashboard_browser_nag' !== $id )
 						add_meta_box( $id, null, null, $page, $box_context, 'sorted' );
 				}
 			}
