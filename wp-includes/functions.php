@@ -600,10 +600,6 @@ function add_option( $option, $value = '', $deprecated = '', $autoload = 'yes' )
 
 	wp_protect_special_option( $option );
 
-	/*
-	 * FIXME the next two lines of code are not necessary and should be removed.
-	 * @see http://core.trac.wordpress.org/ticket/13480
-	 */
 	if ( is_object($value) )
 		$value = clone $value;
 
