@@ -396,12 +396,14 @@ function get_themes() {
 		// Check for theme name collision.  This occurs if a theme is copied to
 		// a new theme directory and the theme header is not updated.  Whichever
 		// theme is first keeps the name.  Subsequent themes get a suffix applied.
-		// The Twenty Ten, Default and Classic themes always trump their pretenders.
+		// The Twenty Eleven, Twenty Ten, Default and Classic themes always trump
+		// their pretenders.
 		if ( isset($wp_themes[$name]) ) {
 			$trump_cards = array(
-				'classic'   => 'WordPress Classic',
-				'default'   => 'WordPress Default',
-				'twentyten' => 'Twenty Ten',
+				'classic'      => 'WordPress Classic',
+				'default'      => 'WordPress Default',
+				'twentyten'    => 'Twenty Ten',
+				'twentyeleven' => 'Twenty Eleven',
 			);
 			if ( isset( $trump_cards[ $stylesheet ] ) && $name == $trump_cards[ $stylesheet ] ) {
 				// If another theme has claimed to be one of our default themes, move
