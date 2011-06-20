@@ -2907,7 +2907,7 @@ function capital_P_dangit( $text ) {
  * @return string Sanitized mime type
  */
 function sanitize_mime_type( $mime_type ) {
-	$sani_mime_type = preg_replace( '/[^-*.a-zA-Z0-9\/]/', '', $mime_type );
+	$sani_mime_type = preg_replace( '/[^-+*.a-zA-Z0-9\/]/', '', $mime_type );
 	return apply_filters( 'sanitize_mime_type', $sani_mime_type, $mime_type );
 }
 
