@@ -2302,13 +2302,13 @@ function get_dashboard_url( $user_id, $path = '', $scheme = 'admin' ) {
 	$user_id = (int) $user_id;
 
 	$blogs = get_blogs_of_user( $user_id );
-	if ( empty($blogs) ) {
+	if ( ! is_super_admin() && empty($blogs) ) {
 		$url = user_admin_url( $path, $scheme );
 	} elseif ( ! is_multisite() ) {
 		$url = admin_url( $path, $scheme );
 	} else {
 		$current_blog = get_current_blog_id();
-		if ( $current_blog  && in_array($current_blog, array_keys($blogs)) ) {
+		if ( $current_blog  && ( is_super_admin( $user_id ) || in_array( $current_blog, array_keys( $blogs ) ) ) ) {
 			$url = admin_url( $path, $scheme );
 		} else {
 			$active = get_active_blog_for_user( $user_id );
