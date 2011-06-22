@@ -1,8 +1,12 @@
 #wpadminbar {
 	direction: rtl;
-	font-family: Tahoma, Arial ,sans-serif;
+	font-family: Tahoma, Arial, Helvetica, sans-serif;
 	right: 0;
 	left: auto;
+}
+
+#wpadminbar * {
+	font-family: Tahoma, Arial, Helvetica, sans-serif;
 }
 
 #wpadminbar .quicklinks ul {
@@ -35,6 +39,11 @@
 #wpadminbar .quicklinks li#wp-admin-bar-my-account-with-avatar ul {
 	left: auto;
 	right: 30px;
+}
+
+#wpadminbar .quicklinks li#wp-admin-bar-my-account-with-avatar ul ul {
+	right: 0;
+	left: auto;
 }
 
 #wpadminbar .quicklinks .menupop li:hover > ul,
