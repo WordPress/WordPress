@@ -271,6 +271,7 @@ function get_theme_feature_list() {
 				'black'   => __( 'Black' ),
 				'blue'    => __( 'Blue' ),
 				'brown'   => __( 'Brown' ),
+				'gray'    => __( 'Gray' ),
 				'green'   => __( 'Green' ),
 				'orange'  => __( 'Orange' ),
 				'pink'    => __( 'Pink' ),
@@ -299,26 +300,30 @@ function get_theme_feature_list() {
 		),
 
 		__( 'Features' ) => array(
-			'blavatar'             => __( 'Blavatar' ),
-			'buddypress'           => __( 'BuddyPress' ),
-			'custom-background'    => __( 'Custom Background' ),
-			'custom-colors'        => __( 'Custom Colors' ),
-			'custom-header'        => __( 'Custom Header' ),
-			'custom-menu'          => __( 'Custom Menu' ),
-			'editor-style'         => __( 'Editor Style' ),
-			'front-page-post-form' => __( 'Front Page Posting' ),
-			'microformats'         => __( 'Microformats' ),
-			'sticky-post'          => __( 'Sticky Post' ),
-			'theme-options'        => __( 'Theme Options' ),
-			'threaded-comments'    => __( 'Threaded Comments' ),
-			'translation-ready'    => __( 'Translation Ready' ),
-			'rtl-language-support' => __( 'RTL Language Support' )
+			'blavatar'              => __( 'Blavatar' ),
+			'buddypress'            => __( 'BuddyPress' ),
+			'custom-background'     => __( 'Custom Background' ),
+			'custom-colors'         => __( 'Custom Colors' ),
+			'custom-header'         => __( 'Custom Header' ),
+			'custom-menu'           => __( 'Custom Menu' ),
+			'editor-style'          => __( 'Editor Style' ),
+			'featured-image-header' => __( 'Featured Image Header' ),
+			'featured-images'       => __( 'Featured Images' ),
+			'front-page-post-form'  => __( 'Front Page Posting' ),
+			'full-width-template'   => __( 'Full Width Template' ),
+			'microformats'          => __( 'Microformats' ),
+			'post-formats'          => __( 'Post Formats' ),
+			'rtl-language-support'  => __( 'RTL Language Support' ),
+			'sticky-post'           => __( 'Sticky Post' ),
+			'theme-options'         => __( 'Theme Options' ),
+			'threaded-comments'     => __( 'Threaded Comments' ),
+			'translation-ready'     => __( 'Translation Ready' )
 		),
 
 		__( 'Subject' )  => array(
-			'holiday' => __( 'Holiday' ),
+			'holiday'       => __( 'Holiday' ),
 			'photoblogging' => __( 'Photoblogging' ),
-			'seasonal' => __( 'Seasonal' )
+			'seasonal'      => __( 'Seasonal' )
 		)
 	);
 
