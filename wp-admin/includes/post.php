@@ -1757,7 +1757,7 @@ function wp_fullscreen_html() {
 	$width = isset($content_width) && 800 > $content_width ? $content_width : 800;
 	$width = $width + 10; // compensate for the padding
 	$dfw_width = get_user_setting( 'dfw_width', $width );
-	$save = $post->post_status == 'publish' ? __('Update') : __('Save');
+	$save = isset($post->post_status) && $post->post_status == 'publish' ? __('Update') : __('Save');
 ?>
 <div id="wp-fullscreen-body">
 <div id="fullscreen-topbar">
