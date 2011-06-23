@@ -640,7 +640,7 @@ a:hover {
 	-o-transition-duration: 400ms;
 	-o-transition-property: width, background;
 	-o-transition-timing-function: ease;
-	width: 45px;
+	width: 72px;
 }
 #branding #s:focus {
 	background-color: #f9f9f9;
