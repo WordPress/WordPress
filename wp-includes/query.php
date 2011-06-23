@@ -3493,6 +3493,12 @@ function wp_old_slug_redirect() {
 		else
 			$post_type = 'post';
 
+		if ( is_array( $post_type ) ) {
+			if ( count( $post_type ) > 1 )
+				return;
+			$post_type = array_shift( $post_type );
+		}
+
 		// Do not attempt redirect for hierarchical post types
 		if ( is_post_type_hierarchical( $post_type ) )
 			return;
