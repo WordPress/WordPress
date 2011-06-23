@@ -6,6 +6,11 @@
 	position: static;
 }
 
+.rtl #dashboard_right_now p.musub {
+	padding-left: 0;	
+	padding-right: 16px;
+}
+
 #dashboard_right_now td.b a.musublink {
 	font-size: 16px;
 }
