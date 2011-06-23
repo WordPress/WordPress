@@ -208,7 +208,7 @@ get_header(); ?>
 					<?php if ( ! dynamic_sidebar( 'sidebar-2' ) ) : ?>
 
 						<?php
-						the_widget( 'Twenty_Eleven_Ephemera_Widget', '', 'before_title=<h1 class="widget-title">&after_title=</h1>' );
+						the_widget( 'Twenty_Eleven_Ephemera_Widget', '', 'before_title=<h3 class="widget-title">&after_title=</h3>' );
 						?>
 
 					<?php endif; // end sidebar widget area ?>

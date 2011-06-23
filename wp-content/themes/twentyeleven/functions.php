@@ -375,8 +375,8 @@ function twentyeleven_widgets_init() {
 		'id' => 'sidebar-1',
 		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
 		'after_widget' => "</aside>",
-		'before_title' => '<h1 class="widget-title">',
-		'after_title' => '</h1>',
+		'before_title' => '<h3 class="widget-title">',
+		'after_title' => '</h3>',
 	) );
 
 	register_sidebar( array(
@@ -385,8 +385,8 @@ function twentyeleven_widgets_init() {
 		'description' => __( 'The sidebar for the optional Showcase Template', 'twentyeleven' ),
 		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
 		'after_widget' => "</aside>",
-		'before_title' => '<h1 class="widget-title">',
-		'after_title' => '</h1>',
+		'before_title' => '<h3 class="widget-title">',
+		'after_title' => '</h3>',
 	) );
 
 	register_sidebar( array(
@@ -395,8 +395,8 @@ function twentyeleven_widgets_init() {
 		'description' => __( 'An optional widget area for your site footer', 'twentyeleven' ),
 		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
 		'after_widget' => "</aside>",
-		'before_title' => '<h1 class="widget-title">',
-		'after_title' => '</h1>',
+		'before_title' => '<h3 class="widget-title">',
+		'after_title' => '</h3>',
 	) );
 
 	register_sidebar( array(
@@ -405,8 +405,8 @@ function twentyeleven_widgets_init() {
 		'description' => __( 'An optional widget area for your site footer', 'twentyeleven' ),
 		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
 		'after_widget' => "</aside>",
-		'before_title' => '<h1 class="widget-title">',
-		'after_title' => '</h1>',
+		'before_title' => '<h3 class="widget-title">',
+		'after_title' => '</h3>',
 	) );
 
 	register_sidebar( array(
@@ -415,8 +415,8 @@ function twentyeleven_widgets_init() {
 		'description' => __( 'An optional widget area for your site footer', 'twentyeleven' ),
 		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
 		'after_widget' => "</aside>",
-		'before_title' => '<h1 class="widget-title">',
-		'after_title' => '</h1>',
+		'before_title' => '<h3 class="widget-title">',
+		'after_title' => '</h3>',
 	) );
 }
 add_action( 'widgets_init', 'twentyeleven_widgets_init' );
@@ -429,7 +429,7 @@ function twentyeleven_content_nav( $nav_id ) {
 
 	if ( $wp_query->max_num_pages > 1 ) : ?>
 		<nav id="<?php echo $nav_id; ?>">
-			<h1 class="assistive-text"><?php _e( 'Post navigation', 'twentyeleven' ); ?></h1>
+			<h3 class="assistive-text"><?php _e( 'Post navigation', 'twentyeleven' ); ?></h3>
 			<div class="nav-previous"><?php next_posts_link( __( '<span class="meta-nav">&larr;</span> Older posts', 'twentyeleven' ) ); ?></div>
 			<div class="nav-next"><?php previous_posts_link( __( 'Newer posts <span class="meta-nav">&rarr;</span>', 'twentyeleven' ) ); ?></div>
 		</nav><!-- #nav-above -->
