@@ -561,7 +561,8 @@ function shutdown_action_hook() {
  */
 
 function wp_clone( $object ) {
-	return clone $object;
+	// Use parens for clone to accommodate PHP 4.  See #17880
+	return clone( $object );
 }
 
 /**
