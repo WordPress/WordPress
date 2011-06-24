@@ -511,7 +511,7 @@ function _access_denied_splash() {
 		wp_die( sprintf( __( 'You attempted to access the "%1$s" dashboard, but you do not currently have privileges on this site. If you believe you should be able to access the "%1$s" dashboard, please contact your network administrator.' ), $blog_name ) );
 
 	$output = '<p>' . sprintf( __( 'You attempted to access the "%1$s" dashboard, but you do not currently have privileges on this site. If you believe you should be able to access the "%1$s" dashboard, please contact your network administrator.' ), $blog_name ) . '</p>';
-	$output .= '<p>' . __( 'If you reached this screen by accident and meant to visit one your own sites, here are some shortcuts to help you find your way.' ) . '</p>';
+	$output .= '<p>' . __( 'If you reached this screen by accident and meant to visit one of your own sites, here are some shortcuts to help you find your way.' ) . '</p>';
 
 	$output .= '<h3>' . __('Your Sites') . '</h3>';
 	$output .= '<table>';
