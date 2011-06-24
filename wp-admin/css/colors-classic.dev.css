@@ -1427,7 +1427,8 @@ table.widefat .spam a:hover,
 }
 
 #adminmenu .menu-icon-users:hover div.wp-menu-image,
-#adminmenu .menu-icon-users.wp-has-current-submenu div.wp-menu-image {
+#adminmenu .menu-icon-users.wp-has-current-submenu div.wp-menu-image,
+#adminmenu .menu-icon-users.current div.wp-menu-image {
 	background: transparent url('../images/menu-vs.png?ver=20100531') no-repeat scroll -300px -1px;
 }
 
@@ -1436,7 +1437,8 @@ table.widefat .spam a:hover,
 }
 
 #adminmenu .menu-icon-tools:hover div.wp-menu-image,
-#adminmenu .menu-icon-tools.wp-has-current-submenu div.wp-menu-image {
+#adminmenu .menu-icon-tools.wp-has-current-submenu div.wp-menu-image,
+#adminmenu .menu-icon-tools.current div.wp-menu-image {
 	background: transparent url('../images/menu-vs.png?ver=20100531') no-repeat scroll -210px -1px;
 }
 
