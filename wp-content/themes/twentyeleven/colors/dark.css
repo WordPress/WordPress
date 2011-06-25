@@ -210,6 +210,9 @@ a:active img[class*="wp-image-"] {
 	color: #888;
 }
 
+.rtl .entry-header .comments-link a {
+	background-image: url(../images/comment-bubble-dark-rtl.png);
+}
 /* Singular content styles for Posts and Pages */
 .singular .entry-title {
 	color: #fff;

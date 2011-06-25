@@ -101,7 +101,7 @@ body {
 	margin: 0;
 }
 .singular #content,
-.sidebar-content.singular #content {
+.left-sidebar.singular #content {
 	margin: 0 7.6%;
 	position: relative;
 	width: auto;
@@ -126,11 +126,11 @@ body {
 
 /* Showcase */
 .page-template-showcase-php #primary,
-.sidebar-content.page-template-showcase-php #primary {
+.left-sidebar.page-template-showcase-php #primary {
 	margin: 0;
 }
 .page-template-showcase-php #content,
-.sidebar-content.page-template-showcase-php #content {
+.left-sidebar.page-template-showcase-php #content {
 	margin: 0 7.6%;
 	width: auto;
 }
@@ -174,16 +174,16 @@ body {
 }
 
 /* Right Content */
-.sidebar-content #primary {
+.left-sidebar #primary {
 	float: right;
 	margin: 0 0 0 -26.4%;
 	width: 100%;
 }
-.sidebar-content #content {
+.left-sidebar #content {
 	margin: 0 7.6% 0 34%;
 	width: 58.4%;
 }
-.sidebar-content #secondary {
+.left-sidebar #secondary {
 	float: left;
 	margin-left: 7.6%;
 	margin-right: 0;
@@ -2042,14 +2042,6 @@ a.comment-reply-link {
 	position: relative;
 	top: 40px;
 	z-index: 1;
-}
-.rtl #respond .comment-form-author label,
-.rtl #respond .comment-form-email label,
-.rtl #respond .comment-form-url label,
-.rtl #respond .comment-form-comment label {
-	-webkit-box-shadow: -1px 2px 2px rgba(204,204,204,0.8);
-	-moz-box-shadow: -1px 2px 2px rgba(204,204,204,0.8);
-	box-shadow: -1px 2px 2px rgba(204,204,204,0.8);
 }
 #respond input[type="text"]:focus,
 #respond textarea:focus {

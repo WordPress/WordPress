@@ -165,6 +165,9 @@ function twentyeleven_get_default_theme_options() {
 		'theme_layout' => 'content-sidebar',
 	);
 
+	if ( is_rtl() ) 
+ 		$default_theme_options['theme_layout'] = 'sidebar-content';
+
 	return apply_filters( 'twentyeleven_default_theme_options', $default_theme_options );
 }
 
@@ -391,7 +394,12 @@ function twentyeleven_layout_classes( $existing_classes ) {
 	else
 		$classes = array( 'one-column' );
 
-	$classes[] = $current_layout;
+	if ( 'content-sidebar' == $current_layout )
+		$classes[] = 'right-sidebar';
+	elseif ( 'sidebar-content' == $current_layout )
+		$classes[] = 'left-sidebar';
+	else
+		$classes[] = $current_layout;
 
 	$classes = apply_filters( 'twentyeleven_layout_classes', $classes, $current_layout );
 
