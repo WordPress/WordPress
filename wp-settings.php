@@ -258,7 +258,7 @@ load_default_textdomain();
 // Find the blog locale.
 $locale = get_locale();
 $locale_file = WP_LANG_DIR . "/$locale.php";
-if ( is_readable( $locale_file ) )
+if ( ( 0 === validate_file( $locale ) ) && is_readable( $locale_file ) )
 	require( $locale_file );
 unset($locale_file);
 
