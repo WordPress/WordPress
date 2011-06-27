@@ -1686,14 +1686,17 @@ section.recent-posts .other-recent-posts li:after {
 	text-align: right;
 	width: 50%;
 }
+#content nav .meta-nav {
+	font-weight: normal;
+}
 
 /* Singular navigation */
 #nav-single {
-	display: inline-block;
-	overflow: visible !important;
-	position: absolute;
-	top: -4px;
-	right: 0;
+	float: right;
+	position: relative;
+	top: -0.3em;
+	text-align: right;
+	width: 100%;
 	z-index: 1;
 }
 #nav-single .nav-previous,

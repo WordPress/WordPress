@@ -354,8 +354,8 @@ section.recent-posts .other-recent-posts .comments-link > span {
 
 /* Singular navigation */
 #nav-single {
-	right: auto;
-	left: 0;
+	float: left;
+	text-align: left;
 }
 #nav-single .nav-next {
 	padding-left: 0;
