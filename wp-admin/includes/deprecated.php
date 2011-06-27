@@ -454,7 +454,7 @@ class WP_User_Search {
 	function WP_User_Search ($search_term = '', $page = '', $role = '') {
 		_deprecated_function( __FUNCTION__, '3.1', 'WP_User_Query' );
 
-		$this->search_term = $search_term;
+		$this->search_term = stripslashes( $search_term );
 		$this->raw_page = ( '' == $page ) ? false : (int) $page;
 		$this->page = (int) ( '' == $page ) ? 1 : $page;
 		$this->role = $role;
@@ -485,7 +485,7 @@ class WP_User_Search {
 			$searches = array();
 			$search_sql = 'AND (';
 			foreach ( array('user_login', 'user_nicename', 'user_email', 'user_url', 'display_name') as $col )
-				$searches[] = $col . " LIKE '%$this->search_term%'";
+				$searches[] = $wpdb->prepare( $col . ' LIKE %s', '%' . like_escape($this->search_term) . '%' );
 			$search_sql .= implode(' OR ', $searches);
 			$search_sql .= ')';
 		}
