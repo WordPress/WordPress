@@ -169,7 +169,7 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 		echo "</li>";
 	}
 
-	echo '<li id="collapse-menu"><div id="collapse-button"><div></div></div>';
+	echo '<li id="collapse-menu" class="hide-if-no-js"><div id="collapse-button"><div></div></div>';
 	echo '<span>' . esc_html__( 'Collapse menu' ) . '</span>';
 	echo '</li>';
 }

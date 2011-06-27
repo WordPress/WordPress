@@ -34,16 +34,23 @@
 }
 
 #wpbody-content input.button,
+#wpbody-content input.button-primary,
 #wpbody-content input.button-secondary,
 #wpbody-content input.button-highlighted {
-	padding: 2px 3px;
+	overflow: visible;
 }
 
-#minor-publishing-actions input,
-#major-publishing-actions input {
-	min-width: auto;
-	padding-left: 0;
-	padding-right: 0;
+#dashboard-widgets #dashboard_quick_press form p.submit #publish {
+	float: none;
+}
+
+#dashboard-widgets h3 a {
+	height: 14px;
+	line-height: 14px;
+}
+
+.tablenav-pages .current-page {
+	vertical-align: middle;
 }
 
 #wpbody-content .postbox {
@@ -97,7 +104,7 @@
 	margin: 0;
 }
 
-.folded #adminmenu li.menu-top {
+.js.folded #adminmenu li.menu-top {
 	display: block;
 	zoom: 100%;
 }
@@ -139,7 +146,12 @@ ul#adminmenu {
 .major-publishing-actions,
 .wp-submenu,
 .wp-submenu li,
-.wp-menu-toggle {
+.wp-menu-toggle,
+#template,
+#template div,
+#editcat,
+#addcat,
+* html .stuffbox h3  {
 	zoom: 100%;
 }
 
@@ -148,20 +160,16 @@ ul#adminmenu {
 	zoom: 100%;
 }
 
-.folded #adminmenu .menu-top {
+.js.folded #adminmenu .menu-top {
 	height: 30px;
 }
 
-.folded #adminmenu .wp-submenu {
+.js.folded #adminmenu .wp-submenu {
 	margin: -1px 0 0 0;
 }
 
-#template,
-#template div,
-#editcat,
-#addcat,
-* html .stuffbox h3 {
-	zoom: 100%;
+.wp-menu-arrow {
+	height: 28px;
 }
 
 .submitbox {
@@ -213,17 +221,8 @@ ul#adminmenu {
 }
 /* end Inline Editor */
 
-input {
-	line-height: 1;
-}
-
 * html .row-actions {
 	visibility: visible;
-}
-
-#dashboard-widgets h3 a {
-	height: 20px;
-	line-height: 20px;
 }
 
 #wphead-info {
@@ -343,9 +342,10 @@ div#dashboard-widgets {
 	margin: 4px 0 0 -9px;
 }
 
-.tablenav .button-secondary, .nav .button-secondary {
-	padding: 0 1px;
-	vertical-align: middle;
+.tablenav .button-secondary,
+.nav .button-secondary {
+	padding-top: 2px;
+	padding-bottom: 2px;
 }
 
 .tablenav select {

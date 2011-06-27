@@ -78,8 +78,8 @@ table {
 	padding-bottom: 65px;
 }
 
-.folded #wpcontent,
-.folded #footer {
+.js.folded #wpcontent,
+.js.folded #footer {
 	margin-left: 52px;
 }
 
@@ -91,8 +91,8 @@ table {
 #adminmenuback,
 #adminmenuwrap,
 #adminmenu,
-.folded #adminmenu .wp-submenu.sub-open,
-.folded #adminmenu .wp-submenu-wrap {
+.js.folded #adminmenu .wp-submenu.sub-open,
+.js.folded #adminmenu .wp-submenu-wrap {
 	width: 145px;
 }
 
@@ -113,10 +113,10 @@ table {
 	list-style: none;
 }
 
-.folded #adminmenuback,
-.folded #adminmenuwrap,
-.folded #adminmenu,
-.folded #adminmenu li.menu-top {
+.js.folded #adminmenuback,
+.js.folded #adminmenuwrap,
+.js.folded #adminmenu,
+.js.folded #adminmenu li.menu-top {
 	width: 32px;
 }
 

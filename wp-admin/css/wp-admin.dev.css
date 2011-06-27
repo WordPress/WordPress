@@ -1219,13 +1219,13 @@ form.upgrade .hint {
 	display: none;
 }
 
-.folded #adminmenu div.wp-submenu-head {
+.js.folded #adminmenu div.wp-submenu-head {
 	display: block;
 }
 
-.folded #adminmenu a.menu-top,
+.js.folded #adminmenu a.menu-top,
 body.no-js #adminmenu .wp-menu-toggle,
-.folded #adminmenu div.wp-menu-toggle {
+.js.folded #adminmenu div.wp-menu-toggle {
 	display: none;
 }
 
@@ -1240,7 +1240,7 @@ body.no-js #adminmenu li.wp-has-current-submenu .wp-submenu {
 	width: 28px;
 	height: 28px;
 }
-.folded #adminmenu div.wp-menu-image {
+.js.folded #adminmenu div.wp-menu-image {
 	width: 32px;
 }
 
@@ -1303,7 +1303,7 @@ body.no-js #adminmenu li.wp-has-current-submenu .wp-submenu {
 	margin: 0;
 }
 
-.folded #adminmenu li.menu-top {
+.js.folded #adminmenu li.menu-top {
 	width: 32px;
 	height: 29px;
 	border-width: 1px 0;
@@ -1339,7 +1339,7 @@ body.no-js #adminmenu li.wp-has-current-submenu .wp-submenu {
 	border-style: solid;
 }
 
-.folded #adminmenu .wp-submenu {
+.js.folded #adminmenu .wp-submenu {
 	display: block;
 	position: absolute;
 	top: -5px;
@@ -1353,7 +1353,7 @@ body.no-js #adminmenu li.wp-has-current-submenu .wp-submenu {
 	-o-transition: width 200ms ease-out;
 	transition: width 200ms ease-out;
 }
-.folded #adminmenu .wp-submenu.sub-open {
+.js.folded #adminmenu .wp-submenu.sub-open {
 	padding: 0 8px 8px 0;
 }
 
@@ -1364,7 +1364,7 @@ body.no-js #adminmenu li.wp-has-current-submenu .wp-submenu {
 	border-style: solid;
 }
 
-.folded #adminmenu .wp-submenu-wrap {
+.js.folded #adminmenu .wp-submenu-wrap {
 	margin-top: 4px;
 	border-width: 0 1px 1px 0;
 	border-style: solid;
@@ -1379,16 +1379,16 @@ body.no-js #adminmenu li.wp-has-current-submenu .wp-submenu {
 	border-top-right-radius: 3px;
 }
 
-.folded #adminmenu .wp-submenu ul {
+.js.folded #adminmenu .wp-submenu ul {
 	border-width: 0 0 0 1px;
 	border-style: solid;
 }
 
-.folded #adminmenu .wp-submenu a {
+.js.folded #adminmenu .wp-submenu a {
 	padding-left: 10px;
 }
 
-.folded #adminmenu a.wp-has-submenu {
+.js.folded #adminmenu a.wp-has-submenu {
 	margin-left: 40px;
 }
 
@@ -1495,14 +1495,17 @@ strong .post-com-count {
 	font-size: 12px;
 	line-height: 34px;
 }
-.folded #collapse-menu span {
+
+.js.folded #collapse-menu span {
 	display: none;
 }
+
 #collapse-button,
 #collapse-button div {
 	width: 15px;
 	height: 15px;
 }
+
 #collapse-button {
 	float: left;
 	margin: 8px 6px;
