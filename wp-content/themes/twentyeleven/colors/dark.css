@@ -458,6 +458,22 @@ section.recent-posts .other-recent-posts .comments-link a:hover {
 .comment-meta {
 	color: #999;
 }
+a.comment-reply-link {
+	background: #242424;
+	color: #bbb;
+}
+li.bypostauthor a.comment-reply-link {
+	background: #111;
+}
+a.comment-reply-link:hover,
+a.comment-reply-link:focus,
+a.comment-reply-link:active,
+li.bypostauthor a.comment-reply-link:hover,
+li.bypostauthor a.comment-reply-link:focus,
+li.bypostauthor a.comment-reply-link:active {
+	background: #999;
+	color: #000;
+}
 .commentlist > li:before {
 	content: url(../images/comment-arrow-dark.png);
 }
