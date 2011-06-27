@@ -596,7 +596,8 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 		'post_content' => $url,
 		'post_mime_type' => $type,
 		'guid' => $url,
-		'context' => 'custom-header');
+		'context' => 'custom-header'
+		);
 
 		// Save the data
 		$id = wp_insert_attachment($object, $file);

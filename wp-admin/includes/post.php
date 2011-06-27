@@ -135,6 +135,10 @@ function edit_post( $post_data = null ) {
 	if ( empty($post_data) )
 		$post_data = &$_POST;
 
+	// Clear out any data in internal vars.
+	if ( isset( $post_data['filter'] ) )
+		unset( $post_data['filter'] );
+
 	$post_ID = (int) $post_data['post_ID'];
 	$post = get_post( $post_ID );
 	$post_data['post_type'] = $post->post_type;
@@ -551,6 +555,15 @@ function wp_write_post() {
 			update_user_option( $user_ID, 'autosave_draft_ids', $draft_ids );
 			return edit_post();
 		}
+	}
+
+	// Edit don't write if we have a post id.
+	if ( isset( $_POST['ID'] ) ) {
+		$_POST['post_ID'] = $_POST['ID'];
+		unset ( $_POST['ID'] );
+	}
+	if ( isset( $_POST['post_ID'] ) ) {
+		return edit_post();
 	}
 
 	$translated = _wp_translate_postdata( false );
