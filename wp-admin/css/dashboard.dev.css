@@ -450,12 +450,10 @@ a.rsswidget {
 	background-color: #e29808;
 	background-image: none;
 	border-color: #edc048;
-}
-
-#dashboard_browser_nag.postbox {
 	-moz-box-shadow: none;
 	-webkit-box-shadow: none;
-	box-shadow:none;
+	box-shadow: none;
+	color: #fff;
 }
 
 #dashboard_browser_nag.postbox.browser-insecure h3 {
@@ -469,11 +467,6 @@ a.rsswidget {
 	-webkit-box-shadow: none;
 	box-shadow: none;
 	background: transparent none;
-}
-
-.ui-sortable #dashboard_browser_nag.postbox,
-.ui-sortable #dashboard_browser_nag.postbox h3 {
-	color: #fff;
 }
 
 #dashboard_browser_nag a {

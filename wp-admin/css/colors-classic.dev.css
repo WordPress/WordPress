@@ -701,7 +701,7 @@ table.widefat span.spam a,
 	background-color: #f7fcfe;
 }
 
-.ui-sortable .postbox h3 {
+.postbox h3 {
 	color: #174f69;
 }
 
@@ -710,7 +710,7 @@ table.widefat span.spam a,
 }
 
 .sidebar-name:hover h3,
-.ui-sortable .postbox h3:hover {
+.postbox h3:hover {
 	color: #000;
 }
 
