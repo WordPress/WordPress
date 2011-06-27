@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Eleven 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyeleven\n"
-"POT-Creation-Date: 2011-06-27 20:47:38+00:00\n"
+"POT-Creation-Date: 2011-06-27 22:47:41+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -264,11 +264,11 @@ msgstr ""
 msgid "Image navigation"
 msgstr ""
 
-#: image.php:19 single.php:19
+#: image.php:19
 msgid "&larr; Previous"
 msgstr ""
 
-#: image.php:20 single.php:20
+#: image.php:20
 msgid "Next &rarr;"
 msgstr ""
 
@@ -391,7 +391,7 @@ msgid "Your comment is awaiting moderation."
 msgstr ""
 
 #: functions.php:544
-msgid "Reply &darr;"
+msgid "Reply <span>&darr;</span>"
 msgstr ""
 
 #: functions.php:562
@@ -604,6 +604,14 @@ msgstr ""
 msgid ""
 "This entry was posted in %1$s. Bookmark the <a href=\"%3$s\" title="
 "\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>."
+msgstr ""
+
+#: single.php:19
+msgid "<span class=\"meta-nav\">&larr;</span> Previous"
+msgstr ""
+
+#: single.php:20
+msgid "Next <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
 #: searchform.php:11 searchform.php:12 searchform.php:13
