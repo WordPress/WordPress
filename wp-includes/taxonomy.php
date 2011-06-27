@@ -1229,6 +1229,8 @@ function &get_terms($taxonomies, $args = '') {
 		$orderby = '';
 	elseif ( empty($_orderby) || 'id' == $_orderby )
 		$orderby = 't.term_id';
+	else
+		$orderby = 't.name';
 
 	$orderby = apply_filters( 'get_terms_orderby', $orderby, $args );
 
@@ -1236,6 +1238,10 @@ function &get_terms($taxonomies, $args = '') {
 		$orderby = "ORDER BY $orderby";
 	else
 		$order = '';
+
+	$order = strtoupper( $order );
+	if ( '' !== $order && !in_array( $order, array( 'ASC', 'DESC' ) ) )
+		$order = 'ASC';
 
 	$where = "tt.taxonomy IN ('" . implode("', '", $taxonomies) . "')";
 	$inclusions = '';
