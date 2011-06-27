@@ -18,7 +18,7 @@
 
 			<?php if ( comments_open() ) : ?>
 			<div class="comments-link">
-				<?php comments_popup_link( __( '<span class="leave-reply">Reply</span>', 'twentyeleven' ), __( '1', 'twentyeleven' ), __( '%', 'twentyeleven' ) ); ?>
+				<?php comments_popup_link( '<span class="leave-reply">' . __( "Reply", 'twentyeleven' ) . '</span>', _x( '1', 'comments number', 'twentyeleven' ), _x( '%', 'comments number', 'twentyeleven' ) ); ?>
 			</div>
 			<?php endif; ?>
 		</header><!-- .entry-header -->
@@ -43,7 +43,7 @@
 			</div><!-- .entry-meta -->
 			<div class="entry-meta">
 				<?php
-				/* translators: used between list items, there is a space after the comma */
+					/* translators: used between list items, there is a space after the comma */
 					$categories_list = get_the_category_list( __( ', ', 'twentyeleven' ) );
 					if ( $categories_list ):
 				?>
@@ -61,7 +61,7 @@
 				<?php endif; // End if $tags_list ?>
 
 				<?php if ( comments_open() ) : ?>
-				<span class="comments-link"><?php comments_popup_link( __( '<span class="leave-reply">Leave a reply</span>', 'twentyeleven' ), __( '<b>1</b> Reply', 'twentyeleven' ), __( '<b>%</b> Replies', 'twentyeleven' ) ); ?></span>
+				<span class="comments-link"><?php comments_popup_link( '<span class="leave-reply">' . __( 'Reply', 'twentyeleven' ) . '</span>', __( '<strong>1</strong> Reply', 'twentyeleven' ), __( '<strong>%</strong> Replies', 'twentyeleven' ) ); ?></span>
 				<?php endif; // End if comments_open() ?>
 			</div><!-- .entry-meta -->
 

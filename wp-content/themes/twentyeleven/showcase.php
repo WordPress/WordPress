@@ -191,7 +191,7 @@ get_header(); ?>
 						<li class="entry-title">
 							<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'twentyeleven' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a>
 							<span class="comments-link">
-								<?php comments_popup_link( __( '<span class="leave-reply">Leave a reply</span>', 'twentyeleven' ), __( '<b>1</b> Reply', 'twentyeleven' ), __( '<b>%</b> Replies', 'twentyeleven' ) ); ?>
+								<?php comments_popup_link( '<span class="leave-reply">' . __( 'Leave a reply', 'twentyeleven' ) . '</span>', __( '<b>1</b> Reply', 'twentyeleven' ), __( '<b>%</b> Replies', 'twentyeleven' ) ); ?>
 							</span>
 						</li>
 
@@ -208,7 +208,7 @@ get_header(); ?>
 					<?php if ( ! dynamic_sidebar( 'sidebar-2' ) ) : ?>
 
 						<?php
-						the_widget( 'Twenty_Eleven_Ephemera_Widget', '', 'before_title=<h3 class="widget-title">&after_title=</h3>' );
+						the_widget( 'Twenty_Eleven_Ephemera_Widget', '', array( 'before_title' => '<h3 class="widget-title">', 'after_title' => '</h3>' ) );
 						?>
 
 					<?php endif; // end sidebar widget area ?>
