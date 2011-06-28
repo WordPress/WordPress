@@ -50,12 +50,15 @@
 
 			$('option', select).remove();
 			$.each(inputs, function( id, value ) {
-				var selected;
+				var val = value.replace(/<\/?[a-z][^>]*>/gi, ''); 
 
-				if ( inputs[id].length && $.inArray( value, dub ) == -1 ) {
-					dub.push(value);
-					selected = id == current ? 'selected="selected"' : '';
-					select.append('<option id="' + id + '" ' + selected + '">' + value + '</option>');
+				if ( inputs[id].length && $.inArray( val, dub ) == -1 ) {
+					dub.push(val);
+					$('<option />', {
+					  	'id': id,
+						'text': val,
+						'selected': (id == current)
+					}).appendTo( select );
 				}
 			});
 		});
