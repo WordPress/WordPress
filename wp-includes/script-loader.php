@@ -488,7 +488,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
 
 	// all colors stylesheets need to have the same query strings (cache manifest compat)
-	$colors_version = '20110627';
+	$colors_version = '20110628';
 
 	// Register "meta" stylesheet for admin colors. All colors-* style sheets should have the same version string.
 	$styles->add( 'colors', true, array(), $colors_version );
@@ -507,7 +507,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'press-this', "/wp-admin/css/press-this$suffix.css", array(), '20110611a' );
 	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css', array(), '20090514' );
 	$styles->add( 'login', "/wp-admin/css/login$suffix.css", array(), '20110610' );
-	$styles->add( 'plugin-install', "/wp-admin/css/plugin-install$suffix.css", array(), '20101230' );
+	$styles->add( 'plugin-install', "/wp-admin/css/plugin-install$suffix.css", array(), '20110628' );
 	$styles->add( 'theme-install', "/wp-admin/css/theme-install$suffix.css", array(), '20110506' );
 	$styles->add( 'farbtastic', '/wp-admin/css/farbtastic.css', array(), '1.3u' );
 	$styles->add( 'jcrop', '/wp-includes/js/jcrop/jquery.Jcrop.css', array(), '0.9.8' );

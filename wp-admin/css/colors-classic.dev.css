@@ -1618,6 +1618,11 @@ div.star.select:hover {
 	background-color: #d00;
 }
 
+div.star img {
+	border-left: 1px solid #fff;
+	border-right: 1px solid #fff;
+}
+
 #plugin-information .fyi ul {
 	background-color: #eaf3fa;
 }
