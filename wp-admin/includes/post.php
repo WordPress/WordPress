@@ -143,8 +143,7 @@ function edit_post( $post_data = null ) {
 		$post_data = &$_POST;
 
 	// Clear out any data in internal vars.
-	if ( isset( $post_data['filter'] ) )
-		unset( $post_data['filter'] );
+	unset( $post_data['filter'] );
 
 	$post_ID = (int) $post_data['post_ID'];
 	$post = get_post( $post_ID );
@@ -352,7 +351,8 @@ function bulk_edit_posts( $post_data = null ) {
 			continue;
 		}
 
-		$tax_names = get_object_taxonomies( get_post($post_ID) );
+		$post = get_post( $post_ID );
+		$tax_names = get_object_taxonomies( $post );
 		foreach ( $tax_names as $tax_name ) {
 			$taxonomy_obj = get_taxonomy($tax_name);
 			if (  isset( $tax_input[$tax_name]) && current_user_can( $taxonomy_obj->cap->assign_terms ) )
@@ -373,6 +373,9 @@ function bulk_edit_posts( $post_data = null ) {
 			$post_data['post_category'] = array_unique( array_merge($cats, $new_cats) );
 			unset( $post_data['tax_input']['category'] );
 		}
+
+		$post_data['post_mime_type'] = $post->post_mime_type;
+		$post_data['guid'] = $post->guid;
 
 		$post_data['ID'] = $post_ID;
 		$updated[] = wp_update_post( $post_data );
@@ -544,6 +547,9 @@ function wp_write_post() {
 	}
 
 	$_POST['post_mime_type'] = '';
+
+	// Clear out any data in internal vars.
+	unset( $_POST['filter'] );
 
 	// Check for autosave collisions
 	// Does this need to be updated? ~ Mark
