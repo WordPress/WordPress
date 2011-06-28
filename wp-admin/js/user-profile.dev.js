@@ -29,37 +29,39 @@
 		}
 	}
 
-	$(document).ready( function() {
+	$(document).ready(function() {
 		$('#pass1').val('').keyup( check_pass_strength );
 		$('#pass2').val('').keyup( check_pass_strength );
 		$('#pass-strength-result').show();
-		$('.color-palette').click(function(){$(this).siblings('input[name=admin_color]').attr('checked', 'checked')});
-		$('#nickname').blur(function(){
-			var str = $(this).val() || $('#user_login').val();
-			var select = $('#display_name');
-			var sel = select.children('option:selected').attr('id');
-			select.children('#display_nickname').remove();
-			if ( ! select.children('option[value=' + str + ']').length )
-				select.append('<option id="display_nickname" value="' + str + '">' + str + '</option>');
-			$('#'+sel).attr('selected', 'selected');
-		});
-		$('#first_name, #last_name').blur(function(){
-			var select = $('#display_name');
-			var first = $('#first_name').val(), last = $('#last_name').val();
-			var sel = select.children('option:selected').attr('id');
-			$('#display_firstname, #display_lastname, #display_firstlast, #display_lastfirst').remove();
-			if ( first && ! select.children('option[value=' + first + ']').length )
-				select.append('<option id="display_firstname" value="' + first + '">' + first + '</option>');
-			if ( last && ! select.children('option[value=' + last + ']').length )
-				select.append('<option id="display_lastname" value="' + last + '">' + last + '</option>');
-			if ( first && last ) {
-				if ( ! select.children('option[value=' + first + ' ' + last + ']').length )
-					select.append('<option id="display_firstlast" value="' + first + ' ' + last + '">' + first + ' ' + last + '</option>');
-				if ( ! select.children('option[value=' + last + ' ' + first + ']').length )
-					select.append('<option id="display_lastfirst" value="' + last + ' ' + first + '">' + last + ' ' + first + '</option>');
+		$('.color-palette').click(function(){$(this).siblings('input[name="admin_color"]').prop('checked', true)});
+		$('#first_name, #last_name, #nickname').blur(function(){
+			var select = $('#display_name'), current = select.find('option:selected').attr('id'), dub = [],
+				inputs = {
+					display_nickname : $('#nickname').val(),
+					display_username : $('#user_login').val(),
+					display_firstname : $('#first_name').val(),
+					display_lastname : $('#last_name').val()
+				};
+
+			if ( inputs.display_firstname && inputs.display_lastname ) {
+				inputs['display_firstlast'] = inputs.display_firstname + ' ' + inputs.display_lastname;
+				inputs['display_lastfirst'] = inputs.display_lastname + ' ' + inputs.display_firstname;
 			}
-			$('#'+sel).attr('selected', 'selected');
+
+			$('option', select).remove();
+			$.each(inputs, function( id, value ) {
+				var val = value.replace(/<\/?[a-z][^>]*>/gi, ''); 
+
+				if ( inputs[id].length && $.inArray( val, dub ) == -1 ) {
+					dub.push(val);
+					$('<option />', {
+					  	'id': id,
+						'text': val,
+						'selected': (id == current)
+					}).appendTo( select );
+				}
+			});
 		});
-    });
+	});
 
 })(jQuery);
