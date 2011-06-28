@@ -2430,6 +2430,9 @@ function wp_insert_post($postarr, $wp_error = false) {
 		'post_content' => '', 'post_title' => '');
 
 	$postarr = wp_parse_args($postarr, $defaults);
+
+	unset( $postarr[ 'filter' ] );
+
 	$postarr = sanitize_post($postarr, 'db');
 
 	// export array as variables
@@ -3610,6 +3613,8 @@ function wp_insert_attachment($object, $file = false, $parent = 0) {
 	$object = wp_parse_args($object, $defaults);
 	if ( !empty($parent) )
 		$object['post_parent'] = $parent;
+
+	unset( $object[ 'filter' ] );
 
 	$object = sanitize_post($object, 'db');
 
