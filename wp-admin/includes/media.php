@@ -436,6 +436,11 @@ function media_upload_form_handler() {
 
 	if ( !empty($_POST['attachments']) ) foreach ( $_POST['attachments'] as $attachment_id => $attachment ) {
 		$post = $_post = get_post($attachment_id, ARRAY_A);
+		$post_type_object = get_post_type_object( $post[ 'post_type' ] );
+
+		if ( !current_user_can( $post_type_object->cap->edit_post, $attachment_id ) )
+			continue;
+
 		if ( isset($attachment['post_content']) )
 			$post['post_content'] = $attachment['post_content'];
 		if ( isset($attachment['post_title']) )
