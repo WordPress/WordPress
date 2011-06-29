@@ -5,6 +5,8 @@
  * The permissions for the base directory must allow for writing files in order
  * for the wp-config.php to be created using this page.
  *
+ * @internal This file must be parsable by PHP4.
+ *
  * @package WordPress
  * @subpackage Administration
  */
