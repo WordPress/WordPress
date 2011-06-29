@@ -23,6 +23,9 @@ require( ABSPATH . WPINC . '/version.php' );
 // Set initial default constants including WP_MEMORY_LIMIT, WP_MAX_MEMORY_LIMIT, WP_DEBUG, WP_CONTENT_DIR and WP_CACHE.
 wp_initial_constants( );
 
+// Check for the required PHP version and for the MySQL extension or a database drop-in.
+wp_check_php_mysql_versions();
+
 // Disable magic quotes at runtime. Magic quotes are added using wpdb later in wp-settings.php.
 set_magic_quotes_runtime( 0 );
 @ini_set( 'magic_quotes_sybase', 0 );
@@ -39,9 +42,6 @@ unset( $wp_filter, $cache_lastcommentmodified );
 
 // Standardize $_SERVER variables across setups.
 wp_fix_server_vars();
-
-// Check for the required PHP version and for the MySQL extension or a database drop-in.
-wp_check_php_mysql_versions();
 
 // Check if we have received a request due to missing favicon.ico
 wp_favicon_request();
