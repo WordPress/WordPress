@@ -120,8 +120,6 @@
 				// Get height differently depending on the browser used
 				if ( tinymce.isIE )
 					myHeight = d.body.scrollHeight;
-				else if ( tinymce.isWebKit )
-					myHeight = d.height;
 				else
 					myHeight = d.documentElement.offsetHeight;
 
