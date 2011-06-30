@@ -1793,7 +1793,7 @@ function wp_fullscreen_html() {
 <?php
 
 	$media_link_type = 'image';
-	if ( is_multisite() && ( ( ! $mu_media_buttons = get_site_option( 'mu_media_buttons' ) ) || empty( $mu_media_buttons['image'] ) ) ) 
+	if ( is_multisite() && ( ( ! $mu_media_buttons = get_site_option( 'mu_media_buttons' ) ) || empty( $mu_media_buttons['image'] ) ) )
 		$media_link_type = 'media';
 
 	$buttons = array(

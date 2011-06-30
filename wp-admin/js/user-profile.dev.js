@@ -50,7 +50,7 @@
 
 			$('option', select).remove();
 			$.each(inputs, function( id, value ) {
-				var val = value.replace(/<\/?[a-z][^>]*>/gi, ''); 
+				var val = value.replace(/<\/?[a-z][^>]*>/gi, '');
 
 				if ( inputs[id].length && $.inArray( val, dub ) == -1 ) {
 					dub.push(val);

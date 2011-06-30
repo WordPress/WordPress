@@ -183,7 +183,7 @@ if ( empty($tzstring) ) { // Create a UTC+- zone if no timezone string exists
 	<br />
 	<?php
 	$allowed_zones = timezone_identifiers_list();
-	
+
 	if ( in_array( $tzstring, $allowed_zones) ) {
 		$found = false;
 		$date_time_zone_selected = new DateTimeZone($tzstring);
