@@ -322,7 +322,7 @@ section.feature-image.large img {
 
 /* Featured Slider */
 .featured-posts {
-	border-color: #222;	
+	border-color: #222;
 }
 .featured-posts section.featured-post {
 	background: #000;
@@ -594,7 +594,7 @@ li.bypostauthor a.comment-reply-link:active {
 	/* Comments */
 	.commentlist > li.comment {
 	}
-	
+
 	/* Post author highlighting */
 	.commentlist > li.bypostauthor {
 		color: #333;

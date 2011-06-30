@@ -4,10 +4,10 @@ Theme Name: Twenty Eleven
 /*
 Used to style the TinyMCE editor.
 */
-html .mceContentBody{
-	direction:rtl;
-	unicode-bidi:embed;
-	float:right;
+html .mceContentBody {
+	direction: rtl;
+	unicode-bidi: embed;
+	float: right;
 	max-width: 584px;
 }
 * {

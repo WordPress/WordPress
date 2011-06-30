@@ -265,11 +265,11 @@ body {
 }
 .one-column.singular .entry-meta .edit-link a {
 	position: absolute;
-	left: 0px;
+	left: 0;
 	top: 40px;
 }
 .one-column.singular #author-info {
-	margin: 2.2em -8.8% 0px;
+	margin: 2.2em -8.8% 0;
 	padding: 20px 8.8%;
 }
 /* Make sure we have room for our comment avatars */
@@ -822,18 +822,21 @@ dl.gallery-item {
 .page-link span {
 	margin-right: 6px;
 }
-.entry-meta .edit-link a {
+.entry-meta .edit-link a,
+.commentlist .edit-link a {
 	background: #eee;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 	color: #666;
 	float: right;
 	font-size: 12px;
+	line-height: 1.5em;
 	font-weight: 300;
 	text-decoration: none;
-	padding: 0px 8px;
+	padding: 0 8px;
 }
-.entry-meta .edit-link a:hover {
+.entry-meta .edit-link a:hover,
+.commentlist .edit-link a:hover {
 	background: #888;
 	color: #fff;
 }
@@ -890,7 +893,7 @@ p img,
 }
 .wp-caption .wp-caption-text {
 	margin-bottom: 0.6em;
-	padding: 10px 0px 5px 40px;
+	padding: 10px 0 5px 40px;
 	position: relative;
 }
 .wp-caption .wp-caption-text:before {
@@ -908,25 +911,25 @@ p img,
 	margin: 0 auto 1.625em;
 }
 #content .gallery a img {
-    border: none;
+	border: none;
 }
 img#wpstats {
-    display: block;
-    margin: 0 auto 1.625em;
+	display: block;
+	margin: 0 auto 1.625em;
 }
 #content .gallery-columns-4 .gallery-item {
-	width:23%;
-	padding-right:2%;
+	width: 23%;
+	padding-right: 2%;
 }
 #content .gallery-columns-4 .gallery-item img {
-	width:100%;
-	height:auto;
+	width: 100%;
+	height: auto;
 }
 
 /* Image borders */
 img[class*="align"],
 img[class*="wp-image-"],
-#content .gallery .gallery-icon img { /* Add fancy borders to all WordPress-added images but not things like badges and icons and the like */
+#content .gallery .gallery-icon img {/* Add fancy borders to all WordPress-added images but not things like badges and icons and the like */
 	border: 1px solid #ddd;
 	padding: 6px;
 }
@@ -941,13 +944,13 @@ a:hover img[class*="wp-image-"],
 a:active img[class*="wp-image-"],
 #content .gallery .gallery-icon a:focus img,
 #content .gallery .gallery-icon a:hover img,
-#content .gallery .gallery-icon a:active img { /* Add some useful style to those fancy borders for linked images ... */
+#content .gallery .gallery-icon a:active img {/* Add some useful style to those fancy borders for linked images ... */
 	background: #eee;
 	border-color: #bbb;
 }
 .wp-caption a:focus img,
 .wp-caption a:active img,
-.wp-caption a:hover img { /* ... including captioned images!  */
+.wp-caption a:hover img {/* ... including captioned images! */
 	background: #fff;
 	border-color: #ddd;
 }
@@ -1029,13 +1032,13 @@ a:active img[class*="wp-image-"],
 	color: rgba(255,255,255,0.8);
 }
 .entry-header .comments-link .leave-reply {
-	 visibility: hidden;
+	visibility: hidden;
 }
 
 /*
-	Post Formats Headings
-	To hide the headings, display: none the ".entry-header .entry-format" selector,
-	and remove the padding rules below.
+Post Formats Headings
+To hide the headings, display: none the ".entry-header .entry-format" selector,
+and remove the padding rules below.
 */
 .entry-header .entry-format {
 	color: #666;
@@ -1223,7 +1226,7 @@ blockquote.pull {
 	margin-bottom: 0;
 }
 .indexed.format-image footer.entry-meta {
-	background: #e0e6e8;
+	background: #ddd;
 	margin-top: -7px;
 	padding: 20px 30px;
 	overflow: hidden;
@@ -1244,6 +1247,9 @@ blockquote.pull {
 }
 .indexed.format-image footer.entry-meta a {
 	color: #444;
+}
+.indexed.format-image footer.entry-meta a:hover {
+	color: #fff;
 }
 #content .indexed.format-image img {
 	border: none;
@@ -1328,7 +1334,7 @@ article.intro .entry-title {
 article.intro .entry-content {
 	color: #111;
 	font-size: 16px;
-	padding: 1.625em 0px 0.625em;
+	padding: 1.625em 0 0.625em;
 }
 article.intro .edit-link a {
 	background: #aaa;
@@ -1336,7 +1342,7 @@ article.intro .edit-link a {
 	border-radius: 3px;
 	color: #fff;
 	font-size: 12px;
-	padding: 0px 8px;
+	padding: 0 8px;
 	position: absolute;
 	top: 30px;
 	right: 20px;
@@ -1511,8 +1517,8 @@ section.feature-image.large img {
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
 	background: linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* W3C */
 	width: 100%;
-    height: 45px;
-    position: absolute;
+	height: 45px;
+	position: absolute;
 	top: 230px;
 }
 .featured-post .feature-image.small:after {
@@ -1966,7 +1972,7 @@ a.comment-reply-link {
 	color: #666;
 	display: inline-block;
 	font-size: 12px;
-	padding: 0px 8px;
+	padding: 0 8px;
 	text-decoration: none;
 }
 a.comment-reply-link:hover,
@@ -2104,10 +2110,10 @@ a.comment-reply-link > span {
 	color: #eee;
 	cursor: pointer;
 	font-size: 15px;
-	left: 30px;
 	margin: 20px 0;
 	padding: 5px 42px 5px 22px;
 	position: relative;
+	left: 30px;
 	text-shadow: 0 -1px 0 rgba(0,0,0,0.3);
 }
 #respond input#submit:active {
@@ -2308,12 +2314,12 @@ p.comment-form-comment {
 		margin: 0 0 0 1.625em;
 	}
 	.singular .entry-meta .edit-link a {
-		left: 0px;
+		left: 0;
 		position: absolute;
 		top: 40px;
 	}
 	.singular #author-info {
-		margin: 2.2em -8.8% 0px;
+		margin: 2.2em -8.8% 0;
 		padding: 20px 8.8%;
 	}
 	/* Make sure we have room for our comment avatars */
@@ -2346,6 +2352,7 @@ p.comment-form-comment {
 	object {
 		max-width: 100%;
 	}
+
 }
 @media (max-width: 650px) {
 	/* @media (max-width: 650px) Reduce font-sizes for better readability on smaller devices */
@@ -2410,7 +2417,7 @@ p.comment-form-comment {
 		padding: 1.625em 0 0;
 	}
 	.singular.page .hentry {
-	    padding: 1.625em 0 0;
+		padding: 1.625em 0 0;
 	}
 	/* Talking avatars take up too much room at this size */
 	.commentlist > li.comment,
@@ -2432,30 +2439,32 @@ p.comment-form-comment {
 	}
 	/* Use the available space in the smaller comment form */
 	#respond input[type="text"] {
-	    width: 95%;
+		width: 95%;
 	}
 	#respond .comment-form-author .required,
 	#respond .comment-form-email .required {
-	    left: 95%;
+		left: 95%;
 	}
 	#content .gallery-columns-3 .gallery-item {
-		width:31%;
-		padding-right:2%;
+		width: 31%;
+		padding-right: 2%;
 	}
 	#content .gallery-columns-3 .gallery-item img {
-		width:100%;
-		height:auto;
+		width: 100%;
+		height: auto;
 	}
+
 }
 @media (max-width: 450px) {
 	#content .gallery-columns-2 .gallery-item {
-		width:45%;
-		padding-right:4%;
+		width: 45%;
+		padding-right: 4%;
 	}
 	#content .gallery-columns-2 .gallery-item img {
-		width:100%;
-		height:auto;
+		width: 100%;
+		height: auto;
 	}
+
 }
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
 	body {
@@ -2467,6 +2476,7 @@ p.comment-form-comment {
 	#branding {
 		border-top: none;
 	}
+
 }
 
 
@@ -2480,7 +2490,7 @@ p.comment-form-comment {
 	}
 	footer.entry-meta a[rel=bookmark]:link:after,
 	footer.entry-meta a[rel=bookmark]:visited:after {
-		content:" [" attr(href) "] "; /* Show URLs */
+		content: " [" attr(href) "] "; /* Show URLs */
 	}
 	#page {
 		clear: both !important;
@@ -2494,7 +2504,7 @@ p.comment-form-comment {
 		padding: 0;
 	}
 	#branding hgroup {
-	    margin: 0;
+		margin: 0;
 	}
 	#site-title a {
 		font-size: 21pt;
@@ -2516,20 +2526,20 @@ p.comment-form-comment {
 		box-shadow: none;
 	}
 	#primary {
-	    float: left;
-	    margin: 0;
-	    width: 100%;
+		float: left;
+		margin: 0;
+		width: 100%;
 	}
 	#content {
-	    margin: 0;
-	    width: auto;
+		margin: 0;
+		width: auto;
 	}
 	.singular #content {
-	    margin: 0;
+		margin: 0;
 		width: 100%;
 	}
 	.singular .entry-header .entry-meta {
-	    position: static;
+		position: static;
 	}
 	.entry-meta .edit-link a {
 		display: none;
@@ -2542,7 +2552,7 @@ p.comment-form-comment {
 	.singular footer.entry-meta,
 	.singular #comments-title {
 		margin: 0;
-	    width: 100%;
+		width: 100%;
 	}
 	.singular .hentry {
 		padding: 0;
@@ -2561,11 +2571,11 @@ p.comment-form-comment {
 		display: none;
 	}
 	.singular #author-info {
-	    background: none;
-	    border-bottom: none;
-	    border-top: none;
-	    margin: 2.2em 0 0;
-	    padding: 0;
+		background: none;
+		border-bottom: none;
+		border-top: none;
+		margin: 2.2em 0 0;
+		padding: 0;
 	}
 	#respond {
 		display: none;
@@ -2579,30 +2589,30 @@ p.comment-form-comment {
 
 	/* Comments */
 	.commentlist > li.comment {
-	    background: none;
-	    border: 1px solid #ddd;
-	    -moz-border-radius: 3px 3px 3px 3px;
-	    border-radius: 3px 3px 3px 3px;
-	    margin: 0 auto 1.625em;
-	    padding: 1.625em;
-	    position: relative;
-	    width: auto;
+		background: none;
+		border: 1px solid #ddd;
+		-moz-border-radius: 3px 3px 3px 3px;
+		border-radius: 3px 3px 3px 3px;
+		margin: 0 auto 1.625em;
+		padding: 1.625em;
+		position: relative;
+		width: auto;
 	}
 	.commentlist .avatar {
 		height: 39px;
-	    left: 2.2em;
-	    top: 2.2em;
+		left: 2.2em;
+		top: 2.2em;
 		width: 39px;
 	}
 	.commentlist li.comment .comment-meta {
-	    line-height: 1.625em;
-	    margin-left: 50px;
+		line-height: 1.625em;
+		margin-left: 50px;
 	}
 	.commentlist li.comment .fn {
-	    display: block;
+		display: block;
 	}
 	.commentlist li.comment .comment-content {
-	    margin: 1.625em 0 0;
+		margin: 1.625em 0 0;
 	}
 	.commentlist .comment-edit-link {
 		display: none;
@@ -2635,6 +2645,7 @@ p.comment-form-comment {
 	.commentlist .children > li.bypostauthor > article .comment-meta {
 		color: #666;
 	}
+
 }
 
 
