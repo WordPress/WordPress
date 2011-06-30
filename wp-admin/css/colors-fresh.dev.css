@@ -549,10 +549,10 @@ a,
 #rightnow .reallynow {
 	background-color: #464646;
 	color: #fff;
-	-moz-box-shadow: #fff 0 -1px 0;
-	-khtml-box-shadow: #fff 0 -1px 0;
-	-webkit-box-shadow: #fff 0 -1px 0;
-	box-shadow: #fff 0 -1px 0;
+	-moz-box-shadow: rgba(255,255,255,0.5) 0 1px 0;
+	-khtml-box-shadow: rgba(255,255,255,0.5) 0 1px 0;
+	-webkit-box-shadow: rgba(255,255,255,0.5) 0 1px 0;
+	box-shadow: rgba(255,255,255,0.5) 0 1px 0;
 }
 #plugin-information .action-button {
 	background-color: #d54e21;
@@ -563,10 +563,10 @@ a,
 #adminmenu	li a.wp-has-current-submenu .update-plugins{
 	background-color: #464646;
 	color: #fff;
-	-moz-box-shadow: #fff 0 -1px 0;
-	-khtml-box-shadow: #fff 0 -1px 0;
-	-webkit-box-shadow: #fff 0 -1px 0;
-	box-shadow: #fff 0 -1px 0;
+	-moz-box-shadow: rgba(255,255,255,0.5) 0 1px 0;
+	-khtml-box-shadow: rgba(255,255,255,0.5) 0 1px 0;
+	-webkit-box-shadow: rgba(255,255,255,0.5) 0 1px 0;
+	box-shadow: rgba(255,255,255,0.5) 0 1px 0;
 }
 
 div#media-upload-header,
