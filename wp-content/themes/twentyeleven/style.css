@@ -2069,6 +2069,7 @@ a.comment-reply-link > span {
 	z-index: 1;
 }
 #respond textarea {
+	resize: vertical;
 	width: 95%;
 }
 #respond .comment-form-author .required,
