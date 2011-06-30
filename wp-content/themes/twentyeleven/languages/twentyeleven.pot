@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Eleven 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyeleven\n"
-"POT-Creation-Date: 2011-06-27 22:47:41+00:00\n"
+"POT-Creation-Date: 2011-06-30 22:47:23+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -57,7 +57,7 @@ msgstr ""
 #. translators: used between list items, there is a space after the comma
 #: content-quote.php:44 content-quote.php:54 content.php:51 content.php:61
 #: content-image.php:47 content-image.php:56 content-single.php:30
-#: content-single.php:39 content-gallery.php:62 content-gallery.php:72
+#: content-single.php:33 content-gallery.php:62 content-gallery.php:72
 #: content-featured.php:29 content-featured.php:38
 msgid ", "
 msgstr ""
@@ -88,9 +88,10 @@ msgid "<b>%</b> Replies"
 msgstr ""
 
 #: content-quote.php:72 content.php:80 content-image.php:68
-#: content-single.php:47 content-intro.php:19 content-gallery.php:90
-#: content-aside.php:44 image.php:40 content-status.php:45 content-page.php:19
-#: content-link.php:44 content-featured.php:45
+#: content-single.php:52 content-intro.php:19 content-gallery.php:90
+#: content-aside.php:44 image.php:40 functions.php:503 functions.php:531
+#: content-status.php:45 content-page.php:21 content-link.php:44
+#: content-featured.php:45
 msgid "Edit"
 msgstr ""
 
@@ -171,24 +172,30 @@ msgstr ""
 msgid "Meta"
 msgstr ""
 
-#: content-single.php:32
+#: content-single.php:35
 msgid ""
 "This entry was posted in %1$s and tagged %2$s by <a href=\"%6$s\">%5$s</a>. "
 "Bookmark the <a href=\"%3$s\" title=\"Permalink to %4$s\" rel=\"bookmark"
 "\">permalink</a>."
 msgstr ""
 
-#: content-single.php:34
+#: content-single.php:37
 msgid ""
 "This entry was posted in %1$s by <a href=\"%6$s\">%5$s</a>. Bookmark the <a "
 "href=\"%3$s\" title=\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>."
 msgstr ""
 
-#: content-single.php:55 author.php:49
+#: content-single.php:39
+msgid ""
+"This entry was posted by <a href=\"%6$s\">%5$s</a>. Bookmark the <a href=\"%3"
+"$s\" title=\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>."
+msgstr ""
+
+#: content-single.php:60 author.php:49
 msgid "About %s"
 msgstr ""
 
-#: content-single.php:59
+#: content-single.php:64
 msgid "View all posts by %s <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
@@ -368,10 +375,6 @@ msgstr ""
 msgid "Pingback:"
 msgstr ""
 
-#: functions.php:503
-msgid "(Edit)"
-msgstr ""
-
 #. translators: 1: comment author, 2: date and time
 #: functions.php:520
 msgid "%1$s on %2$s <span class=\"says\">said:</span>"
@@ -380,10 +383,6 @@ msgstr ""
 #. translators: 1: date, 2: time
 #: functions.php:526
 msgid "%1$s at %2$s"
-msgstr ""
-
-#: functions.php:531
-msgid "[Edit]"
 msgstr ""
 
 #: functions.php:535
