@@ -1792,6 +1792,10 @@ function wp_fullscreen_html() {
 		<div id="wp-fullscreen-button-bar"><div id="wp-fullscreen-buttons" class="wp_themeSkin">
 <?php
 
+	$media_link_type = 'image';
+	if ( is_multisite() && ( ( ! $mu_media_buttons = get_site_option( 'mu_media_buttons' ) ) || empty( $mu_media_buttons['image'] ) ) ) 
+		$media_link_type = 'media';
+
 	$buttons = array(
 		// format: title, onclick, show in both editors
 		'bold' => array( 'title' => __('Bold (Ctrl + B)'), 'onclick' => 'fullscreen.b();', 'both' => false ),
@@ -1801,7 +1805,7 @@ function wp_fullscreen_html() {
 		'numlist' => array( 'title' => __('Ordered list (Alt + Shift + O)'), 'onclick' => 'fullscreen.ol();', 'both' => false ),
 		'1' => 'separator',
 		'blockquote' => array( 'title' => __('Blockquote (Alt+Shift+Q)'), 'onclick' => 'fullscreen.blockquote();', 'both' => false ),
-		'image' => array( 'title' => __('Insert/edit image (Alt + Shift + M)'), 'onclick' => "jQuery('#add_image').click();", 'both' => true ),
+		'image' => array( 'title' => __('Insert/edit image (Alt + Shift + M)'), 'onclick' => "jQuery('#add_{$media_link_type}').click();", 'both' => true ),
 		'2' => 'separator',
 		'link' => array( 'title' => __('Insert/edit link (Alt + Shift + A)'), 'onclick' => 'fullscreen.link();', 'both' => true ),
 		'unlink' => array( 'title' => __('Unlink (Alt + Shift + S)'), 'onclick' => 'fullscreen.unlink();', 'both' => false ),
