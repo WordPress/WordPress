@@ -1492,10 +1492,10 @@ section.feature-image.large img {
 }
 .featured-posts section.featured-post {
 	-webkit-transition-duration: 200ms;
-	-webkit-transition-property: opacity visibility;
+	-webkit-transition-property: opacity, visibility;
 	-webkit-transition-timing-function: ease;
 	-moz-transition-duration: 200ms;
-	-moz-transition-property: opacity visibility;
+	-moz-transition-property: opacity, visibility;
 	-moz-transition-timing-function: ease;
 }
 .featured-posts section.featured-post {
