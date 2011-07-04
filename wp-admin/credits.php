@@ -61,7 +61,7 @@ function wp_credits() {
 		if ( ! is_array( $results ) )
 			return false;
 
-		set_site_transient( 'wordpress_credits_' . $locale, $results, 86400 ); // @todo Set to one week.
+		set_site_transient( 'wordpress_credits_' . $locale, $results, 86400 ); // One day
 	}
 
 	return $results;
