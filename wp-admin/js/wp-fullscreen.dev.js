@@ -246,11 +246,13 @@ PubSub.prototype.publish = function( topic, args ) {
 			return;
 		}
 
+		w = n + w;
+
 		if ( w < 200 || w > 1200 ) // sanity check
 			return;
 
-		el.width( n + w );
-		setUserSetting('dfw_width', n + w);
+		el.width( w );
+		setUserSetting('dfw_width', w);
 	}
 
 	ps.subscribe( 'showToolbar', function() {
