@@ -241,7 +241,7 @@ td,
 textarea,
 input,
 select {
-	font-family: Arial, "Bitstream Vera Sans", Helvetica, Verdana, sans-serif;
+	font-family: sans-serif;
 	font-size: 13px;
 }
 
@@ -519,7 +519,7 @@ div.error p {
 
 .wrap h2,
 .subtitle {
-	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", sans-serif;
 	font-weight: normal;
 	margin: 0;
 	text-shadow: rgba(255,255,255,1) 0 1px 0;
@@ -534,7 +534,7 @@ div.error p {
 	padding-left: 25px;
 }
 .wrap .add-new-h2 {
-	font-family: Arial, "Bitstream Vera Sans", Helvetica, Verdana, sans-serif;
+	font-family: sans-serif;
 	margin-left: 4px;
 	padding: 3px 8px;
 	position: relative;

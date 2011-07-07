@@ -34,7 +34,7 @@ th {
 }
 
 .media-upload-form label.form-help, td.help {
-	font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+	font-family: sans-serif;
 	font-style: italic;
 	font-weight: normal;
 }
@@ -152,7 +152,7 @@ abbr.required {
 
 #media-upload p.help,
 #media-upload label.help {
-	font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+	font-family: sans-serif;
 	font-style: italic;
 	font-weight: normal;
 }
