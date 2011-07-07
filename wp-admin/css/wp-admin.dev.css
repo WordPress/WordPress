@@ -102,7 +102,7 @@ kbd, code {
 .howto {
 	font-style: italic;
 	display: block;
-	font-family: Arial, "Bitstream Vera Sans", Helvetica, Verdana, sans-serif;
+	font-family: sans-serif;
 }
 
 p.install-help {
@@ -1089,7 +1089,7 @@ form.upgrade .hint {
 	height: 22px;
 	padding: 0;
 	margin: 0 0 0 6px;
-	font-family: Arial, "Bitstream Vera Sans", Helvetica, Verdana, sans-serif;
+	font-family: sans-serif;
 	-moz-border-radius-bottomleft: 3px;
 	-moz-border-radius-bottomright: 3px;
 	-webkit-border-bottom-left-radius: 3px;
@@ -1414,7 +1414,7 @@ body.no-js #adminmenu li.wp-has-current-submenu .wp-submenu {
 #adminmenu span.update-plugins,
 #sidemenu li a span.update-plugins {
 	position: absolute;
-	font-family: Arial, "Bitstream Vera Sans", Helvetica, Verdana, sans-serif;
+	font-family: sans-serif;
 	font-size: 9px;
 	line-height: 17px;
 	font-weight: bold;
@@ -1440,7 +1440,7 @@ body.no-js #adminmenu li.wp-has-current-submenu .wp-submenu {
 
 .post-com-count-wrapper {
 	min-width: 22px;
-	font-family: Arial, "Bitstream Vera Sans", Helvetica, Verdana, sans-serif;
+	font-family: sans-serif;
 }
 
 .post-com-count {
@@ -2153,7 +2153,7 @@ ul.cat-checklist {
 .inline-edit-row .catshow,
 .inline-edit-row .cathide,
 .inline-edit-row #bulk-titles div {
-	font-family: Arial, "Bitstream Vera Sans", Helvetica, Verdana, sans-serif;
+	font-family: sans-serif;
 	font-style: normal;
 	font-size: 11px;
 }
@@ -3022,7 +3022,7 @@ span.description,
 .form-wrap p {
 	font-size: 12px;
 	font-style: italic;
-	font-family: Arial, "Bitstream Vera Sans", Helvetica, Verdana, sans-serif;
+	font-family: sans-serif;
 }
 
 .form-wrap .form-field {
@@ -4078,7 +4078,7 @@ h2.nav-tab-wrapper, h3.nav-tab-wrapper {
 
 h2 .nav-tab {
 	padding: 4px 10px 6px;
-	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", sans-serif;
 	font-weight: 200;
 	font-size: 20px;
 	line-height: 24px;
@@ -4287,7 +4287,7 @@ input.button-highlighted,
 #utc-time, #local-time {
 	padding-left: 25px;
 	font-style: italic;
-	font-family: Arial, "Bitstream Vera Sans", Helvetica, Verdana, sans-serif;
+	font-family: sans-serif;
 }
 
 .defaultavatarpicker .avatar {

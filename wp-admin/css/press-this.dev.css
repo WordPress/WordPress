@@ -1,6 +1,6 @@
 body {
 	font-size: 13px;
-	font-family: Arial, "Bitstream Vera Sans", Helvetica, Verdana, sans-serif;
+	font-family: sans-serif;
 	color: #333;
 	margin: 0;
 	padding: 0;
@@ -227,7 +227,7 @@ h3.tb {
 
 #title,
 .tbtitle {
-	font-family: Arial, "Bitstream Vera Sans", Helvetica, Verdana, sans-serif;
+	font-family: sans-serif;
 	-moz-border-radius: 3px;
 	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;
@@ -362,7 +362,7 @@ h3.tb {
 
 .category-add input {
 	width: 94%;
-	font-family: Arial, "Bitstream Vera Sans", Helvetica, Verdana, sans-serif;
+	font-family: sans-serif;
 	font-size: 12px;
 	margin: 1px;
 }
@@ -372,7 +372,7 @@ select {
 	-x-system-font: none;
 	border-style: solid;
 	border-width: 1px;
-	font-family: Arial, "Bitstream Vera Sans", Helvetica, Verdana, sans-serif;
+	font-family: sans-serif;
 	font-size: 12px;
 	height: 2em;
 	line-height: 20px;
@@ -529,7 +529,7 @@ ul.category-tabs li {
 .button-secondary,
 .button-highlighted,
 #postcustomstuff .submit input {
-	font-family: Arial, "Bitstream Vera Sans", Helvetica, Verdana, sans-serif;
+	font-family: sans-serif;
 	text-decoration: none;
 	font-size: 12px !important;
 	line-height: 16px;

@@ -482,7 +482,7 @@ function wp_default_styles( &$styles ) {
 	// Any rtl stylesheets that don't have a .dev version for ltr
 	$no_suffix = array( 'farbtastic' );
 
-	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20110627' );
+	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20110707' );
 
 	$styles->add( 'ie', "/wp-admin/css/ie$suffix.css", array(), '20110627' );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
@@ -498,13 +498,13 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'colors-classic', "/wp-admin/css/colors-classic$suffix.css", array(), $colors_version );
 
 	$styles->add( 'ms', "/wp-admin/css/ms$suffix.css", array(), '20110623' );
-	$styles->add( 'global', "/wp-admin/css/global$suffix.css", array(), '20110627' );
-	$styles->add( 'media', "/wp-admin/css/media$suffix.css", array(), '20110614' );
+	$styles->add( 'global', "/wp-admin/css/global$suffix.css", array(), '20110707' );
+	$styles->add( 'media', "/wp-admin/css/media$suffix.css", array(), '20110707' );
 	$styles->add( 'widgets', "/wp-admin/css/widgets$suffix.css", array(), '20110606' );
-	$styles->add( 'dashboard', "/wp-admin/css/dashboard$suffix.css", array(), '20110627' );
-	$styles->add( 'install', "/wp-admin/css/install$suffix.css", array(), '20110602' ); // Readme as well
+	$styles->add( 'dashboard', "/wp-admin/css/dashboard$suffix.css", array(), '20110707' );
+	$styles->add( 'install', "/wp-admin/css/install$suffix.css", array(), '20110707' ); // Readme as well
 	$styles->add( 'theme-editor', "/wp-admin/css/theme-editor$suffix.css", array(), '20110602' );
-	$styles->add( 'press-this', "/wp-admin/css/press-this$suffix.css", array(), '20110611a' );
+	$styles->add( 'press-this', "/wp-admin/css/press-this$suffix.css", array(), '20110707' );
 	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css', array(), '20090514' );
 	$styles->add( 'login', "/wp-admin/css/login$suffix.css", array(), '20110610' );
 	$styles->add( 'plugin-install', "/wp-admin/css/plugin-install$suffix.css", array(), '20110628' );
