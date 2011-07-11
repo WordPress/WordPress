@@ -77,11 +77,11 @@ add_filter( 'option_page_capability_twentyeleven_options', 'twentyeleven_option_
  */
 function twentyeleven_theme_options_add_page() {
 	$theme_page = add_theme_page(
-		__( 'Theme Options', 'twentyeleven' ), // Name of page
-		__( 'Theme Options', 'twentyeleven' ), // Label in menu
-		'edit_theme_options',                  // Capability required
-		'theme_options',                       // Menu slug, used to uniquely identify the page
-		'theme_options_render_page'            // Function that renders the options page
+		__( 'Theme Options', 'twentyeleven' ),   // Name of page
+		__( 'Theme Options', 'twentyeleven' ),   // Label in menu
+		'edit_theme_options',                    // Capability required
+		'theme_options',                         // Menu slug, used to uniquely identify the page
+		'twentyeleven_theme_options_render_page' // Function that renders the options page
 	);
 
 	if ( ! $theme_page )
@@ -204,9 +204,9 @@ function twentyeleven_get_theme_options() {
 /**
  * Returns the options array for Twenty Eleven.
  *
- * @since Twenty Eleven 1.0
+ * @since Twenty Eleven 1.2
  */
-function theme_options_render_page() {
+function twentyeleven_theme_options_render_page() {
 	?>
 	<div class="wrap">
 		<?php screen_icon(); ?>
