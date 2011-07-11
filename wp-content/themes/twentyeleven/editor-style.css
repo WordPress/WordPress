@@ -99,16 +99,19 @@ cite {
 big {
 	font-size: 131.25%;
 }
-blockquote {
+.mceContentBody blockquote,
+.mceContentBody blockquote p {
 	font-family: Georgia, "Bitstream Charter", serif !important;
 	font-style: italic !important;
 	font-weight: normal;
 	margin: 0 3em;
 }
-blockquote em, blockquote i, blockquote cite {
+.mceContentBody blockquote em,
+.mceContentBody blockquote i,
+.mceContentBody blockquote cite {
 	font-style: normal;
 }
-blockquote cite {
+.mceContentBody blockquote cite {
 	color: #666;
 	font: 12px "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-weight: 300;
@@ -236,7 +239,7 @@ td {
 /* Images */
 img[class*="wp-image-"] {
 	height: auto;
-	max-width: 100%;
+	max-width: 97.5%;
 }
 img.size-full {
 	width: auto; /* Prevent stretching of full-size images in IE8 */
