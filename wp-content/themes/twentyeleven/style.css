@@ -668,6 +668,7 @@ a:hover {
 #branding .with-image #searchform {
 	top: auto;
 	bottom: -27px;
+	max-width: 195px;
 }
 #branding .only-search + #access div {
 	padding-right: 205px;
