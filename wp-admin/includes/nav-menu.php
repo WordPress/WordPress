@@ -54,6 +54,8 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu  {
 		$original_title = '';
 		if ( 'taxonomy' == $item->type ) {
 			$original_title = get_term_field( 'name', $item->object_id, $item->object, 'raw' );
+			if ( is_wp_error( $original_title ) )
+				$original_title = false;
 		} elseif ( 'post_type' == $item->type ) {
 			$original_object = get_post( $item->object_id );
 			$original_title = $original_object->post_title;
@@ -171,7 +173,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu  {
 				</p>
 
 				<div class="menu-item-actions description-wide submitbox">
-					<?php if( 'custom' != $item->type ) : ?>
+					<?php if( 'custom' != $item->type && $original_title !== false ) : ?>
 						<p class="link-to-original">
 							<?php printf( __('Original: %s'), '<a href="' . esc_attr( $item->url ) . '">' . esc_html( $original_title ) . '</a>' ); ?>
 						</p>
