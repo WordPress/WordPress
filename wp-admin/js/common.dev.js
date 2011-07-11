@@ -229,7 +229,7 @@ screenMeta = {
 
 $(document).ready( function() {
 	var lastClicked = false, checks, first, last, checked, dropdown,
-		pageInput = $('input[name="paged"]'), currentPage;
+		pageInput = $('input.current-page'), currentPage = pageInput.val();
 
 	// Move .updated and .error alert boxes. Don't move boxes designed to be inline.
 	$('div.wrap h2:first').nextAll('div.updated, div.error').addClass('below-h2');
@@ -346,10 +346,10 @@ $(document).ready( function() {
 	});
 
 	if ( pageInput.length ) {
-		currentPage = pageInput.val();
-		pageInput.closest('form').submit( function(){
-			// Reset paging var for new filters/searches. See #17685.
-			if ( pageInput.val() == currentPage )
+		pageInput.closest('form').submit( function(e){
+
+			// Reset paging var for new filters/searches but not for bulk actions. See #17685.
+			if ( $('select[name="action"]').val() == -1 && $('select[name="action2"]').val() == -1 && pageInput.val() == currentPage )
 				pageInput.val('1');
 		});
 	}
