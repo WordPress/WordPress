@@ -1163,7 +1163,8 @@ function do_settings_sections($page) {
 		return;
 
 	foreach ( (array) $wp_settings_sections[$page] as $section ) {
-		echo "<h3>{$section['title']}</h3>\n";
+		if ( $section['title'] )
+			echo "<h3>{$section['title']}</h3>\n";
 		call_user_func($section['callback'], $section);
 		if ( !isset($wp_settings_fields) || !isset($wp_settings_fields[$page]) || !isset($wp_settings_fields[$page][$section['id']]) )
 			continue;
