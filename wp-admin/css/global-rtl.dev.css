@@ -11,7 +11,7 @@
 	margin-right: 165px;
 }
 
-.folded #wpcontent {
+.js.folded #wpcontent {
 	margin-left: 0;
 	margin-right: 52px;
 }
