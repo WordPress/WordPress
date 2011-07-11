@@ -7,7 +7,7 @@ html .mceContentBody {
 	max-width: 584px;
 }
 * {
-	color: #333;
+	color: inherit;
 	font: 15px "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-style: inherit;
 	font-weight: inherit;
