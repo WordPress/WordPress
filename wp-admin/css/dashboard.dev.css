@@ -458,6 +458,7 @@ a.rsswidget {
 
 #dashboard_browser_nag.postbox.browser-insecure h3 {
 	border-bottom-color: #cd5a5a;
+	color: #fff;
 }
 
 #dashboard_browser_nag.postbox h3 {
@@ -467,6 +468,7 @@ a.rsswidget {
 	-webkit-box-shadow: none;
 	box-shadow: none;
 	background: transparent none;
+	color: #fff;
 }
 
 #dashboard_browser_nag a {
