@@ -490,7 +490,7 @@ function get_body_class( $class = '' ) {
 			$classes[] = 'page-template';
 			$classes[] = 'page-template-' . sanitize_html_class( str_replace( '.', '-', get_post_meta( $page_id, '_wp_page_template', true ) ), '' );
 		} else {
-			$classes[] = 'page-template-default';			
+			$classes[] = 'page-template-default';
 		}
 	} elseif ( is_search() ) {
 		if ( !empty( $wp_query->posts ) )
