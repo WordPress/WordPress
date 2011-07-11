@@ -605,6 +605,8 @@ function wp_setup_nav_menu_item( $menu_item ) {
 				$menu_item->url = !is_wp_error( $term_url ) ? $term_url : '';
 
 				$original_title = get_term_field( 'name', $menu_item->object_id, $menu_item->object, 'raw' );
+				if ( is_wp_error( $original_title ) )
+					$original_title = false;
 				$menu_item->title = '' == $menu_item->post_title ? $original_title : $menu_item->post_title;
 
 			} else {
