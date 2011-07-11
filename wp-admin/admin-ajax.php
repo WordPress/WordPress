@@ -321,7 +321,7 @@ switch ( $action = $_POST['action'] ) :
 case 'delete-comment' : // On success, die with time() instead of 1
 	if ( !$comment = get_comment( $id ) )
 		die( (string) time() );
-	if ( !current_user_can( 'edit_post', $comment->comment_post_ID ) )
+	if ( ! current_user_can( 'edit_comment', $comment->comment_ID ) )
 		die('-1');
 
 	check_ajax_referer( "delete-comment_$id" );
@@ -457,7 +457,7 @@ case 'dim-comment' : // On success, die with time() instead of 1
 		$x->send();
 	}
 
-	if ( !current_user_can( 'edit_post', $comment->comment_post_ID ) && !current_user_can( 'moderate_comments' ) )
+	if ( ! current_user_can( 'edit_comment', $comment->comment_ID ) && ! current_user_can( 'moderate_comments' ) )
 		die('-1');
 
 	$current = wp_get_comment_status( $comment->comment_ID );
@@ -612,6 +612,8 @@ case 'get-comments' :
 	$x = new WP_Ajax_Response();
 	ob_start();
 	foreach ( $wp_list_table->items as $comment ) {
+		if ( ! current_user_can( 'edit_comment', $comment->comment_ID ) ) 
+			continue;
 		get_comment( $comment );
 		$wp_list_table->single_row( $comment );
 	}
@@ -714,14 +716,13 @@ case 'edit-comment' :
 
 	set_current_screen( 'edit-comments' );
 
-	$comment_post_ID = (int) $_POST['comment_post_ID'];
-	if ( ! current_user_can( 'edit_post', $comment_post_ID ) )
+	$comment_id = (int) $_POST['comment_ID'];
+	if ( ! current_user_can( 'edit_comment', $comment_id ) )
 		die('-1');
 
 	if ( '' == $_POST['content'] )
 		die( __('Error: please type a comment.') );
 
-	$comment_id = (int) $_POST['comment_ID'];
 	$_POST['comment_status'] = $_POST['status'];
 	edit_comment();
 
