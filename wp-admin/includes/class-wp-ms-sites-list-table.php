@@ -52,8 +52,11 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 
 		if ( empty($s) ) {
 			// Nothing to do.
-		} elseif ( preg_match('/^[0-9]+\./', $s) ) {
-			// IP address
+		} elseif ( preg_match( '/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/', $s ) ||
+					preg_match( '/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.?$/', $s ) ||
+					preg_match( '/^[0-9]{1,3}\.[0-9]{1,3}\.?$/', $s ) ||
+					preg_match( '/^[0-9]{1,3}\.$/', $s ) ) {
+			// IPv4 address
 			$reg_blog_ids = $wpdb->get_col( "SELECT blog_id FROM {$wpdb->registration_log} WHERE {$wpdb->registration_log}.IP LIKE ( '{$like_s}$wild' )" );
 
 			if ( !$reg_blog_ids )
@@ -64,7 +67,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 				WHERE site_id = '{$wpdb->siteid}'
 				AND {$wpdb->blogs}.blog_id IN (" . implode( ', ', $reg_blog_ids ) . ")";
 		} else {
-			if ( is_numeric($s) ) {
+			if ( is_numeric($s) && empty( $wild ) ) {
 				$query .= " AND ( {$wpdb->blogs}.blog_id = '{$like_s}' )";
 			} elseif ( is_subdomain_install() ) {
 				$blog_s = str_replace( '.' . $current_site->domain, '', $like_s );
