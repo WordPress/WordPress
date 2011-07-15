@@ -985,7 +985,7 @@ function register_post_type($post_type, $args = array()) {
 		$wp->add_query_var($args->query_var);
 	}
 
-	if ( false !== $args->rewrite && '' != get_option('permalink_structure') ) {
+	if ( false !== $args->rewrite && ( is_admin() || '' != get_option('permalink_structure') ) ) {
 		if ( ! is_array( $args->rewrite ) )
 			$args->rewrite = array();
 		if ( empty( $args->rewrite['slug'] ) )
