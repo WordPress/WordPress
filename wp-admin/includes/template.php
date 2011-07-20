@@ -466,7 +466,7 @@ function list_meta( $meta ) {
 function _list_meta_row( $entry, &$count ) {
 	static $update_nonce = false;
 
-	if ( is_protected_meta( $entry['meta_key'] ) )
+	if ( is_protected_meta( $entry['meta_key'], 'post' ) )
 		return;
 
 	if ( !$update_nonce )
@@ -478,8 +478,6 @@ function _list_meta_row( $entry, &$count ) {
 		$style = 'alternate';
 	else
 		$style = '';
-	if ('_' == $entry['meta_key'] { 0 } )
-		$style .= ' hidden';
 
 	if ( is_serialized( $entry['meta_value'] ) ) {
 		if ( is_serialized_string( $entry['meta_value'] ) ) {

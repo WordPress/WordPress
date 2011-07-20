@@ -393,10 +393,10 @@ case 'delete-link' :
 	break;
 case 'delete-meta' :
 	check_ajax_referer( "delete-meta_$id" );
-	if ( !$meta = get_post_meta_by_id( $id ) )
+	if ( !$meta = get_metadata_by_mid( 'post', $id ) )
 		die('1');
 
-	if ( !current_user_can( 'edit_post', $meta->post_id ) || is_protected_meta( $meta->meta_key ) )
+	if ( is_protected_meta( $meta->meta_key, 'post' ) || ! current_user_can( 'delete_post_meta',  $meta->post_id, $meta->meta_key ) )
 		die('-1');
 	if ( delete_meta( $meta->meta_id ) )
 		die('1');
@@ -849,7 +849,7 @@ case 'add-meta' :
 			die(__('Please provide a custom field value.'));
 		}
 
-		$meta = get_post_meta_by_id( $mid );
+		$meta = get_metadata_by_mid( 'post', $mid );
 		$pid = (int) $meta->post_id;
 		$meta = get_object_vars( $meta );
 		$x = new WP_Ajax_Response( array(
@@ -869,9 +869,7 @@ case 'add-meta' :
 			die(__('Please provide a custom field value.'));
 		if ( !$meta = get_post_meta_by_id( $mid ) )
 			die('0'); // if meta doesn't exist
-		if ( !current_user_can( 'edit_post', $meta->post_id ) )
-			die('-1');
-		if ( is_protected_meta( $meta->meta_key ) )
+		if ( is_protected_meta( $meta->meta_key, 'post' ) || !current_user_can( 'edit_post_meta', $meta->post_id, $meta->meta_key ) )
 			die('-1');
 		if ( $meta->meta_value != stripslashes($value) || $meta->meta_key != stripslashes($key) ) {
 			if ( !$u = update_meta( $mid, $key, $value ) )

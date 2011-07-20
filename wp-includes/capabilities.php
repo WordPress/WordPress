@@ -951,6 +951,23 @@ function map_meta_cap( $cap, $user_id ) {
 		else
 			$caps[] = $post_type->cap->read_private_posts;
 		break;
+	case 'edit_post_meta':
+	case 'delete_post_meta':
+	case 'add_post_meta':
+		$post = get_post( $args[0] );
+		$post_type_object = get_post_type_object( $post->post_type );
+		$caps = map_meta_cap( $post_type_object->cap->edit_post, $user_id, $post->ID );	
+
+		$meta_key = isset( $args[ 1 ] ) ? $args[ 1 ] : false; 
+			
+		if ( $meta_key && has_filter( "auth_post_meta_{$meta_key}" ) ) {
+			$allowed = apply_filters( "auth_post_meta_{$meta_key}", false, $meta_key, $post->ID, $user_id, $cap, $caps );
+			if ( ! $allowed )
+				$caps[] = $cap;
+		} elseif ( $meta_key && is_protected_meta( $meta_key, 'post' ) ) {
+			$caps[] = $cap;
+		}
+		break;
 	case 'edit_comment':
 		$comment = get_comment( $args[0] );
 		$post = get_post( $comment->comment_post_ID );

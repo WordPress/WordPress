@@ -425,7 +425,11 @@ function post_custom_meta_box($post) {
 <div id="ajax-response"></div>
 <?php
 $metadata = has_meta($post->ID);
-list_meta($metadata);
+foreach ( $metadata as $key => $value ) {
+	if ( is_protected_meta( $metadata[ $key ][ 'meta_key' ], 'post' ) || ! current_user_can( 'edit_post_meta', $post->ID, $metadata[ $key ][ 'meta_key' ] ) )
+		unset( $metadata[ $key ] );
+}
+list_meta( $metadata );
 meta_form(); ?>
 </div>
 <p><?php _e('Custom fields can be used to add extra metadata to a post that you can <a href="http://codex.wordpress.org/Using_Custom_Fields" target="_blank">use in your theme</a>.'); ?></p>

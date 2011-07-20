@@ -26,7 +26,7 @@
  * @param bool $unique Optional, default is false.  Whether the specified metadata key should be
  * 		unique for the object.  If true, and the object already has a value for the specified
  * 		metadata key, no change will be made
- * @return bool True on successful update, false on failure.
+ * @return bool The meta ID on successful update, false on failure.
  */
 function add_metadata($meta_type, $object_id, $meta_key, $meta_value, $unique = false) {
 	if ( !$meta_type || !$meta_key )
@@ -49,7 +49,7 @@ function add_metadata($meta_type, $object_id, $meta_key, $meta_value, $unique = 
 
 	$check = apply_filters( "add_{$meta_type}_metadata", null, $object_id, $meta_key, $meta_value, $unique );
 	if ( null !== $check )
-		return (bool) $check;
+		return $check;
 
 	if ( $unique && $wpdb->get_var( $wpdb->prepare(
 		"SELECT COUNT(*) FROM $table WHERE meta_key = %s AND $column = %d",
@@ -61,20 +61,25 @@ function add_metadata($meta_type, $object_id, $meta_key, $meta_value, $unique = 
 
 	do_action( "add_{$meta_type}_meta", $object_id, $meta_key, $_meta_value );
 
-	$wpdb->insert( $table, array(
+	$result = $wpdb->insert( $table, array(
 		$column => $object_id,
 		'meta_key' => $meta_key,
 		'meta_value' => $meta_value
 	) );
+
+	if ( ! $result )
+		return false;
+
+	$mid = (int) $wpdb->insert_id;
 
 	wp_cache_delete($object_id, $meta_type . '_meta');
 	// users cache stores usermeta that must be cleared.
 	if ( 'user' == $meta_type )
 		clean_user_cache($object_id);
 
-	do_action( "added_{$meta_type}_meta", $wpdb->insert_id, $object_id, $meta_key, $_meta_value );
+	do_action( "added_{$meta_type}_meta", $mid, $object_id, $meta_key, $_meta_value );
 
-	return true;
+	return $mid;
 }
 
 /**
@@ -146,6 +151,7 @@ function update_metadata($meta_type, $object_id, $meta_key, $meta_value, $prev_v
 	do_action( "update_{$meta_type}_meta", $meta_id, $object_id, $meta_key, $_meta_value );
 
 	$wpdb->update( $table, $data, $where );
+
 	wp_cache_delete($object_id, $meta_type . '_meta');
 	// users cache stores usermeta that must be cleared.
 	if ( 'user' == $meta_type )
@@ -279,6 +285,40 @@ function get_metadata($meta_type, $object_id, $meta_key = '', $single = false) {
 		return '';
 	else
 		return array();
+}
+
+/**
+ * Get meta data by meta ID
+ *
+ * @since 3.3.0
+ *
+ * @param string $meta_type Type of object metadata is for (e.g., comment, post, or user)
+ * @param int $meta_id ID for a specific meta row
+ * @return object Meta object or false.
+ */
+function get_metadata_by_mid( $meta_type, $meta_id ) {
+	global $wpdb;
+
+	if ( ! $meta_type )
+		return false;
+
+	if ( !$meta_id = absint( $meta_id ) )
+		return false;
+
+	if ( ! $table = _get_meta_table($meta_type) )
+		return false;
+
+	$id_column = ( 'user' == $meta_type ) ? 'umeta_id' : 'meta_id';
+
+	$meta = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $table WHERE $id_column = %d", $meta_id ) );
+
+	if ( empty( $meta ) )
+		return false;
+
+	if ( isset( $meta->meta_value ) )
+		$meta->meta_value = maybe_unserialize( $meta->meta_value );
+
+	return $meta;
 }
 
 /**
@@ -588,7 +628,7 @@ function _get_meta_table($type) {
  * @return bool True if the key is protected, false otherwise.
  */
 function is_protected_meta( $meta_key, $meta_type = null ) {
-	$protected = (  '_' == $meta_key[0] );
+	$protected = ( '_' == $meta_key[0] );
 
 	return apply_filters( 'is_protected_meta', $protected, $meta_key, $meta_type );
 }
@@ -603,8 +643,34 @@ function is_protected_meta( $meta_key, $meta_type = null ) {
  * @param string $meta_type Type of meta
  * @return mixed Sanitized $meta_value
  */
-function sanitize_meta( $meta_key, $meta_value, $meta_type = null ) {
-	return apply_filters( 'sanitize_meta', $meta_value, $meta_key, $meta_type );
+function sanitize_meta( $meta_key, $meta_value, $meta_type ) {
+	return apply_filters( "sanitize_{$meta_type}_meta_{$meta_key}", $meta_value, $meta_key, $meta_type );
+}
+
+/**
+ * Register meta key
+ * 
+ * @since 3.3.0
+ *
+ * @param string $meta_type Type of meta
+ * @param string $meta_key Meta key
+ * @param string|array $sanitize_callback A function or method to call when sanitizing the value of $meta_key.
+ * @param string|array $auth_callback Optional. A function or method to call when performing edit_post_meta, add_post_meta, and delete_post_meta capability checks.
+ * @param array $args Arguments
+ */
+function register_meta( $meta_type, $meta_key, $sanitize_callback, $auth_callback = null ) {
+	if ( is_callable( $sanitize_callback ) )
+		add_filter( "sanitize_{$meta_type}_meta_{$meta_key}", $sanitize_callback, 10, 3 );
+
+	if ( empty( $auth_callback ) ) {
+		if ( is_protected_meta( $meta_key, $meta_type ) )
+			$auth_callback = '__return_false';
+		else
+			$auth_callback = '__return_true';
+	}
+
+	if ( is_callable( $auth_callback ) )
+		add_filter( "auth_{$meta_type}_meta_{$meta_key}", $auth_callback, 10, 6 );
 }
 
 ?>

@@ -234,9 +234,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		foreach ( (array) has_meta($post_id) as $meta ) {
 			// Don't expose protected fields.
-			if ( strpos($meta['meta_key'], '_wp_') === 0 ) {
+			if ( ! current_user_can( 'edit_post_meta', $post_id , $meta['meta_key'] ) )
 				continue;
-			}
 
 			$custom_fields[] = array(
 				"id"    => $meta['meta_id'],
@@ -262,18 +261,17 @@ class wp_xmlrpc_server extends IXR_Server {
 		foreach ( (array) $fields as $meta ) {
 			if ( isset($meta['id']) ) {
 				$meta['id'] = (int) $meta['id'];
-
+				$pmeta = get_metadata_by_mid( 'post', $meta['id'] );
 				if ( isset($meta['key']) ) {
-					update_meta($meta['id'], $meta['key'], $meta['value']);
+					if ( $meta['key'] != $pmeta->meta_key )
+						continue;
+					if ( current_user_can( 'edit_post_meta', $post_id, $meta['key'] ) )
+						update_meta( $meta['id'], $meta['key'], $meta['value'] );
+				} elseif ( current_user_can( 'delete_post_meta', $post_id, $pmeta->meta_key ) ) {
+						delete_meta( $meta['id'] );
 				}
-				else {
-					delete_meta($meta['id']);
-				}
-			}
-			else {
-				$_POST['metakeyinput'] = $meta['key'];
-				$_POST['metavalue'] = $meta['value'];
-				add_meta($post_id);
+			} elseif ( current_user_can( 'add_post_meta', $post_id, $meta['key'] ) ) {
+					add_post_meta( $post_id, $meta['key'], $meta['value'] );
 			}
 		}
 	}
