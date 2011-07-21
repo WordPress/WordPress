@@ -39,7 +39,7 @@ class WP_Dependencies {
 		$this->all_deps( $handles );
 
 		foreach( $this->to_do as $key => $handle ) {
-			if ( !in_array($handle, $this->done) && isset($this->registered[$handle]) ) {
+			if ( !in_array($handle, $this->done, true) && isset($this->registered[$handle]) ) {
 
 				if ( ! $this->registered[$handle]->src ) { // Defines a group.
 					$this->done[] = $handle;

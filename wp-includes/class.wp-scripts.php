@@ -167,15 +167,7 @@ class WP_Scripts extends WP_Dependencies {
 	}
 
 	function do_footer_items() {
-		if ( !empty($this->in_footer) ) {
-			foreach( $this->in_footer as $key => $handle ) {
-				if ( !in_array($handle, $this->done, true) && isset($this->registered[$handle]) ) {
-					$this->do_item($handle);
-					$this->done[] = $handle;
-					unset( $this->in_footer[$key] );
-				}
-			}
-		}
+		$this->do_items(false, 1);
 		return $this->done;
 	}
 

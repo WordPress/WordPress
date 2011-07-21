@@ -122,5 +122,17 @@ class WP_Styles extends WP_Dependencies {
 		}
 		return false;
 	}
+	
+	function do_footer_items() { // HTML 5 allows styles in the body, grab late enqueued items and output them in the footer.
+		$this->do_items(false, 1);
+		return $this->done;
+	}
 
+	function reset() {
+		$this->do_concat = false;
+		$this->concat = '';
+		$this->concat_version = '';
+		$this->print_html = '';
+	}
 }
+

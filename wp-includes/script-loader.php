@@ -474,7 +474,7 @@ function wp_default_styles( &$styles ) {
 	$styles->content_url = defined('WP_CONTENT_URL')? WP_CONTENT_URL : '';
 	$styles->default_version = get_bloginfo( 'version' );
 	$styles->text_direction = function_exists( 'is_rtl' ) && is_rtl() ? 'rtl' : 'ltr';
-	$styles->default_dirs = array('/wp-admin/');
+	$styles->default_dirs = array('/wp-admin/', '/wp-includes/');
 
 	$suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '.dev' : '';
 
@@ -723,7 +723,9 @@ function wp_print_head_scripts() {
  * @since 2.8
  */
 function wp_print_footer_scripts() {
-	return print_footer_scripts();
+	print_late_styles();
+	print_footer_scripts();
+	return true;
 }
 
 /**
@@ -752,21 +754,45 @@ function print_admin_styles() {
 
 	$wp_styles->do_items(false);
 
-	if ( apply_filters('print_admin_styles', true) ) {
-		if ( !empty($wp_styles->concat) ) {
-			$dir = $wp_styles->text_direction;
-			$ver = md5("$wp_styles->concat_version{$dir}");
-			$href = $wp_styles->base_url . "/wp-admin/load-styles.php?c={$zip}&dir={$dir}&load=" . trim($wp_styles->concat, ', ') . "&ver=$ver";
-			echo "<link rel='stylesheet' href='" . esc_attr($href) . "' type='text/css' media='all' />\n";
-		}
+	if ( apply_filters('print_admin_styles', true) )
+		_print_styles();
 
-		if ( !empty($wp_styles->print_html) )
-			echo $wp_styles->print_html;
+	$wp_styles->reset();
+	return $wp_styles->done;
+}
+
+function print_late_styles() {
+	global $wp_styles, $concatenate_scripts;
+
+	if ( !is_a($wp_styles, 'WP_Styles') )
+		return;
+
+	$wp_styles->do_concat = $concatenate_scripts;
+	$wp_styles->do_footer_items();
+
+	if ( apply_filters('print_late_styles', true) )
+		_print_styles();
+
+	$wp_styles->reset();
+	return $wp_styles->done;
+}
+
+function _print_styles() {
+	global $wp_styles, $compress_css;
+
+	$zip = $compress_css ? 1 : 0;
+	if ( $zip && defined('ENFORCE_GZIP') && ENFORCE_GZIP )
+		$zip = 'gzip';
+
+	if ( !empty($wp_styles->concat) ) {
+		$dir = $wp_styles->text_direction;
+		$ver = md5("$wp_styles->concat_version{$dir}");
+		$href = $wp_styles->base_url . "/wp-admin/load-styles.php?c={$zip}&dir={$dir}&load=" . trim($wp_styles->concat, ', ') . "&ver=$ver";
+		echo "<link rel='stylesheet' href='" . esc_attr($href) . "' type='text/css' media='all' />\n";
 	}
 
-	$wp_styles->do_concat = false;
-	$wp_styles->concat = $wp_styles->concat_version = $wp_styles->print_html = '';
-	return $wp_styles->done;
+	if ( !empty($wp_styles->print_html) )
+		echo $wp_styles->print_html;
 }
 
 function script_concat_settings() {
