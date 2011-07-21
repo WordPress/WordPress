@@ -2909,7 +2909,7 @@ function _xmlrpc_wp_die_filter() {
  */
 function _config_wp_home( $url = '' ) {
 	if ( defined( 'WP_HOME' ) )
-		return WP_HOME;
+		return untrailingslashit( WP_HOME );
 	return $url;
 }
 
@@ -2929,7 +2929,7 @@ function _config_wp_home( $url = '' ) {
  */
 function _config_wp_siteurl( $url = '' ) {
 	if ( defined( 'WP_SITEURL' ) )
-		return WP_SITEURL;
+		return untrailingslashit( WP_SITEURL );
 	return $url;
 }
 
