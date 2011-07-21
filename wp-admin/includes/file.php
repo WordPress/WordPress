@@ -261,7 +261,7 @@ function wp_handle_upload( &$file, $overrides = false, $time = null ) {
 		__( "Failed to write file to disk." ),
 		__( "File upload stopped by extension." ));
 
-	// All tests are on by default. Most can be turned off by $override[{test_name}] = false;
+	// All tests are on by default. Most can be turned off by $overrides[{test_name}] = false;
 	$test_form = true;
 	$test_size = true;
 	$test_upload = true;
@@ -387,7 +387,7 @@ function wp_handle_sideload( &$file, $overrides = false ) {
 		__( "Failed to write file to disk." ),
 		__( "File upload stopped by extension." ));
 
-	// All tests are on by default. Most can be turned off by $override[{test_name}] = false;
+	// All tests are on by default. Most can be turned off by $overrides[{test_name}] = false;
 	$test_form = true;
 	$test_size = true;
 
