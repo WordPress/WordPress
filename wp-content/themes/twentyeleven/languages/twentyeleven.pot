@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Eleven 1.2\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyeleven\n"
-"POT-Creation-Date: 2011-07-13 11:47:58+00:00\n"
+"POT-Creation-Date: 2011-07-21 21:48:02+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -426,11 +426,23 @@ msgstr ""
 msgid "Status"
 msgstr ""
 
-#: inc/theme-options.php:80 inc/theme-options.php:81
+#: inc/theme-options.php:61
+msgid "Color Scheme"
+msgstr ""
+
+#: inc/theme-options.php:67
+msgid "Link Color"
+msgstr ""
+
+#: inc/theme-options.php:68
+msgid "Layout"
+msgstr ""
+
+#: inc/theme-options.php:100 inc/theme-options.php:101
 msgid "Theme Options"
 msgstr ""
 
-#: inc/theme-options.php:90
+#: inc/theme-options.php:110
 msgid ""
 "Some themes provide customization options that are grouped together on a "
 "Theme Options screen. If you change themes, options may change or disappear, "
@@ -438,14 +450,14 @@ msgid ""
 "following Theme Options:"
 msgstr ""
 
-#: inc/theme-options.php:92
+#: inc/theme-options.php:112
 msgid ""
 "<strong>Color Scheme</strong>: You can choose a color palette of \"Light"
 "\" (light background with dark text) or \"Dark\" (dark background with light "
 "text) for your site."
 msgstr ""
 
-#: inc/theme-options.php:93
+#: inc/theme-options.php:113
 msgid ""
 "<strong>Link Color</strong>: You can choose the color used for text links on "
 "your site. You can enter the HTML color or hex code, or you can choose "
@@ -453,77 +465,64 @@ msgid ""
 "wheel."
 msgstr ""
 
-#: inc/theme-options.php:94
+#: inc/theme-options.php:114
 msgid ""
 "<strong>Default Layout</strong>: You can choose if you want your site&#8217;"
 "s default layout to have a sidebar on the left, the right, or not at all."
 msgstr ""
 
-#: inc/theme-options.php:96
+#: inc/theme-options.php:116
 msgid ""
 "Remember to click \"Save Changes\" to save any changes you have made to the "
 "theme options."
 msgstr ""
 
-#: inc/theme-options.php:97
+#: inc/theme-options.php:117
 msgid "For more information:"
 msgstr ""
 
-#: inc/theme-options.php:98
+#: inc/theme-options.php:118
 msgid ""
 "<a href=\"http://codex.wordpress.org/Appearance_Theme_Options_Screen\" "
 "target=\"_blank\">Documentation on Theme Options</a>"
 msgstr ""
 
-#: inc/theme-options.php:99
+#: inc/theme-options.php:119
 msgid ""
 "<a href=\"http://wordpress.org/support/\" target=\"_blank\">Support Forums</"
 "a>"
 msgstr ""
 
-#: inc/theme-options.php:114
+#: inc/theme-options.php:134
 msgid "Light"
 msgstr ""
 
-#: inc/theme-options.php:120
+#: inc/theme-options.php:140
 msgid "Dark"
 msgstr ""
 
-#: inc/theme-options.php:138
+#: inc/theme-options.php:158
 msgid "Content on left"
 msgstr ""
 
-#: inc/theme-options.php:143
+#: inc/theme-options.php:163
 msgid "Content on right"
 msgstr ""
 
-#: inc/theme-options.php:148
+#: inc/theme-options.php:168
 msgid "One-column, no sidebar"
 msgstr ""
 
-#: inc/theme-options.php:213
-msgid "%s Theme Options"
-msgstr ""
-
-#: inc/theme-options.php:225 inc/theme-options.php:227
-#: inc/theme-options.php:263
-msgid "Color Scheme"
-msgstr ""
-
-#: inc/theme-options.php:248 inc/theme-options.php:250
-msgid "Link Color"
-msgstr ""
-
-#: inc/theme-options.php:253
+#: inc/theme-options.php:258
 msgid "Select a Color"
 msgstr ""
 
-#: inc/theme-options.php:256
+#: inc/theme-options.php:261
 msgid "Default color: %s"
 msgstr ""
 
-#: inc/theme-options.php:261
-msgid "Default Layout"
+#: inc/theme-options.php:296
+msgid "%s Theme Options"
 msgstr ""
 
 #: inc/widgets.php:19
