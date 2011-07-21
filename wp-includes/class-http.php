@@ -1117,7 +1117,7 @@ class WP_Http_Curl {
 				return new WP_Error('http_request_failed', __('Too many redirects.'));
 		}
 
-		unset( $this->headers );
+		$this->headers = '';
 
 		$response = array();
 		$response['code'] = curl_getinfo( $handle, CURLINFO_HTTP_CODE );
