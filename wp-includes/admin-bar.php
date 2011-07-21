@@ -442,7 +442,7 @@ function is_admin_bar_showing() {
 function _get_admin_bar_pref( $context, $user = 0 ) {
 	$pref = get_user_option( "show_admin_bar_{$context}", $user );
 	if ( false === $pref )
-		return 'admin' != $context || is_multisite();
+		return true;
 
 	return 'true' === $pref;
 }
