@@ -224,7 +224,7 @@ function twentyeleven_get_theme_options() {
 /**
  * Renders the Color Scheme setting field.
  * 
- * @since Twenty Eleven 1.2
+ * @since Twenty Eleven 1.3
  */
 function twentyeleven_settings_field_color_scheme() {
 	$options = twentyeleven_get_theme_options();
@@ -248,7 +248,7 @@ function twentyeleven_settings_field_color_scheme() {
 /**
  * Renders the Link Color setting field.
  * 
- * @since Twenty Eleven 1.2
+ * @since Twenty Eleven 1.3
  */
 function twentyeleven_settings_field_link_color() {
 	$options = twentyeleven_get_theme_options();
@@ -265,7 +265,7 @@ function twentyeleven_settings_field_link_color() {
 /**
  * Renders the Layout setting field.
  * 
- * @since Twenty Eleven 1.2
+ * @since Twenty Eleven 1.3
  */
 function twentyeleven_settings_field_layout() {
 	$options = twentyeleven_get_theme_options();
@@ -299,9 +299,7 @@ function twentyeleven_theme_options_render_page() {
 		<form method="post" action="options.php">
 			<?php
 				settings_fields( 'twentyeleven_options' );
-
 				do_settings_sections( 'theme_options' );
-
 				submit_button();
 			?>
 		</form>
