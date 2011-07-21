@@ -869,7 +869,9 @@ case 'add-meta' :
 			die(__('Please provide a custom field value.'));
 		if ( !$meta = get_post_meta_by_id( $mid ) )
 			die('0'); // if meta doesn't exist
-		if ( is_protected_meta( $meta->meta_key, 'post' ) || !current_user_can( 'edit_post_meta', $meta->post_id, $meta->meta_key ) )
+		if ( is_protected_meta( $meta->meta_key, 'post' ) || is_protected_meta( $key, 'post' ) ||
+			! current_user_can( 'edit_post_meta', $meta->post_id, $meta->meta_key ) ||
+			! current_user_can( 'edit_post_meta', $meta->post_id, $key ) )
 			die('-1');
 		if ( $meta->meta_value != stripslashes($value) || $meta->meta_key != stripslashes($key) ) {
 			if ( !$u = update_meta( $mid, $key, $value ) )

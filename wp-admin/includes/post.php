@@ -667,24 +667,26 @@ function add_meta( $post_ID ) {
 
 	$metakeyselect = isset($_POST['metakeyselect']) ? stripslashes( trim( $_POST['metakeyselect'] ) ) : '';
 	$metakeyinput = isset($_POST['metakeyinput']) ? stripslashes( trim( $_POST['metakeyinput'] ) ) : '';
-	$metavalue = isset($_POST['metavalue']) ? maybe_serialize( stripslashes_deep( $_POST['metavalue'] ) ) : '';
-	if ( is_string($metavalue) )
+	$metavalue = isset($_POST['metavalue']) ? $_POST['metavalue'] : '';
+	if ( is_string( $metavalue ) )
 		$metavalue = trim( $metavalue );
 
-	if ( ('0' === $metavalue || ! empty ( $metavalue ) ) && ((('#NONE#' != $metakeyselect) && !empty ( $metakeyselect) ) || !empty ( $metakeyinput) ) ) {
+	if ( ('0' === $metavalue || ! empty ( $metavalue ) ) && ( ( ( '#NONE#' != $metakeyselect ) && !empty ( $metakeyselect) ) || !empty ( $metakeyinput ) ) ) {
 		// We have a key/value pair. If both the select and the
 		// input for the key have data, the input takes precedence:
 
- 		if ('#NONE#' != $metakeyselect)
+ 		if ( '#NONE#' != $metakeyselect )
 			$metakey = $metakeyselect;
 
-		if ( $metakeyinput)
+		if ( $metakeyinput )
 			$metakey = $metakeyinput; // default
 
 		if ( is_protected_meta( $metakey, 'post' ) || ! current_user_can( 'add_post_meta', $post_ID, $metakey ) )
 			return false;
 
-		return add_post_meta($post_ID, $metakey, $metavalue);
+		$metakey = esc_sql( $metakey );
+
+		return add_post_meta( $post_ID, $metakey, $metavalue );
 	}
 
 	return false;
