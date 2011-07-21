@@ -1875,6 +1875,10 @@ function wp_trim_excerpt($text) {
  * @return string Text with converted entities.
  */
 function ent2ncr($text) {
+
+	if( null !== $filtered = apply_filters( 'pre_ent2ncr', null, $text ) )
+		return $filtered;
+
 	$to_ncr = array(
 		'&quot;' => '&#34;',
 		'&amp;' => '&#38;',
