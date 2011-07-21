@@ -46,6 +46,26 @@ function twentyeleven_theme_options_init() {
 		'twentyeleven_theme_options', // Database option, see twentyeleven_get_theme_options()
 		'twentyeleven_theme_options_validate' // The sanitization callback, see twentyeleven_theme_options_validate()
 	);
+
+	// Register our settings field group
+	add_settings_section( 
+		'general', // Unique identifier for the settings section
+		'', // Section title (we don't want one)
+		'__return_false', // Section callback (we don't want anything) 
+		'theme_options' // Menu slug, used to uniquely identify the page; see twentyeleven_theme_options_add_page()
+	);
+
+	// Register our individual settings fields
+	add_settings_field( 
+		'color_scheme',  // Unique identifier for the field for this section
+		__( 'Color Scheme', 'twentyeleven' ), // Setting field label
+		'twentyeleven_settings_field_color_scheme', // Function that renders the settings field
+		'theme_options', // Menu slug, used to uniquely identify the page; see twentyeleven_theme_options_add_page()
+		'general' // Settings section. Same as the first argument in the add_settings_section() above
+	);
+
+	add_settings_field( 'link_color', __( 'Link Color', 'twentyeleven' ), 'twentyeleven_settings_field_link_color', 'theme_options', 'general' );
+	add_settings_field( 'layout',     __( 'Layout',     'twentyeleven' ), 'twentyeleven_settings_field_layout',     'theme_options', 'general' );
 }
 add_action( 'admin_init', 'twentyeleven_theme_options_init' );
 
@@ -202,6 +222,69 @@ function twentyeleven_get_theme_options() {
 }
 
 /**
+ * Renders the Color Scheme setting field.
+ * 
+ * @since Twenty Eleven 1.2
+ */
+function twentyeleven_settings_field_color_scheme() {
+	$options = twentyeleven_get_theme_options();
+
+	foreach ( twentyeleven_color_schemes() as $scheme ) {
+	?>
+	<div class="layout image-radio-option color-scheme">
+	<label class="description">
+		<input type="radio" name="twentyeleven_theme_options[color_scheme]" value="<?php echo esc_attr( $scheme['value'] ); ?>" <?php checked( $options['color_scheme'], $scheme['value'] ); ?> />
+		<input type="hidden" id="default-color-<?php echo esc_attr( $scheme['value'] ); ?>" value="<?php echo esc_attr( $scheme['default_link_color'] ); ?>" />
+		<span>
+			<img src="<?php echo esc_url( $scheme['thumbnail'] ); ?>" width="136" height="122" alt="" />
+			<?php echo $scheme['label']; ?>
+		</span>
+	</label>
+	</div>
+	<?php
+	}
+}
+
+/**
+ * Renders the Link Color setting field.
+ * 
+ * @since Twenty Eleven 1.2
+ */
+function twentyeleven_settings_field_link_color() {
+	$options = twentyeleven_get_theme_options();
+	?>
+	<input type="text" name="twentyeleven_theme_options[link_color]" id="link-color" value="<?php echo esc_attr( $options['link_color'] ); ?>" />
+	<a href="#" class="pickcolor hide-if-no-js" id="link-color-example"></a>
+	<input type="button" class="pickcolor button hide-if-no-js" value="<?php esc_attr_e( 'Select a Color', 'twentyeleven' ); ?>" />
+	<div id="colorPickerDiv" style="z-index: 100; background:#eee; border:1px solid #ccc; position:absolute; display:none;"></div>
+	<br />
+	<span><?php printf( __( 'Default color: %s', 'twentyeleven' ), '<span id="default-color">' . twentyeleven_get_default_link_color( $options['color_scheme'] ) . '</span>' ); ?></span>
+	<?php
+}
+
+/**
+ * Renders the Layout setting field.
+ * 
+ * @since Twenty Eleven 1.2
+ */
+function twentyeleven_settings_field_layout() {
+	$options = twentyeleven_get_theme_options();
+	foreach ( twentyeleven_layouts() as $layout ) {
+		?>
+		<div class="layout image-radio-option theme-layout">
+		<label class="description">
+			<input type="radio" name="twentyeleven_theme_options[theme_layout]" value="<?php echo esc_attr( $layout['value'] ); ?>" <?php checked( $options['theme_layout'], $layout['value'] ); ?> />
+			<span>
+				<img src="<?php echo esc_url( $layout['thumbnail'] ); ?>" width="136" height="122" alt="" />
+				<?php echo $layout['label']; ?>
+			</span>
+		</label>
+		</div>
+		<?php
+	}
+}
+
+/**
  * Returns the options array for Twenty Eleven.
  *
  * @since Twenty Eleven 1.2
@@ -216,72 +299,11 @@ function twentyeleven_theme_options_render_page() {
 		<form method="post" action="options.php">
 			<?php
 				settings_fields( 'twentyeleven_options' );
-				$options = twentyeleven_get_theme_options();
-				$default_options = twentyeleven_get_default_theme_options();
+
+				do_settings_sections( 'theme_options' );
+
+				submit_button();
 			?>
-
-			<table class="form-table">
-
-				<tr valign="top" class="image-radio-option color-scheme"><th scope="row"><?php _e( 'Color Scheme', 'twentyeleven' ); ?></th>
-					<td>
-						<fieldset><legend class="screen-reader-text"><span><?php _e( 'Color Scheme', 'twentyeleven' ); ?></span></legend>
-						<?php
-							foreach ( twentyeleven_color_schemes() as $scheme ) {
-								?>
-								<div class="layout">
-								<label class="description">
-									<input type="radio" name="twentyeleven_theme_options[color_scheme]" value="<?php echo esc_attr( $scheme['value'] ); ?>" <?php checked( $options['color_scheme'], $scheme['value'] ); ?> />
-									<input type="hidden" id="default-color-<?php echo esc_attr( $scheme['value'] ); ?>" value="<?php echo esc_attr( $scheme['default_link_color'] ); ?>" />
-									<span>
-										<img src="<?php echo esc_url( $scheme['thumbnail'] ); ?>" width="136" height="122" alt="" />
-										<?php echo $scheme['label']; ?>
-									</span>
-								</label>
-								</div>
-								<?php
-							}
-						?>
-						</fieldset>
-					</td>
-				</tr>
-
-				<tr valign="top"><th scope="row"><?php _e( 'Link Color', 'twentyeleven' ); ?></th>
-					<td>
-						<fieldset><legend class="screen-reader-text"><span><?php _e( 'Link Color', 'twentyeleven' ); ?></span></legend>
-							<input type="text" name="twentyeleven_theme_options[link_color]" id="link-color" value="<?php echo esc_attr( $options['link_color'] ); ?>" />
-							<a href="#" class="pickcolor hide-if-no-js" id="link-color-example"></a>
-							<input type="button" class="pickcolor button hide-if-no-js" value="<?php esc_attr_e( 'Select a Color', 'twentyeleven' ); ?>" />
-							<div id="colorPickerDiv" style="z-index: 100; background:#eee; border:1px solid #ccc; position:absolute; display:none;"></div>
-							<br />
-							<span><?php printf( __( 'Default color: %s', 'twentyeleven' ), '<span id="default-color">' . twentyeleven_get_default_link_color( $options['color_scheme'] ) . '</span>' ); ?></span>
-						</fieldset>
-					</td>
-				</tr>
-
-				<tr valign="top" class="image-radio-option theme-layout"><th scope="row"><?php _e( 'Default Layout', 'twentyeleven' ); ?></th>
-					<td>
-						<fieldset><legend class="screen-reader-text"><span><?php _e( 'Color Scheme', 'twentyeleven' ); ?></span></legend>
-						<?php
-							foreach ( twentyeleven_layouts() as $layout ) {
-								?>
-								<div class="layout">
-								<label class="description">
-									<input type="radio" name="twentyeleven_theme_options[theme_layout]" value="<?php echo esc_attr( $layout['value'] ); ?>" <?php checked( $options['theme_layout'], $layout['value'] ); ?> />
-									<span>
-										<img src="<?php echo esc_url( $layout['thumbnail'] ); ?>" width="136" height="122" alt="" />
-										<?php echo $layout['label']; ?>
-									</span>
-								</label>
-								</div>
-								<?php
-							}
-						?>
-						</fieldset>
-					</td>
-				</tr>
-			</table>
-
-			<?php submit_button(); ?>
 		</form>
 	</div>
 	<?php
