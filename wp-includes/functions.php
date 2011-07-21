@@ -454,7 +454,7 @@ function wp_load_alloptions() {
 }
 
 /**
- * Loads and caches certain often requested site options if is_multisite() and a peristent cache is not being used.
+ * Loads and caches certain often requested site options if is_multisite() and a persistent cache is not being used.
  *
  * @since 3.0.0
  * @package WordPress
@@ -686,7 +686,7 @@ function delete_option( $option ) {
 }
 
 /**
- * Delete a transient
+ * Delete a transient.
  *
  * @since 2.8.0
  * @package WordPress
@@ -719,7 +719,7 @@ function delete_transient( $transient ) {
 }
 
 /**
- * Get the value of a transient
+ * Get the value of a transient.
  *
  * If the transient does not exist or does not have a value, then the return value
  * will be false.
@@ -768,7 +768,7 @@ function get_transient( $transient ) {
 }
 
 /**
- * Set/update the value of a transient
+ * Set/update the value of a transient.
  *
  * You do not need to serialize values. If the value needs to be serialized, then
  * it will be serialized before it is set.
@@ -1417,7 +1417,7 @@ function _http_build_query($data, $prefix=null, $sep=null, $key='', $urlencode=t
  * using this function. You can also retrieve the full URL with query data.
  *
  * Adding a single key & value or an associative array. Setting a key value to
- * emptystring removes the key. Omitting oldquery_or_uri uses the $_SERVER
+ * an empty string removes the key. Omitting oldquery_or_uri uses the $_SERVER
  * value.
  *
  * @since 1.5.0
@@ -1794,7 +1794,7 @@ function do_feed_rdf() {
 }
 
 /**
- * Load the RSS 1.0 Feed Template
+ * Load the RSS 1.0 Feed Template.
  *
  * @since 2.1.0
  */
@@ -2744,13 +2744,13 @@ function wp_nonce_ays( $action ) {
  * HTML will be displayed to the user. It is recommended to use this function
  * only, when the execution should not continue any further. It is not
  * recommended to call this function very often and try to handle as many errors
- * as possible siliently.
+ * as possible silently.
  *
  * @since 2.0.4
  *
  * @param string $message Error message.
  * @param string $title Error title.
- * @param string|array $args Optional arguements to control behaviour.
+ * @param string|array $args Optional arguments to control behavior.
  */
 function wp_die( $message, $title = '', $args = array() ) {
 	if ( defined( 'DOING_AJAX' ) && DOING_AJAX )
@@ -2776,7 +2776,7 @@ function wp_die( $message, $title = '', $args = array() ) {
  *
  * @param string $message Error message.
  * @param string $title Error title.
- * @param string|array $args Optional arguements to control behaviour.
+ * @param string|array $args Optional arguments to control behavior.
  */
 function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 	$defaults = array( 'response' => 500 );
@@ -2867,7 +2867,7 @@ if ( 'rtl' == $text_direction ) : ?>
  *
  * @param string $message Error message.
  * @param string $title Error title.
- * @param string|array $args Optional arguements to control behaviour.
+ * @param string|array $args Optional arguments to control behavior.
  */
 function _xmlrpc_wp_die_handler( $message, $title = '', $args = array() ) {
 	global $wp_xmlrpc_server;
@@ -2896,7 +2896,7 @@ function _xmlrpc_wp_die_filter() {
 /**
  * Retrieve the WordPress home page URL.
  *
- * If the constant named 'WP_HOME' exists, then it willl be used and returned by
+ * If the constant named 'WP_HOME' exists, then it will be used and returned by
  * the function. This can be used to counter the redirection on your local
  * development environment.
  *
@@ -3098,7 +3098,7 @@ function wp_parse_args( $args, $defaults = '' ) {
 }
 
 /**
- * Clean up an array, comma- or space-separated list of IDs
+ * Clean up an array, comma- or space-separated list of IDs.
  *
  * @since 3.0.0
  *
@@ -3113,7 +3113,7 @@ function wp_parse_id_list( $list ) {
 }
 
 /**
- * Extract a slice of an array, given a list of keys
+ * Extract a slice of an array, given a list of keys.
  *
  * @since 3.1.0
  *
@@ -3131,7 +3131,7 @@ function wp_array_slice_assoc( $array, $keys ) {
 }
 
 /**
- * Filters a list of objects, based on a set of key => value arguments
+ * Filters a list of objects, based on a set of key => value arguments.
  *
  * @since 3.0.0
  *
@@ -3155,7 +3155,7 @@ function wp_filter_object_list( $list, $args = array(), $operator = 'and', $fiel
 }
 
 /**
- * Filters a list of objects, based on a set of key => value arguments
+ * Filters a list of objects, based on a set of key => value arguments.
  *
  * @since 3.1.0
  *
@@ -3192,7 +3192,7 @@ function wp_list_filter( $list, $args = array(), $operator = 'AND' ) {
 }
 
 /**
- * Pluck a certain field out of each object in a list
+ * Pluck a certain field out of each object in a list.
  *
  * @since 3.1.0
  *
@@ -3305,7 +3305,7 @@ function dead_db() {
  *
  * @since 2.5.0
  *
- * @param mixed $maybeint Data you wish to have convered to an nonnegative integer
+ * @param mixed $maybeint Data you wish to have converted to a nonnegative integer
  * @return int An nonnegative integer
  */
 function absint( $maybeint ) {
@@ -3503,7 +3503,7 @@ function _doing_it_wrong( $function, $message, $version ) {
 }
 
 /**
- * Is the server running earlier than 1.5.0 version of lighttpd
+ * Is the server running earlier than 1.5.0 version of lighttpd?
  *
  * @since 2.5.0
  *
@@ -3516,7 +3516,7 @@ function is_lighttpd_before_150() {
 }
 
 /**
- * Does the specified module exist in the apache config?
+ * Does the specified module exist in the Apache config?
  *
  * @since 2.5.0
  *
@@ -3545,7 +3545,7 @@ function apache_mod_loaded($mod, $default = false) {
 }
 
 /**
- * Check if IIS 7 supports pretty permalinks
+ * Check if IIS 7 supports pretty permalinks.
  *
  * @since 2.8.0
  *
@@ -3889,7 +3889,7 @@ function update_site_option( $option, $value ) {
 }
 
 /**
- * Delete a site transient
+ * Delete a site transient.
  *
  * @since 2.9.0
  * @package WordPress
@@ -3920,7 +3920,7 @@ function delete_site_transient( $transient ) {
 }
 
 /**
- * Get the value of a site transient
+ * Get the value of a site transient.
  *
  * If the transient does not exist or does not have a value, then the return value
  * will be false.
@@ -3969,7 +3969,7 @@ function get_site_transient( $transient ) {
 }
 
 /**
- * Set/update the value of a site transient
+ * Set/update the value of a site transient.
  *
  * You do not need to serialize values, if the value needs to be serialize, then
  * it will be serialized before it is set.
@@ -4016,7 +4016,7 @@ function set_site_transient( $transient, $value, $expiration = 0 ) {
 }
 
 /**
- * is main site
+ * Is main site?
  *
  *
  * @since 3.0.0
@@ -4062,9 +4062,9 @@ function global_terms_enabled() {
 }
 
 /**
- * gmt_offset modification for smart timezone handling
+ * gmt_offset modification for smart timezone handling.
  *
- * Overrides the gmt_offset option if we have a timezone_string available
+ * Overrides the gmt_offset option if we have a timezone_string available.
  *
  * @since 2.8.0
  *
@@ -4131,7 +4131,7 @@ function _wp_timezone_choice_usort_callback( $a, $b ) {
 }
 
 /**
- * Gives a nicely formatted list of timezone strings // temporary! Not in final
+ * Gives a nicely formatted list of timezone strings. // temporary! Not in final
  *
  * @since 2.9.0
  *
@@ -4260,7 +4260,7 @@ function wp_timezone_choice( $selected_zone ) {
 }
 
 /**
- * Strip close comment and close php tags from file headers used by WP
+ * Strip close comment and close php tags from file headers used by WP.
  * See http://core.trac.wordpress.org/ticket/8497
  *
  * @since 2.8.0
@@ -4321,7 +4321,7 @@ function wp_scheduled_delete() {
  * Retrieve metadata from a file.
  *
  * Searches for metadata in the first 8kiB of a file, such as a plugin or theme.
- * Each piece of metadata must be on its own line. Fields can not span multple
+ * Each piece of metadata must be on its own line. Fields can not span multiple
  * lines, the value will get cut at the end of the first line.
  *
  * If the file data is not within that first 8kiB, then the author should correct
@@ -4370,7 +4370,7 @@ function get_file_data( $file, $default_headers, $context = '' ) {
 }
 
 /**
- * Used internally to tidy up the search terms
+ * Used internally to tidy up the search terms.
  *
  * @access private
  * @since 2.9.0
@@ -4383,9 +4383,9 @@ function _search_terms_tidy($t) {
 }
 
 /**
- * Returns true
+ * Returns true.
  *
- * Useful for returning true to filters easily
+ * Useful for returning true to filters easily.
  *
  * @since 3.0.0
  * @see __return_false()
@@ -4396,9 +4396,9 @@ function __return_true() {
 }
 
 /**
- * Returns false
+ * Returns false.
  *
- * Useful for returning false to filters easily
+ * Useful for returning false to filters easily.
  *
  * @since 3.0.0
  * @see __return_true()
@@ -4409,9 +4409,9 @@ function __return_false() {
 }
 
 /**
- * Returns 0
+ * Returns 0.
  *
- * Useful for returning 0 to filters easily
+ * Useful for returning 0 to filters easily.
  *
  * @since 3.0.0
  * @see __return_zero()
@@ -4422,9 +4422,9 @@ function __return_zero() {
 }
 
 /**
- * Returns an empty array
+ * Returns an empty array.
  *
- * Useful for returning an empty array to filters easily
+ * Useful for returning an empty array to filters easily.
  *
  * @since 3.0.0
  * @see __return_zero()
@@ -4501,7 +4501,7 @@ function wp_find_hierarchy_loop( $callback, $start, $start_parent, $callback_arg
  * @since 3.1.0
  * @access private
  *
- * @param callback $callback function that accupts ( ID, callback_arg, ... ) and outputs parent_ID
+ * @param callback $callback function that accepts ( ID, callback_arg, ... ) and outputs parent_ID
  * @param int $start The ID to start the loop check at
  * @param array $override an array of ( ID => parent_ID, ... ) to use instead of $callback
  * @param array $callback_args optional additional arguments to send to $callback
