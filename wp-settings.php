@@ -92,6 +92,8 @@ if ( is_multisite() ) {
 	define( 'MULTISITE', false );
 }
 
+register_shutdown_function( 'shutdown_action_hook' );
+
 // Stop most of WordPress from being loaded if we just want the basics.
 if ( SHORTINIT )
 	return false;
@@ -286,8 +288,6 @@ do_action( 'after_setup_theme' );
 
 // Load any template functions the theme supports.
 require_if_theme_supports( 'post-thumbnails', ABSPATH . WPINC . '/post-thumbnail-template.php' );
-
-register_shutdown_function( 'shutdown_action_hook' );
 
 // Set up current user.
 $wp->init();
