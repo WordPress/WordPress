@@ -262,7 +262,7 @@ function install_theme_information() {
 	}
 
 	$themes = get_themes();
-	foreach ( $themes as $this_theme ) {
+	foreach ( (array) $themes as $this_theme ) {
 		if ( is_array($this_theme) && $this_theme['Stylesheet'] == $api->slug ) {
 			if ( $this_theme['Version'] == $api->version ) {
 				$type = 'latest_installed';
