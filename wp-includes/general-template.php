@@ -2074,9 +2074,9 @@ function wp_admin_css_color($key, $name, $url, $colors = array()) {
  * @since 3.0.0
  */
 function register_admin_color_schemes() {
-	wp_admin_css_color( 'classic', __( 'Blue' ), admin_url( 'css/colors-classic.css' ),
+	wp_admin_css_color( 'classic', _x( 'Blue', 'admin color scheme' ), admin_url( 'css/colors-classic.css' ),
 		array( '#5589aa', '#cfdfe9', '#d1e5ee', '#eff8ff' ) );
-	wp_admin_css_color( 'fresh', __( 'Gray' ), admin_url( 'css/colors-fresh.css' ),
+	wp_admin_css_color( 'fresh', _x( 'Gray', 'admin color scheme' ), admin_url( 'css/colors-fresh.css' ),
 		array( '#7c7976', '#c6c6c6', '#e0e0e0', '#f1f1f1' ) );
 }
 
