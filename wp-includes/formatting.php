@@ -1876,7 +1876,9 @@ function wp_trim_excerpt($text) {
  */
 function ent2ncr($text) {
 
-	if( null !== $filtered = apply_filters( 'pre_ent2ncr', null, $text ) )
+	// Allow a plugin to short-circuit and override the mappings.
+	$filtered = apply_filters( 'pre_ent2ncr', null, $text );
+	if( null !== $filtered )
 		return $filtered;
 
 	$to_ncr = array(
