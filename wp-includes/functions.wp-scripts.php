@@ -26,7 +26,7 @@ function wp_print_scripts( $handles = false ) {
 	global $wp_scripts;
 	if ( !is_a($wp_scripts, 'WP_Scripts') ) {
 		if ( !$handles )
-			return array(); // No need to instantiate if nothing's there.
+			return array(); // No need to instantiate if nothing is there.
 		else
 			$wp_scripts = new WP_Scripts();
 	}
@@ -35,7 +35,7 @@ function wp_print_scripts( $handles = false ) {
 }
 
 /**
- * Register new JavaScript file.
+ * Register new Javascript file.
  *
  * @since r16
  * @param string $handle Script name
@@ -56,19 +56,29 @@ function wp_register_script( $handle, $src, $deps = array(), $ver = false, $in_f
 }
 
 /**
- * Localizes a script.
+ * Adds extra Javascript.
  *
- * Localizes only if script has already been added.
- *
- * @since r16
- * @see WP_Scripts::localize()
+ * Works only if the script has already been added.
+ * Accepts an associative array $data and creates JS object:
+ * "$name" = {
+ *   key: value,
+ *   key: value,
+ *   ...
+ * }
+ * The $name is passed directly so it should be qualified JS variable /[a-zA-Z0-9_]+/
+ * The $data array is JSON encoded. If called more than once for the same $handle, with the same $name,
+ * the object would contain all values. In that case if two or more keys are the same,
+ * the first value is kept and subsequent values are ignored.
+ * 
+ * @since 3.3
+ * @see WP_Scripts::add_script_data()
  */
-function wp_localize_script( $handle, $object_name, $l10n ) {
+function wp_add_script_data( $handle, $name, $data ) {
 	global $wp_scripts;
 	if ( !is_a($wp_scripts, 'WP_Scripts') )
 		return false;
 
-	return $wp_scripts->localize( $handle, $object_name, $l10n );
+	return $wp_scripts->add_script_data( $handle, $name, $data );
 }
 
 /**

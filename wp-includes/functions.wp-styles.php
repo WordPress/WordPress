@@ -25,12 +25,29 @@ function wp_print_styles( $handles = false ) {
 	global $wp_styles;
 	if ( !is_a($wp_styles, 'WP_Styles') ) {
 		if ( !$handles )
-			return array(); // No need to instantiate if nothing's there.
+			return array(); // No need to instantiate if nothing is there.
 		else
 			$wp_styles = new WP_Styles();
 	}
 
 	return $wp_styles->do_items( $handles );
+}
+
+/**
+ * Adds extra CSS.
+ *
+ * Works only if the stylesheet has already been added.
+ * Accepts a string $data containing the CSS.
+ * 
+ * @since 3.3
+ * @see WP_Scripts::add_inline_style()
+ */
+function wp_add_inline_style( $handle, $data ) {
+	global $wp_styles;
+	if ( !is_a($wp_styles, 'WP_Styles') )
+		return false;
+
+	return $wp_styles->add_inline_style( $handle, $data );
 }
 
 /**

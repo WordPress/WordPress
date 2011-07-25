@@ -25,6 +25,7 @@ class WP_Styles extends WP_Dependencies {
 	var $concat_version = '';
 	var $do_concat = false;
 	var $print_html = '';
+	var $print_code = '';
 	var $default_dirs;
 
 	function __construct() {
@@ -35,44 +36,49 @@ class WP_Styles extends WP_Dependencies {
 		if ( !parent::do_item($handle) )
 			return false;
 
-		if ( null === $this->registered[$handle]->ver )
+		$obj = $this->registered[$handle];
+		if ( null === $obj->ver )
 			$ver = '';
 		else
-			$ver = $this->registered[$handle]->ver ? $this->registered[$handle]->ver : $this->default_version;
+			$ver = $obj->ver ? $obj->ver : $this->default_version;
 
 		if ( isset($this->args[$handle]) )
 			$ver = $ver ? $ver . '&amp;' . $this->args[$handle] : $this->args[$handle];
 
 		if ( $this->do_concat ) {
-			if ( $this->in_default_dir($this->registered[$handle]->src) && !isset($this->registered[$handle]->extra['conditional']) && !isset($this->registered[$handle]->extra['alt']) ) {
+			if ( $this->in_default_dir($obj->src) && !isset($obj->extra['conditional'])	&& !isset($obj->extra['alt']) ) {
 				$this->concat .= "$handle,";
 				$this->concat_version .= "$handle$ver";
+
+				if ( !empty($this->registered[$handle]->extra['data']) )
+					$this->print_code .= $this->registered[$handle]->extra['data'];
+
 				return true;
 			}
 		}
 
-		if ( isset($this->registered[$handle]->args) )
-			$media = esc_attr( $this->registered[$handle]->args );
+		if ( isset($obj->args) )
+			$media = esc_attr( $obj->args );
 		else
 			$media = 'all';
 
-		$href = $this->_css_href( $this->registered[$handle]->src, $ver, $handle );
-		$rel = isset($this->registered[$handle]->extra['alt']) && $this->registered[$handle]->extra['alt'] ? 'alternate stylesheet' : 'stylesheet';
-		$title = isset($this->registered[$handle]->extra['title']) ? "title='" . esc_attr( $this->registered[$handle]->extra['title'] ) . "'" : '';
+		$href = $this->_css_href( $obj->src, $ver, $handle );
+		$rel = isset($obj->extra['alt']) && $obj->extra['alt'] ? 'alternate stylesheet' : 'stylesheet';
+		$title = isset($obj->extra['title']) ? "title='" . esc_attr( $obj->extra['title'] ) . "'" : '';
 
 		$end_cond = $tag = '';
-		if ( isset($this->registered[$handle]->extra['conditional']) && $this->registered[$handle]->extra['conditional'] ) {
-			$tag .= "<!--[if {$this->registered[$handle]->extra['conditional']}]>\n";
+		if ( isset($obj->extra['conditional']) && $obj->extra['conditional'] ) {
+			$tag .= "<!--[if {$obj->extra['conditional']}]>\n";
 			$end_cond = "<![endif]-->\n";
 		}
 
 		$tag .= apply_filters( 'style_loader_tag', "<link rel='$rel' id='$handle-css' $title href='$href' type='text/css' media='$media' />\n", $handle );
-		if ( 'rtl' === $this->text_direction && isset($this->registered[$handle]->extra['rtl']) && $this->registered[$handle]->extra['rtl'] ) {
-			if ( is_bool( $this->registered[$handle]->extra['rtl'] ) ) {
-				$suffix = isset( $this->registered[$handle]->extra['suffix'] ) ? $this->registered[$handle]->extra['suffix'] : '';
-				$rtl_href = str_replace( "{$suffix}.css", "-rtl{$suffix}.css", $this->_css_href( $this->registered[$handle]->src , $ver, "$handle-rtl" ));
+		if ( 'rtl' === $this->text_direction && isset($obj->extra['rtl']) && $obj->extra['rtl'] ) {
+			if ( is_bool( $obj->extra['rtl'] ) ) {
+				$suffix = isset( $obj->extra['suffix'] ) ? $obj->extra['suffix'] : '';
+				$rtl_href = str_replace( "{$suffix}.css", "-rtl{$suffix}.css", $this->_css_href( $obj->src , $ver, "$handle-rtl" ));
 			} else {
-				$rtl_href = $this->_css_href( $this->registered[$handle]->extra['rtl'], $ver, "$handle-rtl" );
+				$rtl_href = $this->_css_href( $obj->extra['rtl'], $ver, "$handle-rtl" );
 			}
 
 			$tag .= apply_filters( 'style_loader_tag', "<link rel='$rel' id='$handle-rtl-css' $title href='$rtl_href' type='text/css' media='$media' />\n", $handle );
@@ -80,16 +86,39 @@ class WP_Styles extends WP_Dependencies {
 
 		$tag .= $end_cond;
 
-		if ( $this->do_concat )
+		if ( $this->do_concat ) {
 			$this->print_html .= $tag;
-		else
+			$this->print_html .= $this->print_inline_style( $handle, false );
+		} else {
 			echo $tag;
+			$this->print_inline_style( $handle );
+		}
 
-		// Could do something with $this->registered[$handle]->extra here to print out extra CSS rules
-//		echo "<style type='text/css'>\n";
-//		echo "/* <![CDATA[ */\n";
-//		echo "/* ]]> */\n";
-//		echo "</style>\n";
+		return true;
+	}
+
+	function add_inline_style( $handle, $data ) {
+		if ( !$data )
+			return false;
+
+		if ( !empty( $this->registered[$handle]->extra['data'] ) )
+			$data .= "\n" . $this->registered[$handle]->extra['data'];
+
+		return $this->add_data( $handle, 'data', $data );
+	}
+
+	function print_inline_style( $handle, $echo = true ) {
+		if ( empty($this->registered[$handle]->extra['data']) )
+			return false;
+
+		$output = $this->registered[$handle]->extra['data'];
+
+		if ( !$echo )
+			return $output;
+
+		echo "<style type='text/css'>\n";
+		echo "$output\n";
+		echo "</style>\n";
 
 		return true;
 	}
