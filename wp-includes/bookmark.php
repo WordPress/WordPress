@@ -227,7 +227,7 @@ function get_bookmarks($args = '') {
 			$orderparams = array();
 			foreach ( explode(',', $orderby) as $ordparam ) {
 				$ordparam = trim($ordparam);
-				if ( in_array( $ordparam, array( 'name', 'url', 'visible', 'rating', 'owner', 'updated' ) ) )
+				if ( in_array( $ordparam, array( 'id', 'name', 'url', 'visible', 'rating', 'owner', 'updated' ) ) )
 					$orderparams[] = 'link_' . $ordparam;
 			}
 			$orderby = implode(',', $orderparams);
