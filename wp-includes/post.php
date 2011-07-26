@@ -1165,6 +1165,8 @@ function _post_type_meta_capabilities( $capabilities = null ) {
  * - not_found - Default is No posts found/No pages found
  * - not_found_in_trash - Default is No posts found in Trash/No pages found in Trash
  * - parent_item_colon - This string isn't used on non-hierarchical types. In hierarchical ones the default is Parent Page:
+ * - all_items - String for the submenu. Default is All Posts/All Pages
+ * - menu_name - Default is the same as <code>name</code>
  *
  * Above, the first default value is for non-hierarchical post types (like posts) and the second one is for hierarchical post types (like pages).
  *
