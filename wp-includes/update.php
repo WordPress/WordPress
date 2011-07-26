@@ -280,6 +280,48 @@ function wp_update_themes() {
 	set_site_transient( 'update_themes', $new_update );
 }
 
+/*
+ * Collect counts and UI strings for available updates
+ *
+ * @since 3.3.0
+ *
+ * @return array
+ */
+function wp_get_update_data() {
+	$counts = array( 'plugins' => 0, 'themes' => 0, 'wordpress' => 0 );
+
+	if ( current_user_can( 'update_plugins' ) ) {
+		$update_plugins = get_site_transient( 'update_plugins' );
+		if ( ! empty( $update_plugins->response ) )
+			$counts['plugins'] = count( $update_plugins->response );
+	}
+
+	if ( current_user_can( 'update_themes' ) ) {
+		$update_themes = get_site_transient( 'update_themes' );
+		if ( ! empty( $update_themes->response ) )
+			$counts['themes'] = count( $update_themes->response );
+	}
+
+	if ( function_exists( 'get_core_updates' ) && current_user_can( 'update_core' ) ) {
+		$update_wordpress = get_core_updates( array('dismissed' => false) );
+		if ( ! empty( $update_wordpress ) && ! in_array( $update_wordpress[0]->response, array('development', 'latest') ) && current_user_can('update_core') )
+			$counts['wordpress'] = 1;
+	}
+
+	$counts['total'] = $counts['plugins'] + $counts['themes'] + $counts['wordpress'];
+	$update_title = array();
+	if ( $counts['wordpress'] )
+		$update_title[] = sprintf(__('%d WordPress Update'), $counts['wordpress']);
+	if ( $counts['plugins'] )
+		$update_title[] = sprintf(_n('%d Plugin Update', '%d Plugin Updates', $counts['plugins']), $counts['plugins']);
+	if ( $counts['themes'] )
+		$update_title[] = sprintf(_n('%d Theme Update', '%d Theme Updates', $counts['themes']), $counts['themes']);
+
+	$update_title = ! empty( $update_title ) ? esc_attr( implode( ', ', $update_title ) ) : '';
+	
+	return array( 'counts' => $counts, 'title' => $update_title );
+}
+
 function _maybe_update_core() {
 	include ABSPATH . WPINC . '/version.php'; // include an unmodified $wp_version
 
