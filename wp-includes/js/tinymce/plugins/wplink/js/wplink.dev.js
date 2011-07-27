@@ -102,7 +102,7 @@ var wpLink;
 			// If link exists, select proper values.
 			if ( e = ed.dom.getParent(ed.selection.getNode(), 'A') ) {
 				// Set URL and description.
-				inputs.url.val( e.href );
+				inputs.url.val( ed.dom.getAttrib(e, 'href') );
 				inputs.title.val( ed.dom.getAttrib(e, 'title') );
 				// Set open in new tab.
 				if ( "_blank" == ed.dom.getAttrib(e, 'target') )
