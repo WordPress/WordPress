@@ -317,13 +317,8 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'post', "/wp-admin/js/post$suffix.js", array('suggest', 'wp-lists', 'postbox'), '20110524' );
 		$scripts->add_data( 'post', 'group', 1 );
 		$scripts->add_script_data( 'post', 'postL10n', array(
-			'tagsUsed' =>  __('Tags used on this post:'),
-			'add' => esc_attr(__('Add')),
-			'addTag' => esc_attr(__('Add new Tag')),
-			'separate' => __('Separate tags with commas'),
 			'ok' => __('OK'),
 			'cancel' => __('Cancel'),
-			'edit' => __('Edit'),
 			'publishOn' => __('Publish on:'),
 			'publishOnFuture' =>  __('Schedule for:'),
 			'publishOnPast' => __('Published on:'),
@@ -348,8 +343,6 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'comment', "/wp-admin/js/comment$suffix.js", array('jquery'), '20110429' );
 		$scripts->add_data( 'comment', 'group', 1 );
 		$scripts->add_script_data( 'comment', 'commentL10n', array(
-			'cancel' => __('Cancel'),
-			'edit' => __('Edit'),
 			'submittedOn' => __('Submitted on:')
 		) );
 
