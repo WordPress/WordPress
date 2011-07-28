@@ -1119,10 +1119,12 @@ function get_adjacent_post( $in_same_cat = false, $excluded_categories = '', $pr
 		if ( ! empty( $excluded_categories ) ) {
 			if ( ! is_array( $excluded_categories ) ) {
 				// back-compat, $excluded_categories used to be IDs separated by " and "
-				if ( strpos( $excluded_categories, ' and ' ) !== false )
+				if ( strpos( $excluded_categories, ' and ' ) !== false ) {
+					_deprecated_argument( __FUNCTION__, '3.3', sprintf( __( 'Use commas instead of %s to separate excluded categories.' ), "'and'" ) );
 					$excluded_categories = explode( ' and ', $excluded_categories );
-				else 
+				} else {
 					$excluded_categories = explode( ',', $excluded_categories );
+				}
 			}
 
 			$excluded_categories = array_map( 'intval', $excluded_categories );
