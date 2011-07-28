@@ -134,17 +134,39 @@ class WP_Dependencies {
 	/**
 	 * Adds extra data
 	 *
-	 * Adds data only if script has already been added
+	 * Adds data only if script has already been added.
 	 *
 	 * @param string $handle Script name
-	 * @param string $data_name Name of object in which to store extra data
-	 * @param array $data Array of extra data
+	 * @param string $key
+	 * @param mixed $value
 	 * @return bool success
 	 */
-	function add_data( $handle, $data_name, $data ) {
-		if ( !isset($this->registered[$handle]) )
+	function add_data( $handle, $key, $value ) {
+		if ( !isset( $this->registered[$handle] ) )
 			return false;
-		return $this->registered[$handle]->add_data( $data_name, $data );
+
+		return $this->registered[$handle]->add_data( $key, $value );
+	}
+
+	/**
+	 * Get extra data
+	 *
+	 * Gets data associated with a certain handle.
+	 *
+	 * @since WP 3.3
+	 *
+	 * @param string $handle Script name
+	 * @param string $key
+	 * @return mixed
+	 */
+	function get_data( $handle, $key ) {
+		if ( !isset( $this->registered[$handle] ) )
+			return false;
+
+		if ( !isset( $this->registered[$handle]->extra[$key] ) )
+			return false;
+
+		return $this->registered[$handle]->extra[$key];
 	}
 
 	function remove( $handles ) {

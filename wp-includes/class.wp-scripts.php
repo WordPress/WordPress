@@ -54,12 +54,8 @@ class WP_Scripts extends WP_Dependencies {
 	}
 
 	function print_script_data( $handle, $echo = true, $_l10n = false ) {
-		if ( empty($this->registered[$handle]->extra['data']) )
-			return false;
-
 		if ( $_l10n ) {
-			$name = $this->registered[$handle]->extra['l10n'][0];
-			$data = $this->registered[$handle]->extra['l10n'][1];
+			list( $name, $data ) = $this->get_data( $handle, 'l10n' );
 			$after = '';
 
 			if ( is_array($data) && isset($data['l10n_print_after']) ) {
@@ -68,7 +64,12 @@ class WP_Scripts extends WP_Dependencies {
 			}
 			$output = "var $name = " . json_encode($data) . "; $after\n";
 		} else {
-			foreach ( (array) $this->registered[$handle]->extra['data'] as $name => $data ) {
+			$data = $this->get_data( $handle, 'data' );
+
+			if ( empty( $data ) )
+				return false;
+
+			foreach ( (array) $data as $name => $data ) {
 				$output = "var $name = " . json_encode($data) . ";\n";
 			}
 		}
@@ -142,7 +143,6 @@ class WP_Scripts extends WP_Dependencies {
 	 *
 	 * Localizes only if script has already been added
 	 *
-	 * @since 
 	 * @deprecated WP 3.3
 	 */
 	function localize( $handle, $object_name, $l10n ) {
@@ -157,21 +157,24 @@ class WP_Scripts extends WP_Dependencies {
 	 *
 	 * @param string $handle Script name
 	 * @param string $name Name of JS object to hold the data
-	 * @param array $data Associative array of JS name => value
+	 * @param array $args Associative array of JS object attributes
 	 * @return bool Successful or not
 	 */
-	function add_script_data( $handle, $name, $data ) {
-		if ( !$name || !is_array($data) )
+	function add_script_data( $handle, $name, $args ) {
+		if ( !$name || !is_array( $args ) )
 			return false;
 
-		if ( !empty( $this->registered[$handle]->extra['data'][$name] ) )
-			$data = array_merge( $data, (array) $this->registered[$handle]->extra['data'][$name] );
+		$data = $this->get_data( $handle, 'data' );
 
-		return $this->add_data( $handle, 'data', array( $name => $data ) );
+		if ( !empty( $data[$name] ) )
+			$args = array_merge( $data[$name], $args );
+
+		return $this->add_data( $handle, 'data', array( $name => $args ) );
 	}
 
 	function set_group( $handle, $recursion, $group = false ) {
-		$grp = isset($this->registered[$handle]->extra['group']) ? (int) $this->registered[$handle]->extra['group'] : 0;
+		$grp = (int) $this->get_data( $handle, 'group' );
+
 		if ( false !== $group && $grp > $group )
 			$grp = $group;
 

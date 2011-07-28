@@ -37,7 +37,9 @@ function wp_print_styles( $handles = false ) {
  * Adds extra CSS.
  *
  * Works only if the stylesheet has already been added.
- * Accepts a string $data containing the CSS.
+ * Accepts a string $data containing the CSS. If two or more CSS code blocks are
+ * added to the same stylesheet $handle, they will be printed in the order
+ * they were added, i.e. the latter added styles can redeclare the previous.
  * 
  * @since 3.3
  * @see WP_Scripts::add_inline_style()

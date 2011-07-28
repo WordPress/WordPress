@@ -66,9 +66,9 @@ function wp_register_script( $handle, $src, $deps = array(), $ver = false, $in_f
  *   ...
  * }
  * The $name is passed directly so it should be qualified JS variable /[a-zA-Z0-9_]+/
- * The $data array is JSON encoded. If called more than once for the same $handle, with the same $name,
+ * The $data array is JSON encoded. If called more than once for the same $handle with the same $name,
  * the object would contain all values. In that case if two or more keys are the same,
- * the first value is kept and subsequent values are ignored.
+ * the last value overwrites the previous.
  * 
  * @since 3.3
  * @see WP_Scripts::add_script_data()

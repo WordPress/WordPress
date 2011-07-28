@@ -46,12 +46,11 @@ class WP_Styles extends WP_Dependencies {
 			$ver = $ver ? $ver . '&amp;' . $this->args[$handle] : $this->args[$handle];
 
 		if ( $this->do_concat ) {
-			if ( $this->in_default_dir($obj->src) && !isset($obj->extra['conditional'])	&& !isset($obj->extra['alt']) ) {
+			if ( $this->in_default_dir($obj->src) && !isset($obj->extra['conditional']) && !isset($obj->extra['alt']) ) {
 				$this->concat .= "$handle,";
 				$this->concat_version .= "$handle$ver";
 
-				if ( !empty($this->registered[$handle]->extra['data']) )
-					$this->print_code .= $this->registered[$handle]->extra['data'];
+				$this->print_code .= $this->get_data( $handle, 'after' );
 
 				return true;
 			}
@@ -97,21 +96,26 @@ class WP_Styles extends WP_Dependencies {
 		return true;
 	}
 
-	function add_inline_style( $handle, $data ) {
-		if ( !$data )
+	function add_inline_style( $handle, $code ) {
+		if ( !$code )
 			return false;
 
-		if ( !empty( $this->registered[$handle]->extra['data'] ) )
-			$data .= "\n" . $this->registered[$handle]->extra['data'];
+		$after = $this->get_data( $handle, 'after' );
+		if ( !$after )
+			$after = array();
 
-		return $this->add_data( $handle, 'data', $data );
+		$after[] = $code;
+
+		return $this->add_data( $handle, 'after', $after );
 	}
 
 	function print_inline_style( $handle, $echo = true ) {
-		if ( empty($this->registered[$handle]->extra['data']) )
+		$output = $this->get_data( $handle, 'after' );
+
+		if ( empty( $output ) )
 			return false;
 
-		$output = $this->registered[$handle]->extra['data'];
+		$output = implode( "\n", $output );
 
 		if ( !$echo )
 			return $output;
@@ -151,7 +155,7 @@ class WP_Styles extends WP_Dependencies {
 		}
 		return false;
 	}
-	
+
 	function do_footer_items() { // HTML 5 allows styles in the body, grab late enqueued items and output them in the footer.
 		$this->do_items(false, 1);
 		return $this->done;
