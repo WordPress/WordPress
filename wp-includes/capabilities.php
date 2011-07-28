@@ -205,7 +205,7 @@ class WP_Roles {
 	 * @param string $role Role name.
 	 * @return object|null Null, if role does not exist. WP_Role object, if found.
 	 */
-	function &get_role( $role ) {
+	function get_role( $role ) {
 		if ( isset( $this->role_objects[$role] ) )
 			return $this->role_objects[$role];
 		else
