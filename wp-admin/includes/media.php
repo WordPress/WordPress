@@ -1531,10 +1531,6 @@ jQuery(document).ready(function($) {
 
 	uploader.init();
 
-console.debug(uploader);
-console.debug(uploader.runtime)
-
-
 	uploader.bind('FilesAdded', function(up, files) {
 		$.each(files, function(i, file) {
 			fileQueued(file);
@@ -1564,7 +1560,6 @@ console.debug(uploader.runtime)
 	
 	if ( uploader.runtime == 'html5' )
 		$('.dragdrop-info').show();
-
 });
 //]]>
 </script>
