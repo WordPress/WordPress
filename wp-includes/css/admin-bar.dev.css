@@ -133,7 +133,7 @@
 	text-shadow: #666 0px -1px 0px;
 }
 
-#wpadminbar .quicklinks li:hover > ul,
+#wpadminbar.nojq .quicklinks li:hover > ul,
 #wpadminbar .quicklinks li.hover > ul {
 	display: block;
 }
