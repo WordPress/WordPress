@@ -168,6 +168,10 @@ abbr.required {
 	width: 623px;
 }
 
+#media-upload #media-items:empty {
+	border: 0 none;
+}
+
 #media-upload .media-item {
 	border-bottom-width: 1px;
 	border-bottom-style: solid;

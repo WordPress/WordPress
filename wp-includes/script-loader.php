@@ -198,6 +198,37 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'jcrop', "/wp-includes/js/jcrop/jquery.Jcrop$suffix.js", array('jquery'), '0.9.8-20110113');
 
+	$scripts->add( 'swfobject', "/wp-includes/js/swfobject.js", false, '2.2');
+
+	// common bits for both uploaders
+	$max_upload_size = ( (int) ( $max_up = @ini_get('upload_max_filesize') ) < (int) ( $max_post = @ini_get('post_max_size') ) ) ? $max_up : $max_post;
+	
+	if ( empty($max_upload_size) )
+		$max_upload_size = __('not configured');
+	
+	// error messagoe for both plupload and swfupload
+	$uploader_l10n = array(
+		'queue_limit_exceeded' => __('You have attempted to queue too many files.'),
+		'file_exceeds_size_limit' => __('This file exceeds the maximum upload size for this site.'),
+		'zero_byte_file' => __('This file is empty. Please try another.'),
+		'invalid_filetype' => __('This file type is not allowed. Please try another.'),
+		'not_an_image' => __('This file is not an image. Please try another.'),
+		'image_memory_exceeded' => __('Memory exceeded. Please try another smaller file.'),
+		'image_dimensions_exceeded' => __('This is larger than the maximum size. Please try another.'),
+		'default_error' => __('An error occurred in the upload. Please try again later.'),
+		'missing_upload_url' => __('There was a configuration error. Please contact the server administrator.'),
+		'upload_limit_exceeded' => __('You may only upload 1 file.'),
+		'http_error' => __('HTTP error.'),
+		'upload_failed' => __('Upload failed.'),
+		'io_error' => __('IO error.'),
+		'security_error' => __('Security error.'),
+		'file_cancelled' => __('File canceled.'),
+		'upload_stopped' => __('Upload stopped.'),
+		'dismiss' => __('Dismiss'),
+		'crunching' => __('Crunching&hellip;'),
+		'deleted' => __('moved to the trash.'),
+		'error_uploading' => __('&#8220;%s&#8221; has failed to upload due to an error')
+	);
 
 	$scripts->add( 'plupload', '/wp-includes/js/plupload/plupload.js', false, '1.4.3.2');
 	$scripts->add( 'plupload-html5', '/wp-includes/js/plupload/plupload.html5.js', array('plupload'), '1.4.3.2');
@@ -206,44 +237,27 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'plupload-gears', '/wp-includes/js/plupload/plupload.gears.js', array('plupload'), '1.4.3.2');
 	$scripts->add( 'plupload-html4', '/wp-includes/js/plupload/plupload.html4.js', array('plupload'), '1.4.3.2');
 
-	// TODO: find out if we can use the plupload.full.js (it does load browserplus)
-	$scripts->add( 'plupload-full', false, array('plupload', 'plupload-html5', 'plupload-flash', 'plupload-silverlight', 'plupload-gears', 'plupload-html4'), '1.4.3.2');
+	// TODO: find out if we can use the plupload.full.js, it loads browserplus init JS from Yahoo
+	$scripts->add( 'plupload-full', false, array('plupload', 'plupload-html5', 'plupload-flash', 'plupload-silverlight', 'plupload-html4'), '1.4.3.2');
 
-	$scripts->add( 'plupload-handlers', '/wp-includes/js/plupload/handlers.js', array('plupload-full', 'jquery'), '1.4.3.2');
-	
-	// TODO: find out if we really need this debug clause with plupload
-	/*if ( defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ) {
+	$scripts->add( 'plupload-handlers', "/wp-includes/js/plupload/handlers$suffix.js", array('plupload-full', 'jquery'), '1.4.3.2');
+	$scripts->add_script_data( 'plupload-handlers', 'pluploadL10n', $uploader_l10n );
+
+	// keep 'swfupload' for back-compat.
+	$scripts->add( 'swfupload', '/wp-includes/js/swfupload/swfupload.js', false, '2201-20110113');
+	$scripts->add( 'swfupload-swfobject', '/wp-includes/js/swfupload/plugins/swfupload.swfobject.js', array('swfupload', 'swfobject'), '2201a');
+	$scripts->add( 'swfupload-queue', '/wp-includes/js/swfupload/plugins/swfupload.queue.js', array('swfupload'), '2201');
+	$scripts->add( 'swfupload-speed', '/wp-includes/js/swfupload/plugins/swfupload.speed.js', array('swfupload'), '2201');
+
+	if ( defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ) {
 		// queue all SWFUpload scripts that are used by default
 		$scripts->add( 'swfupload-all', false, array('swfupload', 'swfupload-swfobject', 'swfupload-queue'), '2201');
 	} else {
-		$scripts->add( 'swfupload-all', '/wp-includes/js/swfupload/swfupload-all.js', array(), '2201');
-	}*/
+		$scripts->add( 'swfupload-all', '/wp-includes/js/swfupload/swfupload-all.js', array(), '2201a');
+	}
 
-	$max_upload_size = ( (int) ( $max_up = @ini_get('upload_max_filesize') ) < (int) ( $max_post = @ini_get('post_max_size') ) ) ? $max_up : $max_post;
-	if ( empty($max_upload_size) )
-		$max_upload_size = __('not configured');
-
-	$scripts->add_script_data( 'plupload-handlers', 'pluploadL10n', array(
-			'file_exceeds_size_limit' => __('This file exceeds the maximum upload size for this site.'),
-			'zero_byte_file' => __('This file is empty. Please try another.'),
-			'invalid_filetype' => __('This file type is not allowed. Please try another.'),
-			'not_an_image' => __('This file is not an image. Please try another.'),
-			'image_memory_exceeded' => __('Memery exceeded. Please try another smaller file.'),
-			'image_dimensions_exceeded' => __('This is larger than the maximum size. Please try another.'),
-			'default_error' => __('An error occurred in the upload. Please try again later.'),
-			'missing_upload_url' => __('There was a configuration error. Please contact the server administrator.'),
-			'upload_limit_exceeded' => __('You may only upload 1 file.'),
-			'http_error' => __('HTTP error.'),
-			'upload_failed' => __('Upload failed.'),
-			'io_error' => __('IO error.'),
-			'security_error' => __('Security error.'),
-			'file_cancelled' => __('File canceled.'),
-			'upload_stopped' => __('Upload stopped.'),
-			'dismiss' => __('Dismiss'),
-			'crunching' => __('Crunching&hellip;'),
-			'deleted' => __('moved to the trash.'),
-			'error_uploading' => __('&#8220;%s&#8221; has failed to upload due to an error'),
-	) );
+	$scripts->add( 'swfupload-handlers', "/wp-includes/js/swfupload/handlers$suffix.js", array('swfupload-all', 'jquery'), '2201-20110524');
+	$scripts->add_script_data( 'swfupload-handlers', 'swfuploadL10n', $uploader_l10n );
 
 	$scripts->add( 'comment-reply', "/wp-includes/js/comment-reply$suffix.js", false, '20090102');
 

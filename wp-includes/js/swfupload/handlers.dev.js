@@ -33,61 +33,14 @@ function uploadStart(fileObj) {
 	return true;
 }
 
-function uploadProgress(fileObj, bytesDone, bytesTotal) { // Lengthen the progress bar
+function uploadProgress(fileObj, bytesDone, bytesTotal) {
+	// Lengthen the progress bar
 	var w = jQuery('#media-items').width() - 2, item = jQuery('#media-item-' + fileObj.id);
-
 	jQuery('.bar', item).width( w * bytesDone / bytesTotal );
 	jQuery('.percent', item).html( Math.ceil(bytesDone / bytesTotal * 100) + '%' );
 
 	if ( bytesDone == bytesTotal )
-		jQuery('.bar', item).html('<strong class="crunching">' + pluploadL10n.crunching + '</strong>');
-}
-
-function updateMediaForm() {
-	var one = jQuery('form.type-form #media-items').children(), items = jQuery('#media-items').children();
-
-	// Just one file, no need for collapsible part
-	if ( one.length == 1 ) {
-		jQuery('.slidetoggle', one).slideDown(500).siblings().addClass('hidden').filter('.toggle').toggle();
-	}
-
-	// Only show Save buttons when there is at least one file.
-	if ( items.not('.media-blank').length > 0 )
-		jQuery('.savebutton').show();
-	else
-		jQuery('.savebutton').hide();
-
-	// Only show Gallery button when there are at least two files.
-	if ( items.length > 1 )
-		jQuery('.insert-gallery').show();
-	else
-		jQuery('.insert-gallery').hide();
-}
-
-function uploadSuccess(fileObj, serverData) {
-	// if async-upload returned an error message, place it in the media item div and return
-	if ( serverData.match('media-upload-error') ) {
-		jQuery('#media-item-' + fileObj.id).html(serverData);
-		return;
-	}
-
-	prepareMediaItem(fileObj, serverData);
-	updateMediaForm();
-
-	// Increment the counter.
-	if ( jQuery('#media-item-' + fileObj.id).hasClass('child-of-' + post_id) )
-		jQuery('#attachments-count').text(1 * jQuery('#attachments-count').text() + 1);
-}
-
-function setResize(r) {
-	jQuery('#image_resize').prop('checked', r);
-	if (r) {
-		uploader.settings.resize = { width: resize_width, height: resize_height, quality: 100 };
-		uploader.settings.multipart_params.image_resize = true;
-	} else {
-		uploader.settings.resize = {};
-		uploader.settings.multipart_params.image_resize = null;
-	}
+		jQuery('.bar', item).html('<strong class="crunching">' + swfuploadL10n.crunching + '</strong>');
 }
 
 function prepareMediaItem(fileObj, serverData) {
@@ -191,40 +144,13 @@ function prepareMediaItemInit(fileObj) {
 	jQuery('#media-item-' + fileObj.id + '.startopen').removeClass('startopen').slideToggle(500).siblings('.toggle').toggle();
 }
 
-function cancelUpload() {
-	uploader.stop();
-	jQuery.each(uploader.files, function(i,file) {
-		if (file.status == plupload.STOPPED)
-			jQuery('#media-item-' + file.id).remove();
-	});
-}
-
-
-// wp-specific error handlers
-
-// generic message
-function wpQueueError(message) {
-	jQuery('#media-upload-error').show().text(message);
-}
-
-// file-specific message
-function wpFileError(fileObj, message) {
-	var item = jQuery('#media-item-' + fileObj.id), filename = jQuery('.filename', item).text();
-
-	item.html('<div class="error-div">'
-				+ '<a class="dismiss" href="#">' + pluploadL10n.dismiss + '</a>'
-				+ '<strong>' + pluploadL10n.error_uploading.replace('%s', filename) + '</strong><br />'
-				+ message
-				+ '</div>');
-	item.find('a.dismiss').click(function(){jQuery(this).parents('.media-item').slideUp(200, function(){jQuery(this).remove();})});
-}
-
 function itemAjaxError(id, html) {
-	var item = jQuery('#media-item-' + id), filename = jQuery('.filename', item).text();
+	var item = jQuery('#media-item-' + id);
+	var filename = jQuery('.filename', item).text();
 
 	item.html('<div class="error-div">'
-				+ '<a class="dismiss" href="#">' + pluploadL10n.dismiss + '</a>'
-				+ '<strong>' + pluploadL10n.error_uploading.replace('%s', filename) + '</strong><br />'
+				+ '<a class="dismiss" href="#">' + swfuploadL10n.dismiss + '</a>'
+				+ '<strong>' + swfuploadL10n.error_uploading.replace('%s', filename) + '</strong><br />'
 				+ html
 				+ '</div>');
 	item.find('a.dismiss').click(function(){jQuery(this).parents('.media-item').slideUp(200, function(){jQuery(this).remove();})});
@@ -256,7 +182,7 @@ function deleteSuccess(data, textStatus) {
 
 	jQuery('.filename:empty', item).remove();
 	jQuery('.filename .title', item).css('font-weight','bold');
-	jQuery('.filename', item).append('<span class="trashnotice"> ' + pluploadL10n.deleted + ' </span>').siblings('a.toggle').hide();
+	jQuery('.filename', item).append('<span class="trashnotice"> ' + swfuploadL10n.deleted + ' </span>').siblings('a.toggle').hide();
 	jQuery('.filename', item).append( jQuery('a.undo', item).removeClass('hidden') );
 	jQuery('.menu_order_input', item).hide();
 
@@ -267,7 +193,42 @@ function deleteError(X, textStatus, errorThrown) {
 	// TODO
 }
 
-// SWFUpload?
+function updateMediaForm() {
+	var one = jQuery('form.type-form #media-items').children(), items = jQuery('#media-items').children();
+
+	// Just one file, no need for collapsible part
+	if ( one.length == 1 ) {
+		jQuery('.slidetoggle', one).slideDown(500).siblings().addClass('hidden').filter('.toggle').toggle();
+	}
+
+	// Only show Save buttons when there is at least one file.
+	if ( items.not('.media-blank').length > 0 )
+		jQuery('.savebutton').show();
+	else
+		jQuery('.savebutton').hide();
+
+	// Only show Gallery button when there are at least two files.
+	if ( items.length > 1 )
+		jQuery('.insert-gallery').show();
+	else
+		jQuery('.insert-gallery').hide();
+}
+
+function uploadSuccess(fileObj, serverData) {
+	// if async-upload returned an error message, place it in the media item div and return
+	if ( serverData.match('media-upload-error') ) {
+		jQuery('#media-item-' + fileObj.id).html(serverData);
+		return;
+	}
+
+	prepareMediaItem(fileObj, serverData);
+	updateMediaForm();
+
+	// Increment the counter.
+	if ( jQuery('#media-item-' + fileObj.id).hasClass('child-of-' + post_id) )
+		jQuery('#attachments-count').text(1 * jQuery('#attachments-count').text() + 1);
+}
+
 function uploadComplete(fileObj) {
 	// If no more uploads queued, enable the submit button
 	if ( swfu.getStats().files_queued == 0 ) {
@@ -276,29 +237,70 @@ function uploadComplete(fileObj) {
 	}
 }
 
-function switchUploader(s) {
-	var p = document.getElementById('flash-upload-ui'), h = document.getElementById('html-upload-ui');
 
+// wp-specific error handlers
+
+// generic message
+function wpQueueError(message) {
+	jQuery('#media-upload-error').show().text(message);
+}
+
+// file-specific message
+function wpFileError(fileObj, message) {
+	var item = jQuery('#media-item-' + fileObj.id);
+	var filename = jQuery('.filename', item).text();
+
+	item.html('<div class="error-div">'
+				+ '<a class="dismiss" href="#">' + swfuploadL10n.dismiss + '</a>'
+				+ '<strong>' + swfuploadL10n.error_uploading.replace('%s', filename) + '</strong><br />'
+				+ message
+				+ '</div>');
+	item.find('a.dismiss').click(function(){jQuery(this).parents('.media-item').slideUp(200, function(){jQuery(this).remove();})});
+}
+
+function fileQueueError(fileObj, error_code, message)  {
+	// Handle this error separately because we don't want to create a FileProgress element for it.
+	if ( error_code == SWFUpload.QUEUE_ERROR.QUEUE_LIMIT_EXCEEDED ) {
+		wpQueueError(swfuploadL10n.queue_limit_exceeded);
+	}
+	else if ( error_code == SWFUpload.QUEUE_ERROR.FILE_EXCEEDS_SIZE_LIMIT ) {
+		fileQueued(fileObj);
+		wpFileError(fileObj, swfuploadL10n.file_exceeds_size_limit);
+	}
+	else if ( error_code == SWFUpload.QUEUE_ERROR.ZERO_BYTE_FILE ) {
+		fileQueued(fileObj);
+		wpFileError(fileObj, swfuploadL10n.zero_byte_file);
+	}
+	else if ( error_code == SWFUpload.QUEUE_ERROR.INVALID_FILETYPE ) {
+		fileQueued(fileObj);
+		wpFileError(fileObj, swfuploadL10n.invalid_filetype);
+	}
+	else {
+		wpQueueError(swfuploadL10n.default_error);
+	}
+}
+
+function fileDialogComplete(num_files_queued) {
+	try {
+		if (num_files_queued > 0) {
+			this.startUpload();
+		}
+	} catch (ex) {
+		this.debug(ex);
+	}
+}
+
+function switchUploader(s) {
+	var f = document.getElementById(swfu.customSettings.swfupload_element_id), h = document.getElementById(swfu.customSettings.degraded_element_id);
 	if ( s ) {
-		p.style.display = 'block';
+		f.style.display = 'block';
 		h.style.display = 'none';
 	} else {
-		p.style.display = 'none';
+		f.style.display = 'none';
 		h.style.display = 'block';
 	}
 }
 
-function dndHelper(s) {
-	var d = document.getElementById('dnd-helper');
-
-	if ( s ) {
-		d.style.display = 'block';
-	} else {
-		d.style.display = 'none';
-	}
-}
-
-// SWFUpload?
 function swfuploadPreLoad() {
 	if ( !uploaderMode ) {
 		switchUploader(1);
@@ -307,7 +309,6 @@ function swfuploadPreLoad() {
 	}
 }
 
-// SWFUpload?
 function swfuploadLoadFailed() {
 	switchUploader(0);
 	jQuery('.upload-html-bypass').hide();
@@ -316,47 +317,35 @@ function swfuploadLoadFailed() {
 function uploadError(fileObj, errorCode, message) {
 
 	switch (errorCode) {
-		case plupload.FAILED:
-			wpFileError(fileObj, pluploadL10n.upload_failed);
+		case SWFUpload.UPLOAD_ERROR.MISSING_UPLOAD_URL:
+			wpFileError(fileObj, swfuploadL10n.missing_upload_url);
 			break;
-		case plupload.FILE_EXTENSION_ERROR:
-			wpFileError(fileObj, pluploadL10n.invalid_filetype);
+		case SWFUpload.UPLOAD_ERROR.UPLOAD_LIMIT_EXCEEDED:
+			wpFileError(fileObj, swfuploadL10n.upload_limit_exceeded);
 			break;
-		case plupload.FILE_SIZE_ERROR:
-			wpFileError(fileObj, pluploadL10n.upload_limit_exceeded);
+		case SWFUpload.UPLOAD_ERROR.HTTP_ERROR:
+			wpQueueError(swfuploadL10n.http_error);
 			break;
-		case plupload.IMAGE_FORMAT_ERROR:
-			wpFileError(fileObj, pluploadL10n.not_an_image);
+		case SWFUpload.UPLOAD_ERROR.UPLOAD_FAILED:
+			wpQueueError(swfuploadL10n.upload_failed);
 			break;
-		case plupload.IMAGE_MEMORY_ERROR:
-			wpFileError(fileObj, pluploadL10n.image_memory_exceeded);
+		case SWFUpload.UPLOAD_ERROR.IO_ERROR:
+			wpQueueError(swfuploadL10n.io_error);
 			break;
-		case plupload.IMAGE_DIMENSIONS_ERROR:
-			wpFileError(fileObj, pluploadL10n.image_dimensions_exceeded);
+		case SWFUpload.UPLOAD_ERROR.SECURITY_ERROR:
+			wpQueueError(swfuploadL10n.security_error);
 			break;
-		case plupload.GENERIC_ERROR:
-			wpQueueError(pluploadL10n.upload_failed);
-			break;
-		case plupload.IO_ERROR:
-			wpQueueError(pluploadL10n.io_error);
-			break;
-		case plupload.HTTP_ERROR:
-			wpQueueError(pluploadL10n.http_error);
-			break;
-		case plupload.INIT_ERROR:
-			switchUploader(0);
-			jQuery('.upload-html-bypass').hide();
-			break;
-		case plupload.SECURITY_ERROR:
-			wpQueueError(pluploadL10n.security_error);
-			break;
-/*		case plupload.UPLOAD_ERROR.UPLOAD_STOPPED:
-		case plupload.UPLOAD_ERROR.FILE_CANCELLED:
+		case SWFUpload.UPLOAD_ERROR.UPLOAD_STOPPED:
+		case SWFUpload.UPLOAD_ERROR.FILE_CANCELLED:
 			jQuery('#media-item-' + fileObj.id).remove();
-			break;*/
+			break;
 		default:
-			wpFileError(fileObj, pluploadL10n.default_error);
+			wpFileError(fileObj, swfuploadL10n.default_error);
 	}
+}
+
+function cancelUpload() {
+	swfu.cancelQueue();
 }
 
 // remember the last used image size, alignment and url

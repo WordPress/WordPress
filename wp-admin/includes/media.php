@@ -1438,13 +1438,15 @@ function media_upload_form( $errors = null ) {
 	global $type, $tab, $pagenow;
 
 	$upload_action_url = admin_url('async-upload.php');
-
 	$post_id = isset($_REQUEST['post_id']) ? intval($_REQUEST['post_id']) : 0;
 
-	$upload_size_unit = $max_upload_size =  wp_max_upload_size();
+	$upload_size_unit = $max_upload_size = wp_max_upload_size();
 	$sizes = array( 'KB', 'MB', 'GB' );
-	for ( $u = -1; $upload_size_unit > 1024 && $u < count( $sizes ) - 1; $u++ )
+
+	for ( $u = -1; $upload_size_unit > 1024 && $u < count( $sizes ) - 1; $u++ ) {
 		$upload_size_unit /= 1024;
+	}
+
 	if ( $u < 0 ) {
 		$upload_size_unit = 0;
 		$u = 0;
@@ -1453,11 +1455,13 @@ function media_upload_form( $errors = null ) {
 	}
 ?>
 </script>
+
 <div id="media-upload-notice">
 <?php if (isset($errors['upload_notice']) ) { ?>
 	<?php echo $errors['upload_notice']; ?>
 <?php } ?>
 </div>
+
 <div id="media-upload-error">
 <?php if (isset($errors['upload_error']) && is_wp_error($errors['upload_error'])) { ?>
 	<?php echo $errors['upload_error']->get_error_message(); ?>
@@ -1483,17 +1487,22 @@ $post_params = array(
 		"tab" => $tab,
 		"short" => "1",
 );
+
 $post_params = apply_filters( 'upload_post_params', $post_params ); // hook change! old name: 'swfupload_post_params'
 $p = array();
-foreach ( $post_params as $param => $val )
+
+foreach ( $post_params as $param => $val ) {
+	$val = esc_js( $val );
 	$p[] = "\t\t'$param' : '$val'";
+}
+
 $post_params_str = implode( ", \n", $p );
 
 ?>
 <script type="text/javascript">
 //<![CDATA[
-var resize_height = <?php echo get_option('large_size_h'); ?>, 
-	resize_width = <?php echo get_option('large_size_w'); ?>;
+var resize_height = <?php echo get_option('large_size_h', 1024); ?>, 
+	resize_width = <?php echo get_option('large_size_w', 1024); ?>;
 
 jQuery(document).ready(function($) {
 	window.uploader = new plupload.Uploader({
@@ -1502,12 +1511,12 @@ jQuery(document).ready(function($) {
 		container: 'plupload-upload-ui',
 		drop_element: 'media-upload',
 		file_data_name: 'async-upload',
-		max_file_size: '<?php echo $max_upload_size / 1024; ?>kb',
-		url: '<?php echo esc_attr( $upload_action_url ); ?>',
-		flash_swf_url: '<?php echo includes_url('js/plupload/plupload.flash.swf'); ?>',
-		silverlight_xap_url: '<?php echo includes_url('js/plupload/plupload.silverlight.xap'); ?>',
+		max_file_size: '<?php echo round( (int) $max_upload_size / 1024 ); ?>kb',
+		url: '<?php echo esc_js( $upload_action_url ); ?>',
+		flash_swf_url: '<?php echo esc_js( includes_url('js/plupload/plupload.flash.swf') ); ?>',
+		silverlight_xap_url: '<?php echo esc_js( includes_url('js/plupload/plupload.silverlight.xap') ); ?>',
 		filters: [
-			{title: '<?php _e( 'Allowed Files' ); ?>', extensions: '<?php echo apply_filters('upload_file_glob', '*'); ?>'}
+			{title: '<?php echo esc_js( __( 'Allowed Files' ) ); ?>', extensions: '<?php echo esc_js( apply_filters('uploader_allowed_extensions', '*') ); ?>'}
 		],
 		multipart: true,
 		urlstream_upload: true,
@@ -1588,7 +1597,7 @@ jQuery(document).ready(function($) {
 <?php do_action('post-html-upload-ui', $plupload); ?>
 </div>
 
-<p class="media-upload-size"><?php printf( __( 'Maximum upload file size: %d%s' ), $upload_size_unit, $sizes[$u] ); ?></p>
+<p class="media-upload-size"><?php printf( __( 'Maximum upload file size: %d%s' ), esc_html($upload_size_unit), esc_html($sizes[$u]) ); ?></p>
 <p class="howto"><?php _e('After a file has been uploaded, you can add titles and descriptions.'); ?></p>
 
 <?php do_action('post-upload-ui'); ?>
@@ -1633,19 +1642,19 @@ jQuery(function($){
 });
 //]]>
 </script>
-<div id="media-items">
-<?php
+<div id="media-items"><?php
+
 if ( $id ) {
 	if ( !is_wp_error($id) ) {
 		add_filter('attachment_fields_to_edit', 'media_post_single_attachment_fields_to_edit', 10, 2);
 		echo get_media_items( $id, $errors );
 	} else {
-		echo '<div id="media-upload-error">'.esc_html($id->get_error_message()).'</div>';
+		echo '<div id="media-upload-error">'.esc_html($id->get_error_message()).'</div></div>';
 		exit;
 	}
 }
-?>
-</div>
+?></div>
+
 <p class="savebutton ml-submit">
 <?php submit_button( __( 'Save all changes' ), 'button', 'save', false ); ?>
 </p>
