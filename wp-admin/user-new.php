@@ -21,7 +21,7 @@ if ( is_multisite() ) {
 		/* translators: 1: Site name, 2: site URL, 3: role */
 		return sprintf( __( 'Hi,
 You\'ve been invited to join \'%1$s\' at
-%2$s as a %3$s.
+%2$s with the role of %3$s.
 If you do not want to join this site please ignore
 this email. This invitation will expire in a few days.
 
@@ -72,7 +72,7 @@ if ( isset($_REQUEST['action']) && 'adduser' == $_REQUEST['action'] ) {
 		} else {
 			$newuser_key = substr( md5( $user_id ), 0, 5 );
 			add_option( 'new_user_' . $newuser_key, array( 'user_id' => $user_id, 'email' => $user_details->user_email, 'role' => $_REQUEST[ 'role' ] ) );
-			$message = __("Hi,\n\nYou have been invited to join '%s' at\n%s as a %s.\nPlease click the following link to confirm the invite:\n%s\n");
+			$message = __("Hi,\n\nYou have been invited to join '%s' at\n%s with the role of %s.\nPlease click the following link to confirm the invite:\n%s\n");
 			wp_mail( $new_user_email, sprintf( __( '[%s] Joining confirmation' ), get_option( 'blogname' ) ),  sprintf($message, get_option('blogname'), site_url(), $_REQUEST[ 'role' ], site_url("/newbloguser/$newuser_key/")));
 			$redirect = add_query_arg( array('update' => 'add'), 'user-new.php' );
 		}
