@@ -81,7 +81,7 @@ function install_popular_tags( $args = array() ) {
 
 function install_dashboard() {
 	?>
-	<p><?php _e('Plugins extend and expand the functionality of WordPress. You may automatically install plugins from the <a href="http://wordpress.org/extend/plugins/">WordPress Plugin Directory</a> or upload a plugin in .zip format via this page.') ?></p>
+	<p><?php printf( __( 'Plugins extend and expand the functionality of WordPress. You may automatically install plugins from the <a href="http://wordpress.org/extend/plugins/">WordPress Plugin Directory</a> or upload a plugin in .zip format via <a href="%s">this page</a>.' ), self_admin_url( 'plugin-install.php?tab=upload' ) ); ?></p>
 
 	<h4><?php _e('Search') ?></h4>
 	<p class="install-help"><?php _e('Search for plugins by keyword, author, or tag.') ?></p>
