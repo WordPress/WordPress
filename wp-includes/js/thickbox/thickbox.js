@@ -269,7 +269,7 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 //helper functions below
 function tb_showIframe(){
 	jQuery("#TB_load").remove();
-	jQuery("#TB_window").css({display:"block"});
+	jQuery("#TB_window").css({'visibility':'visible'});
 }
 
 function tb_remove() {

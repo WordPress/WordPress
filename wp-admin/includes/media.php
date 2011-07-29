@@ -1437,14 +1437,8 @@ function media_upload_header() {
 function media_upload_form( $errors = null ) {
 	global $type, $tab, $pagenow;
 
-	$flash_action_url = admin_url('async-upload.php');
+	$upload_action_url = admin_url('async-upload.php');
 
-	// If Mac and mod_security, no Flash. :(
-	$flash = true;
-	if ( false !== stripos($_SERVER['HTTP_USER_AGENT'], 'mac') && apache_mod_loaded('mod_security') )
-		$flash = false;
-
-	$flash = apply_filters('flash_uploader', $flash);
 	$post_id = isset($_REQUEST['post_id']) ? intval($_REQUEST['post_id']) : 0;
 
 	$upload_size_unit = $max_upload_size =  wp_max_upload_size();
@@ -1458,15 +1452,6 @@ function media_upload_form( $errors = null ) {
 		$upload_size_unit = (int) $upload_size_unit;
 	}
 ?>
-<script type="text/javascript">
-//<![CDATA[
-var uploaderMode = 0;
-jQuery(document).ready(function($){
-	uploaderMode = getUserSetting('uploader');
-	$('.upload-html-bypass a').click(function(){deleteUserSetting('uploader');uploaderMode=0;swfuploadPreLoad();return false;});
-	$('.upload-flash-bypass a').click(function(){setUserSetting('uploader', '1');uploaderMode=1;swfuploadPreLoad();return false;});
-});
-//]]>
 </script>
 <div id="media-upload-notice">
 <?php if (isset($errors['upload_notice']) ) { ?>
@@ -1487,9 +1472,7 @@ if ( is_multisite() && !is_upload_space_available() ) {
 
 do_action('pre-upload-ui');
 
-if ( $flash ) :
-
-// Set the post params, which SWFUpload will post back with the file, and pass
+// Set the post params, which plupload will post back with the file, and pass
 // them through a filter.
 $post_params = array(
 		"post_id" => $post_id,
@@ -1500,80 +1483,105 @@ $post_params = array(
 		"tab" => $tab,
 		"short" => "1",
 );
-$post_params = apply_filters( 'swfupload_post_params', $post_params );
+$post_params = apply_filters( 'upload_post_params', $post_params ); // hook change! old name: 'swfupload_post_params'
 $p = array();
 foreach ( $post_params as $param => $val )
 	$p[] = "\t\t'$param' : '$val'";
 $post_params_str = implode( ", \n", $p );
 
-// #8545. wmode=transparent cannot be used with SWFUpload
-if ( 'media-new.php' == $pagenow ) {
-	$upload_image_path = get_user_option( 'admin_color' );
-	if ( 'classic' != $upload_image_path )
-		$upload_image_path = 'fresh';
-	$upload_image_path = admin_url( 'images/upload-' . $upload_image_path . '.png?ver=20101205' );
-} else {
-	$upload_image_path = includes_url( 'images/upload.png?ver=20100531' );
-}
-
 ?>
 <script type="text/javascript">
 //<![CDATA[
-var swfu;
-SWFUpload.onload = function() {
-	var settings = {
-			button_text: '<span class="button"><?php _e('Select Files'); ?><\/span>',
-			button_text_style: '.button { text-align: center; font-weight: bold; font-family:"Lucida Grande",Verdana,Arial,"Bitstream Vera Sans",sans-serif; font-size: 11px; text-shadow: 0 1px 0 #FFFFFF; color:#464646; }',
-			button_height: "23",
-			button_width: "132",
-			button_text_top_padding: 3,
-			button_image_url: '<?php echo $upload_image_path; ?>',
-			button_placeholder_id: "flash-browse-button",
-			upload_url : "<?php echo esc_attr( $flash_action_url ); ?>",
-			flash_url : "<?php echo includes_url('js/swfupload/swfupload.swf'); ?>",
-			file_post_name: "async-upload",
-			file_types: "<?php echo apply_filters('upload_file_glob', '*.*'); ?>",
-			post_params : {
-				<?php echo $post_params_str; ?>
-			},
-			file_size_limit : "<?php echo $max_upload_size; ?>b",
-			file_dialog_start_handler : fileDialogStart,
-			file_queued_handler : fileQueued,
-			upload_start_handler : uploadStart,
-			upload_progress_handler : uploadProgress,
-			upload_error_handler : uploadError,
-			upload_success_handler : <?php echo apply_filters( 'swfupload_success_handler', 'uploadSuccess' ); ?>,
-			upload_complete_handler : uploadComplete,
-			file_queue_error_handler : fileQueueError,
-			file_dialog_complete_handler : fileDialogComplete,
-			swfupload_pre_load_handler: swfuploadPreLoad,
-			swfupload_load_failed_handler: swfuploadLoadFailed,
-			custom_settings : {
-				degraded_element_id : "html-upload-ui", // id of the element displayed when swfupload is unavailable
-				swfupload_element_id : "flash-upload-ui" // id of the element displayed when swfupload is available
-			},
-			debug: false
-		};
-		swfu = new SWFUpload(settings);
-};
+var resize_height = <?php echo get_option('large_size_h'); ?>, 
+	resize_width = <?php echo get_option('large_size_w'); ?>;
+
+jQuery(document).ready(function($) {
+	window.uploader = new plupload.Uploader({
+		runtimes: '<?php echo apply_filters('plupload_runtimes', 'html5,silverlight,flash,html4'); ?>',
+		browse_button: 'plupload-browse-button',
+		container: 'plupload-upload-ui',
+		drop_element: 'media-upload',
+		file_data_name: 'async-upload',
+		max_file_size: '<?php echo $max_upload_size / 1024; ?>kb',
+		url: '<?php echo esc_attr( $upload_action_url ); ?>',
+		flash_swf_url: '<?php echo includes_url('js/plupload/plupload.flash.swf'); ?>',
+		silverlight_xap_url: '<?php echo includes_url('js/plupload/plupload.silverlight.xap'); ?>',
+		filters: [
+			{title: '<?php _e( 'Allowed Files' ); ?>', extensions: '<?php echo apply_filters('upload_file_glob', '*'); ?>'}
+		],
+		multipart: true,
+		urlstream_upload: true,
+		multipart_params : {
+			<?php echo $post_params_str; ?>
+		}
+	});
+
+	setResize( getUserSetting('upload_resize', false) );
+	
+	$('#image_resize').bind('change', function() {
+		var arg = $(this).prop('checked');
+
+		setResize( arg );
+
+		if ( arg )
+			setUserSetting('upload_resize', 1);
+		else
+			deleteUserSetting('upload_resize');
+	});
+
+	uploader.init();
+
+console.debug(uploader);
+console.debug(uploader.runtime)
+
+
+	uploader.bind('FilesAdded', function(up, files) {
+		$.each(files, function(i, file) {
+			fileQueued(file);
+		});
+
+		up.refresh();
+		up.start();
+	});
+
+	uploader.bind('BeforeUpload', function(up, file) {
+		uploadStart(file);
+	});
+	
+	uploader.bind('UploadProgress', function(up, file) {
+		uploadProgress(file, file.loaded, file.size);
+	});
+	
+	uploader.bind('Error', function(up, err) {
+		uploadError(err.file, err.code, err.message);
+	
+		up.refresh();
+	});
+
+	uploader.bind('FileUploaded', function(up, file, response) {
+		<?php echo apply_filters( 'plupload_success_handler', 'uploadSuccess' ); ?>(file, response.response);
+	});
+	
+	if ( uploader.runtime == 'html5' )
+		$('.dragdrop-info').show();
+
+});
 //]]>
 </script>
 
-<div id="flash-upload-ui" class="hide-if-no-js">
-<?php do_action('pre-flash-upload-ui'); ?>
+<div id="plupload-upload-ui" class="hide-if-no-js">
+<?php do_action('pre-plupload-upload-ui'); // hook change, old name: 'pre-flash-upload-ui' ?>
 
 	<div>
 	<?php _e( 'Choose files to upload' ); ?>
-	<div id="flash-browse-button"></div>
-	<span><input id="cancel-upload" disabled="disabled" onclick="cancelUpload()" type="button" value="<?php esc_attr_e('Cancel Upload'); ?>" class="button" /></span>
+	<input id="plupload-browse-button" type="button" value="<?php esc_attr_e('Select Files'); ?>" class="button" />
+	<input id="cancel-upload" disabled="disabled" onclick="cancelUpload()" type="button" value="<?php esc_attr_e('Cancel Upload'); ?>" class="button" />
 	</div>
-	<p class="media-upload-size"><?php printf( __( 'Maximum upload file size: %d%s' ), $upload_size_unit, $sizes[$u] ); ?></p>
-<?php do_action('post-flash-upload-ui'); ?>
-	<p class="howto"><?php _e('After a file has been uploaded, you can add titles and descriptions.'); ?></p>
+	<p class="dragdrop-info howto"><?php _e('Or you can drop the files into this window.'); ?></p>
+<?php do_action('post-plupload-upload-ui'); // hook change, old name: 'post-flash-upload-ui' ?>
 </div>
-<?php endif; // $flash ?>
 
-<div id="html-upload-ui" <?php if ( $flash ) echo 'class="hide-if-js"'; ?>>
+<div id="html-upload-ui" class="hide-if-js">
 <?php do_action('pre-html-upload-ui'); ?>
 	<p id="async-upload-wrap">
 		<label class="screen-reader-text" for="async-upload"><?php _e('Upload'); ?></label>
@@ -1582,12 +1590,12 @@ SWFUpload.onload = function() {
 		<a href="#" onclick="try{top.tb_remove();}catch(e){}; return false;"><?php _e('Cancel'); ?></a>
 	</p>
 	<div class="clear"></div>
-	<p class="media-upload-size"><?php printf( __( 'Maximum upload file size: %d%s' ), $upload_size_unit, $sizes[$u] ); ?></p>
-	<?php if ( is_lighttpd_before_150() ): ?>
-	<p><?php _e('If you want to use all capabilities of the uploader, like uploading multiple files at once, please update to lighttpd 1.5.'); ?></p>
-	<?php endif;?>
-<?php do_action('post-html-upload-ui', $flash); ?>
+<?php do_action('post-html-upload-ui', $plupload); ?>
 </div>
+
+<p class="media-upload-size"><?php printf( __( 'Maximum upload file size: %d%s' ), $upload_size_unit, $sizes[$u] ); ?></p>
+<p class="howto"><?php _e('After a file has been uploaded, you can add titles and descriptions.'); ?></p>
+
 <?php do_action('post-upload-ui'); ?>
 <?php
 }
@@ -2272,68 +2280,16 @@ function _insert_into_post_button($type) {
 /**
  * {@internal Missing Short Description}}
  *
- * Support a GET parameter for disabling the flash uploader.
- *
- * @since 2.6.0
- *
- * @param unknown_type $flash
- * @return unknown
- */
-function media_upload_use_flash($flash) {
-	if ( array_key_exists('flash', $_REQUEST) )
-		$flash = !empty($_REQUEST['flash']);
-	return $flash;
-}
-
-add_filter('flash_uploader', 'media_upload_use_flash');
-
-/**
- * {@internal Missing Short Description}}
- *
  * @since 2.6.0
  */
-function media_upload_flash_bypass() {
-	echo '<p class="upload-flash-bypass">';
-	printf( __('You are using the Flash uploader.  Problems?  Try the <a href="%s">Browser uploader</a> instead.'), esc_url(add_query_arg('flash', 0)) );
-	echo '</p>';
+function media_upload_max_image_resize() {
+?>
+<input name="image_resize" type="checkbox" id="image_resize" value="1" />
+<label for="image_resize"><?php printf( __( 'Scale images to max width %1$dpx or max height %2$dpx'), get_option('large_size_w'), get_option('large_size_h') ); ?></label>
+<?php 
 }
 
-/**
- * {@internal Missing Short Description}}
- *
- * @since 2.6.0
- */
-function media_upload_html_bypass($flash = true) {
-	echo '<p class="upload-html-bypass hide-if-no-js">';
-	_e('You are using the Browser uploader.');
-	if ( $flash ) {
-		// the user manually selected the browser uploader, so let them switch back to Flash
-		echo ' ';
-		printf( __('Try the <a href="%s">Flash uploader</a> instead.'), esc_url(add_query_arg('flash', 1)) );
-	}
-	echo "</p>\n";
-}
-
-add_action('post-flash-upload-ui', 'media_upload_flash_bypass');
-add_action('post-html-upload-ui', 'media_upload_html_bypass');
-
-/**
- * {@internal Missing Short Description}}
- *
- * Make sure the GET parameter sticks when we submit a form.
- *
- * @since 2.6.0
- *
- * @param unknown_type $url
- * @return unknown
- */
-function media_upload_bypass_url($url) {
-	if ( array_key_exists('flash', $_REQUEST) )
-		$url = add_query_arg('flash', intval($_REQUEST['flash']));
-	return $url;
-}
-
-add_filter('media_upload_form_url', 'media_upload_bypass_url');
+add_action('post-upload-ui', 'media_upload_max_image_resize');
 
 add_filter('async_upload_image', 'get_media_item', 10, 2);
 add_filter('async_upload_audio', 'get_media_item', 10, 2);

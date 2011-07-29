@@ -3306,6 +3306,10 @@ abbr.required {
   14.1 - Media Uploader
 ------------------------------------------------------------------------------*/
 
+div.plupload input {
+	cursor: pointer;
+}
+
 .find-box {
 	width: 500px;
 	height: 300px;

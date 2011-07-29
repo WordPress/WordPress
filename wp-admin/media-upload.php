@@ -18,8 +18,8 @@ require_once('./admin.php');
 if (!current_user_can('upload_files'))
 	wp_die(__('You do not have permission to upload files.'));
 
-wp_enqueue_script('swfupload-all');
-wp_enqueue_script('swfupload-handlers');
+wp_enqueue_script('plupload-full');
+wp_enqueue_script('plupload-handlers');
 wp_enqueue_script('image-edit');
 wp_enqueue_script('set-post-thumbnail' );
 wp_enqueue_style('imgareaselect');

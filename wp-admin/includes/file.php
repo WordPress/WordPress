@@ -323,11 +323,30 @@ function wp_handle_upload( &$file, $overrides = false, $time = null ) {
 
 	$filename = wp_unique_filename( $uploads['path'], $file['name'], $unique_filename_callback );
 
+	$tmp_file = wp_tempnam($filename);
+
 	// Move the file to the uploads dir
-	$new_file = $uploads['path'] . "/$filename";
-	if ( false === @ move_uploaded_file( $file['tmp_name'], $new_file ) )
+	if ( false === @ move_uploaded_file( $file['tmp_name'], $tmp_file ) )
 		return $upload_error_handler( $file, sprintf( __('The uploaded file could not be moved to %s.' ), $uploads['path'] ) );
 
+	// If a resize was requested, perform the resize.
+	$do_resize = apply_filters( 'wp_upload_resize', isset( $_REQUEST['image_resize'] ) );
+	$size = @getimagesize( $tmp_file );
+	if ( $do_resize && $size ) {
+		$old_temp = $tmp_file;
+		$tmp_file = image_resize( $tmp_file, (int) get_option('large_size_w'), (int) get_option('large_size_h'), 0, 'resized');
+		if ( ! is_wp_error($tmp_file) ) {
+			unlink($old_temp);
+		} else {
+			$tmp_file = $old_temp;
+		}
+	}
+
+	// Copy the temporary file into its destination
+	$new_file = $uploads['path'] . "/$filename";
+	copy( $tmp_file, $new_file );
+	unlink($tmp_file);
+	
 	// Set correct file permissions
 	$stat = stat( dirname( $new_file ));
 	$perms = $stat['mode'] & 0000666;
