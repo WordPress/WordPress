@@ -1493,10 +1493,10 @@ $p = array();
 
 foreach ( $post_params as $param => $val ) {
 	$val = esc_js( $val );
-	$p[] = "\t\t'$param' : '$val'";
+	$p[] = "'$param' : '$val'";
 }
 
-$post_params_str = implode( ", \n", $p );
+$post_params_str = implode( ',', $p ). "\n";
 
 ?>
 <script type="text/javascript">
