@@ -553,7 +553,7 @@ function wp_prototype_before_jquery( $js_array ) {
  */
 function wp_just_in_time_script_localization() {
 
-	wp_add_script_data( 'autosave', 'autosaveL10n', array(
+	wp_localize_script( 'autosave', 'autosaveL10n', array(
 		'autosaveInterval' => AUTOSAVE_INTERVAL,
 		'savingText' => __('Saving Draft&#8230;'),
 		'saveAlert' => __('The changes you made will be lost if you navigate away from this page.')
