@@ -229,7 +229,7 @@ function network_step1( $errors = false ) {
 		if ( $is_www ) :
 		?>
 		<h3><?php esc_html_e( 'Server Address' ); ?></h3>
-		<p><?php printf( __( 'We recommend you change your siteurl to <code>%1$s</code> before enabling the network feature. It will still be possible to visit your site using the <code>www</code> prefix with an address like <code>%2$s</code> but any links will not have the <code>www</code> prefix.' ), substr( $hostname, 4 ), $hostname ); ?></h3>
+		<p><?php printf( __( 'We recommend you change your siteurl to <code>%1$s</code> before enabling the network feature. It will still be possible to visit your site using the <code>www</code> prefix with an address like <code>%2$s</code> but any links will not have the <code>www</code> prefix.' ), substr( $hostname, 4 ), $hostname ); ?></p>
 		<table class="form-table">
 			<tr>
 				<th scope='row'><?php esc_html_e( 'Server Address' ); ?></th>
