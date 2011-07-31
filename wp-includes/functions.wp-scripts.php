@@ -56,7 +56,7 @@ function wp_register_script( $handle, $src, $deps = array(), $ver = false, $in_f
 }
 
 /**
- * Adds extra Javascript.
+ * Adds extra Javascript data.
  *
  * Works only if the script has already been added.
  * Accepts an associative array $data and creates JS object:
@@ -68,12 +68,12 @@ function wp_register_script( $handle, $src, $deps = array(), $ver = false, $in_f
  * The $name is passed directly so it should be qualified JS variable /[a-zA-Z0-9_]+/
  * The $data array is JSON encoded. If called more than once for the same $handle with the same $name,
  * the object would contain all values. In that case if two or more keys are the same,
- * the last value overwrites the previous.
+ * the last value overwrites the previous. The function is named "localize_script" because of historical reasons.
  * 
- * @since 3.3
+ * @since r16
  * @see WP_Scripts::add_script_data()
  */
-function wp_add_script_data( $handle, $name, $data ) {
+function wp_localize_script( $handle, $name, $data ) {
 	global $wp_scripts;
 	if ( !is_a($wp_scripts, 'WP_Scripts') )
 		return false;

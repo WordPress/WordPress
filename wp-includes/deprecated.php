@@ -2616,17 +2616,3 @@ function wp_timezone_supported() {
 	return true;
 }
 
-/**
- * Localizes a script.
- *
- * Localizes only if script has already been added.
- *
- * @since r16
- * @deprecated WP 3.3 
- * @see wp_add_script_data()
- */
-function wp_localize_script( $handle, $object_name, $l10n ) {
-	_deprecated_function( __FUNCTION__, '3.3', 'wp_add_script_data()' );
-	return wp_add_script_data( $handle, $object_name, $l10n );
-}
-
