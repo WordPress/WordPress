@@ -139,7 +139,7 @@ switch($step) {
 		</tr>
 		<tr>
 			<th scope="row"><label for="prefix">Table Prefix</label></th>
-			<td><input name="prefix" id="prefix" type="text" id="prefix" value="wp_" size="25" /></td>
+			<td><input name="prefix" id="prefix" type="text" value="wp_" size="25" /></td>
 			<td>If you want to run multiple WordPress installations in a single database, change this.</td>
 		</tr>
 	</table>
