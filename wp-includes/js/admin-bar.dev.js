@@ -15,6 +15,13 @@ if ( typeof(jQuery) != 'undefined' ) {
 			sensitivity: 7,
 			interval: 120
 		});
+
+		$('#wp-admin-bar-get-shortlink').click(function(e){
+			e.preventDefault();
+			$(this).addClass('selected').children('.shortlink-input').blur(function(){
+				$(this).parents('#wp-admin-bar-get-shortlink').removeClass('selected');
+			}).focus().select();
+		});
 	});
 } else {
 	(function(d, w) {
