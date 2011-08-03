@@ -262,16 +262,18 @@ class wp_xmlrpc_server extends IXR_Server {
 			if ( isset($meta['id']) ) {
 				$meta['id'] = (int) $meta['id'];
 				$pmeta = get_metadata_by_mid( 'post', $meta['id'] );
+				$meta['value'] = stripslashes_deep( $meta['value'] );
 				if ( isset($meta['key']) ) {
+					$meta['key'] = stripslashes( $meta['key'] );
 					if ( $meta['key'] != $pmeta->meta_key )
 						continue;
 					if ( current_user_can( 'edit_post_meta', $post_id, $meta['key'] ) )
-						update_meta( $meta['id'], $meta['key'], $meta['value'] );
+						update_metadata_by_mid( 'post', $meta['id'], $meta['value'] );
 				} elseif ( current_user_can( 'delete_post_meta', $post_id, $pmeta->meta_key ) ) {
-						delete_meta( $meta['id'] );
+					delete_metadata_by_mid( 'post', $meta['id'] );
 				}
-			} elseif ( current_user_can( 'add_post_meta', $post_id, $meta['key'] ) ) {
-					add_post_meta( $post_id, $meta['key'], $meta['value'] );
+			} elseif ( current_user_can( 'add_post_meta', $post_id, stripslashes( $meta['key'] ) ) ) {
+				add_post_meta( $post_id, $meta['key'], $meta['value'] );
 			}
 		}
 	}
