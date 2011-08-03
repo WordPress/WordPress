@@ -701,17 +701,7 @@ function add_meta( $post_ID ) {
  * @return unknown
  */
 function delete_meta( $mid ) {
-	global $wpdb;
-	$mid = (int) $mid;
-
-	$post_id = $wpdb->get_var( $wpdb->prepare("SELECT post_id FROM $wpdb->postmeta WHERE meta_id = %d", $mid) );
-
-	do_action( 'delete_postmeta', $mid );
-	wp_cache_delete($post_id, 'post_meta');
-	$rval = $wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->postmeta WHERE meta_id = %d", $mid) );
-	do_action( 'deleted_postmeta', $mid );
-
-	return $rval;
+	return delete_metadata_by_mid( 'post' , $mid );
 }
 
 /**
@@ -742,15 +732,7 @@ function get_meta_keys() {
  * @return unknown
  */
 function get_post_meta_by_id( $mid ) {
-	global $wpdb;
-	$mid = (int) $mid;
-
-	$meta = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->postmeta WHERE meta_id = %d", $mid) );
-	if ( empty($meta) )
-		return false;
-	if ( is_serialized_string( $meta->meta_value ) )
-		$meta->meta_value = maybe_unserialize( $meta->meta_value );
-	return $meta;
+	return get_metadata_by_mid( 'post', $mid );
 }
 
 /**
@@ -782,27 +764,10 @@ function has_meta( $postid ) {
  * @return unknown
  */
 function update_meta( $meta_id, $meta_key, $meta_value ) {
-	global $wpdb;
+	$meta_key = stripslashes( $meta_key );
+	$meta_value = stripslashes_deep( $meta_value );
 
-	$meta_key = stripslashes($meta_key);
-
-	if ( '' === trim( $meta_value ) )
-		return false;
-
-	$post_id = $wpdb->get_var( $wpdb->prepare("SELECT post_id FROM $wpdb->postmeta WHERE meta_id = %d", $meta_id) );
-
-	$meta_value = maybe_serialize( stripslashes_deep( $meta_value ) );
-	$meta_id = (int) $meta_id;
-
-	$data  = compact( 'meta_key', 'meta_value' );
-	$where = compact( 'meta_id' );
-
-	do_action( 'update_postmeta', $meta_id, $post_id, $meta_key, $meta_value );
-	$rval = $wpdb->update( $wpdb->postmeta, $data, $where );
-	wp_cache_delete($post_id, 'post_meta');
-	do_action( 'updated_postmeta', $meta_id, $post_id, $meta_key, $meta_value );
-
-	return $rval;
+	return update_metadata_by_mid( 'post', $meta_id, $meta_value, $meta_key );
 }
 
 //
