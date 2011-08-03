@@ -35,13 +35,19 @@ input.checkbox {border:1px none #000000; background:transparent; vertical-align:
 	font-size: 11px;
 	width:94px; 
 	height:24px;
-	background:url(img/fade-butt.png) 0 0;
 	color:#000;
 	cursor:pointer;
 	-moz-border-radius: 3px;
 	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
+	background-color: #eee; /* Fallback */
+	background-image: -ms-linear-gradient(bottom, #ddd, #fff); /* IE10 */
+	background-image: -moz-linear-gradient(bottom, #ddd, #fff); /* Firefox */
+	background-image: -o-linear-gradient(bottom, #ddd, #fff); /* Opera */
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#ddd), to(#fff)); /* old Webkit */
+	background-image: -webkit-linear-gradient(bottom, #ddd, #fff); /* new Webkit */
+	background-image: linear-gradient(bottom, #ddd, #fff); /* proposed W3C Markup */
 }
 #insert:hover, #cancel:hover, input.mceButton:hover, .updateButton:hover,
 #insert:focus, #cancel:focus, input.mceButton:focus, .updateButton:focus {
