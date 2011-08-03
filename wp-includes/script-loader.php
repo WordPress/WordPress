@@ -67,9 +67,8 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'sack', "/wp-includes/js/tw-sack$suffix.js", false, '1.6.1', 1 );
 
-	$scripts->add( 'quicktags', "/wp-includes/js/quicktags$suffix.js", false, '20110502', 1 );
+	$scripts->add( 'quicktags', "/wp-includes/js/quicktags$suffix.js", false, '20110802', 1 );
 	$scripts->add_script_data( 'quicktags', 'quicktagsL10n', array(
-		'quickLinks' => __('(Quick Links)'),
 		'wordLookup' => __('Enter a word to look up:'),
 		'dictionaryLookup' => esc_attr(__('Dictionary lookup')),
 		'lookup' => esc_attr(__('lookup')),
@@ -265,7 +264,7 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'admin-custom-fields', "/wp-admin/js/custom-fields$suffix.js", array('wp-lists'), '20110429', 1 );
 
-		$scripts->add( 'admin-comments', "/wp-admin/js/edit-comments$suffix.js", array('wp-lists', 'jquery-ui-resizable', 'quicktags', 'jquery-query'), '20110602', 1 );
+		$scripts->add( 'admin-comments', "/wp-admin/js/edit-comments$suffix.js", array('wp-lists', 'jquery-ui-resizable', 'quicktags', 'jquery-query'), '20110802', 1 );
 		$scripts->add_script_data( 'admin-comments', 'adminCommentsL10n', array(
 			'hotkeys_highlight_first' => isset($_GET['hotkeys_highlight_first']),
 			'hotkeys_highlight_last' => isset($_GET['hotkeys_highlight_last']),

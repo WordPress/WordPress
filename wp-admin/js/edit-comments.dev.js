@@ -548,8 +548,12 @@ $(document).ready(function(){
 	commentReply.init();
 	$(document).delegate('span.delete a.delete', 'click', function(){return false;});
 
-	if ( typeof QTags != 'undefined' )
-		ed_reply = new QTags('ed_reply', 'replycontent', 'replycontainer', 'more,fullscreen');
+	if ( typeof QTags != 'undefined' ) {
+		quicktags({quicktags_id: 'replycontent', quicktags_buttons: 'strong,em,link,block,del,ins,img,ul,ol,li,code,spell,close'});
+	
+	
+	console.debug('typeof QTags')
+	}
 
 	if ( typeof $.table_hotkeys != 'undefined' ) {
 		make_hotkeys_redirect = function(which) {
