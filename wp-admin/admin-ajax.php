@@ -861,25 +861,23 @@ case 'add-meta' :
 		) );
 	} else { // Update?
 		$mid = (int) array_pop( array_keys($_POST['meta']) );
-		$key = $_POST['meta'][$mid]['key'];
-		$value = $_POST['meta'][$mid]['value'];
+		$key = stripslashes( $_POST['meta'][$mid]['key'] );
+		$value = stripslashes( $_POST['meta'][$mid]['value'] );
 		if ( '' == trim($key) )
 			die(__('Please provide a custom field name.'));
 		if ( '' == trim($value) )
 			die(__('Please provide a custom field value.'));
-		if ( !$meta = get_post_meta_by_id( $mid ) )
+		if ( ! $meta = get_metadata_by_mid( 'post', $mid ) )
 			die('0'); // if meta doesn't exist
 		if ( is_protected_meta( $meta->meta_key, 'post' ) || is_protected_meta( $key, 'post' ) ||
 			! current_user_can( 'edit_post_meta', $meta->post_id, $meta->meta_key ) ||
 			! current_user_can( 'edit_post_meta', $meta->post_id, $key ) )
 			die('-1');
-		if ( $meta->meta_value != stripslashes($value) || $meta->meta_key != stripslashes($key) ) {
-			if ( !$u = update_meta( $mid, $key, $value ) )
+		if ( $meta->meta_value != $value || $meta->meta_key != $key ) {
+			if ( !$u = update_metadata_by_mid( 'post', $mid, $value, $key ) )
 				die('0'); // We know meta exists; we also know it's unchanged (or DB error, in which case there are bigger problems).
 		}
 
-		$key = stripslashes($key);
-		$value = stripslashes($value);
 		$x = new WP_Ajax_Response( array(
 			'what' => 'meta',
 			'id' => $mid, 'old_id' => $mid,
