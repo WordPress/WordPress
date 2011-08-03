@@ -173,7 +173,11 @@ class WP_Scripts extends WP_Dependencies {
 	}
 
 	function set_group( $handle, $recursion, $group = false ) {
-		$grp = (int) $this->get_data( $handle, 'group' );
+
+		if ( $this->registered[$handle]->args === 1 )
+			$grp = 1;
+		else
+			$grp = (int) $this->get_data( $handle, 'group' );
 
 		if ( false !== $group && $grp > $group )
 			$grp = $group;
