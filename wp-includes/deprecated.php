@@ -2616,3 +2616,42 @@ function wp_timezone_supported() {
 	return true;
 }
 
+/**
+ * Find out which editor should be displayed
+ *
+ * @see WP_Editor::wp_default_editor()
+ * @since 2.5.0
+ * @deprecated 3.5
+ *
+ * @return bool
+ */
+function wp_default_editor() {
+	_deprecated_function( __FUNCTION__, '3.3' );
+	
+	global $wp_editor;
+	if ( !is_a($wp_editor, 'WP_Editor') ) {
+		require_once( ABSPATH . WPINC . '/class-wp-editor.php' );
+		$wp_editor = new WP_Editor;
+	}
+	
+	return $wp_editor->wp_default_editor();
+}
+
+/**
+ * Display editor: TinyMCE, HTML, or both.
+ *
+ * @since 2.1.0
+ * @deprecated 3.3 
+ *
+ * @param string $content Textarea content.
+ * @param string $id Optional, default is 'content'. HTML ID attribute value.
+ * @param string $prev_id Optional, not used
+ * @param bool $media_buttons Optional, default is true. Whether to display media buttons.
+ * @param int $tab_index Optional, not used
+ */
+function the_editor($content, $id = 'content', $prev_id = 'title', $media_buttons = true, $tab_index = 2, $extended = true) {
+	
+	wp_editor( $content, $id, array( 'media_buttons' => $media_buttons ) );
+	return;
+}
+

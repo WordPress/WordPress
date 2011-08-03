@@ -1110,8 +1110,6 @@ case 'menu-quick-search':
 	exit;
 	break;
 case 'wp-link-ajax':
-	require_once ABSPATH . 'wp-admin/includes/internal-linking.php';
-
 	check_ajax_referer( 'internal-linking', '_ajax_linking_nonce' );
 
 	$args = array();
@@ -1120,7 +1118,8 @@ case 'wp-link-ajax':
 		$args['s'] = stripslashes( $_POST['search'] );
 	$args['pagenum'] = ! empty( $_POST['page'] ) ? absint( $_POST['page'] ) : 1;
 
-	$results = wp_link_query( $args );
+	require(ABSPATH . WPINC . '/class-wp-editor.php');
+	$results = WP_Editor::wp_link_query( $args );
 
 	if ( ! isset( $results ) )
 		die( '0' );

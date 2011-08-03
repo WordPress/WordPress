@@ -32,11 +32,11 @@
 			});
 
 			ed.addCommand('wpFullScreenInit', function() {
-				var d = ed.getDoc(), b = d.body, fsed;
+				var d, b, fsed;
 
-				// Only init the editor if necessary.
-				if ( ed.id == 'wp_mce_fullscreen' )
-					return;
+				ed = tinymce.get('content');
+				d = ed.getDoc();
+				b = d.body;
 
 				tinyMCE.oldSettings = tinyMCE.settings; // Store old settings
 
@@ -95,7 +95,7 @@
 
 			// Register buttons
 			if ( 'undefined' != fullscreen ) {
-				ed.addButton('fullscreen', {
+				ed.addButton('wp_fullscreen', {
 					title : 'fullscreen.desc',
 					onclick : function(){ fullscreen.on(); }
 				});

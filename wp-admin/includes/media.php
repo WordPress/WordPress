@@ -373,27 +373,22 @@ document.body.className = c;
  *
  * @since 2.5.0
  */
-function media_buttons() {
-	$do_image = $do_audio = $do_video = true;
-	if ( is_multisite() ) {
-		$media_buttons = get_site_option( 'mu_media_buttons' );
-		if ( empty($media_buttons['image']) )
-			$do_image = false;
-		if ( empty($media_buttons['audio']) )
-			$do_audio = false;
-		if ( empty($media_buttons['video']) )
-			$do_video = false;
-	}
+function media_buttons($editor_id = 'content') {
 	$out = '';
 
-	if ( $do_image )
-		$out .= _media_button(__('Add an Image'), 'images/media-button-image.gif?ver=20100531', 'image');
-	if ( $do_video )
-		$out .= _media_button(__('Add Video'), 'images/media-button-video.gif?ver=20100531', 'video');
-	if ( $do_audio )
-		$out .= _media_button(__('Add Audio'), 'images/media-button-music.gif?ver=20100531', 'audio');
+	if ( is_multisite() )
+		$_buttons = get_site_option('mu_media_buttons');
+	else
+		$_buttons = array( 'image' => true, 'video' => true, 'audio' => true );
 
-	$out .= _media_button(__('Add Media'), 'images/media-button-other.gif?ver=20100531', 'media');
+	if ( !empty($_buttons['image']) )
+		$out .= _media_button(__('Add an Image'), 'images/media-button-image.gif?ver=20100531', 'image', $editor_id);
+	if ( !empty($_buttons['video']) )
+		$out .= _media_button(__('Add Video'), 'images/media-button-video.gif?ver=20100531', 'video', $editor_id);
+	if ( !empty($_buttons['audio']) )
+		$out .= _media_button(__('Add Audio'), 'images/media-button-music.gif?ver=20100531', 'audio', $editor_id);
+
+	$out .= _media_button(__('Add Media'), 'images/media-button-other.gif?ver=20100531', 'media', $editor_id);
 
 	$context = apply_filters('media_buttons_context', __('Upload/Insert %s'));
 
@@ -401,8 +396,8 @@ function media_buttons() {
 }
 add_action( 'media_buttons', 'media_buttons' );
 
-function _media_button($title, $icon, $type) {
-	return "<a href='" . esc_url( get_upload_iframe_src($type) ) . "' id='add_$type' class='thickbox' title='$title'><img src='" . esc_url( admin_url( $icon ) ) . "' alt='$title' onclick='return false;' /></a>";
+function _media_button($title, $icon, $type, $id) {
+	return "<a href='" . esc_url( get_upload_iframe_src($type) ) . "' id='{$id}-add_{$type}' class='thickbox add_$type' title='$title'><img src='" . esc_url( admin_url( $icon ) ) . "' alt='$title' onclick='return false;' /></a>";
 }
 
 function get_upload_iframe_src($type) {

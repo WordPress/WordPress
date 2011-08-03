@@ -66,10 +66,6 @@ var userSettings = {
 </script>
 <?php
 
-if ( in_array( $pagenow, array('post.php', 'post-new.php') ) ) {
-	wp_enqueue_script('quicktags');
-}
-
 do_action('admin_enqueue_scripts', $hook_suffix);
 do_action("admin_print_styles-$hook_suffix");
 do_action('admin_print_styles');

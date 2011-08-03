@@ -219,7 +219,7 @@
 			});
 
 			ed.onSaveContent.add(function(ed, o) {
-				if ( typeof(switchEditors) == 'object' ) {
+				if ( ed.getParam('wpautop', true) && typeof(switchEditors) == 'object' ) {
 					if ( ed.isHidden() )
 						o.content = o.element.value;
 					else
@@ -421,3 +421,4 @@
 	// Register plugin
 	tinymce.PluginManager.add('wordpress', tinymce.plugins.WordPress);
 })();
+

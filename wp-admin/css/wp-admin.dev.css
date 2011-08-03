@@ -472,101 +472,6 @@ form.upgrade .hint {
 }
 
 
-/*------------------------------------------------------------------------------
-  5.0 - TinyMCE
-------------------------------------------------------------------------------*/
-
-#editorcontainer #content {
-	font-family: Consolas, Monaco, monospace;
-	padding: 6px;
-	line-height: 150%;
-	border: 0 none;
-	outline: none;
-	resize: vertical;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	-khtml-box-sizing: border-box;
-	box-sizing: border-box;
-}
-
-#editorcontainer,
-#quicktags {
-	border-style: solid;
-	border-width: 1px;
-	border-collapse: separate;
-	-moz-border-radius: 3px 3px 0 0;
-	-webkit-border-top-right-radius: 3px;
-	-webkit-border-top-left-radius: 3px;
-	-khtml-border-top-right-radius: 3px;
-	-khtml-border-top-left-radius: 3px;
-	border-top-right-radius: 3px;
-	border-top-left-radius: 3px;
-}
-
-#quicktags {
-	padding: 0;
-	margin-bottom: -3px;
-	border-bottom-width: 3px;
-	background-image: url("../images/ed-bg.gif");
-	background-position: left top;
-	background-repeat: repeat-x;
-}
-
-#quicktags #ed_toolbar {
-	padding: 2px 4px 0;
-}
-
-#ed_toolbar input,
-#ed_reply_toolbar input {
-	margin: 3px 1px 4px;
-	line-height: 18px;
-	display: inline-block;
-	min-width: 26px;
-	padding: 2px 4px;
-	font-size: 12px;
-}
-
-#ed_reply_toolbar input {
-	margin: 1px 2px 1px 1px;
-}
-
-#quicktags #ed_link,
-#ed_reply_toolbar #ed_reply_link {
-	text-decoration: underline;
-}
-
-#quicktags #ed_del,
-#ed_reply_toolbar #ed_reply_del {
-	text-decoration: line-through;
-}
-
-#quicktags #ed_em,
-#ed_reply_toolbar #ed_reply_em {
-	font-style: italic;
-}
-
-#wp_editbtns,
-#wp_gallerybtns {
-	padding: 2px;
-	position: absolute;
-	display: none;
-	z-index: 999998;
-}
-
-#wp_editimgbtn,
-#wp_delimgbtn,
-#wp_editgallery,
-#wp_delgallery {
-	margin: 2px;
-	padding: 2px;
-	border-width: 1px;
-	border-style: solid;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
-}
-
 /* Distraction Free Writing mode
  * =Overlay Styles
 -------------------------------------------------------------- */
@@ -2289,52 +2194,7 @@ input#link_url {
 	right: 10px;
 }
 
-#poststuff #editor-toolbar {
-	height: 30px;
-}
-
-.wp_themeSkin tr.mceFirst td.mceToolbar {
-	border-width: 0 0 1px;
-	border-style: none none solid;
-}
-
-#edButtonPreview,
-#edButtonHTML {
-	height: 18px;
-	margin: 5px 5px 0 0;
-	padding: 4px 5px 2px;
-	float: right;
-	cursor: pointer;
-	border-width: 1px;
-	border-style: solid;
-	-moz-border-radius: 3px 3px 0 0;
-	-webkit-border-top-right-radius: 3px;
-	-webkit-border-top-left-radius: 3px;
-	-khtml-border-top-right-radius: 3px;
-	-khtml-border-top-left-radius: 3px;
-	border-top-right-radius: 3px;
-	border-top-left-radius: 3px;
-}
-
-.js .theEditor {
-	color: white;
-}
-
-#poststuff #edButtonHTML {
-	margin-right: 15px;
-}
-
-#media-buttons {
-	cursor: default;
-	padding: 8px 8px 0;
-}
-
-#media-buttons a {
-	cursor: pointer;
-	padding: 0 0 5px 10px;
-}
-
-#media-buttons img,
+.wp-media-buttons img,
 #submitpost #ajax-loading,
 #submitpost .ajax-loading {
 	vertical-align: middle;
@@ -3743,7 +3603,7 @@ span.imgedit-scale-warn {
 	padding: 2px;
 }
 
-#replyrow #editorcontainer {
+#replyrow .wp-editor-container {
 	border: 0 none;
 }
 

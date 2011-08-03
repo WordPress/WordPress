@@ -264,9 +264,9 @@ wp_nonce_field( 'samplepermalink', 'samplepermalinknonce', false );
 <?php } ?>
 
 <?php if ( post_type_supports($post_type, 'editor') ) { ?>
-<div id="<?php echo user_can_richedit() ? 'postdivrich' : 'postdiv'; ?>" class="postarea">
+<div id="postdivrich" class="postarea">
 
-<?php the_editor($post->post_content); ?>
+<?php wp_editor($post->post_content, 'content'); ?>
 
 <table id="post-status-info" cellspacing="0"><tbody><tr>
 	<td id="wp-word-count"><?php printf( __( 'Word count: %s' ), '<span class="word-count">0</span>' ); ?></td>

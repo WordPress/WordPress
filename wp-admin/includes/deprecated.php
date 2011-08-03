@@ -15,13 +15,13 @@
 /**
  * @since 2.1
  * @deprecated 2.1
- * @deprecated Use wp_tiny_mce().
- * @see wp_tiny_mce()
+ * @deprecated Use wp_editor().
+ * @see wp_editor()
  */
 function tinymce_include() {
-	_deprecated_function( __FUNCTION__, '2.1', 'wp_tiny_mce()' );
+	_deprecated_function( __FUNCTION__, '2.1', 'wp_editor()' );
 
-	wp_tiny_mce();
+	wp_editor('', 'content');
 }
 
 /**
@@ -701,3 +701,33 @@ function wp_dashboard_quick_press_output() {
 	_deprecated_function( __FUNCTION__, '3.2', 'wp_dashboard_quick_press()' );
 	wp_dashboard_quick_press();
 }
+
+/**
+ * @since 2.7
+ * @deprecated 3.3
+ * @deprecated Use wp_editor().
+ * @see wp_editor()
+ */
+function wp_tiny_mce() {
+	_deprecated_function( __FUNCTION__, '3.3', 'wp_editor()' );
+	
+	wp_editor('', 'content');
+}
+
+// see WP_Editor for the next 4
+function wp_preload_dialogs() {
+	_deprecated_function( __FUNCTION__, '3.3' );
+}
+
+function wp_print_editor_js() {
+	_deprecated_function( __FUNCTION__, '3.3' );
+}
+
+function wp_quicktags() {
+	_deprecated_function( __FUNCTION__, '3.3' );
+}
+
+function wp_fullscreen_html() {
+	_deprecated_function( __FUNCTION__, '3.3' );
+}
+

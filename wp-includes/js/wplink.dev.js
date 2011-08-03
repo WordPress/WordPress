@@ -9,7 +9,7 @@ var wpLink;
 		riverBottomThreshold: 5,
 		keySensitivity: 100,
 		lastSearch: '',
-		textarea: function() { return edCanvas; },
+		textarea: '',
 
 		init : function() {
 			inputs.dialog = $('#wp-link');
@@ -49,12 +49,17 @@ var wpLink;
 			wpLink.range = null;
 
 			if ( ! wpLink.isMCE() && document.selection ) {
-				wpLink.textarea().focus();
+				wpLink.textarea.focus();
 				wpLink.range = document.selection.createRange();
 			}
 		},
 
 		open : function() {
+			if ( !wpActiveEditor )
+				return;
+
+			this.textarea = $('#'+wpActiveEditor).get(0);
+
 			// Initialize the dialog if necessary (html mode).
 			if ( ! inputs.dialog.data('wpdialog') ) {
 				inputs.dialog.wpdialog({
@@ -127,7 +132,7 @@ var wpLink;
 
 		onClose: function() {
 			if ( ! wpLink.isMCE() ) {
-				wpLink.textarea().focus();
+				wpLink.textarea.focus();
 				if ( wpLink.range ) {
 					wpLink.range.moveToBookmark( wpLink.range.getBookmark() );
 					wpLink.range.select();
@@ -152,7 +157,7 @@ var wpLink;
 
 		htmlUpdate : function() {
 			var attrs, html, start, end, cursor,
-				textarea = wpLink.textarea();
+				textarea = wpLink.textarea;
 
 			if ( ! textarea )
 				return;

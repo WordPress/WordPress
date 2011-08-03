@@ -120,8 +120,10 @@ $date = date_i18n( $datef, strtotime( $comment->comment_date ) );
 </div>
 
 <div id="postdiv" class="postarea">
-<?php the_editor($comment->comment_content, 'content', 'newcomment_author_url', false, 4, false); ?>
-<?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
+<?php
+	$quicktags_settings = array( 'quicktags_buttons' => 'strong,em,link,block,del,ins,img,ul,ol,li,code,spell,close' );
+	wp_editor( $comment->comment_content, 'content', array( 'media_buttons' => false, 'tinymce' => false, 'quicktags' => $quicktags_settings ) );
+	wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
 </div>
 
 <?php

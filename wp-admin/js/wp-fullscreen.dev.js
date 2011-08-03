@@ -77,7 +77,7 @@ PubSub.prototype.publish = function( topic, args ) {
 		visible : false,
 		mode : 'tinymce',
 		editor_id : 'content',
-		title_id : 'title',
+		title_id : '',
 		timer : 0,
 		toolbar_shown : false
 	}
@@ -137,7 +137,28 @@ PubSub.prototype.publish = function( topic, args ) {
 		if ( s.visible )
 			return;
 
+		// Settings can be added or changed by defining "wp_fullscreen_settings" JS object.
+		// This can be done by defining it as PHP array and passing it to JS with:
+		// wp_add_script_data( 'wp-fullscreen', 'wp_fullscreen_settings', $settings_array )
+		if ( typeof(wp_fullscreen_settings) != 'undefined' )
+			$.extend( s, wp_fullscreen_settings );
+
+		// enable DFW only on the Add/Edit Post screens for now
+		/*
+		s.editor_id = wpActiveEditor || 'content';
+
+		if ( !s.title_id && $('input#title').length && s.editor_id == 'content' )
+			s.title_id = 'title';
+
+		if ( !s.title_id )
+			$('#wp-fullscreen-title').hide();
+		*/
+
+		s.editor_id = 'content';
+		s.title_id = 'title';
+
 		s.mode = $('#' + s.editor_id).is(':hidden') ? 'tinymce' : 'html';
+		s.qt_canvas = $('#' + s.editor_id).get(0);
 
 		if ( ! s.element )
 			api.ui.init();
@@ -218,7 +239,8 @@ PubSub.prototype.publish = function( topic, args ) {
 	api.savecontent = function() {
 		var ed, content;
 
-		$('#' + s.title_id).val( $('#wp-fullscreen-title').val() );
+		if ( s.title_id )
+			$('#' + s.title_id).val( $('#wp-fullscreen-title').val() );
 
 		if ( s.mode === 'tinymce' && (ed = tinyMCE.get('wp_mce_fullscreen')) ) {
 			content = ed.save();
@@ -278,18 +300,19 @@ PubSub.prototype.publish = function( topic, args ) {
 	});
 
 	ps.subscribe( 'show', function() { // This event occurs before the overlay blocks the UI.
-		var title = $('#wp-fullscreen-title').val( $('#' + s.title_id).val() );
+		var title;
 
-		set_title_hint( title );
+		if ( s.title_id ) {
+			title = $('#wp-fullscreen-title').val( $('#' + s.title_id).val() );
+			set_title_hint( title );
+		}
+
 		$('#wp-fullscreen-save input').attr( 'title',  $('#last-edit').text() );
 
-		s.textarea_obj.value = edCanvas.value;
+		s.textarea_obj.value = s.qt_canvas.value;
 
 		if ( s.has_tinymce && s.mode === 'tinymce' )
 			tinyMCE.execCommand('wpFullScreenInit');
-
-		s._edCanvas = edCanvas;
-		edCanvas = s.textarea_obj;
 
 		s.orig_y = $(window).scrollTop();
 	});
@@ -328,7 +351,7 @@ PubSub.prototype.publish = function( topic, args ) {
 				});
 			}
 
-			tinyMCE.execCommand("mceAddControl", false, s.editor_id);
+			tinyMCE.init(tinyMCEPreInit.mceInit[s.editor_id]);
 			s.is_mce_on = true;
 		}
 	});
@@ -337,9 +360,9 @@ PubSub.prototype.publish = function( topic, args ) {
 
 		// Make sure the correct editor is displaying.
 		if ( s.has_tinymce && s.mode === 'tinymce' && $('#' + s.editor_id).is(':visible') ) {
-			switchEditors.go( s.editor_id, 'tinymce' );
+			switchEditors.go( $('#'+s.editor_id+'-tmce').get(0) );
 		} else if ( s.mode === 'html' && $('#' + s.editor_id).is(':hidden') ) {
-			switchEditors.go( s.editor_id, 'html' );
+			switchEditors.go( $('#'+s.editor_id+'-html').get(0) );
 		}
 
 		// Save content must be after switchEditors or content will be overwritten. See #17229.
@@ -351,11 +374,10 @@ PubSub.prototype.publish = function( topic, args ) {
 		if ( s.has_tinymce && s.mode === 'tinymce' )
 			tinyMCE.execCommand('wpFullScreenSave');
 
-		set_title_hint( $('#' + s.title_id) );
+		if ( s.title_id )
+			set_title_hint( $('#' + s.title_id) );
 
-		// Restore and update edCanvas.
-		edCanvas = s._edCanvas;
-		edCanvas.value = s.textarea_obj.value;
+		s.qt_canvas.value = s.textarea_obj.value;
 	});
 
 	ps.subscribe( 'hiding', function() { // This event occurs while the overlay blocks the DFW UI.
@@ -367,7 +389,7 @@ PubSub.prototype.publish = function( topic, args ) {
 
 	ps.subscribe( 'hidden', function() { // This event occurs after DFW is removed.
 		s.visible = false;
-		$('#wp_mce_fullscreen').removeAttr('style');
+		$('#wp_mce_fullscreen, #wp-fullscreen-title').removeAttr('style');
 
 		if ( s.has_tinymce && s.is_mce_on )
 			tinyMCE.execCommand('wpFullScreenClose');
@@ -488,10 +510,11 @@ PubSub.prototype.publish = function( topic, args ) {
 	api.ui = {
 		init: function() {
 			var topbar = $('#fullscreen-topbar'), txtarea = $('#wp_mce_fullscreen'), last = 0;
+
 			s.toolbars = topbar.add( $('#wp-fullscreen-status') );
 			s.element = $('#fullscreen-fader');
 			s.textarea_obj = txtarea[0];
-			s.has_tinymce = typeof(tinyMCE) != 'undefined';
+			s.has_tinymce = typeof(tinymce) != 'undefined';
 
 			if ( !s.has_tinymce )
 				$('#wp-fullscreen-mode-bar').hide();

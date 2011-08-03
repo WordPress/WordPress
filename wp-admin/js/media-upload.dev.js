@@ -1,4 +1,5 @@
 // send html to the post editor
+/*
 function send_to_editor(h) {
 	var ed;
 
@@ -28,6 +29,7 @@ function send_to_editor(h) {
 
 	tb_remove();
 }
+*/
 
 // thickbox settings
 var tb_position;

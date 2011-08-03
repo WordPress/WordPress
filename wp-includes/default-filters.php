@@ -254,8 +254,6 @@ add_action( 'save_post',                  '_save_post_hook',          5, 2 );
 add_action( 'transition_post_status',     '_transition_post_status',  5, 3 );
 add_action( 'comment_form', 'wp_comment_form_unfiltered_html_nonce'        );
 add_action( 'wp_scheduled_delete',        'wp_scheduled_delete'            );
-add_action( 'before_wp_tiny_mce',         'wp_print_editor_js'             );
-add_action( 'after_wp_tiny_mce',          'wp_preload_dialogs',      10, 1 );
 add_action( 'admin_init',                 'send_frame_options_header', 10, 0 );
 add_action( 'importer_scheduled_cleanup', 'wp_delete_attachment'           );
 

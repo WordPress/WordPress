@@ -1750,104 +1750,24 @@ function user_can_richedit() {
 }
 
 /**
- * Find out which editor should be displayed by default.
+ * Loads and initializes WP_Editor class if needed, passes the settings for an instance of the editor
  *
- * Works out which of the two editors to display as the current editor for a
- * user.
+ * @see wp-includes/class-wp-editor.php
+ * @since 3.3
  *
- * @since 2.5.0
- *
- * @return string Either 'tinymce', or 'html', or 'test'
+ * @param string $content Initial content for the editor.
+ * @param string $editor_id HTML ID attribute value for the textarea and TinyMCE.
+ * @param array $settings See WP_Editor::editor().
  */
-function wp_default_editor() {
-	$r = user_can_richedit() ? 'tinymce' : 'html'; // defaults
-	if ( $user = wp_get_current_user() ) { // look for cookie
-		$ed = get_user_setting('editor', 'tinymce');
-		$r = ( in_array($ed, array('tinymce', 'html', 'test') ) ) ? $ed : $r;
-	}
-	return apply_filters( 'wp_default_editor', $r ); // filter
-}
+function wp_editor( $content, $editor_id, $settings = array() ) {
+	global $wp_editor;
 
-/**
- * Display visual editor forms: TinyMCE, or HTML, or both.
- *
- * The amount of rows the text area will have for the content has to be between
- * 3 and 100 or will default at 12. There is only one option used for all users,
- * named 'default_post_edit_rows'.
- *
- * If the user can not use the rich editor (TinyMCE), then the switch button
- * will not be displayed.
- *
- * @since 2.1.0
- *
- * @param string $content Textarea content.
- * @param string $id Optional, default is 'content'. HTML ID attribute value.
- * @param string $prev_id Optional, default is 'title'. HTML ID name for switching back and forth between visual editors.
- * @param bool $media_buttons Optional, default is true. Whether to display media buttons.
- * @param int $tab_index Optional, default is 2. Tabindex for textarea element.
- */
-function the_editor($content, $id = 'content', $prev_id = 'title', $media_buttons = true, $tab_index = 2, $extended = true) {
-	$rows = get_option('default_post_edit_rows');
-	if (($rows < 3) || ($rows > 100))
-		$rows = 12;
-
-	if ( !current_user_can( 'upload_files' ) )
-		$media_buttons = false;
-
-	$richedit =  user_can_richedit();
-	$class = '';
-
-	if ( $richedit || $media_buttons ) { ?>
-	<div id="editor-toolbar">
-<?php
-	if ( $richedit ) {
-		$wp_default_editor = wp_default_editor(); ?>
-		<div class="zerosize"><input accesskey="e" type="button" onclick="switchEditors.go('<?php echo $id; ?>')" /></div>
-<?php	if ( 'html' == $wp_default_editor ) {
-			add_filter('the_editor_content', 'wp_htmledit_pre'); ?>
-			<a id="edButtonHTML" class="active hide-if-no-js" onclick="switchEditors.go('<?php echo $id; ?>', 'html');"><?php _e('HTML'); ?></a>
-			<a id="edButtonPreview" class="hide-if-no-js" onclick="switchEditors.go('<?php echo $id; ?>', 'tinymce');"><?php _e('Visual'); ?></a>
-<?php	} else {
-			$class = " class='theEditor'";
-			add_filter('the_editor_content', 'wp_richedit_pre'); ?>
-			<a id="edButtonHTML" class="hide-if-no-js" onclick="switchEditors.go('<?php echo $id; ?>', 'html');"><?php _e('HTML'); ?></a>
-			<a id="edButtonPreview" class="active hide-if-no-js" onclick="switchEditors.go('<?php echo $id; ?>', 'tinymce');"><?php _e('Visual'); ?></a>
-<?php	}
+	if ( !is_a($wp_editor, 'WP_Editor') ) {
+		require( ABSPATH . WPINC . '/class-wp-editor.php' );
+		$wp_editor = new WP_Editor;
 	}
 
-	if ( $media_buttons ) { ?>
-		<div id="media-buttons" class="hide-if-no-js">
-<?php	do_action( 'media_buttons' ); ?>
-		</div>
-<?php
-	} ?>
-	</div>
-<?php
-	}
-?>
-	<div id="quicktags"><?php
-	wp_print_scripts( 'quicktags' ); ?>
-	<script type="text/javascript">edToolbar()</script>
-	</div>
-
-<?php
-	$the_editor = apply_filters('the_editor', "<div id='editorcontainer'><textarea rows='$rows'$class cols='40' name='$id' tabindex='$tab_index' id='$id'>%s</textarea></div>\n");
-	$the_editor_content = apply_filters('the_editor_content', $content);
-
-	printf($the_editor, $the_editor_content);
-
-?>
-	<script type="text/javascript">
-	edCanvas = document.getElementById('<?php echo $id; ?>');
-<?php if ( ! $extended ) { ?>	jQuery('#ed_fullscreen, #ed_more').hide();<?php } ?>
-	</script>
-<?php
-	// queue scripts
-	if ( $richedit )
-		add_action( 'admin_print_footer_scripts', 'wp_tiny_mce', 25 );
-	elseif ( $extended )
-		add_action( 'admin_print_footer_scripts', 'wp_quicktags', 25 );
-
+	$wp_editor->editor($content, $editor_id, $settings);
 }
 
 /**
