@@ -410,7 +410,7 @@ function do_action($tag, $arg = '') {
 }
 
 /**
- * Retrieve the number times an action is fired.
+ * Retrieve the number of times an action is fired.
  *
  * @package WordPress
  * @subpackage Plugin
