@@ -291,6 +291,8 @@ function remove_user_from_blog($user_id, $blog_id = '', $reassign = '') {
 	}
 
 	restore_current_blog();
+
+	return true;
 }
 
 /**
