@@ -783,7 +783,7 @@ if ( !function_exists('is_user_logged_in') ) :
 function is_user_logged_in() {
 	$user = wp_get_current_user();
 
-	if ( $user->id == 0 )
+	if ( $user->ID == 0 )
 		return false;
 
 	return true;
@@ -1308,7 +1308,7 @@ if ( !function_exists('wp_verify_nonce') ) :
  */
 function wp_verify_nonce($nonce, $action = -1) {
 	$user = wp_get_current_user();
-	$uid = (int) $user->id;
+	$uid = (int) $user->ID;
 
 	$i = wp_nonce_tick();
 
@@ -1334,7 +1334,7 @@ if ( !function_exists('wp_create_nonce') ) :
  */
 function wp_create_nonce($action = -1) {
 	$user = wp_get_current_user();
-	$uid = (int) $user->id;
+	$uid = (int) $user->ID;
 
 	$i = wp_nonce_tick();
 

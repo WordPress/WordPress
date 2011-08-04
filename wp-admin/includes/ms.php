@@ -250,7 +250,7 @@ function send_confirmation_on_profile_email() {
 	if ( ! is_object($errors) )
 		$errors = new WP_Error();
 
-	if ( $current_user->id != $_POST['user_id'] )
+	if ( $current_user->ID != $_POST['user_id'] )
 		return false;
 
 	if ( $current_user->user_email != $_POST['email'] ) {

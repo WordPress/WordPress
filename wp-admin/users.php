@@ -216,7 +216,7 @@ case 'doremove':
 	$update = 'remove';
  	foreach ( $userids as $id ) {
 		$id = (int) $id;
-		if ( $id == $current_user->id && !is_super_admin() ) {
+		if ( $id == $current_user->ID && !is_super_admin() ) {
 			$update = 'err_admin_remove';
 			continue;
 		}
@@ -269,7 +269,7 @@ case 'remove':
  	foreach ( $userids as $id ) {
 		$id = (int) $id;
  		$user = new WP_User($id);
-		if ( $id == $current_user->id && !is_super_admin() ) {
+		if ( $id == $current_user->ID && !is_super_admin() ) {
 			echo "<li>" . sprintf(__('ID #%1s: %2s <strong>The current user will not be removed.</strong>'), $id, $user->user_login) . "</li>\n";
 		} elseif ( !current_user_can('remove_user', $id) ) {
 			echo "<li>" . sprintf(__('ID #%1s: %2s <strong>You don\'t have permission to remove this user.</strong>'), $id, $user->user_login) . "</li>\n";

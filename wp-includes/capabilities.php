@@ -360,8 +360,6 @@ class WP_User {
 	/**
 	 * User data container.
 	 *
-	 * This will be set as properties of the object.
-	 *
 	 * @since 2.0.0
 	 * @access private
 	 * @var array
@@ -376,17 +374,6 @@ class WP_User {
 	 * @var int
 	 */
 	var $ID = 0;
-
-	/**
-	 * The deprecated user's ID.
-	 *
-	 * @since 2.0.0
-	 * @access public
-	 * @deprecated Use WP_User::$ID
-	 * @see WP_User::$ID
-	 * @var int
-	 */
-	var $id = 0;
 
 	/**
 	 * The individual capabilities the user has been given.
@@ -471,7 +458,6 @@ class WP_User {
 	 * @return WP_User
 	 */
 	function __construct( $id, $name = '', $blog_id = '' ) {
-
 		if ( empty( $id ) && empty( $name ) )
 			return;
 
@@ -488,12 +474,40 @@ class WP_User {
 		if ( empty( $this->data->ID ) )
 			return;
 
-		foreach ( get_object_vars( $this->data ) as $key => $value ) {
-			$this->{$key} = $value;
+		$this->ID = $this->data->ID;
+		$this->for_blog( $blog_id );
+	}
+
+	/**
+	 * Magic method for checking the existance of a certain custom field
+	 *
+	 * @since 3.3.0
+	 */
+	function __isset( $key ) {
+		return isset( $this->data->$key );
+	}
+
+	/**
+	 * Magic method for accessing custom fields
+	 *
+	 * @since 3.3.0
+	 */
+	function __get( $key ) {
+		if ( 'id' == $key ) {
+			_deprecated_argument( 'WP_User->id', '2.1', __( 'Use <code>WP_User->ID</code> instead.' ) );
+			return $this->ID;
 		}
 
-		$this->id = $this->ID;
-		$this->for_blog( $blog_id );
+		return $this->data->$key;
+	}
+
+	/**
+	 * Magic method for setting custom fields
+	 *
+	 * @since 3.3.0
+	 */
+	function __set( $key, $value ) {
+		$this->data->$key = $value;
 	}
 
 	/**
@@ -511,13 +525,16 @@ class WP_User {
 	 */
 	function _init_caps( $cap_key = '' ) {
 		global $wpdb;
+
 		if ( empty($cap_key) )
 			$this->cap_key = $wpdb->prefix . 'capabilities';
 		else
 			$this->cap_key = $cap_key;
-		$this->caps = &$this->{$this->cap_key};
+
+		$this->caps = &$this->data->{$this->cap_key};
 		if ( ! is_array( $this->caps ) )
 			$this->caps = array();
+
 		$this->get_role_caps();
 	}
 
@@ -956,10 +973,10 @@ function map_meta_cap( $cap, $user_id ) {
 	case 'add_post_meta':
 		$post = get_post( $args[0] );
 		$post_type_object = get_post_type_object( $post->post_type );
-		$caps = map_meta_cap( $post_type_object->cap->edit_post, $user_id, $post->ID );	
+		$caps = map_meta_cap( $post_type_object->cap->edit_post, $user_id, $post->ID );
 
-		$meta_key = isset( $args[ 1 ] ) ? $args[ 1 ] : false; 
-			
+		$meta_key = isset( $args[ 1 ] ) ? $args[ 1 ] : false;
+
 		if ( $meta_key && has_filter( "auth_post_meta_{$meta_key}" ) ) {
 			$allowed = apply_filters( "auth_post_meta_{$meta_key}", false, $meta_key, $post->ID, $user_id, $cap, $caps );
 			if ( ! $allowed )
@@ -1080,7 +1097,7 @@ function current_user_can_for_blog( $blog_id, $capability ) {
 		return false;
 
 	// Create new object to avoid stomping the global current_user.
-	$user = new WP_User( $current_user->id) ;
+	$user = new WP_User( $current_user->ID) ;
 
 	// Set the blog id.  @todo add blog id arg to WP_User constructor?
 	$user->for_blog( $blog_id );
@@ -1225,7 +1242,7 @@ function is_super_admin( $user_id = false ) {
 	else
 		$user = wp_get_current_user();
 
-	if ( empty( $user->id ) )
+	if ( empty( $user->ID ) )
 		return false;
 
 	if ( is_multisite() ) {

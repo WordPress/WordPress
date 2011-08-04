@@ -17,7 +17,7 @@ if ( ! current_user_can('read') )
 
 $action = isset( $_POST['action'] ) ? $_POST['action'] : 'splash';
 
-$blogs = get_blogs_of_user( $current_user->id );
+$blogs = get_blogs_of_user( $current_user->ID );
 
 if ( empty( $blogs ) )
 	wp_die( __( 'You must be a member of at least one site to use this page.' ) );
@@ -28,7 +28,7 @@ if ( 'updateblogsettings' == $action && isset( $_POST['primary_blog'] ) ) {
 
 	$blog = get_blog_details( (int) $_POST['primary_blog'] );
 	if ( $blog && isset( $blog->domain ) ) {
-		update_user_option( $current_user->id, 'primary_blog', (int) $_POST['primary_blog'], true );
+		update_user_option( $current_user->ID, 'primary_blog', (int) $_POST['primary_blog'], true );
 		$updated = true;
 	} else {
 		wp_die( __( 'The primary site you chose does not exist.' ) );
