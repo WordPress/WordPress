@@ -241,9 +241,11 @@ class Custom_Image_Header {
 			return;
 
 		$this->default_headers = $_wp_default_headers;
+		$template_directory_uri = get_template_directory_uri();
+		$stylesheet_directory_uri = get_stylesheet_directory_uri();
 		foreach ( array_keys($this->default_headers) as $header ) {
-			$this->default_headers[$header]['url'] =  sprintf( $this->default_headers[$header]['url'], get_template_directory_uri(), get_stylesheet_directory_uri() );
-			$this->default_headers[$header]['thumbnail_url'] =  sprintf( $this->default_headers[$header]['thumbnail_url'], get_template_directory_uri(), get_stylesheet_directory_uri() );
+			$this->default_headers[$header]['url'] =  sprintf( $this->default_headers[$header]['url'], $template_directory_uri, $stylesheet_directory_uri );
+			$this->default_headers[$header]['thumbnail_url'] =  sprintf( $this->default_headers[$header]['thumbnail_url'], $template_directory_uri, $stylesheet_directory_uri );
 		}
 
 	}
