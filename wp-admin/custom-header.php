@@ -629,7 +629,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	function step_2() {
 		check_admin_referer('custom-header-upload', '_wpnonce-custom-header-upload');
 		if ( ! current_theme_supports( 'custom-header-uploads' ) )
-			wp_die( 'Cheatin&#8217; uh?' );
+			wp_die( __( 'Cheatin&#8217; uh?' ) );
 
 		$overrides = array('test_form' => false);
 		$file = wp_handle_upload($_FILES['import'], $overrides);
@@ -715,7 +715,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	function step_3() {
 		check_admin_referer('custom-header-crop-image');
 		if ( ! current_theme_supports( 'custom-header-uploads' ) )
-			wp_die( 'Cheatin&#8217; uh?' );
+			wp_die( __( 'Cheatin&#8217; uh?' ) );
 
 		if ( $_POST['oitar'] > 1 ) {
 			$_POST['x1'] = $_POST['x1'] * $_POST['oitar'];
