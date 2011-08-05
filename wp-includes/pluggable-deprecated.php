@@ -41,7 +41,7 @@ if ( !function_exists('get_userdatabylogin') ) :
  * Retrieve user info by login name.
  *
  * @since 0.71
- * @deprecated 2.5
+ * @deprecated 3.3.0
  * @deprecated Use get_user_by('login')
  *
  * @param string $user_login User's username
@@ -58,7 +58,7 @@ if ( !function_exists('get_user_by_email') ) :
  * Retrieve user info by email.
  *
  * @since 2.5
- * @deprecated 2.5
+ * @deprecated 3.3.0
  * @deprecated Use get_user_by('email')
  *
  * @param string $email User's email address
