@@ -412,28 +412,6 @@ class WP_User {
 	var $allcaps = array();
 
 	/**
-	 * First name of the user.
-	 *
-	 * Created to prevent notices.
-	 *
-	 * @since 2.7.0
-	 * @access public
-	 * @var string
-	 */
-	var $first_name = '';
-
-	/**
-	 * Last name of the user.
-	 *
-	 * Created to prevent notices.
-	 *
-	 * @since 2.7.0
-	 * @access public
-	 * @var string
-	 */
-	var $last_name = '';
-
-	/**
 	 * The filter context applied to user data fields.
 	 *
 	 * @since 2.9.0
