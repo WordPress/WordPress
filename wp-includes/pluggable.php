@@ -202,34 +202,6 @@ function get_user_by($field, $value) {
 }
 endif;
 
-if ( !function_exists('get_userdatabylogin') ) :
-/**
- * Retrieve user info by login name.
- *
- * @since 0.71
- *
- * @param string $user_login User's username
- * @return bool|object False on failure, User DB row object
- */
-function get_userdatabylogin($user_login) {
-	return get_user_by('login', $user_login);
-}
-endif;
-
-if ( !function_exists('get_user_by_email') ) :
-/**
- * Retrieve user info by email.
- *
- * @since 2.5
- *
- * @param string $email User's email address
- * @return bool|object False on failure, User DB row object
- */
-function get_user_by_email($email) {
-	return get_user_by('email', $email);
-}
-endif;
-
 if ( !function_exists( 'wp_mail' ) ) :
 /**
  * Send mail, similar to PHP's mail
@@ -594,7 +566,7 @@ function wp_validate_auth_cookie($cookie = '', $scheme = '') {
 		return false;
 	}
 
-	$user = get_userdatabylogin($username);
+	$user = get_user_by('login', $username);
 	if ( ! $user ) {
 		do_action('auth_cookie_bad_username', $cookie_elements);
 		return false;

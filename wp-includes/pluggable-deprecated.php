@@ -36,6 +36,40 @@ function set_current_user($id, $name = '') {
 }
 endif;
 
+if ( !function_exists('get_userdatabylogin') ) :
+/**
+ * Retrieve user info by login name.
+ *
+ * @since 0.71
+ * @deprecated 2.5
+ * @deprecated Use get_user_by('login')
+ *
+ * @param string $user_login User's username
+ * @return bool|object False on failure, User DB row object
+ */
+function get_userdatabylogin($user_login) {
+	_deprecated_function( __FUNCTION__, '3.3', "get_user_by('login')" );
+	return get_user_by('login', $user_login);
+}
+endif;
+
+if ( !function_exists('get_user_by_email') ) :
+/**
+ * Retrieve user info by email.
+ *
+ * @since 2.5
+ * @deprecated 2.5
+ * @deprecated Use get_user_by('email')
+ *
+ * @param string $email User's email address
+ * @return bool|object False on failure, User DB row object
+ */
+function get_user_by_email($email) {
+	_deprecated_function( __FUNCTION__, '3.3', "get_user_by('email')" );
+	return get_user_by('email', $email);
+}
+endif;
+
 if ( !function_exists('wp_setcookie') ) :
 /**
  * Sets a cookie for a user who just logged in. This function is deprecated.
@@ -54,7 +88,7 @@ if ( !function_exists('wp_setcookie') ) :
  */
 function wp_setcookie($username, $password = '', $already_md5 = false, $home = '', $siteurl = '', $remember = false) {
 	_deprecated_function( __FUNCTION__, '2.5', 'wp_set_auth_cookie()' );
-	$user = get_userdatabylogin($username);
+	$user = get_user_by('login', $username);
 	wp_set_auth_cookie($user->ID, $remember);
 }
 else :

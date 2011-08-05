@@ -645,7 +645,7 @@ function populate_network( $network_id = 1, $domain = '', $email = '', $site_nam
 	if ( $network_id == $wpdb->get_var( $wpdb->prepare( "SELECT id FROM $wpdb->site WHERE id = %d", $network_id ) ) )
 		$errors->add( 'siteid_exists', __( 'The network already exists.' ) );
 
-	$site_user = get_user_by_email( $email );
+	$site_user = get_user_by( 'email', $email );
 	if ( ! is_email( $email ) )
 		$errors->add( 'invalid_email', __( 'You must provide a valid e-mail address.' ) );
 

@@ -171,12 +171,12 @@ function retrieve_password() {
 		$errors->add('empty_username', __('<strong>ERROR</strong>: Enter a username or e-mail address.'));
 
 	if ( strpos($_POST['user_login'], '@') ) {
-		$user_data = get_user_by_email(trim($_POST['user_login']));
+		$user_data = get_user_by('email', trim($_POST['user_login']));
 		if ( empty($user_data) )
 			$errors->add('invalid_email', __('<strong>ERROR</strong>: There is no user registered with that email address.'));
 	} else {
 		$login = trim($_POST['user_login']);
-		$user_data = get_userdatabylogin($login);
+		$user_data = get_user_by('login', $login);
 	}
 
 	do_action('lostpassword_post');
@@ -544,7 +544,7 @@ default:
 	// If the user wants ssl but the session is not ssl, force a secure cookie.
 	if ( !empty($_POST['log']) && !force_ssl_admin() ) {
 		$user_name = sanitize_user($_POST['log']);
-		if ( $user = get_userdatabylogin($user_name) ) {
+		if ( $user = get_user_by('login', $user_name) ) {
 			if ( get_user_option('use_ssl', $user->ID) ) {
 				$secure_cookie = true;
 				force_ssl_admin(true);

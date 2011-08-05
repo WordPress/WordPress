@@ -3395,7 +3395,7 @@ function &get_pages($args = '') {
 			foreach ( $post_authors as $post_author ) {
 				//Do we have an author id or an author login?
 				if ( 0 == intval($post_author) ) {
-					$post_author = get_userdatabylogin($post_author);
+					$post_author = get_user_by('login', $post_author);
 					if ( empty($post_author) )
 						continue;
 					if ( empty($post_author->ID) )

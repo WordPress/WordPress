@@ -113,7 +113,7 @@ for ( $i = 1; $i <= $count; $i++ ) {
 				$author = sanitize_email($author);
 				if ( is_email($author) ) {
 					echo '<p>' . sprintf(__('Author is %s'), $author) . '</p>';
-					$userdata = get_user_by_email($author);
+					$userdata = get_user_by('email', $author);
 					if ( empty($userdata) ) {
 						$author_found = false;
 					} else {

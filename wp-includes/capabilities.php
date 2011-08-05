@@ -447,7 +447,7 @@ class WP_User {
 		if ( ! empty( $id ) )
 			$this->data = get_userdata( $id );
 		else
-			$this->data = get_userdatabylogin( $name );
+			$this->data = get_user_by('login', $name );
 
 		if ( empty( $this->data->ID ) )
 			return;

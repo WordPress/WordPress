@@ -1296,7 +1296,7 @@ function clean_user_cache($id) {
  * @return null|int The user's ID on success, and null on failure.
  */
 function username_exists( $username ) {
-	if ( $user = get_userdatabylogin( $username ) ) {
+	if ( $user = get_user_by('login', $username ) ) {
 		return $user->ID;
 	} else {
 		return null;
@@ -1313,7 +1313,7 @@ function username_exists( $username ) {
  * @return bool|int The user's ID on success, and false on failure.
  */
 function email_exists( $email ) {
-	if ( $user = get_user_by_email($email) )
+	if ( $user = get_user_by('email', $email) )
 		return $user->ID;
 
 	return false;
