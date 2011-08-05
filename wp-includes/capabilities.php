@@ -462,6 +462,10 @@ class WP_User {
 	 * @since 3.3.0
 	 */
 	function __isset( $key ) {
+		if ( 'id' == $key ) {
+			_deprecated_argument( 'WP_User->id', '2.1', __( 'Use <code>WP_User->ID</code> instead.' ) );
+			$key = 'ID';
+		}
 		return isset( $this->data->$key );
 	}
 
