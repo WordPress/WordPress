@@ -6,9 +6,11 @@
  *
  * Run quicktags(settings) to initialize it, where settings is an object containing up to 3 properties:
  * settings = {
- *   quicktags_id: 'myid', // required
- *   buttons: '', // optional
- *   disabled_buttons: '' // optional
+ *   id : 'my_id',          // the HTML ID of the textarea, required
+ *   buttons: '',           // Comma separated list of the names of the default buttons to show. Optional.
+ *                          // This overwrites buttons order and any buttons added by plugins.
+ *                          // Current list of default button names: 'strong,em,link,block,del,ins,img,ul,ol,li,code,more,spell,close'
+ *   disabled_buttons : ''  // Comma separated list of the names of the buttons to disable.
  * }
  *
  * The settings can also be a string quicktags_id.
@@ -24,10 +26,33 @@
 // by Alex King
 // http://www.alexking.org/
 
-var QTags, edButtons, edButton;
+var QTags, edButtons = [], edCanvas;
 
+/**
+ * Initialize new instance of the Quicktags editor
+ */
 function quicktags(settings) {
 	return new QTags(settings);
+}
+
+/**
+ * Inderts content at the caret in the active editor (textarea)
+ * 
+ * Added for back compatibility
+ * @see QTags.insertContent()
+ */
+function edInsertContent(bah, txt) {
+	return QTags.insertContent(txt);
+}
+
+/**
+ * Adds a button to all instances of the editor
+ * 
+ * Added for back compatibility
+ * @see QTags.addButton()
+ */
+function edButton(id, display, tagStart, tagEnd, access, open) {
+	return QTags.addButton( id, display, tagStart, tagEnd, open, access );	
 }
 
 (function(){
@@ -109,18 +134,18 @@ function quicktags(settings) {
 
 	qt = QTags = function(settings) {
 		if ( typeof(settings) == 'string' )
-			settings = {quicktags_id: settings};
+			settings = {id: settings};
 		else if ( typeof(settings) != 'object' )
 			return false;
 
 		var t = this,
-			id = settings.quicktags_id,
+			id = settings.id,
 			buttons = {},
 			theButtons = {},
 			canvas = document.getElementById(id),
 			name = 'qt_' + id,
 			html = '',
-			i, tb, qb, btn, onclick;
+			i, tb, qb, btn, onclick, toolbar_id;
 
 		if ( !id || !canvas )
 			return false;
@@ -130,6 +155,9 @@ function quicktags(settings) {
 
 		// default buttons
 		for ( i in edButtons ) {
+			if ( !edButtons[i] )
+				continue;
+
 			buttons[edButtons[i].id] = edButtons[i];
 		}
 
@@ -141,8 +169,8 @@ function quicktags(settings) {
 			buttons[i] = new t._customButtons[i]();
 		}
 
-		if ( settings.quicktags_buttons ) {
-			qb = settings.quicktags_buttons.split(',');
+		if ( settings.buttons ) {
+			qb = settings.buttons.split(',');
 
 			for ( i in qb ) {
 				btn = qb[i];
@@ -153,8 +181,8 @@ function quicktags(settings) {
 			theButtons = buttons;
 		}
 
-		if ( settings.quicktags_disabled_buttons ) {
-			qb = settings.quicktags_disabled_buttons.split(',');
+		if ( settings.disabled_buttons ) {
+			qb = settings.disabled_buttons.split(',');
 
 			for ( i in qb ) {
 				btn = qb[i];
@@ -166,8 +194,15 @@ function quicktags(settings) {
 		for ( i in theButtons )
 			html += theButtons[i].html(name + '_');
 
+		if ( id == 'content' && !qt.instances[0] ) { // back compat hack :-(
+			edCanvas = canvas;
+			toolbar_id = 'ed_toolbar';
+		} else {
+			toolbar_id = name + '_toolbar';
+		}
+
 		tb = document.createElement('div');
-		tb.id = name + '_toolbar';
+		tb.id = toolbar_id;
 		tb.className = 'quicktags-toolbar';
 
 		canvas.parentNode.insertBefore(tb, canvas);
@@ -197,6 +232,9 @@ function quicktags(settings) {
 			tb.attachEvent('onclick', onclick);
 		}
 
+		if ( !qt.instances[0] )
+			qt.instances[0] = t;
+
 		qt.instances[id] = t;
 	};
 
@@ -209,9 +247,65 @@ function quicktags(settings) {
 	qt.getInstance = function(id) {
 		return qt.instances[id];
 	};
+	
+	/**
+	 * Main API function for adding a button to Quicktags
+	 * 
+	 * Adds qt.Button or qt.TagButton depending on the args. The first three args are always required.
+	 * For TagButton arg2 is also required. To be able to add button(s) to Quicktags, your script
+	 * should be enqueued as dependant on "quicktags" and outputted in the footer. If you are echoing JS
+	 * directly from PHP, use add_action( 'admin_print_footer_scripts', 'output_my_js', 100 ) or add_action( 'wp_footer', 'output_my_js', 100 )
+	 *
+	 * Minimun required to add a button that calls an external function:
+	 *     QTags.addButton( 'my_id', 'my button', my_callback );
+	 *     function my_callback() { alert('yeah!'); }
+	 *
+	 * Minimun required to add a button that inserts a tag:
+	 *     QTags.addButton( 'my_id', 'my button', '<span>', '</span>' );
+	 *
+	 * @param id string required button HTML ID
+	 * @param display string required button's value="..."
+	 * @param arg1 string || function required either a starting tag to be inserted like "<span>" or a callback that is executed when the button is pressed
+	 * @param arg2 string ending tag like "</span>"
+	 * @param arg3 int set to -1 if the inserted tag is self-closing
+	 * @param access string access key for the button
+	 * @param title string button's title="..." 
+	 * @param priority int number representing the desired position of the button in the toolbar. 1 - 9 = first, 11 - 19 = second, 21 - 29 = third, etc.
+	 * @return bool TRUE on success FALSE on failure
+	 */	 	 	 	
+	qt.addButton = function( id, display, arg1, arg2, arg3, access, title, priority ) {
+		var btn;
+		
+		if ( !id || !display )
+			return false;
 
-	qt.insertContent = function(editor_id, content) {
-		var sel, startPos, endPos, scrollTop, text, ed = document.getElementById(editor_id);
+		if ( typeof(arg1) == 'function' ) {
+			btn = new qt.Button(id, display, access, title);
+			btn.callback = arg1;
+		} else if ( typeof(arg1) == 'string' && arg1 && arg2 ) {
+			btn = new qt.TagButton(id, display, arg1, arg2, access, arg3, title);
+		} else {
+			return false;
+		}
+
+		if ( priority ) {
+			while ( typeof(edButtons[priority]) != 'undefined' ) {
+				priority++
+			}
+
+			edButtons[priority] = btn;
+		} else {
+			edButtons[edButtons.length] = btn;
+		}
+		
+		return true;
+	};
+
+	qt.insertContent = function(content) {
+		var sel, startPos, endPos, scrollTop, text, ed = document.getElementById(wpActiveEditor);
+
+		if ( !ed )
+			return false;
 
 		if ( document.selection ) { //IE
 			ed.focus();
@@ -234,6 +328,7 @@ function quicktags(settings) {
 			ed.value += content;
 			ed.focus();
 		}
+		return true;
 	};
 
 	// a plain, dumb button
@@ -468,22 +563,19 @@ function quicktags(settings) {
 	};
 
 	// ensure backward compatibility
-	edButtons = [
-		new qt.TagButton('strong','b','<strong>','</strong>','b'),
-		new qt.TagButton('em','i','<em>','</em>','i'),
-		new qt.LinkButton(), // special case
-		new qt.TagButton('block','b-quote','\n\n<blockquote>','</blockquote>\n\n','q'),
-		new qt.TagButton('del','del','<del datetime="' + _datetime + '">','</del>','d'),
-		new qt.TagButton('ins','ins','<ins datetime="' + _datetime + '">','</ins>','s'),
-		new qt.ImgButton(), // special case
-		new qt.TagButton('ul','ul','<ul>\n','</ul>\n\n','u'),
-		new qt.TagButton('ol','ol','<ol>\n','</ol>\n\n','o'),
-		new qt.TagButton('li','li','\t<li>','</li>\n','l'),
-		new qt.TagButton('code','code','<code>','</code>','c'),
-		new qt.TagButton('more','more','<!--more-->','','t',-1),
-		new qt.SpellButton(),
-		new qt.CloseButton()
-	];
+	edButtons[10] = new qt.TagButton('strong','b','<strong>','</strong>','b');
+	edButtons[20] = new qt.TagButton('em','i','<em>','</em>','i'),
+	edButtons[30] = new qt.LinkButton(), // special case
+	edButtons[40] = new qt.TagButton('block','b-quote','\n\n<blockquote>','</blockquote>\n\n','q'),
+	edButtons[50] = new qt.TagButton('del','del','<del datetime="' + _datetime + '">','</del>','d'),
+	edButtons[60] = new qt.TagButton('ins','ins','<ins datetime="' + _datetime + '">','</ins>','s'),
+	edButtons[70] = new qt.ImgButton(), // special case
+	edButtons[80] = new qt.TagButton('ul','ul','<ul>\n','</ul>\n\n','u'),
+	edButtons[90] = new qt.TagButton('ol','ol','<ol>\n','</ol>\n\n','o'),
+	edButtons[100] = new qt.TagButton('li','li','\t<li>','</li>\n','l'),
+	edButtons[110] = new qt.TagButton('code','code','<code>','</code>','c'),
+	edButtons[120] = new qt.TagButton('more','more','<!--more-->','','t',-1),
+	edButtons[130] = new qt.SpellButton(),
+	edButtons[140] = new qt.CloseButton()
 
-	edButton = qt.TagButton;
 })();
