@@ -2283,8 +2283,10 @@ function _insert_into_post_button($type) {
  */
 function media_upload_max_image_resize() {
 ?>
-<input name="image_resize" type="checkbox" id="image_resize" value="1" />
-<label for="image_resize"><?php printf( __( 'Scale images to max width %1$dpx or max height %2$dpx'), get_option('large_size_w'), get_option('large_size_h') ); ?></label>
+<label>
+<input name="image_resize" type="checkbox" id="image_resize" value="true" />
+<?php printf( __( 'Scale images to max width %1$dpx or max height %2$dpx' ), (int) get_option( 'large_size_w' ), (int) get_option( 'large_size_h' ) ); ?>
+</label>
 <?php 
 }
 

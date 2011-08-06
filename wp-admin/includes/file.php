@@ -330,7 +330,8 @@ function wp_handle_upload( &$file, $overrides = false, $time = null ) {
 		return $upload_error_handler( $file, sprintf( __('The uploaded file could not be moved to %s.' ), $uploads['path'] ) );
 
 	// If a resize was requested, perform the resize.
-	$do_resize = apply_filters( 'wp_upload_resize', isset( $_REQUEST['image_resize'] ) );
+	$image_resize = isset( $_POST['image_resize'] ) && 'true' == $_POST['image_resize'];
+	$do_resize = apply_filters( 'wp_upload_resize', $image_resize );
 	$size = @getimagesize( $tmp_file );
 	if ( $do_resize && $size ) {
 		$old_temp = $tmp_file;
