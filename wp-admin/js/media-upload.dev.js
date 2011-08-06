@@ -1,9 +1,23 @@
 // send html to the post editor
-/*
+
+var wpActiveEditor;
+
 function send_to_editor(h) {
 	var ed;
 
-	if ( typeof tinyMCE != 'undefined' && ( ed = tinyMCE.activeEditor ) && !ed.isHidden() ) {
+	if ( !wpActiveEditor ) {
+		if ( typeof(tinymce) != 'undefined' && tinymce.activeEditor ) {
+			ed = tinymce.activeEditor;
+			wpActiveEditor = ed.id;
+		} else {
+			return false;
+		}
+	} 
+
+	if ( !ed && typeof(tinymce) != 'undefined' && wpActiveEditor )
+		ed = tinymce.get(wpActiveEditor);
+
+	if ( ed && !ed.isHidden() ) {
 		// restore caret position on IE
 		if ( tinymce.isIE && ed.windowManager.insertimagebookmark )
 			ed.selection.moveToBookmark(ed.windowManager.insertimagebookmark);
@@ -20,16 +34,14 @@ function send_to_editor(h) {
 		}
 
 		ed.execCommand('mceInsertContent', false, h);
-
-	} else if ( typeof edInsertContent == 'function' ) {
-		edInsertContent(edCanvas, h);
+	} else if ( typeof(QTags) != 'undefined' ) {
+		QTags.insertContent(h);
 	} else {
-		jQuery( edCanvas ).val( jQuery( edCanvas ).val() + h );
+		document.getElementById(wpActiveEditor).value += h;
 	}
 
 	tb_remove();
 }
-*/
 
 // thickbox settings
 var tb_position;
@@ -64,7 +76,7 @@ var tb_position;
 		$('a.thickbox').click(function(){
 			var ed;
 
-			if ( typeof tinyMCE != 'undefined' && tinymce.isIE && ( ed = tinyMCE.activeEditor ) && !ed.isHidden() ) {
+			if ( typeof(tinymce) != 'undefined' && tinymce.isIE && ( ed = tinymce.get(wpActiveEditor) ) && !ed.isHidden() ) {
 				ed.focus();
 				ed.windowManager.insertimagebookmark = ed.selection.getBookmark();
 			}

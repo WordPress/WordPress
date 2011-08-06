@@ -429,6 +429,7 @@ class WP_Editor {
 			wp_enqueue_script('wp-fullscreen');
 
 		add_thickbox();
+		wp_enqueue_script('media-upload');
 	}
 
 	function editor_js() {
@@ -525,54 +526,23 @@ class WP_Editor {
 					}
 
 					if ( mce )
-						try{tinymce.init(init);}catch(e){}
+						try { tinymce.init(init); } catch(e){}
 				}
 			}
 
 			if ( typeof(QTags) == 'function' ) {
 				for ( qt in tinyMCEPreInit.qtInit ) {
-					try{quicktags(tinyMCEPreInit.qtInit[qt]);}catch(e){}
+					try { quicktags( tinyMCEPreInit.qtInit[qt] ); } catch(e){}
 				}
 			}
 		})();
 
 		var wpActiveEditor;
 
-		jQuery('.wp-editor-wrap').click(function(e){
+		jQuery('.wp-editor-wrap').mousedown(function(e){
 	    	wpActiveEditor = this.id.slice(3, -5);
 		});
 
-		function send_to_editor(h) {
-			var ed;
-
-			if ( typeof(tinymce) != 'undefined' && wpActiveEditor )
-				ed = tinymce.get(wpActiveEditor);
-
-			if ( ed && !ed.isHidden() ) {
-				// restore caret position on IE
-				if ( tinymce.isIE && ed.windowManager.insertimagebookmark )
-					ed.selection.moveToBookmark(ed.windowManager.insertimagebookmark);
-
-				if ( h.indexOf('[caption') === 0 ) {
-					if ( ed.plugins.wpeditimage )
-						h = ed.plugins.wpeditimage._do_shcode(h);
-				} else if ( h.indexOf('[gallery') === 0 ) {
-					if ( ed.plugins.wpgallery )
-						h = ed.plugins.wpgallery._do_gallery(h);
-				} else if ( h.indexOf('[embed') === 0 ) {
-					if ( ed.plugins.wordpress )
-						h = ed.plugins.wordpress._setEmbed(h);
-				}
-
-				ed.execCommand('mceInsertContent', false, h);
-			} else if ( typeof quicktags != 'undefined' ) {
-				QTags.insertContent(wpActiveEditor, h);
-			} else {
-				jQuery('#'+wpActiveEditor).val( jQuery('#'+wpActiveEditor).val() + h );
-			}
-
-			tb_remove();
-		}
 <?php
 
 		if ( $this->ext_plugins )

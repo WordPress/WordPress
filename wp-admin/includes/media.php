@@ -403,7 +403,7 @@ function _media_button($title, $icon, $type, $id) {
 function get_upload_iframe_src($type) {
 	global $post_ID, $temp_ID;
 	$uploading_iframe_ID = (int) (0 == $post_ID ? $temp_ID : $post_ID);
-	$upload_iframe_src = add_query_arg('post_id', $uploading_iframe_ID, 'media-upload.php');
+	$upload_iframe_src = add_query_arg( 'post_id', $uploading_iframe_ID, admin_url('media-upload.php') );
 
 	if ( 'media' != $type )
 		$upload_iframe_src = add_query_arg('type', $type, $upload_iframe_src);
