@@ -2,15 +2,15 @@
 
 // escape text only if it needs translating
 function mce_escape($text) {
-	global $language;
+	global $wp_editor;
 
-	if ( 'en' == $language )
+	if ( 'en' == $wp_editor->mce_locale )
 		return $text;
 	else
 		return esc_js($text);
 }
 
-$lang = 'tinyMCE.addI18n({' . $language . ':{
+$lang = 'tinyMCE.addI18n({' . $this->mce_locale . ':{
 common:{
 edit_confirm:"' . mce_escape( __('Do you want to use the WYSIWYG mode for this textarea?') ) . '",
 apply:"' . mce_escape( __('Apply') ) . '",
@@ -232,7 +232,7 @@ words:"' . mce_escape( __('Words:') ) . ' "
 }
 }});
 
-tinyMCE.addI18n("' . $language . '.advanced",{
+tinyMCE.addI18n("' . $this->mce_locale . '.advanced",{
 style_select:"' . mce_escape( /* translators: TinyMCE font styles */ _x('Styles', 'TinyMCE font styles') ) . '",
 font_size:"' . mce_escape( __('Font size') ) . '",
 fontdefault:"' . mce_escape( __('Font family') ) . '",
@@ -298,7 +298,7 @@ rich_text_area:"' . mce_escape( __('Rich Text Area') ) . '",
 toolbar:"' . mce_escape( __('Toolbar') ) . '"
 });
 
-tinyMCE.addI18n("' . $language . '.advanced_dlg",{
+tinyMCE.addI18n("' . $this->mce_locale . '.advanced_dlg",{
 about_title:"' . mce_escape( __('About TinyMCE') ) . '",
 about_general:"' . mce_escape( __('About') ) . '",
 about_help:"' . mce_escape( __('Help') ) . '",
@@ -352,7 +352,7 @@ accessibility_help:"' . mce_escape( __('Accessibility Help') ) . '",
 accessibility_usage_title:"' . mce_escape( __('General Usage') ) . '"
 });
 
-tinyMCE.addI18n("' . $language . '.media_dlg",{
+tinyMCE.addI18n("' . $this->mce_locale . '.media_dlg",{
 title:"' . mce_escape( __('Insert / edit embedded media') ) . '",
 general:"' . mce_escape( __('General') ) . '",
 advanced:"' . mce_escape( __('Advanced') ) . '",
@@ -462,7 +462,7 @@ poster:"' . mce_escape( __('Poster') ) . '",
 source:"' . mce_escape( __('Source') ) . '"
 });
 
-tinyMCE.addI18n("' . $language . '.wordpress",{
+tinyMCE.addI18n("' . $this->mce_locale . '.wordpress",{
 wp_adv_desc:"' . mce_escape( __('Show/Hide Kitchen Sink') )  . ' (Alt+Shift+Z)",
 wp_more_desc:"' . mce_escape( __('Insert More Tag') ) . ' (Alt+Shift+T)",
 wp_page_desc:"' . mce_escape( __('Insert Page break') ) . ' (Alt+Shift+P)",
@@ -477,7 +477,7 @@ editgallery:"' . mce_escape( __('Edit Gallery') ) . '",
 delgallery:"' . mce_escape( __('Delete Gallery') ) . '"
 });
 
-tinyMCE.addI18n("' . $language . '.wpeditimage",{
+tinyMCE.addI18n("' . $this->mce_locale . '.wpeditimage",{
 edit_img:"' . mce_escape( __('Edit Image') )  . '",
 del_img:"' . mce_escape( __('Delete Image') )  . '",
 adv_settings:"' . mce_escape( __('Advanced Settings') )  . '",
