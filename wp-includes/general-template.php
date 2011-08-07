@@ -1739,7 +1739,7 @@ function user_can_richedit() {
 			!$is_iphone && // this includes all Safari mobile browsers
 			( ( preg_match( '!AppleWebKit/(\d+)!', $_SERVER['HTTP_USER_AGENT'], $match ) && intval($match[1]) >= 420 ) ||
 				!preg_match( '!opera[ /][2-8]|konqueror|safari!i', $_SERVER['HTTP_USER_AGENT'] ) )
-				&& 'comment.php' != $pagenow ) {
+		) {
 			$wp_rich_edit = true;
 		} else {
 			$wp_rich_edit = false;

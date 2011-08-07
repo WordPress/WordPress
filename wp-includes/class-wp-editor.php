@@ -82,7 +82,7 @@ class WP_Editor {
 		if ( !empty($set['editor_css']) )
 			echo $set['editor_css'] . "\n";
 
-		if ( $this->can_richedit || $set['media_buttons'] ) {
+		if ( !empty($buttons) || $set['media_buttons'] ) {
 			echo '<div id="wp-' . $editor_id . '-editor-tools" class="wp-editor-tools">';
 			echo $buttons;
 
@@ -474,9 +474,6 @@ class WP_Editor {
 		} else {
 			$qtInit = '{}';
 		}
-
-	//	reset($this->mce_settings);
-	//	$key = key($this->mce_settings);
 
 		$ref = array(
 			'plugins' => implode( ',', $this->plugins ),
