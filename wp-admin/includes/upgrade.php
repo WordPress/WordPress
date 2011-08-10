@@ -1406,9 +1406,10 @@ function dbDelta($queries, $execute = true) {
 	// Check to see which tables and fields exist
 	if ($tables = $wpdb->get_col('SHOW TABLES;')) {
 		// For every table in the database
+		$global_tables = $wpdb->tables( 'global' );
 		foreach ($tables as $table) {
 			// Upgrade global tables only for the main site. Don't upgrade at all if DO_NOT_UPGRADE_GLOBAL_TABLES is defined.
-			if ( in_array($table, $wpdb->tables('global')) && ( !is_main_site() || defined('DO_NOT_UPGRADE_GLOBAL_TABLES') ) )
+			if ( in_array( $table, $global_tables ) && ( !is_main_site() || defined( 'DO_NOT_UPGRADE_GLOBAL_TABLES' ) ) )
 				continue;
 
 			// If a table query exists for the database table...
