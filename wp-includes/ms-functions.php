@@ -646,13 +646,10 @@ function wpmu_validate_blog_signup($blogname, $blog_title, $user = '') {
 	if (! is_subdomain_install() )
 		$illegal_names = array_merge($illegal_names, apply_filters( 'subdirectory_reserved_names', array( 'page', 'comments', 'blog', 'files', 'feed' ) ) );
 
-
 	if ( empty( $blogname ) )
 		$errors->add('blogname', __('Please enter a site name'));
 
-	$maybe = array();
-	preg_match( '/[a-z0-9]+/', $blogname, $maybe );
-	if ( $blogname != $maybe[0] )
+	if ( preg_match( '/[^a-z0-9]+/', $blogname ) )
 		$errors->add('blogname', __('Only lowercase letters and numbers allowed'));
 
 	if ( in_array( $blogname, $illegal_names ) == true )
