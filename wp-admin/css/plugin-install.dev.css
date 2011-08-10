@@ -147,4 +147,5 @@ div.star img {
 
 #plugin-information pre {
 	padding: 7px;
+	overflow: auto;
 }
