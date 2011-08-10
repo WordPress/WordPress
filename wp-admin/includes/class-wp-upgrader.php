@@ -604,6 +604,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 class Theme_Upgrader extends WP_Upgrader {
 
 	var $result;
+	var $bulk = false;
 
 	function upgrade_strings() {
 		$this->strings['up_to_date'] = __('The theme is at the latest version.');
