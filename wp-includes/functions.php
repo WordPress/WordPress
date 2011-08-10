@@ -3881,8 +3881,8 @@ function update_site_option( $option, $value ) {
 	}
 
 	if ( $result ) {
-		do_action( "update_site_option_{$option}", $option, $value );
-		do_action( "update_site_option", $option, $value );
+		do_action( "update_site_option_{$option}", $option, $value, $oldvalue );
+		do_action( "update_site_option", $option, $value, $oldvalue );
 		return true;
 	}
 	return false;
