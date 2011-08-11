@@ -92,16 +92,16 @@ include('./admin-header.php');
 </tr>
 <?php if ( !is_multisite() ) { ?>
 <tr valign="top">
-<th scope="row"><label for="siteurl"><?php _e('WordPress address (URL)') ?></label></th>
+<th scope="row"><label for="siteurl"><?php _e('WordPress Address (URL)') ?></label></th>
 <td><input name="siteurl" type="text" id="siteurl" value="<?php form_option('siteurl'); ?>"<?php disabled( defined( 'WP_SITEURL' ) ); ?> class="regular-text code<?php if ( defined( 'WP_SITEURL' ) ) echo ' disabled' ?>" /></td>
 </tr>
 <tr valign="top">
-<th scope="row"><label for="home"><?php _e('Site address (URL)') ?></label></th>
+<th scope="row"><label for="home"><?php _e('Site Address (URL)') ?></label></th>
 <td><input name="home" type="text" id="home" value="<?php form_option('home'); ?>"<?php disabled( defined( 'WP_HOME' ) ); ?> class="regular-text code<?php if ( defined( 'WP_HOME' ) ) echo ' disabled' ?>" />
 <span class="description"><?php _e('Enter the address here if you want your site homepage <a href="http://codex.wordpress.org/Giving_WordPress_Its_Own_Directory">to be different from the directory</a> you installed WordPress.'); ?></span></td>
 </tr>
 <tr valign="top">
-<th scope="row"><label for="admin_email"><?php _e('E-mail address') ?> </label></th>
+<th scope="row"><label for="admin_email"><?php _e('E-mail Address') ?> </label></th>
 <td><input name="admin_email" type="text" id="admin_email" value="<?php form_option('admin_email'); ?>" class="regular-text" />
 <span class="description"><?php _e('This address is used for admin purposes, like new user notification.') ?></span></td>
 </tr>
@@ -120,7 +120,7 @@ include('./admin-header.php');
 </tr>
 <?php } else { ?>
 <tr valign="top">
-<th scope="row"><label for="new_admin_email"><?php _e('E-mail address') ?> </label></th>
+<th scope="row"><label for="new_admin_email"><?php _e('E-mail Address') ?> </label></th>
 <td><input name="new_admin_email" type="text" id="new_admin_email" value="<?php form_option('admin_email'); ?>" class="regular-text code" />
 <span class="description"><?php _e('This address is used for admin purposes. If you change this we will send you an e-mail at your new address to confirm it. <strong>The new address will not become active until confirmed.</strong>') ?></span>
 <?php
@@ -296,7 +296,7 @@ endfor;
 	if ( is_multisite() && !empty( $languages ) ):
 ?>
 	<tr valign="top">
-		<th width="33%" scope="row"><?php _e('Site language:') ?></th>
+		<th width="33%" scope="row"><?php _e('Site Language') ?></th>
 		<td>
 			<select name="WPLANG" id="WPLANG">
 				<?php mu_dropdown_languages( $languages, get_option('WPLANG') ); ?>
