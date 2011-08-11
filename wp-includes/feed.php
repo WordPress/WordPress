@@ -63,7 +63,8 @@ function bloginfo_rss($show = '') {
  * @return string Default feed, or for example 'rss2', 'atom', etc.
  */
 function get_default_feed() {
-	return apply_filters('default_feed', 'rss2');
+	$default_feed = apply_filters('default_feed', 'rss2');
+	return in_array( $default_feed, array( 'rss', 'rdf' ) ) ? 'rss2' : $default_feed;
 }
 
 /**

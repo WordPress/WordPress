@@ -218,7 +218,10 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 				$addl_path = !empty( $addl_path ) ? trailingslashit($addl_path) : '';
 				if ( get_query_var( 'withcomments' ) )
 					$addl_path .= 'comments/';
-				$addl_path .= user_trailingslashit( 'feed/' . ( ( get_default_feed() ==  get_query_var('feed') || 'feed' == get_query_var('feed') ) ? '' : get_query_var('feed') ), 'feed' );
+				if( (in_array( get_default_feed(), array( 'rss', 'rdf' ) ) && 'feed' == get_query_var('feed')) || in_array( get_query_var('feed'), array( 'rss', 'rdf' ) ) )
+					$addl_path .= user_trailingslashit( 'feed/' . ( ( get_default_feed() == 'rss2' ) ? '' : 'rss2' ), 'feed' );
+				else
+					$addl_path .= user_trailingslashit( 'feed/' . ( ( get_default_feed() ==  get_query_var('feed') || 'feed' == get_query_var('feed') ) ? '' : get_query_var('feed') ), 'feed' );
 				$redirect['query'] = remove_query_arg( 'feed', $redirect['query'] );
 			}
 
@@ -294,6 +297,9 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 
 		// Clean up empty query strings
 		$redirect['query'] = trim(preg_replace( '#(^|&)(p|page_id|cat|tag)=?(&|$)#', '&', $redirect['query']), '&');
+
+		// Redirect obsolete feeds
+		$redirect['query'] = preg_replace( '#(^|&)feed=(rss|rdf)(&|$)#', '$1feed=rss2$3', $redirect['query'] );
 
 		// Remove redundant leading ampersands
 		$redirect['query'] = preg_replace( '#^\??&*?#', '', $redirect['query'] );
