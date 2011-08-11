@@ -19,7 +19,7 @@ if ( ! current_user_can( 'manage_network_options' ) )
 $title = __( 'Settings' );
 $parent_file = 'settings.php';
 
-add_contextual_help($current_screen,
+add_contextual_help( $current_screen,
 	'<p>' . __('This screen sets and changes options for the network as a whole. The first site is the main site in the network and network options are pulled from that original site&#8217;s options.') . '</p>' .
 	'<p>' . __('Operational settings has fields for the network&#8217;s name and admin email.') . '</p>' .
 	'<p>' . __('Dashboard Site is an option to give a site to users who do not have a site on the system. Their default role is Subscriber, but that default can be changed. The Admin Notice Feed can provide a notice on all dashboards of the latest post via RSS or Atom, or provide no such notice if left blank.') . '</p>' .
@@ -34,19 +34,83 @@ add_contextual_help($current_screen,
 	'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
 
+if ( $_POST ) {
+	do_action( 'wpmuadminedit' , '' );
+
+	check_admin_referer( 'siteoptions' );
+
+	if ( isset( $_POST['WPLANG'] ) && ( '' === $_POST['WPLANG'] || in_array( $_POST['WPLANG'], get_available_languages() ) ) )
+		update_site_option( 'WPLANG', $_POST['WPLANG'] );
+
+	if ( is_email( $_POST['admin_email'] ) )
+		update_site_option( 'admin_email', $_POST['admin_email'] );
+
+	$illegal_names = split( ' ', $_POST['illegal_names'] );
+	foreach ( (array) $illegal_names as $name ) {
+		$name = trim( $name );
+		if ( $name != '' )
+			$names[] = trim( $name );
+		}
+	update_site_option( 'illegal_names', $names );
+
+	if ( $_POST['limited_email_domains'] != '' ) {
+		$limited_email_domains = str_replace( ' ', "\n", $_POST['limited_email_domains'] );
+		$limited_email_domains = split( "\n", stripslashes( $limited_email_domains ) );
+		$limited_email = array();
+		foreach ( (array) $limited_email_domains as $domain ) {
+			$domain = trim( $domain );
+			if ( ! preg_match( '/(--|\.\.)/', $domain ) && preg_match( '|^([a-zA-Z0-9-\.])+$|', $domain ) )
+				$limited_email[] = trim( $domain );
+		}
+		update_site_option( 'limited_email_domains', $limited_email );
+	} else {
+			update_site_option( 'limited_email_domains', '' );
+	}
+
+	if ( $_POST['banned_email_domains'] != '' ) {
+		$banned_email_domains = split( "\n", stripslashes( $_POST['banned_email_domains'] ) );
+		$banned = array();
+		foreach ( (array) $banned_email_domains as $domain ) {
+			$domain = trim( $domain );
+			if ( ! preg_match( '/(--|\.\.)/', $domain ) && preg_match( '|^([a-zA-Z0-9-\.])+$|', $domain ) )
+				$banned[] = trim( $domain );
+		}
+		update_site_option( 'banned_email_domains', $banned );
+	} else {
+		update_site_option( 'banned_email_domains', '' );
+	}
+
+	$options = array( 'registrationnotification', 'registration', 'add_new_users', 'menu_items', 'mu_media_buttons', 'upload_space_check_disabled', 'blog_upload_space', 'upload_filetypes', 'site_name', 'first_post', 'first_page', 'first_comment', 'first_comment_url', 'first_comment_author', 'welcome_email', 'welcome_user_email', 'fileupload_maxk', 'global_terms_enabled' );
+	$checked_options = array( 'mu_media_buttons' => array(), 'menu_items' => array(), 'registrationnotification' => 'no', 'upload_space_check_disabled' => 1, 'add_new_users' => 0 );
+	foreach ( $checked_options as $option_name => $option_unchecked_value ) {
+		if ( ! isset( $_POST[$option_name] ) )
+			$_POST[$option_name] = $option_unchecked_value;
+	}
+	foreach ( $options as $option_name ) {
+		if ( ! isset($_POST[$option_name]) )
+			continue;
+		$value = stripslashes_deep( $_POST[$option_name] );
+		update_site_option( $option_name, $value );
+	}
+
+	// Update more options here
+	do_action( 'update_wpmu_options' );
+
+	wp_redirect( add_query_arg( 'updated', 'true', network_admin_url( 'settings.php' ) ) );
+	exit();
+}
+
 include( '../admin-header.php' );
 
-if (isset($_GET['updated'])) {
-	?>
-	<div id="message" class="updated"><p><?php _e( 'Options saved.' ) ?></p></div>
-	<?php
+if ( isset( $_GET['updated'] ) ) {
+	?><div id="message" class="updated"><p><?php _e( 'Options saved.' ) ?></p></div><?php
 }
 ?>
 
 <div class="wrap">
 	<?php screen_icon('options-general'); ?>
 	<h2><?php _e( 'Settings' ) ?></h2>
-	<form method="post" action="edit.php?action=siteoptions">
+	<form method="post" action="settings.php">
 		<?php wp_nonce_field( 'siteoptions' ); ?>
 		<h3><?php _e( 'Operational Settings' ); ?></h3>
 		<table class="form-table">
