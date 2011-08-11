@@ -218,7 +218,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 				$addl_path = !empty( $addl_path ) ? trailingslashit($addl_path) : '';
 				if ( get_query_var( 'withcomments' ) )
 					$addl_path .= 'comments/';
-				if( (in_array( get_default_feed(), array( 'rss', 'rdf' ) ) && 'feed' == get_query_var('feed')) || in_array( get_query_var('feed'), array( 'rss', 'rdf' ) ) )
+				if ( (in_array( get_default_feed(), array( 'rss', 'rdf' ) ) && 'feed' == get_query_var('feed')) || in_array( get_query_var('feed'), array( 'rss', 'rdf' ) ) )
 					$addl_path .= user_trailingslashit( 'feed/' . ( ( get_default_feed() == 'rss2' ) ? '' : 'rss2' ), 'feed' );
 				else
 					$addl_path .= user_trailingslashit( 'feed/' . ( ( get_default_feed() ==  get_query_var('feed') || 'feed' == get_query_var('feed') ) ? '' : get_query_var('feed') ), 'feed' );
