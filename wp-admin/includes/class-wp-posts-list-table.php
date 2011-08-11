@@ -839,10 +839,11 @@ class WP_Posts_List_Table extends WP_List_Table {
 	<?php
 		if ( post_type_supports( $screen->post_type, 'author' ) && $bulk )
 			echo $authors_dropdown;
-	?>
 
-	<?php if ( $post_type_object->hierarchical ) : ?>
+		if ( post_type_supports( $screen->post_type, 'page-attributes' ) ) :
 
+			if ( $post_type_object->hierarchical ) :
+		?>
 			<label>
 				<span class="title"><?php _e( 'Parent' ); ?></span>
 	<?php
@@ -854,7 +855,9 @@ class WP_Posts_List_Table extends WP_List_Table {
 	?>
 			</label>
 
-	<?php if ( post_type_supports( $screen->post_type, 'page-attributes' ) ) :
+	<?php
+			endif; // hierarchical
+	
 			if ( !$bulk ) : ?>
 
 			<label>
@@ -862,7 +865,10 @@ class WP_Posts_List_Table extends WP_List_Table {
 				<span class="input-text-wrap"><input type="text" name="menu_order" class="inline-edit-menu-order-input" value="<?php echo $post->menu_order ?>" /></span>
 			</label>
 
-	<?php	endif; // !$bulk ?>
+	<?php	endif; // !$bulk
+
+			if ( 'page' == $screen->post_type ) :
+	?>
 
 			<label>
 				<span class="title"><?php _e( 'Template' ); ?></span>
@@ -876,8 +882,9 @@ class WP_Posts_List_Table extends WP_List_Table {
 			</label>
 
 	<?php
-		endif; // post_type_supports page-attributes
-	endif; // $post_type_object->hierarchical ?>
+			endif; // page post_type
+		endif; // page-attributes
+	?>
 
 	<?php if ( count( $flat_taxonomies ) && !$bulk ) : ?>
 
