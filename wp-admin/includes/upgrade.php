@@ -1382,6 +1382,7 @@ function dbDelta($queries, $execute = true) {
 		$queries = explode( ';', $queries );
 		if ('' == $queries[count($queries) - 1]) array_pop($queries);
 	}
+	$queries = apply_filters( 'dbdelta_queries', $queries );
 
 	$cqueries = array(); // Creation Queries
 	$iqueries = array(); // Insertion Queries
@@ -1402,6 +1403,8 @@ function dbDelta($queries, $execute = true) {
 			// Unrecognized query type
 		}
 	}
+	$cqueries = apply_filters( 'dbdelta_create_queries', $cqueries );
+	$iqueries = apply_filters( 'dbdelta_insert_queries', $iqueries );
 
 	// Check to see which tables and fields exist
 	if ($tables = $wpdb->get_col('SHOW TABLES;')) {
