@@ -1500,8 +1500,8 @@ class WP_Rewrite {
 
 		// Default Feed rules - These are require to allow for the direct access files to work with permalink structure starting with %category%
 		$default_feeds = array(	'.*wp-atom.php$'	=>	$this->index . '?feed=atom',
-								'.*wp-rdf.php$'		=>	$this->index . '?feed=rdf',
-								'.*wp-rss.php$'		=>	$this->index . '?feed=rss',
+								'.*wp-rdf.php$'		=>	$this->index . '?feed=rss2',
+								'.*wp-rss.php$'		=>	$this->index . '?feed=rss2',
 								'.*wp-rss2.php$'	=>	$this->index . '?feed=rss2',
 								'.*wp-feed.php$'	=>	$this->index . '?feed=feed',
 								'.*wp-commentsrss2.php$'	=>	$this->index . '?feed=rss2&withcomments=1');
