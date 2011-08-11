@@ -104,6 +104,7 @@ require( ABSPATH . WPINC . '/l10n.php' );
 // Run the installer if WordPress is not installed.
 wp_not_installed();
 
+
 // Load most of WordPress.
 require( ABSPATH . WPINC . '/class-wp-walker.php' );
 require( ABSPATH . WPINC . '/class-wp-ajax-response.php' );
@@ -249,7 +250,7 @@ $wp = new WP();
  * @global object $wp_widget_factory
  * @since 2.8.0
  */
-$wp_widget_factory = new WP_Widget_Factory();
+$GLOBALS['wp_widget_factory'] = new WP_Widget_Factory();
 
 do_action( 'setup_theme' );
 

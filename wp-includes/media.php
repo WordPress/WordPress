@@ -1288,7 +1288,7 @@ class WP_Embed {
 		return apply_filters( 'embed_maybe_make_link', $output, $url );
 	}
 }
-$wp_embed = new WP_Embed();
+$GLOBALS['wp_embed'] = new WP_Embed();
 
 /**
  * Register an embed handler. This function should probably only be used for sites that do not support oEmbed.

@@ -385,7 +385,7 @@ $_wp_sidebars_widgets = array();
 /**
  * Private
  */
- $_wp_deprecated_widgets_callbacks = array(
+ $GLOBALS['_wp_deprecated_widgets_callbacks'] = array(
  	'wp_widget_pages',
 	'wp_widget_pages_control',
 	'wp_widget_calendar',
