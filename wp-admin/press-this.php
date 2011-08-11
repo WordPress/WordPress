@@ -502,7 +502,7 @@ if ( user_can_richedit() ) {
 					<p>
 						<label for="post_format"><?php _e( 'Post Format:' ); ?>
 						<select name="post_format" id="post_format">
-							<option value="0"><?php _e( 'Standard' ); ?></option>
+							<option value="0"><?php _ex( 'Standard', 'Post format' ); ?></option>
 						<?php foreach ( $post_formats[0] as $format ): ?>
 							<option<?php selected( $default_format, $format ); ?> value="<?php echo esc_attr( $format ); ?>"> <?php echo esc_html( get_post_format_string( $format ) ); ?></option>
 						<?php endforeach; ?>
