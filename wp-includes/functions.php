@@ -2811,30 +2811,21 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 		$message .= "\n<p><a href='javascript:history.back()'>$back_text</p>";
 	}
 
-	if ( defined( 'WP_SITEURL' ) && '' != WP_SITEURL )
-		$admin_dir = WP_SITEURL . '/wp-admin/';
-	elseif ( function_exists( 'get_bloginfo' ) && '' != get_bloginfo( 'wpurl' ) )
-		$admin_dir = get_bloginfo( 'wpurl' ) . '/wp-admin/';
-	elseif ( strpos( $_SERVER['PHP_SELF'], 'wp-admin' ) !== false )
-		$admin_dir = '';
-	else
-		$admin_dir = 'wp-admin/';
-
 	if ( !function_exists( 'did_action' ) || !did_action( 'admin_head' ) ) :
-	if ( !headers_sent() ) {
-		status_header( $r['response'] );
-		nocache_headers();
-		header( 'Content-Type: text/html; charset=utf-8' );
-	}
-
-	if ( empty($title) )
-		$title = $have_gettext ? __('WordPress &rsaquo; Error') : 'WordPress &rsaquo; Error';
-
-	$text_direction = 'ltr';
-	if ( isset($r['text_direction']) && 'rtl' == $r['text_direction'] )
-		$text_direction = 'rtl';
-	elseif ( function_exists( 'is_rtl' ) && is_rtl() )
-		$text_direction = 'rtl';
+		if ( !headers_sent() ) {
+			status_header( $r['response'] );
+			nocache_headers();
+			header( 'Content-Type: text/html; charset=utf-8' );
+		}
+	
+		if ( empty($title) )
+			$title = $have_gettext ? __('WordPress &rsaquo; Error') : 'WordPress &rsaquo; Error';
+	
+		$text_direction = 'ltr';
+		if ( isset($r['text_direction']) && 'rtl' == $r['text_direction'] )
+			$text_direction = 'rtl';
+		elseif ( function_exists( 'is_rtl' ) && is_rtl() )
+			$text_direction = 'rtl';
 ?>
 <!DOCTYPE html>
 <!-- Ticket #11289, IE bug fix: always pad the error page with enough characters such that it is greater than 512 bytes, even after gzip compression abcdefghijklmnopqrstuvwxyz1234567890aabbccddeeffgghhiijjkkllmmnnooppqqrrssttuuvvwwxxyyzz11223344556677889900abacbcbdcdcededfefegfgfhghgihihjijikjkjlklkmlmlnmnmononpopoqpqprqrqsrsrtstsubcbcdcdedefefgfabcadefbghicjkldmnoepqrfstugvwxhyz1i234j567k890laabmbccnddeoeffpgghqhiirjjksklltmmnunoovppqwqrrxsstytuuzvvw0wxx1yyz2z113223434455666777889890091abc2def3ghi4jkl5mno6pqr7stu8vwx9yz11aab2bcc3dd4ee5ff6gg7hh8ii9j0jk1kl2lmm3nnoo4p5pq6qrr7ss8tt9uuvv0wwx1x2yyzz13aba4cbcb5dcdc6dedfef8egf9gfh0ghg1ihi2hji3jik4jkj5lkl6kml7mln8mnm9ono -->
@@ -2842,14 +2833,41 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title><?php echo $title ?></title>
-	<link rel="stylesheet" href="<?php echo $admin_dir; ?>css/install.css" type="text/css" />
-<?php
-if ( 'rtl' == $text_direction ) : ?>
-	<link rel="stylesheet" href="<?php echo $admin_dir; ?>css/install-rtl.css" type="text/css" />
-<?php endif; ?>
+	<style type="text/css">
+		html {
+			background: #f9f9f9;
+		}
+		body {
+			background: #fff;
+			color: #333;
+			font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+			margin: 2em auto;
+			width: 700px;
+			padding: 1em 2em;
+			-moz-border-radius: 11px;
+			-khtml-border-radius: 11px;
+			-webkit-border-radius: 11px;
+			border-radius: 11px;
+			border: 1px solid #dfdfdf;
+		}
+		#error-page {
+			margin-top: 50px;
+		}
+		#error-page p {
+			font-size: 12px;
+			line-height: 18px;
+			margin: 25px 0 20px;
+		}
+		#error-page code {
+			font-family: Consolas, Monaco, monospace;
+		}
+		<?php if ( 'rtl' == $text_direction ) : ?>
+		body { font-family: Tahoma, arial; }
+		<?php endif; ?>
+	</style>
 </head>
 <body id="error-page">
-<?php endif; ?>
+<?php endif; // !function_exists( 'did_action' ) || !did_action( 'admin_head' ) ?>
 	<?php echo $message; ?>
 </body>
 </html>
