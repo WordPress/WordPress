@@ -2,7 +2,7 @@
 /**
  * Class for working with MO files
  *
- * @version $Id: mo.php 406 2010-02-07 11:10:24Z nbachiyski $
+ * @version $Id: mo.php 602 2011-01-30 12:43:29Z nbachiyski $
  * @package pomo
  * @subpackage mo
  */
@@ -30,6 +30,20 @@ class MO extends Gettext_Translations {
 	function export_to_file($filename) {
 		$fh = fopen($filename, 'wb');
 		if ( !$fh ) return false;
+		$res = $this->export_to_file_handle( $fh );
+		fclose($fh);
+		return $res;
+	}
+	
+	function export() {
+		$tmp_fh = fopen("php://temp", 'r+');
+		if ( !$tmp_fh ) return false;
+		$this->export_to_file_handle( $tmp_fh );
+		rewind( $tmp_fh );
+		return stream_get_contents( $tmp_fh );
+	}
+	
+	function export_to_file_handle($fh) {
 		$entries = array_filter($this->entries, create_function('$e', 'return !empty($e->translations);'));
 		ksort($entries);
 		$magic = 0x950412de;
@@ -43,7 +57,7 @@ class MO extends Gettext_Translations {
 		fwrite($fh, pack('V*', $magic, $revision, $total, $originals_lenghts_addr,
 			$translations_lenghts_addr, $size_of_hash, $hash_addr));
 		fseek($fh, $originals_lenghts_addr);
-
+		
 		// headers' msgid is an empty string
 		fwrite($fh, pack('VV', 0, $current_addr));
 		$current_addr++;
@@ -55,24 +69,24 @@ class MO extends Gettext_Translations {
 			fwrite($fh, pack('VV', $length, $current_addr));
 			$current_addr += $length + 1; // account for the NULL byte after
 		}
-
+		
 		$exported_headers = $this->export_headers();
 		fwrite($fh, pack('VV', strlen($exported_headers), $current_addr));
 		$current_addr += strlen($exported_headers) + 1;
 		$translations_table = $exported_headers . chr(0);
-
+		
 		foreach($entries as $entry) {
 			$translations_table .= $this->export_translations($entry) . chr(0);
 			$length = strlen($this->export_translations($entry));
 			fwrite($fh, pack('VV', $length, $current_addr));
 			$current_addr += $length + 1;
 		}
-
+		
 		fwrite($fh, $originals_table);
 		fwrite($fh, $translations_table);
-		fclose($fh);
+		return true;
 	}
-
+	
 	function export_original($entry) {
 		//TODO: warnings for control characters
 		$exported = $entry->singular;
@@ -80,12 +94,12 @@ class MO extends Gettext_Translations {
 		if (!is_null($entry->context)) $exported = $entry->context . chr(4) . $exported;
 		return $exported;
 	}
-
+	
 	function export_translations($entry) {
 		//TODO: warnings for control characters
 		return implode(chr(0), $entry->translations);
 	}
-
+	
 	function export_headers() {
 		$exported = '';
 		foreach($this->headers as $header => $value) {
@@ -193,7 +207,7 @@ class MO extends Gettext_Translations {
 	/**
 	 * Build a Translation_Entry from original string and translation strings,
 	 * found in a MO file
-	 *
+	 * 
 	 * @static
 	 * @param string $original original string to translate from MO file. Might contain
 	 * 	0x04 as context separator or 0x00 as singular/plural separator
