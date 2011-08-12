@@ -11,7 +11,7 @@ $wp_version = '3.3-aortic-dissection';
  *
  * @global int $wp_db_version
  */
-$wp_db_version = 18226;
+$wp_db_version = 18537;
 
 /**
  * Holds the TinyMCE version

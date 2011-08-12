@@ -1498,13 +1498,8 @@ class WP_Rewrite {
 		$home_path = parse_url( home_url() );
 		$robots_rewrite = ( empty( $home_path['path'] ) || '/' == $home_path['path'] ) ? array( 'robots\.txt$' => $this->index . '?robots=1' ) : array();
 
-		// Default Feed rules - These are require to allow for the direct access files to work with permalink structure starting with %category%
-		$default_feeds = array(	'.*wp-atom.php$'	=>	$this->index . '?feed=atom',
-								'.*wp-rdf.php$'		=>	$this->index . '?feed=rss2',
-								'.*wp-rss.php$'		=>	$this->index . '?feed=rss2',
-								'.*wp-rss2.php$'	=>	$this->index . '?feed=rss2',
-								'.*wp-feed.php$'	=>	$this->index . '?feed=feed',
-								'.*wp-commentsrss2.php$'	=>	$this->index . '?feed=rss2&withcomments=1');
+		// Old feed files
+		$old_feed_files = array( '.*wp-(atom|rdf|rss|rss2|feed|commentsrss2).php$' => $this->index . '?feed=old' );
 
 		// Registration rules
 		$registration_pages = array();
@@ -1558,9 +1553,9 @@ class WP_Rewrite {
 
 		// Put them together.
 		if ( $this->use_verbose_page_rules )
-			$this->rules = array_merge($this->extra_rules_top, $robots_rewrite, $default_feeds, $registration_pages, $page_rewrite, $root_rewrite, $comments_rewrite, $search_rewrite,  $author_rewrite, $date_rewrite, $post_rewrite, $this->extra_rules);
+			$this->rules = array_merge($this->extra_rules_top, $robots_rewrite, $old_feed_files, $registration_pages, $page_rewrite, $root_rewrite, $comments_rewrite, $search_rewrite,  $author_rewrite, $date_rewrite, $post_rewrite, $this->extra_rules);
 		else
-			$this->rules = array_merge($this->extra_rules_top, $robots_rewrite, $default_feeds, $registration_pages, $root_rewrite, $comments_rewrite, $search_rewrite,  $author_rewrite, $date_rewrite, $post_rewrite, $page_rewrite, $this->extra_rules);
+			$this->rules = array_merge($this->extra_rules_top, $robots_rewrite, $old_feed_files, $registration_pages, $root_rewrite, $comments_rewrite, $search_rewrite,  $author_rewrite, $date_rewrite, $post_rewrite, $page_rewrite, $this->extra_rules);
 
 		do_action_ref_array('generate_rewrite_rules', array(&$this));
 		$this->rules = apply_filters('rewrite_rules_array', $this->rules);

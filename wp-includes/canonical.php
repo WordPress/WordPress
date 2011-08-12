@@ -218,11 +218,25 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 				$addl_path = !empty( $addl_path ) ? trailingslashit($addl_path) : '';
 				if ( get_query_var( 'withcomments' ) )
 					$addl_path .= 'comments/';
-				if ( (in_array( get_default_feed(), array( 'rss', 'rdf' ) ) && 'feed' == get_query_var('feed')) || in_array( get_query_var('feed'), array( 'rss', 'rdf' ) ) )
+				if ( ( in_array( get_default_feed(), array( 'rss', 'rdf' ) ) && 'feed' == get_query_var('feed') ) || in_array( get_query_var('feed'), array( 'rss', 'rdf' ) ) )
 					$addl_path .= user_trailingslashit( 'feed/' . ( ( get_default_feed() == 'rss2' ) ? '' : 'rss2' ), 'feed' );
 				else
 					$addl_path .= user_trailingslashit( 'feed/' . ( ( get_default_feed() ==  get_query_var('feed') || 'feed' == get_query_var('feed') ) ? '' : get_query_var('feed') ), 'feed' );
 				$redirect['query'] = remove_query_arg( 'feed', $redirect['query'] );
+			} elseif ( is_feed() && 'old' == get_query_var('feed') ) {
+				$old_feed_files = array(
+					'wp-atom.php'         => 'atom',
+					'wp-commentsrss2.php' => 'comments_rss2',
+					'wp-feed.php'         => get_default_feed(),
+					'wp-rdf.php'          => 'rss2',
+					'wp-rss.php'          => 'rss2',
+					'wp-rss2.php'         => 'rss2',
+				);
+				if ( isset( $old_feed_files[ basename( $redirect['path'] ) ] ) ) {
+					$redirect_url = get_feed_link( $old_feed_files[ basename( $redirect['path'] ) ] );
+					wp_redirect( $redirect_url, 301 );
+					die();
+				}
 			}
 
 			if ( get_query_var('paged') > 0 ) {
