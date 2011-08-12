@@ -3146,38 +3146,49 @@ function &get_page(&$page, $output = OBJECT, $filter = 'raw') {
  */
 function get_page_by_path($page_path, $output = OBJECT, $post_type = 'page') {
 	global $wpdb;
-	$null = null;
+
 	$page_path = rawurlencode(urldecode($page_path));
 	$page_path = str_replace('%2F', '/', $page_path);
 	$page_path = str_replace('%20', ' ', $page_path);
-	$page_paths = '/' . trim($page_path, '/');
-	$leaf_path  = sanitize_title(basename($page_paths));
-	$page_paths = explode('/', $page_paths);
-	$full_path = '';
-	foreach ( (array) $page_paths as $pathdir )
-		$full_path .= ( $pathdir != '' ? '/' : '' ) . sanitize_title($pathdir);
+	$parts = explode( '/', trim( $page_path, '/' ) );
+	$parts = array_map( 'esc_sql', $parts );
+	$parts = array_map( 'sanitize_title', $parts );
 
-	$pages = $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE post_name = %s AND (post_type = %s OR post_type = 'attachment')", $leaf_path, $post_type ));
+	$in_string = "'". implode( "','", $parts ) . "'";
+	$pages = $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE post_name IN ({$in_string}) AND (post_type = %s OR post_type = 'attachment')", $post_type ), OBJECT_K );
 
-	if ( empty($pages) )
-		return $null;
+	$revparts = array_reverse( $parts );
 
+	$foundid = 0;
 	foreach ( $pages as $page ) {
-		$path = '/' . $leaf_path;
-		$curpage = $page;
-		while ( $curpage->post_parent != 0 ) {
-			$post_parent = $curpage->post_parent;
-			$curpage = wp_cache_get( $post_parent, 'posts' );
-			if ( false === $curpage )
-				$curpage = $wpdb->get_row( $wpdb->prepare( "SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE ID = %d and post_type = %s", $post_parent, $post_type ) );
-			$path = '/' . $curpage->post_name . $path;
-		}
+		if ( $page->post_name == $revparts[0] ) {
+			$count = 0;
+			if ( $page->post_parent != 0 ) {
+				if ( null === ( $parent_page = $pages[ $page->post_parent ] ) )
+					continue;
 
-		if ( $path == $full_path )
-			return get_page($page->ID, $output, $post_type);
+				while ( $parent_page->ID != 0 ) {
+					$count++;
+					if ( $parent_page->post_name != $revparts[ $count ] )
+						break;
+					$parent_page = $pages[ $parent_page->post_parent ];
+				}
+
+				if ( $parent_page->ID == 0 && $count+1 == count($revparts) ) {
+					$foundid = $page->ID;
+					break;
+				}
+			} else if ( count($revparts) == 1 ) {
+				$foundid = $page->ID;
+				break;
+			}
+		}
 	}
 
-	return $null;
+	if ( $foundid )
+		return get_page($foundid, $output, $post_type);
+
+	return null;
 }
 
 /**
