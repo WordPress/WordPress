@@ -2840,7 +2840,7 @@ function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_p
 		}
 	}
 
-	return $slug;
+	return apply_filters( 'wp_unique_post_slug', $slug, $post_ID, $post_status, $post_type, $post_parent );
 }
 
 /**
