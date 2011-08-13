@@ -249,9 +249,9 @@ function timer_stop( $display = 0, $precision = 3 ) { // if called like timer_st
  * development environments.
  *
  * When WP_DEBUG_DISPLAY is true, WordPress will force errors to be displayed.
- * WP_DEBUG_DISPLAY defaults to true. Defining it as false prevents WordPress from
- * changing the global configuration setting. (Defining WP_DEBUG_DISPLAY as false
- * will never force errors to be hidden.)
+ * WP_DEBUG_DISPLAY defaults to true. Defining it as null prevents WordPress from
+ * changing the global configuration setting. Defining WP_DEBUG_DISPLAY as false
+ * will force errors to be hidden.
  *
  * When WP_DEBUG_LOG is true, errors will be logged to wp-content/debug.log.
  * WP_DEBUG_LOG defaults to false.
@@ -270,6 +270,8 @@ function wp_debug_mode() {
 
 		if ( WP_DEBUG_DISPLAY )
 			ini_set( 'display_errors', 1 );
+		elseif ( null !== WP_DEBUG_DISPLAY )
+			ini_set( 'display_errors', 0 );
 
 		if ( WP_DEBUG_LOG ) {
 			ini_set( 'log_errors', 1 );
