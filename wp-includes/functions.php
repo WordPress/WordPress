@@ -3605,16 +3605,16 @@ function iis7_supports_permalinks() {
  * @return int 0 means nothing is wrong, greater than 0 means something was wrong.
  */
 function validate_file( $file, $allowed_files = '' ) {
-	if ( false !== strpos( $file, '..' ))
+	if ( false !== strpos( $file, '..' ) )
 		return 1;
 
-	if ( false !== strpos( $file, './' ))
+	if ( false !== strpos( $file, './' ) )
 		return 1;
 
-	if (!empty ( $allowed_files ) && (!in_array( $file, $allowed_files ) ) )
+	if ( ! empty( $allowed_files ) && ! in_array( $file, $allowed_files ) )
 		return 3;
 
-	if (':' == substr( $file, 1, 1 ))
+	if (':' == substr( $file, 1, 1 ) )
 		return 2;
 
 	return 0;
