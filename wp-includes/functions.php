@@ -2125,7 +2125,7 @@ function path_is_absolute( $path ) {
 		return true;
 
 	// a path starting with / or \ is absolute; anything else is relative
-	return (bool) preg_match('#^[/\\\\]#', $path);
+	return ( $path[0] == '/' || $path[0] == '\\' );
 }
 
 /**
