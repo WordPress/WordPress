@@ -280,7 +280,7 @@ div.postbox div.inside {
 	clear: both;
 	font-weight: normal;
 	text-align: right;
-	padding-top: 5px;
+	padding-top: 4px;
 	font-size: 12px;
 }
 
@@ -299,10 +299,6 @@ div.postbox div.inside {
 	font-size: 12px;
 	line-height: 17px;
 	color: #777;
-}
-
-#dashboard_quick_press #media-buttons a {
-	vertical-align: bottom;
 }
 
 #dashboard-widgets #dashboard_quick_press form p.submit {

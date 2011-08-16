@@ -744,7 +744,6 @@ th.sorted a span {
 	left: 10px;
 }
 
-
 #edButtonPreview,
 #edButtonHTML {
 	margin: 5px 0 0 5px;
@@ -756,7 +755,7 @@ th.sorted a span {
 	margin-left: 15px;
 }
 
-#media-buttons a {
+.wp-media-buttons a {
 	padding: 0 10px 5px 0;
 }
 

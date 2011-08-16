@@ -2194,7 +2194,20 @@ input#link_url {
 	right: 10px;
 }
 
-.wp-media-buttons img,
+.wp-media-buttons {
+	cursor: default;
+	padding: 8px 8px 0;
+}
+
+.wp-media-buttons a {
+	cursor: pointer;
+	padding: 0 0 5px 10px;
+}
+
+.wp-media-buttons img {
+	vertical-align: middle;
+}
+
 #submitpost #ajax-loading,
 #submitpost .ajax-loading {
 	vertical-align: middle;
