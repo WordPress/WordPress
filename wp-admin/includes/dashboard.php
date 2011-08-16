@@ -532,7 +532,7 @@ function wp_dashboard_quick_press() {
 
 		<?php if ( current_user_can( 'upload_files' ) ) : ?>
 		<div id="media-buttons" class="hide-if-no-js wp-media-buttons">
-			<?php do_action( 'media_buttons' ); ?>
+			<?php do_action( 'media_buttons', 'content' ); ?>
 		</div>
 		<?php endif; ?>
 
