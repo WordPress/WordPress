@@ -166,12 +166,8 @@ function wp_scripts_init() {
 	static $done = false;
 
 	if ( !$done && !is_a($wp_scripts, 'WP_Scripts') ) {
-		if ( !did_action('after_setup_theme') ) { // last action before init
-			$func = debug_backtrace();
-			$trace = !empty($func[1]['function']) ? $func[1]['function'] : __FUNCTION__;
-
-			_doing_it_wrong( $trace, __( '$wp_scripts should not be accessed before the "init" hook.' ), '3.3' );
-		}
+		if ( !did_action('after_setup_theme') ) // last action before init
+			_doing_it_wrong( __FUNCTION__, __( '$wp_scripts should not be accessed before the "init" hook.' ), '3.3' );
 
 		$wp_scripts = new WP_Scripts();
 		$done = true;

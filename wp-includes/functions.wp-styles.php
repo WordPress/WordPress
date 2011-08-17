@@ -173,12 +173,8 @@ function wp_styles_init() {
 	static $done = false;
 
 	if ( !$done && !is_a($wp_styles, 'WP_Styles') ) {
-		if ( !did_action('after_setup_theme') ) {
-			$func = debug_backtrace();
-			$trace = !empty($func[1]['function']) ? $func[1]['function'] : __FUNCTION__;
-
-			_doing_it_wrong( $trace, __( '$wp_styles should not be accessed before the "init" hook.' ), '3.3' );
-		}
+		if ( !did_action('after_setup_theme') )
+			_doing_it_wrong( __FUNCTION__, __( '$wp_styles should not be accessed before the "init" hook.' ), '3.3' );
 
 		$wp_styles = new WP_Styles();
 		$done = true;
