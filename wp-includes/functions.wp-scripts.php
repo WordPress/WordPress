@@ -47,8 +47,8 @@ function wp_print_scripts( $handles = false ) {
  */
 function wp_register_script( $handle, $src, $deps = array(), $ver = false, $in_footer = false ) {
 	global $wp_scripts;
-	if ( !is_a($wp_scripts, 'WP_Scripts') )
-		$wp_scripts = new WP_Scripts();
+
+	wp_scripts_init();
 
 	$wp_scripts->add( $handle, $src, $deps, $ver );
 	if ( $in_footer )
@@ -75,8 +75,8 @@ function wp_register_script( $handle, $src, $deps = array(), $ver = false, $in_f
  */
 function wp_localize_script( $handle, $name, $data ) {
 	global $wp_scripts;
-	if ( !is_a($wp_scripts, 'WP_Scripts') )
-		return false;
+
+	wp_scripts_init();
 
 	return $wp_scripts->add_script_data( $handle, $name, $data );
 }
@@ -89,8 +89,8 @@ function wp_localize_script( $handle, $name, $data ) {
  */
 function wp_deregister_script( $handle ) {
 	global $wp_scripts;
-	if ( !is_a($wp_scripts, 'WP_Scripts') )
-		$wp_scripts = new WP_Scripts();
+
+	wp_scripts_init();
 
 	$wp_scripts->remove( $handle );
 }
@@ -105,8 +105,8 @@ function wp_deregister_script( $handle ) {
  */
 function wp_enqueue_script( $handle, $src = false, $deps = array(), $ver = false, $in_footer = false ) {
 	global $wp_scripts;
-	if ( !is_a($wp_scripts, 'WP_Scripts') )
-		$wp_scripts = new WP_Scripts();
+
+	wp_scripts_init();
 
 	if ( $src ) {
 		$_handle = explode('?', $handle);
@@ -125,8 +125,8 @@ function wp_enqueue_script( $handle, $src = false, $deps = array(), $ver = false
  */
 function wp_dequeue_script( $handle ) {
 	global $wp_scripts;
-	if ( !is_a($wp_scripts, 'WP_Scripts') )
-		$wp_scripts = new WP_Scripts();
+
+	wp_scripts_init();
 
 	$wp_scripts->dequeue( $handle );
 }
@@ -145,8 +145,8 @@ function wp_dequeue_script( $handle ) {
  */
 function wp_script_is( $handle, $list = 'queue' ) {
 	global $wp_scripts;
-	if ( !is_a($wp_scripts, 'WP_Scripts') )
-		$wp_scripts = new WP_Scripts();
+
+	wp_scripts_init();
 
 	$query = $wp_scripts->query( $handle, $list );
 
@@ -155,3 +155,26 @@ function wp_script_is( $handle, $list = 'queue' ) {
 
 	return $query;
 }
+
+/**
+ * Initializes $wp_scripts global (if it hasn't already been initialized by a faulty plugin or theme).
+ *
+ * @since 3.3
+ */
+function wp_scripts_init() {
+	global $wp_scripts;
+	static $done = false;
+
+	if ( !$done && !is_a($wp_scripts, 'WP_Scripts') ) {
+		if ( !did_action('after_setup_theme') ) { // last action before init
+			$func = debug_backtrace();
+			$trace = !empty($func[1]['function']) ? $func[1]['function'] : __FUNCTION__;
+
+			_doing_it_wrong( $trace, __( '$wp_scripts should not be accessed before the "init" hook.' ), '3.3' );
+		}
+
+		$wp_scripts = new WP_Scripts();
+		$done = true;
+	}
+}
+

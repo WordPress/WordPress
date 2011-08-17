@@ -70,8 +70,8 @@ function wp_add_inline_style( $handle, $data ) {
  */
 function wp_register_style( $handle, $src, $deps = array(), $ver = false, $media = 'all' ) {
 	global $wp_styles;
-	if ( !is_a($wp_styles, 'WP_Styles') )
-		$wp_styles = new WP_Styles();
+
+	wp_styles_init();
 
 	$wp_styles->add( $handle, $src, $deps, $ver, $media );
 }
@@ -87,8 +87,8 @@ function wp_register_style( $handle, $src, $deps = array(), $ver = false, $media
  */
 function wp_deregister_style( $handle ) {
 	global $wp_styles;
-	if ( !is_a($wp_styles, 'WP_Styles') )
-		$wp_styles = new WP_Styles();
+
+	wp_styles_init();
 
 	$wp_styles->remove( $handle );
 }
@@ -114,8 +114,8 @@ function wp_deregister_style( $handle ) {
  */
 function wp_enqueue_style( $handle, $src = false, $deps = array(), $ver = false, $media = 'all' ) {
 	global $wp_styles;
-	if ( !is_a($wp_styles, 'WP_Styles') )
-		$wp_styles = new WP_Styles();
+
+	wp_styles_init();
 
 	if ( $src ) {
 		$_handle = explode('?', $handle);
@@ -132,8 +132,8 @@ function wp_enqueue_style( $handle, $src = false, $deps = array(), $ver = false,
  */
 function wp_dequeue_style( $handle ) {
 	global $wp_styles;
-	if ( !is_a($wp_styles, 'WP_Styles') )
-		$wp_styles = new WP_Styles();
+
+	wp_styles_init();
 
 	$wp_styles->dequeue( $handle );
 }
@@ -152,8 +152,8 @@ function wp_dequeue_style( $handle ) {
  */
 function wp_style_is( $handle, $list = 'queue' ) {
 	global $wp_styles;
-	if ( !is_a($wp_styles, 'WP_Styles') )
-		$wp_styles = new WP_Styles();
+
+	wp_styles_init();
 
 	$query = $wp_styles->query( $handle, $list );
 
@@ -162,3 +162,26 @@ function wp_style_is( $handle, $list = 'queue' ) {
 
 	return $query;
 }
+
+/**
+ * Initializes $wp_styles global (if it hasn't already been initialized by a faulty plugin or theme).
+ *
+ * @since 3.3
+ */
+function wp_styles_init() {
+	global $wp_styles;
+	static $done = false;
+
+	if ( !$done && !is_a($wp_styles, 'WP_Styles') ) {
+		if ( !did_action('after_setup_theme') ) {
+			$func = debug_backtrace();
+			$trace = !empty($func[1]['function']) ? $func[1]['function'] : __FUNCTION__;
+
+			_doing_it_wrong( $trace, __( '$wp_styles should not be accessed before the "init" hook.' ), '3.3' );
+		}
+
+		$wp_styles = new WP_Styles();
+		$done = true;
+	}
+}
+
