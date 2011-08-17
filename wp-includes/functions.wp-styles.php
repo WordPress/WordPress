@@ -23,7 +23,11 @@ function wp_print_styles( $handles = false ) {
 		$handles = false;
 
 	global $wp_styles;
-	if ( !is_a($wp_styles, 'WP_Styles') ) {
+	if ( ! is_a( $wp_styles, 'WP_Styles' ) ) {
+		if ( ! did_action( 'init' ) )
+			_doing_it_wrong( __FUNCTION__, sprintf( __( 'Scripts and styles should not be registered or enqueued until the %1$s, %2$s, or %3$s hooks.' ),
+				'<code>wp_enqueue_scripts</code>', '<code>admin_enqueue_scripts</code>', '<code>init</code>' ), '3.3' );
+
 		if ( !$handles )
 			return array(); // No need to instantiate if nothing is there.
 		else
@@ -46,8 +50,12 @@ function wp_print_styles( $handles = false ) {
  */
 function wp_add_inline_style( $handle, $data ) {
 	global $wp_styles;
-	if ( !is_a($wp_styles, 'WP_Styles') )
-		return false;
+	if ( ! is_a( $wp_styles, 'WP_Styles' ) ) {
+		if ( ! did_action( 'init' ) )
+			_doing_it_wrong( __FUNCTION__, sprintf( __( 'Scripts and styles should not be registered or enqueued until the %1$s, %2$s, or %3$s hooks.' ),
+				'<code>wp_enqueue_scripts</code>', '<code>admin_enqueue_scripts</code>', '<code>init</code>' ), '3.3' );
+		$wp_styles = new WP_Styles();
+	}
 
 	return $wp_styles->add_inline_style( $handle, $data );
 }
@@ -70,8 +78,12 @@ function wp_add_inline_style( $handle, $data ) {
  */
 function wp_register_style( $handle, $src, $deps = array(), $ver = false, $media = 'all' ) {
 	global $wp_styles;
-
-	wp_styles_init();
+	if ( ! is_a( $wp_styles, 'WP_Styles' ) ) {
+		if ( ! did_action( 'init' ) )
+			_doing_it_wrong( __FUNCTION__, sprintf( __( 'Scripts and styles should not be registered or enqueued until the %1$s, %2$s, or %3$s hooks.' ),
+				'<code>wp_enqueue_scripts</code>', '<code>admin_enqueue_scripts</code>', '<code>init</code>' ), '3.3' );
+		$wp_styles = new WP_Styles();
+	}
 
 	$wp_styles->add( $handle, $src, $deps, $ver, $media );
 }
@@ -87,8 +99,12 @@ function wp_register_style( $handle, $src, $deps = array(), $ver = false, $media
  */
 function wp_deregister_style( $handle ) {
 	global $wp_styles;
-
-	wp_styles_init();
+	if ( ! is_a( $wp_styles, 'WP_Styles' ) ) {
+		if ( ! did_action( 'init' ) )
+			_doing_it_wrong( __FUNCTION__, sprintf( __( 'Scripts and styles should not be registered or enqueued until the %1$s, %2$s, or %3$s hooks.' ),
+				'<code>wp_enqueue_scripts</code>', '<code>admin_enqueue_scripts</code>', '<code>init</code>' ), '3.3' );
+		$wp_styles = new WP_Styles();
+	}
 
 	$wp_styles->remove( $handle );
 }
@@ -114,8 +130,12 @@ function wp_deregister_style( $handle ) {
  */
 function wp_enqueue_style( $handle, $src = false, $deps = array(), $ver = false, $media = 'all' ) {
 	global $wp_styles;
-
-	wp_styles_init();
+	if ( ! is_a( $wp_styles, 'WP_Styles' ) ) {
+		if ( ! did_action( 'init' ) )
+			_doing_it_wrong( __FUNCTION__, sprintf( __( 'Scripts and styles should not be registered or enqueued until the %1$s, %2$s, or %3$s hooks.' ),
+				'<code>wp_enqueue_scripts</code>', '<code>admin_enqueue_scripts</code>', '<code>init</code>' ), '3.3' );
+		$wp_styles = new WP_Styles();
+	}
 
 	if ( $src ) {
 		$_handle = explode('?', $handle);
@@ -132,8 +152,12 @@ function wp_enqueue_style( $handle, $src = false, $deps = array(), $ver = false,
  */
 function wp_dequeue_style( $handle ) {
 	global $wp_styles;
-
-	wp_styles_init();
+	if ( ! is_a( $wp_styles, 'WP_Styles' ) ) {
+		if ( ! did_action( 'init' ) )
+			_doing_it_wrong( __FUNCTION__, sprintf( __( 'Scripts and styles should not be registered or enqueued until the %1$s, %2$s, or %3$s hooks.' ),
+				'<code>wp_enqueue_scripts</code>', '<code>admin_enqueue_scripts</code>', '<code>init</code>' ), '3.3' );
+		$wp_styles = new WP_Styles();
+	}
 
 	$wp_styles->dequeue( $handle );
 }
@@ -152,8 +176,12 @@ function wp_dequeue_style( $handle ) {
  */
 function wp_style_is( $handle, $list = 'queue' ) {
 	global $wp_styles;
-
-	wp_styles_init();
+	if ( ! is_a( $wp_styles, 'WP_Styles' ) ) {
+		if ( ! did_action( 'init' ) )
+			_doing_it_wrong( __FUNCTION__, sprintf( __( 'Scripts and styles should not be registered or enqueued until the %1$s, %2$s, or %3$s hooks.' ),
+				'<code>wp_enqueue_scripts</code>', '<code>admin_enqueue_scripts</code>', '<code>init</code>' ), '3.3' );
+		$wp_styles = new WP_Styles();
+	}
 
 	$query = $wp_styles->query( $handle, $list );
 
@@ -162,22 +190,3 @@ function wp_style_is( $handle, $list = 'queue' ) {
 
 	return $query;
 }
-
-/**
- * Initializes $wp_styles global (if it hasn't already been initialized by a faulty plugin or theme).
- *
- * @since 3.3
- */
-function wp_styles_init() {
-	global $wp_styles;
-	static $done = false;
-
-	if ( !$done && !is_a($wp_styles, 'WP_Styles') ) {
-		if ( !did_action('after_setup_theme') )
-			_doing_it_wrong( __FUNCTION__, __( '$wp_styles should not be accessed before the "init" hook.' ), '3.3' );
-
-		$wp_styles = new WP_Styles();
-		$done = true;
-	}
-}
-
