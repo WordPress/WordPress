@@ -656,7 +656,7 @@ function get_blogs_of_user( $id, $all = false ) {
 
 	if ( !is_multisite() ) {
 		$blog_id = get_current_blog_id();
-		$blogs = array();
+		$blogs = array( $blog_id => new stdClass );
 		$blogs[ $blog_id ]->userblog_id = $blog_id;
 		$blogs[ $blog_id ]->blogname = get_option('blogname');
 		$blogs[ $blog_id ]->domain = '';
@@ -704,13 +704,14 @@ function get_blogs_of_user( $id, $all = false ) {
 	$blog_deets = array();
 	foreach ( (array) $blogs as $blog_id ) {
 		$blog = get_blog_details( $blog_id );
-		if ( $blog && isset( $blog->domain ) && ( $all == true || $all == false && ( $blog->archived == 0 && $blog->spam == 0 && $blog->deleted == 0 ) ) ) {
-			$blog_deets[ $blog_id ]->userblog_id	= $blog_id;
-			$blog_deets[ $blog_id ]->blogname		= $blog->blogname;
-			$blog_deets[ $blog_id ]->domain		= $blog->domain;
-			$blog_deets[ $blog_id ]->path			= $blog->path;
-			$blog_deets[ $blog_id ]->site_id		= $blog->site_id;
-			$blog_deets[ $blog_id ]->siteurl		= $blog->siteurl;
+		if ( $blog && isset( $blog->domain ) && ( $all || ( $blog->archived == 0 && $blog->spam == 0 && $blog->deleted == 0 ) ) ) {
+			$blog_deets[ $blog_id ] = new stdClass;
+			$blog_deets[ $blog_id ]->userblog_id = $blog_id;
+			$blog_deets[ $blog_id ]->blogname    = $blog->blogname;
+			$blog_deets[ $blog_id ]->domain      = $blog->domain;
+			$blog_deets[ $blog_id ]->path        = $blog->path;
+			$blog_deets[ $blog_id ]->site_id     = $blog->site_id;
+			$blog_deets[ $blog_id ]->siteurl     = $blog->siteurl;
 		}
 	}
 

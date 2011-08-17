@@ -19,8 +19,10 @@
 function get_sitestats() {
 	global $wpdb;
 
-	$stats['blogs'] = get_blog_count();
-	$stats['users'] = get_user_count();
+	$stats = array(
+		'blogs' => get_blog_count(),
+		'users' => get_user_count(),
+	);
 
 	return $stats;
 }
