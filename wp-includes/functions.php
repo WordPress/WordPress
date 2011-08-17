@@ -2808,7 +2808,7 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 
 	if ( isset( $r['back_link'] ) && $r['back_link'] ) {
 		$back_text = $have_gettext? __('&laquo; Back') : '&laquo; Back';
-		$message .= "\n<p><a href='javascript:history.back()'>$back_text</p>";
+		$message .= "\n<p><a href='javascript:history.back()'>$back_text</a></p>";
 	}
 
 	if ( !function_exists( 'did_action' ) || !did_action( 'admin_head' ) ) :
