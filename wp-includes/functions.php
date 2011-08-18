@@ -586,7 +586,7 @@ function update_option( $option, $newvalue ) {
  * @param mixed $value Optional. Option value, can be anything. Expected to not be SQL-escaped.
  * @param mixed $deprecated Optional. Description. Not used anymore.
  * @param bool $autoload Optional. Default is enabled. Whether to load the option when WordPress starts up.
- * @return null returns when finished.
+ * @return bool False if option was not added and true if option was added.
  */
 function add_option( $option, $value = '', $deprecated = '', $autoload = 'yes' ) {
 	global $wpdb;
@@ -609,7 +609,7 @@ function add_option( $option, $value = '', $deprecated = '', $autoload = 'yes' )
 	$notoptions = wp_cache_get( 'notoptions', 'options' );
 	if ( !is_array( $notoptions ) || !isset( $notoptions[$option] ) )
 		if ( false !== get_option( $option ) )
-			return;
+			return false;
 
 	$_value = $value;
 	$value = maybe_serialize( $value );
