@@ -821,7 +821,7 @@ class WP_Rewrite {
 		$rewrite_rules = array();
 		$page_structure = $this->get_page_permastruct();
 
-		// the extra .? at the beginning prevents clashes with other regex's in thie structure
+		// the extra .? at the beginning prevents clashes with other regular expressions in the rules array
 		$this->add_rewrite_tag('%pagename%', "(.?.+?)", 'pagename=');
 		$rewrite_rules = array_merge($rewrite_rules, $this->generate_rewrite_rules($page_structure, EP_PAGES));
 		return $rewrite_rules;
