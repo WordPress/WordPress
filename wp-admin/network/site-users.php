@@ -19,8 +19,6 @@ if ( ! current_user_can('manage_sites') )
 $wp_list_table = _get_list_table('WP_Users_List_Table');
 $wp_list_table->prepare_items();
 
-$action = $wp_list_table->current_action();
-
 add_contextual_help($current_screen,
 	'<p>' . __('The menu is for editing information specific to individual sites, particularly if the admin area of a site is unavailable.') . '</p>' .
 	'<p>' . __('<strong>Info</strong> - The domain and path are rarely edited as this can cause the site to not work properly. The Registered date and Last Updated date are displayed. Network admins can mark a site as archived, spam, deleted and mature, to remove from public listings or disable.') . '</p>' .
