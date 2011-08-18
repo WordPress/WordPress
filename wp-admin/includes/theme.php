@@ -20,6 +20,7 @@ function current_theme_info() {
 		delete_option( 'current_theme' );
 		$current_theme = get_current_theme();
 	}
+	$ct = new stdClass;
 	$ct->name = $current_theme;
 	$ct->title = $themes[$current_theme]['Title'];
 	$ct->version = $themes[$current_theme]['Version'];
