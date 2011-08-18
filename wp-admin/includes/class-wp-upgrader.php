@@ -1354,6 +1354,9 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 			'activate' => '<a href="' . $activate_link .  '" class="activatelink" title="' . esc_attr( sprintf( __('Activate &#8220;%s&#8221;'), $name ) ) . '">' . __('Activate') . '</a>'
 							);
 
+		if ( is_network_admin() && current_user_can( 'manage_network_themes' ) )
+			$install_actions['network_enable'] = '<a href="' . esc_url( wp_nonce_url( 'themes.php?action=enable&amp;theme=' . $template, 'enable-theme_' . $template ) ) . '" title="' . esc_attr__( 'Enable this theme for all sites in this network' ) . '" target="_parent">' . __( 'Network Enable' ) . '</a>';
+
 		if ( $this->type == 'web' )
 			$install_actions['themes_page'] = '<a href="' . self_admin_url('theme-install.php') . '" title="' . esc_attr__('Return to Theme Installer') . '" target="_parent">' . __('Return to Theme Installer') . '</a>';
 		else
