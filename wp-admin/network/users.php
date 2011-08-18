@@ -16,6 +16,205 @@ if ( ! is_multisite() )
 if ( ! current_user_can( 'manage_network_users' ) )
 	wp_die( __( 'You do not have permission to access this page.' ) );
 
+function confirm_delete_users( $users ) {
+	$current_user = wp_get_current_user();
+	if ( !is_array( $users ) )
+		return false;
+
+	screen_icon();
+	?>
+	<h2><?php esc_html_e( 'Users' ); ?></h2>
+	<p><?php _e( 'Transfer or delete posts and links before deleting users.' ); ?></p>
+	<form action="users.php?action=dodelete" method="post">
+	<input type="hidden" name="dodelete" />
+	<?php
+	wp_nonce_field( 'ms-users-delete' );
+	$site_admins = get_super_admins();
+	$admin_out = "<option value='$current_user->ID'>$current_user->user_login</option>";
+
+	foreach ( ( $allusers = (array) $_POST['allusers'] ) as $key => $val ) {
+		if ( $val != '' && $val != '0' ) {
+			$delete_user = new WP_User( $val );
+
+			if ( ! current_user_can( 'delete_user', $delete_user->ID ) )
+				wp_die( sprintf( __( 'Warning! User %s cannot be deleted.' ), $delete_user->user_login ) );
+
+			if ( in_array( $delete_user->user_login, $site_admins ) )
+				wp_die( sprintf( __( 'Warning! User cannot be deleted. The user %s is a network admnistrator.' ), $delete_user->user_login ) );
+
+			echo "<input type='hidden' name='user[]' value='{$val}'/>\n";
+			$blogs = get_blogs_of_user( $val, true );
+
+			if ( !empty( $blogs ) ) {
+				?>
+				<br /><fieldset><p><legend><?php printf( __( "What should be done with posts and links owned by <em>%s</em>?" ), $delete_user->user_login ); ?></legend></p>
+				<?php
+				foreach ( (array) $blogs as $key => $details ) {
+					$blog_users = get_users( array( 'blog_id' => $details->userblog_id ) );
+					if ( is_array( $blog_users ) && !empty( $blog_users ) ) {
+						$user_site = "<a href='" . esc_url( get_home_url( $details->userblog_id ) ) . "'>{$details->blogname}</a>";
+						$user_dropdown = "<select name='blog[$val][{$key}]'>";
+						$user_list = '';
+						foreach ( $blog_users as $user ) {
+							if ( ! in_array( $user->ID, $allusers ) )
+								$user_list .= "<option value='{$user->ID}'>{$user->user_login}</option>";
+						}
+						if ( '' == $user_list )
+							$user_list = $admin_out;
+						$user_dropdown .= $user_list;
+						$user_dropdown .= "</select>\n";
+						?>
+						<ul style="list-style:none;">
+							<li><?php printf( __( 'Site: %s' ), $user_site ); ?></li>
+							<li><label><input type="radio" id="delete_option0" name="delete[<?php echo $details->userblog_id . '][' . $delete_user->ID ?>]" value="delete" checked="checked" />
+							<?php _e( 'Delete all posts and links.' ); ?></label></li>
+							<li><label><input type="radio" id="delete_option1" name="delete[<?php echo $details->userblog_id . '][' . $delete_user->ID ?>]" value="reassign" />
+							<?php echo __( 'Attribute all posts and links to:' ) . '</label>' . $user_dropdown; ?></li>
+						</ul>
+						<?php
+					}
+				}
+				echo "</fieldset>";
+			}
+		}
+	}
+
+	submit_button( __('Confirm Deletion'), 'delete' );
+	?>
+	</form>
+    <?php
+	return true;
+}
+
+if ( isset( $_GET['action'] ) ) {
+	do_action( 'wpmuadminedit' , '' );
+
+	switch ( $_GET['action'] ) {
+		case 'deleteuser':
+			if ( ! current_user_can( 'manage_network_users' ) )
+				wp_die( __( 'You do not have permission to access this page.' ) );
+
+			check_admin_referer( 'deleteuser' );
+
+			$id = intval( $_GET['id'] );
+			if ( $id != '0' && $id != '1' ) {
+				$_POST['allusers'] = array( $id ); // confirm_delete_users() can only handle with arrays
+				$title = __( 'Users' );
+				$parent_file = 'users.php';
+				require_once( '../admin-header.php' );
+				echo '<div class="wrap">';
+				confirm_delete_users( $_POST['allusers'] );
+				echo '</div>';
+	            require_once( '../admin-footer.php' );
+	  		} else {
+				wp_redirect( network_admin_url( 'users.php' ) );
+			}
+			exit();
+		break;
+
+		case 'allusers':
+			if ( !current_user_can( 'manage_network_users' ) )
+				wp_die( __( 'You do not have permission to access this page.' ) );
+
+			if ( ( isset( $_POST['action']) || isset($_POST['action2'] ) ) && isset( $_POST['allusers'] ) ) {
+				check_admin_referer( 'bulk-users-network' );
+
+				if ( $_GET['action'] != -1 || $_POST['action2'] != -1 )
+					$doaction = $_POST['action'] != -1 ? $_POST['action'] : $_POST['action2'];
+
+				$userfunction = '';
+
+				foreach ( (array) $_POST['allusers'] as $key => $val ) {
+					if ( !empty( $val ) ) {
+						switch ( $doaction ) {
+							case 'delete':
+								if ( ! current_user_can( 'delete_users' ) )
+									wp_die( __( 'You do not have permission to access this page.' ) );
+								$title = __( 'Users' );
+								$parent_file = 'users.php';
+								require_once( '../admin-header.php' );
+								echo '<div class="wrap">';
+								confirm_delete_users( $_POST['allusers'] );
+								echo '</div>';
+					            require_once( '../admin-footer.php' );
+					            exit();
+	       					break;
+
+							case 'spam':
+								$user = new WP_User( $val );
+								if ( in_array( $user->user_login, get_super_admins() ) )
+									wp_die( sprintf( __( 'Warning! User cannot be modified. The user %s is a network administrator.' ), esc_html( $user->user_login ) ) );
+
+								$userfunction = 'all_spam';
+								$blogs = get_blogs_of_user( $val, true );
+								foreach ( (array) $blogs as $key => $details ) {
+									if ( $details->userblog_id != $current_site->blog_id ) // main blog not a spam !
+										update_blog_status( $details->userblog_id, 'spam', '1' );
+								}
+								update_user_status( $val, 'spam', '1' );
+							break;
+
+							case 'notspam':
+								$userfunction = 'all_notspam';
+								$blogs = get_blogs_of_user( $val, true );
+								foreach ( (array) $blogs as $key => $details )
+									update_blog_status( $details->userblog_id, 'spam', '0' );
+
+								update_user_status( $val, 'spam', '0' );
+							break;
+						}
+					}
+				}
+
+				wp_redirect( add_query_arg( array( 'updated' => 'true', 'action' => $userfunction ), wp_get_referer() ) );
+			} else {
+				$location = network_admin_url( 'users.php' );
+
+				if ( ! empty( $_REQUEST['paged'] ) )
+					$location = add_query_arg( 'paged', (int) $_REQUEST['paged'], $location );
+				wp_redirect( $location );
+			}
+			exit();
+		break;
+
+		case 'dodelete':
+			check_admin_referer( 'ms-users-delete' );
+			if ( ! ( current_user_can( 'manage_network_users' ) && current_user_can( 'delete_users' ) ) )
+				wp_die( __( 'You do not have permission to access this page.' ) );
+
+			if ( ! empty( $_POST['blog'] ) && is_array( $_POST['blog'] ) ) {
+				foreach ( $_POST['blog'] as $id => $users ) {
+					foreach ( $users as $blogid => $user_id ) {
+						if ( ! current_user_can( 'delete_user', $id ) )
+							continue;
+
+						if ( ! empty( $_POST['delete'] ) && 'reassign' == $_POST['delete'][$blogid][$id] )
+							remove_user_from_blog( $id, $blogid, $user_id );
+						else
+							remove_user_from_blog( $id, $blogid );
+					}
+				}
+			}
+			$i = 0;
+			if ( is_array( $_POST['user'] ) && ! empty( $_POST['user'] ) )
+				foreach( $_POST['user'] as $id ) {
+					if ( ! current_user_can( 'delete_user', $id ) )
+						continue;
+					wpmu_delete_user( $id );
+					$i++;
+				}
+
+			if ( $i == 1 )
+				$deletefunction = 'delete';
+			else
+				$deletefunction = 'all_delete';
+
+			wp_redirect( add_query_arg( array( 'updated' => 'true', 'action' => $deletefunction ), network_admin_url( 'users.php' ) ) );
+			exit();
+		break;	
+	}
+}
+
 $wp_list_table = _get_list_table('WP_MS_Users_List_Table');
 $pagenum = $wp_list_table->get_pagenum();
 $wp_list_table->prepare_items();
@@ -88,7 +287,7 @@ if ( isset( $_REQUEST['updated'] ) && $_REQUEST['updated'] == 'true' && ! empty(
 		<?php $wp_list_table->search_box( __( 'Search Users' ), 'user' ); ?>
 	</form>
 
-	<form id="form-user-list" action='edit.php?action=allusers' method='post'>
+	<form id="form-user-list" action='users.php?action=allusers' method='post'>
 		<?php $wp_list_table->display(); ?>
 	</form>
 </div>
