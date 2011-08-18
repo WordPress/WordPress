@@ -14,15 +14,16 @@ if ( ! is_multisite() )
 	wp_die( __( 'Multisite support is not enabled.' ) );
 
 if ( empty( $_GET['action'] ) ) {
-	wp_redirect( admin_url( 'index.php' ) );
+	wp_redirect( network_admin_url() );
 	exit;
 }
 
-do_action( 'wpmuadminedit' , '');
+do_action( 'wpmuadminedit' , '' );
 
 // Let plugins use us as a post handler easily
 do_action( 'network_admin_edit_' . $_GET['action'] );
-wp_redirect( network_admin_url( 'index.php' ) );
+
+wp_redirect( network_admin_url() );
 exit();
 
 ?>
