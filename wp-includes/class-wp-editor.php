@@ -303,9 +303,13 @@ class WP_Editor {
 						$style_dir    = get_stylesheet_directory();
 						$template_uri = get_template_directory_uri();
 						$template_dir = get_template_directory();
+
 						foreach ( $editor_styles as $file ) {
 							if ( file_exists( "$template_dir/$file" ) )
 								$mce_css[] = "$template_uri/$file";
+						}
+
+						foreach ( $editor_styles as $file ) {
 							if ( file_exists( "$style_dir/$file" ) )
 								$mce_css[] = "$style_uri/$file";
 						}
