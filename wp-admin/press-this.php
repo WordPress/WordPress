@@ -26,20 +26,13 @@ if ( ! current_user_can('edit_posts') )
  * @return int Post ID
  */
 function press_it() {
-	// define some basic variables
-	$quick = array();
-	$quick['post_status'] = 'draft'; // set as draft first
-	$quick['post_category'] = isset($_POST['post_category']) ? $_POST['post_category'] : null;
-	$quick['tax_input'] = isset($_POST['tax_input']) ? $_POST['tax_input'] : null;
-	$quick['post_title'] = ( trim($_POST['title']) != '' ) ? $_POST['title'] : '  ';
-	$quick['post_content'] = isset($_POST['post_content']) ? $_POST['post_content'] : '';
 
-	// insert the post with nothing in it, to get an ID
-	$post_ID = wp_insert_post($quick, true);
-	if ( is_wp_error($post_ID) )
-		wp_die($post_ID);
-
-	$content = isset($_POST['content']) ? $_POST['content'] : '';
+	$post = get_default_post_to_edit('post', true);
+	$post_ID = $post['ID'];
+	$post['post_category'] = isset($_POST['post_category']) ? $_POST['post_category'] : null;
+	$post['tax_input'] = isset($_POST['tax_input']) ? $_POST['tax_input'] : null;
+	$post['post_title'] = isset($_POST['title']) ? $_POST['title'] : '';
+	$post['post_content'] = isset($_POST['post_content']) ? $_POST['post_content'] : '';
 
 	$upload = false;
 	if ( !empty($_POST['photo_src']) && current_user_can('upload_files') ) {
@@ -57,12 +50,12 @@ function press_it() {
 	}
 	// set the post_content and status
 	if ( isset( $_POST['publish'] ) && current_user_can( 'publish_posts' ) )
-		$quick['post_status'] = 'publish';
+		$post['post_status'] = 'publish';
 	elseif ( isset( $_POST['review'] ) )
-		$quick['post_status'] = 'pending';
+		$post['post_status'] = 'pending';
 	else
-		$quick['post_status'] = 'draft';
-	$quick['post_content'] = $content;
+		$post['post_status'] = 'draft';
+
 	// error handling for media_sideload
 	if ( is_wp_error($upload) ) {
 		wp_delete_post($post_ID);
@@ -80,17 +73,16 @@ function press_it() {
 			}
 		}
 
-		$quick['ID'] = $post_ID;
-		wp_update_post($quick);
+		wp_update_post($post);
 	}
+
 	return $post_ID;
 }
 
 // For submitted posts.
 if ( isset($_REQUEST['action']) && 'post' == $_REQUEST['action'] ) {
 	check_admin_referer('press-this');
-	$post_ID = press_it();
-	$posted =  $post_ID;
+	$posted = $post_ID = press_it();
 } else {
 	$post_ID = 0;
 }
@@ -163,34 +155,6 @@ if ( !empty($_REQUEST['ajax']) ) {
 			</p>
 
 			<p id="options"><a href="#" class="select button"><?php _e('Insert Image'); ?></a> <a href="#" class="cancel button"><?php _e('Cancel'); ?></a></p>
-			<?php break;
-
-		case 'photo_thickbox_url': ?>
-			<script type="text/javascript" charset="utf-8">
-				/* <![CDATA[ */
-				jQuery('.cancel').click(function() {
-					tb_remove();
-				});
-
-				jQuery('.select').click(function() {
-					image_selector();
-				});
-				/* ]]> */
-			</script>
-			<h3 class="tb"><label for="this_photo"><?php _e('URL') ?></label></h3>
-			<div class="titlediv">
-				<div class="titlewrap">
-					<input id="this_photo" name="this_photo" class="tbtitle text" onkeypress="if(event.keyCode==13) image_selector();" />
-				</div>
-			</div>
-			<h3 class="tb"><label for="photo_description"><?php _e('Description') ?></label></h3>
-			<div id="titlediv">
-				<div class="titlewrap">
-					<input id="this_photo_description" name="photo_description" class="tbtitle text" onkeypress="if(event.keyCode==13) image_selector();" value="<?php echo esc_attr($title);?>"/>
-				</div>
-			</div>
-
-			<p id="options"><a href="#" class="select"><?php _e('Insert Image'); ?></a> | <a href="#" class="cancel"><?php _e('Cancel'); ?></a></p>
 			<?php break;
 	case 'photo_images':
 		/**
@@ -312,7 +276,7 @@ if ( !empty($_REQUEST['ajax']) ) {
 			jQuery('#extra-fields').html('');
 			return false;
 		}
-			jQuery('#extra-fields').html('<div class="postbox"><h2><?php _e( 'Add Photos' ); ?> <small id="photo_directions">(<?php _e("click images to select") ?>)</small></h2><ul class="actions"><li><a href="#" id="photo-add-url" class="thickbox button"><?php _e("Add from URL") ?> +</a></li></ul><div class="inside"><div class="titlewrap"><div id="img_container"></div></div><p id="options"><a href="#" class="close button"><?php _e('Cancel'); ?></a><a href="#" class="refresh button"><?php _e('Refresh'); ?></a></p></div>');
+			jQuery('#extra-fields').html('<div class="postbox"><h2><?php _e( 'Add Photos' ); ?> <small id="photo_directions">(<?php _e("click images to select") ?>)</small></h2><ul class="actions"><li><a href="#" id="photo-add-url" class="button"><?php _e("Add from URL") ?> +</a></li></ul><div class="inside"><div class="titlewrap"><div id="img_container"></div></div><p id="options"><a href="#" class="close button"><?php _e('Cancel'); ?></a><a href="#" class="refresh button"><?php _e('Refresh'); ?></a></p></div>');
 			jQuery('#img_container').html(strtoappend);
 		<?php break;
 }
@@ -327,7 +291,6 @@ die;
 	<title><?php _e('Press This') ?></title>
 
 <?php
-	add_thickbox();
 	wp_enqueue_style( 'press-this' );
 	wp_enqueue_style( 'press-this-ie');
 	wp_enqueue_style( 'colors' );
@@ -349,8 +312,7 @@ var photostorage = false;
 ?>
 	<script type="text/javascript">
 	function insert_plain_editor(text) {
-		edCanvas = document.getElementById('content');
-		edInsertContent(edCanvas, text);
+		edInsertContent(text);
 	}
 	function set_editor(text) {
 		if ( '' == text || '<p></p>' == text ) text = '<p><br /></p>';
@@ -410,7 +372,10 @@ var photostorage = false;
 						photostorage = false;
 						show('photo');
 					});
-					jQuery('#photo-add-url').attr('href', '?ajax=photo_thickbox_url&height=200&width=500');
+					jQuery('#photo-add-url').click(function(){
+						var form = jQuery('#photo-add-url-div').clone();
+						jQuery('#img_container').empty().append( form.show() );
+					});
 					jQuery('#waiting').hide();
 					jQuery('#extra-fields').show();
 				}
@@ -439,7 +404,7 @@ var photostorage = false;
 	}
 	jQuery(document).ready(function($) {
 		//resize screen
-		window.resizeTo(720,540);
+		window.resizeTo(720,580);
 		// set button actions
 		jQuery('#photo_button').click(function() { show('photo'); return false; });
 		jQuery('#video_button').click(function() { show('video'); return false; });
@@ -461,11 +426,6 @@ var photostorage = false;
 </script>
 </head>
 <body class="press-this wp-admin">
-<?php
-if ( user_can_richedit() ) {
-	wp_tiny_mce( true, array( 'height' => '370' ) );
-}
-?>
 <form action="press-this.php?action=post" method="post">
 <div id="poststuff" class="metabox-holder">
 	<div id="side-info-column">
@@ -564,9 +524,7 @@ if ( user_can_richedit() ) {
 			</div>
 
 			<div id="tagsdiv-post_tag" class="postbox">
-				<div class="handlediv" title="<?php _e( 'Click to toggle' ); ?>">
-					<br/>
-				</div>
+				<div class="handlediv" title="<?php _e( 'Click to toggle' ); ?>"><br /></div>
 				<h3><span><?php _e('Post Tags'); ?></span></h3>
 				<div class="inside">
 					<div class="tagsdiv" id="post_tag">
@@ -596,8 +554,15 @@ if ( user_can_richedit() ) {
 			</h1>
 		</div>
 
-		<?php if ( isset($posted) && intval($posted) ) { $post_ID = intval($posted); ?>
-		<div id="message" class="updated"><p><strong><?php _e('Your post has been saved.'); ?></strong> <a onclick="window.opener.location.replace(this.href); window.close();" href="<?php echo get_permalink( $post_ID); ?>"><?php _e('View post'); ?></a> | <a href="<?php echo get_edit_post_link( $post_ID ); ?>" onclick="window.opener.location.replace(this.href); window.close();"><?php _e('Edit Post'); ?></a> | <a href="#" onclick="window.close();"><?php _e('Close Window'); ?></a></p></div>
+		<?php
+		if ( isset($posted) && intval($posted) ) {
+			$post_ID = intval($posted); ?>
+			<div id="message" class="updated">
+			<p><strong><?php _e('Your post has been saved.'); ?></strong>
+			<a onclick="window.opener.location.replace(this.href); window.close();" href="<?php echo get_permalink($post_ID); ?>"><?php _e('View post'); ?></a>
+			| <a href="<?php echo get_edit_post_link( $post_ID ); ?>" onclick="window.opener.location.replace(this.href); window.close();"><?php _e('Edit Post'); ?></a>
+			| <a href="#" onclick="window.close();"><?php _e('Close Window'); ?></a></p>
+			</div>
 		<?php } ?>
 
 		<div id="titlediv">
@@ -609,44 +574,64 @@ if ( user_can_richedit() ) {
 		<div id="extra-fields" style="display: none"></div>
 
 		<div class="postdivrich">
-			<div id="editor-toolbar">
-				<?php if ( user_can_richedit() ) :
-					wp_print_scripts( 'quicktags' );
-					add_filter('the_editor_content', 'wp_richedit_pre'); ?>
-					<a id="edButtonHTML" onclick="switchEditors.go('content', 'html');"><?php _e('HTML'); ?></a>
-					<a id="edButtonPreview" class="active" onclick="switchEditors.go('content', 'tinymce');"><?php _e('Visual'); ?></a>
-					<div class="zerosize"><input accesskey="e" type="button" onclick="switchEditors.go('content')" /></div>
-				<?php endif; ?>
+		<?php
 
-				<div id="media-buttons">
-					<?php
-					_e( 'Add:' );
+		$editor_settings = array(
+			'teeny' => true,
+			'textarea_rows' => '15'
+		);
 
-					if ( current_user_can('upload_files') ) : ?>
-						<a id="photo_button" title="<?php _e('Insert an Image'); ?>" href="#">
-<img alt="<?php _e('Insert an Image'); ?>" src="<?php echo esc_url( admin_url( 'images/media-button-image.gif?ver=20100531' ) ); ?>"/></a><?php
-					endif;
-					?><a id="video_button" title="<?php _e('Embed a Video'); ?>" href="#"><img alt="<?php _e('Embed a Video'); ?>" src="<?php echo esc_url( admin_url( 'images/media-button-video.gif?ver=20100531' ) ); ?>"/></a>
-				</div>
-			</div>
-			<div id="quicktags"></div>
-			<div class="editor-container">
-				<textarea name="content" id="content" style="width:100%;" class="theEditor" rows="15"><?php
-					if ( $selection )
-						echo wp_richedit_pre($selection);
-					if ( $url ) {
-						echo '<p>';
-						if ( $selection )
-							_e('via ');
-						printf( "<a href='%s'>%s</a>.</p>", esc_url( $url ), esc_html( $title ) );
-					}
-				?></textarea>
-			</div>
+		$content = '';
+		if ( $selection )
+			$content .=  $selection;
+
+		if ( $url ) {
+			$content .= '<p>';
+			
+			if ( $selection )
+				$content .= __('via ');
+			
+			$content .= sprintf( "<a href='%s'>%s</a>.</p>", esc_url( $url ), esc_html( $title ) );
+		}
+
+		remove_action( 'media_buttons', 'media_buttons' );
+		add_action( 'media_buttons', 'press_this_media_buttons' );
+		function press_this_media_buttons() {
+			_e( 'Add:' );
+
+			if ( current_user_can('upload_files') ) {
+				?>
+				<a id="photo_button" title="<?php _e('Insert an Image'); ?>" href="#">
+				<img alt="<?php _e('Insert an Image'); ?>" src="<?php echo esc_url( admin_url( 'images/media-button-image.gif?ver=20100531' ) ); ?>"/></a>
+				<?php
+			}
+			?>
+			<a id="video_button" title="<?php _e('Embed a Video'); ?>" href="#"><img alt="<?php _e('Embed a Video'); ?>" src="<?php echo esc_url( admin_url( 'images/media-button-video.gif?ver=20100531' ) ); ?>"/></a>
+			<?php
+		}
+
+		wp_editor( $content, 'content', $editor_settings );
+		
+		?>
 		</div>
 	</div>
 </div>
 </form>
-<?php do_action('admin_print_footer_scripts'); ?>
+<div id="photo-add-url-div" style="display:none;">
+	<table><tr>
+	<td><label for="this_photo"><?php _e('URL') ?></label></td>
+	<td><input type="text" id="this_photo" name="this_photo" class="tbtitle text" onkeypress="if(event.keyCode==13) image_selector();" /></td>
+	</tr><tr>
+	<td><label for="this_photo_description"><?php _e('Description') ?></label></td>
+	<td><input type="text" id="this_photo_description" name="photo_description" class="tbtitle text" onkeypress="if(event.keyCode==13) image_selector();" value="<?php echo esc_attr($title);?>"/></td>
+	</tr><tr>
+	<td><input type="button" class="button" onclick="image_selector()" value="<?php _e('Insert Image'); ?>" /></td>
+	</tr></table>
+</div>
+<?php 
+do_action('admin_footer');
+do_action('admin_print_footer_scripts');
+?>
 <script type="text/javascript">if(typeof wpOnload=='function')wpOnload();</script>
 </body>
 </html>

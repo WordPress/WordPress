@@ -505,16 +505,11 @@ ul.category-tabs li {
 	margin: 5px 0;
 	padding: 0 5px;
 	border: 0 none;
-	height: 365px;
-	width: 97% !important;
+	height: 357px;
 	font-family: Consolas, Monaco, monospace;
 	font-size: 13px;
 	line-height: 19px;
 	background: transparent;
-}
-
-* html .postdivrich {
-	zoom: 1;
 }
 
 /* Submit */
@@ -676,3 +671,8 @@ input.newtag:focus ~ div.taghint {
 #mce_fullscreen_container {
 	background: #fff;
 }
+
+#photo-add-url-div input[type="text"] {
+	width: 300px;
+}
+
