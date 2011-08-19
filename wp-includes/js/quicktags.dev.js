@@ -48,7 +48,7 @@ function edInsertContent(bah, txt) {
 /**
  * Adds a button to all instances of the editor
  * 
- * Added for back compatibility
+ * Added for back compatibility, use QTags.addButton() as it gives more flexibility like type of button, button placement, etc.
  * @see QTags.addButton()
  */
 function edButton(id, display, tagStart, tagEnd, access, open) {
@@ -232,6 +232,10 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 			tb.attachEvent('onclick', onclick);
 		}
 
+		t.getButton = function(id) {
+			return buttons[id];
+		};
+
 		if ( !qt.instances[0] )
 			qt.instances[0] = t;
 
@@ -252,7 +256,7 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 	 * Main API function for adding a button to Quicktags
 	 * 
 	 * Adds qt.Button or qt.TagButton depending on the args. The first three args are always required.
-	 * For TagButton arg2 is also required. To be able to add button(s) to Quicktags, your script
+	 * For TagButton the 4th or the 5th argument is also required. To be able to add button(s) to Quicktags, your script
 	 * should be enqueued as dependant on "quicktags" and outputted in the footer. If you are echoing JS
 	 * directly from PHP, use add_action( 'admin_print_footer_scripts', 'output_my_js', 100 ) or add_action( 'wp_footer', 'output_my_js', 100 )
 	 *
@@ -263,21 +267,21 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 	 * Minimun required to add a button that inserts a tag:
 	 *     QTags.addButton( 'my_id', 'my button', '<span>', '</span>' );
 	 *
-	 * @param id string required button HTML ID
-	 * @param display string required button's value="..."
-	 * @param arg1 string || function required either a starting tag to be inserted like "<span>" or a callback that is executed when the button is pressed
-	 * @param arg2 string ending tag like "</span>"
-	 * @param arg3 int set to -1 if the inserted tag is self-closing
-	 * @param access string access key for the button
-	 * @param title string button's title="..." 
-	 * @param priority int number representing the desired position of the button in the toolbar. 1 - 9 = first, 11 - 19 = second, 21 - 29 = third, etc.
-	 * @return bool TRUE on success FALSE on failure
+	 * @param id string required Button HTML ID
+	 * @param display string required Button's value="..."
+	 * @param arg1 string || function required Either a starting tag to be inserted like "<span>" or a callback that is executed when the button is pressed
+	 * @param arg2 string Ending tag like "</span>"
+	 * @param arg3 int Set to -1 if the inserted tag is self-closing
+	 * @param access string Access key for the button
+	 * @param title string Button's title="..." 
+	 * @param priority int Number representing the desired position of the button in the toolbar. 1 - 9 = first, 11 - 19 = second, 21 - 29 = third, etc.
+	 * @return null This is needed for back-compat as the common method of adding a button was to manually add it to the buttons array
 	 */	 	 	 	
 	qt.addButton = function( id, display, arg1, arg2, arg3, access, title, priority ) {
 		var btn;
 		
 		if ( !id || !display )
-			return false;
+			return;
 
 		if ( typeof(arg1) == 'function' ) {
 			btn = new qt.Button(id, display, access, title);
@@ -285,7 +289,7 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 		} else if ( typeof(arg1) == 'string' && arg1 && arg2 ) {
 			btn = new qt.TagButton(id, display, arg1, arg2, access, arg3, title);
 		} else {
-			return false;
+			return;
 		}
 
 		if ( priority ) {
@@ -297,8 +301,6 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 		} else {
 			edButtons[edButtons.length] = btn;
 		}
-		
-		return true;
 	};
 
 	qt.insertContent = function(content) {
@@ -343,7 +345,7 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 		var access = this.access ? ' accesskey="' + this.access + '"' : '';
 		return '<input type="button" id="' + idPrefix + this.id + '"' + access + ' class="ed_button" title="' + this.title + '" value="' + this.display + '" />';
 	};
-	qt.Button.prototype.callback = function(canvas) {};
+	qt.Button.prototype.callback = function(){};
 
 	// a button that inserts HTML tag
 	qt.TagButton = function(id, display, tagStart, tagEnd, access, open, title) {
