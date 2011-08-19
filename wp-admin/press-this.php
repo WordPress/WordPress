@@ -28,11 +28,12 @@ if ( ! current_user_can('edit_posts') )
 function press_it() {
 
 	$post = get_default_post_to_edit('post', true);
+	$post = get_object_vars($post);
 	$post_ID = $post['ID'];
 	$post['post_category'] = isset($_POST['post_category']) ? $_POST['post_category'] : null;
 	$post['tax_input'] = isset($_POST['tax_input']) ? $_POST['tax_input'] : null;
 	$post['post_title'] = isset($_POST['title']) ? $_POST['title'] : '';
-	$post['post_content'] = isset($_POST['post_content']) ? $_POST['post_content'] : '';
+	$post['post_content'] = isset($_POST['content']) ? $_POST['content'] : '';
 
 	$upload = false;
 	if ( !empty($_POST['photo_src']) && current_user_can('upload_files') ) {
