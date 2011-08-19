@@ -294,6 +294,7 @@ class WP_Editor {
 				// load editor_style.css if the current theme supports it
 				if ( ! empty( $editor_styles ) && is_array( $editor_styles ) ) {
 					$mce_css = array();
+					$editor_styles = array_unique($editor_styles);
 					$style_uri = get_stylesheet_directory_uri();
 					if ( ! is_child_theme() ) {
 						foreach ( $editor_styles as $file )
