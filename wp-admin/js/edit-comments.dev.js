@@ -356,6 +356,9 @@ commentReply = {
 		if ( this.cid ) {
 			c = $('#comment-' + this.cid);
 
+			if ( typeof QTags != 'undefined' )
+				QTags.closeAllTags('replycontent');
+
 			if ( this.act == 'edit-comment' )
 				c.fadeIn(300, function(){ c.show() }).css('backgroundColor', '');
 
@@ -365,18 +368,14 @@ commentReply = {
 			$('input', '#edithead').val('');
 			$('.error', '#replysubmit').html('').hide();
 			$('.waiting', '#replysubmit').hide();
-
-			if ( $.browser.msie )
-				$('#replycontainer, #replycontent').css('height', '120px');
-			else
-				$('#replycontainer').resizable('destroy').css('height', '120px');
+			$('#replycontainer, #replycontent').height(120);
 
 			this.cid = '';
 		}
 	},
 
 	open : function(id, p, a) {
-		var t = this, editRow, rowData, act, h, c = $('#comment-' + id), replyButton;
+		var t = this, editRow, rowData, act, c = $('#comment-' + id), h = c.height(), replyButton;
 
 		t.close();
 		t.cid = id;
@@ -389,6 +388,9 @@ commentReply = {
 		$('#comment_post_ID', editRow).val(p);
 		$('#comment_ID', editRow).val(id);
 
+		if ( h > 220 )
+			$('#replycontainer, #replycontent', editRow).height(h-104);
+
 		if ( a == 'edit' ) {
 			$('#author', editRow).val( $('div.author', rowData).text() );
 			$('#author-email', editRow).val( $('div.author-email', rowData).text() );
@@ -397,13 +399,6 @@ commentReply = {
 			$('#replycontent', editRow).val( $('textarea.comment', rowData).val() );
 			$('#edithead, #savebtn', editRow).show();
 			$('#replyhead, #replybtn', editRow).hide();
-
-			h = c.height();
-			if ( h > 220 )
-				if ( $.browser.msie )
-					$('#replycontainer, #replycontent', editRow).height(h-105);
-				else
-					$('#replycontainer', editRow).height(h-105);
 
 			c.after( editRow ).fadeOut('fast', function(){
 				$('#replyrow').fadeIn(300, function(){ $(this).show() });

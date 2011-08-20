@@ -9,6 +9,9 @@ var switchEditors = {
 			if ( ed && ! ed.isHidden() )
 				return false;
 
+			if ( typeof(QTags) != 'undefined' )
+				QTags.closeAllTags(id);
+
 			if ( tinyMCEPreInit.mceInit[id] && tinyMCEPreInit.mceInit[id].wpautop )
 				txtarea_el.value = t.wpautop( txtarea_el.value );
 			
