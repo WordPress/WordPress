@@ -15,8 +15,6 @@ require_once(ABSPATH . 'wp-admin/includes/widgets.php');
 if ( ! current_user_can('edit_theme_options') )
 	wp_die( __( 'Cheatin&#8217; uh?' ));
 
-wp_admin_css( 'widgets' );
-
 $widgets_access = get_user_setting( 'widgets_access' );
 if ( isset($_GET['widgets-access']) ) {
 	$widgets_access = 'on' == $_GET['widgets-access'] ? 'on' : 'off';

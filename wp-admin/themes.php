@@ -50,7 +50,6 @@ add_contextual_help($current_screen, $help);
 add_thickbox();
 wp_enqueue_script( 'theme-preview' );
 wp_enqueue_script( 'theme' );
-wp_enqueue_style( 'theme-install' );
 
 endif;
 

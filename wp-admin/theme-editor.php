@@ -38,8 +38,6 @@ add_contextual_help($current_screen, $help);
 
 wp_reset_vars(array('action', 'redirect', 'profile', 'error', 'warning', 'a', 'file', 'theme', 'dir'));
 
-wp_admin_css( 'theme-editor' );
-
 $themes = get_themes();
 
 if (empty($theme)) {

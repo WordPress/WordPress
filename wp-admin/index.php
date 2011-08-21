@@ -17,8 +17,6 @@ wp_dashboard_setup();
 wp_enqueue_script( 'dashboard' );
 wp_enqueue_script( 'plugin-install' );
 wp_enqueue_script( 'media-upload' );
-wp_admin_css( 'dashboard' );
-wp_admin_css( 'plugin-install' );
 add_thickbox();
 
 $title = __('Dashboard');

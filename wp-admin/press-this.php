@@ -292,8 +292,6 @@ die;
 	<title><?php _e('Press This') ?></title>
 
 <?php
-	wp_enqueue_style( 'press-this' );
-	wp_enqueue_style( 'press-this-ie');
 	wp_enqueue_style( 'colors' );
 	wp_enqueue_script( 'post' );
 ?>

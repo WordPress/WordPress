@@ -22,11 +22,7 @@ if ( ! current_theme_supports( 'menus' ) && ! current_theme_supports( 'widgets' 
 if ( ! current_user_can('edit_theme_options') )
 	wp_die( __( 'Cheatin&#8217; uh?' ) );
 
-// Nav Menu CSS
-wp_admin_css( 'nav-menu' );
-
 // jQuery
-wp_enqueue_script( 'jquery' );
 wp_enqueue_script( 'jquery-ui-draggable' );
 wp_enqueue_script( 'jquery-ui-droppable' );
 wp_enqueue_script( 'jquery-ui-sortable' );

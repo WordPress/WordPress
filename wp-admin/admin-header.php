@@ -41,12 +41,8 @@ wp_user_settings();
 <title><?php echo $admin_title; ?></title>
 <?php
 
-wp_admin_css( 'global' );
-wp_admin_css();
-wp_admin_css( 'colors' );
-wp_admin_css( 'ie' );
-if ( is_multisite() )
-	wp_admin_css( 'ms' );
+wp_enqueue_style( 'colors' );
+wp_enqueue_style( 'ie' );
 wp_enqueue_script('utils');
 
 $admin_body_class = preg_replace('/[^a-z0-9_-]+/i', '-', $hook_suffix);

@@ -1556,9 +1556,6 @@ function iframe_header( $title = '', $limit_styles = false ) {
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
 <title><?php bloginfo('name') ?> &rsaquo; <?php echo $title ?> &#8212; <?php _e('WordPress'); ?></title>
 <?php
-wp_enqueue_style( 'global' );
-if ( ! $limit_styles )
-	wp_enqueue_style( 'wp-admin' );
 wp_enqueue_style( 'colors' );
 ?>
 <script type="text/javascript">

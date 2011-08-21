@@ -398,41 +398,31 @@ function wp_default_styles( &$styles ) {
 
 	$suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '.dev' : '';
 
-	$rtl_styles = array( 'wp-admin', 'global', 'colors', 'colors-fresh', 'colors-classic', 'dashboard', 'ie', 'install', 'login', 'media', 'theme-editor', 'upload', 'widgets', 'press-this', 'plugin-install', 'nav-menu', 'farbtastic', 'admin-bar', 'wplink', 'theme-install' );
+	$rtl_styles = array( 'wp-admin', 'colors-fresh', 'colors-classic', 'ie', 'install', 'media', 'farbtastic', 'admin-bar', 'wplink' );
 	// Any rtl stylesheets that don't have a .dev version for ltr
 	$no_suffix = array( 'farbtastic' );
 
-	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20110815' );
+	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20110820' );
 
-	$styles->add( 'ie', "/wp-admin/css/ie$suffix.css", array(), '20110711' );
+	$styles->add( 'ie', "/wp-admin/css/ie$suffix.css", array('wp-admin'), '20110711' );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
 
 	// all colors stylesheets need to have the same query strings (cache manifest compat)
 	$colors_version = '20110703';
 
 	// Register "meta" stylesheet for admin colors. All colors-* style sheets should have the same version string.
-	$styles->add( 'colors', true, array(), $colors_version );
+	$styles->add( 'colors', true, array('wp-admin'), $colors_version );
 
 	// do not refer to these directly, the right one is queued by the above "meta" colors handle
-	$styles->add( 'colors-fresh', "/wp-admin/css/colors-fresh$suffix.css", array(), $colors_version );
-	$styles->add( 'colors-classic', "/wp-admin/css/colors-classic$suffix.css", array(), $colors_version );
+	$styles->add( 'colors-fresh', "/wp-admin/css/colors-fresh$suffix.css", array('wp-admin'), $colors_version );
+	$styles->add( 'colors-classic', "/wp-admin/css/colors-classic$suffix.css", array('wp-admin'), $colors_version );
 
-	$styles->add( 'ms', "/wp-admin/css/ms$suffix.css", array(), '20110623' );
-	$styles->add( 'global', "/wp-admin/css/global$suffix.css", array(), '20110711b' );
 	$styles->add( 'media', "/wp-admin/css/media$suffix.css", array(), '20110707' );
-	$styles->add( 'widgets', "/wp-admin/css/widgets$suffix.css", array(), '20110606' );
-	$styles->add( 'dashboard', "/wp-admin/css/dashboard$suffix.css", array(), '20110815' );
 	$styles->add( 'install', "/wp-admin/css/install$suffix.css", array(), '20110707' ); // Readme as well
-	$styles->add( 'theme-editor', "/wp-admin/css/theme-editor$suffix.css", array(), '20110602' );
-	$styles->add( 'press-this', "/wp-admin/css/press-this$suffix.css", array(), '20110818' );
 	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css', array(), '20090514' );
-	$styles->add( 'login', "/wp-admin/css/login$suffix.css", array(), '20110610' );
-	$styles->add( 'plugin-install', "/wp-admin/css/plugin-install$suffix.css", array(), '20110810' );
-	$styles->add( 'theme-install', "/wp-admin/css/theme-install$suffix.css", array(), '20110506' );
 	$styles->add( 'farbtastic', '/wp-admin/css/farbtastic.css', array(), '1.3u' );
 	$styles->add( 'jcrop', '/wp-includes/js/jcrop/jquery.Jcrop.css', array(), '0.9.8' );
 	$styles->add( 'imgareaselect', '/wp-includes/js/imgareaselect/imgareaselect.css', array(), '0.9.1' );
-	$styles->add( 'nav-menu', "/wp-admin/css/nav-menu$suffix.css", array(), '20110611' );
 	$styles->add( 'admin-bar', "/wp-includes/css/admin-bar$suffix.css", array(), '20110622' );
 	$styles->add( 'wp-jquery-ui-dialog', "/wp-includes/css/jquery-ui-dialog$suffix.css", array(), '20101224' );
 	$styles->add( 'editor-buttons', "/wp-includes/css/editor-buttons$suffix.css", array(), '20110802' );

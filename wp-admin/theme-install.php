@@ -29,7 +29,6 @@ $parent_file = 'themes.php';
 if ( !is_network_admin() )
 	$submenu_file = 'themes.php';
 
-wp_enqueue_style( 'theme-install' );
 wp_enqueue_script( 'theme-install' );
 
 add_thickbox();

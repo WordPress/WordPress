@@ -22,8 +22,6 @@ $parent_file = 'plugins.php';
 
 wp_reset_vars(array('action', 'redirect', 'profile', 'error', 'warning', 'a', 'file', 'plugin'));
 
-wp_admin_css( 'theme-editor' );
-
 $plugins = get_plugins();
 
 if ( empty($plugins) )

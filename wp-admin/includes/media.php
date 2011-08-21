@@ -315,8 +315,7 @@ function wp_iframe($content_func /* ... */) {
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
 <title><?php bloginfo('name') ?> &rsaquo; <?php _e('Uploads'); ?> &#8212; <?php _e('WordPress'); ?></title>
 <?php
-wp_enqueue_style( 'global' );
-wp_enqueue_style( 'wp-admin' );
+
 wp_enqueue_style( 'colors' );
 // Check callback name for 'media'
 if ( ( is_array( $content_func ) && ! empty( $content_func[1] ) && 0 === strpos( (string) $content_func[1], 'media' ) )

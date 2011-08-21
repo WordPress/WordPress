@@ -27,7 +27,6 @@ $wp_list_table->prepare_items();
 $title = __('Install Plugins');
 $parent_file = 'plugins.php';
 
-wp_enqueue_style( 'plugin-install' );
 wp_enqueue_script( 'plugin-install' );
 if ( 'plugin-information' != $tab )
 	add_thickbox();

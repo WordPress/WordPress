@@ -3,11 +3,6 @@ html,
 	background-color: #fff;
 }
 
-* html input,
-* html .widget {
-	border-color: #dfdfdf;
-}
-
 textarea,
 input[type="text"],
 input[type="password"],
@@ -18,6 +13,17 @@ input[type="reset"],
 select {
 	border-color: #dfdfdf;
 	background-color: #fff;
+}
+
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="file"]:focus,
+input[type="button"]:focus,
+input[type="submit"]:focus,
+input[type="reset"]:focus,
+select:focus {
+	border-color: #bbb;
 }
 
 kbd,
@@ -85,12 +91,6 @@ div.dashboard-widget,
 
 #postcustomstuff thead th {
 	background-color: #F1F1F1;
-}
-
-#postcustomstuff table input,
-#postcustomstuff table textarea {
-	border-color: #dfdfdf;
-	background-color: #fff;
 }
 
 .widefat {
@@ -786,9 +786,9 @@ table.widefat span.spam a,
 }
 
 #user_info_links {
-	-moz-box-shadow: 0 3px 2px -2px rgba( 0, 0, 0, 0.2 );
-	-webkit-box-shadow: 0 3px 2px -2px rgba( 0, 0, 0, 0.2 );
-	box-shadow: 0 3px 2px -2px rgba( 0, 0, 0, 0.2 );
+	-moz-box-shadow: 0 5px 6px 0 rgba(0, 0, 0, 0.2);
+	-webkit-box-shadow: 0 5px 6px 0 rgba(0, 0, 0, 0.2);
+	box-shadow: 0 5px 6px 0 rgba(0, 0, 0, 0.2);
 }
 
 #user_info_links ul {

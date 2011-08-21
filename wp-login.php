@@ -62,7 +62,7 @@ function login_header($title = 'Log In', $message = '', $wp_error = '') {
 	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
 	<title><?php bloginfo('name'); ?> &rsaquo; <?php echo $title; ?></title>
 <?php
-	wp_admin_css( 'login', true );
+	wp_admin_css( 'wp-admin', true );
 	wp_admin_css( 'colors-fresh', true );
 
 	if ( $is_iphone ) { ?>
@@ -135,6 +135,7 @@ if(typeof wpOnload=='function')wpOnload();
 <?php endif; ?>
 
 <?php do_action('login_footer'); ?>
+<div class="clear"></div>
 </body>
 </html>
 <?php
