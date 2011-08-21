@@ -398,7 +398,7 @@ function wp_default_styles( &$styles ) {
 
 	$suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '.dev' : '';
 
-	$rtl_styles = array( 'wp-admin', 'colors-fresh', 'colors-classic', 'ie', 'install', 'media', 'farbtastic', 'admin-bar', 'wplink' );
+	$rtl_styles = array( 'wp-admin', 'colors-fresh', 'colors-classic', 'ie', 'media', 'admin-bar', 'wplink' );
 	// Any rtl stylesheets that don't have a .dev version for ltr
 	$no_suffix = array( 'farbtastic' );
 
@@ -418,9 +418,9 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'colors-classic', "/wp-admin/css/colors-classic$suffix.css", array('wp-admin'), $colors_version );
 
 	$styles->add( 'media', "/wp-admin/css/media$suffix.css", array(), '20110707' );
-	$styles->add( 'install', "/wp-admin/css/install$suffix.css", array(), '20110707' ); // Readme as well
+	$styles->add( 'install', "/wp-admin/css/install$suffix.css", array(), '20110821' ); // Readme as well
 	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css', array(), '20090514' );
-	$styles->add( 'farbtastic', '/wp-admin/css/farbtastic.css', array(), '1.3u' );
+	$styles->add( 'farbtastic', '/wp-admin/css/farbtastic.css', array(), '1.3u1' );
 	$styles->add( 'jcrop', '/wp-includes/js/jcrop/jquery.Jcrop.css', array(), '0.9.8' );
 	$styles->add( 'imgareaselect', '/wp-includes/js/imgareaselect/imgareaselect.css', array(), '0.9.1' );
 	$styles->add( 'admin-bar', "/wp-includes/css/admin-bar$suffix.css", array(), '20110622' );

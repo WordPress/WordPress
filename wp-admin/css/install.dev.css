@@ -211,3 +211,39 @@ textarea {
 	margin: 5px 0 15px;
 	background-color: #ffffe0;
 }
+
+
+/* install-rtl */
+body.rtl {
+	font-family: Tahoma, arial;
+}
+
+.rtl h1 {
+	font-family: arial;
+	margin: 5px -4px 0 0;
+}
+
+.rtl ul,
+.rtl  ol {
+	padding: 5px 22px 5px 5px;
+}
+
+.rtl .step,
+.rtl th,
+.rtl .form-table th {
+	text-align: right;
+}
+
+.rtl .submit input,
+.rtl .button,
+.rtl .button-secondary {
+	margin-right: 0;
+}
+
+.rtl #user_login,
+.rtl #admin_email,
+.rtl #pass1,
+.rtl #pass2 {
+	direction: ltr;
+}
+
