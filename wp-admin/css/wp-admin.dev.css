@@ -112,13 +112,24 @@ TABLE OF CONTENTS:
 	float: right;
 	clear: right;
 	display: none;
-	width: 281px;
+	min-width: 281px;
 	position: relative;
+}
+
+.wide-screen .inner-sidebar {
+    margin-right: -870px;
+    width: 100%;
 }
 
 .inner-sidebar #side-sortables {
 	width: 280px;
 	min-height: 300px;
+}
+
+.wide-screen .inner-sidebar #side-sortables {
+	min-width: 280px;
+	width: auto;
+	padding-right: 870px;
 }
 
 .has-right-sidebar .inner-sidebar {
@@ -130,6 +141,7 @@ TABLE OF CONTENTS:
 	clear: left;
 	width: 100%;
 	margin-right: -340px;
+	max-width: 1150px;
 }
 
 .has-right-sidebar #post-body-content {
@@ -219,13 +231,17 @@ body {
 	height: 100%;
 	margin: 0;
 	padding: 0;
-	min-width: 950px; /* from widgets, doto */
 }
 
 body {
 	font-family: sans-serif;
 	font-size: 12px;
 	line-height: 1.4em;
+	min-width: 950px; /* to do, responsive admin */
+}
+
+body.post-php {
+	min-width: 560px;
 }
 
 td,
@@ -1998,10 +2014,6 @@ strong .post-com-count {
   8.0 - Layout Blocks
 ------------------------------------------------------------------------------*/
 
-body.wp-admin {
-	min-width: 785px;
-}
-
 body.admin-bar #wphead,
 body.admin-bar #adminmenu {
 	padding-top: 28px;
@@ -2676,6 +2688,10 @@ table .inline-edit-row fieldset ul.cat-hover {
 /*------------------------------------------------------------------------------
   11.0 - Write/Edit Post Screen
 ------------------------------------------------------------------------------*/
+
+.postarea {
+	max-width: 900px;
+}
 
 #titlediv {
 	position: relative;
@@ -5752,10 +5768,6 @@ body.login {
 
 /* nav-menu */
 
-body {
-	min-width: 950px;
-}
-
 #nav-menus-frame {
 	margin-left: 300px;
 }
@@ -7241,10 +7253,6 @@ margin-bottom: 10px;
 
 
 /* widgets */
-html,
-body {
-	min-width: 950px;
-}
 
 /* 2 column liquid layout */
 div.widget-liquid-left {

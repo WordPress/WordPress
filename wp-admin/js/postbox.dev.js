@@ -1,4 +1,5 @@
-var postboxes;
+var postboxes, wp_auto_columns, wpAutoColumns = false;
+
 (function($) {
 	postboxes = {
 		add_postbox_toggles : function(page,args) {
@@ -42,13 +43,23 @@ var postboxes;
 			$('.columns-prefs input[type="radio"]').click(function(){
 				var num = $(this).val(), i, el, p = $('#poststuff');
 
+				if ( num === '0' ) {
+					if ( typeof(wp_auto_columns) == 'function' ) {
+						wpAutoColumns = true;
+						wp_auto_columns();
+					}
+					return;
+				}
+
 				if ( p.length ) { // write pages
 					if ( num == 2 ) {
 						p.addClass('has-right-sidebar');
-						$('#side-sortables').addClass('temp-border');
+						$('#side-info-column').append( $('#side-sortables') );
+						$(document.body).removeClass('responsive');
 					} else if ( num == 1 ) {
 						p.removeClass('has-right-sidebar');
-						$('#normal-sortables').append($('#side-sortables').children('.postbox'));
+						$('#normal-sortables').before( $('#side-sortables') );
+						$(document.body).removeClass('responsive');
 					}
 				} else { // dashboard
 					for ( i = 4; ( i > num && i > 1 ); i-- ) {
@@ -149,5 +160,47 @@ var postboxes;
 
 		pbhide : false
 	};
+
+	$(document).ready(function(){
+
+		// responsive admin
+		wpAutoColumns = $('#wp_auto_columns').prop('checked');
+
+		wp_auto_columns = function() {
+			var w = $(window).width(), pb;
+			
+			if ( !wpAutoColumns )
+				return;
+
+			if ( adminpage == 'post-php' ) {
+				pb = $('#post-body').width();
+
+				if ( pb > 1149 )
+					$(document.body).addClass('wide-screen');
+
+				if ( pb < 1150 )
+					$(document.body).removeClass('wide-screen');
+
+				if ( pb < 801 ) {
+					$('#poststuff').removeClass('has-right-sidebar');
+					$('#normal-sortables').before( $('#side-sortables') );
+				}
+
+				if ( pb > 800 ) {
+					$('#poststuff').addClass('has-right-sidebar');
+					$('#side-info-column').append( $('#side-sortables') );
+				}
+
+				if ( w < 681 )
+					$(document.body).addClass('folded');
+
+				if ( w > 680 )
+					$(document.body).removeClass('folded');
+			}
+		}
+
+		$(window).resize(function(){ wp_auto_columns(); });
+		wp_auto_columns();
+	});
 
 }(jQuery));
