@@ -1,3 +1,25 @@
+/*------------------------------------------------------------------------------
+
+
+Howdy! This is the CSS file that controls the 
+Gray (fresh) color style on the WordPress Dashboard.
+
+This file contains both LTR and RTL styles.
+
+
+TABLE OF CONTENTS:
+------------------
+ 1.0 - Left to Right Styles
+ 2.0 - Right to Left Styles
+
+
+------------------------------------------------------------------------------*/
+
+
+/*------------------------------------------------------------------------------
+  1.0 - Left to Right Styles
+------------------------------------------------------------------------------*/
+
 html,
 .wp-dialog {
 	background-color: #fff;
@@ -1760,4 +1782,100 @@ div.widgets-sortables,
 
 #fullscreen-topbar {
 	border-bottom-color: #DFDFDF;
+}
+
+
+/*------------------------------------------------------------------------------
+  2.0 - Right to Left Styles
+------------------------------------------------------------------------------*/
+
+.rtl .bar {
+	border-right-color: none;
+	border-left-color: #99d;
+}
+
+.rtl .post-com-count {
+	background-image: url(../images/bubble_bg-rtl.gif);
+}
+
+.rtl #user_info_arrow {
+	background: transparent url(../images/arrows.png) no-repeat 0 5px;
+}
+
+.rtl #user_info:hover #user_info_arrow,
+.rtl #user_info.active #user_info_arrow {
+	background: transparent url(../images/arrows-dark.png) no-repeat 0 5px;
+}
+
+/* Menu */
+.rtl #adminmenushadow,
+.rtl #adminmenuback {
+	background-image: url(../images/menu-shadow-rtl.png);
+	background-position: top left;
+}
+
+.rtl #adminmenu li.wp-has-current-submenu.wp-menu-open .wp-menu-toggle,
+.rtl #adminmenu li.wp-has-current-submenu:hover .wp-menu-toggle {
+	background: transparent url(../images/arrows-dark.png) no-repeat 8px 6px;
+}
+
+.rtl #adminmenu .wp-has-submenu:hover .wp-menu-toggle,
+.rtl #adminmenu .wp-menu-open .wp-menu-toggle {
+	background: transparent url(../images/arrows.png) no-repeat 8px 6px;
+}
+
+.rtl #adminmenu .wp-submenu .wp-submenu-head {
+	border-right-color: none;
+	border-left-color: #dfdfdf;
+}
+
+.rtl .folded #adminmenu .wp-submenu-wrap {
+	-moz-box-shadow: -2px 2px 5px rgba( 0, 0, 0, 0.4 );
+	-webkit-box-shadow: -2px 2px 5px rgba( 0, 0, 0, 0.4 );
+	box-shadow: -2px 2px 5px rgba( 0, 0, 0, 0.4 );
+}
+
+/* Collapse Menu Button */
+.rtl #collapse-button div {
+	background-position: 0 -108px;
+}
+
+.rtl .folded #collapse-button div {
+	background-position: 0 -72px;
+}
+
+/* Edit Image */
+.rtl .meta-box-sortables .postbox:hover .handlediv {
+	background: transparent url(../images/arrows.png) no-repeat 6px 7px;
+}
+
+.rtl .tablenav .tablenav-pages a {
+	border-color: #e3e3e3;
+	background: #eee url('../images/menu-bits-rtl.gif?ver=20100610') repeat-x scroll right -379px;
+}
+
+.rtl #post-body .misc-pub-section {
+	border-right-color: none;
+	border-left-color: #eee;
+}
+
+.rtl #favorite-toggle {
+	background: transparent url(../images/arrows.png) no-repeat 4px 2px;
+}
+
+.rtl #screen-meta a.show-settings,
+.toggle-arrow {
+	background: transparent url(../images/arrows.png) no-repeat left 3px;
+}
+
+.rtl #screen-meta .screen-meta-active a.show-settings {
+	background: transparent url(../images/arrows.png) no-repeat left -33px;
+}
+
+.rtl .sidebar-name-arrow {
+	background: transparent url(../images/arrows.png) no-repeat 5px 9px;
+}
+
+.rtl .sidebar-name:hover .sidebar-name-arrow {
+	background: transparent url(../images/arrows-dark.png) no-repeat 5px 9px;
 }
