@@ -44,6 +44,24 @@ function wp_cache_close() {
 }
 
 /**
+ * Decrement numeric cache item's value
+ *
+ * @since 3.3.0
+ * @uses $wp_object_cache Object Cache Class
+ * @see WP_Object_Cache::decr()
+ *
+ * @param int|string $key The cache ID to increment
+ * @param int $offset The amount by which to decrement the item's value.  Default is 1.
+ * @param string $flag The group the key is in.
+ * @return false|int False on failure, the item's new value on success.
+ */
+function wp_cache_decr( $key, $offset = 1, $flag = '' ) {
+	global $wp_object_cache;
+
+	return $wp_object_cache->decr( $key, $offset, $flag );
+}
+
+/**
  * Removes the cache contents matching ID and flag.
  *
  * @since 2.0.0
@@ -91,6 +109,24 @@ function wp_cache_get($id, $flag = '') {
 	global $wp_object_cache;
 
 	return $wp_object_cache->get($id, $flag);
+}
+
+/**
+ * Increment numeric cache item's value
+ *
+ * @since 3.3.0
+ * @uses $wp_object_cache Object Cache Class
+ * @see WP_Object_Cache::incr()
+ *
+ * @param int|string $key The cache ID to increment
+ * @param int $offset The amount by which to increment the item's value.  Default is 1.
+ * @param string $flag The group the key is in.
+ * @return false|int False on failure, the item's new value on success.
+ */
+function wp_cache_incr( $key, $offset = 1, $flag = '' ) {
+	global $wp_object_cache;
+
+	return $wp_object_cache->incr( $key, $offset, $flag );
 }
 
 /**
@@ -281,6 +317,33 @@ class WP_Object_Cache {
 	}
 
 	/**
+	 * Decrement numeric cache item's value
+	 *
+	 * @since 3.3.0
+	 *
+	 * @param int|string $id The cache ID to increment
+	 * @param int $offset The amount by which to decrement the item's value.  Default is 1.
+	 * @param string $flag The group the key is in.
+	 * @return false|int False on failure, the item's new value on success.
+	 */
+	function decr( $id, $offset = 1, $group = 'default' ) {
+		if ( ! isset( $this->cache[ $group ][ $id ] ) )
+			return false;
+
+		if ( ! is_numeric( $this->cache[ $group ][ $id ] ) )
+			$this->cache[ $group ][ $id ] = 0;
+
+		$offset = (int) $offset;
+
+		$this->cache[ $group ][ $id ] -= $offset;
+
+		if ( $this->cache[ $group ][ $id ] < 0 )
+			$this->cache[ $group ][ $id ] = 0;
+
+		return $this->cache[ $group ][ $id ];
+	}
+
+	/**
 	 * Remove the contents of the cache ID in the group
 	 *
 	 * If the cache ID does not exist in the group and $force parameter is set
@@ -361,6 +424,33 @@ class WP_Object_Cache {
 		$this->non_existent_objects[$group][$id] = true;
 		$this->cache_misses += 1;
 		return false;
+	}
+
+	/**
+	 * Increment numeric cache item's value
+	 *
+	 * @since 3.3.0
+	 *
+	 * @param int|string $id The cache ID to increment
+	 * @param int $offset The amount by which to increment the item's value.  Default is 1.
+	 * @param string $flag The group the key is in.
+	 * @return false|int False on failure, the item's new value on success.
+	 */
+	function incr( $id, $offset = 1, $group = 'default' ) {
+		if ( ! isset( $this->cache[ $group ][ $id ] ) )
+			return false;
+
+		if ( ! is_numeric( $this->cache[ $group ][ $id ] ) )
+			$this->cache[ $group ][ $id ] = 0;
+
+		$offset = (int) $offset;
+
+		$this->cache[ $group ][ $id ] += $offset;
+
+		if ( $this->cache[ $group ][ $id ] < 0 )
+			$this->cache[ $group ][ $id ] = 0;
+
+		return $this->cache[ $group ][ $id ];
 	}
 
 	/**
