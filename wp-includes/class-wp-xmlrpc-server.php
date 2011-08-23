@@ -1134,13 +1134,13 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( !current_user_can( 'moderate_comments' ) )
 			return new IXR_Error( 403, __( 'You are not allowed to moderate comments on this site.' ) );
 
+		if ( ! get_comment($comment_ID) )
+			return new IXR_Error( 404, __( 'Invalid comment ID.' ) );
+
 		if ( !current_user_can( 'edit_comment', $comment_ID ) )
 			return new IXR_Error( 403, __( 'You are not allowed to moderate comments on this site.' ) );
 
 		do_action('xmlrpc_call', 'wp.deleteComment');
-
-		if ( ! get_comment($comment_ID) )
-			return new IXR_Error( 404, __( 'Invalid comment ID.' ) );
 
 		return wp_delete_comment($comment_ID);
 	}
@@ -1184,13 +1184,13 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( !current_user_can( 'moderate_comments' ) )
 			return new IXR_Error( 403, __( 'You are not allowed to moderate comments on this site.' ) );
 
+		if ( ! get_comment($comment_ID) )
+			return new IXR_Error( 404, __( 'Invalid comment ID.' ) );
+
 		if ( !current_user_can( 'edit_comment', $comment_ID ) )
 			return new IXR_Error( 403, __( 'You are not allowed to moderate comments on this site.' ) );
 
 		do_action('xmlrpc_call', 'wp.editComment');
-
-		if ( ! get_comment($comment_ID) )
-			return new IXR_Error( 404, __( 'Invalid comment ID.' ) );
 
 		if ( isset($content_struct['status']) ) {
 			$statuses = get_comment_statuses();
