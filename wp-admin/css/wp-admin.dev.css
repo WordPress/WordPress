@@ -5300,6 +5300,7 @@ div.postbox div.inside {
 
 #dashboard_recent_comments .subsubsub {
 	float: none;
+	white-space: normal;
 }
 
 #the-comment-list {
