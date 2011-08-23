@@ -48,31 +48,30 @@ var postboxes, wp_auto_columns, wpAutoColumns = false;
 						wpAutoColumns = true;
 						wp_auto_columns();
 					}
-					return;
-				}
-
-				if ( p.length ) { // write pages
-					if ( num == 2 ) {
-						p.addClass('has-right-sidebar');
-						$('#side-info-column').append( $('#side-sortables') );
-						$(document.body).removeClass('responsive');
-					} else if ( num == 1 ) {
-						p.removeClass('has-right-sidebar');
-						$('#normal-sortables').before( $('#side-sortables') );
-						$(document.body).removeClass('responsive');
+				} else {
+					if ( p.length ) { // write pages
+						if ( num == 2 ) {
+							p.addClass('has-right-sidebar');
+							$('#side-info-column').append( $('#side-sortables') );
+							$(document.body).removeClass('responsive');
+						} else if ( num == 1 ) {
+							p.removeClass('has-right-sidebar');
+							$('#normal-sortables').before( $('#side-sortables') );
+							$(document.body).removeClass('responsive');
+						}
+					} else { // dashboard
+						for ( i = 4; ( i > num && i > 1 ); i-- ) {
+							el = $('#' + colname(i) + '-sortables');
+							$('#' + colname(i-1) + '-sortables').append(el.children('.postbox'));
+							el.parent().hide();
+						}
+						for ( i = 1; i <= num; i++ ) {
+							el = $('#' + colname(i) + '-sortables');
+							if ( el.parent().is(':hidden') )
+								el.addClass('temp-border').parent().show();
+						}
+						$('.postbox-container:visible').css('width', 100/num + '%');
 					}
-				} else { // dashboard
-					for ( i = 4; ( i > num && i > 1 ); i-- ) {
-						el = $('#' + colname(i) + '-sortables');
-						$('#' + colname(i-1) + '-sortables').append(el.children('.postbox'));
-						el.parent().hide();
-					}
-					for ( i = 1; i <= num; i++ ) {
-						el = $('#' + colname(i) + '-sortables');
-						if ( el.parent().is(':hidden') )
-							el.addClass('temp-border').parent().show();
-					}
-					$('.postbox-container:visible').css('width', 98/num + '%');
 				}
 				postboxes.save_order(page);
 			});
@@ -167,35 +166,64 @@ var postboxes, wp_auto_columns, wpAutoColumns = false;
 		wpAutoColumns = $('#wp_auto_columns').prop('checked');
 
 		wp_auto_columns = function() {
-			var w = $(window).width(), pb;
+			var w = $(window).width(), pb, dw, num = 1;
 			
 			if ( !wpAutoColumns )
 				return;
 
+			if ( w < 681 )
+				$(document.body).addClass('folded');
+
+			if ( w > 680 && getUserSetting('mfold') != 'f' )
+				$(document.body).removeClass('folded');
+
 			if ( adminpage == 'post-php' ) {
 				pb = $('#post-body').width();
-
-				if ( pb > 1149 )
-					$(document.body).addClass('wide-screen');
-
-				if ( pb < 1150 )
-					$(document.body).removeClass('wide-screen');
 
 				if ( pb < 801 ) {
 					$('#poststuff').removeClass('has-right-sidebar');
 					$('#normal-sortables').before( $('#side-sortables') );
 				}
 
-				if ( pb > 800 ) {
+				if ( pb > 800 &&  pb < 1150 ) {
 					$('#poststuff').addClass('has-right-sidebar');
 					$('#side-info-column').append( $('#side-sortables') );
+					$(document.body).removeClass('wide-screen');
 				}
 
-				if ( w < 681 )
-					$(document.body).addClass('folded');
+				if ( pb > 1149 ) {
+					$(document.body).addClass('wide-screen');
+				}
 
-				if ( w > 680 )
-					$(document.body).removeClass('folded');
+			} else if ( adminpage == 'index-php' ) {
+				dw = $('#dashboard-widgets').width();
+
+				if ( dw < 801 ) {
+					$('#postbox-container-2').hide();
+					$('#normal-sortables').after( $('#side-sortables') );
+					num = 1;
+				}
+
+				if ( dw > 800 && dw < 1201 ) {
+					$('#postbox-container-2').show().append( $('#side-sortables') );
+					$('#postbox-container-3').hide();
+					$('#side-sortables').after( $('#column3-sortables') );
+					num = 2;
+				}
+
+				if ( dw > 1200 && dw < 1601 ) {
+					$('#postbox-container-3').show().append( $('#column3-sortables') );
+					$('#postbox-container-4').hide();
+					$('#column3-sortables').after( $('#column4-sortables') );
+					num = 3;
+				}
+
+				if ( dw > 1600 ) {
+					$('#postbox-container-4').show().append( $('#column4-sortables') );
+					num = 4;
+				}
+
+				$('.postbox-container:visible').css('width', 100/num + '%');
 			}
 		}
 

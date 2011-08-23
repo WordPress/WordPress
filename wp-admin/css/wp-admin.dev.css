@@ -240,7 +240,8 @@ body {
 	min-width: 950px; /* to do, responsive admin */
 }
 
-body.post-php {
+body.post-php,
+body.index-php {
 	min-width: 560px;
 }
 
@@ -2048,7 +2049,6 @@ body.admin-bar #adminmenu {
 
 .postbox-container {
 	float: left;
-	padding-right: 0.5%;
 }
 
 .postbox-container .meta-box-sortables {
@@ -2116,14 +2116,6 @@ body.admin-bar #adminmenu {
 	margin-bottom: 0;
 }
 
-.postbox input[type="text"],
-.postbox textarea,
-.stuffbox input[type="text"],
-.stuffbox textarea {
-	border-width: 1px;
-	border-style: solid;
-}
-
 .temp-border {
 	border: 1px dotted #ccc;
 }
@@ -2142,7 +2134,7 @@ body.admin-bar #adminmenu {
 }
 
 #dashboard-widgets .meta-box-sortables {
-	margin: 0 5px;
+	margin: 0 8px;
 }
 
 #dashboard_recent_comments div.undo {

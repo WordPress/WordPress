@@ -200,33 +200,33 @@ function wp_dashboard() {
 	$hide2 = $hide3 = $hide4 = '';
 	switch ( $screen_layout_columns ) {
 		case 4:
-			$width = 'width:24.5%;';
+			$width = 'width:25%;';
 			break;
 		case 3:
-			$width = 'width:32.67%;';
+			$width = 'width:33.333333%;';
 			$hide4 = 'display:none;';
 			break;
 		case 2:
-			$width = 'width:49%;';
+			$width = 'width:50%;';
 			$hide3 = $hide4 = 'display:none;';
 			break;
 		default:
-			$width = 'width:98%;';
+			$width = 'width:100%;';
 			$hide2 = $hide3 = $hide4 = 'display:none;';
 	}
 ?>
 <div id="dashboard-widgets" class="metabox-holder">
 <?php
-	echo "\t<div class='postbox-container' style='$width'>\n";
+	echo "\t<div id='postbox-container-1' class='postbox-container' style='$width'>\n";
 	do_meta_boxes( $screen->id, 'normal', '' );
 
-	echo "\t</div><div class='postbox-container' style='{$hide2}$width'>\n";
+	echo "\t</div><div id='postbox-container-2' class='postbox-container' style='{$hide2}$width'>\n";
 	do_meta_boxes( $screen->id, 'side', '' );
 
-	echo "\t</div><div class='postbox-container' style='{$hide3}$width'>\n";
+	echo "\t</div><div id='postbox-container-3' class='postbox-container' style='{$hide3}$width'>\n";
 	do_meta_boxes( $screen->id, 'column3', '' );
 
-	echo "\t</div><div class='postbox-container' style='{$hide4}$width'>\n";
+	echo "\t</div><div id='postbox-container-4' class='postbox-container' style='{$hide4}$width'>\n";
 	do_meta_boxes( $screen->id, 'column4', '' );
 ?>
 </div></div>
