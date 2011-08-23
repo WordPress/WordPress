@@ -3886,7 +3886,7 @@ function update_site_option( $option, $value ) {
 	if ( $value === $oldvalue )
 		return false;
 
-	if ( $value && false === $oldvalue )
+	if ( false === $oldvalue )
 		return add_site_option( $option, $value );
 
 	if ( !is_multisite() ) {
