@@ -3799,14 +3799,14 @@ function add_site_option( $option, $value ) {
 	} else {
 		$cache_key = "{$wpdb->siteid}:$option";
 
-		if ( $wpdb->get_row( $wpdb->prepare( "SELECT meta_value FROM $wpdb->sitemeta WHERE meta_key = %s AND site_id = %d", $option, $wpdb->siteid ) ) )
+		if ( false !== get_site_option( $option ) )
 			return false;
 
 		$value = sanitize_option( $option, $value );
 		wp_cache_set( $cache_key, $value, 'site-options' );
 
 		$_value = $value;
-		$value = maybe_serialize($value);
+		$value = maybe_serialize( $value );
 		$result = $wpdb->insert( $wpdb->sitemeta, array('site_id' => $wpdb->siteid, 'meta_key' => $option, 'meta_value' => $value ) );
 		$value = $_value;
 	}
@@ -3886,14 +3886,14 @@ function update_site_option( $option, $value ) {
 	if ( $value === $oldvalue )
 		return false;
 
+	if ( $value && false === $oldvalue )
+		return add_site_option( $option, $value );
+
 	if ( !is_multisite() ) {
 		$result = update_option( $option, $value );
 	} else {
-		$cache_key = "{$wpdb->siteid}:$option";
-
-		if ( $value && !$wpdb->get_row( $wpdb->prepare( "SELECT meta_value FROM $wpdb->sitemeta WHERE meta_key = %s AND site_id = %d", $option, $wpdb->siteid ) ) )
-			return add_site_option( $option, $value );
 		$value = sanitize_option( $option, $value );
+		$cache_key = "{$wpdb->siteid}:$option";
 		wp_cache_set( $cache_key, $value, 'site-options' );
 
 		$_value = $value;
