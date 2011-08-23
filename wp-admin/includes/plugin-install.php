@@ -254,8 +254,10 @@ function install_plugin_information() {
 	//Sanitize HTML
 	foreach ( (array)$api->sections as $section_name => $content )
 		$api->sections[$section_name] = wp_kses($content, $plugins_allowedtags);
-	foreach ( array('version', 'author', 'requires', 'tested', 'homepage', 'downloaded', 'slug') as $key )
-		$api->$key = wp_kses($api->$key, $plugins_allowedtags);
+	foreach ( array( 'version', 'author', 'requires', 'tested', 'homepage', 'downloaded', 'slug' ) as $key ) {
+		if ( isset( $api->$key ) )
+			$api->$key = wp_kses( $api->$key, $plugins_allowedtags );
+	}
 
 	$section = isset($_REQUEST['section']) ? stripslashes( $_REQUEST['section'] ) : 'description'; //Default to the Description tab, Do not translate, API returns English.
 	if ( empty($section) || ! isset($api->sections[ $section ]) )
