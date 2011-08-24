@@ -164,6 +164,7 @@ if ( is_multisite() && !is_subdomain_install() && is_main_site() ) {
 }
 
 $structures = array(
+	0 => '',
 	1 => $prefix . '/%year%/%monthnum%/%day%/%postname%/',
 	2 => $prefix . '/%year%/%monthnum%/%postname%/',
 	3 => $prefix . '/' . _x( 'archives', 'sample permalink base' ) . '/%post_id%',
