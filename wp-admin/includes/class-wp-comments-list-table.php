@@ -313,7 +313,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 
 		echo "<tr id='comment-$comment->comment_ID' class='$the_comment_class'>";
 		echo $this->single_row_columns( $comment );
-		echo "</tr>";
+		echo "</tr>\n";
 	}
 
 	function column_cb( $comment ) {
