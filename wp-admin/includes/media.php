@@ -1864,7 +1864,7 @@ jQuery(function($){
 		<select id="orderby" name="orderby">
 			<option value="menu_order" selected="selected"><?php _e('Menu order'); ?></option>
 			<option value="title"><?php _e('Title'); ?></option>
-			<option value="ID"><?php _e('Date/Time'); ?></option>
+			<option value="post_date"><?php _e('Date/Time'); ?></option>
 			<option value="rand"><?php _e('Random'); ?></option>
 		</select>
 	</td>
