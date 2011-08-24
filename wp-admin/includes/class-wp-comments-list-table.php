@@ -305,13 +305,13 @@ class WP_Comments_List_Table extends WP_List_Table {
 		global $post, $comment, $the_comment_status;
 
 		$comment = $a_comment;
-		$the_comment_status = wp_get_comment_status( $comment->comment_ID );
+		$the_comment_class = join( ' ', get_comment_class( wp_get_comment_status( $comment->comment_ID ) ) );
 
 		$post = get_post( $comment->comment_post_ID );
 
 		$this->user_can = current_user_can( 'edit_comment', $comment->comment_ID );
 
-		echo "<tr id='comment-$comment->comment_ID' class='$the_comment_status'>";
+		echo "<tr id='comment-$comment->comment_ID' class='$the_comment_class'>";
 		echo $this->single_row_columns( $comment );
 		echo "</tr>";
 	}
