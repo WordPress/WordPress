@@ -440,7 +440,7 @@ class WP_User {
 	 * @return WP_User
 	 */
 	function __construct( $id = 0, $name = '', $blog_id = '' ) {
-		if ( ! is_numeric( $id ) ) {
+		if ( ! empty( $id ) && ! is_numeric( $id ) ) {
 			$name = $id;
 			$id = 0;
 		}
