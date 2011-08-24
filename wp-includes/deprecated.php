@@ -2627,13 +2627,13 @@ function wp_timezone_supported() {
  */
 function wp_default_editor() {
 	_deprecated_function( __FUNCTION__, '3.3' );
-	
+
 	global $wp_editor;
 	if ( !is_a($wp_editor, 'WP_Editor') ) {
 		require_once( ABSPATH . WPINC . '/class-wp-editor.php' );
 		$wp_editor = new WP_Editor;
 	}
-	
+
 	return $wp_editor->wp_default_editor();
 }
 
@@ -2641,7 +2641,7 @@ function wp_default_editor() {
  * Display editor: TinyMCE, HTML, or both.
  *
  * @since 2.1.0
- * @deprecated 3.3 
+ * @deprecated 3.3
  *
  * @param string $content Textarea content.
  * @param string $id Optional, default is 'content'. HTML ID attribute value.
@@ -2650,8 +2650,74 @@ function wp_default_editor() {
  * @param int $tab_index Optional, not used
  */
 function the_editor($content, $id = 'content', $prev_id = 'title', $media_buttons = true, $tab_index = 2, $extended = true) {
-	
+
 	wp_editor( $content, $id, array( 'media_buttons' => $media_buttons ) );
 	return;
 }
 
+/**
+ * Perform the query to get the $metavalues array(s) needed by _fill_user and _fill_many_users
+ *
+ * @since 3.0.0
+ * @param array $ids User ID numbers list.
+ * @return array of arrays. The array is indexed by user_id, containing $metavalues object arrays.
+ */
+function get_user_metavalues($ids) {
+	_deprecated_function( __FUNCTION__, '3.3' );
+
+	$objects = array();
+
+	$ids = array_map('intval', $ids);
+	foreach ( $ids as $id )
+		$objects[$id] = array();
+
+	$metas = update_meta_cache('user', $ids);
+
+	foreach ( $metas as $id => $meta ) {
+		foreach ( $meta as $key => $metavalues ) {
+			foreach ( $metavalues as $value ) {
+				$objects[$id][] = (object)array( 'user_id' => $id, 'meta_key' => $key, 'meta_value' => $value);
+			}
+		}
+	}
+
+	return $objects;
+}
+
+/**
+ * Sanitize every user field.
+ *
+ * If the context is 'raw', then the user object or array will get minimal santization of the int fields.
+ *
+ * @since 2.3.0
+ * @deprecated 3.3.0
+ * @uses sanitize_user_field() Used to sanitize the fields.
+ *
+ * @param object|array $user The User Object or Array
+ * @param string $context Optional, default is 'display'. How to sanitize user fields.
+ * @return object|array The now sanitized User Object or Array (will be the same type as $user)
+ */
+function sanitize_user_object($user, $context = 'display') {
+	_deprecated_function( __FUNCTION__, '3.3' );
+
+	if ( is_object($user) ) {
+		if ( !isset($user->ID) )
+			$user->ID = 0;
+		if ( !is_a( $user, 'WP_User' ) ) {
+			$vars = get_object_vars($user);
+			foreach ( array_keys($vars) as $field ) {
+				if ( is_string($user->$field) || is_numeric($user->$field) )
+					$user->$field = sanitize_user_field($field, $user->$field, $user->ID, $context);
+			}
+		}
+		$user->filter = $context;
+	} else {
+		if ( !isset($user['ID']) )
+			$user['ID'] = 0;
+		foreach ( array_keys($user) as $field )
+			$user[$field] = sanitize_user_field($field, $user[$field], $user['ID'], $context);
+		$user['filter'] = $context;
+	}
+
+	return $user;
+}

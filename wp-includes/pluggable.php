@@ -98,61 +98,10 @@ if ( !function_exists('get_userdata') ) :
  * @since 0.71
  *
  * @param int $user_id User ID
- * @return bool|object False on failure, User DB row object
+ * @return bool|object False on failure, WP_User object on success
  */
 function get_userdata( $user_id ) {
-	global $wpdb;
-
-	if ( ! is_numeric( $user_id ) )
-		return false;
-
-	$user_id = absint( $user_id );
-	if ( ! $user_id )
-		return false;
-
-	$user = wp_cache_get( $user_id, 'users' );
-
-	if ( $user )
-		return $user;
-
-	if ( ! $user = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->users WHERE ID = %d LIMIT 1", $user_id ) ) )
-		return false;
-
-	_fill_user( $user );
-
-	return $user;
-}
-endif;
-
-if ( !function_exists('cache_users') ) :
-/**
- * Retrieve info for user lists to prevent multiple queries by get_userdata()
- *
- * @since 3.0.0
- *
- * @param array $users User ID numbers list
- */
-function cache_users( $users ) {
-	global $wpdb;
-
-	$clean = array();
-	foreach($users as $id) {
-		$id = (int) $id;
-		if (wp_cache_get($id, 'users')) {
-			// seems to be cached already
-		} else {
-			$clean[] = $id;
-		}
-	}
-
-	if ( 0 == count($clean) )
-		return;
-
-	$list = implode(',', $clean);
-
-	$results = $wpdb->get_results("SELECT * FROM $wpdb->users WHERE ID IN ($list)");
-
-	_fill_many_users($results);
+	return get_user_by( 'id', $user_id );
 }
 endif;
 
@@ -164,41 +113,53 @@ if ( !function_exists('get_user_by') ) :
  *
  * @param string $field The field to retrieve the user with.  id | slug | email | login
  * @param int|string $value A value for $field.  A user ID, slug, email address, or login name.
- * @return bool|object False on failure, User DB row object
+ * @return bool|object False on failure, WP_User object on success
  */
-function get_user_by($field, $value) {
-	global $wpdb;
+function get_user_by( $field, $value ) {
+	$userdata = WP_User::get_data_by( $field, $value );
 
-	switch ($field) {
-		case 'id':
-			return get_userdata($value);
-			break;
-		case 'slug':
-			$user_id = wp_cache_get($value, 'userslugs');
-			$field = 'user_nicename';
-			break;
-		case 'email':
-			$user_id = wp_cache_get($value, 'useremail');
-			$field = 'user_email';
-			break;
-		case 'login':
-			$value = sanitize_user( $value );
-			$user_id = wp_cache_get($value, 'userlogins');
-			$field = 'user_login';
-			break;
-		default:
-			return false;
-	}
-
-	 if ( false !== $user_id )
-		return get_userdata($user_id);
-
-	if ( !$user = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->users WHERE $field = %s", $value) ) )
+	if ( !$userdata )
 		return false;
 
-	_fill_user($user);
+	$user = new WP_User;
+	$user->init( $userdata );
 
 	return $user;
+}
+endif;
+
+if ( !function_exists('cache_users') ) :
+/**
+ * Retrieve info for user lists to prevent multiple queries by get_userdata()
+ *
+ * @since 3.0.0
+ *
+ * @param array $user_ids User ID numbers list
+ */
+function cache_users( $user_ids ) {
+	global $wpdb;
+
+	$clean = array();
+	foreach ( $user_ids as $id ) {
+		$id = (int) $id;
+		if ( !wp_cache_get( $id, 'users' ) ) {
+			$clean[] = $id;
+		}
+	}
+
+	if ( empty( $clean ) )
+		return;
+
+	$list = implode( ',', $clean );
+
+	$users = $wpdb->get_results( "SELECT * FROM $wpdb->users WHERE ID IN ($list)" );
+
+	$ids = array();
+	foreach ( $users as $user ) {
+		update_user_caches( $user );
+		$ids[] = $user->ID;
+	}
+	update_meta_cache( 'user', $ids );
 }
 endif;
 

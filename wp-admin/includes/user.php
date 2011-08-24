@@ -226,16 +226,7 @@ function get_editable_roles() {
 function get_user_to_edit( $user_id ) {
 	$user = new WP_User( $user_id );
 
-	$user_contactmethods = _wp_get_user_contactmethods( $user );
-	foreach ($user_contactmethods as $method => $name) {
-		if ( empty( $user->{$method} ) )
-			$user->{$method} = '';
-	}
-
-	if ( empty($user->description) )
-		$user->description = '';
-
-	$user = sanitize_user_object($user, 'edit');
+	$user->filter = 'edit';
 
 	return $user;
 }

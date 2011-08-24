@@ -219,7 +219,7 @@ class WP_Users_List_Table extends WP_List_Table {
 
 		if ( !( is_object( $user_object ) && is_a( $user_object, 'WP_User' ) ) )
 			$user_object = new WP_User( (int) $user_object );
-		$user_object = sanitize_user_object( $user_object, 'display' );
+		$user_object->filter = 'display';
 		$email = $user_object->user_email;
 
 		if ( $this->is_site_users )

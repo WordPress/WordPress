@@ -254,20 +254,18 @@ function get_user_option( $option, $user = 0, $deprecated = '' ) {
 	if ( !empty( $deprecated ) )
 		_deprecated_argument( __FUNCTION__, '3.0' );
 
-	if ( empty($user) ) {
+	if ( empty( $user ) )
 		$user = wp_get_current_user();
-		$user = $user->ID;
-	}
+	else
+		$user = new WP_User( $user );
 
-	$user = get_userdata($user);
+	if ( ! isset( $user->ID ) )
+		return false;
 
-	// Keys used as object vars cannot have dashes.
-	$key = str_replace('-', '', $option);
-
-	if ( isset( $user->{$wpdb->prefix . $key} ) ) // Blog specific
-		$result = $user->{$wpdb->prefix . $key};
-	elseif ( isset( $user->{$key} ) ) // User specific and cross-blog
-		$result = $user->{$key};
+	if ( $user->has_prop( $wpdb->prefix . $option ) ) // Blog specific
+		$result = $user->get( $wpdb->prefix . $option );
+	elseif ( $user->has_prop( $option ) ) // User specific and cross-blog
+		$result = $user->get( $option );
 	else
 		$result = false;
 
@@ -680,13 +678,13 @@ function get_blogs_of_user( $id, $all = false ) {
 	}
 
 	if ( false === $blogs ) {
-		$user = get_userdata( (int) $id );
-		if ( !$user )
+		$userkeys = array_keys( get_user_meta( (int) $id ) );
+		if ( empty( $userkeys ) )
 			return false;
 
 		$blogs = $match = array();
-		$prefix_length = strlen($wpdb->base_prefix);
-		foreach ( (array) $user as $key => $value ) {
+		$prefix_length = strlen( $wpdb->base_prefix );
+		foreach ( $userkeys as $key ) {
 			if ( $prefix_length && substr($key, 0, $prefix_length) != $wpdb->base_prefix )
 				continue;
 			if ( substr($key, -12, 12) != 'capabilities' )
@@ -793,7 +791,7 @@ function delete_user_meta($user_id, $meta_key, $meta_value = '') {
  * @return mixed Will be an array if $single is false. Will be value of meta data field if $single
  *  is true.
  */
-function get_user_meta($user_id, $key, $single = false) {
+function get_user_meta($user_id, $key = '', $single = false) {
 	return get_metadata('user', $user_id, $key, $single);
 }
 
@@ -1043,141 +1041,6 @@ function wp_dropdown_users( $args = '' ) {
 }
 
 /**
- * Add user meta data as properties to given user object.
- *
- * The finished user data is cached, but the cache is not used to fill in the
- * user data for the given object. Once the function has been used, the cache
- * should be used to retrieve user data. The intention is if the current data
- * had been cached already, there would be no need to call this function.
- *
- * @access private
- * @since 2.5.0
- * @uses $wpdb WordPress database object for queries
- *
- * @param object $user The user data object.
- */
-function _fill_user( &$user ) {
-	$metavalues = get_user_metavalues(array($user->ID));
-	_fill_single_user($user, $metavalues[$user->ID]);
-}
-
-/**
- * Perform the query to get the $metavalues array(s) needed by _fill_user and _fill_many_users
- *
- * @since 3.0.0
- * @param array $ids User ID numbers list.
- * @return array of arrays. The array is indexed by user_id, containing $metavalues object arrays.
- */
-function get_user_metavalues($ids) {
-	$objects = array();
-
-	$ids = array_map('intval', $ids);
-	foreach ( $ids as $id )
-		$objects[$id] = array();
-
-	$metas = update_meta_cache('user', $ids);
-
-	foreach ( $metas as $id => $meta ) {
-		foreach ( $meta as $key => $metavalues ) {
-			foreach ( $metavalues as $value ) {
-				$objects[$id][] = (object)array( 'user_id' => $id, 'meta_key' => $key, 'meta_value' => $value);
-			}
-		}
-	}
-
-	return $objects;
-}
-
-/**
- * Unserialize user metadata, fill $user object, then cache everything.
- *
- * @since 3.0.0
- * @param object $user The User object.
- * @param array $metavalues An array of objects provided by get_user_metavalues()
- */
-function _fill_single_user( &$user, &$metavalues ) {
-	global $wpdb;
-
-	foreach ( $metavalues as $meta ) {
-		$value = maybe_unserialize($meta->meta_value);
-		// Keys used as object vars cannot have dashes.
-		$key = str_replace('-', '', $meta->meta_key);
-		$user->{$key} = $value;
-	}
-
-	$level = $wpdb->prefix . 'user_level';
-	if ( isset( $user->{$level} ) )
-		$user->user_level = $user->{$level};
-
-	// For backwards compat.
-	if ( isset($user->first_name) )
-		$user->user_firstname = $user->first_name;
-	if ( isset($user->last_name) )
-		$user->user_lastname = $user->last_name;
-	if ( isset($user->description) )
-		$user->user_description = $user->description;
-
-	update_user_caches($user);
-}
-
-/**
- * Take an array of user objects, fill them with metas, and cache them.
- *
- * @since 3.0.0
- * @param array $users User objects
- */
-function _fill_many_users( &$users ) {
-	$ids = array();
-	foreach( $users as $user_object ) {
-		$ids[] = $user_object->ID;
-	}
-
-	$metas = get_user_metavalues($ids);
-
-	foreach ( $users as $user_object ) {
-		if ( isset($metas[$user_object->ID]) ) {
-			_fill_single_user($user_object, $metas[$user_object->ID]);
-		}
-	}
-}
-
-/**
- * Sanitize every user field.
- *
- * If the context is 'raw', then the user object or array will get minimal santization of the int fields.
- *
- * @since 2.3.0
- * @uses sanitize_user_field() Used to sanitize the fields.
- *
- * @param object|array $user The User Object or Array
- * @param string $context Optional, default is 'display'. How to sanitize user fields.
- * @return object|array The now sanitized User Object or Array (will be the same type as $user)
- */
-function sanitize_user_object($user, $context = 'display') {
-	if ( is_object($user) ) {
-		if ( !isset($user->ID) )
-			$user->ID = 0;
-		if ( isset($user->data) )
-			$vars = get_object_vars( $user->data );
-		else
-			$vars = get_object_vars($user);
-		foreach ( array_keys($vars) as $field ) {
-			if ( is_string($user->$field) || is_numeric($user->$field) )
-				$user->$field = sanitize_user_field($field, $user->$field, $user->ID, $context);
-		}
-		$user->filter = $context;
-	} else {
-		if ( !isset($user['ID']) )
-			$user['ID'] = 0;
-		foreach ( array_keys($user) as $field )
-			$user[$field] = sanitize_user_field($field, $user[$field], $user['ID'], $context);
-		$user['filter'] = $context;
-	}
-
-	return $user;
-}
-
-/**
  * Sanitize user field based on context.
  *
  * Possible context values are:  'raw', 'edit', 'db', 'display', 'attribute' and 'js'. The
@@ -1264,7 +1127,7 @@ function sanitize_user_field($field, $value, $user_id, $context) {
  *
  * @param object $user User object to be cached
  */
-function update_user_caches(&$user) {
+function update_user_caches($user) {
 	wp_cache_add($user->ID, $user, 'users');
 	wp_cache_add($user->user_login, $user->ID, 'userlogins');
 	wp_cache_add($user->user_email, $user->ID, 'useremail');
@@ -1279,7 +1142,7 @@ function update_user_caches(&$user) {
  * @param int $id User ID
  */
 function clean_user_cache($id) {
-	$user = new WP_User($id);
+	$user = WP_User::get_data_by( 'id', $id );
 
 	wp_cache_delete($id, 'users');
 	wp_cache_delete($user->user_login, 'userlogins');
@@ -1390,7 +1253,7 @@ function wp_insert_user($userdata) {
 	if ( !empty($ID) ) {
 		$ID = (int) $ID;
 		$update = true;
-		$old_user_data = get_userdata($ID);
+		$old_user_data = WP_User::get_data_by( 'id', $ID );
 	} else {
 		$update = false;
 		// Hash the password
@@ -1548,7 +1411,7 @@ function wp_update_user($userdata) {
 	$ID = (int) $userdata['ID'];
 
 	// First, get all of the original fields
-	$user = get_userdata($ID);
+	$user = WP_User::get_data_by('id', $ID);
 
 	// Escape data pulled from DB.
 	$user = add_magic_quotes(get_object_vars($user));

@@ -420,40 +420,107 @@ class WP_User {
 	 */
 	var $filter = null;
 
+	private static $back_compat_keys = array(
+		'user_firstname' => 'first_name',
+		'user_lastname' => 'last_name',
+		'user_description' => 'description'
+	);
+
 	/**
-	 * Constructor - Sets up the object properties.
+	 * Constructor
 	 *
-	 * Retrieves the userdata and then assigns all of the data keys to direct
-	 * properties of the object. Calls {@link WP_User::_init_caps()} after
-	 * setting up the object's user data properties.
+	 * Retrieves the userdata and passes it to {@link WP_User::init()}.
 	 *
 	 * @since 2.0.0
 	 * @access public
 	 *
-	 * @param int|string $id User's ID or username
-	 * @param int $name Optional. User's username
+	 * @param int|string $id User's ID
+	 * @param string $name Optional. User's username
 	 * @param int $blog_id Optional Blog ID, defaults to current blog.
 	 * @return WP_User
 	 */
-	function __construct( $id, $name = '', $blog_id = '' ) {
-		if ( empty( $id ) && empty( $name ) )
-			return;
-
+	function __construct( $id = 0, $name = '', $blog_id = '' ) {
 		if ( ! is_numeric( $id ) ) {
 			$name = $id;
 			$id = 0;
 		}
 
-		if ( ! empty( $id ) )
-			$this->data = get_userdata( $id );
+		if ( $id )
+			$data = self::get_data_by( 'id', $id );
 		else
-			$this->data = get_user_by('login', $name );
+			$data = self::get_data_by( 'login', $name );
 
-		if ( empty( $this->data->ID ) )
-			return;
+		if ( $data )
+			$this->init( $data, $blog_id );
+	}
 
-		$this->ID = $this->data->ID;
+	/**
+	 * Sets up object properties, including capabilities.
+	 *
+	 * @param object $data User DB row object
+	 * @param int $blog_id Optional. The blog id to initialize for
+	 */
+	function init( $data, $blog_id = '' ) {
+		$this->data = $data;
+		$this->ID = (int) $data->ID;
+
 		$this->for_blog( $blog_id );
+	}
+
+	/**
+	 * Return only the main user fields
+	 *
+	 * @since 3.3.0
+	 *
+	 * @param string $field The field to query against: 'id', 'slug', 'email' or 'login'
+	 * @param string|int $value The field value
+	 */
+	static function get_data_by( $field, $value ) {
+		global $wpdb;
+
+		if ( 'id' == $field )
+			$value = absint( $value );
+		else
+			$value = trim( $value );
+
+		if ( !$value )
+			return false;
+
+		switch ( $field ) {
+			case 'id':
+				$user_id = $value;
+				$db_field = 'ID';
+				break;
+			case 'slug':
+				$user_id = wp_cache_get($value, 'userslugs');
+				$db_field = 'user_nicename';
+				break;
+			case 'email':
+				$user_id = wp_cache_get($value, 'useremail');
+				$db_field = 'user_email';
+				break;
+			case 'login':
+				$value = sanitize_user( $value );
+				$user_id = wp_cache_get($value, 'userlogins');
+				$db_field = 'user_login';
+				break;
+			default:
+				return false;
+		}
+
+		if ( false !== $user_id ) {
+			if ( $user = wp_cache_get( $user_id, 'users' ) )
+				return $user;
+		}
+
+		if ( !$user = $wpdb->get_row( $wpdb->prepare(
+			"SELECT * FROM $wpdb->users WHERE $db_field = %s", $value
+		) ) )
+			return false;
+
+		update_user_caches( $user );
+
+		return $user;
 	}
 
 	/**
@@ -466,7 +533,14 @@ class WP_User {
 			_deprecated_argument( 'WP_User->id', '2.1', __( 'Use <code>WP_User->ID</code> instead.' ) );
 			$key = 'ID';
 		}
-		return isset( $this->data->$key );
+
+		if ( isset( $this->data->$key ) )
+			return true;
+
+		if ( isset( self::$back_compat_keys[ $key ] ) )
+			$key = self::$back_compat_keys[ $key ];
+
+		return metadata_exists( 'user', $this->ID, $key );
 	}
 
 	/**
@@ -480,7 +554,19 @@ class WP_User {
 			return $this->ID;
 		}
 
-		return $this->data->$key;
+		if ( isset( $this->data->$key ) ) {
+			$value = $this->data->$key;
+		} else {
+			if ( isset( self::$back_compat_keys[ $key ] ) )
+				$key = self::$back_compat_keys[ $key ];
+			$value = get_user_meta( $this->ID, $key, true );
+		}
+
+		if ( $this->filter ) {
+			$value = sanitize_user_field( $key, $value, $this->ID, $this->filter );
+		}
+
+		return $value;
 	}
 
 	/**
@@ -496,6 +582,32 @@ class WP_User {
 		}
 
 		$this->data->$key = $value;
+	}
+
+	/**
+	 * Retrieve the value of a property or meta key.
+	 *
+	 * Retrieves from the users and usermeta table.
+	 *
+	 * @since 3.3.0
+	 *
+	 * @param string $key Property
+	 */
+	function get( $key ) {
+		return $this->__get( $key );
+	}
+
+	/**
+	 * Determine whether a property or meta key is set
+	 *
+	 * Consults the users and usermeta tables.
+	 *
+	 * @since 3.3.0
+	 *
+	 * @param string $key Property
+	 */
+	function has_prop( $key ) {
+		return $this->__isset( $key );
 	}
 
 	/**
@@ -519,7 +631,8 @@ class WP_User {
 		else
 			$this->cap_key = $cap_key;
 
-		$this->caps = &$this->data->{$this->cap_key};
+		$this->caps = get_user_meta( $this->ID, $this->cap_key, true );
+
 		if ( ! is_array( $this->caps ) )
 			$this->caps = array();
 
@@ -662,7 +775,7 @@ class WP_User {
 	 */
 	function update_user_level_from_caps() {
 		global $wpdb;
-		$this->user_level = array_reduce( array_keys( $this->allcaps ), array( &$this, 'level_reduction' ), 0 );
+		$this->user_level = array_reduce( array_keys( $this->allcaps ), array( $this, 'level_reduction' ), 0 );
 		update_user_meta( $this->ID, $wpdb->prefix . 'user_level', $this->user_level );
 	}
 
@@ -1066,7 +1179,7 @@ function current_user_can( $capability ) {
 	$args = array_slice( func_get_args(), 1 );
 	$args = array_merge( array( $capability ), $args );
 
-	return call_user_func_array( array( &$current_user, 'has_cap' ), $args );
+	return call_user_func_array( array( $current_user, 'has_cap' ), $args );
 }
 
 /**

@@ -73,9 +73,6 @@ function add_metadata($meta_type, $object_id, $meta_key, $meta_value, $unique = 
 	$mid = (int) $wpdb->insert_id;
 
 	wp_cache_delete($object_id, $meta_type . '_meta');
-	// users cache stores usermeta that must be cleared.
-	if ( 'user' == $meta_type )
-		clean_user_cache($object_id);
 
 	do_action( "added_{$meta_type}_meta", $mid, $object_id, $meta_key, $_meta_value );
 
@@ -149,21 +146,18 @@ function update_metadata($meta_type, $object_id, $meta_key, $meta_value, $prev_v
 	}
 
 	do_action( "update_{$meta_type}_meta", $meta_id, $object_id, $meta_key, $_meta_value );
-	
+
 	if ( 'post' == $meta_type )
-		do_action( 'update_postmeta', $meta_id, $object_id, $meta_key, $meta_value );	
+		do_action( 'update_postmeta', $meta_id, $object_id, $meta_key, $meta_value );
 
 	$wpdb->update( $table, $data, $where );
 
 	wp_cache_delete($object_id, $meta_type . '_meta');
-	// users cache stores usermeta that must be cleared.
-	if ( 'user' == $meta_type )
-		clean_user_cache($object_id);
 
 	do_action( "updated_{$meta_type}_meta", $meta_id, $object_id, $meta_key, $_meta_value );
-	
+
 	if ( 'post' == $meta_type )
-		do_action( 'updated_postmeta', $meta_id, $object_id, $meta_key, $meta_value );		
+		do_action( 'updated_postmeta', $meta_id, $object_id, $meta_key, $meta_value );
 
 	return true;
 }
@@ -210,7 +204,7 @@ function delete_metadata($meta_type, $object_id, $meta_key, $meta_value = '', $d
 
 	$_meta_value = $meta_value;
 	$meta_value = maybe_serialize( $meta_value );
-		
+
 	$query = $wpdb->prepare( "SELECT $id_column FROM $table WHERE meta_key = %s", $meta_key );
 
 	if ( !$delete_all )
@@ -227,7 +221,7 @@ function delete_metadata($meta_type, $object_id, $meta_key, $meta_value = '', $d
 		$object_ids = $wpdb->get_col( $wpdb->prepare( "SELECT $type_column FROM $table WHERE meta_key = %s", $meta_key ) );
 
 	do_action( "delete_{$meta_type}_meta", $meta_ids, $object_id, $meta_key, $_meta_value );
-	
+
 	if ( 'post' == $meta_type )
 		do_action( 'delete_postmeta', $meta_ids );
 
@@ -246,12 +240,8 @@ function delete_metadata($meta_type, $object_id, $meta_key, $meta_value = '', $d
 		wp_cache_delete($object_id, $meta_type . '_meta');
 	}
 
-	// users cache stores usermeta that must be cleared.
-	if ( 'user' == $meta_type )
-		clean_user_cache($object_id);
-
 	do_action( "deleted_{$meta_type}_meta", $meta_ids, $object_id, $meta_key, $_meta_value );
-	
+
 	if ( 'post' == $meta_type )
 		do_action( 'deleted_postmeta', $meta_ids );
 
@@ -307,6 +297,40 @@ function get_metadata($meta_type, $object_id, $meta_key = '', $single = false) {
 		return '';
 	else
 		return array();
+}
+
+/**
+ * Determine if a meta key is set for a given object
+ *
+ * @since 3.3.0
+ *
+ * @param string $meta_type Type of object metadata is for (e.g., comment, post, or user)
+ * @param int $object_id ID of the object metadata is for
+ * @param string $meta_key Metadata key. 
+ * @return boolean true of the key is set, false if not.
+ */
+function metadata_exists( $meta_type, $object_id, $meta_key ) {
+	if ( ! $meta_type )
+		return false;
+
+	if ( ! $object_id = absint( $object_id ) )
+		return false;
+
+	$check = apply_filters( "get_{$meta_type}_metadata", null, $object_id, $meta_key, true );
+	if ( null !== $check )
+		return true;
+
+	$meta_cache = wp_cache_get( $object_id, $meta_type . '_meta' );
+
+	if ( !$meta_cache ) {
+		$meta_cache = update_meta_cache( $meta_type, array( $object_id ) );
+		$meta_cache = $meta_cache[$object_id];
+	}
+
+	if ( isset( $meta_cache[ $meta_key ] ) )
+		return true;
+
+	return false;
 }
 
 /**
@@ -406,16 +430,12 @@ function update_metadata_by_mid( $meta_type, $meta_id, $meta_value, $meta_key = 
 
 		if ( 'post' == $meta_type )
 			do_action( 'update_postmeta', $meta_id, $object_id, $meta_key, $meta_value );
-		
+
 		// Run the update query, all fields in $data are %s, $where is a %d.
 		$result = (bool) $wpdb->update( $table, $data, $where, '%s', '%d' );
 
 		// Clear the caches.
 		wp_cache_delete($object_id, $meta_type . '_meta');
-		
-		// Users cache stores usermeta that must be cleared.
-		if ( 'user' == $meta_type )
-			clean_user_cache($object_id);
 
 		do_action( "updated_{$meta_type}_meta", $meta_id, $object_id, $meta_key, $_meta_value );
 
@@ -424,7 +444,7 @@ function update_metadata_by_mid( $meta_type, $meta_id, $meta_value, $meta_key = 
 
 		return $result;
 	}
-	
+
 	// And if the meta was not found.
 	return false;
 }
@@ -443,7 +463,7 @@ function update_metadata_by_mid( $meta_type, $meta_id, $meta_value, $meta_key = 
  */
 function delete_metadata_by_mid( $meta_type, $meta_id ) {
 	global $wpdb;
-	
+
 	// Make sure everything is valid.
 	if ( ! $meta_type )
 		return false;
@@ -453,7 +473,7 @@ function delete_metadata_by_mid( $meta_type, $meta_id ) {
 
 	if ( ! $table = _get_meta_table( $meta_type ) )
 		return false;
-	
+
 	// object and id columns
 	$column = esc_sql($meta_type . '_id');
 	$id_column = 'user' == $meta_type ? 'umeta_id' : 'meta_id';
@@ -473,10 +493,6 @@ function delete_metadata_by_mid( $meta_type, $meta_id ) {
 		// Clear the caches.
 		wp_cache_delete($object_id, $meta_type . '_meta');
 
-		// Users cache stores usermeta that must be cleared.
-		if ( 'user' == $meta_type )
-			clean_user_cache($object_id);
-
 		do_action( "deleted_{$meta_type}_meta", (array) $meta_id, $object_id, $meta->meta_key, $meta->meta_value );
 
 		if ( 'post' == $meta_type )
@@ -485,7 +501,7 @@ function delete_metadata_by_mid( $meta_type, $meta_id ) {
 		return $result;
 
 	}
-	
+
 	// Meta id was not found.
 	return false;
 }
@@ -818,7 +834,7 @@ function sanitize_meta( $meta_key, $meta_value, $meta_type ) {
 
 /**
  * Register meta key
- * 
+ *
  * @since 3.3.0
  *
  * @param string $meta_type Type of meta
