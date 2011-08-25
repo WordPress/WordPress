@@ -756,7 +756,7 @@ add_shortcode('gallery', 'gallery_shortcode');
  * @return string HTML content to display gallery.
  */
 function gallery_shortcode($attr) {
-	global $post, $wp_locale;
+	global $post;
 
 	static $instance = 0;
 	$instance++;
