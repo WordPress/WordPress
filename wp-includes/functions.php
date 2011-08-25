@@ -3220,8 +3220,10 @@ function wp_list_filter( $list, $args = array(), $operator = 'AND' ) {
  */
 function wp_list_pluck( $list, $field ) {
 	foreach ( $list as $key => $value ) {
-		$value = (array) $value;
-		$list[ $key ] = $value[ $field ];
+		if ( is_object( $value ) )
+			$list[ $key ] = $value->$field;
+		else
+			$list[ $key ] = $value[ $field ];
 	}
 
 	return $list;
