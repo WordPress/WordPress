@@ -229,7 +229,7 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Display the bulk actions dropdown.
+	 * Display the list of views available on this table.
 	 *
 	 * @since 3.1.0
 	 * @access public
