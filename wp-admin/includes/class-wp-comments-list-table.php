@@ -302,7 +302,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 	}
 
 	function single_row( $a_comment ) {
-		global $post, $comment, $the_comment_status;
+		global $post, $comment;
 
 		$comment = $a_comment;
 		$the_comment_class = join( ' ', get_comment_class( wp_get_comment_status( $comment->comment_ID ) ) );
@@ -322,11 +322,12 @@ class WP_Comments_List_Table extends WP_List_Table {
 	}
 
 	function column_comment( $comment ) {
-		global $post, $comment_status, $the_comment_status;
+		global $post, $comment_status;
 
 		$user_can = $this->user_can;
 
 		$comment_url = esc_url( get_comment_link( $comment->comment_ID ) );
+		$the_comment_status = wp_get_comment_status( $comment->comment_ID );
 
 		$ptime = date( 'G', strtotime( $comment->comment_date ) );
 		if ( ( abs( time() - $ptime ) ) < 86400 )
