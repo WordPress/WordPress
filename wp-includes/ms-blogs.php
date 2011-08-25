@@ -16,10 +16,7 @@
 function wpmu_update_blogs_date() {
 	global $wpdb;
 
-	// TODO: use update_blog_details
-
-	$wpdb->update( $wpdb->blogs, array('last_updated' => current_time('mysql', true)), array('blog_id' => $wpdb->blogid) );
-	refresh_blog_details( $wpdb->blogid );
+	update_blog_details( $wpdb->blogid, array('last_updated' => current_time('mysql', true)) );
 
 	do_action( 'wpmu_blog_updated', $wpdb->blogid );
 }
