@@ -3198,7 +3198,14 @@ function wp_list_filter( $list, $args = array(), $operator = 'AND' ) {
 	$filtered = array();
 
 	foreach ( $list as $key => $obj ) {
-		$matched = count( array_intersect_assoc( (array) $obj, $args ) );
+		$to_match = (array) $obj;
+
+		$matched = 0;
+		foreach ( $args as $m_key => $m_value ) {
+			if ( $m_value == $to_match[ $m_key ] )
+				$matched++;
+		}
+
 		if ( ( 'AND' == $operator && $matched == $count )
 		  || ( 'OR' == $operator && $matched <= $count )
 		  || ( 'NOT' == $operator && 0 == $matched ) ) {
