@@ -193,7 +193,7 @@ if ( 'post' == $post_type ) {
 require_once('./admin-header.php');
 ?>
 
-<div class="wrap">
+<div class="wrap columns-<?php echo esc_attr($screen_layout_columns);?>">
 <?php screen_icon(); ?>
 <h2><?php echo esc_html( $title ); ?><?php if ( isset( $post_new_file ) ) : ?> <a href="<?php echo esc_url( $post_new_file ) ?>" class="add-new-h2"><?php echo esc_html($post_type_object->labels->add_new); ?></a><?php endif; ?></h2>
 <?php if ( $notice ) : ?>
@@ -222,7 +222,7 @@ wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
 wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 ?>
 
-<div id="poststuff" class="metabox-holder<?php echo 2 == $screen_layout_columns ? ' has-right-sidebar' : ''; ?>">
+<div id="poststuff" class="metabox-holder<?php echo 1 != $screen_layout_columns ? ' has-right-sidebar' : ''; ?>">
 <div id="side-info-column" class="inner-sidebar">
 
 <?php

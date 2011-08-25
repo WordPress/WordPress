@@ -1873,7 +1873,7 @@ function screen_layout($screen) {
 	$screen_layout_columns = get_user_option("screen_layout_$screen->id");
 	$num = $wp_current_screen_options['layout_columns']['max'];
 
-	if ( ! $screen_layout_columns && $screen_layout_columns !== 0 ) {
+	if ( ! $screen_layout_columns ) {
 		if ( isset($wp_current_screen_options['layout_columns']['default']) )
 			$screen_layout_columns = $wp_current_screen_options['layout_columns']['default'];
 		else
@@ -1886,7 +1886,7 @@ function screen_layout($screen) {
 		$return .= "<label><input type='radio' name='screen_columns' value='$i'" . ( ($screen_layout_columns == $i) ? " checked='checked'" : "" ) . " /> $i</label>\n";
 		++$i;
 	}
-	$return .= "<label><input type='radio' id='wp_auto_columns' name='screen_columns' value='0'" . ( ($screen_layout_columns === '0') ? " checked='checked'" : "" ) . " />" . __('auto') . "</label>\n";
+	$return .= "<label><input type='radio' id='wp_auto_columns' name='screen_columns' value='auto'" . ( ($screen_layout_columns == 'auto') ? " checked='checked'" : "" ) . " />" . __('auto') . "</label>\n";
 	$return .= "</div>\n";
 	return $return;
 }

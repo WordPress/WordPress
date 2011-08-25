@@ -1139,7 +1139,11 @@ case 'menu-locations-save':
 case 'meta-box-order':
 	check_ajax_referer( 'meta-box-order' );
 	$order = isset( $_POST['order'] ) ? (array) $_POST['order'] : false;
-	$page_columns = isset( $_POST['page_columns'] ) ? (int) $_POST['page_columns'] : 0;
+	$page_columns = isset( $_POST['page_columns'] ) ? $_POST['page_columns'] : 'auto';
+
+	if ( $page_columns != 'auto' )
+		$page_columns = (int) $page_columns;
+
 	$page = isset( $_POST['page'] ) ? $_POST['page'] : '';
 
 	if ( !preg_match( '/^[a-z_-]+$/', $page ) )

@@ -116,9 +116,10 @@ TABLE OF CONTENTS:
 	position: relative;
 }
 
-.wide-screen .inner-sidebar {
+.wide-window .columns-auto .inner-sidebar {
     margin-right: -870px;
     width: 100%;
+    display: block;
 }
 
 .inner-sidebar #side-sortables {
@@ -126,8 +127,9 @@ TABLE OF CONTENTS:
 	min-height: 300px;
 }
 
-.wide-screen .inner-sidebar #side-sortables {
+.wide-window .columns-auto .inner-sidebar #side-sortables {
 	min-width: 280px;
+	max-width: 480px;
 	width: auto;
 	padding-right: 870px;
 }
@@ -140,12 +142,20 @@ TABLE OF CONTENTS:
 	float: left;
 	clear: left;
 	width: 100%;
-	margin-right: -340px;
-	max-width: 1150px;
+	margin-right: -2000px;
 }
 
 .has-right-sidebar #post-body-content {
 	margin-right: 300px;
+}
+
+.columns-auto #post-body-content {
+	max-width: 850px;
+}
+
+#side-sortables:empty {
+	border: 3px dashed #ccc;
+	height: 800px;
 }
 
 /* 2 columns main area */
@@ -2680,10 +2690,6 @@ table .inline-edit-row fieldset ul.cat-hover {
 /*------------------------------------------------------------------------------
   11.0 - Write/Edit Post Screen
 ------------------------------------------------------------------------------*/
-
-.postarea {
-	max-width: 900px;
-}
 
 #titlediv {
 	position: relative;
@@ -6764,8 +6770,8 @@ div.zerosize {
 	border-style: solid;
 }
 
-#tagsdiv-post_tag h3,
-#categorydiv h3 {
+.press-this #tagsdiv-post_tag h3,
+.press-this #categorydiv h3 {
 	cursor: pointer;
 }
 
@@ -6812,10 +6818,6 @@ h3.tb {
 	outline: none;
 	padding: 3px 4px;
 	border-color: #dfdfdf;
-}
-
-.tbtitle {
-	padding: 3px;
 }
 
 .press-this .actions {

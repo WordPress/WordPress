@@ -62,6 +62,19 @@ var userSettings = {
 	thousandsSeparator = '<?php echo addslashes( $wp_locale->number_format['thousands_sep'] ); ?>',
 	decimalPoint = '<?php echo addslashes( $wp_locale->number_format['decimal_point'] ); ?>',
 	isRtl = <?php echo (int) is_rtl(); ?>;
+	
+	function wp_set_width_class() {
+		var w = document.body.clientWidth, bc = document.body.className;
+
+		if ( w <= 680 )
+			document.body.className = bc.replace(/ (small|narrow|medium|wide)-window/, '') + ' small-window';
+		else if ( w > 680 && w <= 950 )
+			document.body.className = bc.replace(/ (small|narrow|medium|wide)-window/, '') + ' narrow-window';
+		else if ( w > 950 && w <= 1300 )
+			document.body.className = bc.replace(/ (small|narrow|medium|wide)-window/, '') + ' medium-window';
+		else
+			document.body.className = bc.replace(/ (small|narrow|medium|wide)-window/, '') + ' wide-window';
+	}
 //]]>
 </script>
 <?php
@@ -93,13 +106,8 @@ if ( $is_iphone ) { ?>
 </head>
 <body class="wp-admin no-js <?php echo apply_filters( 'admin_body_class', '' ) . " $admin_body_class"; ?>">
 <script type="text/javascript">
-//<![CDATA[
-(function(){
-var c = document.body.className;
-c = c.replace(/no-js/, 'js');
-document.body.className = c;
-})();
-//]]>
+document.body.className = document.body.className.replace(/no-js/, 'js');
+wp_set_width_class();
 </script>
 
 <div id="wpwrap">
