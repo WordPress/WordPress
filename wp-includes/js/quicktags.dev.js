@@ -52,7 +52,7 @@ function edInsertContent(bah, txt) {
  * @see QTags.addButton()
  */
 function edButton(id, display, tagStart, tagEnd, access, open) {
-	return QTags.addButton( id, display, tagStart, tagEnd, open, access );	
+	return QTags.addButton( id, display, tagStart, tagEnd, open, access, '', -1 );	
 }
 
 (function(){
@@ -140,12 +140,9 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 
 		var t = this,
 			id = settings.id,
-			buttons = {},
-			theButtons = {},
 			canvas = document.getElementById(id),
 			name = 'qt_' + id,
-			html = '',
-			i, tb, qb, btn, onclick, toolbar_id;
+			tb, onclick, toolbar_id;
 
 		if ( !id || !canvas )
 			return false;
@@ -153,17 +150,9 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 		t.name = name;
 		t.id = id;
 		t.canvas = canvas;
-
-		// default buttons
-		for ( i in edButtons ) {
-			if ( !edButtons[i] )
-				continue;
-
-			buttons[edButtons[i].id] = edButtons[i];
-		}
+		t.settings = settings;
 
 		if ( id == 'content' && adminpage && ( adminpage == 'post-new-php' || adminpage == 'post-php' ) ) {
-			buttons['fullscreen'] = new qt.FullscreenButton();
 			// back compat hack :-(
 			edCanvas = canvas;
 			toolbar_id = 'ed_toolbar';
@@ -171,43 +160,11 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 			toolbar_id = name + '_toolbar';
 		}
 
-		// add custom buttons
-		for ( i in t._customButtons ) {
-			buttons[i] = new t._customButtons[i]();
-		}
-
-		if ( settings.buttons ) {
-			qb = settings.buttons.split(',');
-
-			for ( i in qb ) {
-				btn = qb[i];
-				if ( buttons[btn] )
-					theButtons[btn] = buttons[btn];
-			}
-		} else {
-			theButtons = buttons;
-		}
-
-		if ( settings.disabled_buttons ) {
-			qb = settings.disabled_buttons.split(',');
-
-			for ( i in qb ) {
-				btn = qb[i];
-				if ( theButtons[btn] )
-					delete(theButtons[btn]);
-			}
-		}
-
-		for ( i in theButtons )
-			html += theButtons[i].html(name + '_');
-
 		tb = document.createElement('div');
 		tb.id = toolbar_id;
 		tb.className = 'quicktags-toolbar';
 
 		canvas.parentNode.insertBefore(tb, canvas);
-
-		tb.innerHTML = html;
 		t.toolbar = tb;
 
 		// listen for click events
@@ -221,8 +178,8 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 				t.canvas = canvas = document.getElementById(id);
 				i = target.id.replace(name + '_', '');
 
-				if ( theButtons[i] )
-					theButtons[i].callback.call(theButtons[i], target, canvas, t);
+				if ( t.theButtons[i] )
+					t.theButtons[i].callback.call(t.theButtons[i], target, canvas, t);
 			}
 		};
 
@@ -233,13 +190,19 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 		}
 
 		t.getButton = function(id) {
-			return buttons[id];
+			return t.theButtons[id];
+		};
+
+		t.getButtonElement = function(id) {
+			return document.getElementById(name + '_' + id);
 		};
 
 		qt.instances[id] = t;
 
-		if ( !qt.instances[0] )
+		if ( !qt.instances[0] ) {
 			qt.instances[0] = qt.instances[id];
+			_domReady( function(){ qt._buttonsInit(); } );
+		}
 	};
 
 	qt.instances = {};
@@ -251,7 +214,67 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 	qt.getInstance = function(id) {
 		return qt.instances[id];
 	};
-	
+
+	qt._buttonsInit = function() {
+		var t = this, instance, canvas, name, settings, buttons = {}, theButtons = {}, html = '', id, i, qb, btn;;
+
+		for ( id in t.instances ) {
+			if ( id == 0 )
+				continue;
+
+			instance = t.instances[id];
+			canvas = instance.canvas;
+			name = instance.name;
+			settings = instance.settings;
+
+			// set buttons
+			for ( i in edButtons ) {
+				if ( !edButtons[i] )
+					continue;
+
+				buttons[edButtons[i].id] = edButtons[i];
+			}
+
+			if ( id == 'content' && adminpage && ( adminpage == 'post-new-php' || adminpage == 'post-php' ) )
+				buttons['fullscreen'] = new qt.FullscreenButton();
+
+			// add custom buttons
+			for ( i in t._customButtons ) {
+				if ( !buttons[i] )
+					buttons[i] = new t._customButtons[i]();
+			}
+
+			if ( settings.buttons ) {
+				qb = settings.buttons.split(',');
+
+				for ( i in qb ) {
+					btn = qb[i];
+					if ( buttons[btn] )
+						theButtons[btn] = buttons[btn];
+				}
+			} else {
+				theButtons = buttons;
+			}
+
+			if ( settings.disabled_buttons ) {
+				qb = settings.disabled_buttons.split(',');
+
+				for ( i in qb ) {
+					btn = qb[i];
+					if ( theButtons[btn] )
+						delete(theButtons[btn]);
+				}
+			}
+
+			for ( i in theButtons )
+				html += theButtons[i].html(name + '_');
+
+			instance.toolbar.innerHTML = html;
+			instance.theButtons = theButtons;
+		}
+		t.buttonsInitDone = true;
+	};
+
 	/**
 	 * Main API function for adding a button to Quicktags
 	 * 
@@ -283,16 +306,21 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 		if ( !id || !display )
 			return;
 
+		priority = priority || 0;
+
 		if ( typeof(arg1) == 'function' ) {
 			btn = new qt.Button(id, display, access, title);
 			btn.callback = arg1;
-		} else if ( typeof(arg1) == 'string' && arg1 && arg2 ) {
+		} else if ( arg1 && arg2 && typeof(arg1) == 'string' ) {
 			btn = new qt.TagButton(id, display, arg1, arg2, access, arg3, title);
 		} else {
 			return;
 		}
 
-		if ( priority ) {
+		if ( priority == -1 ) // back-compat
+			return btn;
+
+		if ( priority > 0 ) {
 			while ( typeof(edButtons[priority]) != 'undefined' ) {
 				priority++
 			}
@@ -301,6 +329,9 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 		} else {
 			edButtons[edButtons.length] = btn;
 		}
+
+		if ( this.buttonsInitDone )
+			this._buttonsInit(); // add the button HTML to all instances toolbars if addButton() was called too late
 	};
 
 	qt.insertContent = function(content) {
