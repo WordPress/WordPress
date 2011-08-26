@@ -335,33 +335,39 @@ PubSub.prototype.publish = function( topic, args ) {
 	});
 
 	ps.subscribe( 'shown', function() { // This event occurs after the DFW overlay is shown
+		var interim_init;
+
 		s.visible = true;
 
 		// init the standard TinyMCE instance if missing
 		if ( s.has_tinymce && ! s.is_mce_on ) {
-			htmled = document.getElementById(s.editor_id), old_val = htmled.value;
 
-			htmled.value = switchEditors.wpautop( old_val );
+			interim_init = function(mce, ed) {
+				var el = ed.getElement(), old_val = el.value, settings = tinyMCEPreInit.mceInit[s.editor_id];
 
-			tinyMCE.settings.setup = function(ed) {
+				if ( settings && settings.wpautop && typeof(switchEditors) != 'undefined' )
+					el.value = switchEditors.wpautop( el.value );
+
 				ed.onInit.add(function(ed) {
 					ed.hide();
-					delete tinyMCE.settings.setup;
 					ed.getElement().value = old_val;
+					tinymce.onAddEditor.remove(interim_init);
 				});
-			}
+			};
 
+			tinymce.onAddEditor.add(interim_init);
 			tinyMCE.init(tinyMCEPreInit.mceInit[s.editor_id]);
+
 			s.is_mce_on = true;
 		}
 	});
 
 	ps.subscribe( 'hide', function() { // This event occurs before the overlay blocks DFW.
-
+		var htmled_is_hidden = $('#' + s.editor_id).is(':hidden');
 		// Make sure the correct editor is displaying.
-		if ( s.has_tinymce && s.mode === 'tinymce' && $('#' + s.editor_id).is(':visible') ) {
+		if ( s.has_tinymce && s.mode === 'tinymce' && !htmled_is_hidden ) {
 			switchEditors.go( $('#'+s.editor_id+'-tmce').get(0) );
-		} else if ( s.mode === 'html' && $('#' + s.editor_id).is(':hidden') ) {
+		} else if ( s.mode === 'html' && htmled_is_hidden ) {
 			switchEditors.go( $('#'+s.editor_id+'-html').get(0) );
 		}
 
@@ -407,7 +413,9 @@ PubSub.prototype.publish = function( topic, args ) {
 		ed = tinyMCE.get('wp_mce_fullscreen');
 
 		if ( from === 'html' && to === 'tinymce' ) {
-			s.textarea_obj.value = switchEditors.wpautop( s.textarea_obj.value );
+
+			if ( tinyMCE.get(s.editor_id).getParam('wpautop') && typeof(switchEditors) != 'undefined' )
+				s.textarea_obj.value = switchEditors.wpautop( s.textarea_obj.value );
 
 			if ( 'undefined' == typeof(ed) )
 				tinyMCE.execCommand('wpFullScreenInit');
