@@ -51,6 +51,7 @@ function create_initial_post_types() {
 	register_post_type( 'attachment', array(
 		'labels' => array(
 			'name' => __( 'Media' ),
+			'edit_item' => __( 'Edit Media' ),
 		),
 		'public' => true,
 		'show_ui' => false,
