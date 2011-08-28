@@ -152,7 +152,7 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 		t.canvas = canvas;
 		t.settings = settings;
 
-		if ( id == 'content' && adminpage && ( adminpage == 'post-new-php' || adminpage == 'post-php' ) ) {
+		if ( id == 'content' && typeof(adminpage) == 'string' && ( adminpage == 'post-new-php' || adminpage == 'post-php' ) ) {
 			// back compat hack :-(
 			edCanvas = canvas;
 			toolbar_id = 'ed_toolbar';
@@ -238,7 +238,7 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 				buttons[edButtons[i].id] = edButtons[i];
 			}
 
-			if ( id == 'content' && adminpage && ( adminpage == 'post-new-php' || adminpage == 'post-php' ) )
+			if ( id == 'content' && typeof(adminpage) == 'string' && ( adminpage == 'post-new-php' || adminpage == 'post-php' ) )
 				buttons['fullscreen'] = new qt.FullscreenButton();
 
 			// add custom buttons

@@ -68,7 +68,7 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'sack', "/wp-includes/js/tw-sack$suffix.js", false, '1.6.1', 1 );
 
-	$scripts->add( 'quicktags', "/wp-includes/js/quicktags$suffix.js", false, '20110827', 1 );
+	$scripts->add( 'quicktags', "/wp-includes/js/quicktags$suffix.js", false, '20110828', 1 );
 	$scripts->add_script_data( 'quicktags', 'quicktagsL10n', array(
 		'wordLookup' => __('Enter a word to look up:'),
 		'dictionaryLookup' => esc_attr(__('Dictionary lookup')),
@@ -402,7 +402,7 @@ function wp_default_styles( &$styles ) {
 	// Any rtl stylesheets that don't have a .dev version for ltr
 	$no_suffix = array( 'farbtastic' );
 
-	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20110825' );
+	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20110828' );
 
 	$styles->add( 'ie', "/wp-admin/css/ie$suffix.css", array('wp-admin'), '20110711' );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );

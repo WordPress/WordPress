@@ -710,6 +710,17 @@ p.install-help {
   2.0 - Forms
 ------------------------------------------------------------------------------*/
 
+
+.wp-admin select {
+	padding: 2px;
+	height: 2em;
+	max-width: 100%;
+}
+
+.wp-admin select[multiple] {
+	height: auto;
+}
+
 textarea,
 input[type="text"],
 input[type="password"],
@@ -780,7 +791,8 @@ input.button-highlighted,
 	text-align: center;
 }
 
-textarea.all-options, input.all-options {
+textarea.all-options,
+input.all-options {
 	width: 250px;
 }
 
@@ -815,13 +827,6 @@ input.small-text {
 
 .tablenav select#cat {
 	width: 170px;
-}
-
-#wpcontent select {
-	padding: 2px;
-	height: 2em;
-	font-size: 12px;
-	max-width: 100%;
 }
 
 #wpcontent option {
@@ -947,8 +952,6 @@ p.search-box {
 .preview {
 	float: right;
 }
-
-
 
 #sticky-span {
 	margin-left: 18px;
@@ -2864,17 +2867,9 @@ input#link_url {
 	margin:0;
 }
 
-#side-sortables .category-add input {
-	width: 94%;
-}
-
+#side-sortables .category-add input[type="text"],
 #side-sortables .category-add select {
-	width: 100%;
-}
-
-#side-sortables .category-add input.category-add-sumbit,
-#post-body .category-add input.category-add input.category-add-sumbit {
-	width: auto;
+	width: 160px;
 }
 
 #post-body ul.category-tabs,
@@ -3302,17 +3297,9 @@ table.diff .diff-deletedline del, table.diff .diff-addedline ins {
 	margin: 0;
 }
 
-#post-body .category-add input, .category-add select {
+#normal-sortables .category-add input[type="text"],
+#normal-sortables .category-add select {
 	width: 30%;
-}
-
-#side-sortables .category-add select {
-	width: 100%;
-}
-
-#side-sortables .category-add input.category-add-sumbit,
-#post-body .category-add input.category-add input.category-add-sumbit {
-	width: auto;
 }
 
 #post-body ul.category-tabs,
@@ -4811,7 +4798,6 @@ table.form-table td .updated {
 	font-size: 13px;
 }
 
-
 .tagchecklist {
 	margin-left: 14px;
 	font-size: 12px;
@@ -4864,7 +4850,8 @@ table.form-table td .updated {
 	margin: 6px 0 8px;
 }
 
-#post-visibility-select, #post-formats-select {
+#post-visibility-select,
+#post-formats-select {
 	line-height: 1.5em;
 	margin-top: 3px;
 }
@@ -4885,11 +4872,6 @@ td.post-title strong, td.plugin-title strong {
 
 td.post-title p, td.plugin-title p {
 	margin: 6px 0;
-}
-
-.wp-hidden-children .wp-hidden-child,
-.ui-tabs-hide {
-	display: none;
 }
 
 #templateside ul li a {
@@ -5596,6 +5578,7 @@ a.rsswidget {
 body.login {
 	padding: 30px 0 7em;
 	background: #fbfbfb !important;
+	min-width: 0;
 }
 
 .login form {
@@ -6599,8 +6582,6 @@ div.star img {
 
 /* press-this */
 body.press-this {
-	font-size: 13px;
-	font-family: sans-serif;
 	color: #333;
 	margin: 0;
 	padding: 0;
@@ -6628,63 +6609,59 @@ img {
 	user-select: none;
 }
 
-#wphead h1 {
+.press-this-sidebar {
+	float: right;
+	width: 200px;
+	padding-top: 10px;
+}
+
+.press-this #title {
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.press-this #wphead h1 {
 	font: normal 16px Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 	padding: 6px 0 0;
 	margin: 0;
 	float: left;
 }
 
-#wphead h1 a {
+.press-this #wphead h1 a {
 	text-decoration: none;
 }
-#wphead h1 a:hover {
+
+.press-this #wphead h1 a:hover {
 	text-decoration: underline;
 }
 
-.tagchecklist span a {
+.press-this .tagchecklist span a {
 	background: transparent url(../images/xit.gif) no-repeat 0 0;
 }
 
-#edButtonPreview,
-#edButtonHTML {
-	height: 18px;
-	margin: 5px 5px 0 0;
-	padding: 4px 5px 2px;
-	float: right;
-	cursor: pointer;
-	border-width: 1px;
-	border-style: solid;
-	-moz-border-radius: 3px 3px 0 0;
-	-webkit-border-top-right-radius: 3px;
-	-webkit-border-top-left-radius: 3px;
-	-khtml-border-top-right-radius: 3px;
-	-khtml-border-top-left-radius: 3px;
-	border-top-right-radius: 3px;
-	border-top-left-radius: 3px;
+.press-this #titlediv {
+	margin: 0;
 }
 
-#poststuff #edButtonHTML {
-	margin-right: 15px;
-}
-
-#media-buttons {
+.press-this #media-buttons {
 	cursor: default;
 	padding: 8px 8px 0;
 }
 
-#media-buttons a {
+.press-this #media-buttons a {
 	cursor: pointer;
 	padding: 0 0 5px 10px;
 }
 
-#media-buttons img,
-#submitpost #ajax-loading,
-#submitpost .ajax-loading {
+.press-this #media-buttons img,
+.press-this #submitpost #ajax-loading,
+.press-this #submitpost .ajax-loading {
 	vertical-align: middle;
 }
 
-.howto {
+.press-this .howto {
 	margin-top: 2px;
 	margin-bottom: 3px;
 	font-size: 12px;
@@ -6692,14 +6669,14 @@ img {
 	display: block;
 }
 
-input.text {
+.press-this input.text {
 	outline-color: -moz-use-text-color;
 	outline-style: none;
 	outline-width: medium;
 	width: 100%;
 }
 
-#message {
+.press-this #message {
 	-moz-border-radius: 3px;
 	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;
@@ -6737,21 +6714,20 @@ div.zerosize {
 	padding-top: 5px;
 }
 
-#poststuff .inside {
-	font-size: 12px;
-	margin: 8px;
-}
-
-#submitdiv .inside {
+.press-this #submitdiv .inside {
 	margin: 0;
 }
 
-#submitdiv #publishing-actions {
-	padding-left: 6px;
-	border-bottom: 1px solid #dfdfdf;
+.press-this #submitdiv p {
+	margin: 6px;
+    padding: 0 0 6px;
 	-webkit-box-shadow: 0 1px 0 #fff;
 	-moz-box-shadow: 0 1px 0 #fff;
 	box-shadow: 0 1px 0 #fff;
+}
+
+.press-this #submitdiv #publishing-actions {
+	border-bottom: 1px solid #dfdfdf;
 }
 
 .press-this #publish {
@@ -6761,18 +6737,16 @@ div.zerosize {
 .press-this #poststuff h2,
 .press-this #poststuff h3 {
 	font-size: 13px;
-	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
-	font-weight: normal;
 	line-height: 1;
-	margin: 0;
-	padding: 7px 9px;
-	border-width: 0 0 1px 0;
-	border-style: solid;
 }
 
 .press-this #tagsdiv-post_tag h3,
 .press-this #categorydiv h3 {
 	cursor: pointer;
+}
+
+.press-this #submitdiv h3 {
+	cursor: default;
 }
 
 h3.tb {
@@ -6793,13 +6767,7 @@ h3.tb {
 .press-this .postbox,
 .press-this .stuffbox {
 	margin-bottom: 10px;
-	border-width: 1px;
-	border-style: solid;
-	line-height: 1;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
+	min-width: 0;
 }
 
 .postbox:hover .handlediv,
@@ -6910,10 +6878,9 @@ h3.tb {
 }
 
 /* Categories */
-.press-this .category-add input {
-	width: 94%;
-	font-family: sans-serif;
-	font-size: 12px;
+.press-this .category-add input[type="text"],
+.press-this .category-add select {
+	width: 100%;
 	margin: 1px;
 }
 
@@ -6926,7 +6893,7 @@ h3.tb {
 }
 
 .press-this .category-tabs li {
-	padding: 0 8px 0 0;
+	display: inline;
 }
 
 .press-this .category-tabs a {
@@ -6935,6 +6902,11 @@ h3.tb {
 
 .press-this ul.category-tabs {
 	margin-bottom: 5px;
+	padding-top: 8px;
+}
+
+.press-this #category-adder h4 {
+	margin: 10px 0;
 }
 
 /* Tags */

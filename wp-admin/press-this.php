@@ -427,7 +427,7 @@ var photostorage = false;
 <body class="press-this wp-admin">
 <form action="press-this.php?action=post" method="post">
 <div id="poststuff" class="metabox-holder">
-	<div id="side-info-column">
+	<div class="press-this-sidebar">
 		<div class="sleeve">
 			<?php wp_nonce_field('press-this') ?>
 			<input type="hidden" name="post_type" id="post_type" value="text"/>
@@ -527,14 +527,14 @@ var photostorage = false;
 				<h3><span><?php _e('Post Tags'); ?></span></h3>
 				<div class="inside">
 					<div class="tagsdiv" id="post_tag">
-						<p class="jaxtag">
+						<div class="jaxtag">
 							<label class="screen-reader-text" for="newtag"><?php _e('Post Tags'); ?></label>
 							<input type="hidden" name="tax_input[post_tag]" class="the-tags" id="tax-input[post_tag]" value="" />
 							<div class="ajaxtag">
 								<input type="text" name="newtag[post_tag]" class="newtag form-input-tip" size="16" autocomplete="off" value="" />
 								<input type="button" class="button tagadd" value="<?php esc_attr_e('Add'); ?>" tabindex="3" />
 							</div>
-						</p>
+						</div>
 						<div class="tagchecklist"></div>
 					</div>
 					<p class="tagcloud-link"><a href="#titlediv" class="tagcloud-link" id="link-post_tag"><?php _e('Choose from the most used tags'); ?></a></p>
