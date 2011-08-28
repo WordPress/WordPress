@@ -134,7 +134,7 @@ if ( isset($_GET['action']) ) {
 
 		$title = sprintf( __('Installing Plugin from uploaded file: %s'), basename( $file_upload->filename ) );
 		$nonce = 'plugin-upload';
-		$url = add_query_arg(array('package' => $file_upload->filename ), 'update.php?action=upload-plugin');
+		$url = add_query_arg(array('package' => $file_upload->id), 'update.php?action=upload-plugin');
 		$type = 'upload'; //Install plugin type, From Web or an Upload.
 
 		$upgrader = new Plugin_Upgrader( new Plugin_Installer_Skin( compact('type', 'title', 'nonce', 'url') ) );
@@ -239,7 +239,7 @@ if ( isset($_GET['action']) ) {
 
 		$title = sprintf( __('Installing Theme from uploaded file: %s'), basename( $file_upload->filename ) );
 		$nonce = 'theme-upload';
-		$url = add_query_arg(array('package' => $file_upload->filename), 'update.php?action=upload-theme');
+		$url = add_query_arg(array('package' => $file_upload->id), 'update.php?action=upload-theme');
 		$type = 'upload'; //Install plugin type, From Web or an Upload.
 
 		$upgrader = new Theme_Upgrader( new Theme_Installer_Skin( compact('type', 'title', 'nonce', 'url') ) );

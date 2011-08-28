@@ -259,6 +259,7 @@ add_action( 'comment_form',               'wp_comment_form_unfiltered_html_nonce
 add_action( 'wp_scheduled_delete',        'wp_scheduled_delete'                            );
 add_action( 'admin_init',                 'send_frame_options_header',               10, 0 );
 add_action( 'importer_scheduled_cleanup', 'wp_delete_attachment'                           );
+add_action( 'upgrader_scheduled_cleanup', 'wp_delete_attachment'                           );
 
 // Navigation menu actions
 add_action( 'delete_post',                '_wp_delete_post_menu_item'         );

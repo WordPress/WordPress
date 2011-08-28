@@ -1434,35 +1434,66 @@ class Theme_Upgrader_Skin extends WP_Upgrader_Skin {
 class File_Upload_Upgrader {
 	var $package;
 	var $filename;
+	var $id = 0;
 
 	function __construct($form, $urlholder) {
-		if ( ! ( ( $uploads = wp_upload_dir() ) && false === $uploads['error'] ) )
-			wp_die($uploads['error']);
 
 		if ( empty($_FILES[$form]['name']) && empty($_GET[$urlholder]) )
 			wp_die(__('Please select a file'));
 
-		if ( !empty($_FILES) )
-			$this->filename = $_FILES[$form]['name'];
-		else if ( isset($_GET[$urlholder]) )
-			$this->filename = $_GET[$urlholder];
-
 		//Handle a newly uploaded file, Else assume its already been uploaded
-		if ( !empty($_FILES) ) {
-			$this->filename = wp_unique_filename( $uploads['basedir'], $this->filename );
-			$this->package = $uploads['basedir'] . '/' . $this->filename;
+		if ( ! empty($_FILES) ) {
+			$overrides = array( 'test_form' => false, 'test_type' => false );
+			$file = wp_handle_upload( $_FILES[$form], $overrides );
 
-			// Move the file to the uploads dir
-			if ( false === @ move_uploaded_file( $_FILES[$form]['tmp_name'], $this->package) )
-				wp_die( sprintf( __('The uploaded file could not be moved to %s.' ), $uploads['path']));
+			if ( isset( $file['error'] ) )
+				wp_die( $file['error'] );
+
+			$this->filename = $_FILES[$form]['name'];
+			$this->package = $file['file'];
+
+			// Construct the object array
+			$object = array(
+				'post_title' => $this->filename,
+				'post_content' => $file['url'],
+				'post_mime_type' => $file['type'],
+				'guid' => $file['url'],
+				'context' => 'upgrader',
+				'post_status' => 'private'
+			);
+
+			// Save the data
+			$this->id = wp_insert_attachment( $object, $file['file'] );
+
+			// schedule a cleanup for 2 hours from now in case of failed install
+			wp_schedule_single_event( time() + 7200, 'upgrader_scheduled_cleanup', array( $this->id ) );
+
+		} elseif ( is_numeric( $_GET[$urlholder] ) ) {
+			// Numeric Package = previously uploaded file, see above.
+			$this->id = (int) $_GET[$urlholder];
+			$attachment = get_post( $this->id );
+			if ( empty($attachment) )
+				wp_die(__('Please select a file'));	
+
+			$this->filename = $attachment->post_title;
+			$this->package = get_attached_file( $attachment->ID );
 		} else {
+			// Else, It's set to something, Back compat for plugins using the old (pre-3.3) File_Uploader handler.
+			if ( ! ( ( $uploads = wp_upload_dir() ) && false === $uploads['error'] ) )
+				wp_die( $uploads['error'] );
+
+			$this->filename = $_GET[$urlholder];
 			$this->package = $uploads['basedir'] . '/' . $this->filename;
 		}
 	}
 
 	function cleanup() {
-		if ( file_exists($this->package) )
-			return @unlink($this->package);
+		if ( $this->id )
+			wp_delete_attachment( $this->id );
+
+		elseif ( file_exists( $this->package ) )
+			return @unlink( $this->package );
+
 		return true;
 	}
 }
