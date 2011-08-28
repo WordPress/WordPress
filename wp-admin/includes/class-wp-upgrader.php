@@ -1454,4 +1454,10 @@ class File_Upload_Upgrader {
 			$this->package = $uploads['basedir'] . '/' . $this->filename;
 		}
 	}
+
+	function cleanup() {
+		if ( file_exists($this->package) )
+			return @unlink($this->package);
+		return true;
+	}
 }
