@@ -399,9 +399,13 @@ class Plugin_Upgrader extends WP_Upgrader {
 					'hook_extra' => array()
 					));
 
+		if ( ! $this->result || is_wp_error($this->result) )
+			return $this->result;
+
 		// Force refresh of plugin update information
 		delete_site_transient('update_plugins');
 
+		return true;
 	}
 
 	function upgrade($plugin) {
@@ -646,10 +650,7 @@ class Theme_Upgrader extends WP_Upgrader {
 		// Force refresh of theme update information
 		delete_site_transient('update_themes');
 
-		if ( empty($result['destination_name']) )
-			return false;
-		else
-			return $result['destination_name'];
+		return true;
 	}
 
 	function upgrade($theme) {
