@@ -140,6 +140,8 @@ if ( isset($_GET['action']) ) {
 		$upgrader = new Plugin_Upgrader( new Plugin_Installer_Skin( compact('type', 'title', 'nonce', 'url') ) );
 		$upgrader->install( $file_upload->package );
 
+		$file_upload->cleanup();
+
 		include(ABSPATH . 'wp-admin/admin-footer.php');
 
 	} elseif ( 'upgrade-theme' == $action ) {
@@ -241,6 +243,8 @@ if ( isset($_GET['action']) ) {
 
 		$upgrader = new Theme_Upgrader( new Theme_Installer_Skin( compact('type', 'title', 'nonce', 'url') ) );
 		$upgrader->install( $file_upload->package );
+
+		$file_upload->cleanup();
 
 		include(ABSPATH . 'wp-admin/admin-footer.php');
 
