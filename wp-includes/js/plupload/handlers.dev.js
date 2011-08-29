@@ -86,7 +86,7 @@ function setResize(r) {
 		uploader.settings.multipart_params.image_resize = true;
 	} else {
 		uploader.settings.resize = {};
-		uploader.settings.multipart_params.image_resize = null;
+		uploader.settings.multipart_params.image_resize = false;
 	}
 }
 
