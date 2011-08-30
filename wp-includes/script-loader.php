@@ -61,7 +61,7 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'utils', "/wp-admin/js/utils$suffix.js", false, '20101110' );
 
-	$scripts->add( 'common', "/wp-admin/js/common$suffix.js", array('jquery', 'hoverIntent', 'utils'), '20110711', 1 );
+	$scripts->add( 'common', "/wp-admin/js/common$suffix.js", array('jquery', 'hoverIntent', 'utils'), '20110829', 1 );
 	$scripts->add_script_data( 'common', 'commonL10n', array(
 		'warnDelete' => __("You are about to permanently delete the selected items.\n  'Cancel' to stop, 'OK' to delete.")
 	) );
@@ -155,7 +155,7 @@ function wp_default_scripts( &$scripts ) {
 
 	// common bits for both uploaders
 	$max_upload_size = ( (int) ( $max_up = @ini_get('upload_max_filesize') ) < (int) ( $max_post = @ini_get('post_max_size') ) ) ? $max_up : $max_post;
-	
+
 	if ( empty($max_upload_size) )
 		$max_upload_size = __('not configured');
 
@@ -402,13 +402,13 @@ function wp_default_styles( &$styles ) {
 	// Any rtl stylesheets that don't have a .dev version for ltr
 	$no_suffix = array( 'farbtastic' );
 
-	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20110828' );
+	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20110829' );
 
 	$styles->add( 'ie', "/wp-admin/css/ie$suffix.css", array('wp-admin'), '20110711' );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
 
 	// all colors stylesheets need to have the same query strings (cache manifest compat)
-	$colors_version = '20110822';
+	$colors_version = '20110829';
 
 	// Register "meta" stylesheet for admin colors. All colors-* style sheets should have the same version string.
 	$styles->add( 'colors', true, array('wp-admin'), $colors_version );
@@ -658,7 +658,7 @@ function wp_enqueue_scripts() {
 
 /**
  * Prints the styles queue in the HTML head on admin pages.
- * 
+ *
  * @since 2.8
  */
 function print_admin_styles() {
@@ -732,7 +732,7 @@ function _print_styles() {
 
 /**
  * Determine the concatenation and compression settings for scripts and styles.
- * 
+ *
  * @since 2.8
  */
 function script_concat_settings() {

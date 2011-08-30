@@ -5,14 +5,6 @@ adminMenu = {
 	init : function() {
 		var menu = $('#adminmenu');
 
-		$('.wp-menu-toggle', menu).each( function() {
-			var t = $(this), sub = t.siblings('.wp-submenu');
-			if ( sub.length )
-				t.click(function(){ adminMenu.toggle( sub ); });
-			else
-				t.hide();
-		});
-
 		this.favorites();
 
 		$('#collapse-menu', menu).click(function(){
@@ -26,63 +18,63 @@ adminMenu = {
 			return false;
 		});
 
-		if ( $('body').hasClass('folded') )
-			this.fold();
+		this.flyout( $('#adminmenu li.wp-has-submenu') );
+
+		this.fold( ! $('body').hasClass('folded') );
 	},
 
 	restoreMenuState : function() {
 		// (perhaps) needed for back-compat
 	},
 
-	toggle : function(el) {
-		el.slideToggle(150, function() {
-			var id = el.css('display','').parent().toggleClass( 'wp-menu-open' ).attr('id');
-			if ( id ) {
-				$('li.wp-has-submenu', '#adminmenu').each(function(i, e) {
-					if ( id == e.id ) {
-						var v = $(e).hasClass('wp-menu-open') ? 'o' : 'c';
-						setUserSetting( 'm'+i, v );
-					}
-				});
-			}
-		});
+	flyout: function( el, unbind ) {
+		if ( unbind ) {
+			el.unbind(); // Unbind flyout
+			return;
+		}
 
-		return false;
+		el.hoverIntent({
+			over: function(e){
+				var m, b, h, o, f;
+				m = $(this).find('.wp-submenu');
+				b = $(this).offset().top + m.height() + 1; // Bottom offset of the menu
+				h = $('#wpwrap').height(); // Height of the entire page
+				o = 60 + b - h;
+				f = $(window).height() + $(window).scrollTop() - 15; // The fold
+				if ( f < (b - o) ) {
+					o = b - f;
+				}
+				if ( o > 1 ) {
+					m.css({'marginTop':'-'+o+'px'});
+				} else if ( m.css('marginTop') ) {
+					m.css({'marginTop':''});
+				}
+				m.addClass('sub-open');
+			},
+			out: function(){
+				$(this).find('.wp-submenu').removeClass('sub-open');
+			},
+			timeout: 220,
+			sensitivity: 8,
+			interval: 100
+		});
 	},
 
-	fold : function(off) {
-		if (off) {
-			$('body').removeClass('folded');
-			$('#adminmenu li.wp-has-submenu').unbind();
-		} else {
-			$('body').addClass('folded');
-			$('#adminmenu li.wp-has-submenu').hoverIntent({
-				over: function(e){
-					var m, b, h, o, f;
-					m = $(this).find('.wp-submenu');
-					b = $(this).offset().top + m.height() + 1; // Bottom offset of the menu
-					h = $('#wpwrap').height(); // Height of the entire page
-					o = 60 + b - h;
-					f = $(window).height() + $(window).scrollTop() - 15; // The fold
-					if ( f < (b - o) ) {
-						o = b - f;
-					}
-					if ( o > 1 ) {
-						m.css({'marginTop':'-'+o+'px'});
-					} else if ( m.css('marginTop') ) {
-						m.css({'marginTop':''});
-					}
-					m.addClass('sub-open');
-				},
-				out: function(){
-					$(this).find('.wp-submenu').removeClass('sub-open');
-				},
-				timeout: 220,
-				sensitivity: 8,
-				interval: 100
-			});
+	toggle : function() {
+		// Removed in 3.3.
+		// (perhaps) needed for back-compat
+	},
 
-		}
+	fold : function( off ) {
+		var current = $('#adminmenu li.wp-has-current-submenu');
+
+		$('body').toggleClass( 'folded', ! off );
+		$('body').toggleClass( 'expanded', off );
+		this.flyout( current, off );
+
+		// Remove any potentially remaining hoverIntent positioning.
+		if ( off )
+			current.find('.wp-submenu').css( 'marginTop', '0' );
 	},
 
 	favorites : function() {

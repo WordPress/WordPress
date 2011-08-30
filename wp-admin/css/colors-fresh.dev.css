@@ -1,7 +1,7 @@
 /*------------------------------------------------------------------------------
 
 
-Howdy! This is the CSS file that controls the 
+Howdy! This is the CSS file that controls the
 Gray (fresh) color style on the WordPress Dashboard.
 
 This file contains both LTR and RTL styles.
@@ -952,11 +952,27 @@ table.widefat .spam a:hover,
 	border-color: #dfdfdf;
 }
 
+.expanded #adminmenu li.wp-not-current-submenu:hover a.menu-top,
+.expanded #adminmenu li.wp-not-current-submenu:hover .wp-menu-arrow {
+	background-color: #eee; /* Fallback */
+	background-image: -ms-linear-gradient(bottom, #ccc, #eee); /* IE10 */
+	background-image: -moz-linear-gradient(bottom, #ccc, #eee); /* Firefox */
+	background-image: -o-linear-gradient(bottom, #ccc, #eee); /* Opera */
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#ccc), to(#eee)); /* old Webkit */
+	background-image: -webkit-linear-gradient(bottom, #ccc, #e4e4e4); /* new Webkit */
+	background-image: linear-gradient(bottom, #ccc, #eee); /* proposed W3C Markup */
+	border-top-color: #e4e4e4;
+	border-bottom-color: #ccc;
+	text-shadow: 0 1px 0 rgba( 255, 255, 255, 0.4 );
+	color: #d54e21;
+}
+
 #adminmenu li.wp-has-current-submenu a.wp-has-current-submenu,
 #adminmenu li.current a.menu-top,
 .folded #adminmenu li.wp-has-current-submenu,
 .folded #adminmenu li.current.menu-top,
-#adminmenu .wp-menu-arrow,
+#adminmenu .wp-has-current-submenu .wp-menu-arrow,
+#adminmenu .current .wp-menu-arrow,
 #adminmenu .wp-has-current-submenu .wp-submenu .wp-submenu-head {
 	background-color: #777; /* Fallback */
 	background-image: -ms-linear-gradient(bottom, #6d6d6d, #808080); /* IE10 */
@@ -965,6 +981,16 @@ table.widefat .spam a:hover,
 	background-image: -webkit-gradient(linear, left bottom, left top, from(#6d6d6d), to(#808080)); /* old Webkit */
 	background-image: -webkit-linear-gradient(bottom, #6d6d6d, #808080); /* new Webkit */
 	background-image: linear-gradient(bottom, #6d6d6d, #808080); /* proposed W3C Markup */
+}
+
+.expanded #adminmenu li.wp-not-current-submenu li:hover a {
+	background-color: #eaf2fa; /* Fallback */
+	background-image: -ms-linear-gradient(left, #fff, #eaf2fa 30px); /* IE10 */
+	background-image: -moz-linear-gradient(left, #fff, #eaf2fa 30px); /* Firefox */
+	background-image: -o-linear-gradient(left, #fff, #eaf2fa 30px); /* Opera */
+	background-image: -webkit-gradient(linear, left bottom, right bottom, from(#fff), color-stop(0.1, #eaf2fa)); /* old Webkit */
+	background-image: -webkit-linear-gradient(left, #fff, #eaf2fa 30px); /* new Webkit */
+	background-image: linear-gradient(left, #fff, #eaf2fa 30px); /* proposed W3C Markup */
 }
 
 #adminmenu li.wp-has-current-submenu a.wp-has-current-submenu,
@@ -997,12 +1023,12 @@ table.widefat .spam a:hover,
 	background-color: #fff;
 }
 
-.folded #adminmenu .wp-submenu-wrap,
-.folded #adminmenu .wp-submenu ul {
+#adminmenu .wp-submenu-wrap,
+#adminmenu .wp-submenu ul {
 	border-color: #dfdfdf;
 }
 
-.folded #adminmenu .wp-submenu-wrap {
+#adminmenu .wp-submenu-wrap {
 	-moz-box-shadow: 2px 2px 5px rgba( 0, 0, 0, 0.4 );
 	-webkit-box-shadow: 2px 2px 5px rgba( 0, 0, 0, 0.4 );
 	box-shadow: 2px 2px 5px rgba( 0, 0, 0, 0.4 );
