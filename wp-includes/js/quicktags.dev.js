@@ -216,7 +216,7 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 	};
 
 	qt._buttonsInit = function() {
-		var t = this, instance, canvas, name, settings, buttons, theButtons, html, id, i, qb, btn;;
+		var t = this, instance, canvas, name, settings, buttons, theButtons, html, id, i, qb, btn;
 
 		for ( id in t.instances ) {
 			if ( id == 0 )
