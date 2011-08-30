@@ -44,20 +44,29 @@ var postboxes, wp_auto_columns, wpAutoColumns = false;
 				var num = $(this).val(), i, el, ps = $('#poststuff'), wrap = $('.wrap');
 
 				if ( num == 'auto' ) {
-					wrap.removeClass('columns-1').removeClass('columns-2').addClass('columns-auto');
-					ps.addClass('has-right-sidebar')
 
-					if ( !$('#side-info-column #side-sortables').length )
-						$('#side-info-column').append( $('#side-sortables') );
+					if ( ps.length ) {
+						wrap.removeClass('columns-1').removeClass('columns-2').addClass('columns-auto');
+						ps.addClass('has-right-sidebar')
 
-					if ( typeof(wp_auto_columns) == 'function' ) {
-						wpAutoColumns = true;
-						wp_auto_columns();
+						if ( !$('#side-info-column #side-sortables').length )
+							$('#side-info-column').append( $('#side-sortables') );
+
+						if ( typeof(wp_auto_columns) == 'function' ) {
+							wpAutoColumns = true;
+							wp_auto_columns();
+						}
+					} else {
+						$('#normal-sortables').append( $('#side-sortables, #column3-sortables, #column4-sortables').children('.postbox') );
+						$('#postbox-container-2, #postbox-container-3, #postbox-container-4').hide();
+						$('#postbox-container-1').css('width', '100%');
 					}
+
 				} else {
 					wrap.removeClass('columns-auto');
 
 					if ( ps.length ) { // write pages
+
 						if ( num == 2 ) {
 							wrap.removeClass('columns-1').addClass('columns-2');
 							ps.addClass('has-right-sidebar');
@@ -69,17 +78,21 @@ var postboxes, wp_auto_columns, wpAutoColumns = false;
 							ps.removeClass('has-right-sidebar');
 							$('#normal-sortables').before( $('#side-sortables') );
 						}
+
 					} else { // dashboard
+
 						for ( i = 4; ( i > num && i > 1 ); i-- ) {
 							el = $('#' + colname(i) + '-sortables');
 							$('#' + colname(i-1) + '-sortables').append(el.children('.postbox'));
 							el.parent().hide();
 						}
+
 						for ( i = 1; i <= num; i++ ) {
 							el = $('#' + colname(i) + '-sortables');
 							if ( el.parent().is(':hidden') )
 								el.addClass('temp-border').parent().show();
 						}
+
 						$('.postbox-container:visible').css('width', 100/num + '%');
 					}
 				}
@@ -205,7 +218,9 @@ var postboxes, wp_auto_columns, wpAutoColumns = false;
 					$(document.body).addClass('wide-window');
 				}
 
-			} else if ( adminpage == 'index-php' ) {
+			}
+/*
+			else if ( adminpage == 'index-php' ) {
 				dw = $('#dashboard-widgets').width();
 
 				if ( dw < 800 ) {
@@ -235,6 +250,7 @@ var postboxes, wp_auto_columns, wpAutoColumns = false;
 
 				$('.postbox-container:visible').css('width', 100/num + '%');
 			}
+*/
 		}
 
 		$(window).resize(function(){ wp_auto_columns(); });
