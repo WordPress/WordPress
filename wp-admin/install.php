@@ -60,7 +60,7 @@ function display_header() {
 	<title><?php _e( 'WordPress &rsaquo; Installation' ); ?></title>
 	<?php wp_admin_css( 'install', true ); ?>
 </head>
-<body>
+<body<?php if ( is_rtl() ) echo ' class="rtl"'; ?>>
 <h1 id="logo"><img alt="WordPress" src="images/wordpress-logo.png" /></h1>
 
 <?php
