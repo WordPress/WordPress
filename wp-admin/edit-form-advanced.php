@@ -193,7 +193,7 @@ if ( 'post' == $post_type ) {
 require_once('./admin-header.php');
 ?>
 
-<div class="wrap columns-<?php echo esc_attr($screen_layout_columns);?>">
+<div class="wrap<?php if ( $screen_layout_columns == 'auto' ) echo ' responsive'; ?>">
 <?php screen_icon(); ?>
 <h2><?php echo esc_html( $title ); ?><?php if ( isset( $post_new_file ) ) : ?> <a href="<?php echo esc_url( $post_new_file ) ?>" class="add-new-h2"><?php echo esc_html($post_type_object->labels->add_new); ?></a><?php endif; ?></h2>
 <?php if ( $notice ) : ?>

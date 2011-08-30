@@ -44,9 +44,10 @@ var postboxes, wp_auto_columns, wpAutoColumns = false;
 				var num = $(this).val(), i, el, ps = $('#poststuff'), wrap = $('.wrap');
 
 				if ( num == 'auto' ) {
+					wrap.addClass('responsive');
 
 					if ( ps.length ) {
-						wrap.removeClass('columns-1').removeClass('columns-2').addClass('columns-auto');
+						wrap.removeClass('columns-1').removeClass('columns-2');
 						ps.addClass('has-right-sidebar')
 
 						if ( !$('#side-info-column #side-sortables').length )
@@ -63,7 +64,7 @@ var postboxes, wp_auto_columns, wpAutoColumns = false;
 					}
 
 				} else {
-					wrap.removeClass('columns-auto');
+					wrap.removeClass('responsive');
 
 					if ( ps.length ) { // write pages
 

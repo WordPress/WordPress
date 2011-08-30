@@ -117,7 +117,7 @@ TABLE OF CONTENTS:
 	position: relative;
 }
 
-.wide-window .columns-auto .inner-sidebar {
+.wide-window .responsive .inner-sidebar {
     margin-right: -870px;
     width: 100%;
     display: block;
@@ -128,7 +128,7 @@ TABLE OF CONTENTS:
 	min-height: 300px;
 }
 
-.wide-window .columns-auto .inner-sidebar #side-sortables {
+.wide-window .responsive .inner-sidebar #side-sortables {
 	min-width: 280px;
 	max-width: 480px;
 	width: auto;
@@ -150,7 +150,7 @@ TABLE OF CONTENTS:
 	margin-right: 300px;
 }
 
-.columns-auto #post-body-content {
+.responsive #post-body-content {
 	max-width: 850px;
 }
 

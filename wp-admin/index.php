@@ -52,7 +52,7 @@ include (ABSPATH . 'wp-admin/admin-header.php');
 $today = current_time('mysql', 1);
 ?>
 
-<div class="wrap">
+<div class="wrap<?php if ( $screen_layout_columns == 'auto' ) echo ' responsive'; ?>">
 <?php screen_icon(); ?>
 <h2><?php echo esc_html( $title ); ?></h2>
 
