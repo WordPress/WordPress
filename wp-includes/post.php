@@ -3161,7 +3161,7 @@ function get_page_by_path($page_path, $output = OBJECT, $post_type = 'page') {
 	$revparts = array_reverse( $parts );
 
 	$foundid = 0;
-	foreach ( $pages as $page ) {
+	foreach ( (array) $pages as $page ) {
 		if ( $page->post_name == $revparts[0] ) {
 			$count = 0;
 			if ( $page->post_parent != 0 ) {
