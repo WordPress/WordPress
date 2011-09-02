@@ -547,6 +547,7 @@ function register_sidebar($args = array()) {
 		'name' => sprintf(__('Sidebar %d'), $i ),
 		'id' => "sidebar-$i",
 		'description' => '',
+		'class' => '',
 		'before_widget' => '<li id="%1$s" class="widget %2$s">',
 		'after_widget' => "</li>\n",
 		'before_title' => '<h2 class="widgettitle">',
@@ -1055,30 +1056,7 @@ function wp_get_sidebars_widgets($deprecated = true) {
 				unset($_sidebars_widgets);
 
 			case 2 :
-				$sidebars = array_keys( $wp_registered_sidebars );
-				if ( !empty( $sidebars ) ) {
-					// Move the known-good ones first
-					foreach ( (array) $sidebars as $id ) {
-						if ( array_key_exists( $id, $sidebars_widgets ) ) {
-							$_sidebars_widgets[$id] = $sidebars_widgets[$id];
-							unset($sidebars_widgets[$id], $sidebars[$id]);
-						}
-					}
-
-					// move the rest to wp_inactive_widgets
-					if ( !isset($_sidebars_widgets['wp_inactive_widgets']) )
-						$_sidebars_widgets['wp_inactive_widgets'] = array();
-
-					if ( !empty($sidebars_widgets) ) {
-						foreach ( $sidebars_widgets as $lost => $val ) {
-							if ( is_array($val) )
-								$_sidebars_widgets['wp_inactive_widgets'] = array_merge( (array) $_sidebars_widgets['wp_inactive_widgets'], $val );
-						}
-					}
-
-					$sidebars_widgets = $_sidebars_widgets;
-					unset($_sidebars_widgets);
-				}
+				$sidebars_widgets = retrieve_widgets();
 		}
 	}
 
@@ -1214,4 +1192,103 @@ function the_widget($widget, $instance = array(), $args = array()) {
  */
 function _get_widget_id_base($id) {
 	return preg_replace( '/-[0-9]+$/', '', $id );
+}
+
+function check_theme_switched() {
+	if ( false !== ( $old_theme = get_option( 'theme_switched' ) ) && !empty( $old_theme ) ) {
+		global $sidebars_widgets;
+
+		if ( ! is_array( $sidebars_widgets ) )
+			$sidebars_widgets = wp_get_sidebars_widgets();
+
+		$key = md5( $old_theme );
+		// Store widgets for 1 week so we can restore if needed
+		set_transient( 'old_widgets_' . $key, $sidebars_widgets, 604800 );
+
+		retrieve_widgets();
+		update_option( 'theme_switched', false );
+	}
+}
+
+// look for "lost" widgets, this has to run at least on each theme change
+function retrieve_widgets() {
+	global $wp_registered_widget_updates, $wp_registered_sidebars, $sidebars_widgets, $wp_registered_widgets;
+
+	$key = md5( get_current_theme() );
+	if ( false !== ( $_sidebars_widgets = get_transient( "old_widgets_{$key}" ) ) ) {
+		delete_transient( "old_widgets_{$key}" );
+	} else {
+		if ( ! is_array( $sidebars_widgets ) )
+			$sidebars_widgets = wp_get_sidebars_widgets();
+
+		$sidebars = array_keys($wp_registered_sidebars);
+
+		unset( $sidebars_widgets['array_version'] );
+
+		$old = array_keys($sidebars_widgets);
+		sort($old);
+		sort($sidebars);
+
+		if ( $old == $sidebars )
+			return;
+
+		$_sidebars_widgets = array(
+			'wp_inactive_widgets' => $sidebars_widgets['wp_inactive_widgets']
+		);
+
+		unset( $sidebars_widgets['wp_inactive_widgets'] );
+
+		foreach ( $wp_registered_sidebars as $id => $settings ) {
+			if ( ! empty( $sidebars_widgets ) )
+				$_sidebars_widgets[$id] = array_shift( $sidebars_widgets );
+		}
+
+		if ( !empty($sidebars_widgets) ) {
+			$orphaned = 0;
+
+			foreach ( $sidebars_widgets as $val ) {
+				if ( is_array($val) && ! empty( $val ) )
+					$_sidebars_widgets['orphaned_widgets_' . ++$orphaned] = $val;
+			}
+		}
+	}
+
+	// discard invalid, theme-specific widgets from sidebars
+	$shown_widgets = array();
+
+	foreach ( $_sidebars_widgets as $sidebar => $widgets ) {
+		if ( !is_array($widgets) )
+			continue;
+
+		$_widgets = array();
+		foreach ( $widgets as $widget ) {
+			if ( isset($wp_registered_widgets[$widget]) )
+				$_widgets[] = $widget;
+		}
+
+		$_sidebars_widgets[$sidebar] = $_widgets;
+		$shown_widgets = array_merge($shown_widgets, $_widgets);
+	}
+
+	$sidebars_widgets = $_sidebars_widgets;
+	unset($_sidebars_widgets, $_widgets);
+
+	// find hidden/lost multi-widget instances
+	$lost_widgets = array();
+	foreach ( $wp_registered_widgets as $key => $val ) {
+		if ( in_array($key, $shown_widgets, true) )
+			continue;
+
+		$number = preg_replace('/.+?-([0-9]+)$/', '$1', $key);
+
+		if ( 2 > (int) $number )
+			continue;
+
+		$lost_widgets[] = $key;
+	}
+
+	$sidebars_widgets['wp_inactive_widgets'] = array_merge($lost_widgets, (array) $sidebars_widgets['wp_inactive_widgets']);
+	wp_set_sidebars_widgets($sidebars_widgets);
+
+	return $sidebars_widgets;
 }
