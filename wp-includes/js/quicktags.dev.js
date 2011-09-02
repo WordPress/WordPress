@@ -58,7 +58,7 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 /**
  * Back-compat
  *
- * Define all former global functions so plugins that hask quicktags.js directly don't cause fatal errors.
+ * Define all former global functions so plugins that hack quicktags.js directly don't cause fatal errors.
  */
 var edAddTag = function(){},
 edCheckOpenTags = function(){},
