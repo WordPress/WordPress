@@ -55,6 +55,25 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 	return QTags.addButton( id, display, tagStart, tagEnd, open, access, '', -1 );	
 }
 
+/**
+ * Back-compat
+ *
+ * Define all former global functions so plugins that hask quicktags.js directly don't cause fatal errors.
+ */
+var edAddTag = function(){},
+edCheckOpenTags = function(){},
+edCloseAllTags = function(){},
+edInsertImage = function(){},
+edInsertLink = function(){},
+edInsertTag = function(){},
+edLink = function(){},
+edQuickLink = function(){},
+edRemoveTag = function(){},
+edShowButton = function(){},
+edShowLinks = function(){},
+edSpell = function(){},
+edToolbar = function(){};
+
 (function(){
 	// private stuff is prefixed with an underscore
 	var _domReady = function(func) {
@@ -269,8 +288,12 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 				}
 			}
 
-			for ( i in theButtons )
+			for ( i in theButtons ) {
+				if ( !theButtons[i] || !theButtons[i].html )
+					continue;
+
 				html += theButtons[i].html(name + '_');
+			}
 
 			instance.toolbar.innerHTML = html;
 			instance.theButtons = theButtons;
