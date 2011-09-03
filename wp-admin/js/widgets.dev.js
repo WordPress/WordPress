@@ -19,7 +19,7 @@ wpWidgets = {
 		});
 
 		$('#widgets-left').children('.widgets-holder-wrap').children('.sidebar-name').click(function() {
-			$(this).siblings('.widget-holder').parent().toggleClass('closed');
+			$(this).parent().toggleClass('closed');
 		});
 
 		sidebars.not('#wp_inactive_widgets').each(function(){
