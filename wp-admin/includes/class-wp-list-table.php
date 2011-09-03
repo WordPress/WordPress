@@ -326,7 +326,7 @@ class WP_List_Table {
 	 * @access protected
 	 *
 	 * @param array $actions The list of actions
-	 * @param bool $always_visible Wether the actions should be always visible
+	 * @param bool $always_visible Whether the actions should be always visible
 	 * @return string
 	 */
 	function row_actions( $actions, $always_visible = false ) {

@@ -26,7 +26,7 @@ function get_preferred_from_update_core() {
  * Get available core updates
  *
  * @param array $options Set $options['dismissed'] to true to show dismissed upgrades too,
- * 	set $options['available'] to false to skip not-dimissed updates.
+ * 	set $options['available'] to false to skip not-dismissed updates.
  * @return array Array of the update objects
  */
 function get_core_updates( $options = array() ) {

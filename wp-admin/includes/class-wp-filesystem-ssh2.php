@@ -306,7 +306,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	}
 
 	function touch($file, $time = 0, $atime = 0) {
-		//Not implmented.
+		//Not implemented.
 	}
 
 	function mkdir($path, $chmod = false, $chown = false, $chgrp = false) {

@@ -153,12 +153,12 @@ class WP_Filesystem_Base {
 				if ( defined($constant) && $folder === $dir )
 					return trailingslashit(constant($constant));
 		} elseif ( 'direct' == $this->method ) {
-			$folder = str_replace('\\', '/', $folder); //Windows path sanitiation
+			$folder = str_replace('\\', '/', $folder); //Windows path sanitisation
 			return trailingslashit($folder);
 		}
 
-		$folder = preg_replace('|^([a-z]{1}):|i', '', $folder); //Strip out windows driveletter if its there.
-		$folder = str_replace('\\', '/', $folder); //Windows path sanitiation
+		$folder = preg_replace('|^([a-z]{1}):|i', '', $folder); //Strip out windows drive letter if it's there.
+		$folder = str_replace('\\', '/', $folder); //Windows path sanitisation
 
 		if ( isset($this->cache[ $folder ] ) )
 			return $this->cache[ $folder ];
@@ -223,7 +223,7 @@ class WP_Filesystem_Base {
 		}
 		if ( $loop )
 			return false; //Prevent this function from looping again.
-		//As an extra last resort, Change back to / if the folder wasnt found. This comes into effect when the CWD is /home/user/ but WP is at /var/www/.... mainly dedicated setups.
+		//As an extra last resort, Change back to / if the folder wasn't found. This comes into effect when the CWD is /home/user/ but WP is at /var/www/.... mainly dedicated setups.
 		return $this->search_for_folder($folder, '/', true);
 
 	}

@@ -134,7 +134,7 @@ if ( current_user_can( 'switch_themes') ) {
 			$submenu['themes.php'][10] = array(__('Menus'), 'edit_theme_options', 'nav-menus.php' );
 }
 
-// Add 'Editor' to the bottom of the Appearence menu.
+// Add 'Editor' to the bottom of the Appearance menu.
 if ( ! is_multisite() )
 	add_action('admin_menu', '_add_themes_utility_last', 101);
 function _add_themes_utility_last() {

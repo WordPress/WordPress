@@ -138,7 +138,7 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 }
 
 /**
- * Calculated the new dimentions for a downsampled image.
+ * Calculated the new dimensions for a downsampled image.
  *
  * @since 2.0.0
  * @see wp_constrain_dimensions()

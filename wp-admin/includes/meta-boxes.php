@@ -155,7 +155,7 @@ echo esc_html( $visibility_trans ); ?></span>
 </div><?php // /misc-pub-section ?>
 
 <?php
-// translators: Publish box date formt, see http://php.net/date
+// translators: Publish box date format, see http://php.net/date
 $datef = __( 'M j, Y @ G:i' );
 if ( 0 != $post->ID ) {
 	if ( 'future' == $post->post_status ) { // scheduled for publishing at a future date

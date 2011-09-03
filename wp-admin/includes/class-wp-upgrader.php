@@ -212,7 +212,7 @@ class WP_Upgrader {
 		}
 
 		if ( $clear_destination ) {
-			//We're going to clear the destination if theres something there
+			//We're going to clear the destination if there's something there
 			$this->skin->feedback('remove_old');
 			$removed = true;
 			if ( $wp_filesystem->exists($remote_destination) )
@@ -224,7 +224,7 @@ class WP_Upgrader {
 			else if ( ! $removed )
 				return new WP_Error('remove_old_failed', $this->strings['remove_old_failed']);
 		} elseif ( $wp_filesystem->exists($remote_destination) ) {
-			//If we're not clearing the destination folder and something exists there allready, Bail.
+			//If we're not clearing the destination folder and something exists there already, Bail.
 			//But first check to see if there are actually any files in the folder.
 			$_files = $wp_filesystem->dirlist($remote_destination);
 			if ( ! empty($_files) ) {
@@ -304,7 +304,7 @@ class WP_Upgrader {
 
 		$delete_package = ($download != $package); // Do not delete a "local" file
 
-		//Unzip's the file into a temporary directory
+		//Unzips the file into a temporary directory
 		$working_dir = $this->unpack_package( $download, $delete_package );
 		if ( is_wp_error($working_dir) ) {
 			$this->skin->error($working_dir);
@@ -325,7 +325,7 @@ class WP_Upgrader {
 			$this->skin->error($result);
 			$this->skin->feedback('process_failed');
 		} else {
-			//Install Suceeded
+			//Install Succeeded
 			$this->skin->feedback('process_success');
 		}
 		$this->skin->after();
@@ -434,7 +434,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 
 		add_filter('upgrader_pre_install', array(&$this, 'deactivate_plugin_before_upgrade'), 10, 2);
 		add_filter('upgrader_clear_destination', array(&$this, 'delete_old_plugin'), 10, 4);
-		//'source_selection' => array(&$this, 'source_selection'), //theres a track ticket to move up the directory for zip's which are made a bit differently, useful for non-.org plugins.
+		//'source_selection' => array(&$this, 'source_selection'), //there's a trac ticket to move up the directory for zip's which are made a bit differently, useful for non-.org plugins.
 
 		$this->run(array(
 					'package' => $r->package,
@@ -446,7 +446,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 					)
 				));
 
-		// Cleanup our hooks, incase something else does a upgrade on this connection.
+		// Cleanup our hooks, in case something else does a upgrade on this connection.
 		remove_filter('upgrader_pre_install', array(&$this, 'deactivate_plugin_before_upgrade'));
 		remove_filter('upgrader_clear_destination', array(&$this, 'delete_old_plugin'));
 
@@ -531,7 +531,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 
 		$this->skin->footer();
 
-		// Cleanup our hooks, incase something else does a upgrade on this connection.
+		// Cleanup our hooks, in case something else does a upgrade on this connection.
 		remove_filter('upgrader_clear_destination', array(&$this, 'delete_old_plugin'));
 
 		// Force refresh of plugin update information
@@ -812,7 +812,7 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		$this->skin->footer();
 
-		// Cleanup our hooks, incase something else does a upgrade on this connection.
+		// Cleanup our hooks, in case something else does a upgrade on this connection.
 		remove_filter('upgrader_pre_install', array(&$this, 'current_before'), 10, 2);
 		remove_filter('upgrader_post_install', array(&$this, 'current_after'), 10, 2);
 		remove_filter('upgrader_clear_destination', array(&$this, 'delete_old_theme'), 10, 4);
@@ -873,7 +873,7 @@ class Theme_Upgrader extends WP_Upgrader {
 			return $return;
 
 		//Ensure stylesheet name hasnt changed after the upgrade:
-		// @TODO: Note, This doesnt handle the Template changing, or the Template name changing.
+		// @TODO: Note, This doesn't handle the Template changing, or the Template name changing.
 		if ( $theme == get_stylesheet() && $theme != $this->result['destination_name'] ) {
 			$theme_info = $this->theme_info();
 			$stylesheet = $this->result['destination_name'];
@@ -916,7 +916,7 @@ class Theme_Upgrader extends WP_Upgrader {
 }
 
 /**
- * Core Upgrader class for WordPress. It allows for WordPress to upgrade itself in combiantion with the wp-admin/includes/update-core.php file
+ * Core Upgrader class for WordPress. It allows for WordPress to upgrade itself in combination with the wp-admin/includes/update-core.php file
  *
  * @TODO More Detailed docs, for methods as well.
  *

@@ -363,7 +363,7 @@ function wp_handle_upload( &$file, $overrides = false, $time = null ) {
 }
 
 /**
- * Handle sideloads, which is the process of retriving a media item from another server instead of
+ * Handle sideloads, which is the process of retrieving a media item from another server instead of
  * a traditional media upload.  This process involves sanitizing the filename, checking extensions
  * for mime type, and moving the file to the appropriate directory within the uploads directory.
  *
@@ -519,7 +519,7 @@ function download_url( $url, $timeout = 300 ) {
 }
 
 /**
- * Unzip's a specified ZIP file to a location on the Filesystem via the WordPress Filesystem Abstraction.
+ * Unzips a specified ZIP file to a location on the Filesystem via the WordPress Filesystem Abstraction.
  * Assumes that WP_Filesystem() has already been called and set up. Does not extract a root-level __MACOSX directory, if present.
  *
  * Attempts to increase the PHP Memory limit to 256M before uncompressing,
@@ -833,7 +833,7 @@ function WP_Filesystem( $args = false, $context = false ) {
 		return false;
 
 	if ( !$wp_filesystem->connect() )
-		return false; //There was an erorr connecting to the server.
+		return false; //There was an error connecting to the server.
 
 	// Set the permission constants if not already set.
 	if ( ! defined('FS_CHMOD_DIR') )
@@ -846,7 +846,7 @@ function WP_Filesystem( $args = false, $context = false ) {
 
 /**
  * Determines which Filesystem Method to use.
- * The priority of the Transports are: Direct, SSH2, FTP PHP Extension, FTP Sockets (Via Sockets class, or fsoxkopen())
+ * The priority of the Transports are: Direct, SSH2, FTP PHP Extension, FTP Sockets (Via Sockets class, or fsockopen())
  *
  * Note that the return value of this function can be overridden in 2 ways
  *  - By defining FS_METHOD in your <code>wp-config.php</code> file

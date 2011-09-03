@@ -612,7 +612,7 @@ function wp_write_post() {
 	add_post_meta( $post_ID, '_edit_last', $GLOBALS['current_user']->ID );
 
 	// Reunite any orphaned attachments with their parent
-	// Does this need to be udpated? ~ Mark
+	// Does this need to be updated? ~ Mark
 	if ( !$draft_ids = get_user_option( 'autosave_draft_ids' ) )
 		$draft_ids = array();
 	if ( $draft_temp_id = (int) array_search( $post_ID, $draft_ids ) )

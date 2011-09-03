@@ -89,7 +89,7 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	 *
 	 * @param string $file Path to the file.
 	 * @param mixed $group A group name or number.
-	 * @param bool $recursive (optional) If set True changes file group recursivly. Defaults to False.
+	 * @param bool $recursive (optional) If set True changes file group recursively. Defaults to False.
 	 * @return bool Returns true on success or false on failure.
 	 */
 	function chgrp($file, $group, $recursive = false) {
@@ -112,7 +112,7 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	 *
 	 * @param string $file Path to the file.
 	 * @param int $mode (optional) The permissions as octal number, usually 0644 for files, 0755 for dirs.
-	 * @param bool $recursive (optional) If set True changes file group recursivly. Defaults to False.
+	 * @param bool $recursive (optional) If set True changes file group recursively. Defaults to False.
 	 * @return bool Returns true on success or false on failure.
 	 */
 	function chmod($file, $mode = false, $recursive = false) {
@@ -140,7 +140,7 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	 *
 	 * @param string $file Path to the file.
 	 * @param mixed $owner A user name or number.
-	 * @param bool $recursive (optional) If set True changes file owner recursivly. Defaults to False.
+	 * @param bool $recursive (optional) If set True changes file owner recursively. Defaults to False.
 	 * @return bool Returns true on success or false on failure.
 	 */
 	function chown($file, $owner, $recursive = false) {

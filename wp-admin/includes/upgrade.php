@@ -576,7 +576,7 @@ function upgrade_110() {
 
 	if (!$got_gmt_fields) {
 
-		// Add or substract time to all dates, to get GMT dates
+		// Add or subtract time to all dates, to get GMT dates
 		$add_hours = intval($diff_gmt_weblogger);
 		$add_minutes = intval(60 * ($diff_gmt_weblogger - $add_hours));
 		$wpdb->query("UPDATE $wpdb->posts SET post_date_gmt = DATE_ADD(post_date, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE)");
@@ -1607,7 +1607,7 @@ function make_site_theme_from_oldschool($theme_name, $template) {
 		return false;
 
 	// Copy files from the old locations to the site theme.
-	// TODO: This does not copy arbitarary include dependencies.  Only the
+	// TODO: This does not copy arbitrary include dependencies.  Only the
 	// standard WP files are copied.
 	$files = array('index.php' => 'index.php', 'wp-layout.css' => 'style.css', 'wp-comments.php' => 'comments.php', 'wp-comments-popup.php' => 'comments-popup.php');
 

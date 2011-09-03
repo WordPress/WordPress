@@ -897,7 +897,7 @@ function add_meta_box($id, $title, $callback, $page, $context = 'advanced', $pri
 			// If no priority given and id already present, use existing priority
 			if ( empty($priority) ) {
 				$priority = $a_priority;
-			// else if we're adding to the sorted priortiy, we don't know the title or callback. Glab them from the previously added context/priority.
+			// else if we're adding to the sorted priority, we don't know the title or callback. Grab them from the previously added context/priority.
 			} elseif ( 'sorted' == $priority ) {
 				$title = $wp_meta_boxes[$page][$a_context][$a_priority][$id]['title'];
 				$callback = $wp_meta_boxes[$page][$a_context][$a_priority][$id]['callback'];
@@ -1109,7 +1109,7 @@ function add_settings_section($id, $title, $callback, $page) {
  * do_settings_fields() in do_settings-sections()
  *
  * The $callback argument should be the name of a function that echoes out the
- * html input tags for this setting field. Use get_option() to retrive existing
+ * html input tags for this setting field. Use get_option() to retrieve existing
  * values to show.
  *
  * @since 2.7.0
@@ -1120,7 +1120,7 @@ function add_settings_section($id, $title, $callback, $page) {
  * @param string $title Formatted title of the field. Shown as the label for the field during output.
  * @param string $callback Function that fills the field with the desired form inputs. The function should echo its output.
  * @param string $page The slug-name of the settings page on which to show the section (general, reading, writing, ...).
- * @param string $section The slug-name of the section of the settingss page in which to show the box (default, ...).
+ * @param string $section The slug-name of the section of the settings page in which to show the box (default, ...).
  * @param array $args Additional arguments
  */
 function add_settings_field($id, $title, $callback, $page, $section = 'default', $args = array()) {
@@ -1274,7 +1274,7 @@ function get_settings_errors( $setting = '', $sanitize = FALSE ) {
 		sanitize_option( $setting, get_option($setting));
 
 	// If settings were passed back from options.php then use them
-	// Ignore transients if $sanitize is true, we dont' want the old values anyway
+	// Ignore transients if $sanitize is true, we don't want the old values anyway
 	if ( isset($_GET['settings-updated']) && $_GET['settings-updated'] && get_transient('settings_errors') ) {
 		$settings_errors = get_transient('settings_errors');
 		delete_transient('settings_errors');
@@ -2159,7 +2159,7 @@ function set_current_screen( $id =  '' ) {
  * 			   false otherwise. Defaults to true
  * @param array|string $other_attributes Other attributes that should be output with the button,
  *                     mapping attributes to their values, such as array( 'tabindex' => '1' ).
- *                     These attributes will be ouput as attribute="value", such as tabindex="1".
+ *                     These attributes will be output as attribute="value", such as tabindex="1".
  *                     Defaults to no other attributes. Other attributes can also be provided as a
  *                     string such as 'tabindex="1"', though the array format is typically cleaner.
  */
@@ -2180,7 +2180,7 @@ function submit_button( $text = NULL, $type = 'primary', $name = 'submit', $wrap
  * 			   false otherwise. Defaults to true
  * @param array|string $other_attributes Other attributes that should be output with the button,
  *                     mapping attributes to their values, such as array( 'tabindex' => '1' ).
- *                     These attributes will be ouput as attribute="value", such as tabindex="1".
+ *                     These attributes will be output as attribute="value", such as tabindex="1".
  *                     Defaults to no other attributes. Other attributes can also be provided as a
  *                     string such as 'tabindex="1"', though the array format is typically cleaner.
  */

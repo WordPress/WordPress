@@ -196,7 +196,7 @@ function edit_user( $user_id = 0 ) {
  *
  * Simple function who's main purpose is to allow filtering of the
  * list of roles in the $wp_roles object so that plugins can remove
- * innappropriate ones depending on the situation or user making edits.
+ * inappropriate ones depending on the situation or user making edits.
  * Specifically because without filtering anyone with the edit_users
  * capability can edit others to be administrators, even if they are
  * only editors or authors. This filter allows admins to delegate
@@ -329,7 +329,7 @@ function default_password_nag_handler($errors = false) {
 	if ( ! get_user_option('default_password_nag') ) //Short circuit it.
 		return;
 
-	//get_user_setting = JS saved UI setting. else no-js-falback code.
+	//get_user_setting = JS saved UI setting. else no-js-fallback code.
 	if ( 'hide' == get_user_setting('default_password_nag') || isset($_GET['default_password_nag']) && '0' == $_GET['default_password_nag'] ) {
 		delete_user_setting('default_password_nag');
 		update_user_option($user_ID, 'default_password_nag', false, true);
