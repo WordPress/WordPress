@@ -143,7 +143,7 @@ wpWidgets = {
 				if ( !$(this).is(':visible') || this.id.indexOf('orphaned_widgets') != -1 )
 					sender.sortable('cancel');
 
-				if ( sender.attr('id').indexOf('orphaned_widgets') != -1 && !sender.children('.postbox').length ) {
+				if ( sender.attr('id').indexOf('orphaned_widgets') != -1 && !sender.children('.widget').length ) {
 					sender.parents('.orphan-sidebar').slideUp(400, function(){ $(this).remove(); });
 				}
 			}
