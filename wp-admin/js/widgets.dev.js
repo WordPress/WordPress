@@ -22,7 +22,10 @@ wpWidgets = {
 			$(this).parent().toggleClass('closed');
 		});
 
-		sidebars.not('#wp_inactive_widgets').each(function(){
+		sidebars.each(function(){
+			if ( $(this).parent().hasClass('inactive') )
+				return true;
+
 			var h = 50, H = $(this).children('.widget').length;
 			h = h + parseInt(H * 48, 10);
 			$(this).css( 'minHeight', h + 'px' );
@@ -135,8 +138,14 @@ wpWidgets = {
 				wpWidgets.saveOrder(sb);
 			},
 			receive: function(e, ui) {
+				var sender = $(ui.sender);
+
 				if ( !$(this).is(':visible') || this.id.indexOf('orphaned_widgets') != -1 )
-					$(ui.sender).sortable('cancel');
+					sender.sortable('cancel');
+
+				if ( sender.attr('id').indexOf('orphaned_widgets') != -1 && !sender.children('.postbox').length ) {
+					sender.parents('.orphan-sidebar').slideUp(400, function(){ $(this).remove(); });
+				}
 			}
 		}).sortable('option', 'connectWith', 'div.widgets-sortables').parent().filter('.closed').children('.widgets-sortables').sortable('disable');
 
@@ -176,7 +185,8 @@ wpWidgets = {
 		};
 
 		$('div.widgets-sortables').each( function() {
-			a['sidebars[' + $(this).attr('id') + ']'] = $(this).sortable('toArray').join(',');
+			if ( $(this).sortable )
+				a['sidebars[' + $(this).attr('id') + ']'] = $(this).sortable('toArray').join(',');
 		});
 
 		$.post( ajaxurl, a, function() {
@@ -247,7 +257,10 @@ wpWidgets = {
 	},
 
 	resize : function() {
-		$('div.widgets-sortables').not('#wp_inactive_widgets').each(function(){
+		$('div.widgets-sortables').each(function(){
+			if ( $(this).parent().hasClass('inactive') )
+				return true;
+
 			var h = 50, H = $(this).children('.widget').length;
 			h = h + parseInt(H * 48, 10);
 			$(this).css( 'minHeight', h + 'px' );
