@@ -408,7 +408,7 @@ table.ie-fixed {
 	width: 99%;
 }
 
-#wp_inactive_widgets {
+.inactive-sidebar .widgets-sortables {
 	padding-bottom: 8px;
 }
 
@@ -437,7 +437,7 @@ table.ie-fixed {
 }
 
 .widget-liquid-right .widget,
-#wp_inactive_widgets .widget {
+.inactive-sidebar .widget {
 	position: relative;
 }
 

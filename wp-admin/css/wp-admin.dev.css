@@ -7285,7 +7285,7 @@ div.widget-liquid-right {
 }
 
 .widget-liquid-right .widget,
-#wp_inactive_widgets .widget,
+.inactive-sidebar .widget,
 .widget-liquid-right .sidebar-description {
 	width: 250px;
 	margin: 0 auto 20px;
@@ -7296,7 +7296,7 @@ div.widget-liquid-right {
 	margin-bottom: 10px;
 }
 
-#wp_inactive_widgets .widget {
+.inactive-sidebar .widget {
 	margin: 0 10px 20px;
 	float: left;
 }
@@ -7370,7 +7370,7 @@ div.sidebar-name {
 	box-shadow: none;
 }
 
-#wp_inactive_widgets {
+.inactive-sidebar {
 	padding: 5px 5px 0;
 }
 
@@ -7403,7 +7403,7 @@ div.sidebar-name {
 	width: 250px;
 }
 
-#wp_inactive_widgets .widget-placeholder {
+.inactive-sidebar .widget-placeholder {
 	margin: 0 10px 20px;
 	float: left;
 }
@@ -7542,7 +7542,7 @@ a.widget-control-edit {
 
 #available-widgets .widget-control-edit .add,
 #widgets-right .widget-control-edit .edit,
-#wp_inactive_widgets .widget-control-edit .edit {
+.inactive-sidebar .widget-control-edit .edit {
 	display: inline;
 }
 
@@ -7562,7 +7562,7 @@ a.widget-control-edit {
 }
 
 .inactive p.description {
-	margin: 5px 15px 8px;
+	margin: 5px 15px 10px;
 }
 
 #available-widgets p.description {
@@ -7636,4 +7636,3 @@ a.widget-control-edit {
 .widgets_access .widget .widget-top {
 	cursor: default;
 }
-

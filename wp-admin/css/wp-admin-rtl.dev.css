@@ -2160,7 +2160,7 @@ div.widget-liquid-right {
 	clear: left;
 }
 
-#wp_inactive_widgets .widget {
+.inactive-sidebar .widget {
 	float: right;
 }
 
@@ -2172,7 +2172,7 @@ div.sidebar-name h3 {
 	float: right;
 }
 
-#wp_inactive_widgets .widget-placeholder {
+.inactive-sidebar .widget-placeholder {
 	float: right;
 }
 
@@ -2188,5 +2188,4 @@ div.sidebar-name h3 {
 .sidebar-name-arrow {
 	float: left;
 }
-
 

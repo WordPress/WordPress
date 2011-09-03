@@ -134,9 +134,9 @@ wpWidgets = {
 				}
 				wpWidgets.saveOrder(sb);
 			},
-			receive: function(e,ui) {
-				if ( !$(this).is(':visible') )
-					$(this).sortable('cancel');
+			receive: function(e, ui) {
+				if ( !$(this).is(':visible') || this.id.indexOf('orphaned_widgets') != -1 )
+					$(ui.sender).sortable('cancel');
 			}
 		}).sortable('option', 'connectWith', 'div.widgets-sortables').parent().filter('.closed').children('.widgets-sortables').sortable('disable');
 
