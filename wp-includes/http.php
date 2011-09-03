@@ -130,7 +130,7 @@ function wp_remote_retrieve_headers(&$response) {
  *
  * @param array $response
  * @param string $header Header name to retrieve value from.
- * @return string The header value. Empty string on if incorrect parameter given, or if the header doesnt exist.
+ * @return string The header value. Empty string on if incorrect parameter given, or if the header doesn't exist.
  */
 function wp_remote_retrieve_header(&$response, $header) {
 	if ( is_wp_error($response) || ! isset($response['headers']) || ! is_array($response['headers']))

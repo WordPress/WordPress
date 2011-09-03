@@ -222,7 +222,7 @@ class WP_Http {
 	/**
 	 * Dispatches a HTTP request to a supporting transport.
 	 *
-	 * Tests each transport in order to find a transport which matches the request arguements.
+	 * Tests each transport in order to find a transport which matches the request arguments.
 	 * Also caches the transport instance to be used later.
 	 *
 	 * The order for blocking requests is cURL, Streams, and finally Fsockopen.
@@ -631,7 +631,7 @@ class WP_Http_Fsockopen {
 
 		$endDelay = time();
 
-		// If the delay is greater than the timeout then fsockopen should't be used, because it will
+		// If the delay is greater than the timeout then fsockopen shouldn't be used, because it will
 		// cause a long delay.
 		$elapseDelay = ($endDelay-$startDelay) > $r['timeout'];
 		if ( true === $elapseDelay )
@@ -915,7 +915,7 @@ class WP_Http_Streams {
 		else
 			$processedHeaders = WP_Http::processHeaders($meta['wrapper_data']);
 
-		// Streams does not provide an error code which we can use to see why the request stream stoped.
+		// Streams does not provide an error code which we can use to see why the request stream stopped.
 		// We can however test to see if a location header is present and return based on that.
 		if ( isset($processedHeaders['headers']['location']) && 0 !== $args['_redirection'] )
 			return new WP_Error('http_request_failed', __('Too many redirects.'));
@@ -1031,7 +1031,7 @@ class WP_Http_Curl {
 
 
 		// CURLOPT_TIMEOUT and CURLOPT_CONNECTTIMEOUT expect integers.  Have to use ceil since
-		// a value of 0 will allow an ulimited timeout.
+		// a value of 0 will allow an unlimited timeout.
 		$timeout = (int) ceil( $r['timeout'] );
 		curl_setopt( $handle, CURLOPT_CONNECTTIMEOUT, $timeout );
 		curl_setopt( $handle, CURLOPT_TIMEOUT, $timeout );
@@ -1679,7 +1679,7 @@ class WP_Http_Encoding {
 	}
 
 	/**
-	 * What enconding the content used when it was compressed to send in the headers.
+	 * What encoding the content used when it was compressed to send in the headers.
 	 *
 	 * @since 2.8
 	 *

@@ -569,7 +569,7 @@ class WP_MatchesMapRegex {
 	 *
 	 * @access public
 	 * @param string $subject subject
-	 * @param array  $matches data used for subsitution
+	 * @param array  $matches data used for substitution
 	 * @return string
 	 */
 	function apply($subject, $matches) {

@@ -8,7 +8,7 @@
 /**
  * WordPress XMLRPC server implementation.
  *
- * Implements compatability for Blogger API, MetaWeblog API, MovableType, and
+ * Implements compatibility for Blogger API, MetaWeblog API, MovableType, and
  * pingback. Additional WordPress API for managing comments, pages, posts,
  * options, etc.
  *
@@ -747,7 +747,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			ORDER BY ID
 		");
 
-		// The date needs to be formated properly.
+		// The date needs to be formatted properly.
 		$num_pages = count($page_list);
 		for ( $i = 0; $i < $num_pages; $i++ ) {
 			$post_date = mysql2date('Ymd\TH:i:s', $page_list[$i]->post_date, false);
@@ -1551,7 +1551,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *  - username
 	 *  - password
 	 *  - attachment_id
-	 * @return array. Assocciative array containing:
+	 * @return array. Associative array containing:
 	 *  - 'date_created_gmt'
 	 *  - 'parent'
 	 *  - 'link'
@@ -1661,7 +1661,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	  * Retrives a list of post formats used by the site
+	  * Retrieves a list of post formats used by the site
 	  *
 	  * @since 3.1
 	  *
@@ -3445,7 +3445,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		} elseif ( isset($urltest['fragment']) ) {
 			// an #anchor is there, it's either...
 			if ( intval($urltest['fragment']) ) {
-				// ...an integer #XXXX (simpliest case)
+				// ...an integer #XXXX (simplest case)
 				$post_ID = (int) $urltest['fragment'];
 				$way = 'from the fragment (numeric)';
 			} elseif ( preg_match('/post-[0-9]+/',$urltest['fragment']) ) {

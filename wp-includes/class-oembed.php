@@ -28,7 +28,7 @@ class WP_oEmbed {
 	function __construct() {
 		// List out some popular sites that support oEmbed.
 		// The WP_Embed class disables discovery for non-unfiltered_html users, so only providers in this array will be used for them.
-		// Add to this list using the wp_oembed_add_provider() function (see it's PHPDoc for details).
+		// Add to this list using the wp_oembed_add_provider() function (see its PHPDoc for details).
 		$this->providers = apply_filters( 'oembed_providers', array(
 			'#http://(www\.)?youtube.com/watch.*#i'         => array( 'http://www.youtube.com/oembed',            true  ),
 			'http://youtu.be/*'                             => array( 'http://www.youtube.com/oembed',            false ),

@@ -70,7 +70,7 @@ class WP_Error {
 	 * @since 2.1.0
 	 * @access public
 	 *
-	 * @return array List of error codes, if avaiable.
+	 * @return array List of error codes, if available.
 	 */
 	function get_error_codes() {
 		if ( empty($this->errors) )
@@ -102,7 +102,7 @@ class WP_Error {
 	 * @since 2.1.0
 	 *
 	 * @param string|int $code Optional. Retrieve messages matching code, if exists.
-	 * @return array Error strings on success, or empty array on failure (if using codee parameter).
+	 * @return array Error strings on success, or empty array on failure (if using code parameter).
 	 */
 	function get_error_messages($code = '') {
 		// Return all messages if no code specified.

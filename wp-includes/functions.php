@@ -20,7 +20,7 @@
  * @param string $dateformatstring Either 'G', 'U', or php date format.
  * @param string $mysqlstring Time from mysql DATETIME field.
  * @param bool $translate Optional. Default is true. Will switch format to locale.
- * @return string Date formated by $dateformatstring or locale (if available).
+ * @return string Date formatted by $dateformatstring or locale (if available).
  */
 function mysql2date( $dateformatstring, $mysqlstring, $translate = true ) {
 	$m = $mysqlstring;
@@ -3586,7 +3586,7 @@ function iis7_supports_permalinks() {
 		/* First we check if the DOMDocument class exists. If it does not exist,
 		 * which is the case for PHP 4.X, then we cannot easily update the xml configuration file,
 		 * hence we just bail out and tell user that pretty permalinks cannot be used.
-		 * This is not a big issue because PHP 4.X is going to be depricated and for IIS it
+		 * This is not a big issue because PHP 4.X is going to be deprecated and for IIS it
 		 * is recommended to use PHP 5.X NTS.
 		 * Next we check if the URL Rewrite Module 1.1 is loaded and enabled for the web site. When
 		 * URL Rewrite 1.1 is loaded it always sets a server variable called 'IIS_UrlRewriteModule'.

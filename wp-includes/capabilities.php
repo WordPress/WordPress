@@ -524,7 +524,7 @@ class WP_User {
 	}
 
 	/**
-	 * Magic method for checking the existance of a certain custom field
+	 * Magic method for checking the existence of a certain custom field
 	 *
 	 * @since 3.3.0
 	 */
@@ -827,7 +827,7 @@ class WP_User {
 	 *
 	 * This is useful for looking up whether the user has a specific role
 	 * assigned to the user. The second optional parameter can also be used to
-	 * check for capabilities against a specfic post.
+	 * check for capabilities against a specific post.
 	 *
 	 * @since 2.0.0
 	 * @access public

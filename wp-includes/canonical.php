@@ -14,7 +14,7 @@
  *
  * Search engines consider www.somedomain.com and somedomain.com to be two
  * different URLs when they both go to the same location. This SEO enhancement
- * prevents penality for duplicate content by redirecting all incoming links to
+ * prevents penalty for duplicate content by redirecting all incoming links to
  * one or the other.
  *
  * Prevents redirection for feeds, trackbacks, searches, comment popup, and
@@ -175,10 +175,10 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 
 						// Create the destination url for this taxonomy
 						$tax_url = parse_url($tax_url);
-						if ( ! empty($tax_url['query']) ) { // Taxonomy accessable via ?taxonomy=..&term=.. or any custom qv..
+						if ( ! empty($tax_url['query']) ) { // Taxonomy accessible via ?taxonomy=..&term=.. or any custom qv..
 							parse_str($tax_url['query'], $query_vars);
 							$redirect['query'] = add_query_arg($query_vars, $redirect['query']);
-						} else { // Taxonomy is accessable via a "pretty-URL"
+						} else { // Taxonomy is accessible via a "pretty-URL"
 							$redirect['path'] = $tax_url['path'];
 						}
 

@@ -9,7 +9,7 @@
  */
 
 /**
- * Adds data to the cache, if the cache key doesn't aleady exist.
+ * Adds data to the cache, if the cache key doesn't already exist.
  *
  * @since 2.0.0
  * @uses $wp_object_cache Object Cache Class
@@ -31,7 +31,7 @@ function wp_cache_add($key, $data, $flag = '', $expire = 0) {
  * Closes the cache.
  *
  * This function has ceased to do anything since WordPress 2.5. The
- * functionality was removed along with the rest of the persistant cache. This
+ * functionality was removed along with the rest of the persistent cache. This
  * does not mean that plugins can't implement this function when they need to
  * make sure that the cache is cleaned up after WordPress no longer needs it.
  *
@@ -282,7 +282,7 @@ class WP_Object_Cache {
 	 *
 	 * @uses WP_Object_Cache::get Checks to see if the cache already has data.
 	 * @uses WP_Object_Cache::set Sets the data after the checking the cache
-	 *		contents existance.
+	 *		contents existence.
 	 *
 	 * @since 2.0.0
 	 *
