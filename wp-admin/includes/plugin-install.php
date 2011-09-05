@@ -12,7 +12,7 @@
  * It is possible for a plugin to override the Plugin API result with three
  * filters. Assume this is for plugins, which can extend on the Plugin Info to
  * offer more choices. This is very powerful and must be used with care, when
- * overridding the filters.
+ * overriding the filters.
  *
  * The first filter, 'plugins_api_args', is for the args and gives the action as
  * the second parameter. The hook for 'plugins_api_args' must ensure that an
