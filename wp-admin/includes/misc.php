@@ -223,10 +223,9 @@ add_action( 'update_option_siteurl', 'update_home_siteurl', 10, 2 );
 function url_shorten( $url ) {
 	$short_url = str_replace( 'http://', '', stripslashes( $url ));
 	$short_url = str_replace( 'www.', '', $short_url );
-	if ('/' == substr( $short_url, -1 ))
-		$short_url = substr( $short_url, 0, -1 );
+	$short_url = untrailingslashit( $short_url );
 	if ( strlen( $short_url ) > 35 )
-		$short_url = substr( $short_url, 0, 32 ).'...';
+		$short_url = substr( $short_url, 0, 32 ) . '...';
 	return $short_url;
 }
 

@@ -1521,8 +1521,7 @@ function get_dirsize( $directory ) {
 function recurse_dirsize( $directory ) {
 	$size = 0;
 
-	if ( substr( $directory, -1 ) == '/' )
-		$directory = substr($directory,0,-1);
+	$directory = untrailingslashit( $directory );
 
 	if ( !file_exists($directory) || !is_dir( $directory ) || !is_readable( $directory ) )
 		return false;
@@ -1565,8 +1564,7 @@ function upload_is_user_over_quota( $echo = true ) {
 	if ( empty( $spaceAllowed ) || !is_numeric( $spaceAllowed ) )
 		$spaceAllowed = 10;	// Default space allowed is 10 MB
 
-	$dirName = BLOGUPLOADDIR;
-	$size = get_dirsize($dirName) / 1024 / 1024;
+	$size = get_dirsize( BLOGUPLOADDIR ) / 1024 / 1024;
 
 	if ( ($spaceAllowed-$size) < 0 ) {
 		if ( $echo )
@@ -1647,8 +1645,7 @@ function fix_import_form_size( $size ) {
 		return 0;
 
 	$spaceAllowed = 1024 * 1024 * get_space_allowed();
-	$dirName = BLOGUPLOADDIR;
-	$dirsize = get_dirsize($dirName) ;
+	$dirsize = get_dirsize( BLOGUPLOADDIR );
 	if ( $size > $spaceAllowed - $dirsize )
 		return $spaceAllowed - $dirsize; // remaining space
 	else
