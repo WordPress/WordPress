@@ -183,13 +183,9 @@ if ( isset($plugin_page) ) {
 		exit;
 	}
 
-	// Allow plugins to define importers as well
-	if ( !isset($wp_importers) || !isset($wp_importers[$importer]) || ! is_callable($wp_importers[$importer][2])) {
-		if (! file_exists(ABSPATH . "wp-admin/import/$importer.php")) {
-			wp_redirect( admin_url( 'import.php?invalid=' . $importer ) );
-			exit;
-		}
-		include(ABSPATH . "wp-admin/import/$importer.php");
+	if ( ! isset($wp_importers[$importer]) || ! is_callable($wp_importers[$importer][2]) ) {
+		wp_redirect( admin_url( 'import.php?invalid=' . $importer ) );
+		exit;
 	}
 
 	$parent_file = 'tools.php';
@@ -211,8 +207,7 @@ if ( isset($plugin_page) ) {
 	include(ABSPATH . 'wp-admin/admin-footer.php');
 
 	// Make sure rules are flushed
-	global $wp_rewrite;
-	$wp_rewrite->flush_rules(false);
+	flush_rewrite_rules(false);
 
 	exit();
 } else {

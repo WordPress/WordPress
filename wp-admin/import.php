@@ -58,29 +58,11 @@ $parent_file = 'tools.php';
 
 <?php
 
-// Load all importers so that they can register.
-$import_loc = 'wp-admin/import';
-$import_root = ABSPATH . $import_loc;
-
-if ( file_exists( $import_root ) ) {
-	$imports_dir = opendir($import_root);
-	if ($imports_dir) {
-		while (($file = readdir($imports_dir)) !== false) {
-			if ($file[0] == '.') {
-				continue;
-			} elseif (substr($file, -4) == '.php') {
-				require_once($import_root . '/' . $file);
-			}
-		}
-	}
-	closedir( $imports_dir );
-}
-
 $importers = get_importers();
 
 // If a popular importer is not registered, create a dummy registration that links to the plugin installer.
 foreach ( $popular_importers as $pop_importer => $pop_data ) {
-	if ( isset($importers[$pop_importer] ) )
+	if ( isset( $importers[$pop_importer] ) )
 		continue;
 	if ( isset( $pop_data[3] ) && isset( $importers[ $pop_data[3] ] ) )
 		continue;
@@ -88,7 +70,7 @@ foreach ( $popular_importers as $pop_importer => $pop_data ) {
 	$importers[$pop_importer] = $popular_importers[$pop_importer];
 }
 
-if (empty ($importers)) {
+if ( empty($importers) ) {
 	echo '<p>'.__('No importers are available.').'</p>'; // TODO: make more helpful
 } else {
 	uasort($importers, create_function('$a, $b', 'return strcmp($a[0], $b[0]);'));
