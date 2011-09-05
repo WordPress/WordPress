@@ -2415,7 +2415,7 @@ function wp_get_shortlink($id = 0, $context = 'post', $allow_slugs = true) {
 }
 
 /**
- *  Inject rel=sortlink into head if a shortlink is defined for the current page.
+ *  Inject rel=shortlink into head if a shortlink is defined for the current page.
  *
  *  Attached to the wp_head action.
  *

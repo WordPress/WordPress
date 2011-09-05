@@ -266,7 +266,7 @@ function is_taxonomy_hierarchical($taxonomy) {
  * query_var - false to prevent queries, or string to customize query var
  * (?$query_var=$term); default will use $taxonomy as query var.
  *
- * public - If the taxonomy should be publically queryable; //@TODO not implemented.
+ * public - If the taxonomy should be publicly queryable; //@TODO not implemented.
  * defaults to true.
  *
  * show_ui - If the WordPress UI admin tags UI should apply to this taxonomy;
@@ -276,7 +276,7 @@ function is_taxonomy_hierarchical($taxonomy) {
  * Defaults to public.
  *
  * show_tagcloud - false to prevent the taxonomy being listed in the Tag Cloud Widget;
- * defaults to show_ui which defalts to public.
+ * defaults to show_ui which defaults to public.
  *
  * labels - An array of labels for this taxonomy. You can see accepted values in {@link get_taxonomy_labels()}. By default tag labels are used for non-hierarchical types and category labels for hierarchical ones.
  *
@@ -369,7 +369,7 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
  * Builds an object with all taxonomy labels out of a taxonomy object
  *
  * Accepted keys of the label array in the taxonomy object:
- * - name - general name for the taxonomy, usually plural. The same as and overriden by $tax->label. Default is Post Tags/Categories
+ * - name - general name for the taxonomy, usually plural. The same as and overridden by $tax->label. Default is Post Tags/Categories
  * - singular_name - name for one object of this taxonomy. Default is Post Tag/Category
  * - search_items - Default is Search Tags/Search Categories
  * - popular_items - This string isn't used on hierarchical taxonomies. Default is Popular Tags
@@ -1496,7 +1496,7 @@ function term_exists($term, $taxonomy = '', $parent = 0) {
 /**
  * Sanitize Term all fields.
  *
- * Relys on sanitize_term_field() to sanitize the term. The difference is that
+ * Relies on sanitize_term_field() to sanitize the term. The difference is that
  * this function will sanitize <strong>all</strong> fields. The context is based
  * on sanitize_term_field().
  *
@@ -1785,7 +1785,7 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
  * @uses wp_delete_term()
  *
  * @param int $cat_ID
- * @return mixed Returns true if completes delete action; false if term doesnt exist;
+ * @return mixed Returns true if completes delete action; false if term doesn't exist;
  * 	Zero on attempted deletion of default Category; WP_Error object is also a possibility.
  */
 function wp_delete_category( $cat_ID ) {
@@ -1810,7 +1810,7 @@ function wp_delete_category( $cat_ID ) {
  * 'all_with_object_id'.
  *
  * The fields argument also decides what will be returned. If 'all' or
- * 'all_with_object_id' is choosen or the default kept intact, then all matching
+ * 'all_with_object_id' is chosen or the default kept intact, then all matching
  * terms objects will be returned. If either 'ids' or 'names' is used, then an
  * array of all matching term ids or term names will be returned respectively.
  *
@@ -1918,7 +1918,7 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 /**
  * Adds a new term to the database. Optionally marks it as an alias of an existing term.
  *
- * Error handling is assigned for the nonexistance of the $taxonomy and $term
+ * Error handling is assigned for the nonexistence of the $taxonomy and $term
  * parameters before inserting. If both the term id and taxonomy exist
  * previously, then an array will be returned that contains the term id and the
  * contents of what is returned. The keys of the array are 'term_id' and
@@ -2179,7 +2179,7 @@ function wp_set_object_terms($object_id, $terms, $taxonomy, $append = false) {
  * hierarchical and has a parent, it will append that parent to the $slug.
  *
  * If that still doesn't return an unique slug, then it try to append a number
- * until it finds a number that is truely unique.
+ * until it finds a number that is truly unique.
  *
  * The only purpose for $term is for appending a parent, if one exists.
  *
@@ -2385,7 +2385,7 @@ function wp_defer_term_counting($defer=null) {
 /**
  * Updates the amount of terms in taxonomy.
  *
- * If there is a taxonomy callback applyed, then it will be called for updating
+ * If there is a taxonomy callback applied, then it will be called for updating
  * the count.
  *
  * The default action is to count what the amount of terms have the relationship

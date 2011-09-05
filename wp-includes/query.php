@@ -2137,7 +2137,7 @@ class WP_Query {
 		if ( intval($q['comments_popup']) )
 			$q['p'] = absint($q['comments_popup']);
 
-		// If an attachment is requested by number, let it supercede any post number.
+		// If an attachment is requested by number, let it supersede any post number.
 		if ( $q['attachment_id'] )
 			$q['p'] = absint($q['attachment_id']);
 
@@ -2288,7 +2288,7 @@ class WP_Query {
 				if ( $q['author_name'][ count($q['author_name'])-1 ] ) {
 					$q['author_name'] = $q['author_name'][count($q['author_name'])-1]; // no trailing slash
 				} else {
-					$q['author_name'] = $q['author_name'][count($q['author_name'])-2]; // there was a trailling slash
+					$q['author_name'] = $q['author_name'][count($q['author_name'])-2]; // there was a trailing slash
 				}
 			}
 			$q['author_name'] = sanitize_title_for_query( $q['author_name'] );

@@ -640,7 +640,7 @@ class wpdb {
 	 * Returns an array of WordPress tables.
 	 *
 	 * Also allows for the CUSTOM_USER_TABLE and CUSTOM_USER_META_TABLE to
-	 * override the WordPress users and usersmeta tables that would otherwise
+	 * override the WordPress users and usermeta tables that would otherwise
 	 * be determined by the prefix.
 	 *
 	 * The scope argument can take one of the following:
@@ -1289,7 +1289,7 @@ class wpdb {
 	 * @param string $output Optional. one of ARRAY_A | ARRAY_N | OBJECT constants. Return an associative array (column => value, ...),
 	 * 	a numerically indexed array (0 => value, ...) or an object ( ->column = value ), respectively.
 	 * @param int $y Optional. Row to return. Indexed from 0.
-	 * @return mixed Database query result in format specifed by $output or null on failure
+	 * @return mixed Database query result in format specified by $output or null on failure
 	 */
 	function get_row( $query = null, $output = OBJECT, $y = 0 ) {
 		$this->func_call = "\$db->get_row(\"$query\",$output,$y)";

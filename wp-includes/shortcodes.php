@@ -157,7 +157,7 @@ function do_shortcode($content) {
  * The regular expression combines the shortcode tags in the regular expression
  * in a regex class.
  *
- * The regular expresion contains 6 different sub matches to help with parsing.
+ * The regular expression contains 6 different sub matches to help with parsing.
  *
  * 1/6 - An extra [ or ] to allow for escaping shortcodes with double [[]]
  * 2 - The shortcode name

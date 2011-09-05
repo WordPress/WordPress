@@ -469,7 +469,7 @@ function get_themes() {
  *
  * @since 2.9.0
  *
- * @return array|string An arry of theme roots keyed by template/stylesheet or a single theme root if all themes have the same root.
+ * @return array|string An array of theme roots keyed by template/stylesheet or a single theme root if all themes have the same root.
  */
 function get_theme_roots() {
 	global $wp_theme_directories;

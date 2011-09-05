@@ -398,7 +398,7 @@ function load_default_textdomain() {
  * @param string $domain Unique identifier for retrieving translated strings
  * @param string $abs_rel_path Optional. Relative path to ABSPATH of a folder,
  * 	where the .mo file resides. Deprecated, but still functional until 2.7
- * @param string $plugin_rel_path Optional. Relative path to WP_PLUGIN_DIR. This is the preferred argument to use. It takes precendence over $abs_rel_path
+ * @param string $plugin_rel_path Optional. Relative path to WP_PLUGIN_DIR. This is the preferred argument to use. It takes precedence over $abs_rel_path
  */
 function load_plugin_textdomain( $domain, $abs_rel_path = false, $plugin_rel_path = false ) {
 	$locale = apply_filters( 'plugin_locale', get_locale(), $domain );

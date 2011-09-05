@@ -139,7 +139,7 @@ class WP_Widget {
 		}
 
 		if ( $empty ) {
-			// If there are none, we register the widget's existance with a
+			// If there are none, we register the widget's existence with a
 			// generic template
 			$this->_set(1);
 			$this->_register_one();
@@ -297,7 +297,7 @@ class WP_Widget {
 			$settings = array();
 
 		if ( !array_key_exists('_multiwidget', $settings) ) {
-			// old format, conver if single widget
+			// old format, convert if single widget
 			$settings = wp_convert_widget_settings($this->id_base, $this->option_name, $settings);
 		}
 
@@ -461,7 +461,7 @@ function unregister_widget($widget_class) {
  * The default for the name is "Sidebar #", with '#' being replaced with the
  * number the sidebar is currently when greater than one. If first sidebar, the
  * name will be just "Sidebar". The default for id is "sidebar-" followed by the
- * number the sidebar creation is currently at. If the id is provided, and mutliple
+ * number the sidebar creation is currently at. If the id is provided, and multiple
  * sidebars are being defined, the id will have "-2" appended, and so on.
  *
  * @since 2.2.0

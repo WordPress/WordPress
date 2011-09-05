@@ -1155,7 +1155,7 @@ function _post_type_meta_capabilities( $capabilities = null ) {
  * Builds an object with all post type labels out of a post type object
  *
  * Accepted keys of the label array in the post type object:
- * - name - general name for the post type, usually plural. The same and overriden by $post_type_object->label. Default is Posts/Pages
+ * - name - general name for the post type, usually plural. The same and overridden by $post_type_object->label. Default is Posts/Pages
  * - singular_name - name for one object of this post type. Default is Post/Page
  * - add_new - Default is Add New for both hierarchical and non-hierarchical types. When internationalizing this string, please use a {@link http://codex.wordpress.org/I18n_for_WordPress_Developers#Disambiguation_by_context gettext context} matching your post type. Example: <code>_x('Add New', 'product');</code>
  * - add_new_item - Default is Add New Post/Add New Page
@@ -1249,7 +1249,7 @@ add_action( 'admin_menu', '_add_post_type_submenus' );
  * 'excerpt', 'page-attributes', 'thumbnail', and 'custom-fields'.
  *
  * Additionally, the 'revisions' feature dictates whether the post type will store revisions,
- * and the 'comments' feature dicates whether the comments count will show on the edit screen.
+ * and the 'comments' feature dictates whether the comments count will show on the edit screen.
  *
  * @since 3.0.0
  * @param string $post_type The post type for which to add the feature
@@ -3269,7 +3269,7 @@ function &get_page_hierarchy( &$pages, $page_id = 0 ) {
 
 /**
  * function to traverse and return all the nested children post names of a root page.
- * $children contains parent-chilren relations
+ * $children contains parent-children relations
  *
  * @since 2.9.0
  */
@@ -3911,7 +3911,7 @@ function wp_get_attachment_url( $post_id = 0 ) {
 		}
 	}
 
-	if ( empty($url) ) //If any of the above options failed, Fallback on the GUID as used pre-2.7, not recomended to rely upon this.
+	if ( empty($url) ) //If any of the above options failed, Fallback on the GUID as used pre-2.7, not recommended to rely upon this.
 		$url = get_the_guid( $post->ID );
 
 	$url = apply_filters( 'wp_get_attachment_url', $url, $post->ID );
@@ -4466,7 +4466,7 @@ function update_postmeta_cache($post_ids) {
 /**
  * Will clean the attachment in the cache.
  *
- * Cleaning means delete from the cache. Optionaly will clean the term
+ * Cleaning means delete from the cache. Optionally will clean the term
  * object cache associated with the attachment ID.
  *
  * This function will not run if $_wp_suspend_cache_invalidation is not empty. See
@@ -4664,7 +4664,7 @@ function _get_post_ancestors(&$_post) {
  * Determines which fields of posts are to be saved in revisions.
  *
  * Does two things. If passed a post *array*, it will return a post array ready
- * to be insterted into the posts table as a post revision. Otherwise, returns
+ * to be inserted into the posts table as a post revision. Otherwise, returns
  * an array whose keys are the post fields to be saved for post revisions.
  *
  * @package WordPress

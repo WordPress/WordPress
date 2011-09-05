@@ -65,7 +65,7 @@ class WP_Locale {
 	/**
 	 * Stores the translated strings for 'am' and 'pm'.
 	 *
-	 * Also the capalized versions.
+	 * Also the capitalized versions.
 	 *
 	 * @since 2.1.0
 	 * @var array

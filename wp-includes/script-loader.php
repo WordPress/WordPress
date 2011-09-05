@@ -159,7 +159,7 @@ function wp_default_scripts( &$scripts ) {
 	if ( empty($max_upload_size) )
 		$max_upload_size = __('not configured');
 
-	// error messagoe for both plupload and swfupload
+	// error message for both plupload and swfupload
 	$uploader_l10n = array(
 		'queue_limit_exceeded' => __('You have attempted to queue too many files.'),
 		'file_exceeds_size_limit' => __('This file exceeds the maximum upload size for this site.'),
@@ -439,7 +439,7 @@ function wp_default_styles( &$styles ) {
  *
  * @since 2.3.1
  *
- * @param array $js_array JavaScript scripst array
+ * @param array $js_array JavaScript scripts array
  * @return array Reordered array, if needed.
  */
 function wp_prototype_before_jquery( $js_array ) {

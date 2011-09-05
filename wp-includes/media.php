@@ -260,7 +260,7 @@ function wp_load_image( $file ) {
 }
 
 /**
- * Calculates the new dimentions for a downsampled image.
+ * Calculates the new dimensions for a downsampled image.
  *
  * If either width or height are empty, no constraint is applied on
  * that dimension.
@@ -305,7 +305,7 @@ function wp_constrain_dimensions( $current_width, $current_height, $max_width=0,
 	$h = intval( $current_height * $ratio );
 
 	// Sometimes, due to rounding, we'll end up with a result like this: 465x700 in a 177x177 box is 117x176... a pixel short
-	// We also have issues with recursive calls resulting in an ever-changing result. Contraining to the result of a constraint should yield the original result.
+	// We also have issues with recursive calls resulting in an ever-changing result. Constraining to the result of a constraint should yield the original result.
 	// Thus we look for dimensions that are one pixel shy of the max value and bump them up
 	if ( $did_width && $w == $max_width - 1 )
 		$w = $max_width; // Round it up
@@ -1144,7 +1144,7 @@ class WP_Embed {
 	 * @uses update_post_meta()
 	 *
 	 * @param array $attr Shortcode attributes.
-	 * @param string $url The URL attempting to be embeded.
+	 * @param string $url The URL attempting to be embedded.
 	 * @return string The embed HTML on success, otherwise the original URL.
 	 */
 	function shortcode( $attr, $url = '' ) {
@@ -1372,7 +1372,7 @@ function wp_expand_dimensions( $example_width, $example_height, $max_width, $max
  * @uses _wp_oembed_get_object()
  * @uses WP_oEmbed::get_html()
  *
- * @param string $url The URL that should be embeded.
+ * @param string $url The URL that should be embedded.
  * @param array $args Addtional arguments and parameters.
  * @return string The original URL on failure or the embed HTML on success.
  */

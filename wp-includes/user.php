@@ -1443,8 +1443,8 @@ function wp_update_user($userdata) {
 /**
  * A simpler way of inserting an user into the database.
  *
- * Creates a new user with just the username, password, and email. For a more
- * detail creation of a user, use wp_insert_user() to specify more infomation.
+ * Creates a new user with just the username, password, and email. For more
+ * complex user creation use wp_insert_user() to specify more information.
  *
  * @since 2.0.0
  * @see wp_insert_user() More complete way to create a new user

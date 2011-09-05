@@ -251,7 +251,7 @@ function apply_filters_ref_array($tag, $args) {
  * @param string $tag The filter hook to which the function to be removed is hooked.
  * @param callback $function_to_remove The name of the function which should be removed.
  * @param int $priority optional. The priority of the function (default: 10).
- * @param int $accepted_args optional. The number of arguments the function accpets (default: 1).
+ * @param int $accepted_args optional. The number of arguments the function accepts (default: 1).
  * @return boolean Whether the function existed before it was removed.
  */
 function remove_filter($tag, $function_to_remove, $priority = 10, $accepted_args = 1) {
@@ -520,7 +520,7 @@ function has_action($tag, $function_to_check = false) {
  * @param string $tag The action hook to which the function to be removed is hooked.
  * @param callback $function_to_remove The name of the function which should be removed.
  * @param int $priority optional The priority of the function (default: 10).
- * @param int $accepted_args optional. The number of arguments the function accpets (default: 1).
+ * @param int $accepted_args optional. The number of arguments the function accepts (default: 1).
  * @return boolean Whether the function is removed.
  */
 function remove_action($tag, $function_to_remove, $priority = 10, $accepted_args = 1) {
@@ -745,7 +745,7 @@ function _wp_call_all_hook($args) {
  * @param string $tag Used in counting how many hooks were applied
  * @param callback $function Used for creating unique id
  * @param int|bool $priority Used in counting how many hooks were applied.  If === false and $function is an object reference, we return the unique id only if it already has one, false otherwise.
- * @return string|bool Unique ID for usage as array key or false if $priority === false and $function is an object reference, and it does not already have a uniqe id.
+ * @return string|bool Unique ID for usage as array key or false if $priority === false and $function is an object reference, and it does not already have a unique id.
  */
 function _wp_filter_build_unique_id($tag, $function, $priority) {
 	global $wp_filter;

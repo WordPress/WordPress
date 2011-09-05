@@ -1086,7 +1086,7 @@ function wp_notify_moderator($comment_id) {
 	$comment = get_comment($comment_id);
 	$post = get_post($comment->comment_post_ID);
 	$user = get_userdata( $post->post_author );
-	// Send to the administation and to the post author if the author can modify the comment.
+	// Send to the administration and to the post author if the author can modify the comment.
 	$email_to = array( get_option('admin_email') );
 	if ( user_can($user->ID, 'edit_comment', $comment_id) && !empty($user->user_email) && ( get_option('admin_email') != $user->user_email) )
 		$email_to[] = $user->user_email;
@@ -1432,7 +1432,7 @@ if ( !function_exists('wp_check_password') ) :
  *
  * Maintains compatibility between old version and the new cookie authentication
  * protocol using PHPass library. The $hash parameter is the encrypted password
- * and the function compares the plain text password when encypted similarly
+ * and the function compares the plain text password when encrypted similarly
  * against the already encrypted password to see if they match.
  *
  * For integration with other applications, this function can be overwritten to
