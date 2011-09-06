@@ -17,14 +17,14 @@
  *
  * @param int|string $key The cache ID to use for retrieval later
  * @param mixed $data The data to add to the cache store
- * @param string $flag The group to add the cache to
+ * @param string $group The group to add the cache to
  * @param int $expire When the cache data should be expired
  * @return unknown
  */
-function wp_cache_add($key, $data, $flag = '', $expire = 0) {
+function wp_cache_add($key, $data, $group = '', $expire = 0) {
 	global $wp_object_cache;
 
-	return $wp_object_cache->add($key, $data, $flag, $expire);
+	return $wp_object_cache->add($key, $data, $group, $expire);
 }
 
 /**
@@ -52,13 +52,13 @@ function wp_cache_close() {
  *
  * @param int|string $key The cache ID to increment
  * @param int $offset The amount by which to decrement the item's value.  Default is 1.
- * @param string $flag The group the key is in.
+ * @param string $group The group the key is in.
  * @return false|int False on failure, the item's new value on success.
  */
-function wp_cache_decr( $key, $offset = 1, $flag = '' ) {
+function wp_cache_decr( $key, $offset = 1, $group = '' ) {
 	global $wp_object_cache;
 
-	return $wp_object_cache->decr( $key, $offset, $flag );
+	return $wp_object_cache->decr( $key, $offset, $group );
 }
 
 /**
@@ -68,14 +68,14 @@ function wp_cache_decr( $key, $offset = 1, $flag = '' ) {
  * @uses $wp_object_cache Object Cache Class
  * @see WP_Object_Cache::delete()
  *
- * @param int|string $id What the contents in the cache are called
- * @param string $flag Where the cache contents are grouped
+ * @param int|string $key What the contents in the cache are called
+ * @param string $group Where the cache contents are grouped
  * @return bool True on successful removal, false on failure
  */
-function wp_cache_delete($id, $flag = '') {
+function wp_cache_delete($key, $group = '') {
 	global $wp_object_cache;
 
-	return $wp_object_cache->delete($id, $flag);
+	return $wp_object_cache->delete($key, $group);
 }
 
 /**
@@ -100,15 +100,15 @@ function wp_cache_flush() {
  * @uses $wp_object_cache Object Cache Class
  * @see WP_Object_Cache::get()
  *
- * @param int|string $id What the contents in the cache are called
- * @param string $flag Where the cache contents are grouped
+ * @param int|string $key What the contents in the cache are called
+ * @param string $group Where the cache contents are grouped
  * @return bool|mixed False on failure to retrieve contents or the cache
  *		contents on success
  */
-function wp_cache_get($id, $flag = '') {
+function wp_cache_get($key, $group = '') {
 	global $wp_object_cache;
 
-	return $wp_object_cache->get($id, $flag);
+	return $wp_object_cache->get($key, $group);
 }
 
 /**
@@ -120,13 +120,13 @@ function wp_cache_get($id, $flag = '') {
  *
  * @param int|string $key The cache ID to increment
  * @param int $offset The amount by which to increment the item's value.  Default is 1.
- * @param string $flag The group the key is in.
+ * @param string $group The group the key is in.
  * @return false|int False on failure, the item's new value on success.
  */
-function wp_cache_incr( $key, $offset = 1, $flag = '' ) {
+function wp_cache_incr( $key, $offset = 1, $group = '' ) {
 	global $wp_object_cache;
 
-	return $wp_object_cache->incr( $key, $offset, $flag );
+	return $wp_object_cache->incr( $key, $offset, $group );
 }
 
 /**
@@ -148,14 +148,14 @@ function wp_cache_init() {
  *
  * @param int|string $key What to call the contents in the cache
  * @param mixed $data The contents to store in the cache
- * @param string $flag Where to group the cache contents
+ * @param string $group Where to group the cache contents
  * @param int $expire When to expire the cache contents
  * @return bool False if cache ID and group already exists, true on success
  */
-function wp_cache_replace($key, $data, $flag = '', $expire = 0) {
+function wp_cache_replace($key, $data, $group = '', $expire = 0) {
 	global $wp_object_cache;
 
-	return $wp_object_cache->replace($key, $data, $flag, $expire);
+	return $wp_object_cache->replace($key, $data, $group, $expire);
 }
 
 /**
@@ -167,14 +167,14 @@ function wp_cache_replace($key, $data, $flag = '', $expire = 0) {
  *
  * @param int|string $key What to call the contents in the cache
  * @param mixed $data The contents to store in the cache
- * @param string $flag Where to group the cache contents
+ * @param string $group Where to group the cache contents
  * @param int $expire When to expire the cache contents
  * @return bool False if cache ID and group already exists, true on success
  */
-function wp_cache_set($key, $data, $flag = '', $expire = 0) {
+function wp_cache_set($key, $data, $group = '', $expire = 0) {
 	global $wp_object_cache;
 
-	return $wp_object_cache->set($key, $data, $flag, $expire);
+	return $wp_object_cache->set($key, $data, $group, $expire);
 }
 
 /**
@@ -286,20 +286,20 @@ class WP_Object_Cache {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param int|string $id What to call the contents in the cache
+	 * @param int|string $key What to call the contents in the cache
 	 * @param mixed $data The contents to store in the cache
 	 * @param string $group Where to group the cache contents
 	 * @param int $expire When to expire the cache contents
 	 * @return bool False if cache ID and group already exists, true on success
 	 */
-	function add( $id, $data, $group = 'default', $expire = '' ) {
+	function add( $key, $data, $group = 'default', $expire = '' ) {
 		if ( empty ($group) )
 			$group = 'default';
 
-		if (false !== $this->get($id, $group))
+		if (false !== $this->get($key, $group))
 			return false;
 
-		return $this->set($id, $data, $group, $expire);
+		return $this->set($key, $data, $group, $expire);
 	}
 
 	/**
@@ -321,26 +321,26 @@ class WP_Object_Cache {
 	 *
 	 * @since 3.3.0
 	 *
-	 * @param int|string $id The cache ID to increment
+	 * @param int|string $key The cache ID to increment
 	 * @param int $offset The amount by which to decrement the item's value.  Default is 1.
-	 * @param string $flag The group the key is in.
+	 * @param string $group The group the key is in.
 	 * @return false|int False on failure, the item's new value on success.
 	 */
-	function decr( $id, $offset = 1, $group = 'default' ) {
-		if ( ! isset( $this->cache[ $group ][ $id ] ) )
+	function decr( $key, $offset = 1, $group = 'default' ) {
+		if ( ! isset( $this->cache[ $group ][ $key ] ) )
 			return false;
 
-		if ( ! is_numeric( $this->cache[ $group ][ $id ] ) )
-			$this->cache[ $group ][ $id ] = 0;
+		if ( ! is_numeric( $this->cache[ $group ][ $key ] ) )
+			$this->cache[ $group ][ $key ] = 0;
 
 		$offset = (int) $offset;
 
-		$this->cache[ $group ][ $id ] -= $offset;
+		$this->cache[ $group ][ $key ] -= $offset;
 
-		if ( $this->cache[ $group ][ $id ] < 0 )
-			$this->cache[ $group ][ $id ] = 0;
+		if ( $this->cache[ $group ][ $key ] < 0 )
+			$this->cache[ $group ][ $key ] = 0;
 
-		return $this->cache[ $group ][ $id ];
+		return $this->cache[ $group ][ $key ];
 	}
 
 	/**
@@ -355,21 +355,21 @@ class WP_Object_Cache {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param int|string $id What the contents in the cache are called
+	 * @param int|string $key What the contents in the cache are called
 	 * @param string $group Where the cache contents are grouped
 	 * @param bool $force Optional. Whether to force the unsetting of the cache
 	 *		ID in the group
 	 * @return bool False if the contents weren't deleted and true on success
 	 */
-	function delete($id, $group = 'default', $force = false) {
+	function delete($key, $group = 'default', $force = false) {
 		if (empty ($group))
 			$group = 'default';
 
-		if (!$force && false === $this->get($id, $group))
+		if (!$force && false === $this->get($key, $group))
 			return false;
 
-		unset ($this->cache[$group][$id]);
-		$this->non_existent_objects[$group][$id] = true;
+		unset ($this->cache[$group][$key]);
+		$this->non_existent_objects[$group][$key] = true;
 		return true;
 	}
 
@@ -401,27 +401,27 @@ class WP_Object_Cache {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param int|string $id What the contents in the cache are called
+	 * @param int|string $key What the contents in the cache are called
 	 * @param string $group Where the cache contents are grouped
 	 * @return bool|mixed False on failure to retrieve contents or the cache
 	 *		contents on success
 	 */
-	function get($id, $group = 'default') {
+	function get($key, $group = 'default') {
 		if ( empty ($group) )
 			$group = 'default';
 
-		if ( isset ($this->cache[$group][$id]) ) {
+		if ( isset ($this->cache[$group][$key]) ) {
 			$this->cache_hits += 1;
-			if ( is_object($this->cache[$group][$id]) )
-				return clone $this->cache[$group][$id];
+			if ( is_object($this->cache[$group][$key]) )
+				return clone $this->cache[$group][$key];
 			else
-				return $this->cache[$group][$id];
+				return $this->cache[$group][$key];
 		}
 
-		if ( isset ($this->non_existent_objects[$group][$id]) )
+		if ( isset ($this->non_existent_objects[$group][$key]) )
 			return false;
 
-		$this->non_existent_objects[$group][$id] = true;
+		$this->non_existent_objects[$group][$key] = true;
 		$this->cache_misses += 1;
 		return false;
 	}
@@ -431,26 +431,26 @@ class WP_Object_Cache {
 	 *
 	 * @since 3.3.0
 	 *
-	 * @param int|string $id The cache ID to increment
+	 * @param int|string $key The cache ID to increment
 	 * @param int $offset The amount by which to increment the item's value.  Default is 1.
-	 * @param string $flag The group the key is in.
+	 * @param string $group The group the key is in.
 	 * @return false|int False on failure, the item's new value on success.
 	 */
-	function incr( $id, $offset = 1, $group = 'default' ) {
-		if ( ! isset( $this->cache[ $group ][ $id ] ) )
+	function incr( $key, $offset = 1, $group = 'default' ) {
+		if ( ! isset( $this->cache[ $group ][ $key ] ) )
 			return false;
 
-		if ( ! is_numeric( $this->cache[ $group ][ $id ] ) )
-			$this->cache[ $group ][ $id ] = 0;
+		if ( ! is_numeric( $this->cache[ $group ][ $key ] ) )
+			$this->cache[ $group ][ $key ] = 0;
 
 		$offset = (int) $offset;
 
-		$this->cache[ $group ][ $id ] += $offset;
+		$this->cache[ $group ][ $key ] += $offset;
 
-		if ( $this->cache[ $group ][ $id ] < 0 )
-			$this->cache[ $group ][ $id ] = 0;
+		if ( $this->cache[ $group ][ $key ] < 0 )
+			$this->cache[ $group ][ $key ] = 0;
 
-		return $this->cache[ $group ][ $id ];
+		return $this->cache[ $group ][ $key ];
 	}
 
 	/**
@@ -459,20 +459,20 @@ class WP_Object_Cache {
 	 * @since 2.0.0
 	 * @see WP_Object_Cache::set()
 	 *
-	 * @param int|string $id What to call the contents in the cache
+	 * @param int|string $key What to call the contents in the cache
 	 * @param mixed $data The contents to store in the cache
 	 * @param string $group Where to group the cache contents
 	 * @param int $expire When to expire the cache contents
 	 * @return bool False if not exists, true if contents were replaced
 	 */
-	function replace($id, $data, $group = 'default', $expire = '') {
+	function replace($key, $data, $group = 'default', $expire = '') {
 		if (empty ($group))
 			$group = 'default';
 
-		if ( false === $this->get($id, $group) )
+		if ( false === $this->get($key, $group) )
 			return false;
 
-		return $this->set($id, $data, $group, $expire);
+		return $this->set($key, $data, $group, $expire);
 	}
 
 	/**
@@ -492,7 +492,7 @@ class WP_Object_Cache {
 	 * Sets the data contents into the cache
 	 *
 	 * The cache contents is grouped by the $group parameter followed by the
-	 * $id. This allows for duplicate ids in unique groups. Therefore, naming of
+	 * $key. This allows for duplicate ids in unique groups. Therefore, naming of
 	 * the group should be used with care and should follow normal function
 	 * naming guidelines outside of core WordPress usage.
 	 *
@@ -502,13 +502,13 @@ class WP_Object_Cache {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param int|string $id What to call the contents in the cache
+	 * @param int|string $key What to call the contents in the cache
 	 * @param mixed $data The contents to store in the cache
 	 * @param string $group Where to group the cache contents
 	 * @param int $expire Not Used
 	 * @return bool Always returns true
 	 */
-	function set($id, $data, $group = 'default', $expire = '') {
+	function set($key, $data, $group = 'default', $expire = '') {
 		if ( empty ($group) )
 			$group = 'default';
 
@@ -518,10 +518,10 @@ class WP_Object_Cache {
 		if ( is_object($data) )
 			$data = clone $data;
 
-		$this->cache[$group][$id] = $data;
+		$this->cache[$group][$key] = $data;
 
-		if ( isset($this->non_existent_objects[$group][$id]) )
-			unset ($this->non_existent_objects[$group][$id]);
+		if ( isset($this->non_existent_objects[$group][$key]) )
+			unset ($this->non_existent_objects[$group][$key]);
 
 		return true;
 	}
