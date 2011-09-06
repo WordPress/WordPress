@@ -23,7 +23,7 @@ if ( $current_blog->archived == '1' || $current_blog->spam == '1' || $current_bl
 	die( '404 &#8212; File not found.' );
 }
 
-$file = trailingslashit( BLOGUPLOADDIR ) . str_replace( '..', '', $_GET[ 'file' ] );
+$file = rtrim( BLOGUPLOADDIR, '/' ) . '/' . str_replace( '..', '', $_GET[ 'file' ] );
 if ( !is_file( $file ) ) {
 	status_header( 404 );
 	die( '404 &#8212; File not found.' );
