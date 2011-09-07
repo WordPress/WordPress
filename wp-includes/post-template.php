@@ -329,9 +329,9 @@ function get_post_class( $class = '', $post_id = null ) {
 	$classes[] = 'status-' . $post->post_status;
 
 	// Post Format
-	$post_format = get_post_format( $post->ID );
-
 	if ( post_type_supports( $post->post_type, 'post-formats' ) ) {
+		$post_format = get_post_format( $post->ID );
+
 		if ( $post_format && !is_wp_error($post_format) )
 			$classes[] = 'format-' . sanitize_html_class( $post_format );
 		else
@@ -432,12 +432,14 @@ function get_body_class( $class = '' ) {
 		$classes[] = 'postid-' . $post_id;
 
 		// Post Format
-		$post_format = get_post_format( $post->ID );
-
-		if ( $post_format && !is_wp_error($post_format) )
-			$classes[] = 'single-format-' . sanitize_html_class( $post_format );
-		else
-			$classes[] = 'single-format-standard';
+		if ( post_type_supports( $post->post_type, 'post-formats' ) ) {
+			$post_format = get_post_format( $post->ID );
+	
+			if ( $post_format && !is_wp_error($post_format) )
+				$classes[] = 'single-format-' . sanitize_html_class( $post_format );
+			else
+				$classes[] = 'single-format-standard';
+		}
 
 		if ( is_attachment() ) {
 			$mime_type = get_post_mime_type($post_id);
