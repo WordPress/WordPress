@@ -473,8 +473,6 @@ commentReply = {
 	show : function(xml) {
 		var t = this, r, c, id, bg, pid;
 
-		t.revert();
-
 		if ( typeof(xml) == 'string' ) {
 			t.error({'responseText': xml});
 			return false;
@@ -485,6 +483,8 @@ commentReply = {
 			t.error({'responseText': wpAjax.broken});
 			return false;
 		}
+
+		t.revert();
 
 		r = r.responses[0];
 		c = r.data;
