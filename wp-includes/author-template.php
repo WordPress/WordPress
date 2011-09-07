@@ -385,7 +385,7 @@ function is_multi_author() {
 		wp_cache_set('is_multi_author', $is_multi_author, 'posts');
 	}
 
-	return (bool) $is_multi_author;
+	return apply_filters( 'is_multi_author', (bool) $is_multi_author );
 }
 
 /**
