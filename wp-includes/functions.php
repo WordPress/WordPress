@@ -1830,13 +1830,13 @@ function do_feed_atom( $for_comments ) {
 }
 
 /**
- * Display the robot.txt file content.
+ * Display the robots.txt file content.
  *
  * The echo content should be with usage of the permalinks or for creating the
- * robot.txt file.
+ * robots.txt file.
  *
  * @since 2.1.0
- * @uses do_action() Calls 'do_robotstxt' hook for displaying robot.txt rules.
+ * @uses do_action() Calls 'do_robotstxt' hook for displaying robots.txt rules.
  */
 function do_robots() {
 	header( 'Content-Type: text/plain; charset=utf-8' );
