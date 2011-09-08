@@ -1194,16 +1194,19 @@ function _get_widget_id_base($id) {
 	return preg_replace( '/-[0-9]+$/', '', $id );
 }
 
-function check_theme_switched() {
-	if ( false !== ( $old_theme = get_option( 'theme_switched' ) ) && !empty( $old_theme ) ) {
-		global $sidebars_widgets;
+/**
+ * Handle sidebars config after theme change
+ *
+ * @access private
+ * @since 3.3
+ */  
+function _wp_sidebars_changed() {
+	global $sidebars_widgets;
 
-		if ( ! is_array( $sidebars_widgets ) )
-			$sidebars_widgets = wp_get_sidebars_widgets();
+	if ( ! is_array( $sidebars_widgets ) )
+		$sidebars_widgets = wp_get_sidebars_widgets();
 
-		retrieve_widgets();
-		update_option( 'theme_switched', false );
-	}
+	retrieve_widgets();
 }
 
 // look for "lost" widgets, this has to run at least on each theme change
