@@ -1246,7 +1246,11 @@ function preview_theme_ob_filter_callback( $matches ) {
  * @param string $stylesheet Stylesheet name.
  */
 function switch_theme($template, $stylesheet) {
-	global $wp_theme_directories;
+	global $wp_theme_directories, $sidebars_widgets;
+
+	if ( ! is_array( $sidebars_widgets ) )
+		$sidebars_widgets = wp_get_sidebars_widgets();
+	set_theme_mod( 'sidebars_widgets', array( 'time' => time(), 'data' => $sidebars_widgets ) );
 
 	$old_theme = get_current_theme();
 

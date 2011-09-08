@@ -1201,10 +1201,6 @@ function check_theme_switched() {
 		if ( ! is_array( $sidebars_widgets ) )
 			$sidebars_widgets = wp_get_sidebars_widgets();
 
-		$key = md5( $old_theme );
-		// Store widgets for 1 week so we can restore if needed
-		set_transient( 'old_widgets_' . $key, $sidebars_widgets, 604800 );
-
 		retrieve_widgets();
 		update_option( 'theme_switched', false );
 	}
@@ -1214,9 +1210,11 @@ function check_theme_switched() {
 function retrieve_widgets() {
 	global $wp_registered_widget_updates, $wp_registered_sidebars, $sidebars_widgets, $wp_registered_widgets;
 
-	$key = md5( get_current_theme() );
-	if ( false !== ( $_sidebars_widgets = get_transient( "old_widgets_{$key}" ) ) ) {
-		delete_transient( "old_widgets_{$key}" );
+	$old_sidebars_widgets = get_theme_mod( 'sidebars_widgets' );
+	if ( is_array( $old_sidebars_widgets ) ) {
+		// time() that sidebars were stored is in $old_sidebars_widgets['time']
+		$_sidebars_widgets = $old_sidebars_widgets['data'];
+		remove_theme_mod( 'sidebars_widgets' );
 	} else {
 		if ( ! is_array( $sidebars_widgets ) )
 			$sidebars_widgets = wp_get_sidebars_widgets();
