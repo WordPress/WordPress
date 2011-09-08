@@ -3156,7 +3156,9 @@ function get_page_by_path($page_path, $output = OBJECT, $post_type = 'page') {
 	$parts = array_map( 'sanitize_title', $parts );
 
 	$in_string = "'". implode( "','", $parts ) . "'";
-	$pages = $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE post_name IN ({$in_string}) AND (post_type = %s OR post_type = 'attachment')", $post_type ), OBJECT_K );
+	$post_type_sql = $post_type;
+	$wpdb->escape_by_ref( $post_type_sql );
+	$pages = $wpdb->get_results( "SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE post_name IN ($in_string) AND (post_type = '$post_type_sql' OR post_type = 'attachment')", OBJECT_K );
 
 	$revparts = array_reverse( $parts );
 
