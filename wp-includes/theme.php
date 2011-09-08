@@ -1994,13 +1994,13 @@ function _delete_attachment_theme_mod( $id ) {
 add_action( 'delete_attachment', '_delete_attachment_theme_mod' );
 
 /**
- * Checks if a theme has been changed and runs 'after_theme_change' hook on the next WP load
+ * Checks if a theme has been changed and runs 'after_switch_theme' hook on the next WP load
  *
  * @since 3.3
- */   
+ */
 function check_theme_switched() {
 	if ( false !== ( $old_theme = get_option( 'theme_switched' ) ) && !empty( $old_theme ) ) {
-		do_action( 'after_theme_change', $old_theme );		
+		do_action( 'after_switch_theme', $old_theme );
 		update_option( 'theme_switched', false );
 	}
 }

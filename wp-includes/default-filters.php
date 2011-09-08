@@ -219,7 +219,7 @@ add_action( 'wp_head',             'wp_shortlink_wp_head',            10, 0 );
 add_action( 'template_redirect',   'wp_shortlink_header',             11, 0 );
 add_action( 'wp_print_footer_scripts', '_wp_footer_scripts'                 );
 add_action( 'init',                'check_theme_switched',            99    );
-add_action( 'after_theme_change',  '_wp_sidebars_changed'                   );
+add_action( 'after_switch_theme',  '_wp_sidebars_changed'                   );
 
 if ( isset( $_GET['replytocom'] ) )
     add_filter( 'pre_option_blog_public', '__return_zero' );
