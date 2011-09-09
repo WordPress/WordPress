@@ -324,6 +324,7 @@ function is_serialized_string( $data ) {
  * 	the option value.
  *
  * @param string $option Name of option to retrieve. Expected to not be SQL-escaped.
+ * @param mixed $default Optional. Default value to return if the option does not exist.
  * @return mixed Value set for the option.
  */
 function get_option( $option, $default = false ) {
