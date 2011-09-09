@@ -79,7 +79,7 @@ color:#FFF
 .clearlooks2 .mceStatusbar .mceBottom span {display:block; left:7px; font-family:Arial, Verdana; font-size:11px; line-height:23px}
 
 /* Actions */
-.clearlooks2 a {width:29px; height:16px; top:3px}
+.clearlooks2 a {width:29px; height:16px; top:3px;}
 .clearlooks2 .mceClose {right:6px; background:url(img/buttons.gif) -87px 0}
 .clearlooks2 .mceMin {display:none; right:68px; background:url(img/buttons.gif) 0 0}
 .clearlooks2 .mceMed {display:none; right:37px; background:url(img/buttons.gif) -29px 0}
@@ -107,7 +107,7 @@ color:#FFF
 .clearlooks2 a.mceResizeN {top:0; left:0; width:100%; cursor:n-resize}
 .clearlooks2 a.mceResizeNW {top:0; left:0; cursor:nw-resize}
 .clearlooks2 a.mceResizeNE {top:0; right:0; cursor:ne-resize}
-.clearlooks2 a.mceResizeW {top:0; left:0; height:100%; cursor:w-resize}
+.clearlooks2 a.mceResizeW {top:0; left:0; height:100%; cursor:w-resize;}
 .clearlooks2 a.mceResizeE {top:0; right:0; height:100%; cursor:e-resize}
 .clearlooks2 a.mceResizeS {bottom:0; left:0; width:100%; cursor:s-resize}
 .clearlooks2 a.mceResizeSW {bottom:0; left:0; cursor:sw-resize}
@@ -124,13 +124,3 @@ color:#FFF
 .clearlooks2 .mceConfirm .mceOk {left:50%; top:auto; margin-left: -90px}
 .clearlooks2 .mceConfirm .mceCancel {left:50%; top:auto}
 .clearlooks2 .mceConfirm .mceIcon {background:url(img/confirm.gif)}
-
-/* IE9 fixes */
-.clearlooks2.ie9 .mceTop .mceCenter {clip:auto;}
-.clearlooks2.ie9 .mceMiddle {clip:auto;}
-.clearlooks2.ie9 .mceMiddle .mceLeft, .clearlooks2.ie9 .mceMiddle .mceRight {top: 23px;}
-.clearlooks2.ie9 .mceAlert .mceMiddle span, .clearlooks2.ie9 .mceConfirm .mceMiddle span {top:13px;}
-.clearlooks2.ie9 .mceModal .mceMiddle {top:23px}
-.clearlooks2.ie9 .mceModal .mceMiddle .mceLeft, .clearlooks2.ie9 .mceModal .mceMiddle .mceRight {top: 0}
-.clearlooks2.ie9 .mceMiddle .mceIcon {top:13px}
-.clearlooks2.ie9 .mceTop .mceCenter {top:0; right:auto; left:6px; width:calc(100%-12px)}

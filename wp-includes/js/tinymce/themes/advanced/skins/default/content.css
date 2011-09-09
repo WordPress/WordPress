@@ -9,7 +9,7 @@ h4 {font-size: 1em}
 h5 {font-size: .83em}
 h6 {font-size: .75em}
 .mceItemTable, .mceItemTable td, .mceItemTable th, .mceItemTable caption, .mceItemVisualAid {border: 1px dashed #BBB;}
-a.mceItemAnchor {display:inline-block; width:11px !important; height:11px  !important; background:url(img/items.gif) no-repeat 0 0;}
+a.mceItemAnchor {display:inline-block; -webkit-user-select:all; -webkit-user-modify:read-only; -moz-user-select:all; -moz-user-modify:read-only; width:11px !important; height:11px !important; background:url(img/items.gif) no-repeat center center}
 span.mceItemNbsp {background: #DDD}
 td.mceSelected, th.mceSelected {background-color:#3399ff !important}
 img {border:0;}
@@ -35,6 +35,7 @@ scrollbar-track-color:#F5F5F5;
 
 img:-moz-broken {-moz-force-broken-image-icon:1; width:24px; height:24px}
 font[face=mceinline] {font-family:inherit !important}
+*[contentEditable]:focus {outline:0}
 
 .mceItemMedia {border:1px dotted #cc0000; background-position:center; background-repeat:no-repeat; background-color:#ffffcc}
 .mceItemShockWave {background-image:url(../../img/shockwave.gif)}
@@ -43,5 +44,6 @@ font[face=mceinline] {font-family:inherit !important}
 .mceItemWindowsMedia {background-image:url(../../img/windowsmedia.gif)}
 .mceItemRealMedia {background-image:url(../../img/realmedia.gif)}
 .mceItemVideo {background-image:url(../../img/video.gif)}
+.mceItemAudio {background-image:url(../../img/video.gif)}
 .mceItemIframe {background-image:url(../../img/iframe.gif)}
 .mcePageBreak {display:block;border:0;width:100%;height:12px;border-top:1px dotted #ccc;margin-top:15px;background:#fff url(../../img/pagebreak.gif) no-repeat center top;}

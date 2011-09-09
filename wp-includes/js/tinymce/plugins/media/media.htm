@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>{#media_dlg.title}</title>
-	<script type="text/javascript" src="../../tiny_mce_popup.js?ver=342-20110407"></script>
-	<script type="text/javascript" src="js/media.js?ver=342-20110407"></script>
-	<script type="text/javascript" src="../../utils/mctabs.js?ver=342-20110407"></script>
-	<script type="text/javascript" src="../../utils/validate.js?ver=342-20110407"></script>
-	<script type="text/javascript" src="../../utils/form_utils.js?ver=342-20110407"></script>
-	<script type="text/javascript" src="../../utils/editable_selects.js?ver=342-20110407"></script>
-	<link href="css/media.css?ver=342-20110407" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="../../tiny_mce_popup.js?ver=345-20110908"></script>
+	<script type="text/javascript" src="js/media.js?ver=345-20110908"></script>
+	<script type="text/javascript" src="../../utils/mctabs.js?ver=345-20110908"></script>
+	<script type="text/javascript" src="../../utils/validate.js?ver=345-20110908"></script>
+	<script type="text/javascript" src="../../utils/form_utils.js?ver=345-20110908"></script>
+	<script type="text/javascript" src="../../utils/editable_selects.js?ver=345-20110908"></script>
+	<link href="css/media.css?ver=345-20110908" rel="stylesheet" type="text/css" />
 </head>
 <body style="display: none" role="application">
 <form onsubmit="Media.insert();return false;" action="#">
@@ -31,6 +31,7 @@
 								<td>
 									<select id="media_type" name="media_type" onchange="Media.formToData('type');">
 										<option value="video">HTML5 Video</option>
+										<option value="audio">HTML5 Audio</option>
 										<option value="flash">Flash</option>
 										<option value="quicktime">QuickTime</option>
 										<option value="shockwave">Shockwave</option>
@@ -159,6 +160,17 @@
 								</table>
 							</td>
 						</tr>
+
+						<tr>
+							<td><label for="video_preload">{#media_dlg.preload}</label></td>
+							<td>
+								<select id="video_preload" name="video_preload" onchange="Media.formToData();">
+									<option value="none">{#media_dlg.preload_none}</option> 
+									<option value="metadata">{#media_dlg.preload_metadata}</option>
+									<option value="auto">{#media_dlg.preload_auto}</option>
+								</select>
+							</td>
+						</tr>
 					</table>
 
 					<table role="presentation" border="0" cellpadding="4" cellspacing="0">
@@ -175,19 +187,19 @@
 							<td>
 								<table role="presentation" border="0" cellpadding="0" cellspacing="0">
 									<tr>
-										<td><input type="checkbox" class="checkbox" id="video_loop" name="video_loop" onchange="Media.formToData();" /></td>
-										<td><label for="video_loop">{#media_dlg.loop}</label></td>
+										<td><input type="checkbox" class="checkbox" id="video_muted" name="video_muted" onchange="Media.formToData();" /></td>
+										<td><label for="video_muted">{#media_dlg.mute}</label></td>
 									</tr>
 								</table>
 							</td>
 
 							<td>
-								<table role="presentation" border="0" cellpadding="0" cellspacing="0">
-									<tr>
-										<td><input type="checkbox" class="checkbox" id="video_preload" name="video_preload" onchange="Media.formToData();" /></td>
-										<td><label for="video_preload">{#media_dlg.preload}</label></td>
-									</tr>
-								</table>
+									<table role="presentation" border="0" cellpadding="0" cellspacing="0">
+											<tr>
+													<td><input type="checkbox" class="checkbox" id="video_loop" name="video_loop" onchange="Media.formToData();" /></td>
+													<td><label for="video_loop">{#media_dlg.loop}</label></td>
+											</tr>
+									</table>
 							</td>
 
 							<td>
@@ -201,6 +213,79 @@
 						</tr>
 					</table>
 				</fieldset>
+
+				<fieldset id="audio_options">
+					<legend>{#media_dlg.html5_audio_options}</legend>
+
+					<table role="presentation">
+						<tr>
+							<td><label for="audio_altsource1">{#media_dlg.altsource1}</label></td>
+							<td>
+								<table role="presentation" border="0" cellspacing="0" cellpadding="0">
+									<tr>
+										<td><input type="text" id="audio_altsource1" name="audio_altsource1" onchange="Media.formToData();" style="width: 240px" /></td>
+										<td id="audio_altsource1_filebrowser">&nbsp;</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+
+						<tr>
+							<td><label for="audio_altsource2">{#media_dlg.altsource2}</label></td>
+							<td>
+								<table role="presentation" border="0" cellspacing="0" cellpadding="0">
+									<tr>
+										<td><input type="text" id="audio_altsource2" name="audio_altsource2" onchange="Media.formToData();" style="width: 240px" /></td>
+										<td id="audio_altsource2_filebrowser">&nbsp;</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+
+						<tr>
+							<td><label for="audio_preload">{#media_dlg.preload}</label></td>
+							<td>
+								<select id="audio_preload" name="audio_preload" onchange="Media.formToData();">
+									<option value="none">{#media_dlg.preload_none}</option> 
+									<option value="metadata">{#media_dlg.preload_metadata}</option>
+									<option value="auto">{#media_dlg.preload_auto}</option>
+								</select>
+							</td>
+						</tr>
+					</table>
+
+					<table role="presentation" border="0" cellpadding="4" cellspacing="0">
+						<tr>
+							<td>
+								<table role="presentation" border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input type="checkbox" class="checkbox" id="audio_autoplay" name="audio_autoplay" onchange="Media.formToData();" /></td>
+										<td><label for="audio_autoplay">{#media_dlg.play}</label></td>
+									</tr>
+								</table>
+							</td>
+
+							<td>
+								<table role="presentation" border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input type="checkbox" class="checkbox" id="audio_loop" name="audio_loop" onchange="Media.formToData();" /></td>
+										<td><label for="audio_loop">{#media_dlg.loop}</label></td>
+									</tr>
+								</table>
+							</td>
+
+							<td>
+								<table role="presentation" border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td><input type="checkbox" class="checkbox" id="audio_controls" name="audio_controls" onchange="Media.formToData();" /></td>
+										<td><label for="audio_controls">{#media_dlg.controls}</label></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</fieldset>
+
 
 				<fieldset id="flash_options">
 					<legend>{#media_dlg.flash_options}</legend>
@@ -798,7 +883,7 @@
 			<div id="source_panel" class="panel">
 				<fieldset>
 					<legend>{#media_dlg.source}</legend>
-					<textarea id="source" style="width: 100%; height: 390px"></textarea>
+					<textarea id="source" style="width: 99%; height: 390px"></textarea>
 				</fieldset>
 			</div>
 		</div>

@@ -103,6 +103,7 @@
 .defaultSkin .mceNoIcons .mceMenuItemSelected a {background:url(img/menu_arrow.gif) no-repeat -6px center}
 .defaultSkin .mceMenu span.mceMenuLine {display:none}
 .defaultSkin .mceMenuItemSub a {background:url(img/menu_arrow.gif) no-repeat top right;}
+.defaultSkin .mceMenuItem td, .defaultSkin .mceMenuItem th {line-height: normal}
 
 /* Progress,Resize */
 .defaultSkin .mceBlocker {position:absolute; left:0; top:0; z-index:1000; opacity:0.5; -ms-filter:'alpha(opacity=50)'; filter:alpha(opacity=50); background:#FFF}

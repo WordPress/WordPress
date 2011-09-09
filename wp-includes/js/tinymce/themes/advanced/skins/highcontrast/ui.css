@@ -73,6 +73,7 @@
 .highcontrastSkin .mceNoIcons .mceMenuItemSelected span.mceText:before {content: "\2713\A0";}
 .highcontrastSkin .mceMenu span.mceMenuLine {display:none}
 .highcontrastSkin .mceMenuItemSub a .mceText:after {content: "\A0\25B8"}
+.highcontrastSkin .mceMenuItem td, .highcontrastSkin .mceMenuItem th {line-height: normal}
 
 /* ColorSplitButton */
 .highcontrastSkin div.mceColorSplitMenu table {background:#FFF; border:1px solid; color: #000}

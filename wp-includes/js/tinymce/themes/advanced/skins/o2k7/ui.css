@@ -51,14 +51,14 @@
 .o2k7Skin .mceSeparator {display:block; background:url(img/button_bg.png) -22px 0; width:5px; height:22px}
 
 /* ListBox */
-.o2k7Skin .mceListBox {margin-left:3px}
+.o2k7Skin .mceListBox  {padding-left: 3px}
 .o2k7Skin .mceListBox, .o2k7Skin .mceListBox a {display:block}
 .o2k7Skin .mceListBox .mceText {padding-left:4px; text-align:left; width:70px; border:1px solid #b3c7e1; border-right:0; background:#eaf2fb; font-family:Tahoma,Verdana,Arial,Helvetica; font-size:11px; height:20px; line-height:20px; overflow:hidden}
 .o2k7Skin .mceListBox .mceOpen {width:14px; height:22px; background:url(img/button_bg.png) -66px 0}
 .o2k7Skin table.mceListBoxEnabled:hover .mceText, .o2k7Skin .mceListBoxHover .mceText, .o2k7Skin .mceListBoxSelected .mceText {background:#FFF}
 .o2k7Skin table.mceListBoxEnabled:hover .mceOpen, .o2k7Skin .mceListBoxHover .mceOpen, .o2k7Skin .mceListBoxSelected .mceOpen {background-position:-66px -22px}
 .o2k7Skin .mceListBoxDisabled .mceText {color:gray}
-.o2k7Skin .mceListBoxMenu {overflow:auto; overflow-x:hidden}
+.o2k7Skin .mceListBoxMenu {overflow:auto; overflow-x:hidden; margin-left:3px}
 .o2k7Skin .mceOldBoxModel .mceListBox .mceText {height:22px}
 .o2k7Skin select.mceListBox {font-family:Tahoma,Verdana,Arial,Helvetica; font-size:12px; border:1px solid #b3c7e1; background:#FFF;}
 
@@ -106,6 +106,7 @@
 .o2k7Skin .mceNoIcons .mceMenuItemSelected a {background:url(../default/img/menu_arrow.gif) no-repeat -6px center}
 .o2k7Skin .mceMenu span.mceMenuLine {display:none}
 .o2k7Skin .mceMenuItemSub a {background:url(../default/img/menu_arrow.gif) no-repeat top right;}
+.o2k7Skin .mceMenuItem td, .o2k7Skin .mceMenuItem th {line-height: normal}
 
 /* Progress,Resize */
 .o2k7Skin .mceBlocker {position:absolute; left:0; top:0; z-index:1000; opacity:0.5; -ms-filter:'alpha(opacity=30)'; filter:alpha(opacity=50); background:#FFF}
