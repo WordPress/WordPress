@@ -102,13 +102,14 @@ function wp_cache_flush() {
  *
  * @param int|string $key What the contents in the cache are called
  * @param string $group Where the cache contents are grouped
+ * @param bool $force Whether to force an update of the local cache from the persistent cache (default is false)
  * @return bool|mixed False on failure to retrieve contents or the cache
  *		contents on success
  */
-function wp_cache_get($key, $group = '') {
+function wp_cache_get( $key, $group = '', $force = false ) {
 	global $wp_object_cache;
 
-	return $wp_object_cache->get($key, $group);
+	return $wp_object_cache->get( $key, $group, $force );
 }
 
 /**
@@ -403,10 +404,11 @@ class WP_Object_Cache {
 	 *
 	 * @param int|string $key What the contents in the cache are called
 	 * @param string $group Where the cache contents are grouped
+	 * @param string $force Whether to force a refetch rather than relying on the local cache (default is false)
 	 * @return bool|mixed False on failure to retrieve contents or the cache
 	 *		contents on success
 	 */
-	function get($key, $group = 'default') {
+	function get( $key, $group = 'default', $force = false) {
 		if ( empty ($group) )
 			$group = 'default';
 

@@ -268,6 +268,12 @@ function wp_functionality_constants( ) {
 
 	if ( !defined('WP_POST_REVISIONS') )
 		define('WP_POST_REVISIONS', true);
+
+	/**
+	 * @since 3.3.0
+	 */
+	if ( !defined( 'WP_CRON_LOCK_TIMEOUT' ) )
+		define('WP_CRON_LOCK_TIMEOUT', 60);  // In seconds
 }
 
 /**

@@ -204,13 +204,13 @@ function spawn_cron( $local_time = 0 ) {
 	* multiple processes on multiple web servers can run this code concurrently
 	* try to make this as atomic as possible by setting doing_cron switch
 	*/
-	$flag = get_transient('doing_cron');
+	$lock = get_transient('doing_cron');
 
-	if ( $flag > $local_time + 10*60 )
-		$flag = 0;
+	if ( $lock > $local_time + 10*60 )
+		$lock = 0;
 
 	// don't run if another process is currently running it or more than once every 60 sec.
-	if ( $flag + 60 > $local_time )
+	if ( $lock + WP_CRON_LOCK_TIMEOUT > $local_time )
 		return;
 
 	//sanity check
@@ -226,10 +226,11 @@ function spawn_cron( $local_time = 0 ) {
 		if ( !empty($_POST) || defined('DOING_AJAX') )
 			return;
 
-		set_transient( 'doing_cron', $local_time );
+		$doing_wp_cron = $local_time;
+		set_transient( 'doing_cron', $doing_wp_cron );
 
 		ob_start();
-		wp_redirect( add_query_arg('doing_wp_cron', '', stripslashes($_SERVER['REQUEST_URI'])) );
+		wp_redirect( add_query_arg('doing_wp_cron', $doing_wp_cron, stripslashes($_SERVER['REQUEST_URI'])) );
 		echo ' ';
 
 		// flush any buffers and send the headers
@@ -240,9 +241,10 @@ function spawn_cron( $local_time = 0 ) {
 		return;
 	}
 
-	set_transient( 'doing_cron', $local_time );
+	$doing_wp_cron = $local_time;
+	set_transient( 'doing_cron', $doing_wp_cron );
 
-	$cron_url = get_option( 'siteurl' ) . '/wp-cron.php?doing_wp_cron';
+	$cron_url = get_option( 'siteurl' ) . '/wp-cron.php?doing_wp_cron=' . $doing_wp_cron;
 	wp_remote_post( $cron_url, array('timeout' => 0.01, 'blocking' => false, 'sslverify' => apply_filters('https_local_ssl_verify', true)) );
 }
 
