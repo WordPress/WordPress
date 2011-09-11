@@ -524,11 +524,11 @@ var photostorage = false;
 
 			<div id="tagsdiv-post_tag" class="postbox">
 				<div class="handlediv" title="<?php _e( 'Click to toggle' ); ?>"><br /></div>
-				<h3><span><?php _e('Post Tags'); ?></span></h3>
+				<h3><span><?php _e('Tags'); ?></span></h3>
 				<div class="inside">
 					<div class="tagsdiv" id="post_tag">
 						<div class="jaxtag">
-							<label class="screen-reader-text" for="newtag"><?php _e('Post Tags'); ?></label>
+							<label class="screen-reader-text" for="newtag"><?php _e('Tags'); ?></label>
 							<input type="hidden" name="tax_input[post_tag]" class="the-tags" id="tax-input[post_tag]" value="" />
 							<div class="ajaxtag">
 								<input type="text" name="newtag[post_tag]" class="newtag form-input-tip" size="16" autocomplete="off" value="" />
