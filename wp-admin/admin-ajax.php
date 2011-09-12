@@ -1025,8 +1025,8 @@ case 'closed-postboxes' :
 
 	$page = isset( $_POST['page'] ) ? $_POST['page'] : '';
 
-	if ( !preg_match( '/^[a-z_-]+$/', $page ) )
-		die('-1');
+	if ( $page != sanitize_key( $page ) )
+		die('0');
 
 	if ( ! $user = wp_get_current_user() )
 		die('-1');
@@ -1047,8 +1047,8 @@ case 'hidden-columns' :
 	$hidden = explode( ',', $_POST['hidden'] );
 	$page = isset( $_POST['page'] ) ? $_POST['page'] : '';
 
-	if ( !preg_match( '/^[a-z_-]+$/', $page ) )
-		die('-1');
+	if ( $page != sanitize_key( $page ) )
+		die('0');
 
 	if ( ! $user = wp_get_current_user() )
 		die('-1');
@@ -1146,8 +1146,8 @@ case 'meta-box-order':
 
 	$page = isset( $_POST['page'] ) ? $_POST['page'] : '';
 
-	if ( !preg_match( '/^[a-z_-]+$/', $page ) )
-		die('-1');
+	if ( $page != sanitize_key( $page ) )
+		die('0');
 
 	if ( ! $user = wp_get_current_user() )
 		die('-1');
