@@ -576,7 +576,7 @@ class WP_Editor {
 		global $content_width, $post;
 
 		$width = isset($content_width) && 800 > $content_width ? $content_width : 800;
-		$width = $width + 10; // compensate for the padding
+		$width = $width + 22; // compensate for the padding and border
 		$dfw_width = get_user_setting( 'dfw_width', $width );
 		$save = isset($post->post_status) && $post->post_status == 'publish' ? __('Update') : __('Save');
 	?>
