@@ -215,10 +215,13 @@ TABLE OF CONTENTS:
 }
 
 .hidden,
-.js .closed .inside,
+.js .closed .inside {
+	display: none;
+}
+
 .js .hide-if-js,
 .no-js .hide-if-no-js {
-	display: none;
+	display: none !important;
 }
 
 /* include margin and padding in the width calculation of input and textarea */
