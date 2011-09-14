@@ -441,6 +441,7 @@ code {
 	border-style: solid;
 	border-spacing: 0;
 	width: 100%;
+	max-width: 2000px;
 	clear: both;
 	margin: 0;
 	-moz-border-radius: 3px;
@@ -2357,6 +2358,7 @@ th.asc:hover span.sorting-indicator {
 .tablenav {
 	clear: both;
 	height: 30px;
+	max-width: 2000px;
 	margin: 6px 0 4px;
 	vertical-align: middle;
 }
@@ -2431,6 +2433,10 @@ th.asc:hover span.sorting-indicator {
 }
 .screen-per-page {
 	width: 3em;
+}
+
+#posts-filter {
+	max-width: 2000px;
 }
 
 #posts-filter fieldset {
