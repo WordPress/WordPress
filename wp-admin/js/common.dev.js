@@ -1,4 +1,4 @@
-var showNotice, adminMenu, columns, validateForm, screenMeta;
+var showNotice, adminMenu, columns, validateForm, screenMeta, autofold_menu;
 (function($){
 // sidebar admin menu
 adminMenu = {
@@ -346,6 +346,19 @@ $(document).ready( function() {
 		});
 	}
 
+	// auto-fold the menu when screen is under 800px
+	$(window).bind('resize.autofold', function(){
+		if ( getUserSetting('mfold') == 'f' )
+			return;
+
+		var w = $(window).width();
+
+		if ( w <= 800 ) // fold admin menu
+			$(document.body).addClass('folded');
+		else
+			$(document.body).removeClass('folded');
+
+	}).triggerHandler('resize');
 });
 
 // internal use

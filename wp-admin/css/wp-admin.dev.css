@@ -117,7 +117,7 @@ TABLE OF CONTENTS:
 	position: relative;
 }
 
-.wide-window .responsive .inner-sidebar {
+.wide-window.responsive .inner-sidebar {
     margin-right: -870px;
     width: 100%;
     display: block;
@@ -128,7 +128,7 @@ TABLE OF CONTENTS:
 	min-height: 300px;
 }
 
-.wide-window .responsive .inner-sidebar #side-sortables {
+.wide-window.responsive .inner-sidebar #side-sortables {
 	min-width: 280px;
 	max-width: 480px;
 	width: auto;
@@ -251,12 +251,7 @@ body {
 	font-family: sans-serif;
 	font-size: 12px;
 	line-height: 1.4em;
-	min-width: 950px; /* to do, responsive admin */
-}
-
-body.post-php,
-body.index-php {
-	min-width: 560px;
+	min-width: 600px; /* to do, responsive admin */
 }
 
 td,
@@ -2106,8 +2101,11 @@ body.admin-bar #adminmenu {
 	float: left;
 }
 
-.postbox-container .meta-box-sortables {
-	min-height: 300px;
+#postbox-container-1 .meta-box-sortables:first-child,
+#postbox-container-2 .meta-box-sortables:first-child,
+#postbox-container-3 .meta-box-sortables:first-child,
+#postbox-container-4 .meta-box-sortables:first-child {
+	min-height: 200px;
 }
 
 .postbox .hndle {
