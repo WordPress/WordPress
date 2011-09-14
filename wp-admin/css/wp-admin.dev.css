@@ -215,13 +215,10 @@ TABLE OF CONTENTS:
 }
 
 .hidden,
-.js .closed .inside {
-	display: none;
-}
-
+.js .closed .inside,
 .js .hide-if-js,
 .no-js .hide-if-no-js {
-	display: none !important;
+	display: none;
 }
 
 /* include margin and padding in the width calculation of input and textarea */
@@ -2983,6 +2980,10 @@ div.tabs-panel-inactive {
 .wp-tab-bar li {
 	display: inline;
 	line-height: 1.35em;
+}
+
+#side-sortables .category-tabs li.hide-if-no-js {
+ 	display: none;
 }
 
 #side-sortables .category-tabs a,
