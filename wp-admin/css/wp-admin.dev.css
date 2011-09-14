@@ -2095,7 +2095,7 @@ body.admin-bar #adminmenu {
 }
 
 .postbox-container {
-	float: left;
+	float: none;
 }
 
 #postbox-container-1 .meta-box-sortables:first-child,
@@ -4921,6 +4921,7 @@ td.post-title p, td.plugin-title p {
 
 .tool-box {
 	margin: 15px 0 35px;
+	max-width: 650px;
 }
 .tool-box .buttons {
 	margin: 15px 0;
@@ -7637,4 +7638,83 @@ a.widget-control-edit {
 .widgets_access .sidebar-name,
 .widgets_access .widget .widget-top {
 	cursor: default;
+}
+
+/* =Media Queries
+-------------------------------------------------------------- */
+
+@media only screen and (max-width: 768px) {
+	/* categories */
+	#col-left{
+	width: 100%;
+	}
+
+	#col-right{
+	width: 100%;
+	} 
+}
+
+@media only screen and (min-width: 769px) {
+	/* categories */
+	#col-left{
+	width: 25%;
+	}
+
+	#col-right{
+	width: 75%;
+	}  
+
+	.widefat{
+	max-width: 500px;
+	}
+}
+
+@media only screen and (max-width: 860px) {
+
+	/* categories */
+	#col-left{
+	width: 25%;
+	}
+
+	#col-right{
+	width: 75%;
+	} 
+}
+
+@media only screen and (min-width: 980px) {
+
+	/* categories */
+	#col-left{
+	width: 25%;
+	}
+
+	#col-right{
+	width: 75%;
+	} 
+}
+
+
+@media only screen and (max-width: 768px) {
+	/* categories */
+	#col-left{
+	width: 100%;
+	}
+
+	#col-right{
+	width: 100%;
+	} 
+
+	.form-field input, .form-field textarea{
+	width: 99%;
+	}
+
+	.form-wrap .form-field{
+	padding:0;
+	}
+
+	/* users */
+	#profile-page .form-table textarea{
+	max-width: 400px;
+	width: auto;
+	}
 }
