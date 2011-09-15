@@ -122,9 +122,9 @@ wp_set_width_class();
 <?php
 
 if ( is_network_admin() )
-	$blog_name = sprintf( __('%s Network Admin'), esc_html($current_site->site_name) );
+	$blog_name = sprintf( __('Network Admin: %s'), esc_html($current_site->site_name) );
 elseif ( is_user_admin() )
-	$blog_name = sprintf( __('%s Global Dashboard'), esc_html($current_site->site_name) );
+	$blog_name = sprintf( __('Global Dashboard: %s'), esc_html($current_site->site_name) );
 else
 	$blog_name = get_bloginfo('name', 'display');
 if ( '' == $blog_name ) {
