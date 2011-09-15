@@ -7668,10 +7668,6 @@ a.widget-control-edit {
 
 	#col-right{
 	width: 75%;
-	}  
-
-	.widefat{
-	max-width: 500px;
 	}
 }
 
@@ -7684,7 +7680,7 @@ a.widget-control-edit {
 
 	#col-right{
 	width: 75%;
-	} 
+	}
 }
 
 @media only screen and (min-width: 980px) {
@@ -7696,9 +7692,8 @@ a.widget-control-edit {
 
 	#col-right{
 	width: 75%;
-	} 
+	}
 }
-
 
 @media only screen and (max-width: 768px) {
 	/* categories */
@@ -7708,7 +7703,7 @@ a.widget-control-edit {
 
 	#col-right{
 	width: 100%;
-	} 
+	}
 
 	.form-field input, .form-field textarea{
 	width: 99%;
