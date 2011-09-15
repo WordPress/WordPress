@@ -47,7 +47,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 		unset( $themes[$ct->name] );
 		uksort( $themes, "strnatcasecmp" );
 
-		$per_page = 15;
+		$per_page = 24;
 		$page = $this->get_pagenum();
 
 		$start = ( $page - 1 ) * $per_page;
@@ -92,7 +92,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 		if ( $this->get_pagination_arg( 'total_pages' ) <= 1 )
 			return;
 		?>
-		<div class="tablenav <?php echo $which; ?>">
+		<div class="tablenav themes <?php echo $which; ?>">
 			<?php $this->pagination( $which ); ?>
 		   <img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading list-ajax-loading" alt="" />
 		  <br class="clear" />
@@ -105,11 +105,9 @@ class WP_Themes_List_Table extends WP_List_Table {
 ?>
 		<?php $this->tablenav( 'top' ); ?>
 
-		<table id="availablethemes" cellspacing="0" cellpadding="0">
-			<tbody id="the-list" class="list:themes">
-				<?php $this->display_rows_or_placeholder(); ?>
-			</tbody>
-		</table>
+		<div id="availablethemes">
+			<?php $this->display_rows_or_placeholder(); ?>
+		</div>
 
 		<?php $this->tablenav( 'bottom' ); ?>
 <?php
@@ -124,25 +122,11 @@ class WP_Themes_List_Table extends WP_List_Table {
 		$theme_names = array_keys( $themes );
 		natcasesort( $theme_names );
 
-		$table = array();
-		$rows = ceil( count( $theme_names ) / 3 );
-		for ( $row = 1; $row <= $rows; $row++ )
-			for ( $col = 1; $col <= 3; $col++ )
-				$table[$row][$col] = array_shift( $theme_names );
-
-		foreach ( $table as $row => $cols ) {
-?>
-<tr>
-<?php
-foreach ( $cols as $col => $theme_name ) {
-	$class = array( 'available-theme' );
-	if ( $row == 1 ) $class[] = 'top';
-	if ( $col == 1 ) $class[] = 'left';
-	if ( $row == $rows ) $class[] = 'bottom';
-	if ( $col == 3 ) $class[] = 'right';
-?>
-	<td class="<?php echo join( ' ', $class ); ?>">
-<?php if ( !empty( $theme_name ) ) :
+	foreach ( $theme_names as $theme_name ) {
+		$class = array( 'available-theme' );
+	?>
+	<div class="<?php echo join( ' ', $class ); ?>">
+	<?php if ( !empty( $theme_name ) ) :
 	$template = $themes[$theme_name]['Template'];
 	$stylesheet = $themes[$theme_name]['Stylesheet'];
 	$title = $themes[$theme_name]['Title'];
@@ -194,10 +178,8 @@ foreach ( $cols as $col => $theme_name ) {
 <?php endif; ?>
 		<?php theme_update_available( $themes[$theme_name] ); ?>
 <?php endif; // end if not empty theme_name ?>
-	</td>
-<?php } // end foreach $cols ?>
-</tr>
-<?php } // end foreach $table
+	</div>
+<?php } // end foreach $theme_names
 	}
 
 	function search_theme( $theme ) {
