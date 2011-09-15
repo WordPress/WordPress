@@ -1175,8 +1175,8 @@ function the_widget($widget, $instance = array(), $args = array()) {
 	if ( !is_a($widget_obj, 'WP_Widget') )
 		return;
 
-	$before_widget = sprintf('<div class="widget %s">', $widget_obj->widget_options['classname']);
-	$default_args = array('before_widget' => $before_widget, 'after_widget' => "</div>", 'before_title' => '<h2 class="widgettitle">', 'after_title' => '</h2>');
+	$before_widget = sprintf('<div class="widget %s">', $widget_obj->widget_options['classname'] );
+	$default_args = array( 'before_widget' => $before_widget, 'after_widget' => "</div>", 'before_title' => '<h2 class="widgettitle">', 'after_title' => '</h2>' );
 
 	$args = wp_parse_args($args, $default_args);
 	$instance = wp_parse_args($instance);
