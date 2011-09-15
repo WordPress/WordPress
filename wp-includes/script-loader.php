@@ -190,10 +190,10 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'plupload-gears', '/wp-includes/js/plupload/plupload.gears.js', array('plupload'), '1.4.3.2');
 	$scripts->add( 'plupload-html4', '/wp-includes/js/plupload/plupload.html4.js', array('plupload'), '1.4.3.2');
 
-	// TODO: find out if we can use the plupload.full.js, it loads browserplus init JS from Yahoo
+	// cannot use the plupload.full.js, as it loads browserplus init JS from Yahoo
 	$scripts->add( 'plupload-full', false, array('plupload', 'plupload-html5', 'plupload-flash', 'plupload-silverlight', 'plupload-html4'), '1.4.3.2');
 
-	$scripts->add( 'plupload-handlers', "/wp-includes/js/plupload/handlers$suffix.js", array('plupload-full', 'jquery'), '20110829');
+	$scripts->add( 'plupload-handlers', "/wp-includes/js/plupload/handlers$suffix.js", array('plupload-full', 'jquery'), '20110914');
 	$scripts->add_script_data( 'plupload-handlers', 'pluploadL10n', $uploader_l10n );
 
 	// keep 'swfupload' for back-compat.
@@ -408,7 +408,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
 
 	// all colors stylesheets need to have the same query strings (cache manifest compat)
-	$colors_version = '20110829';
+	$colors_version = '20110914';
 
 	// Register "meta" stylesheet for admin colors. All colors-* style sheets should have the same version string.
 	$styles->add( 'colors', true, array('wp-admin'), $colors_version );
@@ -417,7 +417,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'colors-fresh', "/wp-admin/css/colors-fresh$suffix.css", array('wp-admin'), $colors_version );
 	$styles->add( 'colors-classic', "/wp-admin/css/colors-classic$suffix.css", array('wp-admin'), $colors_version );
 
-	$styles->add( 'media', "/wp-admin/css/media$suffix.css", array(), '20110707' );
+	$styles->add( 'media', "/wp-admin/css/media$suffix.css", array(), '20110914' );
 	$styles->add( 'install', "/wp-admin/css/install$suffix.css", array(), '20110821' ); // Readme as well
 	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css', array(), '20090514' );
 	$styles->add( 'farbtastic', '/wp-admin/css/farbtastic.css', array(), '1.3u1' );

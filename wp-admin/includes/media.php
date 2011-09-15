@@ -1470,12 +1470,8 @@ if ( is_multisite() && !is_upload_space_available() ) {
 
 do_action('pre-upload-ui');
 
-// Set the post params, which plupload will post back with the file, and pass
-// them through a filter.
 $post_params = array(
 		"post_id" => $post_id,
-		"auth_cookie" => (is_ssl() ? $_COOKIE[SECURE_AUTH_COOKIE] : $_COOKIE[AUTH_COOKIE]),
-		"logged_in_cookie" => $_COOKIE[LOGGED_IN_COOKIE],
 		"_wpnonce" => wp_create_nonce('media-form'),
 		"type" => $type,
 		"tab" => $tab,
@@ -1483,99 +1479,43 @@ $post_params = array(
 );
 
 $post_params = apply_filters( 'upload_post_params', $post_params ); // hook change! old name: 'swfupload_post_params'
-$p = array();
 
-foreach ( $post_params as $param => $val ) {
-	$val = esc_js( $val );
-	$p[] = "'$param' : '$val'";
-}
+$plupload_init = array(
+	'runtimes' => 'html5,silverlight,flash,html4',
+	'browse_button' => 'plupload-browse-button',
+	'container' => 'plupload-upload-ui',
+	'drop_element' => 'wpwrap',
+	'file_data_name' => 'async-upload',
+	'multiple_queues' => true,
+	'max_file_size' => round( (int) $max_upload_size / 1024 ) . 'kb',
+	'url' => $upload_action_url,
+	'flash_swf_url' => includes_url('js/plupload/plupload.flash.swf'),
+	'silverlight_xap_url' => includes_url('js/plupload/plupload.silverlight.xap'),
+	'filters' => array( array('title' => __( 'Allowed Files' ), 'extensions' => '*') ),
+	'multipart' => true,
+	'urlstream_upload' => true,
+	'multipart_params' => $post_params
+);
 
-$post_params_str = implode( ',', $p ). "\n";
+$plupload_init = apply_filters( 'plupload_init', $plupload_init );
 
 ?>
+
 <script type="text/javascript">
-//<![CDATA[
-var resize_height = <?php echo get_option('large_size_h', 1024); ?>, 
-	resize_width = <?php echo get_option('large_size_w', 1024); ?>;
-
-jQuery(document).ready(function($) {
-	window.uploader = new plupload.Uploader({
-		runtimes: '<?php echo apply_filters('plupload_runtimes', 'html5,silverlight,flash,html4'); ?>',
-		browse_button: 'plupload-browse-button',
-		container: 'plupload-upload-ui',
-		drop_element: 'media-upload',
-		file_data_name: 'async-upload',
-		max_file_size: '<?php echo round( (int) $max_upload_size / 1024 ); ?>kb',
-		url: '<?php echo esc_js( $upload_action_url ); ?>',
-		flash_swf_url: '<?php echo esc_js( includes_url('js/plupload/plupload.flash.swf') ); ?>',
-		silverlight_xap_url: '<?php echo esc_js( includes_url('js/plupload/plupload.silverlight.xap') ); ?>',
-		filters: [
-			{title: '<?php echo esc_js( __( 'Allowed Files' ) ); ?>', extensions: '<?php echo esc_js( apply_filters('uploader_allowed_extensions', '*') ); ?>'}
-		],
-		multipart: true,
-		urlstream_upload: true,
-		multipart_params : {
-			<?php echo $post_params_str; ?>
-		}
-	});
-
-	setResize( getUserSetting('upload_resize', false) );
-	
-	$('#image_resize').bind('change', function() {
-		var arg = $(this).prop('checked');
-
-		setResize( arg );
-
-		if ( arg )
-			setUserSetting('upload_resize', 1);
-		else
-			deleteUserSetting('upload_resize');
-	});
-
-	uploader.init();
-
-	uploader.bind('FilesAdded', function(up, files) {
-		$.each(files, function(i, file) {
-			fileQueued(file);
-		});
-
-		up.refresh();
-		up.start();
-	});
-
-	uploader.bind('BeforeUpload', function(up, file) {
-		uploadStart(file);
-	});
-	
-	uploader.bind('UploadProgress', function(up, file) {
-		uploadProgress(file, file.loaded, file.size);
-	});
-	
-	uploader.bind('Error', function(up, err) {
-		uploadError(err.file, err.code, err.message);
-	
-		up.refresh();
-	});
-
-	uploader.bind('FileUploaded', function(up, file, response) {
-		<?php echo apply_filters( 'plupload_success_handler', 'uploadSuccess' ); ?>(file, response.response);
-	});
-	
-	if ( uploader.runtime == 'html5' )
-		$('.dragdrop-info').show();
-});
-//]]>
+var resize_height = <?php echo get_option('large_size_h', 1024); ?>,
+resize_width = <?php echo get_option('large_size_w', 1024); ?>,
+wpUploaderInit = <?php echo json_encode($plupload_init); ?>;
 </script>
 
 <div id="plupload-upload-ui" class="hide-if-no-js">
 <?php do_action('pre-plupload-upload-ui'); // hook change, old name: 'pre-flash-upload-ui' ?>
 
-	<div>
+	<p>
 	<?php _e( 'Choose files to upload' ); ?>
 	<input id="plupload-browse-button" type="button" value="<?php esc_attr_e('Select Files'); ?>" class="button" />
 	<input id="cancel-upload" disabled="disabled" onclick="cancelUpload()" type="button" value="<?php esc_attr_e('Cancel Upload'); ?>" class="button" />
-	</div>
-	<p class="dragdrop-info howto"><?php _e('Or you can drop the files into this window.'); ?></p>
+	</p>
+	<p class="dragdrop-info"><?php _e('Or you can drop the files into this window.'); ?></p>
 <?php do_action('post-plupload-upload-ui'); // hook change, old name: 'post-flash-upload-ui' ?>
 </div>
 
@@ -1588,14 +1528,14 @@ jQuery(document).ready(function($) {
 		<a href="#" onclick="try{top.tb_remove();}catch(e){}; return false;"><?php _e('Cancel'); ?></a>
 	</p>
 	<div class="clear"></div>
-<?php do_action('post-html-upload-ui', $plupload); ?>
+<?php do_action('post-html-upload-ui'); ?>
 </div>
 
 <p class="media-upload-size"><?php printf( __( 'Maximum upload file size: %d%s' ), esc_html($upload_size_unit), esc_html($sizes[$u]) ); ?></p>
 <p class="howto"><?php _e('After a file has been uploaded, you can add titles and descriptions.'); ?></p>
 
-<?php do_action('post-upload-ui'); ?>
 <?php
+	do_action('post-upload-ui');
 }
 
 /**
@@ -2281,11 +2221,12 @@ function _insert_into_post_button($type) {
  * @since 2.6.0
  */
 function media_upload_max_image_resize() {
+	$checked = get_user_setting('upload_resize') ? ' checked="true"' : '';
 ?>
-<label>
-<input name="image_resize" type="checkbox" id="image_resize" value="true" />
+<p class="hide-if-no-js"><label>
+<input name="image_resize" type="checkbox" id="image_resize" value="true"<?php echo $checked; ?> />
 <?php printf( __( 'Scale images to max width %1$dpx or max height %2$dpx' ), (int) get_option( 'large_size_w' ), (int) get_option( 'large_size_h' ) ); ?>
-</label>
+</label></p>
 <?php 
 }
 

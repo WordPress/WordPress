@@ -3708,6 +3708,10 @@ abbr.required {
 	width: 670px;
 }
 
+#wpbody-content #media-items:empty {
+	border: 0 none;
+}
+
 #wpbody-content #media-items .filename {
 	line-height: 36px;
 	overflow: hidden;
@@ -7622,71 +7626,72 @@ a.widget-control-edit {
 
 @media only screen and (max-width: 768px) {
 	/* categories */
-	#col-left{
-	width: 100%;
+	#col-left {
+		width: 100%;
 	}
 
-	#col-right{
-	width: 100%;
+	#col-right {
+		width: 100%;
 	} 
 }
 
 @media only screen and (min-width: 769px) {
 	/* categories */
-	#col-left{
-	width: 25%;
+	#col-left {
+		width: 25%;
 	}
 
-	#col-right{
-	width: 75%;
+	#col-right {
+		width: 75%;
 	}
 }
 
 @media only screen and (max-width: 860px) {
 
 	/* categories */
-	#col-left{
-	width: 25%;
+	#col-left {
+		width: 25%;
 	}
 
-	#col-right{
-	width: 75%;
+	#col-right {
+		width: 75%;
 	}
 }
 
 @media only screen and (min-width: 980px) {
 
 	/* categories */
-	#col-left{
-	width: 25%;
+	#col-left {
+		width: 25%;
 	}
 
-	#col-right{
-	width: 75%;
+	#col-right {
+		width: 75%;
 	}
 }
 
 @media only screen and (max-width: 768px) {
 	/* categories */
-	#col-left{
-	width: 100%;
+	#col-left {
+		width: 100%;
 	}
 
-	#col-right{
-	width: 100%;
+	#col-right {
+		width: 100%;
 	}
 
-	.form-field input, .form-field textarea{
-	width: 99%;
+	.form-field input,
+	.form-field textarea {
+		width: 99%;
 	}
 
-	.form-wrap .form-field{
-	padding:0;
+	.form-wrap .form-field {
+		padding:0;
 	}
 
 	/* users */
-	#profile-page .form-table textarea{
-	max-width: 400px;
-	width: auto;
+	#profile-page .form-table textarea {
+		max-width: 400px;
+		width: auto;
 	}
 }

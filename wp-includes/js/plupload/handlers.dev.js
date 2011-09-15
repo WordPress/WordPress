@@ -1,4 +1,4 @@
-var topWin = window.dialogArguments || opener || parent || top;
+var topWin = window.dialogArguments || opener || parent || top, uploader, uploader_init;
 
 function fileDialogStart() {
 	jQuery("#media-upload-error").empty();
@@ -79,14 +79,15 @@ function uploadSuccess(fileObj, serverData) {
 		jQuery('#attachments-count').text(1 * jQuery('#attachments-count').text() + 1);
 }
 
-function setResize(r) {
-	jQuery('#image_resize').prop('checked', r);
-	if (r) {
-		uploader.settings.resize = { width: resize_width, height: resize_height, quality: 100 };
-		uploader.settings.multipart_params.image_resize = true;
+function setResize(arg) {
+	if ( arg ) {
+		if ( uploader.features.jpgresize )
+			uploader.settings['resize'] = { width: resize_width, height: resize_height, quality: 100 };
+		else
+			uploader.settings.multipart_params.image_resize = true;
 	} else {
-		uploader.settings.resize = {};
-		uploader.settings.multipart_params.image_resize = false;
+		delete(uploader.settings.resize);
+		delete(uploader.settings.multipart_params.image_resize);
 	}
 }
 
@@ -359,8 +360,8 @@ function uploadError(fileObj, errorCode, message) {
 	}
 }
 
-// remember the last used image size, alignment and url
 jQuery(document).ready(function($){
+	// remember the last used image size, alignment and url
 	$('input[type="radio"]', '#media-items').live('click', function(){
 		var tr = $(this).closest('tr');
 
@@ -378,4 +379,72 @@ jQuery(document).ready(function($){
 			$(this).siblings('.urlfield').val( $(this).attr('title') );
 		}
 	});
+
+	// init and set the uploader
+	uploader_init = function() {
+		uploader = new plupload.Uploader(wpUploaderInit);
+
+		$('#image_resize').bind('change', function() {
+			var arg = $(this).prop('checked');
+
+			setResize( arg );
+
+			if ( arg )
+				setUserSetting('upload_resize', '1');
+			else
+				deleteUserSetting('upload_resize');
+		});
+
+		uploader.bind('Init', function(up) {
+			setResize( getUserSetting('upload_resize', false) );
+
+			if ( up.features.dragdrop ) {
+				$('.dragdrop-info').show();
+				
+				if ( $('#media-upload').length )
+					up.settings.drop_element = 'media-upload';
+			}
+				
+		});
+
+		uploader.init();
+
+		uploader.bind('FilesAdded', function(up, files) {
+			$.each(files, function(i, file) {
+				/*
+				if ( up.features.chunks && up.runtime != 'flash' && file.size > 1048576 )
+					up.settings.chunk_size = '1048576';
+				else
+					delete(up.settings.chunk_size);
+				*/
+
+				fileQueued(file);
+			});
+
+			up.refresh();
+			up.start();
+		});
+
+		uploader.bind('BeforeUpload', function(up, file) {
+			uploadStart(file);
+		});
+		
+		uploader.bind('UploadProgress', function(up, file) {
+			uploadProgress(file, file.loaded, file.size);
+		});
+
+		uploader.bind('Error', function(up, err) {
+			uploadError(err.file, err.code, err.message);
+
+			up.refresh();
+		});
+
+		uploader.bind('FileUploaded', function(up, file, response) {
+			uploadSuccess(file, response.response);
+		});
+	}
+
+	if ( typeof(wpUploaderInit) == 'object' )
+		uploader_init();
+
 });

@@ -157,14 +157,9 @@ abbr.required {
 	font-weight: normal;
 }
 
-#media-upload tr.image-size td.field {
-	text-align: center;
-}
-
 #media-upload #media-items {
-	border-width: 1px;
-	border-style: solid;
-	border-bottom: none;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
 	width: 623px;
 }
 
@@ -173,8 +168,8 @@ abbr.required {
 }
 
 #media-upload .media-item {
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
+	border-style: solid solid none;
+    border-width: 1px 1px 0;
 	min-height: 36px;
 	width: 100%;
 }
@@ -195,19 +190,10 @@ abbr.required {
 	cursor: default;
 }
 
-#media-upload .slidetoggle {
-	border-top-width: 1px;
-	border-top-style: solid;
-}
-
 #media-upload .describe th.label {
 	padding-top: .2em;
 	text-align: left;
 	min-width: 120px;
-}
-
-#media-upload tr.align td.field {
-	text-align: center;
 }
 
 #media-upload tr.image-size {

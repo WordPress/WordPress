@@ -300,10 +300,6 @@ div.error a {
 	color: #666;
 }
 
-.media-item {
-	border-bottom-color: #dfdfdf;
-}
-
 #wpbody-content #media-items .describe {
 	border-top-color: #dfdfdf;
 }
@@ -633,7 +629,8 @@ input.readonly, textarea.readonly {
 }
 
 #media-items,
-.imgedit-group {
+.imgedit-group,
+.media-item {
 	border-color: #dfdfdf;
 }
 
