@@ -2721,3 +2721,131 @@ function sanitize_user_object($user, $context = 'display') {
 
 	return $user;
 }
+
+/**
+ * Get boundary post relational link.
+ *
+ * Can either be start or end post relational link.
+ *
+ * @since 2.8.0
+ * @deprecated 3.3
+ *
+ * @param string $title Optional. Link title format.
+ * @param bool $in_same_cat Optional. Whether link should be in same category.
+ * @param string $excluded_categories Optional. Excluded categories IDs.
+ * @param bool $start Optional, default is true. Whether display link to first or last post.
+ * @return string
+ */
+function get_boundary_post_rel_link($title = '%title', $in_same_cat = false, $excluded_categories = '', $start = true) {
+	_deprecated_function( __FUNCTION__, '3.3' );
+
+	$posts = get_boundary_post($in_same_cat, $excluded_categories, $start);
+	// If there is no post stop.
+	if ( empty($posts) )
+		return;
+
+	// Even though we limited get_posts to return only 1 item it still returns an array of objects.
+	$post = $posts[0];
+
+	if ( empty($post->post_title) )
+		$post->post_title = $start ? __('First Post') : __('Last Post');
+
+	$date = mysql2date(get_option('date_format'), $post->post_date);
+
+	$title = str_replace('%title', $post->post_title, $title);
+	$title = str_replace('%date', $date, $title);
+	$title = apply_filters('the_title', $title, $post->ID);
+
+	$link = $start ? "<link rel='start' title='" : "<link rel='end' title='";
+	$link .= esc_attr($title);
+	$link .= "' href='" . get_permalink($post) . "' />\n";
+
+	$boundary = $start ? 'start' : 'end';
+	return apply_filters( "{$boundary}_post_rel_link", $link );
+}
+
+/**
+ * Display relational link for the first post.
+ *
+ * @since 2.8.0
+ * @deprecated 3.3
+ *
+ * @param string $title Optional. Link title format.
+ * @param bool $in_same_cat Optional. Whether link should be in same category.
+ * @param string $excluded_categories Optional. Excluded categories IDs.
+ */
+function start_post_rel_link($title = '%title', $in_same_cat = false, $excluded_categories = '') {
+	_deprecated_function( __FUNCTION__, '3.3' );
+
+	echo get_boundary_post_rel_link($title, $in_same_cat, $excluded_categories, true);
+}
+
+/**
+ * Get site index relational link.
+ *
+ * @since 2.8.0
+ * @deprecated 3.3
+ *
+ * @return string
+ */
+function get_index_rel_link() {
+	_deprecated_function( __FUNCTION__, '3.3' );
+
+	$link = "<link rel='index' title='" . esc_attr( get_bloginfo( 'name', 'display' ) ) . "' href='" . esc_url( user_trailingslashit( get_bloginfo( 'url', 'display' ) ) ) . "' />\n";
+	return apply_filters( "index_rel_link", $link );
+}
+
+/**
+ * Display relational link for the site index.
+ *
+ * @since 2.8.0
+ * @deprecated 3.3
+ */
+function index_rel_link() {
+	_deprecated_function( __FUNCTION__, '3.3' );
+
+	echo get_index_rel_link();
+}
+
+/**
+ * Get parent post relational link.
+ *
+ * @since 2.8.0
+ * @deprecated 3.3
+ *
+ * @param string $title Optional. Link title format.
+ * @return string
+ */
+function get_parent_post_rel_link($title = '%title') {
+	_deprecated_function( __FUNCTION__, '3.3' );
+
+	if ( ! empty( $GLOBALS['post'] ) && ! empty( $GLOBALS['post']->post_parent ) )
+		$post = & get_post($GLOBALS['post']->post_parent);
+
+	if ( empty($post) )
+		return;
+
+	$date = mysql2date(get_option('date_format'), $post->post_date);
+
+	$title = str_replace('%title', $post->post_title, $title);
+	$title = str_replace('%date', $date, $title);
+	$title = apply_filters('the_title', $title, $post->ID);
+
+	$link = "<link rel='up' title='";
+	$link .= esc_attr( $title );
+	$link .= "' href='" . get_permalink($post) . "' />\n";
+
+	return apply_filters( "parent_post_rel_link", $link );
+}
+
+/**
+ * Display relational link for parent item
+ *
+ * @since 2.8.0
+ * @deprecated 3.3
+ */
+function parent_post_rel_link($title = '%title') {
+	_deprecated_function( __FUNCTION__, '3.3' );
+
+	echo get_parent_post_rel_link($title);
+}
