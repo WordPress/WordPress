@@ -294,6 +294,9 @@ class WP_Object_Cache {
 	 * @return bool False if cache key and group already exist, true on success
 	 */
 	function add( $key, $data, $group = 'default', $expire = '' ) {
+		if ( wp_suspend_cache_addition() )
+			return false;
+
 		if ( empty ($group) )
 			$group = 'default';
 
