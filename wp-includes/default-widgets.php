@@ -525,7 +525,10 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 		if ( !is_array($cache) )
 			$cache = array();
 
-		if ( isset( $args['widget_id'] ) && isset( $cache[ $args['widget_id'] ] ) ) {
+			if ( ! isset( $args['widget_id'] ) )
+			$args['widget_id'] = $this->id;
+
+		if ( false && isset( $cache[ $args['widget_id'] ] ) ) {
 			echo $cache[ $args['widget_id'] ];
 			return;
 		}
@@ -628,7 +631,10 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 		if ( ! is_array( $cache ) )
 			$cache = array();
 
-		if ( isset( $args['widget_id'] ) && isset( $cache[ $args['widget_id'] ] ) ) {
+		if ( ! isset( $args['widget_id'] ) )
+			$args['widget_id'] = $this->id;
+
+		if ( false && isset( $cache[ $args['widget_id'] ] ) ) {
 			echo $cache[ $args['widget_id'] ];
 			return;
 		}
