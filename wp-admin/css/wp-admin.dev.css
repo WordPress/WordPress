@@ -2096,7 +2096,7 @@ body.admin-bar #adminmenu {
 }
 
 .postbox-container {
-	float: none;
+	float: left;
 }
 
 #postbox-container-1 .meta-box-sortables:first-child,
