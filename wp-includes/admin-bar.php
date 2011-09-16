@@ -55,8 +55,6 @@ function wp_admin_bar_render() {
 	if ( ! is_admin_bar_showing() || ! is_object( $wp_admin_bar ) )
 		return false;
 
-	$wp_admin_bar->load_user_locale_translations();
-
 	do_action_ref_array( 'admin_bar_menu', array( &$wp_admin_bar ) );
 
 	do_action( 'wp_before_admin_bar_render' );
@@ -64,8 +62,6 @@ function wp_admin_bar_render() {
 	$wp_admin_bar->render();
 
 	do_action( 'wp_after_admin_bar_render' );
-
-	$wp_admin_bar->unload_user_locale_translations();
 }
 add_action( 'wp_footer', 'wp_admin_bar_render', 1000 );
 add_action( 'admin_footer', 'wp_admin_bar_render', 1000 );

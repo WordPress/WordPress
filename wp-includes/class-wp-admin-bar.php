@@ -1,8 +1,6 @@
 <?php
 class WP_Admin_Bar {
-	var $changed_locale = false;
 	var $menu;
-	var $need_to_change_locale = false;
 	var $proto = 'http://';
 	var $user;
 
@@ -26,7 +24,6 @@ class WP_Admin_Bar {
 				$this->user->domain = trailingslashit( home_url() );
 				$this->user->account_domain = $this->user->domain;
 			}
-			$this->user->locale = get_locale();
 		}
 
 		add_action( 'wp_head', 'wp_admin_bar_header' );
@@ -207,31 +204,6 @@ class WP_Admin_Bar {
 		}
 
 		return false;
-	}
-
-	// TODO: Convert to a core feature for multisite or remove
-	function load_user_locale_translations() {
-		$this->need_to_change_locale = ( get_locale() != $this->user->locale );
-		if ( ! $this->need_to_change_locale )
-			return;
-		/*
-		$this->previous_translations = get_translations_for_domain( 'default' );
-		$this->adminbar_locale_filter = lambda( '$_', '$GLOBALS["wp_admin_bar"]->user->locale;' );
-		unload_textdomain( 'default' );
-		add_filter( 'locale', $this->adminbar_locale_filter );
-		load_default_textdomain();
-		$this->changed_locale = true;
-		*/
-	}
-
-	function unload_user_locale_translations() {
-		global $l10n;
-		if ( ! $this->changed_locale )
-			return;
-		/*
-		remove_filter( 'locale', $this->adminbar_locale_filter );
-		$l10n['default'] = &$this->previous_translations;
-		*/
 	}
 }
 ?>
