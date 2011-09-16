@@ -14,18 +14,20 @@ class WP_Admin_Bar {
 		$this->user = new stdClass;
 		$this->menu = new stdClass;
 
-		/* Populate settings we need for the menu based on the current user. */
-		$this->user->blogs = get_blogs_of_user( get_current_user_id() );
-		if ( is_multisite() ) {
-			$this->user->active_blog = get_active_blog_for_user( get_current_user_id() );
-			$this->user->domain = empty( $this->user->active_blog ) ? user_admin_url() : trailingslashit( get_home_url( $this->user->active_blog->blog_id ) );
-			$this->user->account_domain = $this->user->domain;
-		} else {
-			$this->user->active_blog = $this->user->blogs[get_current_blog_id()];
-			$this->user->domain = trailingslashit( home_url() );
-			$this->user->account_domain = $this->user->domain;
+		if ( is_user_logged_in() ) {
+			/* Populate settings we need for the menu based on the current user. */
+			$this->user->blogs = get_blogs_of_user( get_current_user_id() );
+			if ( is_multisite() ) {
+				$this->user->active_blog = get_active_blog_for_user( get_current_user_id() );
+				$this->user->domain = empty( $this->user->active_blog ) ? user_admin_url() : trailingslashit( get_home_url( $this->user->active_blog->blog_id ) );
+				$this->user->account_domain = $this->user->domain;
+			} else {
+				$this->user->active_blog = $this->user->blogs[get_current_blog_id()];
+				$this->user->domain = trailingslashit( home_url() );
+				$this->user->account_domain = $this->user->domain;
+			}
+			$this->user->locale = get_locale();
 		}
-		$this->user->locale = get_locale();
 
 		add_action( 'wp_head', 'wp_admin_bar_header' );
 
