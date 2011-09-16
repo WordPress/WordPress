@@ -42,7 +42,7 @@ var postboxes;
 			} );
 
 			$('.columns-prefs input[type="radio"]').click(function(){
-				var num = $(this).val(), ps = $('#poststuff');
+				var num = $(this).val(), ps = $('#poststuff'), wrap = $('.wrap').first();
 
 				if ( num == 'auto' ) {
 					setUserSetting('responsive', '1');
