@@ -375,19 +375,8 @@ form.upgrade .hint {
   6.2 - Screen Options Tabs
 ------------------------------------------------------------------------------*/
 
-#screen-meta-links {
-	margin: 0 0 0 19px;
-}
-
 #screen-meta .screen-reader-text {
 	visibility: hidden;
-}
-
-#screen-options-link-wrap,
-#contextual-help-link-wrap {
-	float: left;
-	margin: 0 6px 0 0;
-	font-family: Tahoma, Arial, sans-serif;
 }
 
 #contextual-help-wrap li {
@@ -400,9 +389,6 @@ form.upgrade .hint {
 }
 .toggle-arrow-active {
 	background-position: bottom right;
-}
-#screen-meta a.show-settings {
-	padding: 0 6px 0 16px;
 }
 
 #screen-options-wrap,

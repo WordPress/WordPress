@@ -97,13 +97,6 @@ class WP_Admin_Bar {
 					<?php endforeach; ?>
 				</ul>
 			</div>
-
-			<div id="adminbarsearch-wrap">
-				<form action="<?php echo home_url(); ?>" method="get" id="adminbarsearch">
-					<input class="adminbar-input" name="s" id="adminbar-search" type="text" value="" maxlength="150" />
-					<input type="submit" class="adminbar-button" value="<?php _e('Search'); ?>"/>
-				</form>
-			</div>
 		</div>
 
 		<?php
@@ -183,15 +176,18 @@ class WP_Admin_Bar {
 	function add_menus() {
 		add_action( 'admin_bar_menu', 'wp_admin_bar_my_account_menu', 10 );
 		add_action( 'admin_bar_menu', 'wp_admin_bar_my_sites_menu', 20 );
-		add_action( 'admin_bar_menu', 'wp_admin_bar_dashboard_view_site_menu', 25 );
 		add_action( 'admin_bar_menu', 'wp_admin_bar_edit_menu', 30 );
-		add_action( 'admin_bar_menu', 'wp_admin_bar_shortlink_menu', 80 );
 		add_action( 'admin_bar_menu', 'wp_admin_bar_updates_menu', 70 );
+		add_action( 'admin_bar_menu', 'wp_admin_bar_shortlink_menu', 80 );
 
-		if ( !is_network_admin() && !is_user_admin() ) {
+		if ( ! is_admin() ) {
+			add_action( 'admin_bar_menu', 'wp_admin_bar_blog_front_menu', 25 );
 			add_action( 'admin_bar_menu', 'wp_admin_bar_new_content_menu', 40 );
 			add_action( 'admin_bar_menu', 'wp_admin_bar_comments_menu', 50 );
-			add_action( 'admin_bar_menu', 'wp_admin_bar_appearance_menu', 60 );
+			add_action( 'admin_bar_menu', 'wp_admin_bar_search_menu', 100 );
+		} else {
+			add_action( 'admin_bar_menu', 'wp_admin_bar_blog_admin_menu', 25 );
+			add_action( 'admin_bar_menu', 'wp_admin_bar_help_menu', 90 );
 		}
 
 		do_action( 'add_admin_bar_menus' );

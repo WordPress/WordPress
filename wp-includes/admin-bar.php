@@ -82,10 +82,11 @@ function wp_admin_bar_my_account_menu( $wp_admin_bar ) {
 
 	if ( 0 != $user_id ) {
 		/* Add the 'My Account' menu */
-		$avatar = get_avatar( get_current_user_id(), 16 );
-		$id = ( ! empty( $avatar ) ) ? 'my-account-with-avatar' : 'my-account';
+		$avatar = get_avatar( get_current_user_id(), 28 );
+		$id     = ( ! empty( $avatar ) ) ? 'my-account-with-avatar' : 'my-account';
+		$howdy  = sprintf( __('Howdy, %1$s'), $user_identity );
 
-		$wp_admin_bar->add_menu( array( 'id' => $id, 'title' => $avatar . $user_identity,  'href' => get_edit_profile_url( $user_id ) ) );
+		$wp_admin_bar->add_menu( array( 'id' => $id, 'title' => $howdy . $avatar,  'href' => get_edit_profile_url( $user_id ) ) );
 
 		/* Add the "My Account" sub menus */
 		$wp_admin_bar->add_menu( array( 'id' => 'edit-profile', 'parent' => $id, 'title' => __( 'Edit My Profile' ), 'href' => get_edit_profile_url( $user_id ) ) );
@@ -94,21 +95,61 @@ function wp_admin_bar_my_account_menu( $wp_admin_bar ) {
 }
 
 /**
- * Add the "Dashboard"/"Visit Site" menu.
+ * Add the "Blog Name" menu in the front end.
  *
- * @since 3.2.0
+ * @since 3.3.0
  */
-function wp_admin_bar_dashboard_view_site_menu( $wp_admin_bar ) {
-	$user_id = get_current_user_id();
+function wp_admin_bar_blog_front_menu( $wp_admin_bar ) {
+	$blogname = get_bloginfo('name');
 
-	if ( 0 != $user_id ) {
-		if ( is_admin() )
-			$wp_admin_bar->add_menu( array( 'id' => 'view-site', 'title' => __( 'Visit Site' ), 'href' => home_url() ) );
-		elseif ( is_multisite() )
-			$wp_admin_bar->add_menu( array( 'id' => 'dashboard', 'title' => __( 'Dashboard' ), 'href' => get_dashboard_url( $user_id ) ) );
-		else
-			$wp_admin_bar->add_menu( array( 'id' => 'dashboard', 'title' => __( 'Dashboard' ), 'href' => admin_url() ) );
+	if ( empty( $blogname ) )
+		$blogname = preg_replace( '#^(https?://)?(www.)?#', '', get_home_url() );
+
+
+	$wp_admin_bar->add_menu( array(
+		'id'    => 'blog-name',
+		'title' => $blogname,
+		'href'  => admin_url(),
+	) );
+
+	// Add Dashboard item.
+	$wp_admin_bar->add_menu( array(
+		'id'     => 'dashboard',
+		'title'  => __( 'Dashboard' ),
+		'href'   => admin_url(),
+		'parent' => 'blog-name',
+	) );
+
+	wp_admin_bar_appearance_menu( $wp_admin_bar );
+}
+
+/**
+ * Add the "Blog Name" menu in the admin.
+ *
+ * @since 3.3.0
+ */
+function wp_admin_bar_blog_admin_menu( $wp_admin_bar ) {
+	global $current_site;
+
+	if ( is_network_admin() ) {
+		$title = sprintf( __('Network Admin: %s'), esc_html($current_site->site_name) );
+		$url   = '#';
+	} elseif ( is_user_admin() ) {
+		$title = sprintf( __('Global Dashboard: %s'), esc_html($current_site->site_name) );
+		$url   = '#';
+	} else {
+		$title = get_bloginfo('name');
+		$url   = get_home_url();
+
+		if ( empty( $title ) )
+			$title = preg_replace( '#^(https?://)?(www.)?#', '', $url );
 	}
+
+	$wp_admin_bar->add_menu( array(
+		'id'    => 'blog-name',
+		'title' => $title,
+		'href'  => $url,
+	) );
 }
 
 /**
@@ -120,17 +161,45 @@ function wp_admin_bar_my_sites_menu( $wp_admin_bar ) {
 	global $wpdb;
 
 	/* Add the 'My Sites' menu if the user has more than one site. */
-	if ( count( $wp_admin_bar->user->blogs ) <= 1 )
-		return;
+	// if ( count( $wp_admin_bar->user->blogs ) <= 1 )
+	// 	return;
 
-	$wp_admin_bar->add_menu( array(  'id' => 'my-blogs', 'title' => __( 'My Sites' ),  'href' => admin_url( 'my-sites.php' ) ) );
+	$grey_wp_logo_url = admin_url( 'images/wp-logo.png' );
 
-	$default = includes_url('images/wpmini-blue.png');
+	$grey_wp_logo = '<img src="' . esc_url( $grey_wp_logo_url ) . '" alt="' . esc_attr__( 'Blavatar' ) . '" width="16" height="16" class="blavatar"/>';
+
+	if ( is_multisite() )
+		$url = admin_url( 'my-sites.php' );
+	else
+		$url = admin_url();
+
+	$wp_admin_bar->add_menu( array(
+		'id'    => 'my-blogs',
+		'title' => $grey_wp_logo,
+		'href'  => $url,
+	) );
+
+	// Add network admin link
+	if ( is_multisite() && is_super_admin() && ! is_network_admin() ) {
+		$wp_admin_bar->add_menu( array(
+			'parent' => 'my-blogs',
+			'id'     => 'network-admin',
+			'title'  => __('Network Admin'),
+			'href'   => network_admin_url(),
+		) );
+	}
+
+	// Add blog links
+	$blue_wp_logo_url = includes_url('images/wpmini-blue.png');
 
 	foreach ( (array) $wp_admin_bar->user->blogs as $blog ) {
+		// Skip the current blog.
+		if ( $blog->userblog_id == $wp_admin_bar->user->active_blog->blog_id )
+			continue;
+
 		// @todo Replace with some favicon lookup.
-		//$blavatar = '<img src="' . esc_url( blavatar_url( blavatar_domain( $blog->siteurl ), 'img', 16, $default ) ) . '" alt="Blavatar" width="16" height="16" />';
-		$blavatar = '<img src="' . esc_url($default) . '" alt="' . esc_attr__( 'Blavatar' ) . '" width="16" height="16" class="blavatar"/>';
+		//$blavatar = '<img src="' . esc_url( blavatar_url( blavatar_domain( $blog->siteurl ), 'img', 16, $blue_wp_logo_url ) ) . '" alt="Blavatar" width="16" height="16" />';
+		$blavatar = '<img src="' . esc_url($blue_wp_logo_url) . '" alt="' . esc_attr__( 'Blavatar' ) . '" width="16" height="16" class="blavatar"/>';
 
 		$blogname = empty( $blog->blogname ) ? $blog->domain : $blog->blogname;
 
@@ -144,6 +213,14 @@ function wp_admin_bar_my_sites_menu( $wp_admin_bar ) {
 
 		$wp_admin_bar->add_menu( array( 'parent' => 'blog-' . $blog->userblog_id, 'id' => 'blog-' . $blog->userblog_id . '-v', 'title' => __( 'Visit Site' ), 'href' => get_home_url($blog->userblog_id) ) );
 	}
+
+	// Add WordPress.org link
+	$wp_admin_bar->add_menu( array(
+		'parent' => 'my-blogs',
+		'id'     => 'wporg',
+		'title'  => __('WordPress.org'),
+		'href'   => 'http://wordpress.org',
+	) );
 }
 
 /**
@@ -280,10 +357,18 @@ function wp_admin_bar_comments_menu( $wp_admin_bar ) {
 		return;
 
 	$awaiting_mod = wp_count_comments();
-	$awaiting_mod = $awaiting_mod->moderated;
+	$awaiting_mod = number_format_i18n( $awaiting_mod->moderated );
 
-	$awaiting_mod = $awaiting_mod ? "<span id='ab-awaiting-mod' class='pending-count'>" . number_format_i18n( $awaiting_mod ) . "</span>" : '';
-	$wp_admin_bar->add_menu( array( 'id' => 'comments', 'title' => sprintf( __('Comments %s'), $awaiting_mod ), 'href' => admin_url('edit-comments.php') ) );
+	$bubble  = "<div class='ab-comments-bubble'>";
+	$bubble .= "<div class='ab-comments-count'>$awaiting_mod</div>";
+	$bubble .= "<div class='ab-comments-arrow'></div>";
+	$bubble .= "</div>";
+
+	$wp_admin_bar->add_menu( array(
+		'id'    => 'comments',
+		'title' => $bubble,
+		'href'  => admin_url('edit-comments.php'),
+	) );
 }
 
 /**
@@ -296,7 +381,12 @@ function wp_admin_bar_appearance_menu( $wp_admin_bar ) {
 	if ( ! current_user_can('switch_themes') && ! current_user_can( 'edit_theme_options' ) )
 		return;
 
-	$wp_admin_bar->add_menu( array( 'id' => 'appearance', 'title' => __('Appearance'), 'href' => admin_url('themes.php') ) );
+	$wp_admin_bar->add_menu( array(
+		'id'     => 'appearance',
+		'title'  => __('Appearance'),
+		'href'   => admin_url('themes.php'),
+		'parent' => 'blog-name',
+	) );
 
 	if ( ! current_user_can( 'edit_theme_options' ) )
 		return;
@@ -334,6 +424,64 @@ function wp_admin_bar_updates_menu( $wp_admin_bar ) {
 	$update_title .= '</span>';
 
 	$wp_admin_bar->add_menu( array( 'id' => 'updates', 'title' => $update_title, 'href' => network_admin_url( 'update-core.php' ) ) );
+}
+
+/**
+ * Add screen options link.
+ *
+ * @since 3.3.0
+ */
+function wp_admin_bar_screen_options_menu( $wp_admin_bar ) {
+	$wp_admin_bar->add_menu( array(
+		'id'    => 'screen-options',
+		'title' => __('Screen Options'),
+		'href'  => '#',
+		'meta'  => array(
+			'class' => 'screen-meta-toggle hide-if-no-js',
+		),
+	) );
+}
+
+/**
+ * Add help link.
+ *
+ * @since 3.3.0
+ */
+function wp_admin_bar_help_menu( $wp_admin_bar ) {
+	$wp_admin_bar->add_menu( array(
+		'id'    => 'help',
+		'title' => __('Help'),
+		'href'  => '#',
+		'meta'  => array(
+			'class' => 'screen-meta-toggle hide-if-no-js',
+		),
+	) );
+}
+
+/**
+ * Add search form.
+ *
+ * @since 3.3.0
+ */
+function wp_admin_bar_search_menu( $wp_admin_bar ) {
+	$form  = '<div id="adminbarsearch-wrap">';
+	$form .= '<form action="' . home_url() . '" method="get" id="adminbarsearch">';
+	$form .= '<input class="adminbar-input" name="s" id="adminbar-search"';
+	$form .= 'type="text" value="" maxlength="150" placeholder="' . esc_attr__( 'Search' ) . '" />';
+	$form .= '<input type="submit" class="adminbar-button" value="' . __('Search') . '"/>';
+	$form .= '</form>';
+	$form .= '</div>';
+
+	$wp_admin_bar->add_menu( array(
+		'id'    => 'search',
+		'title' => $form,
+		'href'  => '#',
+		'meta'  => array(
+			'class'   => 'admin-bar-search',
+			// @TODO: Replace me with something far less hacky
+			'onclick' => 'if ( event.target.value != "Search" ) { return false; }',
+		),
+	) );
 }
 
 /**

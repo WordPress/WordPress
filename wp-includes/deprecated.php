@@ -2849,3 +2849,24 @@ function parent_post_rel_link($title = '%title') {
 
 	echo get_parent_post_rel_link($title);
 }
+
+/**
+ * Add the "Dashboard"/"Visit Site" menu.
+ *
+ * @since 3.2.0
+ * @deprecated 3.3
+ */
+function wp_admin_bar_dashboard_view_site_menu( $wp_admin_bar ) {
+	_deprecated_function( __FUNCTION__, '3.3' );
+
+	$user_id = get_current_user_id();
+
+	if ( 0 != $user_id ) {
+		if ( is_admin() )
+			$wp_admin_bar->add_menu( array( 'id' => 'view-site', 'title' => __( 'Visit Site' ), 'href' => home_url() ) );
+		elseif ( is_multisite() )
+			$wp_admin_bar->add_menu( array( 'id' => 'dashboard', 'title' => __( 'Dashboard' ), 'href' => get_dashboard_url( $user_id ) ) );
+		else
+			$wp_admin_bar->add_menu( array( 'id' => 'dashboard', 'title' => __( 'Dashboard' ), 'href' => admin_url() ) );
+	}
+}

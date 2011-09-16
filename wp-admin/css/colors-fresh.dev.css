@@ -763,6 +763,12 @@ table.widefat span.spam a,
 	color: #555;
 }
 
+#screen-meta {
+	background-color: #f1f1f1;
+	border-color: #ccc;
+}
+
+
 .login #backtoblog a {
 	color: #464646;
 }
@@ -951,13 +957,13 @@ table.widefat .spam a:hover,
 
 .expanded #adminmenu li.wp-not-current-submenu:hover a.menu-top,
 .expanded #adminmenu li.wp-not-current-submenu:hover .wp-menu-arrow {
-	background-color: #eee; /* Fallback */
-	background-image: -ms-linear-gradient(bottom, #ccc, #eee); /* IE10 */
-	background-image: -moz-linear-gradient(bottom, #ccc, #eee); /* Firefox */
-	background-image: -o-linear-gradient(bottom, #ccc, #eee); /* Opera */
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#ccc), to(#eee)); /* old Webkit */
+	background-color: #e4e4e4; /* Fallback */
+	background-image: -ms-linear-gradient(bottom, #ccc, #e4e4e4); /* IE10 */
+	background-image: -moz-linear-gradient(bottom, #ccc, #e4e4e4); /* Firefox */
+	background-image: -o-linear-gradient(bottom, #ccc, #e4e4e4); /* Opera */
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#ccc), to(#e4e4e4)); /* old Webkit */
 	background-image: -webkit-linear-gradient(bottom, #ccc, #e4e4e4); /* new Webkit */
-	background-image: linear-gradient(bottom, #ccc, #eee); /* proposed W3C Markup */
+	background-image: linear-gradient(bottom, #ccc, #e4e4e4); /* proposed W3C Markup */
 	border-top-color: #e4e4e4;
 	border-bottom-color: #ccc;
 	text-shadow: 0 1px 0 rgba( 255, 255, 255, 0.4 );
@@ -1276,34 +1282,6 @@ table.diff .diff-addedline ins {
 	color: #D54E21;
 }
 
-#screen-options-wrap,
-#contextual-help-wrap {
-	background-color: #f1f1f1;
-	border-color: #dfdfdf;
-}
-
-#screen-options-link-wrap,
-#contextual-help-link-wrap {
-	background-color: #e3e3e3; /* Fallback */
-	border-right: 1px solid transparent;
-	border-left: 1px solid transparent;
-	border-bottom: 1px solid transparent;
-	background-image: -ms-linear-gradient(bottom, #dfdfdf, #f1f1f1); /* IE10 */
-	background-image: -moz-linear-gradient(bottom, #dfdfdf, #f1f1f1); /* Firefox */
-	background-image: -o-linear-gradient(bottom, #dfdfdf, #f1f1f1); /* Opera */
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#dfdfdf), to(#f1f1f1)); /* old Webkit */
-	background-image: -webkit-linear-gradient(bottom, #dfdfdf, #f1f1f1); /* new Webkit */
-	background-image: linear-gradient(bottom, #dfdfdf, #f1f1f1); /* proposed W3C Markup */
-}
-
-#screen-meta-links a.show-settings {
-	color: #777;
-}
-
-#screen-meta-links a.show-settings:hover {
-	color: #000;
-}
-
 #replysubmit {
 	background-color: #f1f1f1;
 	border-top-color: #ddd;
@@ -1532,15 +1510,6 @@ body.press-this ul.category-tabs li.tabs a {
 
 #favorite-inside a:hover {
 	text-decoration: underline;
-}
-
-#screen-meta a.show-settings,
-.toggle-arrow {
-	background: transparent url(../images/arrows.png) no-repeat right 3px;
-}
-
-#screen-meta .screen-meta-active a.show-settings {
-	background: transparent url(../images/arrows.png) no-repeat right -33px;
 }
 
 .view-switch #view-switch-list {
@@ -1886,13 +1855,8 @@ div.widgets-sortables,
 	background: transparent url(../images/arrows.png) no-repeat 4px 2px;
 }
 
-.rtl #screen-meta a.show-settings,
 .toggle-arrow {
 	background: transparent url(../images/arrows.png) no-repeat left 3px;
-}
-
-.rtl #screen-meta .screen-meta-active a.show-settings {
-	background: transparent url(../images/arrows.png) no-repeat left -33px;
 }
 
 .rtl .sidebar-name-arrow {

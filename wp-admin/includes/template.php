@@ -1748,6 +1748,11 @@ function screen_meta($screen) {
 
 	$show_screen = apply_filters('screen_options_show_screen', $show_screen, $screen);
 
+	// If we have screen options, add the menu to the admin bar.
+	if ( $show_screen )
+		add_action( 'admin_bar_menu', 'wp_admin_bar_screen_options_menu', 80 );
+
+
 ?>
 <div id="screen-meta">
 <?php if ( $show_screen ) : ?>
@@ -1794,8 +1799,8 @@ function screen_meta($screen) {
 
 	echo $screen_options;
 	echo $settings; ?>
-<div><?php wp_nonce_field( 'screen-options-nonce', 'screenoptionnonce', false ); ?></div>
-</form>
+	<div><?php wp_nonce_field( 'screen-options-nonce', 'screenoptionnonce', false ); ?></div>
+	</form>
 </div>
 
 <?php endif; // $show_screen
@@ -1820,18 +1825,7 @@ function screen_meta($screen) {
 	?>
 	</div>
 
-<div id="screen-meta-links">
-<div id="contextual-help-link-wrap" class="hide-if-no-js screen-meta-toggle">
-<a href="#contextual-help" id="contextual-help-link" class="show-settings"><?php _e('Help') ?></a>
-</div>
-<?php if ( $show_screen ) { ?>
-<div id="screen-options-link-wrap" class="hide-if-no-js screen-meta-toggle">
-<a href="#screen-options" id="show-settings-link" class="show-settings"><?php _e('Screen Options') ?></a>
-</div>
-<?php } ?>
-</div>
-</div>
-<?php
+</div> <?php // #screen-meta
 }
 
 /**

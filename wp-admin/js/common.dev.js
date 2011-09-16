@@ -182,22 +182,33 @@ showNotice = {
 };
 
 screenMeta = {
-	links: {
-		'screen-options-link-wrap': 'screen-options-wrap',
-		'contextual-help-link-wrap': 'contextual-help-wrap'
+	element: null, // #screen-meta
+	toggles: null, // .screen-meta-toggle
+	page:    null, // #wpcontent, #adminmenu
+	padding: null, // the closed page padding-top property
+	top:     null, // the closed element top property
+	map: {
+		'wp-admin-bar-screen-options': 'screen-options-wrap',
+		'wp-admin-bar-help': 'contextual-help-wrap'
 	},
+
 	init: function() {
-		$('.screen-meta-toggle').click( screenMeta.toggleEvent );
+		screenMeta.element = $('#screen-meta');
+		screenMeta.toggles = $('.screen-meta-toggle');
+		screenMeta.page    = $('#wpcontent, #adminmenu');
+
+		screenMeta.toggles.click( screenMeta.toggleEvent );
 	},
+
 	toggleEvent: function( e ) {
 		var panel;
 		e.preventDefault();
 
 		// Check to see if we found a panel.
-		if ( ! screenMeta.links[ this.id ] )
+		if ( ! screenMeta.map[ this.id ] )
 			return;
 
-		panel = $('#' + screenMeta.links[ this.id ]);
+		panel = $('#' + screenMeta.map[ this.id ]);
 
 		if ( panel.is(':visible') )
 			screenMeta.close( panel, $(this) );
@@ -205,19 +216,28 @@ screenMeta = {
 			screenMeta.open( panel, $(this) );
 	},
 	open: function( panel, link ) {
-		$('.screen-meta-toggle').not( link ).css('visibility', 'hidden');
+		// Close open panel
+		screenMeta.toggles.filter('.selected').click();
 
-		panel.slideDown( 'fast', function() {
-			link.addClass('screen-meta-active');
-		});
+		// Open selected panel
+		link.addClass('selected');
+
+		screenMeta.padding = parseInt( screenMeta.page.css('paddingTop'), 10 );
+		screenMeta.top     = parseInt( screenMeta.element.css('top'), 10 );
+
+		panel.show();
+
+		screenMeta.element.css({ top: 0 });
+		screenMeta.page.css({ paddingTop: screenMeta.padding + screenMeta.element.outerHeight() });
 	},
 	close: function( panel, link ) {
-		panel.slideUp( 'fast', function() {
-			link.removeClass('screen-meta-active');
-			$('.screen-meta-toggle').css('visibility', '');
-		});
+		screenMeta.element.css({ top: screenMeta.top });
+		screenMeta.page.css({ paddingTop: screenMeta.padding });
+		panel.hide();
+		link.removeClass('selected');
 	}
 };
+
 
 $(document).ready( function() {
 	var lastClicked = false, checks, first, last, checked, dropdown,
@@ -231,6 +251,7 @@ $(document).ready( function() {
 	screenMeta.init();
 
 	// User info dropdown.
+	// @todo: Removed in 3.3; remove me!
 	dropdown = {
 		doc: $(document),
 		element: $('#user_info'),

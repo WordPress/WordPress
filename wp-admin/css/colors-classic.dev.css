@@ -1,7 +1,7 @@
 /*------------------------------------------------------------------------------
 
 
-Howdy! This is the CSS file that controls the 
+Howdy! This is the CSS file that controls the
 Blue (classic) color style on the WordPress Dashboard.
 
 This file contains both LTR and RTL styles.
@@ -1661,14 +1661,6 @@ table.diff .diff-addedline ins {
 	background-image: linear-gradient(bottom, #eff8ff, #fff); /* proposed W3C Markup */
 }
 
-#screen-meta-links a.show-settings {
-	color: #606060;
-}
-
-#screen-meta-links a.show-settings:hover {
-	color: #000;
-}
-
 #replysubmit {
 	background-color: #f1f1f1;
 	border-top-color: #ddd;
@@ -1894,13 +1886,8 @@ body.press-this ul.category-tabs li.tabs a {
 	text-decoration: underline;
 }
 
-#screen-meta a.show-settings,
 .toggle-arrow {
 	background: transparent url(../images/arrows-vs.png) no-repeat right 3px;
-}
-
-#screen-meta .screen-meta-active a.show-settings {
-	background: transparent url(../images/arrows-vs.png) no-repeat right -33px;
 }
 
 .view-switch #view-switch-list {
@@ -2253,13 +2240,8 @@ div.widgets-sortables,
 	background: transparent url(../images/arrows-vs.png) no-repeat 4px 2px;
 }
 
-.rtl #screen-meta a.show-settings,
 .toggle-arrow {
 	background: transparent url(../images/arrows-vs.png) no-repeat left 3px;
-}
-
-.rtl #screen-meta .screen-meta-active a.show-settings {
-	background: transparent url(../images/arrows-vs.png) no-repeat left -33px;
 }
 
 .rtl .sidebar-name-arrow {

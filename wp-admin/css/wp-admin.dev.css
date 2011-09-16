@@ -543,7 +543,7 @@ code {
 }
 
 .wrap {
-	margin: 0 15px 0 0;
+	margin: 4px 15px 0 0;
 }
 
 div.updated,
@@ -1463,8 +1463,7 @@ form.upgrade .hint {
 #adminmenu a,
 #sidemenu a,
 #taglist a,
-#catlist a,
-#show-settings a {
+#catlist a {
 	text-decoration: none;
 }
 
@@ -1574,31 +1573,21 @@ form.upgrade .hint {
 ------------------------------------------------------------------------------*/
 
 #screen-meta {
-	position: relative;
-	clear: both;
-}
-
-#screen-meta-links {
-	margin: 0 24px 0 0;
+	position: fixed;
+	max-height: 200px;
+	top: -250px;
+	left: 0;
+	right: 0;
+	margin-top: 28px;
+	z-index: 200;
+	max-height: 200px;
+	overflow: auto;
+	border-style: solid;
+	border-width: 0 0 1px;
 }
 
 #screen-meta .screen-reader-text {
 	visibility: hidden;
-}
-
-#screen-options-link-wrap,
-#contextual-help-link-wrap {
-	float: right;
-	height: 22px;
-	padding: 0;
-	margin: 0 0 0 6px;
-	font-family: sans-serif;
-	-moz-border-radius-bottomleft: 3px;
-	-moz-border-radius-bottomright: 3px;
-	-webkit-border-bottom-left-radius: 3px;
-	-webkit-border-bottom-right-radius: 3px;
-	border-bottom-left-radius: 3px;
-	border-bottom-right-radius: 3px;
 }
 
 #contextual-help-wrap li {
@@ -1616,20 +1605,6 @@ form.upgrade .hint {
 .toggle-arrow-active {
 	background-position: bottom left;
 }
-#screen-meta a.show-settings {
-	text-decoration: none;
-	z-index: 1;
-	padding: 0 16px 0 6px;
-	height: 22px;
-	line-height: 22px;
-	font-size: 12px;
-	display: block;
-	text-shadow: rgba(255,255,255,0.7) 0 1px 0;
-}
-
-#screen-meta a.show-settings:hover {
-	text-decoration: none;
-}
 
 #screen-options-wrap h5,
 #contextual-help-wrap h5 {
@@ -1639,10 +1614,7 @@ form.upgrade .hint {
 
 #screen-options-wrap,
 #contextual-help-wrap {
-	border-style: none solid solid;
-	border-top: 0 none;
-	border-width: 0 1px 1px;
-	margin: 0 20px 0 0;
+	margin: 0;
 	padding: 8px 12px 12px;
 }
 
@@ -2063,7 +2035,7 @@ strong .post-com-count {
   8.0 - Layout Blocks
 ------------------------------------------------------------------------------*/
 
-body.admin-bar #wphead,
+body.admin-bar #wpcontent,
 body.admin-bar #adminmenu {
 	padding-top: 28px;
 }
