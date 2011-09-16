@@ -664,6 +664,10 @@ function get_blogs_of_user( $id, $all = false ) {
 		return $blogs;
 	}
 
+	// Logged out users can't have blogs
+	if ( 0 === $id )
+		return false;
+
 	$blogs = wp_cache_get( 'blogs_of_user-' . $id, 'users' );
 
 	// Try priming the new cache from the old cache
