@@ -764,6 +764,10 @@ table.widefat span.spam a,
 }
 
 #screen-meta {
+	background-color: #fff;
+}
+#screen-options-wrap,
+#contextual-help-wrap {
 	background-color: #f1f1f1;
 	border-color: #ccc;
 }

@@ -1574,16 +1574,34 @@ form.upgrade .hint {
 
 #screen-meta {
 	position: fixed;
-	max-height: 200px;
 	top: -250px;
-	left: 0;
+	left: 146px;
 	right: 0;
 	margin-top: 28px;
-	z-index: 200;
+	z-index: 20;
+	padding: 0 15px 0 20px;
+}
+
+.folded #screen-meta {
+	left: 33px;
+}
+
+#screen-options-wrap,
+#contextual-help-wrap {
+	margin: 0;
+	padding: 8px 20px 12px;
 	max-height: 200px;
 	overflow: auto;
 	border-style: solid;
-	border-width: 0 0 1px;
+	border-width: 0 1px 1px;
+
+	-moz-border-radius: 0 0 3px 3px;
+	-webkit-border-bottom-right-radius: 3px;
+	-webkit-border-bottom-left-radius: 3px;
+	-khtml-border-bottom-right-radius: 3px;
+	-khtml-border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px;
+	border-bottom-left-radius: 3px;
 }
 
 #screen-meta .screen-reader-text {
@@ -1610,12 +1628,6 @@ form.upgrade .hint {
 #contextual-help-wrap h5 {
 	margin: 8px 0;
 	font-size: 13px;
-}
-
-#screen-options-wrap,
-#contextual-help-wrap {
-	margin: 0;
-	padding: 8px 12px 12px;
 }
 
 .metabox-prefs label {
@@ -7604,7 +7616,7 @@ a.widget-control-edit {
 
 	#col-right {
 		width: 100%;
-	} 
+	}
 }
 
 @media only screen and (min-width: 769px) {

@@ -184,7 +184,7 @@ showNotice = {
 screenMeta = {
 	element: null, // #screen-meta
 	toggles: null, // .screen-meta-toggle
-	page:    null, // #wpcontent, #adminmenu
+	page:    null, // #wpcontent
 	padding: null, // the closed page padding-top property
 	top:     null, // the closed element top property
 	map: {
@@ -195,7 +195,7 @@ screenMeta = {
 	init: function() {
 		screenMeta.element = $('#screen-meta');
 		screenMeta.toggles = $('.screen-meta-toggle');
-		screenMeta.page    = $('#wpcontent, #adminmenu');
+		screenMeta.page    = $('#wpcontent');
 
 		screenMeta.toggles.click( screenMeta.toggleEvent );
 	},
