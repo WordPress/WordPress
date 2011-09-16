@@ -193,9 +193,10 @@ function wp_admin_bar_my_sites_menu( $wp_admin_bar ) {
 	$blue_wp_logo_url = includes_url('images/wpmini-blue.png');
 
 	foreach ( (array) $wp_admin_bar->user->blogs as $blog ) {
-		// Skip the current blog.
-		if ( $blog->userblog_id == $wp_admin_bar->user->active_blog->blog_id )
+		// Skip the current blog (unless we're in the network/user admin).
+		if ( $blog->userblog_id == get_current_blog_id() && ! is_network_admin() && ! is_user_admin() ) {
 			continue;
+		}
 
 		// @todo Replace with some favicon lookup.
 		//$blavatar = '<img src="' . esc_url( blavatar_url( blavatar_domain( $blog->siteurl ), 'img', 16, $blue_wp_logo_url ) ) . '" alt="Blavatar" width="16" height="16" />';
