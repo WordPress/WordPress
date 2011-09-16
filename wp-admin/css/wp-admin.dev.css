@@ -4644,14 +4644,14 @@ input.button-highlighted,
 	cursor: move;
 	color: #333;
 	background: #dfdfdf;
-	-webkit-gradient(
+	background-image: -webkit-gradient(
 		linear,
 		left bottom,
 		left top,
 		color-stop(0.07, rgb(230,230,230)),
 		color-stop(0.77, rgb(216,216,216))
 	);
-	-moz-linear-gradient(
+	background-image: -moz-linear-gradient(
 		center bottom,
 		rgb(230,230,230) 7%,
 		rgb(216,216,216) 77%
