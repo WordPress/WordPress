@@ -100,6 +100,9 @@ function wp_admin_bar_my_account_menu( $wp_admin_bar ) {
  * @since 3.3.0
  */
 function wp_admin_bar_blog_front_menu( $wp_admin_bar ) {
+	if ( ! is_user_logged_in() )
+		return;
+
 	$blogname = get_bloginfo('name');
 
 	if ( empty( $blogname ) )
