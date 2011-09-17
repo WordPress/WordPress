@@ -274,7 +274,8 @@ function media_handle_sideload($file_array, $post_id, $desc = null, $post_data =
 			$content = $image_meta['caption'];
 	}
 
-	$title = isset($desc) ? $desc : '';
+	if ( isset( $desc ) )
+		$title = $desc;
 
 	// Construct the attachment array
 	$attachment = array_merge( array(
