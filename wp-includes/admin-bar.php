@@ -540,16 +540,19 @@ function show_admin_bar( $show ) {
 function is_admin_bar_showing() {
 	global $show_admin_bar, $pagenow;
 
-	/* For all these types of request we never want an admin bar period */
+	// For all these types of requests, we never want an admin bar.
 	if ( defined('XMLRPC_REQUEST') || defined('APP_REQUEST') || defined('DOING_AJAX') || defined('IFRAME_REQUEST') )
 		return false;
+
+	// Integrated into the admin.
+	if ( is_admin() )
+		return true;
 
 	if ( ! isset( $show_admin_bar ) ) {
 		if ( ! is_user_logged_in() || 'wp-login.php' == $pagenow ) {
 			$show_admin_bar = false;
 		} else {
-			$context = is_admin() ? 'admin' : 'front';
-			$show_admin_bar = _get_admin_bar_pref( $context );
+			$show_admin_bar = _get_admin_bar_pref();
 		}
 	}
 
@@ -559,16 +562,17 @@ function is_admin_bar_showing() {
 }
 
 /**
- * Retrieve the admin bar display preference of a user based on context.
+ * Retrieve the admin bar display preference of a user.
  *
  * @since 3.1.0
  * @access private
  *
- * @param string $context Context of this preference check, either 'admin' or 'front'.
+ * @param string $context Context of this preference check. Defaults to 'front'. The 'admin'
+ * 	preference is no longer used.
  * @param int $user Optional. ID of the user to check, defaults to 0 for current user.
  * @return bool Whether the admin bar should be showing for this user.
  */
-function _get_admin_bar_pref( $context, $user = 0 ) {
+function _get_admin_bar_pref( $context = 'front', $user = 0 ) {
 	$pref = get_user_option( "show_admin_bar_{$context}", $user );
 	if ( false === $pref )
 		return true;

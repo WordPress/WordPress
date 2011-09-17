@@ -213,14 +213,12 @@ if ( !( IS_PROFILE_PAGE && !$user_can_edit ) ) : ?>
 </tr>
 <?php endif; ?>
 <tr class="show-admin-bar">
-<th scope="row"><?php _e('Show Admin Bar')?></th>
-<td><fieldset><legend class="screen-reader-text"><span><?php _e('Show Admin Bar') ?></span></legend>
+<th scope="row"><?php _e('Admin Bar')?></th>
+<td><fieldset><legend class="screen-reader-text"><span><?php _e('Admin Bar') ?></span></legend>
 <label for="admin_bar_front">
-<input name="admin_bar_front" type="checkbox" id="admin_bar_front" value="1" <?php checked( _get_admin_bar_pref( 'front', $profileuser->ID ) ); ?> />
-<?php /* translators: Show admin bar when viewing site */ _e( 'when viewing site' ); ?></label><br />
-<label for="admin_bar_admin">
-<input name="admin_bar_admin" type="checkbox" id="admin_bar_admin" value="1" <?php checked( _get_admin_bar_pref( 'admin', $profileuser->ID ) ); ?> />
-<?php /* translators: Show admin bar in dashboard */ _e( 'in dashboard' ); ?></label></fieldset>
+<input name="admin_bar_front" type="checkbox" id="admin_bar_front" value="1"<?php checked( _get_admin_bar_pref( 'front', $profileuser->ID ) ); ?> />
+<?php _e( 'Show Admin Bar when viewing site' ); ?></label><br />
+</fieldset>
 </td>
 </tr>
 <?php do_action('personal_options', $profileuser); ?>
