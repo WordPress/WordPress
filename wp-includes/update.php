@@ -57,8 +57,18 @@ function wp_version_check() {
 		$wp_install = home_url( '/' );
 	}
 
-	$local_package = isset( $wp_local_package )? $wp_local_package : '';
-	$url = "http://api.wordpress.org/core/version-check/1.6/?version=$wp_version&php=$php_version&locale=$locale&mysql=$mysql_version&local_package=$local_package&blogs=$num_blogs&users={$user_count['total_users']}&multisite_enabled=$multisite_enabled";
+	$query = array(
+		'version'           => $wp_version,
+		'php'               => $php_version,
+		'locale'            => $locale,
+		'mysql'             => $mysql_version,
+		'local_package'     => isset( $wp_local_package ) ? $wp_local_package : '',
+		'blogs'             => $num_blogs,
+		'users'             => $user_count['total_users'],
+		'multisite_enabled' => $multisite_enabled
+	);
+
+	$url = 'http://api.wordpress.org/core/version-check/1.6/?' . http_build_query( $query, null, '&' );
 
 	$options = array(
 		'timeout' => ( ( defined('DOING_CRON') && DOING_CRON ) ? 30 : 3 ),
