@@ -715,6 +715,18 @@ function is_404() {
 	return $wp_query->is_404();
 }
 
+/**
+ * Is the query the main query?
+ *
+ * @since 3.3.0
+ *
+ * @return bool
+ */
+function is_main_query() {
+	global $wp_query;
+	return $wp_query->is_main_query();
+}
+
 /*
  * The Loop.  Post loop control.
  */
@@ -3466,6 +3478,18 @@ class WP_Query {
 	 */
 	function is_404() {
 		return (bool) $this->is_404;
+	}
+
+	/**
+	 * Is the query the main query?
+	 *
+	 * @since 3.3.0
+	 *
+	 * @return bool
+	 */
+	function is_main_query() {
+		global $wp_the_query;
+		return $wp_the_query === $this;
 	}
 }
 
