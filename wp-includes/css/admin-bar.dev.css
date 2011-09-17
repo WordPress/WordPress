@@ -345,42 +345,40 @@
 }
 
 /**
- * Comments bubble
+ * Comments icon
  */
-#wpadminbar .ab-comments-bubble {
+#wpadminbar .ab-comments-icon {
 	position: relative;
 	padding-top: 5px;
+	float: left;
 }
-#wpadminbar .ab-comments-count {
-	background: #ccc;
-	color: #555;
-	text-shadow: none;
-	height: 1.2em;
-	line-height: 1.2em;
-	padding: 0 8px 0;
-	font-size: 12px;
-	font-weight: bold;
+#wpadminbar .ab-comments-icon-body {
+	margin: 3px 4px 0 -2px;
+	background: #999;
+	height: 10px;
+	width: 14px;
+
 	-moz-border-radius: 10px;
 	-khtml-border-radius: 10px;
 	-webkit-border-radius: 10px;
 	border-radius: 10px;
 }
 
-#wpadminbar a:hover .ab-comments-count {
+#wpadminbar a:hover .ab-comments-icon-body {
 	background: #bbb;
-	color: #333;
+	color: #555;
 }
 
-#wpadminbar a .ab-comments-arrow {
+#wpadminbar a .ab-comments-icon-arrow {
 	height: 0;
 	position: absolute;
-	bottom: -4px;
-	left: 6px;
+	bottom: -3px;
+	left: 1px;
 	/* Use transparent borders to form a triangle */
-	border-left: 5px solid #ccc;
-	border-bottom: 5px solid transparent;
+	border-left: 4px solid #999;
+	border-bottom: 4px solid transparent;
 }
-#wpadminbar a:hover .ab-comments-arrow {
+#wpadminbar a:hover .ab-comments-icon-arrow {
 	border-left-color: #bbb;
 }
 
