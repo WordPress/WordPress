@@ -163,10 +163,6 @@ function wp_admin_bar_my_sites_menu( $wp_admin_bar ) {
 	// if ( count( $wp_admin_bar->user->blogs ) <= 1 )
 	// 	return;
 
-	$grey_wp_logo_url = admin_url( 'images/wp-logo.png' );
-
-	$grey_wp_logo = '<img src="' . esc_url( $grey_wp_logo_url ) . '" alt="' . esc_attr__( 'Blavatar' ) . '" width="16" height="16" class="blavatar"/>';
-
 	if ( is_multisite() )
 		$url = admin_url( 'my-sites.php' );
 	else
@@ -174,8 +170,11 @@ function wp_admin_bar_my_sites_menu( $wp_admin_bar ) {
 
 	$wp_admin_bar->add_menu( array(
 		'id'    => 'my-blogs',
-		'title' => $grey_wp_logo,
+		'title' => '&nbsp;',
 		'href'  => $url,
+		'meta'  => array(
+			'class' => 'wp-admin-bar-logo',
+		),
 	) );
 
 	// Add network admin link

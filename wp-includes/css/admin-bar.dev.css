@@ -7,9 +7,9 @@
 	text-transform: none;
 	letter-spacing: normal;
 	line-height: 1;
-	font: normal 13px/28px Arial, Helvetica, sans-serif;
-	color: #ddd;
-	text-shadow: #555 0px -1px 0px;
+	font: normal 12px/28px "Helvetica Neue", sans-serif;
+	color: #ccc;
+	text-shadow: #444 0px -1px 0px;
 }
 
 #wpadminbar :before,
@@ -29,11 +29,8 @@
 
 #wpadminbar {
 	direction: ltr;
-	background-color: #777;
-	background-image: -moz-linear-gradient(bottom,  #666,  #7f7f7f);
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#666), to(#7f7f7f));
-	color: #ddd;
-	font: normal 12px/28px Arial, Helvetica, sans-serif;
+	color: #ccc;
+	font: normal 12px/28px "Helvetica Neue", sans-serif;
 	height: 28px;
 	position: fixed;
 	top: 0;
@@ -41,6 +38,14 @@
 	width: 100%;
 	z-index: 99999;
 	min-width: 960px;
+
+	background-color: #464646; /* Fallback */
+	background-image: -ms-linear-gradient(bottom, #464646, #373737 5px); /* IE10 */
+	background-image: -moz-linear-gradient(bottom, #464646, #373737 5px); /* Firefox */
+	background-image: -o-linear-gradient(bottom, #464646, #373737); /* Opera */
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#464646), to(#373737)); /* old Webkit */
+	background-image: -webkit-linear-gradient(bottom, #373737, #464646 5px); /* new Webkit */
+	background-image: linear-gradient(bottom, #464646, #373737); /* proposed W3C Markup */
 }
 
 #wpadminbar ul,
@@ -62,17 +67,12 @@
 }
 
 #wpadminbar .quicklinks > ul > li > a {
-	border-right: 1px solid #686868;
-	border-left: 1px solid #808080;
+	border-right: 1px solid #555;
+	border-left: 1px solid #333;
 }
 
 #wpadminbar .quicklinks > ul > li:last-child > a {
 	border-right: none;
-}
-
-#wpadminbar .quicklinks > ul > li:hover > a,
-#wpadminbar .quicklinks > ul > li.selected > a {
-	border-left-color: #707070;
 }
 
 #wpadminbar .quicklinks a,
@@ -89,14 +89,14 @@
 
 #wpadminbar .quicklinks .menupop ul,
 #wpadminbar .shortlink-input {
-	-moz-box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-	-webkit-box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-	box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+	margin: 0 0 0 1px;
+	padding: 6px 0;
+	-moz-box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+	-webkit-box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+	box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 	background: #fff;
-	background: rgba(255,255,255,0.97);
 	display: none;
 	position: absolute;
-	border: 1px solid #dfdfdf;
 	border-top: none;
 	float: none;
 }
@@ -117,7 +117,9 @@
 #wpadminbar .quicklinks .menupop ul li a span,
 #wpadminbar .quicklinks .menupop ul li a strong,
 #wpadminbar .shortlink-input {
-	color: #555;
+	line-height: 26px;
+	height: 26px;
+	color: #21759B;
 	text-shadow: none;
 	white-space: nowrap;
 	min-width: 140px;
@@ -125,13 +127,6 @@
 
 #wpadminbar .shortlink-input {
 	width: 200px;
-}
-
-#wpadminbar .quicklinks .menupop ul li:hover > a,
-#wpadminbar .quicklinks .menupop ul li:hover > a span,
-#wpadminbar .quicklinks .menupop ul li:hover > a strong {
-	color: #fff;
-	text-shadow: #666 0px -1px 0px;
 }
 
 #wpadminbar.nojq .quicklinks li:hover > ul,
@@ -147,20 +142,28 @@
 
 #wpadminbar .quicklinks li:hover,
 #wpadminbar .quicklinks .selected {
-	background: #555;
-	background: -moz-linear-gradient(bottom,  #555,  #3e3e3e);
-	background: -webkit-gradient(linear, left bottom, left top, from(#555), to(#3e3e3e));
+	background-color: #fff;
 }
 
+#wpadminbar .quicklinks li:hover a,
+#wpadminbar .quicklinks .selected a,
+#wpadminbar .quicklinks li:hover span,
+#wpadminbar .quicklinks .selected span {
+	color: #333;
+	text-shadow: none;
+}
+
+
 #wpadminbar .quicklinks .menupop li:hover {
-	background: #888;
+/*	background: #888;
 	background: -moz-linear-gradient(bottom,  #888,  #9d9d9d);
-	background: -webkit-gradient(linear, left bottom, left top, from(#888), to(#9d9d9d));
+	background: -webkit-gradient(linear, left bottom, left top, from(#888), to(#9d9d9d));*/
+	background: #f8fbfe;
 }
 
 #wpadminbar .quicklinks .menupop a > span {
 	display: inline;
-	background: url(../images/admin-bar-sprite.png?d=11122010) right -57px no-repeat;
+	background: url(../images/admin-bar-sprite.png?d=11122010) right -58px no-repeat;
 	padding-right: .8em;
 }
 
@@ -195,25 +198,22 @@
 }
 
 #wpadminbar .quicklinks li#wp-admin-bar-my-account > a {
-	border-left: none;
+	border: none;
 }
 
 #wpadminbar .quicklinks li#wp-admin-bar-my-account-with-avatar > a {
-	border-left: none;
-	background: url(../images/admin-bar-sprite.png?d=11122010) top right no-repeat;
-	margin-right: -7px;
-	padding-right: 48px;
+	border: none;
 }
 
 #wpadminbar .quicklinks li#wp-admin-bar-my-account-with-avatar > a img {
 	width: 16px;
 	height: 16px;
 	border: 1px solid #999;
-	position: absolute;
-	right: 6px;
-	top: 5px;
 	padding: 0;
 	background: #eee;
+	line-height: 24px;
+	vertical-align: middle;
+	margin: -2px 0 0 6px;
 }
 
 #wpadminbar .quicklinks li#wp-admin-bar-my-account-with-avatar ul ul {
@@ -237,7 +237,7 @@
 #wpadminbar .quicklinks .admin-bar-search:hover > a {
 	/* default borders */
 	border-right: none;
-	border-left: 1px solid #808080;
+	border-left: 1px solid #333;
 }
 
 #wpadminbar #adminbarsearch {
@@ -252,13 +252,13 @@
 	height: 23px;
 	width: 140px;
 	float: left;
-	font: 13px Arial, Helvetica, sans-serif;
+	font: 12px "Helvetica Neue", sans-serif;
 	border: none;
 	padding: 0 3px 0 24px;
 	margin: 0 3px 0 0;
 
-	color: #ddd;
-	text-shadow: #555 0px -1px 0px;
+	color: #ccc;
+	text-shadow: #444 0px -1px 0px;
 	background-color: rgba( 255, 255, 255, 0 );
 
 	/* @todo: replace/move twenty eleven image to a core search icon. */
@@ -301,10 +301,10 @@
 
 /* Two rules to ensure browser recognition */
 #wpadminbar #adminbarsearch .adminbar-input::-webkit-input-placeholder {
-	color: #e4e4e4;
+	color: #ddd;
 }
 #wpadminbar #adminbarsearch .adminbar-input:-moz-placeholder {
-	color: #e4e4e4;
+	color: #ddd;
 }
 
 
@@ -330,6 +330,21 @@
 }
 
 /**
+ * WP Logo item
+ */
+
+#wpadminbar .wp-admin-bar-logo {
+	background: url(../images/wp-logo-white.png) no-repeat 8px 6px;
+}
+#wpadminbar .wp-admin-bar-logo > a {
+	padding-left: 22px;
+}
+
+#wpadminbar .wp-admin-bar-logo:hover {
+	background: url(../images/wp-logo-dark.png) no-repeat 8px 6px;
+}
+
+/**
  * Comments bubble
  */
 #wpadminbar .ab-comments-bubble {
@@ -337,12 +352,12 @@
 	padding-top: 5px;
 }
 #wpadminbar .ab-comments-count {
-	background: #ddd;
+	background: #ccc;
 	color: #555;
 	text-shadow: none;
 	height: 1.2em;
 	line-height: 1.2em;
-	padding: 2px 8px 0;
+	padding: 0 8px 0;
 	font-size: 12px;
 	font-weight: bold;
 	-moz-border-radius: 10px;
@@ -352,7 +367,7 @@
 }
 
 #wpadminbar a:hover .ab-comments-count {
-	background: #fff;
+	background: #bbb;
 	color: #333;
 }
 
@@ -362,11 +377,11 @@
 	bottom: -4px;
 	left: 6px;
 	/* Use transparent borders to form a triangle */
-	border-left: 5px solid #ddd;
+	border-left: 5px solid #ccc;
 	border-bottom: 5px solid transparent;
 }
 #wpadminbar a:hover .ab-comments-arrow {
-	border-left-color: #fff;
+	border-left-color: #bbb;
 }
 
 
