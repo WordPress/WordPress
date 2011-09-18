@@ -982,13 +982,13 @@ case 'autosave' : // The name of this action is hardcoded in edit_post()
 		}
 		$data = $message;
 	} else {
-		if ( isset( $_POST['auto_draft'] ) && '1' == $_POST['auto_draft'] )
+		if ( ! empty( $_POST['auto_draft'] ) )
 			$id = 0; // This tells us it didn't actually save
 		else
 			$id = $post->ID;
 	}
 
-	if ( $do_lock && ( isset( $_POST['auto_draft'] ) && ( $_POST['auto_draft'] != '1' ) ) && $id && is_numeric($id) )
+	if ( $do_lock && empty( $_POST['auto_draft'] ) && $id && is_numeric( $id ) )
 		wp_set_post_lock( $id );
 
 	if ( $nonce_age == 2 ) {
