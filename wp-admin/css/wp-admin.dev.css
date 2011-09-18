@@ -3756,10 +3756,6 @@ abbr.required {
   14.1 - Media Uploader
 ------------------------------------------------------------------------------*/
 
-div.plupload input {
-	cursor: pointer;
-}
-
 .find-box {
 	width: 500px;
 	height: 300px;
@@ -3848,14 +3844,25 @@ form.upgrade .hint {
 	border-radius: 6px;
 }
 
-br.clear {
-	height: 2px;
-	line-height: 2px;
+.drag-drop #drag-drop-area {
+	border: 4px dashed #DDDDDD;
+    height: 300px;
 }
 
-.swfupload {
-	margin: 5px 10px;
-	vertical-align: middle;
+.drag-drop .drag-drop-inside {
+	padding-top: 100px;
+}
+
+.drag-drop .drag-drop-inside p {
+	text-align: center;
+}
+
+.dragdrop-info {
+	display: none;
+}
+
+.drag-drop .dragdrop-info {
+	display: block;
 }
 
 
