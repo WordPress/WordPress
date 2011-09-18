@@ -75,7 +75,7 @@ if ( empty($importers) ) {
 } else {
 	uasort($importers, create_function('$a, $b', 'return strcmp($a[0], $b[0]);'));
 ?>
-<table class="widefat" cellspacing="0">
+<table class="widefat importers" cellspacing="0">
 
 <?php
 	$style = '';

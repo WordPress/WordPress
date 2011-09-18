@@ -5028,7 +5028,15 @@ td.media-icon img {
 	display: block;
 }
 
-.import-system {font-size: 16px;}
+.importers td {
+	padding-right: 14px;
+} 
+
+.importers {
+	font-size: 16px;
+	width: auto;
+}
+
 #namediv table {
 	width: 100%;
 }
@@ -7165,6 +7173,12 @@ h3 span {
 
 .available-theme {
 	padding: 20px 15px;
+}
+
+#theme-information .available-theme {
+	overflow: visible;
+	padding: 20px 15px;
+	width: 440px;
 }
 
 #theme-information .theme-preview-img {
