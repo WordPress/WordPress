@@ -464,22 +464,21 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 	function single_row( $a_post, $level = 0 ) {
 		global $post, $current_screen, $mode;
-		static $rowclass;
+		static $alternate;
 
 		$global_post = $post;
 		$post = $a_post;
 		setup_postdata( $post );
 
-		$rowclass = 'alternate' == $rowclass ? '' : 'alternate';
-		$post_owner = ( get_current_user_id() == $post->post_author ? 'self' : 'other' );
 		$edit_link = get_edit_post_link( $post->ID );
 		$title = _draft_or_post_title();
 		$post_type_object = get_post_type_object( $post->post_type );
 		$can_edit_post = current_user_can( $post_type_object->cap->edit_post, $post->ID );
-		$post_format = get_post_format( $post->ID );
-		$post_format_class = ( $post_format && !is_wp_error($post_format) ) ? 'format-' . sanitize_html_class( $post_format ) : 'format-default';
+
+		$alternate = 'alternate' == $alternate ? '' : 'alternate';
+		$classes = $alternate . ' iedit author-' . ( get_current_user_id() == $post->post_author ? 'self' : 'other' );
 	?>
-		<tr id='post-<?php echo $post->ID; ?>' class='<?php echo trim( $rowclass . ' author-' . $post_owner . ' status-' . $post->post_status . ' ' . $post_format_class); ?> iedit' valign="top">
+		<tr id="post-<?php echo $post->ID; ?>" class="<?php echo implode( ' ', get_post_class( $classes, $post->ID ) ); ?>" valign="top">
 	<?php
 
 		list( $columns, $hidden ) = $this->get_column_info();
