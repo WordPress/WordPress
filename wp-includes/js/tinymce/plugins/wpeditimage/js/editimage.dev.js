@@ -374,6 +374,9 @@ wpImage = {
 
 		tinyMCEPopup.execCommand("mceBeginUndoLevel");
 
+		if ( f.width.value != el.width || f.height.value != el.height )
+			img_class = img_class.replace(/size-[^ "']+/, '');
+
 		ed.dom.setAttribs(el, {
 			src : f.img_src.value,
 			title : f.img_title.value,

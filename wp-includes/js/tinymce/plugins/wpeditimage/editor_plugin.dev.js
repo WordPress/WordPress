@@ -3,7 +3,7 @@
 	tinymce.create('tinymce.plugins.wpEditImage', {
 
 		init : function(ed, url) {
-			var t = this;
+			var t = this, mouse = {};
 
 			t.url = url;
 			t._createButtons();
@@ -48,32 +48,46 @@
 				if ( tinymce.isWebKit || tinymce.isOpera )
 					return;
 
-				if ( ed.dom.getParent(e.target, 'div.mceTemp') || ed.dom.is(e.target, 'div.mceTemp') ) {
-					window.setTimeout(function(){
-						var ed = tinyMCE.activeEditor, n = ed.selection.getNode(), DL, width;
+				if ( mouse.x && (e.clientX != mouse.x || e.clientY != mouse.y) ) {
+					var n = ed.selection.getNode();
 
-						if ( 'IMG' == n.nodeName ) {
-							DL = ed.dom.getParent(n, 'dl.wp-caption');
-							width = ed.dom.getAttrib(n, 'width') || n.width;
-							width = parseInt(width, 10);
+					if ( 'IMG' == n.nodeName ) {
+						window.setTimeout(function(){
+							var DL, width;
 
-							if ( DL && width != ( parseInt(ed.dom.getStyle(DL, 'width'), 10) - 10 ) ) {
-								ed.dom.setStyle(DL, 'width', 10 + width);
-								ed.execCommand('mceRepaint');
+							if ( n.width != mouse.img_w || n.height != mouse.img_h )
+								n.className = n.className.replace(/size-[^ "']+/, '');
+
+							if ( ed.dom.getParent(n, 'div.mceTemp') ) {
+								DL = ed.dom.getParent(n, 'dl.wp-caption');
+
+								if ( DL ) {
+									width = ed.dom.getAttrib(n, 'width') || n.width;
+									width = parseInt(width, 10);
+									ed.dom.setStyle(DL, 'width', 10 + width);
+									ed.execCommand('mceRepaint');
+								}
+
 							}
-						}
-					}, 100);
+						}, 100);
+					}
 				}
+				mouse = {};
 			});
 
 			// show editimage buttons
 			ed.onMouseDown.add(function(ed, e) {
-				var p;
 
-				if ( e.target.nodeName == 'IMG' && ed.dom.getAttrib(e.target, 'class').indexOf('mceItem') == -1 ) {
-					ed.plugins.wordpress._showButtons(e.target, 'wp_editbtns');
-					if ( tinymce.isGecko && (p = ed.dom.getParent(e.target, 'dl.wp-caption')) && ed.dom.hasClass(p.parentNode, 'mceTemp') )
-						ed.selection.select(p.parentNode);
+				if ( e.target && (e.target.nodeName == 'IMG' || e.target.firstChild.nodeName == 'IMG') ) {
+					mouse = {
+						x: e.clientX,
+						y: e.clientY,
+						img_w: e.target.clientWidth,
+						img_h: e.target.clientHeight
+					};
+
+					if ( ed.dom.getAttrib(e.target, 'class').indexOf('mceItem') == -1 )
+						ed.plugins.wordpress._showButtons(e.target, 'wp_editbtns');
 				}
 			});
 
