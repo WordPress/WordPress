@@ -2217,3 +2217,54 @@ function get_submit_button( $text = NULL, $type = 'primary', $name = 'submit', $
 
 	return $button;
 }
+
+/**
+ * Initializes the new feature pointers.
+ *
+ * @since 3.3.0
+ *
+ * Pointer user settings:
+ *    p0 - Admin bar pointer, added 3.3.
+ */
+function wp_pointer_enqueue( $hook_suffix ) {
+	$enqueue = false;
+
+	$admin_bar = get_user_setting( 'p0', 0 );
+	if ( ! $admin_bar && apply_filters( 'show_wp_pointer_admin_bar', true ) ) {
+		$enqueue = true;
+		add_action( 'admin_print_footer_scripts', '_wp_pointer_print_admin_bar' );
+	}
+
+	if ( $enqueue ) {
+		wp_enqueue_style( 'wp-pointer' );
+		wp_enqueue_script( 'wp-pointer' );
+		wp_enqueue_script( 'utils' );
+	}
+}
+add_action( 'admin_enqueue_scripts', 'wp_pointer_enqueue' );
+
+function _wp_pointer_print_admin_bar() {
+	$pointer_content  = '<h3>' . __('The admin bar has been updated in WordPress 3.3.') . '</h3>';
+	$pointer_content .= '<p>' . sprintf( __('Have some feedback? Visit this <a href="%s">ticket</a>.'), 'http://core.trac.wordpress.org/ticket/18197' ) . '</p>';
+	$pointer_content .= '<p>' . sprintf( __('P.S. You are looking at a new admin pointer. Chime in <a href="%s">here</a>.'), 'http://core.trac.wordpress.org/ticket/18693' ) . '</p>';
+
+?>
+<script type="text/javascript">
+//<![CDATA[
+jQuery(document).ready( function($) {
+	$('#wpadminbar').pointer({
+		content: '<?php echo $pointer_content; ?>',
+		position: {
+			my: 'left top',
+			at: 'center bottom',
+			offset: '-25 0'
+		},
+		close: function() {
+			setUserSetting( 'p0', '1' );
+		}
+	}).pointer('open');
+});
+//]]>
+</script>
+<?php
+}

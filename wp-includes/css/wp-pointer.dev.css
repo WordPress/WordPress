@@ -1,0 +1,106 @@
+.wp-pointer-content {
+	padding: 0 10px;
+	background: white;
+	border: 1px solid #aaa;
+	-moz-box-shadow: 0 0 16px rgba( 0, 0, 0, 0.1 );
+	-webkit-box-shadow: 0 0 16px rgba( 0, 0, 0, 0.1 );
+	box-shadow: 0 0 16px rgba( 0, 0, 0, 0.1 );
+}
+.wp-pointer-buttons {
+	padding: 0 0 10px 0;
+	overflow: auto;
+}
+.wp-pointer-buttons a {
+	float: right;
+	display: inline-block;
+}
+/* The arrow base class must take up no space, even with transparent borders. */
+.wp-pointer-arrow,
+.wp-pointer-arrow-inner {
+	position: absolute;
+	width: 0;
+	height: 0;
+}
+.wp-pointer-arrow {
+	z-index: 10;
+}
+.wp-pointer-arrow-inner {
+	z-index: 20;
+}
+
+.wp-pointer-left {
+	margin-left: 10px;
+}
+.wp-pointer-right {
+	margin-left: -10px;
+}
+.wp-pointer-top {
+	margin-top: 10px;
+}
+.wp-pointer-bottom {
+	margin-top: -10px;
+}
+
+.wp-pointer-left .wp-pointer-arrow,
+.wp-pointer-right .wp-pointer-arrow,
+.wp-pointer-top .wp-pointer-arrow,
+.wp-pointer-bottom .wp-pointer-arrow {
+	border: solid 10px transparent;
+}
+
+.wp-pointer-left .wp-pointer-arrow {
+	border-right-color: #aaa;
+	border-left-width: 0;
+	right: 100%;
+	top: 0;
+}
+.wp-pointer-right .wp-pointer-arrow {
+	border-left-color: #aaa;
+	border-right-width: 0;
+	left: 100%;
+	top: 0;
+}
+.wp-pointer-top .wp-pointer-arrow {
+	border-bottom-color: #aaa;
+	border-top-width: 0;
+	left: 0;
+	bottom: 100%;
+}
+.wp-pointer-bottom .wp-pointer-arrow {
+	border-top-color: #aaa;
+	border-bottom-width: 0;
+	left: 0;
+	top: 100%;
+}
+
+.wp-pointer-left .wp-pointer-arrow-inner,
+.wp-pointer-right .wp-pointer-arrow-inner,
+.wp-pointer-top .wp-pointer-arrow-inner,
+.wp-pointer-bottom .wp-pointer-arrow-inner {
+	border: solid 9px transparent;
+}
+
+.wp-pointer-left .wp-pointer-arrow-inner {
+	border-right-color: #fff;
+	border-left-width: 0;
+	top: -9px;
+	left: 2px;
+}
+.wp-pointer-right .wp-pointer-arrow-inner {
+	border-left-color: #fff;
+	border-right-width: 0;
+	top: -9px;
+	right: 2px;
+}
+.wp-pointer-top .wp-pointer-arrow-inner {
+	border-bottom-color: #fff;
+	border-top-width: 0;
+	top: 2px;
+	left: -9px;
+}
+.wp-pointer-bottom .wp-pointer-arrow-inner {
+	border-top-color: #fff;
+	border-bottom-width: 0;
+	bottom: 2px;
+	left: -9px;
+}
