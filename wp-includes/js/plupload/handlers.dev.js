@@ -398,13 +398,8 @@ jQuery(document).ready(function($){
 		uploader.bind('Init', function(up) {
 			setResize( getUserSetting('upload_resize', false) );
 
-			if ( up.features.dragdrop ) {
-				$('.dragdrop-info').show();
-				
-				if ( $('#media-upload').length )
-					up.settings.drop_element = 'media-upload';
-			}
-				
+			if ( !up.features.dragdrop )
+				$('#plupload-upload-ui').removeClass('drag-drop');
 		});
 
 		uploader.init();

@@ -183,17 +183,16 @@ function wp_default_scripts( &$scripts ) {
 		'error_uploading' => __('&#8220;%s&#8221; has failed to upload due to an error')
 	);
 
-	$scripts->add( 'plupload', '/wp-includes/js/plupload/plupload.js', false, '1.4.3.2');
-	$scripts->add( 'plupload-html5', '/wp-includes/js/plupload/plupload.html5.js', array('plupload'), '1.4.3.2');
-	$scripts->add( 'plupload-flash', '/wp-includes/js/plupload/plupload.flash.js', array('plupload'), '1.4.3.2');
-	$scripts->add( 'plupload-silverlight', '/wp-includes/js/plupload/plupload.silverlight.js', array('plupload'), '1.4.3.2');
-	$scripts->add( 'plupload-gears', '/wp-includes/js/plupload/plupload.gears.js', array('plupload'), '1.4.3.2');
-	$scripts->add( 'plupload-html4', '/wp-includes/js/plupload/plupload.html4.js', array('plupload'), '1.4.3.2');
+	$scripts->add( 'plupload', '/wp-includes/js/plupload/plupload.js', false, '1.5b');
+	$scripts->add( 'plupload-html5', '/wp-includes/js/plupload/plupload.html5.js', array('plupload'), '1.5b');
+	$scripts->add( 'plupload-flash', '/wp-includes/js/plupload/plupload.flash.js', array('plupload'), '1.5b');
+	$scripts->add( 'plupload-silverlight', '/wp-includes/js/plupload/plupload.silverlight.js', array('plupload'), '1.5b');
+	$scripts->add( 'plupload-html4', '/wp-includes/js/plupload/plupload.html4.js', array('plupload'), '1.5b');
 
 	// cannot use the plupload.full.js, as it loads browserplus init JS from Yahoo
-	$scripts->add( 'plupload-full', false, array('plupload', 'plupload-html5', 'plupload-flash', 'plupload-silverlight', 'plupload-html4'), '1.4.3.2');
+	$scripts->add( 'plupload-full', false, array('plupload', 'plupload-html5', 'plupload-flash', 'plupload-silverlight', 'plupload-html4'), '1.5b');
 
-	$scripts->add( 'plupload-handlers', "/wp-includes/js/plupload/handlers$suffix.js", array('plupload-full', 'jquery'), '20110914');
+	$scripts->add( 'plupload-handlers', "/wp-includes/js/plupload/handlers$suffix.js", array('plupload-full', 'jquery'), '20110917');
 	$scripts->add_script_data( 'plupload-handlers', 'pluploadL10n', $uploader_l10n );
 
 	// keep 'swfupload' for back-compat.

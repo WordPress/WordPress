@@ -1485,7 +1485,7 @@ $plupload_init = array(
 	'runtimes' => 'html5,silverlight,flash,html4',
 	'browse_button' => 'plupload-browse-button',
 	'container' => 'plupload-upload-ui',
-	'drop_element' => 'wpwrap',
+	'drop_element' => 'drag-drop-area',
 	'file_data_name' => 'async-upload',
 	'multiple_queues' => true,
 	'max_file_size' => round( (int) $max_upload_size / 1024 ) . 'kb',
@@ -1508,15 +1508,15 @@ resize_width = <?php echo get_option('large_size_w', 1024); ?>,
 wpUploaderInit = <?php echo json_encode($plupload_init); ?>;
 </script>
 
-<div id="plupload-upload-ui" class="hide-if-no-js">
+<div id="plupload-upload-ui" class="hide-if-no-js drag-drop">
 <?php do_action('pre-plupload-upload-ui'); // hook change, old name: 'pre-flash-upload-ui' ?>
-
-	<p>
-	<?php _e( 'Choose files to upload' ); ?>
-	<input id="plupload-browse-button" type="button" value="<?php esc_attr_e('Select Files'); ?>" class="button" />
-	<input id="cancel-upload" disabled="disabled" onclick="cancelUpload()" type="button" value="<?php esc_attr_e('Cancel Upload'); ?>" class="button" />
-	</p>
-	<p class="dragdrop-info"><?php _e('Or you can drop the files into this window.'); ?></p>
+<div id="drag-drop-area">
+	<div class="drag-drop-inside">
+	<p class="dragdrop-info"><?php _e('Drop files here or'); ?></p>
+	<p><input id="plupload-browse-button" type="button" value="<?php esc_attr_e('Select Files'); ?>" class="button" />
+	<input id="cancel-upload" disabled="true" onclick="cancelUpload()" type="button" value="<?php esc_attr_e('Cancel Upload'); ?>" class="button" /></p>
+	</div>
+</div>
 <?php do_action('post-plupload-upload-ui'); // hook change, old name: 'post-flash-upload-ui' ?>
 </div>
 
@@ -1532,8 +1532,8 @@ wpUploaderInit = <?php echo json_encode($plupload_init); ?>;
 <?php do_action('post-html-upload-ui'); ?>
 </div>
 
-<p class="media-upload-size"><?php printf( __( 'Maximum upload file size: %d%s' ), esc_html($upload_size_unit), esc_html($sizes[$u]) ); ?></p>
-<p class="howto"><?php _e('After a file has been uploaded, you can add titles and descriptions.'); ?></p>
+<p><?php printf( __( 'Maximum upload file size: %d%s.' ), esc_html($upload_size_unit), esc_html($sizes[$u]) ); ?> 
+<?php _e('After a file has been uploaded, you can add titles and descriptions.'); ?></p>
 
 <?php
 	do_action('post-upload-ui');

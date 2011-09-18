@@ -137,13 +137,6 @@ abbr.required {
 	border-style: solid;
 }
 
-.hidden {
-	height: 0;
-	width: 0;
-	overflow: hidden;
-	border: none;
-}
-
 /* Specific to Uploader */
 
 #media-upload p.ml-submit {
@@ -369,4 +362,25 @@ h4.media-sub-title {
 
 #sort-buttons span {
 	margin-right: 25px;
+}
+
+.drag-drop #drag-drop-area {
+	border: 4px dashed #DDDDDD;
+    height: 300px;
+}
+
+.drag-drop .drag-drop-inside {
+	padding-top: 100px;
+}
+
+.drag-drop .drag-drop-inside p {
+	text-align: center;
+}
+
+.dragdrop-info {
+	display: none;
+}
+
+.drag-drop .dragdrop-info {
+	display: block;
 }

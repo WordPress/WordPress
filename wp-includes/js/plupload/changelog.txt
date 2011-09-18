@@ -1,3 +1,23 @@
+Version 1.5b (2011-09-11)
+	UI Widget: Fix sortable logic.
+	UI Widget: Fix bug, when message was displayed simultaneously across all Plupload UI instances on the page.
+	UI Widget: notify() method is now public - users can throw their own messages into the widget header.
+	HTML4/HTML5: Revise input[type=file] placement logic to support cursor styling on Geko 2+.
+	HTML5: Revise Drag'n'Drop detection logic.
+	HTML5: Make Exif and GPS information available to user, introduce two new events: ExifData and GpsData.
+	HTML5: Add support for File.prototype.slice() method (mozSlice/webkitSlice) in order to be able to upload files in chunks without preloading.
+	HTML5: Remove any JPEG headers before restoring them, 'cause user agent (like Chrome), might be inserting it's own.
+	Flash: Remove a limit on the depth of image header check, since it still fails in some cases and performance gain is negligible.
+	Flash: Fix regression, when runtime hanged when not images where passed in as images.	
+	SilverLight: Fix bug, when JSON serializer was failing on null.
+	SilverLight: Remove cast to integer for chunk boundary, which resulted in a wrong size for last chunks on huge files.
+	SilverLight: Increase read buffer, add disposal of ImageStream and FileStream, optimize for performance.
+	Updated build.xml to include language packs in release package under js/ folder.
+	Gears/BrowserPlus: Add support for * file filter.
+	BeforeUpload now can cancel upload if required.
+	Additional MIME types: text/csv, image/photoshop, video/x-ms-wmv, video/avi, video/webm support
+	Additional language packs: Japanese
+	Cleaned examples.
 Version 1.4.3.2 (2011-04-13)
 	Fixed bug in HTML5 runtime, when was reduced by a factor of 100 after every upload.
 Version 1.4.3.1 (2011-04-12)
