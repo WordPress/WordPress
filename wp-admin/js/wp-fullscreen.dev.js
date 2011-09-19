@@ -143,19 +143,14 @@ PubSub.prototype.publish = function( topic, args ) {
 		if ( typeof(wp_fullscreen_settings) != 'undefined' )
 			$.extend( s, wp_fullscreen_settings );
 
-		// enable DFW only on the Add/Edit Post screens for now
-		/*
 		s.editor_id = wpActiveEditor || 'content';
 
-		if ( !s.title_id && $('input#title').length && s.editor_id == 'content' )
-			s.title_id = 'title';
-
-		if ( !s.title_id )
-			$('#wp-fullscreen-title').hide();
-		*/
-
-		s.editor_id = 'content';
-		s.title_id = 'title';
+		if ( !s.title_id ) {
+			if ( $('input#title').length && s.editor_id == 'content' )
+				s.title_id = 'title';
+			else
+				$('#wp-fullscreen-title').hide();
+		}
 
 		s.mode = $('#' + s.editor_id).is(':hidden') ? 'tinymce' : 'html';
 		s.qt_canvas = $('#' + s.editor_id).get(0);
@@ -360,6 +355,8 @@ PubSub.prototype.publish = function( topic, args ) {
 
 			s.is_mce_on = true;
 		}
+
+		wpActiveEditor = 'wp_mce_fullscreen';
 	});
 
 	ps.subscribe( 'hide', function() { // This event occurs before the overlay blocks DFW.
@@ -402,6 +399,7 @@ PubSub.prototype.publish = function( topic, args ) {
 
 		s.textarea_obj.value = '';
 		api.oldheight = 0;
+		wpActiveEditor = s.editor_id;
 	});
 
 	ps.subscribe( 'switchMode', function( from, to ) {
@@ -483,6 +481,11 @@ PubSub.prototype.publish = function( topic, args ) {
 	api.blockquote = function() {
 		if ( s.has_tinymce && 'tinymce' === s.mode )
 			tinyMCE.execCommand('mceBlockQuote');
+	}
+
+	api.medialib = function() {
+		if ( s.has_tinymce && 'tinymce' === s.mode )
+			tinyMCE.execCommand('WP_Medialib');
 	}
 
 	api.refresh_buttons = function( fade ) {

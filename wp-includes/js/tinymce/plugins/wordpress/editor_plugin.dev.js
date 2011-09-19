@@ -63,6 +63,19 @@
 					setUserSetting('hidetb', '0');
 				}
 			});
+			
+			ed.addCommand('WP_Medialib', function() {
+				var id = ed.getParam('wp_fullscreen_editor_id') || ed.getParam('fullscreen_editor_id') || ed.id,
+					link = tinymce.DOM.select('#wp-' + id + '-media-buttons a.thickbox');
+
+				if ( link && link[0] )
+					link = link[0];
+				else
+					return;
+
+				tb_show('', link.href);
+				tinymce.DOM.setStyle( ['TB_overlay','TB_window','TB_load'], 'z-index', '999999' );
+			});
 
 			// Register buttons
 			ed.addButton('wp_more', {
@@ -86,49 +99,19 @@
 				cmd : 'WP_Adv'
 			});
 
-			// Add Media buttons
+			// Add Media button
 			ed.addButton('add_media', {
 				title : 'wordpress.add_media',
-				image : url + '/img/media.gif',
-				onclick : function() {
-					tb_show('', tinymce.DOM.get('add_media').href);
-					tinymce.DOM.setStyle( ['TB_overlay','TB_window','TB_load'], 'z-index', '999999' );
-				}
-			});
-
-			ed.addButton('add_image', {
-				title : 'wordpress.add_image',
 				image : url + '/img/image.gif',
-				onclick : function() {
-					tb_show('', tinymce.DOM.get('add_image').href);
-					tinymce.DOM.setStyle( ['TB_overlay','TB_window','TB_load'], 'z-index', '999999' );
-				}
-			});
-
-			ed.addButton('add_video', {
-				title : 'wordpress.add_video',
-				image : url + '/img/video.gif',
-				onclick : function() {
-					tb_show('', tinymce.DOM.get('add_video').href);
-					tinymce.DOM.setStyle( ['TB_overlay','TB_window','TB_load'], 'z-index', '999999' );
-				}
-			});
-
-			ed.addButton('add_audio', {
-				title : 'wordpress.add_audio',
-				image : url + '/img/audio.gif',
-				onclick : function() {
-					tb_show('', tinymce.DOM.get('add_audio').href);
-					tinymce.DOM.setStyle( ['TB_overlay','TB_window','TB_load'], 'z-index', '999999' );
-				}
+				cmd : 'WP_Medialib'
 			});
 
 			// Add Media buttons to fullscreen and handle align buttons for image captions
 			ed.onBeforeExecCommand.add(function(ed, cmd, ui, val, o) {
 				var DOM = tinymce.DOM, n, DL, DIV, cls, a, align;
 				if ( 'mceFullScreen' == cmd ) {
-					if ( 'mce_fullscreen' != ed.id && DOM.get('add_audio') && DOM.get('add_video') && DOM.get('add_image') && DOM.get('add_media') )
-						ed.settings.theme_advanced_buttons1 += ',|,add_image,add_video,add_audio,add_media';
+					if ( 'mce_fullscreen' != ed.id && DOM.select('a.thickbox').length )
+						ed.settings.theme_advanced_buttons1 += ',|,add_media';
 				}
 
 				if ( 'JustifyLeft' == cmd || 'JustifyRight' == cmd || 'JustifyCenter' == cmd ) {
@@ -253,7 +236,7 @@
 			ed.addShortcut('alt+shift+n', ed.getLang('spellchecker.desc'), 'mceSpellCheck');
 			ed.addShortcut('alt+shift+a', ed.getLang('link_desc'), 'mceLink');
 			ed.addShortcut('alt+shift+s', ed.getLang('unlink_desc'), 'unlink');
-			ed.addShortcut('alt+shift+m', ed.getLang('image_desc'), 'mceImage');
+			ed.addShortcut('alt+shift+m', ed.getLang('image_desc'), 'WP_Medialib');
 			ed.addShortcut('alt+shift+g', ed.getLang('fullscreen.desc'), 'mceFullScreen');
 			ed.addShortcut('alt+shift+z', ed.getLang('wp_adv_desc'), 'WP_Adv');
 			ed.addShortcut('alt+shift+h', ed.getLang('help_desc'), 'WP_Help');

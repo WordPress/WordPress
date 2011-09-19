@@ -86,7 +86,7 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'editor', "/wp-admin/js/editor$suffix.js", array('utils','jquery'), '20110820', 1 );
 
-	$scripts->add( 'wp-fullscreen', "/wp-admin/js/wp-fullscreen$suffix.js", array('jquery'), '20110826', 1 );
+	$scripts->add( 'wp-fullscreen', "/wp-admin/js/wp-fullscreen$suffix.js", array('jquery'), '20110918', 1 );
 
 	$scripts->add( 'prototype', '/wp-includes/js/prototype.js', false, '1.6.1');
 
