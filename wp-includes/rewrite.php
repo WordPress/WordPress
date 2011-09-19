@@ -1487,7 +1487,7 @@ class WP_Rewrite {
 		$robots_rewrite = ( empty( $home_path['path'] ) || '/' == $home_path['path'] ) ? array( 'robots\.txt$' => $this->index . '?robots=1' ) : array();
 
 		// Old feed files
-		$old_feed_files = array( '.*wp-(atom|rdf|rss|rss2|feed|commentsrss2).php$' => $this->index . '?feed=old' );
+		$old_feed_files = array( '.*wp-(atom|rdf|rss|rss2|feed|commentsrss2)\.php$' => $this->index . '?feed=old' );
 
 		// Registration rules
 		$registration_pages = array();
