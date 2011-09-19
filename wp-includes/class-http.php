@@ -1636,6 +1636,8 @@ class WP_Http_Encoding {
 	 * @return string|bool False on failure.
 	 */
 	function compatible_gzinflate($gzData) {
+
+		// Compressed data might contain a full header, if so strip it for gzinflate()
 		if ( substr($gzData, 0, 3) == "\x1f\x8b\x08" ) {
 			$i = 10;
 			$flg = ord( substr($gzData, 3, 1) );
@@ -1651,10 +1653,17 @@ class WP_Http_Encoding {
 				if ( $flg & 2 )
 					$i = $i + 2;
 			}
-			return gzinflate( substr($gzData, $i, -8) );
-		} else {
-			return false;
+			$decompressed = @gzinflate( substr($gzData, $i, -8) );
+			if ( false !== $decompressed )
+				return $decompressed;
 		}
+
+		// Compressed data from java.util.zip.Deflater amongst others.
+		$decompressed = @gzinflate( substr($gzData, 2) );
+		if ( false !== $decompressed )
+			return $decompressed;
+
+		return false;
 	}
 
 	/**
