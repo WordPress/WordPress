@@ -338,13 +338,13 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 		try {
 			// Break $recipient into name and address parts if in the format "Foo <bar@baz.com>"
 			$recipient_name = '';
-			if( preg_match( '/(.+)\s?<(.+)>/', $recipient, $matches ) ) {
+			if( preg_match( '/(.*)<(.+)>/', $recipient, $matches ) ) {
 				if ( count( $matches ) == 3 ) {
 					$recipient_name = $matches[1];
 					$recipient = $matches[2];
 				}
 			}
-			$phpmailer->AddAddress( trim( $recipient ), $recipient_name);
+			$phpmailer->AddAddress( $recipient, $recipient_name);
 		} catch ( phpmailerException $e ) {
 			continue;
 		}
@@ -360,13 +360,13 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 			try {
 				// Break $recipient into name and address parts if in the format "Foo <bar@baz.com>"
 				$recipient_name = '';
-				if( preg_match( '/(.+)\s?<(.+)>/', $recipient, $matches ) ) {
+				if( preg_match( '/(.*)<(.+)>/', $recipient, $matches ) ) {
 					if ( count( $matches ) == 3 ) {
 						$recipient_name = $matches[1];
 						$recipient = $matches[2];
 					}
 				}
-				$phpmailer->AddCc( trim($recipient), $recipient_name );
+				$phpmailer->AddCc( $recipient, $recipient_name );
 			} catch ( phpmailerException $e ) {
 				continue;
 			}
@@ -378,13 +378,13 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 			try {
 				// Break $recipient into name and address parts if in the format "Foo <bar@baz.com>"
 				$recipient_name = '';
-				if( preg_match( '/(.+)\s?<(.+)>/', $recipient, $matches ) ) {
+				if( preg_match( '/(.*)<(.+)>/', $recipient, $matches ) ) {
 					if ( count( $matches ) == 3 ) {
 						$recipient_name = $matches[1];
 						$recipient = $matches[2];
 					}
 				}
-				$phpmailer->AddBcc( trim($recipient), $recipient_name );
+				$phpmailer->AddBcc( $recipient, $recipient_name );
 			} catch ( phpmailerException $e ) {
 				continue;
 			}
