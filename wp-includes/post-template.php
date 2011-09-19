@@ -564,7 +564,7 @@ function post_password_required( $post = null ) {
 	if ( !isset($_COOKIE['wp-postpass_' . COOKIEHASH]) )
 		return true;
 
-	if ( $_COOKIE['wp-postpass_' . COOKIEHASH] != $post->post_password )
+	if ( stripslashes( $_COOKIE['wp-postpass_' . COOKIEHASH] ) != $post->post_password )
 		return true;
 
 	return false;
