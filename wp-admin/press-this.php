@@ -63,15 +63,11 @@ function press_it() {
 		wp_die($upload);
 	} else {
 		// Post formats
-		if ( current_theme_supports( 'post-formats' ) && isset( $_POST['post_format'] ) ) {
-			$post_formats = get_theme_support( 'post-formats' );
-			if ( is_array( $post_formats ) ) {
-				$post_formats = $post_formats[0];
-				if ( in_array( $_POST['post_format'], $post_formats ) )
-					set_post_format( $post_ID, $_POST['post_format'] );
-				elseif ( '0' == $_POST['post_format'] )
-					set_post_format( $post_ID, false );
-			}
+		if ( isset( $_POST['post_format'] ) ) {
+			if ( current_theme_supports( 'post-formats', $_POST['post_format'] ) )
+				set_post_format( $post_ID, $_POST['post_format'] );
+			elseif ( '0' == $post_data['post_format'] )
+				set_post_format( $post_ID, false );
 		}
 
 		wp_update_post($post);
