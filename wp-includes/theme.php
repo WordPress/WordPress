@@ -1947,10 +1947,14 @@ function current_theme_supports( $feature ) {
 			if ( true === $_wp_theme_features[$feature] )  // Registered for all types
 				return true;
 			$content_type = $args[0];
-			if ( in_array($content_type, $_wp_theme_features[$feature][0]) )
-				return true;
-			else
-				return false;
+			return in_array( $content_type, $_wp_theme_features[$feature][0] );
+			break;
+
+		case 'post-formats':
+			// specific post formats can be registered by passing an array of types to
+			// add_theme_support()
+			$post_format = $args[0];
+			return in_array( $post_format, $_wp_theme_features[$feature][0] );
 			break;
 	}
 
