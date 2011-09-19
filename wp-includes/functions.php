@@ -3317,11 +3317,11 @@ function dead_db() {
 <html xmlns="http://www.w3.org/1999/xhtml" <?php if ( function_exists( 'language_attributes' ) ) language_attributes(); ?>>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>Database Error</title>
+	<title><?php echo /*WP_I18N_DB_ERROR*/'Database Error'/*/WP_I18N_DB_ERROR*/; ?></title>
 
 </head>
 <body>
-	<h1>Error establishing a database connection</h1>
+	<h1><?php echo /*WP_I18N_DB_CONNECTION_ERROR*/'Error establishing a database connection'/*/WP_I18N_DB_CONNECTION_ERROR*/; ?></h1>
 </body>
 </html>
 <?php
