@@ -88,12 +88,12 @@ function get_sidebar( $name = null ) {
  * The template is included using require, not require_once, so you may include the
  * same template part multiple times.
  *
- * For the parameter, if the file is called "{slug}-special.php" then specify
+ * For the $name parameter, if the file is called "{slug}-special.php" then specify
  * "special".
  *
  * @uses locate_template()
  * @since 3.0.0
- * @uses do_action() Calls 'get_template_part{$slug}' action.
+ * @uses do_action() Calls 'get_template_part_{$slug}' action.
  *
  * @param string $slug The slug name for the generic template.
  * @param string $name The name of the specialised template.
