@@ -3208,7 +3208,7 @@ function wp_list_filter( $list, $args = array(), $operator = 'AND' ) {
 		}
 
 		if ( ( 'AND' == $operator && $matched == $count )
-		  || ( 'OR' == $operator && $matched <= $count )
+		  || ( 'OR' == $operator && $matched > 0 )
 		  || ( 'NOT' == $operator && 0 == $matched ) ) {
 			$filtered[$key] = $obj;
 		}
