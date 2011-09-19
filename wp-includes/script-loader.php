@@ -408,7 +408,7 @@ function wp_default_styles( &$styles ) {
 
 	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20110918a' );
 
-	$styles->add( 'ie', "/wp-admin/css/ie$suffix.css", array('wp-admin'), '20110902' );
+	$styles->add( 'ie', "/wp-admin/css/ie$suffix.css", array(), '20110902' );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
 
 	// all colors stylesheets need to have the same query strings (cache manifest compat)
