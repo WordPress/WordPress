@@ -68,7 +68,7 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'sack', "/wp-includes/js/tw-sack$suffix.js", false, '1.6.1', 1 );
 
-	$scripts->add( 'quicktags', "/wp-includes/js/quicktags$suffix.js", false, '20110902', 1 );
+	$scripts->add( 'quicktags', "/wp-includes/js/quicktags$suffix.js", false, '20110919', 1 );
 	$scripts->add_script_data( 'quicktags', 'quicktagsL10n', array(
 		'wordLookup' => __('Enter a word to look up:'),
 		'dictionaryLookup' => esc_attr(__('Dictionary lookup')),

@@ -52,7 +52,7 @@ function edInsertContent(bah, txt) {
  * @see QTags.addButton()
  */
 function edButton(id, display, tagStart, tagEnd, access, open) {
-	return QTags.addButton( id, display, tagStart, tagEnd, open, access, '', -1 );	
+	return QTags.addButton( id, display, tagStart, tagEnd, access, '', -1 );	
 }
 
 /**
@@ -305,9 +305,9 @@ edToolbar = function(){};
 	 * Main API function for adding a button to Quicktags
 	 * 
 	 * Adds qt.Button or qt.TagButton depending on the args. The first three args are always required.
-	 * For TagButton the 4th or the 5th argument is also required. To be able to add button(s) to Quicktags, your script
-	 * should be enqueued as dependant on "quicktags" and outputted in the footer. If you are echoing JS
-	 * directly from PHP, use add_action( 'admin_print_footer_scripts', 'output_my_js', 100 ) or add_action( 'wp_footer', 'output_my_js', 100 )
+	 * To be able to add button(s) to Quicktags, your script should be enqueued as dependant
+	 * on "quicktags" and outputted in the footer. If you are echoing JS directly from PHP,
+	 * use add_action( 'admin_print_footer_scripts', 'output_my_js', 100 ) or add_action( 'wp_footer', 'output_my_js', 100 )
 	 *
 	 * Minimun required to add a button that calls an external function:
 	 *     QTags.addButton( 'my_id', 'my button', my_callback );
@@ -315,30 +315,31 @@ edToolbar = function(){};
 	 *
 	 * Minimun required to add a button that inserts a tag:
 	 *     QTags.addButton( 'my_id', 'my button', '<span>', '</span>' );
+	 *     QTags.addButton( 'my_id', 'my button', '<br />' );
 	 *
 	 * @param id string required Button HTML ID
 	 * @param display string required Button's value="..."
-	 * @param arg1 string || function required Either a starting tag to be inserted like "<span>" or a callback that is executed when the button is pressed
+	 * @param arg1 string || function required Either a starting tag to be inserted like "<span>" or a callback that is executed when the button is clicked.
 	 * @param arg2 string Ending tag like "</span>"
-	 * @param arg3 int Set to -1 if the inserted tag is self-closing
-	 * @param access string Access key for the button
+	 * @param access_key string Access key for the button
 	 * @param title string Button's title="..." 
 	 * @param priority int Number representing the desired position of the button in the toolbar. 1 - 9 = first, 11 - 19 = second, 21 - 29 = third, etc.
-	 * @return null This is needed for back-compat as the common method of adding a button was to manually add it to the buttons array
+	 * @return mixed null or the button object that is needed for back-compat. The common method of adding a button was to manually add it to the buttons array.
 	 */	 	 	 	
-	qt.addButton = function( id, display, arg1, arg2, arg3, access, title, priority ) {
+	qt.addButton = function( id, display, arg1, arg2, access_key, title, priority ) {
 		var btn;
 		
 		if ( !id || !display )
 			return;
 
 		priority = priority || 0;
+		arg2 = arg2 || '';
 
-		if ( typeof(arg1) == 'function' ) {
-			btn = new qt.Button(id, display, access, title);
+		if ( typeof(arg1) === 'function' ) {
+			btn = new qt.Button(id, display, access_key, title);
 			btn.callback = arg1;
-		} else if ( arg1 && arg2 && typeof(arg1) == 'string' ) {
-			btn = new qt.TagButton(id, display, arg1, arg2, access, arg3, title);
+		} else if ( typeof(arg1) === 'string' ) {
+			btn = new qt.TagButton(id, display, arg1, arg2, access_key, title);
 		} else {
 			return;
 		}
@@ -405,12 +406,11 @@ edToolbar = function(){};
 	qt.Button.prototype.callback = function(){};
 
 	// a button that inserts HTML tag
-	qt.TagButton = function(id, display, tagStart, tagEnd, access, open, title) {
+	qt.TagButton = function(id, display, tagStart, tagEnd, access, title) {
 		var t = this;
 		qt.Button.call(t, id, display, access, title);
 		t.tagStart = tagStart;
 		t.tagEnd = tagEnd;
-		t.open = open;
 	};
 	qt.TagButton.prototype = new qt.Button();
 	qt.TagButton.prototype.openTag = function(e, ed) {
@@ -453,9 +453,14 @@ edToolbar = function(){};
 			canvas.focus();
 			sel = document.selection.createRange();
 			if ( sel.text.length > 0 ) {
-				sel.text = t.tagStart + sel.text + endTag;
+				if ( !endTag )
+					sel.text = sel.text + t.tagStart;
+				else
+					sel.text = t.tagStart + sel.text + endTag;
 			} else {
-				if ( t.isOpen(ed) === false || t.tagEnd === '' ) {
+				if ( !endTag ) {
+					sel.text = t.tagStart;
+				} else if ( t.isOpen(ed) === false ) {
 					sel.text = t.tagStart;
 					t.openTag(element, ed);
 				} else {
@@ -473,13 +478,18 @@ edToolbar = function(){};
 			r = v.substring(endPos, v.length); // right of the selection
 			i = v.substring(startPos, endPos); // inside the selection
 			if ( startPos != endPos ) {
-				canvas.value = l + t.tagStart + i + endTag + r;
-				if ( endTag === '' ) {
-					cursorPos = startPos;
+				if ( !endTag ) {
+					canvas.value = l + i + t.tagStart + r; // insert self closing tags after the selection
+					cursorPos += t.tagStart.length;
+				} else {
+					canvas.value = l + t.tagStart + i + endTag + r;
+					cursorPos += t.tagStart.length + endTag.length;
 				}
-				cursorPos += t.tagStart.length + endTag.length;
 			} else {
-				if ( t.isOpen(ed) === false || t.tagEnd === '' ) {
+				if ( !endTag ) {
+					canvas.value = l + t.tagStart + r;
+					cursorPos = startPos + t.tagStart.length;
+				} else if ( t.isOpen(ed) === false ) {
 					canvas.value = l + t.tagStart + r;
 					t.openTag(element, ed);
 					cursorPos = startPos + t.tagStart.length;
@@ -494,10 +504,10 @@ edToolbar = function(){};
 			canvas.selectionStart = cursorPos;
 			canvas.selectionEnd = cursorPos;
 			canvas.scrollTop = scrollTop;
-		}
-		// other browsers
-		else {
-			if ( t.isOpen(ed) !== false || t.tagEnd === '' ) {
+		} else { // other browsers?
+			if ( !endTag ) {
+				canvas.value += t.tagStart;
+			} else if ( t.isOpen(ed) !== false ) {
 				canvas.value += t.tagStart;
 				t.openTag(element, ed);
 			} else {
@@ -553,6 +563,8 @@ edToolbar = function(){};
 				element = document.getElementById(ed.name + '_' + button.id);
 				button.callback.call(button, element, c, ed);
 			}
+		} else {
+			ed.canvas.focus();
 		}
 	};
 
