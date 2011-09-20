@@ -444,8 +444,6 @@ code {
 	max-width: 2000px;
 	clear: both;
 	margin: 0;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 }
@@ -459,26 +457,18 @@ code {
 }
 
 .widefat thead th:first-of-type {
-	-moz-border-radius-topleft: 3px;
-	-khtml-border-top-left-radius: 3px;
 	-webkit-border-top-left-radius: 3px;
 	border-top-left-radius: 3px;
 }
 .widefat thead th:last-of-type {
-	-moz-border-radius-topright: 3px;
-	-khtml-border-top-right-radius: 3px;
 	-webkit-border-top-right-radius: 3px;
 	border-top-right-radius: 3px;
 }
 .widefat tfoot th:first-of-type {
-	-moz-border-radius-bottomleft: 3px;
-	-khtml-border-bottom-left-radius: 3px;
 	-webkit-border-bottom-left-radius: 3px;
 	border-bottom-left-radius: 3px;
 }
 .widefat tfoot th:last-of-type {
-	-moz-border-radius-bottomright: 3px;
-	-khtml-border-bottom-right-radius: 3px;
 	-webkit-border-bottom-right-radius: 3px;
 	border-bottom-right-radius: 3px;
 }
@@ -552,8 +542,6 @@ div.error {
 	border-style: solid;
 	padding: 0 0.6em;
 	margin: 5px 15px 2px;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 }
@@ -594,8 +582,6 @@ div.error p {
 	padding: 3px 8px;
 	position: relative;
 	top: -3px;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 	text-decoration: none;
@@ -728,8 +714,6 @@ input[type="reset"],
 select {
 	border-width: 1px;
 	border-style: solid;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 }
@@ -741,11 +725,8 @@ select option {
 .submit {
 	padding: 1.5em 0;
 	margin: 5px 0;
-	-moz-border-radius: 0 0 3px 3px;
 	-webkit-border-bottom-left-radius: 3px;
 	-webkit-border-bottom-right-radius: 3px;
-	-khtml-border-bottom-left-radius: 3px;
-	-khtml-border-bottom-right-radius: 3px;
 	border-bottom-left-radius: 3px;
 	border-bottom-right-radius: 3px;
 }
@@ -771,13 +752,10 @@ input.button-highlighted,
 	cursor: pointer;
 	border-width: 1px;
 	border-style: solid;
-	-moz-border-radius: 11px;
-	-khtml-border-radius: 11px;
 	-webkit-border-radius: 11px;
 	border-radius: 11px;
 	-moz-box-sizing: content-box;
 	-webkit-box-sizing: content-box;
-	-khtml-box-sizing: content-box;
 	box-sizing: content-box;
 }
 
@@ -1026,11 +1004,8 @@ th.action-links {
 	border-style: solid;
 	border-top-width: 0;
 	border-top-style: none;
-	-moz-border-radius: 0 0 3px 3px;
 	-webkit-border-bottom-right-radius: 3px;
 	-webkit-border-bottom-left-radius: 3px;
-	-khtml-border-bottom-right-radius: 3px;
-	-khtml-border-bottom-left-radius: 3px;
 	border-bottom-right-radius: 3px;
 	border-bottom-left-radius: 3px;
 }
@@ -1126,8 +1101,6 @@ form.upgrade .hint {
 
 #wp-fullscreen-title,
 #wp-fullscreen-container {
-	-moz-border-radius: 0;
-	-khtml-border-radius: 0;
 	-webkit-border-radius: 0;
 	border-radius: 0;
 	border: 1px dashed transparent;
@@ -1247,21 +1220,15 @@ form.upgrade .hint {
 
 #wp-fullscreen-modes a:first-child {
 	border-width: 1px;
-	-moz-border-radius: 3px 0 0 3px;
 	-webkit-border-top-left-radius: 3px;
 	-webkit-border-bottom-left-radius: 3px;
-	-khtml-border-top-left-radius: 3px;
-	-khtml-border-bottom-left-radius: 3px;
 	border-top-left-radius: 3px;
 	border-bottom-left-radius: 3px;
 }
 
 #wp-fullscreen-modes a:last-child {
-	-moz-border-radius: 0 3px 3px 0;
 	-webkit-border-top-right-radius: 3px;
 	-webkit-border-bottom-right-radius: 3px;
-	-khtml-border-top-right-radius: 3px;
-	-khtml-border-bottom-right-radius: 3px;
 	border-top-right-radius: 3px;
 	border-bottom-right-radius: 3px;
 }
@@ -1358,11 +1325,8 @@ form.upgrade .hint {
 	border-width: 1px;
 	margin-right: -1px;
 	margin-top: 2px;
-	-moz-border-radius: 3px 3px 0 0;
 	-webkit-border-top-right-radius: 3px;
 	-webkit-border-top-left-radius: 3px;
-	-khtml-border-top-right-radius: 3px;
-	-khtml-border-top-left-radius: 3px;
 	border-top-right-radius: 3px;
 	border-top-left-radius: 3px;
 }
@@ -1434,11 +1398,8 @@ form.upgrade .hint {
 #user_info_links,
 #user_info_links ul,
 #user_info_links li:last-child {
-	-moz-border-radius: 0 0 3px 3px;
 	-webkit-border-bottom-right-radius: 3px;
 	-webkit-border-bottom-left-radius: 3px;
-	-khtml-border-bottom-right-radius: 3px;
-	-khtml-border-bottom-left-radius: 3px;
 	border-bottom-right-radius: 3px;
 	border-bottom-left-radius: 3px;
 }
@@ -1472,7 +1433,6 @@ form.upgrade .hint {
 	margin: 7px 0;
 	-webkit-user-select: none;
 	-moz-user-select: none;
-	-khtml-user-select: none;
 	user-select: none;
 }
 
@@ -1504,8 +1464,6 @@ form.upgrade .hint {
 }
 
 #favorite-first {
-	-moz-border-radius: 12px;
-	-khtml-border-radius: 12px;
 	-webkit-border-radius: 12px;
 	border-radius: 12px;
 	line-height: 15px;
@@ -1522,11 +1480,8 @@ form.upgrade .hint {
 	position: absolute;
 	z-index: 11;
 	display: none;
-	-moz-border-radius: 0 0 12px 12px;
 	-webkit-border-bottom-right-radius: 12px;
 	-webkit-border-bottom-left-radius: 12px;
-	-khtml-border-bottom-right-radius: 12px;
-	-khtml-border-bottom-left-radius: 12px;
 	border-bottom-right-radius: 12px;
 	border-bottom-left-radius: 12px;
 }
@@ -1557,11 +1512,8 @@ form.upgrade .hint {
 }
 
 #favorite-actions .slide-down {
-	-moz-border-radius: 12px 12px 0 0;
 	-webkit-border-bottom-right-radius: 0;
 	-webkit-border-bottom-left-radius: 0;
-	-khtml-border-bottom-right-radius: 0;
-	-khtml-border-bottom-left-radius: 0;
 	border-bottom-right-radius: 0;
 	border-bottom-left-radius: 0;
 	border-bottom: none;
@@ -1594,12 +1546,8 @@ form.upgrade .hint {
 	overflow: auto;
 	border-style: solid;
 	border-width: 0 1px 1px;
-
-	-moz-border-radius: 0 0 3px 3px;
 	-webkit-border-bottom-right-radius: 3px;
 	-webkit-border-bottom-left-radius: 3px;
-	-khtml-border-bottom-right-radius: 3px;
-	-khtml-border-bottom-left-radius: 3px;
 	border-bottom-right-radius: 3px;
 	border-bottom-left-radius: 3px;
 }
@@ -1672,7 +1620,6 @@ form.upgrade .hint {
 #adminmenu * {
 	-webkit-user-select: none;
 	-moz-user-select: none;
-	-khtml-user-select: none;
 	user-select: none;
 }
 
@@ -1891,10 +1838,6 @@ body.no-js #adminmenu li.wp-has-current-submenu .wp-submenu {
 	position: relative;
 	-webkit-border-bottom-right-radius: 3px;
 	-webkit-border-top-right-radius: 3px;
-	-khtml-border-bottom-right-radius: 3px;
-	-khtml-border-top-right-radius: 3px;
-	-moz-border-radius-bottomright: 3px;
-	-moz-border-radius-topright: 3px;
 	border-bottom-right-radius: 3px;
 	border-top-right-radius: 3px;
 }
@@ -1945,8 +1888,6 @@ body.no-js #adminmenu li.wp-has-current-submenu .wp-submenu {
 	font-weight: bold;
 	margin-top: 1px;
 	margin-left: 7px;
-	-moz-border-radius: 10px;
-	-khtml-border-radius: 10px;
 	-webkit-border-radius: 10px;
 	border-radius: 10px;
 }
@@ -1988,8 +1929,6 @@ body.no-js #adminmenu li.wp-has-current-submenu .wp-submenu {
 	padding: 0 6px;
 	display: inline-block;
 	cursor: pointer;
-	-moz-border-radius: 5px;
-	-khtml-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
 }
@@ -2036,8 +1975,6 @@ strong .post-com-count {
 	margin: 8px 6px;
 	border-width: 1px;
 	border-style: solid;
-	-moz-border-radius: 10px;
-	-khtml-border-radius: 10px;
 	-webkit-border-radius: 10px;
 	border-radius: 10px;
 }
@@ -2131,7 +2068,6 @@ body.admin-bar #adminmenu {
 	cursor: move;
 	-webkit-user-select: none;
 	-moz-user-select: none;
-	-khtml-user-select: none;
 	user-select: none;
 }
 
@@ -2372,8 +2308,6 @@ th.asc:hover span.sorting-indicator {
 	padding: 3px 6px;
 	border-width: 1px;
 	border-style: solid;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 }
@@ -2745,8 +2679,6 @@ table .inline-edit-row fieldset ul.cat-hover {
 	padding: 3px 4px;
 	border-width: 1px;
 	border-style: solid;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 	font-size: 1.7em;
@@ -2878,9 +2810,7 @@ input#link_url {
 }
 
 .postbox {
-	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
-	-khtml-border-radius: 3px;
 	border-radius: 3px;
 	position: relative;
 	min-width: 255px;
@@ -2920,11 +2850,8 @@ input#link_url {
 
 #post-body ul.category-tabs li.tabs,
 #post-body ul.add-menu-item-tabs li.tabs {
-	-moz-border-radius: 3px 0 0 3px;
 	-webkit-border-top-left-radius: 3px;
 	-webkit-border-bottom-left-radius: 3px;
-	-khtml-border-top-left-radius: 3px;
-	-khtml-border-bottom-left-radius: 3px;
 	border-top-left-radius: 3px;
 	border-bottom-left-radius: 3px;
 }
@@ -3058,11 +2985,8 @@ ul.category-tabs li,
 ul.add-menu-item-tabs li,
 ul.wp-tab-bar li {
 	padding: 5px;
-	-moz-border-radius: 3px 3px 0 0;
 	-webkit-border-top-left-radius: 3px;
 	-webkit-border-top-right-radius: 3px;
-	-khtml-border-top-left-radius: 3px;
-	-khtml-border-top-right-radius: 3px;
 	border-top-left-radius: 3px;
 	border-top-right-radius: 3px;
 }
@@ -3126,11 +3050,8 @@ td.post-title p, td.plugin-title p {
 	border-width: 0 1px 1px;
 	border-style: none solid solid;
 	width: 100%;
-	-moz-border-radius: 0 0 3px 3px;
 	-webkit-border-bottom-left-radius: 3px;
 	-webkit-border-bottom-right-radius: 3px;
-	-khtml-border-bottom-left-radius: 3px;
-	-khtml-border-bottom-right-radius: 3px;
 	border-bottom-left-radius: 3px;
 	border-bottom-right-radius: 3px;
 }
@@ -3212,8 +3133,6 @@ td.post-title p, td.plugin-title p {
 #postcustomstuff textarea {
 	border-width: 1px;
 	border-style: solid;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 }
@@ -3354,11 +3273,8 @@ table.diff .diff-deletedline del, table.diff .diff-addedline ins {
 
 #post-body ul.category-tabs li.tabs,
 #post-body ul.add-menu-item-tabs li.tabs {
-	-moz-border-radius: 3px 0 0 3px;
 	-webkit-border-top-left-radius: 3px;
 	-webkit-border-bottom-left-radius: 3px;
-	-khtml-border-top-left-radius: 3px;
-	-khtml-border-bottom-left-radius: 3px;
 	border-top-left-radius: 3px;
 	border-bottom-left-radius: 3px;
 }
@@ -3520,8 +3436,6 @@ span.description,
 }
 
 p.popular-tags {
-	-moz-border-radius: 8px;
-	-khtml-border-radius: 8px;
 	-webkit-border-radius: 8px;
 	border-radius: 8px;
 	border-width: 1px;
@@ -3838,8 +3752,6 @@ form.upgrade .hint {
 	border-style: solid;
 	line-height: 1.8em;
 	word-spacing: 3px;
-	-moz-border-radius: 6px;
-	-khtml-border-radius: 6px;
 	-webkit-border-radius: 6px;
 	border-radius: 6px;
 }
@@ -3932,8 +3844,6 @@ td.imgedit-settings input {
 	float: left;
 	width: 32px;
 	height: 32px;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 	border-width: 1px;
@@ -4094,8 +4004,6 @@ span.imgedit-scale-warn {
 .imgedit-group {
 	border-width: 1px;
 	border-style: solid;
-	-moz-border-radius: 8px;
-	-khtml-border-radius: 8px;
 	-webkit-border-radius: 8px;
 	border-radius: 8px;
 	margin-bottom: 8px;
@@ -4488,11 +4396,8 @@ div#custom-background-image img {
 	padding: 4px 14px 6px;
 	text-decoration: none;
 	margin: 0 6px -1px 0;
-	-moz-border-radius: 3px 3px 0 0;
 	-webkit-border-top-left-radius: 3px;
 	-webkit-border-top-right-radius: 3px;
-	-khtml-border-top-left-radius: 3px;
-	-khtml-border-top-right-radius: 3px;
 	border-top-left-radius: 3px;
 	border-top-right-radius: 3px;
 }
@@ -4595,8 +4500,6 @@ input.button-highlighted,
 	padding: 3px 5px;
 	border-width: 1px;
 	border-style: solid;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 }
@@ -4665,17 +4568,12 @@ input.button-highlighted,
 	);
 	background-repeat: no-repeat;
 	background-image-position: 10px 8px;
-	border-radius: 5px;
 	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	-o-border-radius: 5px;
+	border-radius: 5px;
 	border: 1px #b4b4b4 solid;
 	font: normal normal normal 14px/16px Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 	text-decoration: none;
 	text-shadow: #fff 0 1px 0px;
-	-webkit-text-shadow: #fff 0 1px 0px;
-	-moz-text-shadow: #fff 0 1px 0px;
-	-o-text-shadow: #fff 0 1px 0px;
 }
 
 .pressthis a:hover,
@@ -4949,11 +4847,8 @@ td.post-title p, td.plugin-title p {
 	font-weight: normal;
 	padding-left: 6px;
 	padding-right: 6px;
-	-moz-border-radius: 3px 3px 0 0;
 	-webkit-border-top-left-radius: 3px;
 	-webkit-border-top-right-radius: 3px;
-	-khtml-border-top-left-radius: 3px;
-	-khtml-border-top-right-radius: 3px;
 	border-top-left-radius: 3px;
 	border-top-right-radius: 3px;
 	border-width: 1px;
@@ -4971,8 +4866,6 @@ td.post-title p, td.plugin-title p {
 	border-style: solid;
 	line-height: 1.8em;
 	word-spacing: 3px;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 }
@@ -5030,7 +4923,7 @@ td.media-icon img {
 
 .importers td {
 	padding-right: 14px;
-} 
+}
 
 .importers {
 	font-size: 16px;
@@ -5615,15 +5508,12 @@ body.login {
 	margin-left: 8px;
 	padding: 26px 24px 46px;
 	font-weight: normal;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 	background: #fff;
 	border: 1px solid #e5e5e5;
 	-moz-box-shadow: rgba(200, 200, 200, 0.7) 0px 4px 10px -1px;
 	-webkit-box-shadow: rgba(200, 200, 200, 0.7) 0px 4px 10px -1px;
-	-khtml-box-shadow: rgba(200, 200, 200, 0.7) 0px 4px 10px -1px;
 	box-shadow: rgba(200, 200, 200, 0.7) 0px 4px 10px -1px;
 }
 
@@ -5681,8 +5571,6 @@ body.login {
 	border-width: 1px;
 	border-style: solid;
 	padding: 12px;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 }
@@ -5827,9 +5715,7 @@ body.login {
 
 #menu-management .menu-edit {
 	border: 1px solid;
-	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
-	-khtml-border-radius: 3px;
 	border-radius: 3px;
 	margin-bottom: 20px;
 }
@@ -6077,7 +5963,8 @@ body.login {
 	overflow-y: auto;
 	padding: 10px 10px 5px;
 	border: 1px solid;
-	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
 }
 
 .nav-menus-php .postbox p.submit {
@@ -6140,10 +6027,8 @@ body.login {
 	text-shadow: 0 1px 0 #FFFFFF;
 	overflow: hidden;
 	word-wrap: break-word;
-	border-radius: 3px;
 	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
+	border-radius: 3px;
 }
 
 #menu-to-edit .menu-item-invalid .menu-item-handle {
@@ -6157,11 +6042,8 @@ body.login {
 }
 
 .menu-item-edit-active .menu-item-handle {
-	-moz-border-radius: 3px 3px 0 0;
 	-webkit-border-bottom-right-radius: 0;
 	-webkit-border-bottom-left-radius: 0;
-	-khtml-border-bottom-right-radius: 0;
-	-khtml-border-bottom-left-radius: 0;
 	border-bottom-right-radius: 0;
 	border-bottom-left-radius: 0;
 }
@@ -6286,9 +6168,7 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 	overflow: hidden;
 	text-indent:-999em;
 	border-bottom: 1px solid;
-	-moz-border-radius-bottomleft: 3px;
 	-webkit-border-bottom-left-radius: 3px;
-	-khtml-border-bottom-left-radius: 3px;
 	border-bottom-left-radius: 3px;
 }
 
@@ -6303,11 +6183,10 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 	padding: 10px 0 10px 10px;
 	border: solid;
 	border-width: 0 1px 1px 1px;
-	-moz-border-radius: 0 0 3px 3px;
 	-webkit-border-bottom-right-radius: 3px;
 	-webkit-border-bottom-left-radius: 3px;
-	-khtml-border-bottom-right-radius: 3px;
-	-khtml-border-bottom-left-radius: 3px;
+	border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px;
 }
 
 .menu-item-edit-active .menu-item-settings {
@@ -6330,10 +6209,8 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 	font-size: 12px;
 	font-style: italic;
 	border: 1px solid;
-	border-radius: 3px;
 	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
+	border-radius: 3px;
 }
 
 .link-to-original a {
@@ -6417,10 +6294,8 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 .nav-menus-php .major-publishing-actions .form-invalid {
 	padding-left: 4px;
 	margin-left: -4px;
-	border-radius: 3px;
 	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
+	border-radius: 3px;
 }
 
 /* Clearfix */
@@ -6522,12 +6397,9 @@ div.star img {
 	padding-bottom: 0;
 	margin-bottom: 0;
 	margin-top: 10px;
-	-moz-border-radius: 3px 0 0 3px;
 	-webkit-border-top-left-radius: 3px;
-	-khtml-border-top-left-radius: 3px;
-	border-top-left-radius: 3px;
 	-webkit-border-bottom-left-radius: 3px;
-	-khtml-border-bottom-left-radius: 3px;
+	border-top-left-radius: 3px;
 	border-bottom-left-radius: 3px;
 }
 
@@ -6557,9 +6429,7 @@ div.star img {
 
 #plugin-information .fyi h2.mainheader {
 	padding: 5px;
-	-moz-border-radius-topleft: 3px;
 	-webkit-border-top-left-radius: 3px;
-	-khtml-border-top-left-radius: 3px;
 	border-top-left-radius: 3px;
 }
 
@@ -6567,9 +6437,7 @@ div.star img {
 	padding: 10px 5px 10px 7px;
 	margin: 0;
 	list-style: none;
-	-moz-border-radius-bottomleft: 3px;
 	-webkit-border-bottom-left-radius: 3px;
-	-khtml-border-bottom-left-radius: 3px;
 	border-bottom-left-radius: 3px;
 }
 
@@ -6635,7 +6503,6 @@ img {
 	margin: 7px 7px 0;
 	-webkit-user-select: none;
 	-moz-user-select: none;
-	-khtml-user-select: none;
 	user-select: none;
 }
 
@@ -6707,8 +6574,6 @@ img {
 }
 
 .press-this #message {
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 }
@@ -6788,8 +6653,6 @@ h3.tb {
 
 #TB_window {
 	border: 1px solid #333;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 }
@@ -6806,8 +6669,6 @@ h3.tb {
 }
 
 .tbtitle {
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 	border-style: solid;
@@ -7102,8 +6963,6 @@ h3 span {
 	padding: 3px 3px 3px 12px;
 	margin-left: -12px;
 	font-weight: bold;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 }
@@ -7212,8 +7071,6 @@ body#theme-information {
 }
 
 .feature-filter {
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 	border-width: 1px;
@@ -7305,23 +7162,15 @@ div.sidebar-name {
 	font-size: 13px;
 	border-width: 1px;
 	border-style: solid;
-	-moz-border-radius-topleft: 3px;
-	-moz-border-radius-topright: 3px;
 	-webkit-border-top-right-radius: 3px;
 	-webkit-border-top-left-radius: 3px;
-	-khtml-border-top-right-radius: 3px;
-	-khtml-border-top-left-radius: 3px;
 	border-top-right-radius: 3px;
 	border-top-left-radius: 3px;
 }
 
 .js .closed .sidebar-name {
-	-moz-border-radius-bottomleft: 3px;
-	-moz-border-radius-bottomright: 3px;
 	-webkit-border-bottom-right-radius: 3px;
 	-webkit-border-bottom-left-radius: 3px;
-	-khtml-border-bottom-right-radius: 3px;
-	-khtml-border-bottom-left-radius: 3px;
 	border-bottom-right-radius: 3px;
 	border-bottom-left-radius: 3px;
 }
@@ -7330,12 +7179,8 @@ div.sidebar-name {
 #widgets-left .widget-holder {
 	border-width: 0 1px 1px;
 	border-style: none solid solid;
-    -moz-border-radius-bottomleft: 3px;
-	-moz-border-radius-bottomright: 3px;
 	-webkit-border-bottom-right-radius: 3px;
 	-webkit-border-bottom-left-radius: 3px;
-	-khtml-border-bottom-right-radius: 3px;
-	-khtml-border-bottom-left-radius: 3px;
 	border-bottom-right-radius: 3px;
 	border-bottom-left-radius: 3px;
 }
@@ -7378,8 +7223,6 @@ div.sidebar-name {
 #widget-list .widget-top {
 	border-width: 1px;
 	border-style: solid;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 }
@@ -7544,8 +7387,6 @@ a.widget-control-edit {
 	border-width: 1px;
 	border-style: solid;
 	padding: 10px;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 }
@@ -7611,12 +7452,8 @@ a.widget-control-edit {
 }
 
 .widgets_access .closed .sidebar-name {
-	-moz-border-radius-bottomleft: 0;
-	-moz-border-radius-bottomright: 0;
 	-webkit-border-bottom-right-radius: 0;
 	-webkit-border-bottom-left-radius: 0;
-	-khtml-border-bottom-right-radius: 0;
-	-khtml-border-bottom-left-radius: 0;
 	border-bottom-right-radius: 0;
 	border-bottom-left-radius: 0;
 }
