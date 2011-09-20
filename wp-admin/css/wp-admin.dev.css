@@ -478,12 +478,12 @@ select,
 .editwidget .widget-inside {
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
+	border-width: 1px;
+	border-style: solid;
 }
 
 /* .widefat - main style for tables */
 .widefat {
-	border-width: 1px;
-	border-style: solid;
 	border-spacing: 0;
 	width: 100%;
 	max-width: 2000px;
@@ -581,8 +581,6 @@ select,
 
 div.updated,
 div.error {
-	border-width: 1px;
-	border-style: solid;
 	padding: 0 0.6em;
 	margin: 5px 15px 2px;
 }
@@ -625,6 +623,7 @@ div.error p {
 	top: -3px;
 	text-decoration: none;
 	font-size: 12px;
+	border: 0 none;
 }
 
 .wrap h2.long-header {
@@ -741,18 +740,6 @@ p.install-help {
 
 .wp-admin select[multiple] {
 	height: auto;
-}
-
-textarea,
-input[type="text"],
-input[type="password"],
-input[type="file"],
-input[type="button"],
-input[type="submit"],
-input[type="reset"],
-select {
-	border-width: 1px;
-	border-style: solid;
 }
 
 select option {
@@ -2341,10 +2328,7 @@ th.asc:hover span.sorting-indicator {
 .tablenav .tablenav-pages a,
 .tablenav-pages span.current  {
 	text-decoration: none;
-	border: none;
 	padding: 3px 6px;
-	border-width: 1px;
-	border-style: solid;
 }
 
 .tablenav .tablenav-pages a.disabled:hover {
@@ -2712,8 +2696,6 @@ table .inline-edit-row fieldset ul.cat-hover {
 
 #titlediv #title {
 	padding: 3px 4px;
-	border-width: 1px;
-	border-style: solid;
 	font-size: 1.7em;
 	line-height: 100%;
 	width: 100%;
@@ -3158,13 +3140,6 @@ td.post-title p, td.plugin-title p {
 /*------------------------------------------------------------------------------
   11.1 - Custom Fields
 ------------------------------------------------------------------------------*/
-
-#postcustomstuff table,
-#postcustomstuff input,
-#postcustomstuff textarea {
-	border-width: 1px;
-	border-style: solid;
-}
 
 #postcustomstuff .updatemeta,
 #postcustomstuff .deletemeta {
@@ -3873,8 +3848,6 @@ td.imgedit-settings input {
 	float: left;
 	width: 32px;
 	height: 32px;
-	border-width: 1px;
-	border-style: solid;
 }
 
 .imgedit-crop-wrap {
@@ -4525,8 +4498,6 @@ input.button-highlighted,
 .plugin-update-tr .update-message {
 	margin: 5px;
 	padding: 3px 5px;
-	border-width: 1px;
-	border-style: solid;
 }
 
 .plugin-install-php h4 {
@@ -4882,15 +4853,6 @@ td.post-title p, td.plugin-title p {
 
 #sidemenu li a .count-0 {
 	display: none;
-}
-
-#poststuff .inside .the-tagcloud {
-	margin: 5px 0 10px;
-	padding: 8px;
-	border-width: 1px;
-	border-style: solid;
-	line-height: 1.8em;
-	word-spacing: 3px;
 }
 
 .plugin-install #description, .plugin-install-network #description {
@@ -5589,8 +5551,6 @@ body.login {
 #login_error,
 .login .message {
 	margin: 0 0 16px 8px;
-	border-width: 1px;
-	border-style: solid;
 	padding: 12px;
 }
 
@@ -5733,7 +5693,6 @@ body.login {
 }
 
 #menu-management .menu-edit {
-	border: 1px solid;
 	margin-bottom: 20px;
 }
 
@@ -5979,7 +5938,6 @@ body.login {
 	max-height: 200px;
 	overflow-y: auto;
 	padding: 10px 10px 5px;
-	border: 1px solid;
 }
 
 .nav-menus-php .postbox p.submit {
@@ -6221,7 +6179,6 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 	padding: 3px 5px 5px;
 	font-size: 12px;
 	font-style: italic;
-	border: 1px solid;
 }
 
 .link-to-original a {
@@ -6305,6 +6262,7 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 .nav-menus-php .major-publishing-actions .form-invalid {
 	padding-left: 4px;
 	margin-left: -4px;
+	border: 0 none;
 }
 
 /* Clearfix */
@@ -6671,8 +6629,6 @@ h3.tb {
 }
 
 .tbtitle {
-	border-style: solid;
-	border-width: 1px;
 	font-size: 1.7em;
 	outline: none;
 	padding: 3px 4px;
@@ -6963,6 +6919,7 @@ h3 span {
 	padding: 3px 3px 3px 12px;
 	margin-left: -12px;
 	font-weight: bold;
+	border: 0 none;
 }
 
 #documentation {
@@ -7069,8 +7026,6 @@ body#theme-information {
 }
 
 .feature-filter {
-	border-width: 1px;
-	border-style: solid;
 	padding: 8px 12px 0;
 }
 
@@ -7214,11 +7169,6 @@ div.sidebar-name {
 
 #widget-list .widget-description {
 	padding: 5px 8px;
-}
-
-#widget-list .widget-top {
-	border-width: 1px;
-	border-style: solid;
 }
 
 .widget-placeholder {
@@ -7378,8 +7328,6 @@ a.widget-control-edit {
 
 .editwidget .widget-inside {
 	display: block;
-	border-width: 1px;
-	border-style: solid;
 	padding: 10px;
 }
 
