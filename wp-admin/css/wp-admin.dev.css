@@ -248,7 +248,11 @@ body {
 	font-family: sans-serif;
 	font-size: 12px;
 	line-height: 1.4em;
-	min-width: 600px; /* to do, responsive admin */
+	min-width: 600px;
+}
+
+body.iframe {
+	min-width: 0;
 }
 
 td,
@@ -435,6 +439,47 @@ code {
 	padding: 0;
 }
 
+.widefat,
+div.updated,
+div.error,
+.wrap .add-new-h2,
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="file"],
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+select,
+.tablenav .tablenav-pages a,
+.tablenav-pages span.current,
+#titlediv #title,
+.postbox,
+#postcustomstuff table,
+#postcustomstuff input,
+#postcustomstuff textarea,
+.imgedit-menu div,
+.plugin-update-tr .update-message,
+#poststuff .inside .the-tagcloud,
+.login form,
+#login_error,
+.login .message,
+#menu-management .menu-edit,
+.nav-menus-php .list-container,
+.menu-item-handle,
+.link-to-original,
+.nav-menus-php .major-publishing-actions .form-invalid,
+.press-this #message,
+#TB_window,
+.tbtitle,
+.highlight,
+.feature-filter,
+#widget-list .widget-top,
+.editwidget .widget-inside {
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+
 /* .widefat - main style for tables */
 .widefat {
 	border-width: 1px;
@@ -444,8 +489,6 @@ code {
 	max-width: 2000px;
 	clear: both;
 	margin: 0;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
 }
 
 .widefat * {
@@ -542,8 +585,6 @@ div.error {
 	border-style: solid;
 	padding: 0 0.6em;
 	margin: 5px 15px 2px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
 }
 
 div.updated p,
@@ -582,8 +623,6 @@ div.error p {
 	padding: 3px 8px;
 	position: relative;
 	top: -3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
 	text-decoration: none;
 	font-size: 12px;
 }
@@ -714,8 +753,6 @@ input[type="reset"],
 select {
 	border-width: 1px;
 	border-style: solid;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
 }
 
 select option {
@@ -2308,8 +2345,6 @@ th.asc:hover span.sorting-indicator {
 	padding: 3px 6px;
 	border-width: 1px;
 	border-style: solid;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
 }
 
 .tablenav .tablenav-pages a.disabled:hover {
@@ -2679,8 +2714,6 @@ table .inline-edit-row fieldset ul.cat-hover {
 	padding: 3px 4px;
 	border-width: 1px;
 	border-style: solid;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
 	font-size: 1.7em;
 	line-height: 100%;
 	width: 100%;
@@ -2810,8 +2843,6 @@ input#link_url {
 }
 
 .postbox {
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
 	position: relative;
 	min-width: 255px;
 }
@@ -3133,8 +3164,6 @@ td.post-title p, td.plugin-title p {
 #postcustomstuff textarea {
 	border-width: 1px;
 	border-style: solid;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
 }
 
 #postcustomstuff .updatemeta,
@@ -3844,8 +3873,6 @@ td.imgedit-settings input {
 	float: left;
 	width: 32px;
 	height: 32px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
 	border-width: 1px;
 	border-style: solid;
 }
@@ -4500,8 +4527,6 @@ input.button-highlighted,
 	padding: 3px 5px;
 	border-width: 1px;
 	border-style: solid;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
 }
 
 .plugin-install-php h4 {
@@ -4866,8 +4891,6 @@ td.post-title p, td.plugin-title p {
 	border-style: solid;
 	line-height: 1.8em;
 	word-spacing: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
 }
 
 .plugin-install #description, .plugin-install-network #description {
@@ -5508,8 +5531,6 @@ body.login {
 	margin-left: 8px;
 	padding: 26px 24px 46px;
 	font-weight: normal;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
 	background: #fff;
 	border: 1px solid #e5e5e5;
 	-moz-box-shadow: rgba(200, 200, 200, 0.7) 0px 4px 10px -1px;
@@ -5571,8 +5592,6 @@ body.login {
 	border-width: 1px;
 	border-style: solid;
 	padding: 12px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
 }
 
 .login #nav,
@@ -5715,8 +5734,6 @@ body.login {
 
 #menu-management .menu-edit {
 	border: 1px solid;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
 	margin-bottom: 20px;
 }
 
@@ -5963,8 +5980,6 @@ body.login {
 	overflow-y: auto;
 	padding: 10px 10px 5px;
 	border: 1px solid;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
 }
 
 .nav-menus-php .postbox p.submit {
@@ -6027,8 +6042,6 @@ body.login {
 	text-shadow: 0 1px 0 #FFFFFF;
 	overflow: hidden;
 	word-wrap: break-word;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
 }
 
 #menu-to-edit .menu-item-invalid .menu-item-handle {
@@ -6209,8 +6222,6 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 	font-size: 12px;
 	font-style: italic;
 	border: 1px solid;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
 }
 
 .link-to-original a {
@@ -6294,8 +6305,6 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 .nav-menus-php .major-publishing-actions .form-invalid {
 	padding-left: 4px;
 	margin-left: -4px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
 }
 
 /* Clearfix */
@@ -6573,11 +6582,6 @@ img {
 	width: 100%;
 }
 
-.press-this #message {
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
-}
-
 /* Editor/Main Column */
 .press-this #poststuff {
 	margin: 0 10px 10px;
@@ -6653,8 +6657,6 @@ h3.tb {
 
 #TB_window {
 	border: 1px solid #333;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
 }
 
 .press-this .postbox,
@@ -6669,8 +6671,6 @@ h3.tb {
 }
 
 .tbtitle {
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
 	border-style: solid;
 	border-width: 1px;
 	font-size: 1.7em;
@@ -6963,8 +6963,6 @@ h3 span {
 	padding: 3px 3px 3px 12px;
 	margin-left: -12px;
 	font-weight: bold;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
 }
 
 #documentation {
@@ -7071,8 +7069,6 @@ body#theme-information {
 }
 
 .feature-filter {
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
 	border-width: 1px;
 	border-style: solid;
 	padding: 8px 12px 0;
@@ -7223,8 +7219,6 @@ div.sidebar-name {
 #widget-list .widget-top {
 	border-width: 1px;
 	border-style: solid;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
 }
 
 .widget-placeholder {
@@ -7387,8 +7381,6 @@ a.widget-control-edit {
 	border-width: 1px;
 	border-style: solid;
 	padding: 10px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
 }
 
 .inactive p.description {
