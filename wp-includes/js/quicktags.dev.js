@@ -453,12 +453,12 @@ edToolbar = function(){};
 			canvas.focus();
 			sel = document.selection.createRange();
 			if ( sel.text.length > 0 ) {
-				if ( !endTag )
+				if ( !t.tagEnd )
 					sel.text = sel.text + t.tagStart;
 				else
 					sel.text = t.tagStart + sel.text + endTag;
 			} else {
-				if ( !endTag ) {
+				if ( !t.tagEnd ) {
 					sel.text = t.tagStart;
 				} else if ( t.isOpen(ed) === false ) {
 					sel.text = t.tagStart;
@@ -478,7 +478,7 @@ edToolbar = function(){};
 			r = v.substring(endPos, v.length); // right of the selection
 			i = v.substring(startPos, endPos); // inside the selection
 			if ( startPos != endPos ) {
-				if ( !endTag ) {
+				if ( !t.tagEnd ) {
 					canvas.value = l + i + t.tagStart + r; // insert self closing tags after the selection
 					cursorPos += t.tagStart.length;
 				} else {
@@ -486,7 +486,7 @@ edToolbar = function(){};
 					cursorPos += t.tagStart.length + endTag.length;
 				}
 			} else {
-				if ( !endTag ) {
+				if ( !t.tagEnd ) {
 					canvas.value = l + t.tagStart + r;
 					cursorPos = startPos + t.tagStart.length;
 				} else if ( t.isOpen(ed) === false ) {
@@ -553,8 +553,10 @@ edToolbar = function(){};
 	qt.CloseButton = function() {
 		qt.Button.call(this, 'close', quicktagsL10n.closeTags, '', quicktagsL10n.closeAllOpenTags);
 	};
+
 	qt.CloseButton.prototype = new qt.Button();
-	qt.CloseButton.prototype.callback = function(e, c, ed) {
+
+	qt._close = function(e, c, ed) {
 		var button, element, tbo = ed.openTags;
 
 		if ( tbo ) {
@@ -563,14 +565,14 @@ edToolbar = function(){};
 				element = document.getElementById(ed.name + '_' + button.id);
 				button.callback.call(button, element, c, ed);
 			}
-		} else {
-			ed.canvas.focus();
 		}
 	};
 
+	qt.CloseButton.prototype.callback = qt._close;
+
 	qt.closeAllTags = function(editor_id) {
-		var ed = this.getInstance(editor_id), btn = ed.getButton('close');
-		btn.callback.call(btn, '', ed.canvas, ed);
+		var ed = this.getInstance(editor_id);
+		qt._close('', ed.canvas, ed);
 	};
 
 	// the link button
@@ -602,7 +604,7 @@ edToolbar = function(){};
 
 	// the img button
 	qt.ImgButton = function() {
-		qt.TagButton.call(this, 'img', 'img', '', '', 'm', -1);
+		qt.TagButton.call(this, 'img', 'img', '', '', 'm');
 	};
 	qt.ImgButton.prototype = new qt.TagButton();
 	qt.ImgButton.prototype.callback = function(e, c, ed, defaultValue) {
@@ -640,7 +642,7 @@ edToolbar = function(){};
 	edButtons[90] = new qt.TagButton('ol','ol','<ol>\n','</ol>\n\n','o'),
 	edButtons[100] = new qt.TagButton('li','li','\t<li>','</li>\n','l'),
 	edButtons[110] = new qt.TagButton('code','code','<code>','</code>','c'),
-	edButtons[120] = new qt.TagButton('more','more','<!--more-->','','t',-1),
+	edButtons[120] = new qt.TagButton('more','more','<!--more-->','','t'),
 	edButtons[130] = new qt.SpellButton(),
 	edButtons[140] = new qt.CloseButton()
 
