@@ -618,7 +618,9 @@ function wp_setup_nav_menu_item( $menu_item ) {
 			$menu_item->target = empty( $menu_item->target ) ? get_post_meta( $menu_item->ID, '_menu_item_target', true ) : $menu_item->target;
 
 			$menu_item->attr_title = empty( $menu_item->attr_title ) ? apply_filters( 'nav_menu_attr_title', $menu_item->post_excerpt ) : $menu_item->attr_title;
-			$menu_item->description = empty( $menu_item->description ) ? apply_filters( 'nav_menu_description', $menu_item->post_content ) : $menu_item->description;
+
+			if ( empty( $menu_item->description ) )
+				$menu_item->description = apply_filters( 'nav_menu_description',  wp_trim_words( $menu_item->post_content, 200 ) );
 
 			$menu_item->classes = empty( $menu_item->classes ) ? (array) get_post_meta( $menu_item->ID, '_menu_item_classes', true ) : $menu_item->classes;
 			$menu_item->xfn = empty( $menu_item->xfn ) ? get_post_meta( $menu_item->ID, '_menu_item_xfn', true ) : $menu_item->xfn;
