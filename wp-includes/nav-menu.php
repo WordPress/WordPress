@@ -636,8 +636,8 @@ function wp_setup_nav_menu_item( $menu_item ) {
 			$menu_item->url = get_permalink( $menu_item->ID );
 			$menu_item->target = '';
 
-			$menu_item->attr_title = apply_filters( 'nav_menu_attr_title', $menu_item->post_excerpt );
-			$menu_item->description = apply_filters( 'nav_menu_description', $menu_item->post_content );
+			$menu_item->attr_title = apply_filters( 'nav_menu_attr_title', '' );
+			$menu_item->description = apply_filters( 'nav_menu_description', '' );
 			$menu_item->classes = array();
 			$menu_item->xfn = '';
 		}
