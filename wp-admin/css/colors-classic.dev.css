@@ -782,60 +782,6 @@ table.widefat span.spam a,
 	color: #174f69;
 }
 
-#user_info {
-	color: #777;
-}
-
-#user_info:hover,
-#user_info.active {
-	color: #185069;
-}
-
-#user_info.active {
-	background-color: #f7fcfe; /* Fallback */
-	background-image: -ms-linear-gradient(bottom, #f7fcfe, #f9f9f9); /* IE10 */
-	background-image: -moz-linear-gradient(bottom, #f7fcfe, #f9f9f9); /* Firefox */
-	background-image: -o-linear-gradient(bottom, #f7fcfe, #f9f9f9); /* Opera */
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#f7fcfe), to(#f9f9f9)); /* old Webkit */
-	background-image: -webkit-linear-gradient(bottom, #f7fcfe, #f9f9f9); /* new Webkit */
-	background-image: linear-gradient(bottom, #f7fcfe, #f9f9f9); /* proposed W3C Markup */
-	border-color: #d0dfe9 #d0dfe9 #d0dfe9;
-}
-
-#user_info_arrow {
-	background: transparent url(../images/arrows-vs.png) no-repeat 6px 5px;
-}
-
-#user_info:hover #user_info_arrow,
-#user_info.active #user_info_arrow {
-	background: transparent url(../images/arrows-dark-vs.png) no-repeat 6px 5px;
-}
-
-#user_info_links {
-	-moz-box-shadow: 0 3px 2px -2px rgba( 0, 0, 0, 0.2 );
-	-webkit-box-shadow: 0 3px 2px -2px rgba( 0, 0, 0, 0.2 );
-	box-shadow: 0 3px 2px -2px rgba( 0, 0, 0, 0.2 );
-}
-
-#user_info_links ul {
-	background: #f7fcfe;
-	border-color: #d0dfe9 #d0dfe9 #d0dfe9;
-	-moz-box-shadow: inset 0 1px 0 #f9f9f9;
-	-webkit-box-shadow: inset 0 1px 0 #f9f9f9;
-	box-shadow: inset 0 1px 0 #f9f9f9;
-}
-
-#user_info_links li:hover {
-	background-color: #ECF8FE;
-}
-
-#user_info_links li:hover a,
-#user_info_links li a:hover {
-	text-decoration: none;
-}
-
-#user_info a:link,
-#user_info a:visited,
 #footer a:link,
 #footer a:visited {
 	text-decoration: none;
@@ -2173,15 +2119,6 @@ div.widgets-sortables,
 
 .rtl .post-com-count {
 	background-image: url(../images/bubble_bg-rtl.gif);
-}
-
-.rtl #user_info_arrow {
-	background: transparent url(../images/arrows-vs.png) no-repeat 0 5px;
-}
-
-.rtl #user_info:hover #user_info_arrow,
-.rtl #user_info.active #user_info_arrow {
-	background: transparent url(../images/arrows-dark-vs.png) no-repeat 0 5px;
 }
 
 /* Menu */

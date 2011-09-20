@@ -240,7 +240,7 @@ screenMeta = {
 
 
 $(document).ready( function() {
-	var lastClicked = false, checks, first, last, checked, dropdown,
+	var lastClicked = false, checks, first, last, checked,
 		pageInput = $('input.current-page'), currentPage = pageInput.val();
 
 	// Move .updated and .error alert boxes. Don't move boxes designed to be inline.
@@ -249,25 +249,6 @@ $(document).ready( function() {
 
 	// Init screen meta
 	screenMeta.init();
-
-	// User info dropdown.
-	// @todo: Removed in 3.3; remove me!
-	dropdown = {
-		doc: $(document),
-		element: $('#user_info'),
-		open: function() {
-			if ( ! dropdown.element.hasClass('active') ) {
-				dropdown.element.addClass('active');
-				dropdown.doc.one( 'click', dropdown.close );
-				return false;
-			}
-		},
-		close: function() {
-			dropdown.element.removeClass('active');
-		}
-	};
-
-	dropdown.element.click( dropdown.open );
 
 	// check all checkboxes
 	$('tbody').children().children('.check-column').find(':checkbox').click( function(e) {

@@ -38,13 +38,6 @@ p.search-box {
 	margin: 7px 10px 0 0;
 	float: left;
 }
-#user_info + div#favorite-actions {
-	right: auto;
-	left: 15px;
-}
-#wphead-info {
-	float: left;
-}
 /* without this dashboard widgets appear in one column for some screen widths */
 div#dashboard-widgets {
 	padding-right: 0;

@@ -306,34 +306,6 @@ form.upgrade .hint {
 /*------------------------------------------------------------------------------
   6.0 - Admin Header
 ------------------------------------------------------------------------------*/
-#wphead-info {
-	margin: 0 15px 0 0;
-}
-
-#user_info {
-	float: left;
-	padding: 0 6px 0 2px;
-}
-
-#user_info.active {
-	margin-right: 0;
-	margin-left: -1px;
-}
-
-#user_info .hide-if-no-js p {
-	margin: 0 0 0 20px;
-}
-
-#user_info_arrow {
-	right: auto;
-	left: 3px;
-}
-
-#user_info_links_wrap {
-	right: auto;
-	left: 0;
-}
-
 #wphead {
 	height: 32px;
 	margin-left: 15px;
