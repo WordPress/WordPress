@@ -39,7 +39,7 @@ if ( get_option('db_upgraded') ) {
 	 * @since 2.8
 	 */
 	do_action('after_db_upgrade');
-} elseif ( get_option('db_version') != $wp_db_version ) {
+} elseif ( get_option('db_version') != $wp_db_version && empty($_POST) ) {
 	if ( !is_multisite() ) {
 		wp_redirect(admin_url('upgrade.php?_wp_http_referer=' . urlencode(stripslashes($_SERVER['REQUEST_URI']))));
 		exit;
