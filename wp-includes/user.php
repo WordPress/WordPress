@@ -61,7 +61,7 @@ function wp_signon( $credentials = '', $secure_cookie = '' ) {
 	}
 
 	wp_set_auth_cookie($user->ID, $credentials['remember'], $secure_cookie);
-	do_action('wp_login', $credentials['user_login']);
+	do_action('wp_login', $user->user_login, $user);
 	return $user;
 }
 
