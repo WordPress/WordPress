@@ -277,6 +277,11 @@ body.iframe {
 	min-width: 0;
 }
 
+body.login {
+	background: #fbfbfb;
+	min-width: 0;
+}
+
 td,
 textarea,
 input,
@@ -5393,12 +5398,6 @@ a.rsswidget {
 
 /* login */
 
-body.login {
-	padding: 30px 0 7em;
-	background: #fbfbfb !important;
-	min-width: 0;
-}
-
 .login form {
 	margin-left: 8px;
 	padding: 26px 24px 46px;
@@ -5455,7 +5454,8 @@ body.login {
 
 #login {
 	width: 320px;
-	margin: 7em auto 0;
+	padding: 7em 0 0;
+	margin: auto;
 }
 
 #login_error,
