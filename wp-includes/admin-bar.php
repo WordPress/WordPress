@@ -218,6 +218,14 @@ function wp_admin_bar_my_sites_menu( $wp_admin_bar ) {
 	// Add WordPress.org link
 	$wp_admin_bar->add_menu( array(
 		'parent' => 'my-blogs',
+		'id'     => 'about',
+		'title'  => __('About This Version'),
+		'href'   => admin_url('about.php'),
+	) );
+
+	// Add WordPress.org link
+	$wp_admin_bar->add_menu( array(
+		'parent' => 'my-blogs',
 		'id'     => 'wporg',
 		'title'  => __('WordPress.org'),
 		'href'   => 'http://wordpress.org',
