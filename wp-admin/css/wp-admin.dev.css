@@ -342,46 +342,44 @@ select {
 	padding: 3px;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	display: block;
+	font-weight: bold;
+}
+
 h1 {
-  display: block;
-  font-size: 2em;
-  font-weight: bold;
-  margin: .67em 0;
+	font-size: 2em;
+	margin: .67em 0;
 }
 
 h2 {
-  display: block;
-  font-size: 1.5em;
-  font-weight: bold;
-  margin: .83em 0;
+	font-size: 1.5em;
+	margin: .83em 0;
 }
 
 h3 {
-  display: block;
-  font-size: 1.17em;
-  font-weight: bold;
-  margin: 1em 0;
+	font-size: 1.17em;
+	margin: 1em 0;
 }
 
 h4 {
-  display: block;
-  font-size: 1em;
-  font-weight: bold;
-  margin: 1.33em 0;
+	font-size: 1em;
+	margin: 1.33em 0;
 }
 
 h5 {
-  display: block;
-  font-size: 0.83em;
-  font-weight: bold;
-  margin: 1.67em 0;
+	font-size: 0.83em;
+	margin: 1.67em 0;
 }
 
 h6 {
-  display: block;
-  font-size: 0.67em;
-  font-weight: bold;
-  margin: 2.33em 0;
+	font-size: 0.67em;
+	margin: 2.33em 0;
 }
 
 ul,
@@ -1015,7 +1013,8 @@ a.button-secondary {
 	-webkit-border-radius: 10px;
 }
 
-.approve {
+.approve,
+.unapproved .unapprove {
 	display: none;
 }
 
@@ -1023,10 +1022,6 @@ a.button-secondary {
 .spam .approve,
 .trash .approve {
 	display: inline;
-}
-
-.unapproved .unapprove {
-	display: none;
 }
 
 td.action-links,
@@ -1071,6 +1066,7 @@ th.action-links {
 ul#dismissed-updates {
 	display: none;
 }
+
 form.upgrade {
 	margin-top: 8px;
 }
