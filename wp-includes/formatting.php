@@ -2462,6 +2462,7 @@ function sanitize_option($option, $value) {
 					add_settings_error('admin_email', 'invalid_admin_email', __('The email address entered did not appear to be a valid email address. Please enter a valid email address.'));
 			}
 			break;
+
 		case 'new_admin_email':
 			$value = sanitize_email($value);
 			if ( !is_email($value) ) {
@@ -2470,6 +2471,7 @@ function sanitize_option($option, $value) {
 					add_settings_error('new_admin_email', 'invalid_admin_email', __('The email address entered did not appear to be a valid email address. Please enter a valid email address.'));
 			}
 			break;
+
 		case 'thumbnail_size_w':
 		case 'thumbnail_size_h':
 		case 'medium_size_w':
@@ -2563,6 +2565,7 @@ function sanitize_option($option, $value) {
 					add_settings_error('home', 'invalid_home', __('The Site address you entered did not appear to be a valid URL. Please enter a valid URL.'));
 			}
 			break;
+
 		case 'WPLANG':
 			$allowed = get_available_languages();
 			if ( ! in_array( $value, $allowed ) && ! empty( $value ) )
@@ -2578,10 +2581,15 @@ function sanitize_option($option, $value) {
 			}
 			break;
 
-		default :
-			$value = apply_filters("sanitize_option_{$option}", $value, $option);
+		case 'permalink_structure':
+		case 'category_base':
+		case 'tag_base':
+			$value = esc_url_raw( $value );
+			$value = str_replace( 'http://', '', $value );
 			break;
 	}
+
+	$value = apply_filters("sanitize_option_{$option}", $value, $option);
 
 	return $value;
 }
