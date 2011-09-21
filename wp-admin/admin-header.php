@@ -48,7 +48,6 @@ wp_enqueue_script('utils');
 $admin_body_class = preg_replace('/[^a-z0-9_-]+/i', '-', $hook_suffix);
 ?>
 <script type="text/javascript">
-//<![CDATA[
 addLoadEvent = function(func){if(typeof jQuery!="undefined")jQuery(document).ready(func);else if(typeof wpOnload!='function'){wpOnload=func;}else{var oldonload=wpOnload;wpOnload=function(){oldonload();func();}}};
 var userSettings = {
 		'url': '<?php echo SITECOOKIEPATH; ?>',
@@ -62,20 +61,6 @@ var userSettings = {
 	thousandsSeparator = '<?php echo addslashes( $wp_locale->number_format['thousands_sep'] ); ?>',
 	decimalPoint = '<?php echo addslashes( $wp_locale->number_format['decimal_point'] ); ?>',
 	isRtl = <?php echo (int) is_rtl(); ?>;
-
-	function wp_set_width_class() {
-		var w = document.body.clientWidth, bc = document.body.className;
-
-		if ( w <= 680 )
-			document.body.className = bc.replace(/ (small|narrow|medium|wide)-window/, '') + ' small-window';
-		else if ( w > 680 && w <= 950 )
-			document.body.className = bc.replace(/ (small|narrow|medium|wide)-window/, '') + ' narrow-window';
-		else if ( w > 950 && w <= 1300 )
-			document.body.className = bc.replace(/ (small|narrow|medium|wide)-window/, '') + ' medium-window';
-		else
-			document.body.className = bc.replace(/ (small|narrow|medium|wide)-window/, '') + ' wide-window';
-	}
-//]]>
 </script>
 <?php
 
@@ -98,9 +83,6 @@ if ( is_admin_bar_showing() )
 if ( is_rtl() )
 	$admin_body_class .= ' rtl';
 
-if ( get_user_setting('responsive') )
-	$admin_body_class .= ' responsive';
-
 $admin_body_class .= ' branch-' . str_replace( array( '.', ',' ), '-', floatval( $wp_version ) );
 $admin_body_class .= ' version-' . str_replace( '.', '-', preg_replace( '/^([.0-9]+).*/', '$1', $wp_version ) );
 $admin_body_class .= ' admin-color-' . sanitize_html_class( get_user_option( 'admin_color' ), 'fresh' );
@@ -112,7 +94,8 @@ if ( $is_iphone ) { ?>
 <body class="wp-admin no-js <?php echo apply_filters( 'admin_body_class', '' ) . " $admin_body_class"; ?>">
 <script type="text/javascript">
 document.body.className = document.body.className.replace(/no-js/, 'js');
-wp_set_width_class();
+if ( document.body.clientWidth > 1300 )
+	document.body.className += ' wide-window';
 </script>
 
 <div id="wpwrap">

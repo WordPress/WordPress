@@ -38,7 +38,7 @@ wp_enqueue_script( 'dashboard' );
 wp_enqueue_script( 'plugin-install' );
 add_thickbox();
 
-add_screen_option('layout_columns', array('max' => 4, 'default' => 2) );
+add_screen_option('layout_columns', array('max' => 4, 'default' => 'auto') );
 
 require_once( '../admin-header.php' );
 

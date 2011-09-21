@@ -117,22 +117,33 @@ TABLE OF CONTENTS:
 	position: relative;
 }
 
-.wide-window.responsive .inner-sidebar {
+.wide-window .inner-sidebar {
     margin-right: -870px;
     width: 100%;
     display: block;
 }
 
-.inner-sidebar #side-sortables {
-	width: 280px;
-	min-height: 300px;
+.columns-2 .inner-sidebar,
+.wide-window .columns-2 .inner-sidebar {
+	margin-right: auto;
+	width: 286px;
+	display: block;
 }
 
-.wide-window.responsive .inner-sidebar #side-sortables {
+.inner-sidebar #side-sortables {
+	min-height: 300px;
 	min-width: 280px;
 	max-width: 480px;
 	width: auto;
-	padding-right: 870px;
+}
+
+.wide-window .inner-sidebar #side-sortables {
+	margin-right: 870px;
+}
+
+.columns-2 .inner-sidebar #side-sortables {
+	width: 280px;
+	padding: 0;
 }
 
 .has-right-sidebar .inner-sidebar {
@@ -150,13 +161,24 @@ TABLE OF CONTENTS:
 	margin-right: 300px;
 }
 
-.responsive #post-body-content {
+#post-body-content {
 	max-width: 850px;
+	min-width: 465px;
+}
+
+.columns-1 #post-body-content,
+.columns-2 #post-body-content {
+	max-width: none;
 }
 
 #side-sortables:empty {
 	border: 3px dashed #ccc;
-	height: 800px;
+	height: 500px;
+}
+
+#post-body-content #side-sortables:empty {
+	border: 0 none;
+	height: 0;
 }
 
 /* 2 columns main area */
@@ -1934,11 +1956,9 @@ body.admin-bar #adminmenu {
 	float: left;
 }
 
-#postbox-container-1 .meta-box-sortables:first-child,
-#postbox-container-2 .meta-box-sortables:first-child,
-#postbox-container-3 .meta-box-sortables:first-child,
-#postbox-container-4 .meta-box-sortables:first-child {
-	min-height: 200px;
+.postbox-container .meta-box-sortables:empty:first-child {
+	border: 3px dashed #CCCCCC;
+	height: 300px;
 }
 
 .postbox .hndle {

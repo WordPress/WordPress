@@ -1874,7 +1874,7 @@ function screen_layout($screen) {
 		if ( isset($wp_current_screen_options['layout_columns']['default']) )
 			$screen_layout_columns = $wp_current_screen_options['layout_columns']['default'];
 		else
-			$screen_layout_columns = '0';
+			$screen_layout_columns = 'auto';
 	}
 
 	$i = 1;

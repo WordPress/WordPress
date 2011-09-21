@@ -37,7 +37,7 @@ do_action('do_meta_boxes', 'link', 'normal', $link);
 do_action('do_meta_boxes', 'link', 'advanced', $link);
 do_action('do_meta_boxes', 'link', 'side', $link);
 
-add_screen_option('layout_columns', array('max' => 2) );
+add_screen_option('layout_columns', array('max' => 2, 'default' => 'auto') );
 
 add_contextual_help($current_screen,
 	'<p>' . __( 'You can add or edit links on this screen by entering information in each of the boxes. Only the link&#8217;s web address and name (the text you want to display on your site as the link) are required fields.' ) . '</p>' .
@@ -49,9 +49,9 @@ add_contextual_help($current_screen,
 );
 
 require_once ('admin-header.php');
-
 ?>
-<div class="wrap">
+
+<div class="wrap columns-<?php echo (int) $screen_layout_columns ? (int) $screen_layout_columns : 'auto'; ?>">
 <?php screen_icon(); ?>
 <h2><?php echo esc_html( $title ); ?>  <a href="link-add.php" class="add-new-h2"><?php echo esc_html_x('Add New', 'link'); ?></a></h2>
 
@@ -69,14 +69,13 @@ wp_nonce_field( $nonce_action );
 wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false ); ?>
 
-<div id="poststuff" class="metabox-holder<?php echo 2 == $screen_layout_columns ? ' has-right-sidebar' : ''; ?>">
-
+<div id="poststuff" class="metabox-holder<?php echo 1 != $screen_layout_columns ? ' has-right-sidebar' : ''; ?>">
 <div id="side-info-column" class="inner-sidebar">
 <?php
-
-do_action('submitlink_box');
-$side_meta_boxes = do_meta_boxes( 'link', 'side', $link );
-
+if ( 1 != $screen_layout_columns ) {
+	do_action('submitlink_box');
+	$side_meta_boxes = do_meta_boxes( 'link', 'side', $link );
+}
 ?>
 </div>
 
@@ -107,6 +106,11 @@ $side_meta_boxes = do_meta_boxes( 'link', 'side', $link );
 </div>
 
 <?php
+
+if ( 1 == $screen_layout_columns ) {
+	do_action('submitlink_box');
+	$side_meta_boxes = do_meta_boxes( 'link', 'side', $link );
+}
 
 do_meta_boxes('link', 'normal', $link);
 

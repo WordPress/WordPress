@@ -160,7 +160,7 @@ do_action('do_meta_boxes', $post_type, 'normal', $post);
 do_action('do_meta_boxes', $post_type, 'advanced', $post);
 do_action('do_meta_boxes', $post_type, 'side', $post);
 
-add_screen_option('layout_columns', array('max' => 2) );
+add_screen_option('layout_columns', array('max' => 2, 'default' => 'auto') );
 
 if ( 'post' == $post_type ) {
 	add_contextual_help($current_screen,
@@ -193,7 +193,7 @@ if ( 'post' == $post_type ) {
 require_once('./admin-header.php');
 ?>
 
-<div class="wrap">
+<div class="wrap columns-<?php echo (int) $screen_layout_columns ? (int) $screen_layout_columns : 'auto'; ?>">
 <?php screen_icon(); ?>
 <h2><?php echo esc_html( $title ); ?><?php if ( isset( $post_new_file ) ) : ?> <a href="<?php echo esc_url( $post_new_file ) ?>" class="add-new-h2"><?php echo esc_html($post_type_object->labels->add_new); ?></a><?php endif; ?></h2>
 <?php if ( $notice ) : ?>
@@ -224,10 +224,11 @@ wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 
 <div id="poststuff" class="metabox-holder<?php echo 1 != $screen_layout_columns ? ' has-right-sidebar' : ''; ?>">
 <div id="side-info-column" class="inner-sidebar">
-
 <?php
-('page' == $post_type) ? do_action('submitpage_box') : do_action('submitpost_box');
-$side_meta_boxes = do_meta_boxes($post_type, 'side', $post);
+if ( 1 != $screen_layout_columns ) {
+	('page' == $post_type) ? do_action('submitpage_box') : do_action('submitpost_box');
+	$side_meta_boxes = do_meta_boxes($post_type, 'side', $post);
+}
 ?>
 </div>
 
@@ -289,6 +290,11 @@ wp_nonce_field( 'samplepermalink', 'samplepermalinknonce', false );
 </div>
 
 <?php
+}
+
+if ( 1 == $screen_layout_columns ) {
+	('page' == $post_type) ? do_action('submitpage_box') : do_action('submitpost_box');
+	$side_meta_boxes = do_meta_boxes($post_type, 'side', $post);
 }
 
 do_meta_boxes($post_type, 'normal', $post);

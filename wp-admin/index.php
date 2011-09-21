@@ -25,7 +25,7 @@ $parent_file = 'index.php';
 if ( is_user_admin() )
 	add_screen_option('layout_columns', array('max' => 4, 'default' => 1) );
 else
-	add_screen_option('layout_columns', array('max' => 4, 'default' => 2) );
+	add_screen_option('layout_columns', array('max' => 4, 'default' => 'auto') );
 
 add_contextual_help($current_screen,
 
