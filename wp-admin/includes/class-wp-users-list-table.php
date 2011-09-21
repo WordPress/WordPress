@@ -112,7 +112,7 @@ class WP_Users_List_Table extends WP_List_Table {
 
 			$name = translate_user_role( $name );
 			/* translators: User role name with count */
-			$name = sprintf( __('%1$s <span class="count">(%2$s)</span>'), $name, $avail_roles[$this_role] );
+			$name = sprintf( __('%1$s <span class="count">(%2$s)</span>'), $name, number_format_i18n( $avail_roles[$this_role] ) );
 			$role_links[$this_role] = "<a href='" . esc_url( add_query_arg( 'role', $this_role, $url ) ) . "'$class>$name</a>";
 		}
 
