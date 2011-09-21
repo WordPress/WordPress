@@ -1884,7 +1884,7 @@ function wp_trim_words( $text, $num_words = 55, $more = null ) {
 	if ( null === $more )
 		$more = __( '&hellip;' );
 	$original_text = $text;
-	$text = strip_tags( $text );
+	$text = wp_strip_all_tags( $text );
 	$words_array = preg_split( "/[\n\r\t ]+/", $text, $num_words + 1, PREG_SPLIT_NO_EMPTY );
 	if ( count( $words_array ) > $num_words ) {
 		array_pop( $words_array );
