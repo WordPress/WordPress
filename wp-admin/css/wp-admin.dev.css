@@ -130,18 +130,16 @@ TABLE OF CONTENTS:
 	display: block;
 }
 
-.inner-sidebar #side-sortables {
-	min-height: 300px;
+.wide-window .inner-sidebar #side-sortables {
+	margin-right: 870px;
 	min-width: 280px;
 	max-width: 480px;
 	width: auto;
 }
 
-.wide-window .inner-sidebar #side-sortables {
-	margin-right: 870px;
-}
-
+.inner-sidebar #side-sortables,
 .columns-2 .inner-sidebar #side-sortables {
+	min-height: 300px;
 	width: 280px;
 	padding: 0;
 }

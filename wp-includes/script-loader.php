@@ -406,7 +406,7 @@ function wp_default_styles( &$styles ) {
 	// Any rtl stylesheets that don't have a .dev version for ltr
 	$no_suffix = array( 'farbtastic' );
 
-	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20110921' );
+	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20110921a' );
 
 	$styles->add( 'ie', "/wp-admin/css/ie$suffix.css", array(), '20110919' );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
