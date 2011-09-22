@@ -275,7 +275,7 @@ require( ABSPATH . WPINC . '/locale.php' );
  * @global object $wp_locale
  * @since 2.1.0
  */
-$wp_locale = new WP_Locale();
+$GLOBALS['wp_locale'] = new WP_Locale();
 
 // Load the functions for the active theme, for both parent and child theme if applicable.
 if ( ! defined( 'WP_INSTALLING' ) || 'wp-activate.php' === $pagenow ) {
