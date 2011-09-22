@@ -5195,7 +5195,7 @@ function set_post_thumbnail( $post, $thumbnail_id ) {
  *
  * @since 3.1.0
  *
- * @param $format string Post format
+ * @param string $format Post format
  * @return string Link
  */
 function get_post_format_link( $format ) {

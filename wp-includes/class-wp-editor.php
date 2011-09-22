@@ -33,9 +33,9 @@ class WP_Editor {
 	/**
 	 * Outputs the HTML and enqueues the JavaScript for a single instance of the editor.
 	 *
-	 * @param $content The initial content of the editor.
-	 * @param $editor_id ID for the textarea and TinyMCE and Quicktags instances (can contain only ASCII letters and numbers).
-	 * @param $settings See below for description.
+	 * @param string $content The initial content of the editor.
+	 * @param string $editor_id ID for the textarea and TinyMCE and Quicktags instances (can contain only ASCII letters and numbers).
+	 * @param array $settings See below for description.
 	 */
 	function editor( $content, $editor_id, $settings = array() ) {
 

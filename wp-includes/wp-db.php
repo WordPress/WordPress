@@ -555,6 +555,7 @@ class wpdb {
 	 * @since 2.5.0
 	 *
 	 * @param string $prefix Alphanumeric name for the new prefix.
+	 * @param bool $set_table_names Optional. Whether the table names, e.g. wpdb::$posts, should be updated or not.
 	 * @return string|WP_Error Old prefix or WP_Error on error
 	 */
 	function set_prefix( $prefix, $set_table_names = true ) {
@@ -726,7 +727,7 @@ class wpdb {
 	 * @param resource $dbh Optional link identifier.
 	 * @return null Always null.
 	 */
-	function select( $db, $dbh = null) {
+	function select( $db, $dbh = null ) {
 		if ( is_null($dbh) )
 			$dbh = $this->dbh;
 
@@ -1178,6 +1179,7 @@ class wpdb {
 	 * @param array $data Data to insert (in column => value pairs).  Both $data columns and $data values should be "raw" (neither should be SQL escaped).
 	 * @param array|string $format Optional. An array of formats to be mapped to each of the value in $data. If string, that format will be used for all of the values in $data.
 	 * 	A format is one of '%d', '%f', '%s' (integer, float, string). If omitted, all values in $data will be treated as strings unless otherwise specified in wpdb::$field_types.
+	 * @param string $type Optional. What type of operation is this? INSERT or REPLACE. Defaults to INSERT.
 	 * @return int|false The number of rows affected, or false on error.
 	 */
 	function _insert_replace_helper( $table, $data, $format = null, $type = 'INSERT' ) {
@@ -1217,7 +1219,7 @@ class wpdb {
 	 * @param array $where A named array of WHERE clauses (in column => value pairs). Multiple clauses will be joined with ANDs. Both $where columns and $where values should be "raw".
 	 * @param array|string $format Optional. An array of formats to be mapped to each of the values in $data. If string, that format will be used for all of the values in $data.
 	 * 	A format is one of '%d', '%f', '%s' (integer, float, string). If omitted, all values in $data will be treated as strings unless otherwise specified in wpdb::$field_types.
-	 * @param array|string $format_where Optional. An array of formats to be mapped to each of the values in $where. If string, that format will be used for all of the items in $where.  A format is one of '%d', '%f', '%s' (integer, float, string).  If omitted, all values in $where will be treated as strings.
+	 * @param array|string $where_format Optional. An array of formats to be mapped to each of the values in $where. If string, that format will be used for all of the items in $where.  A format is one of '%d', '%f', '%s' (integer, float, string).  If omitted, all values in $where will be treated as strings.
 	 * @return int|false The number of rows updated, or false on error.
 	 */
 	function update( $table, $data, $where, $format = null, $where_format = null ) {
