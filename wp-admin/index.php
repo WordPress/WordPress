@@ -56,6 +56,8 @@ $today = current_time('mysql', 1);
 <?php screen_icon(); ?>
 <h2><?php echo esc_html( $title ); ?></h2>
 
+<?php wp_welcome_panel(); ?>
+
 <div id="dashboard-widgets-wrap">
 
 <?php wp_dashboard(); ?>

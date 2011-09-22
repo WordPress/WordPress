@@ -1259,4 +1259,35 @@ function wp_check_browser_version() {
  */
 function wp_dashboard_empty() {}
 
+/**
+ * Displays a welcome panel to introduce users to WordPress.
+ *
+ * @since 3.3
+ */
+function wp_welcome_panel() {
+	?>
+	<div class="welcome-panel">
+		<h3><?php _e( 'Welcome to WordPress!' ); ?></h3>
+		
+		<a class="welcome-panel-close" href="#"><?php _e('Close'); ?></a>
+		
+		<?php
+		// For now, we'll just approximate capabilities for each role.
+		?>
+		
+		<?php if ( current_user_can('switch_themes') ): ?>
+			<p>[admin placeholder]</p>
+		<?php elseif ( current_user_can('edit_others_posts') ): ?>
+			<p>[editor placeholder]</p>
+		<?php elseif ( current_user_can('publish_posts') ): ?>
+			<p>[author placeholder]</p>
+		<?php elseif ( current_user_can('edit_posts') ): ?>
+			<p>[contributor placeholder]</p>
+		<?php else: ?>
+			<p>[subscriber placeholder]</p>
+		<?php endif; ?>
+	</div>
+	<?php
+}
+
 ?>

@@ -689,6 +689,10 @@ table.widefat span.spam a,
 	color: #bc0b0b;
 }
 
+.welcome-panel {
+	border-color: #ccc;
+}
+
 .widget,
 #widget-list .widget-top,
 .postbox,
