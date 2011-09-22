@@ -584,27 +584,4 @@ foreach ( $_wp_admin_css_colors as $color => $color_info ): ?>
 </fieldset>
 <?php
 }
-
-/**
- * Show error message only to single site admins or network admins
- *
- */  
-function _show_errors_to_admins() {
-	global $_admin_error_messages;
-
-	if ( !is_super_admin() )
-		return;
-
-	if ( !empty($_admin_error_messages) ) {
-		echo '<div class="error">';
-
-		foreach ( (array) $_admin_error_messages as $message ) {
-			echo "<p>$message</p>\n";
-		}
-
-		echo "</div>\n";
-	}
-}
-add_action( 'admin_notices', '_show_errors_to_admins' );
-add_action( 'network_admin_notices', '_show_errors_to_admins' );
-
+?>

@@ -3522,20 +3522,13 @@ function _deprecated_argument( $function, $version, $message = null ) {
  * @param string $version The version of WordPress where the message was added.
  */
 function _doing_it_wrong( $function, $message, $version ) {
-	global $_admin_error_messages;
 
 	do_action( 'doing_it_wrong_run', $function, $message, $version );
 
 	// Allow plugin to filter the output error trigger
 	if ( WP_DEBUG && apply_filters( 'doing_it_wrong_trigger_error', true ) ) {
 		$version = is_null( $version ) ? '' : sprintf( __( '(This message was added in version %s.)' ), $version );
-		$error = sprintf( __( '%1$s was called <strong>incorrectly</strong>. %2$s %3$s. For more information please install a debugging plugin like <a href="http://wordpress.org/extend/plugins/debug-bar/">Debug Bar</a> or <a href="http://wordpress.org/extend/plugins/log-deprecated-notices/">Log Deprecated Notices</a>.' ), $function, $message, $version );
-
-		if ( WP_DEBUG_DISPLAY ) {
-			(array) $_admin_error_messages[] = $error;
-		} else {
-			trigger_error( $error ); 
-		}
+		trigger_error( sprintf( __( '%1$s was called <strong>incorrectly</strong>. %2$s %3$s' ), $function, $message, $version ) );
 	}
 }
 
