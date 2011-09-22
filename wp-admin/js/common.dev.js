@@ -69,7 +69,6 @@ adminMenu = {
 		var current = $('#adminmenu li.wp-has-current-submenu');
 
 		$('body').toggleClass( 'folded', ! off );
-		$('body').toggleClass( 'expanded', off );
 		this.flyout( current, off );
 
 		// Remove any potentially remaining hoverIntent positioning.

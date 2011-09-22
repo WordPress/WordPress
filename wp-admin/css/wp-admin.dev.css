@@ -1580,7 +1580,7 @@ form.upgrade .hint {
 	transition: width 200ms ease-out;
 }
 
-.expanded #adminmenu .wp-has-current-submenu .wp-submenu {
+#adminmenu .wp-has-current-submenu .wp-submenu {
 	position: relative;
 	z-index: 2;
 	width: 145px;
@@ -1591,7 +1591,7 @@ form.upgrade .hint {
 	padding: 0;
 }
 
-.expanded #adminmenu .wp-has-current-submenu .wp-submenu-wrap {
+#adminmenu .wp-has-current-submenu .wp-submenu-wrap {
 	-moz-box-shadow: none;
 	-webkit-box-shadow: none;
 	box-shadow: none;
@@ -1687,12 +1687,18 @@ body.no-js #adminmenu li.wp-has-current-submenu .wp-submenu {
 	padding-left: 12px;
 }
 
-.expanded #adminmenu li.wp-not-current-submenu li {
+#adminmenu li.wp-not-current-submenu li {
 	margin-left: 8px;
 }
+.folded #adminmenu li.wp-not-current-submenu li {
+	margin-left: 0;
+}
 
-.expanded #adminmenu li.wp-not-current-submenu li a {
+#adminmenu li.wp-not-current-submenu li a {
 	padding-left: 12px;
+}
+.folded #adminmenu li.wp-not-current-submenu li a {
+	padding-left: 0;
 }
 
 .wp-menu-arrow {
@@ -1700,7 +1706,7 @@ body.no-js #adminmenu li.wp-has-current-submenu .wp-submenu {
 }
 #adminmenu li.wp-has-current-submenu .wp-menu-arrow,
 #adminmenu li.menu-top.current .wp-menu-arrow,
-.expanded #adminmenu li.wp-has-submenu:hover .wp-menu-arrow {
+#adminmenu li.wp-has-submenu:hover .wp-menu-arrow {
 	display: block;
 	position: absolute;
 	right: -9px;
@@ -1709,8 +1715,11 @@ body.no-js #adminmenu li.wp-has-current-submenu .wp-submenu {
 	z-index: 25;
 }
 
-.expanded #adminmenu li.menu-top:hover .wp-menu-arrow {
+#adminmenu li.menu-top:hover .wp-menu-arrow {
 	z-index: 1500;
+}
+.folded #adminmenu li.menu-top:hover .wp-menu-arrow {
+	display: none;
 }
 
 #adminmenu .wp-menu-arrow div {
