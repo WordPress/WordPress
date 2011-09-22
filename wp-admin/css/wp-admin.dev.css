@@ -5922,7 +5922,7 @@ a.rsswidget {
 	clear:both;
 	line-height:1.5em;
 	position:relative;
-	margin-top: 13px;
+	margin: 13px 0 0 0;
 }
 
 .menu-item-handle {

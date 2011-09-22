@@ -88,7 +88,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu  {
 					<span class="item-title"><?php echo esc_html( $title ); ?></span>
 					<span class="item-controls">
 						<span class="item-type"><?php echo esc_html( $item->type_label ); ?></span>
-						<span class="item-order">
+						<span class="item-order hide-if-js">
 							<a href="<?php
 								echo wp_nonce_url(
 									add_query_arg(
