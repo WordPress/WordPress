@@ -119,6 +119,9 @@ div.dashboard-widget,
 	border-color: #dfdfdf;
 	background-color: #f9f9f9;
 }
+textarea.widefat {
+	background-color: #fff;
+}
 
 div.dashboard-widget-error {
 	background-color: #c43;

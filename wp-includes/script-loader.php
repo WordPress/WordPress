@@ -118,7 +118,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'cropper', '/wp-includes/js/crop/cropper.js', array('scriptaculous-dragdrop'), '20070118');
 
 	$scripts->add( 'jquery', '/wp-includes/js/jquery/jquery.js', false, '1.6.4' );
-	
+
 	// full jQuery UI
 	$scripts->add( 'jquery-ui-core', '/wp-includes/js/jquery/ui/jquery.ui.core.min.js', array('jquery'), '1.8.16', 1 );
 	$scripts->add( 'jquery-effects-core', '/wp-includes/js/jquery/ui/jquery.effects.core.min.js', array('jquery'), '1.8.16', 1 );
@@ -435,7 +435,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
 
 	// all colors stylesheets need to have the same query strings (cache manifest compat)
-	$colors_version = '20110922';
+	$colors_version = '20110923';
 
 	// Register "meta" stylesheet for admin colors. All colors-* style sheets should have the same version string.
 	$styles->add( 'colors', true, array('wp-admin'), $colors_version );
