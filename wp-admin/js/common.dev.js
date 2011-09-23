@@ -352,12 +352,10 @@ $(document).ready( function() {
 		if ( getUserSetting('mfold') == 'f' )
 			return;
 
-		var w = $(window).width();
+		var width = $(window).width();
 
-		if ( w <= 800 ) // fold admin menu
-			$(document.body).addClass('folded');
-		else
-			$(document.body).removeClass('folded');
+		// fold admin menu
+		adminMenu.fold( width >= 800 );
 
 	}).triggerHandler('resize');
 });

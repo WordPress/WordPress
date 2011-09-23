@@ -991,7 +991,8 @@ table.widefat .spam a:hover,
 	border-color: #dfdfdf;
 }
 
-#adminmenu .wp-submenu-wrap {
+#adminmenu .wp-submenu-wrap,
+.folded #adminmenu .wp-has-current-submenu .wp-submenu-wrap {
 	-moz-box-shadow: 2px 2px 5px rgba( 0, 0, 0, 0.4 );
 	-webkit-box-shadow: 2px 2px 5px rgba( 0, 0, 0, 0.4 );
 	box-shadow: 2px 2px 5px rgba( 0, 0, 0, 0.4 );

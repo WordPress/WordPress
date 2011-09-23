@@ -1785,6 +1785,7 @@ body.no-js #adminmenu li.wp-has-current-submenu .wp-submenu {
 .js.folded #adminmenu .wp-submenu .wp-submenu-wrap {
 	margin-top: 4px;
 	border-width: 0 1px 1px 0;
+	border-style: solid;
 }
 
 .js.folded #adminmenu .wp-submenu ul {
