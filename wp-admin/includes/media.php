@@ -1449,7 +1449,6 @@ function media_upload_form( $errors = null ) {
 		$upload_size_unit = (int) $upload_size_unit;
 	}
 ?>
-</script>
 
 <div id="media-upload-notice">
 <?php if (isset($errors['upload_notice']) ) { ?>
