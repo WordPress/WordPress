@@ -1160,7 +1160,6 @@ form.upgrade .hint {
 	transition-duration: 0.6s;
 }
 
-
 #wp_mce_fullscreen {
 	width: 100%;
 	min-height: 300px;
@@ -1212,9 +1211,6 @@ form.upgrade .hint {
 
 #wp-fullscreen-save {
 	float: right;
-}
-
-#wp-fullscreen-save {
 	padding: 2px 2px 0 5px;
 }
 
@@ -1872,7 +1868,6 @@ body.no-js #adminmenu li.wp-has-current-submenu .wp-submenu {
 	min-width: 0.7em;
 	padding: 0 6px;
 	display: inline-block;
-	cursor: pointer;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
 }
