@@ -37,6 +37,11 @@ input[type="file"],
 input[type="button"],
 input[type="submit"],
 input[type="reset"],
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="tel"],
+input[type="url"],
 select {
 	border-color: #dfdfdf;
 	background-color: #fff;

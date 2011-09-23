@@ -32,6 +32,11 @@ input[type="file"],
 input[type="button"],
 input[type="submit"],
 input[type="reset"],
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="tel"],
+input[type="url"],
 select {
 	border-color: #dfdfdf;
 	background-color: #fff;
@@ -44,6 +49,11 @@ input[type="file"]:focus,
 input[type="button"]:focus,
 input[type="submit"]:focus,
 input[type="reset"]:focus,
+input[type="email"]:focus,
+input[type="number"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="url"]:focus,
 select:focus {
 	border-color: #bbb;
 }
