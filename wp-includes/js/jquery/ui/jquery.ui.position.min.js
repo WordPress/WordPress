@@ -1,5 +1,5 @@
 /*
- * jQuery UI Position 1.8.12
+ * jQuery UI Position 1.8.16
  *
  * Copyright 2011, AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT or GPL Version 2 licenses.
