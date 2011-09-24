@@ -6061,10 +6061,6 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 	font-weight:bold;
 }
 
-.nav-menus-php body.js .item-order {
-	display:none;
-}
-
 .nav-menus-php .item-edit {
 	position: absolute;
 	right: -20px;
