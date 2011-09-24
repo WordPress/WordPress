@@ -793,7 +793,7 @@ function wpmu_signup_user($user, $user_email, $meta = '') {
  * replace it with your own notification behavior.
  *
  * Filter 'wpmu_signup_blog_notification_email' and
- * 'wpmu_signup_blog_notification_email' to change the content
+ * 'wpmu_signup_blog_notification_subject' to change the content
  * and subject line of the email sent to newly registered users.
  *
  * @since MU
