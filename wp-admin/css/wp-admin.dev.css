@@ -2017,6 +2017,7 @@ body.admin-bar #adminmenu {
 .postbox .inside,
 .stuffbox .inside {
 	padding: 0 10px;
+	line-height: 1.4em;
 }
 
 .postbox.closed h3 {
@@ -2111,15 +2112,18 @@ body.admin-bar #adminmenu {
 table.fixed {
 	table-layout: fixed;
 }
+
 .fixed .column-rating,
 .fixed .column-visible {
 	width: 8%;
 }
+
 .fixed .column-date,
 .fixed .column-parent,
 .fixed .column-links {
 	width: 10%;
 }
+
 .fixed .column-response,
 .fixed .column-author,
 .fixed .column-categories,
@@ -2128,55 +2132,67 @@ table.fixed {
 .fixed .column-role {
 	width: 15%;
 }
+
 .fixed .column-comments {
 	width: 4em;
 	padding: 8px 0;
 	text-align: left;
 }
+
 .fixed .column-comments .vers {
 	padding-left: 3px;
 }
+
 .fixed .column-comments a {
 	float: left;
 }
+
 .fixed .column-slug {
 	width: 25%;
 }
+
 .fixed .column-posts {
 	width: 10%;
 }
+
 .fixed .column-icon {
 	width: 80px;
 }
+
 #commentsdiv .fixed .column-author,
 #comments-form .fixed .column-author {
 	width: 20%;
 }
+
 #commentsdiv.postbox .inside {
-	line-height: 1.4em;
 	margin: 0;
 	padding: 0;
 }
+
 #commentsdiv.postbox .inside .row-actions {
 	line-height:18px;
 }
+
 #commentsdiv.postbox .inside td {
 	padding:1em 10px;
 }
-#commentsdiv.postbox .inside .column-comment p {
-}
+
 #commentsdiv.postbox .inside .column-author {
 	width:33%;
 }
+
 #commentsdiv.postbox .inside p {
 	margin:6px 10px 8px;
 }
+
 #commentsdiv.postbox .column-comment p {
 	margin:0.6em 0;
 }
+
 #commentsdiv.postbox #replyrow td {
 	padding:0;
 }
+
 .sorting-indicator {
 	display: none;
 	width: 7px;
@@ -2186,33 +2202,40 @@ table.fixed {
 	background-image: url(../images/sort.gif);
 	background-repeat: no-repeat;
 }
+
 .fixed .column-comments .sorting-indicator {
 	margin-top: 3px;
 }
+
 .widefat th.sortable,
 .widefat th.sorted {
 	padding: 0;
 }
+
 th.sortable a,
 th.sorted a {
 	display: block;
 	overflow: hidden;
 	padding: 7px 7px 8px;
 }
+
 .fixed .column-comments.sortable a,
 .fixed .column-comments.sorted a {
 	padding: 8px 0;
 }
+
 th.sortable a span,
 th.sorted a span {
 	float: left;
 	cursor: pointer;
 }
+
 th.sorted.asc .sorting-indicator,
 th.desc:hover span.sorting-indicator {
 	display: block;
 	background-position: 0 0;
 }
+
 th.sorted.desc .sorting-indicator,
 th.asc:hover span.sorting-indicator {
 	display: block;
@@ -6058,7 +6081,7 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 }
 
 .item-controls .item-order a {
-	font-weight:bold;
+	font-weight: bold;
 }
 
 .nav-menus-php .item-edit {
@@ -6066,7 +6089,7 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 	right: -20px;
 	top: 0;
 	display: block;
-	width:30px;
+	width: 30px;
 	height: 36px;
 	overflow: hidden;
 	text-indent:-999em;
