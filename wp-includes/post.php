@@ -5191,6 +5191,21 @@ function set_post_thumbnail( $post, $thumbnail_id ) {
 }
 
 /**
+ * Removes a post thumbnail.
+ *
+ * @since 3.3.0
+ *
+ * @param int|object $post Post ID or object where thumbnail should be removed from.
+ * @return bool True on success, false on failure.
+ */
+function delete_post_thumbnail( $post ) {
+	$post = get_post( $post );
+	if ( $post )
+		return delete_post_meta( $post->ID, '_thumbnail_id' );
+	return false;
+}
+
+/**
  * Returns a link to a post format index.
  *
  * @since 3.1.0

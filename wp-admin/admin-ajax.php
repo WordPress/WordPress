@@ -1473,8 +1473,10 @@ case 'set-post-thumbnail':
 	check_ajax_referer( "set_post_thumbnail-$post_ID" );
 
 	if ( $thumbnail_id == '-1' ) {
-		delete_post_meta( $post_ID, '_thumbnail_id' );
-		die( _wp_post_thumbnail_html() );
+		if ( delete_post_thumbnail( $post_ID ) )
+			die( _wp_post_thumbnail_html() );
+		else
+			die( '0' );
 	}
 
 	if ( set_post_thumbnail( $post_ID, $thumbnail_id ) )
