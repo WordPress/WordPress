@@ -3,18 +3,18 @@
 var wpActiveEditor;
 
 function send_to_editor(h) {
-	var ed;
+	var ed, mce = typeof(tinymce) != 'undefined', qt = typeof(QTags) != 'undefined';
 
 	if ( !wpActiveEditor ) {
-		if ( typeof(tinymce) != 'undefined' && tinymce.activeEditor ) {
+		if ( mce && tinymce.activeEditor ) {
 			ed = tinymce.activeEditor;
 			wpActiveEditor = ed.id;
-		} else {
+		} else if ( !qt ) {
 			return false;
 		}
 	} 
 
-	if ( !ed && typeof(tinymce) != 'undefined' && wpActiveEditor )
+	if ( !ed && mce && wpActiveEditor )
 		ed = tinymce.get(wpActiveEditor);
 
 	if ( ed && !ed.isHidden() ) {
@@ -34,13 +34,13 @@ function send_to_editor(h) {
 		}
 
 		ed.execCommand('mceInsertContent', false, h);
-	} else if ( typeof(QTags) != 'undefined' ) {
+	} else if ( qt ) {
 		QTags.insertContent(h);
 	} else {
 		document.getElementById(wpActiveEditor).value += h;
 	}
 
-	tb_remove();
+	try{tb_remove();}catch(e){};
 }
 
 // thickbox settings

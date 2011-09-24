@@ -1,6 +1,6 @@
 <?php
 /**
- * Adds the TinyMCE editor used on the Write and Edit screens.
+ * Adds the WordPress editor used on the Write and Edit screens.
  *
  * @package WordPress
  * @since 3.3
@@ -16,6 +16,7 @@ class WP_Editor {
 	var $mce_settings = array();
 	var $qt_settings = array();
 	var $plugins = array();
+	var $qt_buttons = array();
 	var $mce_locale;
 	var $ext_plugins;
 	var $baseurl;
@@ -48,7 +49,7 @@ class WP_Editor {
 			'editor_css' => '', // intended for extra styles for both visual and HTML editors buttons, needs to include the <style> tags, can use "scoped".
 			'editor_class' => '', // add extra class(es) to the editor textarea
 			'teeny' => false, // output the minimal editor config used in Press This
-			'dfw' => false, // replace the default fullscreen with DFW (needs specific css)
+			'dfw' => false, // replace the default fullscreen with DFW (needs specific DOM elements and css)
 			'tinymce' => true, // load TinyMCE, can be used to pass settings directly to TinyMCE using an array()
 			'quicktags' => true // load Quicktags, can be used to pass settings directly to Quicktags using an array()
 		) );
@@ -64,7 +65,7 @@ class WP_Editor {
 		if ( !current_user_can( 'upload_files' ) )
 			$set['media_buttons'] = false;
 
-		if ( $this->can_richedit && $this->this_quicktags && $this->this_tinymce ) {
+		if ( $this->this_quicktags && $this->this_tinymce ) {
 			$switch_class = 'html-active';
 
 			if ( 'html' == $this->default_editor ) {
@@ -98,7 +99,7 @@ class WP_Editor {
 			echo "</div>\n";
 		}
 
-		$the_editor = apply_filters('the_editor', '<div id="wp-' . $editor_id . '-editor-container" class="wp-editor-container"><textarea' . $editor_class . $rows . $tabindex . '" cols="40" name="' . $set['textarea_name'] . '" id="' . $editor_id . '">%s</textarea></div>');
+		$the_editor = apply_filters('the_editor', '<div id="wp-' . $editor_id . '-editor-container" class="wp-editor-container"><textarea' . $editor_class . $rows . $tabindex . ' cols="40" name="' . $set['textarea_name'] . '" id="' . $editor_id . '">%s</textarea></div>');
 		$content = apply_filters('the_editor_content', $content);
 
 		printf($the_editor, $content);
@@ -114,24 +115,40 @@ class WP_Editor {
 		$this->editor_settings($editor_id, $set);
 	}
 
-	function editor_settings($editor_id, $settings) {
+	function editor_settings($editor_id, $set) {
 		global $editor_styles;
 		$first_run = false;
 
 		if ( $this->this_quicktags ) {
-			$qtbuttons = apply_filters( 'quicktags_buttons', array(), $editor_id );
-			$qtbuttons_disabled = apply_filters( 'quicktags_disabled_buttons', array(), $editor_id );
+			$qt_buttons = array();
 
 			$qtInit = array(
 				'id' => $editor_id,
-				'buttons' => implode($qtbuttons, ','),
-				'disabled_buttons' => implode($qtbuttons_disabled, ',')
+				'buttons' => '',
+				'disabled_buttons' => ''
 			);
 
-			if ( is_array($settings['quicktags']) )
-				$qtInit = array_merge($qtInit, $settings['quicktags']);
+			if ( is_array($set['quicktags']) )
+				$qtInit = array_merge($qtInit, $set['quicktags']);
+
+			$qtInit = apply_filters( 'quicktags_settings', $qtInit, $editor_id );
 
 			$this->qt_settings[$editor_id] = $qtInit;
+
+			if ( !empty($qtInit['buttons']) || !empty($qtInit['disabled_buttons']) ) {
+				if ( strpos( ',' . $qtInit['buttons'] . ',', ',link,' ) !== false )
+					$qt_buttons[] = 'link';
+
+				if ( strpos( ',' . $qtInit['disabled_buttons'] . ',', ',link,' ) !== false )
+					$qt_buttons = array();
+			} else {
+				$qt_buttons[] = 'link';
+			}
+
+			if ( $set['dfw'] )
+				$qt_buttons[] = 'fullscreen';
+
+			$this->qt_buttons = array_merge( $this->qt_buttons, $qt_buttons );
 		}
 
 		if ( $this->this_tinymce ) {
@@ -143,7 +160,7 @@ class WP_Editor {
 				$plugins = array( 'inlinepopups', 'spellchecker', 'tabfocus', 'paste', 'media', 'fullscreen', 'wordpress', 'wpeditimage', 'wpgallery', 'wplink', 'wpdialogs' );
 				$first_run = true;
 
-				if ( $settings['teeny'] ) {
+				if ( $set['teeny'] ) {
 					$this->plugins = $plugins = apply_filters( 'teeny_mce_plugins', array('inlinepopups', 'fullscreen', 'wordpress', 'wplink', 'wpdialogs'), $editor_id );
 					$ext_plugins = '';
 				} else {
@@ -192,7 +209,7 @@ class WP_Editor {
 							$plugurl = dirname($url);
 							$strings = $str1 = $str2 = '';
 							if ( ! in_array($name, $loaded_langs) ) {
-								$path = str_replace( WP_CONTENT_URL, '', $plugurl );
+								$path = str_replace( content_url(), '', $plugurl );
 								$path = WP_CONTENT_DIR . $path . '/langs/';
 
 								if ( function_exists('realpath') )
@@ -230,7 +247,7 @@ class WP_Editor {
 					$plugins = array_unique( apply_filters('tiny_mce_plugins', $plugins) );
 				}
 
-				if ( $settings['dfw'] )
+				if ( $set['dfw'] )
 					$plugins[] = 'wpfullscreen';
 
 				$this->plugins = $plugins;
@@ -325,7 +342,7 @@ class WP_Editor {
 					$this->first_init['content_css'] = $mce_css;
 			}
 
-			if ( $settings['teeny'] ) {
+			if ( $set['teeny'] ) {
 				$mce_buttons = apply_filters( 'teeny_mce_buttons', array('bold', 'italic', 'underline', 'blockquote', 'separator', 'strikethrough', 'bullist', 'numlist', 'justifyleft', 'justifycenter', 'justifyright', 'undo', 'redo', 'link', 'unlink', 'fullscreen'), $editor_id );
 				$mce_buttons_2 = $mce_buttons_3 = $mce_buttons_4 = array();
 			} else {
@@ -335,7 +352,7 @@ class WP_Editor {
 				$mce_buttons_4 = apply_filters('mce_buttons_4', array(), $editor_id);
 			}
 
-			if ( $settings['dfw'] ) {
+			if ( $set['dfw'] ) {
 				function replace_fullscreen(&$val) {
 					if ( $val == 'fullscreen' )
 						$val = 'wp_fullscreen';
@@ -349,9 +366,9 @@ class WP_Editor {
 
 			$mceInit = array (
 				'elements' => $editor_id,
-				'wpautop' => (bool) $settings['wpautop'],
-				'remove_linebreaks' => (bool) $settings['wpautop'],
-				'apply_source_formatting' => (bool) !$settings['wpautop'],
+				'wpautop' => (bool) $set['wpautop'],
+				'remove_linebreaks' => (bool) $set['wpautop'],
+				'apply_source_formatting' => (bool) !$set['wpautop'],
 				'theme_advanced_buttons1' => implode($mce_buttons, ','),
 				'theme_advanced_buttons2' => implode($mce_buttons_2, ','),
 				'theme_advanced_buttons3' => implode($mce_buttons_3, ','),
@@ -361,14 +378,14 @@ class WP_Editor {
 			if ( $first_run )
 				$mceInit = array_merge($this->first_init, $mceInit);
 
-			if ( is_array($settings['tinymce']) )
-				$mceInit = array_merge($mceInit, $settings['tinymce']);
+			if ( is_array($set['tinymce']) )
+				$mceInit = array_merge($mceInit, $set['tinymce']);
 
 			// For people who really REALLY know what they're doing with TinyMCE
 			// You can modify initArray to add, remove, change elements of the config before tinyMCE.init
 			// Setting "valid_elements", "invalid_elements" and "extended_valid_elements" can be done through this filter.
 			// Best is to use the default cleanup by not specifying valid_elements, as TinyMCE contains full set of XHTML 1.0.
-			if ( $settings['teeny'] ) {
+			if ( $set['teeny'] ) {
 				$mceInit = apply_filters('teeny_mce_before_init', $mceInit, $editor_id);
 			} else {
 				$mceInit = apply_filters('tiny_mce_before_init', $mceInit, $editor_id);
@@ -422,16 +439,22 @@ class WP_Editor {
 	}
 
 	function enqueue_scripts() {
-		wp_enqueue_script('quicktags');
 		wp_enqueue_script('word-count');
-		wp_enqueue_script('wplink');
-		wp_enqueue_script('editor');
 		wp_enqueue_style('editor-buttons');
 
-		wp_enqueue_script('wpdialogs-popup');
-		wp_enqueue_style('wp-jquery-ui-dialog');
+		if ( $this->this_tinymce )
+			wp_enqueue_script('editor');
 
-		if ( in_array('wpfullscreen', $this->plugins, true) )
+		if ( $this->this_quicktags )
+			wp_enqueue_script('quicktags');
+
+		if ( in_array('wplink', $this->plugins, true) || in_array('link', $this->qt_buttons, true) ) {
+			wp_enqueue_script('wplink');
+			wp_enqueue_script('wpdialogs-popup');
+			wp_enqueue_style('wp-jquery-ui-dialog');
+		}
+
+		if ( in_array('wpfullscreen', $this->plugins, true) || in_array('fullscreen', $this->qt_buttons, true) )
 			wp_enqueue_script('wp-fullscreen');
 
 		add_thickbox();
@@ -464,9 +487,9 @@ class WP_Editor {
 		if ( $tmce_on ) {
 			foreach ( $this->mce_settings as $editor_id => $init ) {
 				$options = $this->_parse_init( $init );
-				$mceInit .= "'$editor_id':{$options},\n";
+				$mceInit .= "'$editor_id':{$options},";
 			}
-			$mceInit = '{' . trim($mceInit, '\n,') . '}';
+			$mceInit = '{' . trim($mceInit, ',') . '}';
 		} else {
 			$mceInit = '{}';
 		}
@@ -474,9 +497,9 @@ class WP_Editor {
 		if ( !empty($this->qt_settings) ) {
 			foreach ( $this->qt_settings as $editor_id => $init ) {
 				$options = $this->_parse_init( $init );
-				$qtInit .= "'$editor_id':{$options},\n";
+				$qtInit .= "'$editor_id':{$options},";
 			}
-			$qtInit = '{' . trim($qtInit, '\n,') . '}';
+			$qtInit = '{' . trim($qtInit, ',') . '}';
 		} else {
 			$qtInit = '{}';
 		}
@@ -563,10 +586,10 @@ class WP_Editor {
 	</script>
 <?php
 
-		if ( in_array( 'wplink', $this->plugins, true ) )
+		if ( in_array('wplink', $this->plugins, true) || in_array('link', $this->qt_buttons, true) )
 			$this->wp_link_dialog();
 
-		if ( in_array( 'wpfullscreen', $this->plugins, true ) )
+		if ( in_array('wpfullscreen', $this->plugins, true) || in_array('fullscreen', $this->qt_buttons, true) )
 			$this->wp_fullscreen_html();
 
 		do_action('after_wp_tiny_mce', $this->mce_settings);

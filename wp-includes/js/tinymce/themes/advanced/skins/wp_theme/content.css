@@ -62,9 +62,7 @@ dl.aligncenter {
 	text-align: center;
 	background-color: #f3f3f3;
 	padding-top: 4px;
-	margin: 10px;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
+	margin: 10px 0;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 }
