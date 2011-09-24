@@ -323,7 +323,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 	 * @since 3.1.0
 	 */
 	function inline_edit() {
-		global $tax;
+		global $post_type, $tax;
 
 		if ( ! current_user_can( $tax->cap->edit_terms ) )
 			return;
@@ -369,6 +369,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 			<span class="error" style="display:none;"></span>
 			<?php wp_nonce_field( 'taxinlineeditnonce', '_inline_edit', false ); ?>
 			<input type="hidden" name="taxonomy" value="<?php echo esc_attr( $tax->name ); ?>" />
+			<input type="hidden" name="post_type" value="<?php echo esc_attr( $post_type ); ?>" />
 			<br class="clear" />
 		</p>
 		</td></tr>
