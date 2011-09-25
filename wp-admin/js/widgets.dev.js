@@ -114,16 +114,16 @@ wpWidgets = {
 
 				var add = ui.item.find('input.add_new').val(),
 					n = ui.item.find('input.multi_number').val(),
-					id = ui.item.attr('id'),
+					id = the_id,
 					sb = $(this).attr('id');
 
 				ui.item.css({margin:'', 'width':''});
+				the_id = '';
 
 				if ( add ) {
 					if ( 'multi' == add ) {
 						ui.item.html( ui.item.html().replace(/<[^<>]+>/g, function(m){ return m.replace(/__i__|%i%/g, n); }) );
-						ui.item.attr( 'id', the_id.replace('__i__', n) );
-						the_id = '';
+						ui.item.attr( 'id', id.replace('__i__', n) );
 						n++;
 						$('div#' + id).find('input.multi_number').val(n);
 					} else if ( 'single' == add ) {
