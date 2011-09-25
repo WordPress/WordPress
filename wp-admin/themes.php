@@ -103,7 +103,7 @@ if ( ! is_multisite() && current_user_can( 'install_themes' ) ) : ?>
 			if ( !empty($submenu[$item[2]]) ) {
 				$submenu[$item[2]] = array_values($submenu[$item[2]]);  // Re-index.
 				$menu_hook = get_plugin_page_hook($submenu[$item[2]][0][2], $item[2]);
-				if ( file_exists(ABSPATH . PLUGINDIR . "/{$submenu[$item[2]][0][2]}") || !empty($menu_hook))
+				if ( file_exists(WP_PLUGIN_DIR . "/{$submenu[$item[2]][0][2]}") || !empty($menu_hook))
 					$options[] = "<a href='admin.php?page={$submenu[$item[2]][0][2]}'$class>{$item[0]}</a>";
 				else
 					$options[] = "<a href='{$submenu[$item[2]][0][2]}'$class>{$item[0]}</a>";
