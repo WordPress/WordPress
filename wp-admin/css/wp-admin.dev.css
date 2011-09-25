@@ -1972,6 +1972,15 @@ body.admin-bar #adminmenu {
 
 .postbox .hndle {
 	cursor: move;
+	-webkit-border-top-left-radius: 3px;
+	-webkit-border-top-right-radius: 3px;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+}
+
+.postbox.closed .hndle {
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
 }
 
 .hndle a {
