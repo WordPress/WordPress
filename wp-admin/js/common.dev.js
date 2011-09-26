@@ -237,6 +237,29 @@ screenMeta = {
 	}
 };
 
+/**
+ * Help tabs.
+ */
+$('.contextual-help-tabs').delegate('a', 'click focus', function(e) {
+	var link = $(this),
+		panel;
+
+	e.preventDefault();
+
+	// Don't do anything if the click is for the tab already showing.
+	if ( link.is('.active a') )
+		return false;
+
+	// Links
+	$('.contextual-help-tabs .active').removeClass('active');
+	link.parent('li').addClass('active');
+
+	panel = $( link.attr('href') );
+
+	// Panels
+	$('.help-tab-content').not( panel ).removeClass('active').hide();
+	panel.addClass('active').show();
+});
 
 $(document).ready( function() {
 	var lastClicked = false, checks, first, last, checked,

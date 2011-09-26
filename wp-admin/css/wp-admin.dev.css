@@ -15,6 +15,7 @@ TABLE OF CONTENTS:
  6.0 - Admin Header
 	6.1 - Favorites Menu
 	6.2 - Screen Options Tabs
+	6.3 - Help Menu
  7.0 - Main Navigation
  8.0 - Layout Blocks
  9.0 - Dashboard
@@ -1492,10 +1493,6 @@ form.upgrade .hint {
 	visibility: hidden;
 }
 
-#contextual-help-wrap li {
-	list-style-type: disc;
-	margin-left: 18px;
-}
 .toggle-arrow {
 	background-repeat: no-repeat;
 	background-position: top left;
@@ -1527,6 +1524,89 @@ form.upgrade .hint {
 
 .metabox-prefs label a {
 	display: none;
+}
+
+/*------------------------------------------------------------------------------
+  6.3 - Help Menu
+------------------------------------------------------------------------------*/
+
+#contextual-help-wrap {
+	position: relative;
+	padding: 0;
+	overflow: hidden;
+}
+
+#contextual-help-wrap > .metabox-prefs {
+	padding: 8px 20px 12px;
+	max-height: 200px;
+	overflow: auto;
+}
+
+.contextual-help-tabs {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	width: 150px;
+	max-height: 220px;
+	margin: 0;
+	overflow: auto;
+
+	border-width: 0 1px 0 0;
+	border-style: solid;
+}
+
+.contextual-help-tabs li {
+	margin-bottom: 0;
+	list-style-type: none;
+}
+
+.contextual-help-tabs a {
+	display: block;
+	padding: 5px 5px 5px 12px;
+
+	font-weight: bold;
+	line-height: 18px;
+	text-decoration: none;
+
+	border-width: 1px 0;
+	border-style: solid;
+}
+
+.contextual-help-tabs-wrap {
+	position: relative;
+	display: block;
+	margin: 0 152px 0 150px;
+	height: 188px;
+	overflow: auto;
+}
+
+.help-tab-content {
+	display: none;
+	margin: 0 22px 12px 0;
+	padding-right: 20px;
+}
+
+.help-tab-content.active {
+	display: block;
+}
+
+.help-tab-content li {
+	list-style-type: disc;
+	margin-left: 18px;
+}
+
+.contextual-help-links {
+	position: absolute;
+	width: 150px;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	padding: 0 8px 0 12px;
+	overflow: auto;
+
+	border-width: 0 0 0 1px;
+	border-style: solid;
 }
 
 

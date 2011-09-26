@@ -789,6 +789,30 @@ table.widefat span.spam a,
 	border-color: #ccc;
 }
 
+.contextual-help-tabs {
+	border-color: #dfdfdf;
+}
+
+.contextual-help-tabs a {
+	border-top-color: #f9f9f9;
+	border-bottom-color: #dfdfdf;
+}
+
+.contextual-help-tabs a:hover {
+	background-color: #EAF2FA;
+	color: #333;
+}
+
+.contextual-help-tabs .active a,
+.contextual-help-tabs .active a:hover {
+	background: #fff;
+	color: #000;
+}
+
+.contextual-help-links {
+	background-color: #f9f9f9;
+	border-color: #dfdfdf;
+}
 
 .login #backtoblog a {
 	color: #464646;

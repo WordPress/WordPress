@@ -1813,15 +1813,57 @@ function screen_meta($screen) {
 	<div id="contextual-help-wrap" class="hidden">
 	<?php
 	$contextual_help = '';
-	if ( isset($_wp_contextual_help[$screen->id]) ) {
+	if ( isset($_wp_contextual_help[$screen->id]) && is_array($_wp_contextual_help[$screen->id]) ) {
+		$contextual_help .= '<div class="metabox-prefs">' . "\n";
+
+		/*
+		 * Loop through ['contextual-help-tabs']
+		 *   - It's a nested array where $key=>$value >> $title=>$content
+		 * Has no output so can only loop the array once
+		 */
+		$contextual_help_tabs = ''; // store looped content for later
+		$contextual_help_panels = ''; // store looped content for later
+
+		$tab_active = true;
+
+		foreach ( $_wp_contextual_help[$screen->id]['tabs'] as $tab ) {
+			$tab_slug = sanitize_html_class( $tab[ 0 ] );
+			$contextual_help_tabs .= '<li class="tab-' . $tab_slug . ( ($tab_active) ? ' active' : '' ) . '">';
+			$contextual_help_tabs .= '<a href="#' . $tab_slug . '">' . $tab[1] . '</a>';
+			$contextual_help_tabs .= '</li>' ."\n";
+			
+			$contextual_help_panels .= '<div id="' . $tab_slug . '" class="help-tab-content' . ( ($tab_active) ? ' active' : '' ) . '">';
+			$contextual_help_panels .= $tab[2];
+			$contextual_help_panels .= "</div>\n";
+
+			$tab_active = false;
+		}
+
+		// Start output from loop: Tabbed help content
+		$contextual_help .= '<ul class="contextual-help-tabs">' . "\n";
+		$contextual_help .= $contextual_help_tabs;
+		$contextual_help .= '</ul>' ."\n";
+		$contextual_help .= '<div class="contextual-help-tabs-wrap">' . "\n";
+		$contextual_help .= $contextual_help_panels;
+		$contextual_help .= "</div>\n";
+		// END: Tabbed help content
+
+		// Sidebar to right of tabs
+		$contextual_help .= '<div class="contextual-help-links">' . "\n";
+		$contextual_help .= $_wp_contextual_help[$screen->id]['sidebar'];
+		$contextual_help .= "</div>\n";
+		
+		$contextual_help .= "</div>\n"; // end metabox
+		
+	} elseif ( isset($_wp_contextual_help[$screen->id]) ) {
 		$contextual_help .= '<div class="metabox-prefs">' . $_wp_contextual_help[$screen->id] . "</div>\n";
 	} else {
 		$contextual_help .= '<div class="metabox-prefs">';
-		$default_help = __('<a href="http://codex.wordpress.org/" target="_blank">Documentation</a>');
+		$default_help  = __('<a href="http://codex.wordpress.org/" target="_blank">Documentation</a>');
 		$default_help .= '<br />';
 		$default_help .= __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>');
 		$contextual_help .= apply_filters('default_contextual_help', $default_help);
-		$contextual_help .= "</div>\n";
+		$contextual_help .= '</div>' . "\n";
 	}
 
 	echo apply_filters('contextual_help', $contextual_help, $screen->id, $screen);
@@ -1834,10 +1876,17 @@ function screen_meta($screen) {
 /**
  * Add contextual help text for a page
  *
+ * The array $help takes the following format:
+ * 	array( 'contextual-help-tabs' 	=> array( $tab1_title => $tab1_value [, $tab2_title => $tab2_value, ...] ),
+ *		'contextual-help-links' => $help_links_as_string )
+ *
+ * For backwards compatability, a string is also accepted.
+ *
  * @since 2.7.0
  *
- * @param string $screen The handle for the screen to add help to.  This is usually the hook name returned by the add_*_page() functions.
- * @param string $help Arbitrary help text
+ * @param string 	$screen The handle for the screen to add help to.  This is usually the hook name returned by the add_*_page() functions.
+ * @param array|string 	$help 	Creates tabs & links columns within help text in array.
+ *
  */
 function add_contextual_help($screen, $help) {
 	global $_wp_contextual_help;
@@ -2077,68 +2126,9 @@ function get_current_screen() {
  * @param string $id Screen id, optional.
  */
 function set_current_screen( $id =  '' ) {
-	global $current_screen, $hook_suffix, $typenow, $taxnow;
+	global $current_screen;
 
-	$action = '';
-
-	if ( empty($id) ) {
-		$current_screen = $hook_suffix;
-		$current_screen = str_replace('.php', '', $current_screen);
-		if ( preg_match('/-add|-new$/', $current_screen) )
-			$action = 'add';
-		$current_screen = str_replace('-new', '', $current_screen);
-		$current_screen = str_replace('-add', '', $current_screen);
-		$current_screen = array('id' => $current_screen, 'base' => $current_screen);
-	} else {
-		$id = sanitize_key($id);
-		if ( false !== strpos($id, '-') ) {
-			list( $id, $typenow ) = explode('-', $id, 2);
-			if ( taxonomy_exists( $typenow ) ) {
-				$id = 'edit-tags';
-				$taxnow = $typenow;
-				$typenow = '';
-			}
-		}
-		$current_screen = array('id' => $id, 'base' => $id);
-	}
-
-	$current_screen = (object) $current_screen;
-
-	$current_screen->action = $action;
-
-	// Map index to dashboard
-	if ( 'index' == $current_screen->base )
-		$current_screen->base = 'dashboard';
-	if ( 'index' == $current_screen->id )
-		$current_screen->id = 'dashboard';
-
-	if ( 'edit' == $current_screen->id ) {
-		if ( empty($typenow) )
-			$typenow = 'post';
-		$current_screen->id .= '-' . $typenow;
-		$current_screen->post_type = $typenow;
-	} elseif ( 'post' == $current_screen->id ) {
-		if ( empty($typenow) )
-			$typenow = 'post';
-		$current_screen->id = $typenow;
-		$current_screen->post_type = $typenow;
-	} elseif ( 'edit-tags' == $current_screen->id ) {
-		if ( empty($taxnow) )
-			$taxnow = 'post_tag';
-		$current_screen->id = 'edit-' . $taxnow;
-		$current_screen->taxonomy = $taxnow;
-	}
-
-	$current_screen->is_network = is_network_admin();
-	$current_screen->is_user = is_user_admin();
-
-	if ( $current_screen->is_network ) {
-		$current_screen->base .= '-network';
-		$current_screen->id .= '-network';
-	} elseif ( $current_screen->is_user ) {
-		$current_screen->base .= '-user';
-		$current_screen->id .= '-user';
-	}
+	$current_screen = new WP_Screen( $id );
 
 	$current_screen = apply_filters('current_screen', $current_screen);
 }
@@ -2270,4 +2260,101 @@ jQuery(document).ready( function($) {
 //]]>
 </script>
 <?php
+}
+
+class WP_Screen {
+	var $action = '';
+	var $base;
+	var $id;
+	var $is_network;
+	var $is_user;
+	var $parent_base;
+	var $parent_file;
+	var $post_type;
+	var $taxonomy;
+
+	function __construct( $id = '' ) {
+		global $hook_suffix, $typenow, $taxnow;
+
+		$action = '';
+
+		if ( empty( $id ) ) {
+			$screen = $hook_suffix;
+			$screen = str_replace('.php', '', $screen);
+			if ( preg_match('/-add|-new$/', $screen) )
+				$action = 'add';
+			$screen = str_replace('-new', '', $screen);
+			$screen = str_replace('-add', '', $screen);
+			$this->id = $this->base = $screen;
+		} else {
+			$id = sanitize_key( $id );
+			if ( false !== strpos($id, '-') ) {
+				list( $id, $typenow ) = explode('-', $id, 2);
+				if ( taxonomy_exists( $typenow ) ) {
+					$id = 'edit-tags';
+					$taxnow = $typenow;
+					$typenow = '';
+				}
+			}
+			$this->id = $this->base = $id;
+		}
+
+		$this->action = $action;
+
+		// Map index to dashboard
+		if ( 'index' == $this->base )
+			$this->base = 'dashboard';
+		if ( 'index' == $this->id )
+			$this->id = 'dashboard';
+
+		if ( 'edit' == $this->id ) {
+			if ( empty($typenow) )
+				$typenow = 'post';
+			$this->id .= '-' . $typenow;
+			$this->post_type = $typenow;
+		} elseif ( 'post' == $this->id ) {
+			if ( empty($typenow) )
+				$typenow = 'post';
+			$this->id = $typenow;
+			$this->post_type = $typenow;
+		} elseif ( 'edit-tags' == $this->id ) {
+			if ( empty($taxnow) )
+				$taxnow = 'post_tag';
+			$this->id = 'edit-' . $taxnow;
+			$this->taxonomy = $taxnow;
+		}
+
+		$this->is_network = is_network_admin();
+		$this->is_user = is_user_admin();
+
+		if ( $this->is_network ) {
+			$this->base .= '-network';
+			$this->id .= '-network';
+		} elseif ( $this->is_user ) {
+			$this->base .= '-user';
+			$this->id .= '-user';
+		}
+	}
+
+	function set_parentage( $parent_file ) {
+		$current_screen->parent_file = $parent_file;
+		$current_screen->parent_base = preg_replace('/\?.*$/', '', $parent_file);
+		$current_screen->parent_base = str_replace('.php', '', $current_screen->parent_base);
+	}
+
+	function add_option( $option, $args = array() ) {
+		return add_screen_option( $option, $args );
+	}
+
+	function add_help_tab( $id, $title, $content) {
+		global $_wp_contextual_help;
+
+		$_wp_contextual_help[$this->id]['tabs'][] = array( $id, $title, $content );
+	}
+
+	function add_help_sidebar( $content ) {
+		global $_wp_contextual_help;
+
+		$_wp_contextual_help[$this->id]['sidebar'] = $content;
+	}
 }

@@ -111,9 +111,8 @@ do_action('in_admin_header');
 <?php
 unset($title_class, $blog_name, $total_update_count, $update_title);
 
-$current_screen->parent_file = $parent_file;
-$current_screen->parent_base = preg_replace('/\?.*$/', '', $parent_file);
-$current_screen->parent_base = str_replace('.php', '', $current_screen->parent_base);
+$current_screen->set_parentage( $parent_file );
+
 ?>
 
 <div id="wpbody-content">
