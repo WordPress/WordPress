@@ -2337,9 +2337,9 @@ class WP_Screen {
 	}
 
 	function set_parentage( $parent_file ) {
-		$current_screen->parent_file = $parent_file;
-		$current_screen->parent_base = preg_replace('/\?.*$/', '', $parent_file);
-		$current_screen->parent_base = str_replace('.php', '', $current_screen->parent_base);
+		$this->parent_file = $parent_file;
+		$this->parent_base = preg_replace('/\?.*$/', '', $parent_file);
+		$this->parent_base = str_replace('.php', '', $current_screen->parent_base);
 	}
 
 	function add_option( $option, $args = array() ) {
