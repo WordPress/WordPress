@@ -484,8 +484,14 @@ PubSub.prototype.publish = function( topic, args ) {
 	}
 
 	api.medialib = function() {
-		if ( s.has_tinymce && 'tinymce' === s.mode )
+		if ( s.has_tinymce && 'tinymce' === s.mode ) {
 			tinyMCE.execCommand('WP_Medialib');
+		} else {
+			var href = $('#wp-' + s.editor_id + '-media-buttons a.thickbox').attr('href') || '';
+
+			if ( href )
+				tb_show('', href);
+		}
 	}
 
 	api.refresh_buttons = function( fade ) {

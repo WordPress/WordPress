@@ -3735,11 +3735,11 @@ form.upgrade .hint {
 
 .drag-drop #drag-drop-area {
 	border: 4px dashed #DDDDDD;
-    height: 300px;
+    height: 200px;
 }
 
 .drag-drop .drag-drop-inside {
-	padding-top: 100px;
+	padding-top: 50px;
 }
 
 .drag-drop .drag-drop-inside p {
