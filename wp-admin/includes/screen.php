@@ -596,18 +596,18 @@ function set_current_screen( $id =  '' ) {
 	$current_screen = apply_filters('current_screen', $current_screen);
 }
 
-class WP_Screen {
-	var $action = '';
-	var $base;
-	var $id;
-	var $is_network;
-	var $is_user;
-	var $parent_base;
-	var $parent_file;
-	var $post_type;
-	var $taxonomy;
+final class WP_Screen {
+	public $action = '';
+	public $base;
+	public $id;
+	public $is_network;
+	public $is_user;
+	public $parent_base;
+	public $parent_file;
+	public $post_type;
+	public $taxonomy;
 
-	function __construct( $id = '' ) {
+	public function __construct( $id = '' ) {
 		global $hook_suffix, $typenow, $taxnow;
 
 		$action = '';
@@ -676,17 +676,17 @@ class WP_Screen {
 		$this->parent_base = str_replace('.php', '', $this->parent_base);
 	}
 
-	function add_option( $option, $args = array() ) {
+	public function add_option( $option, $args = array() ) {
 		return add_screen_option( $option, $args );
 	}
 
-	function add_help_tab( $id, $title, $content) {
+	public function add_help_tab( $id, $title, $content) {
 		global $_wp_contextual_help;
 
 		$_wp_contextual_help[$this->id]['tabs'][] = array( $id, $title, $content );
 	}
 
-	function add_help_sidebar( $content ) {
+	public function add_help_sidebar( $content ) {
 		global $_wp_contextual_help;
 
 		$_wp_contextual_help[$this->id]['sidebar'] = $content;
