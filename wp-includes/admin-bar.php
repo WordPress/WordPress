@@ -81,13 +81,15 @@ function wp_admin_bar_wp_menu( $wp_admin_bar ) {
 		),
 	) );
 
-	// Add "About This Version" link
-	$wp_admin_bar->add_menu( array(
-		'parent' => 'wp-logo',
-		'id'     => 'about',
-		'title'  => __('About This Version'),
-		'href'   => admin_url('about.php'),
-	) );
+	if ( is_user_logged_in() ) {
+		// Add "About This Version" link
+		$wp_admin_bar->add_menu( array(
+			'parent' => 'wp-logo',
+			'id'     => 'about',
+			'title'  => __('About This Version'),
+			'href'   => admin_url('about.php'),
+		) );
+	}
 
 	// Add codex link
 	$wp_admin_bar->add_menu( array(
