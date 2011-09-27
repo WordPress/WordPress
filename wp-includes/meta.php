@@ -586,14 +586,14 @@ function update_meta_cache($meta_type, $object_ids) {
  *
  * @see WP_Meta_Query
  *
- * @param array (optional) $meta_query A meta query
+ * @param array $meta_query A meta query
  * @param string $type Type of meta
  * @param string $primary_table
  * @param string $primary_id_column
  * @param object $context (optional) The main query object
  * @return array( 'join' => $join_sql, 'where' => $where_sql )
  */
-function get_meta_sql( $meta_query = false, $type, $primary_table, $primary_id_column, $context = null ) {
+function get_meta_sql( $meta_query, $type, $primary_table, $primary_id_column, $context = null ) {
 	$meta_query_obj = new WP_Meta_Query( $meta_query );
 	return $meta_query_obj->get_sql( $type, $primary_table, $primary_id_column, $context );
 }
@@ -633,7 +633,7 @@ class WP_Meta_Query {
 	/**
 	 * Constructor
 	 *
-	 * @param array (optional) $meta_query A meta query
+	 * @param array $meta_query (optional) A meta query
 	 */
 	function __construct( $meta_query = false ) {
 		if ( !$meta_query )
