@@ -596,17 +596,106 @@ function set_current_screen( $id =  '' ) {
 	$current_screen = apply_filters('current_screen', $current_screen);
 }
 
+/**
+ * A class representing the current admin screen.
+ *
+ * @since 3.3.0
+ * @access public
+ */
 final class WP_Screen {
+	/**
+	 * Any action associated with the screen.  'add' for *-add.php and *-new.php screens.  Empty otherwise.
+	 *
+	 * @since 3.3.0
+	 * @var string
+	 * @access private
+	 */
 	public $action = '';
+
+	/**
+	 * The base type of the screen.  This is typically the same as $id but with any post types and taxonomies stripped.
+	 * For example, for an $id of 'edit-post' the base is 'edit'.
+	 *
+	 * @since 3.3.0
+	 * @var string
+	 * @access private
+	 */
 	public $base;
+
+	/**
+	 * The unique ID of the screen.
+	 *
+	 * @since 3.3.0
+	 * @var string
+	 * @access private
+	 */
 	public $id;
+
+	/**
+	 * Whether the screen is in the network admin.
+	 *
+	 * @since 3.3.0
+	 * @var bool
+	 * @access private
+	 */
 	public $is_network;
+
+	/**
+	 * Whether the screen is in the user admin.
+	 *
+	 * @since 3.3.0
+	 * @var bool
+	 * @access private
+	 */
 	public $is_user;
+
+	/**
+	 * The base menu parent.
+	 * This is derived from $parent_file by removing the query string and any .php extension.
+	 * $parent_file values of 'edit.php?post_type=page' and 'edit.php?post_type=post' have a $parent_base of 'edit'.
+	 *
+	 * @since 3.3.0
+	 * @var string
+	 * @access private
+	 */
 	public $parent_base;
+
+	/**
+	 * The parent_file for the screen per the admin menu system.
+	 * Some $parent_file values are 'edit.php?post_type=page', 'edit.php', and 'options-general.php'.
+	 *
+	 * @since 3.3.0
+	 * @var string
+	 * @access private
+	 */
 	public $parent_file;
+
+	/**
+	 * The post type associated with the screen, if any.
+	 * The 'edit.php?post_type=page' screen has a post type of 'page'.
+	 *
+	 * @since 3.3.0
+	 * @var string
+	 * @access private
+	 */
 	public $post_type;
+
+	/**
+	 * The taxonomy associated with the screen, if any.
+	 * The 'edit-tags.php?taxonomy=category' screen has a taxonomy of 'category'.
+	 * @since 3.3.0
+	 * @var string
+	 * @access private
+	 */
 	public $taxonomy;
 
+	/**
+	 * Constructor
+	 * 
+	 * @since 3.3.0
+	 *
+	 * @param string $id A screen id.  If empty, the $hook_suffix global is used to derive the ID.
+	 */
 	public function __construct( $id = '' ) {
 		global $hook_suffix, $typenow, $taxnow;
 
@@ -645,7 +734,6 @@ final class WP_Screen {
 			if ( empty($typenow) )
 				$typenow = 'post';
 			$this->id .= '-' . $typenow;
-			$this->post_type = $typenow;
 		} elseif ( 'post' == $this->id ) {
 			if ( empty($typenow) )
 				$typenow = 'post';
@@ -670,22 +758,57 @@ final class WP_Screen {
 		}
 	}
 
+	/**
+	 * Set the parent information for the screen.
+	 * This is called in admin-header.php after the menu parent for the screen has been determined.
+	 *
+	 * @since 3.3.0
+	 *
+	 * @param string $parent_file The parent file of the screen.  Typically the $parent_file global.
+	 */
 	function set_parentage( $parent_file ) {
 		$this->parent_file = $parent_file;
 		$this->parent_base = preg_replace('/\?.*$/', '', $parent_file);
 		$this->parent_base = str_replace('.php', '', $this->parent_base);
 	}
 
+	/**
+	 * Adds an option for the screen.
+	 * Call this in template files after admin.php is loaded and before admin-header.php is loaded to add screen options.
+	 * 
+	 * @since 3.3.0
+	 *
+	 * @param string $option Option ID
+	 * @param array $args Associative array of arguments particular to the given $option.
+	 */
 	public function add_option( $option, $args = array() ) {
 		return add_screen_option( $option, $args );
 	}
 
+	/**
+	 * Add a help tab to the contextual help for the screen.
+	 * Call this in template files after admin.php is loaded and before admin-header.php is loaded to add contextual help tabs.
+	 * 
+	 * @since 3.3.0
+	 *
+	 * @param string $id Tab ID
+	 * @param string $title Title for the tab
+	 * @param string $content Help tab content in plain text or HTML.
+	 */
 	public function add_help_tab( $id, $title, $content) {
 		global $_wp_contextual_help;
 
 		$_wp_contextual_help[$this->id]['tabs'][] = array( $id, $title, $content );
 	}
 
+	/**
+	 * Add a sidebar to the contextual help for the screen.
+	 * Call this in template files after admin.php is loaded and before admin-header.php is loaded to add a sidebar to the contextual help.
+	 * 
+	 * @since 3.3.0
+	 *
+	 * @param string $content Sidebar content in plain text or HTML.
+	 */
 	public function add_help_sidebar( $content ) {
 		global $_wp_contextual_help;
 
