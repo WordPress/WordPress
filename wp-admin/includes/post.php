@@ -238,7 +238,7 @@ function edit_post( $post_data = null ) {
 	// Now that we have an ID we can fix any attachment anchor hrefs
 	_fix_attachment_links( $post_ID );
 
-	wp_set_post_lock( $post_ID, $GLOBALS['current_user']->ID );
+	wp_set_post_lock( $post_ID );
 
 	if ( current_user_can( $ptype->cap->edit_others_posts ) ) {
 		if ( ! empty( $post_data['sticky'] ) )
@@ -634,7 +634,7 @@ function wp_write_post() {
 	// Now that we have an ID we can fix any attachment anchor hrefs
 	_fix_attachment_links( $post_ID );
 
-	wp_set_post_lock( $post_ID, $GLOBALS['current_user']->ID );
+	wp_set_post_lock( $post_ID );
 
 	return $post_ID;
 }
