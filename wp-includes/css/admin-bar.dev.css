@@ -201,6 +201,7 @@
 #wpadminbar .ab-top-menu > .menupop > a span {
 	padding-right: 10px;
 	margin-right: -10px;
+	white-space: nowrap;
 }
 #wpadminbar .ab-top-menu > li > a:hover,
 #wpadminbar .ab-top-menu > li > a:hover span {
