@@ -641,7 +641,7 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 
  		extract($args, EXTR_SKIP);
  		$output = '';
- 		$title = apply_filters('widget_title', empty($instance['title']) ? __('Recent Comments') : $instance['title']);
+		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? __( 'Recent Comments' ) : $instance['title'], $instance, $this->id_base );
 
 		if ( empty( $instance['number'] ) || ! $number = absint( $instance['number'] ) )
  			$number = 5;
