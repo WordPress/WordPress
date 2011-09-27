@@ -734,6 +734,7 @@ final class WP_Screen {
 			if ( empty($typenow) )
 				$typenow = 'post';
 			$this->id .= '-' . $typenow;
+			$this->post_type = $typenow;
 		} elseif ( 'post' == $this->id ) {
 			if ( empty($typenow) )
 				$typenow = 'post';
