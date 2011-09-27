@@ -429,36 +429,66 @@ function wp_admin_bar_edit_menu( $wp_admin_bar ) {
  * @since 3.1.0
  */
 function wp_admin_bar_new_content_menu( $wp_admin_bar ) {
-	$actions = array();
+	$primary   = array();
+	$secondary = array();
+
 	foreach ( (array) get_post_types( array( 'show_in_admin_bar' => true ), 'objects' ) as $ptype_obj ) {
 		if ( ! current_user_can( $ptype_obj->cap->edit_posts ) )
 			continue;
 
-		$actions[ 'post-new.php?post_type=' . $ptype_obj->name ] = array( $ptype_obj->labels->name_admin_bar, $ptype_obj->cap->edit_posts, 'new-' . $ptype_obj->name );
+		$primary[ 'post-new.php?post_type=' . $ptype_obj->name ] = array( $ptype_obj->labels->name_admin_bar, $ptype_obj->cap->edit_posts, 'new-' . $ptype_obj->name );
 	}
 
 	if ( current_user_can( 'upload_files' ) )
-		$actions[ 'media-new.php' ] = array( _x( 'Media', 'add new from admin bar' ), 'upload_files', 'new-media' );
+		$primary[ 'media-new.php' ] = array( _x( 'Media', 'add new from admin bar' ), 'upload_files', 'new-media' );
 
 	if ( current_user_can( 'manage_links' ) )
-		$actions[ 'link-add.php' ] = array( _x( 'Link', 'add new from admin bar' ), 'manage_links', 'new-link' );
+		$primary[ 'link-add.php' ] = array( _x( 'Link', 'add new from admin bar' ), 'manage_links', 'new-link' );
 
 	if ( current_user_can( 'create_users' ) || current_user_can( 'promote_users' ) )
-		$actions[ 'user-new.php' ] = array( _x( 'User', 'add new from admin bar' ), 'create_users', 'new-user' );
+		$secondary[ 'user-new.php' ] = array( _x( 'User', 'add new from admin bar' ), 'create_users', 'new-user' );
 
 	if ( ! is_multisite() && current_user_can( 'install_themes' ) )
-		$actions[ 'theme-install.php' ] = array( _x( 'Theme', 'add new from admin bar' ), 'install_themes', 'new-theme' );
+		$secondary[ 'theme-install.php' ] = array( _x( 'Theme', 'add new from admin bar' ), 'install_themes', 'new-theme' );
 
 	if ( ! is_multisite() && current_user_can( 'install_plugins' ) )
-		$actions[ 'plugin-install.php' ] = array( _x( 'Plugin', 'add new from admin bar' ), 'install_plugins', 'new-plugin' );
+		$secondary[ 'plugin-install.php' ] = array( _x( 'Plugin', 'add new from admin bar' ), 'install_plugins', 'new-plugin' );
 
-	if ( empty( $actions ) )
+	if ( empty( $primary ) && empty( $secondary ) )
 		return;
 
-	$wp_admin_bar->add_menu( array( 'id' => 'new-content', 'title' => _x( 'Add New', 'admin bar menu group label' ), 'href' => admin_url( array_shift( array_keys( $actions ) ) ) ) );
+	$wp_admin_bar->add_menu( array(
+		'id'    => 'new-content',
+		'title' => _x( 'Add New', 'admin bar menu group label' ),
+		'href'  => admin_url( array_shift( array_keys( $primary ) ) ),
+	) );
 
-	foreach ( $actions as $link => $action ) {
-		$wp_admin_bar->add_menu( array( 'parent' => 'new-content', 'id' => $action[2], 'title' => $action[0], 'href' => admin_url($link) ) );
+	$items = array(
+		'new-content' => $primary,
+		'new-content-secondary' => $secondary,
+	);
+
+	foreach ( $items as $parent => $actions ) {
+
+		if ( ! empty( $actions ) && $parent == 'new-content-secondary' ) {
+			$wp_admin_bar->add_menu( array(
+				'parent' => 'new-content',
+				'id'     => 'new-content-secondary',
+				'title'  => '&nbsp;',
+				'meta'   => array(
+					'class' => 'secondary',
+				),
+			) );
+		}
+
+		foreach ( $actions as $link => $action ) {
+			$wp_admin_bar->add_menu( array(
+				'parent' => $parent,
+				'id'     => $action[2],
+				'title'  => $action[0],
+				'href'   => admin_url( $link )
+			) );
+		}
 	}
 }
 
