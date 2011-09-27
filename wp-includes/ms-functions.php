@@ -81,7 +81,7 @@ function get_active_blog_for_user( $user_id ) {
 	if ( false !== $primary_blog ) {
 		if ( ! isset( $blogs[ $primary_blog ] ) ) {
 			update_user_meta( $user_id, 'primary_blog', $first_blog->userblog_id );
-			$primary = $first_blog;
+			$primary = get_blog_details( $first_blog->userblog_id );
 		} else {
 			$primary = get_blog_details( $primary_blog );
 		}
@@ -92,7 +92,7 @@ function get_active_blog_for_user( $user_id ) {
 		$primary = $first_blog;
 	}
 
-	if ( ( ! is_object( $primary ) ) || ( is_object( $primary ) && $primary->archived == 1 || $primary->spam == 1 || $primary->deleted == 1 ) ) {
+	if ( ( ! is_object( $primary ) ) || ( $primary->archived == 1 || $primary->spam == 1 || $primary->deleted == 1 ) ) {
 		$blogs = get_blogs_of_user( $user_id, true ); // if a user's primary blog is shut down, check their other blogs.
 		$ret = false;
 		if ( is_array( $blogs ) && count( $blogs ) > 0 ) {
