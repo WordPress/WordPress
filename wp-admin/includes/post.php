@@ -1239,7 +1239,8 @@ function wp_check_post_lock( $post_id ) {
  * @since 2.5.0
  *
  * @param int $post_id ID of the post to being edited
- * @return bool Returns false if the post doesn't exist of there is no current user
+ * @return bool|array Returns false if the post doesn't exist of there is no current user, or
+ * 	an array of the lock time and the user ID.
  */
 function wp_set_post_lock( $post_id ) {
 	if ( !$post = get_post( $post_id ) )
@@ -1251,6 +1252,7 @@ function wp_set_post_lock( $post_id ) {
 	$lock = "$now:$user_id";
 
 	update_post_meta( $post->ID, '_edit_lock', $lock );
+	return array( $now, $user_id );
 }
 
 /**

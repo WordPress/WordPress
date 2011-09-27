@@ -988,8 +988,10 @@ case 'autosave' : // The name of this action is hardcoded in edit_post()
 			$id = $post->ID;
 	}
 
-	if ( $do_lock && empty( $_POST['auto_draft'] ) && $id && is_numeric( $id ) )
-		wp_set_post_lock( $id );
+	if ( $do_lock && empty( $_POST['auto_draft'] ) && $id && is_numeric( $id ) ) {
+		$lock_result = wp_set_post_lock( $id );
+		$supplemental['active-post-lock'] = implode( ':', $lock_result );
+	}
 
 	if ( $nonce_age == 2 ) {
 		$supplemental['replace-autosavenonce'] = wp_create_nonce('autosave');
@@ -1551,6 +1553,26 @@ case 'wp-fullscreen-save-post' :
 	echo json_encode( array( 'message' => $message, 'last_edited' => $last_edited ) );
 	die();
 	break;
+case 'wp-remove-post-lock' :
+	if ( empty( $_POST['post_ID'] ) || empty( $_POST['active_post_lock'] ) )
+		die( '0' );
+	$post_id = (int) $_POST['post_ID'];
+	if ( ! $post = get_post( $post_id ) )
+		die( '0' );
+
+	check_ajax_referer( 'update-' . $post->post_type . '_' . $post_id );
+
+	if ( ! current_user_can( 'edit_post', $post_id ) )
+		die( '-1' );
+
+	$active_lock = array_map( 'absint', explode( ':', $_POST['active_post_lock'] ) );
+	if ( $active_lock[1] != get_current_user_id() )
+		die( '0' );
+
+	$new_lock = ( time() - apply_filters( 'wp_check_post_lock_window', AUTOSAVE_INTERVAL * 2 ) + 5 ) . ':' . $active_lock[1];
+	update_post_meta( $post_id, '_edit_lock', $new_lock, implode( ':', $active_lock ) );
+	die( '1' );
+
 default :
 	do_action( 'wp_ajax_' . $_POST['action'] );
 	die('0');

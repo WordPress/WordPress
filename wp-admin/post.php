@@ -174,7 +174,7 @@ case 'edit':
 	if ( $last = wp_check_post_lock( $post->ID ) ) {
 		add_action('admin_notices', '_admin_notice_post_locked' );
 	} else {
-		wp_set_post_lock( $post->ID );
+		$active_post_lock = wp_set_post_lock( $post->ID );
 		wp_enqueue_script('autosave');
 	}
 

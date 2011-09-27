@@ -231,7 +231,10 @@ require_once('./admin-header.php');
 <input type="hidden" id="post_type" name="post_type" value="<?php echo esc_attr( $post_type ) ?>" />
 <input type="hidden" id="original_post_status" name="original_post_status" value="<?php echo esc_attr( $post->post_status) ?>" />
 <input type="hidden" id="referredby" name="referredby" value="<?php echo esc_url(stripslashes(wp_get_referer())); ?>" />
+<?php if ( ! empty( $active_post_lock ) ) { ?>
+<input type="hidden" id="active_post_lock" value="<?php echo esc_attr( implode( ':', $active_post_lock ) ); ?>" />
 <?php
+}
 if ( 'draft' != $post->post_status )
 	wp_original_referer_field(true, 'previous');
 
