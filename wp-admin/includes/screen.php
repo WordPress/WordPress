@@ -342,57 +342,74 @@ function screen_meta($screen) {
 	<?php
 	$contextual_help = '';
 	if ( isset($_wp_contextual_help[$screen->id]) && is_array($_wp_contextual_help[$screen->id]) ) {
-		$contextual_help .= '<div class="metabox-prefs">' . "\n";
 
 		/*
 		 * Loop through ['contextual-help-tabs']
 		 *   - It's a nested array where $key=>$value >> $title=>$content
 		 * Has no output so can only loop the array once
 		 */
-		$contextual_help_tabs = ''; // store looped content for later
+		$contextual_help_links = ''; // store looped content for later
 		$contextual_help_panels = ''; // store looped content for later
 
 		$tab_active = true;
 
 		foreach ( $_wp_contextual_help[$screen->id]['tabs'] as $tab ) {
-			$tab_slug = sanitize_html_class( $tab[ 0 ] );
-			$contextual_help_tabs .= '<li class="tab-' . $tab_slug . ( ($tab_active) ? ' active' : '' ) . '">';
-			$contextual_help_tabs .= '<a href="#' . $tab_slug . '">' . $tab[1] . '</a>';
-			$contextual_help_tabs .= '</li>' ."\n";
-			
-			$contextual_help_panels .= '<div id="' . $tab_slug . '" class="help-tab-content' . ( ($tab_active) ? ' active' : '' ) . '">';
-			$contextual_help_panels .= $tab[2];
-			$contextual_help_panels .= "</div>\n";
+			list( $id, $title, $content ) = $tab;
+
+			// Generate IDs
+			$id = sanitize_html_class( $id );
+			$link_id  = "tab-link-$id";
+			$panel_id = "tab-panel-$id";
+
+			$link_classes  = '';
+			$panel_classes = 'help-tab-content';
+
+			if ( $tab_active ) {
+				$link_classes  .= ' active';
+				$panel_classes .= ' active';
+			}
+
+			$link_classes = ( $tab_active ) ? 'active' : '';
+
+			$contextual_help_links .= '<li id="' . esc_attr( $link_id ) . '" class="' . esc_attr( $link_classes ) . '">';
+			$contextual_help_links .= '<a href="' . esc_url( "#$panel_id" ) . '">' . esc_html( $title ) . '</a>';
+			$contextual_help_links .= '</li>';
+
+			$contextual_help_panels .= '<div id="' . esc_attr( $panel_id ) . '" class="' . esc_attr( $panel_classes ) . '">';
+			$contextual_help_panels .= '<h3>' . esc_html( $title ) . '</h3>';
+			$contextual_help_panels .= $content;
+			$contextual_help_panels .= "</div>";
 
 			$tab_active = false;
 		}
 
 		// Start output from loop: Tabbed help content
 		$contextual_help .= '<ul class="contextual-help-tabs">' . "\n";
-		$contextual_help .= $contextual_help_tabs;
+		$contextual_help .= $contextual_help_links;
 		$contextual_help .= '</ul>' ."\n";
+
+		// Sidebar to right of tabs
+		$contextual_help .= '<div class="contextual-help-sidebar">' . "\n";
+		$contextual_help .= $_wp_contextual_help[$screen->id]['sidebar'];
+		$contextual_help .= "</div>\n";
+
+		// Panel content
 		$contextual_help .= '<div class="contextual-help-tabs-wrap">' . "\n";
 		$contextual_help .= $contextual_help_panels;
 		$contextual_help .= "</div>\n";
-		// END: Tabbed help content
 
-		// Sidebar to right of tabs
-		$contextual_help .= '<div class="contextual-help-links">' . "\n";
-		$contextual_help .= $_wp_contextual_help[$screen->id]['sidebar'];
-		$contextual_help .= "</div>\n";
-		
-		$contextual_help .= "</div>\n"; // end metabox
-		
-	} elseif ( isset($_wp_contextual_help[$screen->id]) ) {
-		$contextual_help .= '<div class="metabox-prefs">' . $_wp_contextual_help[$screen->id] . "</div>\n";
+	} elseif ( isset( $_wp_contextual_help[ $screen->id ] ) ) {
+		$contextual_help .= $_wp_contextual_help[ $screen->id ];
+
 	} else {
-		$contextual_help .= '<div class="metabox-prefs">';
-		$default_help  = __('<a href="http://codex.wordpress.org/" target="_blank">Documentation</a>');
+		$default_help  = __( '<a href="http://codex.wordpress.org/" target="_blank">Documentation</a>' );
 		$default_help .= '<br />';
-		$default_help .= __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>');
-		$contextual_help .= apply_filters('default_contextual_help', $default_help);
-		$contextual_help .= '</div>' . "\n";
+		$default_help .= __( '<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>' );
+
+		$contextual_help .= apply_filters( 'default_contextual_help', $default_help );
 	}
+
+	$contextual_help = "<div class='metabox-prefs'>$contextual_help</div>";
 
 	echo apply_filters('contextual_help', $contextual_help, $screen->id, $screen);
 	?>
@@ -406,7 +423,7 @@ function screen_meta($screen) {
  *
  * The array $help takes the following format:
  * 	array( 'contextual-help-tabs' 	=> array( $tab1_title => $tab1_value [, $tab2_title => $tab2_value, ...] ),
- *		'contextual-help-links' => $help_links_as_string )
+ *		'contextual-help-sidebar' => $help_links_as_string )
  *
  * For backwards compatability, a string is also accepted.
  *
@@ -691,7 +708,7 @@ final class WP_Screen {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @since 3.3.0
 	 *
 	 * @param string $id A screen id.  If empty, the $hook_suffix global is used to derive the ID.
@@ -776,7 +793,7 @@ final class WP_Screen {
 	/**
 	 * Adds an option for the screen.
 	 * Call this in template files after admin.php is loaded and before admin-header.php is loaded to add screen options.
-	 * 
+	 *
 	 * @since 3.3.0
 	 *
 	 * @param string $option Option ID
@@ -789,7 +806,7 @@ final class WP_Screen {
 	/**
 	 * Add a help tab to the contextual help for the screen.
 	 * Call this in template files after admin.php is loaded and before admin-header.php is loaded to add contextual help tabs.
-	 * 
+	 *
 	 * @since 3.3.0
 	 *
 	 * @param string $id Tab ID
@@ -805,7 +822,7 @@ final class WP_Screen {
 	/**
 	 * Add a sidebar to the contextual help for the screen.
 	 * Call this in template files after admin.php is loaded and before admin-header.php is loaded to add a sidebar to the contextual help.
-	 * 
+	 *
 	 * @since 3.3.0
 	 *
 	 * @param string $content Sidebar content in plain text or HTML.

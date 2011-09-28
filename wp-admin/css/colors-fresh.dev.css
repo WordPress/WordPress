@@ -789,10 +789,6 @@ table.widefat span.spam a,
 	border-color: #ccc;
 }
 
-.contextual-help-tabs {
-	border-color: #dfdfdf;
-}
-
 .contextual-help-tabs a {
 	border-top-color: #f9f9f9;
 	border-bottom-color: #dfdfdf;
@@ -809,8 +805,11 @@ table.widefat span.spam a,
 	color: #000;
 }
 
-.contextual-help-links {
+.contextual-help-sidebar {
 	background-color: #f9f9f9;
+}
+
+.contextual-help-tabs-wrap {
 	border-color: #dfdfdf;
 }
 

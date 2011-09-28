@@ -226,6 +226,9 @@ screenMeta = {
 
 		panel.show();
 
+		screenMeta.refresh();
+	},
+	refresh: function( panel, link ) {
 		screenMeta.element.css({ top: 0 });
 		screenMeta.page.css({ paddingTop: screenMeta.padding + screenMeta.element.outerHeight() });
 	},
@@ -242,7 +245,9 @@ screenMeta = {
  */
 $('.contextual-help-tabs').delegate('a', 'click focus', function(e) {
 	var link = $(this),
-		panel;
+		panel,
+		columns,
+		height;
 
 	e.preventDefault();
 
@@ -259,6 +264,16 @@ $('.contextual-help-tabs').delegate('a', 'click focus', function(e) {
 	// Panels
 	$('.help-tab-content').not( panel ).removeClass('active').hide();
 	panel.addClass('active').show();
+
+	// Adjust the height of the help columns
+	columns = $('#contextual-help-wrap').children('.metabox-prefs').children();
+	columns.height('auto');
+
+	height = Math.max.apply( null, $.map( columns, function( el ) { return $(el).height(); }) );
+	columns.height( height );
+
+	// Refresh the padding of the screen meta box.
+	screenMeta.refresh();
 });
 
 $(document).ready( function() {

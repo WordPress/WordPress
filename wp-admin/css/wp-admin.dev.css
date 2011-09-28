@@ -1479,7 +1479,7 @@ form.upgrade .hint {
 #contextual-help-wrap {
 	margin: 0;
 	padding: 8px 20px 12px;
-	max-height: 200px;
+	max-height: 300px;
 	overflow: auto;
 	border-style: solid;
 	border-width: 0 1px 1px;
@@ -1533,27 +1533,18 @@ form.upgrade .hint {
 #contextual-help-wrap {
 	position: relative;
 	padding: 0;
-	overflow: hidden;
+	overflow: auto;
 }
 
 #contextual-help-wrap > .metabox-prefs {
-	padding: 8px 20px 12px;
-	max-height: 200px;
 	overflow: auto;
 }
 
 .contextual-help-tabs {
-	position: absolute;
-	top: 0;
-	left: 0;
-	bottom: 0;
+	float: left;
 	width: 150px;
-	max-height: 220px;
 	margin: 0;
 	overflow: auto;
-
-	border-width: 0 1px 0 0;
-	border-style: solid;
 }
 
 .contextual-help-tabs li {
@@ -1574,17 +1565,17 @@ form.upgrade .hint {
 }
 
 .contextual-help-tabs-wrap {
-	position: relative;
-	display: block;
-	margin: 0 152px 0 150px;
-	height: 188px;
+	padding: 0 20px;
 	overflow: auto;
+
+	border-width: 0 1px;
+	border-style: solid;
 }
 
 .help-tab-content {
 	display: none;
 	margin: 0 22px 12px 0;
-	padding-right: 20px;
+	line-height: 1.6em;
 }
 
 .help-tab-content.active {
@@ -1596,17 +1587,11 @@ form.upgrade .hint {
 	margin-left: 18px;
 }
 
-.contextual-help-links {
-	position: absolute;
+.contextual-help-sidebar {
 	width: 150px;
-	top: 0;
-	right: 0;
-	bottom: 0;
+	float: right;
 	padding: 0 8px 0 12px;
 	overflow: auto;
-
-	border-width: 0 0 0 1px;
-	border-style: solid;
 }
 
 
