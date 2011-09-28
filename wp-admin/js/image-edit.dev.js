@@ -181,6 +181,9 @@ imageEdit = {
 				$('input.imgedit-submit-btn', '#imgedit-panel-' + postid).prop('disabled', true);
 
 			t.toggleEditor(postid, 0);
+		}).error(function(){
+			$('#imgedit-crop-' + postid).empty().append('<div class="error"><p>' + imageEditL10n.error + '</p></div>');
+			t.toggleEditor(postid, 0);
 		}).attr('src', ajaxurl + '?' + $.param(data));
 	},
 

@@ -374,7 +374,10 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'media', "/wp-admin/js/media$suffix.js", array( 'jquery-ui-draggable' ), '20101022', 1 );
 
-		$scripts->add( 'image-edit', "/wp-admin/js/image-edit$suffix.js", array('jquery', 'json2', 'imgareaselect'), '20110524', 1 );
+		$scripts->add( 'image-edit', "/wp-admin/js/image-edit$suffix.js", array('jquery', 'json2', 'imgareaselect'), '20110927', 1 );
+		$scripts->add_script_data( 'image-edit', 'imageEditL10n', array(
+			'error' => __( 'Could not load the preview image. Please reload the page and try again.' )
+		));
 
 		$scripts->add( 'set-post-thumbnail', "/wp-admin/js/set-post-thumbnail$suffix.js", array( 'jquery' ), '20100518', 1 );
 		$scripts->add_script_data( 'set-post-thumbnail', 'setPostThumbnailL10n', array(
