@@ -868,7 +868,7 @@ function image_align_input_fields( $post, $checked = '' ) {
 function image_size_input_fields( $post, $check = '' ) {
 
 		// get a list of the actual pixel dimensions of each possible intermediate version of this image
-		$size_names = array('thumbnail' => __('Thumbnail'), 'medium' => __('Medium'), 'large' => __('Large'), 'full' => __('Full Size'));
+		$size_names = apply_filters( 'image_size_names_choose', array('thumbnail' => __('Thumbnail'), 'medium' => __('Medium'), 'large' => __('Large'), 'full' => __('Full Size')) );
 
 		if ( empty($check) )
 			$check = get_user_setting('imgsize', 'medium');

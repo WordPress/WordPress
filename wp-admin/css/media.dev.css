@@ -76,9 +76,7 @@ tr.image-size td {
 }
 
 tr.image-size div.image-size-item {
-	float: left;
-	width: 25%;
-	margin: 0;
+	margin: 0 0 5px;
 }
 
 #library-form .progress,
@@ -333,7 +331,7 @@ h4.media-sub-title {
 }
 
 #gallery-settings .align .field label {
-	margin: 0 1.5em 0 0;
+	margin: 0 1em 0 3px;
 }
 
 #gallery-settings p.ml-submit {

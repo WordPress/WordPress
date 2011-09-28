@@ -935,12 +935,12 @@ span.description,
 }
 
 .media-upload-form .align .field label {
-	padding: 0 22px 0 0;
-	margin: 0 0 0 1em;
+	padding: 0 23px 0 0;
+	margin: 0 3px 0 1em;
 }
 
 .media-upload-form tr.image-size label {
-	margin: 0 3px 0 0;
+	margin: 0 5px 0 0;
 }
 
 #wpbody-content .describe p.help {

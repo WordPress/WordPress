@@ -3575,13 +3575,13 @@ p.popular-tags a {
 
 .media-upload-form .align .field label {
 	display: inline;
-	padding: 0 0 0 22px;
-	margin: 0 1em 0 0;
+	padding: 0 0 0 23px;
+	margin: 0 1em 0 3px;
 	font-weight: bold;
 }
 
 .media-upload-form tr.image-size label {
-	margin: 0 0 0 3px;
+	margin: 0 0 0 5px;
 	font-weight: bold;
 }
 

@@ -7,17 +7,14 @@ body#media-upload ul#sidemenu {
 }
 /* specific to the image upload form */
 .align .field label {
-	padding: 0 28px 0 0;
-	margin: 0 0 0 1em;
+	padding: 0 23px 0 0;
+	margin: 0 3px 0 1em;
 }
 .image-align-none-label, .image-align-left-label, .image-align-center-label, .image-align-right-label {
 	background-position: center right;
 }
-tr.image-size div.image-size-item {
-	float: right;
-}
 tr.image-size label {
-	margin: 0 1em 0 0;
+	margin: 0 5px 0 0;
 }
 .crunching {
 	text-align: left;
@@ -73,7 +70,7 @@ button.dismiss {
 	margin-left: 15px;
 }
 #gallery-settings .align .field label {
-	margin: 0 0 0 1.5em;
+	margin: 0 3px 0 1em;
 }
 #sort-buttons {
 	margin: 3px 0 -8px 25px;
