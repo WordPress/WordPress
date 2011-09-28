@@ -47,13 +47,18 @@ hr {
 p {
 	margin-bottom: 18px;
 }
+
+ul,
+ol {
+	margin: 0 0 18px 1.5em;
+	padding: 0;
+}
+
 ul {
 	list-style: square;
-	margin: 0 0 18px 1.5em;
 }
 ol {
 	list-style: decimal;
-	margin: 0 0 18px 1.5em;
 }
 ol ol {
 	list-style: upper-alpha;
