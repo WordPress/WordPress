@@ -29,12 +29,19 @@ setCommentsList = function() {
 
 		$('span.pending-count').each( function() {
 			var a = $(this), n, dif;
+
 			n = a.html().replace(/[^0-9]+/g, '');
-			n = parseInt(n,10);
-			if ( isNaN(n) ) return;
+			n = parseInt(n, 10);
+
+			if ( isNaN(n) )
+				return;
+
 			dif = $('#' + settings.element).is('.' + settings.dimClass) ? 1 : -1;
 			n = n + dif;
-			if ( n < 0 ) { n = 0; }
+
+			if ( n < 0 )
+				n = 0;
+
 			a.closest('.awaiting-mod')[ 0 == n ? 'addClass' : 'removeClass' ]('count-0');
 			updateCount(a, n);
 			dashboardTotals();
@@ -368,7 +375,7 @@ commentReply = {
 			$('input', '#edithead').val('');
 			$('.error', '#replysubmit').html('').hide();
 			$('.waiting', '#replysubmit').hide();
-			$('#replycontainer, #replycontent').height(120);
+			$('#replycontent').css('height', '');
 
 			this.cid = '';
 		}
@@ -388,8 +395,8 @@ commentReply = {
 		$('#comment_post_ID', editRow).val(p);
 		$('#comment_ID', editRow).val(id);
 
-		if ( h > 220 )
-			$('#replycontainer, #replycontent', editRow).height(h-104);
+		if ( h > 120 )
+			$('#replycontent', editRow).css('height', (35+h) + 'px');
 
 		if ( a == 'edit' ) {
 			$('#author', editRow).val( $('div.author', rowData).text() );
@@ -543,8 +550,6 @@ $(document).ready(function(){
 	commentReply.init();
 	$(document).delegate('span.delete a.delete', 'click', function(){return false;});
 
-	if ( typeof QTags != 'undefined' )
-		quicktags({id: 'replycontent', buttons: 'strong,em,link,block,del,ins,img,ul,ol,li,code,spell,close'});
 
 	if ( typeof $.table_hotkeys != 'undefined' ) {
 		make_hotkeys_redirect = function(which) {

@@ -4127,10 +4127,6 @@ span.imgedit-scale-warn {
 }
 
 /* reply to comments */
-#replyrow {
-	font-size: 11px;
-}
-
 #replyrow input {
 	border-width: 1px;
 	border-style: solid;
@@ -4140,14 +4136,10 @@ span.imgedit-scale-warn {
 	padding: 2px;
 }
 
-#replyrow .wp-editor-container {
-	border: 0 none;
-}
-
 #replysubmit {
 	margin: 0;
-	padding: 3px 7px;
-	text-align:center;
+	padding: 0 7px 3px;
+	text-align: center;
 }
 
 #replysubmit img.waiting,
@@ -4162,20 +4154,17 @@ span.imgedit-scale-warn {
 }
 
 #replysubmit .error {
-	color:red;
-	line-height:21px;
-	text-align:center;
-	vertical-align:center;
+	color: red;
+	line-height: 21px;
+	text-align: center;
+	vertical-align: center;
 }
 
-#replyrow #editor-toolbar {
-	display: none;
-}
-
-#replyhead {
-	font-size: 12px;
-	font-weight: bold;
-	padding: 2px 10px 4px;
+#replyrow h5 {
+	margin: .2em 0 0;
+	padding: 0 5px;
+	line-height: 1.4em;
+	font-size: 1em;
 }
 
 #edithead .inside {
@@ -4183,12 +4172,10 @@ span.imgedit-scale-warn {
 	padding: 3px 0 2px 5px;
 	margin: 0;
 	text-align: center;
-	font-size: 11px;
 }
 
 #edithead .inside input {
 	width: 180px;
-	font-size: 11px;
 }
 
 #edithead label {
@@ -4197,27 +4184,10 @@ span.imgedit-scale-warn {
 
 #replycontainer {
 	padding: 5px;
-	border: 0 none;
-	height: 120px;
-	overflow: hidden;
-	position: relative;
 }
 
 #replycontent {
-	resize: none;
-	margin: 0;
-	width: 100%;
-	height: 100%;
-	padding: 0;
-	line-height: 150%;
-	border: 0 none;
-	outline: none;
-	font-size: 12px;
-}
-
-#replyrow #ed_reply_toolbar {
-	margin: 0;
-	padding: 2px 3px;
+	height: 120px;
 }
 
 .comment-ays {

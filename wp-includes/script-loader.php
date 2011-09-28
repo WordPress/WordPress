@@ -296,7 +296,7 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'admin-custom-fields', "/wp-admin/js/custom-fields$suffix.js", array('wp-lists'), '20110429', 1 );
 
-		$scripts->add( 'admin-comments', "/wp-admin/js/edit-comments$suffix.js", array('wp-lists', 'quicktags', 'jquery-query'), '20110907', 1 );
+		$scripts->add( 'admin-comments', "/wp-admin/js/edit-comments$suffix.js", array('wp-lists', 'quicktags', 'jquery-query'), '20110928', 1 );
 		$scripts->add_script_data( 'admin-comments', 'adminCommentsL10n', array(
 			'hotkeys_highlight_first' => isset($_GET['hotkeys_highlight_first']),
 			'hotkeys_highlight_last' => isset($_GET['hotkeys_highlight_last']),
@@ -432,13 +432,13 @@ function wp_default_styles( &$styles ) {
 	// Any rtl stylesheets that don't have a .dev version for ltr
 	$no_suffix = array( 'farbtastic' );
 
-	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20110928a' );
+	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20110928b' );
 
 	$styles->add( 'ie', "/wp-admin/css/ie$suffix.css", array(), '20110919' );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
 
 	// all colors stylesheets need to have the same query strings (cache manifest compat)
-	$colors_version = '20110927';
+	$colors_version = '20110928';
 
 	// Register "meta" stylesheet for admin colors. All colors-* style sheets should have the same version string.
 	$styles->add( 'colors', true, array('wp-admin'), $colors_version );
@@ -455,7 +455,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'imgareaselect', '/wp-includes/js/imgareaselect/imgareaselect.css', array(), '0.9.1' );
 	$styles->add( 'admin-bar', "/wp-includes/css/admin-bar$suffix.css", array(), '20110926' );
 	$styles->add( 'wp-jquery-ui-dialog', "/wp-includes/css/jquery-ui-dialog$suffix.css", array(), '20101224' );
-	$styles->add( 'editor-buttons', "/wp-includes/css/editor-buttons$suffix.css", array(), '20110802' );
+	$styles->add( 'editor-buttons', "/wp-includes/css/editor-buttons$suffix.css", array(), '20110928' );
 	$styles->add( 'wp-pointer', "/wp-includes/css/wp-pointer$suffix.css", array(), '20110918' );
 
 	foreach ( $rtl_styles as $rtl_style ) {

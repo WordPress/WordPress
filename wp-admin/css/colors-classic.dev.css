@@ -87,8 +87,7 @@ body > #upload-menu {
 #your-profile fieldset,
 #rightnow,
 div.dashboard-widget,
-#dashboard-widgets p.dashboard-widget-links,
-#replyrow #ed_reply_toolbar input {
+#dashboard-widgets p.dashboard-widget-links {
 	border-color: #D1E5EE
 }
 
@@ -1612,23 +1611,9 @@ table.diff .diff-addedline ins {
 	background-image: linear-gradient(bottom, #eff8ff, #fff); /* proposed W3C Markup */
 }
 
-#replysubmit {
-	background-color: #f1f1f1;
-	border-top-color: #ddd;
-}
-
 #replyerror {
 	border-color: #ddd;
 	background-color: #f9f9f9;
-}
-
-#edithead,
-#replyhead {
-	background-color: #f1f1f1;
-}
-
-#ed_reply_toolbar {
-	background-color: #e9e9e9;
 }
 
 /* table vim shortcuts */
@@ -1673,8 +1658,7 @@ div.star img {
 /* inline editor */
 .inline-edit-row fieldset input[type="text"],
 .inline-edit-row fieldset textarea,
-#bulk-titles,
-#replyrow input {
+#bulk-titles {
 	border-color: #ddd;
 }
 
@@ -1694,11 +1678,6 @@ div.star img {
 
 .inline-editor .quick-edit-save {
 	background-color: #f1f1f1;
-}
-
-#replyrow #ed_reply_toolbar input:hover {
-	border-color: #aaa;
-	background: #ddd;
 }
 
 fieldset.inline-edit-col-right .inline-edit-col {

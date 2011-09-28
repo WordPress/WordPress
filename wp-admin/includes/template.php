@@ -311,7 +311,7 @@ function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single', 
 <?php else : ?>
 <div id="com-reply" style="display:none;"><div id="replyrow" style="display:none;">
 <?php endif; ?>
-	<div id="replyhead" style="display:none;"><?php _e('Reply to Comment'); ?></div>
+	<div id="replyhead" style="display:none;"><h5><?php _e( 'Reply to Comment' ); ?></h5></div>
 
 	<div id="edithead" style="display:none;">
 		<div class="inside">
@@ -331,7 +331,12 @@ function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single', 
 		<div style="clear:both;"></div>
 	</div>
 
-	<div id="replycontainer"><textarea rows="8" cols="40" name="replycontent" tabindex="104" id="replycontent"></textarea></div>
+	<div id="replycontainer">
+	<?php
+	$quicktags_settings = array( 'buttons' => 'strong,em,link,block,del,ins,img,ul,ol,li,code,spell,close' );
+	wp_editor( '', 'replycontent', array( 'media_buttons' => false, 'tinymce' => false, 'quicktags' => $quicktags_settings ) );
+	?>
+	</div>
 
 	<p id="replysubmit" class="submit">
 	<a href="#comments-form" class="cancel button-secondary alignleft" tabindex="106"><?php _e('Cancel'); ?></a>
