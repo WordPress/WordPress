@@ -12,10 +12,12 @@ function send_to_editor(h) {
 		} else if ( !qt ) {
 			return false;
 		}
-	} 
-
-	if ( !ed && mce && wpActiveEditor )
-		ed = tinymce.get(wpActiveEditor);
+	} else {
+		if ( mce && tinymce.activeEditor && (tinymce.activeEditor.id == 'mce_fullscreen' || tinymce.activeEditor.id == 'wp_mce_fullscreen') )
+			ed = tinymce.activeEditor;
+		else
+			ed = tinymce.get(wpActiveEditor);
+	}
 
 	if ( ed && !ed.isHidden() ) {
 		// restore caret position on IE

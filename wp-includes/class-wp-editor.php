@@ -25,6 +25,9 @@ class WP_Editor {
 	var $first_init;
 	var $this_tinymce = false;
 	var $this_quicktags = false;
+	var $has_tinymce = false;
+	var $has_quicktags = false;
+	var $has_medialib = false;
 
 	function __construct() {
 		$this->can_richedit = user_can_richedit();
@@ -67,6 +70,7 @@ class WP_Editor {
 
 		if ( $this->this_quicktags && $this->this_tinymce ) {
 			$switch_class = 'html-active';
+			$this->has_tinymce = $this->has_quicktags = true;
 
 			if ( 'html' == $this->default_editor ) {
 				add_filter('the_editor_content', 'wp_htmledit_pre');
@@ -77,6 +81,12 @@ class WP_Editor {
 
 			$buttons .= '<a id="' . $editor_id . '-html" class="hide-if-no-js wp-switch-editor switch-html" onclick="switchEditors.go(this);return false;">' . __('HTML') . "</a>\n";
 			$buttons .= '<a id="' . $editor_id . '-tmce" class="hide-if-no-js wp-switch-editor switch-tmce" onclick="switchEditors.go(this);return false;">' . __('Visual') . "</a>\n";
+		} else {
+			if ( $this->this_tinymce )
+				$this->has_tinymce = true;
+
+			if ( $this->this_quicktags )
+				$this->has_quicktags = true;
 		}
 
 		echo '<div id="wp-' . $editor_id . '-wrap" class="wp-editor-wrap ' . $switch_class . '">';
@@ -89,6 +99,8 @@ class WP_Editor {
 			echo $buttons;
 
 			if ( $set['media_buttons'] ) {
+				$this->has_medialib = true;
+
 				if ( !function_exists('media_buttons') )
 					include(ABSPATH . 'wp-admin/includes/media.php');
 
@@ -442,10 +454,10 @@ class WP_Editor {
 		wp_enqueue_script('word-count');
 		wp_enqueue_style('editor-buttons');
 
-		if ( $this->this_tinymce )
+		if ( $this->has_tinymce )
 			wp_enqueue_script('editor');
 
-		if ( $this->this_quicktags )
+		if ( $this->has_quicktags )
 			wp_enqueue_script('quicktags');
 
 		if ( in_array('wplink', $this->plugins, true) || in_array('link', $this->qt_buttons, true) ) {
@@ -457,8 +469,10 @@ class WP_Editor {
 		if ( in_array('wpfullscreen', $this->plugins, true) || in_array('fullscreen', $this->qt_buttons, true) )
 			wp_enqueue_script('wp-fullscreen');
 
-		add_thickbox();
-		wp_enqueue_script('media-upload');
+		if ( $this->has_medialib ) {
+			add_thickbox();
+			wp_enqueue_script('media-upload');
+		}
 	}
 
 	function editor_js() {
@@ -799,5 +813,4 @@ class WP_Editor {
 	<?php
 	}
 }
-
 
