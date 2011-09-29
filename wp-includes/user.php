@@ -1330,9 +1330,6 @@ function wp_insert_user($userdata) {
 	if ( empty($show_admin_bar_front) )
 		$show_admin_bar_front = 'true';
 
-	if ( empty($show_admin_bar_admin) )
-		$show_admin_bar_admin = 'true';
-
 	$user_nicename_check = $wpdb->get_var( $wpdb->prepare("SELECT ID FROM $wpdb->users WHERE user_nicename = %s AND user_login != %s LIMIT 1" , $user_nicename, $user_login));
 
 	if ( $user_nicename_check ) {
@@ -1365,7 +1362,6 @@ function wp_insert_user($userdata) {
 	update_user_meta( $user_id, 'admin_color', $admin_color );
 	update_user_meta( $user_id, 'use_ssl', $use_ssl );
 	update_user_meta( $user_id, 'show_admin_bar_front', $show_admin_bar_front );
-	update_user_meta( $user_id, 'show_admin_bar_admin', $show_admin_bar_admin );
 
 	$user = new WP_User($user_id);
 
