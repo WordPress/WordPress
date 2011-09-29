@@ -12,15 +12,9 @@ class WP_Plugins_List_Table extends WP_List_Table {
 	function __construct() {
 		global $status, $page;
 
-		$default_status = get_user_option( 'plugins_last_view' );
-		if ( empty( $default_status ) )
-			$default_status = 'all';
-		$status = isset( $_REQUEST['plugin_status'] ) ? $_REQUEST['plugin_status'] : $default_status;
-		if ( !in_array( $status, array( 'all', 'active', 'inactive', 'recently_activated', 'upgrade', 'network', 'mustuse', 'dropins', 'search' ) ) )
-			$status = 'all';
-		if ( $status != $default_status && 'search' != $status )
-			update_user_meta( get_current_user_id(), 'plugins_last_view', $status );
-
+		$status = 'all';
+		if ( isset( $_REQUEST['plugin_status'] ) && in_array( $_REQUEST['plugin_status'], array( 'active', 'inactive', 'recently_activated', 'upgrade', 'network', 'mustuse', 'dropins', 'search' ) ) )
+			$status = $_REQUEST['plugin_status'];
 
 		if ( isset($_REQUEST['s']) )
 			$_SERVER['REQUEST_URI'] = add_query_arg('s', stripslashes($_REQUEST['s']) );
