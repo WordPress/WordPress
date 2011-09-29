@@ -2445,7 +2445,13 @@ function wp_update_term_count_now( $terms, $taxonomy ) {
 		call_user_func($taxonomy->update_count_callback, $terms, $taxonomy);
 	} else {
 		// Default count updater
-		_update_post_term_count( $terms, $taxonomy );
+		foreach ( (array) $terms as $term) {
+			$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->term_relationships WHERE term_taxonomy_id = %d", $term) );
+			do_action( 'edit_term_taxonomy', $term, $taxonomy );
+			$wpdb->update( $wpdb->term_taxonomy, compact( 'count' ), array( 'term_taxonomy_id' => $term ) );
+			do_action( 'edited_term_taxonomy', $term, $taxonomy );
+		}
+
 	}
 
 	clean_term_cache($terms, '', false);
