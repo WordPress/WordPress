@@ -677,8 +677,10 @@ class WP_Editor {
 	</div>
 
 	<div id="wp-fullscreen-wrap" style="width:<?php echo $dfw_width; ?>px;">
+		<?php if ( post_type_supports($post->post_type, 'title') ) { ?>
 		<label id="wp-fullscreen-title-prompt-text" for="wp-fullscreen-title"><?php echo apply_filters( 'enter_title_here', __( 'Enter title here' ), $post ); ?></label>
 		<input type="text" id="wp-fullscreen-title" value="" autocomplete="off" />
+		<?php } ?>
 
 		<div id="wp-fullscreen-container">
 			<textarea id="wp_mce_fullscreen"></textarea>

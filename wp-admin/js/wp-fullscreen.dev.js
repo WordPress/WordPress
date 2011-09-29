@@ -139,8 +139,8 @@ PubSub.prototype.publish = function( topic, args ) {
 
 		// Settings can be added or changed by defining "wp_fullscreen_settings" JS object.
 		// This can be done by defining it as PHP array and passing it to JS with:
-		// wp_add_script_data( 'wp-fullscreen', 'wp_fullscreen_settings', $settings_array )
-		if ( typeof(wp_fullscreen_settings) != 'undefined' )
+		// add_script_data( 'wp-fullscreen', 'wp_fullscreen_settings', $settings_array )
+		if ( typeof(wp_fullscreen_settings) == 'object' )
 			$.extend( s, wp_fullscreen_settings );
 
 		s.editor_id = wpActiveEditor || 'content';
@@ -148,8 +148,10 @@ PubSub.prototype.publish = function( topic, args ) {
 		if ( !s.title_id ) {
 			if ( $('input#title').length && s.editor_id == 'content' )
 				s.title_id = 'title';
+			else if ( $('input#' + s.editor_id + '-title').length ) // the title input field should have [editor_id]-title HTML ID to be auto detected
+				s.title_id = s.editor_id + '-title';
 			else
-				$('#wp-fullscreen-title').hide();
+				$('#wp-fullscreen-title, #wp-fullscreen-title-prompt-text').hide();
 		}
 
 		s.mode = $('#' + s.editor_id).is(':hidden') ? 'tinymce' : 'html';
@@ -536,7 +538,7 @@ PubSub.prototype.publish = function( topic, args ) {
 			if ( !s.has_tinymce )
 				$('#wp-fullscreen-mode-bar').hide();
 
-			if ( wptitlehint )
+			if ( wptitlehint && $('#wp-fullscreen-title').length )
 				wptitlehint('wp-fullscreen-title');
 
 			$(document).keyup(function(e){
