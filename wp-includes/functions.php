@@ -4610,4 +4610,24 @@ function send_frame_options_header() {
 	@header( 'X-Frame-Options: SAMEORIGIN' );
 }
 
+/**
+ * Retrieve a list of protocols to allow in HTML attributes.
+ *
+ * @since 3.3.0
+ * @see wp_kses()
+ * @see esc_url()
+ *
+ * @return array Array of allowed protocols
+ */
+function wp_allowed_protocols() {
+	static $protocols;
+
+	if ( empty( $protocols ) ) {
+		$protocols = array( 'http', 'https', 'ftp', 'ftps', 'mailto', 'news', 'irc', 'gopher', 'nntp', 'feed', 'telnet', 'mms', 'rtsp', 'svn' );
+		$protocols = apply_filters( 'kses_allowed_protocols', $protocols );
+	}
+
+	return $protocols;
+}
+
 ?>

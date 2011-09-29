@@ -2299,8 +2299,8 @@ function esc_url( $url, $protocols = null, $_context = 'display' ) {
 		$url = str_replace( "'", '&#039;', $url );
 	}
 
-	if ( !is_array($protocols) )
-		$protocols = array ('http', 'https', 'ftp', 'ftps', 'mailto', 'news', 'irc', 'gopher', 'nntp', 'feed', 'telnet', 'mms', 'rtsp', 'svn');
+	if ( ! is_array( $protocols ) )
+		$protocols = wp_allowed_protocols();
 	if ( wp_kses_bad_protocol( $url, $protocols ) != $url )
 		return '';
 
