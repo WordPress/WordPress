@@ -709,11 +709,7 @@ class WP_Meta_Query {
 
 		foreach ( $this->queries as $k => $q ) {
 			$meta_key = isset( $q['key'] ) ? trim( $q['key'] ) : '';
-			$meta_compare = isset( $q['compare'] ) ? strtoupper( $q['compare'] ) : '=';
 			$meta_type = isset( $q['type'] ) ? strtoupper( $q['type'] ) : 'CHAR';
-
-			if ( ! in_array( $meta_compare, array( '=', '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE', 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN' ) ) )
-				$meta_compare = '=';
 
 			if ( 'NUMERIC' == $meta_type )
 				$meta_type = 'SIGNED';
@@ -739,6 +735,13 @@ class WP_Meta_Query {
 			}
 
 			$meta_value = $q['value'];
+
+			$meta_compare = is_array( $meta_value ) ? 'IN' : '=';
+			if ( isset( $q['compare'] ) )
+				$meta_compare = strtoupper( $q['compare'] );
+
+			if ( ! in_array( $meta_compare, array( '=', '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE', 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN' ) ) )
+				$meta_compare = '=';
 
 			if ( in_array( $meta_compare, array( 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN' ) ) ) {
 				if ( ! is_array( $meta_value ) )
