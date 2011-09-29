@@ -41,6 +41,7 @@ ul.compact li.wp-person img.gravatar { width: 30px; height: 30px; }
 li.wp-person { height: 70px; width: 220px; }
 ul.compact li.wp-person { height: 40px; width: auto; white-space: nowrap }
 li.wp-person a.web { font-size: 16px; text-decoration: none; }
+p.wp-credits-list a { white-space: nowrap; }
 </style>
 <?php }
 
