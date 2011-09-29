@@ -62,7 +62,7 @@ class WP_Scripts extends WP_Dependencies {
 				$after = $data['l10n_print_after'];
 				unset($data['l10n_print_after']);
 			}
-			$output = "var $name = " . json_encode($data) . "; $after\n";
+			$output = "var $name = " . json_encode( html_entity_decode($data, ENT_QUOTES, 'UTF-8') ) . "; $after\n";
 		} else {
 			$data = $this->get_data( $handle, 'data' );
 
@@ -70,7 +70,7 @@ class WP_Scripts extends WP_Dependencies {
 				return false;
 
 			foreach ( (array) $data as $name => $data ) {
-				$output = "var $name = " . json_encode($data) . ";\n";
+				$output = "var $name = " . json_encode( html_entity_decode($data, ENT_QUOTES, 'UTF-8') ) . ";\n";
 			}
 		}
 
