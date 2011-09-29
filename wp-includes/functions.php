@@ -1846,14 +1846,15 @@ function do_robots() {
 
 	do_action( 'do_robotstxt' );
 
-	$output = '';
+	$output = "User-agent: *\n";
 	$public = get_option( 'blog_public' );
 	if ( '0' ==  $public ) {
-		$output .= "User-agent: *\n";
 		$output .= "Disallow: /\n";
 	} else {
-		$output .= "User-agent: *\n";
-		$output .= "Disallow:\n";
+		$site_url = parse_url( site_url() );
+		$path = ( !empty( $site_url['path'] ) ) ? $site_url['path'] : '';
+		$output .= "Disallow: $path/wp-admin/\n";
+		$output .= "Disallow: $path/wp-includes/\n";
 	}
 
 	echo apply_filters('robots_txt', $output, $public);
