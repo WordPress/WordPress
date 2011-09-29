@@ -451,6 +451,9 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 15260 )
 		upgrade_300();
 
+	if ( $wp_current_db_version < 11548 )
+		upgrade_old_widgets_order_array();
+
 	maybe_disable_automattic_widgets();
 
 	update_option( 'db_version', $wp_db_version );
@@ -1129,6 +1132,68 @@ function upgrade_300() {
 					 OR meta_key = 'manageedittagscolumnshidden' OR meta_key='managecategoriescolumnshidden' OR meta_key = 'manageedit-tagscolumnshidden' OR meta_key = 'manageeditcolumnshidden' OR meta_key = 'categories_per_page' OR meta_key = 'edit_tags_per_page'" );
 	}
 
+}
+
+/**
+ * Convert the old style widgets order array from 2.2.
+ *
+ * @since 3.3.0
+ */
+function upgrade_old_widgets_order_array() {
+	global $wp_registered_widgets, $sidebars_widgets;
+
+	$sidebars_widgets = get_option( 'sidebars_widgets', array() );
+	$_sidebars_widgets = array();
+
+	if ( isset($sidebars_widgets['wp_inactive_widgets']) || empty($sidebars_widgets) )
+		$sidebars_widgets['array_version'] = 3;
+	elseif ( !isset($sidebars_widgets['array_version']) )
+		$sidebars_widgets['array_version'] = 1;
+
+	switch ( $sidebars_widgets['array_version'] ) {
+		case 1 :
+			foreach ( (array) $sidebars_widgets as $index => $sidebar )
+			if ( is_array($sidebar) )
+			foreach ( (array) $sidebar as $i => $name ) {
+				$id = strtolower($name);
+				if ( isset($wp_registered_widgets[$id]) ) {
+					$_sidebars_widgets[$index][$i] = $id;
+					continue;
+				}
+				$id = sanitize_title($name);
+				if ( isset($wp_registered_widgets[$id]) ) {
+					$_sidebars_widgets[$index][$i] = $id;
+					continue;
+				}
+
+				$found = false;
+
+				foreach ( $wp_registered_widgets as $widget_id => $widget ) {
+					if ( strtolower($widget['name']) == strtolower($name) ) {
+						$_sidebars_widgets[$index][$i] = $widget['id'];
+						$found = true;
+						break;
+					} elseif ( sanitize_title($widget['name']) == sanitize_title($name) ) {
+						$_sidebars_widgets[$index][$i] = $widget['id'];
+						$found = true;
+						break;
+					}
+				}
+
+				if ( $found )
+					continue;
+
+				unset($_sidebars_widgets[$index][$i]);
+			}
+			$_sidebars_widgets['array_version'] = 2;
+			$sidebars_widgets = $_sidebars_widgets;
+			unset($_sidebars_widgets);
+
+		case 2 :
+			$sidebars_widgets = retrieve_widgets();
+			$sidebars_widgets['array_version'] = 3;
+			update_option( 'sidebars_widgets', $sidebars_widgets );
+	}
 }
 
 /**
