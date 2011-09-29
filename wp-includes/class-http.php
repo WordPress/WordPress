@@ -253,7 +253,7 @@ class WP_Http {
 
 		$response = $transports[$class]->request( $url, $args );
 
-		do_action( 'http_api_debug', $response, 'response', $class );
+		do_action( 'http_api_debug', $response, 'response', $class, $args, $url );
 
 		if ( is_wp_error( $response ) )
 			return $response;
