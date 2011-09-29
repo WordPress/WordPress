@@ -16,6 +16,7 @@ var wpLink;
 			inputs.submit = $('#wp-link-submit');
 			// URL
 			inputs.url = $('#url-field');
+			inputs.nonce = $('#_ajax_linking_nonce');
 			// Secondary options
 			inputs.title = $('#link-title-field');
 			// Advanced Options
@@ -569,7 +570,7 @@ var wpLink;
 				query = {
 					action : 'wp-link-ajax',
 					page : this.page,
-					'_ajax_linking_nonce' : $('#_ajax_linking_nonce').val()
+					'_ajax_linking_nonce' : inputs.nonce.val()
 				};
 
 			if ( this.search )

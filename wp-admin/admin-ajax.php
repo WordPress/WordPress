@@ -998,6 +998,7 @@ case 'autosave' : // The name of this action is hardcoded in edit_post()
 		$supplemental['replace-getpermalinknonce'] = wp_create_nonce('getpermalink');
 		$supplemental['replace-samplepermalinknonce'] = wp_create_nonce('samplepermalink');
 		$supplemental['replace-closedpostboxesnonce'] = wp_create_nonce('closedpostboxes');
+		$supplemental['replace-_ajax_linking_nonce'] = wp_create_nonce( 'internal-linking' );
 		if ( $id ) {
 			if ( $_POST['post_type'] == 'post' )
 				$supplemental['replace-_wpnonce'] = wp_create_nonce('update-post_' . $id);
