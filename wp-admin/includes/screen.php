@@ -477,7 +477,7 @@ function screen_layout($screen) {
 		$return .= "<label><input type='radio' name='screen_columns' value='$i'" . ( ($screen_layout_columns == $i) ? " checked='checked'" : "" ) . " /> $i</label>\n";
 		++$i;
 	}
-	$return .= "<label><input type='radio' id='wp_auto_columns' name='screen_columns' value='auto'" . ( ($screen_layout_columns == 'auto') ? " checked='checked'" : "" ) . " />" . __('auto') . "</label>\n";
+	$return .= "<label><input type='radio' id='wp_auto_columns' name='screen_columns' value='auto'" . ( ($screen_layout_columns == 'auto') ? " checked='checked'" : "" ) . " /> " . __('Auto') . "</label>\n";
 	$return .= "</div>\n";
 	return $return;
 }
