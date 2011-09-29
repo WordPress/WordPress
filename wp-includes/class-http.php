@@ -1625,11 +1625,17 @@ class WP_Http_Encoding {
 	 * Decompression of deflated string while staying compatible with the majority of servers.
 	 *
 	 * Certain Servers will return deflated data with headers which PHP's gziniflate()
-	 * function cannot handle out of the box. The following function lifted from
-	 * http://au2.php.net/manual/en/function.gzinflate.php#77336 will attempt to deflate
-	 * the various return forms used.
+	 * function cannot handle out of the box. The following function has been created from 
+	 * various snippets on the gzinflate() PHP documentation. 
+	 *
+	 * Warning: Magic numbers within. Due to the potential different formats that the compressed
+	 * data may be returned in, some "magic offsets" are needed to ensure proper decompression
+	 * takes place. For a simple progmatic way to determine the magic offset in use, see: 
+	 * http://core.trac.wordpress.org/ticket/18273
 	 *
 	 * @since 2.8.1
+	 * @link http://core.trac.wordpress.org/ticket/18273
+	 * @link http://au2.php.net/manual/en/function.gzinflate.php#70875
 	 * @link http://au2.php.net/manual/en/function.gzinflate.php#77336
 	 *
 	 * @param string $gzData String to decompress.
