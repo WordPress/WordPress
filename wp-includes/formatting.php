@@ -1851,10 +1851,10 @@ function human_time_diff( $from, $to = '' ) {
  *
  * @since 1.5.0
  *
- * @param string $text The excerpt. If set to empty an excerpt is generated.
+ * @param string $text Optional. The excerpt. If set to empty, an excerpt is generated.
  * @return string The excerpt.
  */
-function wp_trim_excerpt($text) {
+function wp_trim_excerpt($text = '') {
 	$raw_excerpt = $text;
 	if ( '' == $text ) {
 		$text = get_the_content('');
