@@ -1037,6 +1037,8 @@ function maybe_serialize( $data ) {
 	if ( is_array( $data ) || is_object( $data ) )
 		return serialize( $data );
 
+	// Double serialization is required for backward compatibility.
+	// See http://core.trac.wordpress.org/ticket/12930
 	if ( is_serialized( $data ) )
 		return serialize( $data );
 
