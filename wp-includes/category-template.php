@@ -642,9 +642,9 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 		} else {
 			// SQL cannot save you; this is a second (potentially different) sort on a subset of data.
 			if ( 'name' == $orderby )
-				uasort( $tags, create_function('$a, $b', 'return strnatcasecmp($a->name, $b->name);') );
+				uasort( $tags, '_wp_tag_cloud_name_sort_cb' );
 			else
-				uasort( $tags, create_function('$a, $b', 'return ($a->count > $b->count);') );
+				uasort( $tags, '_wp_tag_cloud_count_sort_cb' );
 
 			if ( 'DESC' == $order )
 				$tags = array_reverse( $tags, true );
