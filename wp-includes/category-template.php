@@ -642,9 +642,9 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 		} else {
 			// SQL cannot save you; this is a second (potentially different) sort on a subset of data.
 			if ( 'name' == $orderby )
-				uasort( $tags, '_wp_tag_cloud_name_sort_cb' );
+				uasort( $tags, '_wp_object_name_sort_cb' );
 			else
-				uasort( $tags, '_wp_tag_cloud_count_sort_cb' );
+				uasort( $tags, '_wp_object_count_sort_cb' );
 
 			if ( 'DESC' == $order )
 				$tags = array_reverse( $tags, true );
@@ -704,22 +704,22 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 }
 
 /**
- * Callback for comparing tags based on name
+ * Callback for comparing objects based on name
  *
  * @since 3.1.0
  * @access private
  */
-function _wp_tag_cloud_name_sort_cb( $a, $b ) {
+function _wp_object_name_sort_cb( $a, $b ) {
 	return strnatcasecmp( $a->name, $b->name );
 }
 
 /**
- * Callback for comparing tags based on count
+ * Callback for comparing objects based on count
  *
  * @since 3.1.0
  * @access private
  */
-function _wp_tag_cloud_count_sort_cb( $a, $b ) {
+function _wp_object_count_sort_cb( $a, $b ) {
 	return ( $a->count > $b->count );
 }
 
