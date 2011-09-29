@@ -229,12 +229,6 @@ function edit_post( $post_data = null ) {
 
 	wp_update_post( $post_data );
 
-	// Reunite any orphaned attachments with their parent
-	if ( !$draft_ids = get_user_option( 'autosave_draft_ids' ) )
-		$draft_ids = array();
-	if ( $draft_temp_id = (int) array_search( $post_ID, $draft_ids ) )
-		_relocate_children( $draft_temp_id, $post_ID );
-
 	// Now that we have an ID we can fix any attachment anchor hrefs
 	_fix_attachment_links( $post_ID );
 
@@ -538,7 +532,6 @@ function post_exists($title, $content = '', $date = '') {
 function wp_write_post() {
 	global $user_ID;
 
-
 	if ( isset($_POST['post_type']) )
 		$ptype = get_post_type_object($_POST['post_type']);
 	else
@@ -556,33 +549,9 @@ function wp_write_post() {
 	// Clear out any data in internal vars.
 	unset( $_POST['filter'] );
 
-	// Check for autosave collisions
-	// Does this need to be updated? ~ Mark
-	$temp_id = false;
-	if ( isset($_POST['temp_ID']) ) {
-		$temp_id = (int) $_POST['temp_ID'];
-		if ( !$draft_ids = get_user_option( 'autosave_draft_ids' ) )
-			$draft_ids = array();
-		foreach ( $draft_ids as $temp => $real )
-			if ( time() + $temp > 86400 ) // 1 day: $temp is equal to -1 * time( then )
-				unset($draft_ids[$temp]);
-
-		if ( isset($draft_ids[$temp_id]) ) { // Edit, don't write
-			$_POST['post_ID'] = $draft_ids[$temp_id];
-			unset($_POST['temp_ID']);
-			update_user_option( $user_ID, 'autosave_draft_ids', $draft_ids );
-			return edit_post();
-		}
-	}
-
 	// Edit don't write if we have a post id.
-	if ( isset( $_POST['ID'] ) ) {
-		$_POST['post_ID'] = $_POST['ID'];
-		unset ( $_POST['ID'] );
-	}
-	if ( isset( $_POST['post_ID'] ) ) {
+	if ( isset( $_POST['post_ID'] ) )
 		return edit_post();
-	}
 
 	$translated = _wp_translate_postdata( false );
 	if ( is_wp_error($translated) )
@@ -616,21 +585,6 @@ function wp_write_post() {
 
 	add_post_meta( $post_ID, '_edit_last', $GLOBALS['current_user']->ID );
 
-	// Reunite any orphaned attachments with their parent
-	// Does this need to be updated? ~ Mark
-	if ( !$draft_ids = get_user_option( 'autosave_draft_ids' ) )
-		$draft_ids = array();
-	if ( $draft_temp_id = (int) array_search( $post_ID, $draft_ids ) )
-		_relocate_children( $draft_temp_id, $post_ID );
-	if ( $temp_id && $temp_id != $draft_temp_id )
-		_relocate_children( $temp_id, $post_ID );
-
-	// Update autosave collision detection
-	if ( $temp_id ) {
-		$draft_ids[$temp_id] = $post_ID;
-		update_user_option( $user_ID, 'autosave_draft_ids', $draft_ids );
-	}
-
 	// Now that we have an ID we can fix any attachment anchor hrefs
 	_fix_attachment_links( $post_ID );
 
@@ -643,7 +597,10 @@ function wp_write_post() {
  * Calls wp_write_post() and handles the errors.
  *
  * @since 2.0.0
- *
+ 
+ * @uses wp_write_post()
+ * @uses is_wp_error()
+ * @uses wp_die()
  * @return unknown
  */
 function write_post() {
@@ -1322,11 +1279,14 @@ function wp_create_post_autosave( $post_id ) {
  * @package WordPress
  * @since 2.7.0
  *
- * @uses wp_write_post()
+ * @uses get_post_status()
  * @uses edit_post()
  * @uses get_post()
  * @uses current_user_can()
+ * @uses wp_die()
  * @uses wp_create_post_autosave()
+ * @uses add_query_arg()
+ * @uses wp_create_nonce()
  *
  * @return str URL to redirect to show the preview
  */

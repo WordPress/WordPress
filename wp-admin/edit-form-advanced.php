@@ -23,7 +23,6 @@ if ( post_type_supports($post_type, 'editor') || post_type_supports($post_type, 
  * @var int
  */
 $post_ID = isset($post_ID) ? (int) $post_ID : 0;
-$temp_ID = isset($temp_ID) ? (int) $temp_ID : 0;
 $user_ID = isset($user_ID) ? (int) $user_ID : 0;
 $action = isset($action) ? $action : '';
 
