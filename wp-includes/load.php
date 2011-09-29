@@ -186,7 +186,7 @@ function wp_maintenance() {
  *
  * @access private
  * @since 0.71
- * @global int $timestart Seconds and Microseconds added together from when function is called.
+ * @global int $timestart Seconds and microseconds added together from when function is called.
  * @return bool Always returns true.
  */
 function timer_start() {
@@ -210,11 +210,11 @@ function timer_start() {
  * timer_stop(1);
  * </code>
  * which will do what the above does. If you need the result, you can assign it to a variable, but
- * most cases, you only need to echo it.
+ * in most cases, you only need to echo it.
  *
  * @since 0.71
- * @global int $timestart Seconds and Microseconds added together from when timer_start() is called
- * @global int $timeend  Seconds and Microseconds added together from when function is called
+ * @global int $timestart Seconds and microseconds added together from when timer_start() is called
+ * @global int $timeend Seconds and microseconds added together from when function is called
  *
  * @param int $display Use '0' or null to not echo anything and 1 to echo the total time
  * @param int $precision The amount of digits from the right of the decimal to display. Default is 3.
@@ -287,9 +287,9 @@ function wp_debug_mode() {
  *
  * To set directory manually, define <code>WP_LANG_DIR</code> in wp-config.php.
  *
- * If the language directory exists within WP_CONTENT_DIR that is used
- * Otherwise if the language directory exists within WPINC, that's used
- * Finally, If neither of the preceeding directories is found,
+ * If the language directory exists within WP_CONTENT_DIR, that is used.
+ * Otherwise if the language directory exists within WPINC, that's used.
+ * Finally, if neither of the preceding directories are found,
  * WP_CONTENT_DIR/languages is used.
  *
  * The WP_LANG_DIR constant was introduced in 2.1.0.
@@ -396,7 +396,7 @@ function wp_start_object_cache() {
 	} else if ( !$_wp_using_ext_object_cache && file_exists( WP_CONTENT_DIR . '/object-cache.php' ) ) {
 		// Sometimes advanced-cache.php can load object-cache.php before it is loaded here.
 		// This breaks the function_exists check above and can result in $_wp_using_ext_object_cache
-		// being set incorrectly.  Double check if an external cache exists.
+		// being set incorrectly. Double check if an external cache exists.
 		$_wp_using_ext_object_cache = true;
 	}
 

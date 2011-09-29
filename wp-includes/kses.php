@@ -842,7 +842,7 @@ function wp_kses_hair($attr, $allowed_protocols) {
  * Performs different checks for attribute values.
  *
  * The currently implemented checks are "maxlen", "minlen", "maxval", "minval"
- * and "valueless" with even more checks to come soon.
+ * and "valueless".
  *
  * @since 1.0.0
  *
@@ -887,7 +887,7 @@ function wp_kses_check_attr_val($value, $vless, $checkname, $checkvalue) {
 			break;
 
 		case 'minval' :
-			# The minval check checks that the attribute value is a positive integer,
+			# The minval check makes sure that the attribute value is a positive integer,
 			# and that it is not smaller than the given value.
 
 			if (!preg_match('/^\s{0,6}[0-9]{1,6}\s{0,6}$/', $value))
@@ -897,7 +897,7 @@ function wp_kses_check_attr_val($value, $vless, $checkname, $checkvalue) {
 			break;
 
 		case 'valueless' :
-			# The valueless check checks if the attribute has a value
+			# The valueless check makes sure if the attribute has a value
 			# (like <a href="blah">) or not (<option selected>). If the given value
 			# is a "y" or a "Y", the attribute must not have a value.
 			# If the given value is an "n" or an "N", the attribute must have one.
@@ -954,14 +954,14 @@ function wp_kses_no_null($string) {
 /**
  * Strips slashes from in front of quotes.
  *
- * This function changes the character sequence  \"  to just  ". It leaves all
+ * This function changes the character sequence \" to just ". It leaves all
  * other slashes alone. It's really weird, but the quoting from
  * preg_replace(//e) seems to require this.
  *
  * @since 1.0.0
  *
  * @param string $string String to strip slashes
- * @return string Fixed strings with quoted slashes
+ * @return string Fixed string with quoted slashes
  */
 function wp_kses_stripslashes($string) {
 	return preg_replace('%\\\\"%', '"', $string);
@@ -1042,7 +1042,7 @@ function wp_kses_bad_protocol_once($string, $allowed_protocols) {
  * Callback for wp_kses_bad_protocol_once() regular expression.
  *
  * This function processes URL protocols, checks to see if they're in the
- * white-list or not, and returns different data depending on the answer.
+ * whitelist or not, and returns different data depending on the answer.
  *
  * @access private
  * @since 1.0.0
@@ -1119,7 +1119,7 @@ function wp_kses_named_entities($matches) {
 /**
  * Callback for wp_kses_normalize_entities() regular expression.
  *
- * This function helps wp_kses_normalize_entities() to only accept 16 bit values
+ * This function helps wp_kses_normalize_entities() to only accept 16-bit values
  * and nothing more for &#number; entities.
  *
  * @access private
@@ -1166,7 +1166,7 @@ function wp_kses_normalize_entities3($matches) {
  * Helper function to determine if a Unicode value is valid.
  *
  * @param int $i Unicode value
- * @return bool true if the value was a valid Unicode number
+ * @return bool True if the value was a valid Unicode number
  */
 function valid_unicode($i) {
 	return ( $i == 0x9 || $i == 0xa || $i == 0xd ||
@@ -1342,7 +1342,7 @@ function kses_remove_filters() {
  * will be added.
  *
  * First removes all of the Kses filters in case the current user does not need
- * to have Kses filter the content. If the user does not have unfiltered html
+ * to have Kses filter the content. If the user does not have unfiltered_html
  * capability, then Kses filters are added.
  *
  * @uses kses_remove_filters() Removes the Kses filters

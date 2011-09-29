@@ -2731,9 +2731,9 @@ function sanitize_user_object($user, $context = 'display') {
  * @deprecated 3.3
  *
  * @param string $title Optional. Link title format.
- * @param bool $in_same_cat Optional. Whether link should be in same category.
+ * @param bool $in_same_cat Optional. Whether link should be in a same category.
  * @param string $excluded_categories Optional. Excluded categories IDs.
- * @param bool $start Optional, default is true. Whether display link to first or last post.
+ * @param bool $start Optional, default is true. Whether to display link to first or last post.
  * @return string
  */
 function get_boundary_post_rel_link($title = '%title', $in_same_cat = false, $excluded_categories = '', $start = true) {
@@ -2771,7 +2771,7 @@ function get_boundary_post_rel_link($title = '%title', $in_same_cat = false, $ex
  * @deprecated 3.3
  *
  * @param string $title Optional. Link title format.
- * @param bool $in_same_cat Optional. Whether link should be in same category.
+ * @param bool $in_same_cat Optional. Whether link should be in a same category.
  * @param string $excluded_categories Optional. Excluded categories IDs.
  */
 function start_post_rel_link($title = '%title', $in_same_cat = false, $excluded_categories = '') {

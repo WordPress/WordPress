@@ -50,7 +50,7 @@ function the_post_thumbnail( $size = 'post-thumbnail', $attr = '' ) {
 /**
  * Update cache for thumbnails in the current loop
  *
- * @sicne 3.2
+ * @since 3.2
  */
 function update_post_thumbnail_cache() {
 	global $wp_query;

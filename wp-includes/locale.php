@@ -25,7 +25,7 @@ class WP_Locale {
 	 * Stores the translated strings for the one character weekday names.
 	 *
 	 * There is a hack to make sure that Tuesday and Thursday, as well
-	 * as Sunday and Saturday don't conflict. See init() method for more.
+	 * as Sunday and Saturday, don't conflict. See init() method for more.
 	 *
 	 * @see WP_Locale::init() for how to handle the hack.
 	 *

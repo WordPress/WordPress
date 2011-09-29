@@ -17,7 +17,7 @@
  * than the supported will result in the content_width size or 500 if that is
  * not set.
  *
- * Finally, there is a filter named, 'editor_max_image_size' that will be called
+ * Finally, there is a filter named 'editor_max_image_size', that will be called
  * on the calculated array for width and height, respectively. The second
  * parameter will be the value that was in the $size parameter. The returned
  * type for the hook is an array with the width as the first element and the
@@ -177,6 +177,8 @@ function image_downsize($id, $size = 'medium') {
 
 /**
  * Registers a new image size
+ *
+ * @since 2.9.0
  */
 function add_image_size( $name, $width = 0, $height = 0, $crop = false ) {
 	global $_wp_additional_image_sizes;
@@ -185,6 +187,8 @@ function add_image_size( $name, $width = 0, $height = 0, $crop = false ) {
 
 /**
  * Registers an image size for the post thumbnail
+ *
+ * @since 2.9.0
  */
 function set_post_thumbnail_size( $width = 0, $height = 0, $crop = false ) {
 	add_image_size( 'post-thumbnail', $width, $height, $crop );
@@ -329,7 +333,7 @@ function wp_constrain_dimensions( $current_width, $current_height, $max_width=0,
  * @param int $dest_w New width.
  * @param int $dest_h New height.
  * @param bool $crop Optional, default is false. Whether to crop image or resize.
- * @return bool|array False, on failure. Returned array matches parameters for imagecopyresampled() PHP function.
+ * @return bool|array False on failure. Returned array matches parameters for imagecopyresampled() PHP function.
  */
 function image_resize_dimensions($orig_w, $orig_h, $dest_w, $dest_h, $crop = false) {
 
@@ -398,7 +402,7 @@ function image_resize_dimensions($orig_w, $orig_h, $dest_w, $dest_h, $crop = fal
  * @param int $max_w Maximum width to resize to.
  * @param int $max_h Maximum height to resize to.
  * @param bool $crop Optional. Whether to crop image or resize.
- * @param string $suffix Optional. File Suffix.
+ * @param string $suffix Optional. File suffix.
  * @param string $dest_path Optional. New image file path.
  * @param int $jpeg_quality Optional, default is 90. Image quality percentage.
  * @return mixed WP_Error on failure. String with new destination path.
@@ -669,9 +673,9 @@ function wp_get_attachment_image($attachment_id, $size = 'thumbnail', $icon = fa
 }
 
 /**
- * Adds a 'wp-post-image' class to post thumbnail thumbnails
+ * Adds a 'wp-post-image' class to post thumbnails
  * Uses the begin_fetch_post_thumbnail_html and end_fetch_post_thumbnail_html action hooks to
- * dynamically add/remove itself so as to only filter post thumbnail thumbnails
+ * dynamically add/remove itself so as to only filter post thumbnails
  *
  * @since 2.9.0
  * @param array $attr Attributes including src, class, alt, title
@@ -752,7 +756,7 @@ add_shortcode('gallery', 'gallery_shortcode');
  *
  * @since 2.5.0
  *
- * @param array $attr Attributes attributed to the shortcode.
+ * @param array $attr Attributes of the shortcode.
  * @return string HTML content to display gallery.
  */
 function gallery_shortcode($attr) {
@@ -906,7 +910,7 @@ function next_image_link($size = 'thumbnail', $text = false) {
  *
  * @since 2.5.0
  *
- * @param bool $prev Optional. Default is true to display previous link, true for next.
+ * @param bool $prev Optional. Default is true to display previous link, false for next.
  */
 function adjacent_image_link($prev = true, $size = 'thumbnail', $text = false) {
 	global $post;
@@ -1079,7 +1083,7 @@ class WP_Embed {
 	}
 
 	/**
-	 * If a post/page was saved, then output Javascript to make
+	 * If a post/page was saved, then output JavaScript to make
 	 * an AJAX request that will call WP_Embed::cache_oembed().
 	 */
 	function maybe_run_ajax_cache() {
@@ -1373,7 +1377,7 @@ function wp_expand_dimensions( $example_width, $example_height, $max_width, $max
  * @uses WP_oEmbed::get_html()
  *
  * @param string $url The URL that should be embedded.
- * @param array $args Addtional arguments and parameters.
+ * @param array $args Additional arguments and parameters.
  * @return string The original URL on failure or the embed HTML on success.
  */
 function wp_oembed_get( $url, $args = '' ) {

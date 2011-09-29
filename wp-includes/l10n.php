@@ -16,7 +16,7 @@
  * defined. Then it is filtered through the 'locale' filter hook and the value
  * for the locale global set and the locale is returned.
  *
- * The process to get the locale should only be done once but the locale will
+ * The process to get the locale should only be done once, but the locale will
  * always be filtered using the 'locale' hook.
  *
  * @since 1.5.0
@@ -53,7 +53,7 @@ function get_locale() {
 
 /**
  * Retrieves the translation of $text. If there is no translation, or
- * the domain isn't loaded the original text is returned.
+ * the domain isn't loaded, the original text is returned.
  *
  * @see __() Don't use translate() directly, use __()
  * @since 2.2.0
@@ -84,7 +84,7 @@ function translate_with_gettext_context( $text, $context, $domain = 'default' ) 
 
 /**
  * Retrieves the translation of $text. If there is no translation, or
- * the domain isn't loaded the original text is returned.
+ * the domain isn't loaded, the original text is returned.
  *
  * @see translate() An alias of translate()
  * @since 2.1.0
@@ -99,7 +99,7 @@ function __( $text, $domain = 'default' ) {
 
 /**
  * Retrieves the translation of $text and escapes it for safe use in an attribute.
- * If there is no translation, or the domain isn't loaded the original text is returned.
+ * If there is no translation, or the domain isn't loaded, the original text is returned.
  *
  * @see translate() An alias of translate()
  * @see esc_attr()
@@ -115,7 +115,7 @@ function esc_attr__( $text, $domain = 'default' ) {
 
 /**
  * Retrieves the translation of $text and escapes it for safe use in HTML output.
- * If there is no translation, or the domain isn't loaded the original text is returned.
+ * If there is no translation, or the domain isn't loaded, the original text is returned.
  *
  * @see translate() An alias of translate()
  * @see esc_html()
@@ -177,7 +177,7 @@ function esc_html_e( $text, $domain = 'default' ) {
  * found in more than two places but with different translated context.
  *
  * By including the context in the pot file translators can translate the two
- * string differently.
+ * strings differently.
  *
  * @since 2.8.0
  *
@@ -257,7 +257,7 @@ function _nx($single, $plural, $number, $context, $domain = 'default') {
 /**
  * Register plural strings in POT file, but don't translate them.
  *
- * Used when you want do keep structures with translatable plural strings and
+ * Used when you want to keep structures with translatable plural strings and
  * use them later.
  *
  * Example:
@@ -291,8 +291,8 @@ function _nx_noop( $singular, $plural, $context ) {
  * Translate the result of _n_noop() or _nx_noop()
  *
  * @since 3.1
- * @param array $nooped_plural array with singular, plural and context keys, usually the result of _n_noop() or _nx_noop()
- * @param int $count number of objects
+ * @param array $nooped_plural Array with singular, plural and context keys, usually the result of _n_noop() or _nx_noop()
+ * @param int $count Number of objects
  * @param string $domain Optional. The domain identifier the text should be retrieved in
  */
 function translate_nooped_plural( $nooped_plural, $count, $domain = 'default' ) {
@@ -316,7 +316,7 @@ function translate_nooped_plural( $nooped_plural, $count, $domain = 'default' ) 
  *
  * @param string $domain Unique identifier for retrieving translated strings
  * @param string $mofile Path to the .mo file
- * @return bool true on success, false on failure
+ * @return bool True on success, false on failure
  */
 function load_textdomain( $domain, $mofile ) {
 	global $l10n;
@@ -373,7 +373,7 @@ function unload_textdomain( $domain ) {
  * Loads default translated strings based on locale.
  *
  * Loads the .mo file in WP_LANG_DIR constant path from WordPress root. The
- * translated (.mo) file is named based off of the locale.
+ * translated (.mo) file is named based on the locale.
  *
  * @since 1.5.0
  */
@@ -422,8 +422,8 @@ function load_plugin_textdomain( $domain, $abs_rel_path = false, $plugin_rel_pat
  * @since 3.0.0
  *
  * @param string $domain Unique identifier for retrieving translated strings
- * @param strings $mu_plugin_rel_path Relative to WPMU_PLUGIN_DIR directory in which
- * the MO file resides. Defaults is empty string.
+ * @param string $mu_plugin_rel_path Relative to WPMU_PLUGIN_DIR directory in which
+ * the MO file resides. Defaults to empty string.
  */
 function load_muplugin_textdomain( $domain, $mu_plugin_rel_path = '' ) {
 	$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
@@ -520,7 +520,7 @@ function translate_user_role( $name ) {
  * @since 3.0.0
  *
  * @param string $dir A directory in which to search for language files. The default directory is WP_LANG_DIR.
- * @return array Array of language codes or an empty array if no languages are present.  Language codes are formed by stripping the .mo extension from the language file names.
+ * @return array Array of language codes or an empty array if no languages are present. Language codes are formed by stripping the .mo extension from the language file names.
  */
 function get_available_languages( $dir = null ) {
 	$languages = array();
