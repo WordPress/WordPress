@@ -846,7 +846,15 @@ class WP_Posts_List_Table extends WP_List_Table {
 			<label>
 				<span class="title"><?php _e( 'Parent' ); ?></span>
 	<?php
-		$dropdown_args = array( 'post_type' => $post_type_object->name, 'selected' => $post->post_parent, 'name' => 'post_parent', 'show_option_none' => __( 'Main Page (no parent)' ), 'option_none_value' => 0, 'sort_column'=> 'menu_order, post_title' );
+		$dropdown_args = array(
+			'post_type'         => $post_type_object->name,
+			'selected'          => $post->post_parent,
+			'name'              => 'post_parent',
+			'show_option_none'  => __( 'Main Page (no parent)' ),
+			'option_none_value' => 0,
+			'sort_column'       => 'menu_order, post_title',
+		);
+
 		if ( $bulk )
 			$dropdown_args['show_option_no_change'] =  __( '&mdash; No Change &mdash;' );
 		$dropdown_args = apply_filters( 'quick_edit_dropdown_pages_args', $dropdown_args );
