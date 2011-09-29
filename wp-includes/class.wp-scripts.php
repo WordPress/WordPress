@@ -62,15 +62,18 @@ class WP_Scripts extends WP_Dependencies {
 				$after = $data['l10n_print_after'];
 				unset($data['l10n_print_after']);
 			}
-			$output = "var $name = " . json_encode($data) . "; $after\n";
+
+			$data = $this->decode_html_entities($data);
+			$output = "var $name = " . json_encode( $data ) . "; $after\n";
 		} else {
 			$data = $this->get_data( $handle, 'data' );
 
 			if ( empty( $data ) )
 				return false;
 
-			foreach ( (array) $data as $name => $data ) {
-				$output = "var $name = " . json_encode($data) . ";\n";
+			foreach ( (array) $data as $name => $value ) {
+				$value = $this->decode_html_entities($value);
+				$output = "var $name = " . json_encode( $value ) . ";\n";
 			}
 		}
 
@@ -214,6 +217,16 @@ class WP_Scripts extends WP_Dependencies {
 				return true;
 		}
 		return false;
+	}
+
+	function decode_html_entities($data) {
+		foreach ( (array) $data as $key => $value ) {
+			if ( is_array($value) )
+				$data[$key] = $this->decode_html_entities($value);
+			elseif ( is_string($value) )
+				$data[$key] = html_entity_decode($value, ENT_QUOTES, 'UTF-8');
+		}
+		return $data;
 	}
 
 	function reset() {
