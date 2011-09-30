@@ -189,7 +189,7 @@ add_filter( 'pre_comment_content',      'wp_rel_nofollow',              15    );
 add_filter( 'comment_email',            'antispambot'                         );
 add_filter( 'option_tag_base',          '_wp_filter_taxonomy_base'            );
 add_filter( 'option_category_base',     '_wp_filter_taxonomy_base'            );
-add_filter( 'the_posts',                '_close_comments_for_old_posts'       );
+add_filter( 'the_posts',                '_close_comments_for_old_posts', 10, 2);
 add_filter( 'comments_open',            '_close_comments_for_old_post', 10, 2 );
 add_filter( 'pings_open',               '_close_comments_for_old_post', 10, 2 );
 add_filter( 'editable_slug',            'urldecode'                           );
