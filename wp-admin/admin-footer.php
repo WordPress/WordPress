@@ -23,7 +23,7 @@ $footer_text = array(
 	'<span id="footer-thankyou">' . __( 'Thank you for creating with <a href="http://wordpress.org/">WordPress</a>.' ) . '</span>',
 	__( '<a href="http://codex.wordpress.org/">Documentation</a>' ),
 	sprintf( '<a href="%s">' . __( 'Freedoms' ) . '</a>', admin_url( 'freedoms.php' ) ),
-	__('<a href="http://wordpress.org/support/forum/4">Feedback</a>'),
+	__('<a href="http://wordpress.org/support/forum/requests-and-feedback">Feedback</a>'),
 	sprintf( '<a href="%s">' . __('Credits') . '</a>', admin_url('credits.php') ),
 );
 echo apply_filters( 'admin_footer_text', implode( ' &bull; ', $footer_text ) );
