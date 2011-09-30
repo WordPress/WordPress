@@ -227,8 +227,11 @@ function get_bookmarks($args = '') {
 			$orderparams = array();
 			foreach ( explode(',', $orderby) as $ordparam ) {
 				$ordparam = trim($ordparam);
-				if ( in_array( $ordparam, array( 'id', 'name', 'url', 'visible', 'rating', 'owner', 'updated' ) ) )
+				$keys = array( 'link_id', 'link_name', 'link_url', 'link_visible', 'link_rating', 'link_owner', 'link_updated', 'link_notes' );
+				if ( in_array( 'link_' . $ordparam, $keys ) )
 					$orderparams[] = 'link_' . $ordparam;
+				elseif ( in_array( $ordparam, $keys ) )
+					$orderparams[] = $ordparam;
 			}
 			$orderby = implode(',', $orderparams);
 	}
