@@ -486,7 +486,7 @@ function delete_metadata_by_mid( $meta_type, $meta_id ) {
 		do_action( "delete_{$meta_type}_meta", (array) $meta_id, $object_id, $meta->meta_key, $meta->meta_value );
 
 		if ( 'post' == $meta_type )
-			do_action( 'delete_postmeta', $object_id );
+			do_action( 'delete_postmeta', $meta_id );
 
 		// Run the query, will return true if deleted, false otherwise
 		$result = (bool) $wpdb->query( $wpdb->prepare( "DELETE FROM $table WHERE $id_column = %d LIMIT 1;", $meta_id ) );
@@ -497,7 +497,7 @@ function delete_metadata_by_mid( $meta_type, $meta_id ) {
 		do_action( "deleted_{$meta_type}_meta", (array) $meta_id, $object_id, $meta->meta_key, $meta->meta_value );
 
 		if ( 'post' == $meta_type )
-			do_action( 'delete_postmeta', $object_id );
+			do_action( 'deleted_postmeta', $meta_id );
 
 		return $result;
 
