@@ -2745,9 +2745,9 @@ class WP_Query {
 
 		$this->post_count = count($this->posts);
 
-		// Sanitize before caching so it'll only get done once
-		for ( $i = 0; $i < $this->post_count; $i++ ) {
-			$this->posts[$i] = sanitize_post($this->posts[$i], 'raw');
+		// Always sanitize
+		foreach ( $this->posts as $i => $post ) {
+			$this->posts[$i] = sanitize_post( $post, 'raw' );
 		}
 
 		if ( $q['cache_results'] )

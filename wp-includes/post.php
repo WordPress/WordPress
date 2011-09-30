@@ -381,6 +381,8 @@ function &get_post(&$post, $output = OBJECT, $filter = 'raw') {
 		_get_post_ancestors($post);
 		$_post = sanitize_post($post, 'raw');
 		wp_cache_add($post->ID, $_post, 'posts');
+	} elseif ( is_object($post) && 'raw' == $post->filter ) {
+		$_post = $post;
 	} else {
 		if ( is_object($post) )
 			$post_id = $post->ID;
