@@ -396,68 +396,6 @@ function get_blog_id_from_url( $domain, $path = '/' ) {
 // Admin functions
 
 /**
- * Redirect a user based on $_GET or $_POST arguments.
- *
- * The function looks for redirect arguments in the following order:
- * 1) $_GET['ref']
- * 2) $_POST['ref']
- * 3) $_SERVER['HTTP_REFERER']
- * 4) $_GET['redirect']
- * 5) $_POST['redirect']
- * 6) $url
- *
- * @since MU
- * @uses wpmu_admin_redirect_add_updated_param()
- *
- * @param string $url
- */
-function wpmu_admin_do_redirect( $url = '' ) {
-	$ref = '';
-	if ( isset( $_GET['ref'] ) )
-		$ref = $_GET['ref'];
-	if ( isset( $_POST['ref'] ) )
-		$ref = $_POST['ref'];
-
-	if ( $ref ) {
-		$ref = wpmu_admin_redirect_add_updated_param( $ref );
-		wp_redirect( $ref );
-		exit();
-	}
-	if ( empty( $_SERVER['HTTP_REFERER'] ) == false ) {
-		wp_redirect( $_SERVER['HTTP_REFERER'] );
-		exit();
-	}
-
-	$url = wpmu_admin_redirect_add_updated_param( $url );
-	if ( isset( $_GET['redirect'] ) ) {
-		if ( substr( $_GET['redirect'], 0, 2 ) == 's_' )
-			$url .= '&action=blogs&s='. esc_html( substr( $_GET['redirect'], 2 ) );
-	} elseif ( isset( $_POST['redirect'] ) ) {
-		$url = wpmu_admin_redirect_add_updated_param( $_POST['redirect'] );
-	}
-	wp_redirect( $url );
-	exit();
-}
-
-/**
- * Adds an 'updated=true' argument to a URL.
- *
- * @since MU
- *
- * @param string $url
- * @return string
- */
-function wpmu_admin_redirect_add_updated_param( $url = '' ) {
-	if ( strpos( $url, 'updated=true' ) === false ) {
-		if ( strpos( $url, '?' ) === false )
-			return $url . '?updated=true';
-		else
-			return $url . '&updated=true';
-	}
-	return $url;
-}
-
-/**
  * Checks an email address against a list of banned domains.
  *
  * This function checks against the Banned Email Domains list
