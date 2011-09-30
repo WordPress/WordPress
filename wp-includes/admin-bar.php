@@ -366,7 +366,7 @@ function wp_admin_bar_shortlink_menu( $wp_admin_bar ) {
  * @since 3.1.0
  */
 function wp_admin_bar_edit_menu( $wp_admin_bar ) {
-	global $post, $tag;
+	global $post, $tag, $wp_the_query;
 
 	if ( is_admin() ) {
 		$current_screen = get_current_screen();
@@ -394,9 +394,9 @@ function wp_admin_bar_edit_menu( $wp_admin_bar ) {
 			) );
 		}
 	} else {
-		$current_object = get_queried_object();
+		$current_object = $wp_the_query->get_queried_object();
 
-		if ( empty($current_object) )
+		if ( empty( $current_object ) )
 			return;
 
 		if ( ! empty( $current_object->post_type )
