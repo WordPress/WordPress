@@ -363,6 +363,8 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 
 	// register callback handling for metabox
  	add_filter('wp_ajax_add-' . $taxonomy, '_wp_ajax_add_hierarchical_term');
+
+	do_action( 'registered_taxonomy', $taxonomy, $object_type, $args );
 }
 
 /**

@@ -1037,6 +1037,8 @@ function register_post_type($post_type, $args = array()) {
 		register_taxonomy_for_object_type( $taxonomy, $post_type );
 	}
 
+	do_action( 'registered_post_type', $post_type, $args );
+	
 	return $args;
 }
 
