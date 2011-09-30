@@ -362,3 +362,18 @@ h4.media-sub-title {
 	margin-right: 25px;
 }
 
+p.media-types {
+	margin: 1em;
+}
+
+tr.not-image {
+	display: none;
+}
+
+table.not-image tr.not-image {
+	display: table-row;
+}
+
+table.not-image tr.image-only {
+	display: none;
+}

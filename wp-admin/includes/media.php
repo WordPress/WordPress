@@ -374,21 +374,7 @@ document.body.className = c;
  * @since 2.5.0
  */
 function media_buttons($editor_id = 'content') {
-	$out = '';
-
-	if ( is_multisite() )
-		$_buttons = get_site_option('mu_media_buttons');
-	else
-		$_buttons = array( 'image' => true, 'video' => true, 'audio' => true );
-
-	if ( !empty($_buttons['image']) )
-		$out .= _media_button(__('Add an Image'), 'images/media-button-image.gif?ver=20100531', 'image', $editor_id);
-	if ( !empty($_buttons['video']) )
-		$out .= _media_button(__('Add Video'), 'images/media-button-video.gif?ver=20100531', 'video', $editor_id);
-	if ( !empty($_buttons['audio']) )
-		$out .= _media_button(__('Add Audio'), 'images/media-button-music.gif?ver=20100531', 'audio', $editor_id);
-
-	$out .= _media_button(__('Add Media'), 'images/media-button-other.gif?ver=20100531', 'media', $editor_id);
+	$out = _media_button(__('Add Media'), 'images/media-button-video.gif?ver=20100531', 'media', $editor_id);
 
 	$context = apply_filters('media_buttons_context', __('Upload/Insert %s'));
 
@@ -529,20 +515,37 @@ function media_upload_image() {
 	}
 
 	if ( !empty($_POST['insertonlybutton']) ) {
-		$alt = $align = '';
-
 		$src = $_POST['insertonly']['src'];
 		if ( !empty($src) && !strpos($src, '://') )
 			$src = "http://$src";
-		$alt = esc_attr($_POST['insertonly']['alt']);
-		if ( isset($_POST['insertonly']['align']) ) {
-			$align = esc_attr($_POST['insertonly']['align']);
-			$class = " class='align$align'";
-		}
-		if ( !empty($src) )
-			$html = "<img src='" . esc_url($src) . "' alt='$alt'$class />";
 
-		$html = apply_filters('image_send_to_editor_url', $html, esc_url_raw($src), $alt, $align);
+		if ( isset( $_POST['media_type'] ) && 'image' != $_POST['media_type'] ) {
+			$title = esc_attr($_POST['insertonly']['title']);
+			if ( empty($title) )
+				$title = esc_attr( basename($src) );
+
+			if ( !empty($title) && !empty($src) )
+				$html = "<a href='" . esc_url($src) . "' >$title</a>";
+
+			$type = 'file';
+			if ( $ext = preg_replace( '/^.+?\.([^.]+)$/', '$1', $src ) && $ext_type = wp_ext2type( $ext )
+				&& ( 'audio' == $ext_type || 'video' == $ext_type ) )
+					$type = $ext_type;
+
+			$html = apply_filters( $type . '_send_to_editor_url', $html, esc_url_raw( $src ), $title );
+		} else {
+			$align = '';
+			$alt = esc_attr($_POST['insertonly']['alt']);
+			if ( isset($_POST['insertonly']['align']) ) {
+				$align = esc_attr($_POST['insertonly']['align']);
+				$class = " class='align$align'";
+			}
+			if ( !empty($src) )
+				$html = "<img src='" . esc_url($src) . "' alt='$alt'$class />";
+
+			$html = apply_filters( 'image_send_to_editor_url', $html, esc_url_raw( $src ), $alt, $align );
+		}
+
 		return media_send_to_editor($html);
 	}
 
@@ -560,8 +563,12 @@ function media_upload_image() {
 		return media_upload_gallery();
 	}
 
-	if ( isset($_GET['tab']) && $_GET['tab'] == 'type_url' )
-		return wp_iframe( 'media_upload_type_url_form', 'image', $errors, $id );
+	if ( isset($_GET['tab']) && $_GET['tab'] == 'type_url' ) {
+		$type = 'image';
+		if ( isset( $_GET['type'] ) && in_array( $_GET['type'], array( 'video', 'audio', 'file' ) ) )
+			$type = $_GET['type'];
+		return wp_iframe( 'media_upload_type_url_form', $type, $errors, $id );
+	}
 
 	return wp_iframe( 'media_upload_type_form', 'image', $errors, $id );
 }
@@ -610,180 +617,6 @@ function media_sideload_image($file, $post_id, $desc = null) {
 		$html = "<img src='$src' alt='$alt' />";
 		return $html;
 	}
-}
-
-/**
- * {@internal Missing Short Description}}
- *
- * @since 2.5.0
- *
- * @return unknown
- */
-function media_upload_audio() {
-	$errors = array();
-	$id = 0;
-
-	if ( isset($_POST['html-upload']) && !empty($_FILES) ) {
-		check_admin_referer('media-form');
-		// Upload File button was clicked
-		$id = media_handle_upload('async-upload', $_REQUEST['post_id']);
-		unset($_FILES);
-		if ( is_wp_error($id) ) {
-			$errors['upload_error'] = $id;
-			$id = false;
-		}
-	}
-
-	if ( !empty($_POST['insertonlybutton']) ) {
-		$href = $_POST['insertonly']['href'];
-		if ( !empty($href) && !strpos($href, '://') )
-			$href = "http://$href";
-
-		$title = esc_attr($_POST['insertonly']['title']);
-		if ( empty($title) )
-            $title = esc_attr( basename($href) );
-
-		if ( !empty($title) && !empty($href) )
-            $html = "<a href='" . esc_url($href) . "' >$title</a>";
-
-		$html = apply_filters('audio_send_to_editor_url', $html, $href, $title);
-
-		return media_send_to_editor($html);
-	}
-
-	if ( !empty($_POST) ) {
-		$return = media_upload_form_handler();
-
-		if ( is_string($return) )
-			return $return;
-		if ( is_array($return) )
-			$errors = $return;
-	}
-
-	if ( isset($_POST['save']) ) {
-		$errors['upload_notice'] = __('Saved.');
-		return media_upload_gallery();
-	}
-
-	if ( isset($_GET['tab']) && $_GET['tab'] == 'type_url' )
-		return wp_iframe( 'media_upload_type_url_form', 'audio', $errors, $id );
-
-	return wp_iframe( 'media_upload_type_form', 'audio', $errors, $id );
-}
-
-/**
- * {@internal Missing Short Description}}
- *
- * @since 2.5.0
- *
- * @return unknown
- */
-function media_upload_video() {
-	$errors = array();
-	$id = 0;
-
-	if ( isset($_POST['html-upload']) && !empty($_FILES) ) {
-		check_admin_referer('media-form');
-		// Upload File button was clicked
-		$id = media_handle_upload('async-upload', $_REQUEST['post_id']);
-		unset($_FILES);
-		if ( is_wp_error($id) ) {
-			$errors['upload_error'] = $id;
-			$id = false;
-		}
-	}
-
-	if ( !empty($_POST['insertonlybutton']) ) {
-		$href = $_POST['insertonly']['href'];
-		if ( !empty($href) && !strpos($href, '://') )
-			$href = "http://$href";
-
-		$title = esc_attr($_POST['insertonly']['title']);
-        if ( empty($title) )
-            $title = esc_attr( basename($href) );
-
-		if ( !empty($title) && !empty($href) )
-            $html = "<a href='" . esc_url($href) . "' >$title</a>";
-
-		$html = apply_filters('video_send_to_editor_url', $html, $href, $title);
-
-		return media_send_to_editor($html);
-	}
-
-	if ( !empty($_POST) ) {
-		$return = media_upload_form_handler();
-
-		if ( is_string($return) )
-			return $return;
-		if ( is_array($return) )
-			$errors = $return;
-	}
-
-	if ( isset($_POST['save']) ) {
-		$errors['upload_notice'] = __('Saved.');
-		return media_upload_gallery();
-	}
-
-	if ( isset($_GET['tab']) && $_GET['tab'] == 'type_url' )
-		return wp_iframe( 'media_upload_type_url_form', 'video', $errors, $id );
-
-	return wp_iframe( 'media_upload_type_form', 'video', $errors, $id );
-}
-
-/**
- * {@internal Missing Short Description}}
- *
- * @since 2.5.0
- *
- * @return unknown
- */
-function media_upload_file() {
-	$errors = array();
-	$id = 0;
-
-	if ( isset($_POST['html-upload']) && !empty($_FILES) ) {
-		check_admin_referer('media-form');
-		// Upload File button was clicked
-		$id = media_handle_upload('async-upload', $_REQUEST['post_id']);
-		unset($_FILES);
-		if ( is_wp_error($id) ) {
-			$errors['upload_error'] = $id;
-			$id = false;
-		}
-	}
-
-	if ( !empty($_POST['insertonlybutton']) ) {
-		$href = $_POST['insertonly']['href'];
-		if ( !empty($href) && !strpos($href, '://') )
-			$href = "http://$href";
-
-		$title = esc_attr($_POST['insertonly']['title']);
-		if ( empty($title) )
-			$title = basename($href);
-		if ( !empty($title) && !empty($href) )
-			$html = "<a href='" . esc_url($href) . "' >$title</a>";
-		$html = apply_filters('file_send_to_editor_url', $html, esc_url_raw($href), $title);
-		return media_send_to_editor($html);
-	}
-
-	if ( !empty($_POST) ) {
-		$return = media_upload_form_handler();
-
-		if ( is_string($return) )
-			return $return;
-		if ( is_array($return) )
-			$errors = $return;
-	}
-
-	if ( isset($_POST['save']) ) {
-		$errors['upload_notice'] = __('Saved.');
-		return media_upload_gallery();
-	}
-
-	if ( isset($_GET['tab']) && $_GET['tab'] == 'type_url' )
-		return wp_iframe( 'media_upload_type_url_form', 'file', $errors, $id );
-
-	return wp_iframe( 'media_upload_type_form', 'file', $errors, $id );
 }
 
 /**
@@ -1607,22 +1440,21 @@ if ( $id ) {
  * @param unknown_type $errors
  * @param unknown_type $id
  */
-function media_upload_type_url_form($type = 'file', $errors = null, $id = null) {
+function media_upload_type_url_form($type = null, $errors = null, $id = null) {
+	if ( null === $type )
+		$type = 'image';
+
 	media_upload_header();
 
 	$post_id = intval($_REQUEST['post_id']);
 
 	$form_action_url = admin_url("media-upload.php?type=$type&tab=type&post_id=$post_id");
 	$form_action_url = apply_filters('media_upload_form_url', $form_action_url, $type);
-
-	$callback = "type_url_form_$type";
 ?>
 
 <form enctype="multipart/form-data" method="post" action="<?php echo esc_attr($form_action_url); ?>" class="media-upload-form type-form validate" id="<?php echo $type; ?>-form">
 <input type="hidden" name="post_id" id="post_id" value="<?php echo (int) $post_id; ?>" />
 <?php wp_nonce_field('media-form'); ?>
-
-<?php if ( is_callable($callback) ) { ?>
 
 <h3 class="media-title"><?php _e('Add media file from URL'); ?></h3>
 
@@ -1690,10 +1522,11 @@ var addExtImage = {
 	getImageData : function() {
 		var t = addExtImage, src = document.forms[0].src.value;
 
-		if ( ! src ) {
+		if ( ! src || jQuery('table.describe').hasClass('not-image') ) {
 			t.resetImageData();
 			return false;
 		}
+
 		document.getElementById('status_img').innerHTML = '<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />';
 		t.preloadImg = new Image();
 		t.preloadImg.onload = t.updateImageData;
@@ -1701,19 +1534,23 @@ var addExtImage = {
 		t.preloadImg.src = src;
 	}
 }
+
+jQuery(document).ready( function($) {
+	$('.media-types input').click( function() {
+		$('table.describe').toggleClass('not-image', $('#not-image').prop('checked') );
+	});
+});
+
 //]]>
 </script>
 
 <div id="media-items">
 <div class="media-item media-blank">
-<?php echo apply_filters($callback, call_user_func($callback)); ?>
+<?php echo apply_filters( 'type_url_form_media', type_url_form_image( $type ) ); ?>
 </div>
 </div>
 </form>
 <?php
-	} else {
-		wp_die( __('Unknown action.') );
-	}
 }
 
 /**
@@ -2027,10 +1864,10 @@ jQuery(function($){
  *
  * @return unknown
  */
-function type_url_form_image() {
+function type_url_form_image( $default_view = 'image' ) {
 	if ( !apply_filters( 'disable_captions', '' ) ) {
 		$caption = '
-		<tr>
+		<tr class="image-only">
 			<th valign="top" scope="row" class="label">
 				<span class="alignleft"><label for="caption">' . __('Image Caption') . '</label></span>
 			</th>
@@ -2045,12 +1882,20 @@ function type_url_form_image() {
 	if ( empty($default_align) )
 		$default_align = 'none';
 
+	if ( 'image' == $default_view ) {
+		$view = 'image-only';
+		$table_class = '';
+	} else {
+		$view = $table_class = 'not-image';
+	}
+
 	return '
-	<h4 class="media-sub-title">' . __('Insert an image from another web site') . '</h4>
-	<table class="describe"><tbody>
+	<h4 class="media-sub-title">' . __('Insert media from another web site') . '</h4>
+	<p class="media-types"><label><input type="radio" name="media_type" value="image" id="image-only"' . checked( 'image-only', $view, false ) . ' /> ' . __( 'Images' ) . '</label> &nbsp; &nbsp; <label><input type="radio" name="media_type" value="generic" id="not-image"' . checked( 'not-image', $view, false ) . ' /> ' . __( 'Audio, Video, or Files' ) . '</label></p>
+	<table class="describe ' . $table_class . '"><tbody>
 		<tr>
 			<th valign="top" scope="row" class="label" style="width:130px;">
-				<span class="alignleft"><label for="src">' . __('Image URL') . '</label></span>
+				<span class="alignleft"><label for="src">' . __('URL') . '</label></span>
 				<span class="alignright"><abbr id="status_img" title="required" class="required">*</abbr></span>
 			</th>
 			<td class="field"><input id="src" name="src" value="" type="text" aria-required="true" onblur="addExtImage.getImageData()" /></td>
@@ -2058,13 +1903,15 @@ function type_url_form_image() {
 
 		<tr>
 			<th valign="top" scope="row" class="label">
-				<span class="alignleft"><label for="title">' . __('Image Title') . '</label></span>
+				<span class="alignleft"><label for="title">' . __('Title') . '</label></span>
 				<span class="alignright"><abbr title="required" class="required">*</abbr></span>
 			</th>
 			<td class="field"><input id="title" name="title" value="" type="text" aria-required="true" /></td>
 		</tr>
 
-		<tr>
+		<tr class="not-image"><td></td><td><p class="help">' . __('Link text, e.g. &#8220;Ransom Demands (PDF)&#8221;') . '</p></td></tr>
+
+		<tr class="image-only">
 			<th valign="top" scope="row" class="label">
 				<span class="alignleft"><label for="alt">' . __('Alternate Text') . '</label></span>
 			</th>
@@ -2072,7 +1919,7 @@ function type_url_form_image() {
 			<p class="help">' . __('Alt text for the image, e.g. &#8220;The Mona Lisa&#8221;') . '</p></td>
 		</tr>
 		' . $caption . '
-		<tr class="align">
+		<tr class="align image-only">
 			<th valign="top" scope="row" class="label"><p><label for="align">' . __('Alignment') . '</label></p></th>
 			<td class="field">
 				<input name="align" id="align-none" value="none" onclick="addExtImage.align=\'align\'+this.value" type="radio"' . ($default_align == 'none' ? ' checked="checked"' : '').' />
@@ -2086,7 +1933,7 @@ function type_url_form_image() {
 			</td>
 		</tr>
 
-		<tr>
+		<tr class="image-only">
 			<th valign="top" scope="row" class="label">
 				<span class="alignleft"><label for="url">' . __('Link Image To:') . '</label></span>
 			</th>
@@ -2096,102 +1943,22 @@ function type_url_form_image() {
 			<button type="button" class="button" value="" onclick="document.forms[0].url.value=document.forms[0].src.value">' . __('Link to image') . '</button>
 			<p class="help">' . __('Enter a link URL or click above for presets.') . '</p></td>
 		</tr>
-	' . _insert_into_post_button('image') . '
+		<tr class="image-only">
+			<td></td>
+			<td>
+				<input type="button" class="button" id="go_button" style="color:#bbb;" onclick="addExtImage.insert()" value="' . esc_attr__('Insert into Post') . '" />
+			</td>
+		</tr>
+		<tr class="not-image">
+			<td></td>
+			<td>
+				' . get_submit_button( __( 'Insert into Post' ), 'button', 'insertonlybutton', false ) . '
+			</td>
+		</tr>
 	</tbody></table>
 ';
 
 }
-
-/**
- * {@internal Missing Short Description}}
- *
- * @since 2.7.0
- *
- * @return unknown
- */
-function type_url_form_audio() {
-	return '
-	<table class="describe"><tbody>
-		<tr>
-			<th valign="top" scope="row" class="label">
-				<span class="alignleft"><label for="insertonly[href]">' . __('Audio File URL') . '</label></span>
-				<span class="alignright"><abbr title="required" class="required">*</abbr></span>
-			</th>
-			<td class="field"><input id="insertonly[href]" name="insertonly[href]" value="" type="text" aria-required="true"></td>
-		</tr>
-		<tr>
-			<th valign="top" scope="row" class="label">
-				<span class="alignleft"><label for="insertonly[title]">' . __('Title') . '</label></span>
-				<span class="alignright"><abbr title="required" class="required">*</abbr></span>
-			</th>
-			<td class="field"><input id="insertonly[title]" name="insertonly[title]" value="" type="text" aria-required="true"></td>
-		</tr>
-		<tr><td></td><td class="help">' . __('Link text, e.g. &#8220;Still Alive by Jonathan Coulton&#8221;') . '</td></tr>
-	' . _insert_into_post_button('audio') . '
-	</tbody></table>
-';
-}
-
-/**
- * {@internal Missing Short Description}}
- *
- * @since 2.7.0
- *
- * @return unknown
- */
-function type_url_form_video() {
-	return '
-	<table class="describe"><tbody>
-		<tr>
-			<th valign="top" scope="row" class="label">
-				<span class="alignleft"><label for="insertonly[href]">' . __('Video URL') . '</label></span>
-				<span class="alignright"><abbr title="required" class="required">*</abbr></span>
-			</th>
-			<td class="field"><input id="insertonly[href]" name="insertonly[href]" value="" type="text" aria-required="true"></td>
-		</tr>
-		<tr>
-			<th valign="top" scope="row" class="label">
-				<span class="alignleft"><label for="insertonly[title]">' . __('Title') . '</label></span>
-				<span class="alignright"><abbr title="required" class="required">*</abbr></span>
-			</th>
-			<td class="field"><input id="insertonly[title]" name="insertonly[title]" value="" type="text" aria-required="true"></td>
-		</tr>
-		<tr><td></td><td class="help">' . __('Link text, e.g. &#8220;Lucy on YouTube&#8221;') . '</td></tr>
-	' . _insert_into_post_button('video') . '
-	</tbody></table>
-';
-}
-
-/**
- * {@internal Missing Short Description}}
- *
- * @since 2.7.0
- *
- * @return unknown
- */
-function type_url_form_file() {
-	return '
-	<table class="describe"><tbody>
-		<tr>
-			<th valign="top" scope="row" class="label">
-				<span class="alignleft"><label for="insertonly[href]">' . __('URL') . '</label></span>
-				<span class="alignright"><abbr title="required" class="required">*</abbr></span>
-			</th>
-			<td class="field"><input id="insertonly[href]" name="insertonly[href]" value="" type="text" aria-required="true"></td>
-		</tr>
-		<tr>
-			<th valign="top" scope="row" class="label">
-				<span class="alignleft"><label for="insertonly[title]">' . __('Title') . '</label></span>
-				<span class="alignright"><abbr title="required" class="required">*</abbr></span>
-			</th>
-			<td class="field"><input id="insertonly[title]" name="insertonly[title]" value="" type="text" aria-required="true"></td>
-		</tr>
-		<tr><td></td><td class="help">' . __('Link text, e.g. &#8220;Ransom Demands (PDF)&#8221;') . '</td></tr>
-	' . _insert_into_post_button('file') . '
-	</tbody></table>
-';
-}
-
 
 function _insert_into_post_button($type) {
 	if ( !post_type_supports(get_post_type($_GET['post_id']), 'editor') )
@@ -2240,9 +2007,9 @@ add_filter('async_upload_video', 'get_media_item', 10, 2);
 add_filter('async_upload_file', 'get_media_item', 10, 2);
 
 add_action('media_upload_image', 'media_upload_image');
-add_action('media_upload_audio', 'media_upload_audio');
-add_action('media_upload_video', 'media_upload_video');
-add_action('media_upload_file', 'media_upload_file');
+add_action('media_upload_audio', 'media_upload_image');
+add_action('media_upload_video', 'media_upload_image');
+add_action('media_upload_file', 'media_upload_image');
 
 add_filter('media_upload_gallery', 'media_upload_gallery');
 
