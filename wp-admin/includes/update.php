@@ -82,9 +82,6 @@ function find_core_update( $version, $locale ) {
 }
 
 function core_update_footer( $msg = '' ) {
-	if ( is_multisite() && !current_user_can('update_core') )
-		return false;
-
 	if ( !current_user_can('update_core') )
 		return sprintf( __( 'Version %s' ), $GLOBALS['wp_version'] );
 
@@ -140,15 +137,13 @@ add_action( 'admin_notices', 'update_nag', 3 );
 
 // Called directly from dashboard
 function update_right_now_message() {
-	if ( is_multisite() && !current_user_can('update_core') )
-		return false;
-
-	$cur = get_preferred_from_update_core();
-
 	$msg = sprintf( __('You are using <span class="b">WordPress %s</span>.'), $GLOBALS['wp_version'] );
 
-	if ( isset( $cur->response ) && $cur->response == 'upgrade' && current_user_can('update_core') ) {
-		$msg .= " <a href='" . network_admin_url( 'update-core.php' ) . "' class='button'>" . sprintf( __('Update to %s'), $cur->current ? $cur->current : __( 'Latest' ) ) . '</a>';
+	if ( current_user_can('update_core') ) {
+		$cur = get_preferred_from_update_core();
+
+		if ( isset( $cur->response ) && $cur->response == 'upgrade'  )
+			$msg .= " <a href='" . network_admin_url( 'update-core.php' ) . "' class='button'>" . sprintf( __('Update to %s'), $cur->current ? $cur->current : __( 'Latest' ) ) . '</a>';
 	}
 
 	echo "<span id='wp-version-message'>$msg</span>";
