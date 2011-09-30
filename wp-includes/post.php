@@ -3455,7 +3455,7 @@ function &get_pages($args = '') {
 	}
 
 	$orderby_array = array();
-	$allowed_keys = array('author', 'post_author', 'date', 'post_date', 'title', 'post_title', 'modified',
+	$allowed_keys = array('author', 'post_author', 'date', 'post_date', 'title', 'post_title', 'name', 'post_name', 'modified',
 						  'post_modified', 'modified_gmt', 'post_modified_gmt', 'menu_order', 'parent', 'post_parent',
 						  'ID', 'rand', 'comment_count');
 	foreach ( explode( ',', $sort_column ) as $orderby ) {
