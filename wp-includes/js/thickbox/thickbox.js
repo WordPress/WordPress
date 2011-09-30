@@ -182,7 +182,7 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 			tb_position();
 			jQuery("#TB_load").remove();
 			jQuery("#TB_ImageOff").click(tb_remove);
-			jQuery("#TB_window").css({display:"block"}); //for safari using css instead of show
+			jQuery("#TB_window").css({'visibility':'visible'}); //for safari using css instead of show
 			};
 
 			imgPreloader.src = url;
@@ -206,7 +206,7 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 						jQuery("#TB_window").append("<iframe frameborder='0' hspace='0' src='"+urlNoQuery[0]+"' id='TB_iframeContent' name='TB_iframeContent"+Math.round(Math.random()*1000)+"' onload='tb_showIframe()' style='width:"+(ajaxContentW + 29)+"px;height:"+(ajaxContentH + 17)+"px;'>"+thickboxL10n.noiframes+"</iframe>");
 					}
 			}else{// not an iframe, ajax
-					if(jQuery("#TB_window").css("display") != "block"){
+					if(jQuery("#TB_window").css("visibility") != "visible"){
 						if(params['modal'] != "true"){//ajax no modal
 						jQuery("#TB_window").append("<div id='TB_title'><div id='TB_ajaxWindowTitle'>"+caption+"</div><div id='TB_closeAjaxWindow'><a href='#' id='TB_closeWindowButton'><img src='" + tb_closeImage + "' /></a></div></div><div id='TB_ajaxContent' style='width:"+ajaxContentW+"px;height:"+ajaxContentH+"px'></div>");
 						}else{//ajax modal
@@ -230,19 +230,19 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 					});
 					tb_position();
 					jQuery("#TB_load").remove();
-					jQuery("#TB_window").css({display:"block"});
+					jQuery("#TB_window").css({'visibility':'visible'});
 				}else if(url.indexOf('TB_iframe') != -1){
 					tb_position();
 					if(jQuery.browser.safari){//safari needs help because it will not fire iframe onload
 						jQuery("#TB_load").remove();
-						jQuery("#TB_window").css({display:"block"});
+						jQuery("#TB_window").css({'visibility':'visible'});
 					}
 				}else{
 					jQuery("#TB_ajaxContent").load(url += "&random=" + (new Date().getTime()),function(){//to do a post change this load method
 						tb_position();
 						jQuery("#TB_load").remove();
 						tb_init("#TB_ajaxContent a.thickbox");
-						jQuery("#TB_window").css({display:"block"});
+						jQuery("#TB_window").css({'visibility':'visible'});
 					});
 				}
 
