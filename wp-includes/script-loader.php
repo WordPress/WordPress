@@ -258,8 +258,7 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'user-profile', "/wp-admin/js/user-profile$suffix.js", array( 'jquery', 'password-strength-meter' ), '20110628', 1 );
 
-	$scripts->add( 'admin-bar', "/wp-includes/js/admin-bar$suffix.js", false, '20110925' );
-	$scripts->add_data( 'admin-bar', 'group', 1 );
+	$scripts->add( 'admin-bar', "/wp-includes/js/admin-bar$suffix.js", false, '20110930', 1 );
 
 	$scripts->add( 'wplink', "/wp-includes/js/wplink$suffix.js", array( 'jquery', 'wpdialogs' ), '20110929', 1 );
 	$scripts->add_script_data( 'wplink', 'wpLinkL10n', array(

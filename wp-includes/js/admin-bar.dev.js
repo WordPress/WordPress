@@ -11,9 +11,9 @@ if ( typeof(jQuery) != 'undefined' ) {
 			out: function(e){
 				$(this).removeClass('hover');
 			},
-			timeout: 200,
+			timeout: 180,
 			sensitivity: 7,
-			interval: 120
+			interval: 100
 		});
 
 		$('#wp-admin-bar-get-shortlink').click(function(e){
