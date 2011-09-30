@@ -237,7 +237,7 @@ function install_theme_information() {
 	iframe_header( __('Theme Install') );
 
 	if ( empty($api->download_link) ) {
-		echo '<div id="message" class="error"><p>' . __('<strong>Error:</strong> This theme is currently not available. Please try again later.') . '</p></div>';
+		echo '<div id="message" class="error"><p>' . __('<strong>ERROR:</strong> This theme is currently not available. Please try again later.') . '</p></div>';
 		iframe_footer();
 		exit;
 	}

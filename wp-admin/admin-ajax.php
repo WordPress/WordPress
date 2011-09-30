@@ -640,7 +640,7 @@ case 'replyto-comment' :
 	if ( empty($status) )
 		die('1');
 	elseif ( in_array($status, array('draft', 'pending', 'trash') ) )
-		die( __('Error: you are replying to a comment on a draft post.') );
+		die( __('ERROR: you are replying to a comment on a draft post.') );
 
 	$user = wp_get_current_user();
 	if ( $user->ID ) {
@@ -659,7 +659,7 @@ case 'replyto-comment' :
 	}
 
 	if ( '' == $comment_content )
-		die( __('Error: please type a comment.') );
+		die( __('ERROR: please type a comment.') );
 
 	$comment_parent = absint($_POST['comment_ID']);
 	$comment_auto_approved = false;
@@ -721,7 +721,7 @@ case 'edit-comment' :
 		die('-1');
 
 	if ( '' == $_POST['content'] )
-		die( __('Error: please type a comment.') );
+		die( __('ERROR: please type a comment.') );
 
 	$_POST['comment_status'] = $_POST['status'];
 	edit_comment();
