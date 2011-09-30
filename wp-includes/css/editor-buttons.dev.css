@@ -1036,8 +1036,6 @@
 	text-decoration: none !important;
 }
 
-
-
 .js .tmce-active .wp-editor-area {
 	color: white;
 }
@@ -1075,6 +1073,7 @@
 	border-top-right-radius: 3px;
 	border-top-left-radius: 3px;
 	padding: 2px 3px 0;
+	min-height: 30px;
 }
 
 .quicktags-toolbar > div {
