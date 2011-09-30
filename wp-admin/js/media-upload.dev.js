@@ -12,8 +12,8 @@ function send_to_editor(h) {
 		} else if ( !qt ) {
 			return false;
 		}
-	} else {
-		if ( mce && tinymce.activeEditor && (tinymce.activeEditor.id == 'mce_fullscreen' || tinymce.activeEditor.id == 'wp_mce_fullscreen') )
+	} else if ( mce ) {
+		if ( tinymce.activeEditor && (tinymce.activeEditor.id == 'mce_fullscreen' || tinymce.activeEditor.id == 'wp_mce_fullscreen') )
 			ed = tinymce.activeEditor;
 		else
 			ed = tinymce.get(wpActiveEditor);
