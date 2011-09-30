@@ -447,7 +447,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'colors-fresh', "/wp-admin/css/colors-fresh$suffix.css", array('wp-admin'), $colors_version );
 	$styles->add( 'colors-classic', "/wp-admin/css/colors-classic$suffix.css", array('wp-admin'), $colors_version );
 
-	$styles->add( 'media', "/wp-admin/css/media$suffix.css", array(), '20110928' );
+	$styles->add( 'media', "/wp-admin/css/media$suffix.css", array(), '20110930' );
 	$styles->add( 'install', "/wp-admin/css/install$suffix.css", array(), '20110929' ); // Readme as well
 	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css', array(), '20090514' );
 	$styles->add( 'farbtastic', '/wp-admin/css/farbtastic.css', array(), '1.3u1' );
