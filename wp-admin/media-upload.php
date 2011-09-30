@@ -117,7 +117,7 @@ if ( isset($_GET['inline']) ) {
 	$body_id = 'media-upload';
 
 	// let the action code decide how to handle the request
-	if ( $tab == 'type' || $tab == 'type_url' )
+	if ( $tab == 'type' || $tab == 'type_url' || ! array_key_exists( $tab , media_upload_tabs() ) )
 		do_action("media_upload_$type");
 	else
 		do_action("media_upload_$tab");
