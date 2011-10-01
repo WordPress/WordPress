@@ -41,12 +41,14 @@ jQuery(document).ready(function($) {
 		$('#sort-buttons span a').toggle();
 		$('a.describe-toggle-on').hide();
 		$('a.describe-toggle-off, table.slidetoggle').show();
+		$('img.pinkynail').toggle(false);
 		return false;
 	});
 	$('#hideall').click(function(){
 		$('#sort-buttons span a').toggle();
 		$('a.describe-toggle-on').show();
 		$('a.describe-toggle-off, table.slidetoggle').hide();
+		$('img.pinkynail').toggle(true);
 		return false;
 	});
 
