@@ -598,6 +598,7 @@ final class WP_Screen {
 	public function add_help_tab( $args ) {
 		$defaults = array(
 			'title'    => false,
+			'section'  => false,
 			'id'       => false,
 			'content'  => '',
 			'callback' => false,
@@ -691,8 +692,10 @@ final class WP_Screen {
 						?>
 
 						<div id="<?php echo esc_attr( $panel_id ); ?>" class="<?php echo esc_attr( $classes ); ?>">
-							<h3><?php echo esc_html( $tab['title'] ); ?></h3>
 							<?php
+							if ( $tab['section'] )
+								echo '<h3>' . esc_html( $tab['section'] ) . '</h3>';
+
 							// Print tab content.
 							echo $tab['content'];
 
