@@ -586,10 +586,11 @@ function touch_time( $edit = 1, $for_post = 1, $tab_index = 0, $multi = 0 ) {
 
 	$month = "<select " . ( $multi ? '' : 'id="mm" ' ) . "name=\"mm\"$tab_index_attribute>\n";
 	for ( $i = 1; $i < 13; $i = $i +1 ) {
-		$month .= "\t\t\t" . '<option value="' . zeroise($i, 2) . '"';
+		$monthnum = zeroise($i, 2);
+		$month .= "\t\t\t" . '<option value="' . $monthnum . '"';
 		if ( $i == $mm )
 			$month .= ' selected="selected"';
-		$month .= '>' . $wp_locale->get_month_abbrev( $wp_locale->get_month( $i ) ) . "</option>\n";
+		$month .= '>' . $monthnum . '-' . $wp_locale->get_month_abbrev( $wp_locale->get_month( $i ) ) . "</option>\n";
 	}
 	$month .= '</select>';
 
