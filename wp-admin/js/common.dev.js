@@ -266,7 +266,7 @@ $('.contextual-help-tabs').delegate('a', 'click focus', function(e) {
 	panel.addClass('active').show();
 
 	// Adjust the height of the help columns
-	columns = $('#contextual-help-wrap').children('.metabox-prefs').children();
+	columns = $('#contextual-help-wrap').children();
 	columns.height('auto');
 
 	height = Math.max.apply( null, $.map( columns, function( el ) { return $(el).height(); }) );

@@ -117,7 +117,8 @@ $current_screen->set_parentage( $parent_file );
 
 <div id="wpbody-content">
 <?php
-screen_meta($current_screen);
+
+$current_screen->render_screen_meta();
 
 if ( is_network_admin() )
 	do_action('network_admin_notices');

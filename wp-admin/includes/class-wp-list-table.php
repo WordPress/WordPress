@@ -897,9 +897,14 @@ class WP_List_Table {
 	 * @access private
 	 */
 	function _js_vars() {
+		$current_screen = get_current_screen();
+
 		$args = array(
-			'class' => get_class( $this ),
-			'screen' => get_current_screen()
+			'class'  => get_class( $this ),
+			'screen' => array(
+				'id'   => $current_screen->id,
+				'base' => $current_screen->base,
+			)
 		);
 
 		printf( "<script type='text/javascript'>list_args = %s;</script>\n", json_encode( $args ) );

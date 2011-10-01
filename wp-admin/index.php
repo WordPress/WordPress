@@ -32,19 +32,28 @@ else
 
 $help_overview = '<p>' . __('Welcome to your WordPress Dashboard! This is the screen you will see when you log in to your site, and gives you access to all the site management features of WordPress. You can get help for any screen by clicking the Help tab in the top bar.') . '</p>';
 
-$current_screen->add_help_tab( 'overview', __('Overview'), $help_overview );
+$current_screen->add_help_tab( array(
+	'title'   => __('Overview'),
+	'content' => $help_overview,
+) );
 
 $help_navigation  = '<p>' . __('The left-hand navigation menu provides links to all of the WordPress administration screens, with submenu items displayed on hover. You can minimize this menu to a narrow icon strip by clicking on the Collapse Menu arrow at the bottom.') . '</p>';
 $help_navigation .= '<p>' . __('Links in the &#8220;admin bar&#8221; at the top of the screen connect your dashboard and the front end of your site, and provide access to your profile and helpful WordPress information.') . '</p>';
 
-$current_screen->add_help_tab( 'navigation', __('Navigation'), $help_navigation );
+$current_screen->add_help_tab( array(
+	'title'   => __('Navigation'),
+	'content' => $help_navigation,
+) );
 
 $help_layout  = '<p>' . __('You can use the following controls to arrange your Dashboard screen to suit your workflow. This is true on most other administration screens as well.') . '</p>';
 $help_layout .= '<p>' . __('<strong>Screen Options</strong> - Use the Screen Options tab to choose which Dashboard boxes to show, and how many columns to display.') . '</p>';
 $help_layout .= '<p>' . __('<strong>Drag and Drop</strong> - To rearrange the boxes, drag and drop by clicking on the title bar of the selected box and releasing when you see a gray dotted-line rectangle appear in the location you want to place the box.') . '</p>';
 $help_layout .= '<p>' . __('<strong>Box Controls</strong> - Click the title bar of the box to expand or collapse it. In addition, some box have configurable content, and will show a &#8220;Configure&#8221; link in the title bar if you hover over it.') . '</p>';
 
-$current_screen->add_help_tab( 'layout', __('Layout'), $help_layout );
+$current_screen->add_help_tab( array(
+	'title'   => __('Layout'),
+	'content' => $help_layout,
+) );
 
 $help_content  = '<p>' . __('The boxes on your Dashboard screen are:') . '</p>';
 $help_content .= '<p>' . __('<strong>Right Now</strong> - Displays a summary of the content on your site and identifies which theme and version of WordPress you are using.') . '</p>';
@@ -56,7 +65,10 @@ $help_content .= '<p>' . __('<strong>WordPress Blog</strong> - Latest news from 
 $help_content .= '<p>' . __('<strong>Other WordPress News</strong> - Shows the <a href="http://planet.wordpress.org" target="_blank">WordPress Planet</a> feed. You can configure it to show a different feed of your choosing.') . '</p>';
 $help_content .= '<p>' . __('<strong>Plugins</strong> - Features the most popular, newest, and recently updated plugins from the WordPress.org Plugin Directory.') . '</p>';
 
-$current_screen->add_help_tab( 'content', __('Content'), $help_content );
+$current_screen->add_help_tab( array(
+	'title'   => __('Content'),
+	'content' => $help_content,
+) );
 
 $current_screen->add_help_sidebar(
 	'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
