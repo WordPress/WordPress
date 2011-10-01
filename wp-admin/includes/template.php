@@ -356,8 +356,11 @@ function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single', 
 	<input type="hidden" name="position" id="position" value="<?php echo $position; ?>" />
 	<input type="hidden" name="checkbox" id="checkbox" value="<?php echo $checkbox ? 1 : 0; ?>" />
 	<input type="hidden" name="mode" id="mode" value="<?php echo esc_attr($mode); ?>" />
-	<?php wp_nonce_field( 'replyto-comment', '_ajax_nonce-replyto-comment', false ); ?>
-	<?php wp_comment_form_unfiltered_html_nonce(); ?>
+	<?php
+		wp_nonce_field( 'replyto-comment', '_ajax_nonce-replyto-comment', false );
+		if ( current_user_can( 'unfiltered_html' ) )
+			wp_nonce_field( 'unfiltered-html-comment', '_wp_unfiltered_html_comment', false );
+	?>
 <?php if ( $table_row ) : ?>
 </td></tr></tbody></table>
 <?php else : ?>
