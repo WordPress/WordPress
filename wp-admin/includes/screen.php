@@ -922,7 +922,12 @@ final class WP_Screen {
 		<h5><?php _ex('Show on screen', 'Screen Options') ?></h5>
 		<div class='screen-options'>
 			<?php if ( !empty($per_page_label) ): ?>
-				<input type='text' class='screen-per-page' name='wp_screen_options[value]' id='$option' maxlength='3' value='$per_page' /> <label for='$option'>$per_page_label</label>
+				<input type='text' class='screen-per-page' name='wp_screen_options[value]'
+					id='<?php echo esc_attr( $option ); ?>' maxlength='3'
+					value='<?php echo esc_attr( $per_page ); ?>' />
+				<label for='<?php echo esc_attr( $option ); ?>'>
+					<?php echo esc_html( $per_page_label ); ?>
+				</label>
 			<?php endif;
 
 			echo get_submit_button( __( 'Apply' ), 'button', 'screen-options-apply', false ); ?>
