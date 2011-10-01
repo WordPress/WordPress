@@ -236,11 +236,6 @@ function convert_to_screen( $screen ) {
 	return $screen;
 }
 
-function screen_meta( $screen ) {
-	$current_screen = get_current_screen();
-	$current_screen->render_screen_meta();
-}
-
 /**
  * Add contextual help text for a page.
  *

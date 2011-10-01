@@ -791,3 +791,16 @@ function screen_options( $screen ) {
 	$current_screen->render_per_page_options();
 	return ob_get_clean();
 }
+
+/**
+ * Renders the screen's help.
+ *
+ * @since unknown
+ * @deprecated 3.3.0
+ * @deprecated Use $current_screen->render_screen_meta()
+ * @see WP_Screen::render_screen_meta()
+ */
+function screen_meta( $screen ) {
+	$current_screen = get_current_screen();
+	$current_screen->render_screen_meta();
+}
