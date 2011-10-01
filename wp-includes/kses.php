@@ -500,7 +500,8 @@ if ( ! CUSTOM_TAGS ) {
  * @return string Filtered content with only allowed HTML elements
  */
 function wp_kses($string, $allowed_html, $allowed_protocols = array ()) {
-	$allowed_protocols = wp_parse_args( $allowed_protocols, wp_allowed_protocols() );
+	if ( empty( $allowed_protocols ) )
+		$allowed_protocols = wp_allowed_protocols();
 	$string = wp_kses_no_null($string);
 	$string = wp_kses_js_entities($string);
 	$string = wp_kses_normalize_entities($string);
