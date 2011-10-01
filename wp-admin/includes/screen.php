@@ -590,6 +590,7 @@ final class WP_Screen {
 	 *
 	 * @param array $args
 	 * - string   - title    - Title for the tab.
+	 * - string   - section  - Section title for the tab. Optional.
 	 * - string   - id       - Tab ID. Optional.
 	 * - string   - content  - Help tab content in plain text or HTML. Optional.
 	 * - callback - callback - A callback to generate the tab content. Optional.
