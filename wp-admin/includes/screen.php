@@ -266,24 +266,6 @@ function add_contextual_help($screen, $help) {
 }
 
 /**
- * Returns the screen layout options.
- *
- * @todo: deprecate?
- */
-function screen_layout($screen) {
-	$current_screen = get_current_screen();
-
-	if ( ! $current_screen )
-		return '';
-
-	ob_start();
-	$current_screen->render_screen_layout();
-	$screen_layout = ob_get_clean();
-
-	return $screen_layout;
-}
-
-/**
  * Register and configure an admin screen option
  *
  * @since 3.1.0
@@ -299,25 +281,6 @@ function add_screen_option( $option, $args = array() ) {
 		return;
 
 	return $current_screen->add_option( $option, $args );
-}
-
-
-/**
- * Returns the screen's per-page options.
- *
- * @todo: deprecate?
- */
-function screen_options($screen) {
-	$current_screen = get_current_screen();
-
-	if ( ! $current_screen )
-		return '';
-
-	ob_start();
-	$current_screen->render_per_page_options();
-	$per_page_options = ob_get_clean();
-
-	return $per_page_options;
 }
 
 function screen_icon( $screen = '' ) {

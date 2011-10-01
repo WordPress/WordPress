@@ -703,9 +703,9 @@ function wp_dashboard_quick_press_output() {
 }
 
 /**
- * @since 2.7
+ * @since 2.7.0
  * @deprecated 3.3
- * @deprecated Use wp_editor().
+ * @deprecated Use wp_editor()
  * @see wp_editor()
  */
 function wp_tiny_mce() {
@@ -714,20 +714,80 @@ function wp_tiny_mce() {
 	wp_editor('', 'content');
 }
 
-// see WP_Editor for the next 4
+/**
+ * @deprecated 3.3.0
+ * @deprecated Use wp_editor()
+ * @see wp_editor()
+ */
 function wp_preload_dialogs() {
-	_deprecated_function( __FUNCTION__, '3.3' );
+	_deprecated_function( __FUNCTION__, '3.3', 'wp_editor()' );
 }
 
+/**
+ * @deprecated 3.3.0
+ * @deprecated Use wp_editor()
+ * @see wp_editor()
+ */
 function wp_print_editor_js() {
-	_deprecated_function( __FUNCTION__, '3.3' );
+	_deprecated_function( __FUNCTION__, '3.3', 'wp_editor()' );
 }
 
+/**
+ * @deprecated 3.3.0
+ * @deprecated Use wp_editor()
+ * @see wp_editor()
+ */
 function wp_quicktags() {
-	_deprecated_function( __FUNCTION__, '3.3' );
+	_deprecated_function( __FUNCTION__, '3.3', 'wp_editor()' );
 }
 
+/**
+ * @deprecated 3.3.0
+ * @deprecated Use wp_editor()
+ * @see wp_editor()
+ */
 function wp_fullscreen_html() {
-	_deprecated_function( __FUNCTION__, '3.3' );
+	_deprecated_function( __FUNCTION__, '3.3', 'wp_editor()' );
 }
 
+/**
+ * Returns the screen layout options.
+ *
+ * @since unknown
+ * @deprecated 3.3.0
+ * @deprecated Use $current_screen->render_screen_layout()
+ * @see WP_Screen::render_screen_layout()
+ */
+function screen_layout( $screen ) {
+	_deprecated_function( __FUNCTION__, '3.3', '$current_screen->render_screen_layout()' );
+
+	$current_screen = get_current_screen();
+
+	if ( ! $current_screen )
+		return '';
+
+	ob_start();
+	$current_screen->render_screen_layout();
+	return ob_get_clean();
+}
+
+/**
+ * Returns the screen's per-page options.
+ *
+ * @since unknown
+ * @deprecated 3.3.0
+ * @deprecated Use $current_screen->render_per_page_options()
+ * @see WP_Screen::render_per_page_options()
+ */
+function screen_options( $screen ) {
+	_deprecated_function( __FUNCTION__, '3.3', '$current_screen->render_per_page_options()' );
+
+	$current_screen = get_current_screen();
+
+	if ( ! $current_screen )
+		return '';
+
+	ob_start();
+	$current_screen->render_per_page_options();
+	return ob_get_clean();
+}
