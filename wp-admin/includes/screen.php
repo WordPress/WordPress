@@ -801,6 +801,11 @@ final class WP_Screen {
 		<?php
 	}
 
+	/**
+	 * Render the option for number of columns on the page
+	 *
+	 * @since 3.3.0
+	 */
 	function render_screen_layout() {
 		global $screen_layout_columns;
 
@@ -847,6 +852,11 @@ final class WP_Screen {
 		<?php
 	}
 
+	/**
+	 * Render the items per page option
+	 *
+	 * @since 3.3.0
+	 */
 	function render_per_page_options() {
 		if ( ! isset( $this->_options['per_page'] ) )
 			return;
