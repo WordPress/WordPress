@@ -659,7 +659,8 @@ final class WP_Screen {
 		?>
 		<div id="screen-meta" class='metabox-prefs'>
 			<div id="contextual-help-wrap" class="hidden">
-				<ul class="contextual-help-tabs">
+				<div class="contextual-help-tabs">
+					<ul>
 					<?php foreach ( $this->_help_tabs as $i => $tab ):
 						$link_id  = "tab-link-{$tab['id']}";
 						$panel_id = "tab-panel-{$tab['id']}";
@@ -672,7 +673,8 @@ final class WP_Screen {
 							</a>
 						</li>
 					<?php endforeach; ?>
-				</ul>
+					</ul>
+				</div>
 
 				<div class="contextual-help-sidebar">
 					<?php echo $this->_help_sidebar; ?>

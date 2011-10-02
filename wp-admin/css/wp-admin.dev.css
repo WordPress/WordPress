@@ -1543,7 +1543,10 @@ form.upgrade .hint {
 	float: left;
 	width: 150px;
 	margin: 0;
-	overflow: auto;
+}
+
+.contextual-help-tabs ul {
+	margin: 1em 0;
 }
 
 .contextual-help-tabs li {
@@ -1554,12 +1557,14 @@ form.upgrade .hint {
 .contextual-help-tabs a {
 	display: block;
 	padding: 5px 5px 5px 12px;
-
-	font-weight: bold;
 	line-height: 18px;
 	text-decoration: none;
+}
 
-	border-width: 1px 0;
+.contextual-help-tabs .active {
+	padding: 0 2px;
+	margin: -1px -1px -1px -3px;
+	border-width: 1px 0 1px 1px;
 	border-style: solid;
 }
 

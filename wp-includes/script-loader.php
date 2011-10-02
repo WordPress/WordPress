@@ -431,13 +431,13 @@ function wp_default_styles( &$styles ) {
 	// Any rtl stylesheets that don't have a .dev version for ltr
 	$no_suffix = array( 'farbtastic' );
 
-	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20110928b' );
+	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20111002' );
 
 	$styles->add( 'ie', "/wp-admin/css/ie$suffix.css", array(), '20110919' );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
 
 	// all colors stylesheets need to have the same query strings (cache manifest compat)
-	$colors_version = '20110928';
+	$colors_version = '20111002';
 
 	// Register "meta" stylesheet for admin colors. All colors-* style sheets should have the same version string.
 	$styles->add( 'colors', true, array('wp-admin'), $colors_version );
@@ -452,7 +452,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'farbtastic', '/wp-admin/css/farbtastic.css', array(), '1.3u1' );
 	$styles->add( 'jcrop', '/wp-includes/js/jcrop/jquery.Jcrop.css', array(), '0.9.8' );
 	$styles->add( 'imgareaselect', '/wp-includes/js/imgareaselect/imgareaselect.css', array(), '0.9.1' );
-	$styles->add( 'admin-bar', "/wp-includes/css/admin-bar$suffix.css", array(), '20110926' );
+	$styles->add( 'admin-bar', "/wp-includes/css/admin-bar$suffix.css", array(), '20111002' );
 	$styles->add( 'wp-jquery-ui-dialog', "/wp-includes/css/jquery-ui-dialog$suffix.css", array(), '20101224' );
 	$styles->add( 'editor-buttons', "/wp-includes/css/editor-buttons$suffix.css", array(), '20111002' );
 	$styles->add( 'wp-pointer', "/wp-includes/css/wp-pointer$suffix.css", array(), '20110918' );

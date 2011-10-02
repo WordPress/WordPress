@@ -788,16 +788,16 @@ table.widefat span.spam a,
 	border-color: #ccc;
 }
 
-.contextual-help-tabs a {
-	border-top-color: #f9f9f9;
-	border-bottom-color: #dfdfdf;
-}
-
 .contextual-help-tabs a:hover {
 	background-color: #EAF2FA;
 	color: #333;
 }
 
+.contextual-help-tabs .active {
+	border-color: #ccc;
+}
+
+.contextual-help-tabs .active,
 .contextual-help-tabs .active a,
 .contextual-help-tabs .active a:hover {
 	background: #fff;
@@ -805,11 +805,12 @@ table.widefat span.spam a,
 }
 
 .contextual-help-sidebar {
-	background-color: #f9f9f9;
+	background-color: #f1f1f1;
 }
 
 .contextual-help-tabs-wrap {
 	border-color: #dfdfdf;
+	background-color: #fff;
 }
 
 .login #backtoblog a {

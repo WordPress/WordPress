@@ -175,11 +175,9 @@
 }
 
 #wpadminbar.nojs .ab-top-menu > li.menupop:hover,
-#wpadminbar .ab-top-menu li.menupop.hover {
-	background: #fff;
-}
+#wpadminbar .ab-top-menu li.menupop.hover,
 #wpadminbar .ab-top-menu .selected.screen-meta-toggle {
-	background: #f1f1f1;
+	background: #fff;
 }
 
 #wpadminbar.nojs .quicklinks .menupop:hover a,
