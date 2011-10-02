@@ -299,10 +299,8 @@
 
 .wp_themeSkin table.mceSplitButton td {
 	padding: 2px;
-	-webkit-border-bottom-left-radius: 0;
-	-webkit-border-top-left-radius: 0;
-	border-bottom-left-radius: 0;
-	border-top-left-radius: 0;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
 }
 
 .wp_themeSkin table.mceSplitButton td a {
@@ -349,18 +347,18 @@
 
 .wp_themeSkin .mceListBox a.mceText,
 .wp_themeSkin .mceSplitButton a.mceAction {
-	-webkit-border-bottom-left-radius: 3px;
-	-webkit-border-top-left-radius: 3px;
-	border-bottom-left-radius: 3px;
-	border-top-left-radius: 3px;
+	-webkit-border-bottom-left-radius: 2px;
+	-webkit-border-top-left-radius: 2px;
+	border-bottom-left-radius: 2px;
+	border-top-left-radius: 2px;
 }
 
 .wp_themeSkin .mceSplitButton a.mceOpen,
 .wp_themeSkin .mceListBox a.mceOpen {
-	-webkit-border-bottom-right-radius: 3px;
-	-webkit-border-top-right-radius: 3px;
-	border-bottom-right-radius: 3px;
-	border-top-right-radius: 3px;
+	-webkit-border-bottom-right-radius: 2px;
+	-webkit-border-top-right-radius: 2px;
+	border-bottom-right-radius: 2px;
+	border-top-right-radius: 2px;
 }
 
 .wp_themeSkin span.mce_undo,
