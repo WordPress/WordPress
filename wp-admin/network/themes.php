@@ -175,6 +175,10 @@ add_thickbox();
 
 add_screen_option( 'per_page', array('label' => _x( 'Themes', 'themes per page (screen options)' )) );
 
+$current_screen->add_screen_options( 
+'<p>test</p>'
+);
+
 add_contextual_help($current_screen,
 	'<p>' . __('This screen enables and disables the inclusion of themes available to choose in the Appearance menu for each site. It does not activate or deactivate which theme a site is currently using.') . '</p>' .
 	'<p>' . __('If the network admin disables a theme that is in use, it can still remain selected on that site. If another theme is chosen, the disabled theme will not appear in the site&#8217;s Appearance > Themes screen.') . '</p>' .

@@ -30,6 +30,10 @@ if ( 'post' != $post_type ) {
 
 add_screen_option( 'per_page', array('label' => $title, 'default' => 20, 'option' => 'edit_' . $tax->name . '_per_page') );
 
+$current_screen->add_screen_options( 
+'<p>test</p>'
+);
+
 switch ( $wp_list_table->current_action() ) {
 
 case 'add-tag':

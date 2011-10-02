@@ -24,6 +24,10 @@ $parent_file = 'sites.php';
 
 add_screen_option( 'per_page', array('label' => _x( 'Sites', 'sites per page (screen options)' )) );
 
+$current_screen->add_screen_options( 
+'<p>test</p>'
+);
+
 add_contextual_help($current_screen,
 	'<p>' . __('Add New takes you to the Add New Site screen. You can search for a site by Name, ID number, or IP address. Screen Options allows you to choose how many sites to display on one page.') . '</p>' .
 	'<p>' . __('This is the main table of all sites on this network. Switch between list and excerpt views by using the icons above the right side of the table.') . '</p>' .

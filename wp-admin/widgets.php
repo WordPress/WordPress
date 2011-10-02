@@ -31,18 +31,20 @@ do_action( 'sidebar_admin_setup' );
 $title = __( 'Widgets' );
 $parent_file = 'themes.php';
 
-$help = '
-	<p>' . __('Widgets are independent sections of content that can be placed into any widgetized area provided by your theme (commonly called sidebars). To populate your sidebars/widget areas with individual widgets, drag and drop the title bars into the desired area. By default, only the first widget area is expanded. To populate additional widget areas, click on their title bars to expand them.') . '</p>
-	<p>' . __('The Available Widgets section contains all the widgets you can choose from. Once you drag a widget into a sidebar, it will open to allow you to configure its settings. When you are happy with the widget settings, click the Save button and the widget will go live on your site. If you click Delete, it will remove the widget.') . '</p>
-	<p>' . __('If you want to remove the widget but save its setting for possible future use, just drag it into the Inactive Widgets area. You can add them back anytime from there. This is especially helpful when you switch to a theme with fewer or different widget areas.') . '</p>
-	<p>' . __('Widgets may be used multiple times. You can give each widget a title, to display on your site, but it&#8217;s not required.') . '</p>
-	<p>' . __('Enabling Accessibility Mode, via Screen Options, allows you to use Add and Edit buttons instead of using drag and drop.') . '</p>
-	<p>' . __('Many themes show some sidebar widgets by default until you edit your sidebars, but they are not automatically displayed in your sidebar management tool. After you make your first widget change, you can re-add the default widgets by adding them from the Available Widgets area.') . '</p>
-';
-$help .= '<p><strong>' . __('For more information:') . '</strong></p>';
-$help .= '<p>' . __('<a href="http://codex.wordpress.org/Appearance_Widgets_Screen" target="_blank">Documentation on Widgets</a>') . '</p>';
-$help .= '<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>';
-add_contextual_help($current_screen, $help);
+$current_screen->add_screen_options( 
+'<p>test</p>'
+);
+
+add_contextual_help( $current_screen, '
+<p>' . __('Widgets are independent sections of content that can be placed into any widgetized area provided by your theme (commonly called sidebars). To populate your sidebars/widget areas with individual widgets, drag and drop the title bars into the desired area. By default, only the first widget area is expanded. To populate additional widget areas, click on their title bars to expand them.') . '</p>
+<p>' . __('The Available Widgets section contains all the widgets you can choose from. Once you drag a widget into a sidebar, it will open to allow you to configure its settings. When you are happy with the widget settings, click the Save button and the widget will go live on your site. If you click Delete, it will remove the widget.') . '</p>
+<p>' . __('If you want to remove the widget but save its setting for possible future use, just drag it into the Inactive Widgets area. You can add them back anytime from there. This is especially helpful when you switch to a theme with fewer or different widget areas.') . '</p>
+<p>' . __('Widgets may be used multiple times. You can give each widget a title, to display on your site, but it&#8217;s not required.') . '</p>
+<p>' . __('Enabling Accessibility Mode, via Screen Options, allows you to use Add and Edit buttons instead of using drag and drop.') . '</p>
+<p>' . __('Many themes show some sidebar widgets by default until you edit your sidebars, but they are not automatically displayed in your sidebar management tool. After you make your first widget change, you can re-add the default widgets by adding them from the Available Widgets area.') . '</p>
+<p><strong>' . __('For more information:') . '</strong></p>
+<p>' . __('<a href="http://codex.wordpress.org/Appearance_Widgets_Screen" target="_blank">Documentation on Widgets</a>') . '</p>
+<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>' );
 
 // These are the widgets grouped by sidebar
 $sidebars_widgets = wp_get_sidebars_widgets();

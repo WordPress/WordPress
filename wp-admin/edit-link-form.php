@@ -39,14 +39,17 @@ do_action('do_meta_boxes', 'link', 'side', $link);
 
 add_screen_option('layout_columns', array('max' => 2, 'default' => 'auto') );
 
-add_contextual_help($current_screen,
-	'<p>' . __( 'You can add or edit links on this screen by entering information in each of the boxes. Only the link&#8217;s web address and name (the text you want to display on your site as the link) are required fields.' ) . '</p>' .
-	'<p>' . __( 'The boxes for link name, web address, and description have fixed positions, while the others may be repositioned using drag and drop. You can also hide boxes you don&#8217;t use in the Screen Options tab, or minimize boxes by clicking on the title bar of the box.' ) . '</p>' .
-	'<p>' . __( 'XFN stands for <a href="http://gmpg.org/xfn/" target="_blank">XHTML Friends Network</a>, which is optional. WordPress allows the generation of XFN attributes to show how you are related to the authors/owners of the site to which you are linking.' ) . '</p>' .
-	'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
-	'<p>' . __( '<a href="http://codex.wordpress.org/Links_Add_New_Screen" target="_blank">Documentation on Creating Links</a>' ) . '</p>' .
-	'<p>' . __( '<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>' ) . '</p>'
+$current_screen->add_screen_options( 
+'<p>test</p>'
 );
+
+add_contextual_help( $current_screen, '
+<p>' . __( 'You can add or edit links on this screen by entering information in each of the boxes. Only the link&#8217;s web address and name (the text you want to display on your site as the link) are required fields.' ) . '</p>
+<p>' . __( 'The boxes for link name, web address, and description have fixed positions, while the others may be repositioned using drag and drop. You can also hide boxes you don&#8217;t use in the Screen Options tab, or minimize boxes by clicking on the title bar of the box.' ) . '</p>
+<p>' . __( 'XFN stands for <a href="http://gmpg.org/xfn/" target="_blank">XHTML Friends Network</a>, which is optional. WordPress allows the generation of XFN attributes to show how you are related to the authors/owners of the site to which you are linking.' ) . '</p>
+<p><strong>' . __( 'For more information:' ) . '</strong></p>
+<p>' . __( '<a href="http://codex.wordpress.org/Links_Add_New_Screen" target="_blank">Documentation on Creating Links</a>' ) . '</p>
+<p>' . __( '<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>' ) . '</p>' );
 
 require_once ('admin-header.php');
 ?>

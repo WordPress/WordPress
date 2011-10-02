@@ -642,6 +642,7 @@ final class WP_Screen {
 		// Call old contextual_help_list filter.
 		if ( ! isset( $_wp_contextual_help ) )
 			$_wp_contextual_help = array();
+
 		$_wp_contextual_help = apply_filters( 'contextual_help_list', $_wp_contextual_help, $this );
 
 		if ( isset( $_wp_contextual_help[ $this->id ] ) ) {
@@ -651,14 +652,6 @@ final class WP_Screen {
 			$this->add_help_tab( array(
 				'title'   => __('Screen Info'),
 				'content' => $contextual_help,
-			) );
-		}
-
-		// Add screen options tab
-		if ( $this->show_screen_options() ) {
-			$this->add_help_tab( array(
-				'title'    => __('Screen Options'),
-				'callback' => array( $this, 'render_screen_options' ),
 			) );
 		}
 
@@ -712,7 +705,7 @@ final class WP_Screen {
 		<?php
 	}
 
-	public function show_screen_options() {
+	public function show_screen_options() { // not needed?
 		global $wp_meta_boxes, $wp_list_table;
 
 		if ( is_bool( $this->_show_screen_options ) )
@@ -746,6 +739,15 @@ final class WP_Screen {
 		return $this->_show_screen_options;
 	}
 
+	public function add_screen_options($before = '') {
+		$this->add_help_tab( array(
+			'title'    => __('Screen Options'),
+			'id'       => 'screen-options',
+			'callback' => array( $this, 'render_screen_options' ),
+			'content'  => $before
+		));
+	}
+
 	/**
 	 * Render the screen options tab.
 	 *
@@ -756,6 +758,13 @@ final class WP_Screen {
 
 		$columns = get_column_headers( $this );
 		$hidden  = get_hidden_columns( $this );
+		$this->_screen_settings = apply_filters( 'screen_settings', '', $this );
+
+		switch ( $this->id ) {
+			case 'widgets':
+				$this->_screen_settings = '<p><a id="access-on" href="widgets.php?widgets-access=on">' . __('Enable accessibility mode') . '</a><a id="access-off" href="widgets.php?widgets-access=off">' . __('Disable accessibility mode') . "</a></p>\n";
+				break;
+		}
 
 		?>
 		<form id="adv-settings" action="" method="post">

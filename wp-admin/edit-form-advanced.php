@@ -161,13 +161,17 @@ do_action('do_meta_boxes', $post_type, 'side', $post);
 
 $current_screen->add_option('layout_columns', array('max' => 2, 'default' => 'auto') );
 
+$current_screen->add_screen_options( 
+'<p>test</p>'
+);
+
 if ( 'post' == $post_type ) {
 	$customize_display = '<p>' . __('The title field and the big Post Editing Area are fixed in place, but you can reposition all the other boxes using drag and drop, and can minimize or expand them by clicking the title bar of each box. Use the Screen Options tab to unhide more boxes (Excerpt, Send Trackbacks, Custom Fields, Discussion, Slug, Author) or to choose a 1- or 2-column layout for this screen.') . '</p>';
 
 	$current_screen->add_help_tab( array(
 		'id'      => 'customize-display',
 		'title'   => __('Customizing This Display'),
-		'content' => $customize_display,
+		'content' => $customize_display
 	) );
 
 	$title_and_editor  = '<p>' . __('<strong>Title</strong> - Enter a title for your post. After you enter a title, you&#8217;ll see the permalink below, which you can edit.') . '</p>';

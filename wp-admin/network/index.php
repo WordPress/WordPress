@@ -40,6 +40,10 @@ add_thickbox();
 
 add_screen_option('layout_columns', array('max' => 4, 'default' => 'auto') );
 
+$current_screen->add_screen_options( 
+'<p>test</p>'
+);
+
 require_once( '../admin-header.php' );
 
 ?>
