@@ -32,7 +32,8 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 			'fields' => 'all_with_meta'
 		);
 
-		$args['search'] = ltrim($args['search'], '*');
+		if ( wp_is_large_network( 'users' ) )
+			$args['search'] = ltrim( $args['search'], '*' );
 
 		if ( $role == 'super' ) {
 			$logins = implode( "', '", get_super_admins() );
@@ -41,7 +42,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 
 		// If the network is large and a search is not being performed, show only the latest users with no paging in order
 		// to avoid expensive count queries.
-		if ( !$usersearch && ( get_blog_count() >= 10000 ) ) {
+		if ( !$usersearch && wp_is_large_network( 'users' ) ) {
 			if ( !isset($_REQUEST['orderby']) )
 				$_GET['orderby'] = $_REQUEST['orderby'] = 'id';
 			if ( !isset($_REQUEST['order']) )
