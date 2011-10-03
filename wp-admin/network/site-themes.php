@@ -122,9 +122,9 @@ if ( isset( $_GET['action'] ) && 'update-site' == $_GET['action'] ) {
 }
 
 add_thickbox();
-add_screen_option( 'per_page', array( 'label' => _x( 'Themes', 'themes per page (screen options)' ) ) );
+$current_screen->add_option( 'per_page', array( 'label' => _x( 'Themes', 'themes per page (screen options)' ) ) );
 
-$current_screen->add_screen_options( 
+$current_screen->add_option_context( 
 '<p>test</p>'
 );
 

@@ -22,9 +22,9 @@ $pagenum = $wp_list_table->get_pagenum();
 $title = __( 'Sites' );
 $parent_file = 'sites.php';
 
-add_screen_option( 'per_page', array('label' => _x( 'Sites', 'sites per page (screen options)' )) );
+$current_screen->add_option( 'per_page', array('label' => _x( 'Sites', 'sites per page (screen options)' )) );
 
-$current_screen->add_screen_options( 
+$current_screen->add_option_context( 
 '<p>test</p>'
 );
 

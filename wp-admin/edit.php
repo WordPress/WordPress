@@ -148,11 +148,8 @@ wp_enqueue_script('inline-edit-post');
 
 $title = $post_type_object->labels->name;
 
-add_screen_option( 'per_page', array('label' => $title, 'default' => 20) );
-
-$current_screen->add_screen_options( 
-'<p>test</p>'
-);
+$current_screen->add_option( 'per_page', array('label' => $title, 'default' => 20) );
+$current_screen->add_option_context( '<p>test</p>' );
 
 if ( 'post' == $post_type ) {
 	add_contextual_help($current_screen,

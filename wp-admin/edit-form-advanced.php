@@ -161,7 +161,7 @@ do_action('do_meta_boxes', $post_type, 'side', $post);
 
 $current_screen->add_option('layout_columns', array('max' => 2, 'default' => 'auto') );
 
-$current_screen->add_screen_options( 
+$current_screen->add_option_context( 
 '<p>test</p>'
 );
 

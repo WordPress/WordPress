@@ -31,7 +31,7 @@ do_action( 'sidebar_admin_setup' );
 $title = __( 'Widgets' );
 $parent_file = 'themes.php';
 
-$current_screen->add_screen_options( 
+$current_screen->add_option_context( 
 '<p>test</p>'
 );
 

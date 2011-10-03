@@ -35,7 +35,7 @@ $body_id = $tab;
 
 do_action('install_plugins_pre_' . $tab); //Used to override the general interface, Eg, install or plugin information.
 
-$current_screen->add_screen_options( 
+$current_screen->add_option_context( 
 '<p>test</p>'
 );
 

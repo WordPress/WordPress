@@ -137,9 +137,9 @@ wp_enqueue_script( 'wp-ajax-response' );
 wp_enqueue_script( 'jquery-ui-draggable' );
 wp_enqueue_script( 'media' );
 
-add_screen_option( 'per_page', array('label' => _x( 'Media items', 'items per page (screen options)' )) );
+$current_screen->add_option( 'per_page', array('label' => _x( 'Media items', 'items per page (screen options)' )) );
 
-$current_screen->add_screen_options( 
+$current_screen->add_option_context( 
 '<p>test</p>'
 );
 

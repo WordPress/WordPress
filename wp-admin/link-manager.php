@@ -40,7 +40,7 @@ $wp_list_table->prepare_items();
 $title = __('Links');
 $this_file = $parent_file = 'link-manager.php';
 
-$current_screen->add_screen_options( 
+$current_screen->add_option_context( 
 '<p>test</p>'
 );
 

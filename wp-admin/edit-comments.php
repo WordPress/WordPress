@@ -109,11 +109,8 @@ if ( $post_id )
 else
 	$title = __('Comments');
 
-add_screen_option( 'per_page', array('label' => _x( 'Comments', 'comments per page (screen options)' )) );
-
-$current_screen->add_screen_options( 
-'<p>test</p>'
-);
+$current_screen->add_option( 'per_page', array('label' => _x( 'Comments', 'comments per page (screen options)' )) );
+$current_screen->add_option_context( '<p>test</p>' );
 
 add_contextual_help( $current_screen, '<p>' . __( 'You can manage comments made on your site similar to the way you manage Posts and other content. This screen is customizable in the same ways as other management screens, and you can act on comments using the on-hover action links or the Bulk Actions.' ) . '</p>' .
 	'<p>' . __( 'A yellow row means the comment is waiting for you to moderate it.' ) . '</p>' .

@@ -28,9 +28,9 @@ if ( 'post' != $post_type ) {
 	$submenu_file = "edit-tags.php?taxonomy=$taxonomy";
 }
 
-add_screen_option( 'per_page', array('label' => $title, 'default' => 20, 'option' => 'edit_' . $tax->name . '_per_page') );
+$current_screen->add_option( 'per_page', array('label' => $title, 'default' => 20, 'option' => 'edit_' . $tax->name . '_per_page') );
 
-$current_screen->add_screen_options( 
+$current_screen->add_option_context( 
 '<p>test</p>'
 );
 
