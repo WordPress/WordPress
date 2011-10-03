@@ -66,7 +66,7 @@ function press_it() {
 		if ( isset( $_POST['post_format'] ) ) {
 			if ( current_theme_supports( 'post-formats', $_POST['post_format'] ) )
 				set_post_format( $post_ID, $_POST['post_format'] );
-			elseif ( '0' == $post_data['post_format'] )
+			elseif ( '0' == $_POST['post_format'] )
 				set_post_format( $post_ID, false );
 		}
 
