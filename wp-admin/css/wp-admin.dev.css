@@ -626,10 +626,9 @@ div.error p {
 
 .wrap h2,
 .subtitle {
-	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", sans-serif;
 	font-weight: normal;
 	margin: 0;
-	text-shadow: rgba(255,255,255,1) 0 1px 0;
+	text-shadow: #fff 0 1px 0;
 }
 
 .wrap h2 {
@@ -718,9 +717,38 @@ div.error p {
   1.0 - Text Styles
 ------------------------------------------------------------------------------*/
 
+div.sidebar-name h3,
+#menu-management .nav-tab,
+#dashboard_plugins h5,
+a.rsswidget,
+#dashboard_right_now td.b,
+#dashboard-widgets h4,
+.tool-box .title,
+#poststuff h3,
+.metabox-holder h3,
+.pressthis a,
+#your-profile legend,
+.inline-edit-row fieldset span.title,
+.inline-edit-row fieldset span.checkbox-title,
+.tablenav .displaying-num,
+.welcome-panel h3,
+.widefat th,
+#wphead h1,
 .quicktags,
 .search {
-	font: 12px Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
+	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
+}
+
+h2 .nav-tab,
+.wrap h2,
+.subtitle,
+.login form .input {
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", sans-serif;
+}
+
+.quicktags,
+.search {
+	font-size: 12px;
 }
 
 .icon32 {
@@ -1373,7 +1401,8 @@ form.upgrade .hint {
 }
 
 #wphead h1 {
-	font: normal 16px Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
+	font-style: normal;
+	font-size: 16px;
 	padding: 6px 8px 5px;
 	margin: 0;
 	float: left;
@@ -1382,6 +1411,7 @@ form.upgrade .hint {
 #wphead h1 a:hover {
 	text-decoration:none;
 }
+
 #wphead h1 a:hover #site-title {
 	text-decoration:underline;
 }
@@ -1669,6 +1699,7 @@ form.upgrade .hint {
 	top: -5px;
 	left: 26px;
 }
+
 .js #adminmenu .wp-submenu.sub-open {
 	padding: 0 8px 8px 0;
 }
@@ -1758,6 +1789,7 @@ body.no-js #adminmenu li.wp-has-current-submenu .wp-submenu {
 #adminmenu li.wp-not-current-submenu li {
 	margin-left: 8px;
 }
+
 .folded #adminmenu li.wp-not-current-submenu li {
 	margin-left: 0;
 }
@@ -1772,6 +1804,7 @@ body.no-js #adminmenu li.wp-has-current-submenu .wp-submenu {
 .wp-menu-arrow {
 	display: none;
 }
+
 #adminmenu li.wp-has-current-submenu .wp-menu-arrow,
 #adminmenu li.menu-top.current .wp-menu-arrow,
 #adminmenu li.wp-has-submenu:hover .wp-menu-arrow {
@@ -1786,6 +1819,7 @@ body.no-js #adminmenu li.wp-has-current-submenu .wp-submenu {
 #adminmenu li.menu-top:hover .wp-menu-arrow {
 	z-index: 1500;
 }
+
 .folded #adminmenu li.menu-top:hover .wp-menu-arrow {
 	display: none;
 }
@@ -2016,7 +2050,6 @@ body.admin-bar #adminmenu {
 }
 
 .widefat th {
-	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 	font-weight: normal;
 }
 
@@ -2168,7 +2201,6 @@ body.admin-bar #adminmenu {
 }
 
 .welcome-panel h3 {
-	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 	font-size: 24px;
 	font-weight: normal;
 }
@@ -2319,7 +2351,6 @@ th.asc:hover span.sorting-indicator {
 }
 
 /* Bulk Actions */
-
 .tablenav-pages a {
 	border-bottom-style: solid;
 	border-bottom-width: 2px;
@@ -2381,7 +2412,6 @@ th.asc:hover span.sorting-indicator {
 .tablenav .displaying-num {
 	margin-right: 10px;
 	font-size: 12px;
-	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 	font-style: italic;
 }
 
@@ -2592,7 +2622,6 @@ tr.inline-edit-row td {
 	width: 6em;
 }
 
-
 /*	Styling */
 .inline-edit-row h4 {
 	text-transform: uppercase;
@@ -2600,7 +2629,6 @@ tr.inline-edit-row td {
 
 .inline-edit-row fieldset span.title,
 .inline-edit-row fieldset span.checkbox-title {
-	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 	font-style: italic;
 	line-height: 1.8em;
 }
@@ -2998,6 +3026,7 @@ div.tabs-panel-inactive {
 #normal-sortables .comments-box {
 	border: 0 none;
 }
+
 ul.category-tabs,
 ul.add-menu-item-tabs,
 ul.wp-tab-bar {
@@ -3040,7 +3069,6 @@ ul.wp-tab-bar li {
 }
 
 /* positioning etc. */
-
 form#tags-filter {
 	position: relative;
 }
@@ -3060,7 +3088,6 @@ form#tags-filter {
 }
 
 /* Edit posts */
-
 td.post-title strong, td.plugin-title strong {
 	display: block;
 	margin-bottom: .2em;
@@ -3071,7 +3098,6 @@ td.post-title p, td.plugin-title p {
 }
 
 /* Global classes */
-
 .wp-hidden-children .wp-hidden-child,
 .ui-tabs-hide {
 	display: none;
@@ -4068,7 +4094,7 @@ span.imgedit-scale-warn {
 .form-table th,
 .form-wrap label {
 	font-weight: normal;
-	text-shadow: rgba(255,255,255,1) 0 1px 0;
+	text-shadow: #fff 0 1px 0;
 }
 
 .form-table th {
@@ -4394,7 +4420,7 @@ div#custom-background-image img {
 	border-color: #dfdfdf #dfdfdf #fff;
 	border-width: 1px 1px 0;
 	color: #aaa;
-	text-shadow: rgba(255,255,255,1) 0 1px 0;
+	text-shadow: #fff 0 1px 0;
 	font-size: 12px;
 	line-height: 16px;
 	display: inline-block;
@@ -4424,7 +4450,6 @@ h2.nav-tab-wrapper, h3.nav-tab-wrapper {
 
 h2 .nav-tab {
 	padding: 4px 10px 6px;
-	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", sans-serif;
 	font-weight: 200;
 	font-size: 20px;
 	line-height: 24px;
@@ -4524,7 +4549,6 @@ input.button-highlighted,
 }
 
 #your-profile legend {
-	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 	font-size: 22px;
 }
 
@@ -4572,7 +4596,9 @@ input.button-highlighted,
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
 	border: 1px #b4b4b4 solid;
-	font: normal normal normal 14px/16px Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
+	font-style: normal;
+	line-height: 16px;
+	font-size: 14px;
 	text-decoration: none;
 	text-shadow: #fff 0 1px 0px;
 }
@@ -4759,7 +4785,6 @@ table.form-table td .updated {
 #poststuff h3,
 .metabox-holder h3 {
 	font-size: 15px;
-	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 	font-weight: normal;
 	padding: 7px 10px;
 	margin: 0;
@@ -4798,20 +4823,11 @@ td.post-title p, td.plugin-title p {
 	text-decoration: none;
 }
 
-.tool-box {
-	margin: 15px 0 35px;
-	max-width: 650px;
-}
-.tool-box .buttons {
-	margin: 15px 0;
-}
 .tool-box .title {
 	margin: 8px 0;
-	font: 18px/24px Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
-}
-
-.pressthis a {
-	font-size: 1.2em;
+	font-size: 18px;
+	font-weight: normal;
+	line-height: 24px;
 }
 
 #sidemenu {
@@ -4869,7 +4885,6 @@ table .column-visible,
 table .column-rating {
 	text-align: left;
 }
-
 
 /* Scrollbar fix for bulk upgrade iframe */
 body.iframe {
@@ -5068,7 +5083,6 @@ div.postbox div.inside {
 }
 
 #dashboard-widgets h4 {
-	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 	font-weight: normal;
 	font-size: 13px;
 	margin: 0 0 .2em;
@@ -5076,7 +5090,6 @@ div.postbox div.inside {
 }
 
 /* Right Now */
-
 #dashboard_right_now p.sub,
 #dashboard_right_now .table, #dashboard_right_now .versions {
 	margin: -12px;
@@ -5126,7 +5139,6 @@ div.postbox div.inside {
 #dashboard_right_now td.b {
 	padding-right: 6px;
 	text-align: right;
-	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 	font-size: 14px;
 	width: 1%;
 }
@@ -5179,7 +5191,6 @@ div.postbox div.inside {
 }
 
 /* Recent Comments */
-
 #dashboard_recent_comments h3 {
 	margin-bottom: 0;
 }
@@ -5256,7 +5267,6 @@ div.postbox div.inside {
 }
 
 /* QuickPress */
-
 #dashboard_quick_press h4 {
 	font-family: sans-serif;
 	float: left;
@@ -5344,7 +5354,6 @@ div.postbox div.inside {
 }
 
 /* Feeds */
-
 .rss-widget ul {
 	margin: 0;
 	padding: 0;
@@ -5353,7 +5362,6 @@ div.postbox div.inside {
 
 a.rsswidget {
 	font-size: 13px;
-	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 	line-height: 1.7em;
 }
 
@@ -5383,8 +5391,8 @@ a.rsswidget {
 #dashboard_plugins h4 {
 	line-height: 1.7em;
 }
+
 #dashboard_plugins h5 {
-	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 	font-weight: normal;
 	font-size: 13px;
 	margin: 0;
@@ -5551,7 +5559,7 @@ a.rsswidget {
 
 .login #nav,
 .login #backtoblog {
-	text-shadow: rgba(255,255,255,1) 0 1px 0;
+	text-shadow: #fff 0 1px 0;
 	margin: 0 0 0 16px;
 	padding: 16px 16px 0;
 }
@@ -5561,7 +5569,6 @@ a.rsswidget {
 }
 
 .login form .input {
-	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", sans-serif;
 	font-weight: 200;
 	font-size: 24px;
 	width: 97%;
@@ -5770,7 +5777,6 @@ a.rsswidget {
 #menu-management .nav-tab {
 	margin-bottom: 0;
 	font-size: 14px;
-	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 }
 
 
@@ -6478,10 +6484,8 @@ img {
 }
 
 .press-this #wphead h1 {
-	font: normal 16px Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 	padding: 6px 0 0;
-	margin: 0;
-	float: left;
+	font-weight: normal;
 }
 
 .press-this #wphead h1 a {
@@ -7090,7 +7094,6 @@ div.widget-liquid-right {
 }
 
 div.sidebar-name h3 {
-	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 	font-weight: normal;
 	font-size: 15px;
 	margin: 0;
