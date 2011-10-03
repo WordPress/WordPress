@@ -227,10 +227,13 @@ function wp_admin_bar_blog_front_menu( $wp_admin_bar ) {
 	if ( empty( $blogname ) )
 		$blogname = preg_replace( '#^(https?://)?(www.)?#', '', get_home_url() );
 
+	$title = wp_html_excerpt( $blogname, 40 );
+	if ( $title != $blogname )
+		$title = trim( $title ) . '&hellip;';
 
 	$wp_admin_bar->add_menu( array(
 		'id'    => 'blog-name',
-		'title' => $blogname,
+		'title' => $title,
 		'href'  => admin_url(),
 	) );
 
@@ -267,9 +270,13 @@ function wp_admin_bar_blog_admin_menu( $wp_admin_bar ) {
 			$title = preg_replace( '#^(https?://)?(www.)?#', '', $url );
 	}
 
+	$title_excerpt = wp_html_excerpt( $title, 40 );
+	if ( $title != $title_excerpt )
+		$title_excerpt = trim( $title_excerpt ) . '&hellip;';
+
 	$wp_admin_bar->add_menu( array(
 		'id'    => 'blog-name',
-		'title' => $title,
+		'title' => $title_excerpt,
 		'href'  => $url,
 	) );
 }
