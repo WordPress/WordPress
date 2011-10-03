@@ -76,6 +76,34 @@ if ( $action ) {
 			wp_redirect( add_query_arg( 'disabled', count( $themes ), $referer ) );
 			exit;
 			break;
+		case 'update-selected' :
+			check_admin_referer( 'bulk-themes' );
+
+			if ( isset( $_GET['themes'] ) )
+				$themes = explode( ',', $_GET['themes'] );
+			elseif ( isset( $_POST['checked'] ) )
+				$themes = (array) $_POST['checked'];
+			else
+				$themes = array();
+
+			$title = __( 'Update Themes' );
+			$parent_file = 'themes.php';
+
+			require_once(ABSPATH . 'wp-admin/admin-header.php');
+
+			echo '<div class="wrap">';
+			screen_icon();
+			echo '<h2>' . esc_html( $title ) . '</h2>';
+
+
+			$url = self_admin_url('update.php?action=update-selected-themes&amp;themes=' . urlencode( join(',', $themes) ));
+			$url = wp_nonce_url($url, 'bulk-update-themes');
+
+			echo "<iframe src='$url' style='width: 100%; height:100%; min-height:850px;'></iframe>";
+			echo '</div>';
+			require_once(ABSPATH . 'wp-admin/admin-footer.php');
+			exit;
+			break;
 		case 'delete-selected':
 			if ( ! current_user_can( 'delete_themes' ) )
 				wp_die( __('You do not have sufficient permissions to delete themes for this site.') );
