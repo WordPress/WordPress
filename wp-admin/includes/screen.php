@@ -366,13 +366,16 @@ final class WP_Screen {
 	 * @param string $option Option ID
 	 * @param mixed $args Associative array of arguments particular to the default $option or the HTML string to be printed in the Screen Options tab.
 	 */
-	public function add_option( $option = false, $args ) {
+	public function add_option( $option, $args = null ) {
 		if ( is_array($args) && !empty($option) )
 			$this->_options[ $option ] = $args;
-		elseif ( is_string($args) )
-			$this->_options['_screen_settings'] .= $args;
+		elseif ( is_string($option) )
+			$this->_options['_screen_settings'] .= $option;
+		else
+			return false;
 
 		$this->_show_options = true;
+		return true;
 	}
 	
 	/**
@@ -413,9 +416,10 @@ final class WP_Screen {
 
 		// Ensure we have title and ID.
 		if ( ! $args['title'] || ! $args['id'] )
-			return;
+			return false;
 
 		$this->_help_tabs[] = $args;
+		return true;
 	}
 
 	/**
@@ -442,7 +446,7 @@ final class WP_Screen {
 		global $_wp_contextual_help;
 
 		// Intended for adding Help and Screen Options.
-		do_action('add_screen_help_and_options');
+		do_action('add_screen_help_and_options', $this);
 
 		// Call old contextual_help_list filter.
 		if ( ! isset( $_wp_contextual_help ) )
