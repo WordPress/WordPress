@@ -801,6 +801,103 @@ function screen_options( $screen ) {
  * @see WP_Screen::render_screen_meta()
  */
 function screen_meta( $screen ) {
+	_deprecated_function( __FUNCTION__, '3.3', '$current_screen->render_screen_meta()' );
+
 	$current_screen = get_current_screen();
 	$current_screen->render_screen_meta();
 }
+
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since 2.7.0
+ * @deprecated 3.3.0
+ */
+function favorite_actions() {
+	_deprecated_function( __FUNCTION__, '3.3' );
+}
+
+/**
+ * Old way of adding contextual help text for a page. Use:
+ * $current_screen->add_help_tab( array(
+ *		'id'      => 'my-id', // required
+ *		'title'   => __('My Tab'), // required
+ *		'content' => 'help html'
+ * )); 
+ *
+ * Creates a 'Screen Info' help tab.
+ *
+ * @since 2.7.0
+ * @deprecated 3.3.0
+ *
+ * @param string    $screen The handle for the screen to add help to.  This is usually the hook name returned by the add_*_page() functions.
+ * @param string    $help   The content of a 'Screen Info' help tab.
+ */
+function add_contextual_help($screen, $help) {
+	_deprecated_function( __FUNCTION__, '3.3', '$current_screen->add_help_tab()' );
+
+	global $_wp_contextual_help;
+
+	if ( is_string($screen) )
+		$screen = convert_to_screen($screen);
+
+	if ( !isset($_wp_contextual_help) )
+		$_wp_contextual_help = array();
+
+	$_wp_contextual_help[$screen->id] = $help;
+}
+
+/**
+ * Old way of registering and configuring an admin screen option. Use $current_screen->add_option().
+ *
+ * @since 3.1.0
+ * @deprecated 3.3.0
+ *
+ * @param string $option An option name.
+ * @param mixed $args Option dependent arguments
+ * @return void
+ */
+function add_screen_option( $option, $args = array() ) {
+	_deprecated_function( __FUNCTION__, '3.3', '$current_screen->add_option()' );
+
+	$current_screen = get_current_screen();
+
+	if ( ! $current_screen )
+		return;
+
+	return $current_screen->add_option( $option, $args );
+}
+
+/**
+ * Output the HTML for hiding metaboxes on the page, use $current_screen->render_metabox_prefs().
+ * 
+ * Note that the outputted HTML contains the H5 heading and the DIV class="metabox-prefs".
+ *
+ * @since 2.7.0
+ * @deprecated 3.3.0
+ *
+ * @param mixed $screen
+ */
+function meta_box_prefs($screen) {
+	_deprecated_function( __FUNCTION__, '3.3', '$current_screen->render_metabox_prefs()' );
+
+	$current_screen = get_current_screen();
+
+	if ( ! $current_screen )
+		return;
+
+	return $current_screen->render_metabox_prefs();
+}
+
+function get_screen_icon( $screen = '' ) {
+	_deprecated_function( __FUNCTION__, '3.3', '$current_screen->get_screen_icon()' );
+
+	$current_screen = get_current_screen();
+
+	if ( ! $current_screen )
+		return;
+
+	return $current_screen->get_screen_icon($screen);
+}
+
+
