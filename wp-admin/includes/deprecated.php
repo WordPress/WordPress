@@ -834,7 +834,7 @@ function favorite_actions() {
  * @param string    $help   The content of a 'Screen Info' help tab.
  */
 function add_contextual_help($screen, $help) {
-	_deprecated_function( __FUNCTION__, '3.3', '$current_screen->add_help_tab()' );
+	//_deprecated_function( __FUNCTION__, '3.3', '$current_screen->add_help_tab()' );
 
 	global $_wp_contextual_help;
 
@@ -858,7 +858,7 @@ function add_contextual_help($screen, $help) {
  * @return void
  */
 function add_screen_option( $option, $args = array() ) {
-	_deprecated_function( __FUNCTION__, '3.3', '$current_screen->add_option()' );
+	//_deprecated_function( __FUNCTION__, '3.3', '$current_screen->add_option()' );
 
 	$current_screen = get_current_screen();
 
@@ -879,7 +879,7 @@ function add_screen_option( $option, $args = array() ) {
  * @param mixed $screen
  */
 function meta_box_prefs($screen) {
-	_deprecated_function( __FUNCTION__, '3.3', '$current_screen->render_metabox_prefs()' );
+	//_deprecated_function( __FUNCTION__, '3.3', '$current_screen->render_metabox_prefs()' );
 
 	$current_screen = get_current_screen();
 
@@ -890,7 +890,7 @@ function meta_box_prefs($screen) {
 }
 
 function get_screen_icon( $screen = '' ) {
-	_deprecated_function( __FUNCTION__, '3.3', '$current_screen->get_screen_icon()' );
+	//_deprecated_function( __FUNCTION__, '3.3', '$current_screen->get_screen_icon()' );
 
 	$current_screen = get_current_screen();
 
