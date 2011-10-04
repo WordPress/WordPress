@@ -90,6 +90,8 @@ if ( $doaction ) {
 			}
 			break;
 		case 'trash':
+			if ( !isset( $post_ids ) )
+				break;
 			foreach ( (array) $post_ids as $post_id ) {
 				if ( !current_user_can( 'delete_post', $post_id ) )
 					wp_die( __( 'You are not allowed to move this post to the trash.' ) );
@@ -100,6 +102,8 @@ if ( $doaction ) {
 			$location = add_query_arg( array( 'trashed' => count( $post_ids ), 'ids' => join( ',', $post_ids ) ), $location );
 			break;
 		case 'untrash':
+			if ( !isset( $post_ids ) )
+				break;
 			foreach ( (array) $post_ids as $post_id ) {
 				if ( !current_user_can( 'delete_post', $post_id ) )
 					wp_die( __( 'You are not allowed to move this post out of the trash.' ) );
@@ -110,6 +114,8 @@ if ( $doaction ) {
 			$location = add_query_arg( 'untrashed', count( $post_ids ), $location );
 			break;
 		case 'delete':
+			if ( !isset( $post_ids ) )
+				break;
 			foreach ( (array) $post_ids as $post_id_del ) {
 				if ( !current_user_can( 'delete_post', $post_id_del ) )
 					wp_die( __( 'You are not allowed to delete this post.' ) );
