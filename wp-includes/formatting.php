@@ -1148,7 +1148,7 @@ function format_to_post($content) {
  * Add leading zeros when necessary.
  *
  * If you set the threshold to '4' and the number is '10', then you will get
- * back '0010'. If you set the number to '4' and the number is '5000', then you
+ * back '0010'. If you set the threshold to '4' and the number is '5000', then you
  * will get back '5000'.
  *
  * Uses sprintf to append the amount of zeros based on the $threshold parameter
