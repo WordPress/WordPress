@@ -672,11 +672,9 @@ final class WP_Screen {
 		$screen_layout_columns = get_user_option("screen_layout_$this->id");
 		$num = $this->_options['layout_columns']['max'];
 
-		if ( ! $screen_layout_columns ) {
+		if ( ! $screen_layout_columns || 'auto' == $screen_layout_columns ) {
 			if ( isset( $this->_options['layout_columns']['default'] ) )
 				$screen_layout_columns = $this->_options['layout_columns']['default'];
-			else
-				$screen_layout_columns = 'auto';
 		}
 
 		?>
@@ -692,11 +690,6 @@ final class WP_Screen {
 				</label>
 				<?php
 			endfor; ?>
-			<label>
-				<input type='radio' id='wp_auto_columns' name='screen_columns' value='auto'
-					<?php checked( $screen_layout_columns, 'auto' ); ?> />
-				<?php esc_html_e('Auto'); ?>
-			</label>
 		</div>
 		<?php
 	}

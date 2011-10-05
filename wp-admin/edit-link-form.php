@@ -37,7 +37,7 @@ do_action('do_meta_boxes', 'link', 'normal', $link);
 do_action('do_meta_boxes', 'link', 'advanced', $link);
 do_action('do_meta_boxes', 'link', 'side', $link);
 
-$current_screen->add_option('layout_columns', array('max' => 2, 'default' => 'auto') );
+$current_screen->add_option('layout_columns', array('max' => 2, 'default' => 2) );
 
 $current_screen->add_option_context( 
 '<p>test</p>'
