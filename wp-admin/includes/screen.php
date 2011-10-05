@@ -469,6 +469,7 @@ final class WP_Screen {
 		// Time to render!
 		?>
 		<div id="screen-meta" class='metabox-prefs'>
+			<div id="contextual-help-back"></div>
 			<div id="contextual-help-wrap" class="hidden">
 				<div class="contextual-help-tabs">
 					<ul>

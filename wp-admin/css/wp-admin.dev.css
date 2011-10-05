@@ -1495,9 +1495,9 @@ form.upgrade .hint {
 	top: -250px;
 	left: 146px;
 	right: 0;
-	margin-top: 28px;
 	z-index: 20;
-	padding: 0 15px 0 20px;
+	margin: 28px 15px 0 20px;
+	padding: 0;
 }
 
 .folded #screen-meta {
@@ -1510,12 +1510,6 @@ form.upgrade .hint {
 	padding: 8px 20px 12px;
 	max-height: 300px;
 	overflow: auto;
-	border-style: solid;
-	border-width: 0 1px 1px;
-	-webkit-border-bottom-right-radius: 3px;
-	-webkit-border-bottom-left-radius: 3px;
-	border-bottom-right-radius: 3px;
-	border-bottom-left-radius: 3px;
 }
 
 #screen-meta .screen-reader-text {
@@ -1561,13 +1555,25 @@ form.upgrade .hint {
   6.3 - Help Menu
 ------------------------------------------------------------------------------*/
 
-#contextual-help-wrap {
-	position: relative;
-	padding: 0;
-	overflow: auto;
+#contextual-help-back {
+	position: absolute;
+	top: 0;
+	left: 3px;
+	right: -1px;
+	bottom: -1px;
+
+	border-width: 0 1px 1px;
+	border-style: solid;
+
+	-webkit-border-bottom-right-radius: 3px;
+	-webkit-border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px;
+	border-bottom-left-radius: 3px;
 }
 
-#contextual-help-wrap > .metabox-prefs {
+#contextual-help-wrap {
+	position: relative;
+	padding: 0 0 0 4px;
 	overflow: auto;
 }
 
@@ -1584,6 +1590,9 @@ form.upgrade .hint {
 .contextual-help-tabs li {
 	margin-bottom: 0;
 	list-style-type: none;
+	border-style: solid;
+	border-width: 1px 0;
+	border-color: transparent;
 }
 
 .contextual-help-tabs a {
@@ -1595,7 +1604,7 @@ form.upgrade .hint {
 
 .contextual-help-tabs .active {
 	padding: 0 2px;
-	margin: -1px -1px -1px -3px;
+	margin: 0 -1px 0 -3px;
 	border-width: 1px 0 1px 1px;
 	border-style: solid;
 }

@@ -782,10 +782,13 @@ table.widefat span.spam a,
 #screen-meta {
 	background-color: #fff;
 }
-#screen-options-wrap,
-#contextual-help-wrap {
+#contextual-help-back {
 	background-color: #f1f1f1;
 	border-color: #ccc;
+
+	-webkit-box-shadow: 0 1px 3px rgba( 0, 0, 0, 0.05 );
+	-moz-box-shadow: 0 1px 3px rgba( 0, 0, 0, 0.05 );
+	box-shadow: 0 1px 3px rgba( 0, 0, 0, 0.05 );
 }
 
 .contextual-help-tabs a:hover {
@@ -804,12 +807,8 @@ table.widefat span.spam a,
 	color: #000;
 }
 
-.contextual-help-sidebar {
-	background-color: #f1f1f1;
-}
-
 .contextual-help-tabs-wrap {
-	border-color: #dfdfdf;
+	border-color: #ccc;
 	background-color: #fff;
 }
 
