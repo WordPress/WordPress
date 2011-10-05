@@ -280,6 +280,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 				unset( $_parsed_query['name'] );
 		}
 
+		$_parsed_query = array_map( 'rawurlencode', $_parsed_query );
 		$redirect_url = add_query_arg( $_parsed_query, $redirect_url );
 	}
 
