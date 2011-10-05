@@ -80,8 +80,8 @@ if ( $_POST ) {
 		update_site_option( 'banned_email_domains', '' );
 	}
 
-	$options = array( 'registrationnotification', 'registration', 'add_new_users', 'menu_items', 'mu_media_buttons', 'upload_space_check_disabled', 'blog_upload_space', 'upload_filetypes', 'site_name', 'first_post', 'first_page', 'first_comment', 'first_comment_url', 'first_comment_author', 'welcome_email', 'welcome_user_email', 'fileupload_maxk', 'global_terms_enabled' );
-	$checked_options = array( 'mu_media_buttons' => array(), 'menu_items' => array(), 'registrationnotification' => 'no', 'upload_space_check_disabled' => 1, 'add_new_users' => 0 );
+	$options = array( 'registrationnotification', 'registration', 'add_new_users', 'menu_items', 'upload_disabled', 'upload_space_check_disabled', 'blog_upload_space', 'upload_filetypes', 'site_name', 'first_post', 'first_page', 'first_comment', 'first_comment_url', 'first_comment_author', 'welcome_email', 'welcome_user_email', 'fileupload_maxk', 'global_terms_enabled' );
+	$checked_options = array( 'menu_items' => array(), 'registrationnotification' => 'no', 'upload_space_check_disabled' => 1, 'add_new_users' => 0 );
 	foreach ( $checked_options as $option_name => $option_unchecked_value ) {
 		if ( ! isset( $_POST[$option_name] ) )
 			$_POST[$option_name] = $option_unchecked_value;
@@ -269,15 +269,6 @@ if ( isset( $_GET['updated'] ) ) {
 		</table>
 		<h3><?php _e( 'Upload Settings' ); ?></h3>
 		<table class="form-table">
-			<tr valign="top">
-				<th scope="row"><?php _e( 'Media upload buttons' ) ?></th>
-				<?php $mu_media_buttons = get_site_option( 'mu_media_buttons', array() ); ?>
-				<td><label><input type="checkbox" id="mu_media_buttons_image" name="mu_media_buttons[image]" value="1"<?php checked( ! empty( $mu_media_buttons['image'] ) ) ?>/> <?php _e( 'Images' ); ?></label><br />
-				<label><input type="checkbox" id="mu_media_buttons_video" name="mu_media_buttons[video]" value="1"<?php checked( ! empty( $mu_media_buttons['video'] ) ) ?>/> <?php _e( 'Videos' ); ?></label><br />
-				<label><input type="checkbox" id="mu_media_buttons_audio" name="mu_media_buttons[audio]" value="1"<?php checked( ! empty( $mu_media_buttons['audio'] ) ) ?>/> <?php _e( 'Music' ); ?></label><br />
-				<?php _e( 'The media upload buttons to display on the &#8220;Write Post&#8221; page. Make sure you update the allowed upload file types below as well.' ); ?></td>
-			</tr>
-
 			<tr valign="top">
 				<th scope="row"><?php _e( 'Site upload space' ) ?></th>
 				<td>
