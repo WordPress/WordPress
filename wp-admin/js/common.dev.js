@@ -55,8 +55,8 @@ adminMenu = {
 				$(this).find('.wp-submenu').removeClass('sub-open');
 			},
 			timeout: 220,
-			sensitivity: 8,
-			interval: 100
+			sensitivity: 4,
+			interval: 50
 		});
 	},
 
