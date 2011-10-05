@@ -1998,21 +1998,20 @@ function media_upload_max_image_resize() {
 <?php 
 }
 
-add_action('post-upload-ui', 'media_upload_max_image_resize');
+add_action( 'post-upload-ui', 'media_upload_max_image_resize' );
 
-add_filter('async_upload_image', 'get_media_item', 10, 2);
-add_filter('async_upload_audio', 'get_media_item', 10, 2);
-add_filter('async_upload_video', 'get_media_item', 10, 2);
-add_filter('async_upload_file', 'get_media_item', 10, 2);
+add_filter( 'async_upload_image', 'get_media_item', 10, 2 );
+add_filter( 'async_upload_audio', 'get_media_item', 10, 2 );
+add_filter( 'async_upload_video', 'get_media_item', 10, 2 );
+add_filter( 'async_upload_file',  'get_media_item', 10, 2 );
 
 add_action( 'media_upload_image', 'wp_media_upload_handler' );
 add_action( 'media_upload_audio', 'wp_media_upload_handler' );
 add_action( 'media_upload_video', 'wp_media_upload_handler' );
 add_action( 'media_upload_file',  'wp_media_upload_handler' );
 
-add_filter('media_upload_gallery', 'media_upload_gallery');
-
-add_filter('media_upload_library', 'media_upload_library');
+add_filter( 'media_upload_gallery', 'media_upload_gallery' );
+add_filter( 'media_upload_library', 'media_upload_library' );
 
 function media_upload_image() {
 	return wp_media_upload_handler();
