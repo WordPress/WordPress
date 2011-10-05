@@ -1420,7 +1420,8 @@ function _http_build_query($data, $prefix=null, $sep=null, $key='', $urlencode=t
  *
  * Adding a single key & value or an associative array. Setting a key value to
  * an empty string removes the key. Omitting oldquery_or_uri uses the $_SERVER
- * value.
+ * value. Additional values provided are expected to be encoded appropriately
+ * with urlencode() or rawurlencode().
  *
  * @since 1.5.0
  *
