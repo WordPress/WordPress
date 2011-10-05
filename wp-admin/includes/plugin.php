@@ -1605,7 +1605,7 @@ function register_setting( $option_group, $option_name, $sanitize_callback = '' 
 
 	$new_whitelist_options[ $option_group ][] = $option_name;
 	if ( $sanitize_callback != '' )
-		add_filter( "sanitize_option_{$option_name}", $sanitize_callback );
+		add_filter( "sanitize_option_{$option_name}", $sanitize_callback, 10, 2 );
 }
 
 /**
