@@ -434,7 +434,7 @@ function get_body_class( $class = '' ) {
 		// Post Format
 		if ( post_type_supports( $post->post_type, 'post-formats' ) ) {
 			$post_format = get_post_format( $post->ID );
-	
+
 			if ( $post_format && !is_wp_error($post_format) )
 				$classes[] = 'single-format-' . sanitize_html_class( $post_format );
 			else
@@ -506,6 +506,9 @@ function get_body_class( $class = '' ) {
 
 	if ( is_admin_bar_showing() )
 		$classes[] = 'admin-bar';
+
+	if ( get_background_image() || get_background_color() )
+		$classes[] = 'custom-background';
 
 	$page = $wp_query->get( 'page' );
 

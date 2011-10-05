@@ -1793,7 +1793,7 @@ function _custom_background_cb() {
 	}
 ?>
 <style type="text/css">
-body { <?php echo trim( $style ); ?> }
+body.custom-background { <?php echo trim( $style ); ?> }
 </style>
 <?php
 }
