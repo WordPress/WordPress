@@ -499,7 +499,7 @@ function media_upload_form_handler() {
  *
  * @return unknown
  */
-function media_upload_image() {
+function wp_media_upload_handler() {
 	$errors = array();
 	$id = 0;
 
@@ -1546,7 +1546,7 @@ jQuery(document).ready( function($) {
 
 <div id="media-items">
 <div class="media-item media-blank">
-<?php echo apply_filters( 'type_url_form_media', type_url_form_image( $type ) ); ?>
+<?php echo apply_filters( 'type_url_form_media', wp_media_insert_url_form( $type ) ); ?>
 </div>
 </div>
 </form>
@@ -1864,7 +1864,7 @@ jQuery(function($){
  *
  * @return unknown
  */
-function type_url_form_image( $default_view = 'image' ) {
+function wp_media_insert_url_form( $default_view = 'image' ) {
 	if ( !apply_filters( 'disable_captions', '' ) ) {
 		$caption = '
 		<tr class="image-only">
@@ -2005,11 +2005,43 @@ add_filter('async_upload_audio', 'get_media_item', 10, 2);
 add_filter('async_upload_video', 'get_media_item', 10, 2);
 add_filter('async_upload_file', 'get_media_item', 10, 2);
 
-add_action('media_upload_image', 'media_upload_image');
-add_action('media_upload_audio', 'media_upload_image');
-add_action('media_upload_video', 'media_upload_image');
-add_action('media_upload_file', 'media_upload_image');
+add_action( 'media_upload_image', 'wp_media_upload_handler' );
+add_action( 'media_upload_audio', 'wp_media_upload_handler' );
+add_action( 'media_upload_video', 'wp_media_upload_handler' );
+add_action( 'media_upload_file',  'wp_media_upload_handler' );
 
 add_filter('media_upload_gallery', 'media_upload_gallery');
 
 add_filter('media_upload_library', 'media_upload_library');
+
+function media_upload_image() {
+	return wp_media_upload_handler();
+}
+
+function media_upload_audio() {
+	return wp_media_upload_handler();
+}
+
+function media_upload_video() {
+	return wp_media_upload_handler();
+}
+
+function media_upload_file() {
+	return wp_media_upload_handler();
+}
+
+function type_url_form_image() {
+	return wp_media_insert_url_form( 'image' );
+}
+
+function type_url_form_audio() {
+	return wp_media_insert_url_form( 'audio' );
+}
+
+function type_url_form_video() {
+	return wp_media_insert_url_form( 'video' );
+}
+
+function type_url_form_file() {
+	return wp_media_insert_url_form( 'file' );
+}
