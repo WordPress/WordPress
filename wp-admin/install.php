@@ -92,14 +92,14 @@ function display_setup_form( $error = null ) {
 <p class="message"><?php printf( __( '<strong>ERROR</strong>: %s' ), $error ); ?></p>
 <?php } ?>
 <form id="setup" method="post" action="install.php?step=2">
-	<div class="form-fields">
-		<div class="field-row">
-			<div class="field-label"><label for="weblog_title"><?php _e( 'Site Title' ); ?></label></div>
-			<div class="field-input"><input name="weblog_title" type="text" id="weblog_title" size="25" value="<?php echo esc_attr( $weblog_title ); ?>" /></div>
-		</div>
-		<div class="field-row">
-			<div class="field-label"><label for="user_name"><?php _e('Username'); ?></label></div>
-			<div class="field-input">
+	<table class="form-table">
+		<tr>
+			<th scope="row"><label for="weblog_title"><?php _e( 'Site Title' ); ?></label></th>
+			<td><input name="weblog_title" type="text" id="weblog_title" size="25" value="<?php echo esc_attr( $weblog_title ); ?>" /></td>
+		</tr>
+		<tr>
+			<th scope="row"><label for="user_name"><?php _e('Username'); ?></label></th>
+			<td>
 			<?php
 			if ( $user_table ) {
 				_e('User(s) already exists.');
@@ -108,31 +108,31 @@ function display_setup_form( $error = null ) {
 				<p><?php _e( 'Usernames can have only alphanumeric characters, spaces, underscores, hyphens, periods and the @ symbol.' ); ?></p>
 			<?php
 			} ?>
-			</div>
-		</div>
+			</td>
+		</tr>
 		<?php if ( ! $user_table ) : ?>
-		<div class="field-row">
-			<div class="field-label">
+		<tr>
+			<th scope="row">
 				<label for="admin_password"><?php _e('Password, twice'); ?></label>
 				<p><?php _e('A password will be automatically generated for you if you leave this blank.'); ?></p>
-			</div>
-			<div class="field-input">
+			</th>
+			<td>
 				<input name="admin_password" type="password" id="pass1" size="25" value="" />
 				<p><input name="admin_password2" type="password" id="pass2" size="25" value="" /></p>
 				<div id="pass-strength-result"><?php _e('Strength indicator'); ?></div>
 				<p><?php _e('Hint: The password should be at least seven characters long. To make it stronger, use upper and lower case letters, numbers and symbols like ! " ? $ % ^ &amp; ).'); ?></p>
-			</div>
-		</div>
+			</td>
+		</tr>
 		<?php endif; ?>
-		<div class="field-row">
-			<div class="field-label"><label for="admin_email"><?php _e( 'Your E-mail' ); ?></label></div>
-			<div class="field-input"><input name="admin_email" type="text" id="admin_email" size="25" value="<?php echo esc_attr( $admin_email ); ?>" />
-			<p><?php _e( 'Double-check your email address before continuing.' ); ?></p></div>
-		</div>
-		<div class="field-row">
-			<div class="field-input field-full"><label><input type="checkbox" name="blog_public" value="1" <?php checked( $blog_public ); ?> /> <?php _e( 'Allow my site to appear in search engines like Google and Technorati.' ); ?></label></div>
-		</div>
-	</div>
+		<tr>
+			<th scope="row"><label for="admin_email"><?php _e( 'Your E-mail' ); ?></label></th>
+			<td><input name="admin_email" type="text" id="admin_email" size="25" value="<?php echo esc_attr( $admin_email ); ?>" />
+			<p><?php _e( 'Double-check your email address before continuing.' ); ?></p></td>
+		</tr>
+		<tr>
+			<td colspan="2"><label><input type="checkbox" name="blog_public" value="1" <?php checked( $blog_public ); ?> /> <?php _e( 'Allow my site to appear in search engines like Google and Technorati.' ); ?></label></td>
+		</tr>
+	</table>
 	<p class="step"><input type="submit" name="Submit" value="<?php esc_attr_e( 'Install WordPress' ); ?>" class="button" /></p>
 </form>
 <?php
@@ -220,20 +220,20 @@ switch($step) {
 
 <p><?php _e( 'WordPress has been installed. Were you expecting more steps? Sorry to disappoint.' ); ?></p>
 
-<div class="form-fields">
-	<div class="field-row">
-		<div class="field-label"><?php _e( 'Username' ); ?></div>
-		<div class="field-input"><code><?php echo esc_html( sanitize_user( $user_name, true ) ); ?></code></div>
-	</div>
-	<div class="field-row">
-		<div class="field-label"><?php _e( 'Password' ); ?></div>
-		<div class="field-input"><?php
+<table class="form-table">
+	<tr>
+		<th><?php _e( 'Username' ); ?></th>
+		<td><code><?php echo esc_html( sanitize_user( $user_name, true ) ); ?></code></td>
+	</tr>
+	<tr>
+		<th><?php _e( 'Password' ); ?></th>
+		<td><?php
 		if ( ! empty( $password ) && empty($admin_password_check) )
 			echo '<code>'. esc_html($password) .'</code><br />';
 		echo "<p>$password_message</p>"; ?>
-		</div>
-	</div>
-</div>
+		</td>
+	</tr>
+</table>
 
 <p class="step"><a href="../wp-login.php" class="button"><?php _e( 'Log In' ); ?></a></p>
 

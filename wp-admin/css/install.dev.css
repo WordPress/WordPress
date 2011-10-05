@@ -68,7 +68,7 @@ abbr {
 .step {
 	margin: 20px 0 15px;
 }
-.step, .field-label {
+.step, th {
 	text-align: left;
 	padding: 0;
 }
@@ -113,53 +113,49 @@ textarea {
 	border-radius: 3px;
 }
 
-.form-fields {
+.form-table {
+	border-collapse: collapse;
 	margin-top: 1em;
 	width: 100%;
 }
 
-.form-fields .field-input {
+.form-table td {
 	margin-bottom: 9px;
-	margin-left: 150px;
 	padding: 10px;
+	border-bottom: 8px solid #fff;
 	font-size: 12px;
 }
 
-.form-fields .field-full {
-	margin-left: 0;
-}
-
-.form-fields .field-label {
-	float: left;
+.form-table th {
 	font-size: 13px;
-	font-weight: bold;
 	text-align: left;
 	padding: 16px 10px 10px 10px;
+	border-bottom: 8px solid #fff;
 	width: 130px;
 	vertical-align: top;
 }
 
-.form-fields .field-row {
+.form-table tr {
 	background: #f3f3f3;
 }
 
-.form-fields code {
+.form-table code {
 	line-height: 18px;
 	font-size: 18px;
 }
 
-.form-fields p {
+.form-table p {
 	margin: 4px 0 0 0;
 	font-size: 11px;
 }
 
-.form-fields input {
+.form-table input {
 	line-height: 20px;
 	font-size: 15px;
 	padding: 2px;
 }
 
-.form-fields p {
+.form-table th p {
 	font-weight: normal;
 }
 
@@ -233,8 +229,8 @@ body.rtl {
 }
 
 .rtl .step,
-.rtl .field-label,
-.rtl .form-fields .field-label {
+.rtl th,
+.rtl .form-table th {
 	text-align: right;
 }
 
