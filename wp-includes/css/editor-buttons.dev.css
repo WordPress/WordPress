@@ -1050,16 +1050,17 @@
 }
 
 .wp-media-buttons {
-	cursor: default;
-	padding: 8px 8px 0;
+	padding: .5em .5em 0;
 }
 
 .wp-media-buttons a {
 	cursor: pointer;
-	padding: 0 0 5px 10px;
+	text-decoration: none;
+	color: #333;
 }
 
 .wp-media-buttons img {
+	padding: 0 4px;
 	vertical-align: middle;
 }
 

@@ -2819,27 +2819,6 @@ input#link_url {
 	float: left;
 }
 
-.postarea #add-media-button {
-	float: right;
-	margin: 7px 0pt 0pt;
-	position: relative;
-	right: 10px;
-}
-
-.wp-media-buttons {
-	cursor: default;
-	padding: 8px 8px 0;
-}
-
-.wp-media-buttons a {
-	cursor: pointer;
-	padding: 0 0 5px 10px;
-}
-
-.wp-media-buttons img {
-	vertical-align: middle;
-}
-
 #submitpost #ajax-loading,
 #submitpost .ajax-loading {
 	vertical-align: middle;
@@ -5291,20 +5270,13 @@ div.postbox div.inside {
 	margin: 0 0 1em 5em;
 }
 
-#media-buttons {
+#dashboard_quick_press #media-buttons {
 	margin: 0 0 .5em 5em;
-	padding: 0 0 0 10px;
-	line-height: 17px;
+	padding: 0;
+}
+
+#dashboard_quick_press #media-buttons a {
 	color: #777;
-	cursor: default;
-}
-
-#media-buttons a {
-	margin: 0 3px;
-}
-
-#media-buttons a img {
-	vertical-align: middle;
 }
 
 #dashboard-widgets #dashboard_quick_press form p.submit {

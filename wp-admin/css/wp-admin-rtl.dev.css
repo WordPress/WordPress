@@ -696,12 +696,6 @@ th.sorted a span {
 	float: right;
 }
 
-.postarea #add-media-button {
-	float: left;
-	right: auto;
-	left: 10px;
-}
-
 #edButtonPreview,
 #edButtonHTML {
 	margin: 5px 0 0 5px;
@@ -711,10 +705,6 @@ th.sorted a span {
 #poststuff #edButtonHTML {
 	margin-right: 0;
 	margin-left: 15px;
-}
-
-.wp-media-buttons a {
-	padding: 0 10px 5px 0;
 }
 
 .submitbox .submit {
@@ -1566,8 +1556,9 @@ ol.ol-decimal {
 }
 #dashboard_quick_press #media-buttons {
 	margin: 0 5em .5em 0;
-	padding: 0 10px 0 0;
+	padding: 0;
 }
+
 #dashboard-widgets #dashboard_quick_press form p.submit {
 	margin-left: 0;
 	margin-right: 4.6em;

@@ -374,25 +374,25 @@ document.body.className = c;
  * @since 2.5.0
  */
 function media_buttons($editor_id = 'content') {
-	$out = _media_button(__('Add Media'), 'images/media-button-video.gif?ver=20100531', 'media', $editor_id);
-
 	$context = apply_filters('media_buttons_context', __('Upload/Insert %s'));
 
-	printf($context, $out);
+	$img = '<img src="' . esc_url( admin_url( 'images/media-button.png?ver=20111005' ) ) . '" width="15" height="15" />';
+
+	echo '<a href="' . esc_url( get_upload_iframe_src() ) . '" class="thickbox add_media" id="$editor_id-add_media" title="' . esc_attr__( 'Add Media' ) . '" onclick="return false;">' . sprintf( $context, $img ) . '</a>';
 }
 add_action( 'media_buttons', 'media_buttons' );
 
 function _media_button($title, $icon, $type, $id) {
-	return "<a href='" . esc_url( get_upload_iframe_src($type) ) . "' id='{$id}-add_{$type}' class='thickbox add_$type' title='$title'><img src='" . esc_url( admin_url( $icon ) ) . "' alt='$title' onclick='return false;' /></a>";
+	return "<a href='" . esc_url( get_upload_iframe_src($type) ) . "' id='{$id}-add_{$type}' class='thickbox add_$type' title='" . esc_attr( $title ) . "'><img src='" . esc_url( admin_url( $icon ) ) . "' alt='$title' onclick='return false;' /></a>";
 }
 
-function get_upload_iframe_src($type) {
+function get_upload_iframe_src( $type = null ) {
 	global $post_ID;
 
 	$uploading_iframe_ID = (int) $post_ID;
 	$upload_iframe_src = add_query_arg( 'post_id', $uploading_iframe_ID, admin_url('media-upload.php') );
 
-	if ( 'media' != $type )
+	if ( $type && 'media' != $type )
 		$upload_iframe_src = add_query_arg('type', $type, $upload_iframe_src);
 
 	$upload_iframe_src = apply_filters($type . '_upload_iframe_src', $upload_iframe_src);
@@ -1456,7 +1456,7 @@ function media_upload_type_url_form($type = null, $errors = null, $id = null) {
 <input type="hidden" name="post_id" id="post_id" value="<?php echo (int) $post_id; ?>" />
 <?php wp_nonce_field('media-form'); ?>
 
-<h3 class="media-title"><?php _e('Add media file from URL'); ?></h3>
+<h3 class="media-title"><?php _e('Insert media from another website'); ?></h3>
 
 <script type="text/javascript">
 //<![CDATA[
@@ -1890,8 +1890,7 @@ function type_url_form_image( $default_view = 'image' ) {
 	}
 
 	return '
-	<h4 class="media-sub-title">' . __('Insert media from another web site') . '</h4>
-	<p class="media-types"><label><input type="radio" name="media_type" value="image" id="image-only"' . checked( 'image-only', $view, false ) . ' /> ' . __( 'Images' ) . '</label> &nbsp; &nbsp; <label><input type="radio" name="media_type" value="generic" id="not-image"' . checked( 'not-image', $view, false ) . ' /> ' . __( 'Audio, Video, or Files' ) . '</label></p>
+	<p class="media-types"><label><input type="radio" name="media_type" value="image" id="image-only"' . checked( 'image-only', $view, false ) . ' /> ' . __( 'Image' ) . '</label> &nbsp; &nbsp; <label><input type="radio" name="media_type" value="generic" id="not-image"' . checked( 'not-image', $view, false ) . ' /> ' . __( 'Audio, Video, or Other File' ) . '</label></p>
 	<table class="describe ' . $table_class . '"><tbody>
 		<tr>
 			<th valign="top" scope="row" class="label" style="width:130px;">
