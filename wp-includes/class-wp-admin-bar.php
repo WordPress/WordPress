@@ -175,12 +175,12 @@ class WP_Admin_Bar {
 	function add_menus() {
 		add_action( 'admin_bar_menu', 'wp_admin_bar_wp_menu', 10 );
 		add_action( 'admin_bar_menu', 'wp_admin_bar_my_account_menu', 10 );
+		add_action( 'admin_bar_menu', 'wp_admin_bar_my_sites_menu', 20 );
 		add_action( 'admin_bar_menu', 'wp_admin_bar_edit_menu', 30 );
 		add_action( 'admin_bar_menu', 'wp_admin_bar_new_content_menu', 40 );
 		add_action( 'admin_bar_menu', 'wp_admin_bar_comments_menu', 50 );
 		add_action( 'admin_bar_menu', 'wp_admin_bar_updates_menu', 70 );
 		add_action( 'admin_bar_menu', 'wp_admin_bar_shortlink_menu', 80 );
-		add_action( 'admin_bar_menu', 'wp_admin_bar_network_admin_menu', 80 );
 
 		if ( ! is_admin() ) {
 			add_action( 'admin_bar_menu', 'wp_admin_bar_blog_front_menu', 25 );

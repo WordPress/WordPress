@@ -91,17 +91,51 @@ function wp_admin_bar_wp_menu( $wp_admin_bar ) {
 		) );
 	}
 
-	// Add codex link
+	// Add freedoms link
 	$wp_admin_bar->add_menu( array(
 		'parent' => 'wp-logo',
+		'id'     => 'freedoms',
+		'title'  => __('Freedoms'),
+		'href'   => admin_url('freedoms.php'),
+	) );
+
+	// Add credits link
+	$wp_admin_bar->add_menu( array(
+		'parent' => 'wp-logo',
+		'id'     => 'credits',
+		'title'  => __('Credits'),
+		'href'   => admin_url('credits.php'),
+	) );
+
+	// Add secondary menu.
+	$wp_admin_bar->add_menu( array(
+		'parent' => 'wp-logo',
+		'id'     => 'wp-logo-secondary',
+		'title'  => __( '&nbsp;' ),
+		'meta'   => array(
+			'class' => 'secondary',
+		),
+	) );
+
+	// Add codex link
+	$wp_admin_bar->add_menu( array(
+		'parent' => 'wp-logo-secondary',
 		'id'     => 'documentation',
 		'title'  => __('Documentation'),
 		'href'   => 'http://codex.wordpress.org',
 	) );
 
+	// Add feedback link
+	$wp_admin_bar->add_menu( array(
+		'parent' => 'wp-logo-secondary',
+		'id'     => 'feedback',
+		'title'  => __('Feedback'),
+		'href'   => 'http://wordpress.org/support/forum/requests-and-feedback',
+	) );
+
 	// Add forums link
 	$wp_admin_bar->add_menu( array(
-		'parent' => 'wp-logo',
+		'parent' => 'wp-logo-secondary',
 		'id'     => 'support-forums',
 		'title'  => __('Support Forums'),
 		'href'   => 'http://wordpress.org/support/',
@@ -109,7 +143,7 @@ function wp_admin_bar_wp_menu( $wp_admin_bar ) {
 
 	// Add WordPress.org link
 	$wp_admin_bar->add_menu( array(
-		'parent' => 'wp-logo',
+		'parent' => 'wp-logo-secondary',
 		'id'     => 'wporg',
 		'title'  => __('WordPress.org'),
 		'href'   => 'http://wordpress.org',
@@ -181,35 +215,6 @@ function wp_admin_bar_my_account_menu( $wp_admin_bar ) {
 				'class' => 'user-info-item',
 			),
 		) );
-
-		$wp_admin_bar->add_menu( array(
-			'parent' => 'my-account',
-			'id'     => 'my-account-secondary',
-			'title'  => '&nbsp;',
-			'meta'   => array(
-				'class' => 'secondary',
-			),
-		) );
-	}
-
-	wp_admin_bar_my_sites_menu( $wp_admin_bar );
-}
-
-/**
- * Add the "Network Admin" menu.
- *
- * @since 3.3.0
- */
-function wp_admin_bar_network_admin_menu( $wp_admin_bar ) {
-	if ( is_multisite() && is_super_admin() && ! is_network_admin() ) {
-		$wp_admin_bar->add_menu( array(
-			'id'    => 'network-admin',
-			'title' => __('Network Admin'),
-			'href'  => network_admin_url(),
-			'meta'  => array(
-				'class' => 'opposite',
-			),
-		) );
 	}
 }
 
@@ -279,6 +284,13 @@ function wp_admin_bar_blog_admin_menu( $wp_admin_bar ) {
 		'title' => $title_excerpt,
 		'href'  => $url,
 	) );
+
+	$wp_admin_bar->add_menu( array(
+		'parent' => 'blog-name',
+		'id'     => 'view-site',
+		'title'  => __( 'Visit Site' ),
+		'href'   => home_url(),
+	) );
 }
 
 /**
@@ -289,59 +301,91 @@ function wp_admin_bar_blog_admin_menu( $wp_admin_bar ) {
 function wp_admin_bar_my_sites_menu( $wp_admin_bar ) {
 	global $wpdb;
 
-	if ( is_user_logged_in() ) {
-		// Add blog links
-		$blue_wp_logo_url = includes_url('images/wpmini-blue.png');
+	// Don't show for logged out users or single site mode.
+	if ( ! is_user_logged_in() || ! is_multisite() )
+		return;
 
-		foreach ( (array) $wp_admin_bar->user->blogs as $blog ) {
-			// Skip the current blog (unless we're in the network/user admin).
-			if ( $blog->userblog_id == get_current_blog_id() && ! is_network_admin() && ! is_user_admin() ) {
-				continue;
-			}
+	// Show only when there are more than two items in the menu.
+	if ( count( $wp_admin_bar->user->blogs ) <= 1 && ! is_super_admin() )
+		return;
 
-			// @todo Replace with some favicon lookup.
-			//$blavatar = '<img src="' . esc_url( blavatar_url( blavatar_domain( $blog->siteurl ), 'img', 16, $blue_wp_logo_url ) ) . '" alt="Blavatar" width="16" height="16" />';
-			$blavatar = '<img src="' . esc_url($blue_wp_logo_url) . '" alt="' . esc_attr__( 'Blavatar' ) . '" width="16" height="16" class="blavatar"/>';
+	$wp_admin_bar->add_menu( array(
+		'id'    => 'my-sites',
+		'title' => __( 'My Sites' ),
+		'href'  => admin_url( 'my-sites.php' ),
+	) );
 
-			$blogname = empty( $blog->blogname ) ? $blog->domain : $blog->blogname;
-			$menu_id  = 'blog-' . $blog->userblog_id;
+	if ( is_super_admin() ) {
+		$wp_admin_bar->add_menu( array(
+			'parent' => 'my-sites',
+			'id'     => 'network-admin',
+			'title'  => __('Network Admin'),
+			'href'   => network_admin_url(),
+		) );
+	}
 
-			$wp_admin_bar->add_menu( array(
-				'parent' => 'my-account-secondary',
-				'id'     => $menu_id,
-				'title'  => $blavatar . $blogname,
-				'href'   => get_admin_url( $blog->userblog_id ),
-			) );
+	if ( $wp_admin_bar->user->blogs ) {
+		$wp_admin_bar->add_menu( array(
+			'parent' => 'my-sites',
+			'id'     => 'my-sites-secondary',
+			'title'  => '&nbsp;',
+			'meta'   => array(
+				'class' => 'secondary',
+			),
+		) );
+	}
 
+	// Add blog links
+	$blue_wp_logo_url = includes_url('images/wpmini-blue.png');
+
+	foreach ( (array) $wp_admin_bar->user->blogs as $blog ) {
+		// Skip the current blog (unless we're in the network/user admin).
+		if ( $blog->userblog_id == get_current_blog_id() && ! is_network_admin() && ! is_user_admin() ) {
+			continue;
+		}
+
+		// @todo Replace with some favicon lookup.
+		//$blavatar = '<img src="' . esc_url( blavatar_url( blavatar_domain( $blog->siteurl ), 'img', 16, $blue_wp_logo_url ) ) . '" alt="Blavatar" width="16" height="16" />';
+		$blavatar = '<img src="' . esc_url($blue_wp_logo_url) . '" alt="' . esc_attr__( 'Blavatar' ) . '" width="16" height="16" class="blavatar"/>';
+
+		$blogname = empty( $blog->blogname ) ? $blog->domain : $blog->blogname;
+		$menu_id  = 'blog-' . $blog->userblog_id;
+
+		$wp_admin_bar->add_menu( array(
+			'parent' => 'my-sites-secondary',
+			'id'     => $menu_id,
+			'title'  => $blavatar . $blogname,
+			'href'   => get_admin_url( $blog->userblog_id ),
+		) );
+
+		$wp_admin_bar->add_menu( array(
+			'parent' => $menu_id,
+			'id'     => $menu_id . '-d',
+			'title'  => __( 'Dashboard' ),
+			'href'   => get_admin_url( $blog->userblog_id ),
+		) );
+
+		if ( current_user_can_for_blog( $blog->userblog_id, 'edit_posts' ) ) {
 			$wp_admin_bar->add_menu( array(
 				'parent' => $menu_id,
-				'id'     => $menu_id . '-d',
-				'title'  => __( 'Dashboard' ),
-				'href'   => get_admin_url( $blog->userblog_id ),
+				'id'     => $menu_id . '-n',
+				'title'  => __( 'New Post' ),
+				'href'   => get_admin_url( $blog->userblog_id, 'post-new.php' ),
 			) );
-
-			if ( current_user_can_for_blog( $blog->userblog_id, 'edit_posts' ) ) {
-				$wp_admin_bar->add_menu( array(
-					'parent' => $menu_id,
-					'id'     => $menu_id . '-n',
-					'title'  => __( 'New Post' ),
-					'href'   => get_admin_url( $blog->userblog_id, 'post-new.php' ),
-				) );
-				$wp_admin_bar->add_menu( array(
-					'parent' => $menu_id,
-					'id'     => $menu_id . '-c',
-					'title'  => __( 'Manage Comments' ),
-					'href'   => get_admin_url( $blog->userblog_id, 'edit-comments.php' ),
-				) );
-			}
-
 			$wp_admin_bar->add_menu( array(
 				'parent' => $menu_id,
-				'id'     => $menu_id . '-v',
-				'title'  => __( 'Visit Site' ),
-				'href'   => get_home_url( $blog->userblog_id ),
+				'id'     => $menu_id . '-c',
+				'title'  => __( 'Manage Comments' ),
+				'href'   => get_admin_url( $blog->userblog_id, 'edit-comments.php' ),
 			) );
 		}
+
+		$wp_admin_bar->add_menu( array(
+			'parent' => $menu_id,
+			'id'     => $menu_id . '-v',
+			'title'  => __( 'Visit Site' ),
+			'href'   => get_home_url( $blog->userblog_id ),
+		) );
 	}
 }
 
