@@ -432,12 +432,12 @@ $_wp_nav_menu_max_depth = 0;
 if ( is_nav_menu( $nav_menu_selected_id ) )
 	$edit_markup = wp_get_nav_menu_to_edit( $nav_menu_selected_id  );
 
-function wp_nav_menu_max_depth() {
+function wp_nav_menu_max_depth($classes) {
 	global $_wp_nav_menu_max_depth;
-	return "menu-max-depth-$_wp_nav_menu_max_depth";
+	return "$classes menu-max-depth-$_wp_nav_menu_max_depth";
 }
 
-add_action('admin_body_class','wp_nav_menu_max_depth');
+add_filter('admin_body_class', 'wp_nav_menu_max_depth');
 
 wp_nav_menu_setup();
 wp_initial_nav_menu_meta_boxes();

@@ -1351,7 +1351,6 @@ function iframe_header( $title = '', $limit_styles = false ) {
 	show_admin_bar( false );
 	global $hook_suffix, $current_screen, $current_user, $admin_body_class, $wp_locale;
 	$admin_body_class = preg_replace('/[^a-z0-9_-]+/i', '-', $hook_suffix);
-	$admin_body_class .= ' iframe';
 
 ?><!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" <?php do_action('admin_xml_ns'); ?> <?php language_attributes(); ?>>
@@ -1389,7 +1388,7 @@ do_action("admin_head-$hook_suffix");
 do_action('admin_head');
 ?>
 </head>
-<body<?php if ( isset($GLOBALS['body_id']) ) echo ' id="' . $GLOBALS['body_id'] . '"'; ?>  class="no-js <?php echo $admin_body_class; ?>">
+<body<?php if ( isset($GLOBALS['body_id']) ) echo ' id="' . $GLOBALS['body_id'] . '"'; ?>  class="wp-admin no-js iframe <?php echo apply_filters( 'admin_body_class', '' ) . ' ' . $admin_body_class; ?>">
 <script type="text/javascript">
 //<![CDATA[
 (function(){
