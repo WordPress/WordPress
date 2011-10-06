@@ -173,20 +173,25 @@ class WP_Admin_Bar {
 	}
 
 	function add_menus() {
-		add_action( 'admin_bar_menu', 'wp_admin_bar_wp_menu', 10 );
+		// User related, aligned right.
 		add_action( 'admin_bar_menu', 'wp_admin_bar_my_account_menu', 10 );
+
+		// Site related.
+		add_action( 'admin_bar_menu', 'wp_admin_bar_wp_menu', 10 );
 		add_action( 'admin_bar_menu', 'wp_admin_bar_my_sites_menu', 20 );
-		add_action( 'admin_bar_menu', 'wp_admin_bar_edit_menu', 30 );
-		add_action( 'admin_bar_menu', 'wp_admin_bar_new_content_menu', 40 );
-		add_action( 'admin_bar_menu', 'wp_admin_bar_comments_menu', 50 );
-		add_action( 'admin_bar_menu', 'wp_admin_bar_updates_menu', 70 );
+		add_action( 'admin_bar_menu', 'wp_admin_bar_updates_menu', 40 );
+
+		// Content related.
+		add_action( 'admin_bar_menu', 'wp_admin_bar_edit_menu', 50 );
+		add_action( 'admin_bar_menu', 'wp_admin_bar_comments_menu', 60 );
+		add_action( 'admin_bar_menu', 'wp_admin_bar_new_content_menu', 70 );
 		add_action( 'admin_bar_menu', 'wp_admin_bar_shortlink_menu', 80 );
 
 		if ( ! is_admin() ) {
-			add_action( 'admin_bar_menu', 'wp_admin_bar_blog_front_menu', 25 );
+			add_action( 'admin_bar_menu', 'wp_admin_bar_blog_front_menu', 30 );
 			add_action( 'admin_bar_menu', 'wp_admin_bar_search_menu', 100 );
 		} else {
-			add_action( 'admin_bar_menu', 'wp_admin_bar_blog_admin_menu', 25 );
+			add_action( 'admin_bar_menu', 'wp_admin_bar_blog_admin_menu', 30 );
 			add_action( 'admin_bar_menu', 'wp_admin_bar_help_menu', 90 );
 		}
 
