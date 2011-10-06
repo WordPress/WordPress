@@ -316,7 +316,7 @@ $wp_list_table->prepare_items();
 wp_enqueue_script('plugin-install');
 add_thickbox();
 
-$current_screen->add_option( 'per_page', array('label' => _x( 'Plugins', 'plugins per page (screen options)' )) );
+$current_screen->add_option( 'per_page', array('label' => _x( 'Plugins', 'plugins per page (screen options)' ), 'default' => 999 ) );
 
 $current_screen->add_option_context( 
 '<p>test</p>'
