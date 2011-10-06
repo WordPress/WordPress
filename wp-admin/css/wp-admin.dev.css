@@ -118,24 +118,10 @@ TABLE OF CONTENTS:
 	position: relative;
 }
 
-.wide-window .inner-sidebar {
-    margin-right: -870px;
-    width: 100%;
-    display: block;
-}
-
-.columns-2 .inner-sidebar,
-.wide-window .columns-2 .inner-sidebar {
+.columns-2 .inner-sidebar {
 	margin-right: auto;
 	width: 286px;
 	display: block;
-}
-
-.wide-window .inner-sidebar #side-sortables {
-	margin-right: 870px;
-	min-width: 280px;
-	max-width: 480px;
-	width: auto;
 }
 
 .inner-sidebar #side-sortables,
@@ -170,12 +156,7 @@ TABLE OF CONTENTS:
 	max-width: none;
 }
 
-#side-sortables:empty {
-	border: 3px dashed #ccc;
-	height: 500px;
-}
-
-#post-body-content #side-sortables:empty {
+#post-body-content #side-sortables.empty-container {
 	border: 0 none;
 	height: 0;
 }
@@ -202,6 +183,10 @@ TABLE OF CONTENTS:
 	padding: 0;
 	margin: 0;
 	width: 59%;
+}
+
+.col-wrap {
+	padding: 0 7px;
 }
 
 /* utility classes */
@@ -2076,9 +2061,10 @@ body.admin-bar #adminmenu {
 	float: left;
 }
 
-.postbox-container .meta-box-sortables:empty:first-child {
+.postbox-container .meta-box-sortables.empty-container,
+#side-sortables.empty-container {
 	border: 3px dashed #CCCCCC;
-	height: 300px;
+	height: 350px;
 }
 
 .postbox .hndle {
@@ -2981,7 +2967,14 @@ div.tabs-panel-inactive {
 	text-decoration: none;
 }
 
-#side-sortables .category-tabs,
+#side-sortables .category-tabs {
+	margin: 8px 0 3px;
+}
+
+#category-adder h4 {
+	margin: 10px 0;
+}
+
 #side-sortables .add-menu-item-tabs,
 .wp-tab-bar {
 	margin-bottom: 3px;
@@ -3053,7 +3046,7 @@ ul.add-menu-item-tabs li.tabs,
 ul.category-tabs li,
 ul.add-menu-item-tabs li,
 ul.wp-tab-bar li {
-	padding: 5px;
+	padding: 3px 5px 5px;
 	-webkit-border-top-left-radius: 3px;
 	-webkit-border-top-right-radius: 3px;
 	border-top-left-radius: 3px;
@@ -5071,7 +5064,7 @@ div.postbox div.inside {
 	position: absolute;
 	right: 30px;
 	padding: 0;
-	top: 8px;
+	top: 5px;
 }
 
 #dashboard-widgets h4 {
@@ -6732,10 +6725,6 @@ h3.tb {
 	padding-top: 8px;
 }
 
-.press-this #category-adder h4 {
-	margin: 10px 0;
-}
-
 /* Tags */
 .press-this .tagsdiv .newtag {
 	margin-right: 5px;
@@ -7399,11 +7388,11 @@ a.widget-control-edit {
 @media only screen and (min-width: 769px) {
 	/* categories */
 	#col-left {
-		width: 25%;
+		width: 35%;
 	}
 
 	#col-right {
-		width: 75%;
+		width: 65%;
 	}
 }
 
@@ -7411,11 +7400,11 @@ a.widget-control-edit {
 
 	/* categories */
 	#col-left {
-		width: 25%;
+		width: 35%;
 	}
 
 	#col-right {
-		width: 75%;
+		width: 65%;
 	}
 }
 
@@ -7423,11 +7412,11 @@ a.widget-control-edit {
 
 	/* categories */
 	#col-left {
-		width: 25%;
+		width: 35%;
 	}
 
 	#col-right {
-		width: 75%;
+		width: 65%;
 	}
 }
 

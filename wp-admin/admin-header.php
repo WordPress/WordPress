@@ -90,14 +90,7 @@ if ( $is_iphone ) { ?>
 <?php } ?>
 </head>
 <body class="wp-admin no-js <?php echo apply_filters( 'admin_body_class', '' ) . " $admin_body_class"; ?>">
-<script type="text/javascript">
-(function(){
-var bc = document.body.className, w = bc.match(/folded/) ? 1217 : 1330;
-document.body.className = bc.replace(/no-js/, 'js');
-if ( document.body.clientWidth > w )
-	document.body.className += ' wide-window';
-})();
-</script>
+<script type="text/javascript">document.body.className = document.body.className.replace('no-js','js');</script>
 
 <div id="wpwrap">
 <?php require(ABSPATH . 'wp-admin/menu-header.php'); ?>
