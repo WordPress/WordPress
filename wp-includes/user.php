@@ -682,7 +682,10 @@ function get_blogs_of_user( $id, $all = false ) {
 	}
 
 	if ( false === $blogs ) {
-		$userkeys = array_keys( get_user_meta( (int) $id ) );
+		$userkeys = get_user_meta( (int) $id );
+		if ( empty( $userkeys ) )
+                        return false;
+		$userkeys = array_keys( $userkeys );
 		if ( empty( $userkeys ) )
 			return false;
 
