@@ -1993,7 +1993,7 @@ function media_upload_max_image_resize() {
 ?>
 <p class="hide-if-no-js"><label>
 <input name="image_resize" type="checkbox" id="image_resize" value="true"<?php echo $checked; ?> />
-<?php printf( __( 'Scale images to max width %1$dpx or max height %2$dpx' ), (int) get_option( 'large_size_w' ), (int) get_option( 'large_size_h' ) ); ?>
+<?php _e('Scale images to match the large size selected in'); ?> <a href="options-media.php" target="_blank"><?php _e('image options'); ?></a> <?php printf( __('(%1$d &times; %2$d).'), (int) get_option( 'large_size_w' ), (int) get_option( 'large_size_h' ) ); ?>
 </label></p>
 <?php 
 }

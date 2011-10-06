@@ -3824,7 +3824,7 @@ form.upgrade .hint {
 }
 
 .drag-drop .drag-drop-inside {
-	padding-top: 50px;
+	padding-top: 60px;
 }
 
 .drag-drop .drag-drop-inside p {
@@ -3832,7 +3832,10 @@ form.upgrade .hint {
 }
 
 .dragdrop-info {
+	color: #aaa;
 	display: none;
+	font-size: 24px;
+	margin: 10px 0;
 }
 
 .drag-drop .dragdrop-info {
