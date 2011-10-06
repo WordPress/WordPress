@@ -163,26 +163,24 @@ TABLE OF CONTENTS:
 
 /* 2 columns main area */
 
-#col-container {
+
+
+#col-container,
+#col-left,
+#col-right {
 	overflow: hidden;
 	padding: 0;
 	margin: 0;
 }
 
 #col-left {
-	padding: 0;
-	margin: 0;
-	overflow: hidden;
-	width: 39%;
+	width: 35%;
 }
 
 #col-right {
 	float: right;
 	clear: right;
-	overflow: hidden;
-	padding: 0;
-	margin: 0;
-	width: 59%;
+	width: 65%;
 }
 
 .col-wrap {
