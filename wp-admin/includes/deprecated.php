@@ -753,7 +753,7 @@ function wp_fullscreen_html() {
 /**
  * Returns the screen layout options.
  *
- * @since unknown
+ * @since 2.8.0
  * @deprecated 3.3.0
  * @deprecated Use $current_screen->render_screen_layout()
  * @see WP_Screen::render_screen_layout()
@@ -774,7 +774,7 @@ function screen_layout( $screen ) {
 /**
  * Returns the screen's per-page options.
  *
- * @since unknown
+ * @since 2.8.0
  * @deprecated 3.3.0
  * @deprecated Use $current_screen->render_per_page_options()
  * @see WP_Screen::render_per_page_options()
@@ -795,7 +795,7 @@ function screen_options( $screen ) {
 /**
  * Renders the screen's help.
  *
- * @since unknown
+ * @since 2.7.0
  * @deprecated 3.3.0
  * @deprecated Use $current_screen->render_screen_meta()
  * @see WP_Screen::render_screen_meta()
