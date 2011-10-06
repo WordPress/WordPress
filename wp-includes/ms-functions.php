@@ -1172,7 +1172,7 @@ function install_blog($blog_id, $blog_title = '') {
 	$url = get_blogaddress_by_id($blog_id);
 
 	// Set everything up
-	make_db_current_silent();
+	make_db_current_silent( 'blog' );
 	populate_options();
 	populate_roles();
 	$wp_roles->_init();

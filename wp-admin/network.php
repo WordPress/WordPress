@@ -10,7 +10,7 @@
  * @subpackage Administration
  */
 
-define( 'WP_NETWORK_ADMIN_PAGE', true );
+define( 'WP_INSTALLING_NETWORK', true );
 
 /** WordPress Administration Bootstrap */
 require_once( './admin.php' );

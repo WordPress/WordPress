@@ -382,7 +382,7 @@ function load_default_textdomain() {
 
 	load_textdomain( 'default', WP_LANG_DIR . "/$locale.mo" );
 
-	if ( is_multisite() || ( defined( 'WP_NETWORK_ADMIN_PAGE' ) && WP_NETWORK_ADMIN_PAGE ) ) {
+	if ( is_multisite() || ( defined( 'WP_INSTALLING_NETWORK' ) && WP_INSTALLING_NETWORK ) ) {
 		load_textdomain( 'default', WP_LANG_DIR . "/ms-$locale.mo" );
 	}
 }
