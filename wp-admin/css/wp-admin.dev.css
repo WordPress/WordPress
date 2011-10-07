@@ -1513,13 +1513,15 @@ form.upgrade .hint {
 
 #screen-options-wrap h5,
 #contextual-help-wrap h5 {
-	margin: 12px 0 2px;
+	margin: 8px 0;
 	font-size: 13px;
 }
 
 .metabox-prefs label {
+	display: inline-block;
 	padding-right: 15px;
 	white-space: nowrap;
+	line-height: 30px;
 }
 
 .metabox-prefs label input {

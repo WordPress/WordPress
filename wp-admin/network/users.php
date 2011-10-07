@@ -227,11 +227,7 @@ if ( $pagenum > $total_pages && $total_pages > 0 ) {
 $title = __( 'Users' );
 $parent_file = 'users.php';
 
-$current_screen->add_option( 'per_page', array('label' => _x( 'Users', 'users per page (screen options)' )) );
-
-$current_screen->add_option_context( 
-'<p>test</p>'
-);
+add_screen_option( 'per_page', array('label' => _x( 'Users', 'users per page (screen options)' )) );
 
 add_contextual_help($current_screen,
 	'<p>' . __('This table shows all users across the network and the sites to which they are assigned.') . '</p>' .

@@ -148,9 +148,6 @@ wp_enqueue_script('inline-edit-post');
 
 $title = $post_type_object->labels->name;
 
-$current_screen->add_option( 'per_page', array('label' => $title, 'default' => 20) );
-$current_screen->add_option_context( '<p>test</p>' );
-
 if ( 'post' == $post_type ) {
 	add_contextual_help($current_screen,
 	'<p>' . __('You can customize the display of this screen in a number of ways:') . '</p>' .
@@ -182,6 +179,8 @@ if ( 'post' == $post_type ) {
 	'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 	);
 }
+
+add_screen_option( 'per_page', array('label' => $title, 'default' => 20) );
 
 require_once('./admin-header.php');
 ?>

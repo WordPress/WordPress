@@ -38,11 +38,7 @@ wp_enqueue_script( 'dashboard' );
 wp_enqueue_script( 'plugin-install' );
 add_thickbox();
 
-$current_screen->add_option('layout_columns', array('max' => 4, 'default' => 2) );
-
-$current_screen->add_option_context( 
-'<p>test</p>'
-);
+add_screen_option('layout_columns', array('max' => 4, 'default' => 2) );
 
 require_once( '../admin-header.php' );
 
