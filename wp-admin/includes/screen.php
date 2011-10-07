@@ -266,7 +266,7 @@ function add_contextual_help($screen, $help) {
  * @since 3.1.0
  *
  * @param string $option An option name.
- * @param mixed $args Option dependent arguments
+ * @param mixed $args Option-dependent arguments.
  * @return void
  */
 function add_screen_option( $option, $args = array() ) {
@@ -576,7 +576,7 @@ final class WP_Screen {
 	 * @since 3.3.0
 	 *
 	 * @param string $option Option ID
-	 * @param array $args Associative array of arguments particular to the given $option.
+	 * @param mixed $args Option-dependent arguments.
 	 */
 	public function add_option( $option, $args = array() ) {
 		$this->_options[ $option ] = $args;
@@ -658,6 +658,8 @@ final class WP_Screen {
 				'title'    => __('Screen Options'),
 				'callback' => array( $this, 'render_screen_options' ),
 			) );
+			$_options_tab = array_pop( $this->_help_tabs );
+			array_unshift( $this->_help_tabs, $_options_tab );
 		}
 
 		// Time to render!
@@ -757,7 +759,10 @@ final class WP_Screen {
 
 		?>
 		<form id="adv-settings" action="" method="post">
-		<?php if ( isset( $wp_meta_boxes[ $this->id ] ) ) : ?>
+		<?php
+		if ( isset( $this->_options['overview'] ) )
+			echo $this->_options['overview'];
+		if ( isset( $wp_meta_boxes[ $this->id ] ) ) : ?>
 			<h5><?php _ex('Show on screen', 'Metaboxes') ?></h5>
 			<div class="metabox-prefs">
 				<?php meta_box_prefs( $this ); ?>

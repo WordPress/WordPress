@@ -28,14 +28,9 @@ else
 	add_screen_option('layout_columns', array('max' => 4, 'default' => 2) );
 
 
+add_screen_option( 'overview', '<p>' . __( 'Welcome to your WordPress Dashboard! This is the screen you will see when you log in to your site, and gives you access to all the site management features of WordPress. You can get help for any screen by clicking the Help tab in the top bar.' ) . '</p>' );
+
 // Help tabs
-
-$help_overview = '<p>' . __('Welcome to your WordPress Dashboard! This is the screen you will see when you log in to your site, and gives you access to all the site management features of WordPress. You can get help for any screen by clicking the Help tab in the top bar.') . '</p>';
-
-$current_screen->add_help_tab( array(
-	'title'   => __('Overview'),
-	'content' => $help_overview,
-) );
 
 $help_navigation  = '<p>' . __('The left-hand navigation menu provides links to all of the WordPress administration screens, with submenu items displayed on hover. You can minimize this menu to a narrow icon strip by clicking on the Collapse Menu arrow at the bottom.') . '</p>';
 $help_navigation .= '<p>' . __('Links in the &#8220;admin bar&#8221; at the top of the screen connect your dashboard and the front end of your site, and provide access to your profile and helpful WordPress information.') . '</p>';
