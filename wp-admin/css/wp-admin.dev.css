@@ -237,7 +237,7 @@ textarea {
 
 input[type="checkbox"],
 input[type="radio"] {
-	vertical-align: text-top;
+	vertical-align: middle;
 }
 
 /* general */
@@ -1524,10 +1524,6 @@ form.upgrade .hint {
 
 .metabox-prefs label input {
 	margin: 0 5px 0 2px;
-}
-
-.metabox-prefs label input[type="radio"] {
-	margin: 0;
 }
 
 .metabox-prefs label a {
@@ -4721,7 +4717,7 @@ p.pagenav {
 
 .row-actions {
 	visibility: hidden;
-	padding: 0 0 2px;
+	padding: 2px 0 0;
 }
 
 tr:hover .row-actions,
