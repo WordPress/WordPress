@@ -6498,12 +6498,6 @@ img {
 	padding: 8px 8px 0;
 }
 
-.press-this .wp-media-buttons a {
-	cursor: pointer;
-	padding: 0 0 5px 10px;
-}
-
-.press-this .wp-media-buttons img,
 .press-this #submitpost #ajax-loading,
 .press-this #submitpost .ajax-loading {
 	vertical-align: middle;
