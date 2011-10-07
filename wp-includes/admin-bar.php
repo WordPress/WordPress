@@ -219,11 +219,13 @@ function wp_admin_bar_my_account_menu( $wp_admin_bar ) {
 }
 
 /**
- * Add the "Blog Name" menu in the front end.
+ * Add the "Site Name" menu.
  *
  * @since 3.3.0
  */
-function wp_admin_bar_blog_front_menu( $wp_admin_bar ) {
+function wp_admin_bar_site_menu( $wp_admin_bar ) {
+	global $current_site;
+
 	if ( ! is_user_logged_in() )
 		return;
 
@@ -232,65 +234,46 @@ function wp_admin_bar_blog_front_menu( $wp_admin_bar ) {
 	if ( empty( $blogname ) )
 		$blogname = preg_replace( '#^(https?://)?(www.)?#', '', get_home_url() );
 
+	if ( is_network_admin() ) {
+		$blogname = sprintf( __('Network Admin: %s'), esc_html( $current_site->site_name ) );
+	} elseif ( is_user_admin() ) {
+		$blogname = sprintf( __('Global Dashboard: %s'), esc_html( $current_site->site_name ) );
+	}
+
 	$title = wp_html_excerpt( $blogname, 40 );
 	if ( $title != $blogname )
 		$title = trim( $title ) . '&hellip;';
 
 	$wp_admin_bar->add_menu( array(
-		'id'    => 'blog-name',
+		'id'    => 'site-name',
 		'title' => $title,
-		'href'  => admin_url(),
+		'href'  => is_admin() ? home_url() : admin_url(),
 	) );
 
-	// Add Dashboard item.
-	$wp_admin_bar->add_menu( array(
-		'id'     => 'dashboard',
-		'title'  => __( 'Dashboard' ),
-		'href'   => admin_url(),
-		'parent' => 'blog-name',
-	) );
+	// Create submenu items.
 
-	wp_admin_bar_appearance_menu( $wp_admin_bar );
-}
+	if ( is_admin() ) {
+		// Add an option to visit the site.
+		$wp_admin_bar->add_menu( array(
+			'parent' => 'site-name',
+			'id'     => 'view-site',
+			'title'  => __( 'Visit Site' ),
+			'href'   => home_url(),
+		) );
 
-/**
- * Add the "Blog Name" menu in the admin.
- *
- * @since 3.3.0
- */
-function wp_admin_bar_blog_admin_menu( $wp_admin_bar ) {
-	global $current_site;
-
-	if ( is_network_admin() ) {
-		$title = sprintf( __('Network Admin: %s'), esc_html($current_site->site_name) );
-		$url   = '#';
-	} elseif ( is_user_admin() ) {
-		$title = sprintf( __('Global Dashboard: %s'), esc_html($current_site->site_name) );
-		$url   = '#';
+	// We're on the front end, print a copy of the admin menu.
 	} else {
-		$title = get_bloginfo('name');
-		$url   = get_home_url();
+		// Add the dashboard item.
+		$wp_admin_bar->add_menu( array(
+			'parent' => 'site-name',
+			'id'     => 'dashboard',
+			'title'  => __( 'Dashboard' ),
+			'href'   => admin_url(),
+		) );
 
-		if ( empty( $title ) )
-			$title = preg_replace( '#^(https?://)?(www.)?#', '', $url );
+		// Add the appearance menu.
+		wp_admin_bar_appearance_menu( $wp_admin_bar );
 	}
-
-	$title_excerpt = wp_html_excerpt( $title, 40 );
-	if ( $title != $title_excerpt )
-		$title_excerpt = trim( $title_excerpt ) . '&hellip;';
-
-	$wp_admin_bar->add_menu( array(
-		'id'    => 'blog-name',
-		'title' => $title_excerpt,
-		'href'  => $url,
-	) );
-
-	$wp_admin_bar->add_menu( array(
-		'parent' => 'blog-name',
-		'id'     => 'view-site',
-		'title'  => __( 'Visit Site' ),
-		'href'   => home_url(),
-	) );
 }
 
 /**
@@ -586,7 +569,7 @@ function wp_admin_bar_appearance_menu( $wp_admin_bar ) {
 		'id'     => 'appearance',
 		'title'  => __('Appearance'),
 		'href'   => admin_url('themes.php'),
-		'parent' => 'blog-name',
+		'parent' => 'site-name',
 	) );
 
 	if ( ! current_user_can( 'edit_theme_options' ) )
