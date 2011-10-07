@@ -111,7 +111,7 @@ function wp_admin_bar_wp_menu( $wp_admin_bar ) {
 	$wp_admin_bar->add_menu( array(
 		'parent' => 'wp-logo',
 		'id'     => 'wp-logo-secondary',
-		'title'  => __( '&nbsp;' ),
+		'title'  => '&nbsp;',
 		'meta'   => array(
 			'class' => 'secondary',
 		),
