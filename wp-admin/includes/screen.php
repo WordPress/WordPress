@@ -694,7 +694,6 @@ final class WP_Screen {
 						?>
 
 						<div id="<?php echo esc_attr( $panel_id ); ?>" class="<?php echo esc_attr( $classes ); ?>">
-							<h3><?php echo esc_html( $tab['title'] ); ?></h3>
 							<?php
 							// Print tab content.
 							echo $tab['content'];
