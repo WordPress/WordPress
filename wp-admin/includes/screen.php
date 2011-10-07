@@ -816,7 +816,7 @@ final class WP_Screen {
 		$columns = apply_filters( 'screen_layout_columns', array(), $this->id, $this );
 
 		if ( ! empty( $columns ) && isset( $columns[ $this->id ] ) )
-			add_screen_option( 'layout_columns', array('max' => $columns[ $this->id ] ) );
+			$this->add_option( 'layout_columns', array('max' => $columns[ $this->id ] ) );
 
 		if ( ! isset( $this->_options['layout_columns'] ) ) {
 			$screen_layout_columns = 0;
