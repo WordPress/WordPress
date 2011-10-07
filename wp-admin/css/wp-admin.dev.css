@@ -5283,12 +5283,12 @@ div.postbox div.inside {
 	margin: 0 0 1em 5em;
 }
 
-#dashboard_quick_press #media-buttons {
+#dashboard_quick_press .wp-media-buttons {
 	margin: 0 0 .5em 5em;
 	padding: 0;
 }
 
-#dashboard_quick_press #media-buttons a {
+#dashboard_quick_press .wp-media-buttons a {
 	color: #777;
 }
 
@@ -6493,17 +6493,17 @@ img {
 	margin: 0;
 }
 
-.press-this #media-buttons {
+.press-this .wp-media-buttons {
 	cursor: default;
 	padding: 8px 8px 0;
 }
 
-.press-this #media-buttons a {
+.press-this .wp-media-buttons a {
 	cursor: pointer;
 	padding: 0 0 5px 10px;
 }
 
-.press-this #media-buttons img,
+.press-this .wp-media-buttons img,
 .press-this #submitpost #ajax-loading,
 .press-this #submitpost .ajax-loading {
 	vertical-align: middle;

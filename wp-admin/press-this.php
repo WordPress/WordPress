@@ -306,6 +306,8 @@ var photostorage = false;
 	do_action('admin_head');
 ?>
 	<script type="text/javascript">
+	var wpActiveEditor = 'content';
+
 	function insert_plain_editor(text) {
 		edInsertContent(text);
 	}
