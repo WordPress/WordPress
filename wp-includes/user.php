@@ -1354,23 +1354,10 @@ function wp_insert_user($userdata) {
 		$user_id = (int) $wpdb->insert_id;
 	}
 
-	update_user_meta( $user_id, 'first_name', $first_name );
-	update_user_meta( $user_id, 'last_name', $last_name );
-	update_user_meta( $user_id, 'nickname', $nickname );
-	update_user_meta( $user_id, 'description', $description );
-	update_user_meta( $user_id, 'rich_editing', $rich_editing );
-	update_user_meta( $user_id, 'comment_shortcuts', $comment_shortcuts );
-	update_user_meta( $user_id, 'admin_color', $admin_color );
-	update_user_meta( $user_id, 'use_ssl', $use_ssl );
-	update_user_meta( $user_id, 'show_admin_bar_front', $show_admin_bar_front );
+	$user = new WP_User( $user_id );
 
-	$user = new WP_User($user_id);
-
-	foreach ( _wp_get_user_contactmethods( $user ) as $method => $name ) {
-		if ( empty($$method) )
-			$$method = '';
-
-		update_user_meta( $user_id, $method, $$method );
+	foreach ( _get_additional_user_keys( $user ) as $key ) {
+		update_user_meta( $user_id, $key, $$key );
 	}
 
 	if ( isset($role) )
@@ -1412,10 +1399,17 @@ function wp_update_user($userdata) {
 	$ID = (int) $userdata['ID'];
 
 	// First, get all of the original fields
-	$user = WP_User::get_data_by('id', $ID);
+	$user_obj = get_userdata( $ID );
+
+	$user = get_object_vars( $user_obj->data );
+
+	// Add additional custom fields
+	foreach ( _get_additional_user_keys( $user_obj ) as $key ) {
+		$user[ $key ] = get_user_meta( $ID, $key, true );
+	}
 
 	// Escape data pulled from DB.
-	$user = add_magic_quotes(get_object_vars($user));
+	$user = add_magic_quotes( $user );
 
 	// If password is changing, hash it now.
 	if ( ! empty($userdata['user_pass']) ) {
@@ -1464,6 +1458,20 @@ function wp_create_user($username, $password, $email = '') {
 	return wp_insert_user($userdata);
 }
 
+
+/**
+ * Return a list of meta keys that wp_insert_user() is supposed to set.
+ *
+ * @access private
+ * @since 3.3.0
+ *
+ * @param object $user WP_User instance
+ * @return array
+ */
+function _get_additional_user_keys( $user ) {
+	$keys = array( 'first_name', 'last_name', 'nickname', 'description', 'rich_editing', 'comment_shortcuts', 'admin_color', 'use_ssl', 'show_admin_bar_front' );
+	return array_merge( $keys, array_keys( _wp_get_user_contactmethods( $user ) ) );
+}
 
 /**
  * Set up the default contact methods

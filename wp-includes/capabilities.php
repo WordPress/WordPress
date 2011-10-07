@@ -474,6 +474,7 @@ class WP_User {
 	 *
 	 * @param string $field The field to query against: 'id', 'slug', 'email' or 'login'
 	 * @param string|int $value The field value
+	 * @return object Raw user object
 	 */
 	static function get_data_by( $field, $value ) {
 		global $wpdb;
@@ -618,10 +619,10 @@ class WP_User {
 	 * property matching the 'cap_key' exists and is an array. If so, it will be
 	 * used.
 	 *
+	 * @access protected
 	 * @since 2.1.0
 	 *
 	 * @param string $cap_key Optional capability key
-	 * @access protected
 	 */
 	function _init_caps( $cap_key = '' ) {
 		global $wpdb;
