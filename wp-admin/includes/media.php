@@ -1990,14 +1990,18 @@ function _insert_into_post_button($type) {
  */
 function media_upload_max_image_resize() {
 	$checked = get_user_setting('upload_resize') ? ' checked="true"' : '';
+	$a = $end = '';
+
+	if ( current_user_can( 'manage_options' ) ) {
+		$a = '<a href="' . esc_url( admin_url( 'options-media.php' ) ) . '" target="_blank">';
+		$end = '</a>';
+	}
 ?>
 <p class="hide-if-no-js"><label>
 <input name="image_resize" type="checkbox" id="image_resize" value="true"<?php echo $checked; ?> />
 <?php
-if ( current_user_can( 'manage_options' ) )
-	printf( __( 'Scale images to match the large size selected in %1$simage options%2$s (%3$d &times; %4$d).' ), '<a href="' . admin_url( 'options-media.php' ) . '" target="_blank">', '</a>', (int) get_option( 'large_size_w' ), (int) get_option( 'large_size_h' ) );
-else
-	printf( __( 'Scale images to match the large size selected in %1$simage options%2$s (%3$d &times; %4$d).' ), '', '', (int) get_option( 'large_size_w' ), (int) get_option( 'large_size_h' ) );
+	/* translators: %1$s is link start tag, %2$s is link end tag, %3$d is width, %4$d is height*/
+	printf( __( 'Scale images to match the large size selected in %1$simage options%2$s (%3$d &times; %4$d).' ), $a, $end, (int) get_option( 'large_size_w', '1024' ), (int) get_option( 'large_size_h', '1024' ) );
 ?>
 </label></p>
 <?php 
