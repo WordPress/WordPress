@@ -3406,7 +3406,7 @@ function url_is_accessable_via_ssl($url)
  * @param string $version The version of WordPress that deprecated the function
  * @param string $replacement Optional. The function that should have been called
  */
-function _deprecated_function( $function, $version, $replacement=null ) {
+function _deprecated_function( $function, $version, $replacement = null ) {
 
 	do_action( 'deprecated_function_run', $function, $replacement, $version );
 
@@ -3527,6 +3527,7 @@ function _deprecated_argument( $function, $version, $message = null ) {
  */
 function _doing_it_wrong( $function, $message, $version ) {
 
+	$message .= ' ' . __('Please see <a href="http://codex.wordpress.org/Debugging_in_WordPress">Debugging in WordPress</a> for more information.');
 	do_action( 'doing_it_wrong_run', $function, $message, $version );
 
 	// Allow plugin to filter the output error trigger
