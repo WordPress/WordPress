@@ -45,6 +45,7 @@ var postboxes;
 						postboxes.pbhide( box );
 				}
 				postboxes.save_state(page);
+				postboxes._mark_area();
 			});
 
 			$('.columns-prefs input[type="radio"]').click(function(){
