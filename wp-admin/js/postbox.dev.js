@@ -48,7 +48,7 @@ var postboxes;
 			});
 
 			$('.columns-prefs input[type="radio"]').click(function(){
-				var num = $(this).val(), i, el, done, ps = $('#poststuff');
+				var num = $(this).val(), i, el, done, ps = $('#poststuff'), move;
 
 				num = parseInt(num, 10);
 
@@ -83,18 +83,21 @@ var postboxes;
 						if ( el.parent().is(':hidden') ) {
 							switch ( i ) {
 								case 4:
-									if ( $('#column3-sortables .postbox').length > 1 ) {
-										el.append( $('#column3-sortables .postbox').last() );
+									move = $('.postbox:visible', $('#column3-sortables'));
+									if ( move.length > 1 ) {
+										el.append( move.last() );
 										done = true;
 									}
 								case 3:
-									if ( !done && $('#side-sortables .postbox').length > 1 ) {
-										el.append( $('#side-sortables .postbox').last() );
+									move = $('.postbox:visible', $('#side-sortables'));
+									if ( !done && move.length > 1 ) {
+										el.append( move.last() );
 										done = true;
 									}
 								case 2:
-									if ( !done && $('#normal-sortables .postbox').length > 1 ) {
-										el.append( $('#normal-sortables .postbox').last() );
+									move = $('.postbox:visible', $('#normal-sortables'));
+									if ( !done && move.length > 1 ) {
+										el.append( move.last() );
 										done = true;
 									}
 								default:
@@ -139,16 +142,10 @@ var postboxes;
 					if ( 'dashboard_browser_nag' == ui.item[0].id )
 						$(ui.sender).sortable('cancel');
 
-					$.each($('.postbox-container:visible'), function(n, el){
-						var first = $('.meta-box-sortables:first', el);
-
-						if ( !first.children('.postbox:visible').length )
-							first.addClass('empty-container');
-						else
-							first.removeClass('empty-container');
-					});
+					postboxes._mark_area();
 				}
 			});
+			this._mark_area();
 		},
 
 		save_state : function(page) {
@@ -196,6 +193,17 @@ var postboxes;
 				default:
 					return '';
 			}
+		},
+		
+		_mark_area : function() {
+			$('#side-info-column .meta-box-sortables:visible, #dashboard-widgets .meta-box-sortables:visible').each(function(n, el){
+				var t = $(this);
+
+				if ( !t.children('.postbox:visible').length )
+					t.addClass('empty-container');
+				else
+					t.removeClass('empty-container');
+			});
 		},
 
 		/* Callbacks */

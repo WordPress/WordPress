@@ -2069,6 +2069,10 @@ body.admin-bar #adminmenu {
 	float: left;
 }
 
+.postbox-container .meta-box-sortables {
+	min-height: 350px;
+}
+
 .postbox-container .meta-box-sortables.empty-container,
 #side-sortables.empty-container {
 	border: 3px dashed #CCCCCC;
