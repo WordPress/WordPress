@@ -2394,15 +2394,9 @@ class wp_xmlrpc_server extends IXR_Server {
 			}
 		}
 
-		// We've got all the data -- post it:
 		$postdata = compact('post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_category', 'post_status', 'post_excerpt', 'comment_status', 'ping_status', 'to_ping', 'post_type', 'post_name', 'post_password', 'post_parent', 'menu_order', 'tags_input', 'page_template');
 
-		$post_ID = wp_insert_post($postdata, true);
-		if ( is_wp_error( $post_ID ) )
-			return new IXR_Error(500, $post_ID->get_error_message());
-
-		if ( !$post_ID )
-			return new IXR_Error(500, __('Sorry, your entry could not be posted. Something wrong happened.'));
+		$post_ID = $postdata['ID'] = get_default_post_to_edit( $post_type, true )->ID;
 
 		// Only posts can be sticky
 		if ( $post_type == 'post' && isset( $content_struct['sticky'] ) ) {
@@ -2425,6 +2419,13 @@ class wp_xmlrpc_server extends IXR_Server {
 		// in this function
 		if ( isset( $content_struct['wp_post_format'] ) )
 			wp_set_post_terms( $post_ID, array( 'post-format-' . $content_struct['wp_post_format'] ), 'post_format' );
+
+		$post_ID = wp_insert_post( $postdata, true );
+		if ( is_wp_error( $post_ID ) )
+			return new IXR_Error(500, $post_ID->get_error_message());
+
+		if ( !$post_ID )
+			return new IXR_Error(500, __('Sorry, your entry could not be posted. Something wrong happened.'));
 
 		logIO('O', "Posted ! ID: $post_ID");
 
