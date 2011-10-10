@@ -137,7 +137,8 @@ class WP_Media_List_Table extends WP_List_Table {
 		/* translators: column name */
 		if ( !$this->detached ) {
 			$posts_columns['parent'] = _x( 'Attached to', 'column name' );
-			$posts_columns['comments'] = '<span class="vers"><img alt="Comments" src="' . esc_url( admin_url( 'images/comment-grey-bubble.png' ) ) . '" /></span>';
+			if ( post_type_supports( 'attachment', 'comments' ) )
+				$posts_columns['comments'] = '<span class="vers"><img alt="' . esc_attr__( 'Comments' ) . '" src="' . esc_url( admin_url( 'images/comment-grey-bubble.png' ) ) . '" /></span>';
 		}
 		/* translators: column name */
 		$posts_columns['date'] = _x( 'Date', 'column name' );
