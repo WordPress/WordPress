@@ -1354,7 +1354,8 @@ function wp_insert_user($userdata) {
 	$user = new WP_User( $user_id );
 
 	foreach ( _get_additional_user_keys( $user ) as $key ) {
-		update_user_meta( $user_id, $key, $$key );
+		if ( isset( $$key ) )
+			update_user_meta( $user_id, $key, $$key );
 	}
 
 	if ( isset($role) )
