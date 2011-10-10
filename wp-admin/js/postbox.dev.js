@@ -1,11 +1,11 @@
-var postboxes;
+var postboxes, is_iPad = navigator.userAgent.match(/iPad/);
 
 (function($) {
 	postboxes = {
 		add_postbox_toggles : function(page, args) {
 			this.init(page, args);
 
-			$('.postbox h3, .postbox .handlediv').click( function() {
+			$('.postbox h3, .postbox .handlediv').bind('click.postboxes', function() {
 				var p = $(this).parent('.postbox'), id = p.attr('id');
 
 				if ( 'dashboard_browser_nag' == id )
@@ -26,13 +26,13 @@ var postboxes;
 				e.stopPropagation();
 			});
 
-			$('.postbox a.dismiss').click( function(e) {
+			$('.postbox a.dismiss').bind('click.postboxes', function(e) {
 				var hide_id = $(this).parents('.postbox').attr('id') + '-hide';
 				$( '#' + hide_id ).prop('checked', false).triggerHandler('click');
 				return false;
 			});
 
-			$('.hide-postbox-tog').click( function() {
+			$('.hide-postbox-tog').bind('click.postboxes', function() {
 				var box = $(this).val();
 
 				if ( $(this).prop('checked') ) {
@@ -48,71 +48,13 @@ var postboxes;
 				postboxes._mark_area();
 			});
 
-			$('.columns-prefs input[type="radio"]').click(function(){
-				var num = $(this).val(), i, el, done, ps = $('#poststuff'), move;
+			$('.columns-prefs input[type="radio"]').bind('click.postboxes', function(){
+				var n = parseInt($(this).val(), 10), pb = postboxes;
 
-				num = parseInt(num, 10);
-
-				if ( ps.length ) { // edit pages
-
-					if ( num == 2 ) {
-						$('.wrap').removeClass('columns-1').addClass('columns-2');
-						ps.addClass('has-right-sidebar');
-
-						if ( !$('#side-info-column #side-sortables').length )
-							$('#side-info-column').append( $('#side-sortables') );
-
-					} else if ( num == 1 ) {
-						$('.wrap').removeClass('columns-2').addClass('columns-1');
-						ps.removeClass('has-right-sidebar');
-
-						if ( !$('#post-body-content #side-sortables').length )
-							$('#normal-sortables').before( $('#side-sortables') );
-					}
-
-				} else { // dashboard
-					for ( i = 4; ( i > num && i > 1 ); i-- ) {
-						el = $('#' + postboxes._colname(i) + '-sortables');
-						$('#' + postboxes._colname(i-1) + '-sortables').append(el.children('.postbox'));
-						el.parent().hide();
-					}
-
-					for ( i = num; i > 0; i-- ) {
-						el = $('#' + postboxes._colname(i) + '-sortables');
-						done = false;
-
-						if ( el.parent().is(':hidden') ) {
-							switch ( i ) {
-								case 4:
-									move = $('.postbox:visible', $('#column3-sortables'));
-									if ( move.length > 1 ) {
-										el.append( move.last() );
-										done = true;
-									}
-								case 3:
-									move = $('.postbox:visible', $('#side-sortables'));
-									if ( !done && move.length > 1 ) {
-										el.append( move.last() );
-										done = true;
-									}
-								case 2:
-									move = $('.postbox:visible', $('#normal-sortables'));
-									if ( !done && move.length > 1 ) {
-										el.append( move.last() );
-										done = true;
-									}
-								default:
-									if ( !done )
-										el.addClass('empty-container')
-							}
-
-							el.parent().show();
-						}
-					}
-
-					$('.postbox-container:visible').css('width', 100/num + '%');
+				if ( n ) {
+					pb._pb_edit(n);
+					pb.save_order(page);
 				}
-				postboxes.save_order(page);
 			});
 		},
 
@@ -137,7 +79,6 @@ var postboxes;
 					}
 
 					postboxes.save_order(page);
-					ui.item.parent().removeClass('temp-border');
 				},
 				receive: function(e,ui) {
 					if ( 'dashboard_browser_nag' == ui.item[0].id )
@@ -146,6 +87,12 @@ var postboxes;
 					postboxes._mark_area();
 				}
 			});
+
+			if ( navigator.userAgent.match(/iPad/) ) {
+				$(document.body).bind('orientationchange', function(){ postboxes._pb_change(); });
+				this._pb_change();
+			}
+
 			this._mark_area();
 		},
 
@@ -195,7 +142,7 @@ var postboxes;
 					return '';
 			}
 		},
-		
+
 		_mark_area : function() {
 			$('#side-info-column .meta-box-sortables:visible, #dashboard-widgets .meta-box-sortables:visible').each(function(n, el){
 				var t = $(this);
@@ -205,6 +152,85 @@ var postboxes;
 				else
 					t.removeClass('empty-container');
 			});
+		},
+
+		_pb_edit : function(n) {
+			var ps = $('#poststuff'), i, el, done, pb = postboxes, visible = $('.postbox-container:visible').length;
+
+			if ( n == visible )
+				return;
+
+			if ( ps.length ) {
+				if ( n == 2 ) {
+					$('.wrap').removeClass('columns-1').addClass('columns-2');
+					ps.addClass('has-right-sidebar');
+
+					if ( !$('#side-info-column #side-sortables').length )
+						$('#side-info-column').append( $('#side-sortables') );
+
+				} else if ( n == 1 ) {
+					$('.wrap').removeClass('columns-2').addClass('columns-1');
+					ps.removeClass('has-right-sidebar');
+
+					if ( !$('#post-body-content #side-sortables').length )
+						$('#normal-sortables').before( $('#side-sortables') );
+				}
+			} else {
+				for ( i = 4; ( i > n && i > 1 ); i-- ) {
+					el = $('#' + postboxes._colname(i) + '-sortables');
+					$('#' + postboxes._colname(i-1) + '-sortables').append(el.children('.postbox'));
+					el.parent().hide();
+				}
+
+				for ( i = n; i > 0; i-- ) {
+					el = $('#' + postboxes._colname(i) + '-sortables');
+					done = false;
+
+					if ( el.parent().is(':hidden') ) {
+						switch ( i ) {
+							case 4:
+								done = pb._move_one( el, $('.postbox:visible', $('#column3-sortables')) );
+							case 3:
+								if ( !done )
+									done = pb._move_one( el, $('.postbox:visible', $('#side-sortables')) );
+							case 2:
+								if ( !done )
+									done = pb._move_one( el, $('.postbox:visible', $('#normal-sortables')) );
+							default:
+								if ( !done )
+									el.addClass('empty-container')
+						}
+
+						el.parent().show();
+					}
+				}
+
+				$('.postbox-container:visible').css('width', 100/n + '%');
+			}
+		},
+
+		_pb_change : function() {
+			switch ( window.orientation ) {
+				case 90:
+				case -90:
+					this._pb_edit(2);
+					break;
+				case 0:
+				case 180:
+					if ( $('#poststuff').length )
+						this._pb_edit(1);
+					else
+						this._pb_edit(2);
+					break;
+			}
+		},
+
+		_move_one : function(el, move) {
+			if ( move.length > 1 ) {
+				el.append( move.last() );
+				return true;
+			}
+			return false;
 		},
 
 		/* Callbacks */
