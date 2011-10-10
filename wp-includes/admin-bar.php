@@ -271,8 +271,8 @@ function wp_admin_bar_site_menu( $wp_admin_bar ) {
 			'href'   => admin_url(),
 		) );
 
-		// Add the appearance menu.
-		wp_admin_bar_appearance_menu( $wp_admin_bar );
+		// Add the whole admin menu.
+		wp_admin_bar_adminmenu_menu( $wp_admin_bar );
 	}
 }
 
@@ -596,6 +596,134 @@ function wp_admin_bar_appearance_menu( $wp_admin_bar ) {
 
 	if ( current_theme_supports( 'custom-header' ) )
 		$wp_admin_bar->add_menu( array( 'parent' => 'appearance', 'id' => 'header', 'title' => __('Header'), 'href' => admin_url('themes.php?page=custom-header') ) );
+}
+
+/**
+ * Add the whole default admin menu.
+ *
+ * @since 3.3.0
+ */
+function wp_admin_bar_adminmenu_menu( $wp_admin_bar ) {
+
+	$menu = $submenu = array();
+
+	$menu[5] = array( __('Posts'), 'edit_posts', 'edit.php', 'menu-posts' );
+		$submenu['edit.php'][5]  = array( __('All Posts'), 'edit_posts', 'edit.php' );
+		/* translators: add new post */
+		$submenu['edit.php'][10]  = array( _x('Add New', 'post'), 'edit_posts', 'post-new.php' );
+
+		$i = 15;
+		foreach ( get_taxonomies( array(), 'objects' ) as $tax ) {
+			if ( ! $tax->show_ui || ! in_array('post', (array) $tax->object_type, true) )
+				continue;
+
+			$submenu['edit.php'][$i++] = array( esc_attr( $tax->labels->menu_name ), $tax->cap->manage_terms, 'edit-tags.php?taxonomy=' . $tax->name );
+		}
+		unset($tax);
+
+	$menu[10] = array( __('Media'), 'upload_files', 'upload.php', 'menu-media' );
+		$submenu['upload.php'][5] = array( __('Library'), 'upload_files', 'upload.php');
+		/* translators: add new file */
+		$submenu['upload.php'][10] = array( _x('Add New', 'file'), 'upload_files', 'media-new.php');
+
+	$menu[15] = array( __('Links'), 'manage_links', 'link-manager.php', 'menu-links' );
+		$submenu['link-manager.php'][5] = array( __('All Links'), 'manage_links', 'link-manager.php' );
+		/* translators: add new links */
+		$submenu['link-manager.php'][10] = array( _x('Add New', 'link'), 'manage_links', 'link-add.php' );
+		$submenu['link-manager.php'][15] = array( __('Link Categories'), 'manage_categories', 'edit-tags.php?taxonomy=link_category' );
+
+	$menu[20] = array( __('Pages'), 'edit_pages', 'edit.php?post_type=page', 'menu-pages' );
+		$submenu['edit.php?post_type=page'][5] = array( __('All Pages'), 'edit_pages', 'edit.php?post_type=page' );
+		/* translators: add new page */
+		$submenu['edit.php?post_type=page'][10] = array( _x('Add New', 'page'), 'edit_pages', 'post-new.php?post_type=page' );
+		$i = 15;
+		foreach ( get_taxonomies( array(), 'objects' ) as $tax ) {
+			if ( ! $tax->show_ui || ! in_array('page', (array) $tax->object_type, true) )
+				continue;
+
+			$submenu['edit.php?post_type=page'][$i++] = array( esc_attr( $tax->labels->menu_name ), $tax->cap->manage_terms, 'edit-tags.php?taxonomy=' . $tax->name . '&amp;post_type=page' );
+		}
+		unset($tax);
+
+	$menu[25] = array( __('Comments'), 'edit_posts', 'edit-comments.php', 'menu-comments' );
+
+	//$submenu[ 'edit-comments.php' ][0] = array( __('All Comments'), 'edit_posts', 'edit-comments.php' );
+
+	if ( current_user_can( 'switch_themes') ) { // special case, calls wp_admin_bar_appearance_menu()
+		$menu[60] = array( '', '', '', 'menu-appearance' );
+	}
+
+	$menu[65] = array( __('Plugins'), 'activate_plugins', 'plugins.php', 'menu-plugins' );
+
+	$submenu['plugins.php'][5]  = array( __('Installed Plugins'), 'activate_plugins', 'plugins.php' );
+
+	if ( ! is_multisite() ) {
+		/* translators: add new plugin */
+		$submenu['plugins.php'][10] = array( _x('Add New', 'plugin'), 'install_plugins', 'plugin-install.php' );
+	}
+
+	if ( current_user_can('list_users') )
+		$menu[70] = array( __('Users'), 'list_users', 'users.php', 'menu-users' );
+	else
+		$menu[70] = array( __('Profile'), 'read', 'profile.php', 'menu-users' );
+
+	if ( current_user_can('list_users') ) {
+		$_wp_real_parent_file['profile.php'] = 'users.php'; // Back-compat for plugins adding submenus to profile.php.
+		$submenu['users.php'][5] = array(__('All Users'), 'list_users', 'users.php');
+		if ( current_user_can('create_users') )
+			$submenu['users.php'][10] = array(_x('Add New', 'user'), 'create_users', 'user-new.php');
+		else
+			$submenu['users.php'][10] = array(_x('Add New', 'user'), 'promote_users', 'user-new.php');
+
+		$submenu['users.php'][15] = array(__('Your Profile'), 'read', 'profile.php');
+	} else {
+		$_wp_real_parent_file['users.php'] = 'profile.php';
+		$submenu['profile.php'][5] = array(__('Your Profile'), 'read', 'profile.php');
+		if ( current_user_can('create_users') )
+			$submenu['profile.php'][10] = array(__('Add New User'), 'create_users', 'user-new.php');
+		else
+			$submenu['profile.php'][10] = array(__('Add New User'), 'promote_users', 'user-new.php');
+	}
+
+	$menu[75] = array( __('Tools'), 'edit_posts', 'tools.php', 'menu-tools' );
+		$submenu['tools.php'][5] = array( __('Available Tools'), 'edit_posts', 'tools.php' );
+		$submenu['tools.php'][10] = array( __('Import'), 'import', 'import.php' );
+		$submenu['tools.php'][15] = array( __('Export'), 'export', 'export.php' );
+		if ( is_multisite() && !is_main_site() )
+			$submenu['tools.php'][25] = array( __('Delete Site'), 'manage_options', 'ms-delete-site.php' );
+		if ( ! is_multisite() && defined('WP_ALLOW_MULTISITE') && WP_ALLOW_MULTISITE )
+			$submenu['tools.php'][50] = array(__('Network Setup'), 'manage_options', 'network.php');
+
+	$menu[80] = array( __('Settings'), 'manage_options', 'options-general.php', 'menu-settings' );
+		$submenu['options-general.php'][10] = array(_x('General', 'settings screen'), 'manage_options', 'options-general.php');
+		$submenu['options-general.php'][15] = array(__('Writing'), 'manage_options', 'options-writing.php');
+		$submenu['options-general.php'][20] = array(__('Reading'), 'manage_options', 'options-reading.php');
+		$submenu['options-general.php'][25] = array(__('Discussion'), 'manage_options', 'options-discussion.php');
+		$submenu['options-general.php'][30] = array(__('Media'), 'manage_options', 'options-media.php');
+		$submenu['options-general.php'][35] = array(__('Privacy'), 'manage_options', 'options-privacy.php');
+		$submenu['options-general.php'][40] = array(__('Permalinks'), 'manage_options', 'options-permalink.php');
+
+	foreach ( $menu as $item ) {
+		if ( 'menu-appearance' == $item[3] ) {
+			wp_admin_bar_appearance_menu( $wp_admin_bar );
+			continue;
+		}
+
+		if ( !current_user_can($item[1]) )
+			continue;
+
+		$wp_admin_bar->add_menu( array('id' => $item[3], 'title' => $item[0], 'href' => admin_url($item[2]), 'parent' => 'site-name') );
+
+		if ( !empty($submenu[$item[2]]) ) {
+			foreach ( $submenu[$item[2]] as $name => $value ) {
+				if ( !current_user_can($value[1]) )
+					continue;
+
+				$id = preg_replace( '/[^a-z0-9-]+/', '-', str_replace('.php', '', "{$item[3]}-$name") );
+				$wp_admin_bar->add_menu( array( 'parent' => $item[3], 'id' => $id, 'title' => $value[0], 'href' => admin_url($value[2]) ) );
+			}
+		}
+	}
 }
 
 /**
