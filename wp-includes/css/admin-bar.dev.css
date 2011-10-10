@@ -58,6 +58,10 @@
 	z-index: 99999;
 }
 
+#wpadminbar .quicklinks {
+	border-left: 1px solid transparent;
+}
+
 #wpadminbar .quicklinks ul {
 	text-align: left;
 }
@@ -65,7 +69,6 @@
 #wpadminbar li {
 	float: left;
 }
-
 
 #wpadminbar .quicklinks > ul > li {
 	border-right: 1px solid #555;
