@@ -2731,12 +2731,6 @@ function wp_publish_post($post_id) {
 	$post->post_status = 'publish';
 	wp_transition_post_status('publish', $old_status, $post);
 
-	// Update counts for the post's terms.
-	foreach ( (array) get_object_taxonomies('post') as $taxonomy ) {
-		$tt_ids = wp_get_object_terms($post_id, $taxonomy, array('fields' => 'tt_ids'));
-		wp_update_term_count($tt_ids, $taxonomy);
-	}
-
 	do_action('edit_post', $post_id, $post);
 	do_action('save_post', $post_id, $post);
 	do_action('wp_insert_post', $post_id, $post);
@@ -5312,4 +5306,20 @@ function _post_format_wp_get_object_terms( $terms ) {
 }
 add_filter( 'wp_get_object_terms', '_post_format_wp_get_object_terms' );
 
+/**
+ * Update the custom taxonomies' term counts when a post's status is changed. For example, default posts term counts (for custom taxonomies) don't include private / draft posts.
+ * 
+ * @access private
+ * @param string $new_status
+ * @param string $old_status
+ * @param object $post
+ * @since 3.3.0
+ */
+function _update_term_count_on_transition_post_status( $new_status, $old_status, $post ) {
+	// Update counts for the post's terms.
+	foreach ( (array) get_object_taxonomies( $post->post_type ) as $taxonomy ) {
+		$tt_ids = wp_get_object_terms( $post->ID, $taxonomy, array( 'fields' => 'tt_ids' ) );
+		wp_update_term_count( $tt_ids, $taxonomy );
+	}
+}
 ?>

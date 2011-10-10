@@ -2447,13 +2447,7 @@ function wp_update_term_count_now( $terms, $taxonomy ) {
 		call_user_func($taxonomy->update_count_callback, $terms, $taxonomy);
 	} else {
 		// Default count updater
-		foreach ( (array) $terms as $term) {
-			$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->term_relationships WHERE term_taxonomy_id = %d", $term) );
-			do_action( 'edit_term_taxonomy', $term, $taxonomy );
-			$wpdb->update( $wpdb->term_taxonomy, compact( 'count' ), array( 'term_taxonomy_id' => $term ) );
-			do_action( 'edited_term_taxonomy', $term, $taxonomy );
-		}
-
+		_update_post_term_count( $terms, $taxonomy );
 	}
 
 	clean_term_cache($terms, '', false);
@@ -2846,10 +2840,21 @@ function _update_post_term_count( $terms, $taxonomy ) {
 	global $wpdb;
 
 	$object_types = is_array($taxonomy->object_type) ? $taxonomy->object_type : array($taxonomy->object_type);
+	
+	foreach ( $object_types as &$object_type )
+		list( $object_type ) = explode( ':', $object_type );
+	
+	$object_types = array_unique( $object_types );
 	$object_types = esc_sql($object_types);
 
 	foreach ( (array) $terms as $term ) {
-		$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->term_relationships, $wpdb->posts WHERE $wpdb->posts.ID = $wpdb->term_relationships.object_id AND post_status = 'publish' AND post_type IN ('" . implode("', '", $object_types) . "') AND term_taxonomy_id = %d", $term ) );
+
+		// Attachments can be 'inherit' status, we need to base count off the parent's staus if so
+		if ( in_array( 'attachment', $object_types ) )
+			$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->term_relationships, $wpdb->posts p1 WHERE p1.ID = $wpdb->term_relationships.object_id AND ( post_status = 'publish' OR ( post_status = 'inherit' AND post_parent > 0 AND ( SELECT post_status FROM $wpdb->posts WHERE ID = p1.post_parent ) = 'publish' ) ) AND post_type IN ('" . implode("', '", $object_types) . "') AND term_taxonomy_id = %d", $term ) );
+		else
+			$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->term_relationships, $wpdb->posts WHERE $wpdb->posts.ID = $wpdb->term_relationships.object_id AND post_status = 'publish' AND post_type IN ('" . implode("', '", $object_types) . "') AND term_taxonomy_id = %d", $term ) );
+
 		do_action( 'edit_term_taxonomy', $term, $taxonomy );
 		$wpdb->update( $wpdb->term_taxonomy, compact( 'count' ), array( 'term_taxonomy_id' => $term ) );
 		do_action( 'edited_term_taxonomy', $term, $taxonomy );
