@@ -1573,7 +1573,24 @@ case 'wp-remove-post-lock' :
 	$new_lock = ( time() - apply_filters( 'wp_check_post_lock_window', AUTOSAVE_INTERVAL * 2 ) + 5 ) . ':' . $active_lock[1];
 	update_post_meta( $post_id, '_edit_lock', $new_lock, implode( ':', $active_lock ) );
 	die( '1' );
+case 'dismiss-wp-pointer' :
+	$pointer = $_POST['pointer'];
+	if ( $pointer != sanitize_key( $pointer ) )
+		die( '0' );
 
+//	check_ajax_referer( 'dismiss-pointer_' . $pointer );
+
+	$dismissed = explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) );
+
+	if ( in_array( $pointer, $dismissed ) )
+		die( '0' );
+
+	$dismissed[] = $pointer;
+	$dismissed = implode( ',', $dismissed );
+
+	update_user_meta( get_current_user_id(), 'dismissed_wp_pointers', $dismissed );
+	die( '1' );
+	break;
 default :
 	do_action( 'wp_ajax_' . $_POST['action'] );
 	die('0');
