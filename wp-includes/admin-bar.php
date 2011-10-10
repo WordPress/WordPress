@@ -117,20 +117,20 @@ function wp_admin_bar_wp_menu( $wp_admin_bar ) {
 		),
 	) );
 
+	// Add WordPress.org link
+	$wp_admin_bar->add_menu( array(
+		'parent' => 'wp-logo-secondary',
+		'id'     => 'wporg',
+		'title'  => __('WordPress.org'),
+		'href'   => 'http://wordpress.org',
+	) );
+
 	// Add codex link
 	$wp_admin_bar->add_menu( array(
 		'parent' => 'wp-logo-secondary',
 		'id'     => 'documentation',
 		'title'  => __('Documentation'),
 		'href'   => 'http://codex.wordpress.org',
-	) );
-
-	// Add feedback link
-	$wp_admin_bar->add_menu( array(
-		'parent' => 'wp-logo-secondary',
-		'id'     => 'feedback',
-		'title'  => __('Feedback'),
-		'href'   => 'http://wordpress.org/support/forum/requests-and-feedback',
 	) );
 
 	// Add forums link
@@ -141,12 +141,12 @@ function wp_admin_bar_wp_menu( $wp_admin_bar ) {
 		'href'   => 'http://wordpress.org/support/',
 	) );
 
-	// Add WordPress.org link
+	// Add feedback link
 	$wp_admin_bar->add_menu( array(
 		'parent' => 'wp-logo-secondary',
-		'id'     => 'wporg',
-		'title'  => __('WordPress.org'),
-		'href'   => 'http://wordpress.org',
+		'id'     => 'feedback',
+		'title'  => __('Feedback'),
+		'href'   => 'http://wordpress.org/support/forum/requests-and-feedback',
 	) );
 }
 
@@ -465,12 +465,11 @@ function wp_admin_bar_edit_menu( $wp_admin_bar ) {
 function wp_admin_bar_new_content_menu( $wp_admin_bar ) {
 	$primary = $secondary = array();
 
-	foreach ( (array) get_post_types( array( 'show_in_admin_bar' => true ), 'objects' ) as $ptype_obj ) {
-		if ( ! current_user_can( $ptype_obj->cap->edit_posts ) )
-			continue;
+	$cpts = (array) get_post_types( array( 'show_in_admin_bar' => true ), 'objects' );
 
-		$key = 'post' == $ptype_obj->name ? 'post-new.php' : 'post-new.php?post_type=' . $ptype_obj->name;
-		$primary[ $key ] = array( $ptype_obj->labels->name_admin_bar, 'new-' . $ptype_obj->name );
+	if ( isset( $cpts['post'] ) && current_user_can( $cpts['post']->cap->edit_posts ) ) {
+		$primary[ 'post-new.php' ] = array( $cpts['post']->labels->name_admin_bar, 'new-post' );
+		unset( $cpts['post'] );
 	}
 
 	if ( current_user_can( 'upload_files' ) )
@@ -479,14 +478,22 @@ function wp_admin_bar_new_content_menu( $wp_admin_bar ) {
 	if ( current_user_can( 'manage_links' ) )
 		$primary[ 'link-add.php' ] = array( _x( 'Link', 'add new from admin bar' ), 'new-link' );
 
+	if ( isset( $cpts['page'] ) && current_user_can( $cpts['page']->cap->edit_posts ) ) {
+		$primary[ 'post-new.php?post_type=page' ] = array( $cpts['page']->labels->name_admin_bar, 'new-page' );
+		unset( $cpts['page'] );
+	}
+
+	// Add any additional custom post types.
+	foreach ( $cpts as $cpt ) {
+		if ( ! current_user_can( $cpt->cap->edit_posts ) )
+			continue;
+
+		$key = 'post-new.php?post_type=' . $cpt->name;
+		$primary[ $key ] = array( $cpt->labels->name_admin_bar, 'new-' . $cpt->name );
+	}
+
 	if ( current_user_can( 'create_users' ) || current_user_can( 'promote_users' ) )
 		$secondary[ 'user-new.php' ] = array( _x( 'User', 'add new from admin bar' ), 'new-user' );
-
-	if ( ! is_multisite() && current_user_can( 'install_themes' ) )
-		$secondary[ 'theme-install.php' ] = array( _x( 'Theme', 'add new from admin bar' ), 'new-theme' );
-
-	if ( ! is_multisite() && current_user_can( 'install_plugins' ) )
-		$secondary[ 'plugin-install.php' ] = array( _x( 'Plugin', 'add new from admin bar' ), 'new-plugin' );
 
 	if ( ! $primary && ! $secondary )
 		return;
