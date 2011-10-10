@@ -49,6 +49,14 @@
 	line-height: 14px;
 }
 
+#dashboard_browser_nag {
+	color: #fff;
+}
+
+#dashboard_browser_nag .browser-icon {
+	position: relative;
+}
+
 .tablenav-pages .current-page {
 	vertical-align: middle;
 }
