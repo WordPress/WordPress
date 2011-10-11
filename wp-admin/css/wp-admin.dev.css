@@ -1765,6 +1765,10 @@ body.no-js #adminmenu .wp-menu-toggle,
 	border-style: solid;
 }
 
+#adminmenu .wp-submenu ul {
+	padding: 4px 0;
+}
+
 #adminmenu .wp-submenu a {
 	margin: 0;
 }
