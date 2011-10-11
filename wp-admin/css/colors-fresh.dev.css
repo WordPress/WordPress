@@ -954,10 +954,7 @@ table.widefat .spam a:hover,
 #adminmenu li.current a.menu-top,
 .folded #adminmenu li.wp-has-current-submenu,
 .folded #adminmenu li.current.menu-top,
-#adminmenu .wp-has-current-submenu .wp-menu-arrow,
-#adminmenu .current .wp-menu-arrow,
-#adminmenu li.wp-has-current-submenu:hover > .wp-menu-arrow,
-#adminmenu li.current:hover > .wp-menu-arrow,
+#adminmenu .wp-menu-arrow,
 #adminmenu .wp-has-current-submenu .wp-submenu .wp-submenu-head {
 	background-color: #777; /* Fallback */
 	background-image: -ms-linear-gradient(bottom, #6d6d6d, #808080); /* IE10 */
@@ -966,6 +963,27 @@ table.widefat .spam a:hover,
 	background-image: -webkit-gradient(linear, left bottom, left top, from(#6d6d6d), to(#808080)); /* old Webkit */
 	background-image: -webkit-linear-gradient(bottom, #6d6d6d, #808080); /* new Webkit */
 	background-image: linear-gradient(bottom, #6d6d6d, #808080); /* proposed W3C Markup */
+}
+
+#adminmenu .wp-menu-arrow div {
+	background-color: #777; /* Fallback */
+	background-image: -ms-linear-gradient(right bottom, #6d6d6d, #808080); /* IE10 */
+	background-image: -moz-linear-gradient(right bottom, #6d6d6d, #808080); /* Firefox */
+	background-image: -o-linear-gradient(right bottom, #6d6d6d, #808080); /* Opera */
+	background-image: -webkit-gradient(linear, right bottom, left top, from(#6d6d6d), to(#808080)); /* old Webkit */
+	background-image: -webkit-linear-gradient(right bottom, #6d6d6d, #808080); /* new Webkit */
+	background-image: linear-gradient(right bottom, #6d6d6d, #808080); /* proposed W3C Markup */
+}
+
+#adminmenu li.wp-not-current-submenu .wp-menu-arrow {
+	border-top-color: #f9f9f9;
+	border-bottom-color: #dfdfdf;
+	background: #E4E4E4;
+}
+
+#adminmenu li.wp-not-current-submenu .wp-menu-arrow div {
+	background: #E4E4E4;
+	border-color: #ccc;
 }
 
 .folded #adminmenu li.menu-top li:hover a {

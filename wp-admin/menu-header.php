@@ -59,6 +59,8 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 
 		if ( ( $parent_file && $item[2] == $parent_file ) || ( empty($typenow) && $self == $item[2] ) )
 			$class[] = ! empty( $submenu_items ) ? 'wp-has-current-submenu wp-menu-open' : 'current';
+		else
+			$class[] = 'wp-not-current-submenu';
 
 		if ( ! empty( $item[4] ) )
 			$class[] = $item[4];
