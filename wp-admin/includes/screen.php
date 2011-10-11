@@ -662,12 +662,12 @@ final class WP_Screen {
 	public function render_screen_meta() {
 
 		// Call old contextual_help_list filter.
-		self::$_old_compat_help = apply_filters( 'contextual_help_list', self::$_old_compat_help );
+		self::$_old_compat_help = apply_filters( 'contextual_help_list', self::$_old_compat_help, $this );
 
 		if ( isset( self::$_old_compat_help[ $this->id ] ) || empty(self::$_help_tabs[ $this->id ] ) ) {
 			// Call old contextual_help filter.
 			if ( isset( self::$_old_compat_help[ $this->id ] ) )
-				$contextual_help = apply_filters( 'contextual_help', self::$_old_compat_help[ $this->id ], $this->id );
+				$contextual_help = apply_filters( 'contextual_help', self::$_old_compat_help[ $this->id ], $this->id, $this );
 
 			if ( empty( $contextual_help ) ) {
 				$default_help = __( '<a href="http://codex.wordpress.org/" target="_blank">Documentation</a>' );
