@@ -1774,11 +1774,15 @@ body.no-js #adminmenu .wp-menu-toggle,
 }
 
 #adminmenu .wp-submenu a,
-#adminmenu li li a {
+#adminmenu li li a,
+.folded #adminmenu .wp-not-current-submenu li a {
 	padding-left: 12px;
 }
+#adminmenu .wp-not-current-submenu li a {
+	padding-left: 18px;
+}
 
-.js.folded #adminmenu li li {
+.folded #adminmenu li li {
 	margin-left: 0;
 }
 
