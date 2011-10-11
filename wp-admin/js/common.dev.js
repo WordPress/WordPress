@@ -207,6 +207,9 @@ $(document).ready( function() {
 		over: function(e){
 			var b, h, o, f, m = $(this).find('.wp-submenu');
 
+			if ( !$(document.body).hasClass('folded') && $(this).hasClass('wp-menu-open') )
+				return;
+
 			b = $(this).offset().top + m.height() + 1; // Bottom offset of the menu
 			h = $('#wpwrap').height(); // Height of the entire page
 			o = 60 + b - h;
