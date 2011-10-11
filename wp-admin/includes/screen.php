@@ -590,7 +590,7 @@ final class WP_Screen {
 	 *
 	 * @param array $args
 	 * - string   - title    - Title for the tab.
-	 * - string   - id       - Tab ID. Optional.
+	 * - string   - id       - Tab ID. Must be HTML-safe.
 	 * - string   - content  - Help tab content in plain text or HTML. Optional.
 	 * - callback - callback - A callback to generate the tab content. Optional.
 	 *
@@ -604,13 +604,11 @@ final class WP_Screen {
 		);
 		$args = wp_parse_args( $args, $defaults );
 
-		// Ensure we have a title.
-		if ( ! $args['title'] )
-			return;
+		$args['id'] = sanitize_html_class( $args['id'] );
 
-		// Create an id from the title if one is not provided.
-		if ( ! $args['id'] )
-			$args['id'] = sanitize_html_class( $args['title'] );
+		// Ensure we have an ID and title.
+		if ( ! $args['id'] || ! $args['title'] )
+			return;
 
 		$this->_help_tabs[] = $args;
 	}
@@ -642,11 +640,20 @@ final class WP_Screen {
 			$_wp_contextual_help = array();
 		$_wp_contextual_help = apply_filters( 'contextual_help_list', $_wp_contextual_help, $this );
 
-		if ( isset( $_wp_contextual_help[ $this->id ] ) ) {
+		if ( isset( $_wp_contextual_help[ $this->id ] ) || ! $this->_help_tabs ) {
 			// Call old contextual_help filter.
-			$contextual_help = apply_filters( 'contextual_help', $_wp_contextual_help[ $this->id ], $this->id, $this );
+			if ( isset( $_wp_contextual_help[ $this->id ] ) )
+				$contextual_help = apply_filters( 'contextual_help', $_wp_contextual_help[ $this->id ], $this->id, $this );
+
+			if ( empty( $contextual_help ) ) {
+				$default_help = __( '<a href="http://codex.wordpress.org/" target="_blank">Documentation</a>' );
+				$default_help .= '<br />';
+				$default_help .= __( '<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>' );
+				$contextual_help = '<p>' . apply_filters( 'default_contextual_help', $default_help ) . '</p>';
+			}
 
 			$this->add_help_tab( array(
+				'id'      => 'contextual-help',
 				'title'   => __('Screen Info'),
 				'content' => $contextual_help,
 			) );
@@ -655,6 +662,7 @@ final class WP_Screen {
 		// Add screen options tab
 		if ( $this->show_screen_options() ) {
 			$this->add_help_tab( array(
+				'id'       => 'screen-options',
 				'title'    => __('Screen Options'),
 				'callback' => array( $this, 'render_screen_options' ),
 			) );
