@@ -2440,7 +2440,7 @@ function esc_textarea( $text ) {
  * @return string
  */
 function tag_escape($tag_name) {
-	$safe_tag = strtolower( preg_replace('/[^a-zA-Z_:]/', '', $tag_name) );
+	$safe_tag = strtolower( preg_replace('/[^a-zA-Z0-9_:]/', '', $tag_name) );
 	return apply_filters('tag_escape', $safe_tag, $tag_name);
 }
 
