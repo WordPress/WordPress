@@ -113,10 +113,12 @@ break;
 case 'edit':
 	$title = $tax->labels->edit_item;
 
-	require_once ( 'admin-header.php' );
 	$tag_ID = (int) $_REQUEST['tag_ID'];
 
 	$tag = get_term( $tag_ID, $taxonomy, OBJECT, 'edit' );
+	if ( ! $tag )
+		wp_die( __( 'You attempted to edit an item that doesn&#8217;t exist. Perhaps it was deleted?' ) );
+	require_once ( 'admin-header.php' );
 	include( './edit-tag-form.php' );
 
 break;
@@ -127,6 +129,10 @@ case 'editedtag':
 
 	if ( !current_user_can( $tax->cap->edit_terms ) )
 		wp_die( __( 'Cheatin&#8217; uh?' ) );
+ 
+	$tag = get_term( $tag_ID, $taxonomy ); 
+	if ( ! $tag )
+		wp_die( __( 'You attempted to edit an item that doesn&#8217;t exist. Perhaps it was deleted?' ) );
 
 	$ret = wp_update_term( $tag_ID, $taxonomy, $_POST );
 
