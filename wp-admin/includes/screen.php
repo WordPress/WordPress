@@ -248,7 +248,10 @@ function convert_to_screen( $screen ) {
  * @todo: deprecate?
  */
 function add_contextual_help( $screen, $help ) {
-	WP_Screen::add_old_compat_help( $screen, $help );
+	if ( is_string( $screen ) )
+		$screen = convert_to_screen( $screen );
+
+	WP_Screen::add_old_compat_help( $screen->id, $help );
 }
 
 /**
