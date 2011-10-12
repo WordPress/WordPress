@@ -220,7 +220,7 @@ function wp_default_scripts( &$scripts ) {
 	// cannot use the plupload.full.js, as it loads browserplus init JS from Yahoo
 	$scripts->add( 'plupload-full', false, array('plupload', 'plupload-html5', 'plupload-flash', 'plupload-silverlight', 'plupload-html4'), '1.5b');
 
-	$scripts->add( 'plupload-handlers', "/wp-includes/js/plupload/handlers$suffix.js", array('plupload-full', 'jquery'), '20110917');
+	$scripts->add( 'plupload-handlers', "/wp-includes/js/plupload/handlers$suffix.js", array('plupload-full', 'jquery'), '20111012');
 	$scripts->add_script_data( 'plupload-handlers', 'pluploadL10n', $uploader_l10n );
 
 	// keep 'swfupload' for back-compat.
@@ -431,7 +431,7 @@ function wp_default_styles( &$styles ) {
 	// Any rtl stylesheets that don't have a .dev version for ltr
 	$no_suffix = array( 'farbtastic' );
 
-	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20111011c' );
+	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20111012' );
 
 	$styles->add( 'ie', "/wp-admin/css/ie$suffix.css", array(), '20111010' );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );

@@ -1342,12 +1342,12 @@ resize_width = <?php echo get_option('large_size_w', 1024); ?>,
 wpUploaderInit = <?php echo json_encode($plupload_init); ?>;
 </script>
 
-<div id="plupload-upload-ui" class="hide-if-no-js drag-drop">
+<div id="plupload-upload-ui" class="hide-if-no-js">
 <?php do_action('pre-plupload-upload-ui'); // hook change, old name: 'pre-flash-upload-ui' ?>
 <div id="drag-drop-area">
 	<div class="drag-drop-inside">
-	<p class="dragdrop-info"><?php _e('Drop files here or'); ?></p>
-	<p><input id="plupload-browse-button" type="button" value="<?php esc_attr_e('Select Files'); ?>" class="button" />
+	<p class="drag-drop-info"><?php _e('Drop files here or'); ?></p>
+	<p class="drag-drop-buttons"><input id="plupload-browse-button" type="button" value="<?php esc_attr_e('Select Files'); ?>" class="button" />
 	<input id="cancel-upload" disabled="true" onclick="cancelUpload()" type="button" value="<?php esc_attr_e('Cancel Upload'); ?>" class="button" /></p>
 	</div>
 </div>

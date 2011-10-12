@@ -3626,6 +3626,10 @@ p.popular-tags a {
 	display: none;
 }
 
+.media-upload-form {
+	margin-top: 20px;
+}
+
 .media-upload-form td label {
 	margin-right: 6px;
 	margin-left: 2px;
@@ -3856,25 +3860,34 @@ form.upgrade .hint {
 }
 
 .drag-drop .drag-drop-inside {
-	padding-top: 60px;
+	margin: 70px auto 0;
+	width: 250px;
 }
 
 .drag-drop .drag-drop-inside p {
 	text-align: center;
 }
 
-.dragdrop-info {
+.drag-drop-info {
 	color: #aaa;
 	display: none;
 	font-size: 24px;
 	margin: 10px 0;
 }
 
-.drag-drop .dragdrop-info {
+.drag-drop .drag-drop-info {
 	display: block;
 }
 
+#plupload-upload-ui {
+	position: relative;
+}
 
+/*
+#drag-drop-area:-moz-drag-over {
+	border-color: #cf5;
+}
+*/
 /*------------------------------------------------------------------------------
   14.2 - Image Editor
 ------------------------------------------------------------------------------*/

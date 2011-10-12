@@ -398,8 +398,14 @@ jQuery(document).ready(function($){
 		uploader.bind('Init', function(up) {
 			setResize( getUserSetting('upload_resize', false) );
 
-			if ( !up.features.dragdrop )
-				$('#plupload-upload-ui').removeClass('drag-drop');
+			if ( up.features.dragdrop ) {
+				$('#plupload-upload-ui').addClass('drag-drop');
+				$('#drag-drop-area').bind('dragover.wp-uploader', function(){ // dragenter doesn't fire right :(
+					$(this).css('border-color', '#ccff55');
+				}).bind('dragleave.wp-uploader, drop.wp-uploader', function(){
+					$(this).css('border-color', '');
+				});
+			}
 		});
 
 		uploader.init();
