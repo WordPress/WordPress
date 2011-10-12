@@ -231,7 +231,7 @@ function convert_to_screen( $screen ) {
 		$screen .= '-user';
 
 	$screen = (string) apply_filters( 'screen_meta_screen', $screen );
-	$screen = new WP_Screen( $screen );
+	$screen = (object) array( 'id' => $screen, 'base' => $screen );
 	return $screen;
 }
 
@@ -248,10 +248,7 @@ function convert_to_screen( $screen ) {
  * @todo: deprecate?
  */
 function add_contextual_help( $screen, $help ) {
-	if ( is_string( $screen ) )
-		$screen = convert_to_screen( $screen );
-
-	$screen->add_old_compat_help( $help );
+	WP_Screen::add_old_compat_help( $screen, $help );
 }
 
 /**
@@ -560,8 +557,8 @@ final class WP_Screen {
 			self::$_options[ $this->id ] = array();
 	}
 
-	function add_old_compat_help( $help ) {
-		self::$_old_compat_help[ $this->id ] = $help;	
+	static function add_old_compat_help( $screen, $help ) {
+		self::$_old_compat_help[ $screen ] = $help;	
 	}
 
 	/**
