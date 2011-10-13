@@ -60,7 +60,7 @@ jQuery(document).ready( function($) {
 				_wpnonce: $('#_wpnonce').val(),
 				post_ID: $('#post_ID').val(),
 				active_post_lock: $('#active_post_lock').val()
-			},
+			}
 		});
 	} );
 
