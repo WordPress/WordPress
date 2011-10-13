@@ -8,8 +8,22 @@
 
 /** WordPress Administration Bootstrap */
 require_once('./admin.php');
-$tax = get_taxonomy( $taxnow );
-if ( !current_user_can( $tax->cap->manage_terms ) )
+
+if ( ! isset( $_GET['taxonomy'] ) )
+	$taxonomy = 'post_tag';
+elseif ( in_array( $_GET['taxonomy'], get_taxonomies( array('show_ui' => true ) ) ) )
+	$taxonomy = sanitize_key( $_GET['taxonomy'] );
+else
+	wp_die( __( 'Invalid taxonomy' ) );
+
+$_GET['taxonomy'] = $taxonomy;
+
+$tax = get_taxonomy( $taxonomy );
+
+if ( ! $tax )
+	wp_die( __( 'Invalid taxonomy' ) );
+
+if ( ! current_user_can( $tax->cap->manage_terms ) )
 	wp_die( __( 'Cheatin&#8217; uh?' ) );
 
 $wp_list_table = _get_list_table('WP_Terms_List_Table');
