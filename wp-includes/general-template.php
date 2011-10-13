@@ -1713,17 +1713,18 @@ function rich_edit_exists() {
  * @return bool
  */
 function user_can_richedit() {
-	global $wp_rich_edit, $pagenow, $is_iphone;
+	global $wp_rich_edit, $is_gecko, $is_opera, $is_safari, $is_chrome, $is_iphone, $is_IE;
 
 	if ( !isset( $wp_rich_edit) ) {
-		if ( get_user_option( 'rich_editing' ) == 'true' &&
-			!$is_iphone && // this includes all Safari mobile browsers
-			( ( preg_match( '!AppleWebKit/(\d+)!', $_SERVER['HTTP_USER_AGENT'], $match ) && intval($match[1]) >= 420 ) ||
-				!preg_match( '!opera[ /][2-8]|konqueror|safari!i', $_SERVER['HTTP_USER_AGENT'] ) )
-		) {
-			$wp_rich_edit = true;
-		} else {
-			$wp_rich_edit = false;
+		$wp_rich_edit = false;
+
+		if ( get_user_option( 'rich_editing' ) == 'true' ) {
+			if ( $is_safari ) {
+				if ( !$is_iphone || ( preg_match( '!AppleWebKit/(\d+)!', $_SERVER['HTTP_USER_AGENT'], $match ) && intval($match[1]) >= 534 ) )
+					$wp_rich_edit = true;
+			} elseif ( $is_gecko || $is_opera || $is_chrome || $is_IE ) {
+				$wp_rich_edit = true;
+			}
 		}
 	}
 
