@@ -228,7 +228,7 @@ textarea {
 
 input[type="checkbox"],
 input[type="radio"] {
-	vertical-align: middle;
+	vertical-align: text-bottom;
 }
 
 /* general */
