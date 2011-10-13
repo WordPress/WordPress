@@ -267,6 +267,10 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 	}
 
 	function mkdir($path, $chmod = false, $chown = false, $chgrp = false ) {
+		$path = untrailingslashit($path);
+		if ( empty($path) )
+			return false;
+
 		if ( ! $this->ftp->mkdir($path) )
 			return false;
 		if ( ! $chmod )

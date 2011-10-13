@@ -247,6 +247,10 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 		return false;
 	}
 	function mkdir($path, $chmod = false, $chown = false, $chgrp = false) {
+		$path = untrailingslashit($path);
+		if ( empty($path) )
+			return false;
+
 		if ( !@ftp_mkdir($this->link, $path) )
 			return false;
 		$this->chmod($path, $chmod);

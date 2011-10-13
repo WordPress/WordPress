@@ -311,6 +311,9 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 
 	function mkdir($path, $chmod = false, $chown = false, $chgrp = false) {
 		$path = untrailingslashit($path);
+		if ( empty($path) )
+			return false;
+
 		if ( ! $chmod )
 			$chmod = FS_CHMOD_DIR;
 		if ( ! ssh2_sftp_mkdir($this->sftp_link, $path, $chmod, true) )

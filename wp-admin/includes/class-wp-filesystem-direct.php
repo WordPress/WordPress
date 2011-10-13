@@ -287,7 +287,7 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 		// safe mode fails with a trailing slash under certain PHP versions.
 		$path = untrailingslashit($path);
 		if ( empty($path) )
-			$path = '/';
+			return false;
 
 		if ( ! $chmod )
 			$chmod = FS_CHMOD_DIR;
