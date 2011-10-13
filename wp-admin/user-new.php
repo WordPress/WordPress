@@ -59,7 +59,7 @@ if ( isset($_REQUEST['action']) && 'adduser' == $_REQUEST['action'] ) {
 		wp_die(__('Cheatin&#8217; uh?'));
 
 	// Adding an existing user to this blog
-	$new_user_email = esc_html(trim($_REQUEST['email']));
+	$new_user_email = $user_details->user_email;
 	$redirect = 'user-new.php';
 	$username = $user_details->user_login;
 	$user_id = $user_details->ID;
