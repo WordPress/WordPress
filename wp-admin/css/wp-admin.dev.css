@@ -255,6 +255,11 @@ body.login {
 	min-width: 0;
 }
 
+iframe,
+img {
+	border: 0;
+}
+
 td,
 textarea,
 input,
