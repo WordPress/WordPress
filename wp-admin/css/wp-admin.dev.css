@@ -88,10 +88,6 @@ TABLE OF CONTENTS:
 	z-index: -1;
 }
 
-#adminmenuwrap {
-	float: left;
-}
-
 #adminmenu {
 	clear: left;
 	margin: 0;
@@ -1617,6 +1613,7 @@ form.upgrade .hint {
 }
 #adminmenuwrap {
 	position: relative;
+	float: left;
 }
 
 #adminmenushadow {
