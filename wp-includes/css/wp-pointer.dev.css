@@ -1,18 +1,32 @@
 .wp-pointer-content {
-	padding: 0 10px;
+	padding: 0 15px;
 	background: white;
 	border: 1px solid #aaa;
-	-moz-box-shadow: 0 0 16px rgba( 0, 0, 0, 0.1 );
-	-webkit-box-shadow: 0 0 16px rgba( 0, 0, 0, 0.1 );
-	box-shadow: 0 0 16px rgba( 0, 0, 0, 0.1 );
+
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+
+	-moz-box-shadow: 1px 1px 2px rgba( 0, 0, 0, 0.4 );
+	-webkit-box-shadow: 1px 1px 2px rgba( 0, 0, 0, 0.4 );
+	box-shadow: 1px 1px 2px rgba( 0, 0, 0, 0.4 );
 }
 .wp-pointer-buttons {
-	padding: 0 0 10px 0;
+	margin: 0 -15px;
+	padding: 1em 15px;
 	overflow: auto;
+	background: #f5f5f5;
+	border-top: 1px solid #ccc;
+
+	-webkit-border-bottom-right-radius: 3px;
+	-webkit-border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px;
+	border-bottom-left-radius: 3px;
+
 }
 .wp-pointer-buttons a {
 	float: right;
 	display: inline-block;
+	text-decoration: none;
 }
 /* The arrow base class must take up no space, even with transparent borders. */
 .wp-pointer-arrow,
