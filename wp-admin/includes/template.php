@@ -1650,7 +1650,6 @@ function wp_pointer_enqueue( $hook_suffix ) {
 	if ( $enqueue ) {
 		wp_enqueue_style( 'wp-pointer' );
 		wp_enqueue_script( 'wp-pointer' );
-		wp_enqueue_script( 'utils' );
 	}
 }
 add_action( 'admin_enqueue_scripts', 'wp_pointer_enqueue' );
@@ -1664,13 +1663,9 @@ function _wp_pointer_print_admin_bar() {
 <script type="text/javascript">
 //<![CDATA[
 jQuery(document).ready( function($) {
-	$('#wpadminbar').pointer({
+	$('#wp-admin-bar-help').pointer({
 		content: '<?php echo $pointer_content; ?>',
-		position: {
-			my: 'left top',
-			at: 'center bottom',
-			offset: '-25 0'
-		},
+		position: 'top',
 		close: function() {
 			$.post( ajaxurl, {
 					pointer: 'wp330-admin-bar',

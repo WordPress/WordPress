@@ -19,16 +19,7 @@
 					t.element.pointer('close');
 				});
 			},
-			arrow: 'auto',
-			position: {
-				my: "left center",
-				at: "right center"
-			},
-			arrow: {
-				edge:  'top',
-				align: 'left',
-				offset: 20
-			},
+			position: 'top',
 			show: function( event, t ) {
 				t.pointer.show();
 				t.opened();
@@ -151,8 +142,12 @@
 		},
 
 		reposition: function() {
+			var position;
+
 			if ( this.options.disabled )
 				return;
+
+			position = this._processPosition( this.options.position );
 
 			// Reposition pointer.
 			this.pointer.css({
@@ -161,41 +156,84 @@
 				zIndex: zindex++ // Increment the z-index so that it shows above other opened pointers.
 			}).show().position($.extend({
 				of: this.element
-			}, this.options.position )); // the object comes before this.options.position so the user can override position.of.
+			}, position )); // the object comes before this.options.position so the user can override position.of.
 
 			this.repoint();
 		},
 
 		repoint: function() {
 			var o = this.options,
-				position = {
-					my: 'center',
-					of: this.pointer
-				},
-				clear;
+				position,
+				at;
 
 			if ( o.disabled )
 				return;
 
+			// Generate arrow position from the box position.
+			position = $.extend( this._processPosition( o.position ), {
+				of: this.pointer,
+				offset: ''
+			});
+
+			// Swap at and my; we're positioning the arrow relative to the box.
+			at = position.at + '';
+			position.at = position.my;
+			position.my = at;
+
+			// Don't align the arrows exactly with the edge.
+			if ( position.align != 'center' ) {
+				position.offset = ( position.align == 'top' || position.align == 'left' ) ? 15 : -15;
+				if ( position.align == 'top' || position.align == 'bottom' )
+					position.offset = '0 ' + position.offset;
+				else
+					position.offset = position.offset + ' 0';
+			}
+
 			// Remove arrow classes.
 			this.pointer[0].className = this.pointer[0].className.replace( /wp-pointer-[^\s'"]*/, '' );
 
-			if ( o.arrow.edge == 'top' || o.arrow.edge == 'bottom' ) {
-				position.at = o.arrow.align + ' ' + o.arrow.edge;
-				position.offset = o.arrow.offset + ' 0';
-				clear = 'top';
-			} else {
-				position.at = o.arrow.edge + ' ' + o.arrow.align;
-				position.offset = '0 ' + o.arrow.offset;
-				clear = 'left';
-			}
+			// Add arrow class.
+			this.pointer.addClass( 'wp-pointer-' + position.edge );
 
 			// Reposition arrow.
-			this.arrow.position( position ).css( clear, '' );
-			// Add arrow class.
-			this.pointer.addClass( 'wp-pointer-' + o.arrow.edge );
+			this.arrow.position( position );
 		},
 
+		_processPosition: function( position ) {
+			var opposite = {
+					top: 'bottom',
+					bottom: 'top',
+					left: 'right',
+					right: 'left'
+				},
+				result;
+
+			// If the position object is a string, it is shorthand for position.edge.
+			if ( typeof position == 'string' ) {
+				result = {
+					edge: position + ''
+				};
+			} else {
+				result = $.extend( {}, position );
+			}
+
+			if ( ! result.edge )
+				return result;
+
+			if ( result.edge == 'top' || result.edge == 'bottom' ) {
+				result.align = result.align || 'left';
+
+				result.at = result.at || result.align + ' ' + opposite[ result.edge ];
+				result.my = result.my || result.align + ' ' + result.edge;
+			} else {
+				result.align = result.align || 'top';
+
+				result.at = result.at || opposite[ result.edge ] + ' ' + result.align;
+				result.my = result.my || result.edge + ' ' + result.align;
+			}
+
+			return result;
+		},
 
 		open: function( event ) {
 			var self = this,

@@ -51,26 +51,18 @@
 .wp-pointer-left .wp-pointer-arrow {
 	border-right-color: #aaa;
 	border-left-width: 0;
-	right: 100%;
-	top: 0;
 }
 .wp-pointer-right .wp-pointer-arrow {
 	border-left-color: #aaa;
 	border-right-width: 0;
-	left: 100%;
-	top: 0;
 }
 .wp-pointer-top .wp-pointer-arrow {
 	border-bottom-color: #aaa;
 	border-top-width: 0;
-	left: 0;
-	bottom: 100%;
 }
 .wp-pointer-bottom .wp-pointer-arrow {
 	border-top-color: #aaa;
 	border-bottom-width: 0;
-	left: 0;
-	top: 100%;
 }
 
 .wp-pointer-left .wp-pointer-arrow-inner,
