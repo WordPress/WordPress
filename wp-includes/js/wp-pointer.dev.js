@@ -13,7 +13,7 @@
 			},
 			buttons: function( event, t ) {
 				var close  = ( wpPointerL10n ) ? wpPointerL10n.close : 'Close',
-					button = $('<a class="button-secondary">' + close + '</div>');
+					button = $('<a class="button-secondary">' + close + '</a>');
 
 				return button.bind( 'click.pointer', function() {
 					t.element.pointer('close');
