@@ -944,8 +944,7 @@ table.widefat .spam a:hover,
 	border-color: #dfdfdf;
 }
 
-#adminmenu li.menu-top:hover > a,
-#adminmenu li.menu-top:hover > .wp-menu-arrow {
+#adminmenu li.menu-top:hover > a {
 	background-color: #e4e4e4;
 	text-shadow: 0 1px 0 rgba( 255, 255, 255, 0.4 );
 }

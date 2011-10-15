@@ -74,6 +74,8 @@ if ( $is_safari && stripos($_SERVER['HTTP_USER_AGENT'], 'mobile') !== false )
 
 $is_IE = ( $is_macIE || $is_winIE );
 
+$wp_htmltag_class = strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE 8.') ? ' class="ie8"' : ''; // can't start with this
+
 // Server detection
 
 /**

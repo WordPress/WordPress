@@ -984,7 +984,7 @@
 
 .wp-editor-tools {
 	height: 30px;
-	padding-right: 15px;
+	padding: 0 15px;
 }
 
 .wp-editor-container {
@@ -1028,6 +1028,10 @@
 	background-color: #f1f1f1;
 	border-color: #dfdfdf #dfdfdf #ccc;
 	color: #999;
+}
+
+html[dir="rtl"] .wp-switch-editor {
+	float: left;
 }
 
 .wp-switch-editor:hover {
@@ -1176,56 +1180,68 @@
 	border-bottom: 1px solid #dfdfdf;
 	margin: 0 6px 14px;
 }
+
 #wp-link p.howto {
 	margin: 3px;
 }
+
 #wp-link #internal-toggle {
 	display: inline-block;
 	cursor: pointer;
 	padding-left: 18px;
 }
+
 #wp-link .toggle-arrow {
 	background: transparent url( '../images/toggle-arrow.png' ) top left no-repeat;
 	height: 23px;
 	line-height: 23px;
 }
+
 #wp-link .toggle-arrow-active {
 	background-position: center left;
 }
+
 #wp-link label input[type="text"] {
 	width: 360px;
 	margin-top: 5px;
 }
+
 #wp-link label span {
 	display: inline-block;
 	width: 80px;
 	text-align: right;
 	padding-right: 5px;
 }
+
 #wp-link .link-search-wrapper {
 	margin: 5px 6px 9px;
 	display: block;
 	overflow: hidden;
 }
+
 #wp-link .link-search-wrapper span {
 	float: left;
 	margin-top: 6px;
 }
+
 #wp-link .link-search-wrapper input[type="text"] {
 	float: left;
 	width: 220px;
 }
+
 #wp-link .link-search-wrapper img.waiting {
 	margin: 8px 1px 0 4px;
 	float: left;
 	display: none;
 }
+
 #wp-link .link-target {
 	width: auto;
 	padding: 3px 0 0;
 	margin: 0 0 0 87px;
 	font-size: 11px;
 }
+
 #wp-link .query-results {
 	border: 1px #dfdfdf solid;
 	margin: 0 5px 5px;
@@ -1234,6 +1250,7 @@
 	overflow: auto;
 	position: relative;
 }
+
 #wp-link li,
 #wp-link .query-notice {
 	clear: both;
@@ -1244,29 +1261,36 @@
 	cursor: pointer;
 	position: relative;
 }
+
 #wp-link li:hover {
 	background: #eaf2fa;
 	color: #151515;
 }
+
 #wp-link li.unselectable {
 	border-bottom: 1px solid #dfdfdf;
 }
+
 #wp-link li.unselectable:hover {
 	background: #fff;
 	cursor: auto;
 	color: #333;
 }
+
 #wp-link li.selected {
 	background: #ddd;
 	color: #333;
 }
+
 #wp-link li.selected .item-title {
 	font-weight: bold;
 }
+
 #wp-link .item-title {
 	display: inline-block;
 	width: 80%;
 }
+
 #wp-link .item-info {
 	text-transform: uppercase;
 	color: #666;
@@ -1276,31 +1300,38 @@
 	top: 4px;
 	bottom: 0;
 }
+
 #wp-link #search-results {
 	display: none;
 }
+
 #wp-link  #search-panel {
 	float: left;
 	width: 100%;
 }
+
 #wp-link .river-waiting {
 	display: none;
 	padding: 10px 0;
 }
+
 #wp-link .river-waiting img.waiting {
 	margin: 0 auto;
 	display: block;
 }
+
 #wp-link .submitbox {
 	padding: 5px 10px;
 	font-size: 11px;
 	overflow: auto;
 	height: 29px;
 }
+
 #wp-link-cancel {
 	line-height: 25px;
 	float: left;
 }
+
 #wp-link-update {
 	line-height: 23px;
 	float: right;

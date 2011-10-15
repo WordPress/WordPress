@@ -104,6 +104,11 @@ ul#adminmenu {
 	padding-top: 7px;
 }
 
+table.fixed th,
+table.fixed td {
+	border-top: 1px solid #ddd;
+}
+
 #wpbody-content input.button,
 #wpbody-content input.button-primary,
 #wpbody-content input.button-secondary,
@@ -389,8 +394,6 @@ table.ie-fixed {
 	width: 300px;
 }
 
-
-#nav-menu-header,
 #nav-menus-frame,
 #wpbody,
 .menu li {

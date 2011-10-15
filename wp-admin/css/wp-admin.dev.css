@@ -140,13 +140,7 @@ TABLE OF CONTENTS:
 }
 
 #post-body-content {
-	max-width: 850px;
 	min-width: 465px;
-}
-
-.columns-1 #post-body-content,
-.columns-2 #post-body-content {
-	max-width: none;
 }
 
 #post-body-content #side-sortables.empty-container {
@@ -762,7 +756,6 @@ p.install-help {
 .wp-admin select {
 	padding: 2px;
 	height: 2em;
-	max-width: 100%;
 }
 
 .wp-admin select[multiple] {
@@ -1818,6 +1811,7 @@ body.no-js #adminmenu .wp-menu-toggle,
 #adminmenu li.wp-not-current-submenu:hover .wp-menu-arrow {
 	display: block;
 }
+
 .folded #adminmenu li.wp-not-current-submenu:hover .wp-menu-arrow {
 	display: none;
 }
@@ -2178,6 +2172,11 @@ body.admin-bar #adminmenu {
 .stuffbox .inside {
 	padding: 0 10px;
 	line-height: 1.4em;
+}
+
+.postbox .inside {
+	margin: 10px 0;
+	position: relative;
 }
 
 .postbox.closed h3 {
@@ -2907,10 +2906,6 @@ input#link_url {
 /* Post Screen */
 #post-body #normal-sortables {
 	min-height: 50px;
-}
-
-#post-body #advanced-sortables {
-	min-height: 20px;
 }
 
 .postbox {
@@ -5107,11 +5102,6 @@ form .textarea-wrap {
 
 #dashboard-widgets-wrap #dashboard-widgets .postbox form .submit #publish {
 	min-width: 0;
-}
-
-div.postbox div.inside {
-	margin: 10px 0;
-	position: relative;
 }
 
 #dashboard-widgets a {
