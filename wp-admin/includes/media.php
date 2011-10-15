@@ -311,7 +311,7 @@ function media_handle_sideload($file_array, $post_id, $desc = null, $post_data =
 function wp_iframe($content_func /* ... */) {
 ?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" <?php do_action('admin_xml_ns'); echo "$wp_htmltag_class "; language_attributes(); ?>>
+<html xmlns="http://www.w3.org/1999/xhtml" <?php do_action('admin_xml_ns'); echo $GLOBALS['wp_htmltag_class'] . ' '; language_attributes(); ?>>
 <head>
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
 <title><?php bloginfo('name') ?> &rsaquo; <?php _e('Uploads'); ?> &#8212; <?php _e('WordPress'); ?></title>
