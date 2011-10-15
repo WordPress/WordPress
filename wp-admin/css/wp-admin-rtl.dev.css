@@ -13,8 +13,7 @@ TABLE OF CONTENTS:
  4.0 - Notifications
  5.0 - TinyMCE
  6.0 - Admin Header
-	6.1 - Favorites Menu
-	6.2 - Screen Options Tabs
+	6.1 - Screen Options Tabs
  7.0 - Main Navigation
  8.0 - Layout Blocks
  9.0 - Dashboard
@@ -305,34 +304,11 @@ form.upgrade .hint {
 }
 
 #wphead h1 {
-	font: Tahoma, Arial, sans-serif;
 	float: right;
 }
 
 /*------------------------------------------------------------------------------
-  6.1 - Favorites Menu
-------------------------------------------------------------------------------*/
-
-#favorite-actions {
-	margin: 0 15px 0 12px;
-}
-
-#favorite-first a {
-	padding: 2px 12px 2px 0;
-}
-
-#favorite-inside a {
-	padding: 3px 10px 3px 5px;
-}
-
-#favorite-toggle {
-	right: auto;
-	left: 0;
-}
-
-
-/*------------------------------------------------------------------------------
-  6.2 - Screen Options Tabs
+  6.1 - Screen Options Tabs
 ------------------------------------------------------------------------------*/
 
 #screen-meta .screen-reader-text {
@@ -727,17 +703,6 @@ th.sorted a span {
 
 .postarea h3 label {
 	float: right;
-}
-
-#edButtonPreview,
-#edButtonHTML {
-	margin: 5px 0 0 5px;
-	float: left;
-}
-
-#poststuff #edButtonHTML {
-	margin-right: 0;
-	margin-left: 15px;
 }
 
 .submitbox .submit {
@@ -1938,17 +1903,6 @@ div.star {
 
 #section-description {
 	direction: ltr;
-}
-
-
-/* press-this */
-body.press-this {
-	font-family: Tahoma, Arial;
-}
-
-#header-logo,
-#wphead h1 {
-	float: right;
 }
 
 /* Editor/Main Column */

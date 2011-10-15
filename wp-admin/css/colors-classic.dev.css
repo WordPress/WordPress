@@ -420,7 +420,6 @@ a:focus {
 	color: #d54e21;
 }
 
-#wphead #viewsite a:hover,
 #adminmenu a:hover,
 #adminmenu ul.wp-submenu a:hover,
 #the-comment-list .comment a:hover,
@@ -554,8 +553,6 @@ h3.dashboard-widget-title small a:hover {
 
 a,
 #adminmenu a,
-#poststuff #edButtonPreview,
-#poststuff #edButtonHTML,
 #the-comment-list p.comment-author strong a,
 #media-upload a.del-link,
 #media-items a.delete,
@@ -856,13 +853,6 @@ table.widefat .spam a:hover,
 
 #poststuff .wp-editor-wrap .wp_themeSkin .mceStatusbar * {
 	color: #555;
-}
-
-#poststuff #edButtonPreview,
-#poststuff #edButtonHTML {
-	background-color: #f7fcfe;
-	border-color: #d0dfe9 #d0dfe9 #d0dfe9;
-	color: #999;
 }
 
 #poststuff #editor-toolbar .active {
@@ -1784,38 +1774,6 @@ body.press-this ul.category-tabs li.tabs a {
 	background-color: #ccc;
 }
 
-#favorite-first {
-	border-color: #c0c0c0;
-	background: #f1f1f1; /* fallback color */
-	background:-moz-linear-gradient(bottom,	#e7e7e7, #fff);
-	background:-webkit-gradient(linear, left bottom, left top, from(#e7e7e7), to(#fff));
-}
-
-#favorite-inside {
-	border-color: #c0c0c0;
-	background-color: #fff;
-}
-
-#favorite-toggle {
-	background: transparent url(../images/fav-arrow.gif?ver=20100531) no-repeat 0 -4px;
-	border-color: #d0dfe9;
-	-moz-box-shadow: inset 1px 0 0 #fff;
-	-webkit-box-shadow: inset 1px 0 0 #fff;
-	box-shadow: inset 1px 0 0 #fff;
-}
-
-#favorite-actions a {
-	color: #464646;
-}
-
-#favorite-actions a:hover {
-	color: #000;
-}
-
-#favorite-inside a:hover {
-	text-decoration: underline;
-}
-
 .toggle-arrow {
 	background: transparent url(../images/arrows-vs.png) no-repeat right 3px;
 }
@@ -2157,10 +2115,6 @@ div.widgets-sortables,
 	border-left-color: #d1e5ee;
 }
 
-.rtl #favorite-toggle {
-	background: transparent url(../images/arrows-vs.png) no-repeat 4px 2px;
-}
-
 .toggle-arrow {
 	background: transparent url(../images/arrows-vs.png) no-repeat left 3px;
 }
@@ -2171,4 +2125,3 @@ div.widgets-sortables,
 .rtl .sidebar-name:hover .sidebar-name-arrow {
 	background: transparent url(../images/arrows-dark-vs.png) no-repeat 5px 9px;
 }
-

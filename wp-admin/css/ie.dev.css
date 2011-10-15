@@ -223,16 +223,6 @@ a.button {
 	overflow: hidden;
 }
 
-#favorite-actions {
-	z-index: 12;
-}
-
-#favorite-inside,
-#favorite-inside a,
-.favorite-action {
-	zoom: 100%;
-}
-
 #the-comment-list .comment-item,
 #post-status-info,
 #wpwrap,

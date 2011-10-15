@@ -428,7 +428,6 @@ a:focus {
 	color: #d54e21;
 }
 
-#wphead #viewsite a:hover,
 #adminmenu a:hover,
 #adminmenu ul.wp-submenu a:hover,
 #the-comment-list .comment a:hover,
@@ -1454,38 +1453,6 @@ body.press-this ul.category-tabs li.tabs a {
 	background-color: #ccc;
 }
 
-#favorite-first {
-	border-color: #c0c0c0;
-	background: #f1f1f1; /* fallback color */
-	background:-moz-linear-gradient(bottom,	#e7e7e7, #fff);
-	background:-webkit-gradient(linear, left bottom, left top, from(#e7e7e7), to(#fff));
-}
-
-#favorite-inside {
-	border-color: #c0c0c0;
-	background-color: #fff;
-}
-
-#favorite-toggle {
-	background: transparent url(../images/arrows.png) no-repeat 4px 2px;
-	border-color: #dfdfdf;
-	-moz-box-shadow: inset 1px 0 0 #fff;
-	-webkit-box-shadow: inset 1px 0 0 #fff;
-	box-shadow: inset 1px 0 0 #fff;
-}
-
-#favorite-actions a {
-	color: #464646;
-}
-
-#favorite-actions a:hover {
-	color: #000;
-}
-
-#favorite-inside a:hover {
-	text-decoration: underline;
-}
-
 .view-switch #view-switch-list {
 	background: transparent url(../images/list.png) no-repeat 0 0;
 }
@@ -1814,10 +1781,6 @@ div.widgets-sortables,
 .rtl #post-body .misc-pub-section {
 	border-right-color: none;
 	border-left-color: #eee;
-}
-
-.rtl #favorite-toggle {
-	background: transparent url(../images/arrows.png) no-repeat 4px 2px;
 }
 
 .toggle-arrow {
