@@ -325,6 +325,7 @@
 	line-height: 24px;
 	vertical-align: middle;
 	margin: -2px 0 0 6px;
+	float: none;
 }
 
 #wpadminbar .quicklinks li img.blavatar {
