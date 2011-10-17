@@ -280,17 +280,11 @@ if ( !empty($_REQUEST['ajax']) ) {
 die;
 }
 
-?>
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" <?php do_action('admin_xml_ns'); echo "$wp_htmltag_class "; language_attributes(); ?>>
-<head>
-	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
-	<title><?php _e('Press This') ?></title>
-
-<?php
 	wp_enqueue_style( 'colors' );
 	wp_enqueue_script( 'post' );
+	_wp_admin_html_begin();
 ?>
+<title><?php _e('Press This') ?></title>
 <script type="text/javascript">
 //<![CDATA[
 addLoadEvent = function(func){if(typeof jQuery!="undefined")jQuery(document).ready(func);else if(typeof wpOnload!='function'){wpOnload=func;}else{var oldonload=wpOnload;wpOnload=function(){oldonload();func();}}};

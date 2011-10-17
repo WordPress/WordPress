@@ -1352,10 +1352,8 @@ function iframe_header( $title = '', $limit_styles = false ) {
 	global $hook_suffix, $current_screen, $current_user, $admin_body_class, $wp_locale;
 	$admin_body_class = preg_replace('/[^a-z0-9_-]+/i', '-', $hook_suffix);
 
-?><!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" <?php do_action('admin_xml_ns'); echo $GLOBALS['wp_htmltag_class'] . ' '; language_attributes(); ?>>
-<head>
-<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
+	_wp_admin_html_begin();
+?>
 <title><?php bloginfo('name') ?> &rsaquo; <?php echo $title ?> &#8212; <?php _e('WordPress'); ?></title>
 <?php
 wp_enqueue_style( 'colors' );
@@ -1627,6 +1625,20 @@ function get_submit_button( $text = NULL, $type = 'primary', $name = 'submit', $
 	}
 
 	return $button;
+}
+
+function _wp_admin_html_begin() {
+?>
+<!DOCTYPE html>
+<!--[if IE 8]>
+<html xmlns="http://www.w3.org/1999/xhtml" class="ie8" <?php do_action('admin_xml_ns'); ?> <?php language_attributes(); ?>>
+<![endif]-->
+<!--[if !(IE 8) ]><!-->
+<html xmlns="http://www.w3.org/1999/xhtml" <?php do_action('admin_xml_ns'); ?> <?php language_attributes(); ?>>
+<!--<![endif]-->
+<head>
+<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
+<?php
 }
 
 /**

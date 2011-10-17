@@ -33,11 +33,8 @@ $admin_title = apply_filters( 'admin_title', $admin_title, $title );
 
 wp_user_settings();
 
+_wp_admin_html_begin();
 ?>
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" <?php do_action('admin_xml_ns'); echo "$wp_htmltag_class "; language_attributes(); ?>>
-<head>
-<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
 <title><?php echo $admin_title; ?></title>
 <?php
 
