@@ -353,7 +353,7 @@ function network_step2( $errors = false ) {
 			<li><p><?php
 				printf( __( 'Create a <code>blogs.dir</code> directory at <code>%s/blogs.dir</code>. This directory is used to store uploaded media for your additional sites and must be writeable by the web server.' ), WP_CONTENT_DIR );
 				if ( WP_CONTENT_DIR != ABSPATH . 'wp-content' )
-					echo ' <strong>' . __('Warning:') . ' ' . __( 'Networks may not be fully compatible with custom wp-content directories.' ) . '</strong';
+					echo ' <strong>' . __('Warning:') . ' ' . __( 'Networks may not be fully compatible with custom wp-content directories.' ) . '</strong>';
 			?></p></li>
 			<li><p><?php printf( __( 'Add the following to your <code>wp-config.php</code> file in <code>%s</code> <strong>above</strong> the line reading <code>/* That&#8217;s all, stop editing! Happy blogging. */</code>:' ), ABSPATH ); ?></p>
 				<textarea class="code" readonly="readonly" cols="100" rows="7">
