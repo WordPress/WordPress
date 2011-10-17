@@ -1280,6 +1280,11 @@ table.widefat .spam a:hover,
 	border-color: #d1e5ee;
 }
 
+#adminmenu li.menu-top:hover > a {
+	background-color: #e8eff4;
+	text-shadow: 0 1px 0 rgba( 255, 255, 255, 0.4 );
+}
+
 #adminmenu li.wp-has-current-submenu a.wp-has-current-submenu,
 #adminmenu li.current a.menu-top,
 .folded #adminmenu li.wp-has-current-submenu,
@@ -1293,6 +1298,31 @@ table.widefat .spam a:hover,
 	background-image: -webkit-gradient(linear, left bottom, left top, from(#5589AA), to(#5A8FAD)); /* old Webkit */
 	background-image: -webkit-linear-gradient(bottom, #5589AA, #5A8FAD); /* new Webkit */
 	background-image: linear-gradient(bottom, #5589AA, #5A8FAD); /* proposed W3C Markup */
+}
+
+#adminmenu .wp-menu-arrow div {
+	background-color: #5589AA; /* Fallback */
+	background-image: -ms-linear-gradient(right bottom, #5589AA, #5A8FAD); /* IE10 */
+	background-image: -moz-linear-gradient(right bottom, #5589AA, #5A8FAD); /* Firefox */
+	background-image: -o-linear-gradient(right bottom, #5589AA, #5A8FAD); /* Opera */
+	background-image: -webkit-gradient(linear, right bottom, left top, from(#5589AA), to(#5A8FAD)); /* old Webkit */
+	background-image: -webkit-linear-gradient(right bottom, #5589AA, #5A8FAD); /* new Webkit */
+	background-image: linear-gradient(right bottom, #5589AA, #5A8FAD); /* proposed W3C Markup */
+}
+
+#adminmenu li.wp-not-current-submenu .wp-menu-arrow {
+	border-top-color: #fff;
+	border-bottom-color: #D1E5EE;
+	background: #e8eff4;
+}
+
+#adminmenu li.wp-not-current-submenu .wp-menu-arrow div {
+	background: #e8eff4;
+	border-color: #D1E5EE;
+}
+
+.folded #adminmenu li.menu-top li:hover a {
+	background-image: none;
 }
 
 #adminmenu li.wp-has-current-submenu a.wp-has-current-submenu,
@@ -1311,8 +1341,8 @@ table.widefat .spam a:hover,
 }
 
 #adminmenu .wp-submenu a:hover {
-	background-color: #EAF2FA !important;
-	color: #333 !important;
+	background-color: #EAF2FA;
+	color: #333;
 }
 
 #adminmenu .wp-submenu li.current,
@@ -1325,19 +1355,20 @@ table.widefat .spam a:hover,
 	background-color: #fff;
 }
 
-.folded #adminmenu .wp-submenu-wrap,
-.folded #adminmenu .wp-submenu ul {
+#adminmenu .wp-submenu-wrap,
+#adminmenu .wp-submenu ul {
 	border-color: #d0dfe9;
 }
 
-.folded #adminmenu .wp-submenu-wrap {
+#adminmenu .wp-submenu-wrap,
+.folded #adminmenu .wp-has-current-submenu .wp-submenu-wrap {
 	-moz-box-shadow: 2px 2px 5px rgba( 0, 0, 0, 0.4 );
 	-webkit-box-shadow: 2px 2px 5px rgba( 0, 0, 0, 0.4 );
 	box-shadow: 2px 2px 5px rgba( 0, 0, 0, 0.4 );
 }
 
 #adminmenu .wp-submenu .wp-submenu-head {
-	border-right-color: #d0dfe9;
+	border-right-color: #e8eff4;
 	background-color: #EFF8FF;
 }
 
