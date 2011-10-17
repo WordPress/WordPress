@@ -42,7 +42,7 @@ function twentyeleven_theme_options_init() {
 		add_option( 'twentyeleven_theme_options', twentyeleven_get_default_theme_options() );
 
 	register_setting(
-		'twentyeleven_options',       // Options group, see settings_fields() call in theme_options_render_page()
+		'twentyeleven_options',       // Options group, see settings_fields() call in twentyeleven_theme_options_render_page()
 		'twentyeleven_theme_options', // Database option, see twentyeleven_get_theme_options()
 		'twentyeleven_theme_options_validate' // The sanitization callback, see twentyeleven_theme_options_validate()
 	);
