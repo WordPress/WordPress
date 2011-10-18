@@ -89,7 +89,7 @@ function set_query_var($var, $value) {
  */
 function &query_posts($query) {
 	unset($GLOBALS['wp_query']);
-	$GLOBALS['wp_query'] =& new WP_Query();
+	$GLOBALS['wp_query'] = new WP_Query();
 	return $GLOBALS['wp_query']->query($query);
 }
 
@@ -105,7 +105,7 @@ function &query_posts($query) {
  */
 function wp_reset_query() {
 	unset($GLOBALS['wp_query']);
-	$GLOBALS['wp_query'] =& $GLOBALS['wp_the_query'];
+	$GLOBALS['wp_query'] = $GLOBALS['wp_the_query'];
 	wp_reset_postdata();
 }
 

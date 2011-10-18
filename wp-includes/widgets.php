@@ -321,7 +321,7 @@ class WP_Widget_Factory {
 	}
 
 	function register($widget_class) {
-		$this->widgets[$widget_class] = & new $widget_class();
+		$this->widgets[$widget_class] = new $widget_class();
 	}
 
 	function unregister($widget_class) {

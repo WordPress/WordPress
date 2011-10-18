@@ -1728,7 +1728,7 @@ function add_custom_background( $header_callback = '', $admin_header_callback = 
 	if ( ! is_admin() )
 		return;
 	require_once( ABSPATH . 'wp-admin/custom-background.php' );
-	$GLOBALS['custom_background'] =& new Custom_Background( $admin_header_callback, $admin_image_div_callback );
+	$GLOBALS['custom_background'] = new Custom_Background( $admin_header_callback, $admin_image_div_callback );
 	add_action( 'admin_menu', array( &$GLOBALS['custom_background'], 'init' ) );
 }
 

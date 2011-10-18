@@ -1161,7 +1161,7 @@ function &get_terms($taxonomies, $args = '') {
 
 	foreach ( $taxonomies as $taxonomy ) {
 		if ( ! taxonomy_exists($taxonomy) ) {
-			$error = & new WP_Error('invalid_taxonomy', __('Invalid Taxonomy'));
+			$error = new WP_Error('invalid_taxonomy', __('Invalid Taxonomy'));
 			return $error;
 		}
 	}

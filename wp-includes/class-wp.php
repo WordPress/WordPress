@@ -573,7 +573,7 @@ class WP_MatchesMapRegex {
 	 * @return string
 	 */
 	function apply($subject, $matches) {
-		$oSelf =& new WP_MatchesMapRegex($subject, $matches);
+		$oSelf = new WP_MatchesMapRegex($subject, $matches);
 		return $oSelf->output;
 	}
 
