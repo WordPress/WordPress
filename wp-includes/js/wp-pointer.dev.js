@@ -8,12 +8,13 @@
 	$.widget("wp.pointer", {
 		options: {
 			pointerClass: 'wp-pointer',
+			pointerWidth: 400,
 			content: function( respond, event, t ) {
 				return $(this).text();
 			},
 			buttons: function( event, t ) {
 				var close  = ( wpPointerL10n ) ? wpPointerL10n.close : 'Close',
-					button = $('<a>' + close + '</a>');
+					button = $('<a href="#">' + close + '</a>');
 
 				return button.bind( 'click.pointer', function() {
 					t.element.pointer('close');
@@ -50,8 +51,7 @@
 				.append( this.arrow )
 				.attr('id', 'wp-pointer-' + identifier++)
 				.addClass( this.options.pointerClass )
-				.css('position', positioning)
-				.hide()
+				.css({'position': positioning, 'width': this.options.pointerWidth+'px', 'display': 'none'})
 				.appendTo( this.options.document.body );
 		},
 
