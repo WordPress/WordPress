@@ -455,7 +455,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'admin-bar', "/wp-includes/css/admin-bar$suffix.css", array(), '20111010' );
 	$styles->add( 'wp-jquery-ui-dialog', "/wp-includes/css/jquery-ui-dialog$suffix.css", array(), '20101224' );
 	$styles->add( 'editor-buttons', "/wp-includes/css/editor-buttons$suffix.css", array(), '20111014' );
-	$styles->add( 'wp-pointer', "/wp-includes/css/wp-pointer$suffix.css", array(), '20111013a' );
+	$styles->add( 'wp-pointer', "/wp-includes/css/wp-pointer$suffix.css", array(), '20111017' );
 
 	foreach ( $rtl_styles as $rtl_style ) {
 		$styles->add_data( $rtl_style, 'rtl', true );
