@@ -5,6 +5,10 @@
  * @package WordPress
  * @since 3.3
  *
+ * NOTE: Do not instantiate this class directly. Please use the wp_editor() function that will include the file
+ * and instantiate the class if needed. If you want to extend this class use the 'init' or earlier action to do it
+ * and call wp_editor() as usual when you need to output the HTML.
+ *
  * Outputs the HTML and JavaScript for the WordPress editors, TinyMCE and Quicktags.
  * TinyMCE is loaded separately from other Javascript by using wp-tinymce.php. It outputs concatenated
  * pre-compressed version of the core and all default plugins. Additional plugins are loaded directly
@@ -365,15 +369,15 @@ class WP_Editor {
 			}
 
 			if ( $set['dfw'] ) {
-				function replace_fullscreen(&$val) {
-					if ( $val == 'fullscreen' )
-						$val = 'wp_fullscreen';
-				}
-
-				array_walk($mce_buttons, 'replace_fullscreen');
-				array_walk($mce_buttons_2, 'replace_fullscreen');
-				array_walk($mce_buttons_3, 'replace_fullscreen');
-				array_walk($mce_buttons_4, 'replace_fullscreen');
+				// replace the first 'fullscreen' with 'wp_fullscreen'
+				if ( ($key = array_search('fullscreen', $mce_buttons)) !== false )
+					$mce_buttons[$key] = 'wp_fullscreen';
+				elseif ( ($key = array_search('fullscreen', $mce_buttons_2)) !== false )
+					$mce_buttons_2[$key] = 'wp_fullscreen';
+				elseif ( ($key = array_search('fullscreen', $mce_buttons_3)) !== false )
+					$mce_buttons_3[$key] = 'wp_fullscreen';	
+				elseif ( ($key = array_search('fullscreen', $mce_buttons_4)) !== false )
+					$mce_buttons_4[$key] = 'wp_fullscreen';
 			}
 
 			$mceInit = array (
