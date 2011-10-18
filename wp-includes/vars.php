@@ -16,11 +16,11 @@
 if ( is_admin() ) {
 	// wp-admin pages are checked more carefully
 	if ( is_network_admin() )
-		preg_match('#/wp-admin/network/?(.*?)$#i', $PHP_SELF, $self_matches);
+		preg_match('#/wp-admin/network/?(.*?)$#i', $_SERVER['PHP_SELF'], $self_matches);
 	elseif ( is_user_admin() )
-		preg_match('#/wp-admin/user/?(.*?)$#i', $PHP_SELF, $self_matches);
+		preg_match('#/wp-admin/user/?(.*?)$#i', $_SERVER['PHP_SELF'], $self_matches);
 	else
-		preg_match('#/wp-admin/?(.*?)$#i', $PHP_SELF, $self_matches);
+		preg_match('#/wp-admin/?(.*?)$#i', $_SERVER['PHP_SELF'], $self_matches);
 	$pagenow = $self_matches[1];
 	$pagenow = trim($pagenow, '/');
 	$pagenow = preg_replace('#\?.*?$#', '', $pagenow);
@@ -33,7 +33,7 @@ if ( is_admin() ) {
 			$pagenow .= '.php'; // for Options +Multiviews: /wp-admin/themes/index.php (themes.php is queried)
 	}
 } else {
-	if ( preg_match('#([^/]+\.php)([?/].*?)?$#i', $PHP_SELF, $self_matches) )
+	if ( preg_match('#([^/]+\.php)([?/].*?)?$#i', $_SERVER['PHP_SELF'], $self_matches) )
 		$pagenow = strtolower($self_matches[1]);
 	else
 		$pagenow = 'index.php';
