@@ -391,9 +391,11 @@ if ( $s )
 
 <?php $wp_list_table->views(); ?>
 
-<form method="post" action="">
-
+<form method="get" action="">
 <?php $wp_list_table->search_box( __( 'Search Installed Plugins' ), 'plugin' ); ?>
+</form>
+
+<form method="post" action="">
 
 <input type="hidden" name="plugin_status" value="<?php echo esc_attr($status) ?>" />
 <input type="hidden" name="paged" value="<?php echo esc_attr($page) ?>" />
