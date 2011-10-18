@@ -512,29 +512,29 @@ function wp_media_upload_handler() {
 	}
 
 	if ( !empty($_POST['insertonlybutton']) ) {
-		$src = $_POST['insertonly']['src'];
+		$src = $_POST['src'];
 		if ( !empty($src) && !strpos($src, '://') )
 			$src = "http://$src";
 
 		if ( isset( $_POST['media_type'] ) && 'image' != $_POST['media_type'] ) {
-			$title = esc_attr($_POST['insertonly']['title']);
-			if ( empty($title) )
-				$title = esc_attr( basename($src) );
+			$title = esc_html( stripslashes( $_POST['title'] ) );
+			if ( empty( $title ) )
+				$title = esc_html( basename( $src ) );
 
-			if ( !empty($title) && !empty($src) )
+			if ( $title && $src )
 				$html = "<a href='" . esc_url($src) . "' >$title</a>";
 
 			$type = 'file';
-			if ( $ext = preg_replace( '/^.+?\.([^.]+)$/', '$1', $src ) && $ext_type = wp_ext2type( $ext )
+			if ( ( $ext = preg_replace( '/^.+?\.([^.]+)$/', '$1', $src ) ) && ( $ext_type = wp_ext2type( $ext ) )
 				&& ( 'audio' == $ext_type || 'video' == $ext_type ) )
 					$type = $ext_type;
 
 			$html = apply_filters( $type . '_send_to_editor_url', $html, esc_url_raw( $src ), $title );
 		} else {
 			$align = '';
-			$alt = esc_attr($_POST['insertonly']['alt']);
-			if ( isset($_POST['insertonly']['align']) ) {
-				$align = esc_attr($_POST['insertonly']['align']);
+			$alt = esc_attr( stripslashes( $_POST['alt'] ) );
+			if ( isset($_POST['align']) ) {
+				$align = esc_attr( stripslashes( $_POST['align'] ) );
 				$class = " class='align$align'";
 			}
 			if ( !empty($src) )
@@ -1517,9 +1517,12 @@ var addExtImage = {
 	},
 
 	getImageData : function() {
+		if ( jQuery('table.describe').hasClass('not-image') )
+			return;
+
 		var t = addExtImage, src = document.forms[0].src.value;
 
-		if ( ! src || jQuery('table.describe').hasClass('not-image') ) {
+		if ( ! src ) {
 			t.resetImageData();
 			return false;
 		}
