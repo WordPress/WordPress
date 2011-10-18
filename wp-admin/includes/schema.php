@@ -36,6 +36,8 @@ if ( ! empty( $wpdb->collate ) )
 function wp_get_db_schema( $scope = 'all', $blog_id = null ) {
 	global $wpdb;
 
+	$charset_collate = '';
+
 	if ( ! empty($wpdb->charset) )
 		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
 	if ( ! empty($wpdb->collate) )
