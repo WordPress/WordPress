@@ -431,7 +431,7 @@ function wp_restore_image($post_id) {
 
 	$parts = pathinfo($file);
 	$suffix = time() . rand(100, 999);
-	$default_sizes = apply_filters( 'intermediate_image_sizes', array('large', 'medium', 'thumbnail') );
+	$default_sizes = get_intermediate_image_sizes();
 
 	if ( isset($backup_sizes['full-orig']) && is_array($backup_sizes['full-orig']) ) {
 		$data = $backup_sizes['full-orig'];
@@ -603,7 +603,7 @@ function wp_save_image($post_id) {
 		$meta['hwstring_small'] = "height='$uheight' width='$uwidth'";
 
 		if ( $success && ('nothumb' == $target || 'all' == $target) ) {
-			$sizes = apply_filters( 'intermediate_image_sizes', array('large', 'medium', 'thumbnail') );
+			$sizes = get_intermediate_image_sizes();
 			if ( 'nothumb' == $target )
 				$sizes = array_diff( $sizes, array('thumbnail') );
 		}
