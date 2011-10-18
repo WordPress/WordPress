@@ -11,7 +11,7 @@ require_once('./admin.php');
 
 if ( ! isset( $_GET['taxonomy'] ) )
 	$taxonomy = 'post_tag';
-elseif ( in_array( $_GET['taxonomy'], get_taxonomies( array('show_ui' => true ) ) ) )
+elseif ( in_array( $_GET['taxonomy'], get_taxonomies() ) )
 	$taxonomy = sanitize_key( $_GET['taxonomy'] );
 else
 	wp_die( __( 'Invalid taxonomy' ) );
