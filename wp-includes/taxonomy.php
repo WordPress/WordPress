@@ -2117,6 +2117,7 @@ function wp_set_object_terms($object_id, $terms, $taxonomy, $append = false) {
 
 	$tt_ids = array();
 	$term_ids = array();
+	$new_tt_ids = array();
 
 	foreach ( (array) $terms as $term) {
 		if ( !strlen(trim($term)) )
@@ -2139,9 +2140,11 @@ function wp_set_object_terms($object_id, $terms, $taxonomy, $append = false) {
 		do_action( 'add_term_relationship', $object_id, $tt_id );
 		$wpdb->insert( $wpdb->term_relationships, array( 'object_id' => $object_id, 'term_taxonomy_id' => $tt_id ) );
 		do_action( 'added_term_relationship', $object_id, $tt_id );
+		$new_tt_ids[] = $tt_id;
 	}
 
-	wp_update_term_count($tt_ids, $taxonomy);
+	if ( $new_tt_ids )
+		wp_update_term_count( $new_tt_ids, $taxonomy );
 
 	if ( ! $append ) {
 		$delete_terms = array_diff($old_tt_ids, $tt_ids);
