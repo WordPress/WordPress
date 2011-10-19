@@ -21,6 +21,11 @@
 	float: left;
 }
 
+#wpadminbar .quicklinks .opposite.menupop ul {
+	right: auto;
+	left: 0;
+}
+
 #wpadminbar .quicklinks > ul > li > a {
 	border-right: 1px solid #808080;
 }
@@ -94,9 +99,6 @@
 	font-family: Tahoma, Arial, Helvetica, sans-serif;
 	margin-right: 0;
 	margin-left: 3px;
-	-moz-box-shadow: inset 2px -2px 1px #cdcdcd;
-	-webkit-box-shadow: inset -2px 2px 1px #cdcdcd;
-	box-shadow: inset 2px -2px 1px #cdcdcd;
 }
 
 #wpadminbar #adminbarsearch .adminbar-button {
