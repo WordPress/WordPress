@@ -91,6 +91,9 @@ class WP_List_Table {
 		if ( !$args['plural'] )
 			$args['plural'] = $screen->base;
 
+		$args['plural'] = sanitize_key( $args['plural'] );
+		$args['singular'] = sanitize_key( $args['singular'] );
+
 		$this->_args = $args;
 
 		if ( $args['ajax'] ) {
