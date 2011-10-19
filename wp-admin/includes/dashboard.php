@@ -1287,38 +1287,44 @@ function wp_welcome_panel() {
 		<div class="welcome-panel-column">
 			<ul>
 				<li>
-					<a href="<?php echo esc_url( admin_url('profile.php') ); ?>">
-						<?php _e('Fill in your profile.'); ?>
-					</a>
+					<?php echo sprintf(
+						__( '<a href="%s">Fill in your profile</a>.' ),
+						esc_url( admin_url('profile.php') )
+					); ?>
 				</li>
 				<li>
-					<a href="<?php echo esc_url( admin_url('options-discussion.php') ); ?>">
-						<?php _e('Choose comment settings.'); ?>
-					</a>
+					<?php echo sprintf(
+						__( '<a href="%s">Choose comment settings</a>.' ),
+						esc_url( admin_url('options-discussion.php') )
+					); ?>
 				</li>
 				<li>
-					<a href="<?php echo esc_url( admin_url('options-general.php') ); ?>">
-						<?php _e('Set your time zone.'); ?>
-					</a>
+					<?php echo sprintf(
+						__( '<a href="%s">Set your time zone</a>.' ),
+						esc_url( admin_url('options-general.php') )
+					); ?>
 				</li>
 			</ul>
 		</div>
 		<div class="welcome-panel-column">
 			<ul>
 				<li>
-					<a href="<?php echo esc_url( admin_url('options-general.php') ); ?>">
-						<?php _e('Edit your site tagline.'); ?>
-					</a>
+					<?php echo sprintf(
+						__( '<a href="%s">Edit your site tagline</a>.' ),
+						esc_url( admin_url('options-general.php') )
+					); ?>
 				</li>
 				<li>
-					<a href="<?php echo esc_url( admin_url('themes.php') ); ?>">
-						<?php _e('Choose a theme.'); ?>
-					</a>
+					<?php echo sprintf(
+						__( '<a href="%s">Choose a theme</a>.' ),
+						esc_url( admin_url('themes.php') )
+					); ?>
 				</li>
 				<li>
-					<a href="<?php echo esc_url( admin_url('widgets.php') ); ?>">
-						<?php _e('Add some widgets.'); ?>
-					</a>
+					<?php echo sprintf(
+						__( '<a href="%s">Add some widgets</a>.' ),
+						esc_url( admin_url('widgets.php') )
+					); ?>
 				</li>
 			</ul>
 		</div>
@@ -1332,9 +1338,10 @@ function wp_welcome_panel() {
 					); ?>
 				</li>
 				<li>
-					<a href="<?php echo esc_url( admin_url('post-new.php') ); ?>">
-						<?php _e('Create your first post.'); ?>
-					</a>
+					<?php echo sprintf(
+						__( '<a href="%s">Create your first post</a>.' ),
+						esc_url( admin_url('post-new.php') )
+					); ?>
 				</li>
 				<li>
 					<?php echo sprintf(
