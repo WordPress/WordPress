@@ -1675,7 +1675,7 @@ function wp_pointer_enqueue( $hook_suffix ) {
 
 	$dismissed = explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) );
 
-	if ( ! in_array( 'wp330-admin-bar', $dismissed ) && apply_filters( 'show_wp_pointer_admin_bar', true ) ) {
+	if ( ! in_array( 'wp330-admin-bar', $dismissed ) ) {
 		$enqueue = true;
 		add_action( 'admin_print_footer_scripts', '_wp_pointer_print_admin_bar' );
 	}
