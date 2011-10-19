@@ -419,7 +419,7 @@ var photostorage = false;
 <body class="press-this wp-admin">
 <form action="press-this.php?action=post" method="post">
 <div id="poststuff" class="metabox-holder">
-	<div class="press-this-sidebar">
+	<div id="side-sortables" class="press-this-sidebar">
 		<div class="sleeve">
 			<?php wp_nonce_field('press-this') ?>
 			<input type="hidden" name="post_type" id="post_type" value="text"/>

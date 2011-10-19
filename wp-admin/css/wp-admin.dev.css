@@ -6420,24 +6420,12 @@ img {
 	padding: 8px 8px 0;
 }
 
-.press-this #submitpost #ajax-loading,
-.press-this #submitpost .ajax-loading {
-	vertical-align: middle;
-}
-
 .press-this .howto {
 	margin-top: 2px;
 	margin-bottom: 3px;
 	font-size: 12px;
 	font-style: italic;
 	display: block;
-}
-
-.press-this input.text {
-	outline-color: -moz-use-text-color;
-	outline-style: none;
-	outline-width: medium;
-	width: 100%;
 }
 
 /* Editor/Main Column */
@@ -6471,16 +6459,9 @@ div.zerosize {
 	padding-top: 5px;
 }
 
-.press-this #submitdiv .inside {
-	margin: 0;
-}
-
 .press-this #submitdiv p {
-	margin: 6px;
-	padding: 0 0 6px;
-	-webkit-box-shadow: 0 1px 0 #fff;
-	-moz-box-shadow: 0 1px 0 #fff;
-	box-shadow: 0 1px 0 #fff;
+	margin: 0;
+	padding: 6px;
 }
 
 .press-this #submitdiv #publishing-actions {
@@ -6526,6 +6507,10 @@ h3.tb {
 .postbox:hover .handlediv,
 .stuffbox:hover .handlediv {
 	background: transparent url(../images/arrows.png) no-repeat 6px 7px;
+}
+
+#submitdiv:hover .handlediv {
+	background: none;
 }
 
 .tbtitle {
@@ -6625,69 +6610,13 @@ h3.tb {
 }
 
 /* Categories */
-.press-this .category-add input[type="text"],
-.press-this .category-add select {
-	width: 100%;
-	margin: 1px;
-}
-
 .press-this .categorydiv div.tabs-panel {
 	height: 100px;
-	overflow: auto;
-	padding: 0.5em 0.9em;
-	border-style: solid;
-	border-width: 1px;
-}
-
-.press-this .category-tabs li {
-	display: inline;
-}
-
-.press-this .category-tabs a {
-	text-decoration: none;
-}
-
-.press-this ul.category-tabs {
-	margin-bottom: 5px;
-	padding-top: 8px;
 }
 
 /* Tags */
 .press-this .tagsdiv .newtag {
-	margin-right: 5px;
-	width: auto;
-}
-
-.jaxtag {
-	clear: both;
-	margin: 0;
-}
-
-.tagadd {
-	margin-left: 3px;
-}
-
-.press-this .tagchecklist {
-	margin-top: 3px;
-	margin-bottom: 1em;
-	font-size: 12px;
-	overflow: auto;
-}
-
-.press-this .tagchecklist strong {
-	position: absolute;
-	font-size: .75em;
-}
-
-.press-this .tagchecklist span {
-	margin-right: .5em;
-	margin-left: 10px;
-	display: block;
-	float: left;
-	font-size: 12px;
-	line-height: 1.8em;
-	white-space: nowrap;
-	cursor: default;
+	width: 130px;
 }
 
 .press-this #content {
