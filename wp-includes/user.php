@@ -722,7 +722,7 @@ function get_blogs_of_user( $user_id, $all = false ) {
 /**
  * Checks if the current user belong to a given blog.
  *
- * @since 3.0.0
+ * @since MU
  *
  * @param int $blog_id Blog ID
  * @return bool True if the current users belong to $blog_id, false if not.
