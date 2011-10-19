@@ -30,9 +30,6 @@ else
 
 $overview = '<p>' . __( 'Welcome to your WordPress Dashboard! This is the screen you will see when you log in to your site, and gives you access to all the site management features of WordPress. You can get help for any screen by clicking the Help tab in the top bar.' ) . '</p>';
 
-if ( current_user_can( 'edit_theme_options' ) )
-	$overview .= '<a href="#" class="welcome-panel-open">' . __('Show the welcome panel.') . '</a>';
-
 add_screen_option( 'overview', $overview );
 
 // Help tabs

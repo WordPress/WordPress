@@ -14,11 +14,12 @@ jQuery(document).ready( function($) {
 	$('.welcome-panel-close', welcomePanel).click( function() {
 		welcomePanel.addClass('hidden');
 		updateWelcomePanel( 0 );
+		$('#wp_welcome_panel-hide').prop('checked', false);
 	});
 
-	$('.welcome-panel-open', '#adv-settings').click( function() {
-		welcomePanel.removeClass('hidden');
-		updateWelcomePanel( 1 );
+	$('#wp_welcome_panel-hide').click( function() {
+		welcomePanel.toggleClass('hidden', ! this.checked );
+		updateWelcomePanel( this.checked ? 1 : 0 );
 	});
 
 	// These widgets are sometimes populated via ajax

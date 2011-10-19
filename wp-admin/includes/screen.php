@@ -799,7 +799,15 @@ final class WP_Screen {
 		if ( isset( $wp_meta_boxes[ $this->id ] ) ) : ?>
 			<h5><?php _ex('Show on screen', 'Metaboxes') ?></h5>
 			<div class="metabox-prefs">
-				<?php meta_box_prefs( $this ); ?>
+				<?php
+					meta_box_prefs( $this );
+
+					if ( 'dashboard' === $this->id && current_user_can( 'edit_theme_options' ) ) {
+						echo '<label for="wp_welcome_panel-hide">';
+						echo '<input type="checkbox" id="wp_welcome_panel-hide"' . checked( (bool) get_user_option( 'show_welcome_panel' ), true, false )  . ' />';
+						echo __( 'Welcome' ) . "</label>\n";
+					}
+				?>
 				<br class="clear" />
 			</div>
 			<?php endif;
