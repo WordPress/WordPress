@@ -3798,14 +3798,13 @@ function get_site_option( $option, $default = false, $use_cache = true ) {
 			$row = $wpdb->get_row( $wpdb->prepare("SELECT meta_value FROM $wpdb->sitemeta WHERE meta_key = %s AND site_id = %d", $option, $wpdb->siteid ) );
 
 			// Has to be get_row instead of get_var because of funkiness with 0, false, null values
-			if ( is_object( $row ) )
+			if ( is_object( $row ) ) {
 				$value = $row->meta_value;
-			else
+				$value = maybe_unserialize( $value );
+				wp_cache_set( $cache_key, $value, 'site-options' );
+			} else {
 				$value = $default;
-
-			$value = maybe_unserialize( $value );
-
-			wp_cache_set( $cache_key, $value, 'site-options' );
+			}
 		}
 	}
 
