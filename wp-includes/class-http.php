@@ -180,7 +180,8 @@ class WP_Http {
 		} else {
 			if ( is_array( $r['body'] ) || is_object( $r['body'] ) ) {
 				$r['body'] = http_build_query( $r['body'], null, '&' );
-				$r['headers']['Content-Type'] = 'application/x-www-form-urlencoded; charset=' . get_option( 'blog_charset' );
+				if ( ! isset( $r['headers']['Content-Type'] ) )
+					$r['headers']['Content-Type'] = 'application/x-www-form-urlencoded; charset=' . get_option( 'blog_charset' );
 				$r['headers']['Content-Length'] = strlen( $r['body'] );
 			}
 
