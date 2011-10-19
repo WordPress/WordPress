@@ -2147,12 +2147,15 @@ body.admin-bar #adminmenu {
 	border-width: 3px;
 	border-style: double;
 	position: relative;
-	display: none;
+	font-size: 14px;
+	line-height: 1.6em;
+	overflow: auto;
 }
 
 .welcome-panel h3 {
 	font-size: 24px;
 	font-weight: normal;
+	margin-bottom: 0.8em;
 }
 
 .welcome-panel .welcome-panel-close {
@@ -2160,6 +2163,11 @@ body.admin-bar #adminmenu {
 	top: 10px;
 	right: 10px;
 	text-decoration: none;
+}
+
+.welcome-panel .welcome-panel-column {
+	width: 33.33333%;
+	float: left;
 }
 
 

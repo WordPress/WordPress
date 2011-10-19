@@ -1265,27 +1265,85 @@ function wp_dashboard_empty() {}
  * @since 3.3
  */
 function wp_welcome_panel() {
+
+	if ( ! current_user_can( 'edit_theme_options' ) )
+		return;
+
+	$classes = 'welcome-panel';
+
+	if ( ! get_user_option( 'show_welcome_panel' ) )
+		$classes .= ' hidden';
+
 	?>
-	<div class="welcome-panel">
-		<h3><?php _e( 'Welcome to WordPress!' ); ?></h3>
-		
+	<div id="welcome-panel" class="<?php echo esc_attr( $classes ); ?>">
+
+		<?php wp_nonce_field( 'welcome-panel-nonce', 'welcomepanelnonce', false ); ?>
+
 		<a class="welcome-panel-close" href="#"><?php _e('Close'); ?></a>
-		
-		<?php
-		// For now, we'll just approximate capabilities for each role.
-		?>
-		
-		<?php if ( current_user_can('switch_themes') ): ?>
-			<p>[admin placeholder]</p>
-		<?php elseif ( current_user_can('edit_others_posts') ): ?>
-			<p>[editor placeholder]</p>
-		<?php elseif ( current_user_can('publish_posts') ): ?>
-			<p>[author placeholder]</p>
-		<?php elseif ( current_user_can('edit_posts') ): ?>
-			<p>[contributor placeholder]</p>
-		<?php else: ?>
-			<p>[subscriber placeholder]</p>
-		<?php endif; ?>
+
+		<h3><?php _e( 'Welcome to WordPress!' ); ?></h3>
+		<p><?php _e( 'Welcome to your new WordPress site! Here are some things most people do when they set up a new WordPress site. To get started, use the links below and we&#8217;ll give you some extra help with these tasks.' ); ?></p>
+
+		<div class="welcome-panel-column">
+			<ul>
+				<li>
+					<a href="<?php echo esc_url( admin_url('profile.php') ); ?>">
+						<?php _e('Fill in your profile.'); ?>
+					</a>
+				</li>
+				<li>
+					<a href="<?php echo esc_url( admin_url('options-discussion.php') ); ?>">
+						<?php _e('Choose comment settings.'); ?>
+					</a>
+				</li>
+				<li>
+					<a href="<?php echo esc_url( admin_url('options-general.php') ); ?>">
+						<?php _e('Set your time zone.'); ?>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<div class="welcome-panel-column">
+			<ul>
+				<li>
+					<a href="<?php echo esc_url( admin_url('options-general.php') ); ?>">
+						<?php _e('Edit your site tagline.'); ?>
+					</a>
+				</li>
+				<li>
+					<a href="<?php echo esc_url( admin_url('themes.php') ); ?>">
+						<?php _e('Choose a theme.'); ?>
+					</a>
+				</li>
+				<li>
+					<a href="<?php echo esc_url( admin_url('widgets.php') ); ?>">
+						<?php _e('Add some widgets.'); ?>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<div class="welcome-panel-column">
+			<ul>
+				<li>
+					<?php echo sprintf(
+						__( 'Delete the default <a href="%1$s">post</a> and <a href="%2$s">comment</a>.' ),
+						esc_url( admin_url('edit.php') ),
+						esc_url( admin_url('edit-comments.php') )
+					); ?>
+				</li>
+				<li>
+					<a href="<?php echo esc_url( admin_url('post-new.php') ); ?>">
+						<?php _e('Create your first post.'); ?>
+					</a>
+				</li>
+				<li>
+					<?php echo sprintf(
+						__( '<a href="%s">Edit the sample page</a> to be about you.' ),
+						esc_url( admin_url('edit.php?post_type=page') )
+					); ?>
+				</li>
+			</ul>
+		</div>
 	</div>
 	<?php
 }

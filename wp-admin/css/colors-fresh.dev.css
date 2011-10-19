@@ -703,6 +703,9 @@ table.widefat span.spam a,
 .welcome-panel {
 	border-color: #ccc;
 }
+.welcome-panel p {
+	color: #777;
+}
 
 .widget,
 #widget-list .widget-top,

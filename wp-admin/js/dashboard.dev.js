@@ -1,6 +1,26 @@
 var ajaxWidgets, ajaxPopulateWidgets, quickPressLoad;
 
 jQuery(document).ready( function($) {
+	/* Dashboard Welcome Panel */
+	var welcomePanel = $('#welcome-panel'),
+	 	updateWelcomePanel = function( visible ) {
+			$.post( ajaxurl, {
+				action: 'update-welcome-panel',
+				visible: visible,
+				welcomepanelnonce: $('#welcomepanelnonce').val()
+			});
+		};
+
+	$('.welcome-panel-close', welcomePanel).click( function() {
+		welcomePanel.addClass('hidden');
+		updateWelcomePanel( 0 );
+	});
+
+	$('.welcome-panel-open', '#adv-settings').click( function() {
+		welcomePanel.removeClass('hidden');
+		updateWelcomePanel( 1 );
+	});
+
 	// These widgets are sometimes populated via ajax
 	ajaxWidgets = [
 		'dashboard_incoming_links',
