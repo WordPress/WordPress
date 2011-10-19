@@ -455,7 +455,7 @@ define( 'BLOG_ID_CURRENT_SITE', 1 );</textarea>
                 </rule>
                 <rule name="WordPress Rule 5" stopProcessing="true">
                     <match url="^[_0-9a-zA-Z-]+/(wp-(content|admin|includes).*)" ignoreCase="false" />
-                    <action type="Rewrite" url="{R:2}" />
+                    <action type="Rewrite" url="{R:1}" />
                 </rule>
                 <rule name="WordPress Rule 6" stopProcessing="true">
                     <match url="^([_0-9a-zA-Z-]+/)?(.*\.php)$" ignoreCase="false" />

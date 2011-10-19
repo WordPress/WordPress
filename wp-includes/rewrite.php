@@ -1739,7 +1739,7 @@ class WP_Rewrite {
 				</rule>
 				<rule name="wordpress - Rule 5" stopProcessing="true">
 					<match url="^([_0-9a-zA-Z-]+/)?(wp-(content|admin|includes).*)" ignoreCase="false" />
-					<action type="Rewrite" url="{R:2}" />
+					<action type="Rewrite" url="{R:1}" />
 				</rule>
 				<rule name="wordpress - Rule 6" stopProcessing="true">
 					<match url="^([_0-9a-zA-Z-]+/)?(.*\.php)$" ignoreCase="false" />
