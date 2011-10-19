@@ -176,7 +176,7 @@ function wp_add_dashboard_widget( $widget_id, $widget_name, $callback, $control_
 	if ( 'dashboard_browser_nag' === $widget_id )
 		$priority = 'high';
 
-	add_meta_box( $widget_id, $widget_name, $callback, $screen->id, $location, $priority );
+	add_meta_box( $widget_id, $widget_name, $callback, $screen, $location, $priority );
 }
 
 function _wp_dashboard_control_callback( $dashboard, $meta_box ) {

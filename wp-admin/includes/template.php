@@ -839,12 +839,19 @@ function wp_import_upload_form( $action ) {
  * @param string $id String for use in the 'id' attribute of tags.
  * @param string $title Title of the meta box.
  * @param string $callback Function that fills the box with the desired content. The function should echo its output.
- * @param string $page The type of edit page on which to show the box (post, page, link).
+ * @param string|object $screen The screen on which to show the box (post, page, link).
  * @param string $context The context within the page where the boxes should show ('normal', 'advanced').
  * @param string $priority The priority within the context where the boxes should show ('high', 'low').
  */
-function add_meta_box($id, $title, $callback, $page, $context = 'advanced', $priority = 'default', $callback_args=null) {
+function add_meta_box($id, $title, $callback, $screen, $context = 'advanced', $priority = 'default', $callback_args=null) {
 	global $wp_meta_boxes;
+
+	if ( empty( $screen ) )
+		$screen = get_current_screen();
+	elseif ( is_string( $screen ) )
+		$screen = convert_to_screen( $screen );
+
+	$page = $screen->id;
 
 	if ( !isset($wp_meta_boxes) )
 		$wp_meta_boxes = array();
@@ -899,16 +906,23 @@ function add_meta_box($id, $title, $callback, $page, $context = 'advanced', $pri
  *
  * @since 2.5.0
  *
- * @param string $page page identifier, also known as screen identifier
+ * @param string|object $screen Screen identifier
  * @param string $context box context
  * @param mixed $object gets passed to the box callback function as first parameter
  * @return int number of meta_boxes
  */
-function do_meta_boxes($page, $context, $object) {
+function do_meta_boxes( $screen, $context, $object ) {
 	global $wp_meta_boxes;
 	static $already_sorted = false;
 
-	$hidden = get_hidden_meta_boxes($page);
+	if ( empty( $screen ) )
+		$screen = get_current_screen();
+	elseif ( is_string( $screen ) )
+		$screen = convert_to_screen( $screen );
+
+	$page = $screen->id;
+
+	$hidden = get_hidden_meta_boxes( $screen );
 
 	printf('<div id="%s-sortables" class="meta-box-sortables">', htmlspecialchars($context));
 
@@ -919,7 +933,7 @@ function do_meta_boxes($page, $context, $object) {
 			foreach ( $sorted as $box_context => $ids ) {
 				foreach ( explode(',', $ids ) as $id ) {
 					if ( $id && 'dashboard_browser_nag' !== $id )
-						add_meta_box( $id, null, null, $page, $box_context, 'sorted' );
+						add_meta_box( $id, null, null, $screen, $box_context, 'sorted' );
 				}
 			}
 		}
@@ -961,11 +975,18 @@ function do_meta_boxes($page, $context, $object) {
  * @since 2.6.0
  *
  * @param string $id String for use in the 'id' attribute of tags.
- * @param string $page The type of edit page on which to show the box (post, page, link).
+ * @param string|object $screen The screen on which to show the box (post, page, link).
  * @param string $context The context within the page where the boxes should show ('normal', 'advanced').
  */
-function remove_meta_box($id, $page, $context) {
+function remove_meta_box($id, $screen, $context) {
 	global $wp_meta_boxes;
+
+	if ( empty( $screen ) )
+		$screen = get_current_screen();
+	elseif ( is_string( $screen ) )
+		$screen = convert_to_screen( $screen );
+
+	$page = $screen->id;
 
 	if ( !isset($wp_meta_boxes) )
 		$wp_meta_boxes = array();

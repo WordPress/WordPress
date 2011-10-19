@@ -24,11 +24,11 @@ if ( ! empty($link_id) ) {
 
 require_once('./includes/meta-boxes.php');
 
-add_meta_box('linksubmitdiv', __('Save'), 'link_submit_meta_box', 'link', 'side', 'core');
-add_meta_box('linkcategorydiv', __('Categories'), 'link_categories_meta_box', 'link', 'normal', 'core');
-add_meta_box('linktargetdiv', __('Target'), 'link_target_meta_box', 'link', 'normal', 'core');
-add_meta_box('linkxfndiv', __('Link Relationship (XFN)'), 'link_xfn_meta_box', 'link', 'normal', 'core');
-add_meta_box('linkadvanceddiv', __('Advanced'), 'link_advanced_meta_box', 'link', 'normal', 'core');
+add_meta_box('linksubmitdiv', __('Save'), 'link_submit_meta_box', null, 'side', 'core');
+add_meta_box('linkcategorydiv', __('Categories'), 'link_categories_meta_box', null, 'normal', 'core');
+add_meta_box('linktargetdiv', __('Target'), 'link_target_meta_box', null, 'normal', 'core');
+add_meta_box('linkxfndiv', __('Link Relationship (XFN)'), 'link_xfn_meta_box', null, 'normal', 'core');
+add_meta_box('linkadvanceddiv', __('Advanced'), 'link_advanced_meta_box', null, 'normal', 'core');
 
 do_action('add_meta_boxes', 'link', $link);
 do_action('add_meta_boxes_link', $link);
@@ -112,9 +112,9 @@ if ( 1 == $screen_layout_columns ) {
 	$side_meta_boxes = do_meta_boxes( 'link', 'side', $link );
 }
 
-do_meta_boxes('link', 'normal', $link);
+do_meta_boxes(null, 'normal', $link);
 
-do_meta_boxes('link', 'advanced', $link);
+do_meta_boxes(null, 'advanced', $link);
 
 if ( $link_id ) : ?>
 <input type="hidden" name="action" value="save" />
