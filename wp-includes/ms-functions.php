@@ -119,32 +119,6 @@ function get_active_blog_for_user( $user_id ) {
 }
 
 /**
- * Find out whether a user is a member of a given blog.
- *
- * @since MU 1.1
- * @uses get_blogs_of_user()
- *
- * @param int $user_id The unique ID of the user
- * @param int $blog Optional. If no blog_id is provided, current site is used
- * @return bool
- */
-function is_user_member_of_blog( $user_id, $blog_id = 0 ) {
-	$user_id = (int) $user_id;
-	$blog_id = (int) $blog_id;
-
-	if ( $blog_id == 0 ) {
-		global $wpdb;
-		$blog_id = $wpdb->blogid;
-	}
-
-	$blogs = get_blogs_of_user( $user_id );
-	if ( is_array( $blogs ) )
-		return array_key_exists( $blog_id, $blogs );
-	else
-		return false;
-}
-
-/**
  * The number of active users in your installation.
  *
  * The count is cached and updated twice daily. This is not a live count.

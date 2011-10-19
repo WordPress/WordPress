@@ -2870,3 +2870,20 @@ function wp_admin_bar_dashboard_view_site_menu( $wp_admin_bar ) {
 			$wp_admin_bar->add_menu( array( 'id' => 'dashboard', 'title' => __( 'Dashboard' ), 'href' => admin_url() ) );
 	}
 }
+
+/**
+ * Checks if the current user belong to a given blog.
+ *
+ * @since MU
+ * @deprecated 3.3
+ * @deprecated Use is_user_member_of_blog()
+ * @see is_user_member_of_blog()
+ *
+ * @param int $blog_id Blog ID
+ * @return bool True if the current users belong to $blog_id, false if not.
+ */
+function is_blog_user( $blog_id = 0 ) {
+	_deprecated_function( __FUNCTION__, '3.3', 'is_user_member_of_blog()' );
+
+	return is_user_member_of_blog( get_current_user_id(), $blog_id );
+}
