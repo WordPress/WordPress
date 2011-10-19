@@ -730,16 +730,12 @@ function get_blogs_of_user( $user_id, $all = false ) {
 function is_blog_user( $blog_id = 0 ) {
 	global $wpdb;
 
-	$current_user = wp_get_current_user();
-	if ( !$blog_id )
+	if ( ! $blog_id )
 		$blog_id = $wpdb->blogid;
 
-	$cap_key = $wpdb->base_prefix . $blog_id . '_capabilities';
+	$blogs = get_blogs_of_user( get_current_user_id() );
 
-	if ( is_array($current_user->$cap_key) && in_array(1, $current_user->$cap_key) )
-		return true;
-
-	return false;
+	return is_array( $blogs ) && array_key_exists( $blog_id, $blogs );
 }
 
 /**
