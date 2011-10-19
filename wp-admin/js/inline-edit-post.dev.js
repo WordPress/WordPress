@@ -151,6 +151,14 @@ inlineEditPost = {
 			$('label.inline-edit-author', editRow).hide();
 		}
 
+		// hide unsupported formats, but leave the current format alone
+		var cur_format = $('.post_format', rowData).text();
+		$('option.unsupported', editRow).each(function() {
+			var $this = $(this);
+			if ( $this.val() != cur_format )
+				$this.remove();
+		});
+
 		for ( var f = 0; f < fields.length; f++ ) {
 			$(':input[name="' + fields[f] + '"]', editRow).val( $('.'+fields[f], rowData).text() );
 		}

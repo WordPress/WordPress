@@ -998,18 +998,21 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 	<?php if ( post_type_supports( $screen->post_type, 'post-formats' ) && current_theme_supports( 'post-formats' ) ) : 
 		$post_formats = get_theme_support( 'post-formats' );
-		if ( is_array( $post_formats[0] ) ) : ?>
+		if ( isset( $post_formats[0] ) && is_array( $post_formats[0] ) ) :
+			$all_post_formats = get_post_format_strings(); ?>
 			<div class="inline-edit-group">
 				<label class="alignleft" for="post_format">
 				<span class="title"><?php _e( 'Post Format' ); ?></span>
-				<select name="post_format" id="post_format">
+				<select name="post_format">
 				<?php if ( $bulk ) : ?>
 					<option value="-1"><?php _e( '&mdash; No Change &mdash;' ); ?></option>
 				<?php endif; ?>
 					<option value="0"><?php _ex( 'Standard', 'Post format' ); ?></option>
-				<?php foreach ( $post_formats[0] as $format ): ?>
-					<option value="<?php echo esc_attr( $format ); ?>"><?php echo esc_html( get_post_format_string( $format ) ); ?></option>
-				<?php endforeach; ?>
+				<?php foreach ( $all_post_formats as $slug => $format ):
+					if ( $slug != 'standard' ) : ?>
+					<option value="<?php echo esc_attr( $slug ); ?>"<?php if ( ! in_array( $slug, $post_formats[0] ) ) echo ' class="unsupported"'; ?>><?php echo esc_html( $format ); ?></option>
+					<?php endif;
+				endforeach; ?>
 				</select></label>
 			</div>
 		<?php endif; ?>
