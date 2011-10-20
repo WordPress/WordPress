@@ -81,7 +81,7 @@ if ( ! is_multisite() && current_user_can( 'install_themes' ) ) : ?>
 <h3><?php _e('Current Theme'); ?></h3>
 <div id="current-theme">
 <?php if ( $ct->screenshot ) : ?>
-<img src="<?php echo $ct->theme_root_uri . '/' . $ct->stylesheet . '/' . $ct->screenshot; ?>" alt="<?php _e('Current theme preview'); ?>" />
+<img src="<?php echo $ct->theme_root_uri . '/' . $ct->stylesheet . '/' . $ct->screenshot; ?>" alt="<?php esc_attr_e('Current theme preview'); ?>" />
 <?php endif; ?>
 <h4><?php
 	/* translators: 1: theme title, 2: theme version, 3: theme author */

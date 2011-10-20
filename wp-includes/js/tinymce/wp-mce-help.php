@@ -196,10 +196,10 @@ wp_admin_css( 'wp-admin', true );
 <body>
 
 <ul id="tabs">
-	<li><a id="tab1" href="javascript:flipTab(1)" title="<?php _e('Basics of Rich Editing') ?>" accesskey="1" tabindex="1" class="current"><?php _e('Basics') ?></a></li>
-	<li><a id="tab2" href="javascript:flipTab(2)" title="<?php _e('Advanced use of the Rich Editor') ?>" accesskey="2" tabindex="2"><?php _e('Advanced') ?></a></li>
-	<li><a id="tab3" href="javascript:flipTab(3)" title="<?php _e('Hotkeys') ?>" accesskey="3" tabindex="3"><?php _e('Hotkeys') ?></a></li>
-	<li><a id="tab4" href="javascript:flipTab(4)" title="<?php _e('About the software') ?>" accesskey="4" tabindex="4"><?php _e('About') ?></a></li>
+	<li><a id="tab1" href="javascript:flipTab(1)" title="<?php esc_attr_e('Basics of Rich Editing') ?>" accesskey="1" tabindex="1" class="current"><?php _e('Basics') ?></a></li>
+	<li><a id="tab2" href="javascript:flipTab(2)" title="<?php esc_attr_e('Advanced use of the Rich Editor') ?>" accesskey="2" tabindex="2"><?php _e('Advanced') ?></a></li>
+	<li><a id="tab3" href="javascript:flipTab(3)" title="<?php esc_attr_e('Hotkeys') ?>" accesskey="3" tabindex="3"><?php _e('Hotkeys') ?></a></li>
+	<li><a id="tab4" href="javascript:flipTab(4)" title="<?php esc_attr_e('About the software') ?>" accesskey="4" tabindex="4"><?php _e('About') ?></a></li>
 </ul>
 
 <div id="flipper" class="wrap">
@@ -272,7 +272,7 @@ wp_admin_css( 'wp-admin', true );
 	<p><?php _e('For more information about this software visit the <a href="http://tinymce.moxiecode.com" target="_blank">TinyMCE website</a>.') ?></p>
 
 	<div id="buttoncontainer">
-		<a href="http://www.moxiecode.com" target="_blank"><img src="themes/advanced/img/gotmoxie.png" alt="<?php _e('Got Moxie?') ?>" style="border: 0" /></a>
+		<a href="http://www.moxiecode.com" target="_blank"><img src="themes/advanced/img/gotmoxie.png" alt="<?php esc_attr_e('Got Moxie?') ?>" style="border: 0" /></a>
 	</div>
 
 </div>
@@ -280,7 +280,7 @@ wp_admin_css( 'wp-admin', true );
 
 <div class="mceActionPanel">
 	<div style="margin: 8px auto; text-align: center;padding-bottom: 10px;">
-		<input type="button" id="cancel" name="cancel" value="<?php _e('Close'); ?>" title="<?php _e('Close'); ?>" onclick="tinyMCEPopup.close();" />
+		<input type="button" id="cancel" name="cancel" value="<?php esc_attr_e('Close'); ?>" title="<?php esc_attr_e('Close'); ?>" onclick="tinyMCEPopup.close();" />
 	</div>
 </div>
 

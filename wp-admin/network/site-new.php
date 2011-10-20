@@ -117,9 +117,9 @@ if ( ! empty( $messages ) ) {
 			<th scope="row"><?php _e( 'Site Address' ) ?></th>
 			<td>
 			<?php if ( is_subdomain_install() ) { ?>
-				<input name="blog[domain]" type="text" class="regular-text" title="<?php _e( 'Domain' ) ?>"/>.<?php echo preg_replace( '|^www\.|', '', $current_site->domain );?>
+				<input name="blog[domain]" type="text" class="regular-text" title="<?php esc_attr_e( 'Domain' ) ?>"/>.<?php echo preg_replace( '|^www\.|', '', $current_site->domain );?>
 			<?php } else {
-				echo $current_site->domain . $current_site->path ?><input name="blog[domain]" class="regular-text" type="text" title="<?php _e( 'Domain' ) ?>"/>
+				echo $current_site->domain . $current_site->path ?><input name="blog[domain]" class="regular-text" type="text" title="<?php esc_attr_e( 'Domain' ) ?>"/>
 			<?php }
 			echo '<p>' . __( 'Only the characters a-z and 0-9 recommended.' ) . '</p>';
 			?>
@@ -127,11 +127,11 @@ if ( ! empty( $messages ) ) {
 		</tr>
 		<tr class="form-field form-required">
 			<th scope="row"><?php _e( 'Site Title' ) ?></th>
-			<td><input name="blog[title]" type="text" class="regular-text" title="<?php _e( 'Title' ) ?>"/></td>
+			<td><input name="blog[title]" type="text" class="regular-text" title="<?php esc_attr_e( 'Title' ) ?>"/></td>
 		</tr>
 		<tr class="form-field form-required">
 			<th scope="row"><?php _e( 'Admin Email' ) ?></th>
-			<td><input name="blog[email]" type="text" class="regular-text" title="<?php _e( 'Email' ) ?>"/></td>
+			<td><input name="blog[email]" type="text" class="regular-text" title="<?php esc_attr_e( 'Email' ) ?>"/></td>
 		</tr>
 		<tr class="form-field">
 			<td colspan="2"><?php _e( 'A new user will be created if the above email address is not in the database.' ) ?><br /><?php _e( 'The username and password will be mailed to this email address.' ) ?></td>

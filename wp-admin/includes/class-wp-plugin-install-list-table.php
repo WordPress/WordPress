@@ -227,11 +227,11 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 						else
 							$star_url = admin_url( 'images/star.png?v=20110615' ); // 'Classic' Blue star
 					?>
-					<div class="star star5"><img src="<?php echo $star_url; ?>" alt="<?php _e( '5 stars' ) ?>" /></div>
-					<div class="star star4"><img src="<?php echo $star_url; ?>" alt="<?php _e( '4 stars' ) ?>" /></div>
-					<div class="star star3"><img src="<?php echo $star_url; ?>" alt="<?php _e( '3 stars' ) ?>" /></div>
-					<div class="star star2"><img src="<?php echo $star_url; ?>" alt="<?php _e( '2 stars' ) ?>" /></div>
-					<div class="star star1"><img src="<?php echo $star_url; ?>" alt="<?php _e( '1 star' ) ?>" /></div>
+					<div class="star star5"><img src="<?php echo $star_url; ?>" alt="<?php esc_attr_e( '5 stars' ) ?>" /></div>
+					<div class="star star4"><img src="<?php echo $star_url; ?>" alt="<?php esc_attr_e( '4 stars' ) ?>" /></div>
+					<div class="star star3"><img src="<?php echo $star_url; ?>" alt="<?php esc_attr_e( '3 stars' ) ?>" /></div>
+					<div class="star star2"><img src="<?php echo $star_url; ?>" alt="<?php esc_attr_e( '2 stars' ) ?>" /></div>
+					<div class="star star1"><img src="<?php echo $star_url; ?>" alt="<?php esc_attr_e( '1 star' ) ?>" /></div>
 				</div>
 			</td>
 			<td class="desc column-description"<?php echo $style['description']; ?>><?php echo $description, $author; ?></td>

@@ -70,9 +70,9 @@ _deprecated_file( sprintf( __( 'Theme without %1$s' ), basename(__FILE__) ), '3.
 				<ul>
 					<?php wp_register(); ?>
 					<li><?php wp_loginout(); ?></li>
-					<li><a href="http://validator.w3.org/check/referer" title="<?php _e('This page validates as XHTML 1.0 Transitional'); ?>"><?php _e('Valid <abbr title="eXtensible HyperText Markup Language">XHTML</abbr>'); ?></a></li>
-					<li><a href="http://gmpg.org/xfn/"><abbr title="<?php _e('XHTML Friends Network'); ?>"><?php _e('XFN'); ?></abbr></a></li>
-					<li><a href="http://wordpress.org/" title="<?php _e('Powered by WordPress, state-of-the-art semantic personal publishing platform.'); ?>">WordPress</a></li>
+					<li><a href="http://validator.w3.org/check/referer" title="<?php esc_attr_e('This page validates as XHTML 1.0 Transitional'); ?>"><?php _e('Valid <abbr title="eXtensible HyperText Markup Language">XHTML</abbr>'); ?></a></li>
+					<li><a href="http://gmpg.org/xfn/"><abbr title="<?php esc_attr_e('XHTML Friends Network'); ?>"><?php _e('XFN'); ?></abbr></a></li>
+					<li><a href="http://wordpress.org/" title="<?php esc_attr_e('Powered by WordPress, state-of-the-art semantic personal publishing platform.'); ?>">WordPress</a></li>
 					<?php wp_meta(); ?>
 				</ul>
 				</li>

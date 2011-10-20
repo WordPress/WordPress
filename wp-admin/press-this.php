@@ -431,7 +431,7 @@ var photostorage = false;
 			<div class="photolist"></div>
 
 			<div id="submitdiv" class="postbox">
-				<div class="handlediv" title="<?php _e( 'Click to toggle' ); ?>"><br /></div>
+				<div class="handlediv" title="<?php esc_attr_e( 'Click to toggle' ); ?>"><br /></div>
 				<h3 class="hndle"><?php _e('Press This') ?></h3>
 				<div class="inside">
 					<p id="publishing-actions">
@@ -465,7 +465,7 @@ var photostorage = false;
 
 			<?php $tax = get_taxonomy( 'category' ); ?>
 			<div id="categorydiv" class="postbox">
-				<div class="handlediv" title="<?php _e( 'Click to toggle' ); ?>"><br /></div>
+				<div class="handlediv" title="<?php esc_attr_e( 'Click to toggle' ); ?>"><br /></div>
 				<h3 class="hndle"><?php _e('Categories') ?></h3>
 				<div class="inside">
 				<div id="taxonomy-category" class="categorydiv">
@@ -515,7 +515,7 @@ var photostorage = false;
 			</div>
 
 			<div id="tagsdiv-post_tag" class="postbox">
-				<div class="handlediv" title="<?php _e( 'Click to toggle' ); ?>"><br /></div>
+				<div class="handlediv" title="<?php esc_attr_e( 'Click to toggle' ); ?>"><br /></div>
 				<h3><span><?php _e('Tags'); ?></span></h3>
 				<div class="inside">
 					<div class="tagsdiv" id="post_tag">
@@ -592,12 +592,12 @@ var photostorage = false;
 
 			if ( current_user_can('upload_files') ) {
 				?>
-				<a id="photo_button" title="<?php _e('Insert an Image'); ?>" href="#">
-				<img alt="<?php _e('Insert an Image'); ?>" src="<?php echo esc_url( admin_url( 'images/media-button-image.gif?ver=20100531' ) ); ?>"/></a>
+				<a id="photo_button" title="<?php esc_attr_e('Insert an Image'); ?>" href="#">
+				<img alt="<?php esc_attr_e('Insert an Image'); ?>" src="<?php echo esc_url( admin_url( 'images/media-button-image.gif?ver=20100531' ) ); ?>"/></a>
 				<?php
 			}
 			?>
-			<a id="video_button" title="<?php _e('Embed a Video'); ?>" href="#"><img alt="<?php _e('Embed a Video'); ?>" src="<?php echo esc_url( admin_url( 'images/media-button-video.gif?ver=20100531' ) ); ?>"/></a>
+			<a id="video_button" title="<?php esc_attr_e('Embed a Video'); ?>" href="#"><img alt="<?php esc_attr_e('Embed a Video'); ?>" src="<?php echo esc_url( admin_url( 'images/media-button-video.gif?ver=20100531' ) ); ?>"/></a>
 			<?php
 		}
 
@@ -616,7 +616,7 @@ var photostorage = false;
 	<td><label for="this_photo_description"><?php _e('Description') ?></label></td>
 	<td><input type="text" id="this_photo_description" name="photo_description" class="tbtitle text" onkeypress="if(event.keyCode==13) image_selector();" value="<?php echo esc_attr($title);?>"/></td>
 	</tr><tr>
-	<td><input type="button" class="button" onclick="image_selector()" value="<?php _e('Insert Image'); ?>" /></td>
+	<td><input type="button" class="button" onclick="image_selector()" value="<?php esc_attr_e('Insert Image'); ?>" /></td>
 	</tr></table>
 </div>
 <?php 

@@ -811,7 +811,7 @@ class WP_Editor {
 			<a class="submitdelete deletion" href="#"><?php _e( 'Cancel' ); ?></a>
 		</div>
 		<div id="wp-link-update">
-			<input type="submit" tabindex="100" value="<?php _e( 'Add Link' ); ?>" class="button-primary" id="wp-link-submit" name="wp-link-submit">
+			<input type="submit" tabindex="100" value="<?php esc_attr_e( 'Add Link' ); ?>" class="button-primary" id="wp-link-submit" name="wp-link-submit">
 		</div>
 	</div>
 	</form>
