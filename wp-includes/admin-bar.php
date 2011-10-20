@@ -572,15 +572,6 @@ function wp_admin_bar_appearance_menu( $wp_admin_bar ) {
 	if ( ! current_user_can('switch_themes') && ! current_user_can( 'edit_theme_options' ) )
 		return;
 
-	/* take the subs one level up
-	$wp_admin_bar->add_menu( array(
-		'id'     => 'appearance',
-		'title'  => __('Appearance'),
-		'href'   => admin_url('themes.php'),
-		'parent' => 'site-name',
-	) );
-	*/
-
 	if ( ! current_user_can( 'edit_theme_options' ) )
 		return;
 
