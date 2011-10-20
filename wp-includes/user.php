@@ -88,7 +88,7 @@ function wp_authenticate_username_password($user, $username, $password) {
 	$userdata = get_user_by('login', $username);
 
 	if ( !$userdata )
-		return new WP_Error('invalid_username', sprintf(__('<strong>ERROR</strong>: Invalid username. <a href="%s" title="Password Lost and Found">Lost your password</a>?'), site_url('wp-login.php?action=lostpassword', 'login')));
+		return new WP_Error('invalid_username', sprintf(__('<strong>ERROR</strong>: Invalid username. <a href="%s" title="Password Lost and Found">Lost your password</a>?'), wp_lostpassword_url()));
 
 	if ( is_multisite() ) {
 		// Is user marked as spam?
@@ -109,7 +109,7 @@ function wp_authenticate_username_password($user, $username, $password) {
 
 	if ( !wp_check_password($password, $userdata->user_pass, $userdata->ID) )
 		return new WP_Error( 'incorrect_password', sprintf( __( '<strong>ERROR</strong>: The password you entered for the username <strong>%1$s</strong> is incorrect. <a href="%2$s" title="Password Lost and Found">Lost your password</a>?' ),
-		$username, site_url( 'wp-login.php?action=lostpassword', 'login' ) ) );
+		$username, wp_lostpassword_url() ) );
 
 	$user =  new WP_User($userdata->ID);
 	return $user;

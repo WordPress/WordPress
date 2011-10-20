@@ -288,14 +288,14 @@ function wp_login_form( $args = array() ) {
  *
  * @param string $redirect Path to redirect to on login.
  */
-function wp_lostpassword_url($redirect = '') {
+function wp_lostpassword_url( $redirect = '' ) {
 	$args = array( 'action' => 'lostpassword' );
 	if ( !empty($redirect) ) {
 		$args['redirect_to'] = $redirect;
 	}
 
-	$lostpassword_url = add_query_arg($args, site_url('wp-login.php', 'login'));
-	return apply_filters('lostpassword_url', $lostpassword_url, $redirect);
+	$lostpassword_url = add_query_arg( $args, network_site_url('wp-login.php', 'login') );
+	return apply_filters( 'lostpassword_url', $lostpassword_url, $redirect );
 }
 
 /**
