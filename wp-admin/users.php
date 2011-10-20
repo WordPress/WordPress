@@ -67,8 +67,8 @@ case 'promote':
 
 		if ( ! current_user_can('promote_user', $id) )
 			wp_die(__('You can&#8217;t edit that user.'));
-		// The new role of the current user must also have promote_users caps
-		if ( $id == $current_user->ID && !$wp_roles->role_objects[$_REQUEST['new_role']]->has_cap('promote_users') ) {
+		// The new role of the current user must also have the promote_users cap or be a super admin
+		if ( $id == $current_user->ID && ! is_super_admin() && ! $wp_roles->role_objects[ $_REQUEST['new_role'] ]->has_cap('promote_users') ) {
 			$update = 'err_admin_role';
 			continue;
 		}
