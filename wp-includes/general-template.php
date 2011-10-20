@@ -235,7 +235,7 @@ function wp_login_url($redirect = '', $force_reauth = false) {
  */
 function wp_login_form( $args = array() ) {
 	$defaults = array( 'echo' => true,
-						'redirect' => site_url( $_SERVER['REQUEST_URI'] ), // Default redirect is back to the current page
+						'redirect' => ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'], // Default redirect is back to the current page
 	 					'form_id' => 'loginform',
 						'label_username' => __( 'Username' ),
 						'label_password' => __( 'Password' ),
