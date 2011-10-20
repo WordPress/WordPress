@@ -18,7 +18,6 @@
  * @return bool Whether post has an image attached.
  */
 function has_post_thumbnail( $post_id = null ) {
-	$post_id = ( null === $post_id ) ? get_the_ID() : $post_id;
 	return (bool) get_post_thumbnail_id( $post_id );
 }
 
