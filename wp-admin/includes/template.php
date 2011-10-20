@@ -839,7 +839,7 @@ function wp_import_upload_form( $action ) {
  * @param string $id String for use in the 'id' attribute of tags.
  * @param string $title Title of the meta box.
  * @param string $callback Function that fills the box with the desired content. The function should echo its output.
- * @param string|object Optional. $screen The screen on which to show the box (post, page, link). Defaults to current screen.
+ * @param string|object $screen Optional. The screen on which to show the box (post, page, link). Defaults to current screen.
  * @param string $context Optional. The context within the page where the boxes should show ('normal', 'advanced').
  * @param string $priority Optional. The priority within the context where the boxes should show ('high', 'low').
  */

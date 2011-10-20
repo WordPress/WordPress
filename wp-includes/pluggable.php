@@ -192,7 +192,6 @@ if ( !function_exists( 'wp_mail' ) ) :
  * @uses do_action_ref_array() Calls 'phpmailer_init' hook on the reference to
  *		phpmailer object.
  * @uses PHPMailer
- * @
  *
  * @param string|array $to Array or comma-separated list of email addresses to send message.
  * @param string $subject Email subject
