@@ -252,7 +252,7 @@ function wp_login_form( $args = array() ) {
 	$args = wp_parse_args( $args, apply_filters( 'login_form_defaults', $defaults ) );
 
 	$form = '
-		<form name="' . $args['form_id'] . '" id="' . $args['form_id'] . '" action="' . site_url( 'wp-login.php', 'login_post' ) . '" method="post">
+		<form name="' . $args['form_id'] . '" id="' . $args['form_id'] . '" action="' . esc_url( site_url( 'wp-login.php', 'login_post' ) ) . '" method="post">
 			' . apply_filters( 'login_form_top', '', $args ) . '
 			<p class="login-username">
 				<label for="' . esc_attr( $args['id_username'] ) . '">' . esc_html( $args['label_username'] ) . '</label>
@@ -266,7 +266,7 @@ function wp_login_form( $args = array() ) {
 			' . ( $args['remember'] ? '<p class="login-remember"><label><input name="rememberme" type="checkbox" id="' . esc_attr( $args['id_remember'] ) . '" value="forever" tabindex="90"' . ( $args['value_remember'] ? ' checked="checked"' : '' ) . ' /> ' . esc_html( $args['label_remember'] ) . '</label></p>' : '' ) . '
 			<p class="login-submit">
 				<input type="submit" name="wp-submit" id="' . esc_attr( $args['id_submit'] ) . '" class="button-primary" value="' . esc_attr( $args['label_log_in'] ) . '" tabindex="100" />
-				<input type="hidden" name="redirect_to" value="' . esc_attr( $args['redirect'] ) . '" />
+				<input type="hidden" name="redirect_to" value="' . esc_url( $args['redirect'] ) . '" />
 			</p>
 			' . apply_filters( 'login_form_bottom', '', $args ) . '
 		</form>';
