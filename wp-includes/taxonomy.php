@@ -2852,7 +2852,7 @@ function _update_post_term_count( $terms, $taxonomy ) {
 
 	foreach ( (array) $terms as $term ) {
 
-		// Attachments can be 'inherit' status, we need to base count off the parent's staus if so
+		// Attachments can be 'inherit' status, we need to base count off the parent's status if so
 		if ( in_array( 'attachment', $object_types ) )
 			$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->term_relationships, $wpdb->posts p1 WHERE p1.ID = $wpdb->term_relationships.object_id AND ( post_status = 'publish' OR ( post_status = 'inherit' AND post_parent > 0 AND ( SELECT post_status FROM $wpdb->posts WHERE ID = p1.post_parent ) = 'publish' ) ) AND post_type IN ('" . implode("', '", $object_types) . "') AND term_taxonomy_id = %d", $term ) );
 		elseif ( post_type_exists( $object_type ) )
