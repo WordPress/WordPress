@@ -255,8 +255,10 @@ function is_taxonomy_hierarchical($taxonomy) {
  * hierarchical - has some defined purpose at other parts of the API and is a
  * boolean value.
  *
- * update_count_callback - works much like a hook, in that it will be called
- * when the count is updated.
+ * update_count_callback - works much like a hook, in that it will be called when the count is updated.
+ * 	Defaults to _update_post_term_count() for taxonomies attached to post types, which then confirms
+ * 	that the objects are then published before counting them.
+ * 	Defaults to _update_generic_term_count() for taxonomies attached to other object types, such as links.
  *
  * rewrite - false to prevent rewrite, or array('slug'=>$slug) to customize
  * permastruct; default will use $taxonomy as slug.
