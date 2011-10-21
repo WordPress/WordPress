@@ -1459,21 +1459,24 @@ function dbDelta( $queries = '', $execute = true ) {
 	$cqueries = apply_filters( 'dbdelta_create_queries', $cqueries );
 	$iqueries = apply_filters( 'dbdelta_insert_queries', $iqueries );
 
-	// Check to see which tables and fields exist
-	if ($tables = $wpdb->get_col('SHOW TABLES;')) {
-		// For every table in the database
-		$global_tables = $wpdb->tables( 'global' );
-		foreach ($tables as $table) {
-			// Upgrade global tables only for the main site. Don't upgrade at all if DO_NOT_UPGRADE_GLOBAL_TABLES is defined.
-			if ( in_array( $table, $global_tables ) && ( !is_main_site() || defined( 'DO_NOT_UPGRADE_GLOBAL_TABLES' ) ) )
-				continue;
+	$global_tables = $wpdb->tables( 'global' );
+	foreach ( $cqueries as $table => $qry ) {
+		// Upgrade global tables only for the main site. Don't upgrade at all if DO_NOT_UPGRADE_GLOBAL_TABLES is defined.
+		if ( in_array( $table, $global_tables ) && ( !is_main_site() || defined( 'DO_NOT_UPGRADE_GLOBAL_TABLES' ) ) )
+			continue;
 
-			// If a table query exists for the database table...
-			if ( array_key_exists(strtolower($table), $cqueries) ) {
+		// Fetch the table column structure from the database
+		$wpdb->suppress_errors();
+		$tablefields = $wpdb->get_results("DESCRIBE {$table};");
+		$wpdb->suppress_errors( false );
+
+		if ( ! $tablefields )
+			continue;
+
 				// Clear the field and index arrays
 				$cfields = $indices = array();
 				// Get all of the field names in the query from between the parens
-				preg_match("|\((.*)\)|ms", $cqueries[strtolower($table)], $match2);
+				preg_match("|\((.*)\)|ms", $qry, $match2);
 				$qryline = trim($match2[1]);
 
 				// Separate field lines into an array
@@ -1507,9 +1510,6 @@ function dbDelta( $queries = '', $execute = true ) {
 						$cfields[strtolower($fieldname)] = trim($fld, ", \n");
 					}
 				}
-
-				// Fetch the table column structure from the database
-				$tablefields = $wpdb->get_results("DESCRIBE {$table};");
 
 				// For every field in the table
 				foreach ($tablefields as $tablefield) {
@@ -1607,13 +1607,8 @@ function dbDelta( $queries = '', $execute = true ) {
 					$for_update[$table.'.'.$fieldname] = 'Added index '.$table.' '.$index;
 				}
 
-				// Remove the original table creation query from processing
-				unset($cqueries[strtolower($table)]);
-				unset($for_update[strtolower($table)]);
-			} else {
-				// This table exists in the database, but not in the creation queries?
-			}
-		}
+		// Remove the original table creation query from processing
+		unset( $cqueries[ $table ], $for_update[ $table ] );
 	}
 
 	$allqueries = array_merge($cqueries, $iqueries);
