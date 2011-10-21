@@ -436,7 +436,7 @@ function get_post_ancestors($post) {
 /**
  * Retrieve data from a post field based on Post ID.
  *
- * Examples of the post field will be, 'post_type', 'post_status', 'content',
+ * Examples of the post field will be, 'post_type', 'post_status', 'post_content',
  * etc and based off of the post object property or key names.
  *
  * The context values are based off of the taxonomy filter functions and
