@@ -2449,8 +2449,19 @@ function wp_update_term_count_now( $terms, $taxonomy ) {
 	if ( !empty($taxonomy->update_count_callback) ) {
 		call_user_func($taxonomy->update_count_callback, $terms, $taxonomy);
 	} else {
-		// Default count updater
-		_update_post_term_count( $terms, $taxonomy );
+		$object_types = (array) $taxonomy->object_type;
+		foreach ( $object_types as &$object_type ) {
+			if ( 0 === strpos( $object_type, 'attachment:' ) )
+				list( $object_type ) = explode( ':', $object_type );
+		}
+
+		if ( $object_types == array_filter( $object_types, 'post_type_exists' ) ) {
+			// Only post types are attached to this taxonomy
+			_update_post_term_count( $terms, $taxonomy );
+		} else {
+			// Default count updater
+			_update_generic_term_count( $terms, $taxonomy );
+		}
 	}
 
 	clean_term_cache($terms, '', false);
@@ -2842,30 +2853,62 @@ function _pad_term_counts(&$terms, $taxonomy) {
 function _update_post_term_count( $terms, $taxonomy ) {
 	global $wpdb;
 
-	$object_types = is_array($taxonomy->object_type) ? $taxonomy->object_type : array($taxonomy->object_type);
+	$object_types = (array) $taxonomy->object_type;
 	
 	foreach ( $object_types as &$object_type )
 		list( $object_type ) = explode( ':', $object_type );
-	
+
 	$object_types = array_unique( $object_types );
-	$object_types = esc_sql($object_types);
+
+	if ( false !== ( $check_attachments = array_search( 'attachment', $object_types ) ) ) {
+		unset( $object_types[ $check_attachments ] );
+		$check_attachments = true;
+	}
+
+	if ( $object_types )
+		$object_types = esc_sql( array_filter( $object_types, 'post_type_exists' ) );
 
 	foreach ( (array) $terms as $term ) {
+		$count = 0;
 
 		// Attachments can be 'inherit' status, we need to base count off the parent's status if so
-		if ( in_array( 'attachment', $object_types ) )
-			$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->term_relationships, $wpdb->posts p1 WHERE p1.ID = $wpdb->term_relationships.object_id AND ( post_status = 'publish' OR ( post_status = 'inherit' AND post_parent > 0 AND ( SELECT post_status FROM $wpdb->posts WHERE ID = p1.post_parent ) = 'publish' ) ) AND post_type IN ('" . implode("', '", $object_types) . "') AND term_taxonomy_id = %d", $term ) );
-		elseif ( post_type_exists( $object_type ) )
-			$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->term_relationships, $wpdb->posts WHERE $wpdb->posts.ID = $wpdb->term_relationships.object_id AND post_status = 'publish' AND post_type IN ('" . implode("', '", $object_types) . "') AND term_taxonomy_id = %d", $term ) );
-		else
-			$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->term_relationships WHERE term_taxonomy_id = %d", $term ) );
+		if ( $check_attachments )
+			$count += (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->term_relationships, $wpdb->posts p1 WHERE p1.ID = $wpdb->term_relationships.object_id AND ( post_status = 'publish' OR ( post_status = 'inherit' AND post_parent > 0 AND ( SELECT post_status FROM $wpdb->posts WHERE ID = p1.post_parent ) = 'publish' ) ) AND post_type = 'attachment' AND term_taxonomy_id = %d", $term ) );
 
+		if ( $object_types )
+			$count += (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->term_relationships, $wpdb->posts WHERE $wpdb->posts.ID = $wpdb->term_relationships.object_id AND post_status = 'publish' AND post_type IN ('" . implode("', '", $object_types ) . "') AND term_taxonomy_id = %d", $term ) );
+
+		
 		do_action( 'edit_term_taxonomy', $term, $taxonomy );
 		$wpdb->update( $wpdb->term_taxonomy, compact( 'count' ), array( 'term_taxonomy_id' => $term ) );
 		do_action( 'edited_term_taxonomy', $term, $taxonomy );
 	}
 }
 
+/**
+ * Will update term count based on number of objects.
+ *
+ * Default callback for the link_category taxonomy.
+ *
+ * @package WordPress
+ * @subpackage Taxonomy
+ * @since 3.3.0
+ * @uses $wpdb
+ *
+ * @param array $terms List of Term taxonomy IDs
+ * @param object $taxonomy Current taxonomy object of terms
+ */
+function _update_generic_term_count( $terms, $taxonomy ) {
+	global $wpdb;
+
+	foreach ( (array) $terms as $term ) {
+		$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->term_relationships WHERE term_taxonomy_id = %d", $term ) );
+
+		do_action( 'edit_term_taxonomy', $term, $taxonomy );
+		$wpdb->update( $wpdb->term_taxonomy, compact( 'count' ), array( 'term_taxonomy_id' => $term ) );
+		do_action( 'edited_term_taxonomy', $term, $taxonomy );
+	}
+}
 
 /**
  * Generates a permalink for a taxonomy term archive.
