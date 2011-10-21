@@ -19,7 +19,6 @@ function create_initial_taxonomies() {
 
 	register_taxonomy( 'category', 'post', array(
 		'hierarchical' => true,
-	 	'update_count_callback' => '_update_post_term_count',
 		'query_var' => 'category_name',
 		'rewrite' => did_action( 'init' ) ? array(
 					'hierarchical' => true,
@@ -32,7 +31,6 @@ function create_initial_taxonomies() {
 
 	register_taxonomy( 'post_tag', 'post', array(
 	 	'hierarchical' => false,
-		'update_count_callback' => '_update_post_term_count',
 		'query_var' => 'tag',
 		'rewrite' => did_action( 'init' ) ? array(
 					'slug' => get_option('tag_base') ? get_option('tag_base') : 'tag',
