@@ -89,23 +89,23 @@ function wp_admin_bar_wp_menu( $wp_admin_bar ) {
 			'title'  => __('About This Version'),
 			'href'   => admin_url('about.php'),
 		) );
+
+		// Add freedoms link
+		$wp_admin_bar->add_menu( array(
+			'parent' => 'wp-logo',
+			'id'     => 'freedoms',
+			'title'  => __('Freedoms'),
+			'href'   => admin_url('freedoms.php'),
+		) );
+
+		// Add credits link
+		$wp_admin_bar->add_menu( array(
+			'parent' => 'wp-logo',
+			'id'     => 'credits',
+			'title'  => __('Credits'),
+			'href'   => admin_url('credits.php'),
+		) );
 	}
-
-	// Add freedoms link
-	$wp_admin_bar->add_menu( array(
-		'parent' => 'wp-logo',
-		'id'     => 'freedoms',
-		'title'  => __('Freedoms'),
-		'href'   => admin_url('freedoms.php'),
-	) );
-
-	// Add credits link
-	$wp_admin_bar->add_menu( array(
-		'parent' => 'wp-logo',
-		'id'     => 'credits',
-		'title'  => __('Credits'),
-		'href'   => admin_url('credits.php'),
-	) );
 
 	// Add secondary menu.
 	$wp_admin_bar->add_menu( array(
