@@ -126,8 +126,9 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 				// Handle current for post_type=post|page|foo pages, which won't match $self.
 				$self_type = ! empty( $typenow ) ? $self . '?post_type=' . $typenow : 'nothing';
 
-				if ( isset( $submenu_file ) && $submenu_file == $sub_item[2] ) {
-					$class[] = 'current';
+				if ( isset( $submenu_file ) ) {
+					if ( $submenu_file == $sub_item[2] )
+						$class[] = 'current';
 				// If plugin_page is set the parent must either match the current page or not physically exist.
 				// This allows plugin pages with the same hook to exist under different parents.
 				} else if (
