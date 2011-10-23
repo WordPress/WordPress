@@ -90,16 +90,21 @@ function get_hidden_meta_boxes( $screen ) {
 
 	$hidden = get_user_option( "metaboxhidden_{$screen->id}" );
 
+	$use_defaults = ! is_array( $hidden );
+
 	// Hide slug boxes by default
-	if ( !is_array( $hidden ) ) {
-		if ( 'post' == $screen->base || 'page' == $screen->base )
-			$hidden = array('slugdiv', 'trackbacksdiv', 'postcustom', 'postexcerpt', 'commentstatusdiv', 'commentsdiv', 'authordiv', 'revisionsdiv');
-		else
-			$hidden = array( 'slugdiv' );
-		$hidden = apply_filters('default_hidden_meta_boxes', $hidden, $screen);
+	if ( $use_defaults ) {
+		$hidden = array();
+		if ( 'post' == $screen->base ) {
+			if ( 'post' == $screen->post_type || 'page' == $screen->post_type )
+				$hidden = array('slugdiv', 'trackbacksdiv', 'postcustom', 'postexcerpt', 'commentstatusdiv', 'commentsdiv', 'authordiv', 'revisionsdiv');
+			else
+				$hidden = array( 'slugdiv' );
+		}
+		$hidden = apply_filters( 'default_hidden_meta_boxes', $hidden, $screen );
 	}
 
-	return $hidden;
+	return apply_filters( 'hidden_meta_boxes', $hidden, $screen, $use_defaults );
 }
 
 /**
