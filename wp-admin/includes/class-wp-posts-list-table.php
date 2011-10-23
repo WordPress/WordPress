@@ -463,7 +463,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	}
 
 	function single_row( $a_post, $level = 0 ) {
-		global $post, $current_screen, $mode;
+		global $post, $mode;
 		static $alternate;
 
 		$global_post = $post;

@@ -1370,8 +1370,10 @@ function _admin_search_query() {
  */
 function iframe_header( $title = '', $limit_styles = false ) {
 	show_admin_bar( false );
-	global $hook_suffix, $current_screen, $current_user, $admin_body_class, $wp_locale;
+	global $hook_suffix, $current_user, $admin_body_class, $wp_locale;
 	$admin_body_class = preg_replace('/[^a-z0-9_-]+/i', '-', $hook_suffix);
+
+	$current_screen = get_current_screen();
 
 	_wp_admin_html_begin();
 ?>
