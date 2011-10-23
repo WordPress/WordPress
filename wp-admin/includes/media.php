@@ -2021,35 +2021,3 @@ add_action( 'media_upload_file',  'wp_media_upload_handler' );
 
 add_filter( 'media_upload_gallery', 'media_upload_gallery' );
 add_filter( 'media_upload_library', 'media_upload_library' );
-
-function media_upload_image() {
-	return wp_media_upload_handler();
-}
-
-function media_upload_audio() {
-	return wp_media_upload_handler();
-}
-
-function media_upload_video() {
-	return wp_media_upload_handler();
-}
-
-function media_upload_file() {
-	return wp_media_upload_handler();
-}
-
-function type_url_form_image() {
-	return wp_media_insert_url_form( 'image' );
-}
-
-function type_url_form_audio() {
-	return wp_media_insert_url_form( 'audio' );
-}
-
-function type_url_form_video() {
-	return wp_media_insert_url_form( 'video' );
-}
-
-function type_url_form_file() {
-	return wp_media_insert_url_form( 'file' );
-}
