@@ -212,23 +212,23 @@ if ( 'post' == $post_type ) {
 } elseif ( 'page' == $post_type ) {
 	$about_pages = '<p>' . __('Pages are similar to Posts in that they have a title, body text, and associated metadata, but they are different in that they are not part of the chronological blog stream, kind of like permanent posts. Pages are not categorized or tagged, but can have a hierarchy. You can nest Pages under other Pages by making one the &#8220;Parent&#8221; of the other, creating a group of Pages.') . '</p>' .
 		'<p>' . __('Creating a Page is very similar to creating a Post, and the screens can be customized in the same way using drag and drop, the Screen Options tab, and expanding/collapsing boxes as you choose. This screen also has the new in 3.2 distraction-free writing space, available in both the Visual and HTML modes via the Fullscreen buttons. The Page editor mostly works the same as the Post editor, but there are some Page-specific features in the Page Attributes box:') . '</p>';
-	
+
 	$current_screen->add_help_tab( array(
 		'id'      => 'about-pages',
 		'title'   => __('About Pages'),
 		'content' => $about_pages,
 	) );
-	
+
 	$page_attributes = '<p>' . __('<strong>Parent</strong> - You can arrange your pages in hierarchies. For example, you could have an &#8220;About&#8221; page that has &#8220;Life Story&#8221; and &#8220;My Dog&#8221; pages under it. There are no limits to how many levels you can nest pages.') . '</p>' .
 		'<p>' . __('<strong>Template</strong> - Some themes have custom templates you can use for certain pages that might have additional features or custom layouts. If so, you&#8217;ll see them in this dropdown menu.') . '</p>' .
 		'<p>' . __('<strong>Order</strong> - Pages are usually ordered alphabetically, but you can choose your own order by entering a number (1 for first, etc.) in this field.') . '</p>';
-	
+
 	$current_screen->add_help_tab( array(
 		'id' => 'page-attributes',
 		'title' => __('Page Attributes'),
 		'content' => $page_attributes,
 	) );
-	
+
 	$current_screen->add_help_sidebar(
 			'<p><strong>' . __('For more information:') . '</strong></p>' .
 			'<p>' . __('<a href="http://codex.wordpress.org/Pages_Add_New_Screen" target="_blank">Documentation on Adding New Pages</a>') . '</p>' .

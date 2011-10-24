@@ -710,7 +710,7 @@ function wp_dashboard_quick_press_output() {
  */
 function wp_tiny_mce() {
 	_deprecated_function( __FUNCTION__, '3.3', 'wp_editor()' );
-	
+
 	wp_editor('', 'content');
 }
 

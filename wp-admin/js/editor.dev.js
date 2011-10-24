@@ -1,10 +1,10 @@
 
 var switchEditors = {
-	
+
 	go: function(a) {
 		var t = this, aid = a.id, l = aid.length, id = aid.substr(0, l - 5), mode = aid.substr(l - 4),
 			ed = tinyMCE.get(id), wrap_id = 'wp-'+id+'-wrap', dom = tinymce.DOM, txtarea_el = dom.get(id);
-	
+
 		if ( 'tmce' == mode ) {
 			if ( ed && ! ed.isHidden() )
 				return false;
@@ -14,7 +14,7 @@ var switchEditors = {
 
 			if ( tinyMCEPreInit.mceInit[id] && tinyMCEPreInit.mceInit[id].wpautop )
 				txtarea_el.value = t.wpautop( txtarea_el.value );
-			
+
 			if ( ed ) {
 				ed.show();
 			} else {
@@ -25,12 +25,12 @@ var switchEditors = {
 			dom.removeClass(wrap_id, 'html-active');
 			dom.addClass(wrap_id, 'tmce-active');
 			setUserSetting('editor', 'tinymce');
-	
+
 		} else if ( 'html' == mode ) {
 
 			if ( ed && ed.isHidden() )
 				return false;
-			
+
 			if ( ed ) {
 				txtarea_el.style.height = ed.getContentAreaContainer().offsetHeight + 20 + 'px';
 				ed.hide();
@@ -42,7 +42,7 @@ var switchEditors = {
 		}
 		return false;
 	},
-	
+
 	_wp_Nop : function(content) {
 		var blocklist1, blocklist2;
 

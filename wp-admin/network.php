@@ -523,7 +523,7 @@ if ( $_POST ) {
 	// create network tables
 	install_network();
 	$hostname = get_clean_basedomain();
-	$subdomain_install = allow_subdomain_install() ? !empty( $_POST['subdomain_install'] ) : false; 
+	$subdomain_install = allow_subdomain_install() ? !empty( $_POST['subdomain_install'] ) : false;
 	if ( ! network_domain_check() ) {
 		$result = populate_network( 1, get_clean_basedomain(), sanitize_email( $_POST['email'] ), stripslashes( $_POST['sitename'] ), $base, $subdomain_install );
 		if ( is_wp_error( $result ) ) {

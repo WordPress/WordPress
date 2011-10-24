@@ -142,7 +142,7 @@ screenMeta = {
 			height;
 
 		columns.height('auto');
-	
+
 		height = Math.max.apply( null, $.map( columns, function( el ) { return $(el).height(); }) );
 		columns.height( height );
 

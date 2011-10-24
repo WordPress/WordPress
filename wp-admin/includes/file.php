@@ -347,7 +347,7 @@ function wp_handle_upload( &$file, $overrides = false, $time = null ) {
 	$new_file = $uploads['path'] . "/$filename";
 	copy( $tmp_file, $new_file );
 	unlink($tmp_file);
-	
+
 	// Set correct file permissions
 	$stat = stat( dirname( $new_file ));
 	$perms = $stat['mode'] & 0000666;

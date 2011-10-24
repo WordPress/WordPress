@@ -375,7 +375,7 @@ class WP_Editor {
 				elseif ( ($key = array_search('fullscreen', $mce_buttons_2)) !== false )
 					$mce_buttons_2[$key] = 'wp_fullscreen';
 				elseif ( ($key = array_search('fullscreen', $mce_buttons_3)) !== false )
-					$mce_buttons_3[$key] = 'wp_fullscreen';	
+					$mce_buttons_3[$key] = 'wp_fullscreen';
 				elseif ( ($key = array_search('fullscreen', $mce_buttons_4)) !== false )
 					$mce_buttons_4[$key] = 'wp_fullscreen';
 			}

@@ -330,7 +330,7 @@ function wp_get_update_data() {
 		$update_title[] = sprintf(_n('%d Theme Update', '%d Theme Updates', $counts['themes']), $counts['themes']);
 
 	$update_title = ! empty( $update_title ) ? esc_attr( implode( ', ', $update_title ) ) : '';
-	
+
 	return array( 'counts' => $counts, 'title' => $update_title );
 }
 

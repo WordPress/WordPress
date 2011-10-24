@@ -333,7 +333,7 @@ final class WP_Screen {
  	 * @access private
  	 */
 	private $_help_tabs = array();
- 
+
  	/**
 	 * The help sidebar data associated with screen, if any.
 	 *
@@ -395,10 +395,10 @@ final class WP_Screen {
 	 * @return WP_Screen Screen object.
  	 */
 	public function get( $hook_name = '' ) {
- 
+
 		if ( is_a( $hook_name, 'WP_Screen' ) )
 			return $hook_name;
- 
+
 		$action = $post_type = $taxonomy = '';
 
 		if ( $hook_name ) {
@@ -425,12 +425,12 @@ final class WP_Screen {
 				$action = 'add';
 			$id = str_replace( array( '-new', '-add' ), '', $id );
  		}
- 
+
 		if ( 'index' == $id )
 			$id = 'dashboard';
- 
+
 		$base = $id;
- 
+
 		// If this is the current screen, see if we can be more accurate for post types and taxonomies.
 		if ( ! $hook_name ) {
 			switch ( $base ) {
@@ -466,7 +466,7 @@ final class WP_Screen {
 					break;
 			}
  		}
- 
+
 		switch ( $base ) {
 			case 'post' :
 				if ( ! $post_type )
@@ -484,7 +484,7 @@ final class WP_Screen {
 				$id = 'edit-' . $taxonomy;
 				break;
 		}
- 
+
 		if ( is_network_admin() ) {
 			$id   .= '-network';
 			$base .= '-network';
@@ -492,7 +492,7 @@ final class WP_Screen {
 			$id   .= '-user';
 			$base .= '-user';
  		}
- 
+
 		if ( isset( self::$_registry[ $id ] ) )
 			return self::$_registry[ $id ];
 
@@ -509,7 +509,7 @@ final class WP_Screen {
 
 		return $screen;
  	}
- 
+
 	/**
 	 * Makes the screen object the current screen.
 	 *
@@ -543,7 +543,7 @@ final class WP_Screen {
 	 * @param string $help Help text.
 	 */
 	static function add_old_compat_help( $screen, $help ) {
-		self::$_old_compat_help[ $screen->id ] = $help;	
+		self::$_old_compat_help[ $screen->id ] = $help;
 	}
 
 	/**

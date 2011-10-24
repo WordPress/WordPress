@@ -1040,7 +1040,7 @@ function register_post_type($post_type, $args = array()) {
 	}
 
 	do_action( 'registered_post_type', $post_type, $args );
-	
+
 	return $args;
 }
 
@@ -5308,7 +5308,7 @@ add_filter( 'wp_get_object_terms', '_post_format_wp_get_object_terms' );
 
 /**
  * Update the custom taxonomies' term counts when a post's status is changed. For example, default posts term counts (for custom taxonomies) don't include private / draft posts.
- * 
+ *
  * @access private
  * @param string $new_status
  * @param string $old_status

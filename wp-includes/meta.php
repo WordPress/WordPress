@@ -307,7 +307,7 @@ function get_metadata($meta_type, $object_id, $meta_key = '', $single = false) {
  *
  * @param string $meta_type Type of object metadata is for (e.g., comment, post, or user)
  * @param int $object_id ID of the object metadata is for
- * @param string $meta_key Metadata key. 
+ * @param string $meta_key Metadata key.
  * @return boolean true of the key is set, false if not.
  */
 function metadata_exists( $meta_type, $object_id, $meta_key ) {

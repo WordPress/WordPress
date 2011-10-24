@@ -864,7 +864,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 	<?php
 			endif; // hierarchical
-	
+
 			if ( !$bulk ) : ?>
 
 			<label>
@@ -996,7 +996,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 			</div>
 
-	<?php if ( post_type_supports( $screen->post_type, 'post-formats' ) && current_theme_supports( 'post-formats' ) ) : 
+	<?php if ( post_type_supports( $screen->post_type, 'post-formats' ) && current_theme_supports( 'post-formats' ) ) :
 		$post_formats = get_theme_support( 'post-formats' );
 		if ( isset( $post_formats[0] ) && is_array( $post_formats[0] ) ) :
 			$all_post_formats = get_post_format_strings(); ?>

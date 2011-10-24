@@ -77,7 +77,7 @@ function wp_register_script( $handle, $src, $deps = array(), $ver = false, $in_f
  * The $data array is JSON encoded. If called more than once for the same $handle with the same $name,
  * the object would contain all values. In that case if two or more keys are the same,
  * the last value overwrites the previous. The function is named "localize_script" because of historical reasons.
- * 
+ *
  * @since r16
  * @see WP_Scripts::add_script_data()
  */

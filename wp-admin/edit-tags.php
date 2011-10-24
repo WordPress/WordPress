@@ -143,8 +143,8 @@ case 'editedtag':
 
 	if ( !current_user_can( $tax->cap->edit_terms ) )
 		wp_die( __( 'Cheatin&#8217; uh?' ) );
- 
-	$tag = get_term( $tag_ID, $taxonomy ); 
+
+	$tag = get_term( $tag_ID, $taxonomy );
 	if ( ! $tag )
 		wp_die( __( 'You attempted to edit an item that doesn&#8217;t exist. Perhaps it was deleted?' ) );
 

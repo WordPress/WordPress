@@ -578,10 +578,10 @@ var photostorage = false;
 
 		if ( $url ) {
 			$content .= '<p>';
-			
+
 			if ( $selection )
 				$content .= __('via ');
-			
+
 			$content .= sprintf( "<a href='%s'>%s</a>.</p>", esc_url( $url ), esc_html( $title ) );
 		}
 
@@ -602,7 +602,7 @@ var photostorage = false;
 		}
 
 		wp_editor( $content, 'content', $editor_settings );
-		
+
 		?>
 		</div>
 	</div>
@@ -619,7 +619,7 @@ var photostorage = false;
 	<td><input type="button" class="button" onclick="image_selector()" value="<?php esc_attr_e('Insert Image'); ?>" /></td>
 	</tr></table>
 </div>
-<?php 
+<?php
 do_action('admin_footer');
 do_action('admin_print_footer_scripts');
 ?>

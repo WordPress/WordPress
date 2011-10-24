@@ -2854,7 +2854,7 @@ function _update_post_term_count( $terms, $taxonomy ) {
 	global $wpdb;
 
 	$object_types = (array) $taxonomy->object_type;
-	
+
 	foreach ( $object_types as &$object_type )
 		list( $object_type ) = explode( ':', $object_type );
 
@@ -2878,7 +2878,7 @@ function _update_post_term_count( $terms, $taxonomy ) {
 		if ( $object_types )
 			$count += (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->term_relationships, $wpdb->posts WHERE $wpdb->posts.ID = $wpdb->term_relationships.object_id AND post_status = 'publish' AND post_type IN ('" . implode("', '", $object_types ) . "') AND term_taxonomy_id = %d", $term ) );
 
-		
+
 		do_action( 'edit_term_taxonomy', $term, $taxonomy );
 		$wpdb->update( $wpdb->term_taxonomy, compact( 'count' ), array( 'term_taxonomy_id' => $term ) );
 		do_action( 'edited_term_taxonomy', $term, $taxonomy );

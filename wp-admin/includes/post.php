@@ -598,7 +598,7 @@ function wp_write_post() {
  * Calls wp_write_post() and handles the errors.
  *
  * @since 2.0.0
- 
+
  * @uses wp_write_post()
  * @uses is_wp_error()
  * @uses wp_die()

@@ -1128,7 +1128,7 @@ function get_adjacent_post( $in_same_cat = false, $excluded_categories = '', $pr
 			}
 
 			$excluded_categories = array_map( 'intval', $excluded_categories );
-				
+
 			if ( ! empty( $cat_array ) ) {
 				$excluded_categories = array_diff($excluded_categories, $cat_array);
 				$posts_in_ex_cats_sql = '';
@@ -1276,7 +1276,7 @@ function get_boundary_post( $in_same_cat = false, $excluded_categories = '', $st
 	$cat_array = array();
 	if( ! is_array( $excluded_categories ) )
 		$excluded_categories = explode( ',', $excluded_categories );
-		
+
 	if ( $in_same_cat || ! empty( $excluded_categories ) ) {
 		if ( $in_same_cat )
 			$cat_array = wp_get_object_terms( $post->ID, 'category', array( 'fields' => 'ids' ) );

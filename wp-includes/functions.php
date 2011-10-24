@@ -2826,10 +2826,10 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 			nocache_headers();
 			header( 'Content-Type: text/html; charset=utf-8' );
 		}
-	
+
 		if ( empty($title) )
 			$title = $have_gettext ? __('WordPress &rsaquo; Error') : 'WordPress &rsaquo; Error';
-	
+
 		$text_direction = 'ltr';
 		if ( isset($r['text_direction']) && 'rtl' == $r['text_direction'] )
 			$text_direction = 'rtl';

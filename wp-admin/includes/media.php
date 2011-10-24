@@ -1363,7 +1363,7 @@ wpUploaderInit = <?php echo json_encode($plupload_init); ?>;
 <?php do_action('post-html-upload-ui'); ?>
 </div>
 
-<p><?php printf( __( 'Maximum upload file size: %d%s.' ), esc_html($upload_size_unit), esc_html($sizes[$u]) ); ?> 
+<p><?php printf( __( 'Maximum upload file size: %d%s.' ), esc_html($upload_size_unit), esc_html($sizes[$u]) ); ?>
 <?php _e('After a file has been uploaded, you can add titles and descriptions.'); ?></p>
 
 <?php
@@ -2004,7 +2004,7 @@ function media_upload_max_image_resize() {
 	printf( __( 'Scale images to match the large size selected in %1$simage options%2$s (%3$d &times; %4$d).' ), $a, $end, (int) get_option( 'large_size_w', '1024' ), (int) get_option( 'large_size_h', '1024' ) );
 ?>
 </label></p>
-<?php 
+<?php
 }
 
 add_action( 'post-upload-ui', 'media_upload_max_image_resize' );
