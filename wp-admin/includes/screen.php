@@ -461,7 +461,7 @@ final class WP_Screen {
 						$taxonomy = $_REQUEST['taxonomy'];
 					if ( isset( $_REQUEST['post_type'] ) && post_type_exists( $_REQUEST['post_type'] ) )
 						$post_type = $_REQUEST['post_type'];
-					else
+					else if ( is_object_in_taxonomy( 'post', $taxonomy ? $taxonomy : 'post_tag' ) )
 						$post_type = 'post';
 					break;
 			}
