@@ -168,12 +168,11 @@ function retrieve_password() {
 
 	$errors = new WP_Error();
 
-	if ( empty( $_POST['user_login'] ) && empty( $_POST['user_email'] ) )
+	if ( empty( $_POST['user_login'] ) ) {
 		$errors->add('empty_username', __('<strong>ERROR</strong>: Enter a username or e-mail address.'));
-
-	if ( strpos($_POST['user_login'], '@') ) {
-		$user_data = get_user_by('email', trim($_POST['user_login']));
-		if ( empty($user_data) )
+	} else if ( strpos( $_POST['user_login'], '@' ) ) {
+		$user_data = get_user_by( 'email', trim( $_POST['user_login'] ) );
+		if ( empty( $user_data ) )
 			$errors->add('invalid_email', __('<strong>ERROR</strong>: There is no user registered with that email address.'));
 	} else {
 		$login = trim($_POST['user_login']);
