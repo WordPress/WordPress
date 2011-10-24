@@ -113,19 +113,10 @@ function get_hidden_meta_boxes( $screen ) {
  * @since 3.0.0
  *
  * @param string $hook_name The hook name (also known as the hook suffix) used to determine the screen.
- * @return object An object containing the safe screen name and id
+ * @return WP_Screen Screen object.
  */
-function convert_to_screen( $hook_suffix ) {
-	$screen = str_replace( array('.php', '-new', '-add', '-network', '-user' ), '', $hook_suffix);
-
-	if ( is_network_admin() )
-		$screen .= '-network';
-	elseif ( is_user_admin() )
-		$screen .= '-user';
-
-	$screen = (string) apply_filters( 'screen_meta_screen', $screen );
-	$screen = (object) array( 'id' => $screen, 'base' => $screen );
-	return $screen;
+function convert_to_screen( $hook_name ) {
+	return WP_Screen::get( $hook_name );
 }
 
 /**
@@ -201,10 +192,10 @@ function get_screen_icon( $screen = '' ) {
 		else
 			$icon_id = $screen->base;
 
-		if ( ! empty( $screen->post_type ) && 'page' == $screen->post_type )
+		if ( 'page' == $screen->post_type )
 			$icon_id = 'edit-pages';
 
-		if ( ! empty( $screen->post_type ) )
+		if ( $screen->post_type )
 			$class .= ' ' . sanitize_html_class( 'icon32-posts-' . $screen->post_type );
 	}
 
@@ -233,14 +224,11 @@ function get_current_screen() {
  * @since 3.0.0
  * @uses $current_screen
  *
- * @param string $hook_name Optional. The hook name (also known as the hook suffix) used to determine the screen.
+ * @param mixed $hook_name Optional. The hook name (also known as the hook suffix) used to determine the screen,
+ *	or an existing screen object.
  */
 function set_current_screen( $hook_name =  '' ) {
-	global $current_screen;
-
-	$current_screen = new WP_Screen( $hook_name );
-
-	$current_screen = apply_filters('current_screen', $current_screen);
+	WP_Screen::get( $hook_name )->set_current_screen();
 }
 
 /**
@@ -320,6 +308,7 @@ final class WP_Screen {
 	/**
 	 * The post type associated with the screen, if any.
 	 * The 'edit.php?post_type=page' screen has a post type of 'page'.
+	 * The 'edit-tags.php?taxonomy=$taxonomy&post_type=page' screen has a post type of 'page'.
 	 *
 	 * @since 3.3.0
 	 * @var string
@@ -343,16 +332,16 @@ final class WP_Screen {
  	 * @var array
  	 * @access private
  	 */
-	private static $_help_tabs = array();
+	private $_help_tabs = array();
  
  	/**
-	 * The help sidebar data associated with screens, if any.
+	 * The help sidebar data associated with screen, if any.
 	 *
 	 * @since 3.3.0
 	 * @var string
 	 * @access private
  	 */
-	private static $_help_sidebar = array();
+	private $_help_sidebar = '';
 
 	/**
 	 * Stores old string-based help.
@@ -360,13 +349,22 @@ final class WP_Screen {
 	private static $_old_compat_help = array();
 
 	/**
-	 * The screen options associated with screens, if any.
+	 * The screen options associated with screen, if any.
 	 *
 	 * @since 3.3.0
 	 * @var array
 	 * @access private
 	 */
-	private static $_options = array();
+	private $_options = array();
+
+	/**
+	 * The screen object registry.
+	 *
+	 * @since 3.3.0
+	 * @var array
+	 * @access private
+	 */
+	private static $_registry = array();
 
 	/**
 	 * Stores the result of the public show_screen_options function.
@@ -386,82 +384,153 @@ final class WP_Screen {
 	 */
 	private $_screen_settings;
 
+ 	/**
+	 * Fetches a screen object.
+ 	 *
+ 	 * @since 3.3.0
+	 * @access public
+ 	 *
+	 * @param string $hook_name Optional. The hook name (also known as the hook suffix) used to determine the screen.
+	 * 	Defaults to the current $hook_suffix global.
+	 * @return WP_Screen Screen object.
+ 	 */
+	public function get( $hook_name = '' ) {
+ 
+		if ( is_a( $hook_name, 'WP_Screen' ) )
+			return $hook_name;
+ 
+		$action = $post_type = $taxonomy = '';
+
+		if ( $hook_name ) {
+			if ( '-network' == substr( $hook_name, -8 ) )
+				$hook_name = str_replace( '-network', '', $hook_name );
+			elseif ( '-user' == substr( $hook_name, -5 ) )
+				$hook_name = str_replace( '-user', '', $hook_name );
+			$id = sanitize_key( $hook_name );
+			if ( false !== strpos( $id, '-' ) ) {
+				list( $id, $second ) = explode( '-', $id, 2 );
+				if ( taxonomy_exists( $second ) ) {
+ 					$id = 'edit-tags';
+					$taxonomy = $second;
+				} elseif ( post_type_exists( $second ) ) {
+					$post_type = $second;
+				} else {
+					$id .= '-' . $second;
+ 				}
+ 			}
+		} else {
+			$id = $GLOBALS['hook_suffix'];
+			$id = str_replace( '.php', '', $id );
+			if ( in_array( substr( $id, -4 ), array( '-add', '-new' ) ) )
+				$action = 'add';
+			$id = str_replace( array( '-new', '-add' ), '', $id );
+ 		}
+ 
+		if ( 'index' == $id )
+			$id = 'dashboard';
+ 
+		$base = $id;
+ 
+		// If this is the current screen, see if we can be more accurate for post types and taxonomies.
+		if ( ! $hook_name ) {
+			switch ( $base ) {
+				case 'post' :
+					if ( isset( $_GET['post'] ) )
+						$post_id = (int) $_GET['post'];
+					elseif ( isset( $_POST['post_ID'] ) )
+						$post_id = (int) $_POST['post_ID'];
+					else
+						$post_id = 0;
+
+					if ( $post_id ) {
+						$post = get_post( $post_id );
+						if ( $post )
+							$post_type = $post->post_type;
+					} elseif ( isset( $_POST['post_type'] ) && post_type_exists( $_POST['post_type'] ) ) {
+						$post_type = $_GET['post_type'];
+					} elseif ( $action == 'add' && isset( $_GET['post_type'] ) && post_type_exists( $_GET['post_type'] ) ) {
+						$post_type = $_GET['post_type'];
+					}
+					break;
+				case 'edit' :
+					if ( isset( $_GET['post_type'] ) && post_type_exists( $_GET['post_type'] ) )
+						$post_type = $_GET['post_type'];
+					break;
+				case 'edit-tags' :
+					if ( isset( $_REQUEST['taxonomy'] ) && taxonomy_exists( $_REQUEST['taxonomy'] ) )
+						$taxonomy = $_REQUEST['taxonomy'];
+					if ( isset( $_REQUEST['post_type'] ) && post_type_exists( $_REQUEST['post_type'] ) )
+						$post_type = $_REQUEST['post_type'];
+					else
+						$post_type = 'post';
+					break;
+			}
+ 		}
+ 
+		switch ( $base ) {
+			case 'post' :
+				if ( ! $post_type )
+					$post_type = 'post';
+				$id = $post_type;
+				break;
+			case 'edit' :
+				if ( ! $post_type )
+					$post_type = 'post';
+				$id .= '-' . $post_type;
+				break;
+			case 'edit-tags' :
+				if ( ! $taxonomy )
+					$taxonomy = 'post_tag';
+				$id = 'edit-' . $taxonomy;
+				break;
+		}
+ 
+		if ( is_network_admin() ) {
+			$id   .= '-network';
+			$base .= '-network';
+		} elseif ( is_user_admin() ) {
+			$id   .= '-user';
+			$base .= '-user';
+ 		}
+ 
+		if ( isset( self::$_registry[ $id ] ) )
+			return self::$_registry[ $id ];
+
+		$screen = new WP_Screen();
+		$screen->id         = $id;
+		$screen->base       = $base;
+		$screen->action     = $action;
+		$screen->post_type  = $post_type;
+		$screen->taxonomy   = $taxonomy;
+		$screen->is_user    = is_user_admin();
+		$screen->is_network = is_network_admin();
+
+		self::$_registry[ $id ] = $screen;
+
+		return $screen;
+ 	}
+ 
+	/**
+	 * Makes the screen object the current screen.
+	 *
+	 * @see set_current_screen()
+	 * @since 3.3.0
+	 */
+	function set_current_screen() {
+		global $current_screen, $taxnow, $typenow;
+		$current_screen = $this;
+		$taxnow = $this->taxonomy;
+		$typenow = $this->post_type;
+		$current_screen = apply_filters( 'current_screen', $current_screen );
+	}
+
 	/**
 	 * Constructor
 	 *
 	 * @since 3.3.0
-	 *
-	 * @param string $id A screen id.  If empty, the $hook_suffix global is used to derive the ID.
+	 * @access private
 	 */
-	public function __construct( $id = '' ) {
-		global $hook_suffix, $typenow, $taxnow;
-
-		$action = '';
-
-		if ( empty( $id ) ) {
-			$screen = $hook_suffix;
-			$screen = str_replace('.php', '', $screen);
-			if ( preg_match('/-add|-new$/', $screen) )
-				$action = 'add';
-			$screen = str_replace('-new', '', $screen);
-			$screen = str_replace('-add', '', $screen);
-			$this->id = $this->base = $screen;
-		} else {
-			$id = sanitize_key( $id );
-			if ( false !== strpos($id, '-') ) {
-				list( $id, $typenow ) = explode('-', $id, 2);
-				if ( taxonomy_exists( $typenow ) ) {
-					$id = 'edit-tags';
-					$taxnow = $typenow;
-					$typenow = '';
-				}
-			}
-			$this->id = $this->base = $id;
-		}
-
-		$this->action = $action;
-
-		// Map index to dashboard
-		if ( 'index' == $this->base )
-			$this->base = 'dashboard';
-		if ( 'index' == $this->id )
-			$this->id = 'dashboard';
-
-		if ( 'edit' == $this->id ) {
-			if ( empty($typenow) )
-				$typenow = 'post';
-			$this->id .= '-' . $typenow;
-			$this->post_type = $typenow;
-		} elseif ( 'post' == $this->id ) {
-			if ( empty($typenow) )
-				$typenow = 'post';
-			$this->id = $typenow;
-			$this->post_type = $typenow;
-		} elseif ( 'edit-tags' == $this->id ) {
-			if ( empty($taxnow) )
-				$taxnow = 'post_tag';
-			$this->id = 'edit-' . $taxnow;
-			$this->taxonomy = $taxnow;
-		}
-
-		$this->is_network = is_network_admin();
-		$this->is_user = is_user_admin();
-
-		if ( $this->is_network ) {
-			$this->base .= '-network';
-			$this->id .= '-network';
-		} elseif ( $this->is_user ) {
-			$this->base .= '-user';
-			$this->id .= '-user';
-		}
-
-		if ( ! isset( self::$_help_tabs[ $this->id ] ) )
-			self::$_help_tabs[ $this->id ] = array();
-		if ( ! isset( self::$_help_sidebar[ $this->id ] ) )
-			self::$_help_sidebar[ $this->id ] = '';
-		if ( ! isset( self::$_options[ $this->id ] ) )
-			self::$_options[ $this->id ] = array();
-	}
+	private function __construct() {}
 
 	/**
 	 * Sets the old string-based contextual help for the screen.
@@ -501,7 +570,7 @@ final class WP_Screen {
 	 * @param mixed $args Option-dependent arguments.
 	 */
 	public function add_option( $option, $args = array() ) {
-		self::$_options[ $this->id ][ $option ] = $args;
+		$this->_options[ $option ] = $args;
 	}
 
 	/**
@@ -512,14 +581,14 @@ final class WP_Screen {
 	 * @param string
 	 */
 	public function get_option( $option, $key = false ) {
-		if ( ! isset( self::$_options[ $this->id ][ $option ] ) )
+		if ( ! isset( $this->_options[ $option ] ) )
 			return null;
 		if ( $key ) {
-			if ( isset( self::$_options[ $this->id ][ $option ][ $key ] ) )
-				return self::$_options[ $this->id ][ $option ][ $key ];
+			if ( isset( $this->_options[ $option ][ $key ] ) )
+				return $this->_options[ $option ][ $key ];
 			return null;
 		}
-		return self::$_options[ $this->id ][ $option ];
+		return $this->_options[ $option ];
 	}
 
 	/**
@@ -550,7 +619,7 @@ final class WP_Screen {
 		if ( ! $args['id'] || ! $args['title'] )
 			return;
 
-		self::$_help_tabs[ $this->id ][] = $args;
+		$this->_help_tabs[] = $args;
 	}
 
 	/**
@@ -562,7 +631,7 @@ final class WP_Screen {
 	 * @param string $content Sidebar content in plain text or HTML.
 	 */
 	public function add_help_sidebar( $content ) {
-		self::$_help_sidebar[ $this->id ] = $content;
+		$this->_help_sidebar = $content;
 	}
 
 	/**
@@ -577,7 +646,7 @@ final class WP_Screen {
 		// Call old contextual_help_list filter.
 		self::$_old_compat_help = apply_filters( 'contextual_help_list', self::$_old_compat_help, $this );
 
-		if ( isset( self::$_old_compat_help[ $this->id ] ) || empty(self::$_help_tabs[ $this->id ] ) ) {
+		if ( isset( self::$_old_compat_help[ $this->id ] ) || empty($this->_help_tabs ) ) {
 			// Call old contextual_help filter.
 			if ( isset( self::$_old_compat_help[ $this->id ] ) )
 				$contextual_help = apply_filters( 'contextual_help', self::$_old_compat_help[ $this->id ], $this->id, $this );
@@ -603,8 +672,8 @@ final class WP_Screen {
 				'title'    => __('Screen Options'),
 				'callback' => array( $this, 'render_screen_options' ),
 			) );
-			$_options_tab = array_pop( self::$_help_tabs[ $this->id ] );
-			array_unshift( self::$_help_tabs[ $this->id ], $_options_tab );
+			$_options_tab = array_pop( $this->_help_tabs );
+			array_unshift( $this->_help_tabs, $_options_tab );
 		}
 
 		// Time to render!
@@ -614,7 +683,7 @@ final class WP_Screen {
 			<div id="contextual-help-wrap" class="hidden">
 				<div class="contextual-help-tabs">
 					<ul>
-					<?php foreach ( self::$_help_tabs[ $this->id ] as $i => $tab ):
+					<?php foreach ( $this->_help_tabs as $i => $tab ):
 						$link_id  = "tab-link-{$tab['id']}";
 						$panel_id = "tab-panel-{$tab['id']}";
 						$classes  = ( $i == 0 ) ? 'active' : '';
@@ -629,14 +698,14 @@ final class WP_Screen {
 					</ul>
 				</div>
 
-				<?php if ( ! empty( self::$_help_sidebar[ $this->id ] ) ) : ?>
+				<?php if ( ! empty( $this->_help_sidebar ) ) : ?>
 				<div class="contextual-help-sidebar">
-					<?php echo self::$_help_sidebar[ $this->id ]; ?>
+					<?php echo self::$this->_help_sidebar; ?>
 				</div>
 				<?php endif; ?>
 
 				<div class="contextual-help-tabs-wrap">
-					<?php foreach ( self::$_help_tabs[ $this->id ] as $i => $tab ):
+					<?php foreach ( $this->_help_tabs as $i => $tab ):
 						$panel_id = "tab-panel-{$tab['id']}";
 						$classes  = ( $i == 0 ) ? 'active' : '';
 						$classes .= ' help-tab-content';
@@ -677,7 +746,7 @@ final class WP_Screen {
 				break;
 		}
 
-		if ( $this->_screen_settings || self::$_options[ $this->id ] )
+		if ( $this->_screen_settings || $this->_options )
 			$show_screen = true;
 
 		$this->_show_screen_options = apply_filters( 'screen_options_show_screen', $show_screen, $this );

@@ -16,33 +16,21 @@ $submenu_file = 'edit.php';
 
 wp_reset_vars(array('action', 'safe_mode', 'withcomments', 'posts', 'content', 'edited_post_title', 'comment_error', 'profile', 'trackback_url', 'excerpt', 'showcomments', 'commentstart', 'commentend', 'commentorder'));
 
-if ( isset($_GET['post']) )
-	$post_id = (int) $_GET['post'];
-elseif ( isset($_POST['post_ID']) )
-	$post_id = (int) $_POST['post_ID'];
-else
-	$post_id = 0;
-$post_ID = $post_id;
-$post = null;
-$post_type_object = null;
-$post_type = null;
-if ( $post_id ) {
-	$post = get_post($post_id);
-	if ( $post ) {
-		$post_type_object = get_post_type_object($post->post_type);
-		if ( $post_type_object ) {
-			$post_type = $post->post_type;
-			$current_screen->post_type = $post->post_type;
-			$current_screen->id = $current_screen->post_type;
-		}
-	}
-} elseif ( isset($_POST['post_type']) ) {
-	$post_type_object = get_post_type_object($_POST['post_type']);
-	if ( $post_type_object ) {
-		$post_type = $post_type_object->name;
-		$current_screen->post_type = $post_type;
-		$current_screen->id = $current_screen->post_type;
-	}
+if ( isset( $_GET['post'] ) )
+ 	$post_id = $post_ID = (int) $_GET['post'];
+elseif ( isset( $_POST['post_ID'] ) )
+ 	$post_id = $post_ID = (int) $_POST['post_ID'];
+ else
+ 	$post_id = $post_ID = 0;
+
+$post = $post_type = $post_type_object = null;
+
+if ( $post_id )
+	$post = get_post( $post_id );
+
+if ( $post ) {
+	$post_type = $post->post_type;
+	$post_type_object = get_post_type_object( $post_type );
 }
 
 /**
