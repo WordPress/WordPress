@@ -11,7 +11,7 @@
  *
  * @since 2.7.0
  *
- * @param string|object $screen The screen you want the headers for
+ * @param string|WP_Screen $screen The screen you want the headers for
  * @return array Containing the headers in the format id => UI String
  */
 function get_column_headers( $screen ) {
@@ -31,7 +31,7 @@ function get_column_headers( $screen ) {
  *
  * @since 2.7.0
  *
- * @param string|object $screen The screen you want the hidden columns for
+ * @param string|WP_Screen $screen The screen you want the hidden columns for
  * @return array
  */
 function get_hidden_columns( $screen ) {
@@ -42,17 +42,17 @@ function get_hidden_columns( $screen ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Prints the meta box preferences for screen meta.
  *
  * @since 2.7.0
  *
- * @param unknown_type $screen
+ * @param string|WP_Screen $screen
  */
 function meta_box_prefs( $screen ) {
 	global $wp_meta_boxes;
 
-	if ( is_string($screen) )
-		$screen = convert_to_screen($screen);
+	if ( is_string( $screen ) )
+		$screen = convert_to_screen( $screen );
 
 	if ( empty($wp_meta_boxes[$screen->id]) )
 		return;
@@ -81,7 +81,7 @@ function meta_box_prefs( $screen ) {
  *
  * @since 2.7.0
  *
- * @param string|object $screen Screen identifier
+ * @param string|WP_Screen $screen Screen identifier
  * @return array Hidden Meta Boxes
  */
 function get_hidden_meta_boxes( $screen ) {
@@ -112,11 +112,11 @@ function get_hidden_meta_boxes( $screen ) {
  *
  * @since 3.0.0
  *
- * @param string $screen The name of the screen
+ * @param string $hook_name The hook name (also known as the hook suffix) used to determine the screen.
  * @return object An object containing the safe screen name and id
  */
-function convert_to_screen( $screen ) {
-	$screen = str_replace( array('.php', '-new', '-add', '-network', '-user' ), '', $screen);
+function convert_to_screen( $hook_suffix ) {
+	$screen = str_replace( array('.php', '-new', '-add', '-network', '-user' ), '', $hook_suffix);
 
 	if ( is_network_admin() )
 		$screen .= '-network';
@@ -144,7 +144,7 @@ function add_contextual_help( $screen, $help ) {
 	if ( is_string( $screen ) )
 		$screen = convert_to_screen( $screen );
 
-	WP_Screen::add_old_compat_help( $screen->id, $help );
+	WP_Screen::add_old_compat_help( $screen, $help );
 }
 
 /**
@@ -165,52 +165,63 @@ function add_screen_option( $option, $args = array() ) {
 	return $current_screen->add_option( $option, $args );
 }
 
+/**
+ * Displays a screen icon.
+ *
+ * @uses get_screen_icon()
+ * @since 2.7.0
+ *
+ * @param string|WP_Screen $screen Optional. Accepts a screen object (and defaults to the current screen object)
+ * 	which it uses to determine an icon HTML ID. Or, if a string is provided, it is used to form the icon HTML ID.
+ */
 function screen_icon( $screen = '' ) {
 	echo get_screen_icon( $screen );
 }
 
+/**
+ * Gets a screen icon.
+ *
+ * @since 3.2.0
+ *
+ * @param string|WP_Screen $screen Optional. Accepts a screen object (and defaults to the current screen object)
+ * 	which it uses to determine an icon HTML ID. Or, if a string is provided, it is used to form the icon HTML ID.
+ * @return string HTML for the screen icon.
+ */
 function get_screen_icon( $screen = '' ) {
-	global $current_screen, $typenow;
-
-	if ( empty($screen) )
-		$screen = $current_screen;
-	elseif ( is_string($screen) )
-		$name = $screen;
+	if ( empty( $screen ) )
+		$screen = get_current_screen();
+	elseif ( is_string( $screen ) )
+		$icon_id = $screen;
 
 	$class = 'icon32';
 
-	if ( empty($name) ) {
-		if ( !empty($screen->parent_base) )
-			$name = $screen->parent_base;
+	if ( empty( $icon_id ) ) {
+		if ( ! empty( $screen->parent_base ) )
+			$icon_id = $screen->parent_base;
 		else
-			$name = $screen->base;
+			$icon_id = $screen->base;
 
-		if ( 'edit' == $name && isset($screen->post_type) && 'page' == $screen->post_type )
-			$name = 'edit-pages';
+		if ( ! empty( $screen->post_type ) && 'page' == $screen->post_type )
+			$icon_id = 'edit-pages';
 
-		$post_type = '';
-		if ( isset( $screen->post_type ) )
-			$post_type = $screen->post_type;
-		elseif ( $current_screen == $screen )
-			$post_type = $typenow;
-		if ( $post_type )
-			$class .= ' ' . sanitize_html_class( 'icon32-posts-' . $post_type );
+		if ( ! empty( $screen->post_type ) )
+			$class .= ' ' . sanitize_html_class( 'icon32-posts-' . $screen->post_type );
 	}
 
-	return '<div id="icon-' . esc_attr( $name ) . '" class="' . $class . '"><br /></div>';
+	return '<div id="icon-' . esc_attr( $icon_id ) . '" class="' . $class . '"><br /></div>';
 }
 
 /**
- *  Get the current screen object
+ * Get the current screen object
  *
- *  @since 3.1.0
+ * @since 3.1.0
  *
  * @return object Current screen object
  */
 function get_current_screen() {
 	global $current_screen;
 
-	if ( !isset($current_screen) )
+	if ( ! isset( $current_screen ) )
 		return null;
 
 	return $current_screen;
@@ -220,28 +231,27 @@ function get_current_screen() {
  * Set the current screen object
  *
  * @since 3.0.0
- *
  * @uses $current_screen
  *
- * @param string $id Screen id, optional.
+ * @param string $hook_name Optional. The hook name (also known as the hook suffix) used to determine the screen.
  */
-function set_current_screen( $id =  '' ) {
+function set_current_screen( $hook_name =  '' ) {
 	global $current_screen;
 
-	$current_screen = new WP_Screen( $id );
+	$current_screen = new WP_Screen( $hook_name );
 
 	$current_screen = apply_filters('current_screen', $current_screen);
 }
 
 /**
- * A class representing the current admin screen.
+ * A class representing the admin screen.
  *
  * @since 3.3.0
  * @access public
  */
 final class WP_Screen {
 	/**
-	 * Any action associated with the screen.  'add' for *-add.php and *-new.php screens.  Empty otherwise.
+	 * Any action associated with the screen. 'add' for *-add.php and *-new.php screens.  Empty otherwise.
 	 *
 	 * @since 3.3.0
 	 * @var string
@@ -453,8 +463,18 @@ final class WP_Screen {
 			self::$_options[ $this->id ] = array();
 	}
 
+	/**
+	 * Sets the old string-based contextual help for the screen.
+	 *
+	 * For backwards compatibility.
+	 *
+	 * @since 3.3.0
+	 *
+	 * @param WP_Screen $screen A screen object.
+	 * @param string $help Help text.
+	 */
 	static function add_old_compat_help( $screen, $help ) {
-		self::$_old_compat_help[ $screen ] = $help;	
+		self::$_old_compat_help[ $screen->id ] = $help;	
 	}
 
 	/**
@@ -467,8 +487,8 @@ final class WP_Screen {
 	 */
 	function set_parentage( $parent_file ) {
 		$this->parent_file = $parent_file;
-		$this->parent_base = preg_replace('/\?.*$/', '', $parent_file);
-		$this->parent_base = str_replace('.php', '', $this->parent_base);
+		list( $this->parent_base ) = explode( '?', $parent_file );
+		$this->parent_base = str_replace( '.php', '', $this->parent_base );
 	}
 
 	/**
@@ -489,7 +509,7 @@ final class WP_Screen {
 	 *
 	 * @since 3.3.0
 	 *
-	 * @param string 
+	 * @param string
 	 */
 	public function get_option( $option, $key = false ) {
 		if ( ! isset( self::$_options[ $this->id ][ $option ] ) )
@@ -640,33 +660,24 @@ final class WP_Screen {
 	}
 
 	public function show_screen_options() {
-		global $wp_meta_boxes, $wp_list_table;
+		global $wp_meta_boxes;
 
 		if ( is_bool( $this->_show_screen_options ) )
 			return $this->_show_screen_options;
 
 		$columns = get_column_headers( $this );
 
-		$show_screen = false;
-		if ( ! empty( $wp_meta_boxes[ $this->id ] ) || ! empty( $columns ) )
-			$show_screen = true;
-
-		// Check if there are per-page options.
-		$show_screen = $show_screen || $this->get_option('per_page');
+		$show_screen = ! empty( $wp_meta_boxes[ $this->id ] ) || $columns || $this->get_option( 'per_page' );
 
 		$this->_screen_settings = apply_filters( 'screen_settings', '', $this );
 
 		switch ( $this->id ) {
 			case 'widgets':
 				$this->_screen_settings = '<p><a id="access-on" href="widgets.php?widgets-access=on">' . __('Enable accessibility mode') . '</a><a id="access-off" href="widgets.php?widgets-access=off">' . __('Disable accessibility mode') . "</a></p>\n";
-				$show_screen = true;
 				break;
 		}
 
-		if ( ! empty( $this->_screen_settings ) )
-			$show_screen = true;
-
-		if ( ! empty( self::$_options[ $this->id ] ) )
+		if ( $this->_screen_settings || self::$_options[ $this->id ] )
 			$show_screen = true;
 
 		$this->_show_screen_options = apply_filters( 'screen_options_show_screen', $show_screen, $this );
