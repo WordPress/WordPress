@@ -1135,12 +1135,19 @@ function upgrade_300() {
 }
 
 /**
- * Convert the old style widgets order array from 2.2.
+ * Execute changes made in WordPress 3.3.
  *
  * @since 3.3.0
  */
-function upgrade_old_widgets_order_array() {
-	global $wp_registered_widgets, $sidebars_widgets;
+function upgrade_330() {
+	global $wp_current_db_version, $wpdb, $wp_registered_widgets, $sidebars_widgets;
+
+	if ( $wp_current_db_version < 19061 && is_main_site() && ! defined( 'DO_NOT_UPGRADE_GLOBAL_TABLES' ) ) {
+		$wpdb->query( "DELETE FROM $wpdb->usermeta WHERE meta_key IN ('show_admin_bar_admin', 'plugins_last_view')" );
+	}
+
+	if ( $wp_current_db_version >= 11548 )
+		return;
 
 	$sidebars_widgets = get_option( 'sidebars_widgets', array() );
 	$_sidebars_widgets = array();
@@ -1193,23 +1200,6 @@ function upgrade_old_widgets_order_array() {
 			$sidebars_widgets = retrieve_widgets();
 			$sidebars_widgets['array_version'] = 3;
 			update_option( 'sidebars_widgets', $sidebars_widgets );
-	}
-}
-
-/**
- * Execute changes made in WordPress 3.3.
- *
- * @since 3.3.0
- */
-function upgrade_330() {
-	global $wp_current_db_version, $wpdb;
-
-	if ( $wp_current_db_version < 11548 ) {
-		
-	}
-
-	if ( $wp_current_db_version < 19061 && is_main_site() && ! defined( 'DO_NOT_UPGRADE_GLOBAL_TABLES' ) ) {
-		$wpdb->query( "DELETE FROM $wpdb->usermeta WHERE meta_key IN ('show_admin_bar_admin', 'plugins_last_view')" );
 	}
 }
 
