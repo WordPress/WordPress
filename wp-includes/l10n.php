@@ -36,9 +36,9 @@ function get_locale() {
 		$locale = WPLANG;
 
 	// If multisite, check options.
-	if ( is_multisite() && !defined('WP_INSTALLING') ) {
-		$ms_locale = get_option('WPLANG');
-		if ( $ms_locale === false )
+	if ( is_multisite() ) {
+		// Don't check blog option when installing.
+		if ( defined( 'WP_INSTALLING' ) || ( false === $ms_locale = get_option( 'WPLANG' ) ) )
 			$ms_locale = get_site_option('WPLANG');
 
 		if ( $ms_locale !== false )
