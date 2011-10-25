@@ -401,12 +401,23 @@ final class WP_Screen {
 
 		$action = $post_type = $taxonomy = '';
 
+		if ( $hook_name )
+			$id = $hook_name;
+		else
+			$id = $GLOBALS['hook_suffix'];
+
+		$id = str_replace( '.php', '', $id );
+		if ( in_array( substr( $id, -4 ), array( '-add', '-new' ) ) )
+			$action = 'add';
+		$id = str_replace( array( '-new', '-add' ), '', $id );
+
 		if ( $hook_name ) {
-			if ( '-network' == substr( $hook_name, -8 ) )
-				$hook_name = str_replace( '-network', '', $hook_name );
-			elseif ( '-user' == substr( $hook_name, -5 ) )
-				$hook_name = str_replace( '-user', '', $hook_name );
-			$id = sanitize_key( $hook_name );
+			if ( '-network' == substr( $id, -8 ) )
+				$id = str_replace( '-network', '', $id );
+			elseif ( '-user' == substr( $id, -5 ) )
+				$id = str_replace( '-user', '', $id );
+
+			$id = sanitize_key( $id );
 			if ( false !== strpos( $id, '-' ) ) {
 				list( $id, $second ) = explode( '-', $id, 2 );
 				if ( taxonomy_exists( $second ) ) {
@@ -418,13 +429,7 @@ final class WP_Screen {
 					$id .= '-' . $second;
  				}
  			}
-		} else {
-			$id = $GLOBALS['hook_suffix'];
-			$id = str_replace( '.php', '', $id );
-			if ( in_array( substr( $id, -4 ), array( '-add', '-new' ) ) )
-				$action = 'add';
-			$id = str_replace( array( '-new', '-add' ), '', $id );
- 		}
+		}
 
 		if ( 'index' == $id )
 			$id = 'dashboard';
