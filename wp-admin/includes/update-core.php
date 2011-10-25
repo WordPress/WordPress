@@ -337,7 +337,10 @@ function update_core($from, $to) {
 	$required_mysql_version = '5.0';
 	$wp_version = '3.3';
 	$php_compat     = version_compare( $php_version, $required_php_version, '>=' );
-	$mysql_compat   = version_compare( $mysql_version, $required_mysql_version, '>=' ) || file_exists( WP_CONTENT_DIR . '/db.php' );
+	if ( file_exists( WP_CONTENT_DIR . '/db.php' ) && empty( $this->is_mysql ) )
+		$mysql_compat = true;
+	else
+		$mysql_compat = version_compare( $mysql_version, $required_mysql_version, '>=' );
 
 	if ( !$mysql_compat || !$php_compat )
 		$wp_filesystem->delete($from, true);
