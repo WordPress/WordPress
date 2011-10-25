@@ -394,7 +394,7 @@ final class WP_Screen {
 	 * 	Defaults to the current $hook_suffix global.
 	 * @return WP_Screen Screen object.
  	 */
-	public function get( $hook_name = '' ) {
+	public static function get( $hook_name = '' ) {
 
 		if ( is_a( $hook_name, 'WP_Screen' ) )
 			return $hook_name;
