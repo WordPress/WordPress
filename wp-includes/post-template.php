@@ -160,9 +160,9 @@ function get_the_guid( $id = 0 ) {
  * @since 0.71
  *
  * @param string $more_link_text Optional. Content for when there is more text.
- * @param string $stripteaser Optional. Teaser content before the more text.
+ * @param bool $stripteaser Optional. Strip teaser content before the more text. Default is false.
  */
-function the_content($more_link_text = null, $stripteaser = 0) {
+function the_content($more_link_text = null, $stripteaser = false) {
 	$content = get_the_content($more_link_text, $stripteaser);
 	$content = apply_filters('the_content', $content);
 	$content = str_replace(']]>', ']]&gt;', $content);
@@ -175,10 +175,10 @@ function the_content($more_link_text = null, $stripteaser = 0) {
  * @since 0.71
  *
  * @param string $more_link_text Optional. Content for when there is more text.
- * @param string $stripteaser Optional. Teaser content before the more text.
+ * @param bool $stripteaser Optional. Strip teaser content before the more text. Default is false.
  * @return string
  */
-function get_the_content($more_link_text = null, $stripteaser = 0) {
+function get_the_content($more_link_text = null, $stripteaser = false) {
 	global $post, $more, $page, $pages, $multipage, $preview;
 
 	if ( null === $more_link_text )
@@ -207,9 +207,9 @@ function get_the_content($more_link_text = null, $stripteaser = 0) {
 		$content = array($content);
 	}
 	if ( (false !== strpos($post->post_content, '<!--noteaser-->') && ((!$multipage) || ($page==1))) )
-		$stripteaser = 1;
+		$stripteaser = true;
 	$teaser = $content[0];
-	if ( ($more) && ($stripteaser) && ($hasTeaser) )
+	if ( $more && $stripteaser && $hasTeaser )
 		$teaser = '';
 	$output .= $teaser;
 	if ( count($content) > 1 ) {
