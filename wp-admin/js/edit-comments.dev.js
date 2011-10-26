@@ -103,7 +103,7 @@ setCommentsList = function() {
 		return settings;
 	};
 
-	// Updates the current total (as displayed visibly)
+	// Updates the current total (stored in the _total input)
 	updateTotalCount = function( total, time, setConfidentTime ) {
 		if ( time < lastConfidentTime )
 			return;
@@ -112,9 +112,6 @@ setCommentsList = function() {
 			lastConfidentTime = time;
 
 		totalInput.val( total.toString() );
-		$('span.total-type-count').each( function() {
-			updateCount( $(this), total );
-		});
 	};
 
 	dashboardTotals = function(n) {
@@ -172,8 +169,9 @@ setCommentsList = function() {
 
 	// In admin-ajax.php, we send back the unix time stamp instead of 1 on success
 	delAfter = function( r, settings ) {
-		var total, N, untrash = $(settings.target).parent().is('span.untrash'),
-			unspam = $(settings.target).parent().is('span.unspam'), spam, trash, pending,
+		var total, N, spam, trash, pending,
+			untrash = $(settings.target).parent().is('span.untrash'),
+			unspam = $(settings.target).parent().is('span.unspam'),
 			unapproved = $('#' + settings.element).is('.unapproved');
 
 		function getUpdate(s) {
@@ -185,13 +183,15 @@ setCommentsList = function() {
 			return 0;
 		}
 
-		spam = getUpdate('spam');
-		trash = getUpdate('trash');
-
 		if ( untrash )
 			trash = -1;
+		else
+			trash = getUpdate('trash');
+
 		if ( unspam )
 			spam = -1;
+		else
+			spam = getUpdate('spam');
 
 		pending = getCount( $('span.pending-count').eq(0) );
 
@@ -218,7 +218,11 @@ setCommentsList = function() {
 			dashboardTotals(N);
 		} else {
 			total = totalInput.val() ? parseInt( totalInput.val(), 10 ) : 0;
-			total = total - spam - trash;
+			if ( $(settings.target).parent().is('span.undo') )
+				total++;
+			else
+				total--;
+
 			if ( total < 0 )
 				total = 0;
 
