@@ -21,7 +21,6 @@ header( 'Content-Type: text/html; charset=utf-8' );
 if ( !defined('WP_ALLOW_REPAIR') ) {
 	echo '<p>'.__('To allow use of this page to automatically repair database problems, please add the following line to your wp-config.php file.  Once this line is added to your config, reload this page.')."</p><code>define('WP_ALLOW_REPAIR', true);</code>";
 } elseif ( isset($_GET['repair']) ) {
-	$problems = array();
 	check_admin_referer('repair_db');
 
 	if ( 2 == $_GET['repair'] )
@@ -30,38 +29,60 @@ if ( !defined('WP_ALLOW_REPAIR') ) {
 		$optimize = false;
 
 	$okay = true;
+	$problems = array();
 
 	$tables = $wpdb->tables();
+
 	// Sitecategories may not exist if global terms are disabled.
 	if ( is_multisite() && ! $wpdb->get_var( "SHOW TABLES LIKE '$wpdb->sitecategories'" ) )
 		unset( $tables['sitecategories'] );
+
 	$tables = array_merge( $tables, (array) apply_filters( 'tables_to_repair', array() ) ); // Return tables with table prefixes.
+
 	// Loop over the tables, checking and repairing as needed.
 	foreach ( $tables as $table ) {
 		$check = $wpdb->get_row("CHECK TABLE $table");
+
+		echo '<p>';
 		if ( 'OK' == $check->Msg_text ) {
-			echo "<p>The $table table is okay.";
+			/* translators: %s: table name */
+			printf( __( 'The %s table is okay.' ), $table );
 		} else {
-			echo "<p>The $table table is not okay. It is reporting the following error: <code>$check->Msg_text</code>.  WordPress will attempt to repair this table&hellip;";
+			/* translators: 1: table name, 2: error message, */
+			printf( __( 'The %1$s table is not okay. It is reporting the following error: %2$s.  WordPress will attempt to repair this table&hellip;' ) , $table, "<code>$check->Msg_text</code>" );
+
 			$repair = $wpdb->get_row("REPAIR TABLE $table");
+
+			echo '<br />&nbsp;&nbsp;&nbsp;&nbsp;';
 			if ( 'OK' == $check->Msg_text ) {
-				echo "<br />&nbsp;&nbsp;&nbsp;&nbsp;Successfully repaired the $table table.";
+				/* translators: %s: table name */
+				printf( __( 'Successfully repaired the %s table.' ), $table );
 			} else {
-				echo "<br />&nbsp;&nbsp;&nbsp;&nbsp;Failed to repair the $table table. Error: $check->Msg_text<br />";
-				$problems["$table"] = $check->Msg_text;
+				/* translators: 1: table name, 2: error message, */
+				echo sprintf( __( 'Failed to repair the  %1$s table. Error: %2$s' ), $table, "<code>$check->Msg_text</code>" ) . '<br />';
+				$problems[$table] = $check->Msg_text;
 				$okay = false;
 			}
 		}
+
 		if ( $okay && $optimize ) {
 			$check = $wpdb->get_row("ANALYZE TABLE $table");
+
+			echo '<br />&nbsp;&nbsp;&nbsp;&nbsp';
 			if ( 'Table is already up to date' == $check->Msg_text )  {
-				echo "<br />&nbsp;&nbsp;&nbsp;&nbsp;The $table table is already optimized.";
+				/* translators: %s: table name */
+				printf( __( 'The %s table is already optimized.' ), $table );
 			} else {
 				$check = $wpdb->get_row("OPTIMIZE TABLE $table");
-				if ( 'OK' == $check->Msg_text || 'Table is already up to date' == $check->Msg_text )
-					echo "<br />&nbsp;&nbsp;&nbsp;&nbsp;Successfully optimized the $table table.";
-				else
-					echo "<br />&nbsp;&nbsp;&nbsp;&nbsp;Failed to optimize the $table table. Error: $check->Msg_text";
+
+				echo '<br />&nbsp;&nbsp;&nbsp;&nbsp';
+				if ( 'OK' == $check->Msg_text || 'Table is already up to date' == $check->Msg_text ) {
+					/* translators: %s: table name */
+					printf( __( 'Successfully optimized the $table table.' ), $table );
+				} else {
+					/* translators: 1: table name, 2: error message, */
+					printf( __( 'Failed to optimize the $table table. Error: $check->Msg_text' ), $table,"<code>$check->Msg_text</code>" );
+				}
 			}
 		}
 		echo '</p>';
