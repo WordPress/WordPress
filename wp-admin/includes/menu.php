@@ -215,7 +215,8 @@ if ( apply_filters('custom_menu_order', false) ) {
 }
 
 // Remove the last menu item if it is a separator.
-$last_menu_key = array_pop( $last_menu_key = array_keys( $menu ) );
+$last_menu_key = array_keys( $menu );
+$last_menu_key = array_pop( $last_menu_key );
 if ( !empty( $menu ) && 'wp-menu-separator' == $menu[ $last_menu_key ][ 4 ] )
 	unset( $menu[ $last_menu_key ] );
 unset( $last_menu_key );
