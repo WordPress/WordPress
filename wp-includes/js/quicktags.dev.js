@@ -55,7 +55,7 @@ function quicktags(settings) {
 }
 
 /**
- * Inderts content at the caret in the active editor (textarea)
+ * Inserts content at the caret in the active editor (textarea)
  * 
  * Added for back compatibility
  * @see QTags.insertContent()
@@ -305,15 +305,15 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 	 * Main API function for adding a button to Quicktags
 	 * 
 	 * Adds qt.Button or qt.TagButton depending on the args. The first three args are always required.
-	 * To be able to add button(s) to Quicktags, your script should be enqueued as dependant
+	 * To be able to add button(s) to Quicktags, your script should be enqueued as dependent
 	 * on "quicktags" and outputted in the footer. If you are echoing JS directly from PHP,
 	 * use add_action( 'admin_print_footer_scripts', 'output_my_js', 100 ) or add_action( 'wp_footer', 'output_my_js', 100 )
 	 *
-	 * Minimun required to add a button that calls an external function:
+	 * Minimum required to add a button that calls an external function:
 	 *     QTags.addButton( 'my_id', 'my button', my_callback );
 	 *     function my_callback() { alert('yeah!'); }
 	 *
-	 * Minimun required to add a button that inserts a tag:
+	 * Minimum required to add a button that inserts a tag:
 	 *     QTags.addButton( 'my_id', 'my button', '<span>', '</span>' );
 	 *     QTags.addButton( 'my_id', 'my button', '<br />' );
 	 *
