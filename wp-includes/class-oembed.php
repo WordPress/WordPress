@@ -45,7 +45,7 @@ class WP_oEmbed {
 			'http://gi*.photobucket.com/groups/*'           => array( 'http://photobucket.com/oembed',            false ),
 			'#http://(www\.)?scribd\.com/.*#i'              => array( 'http://www.scribd.com/services/oembed',    true  ),
 			'http://wordpress.tv/*'                         => array( 'http://wordpress.tv/oembed/',              false ),
-			'#http://(answers|surveys)\.polldaddy.com/.*#i' => array( 'http://polldaddy.com/oembed/',             true  ),
+			'#http://(.+\.)?polldaddy\.com/.*#i' 		=> array( 'http://polldaddy.com/oembed/',             true  ),
 			'#http://(www\.)?funnyordie\.com/videos/.*#i'   => array( 'http://www.funnyordie.com/oembed',         true  ),
 		) );
 
