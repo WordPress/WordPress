@@ -311,15 +311,22 @@ form.upgrade .hint {
   6.1 - Screen Options Tabs
 ------------------------------------------------------------------------------*/
 
+#screen-meta {
+	right: 146px;
+	left: 0;
+	margin-right: 20px;
+	margin-left: 15px;
+}
+
+.folded #screen-meta {
+	right: 33px;
+	left: 0;
+}
+
 #screen-meta .screen-reader-text {
 	visibility: hidden;
 }
 
-#contextual-help-wrap li {
-	list-style-type: disc;
-	margin-left: auto;
-	margin-right: 18px;
-}
 .toggle-arrow {
 	background-position: top right;
 }
@@ -329,16 +336,64 @@ form.upgrade .hint {
 
 #screen-options-wrap,
 #contextual-help-wrap {
-	margin: 0 0 0 15px;
+	padding-right: 12px;
+	padding-left: 8px;
 }
 
 .metabox-prefs label {
-	padding-right: auto;
+	padding-right: 0;
 	padding-left: 15px;
 }
 
 .metabox-prefs label input {
 	margin: 0 2px 0 5px;
+}
+
+/*------------------------------------------------------------------------------
+  6.2 - Help Menu
+------------------------------------------------------------------------------*/
+
+#contextual-help-back {
+	right: 3px;
+	left: -1px;
+}
+
+#contextual-help-wrap {
+	padding-left: 0;
+	padding-right: 4px;
+}
+
+.contextual-help-tabs {
+	float: right;
+}
+
+.contextual-help-tabs a {
+	padding-left: 5px;
+	padding-right: 12px;
+}
+
+.contextual-help-tabs .active {
+	margin-right: -3px;
+	margin-left: -1px;
+	border-left: 0;
+	border-right-width: 1px;
+}
+
+.help-tab-content {
+	margin-right: 0;
+	margin-left: 22px;
+}
+
+.help-tab-content li {
+	list-style-type: disc;
+	margin-left: auto;
+	margin-right: 18px;
+}
+
+.contextual-help-sidebar {
+	float: left;
+	padding-right: 12px;
+	padding-left: 8px;
 }
 
 /*------------------------------------------------------------------------------
