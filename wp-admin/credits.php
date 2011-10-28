@@ -29,14 +29,13 @@ h3.wp-people-group, p.wp-credits-list { clear: both; }
 ul.compact { margin-bottom: 0 }
 
 <?php if ( is_rtl() ) { ?>
-ul.wp-people-group { margin-bottom: 30px; float: right; clear: both; }
-li.wp-person { float: right; height: 70px; width: 220px; margin-left: 10px; }
-li.wp-person img.gravatar { float: right; margin-left: 10px; margin-bottom: 10px; }
+li.wp-person { float: right; margin-left: 10px; }
+li.wp-person img.gravatar { float: right; margin-left: 10px; }
 <?php } else { ?>
 li.wp-person { float: left; margin-right: 10px; }
-li.wp-person img.gravatar { float: left; margin-right: 10px; margin-bottom: 10px; }
+li.wp-person img.gravatar { float: left; margin-right: 10px; }
 <?php } ?>
-li.wp-person img.gravatar { width: 60px; height: 60px; }
+li.wp-person img.gravatar { width: 60px; height: 60px; margin-bottom: 10px; }
 ul.compact li.wp-person img.gravatar { width: 30px; height: 30px; }
 li.wp-person { height: 70px; width: 220px; }
 ul.compact li.wp-person { height: 40px; width: auto; white-space: nowrap }
