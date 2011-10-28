@@ -1140,7 +1140,26 @@ h2 .nav-tab {
   19.0 - Tools
 ------------------------------------------------------------------------------*/
 
-/* Intentionally didn't RTLized the new press-this button;
+.pressthis a span {
+	background-position: -20px 5px ;
+	padding: 8px 32px 8px 0;
+}
+
+.pressthis a:after {
+	right: auto;
+	left: 10px;
+	background: transparent;
+	transform: skew(-20deg) rotate(-6deg);
+	-webkit-transform: skew(-20deg) rotate(-6deg);
+	-moz-transform: skew(-20deg) rotate(-6deg);
+}
+
+
+.pressthis a:hover:after {
+	transform: skew(-20deg) rotate(-9deg);
+	-webkit-transform: skew(-20deg) rotate(-9deg);
+	-moz-transform: skew(-20deg) rotate(-9deg);
+}
 
 /*------------------------------------------------------------------------------
   20.0 - Settings
@@ -1158,8 +1177,12 @@ h2 .nav-tab {
 ------------------------------------------------------------------------------*/
 
 #footer {
-	margin-right: 0;
-	margin-left: 15px;
+	margin-left: 20px;
+}
+
+#wpcontent,
+#footer {
+	margin-right: 165px;	
 }
 
 /*------------------------------------------------------------------------------
@@ -1279,11 +1302,6 @@ table .column-rating {
 
 #wpcontent {
 	margin-left: 0;
-	margin-right: 165px;
-}
-
-.wp-admin #footer {
-	margin-left: 15px;
 	margin-right: 165px;
 }
 
@@ -1600,36 +1618,31 @@ body.login {
 	margin-left: 0;
 }
 
-.login form .forgetmenot {
-	float: right;
-}
-
 #login form .submit input {
 	font-family: Tahoma, arial;
 }
 
-form .submit { float: left; }
-#backtoblog a {
-	padding: 8px 15px 0 0;
+.login #nav,
+.login #backtoblog {
+	margin: 0 16px 0 0;	
 }
 
-#login_error, .message {
+#login_error,
+.login .message {
 	margin: 0 8px 16px 0;
 }
 
-#nav { margin: 0 8px 0 0; }
-#user_pass, #user_login, #user_email {
+.login #user_pass,
+.login #user_login,
+.login #user_email {
 	margin-left: 6px;
 	margin-right: 0;
 	direction:ltr;
 }
 
-h1 a {
+.login h1 a {
 	text-decoration: none;
 }
-
-
-
 
 
 /* nav-menu */
@@ -2006,11 +2019,6 @@ h3.tb {
 #post_status {
 	margin-left: 0;
 	margin-right: 10px;
-}
-
-/* Footer */
-#footer {
-	padding: 10px 60px 0 0;
 }
 
 /* theme-editor */
