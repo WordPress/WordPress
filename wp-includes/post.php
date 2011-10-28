@@ -3164,22 +3164,16 @@ function get_page_by_path($page_path, $output = OBJECT, $post_type = 'page') {
 	foreach ( (array) $pages as $page ) {
 		if ( $page->post_name == $revparts[0] ) {
 			$count = 0;
-			if ( $page->post_parent != 0 ) {
-				if ( null === ( $parent_page = $pages[ $page->post_parent ] ) )
-					continue;
-
-				while ( $parent_page->ID != 0 ) {
-					$count++;
-					if ( $parent_page->post_name != $revparts[ $count ] )
-						break;
-					$parent_page = $pages[ $parent_page->post_parent ];
-				}
-
-				if ( $parent_page->ID == 0 && $count+1 == count($revparts) ) {
-					$foundid = $page->ID;
+			$p = $page;
+			while ( $p->post_parent != 0 && isset( $pages[ $p->post_parent ] ) ) {
+				$count++;
+				$parent = $pages[ $p->post_parent ];
+				if ( ! isset( $revparts[ $count ] ) || $parent->post_name != $revparts[ $count ] )
 					break;
-				}
-			} else if ( count($revparts) == 1 ) {
+				$p = $parent;
+			}
+
+			if ( $p->post_parent == 0 && $count+1 == count( $revparts ) && $p->post_name == $revparts[ $count ] ) {
 				$foundid = $page->ID;
 				break;
 			}
