@@ -223,7 +223,8 @@ class AtomServer {
 	 */
 	function __construct() {
 
-		$this->script_name = array_pop( $var_by_ref = explode( '/', $_SERVER['SCRIPT_NAME'] ) );
+		$var_by_ref = explode( '/', $_SERVER['SCRIPT_NAME'] );
+		$this->script_name = array_pop( $var_by_ref );
 		$this->app_base = site_url( $this->script_name . '/' );
 
 		$this->selectors = array(

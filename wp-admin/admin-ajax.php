@@ -860,7 +860,8 @@ case 'add-meta' :
 			'supplemental' => array('postid' => $pid)
 		) );
 	} else { // Update?
-		$mid = (int) array_pop( $var_by_ref = array_keys($_POST['meta']) );
+		$var_by_ref = array_keys( $_POST['meta'] );
+		$mid = (int) array_pop( $var_by_ref );
 		$key = stripslashes( $_POST['meta'][$mid]['key'] );
 		$value = stripslashes( $_POST['meta'][$mid]['value'] );
 		if ( '' == trim($key) )
