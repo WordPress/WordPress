@@ -1540,6 +1540,19 @@ RTL
 	background-position: center right;
 }
 
+.rtl .wp_themeSkin .mceListBox .mceText {
+	text-align: right;
+}
+
+.rtl .wp_themeSkin .mceNoIcons a .mceText {
+	padding-right: 10px;
+	padding-left: 25px;
+}
+
+.rtl .mceListBoxMenu.mceNoIcons {
+	margin-left: -14px;
+}
+
 .clearlooks2 .mceFocus .mceTop .mceLeft {
 	background: #444444;
 	border-left: 1px solid #999;
