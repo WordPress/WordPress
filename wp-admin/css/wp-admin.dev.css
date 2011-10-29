@@ -974,11 +974,6 @@ p.search-box {
 	margin-left: 18px;
 }
 
-#post-status-display,
-#post-visibility-display {
-	font-weight: bold;
-}
-
 .side-info {
 	margin: 0;
 	padding: 4px;
@@ -1586,12 +1581,6 @@ form.upgrade .hint {
 .no-js #adminmenu .wp-has-current-submenu:hover .wp-submenu,
 #adminmenu .wp-has-current-submenu .wp-submenu {
 	padding: 0;
-}
-
-#adminmenu .wp-submenu li.current,
-#adminmenu .wp-submenu li.current a,
-#adminmenu .wp-submenu li.current a:hover {
-	font-weight: bold;
 }
 
 #adminmenu .wp-submenu a {
@@ -2860,12 +2849,6 @@ input#link_url {
 	border-bottom-left-radius: 3px;
 }
 
-#post-body ul.category-tabs li.tabs a,
-#post-body ul.add-menu-item-tabs li.tabs a {
-	font-weight: bold;
-	text-decoration: none;
-}
-
 .wp-tab-panel,
 .categorydiv div.tabs-panel,
 .customlinkdiv div.tabs-panel,
@@ -3277,12 +3260,6 @@ table.diff .diff-deletedline del, table.diff .diff-addedline ins {
 	border-bottom-left-radius: 3px;
 }
 
-#post-body ul.category-tabs li.tabs a,
-#post-body ul.add-menu-item-tabs li.tabs a {
-	font-weight: bold;
-	text-decoration: none;
-}
-
 .categorydiv div.tabs-panel,
 .customlinkdiv div.tabs-panel,
 .posttypediv div.tabs-panel,
@@ -3637,10 +3614,6 @@ abbr.required {
 	position: relative;
 	height: 34px;
 	width: 503px;
-}
-
-.media-item .percent {
-	font-weight: bold;
 }
 
 .crunching {
@@ -4287,6 +4260,8 @@ span.imgedit-scale-warn {
 	font-size: 15px;
 }
 
+#post-body ul.category-tabs li.tabs a,
+#post-body ul.add-menu-item-tabs li.tabs a,
 #TB_window #TB_title a.tb-theme-preview-link,
 #TB_window #TB_title a.tb-theme-preview-link:visited {
 	font-weight: bold;
@@ -4410,13 +4385,22 @@ h2 .nav-tab {
   17.0 - Plugins
 ------------------------------------------------------------------------------*/
 
+#dashboard_right_now .versions .b,
+#post-status-display,
+#post-visibility-display
+#adminmenu .wp-submenu li.current,
+#adminmenu .wp-submenu li.current a,
+#adminmenu .wp-submenu li.current a:hover,
+.media-item .percent,
 .plugins .name,
 #pass-strength-result.strong,
 #pass-strength-result.short,
 .button-highlighted,
 input.button-highlighted,
 #quicktags #ed_strong,
-#ed_reply_toolbar #ed_reply_strong {
+#ed_reply_toolbar #ed_reply_strong,
+.item-controls .item-order a,
+.feature-filter .feature-name {
 	font-weight: bold;
 }
 
@@ -4835,6 +4819,11 @@ table .column-rating {
 	text-align: left;
 }
 
+.error-message {
+	color: red;
+	font-weight: bold;
+}
+
 /* Scrollbar fix for bulk upgrade iframe */
 body.iframe {
 	height: 98%;
@@ -5121,10 +5110,6 @@ form .textarea-wrap {
 #dashboard_right_now .versions {
 	padding: 6px 10px 12px;
 	clear: both;
-}
-
-#dashboard_right_now .versions .b {
-	font-weight: bold;
 }
 
 #dashboard_right_now a.button {
@@ -6044,10 +6029,6 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 	padding-right: 10px;
 }
 
-.item-controls .item-order a {
-	font-weight: bold;
-}
-
 .nav-menus-php .item-edit {
 	position: absolute;
 	right: -20px;
@@ -6858,10 +6839,6 @@ body#theme-information {
 .feature-filter .feature-group {
 	float: left;
 	margin: 5px 10px 10px;
-}
-
-.feature-filter .feature-name {
-	font-weight: bold;
 }
 
 .feature-filter .feature-group li {
