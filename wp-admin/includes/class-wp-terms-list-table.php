@@ -24,7 +24,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 
 		$tax = get_taxonomy( $taxonomy );
 
-		if ( empty( $post_type ) || !in_array( $post_type, get_post_types( array( 'public' => true ) ) ) )
+		if ( empty( $post_type ) || !in_array( $post_type, get_post_types( array( 'show_ui' => true ) ) ) )
 			$post_type = 'post';
 
 		parent::__construct( array(
