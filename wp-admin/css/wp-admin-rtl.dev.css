@@ -588,6 +588,12 @@ form.upgrade .hint {
 	margin-left: 8px;
 }
 
+/* Browser Nag */
+#dashboard_browser_nag p.browser-update-nag.has-browser-icon {
+	padding-right: 0;
+	padding-left: 125px;
+} 
+
 /*------------------------------------------------------------------------------
   10.0 - List Posts (/Pages/etc)
 ------------------------------------------------------------------------------*/
