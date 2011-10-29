@@ -194,7 +194,7 @@ $(document).ready( function() {
 
 		if ( body.hasClass('folded') ) {
 			body.removeClass('folded');
-			deleteUserSetting('mfold');
+			setUserSetting('mfold', 'o');
 		} else {
 			body.addClass('folded');
 			setUserSetting('mfold', 'f');
