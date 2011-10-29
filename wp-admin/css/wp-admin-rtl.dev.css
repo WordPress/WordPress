@@ -2087,6 +2087,10 @@ h3.tb {
 	float: left;
 }
 
+#template textarea {
+	direction: ltr; 
+} 
+
 /* theme-install */
 div.star {
 	left:auto;
