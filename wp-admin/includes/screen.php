@@ -452,7 +452,7 @@ final class WP_Screen {
 						if ( $post )
 							$post_type = $post->post_type;
 					} elseif ( isset( $_POST['post_type'] ) && post_type_exists( $_POST['post_type'] ) ) {
-						$post_type = $_GET['post_type'];
+						$post_type = $_POST['post_type'];
 					} elseif ( $action == 'add' && isset( $_GET['post_type'] ) && post_type_exists( $_GET['post_type'] ) ) {
 						$post_type = $_GET['post_type'];
 					}
