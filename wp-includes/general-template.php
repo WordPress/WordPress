@@ -1625,31 +1625,31 @@ function feed_links_extra( $args = array() ) {
 		$post = &get_post( $id );
 
 		if ( comments_open() || pings_open() || $post->comment_count > 0 ) {
-			$title = esc_attr(sprintf( $args['singletitle'], get_bloginfo('name'), $args['separator'], esc_html( get_the_title() ) ));
+			$title = sprintf( $args['singletitle'], get_bloginfo('name'), $args['separator'], esc_html( get_the_title() ) );
 			$href = get_post_comments_feed_link( $post->ID );
 		}
 	} elseif ( is_category() ) {
 		$term = get_queried_object();
 
-		$title = esc_attr(sprintf( $args['cattitle'], get_bloginfo('name'), $args['separator'], $term->name ));
+		$title = sprintf( $args['cattitle'], get_bloginfo('name'), $args['separator'], $term->name );
 		$href = get_category_feed_link( $term->term_id );
 	} elseif ( is_tag() ) {
 		$term = get_queried_object();
 
-		$title = esc_attr(sprintf( $args['tagtitle'], get_bloginfo('name'), $args['separator'], $term->name ));
+		$title = sprintf( $args['tagtitle'], get_bloginfo('name'), $args['separator'], $term->name );
 		$href = get_tag_feed_link( $term->term_id );
 	} elseif ( is_author() ) {
 		$author_id = intval( get_query_var('author') );
 
-		$title = esc_attr(sprintf( $args['authortitle'], get_bloginfo('name'), $args['separator'], get_the_author_meta( 'display_name', $author_id ) ));
+		$title = sprintf( $args['authortitle'], get_bloginfo('name'), $args['separator'], get_the_author_meta( 'display_name', $author_id ) );
 		$href = get_author_feed_link( $author_id );
 	} elseif ( is_search() ) {
-		$title = esc_attr(sprintf( $args['searchtitle'], get_bloginfo('name'), $args['separator'], get_search_query( false ) ));
+		$title = sprintf( $args['searchtitle'], get_bloginfo('name'), $args['separator'], get_search_query( false ) );
 		$href = get_search_feed_link();
 	}
 
 	if ( isset($title) && isset($href) )
-		echo '<link rel="alternate" type="' . feed_content_type() . '" title="' . $title . '" href="' . $href . '" />' . "\n";
+		echo '<link rel="alternate" type="' . feed_content_type() . '" title="' . esc_attr( $title ) . '" href="' . esc_url( $href ) . '" />' . "\n";
 }
 
 /**
