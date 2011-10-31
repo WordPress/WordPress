@@ -194,18 +194,18 @@ function prepareMediaItemInit(fileObj) {
 
 function cancelUpload() {
 	uploader.stop();
+	uploadComplete();
 	jQuery.each(uploader.files, function(i,file) {
-		if (file.status == plupload.STOPPED)
+		if ( file.status == plupload.STOPPED )
 			jQuery('#media-item-' + file.id).remove();
 	});
 }
-
 
 // wp-specific error handlers
 
 // generic message
 function wpQueueError(message) {
-	jQuery('#media-upload-error').show().text(message);
+	jQuery('#media-upload-error').show().html( '<div id="error"><p>' + message + '</p></div>' );
 }
 
 // file-specific message
@@ -268,13 +268,9 @@ function deleteError(X, textStatus, errorThrown) {
 	// TODO
 }
 
-// SWFUpload?
-function uploadComplete(fileObj) {
-	// If no more uploads queued, enable the submit button
-	if ( swfu.getStats().files_queued == 0 ) {
-		jQuery('#cancel-upload').prop('disabled', true);
-		jQuery('#insert-gallery').prop('disabled', false);
-	}
+function uploadComplete() {
+	jQuery('#cancel-upload').prop('disabled', true);
+	jQuery('#insert-gallery').prop('disabled', false);
 }
 
 function switchUploader(s) {
@@ -297,21 +293,6 @@ function dndHelper(s) {
 	} else {
 		d.style.display = 'none';
 	}
-}
-
-// SWFUpload?
-function swfuploadPreLoad() {
-	if ( !uploaderMode ) {
-		switchUploader(1);
-	} else {
-		switchUploader(0);
-	}
-}
-
-// SWFUpload?
-function swfuploadLoadFailed() {
-	switchUploader(0);
-	jQuery('.upload-html-bypass').hide();
 }
 
 function uploadError(fileObj, errorCode, message) {
@@ -442,6 +423,10 @@ jQuery(document).ready(function($){
 
 		uploader.bind('FileUploaded', function(up, file, response) {
 			uploadSuccess(file, response.response);
+		});
+
+		uploader.bind('UploadComplete', function(up, files) {
+			uploadComplete();
 		});
 	}
 

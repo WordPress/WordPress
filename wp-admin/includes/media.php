@@ -1282,17 +1282,18 @@ function media_upload_form( $errors = null ) {
 	}
 ?>
 
-<div id="media-upload-notice">
-<?php if (isset($errors['upload_notice']) ) { ?>
-	<?php echo $errors['upload_notice']; ?>
-<?php } ?>
-</div>
+<div id="media-upload-notice"><?php
 
-<div id="media-upload-error">
-<?php if (isset($errors['upload_error']) && is_wp_error($errors['upload_error'])) { ?>
-	<?php echo $errors['upload_error']->get_error_message(); ?>
-<?php } ?>
-</div>
+	if (isset($errors['upload_notice']) )
+		echo $errors['upload_notice'];
+
+?></div>
+<div id="media-upload-error"><?php
+
+	if (isset($errors['upload_error']) && is_wp_error($errors['upload_error']))
+		echo $errors['upload_error']->get_error_message();
+
+?></div>
 <?php
 // Check quota for this blog if multisite
 if ( is_multisite() && !is_upload_space_available() ) {
