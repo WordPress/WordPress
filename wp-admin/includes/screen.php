@@ -651,22 +651,22 @@ final class WP_Screen {
 		// Call old contextual_help_list filter.
 		self::$_old_compat_help = apply_filters( 'contextual_help_list', self::$_old_compat_help, $this );
 
-		if ( isset( self::$_old_compat_help[ $this->id ] ) || empty($this->_help_tabs ) ) {
-			// Call old contextual_help filter.
-			if ( isset( self::$_old_compat_help[ $this->id ] ) )
-				$contextual_help = apply_filters( 'contextual_help', self::$_old_compat_help[ $this->id ], $this->id, $this );
+		$old_help = isset( self::$_old_compat_help[ $this->id ] ) ? self::$_old_compat_help[ $this->id ] : '';
+		$old_help = apply_filters( 'contextual_help', $old_help, $this->id, $this );
 
-			if ( empty( $contextual_help ) ) {
-				$default_help = __( '<a href="http://codex.wordpress.org/" target="_blank">Documentation</a>' );
-				$default_help .= '<br />';
-				$default_help .= __( '<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>' );
-				$contextual_help = '<p>' . apply_filters( 'default_contextual_help', $default_help ) . '</p>';
-			}
+		// Default help only if there is no old-style block of text and no new-style help tabs.
+		if ( empty( $old_help ) && empty( $this->_help_tabs ) ) {
+			$default_help = __( '<a href="http://codex.wordpress.org/" target="_blank">Documentation</a>' );
+			$default_help .= '<br />';
+			$default_help .= __( '<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>' );
+			$old_help = '<p>' . apply_filters( 'default_contextual_help', $default_help ) . '</p>';
+		}
 
+		if ( $old_help ) {
 			$this->add_help_tab( array(
 				'id'      => 'contextual-help',
 				'title'   => __('Screen Info'),
-				'content' => $contextual_help,
+				'content' => $old_help,
 			) );
 		}
 
