@@ -418,7 +418,10 @@ final class WP_Screen {
 				$id = str_replace( '-user', '', $id );
 
 			$id = sanitize_key( $id );
-			if ( false !== strpos( $id, '-' ) ) {
+			if ( post_type_exists( $id ) ) {
+				$post_type = $id;
+				$id = 'post'; // changes later. ends up being $base.
+			} elseif ( false !== strpos( $id, '-' ) ) {
 				list( $id, $second ) = explode( '-', $id, 2 );
 				if ( taxonomy_exists( $second ) ) {
  					$id = 'edit-tags';
@@ -438,6 +441,11 @@ final class WP_Screen {
 
 		// If this is the current screen, see if we can be more accurate for post types and taxonomies.
 		if ( ! $hook_name ) {
+			if ( isset( $_REQUEST['post_type'] ) && post_type_exists( $_REQUEST['post_type'] ) )
+				$post_type = $_REQUEST['post_type'];
+			if ( isset( $_REQUEST['taxonomy'] ) && taxonomy_exists( $_REQUEST['taxonomy'] ) )
+				$taxonomy = $_REQUEST['taxonomy'];
+
 			switch ( $base ) {
 				case 'post' :
 					if ( isset( $_GET['post'] ) )
@@ -451,22 +459,10 @@ final class WP_Screen {
 						$post = get_post( $post_id );
 						if ( $post )
 							$post_type = $post->post_type;
-					} elseif ( isset( $_POST['post_type'] ) && post_type_exists( $_POST['post_type'] ) ) {
-						$post_type = $_POST['post_type'];
-					} elseif ( $action == 'add' && isset( $_GET['post_type'] ) && post_type_exists( $_GET['post_type'] ) ) {
-						$post_type = $_GET['post_type'];
 					}
 					break;
-				case 'edit' :
-					if ( isset( $_GET['post_type'] ) && post_type_exists( $_GET['post_type'] ) )
-						$post_type = $_GET['post_type'];
-					break;
 				case 'edit-tags' :
-					if ( isset( $_REQUEST['taxonomy'] ) && taxonomy_exists( $_REQUEST['taxonomy'] ) )
-						$taxonomy = $_REQUEST['taxonomy'];
-					if ( isset( $_REQUEST['post_type'] ) && post_type_exists( $_REQUEST['post_type'] ) )
-						$post_type = $_REQUEST['post_type'];
-					else if ( is_object_in_taxonomy( 'post', $taxonomy ? $taxonomy : 'post_tag' ) )
+					if ( ! $post_type && is_object_in_taxonomy( 'post', $taxonomy ? $taxonomy : 'post_tag' ) )
 						$post_type = 'post';
 					break;
 			}
@@ -498,11 +494,15 @@ final class WP_Screen {
 			$base .= '-user';
  		}
 
-		if ( isset( self::$_registry[ $id ] ) )
-			return self::$_registry[ $id ];
+		if ( isset( self::$_registry[ $id ] ) ) {
+			$screen = self::$_registry[ $id ];
+			if ( $screen === get_current_screen() )
+				return $screen;
+		} else {
+			$screen = new WP_Screen();
+			$screen->id     = $id;
+		}
 
-		$screen = new WP_Screen();
-		$screen->id         = $id;
 		$screen->base       = $base;
 		$screen->action     = $action;
 		$screen->post_type  = $post_type;

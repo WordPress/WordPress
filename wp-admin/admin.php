@@ -88,13 +88,13 @@ if ( isset($_GET['page']) ) {
 	$plugin_page = plugin_basename($plugin_page);
 }
 
-if ( isset($_GET['post_type']) )
-	$typenow = sanitize_key($_GET['post_type']);
+if ( isset( $_REQUEST['post_type'] ) && post_type_exists( $_REQUEST['post_type'] ) )
+	$typenow = $_REQUEST['post_type'];
 else
 	$typenow = '';
 
-if ( isset($_GET['taxonomy']) )
-	$taxnow = sanitize_key($_GET['taxonomy']);
+if ( isset( $_REQUEST['taxonomy'] ) && taxonomy_exists( $_REQUEST['taxonomy'] ) )
+	$taxnow = $_REQUEST['taxonomy'];
 else
 	$taxnow = '';
 
