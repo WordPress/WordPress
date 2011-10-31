@@ -20,7 +20,7 @@ if ( isset( $_GET['post'] ) )
  	$post_id = $post_ID = (int) $_GET['post'];
 elseif ( isset( $_POST['post_ID'] ) )
  	$post_id = $post_ID = (int) $_POST['post_ID'];
- else
+else
  	$post_id = $post_ID = 0;
 
 $post = $post_type = $post_type_object = null;
@@ -102,10 +102,6 @@ case 'post-quickpress-save':
 	if ( 'post-quickpress-publish' == $action || 'post-quickpress-save' == $action ) {
 		$_POST['comment_status'] = get_option('default_comment_status');
 		$_POST['ping_status'] = get_option('default_ping_status');
-	}
-
-	if ( !empty( $_POST['quickpress_post_ID'] ) ) {
-		$_POST['post_ID'] = (int) $_POST['quickpress_post_ID'];
 		$post_id = edit_post();
 	} else {
 		$post_id = 'postajaxpost' == $action ? edit_post() : write_post();
