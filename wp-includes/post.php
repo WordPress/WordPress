@@ -4027,7 +4027,8 @@ function wp_mime_type_icon( $mime = 0 ) {
 			$dirs = apply_filters( 'icon_dirs', array($icon_dir => $icon_dir_uri) );
 			$icon_files = array();
 			while ( $dirs ) {
-				$dir = array_shift($keys = array_keys($dirs));
+				$keys = array_keys( $dirs );
+				$dir = array_shift( $keys );
 				$uri = array_shift($dirs);
 				if ( $dh = opendir($dir) ) {
 					while ( false !== $file = readdir($dh) ) {

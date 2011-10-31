@@ -1621,7 +1621,8 @@ function feed_links_extra( $args = array() ) {
 	$args = wp_parse_args( $args, $defaults );
 
 	if ( is_single() || is_page() ) {
-		$post = &get_post( $id = 0 );
+		$id = 0;
+		$post = &get_post( $id );
 
 		if ( comments_open() || pings_open() || $post->comment_count > 0 ) {
 			$title = esc_attr(sprintf( $args['singletitle'], get_bloginfo('name'), $args['separator'], esc_html( get_the_title() ) ));

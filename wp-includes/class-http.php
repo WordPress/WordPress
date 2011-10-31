@@ -346,7 +346,7 @@ class WP_Http {
 	 * @return array Processed string headers. If duplicate headers are encountered,
 	 * 					Then a numbered array is returned as the value of that header-key.
 	 */
-	function processHeaders($headers) {
+	public static function processHeaders($headers) {
 		// split headers, one per array element
 		if ( is_string($headers) ) {
 			// tolerate line terminator: CRLF = LF (RFC 2616 19.3)
@@ -413,7 +413,7 @@ class WP_Http {
 	 *
 	 * @param array $r Full array of args passed into ::request()
 	 */
-	function buildCookieHeader( &$r ) {
+	public static function buildCookieHeader( &$r ) {
 		if ( ! empty($r['cookies']) ) {
 			$cookies_header = '';
 			foreach ( (array) $r['cookies'] as $cookie ) {
@@ -756,7 +756,7 @@ class WP_Http_Fsockopen {
 	 * @static
 	 * @return boolean False means this class can not be used, true means it can.
 	 */
-	function test( $args = array() ) {
+	public static function test( $args = array() ) {
 		if ( ! function_exists( 'fsockopen' ) )
 			return false;
 
@@ -939,7 +939,7 @@ class WP_Http_Streams {
 	 *
 	 * @return boolean False means this class can not be used, true means it can.
 	 */
-	function test( $args = array() ) {
+	public static function test( $args = array() ) {
 		if ( ! function_exists( 'fopen' ) )
 			return false;
 
@@ -1166,7 +1166,7 @@ class WP_Http_Curl {
 	 *
 	 * @return boolean False means this class can not be used, true means it can.
 	 */
-	function test( $args = array() ) {
+	public static function test( $args = array() ) {
 		if ( ! function_exists( 'curl_init' ) || ! function_exists( 'curl_exec' ) )
 			return false;
 
@@ -1580,7 +1580,7 @@ class WP_Http_Encoding {
 	 * @param string $supports Optional, not used. When implemented it will choose the right compression based on what the server supports.
 	 * @return string|bool False on failure.
 	 */
-	function compress( $raw, $level = 9, $supports = null ) {
+	public static function compress( $raw, $level = 9, $supports = null ) {
 		return gzdeflate( $raw, $level );
 	}
 
@@ -1598,7 +1598,7 @@ class WP_Http_Encoding {
 	 * @param int $length The optional length of the compressed data.
 	 * @return string|bool False on failure.
 	 */
-	function decompress( $compressed, $length = null ) {
+	public static function decompress( $compressed, $length = null ) {
 
 		if ( empty($compressed) )
 			return $compressed;
@@ -1642,7 +1642,7 @@ class WP_Http_Encoding {
 	 * @param string $gzData String to decompress.
 	 * @return string|bool False on failure.
 	 */
-	function compatible_gzinflate($gzData) {
+	public static function compatible_gzinflate($gzData) {
 
 		// Compressed data might contain a full header, if so strip it for gzinflate()
 		if ( substr($gzData, 0, 3) == "\x1f\x8b\x08" ) {
@@ -1680,7 +1680,7 @@ class WP_Http_Encoding {
 	 *
 	 * @return string Types of encoding to accept.
 	 */
-	function accept_encoding() {
+	public static function accept_encoding() {
 		$type = array();
 		if ( function_exists( 'gzinflate' ) )
 			$type[] = 'deflate;q=1.0';
@@ -1701,7 +1701,7 @@ class WP_Http_Encoding {
 	 *
 	 * @return string Content-Encoding string to send in the header.
 	 */
-	function content_encoding() {
+	public static function content_encoding() {
 		return 'deflate';
 	}
 
@@ -1713,7 +1713,7 @@ class WP_Http_Encoding {
 	 * @param array|string $headers All of the available headers.
 	 * @return bool
 	 */
-	function should_decode($headers) {
+	public static function should_decode($headers) {
 		if ( is_array( $headers ) ) {
 			if ( array_key_exists('content-encoding', $headers) && ! empty( $headers['content-encoding'] ) )
 				return true;
@@ -1735,7 +1735,7 @@ class WP_Http_Encoding {
 	 *
 	 * @return bool
 	 */
-	function is_available() {
+	public static function is_available() {
 		return ( function_exists('gzuncompress') || function_exists('gzdeflate') || function_exists('gzinflate') );
 	}
 }

@@ -572,7 +572,7 @@ class WP_MatchesMapRegex {
 	 * @param array  $matches data used for substitution
 	 * @return string
 	 */
-	function apply($subject, $matches) {
+	public static function apply($subject, $matches) {
 		$oSelf = new WP_MatchesMapRegex($subject, $matches);
 		return $oSelf->output;
 	}
