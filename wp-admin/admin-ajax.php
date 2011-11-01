@@ -1506,26 +1506,17 @@ case 'time_format' :
 	die( date_i18n( sanitize_option( 'time_format', $_POST['date'] ) ) );
 	break;
 case 'wp-fullscreen-save-post' :
-	if ( isset($_POST['post_ID']) )
-		$post_id = (int) $_POST['post_ID'];
-	else
-		$post_id = 0;
+	$post_id = isset( $_POST['post_ID'] ) ? (int) $_POST['post_ID'] : 0;
 
-	$post = null;
-	$post_type_object = null;
-	$post_type = null;
-	if ( $post_id ) {
-		$post = get_post($post_id);
-		if ( $post ) {
-			$post_type_object = get_post_type_object($post->post_type);
-			if ( $post_type_object )
-				$post_type = $post->post_type;
-		}
-	} elseif ( isset($_POST['post_type']) ) {
-		$post_type_object = get_post_type_object($_POST['post_type']);
-		if ( $post_type_object )
-			$post_type = $post_type_object->name;
-	}
+	$post = $post_type = null;
+
+	if ( $post_id )
+		$post = get_post( $post_id );
+
+	if ( $post )
+		$post_type = $post->post_type;
+	elseif ( isset( $_POST['post_type'] ) && post_type_exists( $_POST['post_type'] ) )
+		$post_type = $_POST['post_type'];
 
 	check_ajax_referer('update-' . $post_type . '_' . $post_id, '_wpnonce');
 
