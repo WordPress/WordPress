@@ -122,7 +122,7 @@ function wp_admin_bar_wp_menu( $wp_admin_bar ) {
 		'parent' => 'wp-logo-secondary',
 		'id'     => 'wporg',
 		'title'  => __('WordPress.org'),
-		'href'   => 'http://wordpress.org',
+		'href'   => __('http://wordpress.org'),
 	) );
 
 	// Add codex link
@@ -130,7 +130,7 @@ function wp_admin_bar_wp_menu( $wp_admin_bar ) {
 		'parent' => 'wp-logo-secondary',
 		'id'     => 'documentation',
 		'title'  => __('Documentation'),
-		'href'   => 'http://codex.wordpress.org',
+		'href'   => __('http://codex.wordpress.org'),
 	) );
 
 	// Add forums link
@@ -138,7 +138,7 @@ function wp_admin_bar_wp_menu( $wp_admin_bar ) {
 		'parent' => 'wp-logo-secondary',
 		'id'     => 'support-forums',
 		'title'  => __('Support Forums'),
-		'href'   => 'http://wordpress.org/support/',
+		'href'   => __('http://wordpress.org/support/'),
 	) );
 
 	// Add feedback link
@@ -146,7 +146,7 @@ function wp_admin_bar_wp_menu( $wp_admin_bar ) {
 		'parent' => 'wp-logo-secondary',
 		'id'     => 'feedback',
 		'title'  => __('Feedback'),
-		'href'   => 'http://wordpress.org/support/forum/requests-and-feedback',
+		'href'   => __('http://wordpress.org/support/forum/requests-and-feedback'),
 	) );
 }
 
