@@ -36,9 +36,6 @@ get_admin_page_parent();
 function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 	global $self, $parent_file, $submenu_file, $plugin_page, $pagenow, $typenow;
 
-	$menu_setting_increment = -1;
-	$user_settings = get_all_user_settings();
-
 	$first = true;
 	// 0 = name, 1 = capability, 2 = file, 3 = class, 4 = id, 5 = icon src
 	foreach ( $menu as $key => $item ) {
@@ -54,7 +51,6 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 		if ( ! empty( $submenu[$item[2]] ) ) {
 			$class[] = 'wp-has-submenu';
 			$submenu_items = $submenu[$item[2]];
-			$menu_setting_increment++;
 		}
 
 		if ( ( $parent_file && $item[2] == $parent_file ) || ( empty($typenow) && $self == $item[2] ) )
