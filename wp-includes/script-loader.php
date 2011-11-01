@@ -190,7 +190,7 @@ function wp_default_scripts( &$scripts ) {
 	// error message for both plupload and swfupload
 	$uploader_l10n = array(
 		'queue_limit_exceeded' => __('You have attempted to queue too many files.'),
-		'file_exceeds_size_limit' => __('This file exceeds the maximum upload size for this site.'),
+		'file_exceeds_size_limit' => __('%s exceeds the maximum upload size for this site.'),
 		'zero_byte_file' => __('This file is empty. Please try another.'),
 		'invalid_filetype' => __('This file type is not allowed. Please try another.'),
 		'not_an_image' => __('This file is not an image. Please try another.'),
@@ -220,7 +220,7 @@ function wp_default_scripts( &$scripts ) {
 	// cannot use the plupload.full.js, as it loads browserplus init JS from Yahoo
 	$scripts->add( 'plupload-full', false, array('plupload', 'plupload-html5', 'plupload-flash', 'plupload-silverlight', 'plupload-html4'), '1.5b');
 
-	$scripts->add( 'plupload-handlers', "/wp-includes/js/plupload/handlers$suffix.js", array('plupload-full', 'jquery'), '20111031');
+	$scripts->add( 'plupload-handlers', "/wp-includes/js/plupload/handlers$suffix.js", array('plupload-full', 'jquery'), '20111101');
 	$scripts->add_script_data( 'plupload-handlers', 'pluploadL10n', $uploader_l10n );
 
 	// keep 'swfupload' for back-compat.
@@ -431,13 +431,13 @@ function wp_default_styles( &$styles ) {
 	// Any rtl stylesheets that don't have a .dev version for ltr
 	$no_suffix = array( 'farbtastic' );
 
-	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20111028' );
+	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20111101' );
 
 	$styles->add( 'ie', "/wp-admin/css/ie$suffix.css", array(), '20111015' );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
 
 	// all colors stylesheets need to have the same query strings (cache manifest compat)
-	$colors_version = '20111019';
+	$colors_version = '20111101';
 
 	// Register "meta" stylesheet for admin colors. All colors-* style sheets should have the same version string.
 	$styles->add( 'colors', true, array('wp-admin'), $colors_version );
@@ -446,7 +446,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'colors-fresh', "/wp-admin/css/colors-fresh$suffix.css", array('wp-admin'), $colors_version );
 	$styles->add( 'colors-classic', "/wp-admin/css/colors-classic$suffix.css", array('wp-admin'), $colors_version );
 
-	$styles->add( 'media', "/wp-admin/css/media$suffix.css", array(), '20110930' );
+	$styles->add( 'media', "/wp-admin/css/media$suffix.css", array(), '20111101' );
 	$styles->add( 'install', "/wp-admin/css/install$suffix.css", array(), '20110821' ); // Readme as well
 	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css', array(), '20090514' );
 	$styles->add( 'farbtastic', '/wp-admin/css/farbtastic.css', array(), '1.3u1' );

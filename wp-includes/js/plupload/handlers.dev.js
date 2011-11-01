@@ -205,7 +205,7 @@ function cancelUpload() {
 
 // generic message
 function wpQueueError(message) {
-	jQuery('#media-upload-error').show().html( '<div id="error"><p>' + message + '</p></div>' );
+	jQuery('#media-upload-error').show().html( '<div class="error"><p>' + message + '</p></div>' );
 }
 
 // file-specific message
@@ -305,7 +305,7 @@ function uploadError(fileObj, errorCode, message) {
 			wpFileError(fileObj, pluploadL10n.invalid_filetype);
 			break;
 		case plupload.FILE_SIZE_ERROR:
-			wpFileError(fileObj, pluploadL10n.upload_limit_exceeded);
+			wpQueueError( pluploadL10n.file_exceeds_size_limit.replace('%s', fileObj.name) );
 			break;
 		case plupload.IMAGE_FORMAT_ERROR:
 			wpFileError(fileObj, pluploadL10n.not_an_image);
@@ -403,6 +403,7 @@ jQuery(document).ready(function($){
 				fileQueued(file);
 			});
 
+			jQuery('#media-upload-error').html('');
 			up.refresh();
 			up.start();
 		});

@@ -16,11 +16,6 @@ body#media-upload ul#sidemenu {
 	overflow: hidden;
 }
 
-div#media-upload-error {
-	margin: 1em;
-	font-weight: bold;
-}
-
 form {
 	margin: 1em;
 }

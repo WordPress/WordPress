@@ -592,7 +592,8 @@ div.error p {
 }
 
 .wrap div.updated,
-.wrap div.error {
+.wrap div.error,
+.media-upload-form div.error {
 	margin: 5px 0 15px;
 }
 
