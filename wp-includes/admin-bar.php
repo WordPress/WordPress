@@ -575,10 +575,7 @@ function wp_admin_bar_comments_menu( $wp_admin_bar ) {
 	$icon .= "<div class='ab-comments-icon-arrow'></div>";
 	$icon .= "</div>";
 
-	if ( $awaiting_mod )
-		$title = sprintf( _n('%s Comment', '%s Comments', $awaiting_mod ), number_format_i18n( $awaiting_mod ) );
-	else
-		$title = __('Comments');
+	$title = ( $awaiting_mod ) ? '<span id="ab-awaiting-mod" class="pending-count">' . number_format_i18n( $awaiting_mod ) . '</span>' : '';
 
 	$wp_admin_bar->add_menu( array(
 		'id'    => 'comments',
