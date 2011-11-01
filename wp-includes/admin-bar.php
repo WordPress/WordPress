@@ -305,6 +305,31 @@ function wp_admin_bar_my_sites_menu( $wp_admin_bar ) {
 			'title'  => __('Network Admin'),
 			'href'   => network_admin_url(),
 		) );
+
+		$wp_admin_bar->add_menu( array(
+			'parent' => 'network-admin',
+			'id'     => 'network-admin-d',
+			'title'  => __( 'Dashboard' ),
+			'href'   => network_admin_url(),
+		) );
+		$wp_admin_bar->add_menu( array(
+			'parent' => 'network-admin',
+			'id'     => 'network-admin-s',
+			'title'  => __( 'Sites' ),
+			'href'   => network_admin_url( 'sites.php' ),
+		) );
+		$wp_admin_bar->add_menu( array(
+			'parent' => 'network-admin',
+			'id'     => 'network-admin-u',
+			'title'  => __( 'Users' ),
+			'href'   => network_admin_url( 'users.php' ),
+		) );
+		$wp_admin_bar->add_menu( array(
+			'parent' => 'network-admin',
+			'id'     => 'network-admin-v',
+			'title'  => __( 'Visit Network' ),
+			'href'   => network_home_url(),
+		) );
 	}
 
 	if ( $wp_admin_bar->user->blogs ) {
