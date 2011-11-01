@@ -551,7 +551,7 @@ function wp_admin_bar_comments_menu( $wp_admin_bar ) {
 	$icon .= "</div>";
 
 	if ( $awaiting_mod )
-		$title = sprintf( _n('%d Comment', '%d Comments', $awaiting_mod ), number_format_i18n( $awaiting_mod ) );
+		$title = sprintf( _n('%s Comment', '%s Comments', $awaiting_mod ), number_format_i18n( $awaiting_mod ) );
 	else
 		$title = __('Comments');
 
