@@ -1518,19 +1518,13 @@ case 'wp-fullscreen-save-post' :
 		$post = get_post($post_id);
 		if ( $post ) {
 			$post_type_object = get_post_type_object($post->post_type);
-			if ( $post_type_object ) {
+			if ( $post_type_object )
 				$post_type = $post->post_type;
-				$current_screen->post_type = $post->post_type;
-				$current_screen->id = $current_screen->post_type;
-			}
 		}
 	} elseif ( isset($_POST['post_type']) ) {
 		$post_type_object = get_post_type_object($_POST['post_type']);
-		if ( $post_type_object ) {
+		if ( $post_type_object )
 			$post_type = $post_type_object->name;
-			$current_screen->post_type = $post_type;
-			$current_screen->id = $current_screen->post_type;
-		}
 	}
 
 	check_ajax_referer('update-' . $post_type . '_' . $post_id, '_wpnonce');
