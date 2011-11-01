@@ -419,18 +419,17 @@ final class WP_Screen {
 
 			$id = sanitize_key( $id );
 			if ( post_type_exists( $id ) ) {
-				$post_type = $id;
 				$id = 'post'; // changes later. ends up being $base.
+				$post_type = $id;
 			} elseif ( false !== strpos( $id, '-' ) ) {
-				list( $id, $second ) = explode( '-', $id, 2 );
+				list( $first, $second ) = explode( '-', $id, 2 );
 				if ( taxonomy_exists( $second ) ) {
  					$id = 'edit-tags';
 					$taxonomy = $second;
 				} elseif ( post_type_exists( $second ) ) {
+					$id = $first;
 					$post_type = $second;
-				} else {
-					$id .= '-' . $second;
- 				}
+				}
  			}
 		}
 
