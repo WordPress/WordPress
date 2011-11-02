@@ -31,7 +31,7 @@ if ( is_network_admin() )
 
 add_contextual_help($current_screen, $help);
 
-get_current_screen()->add_help_sidebar(
+get_current_screen()->set_help_sidebar(
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
 	'<p>' . __('<a href="http://codex.wordpress.org/Theme_Development" target="_blank">Documentation on Theme Development</a>') . '</p>' .
 	'<p>' . __('<a href="http://codex.wordpress.org/Using_Themes" target="_blank">Documentation on Using Themes</a>') . '</p>' .

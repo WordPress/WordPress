@@ -118,7 +118,7 @@ default:
 		( is_network_admin() ? '<p>' . __('Any edits to files from this screen will be reflected on all sites in the network.') . '</p>' : '' )
 	);
 
-	get_current_screen()->add_help_sidebar(
+	get_current_screen()->set_help_sidebar(
 		'<p><strong>' . __('For more information:') . '</strong></p>' .
 		'<p>' . __('<a href="http://codex.wordpress.org/Plugins_Editor_Screen" target="_blank">Documentation on Editing Plugins</a>') . '</p>' .
 		'<p>' . __('<a href="http://codex.wordpress.org/Writing_a_Plugin" target="_blank">Documentation on Writing Plugins</a>') . '</p>' .
