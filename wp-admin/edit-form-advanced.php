@@ -163,7 +163,7 @@ add_screen_option('layout_columns', array('max' => 2, 'default' => 2) );
 if ( 'post' == $post_type ) {
 	$customize_display = '<p>' . __('The title field and the big Post Editing Area are fixed in place, but you can reposition all the other boxes using drag and drop, and can minimize or expand them by clicking the title bar of each box. Use the Screen Options tab to unhide more boxes (Excerpt, Send Trackbacks, Custom Fields, Discussion, Slug, Author) or to choose a 1- or 2-column layout for this screen.') . '</p>';
 
-	$current_screen->add_help_tab( array(
+	get_current_screen()->add_help_tab( array(
 		'id'      => 'customize-display',
 		'title'   => __('Customizing This Display'),
 		'content' => $customize_display,
@@ -172,7 +172,7 @@ if ( 'post' == $post_type ) {
 	$title_and_editor  = '<p>' . __('<strong>Title</strong> - Enter a title for your post. After you enter a title, you&#8217;ll see the permalink below, which you can edit.') . '</p>';
 	$title_and_editor .= '<p>' . __('<strong>Post editor</strong> - Enter the text for your post. There are two modes of editing: Visual and HTML. Choose the mode by clicking on the appropriate tab. Visual mode gives you a WYSIWYG editor. Click the last icon in the row to get a second row of controls. The HTML mode allows you to enter raw HTML along with your post text. You can insert media files by clicking the icons above the post editor and following the directions. You can go the distraction-free writing screen, new in 3.2, via the Fullscreen icon in Visual mode (second to last in the top row) or the Fullscreen button in HTML mode (last in the row). Once there, you can make buttons visible by hovering over the top area. Exit Fullscreen back to the regular post editor.') . '</p>';
 
-	$current_screen->add_help_tab( array(
+	get_current_screen()->add_help_tab( array(
 		'id'      => 'title-post-editor',
 		'title'   => __('Title and Post Editor'),
 		'content' => $title_and_editor,
@@ -188,7 +188,7 @@ if ( 'post' == $post_type ) {
 		$publish_box .= '<p>' . __('<strong>Featured Image</strong> - This allows you to associate an image with your post without inserting it. This is usually useful only if your theme makes use of the featured image as a post thumbnail on the home page, a custom header, etc.') . '</p>';
 	}
 
-	$current_screen->add_help_tab( array(
+	get_current_screen()->add_help_tab( array(
 		'id'      => 'publish-box',
 		'title'   => __('Publish Box'),
 		'content' => $publish_box,
@@ -197,13 +197,13 @@ if ( 'post' == $post_type ) {
 	$discussion_settings  = '<p>' . __('<strong>Send Trackbacks</strong> - Trackbacks are a way to notify legacy blog systems that you&#8217;ve linked to them. Enter the URL(s) you want to send trackbacks. If you link to other WordPress sites they&#8217;ll be notified automatically using pingbacks, and this field is unnecessary.') . '</p>';
 	$discussion_settings .= '<p>' . __('<strong>Discussion</strong> - You can turn comments and pings on or off, and if there are comments on the post, you can see them here and moderate them.') . '</p>';
 
-	$current_screen->add_help_tab( array(
+	get_current_screen()->add_help_tab( array(
 		'id'      => 'discussion-settings',
 		'title'   => __('Discussion Settings'),
 		'content' => $discussion_settings,
 	) );
 
-	$current_screen->add_help_sidebar(
+	get_current_screen()->add_help_sidebar(
 			'<p>' . sprintf(__('You can also create posts with the <a href="%s">Press This bookmarklet</a>.'), 'options-writing.php') . '</p>' .
 			'<p><strong>' . __('For more information:') . '</strong></p>' .
 			'<p>' . __('<a href="http://codex.wordpress.org/Posts_Add_New_Screen" target="_blank">Documentation on Writing and Editing Posts</a>') . '</p>' .
@@ -213,7 +213,7 @@ if ( 'post' == $post_type ) {
 	$about_pages = '<p>' . __('Pages are similar to Posts in that they have a title, body text, and associated metadata, but they are different in that they are not part of the chronological blog stream, kind of like permanent posts. Pages are not categorized or tagged, but can have a hierarchy. You can nest Pages under other Pages by making one the &#8220;Parent&#8221; of the other, creating a group of Pages.') . '</p>' .
 		'<p>' . __('Creating a Page is very similar to creating a Post, and the screens can be customized in the same way using drag and drop, the Screen Options tab, and expanding/collapsing boxes as you choose. This screen also has the new in 3.2 distraction-free writing space, available in both the Visual and HTML modes via the Fullscreen buttons. The Page editor mostly works the same as the Post editor, but there are some Page-specific features in the Page Attributes box:') . '</p>';
 
-	$current_screen->add_help_tab( array(
+	get_current_screen()->add_help_tab( array(
 		'id'      => 'about-pages',
 		'title'   => __('About Pages'),
 		'content' => $about_pages,
@@ -223,13 +223,13 @@ if ( 'post' == $post_type ) {
 		'<p>' . __('<strong>Template</strong> - Some themes have custom templates you can use for certain pages that might have additional features or custom layouts. If so, you&#8217;ll see them in this dropdown menu.') . '</p>' .
 		'<p>' . __('<strong>Order</strong> - Pages are usually ordered alphabetically, but you can choose your own order by entering a number (1 for first, etc.) in this field.') . '</p>';
 
-	$current_screen->add_help_tab( array(
+	get_current_screen()->add_help_tab( array(
 		'id' => 'page-attributes',
 		'title' => __('Page Attributes'),
 		'content' => $page_attributes,
 	) );
 
-	$current_screen->add_help_sidebar(
+	get_current_screen()->add_help_sidebar(
 			'<p><strong>' . __('For more information:') . '</strong></p>' .
 			'<p>' . __('<a href="http://codex.wordpress.org/Pages_Add_New_Screen" target="_blank">Documentation on Adding New Pages</a>') . '</p>' .
 			'<p>' . __('<a href="http://codex.wordpress.org/Pages_Screen#Editing_Individual_Pages" target="_blank">Documentation on Editing Pages</a>') . '</p>' .
