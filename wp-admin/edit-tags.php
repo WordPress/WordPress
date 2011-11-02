@@ -225,8 +225,11 @@ if ( 'category' == $taxonomy || 'link_category' == $taxonomy || 'post_tag' == $t
 	if ( 'category' == $taxonomy || 'post_tag' == $taxonomy  )
 		$help .= '<li>' . __( '<strong>Description</strong> - The description is not prominent by default; however, some themes may display it.' ) . '</li>' .
 		'</ul>' .
-		'<p>' . __( 'You can change the display of this screen using the Screen Options tab to set how many items are displayed per screen and to display/hide columns in the table.' ) . '</p>' .
-		'<p><strong>' . __( 'For more information:' ) . '</strong></p>';
+		'<p>' . __( 'You can change the display of this screen using the Screen Options tab to set how many items are displayed per screen and to display/hide columns in the table.' ) . '</p>';
+
+	add_contextual_help($current_screen, $help);
+
+	$help = '<p><strong>' . __( 'For more information:' ) . '</strong></p>';
 
 	if ( 'category' == $taxonomy )
 		$help .= '<p>' . __( '<a href="http://codex.wordpress.org/Posts_Categories_Screen" target="_blank">Documentation on Categories</a>' ) . '</p>';
@@ -237,7 +240,8 @@ if ( 'category' == $taxonomy || 'link_category' == $taxonomy || 'post_tag' == $t
 
 	$help .= '<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>';
 
-	add_contextual_help($current_screen, $help);
+	get_current_screen()->add_help_sidebar( $help );
+
 	unset($help);
 }
 

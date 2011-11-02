@@ -99,12 +99,17 @@ class Custom_Image_Header {
 	 * @since 3.0.0
 	 */
 	function help() {
-		add_contextual_help( $this->page, '<p>' . __( 'You can set a custom image header for your site. Simply upload the image and crop it, and the new header will go live immediately.' ) . '</p>' .
-		'<p>' . __( 'If you want to discard your custom header and go back to the default included in your theme, click on the buttons to remove the custom image and restore the original header image.' ) . '</p>' .
-		'<p>' . __( 'Some themes come with additional header images bundled. If you see multiple images displayed, select the one you&#8217;d like and click the Save Changes button.' ) . '</p>' .
-		'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
-		'<p>' . __( '<a href="http://codex.wordpress.org/Appearance_Header_Screen" target="_blank">Documentation on Custom Header</a>' ) . '</p>' .
-		'<p>' . __( '<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>' ) . '</p>' );
+		add_contextual_help( $this->page,
+			'<p>' . __( 'You can set a custom image header for your site. Simply upload the image and crop it, and the new header will go live immediately.' ) . '</p>' .
+			'<p>' . __( 'If you want to discard your custom header and go back to the default included in your theme, click on the buttons to remove the custom image and restore the original header image.' ) . '</p>' .
+			'<p>' . __( 'Some themes come with additional header images bundled. If you see multiple images displayed, select the one you&#8217;d like and click the Save Changes button.' ) . '</p>'
+		);
+
+		get_current_screen()->add_help_sidebar(
+			'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
+			'<p>' . __( '<a href="http://codex.wordpress.org/Appearance_Header_Screen" target="_blank">Documentation on Custom Header</a>' ) . '</p>' .
+			'<p>' . __( '<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>' ) . '</p>'
+		);
 	}
 
 	/**

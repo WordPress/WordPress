@@ -45,7 +45,10 @@ add_contextual_help($current_screen,
 	'<p>' . __('This screen contains the settings that affect the display of your content.') . '</p>' .
 	'<p>' . sprintf(__('You can choose what&#8217;s displayed on the front page of your site. It can be posts in reverse chronological order (classic blog), or a fixed/static page. To set a static home page, you first need to create two <a href="%s">Pages</a>. One will become the front page, and the other will be where your posts are displayed.'), 'post-new.php?post_type=page') . '</p>' .
 	'<p>' . __('You can also control the display of your content in RSS feeds, including the maximum numbers of posts to display, whether to show full text or a summary, and the character set encoding.') . '</p>' .
-	'<p>' . __('You must click the Save Changes button at the bottom of the screen for new settings to take effect.') . '</p>' .
+	'<p>' . __('You must click the Save Changes button at the bottom of the screen for new settings to take effect.') . '</p>'
+);
+
+get_current_screen()->add_help_sidebar(
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
 	'<p>' . __('<a href="http://codex.wordpress.org/Settings_Reading_Screen" target="_blank">Documentation on Reading Settings</a>') . '</p>' .
 	'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'

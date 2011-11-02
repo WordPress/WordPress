@@ -125,7 +125,6 @@ if ( isset($_REQUEST['action']) && 'adduser' == $_REQUEST['action'] ) {
 	}
 }
 
-
 $title = __('Add New User');
 $parent_file = 'users.php';
 
@@ -144,7 +143,10 @@ add_contextual_help($current_screen,
     '</ul>' .
     '<p>' . __('You must assign a password to the new user, but don&#8217;t worry; when they log in for the first time they will be prompted to change it. The username, however, cannot be changed.') . '</p>' .
     '<p>' . __('New users will receive an email letting them know they&#8217;ve been added as a user for your site. By default, this email will also contain their password. Uncheck the box if you don&#8217;t want the password to be included in the welcome email.') . '</p>' .
-    '<p>' . __('Remember to click the Add User button at the bottom of this screen when you are finished.') . '</p>' .
+    '<p>' . __('Remember to click the Add User button at the bottom of this screen when you are finished.') . '</p>'
+);
+
+get_current_screen()->add_help_sidebar(
     '<p><strong>' . __('For more information:') . '</strong></p>' .
     '<p>' . __('<a href="http://codex.wordpress.org/Users_Add_New_Screen" target="_blank">Documentation on Adding New Users</a>') . '</p>' .
     '<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'

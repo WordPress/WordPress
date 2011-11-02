@@ -20,7 +20,10 @@ add_contextual_help($current_screen,
 	'<p>' . __('If you pick an option other than Default, your general URL path with structure tags, terms surrounded by <code>%</code>, will also appear in the custom structure field and your path can be further modified there.') . '</p>' .
 	'<p>' . __('When you assign multiple categories or tags to a post, only one can show up in the permalink: the lowest numbered category. This applies if your custom structure includes <code>%category%</code> or <code>%tag%</code>.') . '</p>' .
 	'<p>' . __('The Optional fields let you customize the &#8220;category&#8221; and &#8220;tag&#8221; base names that will appear in archive URLs. For example, the page listing all posts in the &#8220;Uncategorized&#8221; category could be <code>/topics/uncategorized</code> instead of <code>/category/uncategorized</code>.') . '</p>' .
-	'<p>' . __('You must click the Save Changes button at the bottom of the screen for new settings to take effect.') . '</p>' .
+	'<p>' . __('You must click the Save Changes button at the bottom of the screen for new settings to take effect.') . '</p>'
+);
+
+get_current_screen()->add_help_sidebar(
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
 	'<p>' . __('<a href="http://codex.wordpress.org/Settings_Permalinks_Screen" target="_blank">Documentation on Permalinks Settings</a>') . '</p>' .
 	'<p>' . __('<a href="http://codex.wordpress.org/Using_Permalinks" target="_blank">Documentation on Using Permalinks</a>') . '</p>' .
