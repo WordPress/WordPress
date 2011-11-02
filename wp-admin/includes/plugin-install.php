@@ -1,4 +1,4 @@
-<?php
+ulti<?php
 /**
  * WordPress Plugin Install Administration API
  *
@@ -105,7 +105,7 @@ function install_dashboard() {
 									'name' => $tag['name'],
 									'id' => sanitize_title_with_dashes($tag['name']),
 									'count' => $tag['count'] );
-		echo wp_generate_tag_cloud($tags, array( 'single_text' => __('%d plugin'), 'multiple_text' => __('%d plugins') ) );
+		echo wp_generate_tag_cloud($tags, array( 'single_text' => __('%s plugin'), 'multiple_text' => __('%s plugins') ) );
 	}
 	echo '</p><br class="clear" />';
 }
