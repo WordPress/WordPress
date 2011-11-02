@@ -119,7 +119,7 @@ add_contextual_help( $current_screen, '<p>' . __( 'You can manage comments made 
 	'<p>' . __( 'Many people take advantage of keyboard shortcuts to moderate their comments more quickly. Use the link below to learn more.' ) . '</p>'
 );
 
-get_current_screen()->add_help_sidebar(
+get_current_screen()->set_help_sidebar(
 	'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
 	'<p>' . __( '<a href="http://codex.wordpress.org/Administration_Screens#Comments" target="_blank">Documentation on Comments</a>' ) . '</p>' .
 	'<p>' . __( '<a href="http://codex.wordpress.org/Comment_Spam" target="_blank">Documentation on Comment Spam</a>' ) . '</p>' .

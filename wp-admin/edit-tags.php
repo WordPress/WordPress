@@ -240,7 +240,7 @@ if ( 'category' == $taxonomy || 'link_category' == $taxonomy || 'post_tag' == $t
 
 	$help .= '<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>';
 
-	get_current_screen()->add_help_sidebar( $help );
+	get_current_screen()->set_help_sidebar( $help );
 
 	unset($help);
 }

@@ -153,7 +153,7 @@ function add_screen_option( $option, $args = array() ) {
 	if ( ! $current_screen )
 		return;
 
-	return $current_screen->add_option( $option, $args );
+	$current_screen->add_option( $option, $args );
 }
 
 /**
@@ -597,7 +597,7 @@ final class WP_Screen {
 
 	/**
 	 * Add a help tab to the contextual help for the screen.
-	 * Call this in template files after admin.php is loaded and before admin-header.php is loaded to add contextual help tabs.
+	 * Call this on the load-$pagenow hook for the relevant screen.
 	 *
 	 * @since 3.3.0
 	 *
@@ -627,6 +627,26 @@ final class WP_Screen {
 	}
 
 	/**
+	 * Removes a help tab from the contextual help for the screen.
+	 *
+	 * @since 3.3.0
+	 *
+	 * @param string $id The help tab ID.
+	 */
+	public function remove_help_tab( $id ) {
+		unset( $this->_help_tabs[ $id ] );
+	}
+
+	/**
+	 * Removes all help tabs from the contextual help for the screen.
+	 *
+	 * @since 3.3.0
+	 */
+	public function remove_help_tabs() {
+		$this->_help_tabs = array();
+	}
+
+	/**
 	 * Add a sidebar to the contextual help for the screen.
 	 * Call this in template files after admin.php is loaded and before admin-header.php is loaded to add a sidebar to the contextual help.
 	 *
@@ -634,7 +654,7 @@ final class WP_Screen {
 	 *
 	 * @param string $content Sidebar content in plain text or HTML.
 	 */
-	public function add_help_sidebar( $content ) {
+	public function set_help_sidebar( $content ) {
 		$this->_help_sidebar = $content;
 	}
 
