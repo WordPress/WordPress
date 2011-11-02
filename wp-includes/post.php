@@ -4150,7 +4150,7 @@ function get_posts_by_author_sql( $post_type, $full = true, $post_author = null 
 	// Private posts
 	$post_type_obj = get_post_type_object( $post_type );
 	if ( ! $post_type_obj )
-		return ' 1 = 0 ';
+		return $full ? 'WHERE 1 = 0' : ' 1 = 0 ';
 
 	// This hook is deprecated. Why you'd want to use it, I dunno.
 	if ( ! $cap = apply_filters( 'pub_priv_sql_capability', '' ) )
