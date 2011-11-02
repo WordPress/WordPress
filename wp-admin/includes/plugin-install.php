@@ -1,4 +1,4 @@
-ulti<?php
+<?php
 /**
  * WordPress Plugin Install Administration API
  *
