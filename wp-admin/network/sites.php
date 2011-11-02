@@ -34,7 +34,10 @@ add_contextual_help($current_screen,
 	'<li>' . __('Delete which is a permanent action after the confirmation screens.') . '</li>' .
 	'<li>' . __('Visit to go to the frontend site live.') . '</li></ul>' .
 	'<p>' . __('The site ID is used internally, and is not shown on the front end of the site or to users/viewers.') . '</p>' .
-	'<p>' . __('Clicking on bold headings can re-sort this table.') . '</p>' .
+	'<p>' . __('Clicking on bold headings can re-sort this table.') . '</p>'
+);
+
+get_current_screen()->add_help_sidebar(
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
 	'<p>' . __('<a href="http://codex.wordpress.org/Network_Admin_Sites_Screens" target="_blank">Documentation on Site Management</a>') . '</p>' .
 	'<p>' . __('<a href="http://wordpress.org/support/forum/multisite/" target="_blank">Support Forums</a>') . '</p>'

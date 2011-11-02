@@ -109,7 +109,10 @@ add_contextual_help($current_screen,
 	'<p>' . __('The next screen for Network Setup will give you individually-generated lines of code to add to your wp-config.php and .htaccess files. Make sure the settings of your FTP client make files starting with a dot visible, so that you can find .htaccess; you may have to create this file if it really is not there. Make backup copies of those two files.') . '</p>' .
 	'<p>' . __('Add a <code>blogs.dir</code> directory under <code>/wp-content</code> and add the designated lines of code to wp-config.php (just before <code>/*...stop editing...*/</code>) and <code>.htaccess</code> (replacing the existing WordPress rules).') . '</p>' .
 	'<p>' . __('Once you add this code and refresh your browser, multisite should be enabled. This screen will keep an archive of the added code. You can toggle between Network Admin and Site Admin by clicking on the Howdy (Username) dropdown in the upper right of the administration area.') . '</p>' .
-	'<p>' . __('The choice of subdirectory sites is disabled if this setup is more than a month old because of permalink problems with &#8220;/blog/&#8221; from the main site. This disabling will be addressed soon in a future version.') . '</p>' .
+	'<p>' . __('The choice of subdirectory sites is disabled if this setup is more than a month old because of permalink problems with &#8220;/blog/&#8221; from the main site. This disabling will be addressed soon in a future version.') . '</p>'
+);
+
+get_current_screen()->add_help_sidebar(
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
 	'<p>' . __('<a href="http://codex.wordpress.org/Create_A_Network" target="_blank">Documentation on Creating a Network</a>') . '</p>' .
 	'<p>' . __('<a href="http://codex.wordpress.org/Tools_Network_Screen" target="_blank">Documentation on the Network Screen</a>') . '</p>' .
