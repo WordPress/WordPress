@@ -564,6 +564,7 @@ function remove_accents($string) {
 	if (seems_utf8($string)) {
 		$chars = array(
 		// Decompositions for Latin-1 Supplement
+		chr(194).chr(170) => 'a', chr(194).chr(186) => 'o',
 		chr(195).chr(128) => 'A', chr(195).chr(129) => 'A',
 		chr(195).chr(130) => 'A', chr(195).chr(131) => 'A',
 		chr(195).chr(132) => 'A', chr(195).chr(133) => 'A',
@@ -594,7 +595,7 @@ function remove_accents($string) {
 		chr(195).chr(185) => 'u', chr(195).chr(186) => 'u',
 		chr(195).chr(187) => 'u', chr(195).chr(188) => 'u',
 		chr(195).chr(189) => 'y', chr(195).chr(190) => 'th',
-		chr(195).chr(191) => 'y',
+		chr(195).chr(191) => 'y', chr(195).chr(152) => 'O',
 		// Decompositions for Latin Extended-A
 		chr(196).chr(128) => 'A', chr(196).chr(129) => 'a',
 		chr(196).chr(130) => 'A', chr(196).chr(131) => 'a',
