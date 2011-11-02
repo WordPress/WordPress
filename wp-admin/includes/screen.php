@@ -419,8 +419,8 @@ final class WP_Screen {
 
 			$id = sanitize_key( $id );
 			if ( post_type_exists( $id ) ) {
-				$id = 'post'; // changes later. ends up being $base.
 				$post_type = $id;
+				$id = 'post'; // changes later. ends up being $base.
 			} elseif ( false !== strpos( $id, '-' ) ) {
 				list( $first, $second ) = explode( '-', $id, 2 );
 				if ( taxonomy_exists( $second ) ) {
