@@ -1054,12 +1054,14 @@ html[dir="rtl"] .wp-switch-editor {
 }
 
 .wp-media-buttons {
-	padding: .5em .5em 0;
+	line-height: 1;
+    padding: 9px 0 0;
 }
 
 .wp-media-buttons a {
 	text-decoration: none;
 	color: #333;
+	font-size: 12px;
 }
 
 .wp-media-buttons img {
@@ -1134,12 +1136,22 @@ html[dir="rtl"] .wp-switch-editor {
 #wp_delimgbtn,
 #wp_editgallery,
 #wp_delgallery {
+	border-color: #999;
+	background-color: #eee;
 	margin: 2px;
 	padding: 2px;
 	border-width: 1px;
 	border-style: solid;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
+}
+
+#wp_editimgbtn:hover,
+#wp_delimgbtn:hover,
+#wp_editgallery:hover,
+#wp_delgallery:hover {
+	border-color: #555;
+	background-color: #ccc;
 }
 
 

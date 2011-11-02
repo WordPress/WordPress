@@ -1439,22 +1439,6 @@ body.press-this ul.category-tabs li.tabs a {
 	color: #333;
 }
 
-#wp_editimgbtn,
-#wp_delimgbtn,
-#wp_editgallery,
-#wp_delgallery {
-	border-color: #999;
-	background-color: #eee;
-}
-
-#wp_editimgbtn:hover,
-#wp_delimgbtn:hover,
-#wp_editgallery:hover,
-#wp_delgallery:hover {
-	border-color: #555;
-	background-color: #ccc;
-}
-
 .view-switch #view-switch-list {
 	background: transparent url(../images/list.png) no-repeat 0 0;
 }

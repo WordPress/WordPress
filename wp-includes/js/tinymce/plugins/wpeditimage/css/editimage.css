@@ -18,8 +18,6 @@ html, body {
 	cursor: pointer;
 	border-width: 1px;
 	border-style: solid;
-	-moz-border-radius: 11px;
-	-khtml-border-radius: 11px;
 	-webkit-border-radius: 11px;
 	border-radius: 11px;
 	-moz-box-sizing: content-box;
@@ -146,20 +144,32 @@ th.label {
 	white-space: nowrap;
 	margin: 0;
 	padding: 0pt 7px;
+	background-color: #f9f9f9;
+	border-color: #f9f9f9;
+	border-bottom-color: #dfdfdf;
+}
+
+a {
+	color: #21759B;
+}
+
+a:hover,
+a:active,
+a:focus {
+    color: #D54E21;
 }
 
 #sidemenu a.current {
-	-moz-border-radius-topleft: 4px;
-	-khtml-border-top-left-radius: 4px;
 	-webkit-border-top-left-radius: 4px;
 	border-top-left-radius: 4px;
-	-moz-border-radius-topright: 4px;
-	-khtml-border-top-right-radius: 4px;
 	-webkit-border-top-right-radius: 4px;
 	border-top-right-radius: 4px;
 	border-style: solid;
 	border-width: 1px;
 	font-weight: normal;
+	background-color: #fff;
+	border-color: #dfdfdf #dfdfdf #fff;
+	color: #D54E21;
 }
 
 #adv_settings .field label {
@@ -229,8 +239,6 @@ td {
 	border: 1px solid #f1f1f1;
 	line-height: 15px;
 	height: 15px;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 	color: #07273E;
@@ -287,8 +295,6 @@ form {
 .describe textarea {
 	width: 460px;
 	border: 1px solid #dfdfdf;
-	-moz-border-radius: 4px;
- 	-khtml-border-radius: 4px;
  	-webkit-border-radius: 4px;
 	border-radius: 4px;
 }
@@ -329,6 +335,8 @@ div#media-upload-header {
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
 	height: 2.5em;
+	background-color: #f9f9f9;
+	border-bottom-color: #dfdfdf;
 }
 
 body#media-upload ul#sidemenu {
@@ -344,15 +352,8 @@ div#media-upload-error {
 	font-weight: bold;
 }
 
-* html #sidemenu li {
-	zoom: 100%;
+#TB_window #TB_title {
+	background-color: #222222;
+	color: #CFCFCF;
 }
 
-* html #sidemenu a {
-	height: 27px;
-	line-height: 26px;
-}
-
-* html input {
-	border: 1px solid #ddd;
-}
