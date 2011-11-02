@@ -1272,7 +1272,7 @@ table.widefat .spam a:hover,
 .folded #adminmenu li.menu-top,
 #adminmenu .wp-submenu .wp-submenu-head {
 	border-top-color: #ffffff;
-	border-bottom-color: #d1e5ee;
+	border-bottom-color: #cae6ff;
 }
 
 #adminmenu li.wp-menu-open {
@@ -1280,7 +1280,7 @@ table.widefat .spam a:hover,
 }
 
 #adminmenu li.menu-top:hover > a {
-	background-color: #e8eff4;
+	background-color: #e0f1ff;
 	text-shadow: 0 1px 0 rgba( 255, 255, 255, 0.4 );
 }
 
@@ -1291,33 +1291,33 @@ table.widefat .spam a:hover,
 #adminmenu .wp-menu-arrow,
 #adminmenu .wp-has-current-submenu .wp-submenu .wp-submenu-head {
 	background-color: #5589AA; /* Fallback */
-	background-image: -ms-linear-gradient(bottom, #5589AA, #5A8FAD); /* IE10 */
-	background-image: -moz-linear-gradient(bottom, #5589AA, #5A8FAD); /* Firefox */
-	background-image: -o-linear-gradient(bottom, #5589AA, #5A8FAD); /* Opera */
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#5589AA), to(#5A8FAD)); /* old Webkit */
-	background-image: -webkit-linear-gradient(bottom, #5589AA, #5A8FAD); /* new Webkit */
-	background-image: linear-gradient(bottom, #5589AA, #5A8FAD); /* proposed W3C Markup */
+	background-image: -ms-linear-gradient(bottom, #5589AA, #619bbb); /* IE10 */
+	background-image: -moz-linear-gradient(bottom, #5589AA, #619bbb); /* Firefox */
+	background-image: -o-linear-gradient(bottom, #5589AA, #619bbb); /* Opera */
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#5589AA), to(#619bbb)); /* old Webkit */
+	background-image: -webkit-linear-gradient(bottom, #5589AA, #619bbb); /* new Webkit */
+	background-image: linear-gradient(bottom, #5589AA, #619bbb); /* proposed W3C Markup */
 }
 
 #adminmenu .wp-menu-arrow div {
 	background-color: #5589AA; /* Fallback */
-	background-image: -ms-linear-gradient(right bottom, #5589AA, #5A8FAD); /* IE10 */
-	background-image: -moz-linear-gradient(right bottom, #5589AA, #5A8FAD); /* Firefox */
-	background-image: -o-linear-gradient(right bottom, #5589AA, #5A8FAD); /* Opera */
-	background-image: -webkit-gradient(linear, right bottom, left top, from(#5589AA), to(#5A8FAD)); /* old Webkit */
-	background-image: -webkit-linear-gradient(right bottom, #5589AA, #5A8FAD); /* new Webkit */
-	background-image: linear-gradient(right bottom, #5589AA, #5A8FAD); /* proposed W3C Markup */
+	background-image: -ms-linear-gradient(right bottom, #5589AA, #619bbb); /* IE10 */
+	background-image: -moz-linear-gradient(right bottom, #5589AA, #619bbb); /* Firefox */
+	background-image: -o-linear-gradient(right bottom, #5589AA, #619bbb); /* Opera */
+	background-image: -webkit-gradient(linear, right bottom, left top, from(#5589AA), to(#619bbb)); /* old Webkit */
+	background-image: -webkit-linear-gradient(right bottom, #5589AA, #619bbb); /* new Webkit */
+	background-image: linear-gradient(right bottom, #5589AA, #619bbb); /* proposed W3C Markup */
 }
 
 #adminmenu li.wp-not-current-submenu .wp-menu-arrow {
 	border-top-color: #fff;
-	border-bottom-color: #D1E5EE;
-	background: #e8eff4;
+	border-bottom-color: #cae6ff;
+	background: #e0f1ff;
 }
 
 #adminmenu li.wp-not-current-submenu .wp-menu-arrow div {
-	background: #e8eff4;
-	border-color: #D1E5EE;
+	background: #e0f1ff;
+	border-color: #cae6ff;
 }
 
 .folded #adminmenu li.menu-top li:hover a {
@@ -1340,7 +1340,7 @@ table.widefat .spam a:hover,
 }
 
 #adminmenu .wp-submenu a:hover {
-	background-color: #EAF2FA;
+	background-color: #EFF8FF;
 	color: #333;
 }
 
@@ -1616,21 +1616,20 @@ table.diff .diff-addedline ins {
 }
 
 #contextual-help-back {
-	background-color: #f1f1f1;
-	border-color: #ccc;
-
+	background-color: #EFF8FF;
+	border-color: #D1E5EE;
 	-webkit-box-shadow: 0 1px 3px rgba( 0, 0, 0, 0.05 );
 	-moz-box-shadow: 0 1px 3px rgba( 0, 0, 0, 0.05 );
 	box-shadow: 0 1px 3px rgba( 0, 0, 0, 0.05 );
 }
 
 .contextual-help-tabs a:hover {
-	background-color: #EAF2FA;
+	background-color: #ceeaff;
 	color: #333;
 }
 
 .contextual-help-tabs .active {
-	border-color: #ccc;
+	border-color: #D1E5EE;
 }
 
 .contextual-help-tabs .active,
@@ -1641,7 +1640,8 @@ table.diff .diff-addedline ins {
 }
 
 .contextual-help-tabs-wrap {
-	border-color: #ccc;
+	border-color: #D1E5EE;
+	border-right:  0;
 	background-color: #fff;
 }
 
