@@ -1,8 +1,10 @@
 <?php
 class WP_Admin_Bar {
-	var $menu;
-	var $proto = 'http://';
-	var $user;
+	private $nodes = array();
+	private $root = array();
+
+	public $proto = 'http://';
+	public $user;
 
 	function initialize() {
 		/* Set the protocol used throughout this code */
@@ -10,7 +12,6 @@ class WP_Admin_Bar {
 			$this->proto = 'https://';
 
 		$this->user = new stdClass;
-		$this->menu = new stdClass;
 
 		if ( is_user_logged_in() ) {
 			/* Populate settings we need for the menu based on the current user. */
@@ -46,83 +47,109 @@ class WP_Admin_Bar {
 		do_action( 'admin_bar_init' );
 	}
 
-	function add_menu( $args = array() ) {
-		$defaults = array(
-			'title' => false,
-			'href' => false,
-			'parent' => false, // false for a root menu, pass the ID value for a submenu of that menu.
-			'id' => false, // defaults to a sanitized title value.
-			'meta' => false // array of any of the following options: array( 'html' => '', 'class' => '', 'onclick' => '', target => '', title => '' );
-		);
+	public function add_menu( $node ) {
+		$this->add_node( $node );
+	}
 
-		$r = wp_parse_args( $args, $defaults );
-		extract( $r, EXTR_SKIP );
+	public function remove_menu( $id ) {
+		$this->remove_node( $id );
+	}
 
-		if ( empty( $title ) )
+	/**
+	 * Add a node to the menu.
+	 *
+	 * @param array $args - The arguments for each node.
+	 * - id       - string - The ID of the item.
+	 * - title    - string - The title of the node.
+	 * - parent   - string - The ID of the parent node. Optional.
+	 * - href     - string - The link for the item. Optional.
+	 * - meta     - array  - Meta data including the following keys: html, class, onclick, target, title.
+	 */
+	public function add_node( $args ) {
+		// Shim for old method signature: add_node( $parent_id, $menu_obj, $args )
+		if ( func_num_args() >= 3 && is_string( func_get_arg(0) ) )
+			$args = array_merge( array( 'parent' => func_get_arg(0) ), func_get_arg(2) );
+
+		// Ensure we have a valid ID and title.
+		if ( empty( $args['title'] ) || empty( $args['id'] ) )
 			return false;
 
-		/* Make sure we have a valid ID */
-		if ( empty( $id ) )
-			$id = esc_attr( sanitize_title( trim( $title ) ) );
+		$defaults = array(
+			'id'       => false,
+			'title'    => false,
+			'parent'   => false,
+			'href'     => false,
+			'meta'     => array(),
+		);
 
-		if ( ! empty( $parent ) ) {
-			/* Add the menu to the parent item */
-			$child = array( 'id' => $id, 'title' => $title, 'href' => $href );
+		// If the node already exists, keep any data that isn't provided.
+		if ( isset( $this->nodes[ $args['id'] ] ) )
+			$defaults = (array) $this->nodes[ $args['id'] ];
 
-			if ( ! empty( $meta ) )
-				$child['meta'] = $meta;
+		$args = wp_parse_args( $args, $defaults );
 
-			$this->add_node( $parent, $this->menu, $child );
-		} else {
-			/* Add the menu item */
-			$this->menu->{$id} = array( 'title' => $title, 'href' => $href );
+		$this->nodes[ $args['id'] ] = (object) $args;
+	}
 
-			if ( ! empty( $meta ) )
-				$this->menu->{$id}['meta'] = $meta;
+	public function remove_node( $id ) {
+		unset( $this->nodes[ $id ] );
+	}
+
+	public function render() {
+		// Link nodes to parents.
+		foreach ( $this->nodes as $node ) {
+
+			// Handle root menu items
+			if ( empty( $node->parent ) ) {
+				$this->root[] = $node;
+				continue;
+			}
+
+			// If the parent node isn't registered, ignore the node.
+			if ( ! isset( $this->nodes[ $node->parent ] ) )
+				continue;
+
+			$parent = $this->nodes[ $node->parent ];
+			if ( ! isset( $parent->children ) )
+				$parent->children = array();
+
+			$parent->children[] = $node;
 		}
-	}
 
-	function remove_menu( $id ) {
-		return $this->remove_node( $id, $this->menu );
-	}
-
-	function render() {
 		?>
 		<div id="wpadminbar" class="nojq nojs">
 			<div class="quicklinks">
-				<ul class="ab-top-menu">
-					<?php foreach ( (array) $this->menu as $id => $menu_item ) : ?>
-						<?php $this->recursive_render( $id, $menu_item ) ?>
-					<?php endforeach; ?>
-				</ul>
+				<ul class="ab-top-menu"><?php
+
+					foreach ( $this->root as $node ) {
+						$this->recursive_render( $node );
+					}
+
+				?></ul>
 			</div>
 		</div>
 
 		<?php
-		/* Wipe the menu, might reduce memory usage, but probably not. */
-		$this->menu = null;
 	}
 
-	/* Helpers */
-	function recursive_render( $id, &$menu_item ) { ?>
-		<?php
-		$is_parent =  ! empty( $menu_item['children'] );
+	function recursive_render( $node ) {
+		$is_parent = ! empty( $node->children );
 
 		$menuclass = $is_parent ? 'menupop' : '';
-		if ( ! empty( $menu_item['meta']['class'] ) )
-			$menuclass .= ' ' . $menu_item['meta']['class'];
+		if ( ! empty( $node->meta['class'] ) )
+			$menuclass .= ' ' . $node->meta['class'];
 		?>
 
-		<li id="<?php echo esc_attr( "wp-admin-bar-$id" ); ?>" class="<?php echo esc_attr( $menuclass ); ?>">
-			<a href="<?php echo esc_url( $menu_item['href'] ) ?>"<?php
-				if ( ! empty( $menu_item['meta']['onclick'] ) ) :
-					?> onclick="<?php echo esc_js( $menu_item['meta']['onclick'] ); ?>"<?php
+		<li id="<?php echo esc_attr( "wp-admin-bar-{$node->id}" ); ?>" class="<?php echo esc_attr( $menuclass ); ?>">
+			<a href="<?php echo esc_url( $node->href ) ?>"<?php
+				if ( ! empty( $node->meta['onclick'] ) ) :
+					?> onclick="<?php echo esc_js( $node->meta['onclick'] ); ?>"<?php
 				endif;
-			if ( ! empty( $menu_item['meta']['target'] ) ) :
-				?> target="<?php echo esc_attr( $menu_item['meta']['target'] ); ?>"<?php
+			if ( ! empty( $node->meta['target'] ) ) :
+				?> target="<?php echo esc_attr( $node->meta['target'] ); ?>"<?php
 			endif;
-			if ( ! empty( $menu_item['meta']['title'] ) ) :
-				?> title="<?php echo esc_attr( $menu_item['meta']['title'] ); ?>"<?php
+			if ( ! empty( $node->meta['title'] ) ) :
+				?> title="<?php echo esc_attr( $node->meta['title'] ); ?>"<?php
 			endif;
 
 			?>><?php
@@ -131,7 +158,7 @@ class WP_Admin_Bar {
 				?><span><?php
 			endif;
 
-			echo $menu_item['title'];
+			echo $node->title;
 
 			if ( $is_parent ) :
 				?></span><?php
@@ -140,36 +167,22 @@ class WP_Admin_Bar {
 			?></a>
 
 			<?php if ( $is_parent ) : ?>
-			<ul>
-				<?php foreach ( $menu_item['children'] as $child_id => $child_menu_item ) : ?>
-					<?php $this->recursive_render( $child_id, $child_menu_item ); ?>
-				<?php endforeach; ?>
-			</ul>
-			<?php endif; ?>
+				<ul><?php
 
-			<?php if ( ! empty( $menu_item['meta']['html'] ) ) : ?>
-				<?php echo $menu_item['meta']['html']; ?>
-			<?php endif; ?>
+				// Render children.
+				foreach ( $node->children as $child_node ) {
+					$this->recursive_render( $child_node );
+				}
+
+				?></ul>
+			<?php endif;
+
+			if ( ! empty( $node->meta['html'] ) )
+				echo $node->meta['html'];
+
+			?>
 		</li><?php
-	}
 
-	function add_node( $parent_id, &$menu, $child ) {
-		foreach( $menu as $id => $menu_item ) {
-			if ( $parent_id == $id ) {
-				if ( ! isset( $menu->{$parent_id}['children'] ) )
-					$menu->{$parent_id}['children'] = new stdClass;
-				$menu->{$parent_id}['children']->{$child['id']} = $child;
-				$child = null;
-				return true;
-			}
-
-			if ( ! empty( $menu->{$id}['children'] ) )
-				$this->add_node( $parent_id, $menu->{$id}['children'], $child );
-		}
-
-		$child = null;
-
-		return false;
 	}
 
 	function add_menus() {
@@ -195,20 +208,6 @@ class WP_Admin_Bar {
 		}
 
 		do_action( 'add_admin_bar_menus' );
-	}
-
-	function remove_node( $id, &$menu ) {
-		if ( isset( $menu->$id ) ) {
-			unset( $menu->$id );
-			return true;
-		}
-
-		foreach( $menu as $menu_item_id => $menu_item ) {
-			if ( ! empty( $menu->{$menu_item_id}['children'] ) )
-				$this->remove_node( $id, $menu->{$menu_item_id}['children'] );
-		}
-
-		return false;
 	}
 }
 ?>
