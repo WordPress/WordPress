@@ -72,11 +72,6 @@ function login_header($title = 'Log In', $message = '', $wp_error = '') {
 	#login { margin-top: 20px; }
 	</style>
 <?php
-	} elseif ( isset($interim_login) && $interim_login ) { ?>
-	<style type="text/css" media="all">
-	.login #login { margin: 20px auto; }
-	</style>
-<?php
 	}
 
 	do_action( 'login_enqueue_scripts' );
