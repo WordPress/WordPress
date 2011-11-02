@@ -194,8 +194,8 @@ class WP_Upgrader {
 			$source = trailingslashit($source) . trailingslashit($source_files[0]);
 		elseif ( count($source_files) == 0 )
 			return new WP_Error('incompatible_archive', $this->strings['incompatible_archive']); //There are no files?
-        else //Its only a single file, The upgrader will use the foldername of this file as the destination folder. foldername is based on zip filename.
-            $source = trailingslashit($source);
+		else //Its only a single file, The upgrader will use the foldername of this file as the destination folder. foldername is based on zip filename.
+			$source = trailingslashit($source);
 
 		//Hook ability to change the source file location..
 		$source = apply_filters('upgrader_source_selection', $source, $remote_source, $this);
