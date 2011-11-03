@@ -12,7 +12,7 @@ jQuery(document).ready( function($) {
 			});
 		};
 
-	if ( welcomePanel.is(':hidden') && welcomePanelHide.prop('checked') )
+	if ( welcomePanel.hasClass('hidden') && welcomePanelHide.prop('checked') )
 		welcomePanel.removeClass('hidden');
 
 	$('.welcome-panel-close', welcomePanel).click( function() {
