@@ -19,9 +19,8 @@ function fileQueued(fileObj) {
 	// Display the progress div
 	jQuery('.progress', '#media-item-' + fileObj.id).show();
 
-	// Disable submit and enable cancel
+	// Disable submit
 	jQuery('#insert-gallery').prop('disabled', true);
-	jQuery('#cancel-upload').prop('disabled', false);
 }
 
 function uploadStart(fileObj) {
@@ -192,23 +191,12 @@ function prepareMediaItemInit(fileObj) {
 	jQuery('#media-item-' + fileObj.id + '.startopen').removeClass('startopen').slideToggle(500).siblings('.toggle').toggle();
 }
 
-function cancelUpload() {
-	uploader.stop();
-	uploadComplete();
-	jQuery.each(uploader.files, function(i,file) {
-		if ( file.status == plupload.STOPPED )
-			jQuery('#media-item-' + file.id).remove();
-	});
-}
-
-// wp-specific error handlers
-
-// generic message
+// generic error message
 function wpQueueError(message) {
 	jQuery('#media-upload-error').show().html( '<div class="error"><p>' + message + '</p></div>' );
 }
 
-// file-specific message
+// file-specific error messages
 function wpFileError(fileObj, message) {
 	var item = jQuery('#media-item-' + fileObj.id), filename = jQuery('.filename', item).text();
 
@@ -269,7 +257,6 @@ function deleteError(X, textStatus, errorThrown) {
 }
 
 function uploadComplete() {
-	jQuery('#cancel-upload').prop('disabled', true);
 	jQuery('#insert-gallery').prop('disabled', false);
 }
 
