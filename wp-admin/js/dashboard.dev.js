@@ -3,6 +3,7 @@ var ajaxWidgets, ajaxPopulateWidgets, quickPressLoad;
 jQuery(document).ready( function($) {
 	/* Dashboard Welcome Panel */
 	var welcomePanel = $('#welcome-panel'),
+		welcomePanelHide = $('#wp_welcome_panel-hide'),
 	 	updateWelcomePanel = function( visible ) {
 			$.post( ajaxurl, {
 				action: 'update-welcome-panel',
@@ -11,13 +12,17 @@ jQuery(document).ready( function($) {
 			});
 		};
 
+	if ( welcomePanel.is(':hidden') && welcomePanelHide.prop('checked') )
+		welcomePanel.removeClass('hidden');
+
 	$('.welcome-panel-close', welcomePanel).click( function() {
 		welcomePanel.addClass('hidden');
 		updateWelcomePanel( 0 );
 		$('#wp_welcome_panel-hide').prop('checked', false);
 	});
 
-	$('#wp_welcome_panel-hide').click( function() {
+
+	welcomePanelHide.click( function() {
 		welcomePanel.toggleClass('hidden', ! this.checked );
 		updateWelcomePanel( this.checked ? 1 : 0 );
 	});
