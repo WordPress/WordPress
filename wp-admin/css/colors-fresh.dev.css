@@ -784,13 +784,12 @@ table.widefat span.spam a,
 #screen-meta {
 	background-color: #fff;
 }
+
 #contextual-help-back {
 	background-color: #f1f1f1;
 	border-color: #ccc;
-
-	-webkit-box-shadow: 0 1px 3px rgba( 0, 0, 0, 0.05 );
-	-moz-box-shadow: 0 1px 3px rgba( 0, 0, 0, 0.05 );
-	box-shadow: 0 1px 3px rgba( 0, 0, 0, 0.05 );
+	-webkit-box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+	box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
 }
 
 .contextual-help-tabs a:hover {

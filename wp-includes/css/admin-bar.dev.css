@@ -178,17 +178,14 @@
 }
 
 #wpadminbar.nojs .ab-top-menu > li.menupop:hover,
-#wpadminbar .ab-top-menu li.menupop.hover,
-#wpadminbar .ab-top-menu .selected.screen-meta-toggle {
+#wpadminbar .ab-top-menu li.menupop.hover {
 	background: #fff;
 }
 
 #wpadminbar.nojs .quicklinks .menupop:hover a,
 #wpadminbar.nojs .quicklinks .menupop:hover span,
 #wpadminbar .quicklinks .menupop.hover a,
-#wpadminbar .quicklinks .menupop.hover span,
-#wpadminbar .ab-top-menu .selected.screen-meta-toggle a,
-#wpadminbar .ab-top-menu .selected.screen-meta-toggle span {
+#wpadminbar .quicklinks .menupop.hover span {
 	color: #333;
 	text-shadow: none;
 }

@@ -39,7 +39,6 @@ TABLE OF CONTENTS:
 20.0 - Settings
 21.0 - Admin Footer
 22.0 - Misc
-23.0 - Dead
 
 ------------------------------------------------------------------------*/
 
@@ -1029,16 +1028,15 @@ th.action-links {
   4.0 - Notifications
 ------------------------------------------------------------------------------*/
 
-#update-nag, .update-nag {
+#update-nag,
+.update-nag {
 	line-height: 19px;
 	padding: 5px 0;
 	font-size: 12px;
 	text-align: center;
-	margin: 0 15px;
-	border-width: 1px;
-	border-style: solid;
-	border-top-width: 0;
-	border-top-style: none;
+	margin: 0 15px 0 0;
+	border-width: 0 1px 1px;
+	border-style: none solid solid;
 	-webkit-border-bottom-right-radius: 3px;
 	-webkit-border-bottom-left-radius: 3px;
 	border-bottom-right-radius: 3px;
@@ -1367,10 +1365,24 @@ form.upgrade .hint {
 	padding: 8px 20px 12px;
 	max-height: 300px;
 	overflow: auto;
+	position: relative;
+	overflow: auto;
 }
 
 #screen-meta .screen-reader-text {
 	visibility: hidden;
+}
+
+.screen-meta-toggle {
+	font-size: 12px;
+	position: absolute;
+	right: 15px;
+	top: 20px;
+	display: none;
+}
+
+.screen-meta-toggle a {
+	text-decoration: none;
 }
 
 .toggle-arrow {
@@ -1428,9 +1440,7 @@ form.upgrade .hint {
 }
 
 #contextual-help-wrap {
-	position: relative;
 	padding: 0 0 0 4px;
-	overflow: auto;
 }
 
 .contextual-help-tabs {
@@ -4624,7 +4634,8 @@ input.button-highlighted,
   22.0 - Misc
 ------------------------------------------------------------------------------*/
 
-#excerpt, .attachmentlinks {
+#excerpt,
+.attachmentlinks {
 	margin: 0;
 	height: 4em;
 	width: 98%;
@@ -4744,16 +4755,19 @@ table.form-table td .updated {
 	padding: 0;
 }
 
-#titlediv, #poststuff .postarea {
+#titlediv,
+#poststuff .postarea {
 	margin-bottom: 20px;
 }
 
-td.post-title strong, td.plugin-title strong {
+td.post-title strong,
+td.plugin-title strong {
 	display: block;
 	margin-bottom: .2em;
 }
 
-td.post-title p, td.plugin-title p {
+td.post-title p,
+td.plugin-title p {
 	margin: 6px 0;
 }
 
@@ -4814,7 +4828,8 @@ td.post-title p, td.plugin-title p {
 	display: none;
 }
 
-.plugin-install #description, .plugin-install-network #description {
+.plugin-install #description,
+.plugin-install-network #description {
 	width: 60%;
 }
 

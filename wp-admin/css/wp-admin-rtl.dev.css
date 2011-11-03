@@ -1311,6 +1311,10 @@ table .column-rating {
 	text-align: right;
 }
 
+.screen-meta-toggle {
+	right: auto;
+	left: 15px;
+}
 
 /*------------------------------------------------------------------------------
   23.0  - Dead

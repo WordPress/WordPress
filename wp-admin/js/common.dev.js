@@ -95,28 +95,23 @@ screenMeta = {
 	page:    null, // #wpcontent
 	padding: null, // the closed page padding-top property
 	top:     null, // the closed element top property
-	map: {
-		'wp-admin-bar-screen-options': 'screen-options-wrap',
-		'wp-admin-bar-help': 'contextual-help-wrap'
-	},
 
 	init: function() {
-		screenMeta.element = $('#screen-meta');
-		screenMeta.toggles = $('.screen-meta-toggle');
-		screenMeta.page    = $('#wpcontent');
+		this.element = $('#screen-meta');
+		this.toggles = $('.screen-meta-toggle a');
+		this.page    = $('#wpcontent');
 
-		screenMeta.toggles.click( screenMeta.toggleEvent );
+		this.toggles.click( this.toggleEvent );
+
+		$('.screen-meta-toggle').css('top', ($('h2').offset().top - 12) + 'px' ).fadeIn();
 	},
 
 	toggleEvent: function( e ) {
-		var panel;
+		var panel = $( this.href.replace(/.+#/, '#') );
 		e.preventDefault();
 
-		// Check to see if we found a panel.
-		if ( ! screenMeta.map[ this.id ] )
+		if ( !panel.length )
 			return;
-
-		panel = $('#' + screenMeta.map[ this.id ]);
 
 		if ( panel.is(':visible') )
 			screenMeta.close( panel, $(this) );

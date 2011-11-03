@@ -201,11 +201,8 @@ class WP_Admin_Bar {
 		add_action( 'admin_bar_menu', 'wp_admin_bar_edit_menu', 80 );
 		add_action( 'admin_bar_menu', 'wp_admin_bar_shortlink_menu', 90 );
 
-		if ( ! is_admin() ) {
+		if ( ! is_admin() )
 			add_action( 'admin_bar_menu', 'wp_admin_bar_search_menu', 100 );
-		} else {
-			add_action( 'admin_bar_menu', 'wp_admin_bar_help_menu', 90 );
-		}
 
 		do_action( 'add_admin_bar_menus' );
 	}

@@ -689,20 +689,9 @@ final class WP_Screen {
 			) );
 		}
 
-		// Add screen options tab
-		if ( $this->show_screen_options() ) {
-			$this->add_help_tab( array(
-				'id'       => 'screen-options',
-				'title'    => __('Screen Options'),
-				'callback' => array( $this, 'render_screen_options' ),
-			) );
-			$_options_tab = array_pop( $this->_help_tabs );
-			array_unshift( $this->_help_tabs, $_options_tab );
-		}
-
 		// Time to render!
 		?>
-		<div id="screen-meta" class='metabox-prefs'>
+		<div id="screen-meta" class="metabox-prefs">
 			<div id="contextual-help-back"></div>
 			<div id="contextual-help-wrap" class="hidden">
 				<div class="contextual-help-tabs">
@@ -748,6 +737,19 @@ final class WP_Screen {
 					<?php endforeach; ?>
 				</div>
 			</div>
+		<?php
+		// Add screen options
+		if ( $this->show_screen_options() )
+			$this->render_screen_options();
+		?>
+		</div>
+		<div class="screen-meta-toggle">
+		<?php
+
+		if ( $this->show_screen_options() )
+			echo '<a href="#screen-options-wrap">' . __('Screen Options') . '</a> |';
+		?>
+		<a href="#contextual-help-wrap"><?php _e('Help'); ?></a>
 		</div>
 		<?php
 	}
@@ -789,6 +791,7 @@ final class WP_Screen {
 		$hidden  = get_hidden_columns( $this );
 
 		?>
+		<div id="screen-options-wrap" class="hidden">
 		<form id="adv-settings" action="" method="post">
 		<?php
 		if ( $this->get_option('overview') )
@@ -840,6 +843,7 @@ final class WP_Screen {
 		?>
 		<div><?php wp_nonce_field( 'screen-options-nonce', 'screenoptionnonce', false ); ?></div>
 		</form>
+		</div>
 		<?php
 	}
 

@@ -617,22 +617,6 @@ function wp_admin_bar_updates_menu( $wp_admin_bar ) {
 }
 
 /**
- * Add help link.
- *
- * @since 3.3.0
- */
-function wp_admin_bar_help_menu( $wp_admin_bar ) {
-	$wp_admin_bar->add_menu( array(
-		'id'    => 'help',
-		'title' => __('Help'),
-		'href'  => '#',
-		'meta'  => array(
-			'class' => 'screen-meta-toggle hide-if-no-js',
-		),
-	) );
-}
-
-/**
  * Add search form.
  *
  * @since 3.3.0
