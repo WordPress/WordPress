@@ -36,7 +36,7 @@ add_filter( 'allowed_redirect_hosts', 'redirect_this_site' );
 add_filter( 'term_id_filter', 'global_terms', 10, 2 );
 add_action( 'publish_post', 'update_posts_count' );
 add_action( 'delete_post', 'wpmu_update_blogs_date' );
-add_action( 'publish_post', 'wpmu_update_blogs_date' );
+add_action( 'transition_post_status', '_update_blog_date_on_post_publish', 10, 3 );
 add_action( 'admin_init', 'wp_schedule_update_network_counts');
 add_action( 'update_network_counts', 'wp_update_network_counts');
 

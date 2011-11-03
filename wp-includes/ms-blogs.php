@@ -687,4 +687,26 @@ function get_last_updated( $deprecated = '', $start = 0, $quantity = 40 ) {
 	return $wpdb->get_results( $wpdb->prepare("SELECT blog_id, domain, path FROM $wpdb->blogs WHERE site_id = %d AND public = '1' AND archived = '0' AND mature = '0' AND spam = '0' AND deleted = '0' AND last_updated != '0000-00-00 00:00:00' ORDER BY last_updated DESC limit %d, %d", $wpdb->siteid, $start, $quantity ) , ARRAY_A );
 }
 
+/**
+ * Handler for updating the blog date when a post is published or an already published post is changed.
+ *
+ * @since 3.3.0
+ *
+ * @param string $new_status The new post status
+ * @param string $old_status The old post status
+ * @param object $post Post object
+ */
+function _update_blog_date_on_post_publish( $new_status, $old_status, $post ) {
+	$post_type_obj = get_post_type_object( $post->post_type );
+	if ( ! $post_type_obj->public )
+		return;
+
+	if ( 'publish' != $new_status && 'publish' != $old_status )
+		return;
+
+	// Post was freshly published, published post was saved, or published post was unpublished.
+
+	wpmu_update_blogs_date();
+}
+
 ?>
