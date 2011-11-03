@@ -121,6 +121,7 @@ screenMeta = {
 
 		$('.screen-meta-toggle').not( link.parent() ).css('visibility', 'hidden');
 
+		panel.parent().show();
 		panel.slideDown( 'fast', function() {
 			link.addClass('screen-meta-active');
 		});
@@ -140,7 +141,8 @@ screenMeta = {
 	close: function( panel, link ) {
 		panel.slideUp( 'fast', function() {
 			link.removeClass('screen-meta-active');
-			$('.screen-meta-toggle').css('visibility', '');
+			$('.screen-meta-toggle').css('visibility', '');		
+			panel.parent().hide();
 		});
 	}
 };
