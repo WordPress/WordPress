@@ -95,6 +95,9 @@ class WP_Editor {
 
 		echo '<div id="wp-' . $editor_id . '-wrap" class="wp-editor-wrap ' . $switch_class . '">';
 
+		if ( empty($this->first_init) )
+			wp_print_styles('editor-buttons');
+
 		if ( !empty($set['editor_css']) )
 			echo $set['editor_css'] . "\n";
 
@@ -456,7 +459,6 @@ class WP_Editor {
 
 	function enqueue_scripts() {
 		wp_enqueue_script('word-count');
-		wp_enqueue_style('editor-buttons');
 
 		if ( $this->has_tinymce )
 			wp_enqueue_script('editor');

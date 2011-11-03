@@ -4630,6 +4630,10 @@ input.button-highlighted,
 	width: 98%;
 }
 
+.wp-editor-container textarea.wp-editor-area {
+	width: 99.9%;
+}
+
 #template div {
 	margin-right: 190px;
 }
