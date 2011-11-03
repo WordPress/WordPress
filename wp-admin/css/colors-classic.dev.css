@@ -1612,14 +1612,10 @@ table.diff .diff-addedline ins {
 }
 
 #screen-meta {
-	background-color: #fff;
-}
-
-#contextual-help-back {
 	background-color: #EFF8FF;
 	border-color: #D1E5EE;
-	-webkit-box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
-	box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+	-webkit-box-shadow: 0 1px 3px rgba( 0, 0, 0, 0.05 );
+	box-shadow: 0 1px 3px rgba( 0, 0, 0, 0.05 );
 }
 
 .contextual-help-tabs a:hover {
@@ -1644,6 +1640,38 @@ table.diff .diff-addedline ins {
 	background-color: #fff;
 }
 
+/* screen options and help tabs */
+#screen-options-link-wrap,
+#contextual-help-link-wrap {
+	background-color: #eff8ff; /* Fallback */
+	border-right: 1px solid #D1E5EE;
+	border-left: 1px solid #D1E5EE;
+	border-bottom: 1px solid #D1E5EE;
+	background-image: -ms-linear-gradient(bottom, #eff8ff, #fff); /* IE10 */
+	background-image: -moz-linear-gradient(bottom, #eff8ff, #fff); /* Firefox */
+	background-image: -o-linear-gradient(bottom, #eff8ff, #fff); /* Opera */
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#eff8ff), to(#fff)); /* old Webkit */
+	background-image: -webkit-linear-gradient(bottom, #eff8ff, #fff); /* new Webkit */
+	background-image: linear-gradient(bottom, #eff8ff, #fff); /* proposed W3C Markup */
+}
+
+#screen-meta-links a.show-settings {
+	color: #606060;
+}
+
+#screen-meta-links a.show-settings:hover {
+	color: #000;
+}
+
+#screen-meta-links a.show-settings {
+	background: transparent url(../images/arrows.png) no-repeat right 3px;
+}
+
+#screen-meta-links .screen-meta-active a.show-settings {
+	background: transparent url(../images/arrows.png) no-repeat right -33px;
+}
+
+/* end screen options and help tabs */
 
 #replyerror {
 	border-color: #ddd;

@@ -353,11 +353,6 @@ form.upgrade .hint {
   6.2 - Help Menu
 ------------------------------------------------------------------------------*/
 
-#contextual-help-back {
-	right: 3px;
-	left: -1px;
-}
-
 #contextual-help-wrap {
 	padding-left: 0;
 	padding-right: 4px;

@@ -102,8 +102,6 @@ screenMeta = {
 		this.page    = $('#wpcontent');
 
 		this.toggles.click( this.toggleEvent );
-
-		$('.screen-meta-toggle').css('top', ($('h2').offset().top - 12) + 'px' ).fadeIn();
 	},
 
 	toggleEvent: function( e ) {
@@ -118,37 +116,32 @@ screenMeta = {
 		else
 			screenMeta.open( panel, $(this) );
 	},
+
 	open: function( panel, link ) {
-		// Close open panel
-		screenMeta.toggles.filter('.selected').click();
 
-		// Open selected panel
-		link.addClass('selected');
+		$('.screen-meta-toggle').not( link.parent() ).css('visibility', 'hidden');
 
-		screenMeta.padding = parseInt( screenMeta.page.css('paddingTop'), 10 );
-		screenMeta.top     = parseInt( screenMeta.element.css('top'), 10 );
-
-		panel.show();
+		panel.slideDown( 'fast', function() {
+			link.addClass('screen-meta-active');
+		});
 
 		screenMeta.refresh();
 	},
+
 	refresh: function( panel, link ) {
-		var columns = $('#contextual-help-wrap').children(),
-			height;
+		var columns = $('#contextual-help-wrap').children(), height;
 
 		columns.height('auto');
 
 		height = Math.max.apply( null, $.map( columns, function( el ) { return $(el).height(); }) );
 		columns.height( height );
-
-		screenMeta.element.css({ top: 0 });
-		screenMeta.page.css({ paddingTop: screenMeta.padding + screenMeta.element.outerHeight() });
 	},
+
 	close: function( panel, link ) {
-		screenMeta.element.css({ top: screenMeta.top });
-		screenMeta.page.css({ paddingTop: screenMeta.padding });
-		panel.hide();
-		link.removeClass('selected');
+		panel.slideUp( 'fast', function() {
+			link.removeClass('screen-meta-active');
+			$('.screen-meta-toggle').css('visibility', '');
+		});
 	}
 };
 

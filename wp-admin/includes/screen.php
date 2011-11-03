@@ -692,7 +692,6 @@ final class WP_Screen {
 		// Time to render!
 		?>
 		<div id="screen-meta" class="metabox-prefs">
-			<div id="contextual-help-back"></div>
 			<div id="contextual-help-wrap" class="hidden">
 				<div class="contextual-help-tabs">
 					<ul>
@@ -743,13 +742,15 @@ final class WP_Screen {
 			$this->render_screen_options();
 		?>
 		</div>
-		<div class="screen-meta-toggle">
-		<?php
-
-		if ( $this->show_screen_options() )
-			echo '<a href="#screen-options-wrap">' . __('Screen Options') . '</a> |';
-		?>
-		<a href="#contextual-help-wrap"><?php _e('Help'); ?></a>
+		<div id="screen-meta-links">
+		<div id="contextual-help-link-wrap" class="hide-if-no-js screen-meta-toggle">
+		<a href="#contextual-help-wrap" id="contextual-help-link" class="show-settings"><?php _e('Help') ?></a>
+		</div>
+		<?php if ( $this->show_screen_options() ) { ?>
+		<div id="screen-options-link-wrap" class="hide-if-no-js screen-meta-toggle">
+		<a href="#screen-options-wrap" id="show-settings-link" class="show-settings"><?php _e('Screen Options') ?></a>
+		</div>
+		<?php } ?>
 		</div>
 		<?php
 	}
