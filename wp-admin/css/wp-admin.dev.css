@@ -1035,9 +1035,9 @@ th.action-links {
 	padding: 5px 0;
 	font-size: 12px;
 	text-align: center;
-	margin: 0 15px 0 0;
-	border-width: 0 1px 1px;
-	border-style: none solid solid;
+	margin: -1px 15px 0 5px;
+	border-width: 1px;
+	border-style: solid;
 	-webkit-border-bottom-right-radius: 3px;
 	-webkit-border-bottom-left-radius: 3px;
 	border-bottom-right-radius: 3px;
