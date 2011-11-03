@@ -38,7 +38,8 @@ TABLE OF CONTENTS:
 19.0 - Tools
 20.0 - Settings
 21.0 - Admin Footer
-22.0 - Misc
+22.0 - About Pages
+23.0 - Misc
 
 ------------------------------------------------------------------------*/
 
@@ -4634,9 +4635,162 @@ input.button-highlighted,
 	text-decoration: underline;
 }
 
+/*------------------------------------------------------------------------------
+  22.0 - About Pages
+------------------------------------------------------------------------------*/
+
+.about-wrap {
+	position: relative;
+	margin: 44px 40px 0 20px;
+}
+.about-wrap h1 {
+	margin: 0.6em 200px 0 0;
+	line-height: 1.2em;
+	font-size: 3.6em;
+	font-weight: 200;
+}
+.about-text {
+	margin: 1em 200px 1.4em 0;
+	min-height: 60px;
+
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", sans-serif;
+	font-weight: normal;
+	font-size: 24px;
+	line-height: 1.6em;
+}
+.about-wrap h2.nav-tab-wrapper {
+	padding-left: 6px;
+}
+.wp-badge {
+	padding-top: 142px;
+	height: 37px;
+	width: 160px;
+
+	position: absolute;
+	top: 0;
+	right: 0;
+
+	font-weight: bold;
+	font-size: 14px;
+	text-align: center;
+
+	border-width: 1px;
+	border-style: solid;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+
+	background-repeat: no-repeat;
+	background-position: center 20px;
+}
+
+.about-wrap h2 .nav-tab {
+	padding: 4px 10px 6px;
+	margin: 0 3px -1px 0;
+	font-size: 18px;
+}
+.about-wrap h2 .nav-tab-active {
+	font-weight: bold;
+	padding-top: 3px;
+}
+
+.about-wrap h3 {
+	font-size: 24px;
+	margin-bottom: 0.4em;
+	padding-top: 20px;
+}
+
+.about-wrap .changelog {
+	font-size: 14px;
+	padding-bottom: 10px;
+	overflow: hidden;
+}
+.about-wrap .changelog li {
+	list-style-type: disc;
+	margin-left: 3em;
+}
+
+.about-wrap .feature-section .left-feature,
+.about-wrap .feature-section img,
+.about-wrap .feature-section .right-feature {
+	float: left;
+}
+
+.about-wrap .feature-section {
+	min-height: 100px;
+	overflow: hidden;
+}
+
+.about-wrap .feature-section.angled-right {
+	margin-top: -35px;
+	padding-top: 15px;
+}
+.about-wrap .feature-section.angled-right img {
+	margin-top: 0;
+}
+.about-wrap .feature-section.angled-right .left-feature {
+	margin-top: 15px;
+}
+
+.about-wrap .feature-section h4 {
+	margin-bottom: 0.6em;
+}
+.about-wrap .feature-section p {
+	line-height: 1.6em;
+	margin-top: 0.6em;
+}
+
+.about-wrap .feature-section .left-feature,
+.about-wrap .feature-section .right-feature {
+	width: 40%;
+}
+.about-wrap .feature-section .left-feature {
+	margin-right: 10%;
+}
+.about-wrap .feature-section .right-feature {
+	margin-left: 9%;
+}
+.about-wrap .feature-section.angled-left .left-feature,
+.about-wrap .feature-section.angled-right .left-feature {
+	margin-right: 5%;
+}
+.about-wrap .feature-section.angled-left .right-feature,
+.about-wrap .feature-section.angled-right .right-feature {
+	margin-left: 5%;
+}
+.about-wrap .feature-section img {
+	width: 19%;
+	height: 130px;
+	margin-top: 15px;
+
+	border-width: 1px;
+	border-style: solid;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+.about-wrap .feature-section.angled-left .left-feature {
+	width: 30%;
+}
+.about-wrap .feature-section.angled-left .right-feature {
+	width: 40%;
+}
+.about-wrap .feature-section.angled-right .left-feature {
+	width: 40%;
+}
+.about-wrap .feature-section.angled-right .right-feature {
+	width: 30%;
+}
+
+.about-wrap .return-to-dashboard {
+	margin: 16px 0 0;
+	font-size: 14px;
+	font-weight: bold;
+}
+.about-wrap .return-to-dashboard a {
+	text-decoration: none;
+}
 
 /*------------------------------------------------------------------------------
-  22.0 - Misc
+  23.0 - Misc
 ------------------------------------------------------------------------------*/
 
 #excerpt,

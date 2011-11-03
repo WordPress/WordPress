@@ -1730,6 +1730,71 @@ div.widgets-sortables,
 	border-bottom-color: #DFDFDF;
 }
 
+/* Begin About Pages */
+
+.about-wrap h1 {
+	color: #333;
+	text-shadow: 1px 1px 1px white;
+}
+
+.about-text {
+	color: #777;
+}
+
+.wp-badge {
+	color: #fff;
+	text-shadow: 0 -1px 0 #0c3d57;
+	border-color: #2B5173;
+
+	-moz-box-shadow: inset 0 0 0 1px #5F8CA8;
+	-webkit-box-shadow: inset 0 0 0 1px #5F8CA8;
+	box-shadow: inset 0 0 0 1px #5F8CA8;
+
+	background-color: #378aac;
+	background-image: url(../images/wp-badge.png);
+	background-image: url(../images/wp-badge.png), -ms-linear-gradient(top, #378aac, #165d84); /* IE10 */
+	background-image: url(../images/wp-badge.png), -moz-linear-gradient(top, #378aac, #165d84); /* Firefox */
+	background-image: url(../images/wp-badge.png), -o-linear-gradient(top, #378aac, #165d84); /* Opera */
+	background-image: url(../images/wp-badge.png), -webkit-gradient(linear, left top, left bottom, from(#378aac), to(#165d84)); /* old Webkit */
+	background-image: url(../images/wp-badge.png), -webkit-linear-gradient(top, #378aac, #165d84); /* new Webkit */
+	background-image: url(../images/wp-badge.png), linear-gradient(top, #378aac, #165d84); /* proposed W3C Markup */
+}
+
+.about-wrap h2 .nav-tab {
+	color: #21759B;
+}
+.about-wrap h2 .nav-tab:hover {
+	color: #d54e21;
+}
+.about-wrap h2 .nav-tab-active,
+.about-wrap h2 .nav-tab-active:hover {
+	color: #333;
+}
+.about-wrap h2 .nav-tab-active {
+	text-shadow: 1px 1px 1px white;
+	color: #464646;
+}
+
+.about-wrap h3 {
+	color: #333;
+	text-shadow: 1px 1px 1px white;
+}
+
+.about-wrap .feature-section h4 {
+	color: #464646;
+}
+
+.about-wrap .feature-section img {
+	background: #f9f9f9;
+	border-color: #dfdfdf;
+
+	-moz-box-shadow: 0 0 6px rgba( 0, 0, 0, 0.3 );
+	-webkit-box-shadow: 0 0 6px rgba( 0, 0, 0, 0.3 );
+	box-shadow: 0 0 6px rgba( 0, 0, 0, 0.3 );
+}
+
+/* End About Pages */
+
 
 /*------------------------------------------------------------------------------
   2.0 - Right to Left Styles
