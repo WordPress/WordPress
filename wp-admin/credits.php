@@ -78,19 +78,21 @@ function _wp_credits_build_object_link( &$data ) {
 	$data = '<a href="' . esc_url( $data[1] ) . '">' . $data[0] . '</a>';
 }
 
+list( $display_version ) = explode( '-', $wp_version );
+
 include( './admin-header.php' );
 ?>
 <div class="wrap about-wrap">
 
-<h1><?php _e( 'Welcome to WordPress 3.3!' ); ?></h1>
+<h1><?php printf( __( 'Welcome to WordPress %s!' ), $display_version ); ?></h1>
 
 <div class="about-text"><?php _e( 'WordPress is web software you can use to create a beautiful website or blog. We like to say that WordPress is both free and priceless at the same time.' ); ?></div>
 
-<div class="wp-badge"><?php _e( 'Version 3.3' ); ?></div>
+<div class="wp-badge"><?php printf( __( 'Version %s' ), $display_version ); ?></div>
 
 <h2 class="nav-tab-wrapper">
-	<a href="about.php" class="nav-tab">
-		<?php _e( 'What&#8217;s New in 3.3' ); ?>
+	<a href="about.php" class="nav-tab nav-tab-active">
+		<?php printf( __( 'What&#8217;s New in %s' ), $display_version ); ?>
 	</a><a href="credits.php" class="nav-tab nav-tab-active">
 		<?php _e( 'Credits' ); ?>
 	</a><a href="freedoms.php" class="nav-tab">
