@@ -400,6 +400,7 @@ final class WP_Screen {
 			return $hook_name;
 
 		$action = $post_type = $taxonomy = '';
+		$is_network = $is_user = false;
 
 		if ( $hook_name )
 			$id = $hook_name;
@@ -412,10 +413,13 @@ final class WP_Screen {
 		$id = str_replace( array( '-new', '-add' ), '', $id );
 
 		if ( $hook_name ) {
-			if ( '-network' == substr( $id, -8 ) )
+			if ( '-network' == substr( $id, -8 ) ) {
 				$id = str_replace( '-network', '', $id );
-			elseif ( '-user' == substr( $id, -5 ) )
+				$is_network = true;
+			} elseif ( '-user' == substr( $id, -5 ) ) {
 				$id = str_replace( '-user', '', $id );
+				$is_user = true;
+			}
 
 			$id = sanitize_key( $id );
 			if ( post_type_exists( $id ) ) {
@@ -431,6 +435,9 @@ final class WP_Screen {
 					$post_type = $second;
 				}
  			}
+		} else {
+			$is_network = is_network_admin();
+			$is_user = is_user_admin();
 		}
 
 		if ( 'index' == $id )
@@ -485,10 +492,10 @@ final class WP_Screen {
 				break;
 		}
 
-		if ( is_network_admin() ) {
+		if ( $is_network ) {
 			$id   .= '-network';
 			$base .= '-network';
-		} elseif ( is_user_admin() ) {
+		} elseif ( $is_user ) {
 			$id   .= '-user';
 			$base .= '-user';
  		}
@@ -506,8 +513,8 @@ final class WP_Screen {
 		$screen->action     = $action;
 		$screen->post_type  = $post_type;
 		$screen->taxonomy   = $taxonomy;
-		$screen->is_user    = is_user_admin();
-		$screen->is_network = is_network_admin();
+		$screen->is_user    = $is_user;
+		$screen->is_network = $is_network;
 
 		self::$_registry[ $id ] = $screen;
 

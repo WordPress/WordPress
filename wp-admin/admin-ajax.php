@@ -55,10 +55,7 @@ case 'fetch-list' :
 	$list_class = $_GET['list_args']['class'];
 	check_ajax_referer( "fetch-list-$list_class", '_ajax_fetch_list_nonce' );
 
-	$current_screen = (object) $_GET['list_args']['screen'];
-	//TODO fix this in a better way see #15336
-	$current_screen->is_network = 'false' === $current_screen->is_network ? false : true;
-	$current_screen->is_user = 'false' === $current_screen->is_user ? false : true;
+	$current_screen = convert_to_screen( $_GET['list_args']['screen']['id'] );
 
 	define( 'WP_NETWORK_ADMIN', $current_screen->is_network );
 	define( 'WP_USER_ADMIN', $current_screen->is_user );
