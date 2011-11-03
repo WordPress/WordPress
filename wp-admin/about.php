@@ -207,16 +207,16 @@ include( './admin-header.php' );
 
 <h1><?php _e( 'Welcome to WordPress 3.3!' ); ?></h1>
 
-<div class="about-text">WordPress is web software you can use to create a beautiful website or blog. We like to say that WordPress is both free and priceless at the same time.</div>
+<div class="about-text"><?php _e( 'WordPress is web software you can use to create a beautiful website or blog. We like to say that WordPress is both free and priceless at the same time.' ); ?></div>
 
 <div class="wp-badge"><?php _e( 'Version 3.3' ); ?></div>
 
 <h2 class="nav-tab-wrapper">
-	<a href="#" class="nav-tab nav-tab-active">
+	<a href="about.php" class="nav-tab nav-tab-active">
 		<?php _e( 'What&#8217;s New in 3.3' ); ?>
-	</a><a href="#" class="nav-tab">
+	</a><a href="credits.php" class="nav-tab">
 		<?php _e( 'Credits' ); ?>
-	</a><a href="#" class="nav-tab">
+	</a><a href="freedoms.php" class="nav-tab">
 		<?php _e( 'Freedoms' ); ?>
 	</a>
 </h2>

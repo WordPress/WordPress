@@ -14,9 +14,23 @@ $parent_file = 'index.php';
 
 include( './admin-header.php' );
 ?>
-<div class="wrap">
-<?php screen_icon(); ?>
-<h2><?php _e( 'Freedoms' ); ?></h2>
+<div class="wrap about-wrap">
+
+<h1><?php _e( 'Welcome to WordPress 3.3!' ); ?></h1>
+
+<div class="about-text"><?php _e( 'WordPress is web software you can use to create a beautiful website or blog. We like to say that WordPress is both free and priceless at the same time.' ); ?></div>
+
+<div class="wp-badge"><?php _e( 'Version 3.3' ); ?></div>
+
+<h2 class="nav-tab-wrapper">
+	<a href="about.php" class="nav-tab">
+		<?php _e( 'What&#8217;s New in 3.3' ); ?>
+	</a><a href="credits.php" class="nav-tab">
+		<?php _e( 'Credits' ); ?>
+	</a><a href="freedoms.php" class="nav-tab nav-tab-active">
+		<?php _e( 'Freedoms' ); ?>
+	</a>
+</h2>
 
 <p><?php printf( __( 'WordPress is Free and open source software, built by a distributed community of mostly volunteer developers from around the world. WordPress comes with some awesome, worldview-changing rights courtesy of its <a href="%s">license</a>, the GPL.' ), 'http://wordpress.org/about/license/' ); ?></p>
 
