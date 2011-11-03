@@ -91,7 +91,7 @@ include( './admin-header.php' );
 <div class="wp-badge"><?php printf( __( 'Version %s' ), $display_version ); ?></div>
 
 <h2 class="nav-tab-wrapper">
-	<a href="about.php" class="nav-tab nav-tab-active">
+	<a href="about.php" class="nav-tab">
 		<?php printf( __( 'What&#8217;s New in %s' ), $display_version ); ?>
 	</a><a href="credits.php" class="nav-tab nav-tab-active">
 		<?php _e( 'Credits' ); ?>
