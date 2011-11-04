@@ -37,9 +37,10 @@ TABLE OF CONTENTS:
 19.0 - Tools
 20.0 - Settings
 21.0 - Admin Footer
-22.0 - Misc
-23.0 - Dead
-24.0 - TinyMCE tweaks
+22.0 - About Pages
+23.0 - Misc
+24.0 - Dead
+25.0 - TinyMCE tweaks
 
 
 ------------------------------------------------------------------------------*/
@@ -1242,7 +1243,18 @@ h2 .nav-tab {
 }
 
 /*------------------------------------------------------------------------------
-  22.0 - Misc
+  22.0 - About Pages
+------------------------------------------------------------------------------*/
+
+.about-wrap li.wp-person,
+.about-wrap li.wp-person img.gravatar {
+	float: right;
+	margin-right: 0;
+	margin-left: 10px;
+}
+
+/*------------------------------------------------------------------------------
+  23.0 - Misc
 ------------------------------------------------------------------------------*/
 
 #template div {
@@ -1312,7 +1324,7 @@ table .column-rating {
 }
 
 /*------------------------------------------------------------------------------
-  23.0  - Dead
+  24.0  - Dead
 ------------------------------------------------------------------------------*/
 
 /* - Not used anywhere in WordPress - verify and then deprecate
@@ -1338,7 +1350,7 @@ table .column-rating {
 
 
 /*------------------------------------------------------------------------------
- 24.0 - TinyMCE tweaks
+ 25.0 - TinyMCE tweaks
 		Small tweaks for until tinymce css files are proprely RTLized
 ------------------------------------------------------------------------------*/
 #editorcontainer .wp_themeSkin .mceStatusbar {

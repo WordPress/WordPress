@@ -4795,17 +4795,13 @@ input.button-highlighted,
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 }
-.about-wrap .feature-section.angled-left .left-feature {
-	width: 30%;
-}
-.about-wrap .feature-section.angled-left .right-feature {
-	width: 40%;
-}
-.about-wrap .feature-section.angled-right .left-feature {
-	width: 40%;
-}
+.about-wrap .feature-section.angled-left .left-feature,
 .about-wrap .feature-section.angled-right .right-feature {
 	width: 30%;
+}
+.about-wrap .feature-section.angled-left .right-feature,
+.about-wrap .feature-section.angled-right .left-feature {
+	width: 40%;
 }
 
 .about-wrap .return-to-dashboard {
@@ -4835,21 +4831,10 @@ input.button-highlighted,
 }
 .about-wrap li.wp-person img.gravatar {
 	float: left;
-	margin-right: 10px;
+	margin: 0 10px 10px 0;
 	padding: 2px;
-}
-.rtl .about-wrap li.wp-person {
-	float: right;
-	margin-left: 10px;
-}
-.rtl .about-wrap li.wp-person img.gravatar {
-	float: right;
-	margin-left: 10px;
-}
-.about-wrap li.wp-person img.gravatar {
 	width: 60px;
 	height: 60px;
-	margin-bottom: 10px;
 }
 .about-wrap ul.compact li.wp-person img.gravatar {
 	width: 30px;
