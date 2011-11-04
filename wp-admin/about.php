@@ -38,24 +38,24 @@ include( './admin-header.php' );
 
 	<div class="feature-section angled-left">
 		<div class="left-feature">
-			<h4><?php _e( 'Drag-and-Drop Media Uploader' ); ?></h4>
-			<p><?php _e( 'Add your media by simply dragging and dropping files from your computer into the new WordPress media uploader.' ); ?></p>
+			<h4><?php echo ( 'Drag-and-Drop Media Uploader' ); ?></h4>
+			<p><?php echo ( 'Add your media by simply dragging and dropping files from your computer into the new WordPress media uploader.' ); ?></p>
 		</div>
 		<img class="placeholder" />
 		<div class="right-feature">
-			<h4><?php _e( 'A Responsive Admin' ); ?></h4>
-			<p><?php _e( 'The WordPress admin now responds and adjusts to more devices and screen resolutions for a better native experience.' ); ?></p>
+			<h4><?php echo ( 'A Responsive Admin' ); ?></h4>
+			<p><?php echo ( 'The WordPress admin now responds and adjusts to more devices and screen resolutions for a better native experience.' ); ?></p>
 		</div>
 	</div>
 	<div class="feature-section angled-right">
 		<div class="left-feature">
-			<h4><?php _e( 'New-user Experience' ); ?></h4>
-			<p><?php _e( 'New users get a helping hand. Updates come with this handy summary of what&#8217;s new in this version of WordPress.' ); ?></p>
+			<h4><?php echo ( 'New-user Experience' ); ?></h4>
+			<p><?php echo ( 'New users get a helping hand. Updates come with this handy summary of what&#8217;s new in this version of WordPress.' ); ?></p>
 		</div>
 		<img class="placeholder" />
 		<div class="right-feature">
-			<h4><?php _e( 'A New and Improved Admin Bar' ); ?></h4>
-			<p><?php _e( 'Get to the most useful areas of your dashboard form anywhere on your site quicker and easier than ever with a better organized admin bar.' ); ?></p>
+			<h4><?php echo ( 'A New and Improved Admin Bar' ); ?></h4>
+			<p><?php echo ( 'Get to the most useful areas of your dashboard form anywhere on your site quicker and easier than ever with a better organized admin bar.' ); ?></p>
 		</div>
 	</div>
 </div>
@@ -65,22 +65,22 @@ include( './admin-header.php' );
 
 	<div class="feature-section">
 		<div class="left-feature">
-			<h4><?php _e( 'Performance Enhancements' ); ?></h4>
-			<p><?php _e( 'Add your media by simply dragging and dropping files from your computer into the new WordPress media uploader.' ); ?></p>
+			<h4><?php echo ( 'Performance Enhancements' ); ?></h4>
+			<p><?php echo ( 'Add your media by simply dragging and dropping files from your computer into the new WordPress media uploader.' ); ?></p>
 		</div>
 		<div class="right-feature">
-			<h4><?php _e( 'API: Settings Improvements' ); ?></h4>
-			<p><?php _e( 'The WordPress admin now responds and adjusts to more devices and screen resolutions for a better native experience.' ); ?></p>
+			<h4><?php echo ( 'API: Settings Improvements' ); ?></h4>
+			<p><?php echo ( 'The WordPress admin now responds and adjusts to more devices and screen resolutions for a better native experience.' ); ?></p>
 		</div>
 	</div>
 	<div class="feature-section">
 		<div class="left-feature">
-			<h4><?php _e( 'More Efficient Updates and Upgrades' ); ?></h4>
-			<p><?php _e( 'New users get a helping hand. Updates come with this handy summary of what&#8217;s new in this version of WordPress.' ); ?></p>
+			<h4><?php echo ( 'More Efficient Updates and Upgrades' ); ?></h4>
+			<p><?php echo ( 'New users get a helping hand. Updates come with this handy summary of what&#8217;s new in this version of WordPress.' ); ?></p>
 		</div>
 		<div class="right-feature">
-			<h4><?php _e( 'API: Meta Improvements' ); ?></h4>
-			<p><?php _e( 'Get to the most useful areas of your dashboard form anywhere on your site quicker and easier than ever with a better organized admin bar.' ); ?></p>
+			<h4><?php echo ( 'API: Meta Improvements' ); ?></h4>
+			<p><?php echo ( 'Get to the most useful areas of your dashboard form anywhere on your site quicker and easier than ever with a better organized admin bar.' ); ?></p>
 		</div>
 	</div>
 </div>
