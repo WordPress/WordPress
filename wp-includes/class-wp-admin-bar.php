@@ -70,9 +70,14 @@ class WP_Admin_Bar {
 		if ( func_num_args() >= 3 && is_string( func_get_arg(0) ) )
 			$args = array_merge( array( 'parent' => func_get_arg(0) ), func_get_arg(2) );
 
-		// Ensure we have a valid ID and title.
-		if ( empty( $args['title'] ) || empty( $args['id'] ) )
+		// Ensure we have a valid title.
+		if ( empty( $args['title'] ) )
 			return false;
+
+		if ( empty( $args['id'] ) ) {
+			_doing_it_wrong( __METHOD__, __( 'The menu ID should not be empty.' ), '3.3' );
+			$args['id'] = esc_attr( sanitize_title( trim( $args['title'] ) ) );
+		}
 
 		$defaults = array(
 			'id'       => false,
