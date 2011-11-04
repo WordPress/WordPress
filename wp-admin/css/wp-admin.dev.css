@@ -1484,9 +1484,8 @@ form.upgrade .hint {
 .contextual-help-tabs-wrap {
 	padding: 0 20px;
 	overflow: auto;
-
-	border-width: 0 1px;
-	border-style: solid;
+	border-left-width: 1px;
+	border-left-style: solid;
 }
 
 .help-tab-content {
@@ -1509,6 +1508,8 @@ form.upgrade .hint {
 	float: right;
 	padding: 0 8px 0 12px;
 	overflow: auto;
+	border-left-width: 1px;
+	border-left-style: solid;
 }
 
 

@@ -792,6 +792,7 @@ table.widefat span.spam a,
 	color: #333;
 }
 
+.contextual-help-sidebar,
 .contextual-help-tabs .active {
 	border-color: #ccc;
 }
