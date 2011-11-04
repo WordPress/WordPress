@@ -73,13 +73,16 @@
 #wpadminbar .quicklinks > ul > li {
 	border-right: 1px solid #555;
 }
+
 #wpadminbar .quicklinks > ul > li > a {
 	border-right: 1px solid #333;
 }
+
 #wpadminbar .quicklinks > ul > li.opposite {
 	border-left: 1px solid #333;
 	border-right: 0;
 }
+
 #wpadminbar .quicklinks > ul > li.opposite > a {
 	border-left: 1px solid #555;
 	border-right: 0;
@@ -116,6 +119,7 @@
 	border-style: solid;
 	border-color: #dfdfdf;
 }
+
 #wpadminbar .quicklinks .opposite.menupop ul {
 	right: 0;
 	margin: 0 -1px 0 0;
@@ -173,8 +177,13 @@
 }
 
 #wpadminbar .ab-top-menu > li:hover {
-	/* @todo: add other gradients */
+	background: #3a3a3a; /* Fallback */
+	background-image: -ms-linear-gradient(bottom, #3a3a3a, #222); /* IE10 */
+	background-image: -moz-linear-gradient(bottom, #3a3a3a, #222); /* Firefox */
+	background-image: -o-linear-gradient(bottom, #3a3a3a, #222); /* Opera */
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#3a3a3a), to(#222)); /* old Webkit  */
 	background-image: -webkit-linear-gradient(bottom, #3a3a3a, #222); /* new Webkit */
+	background-image: linear-gradient(bottom, #3a3a3a, #222); /* proposed W3C Markup */
 }
 
 #wpadminbar.nojs .ab-top-menu > li.menupop:hover,
@@ -189,7 +198,6 @@
 	color: #333;
 	text-shadow: none;
 }
-
 
 #wpadminbar .quicklinks .menupop li:hover,
 #wpadminbar .quicklinks .menupop li.hover {
@@ -240,12 +248,10 @@
 	right: auto;
 	margin: 0;
 	border: 0;
-
+	background: #eee;
 	-moz-box-shadow: none;
 	-webkit-box-shadow: none;
 	box-shadow: none;
-
-	background: #eee;
 }
 
 #wpadminbar .quicklinks .menupop li.secondary > ul > li:hover,
@@ -261,8 +267,6 @@
 	padding: 2px 5px;
 	font-size: 10px;
 	font-weight: bold;
-	-moz-border-radius: 10px;
-	-khtml-border-radius: 10px;
 	-webkit-border-radius: 10px;
 	border-radius: 10px;
 }
@@ -276,13 +280,19 @@
 	float: right;
 }
 
+/**
+ * My Account
+ */
 #wp-admin-bar-my-account > ul {
 	min-width: 270px;
 }
+
 #wpadminbar #wp-admin-bar-my-account .user-info-item {
 	margin-left: 88px;
 	margin-right: 16px;
+
 }
+
 #wpadminbar #wp-admin-bar-my-account .user-info-item > a {
 	padding-left: 8px;
 }
@@ -293,22 +303,27 @@
 	height: auto;
 	background: none;
 }
+
 #wp-admin-bar-my-account .user-info .avatar {
 	position: absolute;
 	left: -72px;
 	top: 4px;
 }
+
 #wpadminbar #wp-admin-bar-my-account .user-info a {
 	height: auto;
 }
+
 #wpadminbar #wp-admin-bar-my-account .user-info span {
 	background: none;
 	padding: 0;
 	height: 18px;
 }
+
 #wpadminbar #wp-admin-bar-my-account .user-info .display-name {
 	color: #333;
 }
+
 #wpadminbar #wp-admin-bar-my-account .user-info .username {
 	color: #999;
 	font-size: 11px;
@@ -332,6 +347,9 @@
 	padding: 0;
 }
 
+/**
+ * Search
+ */
 #wpadminbar #wp-admin-bar-search {
 	border-right: 0;
 }
@@ -353,7 +371,6 @@
 	margin: 0;
 }
 
-
 #wpadminbar #adminbarsearch .adminbar-input {
 	height: 23px;
 	width: 140px;
@@ -373,8 +390,6 @@
 	background-position: 4px 2px;
 
 	-webkit-border-radius: 3px;
-	-khtml-border-radius: 3px;
-	-moz-border-radius: 3px;
 	border-radius: 3px;
 
 	-moz-box-shadow: none;
@@ -409,36 +424,18 @@
 #wpadminbar #adminbarsearch .adminbar-input::-webkit-input-placeholder {
 	color: #ddd;
 }
+
 #wpadminbar #adminbarsearch .adminbar-input:-moz-placeholder {
 	color: #ddd;
 }
-
 
 #wpadminbar #adminbarsearch .adminbar-button {
 	display: none;
 }
 
-#wpadminbar #adminbarsearch .adminbar-button:active {
-	background: #a0a0a0;
-	background:-moz-linear-gradient(bottom,  #a0a0a0,  #c1c1c1);
-	background:-webkit-gradient(linear, left bottom, left top, from(#a0a0a0), to(#c1c1c1));
-	-moz-box-shadow: inset 1px 1px 1px #9b9b9b;
-	-webkit-box-shadow: inset 1px 1px 1px #9b9b9b;
-	box-shadow: inset 1px 1px 1px #9b9b9b;
-}
-
-#wpadminbar #adminbarsearch .adminbar-button:hover {
-	color: #000;
-}
-
-#wpadminbar #adminbarsearch .adminbar-button::-moz-focus-inner {
-	border: none;
-}
-
 /**
  * WP Logo item
  */
-
 #wpadminbar .wp-admin-bar-logo > a {
 	padding-left: 24px;
 	background: url(../images/wp-logo-white.png) no-repeat 13px 6px;
@@ -467,6 +464,7 @@
 	background: #999;
 	height: 10px;
 	width: 14px;
+
 	-webkit-border-radius: 10px;
 	border-radius: 10px;
 }
@@ -485,16 +483,18 @@
 	border-left: 4px solid #999;
 	border-bottom: 4px solid transparent;
 }
+
 #wpadminbar a:hover .ab-comments-icon-arrow {
 	border-left-color: #bbb;
 }
 
-#wpadminbar #ab-awaiting-mod { 
-	margin-left: 4px; 
-} 
-#wpadminbar span.count-0 { 
-	display: none; 
-} 
+#wpadminbar #ab-awaiting-mod {
+	margin-left: 4px;
+}
+
+#wpadminbar span.count-0 {
+	display: none;
+}
 
 
 /**
