@@ -201,13 +201,12 @@
 	margin-right: -10px;
 	white-space: nowrap;
 }
+
 #wpadminbar .ab-top-menu > li > a:hover,
 #wpadminbar .ab-top-menu > li > a:hover span {
 	color: #fafafa;
 }
-#wpadminbar .ab-top-menu > li > a:hover span {
-	background: url(../images/admin-bar-sprite.png?d=11122010) right -57px no-repeat;
-}
+
 #wpadminbar.nojs .ab-top-menu > li > a:hover span,
 #wpadminbar .ab-top-menu > li.hover > a:hover span {
 	background: none;
@@ -218,6 +217,7 @@
 	background: url(../images/admin-bar-sprite.png?d=11122010) right -31px no-repeat;
 	padding: 0 1.5em 0 0;
 }
+
 #wpadminbar .opposite.menupop li a > span {
 	background-position: -28px -31px;
 	padding: 0 0 0 1.5em;
@@ -232,6 +232,7 @@
 #wpadminbar .quicklinks .menupop .secondary > a {
 	display: none;
 }
+
 #wpadminbar .quicklinks .menupop li.secondary > ul,
 #wpadminbar .quicklinks .opposite.menupop li.secondary > ul {
 	display: block;
@@ -442,6 +443,7 @@
 	padding-left: 24px;
 	background: url(../images/wp-logo-white.png) no-repeat 13px 6px;
 }
+
 #wpadminbar .wp-admin-bar-logo > a span {
 	height: 28px;
 }
@@ -459,14 +461,12 @@
 	padding-top: 5px;
 	float: left;
 }
+
 #wpadminbar .ab-comments-icon-body {
 	margin: 3px 4px 0 -2px;
 	background: #999;
 	height: 10px;
 	width: 14px;
-
-	-moz-border-radius: 10px;
-	-khtml-border-radius: 10px;
 	-webkit-border-radius: 10px;
 	border-radius: 10px;
 }
