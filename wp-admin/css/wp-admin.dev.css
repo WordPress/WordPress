@@ -696,7 +696,6 @@ a.rsswidget,
 .inline-edit-row fieldset span.title,
 .inline-edit-row fieldset span.checkbox-title,
 .tablenav .displaying-num,
-.welcome-panel h3,
 .widefat th,
 .quicktags,
 .search {
@@ -2150,9 +2149,9 @@ body.admin-bar #adminmenu {
 
 .welcome-panel {
 	margin: 20px 8px;
-	padding: 0 10px;
-	border-width: 3px;
-	border-style: double;
+	padding: 30px 10px 20px;
+	border-width: 1px 0;
+	border-style: solid;
 	position: relative;
 	font-size: 14px;
 	line-height: 1.6em;
@@ -2160,16 +2159,33 @@ body.admin-bar #adminmenu {
 }
 
 .welcome-panel h3 {
-	font-size: 24px;
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", sans-serif;
+	font-size: 32px;
 	font-weight: normal;
-	margin-bottom: 0.8em;
+	margin: 0 0 0.8em;
 }
 
 .welcome-panel .welcome-panel-close {
 	position: absolute;
-	top: 10px;
+	top: 0;
 	right: 10px;
+	padding: 2px 12px;
+	font-size: 12px;
+	font-weight: bold;
 	text-decoration: none;
+
+	-webkit-border-bottom-left-radius: 3px;
+	-webkit-border-bottom-right-radius: 3px;
+	border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px;
+}
+
+.welcome-panel .wp-badge {
+	float: left;
+}
+
+.welcome-panel-content {
+	margin-left: 200px;
 }
 
 .welcome-panel .welcome-panel-column {
@@ -4678,10 +4694,6 @@ input.button-highlighted,
 	height: 37px;
 	width: 160px;
 
-	position: absolute;
-	top: 0;
-	right: 0;
-
 	font-weight: bold;
 	font-size: 14px;
 	text-align: center;
@@ -4693,6 +4705,11 @@ input.button-highlighted,
 
 	background-repeat: no-repeat;
 	background-position: center 20px;
+}
+.about-wrap .wp-badge {
+	position: absolute;
+	top: 0;
+	right: 0;
 }
 
 .about-wrap h2 .nav-tab {

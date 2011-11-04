@@ -701,10 +701,17 @@ table.widefat span.spam a,
 }
 
 .welcome-panel {
-	border-color: #ccc;
+	border-color: #dfdfdf;
 }
 .welcome-panel p {
 	color: #777;
+}
+.welcome-panel .welcome-panel-close {
+	background: #eee;
+	text-shadow: 1px 1px 1px #eee;
+}
+.welcome-panel h3 {
+	text-shadow: 1px 1px 1px white;
 }
 
 .widget,

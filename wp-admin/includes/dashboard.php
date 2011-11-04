@@ -1265,6 +1265,7 @@ function wp_dashboard_empty() {}
  * @since 3.3
  */
 function wp_welcome_panel() {
+	global $wp_version;
 
 	if ( ! current_user_can( 'edit_theme_options' ) )
 		return;
@@ -1274,12 +1275,17 @@ function wp_welcome_panel() {
 	if ( ! get_user_option( 'show_welcome_panel' ) )
 		$classes .= ' hidden';
 
+	list( $display_version ) = explode( '-', $wp_version );
 	?>
 	<div id="welcome-panel" class="<?php echo esc_attr( $classes ); ?>">
 
 		<?php wp_nonce_field( 'welcome-panel-nonce', 'welcomepanelnonce', false ); ?>
 
 		<a class="welcome-panel-close" href="#"><?php _e('Close'); ?></a>
+
+		<div class="wp-badge"><?php printf( __( 'Version %s' ), $display_version ); ?></div>
+
+		<div class="welcome-panel-content">
 
 		<h3><?php _e( 'Welcome to WordPress!' ); ?></h3>
 		<p><?php _e( 'Welcome to your new WordPress site! Here are some things most people do when they set up a new WordPress site. To get started, use the links below and we&#8217;ll give you some extra help with these tasks.' ); ?></p>
@@ -1350,6 +1356,7 @@ function wp_welcome_panel() {
 					); ?>
 				</li>
 			</ul>
+		</div>
 		</div>
 	</div>
 	<?php
