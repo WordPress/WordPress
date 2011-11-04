@@ -463,7 +463,7 @@
 }
 
 #wpadminbar .ab-comments-icon-body {
-	margin: 3px 4px 0 -2px;
+	margin-top: 3px;
 	background: #999;
 	height: 10px;
 	width: 14px;
@@ -480,7 +480,7 @@
 	height: 0;
 	position: absolute;
 	bottom: -3px;
-	left: 1px;
+	left: 3px;
 	/* Use transparent borders to form a triangle */
 	border-left: 4px solid #999;
 	border-bottom: 4px solid transparent;
@@ -488,6 +488,13 @@
 #wpadminbar a:hover .ab-comments-icon-arrow {
 	border-left-color: #bbb;
 }
+
+#wpadminbar #ab-awaiting-mod { 
+	margin-left: 4px; 
+} 
+#wpadminbar span.count-0 { 
+	display: none; 
+} 
 
 
 /**
