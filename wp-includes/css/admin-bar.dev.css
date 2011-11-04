@@ -107,7 +107,8 @@
 #wpadminbar .quicklinks .menupop ul,
 #wpadminbar .shortlink-input {
 	margin: 0 0 0 -1px;
-	padding: 6px 0;
+	padding-top: 6px;
+	padding-bottom: 6px;
 	-moz-box-shadow: 0 4px 6px rgba(0,0,0,0.2);
 	-webkit-box-shadow: 0 4px 6px rgba(0,0,0,0.2);
 	box-shadow: 0 4px 6px rgba(0,0,0,0.2);
