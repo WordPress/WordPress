@@ -631,10 +631,8 @@ function wp_admin_bar_search_menu( $wp_admin_bar ) {
 		'title' => $form,
 		'href'  => '#',
 		'meta'  => array(
-			'class'   => 'admin-bar-search',
-			// @TODO: Replace me with something far less hacky
-			'onclick' => 'if ( event.target.value != "Search" ) { return false; }',
-		),
+			'class'   => 'admin-bar-search'
+		)
 	) );
 }
 
