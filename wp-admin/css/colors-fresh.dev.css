@@ -843,7 +843,7 @@ table.widefat span.spam a,
 	background: transparent url(../images/arrows.png) no-repeat right 3px;
 }
 
-#screen-meta-links  a.show-settings.screen-meta-active {
+#screen-meta-links a.show-settings.screen-meta-active {
 	background: transparent url(../images/arrows.png) no-repeat right -33px;
 }
 
@@ -1836,6 +1836,14 @@ div.widgets-sortables,
 
 .rtl .post-com-count {
 	background-image: url(../images/bubble_bg-rtl.gif);
+}
+
+.rtl #screen-meta-links a.show-settings {
+	background-position: left 3px;
+}
+
+.rtl #screen-meta-links a.show-settings.screen-meta-active {
+	background-position: left -33px;
 }
 
 /* Menu */

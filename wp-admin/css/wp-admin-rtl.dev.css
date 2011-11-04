@@ -312,20 +312,26 @@ form.upgrade .hint {
   6.1 - Screen Options Tabs
 ------------------------------------------------------------------------------*/
 
+#screen-meta-links {
+	margin-right: 0;
+	margin-left: 24px;
+}
+
 #screen-meta {
-	right: 146px;
-	left: 0;
-	margin-right: 20px;
+	margin-right: 5px;
 	margin-left: 15px;
 }
 
-.folded #screen-meta {
-	right: 33px;
-	left: 0;
+#screen-options-link-wrap,
+#contextual-help-link-wrap {
+	float: left;
+	margin-left: 0;
+	margin-right: 6px;
 }
 
-#screen-meta .screen-reader-text {
-	visibility: hidden;
+#screen-meta-links a.show-settings {
+	padding-right: 6px;
+	padding-left: 16px;
 }
 
 .toggle-arrow {
@@ -335,19 +341,14 @@ form.upgrade .hint {
 	background-position: bottom right;
 }
 
-#screen-options-wrap,
-#contextual-help-wrap {
-	padding-right: 12px;
-	padding-left: 8px;
-}
-
 .metabox-prefs label {
 	padding-right: 0;
 	padding-left: 15px;
 }
 
 .metabox-prefs label input {
-	margin: 0 2px 0 5px;
+	margin-right: 2px;
+	margin-left: 5px;
 }
 
 /*------------------------------------------------------------------------------
@@ -355,8 +356,8 @@ form.upgrade .hint {
 ------------------------------------------------------------------------------*/
 
 #contextual-help-wrap {
-	padding-left: 0;
-	padding-right: 4px;
+	margin-left: 0;
+	margin-right: -4px;
 }
 
 .contextual-help-tabs {
@@ -369,10 +370,19 @@ form.upgrade .hint {
 }
 
 .contextual-help-tabs .active {
-	margin-right: -3px;
+	margin-right: 0;
 	margin-left: -1px;
+}
+
+.contextual-help-tabs .active,
+.contextual-help-tabs-wrap {
 	border-left: 0;
 	border-right-width: 1px;
+}
+
+.contextual-help-tabs-wrap {
+	border-right-width: 1px;
+	border-right-style: solid;
 }
 
 .help-tab-content {
@@ -381,8 +391,7 @@ form.upgrade .hint {
 }
 
 .help-tab-content li {
-	list-style-type: disc;
-	margin-left: auto;
+	margin-left: 0;
 	margin-right: 18px;
 }
 
@@ -390,6 +399,8 @@ form.upgrade .hint {
 	float: left;
 	padding-right: 12px;
 	padding-left: 8px;
+	border-left: 0;
+	border-right-width: 1px;
 }
 
 /*------------------------------------------------------------------------------

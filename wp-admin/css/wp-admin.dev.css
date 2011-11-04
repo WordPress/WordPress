@@ -1350,7 +1350,6 @@ form.upgrade .hint {
 	margin: 0;
 	padding: 8px 20px 12px;
 	max-height: 300px;
-	overflow: auto;
 	position: relative;
 	overflow: auto;
 }

@@ -2120,6 +2120,14 @@ div.widgets-sortables,
 	background-image: url(../images/bubble_bg-rtl.gif);
 }
 
+.rtl #screen-meta-links a.show-settings {
+	background-position: left 3px;
+}
+
+.rtl #screen-meta-links a.show-settings.screen-meta-active {
+	background-position: left -33px;
+}
+
 /* Menu */
 .rtl #adminmenushadow,
 .rtl #adminmenuback {
