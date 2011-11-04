@@ -12,8 +12,8 @@
 	text-shadow: #444 0px -1px 0px;
 }
 
-#wpadminbar :before,
-#wpadminbar :after {
+#wpadminbar ul li:before,
+#wpadminbar ul li:after {
 	content: normal;
 }
 
