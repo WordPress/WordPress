@@ -1257,6 +1257,65 @@ h2 .nav-tab {
   22.0 - About Pages
 ------------------------------------------------------------------------------*/
 
+.wrap.about-wrap {
+	margin-left: 40px;
+	margin-right: 20px;
+}
+
+.about-wrap h1,
+.about-text {
+	margin-right: 0;
+	margin-left: 200px;
+}
+
+.about-wrap h2.nav-tab-wrapper { 
+	padding-left: 0px;
+	padding-right: 6px;
+}
+
+.about-wrap .wp-badge {
+	right: auto;
+	left: 0;
+}
+
+.about-wrap h2 .nav-tab {
+	margin-right: 0;
+	margin-left: 3px;
+}
+
+.about-wrap .changelog li {
+	margin-left: 0;
+	margin-right: 3em;
+}
+
+.about-wrap .feature-section .left-feature,
+.about-wrap .feature-section img,
+.about-wrap .feature-section .right-feature {
+	float: right;
+}
+
+.about-wrap .feature-section .left-feature {
+	margin-right: 0;
+	margin-left: 10%;
+}
+
+.about-wrap .feature-section .right-feature {
+	margin-left: 0;
+	margin-right: 9%;
+}
+
+.about-wrap .feature-section.angled-left .left-feature,
+.about-wrap .feature-section.angled-right .left-feature {
+	margin-right: 0;
+	margin-left: 5%;
+}
+
+.about-wrap .feature-section.angled-left .right-feature,
+.about-wrap .feature-section.angled-right .right-feature {
+	margin-left: 0;
+	margin-right: 5%;
+}
+
 .about-wrap li.wp-person,
 .about-wrap li.wp-person img.gravatar {
 	float: right;
@@ -1514,7 +1573,8 @@ ol.ol-decimal {
 }
 
 .wrap {
-	margin: 0 0 0 15px;
+	margin-right: 0;
+	margin-left: 15px;
 }
 
 
@@ -1523,7 +1583,8 @@ ol.ol-decimal {
 	font-family: Tahoma, Arial, sans-serif;
 }
 .wrap h2 {
-	padding: 9px 0 4px 15px;
+	padding-right: 0;
+	padding-left: 15px;
 }
 
 .subtitle {
