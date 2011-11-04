@@ -1794,6 +1794,27 @@ div.widgets-sortables,
 	box-shadow: 0 0 6px rgba( 0, 0, 0, 0.3 );
 }
 
+.about-wrap h4.wp-people-group {
+	text-shadow: 1px 1px 1px white;
+}
+
+.about-wrap li.wp-person img.gravatar {
+	-moz-box-shadow: 0 0 4px rgba( 0, 0, 0, 0.4 );
+	-webkit-box-shadow: 0 0 4px rgba( 0, 0, 0, 0.4 );
+	box-shadow: 0 0 4px rgba( 0, 0, 0, 0.4 );
+}
+.about-wrap li.wp-person .title {
+	color: #464646;
+	text-shadow: 1px 1px 1px white;
+}
+
+.freedoms-php .about-wrap ol li {
+	color: #999;
+}
+.freedoms-php .about-wrap ol p {
+	color: #464646;
+}
+
 /* End About Pages */
 
 

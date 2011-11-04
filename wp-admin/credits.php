@@ -24,29 +24,6 @@ get_current_screen()->set_help_sidebar(
 	'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
 
-add_action( 'admin_head', '_wp_credits_add_css' );
-function _wp_credits_add_css() { ?>
-<style type="text/css">
-div.wrap { max-width: 750px }
-h3.wp-people-group, p.wp-credits-list { clear: both; }
-ul.compact { margin-bottom: 0 }
-
-<?php if ( is_rtl() ) { ?>
-li.wp-person { float: right; margin-left: 10px; }
-li.wp-person img.gravatar { float: right; margin-left: 10px; }
-<?php } else { ?>
-li.wp-person { float: left; margin-right: 10px; }
-li.wp-person img.gravatar { float: left; margin-right: 10px; }
-<?php } ?>
-li.wp-person img.gravatar { width: 60px; height: 60px; margin-bottom: 10px; }
-ul.compact li.wp-person img.gravatar { width: 30px; height: 30px; }
-li.wp-person { height: 70px; width: 220px; }
-ul.compact li.wp-person { height: 40px; width: auto; white-space: nowrap }
-li.wp-person a.web { font-size: 16px; text-decoration: none; }
-p.wp-credits-list a { white-space: nowrap; }
-</style>
-<?php }
-
 function wp_credits() {
 	global $wp_version;
 	$locale = get_locale();
@@ -100,12 +77,14 @@ include( './admin-header.php' );
 	</a>
 </h2>
 
+<h3><?php _e( 'Credits' ); ?></h3>
+
 <?php
 
 $credits = wp_credits();
 
 if ( ! $credits ) {
-	echo '<p>' . sprintf( __( 'WordPress is created by a <a href="%1$s">worldwide team</a> of passionate individuals. <a href="%2$s">Get involved in WordPress</a>.' ),
+	echo '<p class="about-description">' . sprintf( __( 'WordPress is created by a <a href="%1$s">worldwide team</a> of passionate individuals. <a href="%2$s">Get involved in WordPress</a>.' ),
 		'http://wordpress.org/about/',
 		/* translators: Url to the codex documentation on contributing to WordPress used on the credits page */
 		__( 'http://codex.wordpress.org/Contributing_to_WordPress' ) ) . '</p>';
@@ -113,7 +92,7 @@ if ( ! $credits ) {
 	exit;
 }
 
-echo '<p>' . __( 'WordPress is created by a worldwide team of passionate individuals. We couldn&#8217;t possibly list them all, but here some of the most influential people currently involved with the project:' ) . "</p>\n";
+echo '<p class="about-description">' . __( 'WordPress is created by a worldwide team of passionate individuals. We couldn&#8217;t possibly list them all, but here some of the most influential people currently involved with the project:' ) . "</p>\n";
 
 $gravatar = is_ssl() ? 'https://secure.gravatar.com/avatar/' : 'http://0.gravatar.com/avatar/';
 
@@ -128,7 +107,7 @@ foreach ( $credits['groups'] as $group_slug => $group_data ) {
 			$title = translate( $group_data['name'] );
 		}
 
-		echo '<h3 class="wp-people-group">' . $title . "</h3>\n";
+		echo '<h4 class="wp-people-group">' . $title . "</h4>\n";
 	}
 
 	if ( ! empty( $group_data['shuffle'] ) )
@@ -154,7 +133,7 @@ foreach ( $credits['groups'] as $group_slug => $group_data ) {
 				echo '<img src="' . $gravatar . $person_data[1] . '?s=' . $size . '" class="gravatar" alt="' . esc_attr( $person_data[0] ) . '" /></a>' . "\n\t";
 				echo '<a class="web" href="' . sprintf( $credits['data']['profiles'], $person_data[2] ) . '">' . $person_data[0] . "</a>\n\t";
 				if ( ! $compact )
-					echo '<br /><span class="title">' . translate( $person_data[3] ) . "</span>\n";
+					echo '<span class="title">' . translate( $person_data[3] ) . "</span>\n";
 				echo "</li>\n";
 			}
 			echo "</ul>\n";

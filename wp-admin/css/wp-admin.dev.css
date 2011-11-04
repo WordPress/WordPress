@@ -4643,6 +4643,10 @@ input.button-highlighted,
 .about-wrap {
 	position: relative;
 	margin: 44px 40px 0 20px;
+	font-size: 14px;
+}
+.about-wrap p {
+	line-height: 1.6em;
 }
 .about-wrap h1 {
 	margin: 0.6em 200px 0 0;
@@ -4650,14 +4654,21 @@ input.button-highlighted,
 	font-size: 3.6em;
 	font-weight: 200;
 }
+.about-text,
+.about-description,
+.about-wrap li.wp-person a.web {
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", sans-serif;
+	font-weight: normal;
+	line-height: 1.6em;
+	font-size: 18px;
+}
+.about-description {
+	margin-top: 1.4em;
+}
 .about-text {
 	margin: 1em 200px 1.4em 0;
 	min-height: 60px;
-
-	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", sans-serif;
-	font-weight: normal;
 	font-size: 24px;
-	line-height: 1.6em;
 }
 .about-wrap h2.nav-tab-wrapper {
 	padding-left: 6px;
@@ -4736,7 +4747,6 @@ input.button-highlighted,
 	margin-bottom: 0.6em;
 }
 .about-wrap .feature-section p {
-	line-height: 1.6em;
 	margin-top: 0.6em;
 }
 
@@ -4788,6 +4798,76 @@ input.button-highlighted,
 }
 .about-wrap .return-to-dashboard a {
 	text-decoration: none;
+}
+
+.about-wrap h4.wp-people-group {
+	margin-top: 2.6em;
+	font-size: 16px;
+}
+.about-wrap ul.wp-people-group {
+	overflow: hidden;
+	padding: 5px;
+	margin: 0 -5px;
+}
+.about-wrap ul.compact {
+	margin-bottom: 0
+}
+.about-wrap li.wp-person {
+	float: left;
+	margin-right: 10px;
+}
+.about-wrap li.wp-person img.gravatar {
+	float: left;
+	margin-right: 10px;
+	padding: 2px;
+}
+.rtl .about-wrap li.wp-person {
+	float: right;
+	margin-left: 10px;
+}
+.rtl .about-wrap li.wp-person img.gravatar {
+	float: right;
+	margin-left: 10px;
+}
+.about-wrap li.wp-person img.gravatar {
+	width: 60px;
+	height: 60px;
+	margin-bottom: 10px;
+}
+.about-wrap ul.compact li.wp-person img.gravatar {
+	width: 30px;
+	height: 30px;
+}
+.about-wrap li.wp-person {
+	height: 70px;
+	width: 280px;
+	padding-bottom: 15px;
+}
+.about-wrap ul.compact li.wp-person {
+	height: 40px;
+	width: auto;
+	white-space: nowrap;
+}
+.about-wrap li.wp-person a.web {
+	display: block;
+	margin: 6px 0 2px;
+	font-size: 16px;
+	text-decoration: none;
+}
+.about-wrap p.wp-credits-list a {
+	white-space: nowrap;
+}
+
+.freedoms-php .about-wrap ol {
+	margin: 40px 60px;
+}
+.freedoms-php .about-wrap ol li {
+	list-style-type: decimal;
+	font-weight: bold;
+}
+.freedoms-php .about-wrap ol p {
+	font-weight: normal;
+	margin: 0.6em 0;
 }
 
 /*------------------------------------------------------------------------------
