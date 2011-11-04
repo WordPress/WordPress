@@ -1898,10 +1898,6 @@ div.widgets-sortables,
 	border-left-color: #eee;
 }
 
-.toggle-arrow {
-	background: transparent url(../images/arrows.png) no-repeat left 3px;
-}
-
 .rtl .sidebar-name-arrow {
 	background: transparent url(../images/arrows.png) no-repeat 5px 9px;
 }

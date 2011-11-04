@@ -1831,10 +1831,6 @@ body.press-this ul.category-tabs li.tabs a {
 	color: #333;
 }
 
-.toggle-arrow {
-	background: transparent url(../images/arrows-vs.png) no-repeat right 3px;
-}
-
 .view-switch #view-switch-list {
 	background: transparent url(../images/list.png) no-repeat 0 0;
 }
@@ -2178,10 +2174,6 @@ div.widgets-sortables,
 .rtl #post-body .misc-pub-section {
 	border-right-color: none;
 	border-left-color: #d1e5ee;
-}
-
-.toggle-arrow {
-	background: transparent url(../images/arrows-vs.png) no-repeat left 3px;
 }
 
 .rtl .sidebar-name-arrow {
