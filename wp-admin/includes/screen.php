@@ -737,7 +737,7 @@ final class WP_Screen {
 
 							// If it exists, fire tab callback.
 							if ( ! empty( $tab['callback'] ) )
-								call_user_func( $tab['callback'], $this, $tab );
+								call_user_func_array( $tab['callback'], array( $this, $tab ) );
 							?>
 						</div>
 					<?php endforeach; ?>
