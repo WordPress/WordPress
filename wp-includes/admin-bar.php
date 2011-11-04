@@ -255,7 +255,7 @@ function wp_admin_bar_site_menu( $wp_admin_bar ) {
 			'href'   => admin_url(),
 		) );
 
-		// Add the appearance menu.
+		// Add the appearance submenu items.
 		wp_admin_bar_appearance_menu( $wp_admin_bar );
 	}
 }
@@ -569,7 +569,7 @@ function wp_admin_bar_comments_menu( $wp_admin_bar ) {
 }
 
 /**
- * Add "Appearance" menu with widget and nav menu submenu.
+ * Add appearance submenu items to the "Site Name" menu.
  *
  * @since 3.1.0
  */
