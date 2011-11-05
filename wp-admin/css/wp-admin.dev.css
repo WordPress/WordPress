@@ -2948,7 +2948,7 @@ div.tabs-panel-inactive {
 	line-height: 1.35em;
 }
 
-#side-sortables .category-tabs li.hide-if-no-js {
+.no-js #side-sortables .category-tabs li.hide-if-no-js {
  	display: none;
 }
 
