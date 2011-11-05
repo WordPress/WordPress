@@ -362,7 +362,10 @@ do_action('dbx_post_sidebar'); ?>
 </form>
 </div>
 
-<?php wp_comment_reply(); ?>
+<?php
+if ( post_type_supports( $post_type, 'comments' ) )
+	wp_comment_reply();
+?>
 
 <?php if ((isset($post->post_title) && '' == $post->post_title) || (isset($_GET['message']) && 2 > $_GET['message'])) : ?>
 <script type="text/javascript">
