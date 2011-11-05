@@ -91,6 +91,10 @@
 	float: left;
 }
 
+#wpadminbar ul li:last-child, #wpadminbar ul li:last-child a {
+	border-left: 0;
+}
+
 #wpadminbar #wp-admin-bar-my-account .user-info-item {
 	margin-right: 88px;
 	margin-left: 16px;
@@ -111,14 +115,6 @@
 
 #wpadminbar .quicklinks li img.blavatar {
 	margin: -3px 0 0 4px;
-}
-
-#wpadminbar #wp-admin-bar-search {
-	border-left: 0;
-}
-
-#wpadminbar #wp-admin-bar-search a {
-	border-left: 0;
 }
 
 #wpadminbar #adminbarsearch {

@@ -286,6 +286,10 @@
 	float: right;
 }
 
+#wpadminbar ul li:last-child, #wpadminbar ul li:last-child a {
+	border-right: 0;
+}
+
 /**
  * My Account
  */
@@ -356,13 +360,8 @@
 /**
  * Search
  */
-#wpadminbar #wp-admin-bar-search {
-	border-right: 0;
-}
-
 #wpadminbar #wp-admin-bar-search a {
 	padding: 0;
-	border-right: 0;
 }
 
 #wpadminbar .quicklinks .admin-bar-search:hover {
