@@ -721,6 +721,14 @@ h2 .nav-tab,
 	width: 36px;
 }
 
+.icon16 {
+	height: 18px;
+	width: 18px;
+	padding: 6px 6px;
+	margin: -6px 0 0 -8px;
+	float: left;
+}
+
 .key-labels label {
 	line-height: 24px;
 }
@@ -2152,7 +2160,6 @@ body.admin-bar #adminmenu {
 	border-width: 1px 0;
 	border-style: solid;
 	position: relative;
-	font-size: 14px;
 	line-height: 1.6em;
 	overflow: auto;
 }
@@ -2161,7 +2168,10 @@ body.admin-bar #adminmenu {
 	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", sans-serif;
 	font-size: 32px;
 	font-weight: normal;
-	margin: 0 0 0.8em;
+	margin: 0.1em 0 0.8em;
+}
+.welcome-panel h4 {
+	font-size: 14px;
 }
 
 .welcome-panel .welcome-panel-close {
@@ -2184,12 +2194,31 @@ body.admin-bar #adminmenu {
 }
 
 .welcome-panel-content {
-	margin-left: 200px;
+	margin-left: 190px;
 }
 
 .welcome-panel .welcome-panel-column {
-	width: 33.33333%;
+	margin: 0 40px 0 24px;
+	max-width: 270px;
+	min-width: 220px;
+	width: 35%;
 	float: left;
+}
+.welcome-panel .welcome-panel-column:last-child {
+	margin-right: 0;
+}
+
+.welcome-panel h4 .icon16 {
+	margin-left: -32px;
+}
+
+.welcome-panel .welcome-panel-column ul {
+	margin-top: 1.6em;
+}
+
+.welcome-panel .welcome-panel-column li {
+	list-style-type: disc;
+	padding-left: 2px;
 }
 
 
