@@ -606,8 +606,7 @@ input.readonly, textarea.readonly {
 	background-color: #ddd;
 }
 
-#ed_toolbar input,
-#ed_reply_toolbar input {
+.quicktags-toolbar input {
 	background: #fff;
 	background-image: -ms-linear-gradient(bottom, #e5f0f8, #fff); /* IE10 */
 	background-image: -moz-linear-gradient(bottom, #e5f0f8, #fff); /* Firefox */
@@ -855,11 +854,11 @@ table.widefat .spam a:hover,
 	background-image: url("../images/ed-bg-vs.gif?ver=20101102");
 }
 
-#ed_toolbar input {
+.quicktags-toolbar input {
 	border-color: #b2c4c8;
 }
 
-#ed_toolbar input:hover {
+.quicktags-toolbar input:hover {
 	border-color: #d0dfe9;
 	background: #f0f8fe;
 }
@@ -1181,7 +1180,7 @@ table.widefat .spam a:hover,
 	background-image: -webkit-linear-gradient(bottom, #eff8ff, #fff);
 	background-image: linear-gradient(bottom, #eff8ff, #fff);
 }
-.wp-editor-wrap #ed_toolbar.quicktags-toolbar,
+.wp-editor-wrap .quicktags-toolbar,
 .wp-editor-wrap.wp_themeSkin tr.mceFirst td.mceToolbar {
 	border-bottom: 1px solid #ccc;
 	background-color: #eff8ff; /* Fallback */
