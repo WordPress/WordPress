@@ -48,16 +48,20 @@ class EnchantSpell extends SpellChecker {
 	 */
 	function &getSuggestions($lang, $word) {
 		$r = enchant_broker_init();
-		$suggs = array();
 
 		if (enchant_broker_dict_exists($r,$lang)) {
 			$d = enchant_broker_request_dict($r, $lang);
 			$suggs = enchant_dict_suggest($d, $word);
 
+			// enchant_dict_suggest() sometimes returns NULL
+			if (!is_array($suggs))
+				$suggs = array();
+
 			enchant_broker_free_dict($d);
 		} else {
-
+			$suggs = array();
 		}
+
 		enchant_broker_free($r);
 
 		return $suggs;
