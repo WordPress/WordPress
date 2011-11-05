@@ -88,10 +88,6 @@
 	border-right: 0;
 }
 
-/*#wpadminbar .quicklinks > ul > li:last-child > a {
-	border-right: none;
-}*/
-
 #wpadminbar .quicklinks a,
 #wpadminbar .shortlink-input {
 	height: 28px;
