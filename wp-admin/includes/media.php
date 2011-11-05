@@ -1344,7 +1344,8 @@ wpUploaderInit = <?php echo json_encode($plupload_init); ?>;
 <?php do_action('pre-plupload-upload-ui'); // hook change, old name: 'pre-flash-upload-ui' ?>
 <div id="drag-drop-area">
 	<div class="drag-drop-inside">
-	<p class="drag-drop-info"><?php _e('Drop files here or'); ?></p>
+	<p class="drag-drop-info"><?php _e('Drop files here'); ?></p>
+	<p><?php _ex('or', 'Uploader: Drop files here - or - Select Files'); ?></p>
 	<p class="drag-drop-buttons"><input id="plupload-browse-button" type="button" value="<?php esc_attr_e('Select Files'); ?>" class="button" /></p>
 	</div>
 </div>

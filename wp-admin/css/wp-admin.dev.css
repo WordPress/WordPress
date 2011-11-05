@@ -3799,18 +3799,23 @@ form.upgrade .hint {
 	width: 250px;
 }
 
+.drag-drop-inside p {
+	color: #aaa;
+	font-size: 14px;
+	margin: 5px 0;
+	display: none;
+}
+
 .drag-drop .drag-drop-inside p {
 	text-align: center;
 }
 
-.drag-drop-info {
-	color: #aaa;
-	display: none;
-	font-size: 24px;
-	margin: 10px 0;
+.drag-drop-inside p.drag-drop-info {
+	font-size: 20px;
 }
 
-.drag-drop .drag-drop-info {
+.drag-drop .drag-drop-inside p,
+.drag-drop-inside p.drag-drop-buttons {
 	display: block;
 }
 
