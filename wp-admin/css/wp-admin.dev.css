@@ -138,10 +138,6 @@ TABLE OF CONTENTS:
 	margin-right: 300px;
 }
 
-#post-body-content {
-	min-width: 465px;
-}
-
 #post-body-content #side-sortables.empty-container {
 	border: 0 none;
 	height: 0;
