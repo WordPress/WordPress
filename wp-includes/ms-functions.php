@@ -991,7 +991,7 @@ function wpmu_create_blog($domain, $path, $title, $user_id, $meta = '', $site_id
 	add_option( 'WPLANG', get_site_option( 'WPLANG' ) );
 	update_option( 'blog_public', (int)$meta['public'] );
 
-	if ( !is_super_admin() && ! get_user_meta( $user_id, 'primary_blog', true ) )
+	if ( ! is_super_admin( $user_id ) && ! get_user_meta( $user_id, 'primary_blog', true ) )
 		update_user_meta( $user_id, 'primary_blog', $blog_id );
 
 	restore_current_blog();
