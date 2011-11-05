@@ -131,9 +131,6 @@
 	font-family: Tahoma, Arial, Helvetica, sans-serif;
 	padding: 0 24px 0 3px;
 	margin: 0 0 0 3px;
-
-	/* @todo: replace/move twenty eleven image to a core search icon. */
-	background-image: url('../../wp-content/themes/twentyeleven/images/search.png');
 	background-position: 98% 2px;
 }
 
