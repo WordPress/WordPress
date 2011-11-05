@@ -91,7 +91,8 @@
 	float: left;
 }
 
-#wpadminbar ul li:last-child, #wpadminbar ul li:last-child a {
+#wpadminbar ul li:last-child,
+#wpadminbar ul li:last-child a {
 	border-left: 0;
 }
 

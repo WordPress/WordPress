@@ -286,7 +286,8 @@
 	float: right;
 }
 
-#wpadminbar ul li:last-child, #wpadminbar ul li:last-child a {
+#wpadminbar ul li:last-child,
+#wpadminbar ul li:last-child a {
 	border-right: 0;
 }
 
