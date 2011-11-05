@@ -6,16 +6,15 @@
  *
  * Run quicktags(settings) to initialize it, where settings is an object containing up to 3 properties:
  * settings = {
- *   id : 'my_id',          // the HTML ID of the textarea, required
- *   buttons: ''            // Comma separated list of the names of the default buttons to show. Optional.
- *                          // This overwrites buttons order and any buttons added by plugins.
- *                          // Current list of default button names: 'strong,em,link,block,del,ins,img,ul,ol,li,code,more,spell,close'
+ *   id : 'my_id',          the HTML ID of the textarea, required
+ *   buttons: ''            Comma separated list of the names of the default buttons to show. Optional.
+ *                          Current list of default button names: 'strong,em,link,block,del,ins,img,ul,ol,li,code,more,spell,close';
  * }
  *
  * The settings can also be a string quicktags_id.
  *
- * quicktags_id The ID of the textarea that will be the editor canvas
- * buttons Comma separated list of the buttons IDs that will be shown. Buttons added from JavaScript by plugins will not show.
+ * quicktags_id string The ID of the textarea that will be the editor canvas
+ * buttons string Comma separated list of the default buttons names that will be shown in that instance.
  */
 
 // new edit toolbar used with permission
