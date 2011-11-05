@@ -1364,8 +1364,8 @@ wpUploaderInit = <?php echo json_encode($plupload_init); ?>;
 <?php do_action('post-html-upload-ui'); ?>
 </div>
 
-<p><?php printf( __( 'Maximum upload file size: %d%s.' ), esc_html($upload_size_unit), esc_html($sizes[$u]) ); ?>
-<?php _e('After a file has been uploaded, you can add titles and descriptions.'); ?></p>
+<p><?php printf( __( 'Maximum upload file size: %d%s.' ), esc_html($upload_size_unit), esc_html($sizes[$u]) );
+echo ' ' . __('After a file has been uploaded, you can add titles and descriptions.'); ?></p>
 
 <?php
 	do_action('post-upload-ui');
