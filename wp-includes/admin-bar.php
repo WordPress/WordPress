@@ -75,7 +75,7 @@ function wp_admin_bar_wp_menu( $wp_admin_bar ) {
 	$wp_admin_bar->add_menu( array(
 		'id'    => 'wp-logo',
 		'title' => '&nbsp;',
-		'href'  => '#',
+		'href'  => admin_url( 'about.php' ),
 		'meta'  => array(
 			'class' => 'wp-admin-bar-logo',
 		),
