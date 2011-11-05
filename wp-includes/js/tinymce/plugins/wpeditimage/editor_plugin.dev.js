@@ -78,7 +78,7 @@
 			// show editimage buttons
 			ed.onMouseDown.add(function(ed, e) {
 
-				if ( e.target && (e.target.nodeName == 'IMG' || e.target.firstChild.nodeName == 'IMG') ) {
+				if ( e.target && ( e.target.nodeName == 'IMG' || (e.target.firstChild && e.target.firstChild.nodeName == 'IMG') ) ) {
 					mouse = {
 						x: e.clientX,
 						y: e.clientY,
