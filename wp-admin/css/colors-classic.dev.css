@@ -421,6 +421,7 @@ a:focus {
 }
 
 #adminmenu a:hover,
+#adminmenu li.menu-top > a:focus,
 #adminmenu ul.wp-submenu a:hover,
 #the-comment-list .comment a:hover,
 #rightnow a:hover,
@@ -1279,7 +1280,8 @@ table.widefat .spam a:hover,
 	border-color: #d1e5ee;
 }
 
-#adminmenu li.menu-top:hover > a {
+#adminmenu li.menu-top:hover > a,
+#adminmenu li.menu-top > a:focus {
 	background-color: #e0f1ff;
 	text-shadow: 0 1px 0 rgba( 255, 255, 255, 0.4 );
 }
@@ -1339,7 +1341,8 @@ table.widefat .spam a:hover,
 	border-bottom-color: #5589AA;
 }
 
-#adminmenu .wp-submenu a:hover {
+#adminmenu .wp-submenu a:hover,
+#adminmenu .wp-submenu a:focus {
 	background-color: #EFF8FF;
 	color: #333;
 }

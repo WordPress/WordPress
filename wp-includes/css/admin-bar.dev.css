@@ -188,20 +188,24 @@
 }
 
 #wpadminbar.nojs .ab-top-menu > li.menupop:hover,
-#wpadminbar .ab-top-menu li.menupop.hover {
+#wpadminbar .ab-top-menu li.menupop.hover,
+#wpadminbar .quicklinks .menupop > a:focus {
 	background: #fff;
 }
 
 #wpadminbar.nojs .quicklinks .menupop:hover a,
 #wpadminbar.nojs .quicklinks .menupop:hover span,
 #wpadminbar .quicklinks .menupop.hover a,
-#wpadminbar .quicklinks .menupop.hover span {
+#wpadminbar .quicklinks .menupop.hover span,
+#wpadminbar .quicklinks .menupop a:focus,
+#wpadminbar .quicklinks .menupop a:focus span {
 	color: #333;
 	text-shadow: none;
 }
 
 #wpadminbar .quicklinks .menupop li:hover,
-#wpadminbar .quicklinks .menupop li.hover {
+#wpadminbar .quicklinks .menupop li.hover,
+#wpadminbar .quicklinks .menupop a:focus {
 	background-color: #eaf2fa;
 }
 
@@ -256,7 +260,8 @@
 }
 
 #wpadminbar .quicklinks .menupop li.secondary > ul > li:hover,
-#wpadminbar .quicklinks .menupop li.secondary > ul > li.hover {
+#wpadminbar .quicklinks .menupop li.secondary > ul > li.hover,
+#wpadminbar .quicklinks .menupop li.secondary > ul > li a:focus {
 	background: #dfdfdf;
 }
 

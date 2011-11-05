@@ -146,7 +146,7 @@ class WP_Admin_Bar {
 		?>
 
 		<li id="<?php echo esc_attr( "wp-admin-bar-{$node->id}" ); ?>" class="<?php echo esc_attr( $menuclass ); ?>">
-			<a href="<?php echo esc_url( $node->href ) ?>"<?php
+			<a tabindex="1" href="<?php echo esc_url( $node->href ) ?>"<?php
 				if ( ! empty( $node->meta['onclick'] ) ) :
 					?> onclick="<?php echo esc_js( $node->meta['onclick'] ); ?>"<?php
 				endif;

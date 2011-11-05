@@ -22,6 +22,19 @@ if ( typeof(jQuery) != 'undefined' ) {
 				$(this).parents('#wp-admin-bar-get-shortlink').removeClass('selected');
 			}).focus().select();
 		});
+
+		$('.ab-top-menu > li > a').bind('focus.adminbar', function(){
+			$(this).parent().addClass('hover').find('a').attr('tabindex', '-1').attr('tabindex', '1');
+		});
+
+		$('.ab-top-menu li ul li a').bind('blur.adminbar', function(){
+			var t = $(this);
+
+			setTimeout(function(){
+				if ( !t.parent().parent().find('a:focus').length )
+					t.parents('li.menupop').removeClass('hover');
+			}, 200);
+		});
 	});
 } else {
 	(function(d, w) {
