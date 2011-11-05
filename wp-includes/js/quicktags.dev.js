@@ -7,19 +7,15 @@
  * Run quicktags(settings) to initialize it, where settings is an object containing up to 3 properties:
  * settings = {
  *   id : 'my_id',          // the HTML ID of the textarea, required
- *   buttons: '',           // Comma separated list of the names of the default buttons to show. Optional.
+ *   buttons: ''            // Comma separated list of the names of the default buttons to show. Optional.
  *                          // This overwrites buttons order and any buttons added by plugins.
  *                          // Current list of default button names: 'strong,em,link,block,del,ins,img,ul,ol,li,code,more,spell,close'
- *   disabled_buttons : ''  // Comma separated list of the names of the buttons to disable.
  * }
  *
  * The settings can also be a string quicktags_id.
  *
  * quicktags_id The ID of the textarea that will be the editor canvas
- * buttons Comma separated list of the buttons IDs that will be shown. Buttons added by plugins
- * will not show. Default: 'strong,em,link,block,del,ins,img,ul,ol,li,code,more,spell,close'
- * disabled_buttons Comma separated list of the buttons IDs that should be excluded. Buttons
- * added by plugins will show unless specifically disabled.
+ * buttons Comma separated list of the buttons IDs that will be shown. Buttons added from JavaScript by plugins will not show.
  */
 
 // new edit toolbar used with permission
@@ -147,8 +143,6 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 			zeroise( now.getUTCSeconds() ) +
 			'+00:00';
 	})(),
-
-	_customButtons = {},
 	qt;
 
 	qt = QTags = function(settings) {
@@ -192,7 +186,7 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 			var target = e.target || e.srcElement, i;
 
 			// as long as it has the class ed_button, execute the callback
-			if ( /\s+ed_button\s+/.test(' ' + target.className + ' ' ) ) {
+			if ( / ed_button /.test(' ' + target.className + ' ') ) {
 				// we have to reassign canvas here
 				t.canvas = canvas = document.getElementById(id);
 				i = target.id.replace(name + '_', '');
@@ -226,66 +220,39 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 
 	qt.instances = {};
 
-	qt.registerButton = function(id, btnClass) {
-		_customButtons[id] = btnClass;
-	};
-
 	qt.getInstance = function(id) {
 		return qt.instances[id];
 	};
 
 	qt._buttonsInit = function() {
-		var t = this, instance, canvas, name, settings, buttons, theButtons, html, id, i, qb, btn;
+		var t = this, canvas, name, settings, theButtons, html, inst, ed, id, i, use = '',
+			defaults = ',strong,em,link,block,del,ins,img,ul,ol,li,code,more,spell,close,';
 
-		for ( id in t.instances ) {
-			if ( id == 0 )
+		for ( inst in t.instances ) {
+			if ( inst == 0 )
 				continue;
 
-			instance = t.instances[id];
-			canvas = instance.canvas;
-			name = instance.name;
-			settings = instance.settings;
+			ed = t.instances[inst];
+			canvas = ed.canvas;
+			name = ed.name;
+			settings = ed.settings;
 			html = '';
-			buttons = {};
 			theButtons = {};
 
 			// set buttons
+			if ( settings.buttons )
+				use = ','+settings.buttons+',';
+
 			for ( i in edButtons ) {
 				if ( !edButtons[i] )
 					continue;
 
-				buttons[edButtons[i].id] = edButtons[i];
-			}
+				id = edButtons[i].id;
+				if ( use && defaults.indexOf(','+id+',') != -1 && use.indexOf(','+id+',') == -1 )
+					continue;
 
-			if ( id == 'content' && typeof(adminpage) == 'string' && ( adminpage == 'post-new-php' || adminpage == 'post-php' ) )
-				buttons['fullscreen'] = new qt.FullscreenButton();
-
-			// add custom buttons
-			for ( i in t._customButtons ) {
-				if ( !buttons[i] )
-					buttons[i] = new t._customButtons[i]();
-			}
-
-			if ( settings.buttons ) {
-				qb = settings.buttons.split(',');
-
-				for ( i in qb ) {
-					btn = qb[i];
-					if ( buttons[btn] )
-						theButtons[btn] = buttons[btn];
-				}
-			} else {
-				theButtons = buttons;
-			}
-
-			if ( settings.disabled_buttons ) {
-				qb = settings.disabled_buttons.split(',');
-
-				for ( i in qb ) {
-					btn = qb[i];
-					if ( theButtons[btn] )
-						delete(theButtons[btn]);
-				}
+				if ( !edButtons[i].instance || edButtons[i].instance == inst )
+					theButtons[id] = edButtons[i];
 			}
 
 			for ( i in theButtons ) {
@@ -295,8 +262,8 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 				html += theButtons[i].html(name + '_');
 			}
 
-			instance.toolbar.innerHTML = html;
-			instance.theButtons = theButtons;
+			ed.toolbar.innerHTML = html;
+			ed.theButtons = theButtons;
 		}
 		t.buttonsInitDone = true;
 	};
@@ -315,18 +282,19 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 	 *
 	 * Minimum required to add a button that inserts a tag:
 	 *     QTags.addButton( 'my_id', 'my button', '<span>', '</span>' );
-	 *     QTags.addButton( 'my_id', 'my button', '<br />' );
+	 *     QTags.addButton( 'my_id2', 'my button', '<br />' );
 	 *
 	 * @param id string required Button HTML ID
 	 * @param display string required Button's value="..."
 	 * @param arg1 string || function required Either a starting tag to be inserted like "<span>" or a callback that is executed when the button is clicked.
-	 * @param arg2 string Ending tag like "</span>"
-	 * @param access_key string Access key for the button
-	 * @param title string Button's title="..." 
-	 * @param priority int Number representing the desired position of the button in the toolbar. 1 - 9 = first, 11 - 19 = second, 21 - 29 = third, etc.
-	 * @return mixed null or the button object that is needed for back-compat. The common method of adding a button was to manually add it to the buttons array.
+	 * @param arg2 string optional Ending tag like "</span>"
+	 * @param access_key string optional Access key for the button.
+	 * @param title string optional Button's title="..." 
+	 * @param priority int optional Number representing the desired position of the button in the toolbar. 1 - 9 = first, 11 - 19 = second, 21 - 29 = third, etc.
+	 * @param instance string optional Limit the button to a specifric instance of Quicktags, add to all instances if not present.
+	 * @return mixed null or the button object that is needed for back-compat.
 	 */	 	 	 	
-	qt.addButton = function( id, display, arg1, arg2, access_key, title, priority ) {
+	qt.addButton = function( id, display, arg1, arg2, access_key, title, priority, instance ) {
 		var btn;
 		
 		if ( !id || !display )
@@ -336,10 +304,10 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 		arg2 = arg2 || '';
 
 		if ( typeof(arg1) === 'function' ) {
-			btn = new qt.Button(id, display, access_key, title);
+			btn = new qt.Button(id, display, access_key, title, instance);
 			btn.callback = arg1;
 		} else if ( typeof(arg1) === 'string' ) {
-			btn = new qt.TagButton(id, display, arg1, arg2, access_key, title);
+			btn = new qt.TagButton(id, display, arg1, arg2, access_key, title, instance);
 		} else {
 			return;
 		}
@@ -392,12 +360,13 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 	};
 
 	// a plain, dumb button
-	qt.Button = function(id, display, access, title) {
+	qt.Button = function(id, display, access, title, instance) {
 		var t = this;
 		t.id = id;
 		t.display = display;
 		t.access = access;
 		t.title = title || '';
+		t.instance = instance || '';
 	};
 	qt.Button.prototype.html = function(idPrefix) {
 		var access = this.access ? ' accesskey="' + this.access + '"' : '';
@@ -406,9 +375,9 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 	qt.Button.prototype.callback = function(){};
 
 	// a button that inserts HTML tag
-	qt.TagButton = function(id, display, tagStart, tagEnd, access, title) {
+	qt.TagButton = function(id, display, tagStart, tagEnd, access, title, instance) {
 		var t = this;
-		qt.Button.call(t, id, display, access, title);
+		qt.Button.call(t, id, display, access, title, instance);
 		t.tagStart = tagStart;
 		t.tagEnd = tagEnd;
 	};

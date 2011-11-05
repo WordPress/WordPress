@@ -139,35 +139,25 @@ class WP_Editor {
 		$first_run = false;
 
 		if ( $this->this_quicktags ) {
-			$qt_buttons = array();
 
 			$qtInit = array(
 				'id' => $editor_id,
-				'buttons' => '',
-				'disabled_buttons' => ''
+				'buttons' => ''
 			);
 
 			if ( is_array($set['quicktags']) )
 				$qtInit = array_merge($qtInit, $set['quicktags']);
 
-			$qtInit = apply_filters( 'quicktags_settings', $qtInit, $editor_id );
-
-			$this->qt_settings[$editor_id] = $qtInit;
-
-			if ( !empty($qtInit['buttons']) || !empty($qtInit['disabled_buttons']) ) {
-				if ( strpos( ',' . $qtInit['buttons'] . ',', ',link,' ) !== false )
-					$qt_buttons[] = 'link';
-
-				if ( strpos( ',' . $qtInit['disabled_buttons'] . ',', ',link,' ) !== false )
-					$qt_buttons = array();
-			} else {
-				$qt_buttons[] = 'link';
-			}
+			if ( empty($qtInit['buttons']) )
+				$qtInit['buttons'] = 'strong,em,link,block,del,ins,img,ul,ol,li,code,more,spell,close';
 
 			if ( $set['dfw'] )
-				$qt_buttons[] = 'fullscreen';
+				$qtInit['buttons'] .= ',fullscreen';
 
-			$this->qt_buttons = array_merge( $this->qt_buttons, $qt_buttons );
+			$qtInit = apply_filters('quicktags_settings', $qtInit, $editor_id);
+			$this->qt_settings[$editor_id] = $qtInit;
+
+			$this->qt_buttons = array_merge( $this->qt_buttons, explode(',', $qtInit['buttons']) );
 		}
 
 		if ( $this->this_tinymce ) {
