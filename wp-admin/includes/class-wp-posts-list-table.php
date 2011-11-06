@@ -46,7 +46,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	var $sticky_posts_count = 0;
 
 	function __construct() {
-		global $post_type_object, $post_type, $wpdb;
+		global $post_type_object, $wpdb;
 
 		if ( !isset( $_REQUEST['post_type'] ) )
 			$post_type = 'post';
@@ -86,7 +86,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	}
 
 	function prepare_items() {
-		global $post_type_object, $post_type, $avail_post_stati, $wp_query, $per_page, $mode;
+		global $post_type_object, $avail_post_stati, $wp_query, $per_page, $mode;
 
 		$avail_post_stati = wp_edit_posts_query();
 
@@ -94,6 +94,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 		$total_items = $this->hierarchical_display ? $wp_query->post_count : $wp_query->found_posts;
 
+		$post_type = $post_type_object->name;
 		$per_page = $this->get_items_per_page( 'edit_' . $post_type . '_per_page' );
  		$per_page = apply_filters( 'edit_posts_per_page', $per_page, $post_type );
 
@@ -127,7 +128,9 @@ class WP_Posts_List_Table extends WP_List_Table {
 	}
 
 	function get_views() {
-		global $post_type, $post_type_object, $locked_post_status, $avail_post_stati;
+		global $post_type_object, $locked_post_status, $avail_post_stati;
+
+		$post_type = $post_type_object->name;
 
 		if ( !empty($locked_post_status) )
 			return array();
@@ -202,15 +205,15 @@ class WP_Posts_List_Table extends WP_List_Table {
 	}
 
 	function extra_tablenav( $which ) {
-		global $post_type, $post_type_object, $cat;
+		global $post_type_object, $cat;
 ?>
 		<div class="alignleft actions">
 <?php
 		if ( 'top' == $which && !is_singular() ) {
 
-			$this->months_dropdown( $post_type );
+			$this->months_dropdown( $post_type_object->name );
 
-			if ( is_object_in_taxonomy( $post_type, 'category' ) ) {
+			if ( is_object_in_taxonomy( $post_type_object->name, 'category' ) ) {
 				$dropdown_options = array(
 					'show_option_all' => __( 'View all categories' ),
 					'hide_empty' => 0,
