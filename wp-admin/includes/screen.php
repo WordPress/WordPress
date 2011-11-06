@@ -682,10 +682,9 @@ final class WP_Screen {
 
 		// Default help only if there is no old-style block of text and no new-style help tabs.
 		if ( empty( $old_help ) && empty( $this->_help_tabs ) ) {
-			$default_help = __( '<a href="http://codex.wordpress.org/" target="_blank">Documentation</a>' );
-			$default_help .= '<br />';
-			$default_help .= __( '<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>' );
-			$old_help = '<p>' . apply_filters( 'default_contextual_help', $default_help ) . '</p>';
+			$default_help = apply_filters( 'default_contextual_help', '' );
+			if ( $default_help )
+				$old_help = '<p>' . $default_help . '</p>';
 		}
 
 		if ( $old_help ) {
@@ -749,15 +748,21 @@ final class WP_Screen {
 			$this->render_screen_options();
 		?>
 		</div>
+		<?php
+		if ( ! $this->_help_tabs && ! $this->show_screen_options() )
+			return;
+		?>
 		<div id="screen-meta-links">
-		<div id="contextual-help-link-wrap" class="hide-if-no-js screen-meta-toggle">
-		<a href="#contextual-help-wrap" id="contextual-help-link" class="show-settings"><?php _e('Help') ?></a>
-		</div>
-		<?php if ( $this->show_screen_options() ) { ?>
-		<div id="screen-options-link-wrap" class="hide-if-no-js screen-meta-toggle">
-		<a href="#screen-options-wrap" id="show-settings-link" class="show-settings"><?php _e('Screen Options') ?></a>
-		</div>
-		<?php } ?>
+		<?php if ( $this->_help_tabs ) : ?>
+			<div id="contextual-help-link-wrap" class="hide-if-no-js screen-meta-toggle">
+			<a href="#contextual-help-wrap" id="contextual-help-link" class="show-settings"><?php _e( 'Help' ); ?></a>
+			</div>
+		<?php endif;
+		if ( $this->show_screen_options() ) : ?>
+			<div id="screen-options-link-wrap" class="hide-if-no-js screen-meta-toggle">
+			<a href="#screen-options-wrap" id="show-settings-link" class="show-settings"><?php _e( 'Screen Options' ); ?></a>
+			</div>
+		<?php endif; ?>
 		</div>
 		<?php
 	}
