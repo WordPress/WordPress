@@ -659,7 +659,7 @@ input.readonly, textarea.readonly {
 .plugins .inactive th,
 .plugins .inactive td,
 tr.inactive + tr.plugin-update-tr .plugin-update {
-	background-color: #efede7;
+	background-color: #f4f4f4;
 }
 
 .plugin-update-tr .update-message {
@@ -1687,7 +1687,7 @@ table.diff .diff-addedline ins {
 	background: transparent url(../images/arrows.png) no-repeat right 3px;
 }
 
-#screen-meta-links .screen-meta-active a.show-settings {
+#screen-meta-links a.show-settings.screen-meta-active  {
 	background: transparent url(../images/arrows.png) no-repeat right -33px;
 }
 
