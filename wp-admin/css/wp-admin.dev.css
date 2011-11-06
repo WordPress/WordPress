@@ -3126,7 +3126,11 @@ td.post-title p, td.plugin-title p {
 	cursor: se-resize;
 	margin: 0 2px;
 	position: relative;
-	top: 22px;
+	top: -2px;
+}
+
+#post-body .postarea .wp_themeSkin .mceStatusbar a.mceResize {
+	top: 20px;
 }
 
 #wp-word-count {
