@@ -1,3 +1,15 @@
+Version 1.5.1.1 (2011-09-27)
+	HTML5: Fix mechanical typo, that successfully broke drag and drop, wherever could.
+Version 1.5.1 (2011-09-26)
+	HTML4: Add support for server responses in HTML format.
+	HTML5: Disable multiple file selection in Safari 5.x for Windows (see #363).
+	HTML5: Gecko 2/5/6 should upload chunks as binary strings when in chunking mode and client side resize is requested.
+	Flash: Enforce URLStream mode when custom headers are passed.
+	Flash: Fix embedding problems in IE9 (and all other IEs).
+	Flash/Gears/BrowserPlus/SilverLight: Expose multi_selection feature, to be used in required_features (mainly to overcome Safari for Windows problem).
+	SilverLight: Properly handle custom and null headers.
+	UploadComplete moved to fire after the last StateChanged event.
+	Additional language packs: Finnish.
 Version 1.5b (2011-09-11)
 	UI Widget: Fix sortable logic.
 	UI Widget: Fix bug, when message was displayed simultaneously across all Plupload UI instances on the page.
