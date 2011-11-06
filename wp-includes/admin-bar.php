@@ -210,7 +210,12 @@ function wp_admin_bar_my_account_menu( $wp_admin_bar ) {
 function wp_admin_bar_site_menu( $wp_admin_bar ) {
 	global $current_site;
 
+	// Don't show for logged out users.
 	if ( ! is_user_logged_in() )
+		return;
+
+	// Show only when the user is a member of this site, or they're a super admin.
+	if ( ! is_user_member_of_blog( get_current_user_id(), get_current_blog_id() ) && ! is_super_admin() )
 		return;
 
 	$blogname = get_bloginfo('name');
@@ -272,8 +277,8 @@ function wp_admin_bar_my_sites_menu( $wp_admin_bar ) {
 	if ( ! is_user_logged_in() || ! is_multisite() )
 		return;
 
-	// Show only when there are more than two items in the menu.
-	if ( count( $wp_admin_bar->user->blogs ) <= 1 && ! is_super_admin() )
+	// Show only when the user has at least one site, or they're a super admin.
+	if ( count( $wp_admin_bar->user->blogs ) < 1 && ! is_super_admin() )
 		return;
 
 	$wp_admin_bar->add_menu( array(
@@ -331,11 +336,6 @@ function wp_admin_bar_my_sites_menu( $wp_admin_bar ) {
 	$blue_wp_logo_url = includes_url('images/wpmini-blue.png');
 
 	foreach ( (array) $wp_admin_bar->user->blogs as $blog ) {
-		// Skip the current blog (unless we're in the network/user admin).
-		if ( $blog->userblog_id == get_current_blog_id() && ! is_network_admin() && ! is_user_admin() ) {
-			continue;
-		}
-
 		// @todo Replace with some favicon lookup.
 		//$blavatar = '<img src="' . esc_url( blavatar_url( blavatar_domain( $blog->siteurl ), 'img', 16, $blue_wp_logo_url ) ) . '" alt="Blavatar" width="16" height="16" />';
 		$blavatar = '<img src="' . esc_url($blue_wp_logo_url) . '" alt="' . esc_attr__( 'Blavatar' ) . '" width="16" height="16" class="blavatar"/>';
