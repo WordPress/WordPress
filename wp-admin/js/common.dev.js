@@ -124,18 +124,22 @@ screenMeta = {
 		panel.parent().show();
 		panel.slideDown( 'fast', function() {
 			link.addClass('screen-meta-active');
+			screenMeta.refresh();
 		});
-
-		screenMeta.refresh();
 	},
 
 	refresh: function( panel, link ) {
-		var columns = $('#contextual-help-wrap').children(), height;
+		var columns = $('#contextual-help-wrap').children(), height = 0;
 
-		columns.height('auto');
+		columns.each(function(){
+			var h = $(this).height();
 
-		height = Math.max.apply( null, $.map( columns, function( el ) { return $(el).height(); }) );
-		columns.height( height );
+			if ( h > height )
+				height = h;
+		});
+
+		if ( height )
+			columns.height( height );
 	},
 
 	close: function( panel, link ) {
