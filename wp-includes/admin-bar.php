@@ -177,6 +177,7 @@ function wp_admin_bar_my_account_menu( $wp_admin_bar ) {
 			'parent' => 'my-account',
 			'id'     => 'user-info',
 			'title'  => $user_info,
+			'href'   => get_edit_profile_url( $user_id ),
 			'meta'   => array(
 				'class' => 'user-info user-info-item'
 			),
