@@ -71,13 +71,6 @@
 	left: 100%;
 }
 
-#wpadminbar .ab-top-menu > .menupop > a span {
-	padding-right: 0;
-	padding-left: 10px;
-	margin-right: 0;
-	margin-left: -10px;
-}
-
 #wpadminbar .opposite.menupop li a > span {
 	padding: 0 1.5em 0 0;
 }
