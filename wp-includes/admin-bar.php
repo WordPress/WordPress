@@ -179,6 +179,7 @@ function wp_admin_bar_my_account_menu( $wp_admin_bar ) {
 			'href'   => $profile_url,
 			'meta'   => array(
 				'class' => 'user-info user-info-item',
+				'tabindex' => -1
 			),
 		) );
 		$wp_admin_bar->add_menu( array(

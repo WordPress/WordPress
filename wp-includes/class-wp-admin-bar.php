@@ -143,10 +143,12 @@ class WP_Admin_Bar {
 		$menuclass = $is_parent ? 'menupop' : '';
 		if ( ! empty( $node->meta['class'] ) )
 			$menuclass .= ' ' . $node->meta['class'];
+
+		$tabindex = !empty($node->meta['tabindex']) ? $node->meta['tabindex'] : 10;
 		?>
 
 		<li id="<?php echo esc_attr( "wp-admin-bar-{$node->id}" ); ?>" class="<?php echo esc_attr( $menuclass ); ?>">
-			<a tabindex="1" href="<?php echo esc_url( $node->href ) ?>"<?php
+			<a tabindex="<?php echo (int) $tabindex; ?>" href="<?php echo esc_url( $node->href ) ?>"<?php
 				if ( ! empty( $node->meta['onclick'] ) ) :
 					?> onclick="<?php echo esc_js( $node->meta['onclick'] ); ?>"<?php
 				endif;
