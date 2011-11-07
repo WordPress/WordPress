@@ -179,17 +179,18 @@ inlineEditPost = {
 				$('ul.'+taxname+'-checklist :checkbox', editRow).val(term_ids.split(','));
 			}
 		});
+
 		//flat taxonomies
 		$('.tags_input', rowData).each(function(){
-			var terms = $(this).text();
+			var terms = $(this).text(),
+				taxname = $(this).attr('id').replace('_' + id, ''),
+				textarea = $('textarea.tax_input_' + taxname, editRow);
 
-			if ( terms ) {
-				taxname = $(this).attr('id').replace('_'+id, '');
-				$('textarea.tax_input_'+taxname, editRow).val(terms);
-				$('textarea.tax_input_'+taxname, editRow).suggest( 'admin-ajax.php?action=ajax-tag-search&tax='+taxname, { delay: 500, minchars: 2, multiple: true, multipleSep: ", " } );
-			}
+			if ( terms )
+				textarea.val(terms);
+
+			textarea.suggest( 'admin-ajax.php?action=ajax-tag-search&tax='+taxname, { delay: 500, minchars: 2, multiple: true, multipleSep: ", " } );
 		});
-
 
 		// handle the post status
 		status = $('._status', rowData).text();
