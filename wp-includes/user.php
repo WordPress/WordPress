@@ -736,10 +736,8 @@ function is_user_member_of_blog( $user_id = 0, $blog_id = 0 ) {
 	if ( empty( $user_id ) )
 		$user_id = get_current_user_id();
 
-	if ( empty( $blog_id ) ) {
-		global $wpdb;
-		$blog_id = $wpdb->blogid;
-	}
+	if ( empty( $blog_id ) )
+		$blog_id = get_current_blog_id();
 
 	$blogs = get_blogs_of_user( $user_id );
 	if ( is_array( $blogs ) )
