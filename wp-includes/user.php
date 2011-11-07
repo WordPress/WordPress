@@ -652,6 +652,16 @@ function get_users( $args = array() ) {
 function get_blogs_of_user( $user_id, $all = false ) {
 	global $wpdb;
 
+	$user_id = (int) $user_id;
+
+	// Logged out users can't have blogs
+	if ( empty( $user_id ) )
+		return false;
+
+	$keys = get_user_meta( $user_id );
+	if ( empty( $keys ) )
+		return false;
+
 	if ( ! is_multisite() ) {
 		$blog_id = get_current_blog_id();
 		$blogs = array( $blog_id => new stdClass );
@@ -663,16 +673,6 @@ function get_blogs_of_user( $user_id, $all = false ) {
 		$blogs[ $blog_id ]->siteurl = get_option('siteurl');
 		return $blogs;
 	}
-
-	$user_id = (int) $user_id;
-
-	// Logged out users can't have blogs
-	if ( empty( $user_id ) )
-		return false;
-
-	$keys = get_user_meta( $user_id );
-	if ( empty( $keys ) )
-		return false;
 
 	$blogs = array();
 
