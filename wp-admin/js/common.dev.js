@@ -145,7 +145,7 @@ screenMeta = {
 	close: function( panel, link ) {
 		panel.slideUp( 'fast', function() {
 			link.removeClass('screen-meta-active');
-			$('.screen-meta-toggle').css('visibility', '');		
+			$('.screen-meta-toggle').css('visibility', '');
 			panel.parent().hide();
 		});
 	}
@@ -224,6 +224,18 @@ $(document).ready( function() {
 		timeout: 200,
 		sensitivity: 7,
 		interval: 90
+	});
+
+	// Admin menu keyboard navigation.
+	$('li.wp-has-submenu').focusin( function() {
+		$(this).addClass('focused');
+	}).focusout( function() {
+		$(this).removeClass('focused');
+	});
+
+	// If the mouse is used on the menu, shift focus to the mouse.
+	menu.mouseover( function(e) {
+		$('li.focused', this).removeClass('focused');
 	});
 
 	// Move .updated and .error alert boxes. Don't move boxes designed to be inline.

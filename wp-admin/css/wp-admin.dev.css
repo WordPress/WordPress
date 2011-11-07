@@ -1565,7 +1565,8 @@ form.upgrade .hint {
 .js #adminmenu .wp-submenu.sub-open,
 .folded #adminmenu .wp-has-current-submenu .wp-submenu.sub-open,
 .no-js #adminmenu .wp-has-submenu:hover .wp-submenu,
-#adminmenu .wp-has-current-submenu .wp-submenu {
+#adminmenu .wp-has-current-submenu .wp-submenu,
+#adminmenu li.focused .wp-submenu {
 	display: block;
 }
 
@@ -1592,6 +1593,8 @@ form.upgrade .hint {
 }
 
 #adminmenu .wp-submenu.sub-open,
+#adminmenu li.focused.wp-not-current-submenu .wp-submenu,
+.folded #adminmenu li.focused.wp-has-current-submenu .wp-submenu,
 .folded #adminmenu .wp-has-current-submenu .wp-submenu.sub-open,
 .no-js #adminmenu .wp-has-submenu:hover .wp-submenu,
 .no-js.folded #adminmenu .wp-has-current-submenu:hover .wp-submenu {
@@ -1717,15 +1720,18 @@ body.no-js #adminmenu .wp-menu-toggle,
 
 #adminmenu li.wp-has-current-submenu .wp-menu-arrow,
 #adminmenu li.menu-top.current .wp-menu-arrow,
-#adminmenu li.wp-not-current-submenu:hover .wp-menu-arrow {
+#adminmenu li.wp-not-current-submenu:hover .wp-menu-arrow,
+#adminmenu li.focused .wp-menu-arrow {
 	display: block;
 }
 
-.folded #adminmenu li.wp-not-current-submenu:hover .wp-menu-arrow {
+.folded #adminmenu li.wp-not-current-submenu:hover .wp-menu-arrow,
+.folded #adminmenu li.focused .wp-menu-arrow {
 	display: none;
 }
 
-#adminmenu li.menu-top:hover .wp-menu-arrow {
+#adminmenu li.menu-top:hover .wp-menu-arrow,
+#adminmenu li.menu-top.focused .wp-menu-arrow {
 	z-index: 1001;
 }
 

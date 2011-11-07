@@ -1297,6 +1297,7 @@ table.widefat .spam a:hover,
 }
 
 #adminmenu li.menu-top:hover > a,
+#adminmenu li.menu-top.focused > a,
 #adminmenu li.menu-top > a:focus {
 	background-color: #e0f1ff;
 	text-shadow: 0 1px 0 rgba( 255, 255, 255, 0.4 );
