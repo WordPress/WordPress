@@ -105,7 +105,7 @@ class WP_Widget_Links extends WP_Widget {
 
 		if ( is_admin() && !$category ) {
 			// Display All Links widget as such in the widgets screen
-			echo $before_widget . $before_title. __('All Links') . $after_title . $after_widget;
+			echo $before_widget . $before_title . _x('All Links', 'links widget') . $after_title . $after_widget;
 			return;
 		}
 
@@ -140,7 +140,7 @@ class WP_Widget_Links extends WP_Widget {
 		<p>
 		<label for="<?php echo $this->get_field_id('category'); ?>" class="screen-reader-text"><?php _e('Select Link Category'); ?></label>
 		<select class="widefat" id="<?php echo $this->get_field_id('category'); ?>" name="<?php echo $this->get_field_name('category'); ?>">
-		<option value=""><?php _e('All Links'); ?></option>
+		<option value=""><?php _ex('All Links', 'links widget'); ?></option>
 		<?php
 		foreach ( $link_cats as $link_cat ) {
 			echo '<option value="' . intval($link_cat->term_id) . '"'
