@@ -9,8 +9,6 @@ body {
 	margin: 2em auto;
 	width: 700px;
 	padding: 1em 2em;
-	-moz-border-radius: 11px;
-	-khtml-border-radius: 11px;
 	-webkit-border-radius: 11px;
 	border-radius: 11px;
 	border: 1px solid #dfdfdf;
@@ -82,13 +80,10 @@ abbr {
 	cursor: pointer;
 	border: 1px solid #bbb;
 	color: #464646;
-	-moz-border-radius: 15px;
-	-khtml-border-radius: 15px;
 	-webkit-border-radius: 15px;
 	border-radius: 15px;
 	-moz-box-sizing: content-box;
 	-webkit-box-sizing: content-box;
-	-khtml-box-sizing: content-box;
 	box-sizing: content-box;
 }
 
@@ -107,8 +102,6 @@ abbr {
 
 textarea {
 	border: 1px solid #bbb;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 }

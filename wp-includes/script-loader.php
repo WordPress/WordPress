@@ -437,7 +437,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
 
 	// all colors stylesheets need to have the same query strings (cache manifest compat)
-	$colors_version = '20111106a';
+	$colors_version = '20111107';
 
 	// Register "meta" stylesheet for admin colors. All colors-* style sheets should have the same version string.
 	$styles->add( 'colors', true, array('wp-admin'), $colors_version );
@@ -447,14 +447,14 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'colors-classic', "/wp-admin/css/colors-classic$suffix.css", array('wp-admin'), $colors_version );
 
 	$styles->add( 'media', "/wp-admin/css/media$suffix.css", array(), '20111101' );
-	$styles->add( 'install', "/wp-admin/css/install$suffix.css", array(), '20110821' ); // Readme as well
+	$styles->add( 'install', "/wp-admin/css/install$suffix.css", array(), '20111107' ); // Readme as well
 	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css', array(), '20090514' );
 	$styles->add( 'farbtastic', '/wp-admin/css/farbtastic.css', array(), '1.3u1' );
 	$styles->add( 'jcrop', '/wp-includes/js/jcrop/jquery.Jcrop.css', array(), '0.9.8' );
 	$styles->add( 'imgareaselect', '/wp-includes/js/imgareaselect/imgareaselect.css', array(), '0.9.1' );
 	$styles->add( 'admin-bar', "/wp-includes/css/admin-bar$suffix.css", array(), '20111106' );
-	$styles->add( 'wp-jquery-ui-dialog', "/wp-includes/css/jquery-ui-dialog$suffix.css", array(), '20101224' );
-	$styles->add( 'editor-buttons', "/wp-includes/css/editor-buttons$suffix.css", array(), '20111104' );
+	$styles->add( 'wp-jquery-ui-dialog', "/wp-includes/css/jquery-ui-dialog$suffix.css", array(), '20111107' );
+	$styles->add( 'editor-buttons', "/wp-includes/css/editor-buttons$suffix.css", array(), '20111107' );
 	$styles->add( 'wp-pointer', "/wp-includes/css/wp-pointer$suffix.css", array(), '20111017' );
 
 	foreach ( $rtl_styles as $rtl_style ) {

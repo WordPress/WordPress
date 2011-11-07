@@ -37,8 +37,6 @@ input.checkbox {border:1px none #000000; background:transparent; vertical-align:
 	height:24px;
 	color:#000;
 	cursor:pointer;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 	background-color: #eee; /* Fallback */

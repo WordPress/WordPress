@@ -569,7 +569,6 @@ a,
 	background-color: #464646;
 	color: #fff;
 	-moz-box-shadow: rgba(255,255,255,0.5) 0 1px 0;
-	-khtml-box-shadow: rgba(255,255,255,0.5) 0 1px 0;
 	-webkit-box-shadow: rgba(255,255,255,0.5) 0 1px 0;
 	box-shadow: rgba(255,255,255,0.5) 0 1px 0;
 }
@@ -583,7 +582,6 @@ a,
 	background-color: #464646;
 	color: #fff;
 	-moz-box-shadow: rgba(255,255,255,0.5) 0 1px 0;
-	-khtml-box-shadow: rgba(255,255,255,0.5) 0 1px 0;
 	-webkit-box-shadow: rgba(255,255,255,0.5) 0 1px 0;
 	box-shadow: rgba(255,255,255,0.5) 0 1px 0;
 }
@@ -730,8 +728,6 @@ table.widefat span.spam a,
 	-moz-box-shadow: inset 0 1px 0 #fff;
 	-webkit-box-shadow: inset 0 1px 0 #fff;
 	box-shadow: inset 0 1px 0 #fff;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 }
@@ -1105,9 +1101,7 @@ table.widefat .spam a:hover,
 	background: #444444;
 	border-left: 1px solid #999;
 	border-top: 1px solid #999;
-	-moz-border-radius: 3px 0 0 0;
 	-webkit-border-top-left-radius: 3px;
-	-khtml-border-top-left-radius: 3px;
 	border-top-left-radius: 3px;
 }
 
@@ -1115,10 +1109,8 @@ table.widefat .spam a:hover,
 	background: #444444;
 	border-right: 1px solid #999;
 	border-top: 1px solid #999;
-	border-top-right-radius: 3px;
-	-khtml-border-top-right-radius: 3px;
 	-webkit-border-top-right-radius: 3px;
-	-moz-border-radius: 0 3px 0 0;
+	border-top-right-radius: 3px;
 }
 
 .wp-admin .clearlooks2 .mceMiddle .mceLeft {

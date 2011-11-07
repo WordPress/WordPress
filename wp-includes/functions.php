@@ -2854,8 +2854,6 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 			margin: 2em auto;
 			width: 700px;
 			padding: 1em 2em;
-			-moz-border-radius: 11px;
-			-khtml-border-radius: 11px;
 			-webkit-border-radius: 11px;
 			border-radius: 11px;
 			border: 1px solid #dfdfdf;
