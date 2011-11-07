@@ -1719,14 +1719,12 @@ body.no-js #adminmenu .wp-menu-toggle,
 }
 
 #adminmenu li.wp-has-current-submenu .wp-menu-arrow,
-#adminmenu li.menu-top.current .wp-menu-arrow,
-#adminmenu li.wp-not-current-submenu:hover .wp-menu-arrow,
+#adminmenu li.wp-has-submenu:hover .wp-menu-arrow,
 #adminmenu li.focused .wp-menu-arrow {
 	display: block;
 }
 
-.folded #adminmenu li.wp-not-current-submenu:hover .wp-menu-arrow,
-.folded #adminmenu li.focused .wp-menu-arrow {
+.folded #adminmenu li.wp-not-current-submenu .wp-menu-arrow {
 	display: none;
 }
 
