@@ -144,10 +144,11 @@ function wp_admin_bar_my_account_menu( $wp_admin_bar ) {
 
 	$user_id      = get_current_user_id();
 	$current_user = wp_get_current_user();
+	$profile_url  = get_edit_profile_url( $user_id );
 
 	if ( 0 != $user_id ) {
 		/* Add the 'My Account' menu */
-		$avatar = get_avatar( get_current_user_id(), 28 );
+		$avatar = get_avatar( $user_id, 28 );
 		$howdy  = sprintf( __('Howdy, %1$s'), $user_identity );
 		$class  = 'opposite';
 
@@ -157,7 +158,7 @@ function wp_admin_bar_my_account_menu( $wp_admin_bar ) {
 		$wp_admin_bar->add_menu( array(
 			'id'    => 'my-account',
 			'title' => $howdy . $avatar,
-			'href'  => get_edit_profile_url( $user_id ),
+			'href'  => $profile_url,
 			'meta'  => array(
 				'class' => $class,
 			),
@@ -165,9 +166,7 @@ function wp_admin_bar_my_account_menu( $wp_admin_bar ) {
 
 		/* Add the "My Account" sub menus */
 
-
-
-		$user_info  = get_avatar( get_current_user_id(), 64 );
+		$user_info  = get_avatar( $user_id, 64 );
 		$user_info .= "<span class='display-name'>{$current_user->display_name}</span>";
 
 		if ( $current_user->display_name !== $current_user->user_nicename )
@@ -177,16 +176,16 @@ function wp_admin_bar_my_account_menu( $wp_admin_bar ) {
 			'parent' => 'my-account',
 			'id'     => 'user-info',
 			'title'  => $user_info,
-			'href'   => get_edit_profile_url( $user_id ),
+			'href'   => $profile_url,
 			'meta'   => array(
-				'class' => 'user-info user-info-item'
+				'class' => 'user-info user-info-item',
 			),
 		) );
 		$wp_admin_bar->add_menu( array(
 			'parent' => 'my-account',
 			'id'     => 'edit-profile',
 			'title'  => __( 'Edit My Profile' ),
-			'href' => get_edit_profile_url( $user_id ),
+			'href' => $profile_url,
 			'meta'   => array(
 				'class' => 'user-info-item',
 			),
