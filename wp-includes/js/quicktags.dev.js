@@ -224,7 +224,7 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 	};
 
 	qt._buttonsInit = function() {
-		var t = this, canvas, name, settings, theButtons, html, inst, ed, id, i, use = '',
+		var t = this, canvas, name, settings, theButtons, html, inst, ed, id, i, use,
 			defaults = ',strong,em,link,block,del,ins,img,ul,ol,li,code,more,spell,close,';
 
 		for ( inst in t.instances ) {
@@ -237,6 +237,7 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 			settings = ed.settings;
 			html = '';
 			theButtons = {};
+			use = '';
 
 			// set buttons
 			if ( settings.buttons )
@@ -250,15 +251,17 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 				if ( use && defaults.indexOf(','+id+',') != -1 && use.indexOf(','+id+',') == -1 )
 					continue;
 
-				if ( !edButtons[i].instance || edButtons[i].instance == inst )
+				if ( !edButtons[i].instance || edButtons[i].instance == inst ) {
 					theButtons[id] = edButtons[i];
+
+					if ( edButtons[i].html )
+						html += edButtons[i].html(name + '_');
+				}
 			}
 
-			for ( i in theButtons ) {
-				if ( !theButtons[i] || !theButtons[i].html )
-					continue;
-
-				html += theButtons[i].html(name + '_');
+			if ( use && use.indexOf(',fullscreen,') != -1 ) {
+				theButtons['fullscreen'] = new qt.FullscreenButton();
+				html += theButtons['fullscreen'].html(name + '_');
 			}
 
 			ed.toolbar.innerHTML = html;
