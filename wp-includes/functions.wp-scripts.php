@@ -100,7 +100,7 @@ function wp_localize_script( $handle, $object_name, $l10n ) {
  * Adds extra Javascript.
  *
  * Works only if the script referenced by $handle has already been added.
- * Accepts string $extra that will be printed as script before the main script tag.
+ * Accepts string $script that will be printed before the main script tag.
  *
  * @since 3.3
  * @see WP_Scripts::add_script_data()
