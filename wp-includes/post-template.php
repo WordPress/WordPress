@@ -1152,27 +1152,26 @@ function the_attachment_link( $id = 0, $fullsize = false, $deprecated = false, $
  * @param string $text Optional, default is false. If string, then will be link text.
  * @return string HTML content.
  */
-function wp_get_attachment_link($id = 0, $size = 'thumbnail', $permalink = false, $icon = false, $text = false) {
-	$id = intval($id);
+function wp_get_attachment_link( $id = 0, $size = 'thumbnail', $permalink = false, $icon = false, $text = false ) {
+	$id = intval( $id );
 	$_post = & get_post( $id );
 
-	if ( ('attachment' != $_post->post_type) || !$url = wp_get_attachment_url($_post->ID) )
-		return __('Missing Attachment');
+	if ( empty( $_post ) || ( 'attachment' != $_post->post_type ) || ! $url = wp_get_attachment_url( $_post->ID ) )
+		return __( 'Missing Attachment' );
 
 	if ( $permalink )
-		$url = get_attachment_link($_post->ID);
+		$url = get_attachment_link( $_post->ID );
 
-	$post_title = esc_attr($_post->post_title);
+	$post_title = esc_attr( $_post->post_title );
 
-	if ( $text ) {
-		$link_text = esc_attr($text);
-	} elseif ( ( is_int($size) && $size != 0 ) or ( is_string($size) && $size != 'none' ) or $size != false ) {
-		$link_text = wp_get_attachment_image($id, $size, $icon);
-	} else {
+	if ( $text )
+		$link_text = esc_attr( $text );
+	elseif ( ( is_int( $size ) && $size != 0 ) || ( is_string( $size ) && $size != 'none' ) || $size != false )
+		$link_text = wp_get_attachment_image( $id, $size, $icon );
+	else
 		$link_text = '';
-	}
 
-	if( trim($link_text) == '' )
+	if ( trim( $link_text ) == '' )
 		$link_text = $_post->post_title;
 
 	return apply_filters( 'wp_get_attachment_link', "<a href='$url' title='$post_title'>$link_text</a>", $id, $size, $permalink, $icon, $text );
