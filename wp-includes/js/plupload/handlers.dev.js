@@ -78,6 +78,18 @@ function uploadSuccess(fileObj, serverData) {
 		jQuery('#attachments-count').text(1 * jQuery('#attachments-count').text() + 1);
 }
 
+function setResize(arg) {
+	if ( arg ) {
+		if ( uploader.features.jpgresize )
+			uploader.settings['resize'] = { width: resize_width, height: resize_height, quality: 100 };
+		else
+			uploader.settings.multipart_params.image_resize = true;
+	} else {
+		delete(uploader.settings.resize);
+		delete(uploader.settings.multipart_params.image_resize);
+	}
+}
+
 function prepareMediaItem(fileObj, serverData) {
 	var f = ( typeof shortform == 'undefined' ) ? 1 : 2, item = jQuery('#media-item-' + fileObj.id);
 	// Move the progress bar to 100%
@@ -340,7 +352,20 @@ jQuery(document).ready(function($){
 	uploader_init = function() {
 		uploader = new plupload.Uploader(wpUploaderInit);
 
+		$('#image_resize').bind('change', function() {
+			var arg = $(this).prop('checked');
+
+			setResize( arg );
+
+			if ( arg )
+				setUserSetting('upload_resize', '1');
+			else
+				deleteUserSetting('upload_resize');
+		});
+
 		uploader.bind('Init', function(up) {
+			setResize( getUserSetting('upload_resize', false) );
+
 			if ( up.features.dragdrop ) {
 				$('#plupload-upload-ui').addClass('drag-drop');
 				$('#drag-drop-area').bind('dragover.wp-uploader', function(){ // dragenter doesn't fire right :(

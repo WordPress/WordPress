@@ -220,7 +220,7 @@ function wp_default_scripts( &$scripts ) {
 	// cannot use the plupload.full.js, as it loads browserplus init JS from Yahoo
 	$scripts->add( 'plupload-all', false, array('plupload', 'plupload-html5', 'plupload-flash', 'plupload-silverlight', 'plupload-html4'), '1511');
 
-	$scripts->add( 'plupload-handlers', "/wp-includes/js/plupload/handlers$suffix.js", array('plupload-all', 'jquery'), '20111108');
+	$scripts->add( 'plupload-handlers', "/wp-includes/js/plupload/handlers$suffix.js", array('plupload-all', 'jquery'), '20111102');
 	$scripts->localize( 'plupload-handlers', 'pluploadL10n', $uploader_l10n );
 
 	// keep 'swfupload' for back-compat.
