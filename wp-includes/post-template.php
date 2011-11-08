@@ -1166,7 +1166,7 @@ function wp_get_attachment_link( $id = 0, $size = 'thumbnail', $permalink = fals
 
 	if ( $text )
 		$link_text = esc_attr( $text );
-	elseif ( ( is_int( $size ) && $size != 0 ) || ( is_string( $size ) && $size != 'none' ) || $size != false )
+	elseif ( $size && 'none' != $size )
 		$link_text = wp_get_attachment_image( $id, $size, $icon );
 	else
 		$link_text = '';
