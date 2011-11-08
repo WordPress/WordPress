@@ -138,8 +138,8 @@ PubSub.prototype.publish = function( topic, args ) {
 			return;
 
 		// Settings can be added or changed by defining "wp_fullscreen_settings" JS object.
-		// This can be done by defining it as PHP array and passing it to JS with:
-		// add_script_data( 'wp-fullscreen', 'wp_fullscreen_settings', $settings_array )
+		// This can be done by defining it as PHP associative array, json encoding it and passing it to JS with:
+		// wp_add_script_before( 'wp-fullscreen', 'wp_fullscreen_settings = ' . $json_encoded_array . ';' );
 		if ( typeof(wp_fullscreen_settings) == 'object' )
 			$.extend( s, wp_fullscreen_settings );
 

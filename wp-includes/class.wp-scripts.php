@@ -47,42 +47,22 @@ class WP_Scripts extends WP_Dependencies {
 		return $this->do_items( $handles, $group );
 	}
 
-	// Deprecated since 3.3, see print_script_data()
+	// Deprecated since 3.3, see print_extra_script()
 	function print_scripts_l10n( $handle, $echo = true ) {
-		_deprecated_function( __FUNCTION__, '3.3', 'print_script_data()' );
-		return $this->print_script_data( $handle, $echo, true );
+		_deprecated_function( __FUNCTION__, '3.3', 'print_extra_script()' );
+		return $this->print_extra_script( $handle, $echo );
 	}
 
-	function print_script_data( $handle, $echo = true, $_l10n = false ) {
-		if ( $_l10n ) {
-			list( $name, $data ) = $this->get_data( $handle, 'l10n' );
-			$after = '';
-
-			if ( is_array($data) && isset($data['l10n_print_after']) ) {
-				$after = $data['l10n_print_after'];
-				unset($data['l10n_print_after']);
-			}
-
-			$data = $this->decode_html_entities($data);
-			$output = "var $name = " . json_encode( $data ) . "; $after\n";
-		} else {
-			$data = $this->get_data( $handle, 'data' );
-
-			if ( empty( $data ) )
-				return false;
-
-			foreach ( (array) $data as $name => $value ) {
-				$value = $this->decode_html_entities($value);
-				$output = "var $name = " . json_encode( $value ) . ";\n";
-			}
-		}
+	function print_extra_script( $handle, $echo = true ) {
+		if ( !$output = $this->get_data( $handle, 'data' ) )
+			return;
 
 		if ( !$echo )
 			return $output;
 
-		echo "<script type='text/javascript'>\n";
-		echo "/* <![CDATA[ */\n"; // CDATA is not needed for HTML 5
-		echo $output;
+		echo "<script type='text/javascript'>\n"; // CDATA and type='text/javascript' is not needed for HTML 5
+		echo "/* <![CDATA[ */\n";
+		echo "$output\n";
 		echo "/* ]]> */\n";
 		echo "</script>\n";
 
@@ -114,7 +94,7 @@ class WP_Scripts extends WP_Dependencies {
 		if ( $this->do_concat ) {
 			$srce = apply_filters( 'script_loader_src', $src, $handle );
 			if ( $this->in_default_dir($srce) ) {
-				$this->print_code .= $this->print_script_data( $handle, false );
+				$this->print_code .= $this->print_extra_script( $handle, false );
 				$this->concat .= "$handle,";
 				$this->concat_version .= "$handle$ver";
 				return true;
@@ -124,14 +104,15 @@ class WP_Scripts extends WP_Dependencies {
 			}
 		}
 
-		$this->print_script_data( $handle );
+		$this->print_extra_script( $handle );
 		if ( !preg_match('|^https?://|', $src) && ! ( $this->content_url && 0 === strpos($src, $this->content_url) ) ) {
 			$src = $this->base_url . $src;
 		}
 
 		if ( !empty($ver) )
 			$src = add_query_arg('ver', $ver, $src);
-		$src = esc_url(apply_filters( 'script_loader_src', $src, $handle ));
+
+		$src = esc_url( apply_filters( 'script_loader_src', $src, $handle ) );
 
 		if ( $this->do_concat )
 			$this->print_html .= "<script type='text/javascript' src='$src'></script>\n";
@@ -142,15 +123,29 @@ class WP_Scripts extends WP_Dependencies {
 	}
 
 	/**
-	 * Localizes a script (Deprecated)
+	 * Localizes a script
 	 *
-	 * Localizes only if script has already been added
-	 *
-	 * @deprecated WP 3.3
+	 * Localizes only if the script has already been added
 	 */
 	function localize( $handle, $object_name, $l10n ) {
-		_deprecated_function( __FUNCTION__, '3.3', 'add_script_data()' );
-		return $this->add_script_data( $handle, $object_name, $l10n );
+		if ( is_array($l10n) && isset($l10n['l10n_print_after']) ) { // back compat, preserve the code in 'l10n_print_after' if present
+			$after = $l10n['l10n_print_after'];
+			unset($l10n['l10n_print_after']);
+		}
+
+		foreach ( (array) $l10n as $key => $value ) {
+			if ( !is_scalar($value) )
+				continue;
+
+			$l10n[$key] = html_entity_decode( (string) $value, ENT_QUOTES, 'UTF-8');
+		}
+
+		$script = "var $object_name = " . json_encode($l10n) . ';';
+
+		if ( !empty($after) )
+			$script .= "\n$after";
+
+		return $this->add_script_data( $handle, $script );
 	}
 
 	/**
@@ -159,20 +154,19 @@ class WP_Scripts extends WP_Dependencies {
 	 * Only if script has already been added.
 	 *
 	 * @param string $handle Script name
-	 * @param string $name Name of JS object to hold the data
-	 * @param array $args Associative array of JS object attributes
+	 * @param string $script Extra JS to add before the script
 	 * @return bool Successful or not
 	 */
-	function add_script_data( $handle, $name, $args ) {
-		if ( !$name || !is_array( $args ) )
+	function add_script_data( $handle, $script ) {
+		if ( !is_string( $script ) )
 			return false;
 
 		$data = $this->get_data( $handle, 'data' );
 
-		if ( !empty( $data[$name] ) )
-			$args = array_merge( $data[$name], $args );
+		if ( !empty( $data ) )
+			$script = "$data;\n$script";
 
-		return $this->add_data( $handle, 'data', array( $name => $args ) );
+		return $this->add_data( $handle, 'data', $script );
 	}
 
 	function set_group( $handle, $recursion, $group = false ) {
@@ -217,16 +211,6 @@ class WP_Scripts extends WP_Dependencies {
 				return true;
 		}
 		return false;
-	}
-
-	function decode_html_entities($data) {
-		foreach ( (array) $data as $key => $value ) {
-			if ( is_array($value) )
-				$data[$key] = $this->decode_html_entities($value);
-			elseif ( is_string($value) )
-				$data[$key] = html_entity_decode($value, ENT_QUOTES, 'UTF-8');
-		}
-		return $data;
 	}
 
 	function reset() {

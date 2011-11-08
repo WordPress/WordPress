@@ -64,24 +64,48 @@ function wp_register_script( $handle, $src, $deps = array(), $ver = false, $in_f
 }
 
 /**
- * Adds extra Javascript data.
+ * Wrapper for $wp_scripts->localize().
  *
+ * Used to localizes a script.
  * Works only if the script has already been added.
- * Accepts an associative array $data and creates JS object:
- * "$name" = {
+ * Accepts an associative array $l10n and creates JS object:
+ * "$object_name" = {
  *   key: value,
  *   key: value,
  *   ...
  * }
- * The $name is passed directly so it should be qualified JS variable /[a-zA-Z0-9_]+/
- * The $data array is JSON encoded. If called more than once for the same $handle with the same $name,
- * the object would contain all values. In that case if two or more keys are the same,
- * the last value overwrites the previous. The function is named "localize_script" because of historical reasons.
+ * See http://core.trac.wordpress.org/ticket/11520 for more information.
  *
  * @since r16
+ *
+ * @param string $handle The script handle that was registered or used in script-loader
+ * @param string $object_name Name for the created JS object. This is passed directly so it should be qualified JS variable /[a-zA-Z0-9_]+/
+ * @param array $l10n Associative PHP array containing the translated strings. HTML entities will be converted and the array will be JSON encoded. 
+ * @return bool Whether the localization was added successfully.
+ */
+function wp_localize_script( $handle, $object_name, $l10n ) { 
+	global $wp_scripts;
+	if ( ! is_a( $wp_scripts, 'WP_Scripts' ) ) {
+		if ( ! did_action( 'init' ) )
+			_doing_it_wrong( __FUNCTION__, sprintf( __( 'Scripts and styles should not be registered or enqueued until the %1$s, %2$s, or %3$s hooks.' ),
+				'<code>wp_enqueue_scripts</code>', '<code>admin_enqueue_scripts</code>', '<code>init</code>' ), '3.3' );
+
+		return false;
+	}
+
+	return $wp_scripts->localize( $handle, $object_name, $l10n ); 
+} 
+
+/**
+ * Adds extra Javascript.
+ *
+ * Works only if the script referenced by $handle has already been added.
+ * Accepts string $extra that will be printed as script before the main script tag.
+ *
+ * @since 3.3
  * @see WP_Scripts::add_script_data()
  */
-function wp_localize_script( $handle, $name, $data ) {
+function wp_add_script_before( $handle, $script ) {
 	global $wp_scripts;
 	if ( ! is_a( $wp_scripts, 'WP_Scripts' ) ) {
 		if ( ! did_action( 'init' ) )
@@ -90,7 +114,7 @@ function wp_localize_script( $handle, $name, $data ) {
 		return false;
 	}
 
-	return $wp_scripts->add_script_data( $handle, $name, $data );
+	return $wp_scripts->add_script_data( $handle, $script );
 }
 
 /**
