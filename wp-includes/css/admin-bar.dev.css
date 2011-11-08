@@ -7,7 +7,7 @@
 	text-transform: none;
 	letter-spacing: normal;
 	line-height: 1;
-	font: normal 13px/28px "Helvetica Neue", sans-serif;
+	font: normal 13px/28px sans-serif;
 	color: #ccc;
 	text-shadow: #444 0px -1px 0px;
 }
@@ -30,7 +30,7 @@
 #wpadminbar {
 	direction: ltr;
 	color: #ccc;
-	font: normal 13px/28px "Helvetica Neue", sans-serif;
+	font: normal 13px/28px sans-serif;
 	height: 28px;
 	position: fixed;
 	top: 0;
@@ -382,7 +382,7 @@
 	height: 23px;
 	width: 140px;
 	float: left;
-	font: 13px "Helvetica Neue", sans-serif;
+	font: 13px sans-serif;
 	border: none;
 	padding: 0 3px 0 24px;
 	margin: 0 3px 0 0;
