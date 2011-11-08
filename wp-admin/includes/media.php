@@ -1984,32 +1984,6 @@ function _insert_into_post_button($type) {
 	';
 }
 
-/**
- * {@internal Missing Short Description}}
- *
- * @since 2.6.0
- */
-function media_upload_max_image_resize() {
-	$checked = get_user_setting('upload_resize') ? ' checked="true"' : '';
-	$a = $end = '';
-
-	if ( current_user_can( 'manage_options' ) ) {
-		$a = '<a href="' . esc_url( admin_url( 'options-media.php' ) ) . '" target="_blank">';
-		$end = '</a>';
-	}
-?>
-<p class="hide-if-no-js"><label>
-<input name="image_resize" type="checkbox" id="image_resize" value="true"<?php echo $checked; ?> />
-<?php
-	/* translators: %1$s is link start tag, %2$s is link end tag, %3$d is width, %4$d is height*/
-	printf( __( 'Scale images to match the large size selected in %1$simage options%2$s (%3$d &times; %4$d).' ), $a, $end, (int) get_option( 'large_size_w', '1024' ), (int) get_option( 'large_size_h', '1024' ) );
-?>
-</label></p>
-<?php
-}
-
-add_action( 'post-upload-ui', 'media_upload_max_image_resize' );
-
 add_filter( 'async_upload_image', 'get_media_item', 10, 2 );
 add_filter( 'async_upload_audio', 'get_media_item', 10, 2 );
 add_filter( 'async_upload_video', 'get_media_item', 10, 2 );
