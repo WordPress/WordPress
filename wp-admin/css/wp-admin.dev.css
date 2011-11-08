@@ -2945,7 +2945,7 @@ div.tabs-panel-inactive {
 	margin: 0 5px 0 125px;
 }
 
-#side-sortables .category-tabs li,
+.has-right-sidebar #side-sortables .category-tabs li,
 #side-sortables .add-menu-item-tabs li,
 .wp-tab-bar li {
 	display: inline;
