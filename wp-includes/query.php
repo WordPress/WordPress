@@ -2386,7 +2386,6 @@ class WP_Query {
 		}
 
 		if ( 'any' == $post_type ) {
-			$exclude_post_types = '';
 			$in_search_post_types = get_post_types( array('exclude_from_search' => false) );
 			if ( ! empty( $in_search_post_types ) )
 				$where .= $wpdb->prepare(" AND $wpdb->posts.post_type IN ('" . join("', '", $in_search_post_types ) . "')");
