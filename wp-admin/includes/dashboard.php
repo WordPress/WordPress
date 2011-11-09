@@ -1334,7 +1334,7 @@ function wp_welcome_panel() {
 					<?php echo sprintf(
 						__( 'Delete the <a href="%1$s">sample post</a> and <a href="%2$s">page</a>.' ),
 						esc_url( admin_url('edit.php') ),
-						esc_url( admin_url('edit-comments.php') )
+						esc_url( admin_url('edit.php?post_type=page') )
 					); ?>
 				</li>
 				<li>
