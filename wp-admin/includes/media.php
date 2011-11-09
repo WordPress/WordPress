@@ -770,7 +770,7 @@ function image_link_input_fields($post, $url_type = '') {
 	<input type='text' class='text urlfield' name='attachments[$post->ID][url]' value='" . esc_attr($url) . "' /><br />
 	<button type='button' class='button urlnone' title=''>" . __('None') . "</button>
 	<button type='button' class='button urlfile' title='" . esc_attr($file) . "'>" . __('File URL') . "</button>
-	<button type='button' class='button urlpost' title='" . esc_attr($link) . "'>" . __('Post URL') . "</button>
+	<button type='button' class='button urlpost' title='" . esc_attr($link) . "'>" . __('Attachment Post URL') . "</button>
 ";
 }
 
