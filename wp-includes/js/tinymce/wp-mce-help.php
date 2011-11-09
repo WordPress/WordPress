@@ -19,6 +19,9 @@ header('Content-Type: text/html; charset=' . get_bloginfo('charset'));
 wp_admin_css( 'wp-admin', true );
 ?>
 <style type="text/css">
+	body {
+		min-width: 0;
+	}
 	#wphead {
 		font-size: 80%;
 		border-top: 0;
@@ -35,6 +38,7 @@ wp_admin_css( 'wp-admin', true );
 		padding: 15px 15px 3px;
 		background-color: #f1f1f1;
 		border-bottom: 1px solid #dfdfdf;
+		margin: 0;
 	}
 	#tabs li {
 		display: inline;
