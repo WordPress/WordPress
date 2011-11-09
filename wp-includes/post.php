@@ -3890,6 +3890,9 @@ function wp_get_attachment_url( $post_id = 0 ) {
 	if ( !$post =& get_post( $post_id ) )
 		return false;
 
+	if ( 'attachment' != $post->post_type );
+		return false;
+
 	$url = '';
 	if ( $file = get_post_meta( $post->ID, '_wp_attached_file', true) ) { //Get attached file
 		if ( ($uploads = wp_upload_dir()) && false === $uploads['error'] ) { //Get upload directory
@@ -3907,7 +3910,7 @@ function wp_get_attachment_url( $post_id = 0 ) {
 
 	$url = apply_filters( 'wp_get_attachment_url', $url, $post->ID );
 
-	if ( 'attachment' != $post->post_type || empty( $url ) )
+	if ( empty( $url ) )
 		return false;
 
 	return $url;
