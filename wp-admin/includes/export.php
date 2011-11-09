@@ -243,7 +243,7 @@ function export_wp( $args = array() ) {
 
 		$authors = array_filter( $authors );
 
-		foreach( $authors as $author ) {
+		foreach ( $authors as $author ) {
 			echo "\t<wp:author>";
 			echo '<wp:author_id>' . $author->ID . '</wp:author_id>';
 			echo '<wp:author_login>' . $author->user_login . '</wp:author_login>';
@@ -289,6 +289,13 @@ function export_wp( $args = array() ) {
 			echo "\t\t<category domain=\"{$term->taxonomy}\" nicename=\"{$term->slug}\">" . wxr_cdata( $term->name ) . "</category>\n";
 		}
 	}
+
+	function wxr_filter_postmeta( $return_me, $meta_key ) {
+		if ( '_edit_lock' == $meta_key )
+			$return_me = true;
+		return $return_me;
+	}
+	add_filter( 'wxr_export_skip_postmeta', 'wxr_filter_postmeta', 10, 2 );
 
 	echo '<?xml version="1.0" encoding="' . get_bloginfo('charset') . "\" ?>\n";
 
@@ -384,12 +391,15 @@ function export_wp( $args = array() ) {
 <?php 	endif; ?>
 <?php 	wxr_post_taxonomy(); ?>
 <?php	$postmeta = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->postmeta WHERE post_id = %d", $post->ID ) );
-		foreach( $postmeta as $meta ) : if ( $meta->meta_key != '_edit_lock' ) : ?>
+		foreach ( $postmeta as $meta ) :
+			if ( apply_filters( 'wxr_export_skip_postmeta', false, $meta->meta_key, $meta ) )
+				continue;
+		?>
 		<wp:postmeta>
 			<wp:meta_key><?php echo $meta->meta_key; ?></wp:meta_key>
 			<wp:meta_value><?php echo wxr_cdata( $meta->meta_value ); ?></wp:meta_value>
 		</wp:postmeta>
-<?php	endif; endforeach; ?>
+<?php	endforeach; ?>
 <?php	$comments = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->comments WHERE comment_post_ID = %d AND comment_approved <> 'spam'", $post->ID ) );
 		foreach ( $comments as $c ) : ?>
 		<wp:comment>
