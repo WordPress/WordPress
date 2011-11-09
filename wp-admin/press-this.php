@@ -370,8 +370,8 @@ var photostorage = false;
 					jQuery('#waiting').hide();
 					jQuery('#extra-fields').show();
 				}
-				jQuery('#extra-fields').before('<div id="waiting"><img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" /> <?php echo esc_js( __( 'Loading...' ) ); ?></div>');
 
+				jQuery('#waiting').show();
 				if(photostorage == false) {
 					jQuery.ajax({
 						type: "GET",
@@ -561,6 +561,8 @@ var photostorage = false;
 				<input name="title" id="title" class="text" value="<?php echo esc_attr($title);?>"/>
 			</div>
 		</div>
+
+		<div id="waiting" style="display: none"><img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" /> <?php esc_html_e( 'Loading...' ); ?></div>
 
 		<div id="extra-fields" style="display: none"></div>
 
