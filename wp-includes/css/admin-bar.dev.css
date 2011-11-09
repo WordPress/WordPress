@@ -78,12 +78,13 @@
 	border-right: 1px solid #333;
 }
 
-#wpadminbar .quicklinks > ul > li.opposite {
+#wpadminbar .quicklinks .top-secondary > li {
 	border-left: 1px solid #333;
 	border-right: 0;
+	float: right;
 }
 
-#wpadminbar .quicklinks > ul > li.opposite > a {
+#wpadminbar .quicklinks .top-secondary > li > a {
 	border-left: 1px solid #555;
 	border-right: 0;
 }
@@ -117,7 +118,7 @@
 	border-color: #dfdfdf;
 }
 
-#wpadminbar .quicklinks .opposite.menupop ul {
+#wpadminbar .quicklinks .top-secondary .menupop ul {
 	right: 0;
 	margin: 0 -1px 0 0;
 }
@@ -166,8 +167,8 @@
 	border-width: 1px;
 }
 
-#wpadminbar .quicklinks .opposite.menupop li:hover > ul,
-#wpadminbar .quicklinks .opposite.menupop li.hover > ul {
+#wpadminbar .quicklinks .top-secondary .menupop li:hover > ul,
+#wpadminbar .quicklinks .top-secondary .menupop li.hover > ul {
 	margin-left: 0;
 	left: inherit;
 	right: 100%;
@@ -232,37 +233,30 @@
 	padding: 0 1.5em 0 0;
 }
 
-#wpadminbar .opposite.menupop li a > span {
+#wpadminbar .top-secondary .menupop li a > span {
 	background-position: -28px -31px;
 	padding: 0 0 0 1.5em;
 }
 
-#wpadminbar .quicklinks .menupop .secondary {
-	background: #eee;
-	margin: 6px 0 -6px;
-	border-top: 1px solid #dfdfdf;
-}
-
-#wpadminbar .quicklinks .menupop .secondary > a {
-	display: none;
-}
-
-#wpadminbar .quicklinks .menupop li.secondary > ul,
-#wpadminbar .quicklinks .opposite.menupop li.secondary > ul {
+#wpadminbar .quicklinks .menupop ul.sub-secondary {
 	display: block;
 	position: relative;
 	right: auto;
 	margin: 0;
 	border: 0;
+
 	background: #eee;
+	margin: 6px 0 -6px;
+	border-top: 1px solid #dfdfdf;
+
 	-moz-box-shadow: none;
 	-webkit-box-shadow: none;
 	box-shadow: none;
 }
 
-#wpadminbar .quicklinks .menupop li.secondary > ul > li:hover,
-#wpadminbar .quicklinks .menupop li.secondary > ul > li.hover,
-#wpadminbar .quicklinks .menupop li.secondary > ul > li a:focus {
+#wpadminbar .quicklinks .menupop .sub-secondary > li:hover,
+#wpadminbar .quicklinks .menupop .sub-secondary > li.hover,
+#wpadminbar .quicklinks .menupop .sub-secondary > li a:focus {
 	background: #dfdfdf;
 }
 
@@ -283,7 +277,7 @@
 	color: #000;
 }
 
-#wpadminbar li.opposite {
+#wpadminbar .top-secondary {
 	float: right;
 }
 

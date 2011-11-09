@@ -12,6 +12,11 @@ class WP_Admin_Bar {
 			$this->proto = 'https://';
 
 		$this->user = new stdClass;
+		$this->root = new stdClass;
+		$this->root->children  = (object) array(
+			'primary'   => array(),
+			'secondary' => array(),
+		);
 
 		if ( is_user_logged_in() ) {
 			/* Populate settings we need for the menu based on the current user. */
@@ -59,11 +64,12 @@ class WP_Admin_Bar {
 	 * Add a node to the menu.
 	 *
 	 * @param array $args - The arguments for each node.
-	 * - id       - string - The ID of the item.
-	 * - title    - string - The title of the node.
-	 * - parent   - string - The ID of the parent node. Optional.
-	 * - href     - string - The link for the item. Optional.
-	 * - meta     - array  - Meta data including the following keys: html, class, onclick, target, title.
+	 * - id         - string    - The ID of the item.
+	 * - title      - string    - The title of the node.
+	 * - parent     - string    - The ID of the parent node. Optional.
+	 * - href       - string    - The link for the item. Optional.
+	 * - secondary  - boolean   - If the item should be part of a secondary menu. Optional. Default false.
+	 * - meta       - array     - Meta data including the following keys: html, class, onclick, target, title.
 	 */
 	public function add_node( $args ) {
 		// Shim for old method signature: add_node( $parent_id, $menu_obj, $args )
@@ -80,11 +86,12 @@ class WP_Admin_Bar {
 		}
 
 		$defaults = array(
-			'id'       => false,
-			'title'    => false,
-			'parent'   => false,
-			'href'     => false,
-			'meta'     => array(),
+			'id'        => false,
+			'title'     => false,
+			'parent'    => false,
+			'href'      => false,
+			'secondary' => false,
+			'meta'      => array(),
 		);
 
 		// If the node already exists, keep any data that isn't provided.
@@ -92,6 +99,10 @@ class WP_Admin_Bar {
 			$defaults = (array) $this->nodes[ $args['id'] ];
 
 		$args = wp_parse_args( $args, $defaults );
+		$args['children'] = (object) array(
+			'primary'   => array(),
+			'secondary' => array(),
+		);
 
 		$this->nodes[ $args['id'] ] = (object) $args;
 	}
@@ -106,19 +117,20 @@ class WP_Admin_Bar {
 
 			// Handle root menu items
 			if ( empty( $node->parent ) ) {
-				$this->root[] = $node;
-				continue;
-			}
+				$parent = $this->root;
 
 			// If the parent node isn't registered, ignore the node.
-			if ( ! isset( $this->nodes[ $node->parent ] ) )
+			} elseif ( ! isset( $this->nodes[ $node->parent ] ) ) {
 				continue;
 
-			$parent = $this->nodes[ $node->parent ];
-			if ( ! isset( $parent->children ) )
-				$parent->children = array();
+			} else {
+				$parent = $this->nodes[ $node->parent ];
+			}
 
-			$parent->children[] = $node;
+			if ( $node->secondary )
+				$parent->children->secondary[] = $node;
+			else
+				$parent->children->primary[] = $node;
 		}
 
 		?>
@@ -126,10 +138,19 @@ class WP_Admin_Bar {
 			<div class="quicklinks">
 				<ul class="ab-top-menu"><?php
 
-					foreach ( $this->root as $node ) {
+					foreach ( $this->root->children->primary as $node ) {
 						$this->recursive_render( $node );
 					}
 
+					if ( ! empty( $this->root->children->secondary ) ):
+						?><ul class="top-secondary"><?php
+
+							foreach ( $this->root->children->secondary as $node ) {
+								$this->recursive_render( $node );
+							}
+
+						?></ul><?php
+					endif;
 				?></ul>
 			</div>
 		</div>
@@ -138,7 +159,7 @@ class WP_Admin_Bar {
 	}
 
 	function recursive_render( $node ) {
-		$is_parent = ! empty( $node->children );
+		$is_parent = ! empty( $node->children->primary );
 
 		$menuclass = $is_parent ? 'menupop' : '';
 		if ( ! empty( $node->meta['class'] ) )
@@ -173,16 +194,22 @@ class WP_Admin_Bar {
 
 			?></a>
 
-			<?php if ( $is_parent ) : ?>
-				<ul><?php
-
-				// Render children.
-				foreach ( $node->children as $child_node ) {
+			<?php
+			if ( $is_parent ) :
+				?><ul><?php
+				foreach ( $node->children->primary as $child_node ) {
 					$this->recursive_render( $child_node );
 				}
 
-				?></ul>
-			<?php endif;
+				if ( ! empty( $node->children->secondary ) ):
+					?><ul class="sub-secondary"><?php
+					foreach ( $node->children->secondary as $child_node ) {
+						$this->recursive_render( $child_node );
+					}
+					?></ul><?php
+				endif;
+				?></ul><?php
+			endif;
 
 			if ( ! empty( $node->meta['html'] ) )
 				echo $node->meta['html'];
