@@ -3890,7 +3890,7 @@ function wp_get_attachment_url( $post_id = 0 ) {
 	if ( !$post =& get_post( $post_id ) )
 		return false;
 
-	if ( 'attachment' != $post->post_type );
+	if ( 'attachment' != $post->post_type )
 		return false;
 
 	$url = '';
