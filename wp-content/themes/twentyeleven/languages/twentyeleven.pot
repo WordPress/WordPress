@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Eleven 1.2\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyeleven\n"
-"POT-Creation-Date: 2011-11-10 14:47:40+00:00\n"
+"POT-Creation-Date: 2011-11-10 18:47:54+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -89,7 +89,7 @@ msgstr ""
 
 #: content-quote.php:72 content.php:80 content-image.php:68
 #: content-single.php:52 content-intro.php:19 content-gallery.php:90
-#: content-aside.php:44 image.php:40 functions.php:503 functions.php:531
+#: content-aside.php:44 image.php:40 functions.php:505 functions.php:533
 #: content-status.php:45 content-page.php:21 content-link.php:44
 #: content-featured.php:45
 msgid "Edit"
@@ -152,7 +152,7 @@ msgid ""
 "title=\"%5$s\" rel=\"author\">%6$s</a></span></span>"
 msgstr ""
 
-#: content-image.php:39 functions.php:568
+#: content-image.php:39 functions.php:570
 msgid "View all posts by %s"
 msgstr ""
 
@@ -359,41 +359,41 @@ msgstr ""
 msgid "Footer Area Three"
 msgstr ""
 
-#: functions.php:432 single.php:18
+#: functions.php:433 single.php:18
 msgid "Post navigation"
 msgstr ""
 
-#: functions.php:433
+#: functions.php:434
 msgid "<span class=\"meta-nav\">&larr;</span> Older posts"
 msgstr ""
 
-#: functions.php:434
+#: functions.php:435
 msgid "Newer posts <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: functions.php:503
+#: functions.php:505
 msgid "Pingback:"
 msgstr ""
 
 #. translators: 1: comment author, 2: date and time
-#: functions.php:520
+#: functions.php:522
 msgid "%1$s on %2$s <span class=\"says\">said:</span>"
 msgstr ""
 
 #. translators: 1: date, 2: time
-#: functions.php:526
+#: functions.php:528
 msgid "%1$s at %2$s"
 msgstr ""
 
-#: functions.php:535
+#: functions.php:537
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: functions.php:544
+#: functions.php:546
 msgid "Reply <span>&darr;</span>"
 msgstr ""
 
-#: functions.php:562
+#: functions.php:564
 msgid ""
 "<span class=\"sep\">Posted on </span><a href=\"%1$s\" title=\"%2$s\" rel="
 "\"bookmark\"><time class=\"entry-date\" datetime=\"%3$s\" pubdate>%4$s</"
@@ -584,8 +584,18 @@ msgstr ""
 msgid "Monthly Archives: %s"
 msgstr ""
 
+#: archive.php:27
+msgctxt "monthly archives date format"
+msgid "F Y"
+msgstr ""
+
 #: archive.php:29
 msgid "Yearly Archives: %s"
+msgstr ""
+
+#: archive.php:29
+msgctxt "yearly archives date format"
+msgid "Y"
 msgstr ""
 
 #: archive.php:31
