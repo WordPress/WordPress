@@ -26,7 +26,7 @@ TABLE OF CONTENTS:
 12.0 - Categories
 13.0 - Tags
 14.0 - Media Screen
-	14.1 - Media Uploader
+	14.1 - Media Library
 	14.2 - Image Editor
 15.0 - Comments Screen
 16.0 - Themes
@@ -3532,40 +3532,52 @@ p.popular-tags a {
   14.0 - Media Screen
 ------------------------------------------------------------------------------*/
 
-#wpbody-content #media-items .describe {
+.media-item .describe {
 	border-collapse: collapse;
 	width: 100%;
 	border-top-style: solid;
 	border-top-width: 1px;
 	clear: both;
 	cursor: default;
-	padding: 5px;
 }
 
-#wpbody-content .describe th {
+.media-item.media-blank .describe {
+	border: 0;
+}
+
+.media-item .describe th {
 	vertical-align: top;
 	text-align: left;
-	padding: 10px;
+	padding: 5px 10px 10px;
 	width: 140px;
 }
 
-#wpbody-content .describe .media-item-info tr {
+.media-item .describe .align th {
+	padding-top: 0;
+}
+
+.media-item .media-item-info tr {
 	background-color: transparent;
 }
 
-#wpbody-content .describe .media-item-info td {
+.media-item .describe td {
+	padding: 0 8px 8px 0;
+	vertical-align: top;
+}
+
+.media-item thead.media-item-info td {
 	padding: 4px 10px 0;
 }
 
-.describe .media-item-info .A1B1 {
+.media-item .media-item-info .A1B1 {
 	padding: 0 0 0 10px;
 }
 
-#wpbody-content .filename {
-	padding: 0 10px;
+.media-item td.savesend {
+	padding-bottom: 15px;
 }
 
-#wpbody-content .media-item .thumbnail {
+.media-item .thumbnail {
 	max-height: 128px;
 	max-width: 128px;
 }
@@ -3610,12 +3622,12 @@ abbr.required {
 	text-decoration: none;
 }
 
-#wpbody-content .describe input[type="text"],
-#wpbody-content .describe textarea {
+.media-item .describe input[type="text"],
+.media-item .describe textarea {
 	width: 460px;
 }
 
-#wpbody-content .describe p.help {
+.media-item .describe p.help {
 	margin: 0;
 	padding: 0 0 0 5px;
 }
@@ -3626,39 +3638,40 @@ abbr.required {
 	display: block;
 	line-height: 36px;
 	float: right;
-	margin-right: 20px;
+	margin-right: 15px;
 }
 
-.describe-toggle-off {
+.media-item .describe-toggle-off,
+.media-item.open .describe-toggle-on,
+.media-item.open img.pinkynail {
 	display: none;
 }
 
-#wpbody-content .media-item {
-	border-bottom-style: solid;
-	border-bottom-width: 1px;
+.media-item.open .describe-toggle-off {
+	display: block;
+}
+
+#media-items .media-item {
+	border-style: solid;
+	border-width: 1px;
 	min-height: 36px;
 	position: relative;
+	margin-top: -1px;
 	width: 100%;
 }
 
-#wpbody-content .media-single .media-item {
-	border-bottom-style: none;
-	border-bottom-width: 0;
+#media-items {
+	width: 623px;
 }
 
-#wpbody-content #media-items {
-	border-style: solid solid none;
-	border-width: 1px;
-	width: 670px;
-}
-
-#wpbody-content #media-items:empty {
+#media-items:empty {
 	border: 0 none;
 }
 
-#wpbody-content #media-items .filename {
+.media-item .filename {
 	line-height: 36px;
 	overflow: hidden;
+	padding: 0 10px;
 }
 
 .media-item .error-div {
@@ -3667,7 +3680,7 @@ abbr.required {
 
 .media-item .pinkynail {
 	float: left;
-	margin: 2px;
+	margin: 0 2px;
 	max-width: 40px;
 	max-height: 32px;
 }
@@ -3680,27 +3693,55 @@ abbr.required {
 .media-item .original {
 	position: relative;
 	height: 34px;
-	width: 503px;
 }
 
-.crunching {
-	display: block;
-	line-height: 32px;
-	text-align: right;
-	margin-right: 5px;
+.media-item .progress {
+	float: right;
+    height: 22px;
+    margin: 6px 10px 0 0;
+    width: 200px;
+    text-align: center;
+	line-height: 2em;
+	padding: 0;
+	overflow: hidden;
+	margin-bottom: 2px;
+	border: 1px solid #d1d1d1;
+	background: #fff;
+	background-image: linear-gradient(bottom, rgb(255,255,255) 0%, rgb(247,247,247) 100%);
+	background-image: -o-linear-gradient(bottom, rgb(255,255,255) 0%, rgb(247,247,247) 100%);
+	background-image: -moz-linear-gradient(bottom, rgb(255,255,255) 0%, rgb(247,247,247) 100%);
+	background-image: -webkit-linear-gradient(bottom, rgb(255,255,255) 0%, rgb(247,247,247) 100%);
+	background-image: -ms-linear-gradient(bottom, rgb(255,255,255) 0%, rgb(247,247,247) 100%);
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	-webkit-box-shadow: inset 0 0 3px rgba(0,0,0,0.1);
+	box-shadow: inset 0 0 3px rgba(0,0,0,0.1);
 }
 
-.progress {
-	position: relative;
-	margin-bottom: -36px;
-	height: 36px;
-}
-
-.bar {
+.media-item .bar {
+	z-index: 9;
 	width: 0;
 	height: 100%;
-	border-right-width: 3px;
-	border-right-style: solid;
+	margin-top: -24px;
+	background-color: #83B4D8;
+	background-image: linear-gradient(bottom, rgb(114,167,207) 0%, rgb(144,197,238) 100%);
+	background-image: -o-linear-gradient(bottom, rgb(114,167,207) 0%, rgb(144,197,238) 100%);
+	background-image: -moz-linear-gradient(bottom, rgb(114,167,207) 0%, rgb(144,197,238) 100%);
+	background-image: -webkit-linear-gradient(bottom, rgb(114,167,207) 0%, rgb(144,197,238) 100%);
+	background-image: -ms-linear-gradient(bottom, rgb(114,167,207) 0%, rgb(144,197,238) 100%);
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	-webkit-box-shadow: 0 0 3px rgba(0,0,0,0.3);
+	box-shadow: 0 0 3px rgba(0,0,0,0.3);
+}
+
+.media-item .progress .percent {
+	z-index: 10;
+	position: relative;
+	width: 200px;
+	text-align: center;
+	text-shadow: 0 1px 0 rgba(255,255,255,0.4);
+	color: rgba(0,0,0,0.6);
 }
 
 .upload-php .fixed .column-parent {
@@ -3709,7 +3750,7 @@ abbr.required {
 
 
 /*------------------------------------------------------------------------------
-  14.1 - Media Uploader
+  14.1 - Media Library
 ------------------------------------------------------------------------------*/
 
 .find-box {

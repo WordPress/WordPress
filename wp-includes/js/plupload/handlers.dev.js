@@ -8,16 +8,17 @@ function fileDialogStart() {
 function fileQueued(fileObj) {
 	// Get rid of unused form
 	jQuery('.media-blank').remove();
+
+	var items = jQuery('#media-items').children();
+
 	// Collapse a single item
-	if ( jQuery('form.type-form #media-items').children().length == 1 && jQuery('.hidden', '#media-items').length > 0 ) {
-		jQuery('.describe-toggle-on').show();
-		jQuery('.describe-toggle-off').hide();
-		jQuery('.slidetoggle').slideUp(200).siblings().removeClass('hidden');
+	if ( items.length == 1 ) {
+		items.removeClass('open').find('.slidetoggle').slideUp(200);
 	}
 	// Create a progress bar containing the filename
-	jQuery('#media-items').append('<div id="media-item-' + fileObj.id + '" class="media-item child-of-' + post_id + '"><div class="progress"><div class="bar"></div></div><div class="filename original"><span class="percent"></span> ' + fileObj.name + '</div></div>');
+	jQuery('#media-items').append('<div id="media-item-' + fileObj.id + '" class="media-item child-of-' + post_id + '"><div class="progress"><div class="percent">0%</div><div class="bar"></div></div><div class="filename original"> ' + fileObj.name + '</div></div>');
 	// Display the progress div
-	jQuery('.progress', '#media-item-' + fileObj.id).show();
+	jQuery('.progress', jQuery('#media-item-' + fileObj.id)).fadeIn();
 
 	// Disable submit
 	jQuery('#insert-gallery').prop('disabled', true);
@@ -32,22 +33,17 @@ function uploadStart(fileObj) {
 	return true;
 }
 
-function uploadProgress(fileObj, bytesDone, bytesTotal) { // Lengthen the progress bar
-	var w = jQuery('#media-items').width() - 2, item = jQuery('#media-item-' + fileObj.id);
-
-	jQuery('.bar', item).width( w * bytesDone / bytesTotal );
-	jQuery('.percent', item).html( Math.ceil(bytesDone / bytesTotal * 100) + '%' );
-
-	if ( bytesDone == bytesTotal )
-		jQuery('.bar', item).html('<strong class="crunching">' + pluploadL10n.crunching + '</strong>');
-}
-
 function updateMediaForm() {
-	var one = jQuery('form.type-form #media-items').children(), items = jQuery('#media-items').children();
+	var items = jQuery('#media-items').children();
 
 	// Just one file, no need for collapsible part
-	if ( one.length == 1 ) {
-		jQuery('.slidetoggle', one).slideDown(500).siblings().addClass('hidden').filter('.toggle').toggle();
+	if ( items.length == 1 ) {
+		items.addClass('open').find('.slidetoggle').slideDown();
+		jQuery('.insert-gallery').hide();
+	} else if ( items.length > 1 ) {
+		items.removeClass('open');
+		// Only show Gallery button when there are at least two files.
+		jQuery('.insert-gallery').show();
 	}
 
 	// Only show Save buttons when there is at least one file.
@@ -55,18 +51,14 @@ function updateMediaForm() {
 		jQuery('.savebutton').show();
 	else
 		jQuery('.savebutton').hide();
-
-	// Only show Gallery button when there are at least two files.
-	if ( items.length > 1 )
-		jQuery('.insert-gallery').show();
-	else
-		jQuery('.insert-gallery').hide();
 }
 
 function uploadSuccess(fileObj, serverData) {
+	var item = jQuery('#media-item-' + fileObj.id);
+
 	// if async-upload returned an error message, place it in the media item div and return
 	if ( serverData.match('media-upload-error') ) {
-		jQuery('#media-item-' + fileObj.id).html(serverData);
+		item.html(serverData);
 		return;
 	}
 
@@ -74,7 +66,7 @@ function uploadSuccess(fileObj, serverData) {
 	updateMediaForm();
 
 	// Increment the counter.
-	if ( jQuery('#media-item-' + fileObj.id).hasClass('child-of-' + post_id) )
+	if ( item.hasClass('child-of-' + post_id) )
 		jQuery('#attachments-count').text(1 * jQuery('#attachments-count').text() + 1);
 }
 
@@ -134,7 +126,12 @@ function prepareMediaItemInit(fileObj) {
                     window.scrollTo(0, t - 36);
             }
 		});
-		jQuery(this).siblings('.toggle').andSelf().toggle();
+
+		if ( jQuery(this).is('.describe-toggle-on') )
+			item.addClass('open');
+		else
+			item.removeClass('open');
+
 		jQuery(this).siblings('a.toggle').focus();
 		return false;
 	});
@@ -180,7 +177,7 @@ function prepareMediaItemInit(fileObj) {
 				jQuery('.filename .trashnotice', item).remove();
 				jQuery('.filename .title', item).css('font-weight','normal');
 				jQuery('a.undo', item).addClass('hidden');
-				jQuery('a.describe-toggle-on, .menu_order_input', item).show();
+				jQuery('.menu_order_input', item).show();
 				item.css( {backgroundColor:'#ceb'} ).animate( {backgroundColor: '#fff'}, { queue: false, duration: 500, complete: function(){ jQuery(this).css({backgroundColor:''}); } }).removeClass('undo');
 			}
 		});
@@ -373,6 +370,9 @@ jQuery(document).ready(function($){
 				}).bind('dragleave.wp-uploader, drop.wp-uploader', function(){
 					$(this).css('border-color', '');
 				});
+			} else {
+				$('#plupload-upload-ui').removeClass('drag-drop');
+				$('#drag-drop-area').unbind('.wp-uploader');
 			}
 		});
 
@@ -381,7 +381,7 @@ jQuery(document).ready(function($){
 		uploader.bind('FilesAdded', function(up, files) {
 			$.each(files, function(i, file) {
 				/*
-				if ( up.features.chunks && up.runtime != 'flash' && file.size > 1048576 )
+				if ( up.features.chunks && file.size > 1048576 )
 					up.settings.chunk_size = '1048576';
 				else
 					delete(up.settings.chunk_size);
@@ -400,7 +400,16 @@ jQuery(document).ready(function($){
 		});
 		
 		uploader.bind('UploadProgress', function(up, file) {
-			uploadProgress(file, file.loaded, file.size);
+			var item = $('#media-item-' + file.id);
+
+			$('.bar', item).width( (200 * file.percent) / 100 );
+			$('.percent', item).html( file.percent + '%' );
+		
+			if ( file.percent == 100 ) {
+				setTimeout( function(){
+					$('.percent', item).html( pluploadL10n.crunching );
+				}, 200 );
+			}
 		});
 
 		uploader.bind('Error', function(up, err) {

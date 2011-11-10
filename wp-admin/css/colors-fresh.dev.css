@@ -312,10 +312,6 @@ div.error a {
 	color: #666;
 }
 
-#wpbody-content #media-items .describe {
-	border-top-color: #dfdfdf;
-}
-
 .media-upload-form label.form-help,
 td.help {
 	color: #9a9a9a;
@@ -638,9 +634,9 @@ input.readonly, textarea.readonly {
 	border-color: #dfdfdf;
 }
 
-#media-items,
 .imgedit-group,
-.media-item {
+#media-items .media-item,
+#media-items .describe {
 	border-color: #dfdfdf;
 }
 

@@ -1,6 +1,8 @@
+/* Styles for the media library iframe (not used on the Library screen) */
+
 div#media-upload-header {
 	margin: 0;
-	padding: 0 5px;
+	padding: 5px 5px 0;
 	font-weight: bold;
 	position: relative;
 	border-bottom-width: 1px;
@@ -91,12 +93,6 @@ thead.media-item-info tr {
 	background-color: transparent;
 }
 
-thead.media-item-info th,
-thead.media-item-info td {
-	border: none;
-	margin: 0;
-}
-
 .form-table thead.media-item-info {
 	border: 8px solid #fff;
 }
@@ -108,11 +104,6 @@ abbr.required {
 
 .describe label {
 	display: inline;
-}
-
-.describe td {
-	vertical-align: middle;
-	padding: 0 5px 8px 0;
 }
 
 .describe td.error {
@@ -143,43 +134,8 @@ abbr.required {
 	font-weight: normal;
 }
 
-#media-upload #media-items {
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	width: 623px;
-}
-
-#media-upload #media-items:empty {
-	border: 0 none;
-}
-
-#media-upload .media-item {
-	border-style: solid solid none;
-    border-width: 1px 1px 0;
-	min-height: 36px;
-	width: 100%;
-}
-
 #media-upload .ui-sortable .media-item {
 	cursor: move;
-}
-
-.filename {
-	line-height: 36px;
-	padding: 0 10px;
-	overflow: hidden;
-}
-
-#media-upload .describe {
-	width: 100%;
-	clear: both;
-	cursor: default;
-}
-
-#media-upload .describe th.label {
-	padding-top: .2em;
-	text-align: left;
-	min-width: 120px;
 }
 
 #media-upload tr.image-size {

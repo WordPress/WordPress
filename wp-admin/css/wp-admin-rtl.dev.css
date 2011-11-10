@@ -998,7 +998,7 @@ span.description,
 .describe-toggle-off {
 	float: left;
 	margin-right: 0;
-	margin-left: 20px;
+	margin-left: 15px;
 }
 
 .media-item .error-div {
@@ -1010,17 +1010,13 @@ span.description,
 	float: right;
 }
 
-.crunching {
-	text-align: left;
-	margin-right: 0;
-	margin-left: 5px;
+.media-item .describe td {
+	padding: 0 0 8px 8px;
 }
 
-.bar {
-	border-right-width: 0;
-	border-left-width: 3px;
-	border-right-style: none;
-	border-left-style: solid;
+.media-item .progress {
+	float: left;
+    margin: 6px 0 0 10px;
 }
 
 /*------------------------------------------------------------------------------
