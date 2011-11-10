@@ -143,7 +143,7 @@ class WP_Admin_Bar {
 					}
 
 					if ( ! empty( $this->root->children->secondary ) ):
-						?><ul class="top-secondary"><?php
+						?><ul class="ab-top-menu top-secondary"><?php
 
 							foreach ( $this->root->children->secondary as $node ) {
 								$this->recursive_render( $node );
