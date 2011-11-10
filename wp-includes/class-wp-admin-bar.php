@@ -159,7 +159,12 @@ class WP_Admin_Bar {
 	}
 
 	function recursive_render( $node ) {
-		$is_parent = ! empty( $node->children->primary );
+		if ( ! $node->children->primary && $node->children->secondary ) {
+			$node->children->primary = $node->children->secondary;
+			$node->children->secondary = array();
+		}
+
+		$is_parent = (bool) $node->children->primary;
 
 		$menuclass = $is_parent ? 'menupop' : '';
 		if ( ! empty( $node->meta['class'] ) )
