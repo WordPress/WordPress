@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Ten 1.2\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyten\n"
-"POT-Creation-Date: 2011-06-13 13:27:43+00:00\n"
+"POT-Creation-Date: 2011-11-10 19:29:33+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -372,8 +372,18 @@ msgstr ""
 msgid "Monthly Archives: <span>%s</span>"
 msgstr ""
 
+#: archive.php:35
+msgctxt "monthly archives date format"
+msgid "F Y"
+msgstr ""
+
 #: archive.php:37
 msgid "Yearly Archives: <span>%s</span>"
+msgstr ""
+
+#: archive.php:37
+msgctxt "yearly archives date format"
+msgid "Y"
 msgstr ""
 
 #: archive.php:39
