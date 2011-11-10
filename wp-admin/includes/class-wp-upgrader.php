@@ -52,7 +52,7 @@ class WP_Upgrader {
 		$this->strings['installing_package'] = __('Installing the latest version&#8230;');
 		$this->strings['folder_exists'] = __('Destination folder already exists.');
 		$this->strings['mkdir_failed'] = __('Could not create directory.');
-		$this->strings['incompatible_archive'] = __('The package is corrupt or not in the correct format.');
+		$this->strings['incompatible_archive'] = __('The package could not be installed.');
 
 		$this->strings['maintenance_start'] = __('Enabling Maintenance mode&#8230;');
 		$this->strings['maintenance_end'] = __('Disabling Maintenance mode&#8230;');
@@ -193,7 +193,7 @@ class WP_Upgrader {
 		if ( 1 == count($source_files) && $wp_filesystem->is_dir( trailingslashit($source) . $source_files[0] . '/') ) //Only one folder? Then we want its contents.
 			$source = trailingslashit($source) . trailingslashit($source_files[0]);
 		elseif ( count($source_files) == 0 )
-			return new WP_Error('incompatible_archive', $this->strings['incompatible_archive']); //There are no files?
+			return new WP_Error( 'incompatible_archive', $this->strings['incompatible_archive'], __( 'The plugin contains no files.' ) ); //There are no files?
 		else //Its only a single file, The upgrader will use the foldername of this file as the destination folder. foldername is based on zip filename.
 			$source = trailingslashit($source);
 
@@ -562,7 +562,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 		}
 
 		if ( ! $plugins_found )
-			return new WP_Error( 'incompatible_archive', $this->strings['incompatible_archive'] );
+			return new WP_Error( 'incompatible_archive', $this->strings['incompatible_archive'], __('No valid plugins were found.') );
 
 		return $source;
 	}
@@ -836,14 +836,14 @@ class Theme_Upgrader extends WP_Upgrader {
 			return $source;
 
 		if ( ! file_exists( $working_directory . 'style.css' ) ) // A proper archive should have a style.css file in the single subdirectory
-			return new WP_Error( 'incompatible_archive', $this->strings['incompatible_archive'] );
+			return new WP_Error( 'incompatible_archive', $this->strings['incompatible_archive'], __('The theme is missing the <code>style.css</code> stylesheet.') );
 
 		$info = get_theme_data( $working_directory . 'style.css' );
 		if ( empty($info['Name']) )
-			return new WP_Error( 'incompatible_archive', $this->strings['incompatible_archive'] );
+			return new WP_Error( 'incompatible_archive', $this->strings['incompatible_archive'], __("The <code>style.css</code> stylesheet doesn't contain a valid theme header.") );
 
 		if ( empty($info['Template']) && ! file_exists( $working_directory . 'index.php' ) ) // If no template is set, it must have at least an index.php to be legit.
-			return new WP_Error( 'incompatible_archive', $this->strings['incompatible_archive'] );
+			return new WP_Error( 'incompatible_archive', $this->strings['incompatible_archive'], __('The theme is missing the <code>index.php</code> file.') );
 
 		return $source;
 	}
