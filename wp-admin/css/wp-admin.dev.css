@@ -4736,13 +4736,11 @@ input.button-highlighted,
 	font-size: 14px;
 	text-align: center;
 
-	border-width: 1px;
-	border-style: solid;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 
 	background-repeat: no-repeat;
-	background-position: center 20px;
+	background-position: center 20px, center center;
 }
 .about-wrap .wp-badge {
 	position: absolute;

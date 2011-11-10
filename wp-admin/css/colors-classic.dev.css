@@ -2151,21 +2151,20 @@ div.widgets-sortables,
 
 .wp-badge {
 	color: #fff;
-	text-shadow: 0 -1px 0 #0c3d57;
-	border-color: #2B5173;
+	text-shadow: 0 -1px 0 rgba(22, 57, 81, 0.3);
 
-	-moz-box-shadow: inset 0 0 0 1px #5F8CA8;
-	-webkit-box-shadow: inset 0 0 0 1px #5F8CA8;
-	box-shadow: inset 0 0 0 1px #5F8CA8;
+	-moz-box-shadow: 0 0 5px rgba(0,0,0, 0.34);
+	-webkit-box-shadow: 0 0 5px rgba(0,0,0, 0.34);
+	box-shadow: 0 0 5px rgba(0,0,0, 0.34);
 
-	background-color: #378aac;
-	background-image: url(../images/wp-badge.png);
-	background-image: url(../images/wp-badge.png), -ms-linear-gradient(top, #378aac, #165d84); /* IE10 */
-	background-image: url(../images/wp-badge.png), -moz-linear-gradient(top, #378aac, #165d84); /* Firefox */
-	background-image: url(../images/wp-badge.png), -o-linear-gradient(top, #378aac, #165d84); /* Opera */
-	background-image: url(../images/wp-badge.png), -webkit-gradient(linear, left top, left bottom, from(#378aac), to(#165d84)); /* old Webkit */
-	background-image: url(../images/wp-badge.png), -webkit-linear-gradient(top, #378aac, #165d84); /* new Webkit */
-	background-image: url(../images/wp-badge.png), linear-gradient(top, #378aac, #165d84); /* proposed W3C Markup */
+	background-color: #72a7cf;
+	background-image: url(../images/wp-badge.png?ver=20111110);
+	background-image: url(../images/wp-badge.png?ver=20111110), -ms-radial-gradient(center, #90c5ee, #72a7cf); /* IE10 */
+	background-image: url(../images/wp-badge.png?ver=20111110), -moz-radial-gradient(center, #90c5ee, #72a7cf); /* Firefox */
+	background-image: url(../images/wp-badge.png?ver=20111110), -o-radial-gradient(center, #90c5ee, #72a7cf); /* Opera */
+	background-image: url(../images/wp-badge.png?ver=20111110), -webkit-gradient(radial, center center, center center, from(#90c5ee), to(#72a7cf)); /* old Webkit */
+	background-image: url(../images/wp-badge.png?ver=20111110), -webkit-radial-gradient(center, #90c5ee, #72a7cf); /* new Webkit */
+	background-image: url(../images/wp-badge.png?ver=20111110), radial-gradient(center, #90c5ee, #72a7cf); /* proposed W3C Markup */
 }
 
 .about-wrap h2 .nav-tab {
