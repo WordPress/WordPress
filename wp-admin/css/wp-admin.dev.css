@@ -4923,9 +4923,13 @@ input.button-highlighted,
 	padding-bottom: 15px;
 }
 .about-wrap ul.compact li.wp-person {
-	height: 40px;
-	width: auto;
-	white-space: nowrap;
+	height: auto;
+	width: 180px;
+	padding-bottom: 0;
+	margin-bottom: 0;
+}
+.about-wrap #wp-people-group-validators + p.wp-credits-list {
+	margin-top: 0;
 }
 .about-wrap li.wp-person a.web {
 	display: block;

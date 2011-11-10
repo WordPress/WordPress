@@ -160,6 +160,7 @@ __( 'Core Contributors to WordPress %s' );
 __( 'Cofounder, Project Lead' );
 __( 'Lead Developer' );
 __( 'User Experience Lead' );
+__( 'Core Developer' );
 __( 'Core Committer' );
 __( 'Guest Committer' );
 __( 'Developer' );
@@ -168,6 +169,5 @@ __( 'XML-RPC' );
 __( 'Internationalization' );
 __( 'External Libraries' );
 __( 'Icon Design' );
-__( 'Blue Color Scheme' );
 
 ?>
