@@ -327,7 +327,7 @@ function wp_admin_bar_my_sites_menu( $wp_admin_bar ) {
 
 		$wp_admin_bar->add_menu( array(
 			'parent'    => 'my-sites',
-			'secondary' => true,
+			'secondary' => is_super_admin(),
 			'id'        => $menu_id,
 			'title'     => $blavatar . $blogname,
 			'href'      => get_admin_url( $blog->userblog_id ),
