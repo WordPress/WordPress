@@ -421,6 +421,7 @@ function twentyeleven_widgets_init() {
 }
 add_action( 'widgets_init', 'twentyeleven_widgets_init' );
 
+if ( ! function_exists( 'twentyeleven_content_nav' ) ) :
 /**
  * Display navigation to next/previous pages when applicable
  */
@@ -435,6 +436,7 @@ function twentyeleven_content_nav( $nav_id ) {
 		</nav><!-- #nav-above -->
 	<?php endif;
 }
+endif; // twentyeleven_content_nav
 
 /**
  * Return the URL for the first link found in the post content.
