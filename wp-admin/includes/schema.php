@@ -343,6 +343,15 @@ function populate_options() {
 		$uploads_use_yearmonth_folders = 1;
 	}
 
+	$template = WP_DEFAULT_THEME;
+	// If default theme is a child theme, we need to get its template
+	foreach ( (array) get_themes() as $theme ) {
+		if ( WP_DEFAULT_THEME == $theme['Stylesheet'] ) {
+			$template = $theme['Template'];
+			break;
+		}
+	}
+
 	$options = array(
 	'siteurl' => $guessurl,
 	'blogname' => __('My Site'),
@@ -394,7 +403,7 @@ function populate_options() {
 	// 1.5
 	'default_email_category' => 1,
 	'recently_edited' => '',
-	'template' => WP_DEFAULT_THEME,
+	'template' => $template,
 	'stylesheet' => WP_DEFAULT_THEME,
 	'comment_whitelist' => 1,
 	'blacklist_keys' => '',
