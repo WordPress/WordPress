@@ -1733,13 +1733,23 @@ function user_can_richedit() {
 }
 
 /**
- * Loads and initializes WP_Editor class if needed, passes the settings for an instance of the editor
+ * Loads and initializes WP_Editor class (if needed), passes the settings for an instance of the editor
  *
+ * Using this function is the proper way to output all needed components for both TinyMCE and Quicktags.
+ * WP_Editor shouldn't be instantiated separately as it keeps track of loaded scripts.
+ * See http://core.trac.wordpress.org/ticket/17144. 
+ * 
+ * NOTE: Once initialized the TinyMCE editor cannot be safely moved in the DOM. For that reason
+ * running wp_editor() inside of a metabox is not a good idea unless only Quicktags is used.
+ * On the post edit screen several actions can be used to include additional editors
+ * containing TinyMCE: 'edit_page_form', 'edit_form_advanced' and 'dbx_post_sidebar'.
+ * See http://core.trac.wordpress.org/ticket/19173 for more information.
+ * 
  * @see wp-includes/class-wp-editor.php
  * @since 3.3
  *
  * @param string $content Initial content for the editor.
- * @param string $editor_id HTML ID attribute value for the textarea and TinyMCE.
+ * @param string $editor_id HTML ID attribute value for the textarea and TinyMCE. Can only be /[a-z]+/.
  * @param array $settings See WP_Editor::editor().
  */
 function wp_editor( $content, $editor_id, $settings = array() ) {

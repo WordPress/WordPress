@@ -576,7 +576,7 @@ class WP_Editor {
 		var wpActiveEditor;
 
 		jQuery('.wp-editor-wrap').mousedown(function(e){
-	    	wpActiveEditor = this.id.slice(3, -5);
+			wpActiveEditor = this.id.slice(3, -5);
 		});
 
 <?php
