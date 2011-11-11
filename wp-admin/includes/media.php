@@ -2025,7 +2025,7 @@ function _insert_into_post_button($type) {
 function media_upload_flash_bypass() {
 	?>
 	<p class="upload-flash-bypass">
-	<?php _e('You are using the multi-file uploader. Problems? Try the <a href="#">Browser uploader</a> instead.'); ?>
+	<?php _e('You are using the multi-file uploader. Problems? Try the <a href="#">browser uploader</a> instead.'); ?>
 	</p>
 	<?php
 }
@@ -2038,7 +2038,7 @@ function media_upload_flash_bypass() {
 function media_upload_html_bypass() {
 	?>
 	<p class="upload-html-bypass hide-if-no-js">
-	<?php _e('You are using the Browser uploader. Try the <a href="#">Multi-file uploader</a> instead.'); ?>
+	<?php _e('You are using the browser uploader. Try the <a href="#">multi-file uploader</a> instead.'); ?>
 	</p>
 	<?php
 }
