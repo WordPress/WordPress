@@ -72,12 +72,18 @@ if ( isset($_GET['inline']) ) {
 		'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 	);
 
-	require_once('./admin-header.php'); ?>
+	require_once('./admin-header.php');
+	
+	$form_class = 'media-upload-form type-form validate';
+
+	if ( get_user_setting('uploader') )
+		$form_class .= ' html-uploader';
+	?>
 	<div class="wrap">
 	<?php screen_icon(); ?>
 	<h2><?php echo esc_html( $title ); ?></h2>
 
-	<form enctype="multipart/form-data" method="post" action="<?php echo admin_url('media-upload.php?inline=&amp;upload-page-form='); ?>" class="media-upload-form type-form validate" id="file-form">
+	<form enctype="multipart/form-data" method="post" action="<?php echo admin_url('media-upload.php?inline=&amp;upload-page-form='); ?>" class="<?php echo $form_class; ?>" id="file-form">
 
 	<?php media_upload_form(); ?>
 

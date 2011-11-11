@@ -1336,9 +1336,25 @@ $plupload_init = apply_filters( 'plupload_init', $plupload_init );
 ?>
 
 <script type="text/javascript">
-var resize_height = <?php echo get_option('large_size_h', 1024); ?>,
-resize_width = <?php echo get_option('large_size_w', 1024); ?>,
+var resize_height = <?php echo get_option('large_size_h', 1024); ?>, resize_width = <?php echo get_option('large_size_w', 1024); ?>,
 wpUploaderInit = <?php echo json_encode($plupload_init); ?>;
+
+jQuery(document).ready(function($){
+	function _switch(m) {
+		if ( m ) {
+			deleteUserSetting('uploader');
+			$('.media-upload-form').removeClass('html-uploader');
+
+			if ( typeof(uploader) == 'object' )
+				uploader.refresh();
+		} else {
+			setUserSetting('uploader', '1'); // 1 == html uploader
+			$('.media-upload-form').addClass('html-uploader');
+		}
+	}
+	$('.upload-flash-bypass a').click(function(){_switch(0);return false;});
+	$('.upload-html-bypass a').click(function(){_switch(1);return false;});
+});
 </script>
 
 <div id="plupload-upload-ui" class="hide-if-no-js">
@@ -1388,9 +1404,13 @@ function media_upload_type_form($type = 'file', $errors = null, $id = null) {
 
 	$form_action_url = admin_url("media-upload.php?type=$type&tab=type&post_id=$post_id");
 	$form_action_url = apply_filters('media_upload_form_url', $form_action_url, $type);
+	$form_class = 'media-upload-form type-form validate';
+
+	if ( get_user_setting('uploader') )
+		$form_class .= ' html-uploader';
 ?>
 
-<form enctype="multipart/form-data" method="post" action="<?php echo esc_attr($form_action_url); ?>" class="media-upload-form type-form validate" id="<?php echo $type; ?>-form">
+<form enctype="multipart/form-data" method="post" action="<?php echo esc_attr($form_action_url); ?>" class="<?php echo $form_class; ?>" id="<?php echo $type; ?>-form">
 <?php submit_button( '', 'hidden', 'save', false ); ?>
 <input type="hidden" name="post_id" id="post_id" value="<?php echo (int) $post_id; ?>" />
 <?php wp_nonce_field('media-form'); ?>
@@ -1449,9 +1469,13 @@ function media_upload_type_url_form($type = null, $errors = null, $id = null) {
 
 	$form_action_url = admin_url("media-upload.php?type=$type&tab=type&post_id=$post_id");
 	$form_action_url = apply_filters('media_upload_form_url', $form_action_url, $type);
+	$form_class = 'media-upload-form type-form validate';
+
+	if ( get_user_setting('uploader') )
+		$form_class .= ' html-uploader';
 ?>
 
-<form enctype="multipart/form-data" method="post" action="<?php echo esc_attr($form_action_url); ?>" class="media-upload-form type-form validate" id="<?php echo $type; ?>-form">
+<form enctype="multipart/form-data" method="post" action="<?php echo esc_attr($form_action_url); ?>" class="<?php echo $form_class; ?>" id="<?php echo $type; ?>-form">
 <input type="hidden" name="post_id" id="post_id" value="<?php echo (int) $post_id; ?>" />
 <?php wp_nonce_field('media-form'); ?>
 
@@ -1571,6 +1595,10 @@ function media_upload_gallery_form($errors) {
 	$post_id = intval($_REQUEST['post_id']);
 	$form_action_url = admin_url("media-upload.php?type=$type&tab=gallery&post_id=$post_id");
 	$form_action_url = apply_filters('media_upload_form_url', $form_action_url, $type);
+	$form_class = 'media-upload-form validate';
+	
+	if ( get_user_setting('uploader') )
+		$form_class .= ' html-uploader';
 ?>
 
 <script type="text/javascript">
@@ -1595,7 +1623,7 @@ jQuery(function($){
 <a href="#" id="desc"><?php _e('Descending'); ?></a> |
 <a href="#" id="clear"><?php _ex('Clear', 'verb'); ?></a>
 </div>
-<form enctype="multipart/form-data" method="post" action="<?php echo esc_attr($form_action_url); ?>" class="media-upload-form validate" id="gallery-form">
+<form enctype="multipart/form-data" method="post" action="<?php echo esc_attr($form_action_url); ?>" class="<?php echo $form_class; ?>" id="gallery-form">
 <?php wp_nonce_field('media-form'); ?>
 <?php //media_upload_form( $errors ); ?>
 <table class="widefat" cellspacing="0">
@@ -1713,6 +1741,10 @@ function media_upload_library_form($errors) {
 
 	$form_action_url = admin_url("media-upload.php?type=$type&tab=library&post_id=$post_id");
 	$form_action_url = apply_filters('media_upload_form_url', $form_action_url, $type);
+	$form_class = 'media-upload-form validate';
+
+	if ( get_user_setting('uploader') )
+		$form_class .= ' html-uploader';
 
 	$_GET['paged'] = isset( $_GET['paged'] ) ? intval($_GET['paged']) : 0;
 	if ( $_GET['paged'] < 1 )
@@ -1830,7 +1862,7 @@ foreach ($arc_result as $arc_row) {
 </div>
 </form>
 
-<form enctype="multipart/form-data" method="post" action="<?php echo esc_attr($form_action_url); ?>" class="media-upload-form validate" id="library-form">
+<form enctype="multipart/form-data" method="post" action="<?php echo esc_attr($form_action_url); ?>" class="<?php echo $form_class; ?>" id="library-form">
 
 <?php wp_nonce_field('media-form'); ?>
 <?php //media_upload_form( $errors ); ?>
@@ -1984,6 +2016,35 @@ function _insert_into_post_button($type) {
 		</tr>
 	';
 }
+
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since 2.6.0
+ */
+function media_upload_flash_bypass() {
+	?>
+	<p class="upload-flash-bypass">
+	<?php _e('You are using the multi-file uploader. Problems? Try the <a href="#">Browser uploader</a> instead.'); ?>
+	</p>
+	<?php
+}
+
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since 2.6.0
+ */
+function media_upload_html_bypass() {
+	?>
+	<p class="upload-html-bypass hide-if-no-js">
+	<?php _e('You are using the Browser uploader. Try the <a href="#">Multi-file uploader</a> instead.'); ?>
+	</p>
+	<?php
+}
+
+add_action('post-plupload-upload-ui', 'media_upload_flash_bypass');
+add_action('post-html-upload-ui', 'media_upload_html_bypass');
 
 /**
  * {@internal Missing Short Description}}

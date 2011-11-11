@@ -3748,6 +3748,14 @@ abbr.required {
 	width: 25%;
 }
 
+.js .html-uploader #plupload-upload-ui {
+	display: none;
+}
+
+.js .html-uploader #html-upload-ui {
+	display: block;
+}
+
 
 /*------------------------------------------------------------------------------
   14.1 - Media Library
