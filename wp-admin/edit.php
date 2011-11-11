@@ -197,16 +197,12 @@ if ( isset($_REQUEST['s']) && $_REQUEST['s'] )
 	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', get_search_query() ); ?>
 </h2>
 
-<?php
-if ( isset($_REQUEST['posted']) && $_REQUEST['posted'] ) : $_REQUEST['posted'] = (int) $_REQUEST['posted']; ?>
-<div id="message" class="updated"><p><strong><?php _e('This has been saved.'); ?></strong> <a href="<?php echo get_permalink( $_REQUEST['posted'] ); ?>"><?php _e('View Post'); ?></a> | <a href="<?php echo get_edit_post_link( $_REQUEST['posted'] ); ?>"><?php _e('Edit Post'); ?></a></p></div>
-<?php $_SERVER['REQUEST_URI'] = remove_query_arg(array('posted'), $_SERVER['REQUEST_URI']);
-endif; ?>
-
-<?php if ( isset($_REQUEST['locked']) || isset($_REQUEST['skipped']) || isset($_REQUEST['updated']) || isset($_REQUEST['deleted']) || isset($_REQUEST['trashed']) || isset($_REQUEST['untrashed']) ) { ?>
+<?php if ( isset($_REQUEST['locked']) || isset($_REQUEST['skipped']) || isset($_REQUEST['updated']) || isset($_REQUEST['deleted']) || isset($_REQUEST['trashed']) || isset($_REQUEST['untrashed']) ) {
+	$messages = array();
+?>
 <div id="message" class="updated"><p>
 <?php if ( isset($_REQUEST['updated']) && (int) $_REQUEST['updated'] ) {
-	printf( _n( '%s post updated.', '%s posts updated.', $_REQUEST['updated'] ), number_format_i18n( $_REQUEST['updated'] ) );
+	$messages[] = sprintf( _n( '%s post updated.', '%s posts updated.', $_REQUEST['updated'] ), number_format_i18n( $_REQUEST['updated'] ) );
 	unset($_REQUEST['updated']);
 }
 
@@ -214,26 +210,30 @@ if ( isset($_REQUEST['skipped']) && (int) $_REQUEST['skipped'] )
 	unset($_REQUEST['skipped']);
 
 if ( isset($_REQUEST['locked']) && (int) $_REQUEST['locked'] ) {
-	printf( _n( '%s item not updated, somebody is editing it.', '%s items not updated, somebody is editing them.', $_REQUEST['locked'] ), number_format_i18n( $_REQUEST['locked'] ) );
+	$messages[] = sprintf( _n( '%s item not updated, somebody is editing it.', '%s items not updated, somebody is editing them.', $_REQUEST['locked'] ), number_format_i18n( $_REQUEST['locked'] ) );
 	unset($_REQUEST['locked']);
 }
 
 if ( isset($_REQUEST['deleted']) && (int) $_REQUEST['deleted'] ) {
-	printf( _n( 'Item permanently deleted.', '%s items permanently deleted.', $_REQUEST['deleted'] ), number_format_i18n( $_REQUEST['deleted'] ) );
+	$messages[] = sprintf( _n( 'Item permanently deleted.', '%s items permanently deleted.', $_REQUEST['deleted'] ), number_format_i18n( $_REQUEST['deleted'] ) );
 	unset($_REQUEST['deleted']);
 }
 
 if ( isset($_REQUEST['trashed']) && (int) $_REQUEST['trashed'] ) {
-	printf( _n( 'Item moved to the Trash.', '%s items moved to the Trash.', $_REQUEST['trashed'] ), number_format_i18n( $_REQUEST['trashed'] ) );
+	$messages[] = sprintf( _n( 'Item moved to the Trash.', '%s items moved to the Trash.', $_REQUEST['trashed'] ), number_format_i18n( $_REQUEST['trashed'] ) );
 	$ids = isset($_REQUEST['ids']) ? $_REQUEST['ids'] : 0;
-	echo ' <a href="' . esc_url( wp_nonce_url( "edit.php?post_type=$post_type&doaction=undo&action=untrash&ids=$ids", "bulk-posts" ) ) . '">' . __('Undo') . '</a><br />';
+	$messages[] = '<a href="' . esc_url( wp_nonce_url( "edit.php?post_type=$post_type&doaction=undo&action=untrash&ids=$ids", "bulk-posts" ) ) . '">' . __('Undo') . '</a>';
 	unset($_REQUEST['trashed']);
 }
 
 if ( isset($_REQUEST['untrashed']) && (int) $_REQUEST['untrashed'] ) {
-	printf( _n( 'Item restored from the Trash.', '%s items restored from the Trash.', $_REQUEST['untrashed'] ), number_format_i18n( $_REQUEST['untrashed'] ) );
+	$messages[] = sprintf( _n( 'Item restored from the Trash.', '%s items restored from the Trash.', $_REQUEST['untrashed'] ), number_format_i18n( $_REQUEST['untrashed'] ) );
 	unset($_REQUEST['undeleted']);
 }
+
+if ( $messages )
+	echo join( ' ', $messages );
+unset( $messages );
 
 $_SERVER['REQUEST_URI'] = remove_query_arg( array('locked', 'skipped', 'updated', 'deleted', 'trashed', 'untrashed'), $_SERVER['REQUEST_URI'] );
 ?>
