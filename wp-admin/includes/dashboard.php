@@ -387,7 +387,11 @@ function wp_dashboard_right_now() {
 	$ct = current_theme_info();
 
 	echo "\n\t<p>";
-	if ( !empty($wp_registered_sidebars) ) {
+
+	if ( empty( $ct->stylesheet_dir ) ) {
+		if ( ! is_multisite() || is_super_admin() )
+			echo '<span class="error-message">' . __('ERROR: The themes directory is either empty or doesn&#8217;t exist. Please check your installation.') . '</span>';
+	} elseif ( ! empty($wp_registered_sidebars) ) {
 		$sidebars_widgets = wp_get_sidebars_widgets();
 		$num_widgets = 0;
 		foreach ( (array) $sidebars_widgets as $k => $v ) {

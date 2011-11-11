@@ -16,10 +16,18 @@
 function current_theme_info() {
 	$themes = get_themes();
 	$current_theme = get_current_theme();
+
+	if ( ! $themes ) {
+		$ct = new stdClass;
+		$ct->name = $current_theme;
+		return $ct;
+	}
+
 	if ( ! isset( $themes[$current_theme] ) ) {
 		delete_option( 'current_theme' );
 		$current_theme = get_current_theme();
 	}
+
 	$ct = new stdClass;
 	$ct->name = $current_theme;
 	$ct->title = $themes[$current_theme]['Title'];

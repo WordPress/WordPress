@@ -518,12 +518,13 @@ function get_current_theme() {
 		return $theme;
 
 	$themes = get_themes();
-	$theme_names = array_keys($themes);
-	$current_template = get_option('template');
-	$current_stylesheet = get_option('stylesheet');
-	$current_theme = 'Twenty Ten';
+	$current_theme = 'Twenty Eleven';
 
 	if ( $themes ) {
+		$theme_names = array_keys( $themes );
+		$current_template = get_option( 'template' );
+		$current_stylesheet = get_option( 'stylesheet' );
+
 		foreach ( (array) $theme_names as $theme_name ) {
 			if ( $themes[$theme_name]['Stylesheet'] == $current_stylesheet &&
 					$themes[$theme_name]['Template'] == $current_template ) {
