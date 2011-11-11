@@ -48,9 +48,14 @@ jQuery(document).ready( function($) {
 		}
 	};
 
-	$(window).unload( function() {
+	$(window).unload( function(e) {
 		if ( ! autosaveLockRelease )
 			return;
+
+		// unload fires (twice) on removing the Thickbox iframe. Make sure we process only the main document unload.
+		if ( e.target && e.target.nodeName != '#document' )
+			return;
+
 		$.ajax({
 			type: 'POST',
 			url: ajaxurl,
