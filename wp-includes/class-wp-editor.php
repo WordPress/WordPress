@@ -635,7 +635,7 @@ class WP_Editor {
 			'bullist' => array( 'title' => __('Unordered list (Alt + Shift + U)'), 'onclick' => 'fullscreen.ul();', 'both' => false ),
 			'numlist' => array( 'title' => __('Ordered list (Alt + Shift + O)'), 'onclick' => 'fullscreen.ol();', 'both' => false ),
 			'1' => 'separator',
-			'blockquote' => array( 'title' => __('Blockquote (Alt+Shift+Q)'), 'onclick' => 'fullscreen.blockquote();', 'both' => false ),
+			'blockquote' => array( 'title' => __('Blockquote (Alt + Shift + Q)'), 'onclick' => 'fullscreen.blockquote();', 'both' => false ),
 			'image' => array( 'title' => __('Insert/edit image (Alt + Shift + M)'), 'onclick' => "fullscreen.medialib();", 'both' => true ),
 			'2' => 'separator',
 			'link' => array( 'title' => __('Insert/edit link (Alt + Shift + A)'), 'onclick' => 'fullscreen.link();', 'both' => true ),

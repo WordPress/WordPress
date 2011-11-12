@@ -140,9 +140,9 @@ plaintext_mode_sticky:"Paste is now in plain text mode. Click again to toggle ba
 plaintext_mode:"Paste is now in plain text mode. Click again to toggle back to regular paste mode."
 },
 paste_dlg:{
-text_title:"Use CTRL+V on your keyboard to paste the text into the window.",
+text_title:"Use CTRL + V on your keyboard to paste the text into the window.",
 text_linebreaks:"Keep linebreaks",
-word_title:"Use CTRL+V on your keyboard to paste the text into the window."
+word_title:"Use CTRL + V on your keyboard to paste the text into the window."
 },
 table:{
 desc:"Inserts a new table",
@@ -170,7 +170,7 @@ autosave:{
 unload_msg:"The changes you made will be lost if you navigate away from this page."
 },
 fullscreen:{
-desc:"Toggle fullscreen mode (Alt+Shift+G)"
+desc:"Toggle fullscreen mode (Alt + Shift + G)"
 },
 media:{
 desc:"Insert / edit embedded media",
@@ -186,7 +186,7 @@ visualchars:{
 desc:"Visual control characters on/off."
 },
 spellchecker:{
-desc:"Toggle spellchecker (Alt+Shift+N)",
+desc:"Toggle spellchecker (Alt + Shift + N)",
 menu:"Spellchecker settings",
 ignore_word:"Ignore word",
 ignore_words:"Ignore all",
@@ -240,23 +240,23 @@ code:"Code",
 samp:"Code sample",
 dt:"Definition term ",
 dd:"Definition description",
-bold_desc:"Bold (Ctrl / Alt+Shift + B)",
-italic_desc:"Italic (Ctrl / Alt+Shift + I)",
+bold_desc:"Bold (Ctrl / Alt + Shift + B)",
+italic_desc:"Italic (Ctrl / Alt + Shift + I)",
 underline_desc:"Underline",
-striketrough_desc:"Strikethrough (Alt+Shift+D)",
-justifyleft_desc:"Align Left (Alt+Shift+L)",
-justifycenter_desc:"Align Center (Alt+Shift+C)",
-justifyright_desc:"Align Right (Alt+Shift+R)",
-justifyfull_desc:"Align Full (Alt+Shift+J)",
-bullist_desc:"Unordered list (Alt+Shift+U)",
-numlist_desc:"Ordered list (Alt+Shift+O)",
+striketrough_desc:"Strikethrough (Alt + Shift + D)",
+justifyleft_desc:"Align Left (Alt + Shift + L)",
+justifycenter_desc:"Align Center (Alt + Shift + C)",
+justifyright_desc:"Align Right (Alt + Shift + R)",
+justifyfull_desc:"Align Full (Alt + Shift + J)",
+bullist_desc:"Unordered list (Alt + Shift + U)",
+numlist_desc:"Ordered list (Alt + Shift + O)",
 outdent_desc:"Outdent",
 indent_desc:"Indent",
-undo_desc:"Undo (Ctrl+Z)",
-redo_desc:"Redo (Ctrl+Y)",
-link_desc:"Insert/edit link (Alt+Shift+A)",
-unlink_desc:"Unlink (Alt+Shift+S)",
-image_desc:"Insert/edit image (Alt+Shift+M)",
+undo_desc:"Undo (Ctrl + Z)",
+redo_desc:"Redo (Ctrl + Y)",
+link_desc:"Insert/edit link (Alt + Shift + A)",
+unlink_desc:"Unlink (Alt + Shift + S)",
+image_desc:"Insert/edit image (Alt + Shift + M)",
 cleanup_desc:"Cleanup messy code",
 code_desc:"Edit HTML Source",
 sub_desc:"Subscript",
@@ -274,11 +274,11 @@ paste_desc:"Paste",
 image_props_desc:"Image properties",
 newdocument_desc:"New document",
 help_desc:"Help",
-blockquote_desc:"Blockquote (Alt+Shift+Q)",
+blockquote_desc:"Blockquote (Alt + Shift + Q)",
 clipboard_msg:"Copy/Cut/Paste is not available in Mozilla and Firefox.",
 path:"Path",
 newdocument:"Are you sure you want to clear all contents?",
-toolbar_focus:"Jump to tool buttons - Alt+Q, Jump to editor - Alt-Z, Jump to element path - Alt-X",
+toolbar_focus:"Jump to tool buttons - Alt + Q, Jump to editor - Alt-Z, Jump to element path - Alt-X",
 more_colors:"More colors",
 shortcuts_desc:"Accessibility Help",
 help_shortcut:" Press ALT F10 for toolbar. Press ALT 0 for help.",
@@ -451,10 +451,10 @@ source:"Source"
 });
 
 tinyMCE.addI18n("en.wordpress",{
-wp_adv_desc:"Show/Hide Kitchen Sink (Alt+Shift+Z)",
-wp_more_desc:"Insert More Tag (Alt+Shift+T)",
-wp_page_desc:"Insert Page break (Alt+Shift+P)",
-wp_help_desc:"Help (Alt+Shift+H)",
+wp_adv_desc:"Show/Hide Kitchen Sink (Alt + Shift + Z)",
+wp_more_desc:"Insert More Tag (Alt + Shift + T)",
+wp_page_desc:"Insert Page break (Alt + Shift + P)",
+wp_help_desc:"Help (Alt + Shift + H)",
 wp_more_alt:"More...",
 wp_page_alt:"Next page...",
 add_media:"Add Media",
