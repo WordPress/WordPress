@@ -275,7 +275,10 @@ function tb_showIframe(){
 function tb_remove() {
  	jQuery("#TB_imageOff").unbind("click");
 	jQuery("#TB_closeWindowButton").unbind("click");
-	jQuery("#TB_window").fadeOut("fast",function(){jQuery('#TB_window,#TB_overlay,#TB_HideSelect').trigger("unload").unbind().remove();});
+	jQuery("#TB_window").fadeOut("fast",function(){ // see #19189
+		jQuery(this).triggerHandler("unload");
+		jQuery('#TB_window,#TB_overlay,#TB_HideSelect').unbind().remove();
+	});
 	jQuery("#TB_load").remove();
 	if (typeof document.body.style.maxHeight == "undefined") {//if IE 6
 		jQuery("body","html").css({height: "auto", width: "auto"});
