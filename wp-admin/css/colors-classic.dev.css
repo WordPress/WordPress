@@ -637,7 +637,7 @@ input.readonly, textarea.readonly {
 }
 
 #media-items .media-item,
-#media-items .describe,
+.media-item .describe,
 .imgedit-group {
 	border-color: #dfdfdf;
 }

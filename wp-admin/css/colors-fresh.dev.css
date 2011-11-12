@@ -636,7 +636,7 @@ input.readonly, textarea.readonly {
 
 .imgedit-group,
 #media-items .media-item,
-#media-items .describe {
+.media-item .describe {
 	border-color: #dfdfdf;
 }
 

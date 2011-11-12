@@ -1063,7 +1063,7 @@ function get_media_item( $attachment_id, $args = null ) {
 	<a class='toggle describe-toggle-on' href='#'>$toggle_on</a>
 	<a class='toggle describe-toggle-off' href='#'>$toggle_off</a>";
 	} else {
-		$class = 'form-table';
+		$class = '';
 		$toggle_links = '';
 	}
 
@@ -1108,7 +1108,7 @@ function get_media_item( $attachment_id, $args = null ) {
 		<thead class='media-item-info' id='media-head-$post->ID'>
 		<tr valign='top'>
 			<td class='A1B1' id='thumbnail-head-$post->ID'>
-			<p><a href='$attachment_url' target='_blank'><img class='thumbnail' src='$thumb_url' alt='' style='margin-top: 3px' /></a></p>
+			<p><a href='$attachment_url' target='_blank'><img class='thumbnail' src='$thumb_url' alt='' /></a></p>
 			<p>$image_edit_button</p>
 			</td>
 			<td>
@@ -1267,6 +1267,8 @@ function media_upload_form( $errors = null ) {
 
 	$upload_action_url = admin_url('async-upload.php');
 	$post_id = isset($_REQUEST['post_id']) ? intval($_REQUEST['post_id']) : 0;
+	$_type = isset($type) ? $type : '';
+	$_tab = isset($tab) ? $tab : '';
 
 	$upload_size_unit = $max_upload_size = wp_max_upload_size();
 	$sizes = array( 'KB', 'MB', 'GB' );
@@ -1307,8 +1309,8 @@ do_action('pre-upload-ui');
 $post_params = array(
 		"post_id" => $post_id,
 		"_wpnonce" => wp_create_nonce('media-form'),
-		"type" => $type,
-		"tab" => $tab,
+		"type" => $_type,
+		"tab" => $_tab,
 		"short" => "1",
 );
 

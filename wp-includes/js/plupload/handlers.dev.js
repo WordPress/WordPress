@@ -24,7 +24,7 @@ function fileQueued(fileObj) {
 	jQuery('#insert-gallery').prop('disabled', true);
 }
 
-function uploadStart(fileObj) {
+function uploadStart() {
 	try {
 		if ( typeof topWin.tb_remove != 'undefined' )
 			topWin.jQuery('#TB_overlay').unbind('click', topWin.tb_remove); 
@@ -310,8 +310,7 @@ function uploadError(fileObj, errorCode, message) {
 			wpQueueError(pluploadL10n.http_error);
 			break;
 		case plupload.INIT_ERROR:
-			switchUploader(0);
-			jQuery('.upload-html-bypass').hide();
+			jQuery('.media-upload-form').addClass('html-uploader');
 			break;
 		case plupload.SECURITY_ERROR:
 			wpQueueError(pluploadL10n.security_error);
@@ -325,9 +324,16 @@ function uploadError(fileObj, errorCode, message) {
 	}
 }
 
+function uploadSizeError( up, error ) {
+	var file = error.file;
+
+	jQuery('#media-items').append('<div id="media-item-' + file.id + '" class="media-item error"><p>' + pluploadL10n.file_exceeds_size_limit.replace('%s', file.name) + '</p></div>');
+	up.removeFile(file);
+}
+
 jQuery(document).ready(function($){
 	// remember the last used image size, alignment and url
-	$('input[type="radio"]', '#media-items').live('click', function(){
+	$('#media-items input[type="radio"]').live('click', function(){
 		var tr = $(this).closest('tr');
 
 		if ( $(tr).hasClass('align') )
@@ -336,7 +342,7 @@ jQuery(document).ready(function($){
 			setUserSetting('imgsize', $(this).val());
 	});
 
-	$('button.button', '#media-items').live('click', function(){
+	$('#media-items button.button').live('click', function(){
 		var c = this.className || '';
 		c = c.match(/url([^ '"]+)/);
 		if ( c && c[1] ) {
@@ -379,26 +385,16 @@ jQuery(document).ready(function($){
 		uploader.init();
 
 		uploader.bind('FilesAdded', function(up, files) {
-			$.each(files, function(i, file) {
-				/*
-				if ( up.features.chunks && file.size > 1048576 )
-					up.settings.chunk_size = '1048576';
-				else
-					delete(up.settings.chunk_size);
-				*/
-
-				fileQueued(file);
-			});
-
-			jQuery('#media-upload-error').html('');
+			$('#media-upload-error').html('');
+			uploadStart();
 			up.refresh();
 			up.start();
 		});
 
 		uploader.bind('BeforeUpload', function(up, file) {
-			uploadStart(file);
+			fileQueued(file);
 		});
-		
+
 		uploader.bind('UploadProgress', function(up, file) {
 			var item = $('#media-item-' + file.id);
 
@@ -413,9 +409,12 @@ jQuery(document).ready(function($){
 		});
 
 		uploader.bind('Error', function(up, err) {
-			uploadError(err.file, err.code, err.message);
-
-			up.refresh();
+			if ( err.code == plupload.FILE_SIZE_ERROR ) {
+				uploadSizeError(up, err);
+			} else {
+				uploadError(err.file, err.code, err.message);
+				up.refresh();
+			}
 		});
 
 		uploader.bind('FileUploaded', function(up, file, response) {

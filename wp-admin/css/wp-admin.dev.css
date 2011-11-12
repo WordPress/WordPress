@@ -3680,7 +3680,7 @@ abbr.required {
 
 .media-item .pinkynail {
 	float: left;
-	margin: 0 2px;
+	margin: 2px 2px 0;
 	max-width: 40px;
 	max-height: 32px;
 }
@@ -3754,6 +3754,17 @@ abbr.required {
 
 .js .html-uploader #html-upload-ui {
 	display: block;
+}
+
+.media-upload-form .media-item.error {
+	margin: 0;
+	padding: 0;
+}
+
+.media-upload-form .media-item.error p {
+	line-height: 16px;
+	margin: 10px;
+	padding: 0;
 }
 
 
