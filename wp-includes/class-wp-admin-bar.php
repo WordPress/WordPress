@@ -142,15 +142,13 @@ class WP_Admin_Bar {
 						$this->recursive_render( $node );
 					}
 
-					if ( ! empty( $this->root->children->secondary ) ):
-						?><ul class="ab-top-menu top-secondary"><?php
+				?></ul>
+				<ul class="ab-top-menu ab-top-secondary"><?php
 
-							foreach ( $this->root->children->secondary as $node ) {
-								$this->recursive_render( $node );
-							}
+					foreach ( $this->root->children->secondary as $node ) {
+						$this->recursive_render( $node );
+					}
 
-						?></ul><?php
-					endif;
 				?></ul>
 			</div>
 		</div>
@@ -187,27 +185,19 @@ class WP_Admin_Bar {
 
 			?>><?php
 
-			if ( $is_parent ) :
-				?><span><?php
-			endif;
-
 			echo $node->title;
-
-			if ( $is_parent ) :
-				?></span><?php
-			endif;
 
 			?></a>
 
 			<?php
 			if ( $is_parent ) :
-				?><ul><?php
+				?><ul class="ab-submenu"><?php
 				foreach ( $node->children->primary as $child_node ) {
 					$this->recursive_render( $child_node );
 				}
 
 				if ( ! empty( $node->children->secondary ) ):
-					?><ul class="sub-secondary"><?php
+					?><ul class="ab-sub-secondary"><?php
 					foreach ( $node->children->secondary as $child_node ) {
 						$this->recursive_render( $child_node );
 					}
