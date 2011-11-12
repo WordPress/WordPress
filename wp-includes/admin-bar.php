@@ -208,7 +208,7 @@ function wp_admin_bar_site_menu( $wp_admin_bar ) {
 		return;
 
 	// Show only when the user is a member of this site, or they're a super admin.
-	if ( ! is_user_member_of_blog( get_current_user_id(), get_current_blog_id() ) && ! is_super_admin() )
+	if ( ! is_user_member_of_blog() && ! is_super_admin() )
 		return;
 
 	$blogname = get_bloginfo('name');
