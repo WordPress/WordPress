@@ -60,7 +60,7 @@ function fileUploading(up, file) {
 
 				up.removeFile(file);
 			}
-		}, 5000); // 20 sec.
+		}, 10000); // wait for 10 sec. for the file to start uploading
 	}
 }
 
@@ -143,30 +143,6 @@ function prepareMediaItemInit(fileObj) {
 	// Replace the original filename with the new (unique) one assigned during upload
 	jQuery('.filename.original', item).replaceWith( jQuery('.filename.new', item) );
 
-	// Also bind toggle to the links
-	jQuery('a.toggle', item).click(function(){
-		jQuery(this).siblings('.slidetoggle').slideToggle(350, function(){
-			var w = jQuery(window).height(), t = jQuery(this).offset().top, h = jQuery(this).height(), b;
-
-			if ( w && t && h ) {
-				b = t + h;
-
-				if ( b > w && (h + 48) < w )
-					window.scrollBy(0, b - w + 13);
-				else if ( b > w )
-					window.scrollTo(0, t - 36);
-			}
-		});
-
-		if ( jQuery(this).is('.describe-toggle-on') )
-			item.addClass('open');
-		else
-			item.removeClass('open');
-
-		jQuery(this).siblings('a.toggle').focus();
-		return false;
-	});
-
 	// Bind AJAX to the new Delete button
 	jQuery('a.delete', item).click(function(){
 		// Tell the server to delete it. TODO: handle exceptions
@@ -216,7 +192,7 @@ function prepareMediaItemInit(fileObj) {
 	});
 
 	// Open this item if it says to start open (e.g. to display an error)
-	jQuery('#media-item-' + fileObj.id + '.startopen').removeClass('startopen').slideToggle(500).siblings('.toggle').toggle();
+	jQuery('#media-item-' + fileObj.id + '.startopen').removeClass('startopen').addClass('open').find('slidetoggle').fadeIn();
 }
 
 // generic error message
@@ -230,13 +206,16 @@ function wpFileError(fileObj, message) {
 }
 
 function itemAjaxError(id, message) {
-	var item = jQuery('#media-item-' + id), filename = item.find('.filename').text();
+	var item = jQuery('#media-item-' + id), filename = item.find('.filename').text(), last_err = item.data('last-err');
+
+	if ( last_err == id ) // prevent firing an error for the same file twice
+		return;
 
 	item.html('<div class="error-div">'
 				+ '<a class="dismiss" href="#">' + pluploadL10n.dismiss + '</a>'
 				+ '<strong>' + pluploadL10n.error_uploading.replace('%s', jQuery.trim(filename)) + '</strong> '
 				+ message
-				+ '</div>');
+				+ '</div>').data('last-err', id);
 }
 
 function deleteSuccess(data, textStatus) {
@@ -304,6 +283,7 @@ function dndHelper(s) {
 }
 
 function uploadError(fileObj, errorCode, message) {
+	var hundredmb = 100 * 1024 * 1024, max;
 
 	switch (errorCode) {
 		case plupload.FAILED:
@@ -328,7 +308,12 @@ function uploadError(fileObj, errorCode, message) {
 			wpQueueError(pluploadL10n.upload_failed);
 			break;
 		case plupload.IO_ERROR:
-			wpQueueError(pluploadL10n.io_error);
+			max = parseInt(uploader.settings.max_file_size, 10);
+
+			if ( max > hundredmb && fileObj.size > hundredmb )
+				wpFileError(fileObj, pluploadL10n.big_upload_failed.replace('%1$s', '<a class="uploader-html" href="#">').replace('%2$s', '</a>'));
+			else
+				wpQueueError(pluploadL10n.io_error);
 			break;
 		case plupload.HTTP_ERROR:
 			wpQueueError(pluploadL10n.http_error);
@@ -380,10 +365,35 @@ jQuery(document).ready(function($){
 				$(this).remove();
 			});
 		} else if ( target.is('.upload-flash-bypass a') || target.is('a.uploader-html') ) { // switch uploader to html4
+			$('#media-items, p.submit').css('display', 'none');
 			switchUploader(0);
 			return false;
 		} else if ( target.is('.upload-html-bypass a') ) { // switch uploader to multi-file
+			$('#media-items, p.submit').css('display', '');
 			switchUploader(1);
+			return false;
+		} else if ( target.is('a.describe-toggle-on') ) { // Show
+			target.parent().addClass('open');
+			target.siblings('.slidetoggle').fadeIn(250, function(){
+				var S = $(window).scrollTop(), H = $(window).height(), top = $(this).offset().top, h = $(this).height(), b, B;
+
+				if ( H && top && h ) {
+					b = top + h;
+					B = S + H;
+
+					if ( b > B ) {
+						if ( b - B < top - S )
+							window.scrollBy(0, (b - B) + 10);
+						else
+							window.scrollBy(0, top - S - 40);
+					}
+				}
+			});
+			return false;
+		} else if ( target.is('a.describe-toggle-off') ) { // Hide
+			target.siblings('.slidetoggle').fadeOut(250, function(){
+				target.parent().removeClass('open');
+			});
 			return false;
 		}
 	});
