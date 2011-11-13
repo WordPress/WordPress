@@ -1340,23 +1340,6 @@ $plupload_init = apply_filters( 'plupload_init', $plupload_init );
 <script type="text/javascript">
 var resize_height = <?php echo get_option('large_size_h', 1024); ?>, resize_width = <?php echo get_option('large_size_w', 1024); ?>,
 wpUploaderInit = <?php echo json_encode($plupload_init); ?>;
-
-jQuery(document).ready(function($){
-	function _switch(m) {
-		if ( m ) {
-			deleteUserSetting('uploader');
-			$('.media-upload-form').removeClass('html-uploader');
-
-			if ( typeof(uploader) == 'object' )
-				uploader.refresh();
-		} else {
-			setUserSetting('uploader', '1'); // 1 == html uploader
-			$('.media-upload-form').addClass('html-uploader');
-		}
-	}
-	$('.upload-flash-bypass a').click(function(){_switch(0);return false;});
-	$('.upload-html-bypass a').click(function(){_switch(1);return false;});
-});
 </script>
 
 <div id="plupload-upload-ui" class="hide-if-no-js">

@@ -201,6 +201,7 @@ function wp_default_scripts( &$scripts ) {
 		'upload_limit_exceeded' => __('You may only upload 1 file.'),
 		'http_error' => __('HTTP error.'),
 		'upload_failed' => __('Upload failed.'),
+		'big_upload_failed' => __('Please try uploading this file with the %1$sbrowser uploader%2$s.'),
 		'io_error' => __('IO error.'),
 		'security_error' => __('Security error.'),
 		'file_cancelled' => __('File canceled.'),
@@ -208,19 +209,19 @@ function wp_default_scripts( &$scripts ) {
 		'dismiss' => __('Dismiss'),
 		'crunching' => __('Crunching&hellip;'),
 		'deleted' => __('moved to the trash.'),
-		'error_uploading' => __('&#8220;%s&#8221; has failed to upload due to an error')
+		'error_uploading' => __('&#8220;%s&#8221; has failed to upload.')
 	);
 
-	$scripts->add( 'plupload', '/wp-includes/js/plupload/plupload.js', false, '1511');
-	$scripts->add( 'plupload-html5', '/wp-includes/js/plupload/plupload.html5.js', array('plupload'), '1511');
-	$scripts->add( 'plupload-flash', '/wp-includes/js/plupload/plupload.flash.js', array('plupload'), '1511');
-	$scripts->add( 'plupload-silverlight', '/wp-includes/js/plupload/plupload.silverlight.js', array('plupload'), '1511');
-	$scripts->add( 'plupload-html4', '/wp-includes/js/plupload/plupload.html4.js', array('plupload'), '1511');
+	$scripts->add( 'plupload', '/wp-includes/js/plupload/plupload.js', false, '1511-20111112');
+	$scripts->add( 'plupload-html5', '/wp-includes/js/plupload/plupload.html5.js', array('plupload'), '1511-20111112');
+	$scripts->add( 'plupload-flash', '/wp-includes/js/plupload/plupload.flash.js', array('plupload'), '1511-20111112');
+	$scripts->add( 'plupload-silverlight', '/wp-includes/js/plupload/plupload.silverlight.js', array('plupload'), '1511-20111112');
+	$scripts->add( 'plupload-html4', '/wp-includes/js/plupload/plupload.html4.js', array('plupload'), '1511-20111112');
 
 	// cannot use the plupload.full.js, as it loads browserplus init JS from Yahoo
-	$scripts->add( 'plupload-all', false, array('plupload', 'plupload-html5', 'plupload-flash', 'plupload-silverlight', 'plupload-html4'), '1511');
+	$scripts->add( 'plupload-all', false, array('plupload', 'plupload-html5', 'plupload-flash', 'plupload-silverlight', 'plupload-html4'), '1511-20111112');
 
-	$scripts->add( 'plupload-handlers', "/wp-includes/js/plupload/handlers$suffix.js", array('plupload-all', 'jquery'), '20111111');
+	$scripts->add( 'plupload-handlers', "/wp-includes/js/plupload/handlers$suffix.js", array('plupload-all', 'jquery'), '20111112');
 	$scripts->localize( 'plupload-handlers', 'pluploadL10n', $uploader_l10n );
 
 	// keep 'swfupload' for back-compat.
@@ -431,7 +432,7 @@ function wp_default_styles( &$styles ) {
 	// Any rtl stylesheets that don't have a .dev version for ltr
 	$no_suffix = array( 'farbtastic' );
 
-	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20111111' );
+	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20111112' );
 
 	$styles->add( 'ie', "/wp-admin/css/ie$suffix.css", array(), '20111015' );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );

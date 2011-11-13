@@ -3632,7 +3632,6 @@ abbr.required {
 	padding: 0 0 0 5px;
 }
 
-.media-item .error-div a.dismiss,
 .describe-toggle-on,
 .describe-toggle-off {
 	display: block;
@@ -3761,12 +3760,17 @@ abbr.required {
 	padding: 0;
 }
 
-.media-upload-form .media-item.error p {
+.media-upload-form .media-item.error p,
+.media-item .error-div {
 	line-height: 16px;
+	font-size: 12px;
 	margin: 10px;
 	padding: 0;
 }
 
+.media-item .error-div a.dismiss {
+	float: right;
+}
 
 /*------------------------------------------------------------------------------
   14.1 - Media Library

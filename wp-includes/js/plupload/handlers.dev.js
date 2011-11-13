@@ -27,10 +27,41 @@ function fileQueued(fileObj) {
 function uploadStart() {
 	try {
 		if ( typeof topWin.tb_remove != 'undefined' )
-			topWin.jQuery('#TB_overlay').unbind('click', topWin.tb_remove); 
+			topWin.jQuery('#TB_overlay').unbind('click', topWin.tb_remove);
 	} catch(e){}
 
 	return true;
+}
+
+function uploadProgress(up, file) {
+	var item = jQuery('#media-item-' + file.id);
+
+	jQuery('.bar', item).width( (200 * file.percent) / 100 );
+	jQuery('.percent', item).html( file.percent + '%' );
+
+	if ( file.percent == 100 ) {
+		setTimeout( function(){
+			jQuery('.percent', item).html( pluploadL10n.crunching );
+		}, 200 );
+	}
+}
+
+// check to see if a large file failed to upload
+function fileUploading(up, file) {
+	var hundredmb = 100 * 1024 * 1024, max = parseInt(up.settings.max_file_size, 10);
+
+	if ( max > hundredmb && file.size > hundredmb ) {
+		setTimeout(function(){
+			if ( file.status == 2 && file.loaded == 0 ) { // not uploading
+				wpFileError(file, pluploadL10n.big_upload_failed.replace('%1$s', '<a class="uploader-html" href="#">').replace('%2$s', '</a>'));
+
+				if ( up.current && up.current.file.id == file.id && up.current.xhr.abort )
+					up.current.xhr.abort();
+
+				up.removeFile(file);
+			}
+		}, 5000); // 20 sec.
+	}
 }
 
 function updateMediaForm() {
@@ -118,13 +149,13 @@ function prepareMediaItemInit(fileObj) {
 			var w = jQuery(window).height(), t = jQuery(this).offset().top, h = jQuery(this).height(), b;
 
 			if ( w && t && h ) {
-                b = t + h;
+				b = t + h;
 
-                if ( b > w && (h + 48) < w )
-                    window.scrollBy(0, b - w + 13);
-                else if ( b > w )
-                    window.scrollTo(0, t - 36);
-            }
+				if ( b > w && (h + 48) < w )
+					window.scrollBy(0, b - w + 13);
+				else if ( b > w )
+					window.scrollTo(0, t - 36);
+			}
 		});
 
 		if ( jQuery(this).is('.describe-toggle-on') )
@@ -195,25 +226,17 @@ function wpQueueError(message) {
 
 // file-specific error messages
 function wpFileError(fileObj, message) {
-	var item = jQuery('#media-item-' + fileObj.id), filename = jQuery('.filename', item).text();
-
-	item.html('<div class="error-div">'
-				+ '<a class="dismiss" href="#">' + pluploadL10n.dismiss + '</a>'
-				+ '<strong>' + pluploadL10n.error_uploading.replace('%s', filename) + '</strong><br />'
-				+ message
-				+ '</div>');
-	item.find('a.dismiss').click(function(){jQuery(this).parents('.media-item').slideUp(200, function(){jQuery(this).remove();})});
+	itemAjaxError(fileObj.id, message);
 }
 
-function itemAjaxError(id, html) {
-	var item = jQuery('#media-item-' + id), filename = jQuery('.filename', item).text();
+function itemAjaxError(id, message) {
+	var item = jQuery('#media-item-' + id), filename = item.find('.filename').text();
 
 	item.html('<div class="error-div">'
 				+ '<a class="dismiss" href="#">' + pluploadL10n.dismiss + '</a>'
-				+ '<strong>' + pluploadL10n.error_uploading.replace('%s', filename) + '</strong><br />'
-				+ html
+				+ '<strong>' + pluploadL10n.error_uploading.replace('%s', jQuery.trim(filename)) + '</strong> '
+				+ message
 				+ '</div>');
-	item.find('a.dismiss').click(function(){jQuery(this).parents('.media-item').slideUp(200, function(){jQuery(this).remove();})});
 }
 
 function deleteSuccess(data, textStatus) {
@@ -258,14 +281,15 @@ function uploadComplete() {
 }
 
 function switchUploader(s) {
-	var p = document.getElementById('flash-upload-ui'), h = document.getElementById('html-upload-ui');
-
 	if ( s ) {
-		p.style.display = 'block';
-		h.style.display = 'none';
+		deleteUserSetting('uploader');
+		jQuery('.media-upload-form').removeClass('html-uploader');
+
+		if ( typeof(uploader) == 'object' )
+			uploader.refresh();
 	} else {
-		p.style.display = 'none';
-		h.style.display = 'block';
+		setUserSetting('uploader', '1'); // 1 == html uploader
+		jQuery('.media-upload-form').addClass('html-uploader');
 	}
 }
 
@@ -332,22 +356,35 @@ function uploadSizeError( up, error ) {
 }
 
 jQuery(document).ready(function($){
-	// remember the last used image size, alignment and url
-	$('#media-items input[type="radio"]').live('click', function(){
-		var tr = $(this).closest('tr');
+	$('.media-upload-form').bind('click.uploader', function(e) {
+		var target = $(e.target), tr, c;
 
-		if ( $(tr).hasClass('align') )
-			setUserSetting('align', $(this).val());
-		else if ( $(tr).hasClass('image-size') )
-			setUserSetting('imgsize', $(this).val());
-	});
+		if ( target.is('input[type="radio"]') ) { // remember the last used image size and alignment
+			tr = target.closest('tr');
 
-	$('#media-items button.button').live('click', function(){
-		var c = this.className || '';
-		c = c.match(/url([^ '"]+)/);
-		if ( c && c[1] ) {
-			setUserSetting('urlbutton', c[1]);
-			$(this).siblings('.urlfield').val( $(this).attr('title') );
+			if ( $(tr).hasClass('align') )
+				setUserSetting('align', target.val());
+			else if ( $(tr).hasClass('image-size') )
+				setUserSetting('imgsize', target.val());
+
+		} else if ( target.is('button.button') ) { // remember the last used image link url
+			c = e.target.className || '';
+			c = c.match(/url([^ '"]+)/);
+
+			if ( c && c[1] ) {
+				setUserSetting('urlbutton', c[1]);
+				target.siblings('.urlfield').val( target.attr('title') );
+			}
+		} else if ( target.is('a.dismiss') ) {
+			target.parents('.media-item').fadeOut(200, function(){
+				$(this).remove();
+			});
+		} else if ( target.is('.upload-flash-bypass a') || target.is('a.uploader-html') ) { // switch uploader to html4
+			switchUploader(0);
+			return false;
+		} else if ( target.is('.upload-html-bypass a') ) { // switch uploader to multi-file
+			switchUploader(1);
+			return false;
 		}
 	});
 
@@ -395,17 +432,12 @@ jQuery(document).ready(function($){
 			fileQueued(file);
 		});
 
-		uploader.bind('UploadProgress', function(up, file) {
-			var item = $('#media-item-' + file.id);
+		uploader.bind('UploadFile', function(up, file) {
+			fileUploading(up, file);
+		});
 
-			$('.bar', item).width( (200 * file.percent) / 100 );
-			$('.percent', item).html( file.percent + '%' );
-		
-			if ( file.percent == 100 ) {
-				setTimeout( function(){
-					$('.percent', item).html( pluploadL10n.crunching );
-				}, 200 );
-			}
+		uploader.bind('UploadProgress', function(up, file) {
+			uploadProgress(up, file);
 		});
 
 		uploader.bind('Error', function(up, err) {
