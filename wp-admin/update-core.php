@@ -48,7 +48,7 @@ function list_core_update( $update ) {
 			if ( file_exists( WP_CONTENT_DIR . '/db.php' ) && empty( $wpdb->is_mysql ) )
 				$mysql_compat = true;
 			else
-				$mysql_compat = version_compare( $mysql_version, $required_mysql_version, '>=' );
+				$mysql_compat = version_compare( $mysql_version, $update->mysql_version, '>=' );
 
 			if ( !$mysql_compat && !$php_compat )
 				$message = sprintf( __('You cannot update because <a href="http://codex.wordpress.org/Version_%1$s">WordPress %1$s</a> requires PHP version %2$s or higher and MySQL version %3$s or higher. You are running PHP version %4$s and MySQL version %5$s.'), $update->current, $update->php_version, $update->mysql_version, $php_version, $mysql_version );
