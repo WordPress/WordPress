@@ -365,11 +365,11 @@ jQuery(document).ready(function($){
 				$(this).remove();
 			});
 		} else if ( target.is('.upload-flash-bypass a') || target.is('a.uploader-html') ) { // switch uploader to html4
-			$('#media-items, p.submit').css('display', 'none');
+			$('#media-items, p.submit, span.big-file-warning').css('display', 'none');
 			switchUploader(0);
 			return false;
 		} else if ( target.is('.upload-html-bypass a') ) { // switch uploader to multi-file
-			$('#media-items, p.submit').css('display', '');
+			$('#media-items, p.submit, span.big-file-warning').css('display', '');
 			switchUploader(1);
 			return false;
 		} else if ( target.is('a.describe-toggle-on') ) { // Show

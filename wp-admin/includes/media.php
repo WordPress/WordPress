@@ -1263,7 +1263,7 @@ function media_upload_header() {
  * @param unknown_type $errors
  */
 function media_upload_form( $errors = null ) {
-	global $type, $tab, $pagenow;
+	global $type, $tab, $pagenow, $is_IE, $is_opera;
 
 	$upload_action_url = admin_url('async-upload.php');
 	$post_id = isset($_REQUEST['post_id']) ? intval($_REQUEST['post_id']) : 0;
@@ -1367,7 +1367,11 @@ wpUploaderInit = <?php echo json_encode($plupload_init); ?>;
 </div>
 
 <p><?php printf( __( 'Maximum upload file size: %d%s.' ), esc_html($upload_size_unit), esc_html($sizes[$u]) );
-echo ' ' . __('After a file has been uploaded, you can add titles and descriptions.'); ?></p>
+if ( ($is_IE || $is_opera) && $max_upload_size > 100 * 1024 * 1024 )
+		echo ' <span class="big-file-warning">' . __('Your browser has some limitations uploading large files with the multi-file uploader. Please use the browser uploader for files over 100MB.') . '</span></p><p>';
+
+echo ' ' . __('After a file has been uploaded, you can add titles and descriptions.');
+?></p>
 
 <?php
 	do_action('post-upload-ui');

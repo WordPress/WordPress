@@ -3708,7 +3708,6 @@ abbr.required {
     height: 22px;
     margin: 6px 10px 0 0;
     width: 200px;
-    text-align: center;
 	line-height: 2em;
 	padding: 0;
 	overflow: hidden;
@@ -3747,7 +3746,7 @@ abbr.required {
 	z-index: 10;
 	position: relative;
 	width: 200px;
-	text-align: center;
+	padding: 0 8px;
 	text-shadow: 0 1px 0 rgba(255,255,255,0.4);
 	color: rgba(0,0,0,0.6);
 }
