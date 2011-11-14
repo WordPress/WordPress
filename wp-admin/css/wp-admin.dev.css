@@ -921,7 +921,8 @@ p.search-box {
 #post-body .misc-pub-section {
 	border-right-width: 1px;
 	border-right-style: solid;
-	border-bottom: 0 none;
+	border-top: 0;
+	border-bottom: 0;
 	min-height: 30px;
 	float: left;
 	max-width: 32%;
@@ -2764,7 +2765,7 @@ table .inline-edit-row fieldset ul.cat-hover {
 }
 
 #titlediv #title {
-	padding: 3px 4px;
+	padding: 3px 8px;
 	font-size: 1.7em;
 	line-height: 100%;
 	width: 100%;
@@ -2776,7 +2777,7 @@ table .inline-edit-row fieldset ul.cat-hover {
 	color: #bbb;
 	position: absolute;
 	font-size: 1.7em;
-	padding: 8px;
+	padding: 8px 10px;
 }
 
 #wp-fullscreen-title-prompt-text {
@@ -2806,7 +2807,7 @@ input#link_url {
 #edit-slug-box {
 	height: 1em;
 	margin-top: 8px;
-	padding: 0 7px;
+	padding: 0 10px;
 }
 
 #editable-post-name-full {
@@ -3116,7 +3117,7 @@ td.post-title p, td.plugin-title p {
 }
 
 .autosave-info {
-	padding: 2px 15px 2px 2px;
+	padding: 2px 15px;
 	text-align: right;
 }
 
@@ -3140,7 +3141,7 @@ td.post-title p, td.plugin-title p {
 
 #wp-word-count {
 	display: block;
-	padding: 2px 7px;
+	padding: 2px 10px;
 }
 
 #timestampdiv select {

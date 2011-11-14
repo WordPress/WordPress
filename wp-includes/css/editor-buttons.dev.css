@@ -101,12 +101,16 @@
 	font-family: Arial, "Bitstream Vera Sans", Helvetica, Verdana, sans-serif;
 	font-size: 12px;
 	line-height: 16px;
-	padding-left: 5px;
+	padding: 0 0 0 8px;
 	overflow: visible;
 	height: 20px;
 	border-top: 1px solid #dfdfdf;
 	color: #000;
 	background-color: #f5f5f5;
+}
+
+.rtl .wp_themeSkin .mceStatusbar {
+	padding: 0 8px 0 0;
 }
 
 .wp_themeSkin .mceStatusbar * {
@@ -118,6 +122,10 @@
 	padding: 2px;
 }
 
+.rtl .wp_themeSkin .mceStatusbar div {
+	float: right;
+}
+
 .wp_themeSkin .mceStatusbar a.mceResize {
 	display: block;
 	float: right;
@@ -127,12 +135,16 @@
 	cursor: se-resize;
 }
 
+.rtl .wp_themeSkin .mceStatusbar a.mceResize {
+	float: left;
+}
+
 .wp_themeSkin .mceStatusbar a:hover {
 	text-decoration: underline;
 }
 
 .wp_themeSkin table.mceToolbar {
-	margin: 0 2px 2px;
+	margin: 0 6px 2px;
 }
 
 .wp_themeSkin #content_toolbar1 {
@@ -971,7 +983,7 @@
 /* WP specific */
 .wp-editor-area {
 	font-family: Consolas, Monaco, monospace;
-	padding: 6px;
+	padding: 10px;
 	line-height: 150%;
 	border: 0 none;
 	outline: none;
@@ -983,7 +995,7 @@
 
 .wp-editor-tools {
 	height: 30px;
-	padding: 0 15px;
+	padding: 0 10px;
 }
 
 .wp-editor-container {
@@ -1061,6 +1073,7 @@ html[dir="rtl"] .wp-switch-editor {
 	text-decoration: none;
 	color: #333;
 	font-size: 12px;
+	vertical-align: bottom;
 }
 
 .wp-media-buttons img {
@@ -1075,7 +1088,7 @@ html[dir="rtl"] .wp-switch-editor {
 	-webkit-border-top-left-radius: 3px;
 	border-top-right-radius: 3px;
 	border-top-left-radius: 3px;
-	padding: 2px 3px 0;
+	padding: 2px 8px 0;
 	min-height: 30px;
 }
 
@@ -1084,7 +1097,7 @@ html[dir="rtl"] .wp-switch-editor {
 }
 
 .quicktags-toolbar input {
-	margin: 3px 1px 4px;
+	margin: 2px 1px 4px;
 	line-height: 18px;
 	display: inline-block;
 	min-width: 26px;
