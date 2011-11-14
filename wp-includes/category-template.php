@@ -464,11 +464,14 @@ function wp_list_categories( $args = '' ) {
 				$output .= $show_option_none;
 		}
 	} else {
-		if( !empty( $show_option_all ) )
+		if ( ! empty( $show_option_all ) ) {
+			$posts_page = ( 'page' == get_option( 'show_on_front' ) && get_option( 'page_for_posts' ) ) ? get_permalink( get_option( 'page_for_posts' ) ) : home_url( '/' );
+			$posts_page = esc_url( $posts_page );
 			if ( 'list' == $style )
-				$output .= '<li><a href="' .  get_bloginfo( 'url' )  . '">' . $show_option_all . '</a></li>';
+				$output .= "<li><a href='$posts_page'>$show_option_all</a></li>";
 			else
-				$output .= '<a href="' .  get_bloginfo( 'url' )  . '">' . $show_option_all . '</a>';
+				$output .= "<a href='$posts_page'>$show_option_all</a>";
+		}
 
 		if ( empty( $r['current_category'] ) && ( is_category() || is_tax() || is_tag() ) ) {
 			$current_term_object = get_queried_object();
