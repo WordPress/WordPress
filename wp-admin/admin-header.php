@@ -12,7 +12,7 @@ if ( ! defined( 'WP_ADMIN' ) )
 
 // In case admin-header.php is included in a function.
 global $title, $hook_suffix, $current_screen, $wp_locale, $pagenow, $wp_version, $is_iphone,
-	$user_identity, $current_site, $update_title, $total_update_count, $parent_file;
+	$current_site, $update_title, $total_update_count, $parent_file;
 
 get_admin_page_title();
 $title = esc_html( strip_tags( $title ) );

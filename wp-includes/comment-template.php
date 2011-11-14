@@ -1508,7 +1508,7 @@ function wp_list_comments($args = array(), $comments = null ) {
  * @return void
  */
 function comment_form( $args = array(), $post_id = null ) {
-	global $user_identity, $id;
+	global $id;
 
 	if ( null === $post_id )
 		$post_id = $id;
@@ -1516,6 +1516,8 @@ function comment_form( $args = array(), $post_id = null ) {
 		$id = $post_id;
 
 	$commenter = wp_get_current_commenter();
+	$user = wp_get_current_user();
+	$user_identity = ! empty( $user->ID ) ? $user->display_name : '';
 
 	$req = get_option( 'require_name_email' );
 	$aria_req = ( $req ? " aria-required='true'" : '' );
