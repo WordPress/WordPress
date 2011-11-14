@@ -1698,9 +1698,12 @@ function _wp_pointer_print_admin_bar() {
 <script type="text/javascript">
 //<![CDATA[
 jQuery(document).ready( function($) {
-	$('#wp-admin-bar-help').pointer({
+	$('#wpadminbar').pointer({
 		content: '<?php echo $pointer_content; ?>',
-		position: 'top',
+		position: {
+			edge:  'top',
+			align: 'center'
+		},
 		close: function() {
 			$.post( ajaxurl, {
 					pointer: 'wp330-admin-bar',

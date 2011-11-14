@@ -96,9 +96,9 @@ function wp_default_scripts( &$scripts ) {
 		'broken' => __('An unidentified error has occurred.')
 	) );
 
-	$scripts->add( 'wp-pointer', "/wp-includes/js/wp-pointer$suffix.js", array( 'jquery-ui-widget', 'jquery-ui-position' ), '20111017', 1 );
+	$scripts->add( 'wp-pointer', "/wp-includes/js/wp-pointer$suffix.js", array( 'jquery-ui-widget', 'jquery-ui-position' ), '20111114', 1 );
 	$scripts->localize( 'wp-pointer', 'wpPointerL10n', array(
-		'close' => __('Close'),
+		'dismiss' => __('Dismiss'),
 	) );
 
 	$scripts->add( 'autosave', "/wp-includes/js/autosave$suffix.js", array('schedule', 'wp-ajax-response'), '20111111', 1 );
@@ -456,7 +456,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'admin-bar', "/wp-includes/css/admin-bar$suffix.css", array(), '20111111' );
 	$styles->add( 'wp-jquery-ui-dialog', "/wp-includes/css/jquery-ui-dialog$suffix.css", array(), '20111107' );
 	$styles->add( 'editor-buttons', "/wp-includes/css/editor-buttons$suffix.css", array(), '20111107' );
-	$styles->add( 'wp-pointer', "/wp-includes/css/wp-pointer$suffix.css", array(), '20111017' );
+	$styles->add( 'wp-pointer', "/wp-includes/css/wp-pointer$suffix.css", array(), '20111114' );
 
 	foreach ( $rtl_styles as $rtl_style ) {
 		$styles->add_data( $rtl_style, 'rtl', true );

@@ -8,13 +8,13 @@
 	$.widget("wp.pointer", {
 		options: {
 			pointerClass: 'wp-pointer',
-			pointerWidth: 400,
+			pointerWidth: 320,
 			content: function( respond, event, t ) {
 				return $(this).text();
 			},
 			buttons: function( event, t ) {
-				var close  = ( wpPointerL10n ) ? wpPointerL10n.close : 'Close',
-					button = $('<a href="#">' + close + '</a>');
+				var close  = ( wpPointerL10n ) ? wpPointerL10n.dismiss : 'Dismiss',
+					button = $('<a class="close" href="#">' + close + '</a>');
 
 				return button.bind( 'click.pointer', function() {
 					t.element.pointer('close');
@@ -163,40 +163,18 @@
 
 		repoint: function() {
 			var o = this.options,
-				position,
-				at;
+				edge;
 
 			if ( o.disabled )
 				return;
 
-			// Generate arrow position from the box position.
-			position = $.extend( this._processPosition( o.position ), {
-				of: this.pointer,
-				offset: ''
-			});
-
-			// Swap at and my; we're positioning the arrow relative to the box.
-			at = position.at + '';
-			position.at = position.my;
-			position.my = at;
-
-			// Don't align the arrows exactly with the edge.
-			if ( position.align != 'center' ) {
-				position.offset = ( position.align == 'top' || position.align == 'left' ) ? 15 : -15;
-				if ( position.align == 'top' || position.align == 'bottom' )
-					position.offset = '0 ' + position.offset;
-				else
-					position.offset = position.offset + ' 0';
-			}
+			edge = ( typeof o.position == 'string' ) ? o.position : o.position.edge;
 
 			// Remove arrow classes.
 			this.pointer[0].className = this.pointer[0].className.replace( /wp-pointer-[^\s'"]*/, '' );
 
 			// Add arrow class.
-			this.pointer.addClass( 'wp-pointer-' + position.edge );
-
-			// Reposition arrow.
-			this.arrow.position( position );
+			this.pointer.addClass( 'wp-pointer-' + edge );
 		},
 
 		_processPosition: function( position ) {
