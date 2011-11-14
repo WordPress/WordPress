@@ -496,7 +496,7 @@ function get_theme_roots() {
 function get_theme($theme) {
 	$themes = get_themes();
 
-	if ( array_key_exists($theme, $themes) )
+	if ( is_array( $themes ) && array_key_exists( $theme, $themes ) )
 		return $themes[$theme];
 
 	return null;
