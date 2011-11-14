@@ -191,19 +191,25 @@ class WP_Admin_Bar {
 
 			<?php
 			if ( $is_parent ) :
-				?><ul class="ab-submenu"><?php
-				foreach ( $node->children->primary as $child_node ) {
-					$this->recursive_render( $child_node );
-				}
+				?><div class="ab-sub-wrapper"><?php
 
-				if ( ! empty( $node->children->secondary ) ):
-					?><ul class="ab-sub-secondary"><?php
-					foreach ( $node->children->secondary as $child_node ) {
+					// Render primary submenu
+					?><ul class="ab-submenu"><?php
+					foreach ( $node->children->primary as $child_node ) {
 						$this->recursive_render( $child_node );
 					}
 					?></ul><?php
-				endif;
-				?></ul><?php
+
+					// Render secondary submenu
+					if ( ! empty( $node->children->secondary ) ):
+						?><ul class="ab-submenu ab-sub-secondary"><?php
+						foreach ( $node->children->secondary as $child_node ) {
+							$this->recursive_render( $child_node );
+						}
+						?></ul><?php
+					endif;
+
+				?></div><?php
 			endif;
 
 			if ( ! empty( $node->meta['html'] ) )

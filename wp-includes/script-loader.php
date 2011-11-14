@@ -259,7 +259,7 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'user-profile', "/wp-admin/js/user-profile$suffix.js", array( 'jquery', 'password-strength-meter' ), '20110628', 1 );
 
-	$scripts->add( 'admin-bar', "/wp-includes/js/admin-bar$suffix.js", false, '20111107', 1 );
+	$scripts->add( 'admin-bar', "/wp-includes/js/admin-bar$suffix.js", false, '20111114', 1 );
 
 	$scripts->add( 'wplink', "/wp-includes/js/wplink$suffix.js", array( 'jquery', 'wpdialogs' ), '20110929', 1 );
 	$scripts->localize( 'wplink', 'wpLinkL10n', array(
@@ -453,7 +453,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'farbtastic', '/wp-admin/css/farbtastic.css', array(), '1.3u1' );
 	$styles->add( 'jcrop', '/wp-includes/js/jcrop/jquery.Jcrop.css', array(), '0.9.8' );
 	$styles->add( 'imgareaselect', '/wp-includes/js/imgareaselect/imgareaselect.css', array(), '0.9.1' );
-	$styles->add( 'admin-bar', "/wp-includes/css/admin-bar$suffix.css", array(), '20111111' );
+	$styles->add( 'admin-bar', "/wp-includes/css/admin-bar$suffix.css", array(), '20111114' );
 	$styles->add( 'wp-jquery-ui-dialog', "/wp-includes/css/jquery-ui-dialog$suffix.css", array(), '20111107' );
 	$styles->add( 'editor-buttons', "/wp-includes/css/editor-buttons$suffix.css", array(), '20111107' );
 	$styles->add( 'wp-pointer', "/wp-includes/css/wp-pointer$suffix.css", array(), '20111114' );

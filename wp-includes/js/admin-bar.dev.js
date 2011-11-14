@@ -33,7 +33,7 @@ if ( typeof(jQuery) != 'undefined' ) {
 			var t = $(this);
 
 			setTimeout(function(){
-				if ( !t.siblings('ul').find('a:focus').length )
+				if ( !t.siblings('div').find('a:focus').length )
 					t.parent().removeClass('hover');
 			}, 200);
 		});
