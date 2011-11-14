@@ -1588,7 +1588,7 @@ form.upgrade .hint {
 
 .folded #adminmenu .wp-submenu,
 .folded #adminmenu .wp-has-current-submenu .wp-submenu {
-	top: -5px;
+	top: -6px;
 	left: 26px;
 }
 
