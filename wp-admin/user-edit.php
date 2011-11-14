@@ -158,7 +158,11 @@ include (ABSPATH . 'wp-admin/admin-header.php');
 <?php } ?>
 <?php if ( isset($_GET['updated']) ) : ?>
 <div id="message" class="updated">
+	<?php if ( IS_PROFILE_PAGE ) : ?>
+	<p><strong><?php _e('Profile updated.') ?></strong></p>
+	<?php else: ?>
 	<p><strong><?php _e('User updated.') ?></strong></p>
+	<?php endif; ?>
 	<?php if ( $wp_http_referer && !IS_PROFILE_PAGE ) : ?>
 	<p><a href="<?php echo esc_url( $wp_http_referer ); ?>"><?php _e('&larr; Back to Users'); ?></a></p>
 	<?php endif; ?>
