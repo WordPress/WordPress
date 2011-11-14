@@ -2037,7 +2037,8 @@ function wp_original_referer_field( $echo = true, $jump_back_to = 'current' ) {
 }
 
 /**
- * Retrieve referer from '_wp_http_referer', HTTP referer, or current page respectively.
+ * Retrieve referer from '_wp_http_referer' or HTTP referer. If it's the same
+ * as the current request URL, will return false.
  *
  * @package WordPress
  * @subpackage Security
@@ -2046,13 +2047,13 @@ function wp_original_referer_field( $echo = true, $jump_back_to = 'current' ) {
  * @return string|bool False on failure. Referer URL on success.
  */
 function wp_get_referer() {
-	$ref = '';
+	$ref = false;
 	if ( ! empty( $_REQUEST['_wp_http_referer'] ) )
 		$ref = $_REQUEST['_wp_http_referer'];
 	else if ( ! empty( $_SERVER['HTTP_REFERER'] ) )
 		$ref = $_SERVER['HTTP_REFERER'];
 
-	if ( $ref !== $_SERVER['REQUEST_URI'] )
+	if ( $ref && $ref !== $_SERVER['REQUEST_URI'] )
 		return $ref;
 	return false;
 }
