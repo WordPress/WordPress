@@ -1497,8 +1497,10 @@ var addExtImage = {
 
 		html = '<img alt="'+alt+'" src="'+f.src.value+'"'+title+cls+' width="'+t.width+'" height="'+t.height+'" />';
 
-		if ( f.url.value )
-			html = '<a href="'+f.url.value+'">'+html+'</a>';
+		if ( f.url.value ) {
+			url = f.url.value.replace(/'/g, '&#039;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+			html = '<a href="'+url+'">'+html+'</a>';
+		}
 
 		if ( caption )
 			html = '[caption id="" align="'+t.align+'" width="'+t.width+'" caption="'+caption+'"]'+html+'[/caption]';
