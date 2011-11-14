@@ -89,10 +89,11 @@
 	border-left: 0;
 }
 
-#wpadminbar #wp-admin-bar-my-account .user-info-item {
+#wpadminbar #wp-admin-bar-my-account.with-avatar .user-info-item {
 	margin-right: 88px;
 	margin-left: 16px;
 }
+
 #wpadminbar #wp-admin-bar-my-account .user-info-item > a {
 	padding-left: 0;
 	padding-right: 8px;

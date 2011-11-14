@@ -270,13 +270,20 @@
  * My Account
  */
 #wp-admin-bar-my-account > ul {
+	min-width: 198px;
+}
+
+#wp-admin-bar-my-account.with-avatar > ul {
 	min-width: 270px;
 }
 
 #wpadminbar #wp-admin-bar-my-account .user-info-item {
-	margin-left: 88px;
+	margin-left: 16px;
 	margin-right: 16px;
+}
 
+#wpadminbar #wp-admin-bar-my-account.with-avatar .user-info-item {
+	margin-left: 88px;
 }
 
 #wpadminbar #wp-admin-bar-my-account .user-info-item > a {
