@@ -3181,7 +3181,7 @@ function get_page_by_path($page_path, $output = OBJECT, $post_type = 'page') {
 	}
 
 	if ( $foundid )
-		return get_page($foundid, $output, $post_type);
+		return get_page( $foundid, $output );
 
 	return null;
 }
