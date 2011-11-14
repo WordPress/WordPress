@@ -1589,7 +1589,7 @@ form.upgrade .hint {
 
 .folded #adminmenu .wp-submenu,
 .folded #adminmenu .wp-has-current-submenu .wp-submenu {
-	top: -6px;
+	top: -5px;
 	left: 26px;
 }
 
@@ -1846,6 +1846,14 @@ body.no-js #adminmenu .wp-menu-toggle,
 }
 
 .folded #adminmenu .wp-submenu .wp-submenu-wrap {
+	margin-top: 3px;
+}
+
+.folded #adminmenu .wp-has-current-submenu {
+	margin-bottom: 1px;
+}
+
+.folded #adminmenu .wp-has-current-submenu .wp-submenu-wrap {
 	margin-top: 4px;
 }
 
