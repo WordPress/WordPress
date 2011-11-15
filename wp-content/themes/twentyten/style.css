@@ -285,6 +285,7 @@ pre {
 	color: #222;
 	line-height: 18px;
 	margin-bottom: 18px;
+	overflow: auto;
 	padding: 1.5em;
 }
 abbr,
