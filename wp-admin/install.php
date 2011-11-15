@@ -130,6 +130,7 @@ function display_setup_form( $error = null ) {
 			<p><?php _e( 'Double-check your email address before continuing.' ); ?></p></td>
 		</tr>
 		<tr>
+			<th scope="row"><label for="blog_public"><?php _e( 'Privacy' ); ?></label></th>
 			<td colspan="2"><label><input type="checkbox" name="blog_public" value="1" <?php checked( $blog_public ); ?> /> <?php _e( 'Allow my site to appear in search engines like Google and Technorati.' ); ?></label></td>
 		</tr>
 	</table>
@@ -220,10 +221,10 @@ switch($step) {
 
 <p><?php _e( 'WordPress has been installed. Were you expecting more steps? Sorry to disappoint.' ); ?></p>
 
-<table class="form-table">
+<table class="form-table install-success">
 	<tr>
 		<th><?php _e( 'Username' ); ?></th>
-		<td><code><?php echo esc_html( sanitize_user( $user_name, true ) ); ?></code></td>
+		<td><?php echo esc_html( sanitize_user( $user_name, true ) ); ?></td>
 	</tr>
 	<tr>
 		<th><?php _e( 'Password' ); ?></th>

@@ -130,7 +130,7 @@ switch($step) {
 		<tr>
 			<th scope="row"><label for="pwd">Password</label></th>
 			<td><input name="pwd" id="pwd" type="text" size="25" value="password" /></td>
-			<td>...and MySQL password.</td>
+			<td>...and your MySQL password.</td>
 		</tr>
 		<tr>
 			<th scope="row"><label for="dbhost">Database Host</label></th>

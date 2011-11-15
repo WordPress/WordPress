@@ -2851,27 +2851,38 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 		body {
 			background: #fff;
 			color: #333;
-			font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+			font-family: sans-serif;
 			margin: 2em auto;
-			width: 700px;
 			padding: 1em 2em;
-			-webkit-border-radius: 11px;
-			border-radius: 11px;
+			-webkit-border-radius: 3px;
+			border-radius: 3px;
 			border: 1px solid #dfdfdf;
+			max-width: 700px;
 		}
 		#error-page {
 			margin-top: 50px;
 		}
 		#error-page p {
-			font-size: 12px;
-			line-height: 18px;
+			font-size: 14px;
+			line-height: 1.5;
 			margin: 25px 0 20px;
 		}
 		#error-page code {
 			font-family: Consolas, Monaco, monospace;
 		}
+		ul li {
+			margin-bottom: 10px;
+			font-size: 14px ;
+		}
+		a {
+			color: #21759B;
+			text-decoration: none;
+		}
+		a:hover {
+			color: #D54E21;
+		}
 		<?php if ( 'rtl' == $text_direction ) : ?>
-		body { font-family: Tahoma, arial; }
+		body { font-family: Tahoma, Arial; }
 		<?php endif; ?>
 	</style>
 </head>

@@ -7,20 +7,20 @@ body {
 	color: #333;
 	font-family: sans-serif;
 	margin: 2em auto;
-	width: 700px;
 	padding: 1em 2em;
-	-webkit-border-radius: 11px;
-	border-radius: 11px;
+	-webkit-border-radius: 3px; 
+	border-radius: 3px;
 	border: 1px solid #dfdfdf;
+	max-width: 700px;
 }
 
 a {
-	color: #2583ad;
+	color: #21759B;
 	text-decoration: none;
 }
 
 a:hover {
-	color: #d54e21;
+	color: #D54E21;
 }
 
 h1 {
@@ -28,7 +28,7 @@ h1 {
 	clear: both;
 	color: #666;
 	font: 24px Georgia, "Times New Roman", Times, serif;
-	margin: 5px 0 0 -4px;
+	margin: 30px 0 0 0;
 	padding: 0;
 	padding-bottom: 7px;
 }
@@ -39,12 +39,12 @@ h2 {
 
 p, li, dd, dt {
 	padding-bottom: 2px;
-	font-size: 12px;
-	line-height: 18px;
+	font-size: 14px;
+	line-height: 1.5;
 }
 
 code, .code {
-	font-size: 13px;
+	font-size: 14px;
 }
 
 ul, ol, dl {
@@ -101,9 +101,11 @@ abbr {
 }
 
 textarea {
-	border: 1px solid #bbb;
+	border: 1px solid #dfdfdf;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
+	font-family: sans-serif;
+	width:  695px;
 }
 
 .form-table {
@@ -114,27 +116,24 @@ textarea {
 
 .form-table td {
 	margin-bottom: 9px;
-	padding: 10px;
+	padding: 10px 20px 10px 0;
 	border-bottom: 8px solid #fff;
-	font-size: 12px;
+	font-size: 14px;
+	vertical-align: top
 }
 
 .form-table th {
-	font-size: 13px;
+	font-size: 14px;
 	text-align: left;
-	padding: 16px 10px 10px 10px;
+	padding: 16px 20px 10px 0;
 	border-bottom: 8px solid #fff;
 	width: 130px;
 	vertical-align: top;
 }
 
-.form-table tr {
-	background: #f3f3f3;
-}
-
 .form-table code {
 	line-height: 18px;
-	font-size: 18px;
+	font-size: 14px;
 }
 
 .form-table p {
@@ -146,10 +145,29 @@ textarea {
 	line-height: 20px;
 	font-size: 15px;
 	padding: 2px;
+	border: 1px #DFDFDF solid;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	font-family: sans-serif;
 }
 
 .form-table th p {
 	font-weight: normal;
+}
+
+.form-table.install-success td {
+	vertical-align: middle;
+	padding: 16px 20px 10px 0;
+}
+
+.form-table.install-success td p {
+	margin: 0;
+	font-size: 14px;
+}
+
+.form-table.install-success td code {
+	margin: 0;
+	font-size: 18px;
 }
 
 #error-page {
@@ -157,7 +175,7 @@ textarea {
 }
 
 #error-page p {
-	font-size: 12px;
+	font-size: 14px;
 	line-height: 18px;
 	margin: 25px 0 20px;
 }
