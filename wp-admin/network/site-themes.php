@@ -111,12 +111,12 @@ if ( $action ) {
 			}
 			break;
 	}
-	
+
 	update_option( 'allowedthemes', $allowed_themes );
 	restore_current_blog();
-	
-	wp_redirect( add_query_arg( $action, $n, $referer ) );
-	exit;	
+
+	wp_redirect( add_query_arg( array( 'id' => $id, $action => $n ), $referer ) );
+	exit;
 }
 
 if ( isset( $_GET['action'] ) && 'update-site' == $_GET['action'] ) {
