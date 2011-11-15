@@ -71,9 +71,7 @@ class wpdb {
 	/**
 	 * The last error during query.
 	 *
-	 * @see get_last_error()
 	 * @since 2.5.0
-	 * @access private
 	 * @var string
 	 */
 	var $last_error = '';
