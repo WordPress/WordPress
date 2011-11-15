@@ -36,14 +36,8 @@ function uploadStart() {
 function uploadProgress(up, file) {
 	var item = jQuery('#media-item-' + file.id);
 
-	jQuery('.bar', item).width( (200 * file.percent) / 100 );
+	jQuery('.bar', item).width( (200 * file.loaded) / file.size );
 	jQuery('.percent', item).html( file.percent + '%' );
-
-	if ( file.percent == 100 ) {
-		setTimeout( function(){
-			jQuery('.percent', item).html( pluploadL10n.crunching );
-		}, 200 );
-	}
 }
 
 // check to see if a large file failed to upload
@@ -57,8 +51,6 @@ function fileUploading(up, file) {
 
 				if ( up.current && up.current.file.id == file.id && up.current.xhr.abort )
 					up.current.xhr.abort();
-
-				up.removeFile(file);
 			}
 		}, 10000); // wait for 10 sec. for the file to start uploading
 	}
@@ -91,6 +83,8 @@ function uploadSuccess(fileObj, serverData) {
 	if ( serverData.match('media-upload-error') ) {
 		item.html(serverData);
 		return;
+	} else if ( fileObj.status == 5 ) {
+		jQuery('.percent', item).html( pluploadL10n.crunching );
 	}
 
 	prepareMediaItem(fileObj, serverData);
