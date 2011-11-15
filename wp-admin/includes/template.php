@@ -1443,8 +1443,8 @@ function iframe_footer() {
 
 function _post_states($post) {
 	$post_states = array();
-	if ( isset($_GET['post_status']) )
-		$post_status = $_GET['post_status'];
+	if ( isset( $_REQUEST['post_status'] ) )
+		$post_status = $_REQUEST['post_status'];
 	else
 		$post_status = '';
 
