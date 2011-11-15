@@ -504,7 +504,7 @@ a:hover {
 	border-top: 2px solid #bbb;
 	padding-bottom: 10px;
 	position: relative;
-	z-index: 2;
+	z-index: 9999;
 }
 #site-title {
 	margin-right: 270px;
