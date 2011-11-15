@@ -956,6 +956,13 @@ a:active img[class*="wp-image-"],
 	border-color: #ddd;
 }
 
+/* Make sure embeds and iframes fit their containers */
+embed,
+iframe,
+object {
+	max-width: 100%;
+}
+
 /* Password Protected Posts */
 .post-password-required .entry-header .comments-link {
 	margin: 1.625em 0 0;
@@ -2347,11 +2354,6 @@ p.comment-form-comment {
 		float: none;
 		margin-right: 0;
 		width: auto;
-	}
-	/* Make sure embeds fit their containers */
-	embed,
-	object {
-		max-width: 100%;
 	}
 
 }
