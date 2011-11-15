@@ -534,7 +534,11 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 			while ( tbo.length > 0 ) {
 				button = ed.getButton(tbo[tbo.length - 1]);
 				element = document.getElementById(ed.name + '_' + button.id);
-				button.callback.call(button, element, c, ed);
+
+				if ( e )
+					button.callback.call(button, element, c, ed);
+				else
+					button.closeTag(element, ed);
 			}
 		}
 	};
