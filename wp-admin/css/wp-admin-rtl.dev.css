@@ -1001,6 +1001,10 @@ span.description,
 	margin-left: 15px;
 }
 
+.media-item .error-div a.dismiss {
+	padding: 0 15px 0 0;
+}
+
 .media-item .error-div {
 	padding-left: 0;
 	padding-right: 10px;

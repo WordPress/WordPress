@@ -3778,6 +3778,7 @@ abbr.required {
 
 .media-item .error-div a.dismiss {
 	float: right;
+	padding-left: 15px;
 }
 
 /*------------------------------------------------------------------------------
