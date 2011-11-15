@@ -1889,7 +1889,8 @@ div.widgets-sortables,
 	border-left-color: #dfdfdf;
 }
 
-.rtl .folded #adminmenu .wp-submenu-wrap {
+.rtl #adminmenu .wp-submenu-wrap,
+.rtl.folded #adminmenu .wp-has-current-submenu .wp-submenu-wrap{
 	-moz-box-shadow: -2px 2px 5px rgba( 0, 0, 0, 0.4 );
 	-webkit-box-shadow: -2px 2px 5px rgba( 0, 0, 0, 0.4 );
 	box-shadow: -2px 2px 5px rgba( 0, 0, 0, 0.4 );
@@ -1900,7 +1901,7 @@ div.widgets-sortables,
 	background-position: 0 -108px;
 }
 
-.rtl .folded #collapse-button div {
+.rtl.folded #collapse-button div {
 	background-position: 0 -72px;
 }
 

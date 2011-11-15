@@ -68,7 +68,14 @@ ol {
 
 .icon32 {
 	float: right;
-	margin: 7px 0 0 8px;
+	margin-right: 0;
+	margin-left: 8px;
+}
+
+.icon16 {
+	float: right;
+	margin-right: -8px;
+	margin-left: 0;
 }
 
 .howto {
@@ -172,10 +179,6 @@ th.action-links {
 /*------------------------------------------------------------------------------
   4.0 - Notifications
 ------------------------------------------------------------------------------*/
-
-.plugin-update .update-message {
-	margin: 0 31px 8px 10px;
-}
 
 form.upgrade .hint {
 	font-style: normal;
@@ -599,7 +602,41 @@ form.upgrade .hint {
 #dashboard_browser_nag p.browser-update-nag.has-browser-icon {
 	padding-right: 0;
 	padding-left: 125px;
-} 
+}
+
+.welcome-panel .welcome-panel-close {
+	right: auto;
+	left: 10px;
+}
+
+.welcome-panel .wp-badge {
+	float: right;
+}
+
+.welcome-panel-content {
+	margin-left: 0;
+	margin-right: 190px;
+}
+
+.welcome-panel .welcome-panel-column {
+	margin-right: 24px;
+	margin-left: 40px;
+	float: right;
+}
+.welcome-panel .welcome-panel-column:last-child {
+	margin-right: auto;
+	margin-left: 0;
+}
+
+.welcome-panel h4 .icon16 {
+	margin-left: 0;
+	margin-right: -32px;
+}
+
+.welcome-panel .welcome-panel-column li {
+	padding-left: 0;
+	padding-right: 2px;
+}
 
 /*------------------------------------------------------------------------------
   10.0 - List Posts (/Pages/etc)
