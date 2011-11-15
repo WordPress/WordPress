@@ -853,12 +853,15 @@ dl.gallery-item {
 	max-width: 97.5%; /* Fluid images for posts, comments, and widgets */
 }
 img[class*="align"],
-img[class*="wp-image-"] {
+img[class*="wp-image-"],
+img[class*="attachment-"] {
 	height: auto; /* Make sure images with WordPress-added height and width attributes are scaled correctly */
 }
-img.size-full {
+img.size-full,
+img.size-large {
 	max-width: 97.5%;
-	width: auto; /* Prevent stretching of full-size images with height and width attributes in IE8 */
+	width: auto; /* Prevent stretching of full-size and large-size images with height and width attributes in IE8 */
+	height: auto; /* Make sure images with WordPress-added height and width attributes are scaled correctly */
 }
 .entry-content img.wp-smiley {
 	border: none;
