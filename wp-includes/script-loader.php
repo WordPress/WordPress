@@ -101,7 +101,7 @@ function wp_default_scripts( &$scripts ) {
 		'dismiss' => __('Dismiss'),
 	) );
 
-	$scripts->add( 'autosave', "/wp-includes/js/autosave$suffix.js", array('schedule', 'wp-ajax-response'), '20111111', 1 );
+	$scripts->add( 'autosave', "/wp-includes/js/autosave$suffix.js", array('schedule', 'wp-ajax-response'), '20111115', 1 );
 
 	$scripts->add( 'wp-lists', "/wp-includes/js/wp-lists$suffix.js", array('wp-ajax-response'), '20110521', 1 );
 

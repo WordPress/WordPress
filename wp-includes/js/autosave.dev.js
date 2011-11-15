@@ -83,6 +83,17 @@ jQuery(document).ready( function($) {
 	doPreview = function() {
 		$('input#wp-preview').val('dopreview');
 		$('form#post').attr('target', 'wp-preview').submit().attr('target', '');
+
+		/*
+		 * Workaround for WebKit bug preventing a form submitting twice to the same action.
+		 * https://bugs.webkit.org/show_bug.cgi?id=28633
+		 */
+		if ( $.browser.safari ) {
+			$('form#post').attr('action', function(index, value) {
+				return value + '?t=' + new Date().getTime();
+			});
+		}
+
 		$('input#wp-preview').val('');
 	}
 
