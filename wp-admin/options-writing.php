@@ -157,7 +157,7 @@ wp_dropdown_categories(array('hide_empty' => 0, 'name' => 'default_email_categor
 <?php if ( apply_filters( 'enable_update_services_configuration', true ) ) { ?>
 <h3><?php _e('Update Services') ?></h3>
 
-<?php if ( get_option('blog_public') ) : ?>
+<?php if ( 1 == get_option('blog_public') ) : ?>
 
 <p><label for="ping_sites"><?php _e('When you publish a new post, WordPress automatically notifies the following site update services. For more about this, see <a href="http://codex.wordpress.org/Update_Services">Update Services</a> on the Codex. Separate multiple service <abbr title="Universal Resource Locator">URL</abbr>s with line breaks.') ?></label></p>
 

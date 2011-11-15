@@ -1849,7 +1849,7 @@ function do_robots() {
 
 	$output = "User-agent: *\n";
 	$public = get_option( 'blog_public' );
-	if ( '0' ==  $public ) {
+	if ( '0' == $public ) {
 		$output .= "Disallow: /\n";
 	} else {
 		$site_url = parse_url( site_url() );

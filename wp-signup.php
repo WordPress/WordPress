@@ -3,7 +3,7 @@
 /** Sets up the WordPress Environment. */
 require( dirname(__FILE__) . '/wp-load.php' );
 
-add_action( 'wp_head', 'signuppageheaders' ) ;
+add_action( 'wp_head', 'wp_no_robots' );
 
 require( './wp-blog-header.php' );
 
@@ -16,10 +16,6 @@ function do_signup_header() {
 	do_action( 'signup_header' );
 }
 add_action( 'wp_head', 'do_signup_header' );
-
-function signuppageheaders() {
-	echo "<meta name='robots' content='noindex,nofollow' />\n";
-}
 
 if ( !is_multisite() ) {
 	wp_redirect( site_url('wp-login.php?action=register') );
