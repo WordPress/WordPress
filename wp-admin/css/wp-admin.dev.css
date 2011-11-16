@@ -5780,6 +5780,11 @@ a.rsswidget {
 
 /* login */
 
+.login * {
+	margin: 0;
+	padding: 0;
+}
+
 .login form {
 	margin-left: 8px;
 	padding: 26px 24px 46px;
@@ -5798,6 +5803,7 @@ a.rsswidget {
 }
 
 .login .button-primary {
+	font-size: 13px !important;
 	padding: 3px 10px;
 	float: right;
 }
@@ -5836,7 +5842,7 @@ a.rsswidget {
 
 #login {
 	width: 320px;
-	padding: 7em 0 0;
+	padding: 114px 0 0;
 	margin: auto;
 }
 
@@ -5860,7 +5866,7 @@ a.rsswidget {
 .login form .input {
 	font-weight: 200;
 	font-size: 24px;
-	width: 97%;
+	width: 100%;
 	padding: 3px;
 	margin-top: 2px;
 	margin-right: 6px;
@@ -5878,6 +5884,7 @@ a.rsswidget {
 }
 
 .login #pass-strength-result {
+	width: 250px;
 	font-weight: bold;
 	border-style: solid;
 	border-width: 1px;
