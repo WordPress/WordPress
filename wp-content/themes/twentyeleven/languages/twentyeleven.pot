@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Eleven 1.2\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyeleven\n"
-"POT-Creation-Date: 2011-11-10 18:47:54+00:00\n"
+"POT-Creation-Date: 2011-11-16 00:48:06+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -15,7 +15,7 @@ msgstr ""
 #: content-quote.php:14 showcase.php:113 showcase.php:192 content.php:15
 #: content.php:19 content-image.php:15 content-gallery.php:16
 #: content-gallery.php:48 content-aside.php:16 content-status.php:15
-#: inc/widgets.php:91 content-link.php:16 content-featured.php:14
+#: inc/widgets.php:89 content-link.php:16 content-featured.php:14
 msgid "Permalink to %s"
 msgstr ""
 
@@ -542,27 +542,27 @@ msgstr ""
 msgid "Ephemera"
 msgstr ""
 
-#: inc/widgets.php:93 inc/widgets.php:109
+#: inc/widgets.php:91 inc/widgets.php:107
 msgid "0 <span class=\"reply\">comments &rarr;</span>"
 msgstr ""
 
-#: inc/widgets.php:93 inc/widgets.php:109
+#: inc/widgets.php:91 inc/widgets.php:107
 msgid "1 <span class=\"reply\">comment &rarr;</span>"
 msgstr ""
 
-#: inc/widgets.php:93 inc/widgets.php:109
+#: inc/widgets.php:91 inc/widgets.php:107
 msgid "% <span class=\"reply\">comments &rarr;</span>"
 msgstr ""
 
-#: inc/widgets.php:107
+#: inc/widgets.php:105
 msgid "Link to %s"
 msgstr ""
 
-#: inc/widgets.php:159
+#: inc/widgets.php:157
 msgid "Title:"
 msgstr ""
 
-#: inc/widgets.php:162
+#: inc/widgets.php:160
 msgid "Number of posts to show:"
 msgstr ""
 
