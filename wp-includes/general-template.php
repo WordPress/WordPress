@@ -24,9 +24,15 @@
 function get_header( $name = null ) {
 	do_action( 'get_header', $name );
 
+	$templates = array();
+	if ( isset($name) )
+		$templates[] = "header-{$name}.php";
+
+	$templates[] = 'header.php';
+
 	// Backward compat code will be removed in a future release
-	if ( '' == get_template_part( 'header', $name ) )
-		load_template( ABSPATH . WPINC . '/theme-compat/header.php' );
+	if ('' == locate_template($templates, true))
+		load_template( ABSPATH . WPINC . '/theme-compat/header.php');
 }
 
 /**
@@ -47,9 +53,15 @@ function get_header( $name = null ) {
 function get_footer( $name = null ) {
 	do_action( 'get_footer', $name );
 
+	$templates = array();
+	if ( isset($name) )
+		$templates[] = "footer-{$name}.php";
+
+	$templates[] = 'footer.php';
+
 	// Backward compat code will be removed in a future release
-	if ( '' == get_template_part( 'footer', $name ) )
-		load_template( ABSPATH . WPINC . '/theme-compat/footer.php' );
+	if ('' == locate_template($templates, true))
+		load_template( ABSPATH . WPINC . '/theme-compat/footer.php');
 }
 
 /**
@@ -70,9 +82,15 @@ function get_footer( $name = null ) {
 function get_sidebar( $name = null ) {
 	do_action( 'get_sidebar', $name );
 
+	$templates = array();
+	if ( isset($name) )
+		$templates[] = "sidebar-{$name}.php";
+
+	$templates[] = 'sidebar.php';
+
 	// Backward compat code will be removed in a future release
-	if ( '' == get_template_part( 'sidebar', $name ) )
-		load_template( ABSPATH . WPINC . '/theme-compat/sidebar.php' );
+	if ('' == locate_template($templates, true))
+		load_template( ABSPATH . WPINC . '/theme-compat/sidebar.php');
 }
 
 /**
@@ -107,7 +125,7 @@ function get_template_part( $slug, $name = null ) {
 
 	$templates[] = "{$slug}.php";
 
-	return locate_template($templates, true, false);
+	locate_template($templates, true, false);
 }
 
 /**
