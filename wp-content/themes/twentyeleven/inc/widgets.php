@@ -75,51 +75,49 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 		$ephemera = new WP_Query( $ephemera_args );
 
 		if ( $ephemera->have_posts() ) :
+			echo $before_widget;
+			echo $before_title;
+			echo $title; // Can set this with a widget option, or omit altogether
+			echo $after_title;
+			?>
+			<ol>
+			<?php while ( $ephemera->have_posts() ) : $ephemera->the_post(); ?>
 
-		echo $before_widget;
-		echo $before_title;
-		echo $title; // Can set this with a widget option, or omit altogether
-		echo $after_title;
+				<?php if ( 'link' != get_post_format() ) : ?>
 
-		?>
-		<ol>
-		<?php while ( $ephemera->have_posts() ) : $ephemera->the_post(); ?>
+				<li class="widget-entry-title">
+					<a href="<?php echo esc_url( get_permalink() ); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'twentyeleven' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a>
+					<span class="comments-link">
+						<?php comments_popup_link( __( '0 <span class="reply">comments &rarr;</span>', 'twentyeleven' ), __( '1 <span class="reply">comment &rarr;</span>', 'twentyeleven' ), __( '% <span class="reply">comments &rarr;</span>', 'twentyeleven' ) ); ?>
+					</span>
+				</li>
 
-			<?php if ( 'link' != get_post_format() ) : ?>
+				<?php else : ?>
 
-			<li class="widget-entry-title">
-				<a href="<?php echo esc_url( get_permalink() ); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'twentyeleven' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a>
-				<span class="comments-link">
-					<?php comments_popup_link( __( '0 <span class="reply">comments &rarr;</span>', 'twentyeleven' ), __( '1 <span class="reply">comment &rarr;</span>', 'twentyeleven' ), __( '% <span class="reply">comments &rarr;</span>', 'twentyeleven' ) ); ?>
-				</span>
-			</li>
+				<li class="widget-entry-title">
+					<?php
+						// Grab first link from the post content. If none found, use the post permalink as fallback.
+						$link_url = twentyeleven_url_grabber();
 
-			<?php else : ?>
+						if ( empty( $link_url ) )
+							$link_url = get_permalink();
+					?>
+					<a href="<?php echo esc_url( $link_url ); ?>" title="<?php printf( esc_attr__( 'Link to %s', 'twentyeleven' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?>&nbsp;<span>&rarr;</span></a>
+					<span class="comments-link">
+						<?php comments_popup_link( __( '0 <span class="reply">comments &rarr;</span>', 'twentyeleven' ), __( '1 <span class="reply">comment &rarr;</span>', 'twentyeleven' ), __( '% <span class="reply">comments &rarr;</span>', 'twentyeleven' ) ); ?>
+					</span>
+				</li>
 
-			<li class="widget-entry-title">
-				<?php
-					// Grab first link from the post content. If none found, use the post permalink as fallback.
-					$link_url = twentyeleven_url_grabber();
+				<?php endif; ?>
 
-					if ( empty( $link_url ) )
-						$link_url = get_permalink();
-				?>
-				<a href="<?php echo esc_url( $link_url ); ?>" title="<?php printf( esc_attr__( 'Link to %s', 'twentyeleven' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?>&nbsp;<span>&rarr;</span></a>
-				<span class="comments-link">
-					<?php comments_popup_link( __( '0 <span class="reply">comments &rarr;</span>', 'twentyeleven' ), __( '1 <span class="reply">comment &rarr;</span>', 'twentyeleven' ), __( '% <span class="reply">comments &rarr;</span>', 'twentyeleven' ) ); ?>
-				</span>
-			</li>
+			<?php endwhile; ?>
+			</ol>
+			<?php
 
-			<?php endif; ?>
+			echo $after_widget;
 
-		<?php endwhile; ?>
-		</ol>
-		<?php
-
-		echo $after_widget;
-
-		// Reset the post globals as this query will have stomped on it
-		wp_reset_postdata();
+			// Reset the post globals as this query will have stomped on it
+			wp_reset_postdata();
 
 		// end check for ephemeral posts
 		endif;
