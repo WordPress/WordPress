@@ -427,6 +427,12 @@ var wpNavMenu;
 					}
 				}
 			});
+			$('#add-custom-links input[type="text"]').keypress(function(e){
+				if ( e.keyCode === 13 ) {
+					e.preventDefault();
+					$("#submit-customlinkdiv").click();
+				}
+			});
 		},
 
 		/**
