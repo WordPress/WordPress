@@ -143,30 +143,36 @@ function wp_update_plugins() {
 
 	$new_option = new stdClass;
 	$new_option->last_checked = time();
-	// Check for updated every 60 minutes if hitting update pages; else, check every 12 hours.
-	$timeout = in_array( current_filter(), array( 'load-plugins.php', 'load-update.php', 'load-update-core.php' ) ) ? 3600 : 43200;
-	$time_not_changed = isset( $current->last_checked ) && $timeout > ( time() - $current->last_checked );
 
-	$plugin_changed = false;
-	foreach ( $plugins as $file => $p ) {
-		$new_option->checked[ $file ] = $p['Version'];
+	// Check for updated every 12 hours, 60 minutes, or immediately, depending on the page.
+	$filter = current_filter();
+	if ( 'load-update-core.php' != $filter ) {
+		$timeout = 'load-plugins.php' == $filter || 'load-update.php' == $filter ? 3600 : 43200;
+		$time_not_changed = isset( $current->last_checked ) && $timeout > ( time() - $current->last_checked );
 
-		if ( !isset( $current->checked[ $file ] ) || strval($current->checked[ $file ]) !== strval($p['Version']) )
-			$plugin_changed = true;
-	}
-
-	if ( isset ( $current->response ) && is_array( $current->response ) ) {
-		foreach ( $current->response as $plugin_file => $update_details ) {
-			if ( ! isset($plugins[ $plugin_file ]) ) {
-				$plugin_changed = true;
-				break;
+		if ( $time_not_changed ) {
+			$plugin_changed = false;
+			foreach ( $plugins as $file => $p ) {
+				$new_option->checked[ $file ] = $p['Version'];
+		
+				if ( !isset( $current->checked[ $file ] ) || strval($current->checked[ $file ]) !== strval($p['Version']) )
+					$plugin_changed = true;
 			}
+
+			if ( isset ( $current->response ) && is_array( $current->response ) ) {
+				foreach ( $current->response as $plugin_file => $update_details ) {
+					if ( ! isset($plugins[ $plugin_file ]) ) {
+						$plugin_changed = true;
+						break;
+					}
+				}
+			}
+
+			// Bail if we've checked recently and if nothing has changed
+			if ( ! $plugin_changed )
+				return false;
 		}
 	}
-
-	// Bail if we've checked in the last 12 hours and if nothing has changed
-	if ( $time_not_changed && !$plugin_changed )
-		return false;
 
 	// Update last_checked for current to prevent multiple blocking requests if request hangs
 	$current->last_checked = time();
@@ -222,10 +228,6 @@ function wp_update_themes() {
 	if ( ! is_object($last_update) )
 		$last_update = new stdClass;
 
-	// Check for updated every 60 minutes if hitting update pages; else, check every 12 hours.
-	$timeout = in_array( current_filter(), array( 'load-themes.php', 'load-update.php', 'load-update-core.php' ) ) ? 3600 : 43200;
-	$time_not_changed = isset( $last_update->last_checked ) && $timeout > ( time( ) - $last_update->last_checked );
-
 	$themes = array();
 	$checked = array();
 	$exclude_fields = array('Template Files', 'Stylesheet Files', 'Status', 'Theme Root', 'Theme Root URI', 'Template Dir', 'Stylesheet Dir', 'Description', 'Tags', 'Screenshot');
@@ -246,25 +248,35 @@ function wp_update_themes() {
 		}
 	}
 
-	$theme_changed = false;
-	foreach ( $checked as $slug => $v ) {
-		$update_request->checked[ $slug ] = $v;
+	// Check for updated every 12 hours, 60 minutes, or immediately, depending on the page.
+	$filter = current_filter();
+	if ( 'load-update-core.php' != $filter ) {
+		$timeout = 'load-themes.php' == $filter || 'load-update.php' == $filter ? 3600 : 43200;
+		$time_not_changed = isset( $last_update->last_checked ) && $timeout > ( time( ) - $last_update->last_checked );
 
-		if ( !isset( $last_update->checked[ $slug ] ) || strval($last_update->checked[ $slug ]) !== strval($v) )
-			$theme_changed = true;
-	}
-
-	if ( isset ( $last_update->response ) && is_array( $last_update->response ) ) {
-		foreach ( $last_update->response as $slug => $update_details ) {
-			if ( ! isset($checked[ $slug ]) ) {
-				$theme_changed = true;
-				break;
+		if ( $time_not_changed ) {
+			$theme_changed = false;
+			foreach ( $checked as $slug => $v ) {
+				$update_request->checked[ $slug ] = $v;
+		
+				if ( !isset( $last_update->checked[ $slug ] ) || strval($last_update->checked[ $slug ]) !== strval($v) )
+					$theme_changed = true;
 			}
+
+			if ( isset ( $last_update->response ) && is_array( $last_update->response ) ) {
+				foreach ( $last_update->response as $slug => $update_details ) {
+					if ( ! isset($checked[ $slug ]) ) {
+						$theme_changed = true;
+						break;
+					}
+				}
+			}
+
+			// Bail if we've checked recently and if nothing has changed
+			if ( ! $theme_changed )
+				return false;
 		}
 	}
-
-	if ( $time_not_changed && !$theme_changed )
-		return false;
 
 	// Update last_checked for current to prevent multiple blocking requests if request hangs
 	$last_update->last_checked = time();

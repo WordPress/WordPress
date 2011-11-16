@@ -55,7 +55,7 @@ include( './admin-header.php' );
 		<img class="placeholder" />
 		<div class="right-feature">
 			<h4><?php echo ( 'A New and Improved Admin Bar' ); ?></h4>
-			<p><?php echo ( 'Get to the most useful areas of your dashboard form anywhere on your site quicker and easier than ever with a better organized admin bar.' ); ?></p>
+			<p><?php echo ( 'Get to the most useful areas of your dashboard from anywhere on your site quicker and easier than ever with a better organized admin bar.' ); ?></p>
 		</div>
 	</div>
 </div>
