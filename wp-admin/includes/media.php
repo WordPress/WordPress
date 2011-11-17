@@ -522,7 +522,7 @@ function wp_media_upload_handler() {
 				$title = esc_html( basename( $src ) );
 
 			if ( $title && $src )
-				$html = "<a href='" . esc_url($src) . "' >$title</a>";
+				$html = "<a href='" . esc_url($src) . "'>$title</a>";
 
 			$type = 'file';
 			if ( ( $ext = preg_replace( '/^.+?\.([^.]+)$/', '$1', $src ) ) && ( $ext_type = wp_ext2type( $ext ) )
