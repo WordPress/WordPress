@@ -1291,38 +1291,38 @@ function wp_welcome_panel() {
 
 		<div class="welcome-panel-content">
 
-		<h3><?php _e( 'Welcome to WordPress!' ); ?></h3>
-		<p class="about-description"><?php _e( 'Welcome to your new site! Here are some things most people do when they set up a new WordPress site. To get started, use the links below and we&#8217;ll give you some extra help with these tasks:' ); ?></p>
+		<h3><?php _e( 'Welcome to your new WordPress site! ' ); ?></h3>
+		<p class="about-description"><?php _e( 'If you need help getting started, check out our documentation on <a href="">First Steps with WordPress</a>. If you&#8217;d rather dive right in, here are a few things most people do first when they set up a new WordPress site. If you need help, use the Help tabs in the upper right corner to get information on how to use your current screen and where to go for more assistance.' ); ?></p>
 
 		<div class="welcome-panel-column">
 			<h4>
 				<span class="icon16 icon-settings"></span>
-				<?php _e( 'Customize your site' ); ?>
+				<?php _e( 'Basic Settings' ); ?>
 			</h4>
-			<p><?php echo ( 'Holy pancakes, filler content! You should customize your site settings!' ); ?></p>
+			<p><?php _e( 'Here are a few easy things you can do to get your feet wet. Make sure to click Save on each Settings screen.' ); ?></p>
 			<ul>
 				<li>
 					<?php echo sprintf(
-						__( '<a href="%s">Fill in your profile</a>.' ),
-						esc_url( admin_url('profile.php') )
+						__( '<a href="%s">Choose your privacy setting</a>.' ),
+						esc_url( admin_url('options-privacy.php') )
 					); ?>
 				</li>
 				<li>
 					<?php echo sprintf(
-						__( '<a href="%s">Choose comment settings</a>.' ),
-						esc_url( admin_url('options-discussion.php') )
-					); ?>
-				</li>
-				<li>
-					<?php echo sprintf(
-						__( '<a href="%s">Set your time zone and site tagline</a>.' ),
+						__( '<a href="%s">Select your tagline and time zone</a>.' ),
 						esc_url( admin_url('options-general.php') )
 					); ?>
 				</li>
 				<li>
 					<?php echo sprintf(
-						__( '<a href="%s">Choose a theme</a>.' ),
-						esc_url( admin_url('themes.php') )
+						__( '<a href="%s">Turn comments on or off</a>.' ),
+						esc_url( admin_url('options-discussion.php') )
+					); ?>
+				</li>
+				<li>
+					<?php echo sprintf(
+						__( '<a href="%s">Fill in your profile</a>.' ),
+						esc_url( admin_url('profile.php') )
 					); ?>
 				</li>
 			</ul>
@@ -1330,31 +1330,72 @@ function wp_welcome_panel() {
 		<div class="welcome-panel-column">
 			<h4>
 				<span class="icon16 icon-page"></span>
-				<?php _e( 'Create some content' ); ?>
+				<?php _e( 'Add Real Content' ); ?>
 			</h4>
-			<p><?php echo ( 'What is a WordPress site without a voice? Publishing brings joy to the web.' ); ?></p>
+			<p><?php _e( 'Check out the sample page & post editors to see how it all works, then delete the default content and write your own!' ); ?></p>
 			<ul>
 				<li>
 					<?php echo sprintf(
-						__( 'Delete the <a href="%1$s">sample post</a> and <a href="%2$s">page</a>.' ),
-						esc_url( admin_url('edit.php') ),
+						__( 'View the <a href="%1$s">sample page</a> and <a href="%2$s">post</a>.' ),
+						esc_url( get_permalink( 2 ) ),
+						esc_url( get_permalink( 1 ) )
+					); ?>
+				</li>
+				<li>
+					<?php echo sprintf(
+						__( 'Delete the <a href="%1$s">sample page</a> and <a href="%2$s">post</a>.' ),
+						esc_url( admin_url('edit.php?post_type=page') ),
+						esc_url( admin_url('edit.php') )
+					); ?>
+				</li>
+				<li>
+					<?php echo sprintf(
+						__( '<a href="%s">Create an About Me page</a>.' ),
 						esc_url( admin_url('edit.php?post_type=page') )
 					); ?>
 				</li>
 				<li>
 					<?php echo sprintf(
-						__( '<a href="%s">Create your first post</a>.' ),
+						__( '<a href="%s">Write your first post</a>.' ),
 						esc_url( admin_url('post-new.php') )
-					); ?>
-				</li>
-				<li>
-					<?php echo sprintf(
-						__( '<a href="%s">Create an about page</a>.' ),
-						esc_url( admin_url('edit.php?post_type=page') )
 					); ?>
 				</li>
 			</ul>
 		</div>
+		<div class="welcome-panel-column">
+			<h4>
+				<span class="icon16 icon-appearance"></span>
+				<?php _e( 'Customize Your Site' ); ?>
+			</h4>
+			<p><?php printf( __( 'Use the default theme -- %1$s -- or <a href="%2$s">choose a new one</a>. If you stick with %3$s, here are a few ways to make your site look unique.' ), __( 'Twenty Eleven' ), esc_url( admin_url( 'themes.php' ) ), __( 'Twenty Eleven' ) ); ?></p>
+			<ul>
+				<li>
+					<?php echo sprintf(
+						__( '<a href="%s">Choose light or dark</a>' ),
+						esc_url( admin_url( 'themes.php?page=theme_options' ) )
+					); ?>
+				</li>
+				<li>
+					<?php echo sprintf(
+						__( '<a href="%s">Set a background color</a>' ),
+						esc_url( admin_url( 'themes.php?page=custom-background' ) )
+					); ?>
+				</li>
+				<li>
+					<?php echo sprintf(
+						__( '<a href="%s">Select a new header image</a>' ),
+						esc_url( admin_url( 'themes.php?page=custom-header' ) )
+					); ?>
+				</li>
+				<li>
+					<?php echo sprintf(
+						__( '<a href="%s">Add some widgets</a>' ),
+						esc_url( admin_url( 'widgets.php' ) )
+					); ?>
+				</li>
+			</ul>
+		</div>
+		<p><?php printf( __( 'Already know what you&#8217;re doing? <a href="%s">Dismiss this message</a>.' ), '#' ) ?></p>
 		</div>
 	</div>
 	<?php
