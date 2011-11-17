@@ -420,11 +420,7 @@ class WP_User {
 	 */
 	var $filter = null;
 
-	private static $back_compat_keys = array(
-		'user_firstname' => 'first_name',
-		'user_lastname' => 'last_name',
-		'user_description' => 'description'
-	);
+	private static $back_compat_keys;
 
 	/**
 	 * Constructor
@@ -440,6 +436,18 @@ class WP_User {
 	 * @return WP_User
 	 */
 	function __construct( $id = 0, $name = '', $blog_id = '' ) {
+		if ( ! isset( self::$back_compat_keys ) ) {
+			$prefix = $GLOBALS['wpdb']->prefix;
+			self::$back_compat_keys = array(
+				'user_firstname' => 'first_name',
+				'user_lastname' => 'last_name',
+				'user_description' => 'description',
+				'user_level' => $prefix . 'user_level',
+				$prefix . 'usersettings' => $prefix . 'user-settings',
+				$prefix . 'usersettingstime' => $prefix . 'user-settings-time',
+			);
+		}
+
 		if ( ! empty( $id ) && ! is_numeric( $id ) ) {
 			$name = $id;
 			$id = 0;
