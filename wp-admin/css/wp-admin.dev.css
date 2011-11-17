@@ -2188,15 +2188,22 @@ body.admin-bar #adminmenu {
 	position: absolute;
 	top: 0;
 	right: 10px;
-	padding: 2px 12px;
-	font-size: 12px;
-	font-weight: bold;
+	padding: 8px 3px;
+	font-size: 13px;
 	text-decoration: none;
+}
 
-	-webkit-border-bottom-left-radius: 3px;
-	-webkit-border-bottom-right-radius: 3px;
-	border-bottom-left-radius: 3px;
-	border-bottom-right-radius: 3px;
+.welcome-panel .welcome-panel-close:before {
+    background: url('../images/xit.gif') 0 17% no-repeat;
+    content: ' ';
+    height: 100%;
+    width: 10px;
+    left: -12px;
+    position: absolute;
+}
+
+.welcome-panel .welcome-panel-close:hover:before {
+    background-position: 100% 17%;
 }
 
 .welcome-panel .wp-badge {
@@ -2223,7 +2230,7 @@ body.admin-bar #adminmenu {
 }
 
 .welcome-panel .welcome-panel-column ul {
-	margin-top: 1.6em;
+	margin: 1.6em 1em 1em 1.3em;
 }
 
 .welcome-panel .welcome-panel-column li {

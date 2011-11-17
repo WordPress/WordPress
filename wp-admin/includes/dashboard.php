@@ -1285,7 +1285,7 @@ function wp_welcome_panel() {
 
 		<?php wp_nonce_field( 'welcome-panel-nonce', 'welcomepanelnonce', false ); ?>
 
-		<a class="welcome-panel-close" href="#"><?php _e('Close'); ?></a>
+		<a class="welcome-panel-close" href="#"><?php _e('Dismiss'); ?></a>
 
 		<div class="wp-badge"><?php printf( __( 'Version %s' ), $display_version ); ?></div>
 

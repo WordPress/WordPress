@@ -706,10 +706,6 @@ table.widefat span.spam a,
 .welcome-panel-column p {
 	color: #464646;
 }
-.welcome-panel .welcome-panel-close {
-	background: #eff8ff;
-	text-shadow: 1px 1px 1px #eff8ff;
-}
 .welcome-panel h3 {
 	text-shadow: 1px 1px 1px white;
 }
