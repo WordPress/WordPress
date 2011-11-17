@@ -1264,7 +1264,7 @@ class WP_Rewrite {
 			$num_toks = preg_match_all('/%.+?%/', $struct, $toks);
 
 			//get the 'tagname=$matches[i]'
-			$query = ( isset($queries) && is_array($queries) ) ? $queries[$num_toks - 1] : '';
+			$query = ( isset($queries) && is_array($queries) && !empty($num_toks) ) ? $queries[$num_toks - 1] : '';
 
 			//set up $ep_mask_specific which is used to match more specific URL types
 			switch ( $dirs[$j] ) {
