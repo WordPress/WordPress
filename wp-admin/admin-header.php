@@ -53,7 +53,7 @@ var userSettings = {
 	},
 	ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>',
 	pagenow = '<?php echo $current_screen->id; ?>',
-	typenow = '<?php if ( isset($current_screen->post_type) ) echo $current_screen->post_type; ?>',
+	typenow = '<?php echo $current_screen->post_type; ?>',
 	adminpage = '<?php echo $admin_body_class; ?>',
 	thousandsSeparator = '<?php echo addslashes( $wp_locale->number_format['thousands_sep'] ); ?>',
 	decimalPoint = '<?php echo addslashes( $wp_locale->number_format['decimal_point'] ); ?>',
