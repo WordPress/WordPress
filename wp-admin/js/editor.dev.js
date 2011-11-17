@@ -23,7 +23,7 @@ var switchEditors = {
 				mode = 'tmce';
 		} 
 
-		if ( 'tmce' == mode ) {
+		if ( 'tmce' == mode || 'tinymce' == mode ) {
 			if ( ed && ! ed.isHidden() )
 				return false;
 

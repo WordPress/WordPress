@@ -84,7 +84,7 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'colorpicker', "/wp-includes/js/colorpicker$suffix.js", array('prototype'), '3517m' );
 
-	$scripts->add( 'editor', "/wp-admin/js/editor$suffix.js", array('utils','jquery'), '20111116', 1 );
+	$scripts->add( 'editor', "/wp-admin/js/editor$suffix.js", array('utils','jquery'), '20111117', 1 );
 
 	$scripts->add( 'wp-fullscreen', "/wp-admin/js/wp-fullscreen$suffix.js", array('jquery'), '20111116', 1 );
 
