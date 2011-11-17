@@ -48,14 +48,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	function __construct() {
 		global $post_type_object, $wpdb;
 
-		if ( !isset( $_REQUEST['post_type'] ) )
-			$post_type = 'post';
-		elseif ( in_array( $_REQUEST['post_type'], get_post_types( array( 'show_ui' => true ) ) ) )
-			$post_type = $_REQUEST['post_type'];
-		else
-			wp_die( __( 'Invalid post type' ) );
-		$_REQUEST['post_type'] = $post_type;
-
+		$post_type = get_current_screen()->post_type;
 		$post_type_object = get_post_type_object( $post_type );
 
 		if ( !current_user_can( $post_type_object->cap->edit_others_posts ) ) {

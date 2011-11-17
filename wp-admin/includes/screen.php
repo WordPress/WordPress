@@ -399,7 +399,7 @@ final class WP_Screen {
 		if ( is_a( $hook_name, 'WP_Screen' ) )
 			return $hook_name;
 
-		$action = $post_type = $taxonomy = '';
+		$action = $post_type = $taxonomy = null;
 		$is_network = $is_user = false;
 
 		if ( $hook_name )
@@ -447,10 +447,10 @@ final class WP_Screen {
 
 		// If this is the current screen, see if we can be more accurate for post types and taxonomies.
 		if ( ! $hook_name ) {
-			if ( isset( $_REQUEST['post_type'] ) && post_type_exists( $_REQUEST['post_type'] ) )
-				$post_type = $_REQUEST['post_type'];
-			if ( isset( $_REQUEST['taxonomy'] ) && taxonomy_exists( $_REQUEST['taxonomy'] ) )
-				$taxonomy = $_REQUEST['taxonomy'];
+			if ( isset( $_REQUEST['post_type'] ) )
+				$post_type = post_type_exists( $_REQUEST['post_type'] ) ? $_REQUEST['post_type'] : false;
+			if ( isset( $_REQUEST['taxonomy'] ) )
+				$taxonomy = taxonomy_exists( $_REQUEST['taxonomy'] ) ? $_REQUEST['taxonomy'] : false;
 
 			switch ( $base ) {
 				case 'post' :
@@ -468,7 +468,7 @@ final class WP_Screen {
 					}
 					break;
 				case 'edit-tags' :
-					if ( ! $post_type && is_object_in_taxonomy( 'post', $taxonomy ? $taxonomy : 'post_tag' ) )
+					if ( null === $post_type && is_object_in_taxonomy( 'post', $taxonomy ? $taxonomy : 'post_tag' ) )
 						$post_type = 'post';
 					break;
 			}
@@ -476,17 +476,17 @@ final class WP_Screen {
 
 		switch ( $base ) {
 			case 'post' :
-				if ( ! $post_type )
+				if ( null === $post_type )
 					$post_type = 'post';
 				$id = $post_type;
 				break;
 			case 'edit' :
-				if ( ! $post_type )
+				if ( null === $post_type )
 					$post_type = 'post';
 				$id .= '-' . $post_type;
 				break;
 			case 'edit-tags' :
-				if ( ! $taxonomy )
+				if ( null === $taxonomy )
 					$taxonomy = 'post_tag';
 				$id = 'edit-' . $taxonomy;
 				break;
@@ -511,8 +511,8 @@ final class WP_Screen {
 
 		$screen->base       = $base;
 		$screen->action     = $action;
-		$screen->post_type  = $post_type;
-		$screen->taxonomy   = $taxonomy;
+		$screen->post_type  = (string) $post_type;
+		$screen->taxonomy   = (string) $taxonomy;
 		$screen->is_user    = $is_user;
 		$screen->is_network = $is_network;
 
