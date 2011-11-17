@@ -83,8 +83,8 @@ class WP_Editor {
 				$switch_class = 'tmce-active';
 			}
 
-			$buttons .= '<a id="' . $editor_id . '-html" class="hide-if-no-js wp-switch-editor switch-html" onclick="switchEditors.go(this);return false;">' . __('HTML') . "</a>\n";
-			$buttons .= '<a id="' . $editor_id . '-tmce" class="hide-if-no-js wp-switch-editor switch-tmce" onclick="switchEditors.go(this);return false;">' . __('Visual') . "</a>\n";
+			$buttons .= '<a id="' . $editor_id . '-html" class="hide-if-no-js wp-switch-editor switch-html" onclick="switchEditors.switchto(this);">' . __('HTML') . "</a>\n";
+			$buttons .= '<a id="' . $editor_id . '-tmce" class="hide-if-no-js wp-switch-editor switch-tmce" onclick="switchEditors.switchto(this);">' . __('Visual') . "</a>\n";
 		} else {
 			if ( $this->this_tinymce )
 				$this->has_tinymce = true;

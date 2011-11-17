@@ -365,9 +365,9 @@ PubSub.prototype.publish = function( topic, args ) {
 		var htmled_is_hidden = $('#' + s.editor_id).is(':hidden');
 		// Make sure the correct editor is displaying.
 		if ( s.has_tinymce && s.mode === 'tinymce' && !htmled_is_hidden ) {
-			switchEditors.go( $('#'+s.editor_id+'-tmce').get(0) );
+			switchEditors.go(s.editor_id, 'tmce');
 		} else if ( s.mode === 'html' && htmled_is_hidden ) {
-			switchEditors.go( $('#'+s.editor_id+'-html').get(0) );
+			switchEditors.go(s.editor_id, 'html');
 		}
 
 		// Save content must be after switchEditors or content will be overwritten. See #17229.
