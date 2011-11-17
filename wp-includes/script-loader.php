@@ -165,7 +165,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'jquery-hotkeys', "/wp-includes/js/jquery/jquery.hotkeys$suffix.js", array('jquery'), '0.0.2m', 1 );
 	$scripts->add( 'jquery-table-hotkeys', "/wp-includes/js/jquery/jquery.table-hotkeys$suffix.js", array('jquery', 'jquery-hotkeys'), '20090102', 1 );
 
-	$scripts->add( 'thickbox', "/wp-includes/js/thickbox/thickbox.js", array('jquery'), '3.1-20110930', 1 );
+	$scripts->add( 'thickbox', "/wp-includes/js/thickbox/thickbox.js", array('jquery'), '3.1-20111117', 1 );
 	$scripts->localize( 'thickbox', 'thickboxL10n', array(
 			'next' => __('Next &gt;'),
 			'prev' => __('&lt; Prev'),
@@ -449,7 +449,7 @@ function wp_default_styles( &$styles ) {
 
 	$styles->add( 'media', "/wp-admin/css/media$suffix.css", array(), '20111110' );
 	$styles->add( 'install', "/wp-admin/css/install$suffix.css", array(), '20111115' ); // Readme as well
-	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css', array(), '20090514' );
+	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css', array(), '20111117' );
 	$styles->add( 'farbtastic', '/wp-admin/css/farbtastic.css', array(), '1.3u1' );
 	$styles->add( 'jcrop', '/wp-includes/js/jcrop/jquery.Jcrop.css', array(), '0.9.8' );
 	$styles->add( 'imgareaselect', '/wp-includes/js/imgareaselect/imgareaselect.css', array(), '0.9.1' );
