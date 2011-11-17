@@ -19,9 +19,6 @@ $action = isset( $_POST['action'] ) ? $_POST['action'] : 'splash';
 
 $blogs = get_blogs_of_user( $current_user->ID );
 
-if ( empty( $blogs ) )
-	wp_die( __( 'You must be a member of at least one site to use this page.' ) );
-
 $updated = false;
 if ( 'updateblogsettings' == $action && isset( $_POST['primary_blog'] ) ) {
 	check_admin_referer( 'update-my-sites' );
@@ -58,6 +55,13 @@ if ( $updated ) { ?>
 <div class="wrap">
 <?php screen_icon(); ?>
 <h2><?php echo esc_html( $title ); ?></h2>
+<?php
+if ( empty( $blogs ) ) :
+	echo '<p>';
+	_e( 'You must be a member of at least one site to use this page.' );
+	echo '</p>';
+else :
+?>
 <form id="myblogs" action="" method="post">
 	<?php
 	choose_primary_blog();
@@ -107,6 +111,7 @@ if ( $updated ) { ?>
 	<?php wp_nonce_field( 'update-my-sites' ); ?>
 	<?php submit_button(); ?>
 	</form>
+<?php endif; ?>
 	</div>
 <?php
 include( './admin-footer.php' );
