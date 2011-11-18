@@ -1164,16 +1164,22 @@ function _wp_sidebars_changed() {
 function retrieve_widgets() {
 	global $wp_registered_widget_updates, $wp_registered_sidebars, $sidebars_widgets, $wp_registered_widgets;
 
+	$_sidebars_widgets = array();
+	$sidebars = array_keys($wp_registered_sidebars);
 	$old_sidebars_widgets = get_theme_mod( 'sidebars_widgets' );
 	if ( is_array( $old_sidebars_widgets ) ) {
 		// time() that sidebars were stored is in $old_sidebars_widgets['time']
-		$_sidebars_widgets = $old_sidebars_widgets['data'];
+		$old_sidebars = $old_sidebars_widgets['data'];
+
+		// make sure the saved sidebars match
+		foreach ( $sidebars as $sidebar_id ) {
+			$_sidebars_widgets[$sidebar_id] = isset($old_sidebars[$sidebar_id]) ? $old_sidebars[$sidebar_id] : array();
+		}
+
 		remove_theme_mod( 'sidebars_widgets' );
 	} else {
 		if ( empty( $sidebars_widgets ) )
 			return;
-
-		$sidebars = array_keys($wp_registered_sidebars);
 
 		unset( $sidebars_widgets['array_version'] );
 
