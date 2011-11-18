@@ -2209,24 +2209,38 @@ body.admin-bar #adminmenu {
 
 .welcome-panel .wp-badge {
 	float: left;
+	margin-bottom: 20px;
 }
 
 .welcome-panel-content {
+	max-width: 1500px;
+}
+
+.welcome-panel-content .about-description,
+.welcome-panel h3 {
 	margin-left: 190px;
 }
 
 .welcome-panel p.welcome-panel-dismiss {
 	clear: both;
-	padding: 1.5em 0 0 0;
+	padding: 1em 0 0 0;
+}
+
+.welcome-panel .welcome-panel-column-container {
+	clear: both;
+	overflow: hidden;
+	position: relative;
+	padding-left: 25px;
 }
 
 .welcome-panel .welcome-panel-column {
-	margin: 0 40px 0 24px;
-	max-width: 270px;
-	min-width: 220px;
-	width: 25%;
+	margin: 0 5% 0 -25px;
+	padding-left: 25px;
+	width: 30%;
+	min-width: 200px;
 	float: left;
 }
+
 .welcome-panel .welcome-panel-column:last-child {
 	margin-right: 0;
 }
