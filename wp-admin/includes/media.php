@@ -2029,7 +2029,7 @@ function media_upload_flash_bypass() {
 function media_upload_html_bypass() {
 	?>
 	<p class="upload-html-bypass hide-if-no-js">
-	<?php _e('You are using the browser uploader. Try the <a href="#">multi-file uploader</a> instead.'); ?>
+	<?php _e('You are using the browser&#8217;s built-in file uploader. The new WordPress uploader includes multiple file selection and drag and drop capability. <a href="#">Switch to the new uploader</a>.'); ?>
 	</p>
 	<?php
 }
