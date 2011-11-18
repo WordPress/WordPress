@@ -1375,7 +1375,7 @@ function wp_welcome_panel() {
 			echo '</p>';
 			else:
 			echo '<p>';
-			printf( __( 'Use the current theme -- %1$s -- or <a href="%2$s">choose a new one</a>. If you stick with %3$s, here are a few ways to make your site look unique.' ), $ct->title, esc_url( admin_url( 'themes.php' ) ), $ct->title );
+			printf( __( 'Use the current theme &mdash; %1$s &mdash; or <a href="%2$s">choose a new one</a>. If you stick with %3$s, here are a few ways to make your site look unique.' ), $ct->title, esc_url( admin_url( 'themes.php' ) ), $ct->title );
 			echo '</p>';
 			?>
 			<ul>
@@ -1420,7 +1420,7 @@ function wp_welcome_panel() {
 			</ul>
 			<?php endif; ?>
 		</div>
-		<p><?php printf( __( 'Already know what you&#8217;re doing? <a href="%s">Dismiss this message</a>.' ), '#' ) ?></p>
+		<p class="welcome-panel-dismiss"><?php printf( __( 'Already know what you&#8217;re doing? <a href="%s">Dismiss this message</a>.' ), '#' ) ?></p>
 		</div>
 	</div>
 	<?php

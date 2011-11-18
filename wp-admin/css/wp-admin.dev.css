@@ -2178,6 +2178,7 @@ body.admin-bar #adminmenu {
 	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", sans-serif;
 	font-size: 32px;
 	font-weight: normal;
+	line-height: 1.2;
 	margin: 0.1em 0 0.8em;
 }
 .welcome-panel h4 {
@@ -2212,6 +2213,11 @@ body.admin-bar #adminmenu {
 
 .welcome-panel-content {
 	margin-left: 190px;
+}
+
+.welcome-panel p.welcome-panel-dismiss {
+	clear: both;
+	padding: 1.5em 0 0 0;
 }
 
 .welcome-panel .welcome-panel-column {
