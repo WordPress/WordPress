@@ -2224,7 +2224,7 @@ body.admin-bar #adminmenu {
 	margin: 0 40px 0 24px;
 	max-width: 270px;
 	min-width: 220px;
-	width: 35%;
+	width: 25%;
 	float: left;
 }
 .welcome-panel .welcome-panel-column:last-child {
