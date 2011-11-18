@@ -62,8 +62,15 @@ add_filter('media_upload_tabs', 'update_gallery_tab');
  * @since 2.5.0
  */
 function the_media_upload_tabs() {
-	global $redir_tab;
+	global $redir_tab, $is_iphone;
 	$tabs = media_upload_tabs();
+
+	if ( $is_iphone ) {
+		unset($tabs['type']);
+		$default = 'type_url';
+	} else {
+		$default = 'type';
+	}
 
 	if ( !empty($tabs) ) {
 		echo "<ul id='sidemenu'>\n";
@@ -72,13 +79,15 @@ function the_media_upload_tabs() {
 		elseif ( isset($_GET['tab']) && array_key_exists($_GET['tab'], $tabs) )
 			$current = $_GET['tab'];
 		else
-			$current = apply_filters('media_upload_default_tab', 'type');
+			$current = apply_filters('media_upload_default_tab', $default);
 
 		foreach ( $tabs as $callback => $text ) {
 			$class = '';
+
 			if ( $current == $callback )
 				$class = " class='current'";
-			$href = add_query_arg(array('tab'=>$callback, 's'=>false, 'paged'=>false, 'post_mime_type'=>false, 'm'=>false));
+
+			$href = add_query_arg(array('tab' => $callback, 's' => false, 'paged' => false, 'post_mime_type' => false, 'm' => false));
 			$link = "<a href='" . esc_url($href) . "'$class>$text</a>";
 			echo "\t<li id='" . esc_attr("tab-$callback") . "'>$link</li>\n";
 		}
@@ -344,13 +353,7 @@ if ( is_string($content_func) )
 </head>
 <body<?php if ( isset($GLOBALS['body_id']) ) echo ' id="' . $GLOBALS['body_id'] . '"'; ?> class="no-js">
 <script type="text/javascript">
-//<![CDATA[
-(function(){
-var c = document.body.className;
-c = c.replace(/no-js/, 'js');
-document.body.className = c;
-})();
-//]]>
+document.body.className = document.body.className.replace('no-js', 'js');
 </script>
 <?php
 	$args = func_get_args();
@@ -497,6 +500,8 @@ function media_upload_form_handler() {
  * @return unknown
  */
 function wp_media_upload_handler() {
+	global $is_iphone;
+
 	$errors = array();
 	$id = 0;
 
@@ -567,7 +572,10 @@ function wp_media_upload_handler() {
 		return wp_iframe( 'media_upload_type_url_form', $type, $errors, $id );
 	}
 
-	return wp_iframe( 'media_upload_type_form', 'image', $errors, $id );
+	if ( $is_iphone )
+		return wp_iframe( 'media_upload_type_url_form', 'image', $errors, $id );
+	else
+		return wp_iframe( 'media_upload_type_form', 'image', $errors, $id );
 }
 
 /**
@@ -1263,7 +1271,10 @@ function media_upload_header() {
  * @param unknown_type $errors
  */
 function media_upload_form( $errors = null ) {
-	global $type, $tab, $pagenow, $is_IE, $is_opera;
+	global $type, $tab, $pagenow, $is_IE, $is_opera, $is_iphone;
+
+	if ( $is_iphone )
+		return;
 
 	$upload_action_url = admin_url('async-upload.php');
 	$post_id = isset($_REQUEST['post_id']) ? intval($_REQUEST['post_id']) : 0;
@@ -1387,6 +1398,11 @@ echo ' ' . __('After a file has been uploaded, you can add titles and descriptio
  * @param unknown_type $id
  */
 function media_upload_type_form($type = 'file', $errors = null, $id = null) {
+	global $is_iphone;
+
+	if ( $is_iphone )
+		return;
+
 	media_upload_header();
 
 	$post_id = isset( $_REQUEST['post_id'] )? intval( $_REQUEST['post_id'] ) : 0;
