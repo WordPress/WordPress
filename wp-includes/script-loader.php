@@ -202,6 +202,7 @@ function wp_default_scripts( &$scripts ) {
 		'http_error' => __('HTTP error.'),
 		'upload_failed' => __('Upload failed.'),
 		'big_upload_failed' => __('Please try uploading this file with the %1$sbrowser uploader%2$s.'),
+		'big_upload_queued' => __('%s exceeds the maximum upload size for the multi-file uploader when used in your browser.'),
 		'io_error' => __('IO error.'),
 		'security_error' => __('Security error.'),
 		'file_cancelled' => __('File canceled.'),
@@ -221,7 +222,7 @@ function wp_default_scripts( &$scripts ) {
 	// cannot use the plupload.full.js, as it loads browserplus init JS from Yahoo
 	$scripts->add( 'plupload-all', false, array('plupload', 'plupload-html5', 'plupload-flash', 'plupload-silverlight', 'plupload-html4'), '1511-20111112');
 
-	$scripts->add( 'plupload-handlers', "/wp-includes/js/plupload/handlers$suffix.js", array('plupload-all', 'jquery'), '20111114');
+	$scripts->add( 'plupload-handlers', "/wp-includes/js/plupload/handlers$suffix.js", array('plupload-all', 'jquery'), '20111117');
 	$scripts->localize( 'plupload-handlers', 'pluploadL10n', $uploader_l10n );
 
 	// keep 'swfupload' for back-compat.

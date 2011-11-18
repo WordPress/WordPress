@@ -276,7 +276,7 @@ function dndHelper(s) {
 	}
 }
 
-function uploadError(fileObj, errorCode, message) {
+function uploadError(fileObj, errorCode, message, uploader) {
 	var hundredmb = 100 * 1024 * 1024, max;
 
 	switch (errorCode) {
@@ -287,7 +287,7 @@ function uploadError(fileObj, errorCode, message) {
 			wpFileError(fileObj, pluploadL10n.invalid_filetype);
 			break;
 		case plupload.FILE_SIZE_ERROR:
-			wpQueueError( pluploadL10n.file_exceeds_size_limit.replace('%s', fileObj.name) );
+			uploadSizeError(uploader, fileObj);
 			break;
 		case plupload.IMAGE_FORMAT_ERROR:
 			wpFileError(fileObj, pluploadL10n.not_an_image);
@@ -327,10 +327,15 @@ function uploadError(fileObj, errorCode, message) {
 	}
 }
 
-function uploadSizeError( up, error ) {
-	var file = error.file;
+function uploadSizeError( up, file, over100mb ) {
+	var message;
 
-	jQuery('#media-items').append('<div id="media-item-' + file.id + '" class="media-item error"><p>' + pluploadL10n.file_exceeds_size_limit.replace('%s', file.name) + '</p></div>');
+	if ( over100mb )
+		message = pluploadL10n.big_upload_queued.replace('%s', file.name) + ' ' + pluploadL10n.big_upload_failed.replace('%1$s', '<a class="uploader-html" href="#">').replace('%2$s', '</a>');
+	else
+		message = pluploadL10n.file_exceeds_size_limit.replace('%s', file.name);
+
+	jQuery('#media-items').append('<div id="media-item-' + file.id + '" class="media-item error"><p>' + message + '</p></div>');
 	up.removeFile(file);
 }
 
@@ -426,8 +431,19 @@ jQuery(document).ready(function($){
 		uploader.init();
 
 		uploader.bind('FilesAdded', function(up, files) {
+			var hundredmb = 100 * 1024 * 1024, max = parseInt(up.settings.max_file_size, 10);
+
 			$('#media-upload-error').html('');
 			uploadStart();
+
+			if ( max > hundredmb && up.runtime != 'html5' ) {
+				plupload.each(files, function(file){
+					if ( file.size > hundredmb ) {
+						uploadSizeError( up, file, true );
+					}
+				});
+			}
+
 			up.refresh();
 			up.start();
 		});
@@ -445,12 +461,8 @@ jQuery(document).ready(function($){
 		});
 
 		uploader.bind('Error', function(up, err) {
-			if ( err.code == plupload.FILE_SIZE_ERROR ) {
-				uploadSizeError(up, err);
-			} else {
-				uploadError(err.file, err.code, err.message);
-				up.refresh();
-			}
+			uploadError(err.file, err.code, err.message, up);
+			up.refresh();
 		});
 
 		uploader.bind('FileUploaded', function(up, file, response) {
