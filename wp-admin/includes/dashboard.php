@@ -1292,7 +1292,7 @@ function wp_welcome_panel() {
 		<div class="welcome-panel-content">
 
 		<h3><?php _e( 'Welcome to your new WordPress site! ' ); ?></h3>
-		<p class="about-description"><?php _e( 'If you need help getting started, check out our documentation on <a href="">First Steps with WordPress</a>. If you&#8217;d rather dive right in, here are a few things most people do first when they set up a new WordPress site. If you need help, use the Help tabs in the upper right corner to get information on how to use your current screen and where to go for more assistance.' ); ?></p>
+		<p class="about-description"><?php _e( 'If you need help getting started, check out our documentation on <a href="http://codex.wordpress.org/First_Steps_With_WordPress">First Steps with WordPress</a>. If you&#8217;d rather dive right in, here are a few things most people do first when they set up a new WordPress site. If you need help, use the Help tabs in the upper right corner to get information on how to use your current screen and where to go for more assistance.' ); ?></p>
 
 		<div class="welcome-panel-column">
 			<h4>
