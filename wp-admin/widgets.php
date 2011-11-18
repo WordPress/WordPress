@@ -62,18 +62,21 @@ foreach ( $sidebars_widgets as $sidebar_id => $widgets ) {
 	if ( 'wp_inactive_widgets' == $sidebar_id )
 		continue;
 
-	if ( empty( $wp_registered_sidebars[ $sidebar_id ] ) && ! empty( $widgets ) ) {
-		// register the inactive_widgets area as sidebar
-		register_sidebar(array(
-			'name' => __( 'Inactive Sidebar (from previous theme)' ),
-			'id' => $sidebar_id,
-			'class' => 'inactive-sidebar orphan-sidebar',
-			'description' => __( 'This is a left over sidebar from an old theme and does not show anywhere on your site' ),
-			'before_widget' => '',
-			'after_widget' => '',
-			'before_title' => '',
-			'after_title' => '',
-		));
+	if ( !isset( $wp_registered_sidebars[ $sidebar_id ] ) ) {
+		if ( ! empty( $widgets ) ) { // register the inactive_widgets area as sidebar
+			register_sidebar(array(
+				'name' => __( 'Inactive Sidebar (from previous theme)' ),
+				'id' => $sidebar_id,
+				'class' => 'inactive-sidebar orphan-sidebar',
+				'description' => __( 'This is a left over sidebar from an old theme and does not show anywhere on your site' ),
+				'before_widget' => '',
+				'after_widget' => '',
+				'before_title' => '',
+				'after_title' => '',
+			));
+		} else {
+			unset( $sidebars_widgets[ $sidebar_id ] );
+		}
 	}
 }
 
