@@ -296,7 +296,7 @@ class WP_Widget {
 		if ( !is_array($settings) )
 			$settings = array();
 
-		if ( !array_key_exists('_multiwidget', $settings) ) {
+		if ( !empty($settings) && !array_key_exists('_multiwidget', $settings) ) {
 			// old format, convert if single widget
 			$settings = wp_convert_widget_settings($this->id_base, $this->option_name, $settings);
 		}
