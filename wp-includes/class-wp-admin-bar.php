@@ -163,6 +163,7 @@ class WP_Admin_Bar {
 		}
 
 		$is_parent = (bool) $node->children->primary;
+		$has_link  = (bool) $node->href;
 
 		$menuclass = $is_parent ? 'menupop' : '';
 		if ( ! empty( $node->meta['class'] ) )
@@ -171,25 +172,31 @@ class WP_Admin_Bar {
 		$tabindex = !empty($node->meta['tabindex']) ? $node->meta['tabindex'] : 10;
 		?>
 
-		<li id="<?php echo esc_attr( "wp-admin-bar-{$node->id}" ); ?>" class="<?php echo esc_attr( $menuclass ); ?>">
-			<a tabindex="<?php echo (int) $tabindex; ?>" href="<?php echo esc_url( $node->href ) ?>"<?php
-				if ( ! empty( $node->meta['onclick'] ) ) :
-					?> onclick="<?php echo esc_js( $node->meta['onclick'] ); ?>"<?php
+		<li id="<?php echo esc_attr( "wp-admin-bar-{$node->id}" ); ?>" class="<?php echo esc_attr( $menuclass ); ?>"><?php
+			if ( $has_link ):
+				?><a class="ab-item" tabindex="<?php echo (int) $tabindex; ?>" href="<?php echo esc_url( $node->href ) ?>"<?php
+					if ( ! empty( $node->meta['onclick'] ) ) :
+						?> onclick="<?php echo esc_js( $node->meta['onclick'] ); ?>"<?php
+					endif;
+				if ( ! empty( $node->meta['target'] ) ) :
+					?> target="<?php echo esc_attr( $node->meta['target'] ); ?>"<?php
 				endif;
-			if ( ! empty( $node->meta['target'] ) ) :
-				?> target="<?php echo esc_attr( $node->meta['target'] ); ?>"<?php
+				if ( ! empty( $node->meta['title'] ) ) :
+					?> title="<?php echo esc_attr( $node->meta['title'] ); ?>"<?php
+				endif;
+				?>><?php
+			else:
+				?><div class="ab-item ab-empty-item" tabindex="<?php echo (int) $tabindex; ?>"><?php
 			endif;
-			if ( ! empty( $node->meta['title'] ) ) :
-				?> title="<?php echo esc_attr( $node->meta['title'] ); ?>"<?php
-			endif;
-
-			?>><?php
 
 			echo $node->title;
 
-			?></a>
+			if ( $has_link ):
+				?></a><?php
+			else:
+				?></div><?php
+			endif;
 
-			<?php
 			if ( $is_parent ) :
 				?><div class="ab-sub-wrapper"><?php
 

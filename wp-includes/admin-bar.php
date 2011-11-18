@@ -74,11 +74,8 @@ add_action( 'admin_footer', 'wp_admin_bar_render', 1000 );
 function wp_admin_bar_wp_menu( $wp_admin_bar ) {
 	$wp_admin_bar->add_menu( array(
 		'id'    => 'wp-logo',
-		'title' => '&nbsp;',
+		'title' => '<span class="ab-wp-logo"></span>',
 		'href'  => admin_url( 'about.php' ),
-		'meta'  => array(
-			'class' => 'wp-admin-bar-logo',
-		),
 	) );
 
 	if ( is_user_logged_in() ) {
@@ -584,20 +581,18 @@ function wp_admin_bar_updates_menu( $wp_admin_bar ) {
  * @since 3.3.0
  */
 function wp_admin_bar_search_menu( $wp_admin_bar ) {
-	$form  = '<div id="adminbarsearch-wrap">';
-	$form .= '<form action="' . home_url() . '" method="get" id="adminbarsearch">';
-	$form .= '<input class="adminbar-input" name="s" id="adminbar-search" tabindex="1" ';
-	$form .= 'type="text" value="" maxlength="150" placeholder="' . esc_attr__( 'Search' ) . '" onclick="return false;" />';
+	$form  = '<form action="' . home_url() . '" method="get" id="adminbarsearch">';
+	$form .= '<input class="adminbar-input" name="s" id="adminbar-search" tabindex="10" ';
+	$form .= 'type="text" value="" maxlength="150" placeholder="' . esc_attr__( 'Search' ) . '" />';
 	$form .= '<input type="submit" class="adminbar-button" value="' . __('Search') . '"/>';
 	$form .= '</form>';
-	$form .= '</div>';
 
 	$wp_admin_bar->add_menu( array(
 		'id'    => 'search',
 		'title' => $form,
-		'href'  => '#',
 		'meta'  => array(
-			'class'   => 'admin-bar-search'
+			'class'    => 'admin-bar-search',
+			'tabindex' => -1,
 		)
 	) );
 }
