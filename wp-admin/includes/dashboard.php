@@ -1303,25 +1303,25 @@ function wp_welcome_panel() {
 			<ul>
 				<li>
 					<?php echo sprintf(
-						__( '<a href="%s">Choose your privacy setting</a>.' ),
+						__( '<a href="%s">Choose your privacy setting</a>' ),
 						esc_url( admin_url('options-privacy.php') )
 					); ?>
 				</li>
 				<li>
 					<?php echo sprintf(
-						__( '<a href="%s">Select your tagline and time zone</a>.' ),
+						__( '<a href="%s">Select your tagline and time zone</a>' ),
 						esc_url( admin_url('options-general.php') )
 					); ?>
 				</li>
 				<li>
 					<?php echo sprintf(
-						__( '<a href="%s">Turn comments on or off</a>.' ),
+						__( '<a href="%s">Turn comments on or off</a>' ),
 						esc_url( admin_url('options-discussion.php') )
 					); ?>
 				</li>
 				<li>
 					<?php echo sprintf(
-						__( '<a href="%s">Fill in your profile</a>.' ),
+						__( '<a href="%s">Fill in your profile</a>' ),
 						esc_url( admin_url('profile.php') )
 					); ?>
 				</li>
@@ -1336,27 +1336,27 @@ function wp_welcome_panel() {
 			<ul>
 				<li>
 					<?php echo sprintf(
-						__( 'View the <a href="%1$s">sample page</a> and <a href="%2$s">post</a>.' ),
+						__( 'View the <a href="%1$s">sample page</a> and <a href="%2$s">post</a>' ),
 						esc_url( get_permalink( 2 ) ),
 						esc_url( get_permalink( 1 ) )
 					); ?>
 				</li>
 				<li>
 					<?php echo sprintf(
-						__( 'Delete the <a href="%1$s">sample page</a> and <a href="%2$s">post</a>.' ),
+						__( 'Delete the <a href="%1$s">sample page</a> and <a href="%2$s">post</a>' ),
 						esc_url( admin_url('edit.php?post_type=page') ),
 						esc_url( admin_url('edit.php') )
 					); ?>
 				</li>
 				<li>
 					<?php echo sprintf(
-						__( '<a href="%s">Create an About Me page</a>.' ),
+						__( '<a href="%s">Create an About Me page</a>' ),
 						esc_url( admin_url('edit.php?post_type=page') )
 					); ?>
 				</li>
 				<li>
 					<?php echo sprintf(
-						__( '<a href="%s">Write your first post</a>.' ),
+						__( '<a href="%s">Write your first post</a>' ),
 						esc_url( admin_url('post-new.php') )
 					); ?>
 				</li>
@@ -1367,33 +1367,58 @@ function wp_welcome_panel() {
 				<span class="icon16 icon-appearance"></span>
 				<?php _e( 'Customize Your Site' ); ?>
 			</h4>
-			<p><?php printf( __( 'Use the default theme -- %1$s -- or <a href="%2$s">choose a new one</a>. If you stick with %3$s, here are a few ways to make your site look unique.' ), __( 'Twenty Eleven' ), esc_url( admin_url( 'themes.php' ) ), __( 'Twenty Eleven' ) ); ?></p>
+			<?php
+			$ct = current_theme_info();
+			if ( empty ( $ct->stylesheet_dir ) ) :
+			echo '<p>';
+			printf( __( '<a href="%s">Install a theme</a> to get started customizing your site.' ), esc_url( admin_url( 'themes.php' ) ) );
+			echo '</p>';
+			else:
+			echo '<p>';
+			printf( __( 'Use the current theme -- %1$s -- or <a href="%2$s">choose a new one</a>. If you stick with %3$s, here are a few ways to make your site look unique.' ), $ct->title, esc_url( admin_url( 'themes.php' ) ), $ct->title );
+			echo '</p>';
+			?>
 			<ul>
+				<?php if ( 'twentyeleven' == $ct->stylesheet ) : ?>
 				<li>
 					<?php echo sprintf(
 						__( '<a href="%s">Choose light or dark</a>' ),
 						esc_url( admin_url( 'themes.php?page=theme_options' ) )
 					); ?>
 				</li>
+				<?php
+				endif;
+				if ( current_theme_supports( 'custom-background' ) ) :
+				?>
 				<li>
 					<?php echo sprintf(
 						__( '<a href="%s">Set a background color</a>' ),
 						esc_url( admin_url( 'themes.php?page=custom-background' ) )
 					); ?>
 				</li>
+				<?php
+				endif;
+				if ( current_theme_supports( 'custom-header' ) ) :
+				?>
 				<li>
 					<?php echo sprintf(
 						__( '<a href="%s">Select a new header image</a>' ),
 						esc_url( admin_url( 'themes.php?page=custom-header' ) )
 					); ?>
 				</li>
+				<?php
+				endif;
+				if ( current_theme_supports( 'widgets' ) ) :
+				?>
 				<li>
 					<?php echo sprintf(
 						__( '<a href="%s">Add some widgets</a>' ),
 						esc_url( admin_url( 'widgets.php' ) )
 					); ?>
 				</li>
+				<?php endif; ?>
 			</ul>
+			<?php endif; ?>
 		</div>
 		<p><?php printf( __( 'Already know what you&#8217;re doing? <a href="%s">Dismiss this message</a>.' ), '#' ) ?></p>
 		</div>
