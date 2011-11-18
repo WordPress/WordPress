@@ -275,6 +275,17 @@
 
 #wpadminbar .ab-top-secondary {
 	float: right;
+	position: fixed;
+	right: 0;
+	top: 0;
+
+	background-color: #464646; /* Fallback */
+	background-image: -ms-linear-gradient(bottom, #373737, #464646 5px); /* IE10 */
+	background-image: -moz-linear-gradient(bottom, #373737, #464646 5px); /* Firefox */
+	background-image: -o-linear-gradient(bottom, #373737, #464646 5px); /* Opera */
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#373737), to(#464646)); /* old Webkit */
+	background-image: -webkit-linear-gradient(bottom, #373737, #464646 5px); /* new Webkit */
+	background-image: linear-gradient(bottom, #373737, #464646 5px); /* proposed W3C Markup */
 }
 
 #wpadminbar ul li:last-child,
