@@ -1164,19 +1164,25 @@ function _wp_sidebars_changed() {
 function retrieve_widgets() {
 	global $wp_registered_widget_updates, $wp_registered_sidebars, $sidebars_widgets, $wp_registered_widgets;
 
-	$_sidebars_widgets = array();
-	$sidebars = array_keys($wp_registered_sidebars);
+	$registered_sidebar_keys = array_keys( $wp_registered_sidebars );
+
 	$old_sidebars_widgets = get_theme_mod( 'sidebars_widgets' );
 	if ( is_array( $old_sidebars_widgets ) ) {
 		// time() that sidebars were stored is in $old_sidebars_widgets['time']
-		$old_sidebars = $old_sidebars_widgets['data'];
-
-		// make sure the saved sidebars match
-		foreach ( $sidebars as $sidebar_id ) {
-			$_sidebars_widgets[$sidebar_id] = isset($old_sidebars[$sidebar_id]) ? $old_sidebars[$sidebar_id] : array();
-		}
-
+		$_sidebars_widgets = $old_sidebars_widgets['data'];
 		remove_theme_mod( 'sidebars_widgets' );
+ 
+		$orphaned = 0;
+
+		foreach ( $_sidebars_widgets as $sidebar => $widgets ) {
+			if ( 'wp_inactive_widgets' == $sidebar || 'orphaned_widgets' == substr( $sidebar, 0, 16 ) )
+				continue;
+
+			if ( !in_array( $sidebar, $registered_sidebar_keys ) ) {
+				$_sidebars_widgets['orphaned_widgets_' . ++$orphaned] = $widgets;
+				unset( $_sidebars_widgets[$sidebar] );
+			}
+		}
 	} else {
 		if ( empty( $sidebars_widgets ) )
 			return;
@@ -1185,9 +1191,9 @@ function retrieve_widgets() {
 
 		$old = array_keys($sidebars_widgets);
 		sort($old);
-		sort($sidebars);
+		sort($registered_sidebar_keys);
 
-		if ( $old == $sidebars )
+		if ( $old == $registered_sidebar_keys )
 			return;
 
 		$_sidebars_widgets = array(
