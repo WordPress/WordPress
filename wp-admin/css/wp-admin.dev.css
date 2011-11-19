@@ -1525,6 +1525,7 @@ form.upgrade .hint {
 	border-width: 0 1px 0 0;
 	border-style: solid;
 }
+
 #adminmenuwrap {
 	position: relative;
 	float: left;
@@ -1690,6 +1691,7 @@ body.no-js #adminmenu .wp-menu-toggle,
 .folded #adminmenu .wp-not-current-submenu li a {
 	padding-left: 12px;
 }
+
 #adminmenu .wp-not-current-submenu li a {
 	padding-left: 18px;
 }
@@ -1910,6 +1912,32 @@ body.no-js #adminmenu .wp-menu-toggle,
 	display: none;
 }
 
+#collapse-menu {
+	font-size: 12px;
+	line-height: 34px;
+}
+
+.folded #collapse-menu span {
+	display: none;
+}
+
+#collapse-button,
+#collapse-button div {
+	width: 15px;
+	height: 15px;
+}
+
+#collapse-button {
+	float: left;
+	margin: 8px 6px;
+	border-width: 1px;
+	border-style: solid;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+}
+
+
+/* List table styles */
 .post-com-count-wrapper {
 	min-width: 22px;
 	font-family: sans-serif;
@@ -1958,30 +1986,6 @@ strong .post-com-count {
 
 #the-comment-list .attachment-80x60 {
 	padding: 4px 8px;
-}
-
-#collapse-menu {
-	font-size: 12px;
-	line-height: 34px;
-}
-
-.folded #collapse-menu span {
-	display: none;
-}
-
-#collapse-button,
-#collapse-button div {
-	width: 15px;
-	height: 15px;
-}
-
-#collapse-button {
-	float: left;
-	margin: 8px 6px;
-	border-width: 1px;
-	border-style: solid;
-	-webkit-border-radius: 10px;
-	border-radius: 10px;
 }
 
 

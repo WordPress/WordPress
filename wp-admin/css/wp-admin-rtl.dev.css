@@ -410,45 +410,128 @@ form.upgrade .hint {
   7.0 - Main Navigation (Right Menu) (RTL: Left Menu)
 ------------------------------------------------------------------------------*/
 
+#adminmenuback,
+#adminmenuwrap {
+	border-width: 0 0 0 1px;
+}
+
 #adminmenushadow {
 	right: auto;
 	left: 0;
+}
+
+#adminmenu li .wp-submenu,
+.folded #adminmenu .wp-has-current-submenu .wp-submenu {
+	left: auto;
+	right: 146px;
+}
+
+.folded #adminmenu .wp-submenu,
+.folded #adminmenu .wp-has-current-submenu .wp-submenu {
+	left: auto;
+	right: 26px;
+}
+
+#adminmenu .wp-submenu.sub-open,
+#adminmenu li.focused.wp-not-current-submenu .wp-submenu,
+.folded #adminmenu li.focused.wp-has-current-submenu .wp-submenu,
+.folded #adminmenu .wp-has-current-submenu .wp-submenu.sub-open,
+.no-js #adminmenu .wp-has-submenu:hover .wp-submenu,
+.no-js.folded #adminmenu .wp-has-current-submenu:hover .wp-submenu {
+	padding: 0 0 8px 8px;
 }
 
 #adminmenu div.wp-menu-image {
 	float: right;
 }
 
-#adminmenu .wp-submenu a {
+#adminmenu li li {
+	margin-left: 0;
+	margin-right: 8px
+}
+
+#adminmenu .wp-submenu a,
+#adminmenu li li a,
+.folded #adminmenu .wp-not-current-submenu li a {
 	padding-left: 0;
 	padding-right: 12px;
 }
 
+#adminmenu .wp-not-current-submenu li a {
+	padding-left: 0;
+	padding-right: 18px;
+}
+
+.folded #adminmenu li li {
+	margin-left: inherit;
+	margin-right: 0
+}
+
+.folded #adminmenu li li a {
+	padding-left: inherit;
+	padding-right: 0
+}
+
+.wp-menu-arrow {
+	right: 0;
+
+	-moz-transform:    translate( -139px );
+	-webkit-transform: translate( -139px );
+	-o-transform:      translate( -139px );
+	-ms-transform:     translate( -139px );
+	transform:         translate( -139px );
+}
+
+.ie8 .wp-menu-arrow {
+	right: -20px;
+}
+
 #adminmenu .wp-menu-arrow div {
 	left: -8px;
-	top: 7px;
 	width: 16px;
+}
+
+#adminmenu li.wp-not-current-submenu .wp-menu-arrow {
+	-moz-transform:    translate( -138px );
+	-webkit-transform: translate( -138px );
+	-o-transform:      translate( -138px );
+	-ms-transform:     translate( -138px );
+	transform:         translate( -138px );
+}
+
+.folded .wp-menu-arrow {
+	-moz-transform:    translate( -27px );
+	-webkit-transform: translate( -27px );
+	-o-transform:      translate( -27px );
+	-ms-transform:     translate( -27px );
+	transform:         translate( -27px );
+}
+
+#adminmenu .wp-not-current-submenu .wp-menu-arrow div {
+    border-style: solid solid none none;
+    border-width: 1px 1px 0 0;
 }
 
 #adminmenu .wp-menu-image img {
 	float: right;
-}
-
-.folded #adminmenu .wp-submenu {
-	left: auto;
-	right: 26px;
-}
-
-.folded #adminmenu .wp-submenu.sub-open {
-	padding: 0 0 8px 8px;
+	padding: 5px 2px 0 0;
 }
 
 #adminmenu .wp-submenu .wp-submenu-head {
 	padding: 6px 10px 5px 4px;
 }
 
-.folded #adminmenu .wp-submenu-wrap {
-	border-width: 0 0 1px 1px;
+#adminmenu li .wp-submenu-wrap {
+	border-width: 1px 0 1px 1px;
+	border-style: solid none solid solid;
+	-webkit-border-bottom-right-radius: 0;
+	-webkit-border-bottom-left-radius: 3px;
+	-webkit-border-top-right-radius: 0;
+	-webkit-border-top-left-radius: 3px;
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 3px;
+	border-top-right-radius: 0;
+	border-top-left-radius: 3px;
 }
 
 .folded #adminmenu .wp-submenu ul {
@@ -471,10 +554,6 @@ form.upgrade .hint {
 	padding: 1px 0 0 2px;
 }
 
-#adminmenu .wp-menu-image img {
-	padding: 6px 1px 0 0;
-}
-
 #adminmenu .awaiting-mod,
 #adminmenu span.update-plugins,
 #sidemenu li a span.update-plugins {
@@ -483,73 +562,12 @@ form.upgrade .hint {
 	margin-right: 7px;
 }
 
-#adminmenu .wp-submenu.sub-open,
-.folded #adminmenu .wp-has-current-submenu .wp-submenu.sub-open,
-.no-js #adminmenu .wp-has-submenu:hover .wp-submenu,
-.no-js.folded #adminmenu .wp-has-current-submenu:hover .wp-submenu {
-	padding: 0 0 8px 8px;
+#collapse-button {
+	float: right;
 }
 
-#adminmenu li .wp-submenu-wrap,
-.folded #adminmenu .wp-submenu-wrap {
-	-webkit-border-bottom-right-radius: 0;
-	-webkit-border-bottom-left-radius: 3px;
-	-webkit-border-top-right-radius: 0;
-	-webkit-border-top-left-radius: 3px;
-	border-radius: 0 3px;
-}
 
-#adminmenu li .wp-submenu-wrap {
-    border-style: solid none solid solid;
-    border-width: 1px 0 1px 1px;
-}
-
-#adminmenu .wp-submenu-wrap,
-.folded #adminmenu .wp-has-current-submenu .wp-submenu-wrap {
-    box-shadow: 1px 2px 5px 2px rgba(0, 0, 0, 0.4);
-}
-
-#adminmenu li .wp-submenu {
-	right: 145px;
-}
-
-.wp-menu-arrow {
-	right: 0;
-}
-
-.ie8 .wp-menu-arrow {
-	right: -20px;
-}
-
-#adminmenu .wp-not-current-submenu .wp-menu-arrow div {
-    border-style: solid solid none none;
-    border-width: 1px 1px 0 0;
-}
-
-.wp-menu-arrow {
-	-moz-transform:    translate( -139px );
-	-webkit-transform: translate( -139px );
-	-o-transform:      translate( -139px );
-	-ms-transform:     translate( -139px );
-	transform:         translate( -139px );
-}
-
-#adminmenu li.wp-not-current-submenu .wp-menu-arrow {
-	-moz-transform:    translate( -138px );
-	-webkit-transform: translate( -138px );
-	-o-transform:      translate( -138px );
-	-ms-transform:     translate( -138px );
-	transform:         translate( -138px );
-}
-
-.folded .wp-menu-arrow {
-	-moz-transform:    translate( -27px );
-	-webkit-transform: translate( -27px );
-	-o-transform:      translate( -27px );
-	-ms-transform:     translate( -27px );
-	transform:         translate( -27px );
-}
-
+/* List table styles */
 .post-com-count-wrapper {
 	font-family: Tahoma, Arial, sans-serif;
 }
@@ -564,9 +582,6 @@ form.upgrade .hint {
 	float: right;
 }
 
-#collapse-button {
-	float: right;
-}
 
 /*------------------------------------------------------------------------------
   8.0 - Layout Blocks
