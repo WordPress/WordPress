@@ -2168,6 +2168,7 @@ body.admin-bar #adminmenu {
 	word-wrap: break-word;
 }
 
+/* Welcome Panel */
 .welcome-panel {
 	margin: 20px 8px;
 	padding: 30px 10px 20px;
@@ -6910,7 +6911,7 @@ h3.tb {
 	background: transparent url(../images/arrows.png) no-repeat 6px 7px;
 }
 
-#submitdiv:hover .handlediv {
+.press-this #submitdiv:hover .handlediv {
 	background: none;
 }
 
