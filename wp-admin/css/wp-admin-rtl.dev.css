@@ -633,6 +633,10 @@ form.upgrade .hint {
 	margin-right: -32px;
 }
 
+.welcome-panel .welcome-panel-column ul { 
+	margin: 1.6em 1.3em 1em 1em; 
+} 
+
 .welcome-panel .welcome-panel-column li {
 	padding-left: 0;
 	padding-right: 2px;
