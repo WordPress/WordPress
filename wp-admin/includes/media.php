@@ -1040,8 +1040,9 @@ function get_media_item( $attachment_id, $args = null ) {
 		$thumb_url = false;
 
 	$post = get_post( $attachment_id );
+	$current_post_id = !empty( $_GET['post_id'] ) ? (int) $_GET['post_id'] : 0;
 
-	$default_args = array( 'errors' => null, 'send' => $post->post_parent ? post_type_supports( get_post_type( $post->post_parent ), 'editor' ) : true, 'delete' => true, 'toggle' => true, 'show_title' => true );
+	$default_args = array( 'errors' => null, 'send' => $current_post_id ? post_type_supports( get_post_type( $current_post_id ), 'editor' ) : true, 'delete' => true, 'toggle' => true, 'show_title' => true );
 	$args = wp_parse_args( $args, $default_args );
 	$args = apply_filters( 'get_media_item_args', $args );
 	extract( $args, EXTR_SKIP );
