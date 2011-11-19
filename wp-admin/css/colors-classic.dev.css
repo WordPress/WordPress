@@ -2053,9 +2053,9 @@ div.widgets-sortables,
 	color: #ff0000;
 }
 
-.item-edit {
+.nav-menus-php .item-edit {
 	background: transparent url(../images/arrows-vs.png) no-repeat 8px 10px;
-	border-bottom-color: #eee;
+	border-bottom-color: #eff8ff;
 }
 
 .item-edit:hover {
