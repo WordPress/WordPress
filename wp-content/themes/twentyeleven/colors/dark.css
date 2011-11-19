@@ -458,6 +458,11 @@ section.recent-posts .other-recent-posts .comments-link a:hover {
 .comment-meta {
 	color: #999;
 }
+.commentlist .avatar {
+	-webkit-box-shadow: 0 1px 2px #222;
+	-moz-box-shadow: 0 1px 2px #222;
+	box-shadow: 0 1px 2px #222;
+}
 a.comment-reply-link {
 	background: #242424;
 	color: #bbb;
