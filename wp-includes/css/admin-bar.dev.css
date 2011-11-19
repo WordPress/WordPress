@@ -221,15 +221,15 @@
 
 #wpadminbar .menupop .menupop > .ab-item {
 	display: block;
-	background-image: url(../images/admin-bar-sprite-rtl.png?d=11122010);
-	background-position: 93% -31px;
+	background-image: url(../images/admin-bar-sprite.png?d=11182010);
+	background-position: 95% -20px;
 	background-repeat: no-repeat;
 	padding-right: 2em;
 }
 
 #wpadminbar .ab-top-secondary .menupop .menupop > .ab-item {
-	background-image: url(../images/admin-bar-sprite-rtl.png?d=11122010);
-	background-position: 1em -31px;
+	background-image: url(../images/admin-bar-sprite.png?d=11182010);
+	background-position: 5% -46px;
 	background-repeat: no-repeat;
 	padding-left: 2em;
 	padding-right: 1em;
@@ -369,6 +369,9 @@
 	float: none;
 }
 
+/*
+ * My Sites
+ */
 #wpadminbar .quicklinks li img.blavatar {
 	vertical-align: middle;
 	margin: -3px 4px 0 0;
@@ -406,10 +409,10 @@
 	color: #ccc;
 	text-shadow: #444 0px -1px 0px;
 	background-color: rgba( 255, 255, 255, 0 );
-
-	background-image: url('../images/admin-bar-search.png');
+	
+	background-image: url(../images/admin-bar-sprite.png?d=11182010);
+	background-position: 4px 0px;
 	background-repeat: no-repeat;
-	background-position: 4px 2px;
 
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
@@ -462,12 +465,16 @@
 	display: block;
 	height: 28px;
 	width: 16px;
-	background: url(../images/wp-logo-white.png) no-repeat 0 50%;
+	background-image: url(../images/admin-bar-sprite.png?d=11182010);
+	background-position: -2px -72px;
+	background-repeat: no-repeat;
 }
 
 #wpadminbar.nojs #wp-admin-bar-wp-logo:hover .ab-wp-logo,
-#wpadminbar #wp-admin-bar-wp-logo.hover .ab-wp-logo {
-	background: url(../images/wp-logo-dark.png) no-repeat 0 50%;
+#wpadminbar #wp-admin-bar-wp-logo.hover .ab-wp-logo {	
+	background-image: url(../images/admin-bar-sprite.png?d=11182010);
+	background-position: -2px -100px;
+	background-repeat: no-repeat;
 }
 
 /**
