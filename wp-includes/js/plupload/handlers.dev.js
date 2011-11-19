@@ -17,8 +17,6 @@ function fileQueued(fileObj) {
 	}
 	// Create a progress bar containing the filename
 	jQuery('#media-items').append('<div id="media-item-' + fileObj.id + '" class="media-item child-of-' + post_id + '"><div class="progress"><div class="percent">0%</div><div class="bar"></div></div><div class="filename original"> ' + fileObj.name + '</div></div>');
-	// Display the progress div
-	jQuery('.progress', jQuery('#media-item-' + fileObj.id)).fadeIn();
 
 	// Disable submit
 	jQuery('#insert-gallery').prop('disabled', true);
@@ -61,7 +59,7 @@ function updateMediaForm() {
 
 	// Just one file, no need for collapsible part
 	if ( items.length == 1 ) {
-		items.addClass('open').find('.slidetoggle').slideDown();
+		items.addClass('open').find('.slidetoggle').show();
 		jQuery('.insert-gallery').hide();
 	} else if ( items.length > 1 ) {
 		items.removeClass('open');
@@ -83,7 +81,7 @@ function uploadSuccess(fileObj, serverData) {
 	if ( serverData.match('media-upload-error') ) {
 		item.html(serverData);
 		return;
-	} else if ( fileObj.status == 5 ) {
+	} else {
 		jQuery('.percent', item).html( pluploadL10n.crunching );
 	}
 
@@ -109,22 +107,16 @@ function setResize(arg) {
 
 function prepareMediaItem(fileObj, serverData) {
 	var f = ( typeof shortform == 'undefined' ) ? 1 : 2, item = jQuery('#media-item-' + fileObj.id);
-	// Move the progress bar to 100%
-	jQuery('.bar', item).remove();
-	jQuery('.progress', item).hide();
 
 	try {
 		if ( typeof topWin.tb_remove != 'undefined' )
 			topWin.jQuery('#TB_overlay').click(topWin.tb_remove);
 	} catch(e){}
 
-	// Old style: Append the HTML returned by the server -- thumbnail and form inputs
-	if ( isNaN(serverData) || !serverData ) {
+	if ( isNaN(serverData) || !serverData ) { // Old style: Append the HTML returned by the server -- thumbnail and form inputs
 		item.append(serverData);
 		prepareMediaItemInit(fileObj);
-	}
-	// New style: server data is just the attachment ID, fetch the thumbnail and form html from the server
-	else {
+	} else { // New style: server data is just the attachment ID, fetch the thumbnail and form html from the server
 		item.load('async-upload.php', {attachment_id:serverData, fetch:f}, function(){prepareMediaItemInit(fileObj);updateMediaForm()});
 	}
 }
@@ -436,20 +428,19 @@ jQuery(document).ready(function($){
 			$('#media-upload-error').html('');
 			uploadStart();
 
-			if ( max > hundredmb && up.runtime != 'html5' ) {
-				plupload.each(files, function(file){
-					if ( file.size > hundredmb ) {
-						uploadSizeError( up, file, true );
-					}
-				});
-			}
+			plupload.each(files, function(file){
+				if ( max > hundredmb && file.size > hundredmb && up.runtime != 'html5' )
+					uploadSizeError( up, file, true );
+				else
+					fileQueued(file);
+			});
 
 			up.refresh();
 			up.start();
 		});
 
 		uploader.bind('BeforeUpload', function(up, file) {
-			fileQueued(file);
+			// something
 		});
 
 		uploader.bind('UploadFile', function(up, file) {
