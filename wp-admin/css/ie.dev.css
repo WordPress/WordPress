@@ -1,4 +1,8 @@
 /* Fixes for IE bugs */
+.welcome-panel .wp-badge {
+	position: absolute;
+}
+
 #wp-fullscreen-title {
 	width: 97%;
 }

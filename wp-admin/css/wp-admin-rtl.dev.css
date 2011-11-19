@@ -621,21 +621,22 @@ form.upgrade .hint {
 
 .welcome-panel .welcome-panel-close {
 	right: auto;
-	left: 10px;
+	left: 20px;
 }
 
 .welcome-panel .wp-badge {
 	float: right;
 }
 
-.welcome-panel-content {
+.welcome-panel-content .about-description, .welcome-panel h3 {
 	margin-left: 0;
 	margin-right: 190px;
 }
 
 .welcome-panel .welcome-panel-column {
-	margin-right: 24px;
-	margin-left: 40px;
+	margin: 0 -25px 0 3%;
+	padding-left: 0;
+	padding-right: 25px;
 	float: right;
 }
 .welcome-panel .welcome-panel-column:last-child {
@@ -646,6 +647,10 @@ form.upgrade .hint {
 .welcome-panel h4 .icon16 {
 	margin-left: 0;
 	margin-right: -32px;
+}
+
+.welcome-panel .welcome-panel-column-container {
+	padding: 0 25px 0 0;
 }
 
 .welcome-panel .welcome-panel-column ul { 
