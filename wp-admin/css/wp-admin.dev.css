@@ -1855,6 +1855,10 @@ body.no-js #adminmenu .wp-menu-toggle,
 	margin-bottom: 1px;
 }
 
+.folded #adminmenu .wp-has-current-submenu.menu-top-last {
+	margin-bottom: 0;
+}
+
 .folded #adminmenu .wp-has-current-submenu .wp-submenu-wrap {
 	margin-top: 4px;
 }
