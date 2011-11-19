@@ -5605,11 +5605,10 @@ form .textarea-wrap {
 #dashboard_quick_press h4 {
 	font-family: sans-serif;
 	float: left;
-	width: 5.5em;
+	width: 5em;
 	clear: both;
 	font-weight: normal;
 	text-align: right;
-	padding-top: 4px;
 	font-size: 12px;
 }
 
