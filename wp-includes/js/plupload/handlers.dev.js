@@ -9,14 +9,14 @@ function fileQueued(fileObj) {
 	// Get rid of unused form
 	jQuery('.media-blank').remove();
 
-	var items = jQuery('#media-items').children();
+	var items = jQuery('#media-items').children(), postid = post_id || 0;
 
 	// Collapse a single item
 	if ( items.length == 1 ) {
 		items.removeClass('open').find('.slidetoggle').slideUp(200);
 	}
 	// Create a progress bar containing the filename
-	jQuery('#media-items').append('<div id="media-item-' + fileObj.id + '" class="media-item child-of-' + post_id + '"><div class="progress"><div class="percent">0%</div><div class="bar"></div></div><div class="filename original"> ' + fileObj.name + '</div></div>');
+	jQuery('#media-items').append('<div id="media-item-' + fileObj.id + '" class="media-item child-of-' + postid + '"><div class="progress"><div class="percent">0%</div><div class="bar"></div></div><div class="filename original"> ' + fileObj.name + '</div></div>');
 
 	// Disable submit
 	jQuery('#insert-gallery').prop('disabled', true);
@@ -89,7 +89,7 @@ function uploadSuccess(fileObj, serverData) {
 	updateMediaForm();
 
 	// Increment the counter.
-	if ( item.hasClass('child-of-' + post_id) )
+	if ( post_id && item.hasClass('child-of-' + post_id) )
 		jQuery('#attachments-count').text(1 * jQuery('#attachments-count').text() + 1);
 }
 
@@ -164,7 +164,8 @@ function prepareMediaItemInit(fileObj) {
 
 				if ( type = jQuery('#type-of-' + fileObj.id).val() )
 					jQuery('#' + type + '-counter').text(jQuery('#' + type + '-counter').text()-0+1);
-				if ( item.hasClass('child-of-'+post_id) )
+
+				if ( post_id && item.hasClass('child-of-'+post_id) )
 					jQuery('#attachments-count').text(jQuery('#attachments-count').text()-0+1);
 
 				jQuery('.filename .trashnotice', item).remove();
@@ -207,6 +208,7 @@ function itemAjaxError(id, message) {
 function deleteSuccess(data, textStatus) {
 	if ( data == '-1' )
 		return itemAjaxError(this.id, 'You do not have permission. Has your session expired?');
+
 	if ( data == '0' )
 		return itemAjaxError(this.id, 'Could not be deleted. Has it been deleted already?');
 
@@ -215,7 +217,8 @@ function deleteSuccess(data, textStatus) {
 	// Decrement the counters.
 	if ( type = jQuery('#type-of-' + id).val() )
 		jQuery('#' + type + '-counter').text( jQuery('#' + type + '-counter').text() - 1 );
-	if ( item.hasClass('child-of-'+post_id) )
+
+	if ( post_id && item.hasClass('child-of-'+post_id) )
 		jQuery('#attachments-count').text( jQuery('#attachments-count').text() - 1 );
 
 	if ( jQuery('form.type-form #media-items').children().length == 1 && jQuery('.hidden', '#media-items').length > 0 ) {

@@ -16,15 +16,6 @@ body#media-upload ul#sidemenu {
 tr.image-size label {
 	margin: 0 5px 0 0;
 }
-.crunching {
-	text-align: left;
-	margin-right: 0;
-	margin-left: 5px;
-}
-button.dismiss {
-	right: auto;
-	left: 5px;
-}
 .file-error {
 	margin: 0 50px 5px 0;
 }
@@ -34,12 +25,6 @@ button.dismiss {
 }
 .describe td {
 	padding: 0 0 0 5px;
-}
-.bar {
-	border-right-width: 0;
-	border-left-width: 3px;
-	border-right-style: none;
-	border-left-style: solid;
 }
 
 /* Specific to Uploader */
