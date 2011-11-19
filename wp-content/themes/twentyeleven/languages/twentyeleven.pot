@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Eleven 1.2\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyeleven\n"
-"POT-Creation-Date: 2011-11-16 00:48:06+00:00\n"
+"POT-Creation-Date: 2011-11-19 04:48:00+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -124,15 +124,15 @@ msgstr ""
 
 #. #-#-#-#-#  twentyeleven.pot (Twenty Eleven 1.2)  #-#-#-#-#
 #. Author URI of the plugin/theme
-#: footer.php:26
+#: footer.php:27
 msgid "http://wordpress.org/"
 msgstr ""
 
-#: footer.php:26
+#: footer.php:27
 msgid "Semantic Personal Publishing Platform"
 msgstr ""
 
-#: footer.php:26
+#: footer.php:27
 msgid "Proudly powered by %s"
 msgstr ""
 
