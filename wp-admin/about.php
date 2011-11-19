@@ -61,26 +61,16 @@ include( './admin-header.php' );
 </div>
 
 <div class="changelog">
-	<h3><?php _e('For Developers'); ?></h3>
+	<h3><?php _e('Under the Hood'); ?></h3>
 
 	<div class="feature-section">
 		<div class="left-feature">
-			<h4><?php echo ( 'Performance Enhancements' ); ?></h4>
-			<p><?php echo ( 'Add your media by simply dragging and dropping files from your computer into the new WordPress media uploader.' ); ?></p>
+			<h4><?php echo ( 'Flexible Permalinks' ); ?></h4>
+			<p><?php echo ( 'You have more freedom when choosing a post permalink structure. Skip the date information or add a category slug with no performance penalty!' ); ?></p>
 		</div>
 		<div class="right-feature">
-			<h4><?php echo ( 'API: Settings Improvements' ); ?></h4>
-			<p><?php echo ( 'The WordPress admin now responds and adjusts to more devices and screen resolutions for a better native experience.' ); ?></p>
-		</div>
-	</div>
-	<div class="feature-section">
-		<div class="left-feature">
-			<h4><?php echo ( 'More Efficient Updates and Upgrades' ); ?></h4>
-			<p><?php echo ( 'New users get a helping hand. Updates come with this handy summary of what&#8217;s new in this version of WordPress.' ); ?></p>
-		</div>
-		<div class="right-feature">
-			<h4><?php echo ( 'API: Meta Improvements' ); ?></h4>
-			<p><?php echo ( 'Get to the most useful areas of your dashboard form anywhere on your site quicker and easier than ever with a better organized admin bar.' ); ?></p>
+			<h4><?php echo ( 'WP_Screen API' ); ?></h4>
+			<p><?php echo ( 'WordPress admin screens have a nice new API that gives you the ability to create screens with help documentation, settings, and more.' ); ?></p>
 		</div>
 	</div>
 </div>
