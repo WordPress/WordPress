@@ -33,8 +33,6 @@ include( './admin-header.php' );
 	</a>
 </h2>
 
-<h3><?php _e( 'Freedoms' ); ?></h3>
-
 <p class="about-description"><?php printf( __( 'WordPress is Free and open source software, built by a distributed community of mostly volunteer developers from around the world. WordPress comes with some awesome, worldview-changing rights courtesy of its <a href="%s">license</a>, the GPL.' ), 'http://wordpress.org/about/license/' ); ?></p>
 
 <ol start="0">

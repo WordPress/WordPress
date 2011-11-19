@@ -76,8 +76,6 @@ include( './admin-header.php' );
 	</a>
 </h2>
 
-<h3><?php _e( 'Credits' ); ?></h3>
-
 <?php
 
 $credits = wp_credits();
