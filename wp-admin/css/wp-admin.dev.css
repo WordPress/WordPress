@@ -1797,7 +1797,7 @@ body.no-js #adminmenu .wp-menu-toggle,
 
 #adminmenu .wp-menu-image img {
 	float: left;
-	padding: 8px 6px 0;
+	padding: 5px 0 0 2px;
 	opacity: 0.6;
 	filter: alpha(opacity=60);
 }
@@ -1882,10 +1882,6 @@ body.no-js #adminmenu .wp-menu-toggle,
 
 #adminmenu .wp-menu-image a {
 	height: 24px;
-}
-
-#adminmenu .wp-menu-image img {
-	padding: 6px 0 0 1px;
 }
 
 #adminmenu .awaiting-mod,
