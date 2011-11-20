@@ -218,7 +218,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 				$addl_path = !empty( $addl_path ) ? trailingslashit($addl_path) : '';
 				if ( get_query_var( 'withcomments' ) )
 					$addl_path .= 'comments/';
-				if ( ( in_array( get_default_feed(), array( 'rss', 'rdf' ) ) && 'feed' == get_query_var('feed') ) || in_array( get_query_var('feed'), array( 'rss', 'rdf' ) ) )
+				if ( ( 'rss' == get_default_feed() && 'feed' == get_query_var('feed') ) || 'rss' == get_query_var('feed') )
 					$addl_path .= user_trailingslashit( 'feed/' . ( ( get_default_feed() == 'rss2' ) ? '' : 'rss2' ), 'feed' );
 				else
 					$addl_path .= user_trailingslashit( 'feed/' . ( ( get_default_feed() ==  get_query_var('feed') || 'feed' == get_query_var('feed') ) ? '' : get_query_var('feed') ), 'feed' );
@@ -228,7 +228,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 					'wp-atom.php'         => 'atom',
 					'wp-commentsrss2.php' => 'comments_rss2',
 					'wp-feed.php'         => get_default_feed(),
-					'wp-rdf.php'          => 'rss2',
+					'wp-rdf.php'          => 'rdf',
 					'wp-rss.php'          => 'rss2',
 					'wp-rss2.php'         => 'rss2',
 				);
@@ -314,7 +314,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 		$redirect['query'] = trim(preg_replace( '#(^|&)(p|page_id|cat|tag)=?(&|$)#', '&', $redirect['query']), '&');
 
 		// Redirect obsolete feeds
-		$redirect['query'] = preg_replace( '#(^|&)feed=(rss|rdf)(&|$)#', '$1feed=rss2$3', $redirect['query'] );
+		$redirect['query'] = preg_replace( '#(^|&)feed=rss(&|$)#', '$1feed=rss2$3', $redirect['query'] );
 
 		// Remove redundant leading ampersands
 		$redirect['query'] = preg_replace( '#^\??&*?#', '', $redirect['query'] );
