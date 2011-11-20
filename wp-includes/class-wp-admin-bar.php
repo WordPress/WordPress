@@ -112,8 +112,16 @@ class WP_Admin_Bar {
 	}
 
 	public function render() {
+
+		$back_compat_parents = array(
+			'appearance' => 'site-name',
+		);
+
 		// Link nodes to parents.
 		foreach ( $this->nodes as $node ) {
+
+			if ( isset( $back_compat_parents[ $node->parent ] ) )
+				$node->parent = $back_compat_parents[ $node->parent ];
 
 			// Handle root menu items
 			if ( empty( $node->parent ) ) {
