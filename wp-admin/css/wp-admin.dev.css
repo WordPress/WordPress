@@ -3943,15 +3943,20 @@ form.upgrade .hint {
 	display: block;
 }
 
+/*
+#drag-drop-area:-moz-drag-over {
+	border-color: #83b4d8;
+}
+borger color while dragging a file over the uploader drop area */
+.drag-drop.drag-over #drag-drop-area {
+	border-color: #83b4d8;
+}
+
 #plupload-upload-ui {
 	position: relative;
 }
 
-/*
-#drag-drop-area:-moz-drag-over {
-	border-color: #cf5;
-}
-*/
+
 /*------------------------------------------------------------------------------
   14.2 - Image Editor
 ------------------------------------------------------------------------------*/

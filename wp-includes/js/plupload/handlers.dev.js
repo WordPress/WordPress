@@ -411,17 +411,19 @@ jQuery(document).ready(function($){
 		});
 
 		uploader.bind('Init', function(up) {
+			var uploaddiv = $('#plupload-upload-ui');
+
 			setResize( getUserSetting('upload_resize', false) );
 
 			if ( up.features.dragdrop ) {
-				$('#plupload-upload-ui').addClass('drag-drop');
+				uploaddiv.addClass('drag-drop');
 				$('#drag-drop-area').bind('dragover.wp-uploader', function(){ // dragenter doesn't fire right :(
-					$(this).css('border-color', '#ccff55');
+					uploaddiv.addClass('drag-over');
 				}).bind('dragleave.wp-uploader, drop.wp-uploader', function(){
-					$(this).css('border-color', '');
+					uploaddiv.removeClass('drag-over');
 				});
 			} else {
-				$('#plupload-upload-ui').removeClass('drag-drop');
+				uploaddiv.removeClass('drag-drop');
 				$('#drag-drop-area').unbind('.wp-uploader');
 			}
 		});
