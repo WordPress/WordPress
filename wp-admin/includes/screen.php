@@ -698,48 +698,52 @@ final class WP_Screen {
 		// Time to render!
 		?>
 		<div id="screen-meta" class="metabox-prefs">
+			
 			<div id="contextual-help-wrap" class="hidden">
-				<div class="contextual-help-tabs">
-					<ul>
-					<?php foreach ( $this->_help_tabs as $i => $tab ):
-						$link_id  = "tab-link-{$tab['id']}";
-						$panel_id = "tab-panel-{$tab['id']}";
-						$classes  = ( $i == 0 ) ? 'active' : '';
-						?>
-
-						<li id="<?php echo esc_attr( $link_id ); ?>" class="<?php echo esc_attr( $classes ); ?>">
-							<a href="<?php echo esc_url( "#$panel_id" ); ?>">
-								<?php echo esc_html( $tab['title'] ); ?>
-							</a>
-						</li>
-					<?php endforeach; ?>
-					</ul>
-				</div>
-
-				<?php if ( ! empty( $this->_help_sidebar ) ) : ?>
-				<div class="contextual-help-sidebar">
-					<?php echo self::$this->_help_sidebar; ?>
-				</div>
-				<?php endif; ?>
-
-				<div class="contextual-help-tabs-wrap">
-					<?php foreach ( $this->_help_tabs as $i => $tab ):
-						$panel_id = "tab-panel-{$tab['id']}";
-						$classes  = ( $i == 0 ) ? 'active' : '';
-						$classes .= ' help-tab-content';
-						?>
-
-						<div id="<?php echo esc_attr( $panel_id ); ?>" class="<?php echo esc_attr( $classes ); ?>">
-							<?php
-							// Print tab content.
-							echo $tab['content'];
-
-							// If it exists, fire tab callback.
-							if ( ! empty( $tab['callback'] ) )
-								call_user_func_array( $tab['callback'], array( $this, $tab ) );
+				<div id="contextual-help-back"></div>
+				<div id="contextual-help-columns">
+					<div class="contextual-help-tabs">
+						<ul>
+						<?php foreach ( $this->_help_tabs as $i => $tab ):
+							$link_id  = "tab-link-{$tab['id']}";
+							$panel_id = "tab-panel-{$tab['id']}";
+							$classes  = ( $i == 0 ) ? 'active' : '';
 							?>
-						</div>
-					<?php endforeach; ?>
+
+							<li id="<?php echo esc_attr( $link_id ); ?>" class="<?php echo esc_attr( $classes ); ?>">
+								<a href="<?php echo esc_url( "#$panel_id" ); ?>">
+									<?php echo esc_html( $tab['title'] ); ?>
+								</a>
+							</li>
+						<?php endforeach; ?>
+						</ul>
+					</div>
+
+					<?php if ( ! empty( $this->_help_sidebar ) ) : ?>
+					<div class="contextual-help-sidebar">
+						<?php echo self::$this->_help_sidebar; ?>
+					</div>
+					<?php endif; ?>
+
+					<div class="contextual-help-tabs-wrap">
+						<?php foreach ( $this->_help_tabs as $i => $tab ):
+							$panel_id = "tab-panel-{$tab['id']}";
+							$classes  = ( $i == 0 ) ? 'active' : '';
+							$classes .= ' help-tab-content';
+							?>
+
+							<div id="<?php echo esc_attr( $panel_id ); ?>" class="<?php echo esc_attr( $classes ); ?>">
+								<?php
+								// Print tab content.
+								echo $tab['content'];
+
+								// If it exists, fire tab callback.
+								if ( ! empty( $tab['callback'] ) )
+									call_user_func_array( $tab['callback'], array( $this, $tab ) );
+								?>
+							</div>
+						<?php endforeach; ?>
+					</div>
 				</div>
 			</div>
 		<?php

@@ -93,8 +93,6 @@ screenMeta = {
 	element: null, // #screen-meta
 	toggles: null, // .screen-meta-toggle
 	page:    null, // #wpcontent
-	padding: null, // the closed page padding-top property
-	top:     null, // the closed element top property
 
 	init: function() {
 		this.element = $('#screen-meta');
@@ -124,22 +122,7 @@ screenMeta = {
 		panel.parent().show();
 		panel.slideDown( 'fast', function() {
 			link.addClass('screen-meta-active');
-			screenMeta.refresh();
 		});
-	},
-
-	refresh: function( panel, link ) {
-		var columns = $('#contextual-help-wrap').children(), height = 0;
-
-		columns.each(function(){
-			var h = $(this).height();
-
-			if ( h > height )
-				height = h;
-		});
-
-		if ( height )
-			columns.height( height );
 	},
 
 	close: function( panel, link ) {
@@ -173,9 +156,6 @@ $('.contextual-help-tabs').delegate('a', 'click focus', function(e) {
 	// Panels
 	$('.help-tab-content').not( panel ).removeClass('active').hide();
 	panel.addClass('active').show();
-
-	// Refresh the padding of the screen meta box.
-	screenMeta.refresh();
 });
 
 $(document).ready( function() {

@@ -1646,12 +1646,16 @@ table.diff .diff-addedline ins {
 	box-shadow: 0 1px 3px rgba( 0, 0, 0, 0.05 );
 }
 
+#contextual-help-back {
+	background: #fff;
+}
+
 .contextual-help-tabs a:hover {
 	background-color: #ceeaff;
 	color: #333;
 }
 
-.contextual-help-sidebar,
+#contextual-help-back,
 .contextual-help-tabs .active {
 	border-color: #D1E5EE;
 }
@@ -1661,12 +1665,6 @@ table.diff .diff-addedline ins {
 .contextual-help-tabs .active a:hover {
 	background: #fff;
 	color: #000;
-}
-
-.contextual-help-tabs-wrap {
-	border-color: #D1E5EE;
-	border-right:  0;
-	background-color: #fff;
 }
 
 /* screen options and help tabs */
