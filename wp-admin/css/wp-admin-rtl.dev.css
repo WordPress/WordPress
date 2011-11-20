@@ -634,13 +634,15 @@ form.upgrade .hint {
 }
 
 .welcome-panel .welcome-panel-column {
-	margin: 0 -25px 0 3%;
+	margin: 0 -25px 0 5%;
 	padding-left: 0;
 	padding-right: 25px;
 	float: right;
 }
-.welcome-panel .welcome-panel-column:last-child {
+
+.welcome-panel .welcome-panel-column.welcome-panel-last {
 	margin-right: auto;
+	padding-right: 0;
 	margin-left: 0;
 }
 

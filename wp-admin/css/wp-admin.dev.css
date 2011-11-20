@@ -2256,7 +2256,7 @@ body.admin-bar #adminmenu {
 	float: left;
 }
 
-.welcome-panel .welcome-panel-column:last-child {
+.welcome-panel .welcome-panel-column.welcome-panel-last {
 	margin-right: 0;
 }
 

@@ -1310,7 +1310,7 @@ function wp_welcome_panel() {
 		<li><?php echo sprintf( __( '<a href="%s">Write your first post</a>' ), esc_url( admin_url('post-new.php') ) ); ?></li>
 		</ul>
 	</div>
-	<div class="welcome-panel-column">
+	<div class="welcome-panel-column welcome-panel-last">
 		<h4><span class="icon16 icon-appearance"></span> <?php _e( 'Customize Your Site' ); ?></h4>
 		<?php
 		$ct = current_theme_info();
