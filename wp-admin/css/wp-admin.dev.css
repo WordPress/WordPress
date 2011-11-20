@@ -4844,18 +4844,16 @@ input.button-highlighted,
 }
 .wp-badge {
 	padding-top: 142px;
-	height: 37px;
-	width: 160px;
+	height: 50px;
+	width: 173px;
 
 	font-weight: bold;
 	font-size: 14px;
 	text-align: center;
+	
+	margin: 0 -5px;
 
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
-
-	background-repeat: no-repeat;
-	background-position: center 20px, center center;
+	background: url('../images/wp-badge.png?ver=20111120') no-repeat;
 }
 .about-wrap .wp-badge {
 	position: absolute;
