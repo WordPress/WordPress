@@ -77,6 +77,9 @@ function updateMediaForm() {
 function uploadSuccess(fileObj, serverData) {
 	var item = jQuery('#media-item-' + fileObj.id);
 
+	// on success serverData should be numeric, fix bug in html4 runtime returning the serverData wrapped in a <pre> tag
+	serverData = serverData.replace(/^<pre>(\d+)<\/pre>$/, '$1');
+
 	// if async-upload returned an error message, place it in the media item div and return
 	if ( serverData.match('media-upload-error') ) {
 		item.html(serverData);
