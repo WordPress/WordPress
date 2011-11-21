@@ -84,13 +84,11 @@ class WP_Media_List_Table extends WP_List_Table {
 	}
 
 	function extra_tablenav( $which ) {
-		global $post_type;
-		$post_type_obj = get_post_type_object( $post_type );
 ?>
 		<div class="alignleft actions">
 <?php
 		if ( 'top' == $which && !is_singular() && !$this->detached && !$this->is_trash ) {
-			$this->months_dropdown( $post_type );
+			$this->months_dropdown( 'attachment' );
 
 			do_action( 'restrict_manage_posts' );
 			submit_button( __( 'Filter' ), 'secondary', false, false, array( 'id' => 'post-query-submit' ) );

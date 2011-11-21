@@ -490,6 +490,10 @@ final class WP_Screen {
 					$taxonomy = 'post_tag';
 				$id = 'edit-' . $taxonomy;
 				break;
+			case 'upload' :
+				if ( null === $post_type )
+					$post_type = 'attachment';
+				break;
 		}
 
 		if ( $is_network ) {
