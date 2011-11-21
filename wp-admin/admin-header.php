@@ -114,11 +114,10 @@ if ( is_network_admin() )
 	do_action('network_admin_notices');
 elseif ( is_user_admin() )
 	do_action('user_admin_notices');
-elseif ( 'about' != $current_screen->parent_base )
+else
 	do_action('admin_notices');
 
-if ( 'about' != $current_screen->parent_base )
-	do_action('all_admin_notices');
+do_action('all_admin_notices');
 
 if ( $parent_file == 'options-general.php' )
 	require(ABSPATH . 'wp-admin/options-head.php');

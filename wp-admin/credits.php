@@ -10,7 +10,6 @@
 require_once( './admin.php' );
 
 $title = __( 'Credits' );
-$parent_file = 'about.php';
 
 add_contextual_help($current_screen,
 	'<p>' . __('Each name or handle is a link to that person&#8217;s profile in the WordPress.org community directory.') . '</p>' .

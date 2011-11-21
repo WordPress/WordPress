@@ -34,9 +34,8 @@ get_header(); ?>
 									$metadata['width'],
 									$metadata['height'],
 									esc_url( get_permalink( $post->post_parent ) ),
-									$blah = get_the_title( $post->post_parent )
+									get_the_title( $post->post_parent )
 								);
-								var_dump( $blah );
 							?>
 							<?php edit_post_link( __( 'Edit', 'twentyeleven' ), '<span class="edit-link">', '</span>' ); ?>
 						</div><!-- .entry-meta -->

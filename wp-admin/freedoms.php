@@ -10,7 +10,6 @@
 require_once( './admin.php' );
 
 $title = __( 'Freedoms' );
-$parent_file = 'about.php';
 
 list( $display_version ) = explode( '-', $wp_version );
 
