@@ -283,13 +283,16 @@ class WP_Terms_List_Table extends WP_List_Table {
 	}
 
 	function column_posts( $tag ) {
-		global $taxonomy, $post_type;
+		global $taxonomy;
 
 		$count = number_format_i18n( $tag->count );
 
 		$tax = get_taxonomy( $taxonomy );
 
-		if ( ! $tax->public )
+		$post_type = get_current_screen()->post_type;
+		$ptype_object = get_post_type_object( $post_type );
+
+		if ( ! $ptype_object->show_ui )
 			return $count;
 
 		if ( $tax->query_var ) {
@@ -298,7 +301,8 @@ class WP_Terms_List_Table extends WP_List_Table {
 			$args = array( 'taxonomy' => $tax->name, 'term' => $tag->slug );
 		}
 
-		$args['post_type'] = $post_type;
+		if ( 'post' != $post_type )
+			$args['post_type'] = $post_type;
 
 		return "<a href='" . esc_url ( add_query_arg( $args, 'edit.php' ) ) . "'>$count</a>";
 	}
