@@ -61,7 +61,7 @@
 				<?php endif; // End if $tags_list ?>
 
 				<?php if ( comments_open() ) : ?>
-				<span class="comments-link"><?php comments_popup_link( '<span class="leave-reply">' . __( 'Reply', 'twentyeleven' ) . '</span>', __( '<strong>1</strong> Reply', 'twentyeleven' ), __( '<strong>%</strong> Replies', 'twentyeleven' ) ); ?></span>
+				<span class="comments-link"><?php comments_popup_link( '<span class="leave-reply">' . __( 'Leave a reply', 'twentyeleven' ) . '</span>', __( '<b>1</b> Reply', 'twentyeleven' ), __( '<b>%</b> Replies', 'twentyeleven' ) ); ?></span>
 				<?php endif; // End if comments_open() ?>
 			</div><!-- .entry-meta -->
 
