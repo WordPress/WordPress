@@ -1715,7 +1715,6 @@ section.recent-posts .other-recent-posts li:after {
 	position: relative;
 	top: -0.3em;
 	text-align: right;
-	width: 100%;
 	z-index: 1;
 }
 #nav-single .nav-previous,
