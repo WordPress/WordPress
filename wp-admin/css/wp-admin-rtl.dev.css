@@ -363,6 +363,11 @@ form.upgrade .hint {
 	margin-right: -4px;
 }
 
+#contextual-help-back {
+	left: 170px;
+	right: 150px;
+}
+
 .contextual-help-tabs {
 	float: right;
 }
@@ -383,11 +388,6 @@ form.upgrade .hint {
 	border-right-width: 1px;
 }
 
-.contextual-help-tabs-wrap {
-	border-right-width: 1px;
-	border-right-style: solid;
-}
-
 .help-tab-content {
 	margin-right: 0;
 	margin-left: 22px;
@@ -402,8 +402,6 @@ form.upgrade .hint {
 	float: left;
 	padding-right: 12px;
 	padding-left: 8px;
-	border-left: 0;
-	border-right-width: 1px;
 }
 
 /*------------------------------------------------------------------------------
