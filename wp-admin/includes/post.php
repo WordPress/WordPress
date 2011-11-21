@@ -96,10 +96,10 @@ function _wp_translate_postdata( $update = false, $post_data = null ) {
 		$post_data['post_status'] = $previous_status;
 
 	if (!isset( $post_data['comment_status'] ))
-		$post_data['comment_status'] = 'closed';
+		$post_data['comment_status'] =  post_type_supports( $post_data['post_type'], 'comments' ) ? get_option( 'default_comment_status' ) : 'closed';
 
 	if (!isset( $post_data['ping_status'] ))
-		$post_data['ping_status'] = 'closed';
+		$post_data['ping_status'] =  post_type_supports( $post_data['post_type'], 'trackbacks' ) ? get_option( 'default_ping_status' ) : 'closed';
 
 	foreach ( array('aa', 'mm', 'jj', 'hh', 'mn') as $timeunit ) {
 		if ( !empty( $post_data['hidden_' . $timeunit] ) && $post_data['hidden_' . $timeunit] != $post_data[$timeunit] ) {
