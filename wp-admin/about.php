@@ -10,6 +10,7 @@
 require_once( './admin.php' );
 
 $title = __( 'About' );
+$parent_file = 'about.php';
 
 list( $display_version ) = explode( '-', $wp_version );
 

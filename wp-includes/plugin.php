@@ -283,9 +283,9 @@ function remove_all_filters($tag, $priority = false) {
 
 	if( isset($wp_filter[$tag]) ) {
 		if( false !== $priority && isset($wp_filter[$tag][$priority]) )
-			unset($wp_filter[$tag][$priority]);
+			$wp_filter[$tag][$priority] = array();
 		else
-			unset($wp_filter[$tag]);
+			$wp_filter[$tag] = array();
 	}
 
 	if( isset($merged_filters[$tag]) )

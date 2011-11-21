@@ -16,15 +16,18 @@ elseif ( in_array( $_GET['post_type'], get_post_types( array('show_ui' => true )
 else
 	wp_die( __('Invalid post type') );
 
-if ( 'post' != $post_type ) {
-	$parent_file = "edit.php?post_type=$post_type";
-	$submenu_file = "post-new.php?post_type=$post_type";
-} else {
+$post_type_object = get_post_type_object( $post_type );
+
+if ( 'post' == $post_type ) {
 	$parent_file = 'edit.php';
 	$submenu_file = 'post-new.php';
+} else {
+	if ( isset( $post_type_object ) && $post_type_object->show_in_menu && $post_type_object->show_in_menu !== true )
+		$parent_file = $post_type_object->show_in_menu;
+	else
+		$parent_file = "edit.php?post_type=$post_type";
+	$submenu_file = "post-new.php?post_type=$post_type";
 }
-
-$post_type_object = get_post_type_object($post_type);
 
 $title = $post_type_object->labels->add_new_item;
 
