@@ -27,13 +27,17 @@ if ( ! current_user_can('edit_posts') )
  */
 function press_it() {
 
-	$post = get_default_post_to_edit('post', true);
+	$post = get_default_post_to_edit();
 	$post = get_object_vars($post);
-	$post_ID = $post['ID'];
-	$post['post_category'] = isset($_POST['post_category']) ? $_POST['post_category'] : null;
-	$post['tax_input'] = isset($_POST['tax_input']) ? $_POST['tax_input'] : null;
+	$post_ID = $post['ID'] = (int) $_POST['post_id'];
+
+	if ( !current_user_can('edit_post', $post_ID) )
+		wp_die(__('You are not allowed to edit this post.'));
+
+	$post['post_category'] = isset($_POST['post_category']) ? $_POST['post_category'] : '';
+	$post['tax_input'] = isset($_POST['tax_input']) ? $_POST['tax_input'] : '';
 	$post['post_title'] = isset($_POST['title']) ? $_POST['title'] : '';
-	$post['post_content'] = isset($_POST['content']) ? $_POST['content'] : '';
+	$content = isset($_POST['content']) ? $_POST['content'] : '';
 
 	$upload = false;
 	if ( !empty($_POST['photo_src']) && current_user_can('upload_files') ) {
@@ -50,6 +54,7 @@ function press_it() {
 		}
 	}
 	// set the post_content and status
+	$post['post_content'] = $content;
 	if ( isset( $_POST['publish'] ) && current_user_can( 'publish_posts' ) )
 		$post['post_status'] = 'publish';
 	elseif ( isset( $_POST['review'] ) )
@@ -70,7 +75,7 @@ function press_it() {
 				set_post_format( $post_ID, false );
 		}
 
-		wp_update_post($post);
+		$post_ID = wp_update_post($post);
 	}
 
 	return $post_ID;
@@ -81,7 +86,8 @@ if ( isset($_REQUEST['action']) && 'post' == $_REQUEST['action'] ) {
 	check_admin_referer('press-this');
 	$posted = $post_ID = press_it();
 } else {
-	$post_ID = 0;
+	$post = get_default_post_to_edit('post', true);
+	$post_ID = $post->ID;
 }
 
 // Set Variables
@@ -137,15 +143,15 @@ if ( !empty($_REQUEST['ajax']) ) {
 				});
 				/* ]]> */
 			</script>
-			<h3 class="tb"><label for="this_photo_description"><?php _e('Description') ?></label></h3>
+			<h3 class="tb"><label for="tb_this_photo_description"><?php _e('Description') ?></label></h3>
 			<div class="titlediv">
 				<div class="titlewrap">
-					<input id="this_photo_description" name="photo_description" class="tbtitle text" onkeypress="if(event.keyCode==13) image_selector();" value="<?php echo esc_attr($title);?>"/>
+					<input id="tb_this_photo_description" name="photo_description" class="tbtitle text" onkeypress="if(event.keyCode==13) image_selector();" value="<?php echo esc_attr($title);?>"/>
 				</div>
 			</div>
 
 			<p class="centered">
-				<input type="hidden" name="this_photo" value="<?php echo esc_attr($image); ?>" id="this_photo" />
+				<input type="hidden" name="this_photo" value="<?php echo esc_attr($image); ?>" id="tb_this_photo" />
 				<a href="#" class="select">
 					<img src="<?php echo esc_url($image); ?>" alt="<?php echo esc_attr(__('Click to insert.')); ?>" title="<?php echo esc_attr(__('Click to insert.')); ?>" />
 				</a>
@@ -265,16 +271,17 @@ if ( !empty($_REQUEST['ajax']) ) {
 		}
 
 		function image_selector() {
+			var desc = jQuery('#tb_this_photo_description').val() || '', src = jQuery('#tb_this_photo').val() || '';
+
 			tb_remove();
-			desc = jQuery('#this_photo_description').val();
-			src = jQuery('#this_photo').val();
 			pick(src, desc);
 			jQuery('#extra-fields').hide();
 			jQuery('#extra-fields').html('');
 			return false;
 		}
-			jQuery('#extra-fields').html('<div class="postbox"><h2><?php _e( 'Add Photos' ); ?> <small id="photo_directions">(<?php _e("click images to select") ?>)</small></h2><ul class="actions"><li><a href="#" id="photo-add-url" class="button"><?php _e("Add from URL") ?> +</a></li></ul><div class="inside"><div class="titlewrap"><div id="img_container"></div></div><p id="options"><a href="#" class="close button"><?php _e('Cancel'); ?></a><a href="#" class="refresh button"><?php _e('Refresh'); ?></a></p></div>');
-			jQuery('#img_container').html(strtoappend);
+
+		jQuery('#extra-fields').html('<div class="postbox"><h2><?php _e( 'Add Photos' ); ?> <small id="photo_directions">(<?php _e("click images to select") ?>)</small></h2><ul class="actions"><li><a href="#" id="photo-add-url" class="button"><?php _e("Add from URL") ?> +</a></li></ul><div class="inside"><div class="titlewrap"><div id="img_container"></div></div><p id="options"><a href="#" class="close button"><?php _e('Cancel'); ?></a><a href="#" class="refresh button"><?php _e('Refresh'); ?></a></p></div>');
+		jQuery('#img_container').html(strtoappend);
 		<?php break;
 }
 die;
@@ -303,11 +310,15 @@ var photostorage = false;
 	var wpActiveEditor = 'content';
 
 	function insert_plain_editor(text) {
-		edInsertContent(text);
+		if ( typeof(QTags) != 'undefined' )
+			QTags.insertContent(text);
 	}
 	function set_editor(text) {
-		if ( '' == text || '<p></p>' == text ) text = '<p><br /></p>';
-		if ( tinyMCE.activeEditor ) tinyMCE.execCommand('mceSetContent', false, text);
+		if ( '' == text || '<p></p>' == text )
+			text = '<p><br /></p>';
+
+		if ( tinyMCE.activeEditor )
+			tinyMCE.execCommand('mceSetContent', false, text);
 	}
 	function insert_editor(text) {
 		if ( '' != text && tinyMCE.activeEditor && ! tinyMCE.activeEditor.isHidden()) {
@@ -426,6 +437,7 @@ var photostorage = false;
 			<input type="hidden" name="autosave" id="autosave" />
 			<input type="hidden" id="original_post_status" name="original_post_status" value="draft" />
 			<input type="hidden" id="prev_status" name="prev_status" value="draft" />
+			<input type="hidden" id="post_id" name="post_id" value="<?php echo (int) $post_ID; ?>" />
 
 			<!-- This div holds the photo metadata -->
 			<div class="photolist"></div>
