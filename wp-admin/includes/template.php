@@ -1664,56 +1664,130 @@ function _wp_admin_html_begin() {
 <?php
 }
 
-/**
- * Initializes the new feature pointers.
- *
- * @since 3.3.0
- *
- * Pointer user settings:
- *    p0 - Admin bar pointer, added 3.3.
- */
-function wp_pointer_enqueue( $hook_suffix ) {
-	$enqueue = false;
+final class WP_Internal_Pointers {
+	/**
+	 * Initializes the new feature pointers.
+	 *
+	 * @since 3.3.0
+	 *
+	 * All pointers can be disabled using the following:
+	 *     remove_action( 'admin_enqueue_scripts', array( 'WP_Internal_Pointers', 'enqueue_scripts' ) );
+	 *
+	 * Individual pointers (e.g. wp330-toolbar) can be disabled using the following:
+	 *     remove_action( 'admin_print_footer_scripts', array( 'WP_Internal_Pointers', 'pointer_wp330_toolbar' ) );
+	 */
+	public static function enqueue_scripts( $hook_suffix ) {
+		/*
+		 * Register feature pointers
+		 * Format: array( hook_suffix => pointer_id )
+		 */
+		$registered_pointers = array(
+			'index.php'    => 'wp330-toolbar',
+			'post-new.php' => 'wp330-media-uploader',
+			'themes.php'   => 'wp330-saving-widgets',
+		);
 
-	$dismissed = explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) );
+		// Check if screen related pointer is registered
+		if ( empty( $registered_pointers[ $hook_suffix ] ) )
+			return;
 
-	if ( ! in_array( 'wp330-admin-bar', $dismissed ) ) {
-		$enqueue = true;
-		add_action( 'admin_print_footer_scripts', '_wp_pointer_print_admin_bar' );
-	}
+		$pointer = $registered_pointers[ $hook_suffix ];
 
-	if ( $enqueue ) {
+		// Get dismissed pointers
+		$dismissed = explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) );
+
+		// Pointer has been dismissed
+		if ( in_array( $pointer, $dismissed ) )
+			return;
+
+		// Bind pointer print function
+		add_action( 'admin_print_footer_scripts', array( 'WP_Internal_Pointers', 'pointer_' . str_replace( '-', '_', $pointer ) ) );
+
+		// Add pointers script and style to queue
 		wp_enqueue_style( 'wp-pointer' );
 		wp_enqueue_script( 'wp-pointer' );
 	}
-}
-add_action( 'admin_enqueue_scripts', 'wp_pointer_enqueue' );
 
-function _wp_pointer_print_admin_bar() {
-	$pointer_content  = '<h3>' . 'The admin bar has been updated in WordPress 3.3.' . '</h3>';
-	$pointer_content .= '<p>' . sprintf( 'Have some feedback? Visit the <a href="%s">forum</a>.', 'http://wordpress.org/support/forum/alphabeta' ) . '</p>';
-	$pointer_content .= '<p>' . 'P.S. You are looking at a new admin pointer.' . '</p>';
+	/**
+	 * Print the pointer javascript data.
+	 *
+	 * @since 3.3.0
+	 *
+	 * @param string $pointer_id The pointer ID.
+	 * @param string $selector The HTML elements, on which the pointer should be attached.
+	 * @param array  $args Arguments to be passed to the pointer JS (see wp-pointer.dev.js).
+	 */
+	private static function print_js( $pointer_id, $selector, $args ) {
+		if ( empty( $pointer_id ) || empty( $selector ) || empty( $args ) || empty( $args['content'] ) )
+			return;
 
-?>
-<script type="text/javascript">
-//<![CDATA[
-jQuery(document).ready( function($) {
-	$('#wpadminbar').pointer({
-		content: '<?php echo $pointer_content; ?>',
-		position: {
-			edge:  'top',
-			align: 'center'
-		},
-		close: function() {
-			$.post( ajaxurl, {
-					pointer: 'wp330-admin-bar',
-				//	_ajax_nonce: $('#_ajax_nonce').val(),
-					action: 'dismiss-wp-pointer'
+		?>
+		<script type="text/javascript">
+		//<![CDATA[
+		jQuery(document).ready( function($) {
+			var options = <?php echo json_encode( $args ); ?>;
+
+			if ( ! options )
+				return;
+
+			options = $.extend( options, {
+				close: function() {
+					$.post( ajaxurl, {
+						pointer: '<?php echo $pointer_id; ?>',
+						action: 'dismiss-wp-pointer'
+					});
+				}
 			});
-		}
-	}).pointer('open');
-});
-//]]>
-</script>
-<?php
+
+			$('<?php echo $selector; ?>').pointer( options ).pointer('open');
+		});
+		//]]>
+		</script>
+		<?php
+	}
+
+	public static function pointer_wp330_toolbar() {
+		$content  = '<h3>' . esc_js( __( 'New Feature: Toolbar' ) ). '</h3>';
+		$content .= '<p>' . esc_js( __( 'We&#8217;ve combined the admin bar and the old Dashboard header into one persistent toolbar. Hover over the toolbar items to see what&#8217;s new.' ) ) . '</p>';
+
+		if ( is_multisite() && is_super_admin() )
+			$content .= '<p>' .esc_js( __( 'Network Admin is now located in the My Sites menu.' ) ) . '</p>';
+
+		WP_Internal_Pointers::print_js( 'wp330-toolbar', '#wpadminbar', array(
+			'content'  => $content,
+			'position' => array( 'edge' => 'top', 'align' => 'center' ),
+		) );
+	}
+
+	/**
+	 * Print 'Updated Media Uploader' for 3.3.0.
+	 *
+	 * @since 3.3.0
+	 */
+	public static function pointer_wp330_media_uploader() {
+		$content  = '<h3>' . esc_js( __( 'Updated Media Uploader' ) ) . '</h3>';
+		$content .= '<p>' . esc_js( __( 'The single media icon now launches the uploader for all file types, and the new drag and drop interface makes uploading a breeze.' ) ) . '</p>';
+
+		WP_Internal_Pointers::print_js( 'wp330-media-uploader', '#content-add_media', array(
+			'content'  => $content,
+			'position' => array( 'edge' => 'left', 'align' => 'center' ),
+		) );
+	}
+
+	/**
+	 * Print 'New Feature: Saving Widgets' for 3.3.0.
+	 *
+	 * @since 3.3.0
+	 */
+	public static function pointer_wp330_saving_widgets() {
+		$content  = '<h3>' . esc_js( __( 'New Feature: Saving Widgets' ) ) . '</h3>';
+		$content .= '<p>' . esc_js( __( 'If you change your mind and revert to your previous theme, we&#8217;ll put the widgets back the way you had them.' ) ) . '</p>';
+
+		WP_Internal_Pointers::print_js( 'wp330-saving-widgets', '#message2', array(
+			'content'  => $content,
+			'position' => array( 'edge' => 'top', 'align' => 'left' ),
+		) );
+	}
 }
+
+add_action( 'admin_enqueue_scripts', array( 'WP_Internal_Pointers', 'enqueue_scripts' ) );
