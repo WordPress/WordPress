@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Eleven 1.2\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyeleven\n"
-"POT-Creation-Date: 2011-11-19 04:48:00+00:00\n"
+"POT-Creation-Date: 2011-11-21 15:47:49+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,8 +24,7 @@ msgid "Quote"
 msgstr ""
 
 #: content-quote.php:24 content.php:30 content-image.php:21
-#: content-image.php:64 content-aside.php:22 content-status.php:21
-#: content-link.php:22
+#: content-aside.php:22 content-status.php:21 content-link.php:22
 msgid "Reply"
 msgstr ""
 
@@ -72,18 +71,21 @@ msgstr ""
 msgid "<span class=\"%1$s\">Tagged</span> %2$s"
 msgstr ""
 
-#: content-quote.php:69 showcase.php:194 content.php:77 content-aside.php:42
-#: content-status.php:43 content-link.php:42
+#: content-quote.php:69 showcase.php:194 content.php:77 content-image.php:64
+#: content-gallery.php:87 content-aside.php:42 content-status.php:43
+#: content-link.php:42
 msgid "Leave a reply"
 msgstr ""
 
-#: content-quote.php:69 showcase.php:194 content.php:77 content-gallery.php:87
-#: content-aside.php:42 content-status.php:43 content-link.php:42
+#: content-quote.php:69 showcase.php:194 content.php:77 content-image.php:64
+#: content-gallery.php:87 content-aside.php:42 content-status.php:43
+#: content-link.php:42
 msgid "<b>1</b> Reply"
 msgstr ""
 
-#: content-quote.php:69 showcase.php:194 content.php:77 content-gallery.php:87
-#: content-aside.php:42 content-status.php:43 content-link.php:42
+#: content-quote.php:69 showcase.php:194 content.php:77 content-image.php:64
+#: content-gallery.php:87 content-aside.php:42 content-status.php:43
+#: content-link.php:42
 msgid "<b>%</b> Replies"
 msgstr ""
 
@@ -156,14 +158,6 @@ msgstr ""
 msgid "View all posts by %s"
 msgstr ""
 
-#: content-image.php:64
-msgid "<strong>1</strong> Reply"
-msgstr ""
-
-#: content-image.php:64
-msgid "<strong>%</strong> Replies"
-msgstr ""
-
 #: sidebar.php:19
 msgid "Archives"
 msgstr ""
@@ -212,10 +206,6 @@ msgid "This gallery contains <a %1$s>%2$s photo</a>."
 msgid_plural "This gallery contains <a %1$s>%2$s photos</a>."
 msgstr[0] ""
 msgstr[1] ""
-
-#: content-gallery.php:87
-msgid "Leave a Reply"
-msgstr ""
 
 #: comments.php:17
 msgid ""
