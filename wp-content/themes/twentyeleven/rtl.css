@@ -334,6 +334,7 @@ section.recent-posts .other-recent-posts a[rel="bookmark"] {
 section.recent-posts .other-recent-posts .comments-link a,
 section.recent-posts .other-recent-posts .comments-link > span {
 	padding: 0.3125em 1em 0.3125em 0;
+	right: auto;
 	left: 0;
 	text-align: left;
 }
