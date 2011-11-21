@@ -1575,7 +1575,7 @@ case 'dismiss-wp-pointer' :
 
 //	check_ajax_referer( 'dismiss-pointer_' . $pointer );
 
-	$dismissed = explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) );
+	$dismissed = array_filter( explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) ) );
 
 	if ( in_array( $pointer, $dismissed ) )
 		die( '0' );

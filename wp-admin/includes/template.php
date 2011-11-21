@@ -1673,7 +1673,7 @@ final class WP_Internal_Pointers {
 	 * All pointers can be disabled using the following:
 	 *     remove_action( 'admin_enqueue_scripts', array( 'WP_Internal_Pointers', 'enqueue_scripts' ) );
 	 *
-	 * Individual pointers (e.g. wp330-toolbar) can be disabled using the following:
+	 * Individual pointers (e.g. wp330_toolbar) can be disabled using the following:
 	 *     remove_action( 'admin_print_footer_scripts', array( 'WP_Internal_Pointers', 'pointer_wp330_toolbar' ) );
 	 */
 	public static function enqueue_scripts( $hook_suffix ) {
@@ -1682,9 +1682,10 @@ final class WP_Internal_Pointers {
 		 * Format: array( hook_suffix => pointer_id )
 		 */
 		$registered_pointers = array(
-			'index.php'    => 'wp330-toolbar',
-			'post-new.php' => 'wp330-media-uploader',
-			'themes.php'   => 'wp330-saving-widgets',
+			'index.php'    => 'wp330_toolbar',
+			'post-new.php' => 'wp330_media_uploader',
+			'post.php'     => 'wp330_media_uploader',
+			'themes.php'   => 'wp330_saving_widgets',
 		);
 
 		// Check if screen related pointer is registered
@@ -1701,7 +1702,7 @@ final class WP_Internal_Pointers {
 			return;
 
 		// Bind pointer print function
-		add_action( 'admin_print_footer_scripts', array( 'WP_Internal_Pointers', 'pointer_' . str_replace( '-', '_', $pointer ) ) );
+		add_action( 'admin_print_footer_scripts', array( 'WP_Internal_Pointers', 'pointer_' . $pointer ) );
 
 		// Add pointers script and style to queue
 		wp_enqueue_style( 'wp-pointer' );
@@ -1753,7 +1754,7 @@ final class WP_Internal_Pointers {
 		if ( is_multisite() && is_super_admin() )
 			$content .= '<p>' .esc_js( __( 'Network Admin is now located in the My Sites menu.' ) ) . '</p>';
 
-		WP_Internal_Pointers::print_js( 'wp330-toolbar', '#wpadminbar', array(
+		WP_Internal_Pointers::print_js( 'wp330_toolbar', '#wpadminbar', array(
 			'content'  => $content,
 			'position' => array( 'edge' => 'top', 'align' => 'center' ),
 		) );
@@ -1768,7 +1769,7 @@ final class WP_Internal_Pointers {
 		$content  = '<h3>' . esc_js( __( 'Updated Media Uploader' ) ) . '</h3>';
 		$content .= '<p>' . esc_js( __( 'The single media icon now launches the uploader for all file types, and the new drag and drop interface makes uploading a breeze.' ) ) . '</p>';
 
-		WP_Internal_Pointers::print_js( 'wp330-media-uploader', '#content-add_media', array(
+		WP_Internal_Pointers::print_js( 'wp330_media_uploader', '#content-add_media', array(
 			'content'  => $content,
 			'position' => array( 'edge' => 'left', 'align' => 'center' ),
 		) );
@@ -1783,7 +1784,7 @@ final class WP_Internal_Pointers {
 		$content  = '<h3>' . esc_js( __( 'New Feature: Saving Widgets' ) ) . '</h3>';
 		$content .= '<p>' . esc_js( __( 'If you change your mind and revert to your previous theme, we&#8217;ll put the widgets back the way you had them.' ) ) . '</p>';
 
-		WP_Internal_Pointers::print_js( 'wp330-saving-widgets', '#message2', array(
+		WP_Internal_Pointers::print_js( 'wp330_saving_widgets', '#message2', array(
 			'content'  => $content,
 			'position' => array( 'edge' => 'top', 'align' => 'left' ),
 		) );

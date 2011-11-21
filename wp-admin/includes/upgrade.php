@@ -451,7 +451,7 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 15260 )
 		upgrade_300();
 
-	if ( $wp_current_db_version < 19061 )
+	if ( $wp_current_db_version < 19389 )
 		upgrade_330();
 
 	maybe_disable_automattic_widgets();
@@ -1145,6 +1145,12 @@ function upgrade_330() {
 	if ( $wp_current_db_version < 19061 && is_main_site() && ! defined( 'DO_NOT_UPGRADE_GLOBAL_TABLES' ) ) {
 		$wpdb->query( "DELETE FROM $wpdb->usermeta WHERE meta_key IN ('show_admin_bar_admin', 'plugins_last_view')" );
 	}
+
+	// 3.3-beta. Can remove before release.
+	if ( $wp_current_db_version > 18715 && $wp_current_db_version < 19389
+		&& is_main_site() && ! defined( 'DO_NOT_UPGRADE_GLOBAL_TABLES' ) )
+			delete_metadata( 'user', 0, 'dismissed_wp_pointers', '', true );
+
 
 	if ( $wp_current_db_version >= 11548 )
 		return;
