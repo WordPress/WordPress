@@ -224,7 +224,7 @@ function wp_admin_bar_site_menu( $wp_admin_bar ) {
 	$wp_admin_bar->add_menu( array(
 		'id'    => 'site-name',
 		'title' => $title,
-		'href'  => is_admin() ? home_url() : admin_url(),
+		'href'  => is_admin() ? home_url( '/' ) : admin_url(),
 	) );
 
 	// Create submenu items.
@@ -235,7 +235,7 @@ function wp_admin_bar_site_menu( $wp_admin_bar ) {
 			'parent' => 'site-name',
 			'id'     => 'view-site',
 			'title'  => __( 'Visit Site' ),
-			'href'   => home_url(),
+			'href'   => home_url( '/' ),
 		) );
 
 	// We're on the front end, print a copy of the admin menu.
@@ -354,7 +354,7 @@ function wp_admin_bar_my_sites_menu( $wp_admin_bar ) {
 			'parent' => $menu_id,
 			'id'     => $menu_id . '-v',
 			'title'  => __( 'Visit Site' ),
-			'href'   => get_home_url( $blog->userblog_id ),
+			'href'   => get_home_url( $blog->userblog_id, '/' ),
 		) );
 	}
 }
