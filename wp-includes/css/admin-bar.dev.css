@@ -37,7 +37,6 @@
 	left: 0;
 	width: 100%;
 	z-index: 99999;
-	min-width: 960px;
 
 	background-color: #464646; /* Fallback */
 	background-image: -ms-linear-gradient(bottom, #373737, #464646 5px); /* IE10 */
@@ -103,7 +102,7 @@
 #wpadminbar .shortlink-input {
 	height: 28px;
 	display: block;
-	padding: 0 1em;
+	padding: 0 12px;
 	margin: 0;
 }
 
@@ -123,8 +122,15 @@
 	border-color: #dfdfdf;
 }
 
+#wpadminbar.ie7 .menupop .ab-sub-wrapper,
+#wpadminbar.ie7 .shortlink-input {
+	top: 28px;
+	left: 0;
+}
+
 #wpadminbar .ab-top-secondary .menupop .ab-sub-wrapper {
 	right: 0;
+	left: auto;
 	margin: 0 -1px 0 0;
 }
 
@@ -275,10 +281,6 @@
 
 #wpadminbar .ab-top-secondary {
 	float: right;
-	position: fixed;
-	right: 0;
-	top: 0;
-
 	background-color: #464646; /* Fallback */
 	background-image: -ms-linear-gradient(bottom, #373737, #464646 5px); /* IE10 */
 	background-image: -moz-linear-gradient(bottom, #373737, #464646 5px); /* Firefox */
@@ -365,7 +367,7 @@
 	background: #eee;
 	line-height: 24px;
 	vertical-align: middle;
-	margin: -2px 0 0 6px;
+	margin: -3px 0 0 6px;
 	float: none;
 }
 
@@ -391,7 +393,6 @@
 }
 
 #wpadminbar #adminbarsearch {
-	float: right;
 	height: 24px;
 	padding: 2px 4px;
 	margin: 0;
@@ -399,11 +400,11 @@
 
 #wpadminbar #adminbarsearch .adminbar-input {
 	height: 23px;
+	line-height: 23px;
 	width: 140px;
-	float: left;
 	font: 13px sans-serif;
 	border: none;
-	padding: 0 3px 0 24px;
+	padding: 0 3px 0 23px;
 	margin: 0 3px 0 0;
 
 	color: #ccc;
@@ -411,7 +412,7 @@
 	background-color: rgba( 255, 255, 255, 0 );
 	
 	background-image: url(../images/admin-bar-sprite.png?d=11182010);
-	background-position: 4px 0px;
+	background-position: 3px 1px;
 	background-repeat: no-repeat;
 
 	-webkit-border-radius: 3px;
@@ -482,16 +483,14 @@
  */
 #wpadminbar .ab-comments-icon {
 	position: relative;
-	padding-top: 5px;
+	padding-top: 8px;
 	float: left;
 }
 
 #wpadminbar .ab-comments-icon-body {
-	margin-top: 3px;
 	background: #999;
 	height: 10px;
 	width: 14px;
-
 	-webkit-border-radius: 10px;
 	border-radius: 10px;
 }

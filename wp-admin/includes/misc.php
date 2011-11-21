@@ -587,7 +587,7 @@ foreach ( $_wp_admin_css_colors as $color => $color_info ): ?>
 
 function _ipad_meta() {
 	if ( strpos($_SERVER['HTTP_USER_AGENT'], 'iPad') !== false ) { ?>
-		<meta name="viewport" id="ipad-viewportmeta" content="width=750, initial-scale=1, maximum-scale=1">
+		<meta name="viewport" id="ipad-viewportmeta" content="width=device-width, initial-scale=1">
 	<?php
 	}
 }

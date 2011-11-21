@@ -50,6 +50,12 @@
 	margin: 0 -1px 0 0;
 }
 
+#wpadminbar.ie7 .menupop .ab-sub-wrapper,
+#wpadminbar.ie7 .shortlink-input {
+	left: auto;
+	right: 0;
+}
+
 #wpadminbar .ab-top-secondary .menupop .ab-sub-wrapper {
 	right: auto;
 	left: 0;
@@ -117,8 +123,8 @@
 }
 
 #wpadminbar .quicklinks li#wp-admin-bar-my-account.with-avatar > a img {
-	margin-left: 0;
-	margin-right: 2px
+	margin-left: -1px;
+	margin-right: 4px
 }
 
 /*
@@ -141,7 +147,7 @@
 	font-family: Tahoma, Arial, Helvetica, sans-serif;
 	padding: 0 24px 0 3px;
 	margin: 0 0 0 3px;
-	background-position: 98% 2px;
+	background-position: 99% 1px;
 }
 
 /**
@@ -151,8 +157,13 @@
 	float: right;
 }
 
+#wpadminbar.ie7 .ab-comments-icon {
+	float: left;
+	left: 12px;
+}
+
 #wpadminbar .ab-comments-icon-body {
-	margin: 3px -2px 0 4px;
+	margin-right: -2px;
 }
 
 #wpadminbar a .ab-comments-icon-arrow {
@@ -168,10 +179,26 @@
 	margin-right: 4px;
 }
 
+#wpadminbar.ie7 #ab-awaiting-mod {
+	margin-right: 0;
+}
+
+#wpadminbar.ie7 #wp-admin-bar-comments > a {
+	min-width: 25px;
+}
+
 #wpadminbar a:hover .ab-comments-icon-arrow {
 	border-right-color: #bbb;
 }
 
+#wpadminbar .menupop .ab-sub-wrapper,
+#wpadminbar .shortlink-input {
+	right: 0;
+}
+
+#wpadminbar .quicklinks .menupop ul li a {
+	position: relative;
+}
 
 /**
  * IE 6-targeted rules

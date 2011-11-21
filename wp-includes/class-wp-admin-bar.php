@@ -112,10 +112,22 @@ class WP_Admin_Bar {
 	}
 
 	public function render() {
+		global $is_IE, $is_iphone;
 
 		$back_compat_parents = array(
 			'appearance' => 'site-name',
 		);
+
+		// have to do this here since admin bar shows on the front end too
+		$class = 'nojq nojs';
+		if ( $is_IE ) {
+			if ( strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE 7') )
+				$class .= ' ie7';
+			elseif ( strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE 8') )
+				$class .= ' ie8';
+		} elseif ( $is_iphone ) {
+			$class .= ' mobile';
+		}
 
 		// Link nodes to parents.
 		foreach ( $this->nodes as $node ) {
@@ -142,7 +154,7 @@ class WP_Admin_Bar {
 		}
 
 		?>
-		<div id="wpadminbar" class="nojq nojs">
+		<div id="wpadminbar" class="<?php echo $class; ?>">
 			<div class="quicklinks">
 				<ul class="ab-top-menu"><?php
 
