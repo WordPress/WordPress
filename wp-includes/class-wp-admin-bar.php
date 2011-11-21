@@ -118,17 +118,6 @@ class WP_Admin_Bar {
 			'appearance' => 'site-name',
 		);
 
-		// have to do this here since admin bar shows on the front end too
-		$class = 'nojq nojs';
-		if ( $is_IE ) {
-			if ( strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE 7') )
-				$class .= ' ie7';
-			elseif ( strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE 8') )
-				$class .= ' ie8';
-		} elseif ( $is_iphone ) {
-			$class .= ' mobile';
-		}
-
 		// Link nodes to parents.
 		foreach ( $this->nodes as $node ) {
 
@@ -151,6 +140,18 @@ class WP_Admin_Bar {
 				$parent->children->secondary[] = $node;
 			else
 				$parent->children->primary[] = $node;
+		}
+
+		// Add browser classes.
+		// We have to do this here since admin bar shows on the front end.
+		$class = 'nojq nojs';
+		if ( $is_IE ) {
+			if ( strpos( $_SERVER['HTTP_USER_AGENT'], 'MSIE 7' ) )
+				$class .= ' ie7';
+			elseif ( strpos( $_SERVER['HTTP_USER_AGENT'], 'MSIE 8' ) )
+				$class .= ' ie8';
+		} elseif ( $is_iphone ) {
+			$class .= ' mobile';
 		}
 
 		?>
