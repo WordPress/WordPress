@@ -582,7 +582,7 @@ function wp_admin_bar_updates_menu( $wp_admin_bar ) {
  * @since 3.3.0
  */
 function wp_admin_bar_search_menu( $wp_admin_bar ) {
-	$form  = '<form action="' . home_url() . '" method="get" id="adminbarsearch">';
+	$form  = '<form action="' . esc_url( home_url( '/' ) ) . '" method="get" id="adminbarsearch">';
 	$form .= '<input class="adminbar-input" name="s" id="adminbar-search" tabindex="10" ';
 	$form .= 'type="text" value="" maxlength="150" placeholder="' . esc_attr__( 'Search' ) . '" />';
 	$form .= '<input type="submit" class="adminbar-button" value="' . __('Search') . '"/>';
