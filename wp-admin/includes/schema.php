@@ -330,7 +330,7 @@ $wp_queries = wp_get_db_schema( 'all' );
  * @uses $wp_db_version
  */
 function populate_options() {
-	global $wpdb, $wp_db_version, $current_site, $wp_db_current_db_version;
+	global $wpdb, $wp_db_version, $current_site, $wp_current_db_version;
 
 	$guessurl = wp_guess_url();
 
@@ -482,7 +482,7 @@ function populate_options() {
 
 	// 3.3
 	if ( ! is_multisite() ) {
-		$options['initial_db_version'] = ! empty( $wp_db_current_db_version ) && $wp_current_db_version < $wp_db_version
+		$options['initial_db_version'] = ! empty( $wp_current_db_version ) && $wp_current_db_version < $wp_db_version
 			? $wp_current_db_version : $wp_db_version;
 	}
 
