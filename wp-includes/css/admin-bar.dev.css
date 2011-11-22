@@ -228,14 +228,14 @@
 
 #wpadminbar .menupop .menupop > .ab-item {
 	display: block;
-	background-image: url(../images/admin-bar-sprite.png?d=11182010);
+	background-image: url(../images/admin-bar-sprite.png?d=20111122);
 	background-position: 95% -20px;
 	background-repeat: no-repeat;
 	padding-right: 2em;
 }
 
 #wpadminbar .ab-top-secondary .menupop .menupop > .ab-item {
-	background-image: url(../images/admin-bar-sprite.png?d=11182010);
+	background-image: url(../images/admin-bar-sprite.png?d=20111122);
 	background-position: 5% -46px;
 	background-repeat: no-repeat;
 	padding-left: 2em;
@@ -408,7 +408,7 @@
 	color: #ccc;
 	text-shadow: #444 0px -1px 0px;
 	background-color: rgba( 255, 255, 255, 0 );
-	background-image: url(../images/admin-bar-sprite.png?d=11182010);
+	background-image: url(../images/admin-bar-sprite.png?d=20111122);
 	background-position: 3px 1px;
 	background-repeat: no-repeat;
 	outline: none;
@@ -472,14 +472,14 @@
 	display: block;
 	height: 28px;
 	width: 16px;
-	background-image: url(../images/admin-bar-sprite.png?d=11182010);
+	background-image: url(../images/admin-bar-sprite.png?d=20111122);
 	background-position: -2px -72px;
 	background-repeat: no-repeat;
 }
 
 #wpadminbar.nojs #wp-admin-bar-wp-logo:hover .ab-wp-logo,
 #wpadminbar #wp-admin-bar-wp-logo.hover .ab-wp-logo {
-	background-image: url(../images/admin-bar-sprite.png?d=11182010);
+	background-image: url(../images/admin-bar-sprite.png?d=20111122);
 	background-position: -2px -100px;
 	background-repeat: no-repeat;
 }
