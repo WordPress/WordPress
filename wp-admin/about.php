@@ -43,13 +43,13 @@ include( './admin-header.php' );
 		</div>
 		<div class="left-feature">
 			<h4><?php _e( 'File Type Detection' ); ?></h4>
-			<p><?php _e( 'We&#039;ve streamlined things! Instead of needing to click on a specific upload icon based on your file type, now there&#039;s just one. Once your file is uploaded, the appropriate fields will be displayed for entering information based on the file type.' ); ?></p>
+			<p><?php _e( 'We&#8217;ve streamlined things! Instead of needing to click on a specific upload icon based on your file type, now there&#8217;s just one. Once your file is uploaded, the appropriate fields will be displayed for entering information based on the file type.' ); ?></p>
 
 			<h4><?php _e( 'Drag-and-Drop Media Uploader' ); ?></h4>
 			<p><?php _e( 'Adding photos or other files to posts and pages just got easier. Drag files from your desktop and drop them into the uploader. Add one file at a time, or many at once.' ); ?></p>
 
 			<h4><?php _e( 'More File Formats' ); ?></h4>
-			<p><?php _e( 'We&#039;ve added the rar and 7z file formats to the list of allowed file types in the uploader.' ); ?></p>
+			<p><?php _e( 'We&#8217;ve added the rar and 7z file formats to the list of allowed file types in the uploader.' ); ?></p>
 		</div>
 	</div>
 </div>
@@ -72,7 +72,7 @@ include( './admin-header.php' );
 	<div class="feature-section angled-right">
 		<div class="left-feature">
 			<h4><?php _e( 'Header + Admin Bar = Toolbar' ); ?></h4>
-			<p><?php _e( 'To save space and increase efficiency, we&#039;ve combined the admin bar and the old Dashboard header into one persistent toolbar. Hovering over the toolbar items will reveal submenus when available for quick access. ' ); ?></p>
+			<p><?php _e( 'To save space and increase efficiency, we&#8217;ve combined the admin bar and the old Dashboard header into one persistent toolbar. Hovering over the toolbar items will reveal submenus when available for quick access. ' ); ?></p>
 		</div>
 		<img src="images/screenshots/help-screen.png" />
 		<div class="right-feature">
@@ -92,10 +92,10 @@ include( './admin-header.php' );
 		</div>
 		<div class="left-feature">
 			<h4><?php _e( 'New Feature Pointers' ); ?></h4>
-			<p><?php _e( 'When we add new features, move navigation, or do anything else with the dashboard that might throw you for a loop when you update your WordPress site, we&#039;ll let you know about it with new feature pointers explaining the change.' ); ?></p>
+			<p><?php _e( 'When we add new features, move navigation, or do anything else with the dashboard that might throw you for a loop when you update your WordPress site, we&#8217;ll let you know about it with new feature pointers explaining the change.' ); ?></p>
 
 			<h4><?php _e( 'Post-update Changelog' ); ?></h4>
-			<p><?php _e( 'This screen! From now on when you update WordPress, you&#039;ll be brought to this screen &mdash; also accessible any time from the W logo in the corner of the toolbar &mdash; to get an overview of what&#039;s changed.' ); ?></p>
+			<p><?php _e( 'This screen! From now on when you update WordPress, you&#8217;ll be brought to this screen &mdash; also accessible any time from the W logo in the corner of the toolbar &mdash; to get an overview of what&#8217;s changed.' ); ?></p>
 
 			<h4><?php _e( 'Dashboard Welcome' ); ?></h4>			
 			<p><?php _e( 'The dashboard home screen will have a Welcome area that displays when a new WordPress installation is accessed for the first time, prompting the site owner to complete various setup tasks. Once dismissed, this welcome can be accessed via the dashboard home screen options tab.' ); ?></p>
@@ -111,7 +111,7 @@ include( './admin-header.php' );
 		<div>
 			<h4><?php _e( 'Better Co-Editing' ); ?></h4>
 			<img src="images/screenshots/coediting.png" />
-			<p><?php _e( 'Have you ever gone to edit a post after someone else has finished with it, only to get an alert that tells you the other person is still editing the post? From now on, you&#039;ll only get that alert if another person is still on the editing screen &mdash; no more time lag.' ); ?></p>
+			<p><?php _e( 'Have you ever gone to edit a post after someone else has finished with it, only to get an alert that tells you the other person is still editing the post? From now on, you&#8217;ll only get that alert if another person is still on the editing screen &mdash; no more time lag.' ); ?></p>
 		</div>
 		<div>
 			<h4><?php _e( 'Tumblr Importer' ); ?></h4>
@@ -119,7 +119,7 @@ include( './admin-header.php' );
 		</div>
 		<div class="last-feature">
 			<h4><?php _e( 'Widget Improvements' ); ?></h4>
-			<p><?php _e( 'Changing themes often requires widget re-configuration based on the number and position of sidebars. Now if you change back to a previous theme within a week, the widgets will automatically go back to how you had them arranged in that theme. <em>Note: if you&#039;ve added new widgets since the switch, you&#039;ll need to rescue them from the Inactive Widgets area.</em>' ); ?></p>
+			<p><?php _e( 'Changing themes often requires widget re-configuration based on the number and position of sidebars. Now if you change back to a previous theme within a week, the widgets will automatically go back to how you had them arranged in that theme. <em>Note: if you&#8217;ve added new widgets since the switch, you&#8217;ll need to rescue them from the Inactive Widgets area.</em>' ); ?></p>
 		</div>
 	</div>
 	
