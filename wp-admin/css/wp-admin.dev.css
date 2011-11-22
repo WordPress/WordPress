@@ -5848,6 +5848,7 @@ a.rsswidget {
 
 .login .button-primary {
 	font-size: 13px !important;
+	line-height: 16px;
 	padding: 3px 10px;
 	float: right;
 }
