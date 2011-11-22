@@ -4819,6 +4819,10 @@ input.button-highlighted,
 	margin: 44px 40px 0 20px;
 	font-size: 14px;
 }
+.about-wrap div.updated,
+.about-wrap div.error {
+    display: none !important; 
+}
 .about-wrap p {
 	line-height: 1.6em;
 }
