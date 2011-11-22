@@ -2168,8 +2168,9 @@ div.widgets-sortables,
 	color: #464646;
 }
 
-.about-wrap .feature-section img {
-	background: #f9f9f9;
+.about-wrap .feature-section img,
+.about-wrap .feature-section .image-mask {
+	background: #fff;
 	border-color: #dfdfdf;
 
 	-moz-box-shadow: 0 0 6px rgba( 0, 0, 0, 0.3 );
