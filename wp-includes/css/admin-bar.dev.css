@@ -440,6 +440,11 @@
 	margin-top: 1px;
 }
 
+#wpadminbar.ie9 #adminbarsearch .adminbar-input,
+#wpadminbar.ie9 #adminbarsearch .adminbar-input:focus {
+	background-color: #fff;
+}
+
 #wpadminbar #adminbarsearch .adminbar-input:focus {
 	color: #555;
 	text-shadow: 0 1px 0 #fff;

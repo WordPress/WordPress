@@ -150,6 +150,8 @@ class WP_Admin_Bar {
 				$class .= ' ie7';
 			elseif ( strpos( $_SERVER['HTTP_USER_AGENT'], 'MSIE 8' ) )
 				$class .= ' ie8';
+			elseif ( strpos( $_SERVER['HTTP_USER_AGENT'], 'MSIE 9' ) )
+				$class .= ' ie9';
 		} elseif ( $is_iphone ) {
 			$class .= ' mobile';
 		}
