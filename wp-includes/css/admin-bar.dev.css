@@ -36,6 +36,7 @@
 	top: 0;
 	left: 0;
 	width: 100%;
+	min-width: 600px; /* match the min-width of the body in wp-admin.css */
 	z-index: 99999;
 
 	background-color: #464646; /* Fallback */
