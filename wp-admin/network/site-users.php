@@ -33,6 +33,9 @@ get_current_screen()->set_help_sidebar(
 	'<p>' . __('<a href="http://wordpress.org/support/forum/multisite/" target="_blank">Support Forums</a>') . '</p>'
 );
 
+$_SERVER['REQUEST_URI'] = remove_query_arg( 'update', $_SERVER['REQUEST_URI'] ); 
+$referer = remove_query_arg( 'update', wp_get_referer() );
+
 $id = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0;
 
 if ( ! $id )
@@ -147,12 +150,12 @@ if ( $action ) {
 	}
 	
 	restore_current_blog();
-	wp_redirect( add_query_arg( 'update', $update, wp_get_referer() ) );
+	wp_redirect( add_query_arg( 'update', $update, $referer ) );
 	exit();
 }
 
 if ( isset( $_GET['action'] ) && 'update-site' == $_GET['action'] ) {
-	wp_redirect( wp_get_referer() );
+	wp_redirect( $referer );
 	exit();
 }
 
