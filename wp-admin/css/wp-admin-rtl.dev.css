@@ -1823,6 +1823,14 @@ body.login {
 	margin-left: 0;
 }
 
+.login form .forgetmenot {
+	float: right;
+}
+
+.login form .submit {
+	float: left;
+}
+
 #login form .submit input {
 	font-family: Tahoma, arial;
 }
