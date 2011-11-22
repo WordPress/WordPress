@@ -516,8 +516,9 @@ function wp_admin_bar_comments_menu( $wp_admin_bar ) {
 
 	$awaiting_mod = wp_count_comments();
 	$awaiting_mod = $awaiting_mod->moderated;
+	$awaiting_title = sprintf( _n( '%s comment awaiting moderation', '%s comments awaiting moderation', $awaiting_mod ), number_format_i18n( $awaiting_mod ) );
 
-	$icon  = "<div class='ab-comments-icon'>";
+	$icon  = "<div class='ab-comments-icon' title='$awaiting_title'>";
 	$icon .= "<div class='ab-comments-icon-body'></div>";
 	$icon .= "<div class='ab-comments-icon-arrow'></div>";
 	$icon .= "</div>";
