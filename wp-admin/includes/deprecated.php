@@ -21,7 +21,7 @@
 function tinymce_include() {
 	_deprecated_function( __FUNCTION__, '2.1', 'wp_editor()' );
 
-	wp_editor('', 'content');
+	wp_tiny_mce();
 }
 
 /**
@@ -708,10 +708,30 @@ function wp_dashboard_quick_press_output() {
  * @deprecated Use wp_editor()
  * @see wp_editor()
  */
-function wp_tiny_mce() {
+function wp_tiny_mce( $teeny = false, $settings = false ) {
 	_deprecated_function( __FUNCTION__, '3.3', 'wp_editor()' );
 
-	wp_editor('', 'content');
+	global $wp_editor;
+	static $num = 1;
+
+	if ( !is_a($wp_editor, 'WP_Editor') ) {
+		if ( !class_exists('WP_Editor') )
+			require_once( ABSPATH . WPINC . '/class-wp-editor.php' );
+
+		$wp_editor = new WP_Editor;
+	}
+
+	$editor_id = 'content' . $num;
+	++$num;
+
+	$set = array(
+		'teeny' => $teeny,
+		'tinymce' => $settings ? $settings : true,
+		'quicktags' => false
+	);
+
+	$set = $wp_editor->parse_settings($editor_id, $set);
+	$wp_editor->editor_settings($editor_id, $set);
 }
 
 /**

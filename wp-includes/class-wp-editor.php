@@ -1,18 +1,11 @@
 <?php
 /**
- * Adds the WordPress editor used on the Write and Edit screens.
+ * Facilitates adding of the WordPress editor as used on the Write and Edit screens.
  *
  * @package WordPress
  * @since 3.3
  *
- * NOTE: Do not instantiate this class directly. Please use the wp_editor() function that will include the file
- * and instantiate the class if needed. If you want to extend this class use the 'init' or earlier action to do it
- * and call wp_editor() as usual when you need to output the HTML.
- *
- * Outputs the HTML and JavaScript for the WordPress editors, TinyMCE and Quicktags.
- * TinyMCE is loaded separately from other Javascript by using wp-tinymce.php. It outputs concatenated
- * pre-compressed version of the core and all default plugins. Additional plugins are loaded directly
- * by TinyMCE using non-blocking method.
+ * Private, not included by default. See wp_editor() in wp-includes/general-template.php.
  */
 
 class WP_Editor {
@@ -32,21 +25,14 @@ class WP_Editor {
 	var $has_tinymce = false;
 	var $has_quicktags = false;
 	var $has_medialib = false;
+	var $editor_buttons_css = true;
 
 	function __construct() {
 		$this->can_richedit = user_can_richedit();
 		$this->default_editor = $this->wp_default_editor();
 	}
 
-	/**
-	 * Outputs the HTML and enqueues the JavaScript for a single instance of the editor.
-	 *
-	 * @param string $content The initial content of the editor.
-	 * @param string $editor_id ID for the textarea and TinyMCE and Quicktags instances (can contain only ASCII letters and numbers).
-	 * @param array $settings See below for description.
-	 */
-	function editor( $content, $editor_id, $settings = array() ) {
-
+	function parse_settings($editor_id, $settings) {
 		$set = wp_parse_args( $settings,  array(
 			'wpautop' => true, // use wpautop?
 			'media_buttons' => true, // show insert/upload button(s)
@@ -63,6 +49,26 @@ class WP_Editor {
 
 		$this->this_tinymce = !empty($set['tinymce']) && $this->can_richedit;
 		$this->this_quicktags = !empty($set['quicktags']);
+
+		if ( $this->this_tinymce )
+			$this->has_tinymce = true;
+
+		if ( $this->this_quicktags )
+			$this->has_quicktags = true;
+
+		return $set;
+	}
+
+	/**
+	 * Outputs the HTML for a single instance of the editor.
+	 *
+	 * @param string $content The initial content of the editor.
+	 * @param string $editor_id ID for the textarea and TinyMCE and Quicktags instances (can contain only ASCII letters and numbers).
+	 * @param array $settings See WP_Editor::_parse_settings for description.
+	 */
+	function editor( $content, $editor_id, $settings = array() ) {
+
+		$set = $this->parse_settings($editor_id, $settings);
 		$editor_class = ' class="' . trim( $set['editor_class'] . ' wp-editor-area' ) . '"';
 		$tabindex = $set['tabindex'] ? ' tabindex="' . (int) $set['tabindex'] . '"' : '';
 		$rows = ' rows="' . (int) $set['textarea_rows'] . '"';
@@ -74,7 +80,6 @@ class WP_Editor {
 
 		if ( $this->this_quicktags && $this->this_tinymce ) {
 			$switch_class = 'html-active';
-			$this->has_tinymce = $this->has_quicktags = true;
 
 			if ( 'html' == $this->default_editor ) {
 				add_filter('the_editor_content', 'wp_htmledit_pre');
@@ -85,18 +90,14 @@ class WP_Editor {
 
 			$buttons .= '<a id="' . $editor_id . '-html" class="hide-if-no-js wp-switch-editor switch-html" onclick="switchEditors.switchto(this);">' . __('HTML') . "</a>\n";
 			$buttons .= '<a id="' . $editor_id . '-tmce" class="hide-if-no-js wp-switch-editor switch-tmce" onclick="switchEditors.switchto(this);">' . __('Visual') . "</a>\n";
-		} else {
-			if ( $this->this_tinymce )
-				$this->has_tinymce = true;
-
-			if ( $this->this_quicktags )
-				$this->has_quicktags = true;
 		}
 
 		echo '<div id="wp-' . $editor_id . '-wrap" class="wp-editor-wrap ' . $switch_class . '">';
 
-		if ( empty($this->first_init) )
+		if ( $this->editor_buttons_css ) {
 			wp_print_styles('editor-buttons');
+			$this->editor_buttons_css = false;
+		}
 
 		if ( !empty($set['editor_css']) )
 			echo $set['editor_css'] . "\n";
@@ -124,19 +125,22 @@ class WP_Editor {
 		printf($the_editor, $content);
 		echo "\n</div>\n\n";
 
-		if ( empty($this->first_init) ) {
-			add_action( 'admin_print_footer_scripts', array($this, 'editor_js'), 50 );
-			add_action( 'wp_print_footer_scripts', array($this, 'editor_js'), 50 );
-			add_action( 'admin_footer', array($this, 'enqueue_scripts'), 1 );
-			add_action( 'wp_footer', array($this, 'enqueue_scripts'), 1 );
-		}
-
 		$this->editor_settings($editor_id, $set);
 	}
 
 	function editor_settings($editor_id, $set) {
 		global $editor_styles;
 		$first_run = false;
+
+		if ( empty($this->first_init) ) {
+			if ( is_admin() ) {
+				add_action( 'admin_print_footer_scripts', array($this, 'editor_js'), 50 );
+				add_action( 'admin_footer', array($this, 'enqueue_scripts'), 1 );
+			} else {
+				add_action( 'wp_print_footer_scripts', array($this, 'editor_js'), 50 );
+				add_action( 'wp_footer', array($this, 'enqueue_scripts'), 1 );
+			}
+		}
 
 		if ( $this->this_quicktags ) {
 
@@ -406,7 +410,6 @@ class WP_Editor {
 			}
 
 			$this->mce_settings[$editor_id] = $mceInit;
-			$first_run = false;
 		} // end if $this->this_tinymce
 	}
 
