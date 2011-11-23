@@ -139,13 +139,13 @@ include( './admin-header.php' );
 		</div>
 		<div class="last-feature">
 			<h4><?php _e( 'jQuery and jQuery UI' ); ?></h4>
-			<p><?php _e( 'WordPress now includes the entire jQuery UI stack and the latest version of jQuery: 1.7.' ); ?></p>
+			<p><?php printf( __( 'WordPress now includes the entire jQuery UI stack and the latest version of jQuery: %s.' ), '1.7.1' ); ?></p>
 		</div>
 	</div>
 
 	<div class="feature-section three-col">
 		<div>
-			<h4><?php echo 'is_main_query()'; ?></h4>
+			<h4 style="direction:ltr">is_main_query()</h4>
 			<p><?php _e( 'This handy method will tell you if a <code>WP_Query</code> object is the main WordPress query or a secondary query.' ); ?></p>
 		</div>
 		<div>
