@@ -108,18 +108,6 @@ function get_hidden_meta_boxes( $screen ) {
 }
 
 /**
- * Convert a screen string to a screen object
- *
- * @since 3.0.0
- *
- * @param string $hook_name The hook name (also known as the hook suffix) used to determine the screen.
- * @return WP_Screen Screen object.
- */
-function convert_to_screen( $hook_name ) {
-	return WP_Screen::get( $hook_name );
-}
-
-/**
  * Add contextual help text for a page.
  *
  * Creates a 'Screen Info' help tab.
