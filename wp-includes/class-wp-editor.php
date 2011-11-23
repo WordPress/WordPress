@@ -38,15 +38,11 @@ final class _WP_Editors {
 			'editor_class' => '', // add extra class(es) to the editor textarea
 			'teeny' => false, // output the minimal editor config used in Press This
 			'dfw' => false, // replace the default fullscreen with DFW (needs specific DOM elements and css)
-			'tinymce' => null, // load TinyMCE, can be used to pass settings directly to TinyMCE using an array()
+			'tinymce' => true, // load TinyMCE, can be used to pass settings directly to TinyMCE using an array()
 			'quicktags' => true // load Quicktags, can be used to pass settings directly to Quicktags using an array()
 		) );
 
-		if ( null === $set['tinymce'] )
-			self::$this_tinymce = user_can_richedit();
-		else
-			self::$this_tinymce = (bool) $set['tinymce'];
-
+		self::$this_tinymce = ( $set['tinymce'] && user_can_richedit() );
 		self::$this_quicktags = (bool) $set['quicktags'];
 
 		if ( self::$this_tinymce )

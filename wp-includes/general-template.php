@@ -1749,10 +1749,10 @@ function rich_edit_exists() {
 function user_can_richedit() {
 	global $wp_rich_edit, $is_gecko, $is_opera, $is_safari, $is_chrome, $is_iphone, $is_IE;
 
-	if ( !isset( $wp_rich_edit) ) {
+	if ( !isset($wp_rich_edit) ) {
 		$wp_rich_edit = false;
 
-		if ( get_user_option( 'rich_editing' ) == 'true' ) {
+		if ( get_user_option( 'rich_editing' ) == 'true' || !is_user_logged_in() ) { // default to 'true' for logged out users
 			if ( $is_safari ) {
 				if ( !$is_iphone || ( preg_match( '!AppleWebKit/(\d+)!', $_SERVER['HTTP_USER_AGENT'], $match ) && intval($match[1]) >= 534 ) )
 					$wp_rich_edit = true;
