@@ -4827,9 +4827,10 @@ input.button-highlighted,
 
 .about-wrap {
 	position: relative;
-	margin: 0 40px 0 0;
-	font-size: 16px;
+	margin: 25px 40px 0 20px;
 	width: 930px;
+	
+	font-size: 15px;
 }
 .about-wrap div.updated,
 .about-wrap div.error {
@@ -4870,7 +4871,6 @@ input.button-highlighted,
 }
 
 .about-wrap .changelog {
-	font-size: 15px;
 	padding-bottom: 10px;
 	overflow: hidden;
 }
