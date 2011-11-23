@@ -161,8 +161,10 @@ include( './admin-header.php' );
 </div>
 
 <div class="return-to-dashboard">
-	<a href="<?php echo admin_url( 'update-core.php' ); ?>"><?php _e( 'Return to Dashboard &rarr; Updates' ); ?></a> |
-	<a href="<?php echo admin_url(); ?>"><?php _e( 'Go to Dashboard &rarr; Home' ); ?></a>
+	<?php if ( current_user_can( 'update_core' ) && isset( $_GET['upgraded'] ) ) : ?>
+	<a href="<?php echo esc_url( admin_url( 'update-core.php' ) ); ?>"><?php _e( 'Return to Dashboard &rarr; Updates' ); ?></a> |
+	<?php endif; ?>
+	<a href="<?php echo esc_url( admin_url() ); ?>"><?php _e( 'Go to Dashboard &rarr; Home' ); ?></a>
 </div>
 
 </div>

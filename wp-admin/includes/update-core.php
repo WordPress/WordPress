@@ -522,4 +522,24 @@ function _copy_dir($from, $to, $skip_list = array() ) {
 	return true;
 }
 
+/**
+ * Redirect to the About WordPress page after a successful upgrade.
+ *
+ * This is a temporary function for the 3.3 upgrade only and will be removed in a later version.
+ * 
+ * @since 3.3.0
+ *
+ */
+function _redirect_to_about_wordpress() {
+	// Only for WP version < 3.3.0
+	if ( version_compare( $GLOBALS['wp_version'], '3.3.0', '>' ) )
+		return;
+?>
+<script type="text/javascript">
+window.location = '<?php echo admin_url( 'about.php?upgraded' ); ?>';
+</script>
+<?php
+}
+
+add_action( 'admin_footer-update-core.php', '_redirect_to_about_wordpress' );
 ?>
