@@ -61,10 +61,18 @@ if ( isset($_GET['inline']) ) {
 	$title = __('Upload New Media');
 	$parent_file = 'upload.php';
 
-	add_contextual_help( $current_screen,
-'<p>' . __('You can upload media files here without creating a post first. This allows you to upload files to use with posts and pages later and/or to get a web link for a particular file that you can share.') . '</p>' .
+	get_current_screen()->add_help_tab( array(
+	'id'		=> 'adding-media',
+	'title'		=> __('Adding Media'),
+	'content'	=>
+		'<p>' . __('You can upload media files here without creating a post first. This allows you to upload files to use with posts and pages later and/or to get a web link for a particular file that you can share.') . '</p>'
+	) );
+	get_current_screen()->add_help_tab( array(
+	'id'		=> 'editing-new-media',
+	'title'		=> __('Editing New Media'),
+	'content'	=>
 		'<p>' . __('There are two options for uploading files: <em>Select Files</em> will open the Flash-based uploader (multiple file upload allowed), or you can use the <em>Browser Uploader</em>. Clicking <em>Select Files</em> opens a navigation window showing you files in your operating system. Selecting <em>Open</em> after clicking on the file you want activates a progress bar on the uploader screen. Basic image editing is available after upload is complete. Make sure you click <em>Save</em> before leaving this screen.') . '</p>'
-	);
+	) );
 
 	get_current_screen()->set_help_sidebar(
 		'<p><strong>' . __('For more information:') . '</strong></p>' .
