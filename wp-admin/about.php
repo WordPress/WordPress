@@ -17,9 +17,9 @@ include( './admin-header.php' );
 ?>
 <div class="wrap about-wrap">
 
-<h1><?php printf( __( 'Welcome to WordPress %s!' ), $display_version ); ?></h1>
+<h1><?php printf( __( 'Welcome to WordPress %s' ), $display_version ); ?></h1>
 
-<div class="about-text"><?php _e( 'Thank you for updating to the latest version. Using WordPress 3.3 will improve your looks, personality, and web publishing experience. Okay, just the last one, but still :)' ); ?></div>
+<div class="about-text"><?php _e( 'Thank you for updating to the latest version! Using WordPress 3.3 will improve your looks, personality, and web publishing experience. Okay, just the last one, but still. :)' ); ?></div>
 
 <div class="wp-badge"><?php printf( __( 'Version %s' ), $display_version ); ?></div>
 
