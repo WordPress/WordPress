@@ -67,8 +67,10 @@ function login_header($title = 'Log In', $message = '', $wp_error = '') {
 	if ( $is_iphone ) { ?>
 	<meta name="viewport" content="width=320; initial-scale=0.9; maximum-scale=1.0; user-scalable=0;" />
 	<style type="text/css" media="screen">
-	form { margin-left: 0px; }
-	#login { margin-top: 20px; }
+	.login form, .login .message, #login_error { margin-left: 0px; }
+	.login #nav, .login #backtoblog { margin-left: 8px; }
+	.login h1 a { width: auto; }
+	#login { padding: 20px 0; }
 	</style>
 <?php
 	}
