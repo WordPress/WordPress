@@ -15,7 +15,8 @@ jQuery(document).ready( function($) {
 	if ( welcomePanel.hasClass('hidden') && welcomePanelHide.prop('checked') )
 		welcomePanel.removeClass('hidden');
 
-	$('.welcome-panel-close, .welcome-panel-dismiss a', welcomePanel).click( function() {
+	$('.welcome-panel-close, .welcome-panel-dismiss a', welcomePanel).click( function(e) {
+		e.preventDefault();
 		welcomePanel.addClass('hidden');
 		updateWelcomePanel( 0 );
 		$('#wp_welcome_panel-hide').prop('checked', false);

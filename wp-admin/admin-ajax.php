@@ -1064,10 +1064,7 @@ case 'update-welcome-panel' :
 	if ( ! current_user_can( 'edit_theme_options' ) )
 		die('-1');
 
-	if ( empty( $_POST['visible'] ) )
-		delete_user_option( get_current_user_id(), 'show_welcome_panel' );
-	else
-		update_user_option( get_current_user_id(), 'show_welcome_panel', 1 );
+	update_user_meta( get_current_user_id(), 'show_welcome_panel', empty( $_POST['visible'] ) ? 0 : 1 );
 
 	die('1');
 	break;

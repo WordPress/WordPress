@@ -1276,14 +1276,17 @@ function wp_welcome_panel() {
 
 	$classes = 'welcome-panel';
 
-	if ( ! get_user_option( 'show_welcome_panel' ) )
+	$option = get_user_meta( get_current_user_id(), 'show_welcome_panel', true );
+	// 0 = hide, 1 = toggled to show or single site creator, 2 = multisite site owner
+	$hide = 0 == $option || ( 2 == $option && wp_get_current_user()->user_email != get_option( 'admin_email' ) );
+	if ( $hide )
 		$classes .= ' hidden';
 
 	list( $display_version ) = explode( '-', $wp_version );
 	?>
 	<div id="welcome-panel" class="<?php echo esc_attr( $classes ); ?>">
 	<?php wp_nonce_field( 'welcome-panel-nonce', 'welcomepanelnonce', false ); ?>
-	<a class="welcome-panel-close" href="#"><?php _e('Dismiss'); ?></a>
+	<a class="welcome-panel-close" href="<?php echo esc_url( admin_url( '?welcome=0' ) ); ?>"><?php _e('Dismiss'); ?></a>
 	<div class="wp-badge"><?php printf( __( 'Version %s' ), $display_version ); ?></div>
 
 	<div class="welcome-panel-content">
@@ -1349,7 +1352,7 @@ function wp_welcome_panel() {
 		endif; ?>
 	</div>
 	</div>
-	<p class="welcome-panel-dismiss"><?php _e( 'Already know what you&#8217;re doing? <a href="#">Dismiss this message</a>.' ); ?></p>
+	<p class="welcome-panel-dismiss"><?php printf( __( 'Already know what you&#8217;re doing? <a href="%s">Dismiss this message</a>.' ), esc_url( admin_url( '?welcome=0' ) ) ); ?></p>
 	</div>
 	</div>
 	<?php

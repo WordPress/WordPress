@@ -824,8 +824,16 @@ final class WP_Screen {
 					meta_box_prefs( $this );
 
 					if ( 'dashboard' === $this->id && current_user_can( 'edit_theme_options' ) ) {
+						if ( isset( $_GET['welcome'] ) ) {
+							$welcome_checked = empty( $_GET['welcome'] ) ? 0 : 1;
+							update_user_meta( get_current_user_id(), 'show_welcome_panel', $welcome_checked );
+						} else {
+							$welcome_checked = get_user_meta( get_current_user_id(), 'show_welcome_panel', true );
+							if ( 2 == $welcome_checked && wp_get_current_user()->user_email != get_option( 'admin_email' ) )
+								$welcome_checked = false;
+						}
 						echo '<label for="wp_welcome_panel-hide">';
-						echo '<input type="checkbox" id="wp_welcome_panel-hide"' . checked( (bool) get_user_option( 'show_welcome_panel' ), true, false )  . ' />';
+						echo '<input type="checkbox" id="wp_welcome_panel-hide"' . checked( (bool) $welcome_checked, true, false )  . ' />';
 						echo __( 'Welcome' ) . "</label>\n";
 					}
 				?>
