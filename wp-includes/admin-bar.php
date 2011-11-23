@@ -538,23 +538,25 @@ function wp_admin_bar_comments_menu( $wp_admin_bar ) {
  * @since 3.1.0
  */
 function wp_admin_bar_appearance_menu( $wp_admin_bar ) {
+	$wp_admin_bar->add_group( array( 'parent' => 'site-name', 'id' => 'appearance' ) );
+
 	if ( current_user_can( 'switch_themes' ) || current_user_can( 'edit_theme_options' ) )
-		$wp_admin_bar->add_menu( array( 'parent' => 'site-name', 'id' => 'themes', 'title' => __('Themes'), 'href' => admin_url('themes.php') ) );
+		$wp_admin_bar->add_menu( array( 'parent' => 'appearance', 'id' => 'themes', 'title' => __('Themes'), 'href' => admin_url('themes.php') ) );
 
 	if ( ! current_user_can( 'edit_theme_options' ) )
 		return;
 
 	if ( current_theme_supports( 'widgets' )  )
-		$wp_admin_bar->add_menu( array( 'parent' => 'site-name', 'id' => 'widgets', 'title' => __('Widgets'), 'href' => admin_url('widgets.php') ) );
+		$wp_admin_bar->add_menu( array( 'parent' => 'appearance', 'id' => 'widgets', 'title' => __('Widgets'), 'href' => admin_url('widgets.php') ) );
 
 	 if ( current_theme_supports( 'menus' ) || current_theme_supports( 'widgets' ) )
-		$wp_admin_bar->add_menu( array( 'parent' => 'site-name', 'id' => 'menus', 'title' => __('Menus'), 'href' => admin_url('nav-menus.php') ) );
+		$wp_admin_bar->add_menu( array( 'parent' => 'appearance', 'id' => 'menus', 'title' => __('Menus'), 'href' => admin_url('nav-menus.php') ) );
 
 	if ( current_theme_supports( 'custom-background' ) )
-		$wp_admin_bar->add_menu( array( 'parent' => 'site-name', 'id' => 'background', 'title' => __('Background'), 'href' => admin_url('themes.php?page=custom-background') ) );
+		$wp_admin_bar->add_menu( array( 'parent' => 'appearance', 'id' => 'background', 'title' => __('Background'), 'href' => admin_url('themes.php?page=custom-background') ) );
 
 	if ( current_theme_supports( 'custom-header' ) )
-		$wp_admin_bar->add_menu( array( 'parent' => 'site-name', 'id' => 'header', 'title' => __('Header'), 'href' => admin_url('themes.php?page=custom-header') ) );
+		$wp_admin_bar->add_menu( array( 'parent' => 'appearance', 'id' => 'header', 'title' => __('Header'), 'href' => admin_url('themes.php?page=custom-header') ) );
 }
 
 /**
