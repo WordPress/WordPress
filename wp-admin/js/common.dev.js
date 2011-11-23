@@ -206,13 +206,6 @@ $(document).ready( function() {
 		interval: 90
 	});
 
-	// Admin menu keyboard navigation.
-	$('li.wp-has-submenu').focusin( function() {
-		$(this).addClass('focused');
-	}).focusout( function() {
-		$(this).removeClass('focused');
-	});
-
 	// If the mouse is used on the menu, shift focus to the mouse.
 	menu.mouseover( function(e) {
 		$('li.focused', this).removeClass('focused');
