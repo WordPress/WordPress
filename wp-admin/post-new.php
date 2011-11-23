@@ -22,11 +22,14 @@ if ( 'post' == $post_type ) {
 	$parent_file = 'edit.php';
 	$submenu_file = 'post-new.php';
 } else {
-	if ( isset( $post_type_object ) && $post_type_object->show_in_menu && $post_type_object->show_in_menu !== true )
-		$parent_file = $post_type_object->show_in_menu;
-	else
-		$parent_file = "edit.php?post_type=$post_type";
 	$submenu_file = "post-new.php?post_type=$post_type";
+	if ( isset( $post_type_object ) && $post_type_object->show_in_menu && $post_type_object->show_in_menu !== true ) {
+		$parent_file = $post_type_object->show_in_menu;
+		if ( ! isset( $_registered_pages[ get_plugin_page_hookname( "post-new.php?post_type=$post_type", $post_type_object->show_in_menu ) ] ) )
+			$submenu_file = $parent_file;
+	} else {
+		$parent_file = "edit.php?post_type=$post_type";
+	}
 }
 
 $title = $post_type_object->labels->add_new_item;
