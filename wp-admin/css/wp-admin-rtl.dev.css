@@ -1377,6 +1377,15 @@ h2 .nav-tab {
 	margin-right: 5%;
 }
 
+.about-wrap .feature-section.images-stagger-right .angled-left,
+.about-wrap .feature-section.images-stagger-left .angled-left {
+	float: left;
+} 
+
+.about-wrap .feature-section.three-col img {
+	margin: 0.5em 0 1em 0;
+}
+
 .about-wrap li.wp-person,
 .about-wrap li.wp-person img.gravatar {
 	float: right;
