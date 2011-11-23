@@ -2881,6 +2881,35 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 		a:hover {
 			color: #D54E21;
 		}
+
+		.button {
+			font-family: sans-serif;
+			text-decoration: none;
+			font-size: 14px !important;
+			line-height: 16px;
+			padding: 6px 12px;
+			cursor: pointer;
+			border: 1px solid #bbb;
+			color: #464646;
+			-webkit-border-radius: 15px;
+			border-radius: 15px;
+			-moz-box-sizing: content-box;
+			-webkit-box-sizing: content-box;
+			box-sizing: content-box;
+		}
+
+		.button:hover {
+			color: #000;
+			border-color: #666;
+		}
+
+		.button {
+			background: #f2f2f2 url(<?php echo wp_guess_url(); ?>/wp-admin/images/white-grad.png) repeat-x scroll left top;
+		}
+
+		.button:active {
+			background: #eee url(<?php echo wp_guess_url(); ?>/wp-admin/images/white-grad-active.png) repeat-x scroll left top;
+		}
 		<?php if ( 'rtl' == $text_direction ) : ?>
 		body { font-family: Tahoma, Arial; }
 		<?php endif; ?>
