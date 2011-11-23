@@ -131,7 +131,7 @@ function dismissed_updates() {
  * @return null
  */
 function core_upgrade_preamble() {
-	global $upgrade_error;
+	global $upgrade_error, $wp_version;
 
 	$updates = get_core_updates();
 ?>
@@ -176,7 +176,12 @@ function core_upgrade_preamble() {
 		echo '</li>';
 	}
 	echo '</ul>';
-	echo '<p>' . __( 'While your site is being updated, it will be in maintenance mode. As soon as your updates are complete, your site will return to normal.' ) . '</p>';
+	if ( $updates ) {
+		echo '<p>' . __( 'While your site is being updated, it will be in maintenance mode. As soon as your updates are complete, your site will return to normal.' ) . '</p>';
+	} else {
+		list( $normalized_version ) = explode( '-', $wp_version );
+		echo '<p>' . sprintf( __( '<a href="%s">Learn more about WordPress %s</a>.' ), esc_url( admin_url( 'about.php' ) ), $normalized_version ) . '</p>';
+	}
 	dismissed_updates();
 
 	if ( current_user_can( 'update_plugins' ) )
