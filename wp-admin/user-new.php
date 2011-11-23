@@ -139,21 +139,21 @@ $do_both = false;
 if ( is_multisite() && current_user_can('promote_users') && current_user_can('create_users') )
 	$do_both = true;
 
-	get_current_screen()->add_help_tab( array(  
-	'id'      => 'add-new-user', 
-	'title'   => __('Adding New Users'), 
-	'content' => '<p>' . __('To add a new user to your site, fill in the form on this screen. If you&#8217;re not sure which role to assign, you can use the link below to review the different roles and their capabilities. Here is a basic overview of roles:') . '</p>' .
-					'<ul>' .
-					'<li>' . __('Administrators have access to all the administration features.') . '</li>' .
-					'<li>' . __('Editors can publish posts, manage posts as well as manage other people&#8217;s posts, etc.')  . '</li>' .
-					'<li>' . __('Authors can publish and manage their own posts.') . '</li>' .
-					'<li>' . __('Contributors can write and manage their posts but not publish posts or upload media files.') . '</li>' .
-					'<li>' . __('Subscribers can read comments/comment/receive newsletters, etc.') . '</li>' .
-					'</ul>' .
-				( is_multisite() ? '<p>' . __('Because this is a multisite installation, you may add accounts that already exist on the Network by specifying a username or email, and defining a role. For more options, such as specifying a password, you have to be a Network Administrator and use the hover link under an existing user&#8217;s name to Edit the user profile under Network Admin > All Users.') . '</p>' : '<p>' . __('You must assign a password to the new user, but don&#8217;t worry; when they log in for the first time they will be prompted to change it. The username, however, cannot be changed.') . '</p>' ).
-				( is_multisite() ? '<p>' . __('New users will receive an email letting them know they&#8217;ve been added as a user for your site. This email will also contain their password. Check the box if you don&#8217;t want the user to recieve a welcome email.') . '</p>' : '<p>' . __('New users will receive an email letting them know they&#8217;ve been added as a user for your site. By default, this email will also contain their password. Uncheck the box if you don&#8217;t want the password to be included in the welcome email.') . '</p>' ) .
-				 '<p>' . __('Remember to click the Add User button at the bottom of this screen when you are finished.') . '</p>'
-	) );
+get_current_screen()->add_help_tab( array(  
+'id'      => 'add-new-user', 
+'title'   => __('Adding New Users'), 
+'content' => '<p>' . __('To add a new user to your site, fill in the form on this screen. If you&#8217;re not sure which role to assign, you can use the link below to review the different roles and their capabilities. Here is a basic overview of roles:') . '</p>' .
+				'<ul>' .
+				'<li>' . __('Administrators have access to all the administration features.') . '</li>' .
+				'<li>' . __('Editors can publish posts, manage posts as well as manage other people&#8217;s posts, etc.')  . '</li>' .
+				'<li>' . __('Authors can publish and manage their own posts.') . '</li>' .
+				'<li>' . __('Contributors can write and manage their posts but not publish posts or upload media files.') . '</li>' .
+				'<li>' . __('Subscribers can read comments/comment/receive newsletters, etc.') . '</li>' .
+				'</ul>' .
+			( is_multisite() ? '<p>' . __('Because this is a multisite installation, you may add accounts that already exist on the Network by specifying a username or email, and defining a role. For more options, such as specifying a password, you have to be a Network Administrator and use the hover link under an existing user&#8217;s name to Edit the user profile under Network Admin > All Users.') . '</p>' : '<p>' . __('You must assign a password to the new user, but don&#8217;t worry; when they log in for the first time they will be prompted to change it. The username, however, cannot be changed.') . '</p>' ).
+			( is_multisite() ? '<p>' . __('New users will receive an email letting them know they&#8217;ve been added as a user for your site. This email will also contain their password. Check the box if you don&#8217;t want the user to recieve a welcome email.') . '</p>' : '<p>' . __('New users will receive an email letting them know they&#8217;ve been added as a user for your site. By default, this email will also contain their password. Uncheck the box if you don&#8217;t want the password to be included in the welcome email.') . '</p>' ) .
+			 '<p>' . __('Remember to click the Add User button at the bottom of this screen when you are finished.') . '</p>'
+) );
 
 get_current_screen()->set_help_sidebar(
     '<p><strong>' . __('For more information:') . '</strong></p>' .
