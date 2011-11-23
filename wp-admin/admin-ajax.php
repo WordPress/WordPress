@@ -1127,7 +1127,7 @@ case 'wp-link-ajax':
 	$args['pagenum'] = ! empty( $_POST['page'] ) ? absint( $_POST['page'] ) : 1;
 
 	require(ABSPATH . WPINC . '/class-wp-editor.php');
-	$results = WP_Editor::wp_link_query( $args );
+	$results = _WP_Editors::wp_link_query( $args );
 
 	if ( ! isset( $results ) )
 		die( '0' );

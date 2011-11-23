@@ -2617,27 +2617,6 @@ function wp_timezone_supported() {
 }
 
 /**
- * Find out which editor should be displayed
- *
- * @see WP_Editor::wp_default_editor()
- * @since 2.5.0
- * @deprecated 3.5
- *
- * @return bool
- */
-function wp_default_editor() {
-	_deprecated_function( __FUNCTION__, '3.3' );
-
-	global $wp_editor;
-	if ( !is_a($wp_editor, 'WP_Editor') ) {
-		require_once( ABSPATH . WPINC . '/class-wp-editor.php' );
-		$wp_editor = new WP_Editor;
-	}
-
-	return $wp_editor->wp_default_editor();
-}
-
-/**
  * Display editor: TinyMCE, HTML, or both.
  *
  * @since 2.1.0

@@ -1766,11 +1766,29 @@ function user_can_richedit() {
 }
 
 /**
- * Loads and initializes WP_Editor class (if needed), passes the settings for an instance of the editor
+ * Find out which editor should be displayed by default.
+ *
+ * Works out which of the two editors to display as the current editor for a
+ * user.
+ *
+ * @since 2.5.0
+ *
+ * @return string Either 'tinymce', or 'html', or 'test'
+ */
+function wp_default_editor() {
+	$r = user_can_richedit() ? 'tinymce' : 'html'; // defaults
+	if ( $user = wp_get_current_user() ) { // look for cookie
+		$ed = get_user_setting('editor', 'tinymce');
+		$r = ( in_array($ed, array('tinymce', 'html', 'test') ) ) ? $ed : $r;
+	}
+	return apply_filters( 'wp_default_editor', $r ); // filter
+}
+
+/**
+ * Renders an editor.
  *
  * Using this function is the proper way to output all needed components for both TinyMCE and Quicktags.
- * WP_Editor shouldn't be instantiated separately as it keeps track of loaded scripts.
- * See http://core.trac.wordpress.org/ticket/17144. 
+ * _WP_Editors should not be used directly. See http://core.trac.wordpress.org/ticket/17144.
  * 
  * NOTE: Once initialized the TinyMCE editor cannot be safely moved in the DOM. For that reason
  * running wp_editor() inside of a metabox is not a good idea unless only Quicktags is used.
@@ -1783,17 +1801,13 @@ function user_can_richedit() {
  *
  * @param string $content Initial content for the editor.
  * @param string $editor_id HTML ID attribute value for the textarea and TinyMCE. Can only be /[a-z]+/.
- * @param array $settings See WP_Editor::editor().
+ * @param array $settings See _WP_Editors::editor().
  */
 function wp_editor( $content, $editor_id, $settings = array() ) {
-	global $wp_editor;
-
-	if ( !is_a($wp_editor, 'WP_Editor') ) {
+	if ( ! class_exists( '_WP_Editors' ) )
 		require( ABSPATH . WPINC . '/class-wp-editor.php' );
-		$wp_editor = new WP_Editor;
-	}
 
-	$wp_editor->editor($content, $editor_id, $settings);
+	_WP_Editors::editor($content, $editor_id, $settings);
 }
 
 /**
