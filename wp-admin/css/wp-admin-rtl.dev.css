@@ -368,6 +368,18 @@ form.upgrade .hint {
 	right: 150px;
 }
 
+#contextual-help-wrap.no-sidebar #contextual-help-back {
+	left: 0;
+	right: 150px;
+
+	border-right-width: 1px;
+	border-left-width: 0;
+	-webkit-border-bottom-right-radius: 0;
+	border-bottom-right-radius: 0;
+	-webkit-border-bottom-left-radius: 2px;
+	border-bottom-left-radius: 2px;
+}
+
 .contextual-help-tabs {
 	float: right;
 }
@@ -653,9 +665,9 @@ form.upgrade .hint {
 	padding: 0 25px 0 0;
 }
 
-.welcome-panel .welcome-panel-column ul { 
-	margin: 1.6em 1.3em 1em 1em; 
-} 
+.welcome-panel .welcome-panel-column ul {
+	margin: 1.6em 1.3em 1em 1em;
+}
 
 .welcome-panel .welcome-panel-column li {
 	padding-left: 0;
@@ -1311,7 +1323,7 @@ h2 .nav-tab {
 
 #wpcontent,
 #footer {
-	margin-right: 165px;	
+	margin-right: 165px;
 }
 
 /*------------------------------------------------------------------------------
@@ -1329,7 +1341,7 @@ h2 .nav-tab {
 	margin-left: 200px;
 }
 
-.about-wrap h2.nav-tab-wrapper { 
+.about-wrap h2.nav-tab-wrapper {
 	padding-left: 0px;
 	padding-right: 6px;
 }
@@ -1380,7 +1392,7 @@ h2 .nav-tab {
 .about-wrap .feature-section.images-stagger-right .angled-left,
 .about-wrap .feature-section.images-stagger-left .angled-left {
 	float: left;
-} 
+}
 
 .about-wrap .feature-section.three-col img {
 	margin: 0.5em 0 1em 0;
@@ -1846,7 +1858,7 @@ body.login {
 
 .login #nav,
 .login #backtoblog {
-	margin: 0 16px 0 0;	
+	margin: 0 16px 0 0;
 }
 
 #login_error,
@@ -2249,8 +2261,8 @@ h3.tb {
 }
 
 #template textarea {
-	direction: ltr; 
-} 
+	direction: ltr;
+}
 
 /* theme-install */
 div.star {

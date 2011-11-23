@@ -687,11 +687,17 @@ final class WP_Screen {
 			) );
 		}
 
+		$has_sidebar = ! empty( $this->_help_sidebar );
+
+		$help_class = 'hidden';
+		if ( ! $has_sidebar )
+			$help_class .= ' no-sidebar';
+
 		// Time to render!
 		?>
 		<div id="screen-meta" class="metabox-prefs">
-			
-			<div id="contextual-help-wrap" class="hidden">
+
+			<div id="contextual-help-wrap" class="<?php echo esc_attr( $help_class ); ?>">
 				<div id="contextual-help-back"></div>
 				<div id="contextual-help-columns">
 					<div class="contextual-help-tabs">
@@ -711,7 +717,7 @@ final class WP_Screen {
 						</ul>
 					</div>
 
-					<?php if ( ! empty( $this->_help_sidebar ) ) : ?>
+					<?php if ( $has_sidebar ) : ?>
 					<div class="contextual-help-sidebar">
 						<?php echo self::$this->_help_sidebar; ?>
 					</div>
