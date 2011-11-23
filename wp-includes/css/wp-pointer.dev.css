@@ -128,7 +128,8 @@
 
 .wp-pointer-left .wp-pointer-arrow,
 .wp-pointer-right .wp-pointer-arrow {
-	top: 60px;
+	top: 50%;
+	margin-top: -15px;
 	width: 14px;
 	height: 30px;
 }
