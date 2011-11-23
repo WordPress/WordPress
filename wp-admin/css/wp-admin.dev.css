@@ -1743,13 +1743,14 @@ body.no-js #adminmenu .wp-menu-toggle,
 }
 
 #adminmenu li.wp-has-current-submenu .wp-menu-arrow,
-#adminmenu li.wp-has-submenu:hover .wp-menu-arrow,
+#adminmenu li.menu-top:hover .wp-menu-arrow,
 #adminmenu li.current .wp-menu-arrow,
-#adminmenu li.focused .wp-menu-arrow {
+#adminmenu li.focused .wp-menu-arrow,
+#adminmenu li.menu-top.wp-has-submenu:hover .wp-menu-arrow div {
 	display: block;
 }
 
-.folded #adminmenu li.wp-not-current-submenu .wp-menu-arrow {
+#adminmenu li.wp-not-current-submenu:hover .wp-menu-arrow div {
 	display: none;
 }
 
