@@ -283,15 +283,13 @@ class WP_Terms_List_Table extends WP_List_Table {
 	}
 
 	function column_posts( $tag ) {
-		global $taxonomy;
+		global $taxonomy, $post_type;
 
 		$count = number_format_i18n( $tag->count );
 
 		$tax = get_taxonomy( $taxonomy );
 
-		$post_type = get_current_screen()->post_type;
 		$ptype_object = get_post_type_object( $post_type );
-
 		if ( ! $ptype_object->show_ui )
 			return $count;
 
