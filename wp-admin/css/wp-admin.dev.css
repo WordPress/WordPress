@@ -6967,8 +6967,9 @@ div.zerosize {
 
 .press-this #poststuff h2,
 .press-this #poststuff h3 {
-	font-size: 13px;
+	font-size: 14px;
 	line-height: 1;
+	margin: 10px;
 }
 
 .press-this #tagsdiv-post_tag h3,
@@ -7019,7 +7020,7 @@ h3.tb {
 }
 
 .press-this #extra-fields .actions {
-	margin: -23px -7px 0 0;
+	margin: -25px -7px 0 0;
 }
 
 .press-this .actions li {

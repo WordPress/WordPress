@@ -139,19 +139,19 @@ if ( !empty($_REQUEST['ajax']) ) {
 					tb_remove();
 				});
 				jQuery('.select').click(function() {
-					image_selector();
+					image_selector(this);
 				});
 				/* ]]> */
 			</script>
 			<h3 class="tb"><label for="tb_this_photo_description"><?php _e('Description') ?></label></h3>
 			<div class="titlediv">
 				<div class="titlewrap">
-					<input id="tb_this_photo_description" name="photo_description" class="tbtitle text" onkeypress="if(event.keyCode==13) image_selector();" value="<?php echo esc_attr($title);?>"/>
+					<input id="tb_this_photo_description" name="photo_description" class="tb_this_photo_description tbtitle text" onkeypress="if(event.keyCode==13) image_selector(this);" value="<?php echo esc_attr($title);?>"/>
 				</div>
 			</div>
 
 			<p class="centered">
-				<input type="hidden" name="this_photo" value="<?php echo esc_attr($image); ?>" id="tb_this_photo" />
+				<input type="hidden" name="this_photo" value="<?php echo esc_attr($image); ?>" id="tb_this_photo" class="tb_this_photo" />
 				<a href="#" class="select">
 					<img src="<?php echo esc_url($image); ?>" alt="<?php echo esc_attr(__('Click to insert.')); ?>" title="<?php echo esc_attr(__('Click to insert.')); ?>" />
 				</a>
@@ -270,8 +270,16 @@ if ( !empty($_REQUEST['ajax']) ) {
 			return false;
 		}
 
-		function image_selector() {
-			var desc = jQuery('#tb_this_photo_description').val() || '', src = jQuery('#tb_this_photo').val() || '';
+		function image_selector(el) {
+			var desc, src, parent = jQuery(el).closest('#photo-add-url-div');
+
+			if ( parent.length ) {
+				desc = parent.find('input.tb_this_photo_description').val() || '';
+				src = parent.find('input.tb_this_photo').val() || ''
+			} else {
+				desc = jQuery('#tb_this_photo_description').val() || '';
+				src = jQuery('#tb_this_photo').val() || ''
+			}
 
 			tb_remove();
 			pick(src, desc);
@@ -368,15 +376,24 @@ var photostorage = false;
 				function setup_photo_actions() {
 					jQuery('.close').click(function() {
 						jQuery('#extra-fields').hide();
+						jQuery('body').append( jQuery('#photo-add-url-div') );
 						jQuery('#extra-fields').html('');
 					});
 					jQuery('.refresh').click(function() {
 						photostorage = false;
+						jQuery('body').append( jQuery('#photo-add-url-div') );
 						show('photo');
 					});
 					jQuery('#photo-add-url').click(function(){
-						var form = jQuery('#photo-add-url-div').clone();
-						jQuery('#img_container').empty().append( form.show() );
+						var container = jQuery('#img_container');
+
+						if ( container.children('#photo-add-url-div:visible').length ) {
+							container.children('a').show();
+							jQuery('#photo-add-url-div').hide();
+						} else {
+							container.children('a').hide();
+							container.append( jQuery('#photo-add-url-div').show() );
+						}
 					});
 					jQuery('#waiting').hide();
 					jQuery('#extra-fields').show();
@@ -625,12 +642,12 @@ var photostorage = false;
 <div id="photo-add-url-div" style="display:none;">
 	<table><tr>
 	<td><label for="this_photo"><?php _e('URL') ?></label></td>
-	<td><input type="text" id="this_photo" name="this_photo" class="tbtitle text" onkeypress="if(event.keyCode==13) image_selector();" /></td>
+	<td><input type="text" id="this_photo" name="this_photo" class="tb_this_photo text" onkeypress="if(event.keyCode==13) image_selector(this);" /></td>
 	</tr><tr>
 	<td><label for="this_photo_description"><?php _e('Description') ?></label></td>
-	<td><input type="text" id="this_photo_description" name="photo_description" class="tbtitle text" onkeypress="if(event.keyCode==13) image_selector();" value="<?php echo esc_attr($title);?>"/></td>
+	<td><input type="text" id="this_photo_description" name="photo_description" class="tb_this_photo_description text" onkeypress="if(event.keyCode==13) image_selector(this);" value="<?php echo esc_attr($title);?>"/></td>
 	</tr><tr>
-	<td><input type="button" class="button" onclick="image_selector()" value="<?php esc_attr_e('Insert Image'); ?>" /></td>
+	<td><input type="button" class="button" onclick="image_selector(this)" value="<?php esc_attr_e('Insert Image'); ?>" /></td>
 	</tr></table>
 </div>
 <?php
