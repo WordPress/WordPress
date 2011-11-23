@@ -23,7 +23,7 @@ if ( typeof(jQuery) != 'undefined' ) {
 			}).focus().select();
 		});
 
-		$('.ab-top-menu > li > .ab-item').bind('focus.adminbar', function(){
+		$('#wpadminbar ul > li > .ab-item').bind('focus.adminbar', function(){
 			$(this).parent().addClass('hover').find('.ab-item').each(function(i, el){
 				var node = $(el), tab = node.attr('tabindex');
 				if ( tab )
@@ -42,9 +42,13 @@ if ( typeof(jQuery) != 'undefined' ) {
 			var top = $(this).parents('li.menupop');
 
 			setTimeout(function(){
-				if ( !top.find('.ab-item:focus').length )
-					top.removeClass('hover');
-			}, 150);
+				top.each( function() {
+					var t = $(this);
+
+					if ( ! t.find('.ab-item:focus').length )
+						t.removeClass('hover');
+				});
+			}, 100);
 		});
 
 	});
