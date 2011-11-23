@@ -135,8 +135,13 @@
 	margin: 0 -1px 0 0;
 }
 
+#wpadminbar .ab-sub-wrapper > .ab-submenu:first-child {
+	border-top: none;
+}
+
 #wpadminbar .ab-submenu {
 	padding: 6px 0;
+	border-top: 1px solid #dfdfdf;
 }
 
 #wpadminbar .selected .shortlink-input {
@@ -247,10 +252,8 @@
 	position: relative;
 	right: auto;
 	margin: 0;
-	border: 0;
 
 	background: #eee;
-	border-top: 1px solid #dfdfdf;
 
 	-moz-box-shadow: none;
 	-webkit-box-shadow: none;
@@ -310,52 +313,52 @@
 	min-width: 270px;
 }
 
-#wpadminbar #wp-admin-bar-my-account .user-info-item {
+#wpadminbar #wp-admin-bar-my-account-default > li {
 	margin-left: 16px;
 	margin-right: 16px;
 }
 
-#wpadminbar #wp-admin-bar-my-account.with-avatar .user-info-item {
+#wpadminbar #wp-admin-bar-my-account.with-avatar #wp-admin-bar-my-account-default > li {
 	margin-left: 88px;
 }
 
-#wpadminbar #wp-admin-bar-my-account .user-info-item > a {
+#wp-admin-bar-my-account-default > li > .ab-item {
 	padding-left: 8px;
 }
 
-#wpadminbar #wp-admin-bar-my-account .user-info {
+#wpadminbar #wp-admin-bar-user-info {
 	margin-top: 6px;
 	margin-bottom: 15px;
 	height: auto;
 	background: none;
 }
 
-#wp-admin-bar-my-account .user-info .avatar {
+#wp-admin-bar-user-info .avatar {
 	position: absolute;
 	left: -72px;
 	top: 4px;
 }
 
-#wpadminbar #wp-admin-bar-my-account .user-info a {
+#wpadminbar #wp-admin-bar-user-info a {
 	height: auto;
 }
 
-#wpadminbar #wp-admin-bar-my-account .user-info span {
+#wpadminbar #wp-admin-bar-user-info span {
 	background: none;
 	padding: 0;
 	height: 18px;
 }
 
-#wpadminbar #wp-admin-bar-my-account .user-info .display-name,
-#wpadminbar #wp-admin-bar-my-account .user-info .username {
+#wpadminbar #wp-admin-bar-user-info .display-name,
+#wpadminbar #wp-admin-bar-user-info .username {
 	text-shadow: none;
 	display: block;
 }
-#wpadminbar #wp-admin-bar-my-account .user-info .display-name {
+#wpadminbar #wp-admin-bar-user-info .display-name {
 	color: #333;
 }
 
-#wpadminbar #wp-admin-bar-my-account .user-info .username {
+#wpadminbar #wp-admin-bar-user-info .username {
 	color: #999;
 	font-size: 11px;
 }
