@@ -1803,6 +1803,7 @@ body.no-js #adminmenu .wp-menu-toggle,
 	display: none;
 }
 
+.folded #adminmenu li.current:hover .wp-menu-arrow,
 .folded #adminmenu li.menu-top.wp-menu-open:hover .wp-menu-arrow {
 	display: block;
 	z-index: 125;
