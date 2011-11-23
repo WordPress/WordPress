@@ -156,3 +156,33 @@
 	background-position:-16px -15px;
 }
 
+/* - RTL
+------------------------------------------------------------------------------*/
+
+.rtl .wp-pointer-content h3 {
+	padding-right: 60px;
+	padding-left: 18px;
+}
+
+.rtl .wp-pointer-content h3:before {
+	right: 15px;
+}
+
+.rtl .wp-pointer-buttons a {
+	float: left;
+}
+
+.rtl .wp-pointer-buttons a.close {
+	padding-right:3px;
+	padding-left: 0;
+}
+
+.rtl .wp-pointer-buttons a.close:before {
+	right:-10px;
+}
+
+.rtl .wp-pointer-top .wp-pointer-arrow,
+.rtl .wp-pointer-bottom .wp-pointer-arrow,
+.rtl .wp-pointer-undefined .wp-pointer-arrow {
+	right: 50px;
+}

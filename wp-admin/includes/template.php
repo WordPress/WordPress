@@ -1775,7 +1775,7 @@ final class WP_Internal_Pointers {
 
 		WP_Internal_Pointers::print_js( 'wp330_media_uploader', '#content-add_media', array(
 			'content'  => $content,
-			'position' => array( 'edge' => 'left', 'align' => 'center' ),
+			'position' => array( 'edge' => is_rtl() ? 'right' : 'left', 'align' => 'center' ),
 		) );
 	}
 
@@ -1790,7 +1790,7 @@ final class WP_Internal_Pointers {
 
 		WP_Internal_Pointers::print_js( 'wp330_saving_widgets', '#message2', array(
 			'content'  => $content,
-			'position' => array( 'edge' => 'top', 'align' => 'left' ),
+			'position' => array( 'edge' => 'top', 'align' => is_rtl() ? 'right' : 'left' ),
 		) );
 	}
 }
