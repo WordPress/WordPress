@@ -15,6 +15,14 @@ body {
 	border-width: 0 0 0 1px;
 }
 
+#plupload-upload-ui {
+	zoom: 1;
+}
+
+.post-com-count-wrapper a.post-com-count {
+	float: none;
+}
+
 #adminmenu .wp-submenu ul {
 	width: 99%;
 }

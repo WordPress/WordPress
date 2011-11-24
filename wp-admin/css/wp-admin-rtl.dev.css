@@ -1878,6 +1878,10 @@ body.login {
 	text-decoration: none;
 }
 
+.login .button-primary {
+	float: left;
+}
+
 
 /* nav-menu */
 #nav-menus-frame {

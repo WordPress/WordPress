@@ -1503,7 +1503,7 @@ form.upgrade .hint {
 }
 
 .contextual-help-tabs .active {
-	padding: 0 2px 0 0;
+	padding: 0;
 	margin: 0 -1px 0 0;
 	border-width: 1px 0 1px 1px;
 	border-style: solid;
@@ -5998,6 +5998,7 @@ a.rsswidget {
 .login form .input {
 	font-weight: 200;
 	font-size: 24px;
+	line-height: 1;
 	width: 100%;
 	padding: 3px;
 	margin-top: 2px;
