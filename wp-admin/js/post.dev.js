@@ -547,6 +547,9 @@ jQuery(document).ready( function($) {
 			b.html('<a href="#" class="save button">'+postL10n.ok+'</a> <a class="cancel" href="#">'+postL10n.cancel+'</a>');
 			b.children('.save').click(function() {
 				var new_slug = e.children('input').val();
+				if ( new_slug == $('#editable-post-name-full').text() ) {
+					return $('.cancel', '#edit-slug-buttons').click();
+				}
 				$.post(ajaxurl, {
 					action: 'sample-permalink',
 					post_id: post_id,

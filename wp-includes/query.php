@@ -1838,7 +1838,7 @@ class WP_Query {
 		}
 
 		if ( !empty($q['tag_slug__in']) ) {
-			$q['tag_slug__in'] = array_map('sanitize_title', array_unique( (array) $q['tag_slug__in'] ) );
+			$q['tag_slug__in'] = array_map('sanitize_title_for_query', array_unique( (array) $q['tag_slug__in'] ) );
 			$tax_query[] = array(
 				'taxonomy' => 'post_tag',
 				'terms' => $q['tag_slug__in'],
@@ -1847,7 +1847,7 @@ class WP_Query {
 		}
 
 		if ( !empty($q['tag_slug__and']) ) {
-			$q['tag_slug__and'] = array_map('sanitize_title', array_unique( (array) $q['tag_slug__and'] ) );
+			$q['tag_slug__and'] = array_map('sanitize_title_for_query', array_unique( (array) $q['tag_slug__and'] ) );
 			$tax_query[] = array(
 				'taxonomy' => 'post_tag',
 				'terms' => $q['tag_slug__and'],

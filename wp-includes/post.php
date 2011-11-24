@@ -2490,7 +2490,12 @@ function wp_insert_post($postarr, $wp_error = false) {
 		else
 			$post_name = '';
 	} else {
-		$post_name = sanitize_title($post_name);
+		// On updates, we need to check to see if it's using the old, fixed sanitization context.
+		$check_name = sanitize_title( $post_name, '', 'old-save' );
+		if ( $update && strtolower( urlencode( $post_name ) ) == $check_name && get_post_field( 'post_name', $ID ) == $check_name )
+			$post_name = $check_name;
+		else // new post, or slug has changed.
+			$post_name = sanitize_title($post_name);
 	}
 
 	// If the post date is empty (due to having been new or a draft) and status is not 'draft' or 'pending', set date to now
@@ -3153,7 +3158,7 @@ function get_page_by_path($page_path, $output = OBJECT, $post_type = 'page') {
 	$page_path = str_replace('%20', ' ', $page_path);
 	$parts = explode( '/', trim( $page_path, '/' ) );
 	$parts = array_map( 'esc_sql', $parts );
-	$parts = array_map( 'sanitize_title', $parts );
+	$parts = array_map( 'sanitize_title_for_query', $parts );
 
 	$in_string = "'". implode( "','", $parts ) . "'";
 	$post_type_sql = $post_type;
