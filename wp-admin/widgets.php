@@ -63,6 +63,25 @@ get_current_screen()->set_help_sidebar(
 	'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
 
+if ( empty($wp_registered_sidebars) ) {
+	// the theme has no sidebars, die.
+	require_once( './admin-header.php' );
+?>
+
+	<div class="wrap">
+	<?php screen_icon(); ?>
+	<h2><?php echo esc_html( $title ); ?></h2>
+		<div class="error">
+			<p><?php _e( 'No Sidebars Defined' ); ?></p>
+		</div>
+		<p><?php _e( 'The theme you are currently using isn&#8217;t widget-aware, meaning that it has no sidebars that you are able to change. For information on making your theme widget-aware, please <a href="http://codex.wordpress.org/Widgetizing_Themes">follow these instructions</a>.' ); ?></p>
+	</div>
+
+<?php
+	require_once( './admin-footer.php' );
+	exit;
+}
+
 // These are the widgets grouped by sidebar
 $sidebars_widgets = wp_get_sidebars_widgets();
 
@@ -104,25 +123,6 @@ register_sidebar(array(
 ));
 
 retrieve_widgets();
-
-if ( count($wp_registered_sidebars) == 1 ) {
-	// If only "wp_inactive_widgets" is defined the theme has no sidebars, die.
-	require_once( './admin-header.php' );
-?>
-
-	<div class="wrap">
-	<?php screen_icon(); ?>
-	<h2><?php echo esc_html( $title ); ?></h2>
-		<div class="error">
-			<p><?php _e( 'No Sidebars Defined' ); ?></p>
-		</div>
-		<p><?php _e( 'The theme you are currently using isn&#8217;t widget-aware, meaning that it has no sidebars that you are able to change. For information on making your theme widget-aware, please <a href="http://codex.wordpress.org/Widgetizing_Themes">follow these instructions</a>.' ); ?></p>
-	</div>
-
-<?php
-	require_once( './admin-footer.php' );
-	exit;
-}
 
 // We're saving a widget without js
 if ( isset($_POST['savewidget']) || isset($_POST['removewidget']) ) {
