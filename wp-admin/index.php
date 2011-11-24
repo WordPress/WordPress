@@ -35,7 +35,7 @@ add_screen_option( 'overview', $overview );
 // Help tabs
 
 $help_navigation  = '<p>' . __('The left-hand navigation menu provides links to all of the WordPress administration screens, with submenu items displayed on hover. You can minimize this menu to a narrow icon strip by clicking on the Collapse Menu arrow at the bottom.') . '</p>';
-$help_navigation .= '<p>' . __('Links in the &#8220;admin bar&#8221; at the top of the screen connect your dashboard and the front end of your site, and provide access to your profile and helpful WordPress information.') . '</p>';
+$help_navigation .= '<p>' . __('Links in the Toolbar at the top of the screen connect your dashboard and the front end of your site, and provide access to your profile and helpful WordPress information.') . '</p>';
 
 get_current_screen()->add_help_tab( array(
         'id'      => 'help-navigation',
@@ -49,7 +49,7 @@ $help_layout .= '<p>' . __('<strong>Drag and Drop</strong> - To rearrange the bo
 $help_layout .= '<p>' . __('<strong>Box Controls</strong> - Click the title bar of the box to expand or collapse it. In addition, some box have configurable content, and will show a &#8220;Configure&#8221; link in the title bar if you hover over it.') . '</p>';
 
 get_current_screen()->add_help_tab( array(
-        'id'      => 'help-layout',
+	'id'      => 'help-layout',
 	'title'   => __('Layout'),
 	'content' => $help_layout,
 ) );
@@ -65,7 +65,7 @@ $help_content .= '<p>' . __('<strong>Other WordPress News</strong> - Shows the <
 $help_content .= '<p>' . __('<strong>Plugins</strong> - Features the most popular, newest, and recently updated plugins from the WordPress.org Plugin Directory.') . '</p>';
 
 get_current_screen()->add_help_tab( array(
-        'id'      => 'help-content',
+	'id'      => 'help-content',
 	'title'   => __('Content'),
 	'content' => $help_content,
 ) );

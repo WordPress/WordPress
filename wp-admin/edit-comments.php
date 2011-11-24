@@ -111,13 +111,24 @@ else
 
 add_screen_option( 'per_page', array('label' => _x( 'Comments', 'comments per page (screen options)' )) );
 
-add_contextual_help( $current_screen, '<p>' . __( 'You can manage comments made on your site similar to the way you manage Posts and other content. This screen is customizable in the same ways as other management screens, and you can act on comments using the on-hover action links or the Bulk Actions.' ) . '</p>' .
-	'<p>' . __( 'A yellow row means the comment is waiting for you to moderate it.' ) . '</p>' .
-	'<p>' . __( 'In the Author column, in addition to the author&#8217;s name, email address, and blog URL, the commenter&#8217;s IP address is shown. Clicking on this link will show you all the comments made from this IP address.' ) . '</p>' .
-	'<p>' . __( 'In the Comment column, above each comment it says &#8220;Submitted on,&#8221; followed by the date and time the comment was left on your site. Clicking on the date/time link will take you to that comment on your live site. Hovering over any comment gives you options to approve, reply (and approve), quick edit, edit, spam mark, or trash that comment.' ) . '</p>' .
-	'<p>' . __( 'In the In Response To column, there are three elements. The text is the name of the post that inspired the comment, and links to the post editor for that entry. The &#8220;#&#8221; permalink symbol below leads to that post on your live site. The small bubble with the number in it shows how many comments that post has received. If the bubble is gray, you have moderated all comments for that post. If it is blue, there are pending comments. Clicking the bubble will filter the comments screen to show only comments on that post.' ) . '</p>' .
-	'<p>' . __( 'Many people take advantage of keyboard shortcuts to moderate their comments more quickly. Use the link below to learn more.' ) . '</p>'
-);
+get_current_screen()->add_help_tab( array(
+'id'		=> 'managing-comments',
+'title'		=> __('Managing Comments'),
+'content'	=> 
+	'<p>' . __( 'You can manage comments made on your site similar to the way you manage posts and other content. This screen is customizable in the same ways as other management screens, and you can act on comments using the on-hover action links or the Bulk Actions.' ) . '</p>'
+) );
+get_current_screen()->add_help_tab( array(
+'id'		=> 'comments-table',
+'title'		=> __('Comments Table'),
+'content'	=> 
+	'<ul>' .
+		'<li>' . __( 'A yellow row means the comment is waiting for you to moderate it.' ) . '</li>' .
+		'<li>' . __( 'In the <strong>Author</strong> column, in addition to the author&#8217;s name, email address, and blog URL, the commenter&#8217;s IP address is shown. Clicking on this link will show you all the comments made from this IP address.' ) . '</li>' .
+		'<li>' . __( 'In the <strong>Comment</strong> column, above each comment it says &#8220;Submitted on,&#8221; followed by the date and time the comment was left on your site. Clicking on the date/time link will take you to that comment on your live site. Hovering over any comment gives you options to approve, reply (and approve), quick edit, edit, spam mark, or trash that comment.' ) . '</li>' .
+		'<li>' . __( 'In the <strong>In Response To</strong> column, there are three elements. The text is the name of the post that inspired the comment, and links to the post editor for that entry. The View Post link leads to that post on your live site. The small bubble with the number in it shows how many comments that post has received. If the bubble is gray, you have moderated all comments for that post. If it is blue, there are pending comments. Clicking the bubble will filter the comments screen to show only comments on that post.' ) . '</li>' .
+		'<li>' . __( 'Many people take advantage of keyboard shortcuts to moderate their comments more quickly. Use the link to the side to learn more.' ) . '</li>' .
+	'</ul>'
+) ); 
 
 get_current_screen()->set_help_sidebar(
 	'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
