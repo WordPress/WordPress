@@ -96,7 +96,7 @@ foreach ( $sidebars_widgets as $sidebar_id => $widgets ) {
 		if ( ! empty( $widgets ) ) { // register the inactive_widgets area as sidebar
 			register_sidebar(array(
 				'name' => __( 'Inactive Sidebar (from previous theme)' ),
-				'id' => $sidebar_id,
+				'id' => 'orphaned_widgets-' . $sidebar_id,
 				'class' => 'inactive-sidebar orphan-sidebar',
 				'description' => __( 'This is a left over sidebar from an old theme and does not show anywhere on your site' ),
 				'before_widget' => '',
