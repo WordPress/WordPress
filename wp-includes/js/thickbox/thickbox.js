@@ -225,7 +225,7 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 
 				if(url.indexOf('TB_inline') != -1){
 					jQuery("#TB_ajaxContent").append(jQuery('#' + params['inlineId']).children());
-					jQuery("#TB_window").unload(function () {
+					jQuery("#TB_window").bind('tb_unload', function () {
 						jQuery('#' + params['inlineId']).append( jQuery("#TB_ajaxContent").children() ); // move elements back when you're finished
 					});
 					tb_position();
@@ -275,7 +275,7 @@ function tb_showIframe(){
 function tb_remove() {
  	jQuery("#TB_imageOff").unbind("click");
 	jQuery("#TB_closeWindowButton").unbind("click");
-	jQuery("#TB_window").fadeOut("fast",function(){jQuery('#TB_window,#TB_overlay,#TB_HideSelect').trigger("unload").unbind().remove();});
+	jQuery("#TB_window").fadeOut("fast",function(){jQuery('#TB_window,#TB_overlay,#TB_HideSelect').trigger("tb_unload").unbind().remove();});
 	jQuery("#TB_load").remove();
 	if (typeof document.body.style.maxHeight == "undefined") {//if IE 6
 		jQuery("body","html").css({height: "auto", width: "auto"});
