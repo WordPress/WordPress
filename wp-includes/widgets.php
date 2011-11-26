@@ -1157,22 +1157,21 @@ function _wp_sidebars_changed() {
 	if ( ! is_array( $sidebars_widgets ) )
 		$sidebars_widgets = wp_get_sidebars_widgets();
 
-	retrieve_widgets();
+	retrieve_widgets(true);
 }
 
 // look for "lost" widgets, this has to run at least on each theme change
-function retrieve_widgets() {
+function retrieve_widgets($theme_changed = false) {
 	global $wp_registered_widget_updates, $wp_registered_sidebars, $sidebars_widgets, $wp_registered_widgets;
 
 	$registered_sidebar_keys = array_keys( $wp_registered_sidebars );
+	$orphaned = 0;
 
 	$old_sidebars_widgets = get_theme_mod( 'sidebars_widgets' );
 	if ( is_array( $old_sidebars_widgets ) ) {
 		// time() that sidebars were stored is in $old_sidebars_widgets['time']
 		$_sidebars_widgets = $old_sidebars_widgets['data'];
 		remove_theme_mod( 'sidebars_widgets' );
- 
-		$orphaned = 0;
 
 		foreach ( $_sidebars_widgets as $sidebar => $widgets ) {
 			if ( 'wp_inactive_widgets' == $sidebar || 'orphaned_widgets' == substr( $sidebar, 0, 16 ) )
@@ -1202,10 +1201,17 @@ function retrieve_widgets() {
 
 		unset( $sidebars_widgets['wp_inactive_widgets'] );
 
-		foreach ( $wp_registered_sidebars as $id => $settings )
-			$_sidebars_widgets[$id] = array_shift( $sidebars_widgets );
-
-		$orphaned = 0;
+		foreach ( $wp_registered_sidebars as $id => $settings ) {
+			if ( $theme_changed ) {
+				$_sidebars_widgets[$id] = array_shift( $sidebars_widgets );
+			} else {
+				// no theme change, grab only sidebars that are currently registered
+				if ( isset( $sidebars_widgets[$id] ) ) {
+					$_sidebars_widgets[$id] = $sidebars_widgets[$id];
+					unset( $sidebars_widgets[$id] );
+				}
+			}
+		}
 
 		foreach ( $sidebars_widgets as $val ) {
 			if ( is_array($val) && ! empty( $val ) )

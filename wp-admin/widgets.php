@@ -96,7 +96,7 @@ foreach ( $sidebars_widgets as $sidebar_id => $widgets ) {
 		if ( ! empty( $widgets ) ) { // register the inactive_widgets area as sidebar
 			register_sidebar(array(
 				'name' => __( 'Inactive Sidebar (not used)' ),
-				'id' => 'orphaned_widgets-' . $sidebar_id,
+				'id' => $sidebar_id,
 				'class' => 'inactive-sidebar orphan-sidebar',
 				'description' => __( 'This sidebar is no longer available and does not show anywhere on your site. Remove each of the widgets below to fully remove this inactive sidebar.' ),
 				'before_widget' => '',
@@ -344,7 +344,7 @@ require_once( './admin-header.php' ); ?>
 
 <?php
 foreach ( $wp_registered_sidebars as $sidebar => $registered_sidebar ) {
-	if ( 'wp_inactive_widgets' == $sidebar || 'orphaned_widgets' == substr( $sidebar, 0, 16 ) ) {
+	if ( false !== strpos( $registered_sidebar['class'], 'inactive-sidebar' ) || 'orphaned_widgets' == substr( $sidebar, 0, 16 ) ) {
 		$wrap_class = 'widgets-holder-wrap';
 		if ( !empty( $registered_sidebar['class'] ) )
 			$wrap_class .= ' ' . $registered_sidebar['class'];
@@ -376,7 +376,7 @@ foreach ( $wp_registered_sidebars as $sidebar => $registered_sidebar ) {
 <?php
 $i = 0;
 foreach ( $wp_registered_sidebars as $sidebar => $registered_sidebar ) {
-	if ( 'wp_inactive_widgets' == $sidebar || 'orphaned_widgets' == substr( $sidebar, 0, 16 ) )
+	if ( false !== strpos( $registered_sidebar['class'], 'inactive-sidebar' ) || 'orphaned_widgets' == substr( $sidebar, 0, 16 ) )
 		continue;
 
 	$wrap_class = 'widgets-holder-wrap';
