@@ -115,7 +115,7 @@ register_sidebar(array(
 	'name' => __('Inactive Widgets'),
 	'id' => 'wp_inactive_widgets',
 	'class' => 'inactive-sidebar',
-	'description' => 'Drag widgets here to remove them from the sidebar but keep their settings.',
+	'description' => __( 'Drag widgets here to remove them from the sidebar but keep their settings.' ),
 	'before_widget' => '',
 	'after_widget' => '',
 	'before_title' => '',
