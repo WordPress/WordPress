@@ -220,6 +220,9 @@
 			if ( this.active || o.disabled )
 				return;
 
+			if ( this.element.is(':hidden') )
+				return;
+
 			this.update().done( function() {
 				self._open( event );
 			});
