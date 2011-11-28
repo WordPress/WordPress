@@ -395,32 +395,40 @@ final class WP_Screen {
 		else
 			$id = $GLOBALS['hook_suffix'];
 
-		$id = str_replace( '.php', '', $id );
-		if ( in_array( substr( $id, -4 ), array( '-add', '-new' ) ) )
-			$action = 'add';
-		$id = str_replace( array( '-new', '-add' ), '', $id );
+		// For those pesky meta boxes.
+		if ( $hook_name && post_type_exists( $hook_name ) ) {
+			$post_type = $id;
+			$id = 'post'; // changes later. ends up being $base.
+		} else {
+			$last_four = substr( $id, -4 );
+			if ( '.php' == $last_four ) {
+				$id = substr( $id, 0, -4 );
+				$last_four = substr( $id, -4 );
+			}
+			if ( '-add' == $last_four || '-new' == $last_four ) {
+				$id = substr( $id, 0, -4 );
+				$action = 'add';
+			}
+		}
 
-		if ( $hook_name ) {
+		if ( ! $post_type && $hook_name ) {
 			if ( '-network' == substr( $id, -8 ) ) {
-				$id = str_replace( '-network', '', $id );
+				$id = substr( $id, 0, -8 );
 				$is_network = true;
 			} elseif ( '-user' == substr( $id, -5 ) ) {
-				$id = str_replace( '-user', '', $id );
+				$id = substr( $id, 0, -5 );
 				$is_user = true;
 			}
 
 			$id = sanitize_key( $id );
-			if ( post_type_exists( $id ) ) {
-				$post_type = $id;
-				$id = 'post'; // changes later. ends up being $base.
-			} elseif ( false !== strpos( $id, '-' ) ) {
-				list( $first, $second ) = explode( '-', $id, 2 );
-				if ( taxonomy_exists( $second ) ) {
+			if ( 'edit-' == substr( $id, 0, 5 ) ) {
+				$maybe = substr( $id, 5 );
+				if ( taxonomy_exists( $maybe ) ) {
  					$id = 'edit-tags';
-					$taxonomy = $second;
-				} elseif ( post_type_exists( $second ) ) {
-					$id = $first;
-					$post_type = $second;
+					$taxonomy = $maybe;
+				} elseif ( post_type_exists( $maybe ) ) {
+					$id = 'edit';
+					$post_type = $maybe;
 				}
  			}
 		} else {
