@@ -169,8 +169,10 @@
 					}
 				});
 
-				if ( ed.id != 'wp_mce_fullscreen' )
+				if ( ed.id != 'wp_mce_fullscreen' && ed.id != 'mce_fullscreen' )
 					ed.dom.addClass(ed.getBody(), 'wp-editor');
+				else if ( ed.id == 'mce_fullscreen' )
+					ed.dom.addClass(ed.getBody(), 'mce-fullscreen');
 
 				// remove invalid parent paragraphs when pasting HTML and/or switching to the HTML editor and back
 				ed.onBeforeSetContent.add(function(ed, o) {
