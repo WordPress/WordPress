@@ -1156,12 +1156,6 @@ function upgrade_330() {
 		&& is_main_site() && ! defined( 'DO_NOT_UPGRADE_GLOBAL_TABLES' ) )
 			delete_metadata( 'user', 0, 'dismissed_wp_pointers', '', true );
 
-	if ( $wp_current_db_version < 19390 && is_main_site() ) {
-		update_site_option( 'initial_db_version', $wp_current_db_version );
-		// populate_options() will handle single-site.
-	}
-
-
 	if ( $wp_current_db_version >= 11548 )
 		return;
 
@@ -1257,6 +1251,9 @@ function upgrade_network() {
 	// 3.0
 	if ( $wp_current_db_version < 13576 )
 		update_site_option( 'global_terms_enabled', '1' );
+	// 3.3
+	if ( $wp_current_db_version < 19390 )
+		update_site_option( 'initial_db_version', $wp_current_db_version );
 }
 
 // The functions we use to actually do stuff
