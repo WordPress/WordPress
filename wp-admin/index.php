@@ -38,7 +38,7 @@ $help_navigation  = '<p>' . __('The left-hand navigation menu provides links to 
 $help_navigation .= '<p>' . __('Links in the Toolbar at the top of the screen connect your dashboard and the front end of your site, and provide access to your profile and helpful WordPress information.') . '</p>';
 
 get_current_screen()->add_help_tab( array(
-        'id'      => 'help-navigation',
+	'id'      => 'help-navigation',
 	'title'   => __('Navigation'),
 	'content' => $help_navigation,
 ) );
