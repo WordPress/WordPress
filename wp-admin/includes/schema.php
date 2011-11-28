@@ -894,6 +894,7 @@ We hope you enjoy your new site. Thanks!
 		'subdomain_install' => intval( $subdomain_install ),
 		'global_terms_enabled' => global_terms_enabled() ? '1' : '0',
 		'initial_db_version' => get_option( 'initial_db_version' ),
+		'active_sitewide_plugins' => array(),
 	);
 	if ( ! $subdomain_install )
 		$sitemeta['illegal_names'][] = 'blog';

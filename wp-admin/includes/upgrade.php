@@ -1254,6 +1254,10 @@ function upgrade_network() {
 	// 3.3
 	if ( $wp_current_db_version < 19390 )
 		update_site_option( 'initial_db_version', $wp_current_db_version );
+	if ( $wp_current_db_version < 19470 ) {
+		if ( false === get_site_option( 'active_sitewide_plugins' ) )
+			update_site_option( 'active_sitewide_plugins', array() );
+	}
 }
 
 // The functions we use to actually do stuff
