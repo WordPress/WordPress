@@ -1677,7 +1677,7 @@ final class WP_Internal_Pointers {
 	 *     remove_action( 'admin_print_footer_scripts', array( 'WP_Internal_Pointers', 'pointer_wp330_toolbar' ) );
 	 */
 	public static function enqueue_scripts( $hook_suffix ) {
-		if ( get_site_option( 'initial_db_version' ) >= 19389 ) // Final db_version for 3.3.
+		if ( get_site_option( 'initial_db_version' ) >= 20000 ) // Final db_version for 3.3.
 			return;
 
 		/*
