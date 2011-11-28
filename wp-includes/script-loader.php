@@ -262,7 +262,7 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'admin-bar', "/wp-includes/js/admin-bar$suffix.js", false, '20111127', 1 );
 
-	$scripts->add( 'wplink', "/wp-includes/js/wplink$suffix.js", array( 'jquery', 'wpdialogs' ), '20110929', 1 );
+	$scripts->add( 'wplink', "/wp-includes/js/wplink$suffix.js", array( 'jquery', 'wpdialogs' ), '20111128', 1 );
 	$scripts->localize( 'wplink', 'wpLinkL10n', array(
 		'title' => __('Insert/edit link'),
 		'update' => __('Update'),

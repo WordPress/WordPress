@@ -31,10 +31,13 @@ var wpLink;
 			inputs.dialog.keydown( wpLink.keydown );
 			inputs.dialog.keyup( wpLink.keyup );
 			inputs.submit.click( function(e){
-				wpLink.update();
 				e.preventDefault();
+				wpLink.update();
 			});
-			$('#wp-link-cancel').click( wpLink.close );
+			$('#wp-link-cancel').click( function(e){
+				e.preventDefault();
+				wpLink.close();
+			});
 			$('#internal-toggle').click( wpLink.toggleInternalLinking );
 
 			rivers.elements.bind('river-select', wpLink.updateFields );
