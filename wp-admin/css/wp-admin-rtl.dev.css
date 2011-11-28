@@ -631,7 +631,12 @@ form.upgrade .hint {
 
 .welcome-panel .welcome-panel-close {
 	right: auto;
-	left: 20px;
+	left: 10px;
+}
+
+.welcome-panel .welcome-panel-close:before {
+	left: auto;
+	right: -12px;
 }
 
 .welcome-panel .wp-badge {
