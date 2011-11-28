@@ -233,7 +233,7 @@ final class WP_Screen {
 	 * @var string
 	 * @access public
 	 */
-	public $action = '';
+	public $action;
 
 	/**
 	 * The base type of the screen.  This is typically the same as $id but with any post types and taxonomies stripped.
@@ -387,8 +387,9 @@ final class WP_Screen {
 		if ( is_a( $hook_name, 'WP_Screen' ) )
 			return $hook_name;
 
-		$action = $post_type = $taxonomy = null;
+		$post_type = $taxonomy = null;
 		$is_network = $is_user = false;
+		$action = '';
 
 		if ( $hook_name )
 			$id = $hook_name;
@@ -400,12 +401,10 @@ final class WP_Screen {
 			$post_type = $id;
 			$id = 'post'; // changes later. ends up being $base.
 		} else {
-			$last_four = substr( $id, -4 );
-			if ( '.php' == $last_four ) {
+			if ( '.php' == substr( $id, -4 ) )
 				$id = substr( $id, 0, -4 );
-				$last_four = substr( $id, -4 );
-			}
-			if ( '-add' == $last_four || '-new' == $last_four ) {
+
+			if ( 'post-new' == $id || 'link-add' == $id || 'media-new' == $id || 'user-new' == $id ) {
 				$id = substr( $id, 0, -4 );
 				$action = 'add';
 			}
@@ -421,7 +420,7 @@ final class WP_Screen {
 			}
 
 			$id = sanitize_key( $id );
-			if ( 'edit-' == substr( $id, 0, 5 ) ) {
+			if ( 'edit-comments' != $id && 'edit-tags' != $id && 'edit-' == substr( $id, 0, 5 ) ) {
 				$maybe = substr( $id, 5 );
 				if ( taxonomy_exists( $maybe ) ) {
  					$id = 'edit-tags';
@@ -485,10 +484,6 @@ final class WP_Screen {
 				if ( null === $taxonomy )
 					$taxonomy = 'post_tag';
 				$id = 'edit-' . $taxonomy;
-				break;
-			case 'upload' :
-				if ( null === $post_type )
-					$post_type = 'attachment';
 				break;
 		}
 
