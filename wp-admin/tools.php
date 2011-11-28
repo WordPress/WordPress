@@ -11,11 +11,16 @@ require_once('./admin.php');
 
 $title = __('Tools');
 
-add_contextual_help($current_screen,
-	'<p>' . __('Press This is a bookmarklet that makes it easy to blog about something you come across on the web. You can use it to just grab a link, or to post an excerpt. Press This will even allow you to choose from images included on the page and use them in your post. Just drag the Press This link on this screen to your bookmarks bar in your browser, and you&#8217;ll be on your way to easier content creation. Clicking on it while on another website opens a popup window with all these options.') . '</p>' .
-	'<p>' . __('The Use This link for the Categories and Tags Converter will take you to the Import page, where that Converter is one of the plugins you can download. Once that plugin is installed, the link on this page takes you to a screen where you can choose conversion either way.') . '</p>' .
-	'<p>' . __('Note: Turbo/Gears is no longer promoted on this screen as it was in previous versions due to the fact that Google has discontinued support for it.') . '</p>'
-);
+get_current_screen()->add_help_tab( array(
+	'id'      => 'press-this',
+	'title'   => __('Press This'),
+	'content' => '<p>' . __('Press This is a bookmarklet that makes it easy to blog about something you come across on the web. You can use it to just grab a link, or to post an excerpt. Press This will even allow you to choose from images included on the page and use them in your post. Just drag the Press This link on this screen to your bookmarks bar in your browser, and you&#8217;ll be on your way to easier content creation. Clicking on it while on another website opens a popup window with all these options.') . '</p>',
+) );
+get_current_screen()->add_help_tab( array(
+	'id'      => 'converter',
+	'title'   => __('Categories Tags Converter'),
+	'content' => '<p>' . __('The &#8220;Use This&#8221; link for the Categories and Tags Converter will take you to the Import page, where that Converter is one of the plugins you can download. Once that plugin is installed, the link on this page takes you to a screen where you can choose to convert tags into categories or vice versa.') . '</p>',
+) );
 
 get_current_screen()->set_help_sidebar(
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
