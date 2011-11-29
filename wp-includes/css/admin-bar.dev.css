@@ -340,6 +340,7 @@
 }
 
 #wpadminbar #wp-admin-bar-user-info a {
+	background: none;
 	height: auto;
 }
 
