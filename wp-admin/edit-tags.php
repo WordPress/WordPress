@@ -221,7 +221,11 @@ if ( 'category' == $taxonomy || 'link_category' == $taxonomy || 'post_tag' == $t
 		'</ul>' .
 		'<p>' . __( 'You can change the display of this screen using the Screen Options tab to set how many items are displayed per screen and to display/hide columns in the table.' ) . '</p>';
 
-	add_contextual_help($current_screen, $help);
+	get_current_screen()->add_help_tab( array(
+		'id'      => 'help-overview',
+		'title'   => __('Overview'),
+		'content' => $help,
+	) );
 
 	$help = '<p><strong>' . __( 'For more information:' ) . '</strong></p>';
 
