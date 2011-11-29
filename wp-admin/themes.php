@@ -37,12 +37,28 @@ $parent_file = 'themes.php';
 
 if ( current_user_can( 'switch_themes' ) ) :
 
-$help = '<p>' . __('Aside from the default theme included with your WordPress installation, themes are designed and developed by third parties.') . '</p>';
-$help .= '<p>' . __('You can see your active theme at the top of the screen. Below are the other themes you have installed that are not currently in use. You can see what your site would look like with one of these themes by clicking the Preview link. To change themes, click the Activate link.') . '</p>';
-if ( current_user_can('install_themes') )
-	$help .= '<p>' . sprintf(__('If you would like to see more themes to choose from, click on the &#8220;Install Themes&#8221; tab and you will be able to browse or search for additional themes from the <a href="%s" target="_blank">WordPress.org Theme Directory</a>. Themes in the WordPress.org Theme Directory are designed and developed by third parties, and are compatible with the license WordPress uses. Oh, and they&#8217;re free!'), 'http://wordpress.org/extend/themes/') . '</p>';
+$help_manage = '<p>' . __('Aside from the default theme included with your WordPress installation, themes are designed and developed by third parties.') . '</p>' .
+	'<p>' . __('You can see your active theme at the top of the screen. Below are the other themes you have installed that are not currently in use. You can see what your site would look like with one of these themes by clicking the Preview link. To change themes, click the Activate link.') . '</p>';
 
-add_contextual_help($current_screen, $help);
+get_current_screen()->add_help_tab( array(
+	'id'      => 'manage-themes',
+	'title'   => __('Manage Themes'),
+	'content' => $help_manage,
+) );
+
+if ( current_user_can( 'install_themes' ) ) {
+	if ( is_multisite() ) {
+		$help_install = '<p>' . __('Installing themes on MultiSite can only be done from the Network Admin section.') . '</p>';
+	} else {
+		$help_install = '<p>' . sprintf( __('If you would like to see more themes to choose from, click on the &#8220;Install Themes&#8221; tab and you will be able to browse or search for additional themes from the <a href="%s" target="_blank">WordPress.org Theme Directory</a>. Themes in the WordPress.org Theme Directory are designed and developed by third parties, and are compatible with the license WordPress uses. Oh, and they&#8217;re free!'), 'http://wordpress.org/extend/themes/' ) . '</p>';
+	}
+
+	get_current_screen()->add_help_tab( array(
+		'id'      => 'install-themes',
+		'title'   => __('Install Themes'),
+		'content' => $help_install,
+	) );
+}
 
 get_current_screen()->set_help_sidebar(
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
