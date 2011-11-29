@@ -15,10 +15,43 @@ if ( ! current_user_can( 'manage_options' ) )
 $title = __('Writing Settings');
 $parent_file = 'options-general.php';
 
-add_contextual_help($current_screen,
-	'<p>' . __('You can submit content in several different ways; this screen holds the settings for all of them. The top section controls the editor within these administration screens, while the rest control external publishing methods. For more information on any of these methods, use the documentation links below.') . '</p>' .
-	'<p>' . __('You must click the Save Changes button at the bottom of the screen for new settings to take effect.') . '</p>'
-);
+get_current_screen()->add_help_tab( array(
+	'id'      => 'options-writing',
+	'title'   => __('Writing Options'),
+	'content' => '<p>' . __('You can submit content in several different ways; this screen holds the settings for all of them. The top section controls the editor within these administration screens, while the rest control external publishing methods. For more information on any of these methods, use the documentation links.') . '</p>' .
+		'<p>' . __('You must click the Save Changes button at the bottom of the screen for new settings to take effect.') . '</p>',
+) );
+
+get_current_screen()->add_help_tab( array(
+	'id'      => 'options-press',
+	'title'   => __('Press This'),
+	'content' => '<p>' . __('Press This is a bookmarklet that makes it easy to blog about something you come across on the web. You can use it to just grab a link, or to post an excerpt. Press This will even allow you to choose from images included on the page and use them in your post. Just drag the Press This link on this screen to your bookmarks bar in your browser, and you&#8217;ll be on your way to easier content creation. Clicking on it while on another website opens a popup window with all these options.') . '</p>',
+) );
+
+
+if ( is_multisite() ) {
+	$post_email_help = '<p>' . __('Due to security issues, you cannot use Post By Email on Multisite Installs.') . '</p>';
+} else {
+	$post_email_help = '<p>' . __('Post via email settings allow you to send your WordPress install an email with the content of your post.  You must set up a secret e-mail account with POP3 access to use this, and any mail received at this address will be posted, so it&#8217;s a good idea to keep this address very secret.') . '</p>';
+}
+
+get_current_screen()->add_help_tab( array(
+	'id'      => 'options-postemail',
+	'title'   => __('Post Via Email'),
+	'content' => $post_email_help,
+) );
+
+get_current_screen()->add_help_tab( array(
+	'id'      => 'options-remote',
+	'title'   => __('Remote Publishing'),
+	'content' => '<p>' . __('Remote Publishing allows you to use an external editor (like the iOS or Android app) to write your posts.') . '</p>',
+) );
+
+get_current_screen()->add_help_tab( array(
+	'id'      => 'options-services',
+	'title'   => __('Update Services'),
+	'content' => '<p>' . __('If desired, WordPress will automatically alert various services of your new posts.') . '</p>',
+) );
 
 get_current_screen()->set_help_sidebar(
 	'<p><strong>' . __('For more information:') . '</strong></p>' .

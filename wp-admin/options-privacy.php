@@ -15,11 +15,13 @@ if ( ! current_user_can( 'manage_options' ) )
 $title = __('Privacy Settings');
 $parent_file = 'options-general.php';
 
-add_contextual_help($current_screen,
-	'<p>' . __('You can choose whether or not your site will be crawled by robots, ping services, and spiders. If you want those services to ignore your site, click the second option here. Note that your privacy is not complete; your site is still visible on the web.') . '</p>' .
-	'<p>' . __('When this setting is in effect a reminder is shown in the Right Now box of the Dashboard that says, &#8220;Search Engines Blocked,&#8221; to remind you that your site is not being crawled.') . '</p>' .
-	'<p>' . __('You must click the Save Changes button at the bottom of the screen for new settings to take effect.') . '</p>'
-);
+get_current_screen()->add_help_tab( array(
+	'id'      => 'options-privacy',
+	'title'   => __('Privacy Options'),
+	'content' => '<p>' . __('You can choose whether or not your site will be crawled by robots, ping services, and spiders. If you want those services to ignore your site, click the second option here. Note that your privacy is not complete; your site is still visible on the web.') . '</p>' .
+		'<p>' . __('When this setting is in effect a reminder is shown in the Right Now box of the Dashboard that says, &#8220;Search Engines Blocked,&#8221; to remind you that your site is not being crawled.') . '</p>' .
+		'<p>' . __('You must click the Save Changes button at the bottom of the screen for new settings to take effect.') . '</p>',
+) );
 
 get_current_screen()->set_help_sidebar(
 	'<p><strong>' . __('For more information:') . '</strong></p>' .

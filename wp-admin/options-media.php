@@ -15,12 +15,20 @@ if ( ! current_user_can( 'manage_options' ) )
 $title = __('Media Settings');
 $parent_file = 'options-general.php';
 
-add_contextual_help($current_screen,
-	'<p>' . __('You can set maximum sizes for images inserted into your written content; you can also insert an image as Full Size.') . '</p>' .
-	'<p>' . __('The Embed option allows you embed a video, image, or other media content into your content automatically by typing the URL (of the web page where the file lives) on its own line when you create your content.') . '</p>' .
-	( is_multisite() ? '' : '<p>' . __('Uploading Options gives you folder and path choices for storing your files in your installation&#8217;s directory.') . '</p>' ) .
-	'<p>' . __('You must click the Save Changes button at the bottom of the screen for new settings to take effect.') . '</p>'
-);
+$media_options_help = '<p>' . __('You can set maximum sizes for images inserted into your written content; you can also insert an image as Full Size.') . '</p>' .
+	'<p>' . __('The Embed option allows you embed a video, image, or other media content into your content automatically by typing the URL (of the web page where the file lives) on its own line when you create your content.') . '</p>';
+
+if ( ! is_multisite() ) {
+	$media_options_help .= '<p>' . __('Uploading Options gives you folder and path choices for storing your files in your installation&#8217;s directory.') . '</p>';
+}
+
+$media_options_help .= '<p>' . __('You must click the Save Changes button at the bottom of the screen for new settings to take effect.') . '</p>';
+
+get_current_screen()->add_help_tab( array(
+	'id'      => 'options-media',
+	'title'   => __('Media Options'),
+	'content' => $media_options_help,
+) );
 
 get_current_screen()->set_help_sidebar(
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
