@@ -4828,7 +4828,7 @@ input.button-highlighted,
 .about-wrap {
 	position: relative;
 	margin: 25px 40px 0 20px;
-	width: 930px;
+	width: 770px;
 	
 	font-size: 15px;
 }
@@ -4947,10 +4947,10 @@ input.button-highlighted,
 }
 
 .about-wrap .feature-section.angled-right {
-	margin-top: -7.5em;
+	margin-top: -10.5em;
 }
 .about-wrap .feature-section.angled-right .left-feature {
-	padding-top: 7em;
+	padding-top: 9.5em;
 }
 .about-wrap .feature-section.angled-right img,
 .about-wrap .feature-section.angled-left img {
@@ -4959,26 +4959,27 @@ input.button-highlighted,
 
 .about-wrap .feature-section.angled-left .left-feature,
 .about-wrap .feature-section.angled-right .left-feature {
-	margin-right: 4%;
+	margin-right: 3%;
 }
 .about-wrap .feature-section.angled-left .right-feature,
 .about-wrap .feature-section.angled-right .right-feature {
-	margin-left: 4%;
+	margin-left: 3%;
 }
 .about-wrap .feature-section .left-feature {
-	margin-right: 10%;
+	margin-right: 5%;
 }
 .about-wrap .feature-section .right-feature {
-	margin-left: 9%;
+	margin-left: 5%;
 	float: right;
 }
+
 .about-wrap .feature-section.angled-left .left-feature,
 .about-wrap .feature-section.angled-right .right-feature {
 	width: 27%;
 }
 .about-wrap .feature-section.angled-left .right-feature,
 .about-wrap .feature-section.angled-right .left-feature {
-	width: 35%;
+	width: 32%;
 }
 
 .about-wrap .feature-section.three-col {
@@ -4996,6 +4997,7 @@ input.button-highlighted,
 }
 .about-wrap .feature-section.three-col img {
 	margin: 0.5em 3px 1em 0;
+	max-width: 100%;
 }
 .about-wrap .feature-section.three-col .last-feature {
 	margin-right: 0;
