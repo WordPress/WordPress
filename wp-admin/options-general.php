@@ -58,15 +58,21 @@ function add_js() {
 }
 add_action('admin_head', 'add_js');
 
+$options_help = '<p>' . __('The fields on this screen determine some of the basics of your site setup.') . '</p>' .
+	'<p>' . __('Most themes display the site title at the top of every page, in the title bar of the browser, and as the identifying name for syndicated feeds. The tagline is also displayed by many themes.') . '</p>';
+
+if ( ! is_multisite() ) {
+	$options_help .= '<p>' . __('The WordPress URL and the Site URL can be the same (example.com) or different; for example, having the WordPress core files (example.com/wordpress) in a subdirectory instead of the root directory.') . '</p>' .
+		'<p>' . __('If you want site visitors to be able to register themselves, as opposed to by the site administrator, check the membership box. A default user role can be set for all new users, whether self-registered or registered by the site admin.') . '</p>';
+}
+
+$options_help .= '<p>' . __('UTC means Coordinated Universal Time.') . '</p>' .
+	'<p>' . __('Remember to click the Save Changes button at the bottom of the screen for new settings to take effect.') . '</p>';
+
 get_current_screen()->add_help_tab( array(
 	'id'      => 'options',
 	'title'   => __('Options'),
-	'content' => '<p>' . __('The fields on this screen determine some of the basics of your site setup.') . '</p>' .
-		'<p>' . __('Most themes display the site title at the top of every page, in the title bar of the browser, and as the identifying name for syndicated feeds. The tagline is also displayed by many themes.') . '</p>' .
-		'<p>' . __('The WordPress URL and the Site URL can be the same (example.com) or different; for example, having the WordPress core files (example.com/wordpress) in a subdirectory instead of the root directory.') . '</p>' .
-		'<p>' . __('If you want site visitors to be able to register themselves, as opposed to being registered by the site administrator, check the membership box. A default user role can be set for all new users, whether self-registered or registered by the site administrator.') . '</p>' .
-		'<p>' . __('UTC means Coordinated Universal Time.') . '</p>' .
-		'<p>' . __('Remember to click the Save Changes button at the bottom of the screen for new settings to take effect.') . '</p>',
+	'content' => $options_help,
 ) );
 
 get_current_screen()->set_help_sidebar(
