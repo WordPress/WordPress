@@ -283,11 +283,11 @@ autosave = function() {
 	}
 
 	if ( fullscreen && fullscreen.settings.visible ) {
-		post_data["post_title"] = jQuery('#wp-fullscreen-title').val();
-		post_data["content"] = jQuery("#wp_mce_fullscreen").val();
+		post_data["post_title"] = jQuery('#wp-fullscreen-title').val() || '';
+		post_data["content"] = jQuery("#wp_mce_fullscreen").val() || '';
 	} else {
-		post_data["post_title"] = jQuery("#title").val()
-		post_data["content"] = jQuery("#content").val();
+		post_data["post_title"] = jQuery("#title").val() || '';
+		post_data["content"] = jQuery("#content").val() || '';
 	}
 
 	if ( jQuery('#post_name').val() )
