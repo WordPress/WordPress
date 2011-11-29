@@ -218,10 +218,7 @@
 			var self = this,
 				o    = this.options;
 
-			if ( this.active || o.disabled )
-				return;
-
-			if ( this.element.is(':hidden') )
+			if ( this.active || o.disabled || this.element.is(':hidden') )
 				return;
 
 			this.update().done( function() {
@@ -233,7 +230,7 @@
 			var self = this,
 				o    = this.options;
 
-			if ( this.active || o.disabled )
+			if ( this.active || o.disabled || this.element.is(':hidden') )
 				return;
 
 			this.active = true;
