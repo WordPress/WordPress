@@ -111,6 +111,7 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 				if ( ! current_user_can( $sub_item[1] ) )
 					continue;
 
+				$aria_attributes = 'tabindex="1" role="menuitem"';
 				$class = array();
 				if ( $first ) {
 					$class[] = 'wp-first-item';
