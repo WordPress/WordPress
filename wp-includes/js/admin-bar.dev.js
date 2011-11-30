@@ -37,10 +37,23 @@ if ( typeof(jQuery) != 'undefined' ) {
 
 			e.stopPropagation();
 			e.preventDefault();
-			target.parent().toggleClass('hover');
 
+			target.parent().toggleClass('hover');
 			target.siblings('.ab-sub-wrapper').find('.ab-item').each(refresh);
 		}).each(refresh);
+
+		$('#wpadminbar .ab-item').bind('keydown.adminbar', function(e){
+			if ( e.which != 27 )
+				return;
+
+			var target = $(e.target);
+
+			e.stopPropagation();
+			e.preventDefault();
+
+			target.closest('.hover').removeClass('hover').children('.ab-item').focus();
+			target.siblings('.ab-sub-wrapper').find('.ab-item').each(refresh);
+		});
 
 	});
 } else {
