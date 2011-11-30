@@ -160,9 +160,15 @@ $('.contextual-help-tabs').delegate('a', 'click focus', function(e) {
 
 $(document).ready( function() {
 	var lastClicked = false, checks, first, last, checked, menu = $('#adminmenu'),
-		pageInput = $('input.current-page'), currentPage = pageInput.val(), folded;
+		pageInput = $('input.current-page'), currentPage = pageInput.val(), folded, refresh;
 
 	// admin menu
+	refresh = function(i, el){ // force the browser to refresh the tabbing index
+		var node = $(el), tab = node.attr('tabindex');
+		if ( tab )
+			node.attr('tabindex', '0').attr('tabindex', tab);
+	};
+	
 	$('#collapse-menu', menu).click(function(){
 		var body = $(document.body);
 
@@ -206,9 +212,29 @@ $(document).ready( function() {
 		interval: 90
 	});
 
-	// If the mouse is used on the menu, shift focus to the mouse.
-	menu.mouseover( function(e) {
-		$('li.focused', this).removeClass('focused');
+	// Tab to select, Enter to open sub, Esc to close sub and focus the top menu
+	$('li.wp-has-submenu > a.wp-not-current-submenu', menu).bind('keydown.adminmenu', function(e){
+		if ( e.which != 13 )
+			return;
+
+		var target = $(e.target);
+
+		e.stopPropagation();
+		e.preventDefault();
+
+		target.siblings('.wp-submenu').toggleClass('sub-open').find('a[role="menuitem"]').each(refresh);
+	}).each(refresh);
+
+	$('a[role="menuitem"]', menu).bind('keydown.adminmenu', function(e){
+		if ( e.which != 27 )
+			return;
+
+		var target = $(e.target);
+
+		e.stopPropagation();
+		e.preventDefault();
+
+		target.add( target.siblings() ).closest('.sub-open').removeClass('sub-open').siblings('a.wp-not-current-submenu').focus();
 	});
 
 	// Move .updated and .error alert boxes. Don't move boxes designed to be inline.
