@@ -269,7 +269,11 @@ class WP_Admin_Bar {
 				endif;
 				?>><?php
 			else:
-				?><div class="ab-item ab-empty-item" <?php echo $aria_attributes; ?>><?php
+				?><div class="ab-item ab-empty-item" <?php echo $aria_attributes;
+				if ( ! empty( $node->meta['title'] ) ) :
+					?> title="<?php echo esc_attr( $node->meta['title'] ); ?>"<?php
+				endif;
+				?>><?php
 			endif;
 
 			echo $node->title;
