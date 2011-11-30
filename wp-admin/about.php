@@ -118,7 +118,7 @@ include( './admin-header.php' );
 		</div>
 		<div class="last-feature">
 			<h4><?php _e( 'Widget Improvements' ); ?></h4>
-			<p><?php _e( 'Changing themes often requires widget re-configuration based on the number and position of sidebars. Now if you change back to a previous theme within a week, the widgets will automatically go back to how you had them arranged in that theme. <em>Note: if you&#8217;ve added new widgets since the switch, you&#8217;ll need to rescue them from the Inactive Widgets area.</em>' ); ?></p>
+			<p><?php _e( 'Changing themes often requires widget re-configuration based on the number and position of sidebars. Now if you change back to a previous theme, the widgets will automatically go back to how you had them arranged in that theme. <em>Note: if you&#8217;ve added new widgets since the switch, you&#8217;ll need to rescue them from the Inactive Widgets area.</em>' ); ?></p>
 		</div>
 	</div>
 	
@@ -149,7 +149,7 @@ include( './admin-header.php' );
 		</div>
 		<div>
 			<h4><?php _e( 'WP_Screen API' ); ?></h4>
-			<p><?php _e( 'WordPress admin screens have a nice new API. Create rich screens with help documentation, settings, and more.' ); ?></p>
+			<p><?php _e( 'WordPress has a nice new API for working with admin screens. Create rich screens, add help documentation, adapt to screen contexts, and more.' ); ?></p>
 		</div>
 		<div class="last-feature">
 			<h4><?php _e( 'Editor API Overhaul' ); ?></h4>
