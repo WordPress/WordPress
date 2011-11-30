@@ -410,6 +410,20 @@ table.ie-fixed {
 	min-width: 400px;
 }
 
+.about-wrap img.element-screenshot {
+	padding: 2px;
+}
+
+.about-wrap .feature-section img,
+.about-wrap .feature-section .image-mask {
+	border-width: 1px;
+	border-style: solid;
+}
+
+.about-wrap .feature-section.three-col img {
+	margin-left: 0;
+}
+
 
 /* IE6 leftovers */
 * html .row-actions {

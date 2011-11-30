@@ -57,25 +57,24 @@ include( './admin-header.php' );
 <div class="changelog">
 	<h3><?php _e( 'Dashboard Design' ); ?></h3>
 	
-	<div class="feature-section angled-left">
-		<div class="left-feature">
-			<h4><?php _e( 'Flyout Menus' ); ?></h4>
-			<p><?php _e( 'Speed up navigating the dashboard and reduce repetitive clicking with our new flyout submenus. As you hover over each main menu item in your dashboard navigation, the submenus will magically appear, providing single-click access to any dashboard screen.' ); ?></p>
-		</div>
-		<img src="images/screenshots/admin-flyouts.png" />
-		<div class="right-feature">
-			<h4><?php _e( 'Responsive Design' ); ?></h4>
-			<p><?php _e( 'Certain dashboard screens have been updated to look better at various sizes, including improved iPad/tablet support.' ); ?></p>
+	<div class="feature-section text-features">
+		<h4><?php _e( 'Flyout Menus' ); ?></h4>
+		<p><?php _e( 'Speed up navigating the dashboard and reduce repetitive clicking with our new flyout submenus. As you hover over each main menu item in your dashboard navigation, the submenus will magically appear, providing single-click access to any dashboard screen.' ); ?></p>
+		
+		<div>
+		<h4><?php _e( 'Header + Admin Bar = Toolbar' ); ?></h4>
+		<p><?php _e( 'To save space and increase efficiency, we&#8217;ve combined the admin bar and the old Dashboard header into one persistent toolbar. Hovering over the toolbar items will reveal submenus when available for quick access. ' ); ?></p>
 		</div>
 	</div>
 	
-	<div class="feature-section angled-right">
-		<div class="left-feature">
-			<h4><?php _e( 'Header + Admin Bar = Toolbar' ); ?></h4>
-			<p><?php _e( 'To save space and increase efficiency, we&#8217;ve combined the admin bar and the old Dashboard header into one persistent toolbar. Hovering over the toolbar items will reveal submenus when available for quick access. ' ); ?></p>
+	<div class="feature-section screenshot-features">
+		<div class="angled-left">
+			<img src="images/screenshots/admin-flyouts.png" />
+			<h4><?php _e( 'Responsive Design' ); ?></h4>
+			<p><?php _e( 'Certain dashboard screens have been updated to look better at various sizes, including improved iPad/tablet support.' ); ?></p>
 		</div>
-		<img src="images/screenshots/help-screen.png" />
-		<div class="right-feature">
+		<div class="angled-right">
+			<img src="images/screenshots/help-screen.png" />
 			<h4><?php _e( 'Help Tabs' ); ?></h4>
 			<p><?php _e( 'The Help tabs located in the upper corner of the dashboard screens below your name have gotten a facelift. Help content is broken into smaller sections for easier access, with links to relevant documentation and the support forums always visible.' ); ?></p>
 		</div>
@@ -110,7 +109,7 @@ include( './admin-header.php' );
 	<div class="feature-section three-col">
 		<div>
 			<h4><?php _e( 'Better Co-Editing' ); ?></h4>
-			<img src="images/screenshots/coediting.png" />
+			<img src="images/screenshots/coediting.png" class="element-screenshot" />
 			<p><?php _e( 'Have you ever gone to edit a post after someone else has finished with it, only to get an alert that tells you the other person is still editing the post? From now on, you&#8217;ll only get that alert if another person is still on the editing screen &mdash; no more time lag.' ); ?></p>
 		</div>
 		<div>

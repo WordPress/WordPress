@@ -1374,33 +1374,38 @@ h2 .nav-tab {
 
 .about-wrap .feature-section .left-feature {
 	margin-right: 0;
-	margin-left: 10%;
+	margin-left: 0;
 }
 
 .about-wrap .feature-section .right-feature {
 	margin-left: 0;
-	margin-right: 9%;
-}
-
-.about-wrap .feature-section.angled-left .left-feature,
-.about-wrap .feature-section.angled-right .left-feature {
 	margin-right: 0;
-	margin-left: 3%;
 }
 
-.about-wrap .feature-section.angled-left .right-feature,
-.about-wrap .feature-section.angled-right .right-feature {
+.about-wrap .feature-section.text-features {
+	float: right;
+}
+.about-wrap .feature-section.screenshot-features {
+	float: left;
+}
+.about-wrap .feature-section.screenshot-features .angled-right {
 	margin-left: 0;
-	margin-right: 4%;
+	margin-right: 2.5em;
+}
+.about-wrap .feature-section.screenshot-features .angled-right p {
+	margin-left: 0;
+	margin-right: 290px;
+}
+
+.about-wrap .feature-section .angled-right img,
+.about-wrap .feature-section .angled-left img {
+	margin-right: 0;
+	margin-left: 2em;
 }
 
 .about-wrap .feature-section.images-stagger-right .angled-left,
 .about-wrap .feature-section.images-stagger-left .angled-left {
 	float: left;
-}
-
-.about-wrap .feature-section.three-col img {
-	margin: 0.5em 0 1em 0;
 }
 
 .about-wrap li.wp-person,
