@@ -3008,6 +3008,7 @@ div.tabs-panel-inactive {
 	margin: 0 5px 0 125px;
 }
 
+.press-this #side-sortables .category-tabs li,
 .has-right-sidebar #side-sortables .category-tabs li,
 #side-sortables .add-menu-item-tabs li,
 .wp-tab-bar li {
@@ -7058,6 +7059,10 @@ h3.tb {
 #extra-fields {
 	margin-top: 10px;
 	position: relative;
+}
+
+#extra-fields h2 {
+	margin: 12px;
 }
 
 #waiting {
