@@ -685,7 +685,7 @@ final class WP_Screen {
 		if ( $old_help ) {
 			$this->add_help_tab( array(
 				'id'      => 'contextual-help',
-				'title'   => __('Screen Info'),
+				'title'   => __('Overview'),
 				'content' => $old_help,
 			) );
 		}
