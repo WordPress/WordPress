@@ -184,18 +184,25 @@ $(document).ready( function() {
 
 	$('li.wp-has-submenu', menu).hoverIntent({
 		over: function(e){
-			var b, h, o, f, m = $(this).find('.wp-submenu');
+			var b, h, o, f, m = $(this).find('.wp-submenu'), menutop, wintop, maxtop;
 
 			if ( !$(document.body).hasClass('folded') && $(this).hasClass('wp-menu-open') )
 				return;
 
-			b = $(this).offset().top + m.height() + 1; // Bottom offset of the menu
+			menutop = $(this).offset().top;
+			wintop = $(window).scrollTop();
+			maxtop = menutop - wintop - 30; // max = make the top of the sub almost touch admin bar
+
+			b = menutop + m.height() + 1; // Bottom offset of the menu
 			h = $('#wpwrap').height(); // Height of the entire page
 			o = 60 + b - h;
-			f = $(window).height() + $(window).scrollTop() - 15; // The fold
+			f = $(window).height() + wintop - 15; // The fold
 
 			if ( f < (b - o) )
 				o = b - f;
+
+			if ( o > maxtop )
+				o = maxtop;
 
 			if ( o > 1 )
 				m.css({'marginTop':'-'+o+'px'});
