@@ -179,8 +179,8 @@ class WP_Admin_Bar {
 		}
 
 		?>
-		<div id="wpadminbar" class="<?php echo $class; ?>">
-			<div class="quicklinks">
+		<div id="wpadminbar" class="<?php echo $class; ?>" role="navigation">
+			<div class="quicklinks" role="menubar">
 				<?php foreach ( $this->root->children as $group ) {
 					$this->render_group( $group, 'ab-top-menu' );
 				} ?>
@@ -218,7 +218,7 @@ class WP_Admin_Bar {
 			if ( ! empty( $node->meta['class'] ) )
 				$class .= ' ' . $node->meta['class'];
 
-			?><ul id="<?php echo esc_attr( "wp-admin-bar-{$node->id}" ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php
+			?><ul id="<?php echo esc_attr( "wp-admin-bar-{$node->id}" ); ?>" class="<?php echo esc_attr( $class ); ?>" role="menu"><?php
 				foreach ( $node->children as $item ) {
 					$this->render_item( $item );
 				}
@@ -226,7 +226,7 @@ class WP_Admin_Bar {
 
 		// Wrap the subgroups in a div and render each individual subgroup.
 		elseif ( ! $is_single_group ):
-			?><div id="<?php echo esc_attr( "wp-admin-bar-{$node->id}-container" ); ?>" class="ab-group-container"><?php
+			?><div id="<?php echo esc_attr( "wp-admin-bar-{$node->id}-container" ); ?>" class="ab-group-container" role="menu"><?php
 				foreach ( $groups as $group ) {
 					$this->render_group( $group, $class );
 				}
@@ -240,17 +240,24 @@ class WP_Admin_Bar {
 
 		$is_parent = (bool) $node->children;
 		$has_link  = (bool) $node->href;
+		$tabindex = isset($node->meta['tabindex']) ? (int) $node->meta['tabindex'] : 10;
 
-		$menuclass = $is_parent ? 'menupop' : '';
+		$menuclass = '';
+		$aria_attributes = 'tabindex="' . $tabindex . '" role="menuitem"';
+
+		if ( $is_parent ) {
+			$menuclass = 'menupop';
+			$aria_attributes .= ' aria-haspopup="true"';
+		}
+
 		if ( ! empty( $node->meta['class'] ) )
 			$menuclass .= ' ' . $node->meta['class'];
 
-		$tabindex = !empty($node->meta['tabindex']) ? $node->meta['tabindex'] : 10;
 		?>
 
 		<li id="<?php echo esc_attr( "wp-admin-bar-{$node->id}" ); ?>" class="<?php echo esc_attr( $menuclass ); ?>"><?php
 			if ( $has_link ):
-				?><a class="ab-item" tabindex="<?php echo (int) $tabindex; ?>" href="<?php echo esc_url( $node->href ) ?>"<?php
+				?><a class="ab-item" <?php echo $aria_attributes; ?> href="<?php echo esc_url( $node->href ) ?>"<?php
 					if ( ! empty( $node->meta['onclick'] ) ) :
 						?> onclick="<?php echo esc_js( $node->meta['onclick'] ); ?>"<?php
 					endif;
@@ -262,7 +269,7 @@ class WP_Admin_Bar {
 				endif;
 				?>><?php
 			else:
-				?><div class="ab-item ab-empty-item" tabindex="<?php echo (int) $tabindex; ?>"><?php
+				?><div class="ab-item ab-empty-item" <?php echo $aria_attributes; ?>><?php
 			endif;
 
 			echo $node->title;
