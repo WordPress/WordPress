@@ -1350,7 +1350,16 @@ $plupload_init = apply_filters( 'plupload_init', $plupload_init );
 ?>
 
 <script type="text/javascript">
-var resize_height = <?php echo get_option('large_size_h', 1024); ?>, resize_width = <?php echo get_option('large_size_w', 1024); ?>,
+<?php
+// Verify size is an int. If not return default value.
+$large_size_h = absint( get_option('large_size_h') );
+if( !$large_size_h )
+	$large_size_h = 1024;
+$large_size_w = absint( get_option('large_size_w') );
+if( !$large_size_w )
+	$large_size_w = 1024;
+?>
+var resize_height = <?php echo $large_size_h; ?>, resize_width = <?php echo $large_size_w; ?>,
 wpUploaderInit = <?php echo json_encode($plupload_init); ?>;
 </script>
 
