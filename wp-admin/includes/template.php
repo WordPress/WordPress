@@ -1698,6 +1698,18 @@ final class WP_Internal_Pointers {
 
 		$pointer = $registered_pointers[ $hook_suffix ];
 
+		$caps_required = array(
+			'wp330_media_uploader' => array( 'upload_files' ),
+			'wp330_saving_widgets' => array( 'edit_theme_options', 'switch_themes' ),
+		);
+
+		if ( isset( $caps_required[ $pointer ] ) ) {
+			foreach ( $caps_required[ $pointer ] as $cap ) {
+				if ( ! current_user_can( $cap ) )
+					return;
+			}
+		}
+
 		// Get dismissed pointers
 		$dismissed = explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) );
 
