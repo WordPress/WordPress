@@ -352,7 +352,8 @@ class WP_Admin_Bar {
 
 	public function add_menus() {
 		// User related, aligned right.
-		add_action( 'admin_bar_menu', 'wp_admin_bar_my_account_menu', 10 );
+		add_action( 'admin_bar_menu', 'wp_admin_bar_search_menu', 10 );
+		add_action( 'admin_bar_menu', 'wp_admin_bar_my_account_menu', 20 );
 
 		// Site related.
 		add_action( 'admin_bar_menu', 'wp_admin_bar_wp_menu', 10 );
@@ -367,9 +368,6 @@ class WP_Admin_Bar {
 		}
 		add_action( 'admin_bar_menu', 'wp_admin_bar_edit_menu', 80 );
 		add_action( 'admin_bar_menu', 'wp_admin_bar_shortlink_menu', 90 );
-
-		if ( ! is_admin() )
-			add_action( 'admin_bar_menu', 'wp_admin_bar_search_menu', 100 );
 
 		add_action( 'admin_bar_menu', 'wp_admin_bar_add_secondary_groups', 200 );
 
