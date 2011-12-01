@@ -21,15 +21,15 @@ add_screen_option( 'per_page', array('label' => _x( 'Users', 'users per page (sc
 
 // contextual help - choose Help on the top right of admin panel to preview this.
 get_current_screen()->add_help_tab( array( 
-	'id'      => 'screen-info',
-	'title'   => __('Users List'), 
+	'id'      => 'overview',
+	'title'   => __('Overview'), 
 	'content' => '<p>' . __('This screen lists all the existing users for your site. Each user has one of five defined roles as set by the site admin: Site Administrator, Editor, Author, Contributor, or Subscriber. Users with roles other than Administrator will see fewer options in the dashboard navigation when they are logged in, based on their role.') . '</p>' .
 				 '<p>' . __('To add a new user for your site, click the Add New button at the top of the screen or Add New in the Users menu section.') . '</p>'
 ) ) ;
 
 get_current_screen()->add_help_tab( array( 
-	'id'      => 'customize-display',
-	'title'   => __('Customizing This Display'), 
+	'id'      => 'screen-display',
+	'title'   => __('Screen Display'), 
 	'content' => '<p>' . __('You can customize the display of this screen in a number of ways:') . '</p>' . 
 					'<ul>' . 
 					'<li>' . __('You can hide/display columns based on your needs and decide how many users to list per screen using the Screen Options tab.') . '</li>' . 
@@ -38,16 +38,24 @@ get_current_screen()->add_help_tab( array(
 					'</ul>' 
 ) ); 
 
+$help = '<p>' . __('Hovering over a row in the users list will display action links that allow you to manage users. You can perform the following actions:') . '</p>' . 
+	'<ul>' .
+	'<li>' . __('Edit takes you to the editable profile screen for that user. You can also reach that screen by clicking on the username.') . '</li>';
+
+if ( is_multisite() )
+	$help .= '<li>' . __( 'Remove allows you to remove a user from your site. It does not delete their posts. You can also remove multiple users at once by using Bulk Actions.' ) . '</li>';
+else
+	$help .= '<li>' . __( 'Delete brings you to the Delete Users screen for confirmation, where you can permanently remove a user from your site and delete their posts. You can also delete multiple users at once by using Bulk Actions.' ) . '</li>';
+
+$help .= '</ul>';
+
 get_current_screen()->add_help_tab( array( 
-	'id'      => 'row-actions', 
-	'title'   => __('Action Links'), 
-	'content' => '<p>' . __('Hovering over a row in the users list will display action links that allow you to manage users. You can perform the following actions:') . '</p>' . 
-					'<ul>' .
-					'<li>' . __('Edit takes you to the editable profile screen for that user. You can also reach that screen by clicking on the username.') . '</li>' .
-					( is_multisite() ? '<li>' . __('Remove allows you to remove a user from your site.  It does not delete their posts.') . '</li>' : '<li>' . __('Delete brings you to the Delete Users screen for confirmation, where you can permanently remove a user from your site and delete their posts.') . '</li>' ) .
-					'</ul>' 
+	'id'      => 'actions', 
+	'title'   => __('Actions'), 
+	'content' => $help,
 ) );
-	
+unset( $help );
+
 get_current_screen()->set_help_sidebar(
     '<p><strong>' . __('For more information:') . '</strong></p>' .
     '<p>' . __('<a href="http://codex.wordpress.org/Users_Screen" target="_blank">Documentation on Managing Users</a>') . '</p>' .

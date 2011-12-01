@@ -18,8 +18,9 @@ get_current_screen()->add_help_tab( array(
 ) );
 get_current_screen()->add_help_tab( array(
 	'id'      => 'converter',
-	'title'   => __('Categories Tags Converter'),
-	'content' => '<p>' . __('The &#8220;Use This&#8221; link for the Categories and Tags Converter will take you to the Import page, where that Converter is one of the plugins you can download. Once that plugin is installed, the link on this page takes you to a screen where you can choose to convert tags into categories or vice versa.') . '</p>',
+	'title'   => __('Categories and Tags Converter'),
+	'content' => '<p>' . __('Categories have hierarchy, meaning that you can nest sub-categories. Tags do not have hierachy and cannot be nested. Sometimes people start out using one on their posts, then later realize that the other would work better for their content.' ) . '</p>' .
+	'<p>' . __( 'The Categories and Tags Converter link on this screen will take you to the Import screen, where that Converter is one of the plugins you can install. Once that plugin is installed, return to this screen  and the link will take you to a screen where you can choose to convert tags into categories or vice versa.' ) . '</p>',
 ) );
 
 get_current_screen()->set_help_sidebar(
@@ -57,7 +58,7 @@ $tags = get_taxonomy('post_tag');
 if ( current_user_can($cats->cap->manage_terms) || current_user_can($tags->cap->manage_terms) ) : ?>
 <div class="tool-box">
     <h3 class="title"><?php _e( 'Categories and Tags Converter' ) ?></h3>
-    <p><?php printf( __('<a href="%s">Use this</a> to convert categories to tags or tags to categories.'), 'import.php' ); ?></p>
+    <p><?php printf( __('If you want to convert your categories to tags (or vice versa), use the <a href="%s">Categories and Tags Converter</a> available from the Import screen.'), 'import.php' ); ?></p>
 </div>
 <?php
 endif;

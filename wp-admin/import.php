@@ -17,8 +17,8 @@ if ( !current_user_can('import') )
 $title = __('Import');
 
 get_current_screen()->add_help_tab( array(
-	'id'      => 'import',
-	'title'   => __('Import'),
+	'id'      => 'overview',
+	'title'   => __('Overview'),
 	'content' => '<p>' . __('This screen lists links to plugins to import data from blogging/content management platforms. Choose the platform you want to import from, and click Install Now when you are prompted in the popup window. If your platform is not listed, click the link to search the plugin directory for other importer plugins to see if there is one for your platform.') . '</p>' .
 		'<p>' . __('In previous versions of WordPress, all importers were built-in.  They have been turned into plugins since most people only use them once or infrequently.') . '</p>',
 ) );
@@ -130,7 +130,7 @@ if ( empty($importers) ) {
 }
 
 if ( current_user_can('install_plugins') )
-	echo '<p>' . sprintf( __('If the importer you need is not listed, <a href="%s">search the plugins directory</a> to see if an importer is available.'), esc_url( network_admin_url( 'plugin-install.php?tab=search&type=tag&s=importer' ) ) ) . '</p>';
+	echo '<p>' . sprintf( __('If the importer you need is not listed, <a href="%s">search the plugin directory</a> to see if an importer is available.'), esc_url( network_admin_url( 'plugin-install.php?tab=search&type=tag&s=importer' ) ) ) . '</p>';
 ?>
 
 </div>
