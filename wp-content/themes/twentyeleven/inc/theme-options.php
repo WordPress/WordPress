@@ -116,7 +116,7 @@ function twentyeleven_theme_options_help() {
 		return;
 
 	get_current_screen()->add_help_tab( array(
-		'title' => __('Screen Info'),
+		'title' => __( 'Overview', 'twentyeleven' ),
 		'id' => 'theme-options-help',
 		'content' => 
 			'<p>' . __( 'Some themes provide customization options that are grouped together on a Theme Options screen. If you change themes, options may change or disappear, as they are theme-specific. Your current theme, Twenty Eleven, provides the following Theme Options:', 'twentyeleven' ) . '</p>' .
