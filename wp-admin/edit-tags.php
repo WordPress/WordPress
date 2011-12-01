@@ -200,7 +200,7 @@ if ( 'category' == $taxonomy || 'link_category' == $taxonomy || 'post_tag' == $t
 		$help .='<p>' . __( 'What&#8217;s the difference between categories and tags? Normally, tags are ad-hoc keywords that identify important information in your post (names, subjects, etc) that may or may not recur in other posts, while categories are pre-determined sections. If you think of your site like a book, the categories are like the Table of Contents and the tags are like the terms in the index.' ) . '</p>';
 
 	get_current_screen()->add_help_tab( array(
-		'id'      => 'help-overview',
+		'id'      => 'overview',
 		'title'   => __('Overview'),
 		'content' => $help,
 	) );

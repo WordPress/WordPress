@@ -24,18 +24,21 @@ $parent_file = 'sites.php';
 
 add_screen_option( 'per_page', array('label' => _x( 'Sites', 'sites per page (screen options)' )) );
 
-add_contextual_help($current_screen,
-	'<p>' . __('Add New takes you to the Add New Site screen. You can search for a site by Name, ID number, or IP address. Screen Options allows you to choose how many sites to display on one page.') . '</p>' .
-	'<p>' . __('This is the main table of all sites on this network. Switch between list and excerpt views by using the icons above the right side of the table.') . '</p>' .
-	'<p>' . __('Hovering over each site reveals seven options (three for the primary site):') . '</p>' .
-	'<ul><li>' . __('An Edit link to a separate Edit Site screen.') . '</li>' .
-	'<li>' . __('Dashboard leads to the Dashboard for that site.') . '</li>' .
-	'<li>' . __('Deactivate, Archive, and Spam which lead to confirmation screens. These actions can be reversed later.') . '</li>' .
-	'<li>' . __('Delete which is a permanent action after the confirmation screens.') . '</li>' .
-	'<li>' . __('Visit to go to the frontend site live.') . '</li></ul>' .
-	'<p>' . __('The site ID is used internally, and is not shown on the front end of the site or to users/viewers.') . '</p>' .
-	'<p>' . __('Clicking on bold headings can re-sort this table.') . '</p>'
-);
+get_current_screen()->add_help_tab( array(
+	'id'      => 'overview',
+	'title'   => __('Overview'),
+	'content' =>
+		'<p>' . __('Add New takes you to the Add New Site screen. You can search for a site by Name, ID number, or IP address. Screen Options allows you to choose how many sites to display on one page.') . '</p>' .
+		'<p>' . __('This is the main table of all sites on this network. Switch between list and excerpt views by using the icons above the right side of the table.') . '</p>' .
+		'<p>' . __('Hovering over each site reveals seven options (three for the primary site):') . '</p>' .
+		'<ul><li>' . __('An Edit link to a separate Edit Site screen.') . '</li>' .
+		'<li>' . __('Dashboard leads to the Dashboard for that site.') . '</li>' .
+		'<li>' . __('Deactivate, Archive, and Spam which lead to confirmation screens. These actions can be reversed later.') . '</li>' .
+		'<li>' . __('Delete which is a permanent action after the confirmation screens.') . '</li>' .
+		'<li>' . __('Visit to go to the frontend site live.') . '</li></ul>' .
+		'<p>' . __('The site ID is used internally, and is not shown on the front end of the site or to users/viewers.') . '</p>' .
+		'<p>' . __('Clicking on bold headings can re-sort this table.') . '</p>'
+) );
 
 get_current_screen()->set_help_sidebar(
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
