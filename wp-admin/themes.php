@@ -41,8 +41,8 @@ $help_manage = '<p>' . __('Aside from the default theme included with your WordP
 	'<p>' . __('You can see your active theme at the top of the screen. Below are the other themes you have installed that are not currently in use. You can see what your site would look like with one of these themes by clicking the Preview link. To change themes, click the Activate link.') . '</p>';
 
 get_current_screen()->add_help_tab( array(
-	'id'      => 'manage-themes',
-	'title'   => __('Manage Themes'),
+	'id'      => 'overview',
+	'title'   => __('Overview'),
 	'content' => $help_manage,
 ) );
 
@@ -54,8 +54,8 @@ if ( current_user_can( 'install_themes' ) ) {
 	}
 
 	get_current_screen()->add_help_tab( array(
-		'id'      => 'install-themes',
-		'title'   => __('Install Themes'),
+		'id'      => 'adding-themes',
+		'title'   => __('Adding Themes'),
 		'content' => $help_install,
 	) );
 }

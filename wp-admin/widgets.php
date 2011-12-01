@@ -54,7 +54,8 @@ get_current_screen()->add_help_tab( array(
 'id'		=> 'missing-widgets',
 'title'		=> __('Missing Widgets'),
 'content'	=> 	
-	'<p>' . __('Many themes show some sidebar widgets by default until you edit your sidebars, but they are not automatically displayed in your sidebar management tool. After you make your first widget change, you can re-add the default widgets by adding them from the Available Widgets area.') . '</p>' 
+	'<p>' . __('Many themes show some sidebar widgets by default until you edit your sidebars, but they are not automatically displayed in your sidebar management tool. After you make your first widget change, you can re-add the default widgets by adding them from the Available Widgets area.') . '</p>' .
+		'<p>' . __('When changing themes, there is often some variation in the number and setup of widget areas/sidebars and sometimes these conflicts make the transition a bit less smooth. If you changed themes and seem to be missing widgets, scroll down on this screen to the Inactive area, where all your widgets and their settings will have been saved.') . '</p>'
 ) );
 
 get_current_screen()->set_help_sidebar(

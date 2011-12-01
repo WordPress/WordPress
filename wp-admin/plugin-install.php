@@ -36,18 +36,18 @@ $body_id = $tab;
 do_action('install_plugins_pre_' . $tab); //Used to override the general interface, Eg, install or plugin information.
 
 get_current_screen()->add_help_tab( array(
-'id'		=> 'finding-plugins',
-'title'		=> __('Finding Plugins'),
+'id'		=> 'overview',
+'title'		=> __('Overview'),
 'content'	=> 
-	'<p>' . sprintf(__('Plugins hook into WordPress to extend its functionality with custom features. Plugins are developed independently from WordPress core by thousands of developers all over the world. All plugins in the official <a href="%s" target="_blank">WordPress.org Plugin Directory</a> are compatible with the license WordPress uses. You can find new plugins to install by searching or browsing the Directory right here in your own Plugins section.'), 'http://wordpress.org/extend/plugins/') . '</p>' .
-	'<p>' . __('If you know what you&#8217;re looking for, Search is your best bet. The Search screen has options to search the WordPress.org Plugin Directory for a particular Term, Author, or Tag. You can also search the directory by selecting a popular tags. Tags in larger type mean more plugins have been labeled with that tag.') . '</p>' .
-	'<p>' . __('If you just want to get an idea of what&#8217;s available, you can browse Featured, Popular, Newest, and Recently Updated plugins by using the links in the upper left of the screen. These sections rotate regularly.') . '</p>'
+	'<p>' . sprintf(__('Plugins hook into WordPress to extend its functionality with custom features. Plugins are developed independently from the core WordPress application by thousands of developers all over the world. All plugins in the official <a href="%s" target="_blank">WordPress.org Plugin Directory</a> are compatible with the license WordPress uses. You can find new plugins to install by searching or browsing the Directory right here in your own Plugins section.'), 'http://wordpress.org/extend/plugins/') . '</p>'
 ) );
 get_current_screen()->add_help_tab( array(
-'id'		=> 'uploading-plugin',
-'title'		=> __('Uploading Plugins'),
+'id'		=> 'adding-plugins',
+'title'		=> __('Adding Plugins'),
 'content'	=> 
-	'<p>' . __('If you want to install a plugin that you&#8217;ve downloaded elsewhere, click Upload in the upper left. You will be prompted to upload the .zip package, and once uploaded, you can activate the new plugin.') . '</p>'
+	'<p>' . __('If you know what you&#8217;re looking for, Search is your best bet. The Search screen has options to search the WordPress.org Plugin Directory for a particular Term, Author, or Tag. You can also search the directory by selecting a popular tags. Tags in larger type mean more plugins have been labeled with that tag.') . '</p>' .
+	'<p>' . __('If you just want to get an idea of what&#8217;s available, you can browse Featured, Popular, Newest, and Recently Updated plugins by using the links in the upper left of the screen. These sections rotate regularly.') . '</p>' .
+	'<p>' . __('If you want to install a plugin that you&#8217;ve downloaded elsewhere, click the Upload in the upper left. You will be prompted to upload the .zip package, and once uploaded, you can activate the new plugin.') . '</p>'
 ) );
 
 get_current_screen()->set_help_sidebar(
