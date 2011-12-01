@@ -44,7 +44,7 @@ function list_core_update( $update ) {
 			$submit = __('Re-install Now');
 			$form_action = 'update-core.php?action=do-core-reinstall';
 		} else {
-			$php_compat     = version_compare( $php_version, $update->php_version, '>=' );			
+			$php_compat     = version_compare( $php_version, $update->php_version, '>=' );
 			if ( file_exists( WP_CONTENT_DIR . '/db.php' ) && empty( $wpdb->is_mysql ) )
 				$mysql_compat = true;
 			else
@@ -435,7 +435,7 @@ $parent_file = 'tools.php';
 get_current_screen()->add_help_tab( array(
 'id'		=> 'overview',
 'title'		=> __('Overview'),
-'content'	=> 	
+'content'	=>
 	'<p>' . __('This screen lets you update to the latest version of WordPress as well as update your themes and plugins from the WordPress.org repository. When updates are available, the number of available updates will appear in a bubble on the left hand menu as a notification.') . '</p>' .
 	'<p>' . __('It is very important to keep your WordPress installation up to date for security reasons, so when you see a number appear, make sure you take the time to update, which is an easy process.') . '</p>'
 ) );
@@ -443,7 +443,7 @@ get_current_screen()->add_help_tab( array(
 get_current_screen()->add_help_tab( array(
 'id'		=> 'how-to-update',
 'title'		=> __('How to Update'),
-'content'	=> 	
+'content'	=>
 	'<p>' . __('Updating your WordPress installation is a simple one-click procedure; just click on the Update button when it says a new version is available.') . '</p>' .
 	'<p>' . __('To update themes or plugins from this screen, use the checkboxes to make your selection and click on the appropriate Update button. Check the box at the top of the Themes or Plugins section to select all and update them all at once.') . '</p>'
 ) );

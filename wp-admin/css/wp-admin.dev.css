@@ -4831,7 +4831,7 @@ input.button-highlighted,
 	margin: 25px 40px 0 20px;
 	min-width: 770px;
 	max-width: 1050px; /* readability */
-	
+
 	font-size: 15px;
 }
 .about-wrap div.updated,
@@ -4959,7 +4959,7 @@ html.ie8 .about-wrap .feature-section .image-mask {
 
 .about-wrap .feature-section.text-features {
 	width: 31%;
-	
+
 	float: left;
 	overflow: visible;
 }
@@ -4969,7 +4969,7 @@ html.ie8 .about-wrap .feature-section .image-mask {
 .about-wrap .feature-section.screenshot-features {
 	width: 67%;
 	margin-top: 1.33em;
-	
+
 	float: right;
 	clear: none;
 	overflow: visible;
@@ -5009,7 +5009,7 @@ html.ie8 .about-wrap .feature-section .image-mask {
 .about-wrap .feature-section.three-col img {
 	margin: 0.5em 0 0.5em 5px;
 	max-width: 100%;
-	
+
 	float: none;
 }
 html.ie8 .about-wrap .feature-section.three-col img {

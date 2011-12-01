@@ -1789,13 +1789,13 @@ function wp_default_editor() {
  *
  * Using this function is the proper way to output all needed components for both TinyMCE and Quicktags.
  * _WP_Editors should not be used directly. See http://core.trac.wordpress.org/ticket/17144.
- * 
+ *
  * NOTE: Once initialized the TinyMCE editor cannot be safely moved in the DOM. For that reason
  * running wp_editor() inside of a metabox is not a good idea unless only Quicktags is used.
  * On the post edit screen several actions can be used to include additional editors
  * containing TinyMCE: 'edit_page_form', 'edit_form_advanced' and 'dbx_post_sidebar'.
  * See http://core.trac.wordpress.org/ticket/19173 for more information.
- * 
+ *
  * @see wp-includes/class-wp-editor.php
  * @since 3.3
  *

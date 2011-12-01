@@ -59,7 +59,7 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 		} else {
 			$class[] = 'wp-not-current-submenu';
 			if ( ! empty( $submenu_items ) )
-				$aria_attributes .= ' aria-haspopup="true"';	
+				$aria_attributes .= ' aria-haspopup="true"';
 		}
 
 		if ( ! empty( $item[4] ) )

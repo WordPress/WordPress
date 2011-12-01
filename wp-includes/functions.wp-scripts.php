@@ -80,10 +80,10 @@ function wp_register_script( $handle, $src, $deps = array(), $ver = false, $in_f
  *
  * @param string $handle The script handle that was registered or used in script-loader
  * @param string $object_name Name for the created JS object. This is passed directly so it should be qualified JS variable /[a-zA-Z0-9_]+/
- * @param array $l10n Associative PHP array containing the translated strings. HTML entities will be converted and the array will be JSON encoded. 
+ * @param array $l10n Associative PHP array containing the translated strings. HTML entities will be converted and the array will be JSON encoded.
  * @return bool Whether the localization was added successfully.
  */
-function wp_localize_script( $handle, $object_name, $l10n ) { 
+function wp_localize_script( $handle, $object_name, $l10n ) {
 	global $wp_scripts;
 	if ( ! is_a( $wp_scripts, 'WP_Scripts' ) ) {
 		if ( ! did_action( 'init' ) )
@@ -93,8 +93,8 @@ function wp_localize_script( $handle, $object_name, $l10n ) {
 		return false;
 	}
 
-	return $wp_scripts->localize( $handle, $object_name, $l10n ); 
-} 
+	return $wp_scripts->localize( $handle, $object_name, $l10n );
+}
 
 /**
  * Adds extra Javascript.

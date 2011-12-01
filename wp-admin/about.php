@@ -35,7 +35,7 @@ include( './admin-header.php' );
 
 <div class="changelog">
 	<h3><?php _e( 'Easier Uploading' ); ?></h3>
-	
+
 	<div class="feature-section images-stagger-right">
 		<div class="feature-images">
 			<img src="images/screenshots/media-icon.png" width="200" class="angled-right" />
@@ -56,17 +56,17 @@ include( './admin-header.php' );
 
 <div class="changelog">
 	<h3><?php _e( 'Dashboard Design' ); ?></h3>
-	
+
 	<div class="feature-section text-features">
 		<h4><?php _e( 'Flyout Menus' ); ?></h4>
 		<p><?php _e( 'Speed up navigating the dashboard and reduce repetitive clicking with our new flyout submenus. As you hover over each main menu item in your dashboard navigation, the submenus will magically appear, providing single-click access to any dashboard screen.' ); ?></p>
-		
+
 		<div>
 		<h4><?php _e( 'Header + Admin Bar = Toolbar' ); ?></h4>
 		<p><?php _e( 'To save space and increase efficiency, we&#8217;ve combined the admin bar and the old Dashboard header into one persistent toolbar. Hovering over the toolbar items will reveal submenus when available for quick access. ' ); ?></p>
 		</div>
 	</div>
-	
+
 	<div class="feature-section screenshot-features">
 		<div class="angled-left">
 			<img src="images/screenshots/admin-flyouts.png" />
@@ -96,11 +96,11 @@ include( './admin-header.php' );
 			<h4><?php _e( 'Post-update Changelog' ); ?></h4>
 			<p><?php _e( 'This screen! From now on when you update WordPress, you&#8217;ll be brought to this screen &mdash; also accessible any time from the W logo in the corner of the toolbar &mdash; to get an overview of what&#8217;s changed.' ); ?></p>
 
-			<h4><?php _e( 'Dashboard Welcome' ); ?></h4>			
+			<h4><?php _e( 'Dashboard Welcome' ); ?></h4>
 			<p><?php _e( 'The dashboard home screen will have a Welcome area that displays when a new WordPress installation is accessed for the first time, prompting the site owner to complete various setup tasks. Once dismissed, this welcome can be accessed via the dashboard home screen options tab.' ); ?></p>
 		</div>
 	</div>
-	
+
 </div>
 
 <div class="changelog">
@@ -121,7 +121,7 @@ include( './admin-header.php' );
 			<p><?php _e( 'Changing themes often requires widget re-configuration based on the number and position of sidebars. Now if you change back to a previous theme, the widgets will automatically go back to how you had them arranged in that theme. <em>Note: if you&#8217;ve added new widgets since the switch, you&#8217;ll need to rescue them from the Inactive Widgets area.</em>' ); ?></p>
 		</div>
 	</div>
-	
+
 </div>
 
 <div class="changelog">
@@ -156,7 +156,7 @@ include( './admin-header.php' );
 			<p><?php _e( 'The new editor API automatically pulls in all the JS and CSS goodness for the editor. It even supports multiple editors on the same page.' ); ?></p>
 		</div>
 	</div>
-	
+
 </div>
 
 <div class="return-to-dashboard">

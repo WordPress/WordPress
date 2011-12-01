@@ -303,8 +303,8 @@ foreach ( $columns as $column_name => $column_display_name ) {
 				<?php if( current_user_can( 'edit_post', $post->post_parent ) ) { ?>
 					<a href="<?php echo get_edit_post_link( $post->post_parent ); ?>">
 						<?php echo $title ?></a>
-				<?php } else { 
-					echo $title; 
+				<?php } else {
+					echo $title;
 				} ?></strong>,
 				<?php echo get_the_time( __( 'Y/m/d' ) ); ?>
 			</td>

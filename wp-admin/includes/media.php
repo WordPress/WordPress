@@ -1611,7 +1611,7 @@ function media_upload_gallery_form($errors) {
 	$form_action_url = admin_url("media-upload.php?type=$type&tab=gallery&post_id=$post_id");
 	$form_action_url = apply_filters('media_upload_form_url', $form_action_url, $type);
 	$form_class = 'media-upload-form validate';
-	
+
 	if ( get_user_setting('uploader') )
 		$form_class .= ' html-uploader';
 ?>

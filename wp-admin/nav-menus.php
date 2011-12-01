@@ -456,7 +456,7 @@ get_current_screen()->add_help_tab( array(
 get_current_screen()->add_help_tab( array(
 'id'		=> 'create-menus',
 'title'		=> __('Create Menus'),
-'content'	=> 	
+'content'	=>
 	'<p>' . __('To create a new custom menu, click on the + tab, give the menu a name, and click Create Menu. Next, add menu items from the appropriate boxes. You&#8217;ll be able to edit the information for each menu item, and can drag and drop to put them in order. You can also drag a menu item a little to the right to make it a submenu, to create menus with hierarchy. Drop the item into its new nested placement when the dotted rectangle target shifts over, also a little to the right. Don&#8217;t forget to click Save when you&#8217;re finished.') . '</p>'
 ) );
 

@@ -151,15 +151,15 @@ if ( is_multisite() ) {
 
 $help .= '<p>' . __('Remember to click the Add New User button at the bottom of this screen when you are finished.') . '</p>';
 
-get_current_screen()->add_help_tab( array(  
-	'id'      => 'overview', 
-	'title'   => __('Overview'), 
+get_current_screen()->add_help_tab( array(
+	'id'      => 'overview',
+	'title'   => __('Overview'),
 	'content' => $help,
 ) );
 
-get_current_screen()->add_help_tab( array(  
-'id'      => 'user-roles', 
-'title'   => __('User Roles'), 
+get_current_screen()->add_help_tab( array(
+'id'      => 'user-roles',
+'title'   => __('User Roles'),
 'content' => '<p>' . __('Here is a basic overview of the different user roles and the permissions associated with each one:') . '</p>' .
 				'<ul>' .
 				'<li>' . __('Administrators have access to all the administration features.') . '</li>' .

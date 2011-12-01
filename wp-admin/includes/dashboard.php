@@ -1342,7 +1342,7 @@ function wp_welcome_panel() {
 				<li><?php echo sprintf( __( '<a href="%s">Select a new header image</a>' ), esc_url( admin_url( 'themes.php?page=custom-header' ) ) ); ?></li>
 			<?php
 			endif;
-	
+
 			if ( current_theme_supports( 'widgets' ) ) : ?>
 				<li><?php echo sprintf( __( '<a href="%s">Add some widgets</a>' ), esc_url( admin_url( 'widgets.php' ) ) ); ?></li>
 			<?php

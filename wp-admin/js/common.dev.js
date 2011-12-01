@@ -168,7 +168,7 @@ $(document).ready( function() {
 		if ( tab )
 			node.attr('tabindex', '0').attr('tabindex', tab);
 	};
-	
+
 	$('#collapse-menu', menu).click(function(){
 		var body = $(document.body);
 

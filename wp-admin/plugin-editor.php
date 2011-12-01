@@ -113,7 +113,7 @@ default:
 	get_current_screen()->add_help_tab( array(
 	'id'		=> 'overview',
 	'title'		=> __('Overview'),
-	'content'	=> 		
+	'content'	=>
 		'<p>' . __('You can use the editor to make changes to any of your plugins&#8217; individual PHP files. Be aware that if you make changes, plugins updates will overwrite your customizations.') . '</p>' .
 		'<p>' . __('Choose a plugin to edit from the menu in the upper right and click the Select button. Click once on any file name to load it in the editor, and make your changes. Don&#8217;t forget to save your changes (Update File) when you&#8217;re finished.') . '</p>' .
 		'<p>' . __('The Documentation menu below the editor lists the PHP functions recognized in the plugin file. Clicking Lookup takes you to a web page about that particular function.') . '</p>' .

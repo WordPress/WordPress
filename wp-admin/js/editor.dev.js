@@ -3,14 +3,14 @@ var switchEditors = {
 
 	switchto: function(el) {
 		var aid = el.id, l = aid.length, id = aid.substr(0, l - 5), mode = aid.substr(l - 4);
-		
+
 		this.go(id, mode);
 	},
-	
+
 	go: function(id, mode) { // mode can be 'html', 'tmce', or 'toggle'
 		id = id || 'content';
 		mode = mode || 'toggle';
-		
+
 		var t = this, ed = tinyMCE.get(id), wrap_id, txtarea_el, dom = tinymce.DOM;
 
 		wrap_id = 'wp-'+id+'-wrap';
@@ -21,7 +21,7 @@ var switchEditors = {
 				mode = 'html';
 			else
 				mode = 'tmce';
-		} 
+		}
 
 		if ( 'tmce' == mode || 'tinymce' == mode ) {
 			if ( ed && ! ed.isHidden() )
