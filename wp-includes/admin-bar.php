@@ -503,10 +503,9 @@ function wp_admin_bar_new_content_menu( $wp_admin_bar ) {
 
 	foreach ( $actions as $link => $action ) {
 		list( $title, $id ) = $action;
-		$parent = empty( $action[2] ) ? 'new-content' : $action[2];
 
 		$wp_admin_bar->add_menu( array(
-			'parent'    => $parent,
+			'parent'    => 'new-content',
 			'id'        => $id,
 			'title'     => $title,
 			'href'      => admin_url( $link )
