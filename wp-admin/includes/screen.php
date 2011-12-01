@@ -110,12 +110,12 @@ function get_hidden_meta_boxes( $screen ) {
 /**
  * Add contextual help text for a page.
  *
- * Creates a 'Screen Info' help tab.
+ * Creates an 'Overview' help tab.
  *
  * @since 2.7.0
  *
  * @param string    $screen The handle for the screen to add help to.  This is usually the hook name returned by the add_*_page() functions.
- * @param string    $help   The content of a 'Screen Info' help tab.
+ * @param string    $help   The content of an 'Overview' help tab.
  *
  * @todo: deprecate?
  */
