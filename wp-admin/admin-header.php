@@ -14,6 +14,10 @@ if ( ! defined( 'WP_ADMIN' ) )
 global $title, $hook_suffix, $current_screen, $wp_locale, $pagenow, $wp_version, $is_iphone,
 	$current_site, $update_title, $total_update_count, $parent_file;
 
+// Catch plugins that include admin-header.php before admin.php completes.
+if ( empty( $current_screen ) )
+	set_current_screen();
+
 get_admin_page_title();
 $title = esc_html( strip_tags( $title ) );
 
