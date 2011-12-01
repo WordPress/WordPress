@@ -535,7 +535,7 @@ function _copy_dir($from, $to, $skip_list = array() ) {
  * @since 3.3.0
  *
  */
-function _redirect_to_about_wordpress( $wp_version ) {
+function _redirect_to_about_wordpress( $new_version ) {
 	global $wp_version, $pagenow, $action;
 
 	if ( version_compare( $wp_version, '3.3', '>=' ) )
@@ -553,8 +553,8 @@ function _redirect_to_about_wordpress( $wp_version ) {
 
 	// See do_core_upgrade()
 	show_message( __('WordPress updated successfully') );
-	show_message( '<span class="hide-if-no-js">' . sprintf( __( 'Welcome to WordPress %1$s. You will be redirected to the About WordPress screen. If not, click <a href="%s">here</a>.' ), $wp_version, esc_url( admin_url( 'about.php?updated' ) ) ) . '</span>' );
-	show_message( '<span class="hide-if-js">' . sprintf( __( 'Welcome to WordPress %1$s. <a href="%2$s">Learn more</a>.' ), $wp_version, esc_url( admin_url( 'about.php?updated' ) ) ) . '</span>' );
+	show_message( '<span class="hide-if-no-js">' . sprintf( __( 'Welcome to WordPress %1$s. You will be redirected to the About WordPress screen. If not, click <a href="%s">here</a>.' ), $new_version, esc_url( admin_url( 'about.php?updated' ) ) ) . '</span>' );
+	show_message( '<span class="hide-if-js">' . sprintf( __( 'Welcome to WordPress %1$s. <a href="%2$s">Learn more</a>.' ), $new_version, esc_url( admin_url( 'about.php?updated' ) ) ) . '</span>' );
 	echo '</div>';
 	?>
 <script type="text/javascript">
