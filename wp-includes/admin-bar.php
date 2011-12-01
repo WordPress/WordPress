@@ -74,7 +74,7 @@ add_action( 'admin_footer', 'wp_admin_bar_render', 1000 );
 function wp_admin_bar_wp_menu( $wp_admin_bar ) {
 	$wp_admin_bar->add_menu( array(
 		'id'    => 'wp-logo',
-		'title' => '<span class="ab-wp-logo"></span>',
+		'title' => '<div class="ab-icon"></div>',
 		'href'  => admin_url( 'about.php' ),
 	) );
 
@@ -518,7 +518,7 @@ function wp_admin_bar_comments_menu( $wp_admin_bar ) {
 	$awaiting_mod = $awaiting_mod->moderated;
 	$awaiting_title = esc_attr( sprintf( _n( '%s comment awaiting moderation', '%s comments awaiting moderation', $awaiting_mod ), number_format_i18n( $awaiting_mod ) ) );
 
-	$icon  = '<div class="ab-comments-icon">';
+	$icon  = '<div class="ab-icon">';
 	$icon .= '<div class="ab-comments-icon-body"></div>';
 	$icon .= '<div class="ab-comments-icon-arrow"></div>';
 	$icon .= '</div>';

@@ -470,35 +470,38 @@
 }
 
 /**
- * WP Logo item
+ * ICONS
  */
-#wpadminbar .ab-wp-logo {
-	display: block;
-	height: 28px;
+#wpadminbar .ab-icon {
+	position: relative;
+	float: left;
 	width: 16px;
+	height: 16px;
+	margin-top: 6px;
+}
+
+/**
+ * WP Logo icon
+ */
+#wp-admin-bar-wp-logo > .ab-item .ab-icon {
 	background-image: url(../images/admin-bar-sprite.png?d=20111122);
-	background-position: -2px -72px;
+	background-position: -2px -78px;
 	background-repeat: no-repeat;
 }
 
-#wpadminbar.nojs #wp-admin-bar-wp-logo:hover .ab-wp-logo,
-#wpadminbar #wp-admin-bar-wp-logo.hover .ab-wp-logo {
+#wpadminbar.nojs #wp-admin-bar-wp-logo:hover > .ab-item .ab-icon,
+#wpadminbar #wp-admin-bar-wp-logo.hover > .ab-item .ab-icon {
 	background-image: url(../images/admin-bar-sprite.png?d=20111122);
-	background-position: -2px -100px;
+	background-position: -2px -106px;
 	background-repeat: no-repeat;
 }
 
 /**
  * Comments icon
  */
-#wpadminbar .ab-comments-icon {
-	position: relative;
-	padding-top: 8px;
-	float: left;
-}
-
 #wpadminbar .ab-comments-icon-body {
 	background: #999;
+	margin-top: 2px;
 	height: 10px;
 	width: 14px;
 	-webkit-border-radius: 10px;
@@ -513,7 +516,7 @@
 #wpadminbar a .ab-comments-icon-arrow {
 	height: 0;
 	position: absolute;
-	bottom: -3px;
+	bottom: 1px;
 	left: 3px;
 	/* Use transparent borders to form a triangle */
 	border-left: 4px solid #999;
