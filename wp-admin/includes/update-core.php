@@ -554,5 +554,5 @@ window.location = '<?php echo admin_url( 'about.php?updated' ); ?>';
 	include(ABSPATH . 'wp-admin/admin-footer.php');
 	exit();
 }
-if ( version_compare( $GLOBALS['wp_version'], '3.3', '<' ) && 'update-core.php' == $pagenow )
+if ( version_compare( $GLOBALS['wp_version'], '3.3', '<' ) && 'update-core.php' == $GLOBALS['pagenow'] )
 	add_action( '_core_updated_successfully', '_redirect_to_about_wordpress' );
