@@ -508,7 +508,7 @@ final class WP_Screen {
 		$current_screen = $this;
 		$taxnow = $this->taxonomy;
 		$typenow = $this->post_type;
-		$current_screen = apply_filters( 'current_screen', $current_screen );
+		do_action( 'current_screen', $current_screen );
 	}
 
 	/**
