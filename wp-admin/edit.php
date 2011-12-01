@@ -149,12 +149,17 @@ wp_enqueue_script('inline-edit-post');
 $title = $post_type_object->labels->name;
 
 if ( 'post' == $post_type ) {
-
 	get_current_screen()->add_help_tab( array(
-	'id'		=> 'layout',
-	'title'		=> __('Layout'),
+	'id'		=> 'overview',
+	'title'		=> __('Overview'),
 	'content'	=> 
-		'<p>' . __('You can customize the display of this screen in a number of ways:') . '</p>' .
+		'<p>' . __('This screen provides access to all of your posts. You can customize the display of this screen to suit your workflow.') . '</p>'
+	) );
+	get_current_screen()->add_help_tab( array(
+	'id'		=> 'screen-content',
+	'title'		=> __('Screen Content'),
+	'content'	=> 
+		'<p>' . __('You can customize the display of this screen&#8217;s contents in a number of ways:') . '</p>' .
 		'<ul>' .
 			'<li>' . __('You can hide/display columns based on your needs and decide how many posts to list per screen using the Screen Options tab.') . '</li>' .
 			'<li>' . __('You can filter the list of posts by post status using the text links in the upper left to show All, Published, Draft, or Trashed posts. The default view is to show all posts.') . '</li>' .
@@ -164,7 +169,7 @@ if ( 'post' == $post_type ) {
 	) );
 	get_current_screen()->add_help_tab( array(
 	'id'		=> 'action-links',
-	'title'		=> __('Action Links'),
+	'title'		=> __('Available Actions'),
 	'content'	=> 	
 		'<p>' . __('Hovering over a row in the posts list will display action links that allow you to manage your post. You can perform the following actions:') . '</p>' .
 		'<ul>' .
@@ -175,10 +180,11 @@ if ( 'post' == $post_type ) {
 		'</ul>' 
 	) );
 	get_current_screen()->add_help_tab( array(
-	'id'		=> 'edit-multiple-posts',
-	'title'		=> __('Edit Multiple Posts'),
+	'id'		=> 'bulk-actions',
+	'title'		=> __('Bulk Actions'),
 	'content'	=> 
-		'<p>' . __('You can also edit multiple posts at once. Select the posts you want to edit using the checkboxes, select Edit from the Bulk Actions menu and click Apply. You will be able to change the metadata (categories, author, etc.) for all selected posts at once. To remove a post from the grouping, just click the x next to its name in the Bulk Edit area that appears.') . '</p>'
+		'<p>' . __('You can also edit or move multiple posts to the trash at once. Select the posts you want to act on using the checkboxes, then select the action you want to take from the Bulk Actions menu and click Apply.') . '</p>' .
+				'<p>' . __('When using Bulk Edit, you can change the metadata (categories, author, etc.) for all selected posts at once. To remove a post from the grouping, just click the x next to its name in the Bulk Edit area that appears.') . '</p>'
 	) );
 
 	get_current_screen()->set_help_sidebar(

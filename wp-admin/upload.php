@@ -154,13 +154,13 @@ get_current_screen()->add_help_tab( array(
 ) );
 get_current_screen()->add_help_tab( array(
 'id'		=> 'actions-links',
-'title'		=> __('Action Links'),
+'title'		=> __('Available Actions'),
 'content'	=>
 	'<p>' . __( 'Hovering over a row reveals action links: Edit, Delete Permanently, and View. Clicking Edit or on the media file&#8217;s name displays a simple screen to edit that individual file&#8217;s metadata. Clicking Delete Permanently will delete the file from the media library (as well as from any posts to which it is currently attached). View will take you to the display page for that file.' ) . '</p>'
 ) );
 get_current_screen()->add_help_tab( array(
-'id'		=> 'attach-media-files',
-'title'		=> __('Attach Media Files'),
+'id'		=> 'attaching-files',
+'title'		=> __('Attaching Files'),
 'content'	=>
 	'<p>' . __( 'If a media file has not been attached to any post, you will see that in the Attached To column, and can click on Attach File to launch a small popup that will allow you to search for a post and attach the file.' ) . '</p>'
 ) );

@@ -112,14 +112,14 @@ else
 add_screen_option( 'per_page', array('label' => _x( 'Comments', 'comments per page (screen options)' )) );
 
 get_current_screen()->add_help_tab( array(
-'id'		=> 'managing-comments',
-'title'		=> __('Managing Comments'),
+'id'		=> 'overview',
+'title'		=> __('Overview'),
 'content'	=> 
 	'<p>' . __( 'You can manage comments made on your site similar to the way you manage posts and other content. This screen is customizable in the same ways as other management screens, and you can act on comments using the on-hover action links or the Bulk Actions.' ) . '</p>'
 ) );
 get_current_screen()->add_help_tab( array(
-'id'		=> 'comments-table',
-'title'		=> __('Comments Table'),
+'id'		=> 'moderating-comments',
+'title'		=> __('Moderating Comments'),
 'content'	=> 
 	'<ul>' .
 		'<li>' . __( 'A yellow row means the comment is waiting for you to moderate it.' ) . '</li>' .

@@ -61,16 +61,10 @@ if ( isset($_GET['inline']) ) {
 	$title = __('Upload New Media');
 	$parent_file = 'upload.php';
 	get_current_screen()->add_help_tab( array(
-	'id'		=> 'adding-media',
-	'title'		=> __('Adding Media'),
+	'id'		=> 'overview',
+	'title'		=> __('Overview'),
 	'content'	=>
-		'<p>' . __('You can upload media files here without creating a post first. This allows you to upload files to use with posts and pages later and/or to get a web link for a particular file that you can share.') . '</p>'
-	) );
-	get_current_screen()->add_help_tab( array(
-	'id'		=> 'editing-new-media',
-	'title'		=> __('Editing New Media'),
-	'content'	=>
-		'<p>' . __('There are three options for uploading files:') .  
+		'<p>' . __('You can upload media files here without creating a post first. This allows you to upload files to use with posts and pages later and/or to get a web link for a particular file that you can share. There are three options for uploading files:') . '</p>' .
 		'<ul>' .
 			'<li>' . __('<strong>Drag and drop</strong> your files into the area below. Multiple files are allowed.') . '</li>' .
 			'<li>' . __('<strong>Select Files</strong> will open the multi-file uploader, or you can use the <strong>Browser Uploader</strong>.') . '</li>' .
