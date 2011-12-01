@@ -76,6 +76,9 @@ function wp_admin_bar_wp_menu( $wp_admin_bar ) {
 		'id'    => 'wp-logo',
 		'title' => '<span class="ab-icon"></span>',
 		'href'  => admin_url( 'about.php' ),
+		'meta'  => array(
+			'title' => __('About WordPress'),
+		),
 	) );
 
 	if ( is_user_logged_in() ) {
@@ -144,6 +147,7 @@ function wp_admin_bar_my_account_menu( $wp_admin_bar ) {
 			'href'      => $profile_url,
 			'meta'      => array(
 				'class'     => $class,
+				'title'     => __('My Account'),
 			),
 		) );
 
