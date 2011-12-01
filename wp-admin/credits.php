@@ -56,7 +56,7 @@ include( './admin-header.php' );
 
 <h2 class="nav-tab-wrapper">
 	<a href="about.php" class="nav-tab">
-		<?php printf( __( 'What&#8217;s New in %s' ), $display_version ); ?>
+		<?php _e( 'What&#8217;s New' ); ?>
 	</a><a href="credits.php" class="nav-tab nav-tab-active">
 		<?php _e( 'Credits' ); ?>
 	</a><a href="freedoms.php" class="nav-tab">
