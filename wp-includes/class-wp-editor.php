@@ -535,6 +535,9 @@ final class _WP_Editors {
 			var init, ed, qt, first_init, mce = <?php echo wp_default_editor() == 'tinymce' ? 'true' : 'false'; ?>;
 
 			if ( typeof(tinymce) == 'object' ) {
+				// mark wp_theme/ui.css as loaded
+				tinymce.DOM.files[tinymce.baseURI.getURI() + '/themes/advanced/skins/wp_theme/ui.css'] = true;
+
 				for ( ed in tinyMCEPreInit.mceInit ) {
 					if ( first_init ) {
 						init = tinyMCEPreInit.mceInit[ed] = tinymce.extend( {}, first_init, tinyMCEPreInit.mceInit[ed] );
