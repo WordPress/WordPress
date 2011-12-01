@@ -58,7 +58,7 @@ require_once(ABSPATH . 'wp-admin/includes/update.php');
 /** WordPress Deprecated Administration API */
 require_once(ABSPATH . 'wp-admin/includes/deprecated.php');
 
-/** WordPress Multi-Site support API */
+/** WordPress Multisite support API */
 if ( is_multisite() ) {
 	require_once(ABSPATH . 'wp-admin/includes/ms.php');
 	require_once(ABSPATH . 'wp-admin/includes/ms-deprecated.php');

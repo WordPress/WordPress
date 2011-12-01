@@ -48,7 +48,7 @@ get_current_screen()->add_help_tab( array(
 
 if ( current_user_can( 'install_themes' ) ) {
 	if ( is_multisite() ) {
-		$help_install = '<p>' . __('Installing themes on MultiSite can only be done from the Network Admin section.') . '</p>';
+		$help_install = '<p>' . __('Installing themes on Multisite can only be done from the Network Admin section.') . '</p>';
 	} else {
 		$help_install = '<p>' . sprintf( __('If you would like to see more themes to choose from, click on the &#8220;Install Themes&#8221; tab and you will be able to browse or search for additional themes from the <a href="%s" target="_blank">WordPress.org Theme Directory</a>. Themes in the WordPress.org Theme Directory are designed and developed by third parties, and are compatible with the license WordPress uses. Oh, and they&#8217;re free!'), 'http://wordpress.org/extend/themes/' ) . '</p>';
 	}

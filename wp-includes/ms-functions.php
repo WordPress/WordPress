@@ -1,6 +1,6 @@
 <?php
 /**
- * Multi-site WordPress API
+ * Multisite WordPress API
  *
  * @package WordPress
  * @subpackage Multisite
