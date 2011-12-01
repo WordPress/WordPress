@@ -485,7 +485,7 @@ function wp_admin_bar_new_content_menu( $wp_admin_bar ) {
 	}
 
 	if ( current_user_can( 'create_users' ) || current_user_can( 'promote_users' ) )
-		$actions[ 'user-new.php' ] = array( _x( 'User', 'add new from admin bar' ), 'new-user', 'new-secondary-object' );
+		$actions[ 'user-new.php' ] = array( _x( 'User', 'add new from admin bar' ), 'new-user' );
 
 	if ( ! $actions )
 		return;
@@ -630,14 +630,6 @@ function wp_admin_bar_add_secondary_groups( $wp_admin_bar ) {
 	$wp_admin_bar->add_group( array(
 		'parent' => 'wp-logo',
 		'id'     => 'wp-logo-external',
-		'meta'   => array(
-			'class' => 'ab-sub-secondary',
-		),
-	) );
-
-	$wp_admin_bar->add_group( array(
-		'parent' => 'new-content',
-		'id'     => 'new-secondary-object',
 		'meta'   => array(
 			'class' => 'ab-sub-secondary',
 		),
