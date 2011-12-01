@@ -536,6 +536,18 @@ function _copy_dir($from, $to, $skip_list = array() ) {
  *
  */
 function _redirect_to_about_wordpress( $wp_version ) {
+	global $wp_version, $pagenow, $action;
+
+	if ( version_compare( $wp_version, '3.3', '>=' ) )
+		return;
+
+	// Ensure we only run this on the update-core.php page. wp_update_core() could be called in other contexts.
+	if ( 'update-core.php' != $pagenow )
+		return;
+
+ 	if ( 'do-core-upgrade' != $action && 'do-core-reinstall' != $action )
+ 		return;
+ 
 	// Load the updated default text localization domain for new strings
 	load_default_textdomain();
 
@@ -554,5 +566,4 @@ window.location = '<?php echo admin_url( 'about.php?updated' ); ?>';
 	include(ABSPATH . 'wp-admin/admin-footer.php');
 	exit();
 }
-if ( version_compare( $GLOBALS['wp_version'], '3.3', '<' ) && 'update-core.php' == $GLOBALS['pagenow'] )
-	add_action( '_core_updated_successfully', '_redirect_to_about_wordpress' );
+add_action( '_core_updated_successfully', '_redirect_to_about_wordpress' );
