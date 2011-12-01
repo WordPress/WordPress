@@ -465,6 +465,11 @@ function update_core($from, $to) {
 
 	// Remove maintenance file, we're done.
 	$wp_filesystem->delete($maintenance_file);
+
+	// If we made it this far:
+	do_action( '_core_updated_successfully', $wp_version );
+
+	return $wp_version;
 }
 
 /**
@@ -525,21 +530,29 @@ function _copy_dir($from, $to, $skip_list = array() ) {
 /**
  * Redirect to the About WordPress page after a successful upgrade.
  *
- * This is a temporary function for the 3.3 upgrade only and will be removed in a later version.
- * 
+ * This function is only needed when the existing install is older than 3.3.0.
+ *
  * @since 3.3.0
  *
  */
-function _redirect_to_about_wordpress() {
-	// Only for WP version < 3.3.0
-	if ( version_compare( $GLOBALS['wp_version'], '3.3.0', '>' ) )
-		return;
-?>
-<script type="text/javascript">
-window.location = '<?php echo admin_url( 'about.php?upgraded' ); ?>';
-</script>
-<?php
-}
+function _redirect_to_about_wordpress( $wp_version ) {
+	// Load the updated default text localization domain for new strings
+	load_default_textdomain();
 
-add_action( 'admin_footer-update-core.php', '_redirect_to_about_wordpress' );
-?>
+	// See do_core_upgrade()
+	show_message( __('WordPress updated successfully') );
+	show_message( '<span class="hide-if-no-js">' . sprintf( __( 'Welcome to WordPress %1$s. You will be redirected to the About WordPress screen. If not, click <a href="%s">here</a>.' ), $wp_version, esc_url( admin_url( 'about.php?updated' ) ) ) . '</span>' );
+	show_message( '<span class="hide-if-js">' . sprintf( __( 'Welcome to WordPress %1$s. <a href="%2$s">Learn more</a>.' ), $wp_version, esc_url( admin_url( 'about.php?updated' ) ) ) . '</span>' );
+	echo '</div>';
+	?>
+<script type="text/javascript">
+window.location = '<?php echo admin_url( 'about.php?updated' ); ?>';
+</script>
+	<?php
+
+	// Include admin-footer.php and exit
+	include(ABSPATH . 'wp-admin/admin-footer.php');
+	exit();
+}
+if ( version_compare( $GLOBALS['wp_version'], '3.3', '<' ) && 'update-core.php' == $pagenow )
+	add_action( '_core_updated_successfully', '_redirect_to_about_wordpress' );

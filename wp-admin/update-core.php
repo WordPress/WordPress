@@ -378,11 +378,20 @@ function do_core_upgrade( $reinstall = false ) {
 		show_message($result);
 		if ('up_to_date' != $result->get_error_code() )
 			show_message( __('Installation Failed') );
-	} else {
-		show_message( __('WordPress updated successfully') );
-		show_message( '<a href="' . esc_url( self_admin_url() ) . '">' . __('Go to Dashboard') . '</a>' );
+		echo '</div>';
+		return;
 	}
-	echo '</div>';
+
+	show_message( __('WordPress updated successfully') );
+	show_message( __('WordPress updated successfully') );
+	show_message( '<span class="hide-if-no-js">' . sprintf( __( 'Welcome to WordPress %1$s. You will be redirected to the About WordPress screen. If not, click <a href="%s">here</a>.' ), $result, esc_url( admin_url( 'about.php?updated' ) ) ) . '</span>' );
+	show_message( '<span class="hide-if-js">' . sprintf( __( 'Welcome to WordPress %1$s. <a href="%2$s">Learn more</a>.' ), $result, esc_url( admin_url( 'about.php?updated' ) ) ) . '</span>' );
+	?>
+	</div>
+	<script type="text/javascript">
+	//window.location = '<?php echo admin_url( 'about.php?upgraded' ); ?>';
+	</script>
+	<?php
 }
 
 function do_dismiss_core_update() {

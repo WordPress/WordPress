@@ -160,8 +160,10 @@ include( './admin-header.php' );
 </div>
 
 <div class="return-to-dashboard">
-	<?php if ( current_user_can( 'update_core' ) && isset( $_GET['upgraded'] ) ) : ?>
-	<a href="<?php echo esc_url( admin_url( 'update-core.php' ) ); ?>"><?php _e( 'Return to Dashboard &rarr; Updates' ); ?></a> |
+	<?php if ( current_user_can( 'update_core' ) && isset( $_GET['updated'] ) ) : ?>
+	<a href="<?php echo esc_url( network_admin_url( 'update-core.php' ) ); ?>"><?php
+		is_multisite() ? _e( 'Return to Updates' ) : _e( 'Return to Dashboard &rarr; Updates' );
+	?></a> |
 	<?php endif; ?>
 	<a href="<?php echo esc_url( admin_url() ); ?>"><?php _e( 'Go to Dashboard &rarr; Home' ); ?></a>
 </div>
