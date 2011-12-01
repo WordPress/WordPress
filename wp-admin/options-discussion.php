@@ -16,8 +16,8 @@ $title = __('Discussion Settings');
 $parent_file = 'options-general.php';
 
 get_current_screen()->add_help_tab( array(
-	'id'      => 'options-discussion',
-	'title'   => __('Discussion Options'),
+	'id'      => 'overview',
+	'title'   => __('Overview'),
 	'content' => '<p>' . __('This screen provides many options for controlling the management and display of comments and links to your posts/pages. So many, in fact, they won&#8217;t all fit here! :) Use the documentation links to get information on what each discussion setting does.') . '</p>' .
 		'<p>' . __('You must click the Save Changes button at the bottom of the screen for new settings to take effect.') . '</p>',
 ) );

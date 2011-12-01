@@ -16,11 +16,10 @@ $title = __('Privacy Settings');
 $parent_file = 'options-general.php';
 
 get_current_screen()->add_help_tab( array(
-	'id'      => 'options-privacy',
-	'title'   => __('Privacy Options'),
-	'content' => '<p>' . __('You can choose whether or not your site will be crawled by robots, ping services, and spiders. If you want those services to ignore your site, click the second option here. Note that your privacy is not complete; your site is still visible on the web.') . '</p>' .
-		'<p>' . __('When this setting is in effect a reminder is shown in the Right Now box of the Dashboard that says, &#8220;Search Engines Blocked,&#8221; to remind you that your site is not being crawled.') . '</p>' .
-		'<p>' . __('You must click the Save Changes button at the bottom of the screen for new settings to take effect.') . '</p>',
+	'id'      => 'overview',
+	'title'   => __('Overview'),
+	'content' => '<p>' . __('You can choose whether or not your site will be crawled by robots, ping services, and spiders. If you want those services to ignore your site, click the radio button next to &#8220;Ask search engines not to index this site&#8221; and click the Save Changes button at the bottom of the screen. Note that your privacy is not complete; your site is still visible on the web.') . '</p>' .
+		'<p>' . __('When this setting is in effect a reminder is shown in the Right Now box of the Dashboard that says, &#8220;Search Engines Blocked,&#8221; to remind you that your site is not being crawled.') . '</p>',
 ) );
 
 get_current_screen()->set_help_sidebar(

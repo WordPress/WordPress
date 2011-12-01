@@ -16,12 +16,26 @@ $title = __('Permalink Settings');
 $parent_file = 'options-general.php';
 
 get_current_screen()->add_help_tab( array(
-	'id'      => 'options-permalinks',
-	'title'   => __('Permalink Options'),
-	'content' => '<p>' . __('This screen provides some common options for your default permalinks URL structure.') . '</p>' .
+	'id'      => 'overview',
+	'title'   => __('Overview'),
+	'content' => '<p>' . __('Permalinks are the permanent URLs to your individual pages and blog posts, as well as your category and tag archives. A permalink is the web address used to link to your content. The URL to each post should be permanent, and never change &#8212; hence the name permalink.') . '</p>' .
+		'<p>' . __('This screen provides allows you to choose your default permalink structure. You can choose from common settings or create custom URL structures.') . '</p>' .
+		'<p>' . __('When making changes, you must click the Save Changes button at the bottom of the screen for the new settings to take effect.') . '</p>',
+) );
+
+get_current_screen()->add_help_tab( array(
+	'id'      => 'common-settings',
+	'title'   => __('Common Settings'),
+	'content' => '<p>' . __('Many people choose to use &#8220;pretty permalinks,&#8221; URLs that contain useful information such as the post title rather than generic post ID numbers. You can choose from any of the permalink formats under Common Settings, or can craft your own if you select Custom Structure.') . '</p>' .
 		'<p>' . __('If you pick an option other than Default, your general URL path with structure tags, terms surrounded by <code>%</code>, will also appear in the custom structure field and your path can be further modified there.') . '</p>' .
 		'<p>' . __('When you assign multiple categories or tags to a post, only one can show up in the permalink: the lowest numbered category. This applies if your custom structure includes <code>%category%</code> or <code>%tag%</code>.') . '</p>' .
-		'<p>' . __('The Optional fields let you customize the &#8220;category&#8221; and &#8220;tag&#8221; base names that will appear in archive URLs. For example, the page listing all posts in the &#8220;Uncategorized&#8221; category could be <code>/topics/uncategorized</code> instead of <code>/category/uncategorized</code>.') . '</p>' .
+		'<p>' . __('You must click the Save Changes button at the bottom of the screen for new settings to take effect.') . '</p>',
+) );
+
+get_current_screen()->add_help_tab( array(
+	'id'      => 'custom-structures',
+	'title'   => __('Custom Structures'),
+	'content' => '<p>' . __('The Optional fields let you customize the &#8220;category&#8221; and &#8220;tag&#8221; base names that will appear in archive URLs. For example, the page listing all posts in the &#8220;Uncategorized&#8221; category could be <code>/topics/uncategorized</code> instead of <code>/category/uncategorized</code>.') . '</p>' .
 		'<p>' . __('You must click the Save Changes button at the bottom of the screen for new settings to take effect.') . '</p>',
 ) );
 
@@ -176,7 +190,7 @@ $structures = array(
 	4 => $prefix . '/%postname%/',
 );
 ?>
-<h3><?php _e('Common settings'); ?></h3>
+<h3><?php _e('Common Settings'); ?></h3>
 <table class="form-table">
 	<tr>
 		<th><label><input name="selection" type="radio" value="" class="tog" <?php checked('', $permalink_structure); ?> /> <?php _e('Default'); ?></label></th>
