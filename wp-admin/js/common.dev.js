@@ -229,6 +229,7 @@ $(document).ready( function() {
 		e.stopPropagation();
 		e.preventDefault();
 
+		menu.find('.wp-submenu').removeClass('sub-open');
 		target.siblings('.wp-submenu').toggleClass('sub-open').find('a[role="menuitem"]').each(refresh);
 	}).each(refresh);
 

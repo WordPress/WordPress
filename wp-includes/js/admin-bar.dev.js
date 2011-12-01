@@ -33,12 +33,13 @@ if ( typeof(jQuery) != 'undefined' ) {
 			if ( e.which != 13 )
 				return;
 
-			var target = $(e.target);
+			var target = $(e.target), parent = target.parent();
 
 			e.stopPropagation();
 			e.preventDefault();
 
-			target.parent().toggleClass('hover');
+			parent.siblings('.menupop').removeClass('hover');
+			parent.toggleClass('hover');
 			target.siblings('.ab-sub-wrapper').find('.ab-item').each(refresh);
 		}).each(refresh);
 
