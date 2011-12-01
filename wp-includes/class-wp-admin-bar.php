@@ -1,22 +1,27 @@
 <?php
 class WP_Admin_Bar {
 	private $nodes = array();
-	private $root = array();
-
-	public $proto = 'http://';
 	public $user;
 
-	function initialize() {
-		/* Set the protocol used throughout this code */
-		if ( is_ssl() )
-			$this->proto = 'https://';
+	public function __get( $name ) {
+		switch ( $name ) {
+			case 'proto' :
+				return is_ssl() ? 'https://' : 'http://';
+				break;
+			case 'menu' :
+				_deprecated_argument( 'WP_Admin_Bar', '3.3', 'Modify admin bar nodes with WP_Admin_Bar::get_node(), WP_Admin_Bar::add_node(), and WP_Admin_Bar::remove_node(), not the <code>menu</code> property.' );
+				return array(); // Sorry, folks.
+				break;
+		}
+	}
 
+	public function initialize() {
 		$this->user = new stdClass;
-		$this->root = (object) array(
+
+		$this->add_node( array(
 			'id'       => 'root',
 			'group'    => false,
-			'children' => array(),
-		);
+		) );
 
 		if ( is_user_logged_in() ) {
 			/* Populate settings we need for the menu based on the current user. */
@@ -69,12 +74,15 @@ class WP_Admin_Bar {
 	 * - parent     - string    - The ID of the parent node. Optional.
 	 * - href       - string    - The link for the item. Optional.
 	 * - group      - boolean   - If the node is a group. Optional. Default false.
-	 * - meta       - array     - Meta data including the following keys: html, class, onclick, target, title.
+	 * - meta       - array     - Meta data including the following keys: html, class, onclick, target, title, tabindex.
 	 */
 	public function add_node( $args ) {
 		// Shim for old method signature: add_node( $parent_id, $menu_obj, $args )
 		if ( func_num_args() >= 3 && is_string( func_get_arg(0) ) )
 			$args = array_merge( array( 'parent' => func_get_arg(0) ), func_get_arg(2) );
+
+		if ( is_object( $args ) )
+			$args = get_object_vars( $args );
 
 		// Ensure we have a valid title.
 		if ( empty( $args['id'] ) ) {
@@ -96,51 +104,82 @@ class WP_Admin_Bar {
 		);
 
 		// If the node already exists, keep any data that isn't provided.
-		if ( isset( $this->nodes[ $args['id'] ] ) )
-			$defaults = (array) $this->nodes[ $args['id'] ];
+		if ( $this->get_node( $args['id'] ) )
+			$defaults = get_object_vars( $this->get_node( $args['id'] ) );
+
+		// Do the same for 'meta' items.
+		if ( ! empty( $defaults['meta'] ) && empty( $args['meta'] ) )
+			$args['meta'] = wp_parse_args( $args['meta'], $defaults['meta'] );
 
 		$args = wp_parse_args( $args, $defaults );
-		$args['children'] = array();
 
+		$this->_set_node( $args );
+	}
+
+	final protected function _set_node( $args ) {
 		$this->nodes[ $args['id'] ] = (object) $args;
 	}
 
 	/**
+	 * Gets a node.
+	 *
+	 * @return object Node.
+	 */
+	final public function get_node( $id ) {
+		if ( isset( $this->nodes[ $id ] ) )
+			return $this->nodes[ $id ];
+	}
+
+	final protected function _get_nodes() {
+		return $this->nodes;
+	}
+
+	/**
 	 * Add a group to a menu node.
+	 *
+	 * @since 3.3.0
 	 *
 	 * @param array $args - The arguments for each node.
 	 * - id         - string    - The ID of the item.
 	 * - parent     - string    - The ID of the parent node. Optional. Default root.
 	 * - meta       - array     - Meta data including the following keys: class, onclick, target, title.
 	 */
-	public function add_group( $args ) {
+	final public function add_group( $args ) {
 		$args['group'] = true;
 
 		$this->add_node( $args );
 	}
 
+	/**
+	 * Remove a node.
+	 *
+	 * @return object The removed node.
+	 */
 	public function remove_node( $id ) {
+		$this->_unset_node( $id );
+	}
+
+	final protected function _unset_node( $id ) {
 		unset( $this->nodes[ $id ] );
 	}
 
 	public function render() {
-		global $is_IE, $is_iphone;
+		$this->_bind();
+		$this->_render();
+	}
 
-		// Link nodes to parents.
-		foreach ( $this->nodes as $node ) {
+	final protected function _bind() {
+		foreach ( $this->_get_nodes() as $node ) {
+			if ( 'root' == $node->id )
+				continue;
 
 			// Handle root menu items
 			if ( empty( $node->parent ) ) {
-				$parent = $this->root;
-
-			// If the parent node isn't registered, ignore the node.
-			} elseif ( ! isset( $this->nodes[ $node->parent ] ) ) {
+				$parent = $this->get_node( 'root' );
+			} elseif ( ! $parent = $this->get_node( $node->parent ) ) {
+				// If the parent node isn't registered, ignore the node.
 				continue;
-
-			} else {
-				$parent = $this->nodes[ $node->parent ];
 			}
-
 
 			// Ensure that our tree is of the form "item -> group -> item -> group -> ..."
 			if ( ! $parent->group && ! $node->group ) { // Both are items.
@@ -160,9 +199,16 @@ class WP_Admin_Bar {
 			// Update the parent ID (it might have changed).
 			$node->parent = $parent->id;
 
+			if ( ! isset( $parent->children ) )
+				$parent->children = array();
+
 			// Add the node to the tree.
 			$parent->children[] = $node;
 		}
+	}
+
+	final protected function _render() {
+		global $is_IE, $is_iphone;
 
 		// Add browser classes.
 		// We have to do this here since admin bar shows on the front end.
@@ -181,8 +227,8 @@ class WP_Admin_Bar {
 		?>
 		<div id="wpadminbar" class="<?php echo $class; ?>" role="navigation">
 			<div class="quicklinks" role="menubar">
-				<?php foreach ( $this->root->children as $group ) {
-					$this->render_group( $group, 'ab-top-menu' );
+				<?php foreach ( $this->get_node( 'root' )->children as $group ) {
+					$this->_render_group( $group, 'ab-top-menu' );
 				} ?>
 			</div>
 		</div>
@@ -190,7 +236,7 @@ class WP_Admin_Bar {
 		<?php
 	}
 
-	private function render_group( $node, $class = '' ) {
+	final protected function _render_group( $node, $class = '' ) {
 		if ( ! $node->group )
 			return;
 
@@ -211,36 +257,36 @@ class WP_Admin_Bar {
 
 		$is_single_group = count( $groups ) === 1;
 
-
 		// If we don't have any subgroups, render the group.
-		if ( $is_single_group && ! empty( $node->children ) ):
+		if ( $is_single_group && ! empty( $node->children ) ) :
 
 			if ( ! empty( $node->meta['class'] ) )
 				$class .= ' ' . $node->meta['class'];
 
 			?><ul id="<?php echo esc_attr( "wp-admin-bar-{$node->id}" ); ?>" class="<?php echo esc_attr( $class ); ?>" role="menu"><?php
 				foreach ( $node->children as $item ) {
-					$this->render_item( $item );
+					$this->_render_item( $item );
 				}
 			?></ul><?php
 
 		// Wrap the subgroups in a div and render each individual subgroup.
-		elseif ( ! $is_single_group ):
+		elseif ( ! $is_single_group ) :
 			?><div id="<?php echo esc_attr( "wp-admin-bar-{$node->id}-container" ); ?>" class="ab-group-container" role="menu"><?php
 				foreach ( $groups as $group ) {
-					$this->render_group( $group, $class );
+					$this->_render_group( $group, $class );
 				}
 			?></div><?php
 		endif;
 	}
 
-	private function render_item( $node ) {
+	final protected function _render_item( $node ) {
 		if ( $node->group )
 			return;
 
-		$is_parent = (bool) $node->children;
-		$has_link  = (bool) $node->href;
-		$tabindex = isset($node->meta['tabindex']) ? (int) $node->meta['tabindex'] : 10;
+		$is_parent = ! empty( $node->children );
+		$has_link  = ! empty( $node->href );
+
+		$tabindex = isset( $node->meta['tabindex'] ) ? (int) $node->meta['tabindex'] : 10;
 
 		$menuclass = '';
 		$aria_attributes = 'tabindex="' . $tabindex . '" role="menuitem"';
@@ -278,7 +324,7 @@ class WP_Admin_Bar {
 
 			echo $node->title;
 
-			if ( $has_link ):
+			if ( $has_link ) :
 				?></a><?php
 			else:
 				?></div><?php
@@ -287,7 +333,7 @@ class WP_Admin_Bar {
 			if ( $is_parent ) :
 				?><div class="ab-sub-wrapper"><?php
 					foreach ( $node->children as $group ) {
-						$this->render_group( $group, 'ab-submenu' );
+						$this->_render_group( $group, 'ab-submenu' );
 					}
 				?></div><?php
 			endif;
@@ -299,11 +345,12 @@ class WP_Admin_Bar {
 		</li><?php
 	}
 
-	function recursive_render( $node ) {
-		$this->render_item( $node );
+	public function recursive_render( $id, $node ) {
+		_deprecated_function( __METHOD__, '3.3', 'WP_Admin_bar::render(), WP_Admin_Bar::_render_item()' );
+		$this->_render_item( $node );
 	}
 
-	function add_menus() {
+	public function add_menus() {
 		// User related, aligned right.
 		add_action( 'admin_bar_menu', 'wp_admin_bar_my_account_menu', 10 );
 
