@@ -212,7 +212,8 @@
 	text-shadow: none;
 }
 
-#wpadminbar .hover .ab-label {
+#wpadminbar .hover .ab-label,
+#wpadminbar.nojq .ab-item:focus .ab-label {
 	color: #fafafa;
 }
 
