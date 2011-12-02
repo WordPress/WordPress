@@ -2948,7 +2948,7 @@ input#link_url {
 
 #side-sortables .category-add input[type="text"],
 #side-sortables .category-add select {
-	width: 160px;
+	width: 100%;
 }
 
 #post-body ul.category-tabs,
