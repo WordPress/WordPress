@@ -2946,9 +2946,10 @@ input#link_url {
 	margin:0;
 }
 
-#side-sortables .category-add input[type="text"],
-#side-sortables .category-add select {
+.category-add input[type="text"],
+.category-add select {
 	width: 100%;
+	max-width: 260px;
 }
 
 #post-body ul.category-tabs,
@@ -3360,11 +3361,6 @@ table.diff .diff-deletedline del, table.diff .diff-addedline ins {
 
 #side-sortables .category-adder {
 	margin: 0;
-}
-
-#normal-sortables .category-add input[type="text"],
-#normal-sortables .category-add select {
-	width: 30%;
 }
 
 #post-body ul.category-tabs,
