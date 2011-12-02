@@ -48,15 +48,15 @@ function twentyeleven_theme_options_init() {
 	);
 
 	// Register our settings field group
-	add_settings_section( 
+	add_settings_section(
 		'general', // Unique identifier for the settings section
 		'', // Section title (we don't want one)
-		'__return_false', // Section callback (we don't want anything) 
+		'__return_false', // Section callback (we don't want anything)
 		'theme_options' // Menu slug, used to uniquely identify the page; see twentyeleven_theme_options_add_page()
 	);
 
 	// Register our individual settings fields
-	add_settings_field( 
+	add_settings_field(
 		'color_scheme',  // Unique identifier for the field for this section
 		__( 'Color Scheme', 'twentyeleven' ), // Setting field label
 		'twentyeleven_settings_field_color_scheme', // Function that renders the settings field
@@ -64,8 +64,8 @@ function twentyeleven_theme_options_init() {
 		'general' // Settings section. Same as the first argument in the add_settings_section() above
 	);
 
-	add_settings_field( 'link_color', __( 'Link Color', 'twentyeleven' ), 'twentyeleven_settings_field_link_color', 'theme_options', 'general' );
-	add_settings_field( 'layout',     __( 'Layout',     'twentyeleven' ), 'twentyeleven_settings_field_layout',     'theme_options', 'general' );
+	add_settings_field( 'link_color', __( 'Link Color',     'twentyeleven' ), 'twentyeleven_settings_field_link_color', 'theme_options', 'general' );
+	add_settings_field( 'layout',     __( 'Default Layout', 'twentyeleven' ), 'twentyeleven_settings_field_layout',     'theme_options', 'general' );
 }
 add_action( 'admin_init', 'twentyeleven_theme_options_init' );
 
@@ -118,7 +118,7 @@ function twentyeleven_theme_options_help() {
 	get_current_screen()->add_help_tab( array(
 		'title' => __( 'Overview', 'twentyeleven' ),
 		'id' => 'theme-options-help',
-		'content' => 
+		'content' =>
 			'<p>' . __( 'Some themes provide customization options that are grouped together on a Theme Options screen. If you change themes, options may change or disappear, as they are theme-specific. Your current theme, Twenty Eleven, provides the following Theme Options:', 'twentyeleven' ) . '</p>' .
 			'<ol>' .
 				'<li>' . __( '<strong>Color Scheme</strong>: You can choose a color palette of "Light" (light background with dark text) or "Dark" (dark background with light text) for your site.', 'twentyeleven' ) . '</li>' .
@@ -237,7 +237,7 @@ function twentyeleven_get_theme_options() {
 
 /**
  * Renders the Color Scheme setting field.
- * 
+ *
  * @since Twenty Eleven 1.3
  */
 function twentyeleven_settings_field_color_scheme() {
@@ -261,7 +261,7 @@ function twentyeleven_settings_field_color_scheme() {
 
 /**
  * Renders the Link Color setting field.
- * 
+ *
  * @since Twenty Eleven 1.3
  */
 function twentyeleven_settings_field_link_color() {
@@ -278,7 +278,7 @@ function twentyeleven_settings_field_link_color() {
 
 /**
  * Renders the Layout setting field.
- * 
+ *
  * @since Twenty Eleven 1.3
  */
 function twentyeleven_settings_field_layout() {

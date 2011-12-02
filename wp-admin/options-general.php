@@ -67,7 +67,7 @@ if ( ! is_multisite() ) {
 }
 
 $options_help .= '<p>' . __('UTC means Coordinated Universal Time.') . '</p>' .
-	'<p>' . __('Remember to click the Save Changes button at the bottom of the screen for new settings to take effect.') . '</p>';
+	'<p>' . __( 'You must click the Save Changes button at the bottom of the screen for new settings to take effect.' ) . '</p>';
 
 get_current_screen()->add_help_tab( array(
 	'id'      => 'overview',

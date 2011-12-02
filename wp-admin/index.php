@@ -28,7 +28,7 @@ else
 	add_screen_option('layout_columns', array('max' => 4, 'default' => 2) );
 
 
-$help = '<p>' . __( 'Welcome to your WordPress Dashboard! This is the screen you will see when you log in to your site, and gives you access to all the site management features of WordPress. You can get help for any screen by clicking the Help tab in the top bar.' ) . '</p>';
+$help = '<p>' . __( 'Welcome to your WordPress Dashboard! This is the screen you will see when you log in to your site, and gives you access to all the site management features of WordPress. You can get help for any screen by clicking the Help tab in the upper corner.' ) . '</p>';
 
 get_current_screen()->add_help_tab( array(
 	'id'      => 'overview',
