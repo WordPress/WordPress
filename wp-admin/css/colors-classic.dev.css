@@ -2168,14 +2168,25 @@ div.widgets-sortables,
 	color: #464646;
 }
 
-.about-wrap .feature-section img,
-.about-wrap .feature-section .image-mask {
+.about-wrap .feature-section img {
 	background: #fff;
 	border-color: #dfdfdf;
 
 	-moz-box-shadow: 0 0 6px rgba( 0, 0, 0, 0.3 );
 	-webkit-box-shadow: 0 0 6px rgba( 0, 0, 0, 0.3 );
 	box-shadow: 0 0 6px rgba( 0, 0, 0, 0.3 );
+}
+
+.about-wrap .point-releases {
+	border-bottom: 1px solid #dfdfdf;
+}
+
+.about-wrap .point-releases h3 {
+	border-top: 1px solid #dfdfdf;
+}
+
+.about-wrap .point-releases h3:first-child {
+	border: 0;
 }
 
 .about-wrap h4.wp-people-group {

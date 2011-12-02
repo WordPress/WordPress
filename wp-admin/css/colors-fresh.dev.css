@@ -1795,8 +1795,7 @@ div.widgets-sortables,
 	color: #464646;
 }
 
-.about-wrap .feature-section img,
-.about-wrap .feature-section .image-mask {
+.about-wrap .feature-section img {
 	background: #fff;
 	border-color: #dfdfdf;
 
@@ -1807,6 +1806,18 @@ div.widgets-sortables,
 
 .about-wrap h4.wp-people-group {
 	text-shadow: 1px 1px 1px white;
+}
+
+.about-wrap .point-releases {
+	border-bottom: 1px solid #dfdfdf;
+}
+
+.about-wrap .point-releases h3 {
+	border-top: 1px solid #dfdfdf;
+}
+
+.about-wrap .point-releases h3:first-child {
+	border: 0;
 }
 
 .about-wrap li.wp-person img.gravatar {

@@ -4893,6 +4893,18 @@ html.ie8 .about-wrap img.element-screenshot {
 	padding: 2px;
 }
 
+/* Point Releases */
+
+.about-wrap .point-releases {
+	margin-top: 5px;
+}
+.about-wrap .changelog.point-releases h3 {
+	padding-top: 35px;
+}
+.about-wrap .changelog.point-releases h3:first-child {
+	padding-top: 7px;
+}
+
 /* WordPress Version Badge */
 
 .wp-badge {
@@ -5077,7 +5089,7 @@ html.ie8 .about-wrap .feature-section.three-col img {
 .about-wrap ul.wp-people-group {
 	overflow: hidden;
 	padding: 5px;
-	margin: 0 -5px;
+	margin: 0 -15px 0 -5px;
 }
 .about-wrap ul.compact {
 	margin-bottom: 0
