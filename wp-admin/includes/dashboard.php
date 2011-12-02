@@ -1321,34 +1321,36 @@ function wp_welcome_panel() {
 			echo '<p>';
 			printf( __( '<a href="%s">Install a theme</a> to get started customizing your site.' ), esc_url( admin_url( 'themes.php' ) ) );
 			echo '</p>';
-			else:
-			echo '<p>';
-			printf( __( 'Use the current theme &mdash; %1$s &mdash; or <a href="%2$s">choose a new one</a>. If you stick with %3$s, here are a few ways to make your site look unique.' ), $ct->title, esc_url( admin_url( 'themes.php' ) ), $ct->title );
-			echo '</p>';
+		else:
+			$customize_links = array();
+			if ( 'twentyeleven' == $ct->stylesheet )
+				$customize_links[] = sprintf( __( '<a href="%s">Choose light or dark</a>' ), esc_url( admin_url( 'themes.php?page=theme_options' ) ) );
+
+			if ( current_theme_supports( 'custom-background' ) )
+				$customize_links[] = sprintf( __( '<a href="%s">Set a background color</a>' ), esc_url( admin_url( 'themes.php?page=custom-background' ) ) );
+
+			if ( current_theme_supports( 'custom-header' ) )
+				$customize_links[] = sprintf( __( '<a href="%s">Select a new header image</a>' ), esc_url( admin_url( 'themes.php?page=custom-header' ) ) );
+
+			if ( current_theme_supports( 'widgets' ) )
+				$customize_links[] = sprintf( __( '<a href="%s">Add some widgets</a>' ), esc_url( admin_url( 'widgets.php' ) ) );
+
+			if ( ! empty( $customize_links ) ) {
+				echo '<p>';
+				printf( __( 'Use the current theme &mdash; %1$s &mdash; or <a href="%2$s">choose a new one</a>. If you stick with %3$s, here are a few ways to make your site look unique.' ), $ct->title, esc_url( admin_url( 'themes.php' ) ), $ct->title );
+				echo '</p>';
 			?>
 			<ul>
-			<?php
-			if ( 'twentyeleven' == $ct->stylesheet ) : ?>
-				<li><?php echo sprintf( __( '<a href="%s">Choose light or dark</a>' ), esc_url( admin_url( 'themes.php?page=theme_options' ) ) ); ?></li>
-			<?php
-			endif;
-
-			if ( current_theme_supports( 'custom-background' ) ) : ?>
-				<li><?php echo sprintf( __( '<a href="%s">Set a background color</a>' ), esc_url( admin_url( 'themes.php?page=custom-background' ) ) ); ?></li>
-			<?php
-			endif;
-
-			if ( current_theme_supports( 'custom-header' ) ) : ?>
-				<li><?php echo sprintf( __( '<a href="%s">Select a new header image</a>' ), esc_url( admin_url( 'themes.php?page=custom-header' ) ) ); ?></li>
-			<?php
-			endif;
-
-			if ( current_theme_supports( 'widgets' ) ) : ?>
-				<li><?php echo sprintf( __( '<a href="%s">Add some widgets</a>' ), esc_url( admin_url( 'widgets.php' ) ) ); ?></li>
-			<?php
-			endif; ?>
+				<?php foreach ( $customize_links as $customize_link ) : ?>
+				<li><?php echo $customize_link ?></li>
+				<?php endforeach; ?>
 			</ul>
-		<?php
+			<?php
+			} else {
+				echo '<p>';
+				printf( __( 'Use the current theme &mdash; %1$s &mdash; or <a href="%2$s">choose a new one</a>.' ), $ct->title, esc_url( admin_url( 'themes.php' ) ) );
+				echo '</p>';
+			}
 		endif; ?>
 	</div>
 	</div>
