@@ -1071,6 +1071,9 @@ article.format-link .entry-content,
 article.format-status .entry-content {
 	padding: 20px 0 0;
 }
+article.format-status .entry-content {
+	min-height: 65px;
+}
 .recent-posts .entry-header .entry-format {
 	display: none;
 }
