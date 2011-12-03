@@ -194,8 +194,6 @@ add_filter( 'comments_open',            '_close_comments_for_old_post', 10, 2 );
 add_filter( 'pings_open',               '_close_comments_for_old_post', 10, 2 );
 add_filter( 'editable_slug',            'urldecode'                           );
 add_filter( 'nav_menu_meta_box_object', '_wp_nav_menu_meta_box_object'        );
-add_filter( 'widget_text',              'shortcode_unautop'                   );
-add_filter( 'widget_text',              'do_shortcode'                        );
 
 // Actions
 add_action( 'wp_head',             'wp_enqueue_scripts',              1     );
