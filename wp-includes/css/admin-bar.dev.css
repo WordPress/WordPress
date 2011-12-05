@@ -480,6 +480,14 @@
 }
 
 /**
+ * Site Menu
+ */
+#wpadminbar #wp-admin-bar-appearance {
+	border-top: none;
+	margin-top: -12px;
+}
+
+/**
  * ICONS
  */
 #wpadminbar .ab-icon {
