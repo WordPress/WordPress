@@ -138,49 +138,33 @@
 /*
  * Search
  */
-#wpadminbar #adminbarsearch {
-	float: left;
-}
-
 #wpadminbar #adminbarsearch .adminbar-input {
-	float: right;
 	font-family: Tahoma, Arial, Helvetica, sans-serif;
 	padding: 0 24px 0 3px;
-	margin: 0 0 0 3px;
-	background-position: 99% 1px;
+	margin: 0;
+	background-position: 50% 2px;
+}
+
+#wpadminbar #adminbarsearch .adminbar-input:focus,
+#wpadminbar.ie7 #adminbarsearch .adminbar-input {
+	background-position: 99% 2px;
 }
 
 /**
  * Comments icon
  */
-#wpadminbar .ab-comments-icon {
+#wpadminbar .ab-icon {
 	float: right;
 }
 
-#wpadminbar.ie7 .ab-comments-icon {
+#wpadminbar.ie7 .ab-icon {
 	float: left;
 	left: 12px;
 }
 
-#wpadminbar .ab-comments-icon-body {
-	margin-right: -2px;
-}
-
-#wpadminbar a .ab-comments-icon-arrow {
-	left: auto;
-	right: 1px;
-	/* Use transparent borders to form a triangle */
-	border-left: 0;
-	border-right: 4px solid #999;
-}
-
-#wpadminbar #ab-awaiting-mod {
+#wpadminbar .ab-label {
 	margin-left: 0px;
 	margin-right: 4px;
-}
-
-#wpadminbar.ie7 #ab-awaiting-mod {
-	margin-right: 0;
 }
 
 #wpadminbar.ie7 #wp-admin-bar-comments > a {
