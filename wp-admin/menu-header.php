@@ -41,7 +41,7 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 	foreach ( $menu as $key => $item ) {
 		$admin_is_parent = false;
 		$class = array();
-		$aria_attributes = 'tabindex="1" role="menuitem"';
+		$aria_attributes = 'tabindex="1"';
 
 		if ( $first ) {
 			$class[] = 'wp-first-item';
@@ -104,14 +104,14 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 		}
 
 		if ( ! empty( $submenu_items ) ) {
-			echo "\n\t<div class='wp-submenu' role='menu'><div class='wp-submenu-wrap'>";
+			echo "\n\t<div class='wp-submenu'><div class='wp-submenu-wrap'>";
 			echo "<div class='wp-submenu-head'>{$item[0]}</div><ul>";
 			$first = true;
 			foreach ( $submenu_items as $sub_key => $sub_item ) {
 				if ( ! current_user_can( $sub_item[1] ) )
 					continue;
 
-				$aria_attributes = 'tabindex="1" role="menuitem"';
+				$aria_attributes = 'tabindex="1"';
 				$class = array();
 				if ( $first ) {
 					$class[] = 'wp-first-item';
@@ -173,9 +173,9 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 ?>
 
 <div id="adminmenuback"></div>
-<div id="adminmenuwrap" role="navigation">
+<div id="adminmenuwrap">
 <div id="adminmenushadow"></div>
-<ul id="adminmenu" role="menu">
+<ul id="adminmenu" role="navigation">
 
 <?php
 

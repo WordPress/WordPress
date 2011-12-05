@@ -226,7 +226,7 @@ class WP_Admin_Bar {
 
 		?>
 		<div id="wpadminbar" class="<?php echo $class; ?>" role="navigation">
-			<div class="quicklinks" role="menubar">
+			<div class="quicklinks">
 				<?php foreach ( $this->get_node( 'root' )->children as $group ) {
 					$this->_render_group( $group, 'ab-top-menu' );
 				} ?>
@@ -263,7 +263,7 @@ class WP_Admin_Bar {
 			if ( ! empty( $node->meta['class'] ) )
 				$class .= ' ' . $node->meta['class'];
 
-			?><ul id="<?php echo esc_attr( "wp-admin-bar-{$node->id}" ); ?>" class="<?php echo esc_attr( $class ); ?>" role="menu"><?php
+			?><ul id="<?php echo esc_attr( "wp-admin-bar-{$node->id}" ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php
 				foreach ( $node->children as $item ) {
 					$this->_render_item( $item );
 				}
@@ -271,7 +271,7 @@ class WP_Admin_Bar {
 
 		// Wrap the subgroups in a div and render each individual subgroup.
 		elseif ( ! $is_single_group ) :
-			?><div id="<?php echo esc_attr( "wp-admin-bar-{$node->id}-container" ); ?>" class="ab-group-container" role="menu"><?php
+			?><div id="<?php echo esc_attr( "wp-admin-bar-{$node->id}-container" ); ?>" class="ab-group-container"><?php
 				foreach ( $groups as $group ) {
 					$this->_render_group( $group, $class );
 				}
@@ -289,7 +289,7 @@ class WP_Admin_Bar {
 		$tabindex = isset( $node->meta['tabindex'] ) ? (int) $node->meta['tabindex'] : 10;
 
 		$menuclass = '';
-		$aria_attributes = 'tabindex="' . $tabindex . '" role="menuitem"';
+		$aria_attributes = 'tabindex="' . $tabindex . '"';
 
 		if ( $is_parent ) {
 			$menuclass = 'menupop';
