@@ -120,7 +120,7 @@ class WP_Admin_Bar {
 
 		if ( isset( $back_compat_parents[ $args['parent'] ] ) ) {
 			list( $new_parent, $version ) = $back_compat_parents[ $args['parent'] ];
-			_deprecated_argument( __METHOD__, $version, sprintf( 'Use <code>%s</code> as the parent for the <code>%s</code> admin bar node instead of <code>%s</code>.', new_parent, $args['id'], $args['parent'] ) );
+			_deprecated_argument( __METHOD__, $version, sprintf( 'Use <code>%s</code> as the parent for the <code>%s</code> admin bar node instead of <code>%s</code>.', $new_parent, $args['id'], $args['parent'] ) );
 			$args['parent'] = $new_parent;
 		}
 
