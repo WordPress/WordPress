@@ -448,8 +448,9 @@ class WP_Admin_Bar {
 
 	public function add_menus() {
 		// User related, aligned right.
-		add_action( 'admin_bar_menu', 'wp_admin_bar_search_menu', 10 );
-		add_action( 'admin_bar_menu', 'wp_admin_bar_my_account_menu', 20 );
+		add_action( 'admin_bar_menu', 'wp_admin_bar_my_account_menu', 0 );
+		add_action( 'admin_bar_menu', 'wp_admin_bar_search_menu', 4 );
+		add_action( 'admin_bar_menu', 'wp_admin_bar_my_account_item', 7 );
 
 		// Site related.
 		add_action( 'admin_bar_menu', 'wp_admin_bar_wp_menu', 10 );

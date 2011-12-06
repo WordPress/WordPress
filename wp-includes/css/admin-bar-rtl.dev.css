@@ -107,12 +107,12 @@
 /**
  * My Account
  */
-#wpadminbar #wp-admin-bar-my-account.with-avatar #wp-admin-bar-my-account-default > li {
+#wpadminbar #wp-admin-bar-my-account.with-avatar #wp-admin-bar-user-actions > li {
 	margin-right: 88px;
 	margin-left: 16px;
 }
 
-#wp-admin-bar-my-account-default > li > .ab-item {
+#wp-admin-bar-user-actions > li > .ab-item {
 	padding-left: 0;
 	padding-right: 8px;
 }

@@ -125,7 +125,36 @@ function wp_admin_bar_wp_menu( $wp_admin_bar ) {
 }
 
 /**
- * Add the "My Account" menu and all submenus.
+ * Add the "My Account" item.
+ *
+ * @since 3.3.0
+ */
+function wp_admin_bar_my_account_item( $wp_admin_bar ) {
+	$user_id      = get_current_user_id();
+	$current_user = wp_get_current_user();
+	$profile_url  = get_edit_profile_url( $user_id );
+
+	if ( ! $user_id )
+		return;
+
+	$avatar = get_avatar( $user_id, 16 );
+	$howdy  = sprintf( __('Howdy, %1$s'), $current_user->display_name );
+	$class  = empty( $avatar ) ? '' : 'with-avatar';
+
+	$wp_admin_bar->add_menu( array(
+		'id'        => 'my-account',
+		'parent'    => 'top-secondary',
+		'title'     => $howdy . $avatar,
+		'href'      => $profile_url,
+		'meta'      => array(
+			'class'     => $class,
+			'title'     => __('My Account'),
+		),
+	) );
+}
+
+/**
+ * Add the "My Account" submenu items.
  *
  * @since 3.1.0
  */
@@ -134,53 +163,41 @@ function wp_admin_bar_my_account_menu( $wp_admin_bar ) {
 	$current_user = wp_get_current_user();
 	$profile_url  = get_edit_profile_url( $user_id );
 
-	if ( 0 != $user_id ) {
-		/* Add the "My Account" menu */
-		$avatar = get_avatar( $user_id, 16 );
-		$howdy  = sprintf( __('Howdy, %1$s'), $current_user->display_name );
-		$class  = empty( $avatar ) ? '' : 'with-avatar';
+	if ( ! $user_id )
+		return;
 
-		$wp_admin_bar->add_menu( array(
-			'id'        => 'my-account',
-			'parent'    => 'top-secondary',
-			'title'     => $howdy . $avatar,
-			'href'      => $profile_url,
-			'meta'      => array(
-				'class'     => $class,
-				'title'     => __('My Account'),
-			),
-		) );
+	$wp_admin_bar->add_group( array(
+		'parent' => 'my-account',
+		'id'     => 'user-actions',
+	) );
 
-		/* Add the "My Account" sub menus */
+	$user_info  = get_avatar( $user_id, 64 );
+	$user_info .= "<span class='display-name'>{$current_user->display_name}</span>";
 
-		$user_info  = get_avatar( $user_id, 64 );
-		$user_info .= "<span class='display-name'>{$current_user->display_name}</span>";
+	if ( $current_user->display_name !== $current_user->user_nicename )
+		$user_info .= "<span class='username'>{$current_user->user_nicename}</span>";
 
-		if ( $current_user->display_name !== $current_user->user_nicename )
-			$user_info .= "<span class='username'>{$current_user->user_nicename}</span>";
-
-		$wp_admin_bar->add_menu( array(
-			'parent' => 'my-account',
-			'id'     => 'user-info',
-			'title'  => $user_info,
-			'href'   => $profile_url,
-			'meta'   => array(
-				'tabindex' => -1
-			),
-		) );
-		$wp_admin_bar->add_menu( array(
-			'parent' => 'my-account',
-			'id'     => 'edit-profile',
-			'title'  => __( 'Edit My Profile' ),
-			'href' => $profile_url,
-		) );
-		$wp_admin_bar->add_menu( array(
-			'parent' => 'my-account',
-			'id'     => 'logout',
-			'title'  => __( 'Log Out' ),
-			'href'   => wp_logout_url(),
-		) );
-	}
+	$wp_admin_bar->add_menu( array(
+		'parent' => 'user-actions',
+		'id'     => 'user-info',
+		'title'  => $user_info,
+		'href'   => $profile_url,
+		'meta'   => array(
+			'tabindex' => -1,
+		),
+	) );
+	$wp_admin_bar->add_menu( array(
+		'parent' => 'user-actions',
+		'id'     => 'edit-profile',
+		'title'  => __( 'Edit My Profile' ),
+		'href' => $profile_url,
+	) );
+	$wp_admin_bar->add_menu( array(
+		'parent' => 'user-actions',
+		'id'     => 'logout',
+		'title'  => __( 'Log Out' ),
+		'href'   => wp_logout_url(),
+	) );
 }
 
 /**
