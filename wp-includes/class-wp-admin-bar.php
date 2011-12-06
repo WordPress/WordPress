@@ -113,6 +113,17 @@ class WP_Admin_Bar {
 
 		$args = wp_parse_args( $args, $defaults );
 
+		$back_compat_parents = array(
+			'my-account-with-avatar' => array( 'my-account',  '3.3' ),
+			'my-blogs'               => array( 'my-sites', '3.3' ),
+		);
+
+		if ( isset( $back_compat_parents[ $args['parent'] ] ) ) {
+			list( $new_parent, $version ) = $back_compat_parents[ $args['parent'] ];
+			_deprecated_argument( __METHOD__, $version, sprintf( 'Use <code>%s</code> as the parent for the <code>%s</code> admin bar node instead of <code>%s</code>.', new_parent, $args['id'], $args['parent'] ) );
+			$args['parent'] = $new_parent;
+		}
+
 		$this->_set_node( $args );
 	}
 
