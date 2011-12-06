@@ -75,7 +75,7 @@
 	height:100%;
 	position:absolute;
 	left:-10px;
-	background:url('../../wp-admin/images/xit.gif') 0 50% no-repeat;
+	background:url('../images/xit.gif') 0 50% no-repeat;
 }
 
 .wp-pointer-buttons a.close:hover:before {
