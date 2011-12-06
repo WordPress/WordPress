@@ -1,6 +1,7 @@
 <?php
 class WP_Admin_Bar {
 	private $nodes = array();
+	private $bound = false;
 	public $user;
 
 	public function __get( $name ) {
@@ -17,11 +18,6 @@ class WP_Admin_Bar {
 
 	public function initialize() {
 		$this->user = new stdClass;
-
-		$this->add_node( array(
-			'id'       => 'root',
-			'group'    => false,
-		) );
 
 		if ( is_user_logged_in() ) {
 			/* Populate settings we need for the menu based on the current user. */
@@ -104,8 +100,8 @@ class WP_Admin_Bar {
 		);
 
 		// If the node already exists, keep any data that isn't provided.
-		if ( $this->get_node( $args['id'] ) )
-			$defaults = get_object_vars( $this->get_node( $args['id'] ) );
+		if ( $maybe_defaults = $this->get_node( $args['id'] ) )
+			$defaults = get_object_vars( $maybe_defaults );
 
 		// Do the same for 'meta' items.
 		if ( ! empty( $defaults['meta'] ) && empty( $args['meta'] ) )
@@ -114,8 +110,8 @@ class WP_Admin_Bar {
 		$args = wp_parse_args( $args, $defaults );
 
 		$back_compat_parents = array(
-			'my-account-with-avatar' => array( 'my-account',  '3.3' ),
-			'my-blogs'               => array( 'my-sites', '3.3' ),
+			'my-account-with-avatar' => array( 'my-account', '3.3' ),
+			'my-blogs'               => array( 'my-sites',   '3.3' ),
 		);
 
 		if ( isset( $back_compat_parents[ $args['parent'] ] ) ) {
@@ -137,11 +133,35 @@ class WP_Admin_Bar {
 	 * @return object Node.
 	 */
 	final public function get_node( $id ) {
+		if ( $node = $this->_get_node( $id ) )
+			return clone $node;
+	}
+
+	final protected function _get_node( $id ) {
+		if ( $this->bound )
+			return;
+
+		if ( empty( $id ) )
+			$id = 'root';
+
 		if ( isset( $this->nodes[ $id ] ) )
 			return $this->nodes[ $id ];
 	}
 
+	final public function get_nodes() {
+	   if ( ! $nodes = $this->_get_nodes() )
+	      return;
+
+	   foreach ( $nodes as &$node ) {
+	       $node = clone $node;
+	   }
+	   return $nodes;
+	}
+
 	final protected function _get_nodes() {
+		if ( $this->bound )
+			return;
+
 		return $this->nodes;
 	}
 
@@ -175,50 +195,131 @@ class WP_Admin_Bar {
 	}
 
 	public function render() {
-		$this->_bind();
-		$this->_render();
+		$root = $this->_bind();
+		$this->_render( $root );
 	}
 
 	final protected function _bind() {
+		if ( $this->bound )
+			return;
+
+		// Add the root node.
+		// Clear it first, just in case. Don't mess with The Root.
+		$this->remove_node( 'root' );
+		$this->add_node( array(
+			'id'    => 'root',
+			'group' => false,
+		) );
+
+		// Normalize nodes: define internal 'children' and 'type' properties.
+		foreach ( $this->_get_nodes() as $node ) {
+			$node->children = array();
+			$node->type = ( $node->group ) ? 'group' : 'item';
+			unset( $node->group );
+
+			// The Root wants your orphans. No lonely items allowed.
+			if ( ! $node->parent )
+				$node->parent = 'root';
+		}
+
 		foreach ( $this->_get_nodes() as $node ) {
 			if ( 'root' == $node->id )
 				continue;
 
-			// Handle root menu items
-			if ( empty( $node->parent ) ) {
-				$parent = $this->get_node( 'root' );
-			} elseif ( ! $parent = $this->get_node( $node->parent ) ) {
-				// If the parent node isn't registered, ignore the node.
+			// Fetch the parent node. If it isn't registered, ignore the node.
+			if ( ! $parent = $this->_get_node( $node->parent ) ) {
 				continue;
 			}
 
-			// Ensure that our tree is of the form "item -> group -> item -> group -> ..."
-			if ( ! $parent->group && ! $node->group ) { // Both are items.
+			// Generate the group class (we distinguish between top level and other level groups).
+			$group_class = ( $node->parent == 'root' ) ? 'ab-top-menu' : 'ab-submenu';
+
+			if ( $node->type == 'group' ) {
+				if ( empty( $node->meta['class'] ) )
+					$node->meta['class'] = '';
+				$node->meta['class'] .= ' ' . $group_class;
+			}
+
+			// Items in items aren't allowed. Wrap nested items in 'default' groups.
+			if ( $parent->type == 'item' && $node->type == 'item' ) {
+				$default_id = $parent->id . '-default';
+				$default    = $this->_get_node( $default_id );
+
 				// The default group is added here to allow groups that are
 				// added before standard menu items to render first.
-				if ( ! isset( $parent->children['default'] ) ) {
-					$parent->children['default'] = (object) array(
-						'id'       => "{$parent->id}-default",
-						'parent'   => $parent->id,
-						'group'    => true,
-						'children' => array(),
-					);
+				if ( ! $default ) {
+					// Use _set_node because add_node can be overloaded.
+					// Make sure to specify default settings for all properties.
+					$this->_set_node( array(
+						'id'        => $default_id,
+						'parent'    => $parent->id,
+						'type'      => 'group',
+						'children'  => array(),
+						'meta'      => array(
+							'class'     => $group_class,
+						),
+						'title'     => false,
+						'href'      => false,
+					) );
+					$default = $this->_get_node( $default_id );
+					$parent->children[] = $default;
 				}
-				$parent = $parent->children['default'];
+				$parent = $default;
+
+			// Groups in groups aren't allowed. Add a special 'container' node.
+			// The container will invisibly wrap both groups.
+			} elseif ( $parent->type == 'group' && $node->type == 'group' ) {
+				$container_id = $parent->id . '-container';
+				$container    = $this->_get_node( $container_id );
+
+				// We need to create a container for this group, life is sad.
+				if ( ! $container ) {
+					// Use _set_node because add_node can be overloaded.
+					// Make sure to specify default settings for all properties.
+					$this->_set_node( array(
+						'id'       => $container_id,
+						'type'     => 'container',
+						'children' => array( $parent ),
+						'parent'   => false,
+						'title'    => false,
+						'href'     => false,
+						'meta'     => array(),
+					) );
+
+					$container = $this->_get_node( $container_id );
+
+					// Link the container node if a grandparent node exists.
+					$grandparent = $this->_get_node( $parent->parent );
+
+					if ( $grandparent ) {
+						$container->parent = $grandparent->id;
+
+						$index = array_search( $parent, $grandparent->children, true );
+						if ( $index === false )
+							$grandparent->children[] = $container;
+						else
+							array_splice( $grandparent->children, $index, 1, array( $container ) );
+					}
+
+					$parent->parent = $container->id;
+				}
+
+				$parent = $container;
 			}
 
 			// Update the parent ID (it might have changed).
 			$node->parent = $parent->id;
 
-			if ( ! isset( $parent->children ) )
-				$parent->children = array();
-
 			// Add the node to the tree.
 			$parent->children[] = $node;
 		}
+
+		$root = $this->_get_node( 'root' );
+		$this->bound = true;
+		return $root;
 	}
 
-	final protected function _render() {
+	final protected function _render( $root ) {
 		global $is_IE, $is_iphone;
 
 		// Add browser classes.
@@ -238,8 +339,8 @@ class WP_Admin_Bar {
 		?>
 		<div id="wpadminbar" class="<?php echo $class; ?>" role="navigation">
 			<div class="quicklinks">
-				<?php foreach ( $this->get_node( 'root' )->children as $group ) {
-					$this->_render_group( $group, 'ab-top-menu' );
+				<?php foreach ( $root->children as $group ) {
+					$this->_render_group( $group );
 				} ?>
 			</div>
 		</div>
@@ -247,51 +348,35 @@ class WP_Admin_Bar {
 		<?php
 	}
 
-	final protected function _render_group( $node, $class = '' ) {
-		if ( ! $node->group )
+	final protected function _render_container( $node ) {
+		if ( $node->type != 'container' || empty( $node->children ) )
 			return;
 
-		// Check for groups within groups.
-		$groups = array();
-		foreach ( $node->children as $child ) {
-			if ( $child->group ) {
-				$groups[] = $child;
-			} else {
-				if ( ! isset( $default ) ) {
-					// Create a default proxy item to be used in the case of nested groups.
-					$default  = (object) wp_parse_args( array( 'children' => array() ), (array) $node );
-					$groups[] = $default;
-				}
-				$default->children[] = $child;
+		?><div id="<?php echo esc_attr( 'wp-admin-bar-' . $node->id ); ?>" class="ab-group-container"><?php
+			foreach ( $node->children as $group ) {
+				$this->_render_group( $group );
 			}
-		}
+		?></div><?php
+	}
 
-		$is_single_group = count( $groups ) === 1;
+	final protected function _render_group( $node ) {
+		if ( $node->type == 'container' )
+			return $this->_render_container( $node );
 
-		// If we don't have any subgroups, render the group.
-		if ( $is_single_group && ! empty( $node->children ) ) :
+		if ( $node->type != 'group' || empty( $node->children ) )
+			return;
 
-			if ( ! empty( $node->meta['class'] ) )
-				$class .= ' ' . $node->meta['class'];
+		$class = empty( $node->meta['class'] ) ? '' : $node->meta['class'];
 
-			?><ul id="<?php echo esc_attr( "wp-admin-bar-{$node->id}" ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php
-				foreach ( $node->children as $item ) {
-					$this->_render_item( $item );
-				}
-			?></ul><?php
-
-		// Wrap the subgroups in a div and render each individual subgroup.
-		elseif ( ! $is_single_group ) :
-			?><div id="<?php echo esc_attr( "wp-admin-bar-{$node->id}-container" ); ?>" class="ab-group-container"><?php
-				foreach ( $groups as $group ) {
-					$this->_render_group( $group, $class );
-				}
-			?></div><?php
-		endif;
+		?><ul id="<?php echo esc_attr( 'wp-admin-bar-' . $node->id ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php
+			foreach ( $node->children as $item ) {
+				$this->_render_item( $item );
+			}
+		?></ul><?php
 	}
 
 	final protected function _render_item( $node ) {
-		if ( $node->group )
+		if ( $node->type != 'item' )
 			return;
 
 		$is_parent = ! empty( $node->children );
@@ -312,7 +397,7 @@ class WP_Admin_Bar {
 
 		?>
 
-		<li id="<?php echo esc_attr( "wp-admin-bar-{$node->id}" ); ?>" class="<?php echo esc_attr( $menuclass ); ?>"><?php
+		<li id="<?php echo esc_attr( 'wp-admin-bar-' . $node->id ); ?>" class="<?php echo esc_attr( $menuclass ); ?>"><?php
 			if ( $has_link ):
 				?><a class="ab-item" <?php echo $aria_attributes; ?> href="<?php echo esc_url( $node->href ) ?>"<?php
 					if ( ! empty( $node->meta['onclick'] ) ) :
@@ -344,7 +429,7 @@ class WP_Admin_Bar {
 			if ( $is_parent ) :
 				?><div class="ab-sub-wrapper"><?php
 					foreach ( $node->children as $group ) {
-						$this->_render_group( $group, 'ab-submenu' );
+						$this->_render_group( $group );
 					}
 				?></div><?php
 			endif;
