@@ -665,7 +665,7 @@ final class WP_Screen {
 
 		if ( $old_help ) {
 			$this->add_help_tab( array(
-				'id'      => 'contextual-help',
+				'id'      => 'old-contextual-help',
 				'title'   => __('Overview'),
 				'content' => $old_help,
 			) );
@@ -793,8 +793,6 @@ final class WP_Screen {
 		<div id="screen-options-wrap" class="hidden">
 		<form id="adv-settings" action="" method="post">
 		<?php
-		if ( $this->get_option('overview') )
-			echo $this->get_option('overview');
 		if ( isset( $wp_meta_boxes[ $this->id ] ) ) : ?>
 			<h5><?php _ex('Show on screen', 'Metaboxes') ?></h5>
 			<div class="metabox-prefs">
