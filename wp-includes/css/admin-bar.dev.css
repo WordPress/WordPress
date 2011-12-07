@@ -453,11 +453,7 @@
 
 #wpadminbar.ie7 #adminbarsearch .adminbar-input {
 	margin-top: 1px;
-}
-
-#wpadminbar.ie9 #adminbarsearch .adminbar-input,
-#wpadminbar.ie9 #adminbarsearch .adminbar-input:focus {
-	background-color: #fff;
+	width: 120px;
 }
 
 #wpadminbar #adminbarsearch .adminbar-input:focus {
@@ -465,6 +461,14 @@
 	text-shadow: 0 1px 0 #fff;
 	width: 200px;
 	background-color: rgba( 255, 255, 255, 0.9 );
+}
+
+#wpadminbar.ie8 #adminbarsearch .adminbar-input {
+	background-color: #464646;
+}
+
+#wpadminbar.ie8 #adminbarsearch .adminbar-input:focus {
+	background-color: #fff;
 }
 
 /* Two rules to ensure browser recognition */

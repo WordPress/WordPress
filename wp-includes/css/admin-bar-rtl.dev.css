@@ -157,6 +157,10 @@
 	float: right;
 }
 
+.ie7 #wp-admin-bar-wp-logo > .ab-item .ab-icon {
+	position: static;
+}
+
 #wpadminbar.ie7 .ab-icon {
 	float: left;
 	left: 12px;
@@ -166,6 +170,10 @@
 	margin-left: 0px;
 	margin-right: 4px;
 	float: left;
+}
+
+#wpadminbar.ie7 .ab-label {
+	margin-right: 0;
 }
 
 #wpadminbar.ie7 #wp-admin-bar-comments > a {
