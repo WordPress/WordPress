@@ -145,22 +145,6 @@ class WP_Scripts extends WP_Dependencies {
 		if ( !empty($after) )
 			$script .= "\n$after";
 
-		return $this->add_script_data( $handle, $script );
-	}
-
-	/**
-	 * Add extra Javascript
-	 *
-	 * Only if script has already been added.
-	 *
-	 * @param string $handle Script name
-	 * @param string $script Extra JS to add before the script
-	 * @return bool Successful or not
-	 */
-	function add_script_data( $handle, $script ) {
-		if ( !is_string( $script ) )
-			return false;
-
 		$data = $this->get_data( $handle, 'data' );
 
 		if ( !empty( $data ) )

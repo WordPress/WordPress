@@ -97,27 +97,6 @@ function wp_localize_script( $handle, $object_name, $l10n ) {
 }
 
 /**
- * Adds extra Javascript.
- *
- * Works only if the script referenced by $handle has already been added.
- * Accepts string $script that will be printed before the main script tag.
- *
- * @since 3.3
- * @see WP_Scripts::add_script_data()
- */
-function wp_add_script_before( $handle, $script ) {
-	global $wp_scripts;
-	if ( ! is_a( $wp_scripts, 'WP_Scripts' ) ) {
-		if ( ! did_action( 'init' ) )
-			_doing_it_wrong( __FUNCTION__, sprintf( __( 'Scripts and styles should not be registered or enqueued until the %1$s, %2$s, or %3$s hooks.' ),
-				'<code>wp_enqueue_scripts</code>', '<code>admin_enqueue_scripts</code>', '<code>init</code>' ), '3.3' );
-		return false;
-	}
-
-	return $wp_scripts->add_script_data( $handle, $script );
-}
-
-/**
  * Remove a registered script.
  *
  * @since r16
