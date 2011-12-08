@@ -355,7 +355,7 @@ foreach ( $wp_registered_sidebars as $sidebar => $registered_sidebar ) {
 		<div class="<?php esc_attr_e( $wrap_class ); ?>">
 			<div class="sidebar-name">
 				<div class="sidebar-name-arrow"><br /></div>
-				<h3><?php esc_html_e( $registered_sidebar['name'] ); ?>
+				<h3><?php echo esc_html( $registered_sidebar['name'] ); ?>
 					<span><img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-feedback" title="" alt="" /></span>
 				</h3>
 			</div>
