@@ -356,9 +356,13 @@ ol {
 	padding: 0;
 }
 
-ul li,
-ol li {
+ul {
 	list-style: none;
+}
+
+ol {
+	list-style-type: decimal;
+	margin-left: 2em;
 }
 
 ul.ul-disc {
@@ -369,9 +373,8 @@ ul.ul-square {
 	list-style: square outside;
 }
 
-ol {
-	list-style-type: decimal;
-	margin-left: 2em;
+ol.ol-decimal {
+	list-style: decimal outside;
 }
 
 ul.ul-disc,
