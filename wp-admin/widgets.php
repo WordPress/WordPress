@@ -352,7 +352,7 @@ foreach ( $wp_registered_sidebars as $sidebar => $registered_sidebar ) {
 
 ?>
 
-		<div class="<?php esc_attr_e( $wrap_class ); ?>">
+		<div class="<?php echo esc_attr( $wrap_class ); ?>">
 			<div class="sidebar-name">
 				<div class="sidebar-name-arrow"><br /></div>
 				<h3><?php echo esc_html( $registered_sidebar['name'] ); ?>
@@ -387,7 +387,7 @@ foreach ( $wp_registered_sidebars as $sidebar => $registered_sidebar ) {
 	if ( $i )
 		$wrap_class .= ' closed'; ?>
 
-	<div class="<?php esc_attr_e( $wrap_class ); ?>">
+	<div class="<?php echo esc_attr( $wrap_class ); ?>">
 	<div class="sidebar-name">
 	<div class="sidebar-name-arrow"><br /></div>
 	<h3><?php echo esc_html( $registered_sidebar['name'] ); ?>
