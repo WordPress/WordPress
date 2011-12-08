@@ -144,6 +144,7 @@ __( 'Extended Core Team' );
 __( 'Core Developers' );
 __( 'Recent Rockstars' );
 __( 'Core Contributors to WordPress %s' );
+__( 'Contributing Developers' );
 __( 'Cofounder, Project Lead' );
 __( 'Lead Developer' );
 __( 'User Experience Lead' );
