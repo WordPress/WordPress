@@ -1,8 +1,8 @@
 /**
  * popup.js
- * 
+ *
  * An altered version of tinyMCEPopup to work in the same window as tinymce.
- * 
+ *
  * ------------------------------------------------------------------
  *
  * Copyright 2009, Moxiecode Systems AB
@@ -278,7 +278,7 @@ var tinyMCEPopup = {
 			close();
 	},
 
-	// Internal functions	
+	// Internal functions
 
 	_restoreSelection : function() {
 		var e = window.event.srcElement;

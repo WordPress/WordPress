@@ -41,7 +41,7 @@ if ( isset($_REQUEST['action']) && 'add-user' == $_REQUEST['action'] ) {
 
 	$user = $_POST['user'];
 
-	$user_details = wpmu_validate_user_signup( $user['username'], $user['email'] ); 
+	$user_details = wpmu_validate_user_signup( $user['username'], $user['email'] );
 	if ( is_wp_error( $user_details[ 'errors' ] ) && ! empty( $user_details[ 'errors' ]->errors ) ) {
 		$add_user_errors = $user_details[ 'errors' ];
 	} else {
@@ -86,7 +86,7 @@ if ( isset( $add_user_errors ) && is_wp_error( $add_user_errors ) ) { ?>
 		?>
 	</div>
 <?php } ?>
-	<form action="<?php echo network_admin_url('user-new.php?action=add-user'); ?>" id="adduser" method="post">	
+	<form action="<?php echo network_admin_url('user-new.php?action=add-user'); ?>" id="adduser" method="post">
 	<table class="form-table">
 		<tr class="form-field form-required">
 			<th scope="row"><?php _e( 'Username' ) ?></th>

@@ -143,7 +143,7 @@ wp_admin_css( 'wp-admin', true );
 	.macwebkit tr.mac {
 		display: table-row;
 	}
-	
+
 </style>
 <?php if ( is_rtl() ) : ?>
 <style type="text/css">
@@ -181,7 +181,7 @@ wp_admin_css( 'wp-admin', true );
 
 		document.getElementById('version').innerHTML = tinymce.majorVersion + "." + tinymce.minorVersion;
         document.getElementById('date').innerHTML = tinymce.releaseDate;
- 
+
 		if ( win.fullscreen && win.fullscreen.settings.visible ) {
 			d('content1').className = 'hidden';
 			d('tabs').className = 'hidden';
@@ -190,7 +190,7 @@ wp_admin_css( 'wp-admin', true );
 
 		if ( tinymce.isMac )
 			document.body.className = 'macos';
-		
+
 		if ( tinymce.isMac && tinymce.isWebKit )
 			document.body.className = 'macos macwebkit';
 

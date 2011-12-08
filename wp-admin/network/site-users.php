@@ -36,7 +36,7 @@ get_current_screen()->set_help_sidebar(
 	'<p>' . __('<a href="http://wordpress.org/support/forum/multisite/" target="_blank">Support Forums</a>') . '</p>'
 );
 
-$_SERVER['REQUEST_URI'] = remove_query_arg( 'update', $_SERVER['REQUEST_URI'] ); 
+$_SERVER['REQUEST_URI'] = remove_query_arg( 'update', $_SERVER['REQUEST_URI'] );
 $referer = remove_query_arg( 'update', wp_get_referer() );
 
 $id = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0;
@@ -66,7 +66,7 @@ $action = $wp_list_table->current_action();
 
 if ( $action ) {
 	switch_to_blog( $id );
-	
+
 	switch ( $action ) {
 		case 'newuser':
 			check_admin_referer( 'add-user', '_wpnonce_add-new-user' );
@@ -91,7 +91,7 @@ if ( $action ) {
 			check_admin_referer( 'add-user', '_wpnonce_add-user' );
 			if ( !empty( $_POST['newuser'] ) ) {
 				$update = 'adduser';
-				$newuser = $_POST['newuser'];				
+				$newuser = $_POST['newuser'];
 				$userid = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM " . $wpdb->users . " WHERE user_login = %s", $newuser ) );
 				if ( $userid ) {
 					$user = $wpdb->get_var( "SELECT user_id FROM " . $wpdb->usermeta . " WHERE user_id='$userid' AND meta_key='{$blog_prefix}capabilities'" );
@@ -106,12 +106,12 @@ if ( $action ) {
 				$update = 'err_add_notfound';
 			}
 			break;
-		
+
 		case 'remove':
 			if ( !current_user_can('remove_users')  )
 				die(__('You can&#8217;t remove users.'));
 			check_admin_referer( 'bulk-users' );
-			
+
 			$update = 'remove';
 			if ( isset( $_REQUEST['users'] ) ) {
 				$userids = $_REQUEST['users'];
@@ -151,7 +151,7 @@ if ( $action ) {
 			}
 			break;
 	}
-	
+
 	restore_current_blog();
 	wp_redirect( add_query_arg( 'update', $update, $referer ) );
 	exit();

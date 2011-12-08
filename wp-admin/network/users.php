@@ -211,7 +211,7 @@ if ( isset( $_GET['action'] ) ) {
 
 			wp_redirect( add_query_arg( array( 'updated' => 'true', 'action' => $deletefunction ), network_admin_url( 'users.php' ) ) );
 			exit();
-		break;	
+		break;
 	}
 }
 
@@ -281,7 +281,7 @@ if ( isset( $_REQUEST['updated'] ) && $_REQUEST['updated'] == 'true' && ! empty(
 	if ( current_user_can( 'create_users') ) : ?>
 		<a href="<?php echo network_admin_url('user-new.php'); ?>" class="add-new-h2"><?php echo esc_html_x( 'Add New', 'user' ); ?></a><?php
 	endif;
-	
+
 	if ( !empty( $usersearch ) )
 	printf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;' ) . '</span>', esc_html( $usersearch ) );
 	?>

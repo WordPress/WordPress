@@ -45,8 +45,8 @@ $action = $wp_list_table->current_action();
 $s = isset($_REQUEST['s']) ? $_REQUEST['s'] : '';
 
 // Clean up request URI from temporary args for screen options/paging uri's to work as expected.
-$temp_args = array( 'enabled', 'disabled', 'error' ); 
-$_SERVER['REQUEST_URI'] = remove_query_arg( $temp_args, $_SERVER['REQUEST_URI'] ); 
+$temp_args = array( 'enabled', 'disabled', 'error' );
+$_SERVER['REQUEST_URI'] = remove_query_arg( $temp_args, $_SERVER['REQUEST_URI'] );
 $referer = remove_query_arg( $temp_args, wp_get_referer() );
 
 $id = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0;
@@ -81,7 +81,7 @@ if ( $action ) {
 			check_admin_referer( 'disable-theme_' . $_GET['theme'] );
 			$theme = $_GET['theme'];
 			$action = 'disabled';
-			$n = 1;			
+			$n = 1;
 			if ( !$allowed_themes )
 				$allowed_themes = array();
 			else
@@ -158,13 +158,13 @@ foreach ( $tabs as $tab_id => $tab ) {
 </h3><?php
 
 if ( isset( $_GET['enabled'] ) ) {
-	$_GET['enabled'] = absint( $_GET['enabled'] ); 
-	echo '<div id="message" class="updated"><p>' . sprintf( _n( 'Theme enabled.', '%s themes enabled.', $_GET['enabled'] ), number_format_i18n( $_GET['enabled'] ) ) . '</p></div>'; 
-} elseif ( isset( $_GET['disabled'] ) ) { 
-	$_GET['disabled'] = absint( $_GET['disabled'] ); 
-	echo '<div id="message" class="updated"><p>' . sprintf( _n( 'Theme disabled.', '%s themes disabled.', $_GET['disabled'] ), number_format_i18n( $_GET['disabled'] ) ) . '</p></div>'; 
-} elseif ( isset( $_GET['error'] ) && 'none' == $_GET['error'] ) { 
-	echo '<div id="message" class="error"><p>' . __( 'No theme selected.' ) . '</p></div>'; 
+	$_GET['enabled'] = absint( $_GET['enabled'] );
+	echo '<div id="message" class="updated"><p>' . sprintf( _n( 'Theme enabled.', '%s themes enabled.', $_GET['enabled'] ), number_format_i18n( $_GET['enabled'] ) ) . '</p></div>';
+} elseif ( isset( $_GET['disabled'] ) ) {
+	$_GET['disabled'] = absint( $_GET['disabled'] );
+	echo '<div id="message" class="updated"><p>' . sprintf( _n( 'Theme disabled.', '%s themes disabled.', $_GET['disabled'] ), number_format_i18n( $_GET['disabled'] ) ) . '</p></div>';
+} elseif ( isset( $_GET['error'] ) && 'none' == $_GET['error'] ) {
+	echo '<div id="message" class="error"><p>' . __( 'No theme selected.' ) . '</p></div>';
 } ?>
 
 <p><?php _e( 'Network enabled themes are not shown on this screen.' ) ?></p>

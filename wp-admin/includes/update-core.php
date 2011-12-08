@@ -547,7 +547,7 @@ function _redirect_to_about_wordpress( $new_version ) {
 
  	if ( 'do-core-upgrade' != $action && 'do-core-reinstall' != $action )
  		return;
- 
+
 	// Load the updated default text localization domain for new strings
 	load_default_textdomain();
 
