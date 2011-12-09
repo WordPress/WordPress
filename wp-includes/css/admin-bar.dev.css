@@ -529,9 +529,7 @@
 
 #wpadminbar.nojs #wp-admin-bar-wp-logo:hover > .ab-item .ab-icon,
 #wpadminbar #wp-admin-bar-wp-logo.hover > .ab-item .ab-icon {
-	background-image: url(../images/admin-bar-sprite.png?d=20111130);
 	background-position: 0 -104px;
-	background-repeat: no-repeat;
 }
 
 /**
@@ -559,12 +557,19 @@
 /**
  * Add New icon
  */
-#wp-admin-bar-new-content > .ab-item .ab-icon {
+#wpadminbar #wp-admin-bar-new-content > .ab-item .ab-icon {
 	background-image: url(../images/admin-bar-sprite.png?d=20111130);
 	background-position: -2px -182px;
 	background-repeat: no-repeat;
 }
 
+/**
+ * Add New icon
+ */
+#wpadminbar.nojs #wp-admin-bar-new-content:hover > .ab-item .ab-icon,
+#wpadminbar #wp-admin-bar-new-content.hover > .ab-item .ab-icon {
+	background-position: -2px -203px;
+}
 
 /**
  * IE 6-targeted rules
