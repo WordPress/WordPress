@@ -473,7 +473,7 @@ function twentyten_posted_on() {
 		),
 		sprintf( '<span class="author vcard"><a class="url fn n" href="%1$s" title="%2$s">%3$s</a></span>',
 			get_author_posts_url( get_the_author_meta( 'ID' ) ),
-			sprintf( esc_attr__( 'View all posts by %s', 'twentyten' ), get_the_author() ),
+			esc_attr( sprintf( __( 'View all posts by %s', 'twentyten' ), get_the_author() ) ),
 			get_the_author()
 		)
 	);

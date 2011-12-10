@@ -18,7 +18,7 @@
 <?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 
 				<?php if ( ! empty( $post->post_parent ) ) : ?>
-					<p class="page-title"><a href="<?php echo get_permalink( $post->post_parent ); ?>" title="<?php esc_attr( printf( __( 'Return to %s', 'twentyten' ), get_the_title( $post->post_parent ) ) ); ?>" rel="gallery"><?php
+					<p class="page-title"><a href="<?php echo get_permalink( $post->post_parent ); ?>" title="<?php echo esc_attr( sprintf( __( 'Return to %s', 'twentyten' ), strip_tags( get_the_title( $post->post_parent ) ) ) ); ?>" rel="gallery"><?php
 						/* translators: %s - title of parent post */
 						printf( __( '<span class="meta-nav">&larr;</span> %s', 'twentyten' ), get_the_title( $post->post_parent ) );
 					?></a></p>
@@ -33,7 +33,7 @@
 								'meta-prep meta-prep-author',
 								sprintf( '<span class="author vcard"><a class="url fn n" href="%1$s" title="%2$s" rel="author">%3$s</a></span>',
 									get_author_posts_url( get_the_author_meta( 'ID' ) ),
-									sprintf( esc_attr__( 'View all posts by %s', 'twentyten' ), get_the_author() ),
+									esc_attr( sprintf( __( 'View all posts by %s', 'twentyten' ), get_the_author() ) ),
 									get_the_author()
 								)
 							);
@@ -85,7 +85,7 @@
 		$next_attachment_url = wp_get_attachment_url();
 	}
 ?>
-						<p class="attachment"><a href="<?php echo $next_attachment_url; ?>" title="<?php echo esc_attr( get_the_title() ); ?>" rel="attachment"><?php
+						<p class="attachment"><a href="<?php echo $next_attachment_url; ?>" title="<?php the_title_attribute(); ?>" rel="attachment"><?php
 							$attachment_width  = apply_filters( 'twentyten_attachment_size', 900 );
 							$attachment_height = apply_filters( 'twentyten_attachment_height', 900 );
 							echo wp_get_attachment_image( $post->ID, array( $attachment_width, $attachment_height ) ); // filterable image width with, essentially, no limit for image height.
@@ -96,7 +96,7 @@
 							<div class="nav-next"><?php next_image_link( false ); ?></div>
 						</div><!-- #nav-below -->
 <?php else : ?>
-						<a href="<?php echo wp_get_attachment_url(); ?>" title="<?php echo esc_attr( get_the_title() ); ?>" rel="attachment"><?php echo basename( get_permalink() ); ?></a>
+						<a href="<?php echo wp_get_attachment_url(); ?>" title="<?php the_title_attribute(); ?>" rel="attachment"><?php echo basename( get_permalink() ); ?></a>
 <?php endif; ?>
 						</div><!-- .entry-attachment -->
 						<div class="entry-caption"><?php if ( !empty( $post->post_excerpt ) ) the_excerpt(); ?></div>

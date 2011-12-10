@@ -36,7 +36,7 @@
 						get_the_date( 'c' ),
 						get_the_date(),
 						esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
-						sprintf( esc_attr__( 'View all posts by %s', 'twentyeleven' ), get_the_author() ),
+						esc_attr( sprintf( __( 'View all posts by %s', 'twentyeleven' ), get_the_author() ) ),
 						get_the_author()
 					);
 				?>

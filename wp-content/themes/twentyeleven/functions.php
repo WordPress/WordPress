@@ -567,8 +567,8 @@ function twentyeleven_posted_on() {
 		esc_attr( get_the_date( 'c' ) ),
 		esc_html( get_the_date() ),
 		esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
-		sprintf( esc_attr__( 'View all posts by %s', 'twentyeleven' ), get_the_author() ),
-		esc_html( get_the_author() )
+		esc_attr( sprintf( __( 'View all posts by %s', 'twentyeleven' ), get_the_author() ) ),
+		get_the_author()
 	);
 }
 endif;
@@ -582,9 +582,8 @@ endif;
  */
 function twentyeleven_body_classes( $classes ) {
 
-	if ( ! is_multi_author() ) {
+	if ( function_exists( 'is_multi_author' ) && ! is_multi_author() )
 		$classes[] = 'single-author';
-	}
 
 	if ( is_singular() && ! is_home() && ! is_page_template( 'showcase.php' ) && ! is_page_template( 'sidebar-page.php' ) )
 		$classes[] = 'singular';
