@@ -166,7 +166,7 @@ if ( isset( $_GET['action'] ) ) {
 					}
 				}
 
-				wp_redirect( add_query_arg( array( 'updated' => 'true', 'action' => $userfunction ), wp_get_referer() ) );
+				wp_safe_redirect( add_query_arg( array( 'updated' => 'true', 'action' => $userfunction ), wp_get_referer() ) );
 			} else {
 				$location = network_admin_url( 'users.php' );
 

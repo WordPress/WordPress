@@ -30,7 +30,7 @@ if ( $doaction ) {
 	} elseif ( isset( $_REQUEST['ids'] ) ) {
 		$comment_ids = array_map( 'absint', explode( ',', $_REQUEST['ids'] ) );
 	} elseif ( wp_get_referer() ) {
-		wp_redirect( wp_get_referer() );
+		wp_safe_redirect( wp_get_referer() );
 		exit;
 	}
 
@@ -92,7 +92,7 @@ if ( $doaction ) {
 	if ( $trashed || $spammed )
 		$redirect_to = add_query_arg( 'ids', join( ',', $comment_ids ), $redirect_to );
 
-	wp_redirect( $redirect_to );
+	wp_safe_redirect( $redirect_to );
 	exit;
 } elseif ( ! empty( $_GET['_wp_http_referer'] ) ) {
 	 wp_redirect( remove_query_arg( array( '_wp_http_referer', '_wpnonce' ), stripslashes( $_SERVER['REQUEST_URI'] ) ) );

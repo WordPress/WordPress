@@ -47,33 +47,33 @@ if ( $action ) {
 			check_admin_referer('disable-theme_' . $_GET['theme']);
 			unset( $allowed_themes[ $_GET['theme'] ] );
 			update_site_option( 'allowedthemes', $allowed_themes );
-			wp_redirect( add_query_arg( 'disabled', '1', $referer ) );
+			wp_safe_redirect( add_query_arg( 'disabled', '1', $referer ) );
 			exit;
 			break;
 		case 'enable-selected':
 			check_admin_referer('bulk-themes');
 			$themes = isset( $_POST['checked'] ) ? (array) $_POST['checked'] : array();
 			if ( empty($themes) ) {
-				wp_redirect( add_query_arg( 'error', 'none', $referer ) );
+				wp_safe_redirect( add_query_arg( 'error', 'none', $referer ) );
 				exit;
 			}
 			foreach( (array) $themes as $theme )
 				$allowed_themes[ $theme ] = true;
 			update_site_option( 'allowedthemes', $allowed_themes );
-			wp_redirect( add_query_arg( 'enabled', count( $themes ), $referer ) );
+			wp_safe_redirect( add_query_arg( 'enabled', count( $themes ), $referer ) );
 			exit;
 			break;
 		case 'disable-selected':
 			check_admin_referer('bulk-themes');
 			$themes = isset( $_POST['checked'] ) ? (array) $_POST['checked'] : array();
 			if ( empty($themes) ) {
-				wp_redirect( add_query_arg( 'error', 'none', $referer ) );
+				wp_safe_redirect( add_query_arg( 'error', 'none', $referer ) );
 				exit;
 			}
 			foreach( (array) $themes as $theme )
 				unset( $allowed_themes[ $theme ] );
 			update_site_option( 'allowedthemes', $allowed_themes );
-			wp_redirect( add_query_arg( 'disabled', count( $themes ), $referer ) );
+			wp_safe_redirect( add_query_arg( 'disabled', count( $themes ), $referer ) );
 			exit;
 			break;
 		case 'update-selected' :
@@ -117,7 +117,7 @@ if ( $action ) {
 				unset( $themes[ get_option( 'stylesheet' ) ] );
 
 			if ( empty( $themes ) ) {
-				wp_redirect( add_query_arg( 'error', 'none', $referer ) );
+				wp_safe_redirect( add_query_arg( 'error', 'none', $referer ) );
 				exit;
 			}
 
@@ -134,7 +134,7 @@ if ( $action ) {
 			}
 
 			if ( empty( $themes ) ) {
-				wp_redirect( add_query_arg( 'error', 'main', $referer ) );
+				wp_safe_redirect( add_query_arg( 'error', 'main', $referer ) );
 				exit;
 			}
 

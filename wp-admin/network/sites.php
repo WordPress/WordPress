@@ -63,9 +63,9 @@ if ( isset( $_GET['action'] ) ) {
 
 			if ( $id != '0' && $id != $current_site->blog_id && current_user_can( 'delete_site', $id ) ) {
 				wpmu_delete_blog( $id, true );
-				wp_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'delete' ), wp_get_referer() ) );
+				wp_safe_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'delete' ), wp_get_referer() ) );
 			} else {
-				wp_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'not_deleted' ), wp_get_referer() ) );
+				wp_safe_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'not_deleted' ), wp_get_referer() ) );
 			}
 
 			exit();
@@ -110,7 +110,7 @@ if ( isset( $_GET['action'] ) ) {
 					}
 				}
 
-				wp_redirect( add_query_arg( array( 'updated' => 'true', 'action' => $blogfunction ), wp_get_referer() ) );
+				wp_safe_redirect( add_query_arg( array( 'updated' => 'true', 'action' => $blogfunction ), wp_get_referer() ) );
 			} else {
 				wp_redirect( network_admin_url( 'sites.php' ) );
 			}
@@ -123,7 +123,7 @@ if ( isset( $_GET['action'] ) ) {
 				wp_die( __( 'You do not have permission to access this page.' ) );
 
 			update_blog_status( $id, 'archived', '1' );
-			wp_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'archive' ), wp_get_referer() ) );
+			wp_safe_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'archive' ), wp_get_referer() ) );
 			exit();
 		break;
 
@@ -133,7 +133,7 @@ if ( isset( $_GET['action'] ) ) {
 				wp_die( __( 'You do not have permission to access this page.' ) );
 
 			update_blog_status( $id, 'archived', '0' );
-			wp_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'unarchive' ), wp_get_referer() ) );
+			wp_safe_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'unarchive' ), wp_get_referer() ) );
 			exit();
 		break;
 
@@ -144,7 +144,7 @@ if ( isset( $_GET['action'] ) ) {
 
 			update_blog_status( $id, 'deleted', '0' );
 			do_action( 'activate_blog', $id );
-			wp_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'activate' ), wp_get_referer() ) );
+			wp_safe_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'activate' ), wp_get_referer() ) );
 			exit();
 		break;
 
@@ -155,7 +155,7 @@ if ( isset( $_GET['action'] ) ) {
 
 			do_action( 'deactivate_blog', $id );
 			update_blog_status( $id, 'deleted', '1' );
-			wp_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'deactivate' ), wp_get_referer() ) );
+			wp_safe_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'deactivate' ), wp_get_referer() ) );
 			exit();
 		break;
 
@@ -165,7 +165,7 @@ if ( isset( $_GET['action'] ) ) {
 				wp_die( __( 'You do not have permission to access this page.' ) );
 
 			update_blog_status( $id, 'spam', '0' );
-			wp_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'unspam' ), wp_get_referer() ) );
+			wp_safe_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'unspam' ), wp_get_referer() ) );
 			exit();
 		break;
 
@@ -175,7 +175,7 @@ if ( isset( $_GET['action'] ) ) {
 				wp_die( __( 'You do not have permission to access this page.' ) );
 
 			update_blog_status( $id, 'spam', '1' );
-			wp_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'spam' ), wp_get_referer() ) );
+			wp_safe_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'spam' ), wp_get_referer() ) );
 			exit();
 		break;
 
@@ -185,7 +185,7 @@ if ( isset( $_GET['action'] ) ) {
 				wp_die( __( 'You do not have permission to access this page.' ) );
 
 			update_blog_status( $id, 'mature', '0' );
-			wp_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'unmature' ), wp_get_referer() ) );
+			wp_safe_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'unmature' ), wp_get_referer() ) );
 			exit();
 		break;
 
@@ -195,7 +195,7 @@ if ( isset( $_GET['action'] ) ) {
 				wp_die( __( 'You do not have permission to access this page.' ) );
 
 			update_blog_status( $id, 'mature', '1' );
-			wp_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'mature' ), wp_get_referer() ) );
+			wp_safe_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'mature' ), wp_get_referer() ) );
 			exit();
 		break;
 

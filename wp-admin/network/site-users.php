@@ -153,12 +153,12 @@ if ( $action ) {
 	}
 
 	restore_current_blog();
-	wp_redirect( add_query_arg( 'update', $update, $referer ) );
+	wp_safe_redirect( add_query_arg( 'update', $update, $referer ) );
 	exit();
 }
 
 if ( isset( $_GET['action'] ) && 'update-site' == $_GET['action'] ) {
-	wp_redirect( $referer );
+	wp_safe_redirect( $referer );
 	exit();
 }
 
