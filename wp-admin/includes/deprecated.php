@@ -133,7 +133,7 @@ function wp_dropdown_cats( $currentcat = 0, $currentparent = 0, $parent = 0, $le
  * @deprecated Use register_setting()
  * @see register_setting()
  *
- * @param string $option_group A settings group name.  Should correspond to a whitelisted option key name.
+ * @param string $option_group A settings group name. Should correspond to a whitelisted option key name.
  * 	Default whitelisted option key names include "general," "discussion," and "reading," among others.
  * @param string $option_name The name of an option to sanitize and save.
  * @param unknown_type $sanitize_callback A callback function that sanitizes the option's value.
@@ -870,7 +870,7 @@ function type_url_form_file() {
  * @deprecated Use get_current_screen()->add_help_tab()
  * @see WP_Screen
  *
- * @param string    $screen The handle for the screen to add help to.  This is usually the hook name returned by the add_*_page() functions.
+ * @param string    $screen The handle for the screen to add help to. This is usually the hook name returned by the add_*_page() functions.
  * @param string    $help   The content of an 'Overview' help tab.
  */
 function add_contextual_help( $screen, $help ) {

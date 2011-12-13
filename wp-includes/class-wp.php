@@ -156,8 +156,8 @@ class WP {
 			$home_path = trim($home_path, '/');
 
 			// Trim path info from the end and the leading home path from the
-			// front.  For path info requests, this leaves us with the requesting
-			// filename, if any.  For 404 requests, this leaves us with the
+			// front. For path info requests, this leaves us with the requesting
+			// filename, if any. For 404 requests, this leaves us with the
 			// requested permalink.
 			$req_uri = str_replace($pathinfo, '', $req_uri);
 			$req_uri = trim($req_uri, '/');
@@ -401,7 +401,7 @@ class WP {
 			}
 		}
 
-		// query_string filter deprecated.  Use request filter instead.
+		// query_string filter deprecated. Use request filter instead.
 		if ( has_filter('query_string') ) {  // Don't bother filtering and parsing if no plugins are hooked in.
 			$this->query_string = apply_filters('query_string', $this->query_string);
 			parse_str($this->query_string, $this->query_vars);

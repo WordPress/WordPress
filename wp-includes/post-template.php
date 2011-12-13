@@ -555,7 +555,7 @@ function get_body_class( $class = '' ) {
  *
  * @since 2.7.0
  *
- * @param int|object $post An optional post.  Global $post used if not provided.
+ * @param int|object $post An optional post. Global $post used if not provided.
  * @return bool false if a password is not required or the correct password cookie is present, true otherwise.
  */
 function post_password_required( $post = null ) {
@@ -1307,7 +1307,7 @@ function wp_post_revision_title( $revision, $link = true ) {
  *
  * Second argument controls parameters:
  *   (bool)   parent : include the parent (the "Current Revision") in the list.
- *   (string) format : 'list' or 'form-table'.  'list' outputs UL, 'form-table'
+ *   (string) format : 'list' or 'form-table'. 'list' outputs UL, 'form-table'
  *                     outputs TABLE with UI.
  *   (int)    right  : what revision is currently being viewed - used in
  *                     form-table format.

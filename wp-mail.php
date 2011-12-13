@@ -161,7 +161,7 @@ for ( $i = 1; $i <= $count; $i++ ) {
 		$user = new WP_User($post_author);
 		$post_status = ( $user->has_cap('publish_posts') ) ? 'publish' : 'pending';
 	} else {
-		// Author not found in DB, set status to pending.  Author already set to admin.
+		// Author not found in DB, set status to pending. Author already set to admin.
 		$post_status = 'pending';
 	}
 
@@ -226,7 +226,7 @@ for ( $i = 1; $i <= $count; $i++ ) {
 		$pop3->reset();
 		exit;
 	} else {
-		echo '<p>' . sprintf(__('Mission complete.  Message <strong>%s</strong> deleted.'), $i) . '</p>';
+		echo '<p>' . sprintf(__('Mission complete. Message <strong>%s</strong> deleted.'), $i) . '</p>';
 	}
 
 }

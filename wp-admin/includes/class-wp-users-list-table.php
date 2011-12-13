@@ -209,9 +209,9 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * @since 2.1.0
 	 *
 	 * @param object $user_object
-	 * @param string $style Optional. Attributes added to the TR element.  Must be sanitized.
+	 * @param string $style Optional. Attributes added to the TR element. Must be sanitized.
 	 * @param string $role Key for the $wp_roles array.
-	 * @param int $numposts Optional. Post count to display for this user.  Defaults to zero, as in, a new user has made zero posts.
+	 * @param int $numposts Optional. Post count to display for this user. Defaults to zero, as in, a new user has made zero posts.
 	 * @return string
 	 */
 	function single_row( $user_object, $style = '', $role = '', $numposts = 0 ) {

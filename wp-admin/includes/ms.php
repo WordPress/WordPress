@@ -49,7 +49,7 @@ add_filter( 'wp_handle_upload_prefilter', 'check_upload_size' );
  * @since 3.0.0
  *
  * @param int $blog_id Blog ID
- * @param bool $drop True if blog's table should be dropped.  Default is false.
+ * @param bool $drop True if blog's table should be dropped. Default is false.
  * @return void
  */
 function wpmu_delete_blog( $blog_id, $drop = false ) {
@@ -774,7 +774,7 @@ var tb_closeImage = "../../wp-includes/js/thickbox/tb-close.png";
  * Plugins can alter this criteria  using the 'wp_is_large_network' filter.
  *
  * @since 3.3.0
- * @param string $using 'sites or 'users'.  Default is 'sites'.
+ * @param string $using 'sites or 'users'. Default is 'sites'.
  * @return bool True if the network meets the criteria for large. False otherwise.
  */
 function wp_is_large_network( $using = 'sites' ) {

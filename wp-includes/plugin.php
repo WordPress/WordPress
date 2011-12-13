@@ -80,7 +80,7 @@ function add_filter($tag, $function_to_add, $priority = 10, $accepted_args = 1) 
  * @global array $wp_filter Stores all of the filters
  *
  * @param string $tag The name of the filter hook.
- * @param callback $function_to_check optional.  If specified, return the priority of that function on this hook or false if not attached.
+ * @param callback $function_to_check optional. If specified, return the priority of that function on this hook or false if not attached.
  * @return int|boolean Optionally returns the priority on that hook for the specified function.
  */
 function has_filter($tag, $function_to_check = false) {
@@ -499,7 +499,7 @@ function do_action_ref_array($tag, $args) {
  * @see has_filter() has_action() is an alias of has_filter().
  *
  * @param string $tag The name of the action hook.
- * @param callback $function_to_check optional.  If specified, return the priority of that function on this hook or false if not attached.
+ * @param callback $function_to_check optional. If specified, return the priority of that function on this hook or false if not attached.
  * @return int|boolean Optionally returns the priority on that hook for the specified function.
  */
 function has_action($tag, $function_to_check = false) {
@@ -744,7 +744,7 @@ function _wp_call_all_hook($args) {
  * @global array $wp_filter Storage for all of the filters and actions
  * @param string $tag Used in counting how many hooks were applied
  * @param callback $function Used for creating unique id
- * @param int|bool $priority Used in counting how many hooks were applied.  If === false and $function is an object reference, we return the unique id only if it already has one, false otherwise.
+ * @param int|bool $priority Used in counting how many hooks were applied. If === false and $function is an object reference, we return the unique id only if it already has one, false otherwise.
  * @return string|bool Unique ID for usage as array key or false if $priority === false and $function is an object reference, and it does not already have a unique id.
  */
 function _wp_filter_build_unique_id($tag, $function, $priority) {

@@ -732,7 +732,7 @@ function sanitize_file_name( $filename ) {
 	$extension = array_pop($parts);
 	$mimes = get_allowed_mime_types();
 
-	// Loop over any intermediate extensions.  Munge them with a trailing underscore if they are a 2 - 5 character
+	// Loop over any intermediate extensions. Munge them with a trailing underscore if they are a 2 - 5 character
 	// long alpha string not in the extension whitelist.
 	foreach ( (array) $parts as $part) {
 		$filename .= '.' . $part;

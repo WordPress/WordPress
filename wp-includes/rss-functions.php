@@ -1,6 +1,6 @@
 <?php
 /**
- * Deprecated.  Use rss.php instead.
+ * Deprecated. Use rss.php instead.
  *
  * @package WordPress
  */

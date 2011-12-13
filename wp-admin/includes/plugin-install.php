@@ -199,7 +199,7 @@ function install_plugin_install_status($api, $loop = false) {
 	}
 
 	if ( 'install' == $status ) {
-		if ( is_dir( WP_PLUGIN_DIR  . '/' . $api->slug ) ) {
+		if ( is_dir( WP_PLUGIN_DIR . '/' . $api->slug ) ) {
 			$installed_plugin = get_plugins('/' . $api->slug);
 			if ( empty($installed_plugin) ) {
 				if ( current_user_can('install_plugins') )

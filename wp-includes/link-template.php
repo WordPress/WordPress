@@ -507,7 +507,7 @@ function get_post_comments_feed_link($post_id = 0, $feed = '') {
  * @since 2.5.0
  *
  * @param string $link_text Descriptive text.
- * @param int $post_id Optional post ID.  Default to current post.
+ * @param int $post_id Optional post ID. Default to current post.
  * @param string $feed Optional. Feed format.
  * @return string Link to the comment feed for the current post.
 */
@@ -2187,7 +2187,7 @@ function self_admin_url($path = '', $scheme = 'admin') {
 /**
  * Get the URL to the user's dashboard.
  *
- * If a user does not belong to any site, the global user dashboard is used.  If the user belongs to the current site,
+ * If a user does not belong to any site, the global user dashboard is used. If the user belongs to the current site,
  * the dashboard for the current site is returned. If the user cannot edit the current site, the dashboard to the user's
  * primary blog is returned.
  *

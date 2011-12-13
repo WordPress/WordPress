@@ -240,7 +240,7 @@ function wp_handle_upload( &$file, $overrides = false, $time = null ) {
 	// You may define your own function and pass the name in $overrides['upload_error_handler']
 	$upload_error_handler = 'wp_handle_upload_error';
 
-	// You may have had one or more 'wp_handle_upload_prefilter' functions error out the file.  Handle that gracefully.
+	// You may have had one or more 'wp_handle_upload_prefilter' functions error out the file. Handle that gracefully.
 	if ( isset( $file['error'] ) && !is_numeric( $file['error'] ) && $file['error'] )
 		return $upload_error_handler( $file, $file['error'] );
 
@@ -364,7 +364,7 @@ function wp_handle_upload( &$file, $overrides = false, $time = null ) {
 
 /**
  * Handle sideloads, which is the process of retrieving a media item from another server instead of
- * a traditional media upload.  This process involves sanitizing the filename, checking extensions
+ * a traditional media upload. This process involves sanitizing the filename, checking extensions
  * for mime type, and moving the file to the appropriate directory within the uploads directory.
  *
  * @since 2.6.0

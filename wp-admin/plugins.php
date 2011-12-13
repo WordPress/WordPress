@@ -355,7 +355,7 @@ if ( !empty($invalid) )
 	if ( isset( $_GET['main'] ) )
 		$errmsg = __( 'You cannot delete a plugin while it is active on the main site.' );
 	elseif ( isset($_GET['charsout']) )
-		$errmsg = sprintf(__('The plugin generated %d characters of <strong>unexpected output</strong> during activation.  If you notice &#8220;headers already sent&#8221; messages, problems with syndication feeds or other issues, try deactivating or removing this plugin.'), $_GET['charsout']);
+		$errmsg = sprintf(__('The plugin generated %d characters of <strong>unexpected output</strong> during activation. If you notice &#8220;headers already sent&#8221; messages, problems with syndication feeds or other issues, try deactivating or removing this plugin.'), $_GET['charsout']);
 	else
 		$errmsg = __('Plugin could not be activated because it triggered a <strong>fatal error</strong>.');
 	?>

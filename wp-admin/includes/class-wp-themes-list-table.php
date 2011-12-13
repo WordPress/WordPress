@@ -149,7 +149,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 	$activate_link = wp_nonce_url( "themes.php?action=activate&amp;template=".urlencode( $template )."&amp;stylesheet=".urlencode( $stylesheet ), 'switch-theme_' . $template );
 	$activate_text = esc_attr( sprintf( __( 'Activate &#8220;%s&#8221;' ), $title ) );
 	$actions = array();
-	$actions[] = '<a href="' . $activate_link .  '" class="activatelink" title="' . $activate_text . '">' . __( 'Activate' ) . '</a>';
+	$actions[] = '<a href="' . $activate_link . '" class="activatelink" title="' . $activate_text . '">' . __( 'Activate' ) . '</a>';
 	$actions[] = '<a href="' . $preview_link . '" class="thickbox thickbox-preview" title="' . esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;' ), $theme_name ) ) . '">' . __( 'Preview' ) . '</a>';
 	if ( ! is_multisite() && current_user_can( 'delete_themes' ) )
 		$actions[] = '<a class="submitdelete deletion" href="' . wp_nonce_url( "themes.php?action=delete&amp;template=$stylesheet", 'delete-theme_' . $stylesheet ) . '" onclick="' . "return confirm( '" . esc_js( sprintf( __( "You are about to delete this theme '%s'\n  'Cancel' to stop, 'OK' to delete." ), $theme_name ) ) . "' );" . '">' . __( 'Delete' ) . '</a>';

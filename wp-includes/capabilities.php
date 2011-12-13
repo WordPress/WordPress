@@ -1208,7 +1208,7 @@ function current_user_can_for_blog( $blog_id, $capability ) {
 	// Create new object to avoid stomping the global current_user.
 	$user = new WP_User( $current_user->ID) ;
 
-	// Set the blog id.  @todo add blog id arg to WP_User constructor?
+	// Set the blog id. @todo add blog id arg to WP_User constructor?
 	$user->for_blog( $blog_id );
 
 	$args = array_slice( func_get_args(), 2 );

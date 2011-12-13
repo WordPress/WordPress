@@ -554,7 +554,7 @@ function wp_get_nav_menu_items( $menu, $args = array() ) {
  * - object:		The type of object originally represented, such as "category," "post", or "attachment."
  * - type_label:	The singular label used to describe this type of menu item.
  * - post_parent:	The DB ID of the original object's parent object, if any (0 otherwise).
- * - menu_item_parent: 	The DB ID of the nav_menu_item that is this item's menu parent, if any.  0 otherwise.
+ * - menu_item_parent: 	The DB ID of the nav_menu_item that is this item's menu parent, if any. 0 otherwise.
  * - url:		The URL to which this menu item points.
  * - title:		The title of this menu item.
  * - target: 		The target attribute of the link element for this menu item.

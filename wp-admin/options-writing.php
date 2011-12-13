@@ -32,7 +32,7 @@ get_current_screen()->add_help_tab( array(
 if ( is_multisite() ) {
 	$post_email_help = '<p>' . __('Due to security issues, you cannot use Post By Email on Multisite Installs.') . '</p>';
 } else {
-	$post_email_help = '<p>' . __('Post via email settings allow you to send your WordPress install an email with the content of your post.  You must set up a secret e-mail account with POP3 access to use this, and any mail received at this address will be posted, so it&#8217;s a good idea to keep this address very secret.') . '</p>';
+	$post_email_help = '<p>' . __('Post via email settings allow you to send your WordPress install an email with the content of your post. You must set up a secret e-mail account with POP3 access to use this, and any mail received at this address will be posted, so it&#8217;s a good idea to keep this address very secret.') . '</p>';
 }
 
 get_current_screen()->add_help_tab( array(

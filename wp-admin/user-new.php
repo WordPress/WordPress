@@ -163,7 +163,7 @@ get_current_screen()->add_help_tab( array(
 'content' => '<p>' . __('Here is a basic overview of the different user roles and the permissions associated with each one:') . '</p>' .
 				'<ul>' .
 				'<li>' . __('Administrators have access to all the administration features.') . '</li>' .
-				'<li>' . __('Editors can publish posts, manage posts as well as manage other people&#8217;s posts, etc.')  . '</li>' .
+				'<li>' . __('Editors can publish posts, manage posts as well as manage other people&#8217;s posts, etc.') . '</li>' .
 				'<li>' . __('Authors can publish and manage their own posts, and are able to upload files.') . '</li>' .
 				'<li>' . __('Contributors can write and manage their posts but not publish posts or upload media files.') . '</li>' .
 				'<li>' . __('Subscribers can read comments/comment/receive newsletters, etc. but cannot create regular site content.') . '</li>' .
@@ -251,10 +251,10 @@ if ( is_multisite() ) {
 	if ( $do_both )
 		echo '<h3 id="add-existing-user">' . __('Add Existing User') . '</h3>';
 	if ( !is_super_admin() ) {
-		_e( 'Enter the email address of an existing user on this network to invite them to this site.  That person will be sent an email asking them to confirm the invite.' );
+		_e( 'Enter the email address of an existing user on this network to invite them to this site. That person will be sent an email asking them to confirm the invite.' );
 		$label = __('E-mail');
 	} else {
-		_e( 'Enter the email address or username of an existing user on this network to invite them to this site.  That person will be sent an email asking them to confirm the invite.' );
+		_e( 'Enter the email address or username of an existing user on this network to invite them to this site. That person will be sent an email asking them to confirm the invite.' );
 		$label = __('E-mail or Username');
 	}
 ?>

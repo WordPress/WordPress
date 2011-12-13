@@ -10,7 +10,7 @@
  *
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
  * more details.
  *
  * You should have received a copy of the GNU General Public License along
@@ -718,7 +718,7 @@ function wp_kses_attr($element, $attr, $allowed_html, $allowed_protocols) {
  * input. It will add quotes around attribute values that don't have any quotes
  * or apostrophes around them, to make it easier to produce HTML code that will
  * conform to W3C's HTML specification. It will also remove bad URL protocols
- * from attribute values.  It also reduces duplicate attributes by using the
+ * from attribute values. It also reduces duplicate attributes by using the
  * attribute defined first (foo='bar' foo='baz' will result in foo='bar').
  *
  * @since 1.0.0

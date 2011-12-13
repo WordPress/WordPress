@@ -164,7 +164,7 @@ printf( __('Comments should be displayed with the %s comments at the top of each
 
 <h3><?php _e('Avatars'); ?></h3>
 
-<p><?php _e('An avatar is an image that follows you from weblog to weblog appearing beside your name when you comment on avatar enabled sites.  Here you can enable the display of avatars for people who comment on your site.'); ?></p>
+<p><?php _e('An avatar is an image that follows you from weblog to weblog appearing beside your name when you comment on avatar enabled sites. Here you can enable the display of avatars for people who comment on your site.'); ?></p>
 
 <?php // the above would be a good place to link to codex documentation on the gravatar functions, for putting it in themes. anything like that? ?>
 
@@ -228,7 +228,7 @@ $size = 32;
 $avatar_list = '';
 foreach ( $avatar_defaults as $default_key => $default_name ) {
 	$selected = ($default == $default_key) ? 'checked="checked" ' : '';
-	$avatar_list .= "\n\t<label><input type='radio' name='avatar_default' id='avatar_{$default_key}' value='" . esc_attr($default_key)  . "' {$selected}/> ";
+	$avatar_list .= "\n\t<label><input type='radio' name='avatar_default' id='avatar_{$default_key}' value='" . esc_attr($default_key) . "' {$selected}/> ";
 
 	$avatar = get_avatar( $user_email, $size, $default_key );
 	$avatar_list .= preg_replace("/src='(.+?)'/", "src='\$1&amp;forcedefault=1'", $avatar);

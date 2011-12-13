@@ -207,7 +207,7 @@ switch($step) {
 			$error = true;
 		} elseif ( ! is_email( $admin_email ) ) {
 			// TODO: poka-yoke
-			display_setup_form( __( 'that isn&#8217;t a valid e-mail address.  E-mail addresses look like: <code>username@example.com</code>' ) );
+			display_setup_form( __( 'that isn&#8217;t a valid e-mail address. E-mail addresses look like: <code>username@example.com</code>' ) );
 			$error = true;
 		}
 

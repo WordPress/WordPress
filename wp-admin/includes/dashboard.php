@@ -273,7 +273,7 @@ function wp_dashboard_right_now() {
 
 	echo '</tr><tr>';
 	/* TODO: Show status breakdown on hover
-	if ( $can_edit_pages && !empty($num_pages->publish) ) { // how many pages is not exposed in feeds.  Don't show if !current_user_can
+	if ( $can_edit_pages && !empty($num_pages->publish) ) { // how many pages is not exposed in feeds. Don't show if !current_user_can
 		$post_type_texts[] = '<a href="edit-pages.php">'.sprintf( _n( '%s page', '%s pages', $num_pages->publish ), number_format_i18n( $num_pages->publish ) ).'</a>';
 	}
 	if ( $can_edit_posts && !empty($num_posts->draft) ) {
@@ -1115,7 +1115,7 @@ function wp_dashboard_rss_control( $widget_id, $form_inputs = array() ) {
 	if ( 'POST' == $_SERVER['REQUEST_METHOD'] && isset($_POST['widget-rss'][$number]) ) {
 		$_POST['widget-rss'][$number] = stripslashes_deep( $_POST['widget-rss'][$number] );
 		$widget_options[$widget_id] = wp_widget_rss_process( $_POST['widget-rss'][$number] );
-		// title is optional.  If black, fill it if possible
+		// title is optional. If black, fill it if possible
 		if ( !$widget_options[$widget_id]['title'] && isset($_POST['widget-rss'][$number]['title']) ) {
 			$rss = fetch_feed($widget_options[$widget_id]['url']);
 			if ( is_wp_error($rss) ) {

@@ -192,7 +192,7 @@ function wp_image_editor($post_id, $msg = false) {
 	</tbody></table>
 	<div class="imgedit-wait" id="imgedit-wait-<?php echo $post_id; ?>"></div>
 	<script type="text/javascript">imageEdit.init(<?php echo $post_id; ?>);</script>
-	<div class="hidden" id="imgedit-leaving-<?php echo $post_id; ?>"><?php _e("There are unsaved changes that will be lost.  'OK' to continue, 'Cancel' to return to the Image Editor."); ?></div>
+	<div class="hidden" id="imgedit-leaving-<?php echo $post_id; ?>"><?php _e("There are unsaved changes that will be lost. 'OK' to continue, 'Cancel' to return to the Image Editor."); ?></div>
 	</div>
 <?php
 }

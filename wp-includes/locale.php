@@ -113,7 +113,7 @@ class WP_Locale {
 		$this->weekday[5] = /* translators: weekday */ __('Friday');
 		$this->weekday[6] = /* translators: weekday */ __('Saturday');
 
-		// The first letter of each day.  The _%day%_initial suffix is a hack to make
+		// The first letter of each day. The _%day%_initial suffix is a hack to make
 		// sure the day initials are unique.
 		$this->weekday_initial[__('Sunday')]    = /* translators: one-letter abbreviation of the weekday */ __('S_Sunday_initial');
 		$this->weekday_initial[__('Monday')]    = /* translators: one-letter abbreviation of the weekday */ __('M_Monday_initial');

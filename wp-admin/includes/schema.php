@@ -30,7 +30,7 @@ if ( ! empty( $wpdb->collate ) )
  * @since 3.3.0
  *
  * @param string $scope Optional. The tables for which to retrieve SQL. Can be all, global, ms_global, or blog tables. Defaults to all.
- * @param int $blog_id Optional. The blog ID for which to retrieve SQL.  Default is the current blog ID.
+ * @param int $blog_id Optional. The blog ID for which to retrieve SQL. Default is the current blog ID.
  * @return string The SQL needed to create the requested tables.
  */
 function wp_get_db_schema( $scope = 'all', $blog_id = null ) {

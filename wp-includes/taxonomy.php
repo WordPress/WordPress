@@ -1083,19 +1083,19 @@ function get_term_to_edit( $id, $taxonomy ) {
  * hide_empty - Default is true. Will not return empty terms, which means
  * terms whose count is 0 according to the given taxonomy.
  *
- * exclude - Default is an empty array.  An array, comma- or space-delimited string
- * of term ids to exclude from the return array.  If 'include' is non-empty,
+ * exclude - Default is an empty array. An array, comma- or space-delimited string
+ * of term ids to exclude from the return array. If 'include' is non-empty,
  * 'exclude' is ignored.
  *
- * exclude_tree - Default is an empty array.  An array, comma- or space-delimited
+ * exclude_tree - Default is an empty array. An array, comma- or space-delimited
  * string of term ids to exclude from the return array, along with all of their
- * descendant terms according to the primary taxonomy.  If 'include' is non-empty,
+ * descendant terms according to the primary taxonomy. If 'include' is non-empty,
  * 'exclude_tree' is ignored.
  *
- * include - Default is an empty array.  An array, comma- or space-delimited string
+ * include - Default is an empty array. An array, comma- or space-delimited string
  * of term ids to include in the return array.
  *
- * number - The maximum number of terms to return.  Default is to return them all.
+ * number - The maximum number of terms to return. Default is to return them all.
  *
  * offset - The number by which to offset the terms query.
  *
@@ -1109,7 +1109,7 @@ function get_term_to_edit( $id, $taxonomy ) {
  * (even if 'hide_empty' is set to true).
  *
  * search - Returned terms' names will contain the value of 'search',
- * case-insensitive.  Default is an empty string.
+ * case-insensitive. Default is an empty string.
  *
  * name__like - Returned terms' names will begin with the value of 'name__like',
  * case-insensitive. Default is empty string.
@@ -1120,13 +1120,13 @@ function get_term_to_edit( $id, $taxonomy ) {
  * The 'get' argument, if set to 'all' instead of its default empty string,
  * returns terms regardless of ancestry or whether the terms are empty.
  *
- * The 'child_of' argument, when used, should be set to the integer of a term ID.  Its default
- * is 0.  If set to a non-zero value, all returned terms will be descendants
- * of that term according to the given taxonomy.  Hence 'child_of' is set to 0
+ * The 'child_of' argument, when used, should be set to the integer of a term ID. Its default
+ * is 0. If set to a non-zero value, all returned terms will be descendants
+ * of that term according to the given taxonomy. Hence 'child_of' is set to 0
  * if more than one taxonomy is passed in $taxonomies, because multiple taxonomies
  * make term ancestry ambiguous.
  *
- * The 'parent' argument, when used, should be set to the integer of a term ID.  Its default is
+ * The 'parent' argument, when used, should be set to the integer of a term ID. Its default is
  * the empty string '', which has a different meaning from the integer 0.
  * If set to an integer value, all returned terms will have as an immediate
  * ancestor the term whose ID is specified by that integer according to the given taxonomy.
@@ -3094,7 +3094,7 @@ function get_post_taxonomies($post = 0) {
  *
  * @param int $object_id ID of the object (post ID, link ID, ...)
  * @param string $taxonomy Single taxonomy name
- * @param int|string|array $terms Optional.  Term term_id, name, slug or array of said
+ * @param int|string|array $terms Optional. Term term_id, name, slug or array of said
  * @return bool|WP_Error. WP_Error on input error.
  */
 function is_object_in_term( $object_id, $taxonomy, $terms = null ) {
@@ -3240,7 +3240,7 @@ function wp_check_term_hierarchy_for_loops( $parent, $term_id, $taxonomy ) {
 	if ( isset( $loop[$term_id] ) )
 		return 0;
 
-	// There's a loop, but it doesn't contain $term_id.  Break the loop.
+	// There's a loop, but it doesn't contain $term_id. Break the loop.
 	foreach ( array_keys( $loop ) as $loop_member )
 		wp_update_term( $loop_member, $taxonomy, array( 'parent' => 0 ) );
 

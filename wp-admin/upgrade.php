@@ -27,7 +27,7 @@ if ( isset( $_GET['step'] ) )
 else
 	$step = 0;
 
-// Do it.  No output.
+// Do it. No output.
 if ( 'upgrade_db' === $step ) {
 	wp_upgrade();
 	die( '0' );

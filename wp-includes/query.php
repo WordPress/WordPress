@@ -29,7 +29,7 @@ function get_query_var($var) {
 
 
 /**
- * Retrieve the currently-queried object.  Wrapper for $wp_query->get_queried_object()
+ * Retrieve the currently-queried object. Wrapper for $wp_query->get_queried_object()
  *
  * @uses WP_Query::get_queried_object
  *
@@ -728,7 +728,7 @@ function is_main_query() {
 }
 
 /*
- * The Loop.  Post loop control.
+ * The Loop. Post loop control.
  */
 
 /**
@@ -1261,7 +1261,7 @@ class WP_Query {
 	var $query_vars_hash = false;
 
 	/**
-	 * Whether query vars have changed since the initial parse_query() call.  Used to catch modifications to query vars made
+	 * Whether query vars have changed since the initial parse_query() call. Used to catch modifications to query vars made
 	 * via pre_get_posts hooks.
 	 *
 	 * @since 3.1.1
@@ -1454,7 +1454,7 @@ class WP_Query {
 		if ( '' !== $qv['minute'] ) $qv['minute'] = absint($qv['minute']);
 		if ( '' !== $qv['second'] ) $qv['second'] = absint($qv['second']);
 
-		// Compat.  Map subpost to attachment.
+		// Compat. Map subpost to attachment.
 		if ( '' != $qv['subpost'] )
 			$qv['attachment'] = $qv['subpost'];
 		if ( '' != $qv['subpost_id'] )
@@ -1477,7 +1477,7 @@ class WP_Query {
 			$this->is_page = true;
 			$this->is_single = false;
 		} else {
-		// Look for archive queries.  Dates, categories, authors, search, post type archives.
+		// Look for archive queries. Dates, categories, authors, search, post type archives.
 
 			if ( !empty($qv['s']) ) {
 				$this->is_search = true;
@@ -2449,13 +2449,13 @@ class WP_Query {
 			}
 			if ( !empty($r_status) ) {
 				if ( !empty($q['perm'] ) && 'editable' == $q['perm'] && !current_user_can($edit_others_cap) )
-					$statuswheres[] = "($wpdb->posts.post_author = $user_ID " .  "AND (" . join( ' OR ', $r_status ) . "))";
+					$statuswheres[] = "($wpdb->posts.post_author = $user_ID " . "AND (" . join( ' OR ', $r_status ) . "))";
 				else
 					$statuswheres[] = "(" . join( ' OR ', $r_status ) . ")";
 			}
 			if ( !empty($p_status) ) {
 				if ( !empty($q['perm'] ) && 'readable' == $q['perm'] && !current_user_can($read_private_cap) )
-					$statuswheres[] = "($wpdb->posts.post_author = $user_ID " .  "AND (" . join( ' OR ', $p_status ) . "))";
+					$statuswheres[] = "($wpdb->posts.post_author = $user_ID " . "AND (" . join( ' OR ', $p_status ) . "))";
 				else
 					$statuswheres[] = "(" . join( ' OR ', $p_status ) . ")";
 			}
@@ -2564,7 +2564,7 @@ class WP_Query {
 
 		$pieces = array( 'where', 'groupby', 'join', 'orderby', 'distinct', 'fields', 'limits' );
 
-		// Apply post-paging filters on where and join.  Only plugins that
+		// Apply post-paging filters on where and join. Only plugins that
 		// manipulate paging queries should use these hooks.
 		if ( !$q['suppress_filters'] ) {
 			$where		= apply_filters_ref_array( 'posts_where_paged',	array( $where, &$this ) );
@@ -2581,10 +2581,10 @@ class WP_Query {
 				$$piece = isset( $clauses[ $piece ] ) ? $clauses[ $piece ] : '';
 		}
 
-		// Announce current selection parameters.  For use by caching plugins.
+		// Announce current selection parameters. For use by caching plugins.
 		do_action( 'posts_selection', $where . $groupby . $orderby . $limits . $join );
 
-		// Filter again for the benefit of caching plugins.  Regular plugins should use the hooks above.
+		// Filter again for the benefit of caching plugins. Regular plugins should use the hooks above.
 		if ( !$q['suppress_filters'] ) {
 			$where		= apply_filters_ref_array( 'posts_where_request',		array( $where, &$this ) );
 			$groupby	= apply_filters_ref_array( 'posts_groupby_request',		array( $groupby, &$this ) );
@@ -2631,7 +2631,7 @@ class WP_Query {
 
 		$this->posts = $wpdb->get_results($this->request);
 
-		// Raw results filter.  Prior to status checks.
+		// Raw results filter. Prior to status checks.
 		if ( !$q['suppress_filters'] )
 			$this->posts = apply_filters_ref_array('posts_results', array( $this->posts, &$this ) );
 
@@ -2700,7 +2700,7 @@ class WP_Query {
 					array_splice($this->posts, $i, 1);
 					// Move to front, after other stickies
 					array_splice($this->posts, $sticky_offset, 0, array($sticky_post));
-					// Increment the sticky offset.  The next sticky will be placed at this offset.
+					// Increment the sticky offset. The next sticky will be placed at this offset.
 					$sticky_offset++;
 					// Remove post from sticky posts array
 					$offset = array_search($sticky_post->ID, $sticky_posts);

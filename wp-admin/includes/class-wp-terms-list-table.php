@@ -42,7 +42,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 	function prepare_items() {
 		global $taxonomy;
 
-		$tags_per_page = $this->get_items_per_page( 'edit_' .  $taxonomy . '_per_page' );
+		$tags_per_page = $this->get_items_per_page( 'edit_' . $taxonomy . '_per_page' );
 
 		if ( 'post_tag' == $taxonomy ) {
 			$tags_per_page = apply_filters( 'edit_tags_per_page', $tags_per_page );

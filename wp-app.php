@@ -285,7 +285,7 @@ class AtomServer {
 
 		// check to see if AtomPub is enabled
 		if ( !get_option( 'enable_app' ) )
-			$this->forbidden( sprintf( __( 'AtomPub services are disabled on this site.  An admin user can enable them at %s' ), admin_url('options-writing.php') ) );
+			$this->forbidden( sprintf( __( 'AtomPub services are disabled on this site. An admin user can enable them at %s' ), admin_url('options-writing.php') ) );
 
 		// dispatch
 		foreach ( $this->selectors as $regex => $funcs ) {
@@ -370,7 +370,7 @@ EOD;
 		$categories = "";
 		$cats = get_categories(array('hierarchical' => 0, 'hide_empty' => 0));
 		foreach ( (array) $cats as $cat ) {
-			$categories .= "    <category term=\"" . esc_attr($cat->name) .  "\" />\n";
+			$categories .= "    <category term=\"" . esc_attr($cat->name) . "\" />\n";
 		}
 		$output = <<<EOD
 <app:categories xmlns:app="$this->ATOMPUB_NS"

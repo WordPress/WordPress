@@ -151,7 +151,7 @@ $tzstring = get_option('timezone_string');
 
 $check_zone_info = true;
 
-// Remove old Etc mappings.  Fallback to gmt_offset.
+// Remove old Etc mappings. Fallback to gmt_offset.
 if ( false !== strpos($tzstring,'Etc/GMT') )
 	$tzstring = '';
 

@@ -111,8 +111,8 @@ if ( !function_exists('get_user_by') ) :
  *
  * @since 2.8.0
  *
- * @param string $field The field to retrieve the user with.  id | slug | email | login
- * @param int|string $value A value for $field.  A user ID, slug, email address, or login name.
+ * @param string $field The field to retrieve the user with. id | slug | email | login
+ * @param int|string $value A value for $field. A user ID, slug, email address, or login name.
  * @return bool|object False on failure, WP_User object on success
  */
 function get_user_by( $field, $value ) {

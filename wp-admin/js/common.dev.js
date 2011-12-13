@@ -316,7 +316,7 @@ $(document).ready( function() {
 		var el = e.target, selStart = el.selectionStart, selEnd = el.selectionEnd, val = el.value, scroll, sel;
 
 		try {
-			this.lastKey = 9; // not a standard DOM property, lastKey is to help stop Opera tab event.  See blur handler below.
+			this.lastKey = 9; // not a standard DOM property, lastKey is to help stop Opera tab event. See blur handler below.
 		} catch(err) {}
 
 		if ( document.selection ) {

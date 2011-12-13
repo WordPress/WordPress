@@ -53,9 +53,9 @@ function image_constrain_size_for_editor($width, $height, $size = 'medium') {
 		// if no width is set, default to the theme content width if available
 	}
 	elseif ( $size == 'large' ) {
-		// we're inserting a large size image into the editor.  if it's a really
+		// We're inserting a large size image into the editor. If it's a really
 		// big image we'll scale it down to fit reasonably within the editor
-		// itself, and within the theme's content width if it's known.  the user
+		// itself, and within the theme's content width if it's known. The user
 		// can resize it in the editor if they wish.
 		$max_width = intval(get_option('large_size_w'));
 		$max_height = intval(get_option('large_size_h'));

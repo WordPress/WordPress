@@ -55,7 +55,7 @@ function comment_author( $comment_ID = 0 ) {
  * @uses apply_filters() Calls the 'get_comment_author_email' hook on the comment author email
  * @uses $comment
  *
- * @param int $comment_ID The ID of the comment for which to get the author's email.  Optional.
+ * @param int $comment_ID The ID of the comment for which to get the author's email. Optional.
  * @return string The current comment author's email
  */
 function get_comment_author_email( $comment_ID = 0 ) {
@@ -141,7 +141,7 @@ function get_comment_author_email_link($linktext='', $before='', $after='') {
  * @since 1.5.0
  * @uses apply_filters() Calls 'get_comment_author_link' hook on the complete link HTML or author
  *
- * @param int $comment_ID The ID of the comment for which to get the author's link.  Optional.
+ * @param int $comment_ID The ID of the comment for which to get the author's link. Optional.
  * @return string Comment Author name or HTML link for author's URL
  */
 function get_comment_author_link( $comment_ID = 0 ) {
@@ -189,7 +189,7 @@ function get_comment_author_IP( $comment_ID = 0 ) {
  * @since 0.71
  * @see get_comment_author_IP() Echoes Result
  *
- * @param int $comment_ID The ID of the comment for which to print the author's IP address.  Optional.
+ * @param int $comment_ID The ID of the comment for which to print the author's IP address. Optional.
  */
 function comment_author_IP( $comment_ID = 0 ) {
 	echo get_comment_author_IP( $comment_ID );
@@ -201,7 +201,7 @@ function comment_author_IP( $comment_ID = 0 ) {
  * @since 1.5.0
  * @uses apply_filters() Calls 'get_comment_author_url' hook on the comment author's URL
  *
- * @param int $comment_ID The ID of the comment for which to get the author's URL.  Optional.
+ * @param int $comment_ID The ID of the comment for which to get the author's URL. Optional.
  * @return string
  */
 function get_comment_author_url( $comment_ID = 0 ) {
@@ -384,7 +384,7 @@ function get_comment_date( $d = '', $comment_ID = 0 ) {
  * @since 0.71
  *
  * @param string $d The format of the date (defaults to user's config)
- * @param int $comment_ID The ID of the comment for which to print the date.  Optional.
+ * @param int $comment_ID The ID of the comment for which to print the date. Optional.
  */
 function comment_date( $d = '', $comment_ID = 0 ) {
 	echo get_comment_date( $d, $comment_ID );
@@ -912,7 +912,7 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 	if ( file_exists( $include ) )
 		require( $include );
 	elseif ( file_exists( TEMPLATEPATH . $file ) )
-		require( TEMPLATEPATH .  $file );
+		require( TEMPLATEPATH . $file );
 	else // Backward compat code will be removed in a future release
 		require( ABSPATH . WPINC . '/theme-compat/comments.php');
 }
@@ -1091,7 +1091,7 @@ function comment_reply_link($args = array(), $comment = null, $post = null) {
  * @since 2.7.0
  *
  * @param array $args Optional. Override default options.
- * @param int|object $post Optional. Post that the comment is going to be displayed on.  Defaults to current post.
+ * @param int|object $post Optional. Post that the comment is going to be displayed on. Defaults to current post.
  * @return string|bool|null Link to show comment form, if successful. False, if comments are closed.
  */
 function get_post_reply_link($args = array(), $post = null) {
@@ -1408,7 +1408,7 @@ class Walker_Comment extends Walker {
  * @uses Walker_Comment
  *
  * @param string|array $args Formatting options
- * @param array $comments Optional array of comment objects.  Defaults to $wp_query->comments
+ * @param array $comments Optional array of comment objects. Defaults to $wp_query->comments
  */
 function wp_list_comments($args = array(), $comments = null ) {
 	global $wp_query, $comment_alt, $comment_depth, $comment_thread_alt, $overridden_cpage, $in_comment_loop;
@@ -1534,7 +1534,7 @@ function comment_form( $args = array(), $post_id = null ) {
 	$defaults = array(
 		'fields'               => apply_filters( 'comment_form_default_fields', $fields ),
 		'comment_field'        => '<p class="comment-form-comment"><label for="comment">' . _x( 'Comment', 'noun' ) . '</label><textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p>',
-		'must_log_in'          => '<p class="must-log-in">' .  sprintf( __( 'You must be <a href="%s">logged in</a> to post a comment.' ), wp_login_url( apply_filters( 'the_permalink', get_permalink( $post_id ) ) ) ) . '</p>',
+		'must_log_in'          => '<p class="must-log-in">' . sprintf( __( 'You must be <a href="%s">logged in</a> to post a comment.' ), wp_login_url( apply_filters( 'the_permalink', get_permalink( $post_id ) ) ) ) . '</p>',
 		'logged_in_as'         => '<p class="logged-in-as">' . sprintf( __( 'Logged in as <a href="%1$s">%2$s</a>. <a href="%3$s" title="Log out of this account">Log out?</a>' ), admin_url( 'profile.php' ), $user_identity, wp_logout_url( apply_filters( 'the_permalink', get_permalink( $post_id ) ) ) ) . '</p>',
 		'comment_notes_before' => '<p class="comment-notes">' . __( 'Your email address will not be published.' ) . ( $req ? $required_text : '' ) . '</p>',
 		'comment_notes_after'  => '<p class="form-allowed-tags">' . sprintf( __( 'You may use these <abbr title="HyperText Markup Language">HTML</abbr> tags and attributes: %s' ), ' <code>' . allowed_tags() . '</code>' ) . '</p>',

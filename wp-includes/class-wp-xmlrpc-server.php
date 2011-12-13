@@ -156,7 +156,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 */
 	function login_pass_ok($user_login, $user_pass) {
 		if ( !get_option( 'enable_xmlrpc' ) ) {
-			$this->error = new IXR_Error( 405, sprintf( __( 'XML-RPC services are disabled on this site.  An admin user can enable them at %s'),  admin_url('options-writing.php') ) );
+			$this->error = new IXR_Error( 405, sprintf( __( 'XML-RPC services are disabled on this site. An admin user can enable them at %s'),  admin_url('options-writing.php') ) );
 			return false;
 		}
 
@@ -178,7 +178,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 */
 	function login($username, $password) {
 		if ( !get_option( 'enable_xmlrpc' ) ) {
-			$this->error = new IXR_Error( 405, sprintf( __( 'XML-RPC services are disabled on this site.  An admin user can enable them at %s'),  admin_url('options-writing.php') ) );
+			$this->error = new IXR_Error( 405, sprintf( __( 'XML-RPC services are disabled on this site. An admin user can enable them at %s'),  admin_url('options-writing.php') ) );
 			return false;
 		}
 
@@ -1945,7 +1945,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		fclose($f);
 
 		/* so it is actually editable with a windows/mac client */
-		// FIXME: (or delete me) do we really want to cater to bad clients at the expense of good ones by BEEPing up their line breaks? commented.     $content = str_replace("\n", "\r\n", $content);
+		// FIXME: (or delete me) do we really want to cater to bad clients at the expense of good ones by BEEPing up their line breaks? commented. $content = str_replace("\n", "\r\n", $content);
 
 		return $content;
 	}
@@ -2544,7 +2544,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$postdata = wp_get_single_post($post_ID, ARRAY_A);
 
 		// If there is no post data for the give post id, stop
-		// now and return an error.  Other wise a new post will be
+		// now and return an error. Other wise a new post will be
 		// created (which was the old behavior).
 		if ( empty($postdata["ID"]) )
 			return(new IXR_Error(404, __('Invalid post ID.')));

@@ -19,7 +19,7 @@ header( 'Content-Type: text/html; charset=utf-8' );
 <?php
 
 if ( !defined('WP_ALLOW_REPAIR') ) {
-	echo '<p>'.__('To allow use of this page to automatically repair database problems, please add the following line to your wp-config.php file.  Once this line is added to your config, reload this page.')."</p><code>define('WP_ALLOW_REPAIR', true);</code>";
+	echo '<p>'.__('To allow use of this page to automatically repair database problems, please add the following line to your wp-config.php file. Once this line is added to your config, reload this page.')."</p><code>define('WP_ALLOW_REPAIR', true);</code>";
 } elseif ( isset($_GET['repair']) ) {
 	check_admin_referer('repair_db');
 
@@ -49,7 +49,7 @@ if ( !defined('WP_ALLOW_REPAIR') ) {
 			printf( __( 'The %s table is okay.' ), $table );
 		} else {
 			/* translators: 1: table name, 2: error message, */
-			printf( __( 'The %1$s table is not okay. It is reporting the following error: %2$s.  WordPress will attempt to repair this table&hellip;' ) , $table, "<code>$check->Msg_text</code>" );
+			printf( __( 'The %1$s table is not okay. It is reporting the following error: %2$s. WordPress will attempt to repair this table&hellip;' ) , $table, "<code>$check->Msg_text</code>" );
 
 			$repair = $wpdb->get_row("REPAIR TABLE $table");
 
@@ -95,16 +95,16 @@ if ( !defined('WP_ALLOW_REPAIR') ) {
 			$problem_output[] = "$table: $problem";
 		echo '<textarea name="errors" id="errors" rows="20" cols="60">' . esc_textarea( implode("\n", $problem_output) ) . '</textarea>';
 	} else {
-		echo '<p>'.__('Repairs complete.  Please remove the following line from wp-config.php to prevent this page from being used by unauthorized users.')."</p><code>define('WP_ALLOW_REPAIR', true);</code>";
+		echo '<p>'.__('Repairs complete. Please remove the following line from wp-config.php to prevent this page from being used by unauthorized users.')."</p><code>define('WP_ALLOW_REPAIR', true);</code>";
 	}
 } else {
 	if ( isset($_GET['referrer']) && 'is_blog_installed' == $_GET['referrer'] )
 		_e('One or more database tables are unavailable. To allow WordPress to attempt to repair these tables, press the &#8220;Repair Database&#8221; button. Repairing can take a while, so please be patient.');
 	else
-		_e('WordPress can automatically look for some common database problems and repair them.  Repairing can take a while, so please be patient.')
+		_e('WordPress can automatically look for some common database problems and repair them. Repairing can take a while, so please be patient.')
 ?>
 	<p class="step"><a class="button" href="<?php echo wp_nonce_url('repair.php?repair=1', 'repair_db') ?>"><?php _e( 'Repair Database' ); ?></a></p>
-	<?php _e('WordPress can also attempt to optimize the database.  This improves performance in some situations.  Repairing and optimizing the database can take a long time and the database will be locked while optimizing.'); ?>
+	<?php _e('WordPress can also attempt to optimize the database. This improves performance in some situations. Repairing and optimizing the database can take a long time and the database will be locked while optimizing.'); ?>
 	<p class="step"><a class="button" href="<?php echo wp_nonce_url('repair.php?repair=2', 'repair_db') ?>"><?php _e( 'Repair and Optimize Database' ); ?></a></p>
 <?php
 }

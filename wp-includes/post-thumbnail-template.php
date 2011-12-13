@@ -39,7 +39,7 @@ function get_post_thumbnail_id( $post_id = null ) {
  *
  * @since 2.9.0
  *
- * @param int $size Optional. Image size.  Defaults to 'post-thumbnail', which theme sets using set_post_thumbnail_size( $width, $height, $crop_flag );.
+ * @param int $size Optional. Image size. Defaults to 'post-thumbnail', which theme sets using set_post_thumbnail_size( $width, $height, $crop_flag );.
  * @param string|array $attr Optional. Query string or array of attributes.
  */
 function the_post_thumbnail( $size = 'post-thumbnail', $attr = '' ) {
@@ -82,7 +82,7 @@ function update_post_thumbnail_cache() {
  * @since 2.9.0
  *
  * @param int $post_id Optional. Post ID.
- * @param string $size Optional. Image size.  Defaults to 'thumbnail'.
+ * @param string $size Optional. Image size. Defaults to 'thumbnail'.
  * @param string|array $attr Optional. Query string or array of attributes.
  */
 function get_the_post_thumbnail( $post_id = null, $size = 'post-thumbnail', $attr = '' ) {

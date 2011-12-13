@@ -80,7 +80,7 @@ case 'delete':
 	}
 
 	$tag_ID = (int) $_REQUEST['tag_ID'];
-	check_admin_referer( 'delete-tag_' .  $tag_ID );
+	check_admin_referer( 'delete-tag_' . $tag_ID );
 
 	if ( !current_user_can( $tax->cap->delete_terms ) )
 		wp_die( __( 'Cheatin&#8217; uh?' ) );

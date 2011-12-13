@@ -197,7 +197,7 @@ function wp_remote_retrieve_body(&$response) {
  * @since 3.2.0
  *
  * @param array  $capabilities Array of capabilities to test or a wp_remote_request() $args array.
- * @param string $url Optional.  If given, will check if the URL requires SSL and adds that requirement to the capabilities array.
+ * @param string $url Optional. If given, will check if the URL requires SSL and adds that requirement to the capabilities array.
  *
  * @return bool
  */

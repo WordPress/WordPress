@@ -58,8 +58,8 @@ function wp_install( $blog_title, $user_name, $user_email, $public, $deprecated 
 	if ( ! $public )
 		update_option('default_pingback_flag', 0);
 
-	// Create default user.  If the user already exists, the user tables are
-	// being shared among blogs.  Just set the role in that case.
+	// Create default user. If the user already exists, the user tables are
+	// being shared among blogs. Just set the role in that case.
 	$user_id = username_exists($user_name);
 	$user_password = trim($user_password);
 	$email_password = false;
@@ -358,7 +358,7 @@ function wp_upgrade() {
 
 	$wp_current_db_version = __get_option('db_version');
 
-	// We are up-to-date.  Nothing to do.
+	// We are up-to-date. Nothing to do.
 	if ( $wp_db_version == $wp_current_db_version )
 		return;
 
@@ -394,7 +394,7 @@ function upgrade_all() {
 	global $wp_current_db_version, $wp_db_version, $wp_rewrite;
 	$wp_current_db_version = __get_option('db_version');
 
-	// We are up-to-date.  Nothing to do.
+	// We are up-to-date. Nothing to do.
 	if ( $wp_db_version == $wp_current_db_version )
 		return;
 
@@ -646,7 +646,7 @@ function upgrade_130() {
 	$active_plugins = __get_option('active_plugins');
 
 	// If plugins are not stored in an array, they're stored in the old
-	// newline separated format.  Convert to new format.
+	// newline separated format. Convert to new format.
 	if ( !is_array( $active_plugins ) ) {
 		$active_plugins = explode("\n", trim($active_plugins));
 		update_option('active_plugins', $active_plugins);
@@ -898,9 +898,9 @@ function upgrade_230() {
 		$wpdb->insert( $wpdb->term_relationships, array('object_id' => $post_id, 'term_taxonomy_id' => $tt_id) );
 	}
 
-	// < 3570 we used linkcategories.  >= 3570 we used categories and link2cat.
+	// < 3570 we used linkcategories. >= 3570 we used categories and link2cat.
 	if ( $wp_current_db_version < 3570 ) {
-		// Create link_category terms for link categories.  Create a map of link cat IDs
+		// Create link_category terms for link categories. Create a map of link cat IDs
 		// to link_category terms.
 		$link_cat_id_map = array();
 		$default_link_cat = 0;
@@ -1690,7 +1690,7 @@ function make_site_theme_from_oldschool($theme_name, $template) {
 		return false;
 
 	// Copy files from the old locations to the site theme.
-	// TODO: This does not copy arbitrary include dependencies.  Only the
+	// TODO: This does not copy arbitrary include dependencies. Only the
 	// standard WP files are copied.
 	$files = array('index.php' => 'index.php', 'wp-layout.css' => 'style.css', 'wp-comments.php' => 'comments.php', 'wp-comments-popup.php' => 'comments-popup.php');
 
@@ -1938,7 +1938,7 @@ function pre_schema_upgrade() {
 
 	// Upgrade versions prior to 2.9
 	if ( $wp_current_db_version < 11557 ) {
-		// Delete duplicate options.  Keep the option with the highest option_id.
+		// Delete duplicate options. Keep the option with the highest option_id.
 		$wpdb->query("DELETE o1 FROM $wpdb->options AS o1 JOIN $wpdb->options AS o2 USING (`option_name`) WHERE o2.option_id > o1.option_id");
 
 		// Drop the old primary key and add the new.

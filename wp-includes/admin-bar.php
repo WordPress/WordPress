@@ -680,7 +680,7 @@ function _admin_bar_bump_cb() { ?>
 /**
  * Set the display status of the admin bar.
  *
- * This can be called immediately upon plugin load.  It does not need to be called from a function hooked to the init action.
+ * This can be called immediately upon plugin load. It does not need to be called from a function hooked to the init action.
  *
  * @since 3.1.0
  *

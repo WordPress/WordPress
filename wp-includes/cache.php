@@ -51,7 +51,7 @@ function wp_cache_close() {
  * @see WP_Object_Cache::decr()
  *
  * @param int|string $key The cache key to increment
- * @param int $offset The amount by which to decrement the item's value.  Default is 1.
+ * @param int $offset The amount by which to decrement the item's value. Default is 1.
  * @param string $group The group the key is in.
  * @return false|int False on failure, the item's new value on success.
  */
@@ -120,7 +120,7 @@ function wp_cache_get( $key, $group = '', $force = false ) {
  * @see WP_Object_Cache::incr()
  *
  * @param int|string $key The cache key to increment
- * @param int $offset The amount by which to increment the item's value.  Default is 1.
+ * @param int $offset The amount by which to increment the item's value. Default is 1.
  * @param string $group The group the key is in.
  * @return false|int False on failure, the item's new value on success.
  */
@@ -204,7 +204,7 @@ function wp_cache_add_non_persistent_groups( $groups ) {
 }
 
 /**
- * Reset internal cache keys and structures.  If the cache backend uses global blog or site IDs as part of its cache keys,
+ * Reset internal cache keys and structures. If the cache backend uses global blog or site IDs as part of its cache keys,
  * this function instructs the backend to reset those keys and perform any cleanup since blog or site IDs have changed since cache init.
  *
  * @since 2.6.0
@@ -317,7 +317,7 @@ class WP_Object_Cache {
 	 * @since 3.3.0
 	 *
 	 * @param int|string $key The cache key to increment
-	 * @param int $offset The amount by which to decrement the item's value.  Default is 1.
+	 * @param int $offset The amount by which to decrement the item's value. Default is 1.
 	 * @param string $group The group the key is in.
 	 * @return false|int False on failure, the item's new value on success.
 	 */
@@ -416,7 +416,7 @@ class WP_Object_Cache {
 	 * @since 3.3.0
 	 *
 	 * @param int|string $key The cache key to increment
-	 * @param int $offset The amount by which to increment the item's value.  Default is 1.
+	 * @param int $offset The amount by which to increment the item's value. Default is 1.
 	 * @param string $group The group the key is in.
 	 * @return false|int False on failure, the item's new value on success.
 	 */

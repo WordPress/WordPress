@@ -828,7 +828,7 @@ function update_user_meta($user_id, $meta_key, $meta_value, $prev_value = '') {
  * Count number of users who have each of the user roles.
  *
  * Assumes there are neither duplicated nor orphaned capabilities meta_values.
- * Assumes role names are unique phrases.  Same assumption made by WP_User_Query::prepare_query()
+ * Assumes role names are unique phrases. Same assumption made by WP_User_Query::prepare_query()
  * Using $strategy = 'time' this is CPU-intensive and should handle around 10^7 users.
  * Using $strategy = 'memory' this is memory-intensive and should handle around 10^5 users, but see WP Bug #12257.
  *
@@ -973,7 +973,7 @@ function setup_userdata($for_user_id = '') {
  * <li>id - Default is the value of the 'name' parameter. ID attribute of select element.</li>
  * <li>class - Class attribute of select element.</li>
  * <li>blog_id - ID of blog (Multisite only). Defaults to ID of current blog.</li>
- * <li>who - Which users to query.  Currently only 'authors' is supported. Default is all users.</li>
+ * <li>who - Which users to query. Currently only 'authors' is supported. Default is all users.</li>
  * </ol>
  *
  * @since 2.3.0

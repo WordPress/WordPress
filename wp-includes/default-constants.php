@@ -105,7 +105,7 @@ function wp_plugin_directory_constants( ) {
 	 * @deprecated
 	 */
 	if ( !defined('PLUGINDIR') )
-		define( 'PLUGINDIR', 'wp-content/plugins' ); // Relative to ABSPATH.  For back compat.
+		define( 'PLUGINDIR', 'wp-content/plugins' ); // Relative to ABSPATH. For back compat.
 
 	/**
 	 * Allows for the mu-plugins directory to be moved from the default location.
@@ -130,7 +130,7 @@ function wp_plugin_directory_constants( ) {
 	 * @deprecated
 	 */
 	if ( !defined( 'MUPLUGINDIR' ) )
-		define( 'MUPLUGINDIR', 'wp-content/mu-plugins' ); // Relative to ABSPATH.  For back compat.
+		define( 'MUPLUGINDIR', 'wp-content/mu-plugins' ); // Relative to ABSPATH. For back compat.
 }
 
 /**

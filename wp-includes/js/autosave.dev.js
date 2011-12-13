@@ -229,7 +229,7 @@ function autosave_enable_buttons() {
 
 function autosave_disable_buttons() {
 	jQuery(':button, :submit', '#submitpost').prop('disabled', true);
-	// Re-enable 5 sec later.  Just gives autosave a head start to avoid collisions.
+	// Re-enable 5 sec later. Just gives autosave a head start to avoid collisions.
 	setTimeout(autosave_enable_buttons, 5000);
 }
 

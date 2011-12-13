@@ -393,9 +393,9 @@ function get_themes() {
 		if ( empty($stylesheet_dir) )
 			$stylesheet_dir = '/';
 
-		// Check for theme name collision.  This occurs if a theme is copied to
-		// a new theme directory and the theme header is not updated.  Whichever
-		// theme is first keeps the name.  Subsequent themes get a suffix applied.
+		// Check for theme name collision. This occurs if a theme is copied to
+		// a new theme directory and the theme header is not updated. Whichever
+		// theme is first keeps the name. Subsequent themes get a suffix applied.
 		// The Twenty Eleven, Twenty Ten, Default and Classic themes always trump
 		// their pretenders.
 		if ( isset($wp_themes[$name]) ) {
@@ -1942,7 +1942,7 @@ function current_theme_supports( $feature ) {
 	switch ( $feature ) {
 		case 'post-thumbnails':
 			// post-thumbnails can be registered for only certain content/post types by passing
-			// an array of types to add_theme_support().  If no array was passed, then
+			// an array of types to add_theme_support(). If no array was passed, then
 			// any type is accepted
 			if ( true === $_wp_theme_features[$feature] )  // Registered for all types
 				return true;

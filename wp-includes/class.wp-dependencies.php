@@ -28,7 +28,7 @@ class WP_Dependencies {
 	/**
 	 * Do the dependencies
 	 *
-	 * Process the items passed to it or the queue.  Processes all dependencies.
+	 * Process the items passed to it or the queue. Processes all dependencies.
 	 *
 	 * @param mixed $handles (optional) items to be processed. (void) processes queue, (string) process that item, (array of strings) process those items
 	 * @return array Items that have been processed
@@ -63,7 +63,7 @@ class WP_Dependencies {
 	/**
 	 * Determines dependencies
 	 *
-	 * Recursively builds array of items to process taking dependencies into account.  Does NOT catch infinite loops.
+	 * Recursively builds array of items to process taking dependencies into account. Does NOT catch infinite loops.
 	 *
 	 *
 	 * @param mixed $handles Accepts (string) dep name or (array of strings) dep names
@@ -90,7 +90,7 @@ class WP_Dependencies {
 			if ( !isset($this->registered[$handle]) )
 				$keep_going = false; // Script doesn't exist
 			elseif ( $this->registered[$handle]->deps && array_diff($this->registered[$handle]->deps, array_keys($this->registered)) )
-				$keep_going = false; // Script requires deps which don't exist (not a necessary check.  efficiency?)
+				$keep_going = false; // Script requires deps which don't exist (not a necessary check. efficiency?)
 			elseif ( $this->registered[$handle]->deps && !$this->all_deps( $this->registered[$handle]->deps, true, $group ) )
 				$keep_going = false; // Script requires deps which don't exist
 
@@ -98,7 +98,7 @@ class WP_Dependencies {
 				if ( $recursion )
 					return false; // Abort this branch.
 				else
-					continue; // We're at the top level.  Move on to the next one.
+					continue; // We're at the top level. Move on to the next one.
 			}
 
 			if ( $queued ) // Already grobbed it and its deps

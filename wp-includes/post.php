@@ -493,7 +493,7 @@ function get_post_mime_type($ID = '') {
  *
  * @param int|object $post A post
  *
- * @return mixed The format if successful. False if no format is set.  WP_Error if errors.
+ * @return mixed The format if successful. False if no format is set. WP_Error if errors.
  */
 function get_post_format( $post = null ) {
 	$post = get_post($post);
@@ -531,7 +531,7 @@ function has_post_format( $format, $post = null ) {
  * @since 3.1.0
  *
  * @param int|object $post The post for which to assign a format
- * @param string $format  A format to assign.  Use an empty string or array to remove all formats from the post.
+ * @param string $format  A format to assign. Use an empty string or array to remove all formats from the post.
  * @return mixed WP_Error on error. Array of affected term IDs on success.
  */
 function set_post_format( $post, $format ) {
@@ -887,7 +887,7 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  * - supports - An alias for calling add_post_type_support() directly. See {@link add_post_type_support()}
  *     for documentation. Defaults to none.
  * - register_meta_box_cb - Provide a callback function that will be called when setting up the
- *     meta boxes for the edit form.  Do remove_meta_box() and add_meta_box() calls in the callback.
+ *     meta boxes for the edit form. Do remove_meta_box() and add_meta_box() calls in the callback.
  * - taxonomies - An array of taxonomy identifiers that will be registered for the post type.
  *     Default is no taxonomies. Taxonomies can be registered later with register_taxonomy() or
  *     register_taxonomy_for_object_type().
@@ -952,7 +952,7 @@ function register_post_type($post_type, $args = array()) {
 	if ( null === $args->show_in_admin_bar )
 		$args->show_in_admin_bar = true === $args->show_in_menu;
 
-	// Whether to show this type in nav-menus.php.  Defaults to the setting for public.
+	// Whether to show this type in nav-menus.php. Defaults to the setting for public.
 	if ( null === $args->show_in_nav_menus )
 		$args->show_in_nav_menus = $args->public;
 
@@ -2005,9 +2005,9 @@ function wp_delete_post( $postid = 0, $force_delete = false ) {
 		unstick_post($postid);
 	}
 
-	// Do raw query.  wp_get_post_revisions() is filtered
+	// Do raw query. wp_get_post_revisions() is filtered
 	$revision_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_parent = %d AND post_type = 'revision'", $postid ) );
-	// Use wp_delete_post (via wp_delete_post_revision) again.  Ensures any meta/misplaced data gets cleaned up.
+	// Use wp_delete_post (via wp_delete_post_revision) again. Ensures any meta/misplaced data gets cleaned up.
 	foreach ( $revision_ids as $revision_id )
 		wp_delete_post_revision( $revision_id );
 
@@ -2482,7 +2482,7 @@ function wp_insert_post($postarr, $wp_error = false) {
 	if ( 'pending' == $post_status && !current_user_can( 'publish_posts' ) )
 		$post_name = '';
 
-	// Create a valid post name.  Drafts and pending posts are allowed to have an empty
+	// Create a valid post name. Drafts and pending posts are allowed to have an empty
 	// post name.
 	if ( empty($post_name) ) {
 		if ( !in_array( $post_status, array( 'draft', 'pending', 'auto-draft' ) ) )
@@ -4150,8 +4150,8 @@ function get_private_posts_cap_sql( $post_type ) {
  *
  * @since 3.0.0
  * @param string $post_type Post type.
- * @param bool $full Optional.  Returns a full WHERE statement instead of just an 'andalso' term.
- * @param int $post_author Optional.  Query posts having a single author ID.
+ * @param bool $full Optional. Returns a full WHERE statement instead of just an 'andalso' term.
+ * @param int $post_author Optional. Query posts having a single author ID.
  * @return string SQL WHERE code that can be added to a query.
  */
 function get_posts_by_author_sql( $post_type, $full = true, $post_author = null ) {
@@ -4902,7 +4902,7 @@ function _wp_put_post_revision( $post = null, $autosave = false ) {
  *
  * @param int|object $post Post ID or post object
  * @param string $output Optional. OBJECT, ARRAY_A, or ARRAY_N.
- * @param string $filter Optional sanitation filter.  @see sanitize_post()
+ * @param string $filter Optional sanitation filter. @see sanitize_post()
  * @return mixed Null if error or post object if success
  */
 function &wp_get_post_revision(&$post, $output = OBJECT, $filter = 'raw') {
@@ -5110,7 +5110,7 @@ function wp_check_post_hierarchy_for_loops( $post_parent, $post_ID ) {
 	if ( isset( $loop[$post_ID] ) )
 		return 0;
 
-	// There's a loop, but it doesn't contain $post_ID.  Break the loop.
+	// There's a loop, but it doesn't contain $post_ID. Break the loop.
 	foreach ( array_keys( $loop ) as $loop_member )
 		wp_update_post( array( 'ID' => $loop_member, 'post_parent' => 0 ) );
 

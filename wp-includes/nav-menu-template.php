@@ -113,7 +113,7 @@ class Walker_Nav_Menu extends Walker {
  *
  * Optional $args contents:
  *
- * menu - The menu that is desired.  Accepts (matching in order) id, slug, name. Defaults to blank.
+ * menu - The menu that is desired. Accepts (matching in order) id, slug, name. Defaults to blank.
  * menu_class - CSS class to use for the ul element which forms the menu. Defaults to 'menu'.
  * menu_id - The ID that is applied to the ul element which forms the menu. Defaults to the menu slug, incremented.
  * container - Whether to wrap the ul, and what to wrap it with. Defaults to 'div'.
@@ -125,9 +125,9 @@ class Walker_Nav_Menu extends Walker {
  * link_before - Text before the link.
  * link_after - Text after the link.
  * echo - Whether to echo the menu or return it. Defaults to echo.
- * depth - how many levels of the hierarchy are to be included.  0 means all.  Defaults to 0.
+ * depth - how many levels of the hierarchy are to be included. 0 means all. Defaults to 0.
  * walker - allows a custom walker to be specified.
- * theme_location - the location in the theme to be used.  Must be registered with register_nav_menu() in order to be selectable by the user.
+ * theme_location - the location in the theme to be used. Must be registered with register_nav_menu() in order to be selectable by the user.
  * items_wrap - How the list items should be wrapped. Defaults to a ul with an id and class. Uses printf() format with numbered placeholders.
  *
  * @since 3.0.0

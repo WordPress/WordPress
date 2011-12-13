@@ -1189,11 +1189,11 @@ class WP_Rewrite {
 		$feedregex2 = '';
 		foreach ( (array) $this->feeds as $feed_name)
 			$feedregex2 .= $feed_name . '|';
-		$feedregex2 = '(' . trim($feedregex2, '|') .  ')/?$';
+		$feedregex2 = '(' . trim($feedregex2, '|') . ')/?$';
 
 		//$feedregex is identical but with /feed/ added on as well, so URLs like <permalink>/feed/atom
 		//and <permalink>/atom are both possible
-		$feedregex = $this->feed_base  . '/' . $feedregex2;
+		$feedregex = $this->feed_base . '/' . $feedregex2;
 
 		//build a regex to match the trackback and page/xx parts of URLs
 		$trackbackregex = 'trackback/?$';

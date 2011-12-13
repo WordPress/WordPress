@@ -205,7 +205,7 @@ function wp_read_image_metadata( $file ) {
 
 	// exif contains a bunch of data we'll probably never need formatted in ways
 	// that are difficult to use. We'll normalize it and just extract the fields
-	// that are likely to be useful.  Fractions and numbers are converted to
+	// that are likely to be useful. Fractions and numbers are converted to
 	// floats, dates to unix timestamps, and everything else to strings.
 	$meta = array(
 		'aperture' => 0,

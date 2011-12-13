@@ -2080,7 +2080,7 @@ function wp_admin_css_uri( $file = 'wp-admin' ) {
  *
  * @param string $file Optional. Style handle name or file name (without ".css" extension) relative
  * 	 to wp-admin/. Defaults to 'wp-admin'.
- * @param bool $force_echo Optional.  Force the stylesheet link to be printed rather than enqueued.
+ * @param bool $force_echo Optional. Force the stylesheet link to be printed rather than enqueued.
  */
 function wp_admin_css( $file = 'wp-admin', $force_echo = false ) {
 	global $wp_styles;
@@ -2091,7 +2091,7 @@ function wp_admin_css( $file = 'wp-admin', $force_echo = false ) {
 	$handle = 0 === strpos( $file, 'css/' ) ? substr( $file, 4 ) : $file;
 
 	if ( $wp_styles->query( $handle ) ) {
-		if ( $force_echo || did_action( 'wp_print_styles' ) ) // we already printed the style queue.  Print this one immediately
+		if ( $force_echo || did_action( 'wp_print_styles' ) ) // we already printed the style queue. Print this one immediately
 			wp_print_styles( $handle );
 		else // Add to style queue
 			wp_enqueue_style( $handle );

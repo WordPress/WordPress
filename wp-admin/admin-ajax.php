@@ -970,7 +970,7 @@ case 'autosave' : // The name of this action is hardcoded in edit_post()
 		// Drafts and auto-drafts are just overwritten by autosave
 		if ( 'auto-draft' == $post->post_status || 'draft' == $post->post_status ) {
 			$id = edit_post();
-		} else { // Non drafts are not overwritten.  The autosave is stored in a special post revision.
+		} else { // Non drafts are not overwritten. The autosave is stored in a special post revision.
 			$revision_id = wp_create_post_autosave( $post->ID );
 			if ( is_wp_error($revision_id) )
 				$id = $revision_id;

@@ -1905,7 +1905,7 @@ function is_blog_installed() {
 
 	$suppress = $wpdb->suppress_errors();
 
-	// Loop over the WP tables.  If none exist, then scratch install is allowed.
+	// Loop over the WP tables. If none exist, then scratch install is allowed.
 	// If one or more exist, suggest table repair since we got here because the options
 	// table could not be accessed.
 	$wp_tables = $wpdb->tables();
@@ -1922,7 +1922,7 @@ function is_blog_installed() {
 		// One or more tables exist. We are insane.
 
 		// Die with a DB error.
-		$wpdb->error = sprintf( /*WP_I18N_NO_TABLES*/'One or more database tables are unavailable.  The database may need to be <a href="%s">repaired</a>.'/*/WP_I18N_NO_TABLES*/, 'maint/repair.php?referrer=is_blog_installed' );
+		$wpdb->error = sprintf( /*WP_I18N_NO_TABLES*/'One or more database tables are unavailable. The database may need to be <a href="%s">repaired</a>.'/*/WP_I18N_NO_TABLES*/, 'maint/repair.php?referrer=is_blog_installed' );
 		dead_db();
 	}
 
@@ -3785,8 +3785,8 @@ function wp_suspend_cache_addition( $suspend = null ) {
 /**
  * Suspend cache invalidation.
  *
- * Turns cache invalidation on and off.  Useful during imports where you don't wont to do invalidations
- * every time a post is inserted.  Callers must be sure that what they are doing won't lead to an inconsistent
+ * Turns cache invalidation on and off. Useful during imports where you don't wont to do invalidations
+ * every time a post is inserted. Callers must be sure that what they are doing won't lead to an inconsistent
  * cache when invalidation is suspended.
  *
  * @since 2.7.0

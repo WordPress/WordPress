@@ -207,7 +207,7 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 		if ( ! $overwrite && $this->exists($destination) )
 			return false;
 
-		// try using rename first.  if that fails (for example, source is read only) try copy
+		// try using rename first. if that fails (for example, source is read only) try copy
 		if ( @rename($source, $destination) )
 			return true;
 
