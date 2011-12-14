@@ -432,7 +432,7 @@ var photostorage = false;
 			show('video');
 		<?php } elseif ( preg_match("/vimeo\.com\/[0-9]+/i", $url) ) { ?>
 			show('video');
-		<?php  } elseif ( preg_match("/flickr\.com/i", $url) ) { ?>
+		<?php } elseif ( preg_match("/flickr\.com/i", $url) ) { ?>
 			show('photo');
 		<?php } ?>
 		jQuery('#title').unbind();
@@ -605,7 +605,7 @@ var photostorage = false;
 
 		$content = '';
 		if ( $selection )
-			$content .=  $selection;
+			$content .= $selection;
 
 		if ( $url ) {
 			$content .= '<p>';

@@ -59,7 +59,7 @@ if ( !defined('WP_ALLOW_REPAIR') ) {
 				printf( __( 'Successfully repaired the %s table.' ), $table );
 			} else {
 				/* translators: 1: table name, 2: error message, */
-				echo sprintf( __( 'Failed to repair the  %1$s table. Error: %2$s' ), $table, "<code>$check->Msg_text</code>" ) . '<br />';
+				echo sprintf( __( 'Failed to repair the %1$s table. Error: %2$s' ), $table, "<code>$check->Msg_text</code>" ) . '<br />';
 				$problems[$table] = $check->Msg_text;
 				$okay = false;
 			}

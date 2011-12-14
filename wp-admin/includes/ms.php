@@ -115,7 +115,7 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
 			$index++;
 		}
 
-		$stack = array_reverse( $stack );  // Last added dirs are deepest
+		$stack = array_reverse( $stack ); // Last added dirs are deepest
 		foreach( (array) $stack as $dir ) {
 			if ( $dir != $top_dir)
 			@rmdir( $dir );
@@ -430,7 +430,7 @@ add_action( 'wpmueditblogaction', 'upload_space_setting' );
 function update_user_status( $id, $pref, $value, $deprecated = null ) {
 	global $wpdb;
 
-	if ( null !== $deprecated  )
+	if ( null !== $deprecated )
 		_deprecated_argument( __FUNCTION__, '3.1' );
 
 	$wpdb->update( $wpdb->users, array( $pref => $value ), array( 'ID' => $id ) );
@@ -549,7 +549,7 @@ function mu_dropdown_languages( $lang_files = array(), $current = '' ) {
 			$output[$be] = '<option value="' . esc_attr( $code_lang ) . '"' . selected( $current, $code_lang, false ) . '> ' . $be . '</option>';
 		} else {
 			$translated = format_code_lang( $code_lang );
-			$output[$translated] =  '<option value="' . esc_attr( $code_lang ) . '"' . selected( $current, $code_lang, false ) . '> ' . esc_html ( $translated ) . '</option>';
+			$output[$translated] = '<option value="' . esc_attr( $code_lang ) . '"' . selected( $current, $code_lang, false ) . '> ' . esc_html ( $translated ) . '</option>';
 		}
 
 	}
@@ -634,7 +634,7 @@ function choose_primary_blog() {
 				<?php foreach( (array) $all_blogs as $blog ) {
 					if ( $primary_blog == $blog->userblog_id )
 						$found = true;
-					?><option value="<?php echo $blog->userblog_id ?>"<?php selected( $primary_blog,  $blog->userblog_id ); ?>><?php echo esc_url( get_home_url( $blog->userblog_id ) ) ?></option><?php
+					?><option value="<?php echo $blog->userblog_id ?>"<?php selected( $primary_blog, $blog->userblog_id ); ?>><?php echo esc_url( get_home_url( $blog->userblog_id ) ) ?></option><?php
 				} ?>
 			</select>
 			<?php
@@ -771,7 +771,7 @@ var tb_closeImage = "../../wp-includes/js/thickbox/tb-close.png";
  * Whether or not we have a large network.
  *
  * The default criteria for a large network is either more than 10,000 users or more than 10,000 sites.
- * Plugins can alter this criteria  using the 'wp_is_large_network' filter.
+ * Plugins can alter this criteria using the 'wp_is_large_network' filter.
  *
  * @since 3.3.0
  * @param string $using 'sites or 'users'. Default is 'sites'.

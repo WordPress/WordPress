@@ -322,7 +322,7 @@ function install_plugin_information() {
 <?php endif; if ( ! empty($api->slug) && empty($api->external) ) : ?>
 			<li><a target="_blank" href="http://wordpress.org/extend/plugins/<?php echo $api->slug ?>/"><?php _e('WordPress.org Plugin Page &#187;') ?></a></li>
 <?php endif; if ( ! empty($api->homepage) ) : ?>
-			<li><a target="_blank" href="<?php echo $api->homepage ?>"><?php _e('Plugin Homepage  &#187;') ?></a></li>
+			<li><a target="_blank" href="<?php echo $api->homepage ?>"><?php _e('Plugin Homepage &#187;') ?></a></li>
 <?php endif; ?>
 		</ul>
 		<?php if ( ! empty($api->rating) ) : ?>

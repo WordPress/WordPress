@@ -56,7 +56,7 @@ if ( $update_data['counts']['total'] ) {
 
 unset($update_data);
 
-$submenu[ 'upgrade.php' ][10] = array( __( 'Available Updates' ), 'update_core',  'update-core.php' );
+$submenu[ 'upgrade.php' ][10] = array( __( 'Available Updates' ), 'update_core', 'update-core.php' );
 $submenu[ 'upgrade.php' ][15] = array( __( 'Update Network' ), 'manage_network', 'upgrade.php' );
 
 $menu[99] = array( '', 'read', 'separator-last', '', 'wp-menu-separator-last' );

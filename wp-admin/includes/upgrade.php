@@ -74,7 +74,7 @@ function wp_install( $blog_title, $user_name, $user_email, $public, $deprecated 
 		$message = '<em>'.__('Your chosen password.').'</em>';
 		$user_id = wp_create_user($user_name, $user_password, $user_email);
 	} else {
-		$message =  __('User already exists. Password inherited.');
+		$message = __('User already exists. Password inherited.');
 	}
 
 	$user = new WP_User($user_id);
@@ -1667,7 +1667,7 @@ function make_db_current( $tables = 'all' ) {
  *
  * @since 1.5.0
  */
-function make_db_current_silent(  $tables = 'all' ) {
+function make_db_current_silent( $tables = 'all' ) {
 	$alterations = dbDelta( $tables );
 }
 
@@ -1848,12 +1848,12 @@ function make_site_theme() {
 
 	if (file_exists(ABSPATH . 'wp-layout.css')) {
 		if (! make_site_theme_from_oldschool($theme_name, $template)) {
-			// TODO:  rm -rf the site theme directory.
+			// TODO: rm -rf the site theme directory.
 			return false;
 		}
 	} else {
 		if (! make_site_theme_from_default($theme_name, $template))
-			// TODO:  rm -rf the site theme directory.
+			// TODO: rm -rf the site theme directory.
 			return false;
 	}
 

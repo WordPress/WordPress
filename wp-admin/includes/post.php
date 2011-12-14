@@ -171,7 +171,7 @@ function edit_post( $post_data = null ) {
 	$post_data = _wp_translate_postdata( true, $post_data );
 	if ( is_wp_error($post_data) )
 		wp_die( $post_data->get_error_message() );
-	if ( 'autosave' != $post_data['action']  && 'auto-draft' == $post_data['post_status'] )
+	if ( 'autosave' != $post_data['action'] && 'auto-draft' == $post_data['post_status'] )
 		$post_data['post_status'] = 'draft';
 
 	if ( isset($post_data['visibility']) ) {
@@ -352,7 +352,7 @@ function bulk_edit_posts( $post_data = null ) {
 		$tax_names = get_object_taxonomies( $post );
 		foreach ( $tax_names as $tax_name ) {
 			$taxonomy_obj = get_taxonomy($tax_name);
-			if (  isset( $tax_input[$tax_name]) && current_user_can( $taxonomy_obj->cap->assign_terms ) )
+			if ( isset( $tax_input[$tax_name]) && current_user_can( $taxonomy_obj->cap->assign_terms ) )
 				$new_terms = $tax_input[$tax_name];
 			else
 				$new_terms = array();

@@ -271,7 +271,7 @@ function theme_update_available( $theme ) {
  *
  * @since 3.1.0
  *
- * @return array  Array of features keyed by category with translations keyed by slug.
+ * @return array Array of features keyed by category with translations keyed by slug.
  */
 function get_theme_feature_list() {
 	// Hard-coded list is used if api not accessible.
@@ -340,7 +340,7 @@ function get_theme_feature_list() {
 		return $features;
 
 	if ( !$feature_list = get_site_transient( 'wporg_theme_feature_list' ) )
-		set_site_transient( 'wporg_theme_feature_list', array( ),  10800);
+		set_site_transient( 'wporg_theme_feature_list', array( ), 10800);
 
 	if ( !$feature_list ) {
 		$feature_list = themes_api( 'feature_list', array( ) );

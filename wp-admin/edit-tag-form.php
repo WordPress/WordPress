@@ -24,7 +24,7 @@ elseif ( 'link_category' == $taxonomy )
 else
 	do_action('edit_tag_form_pre', $tag);
 
-do_action($taxonomy . '_pre_edit_form', $tag, $taxonomy);  ?>
+do_action($taxonomy . '_pre_edit_form', $tag, $taxonomy); ?>
 
 <div class="wrap">
 <?php screen_icon(); ?>

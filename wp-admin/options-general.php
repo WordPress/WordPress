@@ -98,7 +98,7 @@ include('./admin-header.php');
 </tr>
 <tr valign="top">
 <th scope="row"><label for="blogdescription"><?php _e('Tagline') ?></label></th>
-<td><input name="blogdescription" type="text" id="blogdescription"  value="<?php form_option('blogdescription'); ?>" class="regular-text" />
+<td><input name="blogdescription" type="text" id="blogdescription" value="<?php form_option('blogdescription'); ?>" class="regular-text" />
 <span class="description"><?php _e('In a few words, explain what this site is about.') ?></span></td>
 </tr>
 <?php if ( !is_multisite() ) { ?>
@@ -211,7 +211,7 @@ if ( empty($tzstring) ) { // Create a UTC+- zone if no timezone string exists
 			echo ' ';
 			$message = $tr['isdst'] ?
 				__('Daylight saving time begins on: <code>%s</code>.') :
-				__('Standard time begins  on: <code>%s</code>.');
+				__('Standard time begins on: <code>%s</code>.');
 			// Add the difference between the current offset and the new offset to ts to get the correct transition time from date_i18n().
 			printf( $message, date_i18n(get_option('date_format') . ' ' . get_option('time_format'), $tr['ts'] + ($tz_offset - $tr['offset']) ) );
 		} else {

@@ -882,7 +882,7 @@ function add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $func
 
 	$new_menu = array( $menu_title, $capability, $menu_slug, $page_title, 'menu-top ' . $hookname, $hookname, $icon_url );
 
-	if ( null === $position  )
+	if ( null === $position )
 		$menu[] = $new_menu;
 	else
 		$menu[$position] = $new_menu;
@@ -988,7 +988,7 @@ function add_submenu_page( $parent_slug, $page_title, $menu_title, $capability, 
 	// as the first item in the submenu. If the submenu file is the same as the
 	// parent file someone is trying to link back to the parent manually. In
 	// this case, don't automatically add a link back to avoid duplication.
-	if (!isset( $submenu[$parent_slug] ) && $menu_slug != $parent_slug  ) {
+	if (!isset( $submenu[$parent_slug] ) && $menu_slug != $parent_slug ) {
 		foreach ( (array)$menu as $parent_menu ) {
 			if ( $parent_menu[2] == $parent_slug && current_user_can( $parent_menu[1] ) )
 				$submenu[$parent_slug][] = $parent_menu;

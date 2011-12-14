@@ -335,7 +335,7 @@ $_old_files = array(
  * introduced version present here being older than the current installed version.
  *
  * The content of this array should follow the following format:
- *  Filename (relative to wp-content) => Introduced version
+ * Filename (relative to wp-content) => Introduced version
  * Directories should be noted by suffixing it with a trailing slash (/)
  *
  * @since 3.2.0

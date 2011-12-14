@@ -196,7 +196,7 @@ function get_current_screen() {
  * @param mixed $hook_name Optional. The hook name (also known as the hook suffix) used to determine the screen,
  *	or an existing screen object.
  */
-function set_current_screen( $hook_name =  '' ) {
+function set_current_screen( $hook_name = '' ) {
 	WP_Screen::get( $hook_name )->set_current_screen();
 }
 
@@ -817,7 +817,7 @@ final class WP_Screen {
 			</div>
 			<?php endif;
 			if ( ! empty( $columns ) ) : ?>
-			<h5><?php echo ( isset( $columns['_title'] ) ?  $columns['_title'] :  _x('Show on screen', 'Columns') ) ?></h5>
+			<h5><?php echo ( isset( $columns['_title'] ) ? $columns['_title'] : _x('Show on screen', 'Columns') ) ?></h5>
 			<div class="metabox-prefs">
 				<?php
 				$special = array('_title', 'cb', 'comment', 'media', 'name', 'title', 'username', 'blogname');

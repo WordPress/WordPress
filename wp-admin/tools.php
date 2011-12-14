@@ -20,7 +20,7 @@ get_current_screen()->add_help_tab( array(
 	'id'      => 'converter',
 	'title'   => __('Categories and Tags Converter'),
 	'content' => '<p>' . __('Categories have hierarchy, meaning that you can nest sub-categories. Tags do not have hierachy and cannot be nested. Sometimes people start out using one on their posts, then later realize that the other would work better for their content.' ) . '</p>' .
-	'<p>' . __( 'The Categories and Tags Converter link on this screen will take you to the Import screen, where that Converter is one of the plugins you can install. Once that plugin is installed, return to this screen  and the link will take you to a screen where you can choose to convert tags into categories or vice versa.' ) . '</p>',
+	'<p>' . __( 'The Categories and Tags Converter link on this screen will take you to the Import screen, where that Converter is one of the plugins you can install. Once that plugin is installed, return to this screen and the link will take you to a screen where you can choose to convert tags into categories or vice versa.' ) . '</p>',
 ) );
 
 get_current_screen()->set_help_sidebar(

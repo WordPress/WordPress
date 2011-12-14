@@ -24,15 +24,15 @@ $theme_field_defaults = array( 'description' => true, 'sections' => false, 'test
  *
  * @since 2.8.0
  *
- * @deprecated since 3.1.0  Use get_theme_feature_list() instead.
+ * @deprecated since 3.1.0 Use get_theme_feature_list() instead.
  *
  * @return array
  */
 function install_themes_feature_list( ) {
 	if ( !$cache = get_transient( 'wporg_theme_feature_list' ) )
-		set_transient( 'wporg_theme_feature_list', array( ),  10800);
+		set_transient( 'wporg_theme_feature_list', array( ), 10800);
 
-	if ( $cache  )
+	if ( $cache )
 		return $cache;
 
 	$feature_list = themes_api( 'feature_list', array( ) );
@@ -134,7 +134,7 @@ function display_theme($theme, $actions = null, $show_details = true) {
 	$name = wp_kses($theme->name, $themes_allowedtags);
 	$desc = wp_kses($theme->description, $themes_allowedtags);
 	//if ( strlen($desc) > 30 )
-	//	$desc =  substr($desc, 0, 15) . '<span class="dots">...</span><span>' . substr($desc, -15) . '</span>';
+	//	$desc = substr($desc, 0, 15) . '<span class="dots">...</span><span>' . substr($desc, -15) . '</span>';
 
 	$preview_link = $theme->preview_url . '?TB_iframe=true&amp;width=600&amp;height=400';
 	if ( !is_array($actions) ) {

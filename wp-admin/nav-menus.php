@@ -430,7 +430,7 @@ $_wp_nav_menu_max_depth = 0;
 
 // Calling wp_get_nav_menu_to_edit generates $_wp_nav_menu_max_depth
 if ( is_nav_menu( $nav_menu_selected_id ) )
-	$edit_markup = wp_get_nav_menu_to_edit( $nav_menu_selected_id  );
+	$edit_markup = wp_get_nav_menu_to_edit( $nav_menu_selected_id );
 
 function wp_nav_menu_max_depth($classes) {
 	global $_wp_nav_menu_max_depth;
@@ -545,7 +545,7 @@ require_once( './admin-header.php' );
 							<div class="major-publishing-actions">
 								<label class="menu-name-label howto open-label" for="menu-name">
 									<span><?php _e('Menu Name'); ?></span>
-									<input name="menu-name" id="menu-name" type="text" class="menu-name regular-text menu-item-textbox input-with-default-title" title="<?php esc_attr_e('Enter menu name here'); ?>" value="<?php echo esc_attr( $nav_menu_selected_title  ); ?>" />
+									<input name="menu-name" id="menu-name" type="text" class="menu-name regular-text menu-item-textbox input-with-default-title" title="<?php esc_attr_e('Enter menu name here'); ?>" value="<?php echo esc_attr( $nav_menu_selected_title ); ?>" />
 								</label>
 								<?php if ( !empty( $nav_menu_selected_id ) ) :
 									if ( ! isset( $auto_add ) ) {

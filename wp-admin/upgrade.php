@@ -88,7 +88,7 @@ switch ( $step ) :
 	case 1:
 		wp_upgrade();
 
-			$backto = !empty($_GET['backto']) ? stripslashes( urldecode( $_GET['backto'] ) ) :  __get_option( 'home' ) . '/';
+			$backto = !empty($_GET['backto']) ? stripslashes( urldecode( $_GET['backto'] ) ) : __get_option( 'home' ) . '/';
 			$backto = esc_url( $backto );
 			$backto = wp_validate_redirect($backto, __get_option( 'home' ) . '/');
 ?>

@@ -157,7 +157,7 @@ function list_files( $folder = '', $levels = 100 ) {
  * Please note that the calling function must unlink() this itself.
  *
  * The filename is based off the passed parameter or defaults to the current unix timestamp,
- * while the directory can either be passed as well, or by leaving  it blank, default to a writable temporary directory.
+ * while the directory can either be passed as well, or by leaving it blank, default to a writable temporary directory.
  *
  * @since 2.6.0
  *
@@ -486,7 +486,7 @@ function wp_handle_sideload( &$file, $overrides = false ) {
 
 /**
  * Downloads a url to a local temporary file using the WordPress HTTP Class.
- * Please note, That the calling function must unlink() the  file.
+ * Please note, That the calling function must unlink() the file.
  *
  * @since 2.5.0
  *
@@ -884,7 +884,7 @@ function get_filesystem_method($args = array(), $context = false) {
 }
 
 /**
- * Displays a form to the user to request for their FTP/SSH details in order to  connect to the filesystem.
+ * Displays a form to the user to request for their FTP/SSH details in order to connect to the filesystem.
  * All chosen/entered details are saved, Excluding the Password.
  *
  * Hostnames may be in the form of hostname:portnumber (eg: wordpress.org:2467) to specify an alternate FTP/SSH port.
@@ -896,7 +896,7 @@ function get_filesystem_method($args = array(), $context = false) {
  * @param string $form_post the URL to post the form to
  * @param string $type the chosen Filesystem method in use
  * @param boolean $error if the current request has failed to connect
- * @param string $context The directory which is needed access to, The write-test will be performed on  this directory by get_filesystem_method()
+ * @param string $context The directory which is needed access to, The write-test will be performed on this directory by get_filesystem_method()
  * @param string $extra_fields Extra POST fields which should be checked for to be included in the post.
  * @return boolean False on failure. True on success.
  */

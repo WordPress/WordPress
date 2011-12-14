@@ -7,7 +7,7 @@
  * @since 3.0.0
  * @uses Walker_Nav_Menu
  */
-class Walker_Nav_Menu_Edit extends Walker_Nav_Menu  {
+class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 	/**
 	 * @see Walker_Nav_Menu::start_lvl()
 	 * @since 3.0.0
@@ -209,7 +209,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu  {
  * @since 3.0.0
  * @uses Walker_Nav_Menu
  */
-class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu  {
+class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu {
 	function __construct( $fields = false ) {
 		if ( $fields ) {
 			$this->db_fields = $fields;
@@ -990,7 +990,7 @@ function wp_save_nav_menu_items( $menu_id = 0, $menu_data = array() ) {
 				(
 					! isset( $_item_object_data['menu-item-type'] ) || // and item type either isn't set
 					in_array( $_item_object_data['menu-item-url'], array( 'http://', '' ) ) || // or URL is the default
-					! ( 'custom' == $_item_object_data['menu-item-type'] && ! isset( $_item_object_data['menu-item-db-id'] ) ) ||  // or it's not a custom menu item (but not the custom home page)
+					! ( 'custom' == $_item_object_data['menu-item-type'] && ! isset( $_item_object_data['menu-item-db-id'] ) ) || // or it's not a custom menu item (but not the custom home page)
 					! empty( $_item_object_data['menu-item-db-id'] ) // or it *is* a custom menu item that already exists
 				)
 			) {

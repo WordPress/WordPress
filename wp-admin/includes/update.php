@@ -142,7 +142,7 @@ function update_right_now_message() {
 	if ( current_user_can('update_core') ) {
 		$cur = get_preferred_from_update_core();
 
-		if ( isset( $cur->response ) && $cur->response == 'upgrade'  )
+		if ( isset( $cur->response ) && $cur->response == 'upgrade' )
 			$msg .= " <a href='" . network_admin_url( 'update-core.php' ) . "' class='button'>" . sprintf( __('Update to %s'), $cur->current ? $cur->current : __( 'Latest' ) ) . '</a>';
 	}
 
