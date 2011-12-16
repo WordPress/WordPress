@@ -1431,8 +1431,6 @@ function &get_terms($taxonomies, $args = '') {
 /**
  * Check if Term exists.
  *
- * Returns the index of a defined term, or 0 (false) if the term doesn't exist.
- *
  * Formerly is_term(), introduced in 2.3.0.
  *
  * @package WordPress
@@ -1444,7 +1442,8 @@ function &get_terms($taxonomies, $args = '') {
  * @param int|string $term The term to check
  * @param string $taxonomy The taxonomy name to use
  * @param int $parent ID of parent term under which to confine the exists search.
- * @return mixed Get the term id or Term Object, if exists.
+ * @return mixed Returns 0 if the term does not exist. Returns the term ID if no taxonomy is specified
+ * 	and the term ID exists. Returns an array of the term ID and the taxonomy if the pairing exists.
  */
 function term_exists($term, $taxonomy = '', $parent = 0) {
 	global $wpdb;
