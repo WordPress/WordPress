@@ -237,7 +237,7 @@ $wp_query =& $wp_the_query;
  * @global object $wp_rewrite
  * @since 1.5.0
  */
-$wp_rewrite = new WP_Rewrite();
+$GLOBALS['wp_rewrite'] = new WP_Rewrite();
 
 /**
  * WordPress Object
