@@ -1629,7 +1629,7 @@ function get_avatar( $id_or_email, $size = '96', $default = '', $alt = false ) {
 	}
 
 	if ( !empty($email) )
-		$email_hash = md5( strtolower( $email ) );
+		$email_hash = md5( strtolower( trim( $email ) ) );
 
 	if ( is_ssl() ) {
 		$host = 'https://secure.gravatar.com';
