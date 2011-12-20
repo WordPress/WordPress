@@ -2369,7 +2369,8 @@ function smilies_init() {
 		      ':-x' => 'icon_mad.gif',
 		      ':-|' => 'icon_neutral.gif',
 		      ';-)' => 'icon_wink.gif',
-		       '8)' => 'icon_cool.gif',
+		// This one transformation breaks regular text with frequency.
+		//     '8)' => 'icon_cool.gif',
 		       '8O' => 'icon_eek.gif',
 		       ':(' => 'icon_sad.gif',
 		       ':)' => 'icon_smile.gif',
