@@ -4,7 +4,7 @@
 * to see if the user's mouse has slowed down (beneath the sensitivity
 * threshold) before firing the onMouseOver event.
 * 
-* hoverIntent r5 // 2007.03.27 // jQuery 1.1.2+
+* hoverIntent r6 // 2011.02.26 // jQuery 1.5.1+
 * <http://cherne.net/brian/resources/jquery.hoverIntent.html>
 * 
 * hoverIntent is currently available for use in all personal or commercial 
@@ -25,7 +25,7 @@
 * 
 * @param  f  onMouseOver function || An object with configuration options
 * @param  g  onMouseOut function  || Nothing (use configuration options object)
-* @author    Brian Cherne <brian@cherne.net>
+* @author    Brian Cherne brian(at)cherne(dot)net
 */
 (function($) {
 	$.fn.hoverIntent = function(f,g) {
@@ -72,40 +72,18 @@
 			ob.hoverIntent_s = 0;
 			return cfg.out.apply(ob,[ev]);
 		};
-		
-		// workaround for Mozilla bug: not firing mouseout/mouseleave on absolute positioned elements over textareas and input type="text"
-		var handleHover = function(e) {
-			var t = this;
-			
-			// next two lines copied from jQuery.hover, ignore children onMouseOver/onMouseOut
-			var p = (e.type == "mouseover" ? e.fromElement : e.toElement) || e.relatedTarget;
-			while ( p && p != this ) { try { p = p.parentNode; } catch(e) { p = this; } }
-			if ( p == this ) {
-				if ( $.browser.mozilla ) {
-					if ( e.type == "mouseout" ) {
-						t.mtout = setTimeout( function(){doHover(e,t);}, 30 );
-					} else {
-						if (t.mtout) { t.mtout = clearTimeout(t.mtout); }
-					}
-				}
-				return;
-			} else {
-				if (t.mtout) { t.mtout = clearTimeout(t.mtout); }
-				doHover(e,t);
-			}
-		};
 
 		// A private function for handling mouse 'hovering'
-		var doHover = function(e,ob) {
-
+		var handleHover = function(e) {
 			// copy objects to be passed into t (required for event object to be passed in IE)
 			var ev = jQuery.extend({},e);
+			var ob = this;
 
 			// cancel hoverIntent timer if it exists
 			if (ob.hoverIntent_t) { ob.hoverIntent_t = clearTimeout(ob.hoverIntent_t); }
 
-			// else e.type == "onmouseover"
-			if (e.type == "mouseover") {
+			// if e.type == "mouseenter"
+			if (e.type == "mouseenter") {
 				// set "previous" X and Y position based on initial entry point
 				pX = ev.pageX; pY = ev.pageY;
 				// update "current" X and Y position based on mousemove
@@ -113,7 +91,7 @@
 				// start polling interval (self-calling timeout) to compare mouse coordinates over time
 				if (ob.hoverIntent_s != 1) { ob.hoverIntent_t = setTimeout( function(){compare(ev,ob);} , cfg.interval );}
 
-			// else e.type == "onmouseout"
+			// else e.type == "mouseleave"
 			} else {
 				// unbind expensive mousemove event
 				$(ob).unbind("mousemove",track);
@@ -123,6 +101,6 @@
 		};
 
 		// bind the function to the two event listeners
-		return this.mouseover(handleHover).mouseout(handleHover);
+		return this.bind('mouseenter',handleHover).bind('mouseleave',handleHover);
 	};
 })(jQuery);
