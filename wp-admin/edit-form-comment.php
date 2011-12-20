@@ -9,17 +9,7 @@
 // don't load directly
 if ( !defined('ABSPATH') )
 	die('-1');
-
-/**
- * @var string
- */
-$submitbutton_text = __('Edit Comment');
-$toprow_title = sprintf(__('Editing Comment # %s'), $comment->comment_ID);
-$form_action = 'editedcomment';
-$form_extra = "' />\n<input type='hidden' name='comment_ID' value='" . esc_attr($comment->comment_ID) . "' />\n<input type='hidden' name='comment_post_ID' value='" . esc_attr($comment->comment_post_ID);
-$comment->comment_author_email = esc_attr($comment->comment_author_email);
 ?>
-
 <form name="post" action="comment.php" method="post" id="post">
 <?php wp_nonce_field('update-comment_' . $comment->comment_ID) ?>
 <div class="wrap">
@@ -27,8 +17,10 @@ $comment->comment_author_email = esc_attr($comment->comment_author_email);
 <h2><?php _e('Edit Comment'); ?></h2>
 
 <div id="poststuff" class="metabox-holder has-right-sidebar">
-<input type="hidden" name="user_ID" value="<?php echo (int) $user_ID ?>" />
-<input type="hidden" name="action" value='<?php echo $form_action . $form_extra ?>' />
+<input type="hidden" name="user_ID" value="<?php echo (int) $user_ID; ?>" />
+<input type="hidden" name="action" value="editedcomment" />
+<input type="hidden" name="comment_ID" value="<?php echo esc_attr( $comment->comment_ID ); ?>"' />
+<input type="hidden" name="comment_post_ID" value="<?php esc_attr( $comment->comment_post_ID ); ?>" />
 
 <div id="side-info-column" class="inner-sidebar">
 <div id="submitdiv" class="stuffbox" >
