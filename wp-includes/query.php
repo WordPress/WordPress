@@ -2683,7 +2683,7 @@ class WP_Query {
 				}
 			}
 
-			if ( $this->is_preview && current_user_can( $edit_cap, $this->posts[0]->ID ) )
+			if ( $this->is_preview && $this->posts && current_user_can( $edit_cap, $this->posts[0]->ID ) )
 				$this->posts[0] = apply_filters_ref_array('the_preview', array( $this->posts[0], &$this ));
 		}
 
