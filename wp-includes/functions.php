@@ -3502,6 +3502,18 @@ function __return_empty_array() {
 }
 
 /**
+ * Returns null.
+ *
+ * Useful for returning null to filters easily.
+ *
+ * @since 3.3.0
+ * @return null
+ */
+function __return_null() {
+	return null;
+}
+
+/**
  * Send a HTTP header to disable content type sniffing in browsers which support it.
  *
  * @link http://blogs.msdn.com/ie/archive/2008/07/02/ie8-security-part-v-comprehensive-protection.aspx
