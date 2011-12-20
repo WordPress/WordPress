@@ -1441,8 +1441,7 @@ class wpdb {
 	 * @return true
 	 */
 	function timer_start() {
-		$mtime            = explode( ' ', microtime() );
-		$this->time_start = $mtime[1] + $mtime[0];
+		$this->time_start = microtime( true );
 		return true;
 	}
 
@@ -1451,13 +1450,10 @@ class wpdb {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @return int Total time spent on the query, in milliseconds
+	 * @return float Total time spent on the query, in seconds
 	 */
 	function timer_stop() {
-		$mtime      = explode( ' ', microtime() );
-		$time_end   = $mtime[1] + $mtime[0];
-		$time_total = $time_end - $this->time_start;
-		return $time_total;
+		return ( microtime( true ) - $this->time_start );
 	}
 
 	/**

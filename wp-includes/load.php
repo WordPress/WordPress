@@ -182,17 +182,16 @@ function wp_maintenance() {
 }
 
 /**
- * PHP 4 standard microtime start capture.
+ * PHP 5 standard microtime start capture.
  *
  * @access private
  * @since 0.71
- * @global int $timestart Seconds and microseconds added together from when function is called.
+ * @global float $timestart Seconds from when function is called.
  * @return bool Always returns true.
  */
 function timer_start() {
 	global $timestart;
-	$mtime = explode( ' ', microtime() );
-	$timestart = $mtime[1] + $mtime[0];
+	$timestart = microtime( true );
 	return true;
 }
 
@@ -213,8 +212,8 @@ function timer_start() {
  * in most cases, you only need to echo it.
  *
  * @since 0.71
- * @global int $timestart Seconds and microseconds added together from when timer_start() is called
- * @global int $timeend Seconds and microseconds added together from when function is called
+ * @global float $timestart Seconds from when timer_start() is called
+ * @global float $timeend Seconds from when function is called
  *
  * @param int $display Use '0' or null to not echo anything and 1 to echo the total time
  * @param int $precision The amount of digits from the right of the decimal to display. Default is 3.
@@ -222,9 +221,7 @@ function timer_start() {
  */
 function timer_stop( $display = 0, $precision = 3 ) { // if called like timer_stop(1), will echo $timetotal
 	global $timestart, $timeend;
-	$mtime = microtime();
-	$mtime = explode( ' ', $mtime );
-	$timeend = $mtime[1] + $mtime[0];
+	$timeend = microtime( true );
 	$timetotal = $timeend - $timestart;
 	$r = ( function_exists( 'number_format_i18n' ) ) ? number_format_i18n( $timetotal, $precision ) : number_format( $timetotal, $precision );
 	if ( $display )
