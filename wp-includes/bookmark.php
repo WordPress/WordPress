@@ -101,9 +101,9 @@ function get_bookmark_field( $field, $bookmark, $context = 'display' ) {
  *		links marked as 'invisible'.
  * 'show_updated' - Default is 0 (integer). Will show the time of when the
  *		bookmark was last updated.
- * 'include' - Default is empty string (string). Include other categories
+ * 'include' - Default is empty string (string). Include bookmark ID(s)
  *		separated by commas.
- * 'exclude' - Default is empty string (string). Exclude other categories
+ * 'exclude' - Default is empty string (string). Exclude bookmark ID(s)
  *		separated by commas.
  *
  * @since 2.1.0
