@@ -3506,7 +3506,7 @@ function __return_empty_array() {
  *
  * Useful for returning null to filters easily.
  *
- * @since 3.3.0
+ * @since 3.4.0
  * @return null
  */
 function __return_null() {
