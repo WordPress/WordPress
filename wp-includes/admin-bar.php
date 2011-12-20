@@ -96,7 +96,7 @@ function wp_admin_bar_wp_menu( $wp_admin_bar ) {
 		'parent'    => 'wp-logo-external',
 		'id'        => 'wporg',
 		'title'     => __('WordPress.org'),
-		'href'      => __('http://wordpress.org'),
+		'href'      => __('http://wordpress.org/'),
 	) );
 
 	// Add codex link
@@ -104,7 +104,7 @@ function wp_admin_bar_wp_menu( $wp_admin_bar ) {
 		'parent'    => 'wp-logo-external',
 		'id'        => 'documentation',
 		'title'     => __('Documentation'),
-		'href'      => __('http://codex.wordpress.org'),
+		'href'      => __('http://codex.wordpress.org/'),
 	) );
 
 	// Add forums link
