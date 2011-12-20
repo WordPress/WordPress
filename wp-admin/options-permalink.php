@@ -148,11 +148,11 @@ if (isset($_POST['submit'])) : ?>
 if ( ! is_multisite() ) {
 	if ( $iis7_permalinks ) {
 		if ( $permalink_structure && ! $usingpi && ! $writable )
-			_e('You should update your web.config now');
+			_e('You should update your web.config now.');
 		else if ( $permalink_structure && ! $usingpi && $writable )
 			_e('Permalink structure updated. Remove write access on web.config file now!');
 		else
-			_e('Permalink structure updated');
+			_e('Permalink structure updated.');
 	} else {
 		if ( $permalink_structure && ! $usingpi && ! $writable )
 			_e('You should update your .htaccess now.');
@@ -226,11 +226,14 @@ $structures = array(
 </table>
 
 <h3><?php _e('Optional'); ?></h3>
-<?php if ( $is_apache || $iis7_permalinks ) : ?>
-	<p><?php _e('If you like, you may enter custom structures for your category and tag <abbr title="Universal Resource Locator">URL</abbr>s here. For example, using <kbd>topics</kbd> as your category base would make your category links like <code>http://example.org/topics/uncategorized/</code>. If you leave these blank the defaults will be used.') ?></p>
-<?php else : ?>
-	<p><?php _e('If you like, you may enter custom structures for your category and tag <abbr title="Universal Resource Locator">URL</abbr>s here. For example, using <code>topics</code> as your category base would make your category links like <code>http://example.org/index.php/topics/uncategorized/</code>. If you leave these blank the defaults will be used.') ?></p>
-<?php endif; ?>
+<?php
+$suffix = '';
+if ( ! $is_apache && ! $iis7_permalinks )
+	$suffix = 'index.php/';
+?>
+<p><?php
+/* translators: %s is a placeholder that must come at the start of the URL path. */
+printf( __('If you like, you may enter custom structures for your category and tag <abbr title="Universal Resource Locator">URL</abbr>s here. For example, using <code>topics</code> as your category base would make your category links like <code>http://example.org/%stopics/uncategorized/</code>. If you leave these blank the defaults will be used.'), $suffix ); ?></p>
 
 <table class="form-table">
 	<tr>
