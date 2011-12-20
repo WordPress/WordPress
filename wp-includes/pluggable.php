@@ -929,7 +929,7 @@ if ( !function_exists('wp_validate_redirect') ) :
  *		WordPress host string and $location host string.
  *
  * @param string $location The redirect to validate
- * @param string $default The value to return is $location is not allowed
+ * @param string $default The value to return if $location is not allowed
  * @return string redirect-sanitized URL
  **/
 function wp_validate_redirect($location, $default = '') {
