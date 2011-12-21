@@ -90,12 +90,7 @@ $commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_emai
 $comment_id = wp_new_comment( $commentdata );
 
 $comment = get_comment($comment_id);
-if ( !$user->ID ) {
-	$comment_cookie_lifetime = apply_filters('comment_cookie_lifetime', 30000000);
-	setcookie('comment_author_' . COOKIEHASH, $comment->comment_author, time() + $comment_cookie_lifetime, COOKIEPATH, COOKIE_DOMAIN);
-	setcookie('comment_author_email_' . COOKIEHASH, $comment->comment_author_email, time() + $comment_cookie_lifetime, COOKIEPATH, COOKIE_DOMAIN);
-	setcookie('comment_author_url_' . COOKIEHASH, esc_url($comment->comment_author_url), time() + $comment_cookie_lifetime, COOKIEPATH, COOKIE_DOMAIN);
-}
+do_action('set_comment_cookies', $comment, $user);
 
 $location = empty($_POST['redirect_to']) ? get_comment_link($comment_id) : $_POST['redirect_to'] . '#comment-' . $comment_id;
 $location = apply_filters('comment_post_redirect', $location, $comment);

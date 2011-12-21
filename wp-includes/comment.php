@@ -570,6 +570,25 @@ function update_comment_meta($comment_id, $meta_key, $meta_value, $prev_value = 
 	return update_metadata('comment', $comment_id, $meta_key, $meta_value, $prev_value);
 }
 
+/**  
+ * Sets the cookies used to store an unauthenticated commentator's identity. Typically used  
+ * to recall previous comments by this commentator that are still held in moderation.  
+ *  
+ * @param object $comment Comment object.
+ * @param object $user Comment author's object.
+ *
+ * @since 3.4.0
+ */  
+function wp_set_comment_cookies($comment, $user) {  
+	if ( $user->ID )
+		return;
+
+	$comment_cookie_lifetime = apply_filters('comment_cookie_lifetime', 30000000);
+	setcookie('comment_author_' . COOKIEHASH, $comment->comment_author, time() + $comment_cookie_lifetime, COOKIEPATH, COOKIE_DOMAIN);
+	setcookie('comment_author_email_' . COOKIEHASH, $comment->comment_author_email, time() + $comment_cookie_lifetime, COOKIEPATH, COOKIE_DOMAIN);
+	setcookie('comment_author_url_' . COOKIEHASH, esc_url($comment->comment_author_url), time() + $comment_cookie_lifetime, COOKIEPATH, COOKIE_DOMAIN);
+}  
+
 /**
  * Sanitizes the cookies sent to the user already.
  *
