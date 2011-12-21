@@ -535,8 +535,6 @@ class WP_Http {
 		else
 			return !in_array( $check['host'], $accessible_hosts ); //Inverse logic, If its in the array, then we can't access it.
 
-
-
 	}
 }
 

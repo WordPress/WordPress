@@ -869,8 +869,6 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 	unset($rss);
 }
 
-
-
 /**
  * Display RSS widget options form.
  *
