@@ -12,6 +12,11 @@
 	text-shadow: #444 0px -1px 0px;
 }
 
+#wpadminbar ul li:before,
+#wpadminbar ul li:after {
+	content: normal;
+}
+
 #wpadminbar a,
 #wpadminbar a:hover,
 #wpadminbar a img,
