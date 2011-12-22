@@ -1749,8 +1749,6 @@ ol.ol-decimal {
 #dashboard_right_now p.sub,
 #dashboard-widgets h4,
 a.rsswidget,
-#dashboard_plugins h4,
-#dashboard_plugins h5,
 #dashboard_recent_comments .comment-meta .approve {
 	font-family: Tahoma, Arial;
 }
@@ -1787,11 +1785,6 @@ a.rsswidget,
 #dashboard_right_now a.button {
 	float: left;
 	clear: left;
-}
-
-#dashboard_plugins .inside span {
-	 padding-left: 0;
-	 padding-right: 5px;
 }
 
 #dashboard-widgets h3 .postbox-title-action {

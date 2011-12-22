@@ -33,7 +33,6 @@ jQuery(document).ready( function($) {
 		'dashboard_incoming_links',
 		'dashboard_primary',
 		'dashboard_secondary',
-		'dashboard_plugins'
 	];
 
 	ajaxPopulateWidgets = function(el) {

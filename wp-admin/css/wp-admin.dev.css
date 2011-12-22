@@ -683,7 +683,6 @@ div.error p {
 
 div.sidebar-name h3,
 #menu-management .nav-tab,
-#dashboard_plugins h5,
 a.rsswidget,
 #dashboard_right_now td.b,
 #dashboard-widgets h4,
@@ -5838,33 +5837,6 @@ a.rsswidget {
 
 .rss-widget cite:before {
 	content: '\2014';
-}
-
-/* Plugins */
-#dashboard_plugins h4 {
-	line-height: 1.7em;
-}
-
-#dashboard_plugins h5 {
-	font-weight: normal;
-	font-size: 13px;
-	margin: 0;
-	display: inline;
-	line-height: 1.4em;
-}
-
-#dashboard_plugins h5 a {
-	line-height: 1.4em;
-}
-
-#dashboard_plugins .inside span {
-	font-size: 12px;
-	padding-left: 5px;
-}
-
-#dashboard_plugins p {
-	margin: 0.3em 0 1.4em;
-	line-height: 1.4em;
 }
 
 .dashboard-comment-wrap {
