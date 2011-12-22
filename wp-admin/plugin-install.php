@@ -46,7 +46,7 @@ get_current_screen()->add_help_tab( array(
 'title'		=> __('Adding Plugins'),
 'content'	=>
 	'<p>' . __('If you know what you&#8217;re looking for, Search is your best bet. The Search screen has options to search the WordPress.org Plugin Directory for a particular Term, Author, or Tag. You can also search the directory by selecting a popular tags. Tags in larger type mean more plugins have been labeled with that tag.') . '</p>' .
-	'<p>' . __('If you just want to get an idea of what&#8217;s available, you can browse Featured, Popular, Newest, and Recently Updated plugins by using the links in the upper left of the screen. These sections rotate regularly.') . '</p>' .
+	'<p>' . __('If you just want to get an idea of what&#8217;s available, you can browse Featured, Popular, and Newest plugins by using the links in the upper left of the screen. These sections rotate regularly.') . '</p>' .
 	'<p>' . __('If you want to install a plugin that you&#8217;ve downloaded elsewhere, click the Upload in the upper left. You will be prompted to upload the .zip package, and once uploaded, you can activate the new plugin.') . '</p>'
 ) );
 

@@ -167,7 +167,6 @@ add_action('install_plugins_search', 'display_plugins_table');
 add_action('install_plugins_featured', 'display_plugins_table');
 add_action('install_plugins_popular', 'display_plugins_table');
 add_action('install_plugins_new', 'display_plugins_table');
-add_action('install_plugins_updated', 'display_plugins_table');
 
 /**
  * Determine the status we can perform on a plugin.
