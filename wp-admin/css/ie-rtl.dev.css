@@ -103,6 +103,14 @@ div#dashboard-widgets {
 	margin-right: 335px !important;
 }
 
+#dashboard_plugins {
+	direction: ltr;
+}
+
+#dashboard_plugins h3.hndle {
+	direction: rtl;
+}
+
 #dashboard_incoming_links ul li,
 #dashboard_secondary ul li,
 #dashboard_primary ul li,

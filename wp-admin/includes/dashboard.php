@@ -70,6 +70,10 @@ function wp_dashboard_setup() {
 		wp_add_dashboard_widget( 'dashboard_incoming_links', __( 'Incoming Links' ), 'wp_dashboard_incoming_links', 'wp_dashboard_incoming_links_control' );
 	}
 
+	// WP Plugins Widget
+	if ( ( ! is_multisite() && is_blog_admin() && current_user_can( 'install_plugins' ) ) || ( is_network_admin() && current_user_can( 'manage_network_plugins' ) && current_user_can( 'install_plugins' ) ) )
+		wp_add_dashboard_widget( 'dashboard_plugins', __( 'Plugins' ), 'wp_dashboard_plugins' );
+
 	// QuickPress Widget
 	if ( is_blog_admin() && current_user_can('edit_posts') )
 		wp_add_dashboard_widget( 'dashboard_quick_press', __( 'QuickPress' ), 'wp_dashboard_quick_press' );
@@ -927,6 +931,95 @@ function wp_dashboard_secondary_output() {
 		echo '</div>';
 		$rss->__destruct();
 		unset($rss);
+	}
+}
+
+function wp_dashboard_plugins() {
+	wp_dashboard_cached_rss_widget( 'dashboard_plugins', 'wp_dashboard_plugins_output', array(
+		'http://wordpress.org/extend/plugins/rss/browse/popular/',
+		'http://wordpress.org/extend/plugins/rss/browse/new/',
+		'http://wordpress.org/extend/plugins/rss/browse/updated/'
+	) );
+}
+
+/**
+ * Display plugins most popular, newest plugins, and recently updated widget text.
+ *
+ * @since 2.5.0
+ */
+function wp_dashboard_plugins_output() {
+	$popular = fetch_feed( 'http://wordpress.org/extend/plugins/rss/browse/popular/' );
+	$new     = fetch_feed( 'http://wordpress.org/extend/plugins/rss/browse/new/' );
+	$updated = fetch_feed( 'http://wordpress.org/extend/plugins/rss/browse/updated/' );
+
+	if ( false === $plugin_slugs = get_transient( 'plugin_slugs' ) ) {
+		$plugin_slugs = array_keys( get_plugins() );
+		set_transient( 'plugin_slugs', $plugin_slugs, 86400 );
+	}
+
+	foreach ( array( 'popular' => __('Most Popular'), 'new' => __('Newest Plugins'), 'updated' => __('Recently Updated') ) as $feed => $label ) {
+		if ( is_wp_error($$feed) || !$$feed->get_item_quantity() )
+			continue;
+
+		$items = $$feed->get_items(0, 5);
+
+		// Pick a random, non-installed plugin
+		while ( true ) {
+			// Abort this foreach loop iteration if there's no plugins left of this type
+			if ( 0 == count($items) )
+				continue 2;
+
+			$item_key = array_rand($items);
+			$item = $items[$item_key];
+
+			list($link, $frag) = explode( '#', $item->get_link() );
+
+			$link = esc_url($link);
+			if ( preg_match( '|/([^/]+?)/?$|', $link, $matches ) )
+				$slug = $matches[1];
+			else {
+				unset( $items[$item_key] );
+				continue;
+			}
+
+			// Is this random plugin's slug already installed? If so, try again.
+			reset( $plugin_slugs );
+			foreach ( $plugin_slugs as $plugin_slug ) {
+				if ( $slug == substr( $plugin_slug, 0, strlen( $slug ) ) ) {
+					unset( $items[$item_key] );
+					continue 2;
+				}
+			}
+
+			// If we get to this point, then the random plugin isn't installed and we can stop the while().
+			break;
+		}
+
+		// Eliminate some common badly formed plugin descriptions
+		while ( ( null !== $item_key = array_rand($items) ) && false !== strpos( $items[$item_key]->get_description(), 'Plugin Name:' ) )
+			unset($items[$item_key]);
+
+		if ( !isset($items[$item_key]) )
+			continue;
+
+		// current bbPress feed item titles are: user on "topic title"
+		if ( preg_match( '/&quot;(.*)&quot;/s', $item->get_title(), $matches ) )
+			$title = $matches[1];
+		else // but let's make it forward compatible if things change
+			$title = $item->get_title();
+		$title = esc_html( $title );
+
+		$description = esc_html( strip_tags(@html_entity_decode($item->get_description(), ENT_QUOTES, get_option('blog_charset'))) );
+
+		$ilink = wp_nonce_url('plugin-install.php?tab=plugin-information&plugin=' . $slug, 'install-plugin_' . $slug) .
+							'&amp;TB_iframe=true&amp;width=600&amp;height=800';
+
+		echo "<h4>$label</h4>\n";
+		echo "<h5><a href='$link'>$title</a></h5>&nbsp;<span>(<a href='$ilink' class='thickbox' title='$title'>" . __( 'Install' ) . "</a>)</span>\n";
+		echo "<p>$description</p>\n";
+
+		$$feed->__destruct();
+		unset($$feed);
 	}
 }
 

@@ -31,6 +31,10 @@ case 'dashboard_secondary' :
 	wp_dashboard_secondary();
 	break;
 
+case 'dashboard_plugins' :
+	wp_dashboard_plugins();
+	break;
+
 }
 
 ?>
