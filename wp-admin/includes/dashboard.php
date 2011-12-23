@@ -937,8 +937,7 @@ function wp_dashboard_secondary_output() {
 function wp_dashboard_plugins() {
 	wp_dashboard_cached_rss_widget( 'dashboard_plugins', 'wp_dashboard_plugins_output', array(
 		'http://wordpress.org/extend/plugins/rss/browse/popular/',
-		'http://wordpress.org/extend/plugins/rss/browse/new/',
-		'http://wordpress.org/extend/plugins/rss/browse/updated/'
+		'http://wordpress.org/extend/plugins/rss/browse/new/'
 	) );
 }
 
@@ -950,14 +949,13 @@ function wp_dashboard_plugins() {
 function wp_dashboard_plugins_output() {
 	$popular = fetch_feed( 'http://wordpress.org/extend/plugins/rss/browse/popular/' );
 	$new     = fetch_feed( 'http://wordpress.org/extend/plugins/rss/browse/new/' );
-	$updated = fetch_feed( 'http://wordpress.org/extend/plugins/rss/browse/updated/' );
 
 	if ( false === $plugin_slugs = get_transient( 'plugin_slugs' ) ) {
 		$plugin_slugs = array_keys( get_plugins() );
 		set_transient( 'plugin_slugs', $plugin_slugs, 86400 );
 	}
 
-	foreach ( array( 'popular' => __('Most Popular'), 'new' => __('Newest Plugins'), 'updated' => __('Recently Updated') ) as $feed => $label ) {
+	foreach ( array( 'popular' => __('Most Popular'), 'new' => __('Newest Plugins') ) as $feed => $label ) {
 		if ( is_wp_error($$feed) || !$$feed->get_item_quantity() )
 			continue;
 
