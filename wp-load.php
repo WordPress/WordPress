@@ -46,6 +46,7 @@ if ( file_exists( ABSPATH . 'wp-config.php') ) {
 	require_once( ABSPATH . '/wp-includes/load.php' );
 	require_once( ABSPATH . '/wp-includes/version.php' );
 	define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
+	define( 'WPINC', 'wp-includes' );
 	wp_check_php_mysql_versions();
 
 	// Die with an error message
