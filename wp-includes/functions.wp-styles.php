@@ -18,9 +18,11 @@
  * @return bool True on success, false on failure.
  */
 function wp_print_styles( $handles = false ) {
-	do_action( 'wp_print_styles' );
 	if ( '' === $handles ) // for wp_head
 		$handles = false;
+
+	if ( ! $handles )
+		do_action( 'wp_print_styles' );
 
 	global $wp_styles;
 	if ( ! is_a( $wp_styles, 'WP_Styles' ) ) {
