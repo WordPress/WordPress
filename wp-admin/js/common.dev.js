@@ -209,6 +209,7 @@ $(document).ready( function() {
 			else if ( m.css('marginTop') )
 				m.css({'marginTop':''});
 
+			menu.find('.wp-submenu').removeClass('sub-open');
 			m.addClass('sub-open');
 		},
 		out: function(){
