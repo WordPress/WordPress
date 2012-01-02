@@ -100,10 +100,11 @@ case 'promote':
 
 		if ( ! current_user_can('promote_user', $id) )
 			wp_die(__('You can&#8217;t edit that user.'));
-		// The new role of the current user must also have the promote_users cap or be a super admin
-		if ( $id == $current_user->ID && ! is_super_admin() && ! $wp_roles->role_objects[ $_REQUEST['new_role'] ]->has_cap('promote_users') ) {
-			$update = 'err_admin_role';
-			continue;
+		// The new role of the current user must also have the promote_users cap or be a multisite super admin
+		if ( $id == $current_user->ID && ! $wp_roles->role_objects[ $_REQUEST['new_role'] ]->has_cap('promote_users')
+			&& ! ( is_multisite() && is_super_admin() ) ) {
+				$update = 'err_admin_role';
+				continue;
 		}
 
 		// If the user doesn't already belong to the blog, bail.
