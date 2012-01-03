@@ -1795,7 +1795,7 @@ final class WP_Internal_Pointers {
 	 */
 	public static function pointer_wp330_saving_widgets() {
 		$content  = '<h3>' . __( 'New Feature: Saving Widgets' ) . '</h3>';
-		$content .= '<p>' . __( 'If you change your mind and revert to your previous theme, we&#8217;ll put the widgets back the way you had them.' ). '</p>';
+		$content .= '<p>' . __( 'If you change your mind and revert to your previous theme, we&#8217;ll put the widgets back the way you had them.' ) . '</p>';
 
 		WP_Internal_Pointers::print_js( 'wp330_saving_widgets', '#message2', array(
 			'content'  => $content,
