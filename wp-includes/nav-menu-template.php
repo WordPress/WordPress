@@ -362,10 +362,11 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 		} elseif ( 'custom' == $menu_item->object ) {
 			$_root_relative_current = untrailingslashit( $_SERVER['REQUEST_URI'] );
 			$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_root_relative_current;
-			$item_url = untrailingslashit( strpos( $menu_item->url, '#' ) ? substr( $menu_item->url, 0, strpos( $menu_item->url, '#' ) ) : $menu_item->url );
+			$raw_item_url = strpos( $menu_item->url, '#' ) ? substr( $menu_item->url, 0, strpos( $menu_item->url, '#' ) ) : $menu_item->url;
+			$item_url = untrailingslashit( $raw_item_url );
 			$_indexless_current = untrailingslashit( preg_replace( '/index.php$/', '', $current_url ) );
 
-			if ( in_array( $item_url, array( $current_url, $_indexless_current, $_root_relative_current ) ) ) {
+			if ( $raw_item_url && in_array( $item_url, array( $current_url, $_indexless_current, $_root_relative_current ) ) ) {
 				$classes[] = 'current-menu-item';
 				$menu_items[$key]->current = true;
 				$_anc_id = (int) $menu_item->db_id;
