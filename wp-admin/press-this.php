@@ -390,24 +390,15 @@ var photostorage = false;
 				function setup_photo_actions() {
 					jQuery('.close').click(function() {
 						jQuery('#extra-fields').hide();
-						jQuery('body').append( jQuery('#photo-add-url-div') );
 						jQuery('#extra-fields').html('');
 					});
 					jQuery('.refresh').click(function() {
 						photostorage = false;
-						jQuery('body').append( jQuery('#photo-add-url-div') );
 						show('photo');
 					});
 					jQuery('#photo-add-url').click(function(){
-						var container = jQuery('#img_container');
-
-						if ( container.children('#photo-add-url-div:visible').length ) {
-							container.children('a').show();
-							jQuery('#photo-add-url-div').hide();
-						} else {
-							container.children('a').hide();
-							container.append( jQuery('#photo-add-url-div').show() );
-						}
+						var form = jQuery('#photo-add-url-div').clone();
+						jQuery('#img_container').empty().append( form.show() );
 					});
 					jQuery('#waiting').hide();
 					jQuery('#extra-fields').show();
