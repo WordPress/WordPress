@@ -1761,11 +1761,11 @@ final class WP_Internal_Pointers {
 	}
 
 	public static function pointer_wp330_toolbar() {
-		$content  = '<h3>' . esc_js( __( 'New Feature: Toolbar' ) ). '</h3>';
-		$content .= '<p>' . esc_js( __( 'We&#8217;ve combined the admin bar and the old Dashboard header into one persistent toolbar. Hover over the toolbar items to see what&#8217;s new.' ) ) . '</p>';
+		$content  = '<h3>' . __( 'New Feature: Toolbar' ) . '</h3>';
+		$content .= '<p>' .  __( 'We&#8217;ve combined the admin bar and the old Dashboard header into one persistent toolbar. Hover over the toolbar items to see what&#8217;s new.' ) . '</p>';
 
 		if ( is_multisite() && is_super_admin() )
-			$content .= '<p>' .esc_js( __( 'Network Admin is now located in the My Sites menu.' ) ) . '</p>';
+			$content .= '<p>' . __( 'Network Admin is now located in the My Sites menu.' ) . '</p>';
 
 		WP_Internal_Pointers::print_js( 'wp330_toolbar', '#wpadminbar', array(
 			'content'  => $content,
@@ -1779,8 +1779,8 @@ final class WP_Internal_Pointers {
 	 * @since 3.3.0
 	 */
 	public static function pointer_wp330_media_uploader() {
-		$content  = '<h3>' . esc_js( __( 'Updated Media Uploader' ) ) . '</h3>';
-		$content .= '<p>' . esc_js( __( 'The single media icon now launches the uploader for all file types, and the new drag and drop interface makes uploading a breeze.' ) ) . '</p>';
+		$content  = '<h3>' . __( 'Updated Media Uploader' ) . '</h3>';
+		$content .= '<p>' . __( 'The single media icon now launches the uploader for all file types, and the new drag and drop interface makes uploading a breeze.' ) . '</p>';
 
 		WP_Internal_Pointers::print_js( 'wp330_media_uploader', '#content-add_media', array(
 			'content'  => $content,
@@ -1794,8 +1794,8 @@ final class WP_Internal_Pointers {
 	 * @since 3.3.0
 	 */
 	public static function pointer_wp330_saving_widgets() {
-		$content  = '<h3>' . esc_js( __( 'New Feature: Saving Widgets' ) ) . '</h3>';
-		$content .= '<p>' . esc_js( __( 'If you change your mind and revert to your previous theme, we&#8217;ll put the widgets back the way you had them.' ) ) . '</p>';
+		$content  = '<h3>' . __( 'New Feature: Saving Widgets' ) . '</h3>';
+		$content .= '<p>' . __( 'If you change your mind and revert to your previous theme, we&#8217;ll put the widgets back the way you had them.' ). '</p>';
 
 		WP_Internal_Pointers::print_js( 'wp330_saving_widgets', '#message2', array(
 			'content'  => $content,
