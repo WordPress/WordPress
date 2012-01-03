@@ -334,7 +334,7 @@ function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single', 
 	<div id="replycontainer">
 	<?php
 	$quicktags_settings = array( 'buttons' => 'strong,em,link,block,del,ins,img,ul,ol,li,code,spell,close' );
-	wp_editor( '', 'replycontent', array( 'media_buttons' => false, 'tinymce' => false, 'quicktags' => $quicktags_settings ) );
+	wp_editor( '', 'replycontent', array( 'media_buttons' => false, 'tinymce' => false, 'quicktags' => $quicktags_settings, 'tabindex' => 104 ) );
 	?>
 	</div>
 
