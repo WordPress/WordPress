@@ -395,7 +395,7 @@ function wp_dashboard_right_now() {
 		$sidebars_widgets = wp_get_sidebars_widgets();
 		$num_widgets = 0;
 		foreach ( (array) $sidebars_widgets as $k => $v ) {
-			if ( 'wp_inactive_widgets' == $k )
+			if ( 'wp_inactive_widgets' == $k || 'orphaned_widgets' == substr( $k, 0, 16 ) )
 				continue;
 			if ( is_array($v) )
 				$num_widgets = $num_widgets + count($v);
