@@ -703,7 +703,7 @@ final class WP_Screen {
 
 					<?php if ( $has_sidebar ) : ?>
 					<div class="contextual-help-sidebar">
-						<?php echo self::$this->_help_sidebar; ?>
+						<?php echo $this->_help_sidebar; ?>
 					</div>
 					<?php endif; ?>
 
