@@ -656,7 +656,7 @@ function wp_print_head_scripts() {
 /**
  * Private, for use in *_footer_scripts hooks
  *
- * @since 3.3
+ * @since 3.3.0
  */
 function _wp_footer_scripts() {
 	print_late_styles();
@@ -713,7 +713,7 @@ function print_admin_styles() {
 /**
  * Prints the styles that were queued too late for the HTML head.
  *
- * @since 3.3
+ * @since 3.3.0
  */
 function print_late_styles() {
 	global $wp_styles, $concatenate_scripts;

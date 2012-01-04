@@ -1797,7 +1797,7 @@ function wp_default_editor() {
  * See http://core.trac.wordpress.org/ticket/19173 for more information.
  *
  * @see wp-includes/class-wp-editor.php
- * @since 3.3
+ * @since 3.3.0
  *
  * @param string $content Initial content for the editor.
  * @param string $editor_id HTML ID attribute value for the textarea and TinyMCE. Can only be /[a-z]+/.

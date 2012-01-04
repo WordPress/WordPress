@@ -47,7 +47,7 @@ function wp_print_styles( $handles = false ) {
  * added to the same stylesheet $handle, they will be printed in the order
  * they were added, i.e. the latter added styles can redeclare the previous.
  *
- * @since 3.3
+ * @since 3.3.0
  * @see WP_Scripts::add_inline_style()
  */
 function wp_add_inline_style( $handle, $data ) {
