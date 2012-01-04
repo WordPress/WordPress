@@ -26,7 +26,7 @@ If you do not want to join this site please ignore
 this email. This invitation will expire in a few days.
 
 Please click the following link to activate your user account:
-%%s' ), get_bloginfo('name'), site_url(), esc_html( $_REQUEST[ 'role' ] ) );
+%%s' ), get_bloginfo('name'), home_url(), esc_html( $_REQUEST[ 'role' ] ) );
 	}
 	add_filter( 'wpmu_signup_user_notification_email', 'admin_created_user_email' );
 
