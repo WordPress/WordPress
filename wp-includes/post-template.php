@@ -1215,8 +1215,8 @@ function prepend_attachment($content) {
  */
 function get_the_password_form() {
 	global $post;
-	$label = 'pwbox-'.(empty($post->ID) ? rand() : $post->ID);
-	$output = '<form action="' . get_option('siteurl') . '/wp-pass.php" method="post">
+	$label = 'pwbox-' . ( empty($post->ID) ? rand() : $post->ID );
+	$output = '<form action="' . site_url('wp-pass.php') . '" method="post">
 	<p>' . __("This post is password protected. To view it please enter your password below:") . '</p>
 	<p><label for="' . $label . '">' . __("Password:") . ' <input name="post_password" id="' . $label . '" type="password" size="20" /></label> <input type="submit" name="Submit" value="' . esc_attr__("Submit") . '" /></p>
 	</form>
