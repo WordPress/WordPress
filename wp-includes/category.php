@@ -207,19 +207,8 @@ function get_cat_name( $cat_id ) {
  * @return bool Whether $cat2 is child of $cat1
  */
 function cat_is_ancestor_of( $cat1, $cat2 ) {
-	if ( ! isset($cat1->term_id) )
-		$cat1 = &get_category( $cat1 );
-	if ( ! isset($cat2->parent) )
-		$cat2 = &get_category( $cat2 );
-
-	if ( empty($cat1->term_id) || empty($cat2->parent) )
-		return false;
-	if ( $cat2->parent == $cat1->term_id )
-		return true;
-
-	return cat_is_ancestor_of( $cat1, get_category( $cat2->parent ) );
+	return term_is_ancestor_of( $cat1, $cat2, 'category' );
 }
-
 
 /**
  * Sanitizes category data based on context.
@@ -234,7 +223,6 @@ function cat_is_ancestor_of( $cat1, $cat2 ) {
 function sanitize_category( $category, $context = 'display' ) {
 	return sanitize_term( $category, 'category', $context );
 }
-
 
 /**
  * Sanitizes data in single category key field.
@@ -253,7 +241,6 @@ function sanitize_category_field( $field, $value, $cat_id, $context ) {
 }
 
 /* Tags */
-
 
 /**
  * Retrieves all post tags.
@@ -276,7 +263,6 @@ function &get_tags( $args = '' ) {
 	$tags = apply_filters( 'get_tags', $tags, $args );
 	return $tags;
 }
-
 
 /**
  * Retrieve post tag by tag ID or tag object.
@@ -301,9 +287,7 @@ function &get_tag( $tag, $output = OBJECT, $filter = 'raw' ) {
 	return get_term( $tag, 'post_tag', $output, $filter );
 }
 
-
 /* Cache */
-
 
 /**
  * Remove the category cache data based on ID.
@@ -316,7 +300,6 @@ function &get_tag( $tag, $output = OBJECT, $filter = 'raw' ) {
 function clean_category_cache( $id ) {
 	clean_term_cache( $id, 'category' );
 }
-
 
 /**
  * Update category structure to old pre 2.3 from new taxonomy structure.
@@ -354,6 +337,5 @@ function _make_cat_compat( &$category ) {
 		$category['category_parent'] = &$category['parent'];
 	}
 }
-
 
 ?>

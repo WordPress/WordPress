@@ -117,7 +117,7 @@ function wp_insert_category($catarr, $wp_error = false) {
 	if ( $parent < 0 )
 		$parent = 0;
 
-	if ( empty($parent) || !category_exists( $parent ) || ($cat_ID && cat_is_ancestor_of($cat_ID, $parent) ) )
+	if ( empty( $parent ) || ! term_exists( $parent, $taxonomy ) || ( $cat_ID && term_is_ancestor_of( $cat_ID, $parent, $taxonomy ) ) )
 		$parent = 0;
 
 	$args = compact('name', 'slug', 'parent', 'description');

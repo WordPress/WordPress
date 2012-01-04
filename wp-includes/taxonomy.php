@@ -1495,6 +1495,32 @@ function term_exists($term, $taxonomy = '', $parent = 0) {
 }
 
 /**
+ * Check if a term is an ancestor of another term.
+ *
+ * You can use either an id or the term object for both parameters.
+ *
+ * @since 3.4.0
+ *
+ * @param int|object $term1 ID or object to check if this is the parent term.
+ * @param int|object $term2 The child term.
+ * @param string $taxonomy Taxonomy name that $term1 and $term2 belong to.
+ * @return bool Whether $term2 is child of $term1
+ */
+function term_is_ancestor_of( $term1, $term2, $taxonomy ) {
+	if ( ! isset( $term1->term_id ) )
+		$term1 = get_term( $term1, $taxonomy );
+	if ( ! isset( $term2->parent ) )
+		$term2 = get_term( $term2, $taxonomy );
+
+	if ( empty( $term1->term_id ) || empty( $term2->parent ) )
+		return false;
+	if ( $term2->parent == $term1->term_id )
+		return true;
+
+	return term_is_ancestor_of( $term1, get_term( $term2->parent, $taxonomy ), $taxonomy );
+}
+
+/**
  * Sanitize Term all fields.
  *
  * Relies on sanitize_term_field() to sanitize the term. The difference is that
