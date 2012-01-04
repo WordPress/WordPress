@@ -6896,7 +6896,8 @@ img {
 /* Header */
 .press-this #wphead {
 	height: 32px;
-	margin-right: 5px;
+	margin-left: 0;
+	margin-right: 0;
 	margin-bottom: 5px;
 }
 
@@ -6924,6 +6925,10 @@ img {
 	text-decoration: underline;
 }
 
+.press-this #message {
+	margin: 10px 0;
+}
+
 .press-this-sidebar {
 	float: right;
 	width: 200px;
@@ -6931,6 +6936,8 @@ img {
 }
 
 .press-this #title {
+	margin-left: 0;
+	margin-right: 0;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	-ms-box-sizing: border-box;
