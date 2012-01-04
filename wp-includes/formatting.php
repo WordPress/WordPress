@@ -3002,4 +3002,23 @@ function sanitize_mime_type( $mime_type ) {
 	return apply_filters( 'sanitize_mime_type', $sani_mime_type, $mime_type );
 }
 
+/**
+ * Sanitize space or carriage return separated URLs that are used to send trackbacks.
+ *
+ * @since 3.4.0
+ *
+ * @param string $to_ping Space or carriage return separated URLs
+ * @return string URLs starting with the http or https protocol, separated by a carriage return.
+ */
+function sanitize_trackback_urls( $to_ping ) {
+	$urls_to_ping = preg_split( '/\r\n\t /', trim( $to_ping ), -1, PREG_SPLIT_NO_EMPTY );
+	foreach ( $urls_to_ping as $k => $url ) {
+		if ( !preg_match( '#^https?://.#i', $url ) )
+			unset( $urls_to_ping[$k] );
+	}
+	$urls_to_ping = array_map( 'esc_url_raw', $urls_to_ping );
+	$urls_to_ping = implode( "\n", $urls_to_ping );
+	return apply_filters( 'sanitize_trackback_urls', $urls_to_ping, $to_ping );
+}
+
 ?>

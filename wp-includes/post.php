@@ -2537,7 +2537,7 @@ function wp_insert_post($postarr, $wp_error = false) {
 		$ping_status = get_option('default_ping_status');
 
 	if ( isset($to_ping) )
-		$to_ping = preg_replace('|\s+|', "\n", $to_ping);
+		$to_ping = sanitize_trackback_urls( $to_ping );
 	else
 		$to_ping = '';
 
@@ -3064,7 +3064,7 @@ function get_pung($post_id) {
 function get_to_ping($post_id) {
 	global $wpdb;
 	$to_ping = $wpdb->get_var( $wpdb->prepare( "SELECT to_ping FROM $wpdb->posts WHERE ID = %d", $post_id ));
-	$to_ping = trim($to_ping);
+	$to_ping = sanitize_trackback_urls( $to_ping );
 	$to_ping = preg_split('/\s/', $to_ping, -1, PREG_SPLIT_NO_EMPTY);
 	$to_ping = apply_filters('get_to_ping',  $to_ping);
 	return $to_ping;
