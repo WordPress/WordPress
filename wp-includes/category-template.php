@@ -797,7 +797,7 @@ class Walker_Category extends Walker {
 	 * @param int $depth Depth of category. Used for tab indentation.
 	 * @param array $args Will only append content if style argument value is 'list'.
 	 */
-	function start_lvl(&$output, $depth, $args) {
+	function start_lvl( &$output, $depth = 0, $args = array() ) {
 		if ( 'list' != $args['style'] )
 			return;
 
@@ -813,7 +813,7 @@ class Walker_Category extends Walker {
 	 * @param int $depth Depth of category. Used for tab indentation.
 	 * @param array $args Will only append content if style argument value is 'list'.
 	 */
-	function end_lvl(&$output, $depth, $args) {
+	function end_lvl( &$output, $depth = 0, $args = array() ) {
 		if ( 'list' != $args['style'] )
 			return;
 
@@ -830,7 +830,7 @@ class Walker_Category extends Walker {
 	 * @param int $depth Depth of category in reference to parents.
 	 * @param array $args
 	 */
-	function start_el(&$output, $category, $depth, $args) {
+	function start_el( &$output, $category, $depth = 0, $args = array(), $id = 0 ) {
 		extract($args);
 
 		$cat_name = esc_attr( $category->name );
@@ -905,7 +905,7 @@ class Walker_Category extends Walker {
 	 * @param int $depth Depth of category. Not used.
 	 * @param array $args Only uses 'list' for whether should append to output.
 	 */
-	function end_el(&$output, $page, $depth, $args) {
+	function end_el( &$output, $page, $depth = 0, $args = array() ) {
 		if ( 'list' != $args['style'] )
 			return;
 
@@ -946,7 +946,7 @@ class Walker_CategoryDropdown extends Walker {
 	 * @param int $depth Depth of category. Used for padding.
 	 * @param array $args Uses 'selected', 'show_count', and 'show_last_update' keys, if they exist.
 	 */
-	function start_el(&$output, $category, $depth, $args) {
+	function start_el( &$output, $category, $depth, $args, $id = 0 ) {
 		$pad = str_repeat('&nbsp;', $depth * 3);
 
 		$cat_name = apply_filters('list_cats', $category->name, $category);

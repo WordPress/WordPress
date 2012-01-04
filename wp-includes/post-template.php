@@ -994,7 +994,7 @@ class Walker_Page extends Walker {
 	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param int $depth Depth of page. Used for padding.
 	 */
-	function start_lvl(&$output, $depth) {
+	function start_lvl( &$output, $depth = 0, $args = array() ) {
 		$indent = str_repeat("\t", $depth);
 		$output .= "\n$indent<ul class='children'>\n";
 	}
@@ -1006,7 +1006,7 @@ class Walker_Page extends Walker {
 	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param int $depth Depth of page. Used for padding.
 	 */
-	function end_lvl(&$output, $depth) {
+	function end_lvl( &$output, $depth = 0, $args = array() ) {
 		$indent = str_repeat("\t", $depth);
 		$output .= "$indent</ul>\n";
 	}
@@ -1021,7 +1021,7 @@ class Walker_Page extends Walker {
 	 * @param int $current_page Page ID.
 	 * @param array $args
 	 */
-	function start_el(&$output, $page, $depth, $args, $current_page) {
+	function start_el( &$output, $page, $depth, $args, $current_page = 0 ) {
 		if ( $depth )
 			$indent = str_repeat("\t", $depth);
 		else
@@ -1064,7 +1064,7 @@ class Walker_Page extends Walker {
 	 * @param object $page Page data object. Not used.
 	 * @param int $depth Depth of page. Not Used.
 	 */
-	function end_el(&$output, $page, $depth) {
+	function end_el( &$output, $page, $depth = 0, $args = array() ) {
 		$output .= "</li>\n";
 	}
 
@@ -1102,7 +1102,7 @@ class Walker_PageDropdown extends Walker {
 	 * @param int $depth Depth of page in reference to parent pages. Used for padding.
 	 * @param array $args Uses 'selected' argument for selected page to set selected HTML attribute for option element.
 	 */
-	function start_el(&$output, $page, $depth, $args) {
+	function start_el(&$output, $page, $depth, $args, $id = 0) {
 		$pad = str_repeat('&nbsp;', $depth * 3);
 
 		$output .= "\t<option class=\"level-$depth\" value=\"$page->ID\"";

@@ -52,7 +52,7 @@ class Walker {
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
 	 */
-	function start_lvl(&$output) {}
+	function start_lvl( &$output, $depth = 0, $args = array() ) {}
 
 	/**
 	 * Ends the list of after the elements are added.
@@ -66,7 +66,7 @@ class Walker {
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
 	 */
-	function end_lvl(&$output)   {}
+	function end_lvl( &$output, $depth = 0, $args = array() )   {}
 
 	/**
 	 * Start the element output.
@@ -80,7 +80,7 @@ class Walker {
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
 	 */
-	function start_el(&$output)  {}
+	function start_el( &$output, $object, $depth, $args, $current_object_id = 0 )  {}
 
 	/**
 	 * Ends the element output, if needed.
@@ -93,7 +93,7 @@ class Walker {
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
 	 */
-	function end_el(&$output)    {}
+	function end_el( &$output, $object, $depth = 0, $args = array() )    {}
 
 	/**
 	 * Traverse elements to create list from elements.

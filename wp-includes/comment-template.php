@@ -1238,7 +1238,7 @@ class Walker_Comment extends Walker {
 	 * @param int $depth Depth of comment.
 	 * @param array $args Uses 'style' argument for type of HTML list.
 	 */
-	function start_lvl(&$output, $depth, $args) {
+	function start_lvl( &$output, $depth = 0, $args = array() ) {
 		$GLOBALS['comment_depth'] = $depth + 1;
 
 		switch ( $args['style'] ) {
@@ -1262,7 +1262,7 @@ class Walker_Comment extends Walker {
 	 * @param int $depth Depth of comment.
 	 * @param array $args Will only append content if style argument value is 'ol' or 'ul'.
 	 */
-	function end_lvl(&$output, $depth, $args) {
+	function end_lvl( &$output, $depth = 0, $args = array() ) {
 		$GLOBALS['comment_depth'] = $depth + 1;
 
 		switch ( $args['style'] ) {
@@ -1326,7 +1326,7 @@ class Walker_Comment extends Walker {
 	 * @param int $depth Depth of comment in reference to parents.
 	 * @param array $args
 	 */
-	function start_el(&$output, $comment, $depth, $args) {
+	function start_el( &$output, $comment, $depth, $args, $id = 0 ) {
 		$depth++;
 		$GLOBALS['comment_depth'] = $depth;
 
@@ -1386,7 +1386,7 @@ class Walker_Comment extends Walker {
 	 * @param int $depth Depth of comment.
 	 * @param array $args
 	 */
-	function end_el(&$output, $comment, $depth, $args) {
+	function end_el(&$output, $comment, $depth = 0, $args = array() ) {
 		if ( !empty($args['end-callback']) ) {
 			call_user_func($args['end-callback'], $comment, $args, $depth);
 			return;
