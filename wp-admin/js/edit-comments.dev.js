@@ -239,7 +239,6 @@ setCommentsList = function() {
 			}
 		}
 
-
 		if ( ! theExtraList || theExtraList.size() == 0 || theExtraList.children().size() == 0 || untrash || unspam ) {
 			return;
 		}
@@ -553,7 +552,6 @@ $(document).ready(function(){
 	setCommentsList();
 	commentReply.init();
 	$(document).delegate('span.delete a.delete', 'click', function(){return false;});
-
 
 	if ( typeof $.table_hotkeys != 'undefined' ) {
 		make_hotkeys_redirect = function(which) {

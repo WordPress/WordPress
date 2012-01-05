@@ -212,7 +212,6 @@ function get_the_category_list( $separator = '', $parents='', $post_id = false )
 	return apply_filters( 'the_category', $thelist, $separator, $parents );
 }
 
-
 /**
  * Check if the current post in within any of the given categories.
  *
@@ -369,9 +368,9 @@ function wp_dropdown_categories( $args = '' ) {
 
 		$output .= walk_category_dropdown_tree( $categories, $depth, $r );
 	}
+
 	if ( ! $r['hide_if_empty'] || ! empty($categories) )
 		$output .= "</select>\n";
-
 
 	$output = apply_filters( 'wp_dropdown_cats', $output );
 
@@ -580,7 +579,6 @@ function default_topic_count_text( $count ) {
 function default_topic_count_scale( $count ) {
 	return round(log10($count + 1) * 100);
 }
-
 
 /**
  * Generates a tag cloud (heatmap) from provided data.
@@ -1152,7 +1150,6 @@ function the_terms( $id = 0, $taxonomy, $before = '', $sep = ', ', $after = '' )
 
 	echo apply_filters('the_terms', $term_list, $taxonomy, $before, $sep, $after);
 }
-
 
 /**
  * Check if the current post has any of given category.

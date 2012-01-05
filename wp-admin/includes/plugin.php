@@ -1246,7 +1246,6 @@ function add_comments_page( $page_title, $menu_title, $capability, $menu_slug, $
 	return add_submenu_page( 'edit-comments.php', $page_title, $menu_title, $capability, $menu_slug, $function );
 }
 
-
 /**
  * Remove a top level admin menu
  *

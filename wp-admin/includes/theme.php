@@ -89,7 +89,6 @@ function delete_theme($template, $redirect = '') {
 		return;
 	}
 
-
 	if ( ! is_object($wp_filesystem) )
 		return new WP_Error('fs_unavailable', __('Could not access filesystem.'));
 

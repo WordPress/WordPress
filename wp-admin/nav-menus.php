@@ -117,7 +117,6 @@ switch ( $action ) {
 						wp_update_post($next_item_data);
 					}
 
-
 				// the item is last but still has a parent, so bubble up
 				} elseif (
 					! empty( $menu_item_data['menu_item_parent'] ) &&
@@ -151,7 +150,6 @@ switch ( $action ) {
 						}
 					}
 				}
-
 
 				// if this menu item is not first
 				if ( ! empty( $dbids_to_orders[$menu_item_id] ) && ! empty( $orders_to_dbids[$dbids_to_orders[$menu_item_id] - 1] ) ) {
@@ -227,7 +225,6 @@ switch ( $action ) {
 		$menu_item_id = (int) $_REQUEST['menu-item'];
 
 		check_admin_referer( 'delete-menu_item_' . $menu_item_id );
-
 
 		if ( is_nav_menu_item( $menu_item_id ) && wp_delete_post( $menu_item_id, true ) )
 			$messages[] = '<div id="message" class="updated"><p>' . __('The menu item has been successfully deleted.') . '</p></div>';
@@ -614,6 +611,5 @@ require_once( './admin-header.php' );
 	</div><!-- /#menu-management-liquid -->
 	</div><!-- /#nav-menus-frame -->
 </div><!-- /.wrap-->
-
 
 <?php include( './admin-footer.php' ); ?>

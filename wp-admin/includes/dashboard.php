@@ -327,7 +327,6 @@ function wp_dashboard_right_now() {
 	do_action('right_now_content_table_end');
 	echo "\n\t</table>\n\t</div>";
 
-
 	echo "\n\t".'<div class="table table_discussion">';
 	echo "\n\t".'<p class="sub">' . __('Discussion') . '</p>'."\n\t".'<table>';
 	echo "\n\t".'<tr class="first">';

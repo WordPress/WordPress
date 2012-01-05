@@ -668,7 +668,6 @@ case 'replyto-comment' :
 
 	$position = ( isset($_POST['position']) && (int) $_POST['position'] ) ? (int) $_POST['position'] : '-1';
 
-
 	// automatically approve parent comment
 	if ( !empty($_POST['approve_parent']) ) {
 		$parent = get_comment( $comment_parent );

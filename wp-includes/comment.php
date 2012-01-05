@@ -394,7 +394,6 @@ function get_comment_statuses( ) {
 	return $status;
 }
 
-
 /**
  * The date the last comment was modified.
  *

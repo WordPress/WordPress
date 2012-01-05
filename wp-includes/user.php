@@ -65,7 +65,6 @@ function wp_signon( $credentials = '', $secure_cookie = '' ) {
 	return $user;
 }
 
-
 /**
  * Authenticate the user using the username and password.
  */
@@ -358,7 +357,6 @@ class WP_User_Query {
 	var $query_where;
 	var $query_orderby;
 	var $query_limit;
-
 
 	/**
 	 * PHP5 constructor
@@ -1459,7 +1457,6 @@ function wp_create_user($username, $password, $email = '') {
 	$userdata = compact('user_login', 'user_email', 'user_pass');
 	return wp_insert_user($userdata);
 }
-
 
 /**
  * Return a list of meta keys that wp_insert_user() is supposed to set.

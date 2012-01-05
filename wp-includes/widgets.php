@@ -681,7 +681,6 @@ function wp_sidebar_description( $id ) {
 		return esc_html( $wp_registered_sidebars[$id]['description'] );
 }
 
-
 /**
  * Remove widget from sidebar.
  *

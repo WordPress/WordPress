@@ -708,7 +708,6 @@ PubSub.prototype.publish = function( topic, args ) {
 		})()
 	};
 
-
 	/**
 	 * Resize API
 	 *

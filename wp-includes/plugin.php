@@ -308,7 +308,6 @@ function current_filter() {
 	return end( $wp_current_filter );
 }
 
-
 /**
  * Hooks a function on to a specific action.
  *
@@ -331,7 +330,6 @@ function current_filter() {
 function add_action($tag, $function_to_add, $priority = 10, $accepted_args = 1) {
 	return add_filter($tag, $function_to_add, $priority, $accepted_args);
 }
-
 
 /**
  * Execute functions hooked on a specific action hook.

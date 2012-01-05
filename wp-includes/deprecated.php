@@ -2029,7 +2029,6 @@ function get_attachment_innerHTML($id = 0, $fullsize = false, $max_dims = false)
 	if ( $innerHTML = get_attachment_icon($post->ID, $fullsize, $max_dims))
 		return $innerHTML;
 
-
 	$innerHTML = esc_attr($post->post_title);
 
 	return apply_filters('attachment_innerHTML', $innerHTML, $post->ID);
@@ -2128,7 +2127,6 @@ function wp_specialchars( $string, $quote_style = ENT_NOQUOTES, $charset = false
 		return esc_html( $string );
 	}
 }
-
 
 /**
  * Escaping for HTML attributes.

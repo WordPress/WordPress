@@ -117,7 +117,6 @@ if ( $action ) {
 			screen_icon();
 			echo '<h2>' . esc_html( $title ) . '</h2>';
 
-
 			$url = self_admin_url('update.php?action=update-selected&amp;plugins=' . urlencode( join(',', $plugins) ));
 			$url = wp_nonce_url($url, 'bulk-update-plugins');
 

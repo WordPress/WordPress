@@ -59,7 +59,6 @@ ol {
 	font-family: Tahoma, Arial, sans-serif;
 }
 
-
 .quicktags, .search {
 	font: 12px Tahoma, Arial, sans-serif;
 }
@@ -866,7 +865,6 @@ th.sorted a span {
 	float: left;
 }
 
-
 #post-body ul.category-tabs,
 #post-body ul.add-menu-item-tabs {
 	float: right;
@@ -874,7 +872,6 @@ th.sorted a span {
 	/* Negative margin for the sake of those without JS: all tabs display */
 	margin: 0 5px 0 -120px;
 }
-
 
 #post-body ul.category-tabs li.tabs,
 #post-body ul.add-menu-item-tabs li.tabs {
@@ -971,7 +968,6 @@ table.diff td, table.diff th {
 	margin-left: 0;
 	margin-right: 120px;
 }
-
 
 #post-body ul.category-tabs,
 #post-body ul.add-menu-item-tabs {
@@ -1107,7 +1103,6 @@ span.description,
 	padding: 5px 8px 0 0;
 }
 
-
 .find-box-search label {
 	padding-right: 0;
 	padding-left: 6px;
@@ -1117,7 +1112,6 @@ span.description,
 	right: auto;
 	left: 1px;
 }
-
 
 form.upgrade .hint {
 	font-style: normal;
@@ -1704,11 +1698,11 @@ ol.ol-decimal {
 	margin-left: 15px;
 }
 
-
 .wrap h2,
 .subtitle {
 	font-family: Tahoma, Arial, sans-serif;
 }
+
 .wrap h2 {
 	padding-right: 0;
 	padding-left: 15px;
@@ -1728,7 +1722,6 @@ ol.ol-decimal {
 .wrap h2.long-header {
 	padding-left: 0;
 }
-
 
 /* dashboard */
 #dashboard-widgets-wrap .has-sidebar {
@@ -1927,7 +1920,6 @@ body.login {
 	float: left;
 }
 
-
 /* nav-menu */
 #nav-menus-frame {
 	margin-right: 300px;
@@ -2047,7 +2039,6 @@ body.login {
 	margin-right:0;
 }
 
-
 /* WARNING: The factor of 30px is hardcoded into the nav-menus javascript. */
 .menu-item-depth-0 { margin-right: 0px; margin-left:0;}
 .menu-item-depth-1 { margin-right: 30px; margin-left:0;}
@@ -2110,10 +2101,11 @@ body.login {
 	font-style: normal;
 	font-weight: bold;
 }
-	.link-to-original a {
-		padding-right: 4px;
-		padding-left:0;
-	}
+
+.link-to-original a {
+	padding-right: 4px;
+	padding-left:0;
+}
 
 .menu-item-settings .description-thin,
 .menu-item-settings .description-wide {
@@ -2143,7 +2135,6 @@ body.login {
 .auto-add-pages {
 	float: right;
 }
-
 
 /* plugin-install */
 div.star {

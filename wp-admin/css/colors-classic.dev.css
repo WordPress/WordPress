@@ -1002,7 +1002,6 @@ table.widefat .spam a:hover,
 	border-color: #5589AA !important;
 }
 
-
 .wp-editor-wrap .wp_themeSkin table.mceSplitButton td {
 	background-color: #cfdfe9; /* Fallback */
 	background-image: -ms-linear-gradient(bottom, #cfdfe9, #fff); /* IE10 */
@@ -1603,7 +1602,6 @@ table.widefat .spam a:hover,
 	background: transparent url(../images/icons32-vs.png?ver=20111206) no-repeat -659px -5px;
 }
 /* end screen icons */
-
 
 /* Diff */
 table.diff .diff-deletedline {

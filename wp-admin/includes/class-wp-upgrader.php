@@ -1362,7 +1362,6 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin {
 		else
 			$install_actions['plugins_page'] = '<a href="' . self_admin_url('plugins.php') . '" title="' . esc_attr__('Return to Plugins page') . '" target="_parent">' . __('Return to Plugins page') . '</a>';
 
-
 		if ( ! $this->result || is_wp_error($this->result) ) {
 			unset( $install_actions['activate_plugin'] );
 			unset( $install_actions['network_activate'] );

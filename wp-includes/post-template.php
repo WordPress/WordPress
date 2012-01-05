@@ -79,7 +79,6 @@ function the_title_attribute( $args = '' ) {
 	$r = wp_parse_args($args, $defaults);
 	extract( $r, EXTR_SKIP );
 
-
 	$title = $before . $title . $after;
 	$title = esc_attr(strip_tags($title));
 

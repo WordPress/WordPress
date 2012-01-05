@@ -324,7 +324,6 @@ function _wp_ajax_menu_quick_search( $request = array() ) {
 
 		}
 
-
 	} elseif ( preg_match('/quick-search-(posttype|taxonomy)-([a-zA-Z_-]*\b)/', $type, $matches) ) {
 		if ( 'posttype' == $matches[1] && get_post_type_object( $matches[2] ) ) {
 			query_posts(array(
@@ -711,7 +710,6 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 			</ul>
 		</div><!-- /.tabs-panel -->
 
-
 		<div id="<?php echo $post_type_name; ?>-all" class="tabs-panel tabs-panel-view-all <?php
 			echo ( 'all' == $current_tab ? 'tabs-panel-active' : 'tabs-panel-inactive' );
 		?>">
@@ -766,7 +764,6 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 				</div>
 			<?php endif; ?>
 		</div><!-- /.tabs-panel -->
-
 
 		<p class="button-controls">
 			<span class="list-controls">
@@ -1124,7 +1121,6 @@ function wp_get_nav_menu_to_edit( $menu_id = 0 ) {
 	} elseif ( is_wp_error( $menu ) ) {
 		return $menu;
 	}
-
 
 }
 

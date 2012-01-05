@@ -27,7 +27,6 @@ function get_query_var($var) {
 	return $wp_query->get($var);
 }
 
-
 /**
  * Retrieve the currently-queried object. Wrapper for $wp_query->get_queried_object()
  *
@@ -3194,7 +3193,6 @@ class WP_Query {
 	function is_date() {
 		return (bool) $this->is_date;
 	}
-
 
 	/**
 	 * Is the query for a day archive?

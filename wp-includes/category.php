@@ -160,7 +160,6 @@ function get_category_by_slug( $slug  ) {
 	return $category;
 }
 
-
 /**
  * Retrieve the ID of a category from its name.
  *
@@ -175,7 +174,6 @@ function get_cat_ID( $cat_name='General' ) {
 		return $cat->term_id;
 	return 0;
 }
-
 
 /**
  * Retrieve the name of a category from its ID.
@@ -192,7 +190,6 @@ function get_cat_name( $cat_id ) {
 		return '';
 	return $category->name;
 }
-
 
 /**
  * Check if a category is an ancestor of another category.

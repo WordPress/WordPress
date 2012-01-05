@@ -22,7 +22,6 @@ jQuery(document).ready( function($) {
 		$('#wp_welcome_panel-hide').prop('checked', false);
 	});
 
-
 	welcomePanelHide.click( function() {
 		welcomePanel.toggleClass('hidden', ! this.checked );
 		updateWelcomePanel( this.checked ? 1 : 0 );

@@ -40,7 +40,6 @@
   background: url(../images/marker.png) no-repeat;
 }
 
-
 /* farbtastic-rtl */
 .rtl .farbtastic .color,
 .rtl .farbtastic .overlay {
@@ -51,5 +50,3 @@
 .rtl .farbtastic .marker {
 	margin: -8px -8px 0 0;
 }
-
-

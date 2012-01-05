@@ -51,7 +51,6 @@ _deprecated_file( sprintf( __( 'Theme without %1$s' ), basename(__FILE__) ), '3.
 	<?php endif; ?>
 <?php endif; ?>
 
-
 <?php if ( comments_open() ) : ?>
 
 <div id="respond">

@@ -98,7 +98,6 @@ class WP_Http {
 			'filename' => null
 		);
 
-
 		// Pre-parse for the HEAD checks.
 		$args = wp_parse_args( $args );
 
@@ -1027,7 +1026,6 @@ class WP_Http_Curl {
 			$ssl_verify = apply_filters('https_local_ssl_verify', $ssl_verify);
 		elseif ( ! $is_local )
 			$ssl_verify = apply_filters('https_ssl_verify', $ssl_verify);
-
 
 		// CURLOPT_TIMEOUT and CURLOPT_CONNECTTIMEOUT expect integers. Have to use ceil since
 		// a value of 0 will allow an unlimited timeout.

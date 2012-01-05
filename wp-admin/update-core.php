@@ -352,7 +352,6 @@ function do_core_upgrade( $reinstall = false ) {
 	if ( !$update )
 		return;
 
-
 	if ( ! WP_Filesystem($credentials, ABSPATH) ) {
 		request_filesystem_credentials($url, '', true, ABSPATH); //Failed to connect, Error and request again
 		return;
@@ -446,7 +445,6 @@ get_current_screen()->add_help_tab( array(
 	'<p>' . __('Updating your WordPress installation is a simple one-click procedure; just click on the Update button when it says a new version is available.') . '</p>' .
 	'<p>' . __('To update themes or plugins from this screen, use the checkboxes to make your selection and click on the appropriate Update button. Check the box at the top of the Themes or Plugins section to select all and update them all at once.') . '</p>'
 ) );
-
 
 get_current_screen()->set_help_sidebar(
 	'<p><strong>' . __('For more information:') . '</strong></p>' .

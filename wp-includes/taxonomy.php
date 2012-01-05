@@ -122,7 +122,6 @@ function get_taxonomies( $args = array(), $output = 'names', $operator = 'and' )
 	return wp_filter_object_list($wp_taxonomies, $args, $operator, $field);
 }
 
-
 /**
  * Return all of the taxonomy names that are of $object_type.
  *
@@ -2498,7 +2497,6 @@ function wp_update_term_count_now( $terms, $taxonomy ) {
 // Cache
 //
 
-
 /**
  * Removes the taxonomy relationship to terms from the cache.
  *
@@ -2527,7 +2525,6 @@ function clean_object_term_cache($object_ids, $object_type) {
 
 	do_action('clean_object_term_cache', $object_ids, $object_type);
 }
-
 
 /**
  * Will remove all of the term ids from the cache.
@@ -2589,7 +2586,6 @@ function clean_term_cache($ids, $taxonomy = '', $clean_taxonomy = true) {
 	wp_cache_set('last_changed', time(), 'terms');
 }
 
-
 /**
  * Retrieves the taxonomy relationship to the term object id.
  *
@@ -2607,7 +2603,6 @@ function &get_object_term_cache($id, $taxonomy) {
 	$cache = wp_cache_get($id, "{$taxonomy}_relationships");
 	return $cache;
 }
-
 
 /**
  * Updates the cache for Term ID(s).
@@ -2678,7 +2673,6 @@ function update_object_term_cache($object_ids, $object_type) {
 	}
 }
 
-
 /**
  * Updates Terms to Taxonomy in cache.
  *
@@ -2702,7 +2696,6 @@ function update_term_cache($terms, $taxonomy = '') {
 //
 // Private
 //
-
 
 /**
  * Retrieves children of taxonomy as Term IDs.
@@ -2735,7 +2728,6 @@ function _get_term_hierarchy($taxonomy) {
 
 	return $children;
 }
-
 
 /**
  * Get the subset of $terms that are descendants of $term_id.
@@ -2792,7 +2784,6 @@ function &_get_term_children($term_id, $terms, $taxonomy) {
 
 	return $term_list;
 }
-
 
 /**
  * Add count of children to parent count.
@@ -2902,7 +2893,6 @@ function _update_post_term_count( $terms, $taxonomy ) {
 
 		if ( $object_types )
 			$count += (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->term_relationships, $wpdb->posts WHERE $wpdb->posts.ID = $wpdb->term_relationships.object_id AND post_status = 'publish' AND post_type IN ('" . implode("', '", $object_types ) . "') AND term_taxonomy_id = %d", $term ) );
-
 
 		do_action( 'edit_term_taxonomy', $term, $taxonomy );
 		$wpdb->update( $wpdb->term_taxonomy, compact( 'count' ), array( 'term_taxonomy_id' => $term ) );

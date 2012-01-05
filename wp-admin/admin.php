@@ -153,7 +153,6 @@ if ( isset($plugin_page) ) {
 		if ( validate_file($plugin_page) )
 			wp_die(__('Invalid plugin page'));
 
-
 		if ( !( file_exists(WP_PLUGIN_DIR . "/$plugin_page") && is_file(WP_PLUGIN_DIR . "/$plugin_page") ) && !( file_exists(WPMU_PLUGIN_DIR . "/$plugin_page") && is_file(WPMU_PLUGIN_DIR . "/$plugin_page") ) )
 			wp_die(sprintf(__('Cannot load %s.'), htmlentities($plugin_page)));
 

@@ -95,7 +95,6 @@ if ( $action ) {
 			screen_icon();
 			echo '<h2>' . esc_html( $title ) . '</h2>';
 
-
 			$url = self_admin_url('update.php?action=update-selected-themes&amp;themes=' . urlencode( join(',', $themes) ));
 			$url = wp_nonce_url($url, 'bulk-update-themes');
 

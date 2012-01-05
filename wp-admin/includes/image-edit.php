@@ -288,7 +288,6 @@ function _rotate_image_resource($img, $angle) {
 	return $img;
 }
 
-
 function _flip_image_resource($img, $horz, $vert) {
 	$w = imagesx($img);
 	$h = imagesy($img);

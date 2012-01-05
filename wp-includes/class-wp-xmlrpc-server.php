@@ -408,7 +408,6 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( !$user = $this->login($username, $password) )
 			return $this->error;
 
-
 		do_action( 'xmlrpc_call', 'wp.getUsersBlogs' );
 
 		$blogs = (array) get_blogs_of_user( $user->ID );
@@ -3468,7 +3467,6 @@ class wp_xmlrpc_server extends IXR_Server {
 	  		return new IXR_Error(33, __('The specified target URL cannot be used as a target. It either doesn&#8217;t exist, or it is not a pingback-enabled resource.'));
 		}
 		$post_ID = (int) $post_ID;
-
 
 		logIO("O","(PB) URL='$pagelinkedto' ID='$post_ID' Found='$way'");
 

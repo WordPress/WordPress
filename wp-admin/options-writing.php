@@ -28,7 +28,6 @@ get_current_screen()->add_help_tab( array(
 	'content' => '<p>' . __('Press This is a bookmarklet that makes it easy to blog about something you come across on the web. You can use it to just grab a link, or to post an excerpt. Press This will even allow you to choose from images included on the page and use them in your post. Just drag the Press This link on this screen to your bookmarks bar in your browser, and you&#8217;ll be on your way to easier content creation. Clicking on it while on another website opens a popup window with all these options.') . '</p>',
 ) );
 
-
 if ( is_multisite() ) {
 	$post_email_help = '<p>' . __('Due to security issues, you cannot use Post By Email on Multisite Installs.') . '</p>';
 } else {
@@ -119,7 +118,6 @@ wp_dropdown_categories(array('hide_empty' => 0, 'name' => 'default_link_category
 </tr>
 <?php do_settings_fields('writing', 'default'); ?>
 </table>
-
 
 <h3 class="title"><?php _e('Press This') ?></h3>
 <p><?php _e('Press This is a bookmarklet: a little app that runs in your browser and lets you grab bits of the web.');?></p>

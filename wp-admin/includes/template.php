@@ -8,7 +8,6 @@
  * @subpackage Administration
  */
 
-
 //
 // Category Checklists
 //
@@ -727,7 +726,6 @@ function the_attachment_links( $id = false ) {
 </form>
 <?php
 }
-
 
 /**
  * Print out <option> html elements for role selectors

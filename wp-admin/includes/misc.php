@@ -340,7 +340,6 @@ function set_screen_options() {
 		if ( in_array( $type, get_taxonomies()) )
 			$map_option = 'edit_tags_per_page';
 
-
 		switch ( $map_option ) {
 			case 'edit_per_page':
 			case 'users_per_page':

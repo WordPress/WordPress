@@ -2026,7 +2026,6 @@ function wp_nonce_ays( $action ) {
 	wp_die( $html, $title, array('response' => 403) );
 }
 
-
 /**
  * Kill WordPress execution and display HTML message with error message.
  *

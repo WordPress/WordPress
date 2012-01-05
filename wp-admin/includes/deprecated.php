@@ -197,7 +197,6 @@ function use_codepress() {
 	return;
 }
 
-
 /**
  * @deprecated 3.1.0
  *

@@ -210,7 +210,6 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 		//	row  < 0: a blank row for that column
 		list($orig_matches, $final_matches, $orig_rows, $final_rows) = $this->interleave_changed_lines( $orig, $final );
 
-
 		// These will hold the word changes as determined by an inline diff
 		$orig_diffs  = array();
 		$final_diffs = array();
@@ -329,7 +328,6 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 		ksort($orig_matches);
 		ksort($final_matches);
 
-
 		// Stores rows and blanks for each column.
 		$orig_rows = $orig_rows_copy = array_keys($orig_matches);
 		$final_rows = array_keys($final_matches);
@@ -352,7 +350,6 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 					array_splice( $orig_rows, $orig_pos, 0, $diff_pos++ );
 			}
 		}
-
 
 		// Pad the ends with blank rows if the columns aren't the same length
 		$diff_count = count($orig_rows) - count($final_rows);

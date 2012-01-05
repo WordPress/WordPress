@@ -630,7 +630,6 @@ function get_term_feed_link( $term_id, $taxonomy = 'category', $feed = '' ) {
 	else
 		$link = apply_filters( 'taxonomy_feed_link', $link, $feed, $taxonomy );
 
-
 	return $link;
 }
 

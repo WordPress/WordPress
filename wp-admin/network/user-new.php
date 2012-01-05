@@ -16,7 +16,6 @@ if ( ! is_multisite() )
 if ( ! current_user_can('create_users') )
 	wp_die(__('You do not have sufficient permissions to add users to this network.'));
 
-
 get_current_screen()->add_help_tab( array(
 	'id'      => 'overview',
 	'title'   => __('Overview'),

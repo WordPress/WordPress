@@ -6052,7 +6052,6 @@ a.rsswidget {
 	text-align: center;
 }
 
-
 /* ms */
 /* Dashboard: MS Specific Data */
 #dashboard_right_now p.musub {
@@ -6092,7 +6091,6 @@ a.rsswidget {
 .wp-list-table .site-mature {
 	background: #fecac2;
 }
-
 
 /* nav-menu */
 
@@ -6730,7 +6728,6 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 	display: block;
 }
 
-
 /* plugin-install */
 /* NOTE: the following CSS rules(.star*) are taken more or less straight from the bbPress rating plugin. */
 div.star-holder {
@@ -7298,7 +7295,6 @@ h3 span {
 	line-height: 180%;
 }
 
-
 /* theme-install */
 .theme-listing .theme-item {
 	display: inline-block;
@@ -7406,7 +7402,6 @@ width: 100%;
 overflow: auto;
 margin-bottom: 10px;
 }
-
 
 /* widgets */
 

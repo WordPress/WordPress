@@ -135,8 +135,6 @@ echo esc_html( $visibility_trans ); ?></span>
 <input type="checkbox" style="display:none" name="hidden_post_sticky" id="hidden-post-sticky" value="sticky" <?php checked(is_sticky($post->ID)); ?> />
 <?php endif; ?>
 <input type="hidden" name="hidden_post_visibility" id="hidden-post-visibility" value="<?php echo esc_attr( $visibility ); ?>" />
-
-
 <input type="radio" name="visibility" id="visibility-radio-public" value="public" <?php checked( $visibility, 'public' ); ?> /> <label for="visibility-radio-public" class="selectit"><?php _e('Public'); ?></label><br />
 <?php if ( $post_type == 'post' && current_user_can( 'edit_others_posts' ) ) : ?>
 <span id="sticky-span"><input id="sticky" name="sticky" type="checkbox" value="sticky" <?php checked( is_sticky( $post->ID ) ); ?> tabindex="4" /> <label for="sticky" class="selectit"><?php _e( 'Stick this post to the front page' ); ?></label><br /></span>
@@ -261,7 +259,6 @@ function post_format_meta_box( $post, $box ) {
 	<?php endif; endif;
 }
 
-
 /**
  * Display post tags form fields.
  *
@@ -302,7 +299,6 @@ function post_tags_meta_box($post, $box) {
 <?php endif; ?>
 <?php
 }
-
 
 /**
  * Display post categories form fields.
@@ -369,7 +365,6 @@ function post_categories_meta_box( $post, $box ) {
 	<?php
 }
 
-
 /**
  * Display post excerpt form fields.
  *
@@ -383,7 +378,6 @@ function post_excerpt_meta_box($post) {
 <p><?php _e('Excerpts are optional hand-crafted summaries of your content that can be used in your theme. <a href="http://codex.wordpress.org/Excerpt" target="_blank">Learn more about manual excerpts.</a>'); ?></p>
 <?php
 }
-
 
 /**
  * Display trackback links form fields.
@@ -411,7 +405,6 @@ if ( ! empty($pings) )
 	echo $pings;
 }
 
-
 /**
  * Display custom fields form fields.
  *
@@ -435,7 +428,6 @@ meta_form(); ?>
 <p><?php _e('Custom fields can be used to add extra metadata to a post that you can <a href="http://codex.wordpress.org/Using_Custom_Fields" target="_blank">use in your theme</a>.'); ?></p>
 <?php
 }
-
 
 /**
  * Display comments status form fields.
@@ -500,7 +492,6 @@ function post_comment_meta_box($post) {
 	wp_comment_trashnotice();
 }
 
-
 /**
  * Display slug form fields.
  *
@@ -513,7 +504,6 @@ function post_slug_meta_box($post) {
 <label class="screen-reader-text" for="post_name"><?php _e('Slug') ?></label><input name="post_name" type="text" size="13" id="post_name" value="<?php echo esc_attr( apply_filters('editable_slug', $post->post_name) ); ?>" />
 <?php
 }
-
 
 /**
  * Display form field with list of authors.
@@ -535,7 +525,6 @@ function post_author_meta_box($post) {
 	) );
 }
 
-
 /**
  * Display list of revisions.
  *
@@ -546,7 +535,6 @@ function post_author_meta_box($post) {
 function post_revisions_meta_box($post) {
 	wp_list_post_revisions();
 }
-
 
 // -- Page related Meta Boxes
 
@@ -595,7 +583,6 @@ function page_attributes_meta_box($post) {
 <p><?php if ( 'page' == $post->post_type ) _e( 'Need help? Use the Help tab in the upper right of your screen.' ); ?></p>
 <?php
 }
-
 
 // -- Link related Meta Boxes
 
@@ -658,7 +645,6 @@ if ( !empty($_GET['action']) && 'edit' == $_GET['action'] && current_user_can('m
 <?php
 }
 
-
 /**
  * Display link categories form fields.
  *
@@ -702,7 +688,6 @@ function link_categories_meta_box($link) { ?>
 <?php
 }
 
-
 /**
  * Display form fields for changing link target.
  *
@@ -725,7 +710,6 @@ function link_target_meta_box($link) { ?>
 <p><?php _e('Choose the target frame for your link.'); ?></p>
 <?php
 }
-
 
 /**
  * Display checked checkboxes attribute for xfn microformat options.
@@ -756,7 +740,6 @@ function xfn_check( $class, $value = '', $deprecated = '' ) {
 		if ('identity' == $class && in_array('me', $rels) ) echo ' checked="checked"';
 	}
 }
-
 
 /**
  * Display xfn form fields.
@@ -876,7 +859,6 @@ function link_xfn_meta_box($link) {
 <p><?php _e('If the link is to a person, you can specify your relationship with them using the above form. If you would like to learn more about the idea check out <a href="http://gmpg.org/xfn/">XFN</a>.'); ?></p>
 <?php
 }
-
 
 /**
  * Display advanced link options form fields.

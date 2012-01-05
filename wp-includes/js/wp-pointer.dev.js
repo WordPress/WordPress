@@ -46,7 +46,6 @@
 			if ( family.filter(function(){ return 'fixed' === $(this).css('position'); }).length )
 				positioning = 'fixed';
 
-
 			this.pointer = $('<div />')
 				.append( this.content )
 				.append( this.arrow )

@@ -142,7 +142,6 @@ else
 
 $wp_rewrite->flush_rules();
 
-
 if (isset($_POST['submit'])) : ?>
 <div id="message" class="updated"><p><?php
 if ( ! is_multisite() ) {

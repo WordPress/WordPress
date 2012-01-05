@@ -42,7 +42,6 @@ class Custom_Image_Header {
 	 */
 	var $default_headers = array();
 
-
 	/**
 	 * Holds custom headers uploaded by the user
 	 *
@@ -485,7 +484,6 @@ class Custom_Image_Header {
 
 <table class="form-table">
 <tbody>
-
 
 <tr valign="top">
 <th scope="row"><?php _e( 'Preview' ); ?></th>

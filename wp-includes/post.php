@@ -1831,7 +1831,6 @@ function wp_count_posts( $type = 'post', $perm = '' ) {
 	return $stats;
 }
 
-
 /**
  * Count number of attachments for the mime type(s).
  *
@@ -2775,7 +2774,6 @@ function check_and_publish_future_post($post_id) {
 	return wp_publish_post($post_id);
 }
 
-
 /**
  * Computes a unique slug for the post, when given the desired slug and some post details.
  *
@@ -2865,7 +2863,6 @@ function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_p
 function wp_add_post_tags($post_id = 0, $tags = '') {
 	return wp_set_post_tags($post_id, $tags, true);
 }
-
 
 /**
  * Set the tags for a post.
