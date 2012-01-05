@@ -416,8 +416,7 @@ function wp_default_scripts( &$scripts ) {
  * @param object $styles
  */
 function wp_default_styles( &$styles ) {
-	// This checks to see if site_url() returns something and if it does not
-	// then it assigns $guess_url to wp_guess_url(). Strange format, but it works.
+
 	if ( ! $guessurl = site_url() )
 		$guessurl = wp_guess_url();
 
