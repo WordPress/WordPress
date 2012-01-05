@@ -431,7 +431,7 @@ function wp_schedule_update_checks() {
 		wp_schedule_event(time(), 'twicedaily', 'wp_update_themes');
 }
 
-if ( ! is_main_site() && ! is_network_admin() )
+if ( ( ! is_main_site() && ! is_network_admin() ) || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) )
 	return;
 
 add_action( 'admin_init', '_maybe_update_core' );
