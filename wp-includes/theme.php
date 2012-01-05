@@ -1938,7 +1938,6 @@ function current_theme_supports( $feature ) {
 
 	$args = array_slice( func_get_args(), 1 );
 
-	// @todo Allow pluggable arg checking
 	switch ( $feature ) {
 		case 'post-thumbnails':
 			// post-thumbnails can be registered for only certain content/post types by passing
@@ -1958,7 +1957,7 @@ function current_theme_supports( $feature ) {
 			break;
 	}
 
-	return true;
+	return apply_filters('current_theme_supports-' . $feature, true, $args, $_wp_theme_features[$feature]);
 }
 
 /**
