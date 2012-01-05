@@ -1362,14 +1362,12 @@ function maybe_add_column($table_name, $column_name, $create_ddl) {
  */
 function get_alloptions_110() {
 	global $wpdb;
-	if ($options = $wpdb->get_results("SELECT option_name, option_value FROM $wpdb->options")) {
-		foreach ($options as $option) {
-			// "When trying to design a foolproof system,
-			//  never underestimate the ingenuity of the fools :)" -- Dougal
-			if ('siteurl' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
-			if ('home' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
-			if ('category_base' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
-			$all_options->{$option->option_name} = stripslashes($option->option_value);
+	$all_options = new stdClass;
+	if ( $options = $wpdb->get_results( "SELECT option_name, option_value FROM $wpdb->options" ) ) {
+		foreach ( $options as $option ) {
+			if ( 'siteurl' == $option->option_name || 'home' == $option->option_name || 'category_base' == $option->option_name )
+				$option->option_value = untrailingslashit( $option->option_value );
+			$all_options->{$option->option_name} = stripslashes( $option->option_value );
 		}
 	}
 	return $all_options;
@@ -1387,24 +1385,22 @@ function get_alloptions_110() {
 function __get_option($setting) {
 	global $wpdb;
 
-	if ( $setting == 'home' && defined( 'WP_HOME' ) ) {
-		return preg_replace( '|/+$|', '', WP_HOME );
-	}
+	if ( $setting == 'home' && defined( 'WP_HOME' ) )
+		return untrailingslashit( WP_HOME );
 
-	if ( $setting == 'siteurl' && defined( 'WP_SITEURL' ) ) {
-		return preg_replace( '|/+$|', '', WP_SITEURL );
-	}
+	if ( $setting == 'siteurl' && defined( 'WP_SITEURL' ) )
+		return untrailingslashit( WP_SITEURL );
 
-	$option = $wpdb->get_var( $wpdb->prepare("SELECT option_value FROM $wpdb->options WHERE option_name = %s", $setting) );
+	$option = $wpdb->get_var( $wpdb->prepare("SELECT option_value FROM $wpdb->options WHERE option_name = %s", $setting ) );
 
 	if ( 'home' == $setting && '' == $option )
-		return __get_option('siteurl');
+		return __get_option( 'siteurl' );
 
-	if ( 'siteurl' == $setting || 'home' == $setting || 'category_base' == $setting )
-		$option = preg_replace('|/+$|', '', $option);
+	if ( 'siteurl' == $setting || 'home' == $setting || 'category_base' == $setting || 'tag_base' == $setting )
+		$option = untrailingslashit( $option );
 
-	@ $kellogs = unserialize($option);
-	if ($kellogs !== false)
+	@ $kellogs = unserialize( $option );
+	if ( $kellogs !== false )
 		return $kellogs;
 	else
 		return $option;
