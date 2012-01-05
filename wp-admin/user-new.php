@@ -92,8 +92,8 @@ Please click the following link to confirm the invite:
 	if ( ! current_user_can('create_users') )
 		wp_die(__('Cheatin&#8217; uh?'));
 
-	if ( !is_multisite() ) {
-		$user_id = add_user();
+	if ( ! is_multisite() ) {
+		$user_id = edit_user();
 
 		if ( is_wp_error( $user_id ) ) {
 			$add_user_errors = $user_id;

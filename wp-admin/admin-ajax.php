@@ -890,11 +890,11 @@ case 'add-meta' :
 	break;
 case 'add-user' :
 	check_ajax_referer( $action );
-	if ( !current_user_can('create_users') )
+	if ( ! current_user_can('create_users') )
 		die('-1');
-	if ( !$user_id = add_user() )
+	if ( ! $user_id = edit_user() ) {
 		die('0');
-	elseif ( is_wp_error( $user_id ) ) {
+	} elseif ( is_wp_error( $user_id ) ) {
 		$x = new WP_Ajax_Response( array(
 			'what' => 'user',
 			'id' => $user_id
