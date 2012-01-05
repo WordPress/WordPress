@@ -9,38 +9,12 @@
 /**
  * Creates a new user from the "Users" form using $_POST information.
  *
- * It seems that the first half is for backwards compatibility, but only
- * has the ability to alter the user's role. WordPress core seems to
- * use this function only in the second way, running edit_user() with
- * no id so as to create a new user.
- *
  * @since 2.0
  *
- * @param int $user_id Optional. User ID.
  * @return null|WP_Error|int Null when adding user, WP_Error or User ID integer when no parameters.
  */
 function add_user() {
-	if ( func_num_args() ) { // The hackiest hack that ever did hack
-		global $wp_roles;
-		$user_id = (int) func_get_arg( 0 );
-
-		if ( isset( $_POST['role'] ) ) {
-			$new_role = sanitize_text_field( $_POST['role'] );
-			// Don't let anyone with 'edit_users' (admins) edit their own role to something without it.
-			if ( $user_id != get_current_user_id() || $wp_roles->role_objects[$new_role]->has_cap( 'edit_users' ) ) {
-				// If the new role isn't editable by the logged-in user die with error
-				$editable_roles = get_editable_roles();
-				if ( empty( $editable_roles[$new_role] ) )
-					wp_die(__('You can&#8217;t give users that role.'));
-
-				$user = new WP_User( $user_id );
-				$user->set_role( $new_role );
-			}
-		}
-	} else {
-		add_action( 'user_register', 'add_user' ); // See above
-		return edit_user();
-	}
+	return edit_user();
 }
 
 /**
