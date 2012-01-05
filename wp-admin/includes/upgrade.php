@@ -1453,7 +1453,7 @@ function dbDelta( $queries = '', $execute = true ) {
 	// Separate individual queries into an array
 	if ( !is_array($queries) ) {
 		$queries = explode( ';', $queries );
-		if ('' == $queries[count($queries) - 1]) array_pop($queries);
+		$queries = array_filter( $queries );
 	}
 	$queries = apply_filters( 'dbdelta_queries', $queries );
 
