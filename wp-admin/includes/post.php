@@ -1142,7 +1142,7 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
  * @param int $thumbnail_id ID of the attachment used for thumbnail
  * @return string html
  */
-function _wp_post_thumbnail_html( $thumbnail_id = NULL ) {
+function _wp_post_thumbnail_html( $thumbnail_id = null ) {
 	global $content_width, $_wp_additional_image_sizes, $post_ID;
 	$set_thumbnail_link = '<p class="hide-if-no-js"><a title="' . esc_attr__( 'Set featured image' ) . '" href="' . esc_url( get_upload_iframe_src('image') ) . '" id="set-post-thumbnail" class="thickbox">%s</a></p>';
 	$content = sprintf($set_thumbnail_link, esc_html__( 'Set featured image' ));

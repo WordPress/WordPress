@@ -104,7 +104,7 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 		global $_wp_additional_image_sizes;
 
 		foreach ( get_intermediate_image_sizes() as $s ) {
-			$sizes[$s] = array( 'width' => '', 'height' => '', 'crop' => FALSE );
+			$sizes[$s] = array( 'width' => '', 'height' => '', 'crop' => false );
 			if ( isset( $_wp_additional_image_sizes[$s]['width'] ) )
 				$sizes[$s]['width'] = intval( $_wp_additional_image_sizes[$s]['width'] ); // For theme-added sizes
 			else

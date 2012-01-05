@@ -74,7 +74,7 @@ function wp_add_inline_style( $handle, $data ) {
  * @param string|bool $src Path to the stylesheet from the root directory of WordPress. Example: '/css/mystyle.css'.
  * @param array $deps Array of handles of any stylesheet that this stylesheet depends on.
  *  (Stylesheets that must be loaded before this stylesheet.) Pass an empty array if there are no dependencies.
- * @param string|bool $ver String specifying the stylesheet version number. Set to NULL to disable.
+ * @param string|bool $ver String specifying the stylesheet version number. Set to null to disable.
  *  Used to ensure that the correct version is sent to the client regardless of caching.
  * @param string $media The media for which this stylesheet has been defined.
  */

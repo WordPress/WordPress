@@ -673,7 +673,7 @@ function _http_build_query($data, $prefix=null, $sep=null, $key='', $urlencode=t
 			$k = $prefix.$k;
 		if ( !empty($key) )
 			$k = $key . '%5B' . $k . '%5D';
-		if ( $v === NULL )
+		if ( $v === null )
 			continue;
 		elseif ( $v === FALSE )
 			$v = '0';
@@ -686,7 +686,7 @@ function _http_build_query($data, $prefix=null, $sep=null, $key='', $urlencode=t
 			array_push($ret, $k.'='.$v);
 	}
 
-	if ( NULL === $sep )
+	if ( null === $sep )
 		$sep = ini_get('arg_separator.output');
 
 	return implode($sep, $ret);

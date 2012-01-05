@@ -863,7 +863,7 @@ function uninstall_plugin($plugin) {
  *
  * @return string The resulting page's hook_suffix
  */
-function add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $function = '', $icon_url = '', $position = NULL ) {
+function add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $function = '', $icon_url = '', $position = null ) {
 	global $menu, $admin_page_hooks, $_registered_pages, $_parent_pages;
 
 	$menu_slug = plugin_basename( $menu_slug );

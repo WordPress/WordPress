@@ -3078,7 +3078,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			$name = "wpid{$old_file->ID}-{$filename}";
 		}
 
-		$upload = wp_upload_bits($name, NULL, $bits);
+		$upload = wp_upload_bits($name, null, $bits);
 		if ( ! empty($upload['error']) ) {
 			$errorString = sprintf(__('Could not write file %1$s (%2$s)'), $name, $upload['error']);
 			logIO('O', '(MW) ' . $errorString);

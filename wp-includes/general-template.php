@@ -2065,7 +2065,7 @@ function wp_admin_css_uri( $file = 'wp-admin' ) {
  * "Intelligently" decides to enqueue or to print the CSS file. If the
  * 'wp_print_styles' action has *not* yet been called, the CSS file will be
  * enqueued. If the wp_print_styles action *has* been called, the CSS link will
- * be printed. Printing may be forced by passing TRUE as the $force_echo
+ * be printed. Printing may be forced by passing true as the $force_echo
  * (second) parameter.
  *
  * For backward compatibility with WordPress 2.3 calling method: If the $file

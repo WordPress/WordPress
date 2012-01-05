@@ -86,7 +86,7 @@ case 'update':
 	if (is_writeable($file)) {
 		//is_writable() not always reliable, check return value. see comments @ http://uk.php.net/is_writable
 		$f = fopen($file, 'w+');
-		if ($f !== FALSE) {
+		if ($f !== false) {
 			fwrite($f, $newcontent);
 			fclose($f);
 			$location = "theme-editor.php?file=$file&theme=$theme&a=te&scrollto=$scrollto";

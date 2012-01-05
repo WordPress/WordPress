@@ -763,7 +763,7 @@ function wp_kses_hair($attr, $allowed_protocols) {
 					{
 					$working = 1;
 					$mode = 0;
-					if(FALSE === array_key_exists($attrname, $attrarr)) {
+					if(false === array_key_exists($attrname, $attrarr)) {
 						$attrarr[$attrname] = array ('name' => $attrname, 'value' => '', 'whole' => $attrname, 'vless' => 'y');
 					}
 					$attr = preg_replace('/^\s+/', '', $attr);
@@ -780,7 +780,7 @@ function wp_kses_hair($attr, $allowed_protocols) {
 					if ( in_array(strtolower($attrname), $uris) )
 						$thisval = wp_kses_bad_protocol($thisval, $allowed_protocols);
 
-					if(FALSE === array_key_exists($attrname, $attrarr)) {
+					if(false === array_key_exists($attrname, $attrarr)) {
 						$attrarr[$attrname] = array ('name' => $attrname, 'value' => $thisval, 'whole' => "$attrname=\"$thisval\"", 'vless' => 'n');
 					}
 					$working = 1;
@@ -796,7 +796,7 @@ function wp_kses_hair($attr, $allowed_protocols) {
 					if ( in_array(strtolower($attrname), $uris) )
 						$thisval = wp_kses_bad_protocol($thisval, $allowed_protocols);
 
-					if(FALSE === array_key_exists($attrname, $attrarr)) {
+					if(false === array_key_exists($attrname, $attrarr)) {
 						$attrarr[$attrname] = array ('name' => $attrname, 'value' => $thisval, 'whole' => "$attrname='$thisval'", 'vless' => 'n');
 					}
 					$working = 1;
@@ -812,7 +812,7 @@ function wp_kses_hair($attr, $allowed_protocols) {
 					if ( in_array(strtolower($attrname), $uris) )
 						$thisval = wp_kses_bad_protocol($thisval, $allowed_protocols);
 
-					if(FALSE === array_key_exists($attrname, $attrarr)) {
+					if(false === array_key_exists($attrname, $attrarr)) {
 						$attrarr[$attrname] = array ('name' => $attrname, 'value' => $thisval, 'whole' => "$attrname=\"$thisval\"", 'vless' => 'n');
 					}
 					# We add quotes to conform to W3C's HTML spec.
@@ -831,7 +831,7 @@ function wp_kses_hair($attr, $allowed_protocols) {
 		}
 	} # while
 
-	if ($mode == 1 && FALSE === array_key_exists($attrname, $attrarr))
+	if ($mode == 1 && false === array_key_exists($attrname, $attrarr))
 		# special case, for when the attribute list ends with a valueless
 		# attribute like "selected"
 		$attrarr[$attrname] = array ('name' => $attrname, 'value' => '', 'whole' => $attrname, 'vless' => 'y');
@@ -938,7 +938,7 @@ function wp_kses_bad_protocol($string, $allowed_protocols) {
 }
 
 /**
- * Removes any NULL characters in $string.
+ * Removes any null characters in $string.
  *
  * @since 1.0.0
  *

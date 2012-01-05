@@ -603,7 +603,7 @@ default:
 		$errors->add('test_cookie', __("<strong>ERROR</strong>: Cookies are blocked or not supported by your browser. You must <a href='http://www.google.com/cookies.html'>enable cookies</a> to use WordPress."));
 
 	// Some parts of this script use the main login form to display a message
-	if		( isset($_GET['loggedout']) && TRUE == $_GET['loggedout'] )
+	if		( isset($_GET['loggedout']) && true == $_GET['loggedout'] )
 		$errors->add('loggedout', __('You are now logged out.'), 'message');
 	elseif	( isset($_GET['registration']) && 'disabled' == $_GET['registration'] )
 		$errors->add('registerdisabled', __('User registration is currently not allowed.'));

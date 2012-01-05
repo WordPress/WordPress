@@ -153,7 +153,7 @@ function wp_authenticate_cookie($user, $username, $password) {
 function count_user_posts($userid) {
 	global $wpdb;
 
-	$where = get_posts_by_author_sql('post', TRUE, $userid);
+	$where = get_posts_by_author_sql('post', true, $userid);
 
 	$count = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts $where" );
 
@@ -853,7 +853,7 @@ function count_users($strategy = 'time') {
 		// Build a CPU-intensive query that will return concise information.
 		$select_count = array();
 		foreach ( $avail_roles as $this_role => $name ) {
-			$select_count[] = "COUNT(NULLIF(`meta_value` LIKE '%" . like_escape($this_role) . "%', FALSE))";
+			$select_count[] = "COUNT(NULLIF(`meta_value` LIKE '%" . like_escape($this_role) . "%', false))";
 		}
 		$select_count = implode(', ', $select_count);
 

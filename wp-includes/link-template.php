@@ -2363,7 +2363,7 @@ function the_shortlink( $text = '', $title = '', $before = '', $after = '' ) {
 		$text = __('This is the short link.');
 
 	if ( empty( $title ) )
-		$title = the_title_attribute( array( 'echo' => FALSE ) );
+		$title = the_title_attribute( array( 'echo' => false ) );
 
 	$shortlink = wp_get_shortlink( $post->ID );
 

@@ -1490,7 +1490,7 @@ class WP_Http_Cookie {
 	 * @since 2.8.0
 	 *
 	 * @param string $url URL you intend to send this cookie to
-	 * @return boolean TRUE if allowed, FALSE otherwise.
+	 * @return boolean true if allowed, false otherwise.
 	 */
 	function test( $url ) {
 		// Expires - if expired then nothing else matters

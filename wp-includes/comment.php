@@ -1134,7 +1134,7 @@ function wp_get_comment_status($comment_id) {
 
 	$approved = $comment->comment_approved;
 
-	if ( $approved == NULL )
+	if ( $approved == null )
 		return false;
 	elseif ( $approved == '1' )
 		return 'approved';

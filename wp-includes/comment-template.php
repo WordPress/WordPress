@@ -769,7 +769,7 @@ function trackback_rdf( $deprecated = '' ) {
  * @param int $post_id An optional post ID to check instead of the current post.
  * @return bool True if the comments are open
  */
-function comments_open( $post_id=NULL ) {
+function comments_open( $post_id = null ) {
 
 	$_post = get_post($post_id);
 
@@ -786,7 +786,7 @@ function comments_open( $post_id=NULL ) {
  * @param int $post_id An optional post ID to check instead of the current post.
  * @return bool True if pings are accepted
  */
-function pings_open( $post_id = NULL ) {
+function pings_open( $post_id = null ) {
 
 	$_post = get_post($post_id);
 
@@ -899,10 +899,10 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 		$comments_by_type = &$wp_query->comments_by_type;
 	}
 
-	$overridden_cpage = FALSE;
+	$overridden_cpage = false;
 	if ( '' == get_query_var('cpage') && get_option('page_comments') ) {
 		set_query_var( 'cpage', 'newest' == get_option('default_comments_page') ? get_comment_pages_count() : 1 );
-		$overridden_cpage = TRUE;
+		$overridden_cpage = true;
 	}
 
 	if ( !defined('COMMENTS_TEMPLATE') || !COMMENTS_TEMPLATE)
@@ -1191,7 +1191,7 @@ function comment_id_fields( $id = 0 ) {
  * @param string $replytext Optional. Text to display when replying to a comment. Accepts "%s" for the author of the comment being replied to.
  * @param string $linktoparent Optional. Boolean to control making the author's name a link to their comment.
  */
-function comment_form_title( $noreplytext = false, $replytext = false, $linktoparent = TRUE ) {
+function comment_form_title( $noreplytext = false, $replytext = false, $linktoparent = true ) {
 	global $comment;
 
 	if ( false === $noreplytext ) $noreplytext = __( 'Leave a Reply' );

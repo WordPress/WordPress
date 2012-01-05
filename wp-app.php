@@ -615,7 +615,7 @@ EOD;
 			$slug = substr( md5( uniqid( microtime() ) ), 0, 7);
 		$ext = preg_replace( '|.*/([a-z0-9]+)|', '$1', $_SERVER['CONTENT_TYPE'] );
 		$slug = sanitize_file_name( "$slug.$ext" );
-		$file = wp_upload_bits( $slug, NULL, $bits);
+		$file = wp_upload_bits( $slug, null, $bits);
 
 		log_app('wp_upload_bits returns:',print_r($file,true));
 
@@ -1073,10 +1073,10 @@ EOD;
 
 		log_app('function',"total_count(# $wp_query->max_num_pages #)");
 		$last_page = $wp_query->max_num_pages;
-		$next_page = (($page + 1) > $last_page) ? NULL : $page + 1;
-		$prev_page = ($page - 1) < 1 ? NULL : $page - 1;
-		$last_page = ((int)$last_page == 1 || (int)$last_page == 0) ? NULL : (int) $last_page;
-		$self_page = $page > 1 ? $page : NULL;
+		$next_page = (($page + 1) > $last_page) ? null : $page + 1;
+		$prev_page = ($page - 1) < 1 ? null : $page - 1;
+		$last_page = ((int)$last_page == 1 || (int)$last_page == 0) ? null : (int) $last_page;
+		$self_page = $page > 1 ? $page : null;
 ?><feed xmlns="<?php echo $this->ATOM_NS ?>" xmlns:app="<?php echo $this->ATOMPUB_NS ?>" xml:lang="<?php echo get_option('rss_language'); ?>" <?php do_action('app_ns'); ?> >
 <id><?php $this->the_entries_url() ?></id>
 <updated><?php echo mysql2date('Y-m-d\TH:i:s\Z', get_lastpostmodified('GMT'), false); ?></updated>
@@ -1527,7 +1527,7 @@ EOD;
 				global $post;
 				$post = wp_get_single_post($this->params[1]);
 				$wp_last_modified = get_post_modified_time('D, d M Y H:i:s', true);
-				$post = NULL;
+				$post = null;
 				break;
 			case $this->ENTRIES_PATH:
 				$wp_last_modified = mysql2date('D, d M Y H:i:s', get_lastpostmodified('GMT'), 0).' GMT';

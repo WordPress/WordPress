@@ -395,7 +395,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 		$requested_url = preg_replace_callback('|%[a-fA-F0-9][a-fA-F0-9]|', 'lowercase_octets', $requested_url);
 	}
 
-	// Note that you can use the "redirect_canonical" filter to cancel a canonical redirect for whatever reason by returning FALSE
+	// Note that you can use the "redirect_canonical" filter to cancel a canonical redirect for whatever reason by returning false
 	$redirect_url = apply_filters('redirect_canonical', $redirect_url, $requested_url);
 
 	if ( !$redirect_url || $redirect_url == $requested_url ) // yes, again -- in case the filter aborted the request

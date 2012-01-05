@@ -1404,7 +1404,7 @@ function __get_option($setting) {
 		$option = preg_replace('|/+$|', '', $option);
 
 	@ $kellogs = unserialize($option);
-	if ($kellogs !== FALSE)
+	if ($kellogs !== false)
 		return $kellogs;
 	else
 		return $option;

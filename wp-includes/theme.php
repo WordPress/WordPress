@@ -1279,7 +1279,7 @@ function switch_theme($template, $stylesheet) {
  *
  * Does not check the default theme, which is the fallback and should always exist.
  * Will switch theme to the fallback theme if current theme does not validate.
- * You can use the 'validate_current_theme' filter to return FALSE to
+ * You can use the 'validate_current_theme' filter to return false to
  * disable this functionality.
  *
  * @since 1.5.0

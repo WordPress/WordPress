@@ -1198,7 +1198,7 @@ function add_settings_error( $setting, $code, $message, $type = 'error' ) {
  * @param boolean $sanitize Whether to re-sanitize the setting value before returning errors.
  * @return array Array of settings errors
  */
-function get_settings_errors( $setting = '', $sanitize = FALSE ) {
+function get_settings_errors( $setting = '', $sanitize = false ) {
 	global $wp_settings_errors;
 
 	// If $sanitize is true, manually re-run the sanitizisation for this option
@@ -1250,7 +1250,7 @@ function get_settings_errors( $setting = '', $sanitize = FALSE ) {
  * @param boolean $sanitize Whether to re-sanitize the setting value before returning errors.
  * @param boolean $hide_on_update If set to true errors will not be shown if the settings page has already been submitted.
  */
-function settings_errors( $setting = '', $sanitize = FALSE, $hide_on_update = FALSE ) {
+function settings_errors( $setting = '', $sanitize = false, $hide_on_update = false ) {
 
 	if ($hide_on_update AND $_GET['settings-updated']) return;
 
@@ -1587,7 +1587,7 @@ function compression_test() {
  *                     Defaults to no other attributes. Other attributes can also be provided as a
  *                     string such as 'tabindex="1"', though the array format is typically cleaner.
  */
-function submit_button( $text = NULL, $type = 'primary', $name = 'submit', $wrap = true, $other_attributes = NULL ) {
+function submit_button( $text = null, $type = 'primary', $name = 'submit', $wrap = true, $other_attributes = null ) {
 	echo get_submit_button( $text, $type, $name, $wrap, $other_attributes );
 }
 
@@ -1608,7 +1608,7 @@ function submit_button( $text = NULL, $type = 'primary', $name = 'submit', $wrap
  *                     Defaults to no other attributes. Other attributes can also be provided as a
  *                     string such as 'tabindex="1"', though the array format is typically cleaner.
  */
-function get_submit_button( $text = NULL, $type = 'primary', $name = 'submit', $wrap = true, $other_attributes = NULL ) {
+function get_submit_button( $text = null, $type = 'primary', $name = 'submit', $wrap = true, $other_attributes = null ) {
 	switch ( $type ) :
 		case 'primary' :
 		case 'secondary' :
@@ -1620,7 +1620,7 @@ function get_submit_button( $text = NULL, $type = 'primary', $name = 'submit', $
 		default :
 			$class = $type; // Custom cases can just pass in the classes they want to be used
 	endswitch;
-	$text = ( NULL == $text ) ? __( 'Save Changes' ) : $text;
+	$text = ( null == $text ) ? __( 'Save Changes' ) : $text;
 
 	// Default the id attribute to $name unless an id was specifically provided in $other_attributes
 	$id = $name;

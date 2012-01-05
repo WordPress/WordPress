@@ -2928,7 +2928,7 @@ class WP_Query {
 		if ( isset($this->queried_object) )
 			return $this->queried_object;
 
-		$this->queried_object = NULL;
+		$this->queried_object = null;
 		$this->queried_object_id = 0;
 
 		if ( $this->is_category || $this->is_tag || $this->is_tax ) {
