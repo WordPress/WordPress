@@ -2247,7 +2247,6 @@ function _xmlrpc_wp_die_filter() {
 	return '_xmlrpc_wp_die_handler';
 }
 
-
 /**
  * Retrieve the WordPress home page URL.
  *
@@ -2314,7 +2313,6 @@ function _mce_set_direction( $input ) {
 
 	return $input;
 }
-
 
 /**
  * Convert smiley code to the icon graphic file equivalent.
