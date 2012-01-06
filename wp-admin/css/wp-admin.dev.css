@@ -5784,6 +5784,7 @@ form .textarea-wrap {
 #dashboard_recent_drafts p {
 	margin: 0;
 	padding: 0;
+	word-wrap: break-word;
 }
 
 #dashboard_recent_drafts ul {
@@ -5796,6 +5797,7 @@ form .textarea-wrap {
 
 #dashboard_recent_drafts h4 {
 	line-height: 1.7em;
+	word-wrap: break-word;
 }
 
 #dashboard_recent_drafts h4 abbr {
