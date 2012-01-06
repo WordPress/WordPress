@@ -279,8 +279,8 @@ function remove_user_from_blog($user_id, $blog_id = '', $reassign = '') {
  *
  * @param string $domain The new blog's domain.
  * @param string $path The new blog's path.
- * @param string $string The new blog's title.
- * @param int $site Optional. Defaults to 1.
+ * @param string $weblog_title The new blog's title.
+ * @param int $site_id Optional. Defaults to 1.
  * @return int The ID of the newly created blog
  */
 function create_empty_blog( $domain, $path, $weblog_title, $site_id = 1 ) {

@@ -723,8 +723,8 @@ function get_blogs_of_user( $user_id, $all = false ) {
  * @since MU 1.1
  * @uses get_blogs_of_user()
  *
- * @param int $user_id The unique ID of the user
- * @param int $blog Optional. If no blog_id is provided, current site is used
+ * @param int $user_id Optional. The unique ID of the user. Defaults to the current user.
+ * @param int $blog_id Optional. ID of the blog to check. Defaults to the current site.
  * @return bool
  */
 function is_user_member_of_blog( $user_id = 0, $blog_id = 0 ) {
