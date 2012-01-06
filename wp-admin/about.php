@@ -166,7 +166,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	?></a> |
 	<?php endif; ?>
 	<a href="<?php echo esc_url( self_admin_url() ); ?>"><?php
-		is_network_admin() ? _e( 'Go to Dashboard' ) : _e( 'Go to Dashboard &rarr; Home' ); ?></a>
+		is_blog_admin() ? _e( 'Go to Dashboard &rarr; Home' ) : _e( 'Go to Dashboard' ); ?></a>
 </div>
 
 </div>
