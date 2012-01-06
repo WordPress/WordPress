@@ -239,8 +239,7 @@ function retrieve_password() {
  *
  * @param string $key Hash to validate sending user's password
  * @param string $login The user login
- *
- * @return object|WP_Error
+ * @return object|WP_Error User's database row on success, error object for invalid keys
  */
 function check_password_reset_key($key, $login) {
 	global $wpdb;
@@ -264,9 +263,8 @@ function check_password_reset_key($key, $login) {
 /**
  * Handles resetting the user's password.
  *
- * @uses $wpdb WordPress Database object
- *
- * @param string $key Hash to validate sending user's password
+ * @param object $user The user
+ * @param string $new_pass New password for the user in plaintext
  */
 function reset_password($user, $new_pass) {
 	do_action('password_reset', $user, $new_pass);

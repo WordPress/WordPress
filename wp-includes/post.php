@@ -2887,6 +2887,7 @@ function wp_set_post_tags( $post_id = 0, $tags = '', $append = false ) {
  *
  * @param int $post_id Post ID.
  * @param string $tags The tags to set for the post, separated by commas.
+ * @param string $taxonomy Taxonomy name. Defaults to 'post_tag'.
  * @param bool $append If true, don't delete existing tags, just add on. If false, replace the tags with the new tags.
  * @return mixed Array of affected term IDs. WP_Error or false on failure.
  */

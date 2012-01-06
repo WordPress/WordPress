@@ -227,7 +227,7 @@ function get_the_category_list( $separator = '', $parents='', $post_id = false )
  * @since 1.2.0
  *
  * @param int|string|array $category Category ID, name or slug, or array of said.
- * @param int|object $_post Optional. Post to check instead of the current post. (since 2.7.0)
+ * @param int|object $post Optional. Post to check instead of the current post. (since 2.7.0)
  * @return bool True if the current post is in any of the given categories.
  */
 function in_category( $category, $post = null ) {
@@ -1050,6 +1050,7 @@ function tag_description( $tag = 0 ) {
  * @since 2.8
  *
  * @param int $term Optional. Term ID. Will use global term ID by default.
+ * @param string $taxonomy Optional taxonomy name. Defaults to 'post_tag'.
  * @return string Term description, available.
  */
 function term_description( $term = 0, $taxonomy = 'post_tag' ) {
@@ -1156,7 +1157,7 @@ function the_terms( $id = 0, $taxonomy, $before = '', $sep = ', ', $after = '' )
  *
  * @since 3.1.0
  *
- * @param string|int|array $tag Optional. The category name/term_id/slug or array of them to check for.
+ * @param string|int|array $category Optional. The category name/term_id/slug or array of them to check for.
  * @param int|object $post Optional. Post to check instead of the current post.
  * @return bool True if the current post has any of the given categories (or any category, if no category specified).
  */

@@ -164,11 +164,12 @@ function count_user_posts($userid) {
  * Number of posts written by a list of users.
  *
  * @since 3.0.0
- * @param array $user_ids Array of user IDs.
+ *
+ * @param array $users Array of user IDs.
  * @param string|array $post_type Optional. Post type to check. Defaults to post.
  * @return array Amount of posts each user has written.
  */
-function count_many_users_posts($users, $post_type = 'post' ) {
+function count_many_users_posts( $users, $post_type = 'post' ) {
 	global $wpdb;
 
 	$count = array();
