@@ -1052,6 +1052,9 @@ class WP_Http_Curl {
 				curl_setopt( $handle, CURLOPT_CUSTOMREQUEST, 'PUT' );
 				curl_setopt( $handle, CURLOPT_POSTFIELDS, $r['body'] );
 				break;
+			default:
+				curl_setopt( $handle, CURLOPT_CUSTOMREQUEST, $r['method'] );
+				break;
 		}
 
 		if ( true === $r['blocking'] )
