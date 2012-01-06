@@ -81,7 +81,7 @@ function get_home_path() {
 	$siteurl = get_option( 'siteurl' );
 	if ( $home != '' && $home != $siteurl ) {
 		$wp_path_rel_to_home = str_replace($home, '', $siteurl); /* $siteurl - $home */
-		$pos = strpos($_SERVER["SCRIPT_FILENAME"], $wp_path_rel_to_home);
+		$pos = strrpos($_SERVER["SCRIPT_FILENAME"], $wp_path_rel_to_home);
 		$home_path = substr($_SERVER["SCRIPT_FILENAME"], 0, $pos);
 		$home_path = trailingslashit( $home_path );
 	} else {
