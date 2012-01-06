@@ -52,7 +52,7 @@ require_once(ABSPATH . WPINC . '/class-wp-error.php');
 if (!file_exists(ABSPATH . 'wp-config-sample.php'))
 	wp_die('Sorry, I need a wp-config-sample.php file to work from. Please re-upload this file from your WordPress installation.');
 
-$configFile = file(ABSPATH . 'wp-config-sample.php');
+$config_file = file(ABSPATH . 'wp-config-sample.php');
 
 // Check if wp-config.php has been created
 if (file_exists(ABSPATH . 'wp-config.php'))
@@ -210,44 +210,48 @@ switch($step) {
 			$secret_keys[$k] = substr( $v, 28, 64 );
 		}
 	}
-	$key = 0;
 
-	foreach ($configFile as $line_num => $line) {
-		switch (substr($line,0,16)) {
-			case "define('DB_NAME'":
-				$configFile[$line_num] = str_replace("database_name_here", $dbname, $line);
+	$key = 0;
+	foreach ( $config_file as &$line ) {
+		if ( '$table_prefix  =' == substr( $line, 0, 16 ) ) {
+			$line = '$table_prefix  = \'' . $prefix . "';\r\n";
+			continue;
+		}
+
+		if ( ! preg_match( '/^define\(\'([A-Z_]+)\',([ ]+)/', $line, $match ) )
+			continue;
+
+		$constant = $match[1];
+		$padding  = $match[2];
+
+		switch ( $constant ) {
+			case 'DB_NAME'     :
+			case 'DB_USER'     :
+			case 'DB_PASSWORD' :
+			case 'DB_HOST'     :
+				$line = "define('" . $constant . "'," . $padding . "'" . constant( $constant ) . "');\r\n";
 				break;
-			case "define('DB_USER'":
-				$configFile[$line_num] = str_replace("'username_here'", "'$uname'", $line);
-				break;
-			case "define('DB_PASSW":
-				$configFile[$line_num] = str_replace("'password_here'", "'$passwrd'", $line);
-				break;
-			case "define('DB_HOST'":
-				$configFile[$line_num] = str_replace("localhost", $dbhost, $line);
-				break;
-			case '$table_prefix  =':
-				$configFile[$line_num] = str_replace('wp_', $prefix, $line);
-				break;
-			case "define('AUTH_KEY":
-			case "define('SECURE_A":
-			case "define('LOGGED_I":
-			case "define('NONCE_KE":
-			case "define('AUTH_SAL":
-			case "define('SECURE_A":
-			case "define('LOGGED_I":
-			case "define('NONCE_SA":
-				$configFile[$line_num] = str_replace('put your unique phrase here', $secret_keys[$key++], $line );
+			case 'AUTH_KEY'         :
+			case 'SECURE_AUTH_KEY'  :
+			case 'LOGGED_IN_KEY'    :
+			case 'NONCE_KEY'        :
+			case 'AUTH_SALT'        :
+			case 'SECURE_AUTH_SALT' :
+			case 'LOGGED_IN_SALT'   :
+			case 'NONCE_SALT'       :
+				$line = "define('" . $constant . "'," . $padding . "'" . $secret_keys[$key++] . "');\r\n";
 				break;
 		}
 	}
+	unset( $line );
+
 	if ( ! is_writable(ABSPATH) ) :
 		display_header();
 ?>
 <p>Sorry, but I can't write the <code>wp-config.php</code> file.</p>
 <p>You can create the <code>wp-config.php</code> manually and paste the following text into it.</p>
 <textarea cols="98" rows="15" class="code"><?php
-		foreach( $configFile as $line ) {
+		foreach( $config_file as $line ) {
 			echo htmlentities($line, ENT_COMPAT, 'UTF-8');
 		}
 ?></textarea>
@@ -256,7 +260,7 @@ switch($step) {
 <?php
 	else :
 		$handle = fopen(ABSPATH . 'wp-config.php', 'w');
-		foreach( $configFile as $line ) {
+		foreach( $config_file as $line ) {
 			fwrite($handle, $line);
 		}
 		fclose($handle);
