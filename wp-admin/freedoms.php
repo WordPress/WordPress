@@ -13,7 +13,7 @@ $title = __( 'Freedoms' );
 
 list( $display_version ) = explode( '-', $wp_version );
 
-include( './admin-header.php' );
+include( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 <div class="wrap about-wrap">
 
@@ -54,4 +54,4 @@ printf( __( 'Every plugin and theme in WordPress.org&#8217;s directory is 100%% 
 <p><?php _e( 'Don&#8217;t you wish all software came with these freedoms? So do we! For more information, check out the <a href="http://www.fsf.org/">Free Software Foundation</a>.' ); ?></p>
 
 </div>
-<?php include( './admin-footer.php' ); ?>
+<?php include( ABSPATH . 'wp-admin/admin-footer.php' ); ?>

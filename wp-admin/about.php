@@ -13,7 +13,7 @@ $title = __( 'About' );
 
 list( $display_version ) = explode( '-', $wp_version );
 
-include( './admin-header.php' );
+include( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 <div class="wrap about-wrap">
 
@@ -38,8 +38,8 @@ include( './admin-header.php' );
 
 	<div class="feature-section images-stagger-right">
 		<div class="feature-images">
-			<img src="images/screenshots/media-icon.png" width="200" class="angled-right" />
-			<img src="images/screenshots/drag-and-drop.png" width="200" class="angled-left" />
+			<img src="<?php echo admin_url( 'images/screenshots/media-icon.png' ); ?>" width="200" class="angled-right" />
+			<img src="<?php echo admin_url( 'images/screenshots/drag-and-drop.png' ); ?>" width="200" class="angled-left" />
 		</div>
 		<div class="left-feature">
 			<h4><?php _e( 'File Type Detection' ); ?></h4>
@@ -69,12 +69,12 @@ include( './admin-header.php' );
 
 	<div class="feature-section screenshot-features">
 		<div class="angled-left">
-			<img src="images/screenshots/admin-flyouts.png" />
+			<img src="<?php echo admin_url( 'images/screenshots/admin-flyouts.png' ); ?>" />
 			<h4><?php _e( 'Responsive Design' ); ?></h4>
 			<p><?php _e( 'Certain dashboard screens have been updated to look better at various sizes, including improved iPad/tablet support.' ); ?></p>
 		</div>
 		<div class="angled-right">
-			<img src="images/screenshots/help-screen.png" />
+			<img src="<?php echo admin_url( 'images/screenshots/help-screen.png' ); ?>" />
 			<h4><?php _e( 'Help Tabs' ); ?></h4>
 			<p><?php _e( 'The Help tabs located in the upper corner of the dashboard screens below your name have gotten a facelift. Help content is broken into smaller sections for easier access, with links to relevant documentation and the support forums always visible.' ); ?></p>
 		</div>
@@ -86,8 +86,8 @@ include( './admin-header.php' );
 
 	<div class="feature-section images-stagger-right">
 		<div class="feature-images">
-			<img src="images/screenshots/new-feature-pointer.png" class="angled-right" />
-			<img src="images/screenshots/welcome-screen.png" class="angled-left" />
+			<img src="<?php echo admin_url( 'images/screenshots/new-feature-pointer.png' ); ?>" class="angled-right" />
+			<img src="<?php echo admin_url( 'images/screenshots/welcome-screen.png' ); ?>" class="angled-left" />
 		</div>
 		<div class="left-feature">
 			<h4><?php _e( 'New Feature Pointers' ); ?></h4>
@@ -109,7 +109,7 @@ include( './admin-header.php' );
 	<div class="feature-section three-col">
 		<div>
 			<h4><?php _e( 'Better Co-Editing' ); ?></h4>
-			<img src="images/screenshots/coediting.png" class="element-screenshot" />
+			<img src="<?php echo admin_url( 'images/screenshots/coediting.png' ); ?>" class="element-screenshot" />
 			<p><?php _e( 'Have you ever gone to edit a post after someone else has finished with it, only to get an alert that tells you the other person is still editing the post? From now on, you&#8217;ll only get that alert if another person is still on the editing screen &mdash; no more time lag.' ); ?></p>
 		</div>
 		<div>
@@ -161,17 +161,18 @@ include( './admin-header.php' );
 
 <div class="return-to-dashboard">
 	<?php if ( current_user_can( 'update_core' ) && isset( $_GET['updated'] ) ) : ?>
-	<a href="<?php echo esc_url( network_admin_url( 'update-core.php' ) ); ?>"><?php
+	<a href="<?php echo esc_url( self_admin_url( 'update-core.php' ) ); ?>"><?php
 		is_multisite() ? _e( 'Return to Updates' ) : _e( 'Return to Dashboard &rarr; Updates' );
 	?></a> |
 	<?php endif; ?>
-	<a href="<?php echo esc_url( admin_url() ); ?>"><?php _e( 'Go to Dashboard &rarr; Home' ); ?></a>
+	<a href="<?php echo esc_url( self_admin_url() ); ?>"><?php
+		is_network_admin() ? _e( 'Go to Dashboard' ) : _e( 'Go to Dashboard &rarr; Home' ); ?></a>
 </div>
 
 </div>
 <?php
 
-include( './admin-footer.php' );
+include( ABSPATH . 'wp-admin/admin-footer.php' );
 
 // These are strings we may use to describe maintenance/security releases, where we aim for no new strings.
 return;

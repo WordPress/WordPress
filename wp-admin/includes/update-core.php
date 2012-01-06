@@ -601,7 +601,7 @@ function _copy_dir($from, $to, $skip_list = array() ) {
 /**
  * Redirect to the About WordPress page after a successful upgrade.
  *
- * This function is only needed when the existing install is older than 3.3.0.
+ * This function is only needed when the existing install is older than 3.3.0 (3.4.0 for multisite).
  *
  * @since 3.3.0
  *
@@ -609,8 +609,13 @@ function _copy_dir($from, $to, $skip_list = array() ) {
 function _redirect_to_about_wordpress( $new_version ) {
 	global $wp_version, $pagenow, $action;
 
-	if ( version_compare( $wp_version, '3.3', '>=' ) )
+	if ( is_multisite() ) {
+		// Change to self_admin_url().
+		if ( version_compare( $wp_version, '3.4-alpha', '>=' ) )
+			return;
+	} elseif ( version_compare( $wp_version, '3.3', '>=' ) ) {
 		return;
+	}
 
 	// Ensure we only run this on the update-core.php page. wp_update_core() could be called in other contexts.
 	if ( 'update-core.php' != $pagenow )
@@ -624,12 +629,12 @@ function _redirect_to_about_wordpress( $new_version ) {
 
 	// See do_core_upgrade()
 	show_message( __('WordPress updated successfully') );
-	show_message( '<span class="hide-if-no-js">' . sprintf( __( 'Welcome to WordPress %1$s. You will be redirected to the About WordPress screen. If not, click <a href="%s">here</a>.' ), $new_version, esc_url( admin_url( 'about.php?updated' ) ) ) . '</span>' );
-	show_message( '<span class="hide-if-js">' . sprintf( __( 'Welcome to WordPress %1$s. <a href="%2$s">Learn more</a>.' ), $new_version, esc_url( admin_url( 'about.php?updated' ) ) ) . '</span>' );
+	show_message( '<span class="hide-if-no-js">' . sprintf( __( 'Welcome to WordPress %1$s. You will be redirected to the About WordPress screen. If not, click <a href="%s">here</a>.' ), $new_version, esc_url( self_admin_url( 'about.php?updated' ) ) ) . '</span>' );
+	show_message( '<span class="hide-if-js">' . sprintf( __( 'Welcome to WordPress %1$s. <a href="%2$s">Learn more</a>.' ), $new_version, esc_url( self_admin_url( 'about.php?updated' ) ) ) . '</span>' );
 	echo '</div>';
 	?>
 <script type="text/javascript">
-window.location = '<?php echo admin_url( 'about.php?updated' ); ?>';
+window.location = '<?php echo self_admin_url( 'about.php?updated' ); ?>';
 </script>
 	<?php
 

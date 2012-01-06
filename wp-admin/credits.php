@@ -44,7 +44,7 @@ function _wp_credits_build_object_link( &$data ) {
 
 list( $display_version ) = explode( '-', $wp_version );
 
-include( './admin-header.php' );
+include( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 <div class="wrap about-wrap">
 
@@ -73,7 +73,7 @@ if ( ! $credits ) {
 		'http://wordpress.org/about/',
 		/* translators: Url to the codex documentation on contributing to WordPress used on the credits page */
 		__( 'http://codex.wordpress.org/Contributing_to_WordPress' ) ) . '</p>';
-	include( './admin-footer.php' );
+	include( ABSPATH . 'wp-admin/admin-footer.php' );
 	exit;
 }
 
@@ -134,7 +134,7 @@ foreach ( $credits['groups'] as $group_slug => $group_data ) {
 </div>
 <?php
 
-include( './admin-footer.php' );
+include( ABSPATH . 'wp-admin/admin-footer.php' );
 
 return;
 
