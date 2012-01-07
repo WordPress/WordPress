@@ -371,6 +371,16 @@ class wp_xmlrpc_server extends IXR_Server {
 				'desc'			=> __( 'Large size image height' ),
 				'readonly'		=> false,
 				'option'		=> 'large_size_h'
+			),
+			'default_comment_status'	=> array(
+				'desc'			=> __( 'Allow people to post comments on new articles' ),
+				'readonly'		=> false,
+				'option'		=> 'default_comment_status'
+			),
+			'default_ping_status'	=> array(
+				'desc'			=> __( 'Allow link notifications from other blogs (pingbacks and trackbacks)' ),
+				'readonly'		=> false,
+				'option'		=> 'default_ping_status'
 			)
 		);
 
