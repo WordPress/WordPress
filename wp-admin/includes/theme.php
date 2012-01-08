@@ -409,12 +409,12 @@ function themes_api($action, $args = null) {
 		if ( is_wp_error($request) ) {
 			$res = new WP_Error('themes_api_failed', __('An Unexpected HTTP Error occurred during the API request.'), $request->get_error_message() );
 		} else {
-			$res = unserialize( wp_remote_retrieve_body( $request ) );
-			if ( ! $res )
-			$res = new WP_Error('themes_api_failed', __('An unknown error occurred.'), wp_remote_retrieve_body( $request ) );
+			$res = maybe_unserialize( wp_remote_retrieve_body( $request ) );
+			if ( ! is_object( $res ) && ! is_array( $res ) )
+				$res = new WP_Error('themes_api_failed', __('An unknown error occurred during the API request.'), wp_remote_retrieve_body( $request ) );
 		}
 	}
-	//var_dump(array($args, $res));
+
 	return apply_filters('themes_api_result', $res, $action, $args);
 }
 

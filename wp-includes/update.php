@@ -91,10 +91,11 @@ function wp_version_check() {
 		return false;
 
 	$body = trim( wp_remote_retrieve_body( $response ) );
-	if ( ! $body = maybe_unserialize( $body ) )
+	$body = maybe_unserialize( $body );
+
+	if ( ! is_array( $body ) || ! isset( $body['offers'] ) )
 		return false;
-	if ( ! isset( $body['offers'] ) )
-		return false;
+
 	$offers = $body['offers'];
 
 	foreach ( $offers as &$offer ) {
@@ -205,9 +206,9 @@ function wp_update_plugins() {
 	if ( is_wp_error( $raw_response ) || 200 != wp_remote_retrieve_response_code( $raw_response ) )
 		return false;
 
-	$response = unserialize( wp_remote_retrieve_body( $raw_response ) );
+	$response = maybe_unserialize( wp_remote_retrieve_body( $raw_response ) );
 
-	if ( false !== $response )
+	if ( is_array( $response ) )
 		$new_option->response = $response;
 	else
 		$new_option->response = array();
@@ -319,8 +320,8 @@ function wp_update_themes() {
 	$new_update->last_checked = time( );
 	$new_update->checked = $checked;
 
-	$response = unserialize( wp_remote_retrieve_body( $raw_response ) );
-	if ( false !== $response )
+	$response = maybe_unserialize( wp_remote_retrieve_body( $raw_response ) );
+	if ( is_array( $response ) )
 		$new_update->response = $response;
 
 	set_site_transient( 'update_themes', $new_update );
