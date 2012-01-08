@@ -187,7 +187,7 @@ function wp_plugin_update_row( $file, $plugin_data ) {
 	$plugins_allowedtags = array('a' => array('href' => array(),'title' => array()),'abbr' => array('title' => array()),'acronym' => array('title' => array()),'code' => array(),'em' => array(),'strong' => array());
 	$plugin_name = wp_kses( $plugin_data['Name'], $plugins_allowedtags );
 
-	$details_url = self_admin_url('plugin-install.php?tab=plugin-information&plugin=' . $r->slug . '&TB_iframe=true&width=600&height=800');
+	$details_url = self_admin_url('plugin-install.php?tab=plugin-information&plugin=' . $r->slug . '&section=changelog&TB_iframe=true&width=600&height=800');
 
 	$wp_list_table = _get_list_table('WP_Plugins_List_Table');
 
