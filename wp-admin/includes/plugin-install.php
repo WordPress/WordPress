@@ -244,22 +244,23 @@ function install_plugin_information() {
 	if ( is_wp_error($api) )
 		wp_die($api);
 
-	$plugins_allowedtags = array('a' => array('href' => array(), 'title' => array(), 'target' => array()),
-								'abbr' => array('title' => array()), 'acronym' => array('title' => array()),
-								'code' => array(), 'pre' => array(), 'em' => array(), 'strong' => array(),
-								'div' => array(), 'p' => array(), 'ul' => array(), 'ol' => array(), 'li' => array(),
-								'h1' => array(), 'h2' => array(), 'h3' => array(), 'h4' => array(), 'h5' => array(), 'h6' => array(),
-								'img' => array('src' => array(), 'class' => array(), 'alt' => array()));
+	$plugins_allowedtags = array(
+		'a' => array( 'href' => array(), 'title' => array(), 'target' => array() ),
+		'abbr' => array( 'title' => array() ), 'acronym' => array( 'title' => array() ),
+		'code' => array(), 'pre' => array(), 'em' => array(), 'strong' => array(),
+		'div' => array(), 'p' => array(), 'ul' => array(), 'ol' => array(), 'li' => array(),
+		'h1' => array(), 'h2' => array(), 'h3' => array(), 'h4' => array(), 'h5' => array(), 'h6' => array(),
+		'img' => array( 'src' => array(), 'class' => array(), 'alt' => array() )
+	);
 
 	$plugins_section_titles = array(
-									'description'  => _x('Description',  'Plugin installer section title'),
-									'installation' => _x('Installation', 'Plugin installer section title'),
-									'faq'          => _x('FAQ',          'Plugin installer section title'),
-									'screenshots'  => _x('Screenshots',  'Plugin installer section title'),
-									'changelog'    => _x('Changelog',    'Plugin installer section title'),
-									'other_notes'  => _x('Other Notes',  'Plugin installer section title')
-									);
-
+		'description'  => _x('Description',  'Plugin installer section title'),
+		'installation' => _x('Installation', 'Plugin installer section title'),
+		'faq'          => _x('FAQ',          'Plugin installer section title'),
+		'screenshots'  => _x('Screenshots',  'Plugin installer section title'),
+		'changelog'    => _x('Changelog',    'Plugin installer section title'),
+		'other_notes'  => _x('Other Notes',  'Plugin installer section title')
+	);
 
 	//Sanitize HTML
 	foreach ( (array)$api->sections as $section_name => $content )
