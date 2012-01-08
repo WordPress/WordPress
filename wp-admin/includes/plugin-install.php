@@ -250,6 +250,17 @@ function install_plugin_information() {
 								'div' => array(), 'p' => array(), 'ul' => array(), 'ol' => array(), 'li' => array(),
 								'h1' => array(), 'h2' => array(), 'h3' => array(), 'h4' => array(), 'h5' => array(), 'h6' => array(),
 								'img' => array('src' => array(), 'class' => array(), 'alt' => array()));
+
+	$plugins_section_titles = array(
+									'description'  => _x('Description',  'Plugin installer section title'),
+									'installation' => _x('Installation', 'Plugin installer section title'),
+									'faq'          => _x('FAQ',          'Plugin installer section title'),
+									'screenshots'  => _x('Screenshots',  'Plugin installer section title'),
+									'changelog'    => _x('Changelog',    'Plugin installer section title'),
+									'other_notes'  => _x('Other Notes',  'Plugin installer section title')
+									);
+
+
 	//Sanitize HTML
 	foreach ( (array)$api->sections as $section_name => $content )
 		$api->sections[$section_name] = wp_kses($content, $plugins_allowedtags);
@@ -267,14 +278,16 @@ function install_plugin_information() {
 	echo "<ul id='sidemenu'>\n";
 	foreach ( (array)$api->sections as $section_name => $content ) {
 
-		$title = $section_name;
-		$title = ucwords(str_replace('_', ' ', $title));
+		if ( isset( $plugins_section_titles[ $section_name ] ) )
+			$title = $plugins_section_titles[ $section_name ];
+		else
+			$title = ucwords( str_replace( '_', ' ', $section_name ) );
 
 		$class = ( $section_name == $section ) ? ' class="current"' : '';
 		$href = add_query_arg( array('tab' => $tab, 'section' => $section_name) );
 		$href = esc_url($href);
-		$san_title = esc_attr(sanitize_title_with_dashes($title));
-		echo "\t<li><a name='$san_title' target='' href='$href'$class>$title</a></li>\n";
+		$san_section = esc_attr( $section_name );
+		echo "\t<li><a name='$san_section' href='$href' $class>$title</a></li>\n";
 	}
 	echo "</ul>\n";
 	echo "</div>\n";
@@ -346,18 +359,20 @@ function install_plugin_information() {
 			echo '<div class="updated"><p>' . __('<strong>Warning:</strong> This plugin has <strong>not been marked as compatible</strong> with your version of WordPress.') . '</p></div>';
 
 		foreach ( (array)$api->sections as $section_name => $content ) {
-			$title = $section_name;
-			$title[0] = strtoupper($title[0]);
-			$title = str_replace('_', ' ', $title);
+
+			if ( isset( $plugins_section_titles[ $section_name ] ) )
+				$title = $plugins_section_titles[ $section_name ];
+			else
+				$title = ucwords( str_replace( '_', ' ', $section_name ) );
 
 			$content = links_add_base_url($content, 'http://wordpress.org/extend/plugins/' . $api->slug . '/');
 			$content = links_add_target($content, '_blank');
 
-			$san_title = esc_attr(sanitize_title_with_dashes($title));
+			$san_section = esc_attr( $section_name );
 
 			$display = ( $section_name == $section ) ? 'block' : 'none';
 
-			echo "\t<div id='section-{$san_title}' class='section' style='display: {$display};'>\n";
+			echo "\t<div id='section-{$san_section}' class='section' style='display: {$display};'>\n";
 			echo "\t\t<h2 class='long-header'>$title</h2>";
 			echo $content;
 			echo "\t</div>\n";
