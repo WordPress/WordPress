@@ -6859,8 +6859,16 @@ div.star img {
 	list-style-image: none;
 }
 
+#plugin-information #section-screenshots ol {
+	list-style: none;
+	margin: 0;
+}
+
 #plugin-information #section-screenshots li img {
 	vertical-align: text-top;
+	max-width: 100%;
+	width: auto;
+	height: auto;
 }
 
 #plugin-information #section-screenshots li p {
@@ -6869,6 +6877,7 @@ div.star img {
 	padding-bottom: 2em;
 }
 
+#plugin-information #section-screenshots ol,
 #plugin-information .updated,
 #plugin-information pre {
 	margin-right: 215px;
