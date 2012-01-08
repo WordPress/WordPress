@@ -155,7 +155,8 @@
 				left: 0,
 				zIndex: zindex++ // Increment the z-index so that it shows above other opened pointers.
 			}).show().position($.extend({
-				of: this.element
+				of: this.element,
+				collision: 'fit none'
 			}, position )); // the object comes before this.options.position so the user can override position.of.
 
 			this.repoint();
