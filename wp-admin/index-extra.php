@@ -36,5 +36,3 @@ case 'dashboard_plugins' :
 	break;
 
 }
-
-?>

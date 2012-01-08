@@ -295,5 +295,3 @@ default:
 } // end switch
 
 include('./admin-footer.php');
-
-?>

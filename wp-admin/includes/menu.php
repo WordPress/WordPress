@@ -227,5 +227,3 @@ if ( !user_can_access_admin_page() ) {
 }
 
 $menu = add_menu_classes($menu);
-
-?>

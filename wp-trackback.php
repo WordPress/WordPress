@@ -108,4 +108,3 @@ if ( !empty($tb_url) && !empty($title) ) {
 	do_action('trackback_post', $wpdb->insert_id);
 	trackback_response(0);
 }
-?>

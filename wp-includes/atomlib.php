@@ -350,5 +350,3 @@ class AtomParser {
                 $string );
     }
 }
-
-?>

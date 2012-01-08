@@ -417,5 +417,3 @@ function themes_api($action, $args = null) {
 
 	return apply_filters('themes_api_result', $res, $action, $args);
 }
-
-?>

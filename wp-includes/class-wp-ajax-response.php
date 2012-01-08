@@ -134,5 +134,3 @@ class WP_Ajax_Response {
 		die();
 	}
 }
-
-?>

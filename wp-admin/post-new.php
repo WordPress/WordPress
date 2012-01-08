@@ -46,4 +46,3 @@ $post = get_default_post_to_edit( $post_type, true );
 $post_ID = $post->ID;
 include('edit-form-advanced.php');
 include('./admin-footer.php');
-?>

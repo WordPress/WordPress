@@ -556,5 +556,3 @@ class WP_Post_Comments_List_Table extends WP_Comments_List_Table {
 		return 10;
 	}
 }
-
-?>

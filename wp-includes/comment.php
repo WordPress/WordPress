@@ -2026,5 +2026,3 @@ function _close_comments_for_old_post( $open, $post_id ) {
 
 	return $open;
 }
-
-?>

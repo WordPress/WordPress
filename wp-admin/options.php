@@ -223,4 +223,3 @@ endforeach;
 
 <?php
 include('./admin-footer.php');
-?>

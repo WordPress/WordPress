@@ -591,4 +591,3 @@ function _ipad_meta() {
 	}
 }
 add_action('admin_head', '_ipad_meta');
-

@@ -664,4 +664,3 @@ function wp_save_image($post_id) {
 	$return->msg = esc_js( __('Image saved') );
 	return $return;
 }
-

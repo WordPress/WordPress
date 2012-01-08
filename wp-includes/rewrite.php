@@ -1970,5 +1970,3 @@ class WP_Rewrite {
 		$this->init();
 	}
 }
-
-?>

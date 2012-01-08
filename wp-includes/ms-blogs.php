@@ -708,5 +708,3 @@ function _update_blog_date_on_post_publish( $new_status, $old_status, $post ) {
 
 	wpmu_update_blogs_date();
 }
-
-?>

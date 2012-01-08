@@ -22,4 +22,3 @@ if ( $redirect_network_admin_request ) {
 	exit;
 }
 unset( $redirect_network_admin_request );
-?>

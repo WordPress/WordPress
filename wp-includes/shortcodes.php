@@ -332,5 +332,3 @@ function strip_shortcode_tag( $m ) {
 }
 
 add_filter('the_content', 'do_shortcode', 11); // AFTER wpautop()
-
-?>

@@ -270,5 +270,3 @@ function wpmu_admin_redirect_add_updated_param( $url = '' ) {
 	}
 	return $url;
 }
-
-?>

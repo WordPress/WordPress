@@ -387,5 +387,3 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 			ftp_close($this->link);
 	}
 }
-
-?>

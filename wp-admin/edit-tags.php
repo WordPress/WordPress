@@ -416,5 +416,3 @@ break;
 }
 
 include('./admin-footer.php');
-
-?>

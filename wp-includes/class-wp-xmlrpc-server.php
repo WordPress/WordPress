@@ -3621,4 +3621,3 @@ class wp_xmlrpc_server extends IXR_Server {
 		return $pingbacks;
 	}
 }
-?>

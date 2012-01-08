@@ -284,5 +284,3 @@ add_action( 'admin_init', 'register_admin_color_schemes', 1);
 add_action( 'admin_color_scheme_picker', 'admin_color_scheme_picker' );
 
 unset($filter, $action);
-
-?>

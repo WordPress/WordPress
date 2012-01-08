@@ -165,5 +165,3 @@ class WP_Theme_Install_List_Table extends WP_List_Table {
 		<?php } // end foreach $theme_names
 	}
 }
-
-?>

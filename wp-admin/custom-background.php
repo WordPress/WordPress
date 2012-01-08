@@ -367,4 +367,3 @@ if ( get_background_image() ) {
 	}
 
 }
-?>

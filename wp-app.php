@@ -1608,5 +1608,3 @@ EOD;
  */
 $server = new AtomServer();
 $server->handle_request();
-
-?>

@@ -357,5 +357,3 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		do_action( "after_theme_row_$theme_key", $theme_key, $theme, $status );
 	}
 }
-
-?>

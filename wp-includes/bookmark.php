@@ -379,5 +379,3 @@ function clean_bookmark_cache($bookmark_id) {
 	wp_cache_delete( $bookmark_id, 'bookmark' );
 	wp_cache_delete( 'get_bookmarks', 'bookmark' );
 }
-
-?>

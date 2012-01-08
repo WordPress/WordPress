@@ -136,4 +136,3 @@ if ( isset($_GET['inline']) ) {
 	else
 		do_action("media_upload_$tab");
 }
-?>

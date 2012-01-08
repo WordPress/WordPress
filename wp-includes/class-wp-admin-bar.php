@@ -471,4 +471,3 @@ class WP_Admin_Bar {
 		do_action( 'add_admin_bar_menus' );
 	}
 }
-?>

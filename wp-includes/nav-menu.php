@@ -782,5 +782,3 @@ function _wp_auto_add_pages_to_menu( $new_status, $old_status, $post ) {
 		wp_update_nav_menu_item( $menu_id, 0, $args );
 	}
 }
-
-?>

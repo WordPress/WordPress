@@ -101,4 +101,3 @@ class _WP_List_Table_Compat extends WP_List_Table {
 		return $this->_columns;
 	}
 }
-?>

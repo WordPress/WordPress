@@ -861,5 +861,3 @@ function register_meta( $meta_type, $meta_key, $sanitize_callback, $auth_callbac
 	if ( is_callable( $auth_callback ) )
 		add_filter( "auth_{$meta_type}_meta_{$meta_key}", $auth_callback, 10, 6 );
 }
-
-?>

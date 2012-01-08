@@ -23,5 +23,3 @@ if ( $redirect_user_admin_request ) {
 	exit;
 }
 unset( $redirect_user_admin_request );
-
-?>

@@ -90,4 +90,3 @@ class WP_HTTP_IXR_Client extends IXR_Client {
 		return true;
 	}
 }
-?>

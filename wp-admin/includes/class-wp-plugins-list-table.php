@@ -448,5 +448,3 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		do_action( "after_plugin_row_$plugin_file", $plugin_file, $plugin_data, $status );
 	}
 }
-
-?>

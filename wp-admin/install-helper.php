@@ -213,5 +213,3 @@ function check_column($table_name, $col_name, $col_type, $is_null = null, $key =
 	}
 	return false;
 }
-
-?>

@@ -689,4 +689,3 @@ if(typeof wpOnload=='function')wpOnload();
 login_footer();
 break;
 } // end action switch
-?>

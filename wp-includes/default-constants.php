@@ -304,5 +304,3 @@ function wp_templating_constants( ) {
 		define( 'WP_DEFAULT_THEME', 'twentyeleven' );
 
 }
-
-?>

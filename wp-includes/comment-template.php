@@ -1588,5 +1588,3 @@ function comment_form( $args = array(), $post_id = null ) {
 		<?php endif; ?>
 	<?php
 }
-
-?>

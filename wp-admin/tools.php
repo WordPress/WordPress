@@ -69,4 +69,3 @@ do_action( 'tool_box' );
 </div>
 <?php
 include('./admin-footer.php');
-?>

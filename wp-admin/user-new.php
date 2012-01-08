@@ -373,4 +373,3 @@ foreach ( array( 'user_login' => 'login', 'first_name' => 'firstname', 'last_nam
 </div>
 <?php
 include('./admin-footer.php');
-?>

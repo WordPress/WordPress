@@ -3654,5 +3654,3 @@ function wp_allowed_protocols() {
 
 	return $protocols;
 }
-
-?>

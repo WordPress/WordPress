@@ -206,4 +206,3 @@ if ( typeof(jQuery) != 'undefined' ) {
 	})(document, window);
 
 }
-

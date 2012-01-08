@@ -1565,5 +1565,3 @@ class wpdb {
 		return preg_replace( '/[^0-9.].*/', '', mysql_get_server_info( $this->dbh ) );
 	}
 }
-
-?>

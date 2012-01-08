@@ -3020,5 +3020,3 @@ function sanitize_trackback_urls( $to_ping ) {
 	$urls_to_ping = implode( "\n", $urls_to_ping );
 	return apply_filters( 'sanitize_trackback_urls', $urls_to_ping, $to_ping );
 }
-
-?>

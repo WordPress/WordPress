@@ -958,5 +958,3 @@ We hope you enjoy your new site. Thanks!
 
 	return true;
 }
-
-?>

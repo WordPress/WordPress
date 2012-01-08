@@ -470,5 +470,3 @@ class WP_Text_Diff_Renderer_inline extends Text_Diff_Renderer_inline {
 	}
 
 }
-
-?>

@@ -1587,4 +1587,3 @@ default :
 	die('0');
 	break;
 endswitch;
-?>

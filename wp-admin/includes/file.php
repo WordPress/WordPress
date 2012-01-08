@@ -1075,5 +1075,3 @@ submit_button( __( 'Proceed' ), 'button', 'upgrade' );
 <?php
 	return false;
 }
-
-?>

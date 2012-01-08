@@ -649,5 +649,3 @@ function is_multisite() {
 
 	return false;
 }
-
-?>

@@ -782,5 +782,3 @@ function _wp_filter_build_unique_id($tag, $function, $priority) {
 		return $function[0].$function[1];
 	}
 }
-
-?>

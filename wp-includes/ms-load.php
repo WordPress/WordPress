@@ -250,5 +250,3 @@ function ms_not_installed() {
 
 	wp_die( $msg, $title );
 }
-
-?>

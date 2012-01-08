@@ -1212,5 +1212,3 @@ function has_term( $term = '', $taxonomy = '', $post = null ) {
 
 	return $r;
 }
-
-?>

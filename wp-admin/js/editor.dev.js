@@ -203,4 +203,3 @@ var switchEditors = {
 		return o.data;
 	}
 }
-

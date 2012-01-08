@@ -97,4 +97,3 @@ $location = apply_filters('comment_post_redirect', $location, $comment);
 
 wp_redirect($location);
 exit;
-?>

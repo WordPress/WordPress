@@ -66,5 +66,3 @@ if ( $_REQUEST['short'] ) {
 	$type = $_REQUEST['type'];
 	echo apply_filters("async_upload_{$type}", $id);
 }
-
-?>

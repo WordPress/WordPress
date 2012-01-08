@@ -796,4 +796,3 @@ final class _WP_Editors {
 	<?php
 	}
 }
-

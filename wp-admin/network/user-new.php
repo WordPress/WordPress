@@ -105,4 +105,3 @@ if ( isset( $add_user_errors ) && is_wp_error( $add_user_errors ) ) { ?>
 </div>
 <?php
 require('../admin-footer.php');
-?>

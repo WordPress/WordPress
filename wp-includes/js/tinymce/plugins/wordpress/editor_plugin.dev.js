@@ -406,4 +406,3 @@
 	// Register plugin
 	tinymce.PluginManager.add('wordpress', tinymce.plugins.WordPress);
 })();
-

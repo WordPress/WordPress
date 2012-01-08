@@ -451,5 +451,3 @@ add_action( 'admin_init', '_maybe_update_themes' );
 add_action( 'wp_update_themes', 'wp_update_themes' );
 
 add_action('init', 'wp_schedule_update_checks');
-
-?>

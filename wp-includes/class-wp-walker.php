@@ -395,5 +395,3 @@ class Walker {
 
 	}
 }
-
-?>

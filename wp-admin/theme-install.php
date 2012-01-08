@@ -75,4 +75,3 @@ $wp_list_table->views(); ?>
 </div>
 <?php
 include(ABSPATH . 'wp-admin/admin-footer.php');
-

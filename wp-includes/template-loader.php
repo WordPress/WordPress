@@ -43,5 +43,3 @@ if ( defined('WP_USE_THEMES') && WP_USE_THEMES ) :
 		include( $template );
 	return;
 endif;
-
-?>

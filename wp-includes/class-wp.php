@@ -601,5 +601,3 @@ class WP_MatchesMapRegex {
 	}
 
 }
-
-?>

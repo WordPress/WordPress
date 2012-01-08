@@ -1061,5 +1061,3 @@ class IXR_ClientMulticall extends IXR_Client
         return parent::query('system.multicall', $this->calls);
     }
 }
-
-?>

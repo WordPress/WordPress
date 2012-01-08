@@ -450,5 +450,3 @@ function redirect_guess_404_permalink() {
 }
 
 add_action('template_redirect', 'redirect_canonical');
-
-?>

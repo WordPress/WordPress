@@ -320,4 +320,3 @@ case 'latest_installed':
 	exit;
 }
 add_action('install_themes_pre_theme-information', 'install_theme_information');
-

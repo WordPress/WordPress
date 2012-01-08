@@ -741,5 +741,3 @@ function _get_admin_bar_pref( $context = 'front', $user = 0 ) {
 
 	return 'true' === $pref;
 }
-
-?>

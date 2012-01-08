@@ -2373,5 +2373,3 @@ function the_shortlink( $text = '', $title = '', $before = '', $after = '' ) {
 		echo $before, $link, $after;
 	}
 }
-
-?>

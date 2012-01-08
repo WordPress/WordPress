@@ -115,4 +115,3 @@ switch ($action) {
 	default :
 		break;
 }
-?>

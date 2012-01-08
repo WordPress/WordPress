@@ -930,5 +930,3 @@ function get_rss ($url, $num_items = 5) { // Like get posts, but for RSS
 	}
 }
 endif;
-
-?>

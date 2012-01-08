@@ -60,5 +60,3 @@ add_filter( 'force_filtered_html_on_import', '__return_true' );
 // WP_HOME and WP_SITEURL should not have any effect in MS
 remove_filter( 'option_siteurl', '_config_wp_siteurl' );
 remove_filter( 'option_home',    '_config_wp_home'    );
-
-?>

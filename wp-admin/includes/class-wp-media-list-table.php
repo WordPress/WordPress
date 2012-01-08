@@ -392,5 +392,3 @@ foreach ( $columns as $column_name => $column_display_name ) {
 		return $actions;
 	}
 }
-
-?>

@@ -136,5 +136,3 @@ function ms_subdomain_constants() {
 	}
 }
 add_action( 'init', 'ms_subdomain_constants' );
-
-?>

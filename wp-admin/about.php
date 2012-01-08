@@ -198,5 +198,3 @@ _n_noop( '<strong>Version %1$s</strong> addressed some security issues and fixed
          '<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bugs.' );
 
 __( 'For more information, see <a href="%s">the release notes</a>.' );
-
-?>

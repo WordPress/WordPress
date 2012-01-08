@@ -1980,5 +1980,3 @@ function wp_update_network_counts() {
 	$count = $wpdb->get_var( $wpdb->prepare("SELECT COUNT(ID) as c FROM $wpdb->users WHERE spam = '0' AND deleted = '0'") );
 	update_site_option( 'user_count', $count );
 }
-
-?>

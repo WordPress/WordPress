@@ -1490,5 +1490,3 @@ function _wp_get_user_contactmethods( $user = null ) {
 	);
 	return apply_filters( 'user_contactmethods', $user_contactmethods, $user );
 }
-
-?>

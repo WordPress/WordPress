@@ -788,4 +788,3 @@ function wp_is_large_network( $using = 'sites' ) {
 	$count = get_blog_count();
 	return apply_filters( 'wp_is_large_network', $count > 10000, 'sites', $count );
 }
-?>

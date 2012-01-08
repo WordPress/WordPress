@@ -100,5 +100,3 @@ function get_the_post_thumbnail( $post_id = null, $size = 'post-thumbnail', $att
 	}
 	return apply_filters( 'post_thumbnail_html', $html, $post_id, $post_thumbnail_id, $size, $attr );
 }
-
-?>

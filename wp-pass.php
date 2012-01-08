@@ -14,4 +14,3 @@ setcookie('wp-postpass_' . COOKIEHASH, stripslashes( $_POST['post_password'] ), 
 
 wp_safe_redirect(wp_get_referer());
 exit;
-?>

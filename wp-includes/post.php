@@ -5326,4 +5326,3 @@ function _update_term_count_on_transition_post_status( $new_status, $old_status,
 		wp_update_term_count( $tt_ids, $taxonomy );
 	}
 }
-?>

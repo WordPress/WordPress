@@ -1370,5 +1370,3 @@ function is_super_admin( $user_id = false ) {
 
 	return false;
 }
-
-?>

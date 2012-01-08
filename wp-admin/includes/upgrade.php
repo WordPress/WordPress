@@ -1970,4 +1970,3 @@ CREATE TABLE $wpdb->sitecategories (
 	dbDelta( $ms_queries );
 }
 endif;
-?>

@@ -913,4 +913,3 @@ class WP_List_Table {
 		printf( "<script type='text/javascript'>list_args = %s;</script>\n", json_encode( $args ) );
 	}
 }
-?>

@@ -265,5 +265,3 @@ function wp_update_link( $linkdata ) {
 
 	return wp_insert_link( $linkdata );
 }
-
-?>

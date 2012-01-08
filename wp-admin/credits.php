@@ -157,5 +157,3 @@ __( 'XML-RPC' );
 __( 'Internationalization' );
 __( 'External Libraries' );
 __( 'Icon Design' );
-
-?>

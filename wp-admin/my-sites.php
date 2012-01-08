@@ -118,4 +118,3 @@ else :
 	</div>
 <?php
 include( './admin-footer.php' );
-?>

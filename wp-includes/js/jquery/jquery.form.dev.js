@@ -823,4 +823,3 @@ function log() {
 };
 
 })(jQuery);
-

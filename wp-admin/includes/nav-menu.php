@@ -1161,5 +1161,3 @@ function _wp_delete_orphaned_draft_menu_items() {
 }
 
 add_action('admin_head-nav-menus.php', '_wp_delete_orphaned_draft_menu_items');
-
-?>

@@ -304,5 +304,3 @@ function maintenance_nag() {
 	echo "<div class='update-nag'>$msg</div>";
 }
 add_action( 'admin_notices', 'maintenance_nag' );
-
-?>

@@ -228,5 +228,3 @@ if ( isset($plugin_page) ) {
 
 if ( !empty($_REQUEST['action']) )
 	do_action('admin_action_' . $_REQUEST['action']);
-
-?>

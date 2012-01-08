@@ -27,4 +27,3 @@ $link = get_default_link_to_edit();
 include('./edit-link-form.php');
 
 require('./admin-footer.php');
-?>

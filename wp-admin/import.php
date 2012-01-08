@@ -137,4 +137,3 @@ if ( current_user_can('install_plugins') )
 <?php
 
 include ('admin-footer.php');
-?>

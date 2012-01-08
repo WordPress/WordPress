@@ -328,5 +328,3 @@ class WP_Filesystem_Base {
 		return (bool) preg_match('|[^\x20-\x7E]|', $text); //chr(32)..chr(127)
 	}
 }
-
-?>

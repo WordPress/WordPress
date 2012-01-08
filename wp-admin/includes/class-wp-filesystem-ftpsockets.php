@@ -327,5 +327,3 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 		$this->ftp->quit();
 	}
 }
-
-?>

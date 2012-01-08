@@ -1356,5 +1356,3 @@ function wp_welcome_panel() {
 	</div>
 	<?php
 }
-
-?>

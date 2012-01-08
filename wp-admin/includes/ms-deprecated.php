@@ -64,5 +64,3 @@ function is_wpmu_sitewide_plugin( $file ) {
 	_deprecated_function(__FUNCTION__, '3.0', 'is_network_only_plugin()' );
 	return is_network_only_plugin( $file );
 }
-
-?>

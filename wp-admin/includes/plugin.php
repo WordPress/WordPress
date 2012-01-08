@@ -1721,5 +1721,3 @@ function settings_fields($option_group) {
 	echo '<input type="hidden" name="action" value="update" />';
 	wp_nonce_field("$option_group-options");
 }
-
-?>

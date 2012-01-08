@@ -57,5 +57,3 @@ if ( file_exists( ABSPATH . 'wp-config.php') ) {
 	wp_die(sprintf(/*WP_I18N_NO_CONFIG*/"<p>There doesn't seem to be a <code>wp-config.php</code> file. I need this before we can get started.</p> <p>Need more help? <a href='http://codex.wordpress.org/Editing_wp-config.php'>We got it</a>.</p> <p>You can create a <code>wp-config.php</code> file through a web interface, but this doesn't work for all server setups. The safest way is to manually create the file.</p><p><a href='%ssetup-config.php' class='button'>Create a Configuration File</a></p>"/*/WP_I18N_NO_CONFIG*/, $path), /*WP_I18N_ERROR_TITLE*/'WordPress &rsaquo; Error'/*/WP_I18N_ERROR_TITLE*/, array('text_direction' => $text_direction));
 
 }
-
-?>

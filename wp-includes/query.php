@@ -3591,4 +3591,3 @@ function setup_postdata($post) {
 
 	return true;
 }
-?>
