@@ -973,7 +973,8 @@ function wp_edit_attachments_query( $q = false ) {
 }
 
 function _edit_attachments_query_helper($where) {
-	return $where .= ' AND post_parent < 1';
+	global $wpdb;
+	return $where .= " AND {$wpdb->posts}.post_parent < 1";
 }
 
 /**
