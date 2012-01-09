@@ -3024,7 +3024,7 @@ function get_enclosed($post_id) {
 		if ( 'enclosure' != $key || !is_array( $val ) )
 			continue;
 		foreach( $val as $enc ) {
-			$enclosure = split( "\n", $enc );
+			$enclosure = explode( "\n", $enc );
 			$pung[] = trim( $enclosure[ 0 ] );
 		}
 	}

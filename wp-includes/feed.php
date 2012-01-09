@@ -424,7 +424,7 @@ function atom_enclosure() {
 	foreach ( (array) get_post_custom() as $key => $val ) {
 		if ($key == 'enclosure') {
 			foreach ( (array) $val as $enc ) {
-				$enclosure = split("\n", $enc);
+				$enclosure = explode("\n", $enc);
 				echo apply_filters('atom_enclosure', '<link href="' . trim(htmlspecialchars($enclosure[0])) . '" rel="enclosure" length="' . trim($enclosure[1]) . '" type="' . trim($enclosure[2]) . '" />' . "\n");
 			}
 		}

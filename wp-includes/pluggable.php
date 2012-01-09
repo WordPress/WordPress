@@ -1706,8 +1706,8 @@ function wp_text_diff( $left_string, $right_string, $args = null ) {
 	$left_string  = normalize_whitespace($left_string);
 	$right_string = normalize_whitespace($right_string);
 
-	$left_lines  = split("\n", $left_string);
-	$right_lines = split("\n", $right_string);
+	$left_lines  = explode("\n", $left_string);
+	$right_lines = explode("\n", $right_string);
 
 	$text_diff = new Text_Diff($left_lines, $right_lines);
 	$renderer  = new WP_Text_Diff_Renderer_Table();

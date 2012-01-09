@@ -2832,7 +2832,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			foreach ( (array) get_post_custom($post_ID) as $key => $val) {
 				if ($key == 'enclosure') {
 					foreach ( (array) $val as $enc ) {
-						$encdata = split("\n", $enc);
+						$encdata = explode("\n", $enc);
 						$enclosure['url'] = trim(htmlspecialchars($encdata[0]));
 						$enclosure['length'] = (int) trim($encdata[1]);
 						$enclosure['type'] = trim($encdata[2]);

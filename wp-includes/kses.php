@@ -1401,7 +1401,7 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 		if ( strpos( $css_item, ':' ) === false ) {
 			$found = true;
 		} else {
-			$parts = split( ':', $css_item );
+			$parts = explode( ':', $css_item );
 			if ( in_array( trim( $parts[0] ), $allowed_attr ) )
 				$found = true;
 		}

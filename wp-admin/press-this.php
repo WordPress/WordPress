@@ -351,12 +351,12 @@ var photostorage = false;
 					<?php
 					$content = '';
 					if ( preg_match("/youtube\.com\/watch/i", $url) ) {
-						list($domain, $video_id) = split("v=", $url);
+						list($domain, $video_id) = explode("v=", $url);
 						$video_id = esc_attr($video_id);
 						$content = '<object width="425" height="350"><param name="movie" value="http://www.youtube.com/v/' . $video_id . '"></param><param name="wmode" value="transparent"></param><embed src="http://www.youtube.com/v/' . $video_id . '" type="application/x-shockwave-flash" wmode="transparent" width="425" height="350"></embed></object>';
 
 					} elseif ( preg_match("/vimeo\.com\/[0-9]+/i", $url) ) {
-						list($domain, $video_id) = split(".com/", $url);
+						list($domain, $video_id) = explode(".com/", $url);
 						$video_id = esc_attr($video_id);
 						$content = '<object width="400" height="225"><param name="allowfullscreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="movie" value="http://www.vimeo.com/moogaloop.swf?clip_id=' . $video_id . '&amp;server=www.vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1" />	<embed src="http://www.vimeo.com/moogaloop.swf?clip_id=' . $video_id . '&amp;server=www.vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="400" height="225"></embed></object>';
 
