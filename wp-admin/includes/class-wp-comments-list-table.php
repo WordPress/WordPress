@@ -130,7 +130,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 		global $comment_status;
 
 		if ( 'moderated' == $comment_status )
-			_e( 'No comments awaiting moderation&hellip; yet.' );
+			_e( 'No comments awaiting moderation.' );
 		else
 			_e( 'No comments found.' );
 	}
