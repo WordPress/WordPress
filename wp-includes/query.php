@@ -2509,18 +2509,16 @@ class WP_Query {
 		// Paging
 		if ( empty($q['nopaging']) && !$this->is_singular ) {
 			$page = absint($q['paged']);
-			if ( empty($page) )
+			if ( !$page )
 				$page = 1;
 
 			if ( empty($q['offset']) ) {
-				$pgstrt = '';
 				$pgstrt = ($page - 1) * $q['posts_per_page'] . ', ';
-				$limits = 'LIMIT ' . $pgstrt . $q['posts_per_page'];
 			} else { // we're ignoring $page and using 'offset'
 				$q['offset'] = absint($q['offset']);
 				$pgstrt = $q['offset'] . ', ';
-				$limits = 'LIMIT ' . $pgstrt . $q['posts_per_page'];
 			}
+			$limits = 'LIMIT ' . $pgstrt . $q['posts_per_page'];
 		}
 
 		// Comments feeds
