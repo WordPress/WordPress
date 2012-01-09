@@ -194,8 +194,8 @@ function wp_next_scheduled( $hook, $args = array() ) {
  */
 function spawn_cron( $local_time = 0 ) {
 
-	if ( !$local_time )
-		$local_time = time();
+	if ( ! $local_time )
+		$local_time = microtime( true );
 
 	if ( defined('DOING_CRON') || isset($_GET['doing_wp_cron']) )
 		return;
@@ -226,7 +226,7 @@ function spawn_cron( $local_time = 0 ) {
 		if ( !empty($_POST) || defined('DOING_AJAX') )
 			return;
 
-		$doing_wp_cron = $local_time;
+		$doing_wp_cron = sprintf( '%.22F', $local_time );
 		set_transient( 'doing_cron', $doing_wp_cron );
 
 		ob_start();
@@ -241,7 +241,7 @@ function spawn_cron( $local_time = 0 ) {
 		return;
 	}
 
-	$doing_wp_cron = $local_time;
+	$doing_wp_cron = sprintf( '%.22F', $local_time );
 	set_transient( 'doing_cron', $doing_wp_cron );
 
 	$cron_url = get_option( 'siteurl' ) . '/wp-cron.php?doing_wp_cron=' . $doing_wp_cron;
@@ -264,7 +264,7 @@ function wp_cron() {
 	if ( false === $crons = _get_cron_array() )
 		return;
 
-	$local_time = time();
+	$local_time = microtime( true );
 	$keys = array_keys( $crons );
 	if ( isset($keys[0]) && $keys[0] > $local_time )
 		return;

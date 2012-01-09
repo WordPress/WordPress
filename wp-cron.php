@@ -48,7 +48,7 @@ if ( false === $crons = _get_cron_array() )
 	die();
 
 $keys = array_keys( $crons );
-$local_time = time();
+$local_time = microtime( true );
 
 if ( isset($keys[0]) && $keys[0] > $local_time )
 	die();
@@ -61,7 +61,7 @@ if ( empty( $doing_wp_cron ) ) {
 		// Called from external script/job. Try setting a lock.
 		if ( $doing_cron_transient && ( $doing_cron_transient + WP_CRON_LOCK_TIMEOUT > $local_time ) )
 			return;
-		$doing_cron_transient = $doing_wp_cron = time();
+		$doing_cron_transient = $doing_wp_cron = sprintf( '%.22F', microtime( true ) );
 		set_transient( 'doing_cron', $doing_wp_cron );
 	} else {
 		$doing_wp_cron = $_GET[ 'doing_wp_cron' ];
