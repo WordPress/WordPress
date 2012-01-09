@@ -1276,38 +1276,35 @@ endif;
 
 if ( !function_exists('wp_salt') ) :
 /**
- * Get salt to add to hashes to help prevent attacks.
+ * Get salt to add to hashes.
  *
- * The secret key is located in two places: the database in case the secret key
- * isn't defined in the second place, which is in the wp-config.php file. If you
- * are going to set the secret key, then you must do so in the wp-config.php
- * file.
+ * Salts are created using secret keys. Secret keys are located in two places:
+ * in the database and in the wp-config.php file. The secret key in the database
+ * is randomly generated and will be appended to the secret keys in wp-config.php.
  *
- * The secret key in the database is randomly generated and will be appended to
- * the secret key that is in wp-config.php file in some instances. It is
- * important to have the secret key defined or changed in wp-config.php.
- *
- * If you have installed WordPress 2.5 or later, then you will have the
- * SECRET_KEY defined in the wp-config.php already. You will want to change the
- * value in it because hackers will know what it is. If you have upgraded to
- * WordPress 2.5 or later version from a version before WordPress 2.5, then you
- * should add the constant to your wp-config.php file.
- *
- * Below is an example of how the SECRET_KEY constant is defined with a value.
- * You must not copy the below example and paste into your wp-config.php. If you
- * need an example, then you can have a
- * {@link https://api.wordpress.org/secret-key/1.1/ secret key created} for you.
+ * The secret keys in wp-config.php should be updated to strong, random keys to maximize
+ * security. Below is an example of how the secret key constants are defined.
+ * Do not paste this example directly into wp-config.php. Instead, have a
+ * {@link https://api.wordpress.org/secret-key/1.1/salt/ secret key created} just
+ * for you.
  *
  * <code>
- * define('SECRET_KEY', 'mAry1HadA15|\/|b17w55w1t3asSn09w');
+ * define('AUTH_KEY',         ' Xakm<o xQy rw4EMsLKM-?!T+,PFF})H4lzcW57AF0U@N@< >M%G4Yt>f`z]MON');
+ * define('SECURE_AUTH_KEY',  'LzJ}op]mr|6+![P}Ak:uNdJCJZd>(Hx.-Mh#Tz)pCIU#uGEnfFz|f ;;eU%/U^O~');
+ * define('LOGGED_IN_KEY',    '|i|Ux`9<p-h$aFf(qnT:sDO:D1P^wZ$$/Ra@miTJi9G;ddp_<q}6H1)o|a +&JCM');
+ * define('NONCE_KEY',        '%:R{[P|,s.KuMltH5}cI;/k<Gx~j!f0I)m_sIyu+&NJZ)-iO>z7X>QYR0Z_XnZ@|');
+ * define('AUTH_SALT',        'eZyT)-Naw]F8CwA*VaW#q*|.)g@o}||wf~@C-YSt}(dh_r6EbI#A,y|nU2{B#JBW');
+ * define('SECURE_AUTH_SALT', '!=oLUTXh,QW=H `}`L|9/^4-3 STz},T(w}W<I`.JjPi)<Bmf1v,HpGe}T1:Xt7n');
+ * define('LOGGED_IN_SALT',   '+XSqHc;@Q*K_b|Z?NC[3H!!EONbh.n<+=uKR:>*c(u`g~EJBf#8u#R{mUEZrozmm');
+ * define('NONCE_SALT',       'h`GXHhD>SLWVfg1(1(N{;.V!MoE(SfbA_ksP@&`+AycHcAV$+?@3q+rxV{%^VyKT');
  * </code>
  *
  * Salting passwords helps against tools which has stored hashed values of
- * common dictionary strings. The added values makes it harder to crack if given
- * salt string is not weak.
+ * common dictionary strings. The added values makes it harder to crack.
  *
  * @since 2.5
- * @link https://api.wordpress.org/secret-key/1.1/ Create a Secret Key for wp-config.php
+ *
+ * @link https://api.wordpress.org/secret-key/1.1/salt/ Create secrets for wp-config.php
  *
  * @param string $scheme Authentication scheme
  * @return string Salt value
