@@ -2038,8 +2038,6 @@ function wp_delete_post( $postid = 0, $force_delete = false ) {
 
 		foreach ( (array) $children as $child )
 			clean_page_cache($child->ID);
-
-		$wp_rewrite->flush_rules(false);
 	} else {
 		clean_post_cache($postid);
 	}
@@ -4590,20 +4588,10 @@ function _publish_post_hook($post_id) {
 }
 
 /**
- * Hook used to prevent page/post cache and rewrite rules from staying dirty.
- *
- * Does two things. If the post is a page and has a template then it will
- * update/add that template to the meta. For both pages and posts, it will clean
- * the post cache to make sure that the cache updates to the changes done
- * recently. For pages, the rewrite rules of WordPress are flushed to allow for
- * any changes.
- *
- * The $post parameter, only uses 'post_type' property and 'page_template'
- * property.
+ * Hook used to prevent page/post cache from staying dirty when a post is saved.
  *
  * @since 2.3.0
  * @access private
- * @uses $wp_rewrite Flushes Rewrite Rules.
  *
  * @param int $post_id The ID in the database table for the $post
  * @param object $post Object type containing the post information
@@ -4611,11 +4599,6 @@ function _publish_post_hook($post_id) {
 function _save_post_hook($post_id, $post) {
 	if ( $post->post_type == 'page' ) {
 		clean_page_cache($post_id);
-		// Avoid flushing rules for every post during import.
-		if ( !defined('WP_IMPORTING') ) {
-			global $wp_rewrite;
-			$wp_rewrite->flush_rules(false);
-		}
 	} else {
 		clean_post_cache($post_id);
 	}
