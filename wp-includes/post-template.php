@@ -558,18 +558,25 @@ function get_body_class( $class = '' ) {
  * @return bool false if a password is not required or the correct password cookie is present, true otherwise.
  */
 function post_password_required( $post = null ) {
+	global $wp_hasher;
+
 	$post = get_post($post);
 
-	if ( empty($post->post_password) )
+	if ( empty( $post->post_password ) )
 		return false;
 
-	if ( !isset($_COOKIE['wp-postpass_' . COOKIEHASH]) )
+	if ( ! isset( $_COOKIE['wp-postpass_' . COOKIEHASH] ) )
 		return true;
 
-	if ( stripslashes( $_COOKIE['wp-postpass_' . COOKIEHASH] ) != $post->post_password )
-		return true;
+	if ( empty( $wp_hasher ) ) {
+		require_once( ABSPATH . 'wp-includes/class-phpass.php');
+		// By default, use the portable hash from phpass
+		$wp_hasher = new PasswordHash(8, true);
+	}
 
-	return false;
+	$hash = stripslashes( $_COOKIE[ 'wp-postpass_' . COOKIEHASH ] );
+
+	return ! $wp_hasher->CheckPassword( $post->post_password, $hash );
 }
 
 /**
