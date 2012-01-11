@@ -427,7 +427,7 @@ function get_taxonomy_labels( $tax ) {
  * @uses $wp_taxonomies Modifies taxonomy object
  *
  * @param string $taxonomy Name of taxonomy object
- * @param array|string $object_type Name of the object type
+ * @param string $object_type Name of the object type
  * @return bool True if successful, false if not
  */
 function register_taxonomy_for_object_type( $taxonomy, $object_type) {
