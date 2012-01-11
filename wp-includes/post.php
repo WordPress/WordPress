@@ -4330,10 +4330,12 @@ function clean_post_cache($id) {
 	if ( 0 === $id )
 		return;
 
+	$post = get_post( $id );
+
 	wp_cache_delete($id, 'posts');
 	wp_cache_delete($id, 'post_meta');
 
-	clean_object_term_cache($id, 'post');
+	clean_object_term_cache( $id, $post->post_type );
 
 	wp_cache_delete( 'wp_get_archives', 'general' );
 

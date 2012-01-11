@@ -2657,7 +2657,7 @@ function update_object_term_cache($object_ids, $object_type) {
 		$object_terms[$term->object_id][$term->taxonomy][$term->term_id] = $term;
 
 	foreach ( $ids as $id ) {
-		foreach ( $taxonomies  as $taxonomy ) {
+		foreach ( $taxonomies as $taxonomy ) {
 			if ( ! isset($object_terms[$id][$taxonomy]) ) {
 				if ( !isset($object_terms[$id]) )
 					$object_terms[$id] = array();
@@ -2668,7 +2668,7 @@ function update_object_term_cache($object_ids, $object_type) {
 
 	foreach ( $object_terms as $id => $value ) {
 		foreach ( $value as $taxonomy => $terms ) {
-			wp_cache_set($id, $terms, "{$taxonomy}_relationships");
+			wp_cache_add( $id, $terms, "{$taxonomy}_relationships" );
 		}
 	}
 }

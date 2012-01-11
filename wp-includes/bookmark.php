@@ -375,7 +375,8 @@ function sanitize_bookmark_field($field, $value, $bookmark_id, $context) {
  * @since 2.7.0
  * @uses wp_cache_delete() Deletes the contents of 'get_bookmarks'
  */
-function clean_bookmark_cache($bookmark_id) {
+function clean_bookmark_cache( $bookmark_id ) {
 	wp_cache_delete( $bookmark_id, 'bookmark' );
 	wp_cache_delete( 'get_bookmarks', 'bookmark' );
+	clean_object_term_cache( $bookmark_id, 'link');
 }
