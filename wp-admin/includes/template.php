@@ -1252,11 +1252,13 @@ function get_settings_errors( $setting = '', $sanitize = false ) {
  */
 function settings_errors( $setting = '', $sanitize = false, $hide_on_update = false ) {
 
-	if ($hide_on_update AND $_GET['settings-updated']) return;
+	if ( $hide_on_update && ! empty( $_GET['settings-updated'] ) )
+		return;
 
 	$settings_errors = get_settings_errors( $setting, $sanitize );
 
-	if ( !is_array($settings_errors) ) return;
+	if ( ! is_array( $settings_errors ) )
+		return;
 
 	$output = '';
 	foreach ( $settings_errors as $key => $details ) {
