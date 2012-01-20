@@ -854,7 +854,7 @@ function count_users($strategy = 'time') {
 		// Build a CPU-intensive query that will return concise information.
 		$select_count = array();
 		foreach ( $avail_roles as $this_role => $name ) {
-			$select_count[] = "COUNT(NULLIF(`meta_value` LIKE '%" . like_escape($this_role) . "%', false))";
+			$select_count[] = "COUNT(NULLIF(`meta_value` LIKE '%\"" . like_escape( $this_role ) . "\"%', false))";
 		}
 		$select_count = implode(', ', $select_count);
 
