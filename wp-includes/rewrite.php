@@ -807,24 +807,16 @@ class WP_Rewrite {
 	/**
 	 * Retrieve all of the rewrite rules for pages.
 	 *
-	 * If the 'use_verbose_page_rules' property is false, then there will only
-	 * be a single rewrite rule for pages for those matching '%pagename%'. With
-	 * the property set to true, the attachments and the pages will be added for
-	 * each individual attachment URI and page URI, respectively.
-	 *
 	 * @since 1.5.0
 	 * @access public
 	 *
 	 * @return array
 	 */
 	function page_rewrite_rules() {
-		$rewrite_rules = array();
-		$page_structure = $this->get_page_permastruct();
-
 		// the extra .? at the beginning prevents clashes with other regular expressions in the rules array
-		$this->add_rewrite_tag('%pagename%', "(.?.+?)", 'pagename=');
-		$rewrite_rules = array_merge($rewrite_rules, $this->generate_rewrite_rules($page_structure, EP_PAGES));
-		return $rewrite_rules;
+		$this->add_rewrite_tag( '%pagename%', '(.?.+?)', 'pagename=' );
+
+		return $this->generate_rewrite_rules( $this->get_page_permastruct(), EP_PAGES );
 	}
 
 	/**
