@@ -23,7 +23,9 @@ function create_initial_taxonomies() {
 		'rewrite' => did_action( 'init' ) ? array(
 					'hierarchical' => true,
 					'slug' => get_option('category_base') ? get_option('category_base') : 'category',
-					'with_front' => ( get_option('category_base') && ! $wp_rewrite->using_index_permalinks() ) ? false : true ) : false,
+					'with_front' => ( get_option('category_base') && ! $wp_rewrite->using_index_permalinks() ) ? false : true,
+					'ep_mask' => EP_CATEGORIES,
+				) : false,
 		'public' => true,
 		'show_ui' => true,
 		'_builtin' => true,
@@ -34,7 +36,9 @@ function create_initial_taxonomies() {
 		'query_var' => 'tag',
 		'rewrite' => did_action( 'init' ) ? array(
 					'slug' => get_option('tag_base') ? get_option('tag_base') : 'tag',
-					'with_front' => ( get_option('tag_base') && ! $wp_rewrite->using_index_permalinks() ) ? false : true ) : false,
+					'with_front' => ( get_option('tag_base') && ! $wp_rewrite->using_index_permalinks() ) ? false : true,
+					'ep_mask' => EP_TAGS,
+				) : false,
 		'public' => true,
 		'show_ui' => true,
 		'_builtin' => true,
@@ -321,7 +325,8 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 		$args['rewrite'] = wp_parse_args($args['rewrite'], array(
 			'slug' => sanitize_title_with_dashes($taxonomy),
 			'with_front' => true,
-			'hierarchical' => false
+			'hierarchical' => false,
+			'ep_mask' => EP_NONE,
 		));
 
 		if ( $args['hierarchical'] && $args['rewrite']['hierarchical'] )
@@ -330,7 +335,7 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 			$tag = '([^/]+)';
 
 		$wp_rewrite->add_rewrite_tag("%$taxonomy%", $tag, $args['query_var'] ? "{$args['query_var']}=" : "taxonomy=$taxonomy&term=");
-		$wp_rewrite->add_permastruct($taxonomy, "{$args['rewrite']['slug']}/%$taxonomy%", $args['rewrite']['with_front']);
+		$wp_rewrite->add_permastruct($taxonomy, "{$args['rewrite']['slug']}/%$taxonomy%", $args['rewrite']['with_front'], $args['rewrite']['ep_mask'] );
 	}
 
 	if ( is_null($args['show_ui']) )

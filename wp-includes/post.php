@@ -893,10 +893,9 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  *     register_taxonomy_for_object_type().
  * - labels - An array of labels for this post type. By default post labels are used for non-hierarchical
  *     types and page labels for hierarchical ones. You can see accepted values in {@link get_post_type_labels()}.
- * - permalink_epmask - The default rewrite endpoint bitmasks.
  * - has_archive - True to enable post type archives. Will generate the proper rewrite rules if rewrite is enabled.
  * - rewrite - false to prevent rewrite. Defaults to true. Use array('slug'=>$slug) to customize permastruct;
- *     default will use $post_type as slug. Other options include 'with_front', 'feeds', and 'pages'.
+ *     default will use $post_type as slug. Other options include 'with_front', 'feeds', 'pages', and 'ep_mask'.
  * - query_var - false to prevent queries, or string to value of the query var to use for this post type
  * - can_export - true allows this post type to be exported.
  * - show_in_nav_menus - true makes this post type available for selection in navigation menus.
@@ -924,7 +923,7 @@ function register_post_type($post_type, $args = array()) {
 		'public' => false, 'rewrite' => true, 'has_archive' => false, 'query_var' => true,
 		'supports' => array(), 'register_meta_box_cb' => null,
 		'taxonomies' => array(), 'show_ui' => null, 'menu_position' => null, 'menu_icon' => null,
-		'permalink_epmask' => EP_PERMALINK, 'can_export' => true,
+		'can_export' => true,
 		'show_in_nav_menus' => null, 'show_in_menu' => null, 'show_in_admin_bar' => null,
 	);
 	$args = wp_parse_args($args, $defaults);
@@ -999,6 +998,12 @@ function register_post_type($post_type, $args = array()) {
 			$args->rewrite['pages'] = true;
 		if ( ! isset( $args->rewrite['feeds'] ) || ! $args->has_archive )
 			$args->rewrite['feeds'] = (bool) $args->has_archive;
+		if ( ! isset( $args->rewrite['ep_mask'] ) ) {
+			if ( isset( $args['permalink_epmask'] ) )
+				$args->rewrite['ep_mask'] = $args['permalink_epmask'];
+			else
+				$args->rewrite['ep_mask'] = EP_PERMALINK;
+		}
 
 		if ( $args->hierarchical )
 			$wp_rewrite->add_rewrite_tag("%$post_type%", '(.+?)', $args->query_var ? "{$args->query_var}=" : "post_type=$post_type&name=");
@@ -1022,7 +1027,7 @@ function register_post_type($post_type, $args = array()) {
 				$wp_rewrite->add_rule( "{$archive_slug}/{$wp_rewrite->pagination_base}/([0-9]{1,})/?$", "index.php?post_type=$post_type" . '&paged=$matches[1]', 'top' );
 		}
 
-		$wp_rewrite->add_permastruct($post_type, "{$args->rewrite['slug']}/%$post_type%", $args->rewrite['with_front'], $args->permalink_epmask);
+		$wp_rewrite->add_permastruct( $post_type, "{$args->rewrite['slug']}/%$post_type%", $args->rewrite['with_front'], $args->rewrite['ep_mask'] );
 	}
 
 	if ( $args->register_meta_box_cb )
