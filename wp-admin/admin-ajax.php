@@ -4,6 +4,8 @@
  *
  * @package WordPress
  * @subpackage Administration
+ *
+ * @link http://codex.wordpress.org/AJAX_in_Plugins
  */
 
 /**
@@ -18,10 +20,14 @@ define( 'WP_ADMIN', true );
 if ( empty( $_REQUEST['action'] ) )
     die( '-1' );
 
-// Load libraries
-require_once('../wp-load.php');
-require_once('./includes/admin.php');
-require_once('./includes/ajax-actions.php');
+/** Load WordPress Bootstrap */
+require_once( dirname( dirname( __FILE__ ) ) . '/wp-load.php' );
+
+/** Load WordPress Administration APIs */
+require_once( ABSPATH . 'wp-admin/includes/admin.php' );
+
+/** Load Ajax Handlers for WordPress Core */
+require_once( ABSPATH . 'wp-admin/includes/ajax-actions.php' );
 
 @header( 'Content-Type: text/html; charset=' . get_option( 'blog_charset' ) );
 send_nosniff_header();
@@ -42,6 +48,7 @@ $core_actions_post = array(
 	'wp-remove-post-lock', 'dismiss-wp-pointer',
 );
 
+// Register core Ajax calls.
 if ( ! empty( $_GET['action'] ) && in_array( $_GET['action'], $core_actions_get ) )
 	add_action( 'wp_ajax_' . $_GET['action'], 'wp_ajax_' . str_replace( '-', '_', $_GET['action'] ), 1 );
 
