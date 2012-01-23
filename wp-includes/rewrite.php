@@ -816,7 +816,7 @@ class WP_Rewrite {
 		// the extra .? at the beginning prevents clashes with other regular expressions in the rules array
 		$this->add_rewrite_tag( '%pagename%', '(.?.+?)', 'pagename=' );
 
-		return $this->generate_rewrite_rules( $this->get_page_permastruct(), EP_PAGES );
+		return $this->generate_rewrite_rules( $this->get_page_permastruct(), EP_PAGES, false, true, false, false );
 	}
 
 	/**
@@ -1489,7 +1489,7 @@ class WP_Rewrite {
 		}
 
 		// Post
-		$post_rewrite = $this->generate_rewrite_rules($this->permalink_structure, EP_PERMALINK);
+		$post_rewrite = $this->generate_rewrite_rules( $this->permalink_structure, EP_PERMALINK, false, true, false, false );
 		$post_rewrite = apply_filters('post_rewrite_rules', $post_rewrite);
 
 		// Date
