@@ -12,20 +12,39 @@
 //
 
 /**
- * Creates the initial taxonomies when 'init' action is fired.
+ * Creates the initial taxonomies.
+ *
+ * This function fires twice: in wp-settings.php before plugins are loaded (for
+ * backwards compatibility reasons), and again on the 'init' action. We must avoid
+ * registering rewrite rules before the 'init' action.
  */
 function create_initial_taxonomies() {
 	global $wp_rewrite;
 
+	if ( ! did_action( 'init' ) ) {
+		$rewrite = array( 'category' => false, 'post_tag' => false, 'post_format' => false );
+	} else {
+		$post_format_base = apply_filters( 'post_format_rewrite_base', 'type' );
+		$rewrite = array(
+			'category' => array(
+				'hierarchical' => true,
+				'slug' => get_option('category_base') ? get_option('category_base') : 'category',
+				'with_front' => get_option('category_base') || $wp_rewrite->using_index_permalinks(),
+				'ep_mask' => EP_CATEGORIES,
+			),
+			'post_tag' => array(
+				'slug' => get_option('tag_base') ? get_option('tag_base') : 'tag',
+				'with_front' => get_option('tag_base') || $wp_rewrite->using_index_permalinks(),
+				'ep_mask' => EP_TAGS,
+			),
+			'post_format' => $post_format_base ? array( 'slug' => $post_format_base ) : false,
+		);
+	}
+
 	register_taxonomy( 'category', 'post', array(
 		'hierarchical' => true,
 		'query_var' => 'category_name',
-		'rewrite' => did_action( 'init' ) ? array(
-					'hierarchical' => true,
-					'slug' => get_option('category_base') ? get_option('category_base') : 'category',
-					'with_front' => ( get_option('category_base') && ! $wp_rewrite->using_index_permalinks() ) ? false : true,
-					'ep_mask' => EP_CATEGORIES,
-				) : false,
+		'rewrite' => $rewrite['category'],
 		'public' => true,
 		'show_ui' => true,
 		'_builtin' => true,
@@ -34,11 +53,7 @@ function create_initial_taxonomies() {
 	register_taxonomy( 'post_tag', 'post', array(
 	 	'hierarchical' => false,
 		'query_var' => 'tag',
-		'rewrite' => did_action( 'init' ) ? array(
-					'slug' => get_option('tag_base') ? get_option('tag_base') : 'tag',
-					'with_front' => ( get_option('tag_base') && ! $wp_rewrite->using_index_permalinks() ) ? false : true,
-					'ep_mask' => EP_TAGS,
-				) : false,
+		'rewrite' => $rewrite['post_tag'],
 		'public' => true,
 		'show_ui' => true,
 		'_builtin' => true,
@@ -81,12 +96,6 @@ function create_initial_taxonomies() {
 		'_builtin' => true,
 	) );
 
-	$rewrite = false;
-	if ( did_action( 'init' ) ) {
-		$rewrite = apply_filters( 'post_format_rewrite_base', 'type' );
-		$rewrite = $rewrite ? array( 'slug' => $rewrite ) : false;
-	}
-
 	register_taxonomy( 'post_format', 'post', array(
 		'public' => true,
 		'hierarchical' => false,
@@ -95,7 +104,7 @@ function create_initial_taxonomies() {
 			'singular_name' => _x( 'Format', 'post format' ),
 		),
 		'query_var' => true,
-		'rewrite' => $rewrite,
+		'rewrite' => $rewrite['post_format'],
 		'show_ui' => false,
 		'_builtin' => true,
 		'show_in_nav_menus' => false,
