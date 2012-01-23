@@ -999,8 +999,8 @@ function register_post_type($post_type, $args = array()) {
 		if ( ! isset( $args->rewrite['feeds'] ) || ! $args->has_archive )
 			$args->rewrite['feeds'] = (bool) $args->has_archive;
 		if ( ! isset( $args->rewrite['ep_mask'] ) ) {
-			if ( isset( $args['permalink_epmask'] ) )
-				$args->rewrite['ep_mask'] = $args['permalink_epmask'];
+			if ( isset( $args->permalink_epmask ) )
+				$args->rewrite['ep_mask'] = $args->permalink_epmask;
 			else
 				$args->rewrite['ep_mask'] = EP_PERMALINK;
 		}
