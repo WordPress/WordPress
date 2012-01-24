@@ -1459,9 +1459,6 @@ function recurse_dirsize( $directory ) {
 /**
  * Check whether a blog has used its allotted upload space.
  *
- * Used by get_dirsize() to get a directory's size when it contains
- * other directories.
- *
  * @since MU
  * @uses get_dirsize()
  *
