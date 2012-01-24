@@ -5076,7 +5076,7 @@ function wp_get_post_parent_id( $post_ID ) {
  * @uses wp_find_hierarchy_loop()
  *
  * @param int $post_parent ID of the parent for the post we're checking.
- * @parem int $post_ID ID of the post we're checking.
+ * @param int $post_ID ID of the post we're checking.
  *
  * @return int The new post_parent for the post.
  */
