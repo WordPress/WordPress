@@ -6,6 +6,14 @@
  * @subpackage Administration
  */
 
+/**
+ * We are upgrading WordPress.
+ *
+ * @since 1.5.1
+ * @var bool
+ */
+define( 'WP_INSTALLING', true );
+
 /** Load WordPress Bootstrap */
 require( '../wp-load.php' );
 
