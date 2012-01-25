@@ -1368,7 +1368,8 @@ function get_most_recent_post_of_user( $user_id ) {
 	// Walk through each blog and get the most recent post
 	// published by $user_id
 	foreach ( (array) $user_blogs as $blog ) {
-		$recent_post = $wpdb->get_row( $wpdb->prepare("SELECT ID, post_date_gmt FROM {$wpdb->base_prefix}{$blog->userblog_id}_posts WHERE post_author = %d AND post_type = 'post' AND post_status = 'publish' ORDER BY post_date_gmt DESC LIMIT 1", $user_id ), ARRAY_A);
+		$prefix = $wpdb->get_blog_prefix( $blog->userblog_id );
+		$recent_post = $wpdb->get_row( $wpdb->prepare("SELECT ID, post_date_gmt FROM {$prefix}posts WHERE post_author = %d AND post_type = 'post' AND post_status = 'publish' ORDER BY post_date_gmt DESC LIMIT 1", $user_id ), ARRAY_A);
 
 		// Make sure we found a post
 		if ( isset($recent_post['ID']) ) {
