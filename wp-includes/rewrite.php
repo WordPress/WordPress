@@ -22,26 +22,33 @@ function add_rewrite_rule($regex, $redirect, $after = 'bottom') {
 }
 
 /**
- * Add a new tag (like %postname%).
+ * Add a new rewrite tag (like %postname%).
  *
- * Warning: you must call this on init or earlier, otherwise the query var
- * addition stuff won't work.
+ * The $query parameter is optional. If it is omitted you must ensure that
+ * you call this on, or before, the 'init' hook. This is because $query defaults
+ * to "$tag=", and for this to work a new query var has to be added.
  *
+ * @see WP_Rewrite::add_rewrite_tag()
  * @since 2.1.0
  *
- * @param string $tagname
- * @param string $regex
+ * @param string $tag Name of the new rewrite tag.
+ * @param string $regex Regular expression to substitute the tag for in rewrite rules.
+ * @param string $query String to append to the rewritten query. Must end in '='. Optional.
  */
-function add_rewrite_tag($tagname, $regex) {
-	//validation
-	if ( strlen($tagname) < 3 || $tagname[0] != '%' || $tagname[strlen($tagname)-1] != '%' )
+function add_rewrite_tag( $tag, $regex, $query = '' ) {
+	// validate the tag's name
+	if ( strlen( $tag ) < 3 || $tag[0] != '%' || $tag[ strlen($tag) - 1 ] != '%' )
 		return;
 
-	$qv = trim($tagname, '%');
-
 	global $wp_rewrite, $wp;
-	$wp->add_query_var($qv);
-	$wp_rewrite->add_rewrite_tag($tagname, $regex, $qv . '=');
+
+	if ( empty( $query ) ) {
+		$qv = trim( $tag, '%' );
+		$wp->add_query_var( $qv );
+		$query = $qv . '=';
+	}
+
+	$wp_rewrite->add_rewrite_tag( $tag, $regex, $query );
 }
 
 /**
@@ -1169,30 +1176,29 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Append or update tag, pattern, and query for replacement.
+	 * Add or update existing rewrite tags (e.g. %postname%).
 	 *
 	 * If the tag already exists, replace the existing pattern and query for
-	 * that tag, otherwise add the new tag, pattern, and query to the end of the
-	 * arrays.
+	 * that tag, otherwise add the new tag.
 	 *
-	 * @internal What is the purpose of this function again? Need to finish long
-	 *           description.
-	 *
+	 * @see WP_Rewrite::$rewritecode
+	 * @see WP_Rewrite::$rewritereplace
+	 * @see WP_Rewrite::$queryreplace
 	 * @since 1.5.0
 	 * @access public
 	 *
-	 * @param string $tag Append tag to rewritecode property array.
-	 * @param string $pattern Append pattern to rewritereplace property array.
-	 * @param string $query Append query to queryreplace property array.
+	 * @param string $tag Name of the rewrite tag to add or update.
+	 * @param string $regex Regular expression to substitute the tag for in rewrite rules.
+	 * @param string $query String to append to the rewritten query. Must end in '='.
 	 */
-	function add_rewrite_tag($tag, $pattern, $query) {
-		$position = array_search($tag, $this->rewritecode);
+	function add_rewrite_tag( $tag, $regex, $query ) {
+		$position = array_search( $tag, $this->rewritecode );
 		if ( false !== $position && null !== $position ) {
-			$this->rewritereplace[$position] = $pattern;
-			$this->queryreplace[$position] = $query;
+			$this->rewritereplace[ $position ] = $regex;
+			$this->queryreplace[ $position ] = $query;
 		} else {
 			$this->rewritecode[] = $tag;
-			$this->rewritereplace[] = $pattern;
+			$this->rewritereplace[] = $regex;
 			$this->queryreplace[] = $query;
 		}
 	}
