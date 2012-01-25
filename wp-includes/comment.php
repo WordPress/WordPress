@@ -1382,17 +1382,14 @@ function wp_new_comment( $commentdata ) {
 /**
  * Sets the status of a comment.
  *
- * The 'wp_set_comment_status' action is called after the comment is handled and
- * will only be called, if the comment status is either 'hold', 'approve', or
- * 'spam'. If the comment status is not in the list, then false is returned and
- * if the status is 'delete', then the comment is deleted without calling the
- * action.
+ * The 'wp_set_comment_status' action is called after the comment is handled.
+ * If the comment status is not in the list, then false is returned.
  *
  * @since 1.0.0
  * @uses wp_transition_comment_status() Passes new and old comment status along with $comment object
  *
  * @param int $comment_id Comment ID.
- * @param string $comment_status New comment status, either 'hold', 'approve', 'spam', or 'delete'.
+ * @param string $comment_status New comment status, either 'hold', 'approve', 'spam', or 'trash'.
  * @param bool $wp_error Whether to return a WP_Error object if there is a failure. Default is false.
  * @return bool False on failure or deletion and true on success.
  */
