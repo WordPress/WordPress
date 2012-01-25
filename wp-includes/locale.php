@@ -85,15 +85,6 @@ class WP_Locale {
 	var $text_direction = 'ltr';
 
 	/**
-	 * Imports the global version to the class property.
-	 *
-	 * @since 2.1.0
-	 * @var array
-	 * @access private
-	 */
-	var $locale_vars = array('text_direction');
-
-	/**
 	 * Sets up the translated strings and object properties.
 	 *
 	 * The method creates the translatable strings for various
@@ -186,11 +177,9 @@ class WP_Locale {
 		$trans = __('number_format_decimal_point');
 		$this->number_format['decimal_point'] = ('number_format_decimal_point' == $trans) ? '.' : $trans;
 
-		// Import global locale vars set during inclusion of $locale.php.
-		foreach ( (array) $this->locale_vars as $var ) {
-			if ( isset($GLOBALS[$var]) )
-				$this->$var = $GLOBALS[$var];
-		}
+		// Import the $text_direction global.
+		if ( isset( $GLOBALS['text_direction'] ) )
+			$this->text_direction = $GLOBALS['text_direction'];
 
 	}
 
