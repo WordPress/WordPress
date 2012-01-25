@@ -1860,7 +1860,7 @@ function is_user_option_local( $key, $user_id = 0, $blog_id = 0 ) {
 	if ( $blog_id == 0 )
 		$blog_id = $wpdb->blogid;
 
-	$local_key = $wpdb->base_prefix . $blog_id . '_' . $key;
+	$local_key = $wpdb->get_blog_prefix( $blog_id ) . $key;
 
 	if ( isset( $current_user->$local_key ) )
 		return true;
