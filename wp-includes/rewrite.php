@@ -101,7 +101,6 @@ function flush_rewrite_rules( $hard = true ) {
 	$wp_rewrite->flush_rules( $hard );
 }
 
-//pseudo-places
 /**
  * Endpoint Mask for default, which is nothing.
  *
@@ -210,22 +209,37 @@ define('EP_ALL', 8191);
 /**
  * Add an endpoint, like /trackback/.
  *
- * The endpoints are added to the end of the request. So a request matching
- * "/2008/10/14/my_post/myep/", the endpoint will be "/myep/".
+ * Adding an endpoint creates extra rewrite rules for each of the matching
+ * places specified by the provided bitmask. For example:
  *
- * Be sure to flush the rewrite rules (wp_rewrite->flush_rules()) when your plugin gets
- * activated (register_activation_hook()) and deactivated (register_deactivation_hook())
+ * <code>
+ * add_rewrite_endpoint( 'json', EP_PERMALINK | EP_PAGES );
+ * </code>
+ *
+ * will add a new rewrite rule ending with "json(/(.*))?/?$" for every permastruct
+ * that describes a permalink (post) or page. This is rewritten to "json=$match"
+ * where $match is the part of the URL matched by the endpoint regex (e.g. "foo" in
+ * "<permalink>/json/foo/").
+ *
+ * A new query var with the same name as the endpoint will also be created.
+ *
+ * When specifying $places ensure that you are using the EP_* constants (or a
+ * combination of them using the bitwise OR operator) as their values are not
+ * guaranteed to remain static (especially EP_ALL).
+ *
+ * Be sure to flush the rewrite rules - flush_rewrite_rules() - when your plugin gets
+ * activated and deactivated.
  *
  * @since 2.1.0
- * @see WP_Rewrite::add_endpoint() Parameters and more description.
- * @uses $wp_rewrite
+ * @see WP_Rewrite::add_endpoint()
+ * @global object $wp_rewrite
  *
- * @param unknown_type $name
- * @param unknown_type $places
+ * @param string $name Name of the endpoint.
+ * @param int $places Endpoint mask describing the places the endpoint should be added.
  */
-function add_rewrite_endpoint($name, $places) {
+function add_rewrite_endpoint( $name, $places ) {
 	global $wp_rewrite;
-	$wp_rewrite->add_endpoint($name, $places);
+	$wp_rewrite->add_endpoint( $name, $places );
 }
 
 /**
@@ -1833,13 +1847,15 @@ class WP_Rewrite {
 	/**
 	 * Add an endpoint, like /trackback/.
 	 *
-	 * To be inserted after certain URL types (specified in $places).
+	 * See {@link add_rewrite_endpoint()} for full documentation.
 	 *
+	 * @see add_rewrite_endpoint()
 	 * @since 2.1.0
 	 * @access public
+	 * @uses WP::add_query_var()
 	 *
-	 * @param string $name Name of endpoint.
-	 * @param array $places URL types that endpoint can be used.
+	 * @param string $name Name of the endpoint.
+	 * @param int $places Endpoint mask describing the places the endpoint should be added.
 	 */
 	function add_endpoint($name, $places) {
 		global $wp;
