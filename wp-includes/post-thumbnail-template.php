@@ -82,7 +82,7 @@ function update_post_thumbnail_cache() {
  * @since 2.9.0
  *
  * @param int $post_id Optional. Post ID.
- * @param string $size Optional. Image size. Defaults to 'thumbnail'.
+ * @param string $size Optional. Image size. Defaults to 'post-thumbnail'.
  * @param string|array $attr Optional. Query string or array of attributes.
  */
 function get_the_post_thumbnail( $post_id = null, $size = 'post-thumbnail', $attr = '' ) {
