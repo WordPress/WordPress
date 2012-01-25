@@ -85,6 +85,11 @@ class WP_Locale {
 	var $text_direction = 'ltr';
 
 	/**
+	 * Locales which are known to be right-to-left.
+	 */
+	private $rtl_locales = array( 'ar', 'ckb', 'fa_IR', 'he_IL', 'ug_CN', 'dv', 'fa_AF', 'ha', 'ps', 'uz_UZ', 'yi' );
+
+	/**
 	 * Sets up the translated strings and object properties.
 	 *
 	 * The method creates the translatable strings for various
@@ -177,10 +182,13 @@ class WP_Locale {
 		$trans = __('number_format_decimal_point');
 		$this->number_format['decimal_point'] = ('number_format_decimal_point' == $trans) ? '.' : $trans;
 
+		// Locale-specific tweaks
+		if ( in_array( get_locale(), $this->rtl_locales ) )
+			$this->text_direction = 'rtl';
+
 		// Import the $text_direction global.
 		if ( isset( $GLOBALS['text_direction'] ) )
 			$this->text_direction = $GLOBALS['text_direction'];
-
 	}
 
 	/**
@@ -321,9 +329,10 @@ class WP_Locale {
 	 * @since 3.0.0
 	 * @return bool Whether locale is RTL.
 	 */
-	 function is_rtl() {
-	 	return 'rtl' == $this->text_direction;
-	 }
+	function is_rtl() {
+		return 'rtl' == $this->text_direction;
+	}
+
 }
 
 /**
