@@ -99,7 +99,7 @@ register_shutdown_function( 'shutdown_action_hook' );
 if ( SHORTINIT )
 	return false;
 
-// Load the l18n library.
+// Load the L10n library.
 require( ABSPATH . WPINC . '/l10n.php' );
 
 // Run the installer if WordPress is not installed.
