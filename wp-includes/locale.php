@@ -86,6 +86,11 @@ class WP_Locale {
 
 	/**
 	 * Locales which are known to be right-to-left.
+	 *
+	 * @since 3.4.0
+	 * @var array
+	 * @access private
+	 * @static
 	 */
 	private static $rtl_locales = array( 'ar', 'ckb', 'fa_IR', 'he_IL', 'ug_CN', 'dv', 'fa_AF', 'ha', 'ps', 'uz_UZ', 'yi' );
 
@@ -323,6 +328,7 @@ class WP_Locale {
 		$this->init();
 		$this->register_globals();
 	}
+
 	/**
 	 * Checks if current locale is RTL.
 	 *
@@ -333,6 +339,15 @@ class WP_Locale {
 		return 'rtl' == $this->text_direction;
 	}
 
+	/**
+	 * Determines whether a locale is known to be right-to-left.
+	 *
+	 * @since 3.4.0
+	 * @static
+	 *
+	 * @param string Locale in WP format.
+	 * @return bool Whether locale is RTL.
+	 */
 	public static function is_locale_rtl( $locale ) {
 		return in_array( $locale, self::$rtl_locales );
 	}
