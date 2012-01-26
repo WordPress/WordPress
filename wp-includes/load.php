@@ -19,7 +19,7 @@ function wp_unregister_GLOBALS() {
 		return;
 
 	if ( isset( $_REQUEST['GLOBALS'] ) )
-		die( /*WP_I18N_GLOBALS_OVERWRITE*/'GLOBALS overwrite attempt detected'/*/WP_I18N_GLOBALS_OVERWRITE*/ );
+		die( 'GLOBALS overwrite attempt detected' );
 
 	// Variables that shouldn't be unset
 	$no_unset = array( 'GLOBALS', '_GET', '_POST', '_COOKIE', '_REQUEST', '_SERVER', '_ENV', '_FILES', 'table_prefix' );
@@ -97,22 +97,21 @@ function wp_fix_server_vars() {
  *
  * Dies if requirements are not met.
  *
- * This function must be able to work without a complete environment set up. In wp-load.php, for
- * example, WP_CONTENT_DIR is defined and version.php is included before this function is called.
- *
  * @access private
  * @since 3.0.0
  */
 function wp_check_php_mysql_versions() {
-	// we can probably extend this function to check if wp_die() exists then use translated strings, and then use it in install.php etc.
-
 	global $required_php_version, $wp_version;
 	$php_version = phpversion();
-	if ( version_compare( $required_php_version, $php_version, '>' ) )
-		die( sprintf( /*WP_I18N_OLD_PHP*/'Your server is running PHP version %1$s but WordPress %2$s requires at least %3$s.'/*/WP_I18N_OLD_PHP*/, $php_version, $wp_version, $required_php_version ) );
+	if ( version_compare( $required_php_version, $php_version, '>' ) ) {
+		wp_load_translations_early();
+		wp_die( sprintf( __( 'Your server is running PHP version %1$s but WordPress %2$s requires at least %3$s.' ), $php_version, $wp_version, $required_php_version ) );
+	}
 
-	if ( !extension_loaded( 'mysql' ) && !file_exists( WP_CONTENT_DIR . '/db.php' ) )
-		die( /*WP_I18N_OLD_MYSQL*/'Your PHP installation appears to be missing the MySQL extension which is required by WordPress.'/*/WP_I18N_OLD_MYSQL*/ );
+	if ( ! extension_loaded( 'mysql' ) && ! file_exists( WP_CONTENT_DIR . '/db.php' ) ) {
+		wp_load_translations_early();
+		wp_die( __( 'Your PHP installation appears to be missing the MySQL extension which is required by WordPress.' ) );
+	}
 }
 
 /**
@@ -159,6 +158,8 @@ function wp_maintenance() {
 		die();
 	}
 
+	wp_load_translations_early();
+
 	$protocol = $_SERVER["SERVER_PROTOCOL"];
 	if ( 'HTTP/1.1' != $protocol && 'HTTP/1.0' != $protocol )
 		$protocol = 'HTTP/1.0';
@@ -170,11 +171,11 @@ function wp_maintenance() {
 	<html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title><?php echo /*WP_I18N_MAINTENANCE*/'Maintenance'/*/WP_I18N_MAINTENANCE*/; ?></title>
+		<title><?php _e( 'Maintenance' ); ?></title>
 
 	</head>
 	<body>
-		<h1><?php echo /*WP_I18N_MAINT_MSG*/'Briefly unavailable for scheduled maintenance. Check back in a minute.'/*/WP_I18N_MAINT_MSG*/; ?></h1>
+		<h1><?php _e( 'Briefly unavailable for scheduled maintenance. Check back in a minute.' ); ?></h1>
 	</body>
 	</html>
 <?php
@@ -364,8 +365,10 @@ function wp_set_wpdb_vars() {
 
 	$prefix = $wpdb->set_prefix( $table_prefix );
 
-	if ( is_wp_error( $prefix ) )
-		wp_die( /*WP_I18N_BAD_PREFIX*/'<strong>ERROR</strong>: <code>$table_prefix</code> in <code>wp-config.php</code> can only contain numbers, letters, and underscores.'/*/WP_I18N_BAD_PREFIX*/ );
+	if ( is_wp_error( $prefix ) ) {
+		wp_load_translations_early();
+		wp_die( __( '<strong>ERROR</strong>: <code>$table_prefix</code> in <code>wp-config.php</code> can only contain numbers, letters, and underscores.' ) );
+	}
 }
 
 /**
@@ -648,4 +651,88 @@ function is_multisite() {
 		return true;
 
 	return false;
+}
+
+/**
+ * Attempts an early load of translations.
+ *
+ * Used for errors encountered during the initial loading process, before the locale has been
+ * properly detected and loaded.
+ *
+ * Designed for unusual load sequences (like setup-config.php) or for when the script will then
+ * terminate with an error, otherwise there is a risk that a file can be double-included.
+ *
+ * @since 3.4.0
+ * @access private
+ */
+function wp_load_translations_early() {
+	global $text_direction, $wp_locale;
+
+	static $loaded = false;
+	if ( $loaded )
+		return;
+	$loaded = true;
+
+	if ( function_exists( 'did_action' ) && did_action( 'init' ) )
+		return;
+
+	// We need $wp_local_package
+	require ABSPATH . WPINC . '/version.php';
+
+	// Translation and localization
+	require_once ABSPATH . WPINC . '/pomo/mo.php';
+	require_once ABSPATH . WPINC . '/l10n.php';
+	require_once ABSPATH . WPINC . '/locale.php';
+
+	// General libraries
+	require_once ABSPATH . WPINC . '/functions.php';
+	require_once ABSPATH . WPINC . '/plugin.php';
+
+	$locales = $locations = array();
+
+	while ( true ) {
+		if ( defined( 'WPLANG' ) ) {
+			if ( '' == WPLANG )
+				break;
+			$locales[] = WPLANG;
+		}
+
+		if ( isset( $wp_local_package ) )
+			$locales[] = $wp_local_package;
+
+		if ( ! $locales )
+			break;
+
+		if ( defined( 'WP_LANG_DIR' ) && @is_dir( WP_LANG_DIR ) )
+			$locations[] = WP_LANG_DIR;
+
+		if ( defined( 'WP_CONTENT_DIR' ) && @is_dir( WP_CONTENT_DIR . '/languages' ) )
+			$locations[] = WP_CONTENT_DIR . '/languages';
+
+		if ( @is_dir( ABSPATH . 'wp-content/languages' ) )
+			$locations[] = ABSPATH . 'wp-content/languages';
+
+		if ( @is_dir( ABSPATH . WPINC . '/languages' ) )
+			$locations[] = ABSPATH . WPINC . '/languages';
+
+		if ( ! $locations )
+			break;
+
+		$locations = array_unique( $locations );
+
+		foreach ( $locales as $locale ) {
+			foreach ( $locations as $location ) {
+				if ( file_exists( $location . '/' . $locale . '.mo' ) ) {
+					load_textdomain( 'default', $location . '/' . $locale . '.mo' );
+					if ( WP_Locale::is_locale_rtl( $locale ) )
+						$text_direction = 'rtl';
+					break 2;
+				}
+			}
+		}
+
+		break;
+	}
+
+	$wp_locale = new WP_Locale();
 }

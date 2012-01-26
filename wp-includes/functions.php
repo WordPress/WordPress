@@ -1201,8 +1201,10 @@ function is_blog_installed() {
 
 		// One or more tables exist. We are insane.
 
+		wp_load_translations_early();
+
 		// Die with a DB error.
-		$wpdb->error = sprintf( /*WP_I18N_NO_TABLES*/'One or more database tables are unavailable. The database may need to be <a href="%s">repaired</a>.'/*/WP_I18N_NO_TABLES*/, 'maint/repair.php?referrer=is_blog_installed' );
+		$wpdb->error = sprintf( __( 'One or more database tables are unavailable. The database may need to be <a href="%s">repaired</a>.' ), 'maint/repair.php?referrer=is_blog_installed' );
 		dead_db();
 	}
 
@@ -2647,16 +2649,18 @@ function dead_db() {
 	status_header( 500 );
 	nocache_headers();
 	header( 'Content-Type: text/html; charset=utf-8' );
+
+	wp_load_translations_early();
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" <?php if ( function_exists( 'language_attributes' ) ) language_attributes(); ?>>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title><?php echo /*WP_I18N_DB_ERROR*/'Database Error'/*/WP_I18N_DB_ERROR*/; ?></title>
+	<title><?php _e( 'Database Error' ); ?></title>
 
 </head>
 <body>
-	<h1><?php echo /*WP_I18N_DB_CONNECTION_ERROR*/'Error establishing a database connection'/*/WP_I18N_DB_CONNECTION_ERROR*/; ?></h1>
+	<h1><?php _e( 'Error establishing a database connection' ); ?></h1>
 </body>
 </html>
 <?php

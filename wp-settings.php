@@ -70,6 +70,7 @@ require( ABSPATH . WPINC . '/functions.php' );
 require( ABSPATH . WPINC . '/class-wp.php' );
 require( ABSPATH . WPINC . '/class-wp-error.php' );
 require( ABSPATH . WPINC . '/plugin.php' );
+require( ABSPATH . WPINC . '/pomo/mo.php' );
 
 // Include the wpdb class and, if present, a db.php database drop-in.
 require_wp_db();
@@ -81,9 +82,8 @@ wp_set_wpdb_vars();
 // Start the WordPress object cache, or an external object cache if the drop-in is present.
 wp_start_object_cache();
 
-// Load early WordPress files.
+// Attach the default filters.
 require( ABSPATH . WPINC . '/default-filters.php' );
-require( ABSPATH . WPINC . '/pomo/mo.php' );
 
 // Initialize multisite if enabled.
 if ( is_multisite() ) {
@@ -100,7 +100,7 @@ if ( SHORTINIT )
 	return false;
 
 // Load the L10n library.
-require( ABSPATH . WPINC . '/l10n.php' );
+require_once( ABSPATH . WPINC . '/l10n.php' );
 
 // Run the installer if WordPress is not installed.
 wp_not_installed();
@@ -268,7 +268,7 @@ if ( ( 0 === validate_file( $locale ) ) && is_readable( $locale_file ) )
 unset($locale_file);
 
 // Pull in locale data after loading text domain.
-require( ABSPATH . WPINC . '/locale.php' );
+require_once( ABSPATH . WPINC . '/locale.php' );
 
 /**
  * WordPress Locale object for loading locale domain date and various strings.

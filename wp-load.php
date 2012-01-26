@@ -39,21 +39,23 @@ if ( file_exists( ABSPATH . 'wp-config.php') ) {
 
 	// Set a path for the link to the installer
 	if ( strpos($_SERVER['PHP_SELF'], 'wp-admin') !== false )
-		$path = '';
+		$path = 'setup-config.php';
 	else
-		$path = 'wp-admin/';
+		$path = 'wp-admin/setup-config.php';
 
-	require_once( ABSPATH . '/wp-includes/load.php' );
-	require_once( ABSPATH . '/wp-includes/version.php' );
-	define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
 	define( 'WPINC', 'wp-includes' );
+	define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
+	require_once( ABSPATH . WPINC . '/load.php' );
+	require_once( ABSPATH . WPINC . '/version.php' );
+
+	wp_load_translations_early();
 	wp_check_php_mysql_versions();
 
 	// Die with an error message
-	require_once( ABSPATH . '/wp-includes/class-wp-error.php' );
-	require_once( ABSPATH . '/wp-includes/functions.php' );
-	require_once( ABSPATH . '/wp-includes/plugin.php' );
-	$text_direction = /*WP_I18N_TEXT_DIRECTION*/'ltr'/*/WP_I18N_TEXT_DIRECTION*/;
-	wp_die(sprintf(/*WP_I18N_NO_CONFIG*/"<p>There doesn't seem to be a <code>wp-config.php</code> file. I need this before we can get started.</p> <p>Need more help? <a href='http://codex.wordpress.org/Editing_wp-config.php'>We got it</a>.</p> <p>You can create a <code>wp-config.php</code> file through a web interface, but this doesn't work for all server setups. The safest way is to manually create the file.</p><p><a href='%ssetup-config.php' class='button'>Create a Configuration File</a></p>"/*/WP_I18N_NO_CONFIG*/, $path), /*WP_I18N_ERROR_TITLE*/'WordPress &rsaquo; Error'/*/WP_I18N_ERROR_TITLE*/, array('text_direction' => $text_direction));
+	$die  = '<p>' . __( "There doesn't seem to be a <code>wp-config.php</code> file. I need this before we can get started." ) . '</p>';
+	$die .= '<p>' . __( "Need more help? <a href='http://codex.wordpress.org/Editing_wp-config.php'>We got it</a>." ) . '</p>';
+	$die .= '<p>' . __( "You can create a <code>wp-config.php</code> file through a web interface, but this doesn't work for all server setups. The safest way is to manually create the file." ) . '</p>';
+	$die .= '<p><a href="' . $path . '" class="button">' . __( "Create a Configuration File" ) . '</a></p>';
 
+	wp_die( $die, __( 'WordPress &rsaquo; Error' ) );
 }
