@@ -1944,7 +1944,7 @@ function filter_SSL( $url ) {
 	$arrURL = parse_url( $url );
 
 	if ( force_ssl_content() && is_ssl() ) {
-		if ( 'http' === $arrURL['scheme'] && 'https' !== $arrURL['scheme'] )
+		if ( 'http' === $arrURL['scheme'] )
 			$url = str_replace( $arrURL['scheme'], 'https', $url );
 	}
 
