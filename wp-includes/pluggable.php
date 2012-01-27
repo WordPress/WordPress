@@ -1306,75 +1306,58 @@ if ( !function_exists('wp_salt') ) :
  *
  * @link https://api.wordpress.org/secret-key/1.1/salt/ Create secrets for wp-config.php
  *
- * @param string $scheme Authentication scheme
+ * @param string $scheme Authentication scheme (auth, secure_auth, logged_in, nonce)
  * @return string Salt value
  */
-function wp_salt($scheme = 'auth') {
-	global $wp_default_secret_key;
-	$secret_key = '';
-	if ( defined('SECRET_KEY') && ('' != SECRET_KEY) && ( $wp_default_secret_key != SECRET_KEY) )
-		$secret_key = SECRET_KEY;
+function wp_salt( $scheme = 'auth' ) {
+	global $wp_secret_key_default; // This is set for localized builds for versions > 3.4.0.
 
-	if ( 'auth' == $scheme ) {
-		if ( defined('AUTH_KEY') && ('' != AUTH_KEY) && ( $wp_default_secret_key != AUTH_KEY) )
-			$secret_key = AUTH_KEY;
-
-		if ( defined('AUTH_SALT') && ('' != AUTH_SALT) && ( $wp_default_secret_key != AUTH_SALT) ) {
-			$salt = AUTH_SALT;
-		} elseif ( defined('SECRET_SALT') && ('' != SECRET_SALT) && ( $wp_default_secret_key != SECRET_SALT) ) {
-			$salt = SECRET_SALT;
-		} else {
-			$salt = get_site_option('auth_salt');
-			if ( empty($salt) ) {
-				$salt = wp_generate_password( 64, true, true );
-				update_site_option('auth_salt', $salt);
+	static $duplicated_keys;
+	if ( null === $duplicated_keys ) {
+		$duplicated_keys = array( 'put your unique phrase here' => true );
+		foreach ( array( 'AUTH', 'SECURE_AUTH', 'LOGGED_IN', 'NONCE', 'SECRET' ) as $first ) {
+			foreach ( array( 'KEY', 'SALT' ) as $second ) {
+				if ( ! defined( "{$first}_{$second}" ) )
+					continue;
+				$value = constant( "{$first}_{$second}" );
+				$duplicated_keys[ $value ] = isset( $duplicated_keys[ $value ] );
 			}
 		}
-	} elseif ( 'secure_auth' == $scheme ) {
-		if ( defined('SECURE_AUTH_KEY') && ('' != SECURE_AUTH_KEY) && ( $wp_default_secret_key != SECURE_AUTH_KEY) )
-			$secret_key = SECURE_AUTH_KEY;
+		if ( ! empty( $wp_secret_key_default ) )
+			$duplicated_keys[ $wp_secret_key_default ] = true;
+	}
 
-		if ( defined('SECURE_AUTH_SALT') && ('' != SECURE_AUTH_SALT) && ( $wp_default_secret_key != SECURE_AUTH_SALT) ) {
-			$salt = SECURE_AUTH_SALT;
-		} else {
-			$salt = get_site_option('secure_auth_salt');
-			if ( empty($salt) ) {
-				$salt = wp_generate_password( 64, true, true );
-				update_site_option('secure_auth_salt', $salt);
-			}
-		}
-	} elseif ( 'logged_in' == $scheme ) {
-		if ( defined('LOGGED_IN_KEY') && ('' != LOGGED_IN_KEY) && ( $wp_default_secret_key != LOGGED_IN_KEY) )
-			$secret_key = LOGGED_IN_KEY;
+	$key = $salt = '';
+	if ( defined( 'SECRET_KEY' ) && SECRET_KEY && empty( $duplicated_keys[ SECRET_KEY ] ) )
+		$key = SECRET_KEY;
+	if ( 'auth' == $scheme && defined( 'SECRET_SALT' ) && SECRET_SALT && empty( $duplicated_keys[ SECRET_SALT ] ) )
+		$salt = SECRET_SALT;
 
-		if ( defined('LOGGED_IN_SALT') && ('' != LOGGED_IN_SALT) && ( $wp_default_secret_key != LOGGED_IN_SALT) ) {
-			$salt = LOGGED_IN_SALT;
-		} else {
-			$salt = get_site_option('logged_in_salt');
-			if ( empty($salt) ) {
-				$salt = wp_generate_password( 64, true, true );
-				update_site_option('logged_in_salt', $salt);
-			}
-		}
-	} elseif ( 'nonce' == $scheme ) {
-		if ( defined('NONCE_KEY') && ('' != NONCE_KEY) && ( $wp_default_secret_key != NONCE_KEY) )
-			$secret_key = NONCE_KEY;
-
-		if ( defined('NONCE_SALT') && ('' != NONCE_SALT) && ( $wp_default_secret_key != NONCE_SALT) ) {
-			$salt = NONCE_SALT;
-		} else {
-			$salt = get_site_option('nonce_salt');
-			if ( empty($salt) ) {
-				$salt = wp_generate_password( 64, true, true );
-				update_site_option('nonce_salt', $salt);
+	if ( in_array( $scheme, array( 'auth', 'secure_auth', 'logged_in', 'nonce' ) ) ) {
+		foreach ( array( 'key', 'salt' ) as $type ) {
+			$const = strtoupper( "{$scheme}_{$type}" );
+			if ( defined( $const ) && constant( $const ) && empty( $duplicated_keys[ constant( $const ) ] ) ) {
+				$$type = constant( $const );
+			} elseif ( ! $$type ) {
+				$$type = get_site_option( "{$scheme}_{$type}" );
+				if ( ! $$type ) {
+					$$type = wp_generate_password( 64, true, true );
+					update_site_option( "{$scheme}_{$type}", $$type );
+				}
 			}
 		}
 	} else {
-		// ensure each auth scheme has its own unique salt
-		$salt = hash_hmac('md5', $scheme, $secret_key);
+		if ( ! $key ) {
+			$key = get_site_option( 'secret_key' );
+			if ( ! $key ) {
+				$key = wp_generate_password( 64, true, true );
+				update_site_option( 'secret_key', $key );
+			}
+		}
+		$salt = hash_hmac( 'md5', $scheme, $key );
 	}
 
-	return apply_filters('salt', $secret_key . $salt, $scheme);
+	return apply_filters('salt', $key . $salt, $scheme);
 }
 endif;
 

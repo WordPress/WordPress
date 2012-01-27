@@ -140,8 +140,6 @@ function wp_plugin_directory_constants( ) {
  * @since 3.0.0
  */
 function wp_cookie_constants( ) {
-	global $wp_default_secret_key;
-
 	/**
 	 * Used to guarantee unique hash cookies
 	 * @since 1.5
@@ -153,12 +151,6 @@ function wp_cookie_constants( ) {
 		else
 			define( 'COOKIEHASH', '' );
 	}
-
-	/**
-	 * Should be exactly the same as the default value of SECRET_KEY in wp-config-sample.php
-	 * @since 2.5.0
-	 */
-	$wp_default_secret_key = 'put your unique phrase here';
 
 	/**
 	 * @since 2.0.0
