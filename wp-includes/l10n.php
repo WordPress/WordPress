@@ -382,9 +382,17 @@ function load_default_textdomain() {
 
 	load_textdomain( 'default', WP_LANG_DIR . "/$locale.mo" );
 
-	if ( is_multisite() || ( defined( 'WP_INSTALLING_NETWORK' ) && WP_INSTALLING_NETWORK ) ) {
+	if ( ( is_multisite() || ( defined( 'WP_INSTALLING_NETWORK' ) && WP_INSTALLING_NETWORK ) ) && ! file_exists(  WP_LANG_DIR . "/admin-$locale.mo" ) ) {
 		load_textdomain( 'default', WP_LANG_DIR . "/ms-$locale.mo" );
+		return;
 	}
+
+	if ( is_admin()  )
+		load_textdomain( 'default', WP_LANG_DIR . "/admin-$locale.mo" );
+
+	if ( is_network_admin() || ( defined( 'WP_INSTALLING_NETWORK' ) && WP_INSTALLING_NETWORK ) )
+		load_textdomain( 'default', WP_LANG_DIR . "/admin-network-$locale.mo" );
+
 }
 
 /**
