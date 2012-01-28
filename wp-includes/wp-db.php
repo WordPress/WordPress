@@ -1545,16 +1545,7 @@ class wpdb {
 	 * @return string The name of the calling function
 	 */
 	function get_caller() {
-		$trace  = array_reverse( debug_backtrace() );
-		$caller = array();
-
-		foreach ( $trace as $call ) {
-			if ( isset( $call['class'] ) && __CLASS__ == $call['class'] )
-				continue; // Filter out wpdb calls.
-			$caller[] = isset( $call['class'] ) ? "{$call['class']}->{$call['function']}" : $call['function'];
-		}
-
-		return join( ', ', $caller );
+		return wp_debug_backtrace_summary( __CLASS__ );
 	}
 
 	/**
