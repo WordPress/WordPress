@@ -1913,6 +1913,7 @@ class WP_Rewrite {
 			'walk_dirs' => true,
 			'endpoints' => true,
 		);
+		$args = array_intersect_key( $args, $defaults );
 		$args = wp_parse_args( $args, $defaults );
 
 		if ( $args['with_front'] )

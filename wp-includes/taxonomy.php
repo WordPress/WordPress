@@ -344,7 +344,7 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 			$tag = '([^/]+)';
 
 		$wp_rewrite->add_rewrite_tag("%$taxonomy%", $tag, $args['query_var'] ? "{$args['query_var']}=" : "taxonomy=$taxonomy&term=");
-		$wp_rewrite->add_permastruct($taxonomy, "{$args['rewrite']['slug']}/%$taxonomy%", $args['rewrite']['with_front'], $args['rewrite']['ep_mask'] );
+		$wp_rewrite->add_permastruct( $taxonomy, "{$args['rewrite']['slug']}/%$taxonomy%", $args['rewrite'] );
 	}
 
 	if ( is_null($args['show_ui']) )

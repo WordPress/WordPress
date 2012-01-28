@@ -1027,7 +1027,7 @@ function register_post_type($post_type, $args = array()) {
 				$wp_rewrite->add_rule( "{$archive_slug}/{$wp_rewrite->pagination_base}/([0-9]{1,})/?$", "index.php?post_type=$post_type" . '&paged=$matches[1]', 'top' );
 		}
 
-		$wp_rewrite->add_permastruct( $post_type, "{$args->rewrite['slug']}/%$post_type%", $args->rewrite['with_front'], $args->rewrite['ep_mask'] );
+		$wp_rewrite->add_permastruct( $post_type, "{$args->rewrite['slug']}/%$post_type%", $args->rewrite );
 	}
 
 	if ( $args->register_meta_box_cb )
