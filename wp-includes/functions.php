@@ -3664,9 +3664,9 @@ function wp_allowed_protocols() {
  * @link http://core.trac.wordpress.org/ticket/19589
  * @since 3.4
  *
- * @param string $ignore_class A class to ignore all function calls within - useful when you want to just give info about the calllee
+ * @param string $ignore_class A class to ignore all function calls within - useful when you want to just give info about the callee
  * @param string $skip_frames A number of stack frames to skip - useful for unwinding back to the source of the issue
- * @param bool $pretty Whether or not you want a comma seperated string or raw array returned
+ * @param bool $pretty Whether or not you want a comma separated string or raw array returned
  * @return string|array Either a string containing a reversed comma seperated trace or an array of individual calls.
  */
 function wp_debug_backtrace_summary( $ignore_class = null, $skip_frames = 0, $pretty = true ) {
