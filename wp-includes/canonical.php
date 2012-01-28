@@ -93,7 +93,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 		}
 
 		if ( ! $redirect_url )
-			$redirect_url = redirect_guess_404_permalink();
+			$redirect_url = redirect_guess_404_permalink( $requested_url );
 
 	} elseif ( is_object($wp_rewrite) && $wp_rewrite->using_permalinks() ) {
 		// rewriting of old ?p=X, ?m=2004, ?m=200401, ?m=20040101
@@ -417,36 +417,51 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 }
 
 /**
- * Attempts to guess correct post based on query vars.
+ * Attempts to guess the correct URL from the current URL (that produced a 404) or
+ * the current query variables.
  *
  * @since 2.3.0
  * @uses $wpdb
  *
- * @return bool|string Returns False, if it can't find post, returns correct
- *		location on success.
+ * @param string $current_url Optional. The URL that has 404'd.
+ * @return bool|string The correct URL if one is found. False on failure.
  */
-function redirect_guess_404_permalink() {
-	global $wpdb;
+function redirect_guess_404_permalink( $current_url = '' ) {
+	global $wpdb, $wp_rewrite;
 
-	if ( !get_query_var('name') )
-		return false;
+	if ( ! empty( $current_url ) )
+		$parsed_url = @parse_url( $current_url );
 
-	$where = $wpdb->prepare("post_name LIKE %s", like_escape( get_query_var('name') ) . '%');
+	// Attempt to redirect bare category slugs if the permalink structure starts
+	// with the %category% tag.
+	if ( isset( $parsed_url['path'] )
+		&& preg_match( '#^[^%]+%category%#', $wp_rewrite->permalink_structure )
+		&& $cat = get_category_by_path( $parsed_url['path'] )
+	) {
+		if ( ! is_wp_error( $cat ) )
+			return get_term_link( $cat );
+	}
 
-	// if any of post_type, year, monthnum, or day are set, use them to refine the query
-	if ( get_query_var('post_type') )
-		$where .= $wpdb->prepare(" AND post_type = %s", get_query_var('post_type'));
-	if ( get_query_var('year') )
-		$where .= $wpdb->prepare(" AND YEAR(post_date) = %d", get_query_var('year'));
-	if ( get_query_var('monthnum') )
-		$where .= $wpdb->prepare(" AND MONTH(post_date) = %d", get_query_var('monthnum'));
-	if ( get_query_var('day') )
-		$where .= $wpdb->prepare(" AND DAYOFMONTH(post_date) = %d", get_query_var('day'));
+	if ( get_query_var('name') ) {
+		$where = $wpdb->prepare("post_name LIKE %s", like_escape( get_query_var('name') ) . '%');
 
-	$post_id = $wpdb->get_var("SELECT ID FROM $wpdb->posts WHERE $where AND post_status = 'publish'");
-	if ( !$post_id )
-		return false;
-	return get_permalink($post_id);
+		// if any of post_type, year, monthnum, or day are set, use them to refine the query
+		if ( get_query_var('post_type') )
+			$where .= $wpdb->prepare(" AND post_type = %s", get_query_var('post_type'));
+		if ( get_query_var('year') )
+			$where .= $wpdb->prepare(" AND YEAR(post_date) = %d", get_query_var('year'));
+		if ( get_query_var('monthnum') )
+			$where .= $wpdb->prepare(" AND MONTH(post_date) = %d", get_query_var('monthnum'));
+		if ( get_query_var('day') )
+			$where .= $wpdb->prepare(" AND DAYOFMONTH(post_date) = %d", get_query_var('day'));
+
+		$post_id = $wpdb->get_var("SELECT ID FROM $wpdb->posts WHERE $where AND post_status = 'publish'");
+		if ( ! $post_id )
+			return false;
+		return get_permalink( $post_id );
+	}
+
+	return false;
 }
 
 add_action('template_redirect', 'redirect_canonical');
