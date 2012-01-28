@@ -3666,7 +3666,7 @@ function wp_allowed_protocols() {
  * @since 3.4
  *
  * @param string $ignore_class A class to ignore all function calls within - useful when you want to just give info about the callee
- * @param string $skip_frames A number of stack frames to skip - useful for unwinding back to the source of the issue
+ * @param int $skip_frames A number of stack frames to skip - useful for unwinding back to the source of the issue
  * @param bool $pretty Whether or not you want a comma separated string or raw array returned
  * @return string|array Either a string containing a reversed comma separated trace or an array of individual calls.
  */
