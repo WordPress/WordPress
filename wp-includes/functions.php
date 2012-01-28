@@ -3660,7 +3660,8 @@ function wp_allowed_protocols() {
 }
 
 /**
- * Return a comma seperated string of functions that have been called to get to the current point in code.
+ * Return a comma separated string of functions that have been called to get to the current point in code.
+ *
  * @link http://core.trac.wordpress.org/ticket/19589
  * @since 3.4
  *
