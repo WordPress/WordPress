@@ -359,7 +359,8 @@ function populate_options() {
 	'blogdescription' => __('Just another WordPress site'),
 	'users_can_register' => 0,
 	'admin_email' => 'you@example.com',
-	'start_of_week' => 1,
+	/* translators: default start of the week. 0 = Sunday, 1 = Monday */
+	'start_of_week' => _x( '1', 'start of week' ),
 	'use_balanceTags' => 0,
 	'use_smilies' => 1,
 	'require_name_email' => 1,
