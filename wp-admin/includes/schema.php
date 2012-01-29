@@ -352,6 +352,18 @@ function populate_options() {
 		}
 	}
 
+	$timezone_string = '';
+	$gmt_offset = 0;
+	/* translators: default GMT offset or timezone string. Must be either a valid offset (-12 to 14)
+	   or a valid timezone string (America/New_York). See http://us3.php.net/manual/en/timezones.php
+	   for all timezone strings supported by PHP.
+	*/
+	$offset_or_tz = __( '0', 'default GMT offset or timezone string' );
+	if ( is_numeric( $offset_or_tz ) )
+		$gmt_offset = $offset_or_tz;
+	elseif ( $offset_or_tz && in_array( $offset_or_tz, timezone_identifiers_list() ) )
+			$timezone_string = $offset_or_tz;
+
 	$options = array(
 	'siteurl' => $guessurl,
 	'blogname' => __('My Site'),
@@ -399,7 +411,7 @@ function populate_options() {
 	'ping_sites' => 'http://rpc.pingomatic.com/',
 	'advanced_edit' => 0,
 	'comment_max_links' => 2,
-	'gmt_offset' => date('Z') / 3600,
+	'gmt_offset' => $gmt_offset,
 
 	// 1.5
 	'default_email_category' => 1,
@@ -465,7 +477,7 @@ function populate_options() {
 	'widget_rss' => array(),
 
 	// 2.8
-	'timezone_string' => '',
+	'timezone_string' => $timezone_string,
 
 	// 2.9
 	'embed_autourls' => 1,
