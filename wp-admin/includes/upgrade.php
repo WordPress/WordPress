@@ -172,8 +172,8 @@ function wp_install_defaults($user_id) {
 								'link_rss' => '',
 								'link_notes' =>'');
 
-	$default_links[] = array(	'link_url' => 'http://wordpress.org/extend/ideas/',
-								'link_name' => __( 'Suggest Ideas' ),
+	$default_links[] = array(	'link_url' => __( 'http://wordpress.org/support/forum/requests-and-feedback' ),
+								'link_name' => __( 'Feedback' ),
 								'link_rss' => '',
 								'link_notes' =>'');
 
@@ -565,7 +565,7 @@ function upgrade_110() {
 
 	$time_difference = $all_options->time_difference;
 
-	$server_time = time()+date('Z');
+		$server_time = time()+date('Z');
 	$weblogger_time = $server_time + $time_difference*3600;
 	$gmt_time = time();
 
