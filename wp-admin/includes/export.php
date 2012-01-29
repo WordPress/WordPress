@@ -331,7 +331,7 @@ function export_wp( $args = array() ) {
 	<link><?php bloginfo_rss( 'url' ); ?></link>
 	<description><?php bloginfo_rss( 'description' ); ?></description>
 	<pubDate><?php echo date( 'D, d M Y H:i:s +0000' ); ?></pubDate>
-	<language><?php echo get_option( 'rss_language' ); ?></language>
+	<language><?php bloginfo_rss( 'language' ); ?></language>
 	<wp:wxr_version><?php echo WXR_VERSION; ?></wp:wxr_version>
 	<wp:base_site_url><?php echo wxr_site_url(); ?></wp:base_site_url>
 	<wp:base_blog_url><?php bloginfo_rss( 'url' ); ?></wp:base_blog_url>

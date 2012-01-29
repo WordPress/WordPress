@@ -16,7 +16,7 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; ?>
 	<description><?php bloginfo_rss('description') ?></description>
 	<lastBuildDate><?php echo mysql2date('D, d M Y H:i:s +0000', get_lastpostmodified('GMT'), false); ?></lastBuildDate>
 	<docs>http://backend.userland.com/rss092</docs>
-	<language><?php echo get_option('rss_language'); ?></language>
+	<language><?php bloginfo_rss( 'language' ); ?></language>
 	<?php do_action('rss_head'); ?>
 
 <?php while (have_posts()) : the_post(); ?>

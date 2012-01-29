@@ -1077,7 +1077,7 @@ EOD;
 		$prev_page = ($page - 1) < 1 ? null : $page - 1;
 		$last_page = ((int)$last_page == 1 || (int)$last_page == 0) ? null : (int) $last_page;
 		$self_page = $page > 1 ? $page : null;
-?><feed xmlns="<?php echo $this->ATOM_NS ?>" xmlns:app="<?php echo $this->ATOMPUB_NS ?>" xml:lang="<?php echo get_option('rss_language'); ?>" <?php do_action('app_ns'); ?> >
+?><feed xmlns="<?php echo $this->ATOM_NS ?>" xmlns:app="<?php echo $this->ATOMPUB_NS ?>" xml:lang="<?php bloginfo_rss( 'language' ); ?>" <?php do_action('app_ns'); ?> >
 <id><?php $this->the_entries_url() ?></id>
 <updated><?php echo mysql2date('Y-m-d\TH:i:s\Z', get_lastpostmodified('GMT'), false); ?></updated>
 <title type="text"><?php bloginfo_rss('name') ?></title>
@@ -1150,7 +1150,7 @@ EOD;
 	 */
 	function echo_entry() { ?>
 <entry xmlns="<?php echo $this->ATOM_NS ?>"
-       xmlns:app="<?php echo $this->ATOMPUB_NS ?>" xml:lang="<?php echo get_option('rss_language'); ?>">
+       xmlns:app="<?php echo $this->ATOMPUB_NS ?>" xml:lang="<?php bloginfo_rss( 'language' ); ?>">
 	<id><?php the_guid( $GLOBALS['post']->ID ); ?></id>
 <?php list($content_type, $content) = prep_atom_text_construct(get_the_title()); ?>
 	<title type="<?php echo $content_type ?>"><?php echo $content ?></title>
