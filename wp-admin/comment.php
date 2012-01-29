@@ -65,7 +65,7 @@ case 'editcomment' :
 	$comment_id = absint( $_GET['c'] );
 
 	if ( !$comment = get_comment( $comment_id ) )
-		comment_footer_die( __('Oops, no comment with this ID.') . sprintf(' <a href="%s">'.__('Go back').'</a>!', 'javascript:history.go(-1)') );
+		comment_footer_die( __('Oops, no comment with this ID.') . sprintf(' <a href="%s">' . __('Go back') . '</a>.', 'javascript:history.go(-1)') );
 
 	if ( !current_user_can( 'edit_comment', $comment_id ) )
 		comment_footer_die( __('You are not allowed to edit this comment.') );
@@ -222,7 +222,7 @@ case 'unapprovecomment' :
 	$noredir = isset($_REQUEST['noredir']);
 
 	if ( !$comment = get_comment($comment_id) )
-		comment_footer_die( __('Oops, no comment with this ID.') . sprintf(' <a href="%s">'.__('Go back').'</a>!', 'edit-comments.php') );
+		comment_footer_die( __('Oops, no comment with this ID.') . sprintf(' <a href="%s">' . __('Go back') . '</a>.', 'edit-comments.php') );
 	if ( !current_user_can( 'edit_comment', $comment->comment_ID ) )
 		comment_footer_die( __('You are not allowed to edit comments on this post.') );
 
