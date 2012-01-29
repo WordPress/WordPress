@@ -724,6 +724,8 @@ function wp_load_translations_early() {
 			foreach ( $locations as $location ) {
 				if ( file_exists( $location . '/' . $locale . '.mo' ) ) {
 					load_textdomain( 'default', $location . '/' . $locale . '.mo' );
+					if ( defined( 'WP_SETUP_CONFIG' ) && file_exists( $location . '/admin-' . $locale . '.mo' ) )
+						load_textdomain( 'default', $location . '/admin-' . $locale . '.mo' );
 					if ( WP_Locale::is_locale_rtl( $locale ) )
 						$text_direction = 'rtl';
 					break 2;
