@@ -147,38 +147,38 @@ function wp_install_defaults($user_id) {
 
 	// Now drop in some default links
 	$default_links = array();
-	$default_links[] = array(	'link_url' => 'http://codex.wordpress.org/',
-								'link_name' => 'Documentation',
+	$default_links[] = array(	'link_url' => __( 'http://codex.wordpress.org/' ),
+								'link_name' => __( 'Documentation' ),
 								'link_rss' => '',
 								'link_notes' => '');
 
-	$default_links[] = array(	'link_url' => 'http://wordpress.org/news/',
-								'link_name' => 'WordPress Blog',
-								'link_rss' => 'http://wordpress.org/news/feed/',
+	$default_links[] = array(	'link_url' => __( 'http://wordpress.org/news/' ),
+								'link_name' => __( 'WordPress Blog' ),
+								'link_rss' => __( 'http://wordpress.org/news/feed/' ),
 								'link_notes' => '');
 
-	$default_links[] = array(	'link_url' => 'http://wordpress.org/extend/ideas/',
-								'link_name' => 'Suggest Ideas',
-								'link_rss' => '',
-								'link_notes' =>'');
-
-	$default_links[] = array(	'link_url' => 'http://wordpress.org/support/',
-								'link_name' => 'Support Forum',
+	$default_links[] = array(	'link_url' => __( 'http://wordpress.org/support/' ),
+								'link_name' => _x( 'Support Forums', 'default link' ),
 								'link_rss' => '',
 								'link_notes' =>'');
 
 	$default_links[] = array(	'link_url' => 'http://wordpress.org/extend/plugins/',
-								'link_name' => 'Plugins',
+								'link_name' => _x( 'Plugins', 'Default link to wordpress.org/extend/plugins/' ),
 								'link_rss' => '',
 								'link_notes' =>'');
 
 	$default_links[] = array(	'link_url' => 'http://wordpress.org/extend/themes/',
-								'link_name' => 'Themes',
+								'link_name' => _x( 'Themes', 'Default link to wordpress.org/extend/themes/' ),
 								'link_rss' => '',
 								'link_notes' =>'');
 
-	$default_links[] = array(	'link_url' => 'http://planet.wordpress.org/',
-								'link_name' => 'WordPress Planet',
+	$default_links[] = array(	'link_url' => 'http://wordpress.org/extend/ideas/',
+								'link_name' => __( 'Suggest Ideas' ),
+								'link_rss' => '',
+								'link_notes' =>'');
+
+	$default_links[] = array(	'link_url' => __( 'http://planet.wordpress.org/' ),
+								'link_name' => __( 'WordPress Planet' ),
 								'link_rss' => '',
 								'link_notes' =>'');
 
