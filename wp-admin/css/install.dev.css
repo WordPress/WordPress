@@ -255,6 +255,11 @@ body.rtl {
 	margin-right: 0;
 }
 
+.rtl #dbname,
+.rtl #uname,
+.rtl #pwd,
+.rtl #dbhost,
+.rtl prefix,
 .rtl #user_login,
 .rtl #admin_email,
 .rtl #pass1,
