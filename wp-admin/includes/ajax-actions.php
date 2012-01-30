@@ -234,10 +234,12 @@ function _wp_ajax_add_hierarchical_term( $action ) {
 		$category_nicename = sanitize_title($cat_name);
 		if ( '' === $category_nicename )
 			continue;
-		if ( !($cat_id = term_exists($cat_name, $taxonomy->name, $parent)) ) {
-			$new_term = wp_insert_term($cat_name, $taxonomy->name, array('parent' => $parent));
-			$cat_id = $new_term['term_id'];
-		}
+		if ( !$cat_id = term_exists( $cat_name, $taxonomy->name, $parent ) )
+			$cat_id = wp_insert_term( $cat_name, $taxonomy->name, array( 'parent' => $parent ) );
+		if ( is_wp_error( $cat_id ) )
+			continue;
+		else if ( is_array( $cat_id ) )
+			$cat_id = $cat_id['term_id'];
 		$checked_categories[] = $cat_id;
 		if ( $parent ) // Do these all at once in a second
 			continue;
@@ -488,10 +490,12 @@ function wp_ajax_add_link_category( $action ) {
 		$slug = sanitize_title($cat_name);
 		if ( '' === $slug )
 			continue;
-		if ( !$cat_id = term_exists( $cat_name, 'link_category' ) ) {
+		if ( !$cat_id = term_exists( $cat_name, 'link_category' ) )
 			$cat_id = wp_insert_term( $cat_name, 'link_category' );
-		}
-		$cat_id = $cat_id['term_id'];
+		if ( is_wp_error( $cat_id ) )
+			continue;
+		else if ( is_array( $cat_id ) )
+			$cat_id = $cat_id['term_id'];
 		$cat_name = esc_html(stripslashes($cat_name));
 		$x->add( array(
 			'what' => 'link-category',
