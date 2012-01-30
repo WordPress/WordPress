@@ -76,6 +76,8 @@ $step = isset( $_GET['step'] ) ? (int) $_GET['step'] : 0;
  * @subpackage Installer_WP_Config
  */
 function display_header() {
+	global $wp_version;
+
 	header( 'Content-Type: text/html; charset=utf-8' );
 ?>
 <!DOCTYPE html>
@@ -83,7 +85,7 @@ function display_header() {
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><?php _e( 'WordPress &rsaquo; Setup Configuration File' ); ?></title>
-<link rel="stylesheet" href="css/install.css" type="text/css" />
+<link rel="stylesheet" href="css/install.css?ver=<?php echo $wp_version; ?>" type="text/css" />
 
 </head>
 <body>
