@@ -28,18 +28,34 @@
  */
 function wptexturize($text) {
 	global $wp_cockneyreplace;
-	static $opening_quote, $closing_quote, $en_dash, $em_dash, $default_no_texturize_tags, $default_no_texturize_shortcodes, $static_characters, $static_replacements, $dynamic_characters, $dynamic_replacements;
+	static $opening_quote, $closing_quote, $opening_single_quote, $closing_single_quote, $en_dash, $em_dash,
+		$apos, $prime, $double_prime, $default_no_texturize_tags, $default_no_texturize_shortcodes,
+		$static_characters, $static_replacements, $dynamic_characters, $dynamic_replacements;
 
 	// No need to set up these static variables more than once
 	if ( empty( $opening_quote ) ) {
-		/* translators: opening curly quote */
-		$opening_quote = _x('&#8220;', 'opening curly quote');
-		/* translators: closing curly quote */
-		$closing_quote = _x('&#8221;', 'closing curly quote');
+		/* translators: opening curly double quote */
+		$opening_quote = _x( '&#8220;', 'opening curly double quote' );
+		/* translators: closing curly double quote */
+		$closing_quote = _x( '&#8221;', 'closing curly double quote' );
+
+		/* translators: apostrophe, for example in 'cause or can't */
+		$apos = _x( '&#8217;', 'apostrophe' );
+
+		/* translators: prime, for example in 9' (nine feet) */
+		$prime = _x( '&#8242;', 'prime' );
+		/* translators: double prime, for example in 9" (nine inches) */
+		$double_prime = _x( '&#8243;', 'double prime' );
+
+		/* translators: opening curly single quote */
+		$opening_single_quote = _x( '&#8216;', 'opening curly single quote' );
+		/* translators: closing curly single quote */
+		$closing_single_quote = _x( '&#8217;', 'closing curly single quote' );
+
 		/* translators: en dash */
-		$en_dash = _x('&#8211;', 'en dash');
+		$en_dash = _x( '&#8211;', 'en dash' );
 		/* translators: em dash */
-		$em_dash = _x('&#8212;', 'em dash');
+		$em_dash = _x( '&#8212;', 'em dash' );
 
 		$default_no_texturize_tags = array('pre', 'code', 'kbd', 'style', 'script', 'tt');
 		$default_no_texturize_shortcodes = array('code');
@@ -48,16 +64,40 @@ function wptexturize($text) {
 		if ( isset($wp_cockneyreplace) ) {
 			$cockney = array_keys($wp_cockneyreplace);
 			$cockneyreplace = array_values($wp_cockneyreplace);
+		} elseif ( "'" != $apos ) { // Only bother if we're doing a replacement.
+			$cockney = array( "'tain't", "'twere", "'twas", "'tis", "'twill", "'til", "'bout", "'nuff", "'round", "'cause" );
+			$cockneyreplace = array( $apos . "tain" . $apos . "t", $apos . "twere", $apos . "twas", $apos . "tis", $apos . "twill", $apos . "til", $apos . "bout", $apos . "nuff", $apos . "round", $apos . "cause" );
 		} else {
-			$cockney = array("'tain't","'twere","'twas","'tis","'twill","'til","'bout","'nuff","'round","'cause");
-			$cockneyreplace = array("&#8217;tain&#8217;t","&#8217;twere","&#8217;twas","&#8217;tis","&#8217;twill","&#8217;til","&#8217;bout","&#8217;nuff","&#8217;round","&#8217;cause");
+			$cockney = $cockneyreplace = array();
 		}
 
-		$static_characters = array_merge( array('---', ' -- ', '--', ' - ', 'xn&#8211;', '...', '``', '\'\'', ' (tm)'), $cockney );
-		$static_replacements = array_merge( array($em_dash, ' ' . $em_dash . ' ', $en_dash, ' ' . $en_dash . ' ', 'xn--', '&#8230;', $opening_quote, $closing_quote, ' &#8482;'), $cockneyreplace );
+		$static_characters = array_merge( array( '---', ' -- ', '--', ' - ', 'xn&#8211;', '...', '``', '\'\'', ' (tm)' ), $cockney );
+		$static_replacements = array_merge( array( $em_dash, ' ' . $em_dash . ' ', $en_dash, ' ' . $en_dash . ' ', 'xn--', '&#8230;', $opening_quote, $closing_quote, ' &#8482;' ), $cockneyreplace );
 
-		$dynamic_characters = array('/\'(\d\d(?:&#8217;|\')?s)/', '/\'(\d)/', '/(\s|\A|[([{<]|")\'/', '/(\d)"/', '/(\d)\'/', '/(\S)\'([^\'\s])/', '/(\s|\A|[([{<])"(?!\s)/', '/"(\s|\S|\Z)/', '/\'([\s.]|\Z)/', '/\b(\d+)x(\d+)\b/');
-		$dynamic_replacements = array('&#8217;$1','&#8217;$1', '$1&#8216;', '$1&#8243;', '$1&#8242;', '$1&#8217;$2', '$1' . $opening_quote . '$2', $closing_quote . '$1', '&#8217;$1', '$1&#215;$2');
+		$dynamic = array();
+		if ( "'" != $apos ) {
+			$dynamic[ '/\'(\d\d(?:&#8217;|\')?s)/' ] = $apos . '$1'; // '99's
+			$dynamic[ '/\'(\d)/'                   ] = $apos . '$1'; // '99
+		}
+		if ( "'" != $opening_single_quote )
+			$dynamic[ '/(\s|\A|[([{<]|")\'/'       ] = '$1' . $opening_single_quote; // opening single quote, even after (, {, <, [
+		if ( '"' != $double_prime )
+			$dynamic[ '/(\d)"/'                    ] = '$1' . $double_prime; // 9" (double prime)
+		if ( "'" != $prime )
+			$dynamic[ '/(\d)\'/'                   ] = '$1' . $prime; // 9' (prime)
+		if ( "'" != $apos )
+			$dynamic[ '/(\S)\'([^\'\s])/'          ] = '$1' . $apos . '$2'; // apostrophe in a word
+		if ( '"' != $opening_quote )
+			$dynamic[ '/(\s|\A|[([{<])"(?!\s)/'    ] = '$1' . $opening_quote . '$2'; // opening double quote, even after (, {, <, [
+		if ( '"' != $closing_quote )
+			$dynamic[ '/"(\s|\S|\Z)/'              ] = $closing_quote . '$1'; // closing double quote
+		if ( "'" != $closing_single_quote )
+			$dynamic[ '/\'([\s.]|\Z)/'             ] = $closing_single_quote . '$2'; // closing single quote
+
+		$dynamic[ '/\b(\d+)x(\d+)\b/'              ] = '$1&#215;$2'; // 9x9 (times)
+
+		$dynamic_characters = array_keys( $dynamic );
+		$dynamic_replacements = array_values( $dynamic );
 	}
 
 	// Transform into regexp sub-expression used in _wptexturize_pushpop_element
