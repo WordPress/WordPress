@@ -2043,15 +2043,13 @@ function wp_nonce_ays( $action ) {
  * @param string $title Error title.
  * @param string|array $args Optional arguments to control behavior.
  */
-function wp_die( $message, $title = '', $args = array() ) {
+function wp_die( $message = '', $title = '', $args = array() ) {
 	if ( defined( 'DOING_AJAX' ) && DOING_AJAX )
-		die('-1');
-
-	if ( function_exists( 'apply_filters' ) ) {
-		$function = apply_filters( 'wp_die_handler', '_default_wp_die_handler');
-	} else {
-		$function = '_default_wp_die_handler';
-	}
+		$function = apply_filters( 'wp_die_ajax_handler', '_ajax_wp_die_handler' );
+	elseif ( defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST )
+		$function = apply_filters( 'wp_die_xmlrpc_handler', '_xmlrpc_wp_die_handler' );
+	else
+		$function = apply_filters( 'wp_die_handler', '_default_wp_die_handler' );
 
 	call_user_func( $function, $message, $title, $args );
 }
@@ -2102,7 +2100,7 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 		$message .= "\n<p><a href='javascript:history.back()'>$back_text</a></p>";
 	}
 
-	if ( !function_exists( 'did_action' ) || !did_action( 'admin_head' ) ) :
+	if ( ! did_action( 'admin_head' ) ) :
 		if ( !headers_sent() ) {
 			status_header( $r['response'] );
 			nocache_headers();
@@ -2206,7 +2204,7 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 	</style>
 </head>
 <body id="error-page">
-<?php endif; // !function_exists( 'did_action' ) || !did_action( 'admin_head' ) ?>
+<?php endif; // ! did_action( 'admin_head' ) ?>
 	<?php echo $message; ?>
 </body>
 </html>
@@ -2240,13 +2238,19 @@ function _xmlrpc_wp_die_handler( $message, $title = '', $args = array() ) {
 }
 
 /**
- * Filter to enable special wp_die handler for xmlrpc requests.
+ * Kill WordPress ajax execution.
  *
- * @since 3.2.0
+ * This is the handler for wp_die when processing Ajax requests.
+ *
+ * @since 3.4.0
  * @access private
+ *
+ * @param string $message Optional. Response to print.
  */
-function _xmlrpc_wp_die_filter() {
-	return '_xmlrpc_wp_die_handler';
+function _ajax_wp_die_handler( $message = '' ) {
+	if ( is_scalar( $message ) )
+		die( (string) $message );
+	die( '0' );
 }
 
 /**

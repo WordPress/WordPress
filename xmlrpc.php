@@ -98,9 +98,6 @@ function logIO($io,$msg) {
 if ( isset($HTTP_RAW_POST_DATA) )
 	logIO("I", $HTTP_RAW_POST_DATA);
 
-// Make sure wp_die output is XML
-add_filter( 'wp_die_handler', '_xmlrpc_wp_die_filter' );
-
 // Allow for a plugin to insert a different class to handle requests.
 $wp_xmlrpc_server_class = apply_filters('wp_xmlrpc_server_class', 'wp_xmlrpc_server');
 $wp_xmlrpc_server = new $wp_xmlrpc_server_class;

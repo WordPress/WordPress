@@ -829,8 +829,12 @@ function check_ajax_referer( $action = -1, $query_arg = false, $die = true ) {
 
 	$result = wp_verify_nonce( $nonce, $action );
 
-	if ( $die && false == $result )
-		die('-1');
+	if ( $die && false == $result ) {
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX )
+			wp_die( -1 );
+		else
+			die( '-1' );
+	}
 
 	do_action('check_ajax_referer', $action, $result);
 

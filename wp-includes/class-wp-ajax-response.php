@@ -131,6 +131,6 @@ class WP_Ajax_Response {
 		foreach ( (array) $this->responses as $response )
 			echo $response;
 		echo '</wp_ajax>';
-		die();
+		wp_die();
 	}
 }
