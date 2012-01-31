@@ -459,6 +459,9 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 19389 )
 		upgrade_330();
 
+	if ( $wp_current_db_version < 19793 )
+		upgrade_340();
+
 	maybe_disable_automattic_widgets();
 
 	update_option( 'db_version', $wp_db_version );
@@ -1213,6 +1216,19 @@ function upgrade_330() {
 	}
 }
 
+/**
+ * Execute changes made in WordPress 3.4.
+ *
+ * @since 3.4.0
+ */
+function upgrade_340() {
+	global $wp_current_db_version, $wpdb;
+
+	$wpdb->hide_errors();
+	$wpdb->query( "ALTER TABLE $wpdb->options DROP COLUMN blog_id" );
+	$wpdb->show_errors();
+}	
+	
 /**
  * Execute network level changes
  *
