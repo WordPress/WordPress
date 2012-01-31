@@ -187,13 +187,11 @@ class WP_Locale {
 		$trans = __('number_format_decimal_point');
 		$this->number_format['decimal_point'] = ('number_format_decimal_point' == $trans) ? '.' : $trans;
 
-		// Locale-specific tweaks
-		if ( self::is_locale_rtl( get_locale() ) )
-			$this->text_direction = 'rtl';
-
-		// Import the $text_direction global.
+		// Set text direction.
 		if ( isset( $GLOBALS['text_direction'] ) )
 			$this->text_direction = $GLOBALS['text_direction'];
+		elseif ( is_textdomain_loaded( 'default' ) && self::is_locale_rtl( get_locale() ) )
+			$this->text_direction = 'rtl';
 	}
 
 	/**
