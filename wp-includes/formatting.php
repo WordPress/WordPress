@@ -28,12 +28,11 @@
  */
 function wptexturize($text) {
 	global $wp_cockneyreplace;
-	static $opening_quote, $closing_quote, $opening_single_quote, $closing_single_quote, $en_dash, $em_dash,
-		$apos, $prime, $double_prime, $default_no_texturize_tags, $default_no_texturize_shortcodes,
-		$static_characters, $static_replacements, $dynamic_characters, $dynamic_replacements;
+	static $static_characters, $static_replacements, $dynamic_characters, $dynamic_replacements,
+		$default_no_texturize_tags, $default_no_texturize_shortcodes;
 
 	// No need to set up these static variables more than once
-	if ( empty( $opening_quote ) ) {
+	if ( ! isset( $static_characters ) ) {
 		/* translators: opening curly double quote */
 		$opening_quote = _x( '&#8220;', 'opening curly double quote' );
 		/* translators: closing curly double quote */
