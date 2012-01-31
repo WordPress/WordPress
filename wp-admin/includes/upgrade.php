@@ -459,7 +459,7 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 19389 )
 		upgrade_330();
 
-	if ( $wp_current_db_version < 19793 )
+	if ( $wp_current_db_version < 19799 )
 		upgrade_340();
 
 	maybe_disable_automattic_widgets();
@@ -1224,11 +1224,19 @@ function upgrade_330() {
 function upgrade_340() {
 	global $wp_current_db_version, $wpdb;
 
-	$wpdb->hide_errors();
-	$wpdb->query( "ALTER TABLE $wpdb->options DROP COLUMN blog_id" );
-	$wpdb->show_errors();
-}	
-	
+	if ( $wp_current_db_version < 19798 ) {
+		$wpdb->hide_errors();
+		$wpdb->query( "ALTER TABLE $wpdb->options DROP COLUMN blog_id" );
+		$wpdb->show_errors();
+	}
+
+	if ( $wp_current_db_version < 19799 ) {
+		$wpdb->hide_errors();
+		$wpdb->query("ALTER TABLE $wpdb->comments DROP INDEX comment_approved");
+		$wpdb->show_errors();
+	}
+}
+
 /**
  * Execute network level changes
  *
