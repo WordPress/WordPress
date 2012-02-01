@@ -167,7 +167,7 @@ switch($step) {
 	case 1: // Step 1, direct link.
 	  display_header();
 ?>
-<h1><?php _ex( 'Welcome', 'hello' ); ?></h1>
+<h1><?php _ex( 'Welcome', 'Howdy' ); ?></h1>
 <p><?php printf( __( 'Welcome to the famous five minute WordPress installation process! You may want to browse the <a href="%s">ReadMe documentation</a> at your leisure. Otherwise, just fill in the information below and you&#8217;ll be on your way to using the most extendable and powerful personal publishing platform in the world.' ), '../readme.html' ); ?></p>
 
 <h1><?php _e( 'Information needed' ); ?></h1>
