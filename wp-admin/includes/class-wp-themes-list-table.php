@@ -139,14 +139,11 @@ class WP_Themes_List_Table extends WP_List_Table {
 	$parent_theme = $themes[$theme_name]['Parent Theme'];
 	$theme_root = $themes[$theme_name]['Theme Root'];
 	$theme_root_uri = $themes[$theme_name]['Theme Root URI'];
-	$preview_link = esc_url( get_option( 'home' ) . '/' );
-	if ( is_ssl() )
-		$preview_link = str_replace( 'http://', 'https://', $preview_link );
-	$preview_link = htmlspecialchars( add_query_arg( array( 'preview' => 1, 'template' => $template, 'stylesheet' => $stylesheet, 'preview_iframe' => true, 'TB_iframe' => 'true' ), $preview_link ) );
+	$preview_link = esc_url( add_query_arg( array( 'preview' => 1, 'template' => $template, 'stylesheet' => $stylesheet, 'preview_iframe' => true, 'TB_iframe' => 'true' ), home_url( '/' ) ) );
 	$preview_text = esc_attr( sprintf( __( 'Preview of &#8220;%s&#8221;' ), $title ) );
 	$tags = $themes[$theme_name]['Tags'];
 	$thickbox_class = 'thickbox thickbox-preview';
-	$activate_link = wp_nonce_url( "themes.php?action=activate&amp;template=".urlencode( $template )."&amp;stylesheet=".urlencode( $stylesheet ), 'switch-theme_' . $template );
+	$activate_link = wp_nonce_url( "themes.php?action=activate&amp;template=" . urlencode( $template ) . "&amp;stylesheet=" . urlencode( $stylesheet ), 'switch-theme_' . $template );
 	$activate_text = esc_attr( sprintf( __( 'Activate &#8220;%s&#8221;' ), $title ) );
 	$actions = array();
 	$actions[] = '<a href="' . $activate_link . '" class="activatelink" title="' . $activate_text . '">' . __( 'Activate' ) . '</a>';
