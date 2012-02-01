@@ -863,7 +863,7 @@ class WP_Rewrite {
 		// the extra .? at the beginning prevents clashes with other regular expressions in the rules array
 		$this->add_rewrite_tag( '%pagename%', '(.?.+?)', 'pagename=' );
 
-		return $this->generate_rewrite_rules( $this->get_page_permastruct(), EP_PAGES, false, true, false, false );
+		return $this->generate_rewrite_rules( $this->get_page_permastruct(), EP_PAGES, true, true, false, false );
 	}
 
 	/**
