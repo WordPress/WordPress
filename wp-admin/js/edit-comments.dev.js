@@ -84,7 +84,7 @@ setCommentsList = function() {
 
 			el.before(h);
 
-			$('strong', '#undo-' + id).text(author + ' ');
+			$('strong', '#undo-' + id).text(author);
 			a = $('.undo a', '#undo-' + id);
 			a.attr('href', 'comment.php?action=un' + action + 'comment&c=' + id + '&_wpnonce=' + settings.data._ajax_nonce);
 			a.attr('class', 'delete:the-comment-list:comment-' + id + '::un' + action + '=1 vim-z vim-destructive');
