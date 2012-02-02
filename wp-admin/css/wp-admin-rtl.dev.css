@@ -56,7 +56,8 @@ ol {
 }
 
 .code, code {
-	font-family: Tahoma, Arial, sans-serif;
+	font-family: monospace;
+	direction: ltr;
 }
 
 .quicktags, .search {
@@ -2296,12 +2297,13 @@ h3.tb {
 	margin-right: 10px;
 }
 
-/* theme-editor */
+/* theme-editor, plugin-editor */
 #templateside {
 	float: left;
 }
 
-#template textarea {
+#template textarea,
+#docs-list {
 	direction: ltr;
 }
 
