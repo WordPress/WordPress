@@ -1351,7 +1351,10 @@ function get_theme_mod( $name, $default = false ) {
 	if ( isset( $mods[ $name ] ) )
 		return apply_filters( "theme_mod_$name", $mods[ $name ] );
 
-	return apply_filters( "theme_mod_$name", sprintf( $default, get_template_directory_uri(), get_stylesheet_directory_uri() ) );
+	if ( is_string( $default ) )
+		$default = sprintf( $default, get_template_directory_uri(), get_stylesheet_directory_uri() );
+
+	return apply_filters( "theme_mod_$name", $default );
 }
 
 /**
@@ -1457,37 +1460,59 @@ function get_header_image() {
 }
 
 /**
- * Get random header image from registered images in theme.
+ * Get random header image data from registered images in theme.
+ *
+ * @since 3.4.0
+ *
+ * @access private
+ *
+ * @return string Path to header image
+ */
+
+function _get_random_header_data() {
+	static $_wp_random_header;
+
+	if ( empty( $_wp_random_header ) ) {
+		global $_wp_default_headers;
+		$header_image_mod = get_theme_mod( 'header_image', '' );
+		$headers = array();
+
+		if ( 'random-uploaded-image' == $header_image_mod )
+			$headers = get_uploaded_header_images();
+		elseif ( ! empty( $_wp_default_headers ) ) {
+			if ( 'random-default-image' == $header_image_mod ) {
+				$headers = $_wp_default_headers;
+			} else {
+				$is_random = get_theme_support( 'custom-header' );
+				if ( isset( $is_random[ 0 ] ) && !empty( $is_random[ 0 ][ 'random-default' ] ) )
+					$headers = $_wp_default_headers;
+			}
+		}
+
+		if ( empty( $headers ) )
+			return stdClass();
+
+		$_wp_random_header = (object) $headers[ array_rand( $headers ) ];
+
+		$_wp_random_header->url =  sprintf( $_wp_random_header->url, get_template_directory_uri(), get_stylesheet_directory_uri() );
+		$_wp_random_header->thumbnail_url =  sprintf( $_wp_random_header->thumbnail_url, get_template_directory_uri(), get_stylesheet_directory_uri() );
+	}
+	return $_wp_random_header;
+}
+
+/**
+ * Get random header image url from registered images in theme.
  *
  * @since 3.2.0
  *
  * @return string Path to header image
  */
+
 function get_random_header_image() {
-	global $_wp_default_headers;
-
-	$header_image_mod = get_theme_mod( 'header_image', '' );
-	$headers = array();
-
-	if ( 'random-uploaded-image' == $header_image_mod )
-		$headers = get_uploaded_header_images();
-	elseif ( ! empty( $_wp_default_headers ) ) {
-		if ( 'random-default-image' == $header_image_mod ) {
-			$headers = $_wp_default_headers;
-		} else {
-			$is_random = get_theme_support( 'custom-header' );
-			if ( isset( $is_random[ 0 ] ) && !empty( $is_random[ 0 ][ 'random-default' ] ) )
-				$headers = $_wp_default_headers;
-		}
-	}
-
-	if ( empty( $headers ) )
+	$random_image = _get_random_header_data();
+	if ( empty( $random_image->url ) )
 		return '';
-
-	$random_image = array_rand( $headers );
-	$header_url = sprintf( $headers[$random_image]['url'], get_template_directory_uri(), get_stylesheet_directory_uri() );
-
-	return $header_url;
+	return $random_image->url;
 }
 
 /**
@@ -1547,14 +1572,57 @@ function get_uploaded_header_images() {
 
 	foreach ( (array) $headers as $header ) {
 		$url = esc_url_raw( $header->guid );
-		$header = basename($url);
-		$header_images[$header] = array();
-		$header_images[$header]['url'] =  $url;
-		$header_images[$header]['thumbnail_url'] =  $url;
-		$header_images[$header]['uploaded'] = true;
+		$header_data = wp_get_attachment_metadata( $header->ID );
+		$header_index = basename($url);
+		$header_images[$header_index] = array();
+		$header_images[$header_index]['attachment_id'] =  $header->ID;
+		$header_images[$header_index]['url'] =  $url;
+		$header_images[$header_index]['thumbnail_url'] =  $url;
+		$header_images[$header_index]['width'] = $header_data['width'];
+		$header_images[$header_index]['height'] = $header_data['height'];
 	}
 
 	return $header_images;
+}
+
+/**
+ * Get the header image data.
+ *
+ * @since 3.4.0
+ *
+ * @return object
+ */
+function get_current_header_data() {
+	$data = is_random_header_image()? _get_random_header_data() : get_theme_mod( 'header_image_data' );
+	$default = array(
+		'url'           => '',
+		'thumbnail_url' => '',
+		'width'         => '',
+		'height'        => '',
+	);
+	return (object) wp_parse_args( $data, $default );
+}
+
+/**
+ * Get the header image width.
+ *
+ * @since 3.4.0
+ *
+ * @return int
+ */
+function get_header_image_width() {
+	return empty( get_current_header_data()->width )? HEADER_IMAGE_WIDTH : get_current_header_data()->width;
+}
+
+/**
+ * Get the header image height.
+ *
+ * @since 3.4.0
+ *
+ * @return int
+ */
+function get_header_image_height() {
+	return empty( get_current_header_data()->height )? HEADER_IMAGE_HEIGHT : get_current_header_data()->height;
 }
 
 /**
@@ -1954,6 +2022,13 @@ function current_theme_supports( $feature ) {
 			// add_theme_support()
 			$post_format = $args[0];
 			return in_array( $post_format, $_wp_theme_features[$feature][0] );
+			break;
+
+		case 'custom-header':
+			// specific custom header capabilities can be registered by passing
+			// an array to add_theme_support()
+			$header_support = $args[0];
+			return ( isset( $_wp_theme_features[$feature][0][$header_support] ) && $_wp_theme_features[$feature][0][$header_support] );
 			break;
 	}
 
