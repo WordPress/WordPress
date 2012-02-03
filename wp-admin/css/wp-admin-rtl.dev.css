@@ -2409,3 +2409,8 @@ div.sidebar-name h3 {
 .press-this #wphead h1 {
 	float: right;
 }
+
+/* RTL */
+.ltr {
+	direction: ltr;
+}
