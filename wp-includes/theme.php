@@ -1490,7 +1490,7 @@ function _get_random_header_data() {
 		}
 
 		if ( empty( $headers ) )
-			return stdClass();
+			return new stdClass;
 
 		$_wp_random_header = (object) $headers[ array_rand( $headers ) ];
 
