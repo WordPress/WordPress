@@ -653,6 +653,7 @@ function wp_ajax_replyto_comment( $action ) {
 
 	$user = wp_get_current_user();
 	if ( $user->ID ) {
+		$user_ID = $user->ID;
 		$comment_author       = $wpdb->escape($user->display_name);
 		$comment_author_email = $wpdb->escape($user->user_email);
 		$comment_author_url   = $wpdb->escape($user->user_url);
