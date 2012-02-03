@@ -143,12 +143,12 @@ wp_dropdown_categories(array('hide_empty' => 0, 'name' => 'default_link_category
 </tr>
 <tr valign="top">
 <th scope="row"><label for="mailserver_login"><?php _e('Login Name') ?></label></th>
-<td><input name="mailserver_login" type="text" id="mailserver_login" value="<?php form_option('mailserver_login'); ?>" class="regular-text" /></td>
+<td><input name="mailserver_login" type="text" id="mailserver_login" value="<?php form_option('mailserver_login'); ?>" class="regular-text ltr" /></td>
 </tr>
 <tr valign="top">
 <th scope="row"><label for="mailserver_pass"><?php _e('Password') ?></label></th>
 <td>
-<input name="mailserver_pass" type="text" id="mailserver_pass" value="<?php form_option('mailserver_pass'); ?>" class="regular-text" />
+<input name="mailserver_pass" type="text" id="mailserver_pass" value="<?php form_option('mailserver_pass'); ?>" class="regular-text ltr" />
 </td>
 </tr>
 <tr valign="top">
