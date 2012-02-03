@@ -386,7 +386,8 @@ class WP_List_Table {
 			printf( "<option %s value='%s'>%s</option>\n",
 				selected( $m, $year . $month, false ),
 				esc_attr( $arc_row->year . $month ),
-				$wp_locale->get_month( $month ) . " $year"
+				/* translators: 1: month name, 2: 4-digit year */
+				sprintf( __( '%1$s %2$d' ), $wp_locale->get_month( $month ), $year )
 			);
 		}
 ?>
