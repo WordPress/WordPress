@@ -589,7 +589,8 @@ function touch_time( $edit = 1, $for_post = 1, $tab_index = 0, $multi = 0 ) {
 		$month .= "\t\t\t" . '<option value="' . $monthnum . '"';
 		if ( $i == $mm )
 			$month .= ' selected="selected"';
-		$month .= '>' . $monthnum . '-' . $wp_locale->get_month_abbrev( $wp_locale->get_month( $i ) ) . "</option>\n";
+		/* translators: 1: month number (01, 02, etc.), 2: month abbreviation */
+		$month .= '>' . sprintf( __( '%1$s-%2$s' ), $monthnum, $wp_locale->get_month_abbrev( $wp_locale->get_month( $i ) ) ) . "</option>\n";
 	}
 	$month .= '</select>';
 
