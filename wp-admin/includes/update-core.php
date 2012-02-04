@@ -244,6 +244,7 @@ $_old_files = array(
 'wp-includes/classes.php',
 // 3.2
 'wp-includes/default-embeds.php',
+'wp-includes/js/tinymce/plugins/media/img',
 'wp-includes/js/tinymce/plugins/wordpress/img/more.gif',
 'wp-includes/js/tinymce/plugins/wordpress/img/toolbars.gif',
 'wp-includes/js/tinymce/plugins/wordpress/img/help.gif',
