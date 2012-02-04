@@ -281,13 +281,21 @@ tinyMCEPopup.onInit.add(function() {
 function addKeyboardNavigation(){
 	var tableElm, cells, settings;
 
-	cells = tinyMCEPopup.dom.select(".charmaplink", "charmapgroup");
+	cells = tinyMCEPopup.dom.select("a.charmaplink", "charmapgroup");
 
 	settings ={
 		root: "charmapgroup",
 		items: cells
 	};
-
+	cells[0].tabindex=0;
+	tinyMCEPopup.dom.addClass(cells[0], "mceFocus");
+	if (tinymce.isGecko) {
+		cells[0].focus();		
+	} else {
+		setTimeout(function(){
+			cells[0].focus();
+		}, 100);
+	}
 	tinyMCEPopup.editor.windowManager.createInstance('tinymce.ui.KeyboardNavigation', settings, tinyMCEPopup.dom);
 }
 
@@ -306,7 +314,7 @@ function renderCharMapHTML() {
 			previewCharFn = 'previewChar(\'' + charmap[i][1].substring(1,charmap[i][1].length) + '\',\'' + charmap[i][0].substring(1,charmap[i][0].length) + '\',\'' + charmap[i][3] + '\');';
 			html += ''
 				+ '<td class="charmap">'
-				+ '<a class="charmaplink" role="button" onmouseover="'+previewCharFn+'" onfocus="'+previewCharFn+'" href="javascript:void(0)" onclick="insertChar(\'' + charmap[i][1].substring(2,charmap[i][1].length-1) + '\');" onclick="return false;" onmousedown="return false;" title="' + charmap[i][3] + '">'
+				+ '<a class="charmaplink" role="button" onmouseover="'+previewCharFn+'" onfocus="'+previewCharFn+'" href="javascript:void(0)" onclick="insertChar(\'' + charmap[i][1].substring(2,charmap[i][1].length-1) + '\');" onclick="return false;" onmousedown="return false;" title="' + charmap[i][3] + ' '+ tinyMCEPopup.editor.translate("advanced_dlg.charmap_usage")+'">'
 				+ charmap[i][1]
 				+ '</a></td>';
 			if ((cols+1) % charsPerRow == 0)

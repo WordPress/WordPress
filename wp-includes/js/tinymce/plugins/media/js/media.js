@@ -8,6 +8,33 @@
 		return document.getElementById(id);
 	}
 
+	function clone(obj) {
+		var i, len, copy, attr;
+
+		if (null == obj || "object" != typeof obj)
+			return obj;
+
+		// Handle Array
+		if ('length' in obj) {
+			copy = [];
+
+			for (i = 0, len = obj.length; i < len; ++i) {
+				copy[i] = clone(obj[i]);
+			}
+
+			return copy;
+		}
+
+		// Handle Object
+		copy = {};
+		for (attr in obj) {
+			if (obj.hasOwnProperty(attr))
+				copy[attr] = clone(obj[attr]);
+		}
+
+		return copy;
+	}
+
 	function getVal(id) {
 		var elm = get(id);
 
@@ -21,7 +48,7 @@
 	}
 
 	function setVal(id, value, name) {
-		if (typeof(value) != 'undefined') {
+		if (typeof(value) != 'undefined' && value != null) {
 			var elm = get(id);
 
 			if (elm.nodeName == "SELECT")
@@ -39,9 +66,9 @@
 
 	window.Media = {
 		init : function() {
-			var html, editor;
+			var html, editor, self = this;
 
-			this.editor = editor = tinyMCEPopup.editor;
+			self.editor = editor = tinyMCEPopup.editor;
 
 			// Setup file browsers and color pickers
 			get('filebrowsercontainer').innerHTML = getBrowserHTML('filebrowser','src','media','media');
@@ -53,7 +80,7 @@
 			get('audio_altsource2_filebrowser').innerHTML = getBrowserHTML('audio_filebrowser_altsource2','audio_altsource2','media','media');
 			get('video_poster_filebrowser').innerHTML = getBrowserHTML('filebrowser_poster','video_poster','media','image');
 
-			html = this.getMediaListHTML('medialist', 'src', 'media', 'media');
+			html = self.getMediaListHTML('medialist', 'src', 'media', 'media');
 			if (html == "")
 				get("linklistrow").style.display = 'none';
 			else
@@ -77,9 +104,14 @@
 			if (isVisible('filebrowser_poster'))
 				get('video_poster').style.width = '220px';
 
-			this.data = tinyMCEPopup.getWindowArg('data');
-			this.dataToForm();
-			this.preview();
+			editor.dom.setOuterHTML(get('media_type'), self.getMediaTypeHTML(editor));
+
+			self.setDefaultDialogSettings(editor);
+			self.data = clone(tinyMCEPopup.getWindowArg('data'));
+			self.dataToForm();
+			self.preview();
+
+			updateColor('bgcolor_pick', 'bgcolor');
 		},
 
 		insert : function() {
@@ -97,7 +129,7 @@
 		},
 
 		moveStates : function(to_form, field) {
-			var data = this.data, editor = this.editor, data = this.data,
+			var data = this.data, editor = this.editor,
 				mediaPlugin = editor.plugins.media, ext, src, typeInfo, defaultStates, src;
 
 			defaultStates = {
@@ -144,14 +176,14 @@
 						formItemName = type == 'global' ? name : type + '_' + name;
 
 						if (type == 'global')
-							list = data;
-						else if (type == 'video' || type == 'audio') {
+						list = data;
+					else if (type == 'video' || type == 'audio') {
 							list = data.video.attrs;
 
 							if (!list && !to_form)
-								data.video.attrs = list = {};
+							data.video.attrs = list = {};
 						} else
-							list = data.params;
+						list = data.params;
 
 						if (list) {
 							if (to_form) {
@@ -209,6 +241,7 @@
 			get('shockwave_options').style.display = 'none';
 			get('windowsmedia_options').style.display = 'none';
 			get('realmedia_options').style.display = 'none';
+			get('embeddedaudio_options').style.display = 'none';
 
 			if (get(data.type + '_options'))
 				get(data.type + '_options').style.display = 'block';
@@ -222,6 +255,7 @@
 			setOptions('realmedia', 'autostart,loop,autogotourl,center,imagestatus,maintainaspect,nojava,prefetch,shuffle,console,controls,numloop,scriptcallbacks');
 			setOptions('video', 'poster,autoplay,loop,muted,preload,controls');
 			setOptions('audio', 'autoplay,loop,preload,controls');
+			setOptions('embeddedaudio', 'autoplay,loop,controls');
 			setOptions('global', 'id,name,vspace,hspace,bgcolor,align,width,height');
 
 			if (to_form) {
@@ -252,7 +286,7 @@
 					if (data.type == 'flash') {
 						tinymce.each(editor.getParam('flash_video_player_flashvars', {url : '$url', poster : '$poster'}), function(value, name) {
 							if (value == '$url')
-								data.params.src = parseQueryParams(data.params.flashvars)[name] || data.params.src;
+								data.params.src = parseQueryParams(data.params.flashvars)[name] || data.params.src || '';
 						});
 					}
 
@@ -260,7 +294,18 @@
 				}
 			} else {
 				src = getVal("src");
-	
+
+				// YouTube *NEW*
+				if (src.match(/youtu.be\/[a-z1-9.-_]+/)) {
+					data.width = 425;
+					data.height = 350;
+					data.params.frameborder = '0';
+					data.type = 'iframe';
+					src = 'http://www.youtube.com/embed/' + src.match(/youtu.be\/([a-z1-9.-_]+)/)[1];
+					setVal('src', src);
+					setVal('media_type', data.type);
+				}
+
 				// YouTube
 				if (src.match(/youtube.com(.+)v=([^&]+)/)) {
 					data.width = 425;
@@ -331,7 +376,7 @@
 				this.panel = 'source';
 			} else {
 				if (this.panel == 'source') {
-					this.data = this.editor.plugins.media.htmlToData(getVal('source'));
+					this.data = clone(this.editor.plugins.media.htmlToData(getVal('source')));
 					this.dataToForm();
 					this.panel = '';
 				}
@@ -379,6 +424,36 @@
 			}
 
 			return "";
+		},
+
+		getMediaTypeHTML : function(editor) {
+			function option(media_type){
+				return '<option value="'+media_type+'">'+tinyMCEPopup.editor.translate("media_dlg."+media_type)+'</option>'
+			}
+			var html = "";
+			html += '<select id="media_type" name="media_type" onchange="Media.formToData(\'type\');">';
+			html += option("video");
+			html += option("audio");
+			html += option("flash");
+			html += option("quicktime");
+			html += option("shockwave");
+			html += option("windowsmedia");
+			html += option("realmedia");
+			html += option("iframe");
+
+			if (editor.getParam('media_embedded_audio', false)) {
+				html += option('embeddedaudio');
+			}
+			
+			html += '</select>';
+			return html;
+		},
+
+		setDefaultDialogSettings : function(editor) {
+			var defaultDialogSettings = editor.getParam("media_dialog_defaults", {});
+			tinymce.each(defaultDialogSettings, function(v, k) {
+				setVal(k, v);
+			});
 		}
 	};
 
