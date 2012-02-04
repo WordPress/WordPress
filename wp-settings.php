@@ -262,7 +262,7 @@ load_default_textdomain();
 
 $locale = get_locale();
 $locale_file = WP_LANG_DIR . "/$locale.php";
-if ( ( 0 === validate_file( $locale_file ) ) && is_readable( $locale_file ) )
+if ( ( 0 === validate_file( $locale ) ) && is_readable( $locale_file ) )
 	require( $locale_file );
 unset( $locale_file );
 
