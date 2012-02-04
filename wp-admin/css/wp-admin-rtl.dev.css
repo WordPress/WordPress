@@ -1745,8 +1745,10 @@ ol.ol-decimal {
 a.rsswidget,
 #dashboard_plugins h4,
 #dashboard_plugins h5,
-#dashboard_recent_comments .comment-meta .approve {
-	font-family: Tahoma, Arial;
+#dashboard_recent_comments .comment-meta .approve,
+#dashboard_right_now td.b,
+#dashboard_right_now .versions a {
+	font-family: Tahoma, Arial, sans-serif;
 }
 
 #dashboard_right_now p.sub  {
@@ -1758,7 +1760,6 @@ a.rsswidget,
 	padding-right: 0;
 	padding-left: 6px;
 	text-align: left;
-	font-family: Tahoma, Arial;
 }
 
 #dashboard_right_now .t {
@@ -1772,10 +1773,6 @@ a.rsswidget,
 
 #dashboard_right_now .table_discussion {
 	float:left;
-}
-
-#dashboard_right_now .versions a {
-	font-family: Tahoma, Arial;
 }
 
 #dashboard_right_now a.button {
@@ -1815,7 +1812,7 @@ a.rsswidget,
 }
 
 .rss-widget span.rss-date {
-	font-family: Tahoma, Arial;
+	font-family: Tahoma, Arial, sans-serif;
 	margin-left: 0;
 	margin-right: 3px;
 }
@@ -1868,14 +1865,14 @@ a.rsswidget,
 
 /* Recent Drafts */
 #dashboard_recent_drafts h4 abbr {
-	font-family: Tahoma, Arial;
+	font-family: Tahoma, Arial, sans-serif;
 	margin-left:0;
 	margin-right: 3px;
 }
 
 /* login */
 body.login {
-	font-family: Tahoma, arial;
+	font-family: Tahoma, Arial, sans-serif;
 }
 
 .login form {
@@ -1892,7 +1889,7 @@ body.login {
 }
 
 #login form .submit input {
-	font-family: Tahoma, arial;
+	font-family: Tahoma, Arial, sans-serif;
 }
 
 .login #nav,
@@ -2098,6 +2095,10 @@ body.login {
 	border-width: 0 1px 1px 1px;
 }
 
+#custom-menu-item-url {
+	direction: ltr;
+}
+
 .link-to-original {
 	font-style: normal;
 	font-weight: bold;
@@ -2237,7 +2238,7 @@ h3.tb {
 
 #category-add input,
 #category-add select {
-	font-family: Tahoma, Arial;
+	font-family: Tahoma, Arial, sans-serif;
 }
 
 .inline-editor ul.cat-checklist ul,
@@ -2413,4 +2414,71 @@ div.sidebar-name h3 {
 /* RTL */
 .ltr {
 	direction: ltr;
+}
+
+/* =Localized CSS
+-------------------------------------------------------------- */
+
+/* he_IL: Remove Tahoma from the font stack. Arial is best for Hebrew. */
+body.locale-he-il,
+.locale-he-il .quicktags, .locale-he-il .search,
+.locale-he-il .howto,
+.locale-he-il #adminmenu .awaiting-mod,
+.locale-he-il #adminmenu span.update-plugins,
+.locale-he-il #sidemenu li a span.update-plugins,
+.locale-he-il .post-com-count-wrapper,
+.locale-he-il .widefat th,
+.locale-he-il .tablenav .displaying-num,
+.locale-he-il .inline-edit-row fieldset span.title,
+.locale-he-il .inline-edit-row fieldset span.checkbox-title,
+.locale-he-il .inline-edit-row fieldset ul.cat-checklist label,
+.locale-he-il .inline-edit-row .catshow,
+.locale-he-il .inline-edit-row .cathide,
+.locale-he-il .inline-edit-row #bulk-titles div,
+.locale-he-il p.help,
+.locale-he-il p.description,
+.locale-he-il span.description,
+.locale-he-il .form-wrap p,
+.locale-he-il h2 .nav-tab,
+.locale-he-il #your-profile legend,
+.locale-he-il #utc-time, .locale-he-il #local-time,
+.locale-he-il #poststuff h3,
+.locale-he-il .metabox-holder h3,
+.locale-he-il .tool-box .title,
+.locale-he-il td,
+.locale-he-il textarea,
+.locale-he-il input,
+.locale-he-il select,
+.locale-he-il .wrap h2,
+.locale-he-il .subtitle,
+.locale-he-il .wrap .add-new-h2,
+.locale-he-il #dashboard_right_now p.sub,
+.locale-he-il #dashboard-widgets h4,
+.locale-he-il a.rsswidget,
+.locale-he-il #dashboard_plugins h4,
+.locale-he-il #dashboard_plugins h5,
+.locale-he-il #dashboard_recent_comments .comment-meta .approve,
+.locale-he-il #dashboard_right_now td.b,
+.locale-he-il #dashboard_right_now .versions a,
+.locale-he-il .rss-widget span.rss-date,
+.locale-he-il #dashboard_recent_drafts h4 abbr,
+body.login.locale-he-il,
+.locale-he-il #login form .submit input,
+.locale-he-il #menu-management .nav-tabs-arrow-right,
+.locale-he-il #category-add input,
+.locale-he-il #category-add select,
+.locale-he-il .submit input,
+.locale-he-il .button,
+.locale-he-il .button-primary,
+.locale-he-il .button-secondary,
+.locale-he-il .button-highlighted,
+.locale-he-il #postcustomstuff .submit input,
+.locale-he-il div.sidebar-name h3 {
+	font-family: Arial, sans-serif;
+}
+
+/* he_IL: Have <em> be bold rather than italic. */
+.locale-he-il em {
+	font-style: normal;
+	font-weight: bold;
 }

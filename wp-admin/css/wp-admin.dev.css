@@ -7834,3 +7834,39 @@ a.widget-control-edit {
 		width: auto;
 	}
 }
+
+/* =Localized CSS
+-------------------------------------------------------------- */
+
+/* zh_CN: Remove italic properties. */
+.locale-zh-cn .howto,
+.locale-zh-cn .tablenav .displaying-num,
+.locale-zh-cn .js .input-with-default-title,
+.locale-zh-cn .link-to-original,
+.locale-zh-cn .inline-edit-row fieldset span.title,
+.locale-zh-cn .inline-edit-row fieldset span.checkbox-title,
+.locale-zh-cn #utc-time,
+.locale-zh-cn #local-time,
+.locale-zh-cn p.install-help,
+.locale-zh-cn p.help,
+.locale-zh-cn p.description,
+.locale-zh-cn span.description,
+.locale-zh-cn .form-wrap p {
+	font-style: normal;
+}
+
+/* zh_CN: Enlarge dashboard widget 'Configure' link */
+.locale-zh-cn .hdnle a { font-size: 12px; }
+
+/* zn_CH: Enlarge font size, set font-size: normal */
+.locale-zh-cn form.upgrade .hint { font-style: normal; font-size: 100%; }
+
+/* Zn_CH: Distraction free writing.
+ *  More beautiful font for "Just write."
+ *  Larger text for HTML/Visual mode.
+ */
+.locale-zh-cn #wp-fullscreen-tagline { font-family: KaiTi, "楷体", sans-serif; }
+.locale-zh-cn #wp-fullscreen-modes a { font-size: 12px; }
+
+/* zh_CN: Enlarge font-size. */
+.locale-zh-cn #sort-buttons { font-size: 1em !important; }
