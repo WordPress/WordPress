@@ -7870,3 +7870,35 @@ a.widget-control-edit {
 
 /* zh_CN: Enlarge font-size. */
 .locale-zh-cn #sort-buttons { font-size: 1em !important; }
+
+/* ru_RU: Text needs more room to breathe. */
+.locale-ru-ru #dashboard_quick_press .input-text-wrap,
+.locale-ru-ru #dashboard_quick_press .textarea-wrap,
+.locale-ru-ru #dashboard_quick_press .wp-media-buttons  {
+	margin-left: 5.7em; /* default 5em + 0.7em */
+}
+.locale-ru-ru #dashboard_quick_press h4 {
+	width: 5.7em; /* default 5.5em + 0.2em */
+}
+.locale-ru-ru #dashboard-widgets #dashboard_quick_press form p.submit {
+	margin-left: 5.3em; /* default 4.6em + 0.7em */
+}
+.locale-ru-ru .inline-edit-row fieldset label span.title {
+	width: auto; /* default 5em */
+	min-width: 5em;
+}
+.locale-ru-ru .feature-filter .feature-group li {
+	width: 145px;
+}
+.locale-ru-ru .press-this .posting {
+	margin-right: 257px; /* default 212px + 45px */
+}
+.locale-ru-ru .press-this #photo-add-url-div input[type="text"]  {
+	width: 255px; /* default 300px - 45px */
+}
+.locale-ru-ru .press-this #side-sortables {
+	width: 245px; /* default 200px + 45px */
+}
+.locale-ru-ru .pressthis a {
+	width: 143px; /* default 113px + 30px */
+}
