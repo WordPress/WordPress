@@ -2,34 +2,38 @@
 /**
  * Twenty Twelve functions and definitions
  *
+ * Sets up the theme and provides some helper functions. Some helper functions
+ * are used in the theme as custom template tags. Others are attached to action and
+ * filter hooks in WordPress to change core functionality.
+ *
+ * The first function, twentytwelve_setup(), sets up the theme by registering support
+ * for various features in WordPress, such as a custom background and a navigation menu.
+ *
+ * When using a child theme (see http://codex.wordpress.org/Theme_Development and
+ * http://codex.wordpress.org/Child_Themes), you can override certain functions
+ * (those wrapped in a function_exists() call) by defining them first in your child theme's
+ * functions.php file. The child theme's functions.php file is included before the parent
+ * theme's file, so the child theme functions would be used.
+ *
+ * Functions that are not pluggable (not wrapped in function_exists()) are instead attached
+ * to a filter or action hook.
+ *
+ * For more information on hooks, actions, and filters, see http://codex.wordpress.org/Plugin_API.
+ *
  * @package WordPress
  * @subpackage Twenty_Twelve
  * @since Twenty Twelve 1.0
  */
 
-// Set the content width based on the theme's design and stylesheet.
+/**
+ * Set the content width based on the theme's design and stylesheet.
+ */
 if ( ! isset( $content_width ) )
 	$content_width = 584;
 
-add_action( 'wp_enqueue_scripts', 'twentytwelve_enqueue_scripts' );
-
-if ( ! function_exists( 'twentytwelve_enqueue_scripts' ) ) :
 /**
-* Add theme styles and scripts here
-*/
-function twentytwelve_enqueue_scripts() {
-
-	if ( ! is_admin() ) {
-		wp_enqueue_style(
-			'twentytwelve-style',
-			get_bloginfo( 'stylesheet_url' )
-		);
-	}
-
-}
-endif; // twentytwelve_enqueue_scripts
-
-// Tell WordPress to run twentytwelve_setup() when the 'after_setup_theme' hook is run.
+ * Tell WordPress to run twentytwelve_setup() when the 'after_setup_theme' hook is run.
+ */
 add_action( 'after_setup_theme', 'twentytwelve_setup' );
 
 if ( ! function_exists( 'twentytwelve_setup' ) ):
@@ -52,11 +56,6 @@ function twentytwelve_setup() {
 	 */
 	load_theme_textdomain( 'twentytwelve', get_template_directory() . '/languages' );
 
-	$locale = get_locale();
-	$locale_file = get_template_directory() . "/languages/$locale.php";
-	if ( is_readable( $locale_file ) )
-		require_once( $locale_file );
-
 	// Add default posts and comments RSS feed links to <head>.
 	add_theme_support( 'automatic-feed-links' );
 
@@ -66,9 +65,26 @@ function twentytwelve_setup() {
 	// Add support for custom backgrounds
 	add_custom_background();
 }
-endif; // twentytwelve_setup
+endif;
 
-// Get our wp_nav_menu() fallback, wp_page_menu(), to show a home link.
+/**
+ * Enqueues the theme's stylesheet.
+ *
+ * The wp_enqueue_scripts hook is meant for both styles and scripts, and only
+ * fires on the frontend.
+ *
+ * @since Twenty Twelve 1.0
+ */
+function twentytwelve_enqueue_scripts() {
+	wp_enqueue_style( 'twentytwelve-style', get_bloginfo( 'stylesheet_url' ) );
+}
+add_action( 'wp_enqueue_scripts', 'twentytwelve_enqueue_scripts' );
+
+/**
+ * Get our wp_nav_menu() fallback, wp_page_menu(), to show a home link.
+ *
+ * @since Twenty Twelve 1.0
+ */
 function twentytwelve_page_menu_args( $args ) {
 	$args['show_home'] = true;
 	return $args;
@@ -76,7 +92,7 @@ function twentytwelve_page_menu_args( $args ) {
 add_filter( 'wp_page_menu_args', 'twentytwelve_page_menu_args' );
 
 /**
- * Register our sidebars and widgetized areas. Also register the default Epherma widget.
+ * Register our single widget area.
  *
  * @since Twenty Twelve 1.0
  */
@@ -93,7 +109,11 @@ function twentytwelve_widgets_init() {
 add_action( 'widgets_init', 'twentytwelve_widgets_init' );
 
 if ( ! function_exists( 'twentytwelve_content_nav' ) ) :
-// Display navigation to next/previous pages when applicable
+/**
+ * Display navigation to next/previous pages when applicable
+ *
+ * @since Twenty Twelve 1.0
+ */
 function twentytwelve_content_nav( $nav_id ) {
 	global $wp_query;
 
@@ -105,7 +125,7 @@ function twentytwelve_content_nav( $nav_id ) {
 		</nav><!-- #nav-above -->
 	<?php endif;
 }
-endif; // twentytwelve_content_nav
+endif;
 
 if ( ! function_exists( 'twentytwelve_comment' ) ) :
 /**
@@ -160,7 +180,6 @@ function twentytwelve_comment( $comment, $args, $depth ) {
 					<em class="comment-awaiting-moderation"><?php _e( 'Your comment is awaiting moderation.', 'twentytwelve' ); ?></em>
 					<br />
 				<?php endif; ?>
-
 			</footer>
 
 			<div class="comment-content"><?php comment_text(); ?></div>
@@ -174,12 +193,13 @@ function twentytwelve_comment( $comment, $args, $depth ) {
 			break;
 	endswitch;
 }
-endif; // ends check for twentytwelve_comment()
+endif;
 
 if ( ! function_exists( 'twentytwelve_posted_on' ) ) :
 /**
  * Prints HTML with meta information for the current post-date/time and author.
- * Create your own twentytwelve_posted_on to override in a child theme
+ *
+ * Create your own twentytwelve_posted_on() to override in a child theme.
  *
  * @since Twenty Twelve 1.0
  */
