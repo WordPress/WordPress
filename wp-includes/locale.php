@@ -85,16 +85,6 @@ class WP_Locale {
 	var $text_direction = 'ltr';
 
 	/**
-	 * Locales which are known to be right-to-left.
-	 *
-	 * @since 3.4.0
-	 * @var array
-	 * @access private
-	 * @static
-	 */
-	private static $rtl_locales = array( 'ar', 'ckb', 'fa_IR', 'he_IL', 'ug_CN', 'dv', 'fa_AF', 'ha', 'ps', 'uz_UZ', 'yi' );
-
-	/**
 	 * Sets up the translated strings and object properties.
 	 *
 	 * The method creates the translatable strings for various
@@ -190,7 +180,7 @@ class WP_Locale {
 		// Set text direction.
 		if ( isset( $GLOBALS['text_direction'] ) )
 			$this->text_direction = $GLOBALS['text_direction'];
-		elseif ( is_textdomain_loaded( 'default' ) && self::is_locale_rtl( get_locale() ) )
+		elseif ( 'rtl' == _x( 'ltr', 'text direction' ) )
 			$this->text_direction = 'rtl';
 	}
 
@@ -335,19 +325,6 @@ class WP_Locale {
 	 */
 	function is_rtl() {
 		return 'rtl' == $this->text_direction;
-	}
-
-	/**
-	 * Determines whether a locale is known to be right-to-left.
-	 *
-	 * @since 3.4.0
-	 * @static
-	 *
-	 * @param string Locale in WP format.
-	 * @return bool Whether locale is RTL.
-	 */
-	public static function is_locale_rtl( $locale ) {
-		return in_array( $locale, self::$rtl_locales );
 	}
 }
 
