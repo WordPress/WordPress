@@ -162,8 +162,11 @@ class WP_Themes_List_Table extends WP_List_Table {
 <h3><?php
 	/* translators: 1: theme title, 2: theme version, 3: theme author */
 	printf( __( '%1$s %2$s by %3$s' ), $title, $version, $author ) ; ?></h3>
-<p class="description"><?php echo $description; ?></p>
+
 <span class='action-links'><?php echo $actions ?></span>
+<span class="separator hide-if-no-js">| </span><a href="#" class="theme-detail hide-if-no-js" tabindex='4'><?php _e('Details') ?></a>
+<div class="themedetaildiv hide-if-js">
+<p><?php echo $description; ?></p>
 	<?php if ( current_user_can( 'edit_themes' ) && $parent_theme ) {
 	/* translators: 1: theme title, 2:  template dir, 3: stylesheet_dir, 4: theme title, 5: parent_theme */ ?>
 	<p><?php printf( __( 'The template files are located in <code>%2$s</code>. The stylesheet files are located in <code>%3$s</code>. <strong>%4$s</strong> uses templates from <strong>%5$s</strong>. Changes made to the templates will affect both themes.' ), $title, str_replace( WP_CONTENT_DIR, '', $template_dir ), str_replace( WP_CONTENT_DIR, '', $stylesheet_dir ), $title, $parent_theme ); ?></p>
@@ -173,8 +176,9 @@ class WP_Themes_List_Table extends WP_List_Table {
 <?php if ( $tags ) : ?>
 <p><?php _e( 'Tags:' ); ?> <?php echo join( ', ', $tags ); ?></p>
 <?php endif; ?>
-		<?php theme_update_available( $themes[$theme_name] ); ?>
 <?php endif; // end if not empty theme_name ?>
+</div>
+	<?php theme_update_available( $themes[$theme_name] ); ?>
 	</div>
 <?php } // end foreach $theme_names
 	}

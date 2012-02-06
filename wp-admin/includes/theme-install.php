@@ -132,6 +132,7 @@ function display_theme($theme, $actions = null, $show_details = true) {
 		return;
 
 	$name = wp_kses($theme->name, $themes_allowedtags);
+	$author = wp_kses($theme->author, $themes_allowedtags);
 	$desc = wp_kses($theme->description, $themes_allowedtags);
 	//if ( strlen($desc) > 30 )
 	//	$desc = substr($desc, 0, 15) . '<span class="dots">...</span><span>' . substr($desc, -15) . '</span>';
@@ -153,14 +154,15 @@ function display_theme($theme, $actions = null, $show_details = true) {
 	title='<?php echo esc_attr(sprintf(__('Preview &#8220;%s&#8221;'), $name)); ?>'>
 <img src='<?php echo esc_url($theme->screenshot_url); ?>' width='150' />
 </a>
-<h3><?php echo $name ?></h3>
+<h3><?php
+	/* translators: 1: theme name, 2: author name */
+	printf( __( '%1$s <span>by %2$s</span>' ), $name, $author ); ?></h3>
 <span class='action-links'><?php echo $actions ?></span>
-<p><?php echo $desc ?></p>
 <?php if ( $show_details ) { ?>
-<a href="#theme_detail" class="theme-detail hide-if-no-js" tabindex='4'><?php _e('Details') ?></a>
+<span class="separator hide-if-no-js">| </span><a href="#theme_detail" class="theme-detail hide-if-no-js" tabindex='4'><?php _e('Details') ?></a>
 <div class="themedetaildiv hide-if-js">
+<p><?php echo $desc ?></p>
 <p><strong><?php _e('Version:') ?></strong> <?php echo wp_kses($theme->version, $themes_allowedtags) ?></p>
-<p><strong><?php _e('Author:') ?></strong> <?php echo wp_kses($theme->author, $themes_allowedtags) ?></p>
 <?php if ( ! empty($theme->last_updated) ) : ?>
 <p><strong><?php _e('Last Updated:') ?></strong> <span title="<?php echo $theme->last_updated ?>"><?php printf( __('%s ago'), human_time_diff(strtotime($theme->last_updated)) ) ?></span></p>
 <?php endif; if ( ! empty($theme->requires) ) : ?>
