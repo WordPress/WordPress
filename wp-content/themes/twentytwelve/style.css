@@ -1,0 +1,523 @@
+/*
+Theme Name: Twenty Twelve
+Theme URI: http://wordpress.org/extend/themes/twentytwelve
+Author: the WordPress team
+Author URI: http://wordpress.org/
+Description: The 2012 theme for WordPress.
+Version: .5
+License: GNU General Public License
+License URI: license.txt
+Tags: white, light, two-columns, right-sidebar, responsive-width, custom-background, custom-menu, microformats, post-formats, rtl-language-support, translation-ready
+
+This theme, like WordPress, is licensed under the GPL.
+Use it to make something cool, have fun, and share what you've learned with others.
+*/
+
+/* _reset.scss
+ * Zero it out ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+}
+
+body {
+	line-height: 1;
+}
+
+ol, ul {
+	list-style: none;
+}
+
+blockquote, q {
+	quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+html {
+	overflow-y: scroll;
+	font-size: 100%;
+	-webkit-text-size-adjust: 100%;
+	-ms-text-size-adjust: 100%;
+}
+
+a:focus {
+	outline: thin dotted;
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+nav,
+section {
+	display: block;
+}
+
+audio,
+canvas,
+video {
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+}
+
+audio:not([controls]) {
+	display: none;
+}
+
+sub,
+sup {
+	font-size: 75%;
+	line-height: 0;
+	position: relative;
+	vertical-align: baseline;
+}
+
+sup {
+	top: -0.5em;
+}
+
+sub {
+	bottom: -0.25em;
+}
+
+img {
+	border: 0;
+	-ms-interpolation-mode: bicubic;
+}
+
+.clear {
+	zoom: 1;
+}
+.clear:before, .clear:after {
+	display: table;
+	content: "";
+}
+.clear:after {
+	clear: both;
+}
+
+/* scaffolding.css.scss
+* Basic structure
+* ------------------------------------------------------------------ */
+/*---------------------------------------------------------
+Body, links, basics
+------------------------------------------------------------ */
+html {
+	font-size: 87.5%;
+}
+
+body {
+	font-size: 14px;
+	font-size: 1rem;
+	font-family: "Open Sans", Helvetica, Arial, sans-serif;
+	text-rendering: optimizeLegibility;
+	color: #444444;
+}
+
+a {
+	outline: none;
+	color: #177095;
+}
+a:hover {
+	color: #092e3d;
+}
+
+.skip-link,
+.assistive-text {
+	display: none;
+}
+
+/*---------------------------------------------------------
+Page structure
+------------------------------------------------------------ */
+div#page {
+	padding: 0 24px;
+	padding: 0 1.714285714rem;
+	background-color: #fff;
+}
+@media screen and (min-width: 600px) {
+	div#page {
+		zoom: 1;
+		margin: 0 auto;
+		max-width: 960px;
+		max-width: 68.571428571rem;
+	}
+	div#page:before, div#page:after {
+		display: table;
+		content: "";
+	}
+	div#page:after {
+		clear: both;
+	}
+
+}
+
+div#primary {
+	margin: 24px 0;
+	margin: 1.714285714rem 0;
+}
+@media screen and (min-width: 600px) {
+	div#primary {
+		float: left;
+		width: 65.104166667%;
+	}
+
+}
+
+div#secondary {
+	margin: 24px 0;
+	margin: 1.714285714rem 0;
+}
+@media screen and (min-width: 600px) {
+	div#secondary {
+		float: right;
+		width: 26.041666667%;
+	}
+
+}
+
+/*---------------------------------------------------------
+Header
+------------------------------------------------------------ */
+header#masthead {
+	padding: 24px 0;
+	padding: 1.714285714rem 0;
+}
+header#masthead hgroup h1,
+header#masthead hgroup h2 {
+	text-align: center;
+}
+@media screen and (min-width: 600px) {
+	header#masthead hgroup h1,
+	header#masthead hgroup h2 {
+		text-align: left;
+	}
+
+}
+header#masthead hgroup h1 a,
+header#masthead hgroup h2 a {
+	color: #444444;
+	text-decoration: none;
+}
+header#masthead hgroup h1 a:hover,
+header#masthead hgroup h2 a:hover {
+	color: #177095;
+	text-decoration: underline;
+}
+header#masthead hgroup h1 {
+	font-size: 24px;
+	font-size: 1.714285714rem;
+	line-height: 2;
+}
+@media screen and (min-width: 600px) {
+	header#masthead hgroup h1 {
+		font-size: 30px;
+		font-size: 2.142857143rem;
+		line-height: 1.6;
+	}
+
+}
+header#masthead hgroup h2 {
+	font-weight: normal;
+	font-size: 13px;
+	font-size: 0.928571429rem;
+	line-height: 1.846153846;
+}
+
+/*---------------------------------------------------------
+Navigation
+------------------------------------------------------------ */
+nav[role="navigation"] {
+	display: inline-block;
+	margin-top: 24px;
+	margin-top: 1.714285714rem;
+	width: 100%;
+	font-size: 13px;
+	font-size: 0.928571429rem;
+	border-bottom: 1px solid #ededed;
+	border-top: 1px solid #ededed;
+}
+@media screen and (max-width: 600px) {
+	nav[role="navigation"] {
+		-webkit-column-count: 2;
+		-webkit-column-gap: 0.714285714rem;
+		-moz-column-count: 2;
+		-moz-column-gap: 0.714285714rem;
+		column-count: 2;
+		column-gap: 0.714285714rem;
+		text-align: center;
+	}
+
+}
+nav[role="navigation"] ul {
+	margin: 0;
+	text-indent: 0;
+}
+nav[role="navigation"] li ul li {
+	padding-left: 0;
+}
+nav[role="navigation"] li a,
+nav[role="navigation"] li {
+	display: inline-block;
+	text-decoration: none;
+}
+@media screen and (max-width: 600px) {
+	nav[role="navigation"] li a,
+	nav[role="navigation"] li {
+		display: list-item;
+	}
+
+}
+nav[role="navigation"] li a {
+	color: #444444;
+}
+nav[role="navigation"] li a:hover {
+	color: #1e1e1e;
+}
+nav[role="navigation"] li {
+	margin-right: 40px;
+	margin-right: 2.857142857rem;
+	position: relative;
+}
+nav[role="navigation"] li a {
+	border-bottom: 0;
+	line-height: 3.692307692;
+}
+nav[role="navigation"] li ul {
+	display: none;
+	position: absolute;
+	top: 100%;
+	padding: 0;
+	margin: 0;
+	z-index: 1;
+}
+nav[role="navigation"] li:hover ul {
+	display: block;
+	border-left: 0;
+}
+nav[role="navigation"] li ul li,
+nav[role="navigation"] li ul li a {
+	text-align: center;
+}
+nav[role="navigation"] li ul li a {
+	background: #efefef;
+	border-bottom: 1px solid #ededed;
+	display: block;
+	font-size: 12px;
+	font-size: 0.857142857rem;
+	line-height: 1.846153846;
+	padding: 8px 12px;
+	padding: 0.571428571rem 0.857142857rem;
+	width: 90px;
+}
+
+/*---------------------------------------------------------
+Banner
+------------------------------------------------------------ */
+section[role="banner"] {
+	margin-bottom: 48px;
+	margin-bottom: 3.428571429rem;
+}
+
+/*---------------------------------------------------------
+Sidebar
+------------------------------------------------------------ */
+div#secondary aside {
+	margin-bottom: 48px;
+	margin-bottom: 3.428571429rem;
+}
+div#secondary aside h3 {
+	margin-bottom: 24px;
+	margin-bottom: 1.714285714rem;
+	text-transform: uppercase;
+	font-weight: 300;
+	font-size: 13px;
+	font-size: 0.928571429rem;
+	line-height: 1.846153846;
+}
+div#secondary aside p,
+div#secondary aside li {
+	font-size: 13px;
+	font-size: 0.928571429rem;
+	line-height: 1.846153846;
+}
+
+/*---------------------------------------------------------
+Footer
+------------------------------------------------------------ */
+footer[role="contentinfo"] {
+	clear: both;
+	zoom: 1;
+	max-width: 960px;
+	max-width: 68.571428571rem;
+	margin-top: 48px;
+	margin-top: 3.428571429rem;
+	margin-bottom: 48px;
+	margin-bottom: 3.428571429rem;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 24px 0;
+	padding: 1.714285714rem 0;
+	border-top: 1px solid #ededed;
+}
+footer[role="contentinfo"]:before, footer[role="contentinfo"]:after {
+	display: table;
+	content: "";
+}
+footer[role="contentinfo"]:after {
+	clear: both;
+}
+footer[role="contentinfo"] a {
+	font-size: 12px;
+	font-size: 0.857142857rem;
+	line-height: 2;
+	color: #686868;
+}
+footer[role="contentinfo"] a:hover {
+	color: #177095;
+}
+
+/* index.css.scss
+* Basic post styling
+* ------------------------------------------------------------------ */
+/*---------------------------------------------------------
+Basic post styling
+------------------------------------------------------------ */
+header.entry-header {
+	margin-bottom: 42px;
+	margin-bottom: 3rem;
+}
+header.entry-header .entry-title {
+	font-size: 22px;
+	font-size: 1.571428571rem;
+	line-height: 1.090909091;
+}
+header.entry-header .entry-title a {
+	text-decoration: none;
+	color: #444444;
+}
+header.entry-header .entry-title a:hover {
+	color: #177095;
+}
+@media screen and (min-width: 600px) {
+	header.entry-header .entry-title {
+		font-size: 20px;
+		font-size: 1.428571429rem;
+		line-height: 1.2;
+	}
+
+}
+header.entry-header .entry-format {
+	margin-top: 24px;
+	margin-top: 1.714285714rem;
+	font-weight: normal;
+}
+
+div.entry-meta {
+	margin-top: 6px;
+	margin-top: 0.428571429rem;
+	font-size: 12px;
+	font-size: 0.857142857rem;
+	line-height: 2;
+}
+div.entry-meta a {
+	color: #686868;
+}
+div.entry-meta a:hover {
+	color: #177095;
+}
+
+div.entry-content p {
+	margin: 24px 0;
+	margin: 1.714285714rem 0;
+	line-height: 1.714285714;
+}
+
+div#content article {
+	padding-bottom: 48px;
+	padding-bottom: 3.428571429rem;
+	margin-bottom: 48px;
+	margin-bottom: 3.428571429rem;
+	border-bottom: 1px solid #ededed;
+}
+
+div.page-links,
+footer.entry-meta {
+	line-height: 1.714285714;
+}
+
+/*---------------------------------------------------------
+Elements
+------------------------------------------------------------ */
+abbr,
+acronym,
+dfn {
+	border-bottom: 1px solid #ededed;
+	cursor: help;
+}
+
+code,
+kbd {
+	font-family: Consolas, Monaco, Lucida Console, monospace;
+	padding: 0 4px;
+	padding: 0 0.285714286rem;
+}
+
+mark {
+	color: #fff;
+	padding: 0 4px;
+	padding: 0 0.285714286rem;
+	font-style: italic;
+}
+
+pre,
+tt,
+var {
+	font-family: Consolas, Monaco, Lucida Console, monospace;
+	margin: 24px 0;
+	margin: 1.714285714rem 0;
+	overflow: auto;
+}
+pre code,
+tt code,
+var code {
+	display: block;
+	padding: 14px;
+	padding: 1rem;
+}
+
+.alignleft {
+	float: left;
+}
+
+.alignright {
+	float: right;
+}
+
+/*---------------------------------------------------------
+Media
+------------------------------------------------------------ */
+img,
+embed,
+object,
+video {
+	max-width: 100%;
+}
