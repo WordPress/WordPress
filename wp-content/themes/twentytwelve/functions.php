@@ -68,19 +68,6 @@ function twentytwelve_setup() {
 endif;
 
 /**
- * Enqueues the theme's stylesheet.
- *
- * The wp_enqueue_scripts hook is meant for both styles and scripts, and only
- * fires on the frontend.
- *
- * @since Twenty Twelve 1.0
- */
-function twentytwelve_enqueue_scripts() {
-	wp_enqueue_style( 'twentytwelve-style', get_bloginfo( 'stylesheet_url' ) );
-}
-add_action( 'wp_enqueue_scripts', 'twentytwelve_enqueue_scripts' );
-
-/**
  * Get our wp_nav_menu() fallback, wp_page_menu(), to show a home link.
  *
  * @since Twenty Twelve 1.0
