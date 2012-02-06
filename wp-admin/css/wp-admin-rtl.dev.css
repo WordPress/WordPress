@@ -1269,6 +1269,12 @@ h2 .nav-tab {
 	margin-left: 5px
 }
 
+#profile-page #pass1,
+#profile-page #pass2,
+#profile-page #user_login {
+	direction: ltr;
+}
+
 #your-profile legend {
 	font-family: Tahoma, Arial, sans-serif;
 }
@@ -1907,7 +1913,7 @@ body.login {
 .login #user_email {
 	margin-left: 6px;
 	margin-right: 0;
-	direction:ltr;
+	direction: ltr;
 }
 
 .login h1 a {
