@@ -59,6 +59,14 @@ if ( typeof(jQuery) != 'undefined' ) {
 			target.siblings('.ab-sub-wrapper').find('.ab-item').each(refresh);
 		});
 
+		$('#wpadminbar').click( function(e) {
+			if ( e.target.id != 'wpadminbar' && e.target.id != 'wp-admin-bar-top-secondary' )
+				return;
+
+			e.preventDefault();
+			$('html, body').animate({ scrollTop: 0 }, 'fast');
+		});
+
 	});
 } else {
 	(function(d, w) {
@@ -178,6 +186,40 @@ if ( typeof(jQuery) != 'undefined' ) {
 				}
 			}
 			return false;
+		},
+
+		scrollToTop = function(t) {
+			var distance, speed, step, steps, timer, speed_step;
+
+			// Ensure that the #wpadminbar was the target of the click.
+			if ( t.id != 'wpadminbar' && t.id != 'wp-admin-bar-top-secondary' )
+				return;
+
+			distance    = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+
+			if ( distance < 1 )
+				return;
+
+			speed_step = distance > 800 ? 130 : 100;
+			speed     = Math.min( 12, Math.round( distance / speed_step ) );
+			step      = distance > 800 ? Math.round( distance / 30  ) : Math.round( distance / 20  );
+			steps     = [];
+			timer     = 0;
+
+			// Animate scrolling to the top of the page by generating steps to
+			// the top of the page and shifting to each step at a set interval.
+			while ( distance ) {
+				distance -= step;
+				if ( distance < 0 )
+					distance = 0;
+				steps.push( distance );
+
+				setTimeout( function() {
+					window.scrollTo( 0, steps.shift() );
+				}, timer * speed );
+
+				timer++;
+			}
 		};
 
 		addEvent(w, 'load', function() {
@@ -198,6 +240,10 @@ if ( typeof(jQuery) != 'undefined' ) {
 				});
 
 				addEvent(aB, 'click', clickShortlink );
+
+				addEvent(aB, 'click', function(e) {
+					scrollToTop( e.target || e.srcElement );
+				});
 			}
 
 			if ( w.location.hash )
