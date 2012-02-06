@@ -261,12 +261,19 @@ final class _WP_Editors {
 				self::$plugins = $plugins;
 
 				/*
+				translators: These languages show up in the spellchecker drop-down menu, in the order specified, and with the first
+				language listed being the default language. They must be comma-separated and take the format of name=code, where name
+				is the language name (which you may internationalize), and code is a valid ISO 639 language code. Please test the
+				spellchecker with your values.
+				*/
+				$mce_spellchecker_languages = __( 'English=en,Danish=da,Dutch=nl,Finnish=fi,French=fr,German=de,Italian=it,Polish=pl,Portuguese=pt,Spanish=es,Swedish=sv' );
+
+				/*
 				The following filter allows localization scripts to change the languages displayed in the spellchecker's drop-down menu.
 				By default it uses Google's spellchecker API, but can be configured to use PSpell/ASpell if installed on the server.
-				The + sign marks the default language. More information:
-				http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/spellchecker
+				The + sign marks the default language. More: http://www.tinymce.com/wiki.php/Plugin:spellchecker.
 				*/
-				$mce_spellchecker_languages = apply_filters('mce_spellchecker_languages', '+English=en,Danish=da,Dutch=nl,Finnish=fi,French=fr,German=de,Italian=it,Polish=pl,Portuguese=pt,Spanish=es,Swedish=sv');
+				$mce_spellchecker_languages = apply_filters( 'mce_spellchecker_languages', '+' . $mce_spellchecker_languages );
 
 				self::$first_init = array(
 					'mode' => 'exact',
