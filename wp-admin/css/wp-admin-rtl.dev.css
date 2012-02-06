@@ -111,6 +111,9 @@ p.search-box {
 	float: left;
 }
 
+input[type=password] {
+	direction: ltr;
+}
 
 /*------------------------------------------------------------------------------
   3.0 - Actions
