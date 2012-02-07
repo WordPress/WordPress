@@ -13,7 +13,7 @@
  *
  * @since 2.5.0
  */
-define( 'WXR_VERSION', '1.1' );
+define( 'WXR_VERSION', '1.2' );
 
 /**
  * Generates the WXR export file for download
