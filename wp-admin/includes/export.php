@@ -117,13 +117,14 @@ function export_wp( $args = array() ) {
 	 * @since 2.1.0
 	 *
 	 * @param string $str String to wrap in XML CDATA tag.
+	 * @return string
 	 */
 	function wxr_cdata( $str ) {
 		if ( seems_utf8( $str ) == false )
 			$str = utf8_encode( $str );
 
 		// $str = ent2ncr(esc_html($str));
-		$str = "<![CDATA[$str" . ( ( substr( $str, -1 ) == ']' ) ? ' ' : '' ) . ']]>';
+		$str = '<![CDATA[' . str_replace( ']]>', ']]]]><![CDATA[>', $str ) . ']]>';
 
 		return $str;
 	}
