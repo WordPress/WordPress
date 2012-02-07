@@ -609,7 +609,8 @@ class WP_Posts_List_Table extends WP_List_Table {
 							esc_html( sanitize_term_field( 'name', $c->name, $c->term_id, 'category', 'display' ) )
 						);
 					}
-					echo join( ', ', $out );
+					/* translators: used between list items, there is a space after the comma */
+					echo join( __( ', ' ), $out );
 				} else {
 					_e( 'Uncategorized' );
 				}
@@ -629,7 +630,8 @@ class WP_Posts_List_Table extends WP_List_Table {
 							esc_html( sanitize_term_field( 'name', $c->name, $c->term_id, 'tag', 'display' ) )
 						);
 					}
-					echo join( ', ', $out );
+					/* translators: used between list items, there is a space after the comma */
+					echo join( __( ', ' ), $out );
 				} else {
 					_e( 'No Tags' );
 				}

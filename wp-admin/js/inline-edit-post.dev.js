@@ -117,7 +117,7 @@ inlineEditPost = {
 		if ( 'post' == type ) {
 			// support multi taxonomies?
 			tax = 'post_tag';
-			$('tr.inline-editor textarea[name="tax_input['+tax+']"]').suggest( 'admin-ajax.php?action=ajax-tag-search&tax='+tax, { delay: 500, minchars: 2, multiple: true, multipleSep: ", " } );
+			$('tr.inline-editor textarea[name="tax_input['+tax+']"]').suggest( 'admin-ajax.php?action=ajax-tag-search&tax='+tax, { delay: 500, minchars: 2, multiple: true, multipleSep: inlineEditL10n.comma + ' ' } );
 		}
 		$('html, body').animate( { scrollTop: 0 }, 'fast' );
 	},
@@ -184,12 +184,16 @@ inlineEditPost = {
 		$('.tags_input', rowData).each(function(){
 			var terms = $(this).text(),
 				taxname = $(this).attr('id').replace('_' + id, ''),
-				textarea = $('textarea.tax_input_' + taxname, editRow);
+				textarea = $('textarea.tax_input_' + taxname, editRow),
+				comma = inlineEditL10n.comma;
 
-			if ( terms )
+			if ( terms ) {
+				if ( ',' !== comma )
+					terms = terms.replace(/,/g, comma);
 				textarea.val(terms);
+			}
 
-			textarea.suggest( 'admin-ajax.php?action=ajax-tag-search&tax='+taxname, { delay: 500, minchars: 2, multiple: true, multipleSep: ", " } );
+			textarea.suggest( 'admin-ajax.php?action=ajax-tag-search&tax='+taxname, { delay: 500, minchars: 2, multiple: true, multipleSep: inlineEditL10n.comma + ' ' } );
 		});
 
 		// handle the post status

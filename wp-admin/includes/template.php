@@ -264,10 +264,13 @@ function get_inline_data($post) {
 	foreach ( $taxonomy_names as $taxonomy_name) {
 		$taxonomy = get_taxonomy( $taxonomy_name );
 
-		if ( $taxonomy->hierarchical && $taxonomy->show_ui )
-				echo '<div class="post_category" id="'.$taxonomy_name.'_'.$post->ID.'">' . implode( ',', wp_get_object_terms( $post->ID, $taxonomy_name, array('fields'=>'ids')) ) . '</div>';
-		elseif ( $taxonomy->show_ui )
-			echo '<div class="tags_input" id="'.$taxonomy_name.'_'.$post->ID.'">' . esc_html( str_replace( ',', ', ', get_terms_to_edit($post->ID, $taxonomy_name) ) ) . '</div>';
+		if ( $taxonomy->hierarchical && $taxonomy->show_ui ) {
+				echo '<div class="post_category" id="' . $taxonomy_name . '_' . $post->ID . '">'
+					. implode( ',', wp_get_object_terms( $post->ID, $taxonomy_name, array( 'fields' => 'ids' ) ) ) . '</div>';
+		} elseif ( $taxonomy->show_ui ) {
+			echo '<div class="tags_input" id="'.$taxonomy_name.'_'.$post->ID.'">'
+				. esc_html( str_replace( ',', ', ', get_terms_to_edit( $post->ID, $taxonomy_name ) ) ) . '</div>';
+		}
 	}
 
 	if ( !$post_type_object->hierarchical )

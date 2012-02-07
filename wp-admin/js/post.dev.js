@@ -15,11 +15,19 @@ function array_unique_noempty(a) {
 
 tagBox = {
 	clean : function(tags) {
-		return tags.replace(/\s*,\s*/g, ',').replace(/,+/g, ',').replace(/[,\s]+$/, '').replace(/^[,\s]+/, '');
+		var comma = postL10n.comma;
+		if ( ',' !== comma )
+			tags = tags.replace(new RegExp(comma, 'g'), ',');
+		tags = tags.replace(/\s*,\s*/g, ',').replace(/,+/g, ',').replace(/[,\s]+$/, '').replace(/^[,\s]+/, '');
+		if ( ',' !== comma )
+			tags = tags.replace(/,/g, comma);
+		return tags;
 	},
 
 	parseTags : function(el) {
-		var id = el.id, num = id.split('-check-num-')[1], taxbox = $(el).closest('.tagsdiv'), thetags = taxbox.find('.the-tags'), current_tags = thetags.val().split(','), new_tags = [];
+		var id = el.id, num = id.split('-check-num-')[1], taxbox = $(el).closest('.tagsdiv'),
+			thetags = taxbox.find('.the-tags'), comma = postL10n.comma,
+			current_tags = thetags.val().split(comma), new_tags = [];
 		delete current_tags[num];
 
 		$.each( current_tags, function(key, val) {
@@ -29,7 +37,7 @@ tagBox = {
 			}
 		});
 
-		thetags.val( this.clean( new_tags.join(',') ) );
+		thetags.val( this.clean( new_tags.join(comma) ) );
 
 		this.quickClicks(taxbox);
 		return false;
@@ -46,7 +54,7 @@ tagBox = {
 
 		disabled = thetags.prop('disabled');
 
-		current_tags = thetags.val().split(',');
+		current_tags = thetags.val().split(postL10n.comma);
 		tagchecklist.empty();
 
 		$.each( current_tags, function( key, val ) {
@@ -74,14 +82,17 @@ tagBox = {
 
 	flushTags : function(el, a, f) {
 		a = a || false;
-		var text, tags = $('.the-tags', el), newtag = $('input.newtag', el), newtags;
+		var tags = $('.the-tags', el),
+			newtag = $('input.newtag', el),
+			comma = postL10n.comma,
+			newtags, text;
 
 		text = a ? $(a).text() : newtag.val();
 		tagsval = tags.val();
-		newtags = tagsval ? tagsval + ',' + text : text;
+		newtags = tagsval ? tagsval + comma + text : text;
 
 		newtags = this.clean( newtags );
-		newtags = array_unique_noempty( newtags.split(',') ).join(',');
+		newtags = array_unique_noempty( newtags.split(comma) ).join(comma);
 		tags.val(newtags);
 		this.quickClicks(el);
 
@@ -96,7 +107,7 @@ tagBox = {
 	get : function(id) {
 		var tax = id.substr(id.indexOf('-')+1);
 
-		$.post(ajaxurl, {'action':'get-tagcloud','tax':tax}, function(r, stat) {
+		$.post(ajaxurl, {'action':'get-tagcloud', 'tax':tax}, function(r, stat) {
 			if ( 0 == r || 'success' != stat )
 				r = wpAjax.broken;
 
@@ -142,7 +153,7 @@ tagBox = {
 			}
 		}).each(function(){
 			var tax = $(this).closest('div.tagsdiv').attr('id');
-			$(this).suggest( ajaxurl + '?action=ajax-tag-search&tax=' + tax, { delay: 500, minchars: 2, multiple: true, multipleSep: "," } );
+			$(this).suggest( ajaxurl + '?action=ajax-tag-search&tax=' + tax, { delay: 500, minchars: 2, multiple: true, multipleSep: postL10n.comma + ' ' } );
 		});
 
 	    // save tags on post save/publish

@@ -2907,7 +2907,12 @@ function wp_set_post_terms( $post_id = 0, $tags = '', $taxonomy = 'post_tag', $a
 	if ( empty($tags) )
 		$tags = array();
 
-	$tags = is_array($tags) ? $tags : explode( ',', trim($tags, " \n\t\r\0\x0B,") );
+	if ( ! is_array( $tags ) ) {
+		$comma = _x( ',', 'tag delimiter' );
+		if ( ',' !== $comma )
+			$tags = str_replace( $comma, ',', $tags );
+		$tags = explode( ',', trim( $tags, " \n\t\r\0\x0B," ) );
+	}
 
 	// Hierarchical taxonomies must always pass IDs rather than names so that children with the same
 	// names but different parents aren't confused.

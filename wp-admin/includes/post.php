@@ -302,10 +302,12 @@ function bulk_edit_posts( $post_data = null ) {
 			if ( empty($terms) )
 				continue;
 			if ( is_taxonomy_hierarchical( $tax_name ) ) {
-				$tax_input[$tax_name] = array_map( 'absint', $terms );
+				$tax_input[ $tax_name ] = array_map( 'absint', $terms );
 			} else {
-				$tax_input[$tax_name] = preg_replace( '/\s*,\s*/', ',', rtrim( trim($terms), ' ,' ) );
-				$tax_input[$tax_name] = explode(',', $tax_input[$tax_name]);
+				$comma = _x( ',', 'tag delimiter' );
+				if ( ',' !== $comma )
+					$terms = str_replace( $comma, ',', $terms );
+				$tax_input[ $tax_name ] = explode( ',', trim( $terms, " \n\t\r\0\x0B," ) );
 			}
 		}
 	}

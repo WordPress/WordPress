@@ -66,6 +66,9 @@ function wp_ajax_ajax_tag_search() {
 
 	$s = stripslashes( $_GET['q'] );
 
+	$comma = _x( ',', 'tag delimiter' );
+	if ( ',' !== $comma )
+		$s = str_replace( $comma, ',', $s );
 	if ( false !== strpos( $s, ',' ) ) {
 		$s = explode( ',', $s );
 		$s = $s[count( $s ) - 1];
