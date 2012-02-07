@@ -73,9 +73,6 @@ case 'editcomment' :
 	if ( 'trash' == $comment->comment_approved )
 		comment_footer_die( __('This comment is in the Trash. Please move it out of the Trash if you want to edit it.') );
 
-	if ( 'spam' == $comment->comment_approved )
-		comment_footer_die( __('This comment is marked as Spam. Please mark it as Not Spam if you want to edit it.') );
-
 	$comment = get_comment_to_edit( $comment_id );
 
 	include('./edit-form-comment.php');
