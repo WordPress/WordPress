@@ -36,6 +36,11 @@ class wp_xmlrpc_server extends IXR_Server {
 		$this->methods = array(
 			// WordPress API
 			'wp.getUsersBlogs'		=> 'this:wp_getUsersBlogs',
+			'wp.newPost'			=> 'this:wp_newPost',
+			'wp.editPost'			=> 'this:wp_editPost',
+			'wp.deletePost'			=> 'this:wp_deletePost',
+			'wp.getPost'			=> 'this:wp_getPost',
+			'wp.getPosts'			=> 'this:wp_getPosts',
 			'wp.getPage'			=> 'this:wp_getPage',
 			'wp.getPages'			=> 'this:wp_getPages',
 			'wp.newPage'			=> 'this:wp_newPage',
@@ -441,6 +446,636 @@ class wp_xmlrpc_server extends IXR_Server {
 			);
 
 			restore_current_blog( );
+		}
+
+		return $struct;
+	}
+
+	/**
+	 * Prepares post data for return in an XML-RPC object.
+	 *
+	 * @access private
+	.*
+	 * @param array $post The unprepared post data
+	 * @param array $fields The subset of post fields to return
+	 * @return array The prepared post data
+	 */
+	function _prepare_post( $post, $fields ) {
+		// holds the data for this post. built up based on $fields
+		$_post = array( 'post_id' => $post['ID'] );
+
+		// prepare common post fields
+		$post_fields = array(
+			'post_title'        => $post['post_title'],
+			'post_date'         => new IXR_Date( mysql2date( 'Ymd\TH:i:s', $post['post_date'], false ) ),
+			'post_date_gmt'     => new IXR_Date( mysql2date( 'Ymd\TH:i:s', $post['post_date_gmt'], false ) ),
+			'post_modified'     => new IXR_Date( mysql2date( 'Ymd\TH:i:s', $post['post_modified'], false ) ),
+			'post_modified_gmt' => new IXR_Date( mysql2date( 'Ymd\TH:i:s', $post['post_modified_gmt'], false ) ),
+			'post_status'       => $post['post_status'],
+			'post_type'         => $post['post_type'],
+			'post_name'         => $post['post_name'],
+			'post_author'       => $post['post_author'],
+			'post_password'     => $post['post_password'],
+			'post_excerpt'      => $post['post_excerpt'],
+			'post_content'      => $post['post_content'],
+			'link'              => post_permalink( $post['ID'] ),
+			'comment_status'    => $post['comment_status'],
+			'ping_status'       => $post['ping_status'],
+			'sticky'            => ( $post['post_type'] === 'post' && is_sticky( $post['ID'] ) ),
+		);
+
+		// Consider future posts as published
+		if ( $post_fields['post_status'] === 'future' )
+			$post_fields['post_status'] = 'publish';
+
+		// Fill in blank post format
+		$post_fields['post_format'] = get_post_format( $post['ID'] );
+		if ( empty( $post_fields['post_format'] ) )
+			$post_fields['post_format'] = 'standard';
+
+		// Merge requested $post_fields fields into $_post
+		if ( in_array( 'post', $fields ) ) {
+			$_post = array_merge( $_post, $post_fields );
+		} else {
+			$requested_fields = array_intersect_key( $post_fields, array_flip( $fields ) );
+			$_post = array_merge( $_post, $requested_fields );
+		}
+
+		$all_taxonomy_fields = in_array( 'taxonomies', $fields );
+
+		if ( $all_taxonomy_fields || in_array( 'terms', $fields ) ) {
+			$post_type_taxonomies = get_object_taxonomies( $post['post_type'], 'names' );
+			$terms = wp_get_object_terms( $post['ID'], $post_type_taxonomies );
+			$_post['terms'] = array();
+			foreach ( $terms as $term ) {
+				$_post['terms'][] = (array) $term;
+			}
+		}
+
+		// backward compatiblity
+		if ( $all_taxonomy_fields || in_array( 'tags', $fields ) ) {
+			$tagnames = array();
+			$tags = wp_get_post_tags( $post['ID'] );
+			if ( ! empty( $tags ) ) {
+				foreach ( $tags as $tag ) {
+					$tagnames[] = $tag->name;
+				}
+				$tagnames = implode( ', ', $tagnames );
+			} else {
+				$tagnames = '';
+			}
+			$_post['tags'] = $tagnames;
+		}
+
+		// backward compatiblity
+		if ( $all_taxonomy_fields || in_array( 'categories', $fields ) ) {
+			$categories = array();
+			$catids = wp_get_post_categories( $post['ID'] );
+			foreach ( $catids as $catid ) {
+				$categories[] = get_cat_name( $catid );
+			}
+			$_post['categories'] = $categories;
+		}
+
+		if ( in_array( 'custom_fields', $fields ) )
+			$_post['custom_fields'] = $this->get_custom_fields( $post['ID'] );
+
+		if ( in_array( 'enclosure', $fields ) ) {
+			$_post['enclosure'] = array();
+			$enclosures = (array) get_post_meta( $post['ID'], 'enclosure' );
+			if ( ! empty( $enclosures ) ) {
+				$encdata = explode( "\n", $enclosures[0] );
+				$_post['enclosure']['url'] = trim( htmlspecialchars( $encdata[0] ) );
+				$_post['enclosure']['length'] = (int) trim( $encdata[1] );
+				$_post['enclosure']['type'] = trim( $encdata[2] );
+			}
+		}
+
+		return apply_filters( 'xmlrpc__prepare_post', $_post, $post, $fields );
+	}
+
+	/**
+	 * Create a new post for any registered post type.
+	 *
+	 * @uses wp_insert_post()
+	 * @param array $args Method parameters. Contains:
+	 *  - int     $blog_id
+	 *  - string  $username
+	 *  - string  $password
+	 *  - array   $content_struct
+	 *      $content_struct can contain:
+	 *      - post_type (default: 'post')
+	 *      - post_status (default: 'draft')
+	 *      - post_title
+	 *      - post_author
+	 *      - post_exerpt
+	 *      - post_content
+	 *      - post_date_gmt | post_date
+	 *      - post_format
+	 *      - post_password
+	 *      - comment_status - can be 'open' | 'closed'
+	 *      - ping_status - can be 'open' | 'closed'
+	 *      - sticky
+	 *      - custom_fields - array, with each element containing 'key' and 'value'
+	 *      - terms - array, with taxonomy names as keys and arrays of term IDs as values
+	 *      - terms_names - array, with taxonomy names as keys and arrays of term names as values
+	 *      - enclosure
+	 *      - any other fields supported by wp_insert_post()
+	 * @return string post_id
+	 */
+	function wp_newPost( $args ) {
+		$this->escape( $args );
+
+		$blog_id        = (int) $args[0];
+		$username       = $args[1];
+		$password       = $args[2];
+		$content_struct = $args[3];
+
+		if ( ! $user = $this->login( $username, $password ) )
+			return $this->error;
+
+		do_action( 'xmlrpc_call', 'wp.newPost' );
+
+		unset( $content_struct['ID'] );
+
+		return $this->_wp_insertPost( $user, $content_struct );
+	}
+
+	/*
+	 * Helper method for filtering out elements from an array.
+	 */
+	function _is_greater_than_one( $count ){
+		return $count > 1;
+	}
+
+	/*
+	 * Helper method for wp_newPost and wp_editPost, containing shared logic.
+	 */
+	function _wp_insertPost( $user, $content_struct ) {
+		$defaults = array( 'post_status' => 'draft', 'post_type' => 'post', 'post_author' => 0,
+			'post_password' => '', 'post_excerpt' => '', 'post_content' => '', 'post_title' => '', 'sticky' => 0 );
+
+		$post_data = wp_parse_args( $content_struct, $defaults );
+
+		$post_type = get_post_type_object( $post_data['post_type'] );
+		if( ! ( (bool) $post_type ) )
+			return new IXR_Error( 403, __( 'Invalid post type' ) );
+
+		if( ! current_user_can( $post_type->cap->edit_posts ) )
+			return new IXR_Error( 401, __( 'Sorry, you are not allowed to post on this site.' ) );
+
+		switch ( $post_data['post_status'] ) {
+			case 'draft':
+			case 'pending':
+				break;
+			case 'private':
+				if( ! current_user_can( $post_type->cap->publish_posts ) )
+					return new IXR_Error( 401, __( 'Sorry, you are not allowed to create private posts in this post type' ));
+				break;
+			case 'publish':
+			case 'future':
+				if( ! current_user_can( $post_type->cap->publish_posts ) )
+					return new IXR_Error( 401, __( 'Sorry, you are not allowed to publish posts in this post type' ));
+				break;
+			default:
+				$post_data['post_status'] = 'draft';
+			break;
+		}
+
+		if ( ! empty( $post_data['post_password'] ) && ! current_user_can( $post_type->cap->publish_posts ) )
+			return new IXR_Error( 401, __( 'Sorry, you are not allowed to create password protected posts in this post type' ) );
+
+
+		$post_data['post_author'] = absint( $post_data['post_author'] );
+		if( ! empty( $post_data['post_author'] ) && $post_data['post_author'] != $user->ID ) {
+			if( ! current_user_can( $post_type->cap->edit_others_posts ) )
+				return new IXR_Error( 401, __( 'You are not allowed to create posts as this user.' ) );
+
+			$author = get_userdata( $post_data['post_author'] );
+
+			if( ! $author )
+				return new IXR_Error( 404, __( 'Invalid author ID.' ) );
+		}
+		else {
+			$post_data['post_author'] = $user->ID;
+		}
+
+		if( isset( $post_data['comment_status'] ) ) {
+			if( ! post_type_supports( $post_data['post_type'], 'comments' ) || ( $post_data['comment_status'] != 'open' && $post_data['comment_status'] != 'closed' ) ) {
+				unset( $post_data['comment_status'] );
+			}
+		}
+
+		if( isset( $post_data['ping_status'] ) ) {
+			if( ! post_type_supports( $post_data['post_type'], 'trackbacks' ) || ( $post_data['ping_status'] != 'open' && $post_data['ping_status'] != 'closed' ) ) {
+				unset( $post_data['ping_status'] );
+			}
+		}
+
+		// Do some timestamp voodoo
+		if ( ! empty( $post_data['post_date_gmt'] ) ) {
+			// We know this is supposed to be GMT, so we're going to slap that Z on there by force
+			$dateCreated = str_replace( 'Z', '', $post_data['post_date_gmt']->getIso() ) . 'Z'; 
+		}elseif ( ! empty( $post_data['post_date'] ) ) {
+			$dateCreated = $post_data['post_date']->getIso();
+		}
+
+		if ( ! empty( $dateCreated ) ) {
+			$post_data['post_date'] = get_date_from_gmt( iso8601_to_datetime( $dateCreated ) );
+			$post_data['post_date_gmt'] = iso8601_to_datetime( $dateCreated, 'GMT' );
+		}
+
+		if ( ! isset( $post_data['ID'] ) ) {
+			$post_data['ID'] = get_default_post_to_edit( $post_data['post_type'], true )->ID;
+		}
+		$post_ID = $post_data['ID'];
+
+		$sticky = $post_data['sticky'] ? true : false;
+
+		if( $post_data['post_type'] == 'post' && $sticky == true ) {
+			if( ! current_user_can( $post_type->cap->edit_others_posts ) )
+				return new IXR_Error( 401, __( 'Sorry, you are not allowed to stick this post.' ) );
+
+			if( $post_data['post_status'] != 'publish' )
+				return new IXR_Error( 401, __( 'Only published posts can be made sticky.' ) );
+
+			stick_post( $post_ID );
+		}
+
+		if( isset ( $post_data['custom_fields'] ) && post_type_supports( $post_data['post_type'], 'custom-fields' ) ) {
+			$this->set_custom_fields( $post_ID, $post_data['custom_fields'] );
+		}
+
+		if( isset( $post_data['terms'] ) || isset( $post_data['terms_names'] ) ) {
+			$post_type_taxonomies = get_object_taxonomies( $post_data['post_type'], 'objects' );
+
+			// accumulate term IDs from terms and terms_names
+			$terms = array();
+
+			// first validate the terms specified by ID
+			if( isset( $post_data['terms'] ) && is_array( $post_data['terms'] ) ) {
+				$taxonomies = array_keys( $post_data['terms'] );
+
+				// validating term ids
+				foreach ( $taxonomies as $taxonomy ) {
+					if ( ! array_key_exists( $taxonomy , $post_type_taxonomies ) )
+						return new IXR_Error( 401, __( 'Sorry, one of the given taxonomies is not supported by the post type.' ) );
+
+					if( ! current_user_can( $post_type_taxonomies[$taxonomy]->cap->assign_terms ) )
+						return new IXR_Error( 401, __( 'Sorry, you are not allowed to assign a term to one of the given taxonomies' ) );
+
+					$term_ids = $post_data['terms'][$taxonomy];
+					foreach ( $term_ids as $term_id ) {
+						$term = get_term_by( 'id', $term_id, $taxonomy );
+
+						if ( ! $term )
+							return new IXR_Error( 403, __( 'Invalid term ID' ) );
+
+						$terms[$taxonomy][] = (int) $term_id;
+					}
+				}
+			}
+
+			// now validate terms specified by name
+			if ( isset( $post_data['terms_names'] ) && is_array( $post_data['terms_names'] ) ) {
+				$taxonomies = array_keys( $post_data['terms_names'] );
+
+				foreach ( $taxonomies as $taxonomy ) {
+					if ( ! array_key_exists( $taxonomy , $post_type_taxonomies ) )
+						return new IXR_Error( 401, __( 'Sorry, one of the given taxonomies is not supported by the post type.' ) );
+
+					if( ! current_user_can( $post_type_taxonomies[$taxonomy]->cap->assign_terms ) )
+						return new IXR_Error( 401, __( 'Sorry, you are not allowed to assign a term to one of the given taxonomies.' ) );
+
+					// for hierarchical taxonomies, we can't assign a term when multiple terms in the hierarchy share the same name
+					$ambiguous_terms = array();
+					if( is_taxonomy_hierarchical( $taxonomy ) ) {
+						$tax_term_names = get_terms( $taxonomy, array( 'fields' => 'names', 'hide_empty' => false ) );
+
+						// count the number of terms with the same name
+						$tax_term_names_count = array_count_values( $tax_term_names );
+
+						// filter out non-ambiguous term names
+						$ambiguous_tax_term_counts = array_filter( $tax_term_names_count, array( $this, '_is_greater_than_one') );
+
+						$ambiguous_terms = array_keys( $ambiguous_tax_term_counts );
+					}
+
+					$term_names = $post_data['terms_names'][$taxonomy];
+					foreach ( $term_names as $term_name ) {
+						if ( in_array( $term_name, $ambiguous_terms ) )
+							return new IXR_Error( 401, __( 'Ambiguous term name used in a hierarchical taxonomy. Please use term ID instead.' ) );
+
+						$term = get_term_by( 'name', $term_name, $taxonomy );
+
+						if ( ! $term ) {
+							// term doesn't exist, so check that the user is allowed to create new terms
+							if( ! current_user_can( $post_type_taxonomies[$taxonomy]->cap->edit_terms ) )
+								return new IXR_Error( 401, __( 'Sorry, you are not allowed to add a term to one of the given taxonomies.' ) );
+
+							// create the new term
+							$term_info = wp_insert_term( $term_name, $taxonomy );
+							if ( is_wp_error( $term_info ) )
+								return new IXR_Error( 500, $term_info->get_error_message() );
+
+							$terms[$taxonomy][] = (int) $term_info['term_id'];
+						}
+						else {
+							$terms[$taxonomy][] = (int) $term->term_id;
+						}
+					}
+				}
+			}
+
+			$post_data['tax_input'] = $terms;
+			unset( $post_data['terms'] );
+			unset( $post_data['terms_names'] );
+		}
+		else {
+			// do not allow direct submission of 'tax_input', clients must use 'terms' and/or 'terms_names'
+			unset( $post_data['tax_input'] );
+		}
+
+		if( isset( $post_data['post_format'] ) ) {
+			$format = set_post_format( $post_ID, $post_data['post_format'] );
+
+			if ( is_wp_error( $format ) )
+				return new IXR_Error( 500, $format->get_error_message() );
+
+			unset( $post_data['post_format'] );
+		}
+
+		// Handle enclosures
+		$enclosure = isset( $post_data['enclosure'] ) ? $post_data['enclosure'] : null;
+		$this->add_enclosure_if_new( $post_ID, $enclosure );
+
+		$this->attach_uploads( $post_ID, $post_data['post_content'] );
+
+		$post_data = apply_filters( 'xmlrpc_wp_insert_post_data', $post_data, $content_struct );
+
+		$post_ID = wp_insert_post( $post_data, true );
+		if ( is_wp_error( $post_ID ) )
+			return new IXR_Error( 500, $post_ID->get_error_message() );
+
+		if ( ! $post_ID )
+			return new IXR_Error( 401, __( 'Sorry, your entry could not be posted. Something wrong happened.' ) );
+
+		return strval( $post_ID );
+	}
+
+	/*
+	 * Edit a post for any registered post type.
+	 *
+	 * The $content_struct parameter only needs to contain fields that
+	 * should be changed. All other fields will retain their existing values.
+	 *
+	 * @uses wp_insert_post()
+	 * @param array $args Method parameters. Contains:
+	 *  - int     $blog_id
+	 *  - string  $username
+	 *  - string  $password
+	 *  - int     $post_id
+	 *  - array   $content_struct
+	 * @return true on success
+	 */
+	function wp_editPost( $args ) {
+		$this->escape( $args );
+
+		$blog_id        = (int) $args[0]; // we will support this in the near future
+		$username       = $args[1];
+		$password       = $args[2];
+		$post_id        = (int) $args[3];
+		$content_struct = $args[4];
+
+		if ( ! $user = $this->login( $username, $password ) )
+			return $this->error;
+
+		do_action( 'xmlrpc_call', 'wp.editPost' );
+
+		// User Capabilities are checked in _wp_insertPost.
+
+		$post = get_post( $post_id, ARRAY_A );
+
+		if ( empty( $post["ID"] ) )
+			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
+
+		// convert the date field back to IXR form
+		$post['post_date'] = new IXR_Date( mysql2date( 'Ymd\TH:i:s', $post['post_date'], false ) );
+
+		// ignore the existing GMT date if it is empty or a non-GMT date was supplied in $content_struct,
+		// since _wp_insertPost will ignore the non-GMT date if the GMT date is set
+		if ( $post['post_date_gmt'] == '0000-00-00 00:00:00' || isset( $content_struct['post_date'] ) )
+			unset( $post['post_date_gmt'] );
+		else
+			$post['post_date_gmt'] = new IXR_Date( mysql2date( 'Ymd\TH:i:s', $post['post_date_gmt'], false ) );
+
+		$this->escape( $post );
+		$merged_content_struct = array_merge( $post, $content_struct );
+
+		$retval = $this->_wp_insertPost( $user, $merged_content_struct );
+		if ( $retval instanceof IXR_Error )
+			return $retval;
+
+		return true;
+	}
+
+	/**
+	 * Delete a post for any registered post type.
+	 *
+	 * @uses wp_delete_post()
+	 * @param array $args Method parameters. Contains:
+	 *  - int     $blog_id
+	 *  - string  $username
+	 *  - string  $password
+	 *  - int     $post_id
+	 * @return true on success
+	 */
+	function wp_deletePost( $args ) {
+		$this->escape( $args );
+
+		$blog_id    = (int) $args[0];
+		$username   = $args[1];
+		$password   = $args[2];
+		$post_id    = (int) $args[3];
+
+		if ( ! $user = $this->login( $username, $password ) )
+			return $this->error;
+
+		do_action( 'xmlrpc_call', 'wp.deletePost' );
+
+		$post = wp_get_single_post( $post_id, ARRAY_A );
+		if ( empty( $post['ID'] ) )
+			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
+
+		$post_type = get_post_type_object( $post['post_type'] );
+		if( ! current_user_can( $post_type->cap->delete_post, $post_id ) )
+			return new IXR_Error( 401, __( 'Sorry, you are not allowed to delete this post.' ) );
+
+		$result = wp_delete_post( $post_id );
+
+		if ( ! $result )
+			return new IXR_Error( 500, __( 'The post cannot be deleted.' ) );
+
+		return true;
+	}
+
+	/**
+	 * Retrieve a post.
+	 *
+	 * The optional $fields parameter specifies what fields will be included
+	 * in the response array. This should be a list of field names. 'post_id' will
+	 * always be included in the response regardless of the value of $fields.
+	 *
+	 * Instead of, or in addition to, individual field names, conceptual group
+	 * names can be used to specify multiple fields. The available conceptual
+	 * groups are 'post' (all basic fields), 'taxonomies', 'custom_fields',
+	 * and 'enclosure'.
+	 *
+	 * @uses wp_get_single_post()
+	 * @param array $args Method parameters. Contains:
+	 *  - int     $post_id
+	 *  - string  $username
+	 *  - string  $password
+	 *  - array   $fields optional
+	 * @return array contains (based on $fields parameter):
+	 *  - 'post_id'
+	 *  - 'post_title'
+	 *  - 'post_date'
+	 *  - 'post_date_gmt'
+	 *  - 'post_modified'
+	 *  - 'post_modified_gmt'
+	 *  - 'post_status'
+	 *  - 'post_type'
+	 *  - 'post_name'
+	 *  - 'post_author'
+	 *  - 'post_password'
+	 *  - 'post_excerpt'
+	 *  - 'post_content'
+	 *  - 'link'
+	 *  - 'comment_status'
+	 *  - 'ping_status'
+	 *  - 'sticky'
+	 *  - 'custom_fields'
+	 *  - 'terms'
+	 *  - 'categories'
+	 *  - 'tags'
+	 *  - 'enclosure'
+	 */
+	function wp_getPost( $args ) {
+		$this->escape( $args );
+
+		$blog_id            = (int) $args[0];
+		$username           = $args[1];
+		$password           = $args[2];
+		$post_id            = (int) $args[3];
+
+		if ( isset( $args[4] ) )
+			$fields = $args[4];
+		else
+			$fields = apply_filters( 'xmlrpc_default_post_fields', array( 'post', 'terms', 'custom_fields' ), 'wp.getPost' );
+
+		if ( ! $user = $this->login( $username, $password ) )
+			return $this->error;
+
+		do_action( 'xmlrpc_call', 'wp.getPost' );
+
+		$post = wp_get_single_post( $post_id, ARRAY_A );
+
+		if ( empty( $post["ID"] ) )
+			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
+
+		$post_type = get_post_type_object( $post['post_type'] );
+		if ( ! current_user_can( $post_type->cap->edit_posts, $post_id ) )
+			return new IXR_Error( 401, __( 'Sorry, you cannot edit this post.' ) );
+
+		return $this->_prepare_post( $post, $fields );
+	}
+
+	/**
+	 * Retrieve posts.
+	 *
+	 * The optional $filter parameter modifies the query used to retrieve posts.
+	 * Accepted keys are 'post_type', 'post_status', 'number', 'offset',
+	 * 'orderby', and 'order'.
+	 *
+	 * The optional $fields parameter specifies what fields will be included
+	 * in the response array.
+	 *
+	 * @uses wp_get_recent_posts()
+	 * @see wp_getPost() for more on $fields
+	 * @see get_posts() for more on $filter values
+	 *
+	 * @param array $args Method parameters. Contains:
+	 *  - int     $blog_id
+	 *  - string  $username
+	 *  - string  $password
+	 *  - array   $filter optional
+	 *  - array   $fields optional
+	 * @return array cntains a collection of posts.
+	 */
+	function wp_getPosts( $args ) {
+		$this->escape( $args );
+
+		$blog_id    = (int) $args[0];
+		$username   = $args[1];
+		$password   = $args[2];
+		$filter     = isset( $args[3] ) ? $args[3] : array();
+
+		if ( isset( $args[4] ) )
+			$fields = $args[4];
+		else
+			$fields = apply_filters( 'xmlrpc_default_post_fields', array( 'post', 'terms', 'custom_fields' ), 'wp.getPosts' );
+
+		if ( ! $user = $this->login( $username, $password ) )
+			return $this->error;
+
+		do_action( 'xmlrpc_call', 'wp.getPosts' );
+
+		$query = array();
+
+		if ( isset( $filter['post_type'] ) ) {
+			$post_type = get_post_type_object( $filter['post_type'] );
+			if ( ! ( (bool) $post_type ) )
+				return new IXR_Error( 403, __( 'The post type specified is not valid' ) );
+
+			if ( ! current_user_can( $post_type->cap->edit_posts ) )
+				return new IXR_Error( 401, __( 'Sorry, you are not allowed to edit posts in this post type' ));
+
+			$query['post_type'] = $filter['post_type'];
+		}
+
+		if ( isset( $filter['post_status'] ) )
+			$query['post_status'] = $filter['post_status'];
+
+		if ( isset( $filter['number'] ) )
+			$query['number'] = absint( $filter['number'] );
+
+		if ( isset( $filter['offset'] ) )
+			$query['offset'] = absint( $filter['offset'] );
+
+		if ( isset( $filter['orderby'] ) ) {
+			$query['orderby'] = $filter['orderby'];
+
+			if ( isset( $filter['order'] ) )
+				$query['order'] = $filter['order'];
+		}
+
+		do_action( 'xmlrpc_call', 'wp.getPosts' );
+
+		$posts_list = wp_get_recent_posts( $query );
+
+		if ( ! $posts_list )
+			return array( );
+
+		// holds all the posts data
+		$struct = array();
+
+		foreach ( $posts_list as $post ) {
+			$post_type = get_post_type_object( $post['post_type'] );
+			if ( ! current_user_can( $post_type->cap->edit_posts, $post['ID'] ) )
+				continue;
+
+			$struct[] = $this->_prepare_post( $post, $fields );
 		}
 
 		return $struct;
