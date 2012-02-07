@@ -77,8 +77,10 @@ function install_themes_dashboard() {
 	install_theme_search_form();
 ?>
 <h4><?php _e('Feature Filter') ?></h4>
-<form method="post" action="<?php echo self_admin_url( 'theme-install.php?tab=search' ); ?>">
 <p class="install-help"><?php _e('Find a theme based on specific features') ?></p>
+
+<form method="get" action="">
+	<input type="hidden" name="tab" value="search" />
 	<?php
 	$feature_list = get_theme_feature_list( );
 	echo '<div class="feature-filter">';
@@ -94,7 +96,7 @@ function install_themes_dashboard() {
 ?>
 
 <li>
-	<input type="checkbox" name="features[<?php echo $feature; ?>]" id="feature-id-<?php echo $feature; ?>" value="<?php echo $feature; ?>" />
+	<input type="checkbox" name="features[]" id="feature-id-<?php echo $feature; ?>" value="<?php echo $feature; ?>" />
 	<label for="feature-id-<?php echo $feature; ?>"><?php echo $feature_name; ?></label>
 </li>
 

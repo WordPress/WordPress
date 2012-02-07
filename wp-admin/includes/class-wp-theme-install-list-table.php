@@ -66,8 +66,8 @@ class WP_Theme_Install_List_Table extends WP_List_Table {
 						break;
 				}
 
-				if ( !empty( $_POST['features'] ) ) {
-					$terms = $_POST['features'];
+				if ( !empty( $_REQUEST['features'] ) ) {
+					$terms = $_REQUEST['features'];
 					$terms = array_map( 'trim', $terms );
 					$terms = array_map( 'sanitize_title_with_dashes', $terms );
 					$args['tag'] = $terms;
