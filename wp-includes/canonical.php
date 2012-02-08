@@ -93,7 +93,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 		}
 
 		if ( ! $redirect_url && get_option( 'home' ) != get_option( 'siteurl' ) ) {
-			if ( $original['path'] == home_url( 'wp-admin/', 'relative' ) )
+			if ( trailingslashit( $original['path'] ) == home_url( 'wp-admin/', 'relative' ) )
 				$redirect_url = admin_url();
 			elseif ( $original['path'] == home_url( 'wp-login.php', 'relative' ) )
 				$redirect_url = site_url( 'wp-login.php', 'login' );
