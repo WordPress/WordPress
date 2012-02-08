@@ -92,13 +92,6 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 			}
 		}
 
-		if ( ! $redirect_url && get_option( 'home' ) != get_option( 'siteurl' ) ) {
-			if ( trailingslashit( $original['path'] ) == home_url( 'wp-admin/', 'relative' ) )
-				$redirect_url = admin_url();
-			elseif ( $original['path'] == home_url( 'wp-login.php', 'relative' ) )
-				$redirect_url = site_url( 'wp-login.php', 'login' );
-		}
-
 		if ( ! $redirect_url )
 			$redirect_url = redirect_guess_404_permalink( $requested_url );
 
@@ -472,3 +465,33 @@ function redirect_guess_404_permalink( $current_url = '' ) {
 }
 
 add_action('template_redirect', 'redirect_canonical');
+
+function wp_redirect_admin_locations() {
+	global $wp_rewrite;
+	if ( ! ( is_404() && $wp_rewrite->using_permalinks() ) )
+		return;
+
+	$admins = array(
+		home_url( 'wp-admin', 'relative' ),
+		home_url( 'dashboard', 'relative' ),
+		home_url( 'admin', 'relative' ),
+		site_url( 'dashboard', 'relative' ),
+		site_url( 'admin', 'relative' ),
+	);
+	if ( in_array( untrailingslashit( $_SERVER['REQUEST_URI'] ), $admins ) ) {
+		wp_redirect( admin_url() );
+		exit;
+	}
+
+	$logins = array(
+		home_url( 'wp-login.php', 'relative' ),
+		home_url( 'login', 'relative' ),
+		site_url( 'login', 'relative' ),
+	);
+	if ( in_array( untrailingslashit( $_SERVER['REQUEST_URI'] ), $logins ) ) {
+		wp_redirect( site_url( 'wp-login.php', 'login' ) );
+		exit;
+	}
+}
+
+add_action( 'template_redirect', 'wp_redirect_admin_locations', 1000 );
