@@ -455,7 +455,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * Prepares post data for return in an XML-RPC object.
 	 *
 	 * @access private
-	.*
+	 *
 	 * @param array $post The unprepared post data
 	 * @param array $fields The subset of post fields to return
 	 * @return array The prepared post data
@@ -830,7 +830,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		return strval( $post_ID );
 	}
 
-	/*
+	/**
 	 * Edit a post for any registered post type.
 	 *
 	 * The $content_struct parameter only needs to contain fields that
