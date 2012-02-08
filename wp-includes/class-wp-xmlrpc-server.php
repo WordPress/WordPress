@@ -621,8 +621,17 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( ! ( (bool) $post_type ) )
 			return new IXR_Error( 403, __( 'Invalid post type' ) );
 
-		if ( ! current_user_can( $post_type->cap->edit_posts ) )
-			return new IXR_Error( 401, __( 'Sorry, you are not allowed to post on this site.' ) );
+		$update = false;
+		if ( ! empty( $post_data[ 'ID' ] ) ) 
+			$update = true; 
+
+		if ( $update ) {
+			if ( ! current_user_can( $post_type->cap->edit_post, $post_data[ 'ID' ] ) )
+				return new IXR_Error( 401, __( 'Sorry, you are not allowed to edit this post.' ) );
+		} else {
+			if ( ! current_user_can( $post_type->cap->edit_posts ) )
+				return new IXR_Error( 401, __( 'Sorry, you are not allowed to post on this site.' ) );
+		}
 
 		switch ( $post_data['post_status'] ) {
 			case 'draft':
@@ -645,7 +654,6 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( ! empty( $post_data['post_password'] ) && ! current_user_can( $post_type->cap->publish_posts ) )
 			return new IXR_Error( 401, __( 'Sorry, you are not allowed to create password protected posts in this post type' ) );
 
-
 		$post_data['post_author'] = absint( $post_data['post_author'] );
 		if ( ! empty( $post_data['post_author'] ) && $post_data['post_author'] != $user->ID ) {
 			if ( ! current_user_can( $post_type->cap->edit_others_posts ) )
@@ -655,8 +663,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 			if ( ! $author )
 				return new IXR_Error( 404, __( 'Invalid author ID.' ) );
-		}
-		else {
+		} else {
 			$post_data['post_author'] = $user->ID;
 		}
 
@@ -3135,47 +3142,21 @@ class wp_xmlrpc_server extends IXR_Server {
 		$content_struct = $args[3];
 		$publish     = $args[4];
 
-		if ( !$user = $this->login($username, $password) )
+		if ( ! $user = $this->login($username, $password) )
 			return $this->error;
 
 		do_action('xmlrpc_call', 'metaWeblog.editPost');
 
-		$cap = ( $publish ) ? 'publish_posts' : 'edit_posts';
-		$error_message = __( 'Sorry, you are not allowed to publish posts on this site.' );
-		$post_type = 'post';
-		$page_template = '';
-		if ( !empty( $content_struct['post_type'] ) ) {
-			if ( $content_struct['post_type'] == 'page' ) {
-				if ( $publish || 'publish' == $content_struct['page_status'] )
-					$cap  = 'publish_pages';
-				else
-					$cap = 'edit_pages';
-				$error_message = __( 'Sorry, you are not allowed to publish pages on this site.' );
-				$post_type = 'page';
-				if ( !empty( $content_struct['wp_page_template'] ) )
-					$page_template = $content_struct['wp_page_template'];
-			} elseif ( $content_struct['post_type'] == 'post' ) {
-				if ( $publish || 'publish' == $content_struct['post_status'] )
-					$cap  = 'publish_posts';
-				else
-					$cap = 'edit_posts';
-				$error_message = __( 'Sorry, you are not allowed to publish posts on this site.' );
-				$post_type = 'post';
-			} else {
-				// No other post_type values are allowed here
-				return new IXR_Error( 401, __( 'Invalid post type.' ) );
-			}
-		} else {
-			if ( $publish || 'publish' == $content_struct['post_status'] )
-				$cap  = 'publish_posts';
-			else
-				$cap = 'edit_posts';
-			$error_message = __( 'Sorry, you are not allowed to publish posts on this site.' );
-			$post_type = 'post';
-		}
+		$postdata = wp_get_single_post( $post_ID, ARRAY_A );
 
-		if ( !current_user_can( $cap ) )
-			return new IXR_Error( 401, $error_message );
+		// If there is no post data for the give post id, stop
+		// now and return an error. Other wise a new post will be
+		// created (which was the old behavior).
+		if ( ! $postdata || empty( $postdata[ 'ID' ] ) )
+			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
+
+		if ( ! current_user_can( 'edit_post', $post_ID ) )
+			return new IXR_Error( 401, __( 'Sorry, you do not have the right to edit this post.' ) );
 
 		// Check for a valid post format if one was given
 		if ( isset( $content_struct['wp_post_format'] ) ) {
@@ -3184,14 +3165,6 @@ class wp_xmlrpc_server extends IXR_Server {
 				return new IXR_Error( 404, __( 'Invalid post format' ) );
 			}
 		}
-
-		$postdata = wp_get_single_post($post_ID, ARRAY_A);
-
-		// If there is no post data for the give post id, stop
-		// now and return an error. Other wise a new post will be
-		// created (which was the old behavior).
-		if ( empty($postdata["ID"]) )
-			return(new IXR_Error(404, __('Invalid post ID.')));
 
 		$this->escape($postdata);
 		extract($postdata, EXTR_SKIP);
