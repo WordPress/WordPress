@@ -521,8 +521,8 @@ function do_enclose( $content, $post_ID ) {
 		if ( $url != '' && !$wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM $wpdb->postmeta WHERE post_id = %d AND meta_key = 'enclosure' AND meta_value LIKE (%s)", $post_ID, like_escape( $url ) . '%' ) ) ) {
 
 			if ( $headers = wp_get_http_headers( $url) ) {
-				$len = (int) $headers['content-length'];
-				$type = $headers['content-type'];
+				$len = isset( $headers['content-length'] ) ? (int) $headers['content-length'] : 0;
+				$type = isset( $headers['content-type'] ) ? $headers['content-type'] : '';
 				$allowed_types = array( 'video', 'audio' );
 
 				// Check to see if we can figure out the mime type from
