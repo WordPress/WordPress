@@ -598,7 +598,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		unset( $content_struct['ID'] );
 
-		return $this->_wp_insertPost( $user, $content_struct );
+		return $this->_insert_post( $user, $content_struct );
 	}
 
 	/*
@@ -611,7 +611,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	/*
 	 * Helper method for wp_newPost and wp_editPost, containing shared logic.
 	 */
-	function _wp_insertPost( $user, $content_struct ) {
+	function _insert_post( $user, $content_struct ) {
 		$defaults = array( 'post_status' => 'draft', 'post_type' => 'post', 'post_author' => 0,
 			'post_password' => '', 'post_excerpt' => '', 'post_content' => '', 'post_title' => '', 'sticky' => 0 );
 
@@ -857,7 +857,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		do_action( 'xmlrpc_call', 'wp.editPost' );
 
-		// User Capabilities are checked in _wp_insertPost.
+		// User Capabilities are checked in _insert_post.
 
 		$post = get_post( $post_id, ARRAY_A );
 
@@ -868,7 +868,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$post['post_date'] = new IXR_Date( mysql2date( 'Ymd\TH:i:s', $post['post_date'], false ) );
 
 		// ignore the existing GMT date if it is empty or a non-GMT date was supplied in $content_struct,
-		// since _wp_insertPost will ignore the non-GMT date if the GMT date is set
+		// since _insert_post will ignore the non-GMT date if the GMT date is set
 		if ( $post['post_date_gmt'] == '0000-00-00 00:00:00' || isset( $content_struct['post_date'] ) )
 			unset( $post['post_date_gmt'] );
 		else
@@ -877,7 +877,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$this->escape( $post );
 		$merged_content_struct = array_merge( $post, $content_struct );
 
-		$retval = $this->_wp_insertPost( $user, $merged_content_struct );
+		$retval = $this->_insert_post( $user, $merged_content_struct );
 		if ( $retval instanceof IXR_Error )
 			return $retval;
 
