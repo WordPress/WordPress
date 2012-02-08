@@ -683,7 +683,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( ! empty( $post_data['post_date_gmt'] ) ) {
 			// We know this is supposed to be GMT, so we're going to slap that Z on there by force
 			$dateCreated = str_replace( 'Z', '', $post_data['post_date_gmt']->getIso() ) . 'Z'; 
-		}elseif ( ! empty( $post_data['post_date'] ) ) {
+		} elseif ( ! empty( $post_data['post_date'] ) ) {
 			$dateCreated = $post_data['post_date']->getIso();
 		}
 
@@ -786,8 +786,7 @@ class wp_xmlrpc_server extends IXR_Server {
 								return new IXR_Error( 500, $term_info->get_error_message() );
 
 							$terms[$taxonomy][] = (int) $term_info['term_id'];
-						}
-						else {
+						} else {
 							$terms[$taxonomy][] = (int) $term->term_id;
 						}
 					}
@@ -797,8 +796,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			$post_data['tax_input'] = $terms;
 			unset( $post_data['terms'] );
 			unset( $post_data['terms_names'] );
-		}
-		else {
+		} else {
 			// do not allow direct submission of 'tax_input', clients must use 'terms' and/or 'terms_names'
 			unset( $post_data['tax_input'] );
 		}
