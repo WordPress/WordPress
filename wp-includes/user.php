@@ -378,6 +378,7 @@ class WP_User_Query {
 				'include' => array(),
 				'exclude' => array(),
 				'search' => '',
+				'search_columns' => array(),
 				'orderby' => 'login',
 				'order' => 'ASC',
 				'offset' => '',
@@ -476,14 +477,19 @@ class WP_User_Query {
 			if ( $wild )
 				$search = trim($search, '*');
 
-			if ( false !== strpos( $search, '@') )
-				$search_columns = array('user_email');
-			elseif ( is_numeric($search) )
-				$search_columns = array('user_login', 'ID');
-			elseif ( preg_match('|^https?://|', $search) )
-				$search_columns = array('user_url');
-			else
-				$search_columns = array('user_login', 'user_nicename');
+			$search_columns = array();
+			if ( $qv['search_columns'] )
+				$search_columns = array_intersect( $qv['search_columns'], array( 'ID', 'user_login', 'user_email', 'user_url', 'user_nicename' ) );
+			if ( ! $search_columns ) {
+				if ( false !== strpos( $search, '@') )
+					$search_columns = array('user_email');
+				elseif ( is_numeric($search) )
+					$search_columns = array('user_login', 'ID');
+				elseif ( preg_match('|^https?://|', $search) )
+					$search_columns = array('user_url');
+				else
+					$search_columns = array('user_login', 'user_nicename');
+			}
 
 			$this->query_where .= $this->get_search_sql( $search, $search_columns, $wild );
 		}
