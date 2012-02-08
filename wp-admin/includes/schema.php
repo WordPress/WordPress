@@ -159,7 +159,7 @@ CREATE TABLE $wpdb->posts (
   pinged text NOT NULL,
   post_modified datetime NOT NULL default '0000-00-00 00:00:00',
   post_modified_gmt datetime NOT NULL default '0000-00-00 00:00:00',
-  post_content_filtered text NOT NULL,
+  post_content_filtered longtext NOT NULL,
   post_parent bigint(20) unsigned NOT NULL default '0',
   guid varchar(255) NOT NULL default '',
   menu_order int(11) NOT NULL default '0',
