@@ -18,7 +18,7 @@ define( 'WP_ADMIN', true );
 
 // Require an action parameter
 if ( empty( $_REQUEST['action'] ) )
-    die( '0' );
+	die( '0' );
 
 /** Load WordPress Bootstrap */
 require_once( dirname( dirname( __FILE__ ) ) . '/wp-load.php' );
@@ -58,9 +58,9 @@ if ( ! empty( $_POST['action'] ) && in_array( $_POST['action'], $core_actions_po
 add_action( 'wp_ajax_nopriv_autosave', 'wp_ajax_nopriv_autosave', 1 );
 
 if ( is_user_logged_in() )
-    do_action( 'wp_ajax_' . $_REQUEST['action'], $_REQUEST['action'] );        // Authenticated actions
+	do_action( 'wp_ajax_' . $_REQUEST['action'], $_REQUEST['action'] ); // Authenticated actions
 else
-    do_action( 'wp_ajax_nopriv_' . $_REQUEST['action'], $_REQUEST['action'] ); // Non-admin actions
+	do_action( 'wp_ajax_nopriv_' . $_REQUEST['action'], $_REQUEST['action'] ); // Non-admin actions
 
 // Default status
 die( '0' );
