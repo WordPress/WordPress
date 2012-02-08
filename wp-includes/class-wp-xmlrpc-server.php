@@ -2260,6 +2260,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			'caption'				=> $attachment->post_excerpt,
 			'description'			=> $attachment->post_content,
 			'metadata'				=> wp_get_attachment_metadata($attachment->ID),
+			'attachment_id'			=> (string) $attachment->ID
 		);
 
 		return $attachment_struct;
