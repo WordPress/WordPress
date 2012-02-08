@@ -310,6 +310,21 @@ class wp_xmlrpc_server extends IXR_Server {
 				'readonly'		=> true,
 				'option'		=> 'siteurl'
 			),
+			'image_default_link_type'	=> array(
+				'desc'			=> __( 'Image default link type' ),
+				'readonly'		=> true,
+				'option'		=> 'image_default_link_type'
+			),
+			'image_default_size'	=> array(
+				'desc'			=> __( 'Image default size' ),
+				'readonly'		=> true,
+				'option'		=> 'image_default_size'
+			),
+			'image_default_align'	=> array(
+				'desc'			=> __( 'Image default align' ),
+				'readonly'		=> true,
+				'option'		=> 'image_default_align'
+			),
 
 			// Updatable options
 			'time_zone'			=> array(
