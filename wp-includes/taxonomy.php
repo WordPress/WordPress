@@ -107,7 +107,7 @@ function create_initial_taxonomies() {
 		'rewrite' => $rewrite['post_format'],
 		'show_ui' => false,
 		'_builtin' => true,
-		'show_in_nav_menus' => false,
+		'show_in_nav_menus' => current_theme_supports( 'post-formats' ),
 	) );
 }
 add_action( 'init', 'create_initial_taxonomies', 0 ); // highest priority
