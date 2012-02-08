@@ -31,6 +31,13 @@ class WP_Scripts extends WP_Dependencies {
 	var $default_dirs;
 
 	function __construct() {
+		if ( did_action( 'init' ) )
+			$this->init();
+		else
+			add_action( 'init', array( $this, 'init' ), 0 ); 
+	}
+
+	function init() {
 		do_action_ref_array( 'wp_default_scripts', array(&$this) );
 	}
 
