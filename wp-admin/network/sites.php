@@ -210,7 +210,7 @@ if ( isset( $_GET['action'] ) ) {
 				wp_die( __( 'You are not allowed to change the current site.' ) );
 			?>
 			<!DOCTYPE html>
-			<html xmlns="http://www.w3.org/1999/xhtml" <?php if ( function_exists( 'language_attributes' ) ) language_attributes(); ?>>
+			<html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
 				<head>
 					<title><?php _e( 'WordPress &rsaquo; Confirm your action' ); ?></title>
 
