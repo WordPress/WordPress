@@ -55,7 +55,7 @@ var userSettings = {
 		'uid': '<?php if ( ! isset($current_user) ) $current_user = wp_get_current_user(); echo $current_user->ID; ?>',
 		'time':'<?php echo time() ?>'
 	},
-	ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>',
+	ajaxurl = '<?php echo admin_url( 'admin-ajax.php', 'relative' ); ?>',
 	pagenow = '<?php echo $current_screen->id; ?>',
 	typenow = '<?php echo $current_screen->post_type; ?>',
 	adminpage = '<?php echo $admin_body_class; ?>',

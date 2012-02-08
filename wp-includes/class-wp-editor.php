@@ -584,7 +584,7 @@ final class _WP_Editors {
 		}
 
 		if ( !is_admin() )
-			echo 'var ajaxurl = "' . admin_url('admin-ajax.php') . '";';
+			echo 'var ajaxurl = "' . admin_url( 'admin-ajax.php', 'relative' ) . '";';
 ?>
 	</script>
 <?php

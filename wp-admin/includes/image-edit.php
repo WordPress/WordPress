@@ -67,7 +67,7 @@ function wp_image_editor($post_id, $msg = false) {
 	<input type="hidden" id="imgedit-y-<?php echo $post_id; ?>" value="<?php echo $meta['height']; ?>" />
 
 	<div id="imgedit-crop-<?php echo $post_id; ?>" class="imgedit-crop-wrap">
-	<img id="image-preview-<?php echo $post_id; ?>" onload="imageEdit.imgLoaded('<?php echo $post_id; ?>')" src="<?php echo admin_url('admin-ajax.php'); ?>?action=imgedit-preview&amp;_ajax_nonce=<?php echo $nonce; ?>&amp;postid=<?php echo $post_id; ?>&amp;rand=<?php echo rand(1, 99999); ?>" />
+	<img id="image-preview-<?php echo $post_id; ?>" onload="imageEdit.imgLoaded('<?php echo $post_id; ?>')" src="<?php echo admin_url( 'admin-ajax.php', 'relative' ); ?>?action=imgedit-preview&amp;_ajax_nonce=<?php echo $nonce; ?>&amp;postid=<?php echo $post_id; ?>&amp;rand=<?php echo rand(1, 99999); ?>" />
 	</div>
 
 	<div class="imgedit-submit">

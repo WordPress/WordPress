@@ -1096,7 +1096,7 @@ class WP_Embed {
 <script type="text/javascript">
 /* <![CDATA[ */
 	jQuery(document).ready(function($){
-		$.get("<?php echo admin_url( 'admin-ajax.php?action=oembed-cache&post=' . $post_ID ); ?>");
+		$.get("<?php echo admin_url( 'admin-ajax.php?action=oembed-cache&post=' . $post_ID, 'relative' ); ?>");
 	});
 /* ]]> */
 </script>
