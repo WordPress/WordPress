@@ -729,7 +729,7 @@ class wp_xmlrpc_server extends IXR_Server {
 						return new IXR_Error( 401, __( 'Sorry, one of the given taxonomies is not supported by the post type.' ) );
 
 					if ( ! current_user_can( $post_type_taxonomies[$taxonomy]->cap->assign_terms ) )
-						return new IXR_Error( 401, __( 'Sorry, you are not allowed to assign a term to one of the given taxonomies' ) );
+						return new IXR_Error( 401, __( 'Sorry, you are not allowed to assign a term to one of the given taxonomies.' ) );
 
 					$term_ids = $post_data['terms'][$taxonomy];
 					foreach ( $term_ids as $term_id ) {
