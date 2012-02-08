@@ -618,10 +618,10 @@ class wp_xmlrpc_server extends IXR_Server {
 		$post_data = wp_parse_args( $content_struct, $defaults );
 
 		$post_type = get_post_type_object( $post_data['post_type'] );
-		if( ! ( (bool) $post_type ) )
+		if ( ! ( (bool) $post_type ) )
 			return new IXR_Error( 403, __( 'Invalid post type' ) );
 
-		if( ! current_user_can( $post_type->cap->edit_posts ) )
+		if ( ! current_user_can( $post_type->cap->edit_posts ) )
 			return new IXR_Error( 401, __( 'Sorry, you are not allowed to post on this site.' ) );
 
 		switch ( $post_data['post_status'] ) {
@@ -629,12 +629,12 @@ class wp_xmlrpc_server extends IXR_Server {
 			case 'pending':
 				break;
 			case 'private':
-				if( ! current_user_can( $post_type->cap->publish_posts ) )
+				if ( ! current_user_can( $post_type->cap->publish_posts ) )
 					return new IXR_Error( 401, __( 'Sorry, you are not allowed to create private posts in this post type' ));
 				break;
 			case 'publish':
 			case 'future':
-				if( ! current_user_can( $post_type->cap->publish_posts ) )
+				if ( ! current_user_can( $post_type->cap->publish_posts ) )
 					return new IXR_Error( 401, __( 'Sorry, you are not allowed to publish posts in this post type' ));
 				break;
 			default:
@@ -647,27 +647,27 @@ class wp_xmlrpc_server extends IXR_Server {
 
 
 		$post_data['post_author'] = absint( $post_data['post_author'] );
-		if( ! empty( $post_data['post_author'] ) && $post_data['post_author'] != $user->ID ) {
-			if( ! current_user_can( $post_type->cap->edit_others_posts ) )
+		if ( ! empty( $post_data['post_author'] ) && $post_data['post_author'] != $user->ID ) {
+			if ( ! current_user_can( $post_type->cap->edit_others_posts ) )
 				return new IXR_Error( 401, __( 'You are not allowed to create posts as this user.' ) );
 
 			$author = get_userdata( $post_data['post_author'] );
 
-			if( ! $author )
+			if ( ! $author )
 				return new IXR_Error( 404, __( 'Invalid author ID.' ) );
 		}
 		else {
 			$post_data['post_author'] = $user->ID;
 		}
 
-		if( isset( $post_data['comment_status'] ) ) {
-			if( ! post_type_supports( $post_data['post_type'], 'comments' ) || ( $post_data['comment_status'] != 'open' && $post_data['comment_status'] != 'closed' ) ) {
+		if ( isset( $post_data['comment_status'] ) ) {
+			if ( ! post_type_supports( $post_data['post_type'], 'comments' ) || ( $post_data['comment_status'] != 'open' && $post_data['comment_status'] != 'closed' ) ) {
 				unset( $post_data['comment_status'] );
 			}
 		}
 
-		if( isset( $post_data['ping_status'] ) ) {
-			if( ! post_type_supports( $post_data['post_type'], 'trackbacks' ) || ( $post_data['ping_status'] != 'open' && $post_data['ping_status'] != 'closed' ) ) {
+		if ( isset( $post_data['ping_status'] ) ) {
+			if ( ! post_type_supports( $post_data['post_type'], 'trackbacks' ) || ( $post_data['ping_status'] != 'open' && $post_data['ping_status'] != 'closed' ) ) {
 				unset( $post_data['ping_status'] );
 			}
 		}
@@ -692,28 +692,28 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$sticky = $post_data['sticky'] ? true : false;
 
-		if( $post_data['post_type'] == 'post' && $sticky == true ) {
-			if( ! current_user_can( $post_type->cap->edit_others_posts ) )
+		if ( $post_data['post_type'] == 'post' && $sticky == true ) {
+			if ( ! current_user_can( $post_type->cap->edit_others_posts ) )
 				return new IXR_Error( 401, __( 'Sorry, you are not allowed to stick this post.' ) );
 
-			if( $post_data['post_status'] != 'publish' )
+			if ( $post_data['post_status'] != 'publish' )
 				return new IXR_Error( 401, __( 'Only published posts can be made sticky.' ) );
 
 			stick_post( $post_ID );
 		}
 
-		if( isset ( $post_data['custom_fields'] ) && post_type_supports( $post_data['post_type'], 'custom-fields' ) ) {
+		if ( isset ( $post_data['custom_fields'] ) && post_type_supports( $post_data['post_type'], 'custom-fields' ) ) {
 			$this->set_custom_fields( $post_ID, $post_data['custom_fields'] );
 		}
 
-		if( isset( $post_data['terms'] ) || isset( $post_data['terms_names'] ) ) {
+		if ( isset( $post_data['terms'] ) || isset( $post_data['terms_names'] ) ) {
 			$post_type_taxonomies = get_object_taxonomies( $post_data['post_type'], 'objects' );
 
 			// accumulate term IDs from terms and terms_names
 			$terms = array();
 
 			// first validate the terms specified by ID
-			if( isset( $post_data['terms'] ) && is_array( $post_data['terms'] ) ) {
+			if ( isset( $post_data['terms'] ) && is_array( $post_data['terms'] ) ) {
 				$taxonomies = array_keys( $post_data['terms'] );
 
 				// validating term ids
@@ -721,7 +721,7 @@ class wp_xmlrpc_server extends IXR_Server {
 					if ( ! array_key_exists( $taxonomy , $post_type_taxonomies ) )
 						return new IXR_Error( 401, __( 'Sorry, one of the given taxonomies is not supported by the post type.' ) );
 
-					if( ! current_user_can( $post_type_taxonomies[$taxonomy]->cap->assign_terms ) )
+					if ( ! current_user_can( $post_type_taxonomies[$taxonomy]->cap->assign_terms ) )
 						return new IXR_Error( 401, __( 'Sorry, you are not allowed to assign a term to one of the given taxonomies' ) );
 
 					$term_ids = $post_data['terms'][$taxonomy];
@@ -744,12 +744,12 @@ class wp_xmlrpc_server extends IXR_Server {
 					if ( ! array_key_exists( $taxonomy , $post_type_taxonomies ) )
 						return new IXR_Error( 401, __( 'Sorry, one of the given taxonomies is not supported by the post type.' ) );
 
-					if( ! current_user_can( $post_type_taxonomies[$taxonomy]->cap->assign_terms ) )
+					if ( ! current_user_can( $post_type_taxonomies[$taxonomy]->cap->assign_terms ) )
 						return new IXR_Error( 401, __( 'Sorry, you are not allowed to assign a term to one of the given taxonomies.' ) );
 
 					// for hierarchical taxonomies, we can't assign a term when multiple terms in the hierarchy share the same name
 					$ambiguous_terms = array();
-					if( is_taxonomy_hierarchical( $taxonomy ) ) {
+					if ( is_taxonomy_hierarchical( $taxonomy ) ) {
 						$tax_term_names = get_terms( $taxonomy, array( 'fields' => 'names', 'hide_empty' => false ) );
 
 						// count the number of terms with the same name
@@ -770,7 +770,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 						if ( ! $term ) {
 							// term doesn't exist, so check that the user is allowed to create new terms
-							if( ! current_user_can( $post_type_taxonomies[$taxonomy]->cap->edit_terms ) )
+							if ( ! current_user_can( $post_type_taxonomies[$taxonomy]->cap->edit_terms ) )
 								return new IXR_Error( 401, __( 'Sorry, you are not allowed to add a term to one of the given taxonomies.' ) );
 
 							// create the new term
@@ -796,7 +796,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			unset( $post_data['tax_input'] );
 		}
 
-		if( isset( $post_data['post_format'] ) ) {
+		if ( isset( $post_data['post_format'] ) ) {
 			$format = set_post_format( $post_ID, $post_data['post_format'] );
 
 			if ( is_wp_error( $format ) )
@@ -908,7 +908,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
 
 		$post_type = get_post_type_object( $post['post_type'] );
-		if( ! current_user_can( $post_type->cap->delete_post, $post_id ) )
+		if ( ! current_user_can( $post_type->cap->delete_post, $post_id ) )
 			return new IXR_Error( 401, __( 'Sorry, you are not allowed to delete this post.' ) );
 
 		$result = wp_delete_post( $post_id );
