@@ -1834,7 +1834,7 @@ function get_shortcut_link() {
  * @uses get_home_url()
  *
  * @param  string $path   (optional) Path relative to the home url.
- * @param  string $scheme (optional) Scheme to give the home url context. Currently 'http', 'https'.
+ * @param  string $scheme (optional) Scheme to give the home url context. Currently 'http', 'https', or 'relative'.
  * @return string Home url link with optional path appended.
 */
 function home_url( $path = '', $scheme = null ) {
@@ -1853,13 +1853,13 @@ function home_url( $path = '', $scheme = null ) {
  *
  * @param  int $blog_id   (optional) Blog ID. Defaults to current blog.
  * @param  string $path   (optional) Path relative to the home url.
- * @param  string $scheme (optional) Scheme to give the home url context. Currently 'http', 'https'.
+ * @param  string $scheme (optional) Scheme to give the home url context. Currently 'http', 'https', or 'relative'.
  * @return string Home url link with optional path appended.
 */
 function get_home_url( $blog_id = null, $path = '', $scheme = null ) {
 	$orig_scheme = $scheme;
 
-	if ( !in_array( $scheme, array( 'http', 'https' ) ) )
+	if ( !in_array( $scheme, array( 'http', 'https', 'relative' ) ) )
 		$scheme = is_ssl() && !is_admin() ? 'https' : 'http';
 
 	if ( empty( $blog_id ) || !is_multisite() )
@@ -1867,7 +1867,9 @@ function get_home_url( $blog_id = null, $path = '', $scheme = null ) {
 	else
 		$url = get_blog_option( $blog_id, 'home' );
 
-	if ( 'http' != $scheme )
+	if ( 'relative' == $scheme )
+		$url = preg_replace( '#^.+://[^/]*#', '', $url ); 
+	elseif ( 'http' != $scheme )
 		$url = str_replace( 'http://', "$scheme://", $url );
 
 	if ( !empty( $path ) && is_string( $path ) && strpos( $path, '..' ) === false )
@@ -1889,7 +1891,7 @@ function get_home_url( $blog_id = null, $path = '', $scheme = null ) {
  * @uses get_site_url()
  *
  * @param string $path Optional. Path relative to the site url.
- * @param string $scheme Optional. Scheme to give the site url context. Currently 'http', 'https', 'login', 'login_post', or 'admin'.
+ * @param string $scheme Optional. Scheme to give the site url context. Currently 'http', 'https', 'login', 'login_post', 'admin', or 'relative'.
  * @return string Site url link with optional path appended.
 */
 function site_url( $path = '', $scheme = null ) {
@@ -1908,13 +1910,13 @@ function site_url( $path = '', $scheme = null ) {
  *
  * @param int $blog_id (optional) Blog ID. Defaults to current blog.
  * @param string $path Optional. Path relative to the site url.
- * @param string $scheme Optional. Scheme to give the site url context. Currently 'http', 'https', 'login', 'login_post', or 'admin'.
+ * @param string $scheme Optional. Scheme to give the site url context. Currently 'http', 'https', 'login', 'login_post', 'admin', or 'relative'.
  * @return string Site url link with optional path appended.
 */
 function get_site_url( $blog_id = null, $path = '', $scheme = null ) {
 	// should the list of allowed schemes be maintained elsewhere?
 	$orig_scheme = $scheme;
-	if ( !in_array( $scheme, array( 'http', 'https' ) ) ) {
+	if ( !in_array( $scheme, array( 'http', 'https', 'relative' ) ) ) {
 		if ( ( 'login_post' == $scheme || 'rpc' == $scheme ) && ( force_ssl_login() || force_ssl_admin() ) )
 			$scheme = 'https';
 		elseif ( ( 'login' == $scheme ) && force_ssl_admin() )
@@ -1930,7 +1932,9 @@ function get_site_url( $blog_id = null, $path = '', $scheme = null ) {
 	else
 		$url = get_blog_option( $blog_id, 'siteurl' );
 
-	if ( 'http' != $scheme )
+	if ( 'relative' == $scheme )
+		$url = preg_replace( '#^.+://[^/]*#', '', $url ); 
+	elseif ( 'http' != $scheme )
 		$url = str_replace( 'http://', "{$scheme}://", $url );
 
 	if ( !empty( $path ) && is_string( $path ) && strpos( $path, '..' ) === false )
@@ -2061,7 +2065,7 @@ function plugins_url($path = '', $plugin = '') {
  * @since 3.0.0
  *
  * @param string $path Optional. Path relative to the site url.
- * @param string $scheme Optional. Scheme to give the site url context. Currently 'http', 'https', 'login', 'login_post', or 'admin'.
+ * @param string $scheme Optional. Scheme to give the site url context. Currently 'http', 'https', 'login', 'login_post', 'admin', or 'relative'.
  * @return string Site url link with optional path appended.
 */
 function network_site_url( $path = '', $scheme = null ) {
@@ -2071,7 +2075,7 @@ function network_site_url( $path = '', $scheme = null ) {
 		return site_url($path, $scheme);
 
 	$orig_scheme = $scheme;
-	if ( !in_array($scheme, array('http', 'https')) ) {
+	if ( !in_array( $scheme, array( 'http', 'https', 'relative' ) ) ) {
 		if ( ( 'login_post' == $scheme || 'rpc' == $scheme ) && ( force_ssl_login() || force_ssl_admin() ) )
 			$scheme = 'https';
 		elseif ( ('login' == $scheme) && ( force_ssl_admin() ) )
@@ -2082,7 +2086,10 @@ function network_site_url( $path = '', $scheme = null ) {
 			$scheme = ( is_ssl() ? 'https' : 'http' );
 	}
 
-	$url = $scheme . '://' . $current_site->domain . $current_site->path;
+	if ( 'relative' == $scheme )
+		$url = $current_site->path;
+	else
+		$url = $scheme . '://' . $current_site->domain . $current_site->path;
 
 	if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
 		$url .= ltrim($path, '/');
@@ -2101,7 +2108,7 @@ function network_site_url( $path = '', $scheme = null ) {
  * @since 3.0.0
  *
  * @param  string $path   (optional) Path relative to the home url.
- * @param  string $scheme (optional) Scheme to give the home url context. Currently 'http', 'https'.
+ * @param  string $scheme (optional) Scheme to give the home url context. Currently 'http', 'https', or 'relative'.
  * @return string Home url link with optional path appended.
 */
 function network_home_url( $path = '', $scheme = null ) {
@@ -2112,10 +2119,13 @@ function network_home_url( $path = '', $scheme = null ) {
 
 	$orig_scheme = $scheme;
 
-	if ( !in_array($scheme, array('http', 'https')) )
+	if ( !in_array( $scheme, array( 'http', 'https', 'relative' ) ) )
 		$scheme = is_ssl() && !is_admin() ? 'https' : 'http';
 
-	$url = $scheme . '://' . $current_site->domain . $current_site->path;
+	if ( 'relative' == $scheme )
+		$url = $current_site->path;
+	else
+		$url = $scheme . '://' . $current_site->domain . $current_site->path;
 
 	if ( !empty( $path ) && is_string( $path ) && strpos( $path, '..' ) === false )
 		$url .= ltrim( $path, '/' );
