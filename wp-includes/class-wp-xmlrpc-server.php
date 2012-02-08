@@ -3392,10 +3392,14 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ($postdata['post_date'] != '') {
 			$post_date = mysql2date('Ymd\TH:i:s', $postdata['post_date'], false);
 			$post_date_gmt = mysql2date('Ymd\TH:i:s', $postdata['post_date_gmt'], false);
+			$post_modified = mysql2date('Ymd\TH:i:s', $postdata['post_modified'], false);
+			$post_modified_gmt = mysql2date('Ymd\TH:i:s', $postdata['post_modified_gmt'], false);
 
 			// For drafts use the GMT version of the post date
-			if ( $postdata['post_status'] == 'draft' )
+			if ( $postdata['post_status'] == 'draft' ) {
 				$post_date_gmt = get_gmt_from_date( mysql2date( 'Y-m-d H:i:s', $postdata['post_date'] ), 'Ymd\TH:i:s' );
+				$post_modified_gmt = get_gmt_from_date( mysql2date( 'Y-m-d H:i:s', $postdata['post_modified'] ), 'Ymd\TH:i:s' );
+			}
 
 			$categories = array();
 			$catids = wp_get_post_categories($post_ID);
@@ -3471,7 +3475,9 @@ class wp_xmlrpc_server extends IXR_Server {
 				'post_status' => $postdata['post_status'],
 				'custom_fields' => $this->get_custom_fields($post_ID),
 				'wp_post_format' => $post_format,
-				'sticky' => $sticky
+				'sticky' => $sticky,
+				'date_modified' => new IXR_Date( $post_modified ),
+				'date_modified_gmt' => new IXR_Date( $post_modified_gmt )
 			);
 
 			if ( !empty($enclosure) ) $resp['enclosure'] = $enclosure;
@@ -3518,10 +3524,14 @@ class wp_xmlrpc_server extends IXR_Server {
 
 			$post_date = mysql2date('Ymd\TH:i:s', $entry['post_date'], false);
 			$post_date_gmt = mysql2date('Ymd\TH:i:s', $entry['post_date_gmt'], false);
+			$post_modified = mysql2date('Ymd\TH:i:s', $entry['post_modified'], false);
+			$post_modified_gmt = mysql2date('Ymd\TH:i:s', $entry['post_modified_gmt'], false);
 
 			// For drafts use the GMT version of the date
-			if ( $entry['post_status'] == 'draft' )
+			if ( $entry['post_status'] == 'draft' ) {
 				$post_date_gmt = get_gmt_from_date( mysql2date( 'Y-m-d H:i:s', $entry['post_date'] ), 'Ymd\TH:i:s' );
+				$post_modified_gmt = get_gmt_from_date( mysql2date( 'Y-m-d H:i:s', $entry['post_modified'] ), 'Ymd\TH:i:s' );
+			}
 
 			$categories = array();
 			$catids = wp_get_post_categories($entry['ID']);
@@ -3580,7 +3590,9 @@ class wp_xmlrpc_server extends IXR_Server {
 				'date_created_gmt' => new IXR_Date($post_date_gmt),
 				'post_status' => $entry['post_status'],
 				'custom_fields' => $this->get_custom_fields($entry['ID']),
-				'wp_post_format' => $post_format
+				'wp_post_format' => $post_format,
+				'date_modified' => new IXR_Date( $post_modified ),
+				'date_modified_gmt' => new IXR_Date( $post_modified_gmt )
 			);
 
 		}
