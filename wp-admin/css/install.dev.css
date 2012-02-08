@@ -239,7 +239,7 @@ body.rtl {
 }
 
 .rtl ul,
-.rtl  ol {
+.rtl ol {
 	padding: 5px 22px 5px 5px;
 }
 
@@ -259,7 +259,7 @@ body.rtl {
 .rtl #uname,
 .rtl #pwd,
 .rtl #dbhost,
-.rtl prefix,
+.rtl #prefix,
 .rtl #user_login,
 .rtl #admin_email,
 .rtl #pass1,
