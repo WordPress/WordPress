@@ -12329,7 +12329,7 @@ class SimplePie_IRI
 		}
 		elseif ($host[0] === '[' && substr($host, -1) === ']')
 		{
-			if (Net_IPv6::checkIPv6(substr($host, 1, -1)))
+			if (SimplePie_Net_IPv6::checkIPv6(substr($host, 1, -1)))
 			{
 				$this->host = $host;
 				$this->valid[__FUNCTION__] = true;
