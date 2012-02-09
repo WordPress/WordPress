@@ -252,6 +252,8 @@ function refresh_blog_details( $blog_id ) {
 	wp_cache_delete( md5( $details->domain . $details->path )  , 'blog-lookup' );
 	wp_cache_delete( 'current_blog_' . $details->domain, 'site-options' );
 	wp_cache_delete( 'current_blog_' . $details->domain . $details->path, 'site-options' );
+
+	do_action( 'refresh_blog_details', $blog_id );
 }
 
 /**
