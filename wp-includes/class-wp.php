@@ -474,19 +474,36 @@ class WP {
 	function handle_404() {
 		global $wp_query;
 
-		if ( !is_admin() && ( 0 == count( $wp_query->posts ) ) && !is_404() && !is_robots() && !is_search() && !is_home() ) {
+		// If we've already issued a 404, bail.
+		if ( is_404() )
+			return;
+
+		// Never 404 for the admin, robots, or if we found posts.
+		if ( is_admin() || is_robots() || $wp_query->posts ) {
+			status_header( 200 );
+			return;
+		}
+
+		// We will 404 for paged queries, as no posts were found.
+		if ( ! is_paged() ) {
+
 			// Don't 404 for these queries if they matched an object.
-			if ( ( is_tag() || is_category() || is_tax() || is_author() || is_post_type_archive() ) && $wp_query->get_queried_object() && !is_paged() ) {
-				if ( !is_404() )
-					status_header( 200 );
+			if ( ( is_tag() || is_category() || is_tax() || is_author() || is_post_type_archive() ) && $wp_query->get_queried_object() ) {
+				status_header( 200 );
 				return;
 			}
-			$wp_query->set_404();
-			status_header( 404 );
-			nocache_headers();
-		} elseif ( !is_404() ) {
-			status_header( 200 );
+
+			// Don't 404 for these queries either.
+			if ( is_home() || is_search() ) {
+				status_header( 200 );
+				return;
+			}
 		}
+
+		// Guess it's time to 404.
+		$wp_query->set_404();
+		status_header( 404 );
+		nocache_headers();
 	}
 
 	/**
