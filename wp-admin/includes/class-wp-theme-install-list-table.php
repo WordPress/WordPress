@@ -9,6 +9,12 @@
  */
 class WP_Theme_Install_List_Table extends WP_List_Table {
 
+	function __construct() {
+		parent::__construct( array(
+			'ajax' => true,
+		) );
+	}
+
 	function ajax_user_can() {
 		return current_user_can('install_themes');
 	}
@@ -128,7 +134,7 @@ class WP_Theme_Install_List_Table extends WP_List_Table {
 
 	function display() {
 
-		// wp_nonce_field( "fetch-list-" . get_class( $this ), '_ajax_fetch_list_nonce' );
+		wp_nonce_field( "fetch-list-" . get_class( $this ), '_ajax_fetch_list_nonce' );
 ?>
 		<div class="tablenav top themes">
 			<div class="alignleft actions">

@@ -11,6 +11,12 @@ class WP_Themes_List_Table extends WP_List_Table {
 
 	var $search = array();
 	var $features = array();
+	
+	function __construct() {
+		parent::__construct( array(
+			'ajax' => true,
+		) );
+	}
 
 	function ajax_user_can() {
 		// Do not check edit_theme_options here. AJAX calls for available themes require switch_themes.
@@ -47,7 +53,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 		unset( $themes[$ct->name] );
 		uksort( $themes, "strnatcasecmp" );
 
-		$per_page = 24;
+		$per_page = 999;
 		$page = $this->get_pagenum();
 
 		$start = ( $page - 1 ) * $per_page;
@@ -101,7 +107,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 	}
 
 	function display() {
-		// wp_nonce_field( "fetch-list-" . get_class( $this ), '_ajax_fetch_list_nonce' );
+		wp_nonce_field( "fetch-list-" . get_class( $this ), '_ajax_fetch_list_nonce' );
 ?>
 		<?php $this->tablenav( 'top' ); ?>
 
