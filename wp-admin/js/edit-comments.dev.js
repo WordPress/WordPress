@@ -1,5 +1,7 @@
-var theList, theExtraList, toggleWithKeyboard = false, getCount, updateCount, updatePending, dashboardTotals;
+var theList, theExtraList, toggleWithKeyboard = false;
+
 (function($) {
+var getCount, updateCount, updatePending, dashboardTotals;
 
 setCommentsList = function() {
 	var totalInput, perPageInput, pageInput, lastConfidentTime = 0, dimAfter, delBefore, updateTotalCount, delAfter, refillTheExtraList;
@@ -27,25 +29,8 @@ setCommentsList = function() {
 			c.find('div.comment_status').html('1');
 		}
 
-		$('span.pending-count').each( function() {
-			var a = $(this), n, dif;
-
-			n = a.html().replace(/[^0-9]+/g, '');
-			n = parseInt(n, 10);
-
-			if ( isNaN(n) )
-				return;
-
-			dif = $('#' + settings.element).is('.' + settings.dimClass) ? 1 : -1;
-			n = n + dif;
-
-			if ( n < 0 )
-				n = 0;
-
-			a.closest('.awaiting-mod')[ 0 == n ? 'addClass' : 'removeClass' ]('count-0');
-			updateCount(a, n);
-			dashboardTotals();
-		});
+		var diff = $('#' + settings.element).is('.' + settings.dimClass) ? 1 : -1;
+		updatePending( diff );
 	};
 
 	// Send current total, page, per_page and url
@@ -129,7 +114,6 @@ setCommentsList = function() {
 		apprN = totalN - getCount( $('span.pending-count', dash) ) - getCount( $('span.spam-count', dash) );
 		updateCount(total, totalN);
 		updateCount(appr, apprN);
-
 	};
 
 	getCount = function(el) {
@@ -154,17 +138,16 @@ setCommentsList = function() {
 		el.html(n);
 	};
 
-	updatePending = function(n) {
-		$('span.pending-count').each( function() {
-			var a = $(this);
-
-			if ( n < 0 )
+	updatePending = function( diff ) {
+		$('span.pending-count').each(function() {
+			var a = $(this), n = getCount(a) + diff;
+			if ( n < 1 )
 				n = 0;
-
 			a.closest('.awaiting-mod')[ 0 == n ? 'addClass' : 'removeClass' ]('count-0');
-			updateCount(a, n);
-			dashboardTotals();
+			updateCount( a, n );
 		});
+
+		dashboardTotals();
 	};
 
 	// In admin-ajax.php, we send back the unix time stamp instead of 1 on success
@@ -193,12 +176,13 @@ setCommentsList = function() {
 		else
 			spam = getUpdate('spam');
 
-		pending = getCount( $('span.pending-count').eq(0) );
-
-		if ( $(settings.target).parent().is('span.unapprove') || ( ( untrash || unspam ) && unapproved ) ) { // we "deleted" an approved comment from the approved list by clicking "Unapprove"
-			pending = pending + 1;
-		} else if ( unapproved ) { // we deleted a formerly unapproved comment
-			pending = pending - 1;
+		if ( $(settings.target).parent().is('span.unapprove') || ( ( untrash || unspam ) && unapproved ) ) {
+			// a comment was 'deleted' from another list (e.g. approved, spam, trash) and moved to pending,
+			// or a trash/spam of a pending comment was undone
+			pending = 1;
+		} else if ( unapproved ) {
+			// a pending comment was trashed/spammed/approved
+			pending = -1;
 		}
 
 		updatePending(pending);
@@ -504,7 +488,7 @@ commentReply = {
 
 		if ( r.supplemental.parent_approved ) {
 			pid = $('#comment-' + r.supplemental.parent_approved);
-			updatePending( getCount( $('span.pending-count').eq(0) ) - 1 );
+			updatePending( -1 );
 
 			if ( this.comments_listing == 'moderated' ) {
 				pid.animate( { 'backgroundColor':'#CCEEBB' }, 400, function(){
