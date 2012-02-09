@@ -66,7 +66,7 @@ var wpThemes;
 		noMoreResults: false,
 		
 		init : function() {
-			$( '.pagination-links' ).hide();
+			$('.pagination-links').hide();
 
 			inputs.nonce = $('#_ajax_fetch_list_nonce').val();
 	
@@ -77,7 +77,7 @@ var wpThemes;
 			// Handle Inputs from Query
 			inputs.search = inputs.queryArray['s'];
 			inputs.features = inputs.queryArray['features'];
-			inputs.startPage = parseInt( inputs.queryArray['paged'] );
+			inputs.startPage = parseInt( inputs.queryArray['paged'] );	
 			inputs.tab = inputs.queryArray['tab'];
 			inputs.type = inputs.queryArray['type'];
 
@@ -86,17 +86,16 @@ var wpThemes;
 			else
 				inputs.startPage++;
 
-			// FIXME: Debug Features Array
-			// console.log("Features:" + inputs.features);
-
-			// Link to output and start polling
+			// Cache jQuery objects
 			inputs.outList = $('#availablethemes');
+			inputs.waiting = $('div.tablenav.bottom').children( 'img.ajax-loading' );
+			inputs.window = $(window);
 
 			// Generate Query
 			wpThemes.query = new Query();
 
 			// Start Polling
-			$(window).scroll( function(){ wpThemes.maybeLoad(); });
+			inputs.window.scroll( function(){ wpThemes.maybeLoad(); } );
 		},
 		delayedCallback : function( func, delay ) {
 			var timeoutTriggered, funcTriggered, funcArgs, funcContext;
@@ -137,21 +136,14 @@ var wpThemes;
 				 ( results.rows.indexOf( "no-items" ) != -1 ) ) {
 				this.noMoreResults = true;
 			} else {
-				inputs.outList.append(results.rows);
+				inputs.outList.append( results.rows );
 			}
 		},
 		maybeLoad: function() {
 			var self = this,
 				el = $(document),
-				bottom = el.scrollTop() + $(window).innerHeight();
-
-			/* // FIXME: Debug scroll trigger.
-			console.log('scrollTop:'+ el.scrollTop() + 
-				'; scrollBottom:' + bottom +
-				'; height:' + el.height() +
-				'; checkVal:' + (el.height() - wpThemes.outListBottomThreshold));
-			*/
-
+				bottom = el.scrollTop() + inputs.window.innerHeight();
+				
 			if ( this.noMoreResults ||
 				 !this.query.ready() || 
 				 ( bottom < inputs.outList.height() - wpThemes.outListBottomThreshold ) )
@@ -159,18 +151,15 @@ var wpThemes;
 
 			setTimeout( function() {
 				var newTop = el.scrollTop(),
-					newBottom = newTop + $(window).innerHeight();
+					newBottom = newTop + inputs.window.innerHeight();
 
 				if ( !self.query.ready() ||
 					 ( newBottom < inputs.outList.height() - wpThemes.outListBottomThreshold ) )
 					return;
 
-				/* FIXME: Create/Add Spinner.
-				self.waiting.show(); // Show Spinner
-				el.scrollTop( newTop + self.waiting.outerHeight() ); // Scroll down?
-				self.ajax( function() { self.waiting.hide(); }); // Hide Spinner
-				*/
-				self.ajax();
+				inputs.waiting.css( 'visibility', 'visible' ); // Show Spinner
+				self.ajax( function() { inputs.waiting.css( 'visibility', 'hidden' ) } ); // Hide Spinner
+				
 			}, wpThemes.timeToTriggerQuery );
 		},
 		parseQuery: function( query ) {
@@ -213,13 +202,13 @@ var wpThemes;
 			var self = this,
 			query = {
 				action: 'fetch-list',
+				tab: inputs.tab,
 				paged: this.page,
 				s: inputs.search,
+				type: inputs.type,
+				_ajax_fetch_list_nonce: inputs.nonce,
 				'features[]': inputs.features,
-				'list_args': list_args,
-				'tab': inputs.tab,
-				'type': inputs.type,
-				'_ajax_fetch_list_nonce': inputs.nonce
+				'list_args': list_args
 			};
 
 			this.querying = true;
