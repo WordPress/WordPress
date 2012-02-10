@@ -1,11 +1,10 @@
 # Copyright (C) 2012 the WordPress team
 # This file is distributed under the GNU General Public License.
-# This file is distributed under the GNU General Public License.
 msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Eleven 1.2\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentyeleven\n"
-"POT-Creation-Date: 2012-01-27 14:48:17+00:00\n"
+"POT-Creation-Date: 2012-02-10 16:30:53+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,209 +12,62 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: content-quote.php:14 showcase.php:113 showcase.php:192 content.php:15
-#: content.php:19 content-image.php:15 content-gallery.php:16
-#: content-gallery.php:48 content-aside.php:16 content-status.php:15
-#: inc/widgets.php:91 content-link.php:16 content-featured.php:14
-msgid "Permalink to %s"
+#: 404.php:17
+msgid "This is somewhat embarrassing, isn&rsquo;t it?"
 msgstr ""
 
-#: content-quote.php:15
-msgid "Quote"
+#: 404.php:21
+msgid ""
+"It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps "
+"searching, or one of the links below, can help."
 msgstr ""
 
-#: content-quote.php:24 content.php:30 content-image.php:21
-#: content-image.php:64 content-aside.php:22 content-status.php:21
-#: content-link.php:22
-msgid "Reply"
+#: 404.php:28
+msgid "Most Used Categories"
 msgstr ""
 
-#: content-quote.php:24 content.php:30 content-image.php:21
-#: content-aside.php:22 content-status.php:21 content-link.php:22
-msgctxt "comments number"
-msgid "1"
+#. translators: %1$s: smilie
+#: 404.php:36
+msgid "Try looking in the monthly archives. %1$s"
 msgstr ""
 
-#: content-quote.php:24 content.php:30 content-image.php:21
-#: content-aside.php:22 content-status.php:21 content-link.php:22
-msgctxt "comments number"
-msgid "%"
+#: archive.php:25
+msgid "Daily Archives: %s"
 msgstr ""
 
-#: content-quote.php:35 content.php:41 content-image.php:27
-#: content-gallery.php:32 content-aside.php:33 functions.php:327
-#: content-status.php:34 content-link.php:33
-msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
+#: archive.php:27
+msgid "Monthly Archives: %s"
 msgstr ""
 
-#: content-quote.php:36 content.php:42 content-image.php:28
-#: content-single.php:24 content-intro.php:18 content-gallery.php:54
-#: content-aside.php:34 image.php:89 content-status.php:35 content-page.php:18
-#: content-link.php:34 content-featured.php:23
-msgid "Pages:"
+#: archive.php:29
+msgid "Yearly Archives: %s"
 msgstr ""
 
-#. translators: used between list items, there is a space after the comma
-#: content-quote.php:44 content-quote.php:54 content.php:51 content.php:61
-#: content-image.php:47 content-image.php:56 content-single.php:30
-#: content-single.php:33 content-gallery.php:62 content-gallery.php:72
-#: content-featured.php:29 content-featured.php:38
-msgid ", "
+#: archive.php:31
+msgid "Blog Archives"
 msgstr ""
 
-#: content-quote.php:48 content.php:55 content-image.php:51
-#: content-gallery.php:66
-msgid "<span class=\"%1$s\">Posted in</span> %2$s"
-msgstr ""
-
-#: content-quote.php:60 content.php:67 content-image.php:59
-#: content-gallery.php:78
-msgid "<span class=\"%1$s\">Tagged</span> %2$s"
-msgstr ""
-
-#: content-quote.php:69 showcase.php:194 content.php:77 content-aside.php:42
-#: content-status.php:43 content-link.php:42
-msgid "Leave a reply"
-msgstr ""
-
-#: content-quote.php:69 showcase.php:194 content.php:77 content-gallery.php:87
-#: content-aside.php:42 content-status.php:43 content-link.php:42
-msgid "<b>1</b> Reply"
-msgstr ""
-
-#: content-quote.php:69 showcase.php:194 content.php:77 content-gallery.php:87
-#: content-aside.php:42 content-status.php:43 content-link.php:42
-msgid "<b>%</b> Replies"
-msgstr ""
-
-#: content-quote.php:72 content.php:80 content-image.php:68
-#: content-single.php:52 content-intro.php:19 content-gallery.php:90
-#: content-aside.php:44 image.php:40 functions.php:503 functions.php:531
-#: content-status.php:45 content-page.php:21 content-link.php:44
-#: content-featured.php:45
-msgid "Edit"
-msgstr ""
-
-#: showcase.php:70
-msgid "Featured Post"
-msgstr ""
-
-#: showcase.php:143
-msgid "Featuring: %s"
-msgstr ""
-
-#: showcase.php:153
-msgid "Recent Posts"
-msgstr ""
-
-#: index.php:37 category.php:50 tag.php:50 author.php:74 search.php:42
-#: archive.php:57
+#: archive.php:57 author.php:74 category.php:50 index.php:37 search.php:42
+#: tag.php:50
 msgid "Nothing Found"
 msgstr ""
 
-#: index.php:41 category.php:54 tag.php:54 author.php:78 archive.php:61
+#: archive.php:61 author.php:78 category.php:54 index.php:41 tag.php:54
 msgid ""
 "Apologies, but no results were found for the requested archive. Perhaps "
 "searching will help find a related post."
 msgstr ""
 
-#: content.php:16
-msgid "Featured"
+#: author.php:28
+msgid "Author Archives: %s"
 msgstr ""
 
-#. #-#-#-#-#  twentyeleven.pot (Twenty Eleven 1.2)  #-#-#-#-#
-#. Author URI of the plugin/theme
-#: footer.php:26
-msgid "http://wordpress.org/"
-msgstr ""
-
-#: footer.php:26
-msgid "Semantic Personal Publishing Platform"
-msgstr ""
-
-#: footer.php:26
-msgid "Proudly powered by %s"
+#: author.php:49 content-single.php:60
+msgid "About %s"
 msgstr ""
 
 #: category.php:19
 msgid "Category Archives: %s"
-msgstr ""
-
-#: content-image.php:16
-msgid "Image"
-msgstr ""
-
-#: content-image.php:34
-msgid ""
-"<a href=\"%1$s\" rel=\"bookmark\"><time class=\"entry-date\" datetime=\"%2$s"
-"\" pubdate>%3$s</time></a><span class=\"by-author\"> <span class=\"sep\"> by "
-"</span> <span class=\"author vcard\"><a class=\"url fn n\" href=\"%4$s\" "
-"title=\"%5$s\" rel=\"author\">%6$s</a></span></span>"
-msgstr ""
-
-#: content-image.php:39 functions.php:568
-msgid "View all posts by %s"
-msgstr ""
-
-#: content-image.php:64
-msgid "<strong>1</strong> Reply"
-msgstr ""
-
-#: content-image.php:64
-msgid "<strong>%</strong> Replies"
-msgstr ""
-
-#: sidebar.php:19
-msgid "Archives"
-msgstr ""
-
-#: sidebar.php:26
-msgid "Meta"
-msgstr ""
-
-#: content-single.php:35
-msgid ""
-"This entry was posted in %1$s and tagged %2$s by <a href=\"%6$s\">%5$s</a>. "
-"Bookmark the <a href=\"%3$s\" title=\"Permalink to %4$s\" rel=\"bookmark"
-"\">permalink</a>."
-msgstr ""
-
-#: content-single.php:37
-msgid ""
-"This entry was posted in %1$s by <a href=\"%6$s\">%5$s</a>. Bookmark the <a "
-"href=\"%3$s\" title=\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>."
-msgstr ""
-
-#: content-single.php:39
-msgid ""
-"This entry was posted by <a href=\"%6$s\">%5$s</a>. Bookmark the <a href=\"%3"
-"$s\" title=\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>."
-msgstr ""
-
-#: content-single.php:60 author.php:49
-msgid "About %s"
-msgstr ""
-
-#: content-single.php:64
-msgid "View all posts by %s <span class=\"meta-nav\">&rarr;</span>"
-msgstr ""
-
-#: tag.php:19
-msgid "Tag Archives: %s"
-msgstr ""
-
-#: content-gallery.php:17
-msgid "Gallery"
-msgstr ""
-
-#: content-gallery.php:47
-msgid "This gallery contains <a %1$s>%2$s photo</a>."
-msgid_plural "This gallery contains <a %1$s>%2$s photos</a>."
-msgstr[0] ""
-msgstr[1] ""
-
-#: content-gallery.php:87
-msgid "Leave a Reply"
 msgstr ""
 
 #: comments.php:17
@@ -245,47 +97,190 @@ msgstr ""
 msgid "Comments are closed."
 msgstr ""
 
+#: content-aside.php:16 content-featured.php:14 content-gallery.php:16
+#: content-gallery.php:48 content-image.php:15 content-link.php:16
+#: content-quote.php:14 content-status.php:15 content.php:15 content.php:19
+#: inc/widgets.php:91 showcase.php:113 showcase.php:192
+msgid "Permalink to %s"
+msgstr ""
+
 #: content-aside.php:17
 msgid "Aside"
 msgstr ""
 
-#: 404.php:17
-msgid "This is somewhat embarrassing, isn&rsquo;t it?"
+#: content-aside.php:22 content-image.php:21 content-image.php:64
+#: content-link.php:22 content-quote.php:24 content-status.php:21
+#: content.php:30
+msgid "Reply"
 msgstr ""
 
-#: 404.php:21
+#: content-aside.php:22 content-image.php:21 content-link.php:22
+#: content-quote.php:24 content-status.php:21 content.php:30
+msgctxt "comments number"
+msgid "1"
+msgstr ""
+
+#: content-aside.php:22 content-image.php:21 content-link.php:22
+#: content-quote.php:24 content-status.php:21 content.php:30
+msgctxt "comments number"
+msgid "%"
+msgstr ""
+
+#: content-aside.php:33 content-gallery.php:32 content-image.php:27
+#: content-link.php:33 content-quote.php:35 content-status.php:34
+#: content.php:41 functions.php:327
+msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
+msgstr ""
+
+#: content-aside.php:34 content-featured.php:23 content-gallery.php:54
+#: content-image.php:28 content-intro.php:18 content-link.php:34
+#: content-page.php:18 content-quote.php:36 content-single.php:24
+#: content-status.php:35 content.php:42 image.php:89
+msgid "Pages:"
+msgstr ""
+
+#: content-aside.php:42 content-link.php:42 content-quote.php:69
+#: content-status.php:43 content.php:77 showcase.php:194
+msgid "Leave a reply"
+msgstr ""
+
+#: content-aside.php:42 content-gallery.php:87 content-link.php:42
+#: content-quote.php:69 content-status.php:43 content.php:77 showcase.php:194
+msgid "<b>1</b> Reply"
+msgstr ""
+
+#: content-aside.php:42 content-gallery.php:87 content-link.php:42
+#: content-quote.php:69 content-status.php:43 content.php:77 showcase.php:194
+msgid "<b>%</b> Replies"
+msgstr ""
+
+#: content-aside.php:44 content-featured.php:45 content-gallery.php:90
+#: content-image.php:68 content-intro.php:19 content-link.php:44
+#: content-page.php:21 content-quote.php:72 content-single.php:52
+#: content-status.php:45 content.php:80 functions.php:503 functions.php:531
+#: image.php:40
+msgid "Edit"
+msgstr ""
+
+#. translators: used between list items, there is a space after the comma
+#: content-featured.php:29 content-featured.php:38 content-gallery.php:62
+#: content-gallery.php:72 content-image.php:47 content-image.php:56
+#: content-quote.php:44 content-quote.php:54 content-single.php:30
+#: content-single.php:33 content.php:51 content.php:61
+msgid ", "
+msgstr ""
+
+#: content-featured.php:31
 msgid ""
-"It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps "
-"searching, or one of the links below, can help."
+"This entry was posted in %1$s and tagged %2$s. Bookmark the <a href=\"%3$s\" "
+"title=\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>."
 msgstr ""
 
-#: 404.php:28
-msgid "Most Used Categories"
-msgstr ""
-
-#. translators: %1$s: smilie
-#: 404.php:36
-msgid "Try looking in the monthly archives. %1$s"
-msgstr ""
-
-#: image.php:18
-msgid "Image navigation"
-msgstr ""
-
-#: image.php:19
-msgid "&larr; Previous"
-msgstr ""
-
-#: image.php:20
-msgid "Next &rarr;"
-msgstr ""
-
-#: image.php:30
+#: content-featured.php:33
 msgid ""
-"<span class=\"meta-prep meta-prep-entry-date\">Published </span> <span class="
-"\"entry-date\"><abbr class=\"published\" title=\"%1$s\">%2$s</abbr></span> "
-"at <a href=\"%3$s\" title=\"Link to full-size image\">%4$s &times; %5$s</a> "
-"in <a href=\"%6$s\" title=\"Return to %7$s\" rel=\"gallery\">%7$s</a>"
+"This entry was posted in %1$s. Bookmark the <a href=\"%3$s\" title="
+"\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>."
+msgstr ""
+
+#: content-gallery.php:17
+msgid "Gallery"
+msgstr ""
+
+#: content-gallery.php:47
+msgid "This gallery contains <a %1$s>%2$s photo</a>."
+msgid_plural "This gallery contains <a %1$s>%2$s photos</a>."
+msgstr[0] ""
+msgstr[1] ""
+
+#: content-gallery.php:66 content-image.php:51 content-quote.php:48
+#: content.php:55
+msgid "<span class=\"%1$s\">Posted in</span> %2$s"
+msgstr ""
+
+#: content-gallery.php:78 content-image.php:59 content-quote.php:60
+#: content.php:67
+msgid "<span class=\"%1$s\">Tagged</span> %2$s"
+msgstr ""
+
+#: content-gallery.php:87
+msgid "Leave a Reply"
+msgstr ""
+
+#: content-image.php:16
+msgid "Image"
+msgstr ""
+
+#: content-image.php:34
+msgid ""
+"<a href=\"%1$s\" rel=\"bookmark\"><time class=\"entry-date\" datetime=\"%2$s"
+"\" pubdate>%3$s</time></a><span class=\"by-author\"> <span class=\"sep\"> by "
+"</span> <span class=\"author vcard\"><a class=\"url fn n\" href=\"%4$s\" "
+"title=\"%5$s\" rel=\"author\">%6$s</a></span></span>"
+msgstr ""
+
+#: content-image.php:39 functions.php:568
+msgid "View all posts by %s"
+msgstr ""
+
+#: content-image.php:64
+msgid "<strong>1</strong> Reply"
+msgstr ""
+
+#: content-image.php:64
+msgid "<strong>%</strong> Replies"
+msgstr ""
+
+#: content-link.php:17
+msgid "Link"
+msgstr ""
+
+#: content-quote.php:15
+msgid "Quote"
+msgstr ""
+
+#: content-single.php:35
+msgid ""
+"This entry was posted in %1$s and tagged %2$s by <a href=\"%6$s\">%5$s</a>. "
+"Bookmark the <a href=\"%3$s\" title=\"Permalink to %4$s\" rel=\"bookmark"
+"\">permalink</a>."
+msgstr ""
+
+#: content-single.php:37
+msgid ""
+"This entry was posted in %1$s by <a href=\"%6$s\">%5$s</a>. Bookmark the <a "
+"href=\"%3$s\" title=\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>."
+msgstr ""
+
+#: content-single.php:39
+msgid ""
+"This entry was posted by <a href=\"%6$s\">%5$s</a>. Bookmark the <a href=\"%3"
+"$s\" title=\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>."
+msgstr ""
+
+#: content-single.php:64
+msgid "View all posts by %s <span class=\"meta-nav\">&rarr;</span>"
+msgstr ""
+
+#: content-status.php:16
+msgid "Status"
+msgstr ""
+
+#: content.php:16
+msgid "Featured"
+msgstr ""
+
+#. #-#-#-#-#  twentyeleven.pot (Twenty Eleven 1.2)  #-#-#-#-#
+#. Author URI of the plugin/theme
+#: footer.php:26
+msgid "http://wordpress.org/"
+msgstr ""
+
+#: footer.php:26
+msgid "Semantic Personal Publishing Platform"
+msgstr ""
+
+#: footer.php:26
+msgid "Proudly powered by %s"
 msgstr ""
 
 #: functions.php:101
@@ -419,12 +414,24 @@ msgstr ""
 msgid "Skip to secondary content"
 msgstr ""
 
-#: author.php:28
-msgid "Author Archives: %s"
+#: image.php:18
+msgid "Image navigation"
 msgstr ""
 
-#: content-status.php:16
-msgid "Status"
+#: image.php:19
+msgid "&larr; Previous"
+msgstr ""
+
+#: image.php:20
+msgid "Next &rarr;"
+msgstr ""
+
+#: image.php:30
+msgid ""
+"<span class=\"meta-prep meta-prep-entry-date\">Published </span> <span class="
+"\"entry-date\"><abbr class=\"published\" title=\"%1$s\">%2$s</abbr></span> "
+"at <a href=\"%3$s\" title=\"Link to full-size image\">%4$s &times; %5$s</a> "
+"in <a href=\"%6$s\" title=\"Return to %7$s\" rel=\"gallery\">%7$s</a>"
 msgstr ""
 
 #: inc/theme-options.php:80 inc/theme-options.php:81
@@ -574,36 +581,28 @@ msgid ""
 "different keywords."
 msgstr ""
 
-#: archive.php:25
-msgid "Daily Archives: %s"
+#: searchform.php:11 searchform.php:12 searchform.php:13
+msgid "Search"
 msgstr ""
 
-#: archive.php:27
-msgid "Monthly Archives: %s"
+#: showcase.php:70
+msgid "Featured Post"
 msgstr ""
 
-#: archive.php:29
-msgid "Yearly Archives: %s"
+#: showcase.php:143
+msgid "Featuring: %s"
 msgstr ""
 
-#: archive.php:31
-msgid "Blog Archives"
+#: showcase.php:153
+msgid "Recent Posts"
 msgstr ""
 
-#: content-link.php:17
-msgid "Link"
+#: sidebar.php:19
+msgid "Archives"
 msgstr ""
 
-#: content-featured.php:31
-msgid ""
-"This entry was posted in %1$s and tagged %2$s. Bookmark the <a href=\"%3$s\" "
-"title=\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>."
-msgstr ""
-
-#: content-featured.php:33
-msgid ""
-"This entry was posted in %1$s. Bookmark the <a href=\"%3$s\" title="
-"\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>."
+#: sidebar.php:26
+msgid "Meta"
 msgstr ""
 
 #: single.php:19
@@ -614,8 +613,8 @@ msgstr ""
 msgid "Next <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: searchform.php:11 searchform.php:12 searchform.php:13
-msgid "Search"
+#: tag.php:19
+msgid "Tag Archives: %s"
 msgstr ""
 
 #. Theme Name of the plugin/theme
