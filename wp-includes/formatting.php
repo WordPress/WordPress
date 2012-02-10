@@ -1532,9 +1532,11 @@ function make_clickable( $ret ) {
  * );
  * </code>
  *
+ * @since 3.4.0
+ * @access private
+ *
  * @param string $string The string to split
  * @param    int $goal   The desired chunk length.
- *
  * @return array Numeric array of chunks.
  */
 function _split_str_by_whitespace( $string, $goal ) {
