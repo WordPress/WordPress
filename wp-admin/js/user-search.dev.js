@@ -4,6 +4,6 @@ jQuery( function($) {
 	$( '#adduser-email, #newuser' ).autocomplete({
 		source:   ajaxurl + '?action=autocomplete-user' + id,
 		delay:    500,
-		minLength: 2,
+		minLength: 2
 	});
 });
