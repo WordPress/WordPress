@@ -1276,10 +1276,6 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		do_action('xmlrpc_call', 'wp.newPage');
 
-		// Make sure the user is allowed to add new pages.
-		if ( !current_user_can('publish_pages') )
-			return(new IXR_Error(401, __('Sorry, you cannot add new pages.')));
-
 		// Mark this as content for a page.
 		$args[3]["post_type"] = 'page';
 
