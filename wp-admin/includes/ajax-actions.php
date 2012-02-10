@@ -1571,13 +1571,13 @@ function wp_ajax_set_post_thumbnail() {
 
 	if ( $thumbnail_id == '-1' ) {
 		if ( delete_post_thumbnail( $post_ID ) )
-			wp_die( _wp_post_thumbnail_html() );
+			wp_die( _wp_post_thumbnail_html( null, $post_ID ) );
 		else
 			wp_die( 0 );
 	}
 
 	if ( set_post_thumbnail( $post_ID, $thumbnail_id ) )
-		wp_die( _wp_post_thumbnail_html( $thumbnail_id ) );
+		wp_die( _wp_post_thumbnail_html( $thumbnail_id, $post_ID ) );
 	wp_die( 0 );
 }
 

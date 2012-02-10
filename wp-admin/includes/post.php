@@ -1143,10 +1143,15 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
  * @since 2.9.0
  *
  * @param int $thumbnail_id ID of the attachment used for thumbnail
+ * @param int $post_id ID of the post associated with the thumbnail, defaults to global $post_ID
  * @return string html
  */
-function _wp_post_thumbnail_html( $thumbnail_id = null ) {
+function _wp_post_thumbnail_html( $thumbnail_id = null, $post_id = null ) {
 	global $content_width, $_wp_additional_image_sizes, $post_ID;
+
+	if ( empty( $post_id ) )
+		$post_id = $post_ID;
+
 	$set_thumbnail_link = '<p class="hide-if-no-js"><a title="' . esc_attr__( 'Set featured image' ) . '" href="' . esc_url( get_upload_iframe_src('image') ) . '" id="set-post-thumbnail" class="thickbox">%s</a></p>';
 	$content = sprintf($set_thumbnail_link, esc_html__( 'Set featured image' ));
 
@@ -1158,7 +1163,7 @@ function _wp_post_thumbnail_html( $thumbnail_id = null ) {
 		else
 			$thumbnail_html = wp_get_attachment_image( $thumbnail_id, 'post-thumbnail' );
 		if ( !empty( $thumbnail_html ) ) {
-			$ajax_nonce = wp_create_nonce( "set_post_thumbnail-$post_ID" );
+			$ajax_nonce = wp_create_nonce( "set_post_thumbnail-$post_id" );
 			$content = sprintf($set_thumbnail_link, $thumbnail_html);
 			$content .= '<p class="hide-if-no-js"><a href="#" id="remove-post-thumbnail" onclick="WPRemoveThumbnail(\'' . $ajax_nonce . '\');return false;">' . esc_html__( 'Remove featured image' ) . '</a></p>';
 		}
