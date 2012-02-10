@@ -1,14 +1,14 @@
-# Copyright (C) 2010 Twenty Twelve
-# This file is distributed under the same license as the Twenty Twelve package.
+# Copyright (C) 2012 the WordPress team
+# This file is distributed under the GNU General Public License.
 msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Twelve .5\n"
-"Report-Msgid-Bugs-To: http://wordpress.org/tag/twentytwelve\n"
-"POT-Creation-Date: 2012-02-03 18:36:09+00:00\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tags/twentytwelve\n"
+"POT-Creation-Date: 2012-02-10 16:30:53+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2012-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
@@ -22,45 +22,45 @@ msgid ""
 "searching, or one of the links below, can help."
 msgstr ""
 
-#: archive.php:20
+#: archive.php:25
 msgid "Daily Archives: %s"
 msgstr ""
 
-#: archive.php:22
+#: archive.php:27
 msgid "Monthly Archives: %s"
 msgstr ""
 
-#: archive.php:22
+#: archive.php:27
 msgctxt "monthly archives date format"
 msgid "F Y"
 msgstr ""
 
-#: archive.php:24
+#: archive.php:29
 msgid "Yearly Archives: %s"
 msgstr ""
 
-#: archive.php:24
+#: archive.php:29
 msgctxt "yearly archives date format"
 msgid "Y"
 msgstr ""
 
-#: archive.php:27
+#: archive.php:31
 msgid "Tag Archives: %s"
 msgstr ""
 
-#: archive.php:35
+#: archive.php:37
 msgid "Category Archives: %s"
 msgstr ""
 
-#: archive.php:42
+#: archive.php:43
 msgid "Blog Archives"
 msgstr ""
 
-#: archive.php:60 author.php:50 index.php:37 search.php:34
+#: archive.php:69 author.php:50 index.php:37 search.php:34
 msgid "Nothing Found"
 msgstr ""
 
-#: archive.php:64 author.php:54 index.php:41
+#: archive.php:73 author.php:54 index.php:41
 msgid ""
 "Apologies, but no results were found for the requested archive. Perhaps "
 "searching will help find a related post."
@@ -105,8 +105,8 @@ msgstr ""
 msgid "Pages:"
 msgstr ""
 
-#: content-page.php:21 content-single.php:52 content.php:74 functions.php:128
-#: functions.php:156 image.php:35
+#: content-page.php:21 content-single.php:52 content.php:74 functions.php:135
+#: functions.php:163 image.php:35
 msgid "Edit"
 msgstr ""
 
@@ -184,49 +184,49 @@ msgstr ""
 msgid "Proudly powered by %s"
 msgstr ""
 
-#: functions.php:64
+#: functions.php:63
 msgid "Primary Menu"
 msgstr ""
 
-#: functions.php:85
+#: functions.php:88
 msgid "Main Sidebar"
 msgstr ""
 
-#: functions.php:102
+#: functions.php:109
 msgid "Post navigation"
 msgstr ""
 
-#: functions.php:103
+#: functions.php:110
 msgid "<span class=\"meta-nav\">&larr;</span> Older posts"
 msgstr ""
 
-#: functions.php:104
+#: functions.php:111
 msgid "Newer posts <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: functions.php:128
+#: functions.php:135
 msgid "Pingback:"
 msgstr ""
 
 #. translators: 1: comment author, 2: date and time
-#: functions.php:145
+#: functions.php:152
 msgid "%1$s on %2$s <span class=\"says\">said:</span>"
 msgstr ""
 
 #. translators: 1: date, 2: time
-#: functions.php:151
+#: functions.php:158
 msgid "%1$s at %2$s"
 msgstr ""
 
-#: functions.php:160
+#: functions.php:167
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: functions.php:169
+#: functions.php:175
 msgid "Reply <span>&darr;</span>"
 msgstr ""
 
-#: functions.php:187
+#: functions.php:194
 msgid ""
 "<span class=\"sep\">Posted on </span><a href=\"%1$s\" title=\"%2$s\" rel="
 "\"bookmark\"><time class=\"entry-date\" datetime=\"%3$s\" pubdate>%4$s</"
@@ -235,19 +235,19 @@ msgid ""
 "rel=\"author\">%7$s</a></span></span>"
 msgstr ""
 
-#: functions.php:193
+#: functions.php:200
 msgid "View all posts by %s"
 msgstr ""
 
-#: header.php:39
+#: header.php:44
 msgid "Main menu"
 msgstr ""
 
-#: header.php:40
+#: header.php:45
 msgid "Skip to primary content"
 msgstr ""
 
-#: header.php:41
+#: header.php:46
 msgid "Skip to secondary content"
 msgstr ""
 
@@ -299,4 +299,11 @@ msgstr ""
 
 #. Author of the plugin/theme
 msgid "the WordPress team"
+msgstr ""
+
+#. Tags of the plugin/theme
+msgid ""
+"white, light, two-columns, right-sidebar, responsive-width, custom-"
+"background, custom-menu, microformats, post-formats, rtl-language-support, "
+"translation-ready"
 msgstr ""
