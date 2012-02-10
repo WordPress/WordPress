@@ -543,7 +543,7 @@ function delete_comment_meta($comment_id, $meta_key, $meta_value = '') {
  * @return mixed Will be an array if $single is false. Will be value of meta data field if $single
  *  is true.
  */
-function get_comment_meta($comment_id, $key, $single = false) {
+function get_comment_meta($comment_id, $key = '', $single = false) {
 	return get_metadata('comment', $comment_id, $key, $single);
 }
 
