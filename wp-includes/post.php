@@ -1513,28 +1513,21 @@ function delete_post_meta_by_key($post_meta_key) {
 /**
  * Retrieve post meta fields, based on post ID.
  *
- * The post meta fields are retrieved from the cache, so the function is
- * optimized to be called more than once. It also applies to the functions, that
- * use this function.
+ * The post meta fields are retrieved from the cache where possible,
+ * so the function is optimized to be called more than once.
  *
  * @since 1.2.0
  * @link http://codex.wordpress.org/Function_Reference/get_post_custom
  *
- * @uses $id Current Loop Post ID
- *
- * @param int $post_id post ID
+ * @param int $post_id Post ID.
  * @return array
  */
 function get_post_custom( $post_id = 0 ) {
 	$post_id = absint( $post_id );
-
 	if ( ! $post_id )
 		$post_id = get_the_ID();
 
-	if ( ! wp_cache_get( $post_id, 'post_meta' ) )
-		update_postmeta_cache( $post_id );
-
-	return wp_cache_get( $post_id, 'post_meta' );
+	return get_post_meta( $post_id, '' );
 }
 
 /**
