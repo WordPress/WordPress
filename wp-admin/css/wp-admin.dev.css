@@ -892,6 +892,45 @@ p.search-box {
 	margin: 0;
 }
 
+input[type="text"].ui-autocomplete-loading {
+	background: transparent url('../images/loading.gif') no-repeat right center;
+	visibility: visible;
+}
+
+ul#add-to-blog-users {
+	margin: 0 0 0 14px;
+}
+
+.ui-autocomplete {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	position: absolute;
+	z-index: 10000;
+	border-width: 1px;
+	border-style: solid;
+
+	background-color: #ececec;
+	border-color: gray;
+}
+
+.ui-autocomplete li {
+	padding: 2px 5px;
+	white-space: nowrap;
+	text-align: left;
+	color: #101010;
+}
+
+.ui-autocomplete li a {
+	display: block;
+	height: 100%;
+	padding: 2px 5px;
+	color: #333;
+}
+
+.ui-autocomplete li a.ui-state-hover {
+	background-color: #f0f0b8;
+}
 
 /*------------------------------------------------------------------------------
   3.0 - Actions

@@ -34,7 +34,7 @@ send_nosniff_header();
 
 do_action( 'admin_init' );
 
-$core_actions_get = array( 'fetch-list', 'ajax-tag-search', 'wp-compression-test', 'imgedit-preview', 'oembed_cache' );
+$core_actions_get = array( 'fetch-list', 'ajax-tag-search', 'wp-compression-test', 'imgedit-preview', 'oembed_cache', 'autocomplete-user' );
 
 $core_actions_post = array(
 	'oembed_cache', 'image-editor', 'delete-comment', 'delete-tag', 'delete-link',

@@ -149,6 +149,38 @@ function wp_ajax_oembed_cache() {
 	wp_die( $return );
 }
 
+function wp_ajax_autocomplete_user() {
+	if ( !is_multisite() || !current_user_can( 'promote_users' ) || wp_is_large_network( 'users' ) || !is_super_admin() && apply_filters( 'autocomplete_users_for_site_admins', false ) )
+		wp_die( -1 );
+	
+	$return = array();
+
+	// Exclude current users of this blog
+	if ( isset( $_REQUEST['site_id'] ) )
+		$id = absint( $_REQUEST['site_id'] );
+	else
+		$id = get_current_blog_id();
+
+	$this_blog_users = get_users( array( 'blog_id' => $id, 'fields' => 'ID' ) );
+
+	$users = get_users( array(
+		'blog_id' => false,
+		'search'  => '*' . $_REQUEST['term'] . '*',
+		'exclude' => $this_blog_users,
+		'search_columns' => array( 'user_login', 'user_nicename', 'user_email' ),
+	) );	
+
+	foreach ( $users as $user ) {
+		$return[] = array(
+			/* translators: 1: user_login, 2: user_email */
+			'label' => sprintf( __( '%1$s (%2$s)' ), $user->user_login, $user->user_email ),
+			'value' => $user->user_login,
+		);
+	}
+
+	wp_die( json_encode( $return ) );
+}
+
 /*
  * Ajax helper.
  */
