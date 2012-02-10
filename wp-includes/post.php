@@ -1467,7 +1467,7 @@ function delete_post_meta($post_id, $meta_key, $meta_value = '') {
  * @return mixed Will be an array if $single is false. Will be value of meta data field if $single
  *  is true.
  */
-function get_post_meta($post_id, $key, $single = false) {
+function get_post_meta($post_id, $key = '', $single = false) {
 	return get_metadata('post', $post_id, $key, $single);
 }
 
@@ -1527,7 +1527,7 @@ function get_post_custom( $post_id = 0 ) {
 	if ( ! $post_id )
 		$post_id = get_the_ID();
 
-	return get_post_meta( $post_id, '' );
+	return get_post_meta( $post_id );
 }
 
 /**
