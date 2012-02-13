@@ -124,7 +124,7 @@ final class _WP_Editors {
 	}
 
 	public static function editor_settings($editor_id, $set) {
-		global $editor_styles;
+		global $editor_styles, $post;
 		$first_run = false;
 
 		if ( empty(self::$first_init) ) {
@@ -369,6 +369,16 @@ final class _WP_Editors {
 				$mce_buttons_4 = apply_filters('mce_buttons_4', array(), $editor_id);
 			}
 
+			$body_class = $editor_id;
+
+			if ( isset($post) )
+				$body_class .= " post-type-$post->post_type";
+
+			if ( !empty($set['tinymce']['body_class']) ) {
+				$body_class .= ' ' . $set['tinymce']['body_class'];
+				unset($set['tinymce']['body_class']);
+			}
+
 			if ( $set['dfw'] ) {
 				// replace the first 'fullscreen' with 'wp_fullscreen'
 				if ( ($key = array_search('fullscreen', $mce_buttons)) !== false )
@@ -389,7 +399,8 @@ final class _WP_Editors {
 				'theme_advanced_buttons1' => implode($mce_buttons, ','),
 				'theme_advanced_buttons2' => implode($mce_buttons_2, ','),
 				'theme_advanced_buttons3' => implode($mce_buttons_3, ','),
-				'theme_advanced_buttons4' => implode($mce_buttons_4, ',')
+				'theme_advanced_buttons4' => implode($mce_buttons_4, ','),
+				'body_class' => $body_class
 			);
 
 			if ( $first_run )

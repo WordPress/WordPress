@@ -146,6 +146,8 @@
 			});
 			
 			ed.onInit.add(function(ed) {
+				var bodyClass = ed.getParam('body_class', '');
+
 				// make sure these run last
 				ed.onNodeChange.add( function(ed, cm, e) {
 					var DL;
@@ -181,6 +183,9 @@
 						o.content = o.content.replace(/<\/(p|div|ul|ol|dl|table|blockquote|h[1-6]|fieldset|pre|address)>\s*<\/p>/gi, '</$1>');
 					}
 				});
+
+				if ( bodyClass )
+					ed.dom.addClass(ed.getBody(), bodyClass);
 			});
 
 			// Word count
