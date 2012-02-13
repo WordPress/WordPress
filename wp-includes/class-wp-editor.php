@@ -167,10 +167,10 @@ final class _WP_Editors {
 				$no_captions = (bool) apply_filters( 'disable_captions', '' );
 				$plugins = array( 'inlinepopups', 'spellchecker', 'tabfocus', 'paste', 'media', 'fullscreen', 'wordpress', 'wpeditimage', 'wpgallery', 'wplink', 'wpdialogs' );
 				$first_run = true;
+				$ext_plugins = '';
 
 				if ( $set['teeny'] ) {
 					self::$plugins = $plugins = apply_filters( 'teeny_mce_plugins', array('inlinepopups', 'fullscreen', 'wordpress', 'wplink', 'wpdialogs'), $editor_id );
-					$ext_plugins = '';
 				} else {
 					/*
 					The following filter takes an associative array of external plugins for TinyMCE in the form 'plugin_name' => 'url'.
@@ -181,7 +181,6 @@ final class _WP_Editors {
 					*/
 					$mce_external_plugins = apply_filters('mce_external_plugins', array());
 
-					$ext_plugins = '';
 					if ( ! empty($mce_external_plugins) ) {
 
 						/*
@@ -247,8 +246,6 @@ final class _WP_Editors {
 
 							$ext_plugins .= 'tinyMCEPreInit.load_ext("' . $plugurl . '", "' . $mce_locale . '");' . "\n";
 							$ext_plugins .= 'tinymce.PluginManager.load("' . $name . '", "' . $url . '");' . "\n";
-
-							self::$ext_plugins .= $ext_plugins;
 						}
 					}
 
@@ -259,6 +256,7 @@ final class _WP_Editors {
 					$plugins[] = 'wpfullscreen';
 
 				self::$plugins = $plugins;
+				self::$ext_plugins = $ext_plugins;
 
 				/*
 				translators: These languages show up in the spellchecker drop-down menu, in the order specified, and with the first
