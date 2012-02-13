@@ -3168,6 +3168,14 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( ! current_user_can( 'edit_post', $post_ID ) )
 			return new IXR_Error( 401, __( 'Sorry, you do not have the right to edit this post.' ) );
 
+		// Use wp.editPost to edit post types other than post and page.
+		if ( ! in_array( $postdata[ 'post_type' ], array( 'post', 'page' ) ) )
+			return new IXR_Error( 401, __( 'Invalid post type.' ) );
+
+		// Thwart attempt to change the post type.
+		if ( ! empty( $content_struct[ 'post_type' ] ) && ( $content_struct['post_type'] != $postdata[ 'post_type' ] ) )
+			return new IXR_Error( 401, __( 'The post type may not be changed.' ) );
+
 		// Check for a valid post format if one was given
 		if ( isset( $content_struct['wp_post_format'] ) ) {
 			$content_struct['wp_post_format'] = sanitize_key( $content_struct['wp_post_format'] );
@@ -3196,6 +3204,9 @@ class wp_xmlrpc_server extends IXR_Server {
 		// Only set the menu_order if it was given.
 		if ( isset($content_struct['wp_page_order']) )
 			$menu_order = $content_struct['wp_page_order'];
+
+		if ( ! empty( $content_struct['wp_page_template'] ) && 'page' == $post_type )
+			$page_template = $content_struct['wp_page_template']; 
 
 		$post_author = $postdata['post_author'];
 
