@@ -400,8 +400,10 @@ EOD;
 		log_app('Received entry:', print_r($entry,true));
 
 		$catnames = array();
-		foreach ( $entry->categories as $cat ) {
-			array_push($catnames, $cat["term"]);
+		if ( !empty( $entry->categories ) ) {
+			foreach ( $entry->categories as $cat ) {
+				array_push($catnames, $cat["term"]);
+			}
 		}
 
 		$wp_cats = get_categories(array('hide_empty' => false));
@@ -423,10 +425,23 @@ EOD;
 		$blog_ID = get_current_blog_id();
 		$post_status = ($publish) ? 'publish' : 'draft';
 		$post_author = (int) $user_ID;
-		$post_title = $entry->title[1];
-		$post_content = $entry->content[1];
-		$post_excerpt = $entry->summary[1];
-		$pubtimes = $this->get_publish_time($entry->published);
+
+		$post_title   = '';
+		$post_content = '';
+		$post_excerpt = '';
+		$pubtimes     = '';
+		
+		if ( isset( $entry->title ) && is_array( $entry->title ) && !empty( $entry->title[1] ) )
+			$post_title = (string) $entry->title[1];
+		if ( isset( $entry->content ) && is_array( $entry->content ) && !empty( $entry->content[1] ) )
+			$post_content = (string) $entry->content[1];
+		if ( isset( $entry->summary ) && is_array( $entry->summary ) && !empty( $entry->summary[1] ) )
+			$post_excerpt = (string) $entry->summary[1];
+		if ( !empty( $entry->published ) )
+			$pubtimes = (string) $entry->published;
+		
+		$pubtimes = $this->get_publish_time( $pubtimes );
+
 		$post_date = $pubtimes[0];
 		$post_date_gmt = $pubtimes[1];
 
