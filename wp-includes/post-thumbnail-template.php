@@ -64,13 +64,7 @@ function update_post_thumbnail_cache() {
 	}
 
 	if ( ! empty ( $thumb_ids ) ) {
-		get_posts( array(
-				'update_post_term_cache' => false,
-				'include' => $thumb_ids,
-				'post_type' => 'attachment',
-				'post_status' => 'inherit',
-				'nopaging' => true
-		) );
+		_prime_post_caches( $thumb_ids, false, true );
 	}
 
 	$wp_query->thumbnails_cached = true;

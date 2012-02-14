@@ -2606,9 +2606,11 @@ class WP_Query {
 		if ( !$q['no_found_rows'] && !empty($limits) )
 			$found_rows = 'SQL_CALC_FOUND_ROWS';
 
-		$this->request = " SELECT $found_rows $distinct $fields FROM $wpdb->posts $join WHERE 1=1 $where $groupby $orderby $limits";
-		if ( !$q['suppress_filters'] )
-			$this->request = apply_filters_ref_array('posts_request', array( $this->request, &$this ) );
+		$this->request = $old_request = "SELECT $found_rows $distinct $fields FROM $wpdb->posts $join WHERE 1=1 $where $groupby $orderby $limits";
+
+		if ( !$q['suppress_filters'] ) {
+			$this->request = apply_filters( 'posts_request', $this->request, $this );
+		}
 
 		if ( 'ids' == $q['fields'] ) {
 			$this->posts = $wpdb->get_col($this->request);
@@ -2626,7 +2628,29 @@ class WP_Query {
 			return $r;
 		}
 
-		$this->posts = $wpdb->get_results($this->request);
+		if ( $old_request == $this->request && "$wpdb->posts.*" == $fields ) {
+			// First get the IDs and then fill in the objects
+
+			$this->request = "SELECT $found_rows $distinct $wpdb->posts.ID FROM $wpdb->posts $join WHERE 1=1 $where $groupby $orderby $limits";
+
+			$this->request = apply_filters( 'posts_request_ids', $this->request, $this );
+
+			$ids = $wpdb->get_col( $this->request );
+
+			if ( $ids ) {
+				$this->set_found_posts( $q, $limits );
+
+				_prime_post_caches( $ids, $q['update_post_term_cache'], $q['update_post_meta_cache'] );
+
+				$this->posts = array_map( 'get_post', $ids );
+			} else {
+				$this->found_posts = $this->max_num_pages = 0;
+				$this->posts = array();
+			}
+		} else {
+			$this->posts = $wpdb->get_results( $this->request );
+			$this->set_found_posts( $q, $limits );
+		}
 
 		// Raw results filter. Prior to status checks.
 		if ( !$q['suppress_filters'] )
@@ -2643,13 +2667,6 @@ class WP_Query {
 			$comments_request = "SELECT $wpdb->comments.* FROM $wpdb->comments $cjoin $cwhere $cgroupby $corderby $climits";
 			$this->comments = $wpdb->get_results($comments_request);
 			$this->comment_count = count($this->comments);
-		}
-
-		if ( !$q['no_found_rows'] && !empty($limits) ) {
-			$found_posts_query = apply_filters_ref_array( 'found_posts_query', array( 'SELECT FOUND_ROWS()', &$this ) );
-			$this->found_posts = $wpdb->get_var( $found_posts_query );
-			$this->found_posts = apply_filters_ref_array( 'found_posts', array( $this->found_posts, &$this ) );
-			$this->max_num_pages = ceil($this->found_posts / $q['posts_per_page']);
 		}
 
 		// Check post status to determine if post should be displayed.
@@ -2752,6 +2769,18 @@ class WP_Query {
 		}
 
 		return $this->posts;
+	}
+
+	function set_found_posts( $q, $limits ) {
+		global $wpdb;
+
+		if ( $q['no_found_rows'] || empty( $limits ) )
+			return;
+
+		$this->found_posts = $wpdb->get_var( apply_filters( 'found_posts_query', 'SELECT FOUND_ROWS()', $this ) );
+		$this->found_posts = apply_filters( 'found_posts', $this->found_posts, $this );
+
+		$this->max_num_pages = ceil( $this->found_posts / $q['posts_per_page'] );
 	}
 
 	/**

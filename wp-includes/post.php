@@ -5318,3 +5318,26 @@ function _update_term_count_on_transition_post_status( $new_status, $old_status,
 		wp_update_term_count( $tt_ids, $taxonomy );
 	}
 }
+
+/**
+ * Adds any posts from the given ids to the cache that do not already exist in cache
+ *
+ * @since 3.4.0
+ *
+ * @access private
+ *
+ * @param array $post_ids ID list
+ * @param bool $update_term_cache Whether to update the term cache. Default is true.
+ * @param bool $update_meta_cache Whether to update the meta cache. Default is true.
+ */
+function _prime_post_caches( $ids, $update_term_cache = true, $update_meta_cache = true ) {
+	global $wpdb;
+
+	$non_cached_ids = _get_non_cached_ids( $ids, 'posts' );
+	if ( !empty( $non_cached_ids ) ) {
+		$fresh_posts = $wpdb->get_results( sprintf( "SELECT $wpdb->posts.* FROM $wpdb->posts WHERE ID IN (%s)", join( ",", $non_cached_ids ) ) );
+
+		update_post_caches( $fresh_posts, 'any', $update_term_cache, $update_meta_cache );
+	}
+}
+

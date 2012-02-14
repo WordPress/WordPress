@@ -139,13 +139,7 @@ if ( !function_exists('cache_users') ) :
 function cache_users( $user_ids ) {
 	global $wpdb;
 
-	$clean = array();
-	foreach ( $user_ids as $id ) {
-		$id = (int) $id;
-		if ( !wp_cache_get( $id, 'users' ) ) {
-			$clean[] = $id;
-		}
-	}
+	$clean = _get_non_cached_ids( $user_ids, 'users' );
 
 	if ( empty( $clean ) )
 		return;
