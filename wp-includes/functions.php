@@ -3048,7 +3048,7 @@ function wp_guess_url() {
 		$url = WP_SITEURL;
 	} else {
 		$schema = is_ssl() ? 'https://' : 'http://';
-		$url = preg_replace('|/wp-admin/.*|i', '', $schema . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+		$url = preg_replace('#/(wp-admin/.*|wp-login.php)#i', '', $schema . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
 	}
 	return rtrim($url, '/');
 }
