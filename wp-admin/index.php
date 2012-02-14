@@ -72,7 +72,8 @@ $help .= '<p>' . __('<strong>WordPress Blog</strong> - Latest news from the offi
 $help .= '<p>' . __('<strong>Other WordPress News</strong> - Shows the <a href="http://planet.wordpress.org" target="_blank">WordPress Planet</a> feed. You can configure it to show a different feed of your choosing.') . '</p>';
 if ( ! is_multisite() && current_user_can( 'install_plugins' ) )
 	$help .= '<p>' . __('<strong>Plugins</strong> - Features the most popular, newest, and recently updated plugins from the WordPress.org Plugin Directory.') . '</p>';
-$help .= '<p>' . __('<strong>Welcome</strong> - Shows links for some of the most common tasks when setting up a new site.') . '</p>';
+if ( current_user_can( 'edit_theme_options' ) )
+	$help .= '<p>' . __('<strong>Welcome</strong> - Shows links for some of the most common tasks when setting up a new site.') . '</p>';
 
 get_current_screen()->add_help_tab( array(
 	'id'      => 'help-content',
