@@ -16,11 +16,6 @@ get_header(); ?>
 
 	<div id="primary">
 		<div id="content" role="main">
-		<!-- Placeholder for optional header image
-		<section role="banner">
-			<img src="<?php echo get_stylesheet_directory_uri(); ?>/images/flowers.jpg" width="625" height="188" />
-		</section>
-		-->
 		<?php if ( have_posts() ) : ?>
 
 			<?php /* Start the Loop */ ?>

@@ -114,6 +114,17 @@ img {
 	clear: both;
 }
 
+/* patterns.scss
+ * Repeatable patterns
+ * ------------------------------------------------------------------ */
+.all-caps-title {
+	text-transform: uppercase;
+	font-weight: 400;
+	font-size: 13px;
+	font-size: 0.928571429rem;
+	line-height: 1.846153846;
+}
+
 /* scaffolding.css.scss
 * Basic structure
 * ------------------------------------------------------------------ */
@@ -148,46 +159,50 @@ a:hover {
 /*---------------------------------------------------------
 Page structure
 ------------------------------------------------------------ */
-div#page {
+#page {
 	padding: 0 24px;
 	padding: 0 1.714285714rem;
 	background-color: #fff;
 }
 @media screen and (min-width: 600px) {
-	div#page {
+	#page {
 		zoom: 1;
 		margin: 0 auto;
 		max-width: 960px;
 		max-width: 68.571428571rem;
 	}
-	div#page:before, div#page:after {
+	#page:before, #page:after {
 		display: table;
 		content: "";
 	}
-	div#page:after {
+	#page:after {
 		clear: both;
 	}
 
 }
 
-div#primary {
+#primary {
 	margin: 24px 0;
 	margin: 1.714285714rem 0;
 }
 @media screen and (min-width: 600px) {
-	div#primary {
+	#primary {
 		float: left;
 		width: 65.104166667%;
 	}
 
+@media screen and (min-width: 600px) {
+	body.full-width #primary {
+		width: 100%;
+	}
 }
 
-div#secondary {
+#secondary {
 	margin: 24px 0;
 	margin: 1.714285714rem 0;
 }
 @media screen and (min-width: 600px) {
-	div#secondary {
+	#secondary {
 		float: right;
 		width: 26.041666667%;
 	}
@@ -347,11 +362,6 @@ div#secondary aside {
 div#secondary aside h3 {
 	margin-bottom: 24px;
 	margin-bottom: 1.714285714rem;
-	text-transform: uppercase;
-	font-weight: 300;
-	font-size: 13px;
-	font-size: 0.928571429rem;
-	line-height: 1.846153846;
 }
 div#secondary aside p,
 div#secondary aside li {
@@ -520,4 +530,16 @@ embed,
 object,
 video {
 	max-width: 100%;
+}
+
+/* archive.css.scss
+ * Styling for the archive view
+ * ------------------------------------------------------------------ */
+#content.archive h1.archive-title {
+	margin-bottom: 48px;
+	margin-bottom: 3.428571429rem;
+	padding-bottom: 22px;
+	padding-bottom: 1.571428571rem;
+	border-bottom: 1px solid #ededed;
+	color: #777777;
 }
