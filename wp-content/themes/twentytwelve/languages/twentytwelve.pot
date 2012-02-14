@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Twelve .5\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentytwelve\n"
-"POT-Creation-Date: 2012-02-10 16:30:53+00:00\n"
+"POT-Creation-Date: 2012-02-14 04:17:55+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -22,45 +22,45 @@ msgid ""
 "searching, or one of the links below, can help."
 msgstr ""
 
-#: archive.php:25
+#: archive.php:23
 msgid "Daily Archives: %s"
 msgstr ""
 
-#: archive.php:27
+#: archive.php:25
 msgid "Monthly Archives: %s"
 msgstr ""
 
-#: archive.php:27
+#: archive.php:25
 msgctxt "monthly archives date format"
 msgid "F Y"
 msgstr ""
 
-#: archive.php:29
+#: archive.php:27
 msgid "Yearly Archives: %s"
 msgstr ""
 
-#: archive.php:29
+#: archive.php:27
 msgctxt "yearly archives date format"
 msgid "Y"
 msgstr ""
 
-#: archive.php:31
+#: archive.php:29
 msgid "Tag Archives: %s"
 msgstr ""
 
-#: archive.php:37
+#: archive.php:35
 msgid "Category Archives: %s"
 msgstr ""
 
-#: archive.php:43
+#: archive.php:41
 msgid "Blog Archives"
 msgstr ""
 
-#: archive.php:69 author.php:50 index.php:37 search.php:34
+#: archive.php:64 author.php:50 index.php:32 search.php:34
 msgid "Nothing Found"
 msgstr ""
 
-#: archive.php:73 author.php:54 index.php:41
+#: archive.php:68 author.php:54 index.php:36
 msgid ""
 "Apologies, but no results were found for the requested archive. Perhaps "
 "searching will help find a related post."
@@ -101,18 +101,56 @@ msgstr ""
 msgid "Comments are closed."
 msgstr ""
 
-#: content-page.php:18 content-single.php:24 content.php:36 image.php:88
+#: content-aside.php:13 content-image.php:13 content-link.php:13
+#: content-quote.php:13 content.php:13
+msgid "Permalink to %s"
+msgstr ""
+
+#: content-aside.php:17 content-image.php:21 content-link.php:17
+#: content-quote.php:21 content.php:28
+msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
+msgstr ""
+
+#: content-aside.php:18 content-image.php:22 content-link.php:18
+#: content-page.php:18 content-quote.php:22 content-single.php:24
+#: content.php:29 image.php:88
 msgid "Pages:"
 msgstr ""
 
-#: content-page.php:21 content-single.php:52 content.php:74 functions.php:135
-#: functions.php:163 image.php:35
+#: content-aside.php:25 content-image.php:45 content-link.php:25
+#: content-quote.php:45 content.php:55
+msgid "Leave a reply"
+msgstr ""
+
+#: content-aside.php:25 content-image.php:45 content-link.php:25
+#: content-quote.php:45 content.php:55
+msgid "<b>1</b> Reply"
+msgstr ""
+
+#: content-aside.php:25 content-image.php:45 content-link.php:25
+#: content-quote.php:45 content.php:55
+msgid "<b>%</b> Replies"
+msgstr ""
+
+#: content-aside.php:27 content-image.php:48 content-link.php:27
+#: content-page.php:21 content-quote.php:48 content-single.php:52
+#: content.php:58 functions.php:255 functions.php:283 image.php:35
 msgid "Edit"
 msgstr ""
 
 #. translators: used between list items, there is a space after the comma
-#: content-single.php:30 content-single.php:33 content.php:45 content.php:55
+#: content-image.php:28 content-image.php:37 content-quote.php:28
+#: content-quote.php:37 content-single.php:30 content-single.php:33
+#: content.php:37 content.php:46
 msgid ", "
+msgstr ""
+
+#: content-image.php:32 content-quote.php:32 content.php:41
+msgid "<span class=\"%1$s\">Posted in</span> %2$s"
+msgstr ""
+
+#: content-image.php:40 content-quote.php:40 content.php:49
+msgid "<span class=\"%1$s\">Tagged</span> %2$s"
 msgstr ""
 
 #: content-single.php:35
@@ -138,38 +176,6 @@ msgstr ""
 msgid "View all posts by %s <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: content.php:15 content.php:19
-msgid "Permalink to %s"
-msgstr ""
-
-#: content.php:16
-msgid "Featured"
-msgstr ""
-
-#: content.php:35
-msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
-msgstr ""
-
-#: content.php:49
-msgid "<span class=\"%1$s\">Posted in</span> %2$s"
-msgstr ""
-
-#: content.php:61
-msgid "<span class=\"%1$s\">Tagged</span> %2$s"
-msgstr ""
-
-#: content.php:71
-msgid "Leave a reply"
-msgstr ""
-
-#: content.php:71
-msgid "<b>1</b> Reply"
-msgstr ""
-
-#: content.php:71
-msgid "<b>%</b> Replies"
-msgstr ""
-
 #. #-#-#-#-#  twentytwelve.pot (Twenty Twelve .5)  #-#-#-#-#
 #. Author URI of the plugin/theme
 #: footer.php:18
@@ -184,49 +190,49 @@ msgstr ""
 msgid "Proudly powered by %s"
 msgstr ""
 
-#: functions.php:63
+#: functions.php:66
 msgid "Primary Menu"
 msgstr ""
 
-#: functions.php:88
+#: functions.php:208
 msgid "Main Sidebar"
 msgstr ""
 
-#: functions.php:109
+#: functions.php:229
 msgid "Post navigation"
 msgstr ""
 
-#: functions.php:110
+#: functions.php:230
 msgid "<span class=\"meta-nav\">&larr;</span> Older posts"
 msgstr ""
 
-#: functions.php:111
+#: functions.php:231
 msgid "Newer posts <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: functions.php:135
+#: functions.php:255
 msgid "Pingback:"
 msgstr ""
 
 #. translators: 1: comment author, 2: date and time
-#: functions.php:152
+#: functions.php:272
 msgid "%1$s on %2$s <span class=\"says\">said:</span>"
 msgstr ""
 
 #. translators: 1: date, 2: time
-#: functions.php:158
+#: functions.php:278
 msgid "%1$s at %2$s"
 msgstr ""
 
-#: functions.php:167
+#: functions.php:287
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: functions.php:175
+#: functions.php:295
 msgid "Reply <span>&darr;</span>"
 msgstr ""
 
-#: functions.php:194
+#: functions.php:314
 msgid ""
 "<span class=\"sep\">Posted on </span><a href=\"%1$s\" title=\"%2$s\" rel="
 "\"bookmark\"><time class=\"entry-date\" datetime=\"%3$s\" pubdate>%4$s</"
@@ -235,7 +241,7 @@ msgid ""
 "rel=\"author\">%7$s</a></span></span>"
 msgstr ""
 
-#: functions.php:200
+#: functions.php:320
 msgid "View all posts by %s"
 msgstr ""
 
@@ -275,14 +281,6 @@ msgstr ""
 msgid ""
 "Sorry, but nothing matched your search criteria. Please try again with some "
 "different keywords."
-msgstr ""
-
-#: sidebar.php:14
-msgid "Archives"
-msgstr ""
-
-#: sidebar.php:21
-msgid "Meta"
 msgstr ""
 
 #. Theme Name of the plugin/theme
