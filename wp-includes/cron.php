@@ -244,8 +244,8 @@ function spawn_cron( $local_time = 0 ) {
 	$doing_wp_cron = sprintf( '%.22F', $local_time );
 	set_transient( 'doing_cron', $doing_wp_cron );
 
-	$cron_url = get_option( 'siteurl' ) . '/wp-cron.php?doing_wp_cron=' . $doing_wp_cron;
-	wp_remote_post( $cron_url, array('timeout' => 0.01, 'blocking' => false, 'sslverify' => apply_filters('https_local_ssl_verify', true)) );
+	$cron_url = site_url( 'wp-cron.php?doing_wp_cron=' . $doing_wp_cron );
+	wp_remote_post( $cron_url, array( 'timeout' => 0.01, 'blocking' => false, 'sslverify' => apply_filters( 'https_local_ssl_verify', true ) ) );
 }
 
 /**
