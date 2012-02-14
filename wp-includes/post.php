@@ -4005,7 +4005,7 @@ function wp_attachment_is_image( $post_id = 0 ) {
  *
  * @since 2.1.0
  *
- * @param string $mime MIME type
+ * @param string|int $mime MIME type or attachment ID.
  * @return string|bool
  */
 function wp_mime_type_icon( $mime = 0 ) {
