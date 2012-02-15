@@ -811,7 +811,6 @@ function wp_nav_menu_item_taxonomy_meta_box( $object, $taxonomy ) {
 		'hide_empty' => false,
 		'hierarchical' => 1,
 		'include' => '',
-		'include_last_update_time' => false,
 		'number' => $per_page,
 		'offset' => $offset,
 		'order' => 'ASC',
