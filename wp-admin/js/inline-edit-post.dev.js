@@ -129,9 +129,9 @@ inlineEditPost = {
 		if ( typeof(id) == 'object' )
 			id = t.getId(id);
 
-		fields = ['post_title', 'post_name', 'post_author', '_status', 'jj', 'mm', 'aa', 'hh', 'mn', 'ss', 'post_password', 'post_format'];
+		fields = ['post_title', 'post_name', 'post_author', '_status', 'jj', 'mm', 'aa', 'hh', 'mn', 'ss', 'post_password', 'post_format', 'menu_order'];
 		if ( t.type == 'page' )
-			fields.push('post_parent', 'menu_order', 'page_template');
+			fields.push('post_parent', 'page_template');
 
 		// add the new blank row
 		editRow = $('#inline-edit').clone(true);

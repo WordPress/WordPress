@@ -257,7 +257,7 @@ function get_inline_data($post) {
 	if ( $post->post_type == 'page' )
 		echo '<div class="page_template">' . esc_html( get_post_meta( $post->ID, '_wp_page_template', true ) ) . '</div>';
 
-	if ( $post_type_object->hierarchical )
+	if ( post_type_supports( $post->post_type, 'page-attributes' ) )
 		echo '<div class="menu_order">' . $post->menu_order . '</div>';
 
 	$taxonomy_names = get_object_taxonomies( $post->post_type );
