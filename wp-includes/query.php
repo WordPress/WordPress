@@ -2476,7 +2476,7 @@ class WP_Query {
 				$where .= " OR $wpdb->posts.post_status = '$state'";
 			}
 
-			if ( is_admin() ) {
+			if ( $this->is_admin ) {
 				// Add protected states that should show in the admin all list.
 				$admin_all_states = get_post_stati( array('protected' => true, 'show_in_admin_all_list' => true) );
 				foreach ( (array) $admin_all_states as $state )
