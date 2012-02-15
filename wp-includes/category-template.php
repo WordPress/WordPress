@@ -271,7 +271,6 @@ function category_description( $category = 0 ) {
  *     'orderby' (string) default is 'ID' - What column to use for ordering the
  * categories.
  *     'order' (string) default is 'ASC' - What direction to order categories.
- *     'show_last_update' (bool|int) default is 0 - See {@link get_categories()}
  *     'show_count' (bool|int) default is 0 - Whether to show how many posts are
  * in the category.
  *     'hide_empty' (bool|int) default is 1 - Whether to hide categories that
@@ -301,7 +300,7 @@ function wp_dropdown_categories( $args = '' ) {
 	$defaults = array(
 		'show_option_all' => '', 'show_option_none' => '',
 		'orderby' => 'id', 'order' => 'ASC',
-		'show_last_update' => 0, 'show_count' => 0,
+		'show_count' => 0,
 		'hide_empty' => 1, 'child_of' => 0,
 		'exclude' => '', 'echo' => 1,
 		'selected' => 0, 'hierarchical' => 0,
@@ -325,7 +324,6 @@ function wp_dropdown_categories( $args = '' ) {
 		$r['pad_counts'] = true;
 	}
 
-	$r['include_last_update_time'] = $r['show_last_update'];
 	extract( $r );
 
 	$tab_index_attribute = '';
@@ -388,8 +386,6 @@ function wp_dropdown_categories( $args = '' ) {
  *     'orderby' (string) default is 'ID' - What column to use for ordering the
  * categories.
  *     'order' (string) default is 'ASC' - What direction to order categories.
- *     'show_last_update' (bool|int) default is 0 - See {@link
- * walk_category_dropdown_tree()}
  *     'show_count' (bool|int) default is 0 - Whether to show how many posts are
  * in the category.
  *     'hide_empty' (bool|int) default is 1 - Whether to hide categories that
@@ -417,7 +413,7 @@ function wp_list_categories( $args = '' ) {
 	$defaults = array(
 		'show_option_all' => '', 'show_option_none' => __('No categories'),
 		'orderby' => 'name', 'order' => 'ASC',
-		'show_last_update' => 0, 'style' => 'list',
+		'style' => 'list',
 		'show_count' => 0, 'hide_empty' => 1,
 		'use_desc_for_title' => 1, 'child_of' => 0,
 		'feed' => '', 'feed_type' => '',
@@ -432,9 +428,6 @@ function wp_list_categories( $args = '' ) {
 
 	if ( !isset( $r['pad_counts'] ) && $r['show_count'] && $r['hierarchical'] )
 		$r['pad_counts'] = true;
-
-	if ( isset( $r['show_date'] ) )
-		$r['include_last_update_time'] = $r['show_date'];
 
 	if ( true == $r['hierarchical'] ) {
 		$r['exclude_tree'] = $r['exclude'];
@@ -874,9 +867,6 @@ class Walker_Category extends Walker {
 		if ( !empty($show_count) )
 			$link .= ' (' . intval($category->count) . ')';
 
-		if ( !empty($show_date) )
-			$link .= ' ' . gmdate('Y-m-d', $category->last_update_timestamp);
-
 		if ( 'list' == $args['style'] ) {
 			$output .= "\t<li";
 			$class = 'cat-item cat-item-' . $category->term_id;
@@ -942,7 +932,7 @@ class Walker_CategoryDropdown extends Walker {
 	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param object $category Category data object.
 	 * @param int $depth Depth of category. Used for padding.
-	 * @param array $args Uses 'selected', 'show_count', and 'show_last_update' keys, if they exist.
+	 * @param array $args Uses 'selected' and 'show_count' keys, if they exist.
 	 */
 	function start_el( &$output, $category, $depth, $args, $id = 0 ) {
 		$pad = str_repeat('&nbsp;', $depth * 3);
@@ -955,10 +945,6 @@ class Walker_CategoryDropdown extends Walker {
 		$output .= $pad.$cat_name;
 		if ( $args['show_count'] )
 			$output .= '&nbsp;&nbsp;('. $category->count .')';
-		if ( $args['show_last_update'] ) {
-			$format = 'Y-m-d';
-			$output .= '&nbsp;&nbsp;' . gmdate($format, $category->last_update_timestamp);
-		}
 		$output .= "</option>\n";
 	}
 }
