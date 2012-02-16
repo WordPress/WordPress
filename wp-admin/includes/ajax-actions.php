@@ -150,8 +150,13 @@ function wp_ajax_oembed_cache() {
 }
 
 function wp_ajax_autocomplete_user() {
-	if ( !is_multisite() || !current_user_can( 'promote_users' ) || wp_is_large_network( 'users' ) || !is_super_admin() && apply_filters( 'autocomplete_users_for_site_admins', false ) )
+	if ( ! is_multisite()
+		|| ! current_user_can( 'promote_users' )
+		|| wp_is_large_network( 'users' )
+		|| ( ! is_super_admin() && ! apply_filters( 'autocomplete_users_for_site_admins', false ) )
+	) {
 		wp_die( -1 );
+	}
 	
 	$return = array();
 
