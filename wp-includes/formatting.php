@@ -2620,21 +2620,13 @@ function wp_make_link_relative( $link ) {
 function sanitize_option($option, $value) {
 
 	switch ( $option ) {
-		case 'admin_email':
-			$value = sanitize_email($value);
-			if ( !is_email($value) ) {
+		case 'admin_email' :
+		case 'new_admin_email' :
+			$value = sanitize_email( $value );
+			if ( ! is_email( $value ) ) {
 				$value = get_option( $option ); // Resets option to stored value in the case of failed sanitization
-				if ( function_exists('add_settings_error') )
-					add_settings_error('admin_email', 'invalid_admin_email', __('The email address entered did not appear to be a valid email address. Please enter a valid email address.'));
-			}
-			break;
-
-		case 'new_admin_email':
-			$value = sanitize_email($value);
-			if ( !is_email($value) ) {
-				$value = get_option( $option ); // Resets option to stored value in the case of failed sanitization
-				if ( function_exists('add_settings_error') )
-					add_settings_error('new_admin_email', 'invalid_admin_email', __('The email address entered did not appear to be a valid email address. Please enter a valid email address.'));
+				if ( function_exists( 'add_settings_error' ) )
+					add_settings_error( $option, 'invalid_admin_email', __( 'The email address entered did not appear to be a valid email address. Please enter a valid email address.' ) );
 			}
 			break;
 
