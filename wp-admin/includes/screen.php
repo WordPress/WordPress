@@ -580,6 +580,31 @@ final class WP_Screen {
 	}
 
 	/**
+	 * Gets the help tabs registered for the screen.
+	 *
+	 * @since 3.4.0
+	 *
+	 * @return array Help tabs with arguments.
+	 */
+	public function get_help_tabs() {
+		return $this->_help_tabs;
+	}
+
+	/**
+	 * Gets the arguments for a help tab.
+	 *
+	 * @since 3.4.0
+	 *
+	 * @param string $id Help Tab ID.
+	 * @return array Help tab arguments.
+	 */
+	public function get_help_tab( $id ) {
+		if ( ! isset( $this->_help_tabs[ $id ] ) )
+			return null;
+		return $this->_help_tabs[ $id ];
+	}
+
+	/**
 	 * Add a help tab to the contextual help for the screen.
 	 * Call this on the load-$pagenow hook for the relevant screen.
 	 *
@@ -607,7 +632,8 @@ final class WP_Screen {
 		if ( ! $args['id'] || ! $args['title'] )
 			return;
 
-		$this->_help_tabs[] = $args;
+		// Allows for overriding an existing tab with that ID.
+		$this->_help_tabs[ $args['id'] ] = $args;
 	}
 
 	/**
@@ -630,6 +656,16 @@ final class WP_Screen {
 		$this->_help_tabs = array();
 	}
 
+	/**
+	 * Gets the content from a contextual help sidebar.
+	 *
+	 * @since 3.4.0
+	 *
+	 */
+	public function get_help_sidebar() {
+		return $this->_help_sidebar;
+	}
+	
 	/**
 	 * Add a sidebar to the contextual help for the screen.
 	 * Call this in template files after admin.php is loaded and before admin-header.php is loaded to add a sidebar to the contextual help.
@@ -658,7 +694,7 @@ final class WP_Screen {
 		$old_help = apply_filters( 'contextual_help', $old_help, $this->id, $this );
 
 		// Default help only if there is no old-style block of text and no new-style help tabs.
-		if ( empty( $old_help ) && empty( $this->_help_tabs ) ) {
+		if ( empty( $old_help ) && ! $this->get_help_tabs() ) {
 			$default_help = apply_filters( 'default_contextual_help', '' );
 			if ( $default_help )
 				$old_help = '<p>' . $default_help . '</p>';
@@ -672,10 +708,10 @@ final class WP_Screen {
 			) );
 		}
 
-		$has_sidebar = ! empty( $this->_help_sidebar );
+		$help_sidebar = $this->get_help_sidebar();
 
 		$help_class = 'hidden';
-		if ( ! $has_sidebar )
+		if ( ! $help_sidebar )
 			$help_class .= ' no-sidebar';
 
 		// Time to render!
@@ -687,35 +723,39 @@ final class WP_Screen {
 				<div id="contextual-help-columns">
 					<div class="contextual-help-tabs">
 						<ul>
-						<?php foreach ( $this->_help_tabs as $i => $tab ):
+						<?php
+						$class = ' class="active"';
+						foreach ( $this->get_help_tabs() as $tab ) :
 							$link_id  = "tab-link-{$tab['id']}";
 							$panel_id = "tab-panel-{$tab['id']}";
-							$classes  = ( $i == 0 ) ? 'active' : '';
 							?>
 
-							<li id="<?php echo esc_attr( $link_id ); ?>" class="<?php echo esc_attr( $classes ); ?>">
+							<li id="<?php echo esc_attr( $link_id ); ?>"<?php echo $class; ?>">
 								<a href="<?php echo esc_url( "#$panel_id" ); ?>">
 									<?php echo esc_html( $tab['title'] ); ?>
 								</a>
 							</li>
-						<?php endforeach; ?>
+						<?php
+							$class = '';
+						endforeach;
+						?>
 						</ul>
 					</div>
 
-					<?php if ( $has_sidebar ) : ?>
+					<?php if ( $help_sidebar ) : ?>
 					<div class="contextual-help-sidebar">
-						<?php echo $this->_help_sidebar; ?>
+						<?php echo $help_sidebar; ?>
 					</div>
 					<?php endif; ?>
 
 					<div class="contextual-help-tabs-wrap">
-						<?php foreach ( $this->_help_tabs as $i => $tab ):
+						<?php
+						$classes = 'help-tab-content active';
+						foreach ( $this->get_help_tabs() as $tab ):
 							$panel_id = "tab-panel-{$tab['id']}";
-							$classes  = ( $i == 0 ) ? 'active' : '';
-							$classes .= ' help-tab-content';
 							?>
 
-							<div id="<?php echo esc_attr( $panel_id ); ?>" class="<?php echo esc_attr( $classes ); ?>">
+							<div id="<?php echo esc_attr( $panel_id ); ?>" class="<?php echo $classes; ?>">
 								<?php
 								// Print tab content.
 								echo $tab['content'];
@@ -725,7 +765,10 @@ final class WP_Screen {
 									call_user_func_array( $tab['callback'], array( $this, $tab ) );
 								?>
 							</div>
-						<?php endforeach; ?>
+						<?php
+							$classes = 'help-tab-content';
+						endforeach;
+						?>
 					</div>
 				</div>
 			</div>
@@ -736,11 +779,11 @@ final class WP_Screen {
 		?>
 		</div>
 		<?php
-		if ( ! $this->_help_tabs && ! $this->show_screen_options() )
+		if ( ! $this->get_help_tabs() && ! $this->show_screen_options() )
 			return;
 		?>
 		<div id="screen-meta-links">
-		<?php if ( $this->_help_tabs ) : ?>
+		<?php if ( $this->get_help_tabs() ) : ?>
 			<div id="contextual-help-link-wrap" class="hide-if-no-js screen-meta-toggle">
 			<a href="#contextual-help-wrap" id="contextual-help-link" class="show-settings"><?php _e( 'Help' ); ?></a>
 			</div>
