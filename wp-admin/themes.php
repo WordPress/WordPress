@@ -237,13 +237,13 @@ if ( current_user_can('edit_themes') && count( $broken_themes ) ) {
 	natcasesort($theme_names);
 
 	foreach ($theme_names as $theme_name) {
-		$title = $broken_themes[$theme_name]['Title'];
+		$name = $broken_themes[$theme_name]['Title'];
 		$description = $broken_themes[$theme_name]['Description'];
 
 		$theme = ('class="alternate"' == $theme) ? '' : 'class="alternate"';
 		echo "
 		<tr $theme>
-			 <td>$title</td>
+			 <td>$name</td>
 			 <td>$description</td>
 		</tr>";
 	}
