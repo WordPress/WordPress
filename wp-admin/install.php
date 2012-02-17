@@ -16,7 +16,7 @@ if ( false ) {
 	<title>Error: PHP is not running</title>
 </head>
 <body>
-	<h1 id="logo"><img alt="WordPress" src="images/wordpress-logo.png" /></h1>
+	<h1 id="logo"><img alt="WordPress" src="images/wordpress-logo.png?ver=20120216" /></h1>
 	<h2>Error: PHP is not running</h2>
 	<p>WordPress requires that your web server is running PHP. Your server does not have PHP installed, or PHP is turned off.</p>
 </body>
@@ -61,7 +61,7 @@ function display_header() {
 	<?php wp_admin_css( 'install', true ); ?>
 </head>
 <body<?php if ( is_rtl() ) echo ' class="rtl"'; ?>>
-<h1 id="logo"><img alt="WordPress" src="images/wordpress-logo.png" /></h1>
+<h1 id="logo"><img alt="WordPress" src="images/wordpress-logo.png?ver=20120216" /></h1>
 
 <?php
 } // end display_header()

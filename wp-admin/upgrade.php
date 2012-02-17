@@ -56,7 +56,7 @@ else
 	?>
 </head>
 <body>
-<h1 id="logo"><img alt="WordPress" src="images/wordpress-logo.png" /></h1>
+<h1 id="logo"><img alt="WordPress" src="images/wordpress-logo.png?ver=20120216" /></h1>
 
 <?php if ( get_option( 'db_version' ) == $wp_db_version || !is_blog_installed() ) : ?>
 

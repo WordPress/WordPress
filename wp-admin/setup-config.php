@@ -89,7 +89,7 @@ function display_header() {
 
 </head>
 <body<?php if ( is_rtl() ) echo ' class="rtl"'; ?>>
-<h1 id="logo"><img alt="WordPress" src="images/wordpress-logo.png" /></h1>
+<h1 id="logo"><img alt="WordPress" src="images/wordpress-logo.png?ver=20120216" /></h1>
 <?php
 }//end function display_header();
 
