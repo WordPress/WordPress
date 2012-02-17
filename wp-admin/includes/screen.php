@@ -176,7 +176,7 @@ function get_screen_icon( $screen = '' ) {
  *
  * @since 3.1.0
  *
- * @return object Current screen object
+ * @return WP_Screen Current screen object
  */
 function get_current_screen() {
 	global $current_screen;
