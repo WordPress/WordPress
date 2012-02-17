@@ -325,6 +325,8 @@ $_old_files = array(
 'wp-includes/js/tinymce/themes/advanced/skins/wp_theme/img/down_arrow.gif',
 'wp-includes/js/tinymce/themes/advanced/skins/wp_theme/img/fade-butt.png',
 'wp-includes/js/tinymce/themes/advanced/skins/wp_theme/img/separator.gif',
+// 3.4
+'wp-admin/images/logo-login.png',
 );
 
 /**
