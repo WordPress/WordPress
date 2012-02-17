@@ -54,9 +54,6 @@ include_once(ABSPATH . 'wp-admin/includes/admin.php');
 include_once(ABSPATH . WPINC . '/class-IXR.php');
 include_once(ABSPATH . WPINC . '/class-wp-xmlrpc-server.php');
 
-// Turn off all warnings and errors.
-// error_reporting(0);
-
 /**
  * Posts submitted via the xmlrpc interface get that title
  * @name post_default_title
@@ -64,43 +61,26 @@ include_once(ABSPATH . WPINC . '/class-wp-xmlrpc-server.php');
  */
 $post_default_title = "";
 
-/**
- * Whether to enable XMLRPC Logging.
- *
- * @name xmlrpc_logging
- * @var int|bool
- */
-$xmlrpc_logging = 0;
-
-/**
- * logIO() - Writes logging info to a file.
- *
- * @uses $xmlrpc_logging
- * @package WordPress
- * @subpackage Logging
- *
- * @param string $io Whether input or output
- * @param string $msg Information describing logging reason.
- * @return bool Always return true
- */
-function logIO($io,$msg) {
-	global $xmlrpc_logging;
-	if ($xmlrpc_logging) {
-		$fp = fopen("../xmlrpc.log","a+");
-		$date = gmdate("Y-m-d H:i:s ");
-		$iot = ($io == "I") ? " Input: " : " Output: ";
-		fwrite($fp, "\n\n".$date.$iot.$msg);
-		fclose($fp);
-	}
-	return true;
-}
-
-if ( isset($HTTP_RAW_POST_DATA) )
-	logIO("I", $HTTP_RAW_POST_DATA);
-
 // Allow for a plugin to insert a different class to handle requests.
 $wp_xmlrpc_server_class = apply_filters('wp_xmlrpc_server_class', 'wp_xmlrpc_server');
 $wp_xmlrpc_server = new $wp_xmlrpc_server_class;
 
 // Fire off the request
 $wp_xmlrpc_server->serve_request();
+
+exit;
+
+/**
+ * logIO() - Writes logging info to a file.
+ *
+ * @deprecated 3.4.0
+ * @deprecated Use error_log()
+ *
+ * @param string $io Whether input or output
+ * @param string $msg Information describing logging reason.
+ */
+function logIO( $io, $msg ) {
+	_deprecated_function( __FUNCTION__, '3.4', 'error_log()' );
+	if ( ! empty( $GLOBALS['xmlrpc_logging'] ) )
+		error_log( $io . ' - ' . $msg );
+}

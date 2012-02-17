@@ -2700,8 +2700,6 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->attach_uploads( $post_ID, $post_content );
 
-		logIO('O', "Posted ! ID: $post_ID");
-
 		return $post_ID;
 	}
 
@@ -3046,7 +3044,6 @@ class wp_xmlrpc_server extends IXR_Server {
 		$post_category = array();
 		if ( isset( $content_struct['categories'] ) ) {
 			$catnames = $content_struct['categories'];
-			logIO('O', 'Post cats: ' . var_export($catnames,true));
 
 			if ( is_array($catnames) ) {
 				foreach ($catnames as $cat) {
@@ -3087,8 +3084,6 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		if ( !$post_ID )
 			return new IXR_Error(500, __('Sorry, your entry could not be posted. Something wrong happened.'));
-
-		logIO('O', "Posted ! ID: $post_ID");
 
 		return strval($post_ID);
 	}
@@ -3380,8 +3375,6 @@ class wp_xmlrpc_server extends IXR_Server {
 		// earlier in this function
 		if ( isset( $content_struct['wp_post_format'] ) )
 			wp_set_post_terms( $post_ID, array( 'post-format-' . $content_struct['wp_post_format'] ), 'post_format' );
-
-		logIO('O',"(MW) Edited ! ID: $post_ID");
 
 		return true;
 	}
@@ -3695,15 +3688,12 @@ class wp_xmlrpc_server extends IXR_Server {
 		$type = $data['type'];
 		$bits = $data['bits'];
 
-		logIO('O', '(MW) Received '.strlen($bits).' bytes');
-
 		if ( !$user = $this->login($username, $password) )
 			return $this->error;
 
 		do_action('xmlrpc_call', 'metaWeblog.newMediaObject');
 
 		if ( !current_user_can('upload_files') ) {
-			logIO('O', '(MW) User does not have upload_files capability');
 			$this->error = new IXR_Error(401, __('You are not allowed to upload files to this site.'));
 			return $this->error;
 		}
@@ -3732,7 +3722,6 @@ class wp_xmlrpc_server extends IXR_Server {
 		$upload = wp_upload_bits($name, null, $bits);
 		if ( ! empty($upload['error']) ) {
 			$errorString = sprintf(__('Could not write file %1$s (%2$s)'), $name, $upload['error']);
-			logIO('O', '(MW) ' . $errorString);
 			return new IXR_Error(500, $errorString);
 		}
 		// Construct the attachment array
@@ -4118,8 +4107,6 @@ class wp_xmlrpc_server extends IXR_Server {
 	  		return new IXR_Error(33, __('The specified target URL cannot be used as a target. It either doesn&#8217;t exist, or it is not a pingback-enabled resource.'));
 		}
 		$post_ID = (int) $post_ID;
-
-		logIO("O","(PB) URL='$pagelinkedto' ID='$post_ID' Found='$way'");
 
 		$post = get_post($post_ID);
 

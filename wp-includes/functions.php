@@ -395,71 +395,6 @@ function xmlrpc_removepostdata( $content ) {
 }
 
 /**
- * Open the file handle for debugging.
- *
- * This function is used for XMLRPC feature, but it is general purpose enough
- * to be used in anywhere.
- *
- * @see fopen() for mode options.
- * @package WordPress
- * @subpackage Debug
- * @since 0.71
- * @uses $debug Used for whether debugging is enabled.
- *
- * @param string $filename File path to debug file.
- * @param string $mode Same as fopen() mode parameter.
- * @return bool|resource File handle. False on failure.
- */
-function debug_fopen( $filename, $mode ) {
-	global $debug;
-	if ( 1 == $debug ) {
-		$fp = fopen( $filename, $mode );
-		return $fp;
-	} else {
-		return false;
-	}
-}
-
-/**
- * Write contents to the file used for debugging.
- *
- * Technically, this can be used to write to any file handle when the global
- * $debug is set to 1 or true.
- *
- * @package WordPress
- * @subpackage Debug
- * @since 0.71
- * @uses $debug Used for whether debugging is enabled.
- *
- * @param resource $fp File handle for debugging file.
- * @param string $string Content to write to debug file.
- */
-function debug_fwrite( $fp, $string ) {
-	global $debug;
-	if ( 1 == $debug )
-		fwrite( $fp, $string );
-}
-
-/**
- * Close the debugging file handle.
- *
- * Technically, this can be used to close any file handle when the global $debug
- * is set to 1 or true.
- *
- * @package WordPress
- * @subpackage Debug
- * @since 0.71
- * @uses $debug Used for whether debugging is enabled.
- *
- * @param resource $fp Debug File handle.
- */
-function debug_fclose( $fp ) {
-	global $debug;
-	if ( 1 == $debug )
-		fclose( $fp );
-}
-
-/**
  * Check content for video and audio links to add as enclosures.
  *
  * Will not add enclosures that have already been added and will
@@ -480,9 +415,7 @@ function do_enclose( $content, $post_ID ) {
 	//TODO: Tidy this ghetto code up and make the debug code optional
 	include_once( ABSPATH . WPINC . '/class-IXR.php' );
 
-	$log = debug_fopen( ABSPATH . 'enclosures.log', 'a' );
 	$post_links = array();
-	debug_fwrite( $log, 'BEGIN ' . date( 'YmdHis', time() ) . "\n" );
 
 	$pung = get_enclosed( $post_ID );
 
@@ -492,9 +425,6 @@ function do_enclose( $content, $post_ID ) {
 	$any = $ltrs . $gunk . $punc;
 
 	preg_match_all( "{\b http : [$any] +? (?= [$punc] * [^$any] | $)}x", $content, $post_links_temp );
-
-	debug_fwrite( $log, 'Post contents:' );
-	debug_fwrite( $log, $content . "\n" );
 
 	foreach ( $pung as $link_test ) {
 		if ( !in_array( $link_test, $post_links_temp[0] ) ) { // link no longer in post

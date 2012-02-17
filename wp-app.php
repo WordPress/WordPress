@@ -24,14 +24,6 @@ require_once(ABSPATH . '/wp-admin/includes/image.php');
 $_SERVER['PATH_INFO'] = preg_replace( '/.*\/wp-app\.php/', '', $_SERVER['REQUEST_URI'] );
 
 /**
- * Whether to enable Atom Publishing Protocol Logging.
- *
- * @name app_logging
- * @var int|bool
- */
-$app_logging = 0;
-
-/**
  * Whether to always authenticate user. Permanently set to true.
  *
  * @name always_authenticate
@@ -44,21 +36,17 @@ $always_authenticate = 1;
  * Writes logging info to a file.
  *
  * @since 2.2.0
- * @uses $app_logging
- * @package WordPress
- * @subpackage Logging
+ * @deprecated 3.4.0
+ * @deprecated Use error_log()
+ * @link http://www.php.net/manual/en/function.error-log.php
  *
  * @param string $label Type of logging
  * @param string $msg Information describing logging reason.
  */
-function log_app($label,$msg) {
-	global $app_logging;
-	if ($app_logging) {
-		$fp = fopen( 'wp-app.log', 'a+');
-		$date = gmdate( 'Y-m-d H:i:s' );
-		fwrite($fp, "\n\n$date - $label\n$msg\n");
-		fclose($fp);
-	}
+function log_app( $label, $msg ) {
+	_deprecated_function( __FUNCTION__, '3.4', 'error_log()' );
+	if ( ! empty( $GLOBALS['app_logging'] ) )
+		error_log( $label . ' - ' . $message );
 }
 
 /**
@@ -268,8 +256,6 @@ class AtomServer {
 
 		$method = $_SERVER['REQUEST_METHOD'];
 
-		log_app('REQUEST',"$method $path\n================");
-
 		$this->process_conditionals();
 		//$this->process_conditionals();
 
@@ -319,8 +305,6 @@ class AtomServer {
 	 * @since 2.2.0
 	 */
 	function get_service() {
-		log_app('function','get_service()');
-
 		if ( !current_user_can( 'edit_posts' ) )
 			$this->auth_required( __( 'Sorry, you do not have the right to access this site.' ) );
 
@@ -360,8 +344,6 @@ EOD;
 	 * @since 2.2.0
 	 */
 	function get_categories_xml() {
-		log_app('function','get_categories_xml()');
-
 		if ( !current_user_can( 'edit_posts' ) )
 			$this->auth_required( __( 'Sorry, you do not have the right to access this site.' ) );
 
@@ -396,8 +378,6 @@ EOD;
 			$this->client_error();
 
 		$entry = array_pop($parser->feed->entries);
-
-		log_app('Received entry:', print_r($entry,true));
 
 		$catnames = array();
 		if ( !empty( $entry->categories ) ) {
@@ -451,7 +431,6 @@ EOD;
 		$post_data = compact('blog_ID', 'post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_category', 'post_status', 'post_excerpt', 'post_name');
 
 		$this->escape($post_data);
-		log_app('Inserting Post. Data:', print_r($post_data,true));
 
 		$postID = wp_insert_post($post_data);
 		if ( is_wp_error( $postID ) )
@@ -470,7 +449,6 @@ EOD;
 
 		$output = $this->get_entry($postID);
 
-		log_app('function',"create_post($postID)");
 		$this->created($postID, $output);
 	}
 
@@ -489,7 +467,6 @@ EOD;
 
 		$this->set_current_entry($postID);
 		$output = $this->get_entry($postID);
-		log_app('function',"get_post($postID)");
 		$this->output($output);
 
 	}
@@ -511,8 +488,6 @@ EOD;
 			$this->bad_request();
 
 		$parsed = array_pop($parser->feed->entries);
-
-		log_app('Received UPDATED entry:', print_r($parsed,true));
 
 		// check for not found
 		global $entry;
@@ -546,7 +521,6 @@ EOD;
 
 		do_action( 'atompub_put_post', $ID, $parsed );
 
-		log_app('function',"put_post($postID)");
 		$this->ok();
 	}
 
@@ -575,7 +549,6 @@ EOD;
 				$this->internal_error(__('For some strange yet very annoying reason, this post could not be deleted.'));
 			}
 
-			log_app('function',"delete_post($postID)");
 			$this->ok();
 		}
 
@@ -597,7 +570,6 @@ EOD;
 		} else {
 			$this->set_current_entry($postID);
 			$output = $this->get_entry($postID, 'attachment');
-			log_app('function',"get_attachment($postID)");
 			$this->output($output);
 		}
 	}
@@ -632,8 +604,6 @@ EOD;
 		$slug = sanitize_file_name( "$slug.$ext" );
 		$file = wp_upload_bits( $slug, null, $bits);
 
-		log_app('wp_upload_bits returns:',print_r($file,true));
-
 		$url = $file['url'];
 		$file = $file['file'];
 
@@ -658,7 +628,6 @@ EOD;
 		$output = $this->get_entry($postID, 'attachment');
 
 		$this->created($postID, $output, 'attachment');
-		log_app('function',"create_attachment($postID)");
 	}
 
 	/**
@@ -703,7 +672,6 @@ EOD;
 		if ( !$result )
 			$this->internal_error(__('For some strange yet very annoying reason, this post could not be edited.'));
 
-		log_app('function',"put_attachment($postID)");
 		$this->ok();
 	}
 
@@ -715,8 +683,6 @@ EOD;
 	 * @param int $postID Post ID.
 	 */
 	function delete_attachment($postID) {
-		log_app('function',"delete_attachment($postID). File '$location' deleted.");
-
 		// check for not found
 		global $entry;
 		$this->set_current_entry($postID);
@@ -739,7 +705,6 @@ EOD;
 		if ( !$result )
 			$this->internal_error(__('For some strange yet very annoying reason, this post could not be deleted.'));
 
-		log_app('function',"delete_attachment($postID). File '$location' deleted.");
 		$this->ok();
 	}
 
@@ -785,7 +750,6 @@ EOD;
 			status_header ('404');
 		}
 
-		log_app('function',"get_file($postID)");
 		exit;
 	}
 
@@ -843,7 +807,6 @@ EOD;
 
 		wp_update_attachment_metadata( $postID, wp_generate_attachment_metadata( $postID, $location ) );
 
-		log_app('function',"put_file($postID)");
 		$this->ok();
 	}
 
@@ -954,7 +917,6 @@ EOD;
 
 		$url = $this->app_base . $this->ENTRY_PATH . "/$postID";
 
-		log_app('function',"get_entry_url() = $url");
 		return $url;
 	}
 
@@ -985,7 +947,6 @@ EOD;
 
 		$url = $this->app_base . $this->MEDIA_SINGLE_PATH ."/file/$postID";
 
-		log_app('function',"get_media_url() = $url");
 		return $url;
 	}
 
@@ -1009,7 +970,6 @@ EOD;
 	 */
 	function set_current_entry($postID) {
 		global $entry;
-		log_app('function',"set_current_entry($postID)");
 
 		if (!isset($postID)) {
 			// $this->bad_request();
@@ -1033,7 +993,6 @@ EOD;
 	 * @param string $post_type Optional, default is 'post'. Post Type.
 	 */
 	function get_posts($page = 1, $post_type = 'post') {
-			log_app('function',"get_posts($page, '$post_type')");
 			$feed = $this->get_feed($page, $post_type);
 			$this->output($feed);
 	}
@@ -1047,7 +1006,6 @@ EOD;
 	 * @param string $post_type Optional, default is 'attachment'. Post type.
 	 */
 	function get_attachments($page = 1, $post_type = 'attachment') {
-		log_app('function',"get_attachments($page, '$post_type')");
 		$GLOBALS['post_type'] = $post_type;
 		$feed = $this->get_feed($page, $post_type);
 		$this->output($feed);
@@ -1064,7 +1022,6 @@ EOD;
 	 */
 	function get_feed($page = 1, $post_type = 'post') {
 		global $post, $wp, $wp_query, $posts, $wpdb, $blog_id;
-		log_app('function',"get_feed($page, '$post_type')");
 		ob_start();
 
 		$this->ENTRY_PATH = $post_type;
@@ -1084,9 +1041,7 @@ EOD;
 		$wp_query = $GLOBALS['wp_query'];
 		$wpdb = $GLOBALS['wpdb'];
 		$blog_id = (int) $GLOBALS['blog_id'];
-		log_app('function',"query_posts(# " . print_r($wp_query, true) . "#)");
 
-		log_app('function',"total_count(# $wp_query->max_num_pages #)");
 		$last_page = $wp_query->max_num_pages;
 		$next_page = (($page + 1) > $last_page) ? null : $page + 1;
 		$prev_page = ($page - 1) < 1 ? null : $page - 1;
@@ -1131,7 +1086,6 @@ EOD;
 	 * @return string.
 	 */
 	function get_entry($postID, $post_type = 'post') {
-		log_app('function',"get_entry($postID, '$post_type')");
 		ob_start();
 		switch($post_type) {
 			case 'post':
@@ -1147,14 +1101,12 @@ EOD;
 			while ( have_posts() ) {
 				the_post();
 				$this->echo_entry();
-				log_app('$post',print_r($GLOBALS['post'],true));
 				$entry = ob_get_contents();
 				break;
 			}
 		}
 		ob_end_clean();
 
-		log_app('get_entry returning:',$entry);
 		return $entry;
 	}
 
@@ -1205,7 +1157,6 @@ list($content_type, $content) = prep_atom_text_construct(get_the_content()); ?>
 	 * @since 2.2.0
 	 */
 	function ok() {
-		log_app('Status','200: OK');
 		header('Content-Type: text/plain');
 		status_header('200');
 		exit;
@@ -1217,7 +1168,6 @@ list($content_type, $content) = prep_atom_text_construct(get_the_content()); ?>
 	 * @since 2.2.0
 	 */
 	function no_content() {
-		log_app('Status','204: No Content');
 		header('Content-Type: text/plain');
 		status_header('204');
 		echo "Moved to Trash.";
@@ -1232,7 +1182,6 @@ list($content_type, $content) = prep_atom_text_construct(get_the_content()); ?>
 	 * @param string $msg Optional. Status string.
 	 */
 	function internal_error($msg = 'Internal Server Error') {
-		log_app('Status','500: Server Error');
 		header('Content-Type: text/plain');
 		status_header('500');
 		echo $msg;
@@ -1245,7 +1194,6 @@ list($content_type, $content) = prep_atom_text_construct(get_the_content()); ?>
 	 * @since 2.2.0
 	 */
 	function bad_request() {
-		log_app('Status','400: Bad Request');
 		header('Content-Type: text/plain');
 		status_header('400');
 		exit;
@@ -1257,7 +1205,6 @@ list($content_type, $content) = prep_atom_text_construct(get_the_content()); ?>
 	 * @since 2.2.0
 	 */
 	function length_required() {
-		log_app('Status','411: Length Required');
 		header("HTTP/1.1 411 Length Required");
 		header('Content-Type: text/plain');
 		status_header('411');
@@ -1270,7 +1217,6 @@ list($content_type, $content) = prep_atom_text_construct(get_the_content()); ?>
 	 * @since 2.2.0
 	 */
 	function invalid_media() {
-		log_app('Status','415: Unsupported Media Type');
 		header("HTTP/1.1 415 Unsupported Media Type");
 		header('Content-Type: text/plain');
 		exit;
@@ -1282,7 +1228,6 @@ list($content_type, $content) = prep_atom_text_construct(get_the_content()); ?>
 	 * @since 2.6.0
 	 */
 	function forbidden($reason='') {
-		log_app('Status','403: Forbidden');
 		header('Content-Type: text/plain');
 		status_header('403');
 		echo $reason;
@@ -1295,7 +1240,6 @@ list($content_type, $content) = prep_atom_text_construct(get_the_content()); ?>
 	 * @since 2.2.0
 	 */
 	function not_found() {
-		log_app('Status','404: Not Found');
 		header('Content-Type: text/plain');
 		status_header('404');
 		exit;
@@ -1307,7 +1251,6 @@ list($content_type, $content) = prep_atom_text_construct(get_the_content()); ?>
 	 * @since 2.2.0
 	 */
 	function not_allowed($allow) {
-		log_app('Status','405: Not Allowed');
 		header('Allow: ' . join(',', $allow));
 		status_header('405');
 		exit;
@@ -1319,8 +1262,6 @@ list($content_type, $content) = prep_atom_text_construct(get_the_content()); ?>
 	 * @since 2.3.0
 	 */
 	function redirect($url) {
-
-		log_app('Status','302: Redirect');
 		$escaped_url = esc_attr($url);
 		$content = <<<EOD
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
@@ -1349,7 +1290,6 @@ EOD;
 	 * @since 2.2.0
 	 */
 	function client_error($msg = 'Client Error') {
-		log_app('Status','400: Client Error');
 		header('Content-Type: text/plain');
 		status_header('400');
 		exit;
@@ -1363,7 +1303,6 @@ EOD;
 	 * @since 2.2.0
 	 */
 	function created($post_ID, $content, $post_type = 'post') {
-		log_app('created()::$post_ID',"$post_ID, $post_type");
 		$edit = $this->get_entry_url($post_ID);
 		switch($post_type) {
 			case 'post':
@@ -1390,7 +1329,6 @@ EOD;
 	 * @param string $msg Status header content and HTML content.
 	 */
 	function auth_required($msg) {
-		log_app('Status','401: Auth Required');
 		nocache_headers();
 		header('WWW-Authenticate: Basic realm="WordPress Atom Protocol"');
 		header("HTTP/1.1 401 $msg");
@@ -1431,7 +1369,6 @@ EOD;
 			header('Date: '. date('r'));
 			if ($this->do_output)
 				echo $xml;
-			log_app('function', "output:\n$xml");
 			exit;
 	}
 
@@ -1464,8 +1401,6 @@ EOD;
 	 * @return bool
 	 */
 	function authenticate() {
-		log_app("authenticate()",print_r($_ENV, true));
-
 		// if using mod_rewrite/ENV hack
 		// http://www.besthostratings.com/articles/http-auth-php-cgi.html
 		if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
@@ -1480,12 +1415,9 @@ EOD;
 
 		// If Basic Auth is working...
 		if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
-			log_app("Basic Auth",$_SERVER['PHP_AUTH_USER']);
-
 			$user = wp_authenticate($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);
 			if ( $user && !is_wp_error($user) ) {
 				wp_set_current_user($user->ID);
-				log_app("authenticate()", $user->user_login);
 				return true;
 			}
 		}
@@ -1514,7 +1446,6 @@ EOD;
 		$type = $_SERVER['CONTENT_TYPE'];
 		list($type,$subtype) = explode('/',$type);
 		list($subtype) = explode(";",$subtype); // strip MIME parameters
-		log_app("get_accepted_content_type", "type=$type, subtype=$subtype");
 
 		foreach($types as $t) {
 			list($acceptedType,$acceptedSubtype) = explode('/',$t);

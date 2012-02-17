@@ -1359,9 +1359,8 @@ function add_clean_index($table, $index) {
  **           false on error
  */
 function maybe_add_column($table_name, $column_name, $create_ddl) {
-	global $wpdb, $debug;
+	global $wpdb;
 	foreach ($wpdb->get_col("DESC $table_name", 0) as $column ) {
-		if ($debug) echo("checking $column == $column_name<br />");
 		if ($column == $column_name) {
 			return true;
 		}
