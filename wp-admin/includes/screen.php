@@ -793,9 +793,12 @@ final class WP_Screen {
 		?>
 		<div id="screen-options-wrap" class="hidden">
 		<form id="adv-settings" action="" method="post">
+		<?php if ( isset( $wp_meta_boxes[ $this->id ] ) || $this->get_option( 'per_page' ) || ( $columns && empty( $columns['_title'] ) ) ) : ?>
+			<h5><?php _e( 'Show on screen' ); ?></h5>
 		<?php
+		endif;
+
 		if ( isset( $wp_meta_boxes[ $this->id ] ) ) : ?>
-			<h5><?php _ex('Show on screen', 'Metaboxes') ?></h5>
 			<div class="metabox-prefs">
 				<?php
 					meta_box_prefs( $this );
@@ -817,8 +820,10 @@ final class WP_Screen {
 				<br class="clear" />
 			</div>
 			<?php endif;
-			if ( ! empty( $columns ) ) : ?>
-			<h5><?php echo ( isset( $columns['_title'] ) ? $columns['_title'] : _x('Show on screen', 'Columns') ) ?></h5>
+			if ( $columns ) :
+				if ( ! empty( $columns['_title'] ) ) : ?>
+			<h5><?php echo $columns['_title']; ?></h5>
+			<?php endif; ?>
 			<div class="metabox-prefs">
 				<?php
 				$special = array('_title', 'cb', 'comment', 'media', 'name', 'title', 'username', 'blogname');
@@ -933,7 +938,6 @@ final class WP_Screen {
 			$per_page = apply_filters( 'edit_posts_per_page', $per_page, $this->post_type );
 
 		?>
-		<h5><?php _ex('Show on screen', 'Screen Options') ?></h5>
 		<div class='screen-options'>
 			<?php if ( !empty($per_page_label) ): ?>
 				<input type='text' class='screen-per-page' name='wp_screen_options[value]'
