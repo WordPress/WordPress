@@ -517,13 +517,15 @@ final class _WP_Editors {
 			'language' => self::$mce_locale
 		);
 
+		$suffix = ( defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ) ? '_src' : '';
+
 		do_action('before_wp_tiny_mce', self::$mce_settings);
 ?>
 
 	<script type="text/javascript">
 		tinyMCEPreInit = {
 			base : "<?php echo self::$baseurl; ?>",
-			suffix : "",
+			suffix : "<?php echo $suffix; ?>",
 			query : "<?php echo $version; ?>",
 			mceInit : <?php echo $mceInit; ?>,
 			qtInit : <?php echo $qtInit; ?>,
