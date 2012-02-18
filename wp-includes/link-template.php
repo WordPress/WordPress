@@ -1792,7 +1792,7 @@ function paginate_comments_links($args = array()) {
 }
 
 /**
- * Retrieve shortcut link.
+ * Retrieve the Press This bookmarklet link.
  *
  * Use this in 'a' element 'href' attribute.
  *
@@ -1801,6 +1801,7 @@ function paginate_comments_links($args = array()) {
  * @return string
  */
 function get_shortcut_link() {
+	// In case of breaking changes, version this. #WP20071
 	$link = "javascript:
 			var d=document,
 			w=window,
