@@ -114,7 +114,6 @@ function get_hidden_meta_boxes( $screen ) {
  *
  * @param string $option An option name.
  * @param mixed $args Option-dependent arguments.
- * @return void
  */
 function add_screen_option( $option, $args = array() ) {
 	$current_screen = get_current_screen();
@@ -661,6 +660,7 @@ final class WP_Screen {
 	 *
 	 * @since 3.4.0
 	 *
+	 * @return string Contents of the help sidebar.
 	 */
 	public function get_help_sidebar() {
 		return $this->_help_sidebar;
