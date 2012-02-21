@@ -109,14 +109,19 @@ function get_plugin_data( $plugin_file, $markup = true, $translate = true ) {
 function _get_plugin_data_markup_translate($plugin_file, $plugin_data, $markup = true, $translate = true) {
 
 	//Translate fields
-	if ( $translate && ! empty($plugin_data['TextDomain']) ) {
-		if ( ! empty( $plugin_data['DomainPath'] ) )
-			load_plugin_textdomain($plugin_data['TextDomain'], false, dirname($plugin_file). $plugin_data['DomainPath']);
-		else
-			load_plugin_textdomain($plugin_data['TextDomain'], false, dirname($plugin_file));
-
-		foreach ( array('Name', 'PluginURI', 'Description', 'Author', 'AuthorURI', 'Version') as $field )
-			$plugin_data[ $field ] = translate($plugin_data[ $field ], $plugin_data['TextDomain']);
+	if ( $translate ) {
+		if ( $textdomain = $plugin_data['TextDomain'] ) {
+			if ( ! empty( $plugin_data['DomainPath'] ) )
+				load_plugin_textdomain( $textdomain, false, dirname( $plugin_file ) . $plugin_data['DomainPath'] );
+			else
+				load_plugin_textdomain( $textdomain, false, dirname( $plugin_file ) );
+		} elseif ( in_array( basename( $plugin_file ), array( 'hello.php', 'akismet.php' ) ) ) {
+			$textdomain = 'default';
+		}
+		if ( $textdomain ) {
+			foreach ( array( 'Name', 'PluginURI', 'Description', 'Author', 'AuthorURI', 'Version' ) as $field )
+				$plugin_data[ $field ] = translate( $plugin_data[ $field ], $textdomain );
+		}
 	}
 
 	$plugins_allowedtags = array(
