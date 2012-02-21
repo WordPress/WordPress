@@ -120,9 +120,9 @@ img {
 .all-caps-title {
 	text-transform: uppercase;
 	font-weight: 400;
-	font-size: 13px;
-	font-size: 0.928571429rem;
-	line-height: 1.846153846;
+	font-size: 12px;
+	font-size: 0.857142857rem;
+	line-height: 2;
 }
 
 /* scaffolding.css.scss
@@ -145,10 +145,10 @@ body {
 
 a {
 	outline: none;
-	color: #177095;
+	color: #13609e;
 }
 a:hover {
-	color: #092e3d;
+	color: #082943;
 }
 
 .skip-link,
@@ -178,7 +178,6 @@ Page structure
 	#page:after {
 		clear: both;
 	}
-
 }
 
 #primary {
@@ -190,6 +189,7 @@ Page structure
 		float: left;
 		width: 65.104166667%;
 	}
+}
 
 @media screen and (min-width: 600px) {
 	body.full-width #primary {
@@ -206,55 +206,53 @@ Page structure
 		float: right;
 		width: 26.041666667%;
 	}
-
 }
 
 /*---------------------------------------------------------
 Header
 ------------------------------------------------------------ */
-header#masthead {
+.site-header {
 	padding: 24px 0;
 	padding: 1.714285714rem 0;
 }
-header#masthead hgroup h1,
-header#masthead hgroup h2 {
+.site-header hgroup h1,
+.site-header hgroup h2 {
 	text-align: center;
 }
 @media screen and (min-width: 600px) {
-	header#masthead hgroup h1,
-	header#masthead hgroup h2 {
+	.site-header hgroup h1,
+	.site-header hgroup h2 {
 		text-align: left;
 	}
-
 }
-header#masthead hgroup h1 a,
-header#masthead hgroup h2 a {
+.site-header hgroup h1 a,
+.site-header hgroup h2 a {
 	color: #444444;
 	text-decoration: none;
 }
-header#masthead hgroup h1 a:hover,
-header#masthead hgroup h2 a:hover {
-	color: #177095;
+.site-header hgroup h1 a:hover,
+.site-header hgroup h2 a:hover {
+	color: #13609e;
 	text-decoration: underline;
 }
-header#masthead hgroup h1 {
+.site-header hgroup h1 {
 	font-size: 24px;
 	font-size: 1.714285714rem;
 	line-height: 2;
 }
 @media screen and (min-width: 600px) {
-	header#masthead hgroup h1 {
-		font-size: 30px;
-		font-size: 2.142857143rem;
-		line-height: 1.6;
+	.site-header hgroup h1 {
+		font-size: 26px;
+		font-size: 1.857142857rem;
+		line-height: 1.846153846;
 	}
-
 }
-header#masthead hgroup h2 {
+.site-header hgroup h2 {
 	font-weight: normal;
 	font-size: 13px;
 	font-size: 0.928571429rem;
 	line-height: 1.846153846;
+	color: #777777;
 }
 
 /*---------------------------------------------------------
@@ -280,7 +278,6 @@ nav[role="navigation"] {
 		column-gap: 0.714285714rem;
 		text-align: center;
 	}
-
 }
 nav[role="navigation"] ul {
 	margin: 0;
@@ -299,7 +296,6 @@ nav[role="navigation"] li {
 	nav[role="navigation"] li {
 		display: list-item;
 	}
-
 }
 nav[role="navigation"] li a {
 	color: #444444;
@@ -369,6 +365,12 @@ div#secondary aside li {
 	font-size: 0.928571429rem;
 	line-height: 1.846153846;
 }
+div#secondary aside a {
+	color: #777777;
+}
+div#secondary aside a:hover {
+	color: #13609e;
+}
 
 /*---------------------------------------------------------
 Footer
@@ -402,7 +404,7 @@ footer[role="contentinfo"] a {
 	color: #686868;
 }
 footer[role="contentinfo"] a:hover {
-	color: #177095;
+	color: #13609e;
 }
 
 /* index.css.scss
@@ -412,47 +414,42 @@ footer[role="contentinfo"] a:hover {
 Basic post styling
 ------------------------------------------------------------ */
 header.entry-header {
-	margin-bottom: 42px;
-	margin-bottom: 3rem;
+	margin-bottom: 24px;
+	margin-bottom: 1.714285714rem;
 }
 header.entry-header .entry-title {
-	font-size: 22px;
-	font-size: 1.571428571rem;
-	line-height: 1.090909091;
+	font-size: 20px;
+	font-size: 1.428571429rem;
+	line-height: 1.2;
+	font-weight: normal;
 }
 header.entry-header .entry-title a {
 	text-decoration: none;
-	color: #444444;
-}
-header.entry-header .entry-title a:hover {
-	color: #177095;
 }
 @media screen and (min-width: 600px) {
 	header.entry-header .entry-title {
-		font-size: 20px;
-		font-size: 1.428571429rem;
-		line-height: 1.2;
+		font-size: 22px;
+		font-size: 1.571428571rem;
+		line-height: 1.090909091;
 	}
-
 }
 header.entry-header .entry-format {
 	margin-top: 24px;
 	margin-top: 1.714285714rem;
 	font-weight: normal;
 }
+header.entry-header .entry-meta {
+	font-size: 11px;
+	font-size: 0.785714286rem;
+	line-height: 2.181818182;
+	color: #777777;
+}
 
-div.entry-meta {
-	margin-top: 6px;
-	margin-top: 0.428571429rem;
-	font-size: 12px;
-	font-size: 0.857142857rem;
-	line-height: 2;
+.entry-meta a {
+	color: #777777;
 }
-div.entry-meta a {
-	color: #686868;
-}
-div.entry-meta a:hover {
-	color: #177095;
+.entry-meta a:hover {
+	color: #13609e;
 }
 
 div.entry-content p {
@@ -462,16 +459,25 @@ div.entry-content p {
 }
 
 div#content article {
-	padding-bottom: 48px;
-	padding-bottom: 3.428571429rem;
+	padding-bottom: 24px;
+	padding-bottom: 1.714285714rem;
 	margin-bottom: 48px;
 	margin-bottom: 3.428571429rem;
 	border-bottom: 1px solid #ededed;
 }
 
-div.page-links,
-footer.entry-meta {
+div.page-links {
 	line-height: 1.714285714;
+}
+
+footer.entry-meta {
+	margin-top: 24px;
+	margin-top: 1.714285714rem;
+	font-size: 13px;
+	font-size: 0.928571429rem;
+	line-height: 1.846153846;
+	font-style: italic;
+	color: #777777;
 }
 
 /*---------------------------------------------------------
@@ -535,7 +541,7 @@ video {
 /* archive.css.scss
  * Styling for the archive view
  * ------------------------------------------------------------------ */
-#content.archive h1.archive-title {
+.archive #content h1.archive-title {
 	margin-bottom: 48px;
 	margin-bottom: 3.428571429rem;
 	padding-bottom: 22px;
