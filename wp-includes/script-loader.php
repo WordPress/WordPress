@@ -278,6 +278,11 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'wpdialogs-popup', "/wp-includes/js/tinymce/plugins/wpdialogs/js/popup$suffix.js", array( 'wpdialogs' ), false, 1 );
 
 	$scripts->add( 'word-count', "/wp-admin/js/word-count$suffix.js", array( 'jquery' ), false, 1 );
+	$scripts->localize( 'word-count', 'wordCountL10n', array(
+		/* translators: If your word count is based on single characters (East Asian characters),
+		   enter 'characters'. Otherwise, enter 'words'. Do not translate into your own language. */
+		'type' => 'characters' == _x( 'words', 'word count: words or characters?' ) ? 'c' : 'w',
+	) );
 
 	$scripts->add( 'media-upload', "/wp-admin/js/media-upload$suffix.js", array( 'thickbox' ), false, 1 );
 
