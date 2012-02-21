@@ -1862,10 +1862,13 @@ function wp_delete_category( $cat_ID ) {
  * @param int|array $object_ids The ID(s) of the object(s) to retrieve.
  * @param string|array $taxonomies The taxonomies to retrieve terms from.
  * @param array|string $args Change what is returned
- * @return array|WP_Error The requested term data or empty array if no terms found. WP_Error if $taxonomy does not exist.
+ * @return array|WP_Error The requested term data or empty array if no terms found. WP_Error if any of the $taxonomies don't exist.
  */
 function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 	global $wpdb;
+
+	if ( empty( $object_ids ) || empty( $taxonomies ) )
+		return array();
 
 	if ( !is_array($taxonomies) )
 		$taxonomies = array($taxonomies);
