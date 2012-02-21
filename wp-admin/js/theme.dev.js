@@ -45,7 +45,7 @@ var ThemeViewer;
 			init: init
 		};
 
-  	return api;
+	return api;
 	}
 })(jQuery);
 
@@ -54,173 +54,145 @@ jQuery( document ).ready( function($) {
 	theme_viewer.init();
 });
 
-var wpThemes;
+var ThemeScroller;
 
 (function($){
-	var inputs = {}, Query;
+	ThemeScroller = {
+		// Inputs
+		nonce: '',
+		search: '',
+		tab: '',
+		type: '',
+		nextPage: 2,
+		features: {},
 
-	wpThemes = {
-		timeToTriggerQuery: 150,
-		minQueryAJAXDuration: 200,
-		outListBottomThreshold: 200,
-		noMoreResults: false,
-		
-		init : function() {
+		// Preferences
+		scrollPollingDelay: 500,
+		failedRetryDelay: 4000,
+		outListBottomThreshold: 300,
+
+		// Flags
+		scrolling: false,
+		querying: false,
+
+		init: function() {
+			var self = this,
+				startPage,
+				queryArray = {},
+				queryString = window.location.search;
+
+			// We're using infinite scrolling, so hide all pagination.
 			$('.pagination-links').hide();
 
-			inputs.nonce = $('#_ajax_fetch_list_nonce').val();
-	
-			// Parse Query
-			inputs.queryString = window.location.search;			
-			inputs.queryArray = wpThemes.parseQuery( inputs.queryString.substring( 1 ) );
+			// Parse GET query string
+			queryArray = this.parseQuery( queryString.substring( 1 ) );
 
-			// Handle Inputs from Query
-			inputs.search = inputs.queryArray['s'];
-			inputs.features = inputs.queryArray['features'];
-			inputs.startPage = parseInt( inputs.queryArray['paged'] );	
-			inputs.tab = inputs.queryArray['tab'];
-			inputs.type = inputs.queryArray['type'];
+			// Handle inputs
+			this.nonce = $('#_ajax_fetch_list_nonce').val();
+			this.search = queryArray['s'];
+			this.features = queryArray['features'];
+			this.tab = queryArray['tab'];
+			this.type = queryArray['type'];
 
-			if ( isNaN( inputs.startPage ) )
-				inputs.startPage = 2;
-			else
-				inputs.startPage++;
+			startPage = parseInt( queryArray['paged'], 10 );
+			if ( ! isNaN( startPage ) )
+				this.nextPage = ( startPage + 1 );
 
-			// Cache jQuery objects
-			inputs.outList = $('#availablethemes');
-			inputs.waiting = $('div.tablenav.bottom').children( 'img.ajax-loading' );
-			inputs.window = $(window);
+			// Cache jQuery selectors
+			this.$outList = $('#availablethemes');
+			this.$spinner = $('div.tablenav.bottom').children( 'img.ajax-loading' );
+			this.$window = $(window);
+			this.$document = $(document);
 
-			// Generate Query
-			wpThemes.query = new Query();
-
-			// Start Polling
-			inputs.window.scroll( function(){ wpThemes.maybeLoad(); } );
+			if ( $('.tablenav-pages').length )
+				this.pollInterval =
+					setInterval( function() { 
+						return self.poll();
+					}, this.scrollPollingDelay );
 		},
-		delayedCallback : function( func, delay ) {
-			var timeoutTriggered, funcTriggered, funcArgs, funcContext;
+		poll: function() {
+			var bottom = this.$document.scrollTop() + this.$window.innerHeight();
 
-			if ( ! delay )
-				return func;
-
-			setTimeout( function() {
-				if ( funcTriggered )
-					return func.apply( funcContext, funcArgs );
-				// Otherwise, wait.
-				timeoutTriggered = true;
-			}, delay);
-
-			return function() {
-				if ( timeoutTriggered )
-					return func.apply( this, arguments );
-				// Otherwise, wait.
-				funcArgs = arguments;
-				funcContext = this;
-				funcTriggered = true;
-			};
-		},
-		ajax: function( callback ) {
-			var self = this,
-				response = wpThemes.delayedCallback( function( results, params ) {
-					self.process( results, params );
-					if ( callback )
-						callback( results, params );
-				}, wpThemes.minQueryAJAXDuration );
-
-			this.query.ajax( response );
-		},
-		process: function( results, params ) {
-			// If no Results, for now, mark as no Matches, and bail.
-			// Alternately: inputs.outList.append(wpThemesL10n.noMatchesFound);
-			if ( ( results === undefined ) ||
-				 ( results.rows.indexOf( "no-items" ) != -1 ) ) {
-				this.noMoreResults = true;
-			} else {
-				inputs.outList.append( results.rows );
-			}
-		},
-		maybeLoad: function() {
-			var self = this,
-				el = $(document),
-				bottom = el.scrollTop() + inputs.window.innerHeight();
-				
-			if ( this.noMoreResults ||
-				 !this.query.ready() || 
-				 ( bottom < inputs.outList.height() - wpThemes.outListBottomThreshold ) )
+			if ( this.querying ||
+				( bottom < this.$outList.height() - this.outListBottomThreshold ) )
 				return;
 
-			setTimeout( function() {
-				var newTop = el.scrollTop(),
-					newBottom = newTop + inputs.window.innerHeight();
-
-				if ( !self.query.ready() ||
-					 ( newBottom < inputs.outList.height() - wpThemes.outListBottomThreshold ) )
-					return;
-
-				inputs.waiting.css( 'visibility', 'visible' ); // Show Spinner
-				self.ajax( function() { inputs.waiting.css( 'visibility', 'hidden' ) } ); // Hide Spinner
-				
-			}, wpThemes.timeToTriggerQuery );
+			this.ajax();
 		},
-		parseQuery: function( query ) {
-			var Params = {};
-			if ( ! query ) {return Params;}// return empty object
-			var Pairs = query.split(/[;&]/);
-			for ( var i = 0; i < Pairs.length; i++ ) {
-				var KeyVal = Pairs[i].split('=');
-				if ( ! KeyVal || KeyVal.length != 2 ) {continue;}
-				var key = unescape( KeyVal[0] );
-				var val = unescape( KeyVal[1] );
-				val = val.replace(/\+/g, ' ');
-				key = key.replace(/\[.*\]$/g, '');
-	
-				if ( Params[key] === undefined ) {
-					Params[key] = val;
-				} else {
-					var oldVal = Params[key];
-					if ( ! jQuery.isArray( Params[key] ) )
-						Params[key] = new Array( oldVal, val );
-					else
-						Params[key].push( val );
-				}
+		process: function( results ) {
+			if ( ( results === undefined ) ||
+				( results.rows.indexOf( 'no-items' ) != -1 ) ) {
+				clearInterval( this.pollInterval );
+				return;
 			}
-			return Params;
-		}
-	}
 
-	Query = function() {
-		this.failedRequest = false;
-		this.querying = false;
-		this.page = inputs.startPage;
-	}
-	
-	$.extend( Query.prototype, {
-		ready: function() {
-			return !( this.querying || this.failedRequest );
+			var totalPages = parseInt( results.total_pages, 10 );
+			if ( this.nextPage > totalPages )
+				clearInterval( this.pollInterval );
+
+			if ( this.nextPage <= ( totalPages + 1 ) )
+				this.$outList.append( results.rows );
 		},
-		ajax: function( callback ) {
-			var self = this,
-			query = {
+		ajax: function() {
+			var self = this;
+			this.querying = true;
+
+			var query = {
 				action: 'fetch-list',
-				tab: inputs.tab,
-				paged: this.page,
-				s: inputs.search,
-				type: inputs.type,
-				_ajax_fetch_list_nonce: inputs.nonce,
-				'features[]': inputs.features,
+				tab: this.tab,
+				paged: this.nextPage,
+				s: this.search,
+				type: this.type,
+				_ajax_fetch_list_nonce: this.nonce,
+				'features[]': this.features,
 				'list_args': list_args
 			};
 
-			this.querying = true;
-			$.get( ajaxurl, query, function(r) {
-				self.page++;
-				self.querying = false;
-				self.failedRequest = !r;
-				callback( r, query );
-			}, "json" );
-		}
-	});
+			this.$spinner.css( 'visibility', 'visible' );
+			$.getJSON( ajaxurl, query )
+				.done( function( response ) {
+					self.nextPage++;
+					self.process( response );
+					self.$spinner.css( 'visibility', 'hidden' );
+					self.querying = false;
+				})
+				.fail( function() {
+					self.$spinner.css( 'visibility', 'hidden' );
+					self.querying = false;
+					setTimeout( function() { self.ajax(); }, self.failedRetryDelay )
+				});
+		},
+		parseQuery: function( query ) {
+			var params = {};
+			if ( ! query )
+				return params;
 
-	$(document).ready( wpThemes.init );
+			var pairs = query.split( /[;&]/ );
+			for ( var i = 0; i < pairs.length; i++ ) {
+				var keyVal = pairs[i].split( '=' );
+
+				if ( ! keyVal || keyVal.length != 2 )
+					continue;
+
+				var key = unescape( keyVal[0] );
+				var val = unescape( keyVal[1] );
+				val = val.replace( /\+/g, ' ' );
+				key = key.replace( /\[.*\]$/g, '' );
+
+				if ( params[key] === undefined ) {
+					params[key] = val;
+				} else {
+					var oldVal = params[key];
+					if ( ! $.isArray( params[key] ) )
+						params[key] = new Array( oldVal, val );
+					else
+						params[key].push( val );
+				}
+			}
+			return params;
+		}
+	}
+
+	$(document).ready( function( $ ) { ThemeScroller.init(); });
 
 })(jQuery);
