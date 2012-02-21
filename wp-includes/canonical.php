@@ -191,8 +191,8 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 				}
 
 			}
-		} elseif ( is_single() && strpos($wp_rewrite->permalink_structure, '%category%') !== false ) {
-			$category = get_category_by_path(get_query_var('category_name'));
+		} elseif ( is_single() && strpos($wp_rewrite->permalink_structure, '%category%') !== false && $cat = get_query_var( 'category_name' ) ) {
+			$category = get_category_by_path( $cat );
 			$post_terms = wp_get_object_terms($wp_query->get_queried_object_id(), 'category', array('fields' => 'tt_ids'));
 			if ( (!$category || is_wp_error($category)) || ( !is_wp_error($post_terms) && !empty($post_terms) && !in_array($category->term_taxonomy_id, $post_terms) ) )
 				$redirect_url = get_permalink($wp_query->get_queried_object_id());
