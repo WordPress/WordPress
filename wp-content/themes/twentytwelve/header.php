@@ -24,7 +24,7 @@
 <script src="<?php echo get_template_directory_uri(); ?>/js/html5.js" type="text/javascript"></script>
 <![endif]-->
 <?php
-if ( is_singular() && get_option( 'thread_comments' ) )
+if ( is_singular() && comments_open() && get_option( 'thread_comments' ) )
 	wp_enqueue_script( 'comment-reply' );
 
 wp_enqueue_style( 'twentytwelve-style', get_stylesheet_uri() );
