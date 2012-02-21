@@ -65,7 +65,7 @@
 						</a>
 					</div><!-- #author-link	-->
 				</div><!-- #author-description -->
-			</div><!-- #entry-author-info -->
+			</div><!-- #author-info -->
 			<?php endif; ?>
 		</footer><!-- .entry-meta -->
 	</article><!-- #post -->

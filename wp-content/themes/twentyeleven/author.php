@@ -49,7 +49,7 @@ get_header(); ?>
 						<h2><?php printf( __( 'About %s', 'twentyeleven' ), get_the_author() ); ?></h2>
 						<?php the_author_meta( 'description' ); ?>
 					</div><!-- #author-description	-->
-				</div><!-- #entry-author-info -->
+				</div><!-- #author-info -->
 				<?php endif; ?>
 
 				<?php /* Start the Loop */ ?>
