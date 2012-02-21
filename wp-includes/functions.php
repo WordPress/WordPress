@@ -8,35 +8,37 @@
 require( ABSPATH . WPINC . '/option.php' );
 
 /**
- * Converts MySQL DATETIME field to user specified date format.
+ * Converts given date string into a different format.
  *
- * The $translate parameter will only be used, if it is set to true and it is by
- * default and if the $wp_locale object has the month and weekday set.
+ * $format should be either a PHP date format string, e.g. 'U' for a Unix
+ * timestamp, or 'G' for a Unix timestamp assuming that $date is GMT.
+ *
+ * If $translate is true then the given date and format string will
+ * be passed to date_i18n() for translation.
  *
  * @since 0.71
  *
- * @param string $dateformatstring Either 'G', 'U', or PHP date format.
- * @param string $mysqlstring Time from mysql DATETIME field.
- * @param bool $translate Optional. Default is true. Will switch format to locale.
- * @return string Date formatted by $dateformatstring or locale (if available).
+ * @param string $format Format of the date to return.
+ * @param string $date Date string to convert.
+ * @param bool $translate Whether the return date should be translated. Default is true. 
+ * @return string|int Formatted date string, or Unix timestamp.
  */
-function mysql2date( $dateformatstring, $mysqlstring, $translate = true ) {
-	$m = $mysqlstring;
-	if ( empty( $m ) )
+function mysql2date( $format, $date, $translate = true ) {
+	if ( empty( $date ) )
 		return false;
 
-	if ( 'G' == $dateformatstring )
-		return strtotime( $m . ' +0000' );
+	if ( 'G' == $format )
+		return strtotime( $date . ' +0000' );
 
-	$i = strtotime( $m );
+	$i = strtotime( $date );
 
-	if ( 'U' == $dateformatstring )
+	if ( 'U' == $format )
 		return $i;
 
 	if ( $translate )
-		return date_i18n( $dateformatstring, $i );
+		return date_i18n( $format, $i );
 	else
-		return date( $dateformatstring, $i );
+		return date( $format, $i );
 }
 
 /**
