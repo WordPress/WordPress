@@ -35,7 +35,7 @@ get_header(); ?>
 							<?php edit_post_link( __( 'Edit', 'twentytwelve' ), '<span class="edit-link">', '</span>' ); ?>
 						</div><!-- .entry-meta -->
 
-						<nav id="image-navigation">
+						<nav id="image-navigation" role="navigation">
 							<span class="previous-image"><?php previous_image_link( false, __( '&larr; Previous', 'twentytwelve' ) ); ?></span>
 							<span class="next-image"><?php next_image_link( false, __( 'Next &rarr;', 'twentytwelve' ) ); ?></span>
 						</nav><!-- #image-navigation -->
