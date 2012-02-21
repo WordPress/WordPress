@@ -10,16 +10,12 @@ require( ABSPATH . WPINC . '/option.php' );
 /**
  * Converts MySQL DATETIME field to user specified date format.
  *
- * If $dateformatstring has 'G' value, then gmmktime() function will be used to
- * make the time. If $dateformatstring is set to 'U', then mktime() function
- * will be used to make the time.
- *
- * The $translate will only be used, if it is set to true and it is by default
- * and if the $wp_locale object has the month and weekday set.
+ * The $translate parameter will only be used, if it is set to true and it is by
+ * default and if the $wp_locale object has the month and weekday set.
  *
  * @since 0.71
  *
- * @param string $dateformatstring Either 'G', 'U', or php date format.
+ * @param string $dateformatstring Either 'G', 'U', or PHP date format.
  * @param string $mysqlstring Time from mysql DATETIME field.
  * @param bool $translate Optional. Default is true. Will switch format to locale.
  * @return string Date formatted by $dateformatstring or locale (if available).
