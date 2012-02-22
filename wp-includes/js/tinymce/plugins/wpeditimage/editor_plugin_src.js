@@ -10,30 +10,21 @@
 
 			// Register the command so that it can be invoked by using tinyMCE.activeEditor.execCommand('...');
 			ed.addCommand('WP_EditImage', function() {
-				var el = ed.selection.getNode(), vp = tinymce.DOM.getViewPort(), H = vp.h, W = ( 720 < vp.w ) ? 720 : vp.w, cls = ed.dom.getAttrib(el, 'class');
+				var el = ed.selection.getNode(), vp, H, W, cls = ed.dom.getAttrib(el, 'class');
 
 				if ( cls.indexOf('mceItem') != -1 || cls.indexOf('wpGallery') != -1 || el.nodeName != 'IMG' )
 					return;
 
-				tb_show('', url + '/editimage.html?ver=321&TB_iframe=true');
-				tinymce.DOM.setStyles('TB_window', {
-					'width':( W - 50 )+'px',
-					'height':( H - 45 )+'px',
-					'margin-left':'-'+parseInt((( W - 50 ) / 2),10) + 'px'
-				});
+				vp = tinymce.DOM.getViewPort();
+				H = 680 < (vp.h - 70) ? 680 : vp.h - 70;
+				W = 650 < vp.w ? 650 : vp.w;
 
-				if ( ! tinymce.isIE6 ) {
-					tinymce.DOM.setStyles('TB_window', {
-						'top':'20px',
-						'marginTop':'0'
-					});
-				}
-
-				tinymce.DOM.setStyles('TB_iframeContent', {
-					'width':( W - 50 )+'px',
-					'height':( H - 75 )+'px'
+				ed.windowManager.open({
+					file: url + '/editimage.html',
+					width: W+'px',
+					height: H+'px',
+					inline: true
 				});
-				tinymce.DOM.setStyle( ['TB_overlay','TB_window','TB_load'], 'z-index', '999999' );
 			});
 
 			ed.onInit.add(function(ed) {
