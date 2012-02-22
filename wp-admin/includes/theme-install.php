@@ -268,9 +268,9 @@ function install_theme_information() {
 	$themes = get_themes();
 	foreach ( (array) $themes as $this_theme ) {
 		if ( is_array($this_theme) && $this_theme['Stylesheet'] == $api->slug ) {
-			if ( $this_theme['Version'] == $api->version ) {
+			if ( version_compare( $this_theme['Version'], $api->version, '=' ) ) {
 				$type = 'latest_installed';
-			} elseif ( $this_theme['Version'] > $api->version ) {
+			} elseif ( version_compare( $this_theme['Version'], $api->version, '>' ) ) {
 				$type = 'newer_installed';
 				$newer_version = $this_theme['Version'];
 			}
