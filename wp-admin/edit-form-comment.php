@@ -20,7 +20,7 @@ if ( !defined('ABSPATH') )
 <input type="hidden" name="user_ID" value="<?php echo (int) $user_ID; ?>" />
 <input type="hidden" name="action" value="editedcomment" />
 <input type="hidden" name="comment_ID" value="<?php echo esc_attr( $comment->comment_ID ); ?>" />
-<input type="hidden" name="comment_post_ID" value="<?php esc_attr( $comment->comment_post_ID ); ?>" />
+<input type="hidden" name="comment_post_ID" value="<?php echo esc_attr( $comment->comment_post_ID ); ?>" />
 
 <div id="side-info-column" class="inner-sidebar">
 <div id="submitdiv" class="stuffbox" >
