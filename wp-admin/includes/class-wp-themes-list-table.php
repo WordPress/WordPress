@@ -58,7 +58,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 
 		$start = ( $page - 1 ) * $per_page;
 
-		$this->items = array_slice( $themes, $start, $per_page );
+		$this->items = array_slice( $themes, $start, $per_page, true );
 
 		$this->set_pagination_args( array(
 			'total_items' => count( $themes ),
