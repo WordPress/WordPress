@@ -730,7 +730,7 @@ final class WP_Screen {
 							$panel_id = "tab-panel-{$tab['id']}";
 							?>
 
-							<li id="<?php echo esc_attr( $link_id ); ?>"<?php echo $class; ?>">
+							<li id="<?php echo esc_attr( $link_id ); ?>"<?php echo $class; ?>>
 								<a href="<?php echo esc_url( "#$panel_id" ); ?>">
 									<?php echo esc_html( $tab['title'] ); ?>
 								</a>
