@@ -1188,14 +1188,14 @@ function force_balance_tags( $text ) {
 /**
  * Acts on text which is about to be edited.
  *
- * Unless $richedit is set, it is simply a holder for the 'format_to_edit'
- * filter. If $richedit is set true htmlspecialchars(), through esc_textarea(),
- * will be run on the content, converting special characters to HTML entities.
+ * The $content is run through esc_textarea(), which uses htmlspecialchars()
+ * to convert special characters to HTML entities. If $richedit is set to true,
+ * it is simply a holder for the 'format_to_edit' filter.
  *
  * @since 0.71
  *
  * @param string $content The text about to be edited.
- * @param bool $richedit Whether the $content should pass through htmlspecialchars(). Default false.
+ * @param bool $richedit Whether the $content should not pass through htmlspecialchars(). Default false (meaning it will be passed).
  * @return string The text after the filter (and possibly htmlspecialchars()) has been run.
  */
 function format_to_edit( $content, $richedit = false ) {

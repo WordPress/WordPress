@@ -25,8 +25,8 @@ function send_to_editor(h) {
 			ed.selection.moveToBookmark(ed.windowManager.insertimagebookmark);
 
 		if ( h.indexOf('[caption') === 0 ) {
-			if ( ed.plugins.wpeditimage )
-				h = ed.plugins.wpeditimage._do_shcode(h);
+			if ( ed.wpSetImgCaption )
+				h = ed.wpSetImgCaption(h);
 		} else if ( h.indexOf('[gallery') === 0 ) {
 			if ( ed.plugins.wpgallery )
 				h = ed.plugins.wpgallery._do_gallery(h);

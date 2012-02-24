@@ -21,6 +21,7 @@ tinyMCEPopup = {
 		tinyMCE = w.tinyMCE;
 		t.editor = tinymce.EditorManager.activeEditor;
 		t.params = t.editor.windowManager.params;
+		t.events = new tinymce.dom.EventUtils();
 
 		// Setup local DOM
 		t.dom = t.editor.windowManager.createInstance('tinymce.dom.DOMUtils', document);
@@ -36,16 +37,16 @@ tinyMCEPopup = {
 	},
 
 	close : function() {
-		var t = this, win = t.getWin();
+		var t = this;
 
 		// To avoid domain relaxing issue in Opera
 		function close() {
-			win.tb_remove();
-			tinymce = tinyMCE = t.editor = t.dom = t.dom.doc = null; // Cleanup
+			t.editor.windowManager.close(window);
+			tinymce = tinyMCE = t.editor = t.params = t.dom = t.dom.doc = null; // Cleanup
 		};
 
 		if (tinymce.isOpera)
-			win.setTimeout(close, 0);
+			t.getWin().setTimeout(close, 0);
 		else
 			close();
 	},
@@ -74,12 +75,14 @@ tinyMCEPopup.init();
 wpImage = {
 	preInit : function() {
 		// import colors stylesheet from parent
-		var win = tinyMCEPopup.getWin(), styles = win.document.styleSheets, url, i;
+		var ed = tinyMCEPopup.editor, win = tinyMCEPopup.getWin(), styles = win.document.styleSheets, url, i;
 
 		for ( i = 0; i < styles.length; i++ ) {
 			url = styles.item(i).href;
-			if ( url && url.indexOf('colors') != -1 )
-				document.write( '<link rel="stylesheet" href="'+url+'" type="text/css" media="all" />' );
+			if ( url && url.indexOf('colors') != -1 ) {
+				document.getElementsByTagName('head')[0].appendChild( ed.dom.create('link', {rel:'stylesheet', href: url}) );
+				break;
+			}
 		}
 	},
 
@@ -242,7 +245,7 @@ wpImage = {
 
 	setup : function() {
 		var t = this, c, el, link, fname, f = document.forms[0], ed = tinyMCEPopup.editor,
-			d = t.I('img_demo'), dom = tinyMCEPopup.dom, DL, caption = '', dlc, pa;
+			d = t.I('img_demo'), dom = tinyMCEPopup.dom, DL, DD, caption = '', dlc, pa, bookmark, insert_link;
 
 		document.dir = tinyMCEPopup.editor.getParam('directionality','');
 
@@ -267,15 +270,12 @@ wpImage = {
 				tinymce.trim(c);
 			}
 
-			tinymce.each(DL.childNodes, function(e) {
-				if ( e.nodeName == 'DD' && dom.hasClass(e, 'wp-caption-dd') ) {
-					caption = e.innerHTML;
-					return;
-				}
-			});
+			DD = ed.dom.select('dd.wp-caption-dd', DL);
+			if ( DD && DD[0] )
+				caption = ed.serializer.serialize(DD[0]).replace(/^<p>/, '').replace(/<\/p>$/, '');
 		}
 
-		f.img_cap.value = caption;
+		f.img_cap_text.value = caption;
 		f.img_title.value = ed.dom.getAttrib(el, 'title');
 		f.img_alt.value = ed.dom.getAttrib(el, 'alt');
 		f.border.value = ed.dom.getAttrib(el, 'border');
@@ -326,8 +326,83 @@ wpImage = {
 			d.className = t.align = "alignnone";
 		}
 
-		if ( t.width && t.preloadImg.width ) t.showSizeSet();
+		if ( t.width && t.preloadImg.width )
+			t.showSizeSet();
+		
 		document.body.style.display = '';
+
+		tinyMCEPopup.events.add(document.body, 'click', function(e) {
+			var target = e.target, parent = target.parentNode, tr, c, el, textarea, sel, text, startPos, endPos;
+
+			if ( dom.hasClass(target, 'caption-insert-link') ) {
+				el = dom.select('div.caption-insert-link-wrap', parent)[0], textarea = dom.select('#img_cap_text')[0];
+
+				if ( document.selection ) {
+					textarea.focus();
+					sel = document.selection.createRange();
+					bookmark = sel.getBookmark();
+
+					if ( sel.text )
+						dom.select('.caption-insert-link-text', el)[0].value = sel.text;
+
+				} else if ( textarea.selectionStart || textarea.selectionStart == '0' ) {
+					text = textarea.value;
+					startPos = textarea.selectionStart;
+					endPos = textarea.selectionEnd;
+
+					if ( startPos != endPos )
+						dom.select('.caption-insert-link-text', el)[0].value = text.substring(startPos, endPos);
+				}
+
+				dom.hide(target);
+				dom.show(el);
+				dom.select('.caption-insert-link-url', el)[0].focus();
+			} else if ( dom.hasClass(target, 'caption-cancel') || dom.hasClass(target, 'caption-save') ) {
+				if ( dom.hasClass(target, 'caption-save') )
+					insert_link();
+
+				dom.hide( dom.select('.caption-insert-link-wrap') );
+				dom.show( dom.select('.caption-insert-link') );
+			}
+		});
+
+		insert_link = function() {
+			var sel, content, startPos, endPos, scrollTop, text, textarea = dom.select('#img_cap_text')[0],
+				url = dom.select('.caption-insert-link-url')[0], link_text = dom.select('.caption-insert-link-text')[0];
+
+			if ( !url || !link_text )
+				return;
+
+			content = "<a href='"+url.value+"'>"+link_text.value+"</a>";
+
+			if ( document.selection ) {
+				textarea.focus();
+				sel = document.selection.createRange();
+
+				if ( bookmark ) {
+					sel.moveToBookmark( bookmark );
+					bookmark = '';
+				}
+
+				sel.text = content;
+				textarea.focus();
+			} else if ( textarea.selectionStart || textarea.selectionStart == '0' ) {
+				text = textarea.value;
+				startPos = textarea.selectionStart;
+				endPos = textarea.selectionEnd;
+				scrollTop = textarea.scrollTop;
+
+				textarea.value = text.substring(0, startPos) + content + text.substring(endPos, text.length);
+
+				textarea.focus();
+				textarea.selectionStart = startPos + content.length;
+				textarea.selectionEnd = startPos + content.length;
+				textarea.scrollTop = scrollTop;
+			}
+
+			url.value = '';
+			link_text.value = '';
+		};
 	},
 
 	remove : function() {
@@ -362,7 +437,7 @@ wpImage = {
 			return;
 		}
 
-		if ( f.img_cap.value != '' && f.width.value != '' ) {
+		if ( f.img_cap_text.value != '' && f.width.value != '' ) {
 			do_caption = 1;
 			img_class = img_class.replace( /align[^ "']+\s?/gi, '' );
 		}
@@ -440,7 +515,7 @@ wpImage = {
 					ed.dom.setAttrib(DIV, 'class', div_cls);
 
 				if ( (DT = ed.dom.getParent(el, 'dt')) && (DD = DT.nextSibling) && ed.dom.hasClass(DD, 'wp-caption-dd') )
-					ed.dom.setHTML(DD, f.img_cap.value);
+					ed.dom.setHTML(DD, f.img_cap_text.value);
 
 			} else {
 				if ( (id = f.img_classes.value.match( /wp-image-([0-9]{1,6})/ )) && id[1] )
@@ -457,7 +532,7 @@ wpImage = {
 				} else html = ed.dom.getOuterHTML(el);
 
 				html = '<dl id="'+cap_id+'" class="wp-caption '+t.align+'" style="width: '+cap_width+
-				'px"><dt class="wp-caption-dt">'+html+'</dt><dd class="wp-caption-dd">'+f.img_cap.value+'</dd></dl>';
+				'px"><dt class="wp-caption-dt">'+html+'</dt><dd class="wp-caption-dd">'+f.img_cap_text.value+'</dd></dl>';
 
 				cap = ed.dom.create('div', {'class': div_cls}, html);
 
@@ -614,3 +689,4 @@ wpImage = {
 
 window.onload = function(){wpImage.init();}
 wpImage.preInit();
+

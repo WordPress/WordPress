@@ -3873,6 +3873,43 @@ abbr.required {
 	padding-left: 15px;
 }
 
+.media-item .edit-caption-controls {
+	margin: 5px 0;
+	width: 460px;
+}
+
+.media-item .edit-caption-controls label {
+	margin: 5px 0;
+	display: block;
+}
+
+.media-item .edit-caption-controls label span {
+	width: 100px;
+	float: left;
+	line-height: 22px;
+}
+
+.media-item .edit-caption-controls input[type="text"] {
+	width: 335px;
+}
+
+.media-item .caption-insert-link-buttons {
+	text-align: right;
+	margin: 5px 12px;
+}
+
+.media-item .caption-insert-link-wrap {
+	padding: 5px 0 5px 12px;
+	background-color: #f8f8f8;
+	border: 1px solid #eee;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.media-item .post_excerpt textarea {
+    height: 60px;
+}
+
 /*------------------------------------------------------------------------------
   14.1 - Media Library
 ------------------------------------------------------------------------------*/

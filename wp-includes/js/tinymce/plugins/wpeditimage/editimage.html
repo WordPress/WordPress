@@ -1,22 +1,20 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title></title>
 
-<script type="text/javascript" src="js/editimage.js?ver=327"></script>
-<script type="text/javascript" src="../../utils/form_utils.js?ver=3223"></script>
-
-<link rel="stylesheet" href="css/editimage.css?ver=327" type="text/css" media="all" />
-
-<script type="text/javascript">
-if ( 'rtl' == tinyMCEPopup.editor.getParam('directionality','') )
-	document.write('<link rel="stylesheet" href="css/editimage-rtl.css?ver=3223" type="text/css" media="all" />');
-</script>
+<link rel="stylesheet" href="css/editimage.css?ver=348" type="text/css" media="all" />
+<script type="text/javascript" src="js/editimage.js?ver=348"></script>
+<script type="text/javascript" src="../../utils/form_utils.js?ver=348"></script>
 <base target="_self" />
 </head>
 
 <body id="media-upload" style="display:none;">
+<script type="text/javascript">
+if ( 'rtl' == tinyMCEPopup.editor.getParam('directionality','') )
+	document.body.className += ' rtl';
+</script>
 <div id="media-upload-header">
 	<ul id="sidemenu">
 	<li><a href="javascript:;" id="tab_basic" class="current" onclick="wpImage.setTabs(this);">{#wpeditimage.edit_img}</a></li>
@@ -103,7 +101,23 @@ if ( 'rtl' == tinyMCEPopup.editor.getParam('directionality','') )
 				</label>
 			</th>
 			<td class="field">
-				<input type="text" id="img_cap" name="img_cap" value="" size="60" />
+				<textarea id="img_cap_text"></textarea>
+
+				<div class="edit-caption-controls">
+				<input type="button" class="button caption-insert-link" value="{#wpeditimage.insert_link}" />
+
+				<div class="caption-insert-link-wrap hidden">
+				<label><span>{#advanced_dlg.link_url}</span>
+				<input type="text" value="" class="caption-insert-link-url" /></label>
+
+				<label><span>{#wpeditimage.linked_text}</span>
+				<input type="text" value="" class="caption-insert-link-text" /></label>
+
+				<div class="caption-insert-link-buttons">
+				<input type="button" class="button caption-cancel" value="{#cancel}" />
+				<input type="button" class="button-primary caption-save" value="{#insert}" />
+				<br class="clear" />
+				</div></div></div>
 			</td>
 		</tr>
 

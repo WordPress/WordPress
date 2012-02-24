@@ -356,3 +356,112 @@ div#media-upload-error {
 	background-color: #222222;
 	color: #CFCFCF;
 }
+
+#img-edit .edit-caption-controls {
+	margin: 5px 0;
+}
+
+#img-edit .edit-caption-controls label {
+	margin: 5px 0;
+	display: block;
+}
+
+#img-edit .edit-caption-controls label span {
+	width: 100px;
+	float: left;
+	line-height: 22px;
+}
+
+#img-edit .edit-caption-controls input[type="text"] {
+	width: 335px;
+}
+
+#img-edit .caption-insert-link-buttons {
+	text-align: right;
+	margin: 5px 12px;
+}
+
+#img-edit .caption-insert-link-wrap {
+	padding: 5px 0 5px 12px;
+	background-color: #f8f8f8;
+	border: 1px solid #eee;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+
+#img-edit #img_cap_text {
+	font: normal 12px/18px monospace;
+}
+
+.hidden {
+	display: none;
+}
+
+/* RTL */
+body#media-upload.rtl ul#sidemenu {
+	left: auto;
+	right: 0;
+}
+
+.rtl #basic .align .field label {
+	display: block;
+	float: right;
+	padding: 0 24px 0 0;
+	margin: 5px 3px 5px 5px; 
+}
+
+.rtl .align .field input {
+	display: block;
+	float: right;
+	margin: 5px 15px 5px 0;
+}
+
+.rtl tr.image-size label {
+	margin: 0;
+}
+
+.rtl tr.image-size input {
+	margin: 3px 15px 0 5px;
+}
+
+.rtl .image-align-none-label,
+.rtl .image-align-left-label,
+.rtl .image-align-center-label,
+.rtl .image-align-right-label {
+	background-position: center right;
+}
+
+#media-upload.rtl .describe th.label {
+	text-align: right;
+}
+
+.rtl .show-align,
+.rtl .alignright,
+.rtl #img_size {
+	float: left;
+}
+
+.rtl tr.image-size label,
+.rtl tr.image-size input,
+.rtl #img_dim label,
+.rtl #img_dim input,
+.rtl #img_prop label,
+.rtl #img_prop input,
+.rtl #img_size_div,
+.rtl .alignleft {
+	float: right;
+}
+
+.rtl #img_dim label,
+.rtl #img_prop label {
+	margin: 5px 0pt;
+}
+
+.rtl #img_dim input,
+.rtl #img_prop input {
+	margin: 0 5px 0 10px;
+}
+
+.rtl #img_size_title {
+	text-align: left;
+}

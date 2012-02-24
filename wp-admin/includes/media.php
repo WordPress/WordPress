@@ -149,21 +149,27 @@ function image_add_caption( $html, $id, $caption, $title, $align, $url, $size, $
 
 	$width = $matches[1];
 
-	$caption = str_replace(	array( '>',    '<',    '"',      "'" ),
-							array( '&gt;', '&lt;', '&quot;', '&#039;' ),
-							$caption
-						  );
+	$caption = preg_replace_callback( '/<[a-zA-Z][^<>]+>/', '_cleanup_image_add_caption', $caption );
+	$caption = str_replace(	'"', '&quot;', $caption );
 
 	$html = preg_replace( '/(class=["\'][^\'"]*)align(none|left|right|center)\s?/', '$1', $html );
 	if ( empty($align) )
 		$align = 'none';
 
 	$shcode = '[caption id="' . $id . '" align="align' . $align
-	. '" width="' . $width . '" caption="' . addslashes($caption) . '"]' . $html . '[/caption]';
+	. '" width="' . $width . '" caption="' . $caption . '"]' . $html . '[/caption]';
 
 	return apply_filters( 'image_add_caption_shortcode', $shcode, $html );
 }
 add_filter( 'image_send_to_editor', 'image_add_caption', 20, 8 );
+
+// Private, preg_replace callback used in image_add_caption()
+function _cleanup_image_add_caption($str) {
+	if ( isset($str[0]) )
+		return str_replace(	'"', "'", $str[0] );
+
+	return '';
+}
 
 /**
  * {@internal Missing Short Description}}
@@ -776,10 +782,31 @@ function image_link_input_fields($post, $url_type = '') {
 
 	return "
 	<input type='text' class='text urlfield' name='attachments[$post->ID][url]' value='" . esc_attr($url) . "' /><br />
-	<button type='button' class='button urlnone' title=''>" . __('None') . "</button>
-	<button type='button' class='button urlfile' title='" . esc_attr($file) . "'>" . __('File URL') . "</button>
-	<button type='button' class='button urlpost' title='" . esc_attr($link) . "'>" . __('Attachment Post URL') . "</button>
+	<button type='button' class='button urlnone' data-link-url=''>" . __('None') . "</button>
+	<button type='button' class='button urlfile' data-link-url='" . esc_attr($file) . "'>" . __('File URL') . "</button>
+	<button type='button' class='button urlpost' data-link-url='" . esc_attr($link) . "'>" . __('Attachment Post URL') . "</button>
 ";
+}
+
+function wp_caption_input_textarea($edit_post) {
+	// post data is already escaped
+	$name = "attachments[{$edit_post->ID}][post_excerpt]";
+
+	return '
+	<textarea class="code" name="' . $name . '" id="' . $name . '">' . $edit_post->post_excerpt . '</textarea>
+	<div class="edit-caption-controls hide-if-no-js">
+	<input type="button" class="button caption-insert-link" value="' . esc_attr__('Insert Link') . '" />
+	<div class="caption-insert-link-wrap hidden">
+	<label><span>' . __('Link URL') . '</span>
+	<input type="text" value="" class="caption-insert-link-url" /></label>
+	<label><span>' . __('Linked text') . '</span>
+	<input type="text" value="" class="caption-insert-link-text" /></label>
+	<div class="caption-insert-link-buttons">
+	<input type="button" class="button caption-cancel" value="' . esc_attr__('Cancel') . '" />
+	<input type="button" class="button-primary caption-save" value="' . esc_attr__('Insert') . '" />
+	<br class="clear" />
+	</div></div></div>
+	';
 }
 
 /**
@@ -924,8 +951,9 @@ function get_attachment_fields_to_edit($post, $errors = null) {
 		),
 		'image_alt'   => array(),
 		'post_excerpt' => array(
-			'label'      => __('Caption'),
-			'value'      => $edit_post->post_excerpt
+			'label'      => __('Default Caption'),
+			'input'      => 'html',
+			'html'       => wp_caption_input_textarea($edit_post)
 		),
 		'post_content' => array(
 			'label'      => __('Description'),
@@ -1202,9 +1230,11 @@ function get_media_item( $attachment_id, $args = null ) {
 		if ( !empty( $field[ $field['input'] ] ) )
 			$item .= $field[ $field['input'] ];
 		elseif ( $field['input'] == 'textarea' ) {
-			if ( user_can_richedit() ) { // textarea_escaped when user_can_richedit() = false
-				$field['value'] = esc_textarea( $field['value'] );
+			if ( 'post_content' == $id && user_can_richedit() ) {
+				// sanitize_post() skips the post_content when user_can_richedit
+				$field['value'] = htmlspecialchars( $field['value'], ENT_QUOTES );
 			}
+			// post_excerpt is already escaped by sanitize_post() in get_attachment_fields_to_edit()
 			$item .= "<textarea id='$name' name='$name' $aria_required>" . $field['value'] . '</textarea>';
 		} else {
 			$item .= "<input type='text' class='text' id='$name' name='$name' value='" . esc_attr( $field['value'] ) . "' $aria_required />";
@@ -1513,8 +1543,13 @@ var addExtImage = {
 			alt = f.alt.value.replace(/'/g, '&#039;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
 <?php if ( ! apply_filters( 'disable_captions', '' ) ) { ?>
-		if ( f.caption.value )
-			caption = f.caption.value.replace(/'/g, '&#039;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+		if ( f.caption.value ) {
+			caption = f.caption.value.replace(/<[a-z][^<>]+>/g, function(a){
+				return a.replace(/"/g, "'");
+			});
+
+			caption = caption.replace(/"/g, '&quot;');
+		}
 <?php } ?>
 
 		cls = caption ? '' : ' class="'+t.align+'"';

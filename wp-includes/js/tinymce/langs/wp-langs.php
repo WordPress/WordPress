@@ -275,6 +275,7 @@ removeformat_desc:"' . mce_escape( __('Remove formatting') ) . '",
 forecolor_desc:"' . mce_escape( __('Select text color') ) . '",
 backcolor_desc:"' . mce_escape( __('Select background color') ) . '",
 charmap_desc:"' . mce_escape( __('Insert custom character') ) . '",
+charmap_usage:"' . mce_escape( __('Use left and right arrows to navigate.') ) . '",
 visualaid_desc:"' . mce_escape( __('Toggle guidelines/invisible elements') ) . '",
 anchor_desc:"' . mce_escape( __('Insert/edit anchor') ) . '",
 cut_desc:"' . mce_escape( __('Cut') ) . '",
@@ -507,6 +508,8 @@ s120:"' . mce_escape( __('120%') ) . '",
 s130:"' . mce_escape( __('130%') ) . '",
 img_title:"' . mce_escape( __('Title') ) . '",
 caption:"' . mce_escape( __('Caption') ) . '",
+insert_link:"' . mce_escape( __('Insert link') ) . '",
+linked_text:"' . mce_escape( __('Linked text') ) . '",
 alt:"' . mce_escape( __('Alternate Text') ) . '"
 });
 ';

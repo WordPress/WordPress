@@ -338,10 +338,43 @@ function uploadSizeError( up, file, over100mb ) {
 }
 
 jQuery(document).ready(function($){
-	$('.media-upload-form').bind('click.uploader', function(e) {
-		var target = $(e.target), tr, c;
+	var insert_link, bookmark;
 
-		if ( target.is('input[type="radio"]') ) { // remember the last used image size and alignment
+	$('.media-upload-form').bind('click.uploader', function(e) {
+		var target = $(e.target), tr, c, el, textarea, sel, text, startPos, endPos;
+
+		if ( target.hasClass('caption-insert-link') ) {
+			el = target.siblings('div.caption-insert-link-wrap'), textarea = target.parent().siblings('textarea').get(0);
+
+			if ( document.selection ) {
+				textarea.focus();
+				sel = document.selection.createRange();
+				bookmark = sel.getBookmark();
+
+				if ( sel.text )
+					el.find('.caption-insert-link-text').val(sel.text);
+
+			} else if ( textarea.selectionStart || textarea.selectionStart == '0' ) {
+				text = textarea.value;
+				startPos = textarea.selectionStart;
+				endPos = textarea.selectionEnd;
+				
+				if ( startPos != endPos )
+					el.find('.caption-insert-link-text').val( text.substring(startPos, endPos) );
+			}
+
+			target.hide();
+			el.show();
+			el.find('.caption-insert-link-url').focus();
+		} else if ( target.hasClass('caption-cancel') || target.hasClass('caption-save') ) {
+			el = target.closest('div.caption-insert-link-wrap');
+
+			if ( target.hasClass('caption-save') )
+				insert_link( el.closest('.edit-caption-controls').siblings('textarea'), el );
+			
+			el.hide();
+			el.siblings('.caption-insert-link').show();
+		} else if ( target.is('input[type="radio"]') ) { // remember the last used image size and alignment
 			tr = target.closest('tr');
 
 			if ( $(tr).hasClass('align') )
@@ -355,7 +388,7 @@ jQuery(document).ready(function($){
 
 			if ( c && c[1] ) {
 				setUserSetting('urlbutton', c[1]);
-				target.siblings('.urlfield').val( target.attr('title') );
+				target.siblings('.urlfield').val( target.data('link-url') );
 			}
 		} else if ( target.is('a.dismiss') ) {
 			target.parents('.media-item').fadeOut(200, function(){
@@ -364,11 +397,11 @@ jQuery(document).ready(function($){
 		} else if ( target.is('.upload-flash-bypass a') || target.is('a.uploader-html') ) { // switch uploader to html4
 			$('#media-items, p.submit, span.big-file-warning').css('display', 'none');
 			switchUploader(0);
-			return false;
+			e.preventDefault();
 		} else if ( target.is('.upload-html-bypass a') ) { // switch uploader to multi-file
 			$('#media-items, p.submit, span.big-file-warning').css('display', '');
 			switchUploader(1);
-			return false;
+			e.preventDefault();
 		} else if ( target.is('a.describe-toggle-on') ) { // Show
 			target.parent().addClass('open');
 			target.siblings('.slidetoggle').fadeIn(250, function(){
@@ -386,14 +419,53 @@ jQuery(document).ready(function($){
 					}
 				}
 			});
-			return false;
+			e.preventDefault();
 		} else if ( target.is('a.describe-toggle-off') ) { // Hide
 			target.siblings('.slidetoggle').fadeOut(250, function(){
 				target.parent().removeClass('open');
 			});
-			return false;
+			e.preventDefault();
 		}
 	});
+	
+	insert_link = function(textarea, parent) {
+		var sel, content, startPos, endPos, scrollTop, text,
+			url = parent.find('.caption-insert-link-url'), link_text = parent.find('.caption-insert-link-text');
+
+		if ( !url.length || !link_text.length )
+			return;
+
+		textarea = textarea.get(0);
+		content = "<a href='"+url.val()+"'>"+link_text.val()+"</a>";
+
+		if ( document.selection ) {
+			textarea.focus();
+			sel = document.selection.createRange();
+
+			if ( bookmark ) {
+				sel.moveToBookmark( bookmark );
+				bookmark = '';
+			}
+
+			sel.text = content;
+			textarea.focus();
+		} else if ( textarea.selectionStart || textarea.selectionStart == '0' ) {
+			text = textarea.value;
+			startPos = textarea.selectionStart;
+			endPos = textarea.selectionEnd;
+			scrollTop = textarea.scrollTop;
+
+			textarea.value = text.substring(0, startPos) + content + text.substring(endPos, text.length);
+
+			textarea.focus();
+			textarea.selectionStart = startPos + content.length;
+			textarea.selectionEnd = startPos + content.length;
+			textarea.scrollTop = scrollTop;
+		}
+
+		url.val('');
+		link_text.val('');
+	};
 
 	// init and set the uploader
 	uploader_init = function() {
