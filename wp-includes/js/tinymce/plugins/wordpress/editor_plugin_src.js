@@ -371,11 +371,6 @@
 			moreHTML = '<img src="' + url + '/img/trans.gif" alt="$1" class="mceWPmore mceItemNoResize" title="'+ed.getLang('wordpress.wp_more_alt')+'" />';
 			nextpageHTML = '<img src="' + url + '/img/trans.gif" class="mceWPnextpage mceItemNoResize" title="'+ed.getLang('wordpress.wp_page_alt')+'" />';
 
-			// Load plugin specific CSS into editor
-			ed.onInit.add(function() {
-				ed.dom.loadCSS(url + '/css/content.css');
-			});
-
 			// Display morebreak instead if img in element path
 			ed.onPostRender.add(function() {
 				if (ed.theme.onResolveName) {

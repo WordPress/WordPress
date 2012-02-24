@@ -108,3 +108,37 @@ td {
 	font-size: 11px;
 	margin: 8px;
 }
+
+/* Styles for the WordPress plugins */
+img.mceWPnextpage,
+img.mceWPmore {
+	border: 0;
+	border-top: 1px dotted #cccccc;
+	display: block;
+	width: 95%;
+	height: 12px;
+	margin: 15px auto 0;
+}
+
+img.mceWPmore {
+	background: transparent url("img/more_bug.gif") no-repeat right top;
+}
+
+img.mceWPnextpage {
+    background: transparent url("img/page_bug.gif") no-repeat right top;
+}
+
+img.wpGallery {
+	border: 1px dashed #888;
+	background: #f2f8ff url("img/gallery.png") no-repeat scroll center center;
+	width: 99%;
+	height: 250px;
+}
+
+img.wp-oembed {
+	border: 1px dashed #888;
+	background: #f7f5f2 url("img/embedded.png") no-repeat scroll center center;
+	width: 300px;
+	height: 250px;
+}
+
