@@ -9,7 +9,7 @@
 		mceTout : 0,
 
 		init : function(ed, url) {
-			var t = this, tbId = ed.getParam('wordpress_adv_toolbar', 'toolbar2'), last = 0, moreHTML, nextpageHTML;
+			var t = this, tbId = ed.getParam('wordpress_adv_toolbar', 'toolbar2'), last = 0, moreHTML, nextpageHTML, closeOnClick;
 			moreHTML = '<img src="' + url + '/img/trans.gif" class="mceWPmore mceItemNoResize" title="'+ed.getLang('wordpress.wp_more_alt')+'" />';
 			nextpageHTML = '<img src="' + url + '/img/trans.gif" class="mceWPnextpage mceItemNoResize" title="'+ed.getLang('wordpress.wp_page_alt')+'" />';
 
@@ -277,6 +277,20 @@
 				if ( e.target.nodeName != 'IMG' )
 					ed.plugins.wordpress._hideButtons();
 			});
+
+			closeOnClick = function(e){
+				var id;
+
+				if ( e.target.id == 'mceModalBlocker' || e.target.className == 'ui-widget-overlay' ) {
+					for ( id in ed.windowManager.windows ) {
+						ed.windowManager.close(null, id);
+					}
+				}
+			}
+
+			// close popups when clicking on the background
+			tinymce.dom.Event.remove(document.body, 'click', closeOnClick);
+			tinymce.dom.Event.add(document.body, 'click', closeOnClick);
 		},
 
 		getInfo : function() {
