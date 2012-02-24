@@ -69,17 +69,24 @@
 
 			// show editimage buttons
 			ed.onMouseDown.add(function(ed, e) {
+				var target = e.target;
 
-				if ( e.target && ( e.target.nodeName == 'IMG' || (e.target.firstChild && e.target.firstChild.nodeName == 'IMG') ) ) {
+				if ( target.nodeName != 'IMG' ) {
+					if ( target.firstChild && target.firstChild.nodeName == 'IMG' && target.childNodes.length == 1 )
+						target = target.firstChild;
+					else
+						return;
+				}
+
+				if ( ed.dom.getAttrib(target, 'class').indexOf('mceItem') == -1 ) {
 					mouse = {
 						x: e.clientX,
 						y: e.clientY,
-						img_w: e.target.clientWidth,
-						img_h: e.target.clientHeight
+						img_w: target.clientWidth,
+						img_h: target.clientHeight
 					};
 
-					if ( ed.dom.getAttrib(e.target, 'class').indexOf('mceItem') == -1 )
-						ed.plugins.wordpress._showButtons(e.target, 'wp_editbtns');
+					ed.plugins.wordpress._showButtons(target, 'wp_editbtns');
 				}
 			});
 
