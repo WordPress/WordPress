@@ -2082,3 +2082,15 @@ function check_theme_switched() {
 		update_option( 'theme_switched', false );
 	}
 }
+
+function wp_customize_load() {
+	// Load on themes.php or ?customize=on
+	if ( ! ( isset( $_REQUEST['customize'] ) && 'on' == $_REQUEST['customize'] ) && 'themes.php' != $GLOBALS['pagenow'] )
+		return;
+
+	require( ABSPATH . WPINC . '/class-wp-customize.php' );
+	// Init Customize class
+	// @todo Dependency injection instead
+	$GLOBALS['customize'] = new WP_Customize;
+}
+add_action( 'plugins_loaded', 'wp_customize_load' );

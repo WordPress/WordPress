@@ -289,6 +289,11 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'hoverIntent', "/wp-includes/js/hoverIntent$suffix.js", array('jquery'), 'r6', 1 );
 
+	$scripts->add( 'customize-loader', "/wp-includes/js/customize-loader$suffix.js",   array( 'jquery' ), false, 1 );
+	$scripts->add( 'customize-base', "/wp-includes/js/customize-base$suffix.js",       array( 'jquery-postmessage', 'json2' ), false, 1 );
+	$scripts->add( 'customize-controls', "/wp-includes/js/customize-controls$suffix.js", array( 'customize-base' ), false, 1 );
+	$scripts->add( 'customize-preview', "/wp-includes/js/customize-preview$suffix.js",  array( 'customize-base' ), false, 1 );
+
 	if ( is_admin() ) {
 		$scripts->add( 'ajaxcat', "/wp-admin/js/cat$suffix.js", array( 'wp-lists' ) );
 		$scripts->add_data( 'ajaxcat', 'group', 1 );
@@ -464,6 +469,8 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'wp-jquery-ui-dialog', "/wp-includes/css/jquery-ui-dialog$suffix.css" );
 	$styles->add( 'editor-buttons', "/wp-includes/css/editor-buttons$suffix.css" );
 	$styles->add( 'wp-pointer', "/wp-includes/css/wp-pointer$suffix.css" );
+	$styles->add( 'customize-loader', "/wp-includes/css/customize-loader$suffix.css" );
+	$styles->add( 'customize-controls', "/wp-includes/css/customize-controls$suffix.css", array( 'wp-admin', 'colors', 'ie' ) );
 
 	foreach ( $rtl_styles as $rtl_style ) {
 		$styles->add_data( $rtl_style, 'rtl', true );
