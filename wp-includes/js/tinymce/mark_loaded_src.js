@@ -1,5 +1,5 @@
-(function(undefined){
-	if ( undefined === tinyMCEPreInit )
+(function(){
+	if ( typeof tinyMCEPreInit === 'undefined' )
 		return;
 
 	var t = tinyMCEPreInit, baseurl = t.base, markDone = tinymce.ScriptLoader.markDone, lang = t.ref.language,
