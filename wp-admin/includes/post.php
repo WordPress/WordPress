@@ -1152,7 +1152,7 @@ function _wp_post_thumbnail_html( $thumbnail_id = null, $post_id = null ) {
 	if ( empty( $post_id ) )
 		$post_id = $post_ID;
 
-	$set_thumbnail_link = '<p class="hide-if-no-js"><a title="' . esc_attr__( 'Set featured image' ) . '" href="' . esc_url( get_upload_iframe_src('image') ) . '" id="set-post-thumbnail" class="thickbox">%s</a></p>';
+	$set_thumbnail_link = '<p class="hide-if-no-js"><a title="' . esc_attr__( 'Set featured image' ) . '" href="' . esc_url( get_upload_iframe_src('image', $post_id) ) . '" id="set-post-thumbnail" class="thickbox">%s</a></p>';
 	$content = sprintf($set_thumbnail_link, esc_html__( 'Set featured image' ));
 
 	if ( $thumbnail_id && get_post( $thumbnail_id ) ) {

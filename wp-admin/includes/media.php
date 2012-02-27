@@ -392,10 +392,13 @@ function _media_button($title, $icon, $type, $id) {
 	return "<a href='" . esc_url( get_upload_iframe_src($type) ) . "' id='{$id}-add_{$type}' class='thickbox add_$type' title='" . esc_attr( $title ) . "'><img src='" . esc_url( admin_url( $icon ) ) . "' alt='$title' onclick='return false;' /></a>";
 }
 
-function get_upload_iframe_src( $type = null ) {
+function get_upload_iframe_src( $type = null, $post_id = null ) {
 	global $post_ID;
 
-	$uploading_iframe_ID = (int) $post_ID;
+	if ( empty( $post_id ) )
+		$post_id = $post_ID;
+
+	$uploading_iframe_ID = (int) $post_id;
 	$upload_iframe_src = add_query_arg( 'post_id', $uploading_iframe_ID, admin_url('media-upload.php') );
 
 	if ( $type && 'media' != $type )
