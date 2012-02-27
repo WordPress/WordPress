@@ -637,8 +637,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			return new IXR_Error( 403, __( 'Invalid post type' ) );
 
 		$update = false;
-		if ( ! empty( $post_data[ 'ID' ] ) ) 
-			$update = true; 
+		if ( ! empty( $post_data[ 'ID' ] ) )
+			$update = true;
 
 		if ( $update ) {
 			if ( ! current_user_can( $post_type->cap->edit_post, $post_data[ 'ID' ] ) )
@@ -697,7 +697,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		// Do some timestamp voodoo
 		if ( ! empty( $post_data['post_date_gmt'] ) ) {
 			// We know this is supposed to be GMT, so we're going to slap that Z on there by force
-			$dateCreated = str_replace( 'Z', '', $post_data['post_date_gmt']->getIso() ) . 'Z'; 
+			$dateCreated = str_replace( 'Z', '', $post_data['post_date_gmt']->getIso() ) . 'Z';
 		} elseif ( ! empty( $post_data['post_date'] ) ) {
 			$dateCreated = $post_data['post_date']->getIso();
 		}
@@ -3201,7 +3201,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			$menu_order = $content_struct['wp_page_order'];
 
 		if ( ! empty( $content_struct['wp_page_template'] ) && 'page' == $post_type )
-			$page_template = $content_struct['wp_page_template']; 
+			$page_template = $content_struct['wp_page_template'];
 
 		$post_author = $postdata['post_author'];
 

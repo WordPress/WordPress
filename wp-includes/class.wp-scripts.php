@@ -34,7 +34,7 @@ class WP_Scripts extends WP_Dependencies {
 		if ( ! function_exists( 'did_action' ) || did_action( 'init' ) )
 			$this->init();
 		else
-			add_action( 'init', array( $this, 'init' ), 0 ); 
+			add_action( 'init', array( $this, 'init' ), 0 );
 	}
 
 	function init() {

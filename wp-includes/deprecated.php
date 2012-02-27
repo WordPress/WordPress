@@ -2870,7 +2870,7 @@ function is_blog_user( $blog_id = 0 ) {
 }
 
 /**
- * Open the file handle for debugging. 
+ * Open the file handle for debugging.
  *
  * @since 0.71
  * @deprecated Use error_log()

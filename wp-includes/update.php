@@ -163,7 +163,7 @@ function wp_update_plugins() {
 		default :
 			$timeout = 43200; // 12 hours
 	}
-	
+
 	$time_not_changed = isset( $current->last_checked ) && $timeout > ( time() - $current->last_checked );
 
 	if ( $time_not_changed ) {
@@ -275,7 +275,7 @@ function wp_update_themes() {
 		default :
 			$timeout = 43200; // 12 hours
 	}
-	
+
 	$time_not_changed = isset( $last_update->last_checked ) && $timeout > ( time( ) - $last_update->last_checked );
 
 	if ( $time_not_changed ) {

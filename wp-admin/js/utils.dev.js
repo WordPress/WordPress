@@ -31,7 +31,7 @@ var wpCookies = {
 	/**
 	 * Get a multi-values cookie.
 	 * Returns a JS object with the name: 'value' pairs.
-	 */	 	 	
+	 */
 	getHash : function(name) {
 		var all = this.get(name), ret;
 
@@ -49,7 +49,7 @@ var wpCookies = {
 	 * Set a multi-values cookie.
 	 *
 	 * 'values_obj' is the JS object that is stored. It is encoded as URI in wpCookies.set().
-	 */	 	 	
+	 */
 	setHash : function(name, values_obj, expires, path, domain, secure) {
 		var str = '';
 
@@ -62,7 +62,7 @@ var wpCookies = {
 
 	/**
 	 * Get a cookie.
-	 */	 	
+	 */
 	get : function(name) {
 		var cookie = document.cookie, e, p = name + "=", b;
 
@@ -94,7 +94,7 @@ var wpCookies = {
 	 *
 	 * The 'expires' arg can be either a JS Date() object set to the expiration date (back-compat)
 	 * or the number of seconds until expiration
-	 */	 	
+	 */
 	set : function(name, value, expires, path, domain, secure) {
 		var d = new Date();
 
@@ -118,7 +118,7 @@ var wpCookies = {
 	 * Remove a cookie.
 	 *
 	 * This is done by setting it to an empty value and setting the expiration time in the past.
-	 */	 	
+	 */
 	remove : function(name, path) {
 		this.set(name, '', -1000, path);
 	}

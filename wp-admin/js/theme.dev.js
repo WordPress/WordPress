@@ -106,7 +106,7 @@ var ThemeScroller;
 
 			if ( $('.tablenav-pages').length )
 				this.pollInterval =
-					setInterval( function() { 
+					setInterval( function() {
 						return self.poll();
 					}, this.scrollPollingDelay );
 		},

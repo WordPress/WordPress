@@ -6,7 +6,7 @@
  * @subpackage Customize
  * @since 3.4.0
  */
- 
+
 class WP_Customize_Setting {
 	public $id;
 	public $priority          = 10;
@@ -98,7 +98,7 @@ class WP_Customize_Setting {
 	 * Callback function to filter the theme mods and options.
 	 *
 	 * @since 3.4.0
-	 * 
+	 *
 	 * @param mixed Old value.
 	 * @return mixed New or old value.
 	 */

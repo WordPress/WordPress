@@ -639,7 +639,7 @@ class WP_Rewrite {
 	 * would have a set of rules added to the top of the rewrite rules array.
 	 * Now it tells {@link WP::parse_request()} to check if a URL matching the
 	 * page permastruct is actually a page before accepting it.
-	 * 
+	 *
 	 * @link http://core.trac.wordpress.org/ticket/16687
 	 * @see WP_Rewrite::init()
 	 * @since 2.5.0

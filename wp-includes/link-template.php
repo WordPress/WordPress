@@ -1869,7 +1869,7 @@ function get_home_url( $blog_id = null, $path = '', $scheme = null ) {
 		$url = get_blog_option( $blog_id, 'home' );
 
 	if ( 'relative' == $scheme )
-		$url = preg_replace( '#^.+://[^/]*#', '', $url ); 
+		$url = preg_replace( '#^.+://[^/]*#', '', $url );
 	elseif ( 'http' != $scheme )
 		$url = str_replace( 'http://', "$scheme://", $url );
 
@@ -1934,7 +1934,7 @@ function get_site_url( $blog_id = null, $path = '', $scheme = null ) {
 		$url = get_blog_option( $blog_id, 'siteurl' );
 
 	if ( 'relative' == $scheme )
-		$url = preg_replace( '#^.+://[^/]*#', '', $url ); 
+		$url = preg_replace( '#^.+://[^/]*#', '', $url );
 	elseif ( 'http' != $scheme )
 		$url = str_replace( 'http://', "{$scheme}://", $url );
 

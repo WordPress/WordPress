@@ -20,7 +20,7 @@ require( ABSPATH . WPINC . '/option.php' );
  *
  * @param string $format Format of the date to return.
  * @param string $date Date string to convert.
- * @param bool $translate Whether the return date should be translated. Default is true. 
+ * @param bool $translate Whether the return date should be translated. Default is true.
  * @return string|int Formatted date string, or Unix timestamp.
  */
 function mysql2date( $format, $date, $translate = true ) {
