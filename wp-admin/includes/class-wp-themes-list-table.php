@@ -198,7 +198,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 				$matched = 0;
 
 				// In a tag?
-				if ( in_array( $word, array_map( 'sanitize_title_with_dashes', $theme['Tags'] ) ) )
+				if ( in_array( $word, $theme['Tags'] ) )
 					$matched = 1;
 
 				// In one of the fields?
@@ -216,7 +216,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 		if ( count( $this->features ) > 0 ) {
 			foreach ( $this->features as $word ) {
 				// In a tag?
-				if ( !in_array( $word, array_map( 'sanitize_title_with_dashes', $theme['Tags'] ) ) )
+				if ( !in_array( $word, $theme['Tags'] ) )
 					return false;
 			}
 		}
