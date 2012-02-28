@@ -15,14 +15,9 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	function __construct() {
 		global $status, $page;
 
-		$default_status = get_user_option( 'themes_last_view' );
-		if ( empty( $default_status ) )
-			$default_status = 'all';
-		$status = isset( $_REQUEST['theme_status'] ) ? $_REQUEST['theme_status'] : $default_status;
+		$status = isset( $_REQUEST['theme_status'] ) ? $_REQUEST['theme_status'] : 'all';
 		if ( !in_array( $status, array( 'all', 'enabled', 'disabled', 'upgrade', 'search' ) ) )
 			$status = 'all';
-		if ( $status != $default_status && 'search' != $status )
-			update_user_meta( get_current_user_id(), 'themes_last_view', $status );
 
 		$page = $this->get_pagenum();
 

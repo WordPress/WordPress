@@ -459,7 +459,7 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 19389 )
 		upgrade_330();
 
-	if ( $wp_current_db_version < 19799 )
+	if ( $wp_current_db_version < 20022 )
 		upgrade_340();
 
 	maybe_disable_automattic_widgets();
@@ -1234,6 +1234,10 @@ function upgrade_340() {
 		$wpdb->hide_errors();
 		$wpdb->query("ALTER TABLE $wpdb->comments DROP INDEX comment_approved");
 		$wpdb->show_errors();
+	}
+
+	if ( $wp_current_db_version < 20022 && is_main_site() && ! defined( 'DO_NOT_UPGRADE_GLOBAL_TABLES' ) ) {
+		$wpdb->query( "DELETE FROM $wpdb->usermeta WHERE meta_key = 'themes_last_view'" );
 	}
 }
 
