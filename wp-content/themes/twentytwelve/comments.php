@@ -44,8 +44,8 @@
 		<?php endif; // check for comment navigation ?>
 
 		<ol class="commentlist">
-			<?php wp_list_comments( array( 'callback' => 'twentytwelve_comment' ) ); ?>
-		</ol>
+			<?php wp_list_comments( array( 'callback' => 'twentytwelve_comment', 'style' => 'ol' ) ); ?>
+		</ol><!-- .commentlist -->
 
 		<?php if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) : // are there comments to navigate through ?>
 		<nav id="comment-nav-below" role="navigation">
