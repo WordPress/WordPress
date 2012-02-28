@@ -571,78 +571,91 @@ function register_theme_directory( $directory ) {
  * @return array Valid themes found
  */
 function search_theme_directories() {
-	global $wp_theme_directories, $wp_broken_themes;
+	global $wp_theme_directories;
 	if ( empty( $wp_theme_directories ) )
 		return false;
 
-	$theme_files = array();
-	$wp_broken_themes = array();
+	static $found_themes;
+	if ( isset( $found_themes ) )
+		return $found_themes;
+
+	$found_themes = array();
+
+	if ( $cache_expiration = apply_filters( 'wp_cache_themes_persistently', false, 'search_theme_directories' ) ) {
+		$cached_roots = get_site_transient( 'theme_roots' );
+		if ( is_array( $cached_roots ) ) {
+			foreach ( $cached_roots as $theme_dir => $theme_root ) {
+				$found_themes[ $theme_dir ] = array(
+					'theme_file' => $theme_dir . '/style.css',
+					'theme_root' => $theme_root,
+				);
+			}
+			return $found_themes;
+		}
+		if ( ! is_int( $cache_expiration ) )
+			$cache_expiration = 7200;
+	} else {
+		// Two hours is the default.
+		$cache_expiration = 7200;
+	}
 
 	/* Loop the registered theme directories and extract all themes */
-	foreach ( (array) $wp_theme_directories as $theme_root ) {
-		$theme_loc = $theme_root;
+	foreach ( $wp_theme_directories as $theme_root ) {
 
-		/* We don't want to replace all forward slashes, see Trac #4541 */
-		if ( '/' != WP_CONTENT_DIR )
-			$theme_loc = str_replace(WP_CONTENT_DIR, '', $theme_root);
-
-		/* Files in the root of the current theme directory and one subdir down */
-		$themes_dir = @ opendir($theme_root);
-
-		if ( !$themes_dir )
+		// Start with directories in the root of the current theme directory.
+		$dirs = @ scandir( $theme_root );
+		if ( ! $dirs )
 			return false;
-
-		while ( ($theme_dir = readdir($themes_dir)) !== false ) {
-			if ( is_dir($theme_root . '/' . $theme_dir) && is_readable($theme_root . '/' . $theme_dir) ) {
-				if ( $theme_dir[0] == '.' || $theme_dir == 'CVS' )
-					continue;
-
-				$stylish_dir = @opendir($theme_root . '/' . $theme_dir);
-				$found_stylesheet = false;
-
-				while ( ($theme_file = readdir($stylish_dir)) !== false ) {
-					if ( $theme_file == 'style.css' ) {
-						$theme_files[$theme_dir] = array( 'theme_file' => $theme_dir . '/' . $theme_file, 'theme_root' => $theme_root );
-						$found_stylesheet = true;
-						break;
-					}
+		foreach ( $dirs as $dir ) {
+			if ( ! is_dir( $theme_root . '/' . $dir ) || $dir[0] == '.' || $dir == 'CVS' )
+				continue;
+			if ( file_exists( $theme_root . '/' . $dir . '/style.css' ) ) {
+				// wp-content/themes/a-single-theme
+				// wp-content/themes is $theme_root, a-single-theme is $dir
+				$found_themes[ $dir ] = array(
+					'theme_file' => $dir . '/style.css',
+					'theme_root' => $theme_root,
+				);
+			} else {
+				$found_theme = false;
+				// wp-content/themes/a-folder-of-themes/*
+				// wp-content/themes is $theme_root, a-folder-of-themes is $dir, then themes are $sub_dirs
+				$sub_dirs = @ scandir( $theme_root . '/' . $dir );
+				if ( ! $sub_dirs )
+					return false;
+				foreach ( $sub_dirs as $sub_dir ) {
+					if ( ! is_dir( $theme_root . '/' . $dir ) || $dir[0] == '.' || $dir == 'CVS' )
+						continue;
+					if ( ! file_exists( $theme_root . '/' . $dir . '/' . $sub_dir . '/style.css' ) )
+						continue;
+					$found_themes[ $dir . '/' . $sub_dir ] = array(
+						'theme_file' => $dir . '/' . $sub_dir . '/style.css',
+						'theme_root' => $theme_root,
+					);
+					$found_theme = true;
 				}
-				@closedir($stylish_dir);
-
-				if ( !$found_stylesheet ) { // look for themes in that dir
-					$subdir = "$theme_root/$theme_dir";
-					$subdir_name = $theme_dir;
-					$theme_subdirs = @opendir( $subdir );
-
-					$found_subdir_themes = false;
-					while ( ($theme_subdir = readdir($theme_subdirs)) !== false ) {
-						if ( is_dir( $subdir . '/' . $theme_subdir) && is_readable($subdir . '/' . $theme_subdir) ) {
-							if ( $theme_subdir[0] == '.' || $theme_subdir == 'CVS' )
-								continue;
-
-							$stylish_dir = @opendir($subdir . '/' . $theme_subdir);
-							$found_stylesheet = false;
-
-							while ( ($theme_file = readdir($stylish_dir)) !== false ) {
-								if ( $theme_file == 'style.css' ) {
-									$theme_files["$theme_dir/$theme_subdir"] = array( 'theme_file' => $subdir_name . '/' . $theme_subdir . '/' . $theme_file, 'theme_root' => $theme_root );
-									$found_stylesheet = true;
-									$found_subdir_themes = true;
-									break;
-								}
-							}
-							@closedir($stylish_dir);
-						}
-					}
-					@closedir($theme_subdirs);
-					if ( !$found_subdir_themes )
-						$wp_broken_themes[$theme_dir] = array('Name' => $theme_dir, 'Title' => $theme_dir, 'Description' => __('Stylesheet is missing.'));
-				}
+				// Never mind the above, it's just a theme missing a style.css.
+				// Return it; WP_Theme will catch the error.
+				if ( ! $found_theme )
+					$found_themes[ $dir ] = array(
+						'theme_file' => $dir . '/style.css',
+						'theme_root' => $theme_root,
+					);
 			}
 		}
-		@closedir( $themes_dir );
 	}
-	return $theme_files;
+
+	asort( $found_themes );
+
+	$theme_roots = array();
+	foreach ( $found_themes as $theme_dir => $theme_data ) {
+		$theme_roots[ $theme_dir ] = $theme_data['theme_root'];
+	}
+
+	if ( $theme_roots != get_site_transient( 'theme_roots' ) )
+		set_site_transient( 'theme_roots', $theme_roots, $cache_expiration );
+
+	return $found_themes;
 }
 
 /**
