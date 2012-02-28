@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Twelve .5\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentytwelve\n"
-"POT-Creation-Date: 2012-02-21 16:29:57+00:00\n"
+"POT-Creation-Date: 2012-02-28 03:17:50+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -113,7 +113,7 @@ msgstr ""
 
 #: content-aside.php:18 content-image.php:22 content-link.php:18
 #: content-page.php:18 content-quote.php:22 content-single.php:24
-#: content.php:29 image.php:88
+#: content.php:29 image.php:90
 msgid "Pages:"
 msgstr ""
 
@@ -134,7 +134,7 @@ msgstr ""
 
 #: content-aside.php:27 content-image.php:48 content-link.php:27
 #: content-page.php:21 content-quote.php:48 content-single.php:52
-#: content.php:58 functions.php:255 functions.php:283 image.php:35
+#: content.php:58 functions.php:255 functions.php:283 image.php:37
 msgid "Edit"
 msgstr ""
 
@@ -257,19 +257,20 @@ msgstr ""
 msgid "Skip to secondary content"
 msgstr ""
 
-#: image.php:24
+#: image.php:26
 msgid ""
 "<span class=\"meta-prep meta-prep-entry-date\">Published </span> <span class="
-"\"entry-date\"><abbr class=\"published\" title=\"%1$s\">%2$s</abbr></span> "
-"at <a href=\"%3$s\" title=\"Link to full-size image\">%4$s &times; %5$s</a> "
-"in <a href=\"%6$s\" title=\"Return to %7$s\" rel=\"gallery\">%8$s</a>"
+"\"entry-date\"><time class=\"entry-date\" datetime=\"%1$s\" pubdate>%2$s</"
+"time></span> at <a href=\"%3$s\" title=\"Link to full-size image\">%4$s "
+"&times; %5$s</a> in <a href=\"%6$s\" title=\"Return to %7$s\" rel=\"gallery"
+"\">%8$s</a>"
 msgstr ""
 
-#: image.php:39
+#: image.php:41
 msgid "&larr; Previous"
 msgstr ""
 
-#: image.php:40
+#: image.php:42
 msgid "Next &rarr;"
 msgstr ""
 
