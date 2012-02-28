@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Twelve .5\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentytwelve\n"
-"POT-Creation-Date: 2012-02-28 03:17:50+00:00\n"
+"POT-Creation-Date: 2012-02-28 04:17:41+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -56,11 +56,11 @@ msgstr ""
 msgid "Blog Archives"
 msgstr ""
 
-#: archive.php:64 author.php:50 index.php:32 search.php:34
+#: archive.php:64 author.php:50 search.php:34
 msgid "Nothing Found"
 msgstr ""
 
-#: archive.php:68 author.php:54 index.php:36
+#: archive.php:68 author.php:54 index.php:51
 msgid ""
 "Apologies, but no results were found for the requested archive. Perhaps "
 "searching will help find a related post."
@@ -113,7 +113,7 @@ msgstr ""
 
 #: content-aside.php:18 content-image.php:22 content-link.php:18
 #: content-page.php:18 content-quote.php:22 content-single.php:24
-#: content.php:29 image.php:90
+#: content.php:29 image.php:88
 msgid "Pages:"
 msgstr ""
 
@@ -134,7 +134,7 @@ msgstr ""
 
 #: content-aside.php:27 content-image.php:48 content-link.php:27
 #: content-page.php:21 content-quote.php:48 content-single.php:52
-#: content.php:58 functions.php:255 functions.php:283 image.php:37
+#: content.php:58 functions.php:266 functions.php:294 image.php:35
 msgid "Edit"
 msgstr ""
 
@@ -194,45 +194,45 @@ msgstr ""
 msgid "Primary Menu"
 msgstr ""
 
-#: functions.php:208
+#: functions.php:219
 msgid "Main Sidebar"
 msgstr ""
 
-#: functions.php:229
+#: functions.php:240
 msgid "Post navigation"
 msgstr ""
 
-#: functions.php:230
+#: functions.php:241
 msgid "<span class=\"meta-nav\">&larr;</span> Older posts"
 msgstr ""
 
-#: functions.php:231
+#: functions.php:242
 msgid "Newer posts <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: functions.php:255
+#: functions.php:266
 msgid "Pingback:"
 msgstr ""
 
 #. translators: 1: comment author, 2: date and time
-#: functions.php:272
+#: functions.php:283
 msgid "%1$s on %2$s <span class=\"says\">said:</span>"
 msgstr ""
 
 #. translators: 1: date, 2: time
-#: functions.php:278
+#: functions.php:289
 msgid "%1$s at %2$s"
 msgstr ""
 
-#: functions.php:287
+#: functions.php:298
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: functions.php:295
+#: functions.php:306
 msgid "Reply <span>&darr;</span>"
 msgstr ""
 
-#: functions.php:314
+#: functions.php:325
 msgid ""
 "<span class=\"sep\">Posted on </span><a href=\"%1$s\" title=\"%2$s\" rel="
 "\"bookmark\"><time class=\"entry-date\" datetime=\"%3$s\" pubdate>%4$s</"
@@ -241,23 +241,19 @@ msgid ""
 "rel=\"author\">%7$s</a></span></span>"
 msgstr ""
 
-#: functions.php:320
+#: functions.php:331
 msgid "View all posts by %s"
 msgstr ""
 
 #: header.php:44
-msgid "Main menu"
+msgid "Menu"
 msgstr ""
 
 #: header.php:45
-msgid "Skip to primary content"
+msgid "Skip to content"
 msgstr ""
 
-#: header.php:46
-msgid "Skip to secondary content"
-msgstr ""
-
-#: image.php:26
+#: image.php:24
 msgid ""
 "<span class=\"meta-prep meta-prep-entry-date\">Published </span> <span class="
 "\"entry-date\"><time class=\"entry-date\" datetime=\"%1$s\" pubdate>%2$s</"
@@ -266,12 +262,24 @@ msgid ""
 "\">%8$s</a>"
 msgstr ""
 
-#: image.php:41
+#: image.php:39
 msgid "&larr; Previous"
 msgstr ""
 
-#: image.php:42
+#: image.php:40
 msgid "Next &rarr;"
+msgstr ""
+
+#: index.php:36
+msgid "No posts to display"
+msgstr ""
+
+#: index.php:40
+msgid "Ready to publish your first post? <a href=\"%s\">Get started here</a>."
+msgstr ""
+
+#: index.php:47
+msgid "Nothing found"
 msgstr ""
 
 #: search.php:18
