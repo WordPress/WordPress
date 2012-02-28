@@ -141,13 +141,13 @@
 			return content.replace(/(?:<p>)?\[(?:wp_)?caption([^\]]+)\]([\s\S]+?)\[\/(?:wp_)?caption\](?:<\/p>)?/g, function(a,b,c){
 				var id, cls, w, cap, div_cls;
 
-				id = b.match(/id=['"]([^'"]+)['"] ?/);
+				id = b.match(/id=['"]([^'"]*)['"] ?/);
 				b = b.replace(id[0], '');
 
-				cls = b.match(/align=['"]([^'"]+)['"] ?/);
+				cls = b.match(/align=['"]([^'"]*)['"] ?/);
 				b = b.replace(cls[0], '');
 
-				w = b.match(/width=['"]([0-9]+)['"] ?/);
+				w = b.match(/width=['"]([0-9]*)['"] ?/);
 				b = b.replace(w[0], '');
 
 				cap = tinymce.trim(b).replace(/caption=['"]/, '').replace(/['"]$/, '');
@@ -159,37 +159,52 @@
 				if ( !w || !cap )
 					return c;
 
-				div_cls = (cls == 'aligncenter') ? 'mceTemp mceIEcenter' : 'mceTemp';
+				div_cls = 'mceTemp';
+				if ( cls == 'aligncenter' )
+					div_cls += ' mceIEcenter';
 
-				return '<div class="'+div_cls+'" draggable="true"><dl id="'+id+'" class="wp-caption '+cls+'" style="width: '+( 10 + parseInt(w) )+
+				return '<div class="'+div_cls+'"><dl id="'+id+'" class="wp-caption '+cls+'" style="width: '+( 10 + parseInt(w) )+
 				'px"><dt class="wp-caption-dt">'+c+'</dt><dd class="wp-caption-dd">'+cap+'</dd></dl></div>';
 			});
 		},
 
 		_get_shcode : function(content) {
-			return content.replace(/<div class="mceTemp[^"]*">\s*<dl ([^>]+)>\s*<dt [^>]+>([\s\S]+?)<\/dt>\s*<dd [^>]+>([\s\S]+?)<\/dd>\s*<\/dl>\s*<\/div>/gi, function(a,b,c,cap){
-				var id, cls, w;
+			return content.replace(/<div (?:id="attachment_|class="mceTemp)[^>]*>([\s\S]+?)<\/div>/g, function(a, b){
+				var ret = b.replace(/<dl ([^>]+)>\s*<dt [^>]+>([\s\S]+?)<\/dt>\s*<dd [^>]+>([\s\S]*?)<\/dd>\s*<\/dl>/gi, function(a,b,c,cap){
+					var id, cls, w;
 
-				w = c.match(/width="([0-9]+)"/);
-				w = ( w && w[1] ) ? w[1] : '';
+					w = c.match(/width="([0-9]*)"/);
+					w = ( w && w[1] ) ? w[1] : '';
 
-				if ( !w || !cap )
-					return c;
+					if ( !w || !cap )
+						return c;
 
-				id = b.match(/id="([^"]+)"/);
-				id = ( id && id[1] ) ? id[1] : '';
+					id = b.match(/id="([^"]*)"/);
+					id = ( id && id[1] ) ? id[1] : '';
 
-				cls = b.match(/class="([^"]+)"/);
-				cls = ( cls && cls[1] ) ? cls[1] : '';
-				cls = cls.match(/align[a-z]+/) || 'alignnone';
+					cls = b.match(/class="([^"]*)"/);
+					cls = ( cls && cls[1] ) ? cls[1] : '';
+					cls = cls.match(/align[a-z]+/) || 'alignnone';
 
-				cap = cap.replace(/<[a-z][^<>]+>/g, function(a){
-					return a.replace(/"/g, "'");
+					cap = cap.replace(/<[a-z][^<>]+>/g, function(a){
+						a = a.replace(/="[^"]+"/, function(b){
+							return b.replace(/'/g, '&#39;');
+						});
+						return a.replace(/"/g, "'");
+					});
+
+					cap = cap.replace(/"/g, '&quot;');
+
+					return '[caption id="'+id+'" align="'+cls+'" width="'+w+'" caption="'+cap+'"]'+c+'[/caption]';
 				});
 
-				cap = cap.replace(/"/g, '&quot;');
+				if ( ret.indexOf('[caption') !== 0 ) {
+					// the caption html seems brocken, try to find the image that may be wrapped in a link
+					// and may be followed by <p> with the caption text.
+					ret = b.replace(/[\s\S]*?((?:<a [^>]+>)?<img [^>]+>(?:<\/a>)?)(<p>[\s\S]*<\/p>)?[\s\S]*/gi, '<p>$1</p>$2');
+				}
 
-				return '[caption id="'+id+'" align="'+cls+'" width="'+w+'" caption="'+cap+'"]'+c+'[/caption]';
+				return ret;
 			});
 		},
 
