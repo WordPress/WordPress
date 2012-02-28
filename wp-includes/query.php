@@ -2609,7 +2609,7 @@ class WP_Query {
 		$this->request = $old_request = "SELECT $found_rows $distinct $fields FROM $wpdb->posts $join WHERE 1=1 $where $groupby $orderby $limits";
 
 		if ( !$q['suppress_filters'] ) {
-			$this->request = apply_filters( 'posts_request', $this->request, $this );
+			$this->request = apply_filters_ref_array( 'posts_request', array( $this->request, &$this ) );
 		}
 
 		if ( 'ids' == $q['fields'] ) {
@@ -2777,8 +2777,8 @@ class WP_Query {
 		if ( $q['no_found_rows'] || empty( $limits ) )
 			return;
 
-		$this->found_posts = $wpdb->get_var( apply_filters( 'found_posts_query', 'SELECT FOUND_ROWS()', $this ) );
-		$this->found_posts = apply_filters( 'found_posts', $this->found_posts, $this );
+		$this->found_posts = $wpdb->get_var( apply_filters_ref_array( 'found_posts_query', array( 'SELECT FOUND_ROWS()', &$this ) ) );
+		$this->found_posts = apply_filters_ref_array( 'found_posts', array( $this->found_posts, &$this ) );
 
 		$this->max_num_pages = ceil( $this->found_posts / $q['posts_per_page'] );
 	}
