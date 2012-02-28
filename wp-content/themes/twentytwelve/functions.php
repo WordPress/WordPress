@@ -188,6 +188,17 @@ function twentytwelve_admin_header_image() { ?>
 endif;
 
 /**
+ * Enqueue script for handling navigation.
+ *
+ * @since Twenty Twelve 1.0
+ */
+function twentytwelve_scripts() {
+	wp_enqueue_script( 'jquery' );
+	wp_enqueue_script( 'navigation', get_template_directory_uri() . '/js/navigation.js', 'jquery', '20120227', true );
+}
+add_action( 'wp_enqueue_scripts', 'twentytwelve_scripts' );
+
+/**
  * Get our wp_nav_menu() fallback, wp_page_menu(), to show a home link.
  *
  * @since Twenty Twelve 1.0

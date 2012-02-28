@@ -340,6 +340,26 @@ nav[role="navigation"] li ul li a {
 	width: 90px;
 }
 
+/* Small menu */
+nav[role="navigation"].main-small-navigation {
+	text-align: left;
+}
+.menu-toggle {
+	cursor: pointer;
+	font-size: 12px;
+	font-size: 0.857142857rem;
+	line-height: 1.846153846;
+}
+.main-small-navigation .menu {
+	display: none;
+}
+@media screen and (max-width: 600px) {
+	nav[role="navigation"] li a {
+		padding: 8px 0;
+		line-height: 1.090909091;
+	}
+}
+
 /*---------------------------------------------------------
 Banner
 ------------------------------------------------------------ */
