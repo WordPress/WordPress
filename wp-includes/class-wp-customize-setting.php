@@ -161,6 +161,7 @@ class WP_Customize_Setting {
 	 * @return mixed Null if an input isn't valid, otherwise the sanitized value.
 	 */
 	public function sanitize( $value ) {
+		$value = stripslashes_deep( $value );
 		return apply_filters( "customize_sanitize_{$this->id}", $value );
 	}
 
