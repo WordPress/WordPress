@@ -605,7 +605,6 @@ function default_topic_count_scale( $count ) {
  * @return string
  */
 function wp_generate_tag_cloud( $tags, $args = '' ) {
-	global $wp_rewrite;
 	$defaults = array(
 		'smallest' => 8, 'largest' => 22, 'unit' => 'pt', 'number' => 0,
 		'format' => 'flat', 'separator' => "\n", 'orderby' => 'name', 'order' => 'ASC',

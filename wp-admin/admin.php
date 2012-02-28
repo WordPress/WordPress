@@ -30,7 +30,7 @@ if ( isset($_GET['import']) && !defined('WP_LOAD_IMPORTERS') )
 require_once(dirname(dirname(__FILE__)) . '/wp-load.php');
 
 if ( get_option('db_upgraded') ) {
-	$wp_rewrite->flush_rules();
+	flush_rewrite_rules();
 	update_option( 'db_upgraded',  false );
 
 	/**

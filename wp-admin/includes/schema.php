@@ -821,7 +821,7 @@ endif;
  * 	so the error code must be checked) or failure.
  */
 function populate_network( $network_id = 1, $domain = '', $email = '', $site_name = '', $path = '/', $subdomain_install = false ) {
-	global $wpdb, $current_site, $wp_db_version, $wp_rewrite;
+	global $wpdb, $current_site, $wp_db_version;
 
 	$errors = new WP_Error();
 	if ( '' == $domain )
@@ -942,7 +942,7 @@ We hope you enjoy your new site. Thanks!
 	else
 		update_option( 'permalink_structure', '/blog/%year%/%monthnum%/%day%/%postname%/');
 
-	$wp_rewrite->flush_rules();
+	flush_rewrite_rules();
 
 	if ( $subdomain_install ) {
 		$vhost_ok = false;

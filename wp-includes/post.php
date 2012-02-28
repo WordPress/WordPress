@@ -1006,9 +1006,9 @@ function register_post_type($post_type, $args = array()) {
 		}
 
 		if ( $args->hierarchical )
-			$wp_rewrite->add_rewrite_tag("%$post_type%", '(.+?)', $args->query_var ? "{$args->query_var}=" : "post_type=$post_type&name=");
+			add_rewrite_tag("%$post_type%", '(.+?)', $args->query_var ? "{$args->query_var}=" : "post_type=$post_type&name=");
 		else
-			$wp_rewrite->add_rewrite_tag("%$post_type%", '([^/]+)', $args->query_var ? "{$args->query_var}=" : "post_type=$post_type&name=");
+			add_rewrite_tag("%$post_type%", '([^/]+)', $args->query_var ? "{$args->query_var}=" : "post_type=$post_type&name=");
 
 		if ( $args->has_archive ) {
 			$archive_slug = $args->has_archive === true ? $args->rewrite['slug'] : $args->has_archive;
@@ -1017,17 +1017,17 @@ function register_post_type($post_type, $args = array()) {
 			else
 				$archive_slug = $wp_rewrite->root . $archive_slug;
 
-			$wp_rewrite->add_rule( "{$archive_slug}/?$", "index.php?post_type=$post_type", 'top' );
+			add_rewrite_rule( "{$archive_slug}/?$", "index.php?post_type=$post_type", 'top' );
 			if ( $args->rewrite['feeds'] && $wp_rewrite->feeds ) {
 				$feeds = '(' . trim( implode( '|', $wp_rewrite->feeds ) ) . ')';
-				$wp_rewrite->add_rule( "{$archive_slug}/feed/$feeds/?$", "index.php?post_type=$post_type" . '&feed=$matches[1]', 'top' );
-				$wp_rewrite->add_rule( "{$archive_slug}/$feeds/?$", "index.php?post_type=$post_type" . '&feed=$matches[1]', 'top' );
+				add_rewrite_rule( "{$archive_slug}/feed/$feeds/?$", "index.php?post_type=$post_type" . '&feed=$matches[1]', 'top' );
+				add_rewrite_rule( "{$archive_slug}/$feeds/?$", "index.php?post_type=$post_type" . '&feed=$matches[1]', 'top' );
 			}
 			if ( $args->rewrite['pages'] )
-				$wp_rewrite->add_rule( "{$archive_slug}/{$wp_rewrite->pagination_base}/([0-9]{1,})/?$", "index.php?post_type=$post_type" . '&paged=$matches[1]', 'top' );
+				add_rewrite_rule( "{$archive_slug}/{$wp_rewrite->pagination_base}/([0-9]{1,})/?$", "index.php?post_type=$post_type" . '&paged=$matches[1]', 'top' );
 		}
 
-		$wp_rewrite->add_permastruct( $post_type, "{$args->rewrite['slug']}/%$post_type%", $args->rewrite );
+		add_permastruct( $post_type, "{$args->rewrite['slug']}/%$post_type%", $args->rewrite );
 	}
 
 	if ( $args->register_meta_box_cb )
@@ -1961,7 +1961,7 @@ function wp_post_mime_type_where($post_mime_types, $table_alias = '') {
  * @return mixed False on failure
  */
 function wp_delete_post( $postid = 0, $force_delete = false ) {
-	global $wpdb, $wp_rewrite;
+	global $wpdb;
 
 	if ( !$post = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->posts WHERE ID = %d", $postid)) )
 		return $post;
@@ -2399,7 +2399,6 @@ function wp_get_single_post($postid = 0, $mode = OBJECT) {
  *
  * @since 1.0.0
  * @uses $wpdb
- * @uses $wp_rewrite
  * @uses $user_ID
  * @uses do_action() Calls 'pre_post_update' on post ID if this is an update.
  * @uses do_action() Calls 'edit_post' action on post ID and post data if this is an update.
@@ -2412,7 +2411,7 @@ function wp_get_single_post($postid = 0, $mode = OBJECT) {
  * @return int|WP_Error The value 0 or WP_Error on failure. The post ID on success.
  */
 function wp_insert_post($postarr, $wp_error = false) {
-	global $wpdb, $wp_rewrite, $user_ID;
+	global $wpdb, $user_ID;
 
 	$defaults = array('post_status' => 'draft', 'post_type' => 'post', 'post_author' => $user_ID,
 		'ping_status' => get_option('default_ping_status'), 'post_parent' => 0,

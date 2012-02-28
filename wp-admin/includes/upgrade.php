@@ -35,8 +35,6 @@ if ( !function_exists('wp_install') ) :
  * @return array Array keys 'url', 'user_id', 'password', 'password_message'.
  */
 function wp_install( $blog_title, $user_name, $user_email, $public, $deprecated = '', $user_password = '' ) {
-	global $wp_rewrite;
-
 	if ( !empty( $deprecated ) )
 		_deprecated_argument( __FUNCTION__, '2.6' );
 
@@ -82,7 +80,7 @@ function wp_install( $blog_title, $user_name, $user_email, $public, $deprecated 
 
 	wp_install_defaults($user_id);
 
-	$wp_rewrite->flush_rules();
+	flush_rewrite_rules();
 
 	wp_new_blog_notification($blog_title, $guessurl, $user_id, ($email_password ? $user_password : __('The password you chose during the install.') ) );
 
@@ -391,7 +389,7 @@ endif;
  * @since 1.0.1
  */
 function upgrade_all() {
-	global $wp_current_db_version, $wp_db_version, $wp_rewrite;
+	global $wp_current_db_version, $wp_db_version;
 	$wp_current_db_version = __get_option('db_version');
 
 	// We are up-to-date. Nothing to do.

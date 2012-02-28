@@ -196,17 +196,15 @@ function update_recently_edited( $file ) {
  *
  * @since 2.1.0
  *
- * @param unknown_type $old_value
- * @param unknown_type $value
+ * @param string $old_value
+ * @param string $value
  */
 function update_home_siteurl( $old_value, $value ) {
-	global $wp_rewrite;
-
 	if ( defined( "WP_INSTALLING" ) )
 		return;
 
 	// If home changed, write rewrite rules to new location.
-	$wp_rewrite->flush_rules();
+	flush_rewrite_rules();
 }
 
 add_action( 'update_option_home', 'update_home_siteurl', 10, 2 );

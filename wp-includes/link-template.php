@@ -589,8 +589,6 @@ function get_category_feed_link($cat_id, $feed = '') {
  * @return string Link to the feed for the term specified by $term_id and $taxonomy.
 */
 function get_term_feed_link( $term_id, $taxonomy = 'category', $feed = '' ) {
-	global $wp_rewrite;
-
 	$term_id = ( int ) $term_id;
 
 	$term = get_term( $term_id, $taxonomy  );

@@ -140,7 +140,7 @@ if ( $wp_rewrite->using_index_permalinks() )
 else
 	$usingpi = false;
 
-$wp_rewrite->flush_rules();
+flush_rewrite_rules();
 
 if (isset($_POST['submit'])) : ?>
 <div id="message" class="updated"><p><?php

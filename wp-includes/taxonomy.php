@@ -296,7 +296,6 @@ function is_taxonomy_hierarchical($taxonomy) {
  * @subpackage Taxonomy
  * @since 2.3.0
  * @uses $wp_taxonomies Inserts new taxonomy object into the list
- * @uses $wp_rewrite Adds rewrite tags and permastructs
  * @uses $wp Adds query vars
  *
  * @param string $taxonomy Name of taxonomy object
@@ -304,7 +303,7 @@ function is_taxonomy_hierarchical($taxonomy) {
  * @param array|string $args See above description for the two keys values.
  */
 function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
-	global $wp_taxonomies, $wp_rewrite, $wp;
+	global $wp_taxonomies, $wp;
 
 	if ( ! is_array($wp_taxonomies) )
 		$wp_taxonomies = array();
@@ -343,8 +342,8 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 		else
 			$tag = '([^/]+)';
 
-		$wp_rewrite->add_rewrite_tag("%$taxonomy%", $tag, $args['query_var'] ? "{$args['query_var']}=" : "taxonomy=$taxonomy&term=");
-		$wp_rewrite->add_permastruct( $taxonomy, "{$args['rewrite']['slug']}/%$taxonomy%", $args['rewrite'] );
+		add_rewrite_tag( "%$taxonomy%", $tag, $args['query_var'] ? "{$args['query_var']}=" : "taxonomy=$taxonomy&term=" );
+		add_permastruct( $taxonomy, "{$args['rewrite']['slug']}/%$taxonomy%", $args['rewrite'] );
 	}
 
 	if ( is_null($args['show_ui']) )
