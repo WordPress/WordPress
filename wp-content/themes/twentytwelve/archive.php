@@ -18,7 +18,7 @@ get_header(); ?>
 		<div id="content" role="main">
 
 		<?php if ( have_posts() ) : ?>
-			<h1 class="archive-title all-caps-title"><?php
+			<h1 class="archive-title"><?php
 				if ( is_day() ) {
 					printf( __( 'Daily Archives: %s', 'twentytwelve' ), '<span>' . get_the_date() . '</span>' );
 				} elseif ( is_month() ) {

@@ -117,7 +117,8 @@ img {
 /* patterns.scss
  * Repeatable patterns
  * ------------------------------------------------------------------ */
-.all-caps-title {
+.archive-title,
+.widget-title {
 	text-transform: uppercase;
 	font-weight: 400;
 	font-size: 12px;
