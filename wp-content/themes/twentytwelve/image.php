@@ -19,8 +19,6 @@ get_header(); ?>
 						<h1 class="entry-title"><?php the_title(); ?></h1>
 
 						<div class="entry-meta">
-							test: <?php echo esc_attr( get_the_date( 'c' ) ); ?><br/>
-							test: <?php echo esc_html( get_the_date() ); ?>
 							<?php
 								$metadata = wp_get_attachment_metadata();
 								printf( __( '<span class="meta-prep meta-prep-entry-date">Published </span> <span class="entry-date"><time class="entry-date" datetime="%1$s" pubdate>%2$s</time></span> at <a href="%3$s" title="Link to full-size image">%4$s &times; %5$s</a> in <a href="%6$s" title="Return to %7$s" rel="gallery">%8$s</a>', 'twentytwelve' ),
