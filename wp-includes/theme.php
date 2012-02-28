@@ -417,7 +417,6 @@ function get_themes() {
 			}
 		}
 
-		$theme_roots[$stylesheet] = str_replace( WP_CONTENT_DIR, '', $theme_root );
 		$wp_themes[$name] = array(
 			'Name' => $name,
 			'Title' => $title,
@@ -441,11 +440,6 @@ function get_themes() {
 	}
 
 	unset($theme_files);
-
-	/* Store theme roots in the DB */
-	if ( get_site_transient( 'theme_roots' ) != $theme_roots )
-		set_site_transient( 'theme_roots', $theme_roots, 7200 ); // cache for two hours
-	unset($theme_roots);
 
 	/* Resolve theme dependencies. */
 	$theme_names = array_keys( $wp_themes );
@@ -479,8 +473,8 @@ function get_theme_roots() {
 
 	$theme_roots = get_site_transient( 'theme_roots' );
 	if ( false === $theme_roots ) {
-		get_themes();
-		$theme_roots = get_site_transient( 'theme_roots' ); // this is set in get_theme()
+		search_theme_directories(); // Regenerate the transient.
+		$theme_roots = get_site_transient( 'theme_roots' );
 	}
 	return $theme_roots;
 }
