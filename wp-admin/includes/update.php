@@ -217,16 +217,13 @@ function wp_update_plugin($plugin, $feedback = '') {
 }
 
 function get_theme_updates() {
-	$themes = get_themes();
+	$themes = wp_get_themes();
 	$current = get_site_transient('update_themes');
 	$update_themes = array();
 
-	foreach ( $themes as $theme ) {
-		$theme = (object) $theme;
-		if ( isset($current->response[ $theme->Stylesheet ]) ) {
-			$update_themes[$theme->Stylesheet] = $theme;
-			$update_themes[$theme->Stylesheet]->update = $current->response[ $theme->Stylesheet ];
-		}
+	foreach ( $current->response as $stylesheet => $data ) {
+		$update_themes[ $stylesheet ] = wp_get_theme( $stylesheet );
+		$update_themes[ $stylesheet ]->update = $data;
 	}
 
 	return $update_themes;

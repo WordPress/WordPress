@@ -96,16 +96,16 @@ if ( ! is_multisite() && current_user_can( 'install_themes' ) ) : ?>
 <h2><?php echo esc_html( $title ); ?>
 <?php endif; ?>
 </h2>
-
-<h3><?php _e('Current Theme'); ?></h3>
+<?php $ct = wp_get_theme(); ?>
+<h3><?php _e( 'Current Theme' ); ?></h3>
 <div id="current-theme">
-<?php if ( $ct->screenshot ) : ?>
-<img src="<?php echo $ct->theme_root_uri . '/' . $ct->stylesheet . '/' . $ct->screenshot; ?>" alt="<?php esc_attr_e('Current theme preview'); ?>" />
+<?php if ( $ct->get_screenshot() ) : ?>
+<img src="<?php echo $ct->get_screenshot( 'absolute' ); ?>" alt="<?php esc_attr_e( 'Current theme preview'); ?>" />
 <?php endif; ?>
 <h4><?php
 	/* translators: 1: theme title, 2: theme version, 3: theme author */
-	printf(__('%1$s %2$s by %3$s'), $ct->title, $ct->version, $ct->author) ; ?></h4>
-<p class="theme-description"><?php echo $ct->description; ?></p>
+	printf( __( '%1$s %2$s by %3$s' ), $ct->display('Name'), $ct->display('Version'), $ct->display('Author') ) ; ?></h4>
+<p class="theme-description"><?php echo $ct->display('Description'); ?></p>
 <div class="theme-options">
 	<span><?php _e( 'Options:' )?></span>
 	<?php
@@ -117,8 +117,8 @@ if ( ! is_multisite() && current_user_can( 'install_themes' ) ) : ?>
 			if ( 'themes.php' == $item[2] || 'theme-editor.php' == $item[2] )
 				continue;
 			// 0 = name, 1 = capability, 2 = file
-			if ( ( strcmp($self, $item[2]) == 0 && empty($parent_file)) || ($parent_file && ($item[2] == $parent_file)) ) $class = ' class="current"';
-
+			if ( ( strcmp($self, $item[2]) == 0 && empty($parent_file)) || ($parent_file && ($item[2] == $parent_file)) )
+				$class = ' class="current"';
 			if ( !empty($submenu[$item[2]]) ) {
 				$submenu[$item[2]] = array_values($submenu[$item[2]]); // Re-index.
 				$menu_hook = get_plugin_page_hook($submenu[$item[2]][0][2], $item[2]);
@@ -137,8 +137,8 @@ if ( ! is_multisite() && current_user_can( 'install_themes' ) ) : ?>
 	}
 	echo implode ( ' | ', $options );
 
-	if ( $ct->tags ) : ?>
-	<p><?php _e('Tags:'); ?> <?php echo join(', ', $ct->tags); ?></p>
+	if ( $ct->get('Tags') ) : ?>
+	<p><?php _e('Tags:'); ?> <?php echo $ct->display('Tags'); ?></p>
 	<?php endif; ?>
 </div>
 <?php theme_update_available($ct); ?>
@@ -218,8 +218,7 @@ if ( ! current_user_can( 'switch_themes' ) ) {
 
 <?php
 // List broken themes, if any.
-$broken_themes = get_broken_themes();
-if ( current_user_can('edit_themes') && count( $broken_themes ) ) {
+if ( current_user_can('edit_themes') && $broken_themes = wp_get_themes( array( 'errors' => true ) ) ) {
 ?>
 
 <h3><?php _e('Broken Themes'); ?></h3>
@@ -231,20 +230,13 @@ if ( current_user_can('edit_themes') && count( $broken_themes ) ) {
 		<th><?php _e('Description'); ?></th>
 	</tr>
 <?php
-	$theme = '';
-
-	$theme_names = array_keys($broken_themes);
-	natcasesort($theme_names);
-
-	foreach ($theme_names as $theme_name) {
-		$name = $broken_themes[$theme_name]['Title'];
-		$description = $broken_themes[$theme_name]['Description'];
-
-		$theme = ('class="alternate"' == $theme) ? '' : 'class="alternate"';
+	$alt = '';
+	foreach ( $broken_themes as $broken_theme ) {
+		$alt = ('class="alternate"' == $alt) ? '' : 'class="alternate"';
 		echo "
-		<tr $theme>
-			 <td>$name</td>
-			 <td>$description</td>
+		<tr $alt>
+			 <td>" . $broken_theme->get('Name') ."</td>
+			 <td>" . $broken_theme->errors()->get_error_message() . "</td>
 		</tr>";
 	}
 ?>

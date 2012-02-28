@@ -265,16 +265,14 @@ function install_theme_information() {
 		}
 	}
 
-	$themes = get_themes();
-	foreach ( (array) $themes as $this_theme ) {
-		if ( is_array($this_theme) && $this_theme['Stylesheet'] == $api->slug ) {
-			if ( version_compare( $this_theme['Version'], $api->version, '=' ) ) {
+	$theme = wp_get_theme( $api->slug );
+	if ( is_a( $theme, 'WP_Theme' ) ) {
+		switch ( version_compare( $theme->get('Version'), $api->version ) ) {
+			case 0; // equal
 				$type = 'latest_installed';
-			} elseif ( version_compare( $this_theme['Version'], $api->version, '>' ) ) {
+			case 1: // installed theme > api version
 				$type = 'newer_installed';
-				$newer_version = $this_theme['Version'];
-			}
-			break;
+				$newer_version = $theme->get('Version');
 		}
 	}
 ?>

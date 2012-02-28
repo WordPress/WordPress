@@ -169,35 +169,6 @@ function wpmu_delete_user( $id ) {
 	return true;
 }
 
-function wpmu_get_blog_allowedthemes( $blog_id = 0 ) {
-	$themes = get_themes();
-
-	if ( $blog_id != 0 )
-		switch_to_blog( $blog_id );
-
-	$blog_allowed_themes = get_option( 'allowedthemes' );
-	if ( !is_array( $blog_allowed_themes ) || empty( $blog_allowed_themes ) ) { // convert old allowed_themes to new allowedthemes
-		$blog_allowed_themes = get_option( 'allowed_themes' );
-
-		if ( is_array( $blog_allowed_themes ) ) {
-			foreach( (array) $themes as $key => $theme ) {
-				$theme_key = esc_html( $theme['Stylesheet'] );
-				if ( isset( $blog_allowed_themes[$key] ) == true ) {
-					$blog_allowedthemes[$theme_key] = 1;
-				}
-			}
-			$blog_allowed_themes = $blog_allowedthemes;
-			add_option( 'allowedthemes', $blog_allowed_themes );
-			delete_option( 'allowed_themes' );
-		}
-	}
-
-	if ( $blog_id != 0 )
-		restore_current_blog();
-
-	return $blog_allowed_themes;
-}
-
 function update_option_new_admin_email( $old_value, $value ) {
 	$email = get_option( 'admin_email' );
 	if ( $value == get_option( 'admin_email' ) || !is_email( $value ) )
@@ -295,26 +266,6 @@ function new_user_email_admin_notice() {
 		echo "<div class='update-nag'>" . sprintf( __( "Your email address has not been updated yet. Please check your inbox at %s for a confirmation email." ), $email['newemail'] ) . "</div>";
 }
 add_action( 'admin_notices', 'new_user_email_admin_notice' );
-
-function get_site_allowed_themes() {
-	$themes = get_themes();
-	$allowed_themes = get_site_option( 'allowedthemes' );
-	if ( !is_array( $allowed_themes ) || empty( $allowed_themes ) ) {
-		$allowed_themes = get_site_option( 'allowed_themes' ); // convert old allowed_themes format
-		if ( !is_array( $allowed_themes ) ) {
-			$allowed_themes = array();
-		} else {
-			foreach( (array) $themes as $key => $theme ) {
-				$theme_key = esc_html( $theme['Stylesheet'] );
-				if ( isset( $allowed_themes[ $key ] ) == true ) {
-					$allowedthemes[ $theme_key ] = 1;
-				}
-			}
-			$allowed_themes = $allowedthemes;
-		}
-	}
-	return $allowed_themes;
-}
 
 /**
  * Determines if there is any upload space left in the current blog's quota.

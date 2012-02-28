@@ -235,32 +235,29 @@ function wp_update_themes() {
 	if ( defined( 'WP_INSTALLING' ) )
 		return false;
 
-	if ( !function_exists( 'get_themes' ) )
-		require_once( ABSPATH . 'wp-includes/theme.php' );
-
-	$installed_themes = get_themes( );
+	$installed_themes = wp_get_themes();
 	$last_update = get_site_transient( 'update_themes' );
 	if ( ! is_object($last_update) )
 		$last_update = new stdClass;
 
 	$themes = array();
 	$checked = array();
-	$exclude_fields = array('Template Files', 'Stylesheet Files', 'Status', 'Theme Root', 'Theme Root URI', 'Template Dir', 'Stylesheet Dir', 'Description', 'Tags', 'Screenshot');
 
 	// Put slug of current theme into request.
 	$themes['current_theme'] = get_option( 'stylesheet' );
 
-	foreach ( (array) $installed_themes as $theme_title => $theme ) {
-		$themes[$theme['Stylesheet']] = array();
-		$checked[$theme['Stylesheet']] = $theme['Version'];
+	foreach ( $installed_themes as $theme ) {
+		$checked[ $theme->get_stylesheet() ] = $theme->get('Version');
 
-		$themes[$theme['Stylesheet']]['Name'] = $theme['Name'];
-		$themes[$theme['Stylesheet']]['Version'] = $theme['Version'];
-
-		foreach ( (array) $theme as $key => $value ) {
-			if ( !in_array($key, $exclude_fields) )
-				$themes[$theme['Stylesheet']][$key] = $value;
-		}
+		$themes[ $theme->get_stylesheet() ] = array(
+			'Name'       => $theme->get('Name'),
+			'Title'      => $theme->get('Name'),
+			'Version'    => $theme->get('Version'),
+			'Author'     => $theme->get('Author'),
+			'Author URI' => $theme->get('AuthorURI'),
+			'Template'   => $theme->get_template(),
+			'Stylesheet' => $theme->get_stylesheet(),
+		);
 	}
 
 	// Check for update on a different schedule, depending on the page.

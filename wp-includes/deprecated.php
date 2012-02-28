@@ -2907,3 +2907,49 @@ function debug_fwrite( $fp, $string ) {
 function debug_fclose( $fp ) {
 	_deprecated_function( __FUNCTION__, 'error_log()' );
 }
+
+/**
+ * Retrieve list of themes with theme data in theme directory.
+ *
+ * The theme is broken, if it doesn't have a parent theme and is missing either
+ * style.css and, or index.php. If the theme has a parent theme then it is
+ * broken, if it is missing style.css; index.php is optional.
+ *
+ * @since 1.5.0
+ * @global array $wp_themes Stores the working themes.
+ *
+ * @return array Theme list with theme data.
+ */
+function get_themes() {
+	_deprecated_function( __FUNCTION__, '3.4', 'wp_get_themes()' );
+
+	global $wp_themes;
+	if ( isset( $wp_themes ) )
+		return $wp_themes;
+
+	$themes = wp_get_themes();
+	$wp_themes = array();
+
+	foreach ( $themes as $theme ) {
+		$wp_themes[ $theme->get('Name') ] = $theme;
+	}
+
+	return $wp_themes;
+}
+
+/**
+ * Retrieve theme data.
+ *
+ * @since 1.5.0
+ *
+ * @param string $theme Theme name.
+ * @return array|null Null, if theme name does not exist. Theme data, if exists.
+ */
+function get_theme( $theme ) {
+	_deprecated_function( __FUNCTION__, '3.4', 'wp_get_theme($stylesheet)' );
+
+	$themes = get_themes();
+	if ( is_array( $themes ) && array_key_exists( $theme, $themes ) )
+		return $themes[$theme];
+	return null;
+}

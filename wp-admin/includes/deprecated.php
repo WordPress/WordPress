@@ -880,3 +880,60 @@ function add_contextual_help( $screen, $help ) {
 
 	WP_Screen::add_old_compat_help( $screen, $help );
 }
+
+/**
+ * Get the allowed themes for the current blog.
+ *
+ * @since 3.0.0
+ * @deprecated 3.4.0
+ * @deprecated Use wp_get_themes()
+ * @see wp_get_themes()
+ *
+ * @return array $themes Array of allowed themes.
+ */
+function get_allowed_themes() {
+	_deprecated_function( __FUNCTION__, '3.4', "wp_get_themes( array( 'allowed' => true ) )" );
+
+	$themes = wp_get_themes( array( 'allowed' => true ) );
+
+	$wp_themes = array();
+	foreach ( $themes as $theme ) {
+		$wp_themes[ $theme->get('Name') ] = $theme;
+	}
+
+	return $wp_themes;
+}
+
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since 1.5.0
+ *
+ * @return unknown
+ */
+function get_broken_themes() {
+	_deprecated_function( __FUNCTION__, '3.4', "wp_get_themes( array( 'errors' => true )" );
+
+	$themes = wp_get_themes( array( 'errors' => true ) );
+	$broken = array();
+	foreach ( $themes as $theme ) {
+		$broken[ $theme->get('Name') ] = array(
+			'Title' => $theme->get('Name'),
+			'Description' => $theme->errors()->get_error_message(),
+		);
+	}
+	return $broken;
+}
+
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since 2.0.0
+ *
+ * @return unknown
+ */
+function current_theme_info() {
+	_deprecated_function( __FUNCTION__, '3.4', 'wp_get_theme()' );
+
+	return wp_get_theme();
+}

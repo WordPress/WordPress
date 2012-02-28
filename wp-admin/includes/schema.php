@@ -343,12 +343,9 @@ function populate_options() {
 
 	$template = WP_DEFAULT_THEME;
 	// If default theme is a child theme, we need to get its template
-	foreach ( (array) get_themes() as $theme ) {
-		if ( WP_DEFAULT_THEME == $theme['Stylesheet'] ) {
-			$template = $theme['Template'];
-			break;
-		}
-	}
+	$theme = wp_get_theme( $template );
+	if ( ! $theme->errors() )
+		$template = $theme->get_template();
 
 	$timezone_string = '';
 	$gmt_offset = 0;

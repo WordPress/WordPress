@@ -7,46 +7,6 @@
  */
 
 /**
- * {@internal Missing Short Description}}
- *
- * @since 2.0.0
- *
- * @return unknown
- */
-function current_theme_info() {
-	$themes = get_themes();
-	$current_theme = get_current_theme();
-
-	if ( ! $themes ) {
-		$ct = new stdClass;
-		$ct->name = $current_theme;
-		return $ct;
-	}
-
-	if ( ! isset( $themes[$current_theme] ) ) {
-		delete_option( 'current_theme' );
-		$current_theme = get_current_theme();
-	}
-
-	$ct = new stdClass;
-	$ct->name = $current_theme;
-	$ct->title = $themes[$current_theme]['Title'];
-	$ct->version = $themes[$current_theme]['Version'];
-	$ct->parent_theme = $themes[$current_theme]['Parent Theme'];
-	$ct->template_dir = $themes[$current_theme]['Template Dir'];
-	$ct->stylesheet_dir = $themes[$current_theme]['Stylesheet Dir'];
-	$ct->template = $themes[$current_theme]['Template'];
-	$ct->stylesheet = $themes[$current_theme]['Stylesheet'];
-	$ct->screenshot = $themes[$current_theme]['Screenshot'];
-	$ct->description = $themes[$current_theme]['Description'];
-	$ct->author = $themes[$current_theme]['Author'];
-	$ct->tags = $themes[$current_theme]['Tags'];
-	$ct->theme_root = $themes[$current_theme]['Theme Root'];
-	$ct->theme_root_uri = $themes[$current_theme]['Theme Root URI'];
-	return $ct;
-}
-
-/**
  * Remove a theme
  *
  * @since 2.8.0
@@ -114,59 +74,6 @@ function delete_theme($template, $redirect = '') {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * @since 1.5.0
- *
- * @return unknown
- */
-function get_broken_themes() {
-	global $wp_broken_themes;
-
-	get_themes();
-	return $wp_broken_themes;
-}
-
-/**
- * Get the allowed themes for the current blog.
- *
- * @since 3.0.0
- *
- * @uses get_themes()
- * @uses current_theme_info()
- * @uses get_site_allowed_themes()
- * @uses wpmu_get_blog_allowedthemes
- *
- * @return array $themes Array of allowed themes.
- */
-function get_allowed_themes() {
-	if ( !is_multisite() )
-		return get_themes();
-
-	$themes = get_themes();
-	$ct = current_theme_info();
-	$allowed_themes = apply_filters("allowed_themes", get_site_allowed_themes() );
-	if ( $allowed_themes == false )
-		$allowed_themes = array();
-
-	$blog_allowed_themes = wpmu_get_blog_allowedthemes();
-	if ( is_array( $blog_allowed_themes ) )
-		$allowed_themes = array_merge( $allowed_themes, $blog_allowed_themes );
-
-	if ( isset( $allowed_themes[ esc_html( $ct->stylesheet ) ] ) == false )
-		$allowed_themes[ esc_html( $ct->stylesheet ) ] = true;
-
-	reset( $themes );
-	foreach ( $themes as $key => $theme ) {
-		if ( isset( $allowed_themes[ esc_html( $theme[ 'Stylesheet' ] ) ] ) == false )
-			unset( $themes[ $key ] );
-	}
-	reset( $themes );
-
-	return $themes;
-}
-
-/**
  * Get the Page Templates available in this theme
  *
  * @since 1.5.0
@@ -174,37 +81,7 @@ function get_allowed_themes() {
  * @return array Key is the template name, value is the filename of the template
  */
 function get_page_templates() {
-	$themes = get_themes();
-	$theme = get_current_theme();
-	$templates = $themes[$theme]['Template Files'];
-	$page_templates = array();
-
-	if ( is_array( $templates ) ) {
-		$base = array( trailingslashit(get_template_directory()), trailingslashit(get_stylesheet_directory()) );
-
-		foreach ( $templates as $template ) {
-			$basename = str_replace($base, '', $template);
-
-			// don't allow template files in subdirectories
-			if ( false !== strpos($basename, '/') )
-				continue;
-
-			if ( 'functions.php' == $basename )
-				continue;
-
-			$template_data = implode( '', file( $template ));
-
-			$name = '';
-			if ( preg_match( '|Template Name:(.*)$|mi', $template_data, $name ) )
-				$name = _cleanup_header_comment($name[1]);
-
-			if ( !empty( $name ) ) {
-				$page_templates[trim( $name )] = $basename;
-			}
-		}
-	}
-
-	return $page_templates;
+	return wp_get_theme()->get_page_templates();
 }
 
 /**
@@ -240,16 +117,14 @@ function theme_update_available( $theme ) {
 	if ( !isset($themes_update) )
 		$themes_update = get_site_transient('update_themes');
 
-	if ( is_object($theme) && isset($theme->stylesheet) )
-		$stylesheet = $theme->stylesheet;
-	elseif ( is_array($theme) && isset($theme['Stylesheet']) )
-		$stylesheet = $theme['Stylesheet'];
-	else
-		return false; //No valid info passed.
+	if ( ! is_a( $theme, 'WP_Theme' ) )
+		return;
+
+	$stylesheet = $theme->get_stylesheet();
 
 	if ( isset($themes_update->response[ $stylesheet ]) ) {
 		$update = $themes_update->response[ $stylesheet ];
-		$theme_name = is_object($theme) ? $theme->name : (is_array($theme) ? $theme['Name'] : '');
+		$theme_name = $theme->get('Name');
 		$details_url = add_query_arg(array('TB_iframe' => 'true', 'width' => 1024, 'height' => 800), $update['url']); //Theme browser inside WP? replace this, Also, theme preview JS will override this on the available list.
 		$update_url = wp_nonce_url('update.php?action=upgrade-theme&amp;theme=' . urlencode($stylesheet), 'upgrade-theme_' . $stylesheet);
 		$update_onclick = 'onclick="if ( confirm(\'' . esc_js( __("Updating this theme will lose any customizations you have made. 'Cancel' to stop, 'OK' to update.") ) . '\') ) {return true;}return false;"';

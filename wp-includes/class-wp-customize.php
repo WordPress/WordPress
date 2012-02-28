@@ -242,17 +242,7 @@ final class WP_Customize {
 	 * @return string Theme name.
 	 */
 	public function current_theme( $current_theme ) {
-		$themes = get_themes();
-
-		if ( ! $themes )
-			return $current_theme;
-
-		foreach ( $themes as $theme ) {
-			if ( $theme['Stylesheet'] == $this->stylesheet && $theme['Template'] == $this->template )
-				return $theme['Name'];
-		}
-
-		return $current_theme;
+		return wp_get_theme( $this->stylesheet )->get('Name');
 	}
 
 	/**

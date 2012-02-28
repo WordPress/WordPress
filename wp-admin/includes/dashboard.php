@@ -383,11 +383,11 @@ function wp_dashboard_right_now() {
 	echo "\n\t</table>\n\t</div>";
 
 	echo "\n\t".'<div class="versions">';
-	$ct = current_theme_info();
+	$theme = wp_get_theme();
 
 	echo "\n\t<p>";
 
-	if ( empty( $ct->stylesheet_dir ) ) {
+	if ( $theme->errors() ) {
 		if ( ! is_multisite() || is_super_admin() )
 			echo '<span class="error-message">' . __('ERROR: The themes directory is either empty or doesn&#8217;t exist. Please check your installation.') . '</span>';
 	} elseif ( ! empty($wp_registered_sidebars) ) {
@@ -401,7 +401,7 @@ function wp_dashboard_right_now() {
 		}
 		$num = number_format_i18n( $num_widgets );
 
-		$switch_themes = $ct->title;
+		$switch_themes = $theme->display('Name');
 		if ( current_user_can( 'switch_themes') )
 			$switch_themes = '<a href="themes.php">' . $switch_themes . '</a>';
 		if ( current_user_can( 'edit_theme_options' ) ) {
@@ -411,9 +411,9 @@ function wp_dashboard_right_now() {
 		}
 	} else {
 		if ( current_user_can( 'switch_themes' ) )
-			printf( __('Theme <span class="b"><a href="themes.php">%1$s</a></span>'), $ct->title );
+			printf( __('Theme <span class="b"><a href="themes.php">%1$s</a></span>'), $theme->display('Name') );
 		else
-			printf( __('Theme <span class="b">%1$s</span>'), $ct->title );
+			printf( __('Theme <span class="b">%1$s</span>'), $theme->display('Name') );
 	}
 	echo '</p>';
 
@@ -1313,14 +1313,14 @@ function wp_welcome_panel() {
 	<div class="welcome-panel-column welcome-panel-last">
 		<h4><span class="icon16 icon-appearance"></span> <?php _e( 'Customize Your Site' ); ?></h4>
 		<?php
-		$ct = current_theme_info();
-		if ( empty ( $ct->stylesheet_dir ) ) :
+		$theme = wp_get_theme();
+		if ( $theme->errors() ) :
 			echo '<p>';
 			printf( __( '<a href="%s">Install a theme</a> to get started customizing your site.' ), esc_url( admin_url( 'themes.php' ) ) );
 			echo '</p>';
 		else:
 			$customize_links = array();
-			if ( 'twentyeleven' == $ct->stylesheet )
+			if ( 'twentyeleven' == $theme->get_stylesheet() )
 				$customize_links[] = sprintf( __( '<a href="%s">Choose light or dark</a>' ), esc_url( admin_url( 'themes.php?page=theme_options' ) ) );
 
 			if ( current_theme_supports( 'custom-background' ) )
@@ -1334,7 +1334,7 @@ function wp_welcome_panel() {
 
 			if ( ! empty( $customize_links ) ) {
 				echo '<p>';
-				printf( __( 'Use the current theme &mdash; %1$s &mdash; or <a href="%2$s">choose a new one</a>. If you stick with %3$s, here are a few ways to make your site look unique.' ), $ct->title, esc_url( admin_url( 'themes.php' ) ), $ct->title );
+				printf( __( 'Use the current theme &mdash; %1$s &mdash; or <a href="%2$s">choose a new one</a>. If you stick with %1$s, here are a few ways to make your site look unique.' ), $theme->display('Name'), esc_url( admin_url( 'themes.php' ) ) );
 				echo '</p>';
 			?>
 			<ul>
@@ -1345,7 +1345,7 @@ function wp_welcome_panel() {
 			<?php
 			} else {
 				echo '<p>';
-				printf( __( 'Use the current theme &mdash; %1$s &mdash; or <a href="%2$s">choose a new one</a>.' ), $ct->title, esc_url( admin_url( 'themes.php' ) ) );
+				printf( __( 'Use the current theme &mdash; %1$s &mdash; or <a href="%2$s">choose a new one</a>.' ), $this->display('Name'), esc_url( admin_url( 'themes.php' ) ) );
 				echo '</p>';
 			}
 		endif; ?>

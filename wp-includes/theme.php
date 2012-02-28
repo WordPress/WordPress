@@ -7,6 +7,95 @@
  */
 
 /**
+ * Returns an array of WP_Theme objects based on the arguments.
+ *
+ * Despite advances over get_themes(), this function is still quite expensive, and grows
+ * linearly with additional themes. Stick to wp_get_theme() if possible.
+ *
+ * @since 3.4.0
+ *
+ * @param array $args Arguments. Currently 'errors' (defaults to false), 'allowed'
+ * 	(true, false; null for either; defaults to null; only applies to multisite), and 'blog_id'
+ * 	(defaults to current blog; used to find allowed themes; only applies to multisite).
+ * @return Array of WP_Theme objects.
+ */
+function wp_get_themes( $args = array() ) {
+	global $wp_theme_directories;
+
+	$defaults = array( 'errors' => false, 'allowed' => null, 'blog_id' => 0 );
+	$args = wp_parse_args( $args, $defaults );
+
+	static $_themes;
+	if ( ! isset( $_themes ) ) {
+		$_themes = array();
+		$theme_data = search_theme_directories();
+		// Make sure the current theme wins out, in case search_theme_directories() picks the wrong
+		// one in the case of a conflict. (Normally, last registered theme root wins.)
+		$current_theme = get_stylesheet();
+		$current_theme_root = get_raw_theme_root( $current_theme );
+		if ( ! in_array( $current_theme_root, $wp_theme_directories ) )
+			$current_theme_root = WP_CONTENT_DIR . $current_theme_root;
+		foreach ( (array) $theme_data as $theme_slug => $data ) {
+			if ( $current_theme == $theme_slug && $current_theme_root != $data['theme_root'] )
+				$_themes[ $theme_slug ] = new WP_Theme( $theme_slug, $current_theme_root );
+			else
+				$_themes[ $theme_slug ] = new WP_Theme( $theme_slug, $data['theme_root'] );
+		}
+	}
+
+	$themes = $_themes;
+	if ( empty( $themes ) )
+		return $themes;
+
+	if ( null !== $args['errors'] ) {
+		foreach ( $themes as $theme_slug => $theme ) {
+			if ( $theme->errors() != $args['errors'] )
+				unset( $themes[ $theme_slug ] );
+		}
+	}
+
+	if ( is_multisite() && null !== $args['allowed'] ) {
+		if ( $allowed = $args['allowed'] ) {
+			if ( 'network' == $allowed )
+				$themes = array_intersect_key( $themes, WP_Theme::get_allowed_on_network( $args['blog_id'] ) );
+			elseif ( 'site' == $allowed )
+				$themes = array_intersect_key( $themes, WP_Theme::get_allowed_on_site( $args['blog_id'] ) );
+			else
+				$themes = array_intersect_key( $themes, WP_Theme::get_allowed( $args['blog_id'] ) );
+		} else {
+			$themes = array_diff_key( $themes, WP_Theme::get_allowed( $args['blog_id'] ) );
+		}
+	}
+
+	return $themes;
+}
+
+/**
+ * Gets a WP_Theme object for a theme.
+ *
+ * @since 3.4.0
+ *
+ * @param string $stylesheet Directory name for the theme. Optional. Defaults to current theme.
+ * @param string $theme_root Absolute path of the theme root to look in. Optional. If not specified, get_raw_theme_root()
+ * 	is used to calculate the theme root for the $stylesheet provided (or current theme).
+ * @return WP_Theme
+ */
+function wp_get_theme( $stylesheet = null, $theme_root = null ) {
+	global $wp_theme_directories;
+
+	if ( empty( $stylesheet ) )
+		$stylesheet = get_stylesheet();
+
+	if ( empty( $theme_root ) ) {
+		$theme_root = get_raw_theme_root( $stylesheet );
+		if ( ! in_array( $theme_root, $wp_theme_directories ) )
+			$theme_root = WP_CONTENT_DIR . $theme_root;
+	}
+
+	return new WP_Theme( $stylesheet, $theme_root );
+}
+
+/**
  * Whether a child theme is in use.
  *
  * @since 3.0.0
@@ -247,218 +336,6 @@ function get_theme_data( $theme_file ) {
 }
 
 /**
- * Retrieve list of themes with theme data in theme directory.
- *
- * The theme is broken, if it doesn't have a parent theme and is missing either
- * style.css and, or index.php. If the theme has a parent theme then it is
- * broken, if it is missing style.css; index.php is optional. The broken theme
- * list is saved in the {@link $wp_broken_themes} global, which is displayed on
- * the theme list in the administration panels.
- *
- * @since 1.5.0
- * @global array $wp_broken_themes Stores the broken themes.
- * @global array $wp_themes Stores the working themes.
- *
- * @return array Theme list with theme data.
- */
-function get_themes() {
-	global $wp_themes, $wp_broken_themes;
-
-	if ( isset($wp_themes) )
-		return $wp_themes;
-
-	if ( !$theme_files = search_theme_directories() )
-		return false;
-
-	asort( $theme_files );
-
-	$wp_themes = array();
-
-	foreach ( (array) $theme_files as $theme_file ) {
-		$theme_root = $theme_file['theme_root'];
-		$theme_file = $theme_file['theme_file'];
-
-		if ( !is_readable("$theme_root/$theme_file") ) {
-			$wp_broken_themes[$theme_file] = array('Name' => $theme_file, 'Title' => $theme_file, 'Description' => __('File not readable.'));
-			continue;
-		}
-
-		$theme_data = get_theme_data("$theme_root/$theme_file");
-
-		$name        = $theme_data['Name'];
-		$title       = $theme_data['Title'];
-		$description = wptexturize($theme_data['Description']);
-		$version     = $theme_data['Version'];
-		$author      = $theme_data['Author'];
-		$template    = $theme_data['Template'];
-		$stylesheet  = dirname($theme_file);
-
-		$screenshot = false;
-		foreach ( array('png', 'gif', 'jpg', 'jpeg') as $ext ) {
-			if (file_exists("$theme_root/$stylesheet/screenshot.$ext")) {
-				$screenshot = "screenshot.$ext";
-				break;
-			}
-		}
-
-		if ( empty($name) ) {
-			$name = dirname($theme_file);
-			$title = $name;
-		}
-
-		$parent_template = $template;
-
-		if ( empty($template) ) {
-			if ( file_exists("$theme_root/$stylesheet/index.php") )
-				$template = $stylesheet;
-			else
-				continue;
-		}
-
-		$template = trim( $template );
-
-		if ( !file_exists("$theme_root/$template/index.php") ) {
-			$parent_dir = dirname(dirname($theme_file));
-			if ( file_exists("$theme_root/$parent_dir/$template/index.php") ) {
-				$template = "$parent_dir/$template";
-				$template_directory = "$theme_root/$template";
-			} else {
-				/**
-				 * The parent theme doesn't exist in the current theme's folder or sub folder
-				 * so lets use the theme root for the parent template.
-				 */
-				if ( isset($theme_files[$template]) && file_exists( $theme_files[$template]['theme_root'] . "/$template/index.php" ) ) {
-					$template_directory = $theme_files[$template]['theme_root'] . "/$template";
-				} else {
-					if ( empty( $parent_template) )
-						$wp_broken_themes[$name] = array('Name' => $name, 'Title' => $title, 'Description' => __('Template is missing.'), 'error' => 'no_template');
-					else
-						$wp_broken_themes[$name] = array('Name' => $name, 'Title' => $title, 'Description' => sprintf( __('The parent theme is missing. Please install the "%s" parent theme.'),  $parent_template ), 'error' => 'no_parent', 'parent' => $parent_template );
-					continue;
-				}
-
-			}
-		} else {
-			$template_directory = trim( $theme_root . '/' . $template );
-		}
-
-		$stylesheet_files = array();
-		$template_files = array();
-
-		$stylesheet_dir = @ dir("$theme_root/$stylesheet");
-		if ( $stylesheet_dir ) {
-			while ( ($file = $stylesheet_dir->read()) !== false ) {
-				if ( !preg_match('|^\.+$|', $file) ) {
-					if ( preg_match('|\.css$|', $file) )
-						$stylesheet_files[] = "$theme_root/$stylesheet/$file";
-					elseif ( preg_match('|\.php$|', $file) )
-						$template_files[] = "$theme_root/$stylesheet/$file";
-				}
-			}
-			@ $stylesheet_dir->close();
-		}
-
-		$template_dir = @ dir("$template_directory");
-		if ( $template_dir ) {
-			while ( ($file = $template_dir->read()) !== false ) {
-				if ( preg_match('|^\.+$|', $file) )
-					continue;
-				if ( preg_match('|\.php$|', $file) ) {
-					$template_files[] = "$template_directory/$file";
-				} elseif ( is_dir("$template_directory/$file") ) {
-					$template_subdir = @ dir("$template_directory/$file");
-					if ( !$template_subdir )
-						continue;
-					while ( ($subfile = $template_subdir->read()) !== false ) {
-						if ( preg_match('|^\.+$|', $subfile) )
-							continue;
-						if ( preg_match('|\.php$|', $subfile) )
-							$template_files[] = "$template_directory/$file/$subfile";
-					}
-					@ $template_subdir->close();
-				}
-			}
-			@ $template_dir->close();
-		}
-
-		//Make unique and remove duplicates when stylesheet and template are the same i.e. most themes
-		$template_files = array_unique($template_files);
-		$stylesheet_files = array_unique($stylesheet_files);
-
-		$template_dir = $template_directory;
-		$stylesheet_dir = $theme_root . '/' . $stylesheet;
-
-		if ( empty($template_dir) )
-			$template_dir = '/';
-		if ( empty($stylesheet_dir) )
-			$stylesheet_dir = '/';
-
-		// Check for theme name collision. This occurs if a theme is copied to
-		// a new theme directory and the theme header is not updated. Whichever
-		// theme is first keeps the name. Subsequent themes get a suffix applied.
-		// Default themes themes always trump their pretenders.
-		if ( isset($wp_themes[$name]) ) {
-			$trump_cards = array(
-				'classic'      => 'WordPress Classic',
-				'default'      => 'WordPress Default',
-				'twentyten'    => 'Twenty Ten',
-				'twentyeleven' => 'Twenty Eleven',
-				'twentytwelve' => 'Twenty Twelve',
-			);
-			if ( isset( $trump_cards[ $stylesheet ] ) && $name == $trump_cards[ $stylesheet ] ) {
-				// If another theme has claimed to be one of our default themes, move
-				// them aside.
-				$suffix = $wp_themes[$name]['Stylesheet'];
-				$new_name = "$name/$suffix";
-				$wp_themes[$new_name] = $wp_themes[$name];
-				$wp_themes[$new_name]['Name'] = $new_name;
-			} else {
-				$name = "$name/$stylesheet";
-			}
-		}
-
-		$wp_themes[$name] = array(
-			'Name' => $name,
-			'Title' => $title,
-			'Description' => $description,
-			'Author' => $author,
-			'Author Name' => $theme_data['AuthorName'],
-			'Author URI' => $theme_data['AuthorURI'],
-			'Version' => $version,
-			'Template' => $template,
-			'Stylesheet' => $stylesheet,
-			'Template Files' => $template_files,
-			'Stylesheet Files' => $stylesheet_files,
-			'Template Dir' => $template_dir,
-			'Stylesheet Dir' => $stylesheet_dir,
-			'Status' => $theme_data['Status'],
-			'Screenshot' => $screenshot,
-			'Tags' => $theme_data['Tags'],
-			'Theme Root' => $theme_root,
-			'Theme Root URI' => str_replace( WP_CONTENT_DIR, content_url(), $theme_root ),
-		);
-	}
-
-	unset($theme_files);
-
-	/* Resolve theme dependencies. */
-	$theme_names = array_keys( $wp_themes );
-	foreach ( (array) $theme_names as $theme_name ) {
-		$wp_themes[$theme_name]['Parent Theme'] = '';
-		if ( $wp_themes[$theme_name]['Stylesheet'] != $wp_themes[$theme_name]['Template'] ) {
-			foreach ( (array) $theme_names as $parent_theme_name ) {
-				if ( ($wp_themes[$parent_theme_name]['Stylesheet'] == $wp_themes[$parent_theme_name]['Template']) && ($wp_themes[$parent_theme_name]['Template'] == $wp_themes[$theme_name]['Template']) ) {
-					$wp_themes[$theme_name]['Parent Theme'] = $wp_themes[$parent_theme_name]['Name'];
-					break;
-				}
-			}
-		}
-	}
-
-	return $wp_themes;
-}
-
-/**
  * Retrieve theme roots.
  *
  * @since 2.9.0
@@ -480,23 +357,6 @@ function get_theme_roots() {
 }
 
 /**
- * Retrieve theme data.
- *
- * @since 1.5.0
- *
- * @param string $theme Theme name.
- * @return array|null Null, if theme name does not exist. Theme data, if exists.
- */
-function get_theme($theme) {
-	$themes = get_themes();
-
-	if ( is_array( $themes ) && array_key_exists( $theme, $themes ) )
-		return $themes[$theme];
-
-	return null;
-}
-
-/**
  * Retrieve current theme display name.
  *
  * If the 'current_theme' option has already been set, then it will be returned
@@ -508,29 +368,10 @@ function get_theme($theme) {
  * @return string
  */
 function get_current_theme() {
-	if ( $theme = get_option('current_theme') )
+	if ( $theme = get_option( 'current_theme' ) )
 		return $theme;
 
-	$themes = get_themes();
-	$current_theme = 'Twenty Eleven';
-
-	if ( $themes ) {
-		$theme_names = array_keys( $themes );
-		$current_template = get_option( 'template' );
-		$current_stylesheet = get_option( 'stylesheet' );
-
-		foreach ( (array) $theme_names as $theme_name ) {
-			if ( $themes[$theme_name]['Stylesheet'] == $current_stylesheet &&
-					$themes[$theme_name]['Template'] == $current_template ) {
-				$current_theme = $themes[$theme_name]['Name'];
-				break;
-			}
-		}
-	}
-
-	update_option('current_theme', $current_theme);
-
-	return $current_theme;
+	return wp_get_theme()->get('Name');
 }
 
 /**
