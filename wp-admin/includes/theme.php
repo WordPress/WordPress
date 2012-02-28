@@ -270,9 +270,10 @@ function theme_update_available( $theme ) {
  *
  * @since 3.1.0
  *
+ * @param bool $api Optional. Whether try to fetch tags from the WP.org API. Defaults to true.
  * @return array Array of features keyed by category with translations keyed by slug.
  */
-function get_theme_feature_list() {
+function get_theme_feature_list( $api = true ) {
 	// Hard-coded list is used if api not accessible.
 	$features = array(
 			__('Colors') => array(
@@ -290,7 +291,7 @@ function get_theme_feature_list() {
 				'white'   => __( 'White' ),
 				'yellow'  => __( 'Yellow' ),
 				'dark'    => __( 'Dark' ),
-				'light'   => __( 'Light ')
+				'light'   => __( 'Light' ),
 			),
 
 		__('Columns') => array(
@@ -299,12 +300,12 @@ function get_theme_feature_list() {
 			'three-columns' => __( 'Three Columns' ),
 			'four-columns'  => __( 'Four Columns' ),
 			'left-sidebar'  => __( 'Left Sidebar' ),
-			'right-sidebar' => __( 'Right Sidebar' )
+			'right-sidebar' => __( 'Right Sidebar' ),
 		),
 
 		__('Width') => array(
 			'fixed-width'    => __( 'Fixed Width' ),
-			'flexible-width' => __( 'Flexible Width' )
+			'flexible-width' => __( 'Flexible Width' ),
 		),
 
 		__( 'Features' ) => array(
@@ -325,17 +326,17 @@ function get_theme_feature_list() {
 			'sticky-post'           => __( 'Sticky Post' ),
 			'theme-options'         => __( 'Theme Options' ),
 			'threaded-comments'     => __( 'Threaded Comments' ),
-			'translation-ready'     => __( 'Translation Ready' )
+			'translation-ready'     => __( 'Translation Ready' ),
 		),
 
 		__( 'Subject' )  => array(
 			'holiday'       => __( 'Holiday' ),
 			'photoblogging' => __( 'Photoblogging' ),
-			'seasonal'      => __( 'Seasonal' )
+			'seasonal'      => __( 'Seasonal' ),
 		)
 	);
 
-	if ( !current_user_can('install_themes') )
+	if ( ! $api || ! current_user_can( 'install_themes' ) )
 		return $features;
 
 	if ( !$feature_list = get_site_transient( 'wporg_theme_feature_list' ) )
