@@ -475,7 +475,7 @@ function get_theme_roots() {
 	global $wp_theme_directories;
 
 	if ( count($wp_theme_directories) <= 1 )
-		return get_theme_root();
+		return '/themes';
 
 	$theme_roots = get_site_transient( 'theme_roots' );
 	if ( false === $theme_roots ) {
@@ -547,18 +547,21 @@ function get_current_theme() {
  * @param string $directory Either the full filesystem path to a theme folder or a folder within WP_CONTENT_DIR
  * @return bool
  */
-function register_theme_directory( $directory ) {
+function register_theme_directory( $directory) {
 	global $wp_theme_directories;
 
-	if ( ! file_exists( $directory ) ) {
-		// Try prepending as the theme directory could be relative to the content directory
-		$directory = WP_CONTENT_DIR . '/' . $directory;
-		// If this directory does not exist, return and do not register
-		if ( ! file_exists( $directory ) )
-			return false;
-	}
+	/* If this folder does not exist, return and do not register */
+	if ( !file_exists( $directory ) )
+			/* Try prepending as the theme directory could be relative to the content directory */
+		$registered_directory = WP_CONTENT_DIR . '/' . $directory;
+	else
+		$registered_directory = $directory;
 
-	$wp_theme_directories[] = $directory;
+	/* If this folder does not exist, return and do not register */
+	if ( !file_exists( $registered_directory ) )
+		return false;
+
+	$wp_theme_directories[] = $registered_directory;
 
 	return true;
 }
@@ -657,10 +660,14 @@ function search_theme_directories() {
  * @return string Theme path.
  */
 function get_theme_root( $stylesheet_or_template = false ) {
-	if ( $stylesheet_or_template && $theme_root = get_raw_theme_root( $stylesheet_or_template ) )
-		$theme_root = $theme_root;
-	else
+	if ( $stylesheet_or_template ) {
+		if ( $theme_root = get_raw_theme_root($stylesheet_or_template) )
+			$theme_root = WP_CONTENT_DIR . $theme_root;
+		else
+			$theme_root = WP_CONTENT_DIR . '/themes';
+	} else {
 		$theme_root = WP_CONTENT_DIR . '/themes';
+	}
 
 	return apply_filters( 'theme_root', $theme_root );
 }
@@ -678,7 +685,7 @@ function get_theme_root( $stylesheet_or_template = false ) {
 function get_theme_root_uri( $stylesheet_or_template = false ) {
 	if ( $stylesheet_or_template ) {
 		if ( $theme_root = get_raw_theme_root($stylesheet_or_template) )
-			$theme_root_uri = content_url( str_replace( WP_CONTENT_DIR, '', $theme_root ) );
+			$theme_root_uri = content_url( $theme_root );
 		else
 			$theme_root_uri = content_url( 'themes' );
 	} else {
@@ -689,12 +696,9 @@ function get_theme_root_uri( $stylesheet_or_template = false ) {
 }
 
 /**
- * Get the raw theme root with no filters applied.
+ * Get the raw theme root relative to the content directory with no filters applied.
  *
  * @since 3.1.0
- *
- * Before 3.4.0, this incorrectly returned a path relative to the content directory ("/themes") when
- * only one theme directory was registered. Absolute paths are now always returned.
  *
  * @param string $stylesheet_or_template The stylesheet or template name of the theme
  * @return string Theme root
@@ -703,7 +707,7 @@ function get_raw_theme_root( $stylesheet_or_template, $no_cache = false ) {
 	global $wp_theme_directories;
 
 	if ( count($wp_theme_directories) <= 1 )
-		return WP_CONTENT_DIR . '/themes';
+		return '/themes';
 
 	$theme_root = false;
 
