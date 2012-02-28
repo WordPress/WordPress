@@ -27,12 +27,8 @@ wp_enqueue_style( 'customize-controls' );
 
 do_action( 'customize_controls_enqueue_scripts' );
 
-$theme = get_theme( get_current_theme() );
-
-if ( $theme['Screenshot'] )
-	$screenshot = $theme['Theme Root URI'] . '/' . $theme['Stylesheet'] . '/' . $theme['Screenshot'];
-else
-	$screenshot = '';
+$theme = wp_get_theme();
+$screenshot = $theme->get_screenshot( 'absolute' );
 
 // Let's roll.
 @header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
