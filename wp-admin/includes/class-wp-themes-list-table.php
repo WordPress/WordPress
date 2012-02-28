@@ -190,38 +190,29 @@ class WP_Themes_List_Table extends WP_List_Table {
 	}
 
 	function search_theme( $theme ) {
-		$matched = 0;
+		// Search the features
+		if ( $this->features ) {
+			foreach ( $this->features as $word ) {
+				if ( ! in_array( $word, $theme['Tags'] ) )
+					return false;
+			}
+		}
 
 		// Match all phrases
-		if ( count( $this->search ) > 0 ) {
+		if ( $this->search ) {
 			foreach ( $this->search as $word ) {
-				$matched = 0;
-
-				// In a tag?
 				if ( in_array( $word, $theme['Tags'] ) )
-					$matched = 1;
-
-				// In one of the fields?
-				foreach ( array( 'Name', 'Title', 'Description', 'Author', 'Template', 'Stylesheet' ) AS $field ) {
-					if ( stripos( $theme[$field], $word ) !== false )
-						$matched++;
-				}
-
-				if ( $matched == 0 )
-					return false;
+					continue;
 			}
+
+			foreach ( array( 'Name', 'Title', 'Description', 'Author', 'Template', 'Stylesheet' ) as $header ) {
+				if ( false !== stripos( $theme[ $header ], $word ) )
+					continue 2;
+			}
+
+			return false;
 		}
 
-		// Now search the features
-		if ( count( $this->features ) > 0 ) {
-			foreach ( $this->features as $word ) {
-				// In a tag?
-				if ( !in_array( $word, $theme['Tags'] ) )
-					return false;
-			}
-		}
-
-		// Only get here if each word exists in the tags or one of the fields
 		return true;
 	}
 }
