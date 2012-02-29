@@ -110,26 +110,17 @@ if ( $action ) {
 
 			$themes = isset( $_REQUEST['checked'] ) ? (array) $_REQUEST['checked'] : array();
 
-			if ( isset( $themes[ get_option( 'template' ) ] ) )
-				unset( $themes[ get_option( 'template' ) ] );
-			if ( isset( $themes[ get_option( 'stylesheet' ) ] ) )
-				unset( $themes[ get_option( 'stylesheet' ) ] );
+			unset( $themes[ get_option( 'stylesheet' ) ], $themes[ get_option( 'template' ) ] );
 
 			if ( empty( $themes ) ) {
 				wp_safe_redirect( add_query_arg( 'error', 'none', $referer ) );
 				exit;
 			}
 
-			$main_theme = get_current_theme();
 			$files_to_delete = $theme_info = array();
 			foreach ( $themes as $key => $theme ) {
-				$data = get_theme_data( WP_CONTENT_DIR . '/themes/' . $theme . '/style.css' );
-				if ( $data['Name'] == $main_theme ) {
-					unset( $themes[$key] );
-				} else {
-					$files_to_delete = array_merge( $files_to_delete, list_files( WP_CONTENT_DIR . "/themes/$theme" ) );
-					$theme_info[ $theme ] = $data;
-				}
+				$theme_info[ $theme ] = wp_get_theme( $theme );
+				$files_to_delete = array_merge( $files_to_delete, list_files( $theme_info[ $theme ]->get_stylesheet_directory() ) );
 			}
 
 			if ( empty( $themes ) ) {
@@ -155,7 +146,7 @@ if ( $action ) {
 				<p><?php echo _n( 'You are about to remove the following theme:', 'You are about to remove the following themes:', $themes_to_delete ); ?></p>
 					<ul class="ul-disc">
 						<?php foreach ( $theme_info as $theme )
-							echo '<li>', sprintf( __('<strong>%1$s</strong> by <em>%2$s</em>' ), esc_html( $theme['Name'] ), esc_html( $theme['AuthorName'] ) ), '</li>'; /* translators: 1: theme name, 2: theme author */ ?>
+							echo '<li>', sprintf( __('<strong>%1$s</strong> by <em>%2$s</em>' ), $theme->display('Name'), $theme->display('Author') ), '</li>'; /* translators: 1: theme name, 2: theme author */ ?>
 					</ul>
 				<p><?php _e('Are you sure you wish to delete these themes?'); ?></p>
 				<form method="post" action="<?php echo esc_url($_SERVER['REQUEST_URI']); ?>" style="display:inline;">
