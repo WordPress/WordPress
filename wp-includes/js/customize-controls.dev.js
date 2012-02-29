@@ -13,6 +13,8 @@
 		initialize: function( params, options ) {
 			$.extend( this, options || {} );
 
+			this.loaded = $.proxy( this.loaded, this );
+
 			this.loaderUuid = 0;
 
 			/*
@@ -53,6 +55,7 @@
 
 			this.iframe = api.ensure( params.iframe );
 			this.form   = api.ensure( params.form );
+			this.name   = this.iframe.prop('name');
 
 			this.container = this.iframe.parent();
 
@@ -83,28 +86,24 @@
 			});
 		},
 		loader: function() {
-			var self = this,
-				name;
-
 			if ( this.loading )
 				return this.loading;
 
-			name = this.iframe.prop('name');
-
 			this.loading = $('<iframe />', {
-				name: name + '-loading-' + this.loaderUuid++
+				name: this.name + '-loading-' + this.loaderUuid++
 			}).appendTo( this.container );
-
-			this.loading.one( 'load', function() {
-				self.iframe.remove();
-				self.iframe = self.loading;
-				delete self.loading;
-				self.iframe.prop( 'name', name );
-			});
 
 			return this.loading;
 		},
+		loaded: function() {
+			this.iframe.remove();
+			this.iframe = this.loading;
+			delete this.loading;
+			this.iframe.prop( 'name', this.name );
+		},
 		refresh: function() {
+			this.loader().one( 'load', this.loaded );
+
 			this.submit({
 				target: this.loader().prop('name'),
 				action: this.url()
