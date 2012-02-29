@@ -458,7 +458,7 @@ final class WP_Theme implements ArrayAccess {
 		if ( ! isset( $this->headers_sanitized ) ) {
 			$this->headers_sanitized = $this->cache_get( 'headers' );
 			if ( ! is_array( $this->headers_sanitized ) )
-				$headers = array();
+				$this->headers_sanitized = array();
 		}
 
 		if ( isset( $this->headers_sanitized[ $header ] ) )
@@ -807,9 +807,9 @@ final class WP_Theme implements ArrayAccess {
 		foreach ( array( 'png', 'gif', 'jpg', 'jpeg' ) as $ext ) {
 			if ( file_exists( $this->get_stylesheet_directory() . "/screenshot.$ext" ) ) {
 				$this->cache_add( 'screenshot', 'screenshot.' . $ext );
-				if ( 'absolute' == $uri )
-					return $this->get_stylesheet_directory_uri() . '/' . 'screenshot.' . $ext;
-				return 'screenshot.' . $ext;
+				if ( 'relative' == $uri )
+					return 'screenshot.' . $ext;
+				return $this->get_stylesheet_directory_uri() . '/' . 'screenshot.' . $ext;
 			}
 		}
 
