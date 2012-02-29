@@ -75,6 +75,12 @@
 			});
 
 			this.refresh();
+
+			// Prevent the form from saving when enter is pressed.
+			this.form.on( 'keydown', function( e ) {
+				if ( 13 === e.which ) // Enter
+					e.preventDefault();
+			});
 		},
 		loader: function() {
 			var self = this,
