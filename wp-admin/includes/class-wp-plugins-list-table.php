@@ -249,11 +249,11 @@ class WP_Plugins_List_Table extends WP_List_Table {
 
 		if ( 'active' != $status ) {
 			$action = $screen->is_network ? 'network-activate-selected' : 'activate-selected';
-			$actions[ $action ] = __( 'Activate' );
+			$actions[ $action ] = $screen->is_network ? __( 'Network Activate' ) : __( 'Activate' );
 		}
 
 		if ( 'inactive' != $status && 'recent' != $status )
-			$actions['deactivate-selected'] = __( 'Deactivate' );
+			$actions['deactivate-selected'] = $screen->is_network ? __( 'Network Deactivate' ) : __( 'Deactivate' );
 
 		if ( !is_multisite() || $screen->is_network ) {
 			if ( current_user_can( 'update_plugins' ) )
