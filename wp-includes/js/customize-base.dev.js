@@ -280,21 +280,11 @@ if ( typeof wp === 'undefined' )
 		return typeof element == 'string' ? $( element ) : element;
 	};
 
-	sync = {
-		'val': {
-			update: function() {
-				this.element[ this._updater ]( this._value );
-			},
-			refresh: function() {
-				this.set( this.element[ this._refresher ]() );
-			}
-		}
-	}
-
 	api.Element = api.Value.extend({
 		initialize: function( element, options ) {
-			var synchronizer = api.Element.synchronizer.html,
-				type;
+			var self = this,
+				synchronizer = api.Element.synchronizer.html,
+				type, update, refresh;
 
 			this.element = api.ensure( element );
 			this.events = '';
@@ -315,9 +305,18 @@ if ( typeof wp === 'undefined' )
 			api.Value.prototype.initialize.call( this, null, $.extend( options || {}, synchronizer ) );
 			this._value = this.get();
 
-			this.bind( this.update );
+			update  = this.update;
+			refresh = this.refresh;
 
-			this.refresh = $.proxy( this.refresh, this );
+			this.update = function( to ) {
+				if ( to !== refresh.call( self ) )
+					update.apply( this, arguments );
+			};
+			this.refresh = function() {
+				self.set( refresh.call( self ) );
+			};
+
+			this.bind( this.update );
 			this.element.bind( this.events, this.refresh );
 		},
 
@@ -337,7 +336,7 @@ if ( typeof wp === 'undefined' )
 				this.element[ method ]( to );
 			},
 			refresh: function() {
-				this.set( this.element[ method ]() );
+				return this.element[ method ]();
 			}
 		};
 	});
@@ -347,7 +346,7 @@ if ( typeof wp === 'undefined' )
 			this.element.prop( 'checked', to );
 		},
 		refresh: function() {
-			this.set( this.element.prop( 'checked' ) );
+			return this.element.prop( 'checked' );
 		}
 	};
 
@@ -358,7 +357,7 @@ if ( typeof wp === 'undefined' )
 			}).prop( 'checked', true );
 		},
 		refresh: function() {
-			this.set( this.element.filter( ':checked' ).val() );
+			return this.element.filter( ':checked' ).val();
 		}
 	};
 
