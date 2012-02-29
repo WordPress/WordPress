@@ -2916,7 +2916,9 @@ function debug_fclose( $fp ) {
  * broken, if it is missing style.css; index.php is optional.
  *
  * @since 1.5.0
- * @global array $wp_themes Stores the working themes.
+ * @deprecated 3.4.0
+ * @deprecated Use wp_get_themes()
+ * @see wp_get_themes()
  *
  * @return array Theme list with theme data.
  */
@@ -2941,6 +2943,9 @@ function get_themes() {
  * Retrieve theme data.
  *
  * @since 1.5.0
+ * @deprecated 3.4.0
+ * @deprecated Use wp_get_theme()
+ * @see wp_get_theme()
  *
  * @param string $theme Theme name.
  * @return array|null Null, if theme name does not exist. Theme data, if exists.
@@ -2950,6 +2955,25 @@ function get_theme( $theme ) {
 
 	$themes = get_themes();
 	if ( is_array( $themes ) && array_key_exists( $theme, $themes ) )
-		return $themes[$theme];
+		return $themes[ $theme ];
 	return null;
+}
+
+/**
+ * Retrieve current theme name.
+ *
+ * @since 1.5.0
+ * @deprecated 3.4.0
+ * @deprecated Use (string) wp_get_theme()
+ * @see wp_get_theme()
+ *
+ * @return string
+ */
+function get_current_theme() {
+	_deprecated_function( __FUNCTION__, '3.4', 'get_current_theme()' );
+
+	if ( $theme = get_option( 'current_theme' ) )
+		return $theme;
+
+	return wp_get_theme()->get('Name');
 }

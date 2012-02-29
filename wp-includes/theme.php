@@ -357,24 +357,6 @@ function get_theme_roots() {
 }
 
 /**
- * Retrieve current theme display name.
- *
- * If the 'current_theme' option has already been set, then it will be returned
- * instead. If it is not set, then each theme will be iterated over until both
- * the current stylesheet and current template name.
- *
- * @since 1.5.0
- *
- * @return string
- */
-function get_current_theme() {
-	if ( $theme = get_option( 'current_theme' ) )
-		return $theme;
-
-	return wp_get_theme()->get('Name');
-}
-
-/**
  * Register a directory that contains themes.
  *
  * @since 2.9.0
@@ -791,7 +773,9 @@ function validate_current_theme() {
 function get_theme_mods() {
 	$theme_slug = get_option( 'stylesheet' );
 	if ( false === ( $mods = get_option( "theme_mods_$theme_slug" ) ) ) {
-		$theme_name = get_current_theme();
+		$theme_name = get_option( 'current_theme' );
+		if ( false === $theme_name )
+			$theme_name = wp_get_theme()->get('Name');
 		$mods = get_option( "mods_$theme_name" ); // Deprecated location.
 		if ( is_admin() && false !== $mods ) {
 			update_option( "theme_mods_$theme_slug", $mods );
@@ -878,7 +862,12 @@ function remove_theme_mod( $name ) {
  */
 function remove_theme_mods() {
 	delete_option( 'theme_mods_' . get_option( 'stylesheet' ) );
-	delete_option( 'mods_' . get_current_theme() );
+
+	// Old style.
+	$theme_name = get_option( 'current_theme' );
+	if ( false === $theme_name )
+		$theme_name = wp_get_theme()->get('Name');
+	delete_option( 'mods_' . $theme_name );
 }
 
 /**
