@@ -9,9 +9,9 @@
  */
 class WP_Themes_List_Table extends WP_List_Table {
 
-	var $search = array();
+	protected $search_terms = array();
 	var $features = array();
-	
+
 	function __construct() {
 		parent::__construct( array(
 			'ajax' => true,
@@ -26,20 +26,15 @@ class WP_Themes_List_Table extends WP_List_Table {
 	function prepare_items() {
 		$themes = wp_get_themes( array( 'allowed' => true ) );
 
-		if ( ! empty( $_REQUEST['s'] ) ) {
-			$search = strtolower( stripslashes( $_REQUEST['s'] ) );
-			$this->search = array_merge( $this->search, array_filter( array_map( 'trim', explode( ',', $search ) ) ) );
-			$this->search = array_unique( $this->search );
-		}
+		if ( ! empty( $_REQUEST['s'] ) )
+			$this->search_terms = array_unique( array_filter( array_map( 'trim', explode( ',', strtolower( stripslashes( $_REQUEST['s'] ) ) ) ) ) );
 
-		if ( !empty( $_REQUEST['features'] ) ) {
+		if ( ! empty( $_REQUEST['features'] ) ) {
+			var_dump( $_REQUEST['features'] );
 			$this->features = $_REQUEST['features'];
-			$this->features = array_map( 'trim', $this->features );
-			$this->features = array_map( 'sanitize_title_with_dashes', $this->features );
-			$this->features = array_unique( $this->features );
 		}
 
-		if ( $this->search || $this->features ) {
+		if ( $this->search_terms || $this->features ) {
 			foreach ( $themes as $key => $theme ) {
 				if ( ! $this->search_theme( $theme ) )
 					unset( $themes[ $key ] );
@@ -63,7 +58,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 	}
 
 	function no_items() {
-		if ( $this->search || $this->features ) {
+		if ( $this->search_terms || $this->features ) {
 			_e( 'No items found.' );
 			return;
 		}
@@ -186,33 +181,29 @@ class WP_Themes_List_Table extends WP_List_Table {
 
 	function search_theme( $theme ) {
 		// Search the features
-		if ( $this->features ) {
-			foreach ( $this->features as $word ) {
-				if ( ! in_array( $word, $theme->get('Tags') ) )
-					return false;
-			}
+		foreach ( $this->features as $word ) {
+			if ( ! in_array( $word, $theme->get('Tags') ) )
+				return false;
 		}
 
 		// Match all phrases
-		if ( $this->search ) {
-			foreach ( $this->search as $word ) {
-				if ( in_array( $word, $theme->get('Tags') ) )
-					continue;
+		foreach ( $this->search_terms as $word ) {
+			if ( in_array( $word, $theme->get('Tags') ) )
+				continue;
 
-				foreach ( array( 'Name', 'Description', 'Author', 'AuthorURI' ) as $header ) {
-					// Don't mark up; Do translate.
-					if ( false !== stripos( $theme->display( $header, false, true ), $word ) )
-						continue 2;
-				}
-
-				if ( false !== stripos( $theme->get_stylesheet(), $word ) )
-					continue;
-
-				if ( false !== stripos( $theme->get_template(), $word ) )
-					continue;
- 
-				return false;
+			foreach ( array( 'Name', 'Description', 'Author', 'AuthorURI' ) as $header ) {
+				// Don't mark up; Do translate.
+				if ( false !== stripos( $theme->display( $header, false, true ), $word ) )
+					continue 2;
 			}
+
+			if ( false !== stripos( $theme->get_stylesheet(), $word ) )
+				continue;
+
+			if ( false !== stripos( $theme->get_template(), $word ) )
+				continue;
+
+			return false;
 		}
 
 		return true;
