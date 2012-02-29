@@ -2970,7 +2970,7 @@ function get_theme( $theme ) {
  * @return string
  */
 function get_current_theme() {
-	_deprecated_function( __FUNCTION__, '3.4', 'get_current_theme()' );
+	_deprecated_function( __FUNCTION__, '3.4', 'wp_get_theme()' );
 
 	if ( $theme = get_option( 'current_theme' ) )
 		return $theme;
