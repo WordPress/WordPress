@@ -239,6 +239,15 @@ final class WP_Theme implements ArrayAccess {
 	}
 
 	/**
+	 * When converting the object to a string, the theme name is returned.
+	 *
+	 * @return string Theme name, ready for display (translated)
+	 */
+	function __toString() {
+		return (string) $this->display('Name');
+	}
+
+	/**
 	 * __isset() magic method for properties formerly returned by current_theme_info()
 	 */
 	public function __isset( $offset ) {
