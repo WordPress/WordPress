@@ -163,7 +163,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	}
 
 	function no_items() {
-		if ( ! $$this->has_items )
+		if ( ! $this->has_items )
 			_e( 'No themes found.' );
 		else
 			_e( 'You do not appear to have any themes available at this time.' );
