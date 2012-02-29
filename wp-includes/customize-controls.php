@@ -80,8 +80,10 @@ do_action( 'customize_controls_print_scripts' );
 
 	do_action( 'customize_controls_print_footer_scripts' );
 
+	// Check current scheme and load the preview with the same scheme
+	$scheme = is_ssl() ? 'https' : 'http';
 	$settings = array(
-		'preview' => esc_url( home_url( '/' ) ),
+		'preview' => esc_url( get_home_url( null, '/', $scheme ) ),
 		'values'  => array(),
 		'prefix'  => WP_Customize_Setting::name_prefix,
 	);
