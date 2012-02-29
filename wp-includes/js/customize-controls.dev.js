@@ -2,6 +2,8 @@
 	var api = wp.customize;
 
 	api.Previewer = api.Messenger.extend({
+		refreshBuffer: 250,
+
 		/**
 		 * Requires params:
 		 *  - iframe - a selector or jQuery element
@@ -11,8 +13,48 @@
 		initialize: function( params, options ) {
 			$.extend( this, options || {} );
 
+			this.loaderUuid = 0;
+
+			/*
+			 * Wrap this.refresh to prevent it from hammering the servers:
+			 *
+			 * If refresh is called once and no other refresh requests are
+			 * loading, trigger the request immediately.
+			 *
+			 * If refresh is called while another refresh request is loading,
+			 * debounce the refresh requests:
+			 * 1. Stop the loading request (as it is instantly outdated).
+			 * 2. Trigger the new request once refresh hasn't been called for
+			 *    self.refreshBuffer milliseconds.
+			 */
+			this.refresh = (function( self ) {
+				var refresh  = self.refresh,
+					callback = function() {
+						timeout = null;
+						refresh.call( self );
+					},
+					timeout;
+
+				return function() {
+					if ( typeof timeout !== 'number' ) {
+						if ( self.loading ) {
+							self.loading.remove();
+							delete self.loading;
+							self.loader();
+						} else {
+							return callback();
+						}
+					}
+
+					clearTimeout( timeout );
+					timeout = setTimeout( callback, self.refreshBuffer );
+				};
+			})( this );
+
 			this.iframe = api.ensure( params.iframe );
 			this.form   = api.ensure( params.form );
+
+			this.container = this.iframe.parent();
 
 			api.Messenger.prototype.initialize.call( this, params.url, {
 				targetWindow: this.iframe[0].contentWindow
@@ -34,9 +76,31 @@
 
 			this.refresh();
 		},
+		loader: function() {
+			var self = this,
+				name;
+
+			if ( this.loading )
+				return this.loading;
+
+			name = this.iframe.prop('name');
+
+			this.loading = $('<iframe />', {
+				name: name + '-loading-' + this.loaderUuid++
+			}).appendTo( this.container );
+
+			this.loading.one( 'load', function() {
+				self.iframe.remove();
+				self.iframe = self.loading;
+				delete self.loading;
+				self.iframe.prop( 'name', name );
+			});
+
+			return this.loading;
+		},
 		refresh: function() {
 			this.submit({
-				target: this.iframe.prop('name'),
+				target: this.loader().prop('name'),
 				action: this.url()
 			});
 		},
@@ -54,6 +118,9 @@
 	 * ===================================================================== */
 
 	$( function() {
+		if ( ! api.settings )
+			return;
+
 		var previewer,
 			controls = $('[name^="' + api.settings.prefix + '"]');
 
@@ -72,6 +139,8 @@
 
 			setting.control.link( setting );
 			setting.link( setting.control );
+
+			setting.bind( previewer.refresh );
 		});
 
 		// Temporary accordion code.
@@ -84,11 +153,6 @@
 		// Button bindings.
 		$('#save').click( function() {
 			previewer.submit();
-			return false;
-		});
-
-		$('#refresh').click( function() {
-			previewer.refresh();
 			return false;
 		});
 

@@ -69,7 +69,6 @@ do_action( 'customize_controls_print_scripts' );
 
 		<div id="customize-footer" class="customize-section">
 			<?php
-			submit_button( __( 'Refresh' ), 'secondary', 'refresh', false );
 			submit_button( __( 'Save' ), 'primary', 'save', false );
 			?>
 		</div>
