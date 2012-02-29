@@ -26,7 +26,10 @@ final class WP_Customize {
 
 		add_action( 'setup_theme',  array( $this, 'setup_theme' ) );
 		add_action( 'admin_init',   array( $this, 'admin_init' ) );
-		add_action( 'init',         array( $this, 'init' ) );
+
+		// We register settings on init, so use a late priority to ensure we
+		// catch any theme settings added earlier on init (such as nav menus).
+		add_action( 'init',         array( $this, 'init' ), 200 );
 		add_action( 'admin_footer', array( $this, 'admin_footer' ) );
 
 		add_action( 'customize_previewing',    array( $this, 'customize_previewing' ) );
