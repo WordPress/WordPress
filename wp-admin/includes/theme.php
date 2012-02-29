@@ -81,7 +81,7 @@ function delete_theme($template, $redirect = '') {
  * @return array Key is the template name, value is the filename of the template
  */
 function get_page_templates() {
-	return wp_get_theme()->get_page_templates();
+	return array_flip( wp_get_theme()->get_page_templates() );
 }
 
 /**

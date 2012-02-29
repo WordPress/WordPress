@@ -921,10 +921,10 @@ final class WP_Theme implements ArrayAccess {
 			$files = array_merge_recursive( $files, (array) self::scandir( $this->get_stylesheet_directory(), $this->get_stylesheet_directory(), 'php' ) );
 
 		foreach ( $files['php'] as $file ) {
-			$headers = get_file_data( $file, array( 'Name' => 'Template Name' ) );
-			if ( empty( $headers['Name'] ) )
+			$headers = get_file_data( $file, array( 'Template Name' => 'Template Name' ) );
+			if ( empty( $headers['Template Name'] ) )
 				continue;
-			$page_templates[ $headers['Name'] ] = basename( $file );
+			$page_templates[ basename( $file ) ] = $this->translate_header( 'Template Name', $headers['Template Name'] );
 		}
 
 		$this->cache_add( 'page_templates', $page_templates );
