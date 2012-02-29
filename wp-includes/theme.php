@@ -56,9 +56,9 @@ function wp_get_themes( $args = array() ) {
 
 	if ( is_multisite() && null !== $args['allowed'] ) {
 		if ( $allowed = $args['allowed'] ) {
-			if ( 'network' == $allowed )
+			if ( 'network' === $allowed )
 				$themes = array_intersect_key( $themes, WP_Theme::get_allowed_on_network( $args['blog_id'] ) );
-			elseif ( 'site' == $allowed )
+			elseif ( 'site' === $allowed )
 				$themes = array_intersect_key( $themes, WP_Theme::get_allowed_on_site( $args['blog_id'] ) );
 			else
 				$themes = array_intersect_key( $themes, WP_Theme::get_allowed( $args['blog_id'] ) );
