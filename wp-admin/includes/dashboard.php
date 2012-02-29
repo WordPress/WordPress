@@ -1345,7 +1345,7 @@ function wp_welcome_panel() {
 			<?php
 			} else {
 				echo '<p>';
-				printf( __( 'Use the current theme &mdash; %1$s &mdash; or <a href="%2$s">choose a new one</a>.' ), $this->display('Name'), esc_url( admin_url( 'themes.php' ) ) );
+				printf( __( 'Use the current theme &mdash; %1$s &mdash; or <a href="%2$s">choose a new one</a>.' ), $theme->display('Name'), esc_url( admin_url( 'themes.php' ) ) );
 				echo '</p>';
 			}
 		endif; ?>
