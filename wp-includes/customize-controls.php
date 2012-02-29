@@ -28,7 +28,7 @@ wp_enqueue_style( 'customize-controls' );
 do_action( 'customize_controls_enqueue_scripts' );
 
 $theme = wp_get_theme();
-$screenshot = $theme->get_screenshot( 'absolute' );
+$screenshot = $theme->get_screenshot();
 
 // Let's roll.
 @header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));

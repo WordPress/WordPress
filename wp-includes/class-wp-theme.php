@@ -280,7 +280,7 @@ final class WP_Theme implements ArrayAccess {
 			case 'stylesheet' :
 				return $this->get_stylesheet();
 			case 'screenshot' :
-				return $this->get_screenshot();
+				return $this->get_screenshot( 'relative' );
 			// 'author' and 'description' did not previously return translated data.
 			case 'description' :
 				return $this->display('Description');
@@ -360,7 +360,7 @@ final class WP_Theme implements ArrayAccess {
 			case 'Stylesheet Dir' :
 				return $this->get_stylesheet_directory();
 			case 'Screenshot' :
-				return $this->get_screenshot();
+				return $this->get_screenshot( 'relative' );
 			case 'Tags' :
 				return $this->get('Tags');
 			case 'Theme Root' :
@@ -792,15 +792,15 @@ final class WP_Theme implements ArrayAccess {
 	 * @since 3.4.0
 	 * @access public
 	 *
-	 * @param string $uri Type of URL to include, either relative or absolute. Defaults to relative.
+	 * @param string $uri Type of URL to include, either 'relative' or an absolute URI. Defaults to absolute URI.
 	 * @return mixed Screenshot file. False if the theme does not have a screenshot.
 	 */
-	public function get_screenshot( $uri = 'relative' ) {
+	public function get_screenshot( $uri = 'uri' ) {
 		$screenshot = $this->cache_get( 'screenshot' );
 		if ( $screenshot ) {
-			if ( 'absolute' == $uri )
-				return $this->get_stylesheet_directory_uri() . '/' . $screenshot;
-			return $screenshot;
+			if ( 'relative' == $uri )
+				return $screenshot;
+			return $this->get_stylesheet_directory_uri() . '/' . $screenshot;
 		} elseif ( 0 === $screenshot ) {
 			return false;
 		}
@@ -840,7 +840,7 @@ final class WP_Theme implements ArrayAccess {
 
 		// This will set the screenshot cache.
 		// If there is no screenshot, the screenshot_count cache will also be set.
-		if ( ! $screenshot = $this->get_screenshot() )
+		if ( ! $screenshot = $this->get_screenshot( 'relative' ) )
 			return 0;
 
 		$prefix = $this->get_stylesheet() . '/screenshot-';
@@ -868,7 +868,7 @@ final class WP_Theme implements ArrayAccess {
 		if ( ! $count = $this->get_screenshot_count() )
 			return array();
 
-		$screenshots = array( $this->get_screenshot() );
+		$screenshots = array( $this->get_screenshot( 'relative' ) );
 		for ( $i = 2; $i <= $count; $i++ )
 			$screenshots[] = 'screenshot-' . $i . '.png';
 		return $screenshots;

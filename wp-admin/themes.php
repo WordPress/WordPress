@@ -99,8 +99,8 @@ if ( ! is_multisite() && current_user_can( 'install_themes' ) ) : ?>
 <?php $ct = wp_get_theme(); ?>
 <h3><?php _e( 'Current Theme' ); ?></h3>
 <div id="current-theme">
-<?php if ( $ct->get_screenshot() ) : ?>
-<img src="<?php echo $ct->get_screenshot( 'absolute' ); ?>" alt="<?php esc_attr_e( 'Current theme preview'); ?>" />
+<?php if ( $screenshot = $ct->get_screenshot() ) : ?>
+<img src="<?php echo esc_url( $screenshot ); ?>" alt="<?php esc_attr_e( 'Current theme preview'); ?>" />
 <?php endif; ?>
 <h4><?php
 	/* translators: 1: theme title, 2: theme version, 3: theme author */

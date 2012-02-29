@@ -152,8 +152,8 @@ class WP_Themes_List_Table extends WP_List_Table {
 			$actions = implode ( ' | ', $actions );
 			?>
 			<a href="<?php echo $preview_link; ?>" class="thickbox thickbox-preview screenshot">
-			<?php if ( $theme->get_screenshot() ) : ?>
-				<img src="<?php echo esc_url( $theme->get_screenshot( 'absolute' ) ); ?>" alt="" />
+			<?php if ( $screenshot = $theme->get_screenshot() ) : ?>
+				<img src="<?php echo esc_url( $screenshot ); ?>" alt="" />
 			<?php endif; ?>
 			</a>
 			<h3><?php
