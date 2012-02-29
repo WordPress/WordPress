@@ -454,7 +454,6 @@ final class WP_Theme implements ArrayAccess {
 	public function get( $header ) {
 		if ( ! isset( $this->headers[ $header ] ) )
 			return false;
-		return $this->sanitize_header( $header, $this->headers[ $header ] );
 
 		if ( ! isset( $this->headers_sanitized ) ) {
 			$this->headers_sanitized = $this->cache_get( 'headers' );
