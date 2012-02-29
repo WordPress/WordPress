@@ -633,7 +633,7 @@ function preview_theme() {
 	}
 
 	// Prevent theme mods to current theme being used on theme being previewed
-	add_filter( 'pre_option_mods_' . get_current_theme(), '__return_empty_array' );
+	add_filter( 'pre_option_theme_mods_' . get_option( 'stylesheet' ), '__return_empty_array' );
 
 	ob_start( 'preview_theme_ob_filter' );
 }
@@ -711,37 +711,38 @@ function preview_theme_ob_filter_callback( $matches ) {
  * Switches current theme to new template and stylesheet names.
  *
  * @since 2.5.0
- * @uses do_action() Calls 'switch_theme' action on updated theme display name.
+ * @uses do_action() Calls 'switch_theme' action, passing the new theme.
  *
  * @param string $template Template name
  * @param string $stylesheet Stylesheet name.
  */
-function switch_theme($template, $stylesheet) {
+function switch_theme( $template, $stylesheet ) {
 	global $wp_theme_directories, $sidebars_widgets;
 
 	if ( is_array( $sidebars_widgets ) )
 		set_theme_mod( 'sidebars_widgets', array( 'time' => time(), 'data' => $sidebars_widgets ) );
 
-	$old_theme = get_current_theme();
+	$old_theme  = wp_get_theme();
+	$new_theme = wp_get_theme( $stylesheet );
+	$new_name  = $new_theme->get('Name');
 
-	update_option('template', $template);
-	update_option('stylesheet', $stylesheet);
+	update_option( 'template', $template );
+	update_option( 'stylesheet', $stylesheet );
 
-	if ( count($wp_theme_directories) > 1 ) {
-		update_option('template_root', get_raw_theme_root($template, true));
-		update_option('stylesheet_root', get_raw_theme_root($stylesheet, true));
+	if ( count( $wp_theme_directories ) > 1 ) {
+		update_option( 'template_root', get_raw_theme_root( $template, true ) );
+		update_option( 'stylesheet_root', get_raw_theme_root( $stylesheet, true ) );
 	}
 
-	delete_option('current_theme');
-	$theme = get_current_theme();
+	update_option( 'current_theme', $new_name );
 
-	if ( is_admin() && false === get_option( "theme_mods_$stylesheet" ) ) {
-		$default_theme_mods = (array) get_option( "mods_$theme" );
+	if ( is_admin() && false === get_option( 'theme_mods_' . $stylesheet ) ) {
+		$default_theme_mods = (array) get_option( 'mods_' . $new_name );
 		add_option( "theme_mods_$stylesheet", $default_theme_mods );
 	}
 
-	update_option( 'theme_switched', $old_theme );
-	do_action( 'switch_theme', $theme );
+	update_option( 'theme_switched', $old_theme->get('Name') );
+	do_action( 'switch_theme', $new_name, $new_theme );
 }
 
 /**
