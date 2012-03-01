@@ -97,8 +97,8 @@ if ( ! is_multisite() && current_user_can( 'install_themes' ) ) : ?>
 <?php endif; ?>
 </h2>
 <?php $ct = wp_get_theme(); ?>
-<h3><?php _e( 'Current Theme' ); ?></h3>
 <div id="current-theme">
+<h3><?php _e( 'Current Theme' ); ?></h3>
 <?php if ( $screenshot = $ct->get_screenshot() ) : ?>
 <img src="<?php echo esc_url( $screenshot ); ?>" alt="<?php esc_attr_e( 'Current theme preview'); ?>" />
 <?php endif; ?>
@@ -154,7 +154,7 @@ if ( ! current_user_can( 'switch_themes' ) ) {
 }
 ?>
 
-<h3><?php _e('Available Themes'); ?></h3>
+<h3 class="available-themes"><?php _e('Available Themes'); ?></h3>
 
 <?php if ( !empty( $_REQUEST['s'] ) || !empty( $_REQUEST['filter'] ) || $wp_list_table->has_items() ) : ?>
 

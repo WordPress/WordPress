@@ -4475,6 +4475,11 @@ span.imgedit-scale-warn {
 	height:auto;
 }
 
+h3.available-themes {
+	margin: 0 0 1em;
+	float: left;
+}
+
 .available-theme {
 	display: inline-block;
 	margin-bottom: 10px;
@@ -4504,17 +4509,11 @@ span.imgedit-scale-warn {
 }
 
 #current-theme {
-	margin: 1em 0 1.5em;
+	padding: 0 0 .5em;
 }
 
 #current-theme a {
 	border-bottom: none;
-}
-
-#current-theme h3 {
-	font-size: 17px;
-	font-weight: normal;
-	margin: 0;
 }
 
 #current-theme .theme-description {
