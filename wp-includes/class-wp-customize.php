@@ -26,10 +26,7 @@ final class WP_Customize {
 
 		add_action( 'setup_theme',  array( $this, 'setup_theme' ) );
 		add_action( 'admin_init',   array( $this, 'admin_init' ) );
-
-		// We register settings on init, so use a late priority to ensure we
-		// catch any theme settings added earlier on init (such as nav menus).
-		add_action( 'init',         array( $this, 'init' ), 200 );
+		add_action( 'wp_loaded',    array( $this, 'wp_loaded' ) );
 		add_action( 'admin_footer', array( $this, 'admin_footer' ) );
 
 		add_action( 'customize_previewing',    array( $this, 'customize_previewing' ) );
@@ -98,11 +95,11 @@ final class WP_Customize {
 	}
 
 	/**
-	 * Register styles/scripts and Init the preview of each setting
+	 * Register styles/scripts and initialize the preview of each setting
 	 *
 	 * @since 3.4.0
 	 */
-	public function init() {
+	public function wp_loaded() {
 		do_action( 'customize_register' );
 
 		if ( ! $this->is_preview() )
