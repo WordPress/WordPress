@@ -136,12 +136,8 @@ if ( ! is_multisite() && current_user_can( 'install_themes' ) ) : ?>
 		}
 	}
 	echo implode ( ' | ', $options );
-
-	if ( $ct->get('Tags') ) : ?>
-	<p><?php _e('Tags:'); ?> <?php echo $ct->display('Tags'); ?></p>
-	<?php endif; ?>
-</div>
-<?php theme_update_available($ct); ?>
+?></div>
+<?php theme_update_available( $ct ); ?>
 
 </div>
 

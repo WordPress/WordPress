@@ -168,10 +168,6 @@ class WP_Themes_List_Table extends WP_List_Table {
 				<p><?php printf( __( 'All of this theme&#8217;s files are located in <code>%2$s</code>.' ),
 					$title, str_replace( WP_CONTENT_DIR, '', $theme->get_template_directory() ), str_replace( WP_CONTENT_DIR, '', $theme->get_stylesheet_directory() ) ); ?></p>
 			<?php endif; ?>
-			<?php
-			if ( $theme->get('Tags') )
-				printf( '<p>' . __( 'Tags: %s.' ) . '</p>', $theme->display('Tags') );
-			?>
 			</div>
 			<?php theme_update_available( $theme ); ?>
 			</div>
