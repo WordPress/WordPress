@@ -175,27 +175,6 @@ class wp_atom_server {
 						'PUT' => 'put_attachment',
 						'DELETE' => 'delete_attachment'),
 		);
-
-		add_filter( 'wp_die_handler', array( $this, 'return_atom_die_handler' ) );
-	}
-
-	/**
-	 * Override die handler
-	 * @return callback
-	 */
-	public function return_atom_die_handler() {
-		return array( $this, 'atom_die_handler' );
-	}
-
-	/**
-	 * Die with a message.  Only accept strings, no WP_Error objects yet
-	 * @param string $message
-	 * @return void
-	 */
-	public function atom_die_handler( $message ) {
-		if ( is_scalar( $message ) )
-			die( (string) $message );
-		die();
 	}
 
 	/**

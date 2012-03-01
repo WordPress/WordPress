@@ -1976,6 +1976,8 @@ function wp_die( $message = '', $title = '', $args = array() ) {
 		$function = apply_filters( 'wp_die_ajax_handler', '_ajax_wp_die_handler' );
 	elseif ( defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST )
 		$function = apply_filters( 'wp_die_xmlrpc_handler', '_xmlrpc_wp_die_handler' );
+	elseif ( defined( 'APP_REQUEST' ) && APP_REQUEST )
+		$function = apply_filters( 'wp_die_app_bandler', '_scalar_wp_die_handler' );
 	else
 		$function = apply_filters( 'wp_die_handler', '_default_wp_die_handler' );
 
@@ -2179,6 +2181,22 @@ function _ajax_wp_die_handler( $message = '' ) {
 	if ( is_scalar( $message ) )
 		die( (string) $message );
 	die( '0' );
+}
+
+/**
+ * Kill WordPress execution.
+ *
+ * This is the handler for wp_die when processing APP requests.
+ *
+ * @since 3.4.0
+ * @access private
+ *
+ * @param string $message Optional. Response to print.
+ */
+function _scalar_wp_die_handler( $message = '' ) {
+	if ( is_scalar( $message ) )
+		die( (string) $message );
+	die();
 }
 
 /**

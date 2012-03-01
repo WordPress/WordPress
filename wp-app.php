@@ -26,6 +26,15 @@ require_once(ABSPATH . '/wp-admin/includes/image.php');
 
 $_SERVER['PATH_INFO'] = preg_replace( '/.*\/wp-app\.php/', '', $_SERVER['REQUEST_URI'] );
 
+// Allow for a plugin to insert a different class to handle requests.
+$wp_atom_server_class = apply_filters('wp_atom_server_class', 'wp_atom_server');
+$wp_atom_server = new $wp_atom_server_class;
+
+// Handle the request
+$wp_atom_server->handle_request();
+
+exit;
+
 /**
  * Writes logging info to a file.
  *
@@ -42,10 +51,3 @@ function log_app( $label, $msg ) {
 	if ( ! empty( $GLOBALS['app_logging'] ) )
 			error_log( $label . ' - ' . $message );
 }
-
-// Allow for a plugin to insert a different class to handle requests.
-$wp_atom_server_class = apply_filters('wp_atom_server_class', 'wp_atom_server');
-$wp_atom_server = new $wp_atom_server_class;
-
-// Handle the request
-$wp_atom_server->handle_request();
