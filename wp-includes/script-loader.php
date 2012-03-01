@@ -166,6 +166,8 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'jquery-table-hotkeys', "/wp-includes/js/jquery/jquery.table-hotkeys$suffix.js", array('jquery', 'jquery-hotkeys'), false, 1 );
 	$scripts->add( 'jquery-postmessage', "/wp-includes/js/jquery/jquery.postmessage$suffix.js", array('jquery'), '0.5', 1 );
 
+	$scripts->add( 'jquery-masonry', "/wp-includes/js/jquery/jquery.masonry$suffix.js", array('jquery'), '2.1.02', 1 );
+
 	$scripts->add( 'thickbox', "/wp-includes/js/thickbox/thickbox.js", array('jquery'), '3.1-20111117', 1 );
 	$scripts->localize( 'thickbox', 'thickboxL10n', array(
 			'next' => __('Next &gt;'),

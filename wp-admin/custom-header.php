@@ -140,6 +140,8 @@ class Custom_Image_Header {
 	function js_includes() {
 		$step = $this->step();
 
+		if ( 1 == $step )
+			wp_enqueue_script('jquery-masonry');
 		if ( ( 1 == $step || 3 == $step ) && $this->header_text() )
 			wp_enqueue_script('farbtastic');
 		elseif ( 2 == $step )
@@ -637,7 +639,13 @@ class Custom_Image_Header {
 	<?php endif; ?>
 </tbody>
 </table>
-
+<script type="text/javascript">
+jQuery(function() {
+	jQuery('.available-headers').masonry({
+		itemSelector: '.default-header'
+	});
+});
+</script>
 	<?php if ( $this->header_text() ) : ?>
 <table class="form-table">
 <tbody>
