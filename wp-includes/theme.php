@@ -1334,9 +1334,13 @@ body.custom-background { <?php echo trim( $style ); ?> }
  * the theme root. It also accepts an array of stylesheets.
  * It is optional and defaults to 'editor-style.css'.
  *
- * Supports RTL stylesheets automatically by searching for the -rtl prefix, e.g.
- * editor-style-rtl.css. If an array of stylesheets is passed to add_editor_style(),
+ * This function automatically adds another stylesheet with -rtl prefix, e.g. editor-style-rtl.css.
+ * If that file doesn't exist, it is removed before adding the stylesheet(s) to TinyMCE.
+ * If an array of stylesheets is passed to add_editor_style(),
  * RTL is only added for the first stylesheet.
+ *
+ * Since version 3.4 the TinyMCE body has .rtl CSS class.
+ * It is a better option to use that class and add any RTL styles to the main stylesheet.
  *
  * @since 3.0.0
  *
