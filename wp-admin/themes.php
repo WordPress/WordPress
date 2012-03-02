@@ -194,9 +194,9 @@ if ( ! current_user_can( 'switch_themes' ) ) {
 	<?php endforeach; ?>
 
 	<div class="feature-container">
-		<?php submit_button( __( 'Apply Filters' ), 'button-secondary submitter', false, false, array( 'style' => 'margin-left: 120px', 'id' => 'filter-submit' ) ); ?>
+		<?php submit_button( __( 'Apply Filters' ), 'button-secondary submitter', false, false, array( 'id' => 'filter-submit' ) ); ?>
 		&nbsp;
-		<small><a id="mini-filter-click" href="<?php echo esc_url( remove_query_arg( array('filter', 'features', 'submit') ) ); ?>"><?php _e( 'Close filters' )?></a></small>
+		<a id="mini-filter-click" href="<?php echo esc_url( remove_query_arg( array('filter', 'features', 'submit') ) ); ?>"><?php _e( 'Close filters' )?></a>
 	</div>
 	<br/>
 	</div>
