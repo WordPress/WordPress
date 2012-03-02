@@ -534,7 +534,7 @@ class WP_Object_Cache {
 	 * @access private
 	 */
 	protected function _exists($key, $group) {
-		return is_array( $this->cache[$group] ) && array_key_exists( $key, $this->cache[$group] );
+		return isset( $this->cache[$group] ) && is_array( $this->cache[$group] ) && array_key_exists( $key, $this->cache[$group] );
 	}
 
 	/**
