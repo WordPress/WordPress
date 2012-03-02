@@ -7,29 +7,24 @@
  * @since 3.1.0
  * @access private
  */
-class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
+class WP_Theme_Install_List_Table extends WP_List_Table {
 
-	var $features = array();
+	function __construct() {
+		parent::__construct( array(
+			'ajax' => true,
+		) );
+	}
 
 	function ajax_user_can() {
-		return current_user_can( 'install_themes' );
+		return current_user_can('install_themes');
 	}
 
 	function prepare_items() {
 		include( ABSPATH . 'wp-admin/includes/theme-install.php' );
 
-		global $tabs, $tab, $paged, $type, $theme_field_defaults;
+		global $tabs, $tab, $paged, $type, $term, $theme_field_defaults;
+
 		wp_reset_vars( array( 'tab' ) );
-
-		$search_terms = array();
-		$search_string = '';
-		if ( ! empty( $_REQUEST['s'] ) ){
-			$search_string = strtolower( stripslashes( $_REQUEST['s'] ) );
-			$search_terms = array_unique( array_filter( array_map( 'trim', explode( ',', $search_string ) ) ) );
-		}
-
-		if ( ! empty( $_REQUEST['features'] ) )
-			$this->features = $_REQUEST['features'];
 
 		$paged = $this->get_pagenum();
 
@@ -60,21 +55,29 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 		switch ( $tab ) {
 			case 'search':
 				$type = isset( $_REQUEST['type'] ) ? stripslashes( $_REQUEST['type'] ) : '';
+				$term = isset( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : '';
+
 				switch ( $type ) {
 					case 'tag':
-						$args['tag'] = array_map( 'sanitize_title_with_dashes', $search_terms );
+						$terms = explode( ',', $term );
+						$terms = array_map( 'trim', $terms );
+						$terms = array_map( 'sanitize_key', $terms );
+						$args['tag'] = $terms;
 						break;
 					case 'term':
-						$args['search'] = $search_string;
+						$args['search'] = $term;
 						break;
 					case 'author':
-						$args['author'] = $search_string;
+						$args['author'] = $term;
 						break;
 				}
 
-				if ( ! empty( $this->features ) ) {
-					$args['tag'] = $this->features;
-					$_REQUEST['s'] = implode( ',', $this->features );
+				if ( !empty( $_REQUEST['features'] ) ) {
+					$terms = $_REQUEST['features'];
+					$terms = array_map( 'trim', $terms );
+					$terms = array_map( 'sanitize_key', $terms );
+					$args['tag'] = $terms;
+					$_REQUEST['s'] = implode( ',', $terms );
 					$_REQUEST['type'] = 'tag';
 				}
 
@@ -92,7 +95,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 				$args = false;
 		}
 
-		if ( ! $args )
+		if ( !$args )
 			return;
 
 		$api = themes_api( 'query_themes', $args );
@@ -105,7 +108,6 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 		$this->set_pagination_args( array(
 			'total_items' => $api->info['results'],
 			'per_page' => $per_page,
-			'infinite_scroll' => true,
 		) );
 	}
 
@@ -126,7 +128,12 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 		return $display_tabs;
 	}
 
+	function get_columns() {
+		return array();
+	}
+
 	function display() {
+
 		wp_nonce_field( "fetch-list-" . get_class( $this ), '_ajax_fetch_list_nonce' );
 ?>
 		<div class="tablenav top themes">
@@ -142,8 +149,12 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 			<?php $this->display_rows_or_placeholder(); ?>
 		</div>
 
-		<?php
-		parent::tablenav( 'bottom' );
+		<div class="tablenav bottom themes">
+			<?php $this->pagination( 'bottom' ); ?>
+			<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading list-ajax-loading" alt="" />
+			<br class="clear" />
+		</div>
+<?php
 	}
 
 	function display_rows() {
@@ -158,19 +169,5 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 						display_theme( $themes[$theme_name] );
 				?></div>
 		<?php } // end foreach $theme_names
-	}
-
-	/**
-	 * Send required variables to JavaScript land
-	 *
-	 * @since 3.4
-	 * @access private
-	 *
-	 * @uses $tab Global; current tab within Themes->Install screen
-	 * @uses $type Global; type of search.
-	 */
-	function _js_vars() {
-		global $tab, $type;
-		parent::_js_vars( compact( $tab, $type ) );
 	}
 }
