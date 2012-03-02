@@ -170,7 +170,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 	 * @uses $type Global; type of search.
 	 */
 	function _js_vars() {
-		global $tab, $type;
-		parent::_js_vars( compact( $tab, $type ) );
+		global $tab, $type;		
+		parent::_js_vars( compact( 'tab', 'type' ) );
 	}
 }

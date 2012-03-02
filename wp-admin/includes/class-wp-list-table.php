@@ -903,7 +903,7 @@ class WP_List_Table {
 	 *
 	 * @access private
 	 */
-	function _js_vars() {
+	function _js_vars( $extra_args = array() ) {
 		$current_screen = get_current_screen();
 
 		$args = array(
@@ -913,6 +913,9 @@ class WP_List_Table {
 				'base' => $current_screen->base,
 			)
 		);
+
+		if ( is_array( $extra_args ) )
+			$args = array_merge( $args, $extra_args );
 
 		printf( "<script type='text/javascript'>list_args = %s;</script>\n", json_encode( $args ) );
 	}
