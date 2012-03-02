@@ -28,7 +28,7 @@ function _get_list_table( $class ) {
 		'WP_Links_List_Table' => 'links',
 		'WP_Plugin_Install_List_Table' => 'plugin-install',
 		'WP_Themes_List_Table' => 'themes',
-		'WP_Theme_Install_List_Table' => 'theme-install',
+		'WP_Theme_Install_List_Table' => array( 'themes', 'theme-install' ),
 		'WP_Plugins_List_Table' => 'plugins',
 		// Network Admin
 		'WP_MS_Sites_List_Table' => 'ms-sites',
@@ -37,7 +37,8 @@ function _get_list_table( $class ) {
 	);
 
 	if ( isset( $core_classes[ $class ] ) ) {
-		require_once( ABSPATH . 'wp-admin/includes/class-wp-' . $core_classes[ $class ] . '-list-table.php' );
+		foreach ( (array) $core_classes[ $class ] as $required )
+			require_once( ABSPATH . 'wp-admin/includes/class-wp-' . $required . '-list-table.php' );
 		return new $class;
 	}
 

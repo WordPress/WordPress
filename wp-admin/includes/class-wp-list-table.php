@@ -484,7 +484,7 @@ class WP_List_Table {
 		if ( empty( $this->_pagination_args ) )
 			return;
 
-		extract( $this->_pagination_args );
+		extract( $this->_pagination_args, EXTR_SKIP );
 
 		$output = '<span class="displaying-num">' . sprintf( _n( '1 item', '%s items', $total_items ), number_format_i18n( $total_items ) ) . '</span>';
 
@@ -543,7 +543,10 @@ class WP_List_Table {
 			'&raquo;'
 		);
 
-		$output .= "\n<span class='pagination-links'>" . join( "\n", $page_links ) . '</span>';
+		$pagination_links_class = 'pagination-links';
+		if ( ! empty( $infinite_scroll ) )
+			$pagination_links_class = ' hide-if-js';
+		$output .= "\n<span class='$pagination_links_class'>" . join( "\n", $page_links ) . '</span>';
 
 		if ( $total_pages )
 			$page_class = $total_pages < 2 ? ' one-page' : '';
@@ -872,7 +875,7 @@ class WP_List_Table {
 		$this->prepare_items();
 
 		extract( $this->_args );
-		extract( $this->_pagination_args );
+		extract( $this->_pagination_args, EXTR_SKIP );
 
 		ob_start();
 		if ( ! empty( $_REQUEST['no_placeholder'] ) )

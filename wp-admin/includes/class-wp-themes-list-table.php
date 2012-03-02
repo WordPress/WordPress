@@ -20,7 +20,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 
 	function ajax_user_can() {
 		// Do not check edit_theme_options here. AJAX calls for available themes require switch_themes.
-		return current_user_can('switch_themes');
+		return current_user_can( 'switch_themes' );
 	}
 
 	function prepare_items() {
@@ -52,6 +52,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 		$this->set_pagination_args( array(
 			'total_items' => count( $themes ),
 			'per_page' => $per_page,
+			'infinite_scroll' => true,
 		) );
 	}
 
@@ -201,5 +202,36 @@ class WP_Themes_List_Table extends WP_List_Table {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Send required variables to JavaScript land
+	 *
+	 * @since 3.4
+	 * @access private
+	 *
+	 * @uses $this->features Array of all feature search terms.
+	 * @uses get_pagenum()
+	 * @uses _pagination_args['total_pages']
+	 */
+	 function _js_vars( $extra_args = array() ) {
+		$search_string = isset( $_REQUEST['s'] ) ? esc_attr( stripslashes( $_REQUEST['s'] ) ) : '';
+
+		$total_pages = 1;
+		if ( ! empty( $this->_pagination_args['total_pages'] ) )
+			$total_pages = $this->_pagination_args['total_pages'];
+
+		$args = array(
+			'search' => $search_string,
+			'features' => $this->features,
+			'paged' => $this->get_pagenum(),
+			'total_pages' => $total_pages,
+		);
+
+		if ( is_array( $extra_args ) )
+		$args = array_merge( $args, $extra_args );
+
+		printf( "<script type='text/javascript'>var theme_list_args = %s;</script>\n", json_encode( $args ) );
+		parent::_js_vars();
 	}
 }

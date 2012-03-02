@@ -54,48 +54,50 @@ jQuery( document ).ready( function($) {
 	theme_viewer.init();
 });
 
-var ThemeScroller;
 
+/**
+ * Class that provides infinite scroll for Themes admin screens
+ *
+ * @since 3.4
+ *
+ * @uses ajaxurl
+ * @uses list_args
+ * @uses theme_list_args
+ * @uses $('#_ajax_fetch_list_nonce').val()
+* */
+var ThemeScroller;
 (function($){
 	ThemeScroller = {
-		// Inputs
 		nonce: '',
-		search: '',
-		tab: '',
-		type: '',
-		nextPage: 2,
-		features: {},
-
-		// Preferences
+		nextPage: 2, // By default, assume we're on the first page.
+		querying: false,
 		scrollPollingDelay: 500,
 		failedRetryDelay: 4000,
 		outListBottomThreshold: 300,
 
-		// Flags
-		scrolling: false,
-		querying: false,
-
+		/**
+		 * Initializer
+		 *
+		 * @since 3.4
+		 * @access private
+		 */
 		init: function() {
 			var self = this,
-				startPage,
-				queryArray = {},
-				queryString = window.location.search;
+				startPage;
 
-			// We're using infinite scrolling, so hide all pagination.
-			$('.pagination-links').hide();
-
-			// Parse GET query string
-			queryArray = this.parseQuery( queryString.substring( 1 ) );
+			// Get out early if we don't have the required arguments.
+			if ( typeof ajaxurl === 'undefined' ||
+				 typeof list_args === 'undefined' ||
+				 typeof theme_list_args === 'undefined' ) {
+					$('.pagination-links').show();
+					return;
+			}
 
 			// Handle inputs
 			this.nonce = $('#_ajax_fetch_list_nonce').val();
-			this.search = queryArray['s'];
-			this.features = queryArray['features'];
-			this.tab = queryArray['tab'];
-			this.type = queryArray['type'];
 
-			startPage = parseInt( queryArray['paged'], 10 );
-			if ( ! isNaN( startPage ) )
+			startPage = theme_list_args.paged;
+			if ( startPage !== undefined )
 				this.nextPage = ( startPage + 1 );
 
 			// Cache jQuery selectors
@@ -104,12 +106,25 @@ var ThemeScroller;
 			this.$window = $(window);
 			this.$document = $(document);
 
-			if ( $('.tablenav-pages').length )
+			/**
+			 * If there are more pages to query, then start polling to track
+			 * when user hits the bottom of the current page
+			 */
+			if ( theme_list_args.total_pages !== undefined &&
+				 theme_list_args.total_pages >= this.nextPage )
 				this.pollInterval =
 					setInterval( function() {
 						return self.poll();
 					}, this.scrollPollingDelay );
 		},
+
+		/**
+		 * Checks to see if user has scrolled to bottom of page.
+		 * If so, requests another page of content from self.ajax().
+		 *
+		 * @since 3.4
+		 * @access private
+		 */
 		poll: function() {
 			var bottom = this.$document.scrollTop() + this.$window.innerHeight();
 
@@ -119,32 +134,49 @@ var ThemeScroller;
 
 			this.ajax();
 		},
+
+		/**
+		 * Applies results passed from this.ajax() to $outList
+		 *
+		 * @since 3.4
+		 * @access private
+		 *
+		 * @param results Array with results from this.ajax() query.
+		 */
 		process: function( results ) {
 			if ( ( results === undefined ) ||
-				( results.rows.indexOf( 'no-items' ) != -1 ) ) {
+				 ( results.rows === undefined ) ||
+				 ( results.rows.indexOf( 'no-items' ) != -1 ) ) {
 				clearInterval( this.pollInterval );
 				return;
 			}
 
-			var totalPages = parseInt( results.total_pages, 10 );
-			if ( this.nextPage > totalPages )
+			if ( this.nextPage > theme_list_args.total_pages )
 				clearInterval( this.pollInterval );
 
-			if ( this.nextPage <= ( totalPages + 1 ) )
+			if ( this.nextPage <= ( theme_list_args.total_pages + 1 ) )
 				this.$outList.append( results.rows );
 		},
+
+		/**
+		 * Queries next page of themes
+		 *
+		 * @since 3.4
+		 * @access private
+		 */
 		ajax: function() {
 			var self = this;
+
 			this.querying = true;
 
 			var query = {
 				action: 'fetch-list',
-				tab: this.tab,
 				paged: this.nextPage,
-				s: this.search,
-				type: this.type,
+				s: theme_list_args.search,
+				tab: theme_list_args.tab,
+				type: theme_list_args.type,
 				_ajax_fetch_list_nonce: this.nonce,
-				'features[]': this.features,
+				'features[]': theme_list_args.features,
 				'list_args': list_args
 			};
 
@@ -159,40 +191,13 @@ var ThemeScroller;
 				.fail( function() {
 					self.$spinner.css( 'visibility', 'hidden' );
 					self.querying = false;
-					setTimeout( function() { self.ajax(); }, self.failedRetryDelay )
+					setTimeout( function() { self.ajax(); }, self.failedRetryDelay );
 				});
-		},
-		parseQuery: function( query ) {
-			var params = {};
-			if ( ! query )
-				return params;
-
-			var pairs = query.split( /[;&]/ );
-			for ( var i = 0; i < pairs.length; i++ ) {
-				var keyVal = pairs[i].split( '=' );
-
-				if ( ! keyVal || keyVal.length != 2 )
-					continue;
-
-				var key = unescape( keyVal[0] );
-				var val = unescape( keyVal[1] );
-				val = val.replace( /\+/g, ' ' );
-				key = key.replace( /\[.*\]$/g, '' );
-
-				if ( params[key] === undefined ) {
-					params[key] = val;
-				} else {
-					var oldVal = params[key];
-					if ( ! $.isArray( params[key] ) )
-						params[key] = new Array( oldVal, val );
-					else
-						params[key].push( val );
-				}
-			}
-			return params;
 		}
 	}
 
-	$(document).ready( function( $ ) { ThemeScroller.init(); });
+	$(document).ready( function($) {
+		ThemeScroller.init();
+	});
 
 })(jQuery);
