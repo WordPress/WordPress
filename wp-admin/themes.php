@@ -152,7 +152,7 @@ if ( ! current_user_can( 'switch_themes' ) ) {
 
 <h3 class="available-themes"><?php _e('Available Themes'); ?></h3>
 
-<?php if ( !empty( $_REQUEST['s'] ) || !empty( $_REQUEST['filter'] ) || $wp_list_table->has_items() ) : ?>
+<?php if ( !empty( $_REQUEST['s'] ) || !empty( $_REQUEST['features'] ) || $wp_list_table->has_items() ) : ?>
 
 <form class="search-form filter-form" action="" method="get">
 
