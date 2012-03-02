@@ -3372,29 +3372,21 @@ function get_file_data( $file, $default_headers, $context = '' ) {
 	// PHP will close file handle, but we are good citizens.
 	fclose( $fp );
 
-	if ( $context != '' ) {
-		$extra_headers = apply_filters( "extra_{$context}_headers", array() );
-
-		$extra_headers = array_flip( $extra_headers );
-		foreach( $extra_headers as $key=>$value ) {
-			$extra_headers[$key] = $key;
-		}
+	if ( $context && $extra_headers = apply_filters( "extra_{$context}_headers", array() ) ) {
+		$extra_headers = array_combine( $extra_headers, $extra_headers ); // keys equal values
 		$all_headers = array_merge( $extra_headers, (array) $default_headers );
 	} else {
 		$all_headers = $default_headers;
 	}
 
 	foreach ( $all_headers as $field => $regex ) {
-		preg_match( '/^[ \t\/*#@]*' . preg_quote( $regex, '/' ) . ':(.*)$/mi', $file_data, ${$field});
-		if ( !empty( ${$field} ) )
-			${$field} = _cleanup_header_comment( ${$field}[1] );
+		if ( preg_match( '/^[ \t\/*#@]*' . preg_quote( $regex, '/' ) . ':(.*)$/mi', $file_data, $match ) && $match[1] )
+			$all_headers[ $field ] = _cleanup_header_comment( $match[1] );
 		else
-			${$field} = '';
+			$all_headers[ $field ] = '';
 	}
 
-	$file_data = compact( array_keys( $all_headers ) );
-
-	return $file_data;
+	return $all_headers;
 }
 
 /**
