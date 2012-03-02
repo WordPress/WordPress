@@ -134,9 +134,9 @@ if ( isset( $_GET['action'] ) ) {
 								echo '<div class="wrap">';
 								confirm_delete_users( $_POST['allusers'] );
 								echo '</div>';
-					            require_once( '../admin-footer.php' );
-					            exit();
-	       					break;
+								require_once( '../admin-footer.php' );
+								exit();
+							break;
 
 							case 'spam':
 								$user = new WP_User( $val );
