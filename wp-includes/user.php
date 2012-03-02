@@ -936,7 +936,7 @@ function setup_userdata($for_user_id = '') {
 	else
 		$user = new WP_User($for_user_id);
 
-	$userdata   = $user;
+	$userdata   = null;
 	$user_ID    = (int) $user->ID;
 	$user_level = (int) isset($user->user_level) ? $user->user_level : 0;
 
@@ -945,11 +945,12 @@ function setup_userdata($for_user_id = '') {
 		return;
 	}
 
-	$user_login	= $user->user_login;
-	$user_email	= $user->user_email;
-	$user_url	= $user->user_url;
-	$user_pass_md5	= md5($user->user_pass);
-	$user_identity	= $user->display_name;
+	$userdata   = $user;
+	$user_login = $user->user_login;
+	$user_email = $user->user_email;
+	$user_url   = $user->user_url;
+	$user_pass_md5 = md5( $user->user_pass );
+	$user_identity = $user->display_name;
 }
 
 /**
