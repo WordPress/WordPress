@@ -33,9 +33,9 @@ jQuery(document).ready(function($) {
 			return false;
 
 		$.post(ajaxurl, $('#addtag').serialize(), function(r){
-		   $('#ajax-response').empty();
+			$('#ajax-response').empty();
 			var res = wpAjax.parseAjaxResponse(r, 'ajax-response');
-			if ( ! res )
+			if ( ! res || res.errors )
 				return;
 
 			var parent = form.find('select#parent').val();
