@@ -62,7 +62,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 				$type = isset( $_REQUEST['type'] ) ? stripslashes( $_REQUEST['type'] ) : '';
 				switch ( $type ) {
 					case 'tag':
-						$args['tag'] = array_map( 'sanitize_title_with_dashes', $search_terms );
+						$args['tag'] = array_map( 'sanitize_key', $search_terms );
 						break;
 					case 'term':
 						$args['search'] = $search_string;
