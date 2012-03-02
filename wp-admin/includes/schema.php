@@ -470,6 +470,7 @@ function populate_options() {
 	'widget_categories' => array(),
 	'widget_text' => array(),
 	'widget_rss' => array(),
+	'uninstall_plugins' => array(),
 
 	// 2.8
 	'timezone_string' => $timezone_string,
@@ -501,7 +502,7 @@ function populate_options() {
 	}
 
 	// Set autoload to no for these options
-	$fat_options = array( 'moderation_keys', 'recently_edited', 'blacklist_keys' );
+	$fat_options = array( 'moderation_keys', 'recently_edited', 'blacklist_keys', 'uninstall_plugins' );
 
 	$existing_options = $wpdb->get_col("SELECT option_name FROM $wpdb->options");
 
