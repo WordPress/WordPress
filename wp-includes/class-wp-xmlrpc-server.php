@@ -114,7 +114,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			'demo.addTwoNumbers' => 'this:addTwoNumbers'
 		);
 
-		$this->initialise_blog_option_info( );
+		$this->initialise_blog_option_info();
 		$this->methods = apply_filters('xmlrpc_methods', $this->methods);
 	}
 
@@ -290,40 +290,40 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @since 2.6.0
 	 */
-	function initialise_blog_option_info( ) {
+	function initialise_blog_option_info() {
 		global $wp_version;
 
 		$this->blog_options = array(
 			// Read only options
-			'software_name'		=> array(
-				'desc'			=> __( 'Software Name' ),
-				'readonly'		=> true,
-				'value'			=> 'WordPress'
+			'software_name'     => array(
+				'desc'          => __( 'Software Name' ),
+				'readonly'      => true,
+				'value'         => 'WordPress'
 			),
-			'software_version'	=> array(
-				'desc'			=> __( 'Software Version' ),
-				'readonly'		=> true,
-				'value'			=> $wp_version
+			'software_version'  => array(
+				'desc'          => __( 'Software Version' ),
+				'readonly'      => true,
+				'value'         => $wp_version
 			),
-			'blog_url'			=> array(
-				'desc'			=> __( 'Site URL' ),
-				'readonly'		=> true,
-				'option'		=> 'siteurl'
+			'blog_url'          => array(
+				'desc'          => __( 'Site URL' ),
+				'readonly'      => true,
+				'option'        => 'siteurl'
 			),
-			'image_default_link_type'	=> array(
-				'desc'			=> __( 'Image default link type' ),
-				'readonly'		=> true,
-				'option'		=> 'image_default_link_type'
+			'image_default_link_type' => array(
+				'desc'          => __( 'Image default link type' ),
+				'readonly'      => true,
+				'option'        => 'image_default_link_type'
 			),
-			'image_default_size'	=> array(
-				'desc'			=> __( 'Image default size' ),
-				'readonly'		=> true,
-				'option'		=> 'image_default_size'
+			'image_default_size' => array(
+				'desc'          => __( 'Image default size' ),
+				'readonly'      => true,
+				'option'        => 'image_default_size'
 			),
-			'image_default_align'	=> array(
-				'desc'			=> __( 'Image default align' ),
-				'readonly'		=> true,
-				'option'		=> 'image_default_align'
+			'image_default_align' => array(
+				'desc'          => __( 'Image default align' ),
+				'readonly'      => true,
+				'option'        => 'image_default_align'
 			),
 			'template'          => array(
 				'desc'          => __( 'Template' ),
@@ -337,80 +337,80 @@ class wp_xmlrpc_server extends IXR_Server {
 			),
 
 			// Updatable options
-			'time_zone'			=> array(
-				'desc'			=> __( 'Time Zone' ),
-				'readonly'		=> false,
-				'option'		=> 'gmt_offset'
+			'time_zone'         => array(
+				'desc'          => __( 'Time Zone' ),
+				'readonly'      => false,
+				'option'        => 'gmt_offset'
 			),
-			'blog_title'		=> array(
-				'desc'			=> __( 'Site Title' ),
-				'readonly'		=> false,
-				'option'			=> 'blogname'
+			'blog_title'        => array(
+				'desc'          => __( 'Site Title' ),
+				'readonly'      => false,
+				'option'        => 'blogname'
 			),
-			'blog_tagline'		=> array(
-				'desc'			=> __( 'Site Tagline' ),
-				'readonly'		=> false,
-				'option'		=> 'blogdescription'
+			'blog_tagline'      => array(
+				'desc'          => __( 'Site Tagline' ),
+				'readonly'      => false,
+				'option'        => 'blogdescription'
 			),
-			'date_format'		=> array(
-				'desc'			=> __( 'Date Format' ),
-				'readonly'		=> false,
-				'option'		=> 'date_format'
+			'date_format'       => array(
+				'desc'          => __( 'Date Format' ),
+				'readonly'      => false,
+				'option'        => 'date_format'
 			),
-			'time_format'		=> array(
-				'desc'			=> __( 'Time Format' ),
-				'readonly'		=> false,
-				'option'		=> 'time_format'
+			'time_format'       => array(
+				'desc'          => __( 'Time Format' ),
+				'readonly'      => false,
+				'option'        => 'time_format'
 			),
-			'users_can_register'	=> array(
-				'desc'			=> __( 'Allow new users to sign up' ),
-				'readonly'		=> false,
-				'option'		=> 'users_can_register'
+			'users_can_register' => array(
+				'desc'          => __( 'Allow new users to sign up' ),
+				'readonly'      => false,
+				'option'        => 'users_can_register'
 			),
-			'thumbnail_size_w'	=> array(
-				'desc'			=> __( 'Thumbnail Width' ),
-				'readonly'		=> false,
-				'option'		=> 'thumbnail_size_w'
+			'thumbnail_size_w'  => array(
+				'desc'          => __( 'Thumbnail Width' ),
+				'readonly'      => false,
+				'option'        => 'thumbnail_size_w'
 			),
-			'thumbnail_size_h'	=> array(
-				'desc'			=> __( 'Thumbnail Height' ),
-				'readonly'		=> false,
-				'option'		=> 'thumbnail_size_h'
+			'thumbnail_size_h'  => array(
+				'desc'          => __( 'Thumbnail Height' ),
+				'readonly'      => false,
+				'option'        => 'thumbnail_size_h'
 			),
-			'thumbnail_crop'	=> array(
-				'desc'			=> __( 'Crop thumbnail to exact dimensions' ),
-				'readonly'		=> false,
-				'option'		=> 'thumbnail_crop'
+			'thumbnail_crop'    => array(
+				'desc'          => __( 'Crop thumbnail to exact dimensions' ),
+				'readonly'      => false,
+				'option'        => 'thumbnail_crop'
 			),
-			'medium_size_w'	=> array(
-				'desc'			=> __( 'Medium size image width' ),
-				'readonly'		=> false,
-				'option'		=> 'medium_size_w'
+			'medium_size_w'     => array(
+				'desc'          => __( 'Medium size image width' ),
+				'readonly'      => false,
+				'option'        => 'medium_size_w'
 			),
-			'medium_size_h'	=> array(
-				'desc'			=> __( 'Medium size image height' ),
-				'readonly'		=> false,
-				'option'		=> 'medium_size_h'
+			'medium_size_h'     => array(
+				'desc'          => __( 'Medium size image height' ),
+				'readonly'      => false,
+				'option'        => 'medium_size_h'
 			),
-			'large_size_w'	=> array(
-				'desc'			=> __( 'Large size image width' ),
-				'readonly'		=> false,
-				'option'		=> 'large_size_w'
+			'large_size_w'      => array(
+				'desc'          => __( 'Large size image width' ),
+				'readonly'      => false,
+				'option'        => 'large_size_w'
 			),
-			'large_size_h'	=> array(
-				'desc'			=> __( 'Large size image height' ),
-				'readonly'		=> false,
-				'option'		=> 'large_size_h'
+			'large_size_h'      => array(
+				'desc'          => __( 'Large size image height' ),
+				'readonly'      => false,
+				'option'        => 'large_size_h'
 			),
-			'default_comment_status'	=> array(
-				'desc'			=> __( 'Allow people to post comments on new articles' ),
-				'readonly'		=> false,
-				'option'		=> 'default_comment_status'
+			'default_comment_status' => array(
+				'desc'          => __( 'Allow people to post comments on new articles' ),
+				'readonly'      => false,
+				'option'        => 'default_comment_status'
 			),
-			'default_ping_status'	=> array(
-				'desc'			=> __( 'Allow link notifications from other blogs (pingbacks and trackbacks)' ),
-				'readonly'		=> false,
-				'option'		=> 'default_ping_status'
+			'default_ping_status' => array(
+				'desc'          => __( 'Allow link notifications from other blogs (pingbacks and trackbacks)' ),
+				'readonly'      => false,
+				'option'        => 'default_ping_status'
 			)
 		);
 
@@ -451,7 +451,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		do_action( 'xmlrpc_call', 'wp.getUsersBlogs' );
 
 		$blogs = (array) get_blogs_of_user( $user->ID );
-		$struct = array( );
+		$struct = array();
 
 		foreach ( $blogs as $blog ) {
 			// Don't include blogs that aren't hosted at this site
@@ -470,7 +470,7 @@ class wp_xmlrpc_server extends IXR_Server {
 				'xmlrpc'		=> site_url( 'xmlrpc.php' )
 			);
 
-			restore_current_blog( );
+			restore_current_blog();
 		}
 
 		return $struct;
@@ -1095,7 +1095,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$posts_list = wp_get_recent_posts( $query );
 
 		if ( ! $posts_list )
-			return array( );
+			return array();
 
 		// holds all the posts data
 		$struct = array();
@@ -1499,7 +1499,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		do_action( 'xmlrpc_call', 'wp.getKeywords' );
 
-		$tags = array( );
+		$tags = array();
 
 		if ( $all_tags = get_tags() ) {
 			foreach( (array) $all_tags as $tag ) {
@@ -2009,7 +2009,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		do_action('xmlrpc_call', 'wp.getCommentStatusList');
 
-		return get_comment_statuses( );
+		return get_comment_statuses();
 	}
 
 	/**
@@ -2068,7 +2068,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		do_action('xmlrpc_call', 'wp.getPostStatusList');
 
-		return get_post_statuses( );
+		return get_post_statuses();
 	}
 
 	/**
@@ -2094,7 +2094,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		do_action('xmlrpc_call', 'wp.getPageStatusList');
 
-		return get_page_statuses( );
+		return get_page_statuses();
 	}
 
 	/**
@@ -2118,7 +2118,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( !current_user_can( 'edit_pages' ) )
 			return new IXR_Error( 403, __( 'You are not allowed access to details about this site.' ) );
 
-		$templates = get_page_templates( );
+		$templates = get_page_templates();
 		$templates['Default'] = 'default';
 
 		return $templates;
@@ -2159,7 +2159,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @return array
 	 */
 	function _getOptions($options) {
-		$data = array( );
+		$data = array();
 		foreach ( $options as $option ) {
 			if ( array_key_exists( $option, $this->blog_options ) ) {
 				$data[$option] = $this->blog_options[$option];
@@ -3542,7 +3542,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$posts_list = wp_get_recent_posts( $query );
 
 		if ( !$posts_list )
-			return array( );
+			return array();
 
 		foreach ($posts_list as $entry) {
 			if ( !current_user_can( 'edit_post', $entry['ID'] ) )
