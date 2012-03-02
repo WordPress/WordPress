@@ -1423,7 +1423,7 @@ form.upgrade .hint {
 #screen-options-link-wrap,
 #contextual-help-link-wrap {
 	float: right;
-	height: 22px;
+	height: 23px;
 	padding: 0;
 	margin: 0 0 0 6px;
 	font-family: sans-serif;
@@ -1438,10 +1438,15 @@ form.upgrade .hint {
 	border-bottom-right-radius: 3px;
 }
 
+#screen-meta-links .screen-meta-toggle {
+	position: relative;
+	top: -1px;
+}
+
 #screen-meta-links a.show-settings {
 	text-decoration: none;
 	z-index: 1;
-	padding: 0 16px 0 6px;
+	padding: 1px 16px 0 6px;
 	height: 22px;
 	line-height: 22px;
 	font-size: 12px;

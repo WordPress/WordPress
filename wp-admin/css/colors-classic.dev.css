@@ -1672,12 +1672,12 @@ table.diff .diff-addedline ins {
 	border-right: 1px solid #D1E5EE;
 	border-left: 1px solid #D1E5EE;
 	border-bottom: 1px solid #D1E5EE;
-	background-image: -ms-linear-gradient(bottom, #eff8ff, #fff); /* IE10 */
-	background-image: -moz-linear-gradient(bottom, #eff8ff, #fff); /* Firefox */
-	background-image: -o-linear-gradient(bottom, #eff8ff, #fff); /* Opera */
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#eff8ff), to(#fff)); /* old Webkit */
-	background-image: -webkit-linear-gradient(bottom, #eff8ff, #fff); /* new Webkit */
-	background-image: linear-gradient(bottom, #eff8ff, #fff); /* proposed W3C Markup */
+	background-image: -ms-linear-gradient(bottom, #eff8ff, #eff8ff); /* IE10 */
+	background-image: -moz-linear-gradient(bottom, #def1ff, #eff8ff); /* Firefox */
+	background-image: -o-linear-gradient(bottom, #def1ff, #eff8ff); /* Opera */
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#def1ff), to(#eff8ff)); /* old Webkit */
+	background-image: -webkit-linear-gradient(bottom, #def1ff, #eff8ff); /* new Webkit */
+	background-image: linear-gradient(bottom, #def1ff, #eff8ff); /* proposed W3C Markup */
 }
 
 #screen-meta-links a.show-settings {
@@ -1689,11 +1689,11 @@ table.diff .diff-addedline ins {
 }
 
 #screen-meta-links a.show-settings {
-	background: transparent url(../images/arrows.png) no-repeat right 3px;
+	background: transparent url(../images/arrows.png) no-repeat right 4px;
 }
 
 #screen-meta-links a.show-settings.screen-meta-active  {
-	background: transparent url(../images/arrows.png) no-repeat right -33px;
+	background: transparent url(../images/arrows.png) no-repeat right -30px;
 }
 
 /* end screen options and help tabs */

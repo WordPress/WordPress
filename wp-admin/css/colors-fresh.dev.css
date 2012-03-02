@@ -811,9 +811,9 @@ table.widefat span.spam a,
 #screen-options-link-wrap,
 #contextual-help-link-wrap {
 	background-color: #e3e3e3; /* Fallback */
-	border-right: 1px solid transparent;
-	border-left: 1px solid transparent;
-	border-bottom: 1px solid transparent;
+	border-right: 1px solid #ccc;
+	border-left: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
 	background-image: -ms-linear-gradient(bottom, #dfdfdf, #f1f1f1); /* IE10 */
 	background-image: -moz-linear-gradient(bottom, #dfdfdf, #f1f1f1); /* Firefox */
 	background-image: -o-linear-gradient(bottom, #dfdfdf, #f1f1f1); /* Opera */
@@ -831,11 +831,11 @@ table.widefat span.spam a,
 }
 
 #screen-meta-links a.show-settings {
-	background: transparent url(../images/arrows.png) no-repeat right 3px;
+	background: transparent url(../images/arrows.png) no-repeat right 4px;
 }
 
 #screen-meta-links a.show-settings.screen-meta-active {
-	background: transparent url(../images/arrows.png) no-repeat right -33px;
+	background: transparent url(../images/arrows.png) no-repeat right -30px;
 }
 
 /* end screen options and help tabs */
