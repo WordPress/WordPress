@@ -119,9 +119,7 @@ if ( isset( $_GET['action'] ) ) {
 			if ( ( isset( $_POST['action']) || isset($_POST['action2'] ) ) && isset( $_POST['allusers'] ) ) {
 				check_admin_referer( 'bulk-users-network' );
 
-				if ( $_GET['action'] != -1 || $_POST['action2'] != -1 )
-					$doaction = $_POST['action'] != -1 ? $_POST['action'] : $_POST['action2'];
-
+				$doaction = $_POST['action'] != -1 ? $_POST['action'] : $_POST['action2'];
 				$userfunction = '';
 
 				foreach ( (array) $_POST['allusers'] as $key => $val ) {

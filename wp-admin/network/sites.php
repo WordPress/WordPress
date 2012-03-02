@@ -78,9 +78,7 @@ if ( isset( $_GET['action'] ) ) {
 				if ( ! current_user_can( 'manage_sites' ) )
 					wp_die( __( 'You do not have permission to access this page.' ) );
 
-				if ( $_GET['action'] != -1 || $_POST['action2'] != -1 )
-					$doaction = $_POST['action'] != -1 ? $_POST['action'] : $_POST['action2'];
-
+				$doaction = $_POST['action'] != -1 ? $_POST['action'] : $_POST['action2'];
 				$blogfunction = '';
 
 				foreach ( (array) $_POST['allblogs'] as $key => $val ) {
