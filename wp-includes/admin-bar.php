@@ -64,7 +64,7 @@ function wp_admin_bar_render() {
 	do_action( 'wp_after_admin_bar_render' );
 }
 add_action( 'wp_footer', 'wp_admin_bar_render', 1000 );
-add_action( 'admin_footer', 'wp_admin_bar_render', 1000 );
+add_action( 'in_admin_header', 'wp_admin_bar_render', 0 );
 
 /**
  * Add the WordPress logo menu.
