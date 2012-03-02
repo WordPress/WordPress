@@ -1042,6 +1042,7 @@ Disable these notifications: %4s' ), $blogname, $siteurl, $_SERVER['REMOTE_ADDR'
  * the notification email.
  *
  * @since MU
+ * @uses apply_filters() Filter newuser_notify_siteadmin to change the content of the email message
  *
  * @param int $user_id The new user's ID.
  * @return bool
@@ -1063,7 +1064,7 @@ Remote IP: %2s
 
 Disable these notifications: %3s'), $user->user_login, $_SERVER['REMOTE_ADDR'], $options_site_url);
 
-	$msg = apply_filters( 'newuser_notify_siteadmin', $msg );
+	$msg = apply_filters( 'newuser_notify_siteadmin', $msg, $user );
 	wp_mail( $email, sprintf(__('New User Registration: %s'), $user->user_login), $msg );
 	return true;
 }
