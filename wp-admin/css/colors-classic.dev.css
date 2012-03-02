@@ -1833,7 +1833,7 @@ fieldset.inline-edit-col-right .inline-edit-col {
 }
 
 #post-body .misc-pub-section {
-	border-right-color: #eee;
+	border-left-color: #eee;
 }
 
 .post-com-count span {

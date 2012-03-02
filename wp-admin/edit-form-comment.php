@@ -44,7 +44,7 @@ if ( !defined('ABSPATH') )
 <label class="spam"><input type="radio"<?php checked( $comment->comment_approved, 'spam' ); ?> name="comment_status" value="spam" /><?php /* translators: comment type radio button */ _ex('Spam', 'adjective'); ?></label>
 </div>
 
-<div class="misc-pub-section curtime misc-pub-section-last">
+<div class="misc-pub-section curtime">
 <?php
 // translators: Publish box date format, see http://php.net/date
 $datef = __( 'M j, Y @ G:i' );
