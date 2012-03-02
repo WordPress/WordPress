@@ -29,10 +29,8 @@ class WP_Themes_List_Table extends WP_List_Table {
 		if ( ! empty( $_REQUEST['s'] ) )
 			$this->search_terms = array_unique( array_filter( array_map( 'trim', explode( ',', strtolower( stripslashes( $_REQUEST['s'] ) ) ) ) ) );
 
-		if ( ! empty( $_REQUEST['features'] ) ) {
-			var_dump( $_REQUEST['features'] );
+		if ( ! empty( $_REQUEST['features'] ) )
 			$this->features = $_REQUEST['features'];
-		}
 
 		if ( $this->search_terms || $this->features ) {
 			foreach ( $themes as $key => $theme ) {
