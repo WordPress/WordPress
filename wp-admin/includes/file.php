@@ -628,7 +628,7 @@ function _unzip_file_ziparchive($file, $to, $needed_dirs = array() ) {
 			return new WP_Error('extract_failed', __('Could not extract file from archive.'), $info['name']);
 
 		if ( ! $wp_filesystem->put_contents( $to . $info['name'], $contents, FS_CHMOD_FILE) )
-			return new WP_Error('copy_failed', __('Could not copy file.'), $to . $info['filename']);
+			return new WP_Error('copy_failed', __('Could not copy file.'), $to . $info['name']);
 	}
 
 	$z->close();
