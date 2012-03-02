@@ -225,20 +225,17 @@ function get_front_page_template() {
  */
 function get_page_template() {
 	$id = get_queried_object_id();
-	$template = get_post_meta($id, '_wp_page_template', true);
+	$template = get_page_template_slug();
 	$pagename = get_query_var('pagename');
 
-	if ( !$pagename && $id > 0 ) {
+	if ( ! $pagename && $id ) {
 		// If a static page is set as the front page, $pagename will not be set. Retrieve it from the queried object
 		$post = get_queried_object();
 		$pagename = $post->post_name;
 	}
 
-	if ( 'default' == $template )
-		$template = '';
-
 	$templates = array();
-	if ( !empty($template) && !validate_file($template) )
+	if ( $template && 0 === validate_file( $template ) )
 		$templates[] = $template;
 	if ( $pagename )
 		$templates[] = "page-$pagename.php";

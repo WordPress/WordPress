@@ -1177,7 +1177,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			// Get the author info.
 			$author = get_userdata($page->post_author);
 
-			$page_template = get_post_meta( $page->ID, '_wp_page_template', true );
+			$page_template = get_page_template_slug( $page->ID );
 			if ( empty( $page_template ) )
 				$page_template = 'default';
 

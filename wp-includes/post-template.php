@@ -487,7 +487,7 @@ function get_body_class( $class = '' ) {
 		}
 		if ( is_page_template() ) {
 			$classes[] = 'page-template';
-			$classes[] = 'page-template-' . sanitize_html_class( str_replace( '.', '-', get_post_meta( $page_id, '_wp_page_template', true ) ), '' );
+			$classes[] = 'page-template-' . sanitize_html_class( str_replace( '.', '-', get_page_template_slug( $page_id ) ) );
 		} else {
 			$classes[] = 'page-template-default';
 		}
@@ -1241,27 +1241,41 @@ function get_the_password_form() {
  * @param string $template The specific template name if specific matching is required.
  * @return bool False on failure, true if success.
  */
-function is_page_template($template = '') {
-	if (!is_page()) {
+function is_page_template( $template = '' ) {
+	if ( ! is_page() )
 		return false;
-	}
 
-	global $wp_query;
+	$page_template = get_page_template_slug( get_queried_object_id() );
 
-	$page = $wp_query->get_queried_object();
-	$custom_fields = get_post_custom_values('_wp_page_template',$page->ID);
-	$page_template = $custom_fields[0];
+	if ( empty( $template ) )
+		return (bool) $page_template;
 
-	// We have no argument passed so just see if a page_template has been specified
-	if ( empty( $template ) ) {
-		if ( !empty( $page_template ) and ( 'default' != $page_template ) ) {
-			return true;
-		}
-	} elseif ( $template == $page_template) {
+	if ( $template == $page_template )
 		return true;
-	}
+
+	if ( 'default' == $template && ! $page_template )
+		return true;
 
 	return false;
+}
+
+/**
+ * Get the specific template name for a page.
+ *
+ * @since 3.4.0
+ *
+ * @param int $id The page ID to check. Defaults to the current post, when used in the loop.
+ * @return string|bool Page template filename. Returns an empty string when the default page template
+ * 	is in use. Returns false if the post is not a page.
+ */
+function get_page_template_slug( $post_id = null ) {
+	$post = get_post( $post_id );
+	if ( 'page' != $post->post_type )
+		return false;
+	$template = get_post_meta( $post->ID, '_wp_page_template', true );
+	if ( ! $template || 'default' == $template )
+		return '';
+	return $template;
 }
 
 /**
