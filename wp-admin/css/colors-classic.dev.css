@@ -1689,11 +1689,11 @@ table.diff .diff-addedline ins {
 }
 
 #screen-meta-links a.show-settings {
-	background: transparent url(../images/arrows.png) no-repeat right 4px;
+	background: transparent url(../images/arrows-vs.png) no-repeat right 4px;
 }
 
 #screen-meta-links a.show-settings.screen-meta-active  {
-	background: transparent url(../images/arrows.png) no-repeat right -30px;
+	background: transparent url(../images/arrows-vs.png) no-repeat right -31px;
 }
 
 /* end screen options and help tabs */
