@@ -2078,8 +2078,7 @@ strong .post-com-count {
   8.0 - Layout Blocks
 ------------------------------------------------------------------------------*/
 
-body.admin-bar #wpcontent,
-body.admin-bar #adminmenu {
+body.admin-bar {
 	padding-top: 28px;
 }
 
