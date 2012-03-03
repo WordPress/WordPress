@@ -125,12 +125,12 @@ class WP_Themes_List_Table extends WP_List_Table {
 			$title = $theme->display('Name');
 			$version = $theme->display('Version');
 			$author = $theme->display('Author');
- 
+
 			$activate_link = wp_nonce_url( "themes.php?action=activate&amp;template=" . urlencode( $template ) . "&amp;stylesheet=" . urlencode( $stylesheet ), 'switch-theme_' . $template );
 			$preview_link = esc_url( add_query_arg(
 				array( 'preview' => 1, 'template' => $template, 'stylesheet' => $stylesheet, 'preview_iframe' => true, 'TB_iframe' => 'true' ),
 				home_url( '/' ) ) );
- 
+
 			$actions = array();
 			$actions[] = '<a href="' . $activate_link . '" class="activatelink" title="'
 				. esc_attr( sprintf( __( 'Activate &#8220;%s&#8221;' ), $title ) ) . '">' . __( 'Activate' ) . '</a>';
@@ -140,9 +140,9 @@ class WP_Themes_List_Table extends WP_List_Table {
 				$actions[] = '<a class="submitdelete deletion" href="' . wp_nonce_url( "themes.php?action=delete&amp;template=$stylesheet", 'delete-theme_' . $stylesheet )
 					. '" onclick="' . "return confirm( '" . esc_js( sprintf( __( "You are about to delete this theme '%s'\n  'Cancel' to stop, 'OK' to delete." ), $title ) )
 					. "' );" . '">' . __( 'Delete' ) . '</a>';
- 
+
 			$actions = apply_filters( 'theme_action_links', $actions, $theme );
- 
+
 			$actions = implode ( ' | ', $actions );
 			?>
 			<a href="<?php echo $preview_link; ?>" class="thickbox thickbox-preview screenshot">
@@ -153,7 +153,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 			<h3><?php
 			/* translators: 1: theme title, 2: theme version, 3: theme author */
 			printf( __( '%1$s %2$s by %3$s' ), $title, $version, $author ) ; ?></h3>
- 
+
 			<span class='action-links'><?php echo $actions ?></span>
 			<span class="separator hide-if-no-js">| </span><a href="#" class="theme-detail hide-if-no-js" tabindex='4'><?php _e('Details') ?></a>
 			<div class="themedetaildiv hide-if-js">
@@ -227,6 +227,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 		if ( is_array( $extra_args ) )
 			$args = array_merge( $args, $extra_args );
 
-		parent::_js_vars( $args );
+		printf( "<script type='text/javascript'>var theme_list_args = %s;</script>\n", json_encode( $args ) );
+		parent::_js_vars();
 	}
 }
