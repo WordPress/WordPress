@@ -311,13 +311,11 @@ function list_theme_updates() {
 	</tfoot>
 	<tbody class="plugins">
 <?php
-	foreach ( (array) $themes as $stylesheet => $theme_data) {
-		$screenshot = $theme_data->{'Theme Root URI'} . '/' . $stylesheet . '/' . $theme_data->Screenshot;
-
+	foreach ( $themes as $stylesheet => $theme ) {
 		echo "
 	<tr class='active'>
-		<th scope='row' class='check-column'><input type='checkbox' name='checked[]' value='" . esc_attr($stylesheet) . "' /></th>
-		<td class='plugin-title'><img src='$screenshot' width='64' height='64' style='float:left; padding: 0 5px 5px' /><strong>{$theme_data->Name}</strong>" . sprintf(__('You have version %1$s installed. Update to %2$s.'), $theme_data->Version, $theme_data->update['new_version']) . "</td>
+		<th scope='row' class='check-column'><input type='checkbox' name='checked[]' value='" . esc_attr( $stylesheet ) . "' /></th>
+		<td class='plugin-title'><img src='" . esc_url( $theme->get_screenshot() ) . "' width='64' height='64' style='float:left; padding: 0 5px 5px' /><strong>" . $theme->display('Name') . '</strong> ' . sprintf( __( 'You have version %1$s installed. Update to %2$s.' ), $theme->display('Version'), $theme->update['new_version'] ) . "</td>
 	</tr>";
 	}
 ?>
