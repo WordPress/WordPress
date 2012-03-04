@@ -791,7 +791,7 @@ final class WP_Theme implements ArrayAccess {
 	 * @since 3.4.0
 	 * @access public
 	 *
-	 * @param string $uri Type of URL to include, either 'relative' or an absolute URI. Defaults to absolute URI.
+	 * @param string $uri Type of URL to return, either 'relative' or an absolute URI. Defaults to absolute URI.
 	 * @return mixed Screenshot file. False if the theme does not have a screenshot.
 	 */
 	public function get_screenshot( $uri = 'uri' ) {
@@ -861,15 +861,18 @@ final class WP_Theme implements ArrayAccess {
 	 * @since 3.4.0
 	 * @access public
 	 *
-	 * @return array Screenshots.
+	 * @param string $uri Type of URL to return, either 'relative' or an absolute URI. Defaults to absolute URI.
+	 * @return array Screenshots. Empty array if no screenshors are found.
 	 */
-	public function get_screenshots() {
+	public function get_screenshots( $uri = 'uri' ) {
 		if ( ! $count = $this->get_screenshot_count() )
 			return array();
 
-		$screenshots = array( $this->get_screenshot( 'relative' ) );
+		$pre = 'relative' == $uri ? '' : $this->get_stylesheet_directory_uri() . '/';
+
+		$screenshots = array( $pre . $this->get_screenshot( 'relative' ) );
 		for ( $i = 2; $i <= $count; $i++ )
-			$screenshots[] = 'screenshot-' . $i . '.png';
+			$screenshots[] = $pre . 'screenshot-' . $i . '.png';
 		return $screenshots;
 	}
 
