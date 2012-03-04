@@ -51,13 +51,15 @@ do_action( 'customize_controls_print_scripts' );
 		<input type="hidden" id="customize-stylesheet" name="stylesheet" value="<?php echo esc_attr( $theme['Stylesheet'] ); ?>" />
 
 		<div id="customize-info" class="customize-section">
-			<p>
+			<div class="customize-section-title">
 				<strong class="theme-name"><?php echo $theme['Name']; ?></strong>
 				<span class="theme-by"><?php printf( __( 'By %s' ), $theme['Author'] ); ?></span>
-			</p>
-			<?php if ( $screenshot ) : ?>
-				<img class="theme-screenshot" src="<?php echo esc_url( $screenshot ); ?>" />
-			<?php endif; ?>
+			</div>
+			<div class="customize-section-content">
+				<?php if ( $screenshot ) : ?>
+					<img class="theme-screenshot" src="<?php echo esc_url( $screenshot ); ?>" />
+				<?php endif; ?>
+			</div>
 		</div>
 
 		<div id="customize-theme-controls"><ul>

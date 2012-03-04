@@ -149,9 +149,8 @@
 		});
 
 		// Temporary accordion code.
-		$('.control-section h3').click( function() {
-			$( this ).siblings('ul').slideToggle( 200 );
-			$( this ).toggleClass( 'open' );
+		$('.customize-section-title').click( function() {
+			$( this ).parents('.customize-section').toggleClass( 'open' );
 			return false;
 		});
 

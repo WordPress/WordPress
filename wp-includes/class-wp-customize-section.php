@@ -65,8 +65,8 @@ class WP_Customize_Section {
 			return;
 		?>
 		<li id="customize-section-<?php echo esc_attr( $this->id ); ?>" class="control-section customize-section">
-			<h3 class="customize-theme-title"><?php echo esc_html( $this->title ); ?></h3>
-			<ul>
+			<h3 class="customize-section-title"><?php echo esc_html( $this->title ); ?></h3>
+			<ul class="customize-section-content">
 				<?php if ( $this->description ) : ?>
 					<li><p class="howto"><?php echo $this->description; ?></p></li>
 				<?php endif; ?>
