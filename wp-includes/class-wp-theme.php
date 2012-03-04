@@ -292,6 +292,9 @@ final class WP_Theme implements ArrayAccess {
 				return $this->get_theme_root();
 			case 'theme_root_uri' :
 				return $this->get_theme_root_uri();
+			// For cases where the array was converted to an object.
+			default :
+				return $this->offsetGet( $offset );
 		}
 	}
 
