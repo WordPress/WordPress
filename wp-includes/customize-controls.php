@@ -49,6 +49,8 @@ do_action( 'customize_controls_print_scripts' );
 		<input type="hidden" name="customize" value="on" />
 		<input type="hidden" id="customize-template" name="template" value="<?php echo esc_attr( $theme['Template'] ); ?>" />
 		<input type="hidden" id="customize-stylesheet" name="stylesheet" value="<?php echo esc_attr( $theme['Stylesheet'] ); ?>" />
+		
+		<div id="customize-header-actions" class="customize-section">&nbsp;</div>
 
 		<div id="customize-info" class="customize-section">
 			<div class="customize-section-title">
@@ -76,7 +78,7 @@ do_action( 'customize_controls_print_scripts' );
 			?>
 		</ul></div>
 
-		<div id="customize-footer" class="customize-section">
+		<div id="customize-footer-actions" class="customize-section">
 			<?php
 			submit_button( __( 'Save' ), 'primary', 'save', false );
 			?>

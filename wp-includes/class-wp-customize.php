@@ -283,10 +283,8 @@ final class WP_Customize {
 		?>
 		<div id="customize-container">
 			<input type="hidden" class="admin-url" value="<?php echo esc_url( admin_url( 'admin.php' ) ); ?>" />
-			<div>
-				<a href="#" class="return-to-admin"><?php printf( __( '&larr; Return to %s' ), get_admin_page_title() ); ?></a>
-				<a href="#" class="collapse-sidebar button-secondary" title="<?php esc_attr_e('Collapse Sidebar'); ?>"><span></span></a>
-			</div>
+			<a href="#" class="return-to-admin"><?php printf( __( '&larr; Return to %s' ), get_admin_page_title() ); ?></a>
+			<a href="#" class="collapse-sidebar button-secondary" title="<?php esc_attr_e('Collapse Sidebar'); ?>"><span></span></a>
 		</div>
 		<?php
 	}
