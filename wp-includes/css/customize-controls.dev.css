@@ -64,24 +64,48 @@ body {
 	border-color: transparent transparent #ccc transparent;
 }
 
-#customize-controls .theme-name {
+#customize-info {
+	margin-top: 45px;
+}
+
+#customize-info .customize-section-title:after {
+	display: none;
+}
+#customize-info.open .customize-section-title:after {
+	display: block;
+}
+
+#customize-info .customize-section-title .theme-screenshot {
+	float: right;
+	width: auto;
+	height: 53px;
+	margin: -7px -13px 0 15px;
+}
+
+#customize-info.open .customize-section-title .theme-screenshot {
+	display: none;
+}
+
+#customize-info .theme-name {
 	font-size: 16px;
 	font-weight: bold;
 	line-height: 24px;
 	display: block;
 }
 
-#customize-controls .theme-screenshot {
+#customize-info .theme-screenshot {
 	width: 258px;
 	border: 1px solid #ccc;
 }
 
-#customize-controls .submit {
-	text-align: center;
+#customize-info .theme-description {
+	margin-top: 1em;
+	color: #777;
+	line-height: 20px;
 }
 
-#customize-info {
-	padding-top: 55px;
+#customize-controls .submit {
+	text-align: center;
 }
 
 #customize-theme-controls {
