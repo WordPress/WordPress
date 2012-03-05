@@ -186,7 +186,7 @@
 					cls = ( cls && cls[1] ) ? cls[1] : '';
 					cls = cls.match(/align[a-z]+/) || 'alignnone';
 
-					cap = cap.replace(/<[a-z][^<>]+>/g, function(a){
+					cap = cap.replace(/<[a-zA-Z0-9]+ [^<>]+>/g, function(a){ // look only for html tags with attributes
 						a = a.replace(/="[^"]+"/, function(b){
 							return b.replace(/'/g, '&#39;');
 						});

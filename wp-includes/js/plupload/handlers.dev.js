@@ -338,48 +338,15 @@ function uploadSizeError( up, file, over100mb ) {
 }
 
 jQuery(document).ready(function($){
-	var insert_link, bookmark;
-
 	$('.media-upload-form').bind('click.uploader', function(e) {
-		var target = $(e.target), tr, c, el, textarea, sel, text, startPos, endPos;
+		var target = $(e.target), tr, c;
 
-		if ( target.hasClass('caption-insert-link') ) {
-			el = target.siblings('div.caption-insert-link-wrap'), textarea = target.parent().siblings('textarea').get(0);
-
-			if ( document.selection ) {
-				textarea.focus();
-				sel = document.selection.createRange();
-				bookmark = sel.getBookmark();
-
-				if ( sel.text )
-					el.find('.caption-insert-link-text').val(sel.text);
-
-			} else if ( textarea.selectionStart || textarea.selectionStart == '0' ) {
-				text = textarea.value;
-				startPos = textarea.selectionStart;
-				endPos = textarea.selectionEnd;
-				
-				if ( startPos != endPos )
-					el.find('.caption-insert-link-text').val( text.substring(startPos, endPos) );
-			}
-
-			target.hide();
-			el.show();
-			el.find('.caption-insert-link-url').focus();
-		} else if ( target.hasClass('caption-cancel') || target.hasClass('caption-save') ) {
-			el = target.closest('div.caption-insert-link-wrap');
-
-			if ( target.hasClass('caption-save') )
-				insert_link( el.closest('.edit-caption-controls').siblings('textarea'), el );
-			
-			el.hide();
-			el.siblings('.caption-insert-link').show();
-		} else if ( target.is('input[type="radio"]') ) { // remember the last used image size and alignment
+		if ( target.is('input[type="radio"]') ) { // remember the last used image size and alignment
 			tr = target.closest('tr');
 
-			if ( $(tr).hasClass('align') )
+			if ( tr.hasClass('align') )
 				setUserSetting('align', target.val());
-			else if ( $(tr).hasClass('image-size') )
+			else if ( tr.hasClass('image-size') )
 				setUserSetting('imgsize', target.val());
 
 		} else if ( target.is('button.button') ) { // remember the last used image link url
@@ -427,45 +394,6 @@ jQuery(document).ready(function($){
 			e.preventDefault();
 		}
 	});
-	
-	insert_link = function(textarea, parent) {
-		var sel, content, startPos, endPos, scrollTop, text,
-			url = parent.find('.caption-insert-link-url'), link_text = parent.find('.caption-insert-link-text');
-
-		if ( !url.length || !link_text.length )
-			return;
-
-		textarea = textarea.get(0);
-		content = "<a href='"+url.val()+"'>"+link_text.val()+"</a>";
-
-		if ( document.selection ) {
-			textarea.focus();
-			sel = document.selection.createRange();
-
-			if ( bookmark ) {
-				sel.moveToBookmark( bookmark );
-				bookmark = '';
-			}
-
-			sel.text = content;
-			textarea.focus();
-		} else if ( textarea.selectionStart || textarea.selectionStart == '0' ) {
-			text = textarea.value;
-			startPos = textarea.selectionStart;
-			endPos = textarea.selectionEnd;
-			scrollTop = textarea.scrollTop;
-
-			textarea.value = text.substring(0, startPos) + content + text.substring(endPos, text.length);
-
-			textarea.focus();
-			textarea.selectionStart = startPos + content.length;
-			textarea.selectionEnd = startPos + content.length;
-			textarea.scrollTop = scrollTop;
-		}
-
-		url.val('');
-		link_text.val('');
-	};
 
 	// init and set the uploader
 	uploader_init = function() {

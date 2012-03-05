@@ -21,7 +21,6 @@ tinyMCEPopup = {
 		tinyMCE = w.tinyMCE;
 		t.editor = tinymce.EditorManager.activeEditor;
 		t.params = t.editor.windowManager.params;
-		t.events = new tinymce.dom.EventUtils();
 
 		// Setup local DOM
 		t.dom = t.editor.windowManager.createInstance('tinymce.dom.DOMUtils', document);
@@ -245,7 +244,7 @@ wpImage = {
 
 	setup : function() {
 		var t = this, c, el, link, fname, f = document.forms[0], ed = tinyMCEPopup.editor,
-			d = t.I('img_demo'), dom = tinyMCEPopup.dom, DL, DD, caption = '', dlc, pa, bookmark, insert_link;
+			d = t.I('img_demo'), dom = tinyMCEPopup.dom, DL, DD, caption = '', dlc, pa;
 
 		document.dir = tinyMCEPopup.editor.getParam('directionality','');
 
@@ -330,79 +329,6 @@ wpImage = {
 			t.showSizeSet();
 		
 		document.body.style.display = '';
-
-		tinyMCEPopup.events.add(document.body, 'click', function(e) {
-			var target = e.target, parent = target.parentNode, tr, c, el, textarea, sel, text, startPos, endPos;
-
-			if ( dom.hasClass(target, 'caption-insert-link') ) {
-				el = dom.select('div.caption-insert-link-wrap', parent)[0], textarea = dom.select('#img_cap_text')[0];
-
-				if ( document.selection ) {
-					textarea.focus();
-					sel = document.selection.createRange();
-					bookmark = sel.getBookmark();
-
-					if ( sel.text )
-						dom.select('.caption-insert-link-text', el)[0].value = sel.text;
-
-				} else if ( textarea.selectionStart || textarea.selectionStart == '0' ) {
-					text = textarea.value;
-					startPos = textarea.selectionStart;
-					endPos = textarea.selectionEnd;
-
-					if ( startPos != endPos )
-						dom.select('.caption-insert-link-text', el)[0].value = text.substring(startPos, endPos);
-				}
-
-				dom.hide(target);
-				dom.show(el);
-				dom.select('.caption-insert-link-url', el)[0].focus();
-			} else if ( dom.hasClass(target, 'caption-cancel') || dom.hasClass(target, 'caption-save') ) {
-				if ( dom.hasClass(target, 'caption-save') )
-					insert_link();
-
-				dom.hide( dom.select('.caption-insert-link-wrap') );
-				dom.show( dom.select('.caption-insert-link') );
-			}
-		});
-
-		insert_link = function() {
-			var sel, content, startPos, endPos, scrollTop, text, textarea = dom.select('#img_cap_text')[0],
-				url = dom.select('.caption-insert-link-url')[0], link_text = dom.select('.caption-insert-link-text')[0];
-
-			if ( !url || !link_text )
-				return;
-
-			content = "<a href='"+url.value+"'>"+link_text.value+"</a>";
-
-			if ( document.selection ) {
-				textarea.focus();
-				sel = document.selection.createRange();
-
-				if ( bookmark ) {
-					sel.moveToBookmark( bookmark );
-					bookmark = '';
-				}
-
-				sel.text = content;
-				textarea.focus();
-			} else if ( textarea.selectionStart || textarea.selectionStart == '0' ) {
-				text = textarea.value;
-				startPos = textarea.selectionStart;
-				endPos = textarea.selectionEnd;
-				scrollTop = textarea.scrollTop;
-
-				textarea.value = text.substring(0, startPos) + content + text.substring(endPos, text.length);
-
-				textarea.focus();
-				textarea.selectionStart = startPos + content.length;
-				textarea.selectionEnd = startPos + content.length;
-				textarea.scrollTop = scrollTop;
-			}
-
-			url.value = '';
-			link_text.value = '';
-		};
 	},
 
 	remove : function() {

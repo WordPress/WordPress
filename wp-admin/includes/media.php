@@ -149,7 +149,8 @@ function image_add_caption( $html, $id, $caption, $title, $align, $url, $size, $
 
 	$width = $matches[1];
 
-	$caption = preg_replace_callback( '/<[a-zA-Z][^<>]+>/', '_cleanup_image_add_caption', $caption );
+	// look only for html tags with attributes
+	$caption = preg_replace_callback( '/<[a-zA-Z0-9]+ [^<>]+>/', '_cleanup_image_add_caption', $caption );
 	$caption = str_replace(	'"', '&quot;', $caption );
 
 	$html = preg_replace( '/(class=["\'][^\'"]*)align(none|left|right|center)\s?/', '$1', $html );
@@ -165,10 +166,18 @@ add_filter( 'image_send_to_editor', 'image_add_caption', 20, 8 );
 
 // Private, preg_replace callback used in image_add_caption()
 function _cleanup_image_add_caption($str) {
-	if ( isset($str[0]) )
-		return str_replace(	'"', "'", $str[0] );
+	if ( isset($str[0]) ) {
+		// look for single quotes inside html attributes (for example in title)
+		$s = preg_replace_callback( '/="[^"]+"/', '_cleanup_image_add_caption2', $str[0] );
+		return str_replace(	'"', "'", $s );
+	}
 
 	return '';
+}
+
+// Private, preg_replace callback used in image_add_caption()
+function _cleanup_image_add_caption2($str) {
+	return str_replace(	"'", '&#39;', $str );
 }
 
 /**
@@ -795,21 +804,7 @@ function wp_caption_input_textarea($edit_post) {
 	// post data is already escaped
 	$name = "attachments[{$edit_post->ID}][post_excerpt]";
 
-	return '
-	<textarea class="code" name="' . $name . '" id="' . $name . '">' . $edit_post->post_excerpt . '</textarea>
-	<div class="edit-caption-controls hide-if-no-js">
-	<input type="button" class="button caption-insert-link" value="' . esc_attr__('Insert Link') . '" />
-	<div class="caption-insert-link-wrap hidden">
-	<label><span>' . __('Link URL') . '</span>
-	<input type="text" value="" class="caption-insert-link-url" /></label>
-	<label><span>' . __('Linked text') . '</span>
-	<input type="text" value="" class="caption-insert-link-text" /></label>
-	<div class="caption-insert-link-buttons">
-	<input type="button" class="button caption-cancel" value="' . esc_attr__('Cancel') . '" />
-	<input type="button" class="button-primary caption-save" value="' . esc_attr__('Insert') . '" />
-	<br class="clear" />
-	</div></div></div>
-	';
+	return '<textarea class="code" name="' . $name . '" id="' . $name . '">' . $edit_post->post_excerpt . '</textarea>';
 }
 
 /**
@@ -1547,7 +1542,10 @@ var addExtImage = {
 
 <?php if ( ! apply_filters( 'disable_captions', '' ) ) { ?>
 		if ( f.caption.value ) {
-			caption = f.caption.value.replace(/<[a-z][^<>]+>/g, function(a){
+			caption = f.caption.value.replace(/<[a-zA-Z0-9]+ [^<>]+>/g, function(a){
+				a = a.replace(/="[^"]+"/, function(b){
+					return b.replace(/'/g, '&#39;');
+				});
 				return a.replace(/"/g, "'");
 			});
 
@@ -1954,7 +1952,7 @@ function wp_media_insert_url_form( $default_view = 'image' ) {
 			<th valign="top" scope="row" class="label">
 				<span class="alignleft"><label for="caption">' . __('Image Caption') . '</label></span>
 			</th>
-			<td class="field"><input id="caption" name="caption" value="" type="text" /></td>
+			<td class="field"><textarea id="caption" class="code" name="caption"></textarea></td>
 		</tr>
 ';
 	} else {

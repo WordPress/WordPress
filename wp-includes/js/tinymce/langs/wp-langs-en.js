@@ -499,7 +499,5 @@ s120:"120%",
 s130:"130%",
 img_title:"Title",
 caption:"Caption",
-insert_link:"Insert link",
-linked_text:"Linked text",
 alt:"Alternate Text"
 });

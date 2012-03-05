@@ -357,38 +357,6 @@ div#media-upload-error {
 	color: #CFCFCF;
 }
 
-#img-edit .edit-caption-controls {
-	margin: 5px 0;
-}
-
-#img-edit .edit-caption-controls label {
-	margin: 5px 0;
-	display: block;
-}
-
-#img-edit .edit-caption-controls label span {
-	width: 100px;
-	float: left;
-	line-height: 22px;
-}
-
-#img-edit .edit-caption-controls input[type="text"] {
-	width: 335px;
-}
-
-#img-edit .caption-insert-link-buttons {
-	text-align: right;
-	margin: 5px 12px;
-}
-
-#img-edit .caption-insert-link-wrap {
-	padding: 5px 0 5px 12px;
-	background-color: #f8f8f8;
-	border: 1px solid #eee;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
-}
-
 #img-edit #img_cap_text {
 	font: normal 12px/18px monospace;
 }

@@ -542,8 +542,6 @@ function wp_mce_translation() {
 		's130' => __('130%'),
 		'img_title' => __('Title'),
 		'caption' => __('Caption'),
-		'insert_link' => __('Insert link'),
-		'linked_text' => __('Linked text'),
 		'alt' => __('Alternate Text')
 	);
 
