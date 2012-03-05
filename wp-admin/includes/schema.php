@@ -819,7 +819,7 @@ endif;
  * 	so the error code must be checked) or failure.
  */
 function populate_network( $network_id = 1, $domain = '', $email = '', $site_name = '', $path = '/', $subdomain_install = false ) {
-	global $wpdb, $current_site, $wp_db_version;
+	global $wpdb, $current_site, $wp_db_version, $wp_rewrite;
 
 	$errors = new WP_Error();
 	if ( '' == $domain )
@@ -936,9 +936,9 @@ We hope you enjoy your new site. Thanks!
 	}
 
 	if ( $subdomain_install )
-		update_option( 'permalink_structure', '/%year%/%monthnum%/%day%/%postname%/');
+		$wp_rewrite->set_permalink_structure( '/%year%/%monthnum%/%day%/%postname%/' );
 	else
-		update_option( 'permalink_structure', '/blog/%year%/%monthnum%/%day%/%postname%/');
+		$wp_rewrite->set_permalink_structure( '/blog/%year%/%monthnum%/%day%/%postname%/' );
 
 	flush_rewrite_rules();
 
