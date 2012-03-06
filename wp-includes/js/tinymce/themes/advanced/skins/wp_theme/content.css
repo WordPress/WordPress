@@ -38,7 +38,7 @@ font[face=mceinline] {font-family:inherit !important}
 
 /* WordPress styles */
 body {
-	font-family: sans-serif;
+	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 	font-size: 13px;
 	line-height: 19px;
 	color: #333;
