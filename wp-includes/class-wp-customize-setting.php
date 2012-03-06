@@ -340,10 +340,17 @@ class WP_Customize_Setting {
 				break;
 			case 'color':
 				?>
-				<label><?php echo esc_html( $this->label ); ?><br/>
-					<span class="hex-prepend">#</span>
-					<input type="text" class="hex-input" value="<?php echo esc_attr( $this->value() ); ?>" <?php $this->name(); ?> />
-					<a href="#" class="pickcolor hex-color-example"></a>
+				<label>
+					<span><?php echo esc_html( $this->label ); ?></span>
+					<div class="color-picker">
+						<input class="color-picker-value" type="hidden" value="<?php echo esc_attr( $this->value() ); ?>" <?php $this->name(); ?> />
+						<a href="#"></a>
+						<div class="color-picker-controls">
+							<div class="farbtastic-placeholder"></div>
+							<span>#</span>
+							<input type="text" />
+						</div>
+					</div>
 				</label>
 				<?php
 				break;

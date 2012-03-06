@@ -126,8 +126,8 @@
 		if ( ! api.settings )
 			return;
 
-		var previewer,
-			controls = $('[name^="' + api.settings.prefix + '"]');
+		var controls = $('[name^="' + api.settings.prefix + '"]'),
+			previewer, pickers, validateColor;
 
 		// Initialize Previewer
 		previewer = new api.Previewer({
@@ -158,6 +158,39 @@
 		$('#save').click( function() {
 			previewer.submit();
 			return false;
+		});
+
+		// Set up color pickers
+		pickers = $('.color-picker');
+		validateColor = function( to ) {
+			return /^[a-fA-F0-9]{3}([a-fA-F0-9]{3})?$/.test( to ) ? to : null;
+		};
+
+		$( '.farbtastic-placeholder', pickers ).each( function() {
+			var picker = $(this),
+				text   = new api.Element( picker.siblings('input') ),
+				parent = picker.parent(),
+				toggle = parent.siblings('a'),
+				value  = api( parent.siblings('input').prop('name').replace( api.settings.prefix, '' ) ),
+				farb;
+
+			value.validate = validateColor;
+			text.link( value );
+			value.link( text );
+
+			farb = $.farbtastic( this, function( color ) {
+				value.set( color.replace( '#', '' ) );
+			});
+
+			value.bind( function( color ) {
+				color = '#' + color;
+				toggle.css( 'background', color );
+				farb.setColor( color );
+			});
+		});
+
+		$('.color-picker a').click( function(e) {
+			$(this).siblings('div').toggle();
 		});
 
 		// Fetch prefixed settings.

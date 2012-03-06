@@ -226,7 +226,29 @@ body {
 	max-width: 150px;
 }
 
-.customize-section .hex-prepend {
+/*
+ * Color Picker
+ */
+
+.customize-section .color-picker {
+	margin-top: 4px;
+}
+
+.customize-section .color-picker a {
+	display: block;
+	height: 20px;
+	width: 40px;
+	border: solid 3px rgba( 0, 0, 0, 0.1 );
+	background-color: #fff;
+
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.customize-section .color-picker .color-picker-controls {
+	display: none;
+}
+.customize-section .color-picker span {
 	float: left;
 	display: block;
 	margin: 1px -2px 0 0;
@@ -240,16 +262,8 @@ body {
 	border-radius: 3px 0 0 3px;
 }
 
-.customize-section input[type="text"].hex-input {
+.customize-section .color-picker input[type="text"] {
 	-webkit-border-radius: 0 3px 3px 0;
 	border-radius: 0 3px 3px 0;
 	width: 150px;
-}
-
-.customize-section .hex-color-example {
-	border: 1px solid #dfdfdf;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
-	padding: 3px 14px;
-	background-color: #ef45da
 }
