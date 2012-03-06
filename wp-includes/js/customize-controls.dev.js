@@ -172,7 +172,7 @@
 				parent = picker.parent(),
 				toggle = parent.siblings('a'),
 				value  = api( parent.siblings('input').prop('name').replace( api.settings.prefix, '' ) ),
-				farb;
+				farb, update;
 
 			value.validate = validateColor;
 			text.link( value );
@@ -182,11 +182,14 @@
 				value.set( color.replace( '#', '' ) );
 			});
 
-			value.bind( function( color ) {
+			update = function( color ) {
 				color = '#' + color;
 				toggle.css( 'background', color );
 				farb.setColor( color );
-			});
+			};
+
+			value.bind( update );
+			update( value() );
 		});
 
 		$('.color-picker a').click( function(e) {
