@@ -51,9 +51,26 @@
 	});
 
 	$( function() {
-		var preview;
+		if ( ! api.settings )
+			return;
+
+		var preview, body;
 
 		preview = new api.Preview( api.settings.parent );
+
+		$.each( api.settings.values, function( id, value ) {
+			api.set( id, value );
+		});
+
+		preview.bind( 'setting', function( args ) {
+			api.set.apply( api, args );
+		});
+
+		body = $(document.body);
+		// Auto update background color by default
+		api.bind( 'background_color', function( to ) {
+			body.css( 'background-color', '#' + to );
+		});
 	});
 
 })( wp, jQuery );

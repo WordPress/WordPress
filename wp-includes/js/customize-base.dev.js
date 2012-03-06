@@ -438,10 +438,11 @@ if ( typeof wp === 'undefined' )
 	api.Messenger = api.Class.extend({
 		add: api.ValueFactory(),
 
-		initialize: function( url, options ) {
+		initialize: function( url, targetWindow, options ) {
 			$.extend( this, options || {} );
 
 			this.add( 'url', url );
+			this.add( 'targetWindow', targetWindow || null );
 			this.add( 'origin' ).link( 'url', function( url ) {
 				return url().replace( /([^:]+:\/\/[^\/]+).*/, '$1' );
 			});
@@ -452,8 +453,6 @@ if ( typeof wp === 'undefined' )
 		},
 		receive: function( event ) {
 			var message;
-
-			console.log( 'messenger receiveMessage', arguments );
 
 			// @todo: remove, this is done in the postMessage plugin.
 			// if ( this.origin && event.origin !== this.origin )
@@ -470,9 +469,8 @@ if ( typeof wp === 'undefined' )
 			if ( ! this.url() )
 				return;
 
-			console.log( 'sending message', id, data );
 			message = JSON.stringify({ id: id, data: data });
-			$.postMessage( message, this.url(), this.targetWindow || null );
+			$.postMessage( message, this.url(), this.targetWindow() );
 		},
 		bind: function( id, callback ) {
 			var topic = this.topics[ id ] || ( this.topics[ id ] = $.Callbacks() );

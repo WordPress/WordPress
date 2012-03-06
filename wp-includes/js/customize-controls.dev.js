@@ -59,9 +59,7 @@
 
 			this.container = this.iframe.parent();
 
-			api.Messenger.prototype.initialize.call( this, params.url, {
-				targetWindow: this.iframe[0].contentWindow
-			});
+			api.Messenger.prototype.initialize.call( this, params.url, this.iframe[0].contentWindow );
 
 			this._formOriginalProps = {
 				target: this.form.prop('target'),
@@ -100,6 +98,7 @@
 			this.iframe = this.loading;
 			delete this.loading;
 			this.iframe.prop( 'name', this.name );
+			this.targetWindow( this.iframe[0].contentWindow );
 		},
 		refresh: function() {
 			this.loader().one( 'load', this.loaded );
@@ -127,7 +126,7 @@
 			return;
 
 		var controls = $('[name^="' + api.settings.prefix + '"]'),
-			previewer, pickers, validateColor;
+			previewer, pickers, validateColor, sendSetting;
 
 		// Initialize Previewer
 		previewer = new api.Previewer({
@@ -146,6 +145,8 @@
 			setting.link( setting.control );
 
 			setting.bind( previewer.refresh );
+
+
 		});
 
 		// Temporary accordion code.
@@ -196,9 +197,9 @@
 			$(this).siblings('div').toggle();
 		});
 
-		// Fetch prefixed settings.
-		$('[name^="' + api.settings.prefix + '"]').each( function() {
-			// console.log( this.name );
+		// Background color uses postMessage by default
+		api('background_color').unbind( previewer.refresh ).bind( function() {
+			previewer.send( 'setting', [ 'background_color', this() ] );
 		});
 	});
 

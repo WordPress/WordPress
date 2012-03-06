@@ -122,7 +122,13 @@ final class WP_Customize {
 		$settings = array(
 			// @todo: Perhaps grab the URL via $_POST?
 			'parent' => esc_url( admin_url( 'themes.php' ) ),
+			'values' => array(),
 		);
+
+		foreach ( $this->settings as $id => $setting ) {
+			$settings['values'][ $id ] = $setting->value();
+		}
+
 		?>
 		<script type="text/javascript">
 			(function() {
