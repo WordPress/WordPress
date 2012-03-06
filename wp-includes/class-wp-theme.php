@@ -30,6 +30,20 @@ final class WP_Theme implements ArrayAccess {
 	);
 
 	/**
+	 * Default themes.
+	 *
+	 * @static
+	 * @access private
+	 * @var array
+	 */
+	private static $default_themes = array(
+		'classic'      => 'WordPress Classic',
+		'default'      => 'WordPress Default',
+		'twentyten'    => 'Twenty Ten',
+		'twentyeleven' => 'Twenty Eleven',
+	);
+
+	/**
 	 * Absolute path to the theme root, usually wp-content/themes
 	 *
 	 * @access private
@@ -176,6 +190,12 @@ final class WP_Theme implements ArrayAccess {
 			return;
 		} else {
 			$this->headers = get_file_data( $this->theme_root . '/' . $theme_file, self::$file_headers, 'theme' );
+			// Default themes always trump their pretenders.
+			// Properly identify default themes that are inside a directory within wp-content/themes.
+			if ( $default_theme_slug = array_search( $this->headers['Name'], self::$default_themes ) ) {
+				if ( basename( $this->stylesheet ) != $default_theme_slug )
+					$this->headers['Name'] .= '/' . $this->stylesheet;
+			}
 		}
 
 		// (If template is set from cache, we know it's good.)
@@ -207,8 +227,6 @@ final class WP_Theme implements ArrayAccess {
 				return;
 			}
 		}
-
-		// @TODO Check for theme name collision. But guess what? We don't care anymore! We only care about clashing matches found in search_theme_directories().
 
 		// Set the parent, if we're a child theme.
 		if ( $this->template != $this->stylesheet ) {
