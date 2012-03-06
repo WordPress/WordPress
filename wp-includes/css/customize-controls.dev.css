@@ -248,22 +248,45 @@ body {
 .customize-section .color-picker .color-picker-controls {
 	display: none;
 }
-.customize-section .color-picker span {
+
+
+.customize-section .color-picker .farbtastic-placeholder {
+	height: 195px;
+	width: 195px;
+	border: 4px solid #fff;
+	box-shadow: 0 0 20px rgba( 0, 0, 0, 0.2 );
+
+	-webkit-border-radius: 50%;
+	border-radius: 50%;
+}
+
+
+.customize-section .color-picker-hex {
+	background-color: #fff;
+	border: 1px solid #dfdfdf;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	color: #777;
+	width: 70px;
+	font-family: monospace;
+}
+
+.customize-section .color-picker-hex span {
 	float: left;
 	display: block;
 	margin: 1px -2px 0 0;
 	line-height: 15px;
-	padding: 3px 5px;
-	color: #777;
-	text-align: center;
-	background-color: #fff;
-	border: 1px solid #dfdfdf;
+	padding: 3px 0 3px 8px;
+	text-align: right;
 	-webkit-border-radius: 3px 0 0 3px;
 	border-radius: 3px 0 0 3px;
 }
 
-.customize-section .color-picker input[type="text"] {
+.customize-section .color-picker-hex input[type="text"] {
+	color: #777;
 	-webkit-border-radius: 0 3px 3px 0;
 	border-radius: 0 3px 3px 0;
-	width: 150px;
+	width: 50px;
+	border: 0;
+	background: transparent;
 }

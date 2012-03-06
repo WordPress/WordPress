@@ -347,8 +347,12 @@ class WP_Customize_Setting {
 						<a href="#"></a>
 						<div class="color-picker-controls">
 							<div class="farbtastic-placeholder"></div>
-							<span>#</span>
-							<input type="text" />
+							<div class="color-picker-details">
+								<div class="color-picker-hex">
+									<span>#</span>
+									<input type="text" />
+								</div>
+							</div>
 						</div>
 					</div>
 				</label>
