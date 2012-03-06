@@ -72,7 +72,7 @@ class WP_Customize_Section {
 				<?php endif; ?>
 
 				<?php foreach ( $this->settings as $setting ) : ?>
-				<li>
+				<li id="customize-control-<?php echo esc_attr( $setting->id ); ?>" class="customize-control">
 					<?php $setting->_render(); ?>
 				</li>
 				<?php endforeach; ?>

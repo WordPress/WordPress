@@ -49,7 +49,7 @@ do_action( 'customize_controls_print_scripts' );
 		<input type="hidden" name="customize" value="on" />
 		<input type="hidden" id="customize-template" name="template" value="<?php echo esc_attr( $theme['Template'] ); ?>" />
 		<input type="hidden" id="customize-stylesheet" name="stylesheet" value="<?php echo esc_attr( $theme['Stylesheet'] ); ?>" />
-		
+
 		<div id="customize-header-actions" class="customize-section">&nbsp;</div>
 
 		<div id="customize-info" class="customize-section">
@@ -94,13 +94,16 @@ do_action( 'customize_controls_print_scripts' );
 	// Check current scheme and load the preview with the same scheme
 	$scheme = is_ssl() ? 'https' : 'http';
 	$settings = array(
-		'preview' => esc_url( home_url( '/', $scheme ) ),
-		'values'  => array(),
-		'prefix'  => WP_Customize_Setting::name_prefix,
+		'preview'  => esc_url( home_url( '/', $scheme ) ),
+		'controls' => array(),
+		'prefix'   => WP_Customize_Setting::name_prefix,
 	);
 
 	foreach ( $this->settings as $id => $setting ) {
-		$settings['values'][ $id ] = $setting->value();
+		$settings['controls'][ $id ] = array(
+			'value'   => $setting->value(),
+			'control' => $setting->control,
+		);
 	}
 
 	?>

@@ -343,7 +343,7 @@ class WP_Customize_Setting {
 				<label>
 					<span><?php echo esc_html( $this->label ); ?></span>
 					<div class="color-picker">
-						<input class="color-picker-value" type="hidden" value="<?php echo esc_attr( $this->value() ); ?>" <?php $this->name(); ?> />
+						<input type="hidden" value="<?php echo esc_attr( $this->value() ); ?>" <?php $this->name(); ?> />
 						<a href="#"></a>
 						<div class="color-picker-controls">
 							<div class="farbtastic-placeholder"></div>

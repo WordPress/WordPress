@@ -152,7 +152,7 @@ if ( typeof wp === 'undefined' )
 
 	api.Value = api.Class.extend({
 		initialize: function( initial, options ) {
-			this._value = initial;
+			this._value = initial; // @todo: potentially change this to a this.set() call.
 			this.callbacks = $.Callbacks();
 
 			$.extend( this, options || {} );

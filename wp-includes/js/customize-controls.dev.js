@@ -1,6 +1,78 @@
 (function( exports, $ ){
 	var api = wp.customize;
 
+	/*
+	 * @param options
+	 * - previewer - The Previewer instance to sync with.
+	 * - method    - The method to use for syncing. Supports 'refresh' and 'postMessage'.
+	 */
+	api.Control = api.Value.extend({
+		initialize: function( id, value, options ) {
+			var name = '[name="' + api.settings.prefix + id + '"]';
+
+			api.Value.prototype.initialize.call( this, value, options );
+
+			this.id = id;
+			this.container = $( '#customize-control-' + id );
+			this.element = this.element || new api.Element( this.container.find( name ) );
+
+			this.method = this.method || 'refresh';
+
+			this.element.link( this );
+			this.link( this.element );
+
+			this.bind( this.sync );
+		},
+		sync: function() {
+			switch ( this.method ) {
+				case 'refresh':
+					return this.previewer.refresh();
+				case 'postMessage':
+					return this.previewer.send( 'setting', [ this.id, this() ] );
+			}
+		}
+	});
+
+	api.ColorControl = api.Control.extend({
+		initialize: function( id, value, options ) {
+			var self = this,
+				picker, ui, text, toggle, update;
+
+			api.Control.prototype.initialize.call( this, id, value, options );
+
+			picker = this.container.find( '.color-picker' );
+			ui     = picker.find( '.color-picker-controls' );
+			toggle = picker.find( 'a' );
+			update = function( color ) {
+				color = '#' + color;
+				toggle.css( 'background', color );
+				self.farbtastic.setColor( color );
+			};
+
+			this.input = new api.Element( ui.find( 'input' ) ); // Find text input.
+
+			this.link( this.input );
+			this.input.link( this );
+
+			picker.on( 'click', 'a', function() {
+				ui.toggle();
+			});
+
+			this.farbtastic = $.farbtastic( picker.find('.farbtastic-placeholder'), function( color ) {
+				self.set( color.replace( '#', '' ) );
+			});
+
+			this.bind( update );
+			update( this() );
+		},
+		validate: function( to ) {
+			return /^[a-fA-F0-9]{3}([a-fA-F0-9]{3})?$/.test( to ) ? to : null;
+		}
+	});
+
+	// Change objects contained within the main customize object to Settings.
+	api.defaultConstructor = api.Setting;
+
 	api.Previewer = api.Messenger.extend({
 		refreshBuffer: 250,
 
@@ -121,32 +193,26 @@
 	 * Ready.
 	 * ===================================================================== */
 
+	api.controls = {
+		color: api.ColorControl
+	};
+
 	$( function() {
 		if ( ! api.settings )
 			return;
 
-		var controls = $('[name^="' + api.settings.prefix + '"]'),
-			previewer, pickers, validateColor, sendSetting;
-
 		// Initialize Previewer
-		previewer = new api.Previewer({
+		var previewer = new api.Previewer({
 			iframe: '#customize-preview iframe',
 			form:   '#customize-controls',
 			url:    api.settings.preview
 		});
 
-		$.each( api.settings.values, function( id, value ) {
-			var elements = controls.filter( '[name="' + api.settings.prefix + id + '"]' ),
-				setting = api.set( id, value );
-
-			setting.control = new wp.customize.Element( elements );
-
-			setting.control.link( setting );
-			setting.link( setting.control );
-
-			setting.bind( previewer.refresh );
-
-
+		$.each( api.settings.controls, function( id, data ) {
+			var constructor = api.controls[ data.control ] || api.Control;
+			api.add( id, new constructor( id, data.value, {
+				previewer: previewer
+			} ) );
 		});
 
 		// Temporary accordion code.
@@ -161,46 +227,8 @@
 			return false;
 		});
 
-		// Set up color pickers
-		pickers = $('.color-picker');
-		validateColor = function( to ) {
-			return /^[a-fA-F0-9]{3}([a-fA-F0-9]{3})?$/.test( to ) ? to : null;
-		};
-
-		$( '.farbtastic-placeholder', pickers ).each( function() {
-			var picker = $(this),
-				text   = new api.Element( picker.siblings('input') ),
-				parent = picker.parent(),
-				toggle = parent.siblings('a'),
-				value  = api( parent.siblings('input').prop('name').replace( api.settings.prefix, '' ) ),
-				farb, update;
-
-			value.validate = validateColor;
-			text.link( value );
-			value.link( text );
-
-			farb = $.farbtastic( this, function( color ) {
-				value.set( color.replace( '#', '' ) );
-			});
-
-			update = function( color ) {
-				color = '#' + color;
-				toggle.css( 'background', color );
-				farb.setColor( color );
-			};
-
-			value.bind( update );
-			update( value() );
-		});
-
-		$('.color-picker a').click( function(e) {
-			$(this).siblings('div').toggle();
-		});
-
 		// Background color uses postMessage by default
-		api('background_color').unbind( previewer.refresh ).bind( function() {
-			previewer.send( 'setting', [ 'background_color', this() ] );
-		});
+		api('background_color').method = 'postMessage';
 	});
 
 })( wp, jQuery );
