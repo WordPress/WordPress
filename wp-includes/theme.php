@@ -398,13 +398,23 @@ function search_theme_directories() {
 
 	$found_themes = array();
 
+	// Set up maybe-relative, maybe-absolute array of theme directories.
+	// We always want to return absolute, but we need to cache relative
+	// use in for get_theme_root().
+	foreach ( $wp_theme_directories as $theme_root ) {
+		if ( 0 === strpos( $theme_root, WP_CONTENT_DIR ) )
+			$relative_theme_roots[ str_replace( WP_CONTENT_DIR, '', $theme_root ) ] = $theme_root;
+		else
+			$relative_theme_roots[ $theme_root ] = $theme_root;
+	}
+
 	if ( $cache_expiration = apply_filters( 'wp_cache_themes_persistently', false, 'search_theme_directories' ) ) {
 		$cached_roots = get_site_transient( 'theme_roots' );
 		if ( is_array( $cached_roots ) ) {
 			foreach ( $cached_roots as $theme_dir => $theme_root ) {
 				$found_themes[ $theme_dir ] = array(
 					'theme_file' => $theme_dir . '/style.css',
-					'theme_root' => $theme_root,
+					'theme_root' => $relative_theme_roots[ $theme_root ], // Convert relative to absolute.
 				);
 			}
 			return $found_themes;
@@ -465,8 +475,10 @@ function search_theme_directories() {
 	asort( $found_themes );
 
 	$theme_roots = array();
+	$relative_theme_roots = array_flip( $relative_theme_roots );
+
 	foreach ( $found_themes as $theme_dir => $theme_data ) {
-		$theme_roots[ $theme_dir ] = $theme_data['theme_root'];
+		$theme_roots[ $theme_dir ] = $relative_theme_roots[ $theme_data['theme_root'] ]; // Convert absolute to relative.
 	}
 
 	if ( $theme_roots != get_site_transient( 'theme_roots' ) )
