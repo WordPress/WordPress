@@ -485,10 +485,10 @@ final class WP_Theme implements ArrayAccess {
 		if ( isset( $this->headers_sanitized[ $header ] ) )
 			return $this->headers_sanitized[ $header ];
 
-		// If an external object cache does not consider themes to be a persistent group, sanitize everything and cache it.
+		// If themes are a persistent group, sanitize everything and cache it. One cache add is better than many cache sets.
 		if ( self::$persistently_cache ) {
-			foreach ( array_keys( $this->headers ) as $header )
-				$this->headers_sanitized[ $header ] = $this->sanitize_header( $header, $this->headers[ $header ] );
+			foreach ( array_keys( $this->headers ) as $_header )
+				$this->headers_sanitized[ $_header ] = $this->sanitize_header( $_header, $this->headers[ $_header ] );
 			$this->cache_add( 'headers', $this->headers_sanitized );
 		} else {
 			$this->headers_sanitized[ $header ] = $this->sanitize_header( $header, $this->headers[ $header ] );
