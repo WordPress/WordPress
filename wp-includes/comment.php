@@ -1816,7 +1816,7 @@ function pingback($content, $post_ID) {
 		endif;
 	endforeach;
 
-	do_action_ref_array('pre_ping', array(&$post_links, &$pung));
+	do_action_ref_array( 'pre_ping', array( &$post_links, &$pung, $post_ID ) );
 
 	foreach ( (array) $post_links as $pagelinkedto ) {
 		$pingback_server_url = discover_pingback_server_uri( $pagelinkedto );
