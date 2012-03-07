@@ -510,10 +510,8 @@ final class WP_Theme implements ArrayAccess {
 	 */
 	public function display( $header, $markup = true, $translate = true ) {
 		$value = $this->get( $header );
-		if ( false === $value || '' === $value )
-			return $value;
 
-		if ( ! $this->load_textdomain() )
+		if ( empty( $value ) || ! $this->load_textdomain() )
 			$translate = false;
 
 		if ( $translate )
@@ -586,6 +584,10 @@ final class WP_Theme implements ArrayAccess {
 	 */
 	private function markup_header( $header, $value, $translate ) {
 		switch ( $header ) {
+			case 'Name' :
+				if ( empty( $value ) )
+					$value = $this->get_stylesheet();
+				break;
 			case 'Description' :
 				$value = wptexturize( $value );
 				break;
