@@ -250,6 +250,8 @@ function get_author_posts_url($author_id, $author_nicename = '') {
  * <ul>
  * <li>optioncount (boolean) (false): Show the count in parenthesis next to the
  * author's name.</li>
+ * <li>post_type (string|array) ('post'): Includes the specified post types to
+ * the author list. It can be either a comma separated string or an array of strings</li>
  * <li>exclude_admin (boolean) (true): Exclude the 'admin' user that is
  * installed bydefault.</li>
  * <li>show_fullname (boolean) (false): Show their full names.</li>
@@ -278,7 +280,7 @@ function wp_list_authors($args = '') {
 		'optioncount' => false, 'exclude_admin' => true,
 		'show_fullname' => false, 'hide_empty' => true,
 		'feed' => '', 'feed_image' => '', 'feed_type' => '', 'echo' => true,
-		'style' => 'list', 'html' => true
+		'style' => 'list', 'html' => true, 'post_type' => 'post'
 	);
 
 	$args = wp_parse_args( $args, $defaults );
@@ -286,12 +288,14 @@ function wp_list_authors($args = '') {
 
 	$return = '';
 
+  $post_type = implode('\',\'', is_array($post_type) ? $post_type : explode(',',$post_type));
+
 	$query_args = wp_array_slice_assoc( $args, array( 'orderby', 'order', 'number' ) );
 	$query_args['fields'] = 'ids';
 	$authors = get_users( $query_args );
 
 	$author_count = array();
-	foreach ( (array) $wpdb->get_results("SELECT DISTINCT post_author, COUNT(ID) AS count FROM $wpdb->posts WHERE post_type = 'post' AND " . get_private_posts_cap_sql( 'post' ) . " GROUP BY post_author") as $row )
+	foreach ( (array) $wpdb->get_results("SELECT DISTINCT post_author, COUNT(ID) AS count FROM $wpdb->posts WHERE post_type IN ('$post_type') AND " . get_private_posts_cap_sql( 'post' ) . " GROUP BY post_author") as $row )
 		$author_count[$row->post_author] = $row->count;
 
 	foreach ( $authors as $author_id ) {
