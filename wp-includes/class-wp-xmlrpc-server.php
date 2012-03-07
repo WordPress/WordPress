@@ -41,6 +41,13 @@ class wp_xmlrpc_server extends IXR_Server {
 			'wp.deletePost'			=> 'this:wp_deletePost',
 			'wp.getPost'			=> 'this:wp_getPost',
 			'wp.getPosts'			=> 'this:wp_getPosts',
+			'wp.newTerm'			=> 'this:wp_newTerm',
+			'wp.editTerm'			=> 'this:wp_editTerm',
+			'wp.deleteTerm'			=> 'this:wp_deleteTerm',
+			'wp.getTerm'			=> 'this:wp_getTerm',
+			'wp.getTerms'			=> 'this:wp_getTerms',
+			'wp.getTaxonomy'		=> 'this:wp_getTaxonomy',
+			'wp.getTaxonomies'		=> 'this:wp_getTaxonomies',
 			'wp.getPage'			=> 'this:wp_getPage',
 			'wp.getPages'			=> 'this:wp_getPages',
 			'wp.newPage'			=> 'this:wp_newPage',
@@ -477,15 +484,47 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
+	 * Prepares taxonomy data for return in an XML-RPC object.
+	 *
+	 * @access protected
+	.*
+	 * @param array|object $taxonomy The unprepared taxonomy data
+	 * @return array The prepared taxonomy data
+	 */
+	protected function _prepare_taxonomy( $taxonomy ) {
+		$_taxonomy = (array) $taxonomy;
+
+		unset( $_taxonomy['update_count_callback'] );
+
+		return apply_filters( 'xmlrpc__prepare_taxonomy', $_taxonomy, $taxonomy );
+	}
+
+	/**
+	 * Prepares term data for return in an XML-RPC object.
+	 *
+	 * @access protected
+	.*
+	 * @param array|object $term The unprepared term data
+	 * @return array The prepared term data
+	 */
+	protected function _prepare_term( $term ) {
+		$_term = $term;
+		if ( ! is_array( $_term) )
+			$_term = get_object_vars( $_term );
+
+		return apply_filters( 'xmlrpc__prepare_term', $_term, $term );
+	}
+
+	/**
 	 * Prepares post data for return in an XML-RPC object.
 	 *
-	 * @access private
+	 * @access protected
 	 *
 	 * @param array $post The unprepared post data
 	 * @param array $fields The subset of post fields to return
 	 * @return array The prepared post data
 	 */
-	function _prepare_post( $post, $fields ) {
+	protected function _prepare_post( $post, $fields ) {
 		// holds the data for this post. built up based on $fields
 		$_post = array( 'post_id' => $post['ID'] );
 
@@ -533,7 +572,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			$terms = wp_get_object_terms( $post['ID'], $post_type_taxonomies );
 			$_post['terms'] = array();
 			foreach ( $terms as $term ) {
-				$_post['terms'][] = (array) $term;
+				$_post['terms'][] = $this->_prepare_term( $term );
 			}
 		}
 
@@ -1106,6 +1145,435 @@ class wp_xmlrpc_server extends IXR_Server {
 				continue;
 
 			$struct[] = $this->_prepare_post( $post, $fields );
+		}
+
+		return $struct;
+	}
+
+	/**
+	 * Create a new term.
+	 *
+	 * @uses wp_insert_term()
+	 * @param array $args Method parameters. Contains:
+	 *  - int     $blog_id
+	 *  - string  $username
+	 *  - string  $password
+	 *  - array   $content_struct
+	 *      The $content_struct must contain:
+	 *      - 'name'
+	 *      - 'taxonomy'
+	 *      Also, it can optionally contain:
+	 *      - 'parent'
+	 *      - 'description'
+	 *      - 'slug'
+	 * @return string term_id
+	 */
+	function wp_newTerm( $args ) {
+		$this->escape( $args );
+
+		$blog_id            = (int) $args[0];
+		$username           = $args[1];
+		$password           = $args[2];
+		$content_struct     = $args[3];
+
+		if ( ! $user = $this->login( $username, $password ) )
+			return $this->error;
+
+		do_action( 'xmlrpc_call', 'wp.newTerm' );
+
+		if ( ! taxonomy_exists( $content_struct['taxonomy'] ) )
+			return new IXR_Error( 403, __( 'Invalid taxonomy.' ) );
+
+		$taxonomy = get_taxonomy( $content_struct['taxonomy'] );
+
+		if ( ! current_user_can( $taxonomy->cap->manage_terms ) )
+			return new IXR_Error( 401, __( 'You are not allowed to create terms in this taxonomy.' ) );
+
+		$taxonomy = (array) $taxonomy;
+
+		// hold the data of the term
+		$term_data = array();
+
+		$term_data['name'] = trim( $content_struct['name'] );
+		if ( empty( $term_data['name'] ) )
+			return new IXR_Error( 403, __( 'The term name cannot be empty.' ) );
+
+		if ( isset( $content_struct['parent'] ) ) {
+			if ( ! $taxonomy['hierarchical'] )
+				return new IXR_Error( 403, __( 'This taxonomy is not hierarchical.' ) );
+
+			$parent_term_id = (int) $content_struct['parent'];
+			$parent_term = get_term( $parent_term_id , $taxonomy['name'] );
+
+			if ( is_wp_error( $parent_term ) )
+				return new IXR_Error( 500, $parent_term->get_error_message() );
+
+			if ( ! $parent_term )
+				return new IXR_Error( 403, __( 'Parent term does not exist.' ) );
+
+			$term_data['parent'] = $content_struct['parent'];
+		}
+
+		if ( isset( $content_struct['description'] ) )
+			$term_data['description'] = $content_struct['description'];
+
+		if ( isset( $content_struct['slug'] ) )
+			$term_data['slug'] = $content_struct['slug'];
+
+		$term = wp_insert_term( $term_data['name'] , $taxonomy['name'] , $term_data );
+
+		if ( is_wp_error( $term ) )
+			return new IXR_Error( 500, $term->get_error_message() );
+
+		if ( ! $term )
+			return new IXR_Error( 500, __( 'Sorry, your term could not be created. Something wrong happened.' ) );
+
+		return strval( $term['term_id'] );
+	}
+
+	/**
+	 * Edit a term.
+	 *
+	 * @uses wp_update_term()
+	 * @param array $args Method parameters. Contains:
+	 *  - int     $blog_id
+	 *  - string  $username
+	 *  - string  $password
+	 *  - string  $term_id
+	 *  - array   $content_struct
+	 *      The $content_struct must contain:
+	 *      - 'taxonomy'
+	 *      Also, it can optionally contain:
+	 *      - 'name'
+	 *      - 'parent'
+	 *      - 'description'
+	 *      - 'slug'
+	 * @return bool True, on success.
+	 */
+	function wp_editTerm( $args ) {
+		$this->escape( $args );
+
+		$blog_id            = (int) $args[0];
+		$username           = $args[1];
+		$password           = $args[2];
+		$term_id            = (int) $args[3];
+		$content_struct     = $args[4];
+
+		if ( ! $user = $this->login( $username, $password ) )
+			return $this->error;
+
+		do_action( 'xmlrpc_call', 'wp.editTerm' );
+
+		if ( ! taxonomy_exists( $content_struct['taxonomy'] ) )
+			return new IXR_Error( 403, __( 'Invalid taxonomy.' ) );
+
+		$taxonomy = get_taxonomy( $content_struct['taxonomy'] );
+
+		if ( ! current_user_can( $taxonomy->cap->edit_terms ) )
+			return new IXR_Error( 401, __( 'You are not allowed to edit terms in this taxonomy.' ) );
+
+		$taxonomy = (array) $taxonomy;
+
+		// hold the data of the term
+		$term_data = array();
+
+		$term = get_term( $term_id , $content_struct['taxonomy'] );
+
+		if ( is_wp_error( $term ) )
+			return new IXR_Error( 500, $term->get_error_message() );
+
+		if ( ! $term )
+			return new IXR_Error( 404, __( 'Invalid term ID.' ) );
+
+		if ( isset( $content_struct['name'] ) ) {
+			$term_data['name'] = trim( $content_struct['name'] );
+
+			if ( empty( $term_data['name'] ) )
+				return new IXR_Error( 403, __( 'The term name cannot be empty.' ) );
+		}
+
+		if ( isset( $content_struct['parent'] ) ) {
+			if ( ! $taxonomy['hierarchical'] )
+				return new IXR_Error( 403, __( "This taxonomy is not hierarchical so you can't set a parent." ) );
+
+			$parent_term_id = (int) $content_struct['parent'];
+			$parent_term = get_term( $parent_term_id , $taxonomy['name'] );
+
+			if ( is_wp_error( $parent_term ) )
+				return new IXR_Error( 500, $parent_term->get_error_message() );
+
+			if ( ! $parent_term )
+				return new IXR_Error( 403, __( 'Parent term does not exist.' ) );
+
+			$term_data['parent'] = $content_struct['parent'];
+		}
+
+		if ( isset( $content_struct['description'] ) )
+			$term_data['description'] = $content_struct['description'];
+
+		if ( isset( $content_struct['slug'] ) )
+			$term_data['slug'] = $content_struct['slug'];
+
+		$term = wp_update_term( $term_id , $taxonomy['name'] , $term_data );
+
+		if ( is_wp_error( $term ) )
+			return new IXR_Error( 500, $term->get_error_message() );
+
+		if ( ! $term )
+			return new IXR_Error( 500, __( 'Sorry, editing the term failed.' ) );
+
+		return true;
+	}
+
+	/**
+	 * Delete a term.
+	 *
+	 * @uses wp_delete_term()
+	 * @param array $args Method parameters. Contains:
+	 *  - int     $blog_id
+	 *  - string  $username
+	 *  - string  $password
+	 *  - string  $taxnomy_name
+	 *  - string     $term_id
+	 * @return boolean|IXR_Error If it suceeded true else a reason why not
+	 */
+	function wp_deleteTerm( $args ) {
+		$this->escape( $args );
+
+		$blog_id            = (int) $args[0];
+		$username           = $args[1];
+		$password           = $args[2];
+		$taxonomy_name      = $args[3];
+		$term_id            = (int) $args[4];
+
+		if ( ! $user = $this->login( $username, $password ) )
+			return $this->error;
+
+		do_action( 'xmlrpc_call', 'wp.deleteTerm' );
+
+		if ( ! taxonomy_exists( $taxonomy_name ) )
+			return new IXR_Error( 403, __( 'Invalid taxonomy.' ) );
+
+		$taxonomy = get_taxonomy( $taxonomy_name );
+
+		if ( ! current_user_can( $taxonomy->cap->delete_terms ) )
+			return new IXR_Error( 401, __( 'You are not allowed to delete terms in this taxonomy.' ) );
+
+		$term = get_term( $term_id, $taxonomy_name );
+
+		if ( is_wp_error( $term ) )
+			return new IXR_Error( 500, $term->get_error_message() );
+
+		if ( ! $term )
+			return new IXR_Error( 404, __( 'Invalid term ID.' ) );
+
+		$result = wp_delete_term( $term_id, $taxonomy_name );
+
+		if ( is_wp_error( $result ) )
+			return new IXR_Error( 500, $term->get_error_message() );
+
+		if ( ! $result )
+			return new IXR_Error( 500, __( 'Sorry, deleting the term failed.' ) );
+
+		return $result;
+	}
+
+	/**
+	 * Retrieve a term.
+	 *
+	 * @uses get_term()
+	 * @param array $args Method parameters. Contains:
+	 *  - int     $blog_id
+	 *  - string  $username
+	 *  - string  $password
+	 *  - string  $taxonomy_name
+	 *  - string  $term_id
+	 * @return array contains:
+	 *  - 'term_id'
+	 *  - 'name'
+	 *  - 'slug'
+	 *  - 'term_group'
+	 *  - 'term_taxonomy_id'
+	 *  - 'taxonomy'
+	 *  - 'description'
+	 *  - 'parent'
+	 *  - 'count'
+	 */
+	function wp_getTerm( $args ) {
+		$this->escape( $args );
+
+		$blog_id            = (int) $args[0];
+		$username           = $args[1];
+		$password           = $args[2];
+		$taxonomy_name      = $args[3];
+		$term_id            = (int) $args[4];
+
+		if ( ! $user = $this->login( $username, $password ) )
+			return $this->error;
+
+		do_action( 'xmlrpc_call', 'wp.getTerm' );
+
+		if ( ! taxonomy_exists( $taxonomy_name ) )
+			return new IXR_Error( 403, __( 'Invalid taxonomy.' ) );
+
+		$taxonomy = get_taxonomy( $taxonomy_name );
+
+		if ( ! current_user_can( $taxonomy->cap->assign_terms ) )
+			return new IXR_Error( 401, __( 'You are not allowed to assign terms in this taxonomy.' ) );
+
+		$term = get_term( $term_id , $taxonomy_name, ARRAY_A );
+
+		if ( is_wp_error( $term ) )
+			return new IXR_Error( 500, $term->get_error_message() );
+
+		if ( ! $term )
+			return new IXR_Error( 404, __( 'Invalid term ID.' ) );
+
+		return $this->_prepare_term( $term );
+	}
+
+	/**
+	 * Retrieve all terms for a taxonomy.
+	 *
+	 * The optional $filter parameter modifies the query used to retrieve terms.
+	 * Accepted keys are 'number', 'offset', 'orderby', 'order', 'hide_empty', and 'search'.
+	 *
+	 * @uses get_terms()
+	 * @param array $args Method parameters. Contains:
+	 *  - int     $blog_id
+	 *  - string  $username
+	 *  - string  $password
+	 *  - string  $taxonomy_name
+	 *  - array   $filter optional
+	 * @return array terms
+	 */
+	function wp_getTerms( $args ) {
+		$this->escape( $args );
+
+		$blog_id        = (int) $args[0];
+		$username       = $args[1];
+		$password       = $args[2];
+		$taxonomy_name  = $args[3];
+		$filter         = isset( $args[4] ) ? $args[4] : array();
+
+		if ( ! $user = $this->login( $username, $password ) )
+			return $this->error;
+
+		do_action( 'xmlrpc_call', 'wp.getTerms' );
+
+		if ( ! taxonomy_exists( $taxonomy_name ) )
+			return new IXR_Error( 403, __( 'Invalid taxonomy.' ) );
+
+		$taxonomy = get_taxonomy( $taxonomy_name );
+
+		if ( ! current_user_can( $taxonomy->cap->assign_terms ) )
+			return new IXR_Error( 401, __( 'You are not allowed to assign terms in this taxonomy.' ) );
+
+		$query = array();
+
+		if ( isset( $filter['number'] ) )
+			$query['number'] = absint( $filter['number'] );
+
+		if ( isset( $filter['offset'] ) )
+			$query['offset'] = absint( $filter['offset'] );
+
+		if ( isset( $filter['orderby'] ) ) {
+			$query['orderby'] = $filter['orderby'];
+
+			if ( isset( $filter['order'] ) )
+				$query['order'] = $filter['order'];
+		}
+
+		if ( isset( $filter['hide_empty'] ) )
+			$query['hide_empty'] = $filter['hide_empty'];
+		else
+			$query['get'] = 'all';
+
+		if ( isset( $filter['search'] ) )
+			$query['search'] = $filter['search'];
+
+		$terms = get_terms( $taxonomy_name, $query );
+
+		if ( is_wp_error( $terms ) )
+			return new IXR_Error( 500, $terms->get_error_message() );
+
+		$struct = array();
+
+		foreach ( $terms as $term ) {
+			$struct[] = $this->_prepare_term( $term );
+		}
+
+		return $struct;
+	}
+
+	/**
+	 * Retrieve a taxonomy.
+	 *
+	 * @uses get_taxonomy()
+	 * @param array $args Method parameters. Contains:
+	 *  - int     $blog_id
+	 *  - string  $username
+	 *  - string  $password
+	 *  - string  $taxonomy_name
+	 * @return array (@see get_taxonomy())
+	 */
+	function wp_getTaxonomy( $args ) {
+		$this->escape( $args );
+
+		$blog_id        = (int) $args[0];
+		$username       = $args[1];
+		$password       = $args[2];
+		$taxonomy_name  = $args[3];
+
+		if ( ! $user = $this->login( $username, $password ) )
+			return $this->error;
+
+		do_action( 'xmlrpc_call', 'wp.getTaxonomy' );
+
+		if ( ! taxonomy_exists( $taxonomy_name ) )
+			return new IXR_Error( 403, __( 'Invalid taxonomy.' ) );
+
+		$taxonomy = get_taxonomy( $taxonomy_name );
+
+		if ( ! current_user_can( $taxonomy->cap->assign_terms ) )
+			return new IXR_Error( 401, __( 'You are not allowed to assign terms in this taxonomy.' ) );
+
+		return $this->_prepare_taxonomy( $taxonomy );
+	}
+
+	/**
+	 * Retrieve all taxonomies.
+	 *
+	 * @uses get_taxonomies()
+	 * @param array $args Method parameters. Contains:
+	 *  - int     $blog_id
+	 *  - string  $username
+	 *  - string  $password
+	 * @return array taxonomies
+	 */
+	function wp_getTaxonomies( $args ) {
+		$this->escape( $args );
+
+		$blog_id            = (int) $args[0];
+		$username           = $args[1];
+		$password           = $args[2];
+
+		if ( ! $user = $this->login( $username, $password ) )
+			return $this->error;
+
+		do_action( 'xmlrpc_call', 'wp.getTaxonomies' );
+
+		$taxonomies = get_taxonomies( array(), 'objects' );
+
+		// holds all the taxonomy data
+		$struct = array();
+
+		foreach ( $taxonomies as $taxonomy ) {
+			// capability check for post_types
+			if ( ! current_user_can( $taxonomy->cap->assign_terms ) )
+				continue;
+
+			$struct[] = $this->_prepare_taxonomy( $taxonomy );
 		}
 
 		return $struct;
