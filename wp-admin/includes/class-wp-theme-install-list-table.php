@@ -151,14 +151,70 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 		$theme_names = array_keys( $themes );
 
 		foreach ( $theme_names as $theme_name ) {
-				$class = array( 'available-theme' );
 				?>
-				<div class="<?php echo join( ' ', $class ); ?>"><?php
+				<div class="available-theme installable-theme"><?php
 					if ( isset( $themes[$theme_name] ) )
 						display_theme( $themes[$theme_name] );
 				?></div>
 		<?php } // end foreach $theme_names
 
+		$this->theme_installer();
+	}
+
+
+
+	/*
+	 * Prints a theme from the WordPress.org API.
+	 *
+	 * @param object $theme An object that contains theme data returned by the WordPress.org API.
+	 *
+	 * Example theme data:
+	 *   object(stdClass)[59]
+	 *     public 'name' => string 'Magazine Basic' (length=14)
+	 *     public 'slug' => string 'magazine-basic' (length=14)
+	 *     public 'version' => string '1.1' (length=3)
+	 *     public 'author' => string 'tinkerpriest' (length=12)
+	 *     public 'preview_url' => string 'http://wp-themes.com/?magazine-basic' (length=36)
+	 *     public 'screenshot_url' => string 'http://wp-themes.com/wp-content/themes/magazine-basic/screenshot.png' (length=68)
+	 *     public 'rating' => float 80
+	 *     public 'num_ratings' => int 1
+	 *     public 'homepage' => string 'http://wordpress.org/extend/themes/magazine-basic' (length=49)
+	 *     public 'description' => string 'A basic magazine style layout with a fully customizable layout through a backend interface. Designed by <a href="http://bavotasan.com">c.bavota</a> of <a href="http://tinkerpriestmedia.com">Tinker Priest Media</a>.' (length=214)
+	 *     public 'download_link' => string 'http://wordpress.org/extend/themes/download/magazine-basic.1.1.zip' (length=66)
+	 */
+	function single_row( $theme ) {
+		global $themes_allowedtags;
+
+		if ( empty( $theme ) )
+			return;
+
+		$name   = wp_kses( $theme->name,   $themes_allowedtags );
+		$author = wp_kses( $theme->author, $themes_allowedtags );
+
+		$preview_title = sprintf( __('Preview &#8220;%s&#8221;'), $name );
+		$preview_url   = add_query_arg( array(
+			'tab'   => 'theme-information',
+			'theme' => $theme->slug,
+		) );
+
+		?>
+		<a class="screenshot" href="<?php echo esc_url( $preview_url ); ?>" title="<?php echo esc_attr( $preview_title ); ?>">
+			<img src='<?php echo esc_url( $theme->screenshot_url ); ?>' width='150' />
+		</a>
+
+		<h3><?php
+			/* translators: 1: theme name, 2: author name */
+			printf( __( '%1$s <span>by %2$s</span>' ), $name, $author );
+		?></h3>
+
+		<?php
+		$this->install_theme_info( $theme );
+	}
+
+	/*
+	 * Prints the wrapper for the theme installer.
+	 */
+	function theme_installer() {
 		?>
 		<div id="theme-installer" class="wp-full-overlay">
 			<a href="#" class="close-full-overlay"><?php printf( __( '&larr; Return to %s' ), get_admin_page_title() ); ?></a>
@@ -168,6 +224,73 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 				<div class="install-theme-info"></div>
 			</div>
 			<div class="wp-full-overlay-main"></div>
+		</div>
+		<?php
+	}
+
+	/*
+	 * Prints the wrapper for the theme installer with a provided theme's data.
+	 * Used to make the theme installer work for no-js.
+	 *
+	 * @param object $theme - A WordPress.org Theme API object.
+	 */
+	function theme_installer_single( $theme ) {
+		$class = 'wp-full-overlay';
+		if ( $theme )
+			$class .= ' single-theme';
+
+		?>
+		<div id="theme-installer" class="wp-full-overlay single-theme">
+			<div class="wp-full-overlay-sidebar">
+				<?php $this->install_theme_info( $theme ); ?>
+			</div>
+			<div class="wp-full-overlay-main">
+				<iframe src="<?php echo esc_url( $theme->preview_url ); ?>"></iframe>
+			</div>
+		</div>
+		<?php
+	}
+
+	/*
+	 * Prints the info for a theme (to be used in the theme installer modal).
+	 *
+	 * @param object $theme - A WordPress.org Theme API object.
+	 */
+	function install_theme_info( $theme ) {
+		global $themes_allowedtags;
+
+		if ( empty( $theme ) )
+			return;
+
+		$name   = wp_kses( $theme->name,   $themes_allowedtags );
+		$author = wp_kses( $theme->author, $themes_allowedtags );
+
+		$num_ratings = sprintf( _n( '(based on %s rating)', '(based on %s ratings)', $theme->num_ratings ), number_format_i18n( $theme->num_ratings ) );
+
+		$install_url = add_query_arg( array(
+			'action' => 'install-theme',
+			'theme'  => $theme->slug,
+		), self_admin_url( 'update.php' ) );
+
+		?>
+		<div class="install-theme-info">
+			<a class="theme-install button-primary" href="<?php echo wp_nonce_url( $install_url, 'install-theme_' . $theme->slug ); ?>"><?php _e( 'Install' ); ?></a>
+			<h3 class="theme-name"><?php echo $name; ?></h3>
+			<span class="theme-by"><?php printf( __( 'By %s' ), $author ); ?></span>
+			<?php if ( isset( $theme->screenshot_url ) ): ?>
+				<img class="theme-screenshot" src="<?php echo esc_url( $theme->screenshot_url ); ?>" />
+			<?php endif; ?>
+			<div class="theme-rating" title="<?php echo esc_attr( $num_ratings ); ?>">
+				<div style="width:<?php echo esc_attr( intval( $theme->rating ) . 'px' ); ?>;"></div>
+			</div>
+			<div class="theme-version">
+				<strong><?php _e('Version:') ?> </strong>
+				<?php echo wp_kses( $theme->version, $themes_allowedtags ); ?>
+			</div>
+			<div class="theme-description">
+				<?php echo wp_kses( $theme->description, $themes_allowedtags ); ?>
+			</div>
+			<input class="theme-preview-url" type="hidden" value="<?php echo esc_url( $theme->preview_url ); ?>" />
 		</div>
 		<?php
 	}

@@ -5366,9 +5366,16 @@ body.full-overlay-active {
 	display: none;
 }
 
+#theme-installer.single-theme {
+	display: block;
+}
+
 .install-theme-info {
 	display: none;
 	padding: 45px 20px 15px;
+}
+.single-theme .install-theme-info {
+	padding-top: 15px;
 }
 
 #theme-installer .install-theme-info {

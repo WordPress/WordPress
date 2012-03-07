@@ -22,7 +22,7 @@ jQuery( function($) {
 		event.preventDefault();
 	});
 
-	$('#availablethemes').on( 'click', '.available-theme', function( event ) {
+	$('#availablethemes').on( 'click', '.installable-theme', function( event ) {
 		var src;
 
 		info.html( $(this).find('.install-theme-info').html() );
