@@ -158,6 +158,18 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 						display_theme( $themes[$theme_name] );
 				?></div>
 		<?php } // end foreach $theme_names
+
+		?>
+		<div id="theme-installer" class="wp-full-overlay">
+			<a href="#" class="close-full-overlay"><?php printf( __( '&larr; Return to %s' ), get_admin_page_title() ); ?></a>
+			<a href="#" class="collapse-sidebar button-secondary" title="<?php esc_attr_e('Collapse Sidebar'); ?>"><span></span></a>
+			<div class="wp-full-overlay-sidebar">
+				<div class="wp-full-overlay-header"></div>
+				<div class="install-theme-info"></div>
+			</div>
+			<div class="wp-full-overlay-main"></div>
+		</div>
+		<?php
 	}
 
 	/**
@@ -170,7 +182,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 	 * @uses $type Global; type of search.
 	 */
 	function _js_vars() {
-		global $tab, $type;		
+		global $tab, $type;
 		parent::_js_vars( compact( 'tab', 'type' ) );
 	}
 }

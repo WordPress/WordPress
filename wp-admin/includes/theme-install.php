@@ -127,77 +127,72 @@ function install_themes_upload($page = 1) {
 }
 add_action('install_themes_upload', 'install_themes_upload', 10, 1);
 
-function display_theme($theme, $actions = null, $show_details = true) {
+/*
+ * Prints a theme on the Install Themes pages.
+ *
+ * @param object $theme An object that contains theme data returned by the WordPress.org API.
+ *
+ * Example theme data:
+ *   object(stdClass)[59]
+ *     public 'name' => string 'Magazine Basic' (length=14)
+ *     public 'slug' => string 'magazine-basic' (length=14)
+ *     public 'version' => string '1.1' (length=3)
+ *     public 'author' => string 'tinkerpriest' (length=12)
+ *     public 'preview_url' => string 'http://wp-themes.com/?magazine-basic' (length=36)
+ *     public 'screenshot_url' => string 'http://wp-themes.com/wp-content/themes/magazine-basic/screenshot.png' (length=68)
+ *     public 'rating' => float 80
+ *     public 'num_ratings' => int 1
+ *     public 'homepage' => string 'http://wordpress.org/extend/themes/magazine-basic' (length=49)
+ *     public 'description' => string 'A basic magazine style layout with a fully customizable layout through a backend interface. Designed by <a href="http://bavotasan.com">c.bavota</a> of <a href="http://tinkerpriestmedia.com">Tinker Priest Media</a>.' (length=214)
+ *     public 'download_link' => string 'http://wordpress.org/extend/themes/download/magazine-basic.1.1.zip' (length=66)
+ */
+function display_theme( $theme ) {
 	global $themes_allowedtags;
 
-	if ( empty($theme) )
+	if ( empty( $theme ) )
 		return;
 
-	$name = wp_kses($theme->name, $themes_allowedtags);
-	$author = wp_kses($theme->author, $themes_allowedtags);
-	$desc = wp_kses($theme->description, $themes_allowedtags);
-	//if ( strlen($desc) > 30 )
-	//	$desc = substr($desc, 0, 15) . '<span class="dots">...</span><span>' . substr($desc, -15) . '</span>';
+	$name   = wp_kses( $theme->name,   $themes_allowedtags );
+	$author = wp_kses( $theme->author, $themes_allowedtags );
 
-	$preview_link = $theme->preview_url . '?TB_iframe=true&amp;width=600&amp;height=400';
-	if ( !is_array($actions) ) {
-		$actions = array();
-		$actions[] = '<a href="' . self_admin_url('theme-install.php?tab=theme-information&amp;theme=' . $theme->slug .
-										'&amp;TB_iframe=true&amp;tbWidth=500&amp;tbHeight=385') . '" class="thickbox thickbox-preview onclick" title="' . esc_attr(sprintf(__('Install &#8220;%s&#8221;'), $name)) . '">' . __('Install') . '</a>';
-		if ( !is_network_admin() )
-			$actions[] = '<a href="' . $preview_link . '" class="thickbox thickbox-preview onclick previewlink" title="' . esc_attr(sprintf(__('Preview &#8220;%s&#8221;'), $name)) . '">' . __('Preview') . '</a>';
-		$actions = apply_filters('theme_install_action_links', $actions, $theme);
-	}
+	$num_ratings = sprintf( _n( '(based on %s rating)', '(based on %s ratings)', $theme->num_ratings ), number_format_i18n( $theme->num_ratings ) );
 
-	$actions = implode ( ' | ', $actions );
+	$preview_url   = add_query_arg( 'theme_preview', '1' );
+	$preview_title = sprintf( __('Preview &#8220;%s&#8221;'), $name );
+
+	$install_url = add_query_arg( array(
+		'action' => 'install-theme',
+		'theme'  => $theme->slug,
+	), self_admin_url( 'update.php' ) );
+
 	?>
-<a class='thickbox thickbox-preview screenshot'
-	href='<?php echo esc_url($preview_link); ?>'
-	title='<?php echo esc_attr(sprintf(__('Preview &#8220;%s&#8221;'), $name)); ?>'>
-<img src='<?php echo esc_url($theme->screenshot_url); ?>' width='150' />
-</a>
-<h3><?php
-	/* translators: 1: theme name, 2: author name */
-	printf( __( '%1$s <span>by %2$s</span>' ), $name, $author ); ?></h3>
-<span class='action-links'><?php echo $actions ?></span>
-<?php if ( $show_details ) { ?>
-<span class="separator hide-if-no-js">| </span><a href="#theme_detail" class="theme-detail hide-if-no-js" tabindex='4'><?php _e('Details') ?></a>
-<div class="themedetaildiv hide-if-js">
-<p><?php echo $desc ?></p>
-<p><strong><?php _e('Version:') ?></strong> <?php echo wp_kses($theme->version, $themes_allowedtags) ?></p>
-<?php if ( ! empty($theme->last_updated) ) : ?>
-<p><strong><?php _e('Last Updated:') ?></strong> <span title="<?php echo $theme->last_updated ?>"><?php printf( __('%s ago'), human_time_diff(strtotime($theme->last_updated)) ) ?></span></p>
-<?php endif; if ( ! empty($theme->requires) ) : ?>
-<p><strong><?php _e('Requires WordPress Version:') ?></strong> <?php printf(__('%s or higher'), $theme->requires) ?></p>
-<?php endif; if ( ! empty($theme->tested) ) : ?>
-<p><strong><?php _e('Compatible up to:') ?></strong> <?php echo $theme->tested ?></p>
-<?php endif; if ( !empty($theme->downloaded) ) : ?>
-<p><strong><?php _e('Downloaded:') ?></strong> <?php printf(_n('%s time', '%s times', $theme->downloaded), number_format_i18n($theme->downloaded)) ?></p>
-<?php endif; ?>
-<div class="star-holder" title="<?php printf(_n('(based on %s rating)', '(based on %s ratings)', $theme->num_ratings), number_format_i18n($theme->num_ratings)) ?>">
-	<div class="star star-rating" style="width: <?php echo esc_attr($theme->rating) ?>px"></div>
-	<div class="star star5"><img src="<?php echo admin_url('images/star.png?v=20110615'); ?>" alt="<?php esc_attr_e('5 stars') ?>" /></div>
-	<div class="star star4"><img src="<?php echo admin_url('images/star.png?v=20110615'); ?>" alt="<?php esc_attr_e('4 stars') ?>" /></div>
-	<div class="star star3"><img src="<?php echo admin_url('images/star.png?v=20110615'); ?>" alt="<?php esc_attr_e('3 stars') ?>" /></div>
-	<div class="star star2"><img src="<?php echo admin_url('images/star.png?v=20110615'); ?>" alt="<?php esc_attr_e('2 stars') ?>" /></div>
-	<div class="star star1"><img src="<?php echo admin_url('images/star.png?v=20110615'); ?>" alt="<?php esc_attr_e('1 star') ?>" /></div>
-</div>
-</div>
-<?php }
-	/*
-	 object(stdClass)[59]
-	 public 'name' => string 'Magazine Basic' (length=14)
-	 public 'slug' => string 'magazine-basic' (length=14)
-	 public 'version' => string '1.1' (length=3)
-	 public 'author' => string 'tinkerpriest' (length=12)
-	 public 'preview_url' => string 'http://wp-themes.com/?magazine-basic' (length=36)
-	 public 'screenshot_url' => string 'http://wp-themes.com/wp-content/themes/magazine-basic/screenshot.png' (length=68)
-	 public 'rating' => float 80
-	 public 'num_ratings' => int 1
-	 public 'homepage' => string 'http://wordpress.org/extend/themes/magazine-basic' (length=49)
-	 public 'description' => string 'A basic magazine style layout with a fully customizable layout through a backend interface. Designed by <a href="http://bavotasan.com">c.bavota</a> of <a href="http://tinkerpriestmedia.com">Tinker Priest Media</a>.' (length=214)
-	 public 'download_link' => string 'http://wordpress.org/extend/themes/download/magazine-basic.1.1.zip' (length=66)
-	 */
+	<a class="screenshot" href="<?php echo esc_url( $preview_url ); ?>" title="<?php echo esc_attr( $preview_title ); ?>">
+		<img src='<?php echo esc_url( $theme->screenshot_url ); ?>' width='150' />
+	</a>
+
+	<h3><?php
+		/* translators: 1: theme name, 2: author name */
+		printf( __( '%1$s <span>by %2$s</span>' ), $name, $author );
+	?></h3>
+
+	<div class="install-theme-info">
+		<a class="theme-install button-primary" href="<?php echo wp_nonce_url( $install_url, 'install-theme_' . $theme->slug ); ?>"><?php _e( 'Install' ); ?></a>
+		<h3 class="theme-name"><?php echo $name; ?></h3>
+		<span class="theme-by"><?php printf( __( 'By %s' ), $author ); ?></span>
+		<img class="theme-screenshot" src="<?php echo esc_url( $theme->screenshot_url ); ?>" />
+		<div class="theme-rating" title="<?php echo esc_attr( $num_ratings ); ?>">
+			<div style="width:<?php echo esc_attr( intval( $theme->rating ) . 'px' ); ?>;"></div>
+		</div>
+		<div class="theme-version">
+			<strong><?php _e('Version:') ?> </strong>
+			<?php echo wp_kses( $theme->version, $themes_allowedtags ); ?>
+		</div>
+		<div class="theme-description">
+			<?php echo wp_kses( $theme->description, $themes_allowedtags ); ?>
+		</div>
+		<input class="theme-preview-url" type="hidden" value="<?php echo esc_url( $theme->preview_url ); ?>" />
+	</div>
+	<?php
 }
 
 /**

@@ -5224,7 +5224,9 @@ body.full-overlay-active {
 	right: 0;
 }
 
-.wp-full-overlay.collapsed {
+.wp-full-overlay.collapsed,
+.wp-full-overlay.collapsed div.wp-full-overlay-header,
+.wp-full-overlay.collapsed div.wp-full-overlay-footer {
 	left: -302px;
 }
 
@@ -5247,6 +5249,9 @@ body.full-overlay-active {
 	right: 0;
 	top: 0;
 	bottom: 0;
+}
+.wp-full-overlay.collapsed .wp-full-overlay-main {
+	left: 0;
 }
 
 .wp-full-overlay-sidebar div.wp-full-overlay-header,
@@ -5322,7 +5327,10 @@ body.full-overlay-active {
 
 /* Animations */
 .wp-full-overlay,
-.wp-full-overlay .collapse-sidebar {
+.wp-full-overlay .collapse-sidebar,
+.wp-full-overlay-sidebar div.wp-full-overlay-header,
+.wp-full-overlay-sidebar div.wp-full-overlay-footer,
+.wp-full-overlay-main {
 	-moz-transition-property: left, right, top, bottom;
 	-webkit-transition-property: left, right, top, bottom;
 	-o-transition-property: left, right, top, bottom;
@@ -5347,10 +5355,66 @@ body.full-overlay-active {
 	display: block;
 }
 
-#customize-container iframe {
+#customize-container iframe,
+#theme-installer iframe {
 	height: 100%;
 	width: 100%;
 	z-index: 20;
+}
+
+#theme-installer {
+	display: none;
+}
+
+.install-theme-info {
+	display: none;
+	padding: 45px 20px 15px;
+}
+
+#theme-installer .install-theme-info {
+	display: block;
+}
+
+.install-theme-info .theme-install {
+	float: right;
+	margin-top: 18px;
+}
+
+.install-theme-info .theme-name {
+	font-size: 16px;
+	line-height: 24px;
+	margin-bottom: 0;
+}
+
+.install-theme-info .theme-screenshot {
+	margin-top: 15px;
+	width: 258px;
+	border: 1px solid #ccc;
+}
+
+.install-theme-info .theme-version {
+	margin: 15px 0;
+	float: right;
+}
+
+.install-theme-info .theme-rating {
+	margin: 14px 0;
+	width: 100px;
+	height: 17px;
+	float: left;
+	background: url('../images/stars.png?ver=20120307') repeat-x bottom left;
+}
+.install-theme-info .theme-rating div {
+	background: url('../images/stars.png?ver=20120307') repeat-x top left;
+	height: 17px;
+	float: left;
+}
+
+.install-theme-info .theme-description {
+	margin-top: 34px;
+	padding-top: 1em;
+	color: #777;
+	line-height: 20px;
 }
 
 /*------------------------------------------------------------------------------

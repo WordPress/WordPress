@@ -1,3 +1,40 @@
+/*
+ * Theme Install
+ *
+ * Displays theme previews on theme install pages.
+ */
+jQuery( function($) {
+	var preview = $('#theme-installer'),
+		info    = preview.find('.install-theme-info'),
+		panel   = preview.find('.wp-full-overlay-main'),
+		body    = $( document.body );
+
+	preview.on( 'click', '.close-full-overlay', function( event ) {
+		preview.fadeOut( 200, function() {
+			panel.empty();
+			body.removeClass('theme-installer-active full-overlay-active');
+		});
+		event.preventDefault();
+	});
+
+	preview.on( 'click', '.collapse-sidebar', function( event ) {
+		preview.toggleClass('collapsed');
+		event.preventDefault();
+	});
+
+	$('#availablethemes').on( 'click', '.available-theme', function( event ) {
+		var src;
+
+		info.html( $(this).find('.install-theme-info').html() );
+		src = info.find( '.theme-preview-url' ).val();
+		panel.html( '<iframe src="' + src + '" />');
+		preview.fadeIn( 200, function() {
+			body.addClass('theme-installer-active full-overlay-active');
+		});
+		event.preventDefault();
+	});
+});
+
 var ThemeViewer;
 
 (function($){
