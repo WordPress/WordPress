@@ -1103,7 +1103,7 @@ final class WP_Theme implements ArrayAccess {
 				$allowed_themes = $converted;
 			}
 			// Set the option so we never have to go through this pain again.
-			if ( is_admin() ) {
+			if ( ( is_admin() && is_main_site() ) || is_network_admin() ) {
 				update_site_option( 'allowedthemes', $allowed_themes );
 				delete_site_option( 'allowed_themes' );
 			}
