@@ -459,7 +459,7 @@ class WP_Customize_Setting {
 		elseif ( empty( $keys ) ) // If there are no keys, we're replacing the root.
 			return $value;
 
-		$result = $this->multidimensional( &$root, $keys, true );
+		$result = $this->multidimensional( $root, $keys, true );
 
 		if ( isset( $result ) )
 			$result['node'][ $result['key'] ] = $value;
