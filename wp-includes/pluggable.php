@@ -1310,6 +1310,10 @@ if ( !function_exists('wp_salt') ) :
 function wp_salt( $scheme = 'auth' ) {
 	global $wp_secret_key_default; // This is set for localized builds for versions > 3.4.0.
 
+	static $cached_salts = array();
+	if ( isset( $cached_salts[ $scheme ] ) )
+		return apply_filters( 'salt', $cached_salts[ $scheme ], $scheme );
+
 	static $duplicated_keys;
 	if ( null === $duplicated_keys ) {
 		$duplicated_keys = array( 'put your unique phrase here' => true );
@@ -1355,7 +1359,8 @@ function wp_salt( $scheme = 'auth' ) {
 		$salt = hash_hmac( 'md5', $scheme, $key );
 	}
 
-	return apply_filters('salt', $key . $salt, $scheme);
+	$cached_salts[ $scheme ] = $key . $salt;
+	return apply_filters( 'salt', $cached_salts[ $scheme ], $scheme );
 }
 endif;
 
