@@ -31,7 +31,7 @@ $post_id = isset($post_id)? (int) $post_id : 0;
 
 // Require an ID for the edit screen
 if ( isset($action) && $action == 'edit' && !$ID )
-	wp_die(__("You are not allowed to be here"));
+	wp_die( __( 'Cheatin&#8217; uh?' ) );
 
 if ( isset($_GET['inline']) ) {
 	$errors = array();
