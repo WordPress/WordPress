@@ -127,14 +127,14 @@ function install_themes_upload($page = 1) {
 }
 add_action('install_themes_upload', 'install_themes_upload', 10, 1);
 
-/*
+/**
  * Prints a theme on the Install Themes pages.
  *
- * @param object $theme An object that contains theme data returned by the WordPress.org API.
+ * @deprecated 3.4.0
  */
 function display_theme( $theme ) {
+	_deprecated_function( __FUNCTION__, '3.4' );
 	global $wp_list_table;
-
 	return $wp_list_table->single_row( $theme );
 }
 

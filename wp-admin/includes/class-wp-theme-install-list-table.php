@@ -148,20 +148,15 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 
 	function display_rows() {
 		$themes = $this->items;
-		$theme_names = array_keys( $themes );
-
-		foreach ( $theme_names as $theme_name ) {
+		foreach ( $themes as $theme ) {
 				?>
 				<div class="available-theme installable-theme"><?php
-					if ( isset( $themes[$theme_name] ) )
-						display_theme( $themes[$theme_name] );
+					$this->single_row( $theme );
 				?></div>
 		<?php } // end foreach $theme_names
 
 		$this->theme_installer();
 	}
-
-
 
 	/*
 	 * Prints a theme from the WordPress.org API.
