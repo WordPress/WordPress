@@ -39,7 +39,9 @@ TABLE OF CONTENTS:
 20.0 - Settings
 21.0 - Admin Footer
 22.0 - About Pages
-23.0 - Misc
+23.0 - Full Overlay w/ Sidebar
+24.0 - Customize Loader
+25.0 - Misc
 
 ------------------------------------------------------------------------*/
 
@@ -5205,7 +5207,154 @@ html.ie8 .about-wrap .feature-section.three-col img {
 }
 
 /*------------------------------------------------------------------------------
-  23.0 - Misc
+  23.0 - Full Overlay w/ Sidebar
+------------------------------------------------------------------------------*/
+
+body.full-overlay-active {
+	overflow: hidden;
+}
+
+.wp-full-overlay {
+	background: #fff;
+	z-index: 500000;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+
+.wp-full-overlay.collapsed {
+	left: -302px;
+}
+
+.wp-full-overlay-sidebar {
+	width: 300px;
+	height: 100%;
+	padding: 0;
+	margin: 0;
+	z-index: 10;
+	position: relative;
+	overflow: auto;
+	background: #f5f5f5;
+	box-shadow: inset -11px 0 8px -8px rgba( 0, 0, 0, 0.1 );
+	border-right: 1px solid rgba( 0, 0, 0, 0.2 );
+}
+
+.wp-full-overlay-main {
+	position: fixed;
+	left: 300px;
+	right: 0;
+	top: 0;
+	bottom: 0;
+}
+
+.wp-full-overlay-sidebar div.wp-full-overlay-header,
+.wp-full-overlay-sidebar div.wp-full-overlay-footer {
+	position: fixed;
+	left: 0;
+	width: 260px;
+	padding: 15px 20px;
+	min-height: 16px;
+	margin: 0;
+	z-index: 10;
+	background: #f5f5f5;
+}
+
+.wp-full-overlay-sidebar div.wp-full-overlay-header {
+	top: 0;
+	border-top: 0;
+	border-bottom: 1px solid #fff;
+	box-shadow:
+		inset -11px 0 8px -8px rgba( 0, 0, 0, 0.1 ),
+		inset 0 -1px 0 0px #dfdfdf;
+}
+
+.wp-full-overlay-sidebar div.wp-full-overlay-footer {
+	bottom: 0;
+	border-bottom: 0;
+	border-top: 1px solid #dfdfdf;
+	box-shadow:
+		inset -11px 0 8px -8px rgba( 0, 0, 0, 0.1 ),
+		inset 0 1px 0 0px #fff;
+}
+
+/* Return and close buttons. */
+.wp-full-overlay .collapse-sidebar,
+.wp-full-overlay .close-full-overlay {
+	z-index: 50;
+	position: absolute;
+	text-decoration: none;
+}
+
+.wp-full-overlay .close-full-overlay {
+	top: 15px;
+	left: 20px;
+}
+
+/* Collapse Button */
+.wp-full-overlay .collapse-sidebar {
+	position: absolute;
+	top: 13px;
+	left: 265px;
+	z-index: 50;
+	display: block;
+	width: 19px;
+	height: 19px;
+	padding: 0;
+	border-radius: 50%;
+}
+.wp-full-overlay.collapsed .collapse-sidebar {
+	position: absolute;
+	left: 315px;
+}
+.wp-full-overlay .collapse-sidebar span {
+	margin-top: 2px;
+	margin-left: 2px;
+	display: block;
+	width: 15px;
+	height: 15px;
+	background: transparent url('../../wp-admin/images/arrows.png') no-repeat 0 -72px;
+}
+.wp-full-overlay.collapsed .collapse-sidebar span {
+	background-position: 0 -108px;
+}
+
+/* Animations */
+.wp-full-overlay,
+.wp-full-overlay .collapse-sidebar {
+	-moz-transition-property: left, right, top, bottom;
+	-webkit-transition-property: left, right, top, bottom;
+	-o-transition-property: left, right, top, bottom;
+	-ms-transition-property: left, right, top, bottom;
+	transition-property: left, right, top, bottom;
+	-moz-transition-duration: 0.2s;
+	-webkit-transition-duration: 0.2s;
+	-o-transition-duration: 0.2s;
+	-ms-transition-duration: 0.2s;
+	transition-duration: 0.2s;
+}
+
+/*------------------------------------------------------------------------------
+  24.0 - Customize Loader
+------------------------------------------------------------------------------*/
+
+#customize-container {
+	display: none;
+}
+
+.customize-active #customize-container {
+	display: block;
+}
+
+#customize-container iframe {
+	height: 100%;
+	width: 100%;
+	z-index: 20;
+}
+
+/*------------------------------------------------------------------------------
+  25.0 - Misc
 ------------------------------------------------------------------------------*/
 
 #excerpt,

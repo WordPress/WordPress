@@ -261,7 +261,6 @@ final class WP_Customize {
 			$this->save();
 
 		wp_enqueue_script( 'customize-loader' );
-		wp_enqueue_style( 'customize-loader' );
 
 		if ( ( defined( 'DOING_AJAX' ) && DOING_AJAX ) )
 			return;
@@ -287,9 +286,9 @@ final class WP_Customize {
 	 */
 	public function admin_footer() {
 		?>
-		<div id="customize-container">
+		<div id="customize-container" class="wp-full-overlay">
 			<input type="hidden" class="admin-url" value="<?php echo esc_url( admin_url( 'admin.php' ) ); ?>" />
-			<a href="#" class="return-to-admin"><?php printf( __( '&larr; Return to %s' ), get_admin_page_title() ); ?></a>
+			<a href="#" class="close-full-overlay"><?php printf( __( '&larr; Return to %s' ), get_admin_page_title() ); ?></a>
 			<a href="#" class="collapse-sidebar button-secondary" title="<?php esc_attr_e('Collapse Sidebar'); ?>"><span></span></a>
 		</div>
 		<?php

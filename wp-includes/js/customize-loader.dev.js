@@ -9,7 +9,7 @@ if ( typeof wp === 'undefined' )
 			this.base      = $( '.admin-url', this.element ).val();
 			this.doc_title = $( document ).attr( 'title' );
 
-			this.element.on( 'click', '.return-to-admin', function() {
+			this.element.on( 'click', '.close-full-overlay', function() {
 				Loader.close();
 				return false;
 			});
@@ -31,14 +31,14 @@ if ( typeof wp === 'undefined' )
 			});
 
 			this.element.fadeIn( 200, function() {
-				Loader.body.addClass( 'customize-active' );
+				Loader.body.addClass( 'customize-active full-overlay-active' );
 			});
 		},
 		close: function() {
 			this.element.fadeOut( 200, function() {
 				Loader.iframe.remove();
 				Loader.iframe = null;
-				Loader.body.removeClass( 'customize-active' );
+				Loader.body.removeClass( 'customize-active full-overlay-active' );
 				$( document ).attr( 'title', Loader.doc_title );
 			});
 		}

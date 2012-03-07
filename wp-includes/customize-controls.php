@@ -43,14 +43,14 @@ do_action( 'customize_controls_print_styles' );
 do_action( 'customize_controls_print_scripts' );
 ?>
 </head>
-<body>
-	<form id="customize-controls" method="post" class="wrap" target="_parent" action="<?php echo esc_url( add_query_arg( 'save', '1', admin_url( 'themes.php' ) ) ); ?>">
+<body class="wp-full-overlay">
+	<form id="customize-controls" method="post" class="wrap wp-full-overlay-sidebar" target="_parent" action="<?php echo esc_url( add_query_arg( 'save', '1', admin_url( 'themes.php' ) ) ); ?>">
 		<?php wp_nonce_field( 'customize_controls' ); ?>
 		<input type="hidden" name="customize" value="on" />
 		<input type="hidden" id="customize-template" name="template" value="<?php echo esc_attr( $theme['Template'] ); ?>" />
 		<input type="hidden" id="customize-stylesheet" name="stylesheet" value="<?php echo esc_attr( $theme['Stylesheet'] ); ?>" />
 
-		<div id="customize-header-actions" class="customize-section">&nbsp;</div>
+		<div id="customize-header-actions" class="customize-section wp-full-overlay-header">&nbsp;</div>
 
 		<div id="customize-info" class="customize-section">
 			<div class="customize-section-title">
@@ -78,13 +78,13 @@ do_action( 'customize_controls_print_scripts' );
 			?>
 		</ul></div>
 
-		<div id="customize-footer-actions" class="customize-section">
+		<div id="customize-footer-actions" class="customize-section wp-full-overlay-footer">
 			<?php
 			submit_button( __( 'Save' ), 'primary', 'save', false );
 			?>
 		</div>
 	</form>
-	<div id="customize-preview">
+	<div id="customize-preview" class="wp-full-overlay-main">
 		<iframe name="customize-target"></iframe>
 	</div>
 	<?php

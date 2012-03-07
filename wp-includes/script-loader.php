@@ -471,7 +471,6 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'wp-jquery-ui-dialog', "/wp-includes/css/jquery-ui-dialog$suffix.css" );
 	$styles->add( 'editor-buttons', "/wp-includes/css/editor-buttons$suffix.css" );
 	$styles->add( 'wp-pointer', "/wp-includes/css/wp-pointer$suffix.css" );
-	$styles->add( 'customize-loader', "/wp-includes/css/customize-loader$suffix.css" );
 	$styles->add( 'customize-controls', "/wp-includes/css/customize-controls$suffix.css", array( 'wp-admin', 'colors', 'ie' ) );
 
 	foreach ( $rtl_styles as $rtl_style ) {
