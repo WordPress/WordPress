@@ -199,7 +199,7 @@ final class WP_Theme implements ArrayAccess {
 		}
 
 		// (If template is set from cache, we know it's good.)
-		if ( ! $this->template && ! ( $this->template = $this->get('Template') ) ) {
+		if ( ! $this->template && ! ( $this->template = $this->headers['Template'] ) ) {
 			if ( file_exists( $this->theme_root . '/' . $this->stylesheet . '/index.php' ) ) {
 				$this->template = $this->stylesheet;
 			} else {
