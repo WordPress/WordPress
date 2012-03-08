@@ -40,7 +40,7 @@ if ( $action ) {
 			check_admin_referer('enable-theme_' . $_GET['theme']);
 			$allowed_themes[ $_GET['theme'] ] = true;
 			update_site_option( 'allowedthemes', $allowed_themes );
-			wp_redirect( network_admin_url( 'themes.php?enabled=1' ) );
+			wp_safe_redirect( add_query_arg( 'enabled', 1, $referer ) );
 			exit;
 			break;
 		case 'disable':
@@ -244,7 +244,12 @@ if ( isset( $_GET['enabled'] ) ) {
 <?php $wp_list_table->search_box( __( 'Search Installed Themes' ), 'theme' ); ?>
 </form>
 
-<?php $wp_list_table->views(); ?>
+<?php
+$wp_list_table->views();
+
+if ( 'broken' == $status )
+	echo '<p class="clear">' . __('The following themes are installed but incomplete. Themes must have a stylesheet and a template.') . '</p>';
+?>
 
 <form method="post" action="">
 <input type="hidden" name="theme_status" value="<?php echo esc_attr($status) ?>" />

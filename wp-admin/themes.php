@@ -214,7 +214,7 @@ if ( ! current_user_can( 'switch_themes' ) ) {
 
 <?php
 // List broken themes, if any.
-if ( current_user_can('edit_themes') && $broken_themes = wp_get_themes( array( 'errors' => true ) ) ) {
+if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_get_themes( array( 'errors' => true ) ) ) {
 ?>
 
 <h3><?php _e('Broken Themes'); ?></h3>

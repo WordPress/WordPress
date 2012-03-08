@@ -16,7 +16,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		global $status, $page;
 
 		$status = isset( $_REQUEST['theme_status'] ) ? $_REQUEST['theme_status'] : 'all';
-		if ( !in_array( $status, array( 'all', 'enabled', 'disabled', 'upgrade', 'search' ) ) )
+		if ( !in_array( $status, array( 'all', 'enabled', 'disabled', 'upgrade', 'search', 'broken' ) ) )
 			$status = 'all';
 
 		$page = $this->get_pagenum();
@@ -59,7 +59,8 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			'search' => array(),
 			'enabled' => array(),
 			'disabled' => array(),
-			'upgrade' => array()
+			'upgrade' => array(),
+			'broken' => $this->is_site_themes ? array() : wp_get_themes( array( 'errors' => true ) ),
 		);
 
 		if ( $this->is_site_themes ) {
@@ -70,7 +71,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			$allowed_where = 'network';
 		}
 
-		$current = current_user_can( 'update_themes' ) && ! $this->is_site_themes && get_site_transient( 'update_themes' );
+		$maybe_update = current_user_can( 'update_themes' ) && ! $this->is_site_themes && get_site_transient( 'update_themes' );
 
 		foreach ( (array) $themes['all'] as $key => $theme ) {
 			if ( $this->is_site_themes && $theme->is_allowed( 'network' ) ) {
@@ -81,7 +82,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			$filter = $theme->is_allowed( $allowed_where, $this->site_id ) ? 'enabled' : 'disabled';
 			$themes[ $filter ][ $key ] = $themes['all'][ $key ];
 
-			if ( $current && isset( $current->response[ $key ] ) )
+			if ( $maybe_update && isset( $current->response[ $key ] ) )
 				$themes['upgrade'][ $key ] = $themes['all'][ $key ];
 		}
 
@@ -206,6 +207,9 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 				case 'upgrade':
 					$text = _n( 'Update Available <span class="count">(%s)</span>', 'Update Available <span class="count">(%s)</span>', $count );
 					break;
+				case 'broken' :
+					$text = _n( 'Broken <span class="count">(%s)</span>', 'Broken <span class="count">(%s)</span>', $count );
+					break;
 			}
 
 			if ( $this->is_site_themes )
@@ -297,8 +301,6 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		$checkbox_id = "checkbox_" . md5( $theme->get('Name') );
 		$checkbox = "<input type='checkbox' name='checked[]' value='" . esc_attr( $theme_key ) . "' id='" . $checkbox_id . "' /><label class='screen-reader-text' for='" . $checkbox_id . "' >" . __('Select') . " " . $theme->display('Name') . "</label>";
 
-		$description = '<p>' . $theme->display( 'Description' ) . '</p>';
-
 		$id = sanitize_html_class( $theme->get_stylesheet() );
 
 		echo "<tr id='$id' class='$class'>";
@@ -320,8 +322,10 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 					echo "</td>";
 					break;
 				case 'description':
-					echo "<td class='column-description desc'$style>
-						<div class='theme-description'>" . $theme->display( 'Description' ) . "</div>
+					echo "<td class='column-description desc'$style>";
+					if ( $theme->errors() )
+						echo '<p><strong>' . $theme->errors()->get_error_message() . '</strong></p>';
+					echo "<div class='theme-description'><p>" . $theme->display( 'Description' ) . "</p></div>
 						<div class='$class second theme-version-author-uri'>";
 
 					$theme_meta = array();
