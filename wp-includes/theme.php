@@ -25,45 +25,50 @@ function wp_get_themes( $args = array() ) {
 	$defaults = array( 'errors' => false, 'allowed' => null, 'blog_id' => 0 );
 	$args = wp_parse_args( $args, $defaults );
 
-	static $_themes;
-	if ( ! isset( $_themes ) ) {
-		$_themes = array();
-		$theme_data = search_theme_directories();
-		// Make sure the current theme wins out, in case search_theme_directories() picks the wrong
-		// one in the case of a conflict. (Normally, last registered theme root wins.)
-		$current_theme = get_stylesheet();
-		$current_theme_root = get_raw_theme_root( $current_theme );
-		if ( ! in_array( $current_theme_root, $wp_theme_directories ) )
-			$current_theme_root = WP_CONTENT_DIR . $current_theme_root;
-		foreach ( (array) $theme_data as $theme_slug => $data ) {
-			if ( $current_theme == $theme_slug && $current_theme_root != $data['theme_root'] )
-				$_themes[ $theme_slug ] = new WP_Theme( $theme_slug, $current_theme_root );
-			else
-				$_themes[ $theme_slug ] = new WP_Theme( $theme_slug, $data['theme_root'] );
+	static $_theme_directories, $_themes = array();
+	if ( ! isset( $_theme_directories ) ) {
+		$_theme_directories = search_theme_directories();
+		if ( count( $wp_theme_directories ) > 1 ) {
+			// Make sure the current theme wins out, in case search_theme_directories() picks the wrong
+			// one in the case of a conflict. (Normally, last registered theme root wins.)
+			$current_theme = get_stylesheet();
+			$root_of_current_theme = get_raw_theme_root( $current_theme );
+			if ( ! in_array( $root_of_current_theme, $wp_theme_directories ) )
+				$root_of_current_theme = WP_CONTENT_DIR . $current_theme_root;
+			$_theme_directories[ $current_theme ]['theme_root'] = $root_of_current_theme;
 		}
 	}
 
-	$themes = $_themes;
-	if ( empty( $themes ) )
-		return $themes;
+	if ( empty( $_theme_directories ) )
+		return array();
 
-	if ( null !== $args['errors'] ) {
-		foreach ( $themes as $theme_slug => $theme ) {
-			if ( $theme->errors() != $args['errors'] )
-				unset( $themes[ $theme_slug ] );
-		}
-	}
+	$theme_directories = $_theme_directories;
 
 	if ( is_multisite() && null !== $args['allowed'] ) {
-		if ( $allowed = $args['allowed'] ) {
-			if ( 'network' === $allowed )
-				$themes = array_intersect_key( $themes, WP_Theme::get_allowed_on_network( $args['blog_id'] ) );
-			elseif ( 'site' === $allowed )
-				$themes = array_intersect_key( $themes, WP_Theme::get_allowed_on_site( $args['blog_id'] ) );
-			else
-				$themes = array_intersect_key( $themes, WP_Theme::get_allowed( $args['blog_id'] ) );
-		} else {
-			$themes = array_diff_key( $themes, WP_Theme::get_allowed( $args['blog_id'] ) );
+		$allowed = $args['allowed'];
+		if ( 'network' === $allowed )
+			$theme_directories = array_intersect_key( $theme_directories, WP_Theme::get_allowed_on_network( $args['blog_id'] ) );
+		elseif ( 'site' === $allowed )
+			$theme_directories = array_intersect_key( $theme_directories, WP_Theme::get_allowed_on_site( $args['blog_id'] ) );
+		elseif ( $allowed )
+			$theme_directories = array_intersect_key( $theme_directories, WP_Theme::get_allowed( $args['blog_id'] ) );
+		else
+			$theme_directories = array_diff_key( $theme_directories, WP_Theme::get_allowed( $args['blog_id'] ) );
+	}
+
+	$themes = array();
+
+	foreach ( $theme_directories as $theme => $theme_root ) {
+		if ( isset( $_themes[ $theme ] ) )
+			$themes[ $theme ] = $_themes[ $theme ];
+		else
+			$themes[ $theme ] = $_themes[ $theme ] = new WP_Theme( $theme, $theme_root['theme_root'] );
+	}
+
+	if ( null !== $args['errors'] ) {
+		foreach ( $themes as $theme => $wp_theme ) {
+			if ( $wp_theme->errors() != $args['errors'] )
+				unset( $themes[ $theme ] );
 		}
 	}
 
