@@ -2036,7 +2036,9 @@ class wp_xmlrpc_server extends IXR_Server {
 			return(new IXR_Error(500, __('Sorry, the new category failed.')));
 		}
 
-		return($cat_id);
+		do_action( 'xmlrpc_call_success_wp_newCategory', $cat_id, $args );
+
+		return $cat_id;
 	}
 
 	/**
@@ -2063,7 +2065,12 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( !current_user_can('manage_categories') )
 			return new IXR_Error( 401, __( 'Sorry, you do not have the right to delete a category.' ) );
 
-		return wp_delete_term( $category_id, 'category' );
+		$status = wp_delete_term( $category_id, 'category' );
+
+		if( true == $status )
+			do_action( 'xmlrpc_call_success_wp_deleteCategory', $category_id, $args );
+
+		return $status;
 	}
 
 	/**
@@ -2275,7 +2282,12 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		do_action('xmlrpc_call', 'wp.deleteComment');
 
-		return wp_delete_comment($comment_ID);
+		$status = wp_delete_comment( $comment_ID );
+
+		if( true == $status )
+			do_action( 'xmlrpc_call_success_wp_deleteComment', $comment_ID, $args );
+
+		return $status;
 	}
 
 	/**
@@ -2363,6 +2375,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( !$result )
 			return new IXR_Error(500, __('Sorry, the comment could not be edited. Something wrong happened.'));
 
+		do_action( 'xmlrpc_call_success_wp_editComment', $comment_ID, $args );
+
 		return true;
 	}
 
@@ -2446,7 +2460,11 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		do_action('xmlrpc_call', 'wp.newComment');
 
-		return wp_new_comment($comment);
+		$comment_ID = wp_new_comment( $comment );
+
+		do_action( 'xmlrpc_call_success_wp_newComment', $comment_ID, $args );
+
+		return $comment_ID;
 	}
 
 	/**
@@ -4214,6 +4232,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		// Save the data
 		$id = wp_insert_attachment( $attachment, $upload[ 'file' ], $post_id );
 		wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $upload['file'] ) );
+
+		do_action( 'xmlrpc_call_success_mw_newMediaObject', $id, $args );
 
 		return apply_filters( 'wp_handle_upload', array( 'file' => $name, 'url' => $upload[ 'url' ], 'type' => $type ), 'upload' );
 	}
