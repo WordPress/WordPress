@@ -591,31 +591,6 @@ class wp_xmlrpc_server extends IXR_Server {
 			}
 		}
 
-		// backward compatiblity
-		if ( $all_taxonomy_fields || in_array( 'tags', $fields ) ) {
-			$tagnames = array();
-			$tags = wp_get_post_tags( $post['ID'] );
-			if ( ! empty( $tags ) ) {
-				foreach ( $tags as $tag ) {
-					$tagnames[] = $tag->name;
-				}
-				$tagnames = implode( ', ', $tagnames );
-			} else {
-				$tagnames = '';
-			}
-			$_post['tags'] = $tagnames;
-		}
-
-		// backward compatiblity
-		if ( $all_taxonomy_fields || in_array( 'categories', $fields ) ) {
-			$categories = array();
-			$catids = wp_get_post_categories( $post['ID'] );
-			foreach ( $catids as $catid ) {
-				$categories[] = get_cat_name( $catid );
-			}
-			$_post['categories'] = $categories;
-		}
-
 		if ( in_array( 'custom_fields', $fields ) )
 			$_post['custom_fields'] = $this->get_custom_fields( $post['ID'] );
 
