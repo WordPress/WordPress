@@ -746,7 +746,7 @@ function switch_theme( $template, $stylesheet ) {
 		add_option( "theme_mods_$stylesheet", $default_theme_mods );
 	}
 
-	update_option( 'theme_switched', $old_theme->get('Name') );
+	update_option( 'theme_switched', $old_theme->get_stylesheet() );
 	do_action( 'switch_theme', $new_name, $new_theme );
 }
 
@@ -1564,8 +1564,9 @@ add_action( 'delete_attachment', '_delete_attachment_theme_mod' );
  * @since 3.3.0
  */
 function check_theme_switched() {
-	if ( false !== ( $old_theme = get_option( 'theme_switched' ) ) && !empty( $old_theme ) ) {
-		do_action( 'after_switch_theme', $old_theme );
+	if ( $stylesheet = get_option( 'theme_switched' ) ) {
+		$old_theme = wp_get_theme( $stylesheet );
+		do_action( 'after_switch_theme', $old_theme->get('Name'), $old_theme );
 		update_option( 'theme_switched', false );
 	}
 }
