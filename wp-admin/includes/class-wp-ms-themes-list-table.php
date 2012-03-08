@@ -88,7 +88,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 
 		if ( $s ) {
 			$status = 'search';
-			$themes['search'] = array_filter( $themes['all'], array( &$this, '_search_callback' ) );
+			$themes['search'] = array_filter( array_merge( $themes['all'], $themes['broken'] ), array( &$this, '_search_callback' ) );
 		}
 
 		$totals = array();
@@ -283,10 +283,12 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 
 		$theme_key = $theme->get_stylesheet();
 
-		if ( ! $allowed )
-			$actions['enable'] = '<a href="' . esc_url( wp_nonce_url($url . 'action=enable&amp;theme=' . $theme_key . '&amp;paged=' . $page . '&amp;s=' . $s, 'enable-theme_' . $theme_key) ) . '" title="' . esc_attr__('Enable this theme') . '" class="edit">' . ( $this->is_site_themes ? __( 'Enable' ) : __( 'Network Enable' ) ) . '</a>';
-		else
+		if ( ! $allowed ) {
+			if ( ! $theme->errors() )
+				$actions['enable'] = '<a href="' . esc_url( wp_nonce_url($url . 'action=enable&amp;theme=' . $theme_key . '&amp;paged=' . $page . '&amp;s=' . $s, 'enable-theme_' . $theme_key) ) . '" title="' . esc_attr__('Enable this theme') . '" class="edit">' . ( $this->is_site_themes ? __( 'Enable' ) : __( 'Network Enable' ) ) . '</a>';
+		} else {
 			$actions['disable'] = '<a href="' . esc_url( wp_nonce_url($url . 'action=disable&amp;theme=' . $theme_key . '&amp;paged=' . $page . '&amp;s=' . $s, 'disable-theme_' . $theme_key) ) . '" title="' . esc_attr__('Disable this theme') . '">' . ( $this->is_site_themes ? __( 'Disable' ) : __( 'Network Disable' ) ) . '</a>';
+		}
 
 		if ( current_user_can('edit_themes') )
 			$actions['edit'] = '<a href="' . esc_url('theme-editor.php?theme=' .  $theme_key ) . '" title="' . esc_attr__('Open this theme in the Theme Editor') . '" class="edit">' . __('Edit') . '</a>';
@@ -323,8 +325,10 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 					break;
 				case 'description':
 					echo "<td class='column-description desc'$style>";
-					if ( $theme->errors() )
-						echo '<p><strong>' . $theme->errors()->get_error_message() . '</strong></p>';
+					if ( $theme->errors() ) {
+						$pre = $status == 'broken' ? '' : __( 'Broken Theme:' ) . ' ';
+						echo '<p><strong class="attention">' . $pre . $theme->errors()->get_error_message() . '</strong></p>';
+					}
 					echo "<div class='theme-description'><p>" . $theme->display( 'Description' ) . "</p></div>
 						<div class='$class second theme-version-author-uri'>";
 
