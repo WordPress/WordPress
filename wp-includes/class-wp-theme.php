@@ -1084,33 +1084,8 @@ final class WP_Theme implements ArrayAccess {
 	 */
 	public static function get_allowed_on_network() {
 		static $allowed_themes;
-		if ( isset( $allowed_themes ) )
-			return $allowed_themes;
-
-		$allowed_themes = get_site_option( 'allowedthemes' );
-
-		// This is all super old MU back compat joy.
-		// 'allowedthemes' keys things by stylesheet. 'allowed_themes' keyed things by name.
-		if ( false === $allowed_themes ) {
-			$allowed_themes = get_site_option( 'allowed_themes' );
-			if ( ! is_array( $allowed_themes ) || empty( $allowed_themes ) ) {
-				$allowed_themes = array();
-			} else {
-				$converted = array();
-				$themes = wp_get_themes();
-				foreach ( $themes as $stylesheet => $theme_data ) {
-					if ( isset( $allowed_themes[ $theme_data->get('Name') ] ) )
-						$converted[ $stylesheet ] = true;
-				}
-				$allowed_themes = $converted;
-			}
-			// Set the option so we never have to go through this pain again.
-			if ( ( is_admin() && is_main_site() ) || is_network_admin() ) {
-				update_site_option( 'allowedthemes', $allowed_themes );
-				delete_site_option( 'allowed_themes' );
-			}
-		}
-
+		if ( ! isset( $allowed_themes ) )
+			$allowed_themes = (array) get_site_option( 'allowedthemes' );
 		return $allowed_themes;
 	}
 
@@ -1159,7 +1134,7 @@ final class WP_Theme implements ArrayAccess {
 				$allowed_themes[ $blog_id ] = $converted;
 			}
 			// Set the option so we never have to go through this pain again.
-			if ( is_admin() ) {
+			if ( is_admin() && $allowed_themes[ $blog_id ] ) {
 				if ( $current ) {
 					update_option( 'allowedthemes', $allowed_themes[ $blog_id ] );
 					delete_option( 'allowed_themes' );

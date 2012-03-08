@@ -1277,15 +1277,35 @@ function upgrade_network() {
 			$start += 20;
 		}
 	}
+
 	// 3.0
 	if ( $wp_current_db_version < 13576 )
 		update_site_option( 'global_terms_enabled', '1' );
+
 	// 3.3
 	if ( $wp_current_db_version < 19390 )
 		update_site_option( 'initial_db_version', $wp_current_db_version );
+
 	if ( $wp_current_db_version < 19470 ) {
 		if ( false === get_site_option( 'active_sitewide_plugins' ) )
 			update_site_option( 'active_sitewide_plugins', array() );
+	}
+
+	// 3.4
+	if ( $wp_current_db_version < 20148 ) {
+		// 'allowedthemes' keys things by stylesheet. 'allowed_themes' keyed things by name.
+		$allowedthemes  = get_site_option( 'allowedthemes'  );
+		$allowed_themes = get_site_option( 'allowed_themes' );
+		if ( false === $allowedthemes && is_array( $allowed_themes ) && $allowed_themes ) {
+			$converted = array();
+			$themes = wp_get_themes();
+			foreach ( $themes as $stylesheet => $theme_data ) {
+				if ( isset( $allowed_themes[ $theme_data->get('Name') ] ) )
+					$converted[ $stylesheet ] = true;
+			}
+			update_site_option( 'allowedthemes', $converted );
+			delete_site_option( 'allowed_themes' );
+		}
 	}
 }
 
