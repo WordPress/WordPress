@@ -342,6 +342,11 @@ class wp_xmlrpc_server extends IXR_Server {
 				'readonly'      => true,
 				'option'        => 'stylesheet'
 			),
+			'featured_image'    => array(
+				'desc'          => __('Featured Image'),
+				'readonly'      => true,
+				'value'         => current_theme_supports( 'post-thumbnails' )
+			),
 
 			// Updatable options
 			'time_zone'         => array(
