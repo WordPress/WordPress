@@ -516,6 +516,21 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
+	 * Convert a WordPress date string to an IXR_Date object.
+	 *
+	 * @access protected
+	 *
+	 * @param $date
+	 * @return IXR_Date
+	 */
+	protected function _convert_date( $date ) {
+		if ( $date === '0000-00-00 00:00:00' ) {
+			return new IXR_Date( '00000000T00:00:00Z' );
+		}
+		return new IXR_Date( mysql2date( 'Ymd\TH:i:s', $date, false ) );
+	}
+
+	/**
 	 * Prepares post data for return in an XML-RPC object.
 	 *
 	 * @access protected
@@ -526,15 +541,15 @@ class wp_xmlrpc_server extends IXR_Server {
 	 */
 	protected function _prepare_post( $post, $fields ) {
 		// holds the data for this post. built up based on $fields
-		$_post = array( 'post_id' => $post['ID'] );
+		$_post = array( 'post_id' => strval( $post['ID'] ) );
 
 		// prepare common post fields
 		$post_fields = array(
 			'post_title'        => $post['post_title'],
-			'post_date'         => new IXR_Date( mysql2date( 'Ymd\TH:i:s', $post['post_date'], false ) ),
-			'post_date_gmt'     => new IXR_Date( mysql2date( 'Ymd\TH:i:s', $post['post_date_gmt'], false ) ),
-			'post_modified'     => new IXR_Date( mysql2date( 'Ymd\TH:i:s', $post['post_modified'], false ) ),
-			'post_modified_gmt' => new IXR_Date( mysql2date( 'Ymd\TH:i:s', $post['post_modified_gmt'], false ) ),
+			'post_date'         => $this->_convert_date( $post['post_date'] ),
+			'post_date_gmt'     => $this->_convert_date( $post['post_date_gmt'] ),
+			'post_modified'     => $this->_convert_date( $post['post_modified'] ),
+			'post_modified_gmt' => $this->_convert_date( $post['post_modified_gmt'] ),
 			'post_status'       => $post['post_status'],
 			'post_type'         => $post['post_type'],
 			'post_name'         => $post['post_name'],
@@ -929,14 +944,14 @@ class wp_xmlrpc_server extends IXR_Server {
 			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
 
 		// convert the date field back to IXR form
-		$post['post_date'] = new IXR_Date( mysql2date( 'Ymd\TH:i:s', $post['post_date'], false ) );
+		$post['post_date'] = $this->_convert_date( $post['post_date'] );
 
 		// ignore the existing GMT date if it is empty or a non-GMT date was supplied in $content_struct,
 		// since _insert_post will ignore the non-GMT date if the GMT date is set
 		if ( $post['post_date_gmt'] == '0000-00-00 00:00:00' || isset( $content_struct['post_date'] ) )
 			unset( $post['post_date_gmt'] );
 		else
-			$post['post_date_gmt'] = new IXR_Date( mysql2date( 'Ymd\TH:i:s', $post['post_date_gmt'], false ) );
+			$post['post_date_gmt'] = $this->_convert_date( $post['post_date_gmt'] );
 
 		$this->escape( $post );
 		$merged_content_struct = array_merge( $post, $content_struct );
