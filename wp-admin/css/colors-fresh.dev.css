@@ -1117,7 +1117,8 @@ table.widefat .spam a:hover,
 }
 
 #adminmenu .menu-icon-post:hover div.wp-menu-image,
-#adminmenu .menu-icon-post.wp-has-current-submenu div.wp-menu-image {
+#adminmenu .menu-icon-post.wp-has-current-submenu div.wp-menu-image,
+#adminmenu .menu-icon-post.current div.wp-menu-image {
 	background: transparent url('../images/menu.png?ver=20120201') no-repeat scroll -271px -1px;
 }
 
@@ -1127,7 +1128,8 @@ table.widefat .spam a:hover,
 }
 
 #adminmenu .menu-icon-media:hover div.wp-menu-image,
-#adminmenu .menu-icon-media.wp-has-current-submenu div.wp-menu-image {
+#adminmenu .menu-icon-media.wp-has-current-submenu div.wp-menu-image,
+#adminmenu .menu-icon-media.current div.wp-menu-image {
 	background: transparent url('../images/menu.png?ver=20120201') no-repeat scroll -120px -1px;
 }
 
@@ -1137,7 +1139,8 @@ table.widefat .spam a:hover,
 }
 
 #adminmenu .menu-icon-links:hover div.wp-menu-image,
-#adminmenu .menu-icon-links.wp-has-current-submenu div.wp-menu-image {
+#adminmenu .menu-icon-links.wp-has-current-submenu div.wp-menu-image,
+#adminmenu .menu-icon-links.current div.wp-menu-image {
 	background: transparent url('../images/menu.png?ver=20120201') no-repeat scroll -90px -1px;
 }
 
@@ -1147,7 +1150,8 @@ table.widefat .spam a:hover,
 }
 
 #adminmenu .menu-icon-page:hover div.wp-menu-image,
-#adminmenu .menu-icon-page.wp-has-current-submenu div.wp-menu-image {
+#adminmenu .menu-icon-page.wp-has-current-submenu div.wp-menu-image,
+#adminmenu .menu-icon-page.current div.wp-menu-image {
 	background: transparent url('../images/menu.png?ver=20120201') no-repeat scroll -150px -1px;
 }
 
@@ -1168,7 +1172,8 @@ table.widefat .spam a:hover,
 }
 
 #adminmenu .menu-icon-appearance:hover div.wp-menu-image,
-#adminmenu .menu-icon-appearance.wp-has-current-submenu div.wp-menu-image {
+#adminmenu .menu-icon-appearance.wp-has-current-submenu div.wp-menu-image,
+#adminmenu .menu-icon-appearance.current div.wp-menu-image {
 	background: transparent url('../images/menu.png?ver=20120201') no-repeat scroll 0 -1px;
 }
 
@@ -1178,7 +1183,8 @@ table.widefat .spam a:hover,
 }
 
 #adminmenu .menu-icon-plugins:hover div.wp-menu-image,
-#adminmenu .menu-icon-plugins.wp-has-current-submenu div.wp-menu-image {
+#adminmenu .menu-icon-plugins.wp-has-current-submenu div.wp-menu-image,
+#adminmenu .menu-icon-plugins.current div.wp-menu-image {
 	background: transparent url('../images/menu.png?ver=20120201') no-repeat scroll -180px -1px;
 }
 
@@ -1210,7 +1216,8 @@ table.widefat .spam a:hover,
 }
 
 #adminmenu .menu-icon-settings:hover div.wp-menu-image,
-#adminmenu .menu-icon-settings.wp-has-current-submenu div.wp-menu-image {
+#adminmenu .menu-icon-settings.wp-has-current-submenu div.wp-menu-image,
+#adminmenu .menu-icon-settings.current div.wp-menu-image {
 	background: transparent url('../images/menu.png?ver=20120201') no-repeat scroll -240px -1px;
 }
 
@@ -1220,7 +1227,8 @@ table.widefat .spam a:hover,
 }
 
 #adminmenu .menu-icon-site:hover div.wp-menu-image,
-#adminmenu .menu-icon-site.wp-has-current-submenu div.wp-menu-image {
+#adminmenu .menu-icon-site.wp-has-current-submenu div.wp-menu-image,
+#adminmenu .menu-icon-site.current div.wp-menu-image {
 	background: transparent url('../images/menu.png?ver=20120201') no-repeat scroll -360px -1px;
 }
 /* end menu and screen icons */
