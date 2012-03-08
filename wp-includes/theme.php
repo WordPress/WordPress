@@ -525,13 +525,19 @@ function get_theme_root( $stylesheet_or_template = false ) {
  *
  * @since 1.5.0
  *
- * @param string $stylesheet_or_template The stylesheet or template name of the theme
+ * @param string $stylesheet_or_template Optional. The stylesheet or template name of the theme.
+ * 	Default is to leverage the main theme root.
+ * @param string $theme_root Optional. The theme root for which calculations will be based, preventing
+ * 	the need for a get_raw_theme_root() call.
  * @return string Themes URI.
  */
-function get_theme_root_uri( $stylesheet_or_template = false ) {
+function get_theme_root_uri( $stylesheet_or_template = false, $theme_root = false ) {
 	global $wp_theme_directories;
 
-	if ( $stylesheet_or_template && $theme_root = get_raw_theme_root( $stylesheet_or_template ) ) {
+	if ( $stylesheet_or_template && ! $theme_root )
+		$theme_root = get_raw_theme_root( $stylesheet_or_template );
+
+	if ( $stylesheet_or_template && $theme_root ) {
 		if ( in_array( $theme_root, (array) $wp_theme_directories ) ) {
 			// Absolute path. Make an educated guess. YMMV -- but note the filter below.
 			if ( 0 === strpos( $theme_root, WP_CONTENT_DIR ) )

@@ -113,6 +113,14 @@ final class WP_Theme implements ArrayAccess {
 	private $parent;
 
 	/**
+	 * URL to the theme root, usually an absolute URL to wp-content/themes
+	 *
+	 * @access private
+	 * var string
+	 */
+	private $theme_root_uri;
+
+	/**
 	 * Flag for whether the theme's textdomain is loaded.
 	 *
 	 * @access private
@@ -789,7 +797,11 @@ final class WP_Theme implements ArrayAccess {
 	/**
 	 * Returns the URL to the directory of the theme root.
 	 *
-	 * This is typically the absolute path to wp-content/themes.
+	 * This is typically the absolute URL to wp-content/themes. This forms the basis
+	 * for all other URLs returned by WP_Theme, so we pass it to the public function
+	 * get_theme_root_uri() and allow it to run the theme_root_uri filter.
+	 *
+	 * @uses get_theme_root_uri()
 	 *
 	 * @since 3.4.0
 	 * @access public
@@ -797,10 +809,9 @@ final class WP_Theme implements ArrayAccess {
 	 * @return string Theme root URI.
 	 */
 	public function get_theme_root_uri() {
-		if ( 0 === strpos( WP_CONTENT_DIR, $this->theme_root ) )
-			return str_replace( WP_CONTENT_DIR, content_url(), $this->theme_root );
-		// Give up, send it off to the filter.
-		return get_theme_root_uri( $this->stylesheet );
+		if ( ! isset( $this->theme_root_uri ) )
+			$this->theme_root_uri = get_theme_root_uri( $this->stylesheet, $this->theme_root );
+		return $this->theme_root_uri;
 	}
 
 	/**
