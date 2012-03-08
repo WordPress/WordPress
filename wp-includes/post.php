@@ -328,29 +328,32 @@ function get_children($args = '', $output = OBJECT) {
  * 'more'. There can be text or space(s) after the word 'more', but won't be
  * referenced.
  *
- * The returned array has 'main' and 'extended' keys. Main has the text before
+ * The returned array has 'main', 'extended', and 'more_text' keys. Main has the text before
  * the <code><!--more--></code>. The 'extended' key has the content after the
- * <code><!--more--></code> comment.
+ * <code><!--more--></code> comment. The 'more_text' key has the custom "Read More" text.
  *
  * @since 1.0.0
  *
  * @param string $post Post content.
- * @return array Post before ('main') and after ('extended').
+ * @return array Post before ('main'), after ('extended'), and custom readmore ('more_text').
  */
 function get_extended($post) {
 	//Match the new style more links
 	if ( preg_match('/<!--more(.*?)?-->/', $post, $matches) ) {
 		list($main, $extended) = explode($matches[0], $post, 2);
+		$more_text = $matches[1];
 	} else {
 		$main = $post;
 		$extended = '';
+		$more_text = '';
 	}
 
 	// Strip leading and trailing whitespace
 	$main = preg_replace('/^[\s]*(.*)[\s]*$/', '\\1', $main);
 	$extended = preg_replace('/^[\s]*(.*)[\s]*$/', '\\1', $extended);
+	$more_text = preg_replace('/^[\s]*(.*)[\s]*$/', '\\1', $more_text);
 
-	return array('main' => $main, 'extended' => $extended);
+	return array( 'main' => $main, 'extended' => $extended, 'more_text' => $more_text );
 }
 
 /**
