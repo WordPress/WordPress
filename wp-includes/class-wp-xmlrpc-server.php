@@ -517,6 +517,15 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( ! is_array( $_term) )
 			$_term = get_object_vars( $_term );
 
+		// For Intergers which may be largeer than XMLRPC supports ensure we return strings.
+		$_term['term_id'] = strval( $_term['term_id'] );
+		$_term['term_group'] = strval( $_term['term_group'] );
+		$_term['term_taxonomy_id'] = strval( $_term['term_taxonomy_id'] );
+		$_term['parent'] = strval( $_term['parent'] );
+
+		// Count we are happy to return as an Integer because people really shouldn't use Terms that much.
+		$_term['count'] = intval( $_term['count'] );
+
 		return apply_filters( 'xmlrpc__prepare_term', $_term, $term );
 	}
 
