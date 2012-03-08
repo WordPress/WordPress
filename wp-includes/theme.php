@@ -34,7 +34,7 @@ function wp_get_themes( $args = array() ) {
 			$current_theme = get_stylesheet();
 			$root_of_current_theme = get_raw_theme_root( $current_theme );
 			if ( ! in_array( $root_of_current_theme, $wp_theme_directories ) )
-				$root_of_current_theme = WP_CONTENT_DIR . $current_theme_root;
+				$root_of_current_theme = WP_CONTENT_DIR . $root_of_current_theme;
 			$_theme_directories[ $current_theme ]['theme_root'] = $root_of_current_theme;
 		}
 	}
