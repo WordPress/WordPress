@@ -329,8 +329,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 					if ( $theme->get('Version') )
 						$theme_meta[] = sprintf( __( 'Version %s' ), $theme->display('Version') );
 
-					if ( $theme->get('Author') )
-						$theme_meta[] = sprintf( __( 'By %s' ), $theme->display('Author') );
+					$theme_meta[] = sprintf( __( 'By %s' ), $theme->display('Author') );
 
 					if ( $theme->get('ThemeURI') )
 						$theme_meta[] = '<a href="' . $theme->display('ThemeURI') . '" title="' . esc_attr__( 'Visit theme homepage' ) . '">' . __( 'Visit Theme Site' ) . '</a>';
