@@ -1792,6 +1792,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( !$result )
 			return(new IXR_Error(500, __('Failed to delete the page.')));
 
+		do_action( 'xmlrpc_call_success_wp_deletePage', $page_id, $args );
+
 		return(true);
 	}
 
@@ -3191,6 +3193,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->attach_uploads( $post_ID, $post_content );
 
+		do_action( 'xmlrpc_call_success_blogger_newPost', $post_ID, $args );
+
 		return $post_ID;
 	}
 
@@ -3245,6 +3249,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->attach_uploads( $ID, $post_content );
 
+		do_action( 'xmlrpc_call_success_blogger_editPost', $post_ID, $args );
+
 		return true;
 	}
 
@@ -3281,6 +3287,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		if ( !$result )
 			return new IXR_Error(500, __('For some strange yet very annoying reason, this post could not be deleted.'));
+
+		do_action( 'xmlrpc_call_success_blogger_deletePost', $post_ID, $args );
 
 		return true;
 	}
@@ -3576,6 +3584,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( !$post_ID )
 			return new IXR_Error(500, __('Sorry, your entry could not be posted. Something wrong happened.'));
 
+		do_action( 'xmlrpc_call_success_mw_newPost', $post_ID, $args );
+
 		return strval($post_ID);
 	}
 
@@ -3866,6 +3876,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		// earlier in this function
 		if ( isset( $content_struct['wp_post_format'] ) )
 			wp_set_post_terms( $post_ID, array( 'post-format-' . $content_struct['wp_post_format'] ), 'post_format' );
+
+		do_action( 'xmlrpc_call_success_mw_editPost', $post_ID, $args );
 
 		return true;
 	}
