@@ -599,7 +599,7 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 	};
 	qt.FullscreenButton.prototype = new qt.Button();
 	qt.FullscreenButton.prototype.callback = function(e, c) {
-		if ( c.id != 'content' || typeof(fullscreen) == 'undefined' )
+		if ( !c.id || typeof(fullscreen) == 'undefined' )
 			return;
 
 		fullscreen.on();

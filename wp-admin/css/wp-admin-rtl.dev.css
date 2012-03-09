@@ -203,98 +203,6 @@ form.upgrade .hint {
 	margin: 1px 1px 1px 2px;
 }
 
-/* Distraction Free Writing mode
- * =Overlay Styles
--------------------------------------------------------------- */
-
-/* No RTL for now, this space intentionally left blank */
-
-/* =Overlay Body
--------------------------------------------------------------- */
-#wp-fullscreen-body {
-	right: 0;
-	left:auto;
-}
-
-#wp-fullscreen-tagline {
-	float: left;
-}
-
-/* =Top bar
--------------------------------------------------------------- */
-#fullscreen-topbar {
-	left:auto;
-	right: 0;
-}
-
-#wp-fullscreen-mode-bar,
-#wp-fullscreen-button-bar,
-#wp-fullscreen-close,
-#wp-fullscreen-count {
-	float: right;
-}
-
-#wp-fullscreen-save {
-	float: left;
-}
-
-#wp-fullscreen-save {
-	padding: 2px 5px 0 2px;
-}
-
-#wp-fullscreen-buttons > div {
-	float: right;
-}
-
-#wp-fullscreen-mode-bar {
-	padding: 1px 0 0 14px;
-}
-
-#wp-fullscreen-modes a {
-	float: right;
-	border-width: 1px 0 1px 1px;
-}
-
-#wp-fullscreen-modes a:first-child {
-	-webkit-border-top-left-radius: 0;
-	-webkit-border-top-right-radius: 3px;
-	-webkit-border-bottom-left-radius: 0;
-	-webkit-border-bottom-right-radius: 3px;
-	border-width: 1px;
-	border-top-left-radius: 0;
-	border-top-right-radius: 3px;
-	border-bottom-right-left: 0;
-	border-bottom-right-radius: 3px;
-}
-
-#wp-fullscreen-modes a:last-child {
-	-webkit-border-top-right-radius: 0;
-	-webkit-border-top-left-radius: 3px;
-	-webkit-border-bottom-right-radius: 0;
-	-webkit-border-bottom-left-radius: 3px;
-	border-top-right-radius: 0;
-	border-top-left-radius: 3px;
-	border-bottom-right-radius: 0;
-	border-bottom-left-radius: 3px;
-}
-
-#wp-fullscreen-save img,
-#wp-fullscreen-save span {
-	padding-right: 0;
-	padding-left: 4px;
-}
-
-/* =Thickbox Adjustments
--------------------------------------------------------------- */
-/* No RTL for now, this space intentionally left blank */
-
-
-/* =TinyMCE Adjustments
--------------------------------------------------------------- */
-/* No RTL for now, this space intentionally left blank */
-
-
-
 /*------------------------------------------------------------------------------
   6.0 - Admin Header
 ------------------------------------------------------------------------------*/
@@ -2490,4 +2398,4 @@ body.login.locale-he-il,
 .locale-he-il em {
 	font-style: normal;
 	font-weight: bold;
-}
+} 

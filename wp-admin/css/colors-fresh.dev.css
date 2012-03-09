@@ -182,8 +182,7 @@ h3.dashboard-widget-title small,
 .sidebar-name,
 #nav-menu-header,
 #nav-menu-footer,
-.menu-item-handle,
-#fullscreen-topbar {
+.menu-item-handle {
 	background-color: #f1f1f1; /* Fallback */
 	background-image: -ms-linear-gradient(top, #f9f9f9, #ececec); /* IE10 */
 	background-image: -moz-linear-gradient(top, #f9f9f9, #ececec); /* Firefox */
@@ -1736,24 +1735,8 @@ div.widgets-sortables,
 	border-bottom-color: #f9f9f9;
 }
 
-/* custom header & background pages */
 #upload-form label {
 	color: #777;
-}
-/* custom header & background pages */
-
-/* full screen */
-.fullscreen-overlay {
-	background: #fff;
-}
-
-.wp-fullscreen-focus #wp-fullscreen-title,
-.wp-fullscreen-focus #wp-fullscreen-container {
-	border-color: #ccc;
-}
-
-#fullscreen-topbar {
-	border-bottom-color: #DFDFDF;
 }
 
 /* Begin About Pages */

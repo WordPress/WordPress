@@ -618,7 +618,7 @@ final class _WP_Editors {
 		$dfw_width = get_user_setting( 'dfw_width', $width );
 		$save = isset($post->post_status) && $post->post_status == 'publish' ? __('Update') : __('Save');
 	?>
-	<div id="wp-fullscreen-body">
+	<div id="wp-fullscreen-body"<?php if ( is_rtl() ) echo ' class="rtl"'; ?>>
 	<div id="fullscreen-topbar">
 		<div id="wp-fullscreen-toolbar">
 			<div id="wp-fullscreen-close"><a href="#" onclick="fullscreen.off();return false;"><?php _e('Exit fullscreen'); ?></a></div>
@@ -669,7 +669,7 @@ final class _WP_Editors {
 
 			<div id="wp-fullscreen-save">
 				<span><?php if ( $post->post_status == 'publish' ) _e('Updated.'); else _e('Saved.'); ?></span>
-				<img src="images/wpspin_light.gif" alt="" />
+				<img src="<?php echo admin_url('images/wpspin_light.gif'); ?>" alt="" />
 				<input type="button" class="button-primary" value="<?php echo $save; ?>" onclick="fullscreen.save();" />
 			</div>
 

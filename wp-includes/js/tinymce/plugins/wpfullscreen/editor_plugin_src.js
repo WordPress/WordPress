@@ -34,7 +34,7 @@
 			ed.addCommand('wpFullScreenInit', function() {
 				var d, b, fsed;
 
-				ed = tinymce.get('content');
+				ed = tinyMCE.activeEditor;
 				d = ed.getDoc();
 				b = d.body;
 
