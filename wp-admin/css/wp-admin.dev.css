@@ -2400,7 +2400,6 @@ table.fixed {
 	width: 80px;
 }
 
-#commentsdiv .fixed .column-author,
 #comments-form .fixed .column-author {
 	width: 20%;
 }
@@ -2410,28 +2409,49 @@ table.fixed {
 	padding: 0;
 }
 
-#commentsdiv.postbox .inside .row-actions {
+#commentsdiv .inside .row-actions {
 	line-height:18px;
 }
 
-#commentsdiv.postbox .inside td {
-	padding:1em 10px;
+#commentsdiv .inside .column-author {
+	width: 25%;
 }
 
-#commentsdiv.postbox .inside .column-author {
-	width:33%;
+#commentsdiv .column-comment p {
+	margin: 0.6em 0;
+	padding: 0;
 }
 
-#commentsdiv.postbox .inside p {
-	margin:6px 10px 8px;
+#commentsdiv #replyrow td {
+	padding: 0;
 }
 
-#commentsdiv.postbox .column-comment p {
-	margin:0.6em 0;
+#commentsdiv p {
+	padding: 8px 10px;
+	margin: 0;
 }
 
-#commentsdiv.postbox #replyrow td {
-	padding:0;
+#commentsdiv #add-new-comment {
+	border-width: 0 0 1px;
+	border-style: none none solid;
+}
+
+#commentsdiv .comments-box {
+	border: 0 none;
+}
+
+#commentsdiv .comments-box thead th {
+	background: transparent;
+	padding: 0 7px 4px;
+	font-style: italic;
+}
+
+#commentsdiv .comments-box tr:last-child td {
+	border-bottom: 0 none;
+}
+
+#commentsdiv img.waiting {
+	padding-left: 5px;
 }
 
 .sorting-indicator {
@@ -3112,7 +3132,7 @@ div.tabs-panel-inactive {
 #normal-sortables .postbox #replyrow .submit {
 	float: none;
 	margin: 0;
-	padding: 3px 7px;
+	padding: 0 7px 5px;
 }
 
 #side-sortables .submitbox .submit input,
@@ -3126,22 +3146,10 @@ div.tabs-panel-inactive {
 	margin: 11px 0;
 }
 
-#side-sortables .comments-box,
-#normal-sortables .comments-box {
-	border: 0 none;
-}
-
 ul.category-tabs,
 ul.add-menu-item-tabs,
 ul.wp-tab-bar {
 	margin-top: 12px;
-}
-
-#side-sortables .comments-box thead th,
-#normal-sortables .comments-box thead th {
-	background: transparent;
-	padding: 0 7px 4px;
-	font-style: italic;
 }
 
 ul.category-tabs li.tabs,
@@ -3149,10 +3157,6 @@ ul.add-menu-item-tabs li.tabs,
 .wp-tab-active {
 	border-style: solid solid none;
 	border-width: 1px 1px 0;
-}
-
-#commentsdiv img.waiting {
-	padding-left: 5px;
 }
 
 #post-body .category-tabs li.tabs,

@@ -287,8 +287,9 @@ div.error a {
 	border-color: #c00 !important;
 }
 
-.submit {
-	border-color: #DFDFDF;
+.submit,
+#commentsdiv #add-new-comment {
+	border-color: #dfdfdf;
 }
 
 .highlight {

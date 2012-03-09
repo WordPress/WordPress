@@ -211,10 +211,11 @@ commentsBox = {
 					if ( commentsBox.st > commentsBox.total )
 						$('#show-comments').hide();
 					else
-						$('#show-comments').html(postL10n.showcomm);
+						$('#show-comments').show().children('a').html(postL10n.showcomm);
+
 					return;
 				} else if ( 1 == r ) {
-					$('#show-comments').parent().html(postL10n.endcomm);
+					$('#show-comments').html(postL10n.endcomm);
 					return;
 				}
 

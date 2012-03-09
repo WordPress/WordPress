@@ -471,25 +471,30 @@ function post_comment_meta_box_thead($result) {
 function post_comment_meta_box($post) {
 	global $wpdb, $post_ID;
 
-	$total = $wpdb->get_var($wpdb->prepare("SELECT count(1) FROM $wpdb->comments WHERE comment_post_ID = '%d' AND ( comment_approved = '0' OR comment_approved = '1')", $post_ID));
-
-	if ( 1 > $total ) {
-		echo '<p>' . __('No comments yet.') . '</p>';
-		return;
-	}
-
 	wp_nonce_field( 'get-comments', 'add_comment_nonce', false );
+	?>
+	<p class="hide-if-no-js" id="add-new-comment"><a href="#commentstatusdiv" onclick="commentReply.addcomment(<?php echo $post_ID; ?>);return false;"><?php _e('Add comment'); ?></a></p>
+	<?php
 
+	$total = $wpdb->get_var($wpdb->prepare("SELECT count(1) FROM $wpdb->comments WHERE comment_post_ID = '%d' AND ( comment_approved = '0' OR comment_approved = '1')", $post_ID));
 	$wp_list_table = _get_list_table('WP_Post_Comments_List_Table');
 	$wp_list_table->display( true );
-?>
-<p class="hide-if-no-js"><a href="#commentstatusdiv" id="show-comments" onclick="commentsBox.get(<?php echo $total; ?>);return false;"><?php _e('Show comments'); ?></a> <img class="waiting" style="display:none;" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" /></p>
-<?php
-	$hidden = get_hidden_meta_boxes('post');
-	if ( ! in_array('commentsdiv', $hidden) ) { ?>
-		<script type="text/javascript">jQuery(document).ready(function(){commentsBox.get(<?php echo $total; ?>, 10);});</script>
-<?php
+
+	if ( 1 > $total ) {
+		echo '<p id="no-comments">' . __('No comments yet.') . '</p>';
+	} else {
+		$hidden = get_hidden_meta_boxes('post');
+		if ( ! in_array('commentsdiv', $hidden) ) {
+			?>
+			<script type="text/javascript">jQuery(document).ready(function(){commentsBox.get(<?php echo $total; ?>, 10);});</script>
+			<?php
+		}
 	}
+
+	?>
+	<p class="hide-if-no-js hidden" id="show-comments"><a href="#commentstatusdiv" onclick="commentsBox.get(<?php echo $total; ?>);return false;"><?php _e('Show comments'); ?></a> <img class="waiting" style="display:none;" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" /></p>
+	<?php
+
 	wp_comment_trashnotice();
 }
 

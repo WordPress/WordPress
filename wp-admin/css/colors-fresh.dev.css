@@ -295,8 +295,9 @@ div.error a {
 	border-color: #c00 !important;
 }
 
-.submit {
-	border-color: #DFDFDF;
+.submit,
+#commentsdiv #add-new-comment {
+	border-color: #dfdfdf;
 }
 
 .highlight {
@@ -1533,11 +1534,7 @@ body.press-this ul.category-tabs li.tabs a {
 }
 
 div.widgets-sortables,
-#widgets-left .inactive {
-	background-color: #fcfcfc;
-	border-color: #dfdfdf;
-}
-
+#widgets-left .inactive,
 #available-widgets .widget-holder {
 	background-color: #fcfcfc;
 	border-color: #dfdfdf;
@@ -1664,10 +1661,7 @@ div.widgets-sortables,
 	color: #fff;
 }
 
-.list-container {
-	border-color: #DFDFDF;
-}
-
+.list-container,
 .menu-item-handle {
 	border-color: #dfdfdf;
 }
