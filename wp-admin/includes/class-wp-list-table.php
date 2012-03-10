@@ -212,7 +212,7 @@ class WP_List_Table {
 ?>
 <p class="search-box">
 	<label class="screen-reader-text" for="<?php echo $input_id ?>"><?php echo $text; ?>:</label>
-	<input type="text" id="<?php echo $input_id ?>" name="s" value="<?php _admin_search_query(); ?>" />
+	<input type="search" id="<?php echo $input_id ?>" name="s" value="<?php _admin_search_query(); ?>" />
 	<?php submit_button( $text, 'button', false, false, array('id' => 'search-submit') ); ?>
 </p>
 <?php
@@ -519,9 +519,8 @@ class WP_List_Table {
 		if ( 'bottom' == $which )
 			$html_current_page = $current;
 		else
-			$html_current_page = sprintf( "<input class='current-page' title='%s' type='text' name='%s' value='%s' size='%d' />",
+			$html_current_page = sprintf( "<input class='current-page' title='%s' type='number' step='1' min='1' name='paged' value='%s' size='%d' />",
 				esc_attr__( 'Current page' ),
-				esc_attr( 'paged' ),
 				$current,
 				strlen( $total_pages )
 			);

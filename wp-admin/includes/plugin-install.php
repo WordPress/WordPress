@@ -127,7 +127,7 @@ function install_search_form(){
 			<option value="author"<?php selected('author', $type) ?>><?php _e('Author'); ?></option>
 			<option value="tag"<?php selected('tag', $type) ?>><?php _ex('Tag', 'Plugin Installer'); ?></option>
 		</select>
-		<input type="text" name="s" value="<?php echo esc_attr($term) ?>" />
+		<input type="search" name="s" value="<?php echo esc_attr($term) ?>" />
 		<label class="screen-reader-text" for="plugin-search-input"><?php _e('Search Plugins'); ?></label>
 		<?php submit_button( __( 'Search Plugins' ), 'button', 'plugin-search-input', false ); ?>
 	</form><?php

@@ -983,7 +983,7 @@ final class WP_Screen {
 		?>
 		<div class='screen-options'>
 			<?php if ( !empty($per_page_label) ): ?>
-				<input type='text' class='screen-per-page' name='wp_screen_options[value]'
+				<input type='number' step='1' min='1' class='screen-per-page' name='wp_screen_options[value]'
 					id='<?php echo esc_attr( $option ); ?>' maxlength='3'
 					value='<?php echo esc_attr( $per_page ); ?>' />
 				<label for='<?php echo esc_attr( $option ); ?>'>

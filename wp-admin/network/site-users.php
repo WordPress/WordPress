@@ -300,7 +300,7 @@ endif; ?>
 		</tr>
 		<tr>
 			<th scope="row"><?php _e( 'Email' ) ?></th>
-			<td><input type="text" class="regular-text" name="user[email]" /></td>
+			<td><input type="email" class="regular-text" name="user[email]" /></td>
 		</tr>
 		<tr>
 			<th scope="row"><?php _e( 'Role'); ?></th>

@@ -210,6 +210,10 @@ TABLE OF CONTENTS:
 /* include margin and padding in the width calculation of input and textarea */
 input[type="text"],
 input[type="password"],
+input[type="number"],
+input[type="search"],
+input[type="email"],
+input[type="url"],
 textarea {
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
@@ -220,6 +224,15 @@ textarea {
 input[type="checkbox"],
 input[type="radio"] {
 	vertical-align: text-bottom;
+}
+
+input[type="search"] {
+	-webkit-appearance: textfield;
+	text-align: left;
+}
+
+input[type="search"]::-webkit-search-decoration {
+	display: none;
 }
 
 /* general */
@@ -789,7 +802,7 @@ input.regular-text,
 }
 
 input.small-text {
-	width: 50px;
+	width: 60px;
 }
 
 #doaction,

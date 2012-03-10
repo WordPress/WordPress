@@ -158,7 +158,7 @@ if ( ! current_user_can( 'switch_themes' ) ) {
 
 <p class="search-box">
 	<label class="screen-reader-text" for="theme-search-input"><?php _e('Search Installed Themes'); ?>:</label>
-	<input type="text" id="theme-search-input" name="s" value="<?php _admin_search_query(); ?>" />
+	<input type="search" id="theme-search-input" name="s" value="<?php _admin_search_query(); ?>" />
 	<?php submit_button( __( 'Search Installed Themes' ), 'button', false, false, array( 'id' => 'search-submit' ) ); ?>
 	<a id="filter-click" href="?filter=1"><?php _e( 'Feature Filter' ); ?></a>
 </p>

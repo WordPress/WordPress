@@ -1813,7 +1813,7 @@ function media_upload_library_form($errors) {
 
 <p id="media-search" class="search-box">
 	<label class="screen-reader-text" for="media-search-input"><?php _e('Search Media');?>:</label>
-	<input type="text" id="media-search-input" name="s" value="<?php the_search_query(); ?>" />
+	<input type="search" id="media-search-input" name="s" value="<?php the_search_query(); ?>" />
 	<?php submit_button( __( 'Search Media' ), 'button', '', false ); ?>
 </p>
 
