@@ -887,7 +887,7 @@ We hope you enjoy your new site. Thanks!
 		'admin_user_id' => $site_user->ID,
 		'registration' => 'none',
 		'upload_filetypes' => 'jpg jpeg png gif mp3 mov avi wmv midi mid pdf',
-		'blog_upload_space' => 10,
+		'blog_upload_space' => 100,
 		'fileupload_maxk' => 1500,
 		'site_admins' => $site_admins,
 		'allowedthemes' => $allowed_themes,
