@@ -430,7 +430,10 @@ function &get_post(&$post, $output = OBJECT, $filter = 'raw') {
 function get_post_ancestors($post) {
 	$post = get_post($post);
 
-	if ( !empty($post->ancestors) )
+	if ( ! isset( $post->ancestors ) )
+		_get_post_ancestors( $post );
+
+	if ( ! empty( $post->ancestors ) )
 		return $post->ancestors;
 
 	return array();
@@ -4645,12 +4648,12 @@ function _get_post_ancestors(&$_post) {
 	if ( empty($_post->post_parent) || $_post->ID == $_post->post_parent )
 		return;
 
-	$id = $_post->ancestors[] = $_post->post_parent;
+	$id = $_post->ancestors[] = (int) $_post->post_parent;
 	while ( $ancestor = $wpdb->get_var( $wpdb->prepare("SELECT `post_parent` FROM $wpdb->posts WHERE ID = %d LIMIT 1", $id) ) ) {
 		// Loop detection: If the ancestor has been seen before, break.
 		if ( ( $ancestor == $_post->ID ) || in_array($ancestor,  $_post->ancestors) )
 			break;
-		$id = $_post->ancestors[] = $ancestor;
+		$id = $_post->ancestors[] = (int) $ancestor;
 	}
 }
 
