@@ -5178,8 +5178,7 @@ function set_post_thumbnail( $post, $thumbnail_id ) {
 	if ( $post && $thumbnail_id && get_post( $thumbnail_id ) ) {
 		$thumbnail_html = wp_get_attachment_image( $thumbnail_id, 'thumbnail' );
 		if ( ! empty( $thumbnail_html ) ) {
-			update_post_meta( $post->ID, '_thumbnail_id', $thumbnail_id );
-			return true;
+			return update_post_meta( $post->ID, '_thumbnail_id', $thumbnail_id );
 		}
 	}
 	return false;
