@@ -129,6 +129,14 @@ final class WP_Theme implements ArrayAccess {
 	private $textdomain_loaded;
 
 	/**
+	 * Stores an md5 hash of the theme root, to function as the cache key.
+	 *
+	 * @access private
+	 * @var string
+	 */
+	private $cache_hash;
+
+	/**
 	 * Flag for whether the themes cache bucket should be persistently cached.
 	 *
 	 * Default is false. Can be set with the wp_cache_themes_persistently filter.
@@ -171,6 +179,7 @@ final class WP_Theme implements ArrayAccess {
 
 		$this->theme_root = $theme_root;
 		$this->stylesheet = $theme_dir;
+		$this->cache_hash = md5( $this->theme_root . '/' . $this->stylesheet );
 		$theme_file = $this->stylesheet . '/style.css';
 
 		$cache = $this->cache_get( 'theme' );
@@ -440,7 +449,7 @@ final class WP_Theme implements ArrayAccess {
 	 * @return bool Return value from wp_cache_add()
 	 */
 	private function cache_add( $key, $data ) {
-		return wp_cache_add( $key . '-' . $this->theme_root . '/' . $this->stylesheet, $data, 'themes', self::$cache_expiration );
+		return wp_cache_add( $key . '-' . $this->cache_hash, $data, 'themes', self::$cache_expiration );
 	}
 
 	/**
@@ -455,7 +464,7 @@ final class WP_Theme implements ArrayAccess {
 	 * @return mixed Retrieved data
 	 */
 	private function cache_get( $key ) {
-		return wp_cache_get( $key . '-' . $this->theme_root . '/' . $this->stylesheet, 'themes' );
+		return wp_cache_get( $key . '-' . $this->cache_hash, 'themes' );
 	}
 
 	/**
@@ -466,7 +475,7 @@ final class WP_Theme implements ArrayAccess {
 	 */
 	public function cache_delete() {
 		foreach ( array( 'theme', 'screenshot', 'screenshot_count', 'files', 'headers' ) as $key )
-			wp_cache_delete( $key . '-' . $this->theme_root . '/' . $this->stylesheet, 'themes' );
+			wp_cache_delete( $key . '-' . $this->cache_hash, 'themes' );
 	}
 
 	/**
