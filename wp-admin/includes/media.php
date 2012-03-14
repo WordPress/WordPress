@@ -144,14 +144,14 @@ function image_add_caption( $html, $id, $caption, $title, $align, $url, $size, $
 
 	$id = ( 0 < (int) $id ) ? 'attachment_' . $id : '';
 
-	if ( ! preg_match( '/width="([0-9]+)/', $html, $matches ) )
+	if ( ! preg_match( '/width=["\']([0-9]+)/', $html, $matches ) )
 		return $html;
 
 	$width = $matches[1];
 
-	// look only for html tags with attributes
-	$caption = preg_replace_callback( '/<[a-zA-Z0-9]+ [^<>]+>/', '_cleanup_image_add_caption', $caption );
-	$caption = str_replace(	'"', '&quot;', $caption );
+	$caption = str_replace( array("\r\n", "\r"), "\n", $caption);
+	$caption = preg_replace_callback( '/<[a-zA-Z0-9]+(?: [^<>]+>)*/', '_cleanup_image_add_caption', $caption );
+	$caption = preg_replace( '/\n+/', '<br />', str_replace('"', '&quot;', $caption) );
 
 	$html = preg_replace( '/(class=["\'][^\'"]*)align(none|left|right|center)\s?/', '$1', $html );
 	if ( empty($align) )
@@ -167,8 +167,10 @@ add_filter( 'image_send_to_editor', 'image_add_caption', 20, 8 );
 // Private, preg_replace callback used in image_add_caption()
 function _cleanup_image_add_caption($str) {
 	if ( isset($str[0]) ) {
+		// remove any line breaks from inside the tags
+		$s = preg_replace( '/[\r\n\t]+/', ' ', $str[0]);
 		// look for single quotes inside html attributes (for example in title)
-		$s = preg_replace_callback( '/="[^"]+"/', '_cleanup_image_add_caption2', $str[0] );
+		$s = preg_replace_callback( '/="[^"]+"/', '_cleanup_image_add_caption2', $s );
 		return str_replace(	'"', "'", $s );
 	}
 
@@ -1542,14 +1544,15 @@ var addExtImage = {
 
 <?php if ( ! apply_filters( 'disable_captions', '' ) ) { ?>
 		if ( f.caption.value ) {
-			caption = f.caption.value.replace(/<[a-zA-Z0-9]+ [^<>]+>/g, function(a){
-				a = a.replace(/="[^"]+"/, function(b){
+			caption = f.caption.value.replace(/\r\n|\r/g, '\n');
+			caption = caption.replace(/<[a-zA-Z0-9]+( [^<>]+)?>/g, function(a){
+				a = a.replace(/[\r\n\t]+/, ' ').replace(/="[^"]+"/, function(b){
 					return b.replace(/'/g, '&#39;');
 				});
 				return a.replace(/"/g, "'");
 			});
 
-			caption = caption.replace(/"/g, '&quot;');
+			caption = caption.replace(/\n+/g, '<br />').replace(/"/g, '&quot;');
 		}
 <?php } ?>
 

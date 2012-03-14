@@ -352,7 +352,7 @@ wpImage = {
 	update : function() {
 		var t = this, f = document.forms[0], ed = tinyMCEPopup.editor, el, b, fixSafari = null,
 			DL, P, A, DIV, do_caption = null, img_class = f.img_classes.value, html,
-			id, cap_id = '', cap, DT, DD, cap_width, div_cls, lnk = '', pa, aa;
+			id, cap_id = '', cap, DT, DD, cap_width, div_cls, lnk = '', pa, aa, caption;
 
 		tinyMCEPopup.restoreSelection();
 		el = ed.selection.getNode();
@@ -430,6 +430,16 @@ wpImage = {
 		if ( do_caption ) {
 			cap_width = 10 + parseInt(f.width.value);
 			div_cls = (t.align == 'aligncenter') ? 'mceTemp mceIEcenter' : 'mceTemp';
+			caption = f.img_cap_text.value;
+
+			caption = caption.replace(/\r\n|\r/g, '\n').replace(/<[a-zA-Z0-9]+( [^<>]+)?>/g, function(a){
+				a = a.replace(/[\r\n\t]+/, ' ').replace(/="[^"]+"/, function(b){
+					return b.replace(/'/g, '&#39;');
+				});
+				return a.replace(/"/g, "'");
+			});
+
+			caption = caption.replace(/\n+/g, '<br />').replace(/"/g, '&quot;');
 
 			if ( DL ) {
 				ed.dom.setAttribs(DL, {
@@ -441,24 +451,26 @@ wpImage = {
 					ed.dom.setAttrib(DIV, 'class', div_cls);
 
 				if ( (DT = ed.dom.getParent(el, 'dt')) && (DD = DT.nextSibling) && ed.dom.hasClass(DD, 'wp-caption-dd') )
-					ed.dom.setHTML(DD, f.img_cap_text.value);
+					ed.dom.setHTML(DD, caption);
 
 			} else {
 				if ( (id = f.img_classes.value.match( /wp-image-([0-9]{1,6})/ )) && id[1] )
 					cap_id = 'attachment_'+id[1];
 
 				if ( f.link_href.value && (lnk = ed.dom.getParent(el, 'a')) ) {
-					if ( lnk.childNodes.length == 1 )
+					if ( lnk.childNodes.length == 1 ) {
 						html = ed.dom.getOuterHTML(lnk);
-					else {
+					} else {
 						html = ed.dom.getOuterHTML(lnk);
-						html = html.match(/<a[^>]+>/i);
+						html = html.match(/<a [^>]+>/i);
 						html = html+ed.dom.getOuterHTML(el)+'</a>';
 					}
-				} else html = ed.dom.getOuterHTML(el);
+				} else {
+					html = ed.dom.getOuterHTML(el);
+				}
 
 				html = '<dl id="'+cap_id+'" class="wp-caption '+t.align+'" style="width: '+cap_width+
-				'px"><dt class="wp-caption-dt">'+html+'</dt><dd class="wp-caption-dd">'+f.img_cap_text.value+'</dd></dl>';
+				'px"><dt class="wp-caption-dt">'+html+'</dt><dd class="wp-caption-dd">'+caption+'</dd></dl>';
 
 				cap = ed.dom.create('div', {'class': div_cls}, html);
 

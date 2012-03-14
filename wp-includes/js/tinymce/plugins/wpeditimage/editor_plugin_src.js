@@ -186,14 +186,14 @@
 					cls = ( cls && cls[1] ) ? cls[1] : '';
 					cls = cls.match(/align[a-z]+/) || 'alignnone';
 
-					cap = cap.replace(/<[a-zA-Z0-9]+ [^<>]+>/g, function(a){ // look only for html tags with attributes
-						a = a.replace(/="[^"]+"/, function(b){
+					cap = cap.replace(/\r\n|\r/g, '\n').replace(/<[a-zA-Z0-9]+( [^<>]+)?>/g, function(a){
+						a = a.replace(/[\r\n\t]+/, ' ').replace(/="[^"]+"/, function(b){
 							return b.replace(/'/g, '&#39;');
 						});
 						return a.replace(/"/g, "'");
 					});
 
-					cap = cap.replace(/"/g, '&quot;');
+					cap = cap.replace(/\n+/g, '<br />').replace(/"/g, '&quot;');
 
 					return '[caption id="'+id+'" align="'+cls+'" width="'+w+'" caption="'+cap+'"]'+c+'[/caption]';
 				});
