@@ -541,7 +541,7 @@ final class WP_Theme implements ArrayAccess {
 		switch ( $header ) {
 			case 'Status' :
 				if ( ! $value ) {
-					$value = 'public';
+					$value = 'publish';
 					break;
 				}
 				// Fall through otherwise.
