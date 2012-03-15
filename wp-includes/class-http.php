@@ -1054,6 +1054,8 @@ class WP_Http_Curl {
 				break;
 			default:
 				curl_setopt( $handle, CURLOPT_CUSTOMREQUEST, $r['method'] );
+				if ( ! empty( $r['body'] ) )
+					curl_setopt( $handle, CURLOPT_POSTFIELDS, $r['body'] );
 				break;
 		}
 
