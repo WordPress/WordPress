@@ -111,6 +111,7 @@ body {
 .customize-control {
 	float: left;
 	clear: both;
+	margin-bottom: 4px;
 }
 
 .customize-control-title {
@@ -133,7 +134,7 @@ body {
 .customize-control-text input {
 	width: 138px;
 	line-height: 18px;
-	margin: 1px 1px 5px;
+	margin: 1px;
 }
 
 .customize-control-select select {
