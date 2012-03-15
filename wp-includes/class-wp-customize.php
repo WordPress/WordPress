@@ -588,7 +588,7 @@ final class WP_Customize {
 		) );
 
 		$this->add_setting( 'page_on_front', array(
-			'label'          => __( 'Front page:' ),
+			'label'          => __( 'Front page' ),
 		//	'theme_supports' => 'static-front-page',
 			'section'        => 'static_front_page',
 			'control'        => 'dropdown-pages',
@@ -597,7 +597,7 @@ final class WP_Customize {
 		) );
 
 		$this->add_setting( 'page_for_posts', array(
-			'label'          => __( 'Posts page:' ),
+			'label'          => __( 'Posts page' ),
 		//	'theme_supports' => 'static-front-page',
 			'section'        => 'static_front_page',
 			'control'        => 'dropdown-pages',

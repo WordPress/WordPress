@@ -31,6 +31,7 @@ body {
 .customize-section-content {
 	display: none;
 	padding: 0 20px 15px;
+	overflow: hidden;
 }
 
 .customize-section.open .customize-section-content {
@@ -105,6 +106,62 @@ body {
 
 #customize-theme-controls ul {
 	margin: 0;
+}
+
+.customize-control {
+	float: left;
+	clear: both;
+}
+
+.customize-control-title {
+	clear: left;
+	float: left;
+	min-width: 110px;
+	margin-right: 10px;
+	line-height: 28px;
+}
+.customize-control-text input,
+.customize-control-select select,
+.customize-control-checkbox input,
+.customize-control-color .color-picker,
+.customize-control-upload div {
+	float: left;
+	clear: right;
+	line-height: 28px;
+}
+
+.customize-control-text input {
+	width: 138px;
+	line-height: 18px;
+	margin: 1px 1px 5px;
+}
+
+.customize-control-select select {
+	width: 138px;
+	height: 28px;
+	line-height: 28px;
+}
+
+.customize-control-checkbox input {
+	margin-top: 8px;
+}
+
+.customize-control-radio {
+	padding: 10px 0;
+}
+
+.customize-control-radio .customize-control-title {
+	margin-bottom: 0;
+	line-height: 22px;
+}
+
+.customize-control-radio label {
+	float: left;
+	clear: both;
+	line-height: 20px;
+}
+.customize-control-radio input {
+	margin-right: 5px;
 }
 
 #customize-preview {
@@ -187,10 +244,6 @@ body {
 /*
  * Color Picker
  */
-
-.customize-section .color-picker {
-	margin-top: 4px;
-}
 
 .customize-section .color-picker a {
 	display: block;

@@ -336,7 +336,8 @@ class WP_Customize_Setting {
 		switch( $this->control ) {
 			case 'text':
 				?>
-				<label><?php echo esc_html( $this->label ); ?><br/>
+				<label>
+					<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
 					<input type="text" value="<?php echo esc_attr( $this->value() ); ?>" <?php $this->name(); ?> />
 				</label>
 				<?php
@@ -344,7 +345,7 @@ class WP_Customize_Setting {
 			case 'color':
 				?>
 				<label>
-					<span><?php echo esc_html( $this->label ); ?></span>
+					<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
 					<div class="color-picker">
 						<input type="hidden" value="<?php echo esc_attr( $this->value() ); ?>" <?php $this->name(); ?> />
 						<a href="#"></a>
@@ -364,8 +365,8 @@ class WP_Customize_Setting {
 			case 'checkbox':
 				?>
 				<label>
-					<input type="checkbox" value="<?php echo esc_attr( $this->value() ); ?>" <?php $this->name(); checked( $this->value() ); ?> />
-					<?php echo esc_html( $this->label ); ?>
+					<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
+					<input type="checkbox" value="<?php echo esc_attr( $this->value() ); ?>" <?php $this->name(); checked( $this->value() ); ?> class="customize-control-content" />
 				</label>
 				<?php
 				break;
@@ -373,7 +374,9 @@ class WP_Customize_Setting {
 				if ( empty( $this->choices ) )
 					return;
 
-				echo esc_html( $this->label ) . '<br/>';
+				?>
+				<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
+				<?php
 				foreach ( $this->choices as $value => $label ) :
 					?>
 					<label>
@@ -388,21 +391,26 @@ class WP_Customize_Setting {
 					return;
 
 				?>
-				<label><?php echo esc_html( $this->label ); ?><br/>
-				<select <?php $this->name(); ?>>
-					<?php
-					foreach ( $this->choices as $value => $label )
-						echo '<option value="' . esc_attr( $value ) . '"' . selected( $this->value(), $value, false ) . '>' . $label . '</option>';
-					?>
-				</select>
+				<label>
+					<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
+					<select <?php $this->name(); ?> class="customize-control-content">
+						<?php
+						foreach ( $this->choices as $value => $label )
+							echo '<option value="' . esc_attr( $value ) . '"' . selected( $this->value(), $value, false ) . '>' . $label . '</option>';
+						?>
+					</select>
+				</label>
 				<?php
 				break;
 			case 'upload':
 				?>
-				<label><?php echo esc_html( $this->label ); ?><br/>
-					<input type="hidden" value="<?php echo esc_attr( $this->value() ); ?>" <?php $this->name(); ?> />
-					<a href="#" class="button-secondary upload"><?php _e( 'Upload' ); ?></a>
-					<a href="#" class="remove"><?php _e( 'Remove' ); ?></a>
+				<label>
+					<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
+					<div>
+						<input type="hidden" value="<?php echo esc_attr( $this->value() ); ?>" <?php $this->name(); ?> />
+						<a href="#" class="button-secondary upload"><?php _e( 'Upload' ); ?></a>
+						<a href="#" class="remove"><?php _e( 'Remove' ); ?></a>
+					</div>
 				</label>
 				<?php
 				break;
