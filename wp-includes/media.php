@@ -1452,13 +1452,6 @@ function wp_plupload_default_settings() {
 
 	$max_upload_size = wp_max_upload_size();
 
-	$params = array(
-		'action' => 'upload-attachment',
-	);
-	$params = apply_filters( 'plupload_default_params', $params );
-
-	$params['_wpnonce'] = wp_create_nonce( 'media-form' );
-
 	$settings = array(
 		'runtimes'            => 'html5,silverlight,flash,html4',
 		'file_data_name'      => 'async-upload', // key passed to $_FILE.
@@ -1470,10 +1463,17 @@ function wp_plupload_default_settings() {
 		'filters'             => array( array( 'title' => __( 'Allowed Files' ), 'extensions' => '*') ),
 		'multipart'           => true,
 		'urlstream_upload'    => true,
-		'multipart_params'    => $params,
 	);
 
 	$settings = apply_filters( 'plupload_default_settings', $settings );
+
+	$params = array(
+		'action' => 'upload-attachment',
+	);
+
+	$params = apply_filters( 'plupload_default_params', $params );
+	$params['_wpnonce'] = wp_create_nonce( 'media-form' );
+	$settings['multipart_params'] = $params;
 
 	$script = 'var wpPluploadDefaults = ' . json_encode( $settings ) . ';';
 
