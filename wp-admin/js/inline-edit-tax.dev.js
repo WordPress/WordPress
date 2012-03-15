@@ -73,7 +73,7 @@ inlineEditTax = {
 		params = fields + '&' + $.param(params);
 
 		// make ajax request
-		$.post('admin-ajax.php', params,
+		$.post( ajaxurl, params,
 			function(r) {
 				var row, new_id;
 				$('table.widefat .inline-edit-save .waiting').hide();

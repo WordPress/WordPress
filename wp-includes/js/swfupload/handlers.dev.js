@@ -96,7 +96,7 @@ function prepareMediaItemInit(fileObj) {
 	jQuery('a.delete', item).click(function(){
 		// Tell the server to delete it. TODO: handle exceptions
 		jQuery.ajax({
-			url: 'admin-ajax.php',
+			url: ajaxurl,
 			type: 'post',
 			success: deleteSuccess,
 			error: deleteError,
@@ -114,7 +114,7 @@ function prepareMediaItemInit(fileObj) {
 	jQuery('a.undo', item).click(function(){
 		// Tell the server to untrash it. TODO: handle exceptions
 		jQuery.ajax({
-			url: 'admin-ajax.php',
+			url: ajaxurl,
 			type: 'post',
 			id: fileObj.id,
 			data: {
