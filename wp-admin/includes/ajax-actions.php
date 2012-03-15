@@ -186,6 +186,26 @@ function wp_ajax_autocomplete_user() {
 	wp_die( json_encode( $return ) );
 }
 
+function wp_ajax_dashboard_widgets() {
+	require ABSPATH . 'wp-admin/includes/dashboard.php';
+
+	switch ( $_GET['widget'] ) {
+		case 'dashboard_incoming_links' :
+			wp_dashboard_incoming_links();
+			break;
+		case 'dashboard_primary' :
+			wp_dashboard_primary();
+			break;
+		case 'dashboard_secondary' :
+			wp_dashboard_secondary();
+			break;
+		case 'dashboard_plugins' :
+			wp_dashboard_plugins();
+			break;
+	}
+	wp_die();
+}
+
 /*
  * Ajax helper.
  */

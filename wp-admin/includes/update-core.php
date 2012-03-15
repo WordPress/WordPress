@@ -327,6 +327,9 @@ $_old_files = array(
 'wp-includes/js/tinymce/themes/advanced/skins/wp_theme/img/separator.gif',
 // 3.4
 'wp-admin/images/logo-login.png',
+'wp-admin/index-extra.php',
+'wp-admin/network/index-extra.php',
+'wp-admin/user/index-extra.php',
 );
 
 /**

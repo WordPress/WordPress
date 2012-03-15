@@ -41,7 +41,7 @@ jQuery(document).ready( function($) {
 			if ( e.length ) {
 				p = e.parent();
 				setTimeout( function(){
-					p.load( ajaxurl.replace( '/admin-ajax.php', '' ) + '/index-extra.php?jax=' + id, '', function() {
+					p.load( ajaxurl + '?action=dashboard-widgets&widget=' + id, '', function() {
 						p.hide().slideDown('normal', function(){
 							$(this).css('display', '');
 						});
