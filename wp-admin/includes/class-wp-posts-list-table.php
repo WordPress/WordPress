@@ -1001,18 +1001,18 @@ class WP_Posts_List_Table extends WP_List_Table {
 			unset( $all_post_formats['standard'] ); ?>
 			<div class="inline-edit-group">
 				<label class="alignleft" for="post_format">
-				<span class="title"><?php _e( 'Post Format' ); ?></span>
+				<span class="title"><?php _ex( 'Format', 'post format' ); ?></span>
 				<select name="post_format">
 				<?php if ( $bulk ) : ?>
 					<option value="-1"><?php _e( '&mdash; No Change &mdash;' ); ?></option>
 				<?php endif; ?>
 					<option value="0"><?php _ex( 'Standard', 'Post format' ); ?></option>
 				<?php foreach ( $all_post_formats as $slug => $format ) :
-					$supported = in_array( $slug, $post_formats[0] );
-					if ( $bulk && ! $supported )
+					$unsupported = ! in_array( $slug, $post_formats[0] );
+					if ( $bulk && $unsupported )
 						continue;
 					?>
-					<option value="<?php echo esc_attr( $slug ); ?>"<?php if ( ! $supported ) echo ' class="unsupported"'; ?>><?php echo esc_html( $format ); ?></option>
+					<option value="<?php echo esc_attr( $slug ); ?>"<?php if ( $unsupported ) echo ' class="unsupported"'; ?>><?php echo esc_html( $format ); ?></option>
 				<?php endforeach; ?>
 				</select></label>
 			</div>
