@@ -1457,7 +1457,7 @@ function wp_plupload_default_settings() {
 		'file_data_name'      => 'async-upload', // key passed to $_FILE.
 		'multiple_queues'     => true,
 		'max_file_size'       => $max_upload_size . 'b',
-		'url'                 => admin_url( 'admin-ajax.php' ),
+		'url'                 => admin_url( 'admin-ajax.php', 'relative' ),
 		'flash_swf_url'       => includes_url( 'js/plupload/plupload.flash.swf' ),
 		'silverlight_xap_url' => includes_url( 'js/plupload/plupload.silverlight.xap' ),
 		'filters'             => array( array( 'title' => __( 'Allowed Files' ), 'extensions' => '*') ),
