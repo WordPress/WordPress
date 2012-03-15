@@ -384,12 +384,12 @@ final class WP_Theme implements ArrayAccess {
 			case 'Stylesheet' :
 				return $this->get_stylesheet();
 			case 'Template Files' :
-				$files = $this->get_files('php');
+				$files = $this->get_files('php', true);
 				foreach ( $files as &$file )
 					$file = $this->theme_root . '/' . $file;
 				return $files;
 			case 'Stylesheet Files' :
-				$files = $this->get_files('css');
+				$files = $this->get_files('css', true);
 				foreach ( $files as &$file )
 					$file = $this->theme_root . '/' . $file;
 				return $files;
@@ -555,7 +555,6 @@ final class WP_Theme implements ArrayAccess {
 				}
 				// Fall through otherwise.
 			case 'Name' :
-			case 'Author' :
 				static $header_tags = array(
 					'abbr'    => array( 'title' => true ),
 					'acronym' => array( 'title' => true ),
@@ -565,6 +564,8 @@ final class WP_Theme implements ArrayAccess {
 				);
 				$value = wp_kses( $value, $header_tags );
 				break;
+			case 'Author' :
+				// There shouldn't be anchor tags in Author, but some themes like to be challenging.
 			case 'Description' :
 				static $header_tags_with_a = array(
 					'a'       => array( 'href' => true, 'title' => true ),
@@ -935,7 +936,9 @@ final class WP_Theme implements ArrayAccess {
 			if ( $include_parent_files || ! $this->is_child_theme() )
 				// Template files can be one level down for the purposes of the theme editor, so this should be $depth = 1.
 				// Todo: We ignore this for now, but this is why the branching is weird.
-				$files = (array) self::scandir( $this->get_template_directory(), $this->get_template(), array( 'php', 'css' ) );
+				$files = self::scandir( $this->get_template_directory(), $this->get_template(), array( 'php', 'css' ) );
+			else
+				$files = array();
 			if ( $this->is_child_theme() )
 				$files = array_merge_recursive( $files, (array) self::scandir( $this->get_stylesheet_directory(), $this->get_stylesheet(), array( 'php', 'css' ) ) );
 			foreach ( $files as &$group )
@@ -989,14 +992,14 @@ final class WP_Theme implements ArrayAccess {
 	 * @depth int How deep to search for files. Optional, defaults to a flat scan (0 depth).
 	 */
 	private static function scandir( $path, $relative_path, $extensions, $depth = 0 ) {
-		if ( is_array( $extensions ) )
-			$extensions = implode( '|', $extensions );
-
 		if ( ! is_dir( $path ) )
 			return false;
 
 		$results = scandir( $path );
-		$files = array();
+
+		$extensions = (array) $extensions;
+		$files = array_fill_keys( $extensions, array() );
+		$extensions = implode( '|', $extensions );
 
 		foreach ( $results as $result ) {
 			if ( '.' == $result || '..' == $result )
@@ -1007,10 +1010,7 @@ final class WP_Theme implements ArrayAccess {
 				$found = self::scandir( $path . '/' . $result, $relative_path . '/' . $result, $extensions, $depth - 1 );
 				$files = array_merge_recursive( $files, $found );
 			} elseif ( preg_match( '~\.(' . $extensions . ')$~', $result, $match ) ) {
-				if ( ! isset( $files[ $match[1] ] ) )
-					$files[ $match[1] ] = array( $relative_path . '/'. $result );
-				else
-					$files[ $match[1] ][] = $relative_path . '/' . $result;
+				$files[ $match[1] ][] = $relative_path . '/' . $result;
 			}
 		}
 		return $files;

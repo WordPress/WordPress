@@ -917,8 +917,10 @@ function get_broken_themes() {
 	$themes = wp_get_themes( array( 'errors' => true ) );
 	$broken = array();
 	foreach ( $themes as $theme ) {
-		$broken[ $theme->get('Name') ] = array(
-			'Title' => $theme->get('Name'),
+		$name = $theme->get('Name');
+		$broken[ $name ] = array(
+			'Name' => $name,
+			'Title' => $name,
 			'Description' => $theme->errors()->get_error_message(),
 		);
 	}

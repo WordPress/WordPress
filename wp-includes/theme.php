@@ -9,14 +9,19 @@
 /**
  * Returns an array of WP_Theme objects based on the arguments.
  *
- * Despite advances over get_themes(), this function is still quite expensive, and grows
+ * Despite advances over get_themes(), this function is quite expensive, and grows
  * linearly with additional themes. Stick to wp_get_theme() if possible.
  *
  * @since 3.4.0
  *
- * @param array $args Arguments. Currently 'errors' (defaults to false), 'allowed'
- * 	(true, false; null for either; defaults to null; only applies to multisite), and 'blog_id'
- * 	(defaults to current blog; used to find allowed themes; only applies to multisite).
+ * @param array $args The search arguments. Optional.
+ * - errors      mixed  True to return themes with errors, false to return themes without errors, null
+ *                      to return all themes. Defaults to false.
+ * - allowed     mixed  (Multisite) True to return only allowed themes for a site. False to return only
+ *                      disallowed themes for a site. 'site' to return only site-allowed themes. 'network'
+ *                      to return only network-allowed themes. Null to return all themes. Defaults to null.
+ * - blog_id     int    (Multisite) The blog ID used to calculate which themes are allowed. Defaults to 0,
+ *                      synonymous for the current blog.
  * @return Array of WP_Theme objects.
  */
 function wp_get_themes( $args = array() ) {
@@ -25,24 +30,22 @@ function wp_get_themes( $args = array() ) {
 	$defaults = array( 'errors' => false, 'allowed' => null, 'blog_id' => 0 );
 	$args = wp_parse_args( $args, $defaults );
 
-	static $_theme_directories, $_themes = array();
-	if ( ! isset( $_theme_directories ) ) {
-		$_theme_directories = search_theme_directories();
-		if ( count( $wp_theme_directories ) > 1 ) {
-			// Make sure the current theme wins out, in case search_theme_directories() picks the wrong
-			// one in the case of a conflict. (Normally, last registered theme root wins.)
-			$current_theme = get_stylesheet();
+	$theme_directories = search_theme_directories();
+
+	if ( count( $wp_theme_directories ) > 1 ) {
+		// Make sure the current theme wins out, in case search_theme_directories() picks the wrong
+		// one in the case of a conflict. (Normally, last registered theme root wins.)
+		$current_theme = get_stylesheet();
+		if ( isset( $theme_directories[ $current_theme ] ) ) {
 			$root_of_current_theme = get_raw_theme_root( $current_theme );
 			if ( ! in_array( $root_of_current_theme, $wp_theme_directories ) )
 				$root_of_current_theme = WP_CONTENT_DIR . $root_of_current_theme;
-			$_theme_directories[ $current_theme ]['theme_root'] = $root_of_current_theme;
+			$theme_directories[ $current_theme ]['theme_root'] = $root_of_current_theme;
 		}
 	}
 
-	if ( empty( $_theme_directories ) )
+	if ( empty( $theme_directories ) )
 		return array();
-
-	$theme_directories = $_theme_directories;
 
 	if ( is_multisite() && null !== $args['allowed'] ) {
 		$allowed = $args['allowed'];
@@ -355,7 +358,7 @@ function get_theme_roots() {
 
 	$theme_roots = get_site_transient( 'theme_roots' );
 	if ( false === $theme_roots ) {
-		search_theme_directories(); // Regenerate the transient.
+		search_theme_directories( true ); // Regenerate the transient.
 		$theme_roots = get_site_transient( 'theme_roots' );
 	}
 	return $theme_roots;
@@ -390,15 +393,16 @@ function register_theme_directory( $directory ) {
  *
  * @since 2.9.0
  *
+ * @param bool $force Optional. Whether to force a new directory scan. Defaults to false.
  * @return array Valid themes found
  */
-function search_theme_directories() {
+function search_theme_directories( $force = false ) {
 	global $wp_theme_directories;
 	if ( empty( $wp_theme_directories ) )
 		return false;
 
 	static $found_themes;
-	if ( isset( $found_themes ) )
+	if ( ! $force && isset( $found_themes ) )
 		return $found_themes;
 
 	$found_themes = array();

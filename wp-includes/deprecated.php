@@ -2933,7 +2933,11 @@ function get_themes() {
 	$wp_themes = array();
 
 	foreach ( $themes as $theme ) {
-		$wp_themes[ $theme->get('Name') ] = $theme;
+		$name = $theme->get('Name');
+		if ( isset( $wp_themes[ $name ] ) )
+			$wp_themes[ $name . '/' . $theme->get_stylesheet() ] = $theme;
+		else
+			$wp_themes[ $name ] = $theme;
 	}
 
 	return $wp_themes;
