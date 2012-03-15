@@ -609,7 +609,6 @@ final class WP_Customize {
 
 		$this->add_section( 'strings', array(
 			'title'          => __( 'Site Title & Tagline' ),
-			'description'    => __( 'Customize some strings.' ),
 		) );
 
 		$this->add_setting( 'blogname', array(
