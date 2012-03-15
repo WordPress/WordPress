@@ -70,6 +70,9 @@ class WP_Customize_Setting {
 				wp_enqueue_script( 'farbtastic' );
 				wp_enqueue_style( 'farbtastic' );
 				break;
+			case 'upload':
+				wp_enqueue_script( 'wp-plupload' );
+				break;
 		}
 	}
 
@@ -392,6 +395,15 @@ class WP_Customize_Setting {
 						echo '<option value="' . esc_attr( $value ) . '"' . selected( $this->value(), $value, false ) . '>' . $label . '</option>';
 					?>
 				</select>
+				<?php
+				break;
+			case 'upload':
+				?>
+				<label><?php echo esc_html( $this->label ); ?><br/>
+					<input type="hidden" value="<?php echo esc_attr( $this->value() ); ?>" <?php $this->name(); ?> />
+					<a href="#" class="button-secondary upload"><?php _e( 'Upload' ); ?></a>
+					<a href="#" class="remove"><?php _e( 'Remove' ); ?></a>
+				</label>
 				<?php
 				break;
 			default:

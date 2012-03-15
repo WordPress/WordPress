@@ -523,7 +523,13 @@ final class WP_Customize {
 			'section'           => 'background',
 			'control'           => 'color',
 			'default'           => defined( 'BACKGROUND_COLOR' ) ? BACKGROUND_COLOR : '',
-			'sanitize_callback' => 'sanitize_hexcolor'
+			'sanitize_callback' => 'sanitize_hexcolor',
+		) );
+
+		$this->add_setting( 'background_image', array(
+			'label'             => 'Background Image',
+			'section'           => 'background',
+			'control'           => 'upload',
 		) );
 
 		/* Nav Menus */

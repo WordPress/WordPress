@@ -70,6 +70,26 @@
 		}
 	});
 
+	api.UploadControl = api.Control.extend({
+		initialize: function( id, value, options ) {
+			var control = this;
+
+			api.Control.prototype.initialize.call( this, id, value, options );
+
+			this.uploader = new wp.Uploader({
+				browser: this.container.find('.upload'),
+				success: function( attachment ) {
+					control.set( attachment.url );
+				}
+			});
+
+			this.container.on( 'click', '.remove', function( event ) {
+				control.set('');
+				event.preventDefault();
+			});
+		}
+	});
+
 	// Change objects contained within the main customize object to Settings.
 	api.defaultConstructor = api.Setting;
 
@@ -194,7 +214,8 @@
 	 * ===================================================================== */
 
 	api.controls = {
-		color: api.ColorControl
+		color:  api.ColorControl,
+		upload: api.UploadControl
 	};
 
 	$( function() {
@@ -229,6 +250,9 @@
 
 		// Background color uses postMessage by default
 		api('background_color').method = 'postMessage';
+
+		// api('background_image').method = 'postMessage';
+		api('background_image').uploader.param( 'post_data', { context: 'custom-background' });
 	});
 
 })( wp, jQuery );

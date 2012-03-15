@@ -1544,6 +1544,50 @@ function wp_ajax_save_widget() {
 	wp_die();
 }
 
+function wp_ajax_upload_attachment() {
+	check_ajax_referer( 'media-form' );
+
+	if ( ! current_user_can( 'upload_files' ) )
+		wp_die( -1 );
+
+	if ( isset( $_REQUEST['post_id'] ) ) {
+		$post_id = $_REQUEST['post_id'];
+		if ( ! current_user_can( 'edit_post', $post_id ) )
+			wp_die( -1 );
+	} else {
+		$post_id = null;
+	}
+
+	$post_data = is_array( $_REQUEST['post_data'] ) ? $_REQUEST['post_data'] : array();
+
+	$attachment_id = media_handle_upload( 'async-upload', $post_id, $post_data );
+
+	if ( is_wp_error( $attachment_id ) ) {
+		echo json_encode( array(
+			'type' => 'error',
+			'data' => array(
+				'message'  => $attachment_id->get_error_message(),
+				'filename' => $_FILES['async-upload']['name'],
+			),
+		) );
+		wp_die();
+	}
+
+	$post = get_post( $attachment_id );
+
+	echo json_encode( array(
+		'type' => 'success',
+		'data' => array(
+			'id'       => $attachment_id,
+			'title'    => esc_attr( $post->post_title ),
+			'filename' => esc_html( basename( $post->guid ) ),
+			'url'      => wp_get_attachment_url( $attachment_id ),
+			'meta'     => wp_get_attachment_metadata( $attachment_id ),
+		),
+	) );
+	wp_die();
+}
+
 function wp_ajax_image_editor() {
 	$attachment_id = intval($_POST['postid']);
 	if ( empty($attachment_id) || !current_user_can('edit_post', $attachment_id) )

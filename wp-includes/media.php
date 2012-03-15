@@ -1441,3 +1441,46 @@ function wp_embed_handler_googlevideo( $matches, $attr, $url, $rawattr ) {
 
 	return apply_filters( 'embed_googlevideo', '<embed type="application/x-shockwave-flash" src="http://video.google.com/googleplayer.swf?docid=' . esc_attr($matches[2]) . '&amp;hl=en&amp;fs=true" style="width:' . esc_attr($width) . 'px;height:' . esc_attr($height) . 'px" allowFullScreen="true" allowScriptAccess="always" />', $matches, $attr, $url, $rawattr );
 }
+
+/**
+ * Prints default plupload arguments.
+ *
+ * @since 3.4.0
+ */
+function wp_plupload_default_settings() {
+	global $wp_scripts;
+
+	$max_upload_size = wp_max_upload_size();
+
+	$params = array(
+		'action' => 'upload-attachment',
+	);
+	$params = apply_filters( 'plupload_default_params', $params );
+
+	$params['_wpnonce'] = wp_create_nonce( 'media-form' );
+
+	$settings = array(
+		'runtimes'            => 'html5,silverlight,flash,html4',
+		'file_data_name'      => 'async-upload', // key passed to $_FILE.
+		'multiple_queues'     => true,
+		'max_file_size'       => $max_upload_size . 'b',
+		'url'                 => admin_url( 'admin-ajax.php' ),
+		'flash_swf_url'       => includes_url( 'js/plupload/plupload.flash.swf' ),
+		'silverlight_xap_url' => includes_url( 'js/plupload/plupload.silverlight.xap' ),
+		'filters'             => array( array( 'title' => __( 'Allowed Files' ), 'extensions' => '*') ),
+		'multipart'           => true,
+		'urlstream_upload'    => true,
+		'multipart_params'    => $params,
+	);
+
+	$settings = apply_filters( 'plupload_default_settings', $settings );
+
+	$script = 'var wpPluploadDefaults = ' . json_encode( $settings ) . ';';
+
+	$data = $wp_scripts->get_data( 'wp-plupload', 'data' );
+	if ( $data )
+		$script = "$data\n$script";
+
+	$wp_scripts->add_data( 'wp-plupload', 'data', $script );
+}
+add_action( 'admin_init', 'wp_plupload_default_settings' );
