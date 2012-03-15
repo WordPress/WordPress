@@ -92,7 +92,7 @@ $date = date_i18n( $datef, strtotime( $comment->comment_date ) );
 			_e( 'E-mail:' );
 		}
 ?></td>
-	<td><input type="email" name="newcomment_author_email" size="30" value="<?php echo $comment->comment_author_email; ?>" tabindex="2" id="email" /></td>
+	<td><input type="text" name="newcomment_author_email" size="30" value="<?php echo $comment->comment_author_email; ?>" tabindex="2" id="email" /></td>
 </tr>
 <tr valign="top">
 	<td class="first">
