@@ -519,7 +519,7 @@ class WP_List_Table {
 		if ( 'bottom' == $which )
 			$html_current_page = $current;
 		else
-			$html_current_page = sprintf( "<input class='current-page' title='%s' type='number' step='1' min='1' name='paged' value='%s' size='%d' />",
+			$html_current_page = sprintf( "<input class='current-page' title='%s' type='text' name='paged' value='%s' size='%d' />",
 				esc_attr__( 'Current page' ),
 				$current,
 				strlen( $total_pages )
