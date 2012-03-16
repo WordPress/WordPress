@@ -802,6 +802,10 @@ input.regular-text,
 }
 
 input.small-text {
+	width: 50px;
+}
+
+input[type="number"].small-text {
 	width: 60px;
 }
 
