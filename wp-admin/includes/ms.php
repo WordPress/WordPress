@@ -374,7 +374,7 @@ function upload_space_setting( $id ) {
 	?>
 	<tr>
 		<th><?php _e( 'Site Upload Space Quota '); ?></th>
-		<td><input type="number" step="0.1" min="0" size="4" name="option[blog_upload_space]" value="<?php echo $quota; ?>" /> <?php _e( 'MB (Leave blank for network default)' ); ?></td>
+		<td><input type="number" step="10" min="0" style="width: 100px" name="option[blog_upload_space]" value="<?php echo $quota; ?>" /> <?php _e( 'MB (Leave blank for network default)' ); ?></td>
 	</tr>
 	<?php
 }
