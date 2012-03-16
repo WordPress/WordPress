@@ -142,7 +142,7 @@ printf( __('Comments should be displayed with the %s comments at the top of each
 <tr valign="top">
 <th scope="row"><?php _e('Comment Moderation'); ?></th>
 <td><fieldset><legend class="screen-reader-text"><span><?php _e('Comment Moderation'); ?></span></legend>
-<p><label for="comment_max_links"><?php printf(__('Hold a comment in the queue if it contains %s or more links. (A common characteristic of comment spam is a large number of hyperlinks.)'), '<input name="comment_max_links" type="number" step="1" min="1" id="comment_max_links" value="' . esc_attr(get_option('comment_max_links')) . '" class="small-text" />' ); ?></label></p>
+<p><label for="comment_max_links"><?php printf(__('Hold a comment in the queue if it contains %s or more links. (A common characteristic of comment spam is a large number of hyperlinks.)'), '<input name="comment_max_links" type="number" step="1" min="0" id="comment_max_links" value="' . esc_attr(get_option('comment_max_links')) . '" class="small-text" />' ); ?></label></p>
 
 <p><label for="moderation_keys"><?php _e('When a comment contains any of these words in its content, name, URL, e-mail, or IP, it will be held in the <a href="edit-comments.php?comment_status=moderated">moderation queue</a>. One word or IP per line. It will match inside words, so &#8220;press&#8221; will match &#8220;WordPress&#8221;.'); ?></label></p>
 <p>
