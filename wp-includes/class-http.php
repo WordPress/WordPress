@@ -1038,7 +1038,9 @@ class WP_Http_Curl {
 		curl_setopt( $handle, CURLOPT_SSL_VERIFYHOST, ( $ssl_verify === true ) ? 2 : false );
 		curl_setopt( $handle, CURLOPT_SSL_VERIFYPEER, $ssl_verify );
 		curl_setopt( $handle, CURLOPT_USERAGENT, $r['user-agent'] );
-		curl_setopt( $handle, CURLOPT_MAXREDIRS, $r['redirection'] );
+		// The option doesn't work with safe mode or when open_basedir is set, and there's a
+		// bug #17490 with redirected POST requests, so handle redirections outside Curl.
+		curl_setopt( $handle, CURLOPT_FOLLOWLOCATION, false );
 
 		switch ( $r['method'] ) {
 			case 'HEAD':
@@ -1075,10 +1077,6 @@ class WP_Http_Curl {
 			curl_setopt( $handle, CURLOPT_FILE, $stream_handle );
 		}
 
-		// The option doesn't work with safe mode or when open_basedir is set.
-		if ( !ini_get('safe_mode') && !ini_get('open_basedir') && 0 !== $r['_redirection'] )
-			curl_setopt( $handle, CURLOPT_FOLLOWLOCATION, true );
-
 		if ( !empty( $r['headers'] ) ) {
 			// cURL expects full header strings in each element
 			$headers = array();
@@ -1111,8 +1109,8 @@ class WP_Http_Curl {
 		if ( strlen($theResponse) > 0 && ! is_bool( $theResponse ) ) // is_bool: when using $args['stream'], curl_exec will return (bool)true
 			$theBody = $theResponse;
 
-		// If no response, and It's not a HEAD request with valid headers returned
-		if ( 0 == strlen($theResponse) && ('HEAD' != $r['method'] || empty($this->headers)) ) {
+		// If no response
+		if ( 0 == strlen($theResponse) && empty( $theHeaders ) ) {
 			if ( $curl_error = curl_error($handle) )
 				return new WP_Error('http_request_failed', $curl_error);
 			if ( in_array( curl_getinfo( $handle, CURLINFO_HTTP_CODE ), array(301, 302) ) )
@@ -1131,7 +1129,7 @@ class WP_Http_Curl {
 			fclose( $stream_handle );
 
 		// See #11305 - When running under safe mode, redirection is disabled above. Handle it manually.
-		if ( ! empty( $theHeaders['headers']['location'] ) && ( ini_get( 'safe_mode' ) || ini_get( 'open_basedir' ) ) && 0 !== $r['_redirection'] ) {
+		if ( ! empty( $theHeaders['headers']['location'] ) && 0 !== $r['_redirection'] ) { // _redirection: The requested number of redirections
 			if ( $r['redirection']-- > 0 ) {
 				return $this->request( $theHeaders['headers']['location'], $r );
 			} else {
