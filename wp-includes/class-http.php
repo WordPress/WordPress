@@ -1020,8 +1020,8 @@ class WP_Http_Curl {
 			}
 		}
 
-		$is_local = isset($args['local']) && $args['local'];
-		$ssl_verify = isset($args['sslverify']) && $args['sslverify'];
+		$is_local = isset($r['local']) && $r['local'];
+		$ssl_verify = isset($r['sslverify']) && $r['sslverify'];
 		if ( $is_local )
 			$ssl_verify = apply_filters('https_local_ssl_verify', $ssl_verify);
 		elseif ( ! $is_local )
@@ -1112,7 +1112,7 @@ class WP_Http_Curl {
 			$theBody = $theResponse;
 
 		// If no response, and It's not a HEAD request with valid headers returned
-		if ( 0 == strlen($theResponse) && ('HEAD' != $args['method'] || empty($this->headers)) ) {
+		if ( 0 == strlen($theResponse) && ('HEAD' != $r['method'] || empty($this->headers)) ) {
 			if ( $curl_error = curl_error($handle) )
 				return new WP_Error('http_request_failed', $curl_error);
 			if ( in_array( curl_getinfo( $handle, CURLINFO_HTTP_CODE ), array(301, 302) ) )
