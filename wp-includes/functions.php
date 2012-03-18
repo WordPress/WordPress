@@ -2068,6 +2068,15 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 			border: 1px solid #dfdfdf;
 			max-width: 700px;
 		}
+		h1 {
+			border-bottom: 1px solid #dadada;
+			clear: both;
+			color: #666;
+			font: 24px Georgia, "Times New Roman", Times, serif;
+			margin: 30px 0 0 0;
+			padding: 0;
+			padding-bottom: 7px;
+		}
 		#error-page {
 			margin-top: 50px;
 		}
