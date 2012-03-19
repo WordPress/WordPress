@@ -2981,3 +2981,80 @@ function get_current_theme() {
 
 	return wp_get_theme()->get('Name');
 }
+
+/**
+ * Add callbacks for image header display.
+ *
+ * @since 2.1.0
+ * @deprecated 3.4.0
+ * @deprecated Use add_theme_support('custom-header', $args)
+ * @see add_theme_support()
+ *
+ * @param callback $callback Call on 'wp_head' action.
+ * @param callback $admin_header_callback Call on custom header administration screen.
+ * @param callback $admin_image_div_callback Output a custom header image div on the custom header administration screen. Optional.
+ */
+function add_custom_image_header( $callback, $admin_header_callback, $admin_image_div_callback = '' ) {
+	_deprecated_function( __FUNCTION__, '3.4', 'add_theme_support(\'custom-header\', $args)' );
+	return add_theme_support( 'custom-header', array(
+		'callback' => $callback,
+		'admin-header-callback' => $admin_header_callback,
+		'admin-image-div-callback' => $admin_image_div_callback,
+	) );
+}
+
+/**
+ * Remove image header support.
+ *
+ * @since 3.1.0
+ * @deprecated 3.4.0
+ * @deprecated Use remove_theme_support('custom-header')
+ * @see remove_theme_support()
+ *
+ * @return bool Whether support was removed.
+ */
+function remove_custom_image_header() {
+	_deprecated_function( __FUNCTION__, '3.4', 'remove_theme_support(\'custom-header\')' );
+	return remove_theme_support( 'custom-header' );
+}
+
+/**
+ * Add callbacks for background image display.
+ *
+ * The parameter $header_callback callback will be required to display the
+ * content for the 'wp_head' action. The parameter $admin_header_callback
+ * callback will be added to Custom_Background class and that will be added
+ * to the 'admin_menu' action.
+ *
+ * @since 3.0.0
+ * @uses Custom_Background Sets up for $admin_header_callback for administration panel display.
+ *
+ * @param callback $callback Call on 'wp_head' action.
+ * @param callback $admin_header_callback Call on custom background administration screen.
+ * @param callback $admin_image_div_callback Output a custom background image div on the custom background administration screen. Optional.
+ */
+function add_custom_background( $callback = '', $admin_header_callback = '', $admin_image_div_callback = '' ) {
+	if ( $callback || $admin_header_callback || $admin_image_div_callback )
+		_deprecated_function( __FUNCTION__, '3.4', 'add_theme_support(\'custom-background\', $args)' );
+	else
+		_deprecated_function( __FUNCTION__, '3.4', 'add_theme_support(\'custom-background\')' );
+
+	return add_theme_support( 'custom-background', array(
+		'callback' => $callback,
+		'admin-header-callback' => $admin_header_callback,
+		'admin-image-div-callback' => $admin_image_div_callback,
+	) );
+}
+
+/**
+ * Remove custom background support.
+ *
+ * @since 3.1.0
+ * @see add_custom_background()
+ *
+ * @return bool Whether support was removed.
+ */
+function remove_custom_background() {
+	_deprecated_function( __FUNCTION__, '3.4', 'remove_theme_support(\'custom-background\')' );
+	return remove_theme_support( 'custom-background' );
+}
