@@ -3124,7 +3124,8 @@ function trackback_url_list($tb_list, $post_id) {
 function get_all_page_ids() {
 	global $wpdb;
 
-	if ( ! $page_ids = wp_cache_get('all_page_ids', 'posts') ) {
+	$page_ids = wp_cache_get('all_page_ids', 'posts');
+	if ( ! is_array( $page_ids ) ) {
 		$page_ids = $wpdb->get_col("SELECT ID FROM $wpdb->posts WHERE post_type = 'page'");
 		wp_cache_add('all_page_ids', $page_ids, 'posts');
 	}
