@@ -3097,7 +3097,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		do_action('xmlrpc_call', 'blogger.getTemplate');
 
 		if ( !current_user_can('edit_themes') )
-			return new IXR_Error(401, __('Sorry, this user can not edit the template.'));
+			return new IXR_Error(401, __('Sorry, this user cannot edit the template.'));
 
 		/* warning: here we make the assumption that the blog's URL is on the same server */
 		$filename = get_option('home') . '/';

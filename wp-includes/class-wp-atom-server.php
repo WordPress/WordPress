@@ -499,7 +499,7 @@ EOD;
 	 */
 	function get_attachment($postID = null) {
 		if ( !current_user_can( 'upload_files' ) )
-			$this->auth_required( __( 'Sorry, you do not have permission to upload files.' ) );
+			$this->auth_required( __( 'You do not have permission to upload files.' ) );
 
 		if ( !isset($postID) ) {
 			$this->get_attachments();
@@ -520,7 +520,7 @@ EOD;
 		$type = $this->get_accepted_content_type();
 
 		if ( !current_user_can('upload_files') )
-			$this->auth_required(__('You do not have permission to upload files.'));
+			$this->auth_required( __( 'You do not have permission to upload files.' ) );
 
 		$fp = fopen("php://input", "rb");
 		$bits = null;
