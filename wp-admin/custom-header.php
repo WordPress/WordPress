@@ -894,7 +894,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 		if ( ! current_user_can('edit_theme_options') )
 			wp_die(__('You do not have permission to customize headers.'));
 		$step = $this->step();
-		if ( 1 == $step )
+		if ( 1 == $step || ! $_POST )
 			$this->step_1();
 		elseif ( 2 == $step )
 			$this->step_2();
