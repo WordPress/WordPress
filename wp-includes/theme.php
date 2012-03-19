@@ -1583,7 +1583,7 @@ function _remove_theme_support( $feature ) {
 			unset( $GLOBALS['custom_image_header'] );
 			break;
 
-		case 'custom-header' :
+		case 'custom-background' :
 			$support = get_theme_support( 'custom-background' );
 			remove_action( 'wp_head', $support[0]['callback'] );
 			remove_action( 'admin_menu', array( $GLOBALS['custom_background'], 'init' ) );
