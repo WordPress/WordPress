@@ -1076,8 +1076,8 @@ function get_custom_header() {
 	$default = array(
 		'url'           => '',
 		'thumbnail_url' => '',
-		'width'         => get_theme_suppport( 'custom-header', 'width' ),
-		'height'        => get_theme_suppport( 'custom-header', 'height' ),
+		'width'         => get_theme_support( 'custom-header', 'width' ),
+		'height'        => get_theme_support( 'custom-header', 'height' ),
 	);
 	return (object) wp_parse_args( $data, $default );
 }
