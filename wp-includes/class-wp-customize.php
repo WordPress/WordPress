@@ -642,7 +642,7 @@ function sanitize_hexcolor( $color ) {
 // Custome render type for a dropdown menu.
 function customize_control_dropdown_pages( $setting ) {
 	printf(
-		__( '<label>%s %s</label>' ),
+		'<label class="customize-control-select"><span class="customize-control-title">%s</span> %s</label>',
 		$setting->label,
 		wp_dropdown_pages(
 			array(
