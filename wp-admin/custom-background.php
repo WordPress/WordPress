@@ -53,6 +53,8 @@ class Custom_Background {
 	function __construct($admin_header_callback = '', $admin_image_div_callback = '') {
 		$this->admin_header_callback = $admin_header_callback;
 		$this->admin_image_div_callback = $admin_image_div_callback;
+
+		add_action( 'admin_menu', array( $this, 'init' ) );
 	}
 
 	/**
@@ -226,7 +228,7 @@ if ( get_background_image() ) {
 </tr>
 <?php endif; ?>
 
-<?php if ( defined( 'BACKGROUND_IMAGE' ) ) : // Show only if a default background image exists ?>
+<?php if ( get_theme_support( 'custom-background', 'default-image' ) ) : ?>
 <tr valign="top">
 <th scope="row"><?php _e('Restore Original Image'); ?></th>
 <td>

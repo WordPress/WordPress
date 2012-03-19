@@ -479,7 +479,7 @@ final class WP_Customize {
 			'section'           => 'header',
 			'sanitize_callback' => 'sanitize_hexcolor',
 			'control'           => 'color',
-			'default'           => defined( 'HEADER_TEXTCOLOR' ) ? HEADER_TEXTCOLOR : ''
+			'default'           => get_theme_support( 'custom-header', 'default-text-color' ),
 		) );
 
 		/*
@@ -505,7 +505,7 @@ final class WP_Customize {
 			'control' => 'checkbox',
 			 // @todo
 			 // not the default, it's the value.
-			 // value is saved in get_theme_support( 'custom-header' )[0][ 'random-default' ]
+			 // value is saved in get_theme_support( 'custom-header', 'random-default' )
 			'default' => 'random-default-image'
 		) );
 
@@ -522,7 +522,7 @@ final class WP_Customize {
 			'label'             => 'Background Color',
 			'section'           => 'background',
 			'control'           => 'color',
-			'default'           => defined( 'BACKGROUND_COLOR' ) ? BACKGROUND_COLOR : '',
+			'default'           => get_theme_support( 'custom-background', 'default-color' ),
 			'sanitize_callback' => 'sanitize_hexcolor',
 		) );
 

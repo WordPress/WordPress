@@ -901,14 +901,11 @@ function remove_theme_mods() {
  * Retrieve text color for custom header.
  *
  * @since 2.1.0
- * @uses HEADER_TEXTCOLOR
  *
  * @return string
  */
 function get_header_textcolor() {
-	$default = defined('HEADER_TEXTCOLOR') ? HEADER_TEXTCOLOR : '';
-
-	return get_theme_mod('header_textcolor', $default);
+	return get_theme_mod('header_textcolor', get_theme_support( 'custom-header', 'default-text-color' ) );
 }
 
 /**
@@ -924,13 +921,11 @@ function header_textcolor() {
  * Retrieve header image for custom header.
  *
  * @since 2.1.0
- * @uses HEADER_IMAGE
  *
  * @return string
  */
 function get_header_image() {
-	$default = defined( 'HEADER_IMAGE' ) ? HEADER_IMAGE : '';
-	$url = get_theme_mod( 'header_image', $default );
+	$url = get_theme_mod( 'header_image', get_theme_support( 'custom-header', 'default-image' ) );
 
 	if ( 'remove-header' == $url )
 		return false;
@@ -970,8 +965,7 @@ function _get_random_header_data() {
 			if ( 'random-default-image' == $header_image_mod ) {
 				$headers = $_wp_default_headers;
 			} else {
-				$is_random = get_theme_support( 'custom-header' );
-				if ( isset( $is_random[ 0 ] ) && !empty( $is_random[ 0 ][ 'random-default' ] ) )
+				if ( current_theme_supports( 'custom-header', 'random-default' ) )
 					$headers = $_wp_default_headers;
 			}
 		}
@@ -1010,14 +1004,12 @@ function get_random_header_image() {
  * is chosen, and theme turns on random headers with add_theme_support().
  *
  * @since 3.2.0
- * @uses HEADER_IMAGE
  *
  * @param string $type The random pool to use. any|default|uploaded
  * @return boolean
  */
 function is_random_header_image( $type = 'any' ) {
-	$default = defined( 'HEADER_IMAGE' ) ? HEADER_IMAGE : '';
-	$header_image_mod = get_theme_mod( 'header_image', $default );
+	$header_image_mod = get_theme_mod( 'header_image', get_theme_support( 'custom-header', 'default-image' ) );
 
 	if ( 'any' == $type ) {
 		if ( 'random-default-image' == $header_image_mod || 'random-uploaded-image' == $header_image_mod || ( '' != get_random_header_image() && empty( $header_image_mod ) ) )
@@ -1079,98 +1071,51 @@ function get_uploaded_header_images() {
  *
  * @return object
  */
-function get_current_header_data() {
+function get_custom_header() {
 	$data = is_random_header_image()? _get_random_header_data() : get_theme_mod( 'header_image_data' );
 	$default = array(
 		'url'           => '',
 		'thumbnail_url' => '',
-		'width'         => '',
-		'height'        => '',
+		'width'         => get_theme_suppport( 'custom-header', 'width' ),
+		'height'        => get_theme_suppport( 'custom-header', 'height' ),
 	);
 	return (object) wp_parse_args( $data, $default );
 }
 
 /**
- * Get the header image width.
- *
- * @since 3.4.0
- *
- * @return int
- */
-function get_header_image_width() {
-	return empty( get_current_header_data()->width )? HEADER_IMAGE_WIDTH : get_current_header_data()->width;
-}
-
-/**
- * Get the header image height.
- *
- * @since 3.4.0
- *
- * @return int
- */
-function get_header_image_height() {
-	return empty( get_current_header_data()->height )? HEADER_IMAGE_HEIGHT : get_current_header_data()->height;
-}
-
-/**
  * Add callbacks for image header display.
  *
- * The parameter $header_callback callback will be required to display the
- * content for the 'wp_head' action. The parameter $admin_header_callback
- * callback will be added to Custom_Image_Header class and that will be added
- * to the 'admin_menu' action.
- *
  * @since 2.1.0
- * @uses Custom_Image_Header Sets up for $admin_header_callback for administration panel display.
+ * @deprecated 3.4.0
+ * @deprecated Use add_theme_support('custom-header', $args)
+ * @see add_theme_support()
  *
  * @param callback $header_callback Call on 'wp_head' action.
  * @param callback $admin_header_callback Call on custom header administration screen.
  * @param callback $admin_image_div_callback Output a custom header image div on the custom header administration screen. Optional.
  */
 function add_custom_image_header( $header_callback, $admin_header_callback, $admin_image_div_callback = '' ) {
-	if ( ! empty( $header_callback ) )
-		add_action('wp_head', $header_callback);
-
-	$support = array( 'callback' => $header_callback );
-	$theme_support = get_theme_support( 'custom-header' );
-	if ( ! empty( $theme_support ) && is_array( $theme_support[ 0 ] ) )
-		$support = array_merge( $theme_support[ 0 ], $support );
-	add_theme_support( 'custom-header',  $support );
-	add_theme_support( 'custom-header-uploads' );
-
-	if ( ! is_admin() )
-		return;
-
-	global $custom_image_header;
-
-	require_once( ABSPATH . 'wp-admin/custom-header.php' );
-	$custom_image_header = new Custom_Image_Header( $admin_header_callback, $admin_image_div_callback );
-	add_action( 'admin_menu', array( &$custom_image_header, 'init' ) );
+	# _deprecated_function( __FUNCTION__, '3.4', 'add_theme_support(\'custom-header\', $args)' );
+	return add_theme_support( 'custom-header', array(
+		'callback' => $header_callback,
+		'admin-header-callback' => $admin_header_callback,
+		'admin-image-div-callback' => $admin_image_div_callback,
+	) );
 }
 
 /**
  * Remove image header support.
  *
  * @since 3.1.0
- * @see add_custom_image_header()
+ * @deprecated 3.4.0
+ * @deprecated Use remove_theme_support('custom-header')
+ * @see remove_theme_support()
  *
  * @return bool Whether support was removed.
  */
 function remove_custom_image_header() {
-	if ( ! current_theme_supports( 'custom-header' ) )
-		return false;
-
-	$callback = get_theme_support( 'custom-header' );
-	remove_action( 'wp_head', $callback[0]['callback'] );
-	_remove_theme_support( 'custom-header' );
-	remove_theme_support( 'custom-header-uploads' );
-
-	if ( is_admin() ) {
-		remove_action( 'admin_menu', array( &$GLOBALS['custom_image_header'], 'init' ) );
-		unset( $GLOBALS['custom_image_header'] );
-	}
-
-	return true;
+	# _deprecated_function( __FUNCTION__, '3.4', 'remove_theme_support(\'custom-header\')' );
+	return remove_theme_support( 'custom-header' );
 }
 
 /**
@@ -1218,9 +1163,7 @@ function unregister_default_headers( $header ) {
  * @return string
  */
 function get_background_image() {
-	$default = defined('BACKGROUND_IMAGE') ? BACKGROUND_IMAGE : '';
-
-	return get_theme_mod('background_image', $default);
+	return get_theme_mod('background_image', get_theme_support( 'custom-background', 'default-image' ) );
 }
 
 /**
@@ -1236,14 +1179,11 @@ function background_image() {
  * Retrieve value for custom background color.
  *
  * @since 3.0.0
- * @uses BACKGROUND_COLOR
  *
  * @return string
  */
 function get_background_color() {
-	$default = defined('BACKGROUND_COLOR') ? BACKGROUND_COLOR : '';
-
-	return get_theme_mod('background_color', $default);
+	return get_theme_mod('background_color', get_theme_support( 'custom-background', 'default-color' ) );
 }
 
 /**
@@ -1271,21 +1211,12 @@ function background_color() {
  * @param callback $admin_image_div_callback Output a custom background image div on the custom background administration screen. Optional.
  */
 function add_custom_background( $header_callback = '', $admin_header_callback = '', $admin_image_div_callback = '' ) {
-	if ( isset( $GLOBALS['custom_background'] ) )
-		return;
-
-	if ( empty( $header_callback ) )
-		$header_callback = '_custom_background_cb';
-
-	add_action( 'wp_head', $header_callback );
-
-	add_theme_support( 'custom-background', array( 'callback' => $header_callback ) );
-
-	if ( ! is_admin() )
-		return;
-	require_once( ABSPATH . 'wp-admin/custom-background.php' );
-	$GLOBALS['custom_background'] = new Custom_Background( $admin_header_callback, $admin_image_div_callback );
-	add_action( 'admin_menu', array( &$GLOBALS['custom_background'], 'init' ) );
+	# _deprecated_function( __FUNCTION__, '3.4', 'add_theme_support(\'custom-background\', $args)' );
+	return add_theme_support( 'custom-background', array(
+		'callback' => $header_callback,
+		'admin-header-callback' => $admin_header_callback,
+		'admin-image-div-callback' => $admin_image_div_callback,
+	) );
 }
 
 /**
@@ -1297,26 +1228,14 @@ function add_custom_background( $header_callback = '', $admin_header_callback = 
  * @return bool Whether support was removed.
  */
 function remove_custom_background() {
-	if ( ! current_theme_supports( 'custom-background' ) )
-		return false;
-
-	$callback = get_theme_support( 'custom-background' );
-	remove_action( 'wp_head', $callback[0]['callback'] );
-	_remove_theme_support( 'custom-background' );
-
-	if ( is_admin() ) {
-		remove_action( 'admin_menu', array( &$GLOBALS['custom_background'], 'init' ) );
-		unset( $GLOBALS['custom_background'] );
-	}
-
-	return true;
+	# _deprecated_function( __FUNCTION__, '3.4', 'remove_theme_support(\'custom-background\')' );
+	return remove_theme_support( 'custom-background' );
 }
 
 /**
  * Default custom background callback.
  *
  * @since 3.0.0
- * @see add_custom_background()
  * @access protected
  */
 function _custom_background_cb() {
@@ -1422,13 +1341,170 @@ function add_theme_support( $feature ) {
 	global $_wp_theme_features;
 
 	if ( func_num_args() == 1 )
-		$_wp_theme_features[$feature] = true;
+		$args = true;
 	else
-		$_wp_theme_features[$feature] = array_slice( func_get_args(), 1 );
+		$args = array_slice( func_get_args(), 1 );
 
-	if ( $feature == 'post-formats' && is_array( $_wp_theme_features[$feature][0] ) )
-		$_wp_theme_features[$feature][0] = array_intersect( $_wp_theme_features[$feature][0], array_keys( get_post_format_slugs() ) );
+	switch ( $feature ) {
+		case 'post-formats' :
+			if ( is_array( $args[0] ) )
+				$args[0] = array_intersect( $args[0], array_keys( get_post_format_slugs() ) );
+			break;
+
+		case 'custom-header-uploads' :
+			return add_theme_support( 'custom-header', array( 'uploads' => true ) );
+			break;
+
+		case 'custom-header' :
+			$defaults = array(
+				'default-image' => '',
+				'random-default' => false,
+				'width' => 0,
+				'height' => 0,
+				'flex-height' => false,
+				'flex-width' => false,
+				'default-text-color' => '',
+				'header-text' => true,
+				'uploads' => true,
+				'callback' => '',
+				'admin-header-callback' => '',
+				'admin-image-div-callback' => '',
+			);
+
+			$jit = isset( $args[0]['__jit'] );
+			unset( $args[0]['__jit'] );
+
+			// Merge in data from previous add_theme_support() calls.
+			// The first value registered wins. (A child theme is set up first.)
+			if ( isset( $_wp_theme_features['custom-header'] ) )
+				$args[0] = wp_parse_args( $_wp_theme_features['custom-header'][0], $args[0] );
+
+			// Load in the defaults at the end, as we need to insure first one wins.
+			// This will cause all constants to be defined, as each arg will then be set to the default.
+			if ( $jit )
+				$args[0] = wp_parse_args( $args[0], $defaults );
+
+			// If a constant was defined, use that value. Otherwise, define the constant to ensure
+			// the constant is always accurate (and is not defined later,  overriding our value).
+			// As stated above, the first value wins.
+			// Once we get to wp_loaded (just-in-time), define any constants we haven't already.
+			// Constants are lame. Don't reference them. This is just for backwards compatibility.
+
+			if ( defined( 'NO_HEADER_TEXT' ) )
+				$args[0]['header-text'] = ! NO_HEADER_TEXT;
+			elseif ( isset( $args[0]['header-text'] ) )
+				define( 'NO_HEADER_TEXT', empty( $args[0]['header-text'] ) );
+
+			if ( defined( 'HEADER_IMAGE_WIDTH' ) )
+				$args[0]['width'] = (int) HEADER_IMAGE_WIDTH;
+			elseif ( isset( $args[0]['width'] ) )
+				define( 'HEADER_IMAGE_WIDTH', (int) $args[0]['width'] );
+
+			if ( defined( 'HEADER_IMAGE_HEIGHT' ) )
+				$args[0]['height'] = (int) HEADER_IMAGE_HEIGHT;
+			elseif ( ! isset( $args[0]['height'] ) )
+				define( 'HEADER_IMAGE_HEIGHT', (int) $args[0]['height'] );
+
+			if ( defined( 'HEADER_TEXTCOLOR' ) )
+				$args[0]['default-text-color'] = HEADER_TEXTCOLOR;
+			elseif ( isset( $args[0]['default-text-color'] ) )
+				define( 'HEADER_TEXTCOLOR', $args[0]['default-text-color'] );
+
+			if ( defined( 'HEADER_IMAGE' ) )
+				$args[0]['default-image'] = HEADER_IMAGE;
+
+			if ( $jit && ! empty( $args[0]['default-image'] ) )
+				$args[0]['random-default'] = false;
+
+			if ( ! defined( 'HEADER_IMAGE' ) && ( isset( $args[0]['default-image'] ) || isset( $args[0]['random-default'] ) ) )
+				define( 'HEADER_IMAGE', $args[0]['default-image'] );
+
+			// If headers are supported, and we still don't have a defined width or height,
+			// we have implicit flex sizes.
+			if ( $jit ) {
+				if ( empty( $args[0]['width'] ) && empty( $args[0]['flex-width'] ) )
+					$args[0]['flex-width'] = true;
+				if ( empty( $args[0]['height'] ) && empty( $args[0]['flex-height'] ) )
+					$args[0]['flex-height'] = true;
+			}
+
+			break;
+
+		case 'custom-background' :
+			$defaults = array(
+				'default-image' => '',
+				'default-color' => '',
+				'callback' => '',
+				'admin-header-callback' => '',
+				'admin-image-div-callback' => '',
+			);
+
+			$jit = isset( $args[0]['__jit'] );
+			unset( $args[0]['__jit'] );
+
+			// Merge in data from previous add_theme_support() calls. The first value registered wins.
+			if ( isset( $_wp_theme_features['custom-background'] ) )
+				$args[0] = wp_parse_args( $_wp_theme_features['custom-background'][0], $args[0] );
+
+			if ( $jit )
+				$args[0] = wp_parse_args( $args[0], $defaults );
+
+			if ( defined( 'BACKGROUND_COLOR' ) )
+				$args[0]['default-color'] = BACKGROUND_COLOR;
+			elseif ( isset( $args[0]['default-color'] ) || $jit )
+				define( 'BACKGROUND_COLOR', $args[0]['default-color'] );
+
+			if ( defined( 'BACKGROUND_IMAGE' ) )
+				$args[0]['default-image'] = BACKGROUND_IMAGE;
+			elseif ( isset( $args[0]['default-image'] ) || $jit )
+				define( 'BACKGROUND_IMAGE', $args[0]['default-image'] );
+
+			if ( empty( $args[0]['callback'] ) )
+				$args[0]['callback'] = '_custom_background_cb';
+
+			break;
+	}
+
+	$_wp_theme_features[ $feature ] = $args;
 }
+
+/**
+ * Registers the internal custom header and background routines.
+ *
+ * @since 3.4.0
+ * @access private
+ */
+function _custom_header_background_just_in_time() {
+	global $custom_image_header, $custom_background;
+
+	if ( current_theme_supports( 'custom-header' ) ) {
+		// In case any constants were defined after an add_custom_image_header() call, re-run.
+		add_theme_support( 'custom-header', array( '__jit' => true ) );
+
+		$args = get_theme_support( 'custom-header' );
+		if ( $args[0]['callback'] )
+			add_action( 'wp_head', $args[0]['callback'] );
+
+		if ( is_admin() ) {
+			require_once( ABSPATH . 'wp-admin/custom-header.php' );
+			$custom_image_header = new Custom_Image_Header( $args[0]['admin-header-callback'], $args[0]['admin-image-div-callback'] );
+		}
+	}
+
+	if ( current_theme_supports( 'custom-background' ) ) {
+		// In case any constants were defined after an add_custom_background() call, re-run.
+		add_theme_support( 'custom-background', array( '__jit' => true ) );
+
+		$args = get_theme_support( 'custom-background' );
+		add_action( 'wp_head', $args[0]['callback'] );
+
+		if ( is_admin() ) {
+			require_once( ABSPATH . 'wp-admin/custom-background.php' );
+			$custom_background = new Custom_Background( $args[0]['admin-header-callback'], $args[0]['admin-image-div-callback'] );
+		}
+	}		
+}
+add_action( 'wp_loaded', '_custom_header_background_just_in_time' );
 
 /**
  * Gets the theme support arguments passed when registering that support
@@ -1439,10 +1515,24 @@ function add_theme_support( $feature ) {
  */
 function get_theme_support( $feature ) {
 	global $_wp_theme_features;
-	if ( !isset( $_wp_theme_features[$feature] ) )
+	if ( ! isset( $_wp_theme_features[ $feature ] ) )
 		return false;
-	else
-		return $_wp_theme_features[$feature];
+
+	if ( func_num_args() <= 1 )
+		return $_wp_theme_features[ $feature ];
+
+	$args = array_slice( func_get_args(), 1 );
+	switch ( $feature ) {
+		case 'custom-header' :
+		case 'custom-background' :
+			if ( isset( $_wp_theme_features[ $feature ][0][ $args[0] ] ) )
+				return $_wp_theme_features[ $feature ][0][ $args[0] ];
+			return false;
+			break;
+		default :
+			return $_wp_theme_features[ $feature ];
+			break;
+	}
 }
 
 /**
@@ -1458,8 +1548,9 @@ function get_theme_support( $feature ) {
  */
 function remove_theme_support( $feature ) {
 	// Blacklist: for internal registrations not used directly by themes.
-	if ( in_array( $feature, array( 'custom-background', 'custom-header', 'editor-style', 'widgets', 'menus' ) ) )
+	if ( in_array( $feature, array( 'editor-style', 'widgets', 'menus' ) ) )
 		return false;
+
 	return _remove_theme_support( $feature );
 }
 
@@ -1472,9 +1563,35 @@ function remove_theme_support( $feature ) {
 function _remove_theme_support( $feature ) {
 	global $_wp_theme_features;
 
-	if ( ! isset( $_wp_theme_features[$feature] ) )
+	switch ( $feature ) {
+		case 'custom-header-uploads' :
+			if ( ! isset( $_wp_theme_features['custom-header'] ) )
+				return false;
+			add_theme_support( 'custom-header', array( 'uploads' => false ) );
+			return; // Do not continue - custom-header-uploads no longer exists.
+	}
+
+	if ( ! isset( $_wp_theme_features[ $feature ] ) )
 		return false;
-	unset( $_wp_theme_features[$feature] );
+
+	switch ( $feature ) {
+		case 'custom-header' :
+			$support = get_theme_support( 'custom-header' );
+			if ( $support[0]['callback'] )
+				remove_action( 'wp_head', $support[0]['callback'] );
+			remove_action( 'admin_menu', array( $GLOBALS['custom_image_header'], 'init' ) );
+			unset( $GLOBALS['custom_image_header'] );
+			break;
+
+		case 'custom-header' :
+			$support = get_theme_support( 'custom-background' );
+			remove_action( 'wp_head', $support[0]['callback'] );
+			remove_action( 'admin_menu', array( $GLOBALS['custom_background'], 'init' ) );
+			unset( $GLOBALS['custom_background'] );
+			break;
+	}
+
+	unset( $_wp_theme_features[ $feature ] );
 	return true;
 }
 
@@ -1487,6 +1604,9 @@ function _remove_theme_support( $feature ) {
  */
 function current_theme_supports( $feature ) {
 	global $_wp_theme_features;
+
+	if ( 'custom-header-uploads' == $feature )
+		return current_theme_supports( 'custom-header', 'uploads' );
 
 	if ( !isset( $_wp_theme_features[$feature] ) )
 		return false;
