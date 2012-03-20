@@ -62,10 +62,9 @@ if ( ! function_exists( 'twentyeleven_setup' ) ):
  *
  * @uses load_theme_textdomain() For translation/localization support.
  * @uses add_editor_style() To style the visual editor.
- * @uses add_theme_support() To add support for post thumbnails, automatic feed links, and Post Formats.
+ * @uses add_theme_support() To add support for post thumbnails, automatic feed links, custom headers
+ * 	and backgrounds, and post formats.
  * @uses register_nav_menus() To add support for navigation menus.
- * @uses add_custom_background() To add support for a custom background.
- * @uses add_custom_image_header() To add support for a custom header.
  * @uses register_default_headers() To register the default custom header images provided with the theme.
  * @uses set_post_thumbnail_size() To set a custom post thumbnail size.
  *
@@ -234,7 +233,7 @@ if ( ! function_exists( 'twentyeleven_admin_header_style' ) ) :
 /**
  * Styles the header image displayed on the Appearance > Header admin panel.
  *
- * Referenced via add_custom_image_header() in twentyeleven_setup().
+ * Referenced via add_theme_support('custom-header') in twentyeleven_setup().
  *
  * @since Twenty Eleven 1.0
  */
@@ -284,7 +283,7 @@ if ( ! function_exists( 'twentyeleven_admin_header_image' ) ) :
 /**
  * Custom header image markup displayed on the Appearance > Header admin panel.
  *
- * Referenced via add_custom_image_header() in twentyeleven_setup().
+ * Referenced via add_theme_support('custom-header') in twentyeleven_setup().
  *
  * @since Twenty Eleven 1.0
  */

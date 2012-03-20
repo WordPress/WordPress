@@ -70,11 +70,11 @@
 					if ( is_singular() && current_theme_supports( 'post-thumbnails' ) &&
 							has_post_thumbnail( $post->ID ) &&
 							( /* $src, $width, $height */ $image = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'post-thumbnail' ) ) &&
-							$image[1] >= HEADER_IMAGE_WIDTH ) :
+							$image[1] >= get_theme_support( 'custom-header', 'width' ) ) :
 						// Houston, we have a new header image!
 						echo get_the_post_thumbnail( $post->ID );
 					elseif ( get_header_image() ) : ?>
-						<img src="<?php header_image(); ?>" width="<?php echo HEADER_IMAGE_WIDTH; ?>" height="<?php echo HEADER_IMAGE_HEIGHT; ?>" alt="" />
+						<img src="<?php header_image(); ?>" width="<?php echo get_theme_support( 'custom-header', 'width' ); ?>" height="<?php echo get_theme_support( 'custom-header', 'height' ); ?>" alt="" />
 					<?php endif; ?>
 			</div><!-- #branding -->
 

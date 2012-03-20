@@ -61,12 +61,10 @@ if ( ! function_exists( 'twentyten_setup' ) ):
  * To override twentyten_setup() in a child theme, add your own twentyten_setup to your child theme's
  * functions.php file.
  *
- * @uses add_theme_support() To add support for post thumbnails and automatic feed links.
+ * @uses add_theme_support() To add support for post thumbnails, custom headers and backgrounds, and automatic feed links.
  * @uses register_nav_menus() To add support for navigation menus.
- * @uses add_custom_background() To add support for a custom background.
  * @uses add_editor_style() To style the visual editor.
  * @uses load_theme_textdomain() For translation/localization support.
- * @uses add_custom_image_header() To add support for a custom header.
  * @uses register_default_headers() To register the default custom header images provided with the theme.
  * @uses set_post_thumbnail_size() To set a custom post thumbnail size.
  *
@@ -100,36 +98,30 @@ function twentyten_setup() {
 		'primary' => __( 'Primary Navigation', 'twentyten' ),
 	) );
 
-	// This theme allows users to set a custom background
-	add_custom_background();
+	// This theme allows users to set a custom background.
+	add_theme_support( 'custom-background' );
 
-	// Your changeable header business starts here
-	if ( ! defined( 'HEADER_TEXTCOLOR' ) )
-		define( 'HEADER_TEXTCOLOR', '' );
+	// The custom header business starts here.
 
-	// No CSS, just IMG call. The %s is a placeholder for the theme template directory URI.
-	if ( ! defined( 'HEADER_IMAGE' ) )
-		define( 'HEADER_IMAGE', '%s/images/headers/path.jpg' );
-
-	// The height and width of your custom header. You can hook into the theme's own filters to change these values.
-	// Add a filter to twentyten_header_image_width and twentyten_header_image_height to change these values.
-	define( 'HEADER_IMAGE_WIDTH', apply_filters( 'twentyten_header_image_width', 940 ) );
-	define( 'HEADER_IMAGE_HEIGHT', apply_filters( 'twentyten_header_image_height', 198 ) );
+	add_theme_support( 'custom-header', array(
+		// The default image to use.
+		// The %s is a placeholder for the theme template directory URI.
+		'default-image' => '%s/images/headers/path.jpg',
+		// The height and width of our custom header.
+		'width' => apply_filters( 'twentyten_header_image_width', 940 ),
+		'height' => apply_filters( 'twentyten_header_image_height', 198 ),
+		// Don't support text inside the header image.
+		'header-text' => false,
+		// Callback for styling the header preview in the admin.
+		'admin-header-callback' => 'twentyten_admin_header_style',
+	) );
 
 	// We'll be using post thumbnails for custom header images on posts and pages.
 	// We want them to be 940 pixels wide by 198 pixels tall.
 	// Larger images will be auto-cropped to fit, smaller ones will be ignored. See header.php.
-	set_post_thumbnail_size( HEADER_IMAGE_WIDTH, HEADER_IMAGE_HEIGHT, true );
+	set_post_thumbnail_size( get_theme_support( 'custom-header', 'width' ), get_theme_support( 'custom-header', 'height' ), true );
 
-	// Don't support text inside the header image.
-	if ( ! defined( 'NO_HEADER_TEXT' ) )
-		define( 'NO_HEADER_TEXT', true );
-
-	// Add a way for the custom header to be styled in the admin panel that controls
-	// custom headers. See twentyten_admin_header_style(), below.
-	add_custom_image_header( '', 'twentyten_admin_header_style' );
-
-	// ... and thus ends the changeable header business.
+	// ... and thus ends the custom header business.
 
 	// Default custom headers packaged with the theme. %s is a placeholder for the theme template directory URI.
 	register_default_headers( array(
@@ -201,7 +193,7 @@ function twentyten_admin_header_style() {
 	border-bottom: 1px solid #000;
 	border-top: 4px solid #000;
 }
-/* If NO_HEADER_TEXT is false, you would style the text with these selectors:
+/* If header-text was supported, you would style the text with these selectors:
 	#headimg #name { }
 	#headimg #desc { }
 */
