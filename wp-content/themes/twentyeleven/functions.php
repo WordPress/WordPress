@@ -103,42 +103,39 @@ function twentyeleven_setup() {
 	// Add support for a variety of post formats
 	add_theme_support( 'post-formats', array( 'aside', 'link', 'gallery', 'status', 'quote', 'image' ) );
 
-	// Add support for custom backgrounds
-	add_custom_background();
+	// Add support for custom backgrounds.
+	add_theme_support( 'custom-background' );
 
 	// This theme uses Featured Images (also known as post thumbnails) for per-post/per-page Custom Header images
 	add_theme_support( 'post-thumbnails' );
 
-	// The next four constants set how Twenty Eleven supports custom headers.
-
-	// The default header text color
-	define( 'HEADER_TEXTCOLOR', '000' );
-
-	// By leaving empty, we allow for random image rotation.
-	define( 'HEADER_IMAGE', '' );
-
-	// The height and width of your custom header.
-	// Add a filter to twentyeleven_header_image_width and twentyeleven_header_image_height to change these values.
-	define( 'HEADER_IMAGE_WIDTH', apply_filters( 'twentyeleven_header_image_width', 1000 ) );
-	define( 'HEADER_IMAGE_HEIGHT', apply_filters( 'twentyeleven_header_image_height', 288 ) );
+	// Add support for custom headers.
+	add_theme_support( 'custom-header', array(
+		// The default header text color.
+		'default-text-color' => '000',
+		// The height and width of our custom header.
+		'width' => apply_filters( 'twentyeleven_header_image_width', 1000 ),
+		'height' => apply_filters( 'twentyeleven_header_image_height', 288 ),
+		// Random image rotation by default.
+		'random-default' => true,
+		// Callback for styling the header.
+		'callback' => 'twentyeleven_header_style',
+		// Callback for styling the header preview in the admin.
+		'admin-header-callback' => 'twentyeleven_admin_header_style',
+		// Callback used to display the header preview in the admin.
+		'admin-image-div-callback' => 'twentyeleven_admin_header_image',
+	) );
 
 	// We'll be using post thumbnails for custom header images on posts and pages.
 	// We want them to be the size of the header image that we just defined
 	// Larger images will be auto-cropped to fit, smaller ones will be ignored. See header.php.
-	set_post_thumbnail_size( HEADER_IMAGE_WIDTH, HEADER_IMAGE_HEIGHT, true );
+	set_post_thumbnail_size( get_theme_support( 'custom-header', 'width' ), get_theme_support( 'custom-header', 'height' ), true );
 
-	// Add Twenty Eleven's custom image sizes
-	add_image_size( 'large-feature', HEADER_IMAGE_WIDTH, HEADER_IMAGE_HEIGHT, true ); // Used for large feature (header) images
-	add_image_size( 'small-feature', 500, 300 ); // Used for featured posts if a large-feature doesn't exist
-
-	// Turn on random header image rotation by default.
-	add_theme_support( 'custom-header', array( 'random-default' => true ) );
-
-	// Add a way for the custom header to be styled in the admin panel that controls
-	// custom headers. See twentyeleven_admin_header_style(), below.
-	add_custom_image_header( 'twentyeleven_header_style', 'twentyeleven_admin_header_style', 'twentyeleven_admin_header_image' );
-
-	// ... and thus ends the changeable header business.
+	// Add Twenty Eleven's custom image sizes.
+	// Used for large feature (header) images.
+	add_image_size( 'large-feature', get_theme_support( 'custom-header', 'width' ), get_theme_support( 'custom-header', 'height' ), true );
+	// Used for featured posts if a large-feature doesn't exist.
+	add_image_size( 'small-feature', 500, 300 );
 
 	// Default custom headers packaged with the theme. %s is a placeholder for the theme template directory URI.
 	register_default_headers( array(
@@ -201,17 +198,17 @@ if ( ! function_exists( 'twentyeleven_header_style' ) ) :
  * @since Twenty Eleven 1.0
  */
 function twentyeleven_header_style() {
+	$text_color = get_header_textcolor();
 
-	// If no custom options for text are set, let's bail
-	// get_header_textcolor() options: HEADER_TEXTCOLOR is default, hide text (returns 'blank') or any hex value
-	if ( HEADER_TEXTCOLOR == get_header_textcolor() )
+	// If no custom options for text are set, let's bail.
+	if ( $text_color == get_theme_support( 'custom-header', 'default-text-color' ) )
 		return;
 	// If we get this far, we have custom styles. Let's do this.
 	?>
 	<style type="text/css">
 	<?php
 		// Has the text been hidden?
-		if ( 'blank' == get_header_textcolor() ) :
+		if ( 'blank' == $text_color ) :
 	?>
 		#site-title,
 		#site-description {
@@ -225,7 +222,7 @@ function twentyeleven_header_style() {
 	?>
 		#site-title a,
 		#site-description {
-			color: #<?php echo get_header_textcolor(); ?> !important;
+			color: #<?php echo $text_color; ?> !important;
 		}
 	<?php endif; ?>
 	</style>
@@ -266,7 +263,7 @@ function twentyeleven_admin_header_style() {
 	}
 	<?php
 		// If the user has set a custom color for the text use that
-		if ( get_header_textcolor() != HEADER_TEXTCOLOR ) :
+		if ( get_header_textcolor() != get_theme_support( 'custom-header', 'default-text-color' ) ) :
 	?>
 		#site-title a,
 		#site-description {
@@ -294,16 +291,17 @@ if ( ! function_exists( 'twentyeleven_admin_header_image' ) ) :
 function twentyeleven_admin_header_image() { ?>
 	<div id="headimg">
 		<?php
-		if ( 'blank' == get_theme_mod( 'header_textcolor', HEADER_TEXTCOLOR ) || '' == get_theme_mod( 'header_textcolor', HEADER_TEXTCOLOR ) )
-			$style = ' style="display:none;"';
+		$color = get_header_textcolor();
+		$image = get_header_image();
+		if ( $color && $color != 'blank' )
+			$style = ' style="color:#' . $color . '"';
 		else
-			$style = ' style="color:#' . get_theme_mod( 'header_textcolor', HEADER_TEXTCOLOR ) . ';"';
+			$style = ' style="display:none"';
 		?>
 		<h1><a id="name"<?php echo $style; ?> onclick="return false;" href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php bloginfo( 'name' ); ?></a></h1>
 		<div id="desc"<?php echo $style; ?>><?php bloginfo( 'description' ); ?></div>
-		<?php $header_image = get_header_image();
-		if ( ! empty( $header_image ) ) : ?>
-			<img src="<?php echo esc_url( $header_image ); ?>" alt="" />
+		<?php if ( $image ) : ?>
+			<img src="<?php echo esc_url( $image ); ?>" alt="" />
 		<?php endif; ?>
 	</div>
 <?php }
