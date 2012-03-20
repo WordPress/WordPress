@@ -2955,7 +2955,7 @@ function get_themes() {
  * @return array|null Null, if theme name does not exist. Theme data, if exists.
  */
 function get_theme( $theme ) {
-	_deprecated_function( __FUNCTION__, '3.4', 'wp_get_theme($stylesheet)' );
+	_deprecated_function( __FUNCTION__, '3.4', 'wp_get_theme( $stylesheet )' );
 
 	$themes = get_themes();
 	if ( is_array( $themes ) && array_key_exists( $theme, $themes ) )
@@ -2995,7 +2995,7 @@ function get_current_theme() {
  * @param callback $admin_image_div_callback Output a custom header image div on the custom header administration screen. Optional.
  */
 function add_custom_image_header( $callback, $admin_header_callback, $admin_image_div_callback = '' ) {
-	_deprecated_function( __FUNCTION__, '3.4', 'add_theme_support(\'custom-header\', $args)' );
+	_deprecated_function( __FUNCTION__, '3.4', 'add_theme_support( \'custom-header\', $args )' );
 	return add_theme_support( 'custom-header', array(
 		'callback' => $callback,
 		'admin-header-callback' => $admin_header_callback,
@@ -3014,7 +3014,7 @@ function add_custom_image_header( $callback, $admin_header_callback, $admin_imag
  * @return bool Whether support was removed.
  */
 function remove_custom_image_header() {
-	_deprecated_function( __FUNCTION__, '3.4', 'remove_theme_support(\'custom-header\')' );
+	_deprecated_function( __FUNCTION__, '3.4', 'remove_theme_support( \'custom-header\' )' );
 	return remove_theme_support( 'custom-header' );
 }
 
@@ -3034,10 +3034,7 @@ function remove_custom_image_header() {
  * @param callback $admin_image_div_callback Output a custom background image div on the custom background administration screen. Optional.
  */
 function add_custom_background( $callback = '', $admin_header_callback = '', $admin_image_div_callback = '' ) {
-	if ( $callback || $admin_header_callback || $admin_image_div_callback )
-		_deprecated_function( __FUNCTION__, '3.4', 'add_theme_support(\'custom-background\', $args)' );
-	else
-		_deprecated_function( __FUNCTION__, '3.4', 'add_theme_support(\'custom-background\')' );
+	_deprecated_function( __FUNCTION__, '3.4', 'add_theme_support( \'custom-background\', $args )' );
 
 	return add_theme_support( 'custom-background', array(
 		'callback' => $callback,
@@ -3055,6 +3052,6 @@ function add_custom_background( $callback = '', $admin_header_callback = '', $ad
  * @return bool Whether support was removed.
  */
 function remove_custom_background() {
-	_deprecated_function( __FUNCTION__, '3.4', 'remove_theme_support(\'custom-background\')' );
+	_deprecated_function( __FUNCTION__, '3.4', 'remove_theme_support( \'custom-background\' )' );
 	return remove_theme_support( 'custom-background' );
 }
