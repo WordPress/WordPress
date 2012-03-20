@@ -67,7 +67,6 @@ get_header(); ?>
 					$counter_slider = 0;
 
 					$header_image_width  = get_theme_support( 'custom-header', 'width' );
-					$header_image_height = get_theme_support( 'custom-header', 'height' );
 					?>
 
 				<div class="featured-posts">
