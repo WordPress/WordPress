@@ -1283,6 +1283,9 @@ function add_theme_support( $feature ) {
 			break;
 
 		case 'custom-header' :
+			if ( ! is_array( $args ) )
+				$args = array( 0 => array() );
+
 			$defaults = array(
 				'default-image' => '',
 				'random-default' => false,
@@ -1329,7 +1332,7 @@ function add_theme_support( $feature ) {
 
 			if ( defined( 'HEADER_IMAGE_HEIGHT' ) )
 				$args[0]['height'] = (int) HEADER_IMAGE_HEIGHT;
-			elseif ( ! isset( $args[0]['height'] ) )
+			elseif ( isset( $args[0]['height'] ) )
 				define( 'HEADER_IMAGE_HEIGHT', (int) $args[0]['height'] );
 
 			if ( defined( 'HEADER_TEXTCOLOR' ) )
@@ -1339,12 +1342,11 @@ function add_theme_support( $feature ) {
 
 			if ( defined( 'HEADER_IMAGE' ) )
 				$args[0]['default-image'] = HEADER_IMAGE;
+			elseif ( isset( $args[0]['default-image'] ) )
+				define( 'HEADER_IMAGE', $args[0]['default-image'] );
 
 			if ( $jit && ! empty( $args[0]['default-image'] ) )
 				$args[0]['random-default'] = false;
-
-			if ( ! defined( 'HEADER_IMAGE' ) && ( isset( $args[0]['default-image'] ) || isset( $args[0]['random-default'] ) ) )
-				define( 'HEADER_IMAGE', $args[0]['default-image'] );
 
 			// If headers are supported, and we still don't have a defined width or height,
 			// we have implicit flex sizes.
@@ -1358,6 +1360,9 @@ function add_theme_support( $feature ) {
 			break;
 
 		case 'custom-background' :
+			if ( ! is_array( $args ) )
+				$args = array( 0 => array() );
+
 			$defaults = array(
 				'default-image' => '',
 				'default-color' => '',
