@@ -1,3 +1,0 @@
-== Twenty Twelve ==
-
-= Changelog =
