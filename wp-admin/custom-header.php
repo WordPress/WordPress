@@ -208,7 +208,7 @@ class Custom_Image_Header {
 			return;
 		}
 
-		if ( ! isset( $_POST['display-header-text'] ) ) {
+		if ( isset( $_POST['text-color'] ) && ! isset( $_POST['display-header-text'] ) ) {
 			check_admin_referer( 'custom-header-options', '_wpnonce-custom-header-options' );
 			set_theme_mod( 'header_textcolor', 'blank' );
 		} elseif ( isset( $_POST['text-color'] ) ) {
