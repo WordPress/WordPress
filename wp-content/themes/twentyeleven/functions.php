@@ -118,11 +118,11 @@ function twentyeleven_setup() {
 		// Random image rotation by default.
 		'random-default' => true,
 		// Callback for styling the header.
-		'callback' => 'twentyeleven_header_style',
+		'wp-head-callback' => 'twentyeleven_header_style',
 		// Callback for styling the header preview in the admin.
-		'admin-header-callback' => 'twentyeleven_admin_header_style',
+		'admin-head-callback' => 'twentyeleven_admin_header_style',
 		// Callback used to display the header preview in the admin.
-		'admin-image-div-callback' => 'twentyeleven_admin_header_image',
+		'admin-preview-callback' => 'twentyeleven_admin_header_image',
 	) );
 
 	// We'll be using post thumbnails for custom header images on posts and pages.

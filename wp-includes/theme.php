@@ -1296,9 +1296,9 @@ function add_theme_support( $feature ) {
 				'default-text-color' => '',
 				'header-text' => true,
 				'uploads' => true,
-				'callback' => '',
-				'admin-header-callback' => '',
-				'admin-image-div-callback' => '',
+				'wp-head-callback' => '',
+				'admin-head-callback' => '',
+				'admin-preview-callback' => '',
 			);
 
 			$jit = isset( $args[0]['__jit'] );
@@ -1366,9 +1366,9 @@ function add_theme_support( $feature ) {
 			$defaults = array(
 				'default-image' => '',
 				'default-color' => '',
-				'callback' => '',
-				'admin-header-callback' => '',
-				'admin-image-div-callback' => '',
+				'wp-head-callback' => '_custom_background_cb',
+				'admin-head-callback' => '',
+				'admin-preview-callback' => '',
 			);
 
 			$jit = isset( $args[0]['__jit'] );
@@ -1391,9 +1391,6 @@ function add_theme_support( $feature ) {
 			elseif ( isset( $args[0]['default-image'] ) || $jit )
 				define( 'BACKGROUND_IMAGE', $args[0]['default-image'] );
 
-			if ( empty( $args[0]['callback'] ) )
-				$args[0]['callback'] = '_custom_background_cb';
-
 			break;
 	}
 
@@ -1414,12 +1411,12 @@ function _custom_header_background_just_in_time() {
 		add_theme_support( 'custom-header', array( '__jit' => true ) );
 
 		$args = get_theme_support( 'custom-header' );
-		if ( $args[0]['callback'] )
-			add_action( 'wp_head', $args[0]['callback'] );
+		if ( $args[0]['wp-head-callback'] )
+			add_action( 'wp_head', $args[0]['wp-head-callback'] );
 
 		if ( is_admin() ) {
 			require_once( ABSPATH . 'wp-admin/custom-header.php' );
-			$custom_image_header = new Custom_Image_Header( $args[0]['admin-header-callback'], $args[0]['admin-image-div-callback'] );
+			$custom_image_header = new Custom_Image_Header( $args[0]['admin-head-callback'], $args[0]['admin-preview-callback'] );
 		}
 	}
 
@@ -1428,11 +1425,11 @@ function _custom_header_background_just_in_time() {
 		add_theme_support( 'custom-background', array( '__jit' => true ) );
 
 		$args = get_theme_support( 'custom-background' );
-		add_action( 'wp_head', $args[0]['callback'] );
+		add_action( 'wp_head', $args[0]['wp-head-callback'] );
 
 		if ( is_admin() ) {
 			require_once( ABSPATH . 'wp-admin/custom-background.php' );
-			$custom_background = new Custom_Background( $args[0]['admin-header-callback'], $args[0]['admin-image-div-callback'] );
+			$custom_background = new Custom_Background( $args[0]['admin-head-callback'], $args[0]['admin-preview-callback'] );
 		}
 	}
 }
@@ -1509,15 +1506,15 @@ function _remove_theme_support( $feature ) {
 	switch ( $feature ) {
 		case 'custom-header' :
 			$support = get_theme_support( 'custom-header' );
-			if ( $support[0]['callback'] )
-				remove_action( 'wp_head', $support[0]['callback'] );
+			if ( $support[0]['wp-head-callback'] )
+				remove_action( 'wp_head', $support[0]['wp-head-callback'] );
 			remove_action( 'admin_menu', array( $GLOBALS['custom_image_header'], 'init' ) );
 			unset( $GLOBALS['custom_image_header'] );
 			break;
 
 		case 'custom-background' :
 			$support = get_theme_support( 'custom-background' );
-			remove_action( 'wp_head', $support[0]['callback'] );
+			remove_action( 'wp_head', $support[0]['wp-head-callback'] );
 			remove_action( 'admin_menu', array( $GLOBALS['custom_background'], 'init' ) );
 			unset( $GLOBALS['custom_background'] );
 			break;

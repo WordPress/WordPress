@@ -113,7 +113,7 @@ function twentyten_setup() {
 		// Don't support text inside the header image.
 		'header-text' => false,
 		// Callback for styling the header preview in the admin.
-		'admin-header-callback' => 'twentyten_admin_header_style',
+		'admin-head-callback' => 'twentyten_admin_header_style',
 	) );
 
 	// We'll be using post thumbnails for custom header images on posts and pages.
