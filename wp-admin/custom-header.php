@@ -208,16 +208,17 @@ class Custom_Image_Header {
 			return;
 		}
 
-		if ( isset( $_POST['text-color'] ) ) {
+		if ( ! isset( $_POST['display-header-text'] ) ) {
+			check_admin_referer( 'custom-header-options', '_wpnonce-custom-header-options' );
+			set_theme_mod( 'header_textcolor', 'blank' );
+		} elseif ( isset( $_POST['text-color'] ) ) {
 			check_admin_referer( 'custom-header-options', '_wpnonce-custom-header-options' );
 			$_POST['text-color'] = str_replace( '#', '', $_POST['text-color'] );
-			if ( 'blank' == $_POST['text-color'] ) {
+			$color = preg_replace('/[^0-9a-fA-F]/', '', $_POST['text-color']);
+			if ( strlen($color) == 6 || strlen($color) == 3 )
+				set_theme_mod('header_textcolor', $color);
+			elseif ( ! $color )
 				set_theme_mod( 'header_textcolor', 'blank' );
-			} else {
-				$color = preg_replace('/[^0-9a-fA-F]/', '', $_POST['text-color']);
-				if ( strlen($color) == 6 || strlen($color) == 3 )
-					set_theme_mod('header_textcolor', $color);
-			}
 		}
 
 		if ( isset( $_POST['default-header'] ) ) {
@@ -329,86 +330,75 @@ class Custom_Image_Header {
 	function js_1() { ?>
 <script type="text/javascript">
 /* <![CDATA[ */
-	var text_objects = ['#name', '#desc', '#text-color-row'];
-	var farbtastic;
-	var default_color = '#<?php echo get_theme_support( 'custom-header', 'default-text-color' ); ?>';
-	var old_color = null;
+var farbtastic;
+(function($){
+	var default_color = '#<?php echo get_theme_support( 'custom-header', 'default-text-color' ); ?>',
+		header_text_fields;
 
 	function pickColor(color) {
-		jQuery('#name').css('color', color);
-		jQuery('#desc').css('color', color);
-		jQuery('#text-color').val(color);
+		$('#name').css('color', color);
+		$('#desc').css('color', color);
+		$('#text-color').val(color);
 		farbtastic.setColor(color);
 	}
 
-	function toggle_text(s) {
-		if (jQuery(s).attr('id') == 'showtext' && jQuery('#text-color').val() != 'blank')
+	function toggle_text() {
+		var checked = $('#display-header-text').prop('checked'),
+			text_color;
+		header_text_fields.toggle( checked );
+		if ( ! checked )
 			return;
-
-		if (jQuery(s).attr('id') == 'hidetext' && jQuery('#text-color').val() == 'blank')
-			return;
-
-		if (jQuery('#text-color').val() == 'blank') {
-			//Show text
-			if (old_color == '#blank')
-				old_color = default_color;
-
-			jQuery( text_objects.toString() ).show();
-			jQuery('#text-color').val(old_color);
-			jQuery('#name').css('color', old_color);
-			jQuery('#desc').css('color', old_color);
-			pickColor(old_color);
+		text_color = $('#text-color');
+		if ( '' == text_color.val().replace('#', '') ) {
+			text_color.val( default_color );
+			pickColor( default_color );
 		} else {
-			//Hide text
-			jQuery( text_objects.toString() ).hide();
-			old_color = jQuery('#text-color').val();
-			jQuery('#text-color').val('blank');
+			pickColor( text_color.val() );
 		}
 	}
 
-	jQuery(document).ready(function() {
-		jQuery('#pickcolor').click(function() {
-			jQuery('#color-picker').show();
+	$(document).ready(function() {
+		header_text_fields = $('.displaying-header-text');
+		$('#pickcolor').click(function(e) {
+			e.preventDefault();
+			$('#color-picker').show();
 		});
 
-		jQuery('input[name="hidetext"]').click(function() {
-			toggle_text(this);
-		});
+		$('#display-header-text').click( toggle_text );
 
-		jQuery('#defaultcolor').click(function() {
+		$('#defaultcolor').click(function() {
 			pickColor(default_color);
-			jQuery('#text-color').val(default_color)
+			$('#text-color').val(default_color);
 		});
 
-		jQuery('#text-color').keyup(function() {
-			var _hex = jQuery('#text-color').val();
+		$('#text-color').keyup(function() {
+			var _hex = $('#text-color').val();
 			var hex = _hex;
 			if ( hex[0] != '#' )
 				hex = '#' + hex;
 			hex = hex.replace(/[^#a-fA-F0-9]+/, '');
 			if ( hex != _hex )
-				jQuery('#text-color').val(hex);
+				$('#text-color').val(hex);
 			if ( hex.length == 4 || hex.length == 7 )
 				pickColor( hex );
 		});
 
-		jQuery(document).mousedown(function(){
-			jQuery('#color-picker').each( function() {
-				var display = jQuery(this).css('display');
+		$(document).mousedown(function(){
+			$('#color-picker').each( function() {
+				var display = $(this).css('display');
 				if (display == 'block')
-					jQuery(this).fadeOut(2);
+					$(this).fadeOut(2);
 			});
 		});
 
-		farbtastic = jQuery.farbtastic('#color-picker', function(color) { pickColor(color); });
-		<?php if ( $color = get_header_textcolor() ) { ?>
-		pickColor('#<?php echo $color; ?>');
-		<?php } ?>
-
-		<?php if ( 'blank' == $color || '' == $color || ! current_theme_supports( 'custom-header', 'header-text' ) ) { ?>
-		toggle_text();
+		farbtastic = $.farbtastic('#color-picker', function(color) { pickColor(color); });
+		<?php if ( display_header_text() ) { ?>
+		pickColor('#<?php echo get_header_textcolor(); ?>');
+		<?php } else { ?>
+		toggle_text();		
 		<?php } ?>
 	});
+})(jQuery);
 /* ]]> */
 </script>
 <?php
@@ -507,6 +497,8 @@ class Custom_Image_Header {
 </div>
 <?php } ?>
 
+<h3><?php _e( 'Header Image' ); ?></h3>
+
 <table class="form-table">
 <tbody>
 
@@ -519,14 +511,13 @@ class Custom_Image_Header {
 	?>
 	<div id="headimg" style="background-image:url(<?php esc_url ( header_image() ) ?>);max-width:<?php echo get_custom_header()->width; ?>px;height:<?php echo get_custom_header()->height; ?>px;">
 		<?php
-		$color = get_header_textcolor();
-		if ( 'blank' == $color || '' == $color || ! current_theme_supports( 'custom-header', 'header-text' ) )
-			$style = ' style="display:none;"';
+		if ( display_header_text() )
+			$style = ' style="color:#' . get_header_textcolor() . ';"';
 		else
-			$style = ' style="color:#' . $color . ';"';
+			$style = ' style="display:none;"';
 		?>
-		<h1><a id="name"<?php echo $style; ?> onclick="return false;" href="<?php bloginfo('url'); ?>"><?php bloginfo( 'name' ); ?></a></h1>
-		<div id="desc"<?php echo $style; ?>><?php bloginfo( 'description' ); ?></div>
+		<h1><a id="name" class="displaying-header-text" <?php echo $style; ?> onclick="return false;" href="<?php bloginfo('url'); ?>"><?php bloginfo( 'name' ); ?></a></h1>
+		<div id="desc" class="displaying-header-text" <?php echo $style; ?>><?php bloginfo( 'description' ); ?></div>
 	</div>
 	<?php } ?>
 </td>
@@ -618,33 +609,32 @@ class Custom_Image_Header {
 	<?php endif; ?>
 </tbody>
 </table>
-	<?php if ( current_theme_supports( 'custom-header', 'header-text' ) ) : ?>
+
+<?php if ( current_theme_supports( 'custom-header', 'header-text' ) ) : ?>
+
+<h3><?php _e( 'Header Text' ); ?></h3>
+
 <table class="form-table">
 <tbody>
-<tr valign="top" class="hide-if-no-js">
-<th scope="row"><?php _e( 'Display Text' ); ?></th>
+<tr valign="top">
+<th scope="row"><?php _e( 'Header Text' ); ?></th>
 <td>
 	<p>
-	<?php
-		$show_text = get_header_textcolor();
-		if ( 'blank' == $show_text )
-			$show_text = false;
-		else
-			$show_text = (bool) $show_text;
-	?>
-	<label><input type="radio" value="1" name="hidetext" id="hidetext"<?php checked( ! $show_text ); ?> /> <?php _e( 'No' ); ?></label>
-	<label><input type="radio" value="0" name="hidetext" id="showtext"<?php checked( $show_text ); ?> /> <?php _e( 'Yes' ); ?></label>
+	<label><input type="checkbox" name="display-header-text" id="display-header-text"<?php checked( display_header_text() ); ?> /> <?php _e( 'Show header text with your image.' ); ?></label>
 	</p>
 </td>
 </tr>
 
-<tr valign="top" id="text-color-row">
+<tr valign="top" class="displaying-header-text">
 <th scope="row"><?php _e( 'Text Color' ); ?></th>
 <td>
 	<p>
+<?php if ( display_header_text() ) : ?>
 		<input type="text" name="text-color" id="text-color" value="#<?php echo esc_attr( get_header_textcolor() ); ?>" />
-		<span class="description hide-if-js"><?php _e( 'If you want to hide header text, add <strong>#blank</strong> as text color.' );?></span>
-		<input type="button" class="button hide-if-no-js" value="<?php esc_attr_e( 'Select a Color' ); ?>" id="pickcolor" />
+<?php else : ?>
+		<input type="text" name="text-color" id="text-color" value="#<?php echo esc_attr( get_theme_support( 'custom-header', 'default-text-color' ) ); ?>" />
+<?php endif; ?>
+		<a href="#" class="hide-if-no-js" id="pickcolor"><?php _e( 'Select a Color' ); ?></a>
 	</p>
 	<div id="color-picker" style="z-index: 100; background:#eee; border:1px solid #ccc; position:absolute; display:none;"></div>
 </td>
@@ -662,7 +652,7 @@ class Custom_Image_Header {
 
 </tbody>
 </table>
-	<?php endif;
+<?php endif;
 
 do_action( 'custom_header_options' );
 
