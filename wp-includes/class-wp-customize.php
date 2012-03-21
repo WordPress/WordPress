@@ -29,9 +29,10 @@ final class WP_Customize {
 		add_action( 'wp_loaded',    array( $this, 'wp_loaded' ) );
 		add_action( 'admin_footer', array( $this, 'admin_footer' ) );
 
-		add_action( 'customize_previewing',    array( $this, 'customize_previewing' ) );
-		add_action( 'customize_register',      array( $this, 'register_controls' ) );
-		add_action( 'customize_controls_init', array( $this, 'prepare_controls' ) );
+		add_action( 'customize_previewing',               array( $this, 'customize_previewing' ) );
+		add_action( 'customize_register',                 array( $this, 'register_controls' ) );
+		add_action( 'customize_controls_init',            array( $this, 'prepare_controls' ) );
+		add_action( 'customize_controls_enqueue_scripts', array( $this, 'enqueue_control_scripts' ) );
 	}
 
 	/**
@@ -102,8 +103,17 @@ final class WP_Customize {
 	public function wp_loaded() {
 		do_action( 'customize_register' );
 
-		if ( ! $this->is_preview() )
-			return;
+		if ( $this->is_preview() )
+			add_action( 'template_redirect', array( $this, 'customize_preview_init' ) );
+	}
+
+	/**
+	 * Print javascript settings.
+	 *
+	 * @since 3.4.0
+	 */
+	public function customize_preview_init() {
+		$this->prepare_controls();
 
 		wp_enqueue_script( 'customize-preview' );
 		add_action( 'wp_footer', array( $this, 'customize_preview_settings' ), 20 );
@@ -111,7 +121,10 @@ final class WP_Customize {
 		foreach ( $this->settings as $setting ) {
 			$setting->preview();
 		}
+
+		do_action( 'customize_preview_init' );
 	}
+
 
 	/**
 	 * Print javascript settings.
@@ -349,7 +362,7 @@ final class WP_Customize {
 	 * @param array $args Setting arguments.
 	 */
 	public function add_setting( $id, $args = array() ) {
-		$setting = new WP_Customize_Setting( $id, $args );
+		$setting = new WP_Customize_Setting( $this, $id, $args );
 
 		$this->settings[ $setting->id ] = $setting;
 	}
@@ -387,7 +400,7 @@ final class WP_Customize {
 	 * @param array $args Section arguments.
 	 */
 	public function add_section( $id, $args = array() ) {
-		$section = new WP_Customize_Section( $id, $args );
+		$section = new WP_Customize_Section( $this, $id, $args );
 
 		$this->sections[ $section->id ] = $section;
 	}
@@ -424,7 +437,7 @@ final class WP_Customize {
 	 * @param object $a Object A.
 	 * @param object $b Object B.
 	 */
-	protected function _cmp_priority( $a, $b ) {
+	protected final function _cmp_priority( $a, $b ) {
 		$ap = $a->priority;
 		$bp = $b->priority;
 
@@ -434,29 +447,49 @@ final class WP_Customize {
 	}
 
 	/**
-	 * Prepare settings and sections. Also enqueue needed scripts/styles.
+	 * Prepare settings and sections.
 	 *
 	 * @since 3.4.0
 	 */
 	public function prepare_controls() {
+		// Prepare settings
 		// Reversing makes uasort sort by time added when conflicts occur.
 
-		$this->sections = array_reverse( $this->sections );
-		uasort( $this->sections, array( $this, '_cmp_priority' ) );
-
 		$this->settings = array_reverse( $this->settings );
-		foreach ( $this->settings as $setting ) {
-			if ( ! isset( $this->sections[ $setting->section ] ) )
+		$settings = array();
+
+		foreach ( $this->settings as $id => $setting ) {
+			if ( ! isset( $this->sections[ $setting->section ] ) || ! $setting->check_capabilities() )
 				continue;
 
 			$this->sections[ $setting->section ]->settings[] = $setting;
-
-			if ( $setting->check_capabilities() )
-				$setting->enqueue();
+			$settings[ $id ] = $setting;
 		}
+		$this->settings = $settings;
+
+		// Prepare sections
+		$this->sections = array_reverse( $this->sections );
+		uasort( $this->sections, array( $this, '_cmp_priority' ) );
+		$sections = array();
 
 		foreach ( $this->sections as $section ) {
+			if ( ! $section->check_capabilities() )
+				continue;
+
 			usort( $section->settings, array( $this, '_cmp_priority' ) );
+			$sections[] = $section;
+		}
+		$this->sections = $sections;
+	}
+
+	/**
+	 * Enqueue scripts for customize controls.
+	 *
+	 * @since 3.4.0
+	 */
+	public function enqueue_control_scripts() {
+		foreach ( $this->settings as $setting ) {
+			$setting->enqueue();
 		}
 	}
 
@@ -479,6 +512,7 @@ final class WP_Customize {
 			'section'           => 'header',
 			'sanitize_callback' => 'sanitize_hexcolor',
 			'control'           => 'color',
+			'theme_supports'    => array( 'custom-header', 'header-text' ),
 			'default'           => get_theme_support( 'custom-header', 'default-text-color' ),
 		) );
 

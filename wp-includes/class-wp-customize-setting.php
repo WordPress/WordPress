@@ -8,6 +8,7 @@
  */
 
 class WP_Customize_Setting {
+	public $manager;
 	public $id;
 	public $priority          = 10;
 	public $section           = '';
@@ -35,13 +36,14 @@ class WP_Customize_Setting {
 	 *                   theme mod or option name.
 	 * @param array $args Setting arguments.
 	 */
-	function __construct( $id, $args = array() ) {
+	function __construct( $manager, $id, $args = array() ) {
 		$keys = array_keys( get_class_vars( __CLASS__ ) );
 		foreach ( $keys as $key ) {
 			if ( isset( $args[ $key ] ) )
 				$this->$key = $args[ $key ];
 		}
 
+		$this->manager = $manager;
 		$this->id = $id;
 
 		// Parse the ID for array keys.
@@ -265,15 +267,13 @@ class WP_Customize_Setting {
 	 * @return bool False if theme doesn't support the setting or user can't change setting, otherwise true.
 	 */
 	public final function check_capabilities() {
-		global $customize;
-
 		if ( $this->capability && ! call_user_func_array( 'current_user_can', (array) $this->capability ) )
 			return false;
 
 		if ( $this->theme_supports && ! call_user_func_array( 'current_theme_supports', (array) $this->theme_supports ) )
 			return false;
 
-		$section = $customize->get_section( $this->section );
+		$section = $this->manager->get_section( $this->section );
 		if ( isset( $section ) && ! $section->check_capabilities() )
 			return false;
 
@@ -281,15 +281,16 @@ class WP_Customize_Setting {
 	}
 
 	/**
-	 * Render the control.
+	 * Check capabiliites and render the control.
 	 *
 	 * @since 3.4.0
 	 */
-	public final function _render() {
+	public final function maybe_render() {
 		if ( ! $this->check_capabilities() )
 			return;
 
-		do_action( 'customize_render_' . $this->id );
+		do_action( 'customize_render_setting', $this );
+		do_action( 'customize_render_setting_' . $this->id, $this );
 
 		$this->render();
 	}
@@ -300,39 +301,6 @@ class WP_Customize_Setting {
 	 * @since 3.4.0
 	 */
 	protected function render() {
-		$this->_render_type();
-	}
-
-	/**
-	 * Retrieve the name attribute for an input.
-	 *
-	 * @since 3.4.0
-	 *
-	 * @return string The name.
-	 */
-	public final function get_name() {
-		return self::name_prefix . esc_attr( $this->id );
-	}
-
-	/**
-	 * Echo the HTML name attribute for an input.
-	 *
-	 * @since 3.4.0
-	 *
-	 * @return string The HTML name attribute.
-	 */
-	public final function name() {
-		echo 'name="' . $this->get_name() . '"';
-	}
-
-	/**
-	 * Render the control type.
-	 *
-	 * @todo Improve value and checked attributes.
-	 *
-	 * @since 3.4.0
-	 */
-	public final function _render_type() {
 		switch( $this->control ) {
 			case 'text':
 				?>
@@ -414,10 +382,29 @@ class WP_Customize_Setting {
 				</label>
 				<?php
 				break;
-			default:
-				do_action( 'customize_render_control-' . $this->control, $this );
-
 		}
+	}
+
+	/**
+	 * Retrieve the name attribute for an input.
+	 *
+	 * @since 3.4.0
+	 *
+	 * @return string The name.
+	 */
+	public final function get_name() {
+		return self::name_prefix . esc_attr( $this->id );
+	}
+
+	/**
+	 * Echo the HTML name attribute for an input.
+	 *
+	 * @since 3.4.0
+	 *
+	 * @return string The HTML name attribute.
+	 */
+	public final function name() {
+		echo 'name="' . $this->get_name() . '"';
 	}
 
 	/**

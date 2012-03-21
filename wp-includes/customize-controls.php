@@ -74,7 +74,7 @@ do_action( 'customize_controls_print_scripts' );
 		<div id="customize-theme-controls"><ul>
 			<?php
 			foreach ( $this->sections as $section )
-				$section->render();
+				$section->maybe_render();
 			?>
 		</ul></div>
 
