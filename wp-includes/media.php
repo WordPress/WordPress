@@ -1483,5 +1483,4 @@ function wp_plupload_default_settings() {
 
 	$wp_scripts->add_data( 'wp-plupload', 'data', $script );
 }
-add_action( 'admin_enqueue_scripts', 'wp_plupload_default_settings' );
 add_action( 'customize_controls_enqueue_scripts', 'wp_plupload_default_settings' );
