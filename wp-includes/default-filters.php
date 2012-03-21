@@ -79,10 +79,7 @@ foreach ( array( 'pre_term_slug' ) as $filter ) {
 }
 
 // Keys
-foreach ( array( 'pre_post_type' ) as $filter ) {
-	add_filter( $filter, 'sanitize_user' );
-}
-foreach ( array( 'pre_post_status', 'pre_post_comment_status', 'pre_post_ping_status' ) as $filter ) {
+foreach ( array( 'pre_post_type', 'pre_post_status', 'pre_post_comment_status', 'pre_post_ping_status' ) as $filter ) {
 	add_filter( $filter, 'sanitize_key' );
 }
 
