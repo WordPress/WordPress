@@ -65,10 +65,14 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			if ( apply_filters( 'show_advanced_plugins', true, 'dropins' ) )
 				$plugins['dropins'] = get_dropins();
 
-			$current = get_site_transient( 'update_plugins' );
-			foreach ( (array) $plugins['all'] as $plugin_file => $plugin_data ) {
-				if ( isset( $current->response[ $plugin_file ] ) )
-					$plugins['upgrade'][ $plugin_file ] = $plugin_data;
+			if ( current_user_can( 'update_plugins' ) ) {
+				$current = get_site_transient( 'update_plugins' );
+				foreach ( (array) $plugins['all'] as $plugin_file => $plugin_data ) {
+					if ( isset( $current->response[ $plugin_file ] ) ) {
+						$plugins['all'][ $plugin_file ]['update'] = true;
+						$plugins['upgrade'][ $plugin_file ] = $plugins['all'][ $plugin_file ];
+					}
+				}
 			}
 		}
 
@@ -99,9 +103,6 @@ class WP_Plugins_List_Table extends WP_List_Table {
 				$plugins['inactive'][ $plugin_file ] = $plugin_data;
 			}
 		}
-
-		if ( !current_user_can( 'update_plugins' ) )
-			$plugins['upgrade'] = array();
 
 		if ( $s ) {
 			$status = 'search';
@@ -312,7 +313,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 	}
 
 	function single_row( $plugin_file, $plugin_data ) {
-		global $status, $page, $s;
+		global $status, $page, $s, $totals;
 
 		$context = $status;
 
@@ -394,6 +395,8 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		}
 
 		$id = sanitize_title( $plugin_name );
+		if ( ! empty( $totals['upgrade'] ) && ! empty( $plugin_data['update'] ) )
+			$class .= ' update';
 
 		echo "<tr id='$id' class='$class'>";
 

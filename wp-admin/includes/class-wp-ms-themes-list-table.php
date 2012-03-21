@@ -71,7 +71,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			$allowed_where = 'network';
 		}
 
-		$maybe_update = current_user_can( 'update_themes' ) && ! $this->is_site_themes && get_site_transient( 'update_themes' );
+		$maybe_update = current_user_can( 'update_themes' ) && ! $this->is_site_themes && $current = get_site_transient( 'update_themes' );
 
 		foreach ( (array) $themes['all'] as $key => $theme ) {
 			if ( $this->is_site_themes && $theme->is_allowed( 'network' ) ) {
@@ -79,11 +79,13 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 				continue;
 			}
 
+			if ( $maybe_update && isset( $current->response[ $key ] ) ) {
+				$themes['all'][ $key ]->update = true;
+				$themes['upgrade'][ $key ] = $themes['all'][ $key ];
+			}
+
 			$filter = $theme->is_allowed( $allowed_where, $this->site_id ) ? 'enabled' : 'disabled';
 			$themes[ $filter ][ $key ] = $themes['all'][ $key ];
-
-			if ( $maybe_update && isset( $current->response[ $key ] ) )
-				$themes['upgrade'][ $key ] = $themes['all'][ $key ];
 		}
 
 		if ( $s ) {
@@ -261,7 +263,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	}
 
 	function single_row( $key, $theme ) {
-		global $status, $page, $s;
+		global $status, $page, $s, $totals;
 
 		$context = $status;
 
@@ -304,6 +306,9 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		$checkbox = "<input type='checkbox' name='checked[]' value='" . esc_attr( $theme_key ) . "' id='" . $checkbox_id . "' /><label class='screen-reader-text' for='" . $checkbox_id . "' >" . __('Select') . " " . $theme->display('Name') . "</label>";
 
 		$id = sanitize_html_class( $theme->get_stylesheet() );
+
+		if ( ! empty( $totals['upgrade'] ) && ! empty( $theme->update ) )
+			$class .= ' update';
 
 		echo "<tr id='$id' class='$class'>";
 
