@@ -2996,11 +2996,14 @@ function get_current_theme() {
  */
 function add_custom_image_header( $wp_head_callback = '', $admin_head_callback = '', $admin_preview_callback = '' ) {
 	_deprecated_function( __FUNCTION__, '3.4', 'add_theme_support( \'custom-header\', $args )' );
-	return add_theme_support( 'custom-header', array(
-		'wp-head-callback' => $wp_head_callback,
-		'admin-head-callback' => $admin_head_callback,
-		'admin-preview-callback' => $admin_preview_callback,
-	) );
+	$args = array();
+	if ( $wp_head_callback )
+		$args['wp-head-callback'] = $wp_head_callback;
+	if ( $admin_head_callback )
+		$args['admin-head-callback'] = $admin_head_callback;
+	if ( $admin_preview_callback )
+		$args['admin-preview-callback'] = $admin_preview_callback;
+	return add_theme_support( 'custom-background', $args );
 }
 
 /**
@@ -3032,12 +3035,14 @@ function remove_custom_image_header() {
  */
 function add_custom_background( $wp_head_callback = '', $admin_head_callback = '', $admin_preview_callback = '' ) {
 	_deprecated_function( __FUNCTION__, '3.4', 'add_theme_support( \'custom-background\', $args )' );
-
-	return add_theme_support( 'custom-background', array(
-		'wp-head-callback' => $wp_head_callback,
-		'admin-head-callback' => $admin_head_callback,
-		'admin-preview-callback' => $admin_preview_callback,
-	) );
+	$args = array();
+	if ( $wp_head_callback )
+		$args['wp-head-callback'] = $wp_head_callback;
+	if ( $admin_head_callback )
+		$args['admin-head-callback'] = $admin_head_callback;
+	if ( $admin_preview_callback )
+		$args['admin-preview-callback'] = $admin_preview_callback;
+	return add_theme_support( 'custom-background', $args );
 }
 
 /**
