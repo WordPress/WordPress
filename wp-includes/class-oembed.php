@@ -248,7 +248,7 @@ class WP_oEmbed {
 				$return = ( !empty($data->title) ) ? '<a href="' . esc_url($url) . '">' . esc_html($data->title) . '</a>' : false;
 				break;
 
-			default;
+			default:
 				$return = false;
 		}
 
