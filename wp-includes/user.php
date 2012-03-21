@@ -1061,17 +1061,12 @@ function wp_dropdown_users( $args = '' ) {
  * when calling filters.
  *
  * @since 2.3.0
- * @uses apply_filters() Calls 'edit_$field' and '{$field_no_prefix}_edit_pre' passing $value and
- *  $user_id if $context == 'edit' and field name prefix == 'user_'.
- *
- * @uses apply_filters() Calls 'edit_user_$field' passing $value and $user_id if $context == 'db'.
- * @uses apply_filters() Calls 'pre_$field' passing $value if $context == 'db' and field name prefix == 'user_'.
- * @uses apply_filters() Calls '{$field}_pre' passing $value if $context == 'db' and field name prefix != 'user_'.
- *
+ * @uses apply_filters() Calls 'edit_$field' passing $value and $user_id if $context == 'edit'.
+ *  $field is prefixed with 'user_' if it isn't already.
+ * @uses apply_filters() Calls 'pre_$field' passing $value if $context == 'db'. $field is prefixed with
+ *  'user_' if it isn't already.
  * @uses apply_filters() Calls '$field' passing $value, $user_id and $context if $context == anything
- *  other than 'raw', 'edit' and 'db' and field name prefix == 'user_'.
- * @uses apply_filters() Calls 'user_$field' passing $value if $context == anything other than 'raw',
- *  'edit' and 'db' and field name prefix != 'user_'.
+ *  other than 'raw', 'edit' and 'db'. $field is prefixed with 'user_' if it isn't already.
  *
  * @param string $field The user Object field name.
  * @param mixed $value The user Object value.
@@ -1091,11 +1086,7 @@ function sanitize_user_field($field, $value, $user_id, $context) {
 	if ( !is_string($value) && !is_numeric($value) )
 		return $value;
 
-	$prefixed = false;
-	if ( false !== strpos($field, 'user_') ) {
-		$prefixed = true;
-		$field_no_prefix = str_replace('user_', '', $field);
-	}
+	$prefixed = false !== strpos( $field, 'user_' );
 
 	if ( 'edit' == $context ) {
 		if ( $prefixed ) {
