@@ -50,7 +50,7 @@ function wp_get_themes( $args = array() ) {
 	if ( is_multisite() && null !== $args['allowed'] ) {
 		$allowed = $args['allowed'];
 		if ( 'network' === $allowed )
-			$theme_directories = array_intersect_key( $theme_directories, WP_Theme::get_allowed_on_network( $args['blog_id'] ) );
+			$theme_directories = array_intersect_key( $theme_directories, WP_Theme::get_allowed_on_network() );
 		elseif ( 'site' === $allowed )
 			$theme_directories = array_intersect_key( $theme_directories, WP_Theme::get_allowed_on_site( $args['blog_id'] ) );
 		elseif ( $allowed )
@@ -60,6 +60,7 @@ function wp_get_themes( $args = array() ) {
 	}
 
 	$themes = array();
+	static $_themes = array();
 
 	foreach ( $theme_directories as $theme => $theme_root ) {
 		if ( isset( $_themes[ $theme ] ) )
