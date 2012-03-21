@@ -106,12 +106,6 @@ class WP_Widget_Links extends WP_Widget {
 		$order = $orderby == 'rating' ? 'DESC' : 'ASC';
 		$limit = isset( $instance['limit'] ) ? $instance['limit'] : -1;
 
-		if ( is_admin() && !$category ) {
-			// Display All Links widget as such in the widgets screen
-			echo $before_widget . $before_title . _x('All Links', 'links widget') . $after_title . $after_widget;
-			return;
-		}
-
 		$before_widget = preg_replace('/id="[^"]*"/','id="%id"', $before_widget);
 		wp_list_bookmarks(apply_filters('widget_links_args', array(
 			'title_before' => $before_title, 'title_after' => $after_title,
