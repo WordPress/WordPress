@@ -806,7 +806,7 @@ function wp_caption_input_textarea($edit_post) {
 	// post data is already escaped
 	$name = "attachments[{$edit_post->ID}][post_excerpt]";
 
-	return '<textarea class="code" name="' . $name . '" id="' . $name . '">' . $edit_post->post_excerpt . '</textarea>';
+	return '<textarea name="' . $name . '" id="' . $name . '">' . $edit_post->post_excerpt . '</textarea>';
 }
 
 /**
@@ -1955,7 +1955,7 @@ function wp_media_insert_url_form( $default_view = 'image' ) {
 			<th valign="top" scope="row" class="label">
 				<span class="alignleft"><label for="caption">' . __('Image Caption') . '</label></span>
 			</th>
-			<td class="field"><textarea id="caption" class="code" name="caption"></textarea></td>
+			<td class="field"><textarea id="caption" name="caption"></textarea></td>
 		</tr>
 ';
 	} else {
