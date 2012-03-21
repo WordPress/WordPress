@@ -105,8 +105,6 @@ jQuery( document ).ready( function($) {
 var ThemeScroller;
 (function($){
 	ThemeScroller = {
-		nonce: '',
-		nextPage: 2, // By default, assume we're on the first page.
 		querying: false,
 		scrollPollingDelay: 500,
 		failedRetryDelay: 4000,
@@ -119,8 +117,7 @@ var ThemeScroller;
 		 * @access private
 		 */
 		init: function() {
-			var self = this,
-				startPage;
+			var self = this;
 
 			// Get out early if we don't have the required arguments.
 			if ( typeof ajaxurl === 'undefined' ||
@@ -132,10 +129,7 @@ var ThemeScroller;
 
 			// Handle inputs
 			this.nonce = $('#_ajax_fetch_list_nonce').val();
-
-			startPage = theme_list_args.paged;
-			if ( startPage !== undefined )
-				this.nextPage = ( startPage + 1 );
+			this.nextPage = ( theme_list_args.paged + 1 );
 
 			// Cache jQuery selectors
 			this.$outList = $('#availablethemes');
@@ -147,8 +141,7 @@ var ThemeScroller;
 			 * If there are more pages to query, then start polling to track
 			 * when user hits the bottom of the current page
 			 */
-			if ( theme_list_args.total_pages !== undefined &&
-				 theme_list_args.total_pages >= this.nextPage )
+			if ( theme_list_args.total_pages >= this.nextPage )
 				this.pollInterval =
 					setInterval( function() {
 						return self.poll();
@@ -181,9 +174,7 @@ var ThemeScroller;
 		 * @param results Array with results from this.ajax() query.
 		 */
 		process: function( results ) {
-			if ( ( results === undefined ) ||
-				 ( results.rows === undefined ) ||
-				 ( results.rows.indexOf( 'no-items' ) != -1 ) ) {
+			if ( results === undefined ) {
 				clearInterval( this.pollInterval );
 				return;
 			}
