@@ -7,7 +7,6 @@ if ( typeof wp === 'undefined' )
 			this.body      = $( document.body );
 			this.element   = $( '#customize-container' );
 			this.base      = $( '.admin-url', this.element ).val();
-			this.doc_title = $( document ).attr( 'title' );
 
 			this.element.on( 'click', '.close-full-overlay', function() {
 				Loader.close();
@@ -22,13 +21,9 @@ if ( typeof wp === 'undefined' )
 		open: function( params ) {
 			params.customize = 'on';
 
-			this.element.append( '<iframe />' );
-			this.iframe = $( 'iframe' ).attr( 'src', this.base + '?' + jQuery.param( params ) );
-
-			$('iframe').load( function() {
-				title = $(this).contents().find( 'title' ).text();
-				$( document ).attr( 'title', title );
-			});
+			this.iframe = $( '<iframe />', {
+				src: this.base + '?' + jQuery.param( params )
+			}).appendTo( this.element );
 
 			this.element.fadeIn( 200, function() {
 				Loader.body.addClass( 'customize-active full-overlay-active' );
@@ -39,7 +34,6 @@ if ( typeof wp === 'undefined' )
 				Loader.iframe.remove();
 				Loader.iframe = null;
 				Loader.body.removeClass( 'customize-active full-overlay-active' );
-				$( document ).attr( 'title', Loader.doc_title );
 			});
 		}
 	};
