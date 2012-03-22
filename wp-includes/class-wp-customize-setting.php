@@ -20,6 +20,7 @@ class WP_Customize_Setting {
 	public $theme_supports    = '';
 	public $default           = '';
 	public $sanitize_callback = '';
+	public $visibility;
 
 	protected $id_data = array();
 	private $_post_value; // Cached, sanitized $_POST value.
@@ -296,11 +297,37 @@ class WP_Customize_Setting {
 	}
 
 	/**
-	 * Render the control.
+	 * Render the control. Renders the control wrapper, then calls $this->render_content().
 	 *
 	 * @since 3.4.0
 	 */
 	protected function render() {
+
+		$id    = 'customize-control-' . $this->id;
+		$class = 'customize-control customize-control-' . $this->control;
+
+		$style = '';
+		if ( $this->visibility ) {
+			$visibility_setting = $this->manager->get_setting( $this->visibility[0] );
+			$visibility_value   = isset( $this->visibility[1] ) ? $this->visibility[1] : true;
+
+			if ( $visibility_setting && $visibility_value != $visibility_setting->value() )
+				$style = 'style="display:none;"';
+		}
+
+		?><li id="<?php echo esc_attr( $id ); ?>" class="<?php echo esc_attr( $class ); ?>" <?php echo $style; ?>>
+			<?php $this->render_content(); ?>
+		</li><?php
+	}
+
+	/**
+	 * Render the control's content.
+	 *
+	 * Allows the content to be overriden without having to rewrite the wrapper.
+	 *
+	 * @since 3.4.0
+	 */
+	protected function render_content() {
 		switch( $this->control ) {
 			case 'text':
 				?>

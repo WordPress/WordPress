@@ -618,7 +618,7 @@ final class WP_Customize {
 			'choices'        => $choices,
 			'default'        => get_option( 'show_on_front' ),
 			'type'           => 'option',
-			'capability'     => 'manage_options'
+			'capability'     => 'manage_options',
 		) );
 
 		$this->add_setting( 'page_on_front', array(
@@ -627,7 +627,8 @@ final class WP_Customize {
 			'section'        => 'static_front_page',
 			'control'        => 'dropdown-pages',
 			'type'           => 'option',
-			'capability'     => 'manage_options'
+			'capability'     => 'manage_options',
+			'visibility'     => array( 'show_on_front', 'page' ),
 		) );
 
 		$this->add_setting( 'page_for_posts', array(
@@ -636,7 +637,8 @@ final class WP_Customize {
 			'section'        => 'static_front_page',
 			'control'        => 'dropdown-pages',
 			'type'           => 'option',
-			'capability'     => 'manage_options'
+			'capability'     => 'manage_options',
+			'visibility'     => array( 'show_on_front', 'page' ),
 		) );
 
 		/* Site Title & Tagline */
@@ -650,7 +652,7 @@ final class WP_Customize {
 			'section'        => 'strings',
 			'default'        => get_option( 'blogname' ),
 			'type'           => 'option',
-			'capability'     => 'manage_options'
+			'capability'     => 'manage_options',
 		) );
 
 		$this->add_setting( 'blogdescription', array(
@@ -658,7 +660,7 @@ final class WP_Customize {
 			'section'        => 'strings',
 			'default'        => get_option( 'blogdescription' ),
 			'type'           => 'option',
-			'capability'     => 'manage_options'
+			'capability'     => 'manage_options',
 		) );
 	}
 };

@@ -230,10 +230,20 @@
 		});
 
 		$.each( api.settings.controls, function( id, data ) {
-			var constructor = api.controls[ data.control ] || api.Control;
-			api.add( id, new constructor( id, data.value, {
+			var constructor = api.controls[ data.control ] || api.Control,
+				control;
+
+			control = api.add( id, new constructor( id, data.value, {
 				previewer: previewer
 			} ) );
+
+			if ( data.visibility ) {
+				api( data.visibility.id, function( other ) {
+					other.bind( function( to ) {
+						control.container.toggle( to == data.visibility.value );
+					});
+				});
+			}
 		});
 
 		// Temporary accordion code.

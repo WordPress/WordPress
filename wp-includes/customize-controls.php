@@ -104,6 +104,13 @@ do_action( 'customize_controls_print_scripts' );
 			'value'   => $setting->value(),
 			'control' => $setting->control,
 		);
+
+		if ( $setting->visibility ) {
+			$settings['controls'][ $id ]['visibility'] = array(
+				'id'    => $setting->visibility[0],
+				'value' => isset( $setting->visibility[1] ) ? $setting->visibility[1] : true,
+			);
+		}
 	}
 
 	?>
