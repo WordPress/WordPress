@@ -3003,7 +3003,7 @@ function add_custom_image_header( $wp_head_callback = '', $admin_head_callback =
 		$args['admin-head-callback'] = $admin_head_callback;
 	if ( $admin_preview_callback )
 		$args['admin-preview-callback'] = $admin_preview_callback;
-	return add_theme_support( 'custom-background', $args );
+	return add_theme_support( 'custom-header', $args );
 }
 
 /**
