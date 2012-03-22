@@ -245,9 +245,15 @@
 
 			if ( data.visibility ) {
 				api( data.visibility.id, function( other ) {
-					other.bind( function( to ) {
-						control.container.toggle( to == data.visibility.value );
-					});
+					if ( 'boolean' === typeof data.visibility.value ) {
+						other.bind( function( to ) {
+							control.container.toggle( !! to == data.visibility.value );
+						});
+					} else {
+						other.bind( function( to ) {
+							control.container.toggle( to == data.visibility.value );
+						});
+					}
 				});
 			}
 		});

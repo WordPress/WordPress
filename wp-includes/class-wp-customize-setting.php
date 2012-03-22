@@ -308,8 +308,14 @@ class WP_Customize_Setting {
 
 		$style = '';
 		if ( $this->visibility ) {
-			$visibility_setting = $this->manager->get_setting( $this->visibility[0] );
-			$visibility_value   = isset( $this->visibility[1] ) ? $this->visibility[1] : true;
+			if ( is_string( $this->visibility ) ) {
+				$visibility_id    = $this->visibility;
+				$visibility_value = true;
+			} else {
+				$visibility_id    = $this->visibility[0];
+				$visibility_value = $this->visibility[1];
+			}
+			$visibility_setting = $this->manager->get_setting( $visibility_id );
 
 			if ( $visibility_setting && $visibility_value != $visibility_setting->value() )
 				$style = 'style="display:none;"';

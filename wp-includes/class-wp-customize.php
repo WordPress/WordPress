@@ -561,9 +561,49 @@ final class WP_Customize {
 		) );
 
 		$this->add_setting( 'background_image', array(
-			'label'             => 'Background Image',
-			'section'           => 'background',
-			'control'           => 'upload',
+			'label'   => 'Background Image',
+			'section' => 'background',
+			'control' => 'upload',
+			'default' => get_theme_support( 'custom-background', 'default-image' ),
+		) );
+
+		$this->add_setting( 'background_repeat', array(
+			'label'      => 'Background Repeat',
+			'section'    => 'background',
+			'visibility' => 'background_image',
+			'control'    => 'radio',
+			'choices'    => array(
+				'no-repeat'  => __('No Repeat'),
+				'repeat'     => __('Tile'),
+				'repeat-x'   => __('Tile Horizontally'),
+				'repeat-y'   => __('Tile Vertically'),
+			),
+			'default'    => 'repeat',
+		) );
+
+		$this->add_setting( 'background_position_x', array(
+			'label'      => 'Background Position',
+			'section'    => 'background',
+			'visibility' => 'background_image',
+			'control'    => 'radio',
+			'choices'    => array(
+				'left'       => __('Left'),
+				'center'     => __('Center'),
+				'right'      => __('Right'),
+			),
+			'default'    => 'left',
+		) );
+
+		$this->add_setting( 'background_attachment', array(
+			'label'      => 'Background Attachment',
+			'section'    => 'background',
+			'visibility' => 'background_image',
+			'control'    => 'radio',
+			'choices'    => array(
+				'fixed'      => __('Fixed'),
+				'scroll'     => __('Scroll'),
+			),
+			'default'    => 'fixed',
 		) );
 
 		/* Nav Menus */
