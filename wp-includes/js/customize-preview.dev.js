@@ -68,8 +68,10 @@
 
 		body = $(document.body);
 		// Auto update background color by default
-		api.bind( 'background_color', function( to ) {
-			body.css( 'background-color', '#' + to );
+		api( 'background_color', function( value ) {
+			value.bind( function( to ) {
+				body.css( 'background-color', '#' + to );
+			});
 		});
 	});
 

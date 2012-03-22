@@ -249,10 +249,13 @@
 		});
 
 		// Background color uses postMessage by default
-		api('background_color').method = 'postMessage';
+		api( 'background_color', function( control ) {
+			control.method = 'postMessage';
+		});
 
-		// api('background_image').method = 'postMessage';
-		api('background_image').uploader.param( 'post_data[context]', 'custom-background' );
+		api( 'background_image', function( control ) {
+			control.uploader.param( 'post_data[context]', 'custom-background' );
+		});
 	});
 
 })( wp, jQuery );
