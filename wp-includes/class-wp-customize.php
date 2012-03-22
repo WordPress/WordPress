@@ -473,7 +473,7 @@ final class WP_Customize {
 		$sections = array();
 
 		foreach ( $this->sections as $section ) {
-			if ( ! $section->check_capabilities() )
+			if ( ! $section->check_capabilities() || ! $section->settings )
 				continue;
 
 			usort( $section->settings, array( $this, '_cmp_priority' ) );
