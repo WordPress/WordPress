@@ -382,6 +382,21 @@ class WP_Customize_Setting {
 				</label>
 				<?php
 				break;
+			case 'dropdown-pages':
+				printf(
+					'<label class="customize-control-select"><span class="customize-control-title">%s</span> %s</label>',
+					$this->label,
+					wp_dropdown_pages(
+						array(
+							'name'              => $this->get_name(),
+							'echo'              => 0,
+							'show_option_none'  => __( '&mdash; Select &mdash;' ),
+							'option_none_value' => '0',
+							'selected'          => get_option( $this->id )
+						)
+					)
+				);
+				break;
 		}
 	}
 

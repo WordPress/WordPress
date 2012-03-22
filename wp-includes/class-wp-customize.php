@@ -672,21 +672,3 @@ function sanitize_hexcolor( $color ) {
 
 	return $color;
 }
-
-// Custome render type for a dropdown menu.
-function customize_control_dropdown_pages( $setting ) {
-	printf(
-		'<label class="customize-control-select"><span class="customize-control-title">%s</span> %s</label>',
-		$setting->label,
-		wp_dropdown_pages(
-			array(
-				'name'              => $setting->get_name(),
-				'echo'              => 0,
-				'show_option_none'  => __( '&mdash; Select &mdash;' ),
-				'option_none_value' => '0',
-				'selected'          => get_option( $setting->id )
-			)
-		)
-	);
-}
-add_action( 'customize_render_control-dropdown-pages', 'customize_control_dropdown_pages' );
