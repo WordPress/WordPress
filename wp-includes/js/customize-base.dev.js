@@ -377,10 +377,14 @@ if ( typeof wp === 'undefined' )
 
 		initialize: function( options ) {
 			api.Value.prototype.initialize.call( this, {}, options || {} );
+			this._deferreds = {};
 		},
 
 		instance: function( id ) {
-			return this.value( id );
+			if ( arguments.length === 1 )
+				return this.value( id );
+
+			return this.when.apply( this, arguments );
 		},
 
 		value: function( id ) {
@@ -397,6 +401,10 @@ if ( typeof wp === 'undefined' )
 
 			this._value[ id ] = value;
 			this._value[ id ]._parent = this._value;
+
+			if ( this._deferreds[ id ] )
+				this._deferreds[ id ].resolve();
+
 			return this._value[ id ];
 		},
 
@@ -409,6 +417,7 @@ if ( typeof wp === 'undefined' )
 
 		remove: function( id ) {
 			delete this._value[ id ];
+			delete this._deferreds[ id ];
 		},
 
 		pass: function( fn, args ) {
@@ -422,6 +431,41 @@ if ( typeof wp === 'undefined' )
 
 			value = this.value( id );
 			return value[ fn ].apply( value, args );
+		},
+
+		/**
+		 * Runs a callback once all requested values exist.
+		 *
+		 * when( ids*, callback );
+		 *
+		 * For example:
+		 *     when( id1, id2, id3, function( value1, value2, value3 ) {} );
+		 */
+		when: function() {
+			var self = this,
+				ids = slice.call( arguments ),
+				callback = ids.pop();
+
+			$.when.apply( $, $.map( ids, function( id ) {
+				if ( self.has( id ) )
+					return;
+
+				return self._deferreds[ id ] || ( self._deferreds[ id ] = $.Deferred() );
+			})).done( function() {
+				var values = $.map( ids, function( id ) {
+						return self( id );
+					});
+
+				// If a value is missing, we've used at least one expired deferred.
+				// Call Values.when again to update our master deferred.
+				if ( values.length !== ids.length ) {
+					ids.push( callback );
+					self.when.apply( self, ids );
+					return;
+				}
+
+				callback.apply( self, values );
+			});
 		}
 	});
 
