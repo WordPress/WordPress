@@ -83,10 +83,16 @@
 				}
 			});
 
-			this.container.on( 'click', '.remove', function( event ) {
+			this.remover = this.container.find('.remove');
+			this.remover.click( function( event ) {
 				control.set('');
 				event.preventDefault();
 			});
+
+			this.bind( this.removerVisibility );
+		},
+		removerVisibility: function( on ) {
+			this.remover.toggle( !! on );
 		}
 	});
 

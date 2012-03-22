@@ -398,13 +398,15 @@ class WP_Customize_Setting {
 				<?php
 				break;
 			case 'upload':
+				$value = $this->value();
+				$style = empty( $value ) ? 'style="display:none;"' : '';
 				?>
 				<label>
 					<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
 					<div>
 						<input type="hidden" value="<?php echo esc_attr( $this->value() ); ?>" <?php $this->name(); ?> />
 						<a href="#" class="button-secondary upload"><?php _e( 'Upload' ); ?></a>
-						<a href="#" class="remove"><?php _e( 'Remove' ); ?></a>
+						<a href="#" class="remove" <?php echo $style; ?>><?php _e( 'Remove' ); ?></a>
 					</div>
 				</label>
 				<?php
