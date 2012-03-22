@@ -53,6 +53,7 @@ function edit_link( $link_id = 0 ) {
  * @return object Default link
  */
 function get_default_link_to_edit() {
+	$link = new stdClass;
 	if ( isset( $_GET['linkurl'] ) )
 		$link->link_url = esc_url( $_GET['linkurl'] );
 	else
