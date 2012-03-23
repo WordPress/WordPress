@@ -278,6 +278,10 @@
 		api( 'background_image', function( control ) {
 			control.uploader.param( 'post_data[context]', 'custom-background' );
 		});
+
+		api( 'header_image', function( control ) {
+			control.uploader.param( 'post_data[context]', 'custom-header' );
+		});
 	});
 
 })( wp, jQuery );

@@ -534,13 +534,10 @@ final class WP_Customize {
 		// Input type: checkbox
 		// With custom value
 		$this->add_setting( 'header_image', array(
-			'label'   => 'Random Image',
+			'label'   => 'Header Image',
 			'section' => 'header',
-			'control' => 'checkbox',
-			 // @todo
-			 // not the default, it's the value.
-			 // value is saved in get_theme_support( 'custom-header', 'random-default' )
-			'default' => 'random-default-image'
+			'control' => 'upload',
+			'default' => get_theme_support( 'custom-header', 'default-image' ),
 		) );
 
 		/* Custom Background */
