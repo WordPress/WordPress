@@ -678,24 +678,22 @@ class Theme_Upgrader extends WP_Upgrader {
 		// Check to see if we need to install a parent theme
 		$theme_info = $this->theme_info();
 
-		// Do we have any business here?
-		if ( empty($theme_info['Template']) )
+		if ( ! $theme_info->parent() )
 			return $install_result;
 
-		$this->skin->feedback('parent_theme_search', $theme_info['Template'] );
+		$this->skin->feedback( 'parent_theme_search' );
 
-		$parent_theme = wp_get_theme( $theme_info['Template'] );
-		if ( ! $parent_theme->errors() ) {
-			$this->skin->feedback( 'parent_theme_currently_installed', $parent_theme['Name'], $parent_theme['Version'] );
+		if ( ! $theme_info->parent()->errors() ) {
+			$this->skin->feedback( 'parent_theme_currently_installed', $theme_info->parent()->display('Name'), $theme_info->parent()->display('Version') );
 			// We already have the theme, fall through.
 			return $install_result;
 		}
 
 		// We don't have the parent theme, lets install it
-		$api = themes_api('theme_information', array('slug' => $theme_info['Template'], 'fields' => array('sections' => false, 'tags' => false) ) ); //Save on a bit of bandwidth.
+		$api = themes_api('theme_information', array('slug' => $theme_info->get('Template'), 'fields' => array('sections' => false, 'tags' => false) ) ); //Save on a bit of bandwidth.
 
 		if ( ! $api || is_wp_error($api) ) {
-			$this->skin->feedback('parent_theme_not_found', $theme_info['Template']);
+			$this->skin->feedback( 'parent_theme_not_found', $theme_info->get('Template') );
 			// Don't show activate or preview actions after install
 			add_filter('install_theme_complete_actions', array(&$this, 'hide_activate_preview_actions') );
 			return $install_result;
@@ -711,9 +709,6 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		$this->skin->feedback('parent_theme_prepare_install', $api->name, $api->version);
 		
-		//@TODO: This is a DEBUG line! Only needed with the-common-blog line above.
-		remove_filter('upgrader_post_install', array(&$this, 'check_parent_theme_filter'), 10, 3); // This is only needed when we're forcing a template on line 676 above.
-
 		add_filter('install_theme_complete_actions', '__return_false', 999); // Don't show any actions after installing the theme.
 
 		// Install the parent theme
@@ -916,14 +911,17 @@ class Theme_Upgrader extends WP_Upgrader {
 		if ( ! is_dir($working_directory) ) // Sanity check, if the above fails, lets not prevent installation.
 			return $source;
 
-		if ( ! file_exists( $working_directory . 'style.css' ) ) // A proper archive should have a style.css file in the single subdirectory
+		// A proper archive should have a style.css file in the single subdirectory
+		if ( ! file_exists( $working_directory . 'style.css' ) )
 			return new WP_Error( 'incompatible_archive', $this->strings['incompatible_archive'], __('The theme is missing the <code>style.css</code> stylesheet.') );
 
-		$info = get_theme_data( $working_directory . 'style.css' );
-		if ( empty($info['Name']) )
+		$info = get_file_data( $working_directory . 'style.css', array( 'Name' => 'Theme Name', 'Template' => 'Template' ) );
+
+		if ( empty( $info['Name'] ) )
 			return new WP_Error( 'incompatible_archive', $this->strings['incompatible_archive'], __("The <code>style.css</code> stylesheet doesn't contain a valid theme header.") );
 
-		if ( empty($info['Template']) && ! file_exists( $working_directory . 'index.php' ) ) // If no template is set, it must have at least an index.php to be legit.
+		// If it's not a child theme, it must have at least an index.php to be legit.
+		if ( empty( $info['Template'] ) && ! file_exists( $working_directory . 'index.php' ) )
 			return new WP_Error( 'incompatible_archive', $this->strings['incompatible_archive'], __('The theme is missing the <code>index.php</code> file.') );
 
 		return $source;
@@ -951,15 +949,15 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		$theme = isset($theme['theme']) ? $theme['theme'] : '';
 
-		if ( $theme != get_stylesheet() ) //If not current
+		if ( $theme != get_stylesheet() ) // If not current
 			return $return;
 
-		//Ensure stylesheet name hasnt changed after the upgrade:
+		// Ensure stylesheet name hasnt changed after the upgrade:
 		// @TODO: Note, This doesn't handle the Template changing, or the Template name changing.
 		if ( $theme == get_stylesheet() && $theme != $this->result['destination_name'] ) {
 			$theme_info = $this->theme_info();
 			$stylesheet = $this->result['destination_name'];
-			$template = !empty($theme_info['Template']) ? $theme_info['Template'] : $stylesheet;
+			$template = $theme_info->get_template();
 			switch_theme($template, $stylesheet, true);
 		}
 
@@ -992,7 +990,7 @@ class Theme_Upgrader extends WP_Upgrader {
 			else
 				return false;
 		}
-		return get_theme_data(WP_CONTENT_DIR . '/themes/' . $theme . '/style.css');
+		return wp_get_theme( $theme, WP_CONTENT_DIR . '/themes/' );
 	}
 
 }
@@ -1371,12 +1369,13 @@ class Bulk_Theme_Upgrader_Skin extends Bulk_Upgrader_Skin {
 	}
 
 	function before() {
-		parent::before($this->theme_info['Name']);
+		parent::before( $this->theme_info->display('Name') );
 	}
 
 	function after() {
-		parent::after($this->theme_info['Name']);
+		parent::after( $this->theme_info->display('Name') );
 	}
+
 	function bulk_footer() {
 		parent::bulk_footer();
 		$update_actions =  array(
@@ -1384,7 +1383,7 @@ class Bulk_Theme_Upgrader_Skin extends Bulk_Upgrader_Skin {
 			'updates_page' => '<a href="' . self_admin_url('update-core.php') . '" title="' . esc_attr__('Go to WordPress Updates page') . '" target="_parent">' . __('Return to WordPress Updates') . '</a>'
 		);
 
-		$update_actions = apply_filters('update_bulk_theme_complete_actions', $update_actions, $this->theme_info);
+		$update_actions = apply_filters('update_bulk_theme_complete_actions', $update_actions, $this->theme_info );
 		if ( ! empty($update_actions) )
 			$this->feedback(implode(' | ', (array)$update_actions));
 	}
@@ -1488,9 +1487,9 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 		$theme_info = $this->upgrader->theme_info();
 		if ( empty($theme_info) )
 			return;
-		$name = $theme_info['Name'];
+		$name = $theme_info->display('Name');
 		$stylesheet = $this->upgrader->result['destination_name'];
-		$template = !empty($theme_info['Template']) ? $theme_info['Template'] : $stylesheet;
+		$template = $theme_info->get_template();
 
 		$preview_link = htmlspecialchars( add_query_arg( array('preview' => 1, 'template' => $template, 'stylesheet' => $stylesheet, 'preview_iframe' => 1, 'TB_iframe' => 'true' ), trailingslashit(esc_url(get_option('home'))) ) );
 		$activate_link = wp_nonce_url("themes.php?action=activate&amp;template=" . urlencode($template) . "&amp;stylesheet=" . urlencode($stylesheet), 'switch-theme_' . $template);
@@ -1541,13 +1540,10 @@ class Theme_Upgrader_Skin extends WP_Upgrader_Skin {
 	function after() {
 
 		$update_actions = array();
-		if ( !empty($this->upgrader->result['destination_name']) &&
-			($theme_info = $this->upgrader->theme_info()) &&
-			!empty($theme_info) ) {
-
-			$name = $theme_info['Name'];
+		if ( ! empty( $this->upgrader->result['destination_name'] ) && $theme_info = $this->upgrader->theme_info() ) {
+			$name = $theme_info->display('Name');
 			$stylesheet = $this->upgrader->result['destination_name'];
-			$template = !empty($theme_info['Template']) ? $theme_info['Template'] : $stylesheet;
+			$template = $theme_info->get_template();
 
 			$preview_link = htmlspecialchars( add_query_arg( array('preview' => 1, 'template' => $template, 'stylesheet' => $stylesheet, 'TB_iframe' => 'true' ), trailingslashit(esc_url(get_option('home'))) ) );
 			$activate_link = wp_nonce_url("themes.php?action=activate&amp;template=" . urlencode($template) . "&amp;stylesheet=" . urlencode($stylesheet), 'switch-theme_' . $template);
