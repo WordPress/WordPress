@@ -662,6 +662,85 @@ class Theme_Upgrader extends WP_Upgrader {
 		$this->strings['installing_package'] = __('Installing the theme&#8230;');
 		$this->strings['process_failed'] = __('Theme install failed.');
 		$this->strings['process_success'] = __('Theme installed successfully.');
+		/* translators: 1: theme name, 2: version */
+		$this->strings['process_success_specific'] = __('Successfully installed the theme <strong>%1$s %2$s</strong>.');
+		$this->strings['parent_theme_search'] = __('This theme requires a parent theme. Checking if it is installed&#8230;');
+		/* translators: 1: theme name, 2: version */
+		$this->strings['parent_theme_prepare_install'] = __('Preparing to install <strong>%1$s %2$s</strong>&#8230;');
+		/* translators: 1: theme name, 2: version */
+		$this->strings['parent_theme_currently_installed'] = __('The parent theme, <strong>%1$s %2$s</strong>, is currently installed.');
+		/* translators: 1: theme name, 2: version */
+		$this->strings['parent_theme_install_success'] = __('Successfully installed the parent theme, <strong>%1$s %2$s</strong>.');
+		$this->strings['parent_theme_not_found'] = __('<strong>The parent theme could not be found.</strong> You will need to install the parent theme, <strong>%s</strong>, before you can use this child theme.');
+	}
+
+	function check_parent_theme_filter($install_result, $hook_extra, $child_result) {
+		// Check to see if we need to install a parent theme
+		$theme_info = $this->theme_info();
+
+		// Do we have any business here?
+		if ( empty($theme_info['Template']) )
+			return $install_result;
+
+		$this->skin->feedback('parent_theme_search', $theme_info['Template'] );
+
+		$parent_theme = wp_get_theme( $theme_info['Template'] );
+		if ( ! $parent_theme->errors() ) {
+			$this->skin->feedback( 'parent_theme_currently_installed', $parent_theme['Name'], $parent_theme['Version'] );
+			// We already have the theme, fall through.
+			return $install_result;
+		}
+
+		// We don't have the parent theme, lets install it
+		$api = themes_api('theme_information', array('slug' => $theme_info['Template'], 'fields' => array('sections' => false, 'tags' => false) ) ); //Save on a bit of bandwidth.
+
+		if ( ! $api || is_wp_error($api) ) {
+			$this->skin->feedback('parent_theme_not_found', $theme_info['Template']);
+			// Don't show activate or preview actions after install
+			add_filter('install_theme_complete_actions', array(&$this, 'hide_activate_preview_actions') );
+			return $install_result;
+		}
+
+		// Backup required data we're going to override:
+		$child_api = $this->skin->api;
+		$child_success_message = $this->strings['process_success'];
+
+		// Override them
+		$this->skin->api = $api;
+		$this->strings['process_success_specific'] = $this->strings['parent_theme_install_success'];//, $api->name, $api->version);
+
+		$this->skin->feedback('parent_theme_prepare_install', $api->name, $api->version);
+		
+		//@TODO: This is a DEBUG line! Only needed with the-common-blog line above.
+		remove_filter('upgrader_post_install', array(&$this, 'check_parent_theme_filter'), 10, 3); // This is only needed when we're forcing a template on line 676 above.
+
+		add_filter('install_theme_complete_actions', '__return_false', 999); // Don't show any actions after installing the theme.
+
+		// Install the parent theme
+		$parent_result = $this->run( array(
+			'package' => $api->download_link,
+			'destination' => WP_CONTENT_DIR . '/themes',
+			'clear_destination' => false, //Do not overwrite files.
+			'clear_working' => true
+		) );
+
+		if ( is_wp_error($parent_result) )
+			add_filter('install_theme_complete_actions', array(&$this, 'hide_activate_preview_actions') );
+
+		// Start cleaning up after the parents installation
+		remove_filter('install_theme_complete_actions', '__return_false', 999);
+
+		// Reset child's result and data
+		$this->result = $child_result;
+		$this->skin->api = $child_api;
+		$this->strings['process_success'] = $child_success_message;
+
+		return $install_result;
+	}
+	
+	function hide_activate_preview_actions($actions) {
+		unset($actions['activate'], $actions['preview']);
+		return $actions;
 	}
 
 	function install($package) {
@@ -670,6 +749,7 @@ class Theme_Upgrader extends WP_Upgrader {
 		$this->install_strings();
 
 		add_filter('upgrader_source_selection', array(&$this, 'check_package') );
+		add_filter('upgrader_post_install', array(&$this, 'check_parent_theme_filter'), 10, 3);
 
 		$options = array(
 						'package' => $package,
@@ -681,6 +761,7 @@ class Theme_Upgrader extends WP_Upgrader {
 		$this->run($options);
 
 		remove_filter('upgrader_source_selection', array(&$this, 'check_package') );
+		remove_filter('upgrader_post_install', array(&$this, 'check_parent_theme_filter'), 10, 3);
 
 		if ( ! $this->result || is_wp_error($this->result) )
 			return $this->result;
@@ -1396,10 +1477,8 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 	}
 
 	function before() {
-		if ( !empty($this->api) ) {
-			/* translators: 1: theme name, 2: version */
-			$this->upgrader->strings['process_success'] = sprintf( __('Successfully installed the theme <strong>%1$s %2$s</strong>.'), $this->api->name, $this->api->version);
-		}
+		if ( !empty($this->api) )
+			$this->upgrader->strings['process_success'] = sprintf( $this->upgrader->strings['process_success_specific'], $this->api->name, $this->api->version);
 	}
 
 	function after() {
