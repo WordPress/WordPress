@@ -1,4 +1,13 @@
-/* Fixes for IE bugs */
+/* Fixes for IE 7 bugs */
+
+.wp-editor-wrap .wp-editor-container textarea.wp-editor-area {
+	width: 97%;
+}
+
+#post-body.columns-2 #postbox-container-1 {
+	padding-left: 19px;
+}
+
 .welcome-panel .wp-badge {
 	position: absolute;
 }
@@ -497,7 +506,6 @@ table.ie-fixed {
 	display: inline;
 }
 
-* html .inner-sidebar #side-sortables,
 * html .postbox-container .meta-box-sortables {
 	height: 300px;
 }

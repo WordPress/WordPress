@@ -16,13 +16,60 @@ if ( !defined('ABSPATH') )
 <?php screen_icon(); ?>
 <h2><?php _e('Edit Comment'); ?></h2>
 
-<div id="poststuff" class="metabox-holder has-right-sidebar">
+<div id="poststuff">
 <input type="hidden" name="user_ID" value="<?php echo (int) $user_ID; ?>" />
 <input type="hidden" name="action" value="editedcomment" />
 <input type="hidden" name="comment_ID" value="<?php echo esc_attr( $comment->comment_ID ); ?>" />
 <input type="hidden" name="comment_post_ID" value="<?php echo esc_attr( $comment->comment_post_ID ); ?>" />
 
-<div id="side-info-column" class="inner-sidebar">
+<div id="post-body" class="metabox-holder columns-2">
+<div id="post-body-content">
+<div id="namediv" class="stuffbox">
+<h3><label for="name"><?php _e( 'Author' ) ?></label></h3>
+<div class="inside">
+<table class="form-table editcomment">
+<tbody>
+<tr valign="top">
+	<td class="first"><?php _e( 'Name:' ); ?></td>
+	<td><input type="text" name="newcomment_author" size="30" value="<?php echo esc_attr( $comment->comment_author ); ?>" tabindex="1" id="name" /></td>
+</tr>
+<tr valign="top">
+	<td class="first">
+	<?php
+		if ( $comment->comment_author_email ) {
+			printf( __( 'E-mail (%s):' ), get_comment_author_email_link( __( 'send e-mail' ), '', '' ) );
+		} else {
+			_e( 'E-mail:' );
+		}
+?></td>
+	<td><input type="text" name="newcomment_author_email" size="30" value="<?php echo $comment->comment_author_email; ?>" tabindex="2" id="email" /></td>
+</tr>
+<tr valign="top">
+	<td class="first">
+	<?php
+		if ( ! empty( $comment->comment_author_url ) && 'http://' != $comment->comment_author_url ) {
+			$link = '<a href="' . $comment->comment_author_url . '" rel="external nofollow" target="_blank">' . __('visit site') . '</a>';
+			printf( __( 'URL (%s):' ), apply_filters('get_comment_author_link', $link ) );
+		} else {
+			_e( 'URL:' );
+		} ?></td>
+	<td><input type="text" id="newcomment_author_url" name="newcomment_author_url" size="30" class="code" value="<?php echo esc_attr($comment->comment_author_url); ?>" tabindex="3" /></td>
+</tr>
+</tbody>
+</table>
+<br />
+</div>
+</div>
+
+<div id="postdiv" class="postarea">
+<?php
+	$quicktags_settings = array( 'buttons' => 'strong,em,link,block,del,ins,img,ul,ol,li,code,spell,close' );
+	wp_editor( $comment->comment_content, 'content', array( 'media_buttons' => false, 'tinymce' => false, 'quicktags' => $quicktags_settings ) );
+	wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
+</div>
+</div><!-- /post-body-content -->
+
+<div id="postbox-container-1" class="postbox-container">
 <div id="submitdiv" class="stuffbox" >
 <h3><span class='hndle'><?php _e('Status') ?></span></h3>
 <div class="inside">
@@ -69,69 +116,27 @@ $date = date_i18n( $datef, strtotime( $comment->comment_date ) );
 </div>
 </div>
 </div>
-</div>
-</div>
-
-<div id="post-body">
-<div id="post-body-content">
-<div id="namediv" class="stuffbox">
-<h3><label for="name"><?php _e( 'Author' ) ?></label></h3>
-<div class="inside">
-<table class="form-table editcomment">
-<tbody>
-<tr valign="top">
-	<td class="first"><?php _e( 'Name:' ); ?></td>
-	<td><input type="text" name="newcomment_author" size="30" value="<?php echo esc_attr( $comment->comment_author ); ?>" tabindex="1" id="name" /></td>
-</tr>
-<tr valign="top">
-	<td class="first">
-	<?php
-		if ( $comment->comment_author_email ) {
-			printf( __( 'E-mail (%s):' ), get_comment_author_email_link( __( 'send e-mail' ), '', '' ) );
-		} else {
-			_e( 'E-mail:' );
-		}
-?></td>
-	<td><input type="text" name="newcomment_author_email" size="30" value="<?php echo $comment->comment_author_email; ?>" tabindex="2" id="email" /></td>
-</tr>
-<tr valign="top">
-	<td class="first">
-	<?php
-		if ( ! empty( $comment->comment_author_url ) && 'http://' != $comment->comment_author_url ) {
-			$link = '<a href="' . $comment->comment_author_url . '" rel="external nofollow" target="_blank">' . __('visit site') . '</a>';
-			printf( __( 'URL (%s):' ), apply_filters('get_comment_author_link', $link ) );
-		} else {
-			_e( 'URL:' );
-		} ?></td>
-	<td><input type="text" id="newcomment_author_url" name="newcomment_author_url" size="30" class="code" value="<?php echo esc_attr($comment->comment_author_url); ?>" tabindex="3" /></td>
-</tr>
-</tbody>
-</table>
-<br />
-</div>
+</div><!-- /submitdiv -->
 </div>
 
-<div id="postdiv" class="postarea">
+<div id="postbox-container-2" class="postbox-container">
 <?php
-	$quicktags_settings = array( 'buttons' => 'strong,em,link,block,del,ins,img,ul,ol,li,code,spell,close' );
-	wp_editor( $comment->comment_content, 'content', array( 'media_buttons' => false, 'tinymce' => false, 'quicktags' => $quicktags_settings ) );
-	wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
-</div>
 
-<?php
 do_action('add_meta_boxes', 'comment', $comment);
 do_action('add_meta_boxes_comment', $comment);
 
 do_meta_boxes(null, 'normal', $comment);
+
 ?>
+</div>
+
 <input type="hidden" name="c" value="<?php echo esc_attr($comment->comment_ID) ?>" />
 <input type="hidden" name="p" value="<?php echo esc_attr($comment->comment_post_ID) ?>" />
 <input name="referredby" type="hidden" id="referredby" value="<?php echo esc_url(stripslashes(wp_get_referer())); ?>" />
 <?php wp_original_referer_field(true, 'previous'); ?>
 <input type="hidden" name="noredir" value="1" />
 
-</div>
-</div>
+</div><!-- /post-body -->
 </div>
 </div>
 </form>

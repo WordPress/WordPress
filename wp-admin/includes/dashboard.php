@@ -196,51 +196,28 @@ function wp_dashboard() {
 	global $screen_layout_columns;
 
 	$screen = get_current_screen();
+	$class = 'columns-' . $screen_layout_columns;
 
-	$hide2 = $hide3 = $hide4 = '';
-	switch ( $screen_layout_columns ) {
-		case 4:
-			$width = 'width:25%;';
-			break;
-		case 3:
-			$width = 'width:33.333333%;';
-			$hide4 = 'display:none;';
-			break;
-		case 2:
-			$width = 'width:50%;';
-			$hide3 = $hide4 = 'display:none;';
-			break;
-		default:
-			$width = 'width:100%;';
-			$hide2 = $hide3 = $hide4 = 'display:none;';
-	}
 ?>
-<div id="dashboard-widgets" class="metabox-holder">
-<?php
-	echo "\t<div id='postbox-container-1' class='postbox-container' style='$width'>\n";
-	do_meta_boxes( $screen->id, 'normal', '' );
+<div id="dashboard-widgets" class="metabox-holder <?php echo $class; ?>">
+	<div id='postbox-container-1' class='postbox-container'>
+	<?php do_meta_boxes( $screen->id, 'normal', '' ); ?>
+	</div>
+	<div id='postbox-container-2' class='postbox-container'>
+	<?php do_meta_boxes( $screen->id, 'side', '' ); ?>
+	</div>
+	<div id='postbox-container-3' class='postbox-container'>
+	<?php do_meta_boxes( $screen->id, 'column3', '' ); ?>
+	</div>
+	<div id='postbox-container-4' class='postbox-container'>
+	<?php do_meta_boxes( $screen->id, 'column4', '' ); ?>
+	</div>
+</div>
 
-	echo "\t</div><div id='postbox-container-2' class='postbox-container' style='{$hide2}$width'>\n";
-	do_meta_boxes( $screen->id, 'side', '' );
-
-	echo "\t</div><div id='postbox-container-3' class='postbox-container' style='{$hide3}$width'>\n";
-	do_meta_boxes( $screen->id, 'column3', '' );
-
-	echo "\t</div><div id='postbox-container-4' class='postbox-container' style='{$hide4}$width'>\n";
-	do_meta_boxes( $screen->id, 'column4', '' );
-?>
-</div></div>
-
-<form style="display:none" method="get" action="">
-	<p>
 <?php
 	wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 	wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
-?>
-	</p>
-</form>
 
-<?php
 }
 
 /* Dashboard Widgets */

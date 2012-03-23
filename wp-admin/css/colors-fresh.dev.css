@@ -144,6 +144,10 @@ div.dashboard-widget-submit {
 	border-top-color: #ccc;
 }
 
+ul.category-tabs li {
+	border-color: transparent;
+}
+
 div.tabs-panel,
 .wp-tab-panel,
 ul.category-tabs li.tabs,

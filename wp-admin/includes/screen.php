@@ -929,12 +929,12 @@ final class WP_Screen {
 		}
 
 		?>
-		<h5><?php _e('Screen Layout'); ?></h5>
+		<h5 class="screen-layout"><?php _e('Screen Layout'); ?></h5>
 		<div class='columns-prefs'><?php
 			_e('Number of Columns:');
 			for ( $i = 1; $i <= $num; ++$i ):
 				?>
-				<label>
+				<label class="columns-prefs-<?php echo $i; ?>">
 					<input type='radio' name='screen_columns' value='<?php echo esc_attr( $i ); ?>'
 						<?php checked( $screen_layout_columns, $i ); ?> />
 					<?php echo esc_html( $i ); ?>

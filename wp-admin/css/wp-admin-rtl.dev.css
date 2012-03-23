@@ -2119,12 +2119,6 @@ div.star {
 	position: relative;
 }
 
-#side-info-column {
-	float: left;
-	right: auto;
-	left: 0;
-}
-
 h3.tb {
 	margin-left: 0;
 	margin-right: 5px;

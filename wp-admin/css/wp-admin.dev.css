@@ -104,6 +104,7 @@ TABLE OF CONTENTS:
 }
 
 /* inner 2 column liquid layout */
+/*
 .inner-sidebar {
 	float: right;
 	clear: right;
@@ -140,10 +141,7 @@ TABLE OF CONTENTS:
 	margin-right: 300px;
 }
 
-#post-body-content #side-sortables.empty-container {
-	border: 0 none;
-	height: 0;
-}
+*/
 
 /* 2 columns main area */
 
@@ -915,11 +913,6 @@ ul#add-to-blog-users {
 	margin-top: -2px;
 }
 
-#post-body #major-publishing-actions {
-	border-top: 0;
-	margin-top: 0;
-}
-
 #delete-action {
 	line-height: 25px;
 	vertical-align: middle;
@@ -931,32 +924,6 @@ ul#add-to-blog-users {
 	text-align: right;
 	float: right;
 	line-height: 23px;
-}
-
-#post-body #minor-publishing {
-	padding-bottom: 10px;
-}
-
-#post-body #misc-publishing-actions {
-	padding: 0;
-}
-
-#post-body .misc-pub-section {
-	border-left-width: 1px;
-	border-left-style: solid;
-	border-top: 0;
-	border-bottom: 0;
-	min-height: 30px;
-	float: left;
-	max-width: 32%;
-}
-
-#post-body .misc-pub-section:first-child {
-	border-left: 0;
-}
-
-#post-body .misc-pub-section-last {
-	border-right: 0;
 }
 
 #misc-publishing-actions {
@@ -1215,6 +1182,10 @@ form.upgrade .hint {
 
 .metabox-prefs label input {
 	margin: 0 5px 0 2px;
+}
+
+.metabox-prefs .columns-prefs label input {
+	margin: 0 2px;
 }
 
 .metabox-prefs label a {
@@ -1825,18 +1796,169 @@ body.admin-bar {
 	margin: 0.6em 0;
 }
 
+/* Screens with postboxes */
 .postbox-container {
 	float: left;
 }
 
-.postbox-container .meta-box-sortables {
-	min-height: 350px;
+#dashboard-widgets.columns-1 .postbox-container {
+	width: 100%;
 }
 
-.postbox-container .meta-box-sortables.empty-container,
-#side-sortables.empty-container {
+#dashboard-widgets.columns-2 .postbox-container {
+	width: 49.5%;
+}
+
+#dashboard-widgets.columns-2 #postbox-container-2,
+#dashboard-widgets.columns-2 #postbox-container-3,
+#dashboard-widgets.columns-2 #postbox-container-4 {
+	float: right;
+	width: 50.5%;
+}
+
+#dashboard-widgets.columns-3 .postbox-container {
+	width: 33.5%;
+}
+
+#dashboard-widgets.columns-3 #postbox-container-1 {
+	width: 33%;
+}
+
+#dashboard-widgets.columns-3 #postbox-container-3,
+#dashboard-widgets.columns-3 #postbox-container-4 {
+	float: right;
+}
+
+#dashboard-widgets.columns-4 .postbox-container {
+	width: 25%;
+}
+
+.postbox-container .meta-box-sortables {
+	min-height: 50px;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.postbox-container .meta-box-sortables:empty {
+	min-height: 0;
+	height: 0;
+}
+
+.metabox-holder .postbox-container .empty-container {
 	border: 3px dashed #CCCCCC;
-	height: 350px;
+	height: 250px;
+}
+
+.metabox-holder.columns-1 .postbox-container .empty-container,
+.columns-2 #postbox-container-3 .empty-container,
+.columns-2 #postbox-container-4 .empty-container,
+.columns-3 #postbox-container-4 .empty-container {
+	border: 0 none;
+	height: 0;
+	min-height: 0;
+}
+
+#poststuff {
+	padding-top: 10px;
+}
+
+#poststuff #post-body {
+	padding: 0;
+}
+
+#post-body-content {
+	width: 100%;
+	float: left;
+}
+
+#poststuff .postbox-container {
+	width: 100%;
+}
+
+#poststuff #post-body.columns-2 {
+	margin-right: 300px;
+}
+
+#post-body.columns-2 #postbox-container-1 {
+	float: right;
+	margin-right: -300px;
+	width: 280px;
+}
+
+/* one column on the dash */
+@media only screen and (max-width: 768px) {
+	#wpbody-content #dashboard-widgets .postbox-container {
+		width: 100%;
+	}
+
+	#wpbody-content .metabox-holder .postbox-container .empty-container {
+		border: 0 none;
+		height: 0;
+		min-height: 0;
+	}
+}
+
+/* two columns on the dash, but keep the setting if one is selected */
+@media only screen and (min-width: 768px) and (max-width: 1200px) {
+	#wpbody-content #dashboard-widgets .postbox-container {
+		width: 49.5%;
+	}
+	
+	#wpbody-content #dashboard-widgets #postbox-container-2,
+	#wpbody-content #dashboard-widgets #postbox-container-3,
+	#wpbody-content #dashboard-widgets #postbox-container-4 {
+		float: right;
+		width: 50.5%;
+	}
+	
+	#wpbody-content .metabox-holder .postbox-container .empty-container,
+	#wpbody-content  #postbox-container-3 .empty-container,
+	#wpbody-content  #postbox-container-4 .empty-container {
+		border: 0 none;
+		height: 0;
+		min-height: 0;
+	}
+	
+	#wpbody #wpbody-content #dashboard-widgets.columns-1 .postbox-container {
+		width: 100%;
+	}
+
+	#wpbody #wpbody-content .metabox-holder.columns-1 .postbox-container .empty-container {
+		border: 0 none;
+		height: 0;
+		min-height: 0;
+	}
+
+	/* show the radio buttons for column prefs only for one or two columns */
+	.index-php .screen-layout,
+	.index-php .columns-prefs {
+		display: block;
+	}
+
+	.columns-prefs .columns-prefs-3,
+	.columns-prefs .columns-prefs-4 {
+		display: none;
+	}
+}
+
+/* one column on the post write/edit screen */
+@media only screen and (max-width: 1024px) {
+	#wpbody-content #poststuff #post-body {
+		margin: 0;
+	}
+	
+	#wpbody-content #post-body.columns-2 #postbox-container-1 {
+		margin-right: 0;
+		width: 100%;
+	}
+
+	/* hide the radio buttons for column prefs */
+	.screen-layout,
+	.columns-prefs {
+		display: none;
+	}
 }
 
 .postbox .hndle {
@@ -2746,82 +2868,25 @@ input#link_url {
 	max-width: 260px;
 }
 
-#post-body ul.category-tabs,
-#post-body ul.add-menu-item-tabs {
-	float: left;
-	width: 120px;
-	text-align: right;
-	/* Negative margin for the sake of those without JS: all tabs display */
-	margin: 0 -120px 0 5px;
-	padding: 0;
-}
-
-#post-body ul.category-tabs li,
-#post-body ul.add-menu-item-tabs li {
-	padding: 8px;
-}
-
-#post-body ul.category-tabs li.tabs,
-#post-body ul.add-menu-item-tabs li.tabs {
-	-webkit-border-top-left-radius: 3px;
-	-webkit-border-bottom-left-radius: 3px;
-	border-top-left-radius: 3px;
-	border-bottom-left-radius: 3px;
-}
-
-.wp-tab-panel,
-.categorydiv div.tabs-panel,
-.customlinkdiv div.tabs-panel,
-.posttypediv div.tabs-panel,
-.taxonomydiv div.tabs-panel,
-#linkcategorydiv div.tabs-panel {
-	height: 200px;
-	overflow: auto;
-	padding: 0.5em 0.9em;
-	border-style: solid;
-	border-width: 1px;
-}
-
-.nav-menus-php .customlinkdiv div.tabs-panel,
-.nav-menus-php .posttypediv div.tabs-panel,
-.nav-menus-php .taxonomydiv div.tabs-panel {
-	height: auto;
-	max-height: 205px;
-}
-
-div.tabs-panel-active {
-	display:block;
-}
-
-div.tabs-panel-inactive {
-	display:none;
-}
-
-#post-body .categorydiv div.tabs-panel,
-.taxonomy div.tabs-panel,
-#post-body #linkcategorydiv div.tabs-panel {
-	margin: 0 5px 0 125px;
-}
-
 .press-this #side-sortables .category-tabs li,
-.has-right-sidebar #side-sortables .category-tabs li,
+ul.category-tabs li,
 #side-sortables .add-menu-item-tabs li,
 .wp-tab-bar li {
 	display: inline;
 	line-height: 1.35em;
 }
 
-.no-js #side-sortables .category-tabs li.hide-if-no-js {
+.no-js .category-tabs li.hide-if-no-js {
  	display: none;
 }
 
-#side-sortables .category-tabs a,
+.category-tabs a,
 #side-sortables .add-menu-item-tabs a,
 .wp-tab-bar a {
 	text-decoration: none;
 }
 
-#side-sortables .category-tabs {
+.category-tabs {
 	margin: 8px 0 3px;
 }
 
@@ -2832,16 +2897,6 @@ div.tabs-panel-inactive {
 #side-sortables .add-menu-item-tabs,
 .wp-tab-bar {
 	margin-bottom: 3px;
-}
-
-.categorydiv ul,
-.customlinkdiv ul,
-.posttypediv ul,
-.taxonomydiv ul,
-#linkcategorydiv ul {
-	list-style: none;
-	padding: 0;
-	margin: 0;
 }
 
 #normal-sortables .postbox #replyrow .submit {
@@ -2867,14 +2922,13 @@ ul.wp-tab-bar {
 	margin-top: 12px;
 }
 
-ul.category-tabs li.tabs,
+ul.category-tabs li,
 ul.add-menu-item-tabs li.tabs,
 .wp-tab-active {
 	border-style: solid solid none;
 	border-width: 1px 1px 0;
 }
 
-#post-body .category-tabs li.tabs,
 #post-body .add-menu-item-tabs li.tabs {
 	border-style: solid none solid solid;
 	border-width: 1px 0 1px 1px;
@@ -3141,7 +3195,6 @@ table.diff .diff-deletedline del, table.diff .diff-addedline ins {
 	margin: 0;
 }
 
-#post-body ul.category-tabs,
 #post-body ul.add-menu-item-tabs {
 	float: left;
 	width: 120px;
@@ -3151,12 +3204,10 @@ table.diff .diff-deletedline del, table.diff .diff-addedline ins {
 	padding: 0;
 }
 
-#post-body ul.category-tabs li,
 #post-body ul.add-menu-item-tabs li {
 	padding: 8px;
 }
 
-#post-body ul.category-tabs li.tabs,
 #post-body ul.add-menu-item-tabs li.tabs {
 	-webkit-border-top-left-radius: 3px;
 	-webkit-border-bottom-left-radius: 3px;
@@ -3164,11 +3215,11 @@ table.diff .diff-deletedline del, table.diff .diff-addedline ins {
 	border-bottom-left-radius: 3px;
 }
 
+.wp-tab-panel,
 .categorydiv div.tabs-panel,
 .customlinkdiv div.tabs-panel,
 .posttypediv div.tabs-panel,
-.taxonomydiv div.tabs-panel,
-#linkcategorydiv div.tabs-panel {
+.taxonomydiv div.tabs-panel {
 	height: 200px;
 	overflow: auto;
 	padding: 0.5em 0.9em;
@@ -3191,17 +3242,14 @@ div.tabs-panel-inactive {
 	display:none;
 }
 
-#post-body .categorydiv div.tabs-panel,
-.taxonomy div.tabs-panel,
-#post-body #linkcategorydiv div.tabs-panel {
+.colunms-1 .categorydiv div.tabs-panel,
+.taxonomy div.tabs-panel {
 	margin: 0 5px 0 125px;
 }
 
-.categorydiv ul,
 .customlinkdiv ul,
 .posttypediv ul,
-.taxonomydiv ul,
-#linkcategorydiv ul {
+.taxonomydiv ul {
 	list-style: none;
 	padding: 0;
 	margin: 0;
@@ -3214,8 +3262,7 @@ ul.export-filters,
 .categorydiv ul.categorychecklist ul,
 .customlinkdiv ul.categorychecklist ul,
 .posttypediv ul.categorychecklist ul,
-.taxonomydiv ul.categorychecklist ul,
-#linkcategorydiv ul.categorychecklist ul {
+.taxonomydiv ul.categorychecklist ul {
 	margin-left: 18px;
 }
 
@@ -4244,7 +4291,6 @@ h3.available-themes {
 	font-size: 15px;
 }
 
-#post-body ul.category-tabs li.tabs a,
 #post-body ul.add-menu-item-tabs li.tabs a,
 #TB_window #TB_title a.tb-theme-preview-link,
 #TB_window #TB_title a.tb-theme-preview-link:visited {
@@ -5168,10 +5214,6 @@ body.full-overlay-active {
 	margin: 0;
 	height: 4em;
 	width: 98%;
-}
-
-.wp-editor-container textarea.wp-editor-area {
-	width: 99.9%;
 }
 
 #template div {

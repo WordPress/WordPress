@@ -658,38 +658,41 @@ if ( !empty($_GET['action']) && 'edit' == $_GET['action'] && current_user_can('m
  *
  * @param object $link
  */
-function link_categories_meta_box($link) { ?>
-<ul id="category-tabs" class="category-tabs">
-	<li class="tabs"><a href="#categories-all"><?php _e( 'All Categories' ); ?></a></li>
-	<li class="hide-if-no-js"><a href="#categories-pop"><?php _e( 'Most Used' ); ?></a></li>
-</ul>
-
-<div id="categories-all" class="tabs-panel">
-	<ul id="categorychecklist" class="list:category categorychecklist form-no-clear">
-		<?php
-		if ( isset($link->link_id) )
-			wp_link_category_checklist($link->link_id);
-		else
-			wp_link_category_checklist();
-		?>
+function link_categories_meta_box($link) {
+?>
+<div id="taxonomy-linkcategory" class="categorydiv">
+	<ul id="category-tabs" class="category-tabs">
+		<li class="tabs"><a href="#categories-all"><?php _e( 'All Categories' ); ?></a></li>
+		<li class="hide-if-no-js"><a href="#categories-pop"><?php _e( 'Most Used' ); ?></a></li>
 	</ul>
-</div>
-
-<div id="categories-pop" class="tabs-panel" style="display: none;">
-	<ul id="categorychecklist-pop" class="categorychecklist form-no-clear">
-		<?php wp_popular_terms_checklist('link_category'); ?>
-	</ul>
-</div>
-
-<div id="category-adder" class="wp-hidden-children">
-	<h4><a id="category-add-toggle" href="#category-add"><?php _e( '+ Add New Category' ); ?></a></h4>
-	<p id="link-category-add" class="wp-hidden-child">
-		<label class="screen-reader-text" for="newcat"><?php _e( '+ Add New Category' ); ?></label>
-		<input type="text" name="newcat" id="newcat" class="form-required form-input-tip" value="<?php esc_attr_e( 'New category name' ); ?>" aria-required="true" />
-		<input type="button" id="category-add-submit" class="add:categorychecklist:linkcategorydiv button" value="<?php esc_attr_e( 'Add' ); ?>" />
-		<?php wp_nonce_field( 'add-link-category', '_ajax_nonce', false ); ?>
-		<span id="category-ajax-response"></span>
-	</p>
+	
+	<div id="categories-all" class="tabs-panel">
+		<ul id="categorychecklist" class="list:category categorychecklist form-no-clear">
+			<?php
+			if ( isset($link->link_id) )
+				wp_link_category_checklist($link->link_id);
+			else
+				wp_link_category_checklist();
+			?>
+		</ul>
+	</div>
+	
+	<div id="categories-pop" class="tabs-panel" style="display: none;">
+		<ul id="categorychecklist-pop" class="categorychecklist form-no-clear">
+			<?php wp_popular_terms_checklist('link_category'); ?>
+		</ul>
+	</div>
+	
+	<div id="category-adder" class="wp-hidden-children">
+		<h4><a id="category-add-toggle" href="#category-add"><?php _e( '+ Add New Category' ); ?></a></h4>
+		<p id="link-category-add" class="wp-hidden-child">
+			<label class="screen-reader-text" for="newcat"><?php _e( '+ Add New Category' ); ?></label>
+			<input type="text" name="newcat" id="newcat" class="form-required form-input-tip" value="<?php esc_attr_e( 'New category name' ); ?>" aria-required="true" />
+			<input type="button" id="category-add-submit" class="add:categorychecklist:linkcategorydiv button" value="<?php esc_attr_e( 'Add' ); ?>" />
+			<?php wp_nonce_field( 'add-link-category', '_ajax_nonce', false ); ?>
+			<span id="category-ajax-response"></span>
+		</p>
+	</div>
 </div>
 <?php
 }

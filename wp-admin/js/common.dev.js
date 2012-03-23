@@ -351,7 +351,7 @@ $(document).ready( function() {
 		});
 	}
 
-	// auto-fold the menu when screen is under 800px
+	// auto-fold the menu when screen is under 900px
 	$(window).bind('resize.autofold', function(){
 		if ( getUserSetting('mfold') == 'f' )
 			return;
@@ -359,7 +359,7 @@ $(document).ready( function() {
 		var width = $(window).width();
 
 		// fold admin menu
-		if ( width <= 800 ) {
+		if ( width <= 900 ) {
 			if ( !folded ) {
 				$(document.body).addClass('folded');
 				folded = true;

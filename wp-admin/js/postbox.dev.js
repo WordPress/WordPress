@@ -3,7 +3,9 @@ var postboxes, is_iPad = navigator.userAgent.match(/iPad/);
 (function($) {
 	postboxes = {
 		add_postbox_toggles : function(page, args) {
-			this.init(page, args);
+			var self = this;
+
+			self.init(page, args);
 
 			$('.postbox h3, .postbox .handlediv').bind('click.postboxes', function() {
 				var p = $(this).parent('.postbox'), id = p.attr('id');
@@ -12,13 +14,15 @@ var postboxes, is_iPad = navigator.userAgent.match(/iPad/);
 					return;
 
 				p.toggleClass('closed');
-				postboxes.save_state(page);
+
+				if ( page != 'press-this' )
+					self.save_state(page);
 
 				if ( id ) {
 					if ( !p.hasClass('closed') && $.isFunction(postboxes.pbshow) )
-						postboxes.pbshow(id);
+						self.pbshow(id);
 					else if ( p.hasClass('closed') && $.isFunction(postboxes.pbhide) )
-						postboxes.pbhide(id);
+						self.pbhide(id);
 				}
 			});
 
@@ -38,22 +42,22 @@ var postboxes, is_iPad = navigator.userAgent.match(/iPad/);
 				if ( $(this).prop('checked') ) {
 					$('#' + box).show();
 					if ( $.isFunction( postboxes.pbshow ) )
-						postboxes.pbshow( box );
+						self.pbshow( box );
 				} else {
 					$('#' + box).hide();
 					if ( $.isFunction( postboxes.pbhide ) )
-						postboxes.pbhide( box );
+						self.pbhide( box );
 				}
-				postboxes.save_state(page);
-				postboxes._mark_area();
+				self.save_state(page);
+				self._mark_area();
 			});
 
 			$('.columns-prefs input[type="radio"]').bind('click.postboxes', function(){
-				var n = parseInt($(this).val(), 10), pb = postboxes;
+				var n = parseInt($(this).val(), 10);
 
 				if ( n ) {
-					pb._pb_edit(n);
-					pb.save_order(page);
+					self._pb_edit(n);
+					self.save_order(page);
 				}
 			});
 		},
@@ -88,8 +92,8 @@ var postboxes, is_iPad = navigator.userAgent.match(/iPad/);
 				}
 			});
 
-			if ( navigator.userAgent.match(/iPad/) ) {
-				$(document.body).bind('orientationchange', function(){ postboxes._pb_change(); });
+			if ( navigator.userAgent.match(/mobile/i) ) {
+				$(document.body).bind('orientationchange.postboxes', function(){ postboxes._pb_change(); });
 				this._pb_change();
 			}
 
@@ -124,89 +128,22 @@ var postboxes, is_iPad = navigator.userAgent.match(/iPad/);
 			$.post( ajaxurl, postVars );
 		},
 
-		_colname : function(n) {
-			switch (n) {
-				case 1:
-					return 'normal';
-					break
-				case 2:
-					return 'side';
-					break
-				case 3:
-					return 'column3';
-					break
-				case 4:
-					return 'column4';
-					break
-				default:
-					return '';
-			}
-		},
-
 		_mark_area : function() {
-			$('#side-info-column .meta-box-sortables:visible, #dashboard-widgets .meta-box-sortables:visible').each(function(n, el){
+			var visible = $('div.postbox:visible').length;
+
+			$('#post-body .meta-box-sortables:visible, #dashboard-widgets .meta-box-sortables:visible').not('#advanced-sortables').each(function(n, el){
 				var t = $(this);
 
-				if ( !t.children('.postbox:visible').length )
-					t.addClass('empty-container');
-				else
+				if ( visible == 1 || t.children('.postbox:visible').length )
 					t.removeClass('empty-container');
+				else
+					t.addClass('empty-container');
 			});
 		},
 
 		_pb_edit : function(n) {
-			var ps = $('#poststuff'), i, el, done, pb = postboxes, visible = $('.postbox-container:visible').length;
-
-			if ( n == visible )
-				return;
-
-			if ( ps.length ) {
-				if ( n == 2 ) {
-					$('.wrap').removeClass('columns-1').addClass('columns-2');
-					ps.addClass('has-right-sidebar');
-
-					if ( !$('#side-info-column #side-sortables').length )
-						$('#side-info-column').append( $('#side-sortables') );
-
-				} else if ( n == 1 ) {
-					$('.wrap').removeClass('columns-2').addClass('columns-1');
-					ps.removeClass('has-right-sidebar');
-
-					if ( !$('#post-body-content #side-sortables').length )
-						$('#normal-sortables').before( $('#side-sortables') );
-				}
-			} else {
-				for ( i = 4; ( i > n && i > 1 ); i-- ) {
-					el = $('#' + postboxes._colname(i) + '-sortables');
-					$('#' + postboxes._colname(i-1) + '-sortables').append(el.children('.postbox'));
-					el.parent().hide();
-				}
-
-				for ( i = n; i > 0; i-- ) {
-					el = $('#' + postboxes._colname(i) + '-sortables');
-					done = false;
-
-					if ( el.parent().is(':hidden') ) {
-						switch ( i ) {
-							case 4:
-								done = pb._move_one( el, $('.postbox:visible', $('#column3-sortables')) );
-							case 3:
-								if ( !done )
-									done = pb._move_one( el, $('.postbox:visible', $('#side-sortables')) );
-							case 2:
-								if ( !done )
-									done = pb._move_one( el, $('.postbox:visible', $('#normal-sortables')) );
-							default:
-								if ( !done )
-									el.addClass('empty-container')
-						}
-
-						el.parent().show();
-					}
-				}
-
-				$('.postbox-container:visible').css('width', 100/n + '%');
-			}
+			var el = $('.metabox-holder').get(0);
+			el.className = el.className.replace(/columns-\d+/, 'columns-' + n);
 		},
 
 		_pb_change : function() {
@@ -223,14 +160,6 @@ var postboxes, is_iPad = navigator.userAgent.match(/iPad/);
 						this._pb_edit(2);
 					break;
 			}
-		},
-
-		_move_one : function(el, move) {
-			if ( move.length > 1 ) {
-				el.append( move.last() );
-				return true;
-			}
-			return false;
 		},
 
 		/* Callbacks */

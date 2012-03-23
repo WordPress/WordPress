@@ -75,17 +75,9 @@ wp_nonce_field( $nonce_action );
 wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false ); ?>
 
-<div id="poststuff" class="metabox-holder<?php echo 1 != $screen_layout_columns ? ' has-right-sidebar' : ''; ?>">
-<div id="side-info-column" class="inner-sidebar">
-<?php
-if ( 1 != $screen_layout_columns ) {
-	do_action('submitlink_box');
-	$side_meta_boxes = do_meta_boxes( 'link', 'side', $link );
-}
-?>
-</div>
+<div id="poststuff">
 
-<div id="post-body">
+<div id="post-body" class="metabox-holder columns-<?php echo 1 == $screen_layout_columns ? '1' : '2'; ?>">
 <div id="post-body-content">
 <div id="namediv" class="stuffbox">
 <h3><label for="link_name"><?php _ex('Name', 'link name') ?></label></h3>
@@ -110,17 +102,26 @@ if ( 1 != $screen_layout_columns ) {
     <p><?php _e('This will be shown when someone hovers over the link in the blogroll, or optionally below the link.'); ?></p>
 </div>
 </div>
+</div><!-- /post-body-content -->
 
+<div id="postbox-container-1" class="postbox-container">
 <?php
 
-if ( 1 == $screen_layout_columns ) {
-	do_action('submitlink_box');
-	$side_meta_boxes = do_meta_boxes( 'link', 'side', $link );
-}
+do_action('submitlink_box');
+$side_meta_boxes = do_meta_boxes( 'link', 'side', $link );
+
+?>
+</div>
+<div id="postbox-container-2" class="postbox-container">
+<?php
 
 do_meta_boxes(null, 'normal', $link);
 
 do_meta_boxes(null, 'advanced', $link);
+
+?>
+</div>
+<?php
 
 if ( $link_id ) : ?>
 <input type="hidden" name="action" value="save" />
@@ -131,7 +132,6 @@ if ( $link_id ) : ?>
 <input type="hidden" name="action" value="add" />
 <?php endif; ?>
 
-</div>
 </div>
 </div>
 
