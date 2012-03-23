@@ -1300,6 +1300,23 @@ function remove_post_type_support( $post_type, $feature ) {
 }
 
 /**
+ * Get all the post type features
+ *
+ * @since 3.4.0
+ * @param string $post_type The post type
+ * @return array
+ */
+
+function get_all_post_type_supports( $post_type ) {
+	global $_wp_post_type_features;
+
+	if ( isset( $_wp_post_type_features[$post_type] ) )
+		return $_wp_post_type_features[$post_type];
+
+	return array();
+}
+
+/**
  * Checks a post type's support for a given feature
  *
  * @since 3.0.0

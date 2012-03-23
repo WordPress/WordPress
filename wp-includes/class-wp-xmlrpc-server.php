@@ -76,6 +76,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			'wp.getMediaItem'		=> 'this:wp_getMediaItem',
 			'wp.getMediaLibrary'	=> 'this:wp_getMediaLibrary',
 			'wp.getPostFormats'     => 'this:wp_getPostFormats',
+			'wp.getPostType'		=> 'this:wp_getPostType',
+			'wp.getPostTypes'		=> 'this:wp_getPostTypes',
 
 			// Blogger API
 			'blogger.getUsersBlogs' => 'this:blogger_getUsersBlogs',
@@ -341,6 +343,11 @@ class wp_xmlrpc_server extends IXR_Server {
 				'desc'          => __( 'Stylesheet' ),
 				'readonly'      => true,
 				'option'        => 'stylesheet'
+			),
+			'featured_image'    => array(
+				'desc'          => __('Featured Image'),
+				'readonly'      => true,
+				'value'         => current_theme_supports( 'post-thumbnails' )
 			),
 			'featured_image'    => array(
 				'desc'          => __('Featured Image'),
@@ -624,6 +631,63 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		return apply_filters( 'xmlrpc__prepare_post', $_post, $post, $fields );
+	}
+
+	/**
+	 * Prepares post data for return in an XML-RPC object.
+	 *
+	 * @access protected
+	 *
+	 * @param array|object $post_type The unprepared post type data
+	 * @param array $fields The subset of post fields to return
+	 * @return array The prepared post type data
+	 */
+	protected function _prepare_post_type( $post_type, $fields ) {
+		$post_type = (array) $post_type;
+
+		$_post_type = array(
+			'name' => $post_type['name'],
+			'label' => $post_type['label'],
+			'description' => $post_type['description'],
+			'hierarchical' => $post_type['hierarchical'],
+			'public' => $post_type['public'],
+			'_builtin' => $post_type['_builtin'],
+			'supports' => get_all_post_type_supports( $post_type['name'] )
+		);
+
+		if ( in_array( 'labels', $fields ) ) {
+			$_post_type['labels'] = (array) $post_type['labels'];
+		}
+
+		if ( in_array( 'capabilities', $fields ) ) {
+			$_post_type['cap'] = (array) $post_type['cap'];
+			$_post_type['capability_type'] = $post_type['capability_type'];
+			$_post_type['map_meta_cap'] = $post_type['map_meta_cap'];
+		}
+
+		if ( in_array( 'admin', $fields ) ) {
+			$_post_type['publicly_queryable'] = $post_type['publicly_queryable'];
+			$_post_type['exclude_from_search'] = $post_type['exclude_from_search'];
+			$_post_type['_edit_link'] = $post_type['_edit_link'];
+			$_post_type['rewrite'] = $post_type['rewrite'];
+			$_post_type['has_archive'] = $post_type['has_archive'];
+			$_post_type['query_var'] = $post_type['query_var'];
+		}
+
+		if ( in_array( 'menu', $fields ) ) {
+			$_post_type['show_ui'] = $post_type['show_ui'];
+			$_post_type['menu_position'] = $post_type['menu_position'];
+			$_post_type['menu_icon'] = $post_type['menu_icon'];
+			$_post_type['show_in_nav_menus'] = $post_type['show_in_nav_menus'];
+			$_post_type['show_in_menu'] = $post_type['show_in_menu'];
+			$_post_type['show_in_admin_bar'] = $post_type['show_in_admin_bar'];
+		}
+
+		if ( in_array( 'taxonomies', $fields ) ) {
+			$_post_type['taxonomies'] = get_object_taxonomies( $_post_type['name'] );
+		}
+
+		return apply_filters( 'xmlrpc__prepare_post_type', $_post_type, $post_type );
 	}
 
 	/**
@@ -2880,6 +2944,102 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		return $formats;
+	}
+
+	/**
+	 * Retrieves a post type
+	 *
+	 * @uses get_post_type_object()
+	 * @param array $args Method parameters. Contains:
+	 *  - int     $blog_id
+	 *  - string  $username
+	 *  - string  $password
+	 *  - string  $post_type_name
+	 *  - array   $fields
+	 * @return array contains:
+	 *  - 'labels'
+	 *  - 'description'
+	 *  - 'capability_type'
+	 *  - 'cap'
+	 *  - 'map_meta_cap'
+	 *  - 'hierarchical'
+	 *  - 'menu_position'
+	 *  - 'taxonomies'
+	 *  - 'supports'
+	 */
+	function wp_getPostType( $args ) {
+		$this->escape( $args );
+
+		$blog_id        = (int) $args[0];
+		$username       = $args[1];
+		$password       = $args[2];
+		$post_type_name = $args[3];
+
+		if ( isset( $args[4] ) ) 
+			$fields = $args[4]; 
+		else 
+			$fields = apply_filters( 'xmlrpc_default_posttype_fields', array( 'labels', 'capabilities', 'taxonomies' ), 'wp.getPostType' ); 
+
+		if ( !$user = $this->login( $username, $password ) )
+			return $this->error;
+
+		do_action( 'xmlrpc_call', 'wp.getPostType' );
+
+		if( ! post_type_exists( $post_type_name ) )
+			return new IXR_Error( 403, __( 'Invalid post type.' ) );
+
+		$post_type = get_post_type_object( $post_type_name );
+
+		if( ! current_user_can( $post_type->cap->edit_posts ) )
+			return new IXR_Error( 401, __( 'Sorry, you are not allowed to edit this post type.' ) );
+
+		return $this->_prepare_post_type( $post_type, $fields );
+	}
+
+	/**
+	 * Retrieves a post types
+	 *
+	 * @access private
+	 *
+	 * @uses get_post_types()
+	 * @param array $args Method parameters. Contains:
+	 *  - int     $blog_id
+	 *  - string  $username
+	 *  - string  $password
+	 *  - array   $filter
+	 *  - array   $fields
+	 * @return array
+	 */
+	function wp_getPostTypes( $args ) {
+		$this->escape( $args );
+
+		$blog_id            = (int) $args[0];
+		$username           = $args[1];
+		$password           = $args[2];
+		$filter             = isset( $args[3] ) ? $args[3] : array( 'public' => true ); 
+
+		if ( isset( $args[4] ) ) 
+			$fields = $args[4]; 
+		else 
+			$fields = apply_filters( 'xmlrpc_default_posttype_fields', array( 'labels', 'capabilities', 'taxonomies' ), 'wp.getPostTypes' ); 
+
+		if ( ! $user = $this->login( $username, $password ) )
+			return $this->error;
+
+		do_action( 'xmlrpc_call', 'wp.getPostTypes' );
+
+		$post_types = get_post_types( $filter, 'objects' );
+
+		$struct = array();
+
+		foreach( $post_types as $post_type ) {
+			if( ! current_user_can( $post_type->cap->edit_posts ) )
+				continue;
+
+			$struct[$post_type->name] = $this->_prepare_post_type( $post_type, $fields );
+		}
+
+		return $struct;
 	}
 
 	/* Blogger API functions.
