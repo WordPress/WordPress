@@ -3057,3 +3057,35 @@ function remove_custom_background() {
 	_deprecated_function( __FUNCTION__, '3.4', 'remove_theme_support( \'custom-background\' )' );
 	return remove_theme_support( 'custom-background' );
 }
+
+/**
+ * Retrieve theme data from parsed theme file.
+ *
+ * @since 1.5.0
+ * @deprecated @3.4.0
+ * @deprecated Use wp_get_theme()
+ * @see wp_get_theme()
+ *
+ * @param string $theme_file Theme file path.
+ * @return array Theme data.
+ */
+function get_theme_data( $theme_file ) {
+	_deprecated_function( __FUNCTION__, 3.4, 'wp_get_theme()' );
+	$theme = new WP_Theme( basename( dirname( $theme_file ) ), dirname( dirname( $theme_file ) ) );
+
+	$theme_data = array(
+		'Name' => $theme->get('Name'),
+		'URI' => $theme->display('ThemeURI', true, false),
+		'Description' => $theme->display('Description', true, false),
+		'Author' => $theme->display('Author', true, false),
+		'AuthorURI' => $theme->display('AuthorURI', true, false),
+		'Version' => $theme->get('Version'),
+		'Template' => $theme->get('Template'),
+		'Status' => $theme->get('Status'),
+		'Tags' => $theme->get('Tags'),
+		'Title' => $theme->get('Name'),
+		'AuthorName' => $theme->display('Author', false, false),
+	);
+
+	return $theme_data;
+}
