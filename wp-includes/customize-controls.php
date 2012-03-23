@@ -44,7 +44,7 @@ do_action( 'customize_controls_print_scripts' );
 ?>
 </head>
 <body class="wp-full-overlay">
-	<form id="customize-controls" method="post" class="wrap wp-full-overlay-sidebar" target="_parent" action="<?php echo esc_url( add_query_arg( 'save', '1', admin_url( 'themes.php' ) ) ); ?>">
+	<form id="customize-controls" method="post" class="wrap wp-full-overlay-sidebar" target="_parent" action="<?php echo esc_url( add_query_arg( 'save_customize_controls', '1', admin_url( 'themes.php' ) ) ); ?>">
 		<?php wp_nonce_field( 'customize_controls' ); ?>
 		<input type="hidden" name="customize" value="on" />
 		<input type="hidden" id="customize-template" name="template" value="<?php echo esc_attr( $theme['Template'] ); ?>" />

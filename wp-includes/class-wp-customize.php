@@ -63,7 +63,7 @@ final class WP_Customize {
 		if ( ! isset( $_REQUEST['customize'] ) || 'on' != $_REQUEST['customize'] )
 			return;
 
-		if ( ! $this->set_stylesheet() || isset( $_REQUEST['save'] ) )
+		if ( ! $this->set_stylesheet() || isset( $_REQUEST['save_customize_controls'] ) )
 			return;
 
 		$this->previewing = true;
@@ -270,7 +270,7 @@ final class WP_Customize {
 	 * @since 3.4.0
 	 */
 	public function admin_init() {
-		if ( isset( $_REQUEST['save'] ) )
+		if ( isset( $_REQUEST['save_customize_controls'] ) )
 			$this->save();
 
 		wp_enqueue_script( 'customize-loader' );
