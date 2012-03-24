@@ -3062,7 +3062,7 @@ function remove_custom_background() {
  * Retrieve theme data from parsed theme file.
  *
  * @since 1.5.0
- * @deprecated @3.4.0
+ * @deprecated 3.4.0
  * @deprecated Use wp_get_theme()
  * @see wp_get_theme()
  *
