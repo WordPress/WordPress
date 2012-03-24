@@ -404,9 +404,10 @@ class wpdb {
 	 * Keys are column names, values are format types: 'ID' => '%d'
 	 *
 	 * @since 2.8.0
-	 * @see wpdb:prepare()
-	 * @see wpdb:insert()
-	 * @see wpdb:update()
+	 * @see wpdb::prepare()
+	 * @see wpdb::insert()
+	 * @see wpdb::update()
+	 * @see wpdb::delete()
 	 * @see wp_set_wpdb_vars()
 	 * @access public
 	 * @var array
@@ -1270,6 +1271,50 @@ class wpdb {
 		$sql = "UPDATE `$table` SET " . implode( ', ', $bits ) . ' WHERE ' . implode( ' AND ', $wheres );
 		return $this->query( $this->prepare( $sql, array_merge( array_values( $data ), array_values( $where ) ) ) );
 	}
+
+	/**
+	 * Delete a row in the table
+	 *
+	 * <code>
+	 * wpdb::delete( 'table', array( 'ID' => 1 ) )
+	 * wpdb::delete( 'table', array( 'ID' => 1 ), array( '%d' ) )
+	 * wpdb::delete( 'table', array( 'ID' => 1 ), array( '%d' ), 1 )
+	 * </code>
+	 *
+	 * @since 2.5.0
+	 * @see wpdb::prepare()
+	 * @see wpdb::$field_types
+	 * @see wp_set_wpdb_vars()
+	 *
+	 * @param string $table table name
+	 * @param array $where A named array of WHERE clauses (in column => value pairs). Multiple clauses will be joined with ANDs. Both $where columns and $where values should be "raw".
+	 * @param array|string $where_format Optional. An array of formats to be mapped to each of the values in $where. If string, that format will be used for all of the items in $where. A format is one of '%d', '%f', '%s' (integer, float, string). If omitted, all values in $where will be treated as strings unless otherwise specified in wpdb::$field_types.
+	 * @return int|false The number of rows updated, or false on error.
+	 */
+	function delete( $table, $where, $where_format = null ) {
+		if ( ! is_array( $where ) )
+			return false;
+
+		$bits = $wheres = array();
+
+		$where_formats = $where_format = (array) $where_format;
+
+		foreach ( array_keys( $where ) as $field ) {
+			if ( !empty( $where_format ) ) {
+				$form = ( $form = array_shift( $where_formats ) ) ? $form : $where_format[0];
+			} elseif ( isset( $this->field_types[ $field ] ) ) {
+				$form = $this->field_types[ $field ];
+			} else {
+				$form = '%s';
+			}
+
+			$wheres[] = "$field = $form";
+		}
+
+		$sql = "DELETE FROM $table WHERE " . implode( ' AND ', $wheres );
+		return $this->query( $this->prepare( $sql, $where ) );
+	}
+
 
 	/**
 	 * Retrieve one variable from the database.

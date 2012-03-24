@@ -367,7 +367,7 @@ function delete_option( $option ) {
 	if ( is_null( $row ) )
 		return false;
 	do_action( 'delete_option', $option );
-	$result = $wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->options WHERE option_name = %s", $option) );
+	$result = $wpdb->delete( $wpdb->options, array( 'option_name' => $option ) );
 	if ( ! defined( 'WP_INSTALLING' ) ) {
 		if ( 'yes' == $row->autoload ) {
 			$alloptions = wp_load_alloptions();
@@ -857,7 +857,7 @@ function delete_site_option( $option ) {
 		$cache_key = "{$wpdb->siteid}:$option";
 		wp_cache_delete( $cache_key, 'site-options' );
 
-		$result = $wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->sitemeta} WHERE meta_key = %s AND site_id = %d", $option, $wpdb->siteid ) );
+		$result = $wpdb->delete( $wpdb->sitemeta, array( 'meta_key' => $option, 'site_id' => $wpdb->siteid ) );
 	}
 
 	if ( $result ) {

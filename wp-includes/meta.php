@@ -489,7 +489,7 @@ function delete_metadata_by_mid( $meta_type, $meta_id ) {
 			do_action( 'delete_postmeta', $meta_id );
 
 		// Run the query, will return true if deleted, false otherwise
-		$result = (bool) $wpdb->query( $wpdb->prepare( "DELETE FROM $table WHERE $id_column = %d LIMIT 1;", $meta_id ) );
+		$result = (bool) $wpdb->delete( $table, array( $id_column => $meta_id ) );
 
 		// Clear the caches.
 		wp_cache_delete($object_id, $meta_type . '_meta');

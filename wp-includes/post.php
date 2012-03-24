@@ -2053,7 +2053,7 @@ function wp_delete_post( $postid = 0, $force_delete = false ) {
 	}
 
 	do_action( 'delete_post', $postid );
-	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->posts WHERE ID = %d", $postid ));
+	$wpdb->delete( $wpdb->posts, array( 'ID' => $postid ) );
 	do_action( 'deleted_post', $postid );
 
 	if ( 'page' == $post->post_type ) {
@@ -3810,7 +3810,7 @@ function wp_delete_attachment( $post_id, $force_delete = false ) {
 	wp_delete_object_term_relationships($post_id, array('category', 'post_tag'));
 	wp_delete_object_term_relationships($post_id, get_object_taxonomies($post->post_type));
 
-	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->postmeta WHERE meta_key = '_thumbnail_id' AND meta_value = %d", $post_id ));
+	$wpdb->delete( $wpdb->postmeta, array( 'meta_key' => '_thumbnail_id' , 'meta_value' => $post_id ) );
 
 	$comment_ids = $wpdb->get_col( $wpdb->prepare( "SELECT comment_ID FROM $wpdb->comments WHERE comment_post_ID = %d", $post_id ));
 	if ( ! empty( $comment_ids ) ) {
@@ -3829,7 +3829,7 @@ function wp_delete_attachment( $post_id, $force_delete = false ) {
 	}
 
 	do_action( 'delete_post', $post_id );
-	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->posts WHERE ID = %d", $post_id ));
+	$wpdb->delete( $wpdb->posts, array( 'ID' => $post_id ) );
 	do_action( 'deleted_post', $post_id );
 
 	$uploadpath = wp_upload_dir();

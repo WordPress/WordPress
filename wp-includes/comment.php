@@ -988,7 +988,7 @@ function wp_delete_comment($comment_id, $force_delete = false) {
 		do_action( 'deleted_commentmeta', $meta_ids );
 	}
 
-	if ( ! $wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->comments WHERE comment_ID = %d LIMIT 1", $comment_id) ) )
+	if ( ! $wpdb->delete( $wpdb->comments, array( 'comment_ID' => $comment_id ) ) )
 		return false;
 	do_action('deleted_comment', $comment_id);
 

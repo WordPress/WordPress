@@ -266,11 +266,11 @@ function wp_delete_user( $id, $reassign = 'novalue' ) {
 
 	// FINALLY, delete user
 	if ( !is_multisite() ) {
-		$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->usermeta WHERE user_id = %d", $id) );
-		$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->users WHERE ID = %d", $id) );
+		$wpdb->delete( $wpdb->usermeta, array( 'user_id' => $id ) );
+		$wpdb->delete( $wpdb->users, array( 'ID' => $id ) );
 	} else {
 		$level_key = $wpdb->get_blog_prefix() . 'capabilities'; // wpmu site admins don't have user_levels
-		$wpdb->query("DELETE FROM $wpdb->usermeta WHERE user_id = $id AND meta_key = '{$level_key}'");
+		$wpdb->delete( $wpdb->usermeta, array( 'user_id' => $id , 'meta_key' => $level_key ) );
 	}
 
 	// allow for commit transaction
