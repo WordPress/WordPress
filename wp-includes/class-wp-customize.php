@@ -534,10 +534,13 @@ final class WP_Customize {
 		// Input type: checkbox
 		// With custom value
 		$this->add_setting( 'header_image', array(
-			'label'   => 'Header Image',
-			'section' => 'header',
-			'control' => 'upload',
-			'default' => get_theme_support( 'custom-header', 'default-image' ),
+			'label'          => 'Header Image',
+			'section'        => 'header',
+			'control'        => 'upload',
+			'default'        => get_theme_support( 'custom-header', 'default-image' ),
+			'control_params' => array(
+				'context'        => 'custom-header',
+			),
 		) );
 
 		/* Custom Background */
@@ -558,10 +561,13 @@ final class WP_Customize {
 		) );
 
 		$this->add_setting( 'background_image', array(
-			'label'   => 'Background Image',
-			'section' => 'background',
-			'control' => 'upload',
-			'default' => get_theme_support( 'custom-background', 'default-image' ),
+			'label'          => 'Background Image',
+			'section'        => 'background',
+			'control'        => 'upload',
+			'default'        => get_theme_support( 'custom-background', 'default-image' ),
+			'control_params' => array(
+				'context'        => 'custom-background',
+			),
 		) );
 
 		$this->add_setting( 'background_repeat', array(

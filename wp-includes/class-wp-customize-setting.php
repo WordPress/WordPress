@@ -14,6 +14,7 @@ class WP_Customize_Setting {
 	public $section           = '';
 	public $label             = '';
 	public $control           = 'text';
+	public $control_params    = array();
 	public $type              = 'theme_mod';
 	public $choices           = array();
 	public $capability        = 'edit_theme_options';

@@ -103,6 +103,7 @@ do_action( 'customize_controls_print_scripts' );
 		$settings['controls'][ $id ] = array(
 			'value'   => $setting->value(),
 			'control' => $setting->control,
+			'params'  => $setting->control_params,
 		);
 
 		if ( $setting->visibility ) {

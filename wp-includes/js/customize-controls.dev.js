@@ -10,6 +10,7 @@
 		initialize: function( id, value, options ) {
 			var name = '[name="' + api.settings.prefix + id + '"]';
 
+			this.params = {};
 			api.Value.prototype.initialize.call( this, value, options );
 
 			this.id = id;
@@ -90,6 +91,9 @@
 			});
 
 			this.bind( this.removerVisibility );
+
+			if ( this.params.context )
+				control.uploader.param( 'post_data[context]', this.params.context );
 		},
 		removerVisibility: function( on ) {
 			this.remover.toggle( !! on );
@@ -240,6 +244,7 @@
 				control;
 
 			control = api.add( id, new constructor( id, data.value, {
+				params: data.params,
 				previewer: previewer
 			} ) );
 
@@ -273,14 +278,6 @@
 		// Background color uses postMessage by default
 		api( 'background_color', function( control ) {
 			control.method = 'postMessage';
-		});
-
-		api( 'background_image', function( control ) {
-			control.uploader.param( 'post_data[context]', 'custom-background' );
-		});
-
-		api( 'header_image', function( control ) {
-			control.uploader.param( 'post_data[context]', 'custom-header' );
 		});
 	});
 
