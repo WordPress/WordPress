@@ -90,7 +90,7 @@ final class _WP_Editors {
 		echo '<div id="wp-' . $editor_id . '-wrap" class="wp-editor-wrap ' . $switch_class . '">';
 
 		if ( self::$editor_buttons_css ) {
-			wp_print_styles('editor-buttons');
+			wp_print_styles('editor');
 			self::$editor_buttons_css = false;
 		}
 
