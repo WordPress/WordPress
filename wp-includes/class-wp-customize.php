@@ -536,10 +536,12 @@ final class WP_Customize {
 		$this->add_setting( 'header_image', array(
 			'label'          => 'Header Image',
 			'section'        => 'header',
-			'control'        => 'upload',
+			'control'        => 'image',
 			'default'        => get_theme_support( 'custom-header', 'default-image' ),
 			'control_params' => array(
 				'context'        => 'custom-header',
+				'removed'        => 'remove-header',
+				'get_url'        => 'get_header_image',
 			),
 		) );
 

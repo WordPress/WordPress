@@ -76,6 +76,7 @@
 			var control = this;
 
 			api.Control.prototype.initialize.call( this, id, value, options );
+			this.params.removed = this.params.removed || '';
 
 			this.uploader = new wp.Uploader({
 				browser: this.container.find('.upload'),
@@ -86,17 +87,33 @@
 
 			this.remover = this.container.find('.remove');
 			this.remover.click( function( event ) {
-				control.set('');
+				control.set( control.params.removed );
 				event.preventDefault();
 			});
 
 			this.bind( this.removerVisibility );
+			this.removerVisibility( this.get() );
 
 			if ( this.params.context )
 				control.uploader.param( 'post_data[context]', this.params.context );
 		},
-		removerVisibility: function( on ) {
-			this.remover.toggle( !! on );
+		removerVisibility: function( to ) {
+			this.remover.toggle( to != this.params.removed );
+		}
+	});
+
+	api.ImageControl = api.UploadControl.extend({
+		initialize: function( id, value, options ) {
+			api.UploadControl.prototype.initialize.call( this, id, value, options );
+
+			this.thumbnail = this.container.find('.thumbnail img');
+			this.bind( this.thumbnailSrc );
+		},
+		thumbnailSrc: function( to ) {
+			if ( /^(http:\/\/|https:\/\/|\/\/)/.test( to ) )
+				this.thumbnail.prop( 'src', to ).show();
+			else
+				this.thumbnail.hide();
 		}
 	});
 
@@ -225,7 +242,8 @@
 
 	api.controls = {
 		color:  api.ColorControl,
-		upload: api.UploadControl
+		upload: api.UploadControl,
+		image:  api.ImageControl
 	};
 
 	$( function() {

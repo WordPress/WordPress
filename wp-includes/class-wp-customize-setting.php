@@ -405,15 +405,40 @@ class WP_Customize_Setting {
 				<?php
 				break;
 			case 'upload':
-				$value = $this->value();
-				$style = empty( $value ) ? 'style="display:none;"' : '';
 				?>
 				<label>
 					<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
 					<div>
 						<input type="hidden" value="<?php echo esc_attr( $this->value() ); ?>" <?php $this->name(); ?> />
 						<a href="#" class="button-secondary upload"><?php _e( 'Upload' ); ?></a>
-						<a href="#" class="remove" <?php echo $style; ?>><?php _e( 'Remove' ); ?></a>
+						<a href="#" class="remove"><?php _e( 'Remove' ); ?></a>
+					</div>
+				</label>
+				<?php
+				break;
+			case 'image':
+				$value = $this->value();
+
+				$image = $value;
+				if ( isset( $this->control_params['get_url'] ) )
+					$image = call_user_func( $this->control_params['get_url'], $image );
+
+				?>
+				<label>
+					<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
+					<input type="hidden" value="<?php echo esc_attr( $this->value() ); ?>" <?php $this->name(); ?> />
+					<div class="customize-image-picker">
+						<div class="thumbnail">
+							<?php if ( empty( $image ) ): ?>
+								<img style="display:none;" />
+							<?php else: ?>
+								<img src="<?php echo esc_url( $image ); ?>" />
+							<?php endif; ?>
+						</div>
+						<div class="actions">
+							<a href="#" class="upload"><?php _e( 'Upload New' ); ?></a>
+							<a href="#" class="remove"><?php _e( 'Remove Image' ); ?></a>
+						</div>
 					</div>
 				</label>
 				<?php

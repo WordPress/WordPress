@@ -302,3 +302,29 @@ body {
 	border: 0;
 	background: transparent;
 }
+
+/*
+ * Image Picker
+ */
+.customize-section .customize-image-picker {
+	float: left;
+}
+.customize-section .customize-image-picker .thumbnail {
+	float: left;
+	clear: left;
+	width: 100px;
+	margin-right: 20px;
+	min-height: 1em;
+}
+.customize-section .customize-image-picker .thumbnail img {
+	max-width: 98px;
+	max-height: 98px;
+	border: 1px solid #ccc;
+}
+.customize-section .customize-image-picker .actions {
+	width: 140px;
+	float: left;
+}
+.customize-section .customize-image-picker .actions a {
+	display: block;
+}
