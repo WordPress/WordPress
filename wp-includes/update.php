@@ -265,7 +265,7 @@ function wp_update_themes() {
 		case 'load-update-core.php' :
 			$timeout = 60; // 1 min
 			break;
-		case 'load-plugins.php' :
+		case 'load-themes.php' :
 		case 'load-update.php' :
 			$timeout = 3600; // 1 hour
 			break;
