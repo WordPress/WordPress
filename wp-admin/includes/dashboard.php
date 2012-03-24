@@ -416,6 +416,23 @@ function wp_network_dashboard_right_now() {
 	if ( current_user_can('create_users') )
 		$actions['create-user'] = '<a href="' . network_admin_url('user-new.php') . '">' . __( 'Create a New User' ) . '</a>';
 
+	if ( is_multisite()
+		&& current_user_can( 'promote_users' )
+		&& ! wp_is_large_network( 'users' )
+		&& is_super_admin()
+		&& is_network_admin()
+	) {
+		wp_enqueue_script( 'user-search' );
+	}
+	if ( is_multisite()
+		&& current_user_can( 'manage_sites' )
+		&& ! wp_is_large_network( 'sites' )
+		&& is_super_admin()
+		&& is_network_admin()
+	) {
+		wp_enqueue_script( 'site-search' );
+	}
+
 	$c_users = get_user_count();
 	$c_blogs = get_blog_count();
 
@@ -440,14 +457,14 @@ function wp_network_dashboard_right_now() {
 
 	<form name="searchform" action="<?php echo network_admin_url('users.php'); ?>" method="get">
 		<p>
-			<input type="search" name="s" value="" size="17" />
+			<input type="search" name="s" value="" size="17" id="all-user-search-input" />
 			<?php submit_button( __( 'Search Users' ), 'button', 'submit', false, array( 'id' => 'submit_users' ) ); ?>
 		</p>
 	</form>
 
 	<form name="searchform" action="<?php echo network_admin_url('sites.php'); ?>" method="get">
 		<p>
-			<input type="search" name="s" value="" size="17" />
+			<input type="search" name="s" value="" size="17" id="site-search-input" />
 			<?php submit_button( __( 'Search Sites' ), 'button', 'submit', false, array( 'id' => 'submit_sites' ) ); ?>
 		</p>
 	</form>

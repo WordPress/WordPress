@@ -900,6 +900,7 @@ ul#add-to-blog-users {
 
 .ui-autocomplete li a.ui-state-hover {
 	background-color: #f0f0b8;
+	cursor: pointer;
 }
 
 /*------------------------------------------------------------------------------

@@ -171,7 +171,7 @@ $title = sprintf( __('Edit Site: %s'), $site_url_no_http );
 $parent_file = 'sites.php';
 $submenu_file = 'sites.php';
 
-if ( current_user_can( 'promote_users' ) && apply_filters( 'show_network_site_users_add_existing_form', true ) && !wp_is_large_network( 'users' ) )
+if ( ! wp_is_large_network( 'users' ) && apply_filters( 'show_network_site_users_add_existing_form', true ) )
 	wp_enqueue_script( 'user-search' );
 
 require('../admin-header.php'); ?>
