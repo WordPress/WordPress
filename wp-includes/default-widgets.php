@@ -1053,7 +1053,7 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 	<input type="text" class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" value="<?php if (isset ( $instance['title'])) {echo esc_attr( $instance['title'] );} ?>" /></p>
 	<p><label for="<?php echo $this->get_field_id('taxonomy'); ?>"><?php _e('Taxonomy:') ?></label>
 	<select class="widefat" id="<?php echo $this->get_field_id('taxonomy'); ?>" name="<?php echo $this->get_field_name('taxonomy'); ?>">
-	<?php foreach ( get_object_taxonomies('post') as $taxonomy ) :
+	<?php foreach ( get_taxonomies() as $taxonomy ) :
 				$tax = get_taxonomy($taxonomy);
 				if ( !$tax->show_tagcloud || empty($tax->labels->name) )
 					continue;
