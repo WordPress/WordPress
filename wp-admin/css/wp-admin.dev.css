@@ -3657,13 +3657,6 @@ abbr.required {
 	padding-left: 15px;
 }
 
-.media-item .post_excerpt textarea,
-.media-item .post_content textarea,
-.media-item textarea#caption {
-    min-height: 5em;
-    font-family: Consolas, Monaco, monospace;
-}
-
 /*------------------------------------------------------------------------------
   14.1 - Media Library
 ------------------------------------------------------------------------------*/

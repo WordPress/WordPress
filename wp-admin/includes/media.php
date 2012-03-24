@@ -951,7 +951,7 @@ function get_attachment_fields_to_edit($post, $errors = null) {
 		),
 		'image_alt'   => array(),
 		'post_excerpt' => array(
-			'label'      => __('Default Caption'),
+			'label'      => __('Caption'),
 			'input'      => 'html',
 			'html'       => wp_caption_input_textarea($edit_post)
 		),
