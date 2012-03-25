@@ -104,13 +104,45 @@
 
 	api.ImageControl = api.UploadControl.extend({
 		initialize: function( id, value, options ) {
+			var control = this;
+
 			api.UploadControl.prototype.initialize.call( this, id, value, options );
 
 			this.thumbnail = this.container.find('.thumbnail img');
 			this.bind( this.thumbnailSrc );
+
+			this.library = this.container.find('.library');
+			this.changer = this.container.find('.change');
+
+			this.changer.click( function( event ) {
+				control.library.toggle();
+				event.preventDefault();
+			});
+
+			this.library.on( 'click', 'li', function( event ) {
+				var tab = $(this),
+					id = tab.data('customizeTab');
+
+				event.preventDefault();
+
+				if ( tab.hasClass('library-selected') )
+					return;
+
+				tab.siblings('.library-selected').removeClass('library-selected');
+				tab.addClass('library-selected');
+
+				control.library.find('div').hide().filter( function() {
+					return $(this).data('customizeTab') === id;
+				}).show();
+			});
+
+			this.library.on( 'click', 'a', function( event ) {
+				control.set( $(this).attr('href') );
+				event.preventDefault();
+			});
 		},
 		thumbnailSrc: function( to ) {
-			if ( /^(http:\/\/|https:\/\/|\/\/)/.test( to ) )
+			if ( /^(https?:)?\/\//.test( to ) )
 				this.thumbnail.prop( 'src', to ).show();
 			else
 				this.thumbnail.hide();

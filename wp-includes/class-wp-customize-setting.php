@@ -437,7 +437,22 @@ class WP_Customize_Setting {
 						</div>
 						<div class="actions">
 							<a href="#" class="upload"><?php _e( 'Upload New' ); ?></a>
+							<a href="#" class="change"><?php _e( 'Change Image' ); ?></a>
 							<a href="#" class="remove"><?php _e( 'Remove Image' ); ?></a>
+						</div>
+						<div class="library">
+							<ul>
+								<?php foreach ( $this->control_params['tabs'] as $tab ): ?>
+									<li data-customize-tab='<?php echo esc_attr( $tab[0] ); ?>'>
+										<?php echo esc_html( $tab[1] ); ?>
+									</li>
+								<?php endforeach; ?>
+							</ul>
+							<?php foreach ( $this->control_params['tabs'] as $tab ): ?>
+								<div class="library-content" data-customize-tab='<?php echo esc_attr( $tab[0] ); ?>'>
+									<?php call_user_func( $tab[2] ); ?>
+								</div>
+							<?php endforeach; ?>
 						</div>
 					</div>
 				</label>

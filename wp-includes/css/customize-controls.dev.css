@@ -104,7 +104,8 @@ body {
 	padding-bottom: 60px;
 }
 
-#customize-theme-controls ul {
+#customize-theme-controls > ul,
+#customize-theme-controls .customize-section-content {
 	margin: 0;
 }
 
@@ -327,4 +328,70 @@ body {
 }
 .customize-section .customize-image-picker .actions a {
 	display: block;
+}
+.customize-section .customize-image-picker .library {
+	display: none;
+/*	float: left;*/
+}
+/*.customize-section .customize-image-picker .library label {
+	display: block;
+	position: relative;
+	float: left;
+	padding: 0 0 5px 20px;
+}
+.customize-section .customize-image-picker .library input {
+	display: block;
+	position: absolute;
+	top: 50%;
+	left: 0;
+	margin-top: -7px;
+}*/
+/*.customize-section .customize-image-picker .library .wp-tab-panel {
+	padding: 10px 10px 5px 8px;
+}*/
+.customize-section .customize-image-picker .library ul {
+	border-bottom: 1px solid #dfdfdf;
+	float: left;
+	width: 100%;
+	margin: 5px 0;
+}
+.customize-section .customize-image-picker .library li {
+	color: #999;
+	float: left;
+	padding: 4px 6px;
+	margin: 0;
+	border-style: solid;
+	border-color: transparent;
+	border-width: 1px 1px 0 1px;
+}
+.customize-section .customize-image-picker .library li.library-selected {
+	color: #777;
+	border-color: #dfdfdf;
+	background: #f5f5f5;
+	margin-bottom: -1px;
+	padding-bottom: 5px;
+}
+.customize-section .customize-image-picker .library div {
+	width: 100%;
+	float: left;
+}
+.customize-section .customize-image-picker .library a {
+	display: block;
+	max-width: 220px;
+	max-height: 80px;
+	margin: 5px auto;
+	padding: 4px;
+	background: #fff;
+	border: 1px solid #dfdfdf;
+}
+.customize-section .customize-image-picker .library a:hover {
+	border-color: #21759b;
+}
+.customize-section .customize-image-picker .library img {
+	display: block;
+	max-width: 220px;
+	max-height: 80px;
+}
+.customize-section .customize-image-picker .library-content {
+	display: none;
 }

@@ -542,6 +542,10 @@ final class WP_Customize {
 				'context'        => 'custom-header',
 				'removed'        => 'remove-header',
 				'get_url'        => 'get_header_image',
+				'tabs'           => array(
+					array( 'uploaded', __('Uploaded'), 'wp_customize_print_uploaded_headers' ),
+					array( 'included', __('Included'), 'wp_customize_print_included_headers' ),
+				),
 			),
 		) );
 
@@ -718,4 +722,25 @@ function sanitize_hexcolor( $color ) {
 		return $color;
 
 	return $color;
+}
+
+function wp_customize_print_uploaded_headers() {
+	$headers = get_uploaded_header_images();
+
+	foreach ( $headers as $header ) : ?>
+		<a href="<?php echo esc_url( $header['url'] ); ?>">
+			<img src="<?php echo esc_url( $header['thumbnail_url'] ); ?>" />
+		</a>
+	<?php endforeach;
+}
+
+function wp_customize_print_included_headers() {
+	global $custom_image_header;
+	$custom_image_header->process_default_headers();
+
+	foreach ( $custom_image_header->default_headers as $header ) : ?>
+		<a href="<?php echo esc_url( $header['url'] ); ?>">
+			<img src="<?php echo esc_url( $header['thumbnail_url'] ); ?>" />
+		</a>
+	<?php endforeach;
 }
