@@ -1278,10 +1278,9 @@ class wpdb {
 	 * <code>
 	 * wpdb::delete( 'table', array( 'ID' => 1 ) )
 	 * wpdb::delete( 'table', array( 'ID' => 1 ), array( '%d' ) )
-	 * wpdb::delete( 'table', array( 'ID' => 1 ), array( '%d' ), 1 )
 	 * </code>
 	 *
-	 * @since 2.5.0
+	 * @since 3.4.0
 	 * @see wpdb::prepare()
 	 * @see wpdb::$field_types
 	 * @see wp_set_wpdb_vars()
