@@ -168,11 +168,15 @@ class WP_Customize_Control {
 		</li><?php
 	}
 
-	public function link( $setting_key = 'default' ) {
+	public function get_link( $setting_key = 'default' ) {
 		if ( ! isset( $this->settings[ $setting_key ] ) )
-			return;
+			return '';
 
-		echo 'data-customize-setting-link="' . esc_attr( $this->settings[ $setting_key ]->id ) . '"';
+		return 'data-customize-setting-link="' . esc_attr( $this->settings[ $setting_key ]->id ) . '"';
+	}
+
+	public function link( $setting_key = 'default' ) {
+		echo $this->get_link( $setting_key );
 	}
 
 	/**
@@ -309,19 +313,23 @@ class WP_Customize_Control {
 				<?php
 				break;
 			case 'dropdown-pages':
+				$dropdown = wp_dropdown_pages(
+					array(
+						'name'              => '_customize-dropdown-pages-' . $this->id,
+						'echo'              => 0,
+						'show_option_none'  => __( '&mdash; Select &mdash;' ),
+						'option_none_value' => '0',
+						'selected'          => $this->value(),
+					)
+				);
+
+				// Hackily add in the data link parameter.
+				$dropdown = str_replace( '<select', '<select ' . $this->get_link(), $dropdown );
+
 				printf(
 					'<label class="customize-control-select"><span class="customize-control-title">%s</span> %s</label>',
 					$this->label,
-					wp_dropdown_pages(
-						array(
-							// @todo: this is going to need fixing.
-							// 'name'              => $this->get_name(),
-							'echo'              => 0,
-							'show_option_none'  => __( '&mdash; Select &mdash;' ),
-							'option_none_value' => '0',
-							'selected'          => $this->value(),
-						)
-					)
+					$dropdown
 				);
 				break;
 		}
