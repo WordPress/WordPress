@@ -15,7 +15,7 @@ class WP_Customize_Section {
 	public $theme_supports = '';
 	public $title          = '';
 	public $description    = '';
-	public $settings;
+	public $controls;
 
 	/**
 	 * Constructor.
@@ -35,7 +35,7 @@ class WP_Customize_Section {
 		$this->manager = $manager;
 		$this->id = $id;
 
-		$this->settings = array(); // Users cannot customize the $settings array.
+		$this->controls = array(); // Users cannot customize the $controls array.
 
 		return $this;
 	}
@@ -84,8 +84,8 @@ class WP_Customize_Section {
 			<h3 class="customize-section-title" title="<?php echo esc_attr( $this->description ); ?>"><?php echo esc_html( $this->title ); ?></h3>
 			<ul class="customize-section-content">
 				<?php
-				foreach ( $this->settings as $setting )
-					$setting->maybe_render();
+				foreach ( $this->controls as $control )
+					$control->maybe_render();
 				?>
 			</ul>
 		</li>

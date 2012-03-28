@@ -6,18 +6,23 @@
 	 * - previewer - The Previewer instance to sync with.
 	 * - method    - The method to use for syncing. Supports 'refresh' and 'postMessage'.
 	 */
-	api.Control = api.Value.extend({
+	api.Setting = api.Value.extend({
 		initialize: function( id, value, options ) {
-			var name = '[name="' + api.settings.prefix + id + '"]';
+			var element;
 
-			this.params = {};
 			api.Value.prototype.initialize.call( this, value, options );
 
 			this.id = id;
-			this.container = $( '#customize-control-' + id );
-			this.element = this.element || new api.Element( this.container.find( name ) );
-
 			this.method = this.method || 'refresh';
+
+			element = $( '<input />', {
+				type:  'hidden',
+				value: this.get(),
+				name:  api.settings.prefix + id
+			});
+
+			element.appendTo( this.previewer.form );
+			this.element = new api.Element( element );
 
 			this.element.link( this );
 			this.link( this.element );
@@ -34,12 +39,67 @@
 		}
 	});
 
-	api.ColorControl = api.Control.extend({
-		initialize: function( id, value, options ) {
-			var self = this,
-				picker, ui, text, toggle, update;
+	api.Control = api.Class.extend({
+		initialize: function( id, options ) {
+			var control = this,
+				nodes, radios, settings;
 
-			api.Control.prototype.initialize.call( this, id, value, options );
+			this.params = {};
+			$.extend( this, options || {} );
+
+			this.id = id;
+			this.container = $( '#customize-control-' + id );
+
+			settings = $.map( this.params.settings, function( value ) {
+				return value;
+			});
+
+			api.apply( api, settings.concat( function() {
+				var key;
+
+				control.settings = {};
+				for ( key in control.params.settings ) {
+					control.settings[ key ] = api( control.params.settings[ key ] );
+				}
+
+				control.setting = control.settings['default'] || null;
+				control.ready();
+			}) );
+
+			control.elements = [];
+
+			nodes  = this.container.find('[data-customize-setting-link]');
+			radios = {};
+
+			nodes.each( function() {
+				var node = $(this),
+					name;
+
+				if ( node.is(':radio') ) {
+					name = node.prop('name');
+					if ( radios[ name ] )
+						return;
+
+					radios[ name ] = true;
+					node = nodes.filter( '[name="' + name + '"]' );
+				}
+
+				api( node.data('customizeSettingLink'), function( setting ) {
+					var element = new api.Element( node );
+					control.elements.push( element );
+					element.link( setting ).bind( function( to ) {
+						setting( to );
+					});
+				});
+			});
+		},
+		ready: function() {}
+	});
+
+	api.ColorControl = api.Control.extend({
+		ready: function() {
+			var control = this,
+				picker, ui, text, toggle, update;
 
 			picker = this.container.find( '.color-picker' );
 			ui     = picker.find( '.color-picker-controls' );
@@ -47,52 +107,48 @@
 			update = function( color ) {
 				color = '#' + color;
 				toggle.css( 'background', color );
-				self.farbtastic.setColor( color );
+				control.farbtastic.setColor( color );
 			};
-
-			this.input = new api.Element( ui.find( 'input' ) ); // Find text input.
-
-			this.link( this.input );
-			this.input.link( this );
 
 			picker.on( 'click', 'a', function() {
 				ui.toggle();
 			});
 
 			this.farbtastic = $.farbtastic( picker.find('.farbtastic-placeholder'), function( color ) {
-				self.set( color.replace( '#', '' ) );
+				control.setting.set( color.replace( '#', '' ) );
 			});
 
-			this.bind( update );
-			update( this() );
-		},
-		validate: function( to ) {
-			return /^[a-fA-F0-9]{3}([a-fA-F0-9]{3})?$/.test( to ) ? to : null;
+			this.setting.bind( update );
+			update( this.setting() );
 		}
+		// ,
+		// 		validate: function( to ) {
+		// 			return /^[a-fA-F0-9]{3}([a-fA-F0-9]{3})?$/.test( to ) ? to : null;
+		// 		}
 	});
 
 	api.UploadControl = api.Control.extend({
-		initialize: function( id, value, options ) {
+		ready: function() {
 			var control = this;
 
-			api.Control.prototype.initialize.call( this, id, value, options );
 			this.params.removed = this.params.removed || '';
 
 			this.uploader = new wp.Uploader({
 				browser: this.container.find('.upload'),
 				success: function( attachment ) {
-					control.set( attachment.url );
+					control.setting.set( attachment.url );
 				}
 			});
 
 			this.remover = this.container.find('.remove');
 			this.remover.click( function( event ) {
-				control.set( control.params.removed );
+				control.setting.set( control.params.removed );
 				event.preventDefault();
 			});
 
-			this.bind( this.removerVisibility );
-			this.removerVisibility( this.get() );
+			this.removerVisibility = $.proxy( this.removerVisibility, this );
+			this.setting.bind( this.removerVisibility );
+			this.removerVisibility( this.setting.get() );
 
 			if ( this.params.context )
 				control.uploader.param( 'post_data[context]', this.params.context );
@@ -103,13 +159,12 @@
 	});
 
 	api.ImageControl = api.UploadControl.extend({
-		initialize: function( id, value, options ) {
+		ready: function( id, value, options ) {
 			var control = this;
 
-			api.UploadControl.prototype.initialize.call( this, id, value, options );
-
-			this.thumbnail = this.container.find('.thumbnail img');
-			this.bind( this.thumbnailSrc );
+			this.thumbnail    = this.container.find('.thumbnail img');
+			this.thumbnailSrc = $.proxy( this.thumbnailSrc, this );
+			this.setting.bind( this.thumbnailSrc );
 
 			this.library = this.container.find('.library');
 			this.changer = this.container.find('.change');
@@ -137,7 +192,7 @@
 			});
 
 			this.library.on( 'click', 'a', function( event ) {
-				control.set( $(this).attr('href') );
+				control.setting.set( $(this).attr('href') );
 				event.preventDefault();
 			});
 		},
@@ -151,6 +206,9 @@
 
 	// Change objects contained within the main customize object to Settings.
 	api.defaultConstructor = api.Setting;
+
+	// Create the collection of Control objects.
+	api.control = new api.Values({ defaultConstructor: api.Control });
 
 	api.Previewer = api.Messenger.extend({
 		refreshBuffer: 250,
@@ -272,7 +330,7 @@
 	 * Ready.
 	 * ===================================================================== */
 
-	api.controls = {
+	api.controlConstructor = {
 		color:  api.ColorControl,
 		upload: api.UploadControl,
 		image:  api.ImageControl
@@ -289,11 +347,17 @@
 			url:    api.settings.preview
 		});
 
+		$.each( api.settings.settings, function( id, data ) {
+			api.set( id, id, data.value, {
+				previewer: previewer
+			} );
+		});
+
 		$.each( api.settings.controls, function( id, data ) {
-			var constructor = api.controls[ data.control ] || api.Control,
+			var constructor = api.controlConstructor[ data.type ] || api.Control,
 				control;
 
-			control = api.add( id, new constructor( id, data.value, {
+			control = api.control.add( id, new constructor( id, {
 				params: data.params,
 				previewer: previewer
 			} ) );
@@ -326,8 +390,28 @@
 		});
 
 		// Background color uses postMessage by default
-		api( 'background_color', function( control ) {
+		api.control( 'background_color', function( control ) {
 			control.method = 'postMessage';
+		});
+
+		api.control( 'display_header_text', function( control ) {
+			var last = '';
+
+			control.elements[0].unlink();
+
+			control.element = new api.Element( control.container.find('input') );
+			control.element.set( 'blank' !== control.setting() );
+
+			control.element.bind( function( to ) {
+				if ( ! to )
+					last = api.get( 'header_textcolor' );
+
+				control.setting.set( to ? last : 'blank' );
+			});
+
+			control.setting.bind( function( to ) {
+				control.element.set( 'blank' !== to );
+			});
 		});
 	});
 

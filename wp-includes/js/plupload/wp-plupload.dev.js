@@ -66,7 +66,11 @@ if ( typeof wp === 'undefined' )
 		this.uploader.bind( 'UploadProgress', this.progress );
 
 		this.uploader.bind( 'FileUploaded', function( up, file, response ) {
-			response = JSON.parse( response.response );
+			try {
+				response = JSON.parse( response.response );
+			} catch ( e ) {
+				return self.error( pluploadL10n.default_error, e );
+			}
 
 			if ( ! response || ! response.type || ! response.data )
 				return self.error( pluploadL10n.default_error );

@@ -14,6 +14,7 @@ final class WP_Customize {
 
 	protected $settings = array();
 	protected $sections = array();
+	protected $controls = array();
 
 	/**
 	 * Constructor.
@@ -23,6 +24,7 @@ final class WP_Customize {
 	public function __construct() {
 		require( ABSPATH . WPINC . '/class-wp-customize-setting.php' );
 		require( ABSPATH . WPINC . '/class-wp-customize-section.php' );
+		require( ABSPATH . WPINC . '/class-wp-customize-control.php' );
 
 		add_action( 'setup_theme',  array( $this, 'setup_theme' ) );
 		add_action( 'admin_init',   array( $this, 'admin_init' ) );
@@ -357,12 +359,15 @@ final class WP_Customize {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param string $id An specific ID of the setting. Can be a
+	 * @param string $id A specific ID of the setting. Can be a
 	 *                   theme mod or option name.
 	 * @param array $args Setting arguments.
 	 */
 	public function add_setting( $id, $args = array() ) {
-		$setting = new WP_Customize_Setting( $this, $id, $args );
+		if ( is_a( $id, 'WP_Customize_Setting' ) )
+			$setting = $id;
+		else
+			$setting = new WP_Customize_Setting( $this, $id, $args );
 
 		$this->settings[ $setting->id ] = $setting;
 	}
@@ -372,7 +377,7 @@ final class WP_Customize {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param string $id An specific ID of the setting.
+	 * @param string $id A specific ID of the setting.
 	 * @return object The settings object.
 	 */
 	public function get_setting( $id ) {
@@ -385,7 +390,7 @@ final class WP_Customize {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param string $id An specific ID of the setting.
+	 * @param string $id A specific ID of the setting.
 	 */
 	public function remove_setting( $id ) {
 		unset( $this->settings[ $id ] );
@@ -396,11 +401,14 @@ final class WP_Customize {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param string $id An specific ID of the section.
+	 * @param string $id A specific ID of the section.
 	 * @param array $args Section arguments.
 	 */
 	public function add_section( $id, $args = array() ) {
-		$section = new WP_Customize_Section( $this, $id, $args );
+		if ( is_a( $id, 'WP_Customize_Section' ) )
+			$section = $id;
+		else
+			$section = new WP_Customize_Section( $this, $id, $args );
 
 		$this->sections[ $section->id ] = $section;
 	}
@@ -410,7 +418,7 @@ final class WP_Customize {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param string $id An specific ID of the section.
+	 * @param string $id A specific ID of the section.
 	 * @return object The section object.
 	 */
 	public function get_section( $id ) {
@@ -423,10 +431,51 @@ final class WP_Customize {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param string $id An specific ID of the section.
+	 * @param string $id A specific ID of the section.
 	 */
 	public function remove_section( $id ) {
 		unset( $this->sections[ $id ] );
+	}
+
+	/**
+	 * Add a customize control.
+	 *
+	 * @since 3.4.0
+	 *
+	 * @param string $id A specific ID of the control.
+	 * @param array $args Setting arguments.
+	 */
+	public function add_control( $id, $args = array() ) {
+		if ( is_a( $id, 'WP_Customize_Control' ) )
+			$control = $id;
+		else
+			$control = new WP_Customize_Control( $this, $id, $args );
+
+		$this->controls[ $control->id ] = $control;
+	}
+
+	/**
+	 * Retrieve a customize control.
+	 *
+	 * @since 3.4.0
+	 *
+	 * @param string $id A specific ID of the control.
+	 * @return object The settings object.
+	 */
+	public function get_control( $id ) {
+		if ( isset( $this->controls[ $id ] ) )
+			return $this->controls[ $id ];
+	}
+
+	/**
+	 * Remove a customize setting.
+	 *
+	 * @since 3.4.0
+	 *
+	 * @param string $id A specific ID of the control.
+	 */
+	public function remove_control( $id ) {
+		unset( $this->controls[ $id ] );
 	}
 
 	/**
@@ -452,20 +501,20 @@ final class WP_Customize {
 	 * @since 3.4.0
 	 */
 	public function prepare_controls() {
-		// Prepare settings
+		// Prepare controls
 		// Reversing makes uasort sort by time added when conflicts occur.
 
-		$this->settings = array_reverse( $this->settings );
-		$settings = array();
+		$this->controls = array_reverse( $this->controls );
+		$controls = array();
 
-		foreach ( $this->settings as $id => $setting ) {
-			if ( ! isset( $this->sections[ $setting->section ] ) || ! $setting->check_capabilities() )
+		foreach ( $this->controls as $id => $control ) {
+			if ( ! isset( $this->sections[ $control->section ] ) || ! $control->check_capabilities() )
 				continue;
 
-			$this->sections[ $setting->section ]->settings[] = $setting;
-			$settings[ $id ] = $setting;
+			$this->sections[ $control->section ]->controls[] = $control;
+			$controls[ $id ] = $control;
 		}
-		$this->settings = $settings;
+		$this->controls = $controls;
 
 		// Prepare sections
 		$this->sections = array_reverse( $this->sections );
@@ -473,10 +522,10 @@ final class WP_Customize {
 		$sections = array();
 
 		foreach ( $this->sections as $section ) {
-			if ( ! $section->check_capabilities() || ! $section->settings )
+			if ( ! $section->check_capabilities() || ! $section->controls )
 				continue;
 
-			usort( $section->settings, array( $this, '_cmp_priority' ) );
+			usort( $section->controls, array( $this, '_cmp_priority' ) );
 			$sections[] = $section;
 		}
 		$this->sections = $sections;
@@ -488,8 +537,8 @@ final class WP_Customize {
 	 * @since 3.4.0
 	 */
 	public function enqueue_control_scripts() {
-		foreach ( $this->settings as $setting ) {
-			$setting->enqueue();
+		foreach ( $this->controls as $control ) {
+			$control->enqueue();
 		}
 	}
 
@@ -508,36 +557,37 @@ final class WP_Customize {
 		) );
 
 		$this->add_setting( 'header_textcolor', array(
-			'label'             => 'Text Color',
-			'section'           => 'header',
-			'sanitize_callback' => 'sanitize_hexcolor',
-			'control'           => 'color',
-			'theme_supports'    => array( 'custom-header', 'header-text' ),
-			'default'           => get_theme_support( 'custom-header', 'default-text-color' ),
+			// @todo: replace with a new accept() setting method
+			// 'sanitize_callback' => 'sanitize_hexcolor',
+			'control'        => 'color',
+			'theme_supports' => array( 'custom-header', 'header-text' ),
+			'default'        => get_theme_support( 'custom-header', 'default-text-color' ),
 		) );
 
-		/*
-		$this->add_setting( 'display_header', array(
-			'label'   => 'Display Text',
-			'section' => 'header',
-			'type'    => 'radio',
-			'choices' => array(
-				'show'  => 'Yes',
-				'hide'  => 'No'
-			),
-			// Showing header text is actually done by setting header_textcolor to 'blank'.
-			// @todo: Do some JS magic to make this work (since we'll be hiding the textcolor input).
-			'theme_mod' => false,
+		$this->add_control( 'display_header_text', array(
+			'settings' => 'header_textcolor',
+			'label'    => __( 'Display Header Text' ),
+			'section'  => 'header',
+			'type'     => 'checkbox',
 		) );
-		*/
+
+		$this->add_control( 'header_textcolor', array(
+			'label'   => __( 'Text Color' ),
+			'section' => 'header',
+			'type'    => 'color',
+		) );
 
 		// Input type: checkbox
 		// With custom value
 		$this->add_setting( 'header_image', array(
+			'default'        => get_theme_support( 'custom-header', 'default-image' ),
+			'theme_supports' => 'custom-header',
+		) );
+
+		$this->add_control( 'header_image', array(
 			'label'          => 'Header Image',
 			'section'        => 'header',
-			'control'        => 'image',
-			'default'        => get_theme_support( 'custom-header', 'default-image' ),
+			'type'           => 'image',
 			'control_params' => array(
 				'context'        => 'custom-header',
 				'removed'        => 'remove-header',
@@ -559,60 +609,80 @@ final class WP_Customize {
 		// Input type: Color
 		// With sanitize_callback
 		$this->add_setting( 'background_color', array(
-			'label'             => 'Background Color',
-			'section'           => 'background',
-			'control'           => 'color',
 			'default'           => get_theme_support( 'custom-background', 'default-color' ),
 			'sanitize_callback' => 'sanitize_hexcolor',
+			'theme_supports'    => 'custom-background',
+		) );
+
+		$this->add_control( 'background_color', array(
+			'label'   => __( 'Background Color' ),
+			'section' => 'background',
+			'type'    => 'color',
 		) );
 
 		$this->add_setting( 'background_image', array(
-			'label'          => 'Background Image',
-			'section'        => 'background',
-			'control'        => 'upload',
 			'default'        => get_theme_support( 'custom-background', 'default-image' ),
+			'theme_supports' => 'custom-background',
+		) );
+
+		$this->add_control( 'background_image', array(
+			'label'          => __( 'Background Image' ),
+			'section'        => 'background',
+			'type'           => 'upload',
 			'control_params' => array(
 				'context'        => 'custom-background',
 			),
 		) );
 
 		$this->add_setting( 'background_repeat', array(
-			'label'      => 'Background Repeat',
+			'default'        => 'repeat',
+			'theme_supports' => 'custom-background',
+		) );
+
+		$this->add_control( 'background_repeat', array(
+			'label'      => __( 'Background Repeat' ),
 			'section'    => 'background',
 			'visibility' => 'background_image',
-			'control'    => 'radio',
+			'type'       => 'radio',
 			'choices'    => array(
 				'no-repeat'  => __('No Repeat'),
 				'repeat'     => __('Tile'),
 				'repeat-x'   => __('Tile Horizontally'),
 				'repeat-y'   => __('Tile Vertically'),
 			),
-			'default'    => 'repeat',
 		) );
 
 		$this->add_setting( 'background_position_x', array(
-			'label'      => 'Background Position',
+			'default'        => 'left',
+			'theme_supports' => 'custom-background',
+		) );
+
+		$this->add_control( 'background_position_x', array(
+			'label'      => __( 'Background Position' ),
 			'section'    => 'background',
 			'visibility' => 'background_image',
-			'control'    => 'radio',
+			'type'       => 'radio',
 			'choices'    => array(
 				'left'       => __('Left'),
 				'center'     => __('Center'),
 				'right'      => __('Right'),
 			),
-			'default'    => 'left',
 		) );
 
 		$this->add_setting( 'background_attachment', array(
-			'label'      => 'Background Attachment',
+			'default'        => 'fixed',
+			'theme_supports' => 'custom-background',
+		) );
+
+		$this->add_control( 'background_attachment', array(
+			'label'      => __( 'Background Attachment' ),
 			'section'    => 'background',
 			'visibility' => 'background_image',
-			'control'    => 'radio',
+			'type'       => 'radio',
 			'choices'    => array(
 				'fixed'      => __('Fixed'),
 				'scroll'     => __('Scroll'),
 			),
-			'default'    => 'fixed',
 		) );
 
 		/* Nav Menus */
@@ -636,13 +706,18 @@ final class WP_Customize {
 				$choices[ $menu->term_id ] = $truncated_name;
 			}
 
-			$this->add_setting( "nav_menu_locations[{$location}]", array(
-				'label'             => $description,
-				'theme_supports'    => 'menus', // Todo: Needs also widgets -- array( 'menus', 'widgets' )
-				'section'           => 'nav',
-				'control'           => 'select',
-				'choices'           => $choices,
+			$menu_setting_id = "nav_menu_locations[{$location}]";
+
+			$this->add_setting( $menu_setting_id, array(
 				'sanitize_callback' => 'absint',
+				'theme_supports'    => 'menus',
+			) );
+
+			$this->add_control( $menu_setting_id, array(
+				'label'   => $description,
+				'section' => 'nav',
+				'type'    => 'select',
+				'choices' => $choices,
 			) );
 		}
 
@@ -660,34 +735,43 @@ final class WP_Customize {
 		$choices['page'] = __( 'A static page (select below)' );
 
 		$this->add_setting( 'show_on_front', array(
-			'label'          => __( 'Front page displays' ),
-		//	'theme_supports' => 'static-front-page',
-			'section'        => 'static_front_page',
-			'control'        => 'radio',
-			'choices'        => $choices,
 			'default'        => get_option( 'show_on_front' ),
-			'type'           => 'option',
 			'capability'     => 'manage_options',
+			'type'           => 'option',
+		//	'theme_supports' => 'static-front-page',
+		) );
+
+		$this->add_control( 'show_on_front', array(
+			'label'   => __( 'Front page displays' ),
+			'section' => 'static_front_page',
+			'type'    => 'radio',
+			'choices' => $choices,
 		) );
 
 		$this->add_setting( 'page_on_front', array(
-			'label'          => __( 'Front page' ),
+			'type'       => 'option',
+			'capability' => 'manage_options',
 		//	'theme_supports' => 'static-front-page',
-			'section'        => 'static_front_page',
-			'control'        => 'dropdown-pages',
-			'type'           => 'option',
-			'capability'     => 'manage_options',
-			'visibility'     => array( 'show_on_front', 'page' ),
+		) );
+
+		$this->add_control( 'page_on_front', array(
+			'label'      => __( 'Front page' ),
+			'section'    => 'static_front_page',
+			'type'       => 'dropdown-pages',
+			'visibility' => array( 'show_on_front', 'page' ),
 		) );
 
 		$this->add_setting( 'page_for_posts', array(
-			'label'          => __( 'Posts page' ),
-		//	'theme_supports' => 'static-front-page',
-			'section'        => 'static_front_page',
-			'control'        => 'dropdown-pages',
 			'type'           => 'option',
 			'capability'     => 'manage_options',
-			'visibility'     => array( 'show_on_front', 'page' ),
+		//	'theme_supports' => 'static-front-page',
+		) );
+
+		$this->add_control( 'page_for_posts', array(
+			'label'      => __( 'Posts page' ),
+			'section'    => 'static_front_page',
+			'type'       => 'dropdown-pages',
+			'visibility' => array( 'show_on_front', 'page' ),
 		) );
 
 		/* Site Title & Tagline */
@@ -697,19 +781,25 @@ final class WP_Customize {
 		) );
 
 		$this->add_setting( 'blogname', array(
-			'label'          => __( 'Site Title' ),
-			'section'        => 'strings',
-			'default'        => get_option( 'blogname' ),
-			'type'           => 'option',
-			'capability'     => 'manage_options',
+			'default'    => get_option( 'blogname' ),
+			'type'       => 'option',
+			'capability' => 'manage_options',
+		) );
+
+		$this->add_control( 'blogname', array(
+			'label'      => __( 'Site Title' ),
+			'section'    => 'strings',
 		) );
 
 		$this->add_setting( 'blogdescription', array(
-			'label'          => __( 'Tagline' ),
-			'section'        => 'strings',
-			'default'        => get_option( 'blogdescription' ),
-			'type'           => 'option',
-			'capability'     => 'manage_options',
+			'default'    => get_option( 'blogdescription' ),
+			'type'       => 'option',
+			'capability' => 'manage_options',
+		) );
+
+		$this->add_control( 'blogdescription', array(
+			'label'      => __( 'Tagline' ),
+			'section'    => 'strings',
 		) );
 	}
 };

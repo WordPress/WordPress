@@ -397,7 +397,7 @@ if ( typeof wp === 'undefined' )
 
 		add: function( id, value ) {
 			if ( this.has( id ) )
-				return;
+				return this.value( id );
 
 			this._value[ id ] = value;
 			this._value[ id ]._parent = this._value;

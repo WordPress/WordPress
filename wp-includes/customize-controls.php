@@ -95,27 +95,30 @@ do_action( 'customize_controls_print_scripts' );
 	$scheme = is_ssl() ? 'https' : 'http';
 	$settings = array(
 		'preview'  => esc_url( home_url( '/', $scheme ) ),
+		'settings' => array(),
 		'controls' => array(),
 		'prefix'   => WP_Customize_Setting::name_prefix,
 	);
 
 	foreach ( $this->settings as $id => $setting ) {
-		$settings['controls'][ $id ] = array(
+		$settings['settings'][ $id ] = array(
 			'value'   => $setting->value(),
-			'control' => $setting->control,
-			'params'  => $setting->control_params,
 		);
+	}
 
-		if ( $setting->visibility ) {
-			if ( is_string( $setting->visibility ) ) {
+	foreach ( $this->controls as $id => $control ) {
+		$settings['controls'][ $id ] = $control->json();
+
+		if ( $control->visibility ) {
+			if ( is_string( $control->visibility ) ) {
 				$settings['controls'][ $id ]['visibility'] = array(
-					'id'    => $setting->visibility,
+					'id'    => $control->visibility,
 					'value' => true,
 				);
 			} else {
 				$settings['controls'][ $id ]['visibility'] = array(
-					'id'    => $setting->visibility[0],
-					'value' => $setting->visibility[1],
+					'id'    => $control->visibility[0],
+					'value' => $control->visibility[1],
 				);
 			}
 
