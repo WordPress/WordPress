@@ -1835,7 +1835,6 @@ body.admin-bar {
 }
 
 .postbox-container .meta-box-sortables {
-	min-height: 50px;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	-ms-box-sizing: border-box;
@@ -1847,7 +1846,8 @@ body.admin-bar {
 	height: 0;
 }
 
-.metabox-holder .postbox-container .empty-container {
+.metabox-holder .postbox-container .empty-container,
+#post-body.columns-2 #side-sortables:empty {
 	border: 3px dashed #CCCCCC;
 	height: 250px;
 }
@@ -1888,8 +1888,12 @@ body.admin-bar {
 	width: 280px;
 }
 
+#post-body.columns-2 #side-sortables {
+	min-height: 250px;
+}
+
 /* one column on the dash */
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 799px) {
 	#wpbody-content #dashboard-widgets .postbox-container {
 		width: 100%;
 	}
@@ -1902,26 +1906,26 @@ body.admin-bar {
 }
 
 /* two columns on the dash, but keep the setting if one is selected */
-@media only screen and (min-width: 768px) and (max-width: 1200px) {
+@media only screen and (min-width: 800px) and (max-width: 1200px) {
 	#wpbody-content #dashboard-widgets .postbox-container {
 		width: 49.5%;
 	}
-	
+
 	#wpbody-content #dashboard-widgets #postbox-container-2,
 	#wpbody-content #dashboard-widgets #postbox-container-3,
 	#wpbody-content #dashboard-widgets #postbox-container-4 {
 		float: right;
 		width: 50.5%;
 	}
-	
-	#wpbody-content .metabox-holder .postbox-container .empty-container,
-	#wpbody-content  #postbox-container-3 .empty-container,
-	#wpbody-content  #postbox-container-4 .empty-container {
+
+	#dashboard-widgets.metabox-holder .postbox-container .empty-container,
+	#dashboard-widgets #postbox-container-3 .empty-container,
+	#dashboard-widgets #postbox-container-4 .empty-container {
 		border: 0 none;
 		height: 0;
 		min-height: 0;
 	}
-	
+
 	#wpbody #wpbody-content #dashboard-widgets.columns-1 .postbox-container {
 		width: 100%;
 	}
@@ -1945,14 +1949,25 @@ body.admin-bar {
 }
 
 /* one column on the post write/edit screen */
-@media only screen and (max-width: 1024px) {
+@media only screen and (max-width: 1025px) {
 	#wpbody-content #poststuff #post-body {
 		margin: 0;
 	}
-	
+
 	#wpbody-content #post-body.columns-2 #postbox-container-1 {
 		margin-right: 0;
 		width: 100%;
+	}
+
+	#poststuff #postbox-container-1 .empty-container,
+	#poststuff #postbox-container-1 #side-sortables:empty {
+		border: 0 none;
+		height: 0;
+		min-height: 0;
+	}
+
+	#poststuff #post-body.columns-2 #side-sortables {
+		min-height: 0;
 	}
 
 	/* hide the radio buttons for column prefs */
@@ -2120,16 +2135,16 @@ body.admin-bar {
 }
 
 .welcome-panel .welcome-panel-close:before {
-    background: url('../images/xit.gif') 0 17% no-repeat;
-    content: ' ';
-    height: 100%;
-    width: 10px;
-    left: -12px;
-    position: absolute;
+	background: url('../images/xit.gif') 0 17% no-repeat;
+	content: ' ';
+	height: 100%;
+	width: 10px;
+	left: -12px;
+	position: absolute;
 }
 
 .welcome-panel .welcome-panel-close:hover:before {
-    background-position: 100% 17%;
+	background-position: 100% 17%;
 }
 
 .welcome-panel .wp-badge {
@@ -3581,9 +3596,9 @@ abbr.required {
 
 .media-item .progress {
 	float: right;
-    height: 22px;
-    margin: 6px 10px 0 0;
-    width: 200px;
+	height: 22px;
+	margin: 6px 10px 0 0;
+	width: 200px;
 	line-height: 2em;
 	padding: 0;
 	overflow: hidden;
@@ -4670,7 +4685,7 @@ input.button-highlighted,
 }
 .about-wrap div.updated,
 .about-wrap div.error {
-    display: none !important;
+	display: none !important;
 }
 
 /* Typography */

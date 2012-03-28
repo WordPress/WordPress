@@ -129,9 +129,9 @@ var postboxes, is_iPad = navigator.userAgent.match(/iPad/);
 		},
 
 		_mark_area : function() {
-			var visible = $('div.postbox:visible').length;
+			var visible = $('div.postbox:visible').length, side = $('#post-body #side-sortables');
 
-			$('#post-body .meta-box-sortables:visible, #dashboard-widgets .meta-box-sortables:visible').not('#advanced-sortables').each(function(n, el){
+			$('#dashboard-widgets .meta-box-sortables:visible').each(function(n, el){
 				var t = $(this);
 
 				if ( visible == 1 || t.children('.postbox:visible').length )
@@ -139,6 +139,13 @@ var postboxes, is_iPad = navigator.userAgent.match(/iPad/);
 				else
 					t.addClass('empty-container');
 			});
+
+			if ( side.length ) {
+				if ( side.children('.postbox:visible').length )
+					side.removeClass('empty-container');
+				else if ( $('#postbox-container-1').css('width') == '280px' )
+					side.addClass('empty-container');
+			}
 		},
 
 		_pb_edit : function(n) {
