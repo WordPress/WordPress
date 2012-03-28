@@ -265,7 +265,7 @@ class WP_Customize_Setting {
 	 * @param bool $create Default is false.
 	 * @return null|array
 	 */
-	final protected function multidimensional( $root, $keys, $create = false ) {
+	final protected function multidimensional( &$root, $keys, $create = false ) {
 		if ( $create && empty( $root ) )
 			$root = array();
 
