@@ -4459,7 +4459,13 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		do_action( 'xmlrpc_call_success_mw_newMediaObject', $id, $args );
 
-		return apply_filters( 'wp_handle_upload', array( 'file' => $name, 'url' => $upload[ 'url' ], 'type' => $type ), 'upload' );
+		$struct = array(
+			'id'   => strval( $id ),
+			'file' => $name,
+			'url'  => $upload[ 'url' ],
+			'type' => $type
+		);
+		return apply_filters( 'wp_handle_upload', $struct, 'upload' );
 	}
 
 	/* MovableType API functions
