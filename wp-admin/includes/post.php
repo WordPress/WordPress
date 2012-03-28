@@ -749,50 +749,47 @@ function update_meta( $meta_id, $meta_key, $meta_value ) {
  * @return unknown
  */
 function _fix_attachment_links( $post_ID ) {
-	global $_fix_attachment_link_id;
-
 	$post = & get_post( $post_ID, ARRAY_A );
-
-	$search = "#<a[^>]+rel=('|\")[^'\"]*attachment[^>]*>#ie";
-
-	// See if we have any rel="attachment" links
-	if ( 0 == preg_match_all( $search, $post['post_content'], $anchor_matches, PREG_PATTERN_ORDER ) )
+	$content = $post['post_content'];
+	
+	// quick sanity check, don't run if no pretty permalinks or post is not published
+	if ( !get_option('permalink_structure') || $post['post_status'] != 'publish' )
 		return;
 
-	$i = 0;
-	$search = "#[\s]+rel=(\"|')(.*?)wp-att-(\d+)\\1#i";
-	foreach ( $anchor_matches[0] as $anchor ) {
-		if ( 0 == preg_match( $search, $anchor, $id_matches ) )
+	// Short if there aren't any links or no '?attachment_id=' strings (strpos cannot be zero)
+	if ( !strpos($content, '?attachment_id=') || !preg_match_all( '/<a ([^>]+)>[\s\S]+?<\/a>/', $content, $link_matches ) )
+		return;
+
+	$site_url = get_bloginfo('url');
+	$site_url = substr( $site_url, (int) strpos($site_url, '://') ); // remove the http(s)
+	$replace = '';
+
+	foreach ( $link_matches[1] as $key => $value ) {
+		if ( !strpos($value, '?attachment_id=') || !strpos($value, 'wp-att-')
+			|| !preg_match( '/href=(["\'])[^"\']*\?attachment_id=(\d+)[^"\']*\\1/', $value, $url_match )
+			|| !preg_match( '/rel=["\'][^"\']*wp-att-(\d+)/', $value, $rel_match ) )
+				continue;
+
+		$quote = $url_match[1]; // the quote (single or double)
+		$url_id = (int) $url_match[2];
+		$rel_id = (int) $rel_match[1];
+
+		if ( !$url_id || !$rel_id || $url_id != $rel_id || strpos($url_match[0], $site_url) === false )
 			continue;
 
-		$id = (int) $id_matches[3];
+		$link = $link_matches[0][$key];
+		$replace = str_replace( $url_match[0], 'href=' . $quote . get_attachment_link( $url_id ) . $quote, $link );
 
-		// While we have the attachment ID, let's adopt any orphans.
-		$attachment = & get_post( $id, ARRAY_A );
-		if ( ! empty( $attachment) && ! is_object( get_post( $attachment['post_parent'] ) ) ) {
-			$attachment['post_parent'] = $post_ID;
-			// Escape data pulled from DB.
-			$attachment = add_magic_quotes( $attachment );
-			wp_update_post( $attachment );
-		}
-
-		$post_search[$i] = $anchor;
-		 $_fix_attachment_link_id = $id;
-		$post_replace[$i] = preg_replace_callback( "#href=(\"|')[^'\"]*\\1#", '_fix_attachment_links_replace_cb', $anchor );
-		++$i;
+		$content = str_replace( $link, $replace, $content );
 	}
 
-	$post['post_content'] = str_replace( $post_search, $post_replace, $post['post_content'] );
+	if ( $replace ) {
+		$post['post_content'] = $content;
+		// Escape data pulled from DB.
+		$post = add_magic_quotes($post);
 
-	// Escape data pulled from DB.
-	$post = add_magic_quotes( $post);
-
-	return wp_update_post( $post);
-}
-
-function _fix_attachment_links_replace_cb($match) {
-        global $_fix_attachment_link_id;
-        return stripslashes( 'href='.$match[1] ).get_attachment_link( $_fix_attachment_link_id ).stripslashes( $match[1] );
+		return wp_update_post($post);
+	}
 }
 
 /**
