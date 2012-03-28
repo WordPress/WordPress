@@ -145,7 +145,7 @@ class WP_Customize_Control {
 	 * @since 3.4.0
 	 */
 	protected function render() {
-		$id    = 'customize-control-' . $this->id;
+		$id    = 'customize-control-' . str_replace( '[', '-', str_replace( ']', '', $this->id ) );
 		$class = 'customize-control customize-control-' . $this->type;
 
 		$style = '';

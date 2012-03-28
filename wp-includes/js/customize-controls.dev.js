@@ -48,7 +48,8 @@
 			$.extend( this, options || {} );
 
 			this.id = id;
-			this.container = $( '#customize-control-' + id );
+			this.selector = '#customize-control-' + id.replace( ']', '' ).replace( '[', '-' );
+			this.container = $( this.selector );
 
 			settings = $.map( this.params.settings, function( value ) {
 				return value;
