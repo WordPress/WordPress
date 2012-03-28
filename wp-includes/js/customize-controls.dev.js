@@ -160,8 +160,10 @@
 	});
 
 	api.ImageControl = api.UploadControl.extend({
-		ready: function( id, value, options ) {
+		ready: function() {
 			var control = this;
+
+			api.UploadControl.prototype.ready.call( this );
 
 			this.thumbnail    = this.container.find('.thumbnail img');
 			this.thumbnailSrc = $.proxy( this.thumbnailSrc, this );
