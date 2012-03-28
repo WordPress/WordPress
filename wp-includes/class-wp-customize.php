@@ -105,8 +105,8 @@ final class WP_Customize {
 	public function wp_loaded() {
 		do_action( 'customize_register' );
 
-		if ( $this->is_preview() )
-			add_action( 'template_redirect', array( $this, 'customize_preview_init' ) );
+		if ( $this->is_preview() && ! is_admin() )
+			$this->customize_preview_init();
 	}
 
 	/**
