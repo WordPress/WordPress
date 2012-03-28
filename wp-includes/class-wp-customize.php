@@ -554,6 +554,7 @@ final class WP_Customize {
 		$this->add_section( 'header', array(
 			'title'          => __( 'Header' ),
 			'theme_supports' => 'custom-header',
+			'priority'       => 20,
 		) );
 
 		$this->add_setting( 'header_textcolor', array(
@@ -604,6 +605,7 @@ final class WP_Customize {
 		$this->add_section( 'background', array(
 			'title'          => __( 'Background' ),
 			'theme_supports' => 'custom-background',
+			'priority'       => 30,
 		) );
 
 		// Input type: Color
@@ -695,6 +697,7 @@ final class WP_Customize {
 		$this->add_section( 'nav', array(
 			'title'          => __( 'Navigation' ),
 			'theme_supports' => 'menus',
+			'priority'       => 40,
 			'description'    => sprintf( _n('Your theme supports %s menu. Select which menu you would like to use.', 'Your theme supports %s menus. Select which menu appears in each location.', $num_locations ), number_format_i18n( $num_locations ) ),
 		) );
 
@@ -727,6 +730,7 @@ final class WP_Customize {
 		$this->add_section( 'static_front_page', array(
 			'title'          => __( 'Static Front Page' ),
 		//	'theme_supports' => 'static-front-page',
+			'priority'       => 50,
 			'description'    => __( 'Your theme supports a static front page.' ),
 		) );
 
@@ -777,7 +781,8 @@ final class WP_Customize {
 		/* Site Title & Tagline */
 
 		$this->add_section( 'strings', array(
-			'title'          => __( 'Site Title & Tagline' ),
+			'title'    => __( 'Site Title & Tagline' ),
+			'priority' => 5,
 		) );
 
 		$this->add_setting( 'blogname', array(
