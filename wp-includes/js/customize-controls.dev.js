@@ -390,8 +390,8 @@
 		});
 
 		// Background color uses postMessage by default
-		api.control( 'background_color', function( control ) {
-			control.method = 'postMessage';
+		api( 'background_color', function( setting ) {
+			setting.method = 'postMessage';
 		});
 
 		api.control( 'display_header_text', function( control ) {
