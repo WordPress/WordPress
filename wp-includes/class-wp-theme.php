@@ -161,9 +161,10 @@ final class WP_Theme implements ArrayAccess {
 	 *
 	 * @param string $theme_dir Directory of the theme within the theme_root.
 	 * @param string $theme_root Theme root.
-	 * @param WP_Error|null $child If this theme is a parent theme, the child may be passed for validation purposes.
+	 * @param WP_Error|null $_child If this theme is a parent theme, the child may be passed for validation purposes.
 	 */
-	public function __construct( $theme_dir, $theme_root, $child = null ) {
+	public function __construct( $theme_dir, $theme_root, $_child = null ) {
+		global $wp_theme_directories;
 
 		// Initialize caching on first run.
 		if ( ! isset( self::$persistently_cache ) ) {
@@ -179,6 +180,13 @@ final class WP_Theme implements ArrayAccess {
 
 		$this->theme_root = $theme_root;
 		$this->stylesheet = $theme_dir;
+
+		// Correct a situation where the theme is 'some-directory/some-theme' but 'some-directory' was passed in as part of the theme root instead.
+		if ( ! in_array( $theme_root, (array) $wp_theme_directories ) && in_array( dirname( $theme_root ), (array) $wp_theme_directories ) ) {
+			$this->stylesheet = basename( $this->theme_root ) . '/' . $this->stylesheet;
+			$this->theme_root = dirname( $theme_root );
+		}
+
 		$this->cache_hash = md5( $this->theme_root . '/' . $this->stylesheet );
 		$theme_file = $this->stylesheet . '/style.css';
 
@@ -252,12 +260,12 @@ final class WP_Theme implements ArrayAccess {
 		// Set the parent, if we're a child theme.
 		if ( $this->template != $this->stylesheet ) {
 			// If we are a parent, then there is a problem. Only two generations allowed! Cancel things out.
-			if ( is_a( $child, 'WP_Theme' ) && $child->template == $this->stylesheet ) {
-				$child->parent = null;
-				$child->errors = new WP_Error( 'theme_parent_invalid', sprintf( __( 'The "%s" theme is not a valid parent theme.' ), $child->template ) );
-				$child->cache_add( 'theme', array( 'headers' => $child->headers, 'errors' => $child->errors, 'stylesheet' => $child->stylesheet, 'template' => $child->template ) );
+			if ( is_a( $_child, 'WP_Theme' ) && $_child->template == $this->stylesheet ) {
+				$_child->parent = null;
+				$_child->errors = new WP_Error( 'theme_parent_invalid', sprintf( __( 'The "%s" theme is not a valid parent theme.' ), $_child->template ) );
+				$_child->cache_add( 'theme', array( 'headers' => $_child->headers, 'errors' => $_child->errors, 'stylesheet' => $_child->stylesheet, 'template' => $_child->template ) );
 				// The two themes actually reference each other with the Template header.
-				if ( $child->stylesheet == $this->template ) {
+				if ( $_child->stylesheet == $this->template ) {
 					$this->errors = new WP_Error( 'theme_parent_invalid', sprintf( __( 'The "%s" theme is not a valid parent theme.' ), $this->template ) );
 					$this->cache_add( 'theme', array( 'headers' => $this->headers, 'errors' => $this->errors, 'stylesheet' => $this->stylesheet, 'template' => $this->template ) );
 				}
