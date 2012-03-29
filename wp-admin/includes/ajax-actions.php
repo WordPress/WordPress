@@ -1615,7 +1615,7 @@ function wp_ajax_upload_attachment() {
 		$post_id = null;
 	}
 
-	$post_data = is_array( $_REQUEST['post_data'] ) ? $_REQUEST['post_data'] : array();
+	$post_data = isset( $_REQUEST['post_data'] ) ? $_REQUEST['post_data'] : array();
 
 	$attachment_id = media_handle_upload( 'async-upload', $post_id, $post_data );
 

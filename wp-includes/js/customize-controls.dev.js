@@ -361,7 +361,7 @@
 				control;
 
 			control = api.control.add( id, new constructor( id, {
-				params: data.params,
+				params: data,
 				previewer: previewer
 			} ) );
 

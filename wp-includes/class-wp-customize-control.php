@@ -17,10 +17,10 @@ class WP_Customize_Control {
 	public $priority          = 10;
 	public $section           = '';
 	public $label             = '';
-	// @todo: remove control_params
-	public $control_params    = array();
 	// @todo: remove choices
 	public $choices           = array();
+
+	public $json = array();
 
 	public $visibility;
 
@@ -35,7 +35,7 @@ class WP_Customize_Control {
 	 * @since 3.4.0
 	 */
 	function __construct( $manager, $id, $args = array() ) {
-		$keys = array_keys( get_class_vars( __CLASS__ ) );
+		$keys = array_keys( get_object_vars( $this ) );
 		foreach ( $keys as $key ) {
 			if ( isset( $args[ $key ] ) )
 				$this->$key = $args[ $key ];
@@ -90,18 +90,33 @@ class WP_Customize_Control {
 			return $this->settings[ $setting_key ]->value();
 	}
 
-	public function json( $args = array() ) {
-		$settings = array();
+	/**
+	 * Refresh the parameters passed to the JavaScript via JSON.
+	 *
+	 * @since 3.4.0
+	 */
+	public function to_json() {
+		$this->json['settings'] = array();
 		foreach ( $this->settings as $key => $setting ) {
-			$settings[ $key ] = $setting->id;
+			$this->json['settings'][ $key ] = $setting->id;
 		}
 
-		return array(
-			'type'   => $this->type,
-			'params' => wp_parse_args( wp_parse_args( $args, array(
-				'settings' => $settings,
-			) ), $this->control_params ),
-		);
+		$this->json['type'] = $this->type;
+
+		if ( $this->visibility ) {
+			if ( is_string( $this->visibility ) ) {
+				$this->json['visibility'] = array(
+					'id'    => $this->visibility,
+					'value' => true,
+				);
+			} else {
+				$this->json['visibility'] = array(
+					'id'    => $this->visibility[0],
+					'value' => $this->visibility[1],
+				);
+			}
+
+		}
 	}
 
 	/**
@@ -258,60 +273,6 @@ class WP_Customize_Control {
 				</label>
 				<?php
 				break;
-			case 'upload':
-				?>
-				<label>
-					<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
-					<div>
-						<input type="hidden" value="<?php echo esc_attr( $this->value() ); ?>" <?php $this->link(); ?> />
-						<a href="#" class="button-secondary upload"><?php _e( 'Upload' ); ?></a>
-						<a href="#" class="remove"><?php _e( 'Remove' ); ?></a>
-					</div>
-				</label>
-				<?php
-				break;
-			case 'image':
-				$value = $this->value();
-
-				$image = $value;
-				if ( isset( $this->control_params['get_url'] ) )
-					$image = call_user_func( $this->control_params['get_url'], $image );
-
-				?>
-				<label>
-					<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
-					<input type="hidden" value="<?php echo esc_attr( $this->value() ); ?>" <?php $this->link(); ?> />
-					<div class="customize-image-picker">
-						<div class="thumbnail">
-							<?php if ( empty( $image ) ): ?>
-								<img style="display:none;" />
-							<?php else: ?>
-								<img src="<?php echo esc_url( $image ); ?>" />
-							<?php endif; ?>
-						</div>
-						<div class="actions">
-							<a href="#" class="upload"><?php _e( 'Upload New' ); ?></a>
-							<a href="#" class="change"><?php _e( 'Change Image' ); ?></a>
-							<a href="#" class="remove"><?php _e( 'Remove Image' ); ?></a>
-						</div>
-						<div class="library">
-							<ul>
-								<?php foreach ( $this->control_params['tabs'] as $tab ): ?>
-									<li data-customize-tab='<?php echo esc_attr( $tab[0] ); ?>'>
-										<?php echo esc_html( $tab[1] ); ?>
-									</li>
-								<?php endforeach; ?>
-							</ul>
-							<?php foreach ( $this->control_params['tabs'] as $tab ): ?>
-								<div class="library-content" data-customize-tab='<?php echo esc_attr( $tab[0] ); ?>'>
-									<?php call_user_func( $tab[2] ); ?>
-								</div>
-							<?php endforeach; ?>
-						</div>
-					</div>
-				</label>
-				<?php
-				break;
 			case 'dropdown-pages':
 				$dropdown = wp_dropdown_pages(
 					array(
@@ -333,5 +294,82 @@ class WP_Customize_Control {
 				);
 				break;
 		}
+	}
+}
+
+class WP_Customize_Upload_Control extends WP_Customize_Control {
+	public $type    = 'upload';
+	public $removed = '';
+	public $context;
+
+	public function enqueue() {
+		wp_enqueue_script( 'wp-plupload' );
+	}
+
+	public function to_json() {
+		parent::to_json();
+
+		$this->json['removed'] = $this->removed;
+
+		if ( $this->context )
+			$this->json['context'] = $this->context;
+	}
+
+	public function render_content() {
+		?>
+		<label>
+			<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
+			<div>
+				<a href="#" class="button-secondary upload"><?php _e( 'Upload' ); ?></a>
+				<a href="#" class="remove"><?php _e( 'Remove' ); ?></a>
+			</div>
+		</label>
+		<?php
+	}
+}
+
+class WP_Customize_Image_Control extends WP_Customize_Upload_Control {
+	public $type = 'image';
+	public $tabs = array();
+	public $get_url;
+
+	public function render_content() {
+		$src = $this->value();
+		if ( isset( $this->get_url ) )
+			$src = call_user_func( $this->get_url, $src );
+
+		?>
+		<label>
+			<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
+			<div class="customize-image-picker">
+				<div class="thumbnail">
+					<?php if ( empty( $src ) ): ?>
+						<img style="display:none;" />
+					<?php else: ?>
+						<img src="<?php echo esc_url( $src ); ?>" />
+					<?php endif; ?>
+				</div>
+				<div class="actions">
+					<a href="#" class="upload"><?php _e( 'Upload New' ); ?></a>
+					<a href="#" class="change"><?php _e( 'Change Image' ); ?></a>
+					<a href="#" class="remove"><?php _e( 'Remove Image' ); ?></a>
+				</div>
+				<div class="library">
+					<ul>
+						<?php foreach ( $this->tabs as $tab ): ?>
+							<li data-customize-tab='<?php echo esc_attr( $tab[0] ); ?>'>
+								<?php echo esc_html( $tab[1] ); ?>
+							</li>
+						<?php endforeach; ?>
+					</ul>
+					<?php foreach ( $this->tabs as $tab ): ?>
+						<div class="library-content" data-customize-tab='<?php echo esc_attr( $tab[0] ); ?>'>
+							<?php call_user_func( $tab[2] ); ?>
+						</div>
+					<?php endforeach; ?>
+				</div>
+			</div>
+		</label>
+		<?php
 	}
 }

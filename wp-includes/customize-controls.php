@@ -107,22 +107,8 @@ do_action( 'customize_controls_print_scripts' );
 	}
 
 	foreach ( $this->controls as $id => $control ) {
-		$settings['controls'][ $id ] = $control->json();
-
-		if ( $control->visibility ) {
-			if ( is_string( $control->visibility ) ) {
-				$settings['controls'][ $id ]['visibility'] = array(
-					'id'    => $control->visibility,
-					'value' => true,
-				);
-			} else {
-				$settings['controls'][ $id ]['visibility'] = array(
-					'id'    => $control->visibility[0],
-					'value' => $control->visibility[1],
-				);
-			}
-
-		}
+		$control->to_json();
+		$settings['controls'][ $id ] = $control->json;
 	}
 
 	?>

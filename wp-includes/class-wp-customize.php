@@ -585,20 +585,17 @@ final class WP_Customize {
 			'theme_supports' => 'custom-header',
 		) );
 
-		$this->add_control( 'header_image', array(
+		$this->add_control( new WP_Customize_Image_Control( $this, 'header_image', array(
 			'label'          => 'Header Image',
 			'section'        => 'header',
-			'type'           => 'image',
-			'control_params' => array(
-				'context'        => 'custom-header',
-				'removed'        => 'remove-header',
-				'get_url'        => 'get_header_image',
-				'tabs'           => array(
-					array( 'uploaded', __('Uploaded'), 'wp_customize_print_uploaded_headers' ),
-					array( 'included', __('Included'), 'wp_customize_print_included_headers' ),
-				),
+			'context'        => 'custom-header',
+			'removed'        => 'remove-header',
+			'get_url'        => 'get_header_image',
+			'tabs'           => array(
+				array( 'uploaded', __('Uploaded'), 'wp_customize_print_uploaded_headers' ),
+				array( 'included', __('Included'), 'wp_customize_print_included_headers' ),
 			),
-		) );
+		) ) );
 
 		/* Custom Background */
 
@@ -627,14 +624,12 @@ final class WP_Customize {
 			'theme_supports' => 'custom-background',
 		) );
 
-		$this->add_control( 'background_image', array(
+		$this->add_control( new WP_Customize_Upload_Control( $this, 'background_image', array(
 			'label'          => __( 'Background Image' ),
 			'section'        => 'background',
 			'type'           => 'upload',
-			'control_params' => array(
-				'context'        => 'custom-background',
-			),
-		) );
+			'context'        => 'custom-background',
+		) ) );
 
 		$this->add_setting( 'background_repeat', array(
 			'default'        => 'repeat',
