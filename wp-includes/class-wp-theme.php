@@ -997,7 +997,7 @@ final class WP_Theme implements ArrayAccess {
 			return $page_templates;
 		$page_templates = array();
 
-		$files = (array) self::scandir( $this->get_stylesheet_directory(), 'php' );
+		$files = (array) self::scandir( $this->get_stylesheet_directory(), 'php', 1 );
 
 		foreach ( $files['php'] as $file => $full_path ) {
 			$headers = get_file_data( $full_path, array( 'Template Name' => 'Template Name' ) );
