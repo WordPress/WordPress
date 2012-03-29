@@ -997,18 +997,20 @@ final class WP_Theme implements ArrayAccess {
 			return $page_templates;
 		$page_templates = array();
 
-		$files = (array) self::scandir( $this->get_template_directory(), 'php' );
-		if ( $this->is_child_theme() )
-			$files = array_merge_recursive( $files, (array) self::scandir( $this->get_stylesheet_directory(), 'php' ) );
+		$files = (array) self::scandir( $this->get_stylesheet_directory(), 'php' );
 
-		foreach ( $files['php'] as $file ) {
-			$headers = get_file_data( $file, array( 'Template Name' => 'Template Name' ) );
+		foreach ( $files['php'] as $file => $full_path ) {
+			$headers = get_file_data( $full_path, array( 'Template Name' => 'Template Name' ) );
 			if ( empty( $headers['Template Name'] ) )
 				continue;
-			$page_templates[ basename( $file ) ] = $this->translate_header( 'Template Name', $headers['Template Name'] );
+			$page_templates[ $file ] = $this->translate_header( 'Template Name', $headers['Template Name'] );
 		}
 
 		$this->cache_add( 'page_templates', $page_templates );
+
+		if ( $this->parent() )
+			$page_templates += $this->parent()->get_page_templates();
+
 		return $page_templates;
 	}
 
