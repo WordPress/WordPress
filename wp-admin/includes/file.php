@@ -65,7 +65,7 @@ function get_file_description( $file ) {
 			return sprintf( __( '%s Page Template' ), _cleanup_header_comment($name[1]) );
 	}
 
-	return basename( $file );
+	return trim( basename( $file ) );
 }
 
 /**
