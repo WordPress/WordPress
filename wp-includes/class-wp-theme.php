@@ -199,14 +199,16 @@ final class WP_Theme implements ArrayAccess {
 				$this->errors = new WP_Error( 'theme_not_found', __( 'The theme directory does not exist.' ) );
 			else
 				$this->errors = new WP_Error( 'theme_no_stylesheet', __( 'Stylesheet is missing.' ) );
-			$this->cache_add( 'theme', array( 'headers' => $this->headers, 'errors' => $this->errors, 'stylesheet' => $this->stylesheet ) );
+			$this->template = $this->stylesheet;
+			$this->cache_add( 'theme', array( 'headers' => $this->headers, 'errors' => $this->errors, 'stylesheet' => $this->stylesheet, 'template' => $this->template ) );
 			if ( ! file_exists( $this->theme_root ) ) // Don't cache this one.
 				$this->errors->add( 'theme_root_missing', __( 'ERROR: The themes directory is either empty or doesn&#8217;t exist. Please check your installation.' ) );
 			return;
 		} elseif ( ! is_readable( $this->theme_root . '/' . $theme_file ) ) {
 			$this->headers['Name'] = $this->stylesheet;
 			$this->errors = new WP_Error( 'theme_stylesheet_not_readable', __( 'Stylesheet is not readable.' ) );
-			$this->cache_add( 'theme', array( 'headers' => $this->headers, 'errors' => $this->errors, 'stylesheet' => $this->stylesheet ) );
+			$this->template = $this->stylesheet;
+			$this->cache_add( 'theme', array( 'headers' => $this->headers, 'errors' => $this->errors, 'stylesheet' => $this->stylesheet, 'template' => $this->template ) );
 			return;
 		} else {
 			$this->headers = get_file_data( $this->theme_root . '/' . $theme_file, self::$file_headers, 'theme' );
@@ -218,13 +220,12 @@ final class WP_Theme implements ArrayAccess {
 			}
 		}
 
-		// (If template is set from cache, we know it's good.)
+		// (If template is set from cache [and there are no errors], we know it's good.)
 		if ( ! $this->template && ! ( $this->template = $this->headers['Template'] ) ) {
-			if ( file_exists( $this->theme_root . '/' . $this->stylesheet . '/index.php' ) ) {
-				$this->template = $this->stylesheet;
-			} else {
+			$this->template = $this->stylesheet;
+			if ( ! file_exists( $this->theme_root . '/' . $this->stylesheet . '/index.php' ) ) {
 				$this->errors = new WP_Error( 'theme_no_index', __( 'Template is missing.' ) );
-				$this->cache_add( 'theme', array( 'headers' => $this->headers, 'errors' => $this->errors, 'stylesheet' => $this->stylesheet ) );
+				$this->cache_add( 'theme', array( 'headers' => $this->headers, 'errors' => $this->errors, 'stylesheet' => $this->stylesheet, 'template' => $this->template ) );
 				return;
 			}
 		}

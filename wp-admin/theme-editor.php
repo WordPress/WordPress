@@ -55,6 +55,8 @@ if ( ! $theme )
 	wp_die( __( 'The requested theme does not exist.' ) );
 
 $allowed_files = $theme->get_files( 'php', 1 );
+$has_templates = ! empty( $allowed_files );
+
 $style_files = $theme->get_files( 'css' );
 if ( isset( $style_files['style.css'] ) ) {
 	$allowed_files['style.css'] = $style_files['style.css'];
@@ -132,7 +134,7 @@ default:
 <?php endif;
 
 $description = get_file_description( $file );
-$file_show = array_search( $file, $allowed_files );
+$file_show = array_search( $file, array_filter( $allowed_files ) );
 if ( $description != $file_show )
 	$description .= ' <span>(' . $file_show . ')</span>';
 ?>
@@ -142,14 +144,14 @@ if ( $description != $file_show )
 
 <div class="fileedit-sub">
 <div class="alignleft">
-<h3><?php echo $theme->display('Name') . ': ' . $description; ?></h3>
+<h3><?php echo $theme->display('Name'); if ( $description ) echo ': ' . $description; ?></h3>
 </div>
 <div class="alignright">
 	<form action="theme-editor.php" method="post">
 		<strong><label for="theme"><?php _e('Select theme to edit:'); ?> </label></strong>
 		<select name="theme" id="theme">
 <?php
-foreach ( wp_get_themes() as $a_stylesheet => $a_theme ) {
+foreach ( wp_get_themes( array( 'errors' => null ) ) as $a_stylesheet => $a_theme ) {
 	$selected = $a_stylesheet == $stylesheet ? ' selected="selected"' : '';
 	echo "\n\t" . '<option value="' . esc_attr( $a_stylesheet ) . '"' . $selected . '>' . $a_theme->display('Name') . '</option>';
 }
@@ -162,7 +164,8 @@ foreach ( wp_get_themes() as $a_stylesheet => $a_theme ) {
 </div>
 	<div id="templateside">
 <?php
-if ( $allowed_files ) :
+if ( array_filter( $allowed_files ) ) :
+	if ( $has_templates || $theme->is_child_theme() ) :
 ?>
 	<h3><?php _e('Templates'); ?></h3>
 	<?php if ( $theme->is_child_theme() ) : ?>
@@ -170,6 +173,8 @@ if ( $allowed_files ) :
 	<?php endif; ?>
 	<ul>
 <?php
+	endif;
+
 	foreach ( $allowed_files as $filename => $absolute_filename ) :
 		if ( 'style.css' == $filename ) {
 			echo "\t</ul>\n\t<h3>" . _x( 'Styles', 'Theme stylesheets in theme editor' ) . "</h3>\n\t<ul>\n";
