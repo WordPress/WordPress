@@ -3537,7 +3537,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			if ( $content_struct['post_type'] == 'page' ) {
 				if ( $publish )
 					$cap  = 'publish_pages';
-				elseif ('publish' == $content_struct['page_status'])
+				elseif ( isset( $content_struct['page_status'] ) && 'publish' == $content_struct['page_status'] )
 					$cap  = 'publish_pages';
 				else
 					$cap = 'edit_pages';
@@ -3548,7 +3548,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			} elseif ( $content_struct['post_type'] == 'post' ) {
 				if ( $publish )
 					$cap  = 'publish_posts';
-				elseif ('publish' == $content_struct['post_status'])
+				elseif ( isset( $content_struct['post_status'] ) && 'publish' == $content_struct['post_status'] )
 					$cap  = 'publish_posts';
 				else
 					$cap = 'edit_posts';
@@ -3561,7 +3561,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		} else {
 			if ( $publish )
 				$cap  = 'publish_posts';
-			elseif ('publish' == $content_struct['post_status'])
+			elseif ( isset( $content_struct['post_status'] ) && 'publish' == $content_struct['post_status'])
 				$cap  = 'publish_posts';
 			else
 				$cap = 'edit_posts';
