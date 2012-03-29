@@ -195,7 +195,10 @@ final class WP_Theme implements ArrayAccess {
 				$theme_root_template = $cache['theme_root_template'];
 		} elseif ( ! file_exists( $this->theme_root . '/' . $theme_file ) ) {
 			$this->headers['Name'] = $this->stylesheet;
-			$this->errors = new WP_Error( 'theme_no_stylesheet', __( 'Stylesheet is missing.' ) );
+			if ( ! file_exists( $this->theme_root . '/' . $this->stylesheet ) )
+				$this->errors = new WP_Error( 'theme_not_found', __( 'The theme directory does not exist.' ) );
+			else
+				$this->errors = new WP_Error( 'theme_no_stylesheet', __( 'Stylesheet is missing.' ) );
 			$this->cache_add( 'theme', array( 'headers' => $this->headers, 'errors' => $this->errors, 'stylesheet' => $this->stylesheet ) );
 			if ( ! file_exists( $this->theme_root ) ) // Don't cache this one.
 				$this->errors->add( 'theme_root_missing', __( 'ERROR: The themes directory is either empty or doesn&#8217;t exist. Please check your installation.' ) );
@@ -384,14 +387,14 @@ final class WP_Theme implements ArrayAccess {
 			case 'Stylesheet' :
 				return $this->get_stylesheet();
 			case 'Template Files' :
-				$files = $this->get_files('php', true);
-				foreach ( $files as &$file )
-					$file = $this->theme_root . '/' . $file;
+				$files = $this->get_files( 'php', 1 );
+				if ( $this->parent() )
+					$files = array_merge( $files, $this->parent()->get_files( 'php', 1 ) );
 				return $files;
 			case 'Stylesheet Files' :
-				$files = $this->get_files('css', true);
-				foreach ( $files as &$file )
-					$file = $this->theme_root . '/' . $file;
+				$files = $this->get_files( 'css' );
+				if ( $this->parent() )
+					$files = array_merge( $files, $this->parent()->get_files( 'css' ) );
 				return $files;
 			case 'Template Dir' :
 				return $this->get_template_directory();
@@ -422,6 +425,21 @@ final class WP_Theme implements ArrayAccess {
 	 */
 	public function errors() {
 		return is_wp_error( $this->errors ) ? $this->errors : false;
+	}
+
+	/**
+	 * Whether the theme exists.
+	 *
+	 * A theme with errors exists. A theme with the error of 'theme_not_found',
+	 * meaning that the theme directory was not found, does not exist.
+	 *
+	 * @since 3.4.0
+	 * @access public
+	 *
+	 * @return bool Whether the theme exists.
+	 */
+	public function exists() {
+		return ! ( is_wp_error( $this->errors ) && in_array( 'theme_not_found', $this->errors->get_error_codes() ) );
 	}
 
 	/**
@@ -474,7 +492,7 @@ final class WP_Theme implements ArrayAccess {
 	 * @since 3.4.0
 	 */
 	public function cache_delete() {
-		foreach ( array( 'theme', 'screenshot', 'screenshot_count', 'files', 'headers' ) as $key )
+		foreach ( array( 'theme', 'screenshot', 'screenshot_count', 'files', 'headers', 'page_templates' ) as $key )
 			wp_cache_delete( $key . '-' . $this->cache_hash, 'themes' );
 	}
 
@@ -891,7 +909,7 @@ final class WP_Theme implements ArrayAccess {
 			return 0;
 
 		$prefix = $this->get_stylesheet() . '/screenshot-';
-		$files = self::scandir( $this->get_stylesheet_directory(), $this->get_stylesheet(), 'png', 0 );
+		$files = self::scandir( $this->get_stylesheet_directory(), $this->get_stylesheet(), 'png' );
 
 		$screenshot_count = 1;
 		while ( in_array( $prefix . ( $screenshot_count + 1 ) . '.png', $files['png'] ) )
@@ -925,7 +943,7 @@ final class WP_Theme implements ArrayAccess {
 	}
 
 	/**
-	 * Return files in the template and stylesheet directories.
+	 * Return files in the theme's directory. Does not return files found in the parent theme.
 	 *
 	 * @since 3.4.0
 	 * @access public
@@ -934,19 +952,13 @@ final class WP_Theme implements ArrayAccess {
 	 * @return array If a specific $type is requested, returns an array of PHP files. If no $type is requested,
 	 * 	returns an array, with the keys being the file types, and the values being an array of files for those type.
 	 */
-	public function get_files( $type = null, $include_parent_files = false ) {
+	public function get_files( $type = null, $depth = 0 ) {
 		$files = $this->cache_get( 'files' );
 		if ( ! is_array( $files ) ) {
-			if ( $include_parent_files || ! $this->is_child_theme() )
-				// Template files can be one level down for the purposes of the theme editor, so this should be $depth = 1.
-				// Todo: We ignore this for now, but this is why the branching is weird.
-				$files = self::scandir( $this->get_template_directory(), $this->get_template(), array( 'php', 'css' ) );
-			else
-				$files = array();
-			if ( $this->is_child_theme() )
-				$files = array_merge_recursive( $files, (array) self::scandir( $this->get_stylesheet_directory(), $this->get_stylesheet(), array( 'php', 'css' ) ) );
+			$files = (array) self::scandir( $this->get_stylesheet_directory(), array( 'php', 'css' ), $depth );
 			foreach ( $files as &$group )
-				sort( $group );
+				ksort( $group );
+			unset( $group );
 			$this->cache_add( 'files', $files );
 		}
 
@@ -958,6 +970,14 @@ final class WP_Theme implements ArrayAccess {
 		return array();
 	}
 
+	/**
+	 * Returns the theme's page templates.
+	 *
+	 * @since 3.4.0
+	 * @access public
+	 *
+	 * @return array Array of page templates, keyed by filename, with the value of the translated header name.
+	 */
 	public function get_page_templates() {
 		// If you screw up your current theme and we invalidate your parent, most things still work. Let it slide.
 		if ( $this->errors() && $this->errors()->get_error_codes() !== array( 'theme_parent_invalid' ) )
@@ -968,9 +988,9 @@ final class WP_Theme implements ArrayAccess {
 			return $page_templates;
 		$page_templates = array();
 
-		$files = (array) self::scandir( $this->get_template_directory(), $this->get_template_directory(), 'php' );
+		$files = (array) self::scandir( $this->get_template_directory(), 'php' );
 		if ( $this->is_child_theme() )
-			$files = array_merge_recursive( $files, (array) self::scandir( $this->get_stylesheet_directory(), $this->get_stylesheet_directory(), 'php' ) );
+			$files = array_merge_recursive( $files, (array) self::scandir( $this->get_stylesheet_directory(), 'php' ) );
 
 		foreach ( $files['php'] as $file ) {
 			$headers = get_file_data( $file, array( 'Template Name' => 'Template Name' ) );
@@ -990,12 +1010,12 @@ final class WP_Theme implements ArrayAccess {
 	 * @access public
 	 *
 	 * @param string $path Absolute path to search.
+	 * @param array|string $extensions Array of extensions to find, or string of a single extension
+	 * @param int $depth How deep to search for files. Optional, defaults to a flat scan (0 depth). -1 depth is infinite.
 	 * @param string $relative_path The basename of the absolute path. Used to control the returned path
 	 * 	for the found files, particularly when this function recurses to lower depths.
-	 * @param array|string $extensions Array of extensions to find, or string of a single extension.
-	 * @depth int How deep to search for files. Optional, defaults to a flat scan (0 depth).
 	 */
-	private static function scandir( $path, $relative_path, $extensions, $depth = 0 ) {
+	private static function scandir( $path, $extensions, $depth = 1, $relative_path = '' ) {
 		if ( ! is_dir( $path ) )
 			return false;
 
@@ -1003,20 +1023,25 @@ final class WP_Theme implements ArrayAccess {
 
 		$extensions = (array) $extensions;
 		$files = array_fill_keys( $extensions, array() );
-		$extensions = implode( '|', $extensions );
+		$_extensions = implode( '|', $extensions );
+
+		$relative_path = trailingslashit( $relative_path );
+		if ( '/' == $relative_path )
+			$relative_path = '';
 
 		foreach ( $results as $result ) {
-			if ( '.' == $result || '..' == $result )
+			if ( '.' == $result[0] )
 				continue;
 			if ( is_dir( $path . '/' . $result ) ) {
-				if ( ! $depth )
+				if ( ! $depth || 'CVS' == $result )
 					continue;
-				$found = self::scandir( $path . '/' . $result, $relative_path . '/' . $result, $extensions, $depth - 1 );
+				$found = self::scandir( $path . '/' . $result, $extensions, $depth - 1 , $relative_path . $result );
 				$files = array_merge_recursive( $files, $found );
-			} elseif ( preg_match( '~\.(' . $extensions . ')$~', $result, $match ) ) {
-				$files[ $match[1] ][] = $relative_path . '/' . $result;
+			} elseif ( preg_match( '~\.(' . $_extensions . ')$~', $result, $match ) ) {
+				$files[ $match[1] ][ $relative_path . $result ] = $path . '/' . $result;
 			}
 		}
+
 		return $files;
 	}
 

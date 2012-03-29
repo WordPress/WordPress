@@ -87,7 +87,7 @@ function wp_get_themes( $args = array() ) {
  * @param string $stylesheet Directory name for the theme. Optional. Defaults to current theme.
  * @param string $theme_root Absolute path of the theme root to look in. Optional. If not specified, get_raw_theme_root()
  * 	is used to calculate the theme root for the $stylesheet provided (or current theme).
- * @return WP_Theme
+ * @return WP_Theme|bool WP_Theme object. False if the theme is not found.
  */
 function wp_get_theme( $stylesheet = null, $theme_root = null ) {
 	global $wp_theme_directories;
@@ -97,11 +97,18 @@ function wp_get_theme( $stylesheet = null, $theme_root = null ) {
 
 	if ( empty( $theme_root ) ) {
 		$theme_root = get_raw_theme_root( $stylesheet );
+		if ( false === $theme_root )
+			return false;
+
 		if ( ! in_array( $theme_root, (array) $wp_theme_directories ) )
 			$theme_root = WP_CONTENT_DIR . $theme_root;
 	}
 
-	return new WP_Theme( $stylesheet, $theme_root );
+	$theme = new WP_Theme( $stylesheet, $theme_root );
+	if ( $theme->exists() )
+		return $theme;
+
+	return false;
 }
 
 /**
