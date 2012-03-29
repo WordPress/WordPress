@@ -1018,7 +1018,7 @@ final class WP_Theme implements ArrayAccess {
 	 * Scans a directory for files of a certain extension.
 	 *
 	 * @since 3.4.0
-	 * @access public
+	 * @access private
 	 *
 	 * @param string $path Absolute path to search.
 	 * @param array|string $extensions Array of extensions to find, or string of a single extension
@@ -1210,6 +1210,9 @@ final class WP_Theme implements ArrayAccess {
 
 	/**
 	 * Sort themes by name.
+	 *
+	 * @since 3.4.0
+	 * @access public
 	 */
 	public static function sort_by_name( &$themes ) {
 		if ( 0 === strpos( get_locale(), 'en_' ) ) {
@@ -1226,7 +1229,7 @@ final class WP_Theme implements ArrayAccess {
 	 * Would choke on HTML but we don't care enough to slow it down with strip_tags().
 	 *
 	 * @since 3.4.0
-	 * @access public
+	 * @access private
 	 */
 	private static function _name_sort( $a, $b ) {
 		return strnatcasecmp( $a->headers['Name'], $b->headers['Name'] );
@@ -1236,7 +1239,7 @@ final class WP_Theme implements ArrayAccess {
 	 * Name sort (with translation).
 	 *
 	 * @since 3.4.0
-	 * @access public
+	 * @access private
 	 */
 	private static function _name_sort_i18n( $a, $b ) {
 		// Don't mark up; Do translate.
