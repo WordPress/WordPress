@@ -3975,8 +3975,11 @@ class wp_xmlrpc_server extends IXR_Server {
 			}
 		}
 
-		$post_title = isset( $content_struct['title'] ) ? $content_struct['title'] : null;
-		$post_content = isset( $content_struct['description'] ) ? $content_struct['description'] : null;
+		if ( isset( $content_struct['title'] ) )
+			$post_title =  $content_struct['title'];
+
+		if ( isset( $content_struct['description'] ) )
+			$post_content = $content_struct['description'];
 
 		$post_category = array();
 		if ( isset( $content_struct['categories'] ) ) {
@@ -3988,8 +3991,11 @@ class wp_xmlrpc_server extends IXR_Server {
 			}
 		}
 
-		$post_excerpt = isset( $content_struct['mt_excerpt'] ) ? $content_struct['mt_excerpt'] : null;
-		$post_more = isset( $content_struct['mt_text_more'] ) ? $content_struct['mt_text_more'] : null;
+		if ( isset( $content_struct['mt_excerpt'] ) )
+			$post_excerpt =  $content_struct['mt_excerpt'];
+
+		if ( isset( $content_struct['mt_text_more'] ) )
+			$post_more =  $content_struct['mt_text_more'];
 
 		$post_status = $publish ? 'publish' : 'draft';
 		if ( isset( $content_struct["{$post_type}_status"] ) ) {
@@ -4060,13 +4066,12 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( isset($content_struct['custom_fields']) )
 			$this->set_custom_fields($post_ID, $content_struct['custom_fields']);
 
-		if ( isset ( $post_data['wp_featured_image'] ) ) {
+		if ( isset ( $content_struct['wp_featured_image'] ) ) {
 			// empty value deletes, non-empty value adds/updates
-			if ( empty( $post_data['wp_featured_image'] ) ) {
+			if ( empty( $content_struct['wp_featured_image'] ) ) {
 				delete_post_thumbnail( $post_ID );
-			}
-			else {
-				if ( set_post_thumbnail( $post_ID, $post_data['wp_featured_image'] ) === false )
+			} else {
+				if ( set_post_thumbnail( $post_ID, $content_struct['wp_featured_image'] ) === false )
 					return new IXR_Error( 404, __( 'Invalid attachment ID.' ) );
 			}
 			unset( $content_struct['wp_featured_image'] );
