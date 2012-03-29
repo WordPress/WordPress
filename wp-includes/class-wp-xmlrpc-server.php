@@ -3753,8 +3753,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( isset($content_struct['custom_fields']) )
 			$this->set_custom_fields($post_ID, $content_struct['custom_fields']);
 
-		if ( isset ( $post_data['wp_featured_image'] ) ) {
-			if ( set_post_thumbnail( $post_ID, $post_data['wp_featured_image'] ) === false )
+		if ( isset ( $content_struct['wp_featured_image'] ) ) {
+			if ( set_post_thumbnail( $post_ID, $content_struct['wp_featured_image'] ) === false )
 				return new IXR_Error( 404, __( 'Invalid attachment ID.' ) );
 
 			unset( $content_struct['wp_featured_image'] );
