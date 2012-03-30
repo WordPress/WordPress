@@ -2311,10 +2311,8 @@ class WP_Query {
 
 		// MIME-Type stuff for attachment browsing
 
-		if ( isset($q['post_mime_type']) && '' != $q['post_mime_type'] ) {
-			$table_alias = $post_status_join ? $wpdb->posts : '';
-			$whichmimetype = wp_post_mime_type_where($q['post_mime_type'], $table_alias);
-		}
+		if ( isset( $q['post_mime_type'] ) && '' != $q['post_mime_type'] )
+			$whichmimetype = wp_post_mime_type_where( $q['post_mime_type'], $wpdb->posts );
 
 		$where .= $search . $whichauthor . $whichmimetype;
 
