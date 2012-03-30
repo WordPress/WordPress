@@ -58,7 +58,7 @@ function install_theme_search_form() {
 <form id="search-themes" method="get" action="">
 	<input type="hidden" name="tab" value="search" />
 	<select	name="type" id="typeselector">
-	<option value="term" <?php selected('term', $type) ?>><?php _e('Term'); ?></option>
+	<option value="term" <?php selected('term', $type) ?>><?php _e('Keyword'); ?></option>
 	<option value="author" <?php selected('author', $type) ?>><?php _e('Author'); ?></option>
 	<option value="tag" <?php selected('tag', $type) ?>><?php _ex('Tag', 'Theme Installer'); ?></option>
 	</select>
