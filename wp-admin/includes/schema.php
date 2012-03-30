@@ -344,7 +344,7 @@ function populate_options() {
 	$template = WP_DEFAULT_THEME;
 	// If default theme is a child theme, we need to get its template
 	$theme = wp_get_theme( $template );
-	if ( ! $theme->errors() )
+	if ( $theme && ! $theme->errors() )
 		$template = $theme->get_template();
 
 	$timezone_string = '';
