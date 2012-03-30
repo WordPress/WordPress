@@ -1555,7 +1555,13 @@ add_action( 'delete_attachment', '_delete_attachment_theme_mod' );
 function check_theme_switched() {
 	if ( $stylesheet = get_option( 'theme_switched' ) ) {
 		$old_theme = wp_get_theme( $stylesheet );
-		do_action( 'after_switch_theme', $old_theme->get('Name'), $old_theme );
+
+		// If we can't find the old theme then fallback to passing the raw data to the action like we did pre-3.4
+		if ( $old_theme )
+			do_action( 'after_switch_theme', $old_theme->get('Name'), $old_theme );
+		else
+			do_action( 'after_switch_theme', $stylesheet );
+
 		update_option( 'theme_switched', false );
 	}
 }
