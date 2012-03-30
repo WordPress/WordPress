@@ -94,6 +94,7 @@ case 'update':
 			fwrite( $f, $newcontent );
 			fclose( $f );
 			$location .= '&updated=true';
+			$theme->cache_delete();
 		}
 	}
 	wp_redirect( $location );

@@ -154,7 +154,7 @@ final class WP_Theme implements ArrayAccess {
 	 * @access private
 	 * @var bool
 	 */
-	private static $cache_expiration = 7200;
+	private static $cache_expiration = 1800;
 
 	/**
 	 * Constructor for WP_Theme.
@@ -503,6 +503,9 @@ final class WP_Theme implements ArrayAccess {
 	public function cache_delete() {
 		foreach ( array( 'theme', 'screenshot', 'screenshot_count', 'files', 'headers', 'page_templates' ) as $key )
 			wp_cache_delete( $key . '-' . $this->cache_hash, 'themes' );
+		$this->template = $this->textdomain_loaded = $this->theme_root_uri = $this->parent = $this->errors = $this->headers_sanitized = $this->name_translated = null;
+		$this->headers = array();
+		$this->__construct( $this->stylesheet, $this->theme_root );
 	}
 
 	/**
