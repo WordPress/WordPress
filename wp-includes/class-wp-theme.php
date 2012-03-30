@@ -396,9 +396,9 @@ final class WP_Theme implements ArrayAccess {
 			case 'Stylesheet' :
 				return $this->get_stylesheet();
 			case 'Template Files' :
-				$files = $this->get_files( 'php', 1 );
+				$files = $this->get_files( 'php' );
 				if ( $this->parent() )
-					$files = array_merge( $files, $this->parent()->get_files( 'php', 1 ) );
+					$files = array_merge( $files, $this->parent()->get_files( 'php' ) );
 				return $files;
 			case 'Stylesheet Files' :
 				$files = $this->get_files( 'css' );
@@ -961,13 +961,12 @@ final class WP_Theme implements ArrayAccess {
 	 * @return array If a specific $type is requested, returns an array of PHP files. If no $type is requested,
 	 * 	returns an array, with the keys being the file types, and the values being an array of files for those type.
 	 */
-	public function get_files( $type = null, $depth = 0 ) {
+	public function get_files( $type ) {
 		$files = $this->cache_get( 'files' );
 		if ( ! is_array( $files ) ) {
-			$files = (array) self::scandir( $this->get_stylesheet_directory(), array( 'php', 'css' ), $depth );
+			$files = (array) self::scandir( $this->get_stylesheet_directory(), array( 'php', 'css' ), 1 );
 			foreach ( $files as &$group )
 				ksort( $group );
-			unset( $group );
 			$this->cache_add( 'files', $files );
 		}
 
@@ -993,20 +992,27 @@ final class WP_Theme implements ArrayAccess {
 			return array();
 
 		$page_templates = $this->cache_get( 'page_templates' );
-		if ( is_array( $page_templates ) )
-			return $page_templates;
-		$page_templates = array();
 
-		$files = (array) self::scandir( $this->get_stylesheet_directory(), 'php', 1 );
+		if ( ! is_array( $page_templates ) ) {
+			$page_templates = array();
 
-		foreach ( $files['php'] as $file => $full_path ) {
-			$headers = get_file_data( $full_path, array( 'Template Name' => 'Template Name' ) );
-			if ( empty( $headers['Template Name'] ) )
-				continue;
-			$page_templates[ $file ] = $this->translate_header( 'Template Name', $headers['Template Name'] );
+			$files = (array) self::scandir( $this->get_stylesheet_directory(), 'php', 1 );
+
+			foreach ( $files['php'] as $file => $full_path ) {
+				$headers = get_file_data( $full_path, array( 'Template Name' => 'Template Name' ) );
+				if ( empty( $headers['Template Name'] ) )
+					continue;
+				$page_templates[ $file ] = $headers['Template Name'];
+			}
+
+			$this->cache_add( 'page_templates', $page_templates );
 		}
 
-		$this->cache_add( 'page_templates', $page_templates );
+		if ( $this->load_textdomain() ) {
+			foreach ( $page_templates as &$page_template ) {
+				$page_template = $this->translate_header( 'Template Name', $page_template );
+			}
+		}
 
 		if ( $this->parent() )
 			$page_templates += $this->parent()->get_page_templates();
@@ -1026,7 +1032,7 @@ final class WP_Theme implements ArrayAccess {
 	 * @param string $relative_path The basename of the absolute path. Used to control the returned path
 	 * 	for the found files, particularly when this function recurses to lower depths.
 	 */
-	private static function scandir( $path, $extensions, $depth = 1, $relative_path = '' ) {
+	private static function scandir( $path, $extensions, $depth = 0, $relative_path = '' ) {
 		if ( ! is_dir( $path ) )
 			return false;
 
