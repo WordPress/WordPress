@@ -339,9 +339,7 @@ default:
 		exit;
 	}
 
-	if ( is_multisite()
-		&& current_user_can( 'promote_users' )
-		&& ! wp_is_large_network( 'users' )
+	if ( is_multisite() && current_user_can( 'promote_users' ) && ! wp_is_large_network( 'users' )
 		&& ( is_super_admin() || apply_filters( 'autocomplete_users_for_site_admins', false ) )
 	) {
 		wp_enqueue_script( 'user-search' );

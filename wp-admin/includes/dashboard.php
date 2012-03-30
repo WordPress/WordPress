@@ -416,22 +416,11 @@ function wp_network_dashboard_right_now() {
 	if ( current_user_can('create_users') )
 		$actions['create-user'] = '<a href="' . network_admin_url('user-new.php') . '">' . __( 'Create a New User' ) . '</a>';
 
-	if ( is_multisite()
-		&& current_user_can( 'promote_users' )
-		&& ! wp_is_large_network( 'users' )
-		&& is_super_admin()
-		&& is_network_admin()
-	) {
+	if ( ! wp_is_large_network( 'users' ) )
 		wp_enqueue_script( 'user-search' );
-	}
-	if ( is_multisite()
-		&& current_user_can( 'manage_sites' )
-		&& ! wp_is_large_network( 'sites' )
-		&& is_super_admin()
-		&& is_network_admin()
-	) {
+
+	if ( ! wp_is_large_network( 'sites' ) )
 		wp_enqueue_script( 'site-search' );
-	}
 
 	$c_users = get_user_count();
 	$c_blogs = get_blog_count();

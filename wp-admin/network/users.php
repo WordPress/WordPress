@@ -245,13 +245,8 @@ get_current_screen()->set_help_sidebar(
 	'<p>' . __('<a href="http://wordpress.org/support/forum/multisite/" target="_blank">Support Forums</a>') . '</p>'
 );
 
-if ( is_multisite()
-	&& current_user_can( 'promote_users' )
-	&& ! wp_is_large_network( 'users' )
-	&& is_super_admin()
-) {
+if ( ! wp_is_large_network( 'users' ) )
 	wp_enqueue_script( 'user-search' );
-}
 
 require_once( '../admin-header.php' );
 
