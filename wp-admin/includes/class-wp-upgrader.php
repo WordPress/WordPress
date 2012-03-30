@@ -412,6 +412,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 
 		// Force refresh of plugin update information
 		delete_site_transient('update_plugins');
+		wp_cache_delete( 'plugins', 'plugins' );
 
 		return true;
 	}
@@ -456,6 +457,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 
 		// Force refresh of plugin update information
 		delete_site_transient('update_plugins');
+		wp_cache_delete( 'plugins', 'plugins' );
 	}
 
 	function bulk_upgrade($plugins) {
@@ -537,6 +539,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 
 		// Force refresh of plugin update information
 		delete_site_transient('update_plugins');
+		wp_cache_delete( 'plugins', 'plugins' );
 
 		return $results;
 	}
@@ -763,6 +766,8 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		// Force refresh of theme update information
 		delete_site_transient('update_themes');
+		foreach ( wp_get_themes() as $theme )
+			$theme->cache_delete();
 
 		return true;
 	}
@@ -809,6 +814,8 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		// Force refresh of theme update information
 		delete_site_transient('update_themes');
+		foreach ( wp_get_themes() as $theme )
+			$theme->cache_delete();
 
 		return true;
 	}
@@ -896,6 +903,8 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		// Force refresh of theme update information
 		delete_site_transient('update_themes');
+		foreach ( wp_get_themes() as $theme )
+			$theme->cache_delete();
 
 		return $results;
 	}
