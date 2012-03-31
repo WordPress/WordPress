@@ -474,7 +474,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'imgareaselect', '/wp-includes/js/imgareaselect/imgareaselect.css', array(), '0.9.1' );
 	$styles->add( 'admin-bar', "/wp-includes/css/admin-bar$suffix.css" );
 	$styles->add( 'wp-jquery-ui-dialog', "/wp-includes/css/jquery-ui-dialog$suffix.css" );
-	$styles->add( 'editor', "/wp-includes/css/editor$suffix.css" );
+	$styles->add( 'editor-buttons', "/wp-includes/css/editor$suffix.css" );
 	$styles->add( 'wp-pointer', "/wp-includes/css/wp-pointer$suffix.css" );
 	$styles->add( 'customize-controls', "/wp-includes/css/customize-controls$suffix.css", array( 'wp-admin', 'colors', 'ie' ) );
 
