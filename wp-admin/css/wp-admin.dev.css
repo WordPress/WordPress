@@ -1949,7 +1949,7 @@ body.admin-bar {
 }
 
 /* one column on the post write/edit screen */
-@media only screen and (max-width: 1025px) {
+@media only screen and (max-width: 850px) {
 	#wpbody-content #poststuff #post-body {
 		margin: 0;
 	}
