@@ -330,21 +330,21 @@ final class _WP_Editors {
 					$style_uri = get_stylesheet_directory_uri();
 					$style_dir = get_stylesheet_directory();
 
-					foreach ( $editor_styles as $key => $file ) {
-						if ( $file && file_exists( "$style_dir/$file" ) ) {
-							$mce_css[] = "$style_uri/$file";
-							$editor_styles[$key] = '';
-						}
-					}
-
 					if ( is_child_theme() ) {
 						$template_uri = get_template_directory_uri();
 						$template_dir = get_template_directory();
 
-						foreach ( $editor_styles as $file ) {
-							if ( $file && file_exists( "$template_dir/$file" ) )
+						foreach ( $editor_styles as $key => $file ) {
+							if ( $file && file_exists( "$template_dir/$file" ) ) {
 								$mce_css[] = "$template_uri/$file";
+								$editor_styles[$key] = '';
+							}
 						}
+					}
+
+					foreach ( $editor_styles as $file ) {
+						if ( $file && file_exists( "$style_dir/$file" ) )
+							$mce_css[] = "$style_uri/$file";
 					}
 
 					$mce_css = implode( ',', $mce_css );
