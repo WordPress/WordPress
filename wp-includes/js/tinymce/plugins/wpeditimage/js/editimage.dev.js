@@ -3,17 +3,7 @@ var tinymce = null, tinyMCEPopup, tinyMCE, wpImage;
 
 tinyMCEPopup = {
 	init: function() {
-		var t = this, w, li, q, i, it;
-
-		li = ('' + document.location.search).replace(/^\?/, '').split('&');
-		q = {};
-		for ( i = 0; i < li.length; i++ ) {
-			it = li[i].split('=');
-			q[unescape(it[0])] = unescape(it[1]);
-		}
-
-		if (q.mce_rdomain)
-			document.domain = q.mce_rdomain;
+		var t = this, w, ti;
 
 		// Find window & API
 		w = t.getWin();
@@ -21,6 +11,7 @@ tinyMCEPopup = {
 		tinyMCE = w.tinyMCE;
 		t.editor = tinymce.EditorManager.activeEditor;
 		t.params = t.editor.windowManager.params;
+		t.features = t.editor.windowManager.features;
 
 		// Setup local DOM
 		t.dom = t.editor.windowManager.createInstance('tinymce.dom.DOMUtils', document);
@@ -28,7 +19,7 @@ tinyMCEPopup = {
 	},
 
 	getWin : function() {
-		return window.dialogArguments || opener || parent || top;
+		return (!window.frameElement && window.dialogArguments) || opener || parent || top;
 	},
 
 	getParam : function(n, dv) {
@@ -59,13 +50,13 @@ tinyMCEPopup = {
 	},
 
 	storeSelection : function() {
-		this.editor.windowManager.bookmark = tinyMCEPopup.editor.selection.getBookmark('simple');
+		this.editor.windowManager.bookmark = tinyMCEPopup.editor.selection.getBookmark(1);
 	},
 
 	restoreSelection : function() {
 		var t = tinyMCEPopup;
 
-		if (tinymce.isIE)
+		if ( tinymce.isIE )
 			t.editor.selection.moveToBookmark(t.editor.windowManager.bookmark);
 	}
 }
@@ -394,16 +385,11 @@ wpImage = {
 				if ( ! f.link_href.value.match(/https?:\/\//i) )
 					f.link_href.value = tinyMCEPopup.editor.documentBaseURI.toAbsolute(f.link_href.value);
 
-				if ( tinymce.isWebKit && ed.dom.hasClass(el, 'aligncenter') ) {
-					ed.dom.removeClass(el, 'aligncenter');
-					fixSafari = 1;
-				}
-
-				tinyMCEPopup.execCommand("CreateLink", false, "#mce_temp_url#", {skip_undo : 1});
-				if ( fixSafari ) ed.dom.addClass(el, 'aligncenter');
+				ed.getDoc().execCommand("unlink", false, null);
+				tinyMCEPopup.execCommand("mceInsertLink", false, "#mce_temp_url#", {skip_undo : 1});
 
 				tinymce.each(ed.dom.select("a"), function(n) {
-					if (ed.dom.getAttrib(n, 'href') == '#mce_temp_url#') {
+					if ( ed.dom.getAttrib(n, 'href') == '#mce_temp_url#' ) {
 
 						ed.dom.setAttribs(n, {
 							href : f.link_href.value,
