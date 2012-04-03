@@ -4,7 +4,7 @@
 	/*
 	 * @param options
 	 * - previewer - The Previewer instance to sync with.
-	 * - method    - The method to use for syncing. Supports 'refresh' and 'postMessage'.
+	 * - method    - The method to use for previewing. Supports 'refresh' and 'postMessage'.
 	 */
 	api.Setting = api.Value.extend({
 		initialize: function( id, value, options ) {
@@ -24,12 +24,10 @@
 			element.appendTo( this.previewer.form );
 			this.element = new api.Element( element );
 
-			this.element.link( this );
-			this.link( this.element );
-
-			this.bind( this.sync );
+			this.sync( this.element );
+			this.bind( this.preview );
 		},
-		sync: function() {
+		preview: function() {
 			switch ( this.method ) {
 				case 'refresh':
 					return this.previewer.refresh();
@@ -88,9 +86,8 @@
 				api( node.data('customizeSettingLink'), function( setting ) {
 					var element = new api.Element( node );
 					control.elements.push( element );
-					element.link( setting ).bind( function( to ) {
-						setting( to );
-					});
+					element.sync( setting );
+					element.set( setting() );
 				});
 			});
 		},
@@ -122,10 +119,6 @@
 			this.setting.bind( update );
 			update( this.setting() );
 		}
-		// ,
-		// 		validate: function( to ) {
-		// 			return /^[a-fA-F0-9]{3}([a-fA-F0-9]{3})?$/.test( to ) ? to : null;
-		// 		}
 	});
 
 	api.UploadControl = api.Control.extend({
@@ -400,7 +393,7 @@
 		api.control( 'display_header_text', function( control ) {
 			var last = '';
 
-			control.elements[0].unlink();
+			control.elements[0].unsync( api( 'header_textcolor' ) );
 
 			control.element = new api.Element( control.container.find('input') );
 			control.element.set( 'blank' !== control.setting() );

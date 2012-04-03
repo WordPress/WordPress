@@ -2,7 +2,7 @@ if ( typeof wp === 'undefined' )
 	var wp = {};
 
 (function( exports, $ ){
-	var api, extend, ctor, inherits, ready,
+	var api, extend, ctor, inherits,
 		slice = Array.prototype.slice;
 
 	/* =====================================================================
@@ -66,34 +66,7 @@ if ( typeof wp === 'undefined' )
 		return child;
 	};
 
-	/* =====================================================================
-	 * customize function.
-	 * ===================================================================== */
-	ready = $.Callbacks( 'once memory' );
-
-	/*
-	 * Sugar for main customize function. Supports several signatures.
-	 *
-	 * customize( callback, [context] );
-	 *   Binds a callback to be fired when the customizer is ready.
-	 *   - callback, function
-	 *   - context, object
-	 *
-	 * customize( setting );
-	 *   Fetches a setting object by ID.
-	 *   - setting, string - The setting ID.
-	 *
-	 */
 	api = {};
-	// api = function( callback, context ) {
-	// 	if ( $.isFunction( callback ) ) {
-	// 		if ( context )
-	// 			callback = $.proxy( callback, context );
-	// 		ready.add( callback );
-	//
-	// 		return api;
-	// 	}
-	// }
 
 	/* =====================================================================
 	 * Base class.
@@ -156,6 +129,8 @@ if ( typeof wp === 'undefined' )
 			this.callbacks = $.Callbacks();
 
 			$.extend( this, options || {} );
+
+			this.set = $.proxy( this.set, this );
 		},
 
 		/*
@@ -173,6 +148,7 @@ if ( typeof wp === 'undefined' )
 		set: function( to ) {
 			var from = this._value;
 
+			to = this._setter.apply( this, arguments );
 			to = this.validate( to );
 
 			// Bail if the sanitized value is null or unchanged.
@@ -183,6 +159,22 @@ if ( typeof wp === 'undefined' )
 
 			this.callbacks.fireWith( this, [ to, from ] );
 
+			return this;
+		},
+
+		_setter: function( to ) {
+			return to;
+		},
+
+		setter: function( callback ) {
+			this._setter = callback;
+			this.set( this.get() );
+			return this;
+		},
+
+		resetSetter: function() {
+			this._setter = this.constructor.prototype._setter;
+			this.set( this.get() );
 			return this;
 		},
 
@@ -200,183 +192,48 @@ if ( typeof wp === 'undefined' )
 			return this;
 		},
 
-		/*
-		 * Allows the creation of composite values.
-		 * Overrides the native link method (can be reverted with `unlink`).
-		 */
-		link: function() {
-			var keys = slice.call( arguments ),
-				callback = keys.pop(),
-				self = this,
-				set, key, active;
-
-			if ( this.links )
-				this.unlink();
-
-			this.links = [];
-
-			// Single argument means a direct binding.
-			if ( ! keys.length ) {
-				keys = [ callback ];
-				callback = function( value, to ) {
-					return to;
-				};
-			}
-
-			while ( key = keys.shift() ) {
-				if ( this._parent && $.type( key ) == 'string' )
-					this.links.push( this._parent[ key ] );
-				else
-					this.links.push( key );
-			}
-
-			// Replace this.set with the assignment function.
-			set = function() {
-				var args, result;
-
-				// If we call set from within the assignment function,
-				// pass the arguments to the original set.
-				if ( active )
-					return self.set.original.apply( self, arguments );
-
-				active = true;
-
-				args = self.links.concat( slice.call( arguments ) );
-				result = callback.apply( self, args );
-
-				active = false;
-
-				if ( typeof result !== 'undefined' )
-					self.set.original.call( self, result );
-			};
-
-			set.original = this.set;
-			this.set = set;
-
-			// Bind the new function to the master values.
-			$.each( this.links, function( key, value ) {
-				value.bind( self.set );
-			});
-
-			this.set( this.get() );
-
-			return this;
-		},
-
-		unlink: function() {
+		link: function() { // values*
 			var set = this.set;
-
-			$.each( this.links, function( key, value ) {
-				value.unbind( set );
+			$.each( arguments, function() {
+				this.bind( set );
 			});
+			return this;
+		},
 
-			delete this.links;
-			this.set = this.set.original;
+		unlink: function() { // values*
+			var set = this.set;
+			$.each( arguments, function() {
+				this.unbind( set );
+			});
+			return this;
+		},
+
+		sync: function() { // values*
+			var that = this;
+			$.each( arguments, function() {
+				that.link( this );
+				this.link( that );
+			});
+			return this;
+		},
+
+		unsync: function() { // values*
+			var that = this;
+			$.each( arguments, function() {
+				that.unlink( this );
+				this.unlink( that );
+			});
 			return this;
 		}
 	});
 
-	api.ensure = function( element ) {
-		return typeof element == 'string' ? $( element ) : element;
-	};
-
-	api.Element = api.Value.extend({
-		initialize: function( element, options ) {
-			var self = this,
-				synchronizer = api.Element.synchronizer.html,
-				type, update, refresh;
-
-			this.element = api.ensure( element );
-			this.events = '';
-
-			if ( this.element.is('input, select, textarea') ) {
-				this.events += 'change';
-				synchronizer = api.Element.synchronizer.val;
-
-				if ( this.element.is('input') ) {
-					type = this.element.prop('type');
-					if ( api.Element.synchronizer[ type ] )
-						synchronizer = api.Element.synchronizer[ type ];
-					if ( 'text' === type || 'password' === type )
-						this.events += ' keyup';
-				}
-			}
-
-			api.Value.prototype.initialize.call( this, null, $.extend( options || {}, synchronizer ) );
-			this._value = this.get();
-
-			update  = this.update;
-			refresh = this.refresh;
-
-			this.update = function( to ) {
-				if ( to !== refresh.call( self ) )
-					update.apply( this, arguments );
-			};
-			this.refresh = function() {
-				self.set( refresh.call( self ) );
-			};
-
-			this.bind( this.update );
-			this.element.bind( this.events, this.refresh );
-		},
-
-		find: function( selector ) {
-			return $( selector, this.element );
-		},
-
-		refresh: function() {},
-		update: function() {}
-	});
-
-	api.Element.synchronizer = {};
-
-	$.each( [ 'html', 'val' ], function( i, method ) {
-		api.Element.synchronizer[ method ] = {
-			update: function( to ) {
-				this.element[ method ]( to );
-			},
-			refresh: function() {
-				return this.element[ method ]();
-			}
-		};
-	});
-
-	api.Element.synchronizer.checkbox = {
-		update: function( to ) {
-			this.element.prop( 'checked', to );
-		},
-		refresh: function() {
-			return this.element.prop( 'checked' );
-		}
-	};
-
-	api.Element.synchronizer.radio = {
-		update: function( to ) {
-			this.element.filter( function() {
-				return this.value === to;
-			}).prop( 'checked', true );
-		},
-		refresh: function() {
-			return this.element.filter( ':checked' ).val();
-		}
-	};
-
-	api.ValueFactory = function( constructor ) {
-		constructor = constructor || api.Value;
-
-		return function( key ) {
-			var args = slice.call( arguments, 1 );
-			this[ key ] = new constructor( api.Class.applicator, args );
-			this[ key ]._parent = this;
-			return this[ key ];
-		};
-	};
-
-	api.Values = api.Value.extend({
+	api.Values = api.Class.extend({
 		defaultConstructor: api.Value,
 
 		initialize: function( options ) {
-			api.Value.prototype.initialize.call( this, {}, options || {} );
+			$.extend( this, options || {} );
+
+			this._value = {};
 			this._deferreds = {};
 		},
 
@@ -400,7 +257,7 @@ if ( typeof wp === 'undefined' )
 				return this.value( id );
 
 			this._value[ id ] = value;
-			this._value[ id ]._parent = this._value;
+			this._value[ id ].parent = this;
 
 			if ( this._deferreds[ id ] )
 				this._deferreds[ id ].resolve();
@@ -469,32 +326,121 @@ if ( typeof wp === 'undefined' )
 		}
 	});
 
-	$.each( [ 'get', 'bind', 'unbind', 'link', 'unlink' ], function( i, method ) {
+	$.each( [ 'get', 'bind', 'unbind', 'link', 'unlink', 'sync', 'unsync', 'setter', 'resetSetter' ], function( i, method ) {
 		api.Values.prototype[ method ] = function() {
 			return this.pass( method, arguments );
 		};
 	});
+
+	api.ensure = function( element ) {
+		return typeof element == 'string' ? $( element ) : element;
+	};
+
+	api.Element = api.Value.extend({
+		initialize: function( element, options ) {
+			var self = this,
+				synchronizer = api.Element.synchronizer.html,
+				type, update, refresh;
+
+			this.element = api.ensure( element );
+			this.events = '';
+
+			if ( this.element.is('input, select, textarea') ) {
+				this.events += 'change';
+				synchronizer = api.Element.synchronizer.val;
+
+				if ( this.element.is('input') ) {
+					type = this.element.prop('type');
+					if ( api.Element.synchronizer[ type ] )
+						synchronizer = api.Element.synchronizer[ type ];
+					if ( 'text' === type || 'password' === type )
+						this.events += ' keyup';
+				}
+			}
+
+			api.Value.prototype.initialize.call( this, null, $.extend( options || {}, synchronizer ) );
+			this._value = this.get();
+
+			update  = this.update;
+			refresh = this.refresh;
+
+			this.update = function( to ) {
+				if ( to !== refresh.call( self ) )
+					update.apply( this, arguments );
+			};
+			this.refresh = function() {
+				self.set( refresh.call( self ) );
+			};
+
+			this.bind( this.update );
+			this.element.bind( this.events, this.refresh );
+		},
+
+		find: function( selector ) {
+			return $( selector, this.element );
+		},
+
+		refresh: function() {},
+
+		update: function() {}
+	});
+
+	api.Element.synchronizer = {};
+
+	$.each( [ 'html', 'val' ], function( i, method ) {
+		api.Element.synchronizer[ method ] = {
+			update: function( to ) {
+				this.element[ method ]( to );
+			},
+			refresh: function() {
+				return this.element[ method ]();
+			}
+		};
+	});
+
+	api.Element.synchronizer.checkbox = {
+		update: function( to ) {
+			this.element.prop( 'checked', to );
+		},
+		refresh: function() {
+			return this.element.prop( 'checked' );
+		}
+	};
+
+	api.Element.synchronizer.radio = {
+		update: function( to ) {
+			this.element.filter( function() {
+				return this.value === to;
+			}).prop( 'checked', true );
+		},
+		refresh: function() {
+			return this.element.filter( ':checked' ).val();
+		}
+	};
 
 	/* =====================================================================
 	 * Messenger for postMessage.
 	 * ===================================================================== */
 
 	api.Messenger = api.Class.extend({
-		add: api.ValueFactory(),
+		add: function( key, initial, options ) {
+			return this[ key ] = new api.Value( initial, options );
+		},
 
 		initialize: function( url, targetWindow, options ) {
 			$.extend( this, options || {} );
 
-			this.add( 'url', url );
+			url = this.add( 'url', url );
 			this.add( 'targetWindow', targetWindow || null );
-			this.add( 'origin' ).link( 'url', function( url ) {
-				return url().replace( /([^:]+:\/\/[^\/]+).*/, '$1' );
+			this.add( 'origin', url() ).link( url ).setter( function( to ) {
+				return to.replace( /([^:]+:\/\/[^\/]+).*/, '$1' );
 			});
 
 			this.topics = {};
 
 			$.receiveMessage( $.proxy( this.receive, this ), this.origin() || null );
 		},
+
 		receive: function( event ) {
 			var message;
 
@@ -507,6 +453,7 @@ if ( typeof wp === 'undefined' )
 			if ( message && message.id && message.data && this.topics[ message.id ] )
 				this.topics[ message.id ].fireWith( this, [ message.data ]);
 		},
+
 		send: function( id, data ) {
 			var message;
 
@@ -516,10 +463,12 @@ if ( typeof wp === 'undefined' )
 			message = JSON.stringify({ id: id, data: data });
 			$.postMessage( message, this.url(), this.targetWindow() );
 		},
+
 		bind: function( id, callback ) {
 			var topic = this.topics[ id ] || ( this.topics[ id ] = $.Callbacks() );
 			topic.add( callback );
 		},
+
 		unbind: function( id, callback ) {
 			if ( this.topics[ id ] )
 				this.topics[ id ].remove( callback );
