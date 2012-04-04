@@ -131,11 +131,15 @@ class WP_Themes_List_Table extends WP_List_Table {
 				array( 'preview' => 1, 'template' => $template, 'stylesheet' => $stylesheet, 'preview_iframe' => true, 'TB_iframe' => 'true' ),
 				home_url( '/' ) ) );
 
+			$customize_attributes = 'title="' . esc_attr( sprintf( __( 'Customize &#8220;%s&#8221;' ), $title ) ) . '"
+				. data-customize-template="' . esc_attr( $template ) . '" data-customize-stylesheet="' . esc_attr( $stylesheet ) . '"';
+
 			$actions = array();
 			$actions[] = '<a href="' . $activate_link . '" class="activatelink" title="'
 				. esc_attr( sprintf( __( 'Activate &#8220;%s&#8221;' ), $title ) ) . '">' . __( 'Activate' ) . '</a>';
-			$actions[] = '<a href="' . $preview_link . '" class="thickbox thickbox-preview" title="'
-				. esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;' ), $title ) ) . '">' . __( 'Preview' ) . '</a>';
+			$actions[] = '<a href="' . $preview_link . '" class="hide-if-js" title="'
+				. esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;' ), $title ) ) . '">' . __( 'Preview' ) . '</a>'
+				. '<a href="#" class="load-customize hide-if-no-js" ' . $customize_attributes . '>' . __( 'Customize' ) . '</a>';
 			if ( ! is_multisite() && current_user_can( 'delete_themes' ) )
 				$actions[] = '<a class="submitdelete deletion" href="' . wp_nonce_url( "themes.php?action=delete&amp;template=$stylesheet", 'delete-theme_' . $stylesheet )
 					. '" onclick="' . "return confirm( '" . esc_js( sprintf( __( "You are about to delete this theme '%s'\n  'Cancel' to stop, 'OK' to delete." ), $title ) )
@@ -145,7 +149,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 
 			$actions = implode ( ' | ', $actions );
 			?>
-			<a href="<?php echo $preview_link; ?>" class="thickbox thickbox-preview screenshot">
+			<a href="<?php echo $preview_link; ?>" class="load-customize screenshot" <?php echo $customize_attributes; ?>>
 			<?php if ( $screenshot = $theme->get_screenshot() ) : ?>
 				<img src="<?php echo esc_url( $screenshot ); ?>" alt="" />
 			<?php endif; ?>

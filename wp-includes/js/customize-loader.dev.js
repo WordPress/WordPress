@@ -41,27 +41,17 @@ if ( typeof wp === 'undefined' )
 	$( function() {
 		Loader.initialize();
 
-		// Override 'preview' links on themes page.
-		$('.thickbox-preview').click( function( event ) {
-			var href, template, stylesheet;
+		$('#current-theme, #availablethemes').on( 'click', '.load-customize', function( event ) {
+			var load = $(this);
 
-			// Stop the thickbox.
 			event.preventDefault();
-			event.stopImmediatePropagation();
-
-			// Extract the template/stylesheet from the preview link's url.
-			href = $(this).attr('href');
-			template = href.match('template=([^&]*)')[1];
-			stylesheet = href.match('stylesheet=([^&]*)')[1];
 
 			// Load the theme.
 			Loader.open({
-				template: template,
-				stylesheet: stylesheet
+				template:   load.data('customizeTemplate'),
+				stylesheet: load.data('customizeStylesheet')
 			});
-		}).filter( function() {
-			return 'Preview' == $(this).text();
-		}).text('Customize');
+		});
 	});
 
 	// Expose the API to the world.
