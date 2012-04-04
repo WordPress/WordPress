@@ -136,7 +136,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 	}
 
 	function get_views() {
-		global $post_id, $comment_status;
+		global $post_id, $comment_status, $comment_type;
 
 		$status_links = array();
 		$num_comments = ( $post_id ) ? wp_count_comments( $post_id ) : wp_count_comments();
