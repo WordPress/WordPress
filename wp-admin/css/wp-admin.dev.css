@@ -221,7 +221,9 @@ textarea {
 
 input[type="checkbox"],
 input[type="radio"] {
-	vertical-align: text-bottom;
+	vertical-align: text-top;
+	padding: 0;
+	margin: 1px 0 0;
 }
 
 input[type="search"] {
@@ -2030,6 +2032,10 @@ body.admin-bar {
 	user-select: none;
 }
 
+.stuffbox h3 {
+	cursor: auto;
+}
+
 .postbox .inside,
 .stuffbox .inside {
 	padding: 0 10px;
@@ -3427,6 +3433,37 @@ p.popular-tags a {
 	text-decoration: underline;
 }
 
+/* links tables */
+table.links-table {
+	width: 100%;
+}
+
+.links-table th {
+	font-weight: normal;
+	text-align: left;
+	vertical-align: top;
+	min-width: 80px;
+	width: 20%;
+	word-wrap: break-word;
+}
+
+.links-table th,
+.links-table td {
+	padding: 5px 0;
+}
+
+.links-table td label {
+	margin-right: 8px;
+}
+
+.links-table td input[type="text"],
+.links-table td textarea {
+	width: 100%;
+}
+
+.links-table #link_rel {
+	max-width: 280px;
+}
 
 /*------------------------------------------------------------------------------
   14.0 - Media Screen
