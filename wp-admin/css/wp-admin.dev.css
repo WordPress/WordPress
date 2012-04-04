@@ -6096,13 +6096,23 @@ a.rsswidget {
 }
 
 .login h1 a {
-	background: url(../images/wordpress-logo.png?ver=20120216) no-repeat top center;
+	background-image: url(../images/wordpress-logo.png?ver=20120216);
+	background-size: 274px 63px;
+	background-position: top center;
+	background-repeat: no-repeat;
 	width: 326px;
 	height: 67px;
 	text-indent: -9999px;
 	overflow: hidden;
 	padding-bottom: 15px;
 	display: block;
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
+	.login h1 a {
+		background-image: url(../images/wordpress-logo-2x.png?ver=20120412);
+		background-size: 274px 63px;
+	}
 }
 
 #login {
