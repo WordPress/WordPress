@@ -107,6 +107,7 @@ if ( ! is_multisite() && current_user_can( 'install_themes' ) ) : ?>
 	printf( __( '%1$s %2$s by %3$s' ), $ct->display('Name'), $ct->display('Version'), $ct->display('Author') ) ; ?></h4>
 <p class="theme-description"><?php echo $ct->display('Description'); ?></p>
 <div class="theme-options">
+	<a href="#" class="load-customize hide-if-no-js" data-customize-template="<?php echo esc_attr( $ct->get_template() ); ?>" data-customize-stylesheet="<?php echo esc_attr( $ct->get_stylesheet() ); ?>" title="<?php echo esc_attr( sprintf( __( 'Customize &#8220;%s&#8221;' ), $ct->get('Name') ) ); ?>"><?php _e( 'Customize' )?></a>
 	<span><?php _e( 'Options:' )?></span>
 	<?php
 	// Pretend you didn't see this.

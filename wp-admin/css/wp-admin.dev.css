@@ -4337,6 +4337,10 @@ h3.available-themes {
 	font-size: 15px;
 }
 
+.theme-options .load-customize {
+	margin-right: 20px;
+}
+
 #post-body ul.add-menu-item-tabs li.tabs a,
 #TB_window #TB_title a.tb-theme-preview-link,
 #TB_window #TB_title a.tb-theme-preview-link:visited {
