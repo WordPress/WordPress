@@ -131,7 +131,6 @@ input[type=password] {
 	border-right:0;
 	border-left-width: 1px;
 	border-left-style: solid;
-	float: right;
 }
 
 #post-body .misc-pub-section-last {
@@ -738,6 +737,27 @@ th.sorted a span {
 /*------------------------------------------------------------------------------
   11.0 - Write/Edit Post Screen
 ------------------------------------------------------------------------------*/
+/* structural/layout */
+#post-body-content {
+	float: right;
+}
+
+#poststuff #post-body.columns-2 {
+	margin-left: 300px;
+	margin-right: 0;
+}
+
+#post-body.columns-2 #postbox-container-1 {
+	float: left;
+	margin-left: -300px;
+	margin-right: 0;
+}
+
+@media only screen and (max-width: 850px) {
+	#wpbody-content #post-body.columns-2 #postbox-container-1 {
+		margin-left: 0;
+	}
+}
 
 #titlediv #title-prompt-text,
 #wp-fullscreen-title-prompt-text {
@@ -777,29 +797,7 @@ th.sorted a span {
 	float: left;
 }
 
-#post-body ul.category-tabs,
-#post-body ul.add-menu-item-tabs {
-	float: right;
-	text-align: left;
-	/* Negative margin for the sake of those without JS: all tabs display */
-	margin: 0 5px 0 -120px;
-}
-
-#post-body ul.category-tabs li.tabs,
-#post-body ul.add-menu-item-tabs li.tabs {
-	-webkit-border-top-left-radius: 0;
-	-webkit-border-top-right-radius: 3px;
-	-webkit-border-bottom-left-radius: 0;
-	-webkit-border-bottom-right-radius: 3px;
-	border-top-left-radius: 0;
-	border-top-right-radius: 3px;
-	border-bottom-left-radius: 0;
-	border-bottom-right-radius: 3px;
-}
-
-#post-body .categorydiv div.tabs-panel,
-.taxonomy div.tabs-panel,
-#post-body #linkcategorydiv div.tabs-panel {
+.taxonomy div.tabs-panel {
 	margin: 0 125px 0 5px;
 }
 
@@ -813,7 +811,6 @@ th.sorted a span {
 	padding-right: 5px;
 }
 
-#post-body .category-tabs li.tabs,
 #post-body .add-menu-item-tabs li.tabs {
 	border-width: 1px 1px 1px 0;
 	margin-right: 0;
@@ -881,7 +878,6 @@ table.diff td, table.diff th {
 	margin-right: 120px;
 }
 
-#post-body ul.category-tabs,
 #post-body ul.add-menu-item-tabs {
 	float: right;
 	text-align: left;
@@ -889,7 +885,6 @@ table.diff td, table.diff th {
 	margin: 0 5px 0 -120px;
 }
 
-#post-body ul.category-tabs li.tabs,
 #post-body ul.add-menu-item-tabs li.tabs {
 	-webkit-border-top-left-radius: 0;
 	-webkit-border-top-right-radius: 3px;
@@ -908,13 +903,11 @@ ul.export-filters,
 .categorydiv ul.categorychecklist ul,
 .customlinkdiv ul.categorychecklist ul,
 .posttypediv ul.categorychecklist ul,
-.taxonomydiv ul.categorychecklist ul,
-#linkcategorydiv ul.categorychecklist ul {
+.taxonomydiv ul.categorychecklist ul {
 	margin-left: 0;
 	margin-right: 18px;
 }
 
-#post-body .category-tabs li.tabs,
 #post-body .add-menu-item-tabs li.tabs {
 	border-style: solid solid solid none;
 	border-width: 1px 1px 1px 0;
@@ -943,6 +936,10 @@ span.description,
 }
 
 .ac_results li {
+	text-align: right;
+}
+
+.links-table th {
 	text-align: right;
 }
 
@@ -2150,19 +2147,6 @@ h3.tb {
 #category-add input,
 #category-add select {
 	font-family: Tahoma, Arial, sans-serif;
-}
-
-.inline-editor ul.cat-checklist ul,
-.categorydiv ul.categorychecklist ul,
-#linkcategorydiv ul.categorychecklist ul {
-	margin-left: 0;
-	margin-right: 18px;
-}
-
-/* Categories */
-.category-tabs li {
-	padding-left: 0;
-	padding-right: 8px;
 }
 
 /* Tags */
