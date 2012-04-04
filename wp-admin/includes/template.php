@@ -13,8 +13,11 @@
 //
 
 /**
- * {@internal Missing Short Description}}
+ * Walker to output an unordered list of category checkbox <input> elements.
  *
+ * @see Walker
+ * @see wp_category_checklist()
+ * @see wp_terms_checklist()
  * @since 2.5.1
  */
 class Walker_Category_Checklist extends Walker {
@@ -51,29 +54,33 @@ class Walker_Category_Checklist extends Walker {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Output an unordered list of checkbox <input> elements labelled
+ * with category names.
  *
+ * @see wp_terms_checklist()
  * @since 2.5.1
  *
- * @param unknown_type $post_id
- * @param unknown_type $descendants_and_self
- * @param unknown_type $selected_cats
- * @param unknown_type $popular_cats
+ * @param int $post_id Mark categories associated with this post as checked. $selected_cats must not be an array.
+ * @param int $descendants_and_self ID of the category to output along with its descendents.
+ * @param bool|array $selected_cats List of categories to mark as checked.
+ * @param bool|array $popular_cats Override the list of categories that receive the "popular-category" class.
+ * @param object $walker Walker object to use to build the output.
+ * @param bool $checked_ontop Move checked items out of the hierarchy and to the top of the list.
  */
 function wp_category_checklist( $post_id = 0, $descendants_and_self = 0, $selected_cats = false, $popular_cats = false, $walker = null, $checked_ontop = true ) {
-	wp_terms_checklist($post_id,
-	 	array(
-			'taxonomy' => 'category',
-			'descendants_and_self' => $descendants_and_self,
-			'selected_cats' => $selected_cats,
-			'popular_cats' => $popular_cats,
-			'walker' => $walker,
-			'checked_ontop' => $checked_ontop
-  ));
+	wp_terms_checklist( $post_id, array(
+		'taxonomy' => 'category',
+		'descendants_and_self' => $descendants_and_self,
+		'selected_cats' => $selected_cats,
+		'popular_cats' => $popular_cats,
+		'walker' => $walker,
+		'checked_ontop' => $checked_ontop
+	) );
 }
 
 /**
- * Taxonomy independent version of wp_category_checklist
+ * Output an unordered list of checkbox <input> elements labelled
+ * with term names. Taxonomy independent version of wp_category_checklist().
  *
  * @since 3.0.0
  *
@@ -141,15 +148,20 @@ function wp_terms_checklist($post_id = 0, $args = array()) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Retrieve a list of the most popular terms from the specified taxonomy.
+ *
+ * If the $echo argument is true then the elements for a list of checkbox
+ * <input> elements labelled with the names of the selected terms is output.
+ * If the $post_ID global isn't empty then the terms associated with that
+ * post will be marked as checked.
  *
  * @since 2.5.0
  *
- * @param unknown_type $taxonomy
- * @param unknown_type $default
- * @param unknown_type $number
- * @param unknown_type $echo
- * @return unknown
+ * @param string $taxonomy Taxonomy to retrieve terms from.
+ * @param int $default Unused.
+ * @param int $number Number of terms to retrieve. Defaults to 10.
+ * @param bool $echo Optionally output the list as well. Defaults to true.
+ * @return array List of popular term IDs.
  */
 function wp_popular_terms_checklist( $taxonomy, $default = 0, $number = 10, $echo = true ) {
 	global $post_ID;

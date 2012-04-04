@@ -140,7 +140,7 @@ class WP_Customize_Control {
 	}
 
 	/**
-	 * Check capabiliites and render the control.
+	 * Check capabilities and render the control.
 	 *
 	 * @since 3.4.0
 	 */

@@ -58,7 +58,7 @@ class WP_Customize_Section {
 	}
 
 	/**
-	 * Check capabiliites and render the section.
+	 * Check capabilities and render the section.
 	 *
 	 * @since 3.4.0
 	 */
