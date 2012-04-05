@@ -1420,6 +1420,8 @@ div.wp-menu-image {
 	background-repeat: no-repeat;
 }
 
+.icon16.icon-dashboard,
+.menu-icon-dashboard div.wp-menu-image,
 .icon16.icon-post,
 .menu-icon-post div.wp-menu-image,
 .icon16.icon-media,
@@ -1716,6 +1718,8 @@ div.wp-menu-image {
 		background-size: 708px 45px;
 	}
 
+	.icon16.icon-dashboard,
+	.menu-icon-dashboard div.wp-menu-image,
 	.icon16.icon-post,
 	.menu-icon-post div.wp-menu-image,
 	.icon16.icon-media,
