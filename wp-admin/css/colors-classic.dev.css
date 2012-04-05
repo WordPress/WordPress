@@ -1420,10 +1420,29 @@ div.wp-menu-image {
 	background-repeat: no-repeat;
 }
 
-.icon16,
-div.wp-menu-image {
+.icon16.icon-post,
+.menu-icon-post div.wp-menu-image,
+.icon16.icon-media,
+.menu-icon-media div.wp-menu-image,
+.icon16.icon-links,
+.menu-icon-links div.wp-menu-image,
+.icon16.icon-page,
+.menu-icon-page div.wp-menu-image,
+.icon16.icon-comments,
+.menu-icon-comments div.wp-menu-image,
+.icon16.icon-appearance,
+.menu-icon-appearance div.wp-menu-image,
+.icon16.icon-plugins,
+.menu-icon-plugins div.wp-menu-image,
+.icon16.icon-users,
+.menu-icon-users div.wp-menu-image,
+.icon16.icon-tools,
+.menu-icon-tools div.wp-menu-image,
+.icon16.icon-settings,
+.menu-icon-settings div.wp-menu-image,
+.icon16.icon-site,
+.menu-icon-site div.wp-menu-image {
 	background-image: url('../images/menu-vs.png?ver=20120201');
-	background-size: 390px 64px;
 }
 
 .icon16.icon-dashboard,
@@ -1560,9 +1579,38 @@ div.wp-menu-image {
 /* end menu and screen icons */
 
 /* Screen Icons */
-div.icon32 {
+.icon32.icon-post,
+#icon-edit,
+#icon-post,
+.icon32.icon-dashboard,
+#icon-index,
+.icon32.icon-media,
+#icon-upload,
+.icon32.icon-links,
+#icon-link-manager,
+#icon-link,
+#icon-link-category,
+.icon32.icon-page,
+#icon-edit-pages,
+#icon-page,
+.icon32.icon-comments,
+#icon-edit-comments,
+.icon32.icon-appearance,
+#icon-themes,
+.icon32.icon-plugins,
+#icon-plugins,
+.icon32.icon-users,
+#icon-users,
+#icon-profile,
+#icon-user-edit,
+.icon32.icon-tools,
+#icon-tools,
+#icon-admin,
+.icon32.icon-settings,
+#icon-options-general,
+.icon32.icon-site,
+#icon-ms-admin {
 	background-image: url(../images/icons32-vs.png?ver=20111206);
-	background-size: 708px 45px;
 }
 
 .icon32.icon-post,
@@ -1633,7 +1681,37 @@ div.icon32 {
 }
 
 @media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
-	div.icon32 {
+	.icon32.icon-post,
+	#icon-edit,
+	#icon-post,
+	.icon32.icon-dashboard,
+	#icon-index,
+	.icon32.icon-media,
+	#icon-upload,
+	.icon32.icon-links,
+	#icon-link-manager,
+	#icon-link,
+	#icon-link-category,
+	.icon32.icon-page,
+	#icon-edit-pages,
+	#icon-page,
+	.icon32.icon-comments,
+	#icon-edit-comments,
+	.icon32.icon-appearance,
+	#icon-themes,
+	.icon32.icon-plugins,
+	#icon-plugins,
+	.icon32.icon-users,
+	#icon-users,
+	#icon-profile,
+	#icon-user-edit,
+	.icon32.icon-tools,
+	#icon-tools,
+	#icon-admin,
+	.icon32.icon-settings,
+	#icon-options-general,
+	.icon32.icon-site,
+	#icon-ms-admin {
 		background-image: url(../images/icons32-2x.png?ver=20120412);
 		background-size: 708px 45px;
 	}
