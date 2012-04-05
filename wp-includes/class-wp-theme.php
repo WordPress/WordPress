@@ -398,12 +398,12 @@ final class WP_Theme implements ArrayAccess {
 			case 'Template Files' :
 				$files = $this->get_files( 'php' );
 				if ( $this->parent() )
-					$files = array_merge( $files, $this->parent()->get_files( 'php' ) );
+					$files = array_merge( $this->parent()->get_files( 'php' ), $files );
 				return $files;
 			case 'Stylesheet Files' :
 				$files = $this->get_files( 'css' );
 				if ( $this->parent() )
-					$files = array_merge( $files, $this->parent()->get_files( 'css' ) );
+					$files = array_merge( $this->parent()->get_files( 'css' ), $files );
 				return $files;
 			case 'Template Dir' :
 				return $this->get_template_directory();
