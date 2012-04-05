@@ -87,7 +87,7 @@ function wp_get_themes( $args = array() ) {
  * @param string $stylesheet Directory name for the theme. Optional. Defaults to current theme.
  * @param string $theme_root Absolute path of the theme root to look in. Optional. If not specified, get_raw_theme_root()
  * 	is used to calculate the theme root for the $stylesheet provided (or current theme).
- * @return WP_Theme|bool WP_Theme object. False if the theme is not found.
+ * @return WP_Theme Theme object. Be sure to check the object's exists() method if you need to confirm the theme's existence.
  */
 function wp_get_theme( $stylesheet = null, $theme_root = null ) {
 	global $wp_theme_directories;
@@ -104,11 +104,7 @@ function wp_get_theme( $stylesheet = null, $theme_root = null ) {
 			$theme_root = WP_CONTENT_DIR . $theme_root;
 	}
 
-	$theme = new WP_Theme( $stylesheet, $theme_root );
-	if ( $theme->exists() )
-		return $theme;
-
-	return false;
+	return new WP_Theme( $stylesheet, $theme_root );
 }
 
 /**
@@ -1556,8 +1552,7 @@ function check_theme_switched() {
 	if ( $stylesheet = get_option( 'theme_switched' ) ) {
 		$old_theme = wp_get_theme( $stylesheet );
 
-		// If we can't find the old theme then fallback to passing the raw data to the action like we did pre-3.4
-		if ( $old_theme )
+		if ( $old_theme->exists() )
 			do_action( 'after_switch_theme', $old_theme->get('Name'), $old_theme );
 		else
 			do_action( 'after_switch_theme', $stylesheet );
