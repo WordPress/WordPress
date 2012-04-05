@@ -1329,8 +1329,28 @@ div.icon32 {
 		background-size: 708px 45px;
 	}
 
-	.icon16,
-	div.wp-menu-image {
+	.icon16.icon-post,
+	.menu-icon-post div.wp-menu-image,
+	.icon16.icon-media,
+	.menu-icon-media div.wp-menu-image,
+	.icon16.icon-links,
+	.menu-icon-links div.wp-menu-image,
+	.icon16.icon-page,
+	.menu-icon-page div.wp-menu-image,
+	.icon16.icon-comments,
+	.menu-icon-comments div.wp-menu-image,
+	.icon16.icon-appearance,
+	.menu-icon-appearance div.wp-menu-image,
+	.icon16.icon-plugins,
+	.menu-icon-plugins div.wp-menu-image,
+	.icon16.icon-users,
+	.menu-icon-users div.wp-menu-image,
+	.icon16.icon-tools,
+	.menu-icon-tools div.wp-menu-image,
+	.icon16.icon-settings,
+	.menu-icon-settings div.wp-menu-image,
+	.icon16.icon-site,
+	.menu-icon-site div.wp-menu-image {
 		background-image: url('../images/menu-2x.png?ver=20120412');
 		background-size: 390px 64px;
 	}
