@@ -63,10 +63,10 @@ function wp_get_themes( $args = array() ) {
 	static $_themes = array();
 
 	foreach ( $theme_directories as $theme => $theme_root ) {
-		if ( isset( $_themes[ $theme ] ) )
-			$themes[ $theme ] = $_themes[ $theme ];
+		if ( isset( $_themes[ $theme_root['theme_root'] . '/' . $theme ] ) )
+			$themes[ $theme ] = $_themes[ $theme_root['theme_root'] . '/' . $theme ];
 		else
-			$themes[ $theme ] = $_themes[ $theme ] = new WP_Theme( $theme, $theme_root['theme_root'] );
+			$themes[ $theme ] = $_themes[ $theme_root['theme_root'] . '/' . $theme ] = new WP_Theme( $theme, $theme_root['theme_root'] );
 	}
 
 	if ( null !== $args['errors'] ) {
@@ -324,6 +324,8 @@ function search_theme_directories( $force = false ) {
 		return $found_themes;
 
 	$found_themes = array();
+
+	$wp_theme_directories = (array) $wp_theme_directories;
 
 	// Set up maybe-relative, maybe-absolute array of theme directories.
 	// We always want to return absolute, but we need to cache relative
