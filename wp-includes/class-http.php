@@ -1540,7 +1540,7 @@ class WP_Http_Cookie {
 		if ( empty( $this->name ) || empty( $this->value ) )
 			return '';
 
-		return $this->name . '=' . apply_filters( 'wp_http_cookie_value', $this->value, $this-name );
+		return $this->name . '=' . apply_filters( 'wp_http_cookie_value', $this->value, $this->name );
 	}
 
 	/**
