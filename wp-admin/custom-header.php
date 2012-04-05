@@ -92,6 +92,9 @@ class Custom_Image_Header {
 		add_action("admin_head-$page", array(&$this, 'take_action'), 50);
 		add_action("admin_head-$page", array(&$this, 'js'), 50);
 		add_action("admin_head-$page", $this->admin_header_callback, 51);
+
+		add_filter( 'attachment_fields_to_edit', array( $this, 'attachment_fields_to_edit' ), 10, 2 );
+		add_filter( 'media_upload_tabs', array( $this, 'filter_upload_tabs' ) );
 	}
 
 	/**
@@ -128,8 +131,11 @@ class Custom_Image_Header {
 			return 1;
 
 		$step = (int) $_GET['step'];
-		if ( $step < 1 || 3 < $step )
-			$step = 1;
+		if ( $step < 1 || 3 < $step ||
+			( 2 == $step && ! wp_verify_nonce( $_REQUEST['_wpnonce-custom-header-upload'], 'custom-header-upload' ) ) ||
+			( 3 == $step && ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'custom-header-crop-image' ) )
+		)
+			return 1;
 
 		return $step;
 	}
@@ -142,10 +148,15 @@ class Custom_Image_Header {
 	function js_includes() {
 		$step = $this->step();
 
-		if ( ( 1 == $step || 3 == $step ) && current_theme_supports( 'custom-header', 'header-text' ) )
-			wp_enqueue_script('farbtastic');
-		elseif ( 2 == $step )
+		if ( ( 1 == $step || 3 == $step ) ) {
+			add_thickbox();
+			wp_enqueue_script( 'media-upload' );
+			wp_enqueue_script( 'custom-header' );
+			if ( current_theme_supports( 'custom-header', 'header-text' ) )
+				wp_enqueue_script('farbtastic');
+		} elseif ( 2 == $step ) {
 			wp_enqueue_script('imgareaselect');
+		}
 	}
 
 	/**
@@ -395,7 +406,7 @@ var farbtastic;
 		<?php if ( display_header_text() ) { ?>
 		pickColor('#<?php echo get_header_textcolor(); ?>');
 		<?php } else { ?>
-		toggle_text();		
+		toggle_text();
 		<?php } ?>
 	});
 })(jQuery);
@@ -553,6 +564,12 @@ var farbtastic;
 		<?php submit_button( __( 'Upload' ), 'button', 'submit', false ); ?>
 	</p>
 	</form>
+	<?php
+		$image_library_url = get_upload_iframe_src( 'image', null, 'library' );
+		$image_library_url = remove_query_arg( 'TB_iframe', $image_library_url );
+		$image_library_url = add_query_arg( array( 'context' => 'custom-header', 'TB_iframe' => 1 ), $image_library_url );
+	?>
+	<span class="howto"><?php _ex( 'or', 'Custom Header: Choose an image from your computer - or - Choose from image library' ); ?></span> <a class="thickbox" href="<?php echo $image_library_url; ?>"><?php _e( 'Choose from image library' ); ?></a>
 </td>
 </tr>
 <?php endif; ?>
@@ -674,28 +691,14 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 		if ( ! current_theme_supports( 'custom-header', 'uploads' ) )
 			wp_die( __( 'Cheatin&#8217; uh?' ) );
 
-		$overrides = array('test_form' => false);
-		$file = wp_handle_upload($_FILES['import'], $overrides);
-
-		if ( isset($file['error']) )
-			wp_die( $file['error'],  __( 'Image Upload Error' ) );
-
-		$url = $file['url'];
-		$type = $file['type'];
-		$file = $file['file'];
-		$filename = basename($file);
-
-		// Construct the object array
-		$object = array(
-		'post_title' => $filename,
-		'post_content' => $url,
-		'post_mime_type' => $type,
-		'guid' => $url,
-		'context' => 'custom-header'
-		);
-
-		// Save the data
-		$id = wp_insert_attachment($object, $file);
+		if ( empty( $_POST ) && isset( $_GET['file'] ) ) {
+			$id = absint( $_GET['file'] );
+			$file = get_attached_file( $id, true );
+			$url = wp_get_attachment_image_src( $id, 'full');
+			$url = $url[0];
+		} elseif ( isset( $_POST ) ) {
+			extract($this->step_2_manage_upload());
+		}
 
 		list($width, $height, $type, $attr) = getimagesize( $file );
 
@@ -753,6 +756,9 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	<input type="hidden" name="height" id="height" value="<?php echo esc_attr( $height ); ?>"/>
 	<input type="hidden" name="attachment_id" id="attachment_id" value="<?php echo esc_attr( $id ); ?>" />
 	<input type="hidden" name="oitar" id="oitar" value="<?php echo esc_attr( $oitar ); ?>" />
+	<?php if ( empty( $_POST ) && isset( $_GET['file'] ) ) { ?>
+	<input type="hidden" name="new-attachment" value="true" />
+	<?php } ?>
 	<?php wp_nonce_field( 'custom-header-crop-image' ) ?>
 
 	<?php submit_button( __( 'Crop and Publish' ) ); ?>
@@ -760,6 +766,33 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 </form>
 </div>
 		<?php
+	}
+
+
+	function step_2_manage_upload() {
+		$overrides = array('test_form' => false);
+		$file = wp_handle_upload($_FILES['import'], $overrides);
+
+		if ( isset($file['error']) )
+			wp_die( $file['error'],  __( 'Image Upload Error' ) );
+
+		$url = $file['url'];
+		$type = $file['type'];
+		$file = $file['file'];
+		$filename = basename($file);
+
+		// Construct the object array
+		$object = array(
+			'post_title'     => $filename,
+			'post_content'   => $url,
+			'post_mime_type' => $type,
+			'guid'           => $url,
+			'context'        => 'custom-header'
+		);
+
+		// Save the data
+		$id = wp_insert_attachment( $object, $file );
+		return compact( 'id', 'file', 'filename', 'url', 'type' );
 	}
 
 	/**
@@ -826,9 +859,11 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 			'guid' => $url,
 			'context' => 'custom-header'
 		);
+		if ( isset( $_POST['new-attachment'] ) && $_POST['new-attachment'] )
+			unset($object['ID']);
 
 		// Update the attachment
-		wp_insert_attachment($object, $cropped);
+		$attachment_id = wp_insert_attachment( $object, $cropped );
 		wp_update_attachment_metadata( $attachment_id, wp_generate_attachment_metadata( $attachment_id, $cropped ) );
 		update_post_meta( $attachment_id, '_wp_attachment_is_custom_header', get_option('stylesheet' ) );
 
@@ -845,8 +880,10 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 
 		// cleanup
 		$medium = str_replace(basename($original), 'midsize-'.basename($original), $original);
-		@unlink( apply_filters( 'wp_delete_file', $medium ) );
-		@unlink( apply_filters( 'wp_delete_file', $original ) );
+		if ( file_exists( $medium ) )
+			@unlink( apply_filters( 'wp_delete_file', $medium ) );
+		if ( empty ( $_POST['new-attachment'] ) )
+			@unlink( apply_filters( 'wp_delete_file', $original ) );
 
 		return $this->finished();
 	}
@@ -870,12 +907,36 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 		if ( ! current_user_can('edit_theme_options') )
 			wp_die(__('You do not have permission to customize headers.'));
 		$step = $this->step();
-		if ( 1 == $step || ! $_POST )
-			$this->step_1();
-		elseif ( 2 == $step )
+		if ( 2 == $step )
 			$this->step_2();
 		elseif ( 3 == $step )
 			$this->step_3();
+		else
+			$this->step_1();
+	}
+
+	function attachment_fields_to_edit( $form_fields, $post ) {
+		if ( isset( $_REQUEST['context'] ) && $_REQUEST['context'] == 'custom-header' ) {
+			$form_fields = array();
+			$href = esc_url(add_query_arg(array(
+				'page' => 'custom-header',
+				'step' => 2,
+				'_wpnonce-custom-header-upload' => wp_create_nonce('custom-header-upload'),
+				'file' => $post->ID
+			), admin_url('themes.php')));
+
+			$form_fields['buttons'] = array( 'tr' => '<tr class="submit"><td></td><td><a data-location="' . $href . '" class="wp-set-header">' . _( 'Set as header' ) . '</a></td></tr>' );
+			$form_fields['context'] = array( 'input' => 'hidden', 'value' => 'custom-header' );
+		}
+
+		return $form_fields;
+	}
+
+	function filter_upload_tabs( $tabs ) {
+		if ( isset( $_REQUEST['context'] ) && $_REQUEST['context'] == 'custom-header' )
+			return array( 'library' => __('Media Library') );
+
+		return $tabs;
 	}
 
 }

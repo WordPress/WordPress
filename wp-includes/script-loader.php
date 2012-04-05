@@ -417,6 +417,7 @@ function wp_default_scripts( &$scripts ) {
 		) );
 
 		$scripts->add( 'custom-background', "/wp-admin/js/custom-background$suffix.js", array('farbtastic'), false, 1 );
+		$scripts->add( 'media-gallery', "/wp-admin/js/media-gallery$suffix.js", array('jquery'), false, 1 );
 	}
 }
 

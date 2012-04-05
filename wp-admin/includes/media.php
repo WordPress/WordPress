@@ -403,17 +403,19 @@ function _media_button($title, $icon, $type, $id) {
 	return "<a href='" . esc_url( get_upload_iframe_src($type) ) . "' id='{$id}-add_{$type}' class='thickbox add_$type' title='" . esc_attr( $title ) . "'><img src='" . esc_url( admin_url( $icon ) ) . "' alt='$title' onclick='return false;' /></a>";
 }
 
-function get_upload_iframe_src( $type = null, $post_id = null ) {
+function get_upload_iframe_src( $type = null, $post_id = null, $tab = null ) {
 	global $post_ID;
 
 	if ( empty( $post_id ) )
 		$post_id = $post_ID;
 
-	$uploading_iframe_ID = (int) $post_id;
-	$upload_iframe_src = add_query_arg( 'post_id', $uploading_iframe_ID, admin_url('media-upload.php') );
+	$upload_iframe_src = add_query_arg( 'post_id', (int) $post_id, admin_url('media-upload.php') );
 
 	if ( $type && 'media' != $type )
 		$upload_iframe_src = add_query_arg('type', $type, $upload_iframe_src);
+
+	if ( ! empty( $tab ) )
+		$upload_iframe_src = add_query_arg('tab', $tab, $upload_iframe_src);
 
 	$upload_iframe_src = apply_filters($type . '_upload_iframe_src', $upload_iframe_src);
 
@@ -497,7 +499,7 @@ function media_upload_form_handler() {
 	if ( isset($send_id) ) {
 		$attachment = stripslashes_deep( $_POST['attachments'][$send_id] );
 
-		$html = $attachment['post_title'];
+		$html = isset( $attachment['post_title'] ) ? $attachment['post_title'] : '';
 		if ( !empty($attachment['url']) ) {
 			$rel = '';
 			if ( strpos($attachment['url'], 'attachment_id') || get_attachment_link($send_id) == $attachment['url'] )
