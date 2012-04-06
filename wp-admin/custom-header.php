@@ -700,7 +700,14 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 			extract($this->step_2_manage_upload());
 		}
 
-		list($width, $height, $type, $attr) = getimagesize( $file );
+		if ( file_exists( $file ) ) {
+			list( $width, $height, $type, $attr ) = getimagesize( $file );
+		} else {
+			$data = wp_get_attachment_metadata( $id );
+			$height = $data[ 'height' ];
+			$width = $data[ 'width' ];
+			unset( $data );
+		}
 
 		$max_width = 0;
 		// For flex, limit size of image displayed to 1500px unless theme says otherwise
@@ -716,7 +723,8 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 			&& $width == get_theme_support( 'custom-header', 'width' ) && $height == get_theme_support( 'custom-header', 'height' ) )
 		{
 			// Add the meta-data
-			wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $file ) );
+			if ( file_exists( $file ) )
+				wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $file ) );
 			update_post_meta( $id, '_wp_attachment_is_custom_header', get_option('stylesheet' ) );
 
 			set_theme_mod('header_image', esc_url($url));
@@ -724,7 +732,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 			return $this->finished();
 		} elseif ( $width > $max_width ) {
 			$oitar = $width / $max_width;
-			$image = wp_crop_image($file, 0, 0, $width, $height, $max_width, $height / $oitar, false, str_replace(basename($file), 'midsize-'.basename($file), $file));
+			$image = wp_crop_image($id, 0, 0, $width, $height, $max_width, $height / $oitar, false, str_replace(basename($file), 'midsize-'.basename($file), $file));
 			if ( is_wp_error( $image ) )
 				wp_die( __( 'Image could not be processed. Please go back and try again.' ), __( 'Image Processing Error' ) );
 

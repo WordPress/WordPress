@@ -197,45 +197,6 @@ function wp_image_editor($post_id, $msg = false) {
 <?php
 }
 
-function load_image_to_edit($post_id, $mime_type, $size = 'full') {
-	$filepath = get_attached_file($post_id);
-
-	if ( $filepath && file_exists($filepath) ) {
-		if ( 'full' != $size && ( $data = image_get_intermediate_size($post_id, $size) ) ) {
-			$filepath = apply_filters('load_image_to_edit_filesystempath', path_join( dirname($filepath), $data['file'] ), $post_id, $size);
-		}
-	} elseif ( function_exists('fopen') && function_exists('ini_get') && true == ini_get('allow_url_fopen') ) {
-		$filepath = apply_filters('load_image_to_edit_attachmenturl', wp_get_attachment_url($post_id) , $post_id, $size);
-	}
-
-	$filepath = apply_filters('load_image_to_edit_path', $filepath, $post_id, $size);
-	if ( empty($filepath) )
-		return false;
-
-	switch ( $mime_type ) {
-		case 'image/jpeg':
-			$image = imagecreatefromjpeg($filepath);
-			break;
-		case 'image/png':
-			$image = imagecreatefrompng($filepath);
-			break;
-		case 'image/gif':
-			$image = imagecreatefromgif($filepath);
-			break;
-		default:
-			$image = false;
-			break;
-	}
-	if ( is_resource($image) ) {
-		$image = apply_filters('load_image_to_edit', $image, $post_id, $size);
-		if ( function_exists('imagealphablending') && function_exists('imagesavealpha') ) {
-			imagealphablending($image, false);
-			imagesavealpha($image, true);
-		}
-	}
-	return $image;
-}
-
 function wp_stream_image($image, $mime_type, $post_id) {
 	$image = apply_filters('image_save_pre', $image, $post_id);
 
