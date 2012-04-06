@@ -51,7 +51,7 @@ else
 
 $theme = wp_get_theme( $stylesheet );
 
-if ( ! $theme )
+if ( ! $theme->exists() )
 	wp_die( __( 'The requested theme does not exist.' ) );
 
 $allowed_files = $theme->get_files( 'php', 1 );
