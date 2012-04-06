@@ -171,7 +171,7 @@ function _cleanup_image_add_caption($str) {
 		$s = preg_replace( '/[\r\n\t]+/', ' ', $str[0] );
 		// look for single quotes inside html attributes (for example in title)
 		$s = preg_replace_callback( '/="[^"]+"/', '_cleanup_image_add_caption2', $s );
-		return str_replace(	'"', "'", $s );
+		return str_replace( '"', "'", $s );
 	}
 
 	return '';
