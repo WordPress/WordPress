@@ -92,8 +92,10 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 			}
 		}
 
-		if ( ! $redirect_url )
+		if ( ! $redirect_url ) {
 			$redirect_url = redirect_guess_404_permalink( $requested_url );
+			$redirect['query'] = remove_query_arg( array( 'p', 'page_id', 'attachment_id', 'post_type', 'pagename', 'name' ), $redirect['query'] );
+		}
 
 	} elseif ( is_object($wp_rewrite) && $wp_rewrite->using_permalinks() ) {
 		// rewriting of old ?p=X, ?m=2004, ?m=200401, ?m=20040101
