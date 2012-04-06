@@ -166,9 +166,9 @@ add_filter( 'image_send_to_editor', 'image_add_caption', 20, 8 );
 
 // Private, preg_replace callback used in image_add_caption()
 function _cleanup_image_add_caption($str) {
-	if ( isset($str[0]) ) {
+	if ( isset( $str[0] ) ) {
 		// remove any line breaks from inside the tags
-		$s = preg_replace( '/[\r\n\t]+/', ' ', $str[0]);
+		$s = preg_replace( '/[\r\n\t]+/', ' ', $str[0] );
 		// look for single quotes inside html attributes (for example in title)
 		$s = preg_replace_callback( '/="[^"]+"/', '_cleanup_image_add_caption2', $s );
 		return str_replace(	'"', "'", $s );
@@ -179,7 +179,7 @@ function _cleanup_image_add_caption($str) {
 
 // Private, preg_replace callback used in image_add_caption()
 function _cleanup_image_add_caption2($str) {
-	return str_replace(	"'", '&#39;', $str );
+	return ( isset( $str[0] ) ) ? str_replace( "'", '&#39;', $str[0] ) : '';
 }
 
 /**
