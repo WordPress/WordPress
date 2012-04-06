@@ -172,6 +172,9 @@ $(document).ready( function() {
 	$('#collapse-menu', menu).click(function(){
 		var body = $(document.body);
 
+		// reset any compensation for submenus near the bottom of the screen
+		$('#adminmenu div.wp-submenu').css('margin-top', '');
+
 		if ( body.hasClass('folded') ) {
 			body.removeClass('folded');
 			setUserSetting('mfold', 'o');
@@ -205,9 +208,9 @@ $(document).ready( function() {
 				o = maxtop;
 
 			if ( o > 1 )
-				m.css({'marginTop':'-'+o+'px'});
-			else if ( m.css('marginTop') )
-				m.css({'marginTop':''});
+				m.css('margin-top', '-'+o+'px');
+			else
+				m.css('margin-top', '');
 
 			menu.find('.wp-submenu').removeClass('sub-open');
 			m.addClass('sub-open');
