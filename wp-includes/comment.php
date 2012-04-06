@@ -579,7 +579,7 @@ function update_comment_meta($comment_id, $meta_key, $meta_value, $prev_value = 
  * @since 3.4.0
  */
 function wp_set_comment_cookies($comment, $user) {
-	if ( $user->ID )
+	if ( $user->exists() )
 		return;
 
 	$comment_cookie_lifetime = apply_filters('comment_cookie_lifetime', 30000000);

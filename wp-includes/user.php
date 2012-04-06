@@ -259,7 +259,7 @@ function get_user_option( $option, $user = 0, $deprecated = '' ) {
 	else
 		$user = new WP_User( $user );
 
-	if ( ! isset( $user->ID ) )
+	if ( ! $user->exists() )
 		return false;
 
 	if ( $user->has_prop( $wpdb->prefix . $option ) ) // Blog specific
@@ -940,7 +940,7 @@ function setup_userdata($for_user_id = '') {
 	$user_ID    = (int) $user->ID;
 	$user_level = (int) isset($user->user_level) ? $user->user_level : 0;
 
-	if ( 0 == $user->ID ) {
+	if ( ! $user->exists() ) {
 		$user_login = $user_email = $user_url = $user_pass_md5 = $user_identity = '';
 		return;
 	}

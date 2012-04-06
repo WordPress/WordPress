@@ -742,7 +742,7 @@ function wp_ajax_replyto_comment( $action ) {
 		wp_die( __('ERROR: you are replying to a comment on a draft post.') );
 
 	$user = wp_get_current_user();
-	if ( $user->ID ) {
+	if ( $user->exists() ) {
 		$user_ID = $user->ID;
 		$comment_author       = $wpdb->escape($user->display_name);
 		$comment_author_email = $wpdb->escape($user->user_email);

@@ -599,6 +599,18 @@ class WP_User {
 	}
 
 	/**
+	 * Determine whether the user exists in the database.
+	 *
+	 * @since 3.4.0
+	 * @access public
+	 *
+	 * @return bool True if user exists in the database, false if not.
+	 */
+	function exists() {
+		return ! empty( $this->ID );
+	}
+
+	/**
 	 * Retrieve the value of a property or meta key.
 	 *
 	 * Retrieves from the users and usermeta table.
@@ -1259,7 +1271,7 @@ function user_can( $user, $capability ) {
 	if ( ! is_object( $user ) )
 		$user = new WP_User( $user );
 
-	if ( ! $user || ! $user->ID )
+	if ( ! $user || ! $user->exists() )
 		return false;
 
 	$args = array_slice( func_get_args(), 2 );
@@ -1356,7 +1368,7 @@ function is_super_admin( $user_id = false ) {
 	else
 		$user = wp_get_current_user();
 
-	if ( empty( $user->ID ) )
+	if ( ! $user->exists() )
 		return false;
 
 	if ( is_multisite() ) {

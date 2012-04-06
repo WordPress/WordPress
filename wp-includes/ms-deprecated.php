@@ -49,7 +49,7 @@ function is_site_admin( $user_login = '' ) {
 			return false;
 	} else {
 		$user = get_user_by( 'login', $user_login );
-		if ( empty( $user->ID ) )
+		if ( ! $user->exists() )
 			return false;
 		$user_id = $user->ID;
 	}

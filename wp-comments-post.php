@@ -54,7 +54,7 @@ $comment_content      = ( isset($_POST['comment']) ) ? trim($_POST['comment']) :
 
 // If the user is logged in
 $user = wp_get_current_user();
-if ( $user->ID ) {
+if ( $user->exists() ) {
 	if ( empty( $user->display_name ) )
 		$user->display_name=$user->user_login;
 	$comment_author       = $wpdb->escape($user->display_name);
@@ -73,7 +73,7 @@ if ( $user->ID ) {
 
 $comment_type = '';
 
-if ( get_option('require_name_email') && !$user->ID ) {
+if ( get_option('require_name_email') && !$user->exists() ) {
 	if ( 6 > strlen($comment_author_email) || '' == $comment_author )
 		wp_die( __('<strong>ERROR</strong>: please fill the required fields (name, email).') );
 	elseif ( !is_email($comment_author_email))
