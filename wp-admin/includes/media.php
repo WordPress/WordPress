@@ -164,17 +164,27 @@ function image_add_caption( $html, $id, $caption, $title, $align, $url, $size, $
 }
 add_filter( 'image_send_to_editor', 'image_add_caption', 20, 8 );
 
-// Private, preg_replace callback used in image_add_caption()
+/**
+ * Private preg_replace callback used in image_add_caption()
+ *
+ * @access private
+ * @since 3.4.0
+ */
 function _cleanup_image_add_caption( $matches ) {
 	// remove any line breaks from inside the tags
 	$s = preg_replace( '/[\r\n\t]+/', ' ', $matches[0] );
 	// look for single quotes inside html attributes (for example in title)
-	$s = preg_replace_callback( '/="[^"]+"/', '_cleanup_image_add_caption2', $s );
+	$s = preg_replace_callback( '/="[^"]+"/', '_cleanup_image_add_caption_callback', $s );
 	return str_replace( '"', "'", $s );
 }
 
-// Private, preg_replace callback used in image_add_caption()
-function _cleanup_image_add_caption2( $matches ) {
+/**
+ * Private preg_replace callback used in _cleanup_image_add_caption()
+ *
+ * @access private
+ * @since 3.4.0
+ */
+function _cleanup_image_add_caption_callback( $matches ) {
 	return str_replace( "'", '&#39;', $matches[0] );
 }
 
