@@ -66,6 +66,13 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 	if ( !isset($redirect['query']) )
 		$redirect['query'] = '';
 
+	if ( is_feed() && ( $id = get_query_var( 'p' ) ) ) {
+		if ( $redirect_url = get_post_comments_feed_link( $id, get_query_var( 'feed' ) ) ) {
+			$redirect['query'] = _remove_qs_args_if_not_in_url( $redirect['query'], array( 'p', 'page_id', 'attachment_id', 'pagename', 'name', 'post_type', 'feed'), $redirect_url );
+			$redirect['path'] = parse_url( $redirect_url, PHP_URL_PATH );
+		}
+	}
+
 	if ( is_singular() && 1 > $wp_query->post_count && ($id = get_query_var('p')) ) {
 
 		$vars = $wpdb->get_results( $wpdb->prepare("SELECT post_type, post_parent FROM $wpdb->posts WHERE ID = %d", $id) );
@@ -219,7 +226,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 			$addl_path = '';
 			if ( is_feed() && in_array( get_query_var('feed'), $wp_rewrite->feeds ) ) {
 				$addl_path = !empty( $addl_path ) ? trailingslashit($addl_path) : '';
-				if ( get_query_var( 'withcomments' ) )
+				if ( !is_singular() && get_query_var( 'withcomments' ) )
 					$addl_path .= 'comments/';
 				if ( ( 'rss' == get_default_feed() && 'feed' == get_query_var('feed') ) || 'rss' == get_query_var('feed') )
 					$addl_path .= user_trailingslashit( 'feed/' . ( ( get_default_feed() == 'rss2' ) ? '' : 'rss2' ), 'feed' );
