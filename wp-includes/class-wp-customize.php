@@ -732,10 +732,6 @@ final class WP_Customize {
 			'description'    => __( 'Your theme supports a static front page.' ),
 		) );
 
-		$choices = array();
-		$choices['posts'] = __( 'Your latest posts' );
-		$choices['page'] = __( 'A static page (select below)' );
-
 		$this->add_setting( 'show_on_front', array(
 			'default'        => get_option( 'show_on_front' ),
 			'capability'     => 'manage_options',
@@ -747,7 +743,10 @@ final class WP_Customize {
 			'label'   => __( 'Front page displays' ),
 			'section' => 'static_front_page',
 			'type'    => 'radio',
-			'choices' => $choices,
+			'choices' => array(
+				'posts' => __( 'Your latest posts' ),
+				'page'  => __( 'A static page' ),
+			),
 		) );
 
 		$this->add_setting( 'page_on_front', array(
