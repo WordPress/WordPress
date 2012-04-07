@@ -209,7 +209,9 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 		}
 
 		// Post Paging
-		if ( is_singular() && get_query_var('page') && $redirect_url ) {
+		if ( is_singular() && get_query_var('page') ) {
+			if ( !$redirect_url )
+				$redirect_url = get_permalink( get_queried_object_id() );
 			$redirect_url = trailingslashit( $redirect_url ) . user_trailingslashit( get_query_var( 'page' ), 'single_paged' );
 			$redirect['query'] = remove_query_arg( 'page', $redirect['query'] );
 		}
