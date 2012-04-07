@@ -75,7 +75,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 				$id = $vars->post_parent;
 
 			if ( $redirect_url = get_permalink($id) )
-				$redirect['query'] = remove_query_arg(array('p', 'page_id', 'attachment_id', 'post_type'), $redirect['query']);
+				$redirect['query'] = _remove_qs_args_if_not_in_url( $redirect['query'], array( 'p', 'page_id', 'attachment_id', 'pagename', 'name', 'post_type' ), $redirect_url );
 		}
 	}
 
@@ -88,13 +88,14 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 			$post_type_obj = get_post_type_object($redirect_post->post_type);
 			if ( $post_type_obj->public ) {
 				$redirect_url = get_permalink($redirect_post);
-				$redirect['query'] = remove_query_arg(array('p', 'page_id', 'attachment_id', 'post_type'), $redirect['query']);
+				$redirect['query'] = _remove_qs_args_if_not_in_url( $redirect['query'], array( 'p', 'page_id', 'attachment_id', 'pagename', 'name', 'post_type' ), $redirect_url );
 			}
 		}
 
 		if ( ! $redirect_url ) {
-			$redirect_url = redirect_guess_404_permalink( $requested_url );
-			$redirect['query'] = remove_query_arg( array( 'post_type', 'pagename', 'name' ), $redirect['query'] );
+			if ( $redirect_url = redirect_guess_404_permalink( $requested_url ) ) {
+				$redirect['query'] = _remove_qs_args_if_not_in_url( $redirect['query'], array( 'p', 'page_id', 'attachment_id', 'pagename', 'name', 'post_type' ), $redirect_url );
+			}
 		}
 
 	} elseif ( is_object($wp_rewrite) && $wp_rewrite->using_permalinks() ) {
@@ -416,6 +417,25 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 	} else {
 		return $redirect_url;
 	}
+}
+
+/**
+ * Removes arguments from a query string if they are not present in a URL
+ * DO NOT use this in plugin code.
+ *
+ * @since 3.4
+ * @access private
+ *
+ * @return string The altered query string
+ */
+function _remove_qs_args_if_not_in_url( $query_string, Array $args_to_check, $url ) {
+	$parsed_url = @parse_url( $url );
+	parse_str( $parsed_url['query'], $parsed_query );
+	foreach ( $args_to_check as $qv ) {
+		if ( !isset( $parsed_query[$qv] ) )
+			$query_string = remove_query_arg( $qv, $query_string );
+	}
+	return $query_string;
 }
 
 /**
