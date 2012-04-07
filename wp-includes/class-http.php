@@ -1110,7 +1110,7 @@ class WP_Http_Curl {
 			$theBody = $theResponse;
 
 		// If no response
-		if ( 0 == strlen( $theResponse ) && empty( $theHeaders->headers ) ) {
+		if ( 0 == strlen( $theResponse ) && empty( $theHeaders['headers'] ) ) {
 			if ( $curl_error = curl_error( $handle ) )
 				return new WP_Error( 'http_request_failed', $curl_error );
 			if ( in_array( curl_getinfo( $handle, CURLINFO_HTTP_CODE ), array( 301, 302 ) ) )
