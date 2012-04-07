@@ -101,7 +101,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 
 		if ( ! $redirect_url ) {
 			if ( $redirect_url = redirect_guess_404_permalink( $requested_url ) ) {
-				$redirect['query'] = _remove_qs_args_if_not_in_url( $redirect['query'], array( 'p', 'page_id', 'attachment_id', 'pagename', 'name', 'post_type' ), $redirect_url );
+				$redirect['query'] = _remove_qs_args_if_not_in_url( $redirect['query'], array( 'page', 'feed', 'p', 'page_id', 'attachment_id', 'pagename', 'name', 'post_type' ), $redirect_url );
 			}
 		}
 
@@ -489,7 +489,12 @@ function redirect_guess_404_permalink( $current_url = '' ) {
 		$post_id = $wpdb->get_var("SELECT ID FROM $wpdb->posts WHERE $where AND post_status = 'publish'");
 		if ( ! $post_id )
 			return false;
-		return get_permalink( $post_id );
+		if ( get_query_var( 'feed' ) )
+			return get_post_comments_feed_link( $post_id, get_query_var( 'feed' ) );
+		elseif ( get_query_var( 'page' ) )
+			return trailingslashit( get_permalink( $post_id ) ) . user_trailingslashit( get_query_var( 'page' ), 'single_paged' );
+		else
+			return get_permalink( $post_id );
 	}
 
 	return false;
