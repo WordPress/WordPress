@@ -304,7 +304,10 @@ final class WP_Customize {
 		<div id="customize-container" class="wp-full-overlay">
 			<input type="hidden" class="admin-url" value="<?php echo esc_url( admin_url( 'admin.php' ) ); ?>" />
 			<a href="#" class="close-full-overlay"><?php printf( __( '&larr; Return to %s' ), get_admin_page_title() ); ?></a>
-			<a href="#" class="collapse-sidebar button-secondary" title="<?php esc_attr_e('Collapse Sidebar'); ?>"><span></span></a>
+			<a href="#" class="collapse-sidebar button-secondary" title="<?php esc_attr_e('Collapse Sidebar'); ?>">
+				<span class="collapse-sidebar-label"><?php _e('Collapse'); ?></span>
+				<span class="collapse-sidebar-arrow"></span>
+			</a>
 		</div>
 		<?php
 	}
