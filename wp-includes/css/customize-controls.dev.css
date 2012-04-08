@@ -30,8 +30,29 @@ body {
 
 .customize-section-content {
 	display: none;
-	padding: 0 20px 15px;
+	padding: 10px 20px 15px;
 	overflow: hidden;
+}
+
+.control-section {
+	border: 0;
+}
+
+.control-section .customize-section-title {
+	padding: 8px 20px;
+	border-top: 1px solid #fff;
+	border-bottom: 1px solid #dfdfdf;
+	font-size: 13px;
+}
+
+.control-section .customize-section-title:hover {
+	background: -webkit-linear-gradient( top, #f5f5f5, #eee );
+	box-shadow: inset -11px 0 8px -8px rgba( 0, 0, 0, 0.1 );
+}
+
+.control-section .customize-section-content {
+	border-top: 1px solid #fff;
+	border-bottom: 1px solid #dfdfdf;
 }
 
 .customize-section.open .customize-section-content {
@@ -46,25 +67,36 @@ body {
 	border-style: solid;
 	border-width: 6px;
 	position: absolute;
-	top: 20px;
+	top: 25px;
 	right: 20px;
 	z-index: 1;
 }
 
 .customize-section.open .customize-section-title:after {
-	top: 13px;
+	margin-top: -7px;
 	border-color: transparent transparent #ccc transparent;
+}
+
+.control-section .customize-section-title:after {
+	top: 13px;
 }
 
 #customize-info {
 	margin-top: 45px;
 }
 
+#customize-info .preview-notice {
+	font-size: 13px;
+	line-height: 24px;
+	color: #999;
+}
+
 #customize-info .theme-name {
-	font-size: 16px;
-	font-weight: bold;
+	font-size: 20px;
+	font-weight: 200;
 	line-height: 24px;
 	display: block;
+	text-shadow: 0 1px 0 #fff;
 }
 
 #customize-info .theme-screenshot {
