@@ -74,8 +74,10 @@ if ( !function_exists('get_currentuserinfo') ) :
 function get_currentuserinfo() {
 	global $current_user;
 
-	if ( defined('XMLRPC_REQUEST') && XMLRPC_REQUEST )
+	if ( defined('XMLRPC_REQUEST') && XMLRPC_REQUEST ) {
+		wp_set_current_user(0);
 		return false;
+	}
 
 	if ( ! empty($current_user) )
 		return;
