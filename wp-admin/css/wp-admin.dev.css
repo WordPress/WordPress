@@ -7440,48 +7440,6 @@ h3 span {
 	line-height: 180%;
 }
 
-/* theme-install */
-.theme-listing .theme-item {
-	display: inline-block;
-	width: 200px;
-	border: thin solid #ccc;
-	vertical-align: top;
-}
-
-.theme-listing .theme-item h3 {
-	text-align: center;
-	font-size: 14px;
-	font-style: italic;
-	margin: 0;
-	padding: 0;
-}
-
-.theme-listing .theme-item img {
-	max-width: 150px;
-	max-height: 150px;
-}
-
-.theme-listing .theme-item-info span,
-.theme-listing .theme-item:hover .theme-item-info span.dots {
-	display: none;
-}
-
-.theme-listing .theme-item:hover .theme-item-info span {
-	display: inline;
-}
-
-.theme-listing .theme-item-info span.action-links {
-	font-weight: bold;
-	text-align: center;
-}
-
-.theme-listing br.line {
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	margin-bottom: 3px;
-}
-
-
 #theme-information .available-theme,
 .available-theme {
 	padding: 20px 15px;

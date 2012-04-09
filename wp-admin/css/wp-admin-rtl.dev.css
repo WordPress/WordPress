@@ -2217,10 +2217,6 @@ div.star a:visited {
 	left: 0;
 }
 
-.theme-listing .theme-item h3 {
-	font-style: normal;
-}
-
 #theme-information .theme-preview-img {
 	float: right;
 	margin: 5px 15px 10px 25px;
@@ -2376,4 +2372,4 @@ body.login.locale-he-il,
 .locale-he-il em {
 	font-style: normal;
 	font-weight: bold;
-} 
+}

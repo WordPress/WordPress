@@ -1665,10 +1665,6 @@ body.press-this ul.category-tabs li.tabs a {
 	border-top-color: #DFDFDF;
 }
 
-.theme-listing br.line {
-	border-bottom-color: #ccc;
-}
-
 div.widgets-sortables,
 #widgets-left .inactive,
 #available-widgets .widget-holder {
