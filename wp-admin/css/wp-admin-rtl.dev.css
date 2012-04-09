@@ -2217,19 +2217,6 @@ div.star a:visited {
 	left: 0;
 }
 
-#theme-information .theme-preview-img {
-	float: right;
-	margin: 5px 15px 10px 25px;
-}
-
-#theme-information .action-button #cancel {
-	float: right;
-}
-
-#theme-information .action-button #install {
-	float: left;
-}
-
 .feature-filter .feature-group {
 	float: right;
 }

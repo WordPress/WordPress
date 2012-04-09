@@ -7440,49 +7440,6 @@ h3 span {
 	line-height: 180%;
 }
 
-#theme-information .available-theme,
-.available-theme {
-	padding: 20px 15px;
-}
-
-#theme-information .available-theme {
-	overflow: visible;
-	width: 440px;
-}
-
-#theme-information .theme-preview-img {
-	float: left;
-	margin: 5px 25px 10px 15px;
-	width: 300px;
-}
-
-#theme-information .action-button {
-	border-top-width: 1px;
-	border-top-style: solid;
-	margin: 10px 5px 0;
-}
-
-#theme-information .action-button #cancel,
-#theme-information .action-button #install {
-	margin: 10px 5px;
-}
-
-#theme-information .action-button #cancel {
-	float: left;
-}
-
-#theme-information .action-button #install {
-	float: right;
-}
-
-#theme-information .available-theme h3 {
-	margin: 1em 0;
-}
-
-body#theme-information {
-	height: auto;
-}
-
 .feature-filter {
 	padding: 8px 12px 0;
 }
