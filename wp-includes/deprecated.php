@@ -3002,7 +3002,7 @@ function clean_pre($matches) {
 	else
 		$text = $matches;
 
-	$text = str_replace('<br />', '', $text);
+	$text = str_replace(array('<br />', '<br/>', '<br>'), array('', '', ''), $text);
 	$text = str_replace('<p>', "\n", $text);
 	$text = str_replace('</p>', '', $text);
 
