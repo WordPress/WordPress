@@ -27,12 +27,12 @@ if ( !function_exists('wp_set_current_user') ) :
 function wp_set_current_user($id, $name = '') {
 	global $current_user;
 
-	if ( isset($current_user) && ($id == $current_user->ID) )
+	if ( isset( $current_user ) && ( $current_user instanceof WP_User ) && ( $id == $current_user->ID ) )
 		return $current_user;
 
-	$current_user = new WP_User($id, $name);
+	$current_user = new WP_User( $id, $name );
 
-	setup_userdata($current_user->ID);
+	setup_userdata( $current_user->ID );
 
 	do_action('set_current_user');
 
@@ -75,21 +75,36 @@ function get_currentuserinfo() {
 	global $current_user;
 
 	if ( defined('XMLRPC_REQUEST') && XMLRPC_REQUEST ) {
-		wp_set_current_user(0);
+		wp_set_current_user( 0 );
 		return false;
 	}
 
-	if ( ! empty($current_user) )
-		return;
+	if ( ! empty( $current_user ) ) {
+		if ( $current_user instanceof WP_User )
+			return;
+
+		// Upgrade stdClass to WP_User
+		if ( is_object( $current_user ) && isset( $current_user->ID ) ) {
+			$cur_id = $current_user->ID;
+			$current_user = null;
+			wp_set_current_user( $cur_id );
+			return;
+		}
+
+		// $current_user has a junk value. Force to WP_User with ID 0.
+		$current_user = null;
+		wp_set_current_user( 0 );
+		return false;
+	}
 
 	if ( ! $user = wp_validate_auth_cookie() ) {
-		 if ( is_blog_admin() || is_network_admin() || empty($_COOKIE[LOGGED_IN_COOKIE]) || !$user = wp_validate_auth_cookie($_COOKIE[LOGGED_IN_COOKIE], 'logged_in') ) {
-		 	wp_set_current_user(0);
+		 if ( is_blog_admin() || is_network_admin() || empty( $_COOKIE[LOGGED_IN_COOKIE] ) || !$user = wp_validate_auth_cookie( $_COOKIE[LOGGED_IN_COOKIE], 'logged_in' ) ) {
+		 	wp_set_current_user( 0 );
 		 	return false;
 		 }
 	}
 
-	wp_set_current_user($user);
+	wp_set_current_user( $user );
 }
 endif;
 
