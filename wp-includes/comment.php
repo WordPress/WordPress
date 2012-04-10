@@ -1583,10 +1583,7 @@ function wp_update_comment_count_now($post_id) {
 	$new = (int) $wpdb->get_var( $wpdb->prepare("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_post_ID = %d AND comment_approved = '1'", $post_id) );
 	$wpdb->update( $wpdb->posts, array('comment_count' => $new), array('ID' => $post_id) );
 
-	if ( 'page' == $post->post_type )
-		clean_page_cache( $post_id );
-	else
-		clean_post_cache( $post_id );
+	clean_post_cache( $post_id, $post->post_type );
 
 	do_action('wp_update_comment_count', $post_id, $new, $old);
 	do_action('edit_post', $post_id, $post);

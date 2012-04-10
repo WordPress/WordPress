@@ -3117,3 +3117,38 @@ function get_theme_data( $theme_file ) {
 
 	return $theme_data;
 }
+
+/**
+ * Alias of update_post_cache().
+ *
+ * @see update_post_cache() Posts and pages are the same, alias is intentional
+ *
+ * @since 1.5.1
+ * @deprecated 3.4.0
+ *
+ * @param array $pages list of page objects
+ */
+function update_page_cache( &$pages ) {
+	_deprecated_function( __FUNCTION__, 3.4, 'update_post_cache()' );
+
+	update_post_cache( $pages );
+}
+
+/**
+ * Will clean the page in the cache.
+ *
+ * Clean (read: delete) page from cache that matches $id. Will also clean cache
+ * associated with 'all_page_ids' and 'get_pages'.
+ *
+ * @since 2.0.0
+ * @deprecated 3.4.0
+ *
+ * @uses do_action() Will call the 'clean_page_cache' hook action.
+ *
+ * @param int $id Page ID to clean
+ */
+function clean_page_cache( $id ) {
+	_deprecated_function( __FUNCTION__, 3.4, 'clean_post_cache()' );
+
+	clean_post_cache( $id, 'page' );
+}
