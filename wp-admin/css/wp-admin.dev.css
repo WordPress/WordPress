@@ -4304,7 +4304,15 @@ h3.available-themes {
 }
 
 .available-theme h3 {
-	margin: 15px 0 5px;
+	margin: 15px 0 0;
+}
+
+.available-theme .theme-author {
+	line-height: 18px;
+}
+
+.available-theme .action-links {
+	margin-top: 10px;
 }
 
 #current-theme {

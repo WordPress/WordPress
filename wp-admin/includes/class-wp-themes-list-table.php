@@ -116,17 +116,17 @@ class WP_Themes_List_Table extends WP_List_Table {
 	function display_rows() {
 		$themes = $this->items;
 
-		foreach ( $themes as $theme ) {
-			echo '<div class="available-theme">';
+		foreach ( $themes as $theme ):
+			?><div class="available-theme"><?php
 
-			$template = $theme->get_template();
+			$template   = $theme->get_template();
 			$stylesheet = $theme->get_stylesheet();
-
-			$title = $theme->display('Name');
-			$version = $theme->display('Version');
-			$author = $theme->display('Author');
+			$title      = $theme->display('Name');
+			$version    = $theme->display('Version');
+			$author     = $theme->display('Author');
 
 			$activate_link = wp_nonce_url( "themes.php?action=activate&amp;template=" . urlencode( $template ) . "&amp;stylesheet=" . urlencode( $stylesheet ), 'switch-theme_' . $template );
+
 			$preview_link = esc_url( add_query_arg(
 				array( 'preview' => 1, 'template' => $template, 'stylesheet' => $stylesheet, 'preview_iframe' => true, 'TB_iframe' => 'true' ),
 				home_url( '/' ) ) );
@@ -154,28 +154,32 @@ class WP_Themes_List_Table extends WP_List_Table {
 				<img src="<?php echo esc_url( $screenshot ); ?>" alt="" />
 			<?php endif; ?>
 			</a>
-			<h3><?php
-			/* translators: 1: theme title, 2: theme version, 3: theme author */
-			printf( __( '%1$s %2$s by %3$s' ), $title, $version, $author ) ; ?></h3>
-
-			<span class='action-links'><?php echo $actions ?></span>
-			<span class="separator hide-if-no-js">| </span><a href="#" class="theme-detail hide-if-no-js" tabindex='4'><?php _e('Details') ?></a>
-			<div class="themedetaildiv hide-if-js">
-			<p><?php echo $theme->display('Description'); ?></p>
-			<?php if ( current_user_can( 'edit_themes' ) && $theme->parent() ) :
-				/* translators: 1: theme title, 2:  template dir, 3: stylesheet_dir, 4: theme title, 5: parent_theme */ ?>
-				<p><?php printf( __( 'The template files are located in <code>%2$s</code>. The stylesheet files are located in <code>%3$s</code>. <strong>%4$s</strong> uses templates from <strong>%5$s</strong>. Changes made to the templates will affect both themes.' ),
-					$title, str_replace( WP_CONTENT_DIR, '', $theme->get_template_directory() ), str_replace( WP_CONTENT_DIR, '', $theme->get_stylesheet_directory() ), $title, $theme->parent()->display('Name') ); ?></p>
-			<?php else :
-					/* translators: 1: theme title, 2:  template dir, 3: stylesheet_dir */ ?>
-				<p><?php printf( __( 'All of this theme&#8217;s files are located in <code>%2$s</code>.' ),
-					$title, str_replace( WP_CONTENT_DIR, '', $theme->get_template_directory() ), str_replace( WP_CONTENT_DIR, '', $theme->get_stylesheet_directory() ) ); ?></p>
-			<?php endif; ?>
+			<h3><?php echo $title; ?></h3>
+			<div class="theme-author"><?php printf( __( 'By %s' ), $author ); ?></div>
+			<div class="action-links">
+				<?php echo $actions; ?>
+				<span class="separator hide-if-no-js">| </span><a href="#" class="theme-detail hide-if-no-js" tabindex='4'><?php _e('Details') ?></a>
 			</div>
+
+			<div class="themedetaildiv hide-if-js">
+				<p><strong><?php _e('Version: '); ?></strong><?php echo $version; ?></p>
+				<p><?php echo $theme->display('Description'); ?></p>
+				<?php if ( current_user_can( 'edit_themes' ) && $theme->parent() ) :
+					/* translators: 1: theme title, 2:  template dir, 3: stylesheet_dir, 4: theme title, 5: parent_theme */ ?>
+					<p><?php printf( __( 'The template files are located in <code>%2$s</code>. The stylesheet files are located in <code>%3$s</code>. <strong>%4$s</strong> uses templates from <strong>%5$s</strong>. Changes made to the templates will affect both themes.' ),
+						$title, str_replace( WP_CONTENT_DIR, '', $theme->get_template_directory() ), str_replace( WP_CONTENT_DIR, '', $theme->get_stylesheet_directory() ), $title, $theme->parent()->display('Name') ); ?></p>
+				<?php else :
+						/* translators: 1: theme title, 2:  template dir, 3: stylesheet_dir */ ?>
+					<p><?php printf( __( 'All of this theme&#8217;s files are located in <code>%2$s</code>.' ),
+						$title, str_replace( WP_CONTENT_DIR, '', $theme->get_template_directory() ), str_replace( WP_CONTENT_DIR, '', $theme->get_stylesheet_directory() ) ); ?></p>
+				<?php endif; ?>
+			</div>
+
 			<?php theme_update_available( $theme ); ?>
+
 			</div>
 		<?php
-		}
+		endforeach;
 	}
 
 	function search_theme( $theme ) {
