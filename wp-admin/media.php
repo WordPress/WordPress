@@ -106,7 +106,7 @@ case 'edit' :
 <h2>
 <?php
 echo esc_html( $title );
-if ( current_user_can( 'upload_files' ) ) { ?>
+if ( current_user_can( 'upload_files' ) && ! wp_is_mobile() ) { ?>
 	<a href="media-new.php" class="add-new-h2"><?php echo esc_html_x('Add New', 'file'); ?></a>
 <?php } ?>
 </h2>
