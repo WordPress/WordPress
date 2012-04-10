@@ -74,11 +74,6 @@ if ( !function_exists('get_currentuserinfo') ) :
 function get_currentuserinfo() {
 	global $current_user;
 
-	if ( defined('XMLRPC_REQUEST') && XMLRPC_REQUEST ) {
-		wp_set_current_user( 0 );
-		return false;
-	}
-
 	if ( ! empty( $current_user ) ) {
 		if ( $current_user instanceof WP_User )
 			return;
@@ -93,6 +88,11 @@ function get_currentuserinfo() {
 
 		// $current_user has a junk value. Force to WP_User with ID 0.
 		$current_user = null;
+		wp_set_current_user( 0 );
+		return false;
+	}
+
+	if ( defined('XMLRPC_REQUEST') && XMLRPC_REQUEST ) {
 		wp_set_current_user( 0 );
 		return false;
 	}
