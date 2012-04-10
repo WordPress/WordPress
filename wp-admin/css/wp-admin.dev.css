@@ -4286,12 +4286,12 @@ h3.available-themes {
 	overflow: hidden;
 	padding: 20px;
 	vertical-align: top;
-	width: 240px;
+	width: 300px;
 }
 
 .available-theme a.screenshot {
-	width: 240px;
-	height: 180px;
+	width: 300px;
+	height: 225px;
 	display: block;
 	border-width: 1px;
 	border-style: solid;
@@ -4300,7 +4300,7 @@ h3.available-themes {
 }
 
 .available-theme img {
-	width: 240px;
+	width: 300px;
 }
 
 .available-theme h3 {
