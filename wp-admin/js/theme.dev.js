@@ -1,4 +1,16 @@
-/*
+/**
+ * Theme Browsing
+ *
+ * Controls visibility of theme details on manage and install themes pages.
+ */
+jQuery( function($) {
+	$('#availablethemes').on( 'click', '.theme-detail', function (event) {
+		$(this).parent().siblings('.themedetaildiv').toggle();
+		event.preventDefault();
+	});
+});
+
+/**
  * Theme Install
  *
  * Displays theme previews on theme install pages.

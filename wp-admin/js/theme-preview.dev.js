@@ -53,11 +53,4 @@ jQuery(document).ready(function($) {
 
 		return false;
 	} );
-
-	// Theme details
-	$('#availablethemes').on('click', 'a.theme-detail', function (event) {
-		$(this).siblings('.themedetaildiv').toggle();
-		return false;
-	});
-
 });
