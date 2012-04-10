@@ -1,4 +1,4 @@
-var postboxes, is_iPad = navigator.userAgent.match(/iPad/);
+var postboxes;
 
 (function($) {
 	postboxes = {

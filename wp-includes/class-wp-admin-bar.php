@@ -321,7 +321,7 @@ class WP_Admin_Bar {
 	}
 
 	final protected function _render( $root ) {
-		global $is_IE, $is_iphone;
+		global $is_IE;
 
 		// Add browser classes.
 		// We have to do this here since admin bar shows on the front end.
@@ -333,7 +333,7 @@ class WP_Admin_Bar {
 				$class .= ' ie8';
 			elseif ( strpos( $_SERVER['HTTP_USER_AGENT'], 'MSIE 9' ) )
 				$class .= ' ie9';
-		} elseif ( $is_iphone ) {
+		} elseif ( wp_is_mobile() ) {
 			$class .= ' mobile';
 		}
 

@@ -5323,6 +5323,10 @@ p.pagenav {
 	padding: 2px 0 0;
 }
 
+.mobile .row-actions {
+	visibility: visible;
+}
+
 tr:hover .row-actions,
 div.comment-item:hover .row-actions {
 	visibility: visible;

@@ -583,9 +583,10 @@ foreach ( $_wp_admin_css_colors as $color => $color_info ): ?>
 }
 
 function _ipad_meta() {
-	if ( strpos($_SERVER['HTTP_USER_AGENT'], 'iPad') !== false ) { ?>
-		<meta name="viewport" id="ipad-viewportmeta" content="width=device-width, initial-scale=1">
-	<?php
+	if ( wp_is_mobile() ) {
+		?>
+		<meta name="viewport" id="viewport-meta" content="width=device-width, initial-scale=1">
+		<?php
 	}
 }
 add_action('admin_head', '_ipad_meta');

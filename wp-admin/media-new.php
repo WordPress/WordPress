@@ -6,9 +6,7 @@
  * @subpackage Administration
  */
 
-global $is_iphone;
-
-if ( $is_iphone ) // cannot upload files from iPhone/iPad
+if ( wp_is_mobile() ) // cannot upload files from mobile devices
 	return;
 
 $_GET['inline'] = 'true';

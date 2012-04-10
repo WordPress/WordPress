@@ -62,10 +62,10 @@ add_filter('media_upload_tabs', 'update_gallery_tab');
  * @since 2.5.0
  */
 function the_media_upload_tabs() {
-	global $redir_tab, $is_iphone;
+	global $redir_tab;
 	$tabs = media_upload_tabs();
 
-	if ( $is_iphone ) {
+	if ( wp_is_mobile() ) {
 		unset($tabs['type']);
 		$default = 'type_url';
 	} else {
@@ -528,8 +528,6 @@ function media_upload_form_handler() {
  * @return unknown
  */
 function wp_media_upload_handler() {
-	global $is_iphone;
-
 	$errors = array();
 	$id = 0;
 
@@ -600,7 +598,7 @@ function wp_media_upload_handler() {
 		return wp_iframe( 'media_upload_type_url_form', $type, $errors, $id );
 	}
 
-	if ( $is_iphone )
+	if ( wp_is_mobile() )
 		return wp_iframe( 'media_upload_type_url_form', 'image', $errors, $id );
 	else
 		return wp_iframe( 'media_upload_type_form', 'image', $errors, $id );
@@ -1306,9 +1304,9 @@ function media_upload_header() {
  * @param unknown_type $errors
  */
 function media_upload_form( $errors = null ) {
-	global $type, $tab, $pagenow, $is_IE, $is_opera, $is_iphone;
+	global $type, $tab, $pagenow, $is_IE, $is_opera;
 
-	if ( $is_iphone )
+	if ( wp_is_mobile() )
 		return;
 
 	$upload_action_url = admin_url('async-upload.php');
@@ -1440,9 +1438,7 @@ if ( ($is_IE || $is_opera) && $max_upload_size > 100 * 1024 * 1024 ) { ?>
  * @param unknown_type $id
  */
 function media_upload_type_form($type = 'file', $errors = null, $id = null) {
-	global $is_iphone;
-
-	if ( $is_iphone )
+	if ( wp_is_mobile() )
 		return;
 
 	media_upload_header();

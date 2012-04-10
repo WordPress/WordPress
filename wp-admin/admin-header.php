@@ -11,7 +11,7 @@ if ( ! defined( 'WP_ADMIN' ) )
 	require_once( './admin.php' );
 
 // In case admin-header.php is included in a function.
-global $title, $hook_suffix, $current_screen, $wp_locale, $pagenow, $wp_version, $is_iphone,
+global $title, $hook_suffix, $current_screen, $wp_locale, $pagenow, $wp_version,
 	$current_site, $update_title, $total_update_count, $parent_file;
 
 // Catch plugins that include admin-header.php before admin.php completes.
@@ -87,9 +87,10 @@ $admin_body_class .= ' version-' . str_replace( '.', '-', preg_replace( '/^([.0-
 $admin_body_class .= ' admin-color-' . sanitize_html_class( get_user_option( 'admin_color' ), 'fresh' );
 $admin_body_class .= ' locale-' . sanitize_html_class( strtolower( str_replace( '_', '-', get_locale() ) ) );
 
-if ( $is_iphone ) { ?>
-<style type="text/css">.row-actions{visibility:visible;}</style>
-<?php } ?>
+if ( wp_is_mobile() )
+	$admin_body_class .= ' mobile';
+
+?>
 </head>
 <body class="wp-admin no-js <?php echo apply_filters( 'admin_body_class', '' ) . " $admin_body_class"; ?>">
 <script type="text/javascript">document.body.className = document.body.className.replace('no-js','js');</script>

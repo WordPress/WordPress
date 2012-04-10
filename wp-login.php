@@ -39,7 +39,7 @@ if ( force_ssl_admin() && !is_ssl() ) {
  * @param WP_Error $wp_error Optional. WordPress Error Object
  */
 function login_header($title = 'Log In', $message = '', $wp_error = '') {
-	global $error, $is_iphone, $interim_login, $current_site;
+	global $error, $interim_login, $current_site;
 
 	// Don't index any of these forms
 	add_action( 'login_head', 'wp_no_robots' );
@@ -54,25 +54,26 @@ function login_header($title = 'Log In', $message = '', $wp_error = '') {
 	if ( $shake_error_codes && $wp_error->get_error_code() && in_array( $wp_error->get_error_code(), $shake_error_codes ) )
 		add_action( 'login_head', 'wp_shake_js', 12 );
 
-	?>
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
-<head>
+	?><!DOCTYPE html>
+	<html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
+	<head>
 	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
 	<title><?php bloginfo('name'); ?> &rsaquo; <?php echo $title; ?></title>
-<?php
+	<?php
+
 	wp_admin_css( 'wp-admin', true );
 	wp_admin_css( 'colors-fresh', true );
 
-	if ( $is_iphone ) { ?>
-	<meta name="viewport" content="width=320; initial-scale=0.9; maximum-scale=1.0; user-scalable=0;" />
-	<style type="text/css" media="screen">
-	.login form, .login .message, #login_error { margin-left: 0px; }
-	.login #nav, .login #backtoblog { margin-left: 8px; }
-	.login h1 a { width: auto; }
-	#login { padding: 20px 0; }
-	</style>
-<?php
+	if ( wp_is_mobile() ) {
+		?>
+		<meta name="viewport" content="width=320; initial-scale=0.9; maximum-scale=1.0; user-scalable=0;" />
+		<style type="text/css" media="screen">
+		.login form, .login .message, #login_error { margin-left: 0px; }
+		.login #nav, .login #backtoblog { margin-left: 8px; }
+		.login h1 a { width: auto; }
+		#login { padding: 20px 0; }
+		</style>
+		<?php
 	}
 
 	do_action( 'login_enqueue_scripts' );
@@ -88,16 +89,19 @@ function login_header($title = 'Log In', $message = '', $wp_error = '') {
 
 	$login_header_url   = apply_filters( 'login_headerurl',   $login_header_url   );
 	$login_header_title = apply_filters( 'login_headertitle', $login_header_title );
-?>
-</head>
-<body class="login">
+
+	?>
+	</head>
+	<body class="login">
 	<div id="login">
 		<h1><a href="<?php echo esc_url( $login_header_url ); ?>" title="<?php echo esc_attr( $login_header_title ); ?>"><?php bloginfo( 'name' ); ?></a></h1>
-<?php
+	<?php
+
 	unset( $login_header_url, $login_header_title );
 
 	$message = apply_filters('login_message', $message);
-	if ( !empty( $message ) ) echo $message . "\n";
+	if ( !empty( $message ) )
+		echo $message . "\n";
 
 	// In case a plugin uses $error rather than the $wp_errors object
 	if ( !empty( $error ) ) {
@@ -134,23 +138,22 @@ function login_footer($input_id = '') {
 	<p id="backtoblog"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php esc_attr_e( 'Are you lost?' ); ?>"><?php printf( __( '&larr; Back to %s' ), get_bloginfo( 'title', 'display' ) ); ?></a></p>
 	</div>
 
-<?php if ( !empty($input_id) ) : ?>
-<script type="text/javascript">
-try{document.getElementById('<?php echo $input_id; ?>').focus();}catch(e){}
-if(typeof wpOnload=='function')wpOnload();
-</script>
-<?php endif; ?>
+	<?php if ( !empty($input_id) ) : ?>
+	<script type="text/javascript">
+	try{document.getElementById('<?php echo $input_id; ?>').focus();}catch(e){}
+	if(typeof wpOnload=='function')wpOnload();
+	</script>
+	<?php endif; ?>
 
-<?php do_action('login_footer'); ?>
-<div class="clear"></div>
-</body>
-</html>
-<?php
+	<?php do_action('login_footer'); ?>
+	<div class="clear"></div>
+	</body>
+	</html>
+	<?php
 }
 
 function wp_shake_js() {
-	global $is_iphone;
-	if ( $is_iphone )
+	if ( wp_is_mobile() )
 		return;
 ?>
 <script type="text/javascript">
