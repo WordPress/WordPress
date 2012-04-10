@@ -152,8 +152,8 @@ if ( isset($_GET['action']) ) {
 
 		check_admin_referer('upgrade-theme_' . $theme);
 
-		add_thickbox();
-		wp_enqueue_script('theme-preview');
+		wp_customize_loader();
+
 		$title = __('Update Theme');
 		$parent_file = 'themes.php';
 		$submenu_file = 'themes.php';
@@ -204,8 +204,8 @@ if ( isset($_GET['action']) ) {
 		if ( is_wp_error($api) )
 	 		wp_die($api);
 
-		add_thickbox();
-		wp_enqueue_script('theme-preview');
+	 	wp_customize_loader();
+
 		$title = __('Install Themes');
 		$parent_file = 'themes.php';
 		$submenu_file = 'themes.php';
@@ -230,11 +230,12 @@ if ( isset($_GET['action']) ) {
 
 		$file_upload = new File_Upload_Upgrader('themezip', 'package');
 
+		wp_customize_loader();
+
 		$title = __('Upload Theme');
 		$parent_file = 'themes.php';
 		$submenu_file = 'theme-install.php';
-		add_thickbox();
-		wp_enqueue_script('theme-preview');
+
 		require_once(ABSPATH . 'wp-admin/admin-header.php');
 
 		$title = sprintf( __('Installing Theme from uploaded file: %s'), basename( $file_upload->filename ) );

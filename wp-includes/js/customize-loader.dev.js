@@ -41,7 +41,7 @@ if ( typeof wp === 'undefined' )
 	$( function() {
 		Loader.initialize();
 
-		$('#current-theme, #availablethemes').on( 'click', '.load-customize', function( event ) {
+		$('#wpbody').on( 'click', '.load-customize', function( event ) {
 			var load = $(this);
 
 			event.preventDefault();

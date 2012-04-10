@@ -66,9 +66,8 @@ get_current_screen()->set_help_sidebar(
 	'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
 
-add_thickbox();
-wp_enqueue_script( 'theme-preview' );
 wp_enqueue_script( 'theme' );
+wp_customize_loader();
 
 endif;
 

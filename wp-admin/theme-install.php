@@ -30,9 +30,6 @@ if ( !is_network_admin() )
 	$submenu_file = 'themes.php';
 
 wp_enqueue_script( 'theme-install' );
-
-add_thickbox();
-wp_enqueue_script( 'theme-preview' );
 wp_enqueue_script( 'theme' );
 
 $body_id = $tab;

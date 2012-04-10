@@ -1563,9 +1563,16 @@ function check_theme_switched() {
 	}
 }
 
-function wp_customize_load() {
+/**
+ * Includes and instantiates the WP_Customize class.
+ *
+ * Fires when ?customize=on.
+ *
+ * @since 3.4.0
+ */
+function _wp_customize_include() {
 	// Load on themes.php or ?customize=on
-	if ( ! ( isset( $_REQUEST['customize'] ) && 'on' == $_REQUEST['customize'] ) && 'themes.php' != $GLOBALS['pagenow'] )
+	if ( ! ( isset( $_REQUEST['customize'] ) && 'on' == $_REQUEST['customize'] ) )
 		return;
 
 	require( ABSPATH . WPINC . '/class-wp-customize.php' );
@@ -1573,4 +1580,33 @@ function wp_customize_load() {
 	// @todo Dependency injection instead
 	$GLOBALS['customize'] = new WP_Customize;
 }
-add_action( 'plugins_loaded', 'wp_customize_load' );
+add_action( 'plugins_loaded', '_wp_customize_include' );
+
+/**
+ * Includes the loading scripts for the theme customizer and
+ * adds the action to print the customize container template.
+ *
+ * @since 3.4.0
+ */
+function wp_customize_loader() {
+	wp_enqueue_script( 'customize-loader' );
+	add_action( 'admin_footer', '_wp_customize_loader_template' );
+}
+
+/**
+ * Print the customize container template.
+ *
+ * @since 3.4.0
+ */
+function _wp_customize_loader_template() {
+	?>
+	<div id="customize-container" class="wp-full-overlay">
+		<input type="hidden" class="admin-url" value="<?php echo esc_url( admin_url( 'admin.php' ) ); ?>" />
+		<a href="#" class="close-full-overlay"><?php printf( __( '&larr; Return to %s' ), get_admin_page_title() ); ?></a>
+		<a href="#" class="collapse-sidebar button-secondary" title="<?php esc_attr_e('Collapse Sidebar'); ?>">
+			<span class="collapse-sidebar-label"><?php _e('Collapse'); ?></span>
+			<span class="collapse-sidebar-arrow"></span>
+		</a>
+	</div>
+	<?php
+}

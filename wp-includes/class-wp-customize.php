@@ -29,7 +29,6 @@ final class WP_Customize {
 		add_action( 'setup_theme',  array( $this, 'setup_theme' ) );
 		add_action( 'admin_init',   array( $this, 'admin_init' ) );
 		add_action( 'wp_loaded',    array( $this, 'wp_loaded' ) );
-		add_action( 'admin_footer', array( $this, 'admin_footer' ) );
 
 		add_action( 'customize_previewing',               array( $this, 'customize_previewing' ) );
 		add_action( 'customize_register',                 array( $this, 'register_controls' ) );
@@ -275,8 +274,6 @@ final class WP_Customize {
 		if ( isset( $_REQUEST['save_customize_controls'] ) )
 			$this->save();
 
-		wp_enqueue_script( 'customize-loader' );
-
 		if ( ( defined( 'DOING_AJAX' ) && DOING_AJAX ) )
 			return;
 
@@ -292,24 +289,6 @@ final class WP_Customize {
 		include( ABSPATH . WPINC . '/customize-controls.php' );
 
 		die;
-	}
-
-	/**
-	 * Print the customize template.
-	 *
-	 * @since 3.4.0
-	 */
-	public function admin_footer() {
-		?>
-		<div id="customize-container" class="wp-full-overlay">
-			<input type="hidden" class="admin-url" value="<?php echo esc_url( admin_url( 'admin.php' ) ); ?>" />
-			<a href="#" class="close-full-overlay"><?php printf( __( '&larr; Return to %s' ), get_admin_page_title() ); ?></a>
-			<a href="#" class="collapse-sidebar button-secondary" title="<?php esc_attr_e('Collapse Sidebar'); ?>">
-				<span class="collapse-sidebar-label"><?php _e('Collapse'); ?></span>
-				<span class="collapse-sidebar-arrow"></span>
-			</a>
-		</div>
-		<?php
 	}
 
 	/**

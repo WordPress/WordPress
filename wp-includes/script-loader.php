@@ -364,8 +364,9 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'admin-widgets', "/wp-admin/js/widgets$suffix.js", array( 'jquery-ui-sortable', 'jquery-ui-draggable', 'jquery-ui-droppable' ), false, 1 );
 
-		$scripts->add( 'theme', "/wp-admin/js/theme$suffix.js", array( 'thickbox' ), false, 1 );
+		$scripts->add( 'theme', "/wp-admin/js/theme$suffix.js", array( 'jquery' ), false, 1 );
 
+		// @todo: Core no longer uses theme-preview.js. Remove?
 		$scripts->add( 'theme-preview', "/wp-admin/js/theme-preview$suffix.js", array( 'thickbox', 'jquery' ), false, 1 );
 
 		$scripts->add( 'inline-edit-post', "/wp-admin/js/inline-edit-post$suffix.js", array( 'jquery', 'suggest' ), false, 1 );

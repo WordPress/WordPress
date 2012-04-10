@@ -711,7 +711,7 @@ class Theme_Upgrader extends WP_Upgrader {
 		$this->strings['process_success_specific'] = $this->strings['parent_theme_install_success'];//, $api->name, $api->version);
 
 		$this->skin->feedback('parent_theme_prepare_install', $api->name, $api->version);
-		
+
 		add_filter('install_theme_complete_actions', '__return_false', 999); // Don't show any actions after installing the theme.
 
 		// Install the parent theme
@@ -735,7 +735,7 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		return $install_result;
 	}
-	
+
 	function hide_activate_preview_actions($actions) {
 		unset($actions['activate'], $actions['preview']);
 		return $actions;
@@ -1494,19 +1494,33 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 			return;
 
 		$theme_info = $this->upgrader->theme_info();
-		if ( empty($theme_info) )
+		if ( empty( $theme_info ) )
 			return;
-		$name = $theme_info->display('Name');
+
+		$name       = $theme_info->display('Name');
 		$stylesheet = $this->upgrader->result['destination_name'];
-		$template = $theme_info->get_template();
+		$template   = $theme_info->get_template();
 
-		$preview_link = htmlspecialchars( add_query_arg( array('preview' => 1, 'template' => $template, 'stylesheet' => $stylesheet, 'preview_iframe' => 1, 'TB_iframe' => 'true' ), trailingslashit(esc_url(get_option('home'))) ) );
-		$activate_link = wp_nonce_url("themes.php?action=activate&amp;template=" . urlencode($template) . "&amp;stylesheet=" . urlencode($stylesheet), 'switch-theme_' . $template);
+		$preview_link = add_query_arg( array(
+			'preview'    => 1,
+			'template'   => $template,
+			'stylesheet' => $stylesheet,
+		), trailingslashit( get_home_url() ) );
 
-		$install_actions = array(
-			'preview' => '<a href="' . $preview_link . '" class="thickbox thickbox-preview" title="' . esc_attr(sprintf(__('Preview &#8220;%s&#8221;'), $name)) . '">' . __('Preview') . '</a>',
-			'activate' => '<a href="' . $activate_link . '" class="activatelink" title="' . esc_attr( sprintf( __('Activate &#8220;%s&#8221;'), $name ) ) . '">' . __('Activate') . '</a>'
-							);
+		$customize_attributes = 'title="' . esc_attr( sprintf( __( 'Customize &#8220;%s&#8221;' ), $name ) ) . '"
+			. data-customize-template="' . esc_attr( $template ) . '" data-customize-stylesheet="' . esc_attr( $stylesheet ) . '"';
+
+		$activate_link = add_query_arg( array(
+			'action'     => 'activate',
+			'template'   => $template,
+			'stylesheet' => $stylesheet,
+		), admin_url('themes.php') );
+		$activate_link = wp_nonce_url( $activate_link, 'switch-theme_' . $template );
+
+		$install_actions = array();
+		$install_actions['preview']  = '<a href="' . esc_url( $preview_link ) . '" class="hide-if-js" title="' . esc_attr(sprintf(__('Preview &#8220;%s&#8221;'), $name ) ) . '">' . __('Preview') . '</a>';
+		$install_actions['preview'] .= '<a href="#" class="hide-if-no-js load-customize" ' . $customize_attributes . '>' . __('Customize') . '</a>';
+		$install_actions['activate'] = '<a href="' . esc_url( $activate_link ) . '" class="activatelink" title="' . esc_attr( sprintf( __('Activate &#8220;%s&#8221;'), $name ) ) . '">' . __('Activate') . '</a>';
 
 		if ( is_network_admin() && current_user_can( 'manage_network_themes' ) )
 			$install_actions['network_enable'] = '<a href="' . esc_url( wp_nonce_url( 'themes.php?action=enable&amp;theme=' . $template, 'enable-theme_' . $template ) ) . '" title="' . esc_attr__( 'Enable this theme for all sites in this network' ) . '" target="_parent">' . __( 'Network Enable' ) . '</a>';
@@ -1550,17 +1564,31 @@ class Theme_Upgrader_Skin extends WP_Upgrader_Skin {
 
 		$update_actions = array();
 		if ( ! empty( $this->upgrader->result['destination_name'] ) && $theme_info = $this->upgrader->theme_info() ) {
-			$name = $theme_info->display('Name');
+			$name       = $theme_info->display('Name');
 			$stylesheet = $this->upgrader->result['destination_name'];
-			$template = $theme_info->get_template();
+			$template   = $theme_info->get_template();
 
-			$preview_link = htmlspecialchars( add_query_arg( array('preview' => 1, 'template' => $template, 'stylesheet' => $stylesheet, 'TB_iframe' => 'true' ), trailingslashit(esc_url(get_option('home'))) ) );
-			$activate_link = wp_nonce_url("themes.php?action=activate&amp;template=" . urlencode($template) . "&amp;stylesheet=" . urlencode($stylesheet), 'switch-theme_' . $template);
+			$preview_link = add_query_arg( array(
+				'preview'    => 1,
+				'template'   => $template,
+				'stylesheet' => $stylesheet,
+			), trailingslashit( get_home_url() ) );
 
-			$update_actions['preview'] = '<a href="' . $preview_link . '" class="thickbox thickbox-preview" title="' . esc_attr(sprintf(__('Preview &#8220;%s&#8221;'), $name)) . '">' . __('Preview') . '</a>';
-			$update_actions['activate'] = '<a href="' . $activate_link . '" class="activatelink" title="' . esc_attr( sprintf( __('Activate &#8220;%s&#8221;'), $name ) ) . '">' . __('Activate') . '</a>';
+			$customize_attributes = 'title="' . esc_attr( sprintf( __( 'Customize &#8220;%s&#8221;' ), $name ) ) . '"
+				. data-customize-template="' . esc_attr( $template ) . '" data-customize-stylesheet="' . esc_attr( $stylesheet ) . '"';
 
-			if ( ( ! $this->result || is_wp_error($this->result) ) || $stylesheet == get_stylesheet() )
+			$activate_link = add_query_arg( array(
+				'action'     => 'activate',
+				'template'   => $template,
+				'stylesheet' => $stylesheet,
+			), admin_url('themes.php') );
+			$activate_link = wp_nonce_url( $activate_link, 'switch-theme_' . $template );
+
+			$update_actions['preview']  = '<a href="' . esc_url( $preview_link ) . '" class="hide-if-js" title="' . esc_attr(sprintf(__('Preview &#8220;%s&#8221;'), $name ) ) . '">' . __('Preview') . '</a>';
+			$update_actions['preview'] .= '<a href="#" class="hide-if-no-js load-customize" ' . $customize_attributes . '>' . __('Customize') . '</a>';
+			$update_actions['activate'] = '<a href="' . esc_url( $activate_link ) . '" class="activatelink" title="' . esc_attr( sprintf( __('Activate &#8220;%s&#8221;'), $name ) ) . '">' . __('Activate') . '</a>';
+
+			if ( ( ! $this->result || is_wp_error( $this->result ) ) || $stylesheet == get_stylesheet() )
 				unset($update_actions['preview'], $update_actions['activate']);
 		}
 

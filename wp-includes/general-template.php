@@ -2108,7 +2108,7 @@ function wp_admin_css( $file = 'wp-admin', $force_echo = false ) {
  * Enqueues the default ThickBox js and css.
  *
  * If any of the settings need to be changed, this can be done with another js
- * file similar to media-upload.js and theme-preview.js. That file should
+ * file similar to media-upload.js. That file should
  * require array('thickbox') to ensure it is loaded after.
  *
  * @since 2.5.0
