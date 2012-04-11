@@ -980,13 +980,9 @@ function wp_delete_comment($comment_id, $force_delete = false) {
 	}
 
 	// Delete metadata
-	$meta_ids = $wpdb->get_col( $wpdb->prepare( "SELECT meta_id FROM $wpdb->commentmeta WHERE comment_id = %d ", $comment_id ) );
-	if ( !empty($meta_ids) ) {
-		do_action( 'delete_commentmeta', $meta_ids );
-		$in_meta_ids = "'" . implode("', '", $meta_ids) . "'";
-		$wpdb->query( "DELETE FROM $wpdb->commentmeta WHERE meta_id IN ($in_meta_ids)" );
-		do_action( 'deleted_commentmeta', $meta_ids );
-	}
+	$meta_ids = $wpdb->get_col( $wpdb->prepare( "SELECT meta_id FROM $wpdb->commentmeta WHERE comment_id = %d", $comment_id ) );
+	foreach ( $meta_ids as $mid )
+		delete_metadata_by_mid( 'comment', $mid );
 
 	if ( ! $wpdb->delete( $wpdb->comments, array( 'comment_ID' => $comment_id ) ) )
 		return false;

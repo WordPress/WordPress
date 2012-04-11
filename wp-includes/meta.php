@@ -223,6 +223,7 @@ function delete_metadata($meta_type, $object_id, $meta_key, $meta_value = '', $d
 
 	do_action( "delete_{$meta_type}_meta", $meta_ids, $object_id, $meta_key, $_meta_value );
 
+	// Old-style action.
 	if ( 'post' == $meta_type )
 		do_action( 'delete_postmeta', $meta_ids );
 
@@ -243,6 +244,7 @@ function delete_metadata($meta_type, $object_id, $meta_key, $meta_value = '', $d
 
 	do_action( "deleted_{$meta_type}_meta", $meta_ids, $object_id, $meta_key, $_meta_value );
 
+	// Old-style action.
 	if ( 'post' == $meta_type )
 		do_action( 'deleted_postmeta', $meta_ids );
 
@@ -485,8 +487,9 @@ function delete_metadata_by_mid( $meta_type, $meta_id ) {
 
 		do_action( "delete_{$meta_type}_meta", (array) $meta_id, $object_id, $meta->meta_key, $meta->meta_value );
 
-		if ( 'post' == $meta_type )
-			do_action( 'delete_postmeta', $meta_id );
+		// Old-style action.
+		if ( 'post' == $meta_type || 'comment' == $meta_type )
+			do_action( "delete_{$meta_type}meta", $meta_id );
 
 		// Run the query, will return true if deleted, false otherwise
 		$result = (bool) $wpdb->delete( $table, array( $id_column => $meta_id ) );
@@ -496,8 +499,9 @@ function delete_metadata_by_mid( $meta_type, $meta_id ) {
 
 		do_action( "deleted_{$meta_type}_meta", (array) $meta_id, $object_id, $meta->meta_key, $meta->meta_value );
 
-		if ( 'post' == $meta_type )
-			do_action( 'deleted_postmeta', $meta_id );
+		// Old-style action.
+		if ( 'post' == $meta_type || 'comment' == $meta_type )
+			do_action( "deleted_{$meta_type}meta", $meta_id );
 
 		return $result;
 
