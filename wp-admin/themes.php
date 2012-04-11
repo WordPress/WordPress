@@ -95,16 +95,33 @@ if ( ! is_multisite() && current_user_can( 'install_themes' ) ) : ?>
 <h2><?php echo esc_html( $title ); ?>
 <?php endif; ?>
 </h2>
-<?php $ct = wp_get_theme(); ?>
-<div id="current-theme">
-<h3><?php _e( 'Current Theme' ); ?></h3>
-<?php if ( $screenshot = $ct->get_screenshot() ) : ?>
-<img src="<?php echo esc_url( $screenshot ); ?>" alt="<?php esc_attr_e( 'Current theme preview'); ?>" />
-<?php endif; ?>
-<h4><?php
-	/* translators: 1: theme title, 2: theme version, 3: theme author */
-	printf( __( '%1$s %2$s by %3$s' ), $ct->display('Name'), $ct->display('Version'), $ct->display('Author') ) ; ?></h4>
-<p class="theme-description"><?php echo $ct->display('Description'); ?></p>
+<?php
+
+$ct = wp_get_theme();
+$screenshot = $ct->get_screenshot();
+$class = $screenshot ? 'has-screenshot' : '';
+
+?>
+<div id="current-theme" class="<?php echo esc_attr( $class ); ?>">
+	<?php if ( $screenshot ) : ?>
+		<img src="<?php echo esc_url( $screenshot ); ?>" alt="<?php esc_attr_e( 'Current theme preview' ); ?>" />
+	<?php endif; ?>
+
+	<h3><?php _e('Current Theme'); ?></h3>
+	<h4>
+		<?php echo $ct->display('Name'); ?>
+	</h4>
+
+	<div>
+		<p>
+			<span><?php printf( __('By %s'), $ct->display('Author') ); ?></span>
+			|
+			<span><?php printf( __('Version %s'), $ct->display('Version') ); ?></span>
+		</p>
+		<p class="theme-description"><?php echo $ct->display('Description'); ?></p>
+		<?php theme_update_available( $ct ); ?>
+	</div>
+
 <div class="theme-options">
 	<a href="#" class="load-customize hide-if-no-js" data-customize-template="<?php echo esc_attr( $ct->get_template() ); ?>" data-customize-stylesheet="<?php echo esc_attr( $ct->get_stylesheet() ); ?>" title="<?php echo esc_attr( sprintf( __( 'Customize &#8220;%s&#8221;' ), $ct->get('Name') ) ); ?>"><?php _e( 'Customize' )?></a>
 	<span><?php _e( 'Options:' )?></span>
@@ -137,7 +154,6 @@ if ( ! is_multisite() && current_user_can( 'install_themes' ) ) : ?>
 	}
 	echo implode ( ' | ', $options );
 ?></div>
-<?php theme_update_available( $ct ); ?>
 
 </div>
 

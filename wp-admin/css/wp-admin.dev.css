@@ -4316,7 +4316,31 @@ h3.available-themes {
 }
 
 #current-theme {
-	padding: 0 0 .5em;
+	margin: 20px 0 10px;
+	padding: 0 0 20px;
+	border-bottom: 1px solid #dfdfdf;
+	overflow: hidden;
+}
+
+#current-theme.has-screenshot {
+	padding-left: 320px;
+}
+
+#current-theme h3 {
+	margin: 0;
+	font-size: 12px;
+	font-weight: normal;
+	color: #999;
+}
+
+#current-theme h4 {
+	margin: 3px 0 16px;
+	font-size: 20px;
+}
+#current-theme h4 span {
+	margin-left: 20px;
+	font-size: 12px;
+	font-weight: normal;
 }
 
 #current-theme a {
@@ -4325,24 +4349,22 @@ h3.available-themes {
 
 #current-theme .theme-description {
 	margin-top: 5px;
+	max-width: 600px;
+	line-height: 1.6em;
 }
 
 #current-theme img {
 	float: left;
+	width: 300px;
+	margin-left: -320px;
+
 	border-width: 1px;
 	border-style: solid;
-	margin-right: 1em;
-	margin-bottom: 1.5em;
-	width: 150px;
 }
 
-.theme-options span {
-	text-transform: uppercase;
-	font-size: 13px;
-}
-
-.theme-options a {
-	font-size: 15px;
+.theme-options {
+	font-size: 14px;
+	padding-bottom: 10px;
 }
 
 .theme-options .load-customize {
