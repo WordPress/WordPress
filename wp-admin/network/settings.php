@@ -125,7 +125,7 @@ if ( isset( $_GET['updated'] ) ) {
 				<td>
 					<input name="site_name" type="text" id="site_name" class="regular-text" value="<?php echo esc_attr( $current_site->site_name ) ?>" />
 					<br />
-					<?php _e( 'What you would like to call this website.' ) ?>
+					<?php _e( 'What you would like to call this network.' ) ?>
 				</td>
 			</tr>
 
