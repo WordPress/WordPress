@@ -160,7 +160,7 @@ var wpLink;
 		},
 
 		htmlUpdate : function() {
-			var attrs, html, start, end, cursor,
+			var attrs, html, begin, end, cursor,
 				textarea = wpLink.textarea;
 
 			if ( ! textarea )
@@ -183,35 +183,34 @@ var wpLink;
 			html += '>';
 
 			// Insert HTML
-			// W3C
-			if ( typeof textarea.selectionStart !== 'undefined' ) {
-				start       = textarea.selectionStart;
-				end         = textarea.selectionEnd;
-				selection   = textarea.value.substring( start, end );
-				html        = html + selection + '</a>';
-				cursor      = start + html.length;
-
-				// If no next is selected, place the cursor inside the closing tag.
-				if ( start == end )
-					cursor -= '</a>'.length;
-
-				textarea.value = textarea.value.substring( 0, start )
-				               + html
-				               + textarea.value.substring( end, textarea.value.length );
-
-				// Update cursor position
-				textarea.selectionStart = textarea.selectionEnd = cursor;
-
-			// IE
-			// Note: If no text is selected, IE will not place the cursor
-			//       inside the closing tag.
-			} else if ( document.selection && wpLink.range ) {
+			if ( document.selection && wpLink.range ) {
+				// IE
+				// Note: If no text is selected, IE will not place the cursor
+				//       inside the closing tag.
 				textarea.focus();
 				wpLink.range.text = html + wpLink.range.text + '</a>';
 				wpLink.range.moveToBookmark( wpLink.range.getBookmark() );
 				wpLink.range.select();
 
 				wpLink.range = null;
+			} else if ( typeof textarea.selectionStart !== 'undefined' ) {
+				// W3C
+				begin       = textarea.selectionStart;
+				end         = textarea.selectionEnd;
+				selection   = textarea.value.substring( begin, end );
+				html        = html + selection + '</a>';
+				cursor      = begin + html.length;
+
+				// If no next is selected, place the cursor inside the closing tag.
+				if ( begin == end )
+					cursor -= '</a>'.length;
+
+				textarea.value = textarea.value.substring( 0, begin )
+				               + html
+				               + textarea.value.substring( end, textarea.value.length );
+
+				// Update cursor position
+				textarea.selectionStart = textarea.selectionEnd = cursor;
 			}
 
 			wpLink.close();
