@@ -219,8 +219,11 @@ function wp_update_plugin($plugin, $feedback = '') {
 function get_theme_updates() {
 	$themes = wp_get_themes();
 	$current = get_site_transient('update_themes');
-	$update_themes = array();
 
+	if ( ! isset( $current->response ) )
+		return array();
+
+	$update_themes = array();	
 	foreach ( $current->response as $stylesheet => $data ) {
 		$update_themes[ $stylesheet ] = wp_get_theme( $stylesheet );
 		$update_themes[ $stylesheet ]->update = $data;
