@@ -1208,7 +1208,7 @@ function wp_check_browser_version() {
 
 		$options = array(
 			'body'			=> array( 'useragent' => $_SERVER['HTTP_USER_AGENT'] ),
-			'user-agent'	=> 'WordPress/' . $wp_version . '; ' . get_bloginfo( 'url' )
+			'user-agent'	=> 'WordPress/' . $wp_version . '; ' . home_url()
 		);
 
 		$response = wp_remote_post( 'http://api.wordpress.org/core/browse-happy/1.0/', $options );
