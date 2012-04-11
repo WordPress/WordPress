@@ -4281,10 +4281,9 @@ h3.available-themes {
 
 .available-theme {
 	display: inline-block;
-	margin-bottom: 10px;
-	margin-right: 25px;
+	margin-right: 10px;
 	overflow: hidden;
-	padding: 20px;
+	padding: 20px 20px 20px 0;
 	vertical-align: top;
 	width: 300px;
 }
@@ -4323,7 +4322,7 @@ h3.available-themes {
 }
 
 #current-theme.has-screenshot {
-	padding-left: 320px;
+	padding-left: 330px;
 }
 
 #current-theme h3 {
@@ -4356,7 +4355,7 @@ h3.available-themes {
 #current-theme img {
 	float: left;
 	width: 300px;
-	margin-left: -320px;
+	margin-left: -330px;
 
 	border-width: 1px;
 	border-style: solid;
@@ -4369,6 +4368,31 @@ h3.available-themes {
 
 .theme-options .load-customize {
 	margin-right: 20px;
+}
+
+/* Allow for three-up on 1024px wide screens, e.g. tablets */
+@media only screen and (max-width: 1200px) {
+	.available-theme,
+	.available-theme a.screenshot,
+	#current-theme img {
+		width: 240px;
+	}
+
+	.available-theme a.screenshot {
+		height: 180px;
+	}
+
+	.available-theme img {
+		width: 100%;
+	}
+
+	#current-theme.has-screenshot {
+		padding-left: 270px;
+	}
+
+	#current-theme img {
+		margin-left: -270px;
+	}
 }
 
 #post-body ul.add-menu-item-tabs li.tabs a,
