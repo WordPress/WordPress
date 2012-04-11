@@ -445,7 +445,7 @@ function wpmu_validate_user_signup($user_name, $user_email) {
 	$user_email = sanitize_email( $user_email );
 
 	if ( empty( $user_name ) )
-	   	$errors->add('user_name', __('Please enter a username'));
+	   	$errors->add('user_name', __( 'Please enter a username.' ) );
 
 	$illegal_names = get_site_option( 'illegal_names' );
 	if ( is_array( $illegal_names ) == false ) {
@@ -453,13 +453,13 @@ function wpmu_validate_user_signup($user_name, $user_email) {
 		add_site_option( 'illegal_names', $illegal_names );
 	}
 	if ( in_array( $user_name, $illegal_names ) == true )
-		$errors->add('user_name',  __('That username is not allowed'));
+		$errors->add('user_name',  __( 'That username is not allowed.' ) );
 
 	if ( is_email_address_unsafe( $user_email ) )
 		$errors->add('user_email',  __('You cannot use that email address to signup. We are having problems with them blocking some of our email. Please use another email provider.'));
 
 	if ( strlen( $user_name ) < 4 )
-		$errors->add('user_name',  __('Username must be at least 4 characters'));
+		$errors->add('user_name',  __( 'Username must be at least 4 characters.' ) );
 
 	if ( strpos( ' ' . $user_name, '_' ) != false )
 		$errors->add( 'user_name', __( 'Sorry, usernames may not contain the character &#8220;_&#8221;!' ) );
@@ -471,7 +471,7 @@ function wpmu_validate_user_signup($user_name, $user_email) {
 		$errors->add('user_name', __('Sorry, usernames must have letters too!'));
 
 	if ( !is_email( $user_email ) )
-		$errors->add('user_email', __('Please enter a correct email address'));
+		$errors->add('user_email', __( 'Please enter a correct email address.' ) );
 
 	$limited_email_domains = get_site_option( 'limited_email_domains' );
 	if ( is_array( $limited_email_domains ) && empty( $limited_email_domains ) == false ) {
@@ -559,16 +559,16 @@ function wpmu_validate_blog_signup($blogname, $blog_title, $user = '') {
 		$illegal_names = array_merge($illegal_names, apply_filters( 'subdirectory_reserved_names', array( 'page', 'comments', 'blog', 'files', 'feed' ) ) );
 
 	if ( empty( $blogname ) )
-		$errors->add('blogname', __('Please enter a site name'));
+		$errors->add('blogname', __( 'Please enter a site name.' ) );
 
 	if ( preg_match( '/[^a-z0-9]+/', $blogname ) )
-		$errors->add('blogname', __('Only lowercase letters and numbers allowed'));
+		$errors->add('blogname', __( 'Only lowercase letters and numbers allowed.' ) );
 
 	if ( in_array( $blogname, $illegal_names ) == true )
-		$errors->add('blogname',  __('That name is not allowed'));
+		$errors->add('blogname',  __( 'That name is not allowed.' ) );
 
 	if ( strlen( $blogname ) < 4 && !is_super_admin() )
-		$errors->add('blogname',  __('Site name must be at least 4 characters'));
+		$errors->add('blogname',  __( 'Site name must be at least 4 characters.' ) );
 
 	if ( strpos( ' ' . $blogname, '_' ) != false )
 		$errors->add( 'blogname', __( 'Sorry, site names may not contain the character &#8220;_&#8221;!' ) );
@@ -588,7 +588,7 @@ function wpmu_validate_blog_signup($blogname, $blog_title, $user = '') {
 	$blog_title = stripslashes(  $blog_title );
 
 	if ( empty( $blog_title ) )
-		$errors->add('blog_title', __('Please enter a site title'));
+		$errors->add('blog_title', __( 'Please enter a site title.' ) );
 
 	// Check if the domain/path has been used already.
 	if ( is_subdomain_install() ) {
