@@ -64,16 +64,8 @@ function login_header($title = 'Log In', $message = '', $wp_error = '') {
 	wp_admin_css( 'wp-admin', true );
 	wp_admin_css( 'colors-fresh', true );
 
-	if ( wp_is_mobile() ) {
-		?>
-		<meta name="viewport" content="width=320; initial-scale=0.9; maximum-scale=1.0; user-scalable=0;" />
-		<style type="text/css" media="screen">
-		.login form, .login .message, #login_error { margin-left: 0px; }
-		.login #nav, .login #backtoblog { margin-left: 8px; }
-		.login h1 a { width: auto; }
-		#login { padding: 20px 0; }
-		</style>
-		<?php
+	if ( wp_is_mobile() ) { ?>
+		<meta name="viewport" content="width=320; initial-scale=0.9; maximum-scale=1.0; user-scalable=0;" /><?php
 	}
 
 	do_action( 'login_enqueue_scripts' );
@@ -92,7 +84,7 @@ function login_header($title = 'Log In', $message = '', $wp_error = '') {
 
 	?>
 	</head>
-	<body class="login">
+	<body class="login<?php if ( wp_is_mobile() ) echo ' mobile'; ?>">
 	<div id="login">
 		<h1><a href="<?php echo esc_url( $login_header_url ); ?>" title="<?php echo esc_attr( $login_header_title ); ?>"><?php bloginfo( 'name' ); ?></a></h1>
 	<?php

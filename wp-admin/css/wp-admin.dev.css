@@ -6200,6 +6200,26 @@ a.rsswidget {
 	text-align: center;
 }
 
+.mobile #login {
+	padding: 20px 0;
+}
+
+.mobile #login form,
+.mobile #login .message,
+.mobile #login_error {
+	margin-left: 0;
+}
+
+.mobile #login #nav,
+.mobile #login #backtoblog {
+	margin-left: 8px;
+}
+
+.mobile #login h1 a {
+	width: auto;
+}
+
+
 /* ms */
 /* Dashboard: MS Specific Data */
 #dashboard_right_now p.musub {
