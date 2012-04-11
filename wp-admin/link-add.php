@@ -23,6 +23,9 @@ wp_reset_vars(array('action', 'cat_id', 'linkurl', 'name', 'image',
 wp_enqueue_script('link');
 wp_enqueue_script('xfn');
 
+if ( wp_is_mobile() )
+	wp_enqueue_script( 'jquery-touch-punch' );
+
 $link = get_default_link_to_edit();
 include('./edit-link-form.php');
 

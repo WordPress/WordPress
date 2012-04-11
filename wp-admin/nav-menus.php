@@ -35,6 +35,9 @@ wp_enqueue_script( 'common' );
 wp_enqueue_script( 'wp-lists' );
 wp_enqueue_script( 'postbox' );
 
+if ( wp_is_mobile() )
+	wp_enqueue_script( 'jquery-touch-punch' );
+
 // Container for any messages displayed to the user
 $messages = array();
 

@@ -19,6 +19,9 @@ wp_enqueue_script( 'plugin-install' );
 wp_enqueue_script( 'media-upload' );
 add_thickbox();
 
+if ( wp_is_mobile() )
+	wp_enqueue_script( 'jquery-touch-punch' );
+
 $title = __('Dashboard');
 $parent_file = 'index.php';
 

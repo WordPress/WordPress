@@ -25,10 +25,14 @@ function wp_widgets_access_body_class($classes) {
 	return "$classes widgets_access ";
 }
 
-if ( 'on' == $widgets_access )
+if ( 'on' == $widgets_access ) {
 	add_filter( 'admin_body_class', 'wp_widgets_access_body_class' );
-else
+} else {
 	wp_enqueue_script('admin-widgets');
+
+	if ( wp_is_mobile() )
+		wp_enqueue_script( 'jquery-touch-punch' );
+}
 
 do_action( 'sidebar_admin_setup' );
 
