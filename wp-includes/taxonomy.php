@@ -391,14 +391,15 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
  * - parent_item - This string isn't used on non-hierarchical taxonomies. In hierarchical ones the default is Parent Category
  * - parent_item_colon - The same as <code>parent_item</code>, but with colon <code>:</code> in the end
  * - edit_item - Default is Edit Tag/Edit Category
+ * - view_item - Default is View Tag/View Category
  * - update_item - Default is Update Tag/Update Category
  * - add_new_item - Default is Add New Tag/Add New Category
  * - new_item_name - Default is New Tag Name/New Category Name
- * - separate_items_with_commas - This string isn't used on hierarchical taxonomies. Default is "Separate tags with commas," used in the meta box.
- * - add_or_remove_items - This string isn't used on hierarchical taxonomies. Default is "Add or remove tags," used in the meta box when JavaScript is disabled.
- * - choose_from_most_used - This string isn't used on hierarchical taxonomies. Default is "Choose from the most used tags," used in the meta box.
+ * - separate_items_with_commas - This string isn't used on hierarchical taxonomies. Default is "Separate tags with commas", used in the meta box.
+ * - add_or_remove_items - This string isn't used on hierarchical taxonomies. Default is "Add or remove tags", used in the meta box when JavaScript is disabled.
+ * - choose_from_most_used - This string isn't used on hierarchical taxonomies. Default is "Choose from the most used tags", used in the meta box.
  *
- * Above, the first default value is for non-hierarchical taxonomies (like tags) and the second one is for hierarchical taxonomies (like categories.)
+ * Above, the first default value is for non-hierarchical taxonomies (like tags) and the second one is for hierarchical taxonomies (like categories).
  *
  * @since 3.0.0
  * @param object $tax Taxonomy object
