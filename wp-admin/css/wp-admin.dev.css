@@ -4315,6 +4315,7 @@ h3.available-themes {
 	overflow: hidden;
 }
 
+#current-theme .theme-info li,
 .available-theme .action-links li {
 	float: left;
 	padding-right: 10px;
@@ -4322,6 +4323,7 @@ h3.available-themes {
 	border-right: 1px solid #dfdfdf;
 }
 
+#current-theme .theme-info li:last-child,
 .available-theme .action-links li:last-child {
 	padding-right: 0;
 	margin-right: 0;
@@ -4378,6 +4380,11 @@ h3.available-themes {
 
 #current-theme a {
 	border-bottom: none;
+}
+
+#current-theme .theme-info {
+	margin: 1em 0;
+	overflow: hidden;
 }
 
 #current-theme .theme-description {

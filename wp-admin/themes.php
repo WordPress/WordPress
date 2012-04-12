@@ -113,11 +113,10 @@ $class = $screenshot ? 'has-screenshot' : '';
 	</h4>
 
 	<div>
-		<p>
-			<span><?php printf( __('By %s'), $ct->display('Author') ); ?></span>
-			|
-			<span><?php printf( __('Version %s'), $ct->display('Version') ); ?></span>
-		</p>
+		<ul class="theme-info">
+			<li><?php printf( __('By %s'), $ct->display('Author') ); ?></li>
+			<li><?php printf( __('Version %s'), $ct->display('Version') ); ?></li>
+		</ul>
 		<p class="theme-description"><?php echo $ct->display('Description'); ?></p>
 		<?php theme_update_available( $ct ); ?>
 	</div>
