@@ -39,6 +39,10 @@ $editing = true;
 if ( ! current_user_can( $post_type_object->cap->edit_posts ) )
 	wp_die( __( 'Cheatin&#8217; uh?' ) );
 
+// Schedule auto-draft cleanup
+if ( ! wp_next_scheduled( 'wp_scheduled_auto_draft_delete' ) )
+	wp_schedule_event( time(), 'daily', 'wp_scheduled_auto_draft_delete' );
+
 wp_enqueue_script('autosave');
 
 // Show post form.
