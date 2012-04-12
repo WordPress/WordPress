@@ -454,7 +454,7 @@ function wp_default_styles( &$styles ) {
 
 	$suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '.dev' : '';
 
-	$rtl_styles = array( 'wp-admin', 'ie', 'media', 'admin-bar', 'wplink' );
+	$rtl_styles = array( 'wp-admin', 'ie', 'media', 'admin-bar', 'wplink', 'customize-controls' );
 	// Any rtl stylesheets that don't have a .dev version for ltr
 	$no_suffix = array( 'farbtastic' );
 

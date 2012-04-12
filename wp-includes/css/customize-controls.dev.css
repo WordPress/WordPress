@@ -136,6 +136,7 @@ body {
 	margin-right: 10px;
 	line-height: 28px;
 }
+
 .customize-control-text input,
 .customize-control-select select,
 .customize-control-checkbox input,
@@ -176,6 +177,7 @@ body {
 	clear: both;
 	line-height: 20px;
 }
+
 .customize-control-radio input {
 	margin-right: 5px;
 }
@@ -193,63 +195,6 @@ body {
 	height: 100%;
 }
 
-.customize-loader {
-	background: transparent;
-	border: 4px solid #666;
-	border-radius: 50%;
-	display: block;
-	margin: 10px auto;
-	text-indent: -9999px;
-
-	height: 12px;
-	width: 12px;
-
-	/* Animation */
-	-webkit-animation: customize-loader 1s infinite ease-out;
-	-moz-animation: customize-loader 1s infinite ease-out;
-	animation: customize-loader 1s infinite ease-out;
-}
-@-moz-keyframes customize-loader {
-	0% {
-		opacity: 0;
-		-moz-transform: scale(0.7);
-	}
-	40% {
-		opacity: 1;
-	}
-	100% {
-		opacity: 0;
-		-moz-transform: scale(1);
-	}
-}
-@-webkit-keyframes customize-loader {
-	0% {
-		opacity: 0;
-		-webkit-transform: scale(0.7);
-	}
-	40% {
-		opacity: 1;
-	}
-	100% {
-		opacity: 0;
-		-webkit-transform: scale(1);
-	}
-}
-@keyframes customize-loader {
-	0% {
-		opacity: 0;
-		transform: scale(0.7);
-	}
-	40% {
-		opacity: 1;
-	}
-	100% {
-		opacity: 0;
-		transform: scale(1);
-	}
-}
-
-
 /*
  * Style for custom settings
  */
@@ -260,7 +205,6 @@ body {
 /*
  * Color Picker
  */
-
 .customize-section .color-picker a {
 	display: block;
 	height: 20px;
@@ -276,7 +220,6 @@ body {
 	display: none;
 }
 
-
 .customize-section .color-picker .farbtastic-placeholder {
 	height: 195px;
 	width: 195px;
@@ -286,7 +229,6 @@ body {
 	-webkit-border-radius: 50%;
 	border-radius: 50%;
 }
-
 
 .customize-section .color-picker-hex {
 	background-color: #fff;
@@ -324,6 +266,7 @@ body {
 .customize-section .customize-image-picker {
 	float: left;
 }
+
 .customize-section .customize-image-picker .thumbnail {
 	float: left;
 	clear: left;
@@ -331,22 +274,27 @@ body {
 	margin-right: 20px;
 	min-height: 1em;
 }
+
 .customize-section .customize-image-picker .thumbnail img {
 	max-width: 98px;
 	max-height: 98px;
 	border: 1px solid #ccc;
 }
+
 .customize-section .customize-image-picker .actions {
 	width: 140px;
 	float: left;
 }
+
 .customize-section .customize-image-picker .actions a {
 	display: block;
 }
+
 .customize-section .customize-image-picker .library {
 	display: none;
 /*	float: left;*/
 }
+
 /*.customize-section .customize-image-picker .library label {
 	display: block;
 	position: relative;
@@ -363,12 +311,14 @@ body {
 /*.customize-section .customize-image-picker .library .wp-tab-panel {
 	padding: 10px 10px 5px 8px;
 }*/
+
 .customize-section .customize-image-picker .library ul {
 	border-bottom: 1px solid #dfdfdf;
 	float: left;
 	width: 100%;
 	margin: 5px 0;
 }
+
 .customize-section .customize-image-picker .library li {
 	color: #999;
 	float: left;
@@ -378,6 +328,7 @@ body {
 	border-color: transparent;
 	border-width: 1px 1px 0 1px;
 }
+
 .customize-section .customize-image-picker .library li.library-selected {
 	color: #777;
 	border-color: #dfdfdf;
@@ -385,10 +336,12 @@ body {
 	margin-bottom: -1px;
 	padding-bottom: 5px;
 }
+
 .customize-section .customize-image-picker .library div {
 	width: 100%;
 	float: left;
 }
+
 .customize-section .customize-image-picker .library a {
 	display: block;
 	max-width: 220px;
@@ -398,14 +351,17 @@ body {
 	background: #fff;
 	border: 1px solid #dfdfdf;
 }
+
 .customize-section .customize-image-picker .library a:hover {
 	border-color: #21759b;
 }
+
 .customize-section .customize-image-picker .library img {
 	display: block;
 	max-width: 220px;
 	max-height: 80px;
 }
+
 .customize-section .customize-image-picker .library-content {
 	display: none;
 }

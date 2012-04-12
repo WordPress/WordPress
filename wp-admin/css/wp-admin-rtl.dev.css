@@ -41,6 +41,7 @@ TABLE OF CONTENTS:
 23.0 - Misc
 24.0 - Dead
 25.0 - TinyMCE tweaks
+26.0 - Full Overlay w/ Sidebar
 
 
 ------------------------------------------------------------------------------*/
@@ -1469,6 +1470,90 @@ table .column-rating {
 
 #editorcontainer .wp_themeSkin .mceStatusbar a.mceResize {
 	float: left;
+}
+
+/*------------------------------------------------------------------------------
+  26.0 - Full Overlay w/ Sidebar
+------------------------------------------------------------------------------*/
+.wp-full-overlay.collapsed,
+.wp-full-overlay.collapsed div.wp-full-overlay-header,
+.wp-full-overlay.collapsed div.wp-full-overlay-footer {
+	left: 0;
+	right: -302px;
+}
+
+.wp-full-overlay-sidebar {
+	box-shadow: inset 11px 0 8px -8px rgba( 0, 0, 0, 0.1 );
+	border-right: 0;
+	border-left: 1px solid rgba( 0, 0, 0, 0.2 );
+}
+
+.wp-full-overlay-main {
+	left: 0;
+	right: 300px;
+}
+
+.wp-full-overlay.collapsed .wp-full-overlay-main {
+	left: auto;
+	right: 0;
+}
+
+.wp-full-overlay-sidebar div.wp-full-overlay-header,
+.wp-full-overlay-sidebar div.wp-full-overlay-footer {
+	left: auto;
+	right: 0;
+}
+
+.wp-full-overlay-sidebar div.wp-full-overlay-header {
+	box-shadow:
+		inset 11px 0 8px -8px rgba( 0, 0, 0, 0.1 ),
+		inset 0 -1px 0 0px #dfdfdf;
+}
+
+.wp-full-overlay-sidebar div.wp-full-overlay-footer {
+	box-shadow:
+		inset 11px 0 8px -8px rgba( 0, 0, 0, 0.1 ),
+		inset 0 1px 0 0px #fff;
+}
+
+/* Return and close buttons. */
+.wp-full-overlay .close-full-overlay {
+	left: auto;
+	right: 20px;
+}
+
+/* Collapse Button */
+.wp-full-overlay .collapse-sidebar {
+	left: auto;
+	right: 265px;
+}
+
+.wp-full-overlay.collapsed .collapse-sidebar {
+	left: auto;
+	right: 315px;
+}
+
+.wp-full-overlay .collapse-sidebar-arrow {
+	margin-left: 9;
+	margin-right: 2px;
+	background: transparent url('../../wp-admin/images/arrows.png') no-repeat 0 -108px;
+}
+
+.wp-full-overlay.collapsed .collapse-sidebar-arrow {
+	background-position: 0 -72px;
+}
+
+.wp-full-overlay .collapse-sidebar-label {
+	text-align: left;
+	position: absolute;
+	right: auto;
+	left: 100%;
+	margin-right: 0;
+	margin-left: 10px;
+}
+
+.wp-full-overlay.collapsed .collapse-sidebar-label {
+	display: none;
 }
 
 
