@@ -32,7 +32,7 @@ function wp_create_thumbnail( $file, $max_side, $deprecated = '' ) {
  *
  * @since 2.1.0
  *
- * @param string|int $src_file The source file or Attachment ID.
+ * @param string|int $src The source file or Attachment ID.
  * @param int $src_x The start x position to crop from.
  * @param int $src_y The start y position to crop from.
  * @param int $src_w The width to crop.
@@ -55,7 +55,7 @@ function wp_crop_image( $src, $src_x, $src_y, $src_w, $src_h, $dst_w, $dst_h, $s
 			$src = wp_load_image( $src_file );
 		}
 	} else {
-		$src = wp_load_image( $src_file );
+		$src = wp_load_image( $src );
 	}
 
 	if ( ! is_resource( $src ) )
