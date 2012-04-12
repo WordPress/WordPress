@@ -264,6 +264,12 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 				html += theButtons['fullscreen'].html(name + '_');
 			}
 
+
+			if ( 'rtl' == document.getElementsByTagName('html')[0].dir ) {
+				theButtons['textdirection'] = new qt.TextDirectionButton();
+				html += theButtons['textdirection'].html(name + '_');
+			}
+
 			ed.toolbar.innerHTML = html;
 			ed.theButtons = theButtons;
 		}
@@ -604,6 +610,21 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 
 		fullscreen.on();
 	};
+
+	qt.TextDirectionButton = function() {
+		qt.Button.call(this, 'textdirection', quicktagsL10n.textdirection, '', quicktagsL10n.toggleTextdirection)
+	};
+	qt.TextDirectionButton.prototype = new qt.Button();
+	qt.TextDirectionButton.prototype.callback = function(e, c) {
+		var isRTL = ( 'rtl' == document.getElementsByTagName('html')[0].dir ),
+			currentDirection = c.style.direction;
+
+		if ( ! currentDirection )
+			currentDirection = ( isRTL ) ? 'rtl' : 'ltr';
+
+		c.style.direction = ( 'rtl' == currentDirection ) ? 'ltr' : 'rtl';
+		c.focus();
+	}
 
 	// ensure backward compatibility
 	edButtons[10] = new qt.TagButton('strong','b','<strong>','</strong>','b');

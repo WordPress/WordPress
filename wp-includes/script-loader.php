@@ -79,7 +79,9 @@ function wp_default_scripts( &$scripts ) {
 		'enterImageURL' => __('Enter the URL of the image'),
 		'enterImageDescription' => __('Enter a description of the image'),
 		'fullscreen' => __('fullscreen'),
-		'toggleFullscreen' => esc_attr( __('Toggle fullscreen mode') )
+		'toggleFullscreen' => esc_attr( __('Toggle fullscreen mode') ),
+		'textdirection' => esc_attr( __('text direction') ),
+		'toggleTextdirection' => esc_attr( __('Toggle Editor Text Direction') )
 	) );
 
 	$scripts->add( 'colorpicker', "/wp-includes/js/colorpicker$suffix.js", array('prototype'), '3517m' );
