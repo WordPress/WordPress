@@ -141,13 +141,14 @@ class WP_Themes_List_Table extends WP_List_Table {
 				. esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;' ), $title ) ) . '">' . __( 'Preview' ) . '</a>'
 				. '<a href="#" class="load-customize hide-if-no-js" ' . $customize_attributes . '>' . __( 'Customize' ) . '</a>';
 			if ( ! is_multisite() && current_user_can( 'delete_themes' ) )
-				$actions[] = '<a class="submitdelete deletion" href="' . wp_nonce_url( "themes.php?action=delete&amp;template=$stylesheet", 'delete-theme_' . $stylesheet )
+				$actions['delete'] = '<a class="submitdelete deletion" href="' . wp_nonce_url( "themes.php?action=delete&amp;template=$stylesheet", 'delete-theme_' . $stylesheet )
 					. '" onclick="' . "return confirm( '" . esc_js( sprintf( __( "You are about to delete this theme '%s'\n  'Cancel' to stop, 'OK' to delete." ), $title ) )
 					. "' );" . '">' . __( 'Delete' ) . '</a>';
 
-			$actions = apply_filters( 'theme_action_links', $actions, $theme );
+			$actions       = apply_filters( 'theme_action_links', $actions, $theme );
+			$delete_action = isset( $actions['delete'] ) ? '<div class="delete-theme">' . $actions['delete'] . '</div>' : '';
+			unset( $actions['delete'] );
 
-			$actions = implode ( ' | ', $actions );
 			?>
 			<a href="<?php echo $preview_link; ?>" class="load-customize screenshot" <?php echo $customize_attributes; ?>>
 			<?php if ( $screenshot = $theme->get_screenshot() ) : ?>
@@ -157,8 +158,15 @@ class WP_Themes_List_Table extends WP_List_Table {
 			<h3><?php echo $title; ?></h3>
 			<div class="theme-author"><?php printf( __( 'By %s' ), $author ); ?></div>
 			<div class="action-links">
-				<?php echo $actions; ?>
-				<span class="separator hide-if-no-js">| </span><a href="#" class="theme-detail hide-if-no-js" tabindex='4'><?php _e('Details') ?></a>
+				<ul>
+					<?php foreach ( $actions as $action ): ?>
+						<li><?php echo $action; ?></li>
+					<?php endforeach; ?>
+					<li class="hide-if-no-js"><a href="#" class="theme-detail" tabindex='4'><?php _e('Details') ?></a></li>
+				</ul>
+				<?php echo $delete_action; ?>
+
+				<?php theme_update_available( $theme ); ?>
 			</div>
 
 			<div class="themedetaildiv hide-if-js">
@@ -174,8 +182,6 @@ class WP_Themes_List_Table extends WP_List_Table {
 						$title, str_replace( WP_CONTENT_DIR, '', $theme->get_template_directory() ), str_replace( WP_CONTENT_DIR, '', $theme->get_stylesheet_directory() ) ); ?></p>
 				<?php endif; ?>
 			</div>
-
-			<?php theme_update_available( $theme ); ?>
 
 			</div>
 		<?php

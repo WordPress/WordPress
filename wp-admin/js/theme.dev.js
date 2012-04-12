@@ -5,7 +5,7 @@
  */
 jQuery( function($) {
 	$('#availablethemes').on( 'click', '.theme-detail', function (event) {
-		$(this).parent().siblings('.themedetaildiv').toggle();
+		$(this).parents('.action-links').siblings('.themedetaildiv').toggle();
 		event.preventDefault();
 	});
 });

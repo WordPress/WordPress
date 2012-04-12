@@ -4312,6 +4312,40 @@ h3.available-themes {
 
 .available-theme .action-links {
 	margin-top: 10px;
+	overflow: hidden;
+}
+
+.available-theme .action-links li {
+	float: left;
+	padding-right: 10px;
+	margin-right: 10px;
+	border-right: 1px solid #dfdfdf;
+}
+
+.available-theme .action-links li:last-child {
+	padding-right: 0;
+	margin-right: 0;
+	border-right: 0;
+}
+
+.available-theme .action-links .delete-theme {
+	float: right;
+	margin-right: 0;
+}
+
+.available-theme .action-links .delete-theme a {
+	color: red;
+	padding: 2px;
+}
+
+.available-theme .action-links .delete-theme a:hover {
+	background: red;
+	color: #fff;
+	text-decoration: none;
+}
+
+.available-theme .action-links p {
+	float: left;
 }
 
 #current-theme {
