@@ -151,8 +151,14 @@ $class = $screenshot ? 'has-screenshot' : '';
 			}
 		}
 	}
-	echo implode ( ' | ', $options );
-?></div>
+
+	?>
+	<ul>
+		<?php foreach ( $options as $option ) : ?>
+			<li><?php echo $option; ?></li>
+		<?php endforeach; ?>
+	</ul>
+</div>
 
 </div>
 
