@@ -64,13 +64,7 @@ add_filter('media_upload_tabs', 'update_gallery_tab');
 function the_media_upload_tabs() {
 	global $redir_tab;
 	$tabs = media_upload_tabs();
-
-	if ( wp_is_mobile() ) {
-		unset($tabs['type']);
-		$default = 'type_url';
-	} else {
-		$default = 'type';
-	}
+	$default = 'type';
 
 	if ( !empty($tabs) ) {
 		echo "<ul id='sidemenu'>\n";
@@ -598,10 +592,7 @@ function wp_media_upload_handler() {
 		return wp_iframe( 'media_upload_type_url_form', $type, $errors, $id );
 	}
 
-	if ( wp_is_mobile() )
-		return wp_iframe( 'media_upload_type_url_form', 'image', $errors, $id );
-	else
-		return wp_iframe( 'media_upload_type_form', 'image', $errors, $id );
+	return wp_iframe( 'media_upload_type_form', 'image', $errors, $id );
 }
 
 /**
@@ -1306,8 +1297,10 @@ function media_upload_header() {
 function media_upload_form( $errors = null ) {
 	global $type, $tab, $pagenow, $is_IE, $is_opera;
 
-	if ( wp_is_mobile() )
+	if ( ! _device_can_upload() ) {
+		echo '<p>' . __('The web browser on your device cannot be used to upload files. You may be able to use the <a href=" http://wordpress.org/extend/mobile/">native app for your device</a> instead.') . '</p>';
 		return;
+	}
 
 	$upload_action_url = admin_url('async-upload.php');
 	$post_id = isset($_REQUEST['post_id']) ? intval($_REQUEST['post_id']) : 0;
@@ -1438,8 +1431,6 @@ if ( ($is_IE || $is_opera) && $max_upload_size > 100 * 1024 * 1024 ) { ?>
  * @param unknown_type $id
  */
 function media_upload_type_form($type = 'file', $errors = null, $id = null) {
-	if ( wp_is_mobile() )
-		return;
 
 	media_upload_header();
 

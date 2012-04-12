@@ -3676,3 +3676,26 @@ function _get_non_cached_ids( $object_ids, $cache_key ) {
 	return $clean;
 }
 
+/**
+ * Test if the current device has the capability to upload files.
+ *
+ * @since 3.4.0
+ * @access private
+ *
+ * @return bool true|false
+ */
+function _device_can_upload() {
+	if ( ! wp_is_mobile() )
+		return true;
+
+	$ua = $_SERVER['HTTP_USER_AGENT'];
+	
+	if ( strpos($ua, 'iPhone') !== false
+		|| strpos($ua, 'iPad') !== false
+		|| strpos($ua, 'iPod') !== false ) {
+			return false;
+	} else {
+		return true;
+	}
+}
+

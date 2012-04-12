@@ -179,7 +179,7 @@ require_once('./admin-header.php');
 <h2>
 <?php
 echo esc_html( $title );
-if ( current_user_can( 'upload_files' ) && ! wp_is_mobile() ) { ?>
+if ( current_user_can( 'upload_files' ) ) { ?>
 	<a href="media-new.php" class="add-new-h2"><?php echo esc_html_x('Add New', 'file'); ?></a><?php
 }
 if ( ! empty( $_REQUEST['s'] ) )

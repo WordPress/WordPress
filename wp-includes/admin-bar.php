@@ -489,7 +489,7 @@ function wp_admin_bar_new_content_menu( $wp_admin_bar ) {
 		unset( $cpts['post'] );
 	}
 
-	if ( current_user_can( 'upload_files' ) && ! wp_is_mobile() )
+	if ( current_user_can( 'upload_files' ) )
 		$actions[ 'media-new.php' ] = array( _x( 'Media', 'add new from admin bar' ), 'new-media' );
 
 	if ( current_user_can( 'manage_links' ) )
