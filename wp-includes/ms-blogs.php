@@ -710,3 +710,24 @@ function _update_blog_date_on_post_publish( $new_status, $old_status, $post ) {
 
 	wpmu_update_blogs_date();
 }
+
+/**
+ * Handler for updating the blog date when a published post is deleted.
+ *
+ * @since 3.4.0
+ *
+ * @param int $post_id Post ID
+ */
+function _update_blog_date_on_post_delete( $post_id ) {
+	$post = get_post( $post_id );
+
+	$post_type_obj = get_post_type_object( $post->post_type );
+	if ( ! $post_type_obj->public )
+		return;
+
+	if ( 'publish' != $post->post_status )
+		return;
+
+	wpmu_update_blogs_date();
+}
+
