@@ -44,11 +44,20 @@ function fileUploading(up, file) {
 
 	if ( max > hundredmb && file.size > hundredmb ) {
 		setTimeout(function(){
-			if ( file.status == 2 && file.loaded == 0 ) { // not uploading
-				wpFileError(file, pluploadL10n.big_upload_failed.replace('%1$s', '<a class="uploader-html" href="#">').replace('%2$s', '</a>'));
+			var done;
 
-				if ( up.current && up.current.file.id == file.id && up.current.xhr.abort )
-					up.current.xhr.abort();
+			if ( file.status < 3 && file.loaded == 0 ) { // not uploading
+				wpFileError(file, pluploadL10n.big_upload_failed.replace('%1$s', '<a class="uploader-html" href="#">').replace('%2$s', '</a>'));
+				up.stop(); // stops the whole queue
+				up.removeFile(file);
+
+				for ( done in up.files ) {
+					// remove files that have been uploaded or have returned errors
+					if ( up.files[done].status > 2 )
+						up.removeFile( up.files[done] );
+				}
+				// restart the queue
+				up.start();
 			}
 		}, 10000); // wait for 10 sec. for the file to start uploading
 	}
