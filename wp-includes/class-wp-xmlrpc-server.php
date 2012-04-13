@@ -344,8 +344,8 @@ class wp_xmlrpc_server extends IXR_Server {
 				'readonly'      => true,
 				'option'        => 'stylesheet'
 			),
-			'featured_image'    => array(
-				'desc'          => __('Featured Image'),
+			'post_thumbnail'    => array(
+				'desc'          => __('Post Thumbnail'),
 				'readonly'      => true,
 				'value'         => current_theme_supports( 'post-thumbnails' )
 			),
@@ -595,8 +595,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		);
 
 		//
-		$post_fields['featured_image']     = get_post_meta( $post['ID'], '_thumbnail_id', true );
-		$post_fields['featured_image_url'] = wp_get_attachment_url( $post_fields['featured_image'] );
+		$post_fields['post_thumbnail']     = get_post_meta( $post['ID'], '_thumbnail_id', true );
+		$post_fields['post_thumbnail_url'] = wp_get_attachment_url( $post_fields['post_thumbnail'] );
 
 		// Consider future posts as published
 		if ( $post_fields['post_status'] === 'future' )
@@ -722,7 +722,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *      - comment_status - can be 'open' | 'closed'
 	 *      - ping_status - can be 'open' | 'closed'
 	 *      - sticky
-	 *      - featured_image - ID of a media item to use as the featured image
+	 *      - post_thumbnail - ID of a media item to use as the post thumbnail/featured image
 	 *      - custom_fields - array, with each element containing 'key' and 'value'
 	 *      - terms - array, with taxonomy names as keys and arrays of term IDs as values
 	 *      - terms_names - array, with taxonomy names as keys and arrays of term names as values
@@ -856,16 +856,16 @@ class wp_xmlrpc_server extends IXR_Server {
 			stick_post( $post_ID );
 		}
 
-		if ( isset ( $post_data['featured_image'] ) ) {
+		if ( isset ( $post_data['post_thumbnail'] ) ) {
 			// empty value deletes, non-empty value adds/updates
-			if ( empty( $post_data['featured_image'] ) ) {
+			if ( empty( $post_data['post_thumbnail'] ) ) {
 				delete_post_thumbnail( $post_ID );
 			}
 			else {
-				if ( set_post_thumbnail( $post_ID, $post_data['featured_image'] ) === false )
+				if ( set_post_thumbnail( $post_ID, $post_data['post_thumbnail'] ) === false )
 					return new IXR_Error( 404, __( 'Invalid attachment ID.' ) );
 			}
-			unset( $content_struct['featured_image'] );
+			unset( $content_struct['post_thumbnail'] );
 		}
 
 		if ( isset ( $post_data['custom_fields'] ) && post_type_supports( $post_data['post_type'], 'custom-fields' ) ) {
@@ -3503,7 +3503,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *  - mt_allow_pings - can be 'open' or 'closed'
 	 *  - date_created_gmt
 	 *  - dateCreated
-	 *  - wp_featured_image
+	 *  - wp_post_thumbnail
 	 *
 	 * @since 1.5.0
 	 *
@@ -3753,11 +3753,11 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( isset($content_struct['custom_fields']) )
 			$this->set_custom_fields($post_ID, $content_struct['custom_fields']);
 
-		if ( isset ( $content_struct['wp_featured_image'] ) ) {
-			if ( set_post_thumbnail( $post_ID, $content_struct['wp_featured_image'] ) === false )
+		if ( isset ( $content_struct['wp_post_thumbnail'] ) ) {
+			if ( set_post_thumbnail( $post_ID, $content_struct['wp_post_thumbnail'] ) === false )
 				return new IXR_Error( 404, __( 'Invalid attachment ID.' ) );
 
-			unset( $content_struct['wp_featured_image'] );
+			unset( $content_struct['wp_post_thumbnail'] );
 		}
 
 		// Handle enclosures
@@ -4066,15 +4066,15 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( isset($content_struct['custom_fields']) )
 			$this->set_custom_fields($post_ID, $content_struct['custom_fields']);
 
-		if ( isset ( $content_struct['wp_featured_image'] ) ) {
+		if ( isset ( $content_struct['wp_post_thumbnail'] ) ) {
 			// empty value deletes, non-empty value adds/updates
-			if ( empty( $content_struct['wp_featured_image'] ) ) {
+			if ( empty( $content_struct['wp_post_thumbnail'] ) ) {
 				delete_post_thumbnail( $post_ID );
 			} else {
-				if ( set_post_thumbnail( $post_ID, $content_struct['wp_featured_image'] ) === false )
+				if ( set_post_thumbnail( $post_ID, $content_struct['wp_post_thumbnail'] ) === false )
 					return new IXR_Error( 404, __( 'Invalid attachment ID.' ) );
 			}
-			unset( $content_struct['wp_featured_image'] );
+			unset( $content_struct['wp_post_thumbnail'] );
 		}
 
 		// Handle enclosures
@@ -4207,8 +4207,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 			if ( !empty($enclosure) ) $resp['enclosure'] = $enclosure;
 
-			$resp['wp_featured_image'] = get_post_meta( $postdata['ID'], '_thumbnail_id', true );
-			$resp['wp_featured_image_url'] = wp_get_attachment_url( $resp['wp_featured_image'] );
+			$resp['wp_post_thumbnail'] = get_post_meta( $postdata['ID'], '_thumbnail_id', true );
+			$resp['wp_post_thumbnail_url'] = wp_get_attachment_url( $resp['wp_post_thumbnail'] );
 
 			return $resp;
 		} else {
@@ -4319,8 +4319,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			);
 
 			$entry_index = count( $struct ) - 1;
-			$struct[ $entry_index ][ 'wp_featured_image' ]     = get_post_meta( $entry['ID'], '_thumbnail_id', true );
-			$struct[ $entry_index ][ 'wp_featured_image_url' ] = wp_get_attachment_url( $struct[ $entry_index ][ 'wp_featured_image' ] );
+			$struct[ $entry_index ][ 'wp_post_thumbnail' ]     = get_post_meta( $entry['ID'], '_thumbnail_id', true );
+			$struct[ $entry_index ][ 'wp_post_thumbnail_url' ] = wp_get_attachment_url( $struct[ $entry_index ][ 'wp_post_thumbnail' ] );
 		}
 
 		$recent_posts = array();
