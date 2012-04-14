@@ -1081,7 +1081,7 @@ function register_post_type($post_type, $args = array()) {
  *   behave like edit_posts.
  * - publish_posts - Controls publishing objects of this post type.
  * - read_private_posts - Controls whether private objects can be read.
-
+ *
  * These four primitive capabilities are checked in core in various locations.
  * There are also seven other primitive capabilities which are not referenced
  * directly in core, except in map_meta_cap(), which takes the three aforementioned
