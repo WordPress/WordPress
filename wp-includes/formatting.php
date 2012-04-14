@@ -2981,9 +2981,9 @@ function _links_add_base($m) {
 	global $_links_add_base;
 	//1 = attribute name  2 = quotation mark  3 = URL
 	return $m[1] . '=' . $m[2] .
-		(strpos($m[3], 'http://') === false ?
-			path_join($_links_add_base, $m[3]) :
-			$m[3])
+		( preg_match( '#^(\w{1,20}):#', $m[3], $protocol ) && in_array( $protocol[1], wp_allowed_protocols() ) ?
+			$m[3] :
+			path_join( $_links_add_base, $m[3] ) )
 		. $m[2];
 }
 
