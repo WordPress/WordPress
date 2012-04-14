@@ -50,14 +50,7 @@ function fileUploading(up, file) {
 				wpFileError(file, pluploadL10n.big_upload_failed.replace('%1$s', '<a class="uploader-html" href="#">').replace('%2$s', '</a>'));
 				up.stop(); // stops the whole queue
 				up.removeFile(file);
-
-				for ( done in up.files ) {
-					// remove files that have been uploaded or have returned errors
-					if ( up.files[done].status > 2 )
-						up.removeFile( up.files[done] );
-				}
-				// restart the queue
-				up.start();
+				up.start(); // restart the queue
 			}
 		}, 10000); // wait for 10 sec. for the file to start uploading
 	}
