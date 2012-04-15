@@ -73,8 +73,15 @@
 							$image[1] >= get_theme_support( 'custom-header', 'width' ) ) :
 						// Houston, we have a new header image!
 						echo get_the_post_thumbnail( $post->ID );
-					elseif ( get_header_image() ) : ?>
-						<img src="<?php header_image(); ?>" width="<?php echo get_theme_support( 'custom-header', 'width' ); ?>" height="<?php echo get_theme_support( 'custom-header', 'height' ); ?>" alt="" />
+					elseif ( get_header_image() ) :	
+						if ( function_exists( 'get_custom_header' ) ) {
+							$header_width  = get_custom_header()->width;
+							$header_height = get_custom_header()->height;
+						} else {
+							$header_height = $header_width = '';
+						}
+						?>
+						<img src="<?php header_image(); ?>" width="<?php echo $header_width; ?>" height="<?php echo $header_height; ?>" alt="" />
 					<?php endif; ?>
 			</div><!-- #branding -->
 

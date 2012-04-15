@@ -105,6 +105,8 @@ function twentyten_setup() {
 		// The height and width of our custom header.
 		'width' => apply_filters( 'twentyten_header_image_width', 940 ),
 		'height' => apply_filters( 'twentyten_header_image_height', 198 ),
+		// Support flexible heights.
+		'flex-height' => true,
 		// Don't support text inside the header image.
 		'header-text' => false,
 		// Callback for styling the header preview in the admin.
