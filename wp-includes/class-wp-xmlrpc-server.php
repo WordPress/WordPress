@@ -1438,7 +1438,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$blog_id            = (int) $args[0];
 		$username           = $args[1];
 		$password           = $args[2];
-		$taxonomy_name      = $args[3];
+		$taxonomy           = $args[3];
 		$term_id            = (int) $args[4];
 
 		if ( ! $user = $this->login( $username, $password ) )
@@ -1446,15 +1446,15 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		do_action( 'xmlrpc_call', 'wp.deleteTerm' );
 
-		if ( ! taxonomy_exists( $taxonomy_name ) )
+		if ( ! taxonomy_exists( $taxonomy ) )
 			return new IXR_Error( 403, __( 'Invalid taxonomy.' ) );
 
-		$taxonomy = get_taxonomy( $taxonomy_name );
+		$taxonomy = get_taxonomy( $taxonomy );
 
 		if ( ! current_user_can( $taxonomy->cap->delete_terms ) )
 			return new IXR_Error( 401, __( 'You are not allowed to delete terms in this taxonomy.' ) );
 
-		$term = get_term( $term_id, $taxonomy_name );
+		$term = get_term( $term_id, $taxonomy->name );
 
 		if ( is_wp_error( $term ) )
 			return new IXR_Error( 500, $term->get_error_message() );
@@ -1462,7 +1462,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( ! $term )
 			return new IXR_Error( 404, __( 'Invalid term ID.' ) );
 
-		$result = wp_delete_term( $term_id, $taxonomy_name );
+		$result = wp_delete_term( $term_id, $taxonomy->name );
 
 		if ( is_wp_error( $result ) )
 			return new IXR_Error( 500, $term->get_error_message() );
@@ -1481,7 +1481,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *  - int     $blog_id
 	 *  - string  $username
 	 *  - string  $password
-	 *  - string  $taxonomy_name
+	 *  - string  $taxonomy
 	 *  - string  $term_id
 	 * @return array contains:
 	 *  - 'term_id'
@@ -1500,7 +1500,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$blog_id            = (int) $args[0];
 		$username           = $args[1];
 		$password           = $args[2];
-		$taxonomy_name      = $args[3];
+		$taxonomy           = $args[3];
 		$term_id            = (int) $args[4];
 
 		if ( ! $user = $this->login( $username, $password ) )
@@ -1508,15 +1508,15 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		do_action( 'xmlrpc_call', 'wp.getTerm' );
 
-		if ( ! taxonomy_exists( $taxonomy_name ) )
+		if ( ! taxonomy_exists( $taxonomy ) )
 			return new IXR_Error( 403, __( 'Invalid taxonomy.' ) );
 
-		$taxonomy = get_taxonomy( $taxonomy_name );
+		$taxonomy = get_taxonomy( $taxonomy );
 
 		if ( ! current_user_can( $taxonomy->cap->assign_terms ) )
 			return new IXR_Error( 401, __( 'You are not allowed to assign terms in this taxonomy.' ) );
 
-		$term = get_term( $term_id , $taxonomy_name, ARRAY_A );
+		$term = get_term( $term_id , $taxonomy->name, ARRAY_A );
 
 		if ( is_wp_error( $term ) )
 			return new IXR_Error( 500, $term->get_error_message() );
@@ -1538,7 +1538,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *  - int     $blog_id
 	 *  - string  $username
 	 *  - string  $password
-	 *  - string  $taxonomy_name
+	 *  - string  $taxonomy
 	 *  - array   $filter optional
 	 * @return array terms
 	 */
@@ -1548,7 +1548,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$blog_id        = (int) $args[0];
 		$username       = $args[1];
 		$password       = $args[2];
-		$taxonomy_name  = $args[3];
+		$taxonomy       = $args[3];
 		$filter         = isset( $args[4] ) ? $args[4] : array();
 
 		if ( ! $user = $this->login( $username, $password ) )
@@ -1556,10 +1556,10 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		do_action( 'xmlrpc_call', 'wp.getTerms' );
 
-		if ( ! taxonomy_exists( $taxonomy_name ) )
+		if ( ! taxonomy_exists( $taxonomy ) )
 			return new IXR_Error( 403, __( 'Invalid taxonomy.' ) );
 
-		$taxonomy = get_taxonomy( $taxonomy_name );
+		$taxonomy = get_taxonomy( $taxonomy );
 
 		if ( ! current_user_can( $taxonomy->cap->assign_terms ) )
 			return new IXR_Error( 401, __( 'You are not allowed to assign terms in this taxonomy.' ) );
@@ -1587,7 +1587,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( isset( $filter['search'] ) )
 			$query['search'] = $filter['search'];
 
-		$terms = get_terms( $taxonomy_name, $query );
+		$terms = get_terms( $taxonomy->name, $query );
 
 		if ( is_wp_error( $terms ) )
 			return new IXR_Error( 500, $terms->get_error_message() );
@@ -1609,7 +1609,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *  - int     $blog_id
 	 *  - string  $username
 	 *  - string  $password
-	 *  - string  $taxonomy_name
+	 *  - string  $taxonomy
 	 * @return array (@see get_taxonomy())
 	 */
 	function wp_getTaxonomy( $args ) {
@@ -1618,17 +1618,17 @@ class wp_xmlrpc_server extends IXR_Server {
 		$blog_id        = (int) $args[0];
 		$username       = $args[1];
 		$password       = $args[2];
-		$taxonomy_name  = $args[3];
+		$taxonomy       = $args[3];
 
 		if ( ! $user = $this->login( $username, $password ) )
 			return $this->error;
 
 		do_action( 'xmlrpc_call', 'wp.getTaxonomy' );
 
-		if ( ! taxonomy_exists( $taxonomy_name ) )
+		if ( ! taxonomy_exists( $taxonomy ) )
 			return new IXR_Error( 403, __( 'Invalid taxonomy.' ) );
 
-		$taxonomy = get_taxonomy( $taxonomy_name );
+		$taxonomy = get_taxonomy( $taxonomy );
 
 		if ( ! current_user_can( $taxonomy->cap->assign_terms ) )
 			return new IXR_Error( 401, __( 'You are not allowed to assign terms in this taxonomy.' ) );
