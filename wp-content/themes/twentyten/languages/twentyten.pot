@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Ten 1.3\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentyten\n"
-"POT-Creation-Date: 2012-03-20 22:16:07+00:00\n"
+"POT-Creation-Date: 2012-04-15 21:17:55+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -97,146 +97,146 @@ msgstr ""
 msgid "Proudly powered by %s."
 msgstr ""
 
-#: functions.php:98
+#: functions.php:93
 msgid "Primary Navigation"
 msgstr ""
 
 #. translators: header image description
-#: functions.php:132
+#: functions.php:129
 msgid "Berries"
 msgstr ""
 
 #. translators: header image description
-#: functions.php:138
+#: functions.php:135
 msgid "Cherry Blossoms"
 msgstr ""
 
 #. translators: header image description
-#: functions.php:144
+#: functions.php:141
 msgid "Concave"
 msgstr ""
 
 #. translators: header image description
-#: functions.php:150
+#: functions.php:147
 msgid "Fern"
 msgstr ""
 
 #. translators: header image description
-#: functions.php:156
+#: functions.php:153
 msgid "Forest Floor"
 msgstr ""
 
 #. translators: header image description
-#: functions.php:162
+#: functions.php:159
 msgid "Inkwell"
 msgstr ""
 
 #. translators: header image description
-#: functions.php:168
+#: functions.php:165
 msgid "Path"
 msgstr ""
 
 #. translators: header image description
-#: functions.php:174
+#: functions.php:171
 msgid "Sunset"
 msgstr ""
 
-#: functions.php:240 loop-attachment.php:104 loop.php:115 loop.php:143
+#: functions.php:237 loop-attachment.php:104 loop.php:115 loop.php:143
 msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: functions.php:322
+#: functions.php:319
 msgid "%s <span class=\"says\">says:</span>"
 msgstr ""
 
-#: functions.php:325
+#: functions.php:322
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
 #. translators: 1: date, 2: time
-#: functions.php:332
+#: functions.php:329
 msgid "%1$s at %2$s"
 msgstr ""
 
-#: functions.php:332 functions.php:349
+#: functions.php:329 functions.php:346
 msgid "(Edit)"
 msgstr ""
 
-#: functions.php:349
+#: functions.php:346
 msgid "Pingback:"
 msgstr ""
 
-#: functions.php:368
+#: functions.php:365
 msgid "Primary Widget Area"
 msgstr ""
 
-#: functions.php:370
+#: functions.php:367
 msgid "The primary widget area"
 msgstr ""
 
-#: functions.php:379
+#: functions.php:376
 msgid "Secondary Widget Area"
 msgstr ""
 
-#: functions.php:381
+#: functions.php:378
 msgid "The secondary widget area"
 msgstr ""
 
-#: functions.php:390
+#: functions.php:387
 msgid "First Footer Widget Area"
 msgstr ""
 
-#: functions.php:392
+#: functions.php:389
 msgid "The first footer widget area"
 msgstr ""
 
-#: functions.php:401
+#: functions.php:398
 msgid "Second Footer Widget Area"
 msgstr ""
 
-#: functions.php:403
+#: functions.php:400
 msgid "The second footer widget area"
 msgstr ""
 
-#: functions.php:412
+#: functions.php:409
 msgid "Third Footer Widget Area"
 msgstr ""
 
-#: functions.php:414
+#: functions.php:411
 msgid "The third footer widget area"
 msgstr ""
 
-#: functions.php:423
+#: functions.php:420
 msgid "Fourth Footer Widget Area"
 msgstr ""
 
-#: functions.php:425
+#: functions.php:422
 msgid "The fourth footer widget area"
 msgstr ""
 
-#: functions.php:459
+#: functions.php:456
 msgid ""
 "<span class=\"%1$s\">Posted on</span> %2$s <span class=\"meta-sep\">by</"
 "span> %3$s"
 msgstr ""
 
-#: functions.php:468 loop-attachment.php:36
+#: functions.php:465 loop-attachment.php:36
 msgid "View all posts by %s"
 msgstr ""
 
-#: functions.php:485
+#: functions.php:482
 msgid ""
 "This entry was posted in %1$s and tagged %2$s. Bookmark the <a href=\"%3$s\" "
 "title=\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>."
 msgstr ""
 
-#: functions.php:487
+#: functions.php:484
 msgid ""
 "This entry was posted in %1$s. Bookmark the <a href=\"%3$s\" title="
 "\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>."
 msgstr ""
 
-#: functions.php:489
+#: functions.php:486
 msgid ""
 "Bookmark the <a href=\"%3$s\" title=\"Permalink to %4$s\" rel=\"bookmark"
 "\">permalink</a>."
@@ -246,7 +246,7 @@ msgstr ""
 msgid "Page %s"
 msgstr ""
 
-#: header.php:83
+#: header.php:90
 msgid "Skip to content"
 msgstr ""
 
