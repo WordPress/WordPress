@@ -1974,7 +1974,7 @@ function wp_die( $message = '', $title = '', $args = array() ) {
 	elseif ( defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST )
 		$function = apply_filters( 'wp_die_xmlrpc_handler', '_xmlrpc_wp_die_handler' );
 	elseif ( defined( 'APP_REQUEST' ) && APP_REQUEST )
-		$function = apply_filters( 'wp_die_app_bandler', '_scalar_wp_die_handler' );
+		$function = apply_filters( 'wp_die_app_handler', '_scalar_wp_die_handler' );
 	else
 		$function = apply_filters( 'wp_die_handler', '_default_wp_die_handler' );
 
