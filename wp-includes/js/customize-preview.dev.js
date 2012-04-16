@@ -13,9 +13,7 @@
 		initialize: function( url, options ) {
 			var self = this;
 
-			$.extend( this, options || {} );
-
-			api.Messenger.prototype.initialize.call( this, url );
+			api.Messenger.prototype.initialize.call( this, url, null, options );
 
 			this.body = $( document.body );
 			this.body.on( 'click.preview', 'a', function( event ) {
@@ -29,24 +27,6 @@
 			this.body.on( 'submit.preview', 'form', function( event ) {
 				event.preventDefault();
 			});
-
-			this.bind( 'url', function( url ) {
-				this.url( url );
-				this.refresh();
-			});
-		},
-		refresh: function() {
-			this.submit({
-				target: this.iframe.prop('name'),
-				action: this.url()
-			});
-		},
-		submit: function( props ) {
-			if ( props )
-				this.form.prop( props );
-			this.form.submit();
-			if ( props )
-				this.form.prop( this._formOriginalProps );
 		}
 	});
 

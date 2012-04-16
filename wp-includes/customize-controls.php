@@ -50,7 +50,11 @@ do_action( 'customize_controls_print_scripts' );
 		<input type="hidden" id="customize-template" name="template" value="<?php echo esc_attr( $theme['Template'] ); ?>" />
 		<input type="hidden" id="customize-stylesheet" name="stylesheet" value="<?php echo esc_attr( $theme['Stylesheet'] ); ?>" />
 
-		<div id="customize-header-actions" class="customize-section wp-full-overlay-header">&nbsp;</div>
+		<div id="customize-header-actions" class="customize-section wp-full-overlay-header">
+			<a class="back" href="<?php echo esc_url( admin_url( 'themes.php' ) ); ?>">
+				<?php printf( __( '&larr; Return to %s' ), __('Manage Themes') ); ?>
+			</a>
+		</div>
 
 		<div id="customize-info" class="customize-section">
 			<div class="customize-section-title">
@@ -79,6 +83,10 @@ do_action( 'customize_controls_print_scripts' );
 			<?php
 			submit_button( __( 'Save' ), 'primary', 'save', false );
 			?>
+			<a href="#" class="collapse-sidebar button-secondary" title="<?php esc_attr_e('Collapse Sidebar'); ?>">
+				<span class="collapse-sidebar-label"><?php _e('Collapse'); ?></span>
+				<span class="collapse-sidebar-arrow"></span>
+			</a>
 		</div>
 	</form>
 	<div id="customize-preview" class="wp-full-overlay-main">
@@ -95,6 +103,7 @@ do_action( 'customize_controls_print_scripts' );
 		'settings' => array(),
 		'controls' => array(),
 		'prefix'   => WP_Customize_Setting::name_prefix,
+		'parent'   => esc_url( admin_url() ),
 	);
 
 	foreach ( $this->settings as $id => $setting ) {

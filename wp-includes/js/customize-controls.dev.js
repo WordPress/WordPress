@@ -216,6 +216,8 @@
 		 *  - url    - the URL of preview frame
 		 */
 		initialize: function( params, options ) {
+			var self = this;
+
 			$.extend( this, options || {} );
 
 			this.loaded = $.proxy( this.loaded, this );
@@ -287,6 +289,21 @@
 				if ( 13 === e.which ) // Enter
 					e.preventDefault();
 			});
+
+			// Create a potential postMessage connection with the parent frame.
+			this.parent = new api.Messenger( api.settings.parent );
+
+			// If we receive a 'back' event, we're inside an iframe.
+			// Send any clicks to the 'Return' link to the parent page.
+			this.parent.bind( 'back', function( text ) {
+				self.form.find('.back').text( text ).click( function( event ) {
+					event.preventDefault();
+					self.parent.send( 'close' );
+				});
+			});
+
+			// Initialize the connection with the parent frame.
+			this.parent.send( 'ready' );
 		},
 		loader: function() {
 			if ( this.loading )
@@ -337,11 +354,12 @@
 			return;
 
 		// Initialize Previewer
-		var previewer = new api.Previewer({
-			iframe: '#customize-preview iframe',
-			form:   '#customize-controls',
-			url:    api.settings.preview
-		});
+		var body = $( document.body ),
+			previewer = new api.Previewer({
+				iframe: '#customize-preview iframe',
+				form:   '#customize-controls',
+				url:    api.settings.preview
+			});
 
 		$.each( api.settings.settings, function( id, data ) {
 			api.set( id, id, data.value, {
@@ -380,9 +398,14 @@
 		});
 
 		// Button bindings.
-		$('#save').click( function() {
+		$('#save').click( function( event ) {
 			previewer.submit();
-			return false;
+			event.preventDefault();
+		});
+
+		$('.collapse-sidebar').click( function( event ) {
+			body.toggleClass( 'collapsed' );
+			event.preventDefault();
 		});
 
 		// Background color uses postMessage by default

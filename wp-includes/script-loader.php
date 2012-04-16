@@ -298,10 +298,10 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'hoverIntent', "/wp-includes/js/hoverIntent$suffix.js", array('jquery'), 'r6', 1 );
 
-	$scripts->add( 'customize-loader', "/wp-includes/js/customize-loader$suffix.js",   array( 'jquery' ), false, 1 );
-	$scripts->add( 'customize-base', "/wp-includes/js/customize-base$suffix.js",       array( 'jquery-postmessage', 'json2' ), false, 1 );
+	$scripts->add( 'customize-base',     "/wp-includes/js/customize-base$suffix.js",     array( 'jquery-postmessage', 'json2' ), false, 1 );
+	$scripts->add( 'customize-loader',   "/wp-includes/js/customize-loader$suffix.js",   array( 'customize-base' ), false, 1 );
 	$scripts->add( 'customize-controls', "/wp-includes/js/customize-controls$suffix.js", array( 'customize-base' ), false, 1 );
-	$scripts->add( 'customize-preview', "/wp-includes/js/customize-preview$suffix.js",  array( 'customize-base' ), false, 1 );
+	$scripts->add( 'customize-preview',  "/wp-includes/js/customize-preview$suffix.js",  array( 'customize-base' ), false, 1 );
 
 	if ( is_admin() ) {
 		$scripts->add( 'ajaxcat', "/wp-admin/js/cat$suffix.js", array( 'wp-lists' ) );

@@ -182,14 +182,6 @@ body {
 	margin-right: 5px;
 }
 
-#customize-preview {
-	position: fixed;
-	left: 300px;
-	right: 0;
-	top: 0;
-	bottom: 0;
-}
-
 #customize-preview iframe {
 	width: 100%;
 	height: 100%;

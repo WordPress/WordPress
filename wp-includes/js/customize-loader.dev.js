@@ -2,28 +2,35 @@ if ( typeof wp === 'undefined' )
 	var wp = {};
 
 (function( exports, $ ){
-	var Loader = {
+	var api = wp.customize,
+		Loader;
+
+	Loader = {
 		initialize: function() {
-			this.body      = $( document.body );
-			this.element   = $( '#customize-container' );
-			this.base      = $( '.admin-url', this.element ).val();
+			this.body      = $( document.body ).addClass('customize-support');
+			this.element   = $( '<div id="customize-container" class="wp-full-overlay" />' ).appendTo( this.body );
 
-			this.element.on( 'click', '.close-full-overlay', function() {
-				Loader.close();
-				return false;
-			});
+			$('#wpbody').on( 'click', '.load-customize', function( event ) {
+				event.preventDefault();
 
-			this.element.on( 'click', '.collapse-sidebar', function() {
-				Loader.element.toggleClass('collapsed');
-				return false;
+				// Load the theme.
+				Loader.open( $(this).attr('href') );
 			});
 		},
-		open: function( params ) {
-			params.customize = 'on';
+		open: function( src ) {
+			this.iframe = $( '<iframe />', { src: src }).appendTo( this.element );
 
-			this.iframe = $( '<iframe />', {
-				src: this.base + '?' + jQuery.param( params )
-			}).appendTo( this.element );
+			// Create a postMessage connection with the iframe.
+			this.messenger = new api.Messenger( src, this.iframe[0].contentWindow );
+
+			// Wait for the connection from the iframe before sending any postMessage events.
+			this.messenger.bind( 'ready', function() {
+				Loader.messenger.send( 'back', wpCustomizeLoaderL10n.back );
+			});
+
+			this.messenger.bind( 'close', function() {
+				Loader.close();
+			});
 
 			this.element.fadeIn( 200, function() {
 				Loader.body.addClass( 'customize-active full-overlay-active' );
@@ -32,28 +39,18 @@ if ( typeof wp === 'undefined' )
 		close: function() {
 			this.element.fadeOut( 200, function() {
 				Loader.iframe.remove();
-				Loader.iframe = null;
+				Loader.iframe    = null;
+				Loader.messenger = null;
 				Loader.body.removeClass( 'customize-active full-overlay-active' );
 			});
 		}
 	};
 
 	$( function() {
-		Loader.initialize();
-
-		$('#wpbody').on( 'click', '.load-customize', function( event ) {
-			var load = $(this);
-
-			event.preventDefault();
-
-			// Load the theme.
-			Loader.open({
-				template:   load.data('customizeTemplate'),
-				stylesheet: load.data('customizeStylesheet')
-			});
-		});
+		if ( !! window.postMessage )
+			Loader.initialize();
 	});
 
 	// Expose the API to the world.
-	exports.CustomizeLoader = Loader;
+	api.Loader = Loader;
 })( wp, jQuery );

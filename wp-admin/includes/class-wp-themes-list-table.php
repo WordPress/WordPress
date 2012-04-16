@@ -131,15 +131,13 @@ class WP_Themes_List_Table extends WP_List_Table {
 				array( 'preview' => 1, 'template' => $template, 'stylesheet' => $stylesheet, 'preview_iframe' => true, 'TB_iframe' => 'true' ),
 				home_url( '/' ) ) );
 
-			$customize_attributes = 'title="' . esc_attr( sprintf( __( 'Customize &#8220;%s&#8221;' ), $title ) ) . '"
-				. data-customize-template="' . esc_attr( $template ) . '" data-customize-stylesheet="' . esc_attr( $stylesheet ) . '"';
-
 			$actions = array();
 			$actions[] = '<a href="' . $activate_link . '" class="activatelink" title="'
 				. esc_attr( sprintf( __( 'Activate &#8220;%s&#8221;' ), $title ) ) . '">' . __( 'Activate' ) . '</a>';
-			$actions[] = '<a href="' . $preview_link . '" class="hide-if-js" title="'
+			$actions[] = '<a href="' . $preview_link . '" class="hide-if-customize" title="'
 				. esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;' ), $title ) ) . '">' . __( 'Preview' ) . '</a>'
-				. '<a href="#" class="load-customize hide-if-no-js" ' . $customize_attributes . '>' . __( 'Customize' ) . '</a>';
+				. '<a ' . wp_customize_href( $template, $stylesheet ) . ' class="load-customize hide-if-no-customize">'
+				. __( 'Customize' ) . '</a>';
 			if ( ! is_multisite() && current_user_can( 'delete_themes' ) )
 				$actions['delete'] = '<a class="submitdelete deletion" href="' . wp_nonce_url( "themes.php?action=delete&amp;template=$stylesheet", 'delete-theme_' . $stylesheet )
 					. '" onclick="' . "return confirm( '" . esc_js( sprintf( __( "You are about to delete this theme '%s'\n  'Cancel' to stop, 'OK' to delete." ), $title ) )
@@ -150,11 +148,18 @@ class WP_Themes_List_Table extends WP_List_Table {
 			unset( $actions['delete'] );
 
 			?>
-			<a href="<?php echo $preview_link; ?>" class="load-customize screenshot" <?php echo $customize_attributes; ?>>
-			<?php if ( $screenshot = $theme->get_screenshot() ) : ?>
-				<img src="<?php echo esc_url( $screenshot ); ?>" alt="" />
-			<?php endif; ?>
+
+			<a href="<?php echo $preview_link; ?>" class="screenshot hide-if-customize">
+				<?php if ( $screenshot = $theme->get_screenshot() ) : ?>
+					<img src="<?php echo esc_url( $screenshot ); ?>" alt="" />
+				<?php endif; ?>
 			</a>
+			<a <?php echo wp_customize_href( $template, $stylesheet ); ?> class="screenshot load-customize hide-if-no-customize">
+				<?php if ( $screenshot = $theme->get_screenshot() ) : ?>
+					<img src="<?php echo esc_url( $screenshot ); ?>" alt="" />
+				<?php endif; ?>
+			</a>
+
 			<h3><?php echo $title; ?></h3>
 			<div class="theme-author"><?php printf( __( 'By %s' ), $author ); ?></div>
 			<div class="action-links">

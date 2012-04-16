@@ -457,6 +457,8 @@ if ( typeof wp === 'undefined' )
 		send: function( id, data ) {
 			var message;
 
+			data = data || {};
+
 			if ( ! this.url() )
 				return;
 

@@ -5313,6 +5313,16 @@ body.full-overlay-active {
   24.0 - Customize Loader
 ------------------------------------------------------------------------------*/
 
+.hide-if-no-customize,
+.customize-support .hide-if-customize {
+	display: none !important;
+}
+
+.hide-if-customize,
+.customize-support .hide-if-no-customize {
+	display: block !important;
+}
+
 #customize-container {
 	display: none;
 }

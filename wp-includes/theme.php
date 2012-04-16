@@ -1583,30 +1583,33 @@ function _wp_customize_include() {
 add_action( 'plugins_loaded', '_wp_customize_include' );
 
 /**
- * Includes the loading scripts for the theme customizer and
- * adds the action to print the customize container template.
+ * Localizes the customize-loader script.
  *
  * @since 3.4.0
  */
-function wp_customize_loader() {
-	wp_enqueue_script( 'customize-loader' );
-	add_action( 'admin_footer', '_wp_customize_loader_template' );
+function _wp_customize_loader_localize() {
+	wp_localize_script( 'customize-loader', 'wpCustomizeLoaderL10n', array(
+		'back' => sprintf( __( '&larr; Return to %s' ), get_admin_page_title() ),
+	) );
+}
+add_action( 'admin_enqueue_scripts', '_wp_customize_loader_localize' );
+
+/**
+ * Returns a URL to load the theme customizer.
+ *
+ * @since 3.4.0
+ */
+function wp_customize_url( $template, $stylesheet = null ) {
+	$stylesheet = isset( $stylesheet ) ? $stylesheet : $template;
+	return admin_url( 'admin.php' ) . '?customize=on&template=' . $template . '&stylesheet=' . $stylesheet;
 }
 
 /**
- * Print the customize container template.
+ * Prints an href attribute to load the theme customizer.
  *
  * @since 3.4.0
  */
-function _wp_customize_loader_template() {
-	?>
-	<div id="customize-container" class="wp-full-overlay">
-		<input type="hidden" class="admin-url" value="<?php echo esc_url( admin_url( 'admin.php' ) ); ?>" />
-		<a href="#" class="close-full-overlay"><?php printf( __( '&larr; Return to %s' ), get_admin_page_title() ); ?></a>
-		<a href="#" class="collapse-sidebar button-secondary" title="<?php esc_attr_e('Collapse Sidebar'); ?>">
-			<span class="collapse-sidebar-label"><?php _e('Collapse'); ?></span>
-			<span class="collapse-sidebar-arrow"></span>
-		</a>
-	</div>
-	<?php
+function wp_customize_href( $template, $stylesheet = null ) {
+	$link = wp_customize_url( $template, $stylesheet );
+	return 'href="' . esc_url( $link ) . '"';
 }
