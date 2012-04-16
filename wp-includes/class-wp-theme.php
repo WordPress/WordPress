@@ -1140,7 +1140,7 @@ final class WP_Theme implements ArrayAccess {
 	 * @return array Array of stylesheet names.
 	 */
 	public static function get_allowed( $blog_id = null ) {
-		return array_merge( self::get_allowed_on_network(), self::get_allowed_on_site( $blog_id ) );
+		return self::get_allowed_on_network() + self::get_allowed_on_site( $blog_id );
 	}
 
 	/**
@@ -1214,7 +1214,7 @@ final class WP_Theme implements ArrayAccess {
 			}
 		}
 
-		return $allowed_themes[ $blog_id ];
+		return (array) $allowed_themes[ $blog_id ];
 	}
 
 	/**
