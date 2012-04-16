@@ -47,10 +47,18 @@ require(ABSPATH . WPINC . '/version.php');
 // Also loads functions.php, plugin.php, l10n.php, pomo/mo.php (all required by setup-config.php)
 wp_load_translations_early();
 
+// Check for the required PHP version and for the MySQL extension or a database drop-in.
 wp_check_php_mysql_versions();
+
+// Turn register_globals off.
+wp_unregister_GLOBALS();
 
 require_once(ABSPATH . WPINC . '/compat.php');
 require_once(ABSPATH . WPINC . '/class-wp-error.php');
+require_once(ABSPATH . WPINC . '/formatting.php');
+
+// Add magic quotes and set up $_REQUEST ( $_GET + $_POST )
+wp_magic_quotes();
 
 if ( ! file_exists( ABSPATH . 'wp-config-sample.php' ) )
 	wp_die( __( 'Sorry, I need a wp-config-sample.php file to work from. Please re-upload this file from your WordPress installation.' ) );
