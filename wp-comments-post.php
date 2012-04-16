@@ -100,6 +100,6 @@ if ( !$user->ID ) {
 $location = empty($_POST['redirect_to']) ? get_comment_link($comment_id) : $_POST['redirect_to'] . '#comment-' . $comment_id;
 $location = apply_filters('comment_post_redirect', $location, $comment);
 
-wp_redirect($location);
+wp_safe_redirect( $location );
 exit;
 ?>
