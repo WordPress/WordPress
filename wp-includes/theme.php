@@ -1599,17 +1599,6 @@ add_action( 'admin_enqueue_scripts', '_wp_customize_loader_localize' );
  *
  * @since 3.4.0
  */
-function wp_customize_url( $template, $stylesheet = null ) {
-	$stylesheet = isset( $stylesheet ) ? $stylesheet : $template;
-	return admin_url( 'admin.php' ) . '?customize=on&template=' . $template . '&stylesheet=' . $stylesheet;
-}
-
-/**
- * Prints an href attribute to load the theme customizer.
- *
- * @since 3.4.0
- */
-function wp_customize_href( $template, $stylesheet = null ) {
-	$link = wp_customize_url( $template, $stylesheet );
-	return 'href="' . esc_url( $link ) . '"';
+function wp_customize_url( $stylesheet, $template ) {
+	return esc_url( admin_url( 'admin.php' ) . '?customize=on&template=' . $template . '&stylesheet=' . $stylesheet );
 }
