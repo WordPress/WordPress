@@ -1,3 +1,37 @@
+Version 1.5.4 (2012-04-12)
+	Flash: Disable scripting if swf was loaded from another domain.
+Version 1.5.3 (2012-04-05)
+	HTML5: Check if xhr object is initialized, before calling abort() on it.
+	HTML4: Postpone form removal until uploaders state changes, to avoid error on resuming stopped uploads.
+	BrowserPlus: Fix mechanical typo, that caused error during mime type check.
+	BrowserPlus: browserPlus.Uploader.Cancel() has two required parameters, dies with the error if not passed.
+	Flash: Improve runtime's behaviour during upload cancellation.
+	Flash: Survive the case when GPSVersionID contains unexpected value.
+	Flash: Fix random freeze in Chrome's bundled Flash Player.
+	Flash: Avoid the silent break when URLStream not yet open, but close is called on it.
+	Flash: Move Destroy handler out of Flash:Init handler, since it might be called not only after Flash:Init but also before it.
+	Flash: Avoid warning during build with mxmlc.
+	Try removeEventListener first in IE and only if it fails - detachEvent.
+	Fix plupload.getPos to return proper value in IE8+.
+	Do not initiate plupload.STARTED state, if file queue is empty.
+	Additional language packs: Estonian, Polish, Korean, French-Canadian, Greek, Persian/Farsi.
+Version 1.5.2 (2012-01-06)
+	UI Widget: Do not show UI if no runtime can be initialized.
+	UI Widget: Timely update file size and total size if resize in action.
+	UI Widget: Constrain renaming feature to queued files only.
+	UI Widget: Disable Add button properly, if requested, rather then just hide.
+	HTML4/HTML5/BrowserPlus: Avoid adding mime type twice to dialog trigger.
+	HTML5: fix regression, when unresized images were failing on FF3.6.
+	HTML5: Constrain Gecko 2,5,6 workaround to multipart mode only.
+	HTML5/Flash: Take into account weird possibilities of ExifVersion being a string, rather then standard Undefined.
+	Flash: Simplify event dispatching in BitmapDataUnlimited class, in order to avoid freezing on resizing in FP11.
+	Add ability to disable file dialog trigger on request (uploader.disableBrowse(true/false)).
+	Support for immediate abort of upload process, be it chunked upload or regular one.
+	Abort all activity, before destroying uploader.
+	Revive temporary file removal logic in upload.php.
+	Fix potential vulnerability in dump.php and upload.php.
+	Additional MIME types: application/vnd.openxmlformats-officedocument.*, application/x-javascript, application/json, text/css,css, application/vnd.oasis.opendocument.formula-templat.
+	Additional language packs: Hungarian, Croatian, Serbian, Romanian.
 Version 1.5.1.1 (2011-09-27)
 	HTML5: Fix mechanical typo, that successfully broke drag and drop, wherever could.
 Version 1.5.1 (2011-09-26)
