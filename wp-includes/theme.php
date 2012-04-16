@@ -1590,6 +1590,7 @@ add_action( 'plugins_loaded', '_wp_customize_include' );
 function _wp_customize_loader_localize() {
 	wp_localize_script( 'customize-loader', 'wpCustomizeLoaderL10n', array(
 		'back' => sprintf( __( '&larr; Return to %s' ), get_admin_page_title() ),
+		'url'  => admin_url( 'admin.php' ),
 	) );
 }
 add_action( 'admin_enqueue_scripts', '_wp_customize_loader_localize' );
