@@ -1624,7 +1624,7 @@ class WP_Query {
 		}
 
 		if ( '' != $qv['pagename'] ) {
-			$this->queried_object =& get_page_by_path($qv['pagename']);
+			$this->queried_object = get_page_by_path($qv['pagename']);
 			if ( !empty($this->queried_object) )
 				$this->queried_object_id = (int) $this->queried_object->ID;
 			else
@@ -2977,7 +2977,7 @@ class WP_Query {
 			$this->queried_object = get_post_type_object( $this->get('post_type') );
 		} elseif ( $this->is_posts_page ) {
 			$page_for_posts = get_option('page_for_posts');
-			$this->queried_object = & get_page( $page_for_posts );
+			$this->queried_object = get_page( $page_for_posts );
 			$this->queried_object_id = (int) $this->queried_object->ID;
 		} elseif ( $this->is_singular && !is_null($this->post) ) {
 			$this->queried_object = $this->post;
