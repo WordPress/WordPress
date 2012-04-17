@@ -184,7 +184,7 @@ function install_plugin_install_status($api, $loop = false) {
 
 	//Check to see if this plugin is known to be installed, and has an update awaiting it.
 	$update_plugins = get_site_transient('update_plugins');
-	if ( is_object( $update_plugins ) ) {
+	if ( isset( $update_plugins->response ) ) {
 		foreach ( (array)$update_plugins->response as $file => $plugin ) {
 			if ( $plugin->slug === $api->slug ) {
 				$status = 'update_available';
