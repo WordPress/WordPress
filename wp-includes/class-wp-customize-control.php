@@ -215,16 +215,16 @@ class WP_Customize_Control {
 				?>
 				<label>
 					<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
-					<div class="color-picker">
-						<input type="hidden" value="<?php echo esc_attr( $this->value() ); ?>" <?php $this->link(); ?> />
-						<a href="#"></a>
-						<div class="color-picker-controls">
-							<div class="farbtastic-placeholder"></div>
-							<div class="color-picker-details">
-								<div class="color-picker-hex">
-									<span>#</span>
-									<input type="text" <?php $this->link(); ?> />
-								</div>
+					<a href="#" class="color-picker-toggle">
+						<div class="color-picker-spot"></div>
+						<div class="color-picker-dropdown"></div>
+					</a>
+					<div class="color-picker-controls">
+						<div class="farbtastic-placeholder"></div>
+						<div class="color-picker-details">
+							<div class="color-picker-hex">
+								<span>#</span>
+								<input type="text" <?php $this->link(); ?> />
 							</div>
 						</div>
 					</div>

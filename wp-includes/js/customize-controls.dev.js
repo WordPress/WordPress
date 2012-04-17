@@ -97,22 +97,24 @@
 	api.ColorControl = api.Control.extend({
 		ready: function() {
 			var control = this,
-				picker, ui, text, toggle, update;
+				toggle, spot, ui, text, update;
 
-			picker = this.container.find( '.color-picker' );
-			ui     = picker.find( '.color-picker-controls' );
-			toggle = picker.find( 'a' );
+			toggle = this.container.find( '.color-picker-toggle' );
+			spot   = toggle.find('.color-picker-spot');
+			ui     = this.container.find( '.color-picker-controls' );
 			update = function( color ) {
 				color = '#' + color;
-				toggle.css( 'background', color );
+				spot.css( 'background', color );
 				control.farbtastic.setColor( color );
 			};
 
-			picker.on( 'click', 'a', function() {
+			toggle.on( 'click', function( event ) {
 				ui.toggle();
+				toggle.toggleClass( 'open' );
+				event.preventDefault();
 			});
 
-			this.farbtastic = $.farbtastic( picker.find('.farbtastic-placeholder'), function( color ) {
+			this.farbtastic = $.farbtastic( this.container.find('.farbtastic-placeholder'), function( color ) {
 				control.setting.set( color.replace( '#', '' ) );
 			});
 
