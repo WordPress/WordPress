@@ -81,7 +81,8 @@ do_action( 'customize_controls_print_scripts' );
 
 		<div id="customize-footer-actions" class="customize-section wp-full-overlay-footer">
 			<?php
-			submit_button( __( 'Save' ), 'primary', 'save', false );
+			$save_text = $this->get_stylesheet() == $this->original_stylesheet ? __('Save') : __('Save and Activate');
+			submit_button( $save_text, 'primary', 'save', false );
 			?>
 			<a href="#" class="collapse-sidebar button-secondary" title="<?php esc_attr_e('Collapse Sidebar'); ?>">
 				<span class="collapse-sidebar-label"><?php _e('Collapse'); ?></span>

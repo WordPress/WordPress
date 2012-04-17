@@ -10,6 +10,9 @@
 final class WP_Customize {
 	protected $template;
 	protected $stylesheet;
+	protected $original_template;
+	protected $original_stylesheet;
+
 	protected $previewing = false;
 
 	protected $settings = array();
@@ -80,6 +83,9 @@ final class WP_Customize {
 		global $wp_theme_directories;
 
 		show_admin_bar( false );
+
+		$this->original_template   = get_template();
+		$this->original_stylesheet = get_stylesheet();
 
 		add_filter( 'template', array( $this, 'get_template' ) );
 		add_filter( 'stylesheet', array( $this, 'get_stylesheet' ) );
