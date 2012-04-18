@@ -136,7 +136,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 				. esc_attr( sprintf( __( 'Activate &#8220;%s&#8221;' ), $title ) ) . '">' . __( 'Activate' ) . '</a>';
 			$actions[] = '<a href="' . $preview_link . '" class="hide-if-customize" title="'
 				. esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;' ), $title ) ) . '">' . __( 'Preview' ) . '</a>'
-				. '<a href="' . wp_customize_url( $stylesheet, $template ) . '" class="load-customize hide-if-no-customize">'
+				. '<a href="' . wp_customize_url( $stylesheet ) . '" class="load-customize hide-if-no-customize">'
 				. __( 'Customize' ) . '</a>';
 			if ( ! is_multisite() && current_user_can( 'delete_themes' ) )
 				$actions['delete'] = '<a class="submitdelete deletion" href="' . wp_nonce_url( "themes.php?action=delete&amp;template=$stylesheet", 'delete-theme_' . $stylesheet )
@@ -154,7 +154,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 					<img src="<?php echo esc_url( $screenshot ); ?>" alt="" />
 				<?php endif; ?>
 			</a>
-			<a href="<?php echo wp_customize_url( $stylesheet, $template ); ?>" class="screenshot load-customize hide-if-no-customize">
+			<a href="<?php echo wp_customize_url( $stylesheet ); ?>" class="screenshot load-customize hide-if-no-customize">
 				<?php if ( $screenshot = $theme->get_screenshot() ) : ?>
 					<img src="<?php echo esc_url( $screenshot ); ?>" alt="" />
 				<?php endif; ?>

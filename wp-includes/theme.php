@@ -1600,6 +1600,6 @@ add_action( 'admin_enqueue_scripts', '_wp_customize_loader_localize' );
  *
  * @since 3.4.0
  */
-function wp_customize_url( $stylesheet, $template ) {
+function wp_customize_url( $stylesheet ) {
 	return esc_url( admin_url( 'admin.php' ) . '?customize=on&theme=' . $stylesheet );
 }
