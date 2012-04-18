@@ -43,7 +43,7 @@ if ( typeof wp === 'undefined' )
 			if ( hash && 0 === hash.indexOf( 'customize=on' ) )
 				Loader.open( wpCustomizeLoaderL10n.url + '?' + hash );
 
-			if ( ! hash )
+			if ( ! hash && ! Loader.supports.history )
 				Loader.close();
 		},
 		open: function( src ) {
@@ -78,7 +78,7 @@ if ( typeof wp === 'undefined' )
 				// Ensure we don't call pushState if the user hit the forward button.
 				if ( Loader.supports.history && window.location.href !== src )
 					history.pushState( { customize: src }, '', src );
-				else if ( Loader.supports.hashchange && hash )
+				else if ( ! Loader.supports.history && Loader.supports.hashchange && hash )
 					window.location.hash = hash;
 			});
 		},
@@ -89,6 +89,7 @@ if ( typeof wp === 'undefined' )
 
 			this.element.fadeOut( 200, function() {
 				Loader.iframe.remove();
+				Loader.messenger.destroy();
 				Loader.iframe    = null;
 				Loader.messenger = null;
 				Loader.body.removeClass( 'customize-active full-overlay-active' );

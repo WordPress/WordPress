@@ -431,22 +431,29 @@ if ( typeof wp === 'undefined' )
 			$.extend( this, options || {} );
 
 			url = this.add( 'url', url );
-			this.add( 'targetWindow', targetWindow || null );
+			this.add( 'targetWindow', targetWindow || window.parent );
 			this.add( 'origin', url() ).link( url ).setter( function( to ) {
 				return to.replace( /([^:]+:\/\/[^\/]+).*/, '$1' );
 			});
 
 			this.topics = {};
 
-			$.receiveMessage( $.proxy( this.receive, this ), this.origin() || null );
+			this.receive = $.proxy( this.receive, this );
+			$( window ).on( 'message', this.receive );
+		},
+
+		destroy: function() {
+			$( window ).off( 'message', this.receive );
 		},
 
 		receive: function( event ) {
 			var message;
 
-			// @todo: remove, this is done in the postMessage plugin.
-			// if ( this.origin && event.origin !== this.origin )
-			// 	return;
+			event = event.originalEvent;
+
+			// Check to make sure the origin is valid.
+			if ( this.origin() && event.origin !== this.origin() )
+				return;
 
 			message = JSON.parse( event.data );
 
@@ -463,7 +470,7 @@ if ( typeof wp === 'undefined' )
 				return;
 
 			message = JSON.stringify({ id: id, data: data });
-			$.postMessage( message, this.url(), this.targetWindow() );
+			this.targetWindow().postMessage( message, this.origin() );
 		},
 
 		bind: function( id, callback ) {
