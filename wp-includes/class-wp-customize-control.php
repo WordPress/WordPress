@@ -22,8 +22,6 @@ class WP_Customize_Control {
 
 	public $json = array();
 
-	public $visibility;
-
 	public $type = 'text';
 
 
@@ -102,21 +100,6 @@ class WP_Customize_Control {
 		}
 
 		$this->json['type'] = $this->type;
-
-		if ( $this->visibility ) {
-			if ( is_string( $this->visibility ) ) {
-				$this->json['visibility'] = array(
-					'id'    => $this->visibility,
-					'value' => true,
-				);
-			} else {
-				$this->json['visibility'] = array(
-					'id'    => $this->visibility[0],
-					'value' => $this->visibility[1],
-				);
-			}
-
-		}
 	}
 
 	/**
@@ -163,22 +146,7 @@ class WP_Customize_Control {
 		$id    = 'customize-control-' . str_replace( '[', '-', str_replace( ']', '', $this->id ) );
 		$class = 'customize-control customize-control-' . $this->type;
 
-		$style = '';
-		if ( $this->visibility ) {
-			if ( is_string( $this->visibility ) ) {
-				$visibility_id    = $this->visibility;
-				$visibility_value = true;
-			} else {
-				$visibility_id    = $this->visibility[0];
-				$visibility_value = $this->visibility[1];
-			}
-			$visibility_setting = $this->manager->get_setting( $visibility_id );
-
-			if ( $visibility_setting && $visibility_value != $visibility_setting->value() )
-				$style = 'style="display:none;"';
-		}
-
-		?><li id="<?php echo esc_attr( $id ); ?>" class="<?php echo esc_attr( $class ); ?>" <?php echo $style; ?>>
+		?><li id="<?php echo esc_attr( $id ); ?>" class="<?php echo esc_attr( $class ); ?>">
 			<?php $this->render_content(); ?>
 		</li><?php
 	}

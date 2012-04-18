@@ -591,7 +591,6 @@ final class WP_Customize {
 		$this->add_control( 'background_repeat', array(
 			'label'      => __( 'Background Repeat' ),
 			'section'    => 'background',
-			'visibility' => 'background_image',
 			'type'       => 'radio',
 			'choices'    => array(
 				'no-repeat'  => __('No Repeat'),
@@ -609,7 +608,6 @@ final class WP_Customize {
 		$this->add_control( 'background_position_x', array(
 			'label'      => __( 'Background Position' ),
 			'section'    => 'background',
-			'visibility' => 'background_image',
 			'type'       => 'radio',
 			'choices'    => array(
 				'left'       => __('Left'),
@@ -626,7 +624,6 @@ final class WP_Customize {
 		$this->add_control( 'background_attachment', array(
 			'label'      => __( 'Background Attachment' ),
 			'section'    => 'background',
-			'visibility' => 'background_image',
 			'type'       => 'radio',
 			'choices'    => array(
 				'fixed'      => __('Fixed'),
@@ -708,7 +705,6 @@ final class WP_Customize {
 			'label'      => __( 'Front page' ),
 			'section'    => 'static_front_page',
 			'type'       => 'dropdown-pages',
-			'visibility' => array( 'show_on_front', 'page' ),
 		) );
 
 		$this->add_setting( 'page_for_posts', array(
@@ -721,7 +717,6 @@ final class WP_Customize {
 			'label'      => __( 'Posts page' ),
 			'section'    => 'static_front_page',
 			'type'       => 'dropdown-pages',
-			'visibility' => array( 'show_on_front', 'page' ),
 		) );
 
 		/* Site Title & Tagline */

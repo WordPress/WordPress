@@ -377,20 +377,6 @@
 				params: data,
 				previewer: previewer
 			} ) );
-
-			if ( data.visibility ) {
-				api( data.visibility.id, function( other ) {
-					if ( 'boolean' === typeof data.visibility.value ) {
-						other.bind( function( to ) {
-							control.container.toggle( !! to == data.visibility.value );
-						});
-					} else {
-						other.bind( function( to ) {
-							control.container.toggle( to == data.visibility.value );
-						});
-					}
-				});
-			}
 		});
 
 		// Temporary accordion code.
@@ -415,6 +401,36 @@
 			setting.method = 'postMessage';
 		});
 
+		// Control visibility for default controls
+		$.each({
+			'background_image': {
+				controls: [ 'background_repeat', 'background_position_x', 'background_attachment' ],
+				callback: function( to ) { return !! to }
+			},
+			'show_on_front': {
+				controls: [ 'page_on_front', 'page_for_posts' ],
+				callback: function( to ) { return 'page' === to }
+			},
+			'header_textcolor': {
+				controls: [ 'header_textcolor' ],
+				callback: function( to ) { return 'blank' !== to }
+			}
+		}, function( settingId, o ) {
+			api( settingId, function( setting ) {
+				$.each( o.controls, function( i, controlId ) {
+					api.control( controlId, function( control ) {
+						var visibility = function( to ) {
+							control.container.toggle( o.callback( to ) );
+						};
+
+						visibility( setting.get() );
+						setting.bind( visibility );
+					});
+				});
+			});
+		});
+
+		// Juggle the two controls that use header_textcolor
 		api.control( 'display_header_text', function( control ) {
 			var last = '';
 
