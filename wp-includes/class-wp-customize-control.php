@@ -70,9 +70,6 @@ class WP_Customize_Control {
 				wp_enqueue_script( 'farbtastic' );
 				wp_enqueue_style( 'farbtastic' );
 				break;
-			case 'upload':
-				wp_enqueue_script( 'wp-plupload' );
-				break;
 		}
 	}
 
