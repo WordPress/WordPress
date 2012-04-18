@@ -250,6 +250,22 @@ body {
 	top: 6px;
 }
 
+.customize-section .color-picker-toggle:hover .color-picker-spot {
+	border-color: rgba( 0, 0, 0, 0.25 );
+}
+
+.customize-section .color-picker-toggle:hover .color-picker-dropdown {
+	border-color: #aaa;
+}
+
+.customize-section .color-picker-toggle:hover .color-picker-dropdown:after {
+	border-color: #aaa transparent transparent transparent;
+}
+
+.customize-section .color-picker-toggle.open:hover .color-picker-dropdown:after {
+	border-color: transparent transparent #aaa transparent;
+}
+
 .customize-section .color-picker-control {
 	display: none;
 }
