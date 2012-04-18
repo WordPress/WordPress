@@ -1143,15 +1143,21 @@ function update_user_caches($user) {
  *
  * @since 3.0.0
  *
- * @param int $id User ID
+ * @param WP_User $user User object to be cleaned from the cache
  */
-function clean_user_cache($id) {
-	$user = WP_User::get_data_by( 'id', $id );
+function clean_user_cache( $user ) {
+	if ( is_numeric( $user ) ) {
+		_deprecated_argument( __FUNCTION__, '3.4', 'Pass the full user object instead of the ID.' );
+		$user = new WP_User( $user );
+	}
 
-	wp_cache_delete($id, 'users');
-	wp_cache_delete($user->user_login, 'userlogins');
-	wp_cache_delete($user->user_email, 'useremail');
-	wp_cache_delete($user->user_nicename, 'userslugs');
+	if ( ! $user->exists() )
+		return;
+
+	wp_cache_delete( $user->ID, 'users' );
+	wp_cache_delete( $user->user_login, 'userlogins' );
+	wp_cache_delete( $user->user_email, 'useremail' );
+	wp_cache_delete( $user->user_nicename, 'userslugs' );
 }
 
 /**

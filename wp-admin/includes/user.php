@@ -237,6 +237,7 @@ function wp_delete_user( $id, $reassign = 'novalue' ) {
 	global $wpdb;
 
 	$id = (int) $id;
+	$user = new WP_User( $id );
 
 	// allow for transaction statement
 	do_action('delete_user', $id);
@@ -262,7 +263,7 @@ function wp_delete_user( $id, $reassign = 'novalue' ) {
 		$wpdb->update( $wpdb->links, array('link_owner' => $reassign), array('link_owner' => $id) );
 	}
 
-	clean_user_cache($id);
+	clean_user_cache( $user );
 
 	// FINALLY, delete user
 	if ( !is_multisite() ) {

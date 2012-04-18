@@ -132,6 +132,7 @@ function wpmu_delete_user( $id ) {
 	global $wpdb;
 
 	$id = (int) $id;
+	$user = new WP_User( $id );
 
 	do_action( 'wpmu_delete_user', $id );
 
@@ -162,7 +163,7 @@ function wpmu_delete_user( $id ) {
 	$wpdb->delete( $wpdb->users, array( 'ID' => $id ) );
 	$wpdb->delete( $wpdb->usermeta, array( 'user_id' => $id ) );
 
-	clean_user_cache( $id );
+	clean_user_cache( $user );
 
 	// allow for commit transaction
 	do_action( 'deleted_user', $id );
@@ -389,7 +390,8 @@ function update_user_status( $id, $pref, $value, $deprecated = null ) {
 
 	$wpdb->update( $wpdb->users, array( $pref => $value ), array( 'ID' => $id ) );
 
-	clean_user_cache( $id );
+	$user = new WP_User( $id );
+	clean_user_cache( $user );
 
 	if ( $pref == 'spam' ) {
 		if ( $value == 1 )
@@ -407,7 +409,7 @@ function refresh_user_details( $id ) {
 	if ( !$user = get_userdata( $id ) )
 		return false;
 
-	clean_user_cache( $id );
+	clean_user_cache( $user );
 
 	return $id;
 }
