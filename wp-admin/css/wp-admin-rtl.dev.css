@@ -1101,14 +1101,88 @@ form.upgrade .hint {
   16.0 - Themes
 ------------------------------------------------------------------------------*/
 
-td.available-theme {
-	text-align: right;
+h3.available-themes {
+	float: right;
+}
+
+.available-theme {
+	margin-right: 0;
+	margin-left: 10px;
+	padding: 20px 0 20px 20px;
+}
+
+#current-theme .theme-info li,
+.theme-options li,
+.available-theme .action-links li {
+	float: right;
+	padding-right: 0;
+	padding-left: 10px;
+	margin-right: 0;
+	margin-left: 10px;
+	border-right: none;
+	border-left: 1px solid #dfdfdf;
+}
+
+#current-theme .theme-info li:last-child,
+.theme-options li:last-child,
+.available-theme .action-links li:last-child {
+	padding-left: 0;
+	margin-right: 0;
+	border-left: 0;
+}
+
+.available-theme .action-links .delete-theme {
+	float: left;
+	margin-left: 0;
+}
+
+.available-theme .action-links p {
+	float: right;
+}
+
+#current-theme.has-screenshot {
+	padding-left: 0;
+	padding-right: 330px;
+}
+
+#current-theme h4 span {
+	margin-left: 0;
+	margin-right: 20px;
 }
 
 #current-theme img {
 	float: right;
+	width: 300px;
+	margin-left: 0;
+	margin-right: -330px;
+}
+
+.theme-options .load-customize {
 	margin-right: 0;
-	margin-left: 1em;
+	margin-left: 30px;
+	float: right;
+}
+
+.theme-options span {
+	float: right;
+	margin-right: 0;
+	margin-left: 10px;
+}
+
+.theme-options ul {
+	float: right;
+}
+
+/* Allow for three-up on 1024px wide screens, e.g. tablets */
+@media only screen and (max-width: 1200px) {
+	#current-theme.has-screenshot {
+		padding-right: 270px;
+	}
+
+	#current-theme img {
+		margin-right: -270px;
+		width: 240px;
+	}
 }
 
 #broken-themes {
