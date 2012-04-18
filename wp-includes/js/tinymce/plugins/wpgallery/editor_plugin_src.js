@@ -17,7 +17,7 @@
 				if ( ed.dom.getAttrib(el, 'class').indexOf('wpGallery') == -1 )	return;
 
 				post_id = tinymce.DOM.get('post_ID').value;
-				tb_show('', tinymce.documentBaseURL + '/media-upload.php?post_id='+post_id+'&tab=gallery&TB_iframe=true&width='+W+'&height='+H);
+				tb_show('', tinymce.documentBaseURL + 'media-upload.php?post_id='+post_id+'&tab=gallery&TB_iframe=true&width='+W+'&height='+H);
 
 				tinymce.DOM.setStyle( ['TB_overlay','TB_window','TB_load'], 'z-index', '999999' );
 			});
