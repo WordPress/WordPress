@@ -101,7 +101,7 @@
 
 			toggle = this.container.find( '.color-picker-toggle' );
 			spot   = toggle.find('.color-picker-spot');
-			ui     = this.container.find( '.color-picker-controls' );
+			ui     = this.container.find( '.color-picker-control' );
 			update = function( color ) {
 				color = '#' + color;
 				spot.css( 'background', color );

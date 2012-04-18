@@ -219,15 +219,11 @@ class WP_Customize_Control {
 						<div class="color-picker-spot"></div>
 						<div class="color-picker-dropdown"></div>
 					</a>
-					<div class="color-picker-controls">
-						<div class="farbtastic-placeholder"></div>
-						<div class="color-picker-details">
-							<div class="color-picker-hex">
-								<span>#</span>
-								<input type="text" <?php $this->link(); ?> />
-							</div>
-						</div>
+					<div class="color-picker-control color-picker-hex">
+						<span>#</span>
+						<input type="text" <?php $this->link(); ?> />
 					</div>
+					<div class="color-picker-control farbtastic-placeholder"></div>
 				</label>
 				<?php
 				break;

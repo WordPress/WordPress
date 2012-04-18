@@ -244,42 +244,33 @@ body {
 	right: 4px;
 	z-index: 1;
 }
+
 .customize-section .color-picker-toggle.open .color-picker-dropdown:after {
 	border-color: transparent transparent #ccc transparent;
 	top: 6px;
 }
 
-.customize-section .color-picker-controls {
+.customize-section .color-picker-control {
 	display: none;
-	float: left;
-	margin-top: 10px;
-}
-
-.customize-section .color-picker-controls .farbtastic-placeholder {
-	height: 195px;
-	width: 195px;
-	border: 4px solid #fff;
-	box-shadow: 0 0 20px rgba( 0, 0, 0, 0.2 );
-
-	-webkit-border-radius: 50%;
-	border-radius: 50%;
 }
 
 .customize-section .color-picker-hex {
+	float: left;
+	width: 70px;
+	margin-left: 5px;
+	font-family: monospace;
 	background-color: #fff;
-	border: 1px solid #dfdfdf;
+	color: #777;
+	border: 1px solid #ccc;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
-	color: #777;
-	width: 70px;
-	font-family: monospace;
 }
 
 .customize-section .color-picker-hex span {
 	float: left;
 	display: block;
 	margin: 1px -2px 0 0;
-	line-height: 15px;
+	line-height: 16px;
 	padding: 3px 0 3px 8px;
 	text-align: right;
 	-webkit-border-radius: 3px 0 0 3px;
@@ -287,12 +278,23 @@ body {
 }
 
 .customize-section .color-picker-hex input[type="text"] {
+	width: 50px;
+	line-height: 16px;
 	color: #777;
+	background: transparent;
+	border: 0;
 	-webkit-border-radius: 0 3px 3px 0;
 	border-radius: 0 3px 3px 0;
-	width: 50px;
-	border: 0;
-	background: transparent;
+}
+
+.customize-section .color-picker-control.farbtastic-placeholder {
+	width: 235px;
+	margin: 5px 0 10px 25px;
+	float: left;
+}
+
+.customize-section .color-picker-control .farbtastic {
+	margin: 0 auto;
 }
 
 /*
