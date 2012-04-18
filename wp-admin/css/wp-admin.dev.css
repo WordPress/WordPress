@@ -6461,6 +6461,7 @@ a.rsswidget {
 
 .nav-menus-php #post-body-content {
 	position: relative;
+	float: none;
 }
 
 #menu-management .menu-add-new abbr {
