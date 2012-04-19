@@ -1896,7 +1896,8 @@ add_filter('option_users_can_register', 'users_can_register_signup_filter');
  */
 function welcome_user_msg_filter( $text ) {
 	if ( !$text ) {
-		return __( 'Dear User,
+		remove_filter( 'site_option_welcome_user_email', 'welcome_user_msg_filter' );
+		$text = __( 'Dear User,
 
 Your new account is set up.
 
@@ -1908,6 +1909,7 @@ LOGINLINK
 Thanks!
 
 --The Team @ SITE_NAME' );
+		update_site_option( 'welcome_user_email', $text );
 	}
 	return $text;
 }
