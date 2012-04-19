@@ -186,7 +186,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 		$actions = array();
 		if ( in_array( $comment_status, array( 'all', 'approved' ) ) )
 			$actions['unapprove'] = __( 'Unapprove' );
-		if ( in_array( $comment_status, array( 'all', 'moderated', 'spam' ) ) )
+		if ( in_array( $comment_status, array( 'all', 'moderated' ) ) )
 			$actions['approve'] = __( 'Approve' );
 		if ( in_array( $comment_status, array( 'all', 'moderated', 'approved' ) ) )
 			$actions['spam'] = _x( 'Mark as Spam', 'comment' );
