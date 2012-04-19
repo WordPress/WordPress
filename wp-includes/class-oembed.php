@@ -227,25 +227,31 @@ class WP_oEmbed {
 	 * @return bool|string False on error, otherwise the HTML needed to embed.
 	 */
 	function data2html( $data, $url ) {
-		if ( !is_object($data) || empty($data->type) )
+		if ( ! is_object( $data ) || empty( $data->type ) )
 			return false;
+
+		$return = false;
 
 		switch ( $data->type ) {
 			case 'photo':
-				if ( empty($data->url) || empty($data->width) || empty($data->height) )
-					return false;
+				if ( empty( $data->url ) || empty( $data->width ) || empty( $data->height ) )
+					break;
+				if ( ! is_string( $data->url ) || ! is_numeric( $data->width ) || ! is_numeric( $data->height ) )
+					break;
 
-				$title = ( !empty($data->title) ) ? $data->title : '';
+				$title = ! empty( $data->title ) && is_string( $data->title ) ? $data->title : '';
 				$return = '<a href="' . esc_url( $url ) . '"><img src="' . esc_url( $data->url ) . '" alt="' . esc_attr($title) . '" width="' . esc_attr($data->width) . '" height="' . esc_attr($data->height) . '" /></a>';
 				break;
 
 			case 'video':
 			case 'rich':
-				$return = ( !empty($data->html) ) ? $data->html : false;
+				if ( ! empty( $data->html ) && is_string( $data->html ) )
+					$return = $data->html;
 				break;
 
 			case 'link':
-				$return = ( !empty($data->title) ) ? '<a href="' . esc_url($url) . '">' . esc_html($data->title) . '</a>' : false;
+				if ( ! empty( $data->title ) && is_string( $data->title ) )
+					$return = '<a href="' . esc_url( $url ) . '">' . esc_html( $data->title ) . '</a>';
 				break;
 
 			default:
