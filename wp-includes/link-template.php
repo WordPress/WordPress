@@ -1563,7 +1563,7 @@ function get_previous_posts_link( $label = null ) {
 
 	if ( !is_single() && $paged > 1 ) {
 		$attr = apply_filters( 'previous_posts_link_attributes', '' );
-		return '<a href="' . previous_posts( false ) . "\" $attr>". preg_replace( '/&([^#])(?![a-z]{1,8};)/', '&#038;$1', $label ) .'</a>';
+		return '<a href="' . previous_posts( false ) . "\" $attr>". preg_replace( '/&([^#])(?![a-z]{1,8};)/i', '&#038;$1', $label ) .'</a>';
 	}
 }
 
