@@ -154,6 +154,10 @@ if ( $action ) {
 				wp_die(__('You do not have sufficient permissions to deactivate plugins for this site.'));
 
 			check_admin_referer('deactivate-plugin_' . $plugin);
+			if ( ! is_network_admin() && is_plugin_active_for_network() ) {
+				wp_redirect( self_admin_url("plugins.php?plugin_status=$status&paged=$page&s=$s") );
+				exit;
+			}
 			deactivate_plugins($plugin);
 			update_option('recently_activated', array($plugin => time()) + (array)get_option('recently_activated'));
 			if ( headers_sent() )
@@ -169,7 +173,13 @@ if ( $action ) {
 			check_admin_referer('bulk-plugins');
 
 			$plugins = isset( $_POST['checked'] ) ? (array) $_POST['checked'] : array();
-			$plugins = array_filter($plugins, 'is_plugin_active'); //Do not deactivate plugins which are already deactivated.
+			// Do not deactivate plugins which are already deactivated.
+			if ( is_network_admin() ) {
+				$plugins = array_filter( $plugins, 'is_plugin_active_for_network' );
+			} else {
+				$plugins = array_filter( $plugins, 'is_plugin_active' );
+				$plugins = array_diff( $plugins, array_filter( $plugins, 'is_plugin_active_for_network' ) );
+			}
 			if ( empty($plugins) ) {
 				wp_redirect( self_admin_url("plugins.php?plugin_status=$status&paged=$page&s=$s") );
 				exit;
