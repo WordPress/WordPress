@@ -1143,13 +1143,11 @@ function update_user_caches($user) {
  *
  * @since 3.0.0
  *
- * @param WP_User $user User object to be cleaned from the cache
+ * @param WP_User|int $user User object or ID to be cleaned from the cache
  */
 function clean_user_cache( $user ) {
-	if ( is_numeric( $user ) ) {
-		_deprecated_argument( __FUNCTION__, '3.4', 'Pass the full user object instead of the ID.' );
+	if ( is_numeric( $user ) )
 		$user = new WP_User( $user );
-	}
 
 	if ( ! $user->exists() )
 		return;
