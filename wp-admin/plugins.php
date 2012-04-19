@@ -12,7 +12,7 @@ require_once('./admin.php');
 if ( is_multisite() ) {
 	$menu_perms = get_site_option( 'menu_items', array() );
 
-	if ( empty( $menu_perms['plugins'] ) && ! is_super_admin() )
+	if ( empty( $menu_perms['plugins'] ) && ! current_user_can( 'manage_network_plugins' ) )
 		wp_die( __( 'Cheatin&#8217; uh?' ) );
 }
 
@@ -31,9 +31,6 @@ $s = isset($_REQUEST['s']) ? urlencode($_REQUEST['s']) : '';
 $_SERVER['REQUEST_URI'] = remove_query_arg(array('error', 'deleted', 'activate', 'activate-multi', 'deactivate', 'deactivate-multi', '_error_nonce'), $_SERVER['REQUEST_URI']);
 
 if ( $action ) {
-	$network_wide = false;
-	if ( ( isset( $_GET['networkwide'] ) || 'network-activate-selected' == $action ) && is_multisite() && current_user_can( 'manage_network_plugins' ) )
-		$network_wide = true;
 
 	switch ( $action ) {
 		case 'activate':
@@ -42,7 +39,7 @@ if ( $action ) {
 
 			check_admin_referer('activate-plugin_' . $plugin);
 
-			$result = activate_plugin($plugin, self_admin_url('plugins.php?error=true&plugin=' . $plugin), $network_wide);
+			$result = activate_plugin($plugin, self_admin_url('plugins.php?error=true&plugin=' . $plugin), is_network_admin() );
 			if ( is_wp_error( $result ) ) {
 				if ( 'unexpected_output' == $result->get_error_code() ) {
 					$redirect = self_admin_url('plugins.php?error=true&charsout=' . strlen($result->get_error_data()) . '&plugin=' . $plugin . "&plugin_status=$status&paged=$page&s=$s");
@@ -53,11 +50,12 @@ if ( $action ) {
 				}
 			}
 
-			$recent = (array)get_option('recently_activated');
-			if ( isset($recent[ $plugin ]) ) {
-				unset($recent[ $plugin ]);
-				update_option('recently_activated', $recent);
+			if ( ! is_network_admin() ) {
+				$recent = (array) get_option( 'recently_activated' );
+				unset( $recent[ $plugin ] );
+				update_option( 'recently_activated', $recent );
 			}
+
 			if ( isset($_GET['from']) && 'import' == $_GET['from'] ) {
 				wp_redirect( self_admin_url("import.php?import=" . str_replace('-importer', '', dirname($plugin))) ); // overrides the ?error=true one above and redirects to the Imports page, stripping the -importer suffix
 			} else {
@@ -66,7 +64,6 @@ if ( $action ) {
 			exit;
 			break;
 		case 'activate-selected':
-		case 'network-activate-selected':
 			if ( ! current_user_can('activate_plugins') )
 				wp_die(__('You do not have sufficient permissions to activate plugins for this site.'));
 
@@ -75,7 +72,7 @@ if ( $action ) {
 			$plugins = isset( $_POST['checked'] ) ? (array) $_POST['checked'] : array();
 
 			// Only activate plugins which are not already active.
-			$check = $network_wide ? 'is_plugin_active_for_network' : 'is_plugin_active';
+			$check = is_network_admin() ? 'is_plugin_active_for_network' : 'is_plugin_active';
 			foreach ( $plugins as $i => $plugin )
 				if ( $check( $plugin ) )
 					unset( $plugins[ $i ] );
@@ -85,14 +82,14 @@ if ( $action ) {
 				exit;
 			}
 
-			activate_plugins($plugins, self_admin_url('plugins.php?error=true'), $network_wide);
+			activate_plugins($plugins, self_admin_url('plugins.php?error=true'), is_network_admin() );
 
-			$recent = (array)get_option('recently_activated');
-			foreach ( $plugins as $plugin => $time)
-				if ( isset($recent[ $plugin ]) )
-					unset($recent[ $plugin ]);
-
-			update_option('recently_activated', $recent);
+			if ( ! is_network_admin() ) {
+				$recent = (array) get_option('recently_activated' );
+				foreach ( $plugins as $plugin )
+					unset( $recent[ $plugin ] );
+				update_option( 'recently_activated', $recent );
+			}
 
 			wp_redirect( self_admin_url("plugins.php?activate-multi=true&plugin_status=$status&paged=$page&s=$s") );
 			exit;
@@ -153,8 +150,15 @@ if ( $action ) {
 				wp_die(__('You do not have sufficient permissions to deactivate plugins for this site.'));
 
 			check_admin_referer('deactivate-plugin_' . $plugin);
-			deactivate_plugins($plugin);
-			update_option('recently_activated', array($plugin => time()) + (array)get_option('recently_activated'));
+
+			if ( ! is_network_admin() && is_plugin_active_for_network() ) {
+				wp_redirect( self_admin_url("plugins.php?plugin_status=$status&paged=$page&s=$s") );
+				exit;
+			}
+
+			deactivate_plugins( $plugin, false, is_network_admin() );
+			if ( ! is_network_admin() )
+				update_option( 'recently_activated', array( $plugin => time() ) + (array) get_option( 'recently_activated' ) );
 			if ( headers_sent() )
 				echo "<meta http-equiv='refresh' content='" . esc_attr( "0;url=plugins.php?deactivate=true&plugin_status=$status&paged=$page&s=$s" ) . "' />";
 			else
@@ -168,19 +172,27 @@ if ( $action ) {
 			check_admin_referer('bulk-plugins');
 
 			$plugins = isset( $_POST['checked'] ) ? (array) $_POST['checked'] : array();
-			$plugins = array_filter($plugins, 'is_plugin_active'); //Do not deactivate plugins which are already deactivated.
+			// Do not deactivate plugins which are already deactivated.
+			if ( is_network_admin() ) {
+				$plugins = array_filter( $plugins, 'is_plugin_active_for_network' );
+			} else {
+				$plugins = array_filter( $plugins, 'is_plugin_active' );
+				$plugins = array_diff( $plugins, array_filter( $plugins, 'is_plugin_active_for_network' ) );
+			}
 			if ( empty($plugins) ) {
 				wp_redirect( self_admin_url("plugins.php?plugin_status=$status&paged=$page&s=$s") );
 				exit;
 			}
 
-			deactivate_plugins($plugins);
+			deactivate_plugins( $plugins, false, is_network_admin() );
 
-			$deactivated = array();
-			foreach ( $plugins as $plugin )
-				$deactivated[ $plugin ] = time();
+			if ( ! is_network_admin() ) {
+				$deactivated = array();
+				foreach ( $plugins as $plugin )
+					$deactivated[ $plugin ] = time();
+				update_option( 'recently_activated', $deactivated + (array) get_option( 'recently_activated' ) );
+			}
 
-			update_option('recently_activated', $deactivated + (array)get_option('recently_activated'));
 			wp_redirect( self_admin_url("plugins.php?deactivate-multi=true&plugin_status=$status&paged=$page&s=$s") );
 			exit;
 			break;
@@ -305,7 +317,8 @@ if ( $action ) {
 			exit;
 			break;
 		case 'clear-recent-list':
-			update_option('recently_activated', array());
+			if ( ! is_network_admin() )
+				update_option( 'recently_activated', array() );
 			break;
 	}
 }

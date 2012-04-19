@@ -572,9 +572,11 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false, $silen
  * @since 2.5.0
  *
  * @param string|array $plugins Single plugin or list of plugins to deactivate.
+ * @param mixed $network_wide Whether to deactivate the plugin for all sites in the network.
+ * 	A value of null (the default) will deactivate plugins for both the site and the network.
  * @param bool $silent Prevent calling deactivation hooks. Default is false.
  */
-function deactivate_plugins( $plugins, $silent = false ) {
+function deactivate_plugins( $plugins, $silent = false, $network_wide = null ) {
 	if ( is_multisite() )
 		$network_current = get_site_option( 'active_sitewide_plugins', array() );
 	$current = get_option( 'active_plugins', array() );
@@ -585,15 +587,19 @@ function deactivate_plugins( $plugins, $silent = false ) {
 		if ( ! is_plugin_active($plugin) )
 			continue;
 
-		$network_wide = is_plugin_active_for_network( $plugin );
+		$network_deactivating = false !== $network_wide && is_plugin_active_for_network( $plugin );
 
 		if ( ! $silent )
-			do_action( 'deactivate_plugin', $plugin, $network_wide );
+			do_action( 'deactivate_plugin', $plugin, $network_deactivating );
 
-		if ( $network_wide ) {
+		if ( false !== $network_wide ) {
+			if ( ! is_plugin_active_for_network( $plugin ) )
+				continue;
 			$do_network = true;
 			unset( $network_current[ $plugin ] );
-		} else {
+		}
+
+		if ( true !== $network_wide ) {
 			$key = array_search( $plugin, $current );
 			if ( false !== $key ) {
 				$do_blog = true;
@@ -602,8 +608,8 @@ function deactivate_plugins( $plugins, $silent = false ) {
 		}
 
 		if ( ! $silent ) {
-			do_action( 'deactivate_' . $plugin, $network_wide );
-			do_action( 'deactivated_plugin', $plugin, $network_wide );
+			do_action( 'deactivate_' . $plugin, $network_deactivating );
+			do_action( 'deactivated_plugin', $plugin, $network_deactivating );
 		}
 	}
 
