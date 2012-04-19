@@ -185,7 +185,8 @@ setCommentsList = function() {
 			pending = -1;
 		}
 
-		updatePending(pending);
+		if ( pending )
+			updatePending(pending);
 
 		$('span.spam-count').each( function() {
 			var a = $(this), n = getCount(a) + spam;
