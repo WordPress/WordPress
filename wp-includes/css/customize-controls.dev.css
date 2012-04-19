@@ -319,14 +319,18 @@ body {
  */
 .customize-section .customize-control-image .thumbnail {
 	float: right;
-	width: 140px;
-	min-height: 1em;
+	width: 138px;
+	min-height: 25px;
+	border: 1px solid #ccc;
+	margin-bottom: 5px;
+	background: #eee;
 }
 
 .customize-section .customize-control-image .thumbnail img {
+	display: block;
 	max-width: 138px;
 	max-height: 98px;
-	border: 1px solid #ccc;
+	margin: 0 auto;
 }
 
 .customize-section .customize-control-image .actions {
