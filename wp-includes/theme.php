@@ -98,9 +98,8 @@ function wp_get_theme( $stylesheet = null, $theme_root = null ) {
 	if ( empty( $theme_root ) ) {
 		$theme_root = get_raw_theme_root( $stylesheet );
 		if ( false === $theme_root )
-			return false;
-
-		if ( ! in_array( $theme_root, (array) $wp_theme_directories ) )
+			$theme_root = WP_CONTENT_DIR . $theme_root;
+		elseif ( ! in_array( $theme_root, (array) $wp_theme_directories ) )
 			$theme_root = WP_CONTENT_DIR . $theme_root;
 	}
 
