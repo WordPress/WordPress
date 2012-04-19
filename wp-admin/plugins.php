@@ -151,7 +151,7 @@ if ( $action ) {
 
 			check_admin_referer('deactivate-plugin_' . $plugin);
 
-			if ( ! is_network_admin() && is_plugin_active_for_network() ) {
+			if ( ! is_network_admin() && is_plugin_active_for_network( $plugin ) ) {
 				wp_redirect( self_admin_url("plugins.php?plugin_status=$status&paged=$page&s=$s") );
 				exit;
 			}
