@@ -148,6 +148,7 @@ body {
 }
 
 .customize-control-text input {
+	float: right;
 	width: 138px;
 	line-height: 18px;
 	margin: 1px;
@@ -316,63 +317,57 @@ body {
 /*
  * Image Picker
  */
-.customize-section .customize-image-picker {
-	float: left;
-}
-
-.customize-section .customize-image-picker .thumbnail {
-	float: left;
-	clear: left;
-	width: 100px;
-	margin-right: 20px;
+.customize-section .customize-control-image .thumbnail {
+	float: right;
+	width: 140px;
 	min-height: 1em;
 }
 
-.customize-section .customize-image-picker .thumbnail img {
-	max-width: 98px;
+.customize-section .customize-control-image .thumbnail img {
+	max-width: 138px;
 	max-height: 98px;
 	border: 1px solid #ccc;
 }
 
-.customize-section .customize-image-picker .actions {
+.customize-section .customize-control-image .actions {
 	width: 140px;
-	float: left;
+	float: right;
 }
 
-.customize-section .customize-image-picker .actions a {
+.customize-section .customize-control-image .actions a {
 	display: block;
 }
 
-.customize-section .customize-image-picker .library {
+.customize-section .customize-control-image .library {
 	display: none;
 /*	float: left;*/
 }
 
-/*.customize-section .customize-image-picker .library label {
+/*.customize-section .customize-control-image .library label {
 	display: block;
 	position: relative;
 	float: left;
 	padding: 0 0 5px 20px;
 }
-.customize-section .customize-image-picker .library input {
+.customize-section .customize-control-image .library input {
 	display: block;
 	position: absolute;
 	top: 50%;
 	left: 0;
 	margin-top: -7px;
 }*/
-/*.customize-section .customize-image-picker .library .wp-tab-panel {
+/*.customize-section .customize-control-image .library .wp-tab-panel {
 	padding: 10px 10px 5px 8px;
 }*/
 
-.customize-section .customize-image-picker .library ul {
+.customize-section .customize-control-image .library ul {
 	border-bottom: 1px solid #dfdfdf;
 	float: left;
 	width: 100%;
 	margin: 5px 0;
 }
 
-.customize-section .customize-image-picker .library li {
+.customize-section .customize-control-image .library li {
 	color: #999;
 	float: left;
 	padding: 4px 6px;
@@ -382,7 +377,7 @@ body {
 	border-width: 1px 1px 0 1px;
 }
 
-.customize-section .customize-image-picker .library li.library-selected {
+.customize-section .customize-control-image .library li.library-selected {
 	color: #777;
 	border-color: #dfdfdf;
 	background: #f5f5f5;
@@ -390,12 +385,12 @@ body {
 	padding-bottom: 5px;
 }
 
-.customize-section .customize-image-picker .library div {
+.customize-section .customize-control-image .library div {
 	width: 100%;
 	float: left;
 }
 
-.customize-section .customize-image-picker .library a {
+.customize-section .customize-control-image .library a {
 	display: block;
 	max-width: 220px;
 	max-height: 80px;
@@ -405,16 +400,16 @@ body {
 	border: 1px solid #dfdfdf;
 }
 
-.customize-section .customize-image-picker .library a:hover {
+.customize-section .customize-control-image .library a:hover {
 	border-color: #21759b;
 }
 
-.customize-section .customize-image-picker .library img {
+.customize-section .customize-control-image .library img {
 	display: block;
 	max-width: 220px;
 	max-height: 80px;
 }
 
-.customize-section .customize-image-picker .library-content {
+.customize-section .customize-control-image .library-content {
 	display: none;
 }

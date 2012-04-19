@@ -300,35 +300,36 @@ class WP_Customize_Image_Control extends WP_Customize_Upload_Control {
 			$src = call_user_func( $this->get_url, $src );
 
 		?>
-		<label>
+		<label class="customize-image-picker">
 			<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
-			<div class="customize-image-picker">
-				<div class="thumbnail">
-					<?php if ( empty( $src ) ): ?>
-						<img style="display:none;" />
-					<?php else: ?>
-						<img src="<?php echo esc_url( $src ); ?>" />
-					<?php endif; ?>
-				</div>
-				<div class="actions">
-					<a href="#" class="upload"><?php _e( 'Upload New' ); ?></a>
-					<a href="#" class="change"><?php _e( 'Change Image' ); ?></a>
-					<a href="#" class="remove"><?php _e( 'Remove Image' ); ?></a>
-				</div>
-				<div class="library">
-					<ul>
-						<?php foreach ( $this->tabs as $tab ): ?>
-							<li data-customize-tab='<?php echo esc_attr( $tab[0] ); ?>'>
-								<?php echo esc_html( $tab[1] ); ?>
-							</li>
-						<?php endforeach; ?>
-					</ul>
+
+			<div class="thumbnail">
+				<?php if ( empty( $src ) ): ?>
+					<img style="display:none;" />
+				<?php else: ?>
+					<img src="<?php echo esc_url( $src ); ?>" />
+				<?php endif; ?>
+			</div>
+
+			<div class="actions">
+				<a href="#" class="upload"><?php _e( 'Upload New' ); ?></a>
+				<a href="#" class="change"><?php _e( 'Change Image' ); ?></a>
+				<a href="#" class="remove"><?php _e( 'Remove Image' ); ?></a>
+			</div>
+
+			<div class="library">
+				<ul>
 					<?php foreach ( $this->tabs as $tab ): ?>
-						<div class="library-content" data-customize-tab='<?php echo esc_attr( $tab[0] ); ?>'>
-							<?php call_user_func( $tab[2] ); ?>
-						</div>
+						<li data-customize-tab='<?php echo esc_attr( $tab[0] ); ?>'>
+							<?php echo esc_html( $tab[1] ); ?>
+						</li>
 					<?php endforeach; ?>
-				</div>
+				</ul>
+				<?php foreach ( $this->tabs as $tab ): ?>
+					<div class="library-content" data-customize-tab='<?php echo esc_attr( $tab[0] ); ?>'>
+						<?php call_user_func( $tab[2] ); ?>
+					</div>
+				<?php endforeach; ?>
 			</div>
 		</label>
 		<?php
