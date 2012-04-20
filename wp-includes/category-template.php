@@ -995,10 +995,11 @@ function get_the_tags( $id = 0 ) {
  * @param string $before Optional. Before tags.
  * @param string $sep Optional. Between tags.
  * @param string $after Optional. After tags.
+ * @param int $id Optional. Post ID. Defaults to the current post.
  * @return string
  */
-function get_the_tag_list( $before = '', $sep = '', $after = '' ) {
-	return apply_filters( 'the_tags', get_the_term_list( 0, 'post_tag', $before, $sep, $after ), $before, $sep, $after);
+function get_the_tag_list( $before = '', $sep = '', $after = '', $id = 0 ) {
+	return apply_filters( 'the_tags', get_the_term_list( $id, 'post_tag', $before, $sep, $after ), $before, $sep, $after, $id );
 }
 
 /**
@@ -1053,17 +1054,17 @@ function term_description( $term = 0, $taxonomy = 'post_tag' ) {
  *
  * @since 2.5.0
  *
- * @param int $id Post ID. Is not optional.
+ * @param int $id Post ID.
  * @param string $taxonomy Taxonomy name.
  * @return array|bool False on failure. Array of term objects on success.
  */
-function get_the_terms( $id = 0, $taxonomy ) {
+function get_the_terms( $id, $taxonomy ) {
 	global $post;
 
  	$id = (int) $id;
 
 	if ( !$id ) {
-		if ( !$post->ID )
+		if ( empty( $post->ID ) )
 			return false;
 		else
 			$id = (int) $post->ID;
@@ -1095,7 +1096,7 @@ function get_the_terms( $id = 0, $taxonomy ) {
  * @param string $after Optional. After list.
  * @return string
  */
-function get_the_term_list( $id = 0, $taxonomy, $before = '', $sep = '', $after = '' ) {
+function get_the_term_list( $id, $taxonomy, $before = '', $sep = '', $after = '' ) {
 	$terms = get_the_terms( $id, $taxonomy );
 
 	if ( is_wp_error( $terms ) )
@@ -1128,7 +1129,7 @@ function get_the_term_list( $id = 0, $taxonomy, $before = '', $sep = '', $after 
  * @param string $after Optional. After list.
  * @return null|bool False on WordPress error. Returns null when displaying.
  */
-function the_terms( $id = 0, $taxonomy, $before = '', $sep = ', ', $after = '' ) {
+function the_terms( $id, $taxonomy, $before = '', $sep = ', ', $after = '' ) {
 	$term_list = get_the_term_list( $id, $taxonomy, $before, $sep, $after );
 
 	if ( is_wp_error( $term_list ) )
