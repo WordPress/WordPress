@@ -340,6 +340,9 @@ function search_theme_directories( $force = false ) {
 		$cached_roots = get_site_transient( 'theme_roots' );
 		if ( is_array( $cached_roots ) ) {
 			foreach ( $cached_roots as $theme_dir => $theme_root ) {
+				// A cached theme root is no longer around, so skip it.
+				if ( ! isset( $relative_theme_roots[ $theme_root ] ) )
+					continue;
 				$found_themes[ $theme_dir ] = array(
 					'theme_file' => $theme_dir . '/style.css',
 					'theme_root' => $relative_theme_roots[ $theme_root ], // Convert relative to absolute.
