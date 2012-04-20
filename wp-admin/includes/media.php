@@ -1298,7 +1298,7 @@ function media_upload_form( $errors = null ) {
 	global $type, $tab, $pagenow, $is_IE, $is_opera;
 
 	if ( ! _device_can_upload() ) {
-		echo '<p>' . __('The web browser on your device cannot be used to upload files. You may be able to use the <a href=" http://wordpress.org/extend/mobile/">native app for your device</a> instead.') . '</p>';
+		echo '<p>' . __('The web browser on your device cannot be used to upload files. You may be able to use the <a href="http://wordpress.org/extend/mobile/">native app for your device</a> instead.') . '</p>';
 		return;
 	}
 
