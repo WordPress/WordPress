@@ -47,6 +47,12 @@ if ( typeof wp === 'undefined' )
 				continue;
 
 			this[ key ] = $( this[ key ] ).first();
+
+			if ( ! this[ key ].length ) {
+				delete this[ key ];
+				continue;
+			}
+
 			if ( ! this[ key ].prop('id') )
 				this[ key ].prop( 'id', '__wp-uploader-id-' + Uploader.uuid++ );
 			this.plupload[ elements[ key ] ] = this[ key ].prop('id');

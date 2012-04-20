@@ -90,6 +90,12 @@
 					element.set( setting() );
 				});
 			});
+
+			// Support the .dropdown class to open/close complex elements
+			this.container.on( 'click', '.dropdown', function( event ) {
+				event.preventDefault();
+				control.container.toggleClass('open');
+			});
 		},
 		ready: function() {}
 	});
@@ -97,22 +103,14 @@
 	api.ColorControl = api.Control.extend({
 		ready: function() {
 			var control = this,
-				toggle, spot, ui, text, update;
+				spot, text, update;
 
-			toggle = this.container.find( '.color-picker-toggle' );
-			spot   = toggle.find('.color-picker-spot');
-			ui     = this.container.find( '.color-picker-control' );
+			spot   = this.container.find('.color-picker-spot');
 			update = function( color ) {
 				color = '#' + color;
 				spot.css( 'background', color );
 				control.farbtastic.setColor( color );
 			};
-
-			toggle.on( 'click', function( event ) {
-				ui.toggle();
-				toggle.toggleClass( 'open' );
-				event.preventDefault();
-			});
 
 			this.farbtastic = $.farbtastic( this.container.find('.farbtastic-placeholder'), function( color ) {
 				control.setting.set( color.replace( '#', '' ) );
@@ -129,11 +127,12 @@
 
 			this.params.removed = this.params.removed || '';
 
+			this.success = $.proxy( this.success, this );
+
 			this.uploader = new wp.Uploader({
-				browser: this.container.find('.upload'),
-				success: function( attachment ) {
-					control.setting.set( attachment.url );
-				}
+				browser:  this.container.find('.upload'),
+				dropzone: this.container.find('.upload-dropzone'),
+				success:  this.success
 			});
 
 			this.remover = this.container.find('.remove');
@@ -149,6 +148,9 @@
 			if ( this.params.context )
 				control.uploader.param( 'post_data[context]', this.params.context );
 		},
+		success: function( attachment ) {
+			this.setting.set( attachment.url );
+		},
 		removerVisibility: function( to ) {
 			this.remover.toggle( to != this.params.removed );
 		}
@@ -156,43 +158,79 @@
 
 	api.ImageControl = api.UploadControl.extend({
 		ready: function() {
-			var control = this;
+			var control = this,
+				panels;
 
 			api.UploadControl.prototype.ready.call( this );
 
-			this.thumbnail    = this.container.find('.thumbnail img');
+			this.thumbnail    = this.container.find('.preview-thumbnail img');
 			this.thumbnailSrc = $.proxy( this.thumbnailSrc, this );
 			this.setting.bind( this.thumbnailSrc );
 
 			this.library = this.container.find('.library');
-			this.changer = this.container.find('.change');
 
-			this.changer.click( function( event ) {
-				control.library.toggle();
-				event.preventDefault();
+			// Generate tab objects
+			this.tabs = {};
+			panels    = this.library.find('.library-content');
+
+			this.library.children('ul').children('li').each( function() {
+				var link  = $(this),
+					id    = link.data('customizeTab'),
+					panel = panels.filter('[data-customize-tab="' + id + '"]');
+
+				control.tabs[ id ] = {
+					both:  link.add( panel ),
+					link:  link,
+					panel: panel
+				};
 			});
 
-			this.library.on( 'click', 'li', function( event ) {
-				var tab = $(this),
-					id = tab.data('customizeTab');
+			// Select a tab
+			this.selected = this.tabs[ panels.first().data('customizeTab') ];
+			this.selected.both.addClass('library-selected');
+
+			// Bind tab switch events
+			this.library.children('ul').on( 'click', 'li', function( event ) {
+				var id  = $(this).data('customizeTab'),
+					tab = control.tabs[ id ];
 
 				event.preventDefault();
 
-				if ( tab.hasClass('library-selected') )
+				if ( tab.link.hasClass('library-selected') )
 					return;
 
-				tab.siblings('.library-selected').removeClass('library-selected');
-				tab.addClass('library-selected');
-
-				control.library.find('div').hide().filter( function() {
-					return $(this).data('customizeTab') === id;
-				}).show();
+				control.selected.both.removeClass('library-selected');
+				control.selected = tab;
+				control.selected.both.addClass('library-selected');
 			});
 
 			this.library.on( 'click', 'a', function( event ) {
-				control.setting.set( $(this).attr('href') );
-				event.preventDefault();
+				var value = $(this).data('customizeImageValue');
+
+				if ( value ) {
+					control.setting.set( value );
+					event.preventDefault();
+				}
 			});
+
+			if ( this.tabs.uploaded ) {
+				this.tabs.uploaded.target = this.library.find('.uploaded-target');
+				if ( ! this.tabs.uploaded.panel.find('.thumbnail').length )
+					this.tabs.uploaded.both.addClass('hidden');
+			}
+		},
+		success: function( attachment ) {
+			api.UploadControl.prototype.success.call( this, attachment );
+
+			// Add the uploaded image to the uploaded tab.
+			if ( this.tabs.uploaded && this.tabs.uploaded.target.length ) {
+				this.tabs.uploaded.both.removeClass('hidden');
+
+				$( '<a href="#" class="thumbnail"></a>' )
+					.data( 'customizeImageValue', attachment.url )
+					.append( '<img src="' +  attachment.url+ '" />' )
+					.appendTo( this.tabs.uploaded.target );
+			}
 		},
 		thumbnailSrc: function( to ) {
 			if ( /^(https?:)?\/\//.test( to ) )

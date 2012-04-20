@@ -180,10 +180,10 @@ class WP_Customize_Control {
 				?>
 				<label>
 					<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
-					<a href="#" class="color-picker-toggle">
-						<div class="color-picker-spot"></div>
-						<div class="color-picker-dropdown"></div>
-					</a>
+					<div class="dropdown color-picker-toggle">
+						<div class="dropdown-content color-picker-spot"></div>
+						<div class="dropdown-arrow"></div>
+					</div>
 					<div class="color-picker-control color-picker-hex">
 						<span>#</span>
 						<input type="text" <?php $this->link(); ?> />
@@ -291,8 +291,16 @@ class WP_Customize_Upload_Control extends WP_Customize_Control {
 
 class WP_Customize_Image_Control extends WP_Customize_Upload_Control {
 	public $type = 'image';
-	public $tabs = array();
 	public $get_url;
+
+	protected $tabs = array();
+
+	public function __construct( $manager, $id, $args ) {
+		parent::__construct( $manager, $id, $args );
+
+		$this->add_tab( 'upload-new', __('Upload New'), array( $this, 'tab_upload_new' ) );
+		$this->add_tab( 'uploaded',   __('Uploaded'),   array( $this, 'tab_uploaded' ) );
+	}
 
 	public function render_content() {
 		$src = $this->value();
@@ -303,35 +311,99 @@ class WP_Customize_Image_Control extends WP_Customize_Upload_Control {
 		<label class="customize-image-picker">
 			<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
 
-			<div class="thumbnail">
-				<?php if ( empty( $src ) ): ?>
-					<img style="display:none;" />
-				<?php else: ?>
-					<img src="<?php echo esc_url( $src ); ?>" />
-				<?php endif; ?>
-			</div>
 
-			<div class="actions">
-				<a href="#" class="upload"><?php _e( 'Upload New' ); ?></a>
-				<a href="#" class="change"><?php _e( 'Change Image' ); ?></a>
-				<a href="#" class="remove"><?php _e( 'Remove Image' ); ?></a>
+			<div class="dropdown preview-thumbnail">
+				<div class="dropdown-content">
+					<?php if ( empty( $src ) ): ?>
+						<img style="display:none;" />
+					<?php else: ?>
+						<img src="<?php echo esc_url( $src ); ?>" />
+					<?php endif; ?>
+				</div>
+				<div class="dropdown-arrow"></div>
 			</div>
 
 			<div class="library">
 				<ul>
-					<?php foreach ( $this->tabs as $tab ): ?>
-						<li data-customize-tab='<?php echo esc_attr( $tab[0] ); ?>'>
-							<?php echo esc_html( $tab[1] ); ?>
+					<?php foreach ( $this->tabs as $id => $tab ): ?>
+						<li data-customize-tab='<?php echo esc_attr( $id ); ?>'>
+							<?php echo esc_html( $tab['label'] ); ?>
 						</li>
 					<?php endforeach; ?>
 				</ul>
-				<?php foreach ( $this->tabs as $tab ): ?>
-					<div class="library-content" data-customize-tab='<?php echo esc_attr( $tab[0] ); ?>'>
-						<?php call_user_func( $tab[2] ); ?>
+				<?php foreach ( $this->tabs as $id => $tab ): ?>
+					<div class="library-content" data-customize-tab='<?php echo esc_attr( $id ); ?>'>
+						<?php call_user_func( $tab['callback'] ); ?>
 					</div>
 				<?php endforeach; ?>
 			</div>
+
+			<div class="actions">
+				<a href="#" class="remove"><?php _e( 'Remove Image' ); ?></a>
+			</div>
 		</label>
 		<?php
+	}
+
+	public function add_tab( $id, $label, $callback ) {
+		$this->tabs[ $id ] = array(
+			'label'    => $label,
+			'callback' => $callback,
+		);
+	}
+
+	public function remove_tab( $id ) {
+		unset( $this->tabs[ $id ] );
+	}
+
+	public function tab_upload_new() {
+		?>
+		<div class="upload-dropzone">
+			<?php _e('Drop a file here or <a href="#" class="upload">select a file</a>.'); ?>
+		</div>
+		<?php
+	}
+
+	public function tab_uploaded() {
+		?>
+		<div class="uploaded-target"></div>
+		<?php
+	}
+}
+
+class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
+	public function __construct( $manager ) {
+		parent::__construct( $manager, 'header_image', array(
+			'label'   => __( 'Header Image' ),
+			'section' => 'header',
+			'context' => 'custom-header',
+			'removed' => 'remove-header',
+			'get_url' => 'get_header_image',
+		) );
+
+		$this->add_tab( 'default',  __('Default'),  array( $this, 'tab_default_headers' ) );
+	}
+
+	public function tab_uploaded() {
+		$headers = get_uploaded_header_images();
+
+		?><div class="uploaded-target"></div><?php
+
+		foreach ( $headers as $header ) : ?>
+			<a href="#" class="thumbnail" data-customize-image-value="<?php echo esc_url( $header['url'] ); ?>">
+				<img src="<?php echo esc_url( $header['thumbnail_url'] ); ?>" />
+			</a>
+		<?php endforeach;
+	}
+
+	public function tab_default_headers() {
+		global $custom_image_header;
+		$custom_image_header->process_default_headers();
+
+		foreach ( $custom_image_header->default_headers as $header ) : ?>
+			<a href="#" class="thumbnail" data-customize-image-value="<?php echo esc_url( $header['url'] ); ?>">
+				<img src="<?php echo esc_url( $header['thumbnail_url'] ); ?>" />
+			</a>
+		<?php endforeach;
 	}
 }

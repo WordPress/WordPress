@@ -196,34 +196,37 @@ body {
 }
 
 /*
- * Color Picker
+ * Dropdowns
  */
-.customize-section .color-picker-toggle {
+.customize-section .dropdown {
 	float: left;
 	display: block;
+	position: relative;
+	cursor: pointer;
 
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 }
 
-.customize-section .color-picker-spot,
-.customize-section .color-picker-dropdown {
+.customize-section .dropdown-content {
+	overflow: hidden;
 	float: left;
+	min-width: 30px;
 	height: 24px;
 	line-height: 24px;
-}
-
-.customize-section .color-picker-spot {
-	min-width: 30px;
+	margin-right: 16px;
 	padding: 0 5px;
-	background-color: #fff;
-	border: 1px solid rgba( 0, 0, 0, 0.15 );
+	background-color: #eee;
+	border: 1px solid #ccc;
 	-webkit-border-radius: 3px 0 0 3px;
 	border-radius: 3px 0 0 3px;
 }
 
-.customize-section .color-picker-dropdown {
-	position: relative;
+.customize-control .dropdown-arrow {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: 0;
 	width: 15px;
 
 	border-color: #ccc;
@@ -233,42 +236,51 @@ body {
 	border-radius: 0 3px 3px 0;
 }
 
-.customize-section .color-picker-dropdown:after {
+.customize-control .dropdown-arrow:after {
 	content: '';
 	width: 0;
 	height: 0;
-	border-color: #ccc transparent transparent transparent;
+	border-color: #ccc transparent;
 	border-style: solid;
-	border-width: 4px;
+	border-width: 4px 4px 0 4px;
 	position: absolute;
-	top: 11px;
+	top: 50%;
+	margin-top: -1px;
 	right: 4px;
 	z-index: 1;
 }
 
-.customize-section .color-picker-toggle.open .color-picker-dropdown:after {
-	border-color: transparent transparent #ccc transparent;
-	top: 6px;
+.customize-control.open .dropdown-arrow:after {
+	border-width: 0 4px 4px 4px;
+	margin-top: -2px;
 }
 
-.customize-section .color-picker-toggle:hover .color-picker-spot {
-	border-color: rgba( 0, 0, 0, 0.25 );
-}
-
-.customize-section .color-picker-toggle:hover .color-picker-dropdown {
+.customize-section .dropdown:hover .dropdown-content,
+.customize-control .dropdown:hover .dropdown-arrow {
 	border-color: #aaa;
 }
 
-.customize-section .color-picker-toggle:hover .color-picker-dropdown:after {
-	border-color: #aaa transparent transparent transparent;
+.customize-section .dropdown:hover .dropdown-arrow:after {
+	border-color: #aaa transparent;
 }
 
-.customize-section .color-picker-toggle.open:hover .color-picker-dropdown:after {
-	border-color: transparent transparent #aaa transparent;
-}
-
-.customize-section .color-picker-control {
+/*
+ * Color Picker
+ */
+.customize-control .color-picker-control {
 	display: none;
+}
+.customize-control.open .color-picker-control {
+	display: block;
+}
+
+.customize-control .dropdown .color-picker-spot {
+	background-color: #fff;
+	border: 1px solid rgba( 0, 0, 0, 0.15 );
+}
+
+.customize-section .dropdown:hover .color-picker-spot {
+	border-color: rgba( 0, 0, 0, 0.25 );
 }
 
 .customize-section .color-picker-hex {
@@ -317,24 +329,31 @@ body {
 /*
  * Image Picker
  */
-.customize-section .customize-control-image .thumbnail {
-	float: right;
-	width: 138px;
-	min-height: 25px;
-	border: 1px solid #ccc;
-	margin-bottom: 5px;
-	background: #eee;
+
+.customize-control-image .library,
+.customize-control-image .actions {
+	display: none;
+}
+.customize-control-image.open .library,
+.customize-control-image.open .actions {
+	display: block;
 }
 
-.customize-section .customize-control-image .thumbnail img {
+.customize-section .customize-control-image .dropdown-content {
+	height: auto;
+	min-height: 24px;
+	min-width: 40px;
+	padding: 0;
+}
+
+.customize-section .customize-control-image .preview-thumbnail img {
 	display: block;
-	max-width: 138px;
+	max-width: 122px;
 	max-height: 98px;
 	margin: 0 auto;
 }
 
 .customize-section .customize-control-image .actions {
-	width: 140px;
 	float: right;
 }
 
@@ -342,39 +361,17 @@ body {
 	display: block;
 }
 
-.customize-section .customize-control-image .library {
-	display: none;
-/*	float: left;*/
-}
-
-/*.customize-section .customize-control-image .library label {
-	display: block;
-	position: relative;
-	float: left;
-	padding: 0 0 5px 20px;
-}
-.customize-section .customize-control-image .library input {
-	display: block;
-	position: absolute;
-	top: 50%;
-	left: 0;
-	margin-top: -7px;
-}*/
-/*.customize-section .customize-control-image .library .wp-tab-panel {
-	padding: 10px 10px 5px 8px;
-}*/
-
 .customize-section .customize-control-image .library ul {
 	border-bottom: 1px solid #dfdfdf;
 	float: left;
 	width: 100%;
-	margin: 5px 0;
+	margin: 10px 0 0;
 }
 
 .customize-section .customize-control-image .library li {
 	color: #999;
 	float: left;
-	padding: 4px 6px;
+	padding: 3px 5px;
 	margin: 0;
 	border-style: solid;
 	border-color: transparent;
@@ -382,38 +379,53 @@ body {
 }
 
 .customize-section .customize-control-image .library li.library-selected {
-	color: #777;
-	border-color: #dfdfdf;
-	background: #f5f5f5;
 	margin-bottom: -1px;
-	padding-bottom: 5px;
+	padding-bottom: 4px;
+
+	color: #777;
+	background: #f5f5f5;
+	border-color: #dfdfdf;
+	-webkit-border-radius: 3px 3px 0 0;
+	border-radius: 3px 3px 0 0 ;
 }
 
-.customize-section .customize-control-image .library div {
-	width: 100%;
+.customize-section .customize-control-image .library-content {
+	display: none;
+	width: 260px;
 	float: left;
+	padding: 10px 0;
 }
 
-.customize-section .customize-control-image .library a {
+.customize-section .customize-control-image .library-content.library-selected {
+	display: block;
+}
+
+.customize-section .customize-control-image .library .thumbnail {
+	display: block;
+	width: 100%;
+}
+
+.customize-section .customize-control-image .library .thumbnail:hover img {
+	border-color: #21759b;
+}
+
+.customize-section .customize-control-image .library .thumbnail img {
 	display: block;
 	max-width: 220px;
 	max-height: 80px;
+
 	margin: 5px auto;
 	padding: 4px;
 	background: #fff;
 	border: 1px solid #dfdfdf;
 }
 
-.customize-section .customize-control-image .library a:hover {
-	border-color: #21759b;
-}
-
-.customize-section .customize-control-image .library img {
-	display: block;
-	max-width: 220px;
-	max-height: 80px;
-}
-
-.customize-section .customize-control-image .library-content {
-	display: none;
+.customize-section .customize-control-upload .upload-dropzone,
+.customize-section .customize-control-image .upload-dropzone {
+	padding: 15px 10px;
+	border: 3px dashed #dfdfdf;
+	margin: 5px auto;
+	text-align: center;
+	color: #777;
+	position: relative;
 }
