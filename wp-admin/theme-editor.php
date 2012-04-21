@@ -164,7 +164,7 @@ if ( $allowed_files ) :
 	if ( $has_templates || $theme->is_child_theme() ) :
 ?>
 	<h3><?php _e('Templates'); ?></h3>
-	<?php if ( $theme->is_child_theme() ) : ?>
+	<?php if ( $theme->is_child_theme() && $theme->parent() ) : ?>
 	<p class="howto"><?php printf( __( 'This child theme inherits templates from a parent theme, %s.' ), '<a href="' . self_admin_url('theme-editor.php?theme=' . urlencode( $theme->get_template() ) ) . '">' . $theme->parent()->display('Name') . '</a>' ); ?></p>
 	<?php endif; ?>
 	<ul>
