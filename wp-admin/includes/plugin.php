@@ -593,10 +593,12 @@ function deactivate_plugins( $plugins, $silent = false, $network_wide = null ) {
 			do_action( 'deactivate_plugin', $plugin, $network_deactivating );
 
 		if ( false !== $network_wide ) {
-			if ( ! is_plugin_active_for_network( $plugin ) )
+			if ( is_plugin_active_for_network( $plugin ) ) {
+				$do_network = true;
+				unset( $network_current[ $plugin ] );
+			} elseif ( $network_wide ) {
 				continue;
-			$do_network = true;
-			unset( $network_current[ $plugin ] );
+			}
 		}
 
 		if ( true !== $network_wide ) {
