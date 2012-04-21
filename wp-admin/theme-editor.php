@@ -54,26 +54,18 @@ $theme = wp_get_theme( $stylesheet );
 if ( ! $theme->exists() )
 	wp_die( __( 'The requested theme does not exist.' ) );
 
+if ( $theme->errors() && 'theme_no_stylesheet' == $theme->errors()->get_error_code() )
+	wp_die( __( 'The requested theme does not exist.' ) . ' ' . $theme->errors()->get_error_message() );
+
 $allowed_files = $theme->get_files( 'php', 1 );
 $has_templates = ! empty( $allowed_files );
-
 $style_files = $theme->get_files( 'css' );
-if ( isset( $style_files['style.css'] ) ) {
-	$allowed_files['style.css'] = $style_files['style.css'];
-	unset( $style_files['style.css'] );
-} else {
-	$style_files['style.css'] = false;
-}
+$allowed_files['style.css'] = $style_files['style.css'];
 $allowed_files += $style_files;
 
 if ( empty( $file ) ) {
-	if ( ! empty( $allowed_files['style.css'] ) ) {
-		$relative_file = 'style.css';
-		$file = $allowed_files['style.css'];
-	} else {
-		$relative_file = key( $allowed_files );
-		$file = current( $allowed_files );
-	}
+	$relative_file = 'style.css';
+	$file = $allowed_files['style.css'];
 } else {
 	$relative_file = urldecode( stripslashes( $file ) );
 	$file = $theme->get_stylesheet_directory() . '/' . $relative_file;
@@ -153,6 +145,9 @@ if ( $description != $file_show )
 		<select name="theme" id="theme">
 <?php
 foreach ( wp_get_themes( array( 'errors' => null ) ) as $a_stylesheet => $a_theme ) {
+	if ( $a_theme->errors() && 'theme_no_stylesheet' == $a_theme->errors()->get_error_code() )
+		continue;
+
 	$selected = $a_stylesheet == $stylesheet ? ' selected="selected"' : '';
 	echo "\n\t" . '<option value="' . esc_attr( $a_stylesheet ) . '"' . $selected . '>' . $a_theme->display('Name') . '</option>';
 }
@@ -165,23 +160,20 @@ foreach ( wp_get_themes( array( 'errors' => null ) ) as $a_stylesheet => $a_them
 </div>
 	<div id="templateside">
 <?php
-if ( array_filter( $allowed_files ) ) :
+if ( $allowed_files ) :
 	if ( $has_templates || $theme->is_child_theme() ) :
 ?>
 	<h3><?php _e('Templates'); ?></h3>
 	<?php if ( $theme->is_child_theme() ) : ?>
-	<p class="howto"><?php printf( __( 'This child theme inherits templates from a parent theme, %s.' ), '<a href="' . self_admin_url('theme-editor.php?theme=' . $theme->get_template()) . '">' . $theme->parent()->display('Name') . '</a>' ); ?></p>
+	<p class="howto"><?php printf( __( 'This child theme inherits templates from a parent theme, %s.' ), '<a href="' . self_admin_url('theme-editor.php?theme=' . urlencode( $theme->get_template() ) ) . '">' . $theme->parent()->display('Name') . '</a>' ); ?></p>
 	<?php endif; ?>
 	<ul>
 <?php
 	endif;
 
 	foreach ( $allowed_files as $filename => $absolute_filename ) :
-		if ( 'style.css' == $filename ) {
+		if ( 'style.css' == $filename )
 			echo "\t</ul>\n\t<h3>" . _x( 'Styles', 'Theme stylesheets in theme editor' ) . "</h3>\n\t<ul>\n";
-			if ( ! $absolute_filename )
-				continue;
-		}
 
 		$file_description = get_file_description( $filename );
 		if ( $file_description != basename( $filename ) )
