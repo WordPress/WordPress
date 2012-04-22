@@ -1378,7 +1378,7 @@ function wp_expand_dimensions( $example_width, $example_height, $max_width, $max
  *
  * @param string $url The URL that should be embedded.
  * @param array $args Additional arguments and parameters.
- * @return string The original URL on failure or the embed HTML on success.
+ * @return bool|string False on failure or the embed HTML on success.
  */
 function wp_oembed_get( $url, $args = '' ) {
 	require_once( ABSPATH . WPINC . '/class-oembed.php' );
