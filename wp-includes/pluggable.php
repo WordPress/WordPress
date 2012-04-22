@@ -1647,7 +1647,7 @@ function get_avatar( $id_or_email, $size = '96', $default = '', $alt = false ) {
 	elseif ( !empty($email) && 'gravatar_default' == $default )
 		$default = '';
 	elseif ( 'gravatar_default' == $default )
-		$default = "$host/avatar/s={$size}";
+		$default = "$host/avatar/?s={$size}";
 	elseif ( empty($email) )
 		$default = "$host/avatar/?d=$default&amp;s={$size}";
 	elseif ( strpos($default, 'http://') === 0 )
