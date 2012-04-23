@@ -2922,6 +2922,9 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( !$user = $this->login( $username, $password ) )
 			return $this->error;
 
+		if ( !current_user_can( 'edit_posts' ) )
+			return new IXR_Error( 403, __( 'You are not allowed access to details about this site.' ) );
+
 		do_action( 'xmlrpc_call', 'wp.getPostFormats' );
 
 		$formats = get_post_format_strings();
