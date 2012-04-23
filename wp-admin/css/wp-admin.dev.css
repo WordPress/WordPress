@@ -2451,7 +2451,7 @@ th.asc:hover span.sorting-indicator {
 	margin-top: 13px;
 }
 .screen-per-page {
-	width: 3em;
+	width: 4em;
 }
 
 #posts-filter fieldset {
@@ -2972,27 +2972,15 @@ form#tags-filter {
 	position: relative;
 }
 
-.screen-per-page {
-	width: 3em;
-}
-
-#posts-filter fieldset {
-	float: left;
-	margin: 0 1.5ex 1em 0;
-	padding: 0;
-}
-
-#posts-filter fieldset legend {
-	padding: 0 0 .2em 1px;
-}
-
 /* Edit posts */
-td.post-title strong, td.plugin-title strong {
+td.post-title strong,
+td.plugin-title strong {
 	display: block;
 	margin-bottom: .2em;
 }
 
-td.post-title p, td.plugin-title p {
+td.post-title p,
+td.plugin-title p {
 	margin: 6px 0;
 }
 
@@ -5532,17 +5520,6 @@ table.form-table td .updated {
 #titlediv,
 #poststuff .postarea {
 	margin-bottom: 20px;
-}
-
-td.post-title strong,
-td.plugin-title strong {
-	display: block;
-	margin-bottom: .2em;
-}
-
-td.post-title p,
-td.plugin-title p {
-	margin: 6px 0;
 }
 
 #templateside ul li a {

@@ -818,17 +818,6 @@ th.sorted a span {
 	margin-left: -1px;
 }
 
-/* positioning etc. */
-
-#posts-filter fieldset {
-	float: right;
-	margin: 0 0 1em 1.5ex;
-}
-
-#posts-filter fieldset legend {
-	padding: 0 1px .2em 0;
-}
-
 /* Global classes */
 
 #post-body .tagsdiv #newtag {
