@@ -170,7 +170,7 @@ for ( $i = 1; $i <= $count; $i++ ) {
 	if ( $content_type == 'multipart/alternative' ) {
 		$content = explode('--'.$boundary, $content);
 		$content = $content[2];
-		// match case-insensitive content-transfer-encoding
+		// Match case-insensitive content-transfer-encoding
 		if ( preg_match( '/Content-Transfer-Encoding: quoted-printable/i', $content, $delim) ) {
 			$content = explode($delim[0], $content);
 			$content = $content[1];
