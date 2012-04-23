@@ -632,30 +632,32 @@ final class WP_Customize {
 			'title'          => __( 'Navigation' ),
 			'theme_supports' => 'menus',
 			'priority'       => 40,
-			'description'    => sprintf( _n('Your theme supports %s menu. Select which menu you would like to use.', 'Your theme supports %s menus. Select which menu appears in each location.', $num_locations ), number_format_i18n( $num_locations ) ),
+			'description'    => sprintf( _n('Your theme supports %s menu. Select which menu you would like to use.', 'Your theme supports %s menus. Select which menu appears in each location.', $num_locations ), number_format_i18n( $num_locations ) ) . "\n\n" . __('You can edit your menu content on the Menus screen in the Appearance section.'),
 		) );
 
-		foreach ( $locations as $location => $description ) {
-			$choices = array( 0 => '' );
+		if ( $menus ) {
+			$choices = array( 0 => __( '&mdash; Select &mdash;' ) );
 			foreach ( $menus as $menu ) {
 				$truncated_name = wp_html_excerpt( $menu->name, 40 );
-				$truncated_name == $menu->name ? $menu->name : trim( $truncated_name ) . '&hellip;';
+				$truncated_name = ( $truncated_name == $menu->name ) ? $menu->name : trim( $truncated_name ) . '&hellip;';
 				$choices[ $menu->term_id ] = $truncated_name;
 			}
 
-			$menu_setting_id = "nav_menu_locations[{$location}]";
+			foreach ( $locations as $location => $description ) {
+				$menu_setting_id = "nav_menu_locations[{$location}]";
 
-			$this->add_setting( $menu_setting_id, array(
-				'sanitize_callback' => 'absint',
-				'theme_supports'    => 'menus',
-			) );
+				$this->add_setting( $menu_setting_id, array(
+					'sanitize_callback' => 'absint',
+					'theme_supports'    => 'menus',
+				) );
 
-			$this->add_control( $menu_setting_id, array(
-				'label'   => $description,
-				'section' => 'nav',
-				'type'    => 'select',
-				'choices' => $choices,
-			) );
+				$this->add_control( $menu_setting_id, array(
+					'label'   => $description,
+					'section' => 'nav',
+					'type'    => 'select',
+					'choices' => $choices,
+				) );
+			}
 		}
 
 		/* Static Front Page */
