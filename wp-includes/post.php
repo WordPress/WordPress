@@ -1361,7 +1361,7 @@ function set_post_type( $post_id = 0, $post_type = 'post' ) {
 	$post_type = sanitize_post_field('post_type', $post_type, $post_id, 'db');
 	$return = $wpdb->update( $wpdb->posts, array('post_type' => $post_type), array('ID' => $post_id) );
 
-	clean_post_cache( $post_id, $post_type );
+	clean_post_cache( $post_id );
 
 	return $return;
 }
@@ -2045,11 +2045,11 @@ function wp_delete_post( $postid = 0, $force_delete = false ) {
 	$wpdb->delete( $wpdb->posts, array( 'ID' => $postid ) );
 	do_action( 'deleted_post', $postid );
 
-	clean_post_cache( $postid, $post->post_type );
+	clean_post_cache( $post );
 
 	if ( is_post_type_hierarchical( $post->post_type ) ) {
 		foreach ( (array) $children as $child )
-			clean_post_cache( $child->ID, $child->post_type );
+			clean_post_cache( $child );
 	}
 
 	wp_clear_scheduled_hook('publish_future_post', array( $postid ) );
@@ -2628,7 +2628,7 @@ function wp_insert_post($postarr, $wp_error = false) {
 
 	$current_guid = get_post_field( 'guid', $post_ID );
 
-	clean_post_cache( $post_ID, $data['post_type'] );
+	clean_post_cache( $post_ID );
 
 	// Set GUID
 	if ( !$update && '' == $current_guid )
@@ -3733,7 +3733,7 @@ function wp_insert_attachment($object, $file = false, $parent = 0) {
 	if ( $file )
 		update_attached_file( $post_ID, $file );
 
-	clean_post_cache( $post_ID, $post_type );
+	clean_post_cache( $post_ID );
 
 	if ( ! empty( $context ) )
 		add_post_meta( $post_ID, '_wp_attachment_context', $context, true );
@@ -3838,7 +3838,7 @@ function wp_delete_attachment( $post_id, $force_delete = false ) {
 	if ( ! empty($file) )
 		@ unlink($file);
 
-	clean_post_cache( $post_id, $post->post_type );
+	clean_post_cache( $post );
 
 	return $post;
 }
@@ -4319,46 +4319,44 @@ function update_post_cache( &$posts ) {
  *
  * @uses do_action() Calls 'clean_post_cache' on $id before adding children (if any).
  *
- * @param int $id The Post ID in the cache to clean
- * @param string $post_type The post_type of the post. Defaults to "post"
+ * @param object|int $post The post object or ID to remove from the cache
  */
-function clean_post_cache($id, $post_type = 'post') {
+function clean_post_cache( $post ) {
 	global $_wp_suspend_cache_invalidation, $wpdb;
 
 	if ( ! empty( $_wp_suspend_cache_invalidation ) )
 		return;
 
-	$id = (int) $id;
-
-	if ( 0 === $id )
+	$post = get_post( $post );
+	if ( empty( $post ) )
 		return;
 
-	wp_cache_delete($id, 'posts');
-	wp_cache_delete($id, 'post_meta');
+	wp_cache_delete( $post->ID, 'posts' );
+	wp_cache_delete( $post->ID, 'post_meta' );
 
-	clean_object_term_cache( $id, $post_type );
+	clean_object_term_cache( $post->ID, $post->post_type );
 
 	wp_cache_delete( 'wp_get_archives', 'general' );
 
-	do_action( 'clean_post_cache', $id, $post_type );
+	do_action( 'clean_post_cache', $post->ID, $post );
 
-	if ( 'page' == $post_type ) {
+	if ( 'page' == $post->post_type ) {
 		wp_cache_delete( 'all_page_ids', 'posts' );
 		wp_cache_delete( 'get_pages', 'posts' );
-		do_action( 'clean_page_cache', $id );
+		do_action( 'clean_page_cache', $post->ID );
 	}
 
-	if ( $children = $wpdb->get_results( $wpdb->prepare("SELECT ID, post_type FROM $wpdb->posts WHERE post_parent = %d", $id) ) ) {
-		foreach ( $children as $cid ) {
+	if ( $children = $wpdb->get_results( $wpdb->prepare("SELECT ID, post_type FROM $wpdb->posts WHERE post_parent = %d", $post->ID) ) ) {
+		foreach ( $children as $child ) {
 			// Loop detection
-			if ( $cid->ID == $id )
+			if ( $child->ID == $post->ID )
 				continue;
-			clean_post_cache( $cid->ID, $cid->post_type );
+			clean_post_cache( $child );
 		}
 	}
 
 	if ( is_multisite() )
-		wp_cache_delete( $wpdb->blogid . '-' . $id, 'global-posts' );
+		wp_cache_delete( $wpdb->blogid . '-' . $post->ID, 'global-posts' );
 }
 
 /**
@@ -4563,8 +4561,8 @@ function _publish_post_hook($post_id) {
  * @param int $post_id The ID in the database table for the $post
  * @param object $post Object type containing the post information
  */
-function _save_post_hook($post_id, $post) {
-	clean_post_cache($post_id, $post->post_type);
+function _save_post_hook( $post_id, $post ) {
+	clean_post_cache( $post );
 }
 
 /**

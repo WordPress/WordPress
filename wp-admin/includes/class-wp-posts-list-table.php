@@ -360,7 +360,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 				if ( $page->post_parent == $page->ID ) {
 					$page->post_parent = 0;
 					$wpdb->update( $wpdb->posts, array( 'post_parent' => 0 ), array( 'ID' => $page->ID ) );
-					clean_post_cache( $page->ID, $page->post_type );
+					clean_post_cache( $page );
 				}
 
 				if ( 0 == $page->post_parent )

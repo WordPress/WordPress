@@ -3150,5 +3150,5 @@ function update_page_cache( &$pages ) {
 function clean_page_cache( $id ) {
 	_deprecated_function( __FUNCTION__, 3.4, 'clean_post_cache()' );
 
-	clean_post_cache( $id, 'page' );
+	clean_post_cache( $id );
 }
