@@ -57,7 +57,7 @@ get_current_screen()->set_help_sidebar(
 require_once ('admin-header.php');
 ?>
 
-<div class="wrap columns-<?php echo (int) $screen_layout_columns ? (int) $screen_layout_columns : 'auto'; ?>">
+<div class="wrap">
 <?php screen_icon(); ?>
 <h2><?php echo esc_html( $title ); ?>  <a href="link-add.php" class="add-new-h2"><?php echo esc_html_x('Add New', 'link'); ?></a></h2>
 
