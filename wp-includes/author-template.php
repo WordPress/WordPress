@@ -96,25 +96,20 @@ function the_modified_author() {
  * @param int $user_id Optional. User ID.
  * @return string The author's field from the current author's DB object.
  */
-function get_the_author_meta($field = '', $user_id = false) {
-	if ( ! $user_id )
+function get_the_author_meta( $field = '', $user_id = false ) {
+	if ( ! $user_id ) {
 		global $authordata;
-	else
+		$user_id = $authordata->ID;
+	} else {
 		$authordata = get_userdata( $user_id );
+	}
 
-	// Keys used as object vars cannot have dashes.
-	$field = str_replace('-', '', $field);
-	$field = strtolower($field);
-	$user_field = "user_$field";
+	if ( in_array( $field, array( 'login', 'pass', 'nicename', 'email', 'url', 'registered', 'activation_key', 'status' ) ) )
+		$field = 'user_' . $field;
 
-	if ( 'id' == $field )
-		$value = isset($authordata->ID) ? (int)$authordata->ID : 0;
-	elseif ( isset($authordata->$user_field) )
-		$value = $authordata->$user_field;
-	else
-		$value = isset($authordata->$field) ? $authordata->$field : '';
+	$value = isset( $authordata->$field ) ? $authordata->$field : '';
 
-	return apply_filters('get_the_author_' . $field, $value, $user_id);
+	return apply_filters( 'get_the_author_' . $field, $value, $user_id );
 }
 
 /**
