@@ -785,13 +785,23 @@ class wp_xmlrpc_server extends IXR_Server {
 			case 'pending':
 				break;
 			case 'private':
-				if ( ! current_user_can( $post_type->cap->publish_posts ) )
-					return new IXR_Error( 401, __( 'Sorry, you are not allowed to create private posts in this post type' ));
+                if ( $update ) {
+					if ( ! current_user_can( $post_type->cap->publish_post, $post_data[ 'ID' ] ) )
+						return new IXR_Error( 401, __( 'Sorry, you are not allowed to set this post as private.' ) );
+				} else {
+					if ( ! current_user_can( $post_type->cap->publish_posts ) )
+						return new IXR_Error( 401, __( 'Sorry, you are not allowed to create private posts in this post type' ));
+				}
 				break;
 			case 'publish':
 			case 'future':
-				if ( ! current_user_can( $post_type->cap->publish_posts ) )
-					return new IXR_Error( 401, __( 'Sorry, you are not allowed to publish posts in this post type' ));
+				if ( $update ) {
+					if ( ! current_user_can( $post_type->cap->publish_post, $post_data[ 'ID' ] ) )
+						return new IXR_Error( 401, __( 'Sorry, you are not allowed to publish this post.' ) );
+				} else {
+					if ( ! current_user_can( $post_type->cap->publish_posts ) )
+						return new IXR_Error( 401, __( 'Sorry, you are not allowed to publish posts in this post type' ));
+				}
 				break;
 			default:
 				$post_data['post_status'] = 'draft';
