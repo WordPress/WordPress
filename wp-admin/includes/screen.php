@@ -226,6 +226,15 @@ final class WP_Screen {
 	public $base;
 
 	/**
+	 * The number of columns to display. Access with get_columns().
+	 *
+	 * @since 3.4.0
+	 * @var int
+	 * @access private
+	 */
+	private $columns = 0;
+
+	/**
 	 * The unique ID of the screen.
 	 *
 	 * @since 3.3.0
@@ -665,7 +674,7 @@ final class WP_Screen {
 	public function get_help_sidebar() {
 		return $this->_help_sidebar;
 	}
-	
+
 	/**
 	 * Add a sidebar to the contextual help for the screen.
 	 * Call this in template files after admin.php is loaded and before admin-header.php is loaded to add a sidebar to the contextual help.
@@ -676,6 +685,23 @@ final class WP_Screen {
 	 */
 	public function set_help_sidebar( $content ) {
 		$this->_help_sidebar = $content;
+	}
+
+	/**
+	 * Gets the number of layout columns the user has selected.
+	 *
+	 * The layout_columns option controls the max number and default number of
+	 * columns. This method returns the number of columns within that range selected
+	 * by the user via Screen Options. If no selection has been made, the default
+	 * provisioned in layout_columns is returned. If the screen does not support
+	 * selecting the number of layout columns, 0 is returned.
+	 *
+	 * @since 3.4.0
+	 *
+	 * @return int Number of columns to display.
+	 */
+	public function get_columns() {
+		return $this->columns;
 	}
 
 	/**
@@ -773,6 +799,22 @@ final class WP_Screen {
 				</div>
 			</div>
 		<?php
+		// Setup layout columns
+
+		// Back compat for plugins using the filter instead of add_screen_option()
+		$columns = apply_filters( 'screen_layout_columns', array(), $this->id, $this );
+
+		if ( ! empty( $columns ) && isset( $columns[ $this->id ] ) )
+			$this->add_option( 'layout_columns', array('max' => $columns[ $this->id ] ) );
+
+		if ( $this->get_option( 'layout_columns' ) ) {
+			$this->columns = (int) get_user_option("screen_layout_$this->id");
+	
+			if ( ! $this->columns && $this->get_option( 'layout_columns', 'default' ) )
+				$this->columns = $this->get_option( 'layout_columns', 'default' );
+		}
+		$GLOBALS[ 'screen_layout_columns' ] = $this->columns; // Set the gobal for back-compat.
+
 		// Add screen options
 		if ( $this->show_screen_options() )
 			$this->render_screen_options();
@@ -907,26 +949,11 @@ final class WP_Screen {
 	 * @since 3.3.0
 	 */
 	function render_screen_layout() {
-		global $screen_layout_columns;
-
-		// Back compat for plugins using the filter instead of add_screen_option()
-		$columns = apply_filters( 'screen_layout_columns', array(), $this->id, $this );
-
-		if ( ! empty( $columns ) && isset( $columns[ $this->id ] ) )
-			$this->add_option( 'layout_columns', array('max' => $columns[ $this->id ] ) );
-
-		if ( ! $this->get_option('layout_columns') ) {
-			$screen_layout_columns = 0;
+		if ( ! $this->get_option('layout_columns') )
 			return;
-		}
 
-		$screen_layout_columns = get_user_option("screen_layout_$this->id");
+		$screen_layout_columns = $this->get_columns();
 		$num = $this->get_option( 'layout_columns', 'max' );
-
-		if ( ! $screen_layout_columns || 'auto' == $screen_layout_columns ) {
-			if ( $this->get_option( 'layout_columns', 'default' ) )
-				$screen_layout_columns = $this->get_option( 'layout_columns', 'default' );
-		}
 
 		?>
 		<h5 class="screen-layout"><?php _e('Screen Layout'); ?></h5>

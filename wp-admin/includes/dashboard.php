@@ -193,10 +193,8 @@ function _wp_dashboard_control_callback( $dashboard, $meta_box ) {
  * @since 2.5.0
  */
 function wp_dashboard() {
-	global $screen_layout_columns;
-
 	$screen = get_current_screen();
-	$class = 'columns-' . $screen_layout_columns;
+	$class = 'columns-' . get_current_screen()->get_columns();
 
 ?>
 <div id="dashboard-widgets" class="metabox-holder <?php echo $class; ?>">
