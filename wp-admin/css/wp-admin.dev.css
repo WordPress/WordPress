@@ -3687,14 +3687,14 @@ abbr.required {
 .media-upload-form .media-item.error p,
 .media-item .error-div {
 	line-height: 16px;
-	font-size: 12px;
-	margin: 10px;
+	margin: 5px 10px;
 	padding: 0;
 }
 
 .media-item .error-div a.dismiss {
+	display: block;
 	float: right;
-	padding-left: 15px;
+	margin: 5px 4px 0 15px;
 }
 
 /*------------------------------------------------------------------------------

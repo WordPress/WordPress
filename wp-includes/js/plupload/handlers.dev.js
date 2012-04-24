@@ -83,7 +83,7 @@ function uploadSuccess(fileObj, serverData) {
 	serverData = serverData.replace(/^<pre>(\d+)<\/pre>$/, '$1');
 
 	// if async-upload returned an error message, place it in the media item div and return
-	if ( serverData.match('media-upload-error') ) {
+	if ( serverData.match(/media-upload-error|error-div/) ) {
 		item.html(serverData);
 		return;
 	} else {
