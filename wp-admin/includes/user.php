@@ -264,12 +264,14 @@ function wp_delete_user( $id, $reassign = 'novalue' ) {
 	}
 
 	// FINALLY, delete user
-	if ( !is_multisite() ) {
-		$wpdb->delete( $wpdb->usermeta, array( 'user_id' => $id ) );
-		$wpdb->delete( $wpdb->users, array( 'ID' => $id ) );
+	if ( is_multisite() ) {
+		remove_user_from_blog( $id, get_current_blog_id() );
 	} else {
-		$level_key = $wpdb->get_blog_prefix() . 'capabilities'; // wpmu site admins don't have user_levels
-		$wpdb->delete( $wpdb->usermeta, array( 'user_id' => $id , 'meta_key' => $level_key ) );
+		$meta = $wpdb->get_col( $wpdb->prepare( "SELECT umeta_id FROM $wpdb->usermeta WHERE user_id = %d", $id ) );
+		foreach ( $meta as $mid )
+			delete_metadata_by_mid( 'user', $mid );
+
+		$wpdb->delete( $wpdb->users, array( 'ID' => $id ) );
 	}
 
 	clean_user_cache( $user );
