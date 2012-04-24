@@ -25,7 +25,8 @@ if ( typeof wp === 'undefined' )
 			},
 			key;
 
-		this.plupload = $.extend( { multipart_params: {} }, wpPluploadDefaults );
+		// Use deep extend to ensure that multipart_params and other objects are cloned.
+		this.plupload = $.extend( true, { multipart_params: {} }, wpPluploadDefaults );
 		this.container = document.body; // Set default container.
 
 		// Extend the instance with options
