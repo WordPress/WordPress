@@ -99,7 +99,7 @@ function the_modified_author() {
 function get_the_author_meta( $field = '', $user_id = false ) {
 	if ( ! $user_id ) {
 		global $authordata;
-		$user_id = $authordata->ID;
+		$user_id = isset( $authordata->ID ) ? $authordata->ID : 0;
 	} else {
 		$authordata = get_userdata( $user_id );
 	}
