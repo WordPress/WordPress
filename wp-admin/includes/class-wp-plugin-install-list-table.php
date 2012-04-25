@@ -62,7 +62,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 						break;
 				}
 
-				add_action( 'install_plugins_table_header', 'install_search_form' );
+				add_action( 'install_plugins_table_header', 'install_search_form', 10, 0 );
 				break;
 
 			case 'featured':

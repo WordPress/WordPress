@@ -78,7 +78,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 					$_REQUEST['type'] = 'tag';
 				}
 
-				add_action( 'install_themes_table_header', 'install_theme_search_form' );
+				add_action( 'install_themes_table_header', 'install_theme_search_form', 10, 0 );
 				break;
 
 			case 'featured':
