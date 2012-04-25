@@ -16,6 +16,7 @@ class WP_Customize_Setting {
 	public $theme_supports    = '';
 	public $default           = '';
 	public $sanitize_callback = '';
+	public $transport         = 'refresh';
 
 	protected $id_data = array();
 	private $_post_value; // Cached, sanitized $_POST value.

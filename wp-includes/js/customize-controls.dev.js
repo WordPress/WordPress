@@ -4,7 +4,7 @@
 	/*
 	 * @param options
 	 * - previewer - The Previewer instance to sync with.
-	 * - method    - The method to use for previewing. Supports 'refresh' and 'postMessage'.
+	 * - transport - The transport to use for previewing. Supports 'refresh' and 'postMessage'.
 	 */
 	api.Setting = api.Value.extend({
 		initialize: function( id, value, options ) {
@@ -13,7 +13,7 @@
 			api.Value.prototype.initialize.call( this, value, options );
 
 			this.id = id;
-			this.method = this.method || 'refresh';
+			this.transport = this.transport || 'refresh';
 
 			element = $( '<input />', {
 				type:  'hidden',
@@ -28,7 +28,7 @@
 			this.bind( this.preview );
 		},
 		preview: function() {
-			switch ( this.method ) {
+			switch ( this.transport ) {
 				case 'refresh':
 					return this.previewer.refresh();
 				case 'postMessage':
@@ -403,6 +403,7 @@
 
 		$.each( api.settings.settings, function( id, data ) {
 			api.set( id, id, data.value, {
+				transport: data.transport,
 				previewer: previewer
 			} );
 		});
@@ -432,11 +433,6 @@
 		$('.collapse-sidebar').click( function( event ) {
 			body.toggleClass( 'collapsed' );
 			event.preventDefault();
-		});
-
-		// Background color uses postMessage by default
-		api( 'background_color', function( setting ) {
-			setting.method = 'postMessage';
 		});
 
 		// Control visibility for default controls

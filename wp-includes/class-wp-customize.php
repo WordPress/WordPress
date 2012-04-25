@@ -580,6 +580,7 @@ final class WP_Customize {
 			'default'           => get_theme_support( 'custom-background', 'default-color' ),
 			'sanitize_callback' => 'sanitize_hexcolor',
 			'theme_supports'    => 'custom-background',
+			'transport'         => 'postMessage',
 		) );
 
 		$this->add_control( 'background_color', array(
