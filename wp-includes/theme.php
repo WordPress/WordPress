@@ -1579,8 +1579,7 @@ function _wp_customize_include() {
 
 	require( ABSPATH . WPINC . '/class-wp-customize.php' );
 	// Init Customize class
-	// @todo Dependency injection instead
-	$GLOBALS['customize'] = new WP_Customize;
+	$GLOBALS['wp_customize'] = new WP_Customize;
 }
 add_action( 'plugins_loaded', '_wp_customize_include' );
 
