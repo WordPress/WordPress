@@ -411,8 +411,10 @@ function get_body_class( $class = '' ) {
 		$classes[] = 'archive';
 	if ( is_date() )
 		$classes[] = 'date';
-	if ( is_search() )
+	if ( is_search() ) {
 		$classes[] = 'search';
+		$classes[] = $wp_query->posts ? 'search-results' : 'search-no-results';
+	}
 	if ( is_paged() )
 		$classes[] = 'paged';
 	if ( is_attachment() )
@@ -491,11 +493,6 @@ function get_body_class( $class = '' ) {
 		} else {
 			$classes[] = 'page-template-default';
 		}
-	} elseif ( is_search() ) {
-		if ( !empty( $wp_query->posts ) )
-			$classes[] = 'search-results';
-		else
-			$classes[] = 'search-no-results';
 	}
 
 	if ( is_user_logged_in() )
