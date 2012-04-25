@@ -745,18 +745,6 @@ final class WP_Theme implements ArrayAccess {
 	}
 
 	/**
-	 * Whether a theme is a child theme.
-	 *
-	 * @since 3.4.0
-	 * @access public
-	 *
-	 * @return bool True if a theme is a child theme, false otherwise.
-	 */
-	public function is_child_theme() {
-		return $this->template !== $this->stylesheet;
-	}
-
-	/**
 	 * Returns the absolute path to the directory of a theme's "stylesheet" files.
 	 *
 	 * In the case of a child theme, this is the absolute path to the directory

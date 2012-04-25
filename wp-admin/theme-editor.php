@@ -213,7 +213,7 @@ else : ?>
 	<?php endif; ?>
 
 		<div>
-		<?php if ( is_child_theme() && ! $theme->is_child_theme() && $theme->get_template() == get_template() ) : ?>
+		<?php if ( is_child_theme() && $theme->get_stylesheet() == get_template() ) : ?>
 			<p><?php if ( is_writeable( $file ) ) { ?><strong><?php _e( 'Caution:' ); ?></strong><?php } ?>
 			<?php _e( 'This is a file in your current parent theme.' ); ?></p>
 		<?php endif; ?>
