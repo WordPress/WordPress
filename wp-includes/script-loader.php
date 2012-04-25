@@ -252,7 +252,7 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'json2', "/wp-includes/js/json2$suffix.js", array(), '2011-02-23');
 
-	$scripts->add( 'imgareaselect', "/wp-includes/js/imgareaselect/jquery.imgareaselect$suffix.js", array('jquery'), '0.9.6-20110515', 1 );
+	$scripts->add( 'imgareaselect', "/wp-includes/js/imgareaselect/jquery.imgareaselect$suffix.js", array('jquery'), '0.9.8', 1 );
 
 	$scripts->add( 'password-strength-meter', "/wp-admin/js/password-strength-meter$suffix.js", array('jquery'), false, 1 );
 	$scripts->localize( 'password-strength-meter', 'pwsL10n', array(
@@ -474,7 +474,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css' );
 	$styles->add( 'farbtastic', '/wp-admin/css/farbtastic.css', array(), '1.3u1' );
 	$styles->add( 'jcrop', '/wp-includes/js/jcrop/jquery.Jcrop.css', array(), '0.9.8' );
-	$styles->add( 'imgareaselect', '/wp-includes/js/imgareaselect/imgareaselect.css', array(), '0.9.1' );
+	$styles->add( 'imgareaselect', '/wp-includes/js/imgareaselect/imgareaselect.css', array(), '0.9.8' );
 	$styles->add( 'admin-bar', "/wp-includes/css/admin-bar$suffix.css" );
 	$styles->add( 'wp-jquery-ui-dialog', "/wp-includes/css/jquery-ui-dialog$suffix.css" );
 	$styles->add( 'editor-buttons', "/wp-includes/css/editor$suffix.css" );
