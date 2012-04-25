@@ -1534,6 +1534,7 @@ class WP_Rewrite {
 			$registration_pages['.*wp-signup.php$'] = $this->index . '?signup=true';
 			$registration_pages['.*wp-activate.php$'] = $this->index . '?activate=true';
 		}
+		$registration_pages['.*wp-register.php$'] = $this->index . '?register=true'; // Deprecated
 
 		// Post
 		$post_rewrite = $this->generate_rewrite_rules( $this->permalink_structure, EP_PERMALINK, false, true, false, false );

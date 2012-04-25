@@ -277,6 +277,15 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 				$redirect['path'] = trailingslashit($redirect['path']) . $addl_path;
 			$redirect_url = $redirect['scheme'] . '://' . $redirect['host'] . $redirect['path'];
 		}
+
+		if ( 'wp-register.php' == basename( $redirect['path'] ) ) {
+			if ( is_multisite() )
+				$redirect_url = apply_filters( 'wp_signup_location', site_url( 'wp-signup.php' ) );
+			else
+				$redirect_url = site_url( 'wp-login.php?action=register' );
+			wp_redirect( $redirect_url, 301 );
+			die();
+		}
 	}
 
 	// tack on any additional query vars
