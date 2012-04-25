@@ -50,7 +50,7 @@
 		// Auto update background color by default
 		api( 'background_color', function( value ) {
 			value.bind( function( to ) {
-				body.css( 'background-color', '#' + to );
+				body.css( 'background-color', to ? '#' + to : '' );
 			});
 		});
 	});

@@ -90,14 +90,30 @@
 					element.set( setting() );
 				});
 			});
+		},
+
+		ready: function() {},
+
+		dropdownInit: function() {
+			var control  = this,
+				statuses = this.container.find('.dropdown-status'),
+				params   = this.params,
+				update   = function( to ) {
+					if ( typeof	to === 'string' && params.statuses && params.statuses[ to ] )
+						statuses.html( params.statuses[ to ] ).show();
+					else
+						statuses.hide();
+				};
 
 			// Support the .dropdown class to open/close complex elements
 			this.container.on( 'click', '.dropdown', function( event ) {
 				event.preventDefault();
 				control.container.toggleClass('open');
 			});
-		},
-		ready: function() {}
+
+			this.setting.bind( update );
+			update( this.setting() );
+		}
 	});
 
 	api.ColorControl = api.Control.extend({
@@ -105,9 +121,9 @@
 			var control = this,
 				spot, text, update;
 
-			spot   = this.container.find('.color-picker-spot');
+			spot   = this.container.find('.dropdown-content');
 			update = function( color ) {
-				color = '#' + color;
+				color = color ? '#' + color : '';
 				spot.css( 'background', color );
 				control.farbtastic.setColor( color );
 			};
@@ -118,6 +134,8 @@
 
 			this.setting.bind( update );
 			update( this.setting() );
+
+			this.dropdownInit();
 		}
 	});
 
@@ -218,6 +236,8 @@
 				if ( ! this.tabs.uploaded.panel.find('.thumbnail').length )
 					this.tabs.uploaded.both.addClass('hidden');
 			}
+
+			this.dropdownInit();
 		},
 		success: function( attachment ) {
 			api.UploadControl.prototype.success.call( this, attachment );

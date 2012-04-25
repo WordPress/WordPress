@@ -539,7 +539,6 @@ final class WP_Customize {
 		$this->add_setting( 'header_textcolor', array(
 			// @todo: replace with a new accept() setting method
 			// 'sanitize_callback' => 'sanitize_hexcolor',
-			'control'        => 'color',
 			'theme_supports' => array( 'custom-header', 'header-text' ),
 			'default'        => get_theme_support( 'custom-header', 'default-text-color' ),
 		) );
@@ -551,11 +550,10 @@ final class WP_Customize {
 			'type'     => 'checkbox',
 		) );
 
-		$this->add_control( 'header_textcolor', array(
+		$this->add_control( new WP_Customize_Color_Control( $this, 'header_textcolor', array(
 			'label'   => __( 'Text Color' ),
 			'section' => 'header',
-			'type'    => 'color',
-		) );
+		) ) );
 
 		// Input type: checkbox
 		// With custom value
@@ -583,21 +581,19 @@ final class WP_Customize {
 			'transport'         => 'postMessage',
 		) );
 
-		$this->add_control( 'background_color', array(
+		$this->add_control( new WP_Customize_Color_Control( $this, 'background_color', array(
 			'label'   => __( 'Background Color' ),
 			'section' => 'background',
-			'type'    => 'color',
-		) );
+		) ) );
 
 		$this->add_setting( 'background_image', array(
 			'default'        => get_theme_support( 'custom-background', 'default-image' ),
 			'theme_supports' => 'custom-background',
 		) );
 
-		$this->add_control( new WP_Customize_Upload_Control( $this, 'background_image', array(
+		$this->add_control( new WP_Customize_Image_Control( $this, 'background_image', array(
 			'label'          => __( 'Background Image' ),
 			'section'        => 'background',
-			'type'           => 'upload',
 			'context'        => 'custom-background',
 		) ) );
 

@@ -141,6 +141,10 @@ body {
 	margin-right: 10px;
 	line-height: 28px;
 }
+.customize-control-content {
+	float: right;
+	width: 140px;
+}
 
 .customize-control-text input,
 .customize-control-select select,
@@ -217,14 +221,18 @@ body {
 	overflow: hidden;
 	float: left;
 	min-width: 30px;
-	height: 24px;
-	line-height: 24px;
+	height: 16px;
+	line-height: 16px;
 	margin-right: 16px;
-	padding: 0 5px;
+	padding: 4px 5px;
 	background-color: #eee;
 	border: 1px solid #ccc;
 	-webkit-border-radius: 3px 0 0 3px;
 	border-radius: 3px 0 0 3px;
+
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
 }
 
 .customize-control .dropdown-arrow {
@@ -269,29 +277,41 @@ body {
 	border-color: #aaa transparent;
 }
 
+.customize-control .dropdown-status {
+	display: none;
+	max-width: 112px;
+	color: #999;
+}
+
 /*
  * Color Picker
  */
-.customize-control .color-picker-control {
+.customize-control-color .color-picker-hex,
+.customize-control-color .farbtastic-placeholder {
 	display: none;
 }
-.customize-control.open .color-picker-control {
+.customize-control-color.open .color-picker-hex,
+.customize-control-color.open .farbtastic-placeholder {
 	display: block;
 }
 
-.customize-control .dropdown .color-picker-spot {
+.customize-control-color .dropdown {
+	margin-right: 5px;
+	margin-bottom: 5px;
+}
+
+.customize-control-color .dropdown .dropdown-content {
 	background-color: #fff;
 	border: 1px solid rgba( 0, 0, 0, 0.15 );
 }
 
-.customize-section .dropdown:hover .color-picker-spot {
+.customize-control-color .dropdown:hover .dropdown-content {
 	border-color: rgba( 0, 0, 0, 0.25 );
 }
 
 .customize-section .color-picker-hex {
 	float: left;
 	width: 70px;
-	margin-left: 5px;
 	font-family: monospace;
 	background-color: #fff;
 	color: #777;
@@ -322,13 +342,13 @@ body {
 	border-radius: 0 3px 3px 0;
 }
 
-.customize-section .color-picker-control.farbtastic-placeholder {
+.customize-control-color .farbtastic-placeholder {
 	width: 235px;
 	margin: 5px 0 10px 25px;
 	float: left;
 }
 
-.customize-section .color-picker-control .farbtastic {
+.customize-control-color .farbtastic {
 	margin: 0 auto;
 }
 
@@ -339,6 +359,7 @@ body {
 .customize-control-image .library,
 .customize-control-image .actions {
 	display: none;
+	float: left;
 }
 .customize-control-image.open .library,
 .customize-control-image.open .actions {
@@ -350,6 +371,10 @@ body {
 	min-height: 24px;
 	min-width: 40px;
 	padding: 0;
+}
+
+.customize-section .customize-control-image .dropdown-status {
+	padding: 4px 5px;
 }
 
 .customize-section .customize-control-image .preview-thumbnail img {
@@ -397,7 +422,7 @@ body {
 
 .customize-section .customize-control-image .library-content {
 	display: none;
-	width: 260px;
+	width: 100%;
 	float: left;
 	padding: 10px 0;
 }
