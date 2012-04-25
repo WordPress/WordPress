@@ -813,7 +813,7 @@ final class WP_Screen {
 			if ( ! $this->columns && $this->get_option( 'layout_columns', 'default' ) )
 				$this->columns = $this->get_option( 'layout_columns', 'default' );
 		}
-		$GLOBALS[ 'screen_layout_columns' ] = $this->columns; // Set the gobal for back-compat.
+		$GLOBALS[ 'screen_layout_columns' ] = $this->columns; // Set the global for back-compat.
 
 		// Add screen options
 		if ( $this->show_screen_options() )
