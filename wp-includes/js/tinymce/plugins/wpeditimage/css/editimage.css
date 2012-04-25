@@ -357,10 +357,6 @@ div#media-upload-error {
 	color: #CFCFCF;
 }
 
-#img-edit #img_cap_text {
-	font: normal 12px/18px monospace;
-}
-
 .hidden {
 	display: none;
 }
