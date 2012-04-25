@@ -503,7 +503,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		unset( $_taxonomy['update_count_callback'] );
 
-		return apply_filters( 'xmlrpc__prepare_taxonomy', $_taxonomy, $taxonomy );
+		return apply_filters( 'xmlrpc_prepare_taxonomy', $_taxonomy, $taxonomy );
 	}
 
 	/**
@@ -528,7 +528,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		// Count we are happy to return as an Integer because people really shouldn't use Terms that much.
 		$_term['count'] = intval( $_term['count'] );
 
-		return apply_filters( 'xmlrpc__prepare_term', $_term, $term );
+		return apply_filters( 'xmlrpc_prepare_term', $_term, $term );
 	}
 
 	/**
@@ -640,7 +640,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			}
 		}
 
-		return apply_filters( 'xmlrpc__prepare_post', $_post, $post, $fields );
+		return apply_filters( 'xmlrpc_prepare_post', $_post, $post, $fields );
 	}
 
 	/**
@@ -697,7 +697,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			$_post_type['taxonomies'] = get_object_taxonomies( $_post_type['name'] );
 		}
 
-		return apply_filters( 'xmlrpc__prepare_post_type', $_post_type, $post_type );
+		return apply_filters( 'xmlrpc_prepare_post_type', $_post_type, $post_type );
 	}
 
 	/**
