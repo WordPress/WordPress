@@ -470,7 +470,7 @@ final class WP_Theme implements ArrayAccess {
 	 * @access private
 	 * @since 3.4.0
 	 *
-	 * @param string $key Type of data to store (theme, screenshot, screenshot_count, files, headers)
+	 * @param string $key Type of data to store (theme, screenshot, headers, page_templates)
 	 * @param string $data Data to store
 	 * @return bool Return value from wp_cache_add()
 	 */
@@ -486,7 +486,7 @@ final class WP_Theme implements ArrayAccess {
 	 * @access private
 	 * @since 3.4.0
 	 *
-	 * @param string $key Type of data to retrieve (theme, screenshot, screenshot_count, files, headers)
+	 * @param string $key Type of data to retrieve (theme, screenshot, headers, page_templates)
 	 * @return mixed Retrieved data
 	 */
 	private function cache_get( $key ) {
@@ -500,7 +500,7 @@ final class WP_Theme implements ArrayAccess {
 	 * @since 3.4.0
 	 */
 	public function cache_delete() {
-		foreach ( array( 'theme', 'screenshot', 'screenshot_count', 'headers', 'page_templates' ) as $key )
+		foreach ( array( 'theme', 'screenshot', 'headers', 'page_templates' ) as $key )
 			wp_cache_delete( $key . '-' . $this->cache_hash, 'themes' );
 		$this->template = $this->textdomain_loaded = $this->theme_root_uri = $this->parent = $this->errors = $this->headers_sanitized = $this->name_translated = null;
 		$this->headers = array();
@@ -856,8 +856,8 @@ final class WP_Theme implements ArrayAccess {
 	 *
 	 * The main screenshot is called screenshot.png. gif and jpg extensions are also allowed.
 	 *
-	 * Screenshots for a theme must be in the stylesheet directory. (In the case of a child
-	 * theme, a parent theme's screenshots are not inherited.)
+	 * Screenshots for a theme must be in the stylesheet directory. (In the case of child
+	 * themes, parent theme screenshots are not inherited.)
 	 *
 	 * @since 3.4.0
 	 * @access public
@@ -885,66 +885,7 @@ final class WP_Theme implements ArrayAccess {
 		}
 
 		$this->cache_add( 'screenshot', 0 );
-		$this->cache_add( 'screenshot_count', 0 );
 		return false;
-	}
-
-	/**
-	 * Returns the number of screenshots for a theme.
-	 *
-	 * The first screenshot may be called screenshot.png, .gif, or .jpg. Subsequent
-	 * screenshots can be screenshot-2.png, screenshot-3.png, etc. The count must
-	 * be consecutive for screenshots to be counted, and all screenshots beyond the
-	 * initial one must be image/png files.
-	 *
-	 * @see WP_Theme::get_screenshot()
-	 * @since 3.4.0
-	 * @access public
-	 *
-	 * @return int Number of screenshots. Can be 0.
-	 */
-	public function get_screenshot_count() {
-		$screenshot_count = $this->cache_get( 'screenshot_count' );
-		if ( is_numeric( $screenshot_count ) )
-			return $screenshot_count;
-
-		// This will set the screenshot cache.
-		// If there is no screenshot, the screenshot_count cache will also be set.
-		if ( ! $screenshot = $this->get_screenshot( 'relative' ) )
-			return 0;
-
-		$prefix = $this->get_stylesheet() . '/screenshot-';
-		$files = self::scandir( $this->get_stylesheet_directory(), $this->get_stylesheet(), 'png' );
-
-		$screenshot_count = 1;
-		while ( in_array( $prefix . ( $screenshot_count + 1 ) . '.png', $files['png'] ) )
-			$screenshot_count++;
-
-		$this->cache_add( 'screenshot_count', $screenshot_count );
-		return $screenshot_count;
-	}
-
-	/**
-	 * Returns an array of screenshot filenames.
-	 *
-	 * @see WP_Theme::get_screenshot()
-	 * @see WP_Theme::get_screenshot_count()
-	 * @since 3.4.0
-	 * @access public
-	 *
-	 * @param string $uri Type of URL to return, either 'relative' or an absolute URI. Defaults to absolute URI.
-	 * @return array Screenshots. Empty array if no screenshors are found.
-	 */
-	public function get_screenshots( $uri = 'uri' ) {
-		if ( ! $count = $this->get_screenshot_count() )
-			return array();
-
-		$pre = 'relative' == $uri ? '' : $this->get_stylesheet_directory_uri() . '/';
-
-		$screenshots = array( $pre . $this->get_screenshot( 'relative' ) );
-		for ( $i = 2; $i <= $count; $i++ )
-			$screenshots[] = $pre . 'screenshot-' . $i . '.png';
-		return $screenshots;
 	}
 
 	/**
