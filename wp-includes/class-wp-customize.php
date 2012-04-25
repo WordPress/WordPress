@@ -27,7 +27,7 @@ final class WP_Customize {
 		require( ABSPATH . WPINC . '/class-wp-customize-section.php' );
 		require( ABSPATH . WPINC . '/class-wp-customize-control.php' );
 
-		add_action( 'setup_theme',  array( $this, 'customize_previewing' ) );
+		add_action( 'setup_theme',  array( $this, 'setup_theme' ) );
 		add_action( 'admin_init',   array( $this, 'admin_init' ) );
 		add_action( 'wp_loaded',    array( $this, 'wp_loaded' ) );
 
@@ -61,18 +61,37 @@ final class WP_Customize {
 	 *
 	 * @since 3.4.0
 	 */
-	public function customize_previewing() {
+	public function setup_theme() {
 		if ( ! isset( $_REQUEST['customize'] ) || 'on' != $_REQUEST['customize'] )
 			return;
 
-		if ( ! $this->set_theme() || isset( $_REQUEST['save_customize_controls'] ) )
+		$this->start_previewing_theme();
+		show_admin_bar( false );
+	}
+
+	/**
+	 * Start previewing the selected theme.
+	 *
+	 * Adds filters to change the current theme.
+	 *
+	 * @since 3.4.0
+	 */
+	public function start_previewing_theme() {
+		if ( $this->is_preview() || false === $this->theme || ( $this->theme && ! $this->theme->exists() ) )
 			return;
 
-		$this->previewing = true;
-
-		show_admin_bar( false );
+		// Initialize $theme and $original_stylesheet if they do not yet exist.
+		if ( ! isset( $this->theme ) ) {
+			$this->theme = wp_get_theme( $_REQUEST['theme'] );
+			if ( ! $this->theme->exists() ) {
+				$this->theme = false;
+				return;
+			}
+		}
 
 		$this->original_stylesheet = get_stylesheet();
+
+		$this->previewing = true;
 
 		add_filter( 'template', array( $this, 'get_template' ) );
 		add_filter( 'stylesheet', array( $this, 'get_stylesheet' ) );
@@ -86,7 +105,35 @@ final class WP_Customize {
 		add_filter( 'pre_option_stylesheet_root', array( $this, 'get_stylesheet_root' ) );
 		add_filter( 'pre_option_template_root', array( $this, 'get_template_root' ) );
 
-		do_action( 'customize_previewing' );
+		do_action( 'start_previewing_theme' );
+	}
+
+	/**
+	 * Stop previewing the selected theme.
+	 *
+	 * Removes filters to change the current theme.
+	 *
+	 * @since 3.4.0
+	 */
+	public function stop_previewing_theme() {
+		if ( ! $this->is_preview() )
+			return;
+
+		$this->previewing = false;
+
+		remove_filter( 'template', array( $this, 'get_template' ) );
+		remove_filter( 'stylesheet', array( $this, 'get_stylesheet' ) );
+		remove_filter( 'pre_option_current_theme', array( $this, 'current_theme' ) );
+
+		// @link: http://core.trac.wordpress.org/ticket/20027
+		remove_filter( 'pre_option_stylesheet', array( $this, 'get_stylesheet' ) );
+		remove_filter( 'pre_option_template', array( $this, 'get_template' ) );
+
+		// Handle custom theme roots.
+		remove_filter( 'pre_option_stylesheet_root', array( $this, 'get_stylesheet_root' ) );
+		remove_filter( 'pre_option_template_root', array( $this, 'get_template_root' ) );
+
+		do_action( 'stop_previewing_theme' );
 	}
 
 	/**
@@ -157,24 +204,6 @@ final class WP_Customize {
 	 */
 	public function is_preview() {
 		return (bool) $this->previewing;
-	}
-
-	/**
-	 * Set the stylesheet name of the previewed theme.
-	 *
-	 * @since 3.4.0
-	 *
-	 * @return bool|string Stylesheet name.
-	 */
-	public function set_theme() {
-		if ( isset( $this->theme ) )
-			return $this->theme;
-
-		$this->theme = wp_get_theme( $_REQUEST['theme'] );
-		if ( ! $this->theme->exists() )
-			$this->theme = false;
-
-		return $this->theme;
 	}
 
 	/**
@@ -267,23 +296,21 @@ final class WP_Customize {
 	 * @since 3.4.0
 	 */
 	public function save() {
-		if ( $this->is_preview() )
+		if ( ! $this->is_preview() )
 			return;
 
 		check_admin_referer( 'customize_controls' );
 
-		if ( ! $this->set_theme() )
-			return;
-
-		$active_template   = get_template();
-		$active_stylesheet = get_stylesheet();
-
 		// Do we have to switch themes?
-		if ( $this->get_template() != $active_template || $this->get_stylesheet() != $active_stylesheet ) {
+		if ( $this->get_stylesheet() != $this->original_stylesheet ) {
 			if ( ! current_user_can( 'switch_themes' ) )
 				return;
 
+			// Temporarily stop previewing the theme to allow switch_themes()
+			// to operate properly.
+			$this->stop_previewing_theme();
 			switch_theme( $this->get_template(), $this->get_stylesheet() );
+			$this->start_previewing_theme();
 		}
 
 		do_action( 'customize_save' );
