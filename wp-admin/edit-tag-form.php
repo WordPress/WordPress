@@ -52,16 +52,16 @@ do_action($taxonomy . '_pre_edit_form', $tag, $taxonomy); ?>
 		<tr class="form-field">
 			<th scope="row" valign="top"><label for="parent"><?php _ex('Parent', 'Taxonomy Parent'); ?></label></th>
 			<td>
-				<?php wp_dropdown_categories(array('hide_empty' => 0, 'hide_if_empty' => false, 'name' => 'parent', 'orderby' => 'name', 'taxonomy' => $taxonomy, 'selected' => $tag->parent, 'exclude_tree' => $tag->term_id, 'hierarchical' => true, 'show_option_none' => __('None'))); ?><br />
+				<?php wp_dropdown_categories(array('hide_empty' => 0, 'hide_if_empty' => false, 'name' => 'parent', 'orderby' => 'name', 'taxonomy' => $taxonomy, 'selected' => $tag->parent, 'exclude_tree' => $tag->term_id, 'hierarchical' => true, 'show_option_none' => __('None'))); ?>
 				<?php if ( 'category' == $taxonomy ) : ?>
-				<span class="description"><?php _e('Categories, unlike tags, can have a hierarchy. You might have a Jazz category, and under that have children categories for Bebop and Big Band. Totally optional.'); ?></span>
+				<p class="description"><?php _e('Categories, unlike tags, can have a hierarchy. You might have a Jazz category, and under that have children categories for Bebop and Big Band. Totally optional.'); ?></p>
 				<?php endif; ?>
 			</td>
 		</tr>
 <?php endif; // is_taxonomy_hierarchical() ?>
 		<tr class="form-field">
 			<th scope="row" valign="top"><label for="description"><?php _ex('Description', 'Taxonomy Description'); ?></label></th>
-			<td><textarea name="description" id="description" rows="5" cols="50" style="width: 97%;"><?php echo $tag->description; // textarea_escaped ?></textarea><br />
+			<td><textarea name="description" id="description" rows="5" cols="50" class="large-text"><?php echo $tag->description; // textarea_escaped ?></textarea><br />
 			<span class="description"><?php _e('The description is not prominent by default, however some themes may show it.'); ?></span></td>
 		</tr>
 		<?php

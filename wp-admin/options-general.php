@@ -99,7 +99,7 @@ include('./admin-header.php');
 <tr valign="top">
 <th scope="row"><label for="blogdescription"><?php _e('Tagline') ?></label></th>
 <td><input name="blogdescription" type="text" id="blogdescription" value="<?php form_option('blogdescription'); ?>" class="regular-text" />
-<span class="description"><?php _e('In a few words, explain what this site is about.') ?></span></td>
+<p class="description"><?php _e('In a few words, explain what this site is about.') ?></p></td>
 </tr>
 <?php if ( !is_multisite() ) { ?>
 <tr valign="top">
@@ -109,12 +109,12 @@ include('./admin-header.php');
 <tr valign="top">
 <th scope="row"><label for="home"><?php _e('Site Address (URL)') ?></label></th>
 <td><input name="home" type="text" id="home" value="<?php form_option('home'); ?>"<?php disabled( defined( 'WP_HOME' ) ); ?> class="regular-text code<?php if ( defined( 'WP_HOME' ) ) echo ' disabled' ?>" />
-<span class="description"><?php _e('Enter the address here if you want your site homepage <a href="http://codex.wordpress.org/Giving_WordPress_Its_Own_Directory">to be different from the directory</a> you installed WordPress.'); ?></span></td>
+<p class="description"><?php _e('Enter the address here if you want your site homepage <a href="http://codex.wordpress.org/Giving_WordPress_Its_Own_Directory">to be different from the directory</a> you installed WordPress.'); ?></p></td>
 </tr>
 <tr valign="top">
 <th scope="row"><label for="admin_email"><?php _e('E-mail Address') ?> </label></th>
 <td><input name="admin_email" type="text" id="admin_email" value="<?php form_option('admin_email'); ?>" class="regular-text ltr" />
-<span class="description"><?php _e('This address is used for admin purposes, like new user notification.') ?></span></td>
+<p class="description"><?php _e('This address is used for admin purposes, like new user notification.') ?></p></td>
 </tr>
 <tr valign="top">
 <th scope="row"><?php _e('Membership') ?></th>
@@ -133,7 +133,7 @@ include('./admin-header.php');
 <tr valign="top">
 <th scope="row"><label for="new_admin_email"><?php _e('E-mail Address') ?> </label></th>
 <td><input name="new_admin_email" type="text" id="new_admin_email" value="<?php form_option('admin_email'); ?>" class="regular-text ltr" />
-<span class="description"><?php _e('This address is used for admin purposes. If you change this we will send you an e-mail at your new address to confirm it. <strong>The new address will not become active until confirmed.</strong>') ?></span>
+<p class="description"><?php _e('This address is used for admin purposes. If you change this we will send you an e-mail at your new address to confirm it. <strong>The new address will not become active until confirmed.</strong>') ?></p>
 <?php
 $new_admin_email = get_option( 'new_admin_email' );
 if ( $new_admin_email && $new_admin_email != get_option('admin_email') ) : ?>
@@ -177,8 +177,7 @@ if ( empty($tzstring) ) { // Create a UTC+- zone if no timezone string exists
 <?php if ( get_option('timezone_string') || !empty($current_offset) ) : ?>
 	<span id="local-time"><?php printf(__('Local time is <code>%1$s</code>'), date_i18n($timezone_format)); ?></span>
 <?php endif; ?>
-<br />
-<span class="description"><?php _e('Choose a city in the same timezone as you.'); ?></span>
+<p class="description"><?php _e('Choose a city in the same timezone as you.'); ?></p>
 <?php if ($check_zone_info && $tzstring) : ?>
 <br />
 <span>

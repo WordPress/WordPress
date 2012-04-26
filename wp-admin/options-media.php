@@ -109,7 +109,9 @@ include('./admin-header.php');
 <input name="embed_size_w" type="number" step="1" min="0" id="embed_size_w" value="<?php form_option('embed_size_w'); ?>" class="small-text" />
 <label for="embed_size_h"><?php _e('Height'); ?></label>
 <input name="embed_size_h" type="number" step="1" min="0" id="embed_size_h" value="<?php form_option('embed_size_h'); ?>" class="small-text" />
-<?php if ( !empty($content_width) ) echo '<br />' . __("If the width value is left blank, embeds will default to the max width of your theme."); ?>
+<?php if ( ! empty( $content_width ) )
+	echo '<p class="description">' . __( 'If the width value is left blank, embeds will default to the max width of your theme.' ) . '</p>';
+?>
 </td>
 </tr>
 
@@ -122,14 +124,14 @@ include('./admin-header.php');
 <tr valign="top">
 <th scope="row"><label for="upload_path"><?php _e('Store uploads in this folder'); ?></label></th>
 <td><input name="upload_path" type="text" id="upload_path" value="<?php echo esc_attr(get_option('upload_path')); ?>" class="regular-text code" />
-<span class="description"><?php _e('Default is <code>wp-content/uploads</code>'); ?></span>
+<p class="description"><?php _e('Default is <code>wp-content/uploads</code>'); ?></p>
 </td>
 </tr>
 
 <tr valign="top">
 <th scope="row"><label for="upload_url_path"><?php _e('Full URL path to files'); ?></label></th>
 <td><input name="upload_url_path" type="text" id="upload_url_path" value="<?php echo esc_attr( get_option('upload_url_path')); ?>" class="regular-text code" />
-<span class="description"><?php _e('Configuring this is optional. By default, it should be blank.'); ?></span>
+<p class="description"><?php _e('Configuring this is optional. By default, it should be blank.'); ?></p>
 </td>
 </tr>
 
