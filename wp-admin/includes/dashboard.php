@@ -595,11 +595,6 @@ function wp_dashboard_recent_drafts( $drafts = false ) {
 function wp_dashboard_recent_comments() {
 	global $wpdb;
 
-	if ( current_user_can('edit_posts') )
-		$allowed_states = array('0', '1');
-	else
-		$allowed_states = array('1');
-
 	// Select all comment types and filter out spam later for better query performance.
 	$comments = array();
 	$start = 0;
@@ -608,44 +603,36 @@ function wp_dashboard_recent_comments() {
 	$total_items = isset( $widgets['dashboard_recent_comments'] ) && isset( $widgets['dashboard_recent_comments']['items'] )
 		? absint( $widgets['dashboard_recent_comments']['items'] ) : 5;
 
-	while ( count( $comments ) < $total_items && $possible = $wpdb->get_results( "SELECT * FROM $wpdb->comments c LEFT JOIN $wpdb->posts p ON c.comment_post_ID = p.ID WHERE p.post_status != 'trash' ORDER BY c.comment_date_gmt DESC LIMIT $start, 50" ) ) {
+	$comments_query = array( 'number' => $total_items * 5, 'offset' => 0 );
+	if ( ! current_user_can( 'edit_posts' ) )
+		$comments_query['status'] = 'approve';
 
+	while ( count( $comments ) < $total_items && $possible = get_comments( $comments_query ) ) {
 		foreach ( $possible as $comment ) {
-			if ( count( $comments ) >= $total_items )
-				break;
-			if ( in_array( $comment->comment_approved, $allowed_states ) && current_user_can( 'read_post', $comment->comment_post_ID ) )
-				$comments[] = $comment;
+			if ( ! current_user_can( 'read_post', $comment->comment_post_ID ) )
+				continue;
+			$comments[] = $comment;
+			if ( count( $comments ) == $total_items )
+				break 2;
 		}
-
-		$start = $start + 50;
+		$comments_query['offset'] += $comments_query['number'];
+		$comments_query['number'] = $total_items * 10;
 	}
 
-	if ( $comments ) :
-?>
-
-		<div id="the-comment-list" class="list:comment">
-<?php
+	if ( $comments ) {
+		echo '<div id="the-comment-list" class="list:comment">';
 		foreach ( $comments as $comment )
 			_wp_dashboard_recent_comments_row( $comment );
-?>
+		echo '</div>';
 
-		</div>
-
-<?php
-		if ( current_user_can('edit_posts') ) { ?>
-			<?php _get_list_table('WP_Comments_List_Table')->views(); ?>
-<?php	}
+		if ( current_user_can('edit_posts') )
+			_get_list_table('WP_Comments_List_Table')->views();
 
 		wp_comment_reply( -1, false, 'dashboard', false );
 		wp_comment_trashnotice();
-
-	else :
-?>
-
-	<p><?php _e( 'No comments yet.' ); ?></p>
-
-<?php
-	endif; // $comments;
+	} else {
+		echo '<p>' . __( 'No comments yet.' ) . '</p>';
+	}
 }
 
 function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
