@@ -594,9 +594,13 @@ class wp_xmlrpc_server extends IXR_Server {
 			'sticky'            => ( $post['post_type'] === 'post' && is_sticky( $post['ID'] ) ),
 		);
 
-		//
-		$post_fields['post_thumbnail']     = get_post_meta( $post['ID'], '_thumbnail_id', true );
-		$post_fields['post_thumbnail_url'] = wp_get_attachment_url( $post_fields['post_thumbnail'] );
+		// Thumbnail
+		$post_fields['post_thumbnail'] = array();
+		$thumbnail_id = get_post_thumbnail_id( $post['ID'] );
+		if ( $thumbnail_id ) {
+			$thumbnail_size = current_theme_supports('post-thumbnail') ? 'post-thumbnail' : 'thumbnail';
+			$post_fields['post_thumbnail'] = $this->_prepare_media_item( get_post( $thumbnail_id ), $thumbnail_size );
+		}
 
 		// Consider future posts as published
 		if ( $post_fields['post_status'] === 'future' )
@@ -698,6 +702,36 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		return apply_filters( 'xmlrpc_prepare_post_type', $_post_type, $post_type );
+	}
+
+	/**
+	 * Prepares media item data for return in an XML-RPC object.
+	 *
+	 * @access protected
+	 *
+	 * @param object $media_item The unprepared media item data
+	 * @param string $size The image size to use for the thumbnail URL
+	 * @return array The prepared media item data
+	 */
+	protected function _prepare_media_item( $media_item, $thumbnail_size='thumbnail' ) {
+		$_media_item = array(
+			'attachment_id'    => strval( $media_item->ID ),
+			'date_created_gmt' => $this->_convert_date_gmt( $media_item->post_date_gmt, $media_item->post_date ),
+			'parent'           => $media_item->post_parent,
+			'link'             => wp_get_attachment_url( $media_item->ID ),
+			'title'            => $media_item->post_title,
+			'caption'          => $media_item->post_excerpt,
+			'description'      => $media_item->post_content,
+			'metadata'         => wp_get_attachment_metadata( $media_item->ID ),
+		);
+
+		$thumbnail_src = image_downsize( $media_item->ID, $thumbnail_size );
+		if ( $thumbnail_src )
+			$_media_item['thumbnail'] = $thumbnail_src[0];
+		else
+			$_media_item['thumbnail'] = $_media_item['link'];
+
+		return apply_filters( 'xmlrpc__prepare_media_item', $_media_item, $media_item, $thumbnail_size );
 	}
 
 	/**
@@ -2818,26 +2852,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( ! $attachment = get_post($attachment_id) )
 			return new IXR_Error( 404, __( 'Invalid attachment ID.' ) );
 
-		// Format page date.
-		$attachment_date = $this->_convert_date( $attachment->post_date );
-		$attachment_date_gmt = $this->_convert_date_gmt( $attachment->post_date_gmt, $attachment->post_date );
-
-		$link = wp_get_attachment_url($attachment->ID);
-		$thumbnail_link = wp_get_attachment_thumb_url($attachment->ID);
-
-		$attachment_struct = array(
-			'date_created_gmt'		=> $attachment_date_gmt,
-			'parent'				=> $attachment->post_parent,
-			'link'					=> $link,
-			'thumbnail'				=> $thumbnail_link,
-			'title'					=> $attachment->post_title,
-			'caption'				=> $attachment->post_excerpt,
-			'description'			=> $attachment->post_content,
-			'metadata'				=> wp_get_attachment_metadata($attachment->ID),
-			'attachment_id'			=> (string) $attachment->ID
-		);
-
-		return $attachment_struct;
+		return $this->_prepare_media_item( $attachment );
 	}
 
 	/**
@@ -2864,7 +2879,6 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @return array. Contains a collection of media items. See {@link wp_xmlrpc_server::wp_getMediaItem()} for a description of each item contents
 	 */
 	function wp_getMediaLibrary($args) {
-		$raw_args = $args;
 		$this->escape($args);
 
 		$blog_id	= (int) $args[0];
@@ -2886,15 +2900,11 @@ class wp_xmlrpc_server extends IXR_Server {
 		$number = ( isset($struct['number']) ) ? absint($struct['number']) : -1 ;
 
 		$attachments = get_posts( array('post_type' => 'attachment', 'post_parent' => $parent_id, 'offset' => $offset, 'numberposts' => $number, 'post_mime_type' => $mime_type ) );
-		$num_attachments = count($attachments);
-
-		if ( ! $num_attachments )
-			return array();
 
 		$attachments_struct = array();
 
 		foreach ($attachments as $attachment )
-			$attachments_struct[] = $this->wp_getMediaItem( array( $raw_args[0], $raw_args[1], $raw_args[2], $attachment->ID ) );
+			$attachments_struct[] = $this->_prepare_media_item( $attachment );
 
 		return $attachments_struct;
 	}
@@ -4208,8 +4218,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 			if ( !empty($enclosure) ) $resp['enclosure'] = $enclosure;
 
-			$resp['wp_post_thumbnail'] = get_post_meta( $postdata['ID'], '_thumbnail_id', true );
-			$resp['wp_post_thumbnail_url'] = wp_get_attachment_url( $resp['wp_post_thumbnail'] );
+			$resp['wp_post_thumbnail'] = get_post_thumbnail_id( $postdata['ID'] );
 
 			return $resp;
 		} else {
@@ -4320,8 +4329,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			);
 
 			$entry_index = count( $struct ) - 1;
-			$struct[ $entry_index ][ 'wp_post_thumbnail' ]     = get_post_meta( $entry['ID'], '_thumbnail_id', true );
-			$struct[ $entry_index ][ 'wp_post_thumbnail_url' ] = wp_get_attachment_url( $struct[ $entry_index ][ 'wp_post_thumbnail' ] );
+			$struct[ $entry_index ][ 'wp_post_thumbnail' ] = get_post_thumbnail_id( $entry['ID'] );
 		}
 
 		$recent_posts = array();
