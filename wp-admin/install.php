@@ -41,7 +41,7 @@ require_once( dirname( __FILE__ ) . '/includes/upgrade.php' );
 /** Load wpdb */
 require_once(dirname(dirname(__FILE__)) . '/wp-includes/wp-db.php');
 
-$step = isset( $_GET['step'] ) ? $_GET['step'] : 0;
+$step = isset( $_GET['step'] ) ? (int) $_GET['step'] : 0;
 
 /**
  * Display install header.
