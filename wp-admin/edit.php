@@ -222,49 +222,41 @@ require_once('./admin-header.php');
 <div class="wrap">
 <?php screen_icon(); ?>
 <h2><?php echo esc_html( $post_type_object->labels->name ); ?> <a href="<?php echo $post_new_file ?>" class="add-new-h2"><?php echo esc_html($post_type_object->labels->add_new); ?></a> <?php
-if ( isset($_REQUEST['s']) && $_REQUEST['s'] )
+if ( ! empty( $_REQUEST['s'] ) )
 	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', get_search_query() ); ?>
 </h2>
 
-<?php if ( isset($_REQUEST['locked']) || isset($_REQUEST['skipped']) || isset($_REQUEST['updated']) || isset($_REQUEST['deleted']) || isset($_REQUEST['trashed']) || isset($_REQUEST['untrashed']) ) {
+<?php if ( isset( $_REQUEST['locked'] ) || isset( $_REQUEST['updated'] ) || isset( $_REQUEST['deleted'] ) || isset( $_REQUEST['trashed'] ) || isset( $_REQUEST['untrashed'] ) ) {
 	$messages = array();
 ?>
 <div id="message" class="updated"><p>
-<?php if ( isset($_REQUEST['updated']) && (int) $_REQUEST['updated'] ) {
-	$messages[] = sprintf( _n( '%s post updated.', '%s posts updated.', $_REQUEST['updated'] ), number_format_i18n( $_REQUEST['updated'] ) );
-	unset($_REQUEST['updated']);
+<?php if ( isset( $_REQUEST['updated'] ) && $updated = absint( $_REQUEST['updated'] ) ) {
+	$messages[] = sprintf( _n( '%s post updated.', '%s posts updated.', $updated ), number_format_i18n( $updated ) );
 }
 
-if ( isset($_REQUEST['skipped']) && (int) $_REQUEST['skipped'] )
-	unset($_REQUEST['skipped']);
-
-if ( isset($_REQUEST['locked']) && (int) $_REQUEST['locked'] ) {
-	$messages[] = sprintf( _n( '%s item not updated, somebody is editing it.', '%s items not updated, somebody is editing them.', $_REQUEST['locked'] ), number_format_i18n( $_REQUEST['locked'] ) );
-	unset($_REQUEST['locked']);
+if ( isset( $_REQUEST['locked'] ) && $locked = absint( $_REQUEST['locked'] ) ) {
+	$messages[] = sprintf( _n( '%s item not updated, somebody is editing it.', '%s items not updated, somebody is editing them.', $locked ), number_format_i18n( $locked ) );
 }
 
-if ( isset($_REQUEST['deleted']) && (int) $_REQUEST['deleted'] ) {
-	$messages[] = sprintf( _n( 'Item permanently deleted.', '%s items permanently deleted.', $_REQUEST['deleted'] ), number_format_i18n( $_REQUEST['deleted'] ) );
-	unset($_REQUEST['deleted']);
+if ( isset( $_REQUEST['deleted'] ) && $deleted = absint( $_REQUEST['deleted'] ) ) {
+	$messages[] = sprintf( _n( 'Item permanently deleted.', '%s items permanently deleted.', $deleted ), number_format_i18n( $deleted ) );
 }
 
-if ( isset($_REQUEST['trashed']) && (int) $_REQUEST['trashed'] ) {
-	$messages[] = sprintf( _n( 'Item moved to the Trash.', '%s items moved to the Trash.', $_REQUEST['trashed'] ), number_format_i18n( $_REQUEST['trashed'] ) );
+if ( isset( $_REQUEST['trashed'] ) && $trashed = absint( $_REQUEST['trashed'] ) ) {
+	$messages[] = sprintf( _n( 'Item moved to the Trash.', '%s items moved to the Trash.', $trashed ), number_format_i18n( $trashed ) );
 	$ids = isset($_REQUEST['ids']) ? $_REQUEST['ids'] : 0;
 	$messages[] = '<a href="' . esc_url( wp_nonce_url( "edit.php?post_type=$post_type&doaction=undo&action=untrash&ids=$ids", "bulk-posts" ) ) . '">' . __('Undo') . '</a>';
-	unset($_REQUEST['trashed']);
 }
 
-if ( isset($_REQUEST['untrashed']) && (int) $_REQUEST['untrashed'] ) {
-	$messages[] = sprintf( _n( 'Item restored from the Trash.', '%s items restored from the Trash.', $_REQUEST['untrashed'] ), number_format_i18n( $_REQUEST['untrashed'] ) );
-	unset($_REQUEST['undeleted']);
+if ( isset( $_REQUEST['untrashed'] ) && $untrashed = absint( $_REQUEST['untrashed'] ) ) {
+	$messages[] = sprintf( _n( 'Item restored from the Trash.', '%s items restored from the Trash.', $untrashed ), number_format_i18n( $untrashed ) );
 }
 
 if ( $messages )
 	echo join( ' ', $messages );
 unset( $messages );
 
-$_SERVER['REQUEST_URI'] = remove_query_arg( array('locked', 'skipped', 'updated', 'deleted', 'trashed', 'untrashed'), $_SERVER['REQUEST_URI'] );
+$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'locked', 'skipped', 'updated', 'deleted', 'trashed', 'untrashed' ), $_SERVER['REQUEST_URI'] );
 ?>
 </p></div>
 <?php } ?>
