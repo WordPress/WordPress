@@ -1021,6 +1021,7 @@ class Core_Upgrader extends WP_Upgrader {
 		$this->strings['downloading_package'] = __('Downloading update from <span class="code">%s</span>&#8230;');
 		$this->strings['unpack_package'] = __('Unpacking the update&#8230;');
 		$this->strings['copy_failed'] = __('Could not copy files.');
+		$this->strings['copy_failed_space'] = __('Could not copy files. You may have run out of disk space.' );
 	}
 
 	function upgrade($current) {
@@ -1072,6 +1073,9 @@ class Core_Upgrader extends WP_Upgrader {
 		$wp_filesystem->chmod($wp_dir . 'wp-admin/includes/update-core.php', FS_CHMOD_FILE);
 
 		require(ABSPATH . 'wp-admin/includes/update-core.php');
+
+		if ( ! function_exists( 'update_core' ) )
+			return new WP_Error( 'copy_failed_space', $this->strings['copy_failed_space'] );
 
 		return update_core($working_dir, $wp_dir);
 	}
