@@ -353,10 +353,16 @@ default:
 		case 'del':
 		case 'del_many':
 			$delete_count = isset($_GET['delete_count']) ? (int) $_GET['delete_count'] : 0;
-			$messages[] = '<div id="message" class="updated"><p>' . sprintf(_n('%s user deleted', '%s users deleted', $delete_count), $delete_count) . '</p></div>';
+			$messages[] = '<div id="message" class="updated"><p>' . sprintf( _n( 'User deleted.', '%s users deleted.', $delete_count ), number_format_i18n( $delete_count ) ) . '</p></div>';
 			break;
 		case 'add':
-			$messages[] = '<div id="message" class="updated"><p>' . __('New user created.') . '</p></div>';
+			if ( isset( $_GET['id'] ) && ( $user_id = $_GET['id'] ) && current_user_can( 'edit_user', $user_id ) ) {
+				$messages[] = '<div id="message" class="updated"><p>' . sprintf( __( 'New user created. <a href="%s">Edit user</a>' ),
+					esc_url( add_query_arg( 'wp_http_referer', urlencode( stripslashes( $_SERVER['REQUEST_URI'] ) ),
+						self_admin_url( 'user-edit.php?user_id=' . $user_id ) ) ) ) . '</p></div>';
+			} else {
+				$messages[] = '<div id="message" class="updated"><p>' . __( 'New user created.' ) . '</p></div>';
+			}
 			break;
 		case 'promote':
 			$messages[] = '<div id="message" class="updated"><p>' . __('Changed roles.') . '</p></div>';

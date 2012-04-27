@@ -98,12 +98,10 @@ Please click the following link to confirm the invite:
 		if ( is_wp_error( $user_id ) ) {
 			$add_user_errors = $user_id;
 		} else {
-			if ( current_user_can('edit_users') ) {
-				$new_user_login = apply_filters('pre_user_login', sanitize_user(stripslashes($_REQUEST['user_login']), true));
-				$redirect = 'users.php?usersearch='. urlencode($new_user_login) . '&update=add' . '#user-' . $user_id;
-			} else {
+			if ( current_user_can( 'list_users' ) )
+				$redirect = 'users.php?update=add&id=' . $user_id;
+			else
 				$redirect = add_query_arg( 'update', 'add', 'user-new.php' );
-			}
 			wp_redirect( $redirect );
 			die();
 		}
