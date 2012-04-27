@@ -71,6 +71,7 @@ var postboxes;
 				items: '.postbox',
 				handle: '.hndle',
 				cursor: 'move',
+				delay: ( $('body').hasClass('mobile') ? 200 : 0 ),
 				distance: 2,
 				tolerance: 'pointer',
 				forcePlaceholderSize: true,
