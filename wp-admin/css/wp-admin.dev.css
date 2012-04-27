@@ -732,6 +732,7 @@ p.install-help {
 .wp-admin select {
 	padding: 2px;
 	height: 2em;
+	max-width: 100%;
 }
 
 .wp-admin select[multiple] {
