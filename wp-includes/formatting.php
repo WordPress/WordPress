@@ -1339,8 +1339,6 @@ function stripslashes_deep($value) {
 /**
  * Navigates through an array and encodes the values to be used in a URL.
  *
- * Uses a callback to pass the value of the array back to the function as a
- * string.
  *
  * @since 2.2.0
  *
@@ -1350,6 +1348,18 @@ function stripslashes_deep($value) {
 function urlencode_deep($value) {
 	$value = is_array($value) ? array_map('urlencode_deep', $value) : urlencode($value);
 	return $value;
+}
+
+/**
+ * Navigates through an array and raw encodes the values to be used in a URL.
+ *
+ * @since 3.4.0
+ *
+ * @param array|string $value The array or string to be encoded.
+ * @return array|string $value The encoded array (or string from the callback).
+ */
+function rawurlencode_deep( $value ) {
+	return is_array( $value ) ? array_map( 'rawurlencode_deep', $value ) : rawurlencode( $value );
 }
 
 /**
