@@ -134,14 +134,14 @@ case 'edit':
 	if ( empty($post->ID) )
 		wp_die( __('You attempted to edit an item that doesn&#8217;t exist. Perhaps it was deleted?') );
 
+	if ( null == $post_type_object )
+		wp_die( __('Unknown post type.') );
+
 	if ( !current_user_can($post_type_object->cap->edit_post, $post_id) )
 		wp_die( __('You are not allowed to edit this item.') );
 
 	if ( 'trash' == $post->post_status )
 		wp_die( __('You can&#8217;t edit this item because it is in the Trash. Please restore it and try again.') );
-
-	if ( null == $post_type_object )
-		wp_die( __('Unknown post type.') );
 
 	$post_type = $post->post_type;
 	if ( 'post' == $post_type ) {
