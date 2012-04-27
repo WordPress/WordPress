@@ -1008,12 +1008,12 @@ final class WP_Screen {
 			$per_page = apply_filters( 'edit_posts_per_page', $per_page, $this->post_type );
 
 		?>
-		<div class='screen-options'>
-			<?php if ( !empty($per_page_label) ): ?>
-				<input type='number' step='1' min='1' class='screen-per-page' name='wp_screen_options[value]'
-					id='<?php echo esc_attr( $option ); ?>' maxlength='3'
-					value='<?php echo esc_attr( $per_page ); ?>' />
-				<label for='<?php echo esc_attr( $option ); ?>'>
+		<div class="screen-options">
+			<?php if ( $per_page_label ) : ?>
+				<input type="number" step="1" min="1" max="999" class="screen-per-page" name="wp_screen_options[value]"
+					id="<?php echo esc_attr( $option ); ?>" maxlength="3"
+					value="<?php echo esc_attr( $per_page ); ?>" />
+				<label for="<?php echo esc_attr( $option ); ?>">
 					<?php echo esc_html( $per_page_label ); ?>
 				</label>
 			<?php endif;
