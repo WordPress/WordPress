@@ -121,6 +121,7 @@ require( ABSPATH . WPINC . '/link-template.php' );
 require( ABSPATH . WPINC . '/author-template.php' );
 require( ABSPATH . WPINC . '/post.php' );
 require( ABSPATH . WPINC . '/post-template.php' );
+require( ABSPATH . WPINC . '/post-thumbnail-template.php' );
 require( ABSPATH . WPINC . '/category.php' );
 require( ABSPATH . WPINC . '/category-template.php' );
 require( ABSPATH . WPINC . '/comment.php' );
@@ -287,9 +288,6 @@ if ( ! defined( 'WP_INSTALLING' ) || 'wp-activate.php' === $pagenow ) {
 }
 
 do_action( 'after_setup_theme' );
-
-// Load any template functions the theme supports.
-require_if_theme_supports( 'post-thumbnails', ABSPATH . WPINC . '/post-thumbnail-template.php' );
 
 // Set up current user.
 $wp->init();

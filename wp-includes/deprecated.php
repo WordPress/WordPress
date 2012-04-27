@@ -3152,3 +3152,19 @@ function clean_page_cache( $id ) {
 
 	clean_post_cache( $id );
 }
+
+/**
+ * Checks a theme's support for a given feature before loading the functions which implement it.
+ *
+ * @since 2.9.0
+ * @deprecated 3.4.0
+ * @deprecated Use require()
+ *
+ * @param string $feature the feature being checked
+ * @param string $include the file containing the functions that implement the feature
+ */
+function require_if_theme_supports( $feature, $include ) {
+	_deprecated_function( __FUNCTION__, '3.4', 'require()' );
+	if ( current_theme_supports( $feature ) )
+		require ( $include );
+}

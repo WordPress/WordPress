@@ -1512,18 +1512,6 @@ function current_theme_supports( $feature ) {
 }
 
 /**
- * Checks a theme's support for a given feature before loading the functions which implement it.
- *
- * @since 2.9.0
- * @param string $feature the feature being checked
- * @param string $include the file containing the functions that implement the feature
- */
-function require_if_theme_supports( $feature, $include) {
-	if ( current_theme_supports( $feature ) )
-		require ( $include );
-}
-
-/**
  * Checks an attachment being deleted to see if it's a header or background image.
  *
  * If true it removes the theme modification which would be pointing at the deleted
