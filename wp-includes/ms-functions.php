@@ -843,7 +843,7 @@ function wpmu_activate_signup($key) {
 			return new WP_Error( 'already_active', __( 'The site is already active.' ), $signup );
 	}
 
-	$meta = unserialize($signup->meta);
+	$meta = maybe_unserialize($signup->meta);
 	$user_login = $wpdb->escape($signup->user_login);
 	$user_email = $wpdb->escape($signup->user_email);
 	$password = wp_generate_password( 12, false );

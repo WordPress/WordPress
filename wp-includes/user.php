@@ -885,14 +885,14 @@ function count_users($strategy = 'time') {
 		$users_of_blog = $wpdb->get_col( "SELECT meta_value FROM $wpdb->usermeta WHERE meta_key = '{$blog_prefix}capabilities'" );
 
 		foreach ( $users_of_blog as $caps_meta ) {
-			$b_roles = unserialize($caps_meta);
-			if ( is_array($b_roles) ) {
-				foreach ( $b_roles as $b_role => $val ) {
-					if ( isset($avail_roles[$b_role]) ) {
-						$avail_roles[$b_role]++;
-					} else {
-						$avail_roles[$b_role] = 1;
-					}
+			$b_roles = maybe_unserialize($caps_meta);
+			if ( ! is_array( $b_roles ) )
+				continue;
+			foreach ( $b_roles as $b_role => $val ) {
+				if ( isset($avail_roles[$b_role]) ) {
+					$avail_roles[$b_role]++;
+				} else {
+					$avail_roles[$b_role] = 1;
 				}
 			}
 		}

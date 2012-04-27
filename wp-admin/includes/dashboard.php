@@ -1212,9 +1212,9 @@ function wp_check_browser_version() {
 		 *  'img_src' - string - An image representing the browser
 		 *  'img_src_ssl' - string - An image (over SSL) representing the browser
 		 */
-		$response = unserialize( wp_remote_retrieve_body( $response ) );
+		$response = maybe_unserialize( wp_remote_retrieve_body( $response ) );
 
-		if ( ! $response )
+		if ( ! is_array( $response ) )
 			return false;
 
 		set_site_transient( 'browser_' . $key, $response, 604800 ); // cache for 1 week
