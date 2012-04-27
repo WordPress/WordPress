@@ -2253,7 +2253,7 @@ div.star {
 	direction: rtl;
 }
 
-#section-description {
+#plugin-information #section-holder .section {
 	direction: ltr;
 }
 
