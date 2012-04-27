@@ -248,12 +248,14 @@ wpWidgets = {
 	},
 
 	appendTitle : function(widget) {
-		var title = $('input[id*="-title"]', widget);
-		if ( title = title.val() ) {
-			title = title.replace(/<[^<>]+>/g, '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-			$(widget).children('.widget-top').children('.widget-title').children()
-				.children('.in-widget-title').html(': ' + title);
-		}
+		var title = $('input[id*="-title"]', widget).val() || '';
+
+		if ( title )
+			title = ': ' + title.replace(/<[^<>]+>/g, '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+		$(widget).children('.widget-top').children('.widget-title').children()
+				.children('.in-widget-title').html(title);
+
 	},
 
 	resize : function() {
