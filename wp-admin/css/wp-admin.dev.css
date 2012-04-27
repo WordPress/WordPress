@@ -7582,7 +7582,7 @@ h3 span {
 	float: left;
 	list-style-type: none;
 	padding-right: 25px;
-	min-width: 150px;
+	width: 150px;
 }
 
 .feature-container {
