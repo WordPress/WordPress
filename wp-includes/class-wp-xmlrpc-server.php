@@ -698,7 +698,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		if ( in_array( 'taxonomies', $fields ) )
-			$_post_type['taxonomies'] = get_object_taxonomies( $_post_type->name, 'names' );
+			$_post_type['taxonomies'] = get_object_taxonomies( $post_type->name, 'names' );
 
 		return apply_filters( 'xmlrpc_prepare_post_type', $_post_type, $post_type );
 	}
