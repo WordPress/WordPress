@@ -1509,6 +1509,10 @@ body.no-js #adminmenu .wp-menu-toggle,
 	z-index: 1001;
 }
 
+.ie8 #adminmenu li.menu-top:hover .wp-menu-arrow {
+	display: none;
+}
+
 #adminmenu .wp-menu-arrow div {
 	position: absolute;
 	top: 7px;
