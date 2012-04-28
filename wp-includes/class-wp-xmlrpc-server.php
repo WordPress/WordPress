@@ -495,15 +495,29 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @access protected
 	 *
-	 * @param array|object $taxonomy The unprepared taxonomy data
+	 * @param object $taxonomy The unprepared taxonomy data
 	 * @return array The prepared taxonomy data
 	 */
-	protected function _prepare_taxonomy( $taxonomy ) {
-		$_taxonomy = (array) $taxonomy;
+	protected function _prepare_taxonomy( $taxonomy, $fields ) {
+		$_taxonomy = array(
+			'name' => $taxonmy->name,
+			'label' => $taxonomy->label,
+			'hierarchical' => (bool) $taxonomy->hierarchical,
+			'public' => (bool) $taxonomy->public,
+			'show_ui' => (bool) $taxonomy->show_ui,
+			'_builtin' => (bool) $taxnomy->_builtin,
+		);
 
-		unset( $_taxonomy['update_count_callback'] );
+		if ( in_array( 'labels', $fields ) )
+			$_taxonomy['labels'] = (array) $taxonomy->labels;
 
-		return apply_filters( 'xmlrpc_prepare_taxonomy', $_taxonomy, $taxonomy );
+		if ( in_array( 'capabilities', $fields ) )
+			$_taxonomy['cap'] = (array) $post_type->cap;
+
+		if ( in_array( 'object_types', $fields ) )
+			$_taxonomy['taxonomies'] = array_unique( (array) $taxonomy->object_type );
+
+		return apply_filters( 'xmlrpc_prepare_taxonomy', $_taxonomy, $taxonomy, $fields );
 	}
 
 	/**
@@ -652,54 +666,39 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @access protected
 	 *
-	 * @param array|object $post_type The unprepared post type data
+	 * @param object $post_type Post type object
 	 * @param array $fields The subset of post fields to return
 	 * @return array The prepared post type data
 	 */
-	protected function _prepare_post_type( $post_type, $fields ) {
-		$post_type = (array) $post_type;
-
+	public function _prepare_post_type( $post_type, $fields ) {
 		$_post_type = array(
-			'name' => $post_type['name'],
-			'label' => $post_type['label'],
-			'description' => $post_type['description'],
-			'hierarchical' => $post_type['hierarchical'],
-			'public' => $post_type['public'],
-			'_builtin' => $post_type['_builtin'],
-			'supports' => get_all_post_type_supports( $post_type['name'] )
+			'name' => $post_type->name,
+			'label' => $post_type->label,
+			'hierarchical' => (bool) $post_type->hierarchical,
+			'public' => (bool) $post_type->public,
+			'show_ui' => (bool) $post_type->show_ui,
+			'_builtin' => (bool) $post_type->_builtin,
+			'has_archive' => (bool) $post_type->has_archive,
+			'supports' => get_all_post_type_supports( $post_type->name ),
 		);
 
 		if ( in_array( 'labels', $fields ) ) {
-			$_post_type['labels'] = (array) $post_type['labels'];
+			$_post_type['labels'] = (array) $post_type->labels;
 		}
 
 		if ( in_array( 'capabilities', $fields ) ) {
-			$_post_type['cap'] = (array) $post_type['cap'];
-			$_post_type['capability_type'] = $post_type['capability_type'];
-			$_post_type['map_meta_cap'] = $post_type['map_meta_cap'];
-		}
-
-		if ( in_array( 'admin', $fields ) ) {
-			$_post_type['publicly_queryable'] = $post_type['publicly_queryable'];
-			$_post_type['exclude_from_search'] = $post_type['exclude_from_search'];
-			$_post_type['_edit_link'] = $post_type['_edit_link'];
-			$_post_type['rewrite'] = $post_type['rewrite'];
-			$_post_type['has_archive'] = $post_type['has_archive'];
-			$_post_type['query_var'] = $post_type['query_var'];
+			$_post_type['cap'] = (array) $post_type->cap;
+			$_post_type['map_meta_cap'] = (bool) $post_type->map_meta_cap;
 		}
 
 		if ( in_array( 'menu', $fields ) ) {
-			$_post_type['show_ui'] = $post_type['show_ui'];
-			$_post_type['menu_position'] = $post_type['menu_position'];
-			$_post_type['menu_icon'] = $post_type['menu_icon'];
-			$_post_type['show_in_nav_menus'] = $post_type['show_in_nav_menus'];
-			$_post_type['show_in_menu'] = $post_type['show_in_menu'];
-			$_post_type['show_in_admin_bar'] = $post_type['show_in_admin_bar'];
+			$_post_type['menu_position'] = (int) $post_type->menu_position;
+			$_post_type['menu_icon'] = $post_type->menu_icon;
+			$_post_type['show_in_menu'] = (bool) $post_type->show_in_menu;
 		}
 
-		if ( in_array( 'taxonomies', $fields ) ) {
-			$_post_type['taxonomies'] = get_object_taxonomies( $_post_type['name'] );
-		}
+		if ( in_array( 'taxonomies', $fields ) )
+			$_post_type['taxonomies'] = get_object_taxonomies( $_post_type->name, 'names' );
 
 		return apply_filters( 'xmlrpc_prepare_post_type', $_post_type, $post_type );
 	}
@@ -736,6 +735,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	/**
 	 * Create a new post for any registered post type.
+	 *
+	 * @since 3.4.0
 	 *
 	 * @uses wp_insert_post()
 	 * @param array $args Method parameters. Contains:
@@ -784,31 +785,35 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	/*
 	 * Helper method for filtering out elements from an array.
+	 *
+	 * @since 3.4.0
 	 */
-	function _is_greater_than_one( $count ){
+	function _is_greater_than_one( $count ) {
 		return $count > 1;
 	}
 
 	/*
 	 * Helper method for wp_newPost and wp_editPost, containing shared logic.
+	 *
+	 * @since 3.4.0
 	 */
-	function _insert_post( $user, $content_struct ) {
+	protected function _insert_post( $user, $content_struct ) {
 		$defaults = array( 'post_status' => 'draft', 'post_type' => 'post', 'post_author' => 0,
-			'post_password' => '', 'post_excerpt' => '', 'post_content' => '', 'post_title' => '', 'sticky' => 0 );
+			'post_password' => '', 'post_excerpt' => '', 'post_content' => '', 'post_title' => '' );
 
 		$post_data = wp_parse_args( $content_struct, $defaults );
 
 		$post_type = get_post_type_object( $post_data['post_type'] );
-		if ( ! ( (bool) $post_type ) )
+		if ( ! $post_type )
 			return new IXR_Error( 403, __( 'Invalid post type' ) );
 
-		$update = false;
-		if ( ! empty( $post_data[ 'ID' ] ) )
-			$update = true;
+		$update = ! empty( $post_data['ID'] );
 
 		if ( $update ) {
-			if ( ! current_user_can( $post_type->cap->edit_post, $post_data[ 'ID' ] ) )
+			if ( ! current_user_can( $post_type->cap->edit_post, $post_data['ID'] ) )
 				return new IXR_Error( 401, __( 'Sorry, you are not allowed to edit this post.' ) );
+			if ( $post_data['post_type'] != get_post_type( $post_data['ID'] ) )
+				return new IXR_Error( 401, __( 'The post type may not be changed.' ) );
 		} else {
 			if ( ! current_user_can( $post_type->cap->edit_posts ) )
 				return new IXR_Error( 401, __( 'Sorry, you are not allowed to post on this site.' ) );
@@ -820,12 +825,12 @@ class wp_xmlrpc_server extends IXR_Server {
 				break;
 			case 'private':
 				if ( ! current_user_can( $post_type->cap->publish_posts ) )
-					return new IXR_Error( 401, __( 'Sorry, you are not allowed to create private posts in this post type' ));
+					return new IXR_Error( 401, __( 'Sorry, you are not allowed to create private posts in this post type' ) );
 				break;
 			case 'publish':
 			case 'future':
 				if ( ! current_user_can( $post_type->cap->publish_posts ) )
-					return new IXR_Error( 401, __( 'Sorry, you are not allowed to publish posts in this post type' ));
+					return new IXR_Error( 401, __( 'Sorry, you are not allowed to publish posts in this post type' ) );
 				break;
 			default:
 				$post_data['post_status'] = 'draft';
@@ -848,22 +853,16 @@ class wp_xmlrpc_server extends IXR_Server {
 			$post_data['post_author'] = $user->ID;
 		}
 
-		if ( isset( $post_data['comment_status'] ) ) {
-			if ( ! post_type_supports( $post_data['post_type'], 'comments' ) || ( $post_data['comment_status'] != 'open' && $post_data['comment_status'] != 'closed' ) ) {
-				unset( $post_data['comment_status'] );
-			}
-		}
+		if ( isset( $post_data['comment_status'] ) && $post_data['comment_status'] != 'open' && $post_data['comment_status'] != 'closed' )
+			unset( $post_data['comment_status'] );
 
-		if ( isset( $post_data['ping_status'] ) ) {
-			if ( ! post_type_supports( $post_data['post_type'], 'trackbacks' ) || ( $post_data['ping_status'] != 'open' && $post_data['ping_status'] != 'closed' ) ) {
-				unset( $post_data['ping_status'] );
-			}
-		}
+		if ( isset( $post_data['ping_status'] ) && $post_data['ping_status'] != 'open' && $post_data['ping_status'] != 'closed' )
+			unset( $post_data['ping_status'] );
 
 		// Do some timestamp voodoo
 		if ( ! empty( $post_data['post_date_gmt'] ) ) {
 			// We know this is supposed to be GMT, so we're going to slap that Z on there by force
-			$dateCreated = str_replace( 'Z', '', $post_data['post_date_gmt']->getIso() ) . 'Z';
+			$dateCreated = rtrim( $post_data['post_date_gmt']->getIso(), 'Z' ) . 'Z';
 		} elseif ( ! empty( $post_data['post_date'] ) ) {
 			$dateCreated = $post_data['post_date']->getIso();
 		}
@@ -873,38 +872,39 @@ class wp_xmlrpc_server extends IXR_Server {
 			$post_data['post_date_gmt'] = iso8601_to_datetime( $dateCreated, 'GMT' );
 		}
 
-		if ( ! isset( $post_data['ID'] ) ) {
+		if ( ! isset( $post_data['ID'] ) )
 			$post_data['ID'] = get_default_post_to_edit( $post_data['post_type'], true )->ID;
-		}
 		$post_ID = $post_data['ID'];
 
-		$sticky = $post_data['sticky'] ? true : false;
-
-		if ( $post_data['post_type'] == 'post' && $sticky == true ) {
-			if ( ! current_user_can( $post_type->cap->edit_others_posts ) )
-				return new IXR_Error( 401, __( 'Sorry, you are not allowed to stick this post.' ) );
-
-			if ( $post_data['post_status'] != 'publish' )
-				return new IXR_Error( 401, __( 'Only published posts can be made sticky.' ) );
-
-			stick_post( $post_ID );
+		if ( $post_data['post_type'] == 'post' ) {
+			// Private and password-protected posts cannot be stickied.
+			if ( $post_data['status'] == 'private' || ! empty( $post_data['post_password'] ) ) {
+				// Error if the client tried to stick the post, otherwise, silently unstick.
+				if ( ! empty( $post_data['sticky'] ) )
+					return new IXR_Error( 401, __( 'Sorry, you cannot stick a private post.' ) );
+				if ( $update )
+					unstick_post( $post_ID );
+			} elseif ( isset( $post_data['sticky'] ) )  {
+				if ( ! current_user_can( $post_type->cap->edit_others_posts ) )
+					return new IXR_Error( 401, __( 'Sorry, you are not allowed to stick this post.' ) );
+				if ( $post_data['sticky'] )
+					stick_post( $post_ID );
+				else
+					unstick_post( $post_ID );
+			}
 		}
 
-		if ( isset ( $post_data['post_thumbnail'] ) ) {
+		if ( isset( $post_data['post_thumbnail'] ) ) {
 			// empty value deletes, non-empty value adds/updates
-			if ( empty( $post_data['post_thumbnail'] ) ) {
+			if ( ! $post_data['post_thumbnail'] )
 				delete_post_thumbnail( $post_ID );
-			}
-			else {
-				if ( set_post_thumbnail( $post_ID, $post_data['post_thumbnail'] ) === false )
+			elseif ( ! set_post_thumbnail( $post_ID, $post_data['post_thumbnail'] ) )
 					return new IXR_Error( 404, __( 'Invalid attachment ID.' ) );
-			}
 			unset( $content_struct['post_thumbnail'] );
 		}
 
-		if ( isset ( $post_data['custom_fields'] ) && post_type_supports( $post_data['post_type'], 'custom-fields' ) ) {
+		if ( isset( $post_data['custom_fields'] ) )
 			$this->set_custom_fields( $post_ID, $post_data['custom_fields'] );
-		}
 
 		if ( isset( $post_data['terms'] ) || isset( $post_data['terms_names'] ) ) {
 			$post_type_taxonomies = get_object_taxonomies( $post_data['post_type'], 'objects' );
@@ -987,11 +987,10 @@ class wp_xmlrpc_server extends IXR_Server {
 			}
 
 			$post_data['tax_input'] = $terms;
-			unset( $post_data['terms'] );
-			unset( $post_data['terms_names'] );
+			unset( $post_data['terms'], $post_data['terms_names'] );
 		} else {
 			// do not allow direct submission of 'tax_input', clients must use 'terms' and/or 'terms_names'
-			unset( $post_data['tax_input'] );
+			unset( $post_data['tax_input'], $post_data['post_category'], $post_data['tags_input'] );
 		}
 
 		if ( isset( $post_data['post_format'] ) ) {
@@ -1024,6 +1023,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	/**
 	 * Edit a post for any registered post type.
 	 *
+	 * @since 3.4.0
+	 *
 	 * The $content_struct parameter only needs to contain fields that
 	 * should be changed. All other fields will retain their existing values.
 	 *
@@ -1039,7 +1040,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	function wp_editPost( $args ) {
 		$this->escape( $args );
 
-		$blog_id        = (int) $args[0]; // we will support this in the near future
+		$blog_id        = (int) $args[0];
 		$username       = $args[1];
 		$password       = $args[2];
 		$post_id        = (int) $args[3];
@@ -1050,11 +1051,9 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		do_action( 'xmlrpc_call', 'wp.editPost' );
 
-		// User Capabilities are checked in _insert_post.
-
 		$post = get_post( $post_id, ARRAY_A );
 
-		if ( empty( $post["ID"] ) )
+		if ( empty( $post['ID'] ) )
 			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
 
 		// convert the date field back to IXR form
@@ -1079,6 +1078,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	/**
 	 * Delete a post for any registered post type.
+	 *
+	 * @since 3.4.0
 	 *
 	 * @uses wp_delete_post()
 	 * @param array $args Method parameters. Contains:
@@ -1119,6 +1120,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	/**
 	 * Retrieve a post.
+	 *
+	 * @since 3.4.0
 	 *
 	 * The optional $fields parameter specifies what fields will be included
 	 * in the response array. This should be a list of field names. 'post_id' will
@@ -1179,7 +1182,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$post = wp_get_single_post( $post_id, ARRAY_A );
 
-		if ( empty( $post["ID"] ) )
+		if ( empty( $post['ID'] ) )
 			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
 
 		$post_type = get_post_type_object( $post['post_type'] );
@@ -1191,6 +1194,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	/**
 	 * Retrieve posts.
+	 *
+	 * @since 3.4.0
 	 *
 	 * The optional $filter parameter modifies the query used to retrieve posts.
 	 * Accepted keys are 'post_type', 'post_status', 'number', 'offset',
@@ -1209,7 +1214,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *  - string  $password
 	 *  - array   $filter optional
 	 *  - array   $fields optional
-	 * @return array cntains a collection of posts.
+	 * @return array contains a collection of posts.
 	 */
 	function wp_getPosts( $args ) {
 		$this->escape( $args );
@@ -1279,6 +1284,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	/**
 	 * Create a new term.
+	 *
+	 * @since 3.4.0
 	 *
 	 * @uses wp_insert_term()
 	 * @param array $args Method parameters. Contains:
@@ -1360,6 +1367,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	/**
 	 * Edit a term.
+	 *
+	 * @since 3.4.0
 	 *
 	 * @uses wp_update_term()
 	 * @param array $args Method parameters. Contains:
@@ -1455,6 +1464,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	/**
 	 * Delete a term.
 	 *
+	 * @since 3.4.0
+	 *
 	 * @uses wp_delete_term()
 	 * @param array $args Method parameters. Contains:
 	 *  - int     $blog_id
@@ -1507,6 +1518,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	/**
 	 * Retrieve a term.
+	 *
+	 * @since 3.4.0
 	 *
 	 * @uses get_term()
 	 * @param array $args Method parameters. Contains:
@@ -1561,6 +1574,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	/**
 	 * Retrieve all terms for a taxonomy.
+	 *
+	 * @since 3.4.0
 	 *
 	 * The optional $filter parameter modifies the query used to retrieve terms.
 	 * Accepted keys are 'number', 'offset', 'orderby', 'order', 'hide_empty', and 'search'.
@@ -1636,6 +1651,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	/**
 	 * Retrieve a taxonomy.
 	 *
+	 * @since 3.4.0
+	 *
 	 * @uses get_taxonomy()
 	 * @param array $args Method parameters. Contains:
 	 *  - int     $blog_id
@@ -1652,6 +1669,11 @@ class wp_xmlrpc_server extends IXR_Server {
 		$password       = $args[2];
 		$taxonomy       = $args[3];
 
+		if ( isset( $args[4] ) )
+			$fields = $args[4];
+		else
+			$fields = apply_filters( 'xmlrpc_default_taxonomy_fields', array( 'labels', 'capabilities', 'object_types' ), 'wp.getTaxonomy' );
+
 		if ( ! $user = $this->login( $username, $password ) )
 			return $this->error;
 
@@ -1665,11 +1687,13 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( ! current_user_can( $taxonomy->cap->assign_terms ) )
 			return new IXR_Error( 401, __( 'You are not allowed to assign terms in this taxonomy.' ) );
 
-		return $this->_prepare_taxonomy( $taxonomy );
+		return $this->_prepare_taxonomy( $taxonomy, $fields );
 	}
 
 	/**
 	 * Retrieve all taxonomies.
+	 *
+	 * @since 3.4.0
 	 *
 	 * @uses get_taxonomies()
 	 * @param array $args Method parameters. Contains:
@@ -1684,13 +1708,19 @@ class wp_xmlrpc_server extends IXR_Server {
 		$blog_id            = (int) $args[0];
 		$username           = $args[1];
 		$password           = $args[2];
+		$filter             = isset( $args[3] ) ? $args[3] : array( 'public' => true );
+
+		if ( isset( $args[4] ) )
+			$fields = $args[4];
+		else
+			$fields = apply_filters( 'xmlrpc_default_taxonomy_fields', array( 'labels', 'capabilities', 'object_types' ), 'wp.getTaxonomies' );
 
 		if ( ! $user = $this->login( $username, $password ) )
 			return $this->error;
 
 		do_action( 'xmlrpc_call', 'wp.getTaxonomies' );
 
-		$taxonomies = get_taxonomies( array(), 'objects' );
+		$taxonomies = get_taxonomies( $filter, 'objects' );
 
 		// holds all the taxonomy data
 		$struct = array();
@@ -1700,7 +1730,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			if ( ! current_user_can( $taxonomy->cap->assign_terms ) )
 				continue;
 
-			$struct[] = $this->_prepare_taxonomy( $taxonomy );
+			$struct[] = $this->_prepare_taxonomy( $taxonomy, $fields );
 		}
 
 		return $struct;
@@ -2063,7 +2093,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	/**
 	 * Get list of all tags
 	 *
-	 * @since 2.7
+	 * @since 2.7.0
 	 *
 	 * @param array $args Method parameters.
 	 * @return array
@@ -2469,7 +2499,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		// Do some timestamp voodoo
 		if ( !empty( $content_struct['date_created_gmt'] ) ) {
-			$dateCreated = str_replace( 'Z', '', $content_struct['date_created_gmt']->getIso() ) . 'Z'; // We know this is supposed to be GMT, so we're going to slap that Z on there by force
+			// We know this is supposed to be GMT, so we're going to slap that Z on there by force
+			$dateCreated = rtrim( $post_data['post_date_gmt']->getIso(), 'Z' ) . 'Z';
 			$comment_date = get_date_from_gmt(iso8601_to_datetime($dateCreated));
 			$comment_date_gmt = iso8601_to_datetime($dateCreated, 'GMT');
 		}
@@ -2957,6 +2988,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	/**
 	 * Retrieves a post type
 	 *
+	 * @since 3.4.0
+	 *
 	 * @uses get_post_type_object()
 	 * @param array $args Method parameters. Contains:
 	 *  - int     $blog_id
@@ -2983,10 +3016,10 @@ class wp_xmlrpc_server extends IXR_Server {
 		$password       = $args[2];
 		$post_type_name = $args[3];
 
-		if ( isset( $args[4] ) ) 
-			$fields = $args[4]; 
-		else 
-			$fields = apply_filters( 'xmlrpc_default_posttype_fields', array( 'labels', 'capabilities', 'taxonomies' ), 'wp.getPostType' ); 
+		if ( isset( $args[4] ) )
+			$fields = $args[4];
+		else
+			$fields = apply_filters( 'xmlrpc_default_posttype_fields', array( 'labels', 'capabilities', 'taxonomies' ), 'wp.getPostType' );
 
 		if ( !$user = $this->login( $username, $password ) )
 			return $this->error;
@@ -3007,7 +3040,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	/**
 	 * Retrieves a post types
 	 *
-	 * @access private
+	 * @since 3.4.0
 	 *
 	 * @uses get_post_types()
 	 * @param array $args Method parameters. Contains:
@@ -3024,12 +3057,12 @@ class wp_xmlrpc_server extends IXR_Server {
 		$blog_id            = (int) $args[0];
 		$username           = $args[1];
 		$password           = $args[2];
-		$filter             = isset( $args[3] ) ? $args[3] : array( 'public' => true ); 
+		$filter             = isset( $args[3] ) ? $args[3] : array( 'public' => true );
 
-		if ( isset( $args[4] ) ) 
-			$fields = $args[4]; 
-		else 
-			$fields = apply_filters( 'xmlrpc_default_posttype_fields', array( 'labels', 'capabilities', 'taxonomies' ), 'wp.getPostTypes' ); 
+		if ( isset( $args[4] ) )
+			$fields = $args[4];
+		else
+			$fields = apply_filters( 'xmlrpc_default_posttype_fields', array( 'labels', 'capabilities', 'taxonomies' ), 'wp.getPostTypes' );
 
 		if ( ! $user = $this->login( $username, $password ) )
 			return $this->error;
@@ -3529,7 +3562,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	function mw_newPost($args) {
 		$this->escape($args);
 
-		$blog_ID     = (int) $args[0]; // we will support this in the near future
+		$blog_ID     = (int) $args[0];
 		$username  = $args[1];
 		$password   = $args[2];
 		$content_struct = $args[3];
@@ -3726,7 +3759,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		// Do some timestamp voodoo
 		if ( !empty( $content_struct['date_created_gmt'] ) )
-			$dateCreated = str_replace( 'Z', '', $content_struct['date_created_gmt']->getIso() ) . 'Z'; // We know this is supposed to be GMT, so we're going to slap that Z on there by force
+			// We know this is supposed to be GMT, so we're going to slap that Z on there by force
+			$dateCreated = rtrim( $post_data['post_date_gmt']->getIso(), 'Z' ) . 'Z';
 		elseif ( !empty( $content_struct['dateCreated']) )
 			$dateCreated = $content_struct['dateCreated']->getIso();
 
@@ -4044,7 +4078,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		// Do some timestamp voodoo
 		if ( !empty( $content_struct['date_created_gmt'] ) )
-			$dateCreated = str_replace( 'Z', '', $content_struct['date_created_gmt']->getIso() ) . 'Z'; // We know this is supposed to be GMT, so we're going to slap that Z on there by force
+			// We know this is supposed to be GMT, so we're going to slap that Z on there by force
+			$dateCreated = rtrim( $post_data['post_date_gmt']->getIso(), 'Z' ) . 'Z';
 		elseif ( !empty( $content_struct['dateCreated']) )
 			$dateCreated = $content_struct['dateCreated']->getIso();
 
