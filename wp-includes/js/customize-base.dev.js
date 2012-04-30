@@ -265,6 +265,18 @@ if ( typeof wp === 'undefined' )
 			return this._value[ id ];
 		},
 
+		get: function() {
+			var result = {};
+
+			if ( arguments.length )
+				return this.pass( 'get', arguments );
+
+			$.each( this._value, function( key, obj ) {
+				result[ key ] = obj.get();
+			} );
+			return result;
+		},
+
 		set: function( id ) {
 			if ( this.has( id ) )
 				return this.pass( 'set', arguments );
@@ -326,7 +338,7 @@ if ( typeof wp === 'undefined' )
 		}
 	});
 
-	$.each( [ 'get', 'bind', 'unbind', 'link', 'unlink', 'sync', 'unsync', 'setter', 'resetSetter' ], function( i, method ) {
+	$.each( [ 'bind', 'unbind', 'link', 'unlink', 'sync', 'unsync', 'setter', 'resetSetter' ], function( i, method ) {
 		api.Values.prototype[ method ] = function() {
 			return this.pass( method, arguments );
 		};

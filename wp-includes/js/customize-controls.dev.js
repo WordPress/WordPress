@@ -15,16 +15,6 @@
 			this.id = id;
 			this.transport = this.transport || 'refresh';
 
-			element = $( '<input />', {
-				type:  'hidden',
-				value: this.get(),
-				name:  api.settings.prefix + id
-			});
-
-			element.appendTo( this.previewer.form );
-			this.element = new api.Element( element );
-
-			this.sync( this.element );
 			this.bind( this.preview );
 		},
 		preview: function() {
@@ -271,9 +261,8 @@
 
 		/**
 		 * Requires params:
-		 *  - iframe - a selector or jQuery element
-		 *  - form   - a selector or jQuery element
-		 *  - url    - the URL of preview frame
+		 *  - container - a selector or jQuery element
+		 *  - url       - the URL of preview frame
 		 */
 		initialize: function( params, options ) {
 			var self = this;
@@ -281,8 +270,6 @@
 			$.extend( this, options || {} );
 
 			this.loaded = $.proxy( this.loaded, this );
-
-			this.loaderUuid = 0;
 
 			/*
 			 * Wrap this.refresh to prevent it from hammering the servers:
@@ -320,82 +307,51 @@
 				};
 			})( this );
 
-			this.iframe = api.ensure( params.iframe );
-			this.form   = api.ensure( params.form );
-			this.name   = this.iframe.prop('name');
+			this.container = api.ensure( params.container );
 
-			this.container = this.iframe.parent();
-
-			api.Messenger.prototype.initialize.call( this, params.url, this.iframe[0].contentWindow );
-
-			this._formOriginalProps = {
-				target: this.form.prop('target'),
-				action: this.form.prop('action')
-			};
+			api.Messenger.prototype.initialize.call( this, params.url );
 
 			this.bind( 'url', function( url ) {
 				// Bail if we're navigating to the current url, to a different origin, or wp-admin.
-				if ( this.url() == url || 0 !== url.indexOf( this.origin() + '/' ) || -1 !== url.indexOf( 'wp-admin' )  )
+				if ( this.url() == url || 0 !== url.indexOf( this.origin() + '/' ) || -1 !== url.indexOf( 'wp-admin' ) )
 					return;
 
 				this.url( url );
 				this.refresh();
 			});
-
-			this.refresh();
-
-			// Prevent the form from saving when enter is pressed.
-			this.form.on( 'keydown', function( e ) {
-				if ( 13 === e.which ) // Enter
-					e.preventDefault();
-			});
-
-			// Create a potential postMessage connection with the parent frame.
-			this.parent = new api.Messenger( api.settings.parent );
-
-			// If we receive a 'back' event, we're inside an iframe.
-			// Send any clicks to the 'Return' link to the parent page.
-			this.parent.bind( 'back', function( text ) {
-				self.form.find('.back').text( text ).click( function( event ) {
-					event.preventDefault();
-					self.parent.send( 'close' );
-				});
-			});
-
-			// Initialize the connection with the parent frame.
-			this.parent.send( 'ready' );
 		},
 		loader: function() {
 			if ( this.loading )
 				return this.loading;
 
-			this.loading = $('<iframe />', {
-				name: this.name + '-loading-' + this.loaderUuid++
-			}).appendTo( this.container );
+			this.loading = $('<iframe />').appendTo( this.container );
 
 			return this.loading;
 		},
 		loaded: function() {
-			this.iframe.remove();
+			if ( this.iframe )
+				this.iframe.remove();
 			this.iframe = this.loading;
 			delete this.loading;
-			this.iframe.prop( 'name', this.name );
+
 			this.targetWindow( this.iframe[0].contentWindow );
 		},
+		query: function() {},
 		refresh: function() {
-			this.loader().one( 'load', this.loaded );
+			var self = this;
 
-			this.submit({
-				target: this.loader().prop('name'),
-				action: this.url()
+			if ( this.request )
+				this.request.abort();
+
+			this.request = $.post( this.url(), this.query() || {}, function( response ) {
+				var iframe = self.loader()[0].contentWindow;
+
+				self.loader().one( 'load', self.loaded );
+
+				iframe.document.open();
+				iframe.document.write( response );
+				iframe.document.close();
 			});
-		},
-		submit: function( props ) {
-			if ( props )
-				this.form.prop( props );
-			this.form.submit();
-			if ( props )
-				this.form.prop( this._formOriginalProps );
 		}
 	});
 
@@ -415,11 +371,42 @@
 
 		// Initialize Previewer
 		var body = $( document.body ),
-			previewer = new api.Previewer({
-				iframe: '#customize-preview iframe',
-				form:   '#customize-controls',
-				url:    api.settings.preview
-			});
+			query, previewer, parent;
+
+		// Prevent the form from saving when enter is pressed.
+		$('#customize-controls').on( 'keydown', function( e ) {
+			if ( 13 === e.which ) // Enter
+				e.preventDefault();
+		});
+
+		previewer = new api.Previewer({
+			container: '#customize-preview',
+			form:      '#customize-controls',
+			url:       api.settings.preview
+		}, {
+			query: function() {
+				return {
+					customize:  'on',
+					theme:      api.settings.theme,
+					customized: JSON.stringify( api.get() )
+				};
+			},
+
+			nonce: $('#_wpnonce').val(),
+
+			save: function() {
+				var query = $.extend( this.query(), {
+						action: 'customize_save',
+						nonce:  this.nonce
+					}),
+					request = $.post( api.settings.ajax, query );
+
+				body.addClass('saving');
+				request.always( function() {
+					body.removeClass('saving');
+				});
+			}
+		});
 
 		$.each( api.settings.settings, function( id, data ) {
 			api.set( id, id, data.value, {
@@ -438,6 +425,9 @@
 			} ) );
 		});
 
+		// Load the preview frame.
+		previewer.refresh();
+
 		// Temporary accordion code.
 		$('.customize-section-title').click( function() {
 			$( this ).parents('.customize-section').toggleClass( 'open' );
@@ -446,7 +436,7 @@
 
 		// Button bindings.
 		$('#save').click( function( event ) {
-			previewer.submit();
+			previewer.save();
 			event.preventDefault();
 		});
 
@@ -454,6 +444,21 @@
 			body.toggleClass( 'collapsed' );
 			event.preventDefault();
 		});
+
+		// Create a potential postMessage connection with the parent frame.
+		parent = new api.Messenger( api.settings.parent );
+
+		// If we receive a 'back' event, we're inside an iframe.
+		// Send any clicks to the 'Return' link to the parent page.
+		parent.bind( 'back', function( text ) {
+			$('.back').text( text ).click( function( event ) {
+				event.preventDefault();
+				parent.send( 'close' );
+			});
+		});
+
+		// Initialize the connection with the parent frame.
+		parent.send( 'ready' );
 
 		// Control visibility for default controls
 		$.each({

@@ -41,10 +41,8 @@ do_action( 'customize_controls_print_scripts' );
 ?>
 </head>
 <body class="wp-full-overlay">
-	<form id="customize-controls" method="post" class="wrap wp-full-overlay-sidebar" target="_parent" action="<?php echo esc_url( add_query_arg( 'save_customize_controls', '1', admin_url( 'themes.php' ) ) ); ?>">
+	<form id="customize-controls" class="wrap wp-full-overlay-sidebar">
 		<?php wp_nonce_field( 'customize_controls' ); ?>
-		<input type="hidden" name="customize" value="on" />
-		<input type="hidden" name="theme" value="<?php echo esc_attr( $this->get_stylesheet() ); ?>" />
 		<div id="customize-header-actions" class="customize-section wp-full-overlay-header">
 			<a class="back" href="<?php echo esc_url( admin_url( 'themes.php' ) ); ?>">
 				<?php printf( __( '&larr; Return to %s' ), __('Manage Themes') ); ?>
@@ -79,15 +77,15 @@ do_action( 'customize_controls_print_scripts' );
 			$save_text = $this->get_stylesheet() == $this->original_stylesheet ? __('Save') : __('Save and Activate');
 			submit_button( $save_text, 'primary', 'save', false );
 			?>
+			<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" />
+
 			<a href="#" class="collapse-sidebar button-secondary" title="<?php esc_attr_e('Collapse Sidebar'); ?>">
 				<span class="collapse-sidebar-label"><?php _e('Collapse'); ?></span>
 				<span class="collapse-sidebar-arrow"></span>
 			</a>
 		</div>
 	</form>
-	<div id="customize-preview" class="wp-full-overlay-main">
-		<iframe name="customize-target"></iframe>
-	</div>
+	<div id="customize-preview" class="wp-full-overlay-main"></div>
 	<?php
 
 	do_action( 'customize_controls_print_footer_scripts' );
@@ -95,11 +93,12 @@ do_action( 'customize_controls_print_scripts' );
 	// Check current scheme and load the preview with the same scheme
 	$scheme = is_ssl() ? 'https' : 'http';
 	$settings = array(
+		'theme'    => $this->get_stylesheet(),
 		'preview'  => esc_url( home_url( '/', $scheme ) ),
 		'settings' => array(),
 		'controls' => array(),
-		'prefix'   => WP_Customize_Setting::name_prefix,
 		'parent'   => esc_url( admin_url() ),
+		'ajax'     => esc_url( admin_url( 'admin-ajax.php', 'relative' ) ),
 	);
 
 	foreach ( $this->settings as $id => $setting ) {

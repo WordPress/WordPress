@@ -21,9 +21,6 @@ class WP_Customize_Setting {
 	protected $id_data = array();
 	private $_post_value; // Cached, sanitized $_POST value.
 
-	// Prefix for $_POST values to prevent naming conflicts.
-	const name_prefix = 'customize_';
-
 	/**
 	 * Constructor.
 	 *
@@ -121,16 +118,8 @@ class WP_Customize_Setting {
 		if ( isset( $this->_post_value ) )
 			return $this->_post_value;
 
-		$base = self::name_prefix . $this->id_data[ 'base' ];
+		$result = $this->manager->post_value( $this );
 
-		if ( ! isset( $_POST[ $base ] ) )
-			return $default;
-
-		$result = $this->multidimensional_get( $_POST[ $base ], $this->id_data[ 'keys' ] );
-		if ( ! isset( $result ) )
-			return $default;
-
-		$result = $this->sanitize( $result );
 		if ( isset( $result ) )
 			return $this->_post_value = $result;
 		else

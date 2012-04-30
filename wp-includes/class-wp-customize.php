@@ -17,6 +17,10 @@ final class WP_Customize {
 	protected $sections = array();
 	protected $controls = array();
 
+	protected $customized;
+
+	private $_post_values;
+
 	/**
 	 * Constructor.
 	 *
@@ -30,6 +34,8 @@ final class WP_Customize {
 		add_action( 'setup_theme',  array( $this, 'setup_theme' ) );
 		add_action( 'admin_init',   array( $this, 'admin_init' ) );
 		add_action( 'wp_loaded',    array( $this, 'wp_loaded' ) );
+
+		add_action( 'wp_ajax_customize_save', array( $this, 'save' ) );
 
 		add_action( 'customize_register',                 array( $this, 'register_controls' ) );
 		add_action( 'customize_controls_init',            array( $this, 'prepare_controls' ) );
@@ -147,6 +153,24 @@ final class WP_Customize {
 		if ( $this->is_preview() && ! is_admin() )
 			$this->customize_preview_init();
 	}
+
+	/**
+	 * Decode the $_POST attribute used to override the WP_Customize_Setting values.
+	 *
+	 * @since 3.4.0
+	 */
+	public function post_value( $setting ) {
+		if ( ! isset( $this->_post_values ) ) {
+			if ( isset( $_POST['customized'] ) )
+				$this->_post_values = json_decode( stripslashes( $_POST['customized'] ), true );
+			else
+				$this->_post_values = false;
+		}
+
+		if ( isset( $this->_post_values[ $setting->id ] ) )
+			return $setting->sanitize( $this->_post_values[ $setting->id ] );
+	}
+
 
 	/**
 	 * Print javascript settings.
@@ -267,9 +291,6 @@ final class WP_Customize {
 	 * @since 3.4.0
 	 */
 	public function admin_init() {
-		if ( isset( $_REQUEST['save_customize_controls'] ) )
-			$this->save();
-
 		if ( ( defined( 'DOING_AJAX' ) && DOING_AJAX ) )
 			return;
 
@@ -297,14 +318,14 @@ final class WP_Customize {
 	 */
 	public function save() {
 		if ( ! $this->is_preview() )
-			return;
+			die;
 
-		check_admin_referer( 'customize_controls' );
+		check_ajax_referer( 'customize_controls', 'nonce' );
 
 		// Do we have to switch themes?
 		if ( $this->get_stylesheet() != $this->original_stylesheet ) {
 			if ( ! current_user_can( 'switch_themes' ) )
-				return;
+				die;
 
 			// Temporarily stop previewing the theme to allow switch_themes()
 			// to operate properly.
@@ -320,6 +341,8 @@ final class WP_Customize {
 		}
 
 		add_action( 'admin_notices', array( $this, '_save_feedback' ) );
+
+		die;
 	}
 
 	/**
