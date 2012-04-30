@@ -1549,7 +1549,7 @@ function comment_form( $args = array(), $post_id = null ) {
 	$args = wp_parse_args( $args, apply_filters( 'comment_form_defaults', $defaults ) );
 
 	?>
-		<?php if ( comments_open() ) : ?>
+		<?php if ( comments_open( $post_id ) ) : ?>
 			<?php do_action( 'comment_form_before' ); ?>
 			<div id="respond">
 				<h3 id="reply-title"><?php comment_form_title( $args['title_reply'], $args['title_reply_to'] ); ?> <small><?php cancel_comment_reply_link( $args['cancel_reply_link'] ); ?></small></h3>
