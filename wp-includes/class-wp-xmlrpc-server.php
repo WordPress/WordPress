@@ -831,6 +831,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$update = ! empty( $post_data['ID'] );
 
 		if ( $update ) {
+			if ( ! get_post( $post_data['ID'] ) )
+				return new IXR_Error( 401, __( 'Invalid post ID.' ) );
 			if ( ! current_user_can( $post_type->cap->edit_post, $post_data['ID'] ) )
 				return new IXR_Error( 401, __( 'Sorry, you are not allowed to edit this post.' ) );
 			if ( $post_data['post_type'] != get_post_type( $post_data['ID'] ) )
@@ -1814,13 +1816,14 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 		}
 
+		$page = get_page($page_id);
+		if ( ! $page )
+			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
+
 		if ( !current_user_can( 'edit_page', $page_id ) )
 			return new IXR_Error( 401, __( 'Sorry, you cannot edit this page.' ) );
 
 		do_action('xmlrpc_call', 'wp.getPage');
-
-		// Lookup page info.
-		$page = get_page($page_id);
 
 		// If we found the page then format the data.
 		if ( $page->ID && ($page->post_type == 'page') ) {
@@ -3268,12 +3271,14 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( !$user = $this->login($username, $password) )
 			return $this->error;
 
+		$post_data = wp_get_single_post($post_ID, ARRAY_A);
+		if ( ! $post_data )
+			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
+			
 		if ( !current_user_can( 'edit_post', $post_ID ) )
 			return new IXR_Error( 401, __( 'Sorry, you cannot edit this post.' ) );
 
 		do_action('xmlrpc_call', 'blogger.getPost');
-
-		$post_data = wp_get_single_post($post_ID, ARRAY_A);
 
 		$categories = implode(',', wp_get_post_categories($post_ID));
 
@@ -4218,12 +4223,14 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( !$user = $this->login($username, $password) )
 			return $this->error;
 
+		$postdata = wp_get_single_post($post_ID, ARRAY_A);
+		if ( ! $postdata )
+			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
+
 		if ( !current_user_can( 'edit_post', $post_ID ) )
 			return new IXR_Error( 401, __( 'Sorry, you cannot edit this post.' ) );
 
 		do_action('xmlrpc_call', 'metaWeblog.getPost');
-
-		$postdata = wp_get_single_post($post_ID, ARRAY_A);
 
 		if ($postdata['post_date'] != '') {
 			$post_date = $this->_convert_date( $postdata['post_date'] );
@@ -4686,6 +4693,9 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( !$user = $this->login($username, $password) )
 			return $this->error;
 
+		if ( ! get_post( $post_ID ) )
+			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
+
 		if ( !current_user_can( 'edit_post', $post_ID ) )
 			return new IXR_Error( 401, __( 'Sorry, you can not edit this post.' ) );
 
@@ -4728,6 +4738,9 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 
 		do_action('xmlrpc_call', 'mt.setPostCategories');
+
+		if ( ! get_post( $post_ID ) )
+			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
 
 		if ( !current_user_can('edit_post', $post_ID) )
 			return new IXR_Error(401, __('Sorry, you cannot edit this post.'));
@@ -4836,10 +4849,12 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		do_action('xmlrpc_call', 'mt.publishPost');
 
+		$postdata = wp_get_single_post($post_ID, ARRAY_A);
+		if ( ! $postdata )
+			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
+
 		if ( !current_user_can('publish_posts') || !current_user_can('edit_post', $post_ID) )
 			return new IXR_Error(401, __('Sorry, you cannot publish this post.'));
-
-		$postdata = wp_get_single_post($post_ID,ARRAY_A);
 
 		$postdata['post_status'] = 'publish';
 
