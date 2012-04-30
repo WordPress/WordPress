@@ -160,17 +160,17 @@ switch($step) {
 	break;
 
 	case 2:
-	$dbname  = trim($_POST['dbname']);
-	$uname   = trim($_POST['uname']);
-	$passwrd = trim($_POST['pwd']);
-	$dbhost  = trim($_POST['dbhost']);
-	$prefix  = trim($_POST['prefix']);
-	if ( empty($prefix) )
-		$prefix = 'wp_';
+	foreach ( array( 'dbname', 'uname', 'pwd', 'dbhost', 'prefix' ) as $key )
+		$$key = trim( stripslashes( $_POST[ $key ] ) );
 
-	// Validate $prefix: it can only contain letters, numbers and underscores
+	$tryagain_link = '</p><p class="step"><a href="setup-config.php?step=1" onclick="javascript:history.go(-1);return false;" class="button">' . __( 'Try Again' ) . '</a>';
+
+	if ( empty( $prefix ) )
+		wp_die( __( '<strong>ERROR</strong>: "Table Prefix" must not be empty.' . $tryagain_link ) );
+
+	// Validate $prefix: it can only contain letters, numbers and underscores.
 	if ( preg_match( '|[^a-z0-9_]|i', $prefix ) )
-		wp_die( __( '<strong>ERROR</strong>: "Table Prefix" can only contain numbers, letters, and underscores.' ) );
+		wp_die( __( '<strong>ERROR</strong>: "Table Prefix" can only contain numbers, letters, and underscores.' . $tryagain_link ) );
 
 	// Test the db connection.
 	/**#@+
@@ -178,16 +178,14 @@ switch($step) {
 	 */
 	define('DB_NAME', $dbname);
 	define('DB_USER', $uname);
-	define('DB_PASSWORD', $passwrd);
+	define('DB_PASSWORD', $pwd);
 	define('DB_HOST', $dbhost);
 	/**#@-*/
 
 	// We'll fail here if the values are no good.
 	require_wp_db();
-	if ( ! empty( $wpdb->error ) ) {
-		$back = '<p class="step"><a href="setup-config.php?step=1" onclick="javascript:history.go(-1);return false;" class="button">' . __( 'Try Again' ) . '</a></p>';
-		wp_die( $wpdb->error->get_error_message() . $back );
-	}
+	if ( ! empty( $wpdb->error ) )
+		wp_die( $wpdb->error->get_error_message() . $tryagain_link );
 
 	// Fetch or generate keys and salts.
 	$no_api = isset( $_POST['noapi'] );
@@ -221,7 +219,7 @@ switch($step) {
 	$key = 0;
 	foreach ( $config_file as &$line ) {
 		if ( '$table_prefix  =' == substr( $line, 0, 16 ) ) {
-			$line = '$table_prefix  = \'' . $prefix . "';\r\n";
+			$line = '$table_prefix  = \'' . addcslashes( $prefix, "\\'" ) . "';\r\n";
 			continue;
 		}
 
@@ -236,7 +234,7 @@ switch($step) {
 			case 'DB_USER'     :
 			case 'DB_PASSWORD' :
 			case 'DB_HOST'     :
-				$line = "define('" . $constant . "'," . $padding . "'" . constant( $constant ) . "');\r\n";
+				$line = "define('" . $constant . "'," . $padding . "'" . addcslashes( constant( $constant ), "\\'" ) . "');\r\n";
 				break;
 			case 'AUTH_KEY'         :
 			case 'SECURE_AUTH_KEY'  :
