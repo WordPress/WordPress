@@ -8062,9 +8062,6 @@ a.widget-control-edit {
 	width: auto; /* default 5em */
 	min-width: 5em;
 }
-.locale-ru-ru .feature-filter .feature-group li {
-	width: 145px;
-}
 .locale-ru-ru .press-this .posting {
 	margin-right: 257px; /* default 212px + 45px */
 }
