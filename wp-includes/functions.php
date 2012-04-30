@@ -3378,6 +3378,9 @@ function get_file_data( $file, $default_headers, $context = '' ) {
 	// PHP will close file handle, but we are good citizens.
 	fclose( $fp );
 
+	// Make sure we catch CR-only line endings.
+	$file_data = str_replace( "\r", "\n", $file_data );
+
 	if ( $context && $extra_headers = apply_filters( "extra_{$context}_headers", array() ) ) {
 		$extra_headers = array_combine( $extra_headers, $extra_headers ); // keys equal values
 		$all_headers = array_merge( $extra_headers, (array) $default_headers );
