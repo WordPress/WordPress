@@ -45,6 +45,7 @@ input[type="url"],
 select {
 	border-color: #dfdfdf;
 	background-color: #fff;
+	color: #000;
 }
 
 kbd,
