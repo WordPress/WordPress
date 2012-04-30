@@ -111,7 +111,7 @@ final class WP_Customize {
 		add_filter( 'pre_option_stylesheet_root', array( $this, 'get_stylesheet_root' ) );
 		add_filter( 'pre_option_template_root', array( $this, 'get_template_root' ) );
 
-		do_action( 'start_previewing_theme' );
+		do_action( 'start_previewing_theme', $this );
 	}
 
 	/**
@@ -139,7 +139,7 @@ final class WP_Customize {
 		remove_filter( 'pre_option_stylesheet_root', array( $this, 'get_stylesheet_root' ) );
 		remove_filter( 'pre_option_template_root', array( $this, 'get_template_root' ) );
 
-		do_action( 'stop_previewing_theme' );
+		do_action( 'stop_previewing_theme', $this );
 	}
 
 	/**
@@ -148,7 +148,7 @@ final class WP_Customize {
 	 * @since 3.4.0
 	 */
 	public function wp_loaded() {
-		do_action( 'customize_register' );
+		do_action( 'customize_register', $this );
 
 		if ( $this->is_preview() && ! is_admin() )
 			$this->customize_preview_init();
@@ -187,7 +187,7 @@ final class WP_Customize {
 			$setting->preview();
 		}
 
-		do_action( 'customize_preview_init' );
+		do_action( 'customize_preview_init', $this );
 	}
 
 
@@ -334,7 +334,7 @@ final class WP_Customize {
 			$this->start_previewing_theme();
 		}
 
-		do_action( 'customize_save' );
+		do_action( 'customize_save', $this );
 
 		foreach ( $this->settings as $setting ) {
 			$setting->save();
