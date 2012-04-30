@@ -352,6 +352,8 @@
 	position: absolute;
 	left: -72px;
 	top: 4px;
+	width: 64px;
+	height: 64px;
 }
 
 #wpadminbar #wp-admin-bar-user-info a {
