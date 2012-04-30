@@ -228,7 +228,7 @@ foreach ( array( 'rss2_head', 'commentsrss2_head', 'rss_head', 'rdf_header', 'at
 
 // WP Cron
 if ( !defined( 'DOING_CRON' ) )
-	add_action( 'sanitize_comment_cookies', 'wp_cron' );
+	add_action( 'init', 'wp_cron' );
 
 // 2 Actions 2 Furious
 add_action( 'do_feed_rdf',                'do_feed_rdf',                             10, 1 );
