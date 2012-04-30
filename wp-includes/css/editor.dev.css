@@ -1457,7 +1457,7 @@ html[dir="rtl"] .wp-switch-editor {
 }
 
 .wp-dialog {
-	background-color: fff;
+	background-color: #fff;
 	-webkit-border-top-left-radius: 4px;
 	-webkit-border-top-right-radius: 4px;
 	border-top-left-radius: 4px;
