@@ -514,6 +514,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @access protected
 	 *
 	 * @param object $taxonomy The unprepared taxonomy data
+	 * @param array $fields The subset of taxonomy fields to return
 	 * @return array The prepared taxonomy data
 	 */
 	protected function _prepare_taxonomy( $taxonomy, $fields ) {
@@ -599,7 +600,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @access protected
 	 *
 	 * @param array $post The unprepared post data
-	 * @param array $fields The subset of post fields to return
+	 * @param array $fields The subset of post type fields to return
 	 * @return array The prepared post data
 	 */
 	protected function _prepare_post( $post, $fields ) {
