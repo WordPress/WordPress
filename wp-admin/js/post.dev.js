@@ -314,12 +314,14 @@ jQuery(document).ready( function($) {
 			if ( !$('#new'+taxonomy).val() )
 				return false;
 			s.data += '&' + $( ':checked', '#'+taxonomy+'checklist' ).serialize();
+			$( '#' + taxonomy + '-add-submit' ).prop( 'disabled', true );
 			return s;
 		};
 
 		catAddAfter = function( r, s ) {
 			var sup, drop = $('#new'+taxonomy+'_parent');
 
+			$( '#' + taxonomy + '-add-submit' ).prop( 'disabled', false );
 			if ( 'undefined' != s.parsed.responses[0] && (sup = s.parsed.responses[0].supplemental.newcat_parent) ) {
 				drop.before(sup);
 				drop.remove();
