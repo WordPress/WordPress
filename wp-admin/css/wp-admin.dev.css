@@ -4708,7 +4708,6 @@ input.button-highlighted,
 
 .pressthis a {
 	display: inline-block;
-	width: 113px;
 	position: relative;
 	cursor: move;
 	color: #333;
@@ -4745,7 +4744,7 @@ input.button-highlighted,
 
 .pressthis a span {
 	background: url(../images/press-this.png) no-repeat -45px 5px ;
-	padding: 8px 0 8px 32px;
+	padding: 8px 16px 8px 32px;
 	display: inline-block;
 }
 
@@ -8070,7 +8069,4 @@ a.widget-control-edit {
 }
 .locale-ru-ru .press-this #side-sortables {
 	width: 245px; /* default 200px + 45px */
-}
-.locale-ru-ru .pressthis a {
-	width: 143px; /* default 113px + 30px */
 }

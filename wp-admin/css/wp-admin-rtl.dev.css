@@ -1257,7 +1257,7 @@ h2 .nav-tab {
 
 .pressthis a span {
 	background-position: -20px 5px ;
-	padding: 8px 32px 8px 0;
+	padding: 8px 32px 8px 16px;
 }
 
 .pressthis a:after {
