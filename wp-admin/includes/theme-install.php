@@ -50,7 +50,7 @@ function install_themes_feature_list( ) {
  * @since 2.8.0
  */
 function install_theme_search_form( $type_selector = true ) {
-	$type = isset( $_REQUEST['type'] ) ? stripslashes( $_REQUEST['type'] ) : '';
+	$type = isset( $_REQUEST['type'] ) ? stripslashes( $_REQUEST['type'] ) : 'term';
 	$term = isset( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : '';
 	if ( ! $type_selector )
 		echo '<p class="install-help">' . __( 'Search for themes by keyword.' ) . '</p>';

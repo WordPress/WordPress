@@ -116,7 +116,7 @@ add_action('install_plugins_dashboard', 'install_dashboard');
  * @since 2.7.0
  */
 function install_search_form( $type_selector = true ) {
-	$type = isset($_REQUEST['type']) ? stripslashes( $_REQUEST['type'] ) : '';
+	$type = isset($_REQUEST['type']) ? stripslashes( $_REQUEST['type'] ) : 'term';
 	$term = isset($_REQUEST['s']) ? stripslashes( $_REQUEST['s'] ) : '';
 
 	?><form id="search-plugins" method="get" action="">
