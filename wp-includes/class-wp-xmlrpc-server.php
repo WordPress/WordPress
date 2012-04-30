@@ -2558,7 +2558,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		// Do some timestamp voodoo
 		if ( !empty( $content_struct['date_created_gmt'] ) ) {
 			// We know this is supposed to be GMT, so we're going to slap that Z on there by force
-			$dateCreated = rtrim( $post_data['post_date_gmt']->getIso(), 'Z' ) . 'Z';
+			$dateCreated = rtrim( $content_struct['post_date_gmt']->getIso(), 'Z' ) . 'Z';
 			$comment_date = get_date_from_gmt(iso8601_to_datetime($dateCreated));
 			$comment_date_gmt = iso8601_to_datetime($dateCreated, 'GMT');
 		}
@@ -3826,7 +3826,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		// Do some timestamp voodoo
 		if ( !empty( $content_struct['date_created_gmt'] ) )
 			// We know this is supposed to be GMT, so we're going to slap that Z on there by force
-			$dateCreated = rtrim( $post_data['post_date_gmt']->getIso(), 'Z' ) . 'Z';
+			$dateCreated = rtrim( $content_struct['post_date_gmt']->getIso(), 'Z' ) . 'Z';
 		elseif ( !empty( $content_struct['dateCreated']) )
 			$dateCreated = $content_struct['dateCreated']->getIso();
 
@@ -4145,7 +4145,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		// Do some timestamp voodoo
 		if ( !empty( $content_struct['date_created_gmt'] ) )
 			// We know this is supposed to be GMT, so we're going to slap that Z on there by force
-			$dateCreated = rtrim( $post_data['post_date_gmt']->getIso(), 'Z' ) . 'Z';
+			$dateCreated = rtrim( $content_struct['post_date_gmt']->getIso(), 'Z' ) . 'Z';
 		elseif ( !empty( $content_struct['dateCreated']) )
 			$dateCreated = $content_struct['dateCreated']->getIso();
 
