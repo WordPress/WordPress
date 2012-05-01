@@ -134,6 +134,7 @@ body {
 	top: 18px;
 	margin-left: 4px;
 }
+
 .saving #customize-footer-actions img {
 	display: inline;
 }
@@ -151,6 +152,7 @@ body {
 	margin-right: 10px;
 	line-height: 28px;
 }
+
 .customize-control-content {
 	float: right;
 	width: 140px;
@@ -300,6 +302,7 @@ body {
 .customize-control-color .farbtastic-placeholder {
 	display: none;
 }
+
 .customize-control-color.open .color-picker-hex,
 .customize-control-color.open .farbtastic-placeholder {
 	display: block;
@@ -365,12 +368,12 @@ body {
 /*
  * Image Picker
  */
-
 .customize-control-image .library,
 .customize-control-image .actions {
 	display: none;
 	float: left;
 }
+
 .customize-control-image.open .library,
 .customize-control-image.open .actions {
 	display: block;

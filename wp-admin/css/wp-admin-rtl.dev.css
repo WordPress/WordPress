@@ -1542,7 +1542,7 @@ table .column-rating {
 .wp-full-overlay.collapsed,
 .wp-full-overlay.collapsed div.wp-full-overlay-header,
 .wp-full-overlay.collapsed div.wp-full-overlay-footer {
-	left: 0;
+	left: auto;
 	right: -302px;
 }
 
@@ -1558,7 +1558,6 @@ table .column-rating {
 }
 
 .wp-full-overlay.collapsed .wp-full-overlay-main {
-	left: auto;
 	right: 0;
 }
 
@@ -1594,7 +1593,7 @@ table .column-rating {
 
 .wp-full-overlay.collapsed .collapse-sidebar {
 	left: auto;
-	right: 315px;
+	right: 325px;
 }
 
 .wp-full-overlay .collapse-sidebar-arrow {
