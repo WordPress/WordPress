@@ -42,6 +42,7 @@ TABLE OF CONTENTS:
 24.0 - Dead
 25.0 - TinyMCE tweaks
 26.0 - Full Overlay w/ Sidebar
+27.0 - Customize Loader
 
 
 ------------------------------------------------------------------------------*/
@@ -1619,6 +1620,25 @@ table .column-rating {
 	display: none;
 }
 
+/*------------------------------------------------------------------------------
+  27.0 - Customize Loader
+------------------------------------------------------------------------------*/
+.install-theme-info .theme-version,
+.install-theme-info .theme-install {
+	float: left;
+}
+
+.install-theme-info .theme-rating {
+	float: right;
+	background: url('../images/stars.png?ver=20120307') repeat-x bottom right;
+	width: 105px;
+	margin-right: -5px;
+}
+
+.install-theme-info .theme-rating div {
+	float: right;
+	background: url('../images/stars.png?ver=20120307') repeat-x top right;
+}
 
 /* MERGED */
 
