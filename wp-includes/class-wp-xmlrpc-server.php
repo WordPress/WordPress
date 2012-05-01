@@ -524,7 +524,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			'hierarchical' => (bool) $taxonomy->hierarchical,
 			'public' => (bool) $taxonomy->public,
 			'show_ui' => (bool) $taxonomy->show_ui,
-			'_builtin' => (bool) $taxnomy->_builtin,
+			'_builtin' => (bool) $taxonomy->_builtin,
 		);
 
 		if ( in_array( 'labels', $fields ) )
@@ -534,7 +534,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			$_taxonomy['cap'] = (array) $taxonomy->cap;
 
 		if ( in_array( 'object_types', $fields ) )
-			$_taxonomy['taxonomies'] = array_unique( (array) $taxonomy->object_type );
+			$_taxonomy['object_type'] = array_unique( (array) $taxonomy->object_type );
 
 		return apply_filters( 'xmlrpc_prepare_taxonomy', $_taxonomy, $taxonomy, $fields );
 	}
@@ -902,7 +902,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		if ( $post_data['post_type'] == 'post' ) {
 			// Private and password-protected posts cannot be stickied.
-			if ( $post_data['status'] == 'private' || ! empty( $post_data['post_password'] ) ) {
+			if ( $post_data['post_status'] == 'private' || ! empty( $post_data['post_password'] ) ) {
 				// Error if the client tried to stick the post, otherwise, silently unstick.
 				if ( ! empty( $post_data['sticky'] ) )
 					return new IXR_Error( 401, __( 'Sorry, you cannot stick a private post.' ) );
@@ -3947,11 +3947,11 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->escape($args);
 
-		$post_ID     = (int) $args[0];
-		$username  = $args[1];
-		$password   = $args[2];
+		$post_ID        = (int) $args[0];
+		$username       = $args[1];
+		$password       = $args[2];
 		$content_struct = $args[3];
-		$publish     = $args[4];
+		$publish        = isset( $args[4] ) ? $args[4] : 0;
 
 		if ( ! $user = $this->login($username, $password) )
 			return $this->error;
@@ -4105,8 +4105,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( isset( $content_struct['mt_excerpt'] ) )
 			$post_excerpt =  $content_struct['mt_excerpt'];
 
-		if ( isset( $content_struct['mt_text_more'] ) )
-			$post_more =  $content_struct['mt_text_more'];
+		$post_more = isset( $content_struct['mt_text_more'] ) ? $content_struct['mt_text_more'] : null;
 
 		$post_status = $publish ? 'publish' : 'draft';
 		if ( isset( $content_struct["{$post_type}_status"] ) ) {
