@@ -448,10 +448,14 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
  */
 function _remove_qs_args_if_not_in_url( $query_string, Array $args_to_check, $url ) {
 	$parsed_url = @parse_url( $url );
-	parse_str( $parsed_url['query'], $parsed_query );
-	foreach ( $args_to_check as $qv ) {
-		if ( !isset( $parsed_query[$qv] ) )
-			$query_string = remove_query_arg( $qv, $query_string );
+	if ( ! empty( $parsed_url['query'] ) ) {
+		parse_str( $parsed_url['query'], $parsed_query );
+		foreach ( $args_to_check as $qv ) {
+			if ( !isset( $parsed_query[$qv] ) )
+				$query_string = remove_query_arg( $qv, $query_string );
+		}
+	} else {
+		$query_string = remove_query_arg( $args_to_check, $query_string );
 	}
 	return $query_string;
 }
