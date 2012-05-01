@@ -690,7 +690,7 @@ final class WP_Theme implements ArrayAccess {
 				$this->name_translated = translate( $value, $this->get('TextDomain' ) );
 				return $this->name_translated;
 			case 'Tags' :
-				if ( empty( $value ) )
+				if ( empty( $value ) || ! function_exists( 'get_theme_feature_list' ) )
 					return $value;
 
 				static $tags_list;
