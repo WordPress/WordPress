@@ -3059,7 +3059,7 @@ function wp_strip_all_tags($string, $remove_breaks = false) {
 	if ( $remove_breaks )
 		$string = preg_replace('/[\r\n\t ]+/', ' ', $string);
 
-	return trim($string);
+	return trim( $string );
 }
 
 /**
