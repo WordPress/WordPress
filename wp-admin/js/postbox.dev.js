@@ -63,6 +63,8 @@ var postboxes;
 		},
 
 		init : function(page, args) {
+			var isMobile = $(document.body).hasClass('mobile');
+
 			$.extend( this, args || {} );
 			$('#wpbody-content').css('overflow','hidden');
 			$('.meta-box-sortables').sortable({
@@ -71,7 +73,7 @@ var postboxes;
 				items: '.postbox',
 				handle: '.hndle',
 				cursor: 'move',
-				delay: ( $('body').hasClass('mobile') ? 200 : 0 ),
+				delay: ( isMobile ? 200 : 0 ),
 				distance: 2,
 				tolerance: 'pointer',
 				forcePlaceholderSize: true,
@@ -93,7 +95,7 @@ var postboxes;
 				}
 			});
 
-			if ( navigator.userAgent.match(/mobile/i) ) {
+			if ( isMobile ) {
 				$(document.body).bind('orientationchange.postboxes', function(){ postboxes._pb_change(); });
 				this._pb_change();
 			}
