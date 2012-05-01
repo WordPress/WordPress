@@ -34,7 +34,7 @@ function post_submit_meta_box($post) {
 <?php } ?>
 <img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" id="draft-ajax-loading" alt="" />
 </div>
-
+<?php if ( $post_type_object->public ) : ?>
 <div id="preview-action">
 <?php
 if ( 'publish' == $post->post_status ) {
@@ -51,7 +51,7 @@ if ( 'publish' == $post->post_status ) {
 <a class="preview button" href="<?php echo $preview_link; ?>" target="wp-preview" id="post-preview" tabindex="4"><?php echo $preview_button; ?></a>
 <input type="hidden" name="wp-preview" id="wp-preview" value="" />
 </div>
-
+<?php endif; // public post type ?>
 <div class="clear"></div>
 </div><?php // /minor-publishing-actions ?>
 
