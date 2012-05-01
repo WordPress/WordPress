@@ -672,7 +672,7 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 		$tag_id = isset($tags[ $key ]->id) ? $tags[ $key ]->id : $key;
 		$tag_name = $tags[ $key ]->name;
 		$a[] = "<a href='$tag_link' class='tag-link-$tag_id' title='" . esc_attr( call_user_func( $topic_count_text_callback, $real_count ) ) . "' style='font-size: " .
-			( $smallest + ( ( $count - $min_count ) * $font_step ) )
+			str_replace( ',', '.', ( $smallest + ( ( $count - $min_count ) * $font_step ) ) )
 			. "$unit;'>$tag_name</a>";
 	}
 
