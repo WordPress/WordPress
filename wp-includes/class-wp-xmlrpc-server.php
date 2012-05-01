@@ -519,7 +519,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 */
 	protected function _prepare_taxonomy( $taxonomy, $fields ) {
 		$_taxonomy = array(
-			'name' => $taxonmy->name,
+			'name' => $taxonomy->name,
 			'label' => $taxonomy->label,
 			'hierarchical' => (bool) $taxonomy->hierarchical,
 			'public' => (bool) $taxonomy->public,
@@ -531,7 +531,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			$_taxonomy['labels'] = (array) $taxonomy->labels;
 
 		if ( in_array( 'capabilities', $fields ) )
-			$_taxonomy['cap'] = (array) $post_type->cap;
+			$_taxonomy['cap'] = (array) $taxonomy->cap;
 
 		if ( in_array( 'object_types', $fields ) )
 			$_taxonomy['taxonomies'] = array_unique( (array) $taxonomy->object_type );
