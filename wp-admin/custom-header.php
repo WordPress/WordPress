@@ -858,12 +858,15 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 		$parent_url = $parent->guid;
 		$url = str_replace(basename($parent_url), basename($cropped), $parent_url);
 
+		$size = @getimagesize( $cropped );
+		$image_type = ( $size ) ? $size['mime'] : 'image/jpeg';
+
 		// Construct the object array
 		$object = array(
 			'ID' => $attachment_id,
 			'post_title' => basename($cropped),
 			'post_content' => $url,
-			'post_mime_type' => 'image/jpeg',
+			'post_mime_type' => $image_type,
 			'guid' => $url,
 			'context' => 'custom-header'
 		);

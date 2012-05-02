@@ -44,17 +44,25 @@ function wp_create_thumbnail( $file, $max_side, $deprecated = '' ) {
  * @return string|WP_Error|false New filepath on success, WP_Error or false on failure.
  */
 function wp_crop_image( $src, $src_x, $src_y, $src_w, $src_h, $dst_w, $dst_h, $src_abs = false, $dst_file = false ) {
+	if ( 0 == $src_x && 0 == $src_y && $src_w == $dst_w && $src_h == $dst_h )
+		return ( is_numeric( $src ) ) ? get_attached_file( $src ) : $src;
+
 	if ( is_numeric( $src ) ) { // Handle int as attachment ID
 		$src_file = get_attached_file( $src );
 		if ( ! file_exists( $src_file ) ) {
 			// If the file doesn't exist, attempt a url fopen on the src link.
 			// This can occur with certain file replication plugins.
 			$post = get_post( $src );
+			$image_type = $post->post_mime_type;
 			$src = load_image_to_edit( $src, $post->post_mime_type, 'full' );
 		} else {
+			$size = @getimagesize( $src_file );
+			$image_type = ( $size ) ? $size['mime'] : '';
 			$src = wp_load_image( $src_file );
 		}
 	} else {
+		$size = @getimagesize( $src );
+		$image_type = ( $size ) ? $size['mime'] : '';
 		$src = wp_load_image( $src );
 	}
 
@@ -78,13 +86,16 @@ function wp_crop_image( $src, $src_x, $src_y, $src_w, $src_h, $dst_w, $dst_h, $s
 	if ( ! $dst_file )
 		$dst_file = str_replace( basename( $src_file ), 'cropped-' . basename( $src_file ), $src_file );
 
-	$dst_file = preg_replace( '/\\.[^\\.]+$/', '.jpg', $dst_file );
+	if ( 'image/png' != $image_type )
+		$dst_file = preg_replace( '/\\.[^\\.]+$/', '.jpg', $dst_file );
 
 	// The directory containing the original file may no longer exist when
 	// using a replication plugin.
 	wp_mkdir_p( dirname( $dst_file ) );
 
-	if ( imagejpeg( $dst, $dst_file, apply_filters( 'jpeg_quality', 90, 'wp_crop_image' ) ) )
+	if ( 'image/png' == $image_type && imagepng( $dst, $dst_file ) )
+		return $dst_file;
+	elseif ( imagejpeg( $dst, $dst_file, apply_filters( 'jpeg_quality', 90, 'wp_crop_image' ) ) )
 		return $dst_file;
 	else
 		return false;
