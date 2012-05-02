@@ -73,7 +73,7 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 		$arrow = '<div class="wp-menu-arrow"><div></div></div>';
 
 		$title = wptexturize( $item[0] );
-		$aria_label = esc_attr( wp_strip_all_tags( $item[0], true ) ); // strip the comment/plugins/updates bubbles spans but keep the pending number if any
+		$aria_label = esc_attr( strip_tags( $item[0] ) ); // strip the comment/plugins/updates bubbles spans but keep the pending number if any
 
 		echo "\n\t<li$class$id>";
 
