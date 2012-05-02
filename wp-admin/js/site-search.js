@@ -1,1 +1,1 @@
-jQuery(function(a){a("#site-search-input").autocomplete({source:ajaxurl+"?action=autocomplete-site",delay:500,minLength:2})});
+jQuery(function(a){a("#site-search-input").autocomplete({source:ajaxurl+"?action=autocomplete-site",delay:500,minLength:2,open:function(c,b){a(this).addClass("open")},close:function(c,b){a(this).removeClass("open")}})});
