@@ -1512,7 +1512,7 @@ function dbDelta( $queries = '', $execute = true ) {
 	// Create a tablename index for an array ($cqueries) of queries
 	foreach($queries as $qry) {
 		if (preg_match("|CREATE TABLE ([^ ]*)|", $qry, $matches)) {
-			$cqueries[trim( strtolower($matches[1]), '`' )] = $qry;
+			$cqueries[ trim( $matches[1], '`' ) ] = $qry;
 			$for_update[$matches[1]] = 'Created table '.$matches[1];
 		} else if (preg_match("|CREATE DATABASE ([^ ]*)|", $qry, $matches)) {
 			array_unshift($cqueries, $qry);
