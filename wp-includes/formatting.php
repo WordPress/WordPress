@@ -715,7 +715,62 @@ function remove_accents($string) {
 		// Euro Sign
 		chr(226).chr(130).chr(172) => 'E',
 		// GBP (Pound) Sign
-		chr(194).chr(163) => '');
+		chr(194).chr(163) => '',
+		// Vowels with diacritic (Vietnamese)
+		// unmarked
+		chr(198).chr(160) => 'O', chr(198).chr(161) => 'o',
+		chr(198).chr(175) => 'U', chr(198).chr(176) => 'u',
+		// grave accent
+		chr(225).chr(186).chr(166) => 'A', chr(225).chr(186).chr(167) => 'a',
+		chr(225).chr(186).chr(176) => 'A', chr(225).chr(186).chr(177) => 'a',
+		chr(225).chr(187).chr(128) => 'E', chr(225).chr(187).chr(129) => 'e',
+		chr(225).chr(187).chr(146) => 'O', chr(225).chr(187).chr(147) => 'o',
+		chr(225).chr(187).chr(156) => 'O', chr(225).chr(187).chr(157) => 'o',
+		chr(225).chr(187).chr(170) => 'U', chr(225).chr(187).chr(171) => 'u',
+		chr(225).chr(187).chr(178) => 'Y', chr(225).chr(187).chr(179) => 'y',
+		// hook
+		chr(225).chr(186).chr(162) => 'A', chr(225).chr(186).chr(163) => 'a',
+		chr(225).chr(186).chr(168) => 'A', chr(225).chr(186).chr(169) => 'a',
+		chr(225).chr(186).chr(178) => 'A', chr(225).chr(186).chr(179) => 'a',
+		chr(225).chr(186).chr(186) => 'E', chr(225).chr(186).chr(187) => 'e',
+		chr(225).chr(187).chr(130) => 'E', chr(225).chr(187).chr(131) => 'e',
+		chr(225).chr(187).chr(136) => 'I', chr(225).chr(187).chr(137) => 'i',
+		chr(225).chr(187).chr(142) => 'O', chr(225).chr(187).chr(143) => 'o',
+		chr(225).chr(187).chr(148) => 'O', chr(225).chr(187).chr(149) => 'o',
+		chr(225).chr(187).chr(158) => 'O', chr(225).chr(187).chr(159) => 'o',
+		chr(225).chr(187).chr(166) => 'U', chr(225).chr(187).chr(167) => 'u',
+		chr(225).chr(187).chr(172) => 'U', chr(225).chr(187).chr(173) => 'u',
+		chr(225).chr(187).chr(182) => 'Y', chr(225).chr(187).chr(183) => 'y',
+		// tilde
+		chr(225).chr(186).chr(170) => 'A', chr(225).chr(186).chr(171) => 'a',
+		chr(225).chr(186).chr(180) => 'A', chr(225).chr(186).chr(181) => 'a',
+		chr(225).chr(186).chr(188) => 'E', chr(225).chr(186).chr(189) => 'e',
+		chr(225).chr(187).chr(132) => 'E', chr(225).chr(187).chr(133) => 'e',
+		chr(225).chr(187).chr(150) => 'O', chr(225).chr(187).chr(151) => 'o',
+		chr(225).chr(187).chr(160) => 'O', chr(225).chr(187).chr(161) => 'o',
+		chr(225).chr(187).chr(174) => 'U', chr(225).chr(187).chr(175) => 'u',
+		chr(225).chr(187).chr(184) => 'Y', chr(225).chr(187).chr(185) => 'y',
+		// acute accent
+		chr(225).chr(186).chr(164) => 'A', chr(225).chr(186).chr(165) => 'a',
+		chr(225).chr(186).chr(174) => 'A', chr(225).chr(186).chr(175) => 'a',
+		chr(225).chr(186).chr(190) => 'E', chr(225).chr(186).chr(191) => 'e',
+		chr(225).chr(187).chr(144) => 'O', chr(225).chr(187).chr(145) => 'o',
+		chr(225).chr(187).chr(154) => 'O', chr(225).chr(187).chr(155) => 'o',
+		chr(225).chr(187).chr(168) => 'U', chr(225).chr(187).chr(169) => 'u',
+		// dot below
+		chr(225).chr(186).chr(160) => 'A', chr(225).chr(186).chr(161) => 'a',
+		chr(225).chr(186).chr(172) => 'A', chr(225).chr(186).chr(173) => 'a',
+		chr(225).chr(186).chr(182) => 'A', chr(225).chr(186).chr(183) => 'a',
+		chr(225).chr(186).chr(184) => 'E', chr(225).chr(186).chr(185) => 'e',
+		chr(225).chr(187).chr(134) => 'E', chr(225).chr(187).chr(135) => 'e',
+		chr(225).chr(187).chr(138) => 'I', chr(225).chr(187).chr(139) => 'i',
+		chr(225).chr(187).chr(140) => 'O', chr(225).chr(187).chr(141) => 'o',
+		chr(225).chr(187).chr(152) => 'O', chr(225).chr(187).chr(153) => 'o',
+		chr(225).chr(187).chr(162) => 'O', chr(225).chr(187).chr(163) => 'o',
+		chr(225).chr(187).chr(164) => 'U', chr(225).chr(187).chr(165) => 'u',
+		chr(225).chr(187).chr(176) => 'U', chr(225).chr(187).chr(177) => 'u',
+		chr(225).chr(187).chr(180) => 'Y', chr(225).chr(187).chr(181) => 'y',
+		);
 
 		$string = strtr($string, $chars);
 	} else {
