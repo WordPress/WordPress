@@ -87,7 +87,8 @@ a.page-numbers:hover {
 
 body,
 #wpbody,
-.form-table .pre {
+.form-table .pre,
+.ui-autocomplete li a {
 	color: #333;
 }
 
@@ -320,6 +321,15 @@ div.error a {
 .media-upload-form label.form-help,
 td.help {
 	color: #9a9a9a;
+}
+
+.ui-autocomplete {
+	background-color: #efefef;
+	border-color: #bbb;
+}
+
+.ui-autocomplete li a.ui-state-hover {
+	background-color: #ddd;
 }
 
 .post-com-count {

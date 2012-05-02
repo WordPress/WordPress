@@ -48,6 +48,22 @@ select {
 	color: #000;
 }
 
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="file"]:focus,
+input[type="button"]:focus,
+input[type="submit"]:focus,
+input[type="reset"]:focus,
+input[type="email"]:focus,
+input[type="number"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="url"]:focus,
+select:focus {
+	border-color: #d1e5ee;
+}
+
 kbd,
 code {
 	background: #eaeaea;
@@ -76,7 +92,8 @@ a.page-numbers:hover {
 
 body,
 #wpbody,
-.form-table .pre {
+.form-table .pre,
+.ui-autocomplete li a {
 	color: #333;
 }
 
@@ -313,6 +330,15 @@ div.error a {
 .media-upload-form label.form-help,
 td.help {
 	color: #9a9a9a;
+}
+
+.ui-autocomplete {
+	background-color: #eff8ff;
+	border-color: #d1e5ee;
+}
+
+.ui-autocomplete li a.ui-state-hover {
+	background-color: #def1ff;
 }
 
 .post-com-count {

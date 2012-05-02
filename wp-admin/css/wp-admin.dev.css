@@ -874,21 +874,29 @@ ul#add-to-blog-users {
 	margin: 0 0 0 14px;
 }
 
+.ui-autocomplete-input.open {
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
+}
+
 .ui-autocomplete {
 	padding: 0;
 	margin: 0;
 	list-style: none;
 	position: absolute;
 	z-index: 10000;
+	border-bottom-right-radius: 3px;
+	border-bottom-left-radius: 3px;
 	border-width: 1px;
 	border-style: solid;
+	border-top: none;
 
-	background-color: #ececec;
-	border-color: gray;
+	background-color: #efefef;
+	border-color: #bbb;
 }
 
 .ui-autocomplete li {
-	padding: 2px 5px;
+	margin-bottom: 0;
 	white-space: nowrap;
 	text-align: left;
 	color: #101010;
@@ -897,12 +905,12 @@ ul#add-to-blog-users {
 .ui-autocomplete li a {
 	display: block;
 	height: 100%;
-	padding: 2px 5px;
+	padding: 4px 10px;
 	color: #333;
 }
 
 .ui-autocomplete li a.ui-state-hover {
-	background-color: #f0f0b8;
+	background-color: #ddd;
 	cursor: pointer;
 }
 

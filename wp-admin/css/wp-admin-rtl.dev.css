@@ -117,6 +117,18 @@ input[type=password] {
 	direction: ltr;
 }
 
+input[type="text"].ui-autocomplete-loading {
+	background: transparent url('../images/loading.gif') no-repeat left center;
+}
+
+ul#add-to-blog-users {
+	margin: 0 14px 0 0;
+}
+
+.ui-autocomplete li {
+	text-align: right;
+}
+
 /*------------------------------------------------------------------------------
   3.0 - Actions
 ------------------------------------------------------------------------------*/
