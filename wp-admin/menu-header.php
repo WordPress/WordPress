@@ -73,6 +73,7 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 		$arrow = '<div class="wp-menu-arrow"><div></div></div>';
 
 		$title = wptexturize( $item[0] );
+		$aria_label = esc_attr( wp_strip_all_tags( $item[0], true ) ); // strip the comment/plugins/updates bubbles spans but keep the pending number if any
 
 		echo "\n\t<li$class$id>";
 
@@ -86,9 +87,9 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 				$menu_file = substr( $menu_file, 0, $pos );
 			if ( ! empty( $menu_hook ) || ( ('index.php' != $submenu_items[0][2]) && file_exists( WP_PLUGIN_DIR . "/$menu_file" ) ) ) {
 				$admin_is_parent = true;
-				echo "<div class='wp-menu-image'><a href='admin.php?page={$submenu_items[0][2]}'>$img</a></div>$arrow<a href='admin.php?page={$submenu_items[0][2]}'$class $aria_attributes>$title</a>";
+				echo "<div class='wp-menu-image'><a href='admin.php?page={$submenu_items[0][2]}' aria-label='$aria_label'>$img</a></div>$arrow<a href='admin.php?page={$submenu_items[0][2]}'$class $aria_attributes>$title</a>";
 			} else {
-				echo "\n\t<div class='wp-menu-image'><a href='{$submenu_items[0][2]}'>$img</a></div>$arrow<a href='{$submenu_items[0][2]}'$class $aria_attributes>$title</a>";
+				echo "\n\t<div class='wp-menu-image'><a href='{$submenu_items[0][2]}' aria-label='$aria_label'>$img</a></div>$arrow<a href='{$submenu_items[0][2]}'$class $aria_attributes>$title</a>";
 			}
 		} elseif ( ! empty( $item[2] ) && current_user_can( $item[1] ) ) {
 			$menu_hook = get_plugin_page_hook( $item[2], 'admin.php' );
@@ -97,9 +98,9 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 				$menu_file = substr( $menu_file, 0, $pos );
 			if ( ! empty( $menu_hook ) || ( ('index.php' != $item[2]) && file_exists( WP_PLUGIN_DIR . "/$menu_file" ) ) ) {
 				$admin_is_parent = true;
-				echo "\n\t<div class='wp-menu-image'><a href='admin.php?page={$item[2]}'>$img</a></div>$arrow<a href='admin.php?page={$item[2]}'$class $aria_attributes>{$item[0]}</a>";
+				echo "\n\t<div class='wp-menu-image'><a href='admin.php?page={$item[2]}' aria-label='$aria_label'>$img</a></div>$arrow<a href='admin.php?page={$item[2]}'$class $aria_attributes>{$item[0]}</a>";
 			} else {
-				echo "\n\t<div class='wp-menu-image'><a href='{$item[2]}'>$img</a></div>$arrow<a href='{$item[2]}'$class $aria_attributes>{$item[0]}</a>";
+				echo "\n\t<div class='wp-menu-image'><a href='{$item[2]}' aria-label='$aria_label'>$img</a></div>$arrow<a href='{$item[2]}'$class $aria_attributes>{$item[0]}</a>";
 			}
 		}
 
