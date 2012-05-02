@@ -8073,3 +8073,19 @@ a.widget-control-edit {
 .locale-ru-ru .press-this #side-sortables {
 	width: 245px; /* default 200px + 45px */
 }
+
+/* lt_LT: QuickPress + QuickEdit */
+.locale-lt-lt #dashboard_quick_press .input-text-wrap,
+.locale-lt-lt #dashboard_quick_press .textarea-wrap,
+.locale-lt-lt #dashboard_quick_press .wp-media-buttons  {
+	margin-left: 7em;
+}
+.locale-lt-lt #dashboard_quick_press h4 {
+	width: 7em;
+}
+.locale-lt-lt .inline-edit-row fieldset label span.title {
+	width: 8em;
+}
+.locale-lt-lt .inline-edit-row fieldset label span.input-text-wrap {
+	margin-left: 8em;
+}
