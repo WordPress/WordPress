@@ -162,7 +162,7 @@ if ( !$mysql_compat || !$php_compat ) {
 	die( '<h1>' . __( 'Insufficient Requirements' ) . '</h1><p>' . $compat . '</p></body></html>' );
 }
 
-if ( empty( $wpdb->prefix ) ) {
+if ( ! is_string( $wpdb->base_prefix ) || '' === $wpdb->base_prefix ) {
 	display_header();	
 	die( '<h1>' . __( 'Configuration Error' ) . '</h1><p>' . __( 'Your <code>wp-config.php</code> file has an empty database table prefix, which is not supported.' ) . '</p></body></html>' );
 }
