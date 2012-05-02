@@ -434,7 +434,7 @@ function get_post_ancestors($post) {
 		_get_post_ancestors( $post );
 
 	if ( ! empty( $post->ancestors ) )
-		return $post->ancestors;
+		return array_reverse($post->ancestors);
 
 	return array();
 }
