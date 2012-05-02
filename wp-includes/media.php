@@ -327,6 +327,8 @@ function wp_constrain_dimensions( $current_width, $current_height, $max_width=0,
  * portion of the image will be cropped out and resized to the required size.
  *
  * @since 2.5.0
+ * @uses apply_filters() Calls 'image_resize_dimensions' on $orig_w, $orig_h, $dest_w, $dest_h and
+ *		$crop to provide custom resize dimensions.
  *
  * @param int $orig_w Original width.
  * @param int $orig_h Original height.
@@ -342,6 +344,11 @@ function image_resize_dimensions($orig_w, $orig_h, $dest_w, $dest_h, $crop = fal
 	// at least one of dest_w or dest_h must be specific
 	if ($dest_w <= 0 && $dest_h <= 0)
 		return false;
+
+	// plugins can use this to provide custom resize dimensions
+	$output = apply_filters( 'image_resize_dimensions', null, $orig_w, $orig_h, $dest_w, $dest_h, $crop );
+	if ( null !== $output )
+		return $output;
 
 	if ( $crop ) {
 		// crop the largest possible portion of the original image that we can size to $dest_w x $dest_h
