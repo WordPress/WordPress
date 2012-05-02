@@ -139,7 +139,7 @@
 
 		_do_shcode : function(content) {
 			return content.replace(/(?:<p>)?\[(?:wp_)?caption([^\]]+)\]([\s\S]+?)\[\/(?:wp_)?caption\](?:<\/p>)?/g, function(a,b,c){
-				var id, cls, w, cap, div_cls;
+				var id, cls, w, cap, div_cls, img, trim = tinymce.trim;
 
 				id = b.match(/id=['"]([^'"]*)['"] ?/);
 				b = b.replace(id[0], '');
@@ -150,7 +150,17 @@
 				w = b.match(/width=['"]([0-9]*)['"] ?/);
 				b = b.replace(w[0], '');
 
-				cap = tinymce.trim(b).replace(/caption=['"]/, '').replace(/['"]$/, '');
+				c = trim(c);
+				img = c.match(/((?:<a [^>]+>)?<img [^>]+>(?:<\/a>)?)([\s\S]*)/i);
+
+				if ( img && img[2] ) {
+					cap = trim( img[2] );
+					img = trim( img[1] );
+				} else {
+					// old captions shortcode style
+					cap = trim(b).replace(/caption=['"]/, '').replace(/['"]$/, '');
+					img = c;
+				}
 
 				id = ( id && id[1] ) ? id[1] : '';
 				cls = ( cls && cls[1] ) ? cls[1] : 'alignnone';
@@ -164,7 +174,7 @@
 					div_cls += ' mceIEcenter';
 
 				return '<div class="'+div_cls+'"><dl id="'+id+'" class="wp-caption '+cls+'" style="width: '+( 10 + parseInt(w) )+
-				'px"><dt class="wp-caption-dt">'+c+'</dt><dd class="wp-caption-dd">'+cap+'</dd></dl></div>';
+				'px"><dt class="wp-caption-dt">'+img+'</dt><dd class="wp-caption-dd">'+cap+'</dd></dl></div>';
 			});
 		},
 
@@ -187,15 +197,14 @@
 					cls = cls.match(/align[a-z]+/) || 'alignnone';
 
 					cap = cap.replace(/\r\n|\r/g, '\n').replace(/<[a-zA-Z0-9]+( [^<>]+)?>/g, function(a){
-						a = a.replace(/[\r\n\t]+/, ' ').replace(/="[^"]+"/, function(b){
-							return b.replace(/'/g, '&#39;');
-						});
-						return a.replace(/"/g, "'");
+						// no line breaks inside HTML tags
+						return a.replace(/[\r\n\t]+/, ' ');
 					});
 
-					cap = cap.replace(/\n+/g, '<br />').replace(/"/g, '&quot;');
+					// convert remaining line breaks to <br>
+					cap = cap.replace(/\s*\n\s*/g, '<br />');
 
-					return '[caption id="'+id+'" align="'+cls+'" width="'+w+'" caption="'+cap+'"]'+c+'[/caption]';
+					return '[caption id="'+id+'" align="'+cls+'" width="'+w+'"]'+c+' '+cap+'[/caption]';
 				});
 
 				if ( ret.indexOf('[caption') !== 0 ) {

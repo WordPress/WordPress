@@ -419,13 +419,10 @@ wpImage = {
 			caption = f.img_cap_text.value;
 
 			caption = caption.replace(/\r\n|\r/g, '\n').replace(/<[a-zA-Z0-9]+( [^<>]+)?>/g, function(a){
-				a = a.replace(/[\r\n\t]+/, ' ').replace(/="[^"]+"/, function(b){
-					return b.replace(/'/g, '&#39;');
-				});
-				return a.replace(/"/g, "'");
+				return a.replace(/[\r\n\t]+/, ' ');
 			});
 
-			caption = caption.replace(/\n+/g, '<br />').replace(/"/g, '&quot;');
+			caption = caption.replace(/\s*\n\s*/g, '<br />');
 
 			if ( DL ) {
 				ed.dom.setAttribs(DL, {

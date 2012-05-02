@@ -73,11 +73,11 @@ var switchEditors = {
 			});
 		}
 
-		// keep <br> tags inside captions
+		// keep <br> tags inside captions and remove line breaks
 		if ( content.indexOf('[caption') != -1 ) {
 			preserve_br = true;
-			content = content.replace(/\[caption[^\]]+\]/g, function(a) {
-				return a.replace(/<br([^>]*)>[\r\n]*/g, '<wp-temp-br$1>');
+			content = content.replace(/\[caption[\s\S]+?\[\/caption\]/g, function(a) {
+				return a.replace(/<br([^>]*)>/g, '<wp-temp-br$1>').replace(/[\r\n\t]+/, '');
 			});
 		}
 
@@ -139,7 +139,8 @@ var switchEditors = {
 	},
 
 	_wp_Autop : function(pee) {
-		var blocklist = 'table|thead|tfoot|tbody|tr|td|th|caption|col|colgroup|div|dl|dd|dt|ul|ol|li|pre|select|form|blockquote|address|math|p|h[1-6]|fieldset|legend|hr|noscript|menu|samp|header|footer|article|section|hgroup|nav|aside|details|summary';
+		var preserve_linebreaks = false, preserve_br = false,
+			blocklist = 'table|thead|tfoot|tbody|tr|td|th|caption|col|colgroup|div|dl|dd|dt|ul|ol|li|pre|select|form|blockquote|address|math|p|h[1-6]|fieldset|legend|hr|noscript|menu|samp|header|footer|article|section|hgroup|nav|aside|details|summary';
 
 		if ( pee.indexOf('<object') != -1 ) {
 			pee = pee.replace(/<object[\s\S]+?<\/object>/g, function(a){
@@ -153,8 +154,24 @@ var switchEditors = {
 
 		// Protect pre|script tags
 		if ( pee.indexOf('<pre') != -1 || pee.indexOf('<script') != -1 ) {
+			preserve_linebreaks = true;
 			pee = pee.replace(/<(pre|script)[^>]*>[\s\S]+?<\/\1>/g, function(a) {
-				return a.replace(/(\r\n|\n)/g, '<wp_temp_br>');
+				return a.replace(/(\r\n|\n)/g, '<wp-temp-lb>');
+			});
+		}
+
+		// keep <br> tags inside captions and convert line breaks
+		if ( pee.indexOf('[caption') != -1 ) {
+			preserve_br = true;
+			pee = pee.replace(/\[caption[\s\S]+?\[\/caption\]/g, function(a) {
+				// keep existing <br>
+				a = a.replace(/<br([^>]*)>/g, '<wp-temp-br$1>');
+				// no line breaks inside HTML tags
+				a = a.replace(/<[a-zA-Z0-9]+( [^<>]+)?>/g, function(b){
+					return b.replace(/[\r\n\t]+/, ' ');
+				});
+				// convert remaining line breaks to <br>
+				return a.replace(/\s*\n\s*/g, '<wp-temp-br />');
 			});
 		}
 
@@ -186,7 +203,11 @@ var switchEditors = {
 		});
 
 		// put back the line breaks in pre|script
-		pee = pee.replace(/<wp_temp_br>/g, '\n');
+		if ( preserve_linebreaks )
+			pee = pee.replace(/<wp-temp-lb>/g, '\n');
+
+		if ( preserve_br )
+			pee = pee.replace(/<wp-temp-br([^>]*)>/g, '<br$1>');
 
 		return pee;
 	},

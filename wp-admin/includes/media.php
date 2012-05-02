@@ -145,14 +145,14 @@ function image_add_caption( $html, $id, $caption, $title, $align, $url, $size, $
 
 	$caption = str_replace( array("\r\n", "\r"), "\n", $caption);
 	$caption = preg_replace_callback( '/<[a-zA-Z0-9]+(?: [^<>]+>)*/', '_cleanup_image_add_caption', $caption );
-	$caption = preg_replace( '/\n+/', '<br />', str_replace('"', '&quot;', $caption) );
+	// convert any remaining line breaks to <br>
+	$caption = preg_replace( '/[ \n\t]*\n[ \t]*/', '<br />', $caption );
 
 	$html = preg_replace( '/(class=["\'][^\'"]*)align(none|left|right|center)\s?/', '$1', $html );
 	if ( empty($align) )
 		$align = 'none';
 
-	$shcode = '[caption id="' . $id . '" align="align' . $align
-	. '" width="' . $width . '" caption="' . $caption . '"]' . $html . '[/caption]';
+	$shcode = '[caption id="' . $id . '" align="align' . $align	. '" width="' . $width . '"]' . $html . ' ' . $caption . '[/caption]';
 
 	return apply_filters( 'image_add_caption_shortcode', $shcode, $html );
 }
@@ -166,20 +166,7 @@ add_filter( 'image_send_to_editor', 'image_add_caption', 20, 8 );
  */
 function _cleanup_image_add_caption( $matches ) {
 	// remove any line breaks from inside the tags
-	$s = preg_replace( '/[\r\n\t]+/', ' ', $matches[0] );
-	// look for single quotes inside html attributes (for example in title)
-	$s = preg_replace_callback( '/="[^"]+"/', '_cleanup_image_add_caption_callback', $s );
-	return str_replace( '"', "'", $s );
-}
-
-/**
- * Private preg_replace callback used in _cleanup_image_add_caption()
- *
- * @access private
- * @since 3.4.0
- */
-function _cleanup_image_add_caption_callback( $matches ) {
-	return str_replace( "'", '&#39;', $matches[0] );
+	return preg_replace( '/[\r\n\t]+/', ' ', $matches[0] );
 }
 
 /**
@@ -1541,13 +1528,10 @@ var addExtImage = {
 		if ( f.caption.value ) {
 			caption = f.caption.value.replace(/\r\n|\r/g, '\n');
 			caption = caption.replace(/<[a-zA-Z0-9]+( [^<>]+)?>/g, function(a){
-				a = a.replace(/[\r\n\t]+/, ' ').replace(/="[^"]+"/, function(b){
-					return b.replace(/'/g, '&#39;');
-				});
-				return a.replace(/"/g, "'");
+				return a.replace(/[\r\n\t]+/, ' ');
 			});
 
-			caption = caption.replace(/\n+/g, '<br />').replace(/"/g, '&quot;');
+			caption = caption.replace(/\s*\n\s*/g, '<br />');
 		}
 <?php } ?>
 
@@ -1561,7 +1545,7 @@ var addExtImage = {
 		}
 
 		if ( caption )
-			html = '[caption id="" align="'+t.align+'" width="'+t.width+'" caption="'+caption+'"]'+html+'[/caption]';
+			html = '[caption id="" align="'+t.align+'" width="'+t.width+'"]'+html+caption+'[/caption]';
 
 		var win = window.dialogArguments || opener || parent || top;
 		win.send_to_editor(html);
