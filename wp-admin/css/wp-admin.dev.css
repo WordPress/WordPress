@@ -4743,8 +4743,9 @@ input.button-highlighted,
 }
 
 .pressthis a span {
-	background: url(../images/press-this.png) no-repeat -45px 5px ;
-	padding: 8px 16px 8px 32px;
+	background: url(../images/press-this.png?v=20120502) no-repeat 0px 5px;
+	padding: 8px 11px 8px 27px;
+	margin: 0 5px;
 	display: inline-block;
 }
 
