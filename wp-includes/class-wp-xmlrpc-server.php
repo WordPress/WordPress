@@ -490,23 +490,23 @@ class wp_xmlrpc_server extends IXR_Server {
 		return $struct;
 	}
 
-    /**
-     * Checks if the method received at least the minimum number of arguments.
-     *
-     * @since 3.4
-     *
-     * @param string|array $args Sanitize single string or array of strings.
-     * @param int $count Minimum number of arguments.
-     * @return boolean if $args contains at least $count arguments.
-     */
-    protected function minimum_args( $args, $count ) {
-        if ( count( $args ) < $count ) {
-            $this->error = new IXR_Error( 400, __( 'Insufficient arguments passed to this XML-RPC method.' ) );
-            return false;
-        }
+	/**
+	 * Checks if the method received at least the minimum number of arguments.
+	 *
+	 * @since 3.4
+	 *
+	 * @param string|array $args Sanitize single string or array of strings.
+	 * @param int $count Minimum number of arguments.
+	 * @return boolean if $args contains at least $count arguments.
+	 */
+	protected function minimum_args( $args, $count ) {
+		if ( count( $args ) < $count ) {
+			$this->error = new IXR_Error( 400, __( 'Insufficient arguments passed to this XML-RPC method.' ) );
+			return false;
+		}
 
-        return true;
-    }
+		return true;
+	}
 
 	/**
 	 * Prepares taxonomy data for return in an XML-RPC object.
@@ -785,8 +785,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @return string post_id
 	 */
 	function wp_newPost( $args ) {
-        if ( ! $this->minimum_args( $args, 4 ) )
-            return $this->error;
+		if ( ! $this->minimum_args( $args, 4 ) )
+			return $this->error;
 
 		$this->escape( $args );
 
@@ -1062,8 +1062,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @return true on success
 	 */
 	function wp_editPost( $args ) {
-        if ( ! $this->minimum_args( $args, 5 ) )
-            return $this->error;
+		if ( ! $this->minimum_args( $args, 5 ) )
+			return $this->error;
 
 		$this->escape( $args );
 
@@ -1117,8 +1117,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @return true on success
 	 */
 	function wp_deletePost( $args ) {
-        if ( ! $this->minimum_args( $args, 4 ) )
-            return $this->error;
+		if ( ! $this->minimum_args( $args, 4 ) )
+			return $this->error;
 
 		$this->escape( $args );
 
@@ -1193,8 +1193,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *  - 'enclosure'
 	 */
 	function wp_getPost( $args ) {
-        if ( ! $this->minimum_args( $args, 4 ) )
-            return $this->error;
+		if ( ! $this->minimum_args( $args, 4 ) )
+			return $this->error;
 
 		$this->escape( $args );
 
@@ -1250,8 +1250,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @return array contains a collection of posts.
 	 */
 	function wp_getPosts( $args ) {
-        if ( ! $this->minimum_args( $args, 3 ) )
-            return $this->error;
+		if ( ! $this->minimum_args( $args, 3 ) )
+			return $this->error;
 
 		$this->escape( $args );
 
@@ -1339,8 +1339,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @return string term_id
 	 */
 	function wp_newTerm( $args ) {
-        if ( ! $this->minimum_args( $args, 4 ) )
-            return $this->error;
+		if ( ! $this->minimum_args( $args, 4 ) )
+			return $this->error;
 
 		$this->escape( $args );
 
@@ -1426,8 +1426,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @return bool True, on success.
 	 */
 	function wp_editTerm( $args ) {
-        if ( ! $this->minimum_args( $args, 5 ) )
-            return $this->error;
+		if ( ! $this->minimum_args( $args, 5 ) )
+			return $this->error;
 
 		$this->escape( $args );
 
@@ -1518,8 +1518,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @return boolean|IXR_Error If it suceeded true else a reason why not
 	 */
 	function wp_deleteTerm( $args ) {
-        if ( ! $this->minimum_args( $args, 5 ) )
-            return $this->error;
+		if ( ! $this->minimum_args( $args, 5 ) )
+			return $this->error;
 
 		$this->escape( $args );
 
@@ -1585,8 +1585,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *  - 'count'
 	 */
 	function wp_getTerm( $args ) {
-        if ( ! $this->minimum_args( $args, 5 ) )
-            return $this->error;
+		if ( ! $this->minimum_args( $args, 5 ) )
+			return $this->error;
 
 		$this->escape( $args );
 
@@ -1638,8 +1638,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @return array terms
 	 */
 	function wp_getTerms( $args ) {
-        if ( ! $this->minimum_args( $args, 4 ) )
-            return $this->error;
+		if ( ! $this->minimum_args( $args, 4 ) )
+			return $this->error;
 
 		$this->escape( $args );
 
@@ -1713,8 +1713,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @return array (@see get_taxonomy())
 	 */
 	function wp_getTaxonomy( $args ) {
-        if ( ! $this->minimum_args( $args, 4 ) )
-            return $this->error;
+		if ( ! $this->minimum_args( $args, 4 ) )
+			return $this->error;
 
 		$this->escape( $args );
 
@@ -1757,8 +1757,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @return array taxonomies
 	 */
 	function wp_getTaxonomies( $args ) {
-        if ( ! $this->minimum_args( $args, 3 ) )
-            return $this->error;
+		if ( ! $this->minimum_args( $args, 3 ) )
+			return $this->error;
 
 		$this->escape( $args );
 
@@ -2442,7 +2442,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$comments_struct = array();
 
-    // FIXME: we already have the comments, why query them again?
+		// FIXME: we already have the comments, why query them again?
 		for ( $i = 0; $i < $num_comments; $i++ ) {
 			$comment = wp_xmlrpc_server::wp_getComment(array(
 				$raw_args[0], $raw_args[1], $raw_args[2], $comments[$i]->comment_ID,
@@ -3067,8 +3067,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *  - 'supports'
 	 */
 	function wp_getPostType( $args ) {
-        if ( ! $this->minimum_args( $args, 4 ) )
-            return $this->error;
+		if ( ! $this->minimum_args( $args, 4 ) )
+			return $this->error;
 
 		$this->escape( $args );
 
@@ -3113,8 +3113,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @return array
 	 */
 	function wp_getPostTypes( $args ) {
-        if ( ! $this->minimum_args( $args, 3 ) )
-            return $this->error;
+		if ( ! $this->minimum_args( $args, 3 ) )
+			return $this->error;
 
 		$this->escape( $args );
 
