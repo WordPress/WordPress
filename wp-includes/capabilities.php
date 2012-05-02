@@ -853,13 +853,12 @@ class WP_User {
 	 *
 	 * This is useful for looking up whether the user has a specific role
 	 * assigned to the user. The second optional parameter can also be used to
-	 * check for capabilities against a specific post.
+	 * check for capabilities against a specific object, such as a post or user.
 	 *
 	 * @since 2.0.0
 	 * @access public
 	 *
 	 * @param string|int $cap Capability or role name to search.
-	 * @param int $post_id Optional. Post ID to check capability against specific post.
 	 * @return bool True, if user has capability; false, if user does not have capability.
 	 */
 	function has_cap( $cap ) {
