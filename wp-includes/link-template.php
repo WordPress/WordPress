@@ -1372,9 +1372,11 @@ function adjacent_post_link($format, $link, $in_same_cat = false, $excluded_cate
  * @since 1.5.0
  *
  * @param int $pagenum Optional. Page ID.
+ * @param bool $escape Optional. Whether to escape the URL for display, with esc_url(). Defaults to true.
+* 	Otherwise, prepares the URL with esc_url_raw().
  * @return string
  */
-function get_pagenum_link($pagenum = 1) {
+function get_pagenum_link($pagenum = 1, $escape = true ) {
 	global $wp_rewrite;
 
 	$pagenum = (int) $pagenum;
@@ -1425,7 +1427,10 @@ function get_pagenum_link($pagenum = 1) {
 
 	$result = apply_filters('get_pagenum_link', $result);
 
-	return $result;
+	if ( $escape )
+		return esc_url( $result );
+	else
+		return esc_url_raw( $result );
 }
 
 /**
