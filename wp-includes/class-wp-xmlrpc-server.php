@@ -530,10 +530,10 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( in_array( 'labels', $fields ) )
 			$_taxonomy['labels'] = (array) $taxonomy->labels;
 
-		if ( in_array( 'capabilities', $fields ) )
+		if ( in_array( 'cap', $fields ) )
 			$_taxonomy['cap'] = (array) $taxonomy->cap;
 
-		if ( in_array( 'object_types', $fields ) )
+		if ( in_array( 'object_type', $fields ) )
 			$_taxonomy['object_type'] = array_unique( (array) $taxonomy->object_type );
 
 		return apply_filters( 'xmlrpc_prepare_taxonomy', $_taxonomy, $taxonomy, $fields );
@@ -705,7 +705,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			$_post_type['labels'] = (array) $post_type->labels;
 		}
 
-		if ( in_array( 'capabilities', $fields ) ) {
+		if ( in_array( 'cap', $fields ) ) {
 			$_post_type['cap'] = (array) $post_type->cap;
 			$_post_type['map_meta_cap'] = (bool) $post_type->map_meta_cap;
 		}
@@ -1726,7 +1726,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( isset( $args[4] ) )
 			$fields = $args[4];
 		else
-			$fields = apply_filters( 'xmlrpc_default_taxonomy_fields', array( 'labels', 'capabilities', 'object_types' ), 'wp.getTaxonomy' );
+			$fields = apply_filters( 'xmlrpc_default_taxonomy_fields', array( 'labels', 'cap', 'object_type' ), 'wp.getTaxonomy' );
 
 		if ( ! $user = $this->login( $username, $password ) )
 			return $this->error;
@@ -1770,7 +1770,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( isset( $args[4] ) )
 			$fields = $args[4];
 		else
-			$fields = apply_filters( 'xmlrpc_default_taxonomy_fields', array( 'labels', 'capabilities', 'object_types' ), 'wp.getTaxonomies' );
+			$fields = apply_filters( 'xmlrpc_default_taxonomy_fields', array( 'labels', 'cap', 'object_type' ), 'wp.getTaxonomies' );
 
 		if ( ! $user = $this->login( $username, $password ) )
 			return $this->error;
@@ -3080,7 +3080,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( isset( $args[4] ) )
 			$fields = $args[4];
 		else
-			$fields = apply_filters( 'xmlrpc_default_posttype_fields', array( 'labels', 'capabilities', 'taxonomies' ), 'wp.getPostType' );
+			$fields = apply_filters( 'xmlrpc_default_posttype_fields', array( 'labels', 'cap', 'taxonomies' ), 'wp.getPostType' );
 
 		if ( !$user = $this->login( $username, $password ) )
 			return $this->error;
@@ -3126,7 +3126,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( isset( $args[4] ) )
 			$fields = $args[4];
 		else
-			$fields = apply_filters( 'xmlrpc_default_posttype_fields', array( 'labels', 'capabilities', 'taxonomies' ), 'wp.getPostTypes' );
+			$fields = apply_filters( 'xmlrpc_default_posttype_fields', array( 'labels', 'cap', 'taxonomies' ), 'wp.getPostTypes' );
 
 		if ( ! $user = $this->login( $username, $password ) )
 			return $this->error;
