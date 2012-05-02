@@ -105,7 +105,7 @@ for ( $i = 1; $i <= $count; $i++ ) {
 
 			// Set the author using the email address (From or Reply-To, the last used)
 			// otherwise use the site admin
-			if ( preg_match('/(From|Reply-To): /', $line) )  {
+			if ( ! $author_found && preg_match( '/^(From|Reply-To): /', $line ) ) {
 				if ( preg_match('|[a-z0-9_.-]+@[a-z0-9_.-]+(?!.*<)|i', $line, $matches) )
 					$author = $matches[0];
 				else
@@ -114,14 +114,10 @@ for ( $i = 1; $i <= $count; $i++ ) {
 				if ( is_email($author) ) {
 					echo '<p>' . sprintf(__('Author is %s'), $author) . '</p>';
 					$userdata = get_user_by('email', $author);
-					if ( empty($userdata) ) {
-						$author_found = false;
-					} else {
+					if ( ! empty( $userdata ) ) {
 						$post_author = $userdata->ID;
 						$author_found = true;
 					}
-				} else {
-					$author_found = false;
 				}
 			}
 
