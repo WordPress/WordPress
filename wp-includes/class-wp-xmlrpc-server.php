@@ -689,7 +689,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @param array $fields The subset of post fields to return
 	 * @return array The prepared post type data
 	 */
-	public function _prepare_post_type( $post_type, $fields ) {
+	protected function _prepare_post_type( $post_type, $fields ) {
 		$_post_type = array(
 			'name' => $post_type->name,
 			'label' => $post_type->label,
