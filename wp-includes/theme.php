@@ -1347,13 +1347,12 @@ function _custom_header_background_just_in_time() {
 		add_theme_support( 'custom-header', array( '__jit' => true ) );
 
 		$args = get_theme_support( 'custom-header' );
-		if ( $args[0]['wp-head-callback'] && $args[0]['admin-head-callback'] ) {
+		if ( $args[0]['wp-head-callback'] )
 			add_action( 'wp_head', $args[0]['wp-head-callback'] );
 
-			if ( is_admin() ) {
-				require_once( ABSPATH . 'wp-admin/custom-header.php' );
-				$custom_image_header = new Custom_Image_Header( $args[0]['admin-head-callback'], $args[0]['admin-preview-callback'] );
-			}
+		if ( is_admin() ) {
+			require_once( ABSPATH . 'wp-admin/custom-header.php' );
+			$custom_image_header = new Custom_Image_Header( $args[0]['admin-head-callback'], $args[0]['admin-preview-callback'] );
 		}
 	}
 
@@ -1557,7 +1556,6 @@ function check_theme_switched() {
 	if ( $stylesheet = get_option( 'theme_switched' ) ) {
 		$old_theme = wp_get_theme( $stylesheet );
 
-		
 		if ( $old_theme->exists() )
 			do_action( 'after_switch_theme', $old_theme->get('Name'), $old_theme );
 		else

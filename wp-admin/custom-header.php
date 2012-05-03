@@ -91,7 +91,8 @@ class Custom_Image_Header {
 		add_action("admin_head-$page", array(&$this, 'help') );
 		add_action("admin_head-$page", array(&$this, 'take_action'), 50);
 		add_action("admin_head-$page", array(&$this, 'js'), 50);
-		add_action("admin_head-$page", $this->admin_header_callback, 51);
+		if ( $this->admin_header_callback )
+			add_action("admin_head-$page", $this->admin_header_callback, 51);
 
 		add_filter( 'attachment_fields_to_edit', array( $this, 'attachment_fields_to_edit' ), 10, 2 );
 		add_filter( 'media_upload_tabs', array( $this, 'filter_upload_tabs' ) );
