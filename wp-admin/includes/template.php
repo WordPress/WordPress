@@ -96,6 +96,8 @@ function wp_terms_checklist($post_id = 0, $args = array()) {
 		'taxonomy' => 'category',
 		'checked_ontop' => true
 	);
+	$args = apply_filters( 'wp_terms_checklist_args', $args, $post_id );
+
 	extract( wp_parse_args($args, $defaults), EXTR_SKIP );
 
 	if ( empty($walker) || !is_a($walker, 'Walker') )
