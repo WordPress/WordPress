@@ -108,9 +108,27 @@ class Custom_Image_Header {
 			'id'      => 'overview',
 			'title'   => __('Overview'),
 			'content' =>
-				'<p>' . __( 'You can set a custom image header for your site. Simply upload the image and crop it, and the new header will go live immediately.' ) . '</p>' .
-				'<p>' . __( 'If you want to discard your custom header and go back to the default included in your theme, click on the buttons to remove the custom image and restore the original header image.' ) . '</p>' .
-				'<p>' . __( 'Some themes come with additional header images bundled. If you see multiple images displayed, select the one you&#8217;d like and click the Save Changes button.' ) . '</p>'
+				'<p>' . __( 'This screen is used to customize the header section of your theme.') . '</p>' .
+				'<p>' . __( 'You can choose from the theme&#8217;s default header images, or use one of your own. You can also customize how your Site Title and Tagline are displayed.') . '<p>'
+		) );
+		
+		get_current_screen()->add_help_tab( array(
+			'id'      => 'set-header-image',
+			'title'   => __('Header Image'),
+			'content' =>
+				'<p>' . __( 'You can set a custom image header for your site. Simply upload the image and crop it, and the new header will go live immediately. Alternatively, you can use an image that has already been uploaded to your Media Library by clicking the &#8220;Choose from image library&#8221; link.' ) . '</p>' .
+				'<p>' . __( 'Some themes come with additional header images bundled. If you see multiple images displayed, select the one you&#8217;d like and click the &#8220;Save Changes&#8221; button.' ) . '</p>' .
+				'<p>' . __( 'If your theme has more than one default header image, or you have uploaded more than one custom header image, you have the option of having WordPress display a randomly different image on each page of your site. Click the &#8220;Random&#8221; radio button next to the Uploaded Images or Default Images section to enable this feature.') . '</p>' .
+				'<p>' . __( 'If you don&#8217;t want a header image to displayed on your site at all, click the &#8220;Remove Header Image&#8221; button at the bottom of the Header Image section of this page. If you want to re-enable the header image later, you just have to select one of the other image options and click &#8220;Save Changes&#8221;.') . '</p>'
+		) );
+		
+		get_current_screen()->add_help_tab( array(
+			'id'      => 'set-header-text',
+			'title'   => __('Header Text'),
+			'content' =>
+				'<p>' . sprintf( '%1$s <a href="' . admin_url( 'options-general.php' ) . '">%2$s</a> %3$s', __( 'For most themes, the header text is your Site Title and Tagline, as defined in the'), __( 'General Settings' ), __( 'section.' ) ) . '<p>' .
+				'<p>' . __( 'In the Header Text section of this page, you can choose whether to display this text or hide it. You can also choose a color for the text by typing in a legitimate HTML hex value (eg: &#8220;#ff0000&#8221; for red) or by clicking &#8220;Select a Color&#8221; and dialing in a color using the color picker.') . '</p>' .
+				'<p>' . __( 'Don&#8217;t forget to Save Changes when you&#8217;re done!') . '</p>'
 		) );
 
 		get_current_screen()->set_help_sidebar(
