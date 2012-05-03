@@ -126,7 +126,7 @@ class Custom_Image_Header {
 			'id'      => 'set-header-text',
 			'title'   => __('Header Text'),
 			'content' =>
-				'<p>' . sprintf( '%1$s <a href="' . admin_url( 'options-general.php' ) . '">%2$s</a> %3$s', __( 'For most themes, the header text is your Site Title and Tagline, as defined in the'), __( 'General Settings' ), __( 'section.' ) ) . '<p>' .
+				'<p>' . sprintf( __( 'For most themes, the header text is your Site Title and Tagline, as defined in the <a href="%1$s">General Settings</a> section.' ), admin_url( 'options-general.php' ) ) . '<p>' .
 				'<p>' . __( 'In the Header Text section of this page, you can choose whether to display this text or hide it. You can also choose a color for the text by typing in a legitimate HTML hex value (eg: &#8220;#ff0000&#8221; for red) or by clicking &#8220;Select a Color&#8221; and dialing in a color using the color picker.') . '</p>' .
 				'<p>' . __( 'Don&#8217;t forget to Save Changes when you&#8217;re done!') . '</p>'
 		) );
