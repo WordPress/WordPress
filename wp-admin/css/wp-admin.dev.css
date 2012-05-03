@@ -7575,6 +7575,10 @@ h3 span {
 	line-height: 180%;
 }
 
+#filter-box {
+	clear: both;
+}
+
 .feature-filter {
 	padding: 8px 12px 0;
 }

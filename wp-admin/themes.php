@@ -171,11 +171,11 @@ if ( ! current_user_can( 'switch_themes' ) ) {
 }
 ?>
 
+<form class="search-form filter-form" action="" method="get">
+
 <h3 class="available-themes"><?php _e('Available Themes'); ?></h3>
 
 <?php if ( !empty( $_REQUEST['s'] ) || !empty( $_REQUEST['features'] ) || $wp_list_table->has_items() ) : ?>
-
-<form class="search-form filter-form" action="" method="get">
 
 <p class="search-box">
 	<label class="screen-reader-text" for="theme-search-input"><?php _e('Search Installed Themes'); ?>:</label>
@@ -183,8 +183,6 @@ if ( ! current_user_can( 'switch_themes' ) ) {
 	<?php submit_button( __( 'Search Installed Themes' ), 'button', false, false, array( 'id' => 'search-submit' ) ); ?>
 	<a id="filter-click" href="?filter=1"><?php _e( 'Feature Filter' ); ?></a>
 </p>
-
-<br class="clear"/>
 
 <div id="filter-box" style="<?php if ( empty($_REQUEST['filter']) ) echo 'display: none;'; ?>">
 <?php $feature_list = get_theme_feature_list(); ?>
@@ -224,9 +222,9 @@ if ( ! current_user_can( 'switch_themes' ) ) {
 	<br class="clear"/>
 </div>
 
-<br class="clear" />
-
 <?php endif; ?>
+
+<br class="clear" />
 
 <?php $wp_list_table->display(); ?>
 
