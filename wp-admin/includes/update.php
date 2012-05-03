@@ -223,7 +223,7 @@ function get_theme_updates() {
 	if ( ! isset( $current->response ) )
 		return array();
 
-	$update_themes = array();	
+	$update_themes = array();
 	foreach ( $current->response as $stylesheet => $data ) {
 		$update_themes[ $stylesheet ] = wp_get_theme( $stylesheet );
 		$update_themes[ $stylesheet ]->update = $data;

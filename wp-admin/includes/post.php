@@ -747,7 +747,7 @@ function update_meta( $meta_id, $meta_key, $meta_value ) {
 function _fix_attachment_links( $post_ID ) {
 	$post = & get_post( $post_ID, ARRAY_A );
 	$content = $post['post_content'];
-	
+
 	// quick sanity check, don't run if no pretty permalinks or post is not published
 	if ( !get_option('permalink_structure') || $post['post_status'] != 'publish' )
 		return;

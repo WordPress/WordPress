@@ -3686,7 +3686,7 @@ function _device_can_upload() {
 		return true;
 
 	$ua = $_SERVER['HTTP_USER_AGENT'];
-	
+
 	if ( strpos($ua, 'iPhone') !== false
 		|| strpos($ua, 'iPad') !== false
 		|| strpos($ua, 'iPod') !== false ) {

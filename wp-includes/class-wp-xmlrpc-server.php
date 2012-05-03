@@ -3275,7 +3275,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$post_data = wp_get_single_post($post_ID, ARRAY_A);
 		if ( ! $post_data )
 			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
-			
+
 		if ( !current_user_can( 'edit_post', $post_ID ) )
 			return new IXR_Error( 401, __( 'Sorry, you cannot edit this post.' ) );
 

@@ -91,7 +91,7 @@ get_current_screen()->set_help_sidebar(
 	'<p>' . __( '<a href="http://codex.wordpress.org/Dashboard_Screen" target="_blank">Documentation on Dashboard</a>' ) . '</p>' .
 	'<p>' . __( '<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>' ) . '</p>'
 );
-	
+
 include (ABSPATH . 'wp-admin/admin-header.php');
 
 $today = current_time('mysql', 1);

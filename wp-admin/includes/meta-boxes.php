@@ -665,7 +665,7 @@ function link_categories_meta_box($link) {
 		<li class="tabs"><a href="#categories-all"><?php _e( 'All Categories' ); ?></a></li>
 		<li class="hide-if-no-js"><a href="#categories-pop"><?php _e( 'Most Used' ); ?></a></li>
 	</ul>
-	
+
 	<div id="categories-all" class="tabs-panel">
 		<ul id="categorychecklist" class="list:category categorychecklist form-no-clear">
 			<?php
@@ -676,13 +676,13 @@ function link_categories_meta_box($link) {
 			?>
 		</ul>
 	</div>
-	
+
 	<div id="categories-pop" class="tabs-panel" style="display: none;">
 		<ul id="categorychecklist-pop" class="categorychecklist form-no-clear">
 			<?php wp_popular_terms_checklist('link_category'); ?>
 		</ul>
 	</div>
-	
+
 	<div id="category-adder" class="wp-hidden-children">
 		<h4><a id="category-add-toggle" href="#category-add"><?php _e( '+ Add New Category' ); ?></a></h4>
 		<p id="link-category-add" class="wp-hidden-child">

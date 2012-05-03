@@ -2996,7 +2996,7 @@ function get_current_theme() {
  */
 function clean_pre($matches) {
 	_deprecated_function( __FUNCTION__, '3.4' );
-	
+
 	if ( is_array($matches) )
 		$text = $matches[1] . $matches[2] . "</pre>";
 	else

@@ -372,7 +372,7 @@ final class WP_Theme implements ArrayAccess {
 	 * Method to implement ArrayAccess for keys formerly returned by get_themes().
 	 *
 	 * Author, Author Name, Author URI, and Description did not previously return
-	 * translated data. We are doing so now as it is safe to do. However, as 
+	 * translated data. We are doing so now as it is safe to do. However, as
 	 * Name and Title could have been used as the key for get_themes(), both remain
 	 * untranslated for back compatibility. This means that ['Name'] is not ideal,
 	 * and care should be taken to use $theme->display('Name') to get a properly

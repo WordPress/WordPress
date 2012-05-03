@@ -809,7 +809,7 @@ final class WP_Screen {
 
 		if ( $this->get_option( 'layout_columns' ) ) {
 			$this->columns = (int) get_user_option("screen_layout_$this->id");
-	
+
 			if ( ! $this->columns && $this->get_option( 'layout_columns', 'default' ) )
 				$this->columns = $this->get_option( 'layout_columns', 'default' );
 		}
