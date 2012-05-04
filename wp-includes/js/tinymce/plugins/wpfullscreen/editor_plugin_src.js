@@ -115,24 +115,23 @@
 				if ( resized )
 					return;
 
-				var d = ed.getDoc(), DOM = tinymce.DOM, resizeHeight, myHeight;
+				var d = ed.getDoc(), body = d.body, DOM = tinymce.DOM, resizeHeight, myHeight;
 
 				// Get height differently depending on the browser used
-				if ( tinymce.isIE )
+				if ( tinymce.isIE || tinymce.isWebKit )
 					myHeight = d.body.scrollHeight;
 				else
-					myHeight = d.documentElement.offsetHeight;
+					myHeight = body.offsetHeight;
 
 				// Don't make it smaller than 300px
 				resizeHeight = (myHeight > 300) ? myHeight : 300;
 
 				// Resize content element
 				if ( oldHeight != resizeHeight ) {
-					oldHeight = resizeHeight;
 					resized = true;
 					setTimeout(function(){ resized = false; }, 100);
-
 					DOM.setStyle(DOM.get(ed.id + '_ifr'), 'height', resizeHeight + 'px');
+					oldHeight = resizeHeight;
 				}
 			};
 
