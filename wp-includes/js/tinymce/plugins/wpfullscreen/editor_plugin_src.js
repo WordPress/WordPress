@@ -115,13 +115,13 @@
 				if ( resized )
 					return;
 
-				var d = ed.getDoc(), body = d.body, DOM = tinymce.DOM, resizeHeight, myHeight;
+				var d = ed.getDoc(), DOM = tinymce.DOM, resizeHeight, myHeight;
 
 				// Get height differently depending on the browser used
 				if ( tinymce.isIE || tinymce.isWebKit )
 					myHeight = d.body.scrollHeight;
 				else
-					myHeight = body.offsetHeight;
+					myHeight = d.body.offsetHeight;
 
 				// Don't make it smaller than 300px
 				resizeHeight = (myHeight > 300) ? myHeight : 300;
