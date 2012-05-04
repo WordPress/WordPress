@@ -34,7 +34,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 </h2>
 
 <div class="changelog">
-	<h3><?php _e( 'Easier Uploading' ); ?></h3>
+	<h3><?php _e( 'Customizer' ); ?></h3>
 
 	<div class="feature-section images-stagger-right">
 		<div class="feature-images">
@@ -42,86 +42,73 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<img src="<?php echo admin_url( 'images/screenshots/drag-and-drop.png' ); ?>" width="200" class="angled-left" />
 		</div>
 		<div class="left-feature">
-			<h4><?php _e( 'File Type Detection' ); ?></h4>
-			<p><?php _e( 'We&#8217;ve streamlined things! Instead of needing to click on a specific upload icon based on your file type, now there&#8217;s just one. Once your file is uploaded, the appropriate fields will be displayed for entering information based on the file type.' ); ?></p>
+			<h4><?php _e( 'All In One Place' ); ?></h4>
+			<p><?php _e( 'OMG, this one thing does multiple things, on one screen.' ); ?></p>
 
-			<h4><?php _e( 'Drag-and-Drop Media Uploader' ); ?></h4>
-			<p><?php _e( 'Adding photos or other files to posts and pages just got easier. Drag files from your desktop and drop them into the uploader. Add one file at a time, or many at once.' ); ?></p>
+			<h4><?php _e( 'Live Preview' ); ?></h4>
+			<p><?php _e( 'Immediate feedback on what your butchery looks like.' ); ?></p>
 
-			<h4><?php _e( 'More File Formats' ); ?></h4>
-			<p><?php _e( 'We&#8217;ve added the rar and 7z file formats to the list of allowed file types in the uploader.' ); ?></p>
+			<h4><?php _e( 'Commitment Issues?' ); ?></h4>
+			<p><?php _e( 'Before activating that new theme, customize and test drive it.' ); ?></p>
+
+			<h4><?php _e( 'Variable Height Headers' ); ?></h4>
+			<p><?php _e( 'If your theme elects, image headers can be made at variable height and even width. Pick the size that suits you.' ); ?></p>
 		</div>
 	</div>
 </div>
 
 <div class="changelog">
-	<h3><?php _e( 'Dashboard Design' ); ?></h3>
+	<h3><?php _e( 'Mobile/Touch' ); ?></h3>
 
 	<div class="feature-section text-features">
-		<h4><?php _e( 'Flyout Menus' ); ?></h4>
-		<p><?php _e( 'Speed up navigating the dashboard and reduce repetitive clicking with our new flyout submenus. As you hover over each main menu item in your dashboard navigation, the submenus will magically appear, providing single-click access to any dashboard screen.' ); ?></p>
+		<h4><?php _e( 'Drag, Swipe, Tap, Pat, Pat, Pat Happy Little Clouds' ); ?></h4>
+		<p><?php _e( 'Engage your fingers with a more touchable admin.' ); ?></p>
 
 		<div>
-		<h4><?php _e( 'Header + Admin Bar = Toolbar' ); ?></h4>
-		<p><?php _e( 'To save space and increase efficiency, we&#8217;ve combined the admin bar and the old Dashboard header into one persistent toolbar. Hovering over the toolbar items will reveal submenus when available for quick access. ' ); ?></p>
+		<h4><?php _e( 'Size Responsive' ); ?></h4>
+		<p><?php _e( 'From mobile to tablet.' ); ?></p>
 		</div>
 	</div>
 
 	<div class="feature-section screenshot-features">
 		<div class="angled-left">
 			<img src="<?php echo admin_url( 'images/screenshots/admin-flyouts.png' ); ?>" />
-			<h4><?php _e( 'Responsive Design' ); ?></h4>
-			<p><?php _e( 'Certain dashboard screens have been updated to look better at various sizes, including improved iPad/tablet support.' ); ?></p>
+			<h4><?php _e( 'Blog Anywhere' ); ?></h4>
+			<p><?php _e( 'Picture of hipster in cafe criticizing the coffee via his tablet.' ); ?></p>
 		</div>
 		<div class="angled-right">
 			<img src="<?php echo admin_url( 'images/screenshots/help-screen.png' ); ?>" />
-			<h4><?php _e( 'Help Tabs' ); ?></h4>
-			<p><?php _e( 'The Help tabs located in the upper corner of the dashboard screens below your name have gotten a facelift. Help content is broken into smaller sections for easier access, with links to relevant documentation and the support forums always visible.' ); ?></p>
+			<h4><?php _e( 'Couch Couch Couch!' ); ?></h4>
+			<p><?php _e( 'Picture of happy tablet user blogging from couch while watching sitcoms.' ); ?></p>
 		</div>
 	</div>
 </div>
 
 <div class="changelog">
-	<h3><?php _e( 'Feels Like the First Time' ); ?></h3>
+	<h3><?php _e( 'XML-RPC API' ); ?></h3>
 
-	<div class="feature-section images-stagger-right">
-		<div class="feature-images">
-			<img src="<?php echo admin_url( 'images/screenshots/new-feature-pointer.png' ); ?>" class="angled-right" />
-			<img src="<?php echo admin_url( 'images/screenshots/welcome-screen.png' ); ?>" class="angled-left" />
-		</div>
-		<div class="left-feature">
-			<h4><?php _e( 'New Feature Pointers' ); ?></h4>
-			<p><?php _e( 'When we add new features, move navigation, or do anything else with the dashboard that might throw you for a loop when you update your WordPress site, we&#8217;ll let you know about it with new feature pointers explaining the change.' ); ?></p>
+	<div class="feature-section text-features">
+		<h4><?php _e( 'In your About page, talking nonsense.' ); ?></h4>
+		<p><?php _e( 'Synergy!' ); ?></p>
 
-			<h4><?php _e( 'Post-update Changelog' ); ?></h4>
-			<p><?php _e( 'This screen! From now on when you update WordPress, you&#8217;ll be brought to this screen &mdash; also accessible any time from the W logo in the corner of the toolbar &mdash; to get an overview of what&#8217;s changed.' ); ?></p>
-
-			<h4><?php _e( 'Dashboard Welcome' ); ?></h4>
-			<p><?php _e( 'The dashboard home screen will have a Welcome area that displays when a new WordPress installation is accessed for the first time, prompting the site owner to complete various setup tasks. Once dismissed, this welcome can be accessed via the dashboard home screen options tab.' ); ?></p>
+		<div>
+		<h4><?php _e( 'Remote Procedures' ); ?></h4>
+		<p><?php _e( 'Want you to call. Do not pretend you lost the number.' ); ?></p>
 		</div>
 	</div>
 
-</div>
-
-<div class="changelog">
-	<h3><?php _e( 'Content Tools' ); ?></h3>
-
-	<div class="feature-section three-col">
-		<div>
-			<h4><?php _e( 'Better Co-Editing' ); ?></h4>
-			<img src="<?php echo admin_url( 'images/screenshots/coediting.png' ); ?>" class="element-screenshot" />
-			<p><?php _e( 'Have you ever gone to edit a post after someone else has finished with it, only to get an alert that tells you the other person is still editing the post? From now on, you&#8217;ll only get that alert if another person is still on the editing screen &mdash; no more time lag.' ); ?></p>
+	<div class="feature-section screenshot-features">
+		<div class="angled-left">
+			<img src="<?php echo admin_url( 'images/screenshots/admin-flyouts.png' ); ?>" />
+			<h4><?php _e( 'Mobile Mobile Mobile!' ); ?></h4>
+			<p><?php _e( 'Picture of a happy mobile app user (like the one above) who has no idea that his/her phone is engaging in XML-RPC.' ); ?></p>
 		</div>
-		<div>
-			<h4><?php _e( 'Tumblr Importer' ); ?></h4>
-			<p><?php _e( 'Want to import content from Tumblr to WordPress? No problem! Go to <span class="no-break">Tools &rarr; Import</span> to get the new Tumblr Importer, which maps your Tumblog posts to the matching WordPress post formats. Tip: Choose a theme designed to display post formats to get the greatest benefit from the importer.' ); ?></p>
-		</div>
-		<div class="last-feature">
-			<h4><?php _e( 'Widget Improvements' ); ?></h4>
-			<p><?php _e( 'Changing themes often requires widget re-configuration based on the number and position of sidebars. Now if you change back to a previous theme, the widgets will automatically go back to how you had them arranged in that theme. <em>Note: if you&#8217;ve added new widgets since the switch, you&#8217;ll need to rescue them from the Inactive Widgets area.</em>' ); ?></p>
+		<div class="angled-right">
+			<img src="<?php echo admin_url( 'images/screenshots/help-screen.png' ); ?>" />
+			<h4><?php _e( 'Armageddon It' ); ?></h4>
+			<p><?php _e( 'Picture of a block of XML-RPC API code glimpsed over of the shoulder of a henchman in a lab coat who is getting ready to upload this doomsday snippet to every satellite over the Tri-State Area!' ); ?></p>
 		</div>
 	</div>
-
 </div>
 
 <div class="changelog">
@@ -129,31 +116,31 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 	<div class="feature-section three-col">
 		<div>
-			<h4><?php _e( 'Flexible Permalinks' ); ?></h4>
-			<p><?php _e( 'You have more freedom when choosing a post permalink structure. Skip the date information or add a category slug without a performance penalty.' ); ?></p>
+			<h4><?php _e( 'Themes API' ); ?></h4>
+			<p><?php _e( 'WP_Theme, wp_get_themes(), wp_get_theme(). Faster, uses less memory, make uses of persistent caching.' ); ?></p>
 		</div>
 		<div>
-			<h4><?php _e( 'Post Slugs: Less Funky' ); ?></h4>
-			<p><?php _e( 'Funky characters in post titles (e.g. curly quotes from a word processor) will no longer result in garbled post slugs.' ); ?></p>
+			<h4><?php _e( 'Faster Main Query' ); ?></h4>
+			<p><?php _e( 'Post query optimized to avoid table scans.' ); ?></p>
 		</div>
 		<div class="last-feature">
-			<h4><?php _e( 'jQuery and jQuery UI' ); ?></h4>
-			<p><?php printf( __( 'WordPress now includes the entire jQuery UI stack and the latest version of jQuery: %s.' ), '1.7.1' ); ?></p>
+			<h4><?php _e( 'Custom Header and Backound API' ); ?></h4>
+			<p><?php  _e( 'Custom header and background API relocated into the theme support API.' ); ?></p>
 		</div>
 	</div>
 
 	<div class="feature-section three-col">
 		<div>
-			<h4 style="direction:ltr">is_main_query()</h4>
-			<p><?php _e( 'This handy method will tell you if a <code>WP_Query</code> object is the main WordPress query or a secondary query.' ); ?></p>
+			<h4><?php _e( 'Faster I18N' ); ?></h4>
+			<p><?php _e( 'The number of strings loaded on the front end were greatly reduced, resulting in faster front page load times for I18N users.' ); ?></p>
 		</div>
 		<div>
 			<h4><?php _e( 'WP_Screen API' ); ?></h4>
-			<p><?php _e( 'WordPress has a nice new API for working with admin screens. Create rich screens, add help documentation, adapt to screen contexts, and more.' ); ?></p>
+			<p><?php _e( 'More methods, more convenience!' ); ?></p>
 		</div>
 		<div class="last-feature">
-			<h4><?php _e( 'Editor API Overhaul' ); ?></h4>
-			<p><?php _e( 'The new editor API automatically pulls in all the JS and CSS goodness for the editor. It even supports multiple editors on the same page.' ); ?></p>
+			<h4><?php _e( 'External Libraries' ); ?></h4>
+			<p><?php _e( 'jQuery, jQuery UI, TinyMCE, Plupload, PHPMailer, SimplePie, and other libraries were updated. jQuery UI Touch Punch was introduced.' ); ?></p>
 		</div>
 	</div>
 
