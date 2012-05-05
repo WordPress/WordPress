@@ -51,7 +51,6 @@ $_old_files = array(
 'wp-includes/js/dbx-key.js',
 'wp-includes/js/tinymce/plugins/autosave/langs/cs.js',
 'wp-includes/js/tinymce/plugins/autosave/langs/sv.js',
-'wp-includes/js/tinymce/themes/advanced/editor_template_src.js',
 'wp-includes/links.php',
 'wp-includes/pluggable-functions.php',
 'wp-includes/template-functions-author.php',
