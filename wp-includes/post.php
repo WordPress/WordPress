@@ -632,7 +632,7 @@ function get_page_statuses( ) {
 }
 
 /**
- * Register a post type. Do not use before init.
+ * Register a post status. Do not use before init.
  *
  * A simple function for creating or modifying a post status based on the
  * parameters given. The function will accept an array (second optional
