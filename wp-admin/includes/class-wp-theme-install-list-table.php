@@ -192,13 +192,34 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 			'theme' => $theme->slug,
 		) );
 
+		$actions = array();
+
+		$install_url = add_query_arg( array(
+			'action' => 'install-theme',
+			'theme'  => $theme->slug,
+		), self_admin_url( 'update.php' ) );
+		$actions[] = '<a class="install-now" href="' . wp_nonce_url( $install_url, 'install-theme_' . $theme->slug ) . '" title="' . esc_attr( sprintf( __( 'Install %s' ), $name ) ) . '">' . __( 'Install Now' ) . '</a>';
+
+		$actions[] = '<a class="install-theme-preview" href="#" title="' . esc_attr( sprintf( __( 'Preview %s' ), $name ) ) . '">' . __( 'Preview' ) . '</a>';
+
+		$actions = apply_filters( 'theme_install_actions', $actions, $theme );
+
 		?>
-		<a class="screenshot" href="<?php echo esc_url( $preview_url ); ?>" title="<?php echo esc_attr( $preview_title ); ?>">
+		<a class="screenshot install-theme-preview" href="<?php echo esc_url( $preview_url ); ?>" title="<?php echo esc_attr( $preview_title ); ?>">
 			<img src='<?php echo esc_url( $theme->screenshot_url ); ?>' width='150' />
 		</a>
 
 		<h3><?php echo $name; ?></h3>
 		<div class="theme-author"><?php printf( __( 'By %s' ), $author ); ?></div>
+
+		<div class="action-links">
+			<ul>
+				<?php foreach ( $actions as $action ): ?>
+					<li><?php echo $action; ?></li>
+				<?php endforeach; ?>
+				<li class="hide-if-no-js"><a href="#" class="theme-detail" tabindex='4'><?php _e('Details') ?></a></li>
+			</ul>
+		</div>
 
 		<?php
 		$this->install_theme_info( $theme );
@@ -277,15 +298,17 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 			<?php if ( isset( $theme->screenshot_url ) ): ?>
 				<img class="theme-screenshot" src="<?php echo esc_url( $theme->screenshot_url ); ?>" />
 			<?php endif; ?>
-			<div class="theme-rating" title="<?php echo esc_attr( $num_ratings ); ?>">
-				<div style="width:<?php echo esc_attr( intval( $theme->rating ) . 'px' ); ?>;"></div>
-			</div>
-			<div class="theme-version">
-				<strong><?php _e('Version:') ?> </strong>
-				<?php echo wp_kses( $theme->version, $themes_allowedtags ); ?>
-			</div>
-			<div class="theme-description">
-				<?php echo wp_kses( $theme->description, $themes_allowedtags ); ?>
+			<div class="theme-details">
+				<div class="theme-rating" title="<?php echo esc_attr( $num_ratings ); ?>">
+					<div style="width:<?php echo esc_attr( intval( $theme->rating ) . 'px' ); ?>;"></div>
+				</div>
+				<div class="theme-version">
+					<strong><?php _e('Version:') ?> </strong>
+					<?php echo wp_kses( $theme->version, $themes_allowedtags ); ?>
+				</div>
+				<div class="theme-description">
+					<?php echo wp_kses( $theme->description, $themes_allowedtags ); ?>
+				</div>
 			</div>
 			<input class="theme-preview-url" type="hidden" value="<?php echo esc_url( $theme->preview_url ); ?>" />
 		</div>

@@ -5373,28 +5373,27 @@ body.full-overlay-active {
 	border: 1px solid #ccc;
 }
 
-.install-theme-info .theme-version {
+.theme-details .theme-version {
 	margin: 15px 0;
-	float: right;
+	float: left;
 }
 
-.install-theme-info .theme-rating {
+.theme-details .theme-rating {
 	margin: 14px 0;
 	width: 100px;
 	height: 17px;
-	float: left;
+	float: right;
 	background: url('../images/stars.png?ver=20120307') repeat-x bottom left;
 }
 
-.install-theme-info .theme-rating div {
+.theme-details .theme-rating div {
 	background: url('../images/stars.png?ver=20120307') repeat-x top left;
 	height: 17px;
 	float: left;
 }
 
-.install-theme-info .theme-description {
-	margin-top: 34px;
-	padding-top: 1em;
+.theme-details .theme-description {
+	float: left;
 	color: #777;
 	line-height: 20px;
 }
