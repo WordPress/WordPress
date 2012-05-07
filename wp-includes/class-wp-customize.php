@@ -209,12 +209,7 @@ final class WP_Customize {
 
 		?>
 		<script type="text/javascript">
-			(function() {
-				if ( typeof wp === 'undefined' || ! wp.customize )
-					return;
-
-				wp.customize.settings = <?php echo json_encode( $settings ); ?>;
-			})();
+			var _wpCustomizeSettings = <?php echo json_encode( $settings ); ?>;
 		</script>
 		<?php
 	}

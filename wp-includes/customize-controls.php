@@ -115,12 +115,7 @@ do_action( 'customize_controls_print_scripts' );
 
 	?>
 	<script type="text/javascript">
-		(function() {
-			if ( typeof wp === 'undefined' || ! wp.customize )
-				return;
-
-			wp.customize.settings = <?php echo json_encode( $settings ); ?>;
-		})();
+		var _wpCustomizeSettings = <?php echo json_encode( $settings ); ?>;
 	</script>
 </body>
 </html>

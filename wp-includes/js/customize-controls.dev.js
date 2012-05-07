@@ -366,6 +366,7 @@
 	};
 
 	$( function() {
+		api.settings = window._wpCustomizeSettings;
 		if ( ! api.settings )
 			return;
 
