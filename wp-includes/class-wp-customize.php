@@ -71,6 +71,18 @@ final class WP_Customize {
 		if ( ! isset( $_REQUEST['customize'] ) || 'on' != $_REQUEST['customize'] )
 			return;
 
+		$url = parse_url( admin_url() );
+		$allowed_origins = array( 'http://' . $url[ 'host' ],  'https://' . $url[ 'host' ] );
+		// @todo preserve port?
+		if ( isset( $_SERVER[ 'HTTP_ORIGIN' ] ) && in_array( $_SERVER[ 'HTTP_ORIGIN' ], $allowed_origins ) ) {
+			$origin = $_SERVER[ 'HTTP_ORIGIN' ];
+		} else {
+			$origin = $url[ 'scheme' ] . '://' . $url[ 'host' ];
+		}
+
+		@header( 'Access-Control-Allow-Origin: ' .  $origin );
+		@header( 'Access-Control-Allow-Credentials: true' );
+
 		$this->start_previewing_theme();
 		show_admin_bar( false );
 	}
@@ -198,8 +210,6 @@ final class WP_Customize {
 	 */
 	public function customize_preview_settings() {
 		$settings = array(
-			// @todo: Perhaps grab the URL via $_POST?
-			'parent' => esc_url( admin_url( 'themes.php' ) ),
 			'values' => array(),
 		);
 

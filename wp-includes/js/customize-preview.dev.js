@@ -37,7 +37,7 @@
 
 		var preview, body;
 
-		preview = new api.Preview( api.settings.parent );
+		preview = new api.Preview( window.location.href );
 
 		$.each( api.settings.values, function( id, value ) {
 			api.set( id, value );

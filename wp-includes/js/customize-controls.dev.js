@@ -311,6 +311,10 @@
 
 			api.Messenger.prototype.initialize.call( this, params.url );
 
+			// We're dynamically generating the iframe, so the origin is set
+			// to the current window's location, not the url's.
+			this.origin.unlink( this.url ).set( window.location.href );
+
 			this.bind( 'url', function( url ) {
 				// Bail if we're navigating to the current url, to a different origin, or wp-admin.
 				if ( this.url() == url || 0 !== url.indexOf( this.origin() + '/' ) || -1 !== url.indexOf( 'wp-admin' ) )
@@ -343,15 +347,22 @@
 			if ( this.request )
 				this.request.abort();
 
-			this.request = $.post( this.url(), this.query() || {}, function( response ) {
-				var iframe = self.loader()[0].contentWindow;
+			this.request = $.ajax( this.url(), {
+				type: 'POST',
+				data: this.query() || {},
+				success: function( response ) {
+					var iframe = self.loader()[0].contentWindow;
 
-				self.loader().one( 'load', self.loaded );
+					self.loader().one( 'load', self.loaded );
 
-				iframe.document.open();
-				iframe.document.write( response );
-				iframe.document.close();
-			});
+					iframe.document.open();
+					iframe.document.write( response );
+					iframe.document.close();
+				},
+				xhrFields: {
+					withCredentials: true
+				}
+			} );
 		}
 	});
 
