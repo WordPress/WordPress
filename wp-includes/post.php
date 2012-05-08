@@ -29,6 +29,7 @@ function create_initial_post_types() {
 		'hierarchical' => false,
 		'rewrite' => false,
 		'query_var' => false,
+		'delete_with_user' => true,
 		'supports' => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'trackbacks', 'custom-fields', 'comments', 'revisions', 'post-formats' ),
 	) );
 
@@ -45,6 +46,7 @@ function create_initial_post_types() {
 		'hierarchical' => true,
 		'rewrite' => false,
 		'query_var' => false,
+		'delete_with_user' => true,
 		'supports' => array( 'title', 'editor', 'author', 'thumbnail', 'page-attributes', 'custom-fields', 'comments', 'revisions' ),
 	) );
 
@@ -63,7 +65,8 @@ function create_initial_post_types() {
 		'rewrite' => false,
 		'query_var' => false,
 		'show_in_nav_menus' => false,
-		'supports' => array( 'comments' ),
+		'delete_with_user' => true,
+		'supports' => array( 'comments', 'author' ),
 	) );
 
 	register_post_type( 'revision', array(
@@ -80,6 +83,8 @@ function create_initial_post_types() {
 		'rewrite' => false,
 		'query_var' => false,
 		'can_export' => false,
+		'delete_with_user' => true,
+		'supports' => array( 'author' ),
 	) );
 
 	register_post_type( 'nav_menu_item', array(
@@ -91,6 +96,7 @@ function create_initial_post_types() {
 		'_builtin' => true, /* internal use only. don't use this when registering your own post type. */
 		'hierarchical' => false,
 		'rewrite' => false,
+		'delete_with_user' => false,
 		'query_var' => false,
 	) );
 
@@ -933,6 +939,10 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  *     * If false, a post type cannot be loaded at ?{query_var}={post_slug}
  *     * If specified as a string, the query ?{query_var_string}={post_slug} will be valid.
  * - can_export - Allows this post type to be exported. Defaults to true.
+ * - delete_with_user - Whether to delete posts of this type when deleting a user.
+ *     * If true, posts of this type belonging to the user will be moved to trash when then user is deleted.
+ *     * If false, posts of this type belonging to the user will *not* be trashed or deleted.
+ *     * If not set (the default), posts are trashed if post_type_supports('author'). Otherwise posts are not trashed or deleted.
  * - _builtin - true if this post type is a native or "built-in" post_type. THIS IS FOR INTERNAL USE ONLY!
  * - _edit_link - URL segement to use for edit link of this post type. THIS IS FOR INTERNAL USE ONLY!
  *
@@ -959,6 +969,7 @@ function register_post_type( $post_type, $args = array() ) {
 		'taxonomies' => array(), 'show_ui' => null, 'menu_position' => null, 'menu_icon' => null,
 		'can_export' => true,
 		'show_in_nav_menus' => null, 'show_in_menu' => null, 'show_in_admin_bar' => null,
+		'delete_with_user' => null,
 	);
 	$args = wp_parse_args($args, $defaults);
 	$args = (object) $args;

@@ -243,11 +243,21 @@ function wp_delete_user( $id, $reassign = 'novalue' ) {
 	do_action('delete_user', $id);
 
 	if ( 'novalue' === $reassign || null === $reassign ) {
-		$post_ids = $wpdb->get_col( $wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_author = %d", $id) );
+		$post_types_to_delete = array();
+		foreach ( get_post_types( array(), 'objects' ) as $post_type ) {
+			if ( $post_type->delete_with_user ) {
+				$post_types_to_delete[] = $post_type->name;
+			} elseif ( null === $post_type->delete_with_user && post_type_supports( $post_type->name, 'author' ) ) {
+				$post_types_to_delete[] = $post_type->name;
+			}
+		}
 
+		$post_types_to_delete = apply_filters( 'post_types_to_delete_with_user', $post_types_to_delete, $id );
+		$post_types_to_delete = implode( "', '", $post_types_to_delete );
+		$post_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_author = %d AND post_type IN ('$post_types_to_delete')", $id ) );
 		if ( $post_ids ) {
 			foreach ( $post_ids as $post_id )
-				wp_delete_post($post_id);
+				wp_delete_post( $post_id );
 		}
 
 		// Clean links
