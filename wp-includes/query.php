@@ -2626,7 +2626,9 @@ class WP_Query {
 			return $r;
 		}
 
-		if ( $old_request == $this->request && "$wpdb->posts.*" == $fields ) {
+		$split_the_query = apply_filters( 'split_the_query', ( $old_request == $this->request && "$wpdb->posts.*" == $fields && !empty( $limits) ), $this );
+
+		if ( $split_the_query ) {
 			// First get the IDs and then fill in the objects
 
 			$this->request = "SELECT $found_rows $distinct $wpdb->posts.ID FROM $wpdb->posts $join WHERE 1=1 $where $groupby $orderby $limits";
