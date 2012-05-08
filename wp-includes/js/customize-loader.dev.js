@@ -50,8 +50,10 @@ if ( typeof wp === 'undefined' )
 			if ( this.active )
 				return;
 			this.active = true;
+			this.body.addClass('customize-loading');
 
 			this.iframe = $( '<iframe />', { src: src }).appendTo( this.element );
+			this.iframe.one( 'load', this.loaded );
 
 			// Create a postMessage connection with the iframe.
 			this.messenger = new api.Messenger( src, this.iframe[0].contentWindow );
@@ -92,8 +94,11 @@ if ( typeof wp === 'undefined' )
 				Loader.messenger.destroy();
 				Loader.iframe    = null;
 				Loader.messenger = null;
-				Loader.body.removeClass( 'customize-active full-overlay-active' );
+				Loader.body.removeClass( 'customize-active full-overlay-active' ).removeClass( 'customize-loading' );
 			});
+		},
+		loaded: function() {
+			Loader.body.removeClass('customize-loading');
 		}
 	};
 

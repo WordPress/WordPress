@@ -5324,11 +5324,25 @@ body.full-overlay-active {
 	display: block;
 }
 
+.customize-loading #customize-container iframe {
+	opacity: 0;
+}
+
+.customize-loading #customize-container {
+	background: #fff url("../images/wpspin_light.gif") no-repeat fixed center center;
+}
+
 #customize-container iframe,
 #theme-installer iframe {
 	height: 100%;
 	width: 100%;
 	z-index: 20;
+
+	-webkit-transition: opacity 0.3s;
+	-moz-transition:    opacity 0.3s;
+	-ms-transition:     opacity 0.3s;
+	-o-transition:      opacity 0.3s;
+	transition:         opacity 0.3s;
 }
 
 #customize-container .collapse-sidebar {
