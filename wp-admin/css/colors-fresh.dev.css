@@ -40,6 +40,10 @@ input[type="url"],
 select {
 	border-color: #dfdfdf;
 	background-color: #fff;
+	color: #333;
+}
+
+select {
 	color: #000;
 }
 
@@ -819,7 +823,7 @@ table.widefat span.spam a,
 .contextual-help-tabs .active a,
 .contextual-help-tabs .active a:hover {
 	background: #fff;
-	color: #000;
+	color: #333;
 }
 
 /* screen options and help tabs */
@@ -842,7 +846,7 @@ table.widefat span.spam a,
 }
 
 #screen-meta-links a.show-settings:hover {
-	color: #000;
+	color: #333;
 }
 
 #screen-meta-links a.show-settings {
@@ -873,7 +877,6 @@ table.widefat span.spam a,
 }
 
 #footer a:hover {
-	color: #000;
 	text-decoration: underline;
 }
 

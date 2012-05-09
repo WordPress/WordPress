@@ -45,6 +45,10 @@ input[type="url"],
 select {
 	border-color: #dfdfdf;
 	background-color: #fff;
+	color: #333;
+}
+
+select {
 	color: #000;
 }
 
