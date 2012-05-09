@@ -1725,6 +1725,124 @@ body.no-js #adminmenu .wp-menu-toggle,
 	border-radius: 10px;
 }
 
+/* Auto-folding of the admin menu */
+@media only screen and (max-width: 900px) {
+	#wpcontent,
+	#footer {
+		margin-left: 52px;
+	}
+
+	#adminmenuback,
+	#adminmenuwrap,
+	#adminmenu,
+	#adminmenu li.menu-top {
+		width: 32px;
+	}
+
+	#adminmenu .wp-has-current-submenu .wp-submenu {
+		display: none;
+		position: absolute;
+		width: 145px;
+		z-index: 999;
+		overflow: hidden;
+	}
+
+	#adminmenu .wp-has-current-submenu .wp-submenu.sub-open {
+		display: block;
+	}
+
+	#adminmenu li .wp-submenu,
+	#adminmenu .wp-has-current-submenu .wp-submenu {
+		top: -5px;
+		left: 26px;
+	}
+
+	#adminmenu li.focused.wp-has-current-submenu .wp-submenu,
+	#adminmenu .wp-has-current-submenu .wp-submenu.sub-open {
+		padding: 0 8px 8px 0;
+	}
+
+	#adminmenu div.wp-submenu-head {
+		display: block;
+	}
+
+	#adminmenu a.menu-top,
+	#adminmenu div.wp-menu-toggle {
+		display: none;
+	}
+
+	#adminmenu div.wp-menu-image {
+		width: 30px;
+	}
+
+	#adminmenu .wp-not-current-submenu li a {
+		padding-left: 12px;
+	}
+
+	#adminmenu li li {
+		margin-left: 0;
+	}
+
+	#adminmenu li li a {
+		padding-left: 0;
+	}
+
+	.wp-menu-arrow {
+		-moz-transform:    translate( 33px );
+		-webkit-transform: translate( 33px );
+		-o-transform:      translate( 33px );
+		-ms-transform:     translate( 33px );
+		transform:         translate( 33px );
+	}
+
+	#adminmenu li.menu-top:hover .wp-menu-arrow {
+		display: none;
+	}
+
+	#adminmenu li.current:hover .wp-menu-arrow,
+	#adminmenu li.menu-top.wp-menu-open:hover .wp-menu-arrow {
+		display: block;
+		z-index: 125;
+	}
+
+	#adminmenu li.menu-top {
+		border-width: 1px 0;
+		border-style: solid none;
+	}
+
+	#adminmenu .wp-submenu .wp-submenu-wrap {
+		margin-top: 3px;
+	}
+
+	#adminmenu .wp-has-current-submenu {
+		margin-bottom: 1px;
+	}
+
+	#adminmenu .wp-has-current-submenu.menu-top-last {
+		margin-bottom: 0;
+	}
+
+	#adminmenu .wp-has-current-submenu .wp-submenu-wrap {
+		margin-top: 4px;
+	}
+
+	#adminmenu .wp-submenu ul {
+		border-width: 0 0 0 1px;
+		border-style: solid;
+	}
+
+	#adminmenu .wp-submenu a {
+		padding-left: 10px;
+	}
+
+	#adminmenu a.wp-has-submenu {
+		margin-left: 40px;
+	}
+
+	#collapse-menu {
+		display: none;
+	}
+}
 
 /* List table styles */
 .post-com-count-wrapper {
@@ -2083,6 +2201,10 @@ body.admin-bar {
 /*------------------------------------------------------------------------------
   9.0 - Dashboard
 ------------------------------------------------------------------------------*/
+
+#dashboard-widgets-wrap {
+	margin: 0 -8px;
+}
 
 #wpbody-content .metabox-holder {
 	padding-top: 10px;

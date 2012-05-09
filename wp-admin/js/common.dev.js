@@ -160,7 +160,7 @@ $('.contextual-help-tabs').delegate('a', 'click focus', function(e) {
 
 $(document).ready( function() {
 	var lastClicked = false, checks, first, last, checked, menu = $('#adminmenu'),
-		pageInput = $('input.current-page'), currentPage = pageInput.val(), folded, refresh;
+		pageInput = $('input.current-page'), currentPage = pageInput.val(), refresh;
 
 	// admin menu
 	refresh = function(i, el){ // force the browser to refresh the tabbing index
@@ -353,28 +353,6 @@ $(document).ready( function() {
 				pageInput.val('1');
 		});
 	}
-
-	// auto-fold the menu when screen is under 900px
-	$(window).bind('resize.autofold', function(){
-		if ( getUserSetting('mfold') == 'f' )
-			return;
-
-		var width = $(window).width();
-
-		// fold admin menu
-		if ( width <= 900 ) {
-			if ( !folded ) {
-				$(document.body).addClass('folded');
-				folded = true;
-			}
-		} else {
-			if ( folded ) {
-				$(document.body).removeClass('folded');
-				folded = false;
-			}
-		}
-
-	}).triggerHandler('resize');
 
 });
 

@@ -1107,14 +1107,56 @@ table.widefat .spam a:hover,
 	background-image: -webkit-linear-gradient(bottom, #dfdfdf, #fff); /* new Webkit */
 	background-image: linear-gradient(bottom, #dfdfdf, #fff); /* proposed W3C Markup */
 }
+
 #collapse-menu:hover #collapse-button {
 	border-color: #aaa;
 }
+
 #collapse-button div {
 	background: transparent url(../images/arrows.png) no-repeat 0 -72px;
 }
+
 .folded #collapse-button div {
 	background-position: 0 -108px;
+}
+
+/* Auto-folding of the admin menu */
+@media only screen and (max-width: 900px) {
+	#adminmenu li.menu-top {
+		border-top-color: #f9f9f9;
+		border-bottom-color: #dfdfdf;
+	}
+
+	#adminmenu li.wp-has-current-submenu,
+	#adminmenu li.current.menu-top {
+		background-color: #777; /* Fallback */
+		background-image: -ms-linear-gradient(bottom, #6d6d6d, #808080); /* IE10 */
+		background-image: -moz-linear-gradient(bottom, #6d6d6d, #808080); /* Firefox */
+		background-image: -o-linear-gradient(bottom, #6d6d6d, #808080); /* Opera */
+		background-image: -webkit-gradient(linear, left bottom, left top, from(#6d6d6d), to(#808080)); /* old Webkit */
+		background-image: -webkit-linear-gradient(bottom, #6d6d6d, #808080); /* new Webkit */
+		background-image: linear-gradient(bottom, #6d6d6d, #808080); /* proposed W3C Markup */
+	}
+
+	#adminmenu li.menu-top li:hover a {
+		background-image: none;
+	}
+
+	#adminmenu li.wp-has-current-submenu,
+	#adminmenu li.current.menu-top {
+		border-top-color: #808080;
+		border-bottom-color: #6d6d6d;
+	}
+
+	#adminmenu .wp-has-current-submenu .wp-submenu-wrap {
+		-moz-box-shadow: 2px 2px 5px rgba( 0, 0, 0, 0.4 );
+		-webkit-box-shadow: 2px 2px 5px rgba( 0, 0, 0, 0.4 );
+		box-shadow: 2px 2px 5px rgba( 0, 0, 0, 0.4 );
+	}
+
+	#collapse-button div {
+		background-position: 0 -108px;
+	}
 }
 
 /* menu and screen icons */
@@ -2024,6 +2066,19 @@ div.widgets-sortables,
 
 .rtl.folded #collapse-button div {
 	background-position: 0 -72px;
+}
+
+/* Auto-folding of the admin menu for RTL */
+@media only screen and (max-width: 900px) {
+	.rtl #adminmenu .wp-has-current-submenu .wp-submenu-wrap{
+		-moz-box-shadow: -2px 2px 5px rgba( 0, 0, 0, 0.4 );
+		-webkit-box-shadow: -2px 2px 5px rgba( 0, 0, 0, 0.4 );
+		box-shadow: -2px 2px 5px rgba( 0, 0, 0, 0.4 );
+	}
+
+	.rtl #collapse-button div {
+		background-position: 0 -72px;
+	}
 }
 
 /* Edit Image */

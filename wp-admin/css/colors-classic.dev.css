@@ -1443,6 +1443,45 @@ table.widefat .spam a:hover,
 	background-position: 0 -108px;
 }
 
+/* Auto-folding of the admin menu */
+@media only screen and (max-width: 900px) {
+	#adminmenu li.menu-top {
+		border-top-color: #ffffff;
+		border-bottom-color: #cae6ff;
+	}
+
+	#adminmenu li.wp-has-current-submenu,
+	#adminmenu li.current.menu-top {
+		background-color: #5589AA; /* Fallback */
+		background-image: -ms-linear-gradient(bottom, #5589AA, #619bbb); /* IE10 */
+		background-image: -moz-linear-gradient(bottom, #5589AA, #619bbb); /* Firefox */
+		background-image: -o-linear-gradient(bottom, #5589AA, #619bbb); /* Opera */
+		background-image: -webkit-gradient(linear, left bottom, left top, from(#5589AA), to(#619bbb)); /* old Webkit */
+		background-image: -webkit-linear-gradient(bottom, #5589AA, #619bbb); /* new Webkit */
+		background-image: linear-gradient(bottom, #5589AA, #619bbb); /* proposed W3C Markup */
+	}
+
+	#adminmenu li.menu-top li:hover a {
+		background-image: none;
+	}
+
+	#adminmenu li.wp-has-current-submenu,
+	#adminmenu li.current.menu-top {
+		border-top-color: #5A8FAD;
+		border-bottom-color: #5589AA;
+	}
+
+	#adminmenu .wp-has-current-submenu .wp-submenu-wrap {
+		-moz-box-shadow: 2px 2px 5px rgba( 0, 0, 0, 0.4 );
+		-webkit-box-shadow: 2px 2px 5px rgba( 0, 0, 0, 0.4 );
+		box-shadow: 2px 2px 5px rgba( 0, 0, 0, 0.4 );
+	}
+
+	#collapse-button div {
+		background-position: 0 -108px;
+	}
+}
+
 /* menu and screen icons */
 .icon16,
 .icon32,
@@ -2435,6 +2474,19 @@ div.widgets-sortables,
 
 .rtl.folded #collapse-button div {
 	background-position: 0 -72px;
+}
+
+/* Auto-folding of the admin menu for RTL */
+@media only screen and (max-width: 900px) {
+	.rtl #adminmenu .wp-has-current-submenu .wp-submenu-wrap{
+		-moz-box-shadow: -2px 2px 5px rgba( 0, 0, 0, 0.4 );
+		-webkit-box-shadow: -2px 2px 5px rgba( 0, 0, 0, 0.4 );
+		box-shadow: -2px 2px 5px rgba( 0, 0, 0, 0.4 );
+	}
+
+	.rtl #collapse-button div {
+		background-position: 0 -72px;
+	}
 }
 
 /* edit image */
