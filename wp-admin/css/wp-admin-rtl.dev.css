@@ -2287,17 +2287,13 @@ body.login {
 }
 
 /* plugin-install */
-div.star {
-	left: auto;
-	right: 0;
-	letter-spacing: 0;
+div.star-holder {
+	background: url('../images/stars-rtl.png?ver=20120506.png') repeat-x bottom right;
 }
-
-.star img, div.star a, div.star a:hover, div.star a:visited {
-	right: auto;
-	left: 0;
+div.star-holder .star-rating {
+	background: url('../images/stars-rtl.png?ver=20120506.png') repeat-x top right;
+	float: right;
 }
-
 #plugin-information ul#sidemenu {
 	left: auto;
 	right: 0;
