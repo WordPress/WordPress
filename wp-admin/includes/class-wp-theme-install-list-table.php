@@ -198,7 +198,27 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 			'action' => 'install-theme',
 			'theme'  => $theme->slug,
 		), self_admin_url( 'update.php' ) );
-		$actions[] = '<a class="install-now" href="' . wp_nonce_url( $install_url, 'install-theme_' . $theme->slug ) . '" title="' . esc_attr( sprintf( __( 'Install %s' ), $name ) ) . '">' . __( 'Install Now' ) . '</a>';
+
+		$update_url = add_query_arg( array(
+			'action' => 'upgrade-theme',
+			'theme'  => $theme->slug,
+		), self_admin_url( 'update.php' ) );
+
+		$status = $this->_get_theme_status( $theme );
+
+		switch ( $status ) {
+			default:
+			case 'install':
+				$actions[] = '<a class="install-now" href="' . esc_url( wp_nonce_url( $install_url, 'install-theme_' . $theme->slug ) ) . '" title="' . esc_attr( sprintf( __( 'Install %s' ), $name ) ) . '">' . __( 'Install Now' ) . '</a>';
+				break;
+			case 'update_available':
+				$actions[] = '<a class="install-now" href="' . esc_url( wp_nonce_url( $update_url, 'upgrade-theme_' . $theme->slug ) ) . '" title="' . esc_attr( sprintf( __( 'Update to version %s' ), $theme->version ) ) . '">' . __( 'Update' ) . '</a>';
+				break;
+			case 'newer_installed':
+			case 'latest_installed':
+				$actions[] = '<span class="install-now" title="' . esc_attr__( 'This theme is already installed and is up to date' ) . '">' . _x( 'Installed', 'theme' ) . '</span>';
+				break;
+		}
 
 		$actions[] = '<a class="install-theme-preview" href="#" title="' . esc_attr( sprintf( __( 'Preview %s' ), $name ) ) . '">' . __( 'Preview' ) . '</a>';
 
@@ -290,9 +310,28 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 			'theme'  => $theme->slug,
 		), self_admin_url( 'update.php' ) );
 
+		$update_url = add_query_arg( array(
+			'action' => 'upgrade-theme',
+			'theme'  => $theme->slug,
+		), self_admin_url( 'update.php' ) );
+
+		$status = $this->_get_theme_status( $theme );
+
 		?>
-		<div class="install-theme-info">
-			<a class="theme-install button-primary" href="<?php echo wp_nonce_url( $install_url, 'install-theme_' . $theme->slug ); ?>"><?php _e( 'Install' ); ?></a>
+		<div class="install-theme-info"><?php
+			switch ( $status ) {
+				default:
+				case 'install':
+					echo '<a class="theme-install button-primary" href="' . esc_url( wp_nonce_url( $install_url, 'install-theme_' . $theme->slug ) ) . '">' . __( 'Install' ) . '</a>';
+					break;
+				case 'update_available':
+					echo '<a class="theme-install button-primary" href="' . esc_url( wp_nonce_url( $update_url, 'upgrade-theme_' . $theme->slug ) ) . '" title="' . esc_attr( sprintf( __( 'Update to version %s' ), $theme->version ) ) . '">' . __( 'Update' ) . '</a>';
+					break;
+				case 'newer_installed':
+				case 'latest_installed':
+					echo '<span class="theme-install" title="' . esc_attr__( 'This theme is already installed and is up to date' ) . '">' . _x( 'Installed', 'theme' ) . '</span>';
+					break;
+			} ?>
 			<h3 class="theme-name"><?php echo $name; ?></h3>
 			<span class="theme-by"><?php printf( __( 'By %s' ), $author ); ?></span>
 			<?php if ( isset( $theme->screenshot_url ) ): ?>
@@ -327,5 +366,30 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 	function _js_vars() {
 		global $tab, $type;
 		parent::_js_vars( compact( 'tab', 'type' ) );
+	}
+
+	/**
+	 * Check to see if the theme is already installed.
+	 *
+	 * @since 3.4
+	 * @access private
+	 *
+	 * @param object $theme - A WordPress.org Theme API object.
+	 * @return string Theme status.
+	 */
+	private function _get_theme_status( $theme ) {
+		$status = 'install';
+
+		$installed_theme = wp_get_theme( $theme->slug );
+		if ( $installed_theme->exists() ) {
+			if ( version_compare( $installed_theme->get('Version'), $theme->version, '=' ) )
+				$status = 'latest_installed';
+			elseif ( version_compare( $installed_theme->get('Version'), $theme->version, '>' ) )
+				$status = 'newer_installed';
+			else
+				$status = 'update_available';
+		}
+
+		return $status;
 	}
 }

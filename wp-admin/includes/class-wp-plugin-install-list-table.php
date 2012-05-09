@@ -203,7 +203,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 						break;
 					case 'latest_installed':
 					case 'newer_installed':
-						$action_links[] = '<span title="' . esc_attr__( 'This plugin is already installed and is up to date' ) . ' ">' . __( 'Installed' ) . '</span>';
+						$action_links[] = '<span title="' . esc_attr__( 'This plugin is already installed and is up to date' ) . ' ">' . _x( 'Installed', 'plugin' ) . '</span>';
 						break;
 				}
 			}
