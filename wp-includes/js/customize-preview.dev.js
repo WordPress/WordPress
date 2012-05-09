@@ -1,5 +1,21 @@
 (function( exports, $ ){
-	var api = wp.customize;
+	var api = wp.customize,
+		debounce;
+
+	debounce = function( fn, delay, context ) {
+		var timeout;
+		return function() {
+			var args = arguments;
+
+			context = context || this;
+
+			clearTimeout( timeout );
+			timeout = setTimeout( function() {
+				timeout = null;
+				fn.apply( context, args );
+			}, delay );
+		};
+	};
 
 	api.Preview = api.Messenger.extend({
 		/**
@@ -26,6 +42,15 @@
 			//        $_POST data with the customize setting $_POST data.
 			this.body.on( 'submit.preview', 'form', function( event ) {
 				event.preventDefault();
+			});
+
+			this.window = $( window );
+			this.window.on( 'scroll.preview', debounce( function() {
+				self.send( 'scroll', self.window.scrollTop() );
+			}, 200 ));
+
+			this.bind( 'scroll', function( distance ) {
+				self.window.scrollTop( distance );
 			});
 		}
 	});

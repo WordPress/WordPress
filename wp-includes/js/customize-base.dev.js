@@ -469,14 +469,14 @@ if ( typeof wp === 'undefined' )
 
 			message = JSON.parse( event.data );
 
-			if ( message && message.id && message.data && this.topics[ message.id ] )
+			if ( message && message.id && typeof message.data !== 'undefined' && this.topics[ message.id ] )
 				this.topics[ message.id ].fireWith( this, [ message.data ]);
 		},
 
 		send: function( id, data ) {
 			var message;
 
-			data = data || {};
+			data = typeof data === 'undefined' ? {} : data;
 
 			if ( ! this.url() )
 				return;

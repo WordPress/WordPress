@@ -311,6 +311,11 @@
 
 			api.Messenger.prototype.initialize.call( this, params.url );
 
+			this.scroll = 0;
+			this.bind( 'scroll', function( distance ) {
+				this.scroll = distance;
+			});
+
 			// We're dynamically generating the iframe, so the origin is set
 			// to the current window's location, not the url's.
 			this.origin.unlink( this.url ).set( window.location.href );
@@ -335,10 +340,12 @@
 		loaded: function() {
 			if ( this.iframe )
 				this.iframe.remove();
+
 			this.iframe = this.loading;
 			delete this.loading;
 
 			this.targetWindow( this.iframe[0].contentWindow );
+			this.send( 'scroll', this.scroll );
 		},
 		query: function() {},
 		refresh: function() {
