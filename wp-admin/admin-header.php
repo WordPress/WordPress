@@ -90,6 +90,8 @@ $admin_body_class .= ' locale-' . sanitize_html_class( strtolower( str_replace( 
 if ( wp_is_mobile() )
 	$admin_body_class .= ' mobile';
 
+$admin_body_class .= ' no-customize-support';
+
 ?>
 </head>
 <body class="wp-admin no-js <?php echo apply_filters( 'admin_body_class', '' ) . " $admin_body_class"; ?>">
@@ -100,7 +102,7 @@ if ( wp_is_mobile() )
 // This prevents a flash of unstyled content.
 if ( wp_script_is( 'customize-loader', 'queue' ) ) : ?>
 	if ( window.postMessage )
-		document.body.className += ' customize-support';
+		document.body.className += document.body.className.replace('no-customize-support','customize-support');
 <?php endif; ?>
 </script>
 

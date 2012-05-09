@@ -4411,7 +4411,7 @@ h3.available-themes {
 	width: 300px;
 }
 
-.available-theme a.screenshot {
+.available-theme .screenshot {
 	width: 300px;
 	height: 225px;
 	display: block;
@@ -4556,12 +4556,12 @@ h3.available-themes {
 /* Allow for three-up on 1024px wide screens, e.g. tablets */
 @media only screen and (max-width: 1200px) {
 	.available-theme,
-	.available-theme a.screenshot,
+	.available-theme .screenshot,
 	#current-theme img {
 		width: 240px;
 	}
 
-	.available-theme a.screenshot {
+	.available-theme .screenshot {
 		height: 180px;
 	}
 
@@ -5428,14 +5428,9 @@ body.full-overlay-active {
   24.0 - Customize Loader
 ------------------------------------------------------------------------------*/
 
-.hide-if-no-customize,
+.no-customize-support .hide-if-no-customize,
 .customize-support .hide-if-customize {
-	display: none !important;
-}
-
-.hide-if-customize,
-.customize-support .hide-if-no-customize {
-	display: block !important;
+	display: none;
 }
 
 #customize-container {
