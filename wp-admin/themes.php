@@ -66,7 +66,7 @@ if ( current_user_can( 'edit_theme_options' ) ) {
 		'<p>' . __('The theme being previewed is fully interactive &mdash; navigate to different pages to see how the theme handles posts, archives, and other page templates.') . '</p>' .
 		'<p>' . __('In the left-hand pane of the Theme Customizer you can edit the theme settings. The settings will differ, depending on what theme features the theme being previewed supports. To accept the new settings and activate the theme all in one step, click the "Save and Activate" button at the bottom of the left-hand sidebar.') . '</p>' .
 		'<p>' . __('When previewing on smaller monitors, you can use the "Collapse" icon at the bottom of the left-hand pane. This will hide the pane, giving you more room to preview your site in the new theme. To bring the pane back, click on the Collapse icon again.') . '</p>';
-		
+
 	get_current_screen()->add_help_tab( array(
 		'id'		=> 'customize-preview-themes',
 		'title'		=> __('Previewing and Customizing'),
@@ -115,10 +115,14 @@ $ct = wp_get_theme();
 $screenshot = $ct->get_screenshot();
 $class = $screenshot ? 'has-screenshot' : '';
 
+$customize_title = sprintf( __( 'Customize &#8220;%s&#8221;' ), $ct->display('Name') );
+
 ?>
 <div id="current-theme" class="<?php echo esc_attr( $class ); ?>">
 	<?php if ( $screenshot ) : ?>
-		<img src="<?php echo esc_url( $screenshot ); ?>" alt="<?php esc_attr_e( 'Current theme preview' ); ?>" />
+		<a href="<?php echo wp_customize_url( $ct->get_stylesheet() ); ?>" class="load-customize hide-if-no-customize" title="<?php echo esc_attr( $customize_title ); ?>">
+			<img src="<?php echo esc_url( $screenshot ); ?>" alt="<?php esc_attr_e( 'Current theme preview' ); ?>" />
+		</a>
 	<?php endif; ?>
 
 	<h3><?php _e('Current Theme'); ?></h3>
@@ -136,7 +140,7 @@ $class = $screenshot ? 'has-screenshot' : '';
 	</div>
 
 <div class="theme-options">
-	<a href="<?php echo wp_customize_url( $ct->get_stylesheet() ); ?>" class="load-customize hide-if-no-customize" title="<?php echo esc_attr( sprintf( __( 'Customize &#8220;%s&#8221;' ), $ct->display('Name') ) ); ?>"><?php _e( 'Customize' )?></a>
+	<a href="<?php echo wp_customize_url( $ct->get_stylesheet() ); ?>" class="load-customize hide-if-no-customize" title="<?php echo esc_attr( $customize_title ); ?>"><?php _e( 'Customize' )?></a>
 	<span><?php _e( 'Options:' )?></span>
 	<?php
 	// Pretend you didn't see this.
