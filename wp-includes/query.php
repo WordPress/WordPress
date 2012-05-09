@@ -2626,7 +2626,8 @@ class WP_Query {
 			return $r;
 		}
 
-		$split_the_query = apply_filters( 'split_the_query', ( $old_request == $this->request && "$wpdb->posts.*" == $fields && !empty( $limits) ), $this );
+		$split_the_query = ( $old_request == $this->request && "$wpdb->posts.*" == $fields && !empty( $limits ) && $q['posts_per_page'] < 500 );
+		$split_the_query = apply_filters( 'split_the_query', $split_the_query, $this );
 
 		if ( $split_the_query ) {
 			// First get the IDs and then fill in the objects
