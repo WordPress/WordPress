@@ -955,7 +955,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 				'file' => $post->ID
 			), admin_url('themes.php')));
 
-			$form_fields['buttons'] = array( 'tr' => '<tr class="submit"><td></td><td><a data-location="' . $href . '" class="wp-set-header">' . _( 'Set as header' ) . '</a></td></tr>' );
+			$form_fields['buttons'] = array( 'tr' => '<tr class="submit"><td></td><td><a data-location="' . $href . '" class="wp-set-header">' . __( 'Set as header' ) . '</a></td></tr>' );
 			$form_fields['context'] = array( 'input' => 'hidden', 'value' => 'custom-header' );
 		}
 

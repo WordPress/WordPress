@@ -383,7 +383,7 @@ if ( get_background_image() ) {
 	function attachment_fields_to_edit( $form_fields, $post ) {
 		if ( isset( $_REQUEST['context'] ) && $_REQUEST['context'] == 'custom-background' ) {
 			$form_fields = array( 'image-size' => $form_fields['image-size'] );
-			$form_fields['buttons'] = array( 'tr' => '<tr class="submit"><td></td><td><a data-attachment-id="' . $post->ID . '" class="wp-set-background">' . _( 'Set as background' ) . '</a></td></tr>' );
+			$form_fields['buttons'] = array( 'tr' => '<tr class="submit"><td></td><td><a data-attachment-id="' . $post->ID . '" class="wp-set-background">' . __( 'Set as background' ) . '</a></td></tr>' );
 			$form_fields['context'] = array( 'input' => 'hidden', 'value' => 'custom-background' );
 		}
 
