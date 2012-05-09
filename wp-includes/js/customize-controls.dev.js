@@ -138,9 +138,10 @@
 			this.success = $.proxy( this.success, this );
 
 			this.uploader = new wp.Uploader({
-				browser:  this.container.find('.upload'),
-				dropzone: this.container.find('.upload-dropzone'),
-				success:  this.success
+				container: this.container,
+				browser:   this.container.find('.upload'),
+				dropzone:  this.container.find('.upload-dropzone'),
+				success:   this.success
 			});
 
 			this.remover = this.container.find('.remove');
