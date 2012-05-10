@@ -1694,18 +1694,6 @@ table .column-rating {
 	float: left;
 }
 
-.install-theme-info .theme-rating {
-	float: right;
-	background: url('../images/stars.png?ver=20120307') repeat-x bottom right;
-	width: 105px;
-	margin-right: -5px;
-}
-
-.install-theme-info .theme-rating div {
-	float: right;
-	background: url('../images/stars.png?ver=20120307') repeat-x top right;
-}
-
 /* MERGED */
 
 /* global */
@@ -2434,17 +2422,18 @@ h3.tb {
 }
 
 /* theme-install */
-div.star {
-	left:auto;
-	right: 0;
+.theme-details .theme-version {
+	float: right;
 }
 
-.star img,
-div.star a,
-div.star a:hover,
-div.star a:visited {
-	right: auto;
-	left: 0;
+.theme-details .theme-rating {
+	float: left;
+	background: url('../images/stars-rtl.png?ver=20120307') repeat-x bottom right;
+}
+
+.theme-details .theme-rating div {
+	background: url('../images/stars-rtl.png?ver=20120307') repeat-x top right;
+	float: right;
 }
 
 .feature-filter .feature-group {
