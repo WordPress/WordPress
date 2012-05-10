@@ -338,8 +338,8 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 				<img class="theme-screenshot" src="<?php echo esc_url( $theme->screenshot_url ); ?>" />
 			<?php endif; ?>
 			<div class="theme-details">
-				<div class="theme-rating" title="<?php echo esc_attr( $num_ratings ); ?>">
-					<div style="width:<?php echo esc_attr( intval( $theme->rating ) . 'px' ); ?>;"></div>
+				<div class="star-holder" title="<?php echo esc_attr( $num_ratings ); ?>">
+					<div class="star-rating" style="width:<?php echo esc_attr( intval( $theme->rating ) . 'px' ); ?>;"></div>
 				</div>
 				<div class="theme-version">
 					<strong><?php _e('Version:') ?> </strong>

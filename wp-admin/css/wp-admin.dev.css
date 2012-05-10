@@ -5509,18 +5509,9 @@ body.full-overlay-active {
 	float: left;
 }
 
-.theme-details .theme-rating {
+.theme-details .star-holder {
 	margin: 14px 0;
-	width: 100px;
-	height: 17px;
 	float: right;
-	background: url('../images/stars.png?ver=20120307') repeat-x bottom left;
-}
-
-.theme-details .theme-rating div {
-	background: url('../images/stars.png?ver=20120307') repeat-x top left;
-	height: 17px;
-	float: left;
 }
 
 .theme-details .theme-description {
@@ -7129,7 +7120,7 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 	display: block;
 }
 
-/* plugin-install */
+/* Star ratings */
 div.star-holder {
 	position: relative;
 	height: 17px;

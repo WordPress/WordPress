@@ -2274,7 +2274,7 @@ body.login {
 	float: right;
 }
 
-/* plugin-install */
+/* Star ratings */
 div.star-holder {
 	background: url('../images/stars-rtl.png?ver=20120506.png') repeat-x bottom right;
 }
@@ -2282,6 +2282,7 @@ div.star-holder .star-rating {
 	background: url('../images/stars-rtl.png?ver=20120506.png') repeat-x top right;
 	float: right;
 }
+
 #plugin-information ul#sidemenu {
 	left: auto;
 	right: 0;
@@ -2426,14 +2427,8 @@ h3.tb {
 	float: right;
 }
 
-.theme-details .theme-rating {
+.theme-details .star-holder {
 	float: left;
-	background: url('../images/stars-rtl.png?ver=20120307') repeat-x bottom right;
-}
-
-.theme-details .theme-rating div {
-	background: url('../images/stars-rtl.png?ver=20120307') repeat-x top right;
-	float: right;
 }
 
 .feature-filter .feature-group {
