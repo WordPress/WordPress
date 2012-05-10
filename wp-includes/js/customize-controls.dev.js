@@ -137,12 +137,14 @@
 
 			this.success = $.proxy( this.success, this );
 
-			this.uploader = new wp.Uploader({
+			this.uploader = $.extend({
 				container: this.container,
 				browser:   this.container.find('.upload'),
 				dropzone:  this.container.find('.upload-dropzone'),
 				success:   this.success
-			});
+			}, this.uploader || {} );
+
+			this.uploader = new wp.Uploader( this.uploader );
 
 			this.remover = this.container.find('.remove');
 			this.remover.click( function( event ) {
@@ -169,6 +171,10 @@
 		ready: function() {
 			var control = this,
 				panels;
+
+			this.uploader = {};
+			if ( ! wp.Uploader.dragdrop )
+				this.uploader.browser = this.container.find( '.upload-fallback' );
 
 			api.UploadControl.prototype.ready.call( this );
 

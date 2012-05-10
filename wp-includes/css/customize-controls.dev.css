@@ -473,3 +473,12 @@ body {
 	color: #777;
 	position: relative;
 }
+
+.customize-control-image .upload-dropzone,
+.uploader-drag-drop .customize-control-image .upload-fallback {
+	display: none;
+}
+
+.uploader-drag-drop .customize-control-image .upload-dropzone {
+	display: block;
+}

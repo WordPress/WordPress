@@ -2,9 +2,7 @@ if ( typeof wp === 'undefined' )
 	var wp = {};
 
 (function( exports, $ ) {
-	var Uploader, body;
-
-	body = $( document.body );
+	var Uploader;
 
 	/*
 	 * An object that helps create a WordPress uploader using plupload.
@@ -75,7 +73,6 @@ if ( typeof wp === 'undefined' )
 		this.uploader.init();
 
 		this.browser.on( 'mouseenter', this.refresh );
-		body.toggleClass( 'uploader-drag-drop', this.uploader.features.dragdrop );
 
 		this.uploader.bind( 'UploadProgress', this.progress );
 
@@ -122,6 +119,18 @@ if ( typeof wp === 'undefined' )
 			up.start();
 		});
 	};
+
+	Uploader.dragdrop = (function() {
+		// Thank you, Modernizr!
+		// http://modernizr.com/
+		var div = document.createElement('div');
+		return ('draggable' in div) || ('ondragstart' in div && 'ondrop' in div);
+	}());
+
+	$( function() {
+		if ( Uploader.dragdrop )
+			$( document.body ).addClass('uploader-drag-drop');
+	});
 
 	Uploader.uuid = 0;
 
