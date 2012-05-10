@@ -535,6 +535,55 @@ class WP_Http {
 			return !in_array( $check['host'], $accessible_hosts ); //Inverse logic, If its in the array, then we can't access it.
 
 	}
+
+	static function make_absolute_url( $maybe_relative_path, $url ) {
+		if ( empty( $url ) )
+			return $maybe_relative_path;
+
+		// Check for a scheme
+		if ( false !== strpos( $maybe_relative_path, '://' ) )
+			return $maybe_relative_path;
+
+		if ( ! $url_parts = @parse_url( $url ) )
+			return $maybe_relative_path;
+
+		if ( ! $relative_url_parts = @parse_url( $maybe_relative_path ) )
+			return $maybe_relative_path;
+
+		$absolute_path = $url_parts['scheme'] . '://' . $url_parts['host'];
+		if ( isset( $url_parts['port'] ) )
+			$absolute_path .= ':' . $url_parts['port'];
+
+		// Start off with the Absolute URL path
+		$path = ! empty( $url_parts['path'] ) ? $url_parts['path'] : '/';
+
+		// If the it's a root-relative path, then great
+		if ( ! empty( $relative_url_parts['path'] ) && '/' == $relative_url_parts['path'][0] ) {
+			$path = $relative_url_parts['path'];
+
+		// Else it's a relative path
+		} elseif ( ! empty( $relative_url_parts['path'] ) ) {
+			// Strip off any file components from the absolute path
+			$path = substr( $path, 0, strrpos( $path, '/' ) + 1 );
+
+			// Build the new path
+			$path .= $relative_url_parts['path'];
+
+			// Strip all /path/../ out of the path
+			while ( strpos( $path, '../' ) > 1 ) {
+				$path = preg_replace( '![^/]+/\.\./!', '', $path );
+			}
+
+			// Strip any final leading ../ from the path
+			$path = preg_replace( '!^/(\.\./)+!', '', $path );
+		}
+
+		// Add the Query string
+		if ( ! empty( $relative_url_parts['query'] ) )
+			$path .= '?' . $relative_url_parts['query'];
+
+		return $absolute_path . '/' . ltrim( $path, '/' );
+	}
 }
 
 /**
@@ -730,7 +779,7 @@ class WP_Http_Fsockopen {
 		// If location is found, then assume redirect and redirect to location.
 		if ( isset($arrHeaders['headers']['location']) && 0 !== $r['_redirection'] ) {
 			if ( $r['redirection']-- > 0 ) {
-				return $this->request($arrHeaders['headers']['location'], $r);
+				return $this->request( WP_HTTP::make_absolute_url( $arrHeaders['headers']['location'], $url ), $r);
 			} else {
 				return new WP_Error('http_request_failed', __('Too many redirects.'));
 			}
@@ -1131,7 +1180,7 @@ class WP_Http_Curl {
 		// See #11305 - When running under safe mode, redirection is disabled above. Handle it manually.
 		if ( ! empty( $theHeaders['headers']['location'] ) && 0 !== $r['_redirection'] ) { // _redirection: The requested number of redirections
 			if ( $r['redirection']-- > 0 ) {
-				return $this->request( $theHeaders['headers']['location'], $r );
+				return $this->request( WP_HTTP::make_absolute_url( $theHeaders['headers']['location'], $url ), $r );
 			} else {
 				return new WP_Error( 'http_request_failed', __( 'Too many redirects.' ) );
 			}
