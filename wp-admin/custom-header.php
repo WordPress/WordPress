@@ -752,7 +752,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 		} elseif ( $width > $max_width ) {
 			$oitar = $width / $max_width;
 			$image = wp_crop_image($id, 0, 0, $width, $height, $max_width, $height / $oitar, false, str_replace(basename($file), 'midsize-'.basename($file), $file));
-			if ( is_wp_error( $image ) )
+			if ( ! $image || is_wp_error( $image ) )
 				wp_die( __( 'Image could not be processed. Please go back and try again.' ), __( 'Image Processing Error' ) );
 
 			$image = apply_filters('wp_create_file_in_uploads', $image, $id); // For replication
@@ -868,14 +868,15 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 			$dst_width = get_theme_support( 'custom-header', 'width' );
 
 		$cropped = wp_crop_image( $attachment_id, (int) $_POST['x1'], (int) $_POST['y1'], (int) $_POST['width'], (int) $_POST['height'], $dst_width, $dst_height );
-		if ( is_wp_error( $cropped ) )
+		if ( ! $cropped || is_wp_error( $cropped ) )
 			wp_die( __( 'Image could not be processed. Please go back and try again.' ), __( 'Image Processing Error' ) );
 
 		$cropped = apply_filters('wp_create_file_in_uploads', $cropped, $attachment_id); // For replication
+		$is_cropped = ( get_attached_file( $attachment_id ) != $cropped );
 
 		$parent = get_post($attachment_id);
 		$parent_url = $parent->guid;
-		$url = str_replace(basename($parent_url), basename($cropped), $parent_url);
+		$url = str_replace( basename( $parent_url ), basename( $cropped ), $parent_url );
 
 		$size = @getimagesize( $cropped );
 		$image_type = ( $size ) ? $size['mime'] : 'image/jpeg';
@@ -889,13 +890,13 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 			'guid' => $url,
 			'context' => 'custom-header'
 		);
-		if ( isset( $_POST['new-attachment'] ) && $_POST['new-attachment'] )
-			unset($object['ID']);
+		if ( ! empty( $_POST['new-attachment'] ) )
+			unset( $object['ID'] );
 
 		// Update the attachment
 		$attachment_id = wp_insert_attachment( $object, $cropped );
 		wp_update_attachment_metadata( $attachment_id, wp_generate_attachment_metadata( $attachment_id, $cropped ) );
-		update_post_meta( $attachment_id, '_wp_attachment_is_custom_header', get_option('stylesheet' ) );
+		update_post_meta( $attachment_id, '_wp_attachment_is_custom_header', get_option( 'stylesheet' ) );
 
 		set_theme_mod('header_image', $url);
 
@@ -909,10 +910,10 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 		set_theme_mod( 'header_image_data', $header_data );
 
 		// cleanup
-		$medium = str_replace(basename($original), 'midsize-'.basename($original), $original);
+		$medium = str_replace( basename( $original ), 'midsize-' . basename( $original ), $original );
 		if ( file_exists( $medium ) )
 			@unlink( apply_filters( 'wp_delete_file', $medium ) );
-		if ( empty ( $_POST['new-attachment'] ) )
+		if ( empty( $_POST['new-attachment'] ) && $is_cropped )
 			@unlink( apply_filters( 'wp_delete_file', $original ) );
 
 		return $this->finished();
