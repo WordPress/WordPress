@@ -850,7 +850,7 @@ function display_header_text() {
 		return false;
 
 	$text_color = get_theme_mod( 'header_textcolor', get_theme_support( 'custom-header', 'default-text-color' ) );
-	return $text_color && 'blank' != $text_color;
+	return 'blank' != $text_color;
 }
 
 /**
