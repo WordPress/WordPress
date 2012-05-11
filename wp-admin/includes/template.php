@@ -1707,36 +1707,40 @@ final class WP_Internal_Pointers {
 			'index.php'    => 'wp330_toolbar',
 			'post-new.php' => 'wp330_media_uploader',
 			'post.php'     => 'wp330_media_uploader',
-			'themes.php'   => 'wp330_saving_widgets',
+			'themes.php'   => array( 'wp330_saving_widgets', 'wp340_customize_current_theme_link' ),
 		);
 
 		// Check if screen related pointer is registered
 		if ( empty( $registered_pointers[ $hook_suffix ] ) )
 			return;
 
-		$pointer = $registered_pointers[ $hook_suffix ];
+		$pointers = (array) $registered_pointers[ $hook_suffix ];
 
 		$caps_required = array(
 			'wp330_media_uploader' => array( 'upload_files' ),
 			'wp330_saving_widgets' => array( 'edit_theme_options', 'switch_themes' ),
+			'wp340_customize_current_theme_link' => array( 'edit_theme_options' ),
 		);
-
-		if ( isset( $caps_required[ $pointer ] ) ) {
-			foreach ( $caps_required[ $pointer ] as $cap ) {
-				if ( ! current_user_can( $cap ) )
-					return;
-			}
-		}
 
 		// Get dismissed pointers
 		$dismissed = explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) );
 
-		// Pointer has been dismissed
-		if ( in_array( $pointer, $dismissed ) )
-			return;
+		$got_pointers = false;
+		foreach ( array_diff( $pointers, $dismissed ) as $pointer ) {
+			if ( isset( $caps_required[ $pointer ] ) ) {
+				foreach ( $caps_required[ $pointer ] as $cap ) {
+					if ( ! current_user_can( $cap ) )
+						continue 2;
+				}
+			}
 
-		// Bind pointer print function
-		add_action( 'admin_print_footer_scripts', array( 'WP_Internal_Pointers', 'pointer_' . $pointer ) );
+			// Bind pointer print function
+			add_action( 'admin_print_footer_scripts', array( 'WP_Internal_Pointers', 'pointer_' . $pointer ) );
+			$got_pointers = true;
+		}
+
+		if ( ! $got_pointers )
+			return;
 
 		// Add pointers script and style to queue
 		wp_enqueue_style( 'wp-pointer' );
@@ -1819,6 +1823,22 @@ final class WP_Internal_Pointers {
 		$content .= '<p>' . __( 'If you change your mind and revert to your previous theme, we&#8217;ll put the widgets back the way you had them.' ) . '</p>';
 
 		WP_Internal_Pointers::print_js( 'wp330_saving_widgets', '#message2', array(
+			'content'  => $content,
+			'position' => array( 'edge' => 'top', 'align' => is_rtl() ? 'right' : 'left' ),
+		) );
+	}
+
+	/**
+	 * Print 'New Feature: Current Theme Customize Link' for 3.4.0.
+	 *
+	 * @since 3.4.0
+	 */
+	public static function pointer_wp340_customize_current_theme_link() {
+		$content  = '<h3>' . __( 'New Feature: Customizer' ) . '</h3>';
+		$content .= '<p>' . __( 'Click Customize to change the header, background, title and menus of the current theme, all in one place.' ) . '</p>';
+		$content .= '<p>' . __( 'Click the Customize links in the Available Themes list below to customize, preview, and optionally activate the selected theme.' ) . '</p>';
+
+		WP_Internal_Pointers::print_js( 'wp340_customize_current_theme_link', '#customize-current-theme-link', array(
 			'content'  => $content,
 			'position' => array( 'edge' => 'top', 'align' => is_rtl() ? 'right' : 'left' ),
 		) );
