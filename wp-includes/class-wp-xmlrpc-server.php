@@ -749,7 +749,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		else
 			$_media_item['thumbnail'] = $_media_item['link'];
 
-		return apply_filters( 'xmlrpc__prepare_media_item', $_media_item, $media_item, $thumbnail_size );
+		return apply_filters( 'xmlrpc_prepare_media_item', $_media_item, $media_item, $thumbnail_size );
 	}
 
 	/**
