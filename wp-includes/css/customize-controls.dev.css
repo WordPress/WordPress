@@ -34,29 +34,38 @@ body {
 	overflow: hidden;
 }
 
-.control-section {
-	border: 0;
-}
-
 .control-section .customize-section-title {
-	padding: 8px 20px;
-	border-top: 1px solid #fff;
-	border-bottom: 1px solid #dfdfdf;
-	font-size: 13px;
+	padding: 10px 20px;
+	font-size: 15px;
+	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
+	font-weight: normal;
+	text-shadow: 0 1px 0 #fff;
+
+	background-color: #f5f5f5;
+	background-image: -webkit-linear-gradient( top, #f5f5f5, #eee );
+	background-image:    -moz-linear-gradient( top, #f5f5f5, #eee );
+	background-image:     -ms-linear-gradient( top, #f5f5f5, #eee );
+	background-image:      -o-linear-gradient( top, #f5f5f5, #eee );
+	background-image:         linear-gradient( top, #f5f5f5, #eee );
 }
 
 .control-section .customize-section-title:hover {
-	background-color: #efefef;
-	background-image: -webkit-linear-gradient( top, #f5f5f5, #eee );
-	background-image: -moz-linear-gradient( top, #f5f5f5, #eee );
-	background-image: -ms-linear-gradient( top, #f5f5f5, #eee );
-	background-image: -o-linear-gradient( top, #f5f5f5, #eee );
-	background-image: linear-gradient( top, #f5f5f5, #eee );
-	box-shadow: inset -11px 0 8px -8px rgba( 0, 0, 0, 0.1 );
+	color: #222;
+	background-color: #f9f9f9;
+	background-image: -webkit-linear-gradient( top, #f9f9f9, #f1f1f1 );
+	background-image:    -moz-linear-gradient( top, #f9f9f9, #f1f1f1 );
+	background-image:     -ms-linear-gradient( top, #f9f9f9, #f1f1f1 );
+	background-image:      -o-linear-gradient( top, #f9f9f9, #f1f1f1 );
+	background-image:         linear-gradient( top, #f9f9f9, #f1f1f1 );
 }
 
 .control-section .customize-section-content {
-	border-top: 1px solid #fff;
+
+}
+.control-section.open .customize-section-title {
+	border-bottom: 1px solid #e5e5e5;
+}
+.control-section.open .customize-section-title:hover {
 	border-bottom: 1px solid #dfdfdf;
 }
 
@@ -68,9 +77,9 @@ body {
 	content: '';
 	width: 0;
 	height: 0;
-	border-color: #ccc transparent transparent transparent;
+	border-color: #ccc transparent;
 	border-style: solid;
-	border-width: 6px;
+	border-width: 6px 6px 0;
 	position: absolute;
 	top: 25px;
 	right: 20px;
@@ -78,12 +87,16 @@ body {
 }
 
 .customize-section.open .customize-section-title:after {
-	margin-top: -7px;
-	border-color: transparent transparent #ccc transparent;
+	margin-top: -1px;
+	border-width: 0 6px 6px;
+}
+
+.customize-section-title:hover:after {
+	border-color: #aaa transparent;
 }
 
 .control-section .customize-section-title:after {
-	top: 13px;
+	top: 15px;
 }
 
 #customize-info {
@@ -140,49 +153,43 @@ body {
 }
 
 .customize-control {
+	width: 100%;
 	float: left;
 	clear: both;
-	margin-bottom: 4px;
+	margin-bottom: 8px;
 }
 
 .customize-control-title {
-	clear: left;
-	float: left;
-	min-width: 110px;
-	margin-right: 10px;
-	line-height: 28px;
+	display: block;
+	line-height: 24px;
+	font-weight: bold;
 }
 
-.customize-control-content {
-	float: right;
-	width: 140px;
-}
-
-.customize-control-text input,
-.customize-control-select select,
-.customize-control-checkbox input,
+.customize-control select,
+.customize-control input[type="text"],
+.customize-control input[type="radio"],
+.customize-control input[type="checkbox"],
 .customize-control-color .color-picker,
+.customize-control-checkbox label,
 .customize-control-upload div {
-	float: left;
-	clear: right;
 	line-height: 28px;
 }
 
-.customize-control-text input {
-	float: right;
-	width: 138px;
+.customize-control input[type="text"] {
+	width: 98%;
 	line-height: 18px;
-	margin: 1px;
+	margin: 0;
 }
 
-.customize-control-select select {
-	width: 138px;
+.customize-control select {
+	min-width: 50%;
+	max-width: 100%;
 	height: 28px;
 	line-height: 28px;
 }
 
 .customize-control-checkbox input {
-	margin-top: 8px;
+	margin-right: 5px;
 }
 
 .customize-control-radio {
@@ -212,9 +219,6 @@ body {
 /*
  * Style for custom settings
  */
-.customize-section select {
-	max-width: 150px;
-}
 
 /*
  * Dropdowns
@@ -356,8 +360,8 @@ body {
 }
 
 .customize-control-color .farbtastic-placeholder {
-	width: 235px;
-	margin: 5px 0 10px 25px;
+	width: 100%;
+	margin: 5px 0 10px;
 	float: left;
 }
 

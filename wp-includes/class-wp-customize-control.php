@@ -172,8 +172,8 @@ class WP_Customize_Control {
 			case 'checkbox':
 				?>
 				<label>
-					<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
 					<input type="checkbox" value="<?php echo esc_attr( $this->value() ); ?>" <?php $this->link(); checked( $this->value() ); ?> />
+					<?php echo esc_html( $this->label ); ?>
 				</label>
 				<?php
 				break;

@@ -23,19 +23,6 @@
 	margin-left: 10px;
 }
 
-.customize-control-content {
-	float: left;
-}
-
-.customize-control-text input,
-.customize-control-select select,
-.customize-control-checkbox input,
-.customize-control-color .color-picker,
-.customize-control-upload div {
-	float: right;
-	clear: left;
-}
-
 .customize-control-text input {
 	float: left;
 }
