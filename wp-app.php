@@ -49,5 +49,5 @@ exit;
 function log_app( $label, $msg ) {
 	_deprecated_function( __FUNCTION__, '3.4', 'error_log()' );
 	if ( ! empty( $GLOBALS['app_logging'] ) )
-			error_log( $label . ' - ' . $message );
+		error_log( $label . ' - ' . $msg );
 }
