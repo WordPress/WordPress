@@ -755,7 +755,7 @@ function get_post_status_object( $post_status ) {
  * @param string $output The type of output to return, either post status 'names' or 'objects'. 'names' is the default.
  * @param string $operator The logical operation to perform. 'or' means only one element
  *  from the array needs to match; 'and' means all elements must match. The default is 'and'.
- * @return array A list of post type names or objects
+ * @return array A list of post status names or objects
  */
 function get_post_stati( $args = array(), $output = 'names', $operator = 'and' ) {
 	global $wp_post_statuses;
