@@ -5303,6 +5303,10 @@ body.full-overlay-active {
 	border-right: 1px solid rgba( 0, 0, 0, 0.2 );
 }
 
+.wp-full-overlay.collapsed .wp-full-overlay-sidebar {
+	overflow: visible;
+}
+
 .wp-full-overlay-main {
 	position: fixed;
 	left: 300px;
