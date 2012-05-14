@@ -540,7 +540,8 @@ function get_available_languages( $dir = null ) {
 
 	foreach( (array)glob( ( is_null( $dir) ? WP_LANG_DIR : $dir ) . '/*.mo' ) as $lang_file ) {
 		$lang_file = basename($lang_file, '.mo');
-		if ( 0 !== strpos( $lang_file, 'continents-cities' ) && 0 !== strpos( $lang_file, 'ms-' ) )
+		if ( 0 !== strpos( $lang_file, 'continents-cities' ) && 0 !== strpos( $lang_file, 'ms-' ) &&
+			0 !== strpos( $lang_file, 'admin-' ))
 			$languages[] = $lang_file;
 	}
 
