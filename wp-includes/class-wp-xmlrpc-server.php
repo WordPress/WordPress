@@ -493,7 +493,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	/**
 	 * Checks if the method received at least the minimum number of arguments.
 	 *
-	 * @since 3.4
+	 * @since 3.4.0
 	 *
 	 * @param string|array $args Sanitize single string or array of strings.
 	 * @param int $count Minimum number of arguments.
@@ -569,7 +569,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @access protected
 	 *
-	 * @param $date
+	 * @param string $date
 	 * @return IXR_Date
 	 */
 	protected function _convert_date( $date ) {
@@ -580,11 +580,12 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Convert a WordPress gmt date string to an IXR_Date object.
+	 * Convert a WordPress GMT date string to an IXR_Date object.
 	 *
 	 * @access protected
 	 *
-	 * @param $date
+	 * @param string $date_gmt
+	 * @param string $date
 	 * @return IXR_Date
 	 */
 	protected function _convert_date_gmt( $date_gmt, $date ) {
@@ -728,10 +729,10 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @access protected
 	 *
 	 * @param object $media_item The unprepared media item data
-	 * @param string $size The image size to use for the thumbnail URL
+	 * @param string $thumbnail_size The image size to use for the thumbnail URL
 	 * @return array The prepared media item data
 	 */
-	protected function _prepare_media_item( $media_item, $thumbnail_size='thumbnail' ) {
+	protected function _prepare_media_item( $media_item, $thumbnail_size = 'thumbnail' ) {
 		$_media_item = array(
 			'attachment_id'    => strval( $media_item->ID ),
 			'date_created_gmt' => $this->_convert_date_gmt( $media_item->post_date_gmt, $media_item->post_date ),
@@ -757,7 +758,6 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @uses wp_insert_post()
 	 * @param array $args Method parameters. Contains:
 	 *  - int     $blog_id
 	 *  - string  $username
@@ -805,19 +805,25 @@ class wp_xmlrpc_server extends IXR_Server {
 		return $this->_insert_post( $user, $content_struct );
 	}
 
-	/*
+	/**
 	 * Helper method for filtering out elements from an array.
 	 *
 	 * @since 3.4.0
+	 *
+	 * @param int $count Number to compare to one.
 	 */
-	function _is_greater_than_one( $count ) {
+	private function _is_greater_than_one( $count ) {
 		return $count > 1;
 	}
 
-	/*
+	/**
 	 * Helper method for wp_newPost and wp_editPost, containing shared logic.
 	 *
 	 * @since 3.4.0
+	 * @uses wp_insert_post()
+	 *
+	 * @param WP_User $user The post author if post_author isn't set in $content_struct.
+	 * @param array $content_struct Post data to insert.
 	 */
 	protected function _insert_post( $user, $content_struct ) {
 		$defaults = array( 'post_status' => 'draft', 'post_type' => 'post', 'post_author' => 0,
@@ -1047,12 +1053,11 @@ class wp_xmlrpc_server extends IXR_Server {
 	/**
 	 * Edit a post for any registered post type.
 	 *
-	 * @since 3.4.0
-	 *
 	 * The $content_struct parameter only needs to contain fields that
 	 * should be changed. All other fields will retain their existing values.
 	 *
-	 * @uses wp_insert_post()
+	 * @since 3.4.0
+	 *
 	 * @param array $args Method parameters. Contains:
 	 *  - int     $blog_id
 	 *  - string  $username
