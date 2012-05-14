@@ -44,6 +44,8 @@ function get_option( $option, $default = false ) {
 	if ( defined( 'WP_SETUP_CONFIG' ) )
 		return false;
 
+	$default = apply_filters( 'default_option_' . $option, $default );
+
 	if ( ! defined( 'WP_INSTALLING' ) ) {
 		// prevent non-existent options from triggering multiple queries
 		$notoptions = wp_cache_get( 'notoptions', 'options' );
@@ -753,6 +755,8 @@ function get_site_option( $option, $default = false, $use_cache = true ) {
  	$pre = apply_filters( 'pre_site_option_' . $option, false );
  	if ( false !== $pre )
  		return $pre;
+
+	$default = apply_filters( 'default_site_option_' . $option, $default );
 
 	if ( !is_multisite() ) {
 		$value = get_option($option, $default);

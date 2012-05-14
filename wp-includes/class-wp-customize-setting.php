@@ -68,8 +68,10 @@ class WP_Customize_Setting {
 			case 'option' :
 				if ( empty( $this->id_data[ 'keys' ] ) )
 					add_filter( 'pre_option_' . $this->id_data[ 'base' ], array( $this, '_preview_filter' ) );
-				else
+				else {
 					add_filter( 'option_' . $this->id_data[ 'base' ], array( $this, '_preview_filter' ) );
+					add_filter( 'default_option_' . $this->id_data[ 'base' ], array( $this, '_preview_filter' ) );
+				}
 				break;
 			default :
 				do_action( 'customize_preview_' . $this->id );
