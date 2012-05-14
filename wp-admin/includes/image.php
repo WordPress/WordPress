@@ -93,6 +93,8 @@ function wp_crop_image( $src, $src_x, $src_y, $src_w, $src_h, $dst_w, $dst_h, $s
 	// using a replication plugin.
 	wp_mkdir_p( dirname( $dst_file ) );
 
+	$dst_file = dirname( $dst_file ) . '/' . wp_unique_filename( dirname( $dst_file ), basename( $dst_file ) );
+
 	if ( 'image/png' == $image_type && imagepng( $dst, $dst_file ) )
 		return $dst_file;
 	elseif ( imagejpeg( $dst, $dst_file, apply_filters( 'jpeg_quality', 90, 'wp_crop_image' ) ) )
