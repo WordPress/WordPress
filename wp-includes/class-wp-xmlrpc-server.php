@@ -754,77 +754,6 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Prepares page data for return in an XML-RPC object.
-	 *
-	 * @access protected
-	 *
-	 * @param object $page The unprepared page data
-	 * @return array The prepared page data
-	 */
-	protected function _prepare_page( $page ) {
-		// Get all of the page content and link.
-		$full_page = get_extended( $page->post_content );
-		$link = post_permalink( $page->ID );
-
-		// Get info the page parent if there is one.
-		$parent_title = "";
-		if ( ! empty( $page->post_parent ) ) {
-			$parent = get_page( $page->post_parent );
-			$parent_title = $parent->post_title;
-		}
-
-		// Determine comment and ping settings.
-		$allow_comments = comments_open( $page->ID ) ? 1 : 0;
-		$allow_pings = pings_open( $page->ID ) ? 1 : 0;
-
-		// Format page date.
-		$page_date = $this->_convert_date( $page->post_date );
-		$page_date_gmt = $this->_convert_date_gmt( $page->post_date_gmt, $page->post_date );
-
-		// Pull the categories info together.
-		$categories = array();
-		foreach ( wp_get_post_categories( $page->ID ) as $cat_id ) {
-			$categories[] = get_cat_name( $cat_id );
-		}
-
-		// Get the author info.
-		$author = get_userdata( $page->post_author );
-
-		$page_template = get_page_template_slug( $page->ID );
-		if ( empty( $page_template ) )
-			$page_template = 'default';
-
-		$_page = array(
-			'dateCreated'            => $page_date,
-			'userid'                 => $page->post_author,
-			'page_id'                => $page->ID,
-			'page_status'            => $page->post_status,
-			'description'            => $full_page['main'],
-			'title'                  => $page->post_title,
-			'link'                   => $link,
-			'permaLink'              => $link,
-			'categories'             => $categories,
-			'excerpt'                => $page->post_excerpt,
-			'text_more'              => $full_page['extended'],
-			'mt_allow_comments'      => $allow_comments,
-			'mt_allow_pings'         => $allow_pings,
-			'wp_slug'                => $page->post_name,
-			'wp_password'            => $page->post_password,
-			'wp_author'              => $author->display_name,
-			'wp_page_parent_id'      => $page->post_parent,
-			'wp_page_parent_title'   => $parent_title,
-			'wp_page_order'          => $page->menu_order,
-			'wp_author_id'           => (string) $author->ID,
-			'wp_author_display_name' => $author->display_name,
-			'date_created_gmt'       => $page_date_gmt,
-			'custom_fields'          => $this->get_custom_fields( $page->ID ),
-			'wp_page_template'       => $page_template
-		);
-
-		return apply_filters( 'xmlrpc_prepare_page', $_page, $page );
-	}
-
-	/**
 	 * Create a new post for any registered post type.
 	 *
 	 * @since 3.4.0
@@ -1904,7 +1833,66 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		// If we found the page then format the data.
 		if ( $page->ID && ($page->post_type == 'page') ) {
-			return $this->_prepare_page( $page );
+			// Get all of the page content and link.
+			$full_page = get_extended($page->post_content);
+			$link = post_permalink($page->ID);
+
+			// Get info the page parent if there is one.
+			$parent_title = "";
+			if ( !empty($page->post_parent) ) {
+				$parent = get_page($page->post_parent);
+				$parent_title = $parent->post_title;
+			}
+
+			// Determine comment and ping settings.
+			$allow_comments = comments_open($page->ID) ? 1 : 0;
+			$allow_pings = pings_open($page->ID) ? 1 : 0;
+
+			// Format page date.
+			$page_date = $this->_convert_date( $page->post_date );
+			$page_date_gmt = $this->_convert_date_gmt( $page->post_date_gmt, $page->post_date );
+
+			// Pull the categories info together.
+			$categories = array();
+			foreach ( wp_get_post_categories($page->ID) as $cat_id ) {
+				$categories[] = get_cat_name($cat_id);
+			}
+
+			// Get the author info.
+			$author = get_userdata($page->post_author);
+
+			$page_template = get_page_template_slug( $page->ID );
+			if ( empty( $page_template ) )
+				$page_template = 'default';
+
+			$page_struct = array(
+				'dateCreated'			=> $page_date,
+				'userid'				=> $page->post_author,
+				'page_id'				=> $page->ID,
+				'page_status'			=> $page->post_status,
+				'description'			=> $full_page['main'],
+				'title'					=> $page->post_title,
+				'link'					=> $link,
+				'permaLink'				=> $link,
+				'categories'			=> $categories,
+				'excerpt'				=> $page->post_excerpt,
+				'text_more'				=> $full_page['extended'],
+				'mt_allow_comments'		=> $allow_comments,
+				'mt_allow_pings'		=> $allow_pings,
+				'wp_slug'				=> $page->post_name,
+				'wp_password'			=> $page->post_password,
+				'wp_author'				=> $author->display_name,
+				'wp_page_parent_id'		=> $page->post_parent,
+				'wp_page_parent_title'	=> $parent_title,
+				'wp_page_order'			=> $page->menu_order,
+				'wp_author_id'			=> (string) $author->ID,
+				'wp_author_display_name'	=> $author->display_name,
+				'date_created_gmt'		=> $page_date_gmt,
+				'custom_fields'			=> $this->get_custom_fields($page_id),
+				'wp_page_template'		=> $page_template
+			);
+
+			return($page_struct);
 		}
 		// If the page doesn't exist indicate that.
 		else {
@@ -1947,9 +1935,11 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( $num_pages >= 1 ) {
 			$pages_struct = array();
 
-			foreach ($pages as $page) {
-				if ( current_user_can( 'edit_page', $page->ID ) )
-					$pages_struct[] = $this->_prepare_page( $page );
+			for ( $i = 0; $i < $num_pages; $i++ ) {
+				$page = wp_xmlrpc_server::wp_getPage(array(
+					$blog_id, $pages[$i]->ID, $username, $password
+				));
+				$pages_struct[] = $page;
 			}
 
 			return($pages_struct);
