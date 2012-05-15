@@ -331,36 +331,46 @@ if ( typeof wp === 'undefined' )
 		/**
 		 * Runs a callback once all requested values exist.
 		 *
-		 * when( ids*, callback );
+		 * when( ids*, [callback] );
 		 *
 		 * For example:
 		 *     when( id1, id2, id3, function( value1, value2, value3 ) {} );
+		 *
+		 * @returns $.Deferred.promise();
 		 */
 		when: function() {
 			var self = this,
-				ids = slice.call( arguments ),
-				callback = ids.pop();
+				ids  = slice.call( arguments ),
+				dfd  = $.Deferred();
+
+			// If the last argument is a callback, bind it to .done()
+			if ( $.isFunction( ids[ ids.length - 1 ] ) )
+				dfd.done( ids.pop() );
 
 			$.when.apply( $, $.map( ids, function( id ) {
 				if ( self.has( id ) )
 					return;
 
-				return self._deferreds[ id ] || ( self._deferreds[ id ] = $.Deferred() );
+				return self._deferreds[ id ] = self._deferreds[ id ] || $.Deferred();
 			})).done( function() {
 				var values = $.map( ids, function( id ) {
 						return self( id );
 					});
 
 				// If a value is missing, we've used at least one expired deferred.
-				// Call Values.when again to update our master deferred.
+				// Call Values.when again to generate a new deferred.
 				if ( values.length !== ids.length ) {
-					ids.push( callback );
-					self.when.apply( self, ids );
+					// ids.push( callback );
+					self.when.apply( self, ids ).done( function() {
+						dfd.resolveWith( self, values );
+					});
 					return;
 				}
 
-				callback.apply( self, values );
+				dfd.resolveWith( self, values );
 			});
+
+			return dfd.promise();
 		}
 	});
 
