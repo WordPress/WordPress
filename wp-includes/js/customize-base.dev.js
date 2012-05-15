@@ -283,7 +283,11 @@ if ( typeof wp === 'undefined' )
 				return this.value( id );
 
 			this._value[ id ] = value;
-			this._value[ id ].parent = this;
+			value.parent = this;
+			if ( value.extended( api.Value ) )
+				value.bind( this._change );
+
+			this.trigger( 'add', value );
 
 			if ( this._deferreds[ id ] )
 				this._deferreds[ id ].resolve();
@@ -305,6 +309,16 @@ if ( typeof wp === 'undefined' )
 		},
 
 		remove: function( id ) {
+			var value;
+
+			if ( this.has( id ) ) {
+				value = this.value( id );
+				this.trigger( 'remove', value );
+				if ( value.extended( api.Value ) )
+					value.unbind( this._change );
+				delete value.parent;
+			}
+
 			delete this._value[ id ];
 			delete this._deferreds[ id ];
 		},
@@ -352,8 +366,14 @@ if ( typeof wp === 'undefined' )
 			});
 
 			return dfd.promise();
+		},
+
+		_change: function() {
+			this.parent.trigger( 'change', this );
 		}
 	});
+
+	$.extend( api.Values.prototype, api.Events );
 
 	/* =====================================================================
 	 * An observable value that syncs with an element.
