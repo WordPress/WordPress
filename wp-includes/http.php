@@ -222,3 +222,80 @@ function wp_http_supports( $capabilities = array(), $url = null ) {
 
 	return (bool) $objFetchSite->_get_first_available_transport( $capabilities );
 }
+
+/**
+ * Get the HTTP Origin of the current request.
+ *
+ * @since 3.4.0
+ *
+ * @return string URL of the origin. Empty string if no origin.
+ */
+function get_http_origin() {
+	$origin = '';
+	if ( ! empty ( $_SERVER[ 'HTTP_ORIGIN' ] ) )
+		$origin = $_SERVER[ 'HTTP_ORIGIN' ];
+
+	return apply_filters( 'http_origin', $origin );
+}
+
+/**
+ * Retrieve list of allowed http origins.
+ *
+ * @since 3.4.0
+ *
+ * @return array Array of origin URLs.
+ */
+function get_allowed_http_origins() {
+	$admin_origin = parse_url( admin_url() );
+	$home_origin = parse_url( home_url() );
+
+	// @todo preserve port?
+	$allowed_origins = array_unique( array(
+		'http://' . $admin_origin[ 'host' ],
+		'https://' . $admin_origin[ 'host' ],
+		'http://' . $home_origin[ 'host' ],
+		'https://' . $home_origin[ 'host' ],
+	) );
+
+	return apply_filters( 'allowed_http_origins' , $allowed_origins );
+}
+
+/**
+ * Determines if the http origin is an authorized one.
+ *
+ * @since 3.4.0
+ *
+ * @param string Origin URL. If not provided, the value of get_http_origin() is used.
+ * @return bool True if the origin is allowed. False otherwise.
+ */
+function is_allowed_http_origin( $origin = null ) {
+	$origin_arg = $origin;
+
+	if ( null === $origin )
+		$origin = get_http_origin();
+
+	if ( $origin && ! in_array( $origin, get_allowed_http_origins() ) )
+		$origin = '';
+
+	return apply_filters( 'allowed_http_origin', $origin, $origin_arg );
+}
+
+/**
+ * Send Access-Control-Allow-Origin and related headers if the current request
+ * is from an allowed origin.
+ *
+ * @since 3.4.0
+ *
+ * @return bool|string Returns the origin URL if headers are sent. Returns false
+ * if headers are not sent.
+ */
+function send_origin_headers() {
+	$origin = get_http_origin();
+	if ( ! is_allowed_http_origin( $origin ) )
+		return false;
+
+	@header( 'Access-Control-Allow-Origin: ' .  $origin );
+	@header( 'Access-Control-Allow-Credentials: true' );
+
+	return $origin;
+}
