@@ -291,11 +291,12 @@ if ( typeof wp === 'undefined' )
 			return this._value[ id ];
 		},
 
+		create: function( id ) {
+			return this.add( id, new this.defaultConstructor( api.Class.applicator, slice.call( arguments, 1 ) ) );
+		},
+
 		get: function() {
 			var result = {};
-
-			if ( arguments.length )
-				return this.pass( 'get', arguments );
 
 			$.each( this._value, function( key, obj ) {
 				result[ key ] = obj.get();
@@ -303,29 +304,9 @@ if ( typeof wp === 'undefined' )
 			return result;
 		},
 
-		set: function( id ) {
-			if ( this.has( id ) )
-				return this.pass( 'set', arguments );
-
-			return this.add( id, new this.defaultConstructor( api.Class.applicator, slice.call( arguments, 1 ) ) );
-		},
-
 		remove: function( id ) {
 			delete this._value[ id ];
 			delete this._deferreds[ id ];
-		},
-
-		pass: function( fn, args ) {
-			var id, value;
-
-			args = slice.call( args );
-			id   = args.shift();
-
-			if ( ! this.has( id ) )
-				return;
-
-			value = this.value( id );
-			return value[ fn ].apply( value, args );
 		},
 
 		/**
@@ -373,13 +354,6 @@ if ( typeof wp === 'undefined' )
 			return dfd.promise();
 		}
 	});
-
-	$.each( [ 'bind', 'unbind', 'link', 'unlink', 'sync', 'unsync', 'setter', 'resetSetter' ], function( i, method ) {
-		api.Values.prototype[ method ] = function() {
-			return this.pass( method, arguments );
-		};
-	});
-
 
 	/* =====================================================================
 	 * An observable value that syncs with an element.

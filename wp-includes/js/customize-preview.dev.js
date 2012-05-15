@@ -65,11 +65,13 @@
 		preview = new api.Preview( window.location.href );
 
 		$.each( api.settings.values, function( id, value ) {
-			api.set( id, value );
+			api.create( id, value );
 		});
 
 		preview.bind( 'setting', function( args ) {
-			api.set.apply( api, args );
+			var value = api( args.shift() );
+			if ( value )
+				value.apply( value, args );
 		});
 
 		body = $(document.body);

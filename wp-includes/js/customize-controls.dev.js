@@ -435,7 +435,7 @@
 		});
 
 		$.each( api.settings.settings, function( id, data ) {
-			api.set( id, id, data.value, {
+			api.create( id, id, data.value, {
 				transport: data.transport,
 				previewer: previewer
 			} );
@@ -526,7 +526,7 @@
 
 			control.element.bind( function( to ) {
 				if ( ! to )
-					last = api.get( 'header_textcolor' );
+					last = api( 'header_textcolor' ).get();
 
 				control.setting.set( to ? last : 'blank' );
 			});
