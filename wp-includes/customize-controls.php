@@ -92,11 +92,9 @@ do_action( 'customize_controls_print_scripts' );
 
 	do_action( 'customize_controls_print_footer_scripts' );
 
-	// Check current scheme and load the preview with the same scheme
-	$scheme = is_ssl() ? 'https' : 'http';
 	$settings = array(
 		'theme'    => $this->get_stylesheet(),
-		'preview'  => esc_url( home_url( '/', $scheme ) ),
+		'preview'  => esc_url( home_url( '/' ) ),
 		'settings' => array(),
 		'controls' => array(),
 		'parent'   => esc_url( admin_url() ),
