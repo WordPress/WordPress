@@ -120,7 +120,29 @@ if ( typeof wp === 'undefined' )
 	api.Class.extend = extend;
 
 	/* =====================================================================
-	 * Light two-way binding.
+	 * Events mixin.
+	 * ===================================================================== */
+
+	api.Events = {
+		trigger: function( id ) {
+			if ( this.topics && this.topics[ id ] )
+				this.topics[ id ].fireWith( this, slice.call( arguments, 1 ) );
+		},
+
+		bind: function( id, callback ) {
+			this.topics = this.topics || {};
+			this.topics[ id ] = this.topics[ id ] || $.Callbacks();
+			this.topics[ id ].add.apply( this.topics[ id ], slice.call( arguments, 1 ) );
+		},
+
+		unbind: function( id, callback ) {
+			if ( this.topics && this.topics[ id ] )
+				this.topics[ id ].remove.apply( this.topics[ id ], slice.call( arguments, 1 ) );
+		}
+	};
+
+	/* =====================================================================
+	 * Observable values that support two-way binding.
 	 * ===================================================================== */
 
 	api.Value = api.Class.extend({
@@ -226,6 +248,10 @@ if ( typeof wp === 'undefined' )
 			return this;
 		}
 	});
+
+	/* =====================================================================
+	 * A collection of observable values.
+	 * ===================================================================== */
 
 	api.Values = api.Class.extend({
 		defaultConstructor: api.Value,
@@ -344,6 +370,13 @@ if ( typeof wp === 'undefined' )
 		};
 	});
 
+
+	/* =====================================================================
+	 * An observable value that syncs with an element.
+	 *
+	 * Handles inputs, selects, and textareas by default.
+	 * ===================================================================== */
+
 	api.ensure = function( element ) {
 		return typeof element == 'string' ? $( element ) : element;
 	};
@@ -448,8 +481,6 @@ if ( typeof wp === 'undefined' )
 				return to.replace( /([^:]+:\/\/[^\/]+).*/, '$1' );
 			});
 
-			this.topics = {};
-
 			this.receive = $.proxy( this.receive, this );
 			$( window ).on( 'message', this.receive );
 		},
@@ -469,8 +500,8 @@ if ( typeof wp === 'undefined' )
 
 			message = JSON.parse( event.data );
 
-			if ( message && message.id && typeof message.data !== 'undefined' && this.topics[ message.id ] )
-				this.topics[ message.id ].fireWith( this, [ message.data ]);
+			if ( message && message.id && typeof message.data !== 'undefined' )
+				this.trigger( message.id, message.data );
 		},
 
 		send: function( id, data ) {
@@ -483,18 +514,11 @@ if ( typeof wp === 'undefined' )
 
 			message = JSON.stringify({ id: id, data: data });
 			this.targetWindow().postMessage( message, this.origin() );
-		},
-
-		bind: function( id, callback ) {
-			var topic = this.topics[ id ] || ( this.topics[ id ] = $.Callbacks() );
-			topic.add( callback );
-		},
-
-		unbind: function( id, callback ) {
-			if ( this.topics[ id ] )
-				this.topics[ id ].remove( callback );
 		}
 	});
+
+	// Add the Events mixin to api.Messenger.
+	$.extend( api.Messenger.prototype, api.Events );
 
 	/* =====================================================================
 	 * Core customize object.
