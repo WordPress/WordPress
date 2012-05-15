@@ -43,36 +43,38 @@ do_action( 'customize_controls_print_scripts' );
 <body class="wp-full-overlay">
 	<form id="customize-controls" class="wrap wp-full-overlay-sidebar">
 		<?php wp_nonce_field( 'customize_controls' ); ?>
-		<div id="customize-header-actions" class="customize-section wp-full-overlay-header">
+		<div id="customize-header-actions" class="wp-full-overlay-header">
 			<a class="back" href="<?php echo esc_url( admin_url( 'themes.php' ) ); ?>">
 				<?php printf( __( '&larr; Return to %s' ), __('Manage Themes') ); ?>
 			</a>
 		</div>
 
-		<div id="customize-info" class="customize-section">
-			<div class="customize-section-title">
-				<span class="preview-notice"><?php _e('You are previewing'); ?></span>
-				<strong class="theme-name"><?php echo $this->theme->display('Name'); ?></strong>
-			</div>
-			<div class="customize-section-content">
-				<?php if ( $screenshot = $this->theme->get_screenshot() ) : ?>
-					<img class="theme-screenshot" src="<?php echo esc_url( $screenshot ); ?>" />
-				<?php endif; ?>
+		<div class="wp-full-overlay-sidebar-content">
+			<div id="customize-info" class="customize-section">
+				<div class="customize-section-title">
+					<span class="preview-notice"><?php _e('You are previewing'); ?></span>
+					<strong class="theme-name"><?php echo $this->theme->display('Name'); ?></strong>
+				</div>
+				<div class="customize-section-content">
+					<?php if ( $screenshot = $this->theme->get_screenshot() ) : ?>
+						<img class="theme-screenshot" src="<?php echo esc_url( $screenshot ); ?>" />
+					<?php endif; ?>
 
-				<?php if ( $this->theme->get('Description') ): ?>
-					<div class="theme-description"><?php echo $this->theme->display('Description'); ?></div>
-				<?php endif; ?>
+					<?php if ( $this->theme->get('Description') ): ?>
+						<div class="theme-description"><?php echo $this->theme->display('Description'); ?></div>
+					<?php endif; ?>
+				</div>
 			</div>
+
+			<div id="customize-theme-controls"><ul>
+				<?php
+				foreach ( $this->sections as $section )
+					$section->maybe_render();
+				?>
+			</ul></div>
 		</div>
 
-		<div id="customize-theme-controls"><ul>
-			<?php
-			foreach ( $this->sections as $section )
-				$section->maybe_render();
-			?>
-		</ul></div>
-
-		<div id="customize-footer-actions" class="customize-section wp-full-overlay-footer">
+		<div id="customize-footer-actions" class="wp-full-overlay-footer">
 			<?php
 			$save_text = $this->get_stylesheet() == $this->original_stylesheet ? __('Save') : __('Save and Activate');
 			submit_button( $save_text, 'primary', 'save', false );

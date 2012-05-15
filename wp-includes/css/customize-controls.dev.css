@@ -99,10 +99,6 @@ body {
 	top: 15px;
 }
 
-#customize-info {
-	margin-top: 45px;
-}
-
 #customize-info .preview-notice {
 	font-size: 13px;
 	line-height: 24px;
@@ -132,10 +128,6 @@ body {
 	text-align: center;
 }
 
-#customize-theme-controls {
-	padding-bottom: 60px;
-}
-
 #customize-theme-controls > ul,
 #customize-theme-controls .customize-section-content {
 	margin: 0;
@@ -144,12 +136,17 @@ body {
 #customize-footer-actions img {
 	display: none;
 	position: absolute;
-	top: 18px;
+	top: 15px;
 	margin-left: 4px;
 }
 
 .saving #customize-footer-actions img {
 	display: inline;
+}
+
+#customize-footer-actions .button-primary {
+	display: inline-block;
+	margin-top: 12px;
 }
 
 .customize-control {

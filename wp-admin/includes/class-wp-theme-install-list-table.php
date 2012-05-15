@@ -258,7 +258,9 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 			</a>
 			<div class="wp-full-overlay-sidebar">
 				<div class="wp-full-overlay-header"></div>
-				<div class="install-theme-info"></div>
+				<div class="wp-full-overlay-sidebar-content">
+					<div class="install-theme-info"></div>
+				</div>
 				<div class="wp-full-overlay-footer"></div>
 			</div>
 			<div class="wp-full-overlay-main"></div>
