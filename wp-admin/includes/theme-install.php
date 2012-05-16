@@ -168,6 +168,9 @@ function install_theme_information() {
 	if ( is_wp_error( $theme ) )
 		wp_die( $theme );
 
+	iframe_header( __('Theme Install') );
 	$wp_list_table->theme_installer_single( $theme );
+	iframe_footer();
+	exit;
 }
 add_action('install_themes_pre_theme-information', 'install_theme_information');

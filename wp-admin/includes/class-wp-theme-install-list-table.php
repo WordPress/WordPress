@@ -275,10 +275,6 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 	 * @param object $theme - A WordPress.org Theme API object.
 	 */
 	function theme_installer_single( $theme ) {
-		$class = 'wp-full-overlay';
-		if ( $theme )
-			$class .= ' single-theme';
-
 		?>
 		<div id="theme-installer" class="wp-full-overlay single-theme">
 			<div class="wp-full-overlay-sidebar">
