@@ -220,7 +220,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 				break;
 		}
 
-		$actions[] = '<a class="install-theme-preview" href="#" title="' . esc_attr( sprintf( __( 'Preview %s' ), $name ) ) . '">' . __( 'Preview' ) . '</a>';
+		$actions[] = '<a class="install-theme-preview" href="' . esc_url( $preview_url ) . '" title="' . esc_attr( sprintf( __( 'Preview %s' ), $name ) ) . '">' . __( 'Preview' ) . '</a>';
 
 		$actions = apply_filters( 'theme_install_actions', $actions, $theme );
 
