@@ -403,7 +403,7 @@ function load_image_to_edit( $attachment_id, $mime_type, $size = 'full' ) {
 }
 
 /**
- * Retrieve the path or url of an attachemnt's attached file.
+ * Retrieve the path or url of an attachment's attached file.
  *
  * If the attached file is not present on the local filesystem (usually due to replication plugins),
  * then the url of the file is returned if url fopen is supported.
@@ -439,7 +439,6 @@ function _load_image_to_edit_path( $attachment_id, $size = 'full' ) {
  * @return string|false New file path on success, false on failure.
  */
 function _copy_image_file( $attachment_id ) {
-	debug_log( 'copyin' );
 	$dst_file = $src_file = get_attached_file( $attachment_id );
 	if ( ! file_exists( $src_file ) ) 
 		$src_file = _load_image_to_edit_path( $attachment_id );
