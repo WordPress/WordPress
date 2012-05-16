@@ -2,10 +2,12 @@
 Distraction Free Writing mode TinyMCE Styles
 */
 
-html, body {
+html,
+body {
 	background: transparent;
 	width: auto !important;
 	max-width: none !important;
-	margin: 0;
-	padding: 0;
+	margin: 0 !important;
+	padding: 0 !important;
+	min-height: 0 !important;
 }

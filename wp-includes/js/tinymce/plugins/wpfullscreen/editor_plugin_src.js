@@ -8,7 +8,7 @@
 	tinymce.create('tinymce.plugins.wpFullscreenPlugin', {
 
 		init : function(ed, url) {
-			var t = this, oldHeight = 0, s = {}, DOM = tinymce.DOM, resized = false;
+			var t = this, oldHeight = 0, s = {}, DOM = tinymce.DOM;
 
 			// Register commands
 			ed.addCommand('wpFullScreenClose', function() {
@@ -112,26 +112,22 @@
 			 * This method gets executed each time the editor needs to resize.
 			 */
 			function resize() {
-				if ( resized )
-					return;
-
 				var d = ed.getDoc(), DOM = tinymce.DOM, resizeHeight, myHeight;
 
 				// Get height differently depending on the browser used
-				if ( tinymce.isIE || tinymce.isWebKit )
-					myHeight = d.body.scrollHeight;
-				else
+				if ( tinymce.isWebKit )
 					myHeight = d.body.offsetHeight;
+				else
+					myHeight = d.body.scrollHeight;
 
 				// Don't make it smaller than 300px
 				resizeHeight = (myHeight > 300) ? myHeight : 300;
 
 				// Resize content element
 				if ( oldHeight != resizeHeight ) {
-					resized = true;
-					setTimeout(function(){ resized = false; }, 100);
 					DOM.setStyle(DOM.get(ed.id + '_ifr'), 'height', resizeHeight + 'px');
 					oldHeight = resizeHeight;
+					ed.getWin().scrollTo(0,0);
 				}
 			};
 
