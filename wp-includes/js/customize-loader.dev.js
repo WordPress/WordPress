@@ -5,7 +5,7 @@ if ( typeof wp === 'undefined' )
 	var api = wp.customize,
 		Loader;
 
-	Loader = {
+	Loader = $.extend( {}, api.Events, {
 		supports: {
 			history:  !! ( window.history && history.pushState ),
 			hashchange: ('onhashchange' in window) && (document.documentMode === undefined || document.documentMode > 7)
@@ -15,6 +15,9 @@ if ( typeof wp === 'undefined' )
 			this.body    = $( document.body ).addClass('customize-support');
 			this.window  = $( window );
 			this.element = $( '<div id="customize-container" class="wp-full-overlay" />' ).appendTo( this.body );
+
+			this.bind( 'open', this.overlay.show );
+			this.bind( 'close', this.overlay.hide );
 
 			$('#wpbody').on( 'click', '.load-customize', function( event ) {
 				event.preventDefault();
@@ -30,6 +33,7 @@ if ( typeof wp === 'undefined' )
 			if ( this.supports.hashchange )
 				this.window.on( 'hashchange', Loader.hashchange );
 		},
+
 		popstate: function( e ) {
 			var state = e.originalEvent.state;
 			if ( state && state.customize )
@@ -37,6 +41,7 @@ if ( typeof wp === 'undefined' )
 			else if ( Loader.active )
 				Loader.close();
 		},
+
 		hashchange: function( e ) {
 			var hash = window.location.toString().split('#')[1];
 
@@ -46,9 +51,13 @@ if ( typeof wp === 'undefined' )
 			if ( ! hash && ! Loader.supports.history )
 				Loader.close();
 		},
+
 		open: function( src ) {
+			var hash;
+
 			if ( this.active )
 				return;
+
 			this.active = true;
 			this.body.addClass('customize-loading');
 
@@ -60,7 +69,7 @@ if ( typeof wp === 'undefined' )
 
 			// Wait for the connection from the iframe before sending any postMessage events.
 			this.messenger.bind( 'ready', function() {
-				Loader.messenger.send( 'back', wpCustomizeLoaderL10n.back );
+				Loader.messenger.send( 'back', wpCustomizeLoaderL10n.back || '' );
 			});
 
 			this.messenger.bind( 'close', function() {
@@ -72,35 +81,51 @@ if ( typeof wp === 'undefined' )
 					Loader.close();
 			});
 
-			this.element.fadeIn( 200, function() {
-				var hash = src.split('?')[1];
+			hash = src.split('?')[1];
 
-				Loader.body.addClass( 'customize-active full-overlay-active' );
+			// Ensure we don't call pushState if the user hit the forward button.
+			if ( Loader.supports.history && window.location.href !== src )
+				history.pushState( { customize: src }, '', src );
+			else if ( ! Loader.supports.history && Loader.supports.hashchange && hash )
+				window.location.hash = hash;
 
-				// Ensure we don't call pushState if the user hit the forward button.
-				if ( Loader.supports.history && window.location.href !== src )
-					history.pushState( { customize: src }, '', src );
-				else if ( ! Loader.supports.history && Loader.supports.hashchange && hash )
-					window.location.hash = hash;
-			});
+			this.trigger( 'open' );
 		},
+
+		opened: function() {
+			Loader.body.addClass( 'customize-active full-overlay-active' );
+		},
+
 		close: function() {
 			if ( ! this.active )
 				return;
 			this.active = false;
 
-			this.element.fadeOut( 200, function() {
-				Loader.iframe.remove();
-				Loader.messenger.destroy();
-				Loader.iframe    = null;
-				Loader.messenger = null;
-				Loader.body.removeClass( 'customize-active full-overlay-active' ).removeClass( 'customize-loading' );
-			});
+			this.trigger( 'close' );
 		},
+
+		closed: function() {
+			Loader.iframe.remove();
+			Loader.messenger.destroy();
+			Loader.iframe    = null;
+			Loader.messenger = null;
+			Loader.body.removeClass( 'customize-active full-overlay-active' ).removeClass( 'customize-loading' );
+		},
+
 		loaded: function() {
 			Loader.body.removeClass('customize-loading');
+		},
+
+		overlay: {
+			show: function() {
+				this.element.fadeIn( 200, Loader.opened );
+			},
+
+			hide: function() {
+				this.element.fadeOut( 200, Loader.closed );
+			}
 		}
-	};
+	});
 
 	$( function() {
 		if ( window.postMessage )

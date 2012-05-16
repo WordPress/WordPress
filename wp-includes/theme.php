@@ -1589,10 +1589,12 @@ add_action( 'plugins_loaded', '_wp_customize_include' );
  * @since 3.4.0
  */
 function _wp_customize_loader_localize() {
-	wp_localize_script( 'customize-loader', 'wpCustomizeLoaderL10n', array(
-		'back' => sprintf( __( '&larr; Return to %s' ), get_admin_page_title() ),
-		'url'  => admin_url( 'admin.php' ),
-	) );
+	$l10n = array( 'url'  => admin_url( 'admin.php' ) );
+
+	if ( is_admin() )
+		$l10n[ 'back' ] = sprintf( __( '&larr; Return to %s' ), get_admin_page_title() );
+
+	wp_localize_script( 'customize-loader', 'wpCustomizeLoaderL10n', $l10n );
 }
 add_action( 'admin_enqueue_scripts', '_wp_customize_loader_localize' );
 

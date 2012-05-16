@@ -34,7 +34,7 @@
 			this.body = $( document.body );
 			this.body.on( 'click.preview', 'a', function( event ) {
 				event.preventDefault();
-				self.send( 'url', $(this).attr('href') );
+				self.send( 'url', $(this).prop('href') );
 			});
 
 			// You cannot submit forms.
@@ -71,7 +71,7 @@
 		preview.bind( 'setting', function( args ) {
 			var value = api( args.shift() );
 			if ( value )
-				value.apply( value, args );
+				value.set.apply( value, args );
 		});
 
 		body = $(document.body);

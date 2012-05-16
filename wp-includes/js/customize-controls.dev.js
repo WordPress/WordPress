@@ -392,6 +392,8 @@
 
 	$( function() {
 		api.settings = window._wpCustomizeSettings;
+		api.l10n = window._wpCustomizeControlsL10n;
+
 		if ( ! api.settings )
 			return;
 
@@ -408,12 +410,12 @@
 		previewer = new api.Previewer({
 			container: '#customize-preview',
 			form:      '#customize-controls',
-			url:       api.settings.preview
+			url:       api.settings.url.preview
 		}, {
 			query: function() {
 				return {
 					customize:  'on',
-					theme:      api.settings.theme,
+					theme:      api.settings.theme.stylesheet,
 					customized: JSON.stringify( api.get() )
 				};
 			},
@@ -425,7 +427,9 @@
 						action: 'customize_save',
 						nonce:  this.nonce
 					}),
-					request = $.post( api.settings.ajax, query );
+					request = $.post( api.settings.url.ajax, query );
+
+				api.trigger( 'save', request );
 
 				body.addClass('saving');
 				request.always( function() {
@@ -472,16 +476,36 @@
 		});
 
 		// Create a potential postMessage connection with the parent frame.
-		parent = new api.Messenger( api.settings.parent );
+		parent = new api.Messenger( api.settings.url.parent );
 
 		// If we receive a 'back' event, we're inside an iframe.
 		// Send any clicks to the 'Return' link to the parent page.
 		parent.bind( 'back', function( text ) {
-			$('.back').text( text ).click( function( event ) {
+			var back = $('.back');
+
+			if ( text )
+				back.text( text );
+
+			back.on( 'click.back', function( event ) {
 				event.preventDefault();
 				parent.send( 'close' );
 			});
 		});
+
+		// If the current theme isn't active, it will be activated on save,
+		// rendering the previous page
+		api.bind( 'save', function( request ) {
+			request.done( function() {
+				parent.send( 'saved' );
+
+				if ( ! api.settings.theme.active ) {
+					parent.send( 'switched' );
+					$('#save').val( api.l10n.save );
+				}
+
+				api.settings.theme.active = true;
+			});
+		} );
 
 		// Initialize the connection with the parent frame.
 		parent.send( 'ready' );

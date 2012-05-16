@@ -76,7 +76,7 @@ do_action( 'customize_controls_print_scripts' );
 
 		<div id="customize-footer-actions" class="wp-full-overlay-footer">
 			<?php
-			$save_text = $this->get_stylesheet() == $this->original_stylesheet ? __('Save') : __('Save and Activate');
+			$save_text = $this->is_current_theme_active() ? __('Save') : __('Save and Activate');
 			submit_button( $save_text, 'primary', 'save', false );
 			?>
 			<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" />
@@ -93,12 +93,17 @@ do_action( 'customize_controls_print_scripts' );
 	do_action( 'customize_controls_print_footer_scripts' );
 
 	$settings = array(
-		'theme'    => $this->get_stylesheet(),
-		'preview'  => esc_url( home_url( '/' ) ),
+		'theme'    => array(
+			'stylesheet' => $this->get_stylesheet(),
+			'active'     => $this->is_current_theme_active(),
+		),
+		'url'      => array(
+			'preview'  => esc_url( home_url( '/' ) ),
+			'parent'   => esc_url( admin_url() ),
+			'ajax'     => esc_url( admin_url( 'admin-ajax.php', 'relative' ) ),
+		),
 		'settings' => array(),
 		'controls' => array(),
-		'parent'   => esc_url( admin_url() ),
-		'ajax'     => esc_url( admin_url( 'admin-ajax.php', 'relative' ) ),
 	);
 
 	foreach ( $this->settings as $id => $setting ) {
