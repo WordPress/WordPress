@@ -784,11 +784,15 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	<input type="hidden" name="attachment_id" id="attachment_id" value="<?php echo esc_attr( $id ); ?>" />
 	<input type="hidden" name="oitar" id="oitar" value="<?php echo esc_attr( $oitar ); ?>" />
 	<?php if ( empty( $_POST ) && isset( $_GET['file'] ) ) { ?>
-	<input type="hidden" name="new-attachment" value="true" />
+	<input type="hidden" name="create-new-attachment" value="true" />
 	<?php } ?>
 	<?php wp_nonce_field( 'custom-header-crop-image' ) ?>
 
-	<?php submit_button( __( 'Crop and Publish' ) ); ?>
+	<p class="submit"><?php
+	submit_button( __( 'Crop and Publish' ), 'primary', 'submit', false );
+	if ( isset( $oitar ) && 1 == $oitar )
+		submit_button( __( 'Skip Cropping, Use Image as Is' ), 'primary', 'skip-cropping', false );
+	?>
 	</p>
 </form>
 </div>
@@ -867,12 +871,17 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 		else
 			$dst_width = get_theme_support( 'custom-header', 'width' );
 
-		$cropped = wp_crop_image( $attachment_id, (int) $_POST['x1'], (int) $_POST['y1'], (int) $_POST['width'], (int) $_POST['height'], $dst_width, $dst_height );
+		if ( empty( $_POST['skip-cropping'] ) )
+			$cropped = wp_crop_image( $attachment_id, (int) $_POST['x1'], (int) $_POST['y1'], (int) $_POST['width'], (int) $_POST['height'], $dst_width, $dst_height );
+		elseif ( ! empty( $_POST['create-new-attachment'] ) )
+			$cropped = _copy_image_file( $attachment_id );
+		else
+			$cropped = get_attached_file( $attachment_id );
+
 		if ( ! $cropped || is_wp_error( $cropped ) )
 			wp_die( __( 'Image could not be processed. Please go back and try again.' ), __( 'Image Processing Error' ) );
 
 		$cropped = apply_filters('wp_create_file_in_uploads', $cropped, $attachment_id); // For replication
-		$is_cropped = ( get_attached_file( $attachment_id ) != $cropped );
 
 		$parent = get_post($attachment_id);
 		$parent_url = $parent->guid;
@@ -890,7 +899,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 			'guid' => $url,
 			'context' => 'custom-header'
 		);
-		if ( ! empty( $_POST['new-attachment'] ) )
+		if ( ! empty( $_POST['create-new-attachment'] ) )
 			unset( $object['ID'] );
 
 		// Update the attachment
@@ -913,7 +922,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 		$medium = str_replace( basename( $original ), 'midsize-' . basename( $original ), $original );
 		if ( file_exists( $medium ) )
 			@unlink( apply_filters( 'wp_delete_file', $medium ) );
-		if ( empty( $_POST['new-attachment'] ) && $is_cropped )
+		if ( empty( $_POST['create-new-attachment'] ) && empty( $_POST['skip-cropping'] ) )
 			@unlink( apply_filters( 'wp_delete_file', $original ) );
 
 		return $this->finished();
