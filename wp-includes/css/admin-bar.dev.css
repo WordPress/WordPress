@@ -582,6 +582,22 @@
 }
 
 /**
+ * Retina display 2x icons
+ */
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
+	#wpadminbar .menupop .menupop > .ab-item,
+	#wpadminbar .ab-top-secondary .menupop .menupop > .ab-item,
+	#wpadminbar #adminbarsearch .adminbar-input,
+	#wp-admin-bar-wp-logo > .ab-item .ab-icon,
+	#wp-admin-bar-updates > .ab-item .ab-icon,
+	#wp-admin-bar-comments > .ab-item .ab-icon,
+	#wpadminbar #wp-admin-bar-new-content > .ab-item .ab-icon {
+		background-image: url(../images/admin-bar-sprite-2x.png?d=20120516);
+		background-size: 20px 220px;
+	}
+}
+
+/**
  * IE 6-targeted rules
  */
 * html #wpadminbar {
