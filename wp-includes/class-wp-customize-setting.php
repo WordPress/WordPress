@@ -231,6 +231,22 @@ class WP_Customize_Setting {
 	}
 
 	/**
+	 * Escape the parameter's value for use in JavaScript.
+	 *
+	 * @since 3.4.0
+	 *
+	 * @return mixed The requested escaped value.
+	 */
+	public function js_value() {
+		$value = $this->value();
+
+		if ( is_string( $value ) )
+			return html_entity_decode( $value, ENT_QUOTES, 'UTF-8');
+
+		return $value;
+	}
+
+	/**
 	 * Check if the theme supports the setting and check user capabilities.
 	 *
 	 * @since 3.4.0

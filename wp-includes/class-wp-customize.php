@@ -213,7 +213,7 @@ final class WP_Customize {
 		);
 
 		foreach ( $this->settings as $id => $setting ) {
-			$settings['values'][ $id ] = $setting->value();
+			$settings['values'][ $id ] = $setting->js_value();
 		}
 
 		?>

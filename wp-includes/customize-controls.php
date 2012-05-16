@@ -108,7 +108,7 @@ do_action( 'customize_controls_print_scripts' );
 
 	foreach ( $this->settings as $id => $setting ) {
 		$settings['settings'][ $id ] = array(
-			'value'     => $setting->value(),
+			'value'     => $setting->js_value(),
 			'transport' => $setting->transport,
 		);
 	}
