@@ -127,17 +127,20 @@ if ( typeof wp === 'undefined' )
 		trigger: function( id ) {
 			if ( this.topics && this.topics[ id ] )
 				this.topics[ id ].fireWith( this, slice.call( arguments, 1 ) );
+			return this;
 		},
 
 		bind: function( id, callback ) {
 			this.topics = this.topics || {};
 			this.topics[ id ] = this.topics[ id ] || $.Callbacks();
 			this.topics[ id ].add.apply( this.topics[ id ], slice.call( arguments, 1 ) );
+			return this;
 		},
 
 		unbind: function( id, callback ) {
 			if ( this.topics && this.topics[ id ] )
 				this.topics[ id ].remove.apply( this.topics[ id ], slice.call( arguments, 1 ) );
+			return this;
 		}
 	};
 
