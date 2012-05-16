@@ -53,6 +53,9 @@ jQuery( function($) {
  * Displays theme previews on theme install pages.
  */
 jQuery( function($) {
+	if( ! window.postMessage )
+		return;
+
 	var preview = $('#theme-installer'),
 		info    = preview.find('.install-theme-info'),
 		panel   = preview.find('.wp-full-overlay-main'),
