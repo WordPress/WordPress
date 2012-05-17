@@ -59,12 +59,10 @@ body {
 	background-image:         linear-gradient( top, #f9f9f9, #f1f1f1 );
 }
 
-.control-section .customize-section-content {
-
-}
 .control-section.open .customize-section-title {
 	border-bottom: 1px solid #e5e5e5;
 }
+
 .control-section.open .customize-section-title:hover {
 	border-bottom: 1px solid #dfdfdf;
 }

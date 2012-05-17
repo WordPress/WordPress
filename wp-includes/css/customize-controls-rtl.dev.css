@@ -1,7 +1,3 @@
-.control-section .customize-section-title:hover {
-	box-shadow: inset 11px 0 8px -8px rgba( 0, 0, 0, 0.1 );
-}
-
 .customize-section-title:after {
 	right: auto;
 	left: 20px;
@@ -16,7 +12,8 @@
 	float: right;
 }
 
-.customize-control-radio input {
+.customize-control-radio input,
+.customize-control-checkbox input {
 	margin-right: 0;
 	margin-left: 5px;
 }
@@ -72,7 +69,6 @@
 }
 
 .customize-control-color .farbtastic-placeholder {
-	margin: 5px 25px 10px 0;
 	float: right;
 }
 
@@ -80,7 +76,7 @@
  * Image Picker
  */
 .customize-section .customize-control-image .actions {
-	float: left;
+	text-align: left;
 }
 
 .customize-control-image .library,
