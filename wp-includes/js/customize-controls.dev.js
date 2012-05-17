@@ -559,6 +559,8 @@
 				control.element.set( 'blank' !== to );
 			});
 		});
+
+		api.trigger( 'ready' );
 	});
 
 })( wp, jQuery );
