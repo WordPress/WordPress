@@ -16,22 +16,6 @@
 	float: right;
 }
 
-.customize-control-title {
-	clear: rigt;
-	float: right;
-	margin-right: 0;
-	margin-left: 10px;
-}
-
-.customize-control-text input {
-	float: left;
-}
-
-.customize-control-radio label {
-	float: right;
-	clear: both;
-}
-
 .customize-control-radio input {
 	margin-right: 0;
 	margin-left: 5px;

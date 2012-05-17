@@ -199,8 +199,6 @@ body {
 }
 
 .customize-control-radio label {
-	float: left;
-	clear: both;
 	line-height: 20px;
 }
 
