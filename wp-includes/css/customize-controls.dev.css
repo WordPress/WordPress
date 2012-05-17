@@ -373,6 +373,7 @@ body {
 .customize-control-image .actions {
 	display: none;
 	float: left;
+	width: 100%;
 }
 
 .customize-control-image.open .library,
@@ -399,7 +400,7 @@ body {
 }
 
 .customize-section .customize-control-image .actions {
-	float: right;
+	text-align: right;
 }
 
 .customize-section .customize-control-image .actions a {
