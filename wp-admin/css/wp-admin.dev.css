@@ -5039,6 +5039,7 @@ html.ie8 .about-wrap img.element-screenshot {
 
 	background: url('../images/wp-badge.png?ver=20111120') no-repeat;
 }
+
 .about-wrap .wp-badge {
 	position: absolute;
 	top: 0;
@@ -6373,7 +6374,7 @@ a.rsswidget {
 }
 
 .login h1 a {
-	background-image: url(../images/wordpress-logo.png?ver=20120216);
+	background-image: url('../images/wordpress-logo.png?ver=20120216');
 	background-size: 274px 63px;
 	background-position: top center;
 	background-repeat: no-repeat;
@@ -6387,8 +6388,13 @@ a.rsswidget {
 
 @media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
 	.login h1 a {
-		background-image: url(../images/wordpress-logo-2x.png?ver=20120412);
+		background-image: url('../images/wordpress-logo-2x.png?ver=20120412');
 		background-size: 274px 63px;
+	}
+
+	.wp-badge {
+		background-image: url('../images/wp-badge-2x.png?ver=20120516');
+		background-size: 173px 194px;
 	}
 }
 
