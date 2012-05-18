@@ -137,7 +137,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 			$actions[] = '<a href="' . $preview_link . '" class="hide-if-customize" title="'
 				. esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;' ), $title ) ) . '">' . __( 'Preview' ) . '</a>'
 				. '<a href="' . wp_customize_url( $stylesheet ) . '" class="load-customize hide-if-no-customize">'
-				. __( 'Customize' ) . '</a>';
+				. __( 'Live Preview' ) . '</a>';
 			if ( ! is_multisite() && current_user_can( 'delete_themes' ) )
 				$actions['delete'] = '<a class="submitdelete deletion" href="' . wp_nonce_url( "themes.php?action=delete&amp;template=$stylesheet", 'delete-theme_' . $stylesheet )
 					. '" onclick="' . "return confirm( '" . esc_js( sprintf( __( "You are about to delete this theme '%s'\n  'Cancel' to stop, 'OK' to delete." ), $title ) )
