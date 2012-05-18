@@ -2198,6 +2198,36 @@ function self_admin_url($path = '', $scheme = 'admin') {
 }
 
 /**
+ * Set the scheme for a URL
+ *
+ * @since 3.4.0
+ * 
+ * @param string $url Absolute url that includes a scheme
+ * @param string $scheme Optional. Scheme to give $url. Currently 'http', 'https', 'login', 'login_post', 'admin', or 'relative'.
+ * @return string $url URL with chosen scheme.
+ */
+function set_url_scheme( $url, $scheme = null ) {
+	$orig_scheme = $scheme;
+	if ( ! in_array( $scheme, array( 'http', 'https', 'relative' ) ) ) {
+		if ( ( 'login_post' == $scheme || 'rpc' == $scheme ) && ( force_ssl_login() || force_ssl_admin() ) )
+			$scheme = 'https';
+		elseif ( ( 'login' == $scheme ) && force_ssl_admin() )
+			$scheme = 'https';
+		elseif ( ( 'admin' == $scheme ) && force_ssl_admin() )
+			$scheme = 'https';
+		else
+			$scheme = ( is_ssl() ? 'https' : 'http' );
+	}
+
+	if ( 'relative' == $scheme )
+		$url = preg_replace( '#^.+://[^/]*#', '', $url );
+	else
+		$url = preg_replace( '#^.+://#', $scheme . '://', $url );
+
+	return apply_filters( 'set_url_scheme', $url, $scheme, $orig_scheme );
+}
+
+/**
  * Get the URL to the user's dashboard.
  *
  * If a user does not belong to any site, the global user dashboard is used. If the user belongs to the current site,
