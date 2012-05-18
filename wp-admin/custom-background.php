@@ -207,15 +207,15 @@ if ( $bgcolor = get_background_color() )
 
 if ( get_background_image() ) {
 	// background-image URL must be single quote, see below
-	$background_styles .= ' background-image: url(\'' . get_theme_mod('background_image_thumb', '') . '\');'
+	$background_styles .= ' background-image: url(\'' . set_url_scheme( get_theme_mod('background_image_thumb', '') ) . '\');'
 		. ' background-repeat: ' . get_theme_mod('background_repeat', 'repeat') . ';'
 		. ' background-position: top ' . get_theme_mod('background_position_x', 'left');
 }
 ?>
 <div id="custom-background-image" style="<?php echo $background_styles; ?>"><?php // must be double quote, see above ?>
 <?php if ( get_background_image() ) { ?>
-<img class="custom-background-image" src="<?php echo get_theme_mod('background_image_thumb', ''); ?>" style="visibility:hidden;" alt="" /><br />
-<img class="custom-background-image" src="<?php echo get_theme_mod('background_image_thumb', ''); ?>" style="visibility:hidden;" alt="" />
+<img class="custom-background-image" src="<?php echo set_url_scheme( get_theme_mod('background_image_thumb', '') ); ?>" style="visibility:hidden;" alt="" /><br />
+<img class="custom-background-image" src="<?php echo set_url_scheme( get_theme_mod('background_image_thumb', '') ); ?>" style="visibility:hidden;" alt="" />
 <?php } ?>
 </div>
 <?php } ?>

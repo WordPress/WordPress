@@ -333,7 +333,7 @@ class Custom_Image_Header {
 			$width = '';
 			if ( !empty( $header['attachment_id'] ) )
 				$width = ' width="230"';
-			echo '<img src="' . $header_thumbnail . '" alt="' . esc_attr( $header_desc ) .'" title="' . esc_attr( $header_desc ) . '"' . $width . ' /></label>';
+			echo '<img src="' . set_url_scheme( $header_thumbnail ) . '" alt="' . esc_attr( $header_desc ) .'" title="' . esc_attr( $header_desc ) . '"' . $width . ' /></label>';
 			echo '</div>';
 		}
 		echo '<div class="clear"></div></div>';

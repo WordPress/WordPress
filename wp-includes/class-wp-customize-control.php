@@ -343,7 +343,7 @@ class WP_Customize_Image_Control extends WP_Customize_Upload_Control {
 						<?php if ( empty( $src ) ): ?>
 							<img style="display:none;" />
 						<?php else: ?>
-							<img src="<?php echo esc_url( $src ); ?>" />
+							<img src="<?php echo esc_url( set_url_scheme( $src ) ); ?>" />
 						<?php endif; ?>
 						<div class="dropdown-status"></div>
 					</div>
@@ -426,7 +426,7 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 
 		foreach ( $headers as $header ) : ?>
 			<a href="#" class="thumbnail" data-customize-image-value="<?php echo esc_url( $header['url'] ); ?>">
-				<img src="<?php echo esc_url( $header['thumbnail_url'] ); ?>" />
+				<img src="<?php echo esc_url( set_url_scheme( $header['thumbnail_url'] ) ); ?>" />
 			</a>
 		<?php endforeach;
 	}
@@ -437,7 +437,7 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 
 		foreach ( $custom_image_header->default_headers as $header ) : ?>
 			<a href="#" class="thumbnail" data-customize-image-value="<?php echo esc_url( $header['url'] ); ?>">
-				<img src="<?php echo esc_url( $header['thumbnail_url'] ); ?>" />
+				<img src="<?php echo esc_url( set_url_scheme( $header['thumbnail_url'] ) ); ?>" />
 			</a>
 		<?php endforeach;
 	}
