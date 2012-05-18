@@ -92,13 +92,27 @@ do_action( 'customize_controls_print_scripts' );
 
 	do_action( 'customize_controls_print_footer_scripts' );
 
+	// If the frontend and the admin are served from the same domain, load the
+	// preview over ssl if the customizer is being loaded over ssl. This avoids
+	// insecure content warnings. This is not attempted if the admin and frontend
+	// are on different domains to avoid the case where the frontend doesn't have
+	// ssl certs. Domain mapping plugins can force ssl in these conditions using
+	// the customize_preview_link filter.
+	$admin_origin = parse_url( admin_url() );
+	$home_origin = parse_url( home_url() );
+	$scheme = null;
+	if ( is_ssl() && ( $admin_origin[ 'host' ] == $home_origin[ 'host' ] ) )
+		$scheme = 'https';
+
+	$preview_url = apply_filters( 'customize_preview_link',  home_url( '/', $scheme ) );
+
 	$settings = array(
 		'theme'    => array(
 			'stylesheet' => $this->get_stylesheet(),
 			'active'     => $this->is_current_theme_active(),
 		),
 		'url'      => array(
-			'preview'  => esc_url( home_url( '/' ) ),
+			'preview'  => esc_url( $preview_url ),
 			'parent'   => esc_url( admin_url() ),
 			'ajax'     => esc_url( admin_url( 'admin-ajax.php', 'relative' ) ),
 		),
