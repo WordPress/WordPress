@@ -333,11 +333,9 @@ wp_nonce_field( 'samplepermalink', 'samplepermalinknonce', false );
 </tr></tbody></table>
 
 </div>
+<?php } ?>
 </div><!-- /post-body-content -->
-<?php
-}
 
-?>
 <div id="postbox-container-1" class="postbox-container">
 <?php
 
