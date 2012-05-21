@@ -5403,7 +5403,7 @@ body.full-overlay-active {
 	display: block;
 	width: 15px;
 	height: 15px;
-	background: transparent url('../../wp-admin/images/arrows.png') no-repeat 0 -72px;
+	background: transparent url('../images/arrows.png') no-repeat 0 -72px;
 }
 
 .wp-full-overlay.collapsed .collapse-sidebar-arrow {
