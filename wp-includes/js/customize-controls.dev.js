@@ -460,7 +460,9 @@
 
 		// Temporary accordion code.
 		$('.customize-section-title').click( function() {
-			$( this ).parents('.customize-section').toggleClass( 'open' );
+			var clicked = $( this ).parents( '.customize-section' );
+			$( '.customize-section' ).not( clicked ).removeClass( 'open' );
+			clicked.toggleClass( 'open' );
 			return false;
 		});
 
