@@ -1708,6 +1708,8 @@ final class WP_Internal_Pointers {
 			'post-new.php' => 'wp330_media_uploader',
 			'post.php'     => 'wp330_media_uploader',
 			'themes.php'   => array( 'wp330_saving_widgets', 'wp340_customize_current_theme_link' ),
+			'appearance_page_custom-header' => 'wp340_choose_image_from_library',
+			'appearance_page_custom-background' => 'wp340_choose_image_from_library',
 		);
 
 		// Check if screen related pointer is registered
@@ -1720,6 +1722,7 @@ final class WP_Internal_Pointers {
 			'wp330_media_uploader' => array( 'upload_files' ),
 			'wp330_saving_widgets' => array( 'edit_theme_options', 'switch_themes' ),
 			'wp340_customize_current_theme_link' => array( 'edit_theme_options' ),
+			'wp340_choose_image_from_library' => array( 'edit_theme_options' ),
 		);
 
 		// Get dismissed pointers
@@ -1839,6 +1842,21 @@ final class WP_Internal_Pointers {
 		$content .= '<p>' . __( 'Click the Customize links in the Available Themes list below to customize, preview, and optionally activate the selected theme.' ) . '</p>';
 
 		WP_Internal_Pointers::print_js( 'wp340_customize_current_theme_link', '#customize-current-theme-link', array(
+			'content'  => $content,
+			'position' => array( 'edge' => 'top', 'align' => is_rtl() ? 'right' : 'left' ),
+		) );
+	}
+
+	/**
+	 * Print 'New Feature: Choose Image from Library' for 3.4.0.
+	 *
+	 * @since 3.4.0
+	 */
+	public static function pointer_wp340_choose_image_from_library() {
+		$content  = '<h3>' . __( 'New Feature: Choose Image from Library' ) . '</h3>';
+		$content .= '<p>' . __( 'Want to use an image you uploaded earlier? Select it from your media library instead of uploading it again.' ) . '</p>';
+
+		WP_Internal_Pointers::print_js( 'wp340_choose_image_from_library', '#choose-from-library-link', array(
 			'content'  => $content,
 			'position' => array( 'edge' => 'top', 'align' => is_rtl() ? 'right' : 'left' ),
 		) );

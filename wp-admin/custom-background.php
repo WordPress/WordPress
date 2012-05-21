@@ -260,7 +260,7 @@ if ( get_background_image() ) {
 	$image_library_url = add_query_arg( array( 'context' => 'custom-background', 'TB_iframe' => 1 ), $image_library_url );
 ?>
 	</form>
-	<span class="howto"><?php _ex( 'or', 'Custom Background: Choose an image from your computer - or - Choose from image library' ); ?></span> <a class="thickbox" href="<?php echo $image_library_url; ?>"><?php _e( 'Choose from image library' ); ?></a>
+	<span class="howto"><?php _ex( 'or', 'Custom Background: Choose an image from your computer - or - Choose from image library' ); ?></span> <a id="choose-from-library-link" class="thickbox" href="<?php echo $image_library_url; ?>"><?php _e( 'Choose from image library' ); ?></a>
 </td>
 </tr>
 </tbody>

@@ -588,7 +588,7 @@ var farbtastic;
 		$image_library_url = remove_query_arg( 'TB_iframe', $image_library_url );
 		$image_library_url = add_query_arg( array( 'context' => 'custom-header', 'TB_iframe' => 1 ), $image_library_url );
 	?>
-	<span class="howto"><?php _ex( 'or', 'Custom Header: Choose an image from your computer - or - Choose from image library' ); ?></span> <a class="thickbox" href="<?php echo $image_library_url; ?>"><?php _e( 'Choose from image library' ); ?></a>
+	<span class="howto"><?php _ex( 'or', 'Custom Header: Choose an image from your computer - or - Choose from image library' ); ?></span> <a id="choose-from-library-link" class="thickbox" href="<?php echo $image_library_url; ?>"><?php _e( 'Choose from image library' ); ?></a>
 </td>
 </tr>
 <?php endif; ?>
