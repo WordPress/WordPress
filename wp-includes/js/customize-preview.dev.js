@@ -34,6 +34,7 @@
 			this.body = $( document.body );
 			this.body.on( 'click.preview', 'a', function( event ) {
 				event.preventDefault();
+				self.send( 'scroll', 0 );
 				self.send( 'url', $(this).prop('href') );
 			});
 
