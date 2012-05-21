@@ -2343,6 +2343,7 @@ class WP_Query {
 
 				switch ( $orderby ) {
 					case 'menu_order':
+						$orderby = "$wpdb->posts.menu_order";
 						break;
 					case 'ID':
 						$orderby = "$wpdb->posts.ID";
