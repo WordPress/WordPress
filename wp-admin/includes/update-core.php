@@ -365,6 +365,13 @@ $_old_files = array(
 'wp-admin/index-extra.php',
 'wp-admin/network/index-extra.php',
 'wp-admin/user/index-extra.php',
+'wp-admin/images/screenshots/admin-flyouts.png',
+'wp-admin/images/screenshots/coediting.png',
+'wp-admin/images/screenshots/drag-and-drop.png',
+'wp-admin/images/screenshots/help-screen.png',
+'wp-admin/images/screenshots/media-icon.png',
+'wp-admin/images/screenshots/new-feature-pointer.png',
+'wp-admin/images/screenshots/welcome-screen.png',
 );
 
 /**
