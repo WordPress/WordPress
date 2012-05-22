@@ -102,7 +102,7 @@ $admin_body_class .= ' no-customize-support';
 // This prevents a flash of unstyled content.
 if ( wp_script_is( 'customize-loader', 'queue' ) ) : ?>
 	if ( window.postMessage )
-		document.body.className += document.body.className.replace('no-customize-support','customize-support');
+		document.body.className = document.body.className.replace('no-customize-support','customize-support');
 <?php endif; ?>
 </script>
 
