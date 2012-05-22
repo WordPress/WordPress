@@ -179,7 +179,7 @@ if ( $allowed_files ) :
 		if ( 'style.css' == $filename )
 			echo "\t</ul>\n\t<h3>" . _x( 'Styles', 'Theme stylesheets in theme editor' ) . "</h3>\n\t<ul>\n";
 
-		$file_description = get_file_description( $filename );
+		$file_description = get_file_description( $absolute_filename );
 		if ( $file_description != basename( $filename ) )
 			$file_description .= '<br /><span class="nonessential">(' . $filename . ')</span>';
 
