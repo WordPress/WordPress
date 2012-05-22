@@ -1363,7 +1363,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			$query['post_status'] = $filter['post_status'];
 
 		if ( isset( $filter['number'] ) )
-			$query['number'] = absint( $filter['number'] );
+			$query['numberposts'] = absint( $filter['number'] );
 
 		if ( isset( $filter['offset'] ) )
 			$query['offset'] = absint( $filter['offset'] );
