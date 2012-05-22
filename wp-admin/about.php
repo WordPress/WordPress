@@ -34,19 +34,15 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 </h2>
 
 <div class="changelog">
-	<h3><?php echo ( 'Customizer' ); ?></h3>
+	<h3><?php echo ( 'Live Theme Previews' ); ?></h3>
 
 	<div class="feature-section images-stagger-right">
 		<img src="<?php echo admin_url( 'images/screenshots/theme-customizer.png' ); ?>" class="image-50" />
-		<h4><?php echo ( 'All In One Place' ); ?></h4>
-		<p><?php echo ( 'OMG, this one thing does multiple things, on one screen.' ); ?></p>
+		<h4><?php echo ( 'Try on New Themes' ); ?></h4>
+		<p><?php echo ( 'Gone are the days of rushing to update your header, background, and the like as soon as you activate a new theme. You can now customize these options <strong>before</strong> activating a new theme. Note: This feature is available for installed themes only.' ); ?></p>
 
-		<h4><?php echo ( 'Live Preview' ); ?></h4>
-		<p><?php echo ( 'Immediate feedback on what your butchery looks like.' ); ?></p>
-
-		<h4><?php echo ( 'Commitment Issues?' ); ?></h4>
-		<p><?php echo ( 'Before activating that new theme, customize and test drive it.' ); ?></p>
-		<p><?php echo ( 'Before activating that new theme, customize and test drive it. Before activating that new theme, customize and test drive it. Before activating that new theme, customize and test drive it. Before activating that new theme, customize and test drive it. Before activating that new theme, customize and test drive it. Before activating that new theme, customize and test drive it. ' ); ?></p>
+		<h4><?php echo ( 'Customize Current Theme' ); ?></h4>
+		<p><?php echo ( 'Satisfy your curiosity and try on a fresh coat of paint --- you can also use the live preview mode to customize your current theme. Look for the Customize link on the Themes screen.' ); ?></p>
 	</div>
 </div>
 
@@ -55,7 +51,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	
 	<div class="feature-section">
 		<h4><?php echo ( 'Flexible Sizes' ); ?></h4>
-		<p><?php echo ( 'If your theme elects, image headers can be made at variable height and even width. Pick the size that suits you.' ); ?></p>
+		<p><?php echo ( 'You can decide for yourself how tall or wide your custom header image should be. From now on, themes will provide a recommended image size for custom headers rather than a fixed requirement. Note: this feature requires <a href="http://codex.wordpress.org/Custom_Headers">theme support</a>.' ); ?></p>
 		<img src="<?php echo admin_url( 'images/screenshots/flex-header-1.png' ); ?>" class="image-30" />
 		<img src="<?php echo admin_url( 'images/screenshots/flex-header-2.png' ); ?>" class="image-30" />
 		<img src="<?php echo admin_url( 'images/screenshots/flex-header-3.png' ); ?>" class="image-30" />
@@ -63,8 +59,8 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 	<div class="feature-section images-stagger-right">
 		<img src="<?php echo admin_url( 'images/screenshots/flex-header-media-library.png' ); ?>" class="image-50" />
-		<h4><?php echo ( 'Media Library Support' ); ?></h4>
-		<p><?php echo ( 'Lorem ipsum dolor sit amet consectetuer porttitor ut consectetuer mus ante. Odio at tortor pretium felis vel laoreet magnis leo Phasellus quis. Non ut volutpat nisl Lorem est sit tortor vel rutrum id. Curabitur Vestibulum neque ut nibh ante congue nunc dictum leo nibh. ' ); ?></p>
+		<h4><?php echo ( 'Choose from Media Library' ); ?></h4>
+		<p><?php echo ( 'Tired of re-uploading the same custom header image every time you check out a new theme? Now you can choose header images from your media library for easier customization.' ); ?></p>
 	</div>
 </div>
 
@@ -75,48 +71,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<img src="<?php echo admin_url( 'images/screenshots/captions-1.png' ); ?>" class="image-30" />
 		<img src="<?php echo admin_url( 'images/screenshots/captions-2.png' ); ?>" class="image-30" />
 		<h4><?php echo ( 'HTML Support' ); ?></h4>
-		<p><?php echo ( 'Lorem ipsum dolor sit amet consectetuer porttitor ut consectetuer mus ante. Odio at tortor pretium felis vel laoreet magnis leo Phasellus quis. Non ut volutpat nisl Lorem est sit tortor vel rutrum id. Curabitur Vestibulum neque ut nibh ante congue nunc dictum leo nibh. Nulla libero neque elit Nam nulla eros non justo eget pede. Pede ullamcorper metus justo adipiscing massa nulla Phasellus et nisl hendrerit.' ); ?></p>
-	</div>
-</div>
-
-
-<div class="changelog">
-	<h3><?php echo ( 'Mobile/Touch' ); ?></h3>
-
-	<div class="feature-section">
-		<h4><?php echo ( 'Drag, Swipe, Tap, Pat, Pat, Pat Happy Little Clouds' ); ?></h4>
-		<p><?php echo ( 'Engage your fingers with a more touchable admin. Engage your fingers with a more touchable admin. Engage your fingers with a more touchable admin. Engage your fingers with a more touchable admin. ' ); ?></p>
-
-		<h4><?php echo ( 'Size Responsive' ); ?></h4>
-		<p><?php echo ( 'From mobile to tablet. From mobile to tablet. From mobile to tablet. From mobile to tablet. From mobile to tablet. From mobile to tablet. ' ); ?></p>
-
-		<h4><?php echo ( 'Blog Anywhere' ); ?></h4>
-		<p><?php echo ( 'Picture of hipster in cafe criticizing the coffee via his tablet. Picture of hipster in cafe criticizing the coffee via his tablet. Picture of hipster in cafe criticizing the coffee via his tablet. Picture of hipster in cafe criticizing the coffee via his tablet. Picture of hipster in cafe criticizing the coffee via his tablet. ' ); ?></p>
-
-		<h4><?php echo ( 'Couch Couch Couch!' ); ?></h4>
-		<p><?php echo ( 'Picture of happy tablet user blogging from couch while watching sitcoms. Picture of happy tablet user blogging from couch while watching sitcoms. Picture of happy tablet user blogging from couch while watching sitcoms. Picture of happy tablet user blogging from couch while watching sitcoms. ' ); ?></p>
-	</div>
-</div>
-
-<div class="changelog">
-	<h3><?php echo ( 'XML-RPC API' ); ?></h3>
-
-	<div class="feature-section three-col">
-		<div>
-			<h4><?php echo ( 'In your About page, talking nonsense.' ); ?></h4>
-			<p><?php echo ( 'Synergy!' ); ?></p>
-
-			<h4><?php echo ( 'Remote Procedures' ); ?></h4>
-			<p><?php echo ( 'Want you to call. Do not pretend you lost the number.' ); ?></p>
-		</div>
-		<div>
-			<h4><?php echo ( 'Mobile Mobile Mobile!' ); ?></h4>
-			<p><?php echo ( 'Picture of a happy mobile app user (like the one above) who has no idea that his/her phone is engaging in XML-RPC.' ); ?></p>
-		</div>
-		<div class="last-feature">
-			<h4><?php echo ( 'Armageddon It' ); ?></h4>
-			<p><?php echo ( 'Picture of a block of XML-RPC API code glimpsed over of the shoulder of a henchman in a lab coat who is getting ready to upload this doomsday snippet to every satellite over the Tri-State Area!' ); ?></p>
-		</div>
+		<p><?php echo ( 'Basic HTML support has been added to the caption field in the image uploader. This allows you to add links --- great for photo credits or licensing details --- and basic formatting such as bold and italicized text.' ); ?></p>
 	</div>
 </div>
 
