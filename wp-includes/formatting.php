@@ -2127,6 +2127,10 @@ function wp_trim_excerpt($text = '') {
 /**
  * Trims text to a certain number of words.
  *
+ * This function is localized. For languages that count 'words' by the individual
+ * character (such as East Asian languages), the $num_words argument will apply
+ * to the number of individual characters.
+ *
  * @since 3.3.0
  *
  * @param string $text Text to trim.
@@ -2139,13 +2143,23 @@ function wp_trim_words( $text, $num_words = 55, $more = null ) {
 		$more = __( '&hellip;' );
 	$original_text = $text;
 	$text = wp_strip_all_tags( $text );
-	$words_array = preg_split( "/[\n\r\t ]+/", $text, $num_words + 1, PREG_SPLIT_NO_EMPTY );
+	/* translators: If your word count is based on single characters (East Asian characters), 
+	   enter 'characters'. Otherwise, enter 'words'. Do not translate into your own language. */ 
+	if ( 'characters' == _x( 'words', 'word count: words or characters?' ) && preg_match( '/^utf\-?8$/i', get_option( 'blog_charset' ) ) ) {
+		$text = trim( preg_replace( "/[\n\r\t ]+/", ' ', $text ), ' ' );
+		preg_match_all( '/./u', $text, $words_array );
+		$words_array = array_slice( $words_array[0], 0, $num_words + 1 );
+		$sep = '';
+	} else {
+		$words_array = preg_split( "/[\n\r\t ]+/", $text, $num_words + 1, PREG_SPLIT_NO_EMPTY );
+		$sep = ' ';
+	}
 	if ( count( $words_array ) > $num_words ) {
 		array_pop( $words_array );
-		$text = implode( ' ', $words_array );
+		$text = implode( $sep, $words_array );
 		$text = $text . $more;
 	} else {
-		$text = implode( ' ', $words_array );
+		$text = implode( $sep, $words_array );
 	}
 	return apply_filters( 'wp_trim_words', $text, $num_words, $more, $original_text );
 }
