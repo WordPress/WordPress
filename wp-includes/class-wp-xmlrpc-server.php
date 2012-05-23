@@ -825,6 +825,48 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
+	 * Prepares comment data for return in an XML-RPC object.
+	 *
+	 * @access protected
+	 *
+	 * @param object $comment The unprepared comment data
+	 * @return array The prepared comment data
+	 */
+	protected function _prepare_comment( $comment ) {
+		// Format page date.
+		$comment_date = $this->_convert_date( $comment->comment_date );
+		$comment_date_gmt = $this->_convert_date_gmt( $comment->comment_date_gmt, $comment->comment_date );
+
+		if ( '0' == $comment->comment_approved )
+			$comment_status = 'hold';
+		else if ( 'spam' == $comment->comment_approved )
+			$comment_status = 'spam';
+		else if ( '1' == $comment->comment_approved )
+			$comment_status = 'approve';
+		else
+			$comment_status = $comment->comment_approved;
+
+		$_comment = array(
+			'date_created_gmt' => $comment_date_gmt,
+			'user_id'          => $comment->user_id,
+			'comment_id'       => $comment->comment_ID,
+			'parent'           => $comment->comment_parent,
+			'status'           => $comment_status,
+			'content'          => $comment->comment_content,
+			'link'             => get_comment_link($comment),
+			'post_id'          => $comment->comment_post_ID,
+			'post_title'       => get_the_title($comment->comment_post_ID),
+			'author'           => $comment->comment_author,
+			'author_url'       => $comment->comment_author_url,
+			'author_email'     => $comment->comment_author_email,
+			'author_ip'        => $comment->comment_author_IP,
+			'type'             => $comment->comment_type,
+		);
+
+		return apply_filters( 'xmlrpc_prepare_comment', $_comment, $comment );
+	}
+
+	/**
 	 * Create a new post for any registered post type.
 	 *
 	 * @since 3.4.0
@@ -2361,39 +2403,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( ! $comment = get_comment($comment_id) )
 			return new IXR_Error( 404, __( 'Invalid comment ID.' ) );
 
-		// Format page date.
-		$comment_date = $this->_convert_date( $comment->comment_date );
-		$comment_date_gmt = $this->_convert_date_gmt( $comment->comment_date_gmt, $comment->comment_date );
-
-		if ( '0' == $comment->comment_approved )
-			$comment_status = 'hold';
-		else if ( 'spam' == $comment->comment_approved )
-			$comment_status = 'spam';
-		else if ( '1' == $comment->comment_approved )
-			$comment_status = 'approve';
-		else
-			$comment_status = $comment->comment_approved;
-
-		$link = get_comment_link($comment);
-
-		$comment_struct = array(
-			'date_created_gmt'		=> $comment_date_gmt,
-			'user_id'				=> $comment->user_id,
-			'comment_id'			=> $comment->comment_ID,
-			'parent'				=> $comment->comment_parent,
-			'status'				=> $comment_status,
-			'content'				=> $comment->comment_content,
-			'link'					=> $link,
-			'post_id'				=> $comment->comment_post_ID,
-			'post_title'			=> get_the_title($comment->comment_post_ID),
-			'author'				=> $comment->comment_author,
-			'author_url'			=> $comment->comment_author_url,
-			'author_email'			=> $comment->comment_author_email,
-			'author_ip'				=> $comment->comment_author_IP,
-			'type'					=> $comment->comment_type,
-		);
-
-		return $comment_struct;
+		return $this->_prepare_comment( $comment );
 	}
 
 	/**
@@ -2416,13 +2426,12 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @return array. Contains a collection of comments. See {@link wp_xmlrpc_server::wp_getComment()} for a description of each item contents
 	 */
 	function wp_getComments($args) {
-		$raw_args = $args;
 		$this->escape($args);
 
 		$blog_id	= (int) $args[0];
 		$username	= $args[1];
 		$password	= $args[2];
-		$struct		= $args[3];
+		$struct		= isset( $args[3] ) ? $args[3] : array();
 
 		if ( !$user = $this->login($username, $password) )
 			return $this->error;
@@ -2450,19 +2459,11 @@ class wp_xmlrpc_server extends IXR_Server {
 			$number = absint($struct['number']);
 
 		$comments = get_comments( array('status' => $status, 'post_id' => $post_id, 'offset' => $offset, 'number' => $number ) );
-		$num_comments = count($comments);
-
-		if ( ! $num_comments )
-			return array();
 
 		$comments_struct = array();
 
-		// FIXME: we already have the comments, why query them again?
-		for ( $i = 0; $i < $num_comments; $i++ ) {
-			$comment = wp_xmlrpc_server::wp_getComment(array(
-				$raw_args[0], $raw_args[1], $raw_args[2], $comments[$i]->comment_ID,
-			));
-			$comments_struct[] = $comment;
+		foreach ( $comments as $comment ) {
+			$comments_struct[] = $this->_prepare_comment( $comment );
 		}
 
 		return $comments_struct;
