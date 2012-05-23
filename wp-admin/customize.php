@@ -9,12 +9,9 @@
 
 require_once( './admin.php' );
 if ( ! current_user_can( 'edit_theme_options' ) )
-	die( 'Cap check failed' );
+	wp_die( __( 'Cheatin&#8217; uh?' ) );
 
 global $wp_scripts, $wp_customize;
-
-if ( ! $wp_customize->is_preview() )
-	die( 'is_preview() failed' );
 
 wp_reset_vars( array( 'theme' ) );
 
