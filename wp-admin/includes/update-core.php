@@ -372,6 +372,23 @@ $_old_files = array(
 'wp-admin/images/screenshots/media-icon.png',
 'wp-admin/images/screenshots/new-feature-pointer.png',
 'wp-admin/images/screenshots/welcome-screen.png',
+'wp-includes/css/editor-buttons.css',
+'wp-includes/css/editor-buttons.dev.css',
+'wp-includes/js/tinymce/plugins/paste/blank.htm',
+'wp-includes/js/tinymce/plugins/wordpress/css',
+'wp-includes/js/tinymce/plugins/wordpress/editor_plugin.dev.js',
+'wp-includes/js/tinymce/plugins/wordpress/img/embedded.png',
+'wp-includes/js/tinymce/plugins/wordpress/img/more_bug.gif',
+'wp-includes/js/tinymce/plugins/wordpress/img/page_bug.gif',
+'wp-includes/js/tinymce/plugins/wpdialogs/editor_plugin.dev.js',
+'wp-includes/js/tinymce/plugins/wpeditimage/css/editimage-rtl.css',
+'wp-includes/js/tinymce/plugins/wpeditimage/editor_plugin.dev.js',
+'wp-includes/js/tinymce/plugins/wpfullscreen/editor_plugin.dev.js',
+'wp-includes/js/tinymce/plugins/wpgallery/editor_plugin.dev.js',
+'wp-includes/js/tinymce/plugins/wpgallery/img/gallery.png',
+'wp-includes/js/tinymce/plugins/wplink/editor_plugin.dev.js',
+// Don't delete, yet: 'wp-pass.php', 
+// Don't delete, yet: 'wp-register.php',
 );
 
 /**
