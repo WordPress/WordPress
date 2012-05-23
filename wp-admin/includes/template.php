@@ -1839,7 +1839,7 @@ final class WP_Internal_Pointers {
 	public static function pointer_wp340_customize_current_theme_link() {
 		$content  = '<h3>' . __( 'New Feature: Customizer' ) . '</h3>';
 		$content .= '<p>' . __( 'Click Customize to change the header, background, title and menus of the current theme, all in one place.' ) . '</p>';
-		$content .= '<p>' . __( 'Click the Customize links in the Available Themes list below to customize, preview, and optionally activate the selected theme.' ) . '</p>';
+		$content .= '<p>' . __( 'Click the Live Preview links in the Available Themes list below to customize and preview another theme before activating it.' ) . '</p>';
 
 		WP_Internal_Pointers::print_js( 'wp340_customize_current_theme_link', '#customize-current-theme-link', array(
 			'content'  => $content,
