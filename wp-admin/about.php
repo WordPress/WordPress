@@ -34,71 +34,71 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 </h2>
 
 <div class="changelog">
-	<h3><?php echo ( 'Live Theme Previews' ); ?></h3>
+	<h3><?php _e( 'Live Theme Previews' ); ?></h3>
 
 	<div class="feature-section images-stagger-right">
-		<img src="<?php echo admin_url( 'images/screenshots/theme-customizer.png' ); ?>" class="image-50" />
-		<h4><?php echo ( 'Try on New Themes' ); ?></h4>
-		<p><?php echo ( 'Gone are the days of rushing to update your header, background, and the like as soon as you activate a new theme. You can now customize these options <strong>before</strong> activating a new theme. Note: This feature is available for installed themes only.' ); ?></p>
+		<img src="<?php echo esc_url( admin_url( 'images/screenshots/theme-customizer.png' ) ); ?>" class="image-50" />
+		<h4><?php _e( 'Try on New Themes' ); ?></h4>
+		<p><?php _e( 'Gone are the days of rushing to update your header, background, and the like as soon as you activate a new theme. You can now customize these options <strong>before</strong> activating a new theme. Note: This feature is available for installed themes only.' ); ?></p>
 
-		<h4><?php echo ( 'Customize Current Theme' ); ?></h4>
-		<p><?php echo ( 'Satisfy your curiosity and try on a fresh coat of paint --- you can also use the live preview mode to customize your current theme. Look for the Customize link on the Themes screen.' ); ?></p>
+		<h4><?php _e( 'Customize Current Theme' ); ?></h4>
+		<p><?php _e( 'Satisfy your curiosity and try on a fresh coat of paint --- you can also use the live preview mode to customize your current theme. Look for the Customize link on the Themes screen.' ); ?></p>
 	</div>
 </div>
 
 <div class="changelog">
-	<h3><?php echo ( 'Custom Headers' ); ?></h3>
+	<h3><?php _e( 'Custom Headers' ); ?></h3>
 	
 	<div class="feature-section">
-		<h4><?php echo ( 'Flexible Sizes' ); ?></h4>
-		<p><?php echo ( 'You can decide for yourself how tall or wide your custom header image should be. From now on, themes will provide a recommended image size for custom headers rather than a fixed requirement. Note: this feature requires <a href="http://codex.wordpress.org/Custom_Headers">theme support</a>.' ); ?></p>
-		<img src="<?php echo admin_url( 'images/screenshots/flex-header-1.png' ); ?>" class="image-30" />
-		<img src="<?php echo admin_url( 'images/screenshots/flex-header-2.png' ); ?>" class="image-30" />
-		<img src="<?php echo admin_url( 'images/screenshots/flex-header-3.png' ); ?>" class="image-30" />
+		<h4><?php _e( 'Flexible Sizes' ); ?></h4>
+		<p><?php _e( 'You can decide for yourself how tall or wide your custom header image should be. From now on, themes will provide a recommended image size for custom headers rather than a fixed requirement. Note: this feature requires <a href="http://codex.wordpress.org/Custom_Headers">theme support</a>.' ); ?></p>
+		<img src="<?php echo esc_url( admin_url( 'images/screenshots/flex-header-1.png' ) ); ?>" class="image-30" />
+		<img src="<?php echo esc_url( admin_url( 'images/screenshots/flex-header-2.png' ) ); ?>" class="image-30" />
+		<img src="<?php echo esc_url( admin_url( 'images/screenshots/flex-header-3.png' ) ); ?>" class="image-30" />
 	</div>
 
 	<div class="feature-section images-stagger-right">
-		<img src="<?php echo admin_url( 'images/screenshots/flex-header-media-library.png' ); ?>" class="image-50" />
-		<h4><?php echo ( 'Choose from Media Library' ); ?></h4>
-		<p><?php echo ( 'Tired of re-uploading the same custom header image every time you check out a new theme? Now you can choose header images from your media library for easier customization.' ); ?></p>
+		<img src="<?php echo esc_url( admin_url( 'images/screenshots/flex-header-media-library.png' ) ); ?>" class="image-50" />
+		<h4><?php _e( 'Choose from Media Library' ); ?></h4>
+		<p><?php _e( 'Tired of re-uploading the same custom header image every time you check out a new theme? Now you can choose header images from your media library for easier customization.' ); ?></p>
 	</div>
 </div>
 
 <div class="changelog">
-	<h3><?php echo ( 'Better Captions' ); ?></h3>
+	<h3><?php _e( 'Better Captions' ); ?></h3>
 
 	<div class="feature-section images-stagger-right">
-		<img src="<?php echo admin_url( 'images/screenshots/captions-1.png' ); ?>" class="image-30" />
-		<img src="<?php echo admin_url( 'images/screenshots/captions-2.png' ); ?>" class="image-30" />
-		<h4><?php echo ( 'HTML Support' ); ?></h4>
-		<p><?php echo ( 'Basic HTML support has been added to the caption field in the image uploader. This allows you to add links --- great for photo credits or licensing details --- and basic formatting such as bold and italicized text.' ); ?></p>
+		<img src="<?php echo esc_url( admin_url( 'images/screenshots/captions-1.png' ) ); ?>" class="image-30" />
+		<img src="<?php echo esc_url( admin_url( 'images/screenshots/captions-2.png' ) ); ?>" class="image-30" />
+		<h4><?php _e( 'HTML Support' ); ?></h4>
+		<p><?php _e( 'Basic HTML support has been added to the caption field in the image uploader. This allows you to add links --- great for photo credits or licensing details --- and basic formatting such as bold and italicized text.' ); ?></p>
 	</div>
 </div>
 
 <div class="changelog">
-	<h3><?php echo ( 'Under the Hood' ); ?></h3>
+	<h3><?php _e( 'Under the Hood' ); ?></h3>
 
 	<div class="feature-section three-col">
 		<div>
-			<h4><?php echo ( 'Themes API' ); ?></h4>
-			<p><?php echo ( 'WP_Theme, wp_get_themes(), wp_get_theme(). Faster, uses less memory, make uses of persistent caching.' ); ?></p>
+			<h4><?php _e( 'Themes API' ); ?></h4>
+			<p><?php _e( 'WP_Theme, wp_get_themes(), wp_get_theme(). Faster, uses less memory, make uses of persistent caching.' ); ?></p>
 			
-			<h4><?php echo ( 'Faster Main Query' ); ?></h4>
-			<p><?php echo ( 'Post query optimized to avoid table scans.' ); ?></p>
+			<h4><?php _e( 'Faster Main Query' ); ?></h4>
+			<p><?php _e( 'Post query optimized to avoid table scans.' ); ?></p>
 		</div>
 		<div>
-			<h4><?php echo ( 'Custom Header and Backound API' ); ?></h4>
-			<p><?php  echo ( 'Custom header and background API relocated into the theme support API.' ); ?></p>
+			<h4><?php _e( 'Custom Header and Backound API' ); ?></h4>
+			<p><?php  _e( 'Custom header and background API relocated into the theme support API.' ); ?></p>
 			
-			<h4><?php echo ( 'Faster I18N' ); ?></h4>
-			<p><?php echo ( 'The number of strings loaded on the front end were greatly reduced, resulting in faster front page load times for I18N users.' ); ?></p>
+			<h4><?php _e( 'Faster I18N' ); ?></h4>
+			<p><?php _e( 'The number of strings loaded on the front end were greatly reduced, resulting in faster front page load times for I18N users.' ); ?></p>
 		</div>
 		<div class="last-feature">
-			<h4><?php echo ( 'WP_Screen API' ); ?></h4>
-			<p><?php echo ( 'More methods, more convenience!' ); ?></p>
+			<h4><?php _e( 'WP_Screen API' ); ?></h4>
+			<p><?php _e( 'More methods, more convenience!' ); ?></p>
 			
-			<h4><?php echo ( 'External Libraries' ); ?></h4>
-			<p><?php echo ( 'jQuery, jQuery UI, TinyMCE, Plupload, PHPMailer, SimplePie, and other libraries were updated. jQuery UI Touch Punch was introduced.' ); ?></p>
+			<h4><?php _e( 'External Libraries' ); ?></h4>
+			<p><?php _e( 'jQuery, jQuery UI, TinyMCE, Plupload, PHPMailer, SimplePie, and other libraries were updated. jQuery UI Touch Punch was introduced.' ); ?></p>
 		</div>
 	</div>
 </div>
