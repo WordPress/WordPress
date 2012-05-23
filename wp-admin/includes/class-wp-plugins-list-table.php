@@ -69,11 +69,6 @@ class WP_Plugins_List_Table extends WP_List_Table {
 				$current = get_site_transient( 'update_plugins' );
 				foreach ( (array) $plugins['all'] as $plugin_file => $plugin_data ) {
 					if ( isset( $current->response[ $plugin_file ] ) ) {
-						ob_start();
-						var_dump( $current->response[ $plugin_file ] );
-						error_log( $plugin_file . ': ' . ob_get_clean() );
-					}
-					if ( ! empty( $current->response[ $plugin_file ] ) ) {
 						$plugins['all'][ $plugin_file ]['update'] = true;
 						$plugins['upgrade'][ $plugin_file ] = $plugins['all'][ $plugin_file ];
 					}
