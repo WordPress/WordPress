@@ -39,7 +39,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	<div class="feature-section images-stagger-right">
 		<img src="<?php echo esc_url( admin_url( 'images/screenshots/theme-customizer.png' ) ); ?>" class="image-50" />
 		<h4><?php _e( 'Try on New Themes' ); ?></h4>
-		<p><?php _e( 'Gone are the days of rushing to update your header, background, and the like as soon as you activate a new theme. You can now customize these options <strong>before</strong> activating a new theme. Note: This feature is available for installed themes only.' ); ?></p>
+		<p><?php _e( 'Gone are the days of rushing to update your header, background, and the like as soon as you activate a new theme. You can now customize these options <strong>before</strong> activating a new theme. Note: this feature is available for installed themes only.' ); ?></p>
 
 		<h4><?php _e( 'Customize Current Theme' ); ?></h4>
 		<p><?php _e( 'Satisfy your curiosity and try on a fresh coat of paint &mdash; you can also use the live preview mode to customize your current theme. Look for the Customize link on the Themes screen.' ); ?></p>
@@ -81,7 +81,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	<div class="feature-section three-col">
 		<div>
 			<h4><?php _e( 'Themes API' ); ?></h4>
-			<p><?php _e( 'WP_Theme, wp_get_themes(), wp_get_theme(). Faster, uses less memory, make uses of persistent caching.' ); ?></p>
+			<p><?php _e( 'WP_Theme, wp_get_themes(), wp_get_theme(). Faster, uses less memory, makes use of persistent caching.' ); ?></p>
 			
 			<h4><?php _e( 'Faster Main Query' ); ?></h4>
 			<p><?php _e( 'Post query optimized to avoid table scans.' ); ?></p>
@@ -91,7 +91,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<p><?php  _e( 'Custom header and background API relocated into the theme support API.' ); ?></p>
 			
 			<h4><?php _e( 'Faster I18N' ); ?></h4>
-			<p><?php _e( 'The number of strings loaded on the front end were greatly reduced, resulting in faster front page load times for I18N users.' ); ?></p>
+			<p><?php _e( 'The number of strings loaded on the front end was greatly reduced, resulting in faster front page load times for I18N users.' ); ?></p>
 		</div>
 		<div class="last-feature">
 			<h4><?php _e( 'WP_Screen API' ); ?></h4>
