@@ -87,7 +87,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<p><?php _e( 'Post query optimized to avoid table scans.' ); ?></p>
 		</div>
 		<div>
-			<h4><?php _e( 'Custom Header and Backound API' ); ?></h4>
+			<h4><?php _e( 'Custom Header and Background API' ); ?></h4>
 			<p><?php  _e( 'Custom header and background API relocated into the theme support API.' ); ?></p>
 			
 			<h4><?php _e( 'Faster I18N' ); ?></h4>
