@@ -564,8 +564,7 @@ final class WP_Customize {
 		) );
 
 		$this->add_setting( 'header_textcolor', array(
-			// @todo: replace with a new accept() setting method
-			// 'sanitize_callback' => 'sanitize_hexcolor',
+			'sanitize_callback' => 'sanitize_header_textcolor',
 			'theme_supports' => array( 'custom-header', 'header-text' ),
 			'default'        => get_theme_support( 'custom-header', 'default-text-color' ),
 		) );
@@ -792,6 +791,17 @@ final class WP_Customize {
 		) );
 	}
 };
+
+// Callback function for sanitizing the header textcolor setting.
+function sanitize_header_textcolor( $color ) {
+	if ( empty( $color ) )
+		return get_theme_support( 'custom-header', 'default-text-color' );
+
+	elseif ( $color == 'blank' )
+		return 'blank';
+
+	return sanitize_hexcolor( $color );
+}
 
 // Callback function for sanitizing a hex color
 function sanitize_hexcolor( $color ) {
