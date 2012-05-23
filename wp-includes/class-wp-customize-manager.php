@@ -144,15 +144,47 @@ final class WP_Customize_Manager {
 	}
 
 	/**
-	 * Generic getter.
+	 * Get the theme being customized.
 	 *
 	 * @since 3.4.0
 	 *
 	 * @return WP_Theme
 	 */
-	public function __call( $callee, $args ) {
-		if ( in_array( $callee, array( 'theme', 'settings', 'controls', 'sections' ) ) )
-			return $this->$callee;
+	public function theme() {
+		return $this->theme;
+	}
+
+	/**
+	 * Get the registered settings.
+	 *
+	 * @since 3.4.0
+	 *
+	 * @return array
+	 */
+	public function settings() {
+		return $this->settings;
+	}
+
+	/**
+	 * Get the registered controls.
+	 *
+	 * @since 3.4.0
+	 *
+	 * @return array
+	 */
+	public function controls() {
+		return $this->controls;
+	}
+
+	/**
+	 * Get the registered sections.
+	 *
+	 * @since 3.4.0
+	 *
+	 * @return array
+	 */
+	public function sections() {
+		return $this->sections;
 	}
 
 	/**
