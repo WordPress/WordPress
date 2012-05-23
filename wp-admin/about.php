@@ -42,7 +42,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<p><?php _e( 'Gone are the days of rushing to update your header, background, and the like as soon as you activate a new theme. You can now customize these options <strong>before</strong> activating a new theme. Note: This feature is available for installed themes only.' ); ?></p>
 
 		<h4><?php _e( 'Customize Current Theme' ); ?></h4>
-		<p><?php _e( 'Satisfy your curiosity and try on a fresh coat of paint --- you can also use the live preview mode to customize your current theme. Look for the Customize link on the Themes screen.' ); ?></p>
+		<p><?php _e( 'Satisfy your curiosity and try on a fresh coat of paint &mdash; you can also use the live preview mode to customize your current theme. Look for the Customize link on the Themes screen.' ); ?></p>
 	</div>
 </div>
 
@@ -71,7 +71,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<img src="<?php echo esc_url( admin_url( 'images/screenshots/captions-1.png' ) ); ?>" class="image-30" />
 		<img src="<?php echo esc_url( admin_url( 'images/screenshots/captions-2.png' ) ); ?>" class="image-30" />
 		<h4><?php _e( 'HTML Support' ); ?></h4>
-		<p><?php _e( 'Basic HTML support has been added to the caption field in the image uploader. This allows you to add links --- great for photo credits or licensing details --- and basic formatting such as bold and italicized text.' ); ?></p>
+		<p><?php _e( 'Basic HTML support has been added to the caption field in the image uploader. This allows you to add links &mdash; great for photo credits or licensing details &mdash; and basic formatting such as bold and italicized text.' ); ?></p>
 	</div>
 </div>
 
