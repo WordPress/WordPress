@@ -1566,7 +1566,7 @@ function check_theme_switched() {
 }
 
 /**
- * Includes and instantiates the WP_Customize class.
+ * Includes and instantiates the WP_Customize_Manager class.
  *
  * Fires when ?customize=on.
  *
@@ -1574,12 +1574,12 @@ function check_theme_switched() {
  */
 function _wp_customize_include() {
 	// Load on themes.php or ?customize=on
-	if ( ! ( isset( $_REQUEST['customize'] ) && 'on' == $_REQUEST['customize'] ) )
+	if ( ! ( ( isset( $_REQUEST['customize'] ) && 'on' == $_REQUEST['customize'] ) || 'customize.php' == basename( $_SERVER['PHP_SELF'] ) ) )
 		return;
 
-	require( ABSPATH . WPINC . '/class-wp-customize.php' );
+	require( ABSPATH . WPINC . '/class-wp-customize-manager.php' );
 	// Init Customize class
-	$GLOBALS['wp_customize'] = new WP_Customize;
+	$GLOBALS['wp_customize'] = new WP_Customize_Manager;
 }
 add_action( 'plugins_loaded', '_wp_customize_include' );
 
@@ -1604,5 +1604,5 @@ add_action( 'admin_enqueue_scripts', '_wp_customize_loader_localize' );
  * @since 3.4.0
  */
 function wp_customize_url( $stylesheet ) {
-	return esc_url( admin_url( 'admin.php' ) . '?customize=on&theme=' . $stylesheet );
+	return esc_url( admin_url( 'customize.php' ) . '?theme=' . $stylesheet );
 }

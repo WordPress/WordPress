@@ -7,7 +7,7 @@
  * @since 3.4.0
  */
 
-final class WP_Customize {
+final class WP_Customize_Manager {
 	protected $theme;
 	protected $original_stylesheet;
 
@@ -32,7 +32,6 @@ final class WP_Customize {
 		require( ABSPATH . WPINC . '/class-wp-customize-control.php' );
 
 		add_action( 'setup_theme',  array( $this, 'setup_theme' ) );
-		add_action( 'admin_init',   array( $this, 'admin_init' ) );
 		add_action( 'wp_loaded',    array( $this, 'wp_loaded' ) );
 
 		add_action( 'wp_ajax_customize_save', array( $this, 'save' ) );
@@ -68,7 +67,7 @@ final class WP_Customize {
 	 * @since 3.4.0
 	 */
 	public function setup_theme() {
-		if ( ! isset( $_REQUEST['customize'] ) || 'on' != $_REQUEST['customize'] )
+		if ( ! ( isset( $_REQUEST['customize'] ) && 'on' == $_REQUEST['customize'] ) && ! basename( $_SERVER['PHP_SELF'] ) == 'customize.php' )
 			return;
 
 		send_origin_headers();
@@ -90,7 +89,7 @@ final class WP_Customize {
 
 		// Initialize $theme and $original_stylesheet if they do not yet exist.
 		if ( ! isset( $this->theme ) ) {
-			$this->theme = wp_get_theme( $_REQUEST['theme'] );
+			$this->theme = wp_get_theme( isset( $_REQUEST['theme'] ) ? $_REQUEST['theme'] : null );
 			if ( ! $this->theme->exists() ) {
 				$this->theme = false;
 				return;
@@ -145,11 +144,25 @@ final class WP_Customize {
 	}
 
 	/**
+	 * Generic getter.
+	 *
+	 * @since 3.4.0
+	 *
+	 * @return WP_Theme
+	 */
+	public function __call( $callee, $args ) {
+		if ( in_array( $callee, array( 'theme', 'settings', 'controls', 'sections' ) ) )
+			return $this->$callee;
+	}
+
+	/**
 	 * Checks if the current theme is active.
 	 *
 	 * @since 3.4.0
+	 *
+	 * @return bool
 	 */
-	public function is_current_theme_active() {
+	public function is_theme_active() {
 		return $this->get_stylesheet() == $this->original_stylesheet;
 	}
 
@@ -181,7 +194,6 @@ final class WP_Customize {
 		if ( isset( $this->_post_values[ $setting->id ] ) )
 			return $setting->sanitize( $this->_post_values[ $setting->id ] );
 	}
-
 
 	/**
 	 * Print javascript settings.
@@ -287,32 +299,6 @@ final class WP_Customize {
 	 */
 	public function current_theme( $current_theme ) {
 		return $this->theme->display('Name');
-	}
-
-	/**
-	 * Trigger save action and load customize controls.
-	 *
-	 * @since 3.4.0
-	 */
-	public function admin_init() {
-		if ( ( defined( 'DOING_AJAX' ) && DOING_AJAX ) )
-			return;
-
-		if ( ! isset( $_GET['customize'] ) || 'on' != $_GET['customize'] )
-			return;
-
-		if ( empty( $_GET['theme'] ) )
-			return;
-
-		if ( ! $this->is_preview() )
-			return;
-
-		if ( ! current_user_can( 'edit_theme_options' ) )
-			return;
-
-		include( ABSPATH . WPINC . '/customize-controls.php' );
-
-		die;
 	}
 
 	/**

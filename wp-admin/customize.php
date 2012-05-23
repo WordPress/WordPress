@@ -7,10 +7,19 @@
  * @since 3.4.0
  */
 
-if ( ! defined( 'ABSPATH' ) )
-	die;
+require_once( './admin.php' );
+if ( ! current_user_can( 'edit_theme_options' ) )
+	die( 'Cap check failed' );
 
-global $wp_scripts;
+global $wp_scripts, $wp_customize;
+
+if ( ! $wp_customize->is_preview() )
+	die( 'is_preview() failed' );
+
+wp_reset_vars( array( 'theme' ) );
+
+if ( ! $theme )
+	$theme = get_stylesheet();
 
 $registered = $wp_scripts->registered;
 $wp_scripts = new WP_Scripts;
@@ -33,7 +42,7 @@ do_action( 'customize_controls_enqueue_scripts' );
 wp_user_settings();
 _wp_admin_html_begin();
 
-$admin_title = sprintf( __( '%1$s &#8212; WordPress' ), strip_tags( sprintf( __( 'Customize %s' ), $this->theme->display('Name') ) ) );
+$admin_title = sprintf( __( '%1$s &#8212; WordPress' ), strip_tags( sprintf( __( 'Customize %s' ), $wp_customize->theme()->display('Name') ) ) );
 ?><title><?php echo $admin_title; ?></title><?php
 
 do_action( 'customize_controls_print_styles' );
@@ -53,22 +62,22 @@ do_action( 'customize_controls_print_scripts' );
 			<div id="customize-info" class="customize-section">
 				<div class="customize-section-title">
 					<span class="preview-notice"><?php _e('You are previewing'); ?></span>
-					<strong class="theme-name"><?php echo $this->theme->display('Name'); ?></strong>
+					<strong class="theme-name"><?php echo $wp_customize->theme()->display('Name'); ?></strong>
 				</div>
 				<div class="customize-section-content">
-					<?php if ( $screenshot = $this->theme->get_screenshot() ) : ?>
+					<?php if ( $screenshot = $wp_customize->theme()->get_screenshot() ) : ?>
 						<img class="theme-screenshot" src="<?php echo esc_url( $screenshot ); ?>" />
 					<?php endif; ?>
 
-					<?php if ( $this->theme->get('Description') ): ?>
-						<div class="theme-description"><?php echo $this->theme->display('Description'); ?></div>
+					<?php if ( $wp_customize->theme()->get('Description') ): ?>
+						<div class="theme-description"><?php echo $wp_customize->theme()->display('Description'); ?></div>
 					<?php endif; ?>
 				</div>
 			</div>
 
 			<div id="customize-theme-controls"><ul>
 				<?php
-				foreach ( $this->sections as $section )
+				foreach ( $wp_customize->sections() as $section )
 					$section->maybe_render();
 				?>
 			</ul></div>
@@ -76,7 +85,7 @@ do_action( 'customize_controls_print_scripts' );
 
 		<div id="customize-footer-actions" class="wp-full-overlay-footer">
 			<?php
-			$save_text = $this->is_current_theme_active() ? __('Save') : __('Save and Activate');
+			$save_text = $wp_customize->is_theme_active() ? __('Save') : __('Save and Activate');
 			submit_button( $save_text, 'primary', 'save', false );
 			?>
 			<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" />
@@ -108,8 +117,8 @@ do_action( 'customize_controls_print_scripts' );
 
 	$settings = array(
 		'theme'    => array(
-			'stylesheet' => $this->get_stylesheet(),
-			'active'     => $this->is_current_theme_active(),
+			'stylesheet' => $wp_customize->get_stylesheet(),
+			'active'     => $wp_customize->is_theme_active(),
 		),
 		'url'      => array(
 			'preview'  => esc_url( $preview_url ),
@@ -120,14 +129,14 @@ do_action( 'customize_controls_print_scripts' );
 		'controls' => array(),
 	);
 
-	foreach ( $this->settings as $id => $setting ) {
+	foreach ( $wp_customize->settings() as $id => $setting ) {
 		$settings['settings'][ $id ] = array(
 			'value'     => $setting->js_value(),
 			'transport' => $setting->transport,
 		);
 	}
 
-	foreach ( $this->controls as $id => $control ) {
+	foreach ( $wp_customize->controls() as $id => $control ) {
 		$control->to_json();
 		$settings['controls'][ $id ] = $control->json;
 	}
