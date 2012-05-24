@@ -34,7 +34,7 @@ class WP_oEmbed {
 			'http://youtu.be/*'                             => array( 'http://www.youtube.com/oembed',            false ),
 			'http://blip.tv/*'                              => array( 'http://blip.tv/oembed/',                   false ),
 			'#http://(www\.)?vimeo\.com/.*#i'               => array( 'http://vimeo.com/api/oembed.{format}',     true  ),
-			'#http://(www\.)?dailymotion\.com/.*#i'         => array( 'http://www.dailymotion.com/api/oembed',    true  ),
+			'#http://(www\.)?dailymotion\.com/.*#i'         => array( 'http://www.dailymotion.com/services/oembed', true ),
 			'#http://(www\.)?flickr\.com/.*#i'              => array( 'http://www.flickr.com/services/oembed/',   true  ),
 			'#http://(.+\.)?smugmug\.com/.*#i'              => array( 'http://api.smugmug.com/services/oembed/',  true  ),
 			'#http://(www\.)?hulu\.com/watch/.*#i'          => array( 'http://www.hulu.com/api/oembed.{format}',  true  ),
