@@ -1785,7 +1785,7 @@ final class WP_Internal_Pointers {
 				$('<?php echo $selector; ?>').pointer( options ).pointer('open');
 			};
 
-			if ( options.deffer_loading )
+			if ( options.defer_loading )
 				$(window).bind( 'load.wp-pointers', setup );
 			else
 				$(document).ready( setup );
@@ -1866,7 +1866,7 @@ final class WP_Internal_Pointers {
 
 		WP_Internal_Pointers::print_js( 'wp340_choose_image_from_library', '#choose-from-library-link', array(
 			'content'  => $content,
-			'position' => array( 'edge' => 'top', 'align' => is_rtl() ? 'right' : 'left', 'deffer_loading' => true ),
+			'position' => array( 'edge' => 'top', 'align' => is_rtl() ? 'right' : 'left', 'defer_loading' => true ),
 		) );
 	}
 
