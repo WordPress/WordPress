@@ -51,7 +51,7 @@ do_action( 'customize_controls_print_scripts' );
 		<?php wp_nonce_field( 'customize_controls' ); ?>
 		<div id="customize-header-actions" class="wp-full-overlay-header">
 			<?php
-				$save_text = $wp_customize->is_theme_active() ? __( 'Save' ) : __( 'Save and Activate' );
+				$save_text = $wp_customize->is_theme_active() ? __( 'Save &amp; Publish' ) : __( 'Save &amp; Activate' );
 				submit_button( $save_text, 'primary', 'save', false );
 			?>
 			<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" />
