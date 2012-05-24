@@ -381,7 +381,7 @@ function locate_template($template_names, $load = false, $require_once = true ) 
  * @param bool $require_once Whether to require_once or require. Default true.
  */
 function load_template( $_template_file, $require_once = true ) {
-	global $posts, $post, $wp_did_header, $wp_did_template_redirect, $wp_query, $wp_rewrite, $wpdb, $wp_version, $wp, $id, $comment, $user_ID;
+	global $posts, $post, $wp_did_header, $wp_query, $wp_rewrite, $wpdb, $wp_version, $wp, $id, $comment, $user_ID;
 
 	if ( is_array( $wp_query->query_vars ) )
 		extract( $wp_query->query_vars, EXTR_SKIP );
