@@ -303,7 +303,8 @@ function _wp_ajax_delete_comment_response( $comment_id, $delta = -1 ) {
  * POST-based Ajax handlers.
  */
 
-function _wp_ajax_add_hierarchical_term( $action ) {
+function _wp_ajax_add_hierarchical_term() {
+	$action = $_POST['action'];
 	$taxonomy = get_taxonomy(substr($action, 4));
 	check_ajax_referer( $action, '_ajax_nonce-add-' . $taxonomy->name );
 	if ( !current_user_can( $taxonomy->cap->edit_terms ) )
