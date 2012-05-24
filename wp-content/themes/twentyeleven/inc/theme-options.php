@@ -31,15 +31,9 @@ add_action( 'admin_print_styles-appearance_page_theme_options', 'twentyeleven_ad
  * which is used when the option is saved, to ensure that our option values are complete, properly
  * formatted, and safe.
  *
- * We also use this function to add our theme option if it doesn't already exist.
- *
  * @since Twenty Eleven 1.0
  */
 function twentyeleven_theme_options_init() {
-
-	// If we have no options in the database, let's add them now.
-	if ( false === twentyeleven_get_theme_options() )
-		add_option( 'twentyeleven_theme_options', twentyeleven_get_default_theme_options() );
 
 	register_setting(
 		'twentyeleven_options',       // Options group, see settings_fields() call in twentyeleven_theme_options_render_page()
