@@ -1118,7 +1118,6 @@ blockquote.pull {
 .pull.alignleft {
 	margin: 0 1.625em 0 0;
 	text-align: right;
-	width: 33%;
 }
 .singular .pull.alignleft {
 	margin: 0 1.625em 0 -22.25%;
@@ -1126,6 +1125,9 @@ blockquote.pull {
 .pull.alignright {
 	margin: 0 0 0 1.625em;
 	text-align: left;
+}
+blockquote.pull.alignleft,
+blockquote.pull.alignright {
 	width: 33%;
 }
 .singular .pull.alignright {
