@@ -34,6 +34,9 @@ final class WP_Customize_Manager {
 		add_action( 'setup_theme',  array( $this, 'setup_theme' ) );
 		add_action( 'wp_loaded',    array( $this, 'wp_loaded' ) );
 
+		// Run wp_redirect_status late to make sure we override the status last.
+		add_action( 'wp_redirect_status', array( $this, 'wp_redirect_status' ), 1000 );
+
 		add_action( 'wp_ajax_customize_save', array( $this, 'save' ) );
 
 		add_action( 'customize_register',                 array( $this, 'register_controls' ) );
@@ -208,6 +211,21 @@ final class WP_Customize_Manager {
 
 		if ( $this->is_preview() && ! is_admin() )
 			$this->customize_preview_init();
+	}
+
+	/**
+	 * Prevents AJAX requests from following redirects when previewing a theme
+	 * by issuing a 200 response instead of a 30x.
+	 *
+	 * Instead, the JS will sniff out the location header.
+	 *
+	 * @since 3.4.0
+	 */
+	public function wp_redirect_status( $status ) {
+		if ( $this->is_preview() && ! is_admin() )
+			return 200;
+
+		return $status;
 	}
 
 	/**

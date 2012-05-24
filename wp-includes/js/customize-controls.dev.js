@@ -318,23 +318,29 @@
 
 			api.Messenger.prototype.initialize.call( this, params.url );
 
+			// We're dynamically generating the iframe, so the origin is set
+			// to the current window's location, not the url's.
+			this.origin.unlink( this.url ).set( window.location.href );
+
+			// Limit the URL to internal, front-end links.
+			this.url.setter( function( to ) {
+				// Bail if we're navigating to a different origin or wp-admin.
+				if ( 0 !== to.indexOf( self.origin() + '/' ) || -1 !== to.indexOf( 'wp-admin' ) )
+					return null;
+
+				return to;
+			});
+
+			// Refresh the preview when the URL is changed.
+			this.url.bind( this.refresh );
+
 			this.scroll = 0;
 			this.bind( 'scroll', function( distance ) {
 				this.scroll = distance;
 			});
 
-			// We're dynamically generating the iframe, so the origin is set
-			// to the current window's location, not the url's.
-			this.origin.unlink( this.url ).set( window.location.href );
-
-			this.bind( 'url', function( url ) {
-				// Bail if we're navigating to the current url, to a different origin, or wp-admin.
-				if ( this.url() == url || 0 !== url.indexOf( this.origin() + '/' ) || -1 !== url.indexOf( 'wp-admin' ) )
-					return;
-
-				this.url( url );
-				this.refresh();
-			});
+			// Update the URL when the iframe sends a URL message.
+			this.bind( 'url', this.url );
 		},
 		loader: function() {
 			if ( this.loading )
@@ -365,7 +371,15 @@
 				type: 'POST',
 				data: this.query() || {},
 				success: function( response ) {
-					var iframe = self.loader()[0].contentWindow;
+					var iframe = self.loader()[0].contentWindow,
+						location = self.request.getResponseHeader('Location');
+
+					// Check if the location response header differs from the current URL.
+					// If so, the request was redirected; try loading the requested page.
+					if ( location && location != self.url() ) {
+						self.url( location );
+						return;
+					}
 
 					self.loader().one( 'load', self.loaded );
 
