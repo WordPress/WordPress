@@ -1785,7 +1785,7 @@ final class WP_Internal_Pointers {
 				$('<?php echo $selector; ?>').pointer( options ).pointer('open');
 			};
 
-			if ( options.defer_loading )
+			if ( options.position && options.position.defer_loading )
 				$(window).bind( 'load.wp-pointers', setup );
 			else
 				$(document).ready( setup );
