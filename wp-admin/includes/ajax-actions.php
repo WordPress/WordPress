@@ -476,6 +476,8 @@ function wp_ajax_delete_meta() {
 }
 
 function wp_ajax_delete_post( $action ) {
+	if ( empty( $action ) )
+		$action = 'delete-post';
 	$id = isset( $_POST['id'] ) ? (int) $_POST['id'] : 0;
 
 	check_ajax_referer( "{$action}_$id" );
@@ -492,6 +494,8 @@ function wp_ajax_delete_post( $action ) {
 }
 
 function wp_ajax_trash_post( $action ) {
+	if ( empty( $action ) )
+		$action = 'trash-post';
 	$id = isset( $_POST['id'] ) ? (int) $_POST['id'] : 0;
 
 	check_ajax_referer( "{$action}_$id" );
@@ -513,10 +517,14 @@ function wp_ajax_trash_post( $action ) {
 }
 
 function wp_ajax_untrash_post( $action ) {
+	if ( empty( $action ) )
+		$action = 'untrash-post';
 	wp_ajax_trash_post( $action );
 }
 
 function wp_ajax_delete_page( $action ) {
+	if ( empty( $action ) )
+		$action = 'delete-page';
 	$id = isset( $_POST['id'] ) ? (int) $_POST['id'] : 0;
 
 	check_ajax_referer( "{$action}_$id" );
@@ -570,6 +578,8 @@ function wp_ajax_dim_comment() {
 }
 
 function wp_ajax_add_link_category( $action ) {
+	if ( empty( $action ) )
+		$action = 'add-link-category';
 	check_ajax_referer( $action );
 	if ( !current_user_can( 'manage_categories' ) )
 		wp_die( -1 );
@@ -690,6 +700,8 @@ function wp_ajax_get_tagcloud() {
 
 function wp_ajax_get_comments( $action ) {
 	global $wp_list_table, $post_id;
+	if ( empty( $action ) )
+		$action = 'get-comments';
 
 	check_ajax_referer( $action );
 
@@ -725,6 +737,8 @@ function wp_ajax_get_comments( $action ) {
 
 function wp_ajax_replyto_comment( $action ) {
 	global $wp_list_table, $wpdb;
+	if ( empty( $action ) )
+		$action = 'replyto-comment';
 
 	check_ajax_referer( $action, '_ajax_nonce-replyto-comment' );
 
@@ -1008,6 +1022,8 @@ function wp_ajax_add_meta() {
 
 function wp_ajax_add_user( $action ) {
 	global $wp_list_table;
+	if ( empty( $action ) )
+		$action = 'add-user';
 
 	check_ajax_referer( $action );
 	if ( ! current_user_can('create_users') )
