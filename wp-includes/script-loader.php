@@ -302,7 +302,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'customize-preview',  "/wp-includes/js/customize-preview$suffix.js",  array( 'customize-base' ), false, 1 );
 	$scripts->add( 'customize-controls', "/wp-includes/js/customize-controls$suffix.js", array( 'customize-base' ), false, 1 );
 	$scripts->localize( 'customize-controls', '_wpCustomizeControlsL10n', array(
-		'save' => __( 'Save' ),
+		'save' => __( 'Save &amp; Publish' ),
 	) );
 
 	if ( is_admin() ) {
