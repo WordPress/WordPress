@@ -474,6 +474,8 @@ if ( typeof wp === 'undefined' )
 	 * Messenger for postMessage.
 	 * ===================================================================== */
 
+	$.support.postMessage = !! window.postMessage;
+
 	api.Messenger = api.Class.extend({
 		add: function( key, initial, options ) {
 			return this[ key ] = new api.Value( initial, options );

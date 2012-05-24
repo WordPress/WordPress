@@ -442,6 +442,9 @@
 		if ( ! api.settings )
 			return;
 
+		if ( ! $.support.postMessage || ( ! $.support.cors && api.settings.isCrossDomain ) )
+			return window.location = api.settings.url.fallback;
+
 		// Initialize Previewer
 		var body = $( document.body ),
 			query, previewer, parent;

@@ -5,14 +5,24 @@ if ( typeof wp === 'undefined' )
 	var api = wp.customize,
 		Loader;
 
-	Loader = $.extend( {}, api.Events, {
-		supports: {
-			history:  !! ( window.history && history.pushState ),
-			hashchange: ('onhashchange' in window) && (document.documentMode === undefined || document.documentMode > 7)
-		},
+	$.extend( $.support, {
+		history: !! ( window.history && history.pushState ),
+		hashchange: ('onhashchange' in window) && (document.documentMode === undefined || document.documentMode > 7)
+	});
 
+	Loader = $.extend( {}, api.Events, {
 		initialize: function() {
-			this.body    = $( document.body ).addClass('customize-support');
+			this.body = $( document.body );
+
+			// Ensure the loader is supported.
+			// Check for settings, postMessage support, and whether we require CORS support.
+			if ( ! Loader.settings || ! $.support.postMessage || ( ! $.support.cors && Loader.settings.isCrossDomain ) ) {
+				this.body.removeClass( 'customize-support' ).addClass( 'no-customize-support' );
+				return;
+			}
+
+			this.body.removeClass( 'no-customize-support' ).addClass( 'customize-support' );
+
 			this.window  = $( window );
 			this.element = $( '<div id="customize-container" class="wp-full-overlay" />' ).appendTo( this.body );
 
@@ -27,10 +37,10 @@ if ( typeof wp === 'undefined' )
 			});
 
 			// Add navigation listeners.
-			if ( this.supports.history )
+			if ( $.support.history )
 				this.window.on( 'popstate', Loader.popstate );
 
-			if ( this.supports.hashchange )
+			if ( $.support.hashchange )
 				this.window.on( 'hashchange', Loader.hashchange );
 		},
 
@@ -48,7 +58,7 @@ if ( typeof wp === 'undefined' )
 			if ( hash && 0 === hash.indexOf( 'customize=on' ) )
 				Loader.open( wpCustomizeLoaderL10n.url + '?' + hash );
 
-			if ( ! hash && ! Loader.supports.history )
+			if ( ! hash && ! $.support.history )
 				Loader.close();
 		},
 
@@ -73,9 +83,9 @@ if ( typeof wp === 'undefined' )
 			});
 
 			this.messenger.bind( 'close', function() {
-				if ( Loader.supports.history )
+				if ( $.support.history )
 					history.back();
-				else if ( Loader.supports.hashchange )
+				else if ( $.support.hashchange )
 					window.location.hash = '';
 				else
 					Loader.close();
@@ -84,9 +94,9 @@ if ( typeof wp === 'undefined' )
 			hash = src.split('?')[1];
 
 			// Ensure we don't call pushState if the user hit the forward button.
-			if ( Loader.supports.history && window.location.href !== src )
+			if ( $.support.history && window.location.href !== src )
 				history.pushState( { customize: src }, '', src );
-			else if ( ! Loader.supports.history && Loader.supports.hashchange && hash )
+			else if ( ! $.support.history && $.support.hashchange && hash )
 				window.location.hash = hash;
 
 			this.trigger( 'open' );
@@ -128,8 +138,8 @@ if ( typeof wp === 'undefined' )
 	});
 
 	$( function() {
-		if ( window.postMessage )
-			Loader.initialize();
+		Loader.settings = _wpCustomizeLoaderSettings;
+		Loader.initialize();
 	});
 
 	// Expose the API to the world.

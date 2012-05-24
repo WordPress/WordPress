@@ -1584,16 +1584,31 @@ function _wp_customize_include() {
 add_action( 'plugins_loaded', '_wp_customize_include' );
 
 /**
- * Localizes the customize-loader script.
+ * Adds settings for the customize-loader script.
  *
  * @since 3.4.0
  */
-function _wp_customize_loader_localize() {
-	wp_localize_script( 'customize-loader', 'wpCustomizeLoaderL10n', array(
-		'url' => admin_url( 'admin.php' ),
-	) );
+function _wp_customize_loader_settings() {
+	global $wp_scripts;
+
+	$admin_origin = parse_url( admin_url() );
+	$home_origin  = parse_url( home_url() );
+	$cross_domain = ( strtolower( $admin_origin[ 'host' ] ) != strtolower( $home_origin[ 'host' ] ) );
+
+	$settings = array(
+		'url'           => esc_url( admin_url( 'admin.php' ) ),
+		'isCrossDomain' => $cross_domain,
+	);
+
+	$script = 'var _wpCustomizeLoaderSettings = ' . json_encode( $settings ) . ';';
+
+	$data = $wp_scripts->get_data( 'customize-loader', 'data' );
+	if ( $data )
+		$script = "$data\n$script";
+
+	$wp_scripts->add_data( 'customize-loader', 'data', $script );
 }
-add_action( 'admin_enqueue_scripts', '_wp_customize_loader_localize' );
+add_action( 'admin_enqueue_scripts', '_wp_customize_loader_settings' );
 
 /**
  * Returns a URL to load the theme customizer.

@@ -107,11 +107,20 @@ do_action( 'customize_controls_print_scripts' );
 	$allowed_urls = array( home_url('/') );
 	$admin_origin = parse_url( admin_url() );
 	$home_origin  = parse_url( home_url() );
+	$cross_domain = ( strtolower( $admin_origin[ 'host' ] ) != strtolower( $home_origin[ 'host' ] ) );
 
-	if ( is_ssl() && ( $admin_origin[ 'host' ] == $home_origin[ 'host' ] ) )
+	if ( is_ssl() && ! $cross_domain )
 		$allowed_urls[] = home_url( '/', 'https' );
 
 	$allowed_urls = array_unique( apply_filters( 'customize_allowed_urls', $allowed_urls ) );
+
+	$fallback_url = add_query_arg( array(
+		'preview'        => 1,
+		'template'       => $wp_customize->get_template(),
+		'stylesheet'     => $wp_customize->get_stylesheet(),
+		'preview_iframe' => true,
+		'TB_iframe'      => 'true'
+	), home_url( '/' ) );
 
 	$settings = array(
 		'theme'    => array(
@@ -119,10 +128,12 @@ do_action( 'customize_controls_print_scripts' );
 			'active'     => $wp_customize->is_theme_active(),
 		),
 		'url'      => array(
-			'preview'  => esc_url( home_url( '/' ) ),
-			'parent'   => esc_url( admin_url() ),
-			'ajax'     => esc_url( admin_url( 'admin-ajax.php', 'relative' ) ),
-			'allowed'  => array_map( 'esc_url', $allowed_urls ),
+			'preview'       => esc_url( home_url( '/' ) ),
+			'parent'        => esc_url( admin_url() ),
+			'ajax'          => esc_url( admin_url( 'admin-ajax.php', 'relative' ) ),
+			'allowed'       => array_map( 'esc_url', $allowed_urls ),
+			'isCrossDomain' => $cross_domain,
+			'fallback'      => $fallback_url,
 		),
 		'settings' => array(),
 		'controls' => array(),
