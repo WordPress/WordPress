@@ -1722,11 +1722,13 @@ section.recent-posts .other-recent-posts li:after {
 }
 #nav-single .nav-previous,
 #nav-single .nav-next {
-	float: none;
 	width: auto;
 }
 #nav-single .nav-next {
 	padding-left: .5em;
+}
+#nav-single .nav-previous {
+	padding-right: .5em;
 }
 
 
