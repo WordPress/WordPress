@@ -254,6 +254,7 @@ final class WP_Customize_Manager {
 		$this->prepare_controls();
 
 		wp_enqueue_script( 'customize-preview' );
+		add_action( 'wp_head', array( $this, 'customize_preview_base' ) );
 		add_action( 'wp_footer', array( $this, 'customize_preview_settings' ), 20 );
 
 		foreach ( $this->settings as $setting ) {
@@ -263,9 +264,17 @@ final class WP_Customize_Manager {
 		do_action( 'customize_preview_init', $this );
 	}
 
+	/**
+	 * Print base element for preview frame.
+	 *
+	 * @since 3.4.0
+	 */
+	public function customize_preview_base() {
+		?><base href="<?php echo home_url( '/' ); ?>" /><?php
+	}
 
 	/**
-	 * Print javascript settings.
+	 * Print javascript settings for preview frame.
 	 *
 	 * @since 3.4.0
 	 */
