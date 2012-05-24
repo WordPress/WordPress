@@ -1851,7 +1851,7 @@ final class WP_Internal_Pointers {
 
 		WP_Internal_Pointers::print_js( 'wp340_customize_current_theme_link', '#customize-current-theme-link', array(
 			'content'  => $content,
-			'position' => array( 'edge' => 'top', 'align' => is_rtl() ? 'right' : 'left' ),
+			'position' => array( 'edge' => 'top', 'align' => is_rtl() ? 'right' : 'left', 'offset' => is_rtl() ? '32 0' : '-32 0' ),
 		) );
 	}
 
