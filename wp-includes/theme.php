@@ -1596,7 +1596,7 @@ function _wp_customize_loader_settings() {
 	$cross_domain = ( strtolower( $admin_origin[ 'host' ] ) != strtolower( $home_origin[ 'host' ] ) );
 
 	$settings = array(
-		'url'           => esc_url( admin_url( 'admin.php' ) ),
+		'url'           => esc_url( admin_url( 'customize.php' ) ),
 		'isCrossDomain' => $cross_domain,
 	);
 
