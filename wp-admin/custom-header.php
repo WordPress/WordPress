@@ -579,16 +579,19 @@ var farbtastic;
 		<label for="upload"><?php _e( 'Choose an image from your computer:' ); ?></label><br />
 		<input type="file" id="upload" name="import" />
 		<input type="hidden" name="action" value="save" />
-		<?php wp_nonce_field( 'custom-header-upload', '_wpnonce-custom-header-upload' ) ?>
+		<?php wp_nonce_field( 'custom-header-upload', '_wpnonce-custom-header-upload' ); ?>
 		<?php submit_button( __( 'Upload' ), 'button', 'submit', false ); ?>
 	</p>
-	</form>
 	<?php
 		$image_library_url = get_upload_iframe_src( 'image', null, 'library' );
 		$image_library_url = remove_query_arg( 'TB_iframe', $image_library_url );
 		$image_library_url = add_query_arg( array( 'context' => 'custom-header', 'TB_iframe' => 1 ), $image_library_url );
 	?>
-	<span class="howto"><?php _ex( 'or', 'Custom Header: Choose an image from your computer - or - Choose from image library' ); ?></span> <a id="choose-from-library-link" class="thickbox" href="<?php echo $image_library_url; ?>"><?php _e( 'Choose from image library' ); ?></a>
+	<p>
+		<label for="choose-from-library-link"><?php _e( 'Or choose an image from your media library:' ); ?></label><br />
+		<a id="choose-from-library-link" class="button thickbox" href="<?php echo esc_url( $image_library_url ); ?>"><?php _e( 'Choose Image' ); ?></a>
+	</p>
+	</form>
 </td>
 </tr>
 <?php endif; ?>

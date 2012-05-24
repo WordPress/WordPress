@@ -250,17 +250,23 @@ if ( get_background_image() ) {
 <tr valign="top">
 <th scope="row"><?php _e('Upload Image'); ?></th>
 <td><form enctype="multipart/form-data" id="upload-form" method="post" action="">
-<label for="upload"><?php _e('Choose an image from your computer:'); ?></label><br /><input type="file" id="upload" name="import" />
-<input type="hidden" name="action" value="save" />
-<?php wp_nonce_field('custom-background-upload', '_wpnonce-custom-background-upload') ?>
-<?php submit_button( __( 'Upload' ), 'button', 'submit', false ); ?>
-<?php
-	$image_library_url = get_upload_iframe_src( 'image', null, 'library' );
-	$image_library_url = remove_query_arg( 'TB_iframe', $image_library_url );
-	$image_library_url = add_query_arg( array( 'context' => 'custom-background', 'TB_iframe' => 1 ), $image_library_url );
-?>
+	<p>
+		<label for="upload"><?php _e( 'Choose an image from your computer:' ); ?></label><br />
+		<input type="file" id="upload" name="import" />
+		<input type="hidden" name="action" value="save" />
+		<?php wp_nonce_field( 'custom-background-upload', '_wpnonce-custom-background-upload' ); ?>
+		<?php submit_button( __( 'Upload' ), 'button', 'submit', false ); ?>
+	</p>
+	<?php
+		$image_library_url = get_upload_iframe_src( 'image', null, 'library' );
+		$image_library_url = remove_query_arg( 'TB_iframe', $image_library_url );
+		$image_library_url = add_query_arg( array( 'context' => 'custom-background', 'TB_iframe' => 1 ), $image_library_url );
+	?>
+	<p>
+		<label for="choose-from-library-link"><?php _e( 'Or choose an image from your media library:' ); ?></label><br />
+		<a id="choose-from-library-link" class="button thickbox" href="<?php echo esc_url( $image_library_url ); ?>"><?php _e( 'Choose Image' ); ?></a>
+	</p>
 	</form>
-	<span class="howto"><?php _ex( 'or', 'Custom Background: Choose an image from your computer - or - Choose from image library' ); ?></span> <a id="choose-from-library-link" class="thickbox" href="<?php echo $image_library_url; ?>"><?php _e( 'Choose from image library' ); ?></a>
 </td>
 </tr>
 </tbody>
