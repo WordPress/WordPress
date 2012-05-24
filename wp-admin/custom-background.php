@@ -248,7 +248,7 @@ if ( get_background_image() ) {
 
 <?php endif; ?>
 <tr valign="top">
-<th scope="row"><?php _e('Upload Image'); ?></th>
+<th scope="row"><?php _e('Select Image'); ?></th>
 <td><form enctype="multipart/form-data" id="upload-form" method="post" action="">
 	<p>
 		<label for="upload"><?php _e( 'Choose an image from your computer:' ); ?></label><br />
