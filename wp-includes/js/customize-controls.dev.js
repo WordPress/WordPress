@@ -272,7 +272,8 @@
 		 *  - url       - the URL of preview frame
 		 */
 		initialize: function( params, options ) {
-			var self = this;
+			var self = this,
+				rscheme = /^https?/;
 
 			$.extend( this, options || {} );
 
@@ -314,7 +315,8 @@
 				};
 			})( this );
 
-			this.container = api.ensure( params.container );
+			this.container   = api.ensure( params.container );
+			this.allowedUrls = params.allowedUrls;
 
 			api.Messenger.prototype.initialize.call( this, params.url );
 
@@ -322,13 +324,42 @@
 			// to the current window's location, not the url's.
 			this.origin.unlink( this.url ).set( window.location.href );
 
+			this.add( 'scheme', this.origin() ).link( this.origin ).setter( function( to ) {
+				var match = to.match( rscheme );
+				return match ? match[0] : '';
+			});
+
 			// Limit the URL to internal, front-end links.
+			//
+			// If the frontend and the admin are served from the same domain, load the
+			// preview over ssl if the customizer is being loaded over ssl. This avoids
+			// insecure content warnings. This is not attempted if the admin and frontend
+			// are on different domains to avoid the case where the frontend doesn't have
+			// ssl certs.
+
 			this.url.setter( function( to ) {
-				// Bail if we're navigating to a different origin or wp-admin.
-				if ( 0 !== to.indexOf( self.origin() + '/' ) || -1 !== to.indexOf( 'wp-admin' ) )
+				var result;
+
+				// Check for URLs that include "/wp-admin/" or end in "/wp-admin".
+				// Strip hashes and query strings before testing.
+				if ( /\/wp-admin(\/|$)/.test( to.replace(/[#?].*$/, '') ) )
 					return null;
 
-				return to;
+				// Attempt to match the URL to the control frame's scheme
+				// and check if it's allowed. If not, try the original URL.
+				$.each([ to.replace( rscheme, self.scheme() ), to ], function( i, url ) {
+					$.each( self.allowedUrls, function( i, allowed ) {
+						if ( 0 === url.indexOf( allowed ) ) {
+							result = url;
+							return false;
+						}
+					});
+					if ( result )
+						return false;
+				});
+
+				// If we found a matching result, return it. If not, bail.
+				return result ? result : null;
 			});
 
 			// Refresh the preview when the URL is changed.
@@ -422,9 +453,10 @@
 		});
 
 		previewer = new api.Previewer({
-			container: '#customize-preview',
-			form:      '#customize-controls',
-			url:       api.settings.url.preview
+			container:   '#customize-preview',
+			form:        '#customize-controls',
+			url:         api.settings.url.preview,
+			allowedUrls: api.settings.url.allowed
 		}, {
 			query: function() {
 				return {

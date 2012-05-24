@@ -101,15 +101,17 @@ do_action( 'customize_controls_print_scripts' );
 	// preview over ssl if the customizer is being loaded over ssl. This avoids
 	// insecure content warnings. This is not attempted if the admin and frontend
 	// are on different domains to avoid the case where the frontend doesn't have
-	// ssl certs. Domain mapping plugins can force ssl in these conditions using
-	// the customize_preview_link filter.
-	$admin_origin = parse_url( admin_url() );
-	$home_origin = parse_url( home_url() );
-	$scheme = null;
-	if ( is_ssl() && ( $admin_origin[ 'host' ] == $home_origin[ 'host' ] ) )
-		$scheme = 'https';
+	// ssl certs. Domain mapping plugins can allow other urls in these conditions
+	// using the customize_allowed_urls filter.
 
-	$preview_url = apply_filters( 'customize_preview_link',  home_url( '/', $scheme ) );
+	$allowed_urls = array( home_url('/') );
+	$admin_origin = parse_url( admin_url() );
+	$home_origin  = parse_url( home_url() );
+
+	if ( is_ssl() && ( $admin_origin[ 'host' ] == $home_origin[ 'host' ] ) )
+		$allowed_urls[] = home_url( '/', 'https' );
+
+	$allowed_urls = array_unique( apply_filters( 'customize_allowed_urls', $allowed_urls ) );
 
 	$settings = array(
 		'theme'    => array(
@@ -117,9 +119,10 @@ do_action( 'customize_controls_print_scripts' );
 			'active'     => $wp_customize->is_theme_active(),
 		),
 		'url'      => array(
-			'preview'  => esc_url( $preview_url ),
+			'preview'  => esc_url( home_url( '/' ) ),
 			'parent'   => esc_url( admin_url() ),
 			'ajax'     => esc_url( admin_url( 'admin-ajax.php', 'relative' ) ),
+			'allowed'  => array_map( 'esc_url', $allowed_urls ),
 		),
 		'settings' => array(),
 		'controls' => array(),
