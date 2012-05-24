@@ -50,8 +50,13 @@ do_action( 'customize_controls_print_scripts' );
 	<form id="customize-controls" class="wrap wp-full-overlay-sidebar">
 		<?php wp_nonce_field( 'customize_controls' ); ?>
 		<div id="customize-header-actions" class="wp-full-overlay-header">
-			<a class="back" href="<?php echo esc_url( admin_url( 'themes.php' ) ); ?>">
-				<?php printf( __( '&larr; Return to %s' ), __('Manage Themes') ); ?>
+			<?php
+				$save_text = $wp_customize->is_theme_active() ? __( 'Save' ) : __( 'Save and Activate' );
+				submit_button( $save_text, 'primary', 'save', false );
+			?>
+			<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" />
+			<a class="back button" href="<?php echo esc_url( admin_url( 'themes.php' ) ); ?>">
+				<?php _e( 'Cancel' ); ?>
 			</a>
 		</div>
 
@@ -81,12 +86,6 @@ do_action( 'customize_controls_print_scripts' );
 		</div>
 
 		<div id="customize-footer-actions" class="wp-full-overlay-footer">
-			<?php
-			$save_text = $wp_customize->is_theme_active() ? __('Save') : __('Save and Activate');
-			submit_button( $save_text, 'primary', 'save', false );
-			?>
-			<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" />
-
 			<a href="#" class="collapse-sidebar button-secondary" title="<?php esc_attr_e('Collapse Sidebar'); ?>">
 				<span class="collapse-sidebar-label"><?php _e('Collapse'); ?></span>
 				<span class="collapse-sidebar-arrow"></span>

@@ -496,13 +496,8 @@
 
 		// If we receive a 'back' event, we're inside an iframe.
 		// Send any clicks to the 'Return' link to the parent page.
-		parent.bind( 'back', function( text ) {
-			var back = $('.back');
-
-			if ( text )
-				back.text( text );
-
-			back.on( 'click.back', function( event ) {
+		parent.bind( 'back', function() {
+			$('.back').on( 'click.back', function( event ) {
 				event.preventDefault();
 				parent.send( 'close' );
 			});

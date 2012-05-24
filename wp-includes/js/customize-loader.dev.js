@@ -69,7 +69,7 @@ if ( typeof wp === 'undefined' )
 
 			// Wait for the connection from the iframe before sending any postMessage events.
 			this.messenger.bind( 'ready', function() {
-				Loader.messenger.send( 'back', wpCustomizeLoaderL10n.back || '' );
+				Loader.messenger.send( 'back' );
 			});
 
 			this.messenger.bind( 'close', function() {

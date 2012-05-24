@@ -131,20 +131,20 @@ body {
 	margin: 0;
 }
 
-#customize-footer-actions img {
+#customize-header-actions .button-primary {
+	float: right;
+	margin-top: 11px;
+}
+
+#customize-header-actions img {
 	display: none;
-	position: absolute;
-	top: 15px;
-	margin-left: 4px;
+	float: right;
+	margin-top: 13px;
+	margin-right: 4px;
 }
 
-.saving #customize-footer-actions img {
-	display: inline;
-}
-
-#customize-footer-actions .button-primary {
-	display: inline-block;
-	margin-top: 12px;
+.saving #customize-header-actions img {
+	display: block;
 }
 
 .customize-control {
