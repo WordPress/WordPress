@@ -90,8 +90,8 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<h4><?php _e( 'Custom Header and Background API' ); ?></h4>
 			<p><?php  _e( 'Custom header and background API relocated into the theme support API.' ); ?></p>
 			
-			<h4><?php _e( 'Faster I18N' ); ?></h4>
-			<p><?php _e( 'The number of strings loaded on the front end was greatly reduced, resulting in faster front page load times for I18N users.' ); ?></p>
+			<h4><?php _e( 'Faster Translations' ); ?></h4>
+			<p><?php _e( 'The number of strings loaded on the front end was greatly reduced, resulting in faster front page load times for localized installations.' ); ?></p>
 		</div>
 		<div class="last-feature">
 			<h4><?php _e( 'WP_Screen API' ); ?></h4>
