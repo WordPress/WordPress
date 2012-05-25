@@ -358,6 +358,12 @@ $_old_files = array(
 'wp-includes/js/tinymce/themes/advanced/skins/wp_theme/img/down_arrow.gif',
 'wp-includes/js/tinymce/themes/advanced/skins/wp_theme/img/fade-butt.png',
 'wp-includes/js/tinymce/themes/advanced/skins/wp_theme/img/separator.gif',
+// Don't delete, yet: 'wp-rss.php',
+// Don't delete, yet: 'wp-rdf.php',
+// Don't delete, yet: 'wp-rss2.php',
+// Don't delete, yet: 'wp-commentsrss2.php',
+// Don't delete, yet: 'wp-atom.php',
+// Don't delete, yet: 'wp-feed.php',
 // 3.4
 'wp-admin/images/gray-star.png',
 'wp-admin/images/logo-login.png',
@@ -387,7 +393,7 @@ $_old_files = array(
 'wp-includes/js/tinymce/plugins/wpgallery/editor_plugin.dev.js',
 'wp-includes/js/tinymce/plugins/wpgallery/img/gallery.png',
 'wp-includes/js/tinymce/plugins/wplink/editor_plugin.dev.js',
-// Don't delete, yet: 'wp-pass.php', 
+// Don't delete, yet: 'wp-pass.php',
 // Don't delete, yet: 'wp-register.php',
 );
 
@@ -675,7 +681,7 @@ function _redirect_to_about_wordpress( $new_version ) {
 	global $wp_version, $pagenow, $action;
 
 	if ( version_compare( $wp_version, '3.4-RC1', '>=' ) )
-			return;
+		return;
 
 	// Ensure we only run this on the update-core.php page. wp_update_core() could be called in other contexts.
 	if ( 'update-core.php' != $pagenow )
