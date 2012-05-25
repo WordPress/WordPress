@@ -404,7 +404,7 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 	public function __construct( $manager ) {
 		parent::__construct( $manager, 'header_image', array(
 			'label'    => __( 'Header Image' ),
-			'section'  => 'header',
+			'section'  => 'header_image',
 			'context'  => 'custom-header',
 			'removed'  => 'remove-header',
 			'get_url'  => 'get_header_image',

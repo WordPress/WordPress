@@ -600,12 +600,40 @@ final class WP_Customize_Manager {
 	 */
 	public function register_controls() {
 
-		/* Custom Header */
+		/* Site Title & Tagline */
 
-		$this->add_section( 'header', array(
-			'title'          => __( 'Header' ),
-			'theme_supports' => 'custom-header',
-			'priority'       => 20,
+		$this->add_section( 'title_tagline', array(
+			'title'    => __( 'Site Title & Tagline' ),
+			'priority' => 20,
+		) );
+
+		$this->add_setting( 'blogname', array(
+			'default'    => get_option( 'blogname' ),
+			'type'       => 'option',
+			'capability' => 'manage_options',
+		) );
+
+		$this->add_control( 'blogname', array(
+			'label'      => __( 'Site Title' ),
+			'section'    => 'title_tagline',
+		) );
+
+		$this->add_setting( 'blogdescription', array(
+			'default'    => get_option( 'blogdescription' ),
+			'type'       => 'option',
+			'capability' => 'manage_options',
+		) );
+
+		$this->add_control( 'blogdescription', array(
+			'label'      => __( 'Tagline' ),
+			'section'    => 'title_tagline',
+		) );
+
+		/* Colors */
+
+		$this->add_section( 'colors', array(
+			'title'          => __( 'Colors' ),
+			'priority'       => 40,
 		) );
 
 		$this->add_setting( 'header_textcolor', array(
@@ -614,34 +642,19 @@ final class WP_Customize_Manager {
 			'default'        => get_theme_support( 'custom-header', 'default-text-color' ),
 		) );
 
+		// Input type: checkbox
+		// With custom value
 		$this->add_control( 'display_header_text', array(
 			'settings' => 'header_textcolor',
 			'label'    => __( 'Display Header Text' ),
-			'section'  => 'header',
+			'section'  => 'title_tagline',
 			'type'     => 'checkbox',
 		) );
 
 		$this->add_control( new WP_Customize_Color_Control( $this, 'header_textcolor', array(
 			'label'   => __( 'Text Color' ),
-			'section' => 'header',
+			'section' => 'colors',
 		) ) );
-
-		// Input type: checkbox
-		// With custom value
-		$this->add_setting( 'header_image', array(
-			'default'        => get_theme_support( 'custom-header', 'default-image' ),
-			'theme_supports' => 'custom-header',
-		) );
-
-		$this->add_control( new WP_Customize_Header_Image_Control( $this ) );
-
-		/* Custom Background */
-
-		$this->add_section( 'background', array(
-			'title'          => __( 'Background' ),
-			'theme_supports' => 'custom-background',
-			'priority'       => 30,
-		) );
 
 		// Input type: Color
 		// With sanitize_callback
@@ -653,8 +666,32 @@ final class WP_Customize_Manager {
 
 		$this->add_control( new WP_Customize_Color_Control( $this, 'background_color', array(
 			'label'   => __( 'Background Color' ),
-			'section' => 'background',
+			'section' => 'colors',
 		) ) );
+
+
+		/* Custom Header */
+
+		$this->add_section( 'header_image', array(
+			'title'          => __( 'Header Image' ),
+			'theme_supports' => 'custom-header',
+			'priority'       => 60,
+		) );
+
+		$this->add_setting( 'header_image', array(
+			'default'        => get_theme_support( 'custom-header', 'default-image' ),
+			'theme_supports' => 'custom-header',
+		) );
+
+		$this->add_control( new WP_Customize_Header_Image_Control( $this ) );
+
+		/* Custom Background */
+
+		$this->add_section( 'background_image', array(
+			'title'          => __( 'Background Image' ),
+			'theme_supports' => 'custom-background',
+			'priority'       => 80,
+		) );
 
 		$this->add_setting( 'background_image', array(
 			'default'        => get_theme_support( 'custom-background', 'default-image' ),
@@ -663,7 +700,7 @@ final class WP_Customize_Manager {
 
 		$this->add_control( new WP_Customize_Image_Control( $this, 'background_image', array(
 			'label'          => __( 'Background Image' ),
-			'section'        => 'background',
+			'section'        => 'background_image',
 			'context'        => 'custom-background',
 		) ) );
 
@@ -674,7 +711,7 @@ final class WP_Customize_Manager {
 
 		$this->add_control( 'background_repeat', array(
 			'label'      => __( 'Background Repeat' ),
-			'section'    => 'background',
+			'section'    => 'background_image',
 			'type'       => 'radio',
 			'choices'    => array(
 				'no-repeat'  => __('No Repeat'),
@@ -691,7 +728,7 @@ final class WP_Customize_Manager {
 
 		$this->add_control( 'background_position_x', array(
 			'label'      => __( 'Background Position' ),
-			'section'    => 'background',
+			'section'    => 'background_image',
 			'type'       => 'radio',
 			'choices'    => array(
 				'left'       => __('Left'),
@@ -707,7 +744,7 @@ final class WP_Customize_Manager {
 
 		$this->add_control( 'background_attachment', array(
 			'label'      => __( 'Background Attachment' ),
-			'section'    => 'background',
+			'section'    => 'background_image',
 			'type'       => 'radio',
 			'choices'    => array(
 				'fixed'      => __('Fixed'),
@@ -733,7 +770,7 @@ final class WP_Customize_Manager {
 		$this->add_section( 'nav', array(
 			'title'          => __( 'Navigation' ),
 			'theme_supports' => 'menus',
-			'priority'       => 40,
+			'priority'       => 100,
 			'description'    => sprintf( _n('Your theme supports %s menu. Select which menu you would like to use.', 'Your theme supports %s menus. Select which menu appears in each location.', $num_locations ), number_format_i18n( $num_locations ) ) . "\n\n" . __('You can edit your menu content on the Menus screen in the Appearance section.'),
 		) );
 
@@ -768,7 +805,7 @@ final class WP_Customize_Manager {
 		$this->add_section( 'static_front_page', array(
 			'title'          => __( 'Static Front Page' ),
 		//	'theme_supports' => 'static-front-page',
-			'priority'       => 50,
+			'priority'       => 120,
 			'description'    => __( 'Your theme supports a static front page.' ),
 		) );
 
@@ -811,35 +848,6 @@ final class WP_Customize_Manager {
 			'label'      => __( 'Posts page' ),
 			'section'    => 'static_front_page',
 			'type'       => 'dropdown-pages',
-		) );
-
-		/* Site Title & Tagline */
-
-		$this->add_section( 'strings', array(
-			'title'    => __( 'Site Title & Tagline' ),
-			'priority' => 5,
-		) );
-
-		$this->add_setting( 'blogname', array(
-			'default'    => get_option( 'blogname' ),
-			'type'       => 'option',
-			'capability' => 'manage_options',
-		) );
-
-		$this->add_control( 'blogname', array(
-			'label'      => __( 'Site Title' ),
-			'section'    => 'strings',
-		) );
-
-		$this->add_setting( 'blogdescription', array(
-			'default'    => get_option( 'blogdescription' ),
-			'type'       => 'option',
-			'capability' => 'manage_options',
-		) );
-
-		$this->add_control( 'blogdescription', array(
-			'label'      => __( 'Tagline' ),
-			'section'    => 'strings',
 		) );
 	}
 };
