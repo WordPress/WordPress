@@ -860,8 +860,8 @@ function sanitize_header_textcolor( $color ) {
 function sanitize_hexcolor( $color ) {
 	$color = preg_replace( '/[^0-9a-fA-F]/', '', $color );
 
-	// 3 or 6 hex digits.
-	if ( preg_match('|^([A-Fa-f0-9]{3}){1,2}$|', $color ) )
+	// 3 or 6 hex digits, or the empty string.
+	if ( preg_match('|^([A-Fa-f0-9]{3}){0,2}$|', $color ) )
 		return $color;
 
 	return null;
