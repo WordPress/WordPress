@@ -482,10 +482,13 @@ if ( typeof wp === 'undefined' )
 		},
 
 		initialize: function( url, targetWindow, options ) {
+			// Target the parent frame by default, but only if a parent frame exists.
+			var defaultTarget = window.parent == window ? null : window.parent;
+
 			$.extend( this, options || {} );
 
 			url = this.add( 'url', url );
-			this.add( 'targetWindow', targetWindow || window.parent );
+			this.add( 'targetWindow', targetWindow || defaultTarget );
 			this.add( 'origin', url() ).link( url ).setter( function( to ) {
 				return to.replace( /([^:]+:\/\/[^\/]+).*/, '$1' );
 			});
@@ -503,6 +506,9 @@ if ( typeof wp === 'undefined' )
 
 			event = event.originalEvent;
 
+			if ( ! this.targetWindow() )
+				return;
+
 			// Check to make sure the origin is valid.
 			if ( this.origin() && event.origin !== this.origin() )
 				return;
@@ -518,7 +524,7 @@ if ( typeof wp === 'undefined' )
 
 			data = typeof data === 'undefined' ? {} : data;
 
-			if ( ! this.url() )
+			if ( ! this.url() || ! this.targetWindow() )
 				return;
 
 			message = JSON.stringify({ id: id, data: data });
