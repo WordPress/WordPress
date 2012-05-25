@@ -524,7 +524,7 @@ var photostorage = false;
 									<?php echo $tax->labels->parent_item_colon; ?>
 								</label>
 								<?php wp_dropdown_categories( array( 'taxonomy' => 'category', 'hide_empty' => 0, 'name' => 'newcategory_parent', 'orderby' => 'name', 'hierarchical' => 1, 'show_option_none' => '&mdash; ' . $tax->labels->parent_item . ' &mdash;', 'tab_index' => 3 ) ); ?>
-								<input type="button" id="category-add-submit" class="add:categorychecklist:category-add button category-add-sumbit" value="<?php echo esc_attr( $tax->labels->add_new_item ); ?>" tabindex="3" />
+								<input type="button" id="category-add-submit" class="add:categorychecklist:category-add button category-add-submit" value="<?php echo esc_attr( $tax->labels->add_new_item ); ?>" tabindex="3" />
 								<?php wp_nonce_field( 'add-category', '_ajax_nonce-add-category', false ); ?>
 								<span id="category-ajax-response"></span>
 							</p>
