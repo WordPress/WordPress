@@ -81,14 +81,27 @@
 		});
 
 		api.when.apply( api, bg ).done( function( color, image, position_x, repeat, attachment ) {
-			var style = $('#custom-background-css'),
+			var body  = $(document.body),
+				style = $('#custom-background-css'),
 				update;
 
-			if ( ! style.length )
+			// If custom backgrounds are active and we can't find the
+			// default output, bail.
+			if ( body.hasClass('custom-background') && ! style.length )
 				return;
+
+			// Create the CSS container if it doesn't already exist.
+			if ( ! style.length )
+				style = $('<style type="text/css" id="custom-background-css" />').appendTo('head');
 
 			update = function() {
 				var css = '';
+
+				// The body will support custom backgrounds if either
+				// the color or image are set.
+				//
+				// See get_body_class() in /wp-includes/post-template.php
+				body.toggleClass( 'custom-background', !! ( color() || image() ) );
 
 				if ( color() )
 					css += 'background-color: #' + color() + ';';
