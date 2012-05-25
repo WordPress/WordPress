@@ -666,7 +666,7 @@ function _copy_dir($from, $to, $skip_list = array() ) {
 /**
  * Redirect to the About WordPress page after a successful upgrade.
  *
- * This function is only needed when the existing install is older than 3.3.0 (3.4.0 for multisite).
+ * This function is only needed when the existing install is older than 3.4.0.
  *
  * @since 3.3.0
  *
@@ -674,13 +674,8 @@ function _copy_dir($from, $to, $skip_list = array() ) {
 function _redirect_to_about_wordpress( $new_version ) {
 	global $wp_version, $pagenow, $action;
 
-	if ( is_multisite() ) {
-		// Change to self_admin_url().
-		if ( version_compare( $wp_version, '3.4-alpha', '>=' ) )
+	if ( version_compare( $wp_version, '3.4-RC1', '>=' ) )
 			return;
-	} elseif ( version_compare( $wp_version, '3.3', '>=' ) ) {
-		return;
-	}
 
 	// Ensure we only run this on the update-core.php page. wp_update_core() could be called in other contexts.
 	if ( 'update-core.php' != $pagenow )
