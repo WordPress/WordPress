@@ -698,11 +698,7 @@ final class WP_Customize_Manager {
 			'theme_supports' => 'custom-background',
 		) );
 
-		$this->add_control( new WP_Customize_Image_Control( $this, 'background_image', array(
-			'label'          => __( 'Background Image' ),
-			'section'        => 'background_image',
-			'context'        => 'custom-background',
-		) ) );
+		$this->add_control( new WP_Customize_Background_Image_Control( $this ) );
 
 		$this->add_setting( 'background_repeat', array(
 			'default'        => 'repeat',

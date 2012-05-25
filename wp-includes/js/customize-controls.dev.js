@@ -158,6 +158,8 @@
 
 			if ( this.params.context )
 				control.uploader.param( 'post_data[context]', this.params.context );
+
+			control.uploader.param( 'post_data[theme]', api.settings.theme.stylesheet );
 		},
 		success: function( attachment ) {
 			this.setting.set( attachment.url );

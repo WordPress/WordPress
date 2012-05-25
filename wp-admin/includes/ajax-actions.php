@@ -1640,6 +1640,14 @@ function wp_ajax_upload_attachment() {
 		wp_die();
 	}
 
+	if ( isset( $post_data['context'] ) && isset( $post_data['theme'] ) ) {
+		if ( 'custom-background' === $post_data['context'] )
+			update_post_meta( $attachment_id, '_wp_attachment_is_custom_background', $post_data['theme'] );
+
+		if ( 'custom-header' === $post_data['context'] )
+			update_post_meta( $attachment_id, '_wp_attachment_is_custom_header', $post_data['theme'] );
+	}
+
 	$post = get_post( $attachment_id );
 
 	echo json_encode( array(

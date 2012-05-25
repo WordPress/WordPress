@@ -398,6 +398,52 @@ class WP_Customize_Image_Control extends WP_Customize_Upload_Control {
 		<div class="uploaded-target"></div>
 		<?php
 	}
+
+	public function print_tab_image( $url, $thumbnail_url = null ) {
+		$url = set_url_scheme( $url );
+		$thumbnail_url = ( $thumbnail_url ) ? set_url_scheme( $thumbnail_url ) : $url;
+		?>
+		<a href="#" class="thumbnail" data-customize-image-value="<?php echo esc_url( $url ); ?>">
+			<img src="<?php echo esc_url( $thumbnail_url ); ?>" />
+		</a>
+		<?php
+	}
+}
+
+class WP_Customize_Background_Image_Control extends WP_Customize_Image_Control {
+	public function __construct( $manager ) {
+		parent::__construct( $manager, 'background_image', array(
+			'label'    => __( 'Background Image' ),
+			'section'  => 'background_image',
+			'context'  => 'custom-background',
+			'get_url'  => 'get_background_image',
+		) );
+
+		if ( $this->setting->default )
+			$this->add_tab( 'default',  __('Default'),  array( $this, 'tab_default_background' ) );
+	}
+
+	public function tab_uploaded() {
+		$backgrounds = get_posts( array(
+			'post_type'  => 'attachment',
+			'meta_key'   => '_wp_attachment_is_custom_background',
+			'meta_value' => $this->manager->get_stylesheet(),
+			'orderby'    => 'none',
+			'nopaging'   => true,
+		) );
+
+		?><div class="uploaded-target"></div><?php
+
+		if ( empty( $backgrounds ) )
+			return;
+
+		foreach ( (array) $backgrounds as $background )
+			$this->print_tab_image( esc_url_raw( $background->guid ) );
+	}
+
+	public function tab_default_background() {
+		$this->print_tab_image( $this->setting->default );
+	}
 }
 
 class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
@@ -424,21 +470,15 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 
 		?><div class="uploaded-target"></div><?php
 
-		foreach ( $headers as $header ) : ?>
-			<a href="#" class="thumbnail" data-customize-image-value="<?php echo esc_url( $header['url'] ); ?>">
-				<img src="<?php echo esc_url( set_url_scheme( $header['thumbnail_url'] ) ); ?>" />
-			</a>
-		<?php endforeach;
+		foreach ( $headers as $header )
+			$this->print_tab_image( $header['url'], $header['thumbnail_url'] );
 	}
 
 	public function tab_default_headers() {
 		global $custom_image_header;
 		$custom_image_header->process_default_headers();
 
-		foreach ( $custom_image_header->default_headers as $header ) : ?>
-			<a href="#" class="thumbnail" data-customize-image-value="<?php echo esc_url( $header['url'] ); ?>">
-				<img src="<?php echo esc_url( set_url_scheme( $header['thumbnail_url'] ) ); ?>" />
-			</a>
-		<?php endforeach;
+		foreach ( $custom_image_header->default_headers as $header )
+			$this->print_tab_image( $header['url'], $header['thumbnail_url'] );
 	}
 }
