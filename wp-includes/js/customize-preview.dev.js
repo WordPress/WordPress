@@ -61,7 +61,7 @@
 		if ( ! api.settings )
 			return;
 
-		var preview, body;
+		var preview, bg;
 
 		preview = new api.Preview( window.location.href );
 
@@ -75,11 +75,36 @@
 				value.set.apply( value, args );
 		});
 
-		body = $(document.body);
-		// Auto update background color by default
-		api( 'background_color', function( value ) {
-			value.bind( function( to ) {
-				body.css( 'background-color', to ? '#' + to : '' );
+		/* Custom Backgrounds */
+		bg = $.map(['color', 'image', 'position_x', 'repeat', 'attachment'], function( prop ) {
+			return 'background_' + prop;
+		});
+
+		api.when.apply( api, bg ).done( function( color, image, position_x, repeat, attachment ) {
+			var style = $('#custom-background-css'),
+				update;
+
+			if ( ! style.length )
+				return;
+
+			update = function() {
+				var css = '';
+
+				if ( color() )
+					css += 'background-color: #' + color() + ';';
+
+				if ( image() ) {
+					css += 'background-image: url("' + image() + '");';
+					css += 'background-position: top ' + position_x() + ';';
+					css += 'background-repeat: ' + repeat() + ';';
+					css += 'background-position: top ' + attachment() + ';';
+				}
+
+				style.html( 'body.custom-background { ' + css + ' }' );
+			};
+
+			$.each( arguments, function() {
+				this.bind( update );
 			});
 		});
 	});

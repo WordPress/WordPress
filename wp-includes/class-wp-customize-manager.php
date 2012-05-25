@@ -649,7 +649,6 @@ final class WP_Customize_Manager {
 			'default'           => get_theme_support( 'custom-background', 'default-color' ),
 			'sanitize_callback' => 'sanitize_hexcolor',
 			'theme_supports'    => 'custom-background',
-			'transport'         => 'postMessage',
 		) );
 
 		$this->add_control( new WP_Customize_Color_Control( $this, 'background_color', array(
@@ -715,6 +714,14 @@ final class WP_Customize_Manager {
 				'scroll'     => __('Scroll'),
 			),
 		) );
+
+		// If the theme is using the default background callback, we can update
+		// the background CSS using postMessage.
+		if ( get_theme_support( 'custom-background', 'wp-head-callback' ) === '_custom_background_cb' ) {
+			foreach ( array( 'color', 'image', 'position_x', 'repeat', 'attachment' ) as $prop ) {
+				$this->get_setting( 'background_' . $prop )->transport = 'postMessage';
+			}
+		}
 
 		/* Nav Menus */
 
