@@ -439,13 +439,14 @@
 		api.settings = window._wpCustomizeSettings;
 		api.l10n = window._wpCustomizeControlsL10n;
 
+		// Check if we can run the customizer.
 		if ( ! api.settings )
 			return;
 
+		// Redirect to the fallback preview if any incompatibilities are found.
 		if ( ! $.support.postMessage || ( ! $.support.cors && api.settings.isCrossDomain ) )
 			return window.location = api.settings.url.fallback;
 
-		// Initialize Previewer
 		var body = $( document.body ),
 			query, previewer, parent;
 
@@ -455,6 +456,7 @@
 				e.preventDefault();
 		});
 
+		// Initialize Previewer
 		previewer = new api.Previewer({
 			container:   '#customize-preview',
 			form:        '#customize-controls',
@@ -481,8 +483,13 @@
 				api.trigger( 'save', request );
 
 				body.addClass('saving');
+
 				request.always( function() {
 					body.removeClass('saving');
+				});
+
+				request.done( function() {
+					api.trigger( 'saved' );
 				});
 			}
 		});
@@ -506,6 +513,57 @@
 
 		// Load the preview frame.
 		previewer.refresh();
+
+		// Save and activated states
+		(function() {
+			var state = new api.Values(),
+				saved = state.create('saved'),
+				activated = state.create('activated');
+
+			state.bind( 'change', function() {
+				var save = $('#save'),
+					back = $('.back');
+
+				if ( ! activated() ) {
+					save.val( api.l10n.activate ).prop( 'disabled', false );
+					back.text( api.l10n.cancel );
+
+				} else if ( saved() ) {
+					save.val( api.l10n.saved ).prop( 'disabled', true );
+					back.text( api.l10n.close );
+
+				} else {
+					save.val( api.l10n.save ).prop( 'disabled', false );
+					back.text( api.l10n.cancel );
+				}
+			});
+
+			// Set default states.
+			saved( true );
+			activated( api.settings.theme.active );
+
+			api.bind( 'change', function() {
+				state('saved').set( false );
+			});
+
+			api.bind( 'saved', function() {
+				state('saved').set( true );
+				state('activated').set( true );
+			});
+
+			activated.bind( function( to ) {
+				if ( to )
+					api.trigger( 'activated' );
+			});
+
+			// Expose states to the API.
+			api.state = state;
+		}());
+
+		api.bind( 'activated', function() {
+			if ( api.settings.url.activated )
+				window.location = api.settings.url.activated;
+		});
 
 		// Temporary accordion code.
 		$('.customize-section-title').click( function() {
@@ -538,20 +596,12 @@
 			});
 		});
 
-		// If the current theme isn't active, it will be activated on save,
-		// rendering the previous page
-		api.bind( 'save', function( request ) {
-			request.done( function() {
-				parent.send( 'saved' );
-
-				if ( ! api.settings.theme.active ) {
-					parent.send( 'switched' );
-					$('#save').val( api.l10n.save );
-				}
-
-				api.settings.theme.active = true;
+		// Pass events through to the parent.
+		$.each([ 'saved', 'activated' ], function( i, id ) {
+			api.bind( id, function() {
+				parent.send( id );
 			});
-		} );
+		});
 
 		// Initialize the connection with the parent frame.
 		parent.send( 'ready' );

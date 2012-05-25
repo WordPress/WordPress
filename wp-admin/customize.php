@@ -130,6 +130,7 @@ do_action( 'customize_controls_print_scripts' );
 		'url'      => array(
 			'preview'       => esc_url( home_url( '/' ) ),
 			'parent'        => esc_url( admin_url() ),
+			'activated'     => esc_url( admin_url( 'themes.php?activated=true' ) ),
 			'ajax'          => esc_url( admin_url( 'admin-ajax.php', 'relative' ) ),
 			'allowed'       => array_map( 'esc_url', $allowed_urls ),
 			'isCrossDomain' => $cross_domain,

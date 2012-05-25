@@ -19,35 +19,6 @@ jQuery( function($) {
 });
 
 /**
- * Theme Customizer
- *
- * Ensures the themes page is refreshed if the customizer switches the theme.
- */
-jQuery( function($) {
-	var Loader, activated;
-
-	if ( typeof wp === 'undefined' || ! wp.customize || ! ( Loader = wp.customize.Loader ) )
-		return;
-
-	// Strip the current URL of its query string and hash, add activated query string.
-	activated = window.location.href.replace(/[#?].*$/, '') + '?activated=true';
-
-	// When an instance of the customizer is loaded...
-	Loader.bind( 'open', function() {
-
-		// If the customizer triggers a theme switched event,
-		// load the activated page when the customizer is closed.
-		Loader.messenger.bind( 'switched', function() {
-
-			Loader.unbind( 'close', Loader.overlay.hide );
-			Loader.bind( 'close', function() {
-				window.location = activated;
-			});
-		});
-	});
-});
-
-/**
  * Theme Install
  *
  * Displays theme previews on theme install pages.
