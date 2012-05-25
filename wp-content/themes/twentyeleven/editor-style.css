@@ -125,7 +125,7 @@ pre {
 	margin-bottom: 1.625em;
 	padding: 0.75em 1.625em;
 }
-code, kbd, code var {
+code, kbd, samp, var {
 	font: 13px Monaco, Consolas, "Andale Mono", "DejaVu Sans Mono", monospace;
 }
 abbr, acronym, dfn {

@@ -401,7 +401,7 @@ pre {
 	overflow: auto;
 	padding: 0.75em 1.625em;
 }
-code, kbd {
+code, kbd, samp, var {
 	font: 13px Monaco, Consolas, "Andale Mono", "DejaVu Sans Mono", monospace;
 }
 abbr, acronym, dfn {
