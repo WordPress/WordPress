@@ -1842,6 +1842,8 @@ section.ephemera .entry-title a span {
 
 /* Widget Image */
 .widget_image img {
+	border: 0;
+	padding: 0;
 	height: auto;
 	max-width: 100%;
 }
