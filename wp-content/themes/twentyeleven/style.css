@@ -2681,3 +2681,10 @@ p.comment-form-comment {
 #ie7 section.recent-posts {
 	margin-right: 7.6%;
 }
+
+/* =IE8 
+----------------------------------------------- */ 
+ 
+#ie8 section.feature-image.large img { 
+	width: 100%; 
+} 
