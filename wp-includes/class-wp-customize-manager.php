@@ -846,10 +846,7 @@ final class WP_Customize_Manager {
 
 // Callback function for sanitizing the header textcolor setting.
 function sanitize_header_textcolor( $color ) {
-	if ( empty( $color ) )
-		return get_theme_support( 'custom-header', 'default-text-color' );
-
-	elseif ( $color == 'blank' )
+	if ( $color == 'blank' )
 		return 'blank';
 
 	return sanitize_hexcolor( $color );
@@ -859,8 +856,9 @@ function sanitize_header_textcolor( $color ) {
 function sanitize_hexcolor( $color ) {
 	$color = preg_replace( '/[^0-9a-fA-F]/', '', $color );
 
-	if ( preg_match('|[A-Fa-f0-9]{3,6}|', $color ) )
+	// 3 or 6 hex digits.
+	if ( preg_match('|^([A-Fa-f0-9]{3}){1,2}$|', $color ) )
 		return $color;
 
-	return $color;
+	return null;
 }
