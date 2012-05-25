@@ -1618,3 +1618,44 @@ add_action( 'admin_enqueue_scripts', '_wp_customize_loader_settings' );
 function wp_customize_url( $stylesheet ) {
 	return esc_url( admin_url( 'customize.php' ) . '?theme=' . $stylesheet );
 }
+
+/**
+ * Prints a script to check whether or not the customizer is supported,
+ * and apply either the no-customize-support or customize-support class
+ * to the body.
+ *
+ * This function MUST be called inside the body tag.
+ *
+ * Ideally, call this function immediately after the body tag is opened.
+ * This prevents a flash of unstyled content.
+ *
+ * It is also recommended that you add the "no-customize-support" class
+ * to the body tag by default.
+ *
+ * @since 3.4.0
+ */
+function wp_customize_support_script() {
+	if ( ! wp_script_is( 'customize-loader', 'queue' ) )
+		return;
+
+	$admin_origin = parse_url( admin_url() );
+	$home_origin  = parse_url( home_url() );
+	$cross_domain = ( strtolower( $admin_origin[ 'host' ] ) != strtolower( $home_origin[ 'host' ] ) );
+
+	?>
+	<script type="text/javascript">
+		(function() {
+			var request, b = document.body, c = 'className', cs = 'customize-support', rcs = new RegExp('(^|\\s+)(no-)?'+cs+'(\\s+|$)');
+
+<?php		if ( $cross_domain ): ?>
+			request = (function(){ var xhr = new XMLHttpRequest(); return ('withCredentials' in xhr); })();
+<?php		else: ?>
+			request = true;
+<?php		endif; ?>
+
+			b[c] = b[c].replace( rcs, '' );
+			b[c] += ( window.postMessage && request ? ' ' : ' no-' ) + cs;
+		}());
+	</script>
+	<?php
+}

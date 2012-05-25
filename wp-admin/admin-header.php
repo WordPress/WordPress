@@ -97,14 +97,9 @@ $admin_body_class .= ' no-customize-support';
 <body class="wp-admin no-js <?php echo apply_filters( 'admin_body_class', '' ) . " $admin_body_class"; ?>">
 <script type="text/javascript">
 	document.body.className = document.body.className.replace('no-js','js');
-<?php
-// If the customize loader is enqueued, then add the 'customize-support' class early.
-// This prevents a flash of unstyled content.
-if ( wp_script_is( 'customize-loader', 'queue' ) ) : ?>
-	if ( window.postMessage )
-		document.body.className = document.body.className.replace('no-customize-support','customize-support');
-<?php endif; ?>
 </script>
+
+<?php wp_customize_support_script(); ?>
 
 <div id="wpwrap">
 <?php require(ABSPATH . 'wp-admin/menu-header.php'); ?>
