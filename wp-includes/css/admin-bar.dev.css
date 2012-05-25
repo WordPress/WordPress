@@ -582,6 +582,14 @@
 }
 
 /**
+ * Customize support classes
+ */
+.no-customize-support .hide-if-no-customize,
+.customize-support .hide-if-customize {
+	display: none;
+}
+
+/**
  * Retina display 2x icons
  */
 @media only screen and (-webkit-min-device-pixel-ratio: 1.5) {

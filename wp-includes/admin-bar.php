@@ -576,7 +576,16 @@ function wp_admin_bar_appearance_menu( $wp_admin_bar ) {
 	if ( ! current_user_can( 'edit_theme_options' ) )
 		return;
 
-	$wp_admin_bar->add_menu( array( 'parent' => 'appearance', 'id' => 'customize', 'title' => __('Customize'), 'href' => wp_customize_url(get_stylesheet()) ) );
+	$wp_admin_bar->add_menu( array(
+		'parent' => 'appearance',
+		'id'     => 'customize',
+		'title'  => __('Customize'),
+		'href'   => wp_customize_url(get_stylesheet()),
+		'meta'   => array(
+			'class' => 'hide-if-no-customize',
+		),
+	) );
+	add_action( 'wp_before_admin_bar_render', 'wp_customize_support_script' );
 
 	if ( current_theme_supports( 'widgets' )  )
 		$wp_admin_bar->add_menu( array( 'parent' => 'appearance', 'id' => 'widgets', 'title' => __('Widgets'), 'href' => admin_url('widgets.php') ) );

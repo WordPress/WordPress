@@ -1636,9 +1636,6 @@ function wp_customize_url( $stylesheet ) {
  * @since 3.4.0
  */
 function wp_customize_support_script() {
-	if ( ! wp_script_is( 'customize-loader', 'queue' ) )
-		return;
-
 	$admin_origin = parse_url( admin_url() );
 	$home_origin  = parse_url( home_url() );
 	$cross_domain = ( strtolower( $admin_origin[ 'host' ] ) != strtolower( $home_origin[ 'host' ] ) );

@@ -99,7 +99,12 @@ $admin_body_class .= ' no-customize-support';
 	document.body.className = document.body.className.replace('no-js','js');
 </script>
 
-<?php wp_customize_support_script(); ?>
+<?php
+// If the customize-loader script is enqueued, make sure the customize
+// body classes are correct as early as possible.
+if ( wp_script_is( 'customize-loader', 'queue' ) )
+	wp_customize_support_script();
+?>
 
 <div id="wpwrap">
 <?php require(ABSPATH . 'wp-admin/menu-header.php'); ?>
