@@ -207,15 +207,15 @@ if ( $bgcolor = get_background_color() )
 
 if ( get_background_image() ) {
 	// background-image URL must be single quote, see below
-	$background_styles .= ' background-image: url(\'' . set_url_scheme( get_theme_mod('background_image_thumb', '') ) . '\');'
+	$background_styles .= ' background-image: url(\'' . set_url_scheme( get_theme_mod( 'background_image_thumb', get_background_image() ) ) . '\');'
 		. ' background-repeat: ' . get_theme_mod('background_repeat', 'repeat') . ';'
 		. ' background-position: top ' . get_theme_mod('background_position_x', 'left');
 }
 ?>
 <div id="custom-background-image" style="<?php echo $background_styles; ?>"><?php // must be double quote, see above ?>
 <?php if ( get_background_image() ) { ?>
-<img class="custom-background-image" src="<?php echo set_url_scheme( get_theme_mod('background_image_thumb', '') ); ?>" style="visibility:hidden;" alt="" /><br />
-<img class="custom-background-image" src="<?php echo set_url_scheme( get_theme_mod('background_image_thumb', '') ); ?>" style="visibility:hidden;" alt="" />
+<img class="custom-background-image" src="<?php echo set_url_scheme( get_theme_mod( 'background_image_thumb', get_background_image() ) ); ?>" style="visibility:hidden;" alt="" /><br />
+<img class="custom-background-image" src="<?php echo set_url_scheme( get_theme_mod( 'background_image_thumb', get_background_image() ) ); ?>" style="visibility:hidden;" alt="" />
 <?php } ?>
 </div>
 <?php } ?>
@@ -322,9 +322,10 @@ if ( get_background_image() ) {
 <tr valign="top">
 <th scope="row"><?php _e( 'Background Color' ); ?></th>
 <td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Background Color' ); ?></span></legend>
-<?php $show_clear = get_background_color() ? '' : ' style="display:none"'; ?>
+<?php $show_clear = get_theme_mod('background_color') ? '' : ' style="display:none"'; ?>
 <input type="text" name="background-color" id="background-color" value="#<?php echo esc_attr(get_background_color()) ?>" />
-<a class="hide-if-no-js" href="#" id="pickcolor"><?php _e('Select a Color'); ?></a> <span<?php echo $show_clear; ?> class="hide-if-no-js" id="clearcolor"> (<a href="#"><?php _e( 'Clear' ); ?></a>)</span>
+<a class="hide-if-no-js" href="#" id="pickcolor"><?php _e('Select a Color'); ?></a> <span<?php echo $show_clear; ?> class="hide-if-no-js" id="clearcolor"> (<a href="#"><?php current_theme_supports( 'custom-background', 'default-color' ) ? _e( 'Default' ) : _e( 'Clear' ); ?></a>)</span>
+<input type="hidden" id="defaultcolor" value="<?php if ( current_theme_supports( 'custom-background', 'default-color' ) ) echo '#' . esc_attr( get_theme_support( 'custom-background', 'default-color' ) ); ?>" />
 <div id="colorPickerDiv" style="z-index: 100; background:#eee; border:1px solid #ccc; position:absolute; display:none;"></div>
 </fieldset></td>
 </tr>

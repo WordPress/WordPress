@@ -1501,7 +1501,8 @@ function current_theme_supports( $feature ) {
 			break;
 
 		case 'custom-header':
-			// specific custom header capabilities can be registered by passing
+		case 'custom-background' :
+			// specific custom header and background capabilities can be registered by passing
 			// an array to add_theme_support()
 			$header_support = $args[0];
 			return ( isset( $_wp_theme_features[$feature][0][$header_support] ) && $_wp_theme_features[$feature][0][$header_support] );
