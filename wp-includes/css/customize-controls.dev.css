@@ -390,6 +390,7 @@ body {
 
 .customize-section .customize-control-image .preview-thumbnail img {
 	display: block;
+	width: 100%;
 	max-width: 122px;
 	max-height: 98px;
 	margin: 0 auto;
