@@ -442,3 +442,101 @@ function twentyeleven_layout_classes( $existing_classes ) {
 	return array_merge( $existing_classes, $classes );
 }
 add_filter( 'body_class', 'twentyeleven_layout_classes' );
+
+/**
+ * Implements Twenty Eleven theme options into Theme Customizer
+ *
+ * @param $wp_customize Theme Customizer object
+ * @return void
+ *
+ * @since Twenty Eleven 1.3
+ */
+function twentyeleven_customize_register( $wp_customize ) {
+	$wp_customize->get_setting( 'blogname' )->transport = 'postMessage';
+	$wp_customize->get_setting( 'blogdescription' )->transport = 'postMessage';
+
+	$options  = twentyeleven_get_theme_options();
+	$defaults = twentyeleven_get_default_theme_options();
+
+	$wp_customize->add_setting( 'twentyeleven_theme_options[color_scheme]', array(
+		'default'    => $defaults['color_scheme'],
+		'type'       => 'option',
+		'capability' => 'edit_theme_options',
+	) );
+
+	$schemes = twentyeleven_color_schemes();
+	$choices = array();
+	foreach ( $schemes as $scheme ) {
+		$choices[ $scheme['value'] ] = $scheme['label'];
+	}
+
+	$wp_customize->add_control( 'twentyeleven_color_scheme', array(
+		'label'    => __( 'Color Scheme', 'twentyeleven' ),
+		'section'  => 'colors',
+		'settings' => 'twentyeleven_theme_options[color_scheme]',
+		'type'     => 'radio',
+		'choices'  => $choices,
+		'priority' => 5,
+	) );
+
+	// Link Color (added to Color Scheme section in Theme Customizer)
+	$wp_customize->add_setting( 'twentyeleven_theme_options[link_color]', array(
+		'default'           => twentyeleven_get_default_link_color( $options['color_scheme'] ),
+		'type'              => 'option',
+		'sanitize_callback' => 'twentyeleven_sanitize_hexcolor',
+		'capability'        => 'edit_theme_options',
+	) );
+
+	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'link_color', array(
+		'label'    => __( 'Link Color', 'twentyeleven' ),
+		'section'  => 'colors',
+		'settings' => 'twentyeleven_theme_options[link_color]',
+	) ) );
+
+	// Default Layout
+	$wp_customize->add_section( 'twentyeleven_layout', array(
+		'title'    => __( 'Layout', 'twentyeleven' ),
+		'priority' => 50,
+	) );
+
+	$wp_customize->add_setting( 'twentyeleven_theme_options[theme_layout]', array(
+		'type'              => 'option',
+		'default'           => $defaults['theme_layout'],
+		'sanitize_callback' => 'sanitize_key',
+	) );
+
+	$layouts = twentyeleven_layouts();
+	$choices = array();
+	foreach ( $layouts as $layout ) {
+		$choices[$layout['value']] = $layout['label'];
+	}
+
+	$wp_customize->add_control( 'twentyeleven_theme_options[theme_layout]', array(
+		'section'    => 'twentyeleven_layout',
+		'type'       => 'radio',
+		'choices'    => $choices,
+	) );
+}
+add_action( 'customize_register', 'twentyeleven_customize_register' );
+
+/**
+ * Sanitize user input hex color value
+ *
+ * @uses sanitize_hexcolor()
+ * @param $color string
+ * @return string sanitized with prefixed # character
+ */
+function twentyeleven_sanitize_hexcolor( $color ) {
+	return '#' . sanitize_hexcolor( $color );
+}
+
+/**
+ * Bind JS handlers to make Theme Customizer preview reload changes asynchronously.
+ * Used with blogname and blogdescription.
+ *
+ * @since Twenty Eleven 1.3
+ */
+function twentyeleven_customize_preview_js() {
+	wp_enqueue_script( 'twentyeleven-customizer', get_template_directory_uri() . '/inc/theme-customizer.js', array( 'customize-preview' ), '20120523', true );
+}
+add_action( 'customize_preview_init', 'twentyeleven_customize_preview_js' );
