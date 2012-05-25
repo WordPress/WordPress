@@ -1239,15 +1239,24 @@ blockquote.pull.alignright {
 .indexed.format-image .entry-content {
 	padding-top: 0.5em;
 }
-.indexed.format-image p,
-.indexed.format-image p img {
-	margin-bottom: 0;
+.indexed.format-image .entry-content p {
+	margin: 1em 0;
+}
+.indexed.format-image .entry-content p:first-child,
+.indexed.format-image .entry-content p:first-child a,
+.indexed.format-image .entry-content p:first-child img {
+	display: block;
+	margin: 0;
+}
+.indexed.format-image .entry-content .wp-caption .wp-caption-text {
+	margin: 0;
+	padding-bottom: 1em;
 }
 .indexed.format-image footer.entry-meta {
 	background: #ddd;
-	margin-top: -7px;
-	padding: 20px 30px;
 	overflow: hidden;
+	padding: 4%;
+	max-width: 96%;
 }
 .indexed.format-image div.entry-meta {
 	display: inline-block;
@@ -1278,7 +1287,7 @@ blockquote.pull.alignright {
 	background: #111;
 	margin-bottom: 0;
 	max-width: 96%;
-	padding: 11px;
+	padding: 2% 2% 0;
 }
 .indexed.format-image .wp-caption .wp-caption-text {
 	color: #ddd;
@@ -2420,6 +2429,7 @@ p.comment-form-comment {
 	/* Floated content doesn't work well at this size */
 	.alignleft,
 	.alignright {
+		display: block;
 		float: none;
 		margin-left: 0;
 		margin-right: 0;
