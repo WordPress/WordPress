@@ -265,6 +265,7 @@ final class WP_Customize_Manager {
 		add_action( 'wp_head', array( $this, 'customize_preview_base' ) );
 		add_action( 'wp_footer', array( $this, 'customize_preview_settings' ), 20 );
 		add_action( 'shutdown', array( $this, 'customize_preview_signature' ), 1000 );
+		add_filter( 'wp_die_handler', array( $this, 'remove_preview_signature' ) );
 
 		foreach ( $this->settings as $setting ) {
 			$setting->preview();
@@ -310,6 +311,17 @@ final class WP_Customize_Manager {
 	 */
 	public function customize_preview_signature() {
 		echo 'WP_CUSTOMIZER_SIGNATURE';
+	}
+
+	/**
+	 * Removes the signature in case we experience a case where the customizer was not properly executed.
+	 *
+	 * @since 3.4.0
+	 */
+	public function remove_preview_signature( $return = null ) {
+		remove_action( 'shutdown', array( $this, 'customize_preview_signature' ), 1000 );
+
+		return $return;
 	}
 
 	/**
