@@ -5279,8 +5279,8 @@ body.full-overlay-active {
 	top: 0;
 	bottom: 0;
 	right: 0;
-	width: 8px;
-	box-shadow: inset -11px 0 8px -8px rgba( 0, 0, 0, 0.1 );
+	width: 3px;
+	box-shadow: -5px 0 4px -4px rgba(0, 0, 0, 0.1) inset;
 	z-index: 1000;
 }
 
