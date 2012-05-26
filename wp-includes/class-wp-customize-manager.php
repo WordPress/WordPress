@@ -264,6 +264,7 @@ final class WP_Customize_Manager {
 		wp_enqueue_script( 'customize-preview' );
 		add_action( 'wp_head', array( $this, 'customize_preview_base' ) );
 		add_action( 'wp_footer', array( $this, 'customize_preview_settings' ), 20 );
+		add_action( 'shutdown', array( $this, 'customize_preview_signature' ), 1000 );
 
 		foreach ( $this->settings as $setting ) {
 			$setting->preview();
@@ -300,6 +301,15 @@ final class WP_Customize_Manager {
 			var _wpCustomizeSettings = <?php echo json_encode( $settings ); ?>;
 		</script>
 		<?php
+	}
+
+	/**
+	 * Prints a signature so we can ensure the customizer was properly executed.
+	 *
+	 * @since 3.4.0
+	 */
+	public function customize_preview_signature() {
+		echo 'WP_CUSTOMIZER_SIGNATURE';
 	}
 
 	/**

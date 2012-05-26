@@ -405,7 +405,9 @@
 				data: this.query() || {},
 				success: function( response ) {
 					var iframe = self.loader()[0].contentWindow,
-						location = self.request.getResponseHeader('Location');
+						location = self.request.getResponseHeader('Location'),
+						signature = 'WP_CUSTOMIZER_SIGNATURE',
+						index;
 
 					// Check if the location response header differs from the current URL.
 					// If so, the request was redirected; try loading the requested page.
@@ -413,6 +415,14 @@
 						self.url( location );
 						return;
 					}
+
+					// Check for a signature in the request.
+					index = response.lastIndexOf( signature );
+					if ( -1 === index || index < response.lastIndexOf('</html>') )
+						return;
+
+					// Strip the signature from the request.
+					response = response.slice( 0, index ) + response.slice( index + signature.length );
 
 					self.loader().one( 'load', self.loaded );
 
