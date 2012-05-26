@@ -594,11 +594,15 @@
 		});
 
 		// Temporary accordion code.
-		$('.customize-section-title').click( function() {
+		$('.customize-section-title').click( function( event ) {
 			var clicked = $( this ).parents( '.customize-section' );
+
+			if ( clicked.hasClass('cannot-expand') )
+				return;
+
 			$( '.customize-section' ).not( clicked ).removeClass( 'open' );
 			clicked.toggleClass( 'open' );
-			return false;
+			event.preventDefault();
 		});
 
 		// Button bindings.

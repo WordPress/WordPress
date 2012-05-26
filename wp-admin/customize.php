@@ -60,14 +60,20 @@ do_action( 'customize_controls_print_scripts' );
 			</a>
 		</div>
 
+		<?php
+			$screenshot = $wp_customize->theme()->get_screenshot();
+			$cannot_expand = ! ( $screenshot || $wp_customize->theme()->get('Description') );
+		?>
+
 		<div class="wp-full-overlay-sidebar-content">
-			<div id="customize-info" class="customize-section">
+			<div id="customize-info" class="customize-section<?php if ( $cannot_expand ) echo ' cannot-expand'; ?>">
 				<div class="customize-section-title">
 					<span class="preview-notice"><?php _e('You are previewing'); ?></span>
 					<strong class="theme-name"><?php echo $wp_customize->theme()->display('Name'); ?></strong>
 				</div>
+				<?php if ( ! $cannot_expand ) : ?>
 				<div class="customize-section-content">
-					<?php if ( $screenshot = $wp_customize->theme()->get_screenshot() ) : ?>
+					<?php if ( $screenshot ) : ?>
 						<img class="theme-screenshot" src="<?php echo esc_url( $screenshot ); ?>" />
 					<?php endif; ?>
 
@@ -75,6 +81,7 @@ do_action( 'customize_controls_print_scripts' );
 						<div class="theme-description"><?php echo $wp_customize->theme()->display('Description'); ?></div>
 					<?php endif; ?>
 				</div>
+				<?php endif; ?>
 			</div>
 
 			<div id="customize-theme-controls"><ul>
