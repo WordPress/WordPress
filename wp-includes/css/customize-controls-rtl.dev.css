@@ -62,17 +62,7 @@
 	margin-left: 5px;
 }
 
-.customize-section .color-picker-hex {
-	float: right;
-}
-
-.customize-section .color-picker-hex span {
-	float: right;
-	margin: 1px 0 0 -2px;
-	padding: 3px 8px 3px 0;
-	text-align: left;
-}
-
+.customize-section input[type="text"].color-picker-hex,
 .customize-control-color .farbtastic-placeholder {
 	float: right;
 }
