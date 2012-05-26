@@ -682,7 +682,7 @@ final class WP_Customize_Manager {
 		) );
 
 		$this->add_control( new WP_Customize_Color_Control( $this, 'header_textcolor', array(
-			'label'   => __( 'Text Color' ),
+			'label'   => __( 'Header Text Color' ),
 			'section' => 'colors',
 		) ) );
 
