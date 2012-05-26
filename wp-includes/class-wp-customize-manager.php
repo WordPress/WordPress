@@ -667,9 +667,11 @@ final class WP_Customize_Manager {
 		) );
 
 		$this->add_setting( 'header_textcolor', array(
-			'sanitize_callback' => 'sanitize_header_textcolor',
 			'theme_supports' => array( 'custom-header', 'header-text' ),
 			'default'        => get_theme_support( 'custom-header', 'default-text-color' ),
+
+			'sanitize_callback'    => array( $this, '_sanitize_header_textcolor' ),
+			'sanitize_js_callback' => 'maybe_hash_hex_color',
 		) );
 
 		// Input type: checkbox
@@ -689,9 +691,11 @@ final class WP_Customize_Manager {
 		// Input type: Color
 		// With sanitize_callback
 		$this->add_setting( 'background_color', array(
-			'default'           => get_theme_support( 'custom-background', 'default-color' ),
-			'sanitize_callback' => 'sanitize_hexcolor',
-			'theme_supports'    => 'custom-background',
+			'default'        => get_theme_support( 'custom-background', 'default-color' ),
+			'theme_supports' => 'custom-background',
+
+			'sanitize_callback'    => 'sanitize_hex_color_no_hash',
+			'sanitize_js_callback' => 'maybe_hash_hex_color',
 		) );
 
 		$this->add_control( new WP_Customize_Color_Control( $this, 'background_color', array(
@@ -876,23 +880,69 @@ final class WP_Customize_Manager {
 			'type'       => 'dropdown-pages',
 		) );
 	}
+
+	/**
+	 * Callback for validating the header_textcolor value.
+	 *
+	 * Accepts 'blank', and otherwise uses sanitize_hex_color_no_hash().
+	 *
+	 * @since 3.4.0
+	 */
+	public function _sanitize_header_textcolor( $color ) {
+		return ( 'blank' === $color ) ? 'blank' : sanitize_hex_color_no_hash( $color );
+	}
 };
 
-// Callback function for sanitizing the header textcolor setting.
-function sanitize_header_textcolor( $color ) {
-	if ( $color == 'blank' )
-		return 'blank';
-
-	return sanitize_hexcolor( $color );
-}
-
-// Callback function for sanitizing a hex color
-function sanitize_hexcolor( $color ) {
-	$color = preg_replace( '/[^0-9a-fA-F]/', '', $color );
+/**
+ * Validates a hex color.
+ *
+ * Returns either '', a 3 or 6 digit hex color (with #), or null.
+ * For validating values without a #, see sanitize_hex_color_no_hash().
+ *
+ * @since 3.4.0
+ */
+function sanitize_hex_color( $color ) {
+	if ( '' === $color )
+		return '';
 
 	// 3 or 6 hex digits, or the empty string.
-	if ( preg_match('|^([A-Fa-f0-9]{3}){0,2}$|', $color ) )
+	if ( preg_match('|^#([A-Fa-f0-9]{3}){1,2}$|', $color ) )
 		return $color;
 
 	return null;
+}
+
+/**
+ * Sanitizes a hex color without a hash. Use sanitize_hex_color() when possible.
+ *
+ * Saving hex colors without a hash puts the burden of adding the hash on the
+ * UI, which makes it difficult to use or upgrade to other color types such as
+ * rgba, hsl, rgb, and html color names.
+ *
+ * Returns either '', a 3 or 6 digit hex color (without a #), or null.
+ *
+ * @since 3.4.0
+ */
+function sanitize_hex_color_no_hash( $color ) {
+	$color = ltrim( $color, '#' );
+
+	if ( '' === $color )
+		return '';
+
+	return sanitize_hex_color( '#' . $color ) ? $color : null;
+}
+
+/**
+ * Ensures that any hex color is properly hashed.
+ * Otherwise, returns value untouched.
+ *
+ * This method should only be necessary if using sanitize_hex_color_no_hash().
+ *
+ * @since 3.4.0
+ */
+function maybe_hash_hex_color( $color ) {
+	if ( $unhashed = sanitize_hex_color_no_hash( $color ) )
+		return '#' . $unhashed;
+
+	return $color;
 }

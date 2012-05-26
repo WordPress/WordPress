@@ -109,18 +109,22 @@
 	api.ColorControl = api.Control.extend({
 		ready: function() {
 			var control = this,
-				spot, text, update;
+				rhex, spot, input, text, update;
 
+			rhex   = /^#([A-Fa-f0-9]{3}){0,2}$/;
 			spot   = this.container.find('.dropdown-content');
+			input  = new api.Element( this.container.find('.color-picker-hex') );
 			update = function( color ) {
-				color = color ? '#' + color : '';
 				spot.css( 'background', color );
 				control.farbtastic.setColor( color );
 			};
 
-			this.farbtastic = $.farbtastic( this.container.find('.farbtastic-placeholder'), function( color ) {
-				control.setting.set( color.replace( '#', '' ) );
-			});
+			this.farbtastic = $.farbtastic( this.container.find('.farbtastic-placeholder'), control.setting.set );
+
+			// Only pass through values that are valid hexes/empty.
+			input.link( this.setting ).validate = function( to ) {
+				return rhex.test( to ) ? to : null;
+			};
 
 			this.setting.bind( update );
 			update( this.setting() );

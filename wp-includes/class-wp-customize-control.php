@@ -265,10 +265,7 @@ class WP_Customize_Color_Control extends WP_Customize_Control {
 					</div>
 					<div class="dropdown-arrow"></div>
 				</div>
-				<div class="color-picker-hex">
-					<span>#</span>
-					<input type="text" <?php $this->link(); ?> />
-				</div>
+				<input class="color-picker-hex" type="text" maxlength="7" placeholder="<?php esc_attr_e('Hex Value'); ?>" />
 			</div>
 			<div class="farbtastic-placeholder"></div>
 		</label>

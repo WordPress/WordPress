@@ -319,37 +319,19 @@ body {
 	border-color: rgba( 0, 0, 0, 0.25 );
 }
 
-.customize-section .color-picker-hex {
+.customize-section input[type="text"].color-picker-hex {
 	float: left;
-	width: 70px;
+	width: 85px;
 	font-family: monospace;
-	background-color: #fff;
-	color: #777;
-	border: 1px solid #ccc;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
+	text-align: center;
 }
 
-.customize-section .color-picker-hex span {
-	float: left;
-	display: block;
-	margin: 1px -2px 0 0;
-	line-height: 16px;
-	padding: 3px 0 3px 8px;
-	text-align: right;
-	-webkit-border-radius: 3px 0 0 3px;
-	border-radius: 3px 0 0 3px;
+/* The centered cursor overlaps the placeholder in webkit. Hide it when selected. */
+.customize-section input[type="text"].color-picker-hex:focus::-webkit-input-placeholder {
+	color: transparent;
 }
-
-.customize-section .color-picker-hex input[type="text"] {
-	width: 50px;
-	height: 22px;
-	line-height: 16px;
-	color: #777;
-	background: transparent;
-	border: 0;
-	-webkit-border-radius: 0 3px 3px 0;
-	border-radius: 0 3px 3px 0;
+.customize-section input[type="text"].color-picker-hex:-moz-placeholder {
+	color: #999;
 }
 
 .customize-control-color .farbtastic-placeholder {

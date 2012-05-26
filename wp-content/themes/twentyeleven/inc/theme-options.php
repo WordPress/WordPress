@@ -483,7 +483,7 @@ function twentyeleven_customize_register( $wp_customize ) {
 	$wp_customize->add_setting( 'twentyeleven_theme_options[link_color]', array(
 		'default'           => twentyeleven_get_default_link_color( $options['color_scheme'] ),
 		'type'              => 'option',
-		'sanitize_callback' => 'twentyeleven_sanitize_hexcolor',
+		'sanitize_callback' => 'sanitize_hex_color',
 		'capability'        => 'edit_theme_options',
 	) );
 
@@ -518,17 +518,6 @@ function twentyeleven_customize_register( $wp_customize ) {
 	) );
 }
 add_action( 'customize_register', 'twentyeleven_customize_register' );
-
-/**
- * Sanitize user input hex color value
- *
- * @uses sanitize_hexcolor()
- * @param $color string
- * @return string sanitized with prefixed # character
- */
-function twentyeleven_sanitize_hexcolor( $color ) {
-	return '#' . sanitize_hexcolor( $color );
-}
 
 /**
  * Bind JS handlers to make Theme Customizer preview reload changes asynchronously.

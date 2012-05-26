@@ -101,7 +101,7 @@
 				body.toggleClass( 'custom-background', !! ( color() || image() ) );
 
 				if ( color() )
-					css += 'background-color: #' + color() + ';';
+					css += 'background-color: ' + color() + ';';
 
 				if ( image() ) {
 					css += 'background-image: url("' + image() + '");';
