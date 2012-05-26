@@ -1572,7 +1572,7 @@ table .column-rating {
 .wp-full-overlay-sidebar:after {
 	right: auto;
 	left: 0;
-	box-shadow: inset 11px 0 8px -8px rgba( 0, 0, 0, 0.1 );
+	box-shadow: inset 5px 0 4px -4px rgba(0, 0, 0, 0.1);
 }
 
 .wp-full-overlay-main {
@@ -1628,7 +1628,6 @@ table .column-rating {
 /*------------------------------------------------------------------------------
   27.0 - Customize Loader
 ------------------------------------------------------------------------------*/
-.install-theme-info .theme-version,
 .install-theme-info .theme-install {
 	float: left;
 }

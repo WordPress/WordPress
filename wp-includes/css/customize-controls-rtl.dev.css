@@ -3,9 +3,14 @@
 	left: 20px;
 }
 
-#customize-footer-actions img {
-	margin-left: 0;
-	margin-right: 4px;
+#customize-header-actions .button-primary {
+	float: left;
+}
+
+#customize-header-actions img {
+	float: left;
+	margin-right: 0;
+	margin-left: 4px;
 }
 
 .customize-control {
