@@ -174,9 +174,21 @@
 			var control = this,
 				panels;
 
-			this.uploader = {};
-			if ( ! wp.Uploader.dragdrop )
-				this.uploader.browser = this.container.find( '.upload-fallback' );
+			this.uploader = {
+				init: function( up ) {
+					var fallback, button;
+
+					if ( up.features.dragdrop )
+						return;
+
+					// Maintain references while wrapping the fallback button.
+					fallback = control.container.find( '.upload-fallback' );
+					button   = fallback.children().detach();
+
+					this.browser.detach().empty().append( button );
+					fallback.append( this.browser ).show();
+				}
+			};
 
 			api.UploadControl.prototype.ready.call( this );
 

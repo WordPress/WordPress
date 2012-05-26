@@ -389,7 +389,9 @@ class WP_Customize_Image_Control extends WP_Customize_Upload_Control {
 		<div class="upload-dropzone">
 			<?php _e('Drop a file here or <a href="#" class="upload">select a file</a>.'); ?>
 		</div>
-		<a class="button-secondary upload-fallback"><?php _e('Select File'); ?></a>
+		<div class="upload-fallback">
+			<span class="button-secondary"><?php _e('Select File'); ?></span>
+		</div>
 		<?php
 	}
 
