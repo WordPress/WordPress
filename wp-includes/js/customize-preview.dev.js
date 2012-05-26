@@ -81,7 +81,8 @@
 		});
 
 		api.when.apply( api, bg ).done( function( color, image, position_x, repeat, attachment ) {
-			var body  = $(document.body),
+			var body = $(document.body),
+				head = $('head'),
 				style = $('#custom-background-css'),
 				update;
 
@@ -89,10 +90,6 @@
 			// default output, bail.
 			if ( body.hasClass('custom-background') && ! style.length )
 				return;
-
-			// Create the CSS container if it doesn't already exist.
-			if ( ! style.length )
-				style = $('<style type="text/css" id="custom-background-css" />').appendTo('head');
 
 			update = function() {
 				var css = '';
@@ -113,7 +110,9 @@
 					css += 'background-position: top ' + attachment() + ';';
 				}
 
-				style.html( 'body.custom-background { ' + css + ' }' );
+				// Refresh the stylesheet by removing and recreating it.
+				style.remove();
+				style = $('<style type="text/css" id="custom-background-css">body.custom-background { ' + css + ' }</style>').appendTo( head );
 			};
 
 			$.each( arguments, function() {
