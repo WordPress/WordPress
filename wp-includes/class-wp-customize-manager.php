@@ -37,6 +37,14 @@ final class WP_Customize_Manager {
 		// Run wp_redirect_status late to make sure we override the status last.
 		add_action( 'wp_redirect_status', array( $this, 'wp_redirect_status' ), 1000 );
 
+		// Do not spawn cron (especially the alternate cron) while running the customizer.
+		remove_action( 'init', 'wp_cron' );
+
+		// Do not run update checks when rendering the controls.
+		remove_action( 'admin_init', '_maybe_update_core' );
+		remove_action( 'admin_init', '_maybe_update_plugins' );
+		remove_action( 'admin_init', '_maybe_update_themes' );
+
 		add_action( 'wp_ajax_customize_save', array( $this, 'save' ) );
 
 		add_action( 'customize_register',                 array( $this, 'register_controls' ) );
