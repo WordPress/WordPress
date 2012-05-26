@@ -1615,9 +1615,14 @@ add_action( 'admin_enqueue_scripts', '_wp_customize_loader_settings' );
  * Returns a URL to load the theme customizer.
  *
  * @since 3.4.0
+ *
+ * @param string $stylesheet Optional. Theme to customize. Defaults to current theme.
  */
-function wp_customize_url( $stylesheet ) {
-	return esc_url( admin_url( 'customize.php' ) . '?theme=' . $stylesheet );
+function wp_customize_url( $stylesheet = null ) {
+	$url = admin_url( 'customize.php' );
+	if ( $stylesheet )
+		$url .= '?theme=' . $stylesheet;
+	return esc_url( $url );
 }
 
 /**

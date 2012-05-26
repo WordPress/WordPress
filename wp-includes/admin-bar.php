@@ -580,7 +580,7 @@ function wp_admin_bar_appearance_menu( $wp_admin_bar ) {
 		'parent' => 'appearance',
 		'id'     => 'customize',
 		'title'  => __('Customize'),
-		'href'   => wp_customize_url(get_stylesheet()),
+		'href'   => wp_customize_url(),
 		'meta'   => array(
 			'class' => 'hide-if-no-customize',
 		),
