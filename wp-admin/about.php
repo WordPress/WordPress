@@ -80,22 +80,22 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 	<div class="feature-section three-col">
 		<div>
+			<h4><?php _e( 'Faster WP_Query' ); ?></h4>
+			<p><?php _e( 'Post query optimized to avoid table scans.' ); ?></p>
+
+			<h4><?php _e( 'Faster Translations' ); ?></h4>
+			<p><?php _e( 'The number of strings loaded on the front end was greatly reduced, resulting in faster front page load times for localized installations.' ); ?> <?php _e( 'Also, better support for East Asian languages, right-to-left languages, theme translations, and more.' ); ?></p>
+		</div>
+		<div>
 			<h4><?php _e( 'Themes API' ); ?></h4>
 			<p><?php _e( 'WP_Theme, wp_get_themes(), wp_get_theme(). Faster, uses less memory, makes use of persistent caching.' ); ?></p>
 
-			<h4><?php _e( 'Faster Main Query' ); ?></h4>
-			<p><?php _e( 'Post query optimized to avoid table scans.' ); ?></p>
-		</div>
-		<div>
 			<h4><?php _e( 'Custom Header and Background API' ); ?></h4>
 			<p><?php  _e( 'Custom header and background API relocated into the theme support API.' ); ?></p>
-
-			<h4><?php _e( 'Faster Translations' ); ?></h4>
-			<p><?php _e( 'The number of strings loaded on the front end was greatly reduced, resulting in faster front page load times for localized installations.' ); ?></p>
 		</div>
 		<div class="last-feature">
-			<h4><?php _e( 'WP_Screen API' ); ?></h4>
-			<p><?php _e( 'More methods, more convenience!' ); ?></p>
+			<h4><?php _e( 'XML-RPC API' ); ?></h4>
+			<p><?php printf( __( 'A new <a href="%s">WordPress API</a> that supports custom content types and taxonomies, as well as dozens of other bug fixes and improvements.' ), __( 'http://codex.wordpress.org/XML-RPC_WordPress_API' ) ); ?></p>
 
 			<h4><?php _e( 'External Libraries' ); ?></h4>
 			<p><?php _e( 'jQuery, jQuery UI, TinyMCE, Plupload, PHPMailer, SimplePie, and other libraries were updated. jQuery UI Touch Punch was introduced.' ); ?></p>
