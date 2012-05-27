@@ -2201,7 +2201,7 @@ function self_admin_url($path = '', $scheme = 'admin') {
  * Set the scheme for a URL
  *
  * @since 3.4.0
- * 
+ *
  * @param string $url Absolute url that includes a scheme
  * @param string $scheme Optional. Scheme to give $url. Currently 'http', 'https', 'login', 'login_post', 'admin', or 'relative'.
  * @return string $url URL with chosen scheme.

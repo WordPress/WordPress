@@ -111,7 +111,7 @@ class Custom_Image_Header {
 				'<p>' . __( 'This screen is used to customize the header section of your theme.') . '</p>' .
 				'<p>' . __( 'You can choose from the theme&#8217;s default header images, or use one of your own. You can also customize how your Site Title and Tagline are displayed.') . '<p>'
 		) );
-		
+
 		get_current_screen()->add_help_tab( array(
 			'id'      => 'set-header-image',
 			'title'   => __('Header Image'),
@@ -121,7 +121,7 @@ class Custom_Image_Header {
 				'<p>' . __( 'If your theme has more than one default header image, or you have uploaded more than one custom header image, you have the option of having WordPress display a randomly different image on each page of your site. Click the &#8220;Random&#8221; radio button next to the Uploaded Images or Default Images section to enable this feature.') . '</p>' .
 				'<p>' . __( 'If you don&#8217;t want a header image to be displayed on your site at all, click the &#8220;Remove Header Image&#8221; button at the bottom of the Header Image section of this page. If you want to re-enable the header image later, you just have to select one of the other image options and click &#8220;Save Changes&#8221;.') . '</p>'
 		) );
-		
+
 		get_current_screen()->add_help_tab( array(
 			'id'      => 'set-header-text',
 			'title'   => __('Header Text'),

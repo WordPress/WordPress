@@ -440,12 +440,12 @@ function _load_image_to_edit_path( $attachment_id, $size = 'full' ) {
  */
 function _copy_image_file( $attachment_id ) {
 	$dst_file = $src_file = get_attached_file( $attachment_id );
-	if ( ! file_exists( $src_file ) ) 
+	if ( ! file_exists( $src_file ) )
 		$src_file = _load_image_to_edit_path( $attachment_id );
 
 	if ( $src_file ) {
 		$dst_file = str_replace( basename( $dst_file ), 'copy-' . basename( $dst_file ), $dst_file );
-		$dst_file = dirname( $dst_file ) . '/' . wp_unique_filename( dirname( $dst_file ), basename( $dst_file ) ); 
+		$dst_file = dirname( $dst_file ) . '/' . wp_unique_filename( dirname( $dst_file ), basename( $dst_file ) );
 		if ( ! @copy( $src_file, $dst_file ) )
 			$dst_file = false;
 	} else {
