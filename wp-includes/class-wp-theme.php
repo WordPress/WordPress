@@ -1025,6 +1025,8 @@ final class WP_Theme implements ArrayAccess {
 		$path = $this->get_stylesheet_directory();
 		if ( $domainpath = $this->get('DomainPath') )
 			$path .= $domainpath;
+		else
+			$path .= '/languages';
 
 		$this->textdomain_loaded = load_theme_textdomain( $textdomain, $path );
 		return $this->textdomain_loaded;
