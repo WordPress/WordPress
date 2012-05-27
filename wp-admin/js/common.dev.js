@@ -1,4 +1,4 @@
-var showNotice, adminMenu, columns, validateForm, screenMeta, autofold_menu;
+var showNotice, adminMenu, columns, validateForm, screenMeta;
 (function($){
 // Removed in 3.3.
 // (perhaps) needed for back-compat
