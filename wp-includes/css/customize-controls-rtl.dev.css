@@ -1,3 +1,6 @@
+.control-section .customize-section-title {
+	font-family: Tahoma, Arial, sans-serif;
+}
 .customize-section-title:after {
 	right: auto;
 	left: 20px;
