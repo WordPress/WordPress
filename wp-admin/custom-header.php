@@ -637,7 +637,8 @@ var farbtastic;
 </tr>
 	<?php endif;
 
-	if ( current_theme_supports( 'custom-header', 'default-image' ) ) : ?>
+	$default_image = get_theme_support( 'custom-header', 'default-image' );
+	if ( $default_image && get_header_image() != $default_image ) : ?>
 <tr valign="top">
 <th scope="row"><?php _e( 'Reset Image' ); ?></th>
 <td>

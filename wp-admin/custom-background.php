@@ -234,7 +234,8 @@ if ( get_background_image() ) {
 </tr>
 <?php endif; ?>
 
-<?php if ( get_theme_support( 'custom-background', 'default-image' ) ) : ?>
+<?php $default_image = get_theme_support( 'custom-background', 'default-image' ); ?> 
+<?php if ( $default_image && get_background_image() != $default_image ) : ?>
 <tr valign="top">
 <th scope="row"><?php _e('Restore Original Image'); ?></th>
 <td>
