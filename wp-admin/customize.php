@@ -68,8 +68,10 @@ do_action( 'customize_controls_print_scripts' );
 		<div class="wp-full-overlay-sidebar-content">
 			<div id="customize-info" class="customize-section<?php if ( $cannot_expand ) echo ' cannot-expand'; ?>">
 				<div class="customize-section-title">
-					<span class="preview-notice"><?php _e('You are previewing'); ?></span>
-					<strong class="theme-name"><?php echo $wp_customize->theme()->display('Name'); ?></strong>
+					<span class="preview-notice"><?php
+						/* translators: %s is the theme name in the Customize/Live Preview pane */
+						echo sprintf( __( 'You are previewing %s' ), '<strong class="theme-name">' . $wp_customize->theme()->display('Name') . '</strong>' );
+					?></span>
 				</div>
 				<?php if ( ! $cannot_expand ) : ?>
 				<div class="customize-section-content">
