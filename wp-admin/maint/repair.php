@@ -26,8 +26,6 @@ header( 'Content-Type: text/html; charset=utf-8' );
 if ( ! defined( 'WP_ALLOW_REPAIR' ) ) {
 	echo '<p>' . __( 'To allow use of this page to automatically repair database problems, please add the following line to your <code>wp-config.php</code> file. Once this line is added to your config, reload this page.' ) . "</p><code>define('WP_ALLOW_REPAIR', true);</code>";
 } elseif ( isset( $_GET['repair'] ) ) {
-	check_admin_referer( 'repair_db' );
-
 	$optimize = 2 == $_GET['repair'];
 	$okay = true;
 	$problems = array();
@@ -104,9 +102,9 @@ if ( ! defined( 'WP_ALLOW_REPAIR' ) ) {
 	else
 		echo '<p>' . __( 'WordPress can automatically look for some common database problems and repair them. Repairing can take a while, so please be patient.' ) . '</p>';
 ?>
-	<p class="step"><a class="button" href="<?php echo wp_nonce_url( 'repair.php?repair=1', 'repair_db' ); ?>"><?php _e( 'Repair Database' ); ?></a></p>
+	<p class="step"><a class="button" href="repair.php?repair=1"><?php _e( 'Repair Database' ); ?></a></p>
 	<p><?php _e( 'WordPress can also attempt to optimize the database. This improves performance in some situations. Repairing and optimizing the database can take a long time and the database will be locked while optimizing.' ); ?></p>
-	<p class="step"><a class="button" href="<?php echo wp_nonce_url( 'repair.php?repair=2', 'repair_db' ); ?>"><?php _e( 'Repair and Optimize Database' ); ?></a></p>
+	<p class="step"><a class="button" href="repair.php?repair=2"><?php _e( 'Repair and Optimize Database' ); ?></a></p>
 <?php
 }
 ?>
