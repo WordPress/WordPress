@@ -319,7 +319,7 @@ if ( is_multisite() && is_network_admin() && ! IS_PROFILE_PAGE && current_user_c
 
 			foreach ( $public_display as $id => $item ) {
 		?>
-			<option id="<?php echo $id; ?>"<?php selected( $profileuser->display_name, $item ); ?>><?php echo $item; ?></option>
+			<option <?php selected( $profileuser->display_name, $item ); ?>><?php echo $item; ?></option>
 		<?php
 			}
 		?>

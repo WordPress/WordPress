@@ -41,7 +41,7 @@
 
 		if ( select.length ) {
 			$('#first_name, #last_name, #nickname').bind( 'blur.user_profile', function() {
-				var current = select.find('option:selected').attr('id'), dub = [],
+				var dub = [],
 					inputs = {
 						display_nickname  : $('#nickname').val() || '',
 						display_username  : $('#user_login').val() || '',
@@ -54,7 +54,10 @@
 					inputs['display_lastfirst'] = inputs.display_lastname + ' ' + inputs.display_firstname;
 				}
 
-				$('option', select).remove();
+				$.each( $('option', select), function( i, el ){
+					dub.push( el.value );
+				});
+
 				$.each(inputs, function( id, value ) {
 					if ( ! value )
 						return;
@@ -64,9 +67,7 @@
 					if ( inputs[id].length && $.inArray( val, dub ) == -1 ) {
 						dub.push(val);
 						$('<option />', {
-						  	'id': id,
-							'text': val,
-							'selected': (id == current)
+							'text': val
 						}).appendTo( select );
 					}
 				});
