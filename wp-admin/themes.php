@@ -64,7 +64,7 @@ if ( current_user_can( 'edit_theme_options' ) ) {
 	$help_customize =
 		'<p>' . __('Click on the "Customize" link under any theme to preview that theme and change theme options in a separate, full-screen view. Any installed theme can be previewed and customized in this way.') . '</p>'.
 		'<p>' . __('The theme being previewed is fully interactive &mdash; navigate to different pages to see how the theme handles posts, archives, and other page templates.') . '</p>' .
-		'<p>' . __('In the left-hand pane of the Theme Customizer you can edit the theme settings. The settings will differ, depending on what theme features the theme being previewed supports. To accept the new settings and activate the theme all in one step, click the "Save and Activate" button at the bottom of the left-hand sidebar.') . '</p>' .
+		'<p>' . __('In the left-hand pane of the Theme Customizer you can edit the theme settings. The settings will differ, depending on what theme features the theme being previewed supports. To accept the new settings and activate the theme all in one step, click the "Save &amp; Activate" button at the top of the left-hand pane.') . '</p>' .
 		'<p>' . __('When previewing on smaller monitors, you can use the "Collapse" icon at the bottom of the left-hand pane. This will hide the pane, giving you more room to preview your site in the new theme. To bring the pane back, click on the Collapse icon again.') . '</p>';
 
 	get_current_screen()->add_help_tab( array(
