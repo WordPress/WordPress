@@ -164,7 +164,7 @@ function wpmu_delete_user( $id ) {
 	foreach ( $meta as $mid )
 		delete_metadata_by_mid( 'user', $mid );
 
-	$wpdb->delete( $wpdb->usermeta, array( 'user_id' => $id ) );
+	$wpdb->delete( $wpdb->users, array( 'ID' => $id ) );
 
 	clean_user_cache( $user );
 
