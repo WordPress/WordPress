@@ -81,7 +81,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	<div class="feature-section three-col">
 		<div>
 			<h4><?php _e( 'Faster WP_Query' ); ?></h4>
-			<p><?php _e( 'Post query optimized to avoid table scans.' ); ?></p>
+			<p><?php _e( 'Post queries have been optimized to improve performance, especially for sites with large databases.' ); ?></p>
 
 			<h4><?php _e( 'Faster Translations' ); ?></h4>
 			<p><?php _e( 'The number of strings loaded on the front end was greatly reduced, resulting in faster front page load times for localized installations.' ); ?> <?php _e( 'Also, better support for East Asian languages, right-to-left languages, theme translations, and more.' ); ?></p>
