@@ -5244,25 +5244,33 @@ body.full-overlay-active {
 	background: #fff;
 	z-index: 500000;
 	position: fixed;
+	overflow: visible;
 	top: 0;
 	bottom: 0;
-	left: 0;
+	left: 300px;
 	right: 0;
 	height: 100%;
+	min-width: 0;
 }
 
-.wp-full-overlay.collapsed,
-.wp-full-overlay.collapsed .wp-full-overlay-sidebar > div {
-	left: -302px;
+.wp-full-overlay.collapsed {
+	left: 0 !important;
 }
 
 .wp-full-overlay-sidebar {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing:    border-box;
+	box-sizing:         border-box;
+
+	position: absolute;
 	width: 300px;
 	height: 100%;
+	top: 0;
+	bottom: 0;
+	right: 100%;
 	padding: 0;
 	margin: 0;
 	z-index: 10;
-	position: relative;
 	overflow: auto;
 	background: #f5f5f5;
 	border-right: 1px solid rgba( 0, 0, 0, 0.2 );
@@ -5285,23 +5293,19 @@ body.full-overlay-active {
 }
 
 .wp-full-overlay-main {
-	position: fixed;
-	left: 300px;
+	position: absolute;
+	left: 0;
 	right: 0;
 	top: 0;
 	bottom: 0;
 	height: 100%;
 }
 
-.wp-full-overlay.collapsed .wp-full-overlay-main {
-	left: 0;
-}
-
 .wp-full-overlay-sidebar .wp-full-overlay-header,
 .wp-full-overlay-sidebar .wp-full-overlay-footer {
-	position: fixed;
+	position: absolute;
 	left: 0;
-	width: 260px;
+	right: 0;
 	height: 45px;
 	padding: 0 20px;
 	line-height: 45px;
@@ -5324,10 +5328,11 @@ body.full-overlay-active {
 }
 
 .wp-full-overlay-sidebar .wp-full-overlay-sidebar-content {
-	position: fixed;
+	position: absolute;
 	top: 45px;
 	bottom: 45px;
-	width: 300px;
+	left: 0;
+	right: 0;
 	overflow: auto;
 }
 
@@ -5340,7 +5345,7 @@ body.full-overlay-active {
 .wp-full-overlay .collapse-sidebar {
 	position: absolute;
 	bottom: 12px;
-	left: 265px;
+	right: 15px;
 	z-index: 50;
 	display: block;
 	width: 19px;
@@ -5352,7 +5357,7 @@ body.full-overlay-active {
 
 .wp-full-overlay.collapsed .collapse-sidebar {
 	position: absolute;
-	left: 315px;
+	right: -35px;
 }
 
 .wp-full-overlay .collapse-sidebar-arrow {
@@ -5387,19 +5392,20 @@ body.full-overlay-active {
 
 /* Animations */
 .wp-full-overlay,
+.wp-full-overlay-sidebar,
 .wp-full-overlay .collapse-sidebar,
-.wp-full-overlay-sidebar > div,
 .wp-full-overlay-main {
-	-moz-transition-property: left, right, top, bottom;
-	-webkit-transition-property: left, right, top, bottom;
-	-o-transition-property: left, right, top, bottom;
-	-ms-transition-property: left, right, top, bottom;
-	transition-property: left, right, top, bottom;
-	-moz-transition-duration: 0.2s;
+	-webkit-transition-property: left, right, top, bottom, width;
+	-moz-transition-property:    left, right, top, bottom, width;
+	-ms-transition-property:     left, right, top, bottom, width;
+	-o-transition-property:      left, right, top, bottom, width;
+	transition-property:         left, right, top, bottom, width;
+
 	-webkit-transition-duration: 0.2s;
-	-o-transition-duration: 0.2s;
-	-ms-transition-duration: 0.2s;
-	transition-duration: 0.2s;
+	-moz-transition-duration:    0.2s;
+	-ms-transition-duration:     0.2s;
+	-o-transition-duration:      0.2s;
+	transition-duration:         0.2s;
 }
 
 /*------------------------------------------------------------------------------
@@ -5413,6 +5419,15 @@ body.full-overlay-active {
 
 #customize-container {
 	display: none;
+	background: #fff;
+	z-index: 500000;
+	position: fixed;
+	overflow: visible;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 100%;
 }
 
 .customize-active #customize-container {

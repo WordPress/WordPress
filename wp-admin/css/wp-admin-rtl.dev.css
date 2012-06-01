@@ -1558,13 +1558,19 @@ table .column-rating {
 /*------------------------------------------------------------------------------
   26.0 - Full Overlay w/ Sidebar
 ------------------------------------------------------------------------------*/
-.wp-full-overlay.collapsed,
-.wp-full-overlay.collapsed .wp-full-overlay-sidebar > div {
-	left: auto;
-	right: -302px;
+.wp-full-overlay {
+	left: 0;
+	right: 300px;
 }
 
-.wp-full-overlay-sidebar {
+.wp-full-overlay.collapsed {
+	right: 0 !important;
+}
+
+.wp-full-overlay .wp-full-overlay-sidebar {
+	margin: 0;
+	left: 100%;
+	right: auto;
 	border-right: 0;
 	border-left: 1px solid rgba( 0, 0, 0, 0.2 );
 }
@@ -1575,30 +1581,15 @@ table .column-rating {
 	box-shadow: inset 5px 0 4px -4px rgba(0, 0, 0, 0.1);
 }
 
-.wp-full-overlay-main {
-	left: 0;
-	right: 300px;
-}
-
-.wp-full-overlay.collapsed .wp-full-overlay-main {
-	right: 0;
-}
-
-.wp-full-overlay-sidebar div.wp-full-overlay-header,
-.wp-full-overlay-sidebar div.wp-full-overlay-footer {
-	left: auto;
-	right: 0;
-}
-
 /* Collapse Button */
 .wp-full-overlay .collapse-sidebar {
-	left: auto;
-	right: 265px;
+	right: auto;
+	left: 15px;
 }
 
 .wp-full-overlay.collapsed .collapse-sidebar {
-	left: auto;
-	right: 325px;
+	right: auto;
+	left: -45px;
 }
 
 .wp-full-overlay .collapse-sidebar-arrow {

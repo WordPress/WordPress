@@ -24,7 +24,7 @@ if ( typeof wp === 'undefined' )
 			this.body.removeClass( 'no-customize-support' ).addClass( 'customize-support' );
 
 			this.window  = $( window );
-			this.element = $( '<div id="customize-container" class="wp-full-overlay" />' ).appendTo( this.body );
+			this.element = $( '<div id="customize-container" />' ).appendTo( this.body );
 
 			this.bind( 'open', this.overlay.show );
 			this.bind( 'close', this.overlay.hide );
