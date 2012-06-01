@@ -5331,17 +5331,9 @@ body.full-overlay-active {
 	overflow: auto;
 }
 
-/* Return and close buttons. */
-.wp-full-overlay .collapse-sidebar,
+/* Close Link */
 .wp-full-overlay .close-full-overlay {
-	z-index: 50;
-	position: absolute;
 	text-decoration: none;
-}
-
-.wp-full-overlay .close-full-overlay {
-	top: 15px;
-	left: 20px;
 }
 
 /* Collapse Button */
@@ -5355,6 +5347,7 @@ body.full-overlay-active {
 	height: 19px;
 	padding: 0;
 	border-radius: 50%;
+	text-decoration: none;
 }
 
 .wp-full-overlay.collapsed .collapse-sidebar {

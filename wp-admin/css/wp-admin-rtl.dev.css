@@ -1590,12 +1590,6 @@ table .column-rating {
 	right: 0;
 }
 
-/* Return and close buttons. */
-.wp-full-overlay .close-full-overlay {
-	left: auto;
-	right: 20px;
-}
-
 /* Collapse Button */
 .wp-full-overlay .collapse-sidebar {
 	left: auto;

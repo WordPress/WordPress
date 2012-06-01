@@ -251,17 +251,19 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 	function theme_installer() {
 		?>
 		<div id="theme-installer" class="wp-full-overlay">
-			<a href="#" class="close-full-overlay"><?php printf( __( '&larr; Return to %s' ), get_admin_page_title() ); ?></a>
-			<a href="#" class="collapse-sidebar button-secondary" title="<?php esc_attr_e('Collapse Sidebar'); ?>">
-				<span class="collapse-sidebar-label"><?php _e('Collapse'); ?></span>
-				<span class="collapse-sidebar-arrow"></span>
-			</a>
 			<div class="wp-full-overlay-sidebar">
-				<div class="wp-full-overlay-header"></div>
+				<div class="wp-full-overlay-header">
+					<a href="#" class="close-full-overlay"><?php _e( '&larr; Close' ); ?></a>
+				</div>
 				<div class="wp-full-overlay-sidebar-content">
 					<div class="install-theme-info"></div>
 				</div>
-				<div class="wp-full-overlay-footer"></div>
+				<div class="wp-full-overlay-footer">
+					<a href="#" class="collapse-sidebar button-secondary" title="<?php esc_attr_e('Collapse Sidebar'); ?>">
+						<span class="collapse-sidebar-label"><?php _e('Collapse'); ?></span>
+						<span class="collapse-sidebar-arrow"></span>
+					</a>
+				</div>
 			</div>
 			<div class="wp-full-overlay-main"></div>
 		</div>
