@@ -1473,7 +1473,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		do_action( 'xmlrpc_call', 'wp.newTerm' );
 
 		if ( ! taxonomy_exists( $content_struct['taxonomy'] ) )
-			return new IXR_Error( 403, __( 'Invalid taxonomy.' ) );
+			return new IXR_Error( 403, __( 'Invalid taxonomy' ) );
 
 		$taxonomy = get_taxonomy( $content_struct['taxonomy'] );
 
@@ -1561,7 +1561,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		do_action( 'xmlrpc_call', 'wp.editTerm' );
 
 		if ( ! taxonomy_exists( $content_struct['taxonomy'] ) )
-			return new IXR_Error( 403, __( 'Invalid taxonomy.' ) );
+			return new IXR_Error( 403, __( 'Invalid taxonomy' ) );
 
 		$taxonomy = get_taxonomy( $content_struct['taxonomy'] );
 
@@ -1653,7 +1653,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		do_action( 'xmlrpc_call', 'wp.deleteTerm' );
 
 		if ( ! taxonomy_exists( $taxonomy ) )
-			return new IXR_Error( 403, __( 'Invalid taxonomy.' ) );
+			return new IXR_Error( 403, __( 'Invalid taxonomy' ) );
 
 		$taxonomy = get_taxonomy( $taxonomy );
 
@@ -1720,7 +1720,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		do_action( 'xmlrpc_call', 'wp.getTerm' );
 
 		if ( ! taxonomy_exists( $taxonomy ) )
-			return new IXR_Error( 403, __( 'Invalid taxonomy.' ) );
+			return new IXR_Error( 403, __( 'Invalid taxonomy' ) );
 
 		$taxonomy = get_taxonomy( $taxonomy );
 
@@ -1773,7 +1773,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		do_action( 'xmlrpc_call', 'wp.getTerms' );
 
 		if ( ! taxonomy_exists( $taxonomy ) )
-			return new IXR_Error( 403, __( 'Invalid taxonomy.' ) );
+			return new IXR_Error( 403, __( 'Invalid taxonomy' ) );
 
 		$taxonomy = get_taxonomy( $taxonomy );
 
@@ -1852,7 +1852,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		do_action( 'xmlrpc_call', 'wp.getTaxonomy' );
 
 		if ( ! taxonomy_exists( $taxonomy ) )
-			return new IXR_Error( 403, __( 'Invalid taxonomy.' ) );
+			return new IXR_Error( 403, __( 'Invalid taxonomy' ) );
 
 		$taxonomy = get_taxonomy( $taxonomy );
 
@@ -2950,7 +2950,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 
 		if ( !current_user_can( 'upload_files' ) )
-			return new IXR_Error( 403, __( 'You are not allowed to upload files to this site.' ) );
+			return new IXR_Error( 403, __( 'You do not have permission to upload files.' ) );
 
 		do_action('xmlrpc_call', 'wp.getMediaItem');
 
@@ -2995,7 +2995,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 
 		if ( !current_user_can( 'upload_files' ) )
-			return new IXR_Error( 401, __( 'Sorry, you cannot upload files.' ) );
+			return new IXR_Error( 401, __( 'You do not have permission to upload files.' ) );
 
 		do_action('xmlrpc_call', 'wp.getMediaLibrary');
 
@@ -3104,7 +3104,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		do_action( 'xmlrpc_call', 'wp.getPostType' );
 
 		if( ! post_type_exists( $post_type_name ) )
-			return new IXR_Error( 403, __( 'Invalid post type.' ) );
+			return new IXR_Error( 403, __( 'Invalid post type' ) );
 
 		$post_type = get_post_type_object( $post_type_name );
 
@@ -3679,7 +3679,7 @@ class wp_xmlrpc_server extends IXR_Server {
 				$post_type = 'post';
 			} else {
 				// No other post_type values are allowed here
-				return new IXR_Error( 401, __( 'Invalid post type.' ) );
+				return new IXR_Error( 401, __( 'Invalid post type' ) );
 			}
 		} else {
 			if ( $publish )
@@ -3735,7 +3735,7 @@ class wp_xmlrpc_server extends IXR_Server {
 						return(new IXR_Error(401, __('You are not allowed to create pages as this user')));
 					break;
 				default:
-					return(new IXR_Error(401, __('Invalid post type.')));
+					return(new IXR_Error(401, __('Invalid post type')));
 					break;
 			}
 			$author = get_userdata( $content_struct['wp_author_id'] );
@@ -3987,7 +3987,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		// Use wp.editPost to edit post types other than post and page.
 		if ( ! in_array( $postdata[ 'post_type' ], array( 'post', 'page' ) ) )
-			return new IXR_Error( 401, __( 'Invalid post type.' ) );
+			return new IXR_Error( 401, __( 'Invalid post type' ) );
 
 		// Thwart attempt to change the post type.
 		if ( ! empty( $content_struct[ 'post_type' ] ) && ( $content_struct['post_type'] != $postdata[ 'post_type' ] ) )
@@ -4039,7 +4039,7 @@ class wp_xmlrpc_server extends IXR_Server {
 						return(new IXR_Error(401, __('You are not allowed to change the page author as this user.')));
 					break;
 				default:
-					return(new IXR_Error(401, __('Invalid post type.')));
+					return(new IXR_Error(401, __('Invalid post type')));
 					break;
 			}
 			$post_author = $content_struct['wp_author_id'];
@@ -4531,7 +4531,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		do_action('xmlrpc_call', 'metaWeblog.newMediaObject');
 
 		if ( !current_user_can('upload_files') ) {
-			$this->error = new IXR_Error(401, __('You are not allowed to upload files to this site.'));
+			$this->error = new IXR_Error( 401, __( 'You do not have permission to upload files.' ) );
 			return $this->error;
 		}
 

@@ -502,7 +502,7 @@ function get_objects_in_term( $term_ids, $taxonomies, $args = array() ) {
 
 	foreach ( (array) $taxonomies as $taxonomy ) {
 		if ( ! taxonomy_exists( $taxonomy ) )
-			return new WP_Error( 'invalid_taxonomy', __( 'Invalid Taxonomy' ) );
+			return new WP_Error( 'invalid_taxonomy', __( 'Invalid taxonomy' ) );
 	}
 
 	$defaults = array( 'order' => 'ASC' );
@@ -855,7 +855,7 @@ function &get_term($term, $taxonomy, $output = OBJECT, $filter = 'raw') {
 	}
 
 	if ( ! taxonomy_exists($taxonomy) ) {
-		$error = new WP_Error('invalid_taxonomy', __('Invalid Taxonomy'));
+		$error = new WP_Error('invalid_taxonomy', __('Invalid taxonomy'));
 		return $error;
 	}
 
@@ -984,7 +984,7 @@ function get_term_by($field, $value, $taxonomy, $output = OBJECT, $filter = 'raw
  */
 function get_term_children( $term_id, $taxonomy ) {
 	if ( ! taxonomy_exists($taxonomy) )
-		return new WP_Error('invalid_taxonomy', __('Invalid Taxonomy'));
+		return new WP_Error('invalid_taxonomy', __('Invalid taxonomy'));
 
 	$term_id = intval( $term_id );
 
@@ -1174,7 +1174,7 @@ function &get_terms($taxonomies, $args = '') {
 
 	foreach ( $taxonomies as $taxonomy ) {
 		if ( ! taxonomy_exists($taxonomy) ) {
-			$error = new WP_Error('invalid_taxonomy', __('Invalid Taxonomy'));
+			$error = new WP_Error('invalid_taxonomy', __('Invalid taxonomy'));
 			return $error;
 		}
 	}
@@ -1875,7 +1875,7 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 
 	foreach ( (array) $taxonomies as $taxonomy ) {
 		if ( ! taxonomy_exists($taxonomy) )
-			return new WP_Error('invalid_taxonomy', __('Invalid Taxonomy'));
+			return new WP_Error('invalid_taxonomy', __('Invalid taxonomy'));
 	}
 
 	if ( !is_array($object_ids) )
@@ -2146,7 +2146,7 @@ function wp_set_object_terms($object_id, $terms, $taxonomy, $append = false) {
 	$object_id = (int) $object_id;
 
 	if ( ! taxonomy_exists($taxonomy) )
-		return new WP_Error('invalid_taxonomy', __('Invalid Taxonomy'));
+		return new WP_Error('invalid_taxonomy', __('Invalid taxonomy'));
 
 	if ( !is_array($terms) )
 		$terms = array($terms);
