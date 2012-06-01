@@ -94,7 +94,10 @@ function twentyten_setup() {
 	) );
 
 	// This theme allows users to set a custom background.
-	add_theme_support( 'custom-background' );
+	add_theme_support( 'custom-background', array(
+		// Let WordPress know what our default background color is.
+		'default-color' => 'f1f1f1',
+	) );
 
 	// The custom header business starts here.
 

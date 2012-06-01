@@ -1102,8 +1102,9 @@ function background_color() {
  * @access protected
  */
 function _custom_background_cb() {
-	$background = get_background_image();
-	$color = get_background_color();
+	$background = get_theme_mod( 'background_image' );
+	$color = get_theme_mod( 'background_color' );
+
 	if ( ! $background && ! $color )
 		return;
 

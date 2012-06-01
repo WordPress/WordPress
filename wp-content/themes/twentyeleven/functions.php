@@ -97,8 +97,18 @@ function twentyeleven_setup() {
 	// Add support for a variety of post formats
 	add_theme_support( 'post-formats', array( 'aside', 'link', 'gallery', 'status', 'quote', 'image' ) );
 
+	$theme_options = twentyeleven_get_theme_options();
+	if ( 'dark' == $theme_options['color_scheme'] )
+		$default_background_color = '1d1d1d';
+	else
+		$default_background_color = 'f1f1f1';
+
 	// Add support for custom backgrounds.
-	add_theme_support( 'custom-background' );
+	add_theme_support( 'custom-background', array(
+		// Let WordPress know what our default background color is.
+		// This is dependent on our current color scheme.
+		'default-color' => $default_background_color,
+	) );
 
 	// This theme uses Featured Images (also known as post thumbnails) for per-post/per-page Custom Header images
 	add_theme_support( 'post-thumbnails' );
