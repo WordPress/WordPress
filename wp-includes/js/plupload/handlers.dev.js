@@ -417,7 +417,7 @@ jQuery(document).ready(function($){
 
 			setResize( getUserSetting('upload_resize', false) );
 
-			if ( up.features.dragdrop ) {
+			if ( up.features.dragdrop && ! $(document.body).hasClass('mobile') ) {
 				uploaddiv.addClass('drag-drop');
 				$('#drag-drop-area').bind('dragover.wp-uploader', function(){ // dragenter doesn't fire right :(
 					uploaddiv.addClass('drag-over');

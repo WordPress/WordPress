@@ -319,8 +319,10 @@ function wp_read_image_metadata( $file ) {
 			$meta['created_timestamp'] = wp_exif_date2ts($exif['DateTimeDigitized'] );
 		if ( ! empty($exif['FocalLength'] ) )
 			$meta['focal_length'] = wp_exif_frac2dec( $exif['FocalLength'] );
-		if ( ! empty($exif['ISOSpeedRatings'] ) )
-			$meta['iso'] = utf8_encode( trim( $exif['ISOSpeedRatings'] ) );
+		if ( ! empty($exif['ISOSpeedRatings'] ) ) {
+			$meta['iso'] = is_array( $exif['ISOSpeedRatings'] ) ? reset( $exif['ISOSpeedRatings'] ) : $exif['ISOSpeedRatings'];
+			$meta['iso'] = utf8_encode( trim( $meta['iso'] ) );
+		}
 		if ( ! empty($exif['ExposureTime'] ) )
 			$meta['shutter_speed'] = wp_exif_frac2dec( $exif['ExposureTime'] );
 	}
