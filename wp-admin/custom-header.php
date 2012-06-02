@@ -792,10 +792,11 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	<?php } ?>
 	<?php wp_nonce_field( 'custom-header-crop-image' ) ?>
 
-	<p class="submit"><?php
-	submit_button( __( 'Crop and Publish' ), 'primary', 'submit', false );
+	<p class="submit">
+	<?php submit_button( __( 'Crop and Publish' ), 'primary', 'submit', false ); ?>
+	<?php
 	if ( isset( $oitar ) && 1 == $oitar )
-		submit_button( __( 'Skip Cropping, Use Image as Is' ), 'primary', 'skip-cropping', false );
+		submit_button( __( 'Skip Cropping, Publish Image as Is' ), 'secondary', 'skip-cropping', false );
 	?>
 	</p>
 </form>
