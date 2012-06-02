@@ -2360,11 +2360,11 @@ div.widgets-sortables,
 
 .about-wrap .feature-section img {
 	background: #fff;
-	border-color: #dfdfdf;
+	border: 1px #ccc solid;
 
-	-moz-box-shadow: 0 0 6px rgba( 0, 0, 0, 0.3 );
-	-webkit-box-shadow: 0 0 6px rgba( 0, 0, 0, 0.3 );
-	box-shadow: 0 0 6px rgba( 0, 0, 0, 0.3 );
+	-moz-box-shadow:    0 1px 3px rgba( 0, 0, 0, 0.3 );
+	-webkit-box-shadow: 0 1px 3px rgba( 0, 0, 0, 0.3 );
+	box-shadow:         0 1px 3px rgba( 0, 0, 0, 0.3 );
 }
 
 .about-wrap .point-releases {

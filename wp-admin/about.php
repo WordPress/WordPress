@@ -52,9 +52,11 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	<div class="feature-section">
 		<h4><?php _e( 'Flexible Sizes' ); ?></h4>
 		<p><?php _e( 'You can decide for yourself how tall or wide your custom header image should be. From now on, themes will provide a recommended image size for custom headers rather than a fixed requirement. Note: this feature requires <a href="http://codex.wordpress.org/Custom_Headers">theme support</a>.' ); ?></p>
-		<img src="<?php echo esc_url( admin_url( 'images/screenshots/flex-header-1.png' ) ); ?>" class="image-30" />
-		<img src="<?php echo esc_url( admin_url( 'images/screenshots/flex-header-2.png' ) ); ?>" class="image-30" />
-		<img src="<?php echo esc_url( admin_url( 'images/screenshots/flex-header-3.png' ) ); ?>" class="image-30" />
+		<div class="three-col-images">
+			<img src="<?php echo esc_url( admin_url( 'images/screenshots/flex-header-1.png' ) ); ?>" class="image-30 first-feature" />
+			<img src="<?php echo esc_url( admin_url( 'images/screenshots/flex-header-2.png' ) ); ?>" class="image-30" />
+			<img src="<?php echo esc_url( admin_url( 'images/screenshots/flex-header-3.png' ) ); ?>" class="image-30 last-feature" />
+		</div>
 	</div>
 
 	<div class="feature-section images-stagger-right">
@@ -63,6 +65,20 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<p><?php _e( 'Tired of re-uploading the same custom header image every time you check out a new theme? Now you can choose header images from your media library for easier customization.' ); ?></p>
 	</div>
 </div>
+
+<div class="changelog">
+	<h3><?php _e( 'Twitter Embeds' ); ?></h3>
+
+	<div class="feature-section images-stagger-right">
+		<img src="<?php echo esc_url( admin_url( 'images/screenshots/twitter-embed-1.png' ) ); ?>" class="image-30" />
+		<img src="<?php echo esc_url( admin_url( 'images/screenshots/twitter-embed-2.png' ) ); ?>" class="image-30" />
+		<h4><?php _e( 'Share Tweets with Style' ); ?></h4>
+		<p><?php _e( 'You can now embed individual tweets in posts. It includes action links that allow readers to reply to, retweet, and favorite the tweet without leaving your site. Just paste a tweet URL on its own line.' ); ?></p>
+		<p><?php printf( __( 'This works with URLs from some other sites, too. For more, see the Codex article on <a href="%s">Embeds</a>.' ), __( 'http://codex.wordpress.org/Embeds' ) ); ?></p>
+	</div>
+
+</div>
+
 
 <div class="changelog">
 	<h3><?php _e( 'Better Captions' ); ?></h3>

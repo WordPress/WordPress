@@ -439,6 +439,15 @@ table.ie-fixed {
 	margin: 0;
 }
 
+.about-wrap .three-col-images img {
+	margin: 0 0.6% 10px;
+}
+
+.about-wrap .three-col-images .last-feature,
+.about-wrap .three-col-images .first-feature {
+	float: none;
+}
+
 /* IE6 leftovers */
 * html .row-actions {
 	visibility: visible;

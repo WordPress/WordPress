@@ -1403,6 +1403,14 @@ h2 .nav-tab {
 	margin-right: 3em;
 }
 
+.about-wrap .three-col-images .last-feature {
+	float: left;
+}
+
+.about-wrap .three-col-images .first-feature {
+	float: right;
+}
+
 .about-wrap .feature-section.three-col div {
 	margin-right: 0;
 	margin-left: 4.999999999%;
