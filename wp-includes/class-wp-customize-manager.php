@@ -290,7 +290,8 @@ final class WP_Customize_Manager {
 	 */
 	public function customize_preview_settings() {
 		$settings = array(
-			'values' => array(),
+			'values'  => array(),
+			'channel' => esc_js( $_POST['customize_messenger_channel'] ),
 		);
 
 		foreach ( $this->settings as $id => $setting ) {

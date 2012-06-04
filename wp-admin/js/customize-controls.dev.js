@@ -281,6 +281,116 @@
 	// Create the collection of Control objects.
 	api.control = new api.Values({ defaultConstructor: api.Control });
 
+	api.PreviewFrame = api.Messenger.extend({
+		sensitivity: 2000,
+
+		initialize: function( params, options ) {
+			var loaded   = false,
+				ready    = false,
+				deferred = $.Deferred(),
+				self     = this;
+
+			// This is the promise object.
+			deferred.promise( this );
+
+			this.previewer = params.previewer;
+
+			$.extend( params, { channel: api.PreviewFrame.uuid() });
+
+			api.Messenger.prototype.initialize.call( this, params, options );
+
+			this.bind( 'ready', function() {
+				ready = true;
+
+				if ( loaded )
+					deferred.resolveWith( self );
+			});
+
+			params.query = $.extend( params.query || {}, { customize_messenger_channel: this.channel() });
+
+			this.request = $.ajax( this.url(), {
+				type: 'POST',
+				data: params.query,
+				xhrFields: {
+					withCredentials: true
+				}
+			} );
+
+			this.request.fail( function() {
+				deferred.rejectWith( self, [ 'request failure' ] );
+			});
+
+			this.request.done( function( response ) {
+				var location = self.request.getResponseHeader('Location'),
+					signature = 'WP_CUSTOMIZER_SIGNATURE',
+					index;
+
+				// Check if the location response header differs from the current URL.
+				// If so, the request was redirected; try loading the requested page.
+				if ( location && location != self.url() ) {
+					deferred.rejectWith( self, [ 'redirect', location ] );
+					return;
+				}
+
+				// Check for a signature in the request.
+				index = response.lastIndexOf( signature );
+				if ( -1 === index || index < response.lastIndexOf('</html>') ) {
+					deferred.rejectWith( self, [ 'unsigned' ] );
+					return;
+				}
+
+				// Strip the signature from the request.
+				response = response.slice( 0, index ) + response.slice( index + signature.length );
+
+				// Create the iframe and inject the html content.
+				// Strip the signature from the request.
+				response = response.slice( 0, index ) + response.slice( index + signature.length );
+
+				// Create the iframe and inject the html content.
+				self.iframe = $('<iframe />').appendTo( self.previewer.container );
+
+				// Bind load event after the iframe has been added to the page;
+				// otherwise it will fire when injected into the DOM.
+				self.iframe.one( 'load', function() {
+					loaded = true;
+
+					if ( ready ) {
+						deferred.resolveWith( self );
+					} else {
+						setTimeout( function() {
+							deferred.rejectWith( self, [ 'ready timeout' ] );
+						}, self.sensitivity );
+					}
+				});
+
+				self.targetWindow( self.iframe[0].contentWindow );
+
+				self.targetWindow().document.open();
+				self.targetWindow().document.write( response );
+				self.targetWindow().document.close();
+			});
+		},
+
+		destroy: function() {
+			api.Messenger.prototype.destroy.call( this );
+			this.request.abort();
+
+			if ( this.iframe )
+				this.iframe.remove();
+
+			delete this.request;
+			delete this.iframe;
+			delete this.targetWindow;
+		}
+	});
+
+	(function(){
+		var uuid = 0;
+		api.PreviewFrame.uuid = function() {
+			return 'preview-' + uuid++;
+		};
+	}());
+
 	api.Previewer = api.Messenger.extend({
 		refreshBuffer: 250,
 
@@ -294,8 +404,6 @@
 				rscheme = /^https?/;
 
 			$.extend( this, options || {} );
-
-			this.loaded = $.proxy( this.loaded, this );
 
 			/*
 			 * Wrap this.refresh to prevent it from hammering the servers:
@@ -320,9 +428,7 @@
 				return function() {
 					if ( typeof timeout !== 'number' ) {
 						if ( self.loading ) {
-							self.loading.remove();
-							delete self.loading;
-							self.loader();
+							self.abort();
 						} else {
 							return callback();
 						}
@@ -336,7 +442,7 @@
 			this.container   = api.ensure( params.container );
 			this.allowedUrls = params.allowedUrls;
 
-			api.Messenger.prototype.initialize.call( this, params.url );
+			api.Messenger.prototype.initialize.call( this, params );
 
 			// We're dynamically generating the iframe, so the origin is set
 			// to the current window's location, not the url's.
@@ -391,65 +497,49 @@
 			// Update the URL when the iframe sends a URL message.
 			this.bind( 'url', this.url );
 		},
-		loader: function() {
-			if ( this.loading )
-				return this.loading;
 
-			this.loading = $('<iframe />').appendTo( this.container );
-
-			return this.loading;
-		},
-		loaded: function() {
-			if ( this.iframe )
-				this.iframe.remove();
-
-			this.iframe = this.loading;
-			delete this.loading;
-
-			this.targetWindow( this.iframe[0].contentWindow );
-			this.send( 'scroll', this.scroll );
-		},
 		query: function() {},
+
+		abort: function() {
+			if ( this.loading ) {
+				this.loading.destroy();
+				delete this.loading;
+			}
+		},
+
 		refresh: function() {
 			var self = this;
 
-			if ( this.request )
-				this.request.abort();
+			this.abort();
 
-			this.request = $.ajax( this.url(), {
-				type: 'POST',
-				data: this.query() || {},
-				success: function( response ) {
-					var iframe = self.loader()[0].contentWindow,
-						location = self.request.getResponseHeader('Location'),
-						signature = 'WP_CUSTOMIZER_SIGNATURE',
-						index;
+			this.loading = new api.PreviewFrame({
+				url:       this.url(),
+				query:     this.query() || {},
+				previewer: this
+			});
 
-					// Check if the location response header differs from the current URL.
-					// If so, the request was redirected; try loading the requested page.
-					if ( location && location != self.url() ) {
-						self.url( location );
-						return;
-					}
+			this.loading.done( function() {
+				// 'this' is the loading frame
+				this.bind( 'synced', function() {
+					if ( self.iframe )
+						self.iframe.destroy();
+					self.iframe = this;
+					delete self.loading;
 
-					// Check for a signature in the request.
-					index = response.lastIndexOf( signature );
-					if ( -1 === index || index < response.lastIndexOf('</html>') )
-						return;
+					self.targetWindow( this.targetWindow() );
+					self.channel( this.channel() );
+				});
 
-					// Strip the signature from the request.
-					response = response.slice( 0, index ) + response.slice( index + signature.length );
+				this.send( 'sync', {
+					scroll:   self.scroll,
+					settings: api.get()
+				});
+			});
 
-					self.loader().one( 'load', self.loaded );
-
-					iframe.document.open();
-					iframe.document.write( response );
-					iframe.document.close();
-				},
-				xhrFields: {
-					withCredentials: true
-				}
-			} );
+			this.loading.fail( function( reason, location ) {
+				if ( 'redirect' === reason && location )
+					self.url( location );
+			});
 		}
 	});
 
@@ -617,7 +707,10 @@
 		});
 
 		// Create a potential postMessage connection with the parent frame.
-		parent = new api.Messenger( api.settings.url.parent );
+		parent = new api.Messenger({
+			url: api.settings.url.parent,
+			channel: 'loader'
+		});
 
 		// If we receive a 'back' event, we're inside an iframe.
 		// Send any clicks to the 'Return' link to the parent page.

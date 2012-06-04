@@ -77,7 +77,11 @@ if ( typeof wp === 'undefined' )
 			this.iframe.one( 'load', this.loaded );
 
 			// Create a postMessage connection with the iframe.
-			this.messenger = new api.Messenger( src, this.iframe[0].contentWindow );
+			this.messenger = new api.Messenger({
+				url: src,
+				channel: 'loader',
+				targetWindow: this.iframe[0].contentWindow
+			});
 
 			// Wait for the connection from the iframe before sending any postMessage events.
 			this.messenger.bind( 'ready', function() {

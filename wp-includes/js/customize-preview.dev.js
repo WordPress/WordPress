@@ -21,15 +21,11 @@
 		/**
 		 * Requires params:
 		 *  - url    - the URL of preview frame
-		 *
-		 * @todo: Perhaps add a window.onbeforeunload dialog in case the theme
-		 *        somehow attempts to leave the page and we don't catch it
-		 *        (which really shouldn't happen).
 		 */
-		initialize: function( url, options ) {
+		initialize: function( params, options ) {
 			var self = this;
 
-			api.Messenger.prototype.initialize.call( this, url, null, options );
+			api.Messenger.prototype.initialize.call( this, params, options );
 
 			this.body = $( document.body );
 			this.body.on( 'click.preview', 'a', function( event ) {
@@ -39,8 +35,7 @@
 			});
 
 			// You cannot submit forms.
-			// @todo: Namespace customizer settings so that we can mix the
-			//        $_POST data with the customize setting $_POST data.
+			// @todo: Allow form submissions by mixing $_POST data with the customize setting $_POST data.
 			this.body.on( 'submit.preview', 'form', function( event ) {
 				event.preventDefault();
 			});
@@ -63,17 +58,39 @@
 
 		var preview, bg;
 
-		preview = new api.Preview( window.location.href );
-
-		$.each( api.settings.values, function( id, value ) {
-			api.create( id, value );
+		preview = new api.Preview({
+			url: window.location.href,
+			channel: api.settings.channel
 		});
+
+		preview.bind( 'settings', function( values ) {
+			$.each( values, function( id, value ) {
+				if ( api.has( id ) )
+					api( id ).set( value );
+				else
+					api.create( id, value );
+			});
+		});
+
+		preview.trigger( 'settings', api.settings.values );
 
 		preview.bind( 'setting', function( args ) {
-			var value = api( args.shift() );
-			if ( value )
+			var value;
+
+			args = args.slice();
+
+			if ( value = api( args.shift() ) )
 				value.set.apply( value, args );
 		});
+
+		preview.bind( 'sync', function( events ) {
+			$.each( events, function( event, args ) {
+				preview.trigger( event, args );
+			});
+			preview.send( 'synced' );
+		})
+
+		preview.send( 'ready' );
 
 		/* Custom Backgrounds */
 		bg = $.map(['color', 'image', 'position_x', 'repeat', 'attachment'], function( prop ) {

@@ -302,13 +302,12 @@ if ( typeof wp === 'undefined' )
 			return this.add( id, new this.defaultConstructor( api.Class.applicator, slice.call( arguments, 1 ) ) );
 		},
 
-		get: function() {
-			var result = {};
+		each: function( callback, context ) {
+			context = typeof context === 'undefined' ? this : context;
 
 			$.each( this._value, function( key, obj ) {
-				result[ key ] = obj.get();
-			} );
-			return result;
+				callback.call( context, obj, key );
+			});
 		},
 
 		remove: function( id ) {
@@ -481,19 +480,36 @@ if ( typeof wp === 'undefined' )
 			return this[ key ] = new api.Value( initial, options );
 		},
 
-		initialize: function( url, targetWindow, options ) {
+		/**
+		 * Initialize Messenger.
+		 *
+		 * @param  {object} params        Parameters to configure the messenger.
+		 *         {string} .url          The URL to communicate with.
+		 *         {window} .targetWindow The window instance to communicate with. Default window.parent.
+		 *         {string} .channel      If provided, will send the channel with each message and only accept messages a matching channel.
+		 * @param  {object} options       Extend any instance parameter or method with this object.
+		 */
+		initialize: function( params, options ) {
 			// Target the parent frame by default, but only if a parent frame exists.
 			var defaultTarget = window.parent == window ? null : window.parent;
 
 			$.extend( this, options || {} );
 
-			url = this.add( 'url', url );
-			this.add( 'targetWindow', targetWindow || defaultTarget );
-			this.add( 'origin', url() ).link( url ).setter( function( to ) {
+			this.add( 'channel', params.channel );
+			this.add( 'url', params.url );
+			this.add( 'targetWindow', params.targetWindow || defaultTarget );
+			this.add( 'origin', this.url() ).link( this.url ).setter( function( to ) {
 				return to.replace( /([^:]+:\/\/[^\/]+).*/, '$1' );
 			});
 
+			// Since we want jQuery to treat the receive function as unique
+			// to this instance, we give the function a new guid.
+			//
+			// This will prevent every Messenger's receive function from being
+			// unbound when calling $.off( 'message', this.receive );
 			this.receive = $.proxy( this.receive, this );
+			this.receive.guid = $.guid++;
+
 			$( window ).on( 'message', this.receive );
 		},
 
@@ -515,8 +531,15 @@ if ( typeof wp === 'undefined' )
 
 			message = JSON.parse( event.data );
 
-			if ( message && message.id && typeof message.data !== 'undefined' )
-				this.trigger( message.id, message.data );
+			// Check required message properties.
+			if ( ! message || ! message.id || typeof message.data === 'undefined' )
+				return;
+
+			// Check if channel names match.
+			if ( ( message.channel || this.channel() ) && this.channel() !== message.channel )
+				return;
+
+			this.trigger( message.id, message.data );
 		},
 
 		send: function( id, data ) {
@@ -527,8 +550,11 @@ if ( typeof wp === 'undefined' )
 			if ( ! this.url() || ! this.targetWindow() )
 				return;
 
-			message = JSON.stringify({ id: id, data: data });
-			this.targetWindow().postMessage( message, this.origin() );
+			message = { id: id, data: data };
+			if ( this.channel() )
+				message.channel = this.channel();
+
+			this.targetWindow().postMessage( JSON.stringify( message ), this.origin() );
 		}
 	});
 
@@ -540,6 +566,15 @@ if ( typeof wp === 'undefined' )
 	 * ===================================================================== */
 
 	api = $.extend( new api.Values(), api );
+	api.get = function() {
+		var result = {};
+
+		this.each( function( obj, key ) {
+			result[ key ] = obj.get();
+		});
+
+		return result;
+	};
 
 	// Expose the API to the world.
 	exports.customize = api;
