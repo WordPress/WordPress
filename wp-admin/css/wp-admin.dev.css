@@ -889,28 +889,21 @@ ul#add-to-blog-users {
 	border-bottom-left-radius: 3px;
 	border-width: 1px;
 	border-style: solid;
-	border-top: none;
-
-	background-color: #efefef;
-	border-color: #bbb;
 }
 
 .ui-autocomplete li {
 	margin-bottom: 0;
 	white-space: nowrap;
 	text-align: left;
-	color: #101010;
 }
 
 .ui-autocomplete li a {
 	display: block;
 	height: 100%;
 	padding: 4px 10px;
-	color: #333;
 }
 
 .ui-autocomplete li a.ui-state-hover {
-	background-color: #ddd;
 	cursor: pointer;
 }
 
