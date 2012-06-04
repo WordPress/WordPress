@@ -66,8 +66,12 @@ get_header(); ?>
 					 */
 					$counter_slider = 0;
 
-					$header_image_width  = get_theme_support( 'custom-header', 'width' );
-					?>
+					// Compatibility with versions of WordPress prior to 3.4.
+					if ( function_exists( 'get_custom_header' ) )
+						$header_image_width = get_theme_support( 'custom-header', 'width' );
+					else
+						$header_image_width = HEADER_IMAGE_WIDTH;
+				?>
 
 				<div class="featured-posts">
 					<h1 class="showcase-heading"><?php _e( 'Featured Post', 'twentyeleven' ); ?></h1>

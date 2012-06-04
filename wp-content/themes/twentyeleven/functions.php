@@ -114,7 +114,7 @@ function twentyeleven_setup() {
 	add_theme_support( 'post-thumbnails' );
 
 	// Add support for custom headers.
-	add_theme_support( 'custom-header', array(
+	$custom_header_support = array(
 		// The default header text color.
 		'default-text-color' => '000',
 		// The height and width of our custom header.
@@ -130,16 +130,28 @@ function twentyeleven_setup() {
 		'admin-head-callback' => 'twentyeleven_admin_header_style',
 		// Callback used to display the header preview in the admin.
 		'admin-preview-callback' => 'twentyeleven_admin_header_image',
-	) );
+	);
+	
+	add_theme_support( 'custom-header', $custom_header_support );
+
+	if ( ! function_exists( 'get_custom_header' ) ) {
+		// This is all for compatibility with versions of WordPress prior to 3.4.
+		define( 'HEADER_TEXTCOLOR', $custom_header_support['default-text-color'] );
+		define( 'HEADER_IMAGE', '' );
+		define( 'HEADER_IMAGE_WIDTH', $custom_header_support['width'] );
+		define( 'HEADER_IMAGE_HEIGHT', $custom_header_support['height'] );
+		add_custom_image_header( $custom_header_support['wp-head-callback'], $custom_header_support['admin-head-callback'], $custom_header_support['admin-preview-callback'] );
+		add_custom_background();
+	}
 
 	// We'll be using post thumbnails for custom header images on posts and pages.
 	// We want them to be the size of the header image that we just defined
 	// Larger images will be auto-cropped to fit, smaller ones will be ignored. See header.php.
-	set_post_thumbnail_size( get_theme_support( 'custom-header', 'width' ), get_theme_support( 'custom-header', 'height' ), true );
+	set_post_thumbnail_size( $custom_header_support['width'], $custom_header_support['height'], true );
 
 	// Add Twenty Eleven's custom image sizes.
 	// Used for large feature (header) images.
-	add_image_size( 'large-feature', get_theme_support( 'custom-header', 'width' ), get_theme_support( 'custom-header', 'height' ), true );
+	add_image_size( 'large-feature', $custom_header_support['width'], $custom_header_support['height'], true );
 	// Used for featured posts if a large-feature doesn't exist.
 	add_image_size( 'small-feature', 500, 300 );
 
@@ -207,8 +219,9 @@ function twentyeleven_header_style() {
 	$text_color = get_header_textcolor();
 
 	// If no custom options for text are set, let's bail.
-	if ( $text_color == get_theme_support( 'custom-header', 'default-text-color' ) )
+	if ( $text_color == HEADER_TEXTCOLOR )
 		return;
+		
 	// If we get this far, we have custom styles. Let's do this.
 	?>
 	<style type="text/css">
@@ -269,7 +282,7 @@ function twentyeleven_admin_header_style() {
 	}
 	<?php
 		// If the user has set a custom color for the text use that
-		if ( get_header_textcolor() != get_theme_support( 'custom-header', 'default-text-color' ) ) :
+		if ( get_header_textcolor() != HEADER_TEXTCOLOR ) :
 	?>
 		#site-title a,
 		#site-description {
