@@ -96,6 +96,7 @@ class Custom_Image_Header {
 
 		add_filter( 'attachment_fields_to_edit', array( $this, 'attachment_fields_to_edit' ), 10, 2 );
 		add_filter( 'media_upload_tabs', array( $this, 'filter_upload_tabs' ) );
+		add_filter( 'media_upload_mime_type_links', '__return_empty_array' );
 	}
 
 	/**
@@ -805,6 +806,11 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	}
 
 
+	/**
+	 * Upload the file to be cropped in the second step.
+	 *
+	 * @since 3.4.0
+	 */
 	function step_2_manage_upload() {
 		$overrides = array('test_form' => false);
 		$file = wp_handle_upload($_FILES['import'], $overrides);
@@ -960,6 +966,11 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 			$this->step_1();
 	}
 
+	/**
+	 * Replace default attachment actions with "Set as header" link.
+	 *
+	 * @since 3.4.0
+	 */
 	function attachment_fields_to_edit( $form_fields, $post ) {
 		if ( isset( $_REQUEST['context'] ) && $_REQUEST['context'] == 'custom-header' ) {
 			$form_fields = array();
@@ -977,6 +988,11 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 		return $form_fields;
 	}
 
+	/**
+	 * Leave only "Media Library" tab in the uploader window.
+	 *
+	 * @since 3.4.0
+	 */
 	function filter_upload_tabs( $tabs ) {
 		if ( isset( $_REQUEST['context'] ) && $_REQUEST['context'] == 'custom-header' )
 			return array( 'library' => __('Media Library') );
