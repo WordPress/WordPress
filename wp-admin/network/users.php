@@ -40,7 +40,7 @@ function confirm_delete_users( $users ) {
 				wp_die( sprintf( __( 'Warning! User %s cannot be deleted.' ), $delete_user->user_login ) );
 
 			if ( in_array( $delete_user->user_login, $site_admins ) )
-				wp_die( sprintf( __( 'Warning! User cannot be deleted. The user %s is a network admnistrator.' ), $delete_user->user_login ) );
+				wp_die( sprintf( __( 'Warning! User cannot be deleted. The user %s is a network administrator.' ), $delete_user->user_login ) );
 
 			echo "<input type='hidden' name='user[]' value='{$val}'/>\n";
 			$blogs = get_blogs_of_user( $val, true );
