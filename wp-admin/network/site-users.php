@@ -172,7 +172,7 @@ $parent_file = 'sites.php';
 $submenu_file = 'sites.php';
 
 if ( ! wp_is_large_network( 'users' ) && apply_filters( 'show_network_site_users_add_existing_form', true ) )
-	wp_enqueue_script( 'user-search' );
+	wp_enqueue_script( 'user-suggest' );
 
 require('../admin-header.php'); ?>
 
@@ -267,7 +267,7 @@ endif; ?>
 	<table class="form-table">
 		<tr>
 			<th scope="row"><?php _e( 'Username' ); ?></th>
-			<td><input type="text" class="regular-text" name="newuser" id="newuser" /></td>
+			<td><input type="text" class="regular-text wp-suggest-user" name="newuser" id="newuser" /></td>
 		</tr>
 		<tr>
 			<th scope="row"><?php _e( 'Role'); ?></th>

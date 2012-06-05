@@ -212,30 +212,6 @@ function wp_ajax_dashboard_widgets() {
 	wp_die();
 }
 
-function wp_ajax_autocomplete_site() {
-	if ( ! is_multisite() || ! current_user_can( 'manage_sites' ) || wp_is_large_network( 'sites' ) )
-		wp_die( -1 );
-
-	$return = array();
-
-	global $wpdb;
-	$like_escaped_term = '%' . like_escape( stripslashes( $_REQUEST['term'] ) ) . '%';
-	$sites = $wpdb->get_results( $wpdb->prepare( "SELECT blog_id, domain, path FROM $wpdb->blogs WHERE ( domain LIKE %s OR path LIKE %s ) AND public = '1' AND archived = '0' AND mature = '0' AND spam = '0' AND deleted = '0' ORDER BY registered DESC", $like_escaped_term, $like_escaped_term ), ARRAY_A );
-
-	if ( empty( $sites ) )
-		wp_die( -1 );
-
-	foreach ( (array) $sites as $details ) {
-		$blogname = get_blog_option( $details['blog_id'], 'blogname' );
-		$return[] = array(
-			'label' => sprintf( '%1$s (%2$s)', $blogname, $details['domain'] . $details['path'] ),
-			'value' => $details['domain']
-		);
-	}
-
-	wp_die( json_encode( $return ) );
-}
-
 /*
  * Ajax helper.
  */

@@ -282,9 +282,6 @@ if ( isset( $_REQUEST['updated'] ) && $_REQUEST['updated'] == 'true' && ! empty(
 
 $wp_list_table->prepare_items();
 
-if ( ! wp_is_large_network( 'sites' ) )
-	wp_enqueue_script( 'site-search' );
-
 require_once( '../admin-header.php' );
 ?>
 

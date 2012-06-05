@@ -180,7 +180,7 @@ wp_enqueue_script('user-profile');
 if ( is_multisite() && current_user_can( 'promote_users' ) && ! wp_is_large_network( 'users' )
 	&& ( is_super_admin() || apply_filters( 'autocomplete_users_for_site_admins', false ) )
 ) {
-	wp_enqueue_script( 'user-search' );
+	wp_enqueue_script( 'user-suggest' );
 }
 
 require_once( 'admin-header.php' );
@@ -269,7 +269,7 @@ if ( is_multisite() ) {
 <table class="form-table">
 	<tr class="form-field form-required">
 		<th scope="row"><label for="adduser-email"><?php echo $label; ?></label></th>
-		<td><input name="email" type="text" id="adduser-email" value="" /></td>
+		<td><input name="email" type="text" id="adduser-email" class="wp-suggest-user" value="" /></td>
 	</tr>
 	<tr class="form-field">
 		<th scope="row"><label for="adduser-role"><?php _e('Role'); ?></label></th>
