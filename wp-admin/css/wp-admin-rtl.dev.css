@@ -117,6 +117,10 @@ input[type=password] {
 	direction: ltr;
 }
 
+input[type="search"] {
+	text-align: right;
+}
+
 input[type="text"].ui-autocomplete-loading {
 	background: transparent url('../images/loading.gif') no-repeat left center;
 }
@@ -2083,10 +2087,20 @@ body.login {
 }
 
 /* Custom Links */
-#add-custom-link label span { float: right; padding-left: 5px; padding-right:0;}
-.howto span { float: right; }
+#add-custom-link label span {
+	float: right;
+	padding-left: 5px;
+	padding-right: 0;
+}
 
-.list li .menu-item-title input { margin-left: 3px; margin-right: 0 }
+.nav-menus-php .howto span {
+	float: right;
+}
+
+.list li .menu-item-title input {
+	margin-left: 3px;
+	margin-right: 0;
+}
 
 /* Nav Menu */
 .menu-item-handle {
@@ -2102,6 +2116,10 @@ body.login {
 .menu-item-handle .item-title {
 	margin-left:13em;
 	margin-right:0;
+}
+.menu-item-handle .item-edit {
+	right: auto;
+	left: -20px;
 }
 
 /* WARNING: The factor of 30px is hardcoded into the nav-menus javascript. */
