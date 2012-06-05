@@ -2,14 +2,15 @@ var farbtastic, pickColor;
 
 (function($) {
 
-	pickColor = function(color, cleared) {
+	var defaultColor = '';
+
+	pickColor = function(color) {
 		farbtastic.setColor(color);
 		$('#background-color').val(color);
 		$('#custom-background-image').css('background-color', color);
-		console.log( color );
-		if ( typeof cleared === 'undefined' )
-			cleared = ! color || color === '#';
-		if ( cleared )
+		// If we have a default color, and they match, then we need to hide the 'Default' link.
+		// Otherwise, we hide the 'Clear' link when it is empty.
+		if ( ( defaultColor && color === defaultColor ) || ( ! defaultColor && ( '' === color || '#' === color ) ) )
 			$('#clearcolor').hide();
 		else
 			$('#clearcolor').show();
@@ -17,13 +18,15 @@ var farbtastic, pickColor;
 
 	$(document).ready(function() {
 
+		defaultColor = $('#defaultcolor').val();
+
 		$('#pickcolor').click(function() {
 			$('#colorPickerDiv').show();
 			return false;
 		});
 
 		$('#clearcolor a').click( function(e) {
-			pickColor( $('#defaultcolor').val(), true );
+			pickColor( defaultColor );
 			e.preventDefault();
 		});
 
