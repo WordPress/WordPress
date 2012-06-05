@@ -263,6 +263,7 @@ final class WP_Customize_Manager {
 
 		wp_enqueue_script( 'customize-preview' );
 		add_action( 'wp_head', array( $this, 'customize_preview_base' ) );
+		add_action( 'wp_head', array( $this, 'customize_preview_html5' ) );
 		add_action( 'wp_footer', array( $this, 'customize_preview_settings' ), 20 );
 		add_action( 'shutdown', array( $this, 'customize_preview_signature' ), 1000 );
 		add_filter( 'wp_die_handler', array( $this, 'remove_preview_signature' ) );
@@ -281,6 +282,24 @@ final class WP_Customize_Manager {
 	 */
 	public function customize_preview_base() {
 		?><base href="<?php echo home_url( '/' ); ?>" /><?php
+	}
+
+	/**
+	 * Print a workaround to handle HTML5 tags in IE < 9
+	 *
+	 * @since 3.4.0
+	 */
+	public function customize_preview_html5() { ?>
+		<!--[if lt IE 9]>
+		<script type="text/javascript">
+			var e = [ 'abbr', 'article', 'aside', 'audio', 'canvas', 'datalist', 'details',
+				'figure', 'footer', 'header', 'hgroup', 'mark', 'menu', 'meter', 'nav',
+				'output', 'progress', 'section', 'time', 'video' ];
+			for ( var i = 0; i < e.length; i++ ) {
+				document.createElement( e[i] );
+			}
+		</script>
+		<![endif]--><?php
 	}
 
 	/**
