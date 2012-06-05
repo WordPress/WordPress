@@ -281,11 +281,6 @@ body {
 	z-index: 1;
 }
 
-.customize-control.open .dropdown-arrow:after {
-	border-width: 0 4px 4px 4px;
-	margin-top: -2px;
-}
-
 .customize-section .dropdown:hover .dropdown-content,
 .customize-control .dropdown:hover .dropdown-arrow {
 	border-color: #aaa;
