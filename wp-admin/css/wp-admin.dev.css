@@ -228,7 +228,6 @@ input[type="radio"] {
 
 input[type="search"] {
 	-webkit-appearance: textfield;
-	text-align: left;
 }
 
 input[type="search"]::-webkit-search-decoration {

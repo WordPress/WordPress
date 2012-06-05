@@ -117,10 +117,6 @@ input[type=password] {
 	direction: ltr;
 }
 
-input[type="search"] {
-	text-align: right;
-}
-
 input[type="text"].ui-autocomplete-loading {
 	background: transparent url('../images/loading.gif') no-repeat left center;
 }
