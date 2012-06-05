@@ -501,10 +501,7 @@ function get_body_class( $class = '' ) {
 	if ( is_admin_bar_showing() )
 		$classes[] = 'admin-bar';
 
-	if ( get_theme_mod( 'background_image' ) || get_theme_mod( 'background_color' ) ||
-		( '_custom_background_cb' != get_theme_support( 'custom-background', 'wp-head-callback' )
-			&& ( get_theme_support( 'custom-background', 'default-image' ) ||
-				get_theme_support( 'custom-background', 'default-color' ) ) ) )
+	if ( get_background_color() || get_theme_mod( 'background_image' ) || get_theme_support( 'custom-background', 'default-image' ) )
 		$classes[] = 'custom-background';
 
 	$page = $wp_query->get( 'page' );

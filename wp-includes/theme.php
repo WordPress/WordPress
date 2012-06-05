@@ -1102,10 +1102,10 @@ function background_color() {
  * @access protected
  */
 function _custom_background_cb() {
-	$background = get_theme_mod( 'background_image' );
+	$background = get_background_image();
 	$color = get_theme_mod( 'background_color' );
 
-	if ( ! $background && ! $color )
+	if ( ! $background && ! $color && ! get_theme_support( 'custom-background', 'default-image' ) )
 		return;
 
 	$style = $color ? "background-color: #$color;" : '';
@@ -1129,6 +1129,8 @@ function _custom_background_cb() {
 		$attachment = " background-attachment: $attachment;";
 
 		$style .= $image . $repeat . $position . $attachment;
+	} elseif ( get_theme_support( 'custom-background', 'default-image' ) ) {
+		$style .= " background-image: none;";
 	}
 ?>
 <style type="text/css" id="custom-background-css">
