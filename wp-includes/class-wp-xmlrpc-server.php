@@ -1579,7 +1579,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return new IXR_Error( 500, $term->get_error_message() );
 
 		if ( ! $term )
-			return new IXR_Error( 404, __( 'Invalid term ID.' ) );
+			return new IXR_Error( 404, __( 'Invalid term ID' ) );
 
 		if ( isset( $content_struct['name'] ) ) {
 			$term_data['name'] = trim( $content_struct['name'] );
@@ -1666,7 +1666,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return new IXR_Error( 500, $term->get_error_message() );
 
 		if ( ! $term )
-			return new IXR_Error( 404, __( 'Invalid term ID.' ) );
+			return new IXR_Error( 404, __( 'Invalid term ID' ) );
 
 		$result = wp_delete_term( $term_id, $taxonomy->name );
 
@@ -1733,7 +1733,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return new IXR_Error( 500, $term->get_error_message() );
 
 		if ( ! $term )
-			return new IXR_Error( 404, __( 'Invalid term ID.' ) );
+			return new IXR_Error( 404, __( 'Invalid term ID' ) );
 
 		return $this->_prepare_term( $term );
 	}
