@@ -5353,11 +5353,12 @@ body.full-overlay-active {
 .wp-full-overlay .collapse-sidebar {
 	position: absolute;
 	bottom: 12px;
-	right: 15px;
+	left: 0;
 	z-index: 50;
 	display: block;
 	width: 19px;
 	height: 19px;
+	margin-left: 15px;
 	padding: 0;
 	border-radius: 50%;
 	text-decoration: none;
@@ -5365,10 +5366,11 @@ body.full-overlay-active {
 
 .wp-full-overlay.collapsed .collapse-sidebar {
 	position: absolute;
-	right: -35px;
+	left: 100%;
 }
 
 .wp-full-overlay .collapse-sidebar-arrow {
+	position: absolute;
 	margin-top: 2px;
 	margin-left: 2px;
 	display: block;
@@ -5382,12 +5384,11 @@ body.full-overlay-active {
 }
 
 .wp-full-overlay .collapse-sidebar-label {
-	text-align: right;
 	position: absolute;
-	right: 100%;
-	color: #aaa;
+	left: 100%;
+	color: #808080;
 	line-height: 20px;
-	margin-right: 10px;
+	margin-left: 10px;
 }
 
 .wp-full-overlay.collapsed .collapse-sidebar-label {
@@ -5395,7 +5396,7 @@ body.full-overlay-active {
 }
 
 .wp-full-overlay .collapse-sidebar:hover .collapse-sidebar-label {
-	color: #999;
+	color: #666;
 }
 
 /* Animations */

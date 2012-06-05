@@ -1591,18 +1591,18 @@ table .column-rating {
 
 /* Collapse Button */
 .wp-full-overlay .collapse-sidebar {
-	right: auto;
-	left: 15px;
+	right: 0;
+	left: auto;
+	margin-right: 15px;
 }
 
 .wp-full-overlay.collapsed .collapse-sidebar {
-	right: auto;
-	left: -45px;
+	right: 100%;
 }
 
 .wp-full-overlay .collapse-sidebar-arrow {
-	margin-left: 0;
 	margin-right: 2px;
+	margin-left: 0;
 	background: transparent url('../../wp-admin/images/arrows.png') no-repeat 0 -108px;
 }
 
@@ -1611,11 +1611,10 @@ table .column-rating {
 }
 
 .wp-full-overlay .collapse-sidebar-label {
-	text-align: left;
-	right: auto;
-	left: 100%;
-	margin-right: 0;
-	margin-left: 10px;
+	right: 100%;
+	left: auto;
+	margin-right: 10px;
+	margin-left: 0;
 }
 
 /*------------------------------------------------------------------------------

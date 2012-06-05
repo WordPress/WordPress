@@ -96,8 +96,8 @@ do_action( 'customize_controls_print_scripts' );
 
 		<div id="customize-footer-actions" class="wp-full-overlay-footer">
 			<a href="#" class="collapse-sidebar button-secondary" title="<?php esc_attr_e('Collapse Sidebar'); ?>">
-				<span class="collapse-sidebar-label"><?php _e('Collapse'); ?></span>
 				<span class="collapse-sidebar-arrow"></span>
+				<span class="collapse-sidebar-label"><?php _e('Collapse'); ?></span>
 			</a>
 		</div>
 	</form>
