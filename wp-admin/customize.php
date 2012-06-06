@@ -13,11 +13,6 @@ if ( ! current_user_can( 'edit_theme_options' ) )
 
 global $wp_scripts, $wp_customize;
 
-wp_reset_vars( array( 'theme' ) );
-
-if ( ! $theme )
-	$theme = get_stylesheet();
-
 $registered = $wp_scripts->registered;
 $wp_scripts = new WP_Scripts;
 $wp_scripts->registered = $registered;
@@ -48,7 +43,7 @@ do_action( 'customize_controls_print_scripts' );
 </head>
 <body class="wp-full-overlay">
 	<form id="customize-controls" class="wrap wp-full-overlay-sidebar">
-		<?php wp_nonce_field( 'customize_controls' ); ?>
+		<?php wp_nonce_field( 'customize_controls-' . $wp_customize->get_stylesheet() ); ?>
 		<div id="customize-header-actions" class="wp-full-overlay-header">
 			<?php
 				$save_text = $wp_customize->is_theme_active() ? __( 'Save &amp; Publish' ) : __( 'Save &amp; Activate' );

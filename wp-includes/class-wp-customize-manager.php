@@ -78,10 +78,21 @@ final class WP_Customize_Manager {
 	 * @since 3.4.0
 	 */
 	public function setup_theme() {
-		if ( ! ( isset( $_REQUEST['customize'] ) && 'on' == $_REQUEST['customize'] ) && ! basename( $_SERVER['PHP_SELF'] ) == 'customize.php' )
-			return;
-
 		send_origin_headers();
+
+		$this->original_stylesheet = get_stylesheet();
+
+		$this->theme = wp_get_theme( isset( $_REQUEST['theme'] ) ? $_REQUEST['theme'] : null );
+
+		// You can't preview a theme if it doesn't exist, or if it is not allowed (unless active).
+		if ( ! $this->theme->exists() )
+			wp_die( __( 'Cheatin&#8217; uh?' ) );
+
+		if ( $this->theme->get_stylesheet() != get_stylesheet() && ( ! $this->theme()->is_allowed() || ! current_user_can( 'switch_themes' ) ) )
+			wp_die( __( 'Cheatin&#8217; uh?' ) );
+
+		if ( ! current_user_can( 'edit_theme_options' ) )
+			wp_die( __( 'Cheatin&#8217; uh?' ) );
 
 		$this->start_previewing_theme();
 		show_admin_bar( false );
@@ -95,19 +106,9 @@ final class WP_Customize_Manager {
 	 * @since 3.4.0
 	 */
 	public function start_previewing_theme() {
-		if ( $this->is_preview() || false === $this->theme || ( $this->theme && ! $this->theme->exists() ) )
+		// Bail if we're already previewing.
+		if ( $this->is_preview() )
 			return;
-
-		// Initialize $theme and $original_stylesheet if they do not yet exist.
-		if ( ! isset( $this->theme ) ) {
-			$this->theme = wp_get_theme( isset( $_REQUEST['theme'] ) ? $_REQUEST['theme'] : null );
-			if ( ! $this->theme->exists() ) {
-				$this->theme = false;
-				return;
-			}
-		}
-
-		$this->original_stylesheet = get_stylesheet();
 
 		$this->previewing = true;
 
@@ -419,13 +420,10 @@ final class WP_Customize_Manager {
 		if ( ! $this->is_preview() )
 			die;
 
-		check_ajax_referer( 'customize_controls', 'nonce' );
+		check_ajax_referer( 'customize_controls-' . $this->get_stylesheet(), 'nonce' );
 
 		// Do we have to switch themes?
 		if ( $this->get_stylesheet() != $this->original_stylesheet ) {
-			if ( ! current_user_can( 'switch_themes' ) )
-				die;
-
 			// Temporarily stop previewing the theme to allow switch_themes()
 			// to operate properly.
 			$this->stop_previewing_theme();

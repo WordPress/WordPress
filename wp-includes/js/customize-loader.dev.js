@@ -17,11 +17,8 @@ if ( typeof wp === 'undefined' )
 			// Ensure the loader is supported.
 			// Check for settings, postMessage support, and whether we require CORS support.
 			if ( ! Loader.settings || ! $.support.postMessage || ( ! $.support.cors && Loader.settings.isCrossDomain ) ) {
-				this.body.removeClass( 'customize-support' ).addClass( 'no-customize-support' );
 				return;
 			}
-
-			this.body.removeClass( 'no-customize-support' ).addClass( 'customize-support' );
 
 			this.window  = $( window );
 			this.element = $( '<div id="customize-container" />' ).appendTo( this.body );

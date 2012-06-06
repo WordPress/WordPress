@@ -11,19 +11,19 @@
  *
  * @since 2.8.0
  *
- * @param string $template Template directory of the theme to delete
+ * @param string $stylesheet Stylesheet of the theme to delete
  * @param string $redirect Redirect to page when complete.
  * @return mixed
  */
-function delete_theme($template, $redirect = '') {
+function delete_theme($stylesheet, $redirect = '') {
 	global $wp_filesystem;
 
-	if ( empty($template) )
+	if ( empty($stylesheet) )
 		return false;
 
 	ob_start();
 	if ( empty( $redirect ) )
-		$redirect = wp_nonce_url('themes.php?action=delete&template=' . $template, 'delete-theme_' . $template);
+		$redirect = wp_nonce_url('themes.php?action=delete&stylesheet=' . $stylesheet, 'delete-theme_' . $stylesheet);
 	if ( false === ($credentials = request_filesystem_credentials($redirect)) ) {
 		$data = ob_get_contents();
 		ob_end_clean();
@@ -61,11 +61,11 @@ function delete_theme($template, $redirect = '') {
 		return new WP_Error('fs_no_themes_dir', __('Unable to locate WordPress theme directory.'));
 
 	$themes_dir = trailingslashit( $themes_dir );
-	$theme_dir = trailingslashit($themes_dir . $template);
+	$theme_dir = trailingslashit($themes_dir . $stylesheet);
 	$deleted = $wp_filesystem->delete($theme_dir, true);
 
 	if ( ! $deleted )
-		return new WP_Error('could_not_remove_theme', sprintf(__('Could not fully remove the theme %s.'), $template) );
+		return new WP_Error('could_not_remove_theme', sprintf(__('Could not fully remove the theme %s.'), $stylesheet) );
 
 	// Force refresh of theme update information
 	delete_site_transient('update_themes');

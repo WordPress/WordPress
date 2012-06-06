@@ -125,21 +125,25 @@ class WP_Themes_List_Table extends WP_List_Table {
 			$version    = $theme->display('Version');
 			$author     = $theme->display('Author');
 
-			$activate_link = wp_nonce_url( "themes.php?action=activate&amp;template=" . urlencode( $template ) . "&amp;stylesheet=" . urlencode( $stylesheet ), 'switch-theme_' . $template );
+			$activate_link = wp_nonce_url( "themes.php?action=activate&amp;template=" . urlencode( $template ) . "&amp;stylesheet=" . urlencode( $stylesheet ), 'switch-theme_' . $stylesheet );
 
 			$preview_link = esc_url( add_query_arg(
 				array( 'preview' => 1, 'template' => $template, 'stylesheet' => $stylesheet, 'preview_iframe' => true, 'TB_iframe' => 'true' ),
 				home_url( '/' ) ) );
 
 			$actions = array();
-			$actions[] = '<a href="' . $activate_link . '" class="activatelink" title="'
+			$actions['activate'] = '<a href="' . $activate_link . '" class="activatelink" title="'
 				. esc_attr( sprintf( __( 'Activate &#8220;%s&#8221;' ), $title ) ) . '">' . __( 'Activate' ) . '</a>';
-			$actions[] = '<a href="' . $preview_link . '" class="hide-if-customize" title="'
-				. esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;' ), $title ) ) . '">' . __( 'Preview' ) . '</a>'
-				. '<a href="' . wp_customize_url( $stylesheet ) . '" class="load-customize hide-if-no-customize">'
-				. __( 'Live Preview' ) . '</a>';
+
+			$actions['preview'] = '<a href="' . $preview_link . '" class="hide-if-customize" title="'
+				. esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;' ), $title ) ) . '">' . __( 'Preview' ) . '</a>';
+
+			if ( current_user_can( 'edit_theme_options' ) )
+				$actions['preview'] .= '<a href="' . wp_customize_url( $stylesheet ) . '" class="load-customize hide-if-no-customize">'
+					. __( 'Live Preview' ) . '</a>';
+
 			if ( ! is_multisite() && current_user_can( 'delete_themes' ) )
-				$actions['delete'] = '<a class="submitdelete deletion" href="' . wp_nonce_url( "themes.php?action=delete&amp;template=$stylesheet", 'delete-theme_' . $stylesheet )
+				$actions['delete'] = '<a class="submitdelete deletion" href="' . wp_nonce_url( "themes.php?action=delete&amp;stylesheet=$stylesheet", 'delete-theme_' . $stylesheet )
 					. '" onclick="' . "return confirm( '" . esc_js( sprintf( __( "You are about to delete this theme '%s'\n  'Cancel' to stop, 'OK' to delete." ), $title ) )
 					. "' );" . '">' . __( 'Delete' ) . '</a>';
 

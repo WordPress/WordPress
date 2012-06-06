@@ -16,15 +16,19 @@ $wp_list_table = _get_list_table('WP_Themes_List_Table');
 
 if ( current_user_can( 'switch_themes' ) && isset($_GET['action'] ) ) {
 	if ( 'activate' == $_GET['action'] ) {
-		check_admin_referer('switch-theme_' . $_GET['template']);
+		check_admin_referer('switch-theme_' . $_GET['stylesheet']);
+		$theme = wp_get_theme( $_GET['stylesheet'] );
+		if ( ! $theme->exists() || ! $theme->is_allowed() )
+			wp_die( __( 'Cheatin&#8217; uh?' ) );
 		switch_theme($_GET['template'], $_GET['stylesheet']);
 		wp_redirect( admin_url('themes.php?activated=true') );
 		exit;
 	} elseif ( 'delete' == $_GET['action'] ) {
-		check_admin_referer('delete-theme_' . $_GET['template']);
-		if ( !current_user_can('delete_themes') )
+		check_admin_referer('delete-theme_' . $_GET['stylesheet']);
+		$theme = wp_get_theme( $_GET['stylesheet'] );
+		if ( !current_user_can('delete_themes') || ! $theme->exists() )
 			wp_die( __( 'Cheatin&#8217; uh?' ) );
-		delete_theme($_GET['template']);
+		delete_theme($_GET['stylesheet']);
 		wp_redirect( admin_url('themes.php?deleted=true') );
 		exit;
 	}
@@ -60,6 +64,8 @@ if ( current_user_can( 'install_themes' ) ) {
 	) );
 }
 
+endif; // switch_themes
+
 if ( current_user_can( 'edit_theme_options' ) ) {
 	$help_customize =
 		'<p>' . __('Click on the "Live Preview" link under any theme to preview that theme and change theme options in a separate, full-screen view. Any installed theme can be previewed and customized in this way.') . '</p>'.
@@ -82,8 +88,6 @@ get_current_screen()->set_help_sidebar(
 
 wp_enqueue_script( 'theme' );
 wp_enqueue_script( 'customize-loader' );
-
-endif;
 
 require_once('./admin-header.php');
 ?>
@@ -120,9 +124,11 @@ $customize_title = sprintf( __( 'Customize &#8220;%s&#8221;' ), $ct->display('Na
 ?>
 <div id="current-theme" class="<?php echo esc_attr( $class ); ?>">
 	<?php if ( $screenshot ) : ?>
+		<?php if ( current_user_can( 'edit_theme_options' ) ) : ?>
 		<a href="<?php echo wp_customize_url(); ?>" class="load-customize hide-if-no-customize" title="<?php echo esc_attr( $customize_title ); ?>">
 			<img src="<?php echo esc_url( $screenshot ); ?>" alt="<?php esc_attr_e( 'Current theme preview' ); ?>" />
 		</a>
+		<?php endif; ?>
 		<img class="hide-if-customize" src="<?php echo esc_url( $screenshot ); ?>" alt="<?php esc_attr_e( 'Current theme preview' ); ?>" />
 	<?php endif; ?>
 
@@ -140,9 +146,6 @@ $customize_title = sprintf( __( 'Customize &#8220;%s&#8221;' ), $ct->display('Na
 		<?php theme_update_available( $ct ); ?>
 	</div>
 
-<div class="theme-options">
-	<a id="customize-current-theme-link" href="<?php echo wp_customize_url(); ?>" class="load-customize hide-if-no-customize" title="<?php echo esc_attr( $customize_title ); ?>"><?php _e( 'Customize' )?></a>
-	<span><?php _e( 'Options:' )?></span>
 	<?php
 	// Pretend you didn't see this.
 	$options = array();
@@ -171,13 +174,26 @@ $customize_title = sprintf( __( 'Customize &#8220;%s&#8221;' ), $ct->display('Na
 		}
 	}
 
+	if ( $options || current_user_can( 'edit_theme_options' ) ) :
 	?>
-	<ul>
-		<?php foreach ( $options as $option ) : ?>
-			<li><?php echo $option; ?></li>
-		<?php endforeach; ?>
-	</ul>
-</div>
+	<div class="theme-options">
+		<?php if ( current_user_can( 'edit_theme_options' ) ) : ?>
+		<a id="customize-current-theme-link" href="<?php echo wp_customize_url(); ?>" class="load-customize hide-if-no-customize" title="<?php echo esc_attr( $customize_title ); ?>"><?php _e( 'Customize' ); ?></a>
+		<?php
+		endif; // edit_theme_options
+		if ( $options ) :
+		?>
+		<span><?php _e( 'Options:' )?></span>
+		<ul>
+			<?php foreach ( $options as $option ) : ?>
+				<li><?php echo $option; ?></li>
+			<?php endforeach; ?>
+		</ul>
+	</div>
+	<?php
+		endif; // options
+	endif; // options || edit_theme_options
+	?>
 
 </div>
 
