@@ -72,8 +72,12 @@ class Custom_Background {
 		add_action("load-$page", array(&$this, 'admin_load'));
 		add_action("load-$page", array(&$this, 'take_action'), 49);
 		add_action("load-$page", array(&$this, 'handle_upload'), 49);
-		add_filter( 'attachment_fields_to_edit', array( $this, 'attachment_fields_to_edit' ), 10, 2 );
-		add_filter( 'media_upload_tabs', array( $this, 'filter_upload_tabs' ) );
+
+		if ( isset( $_REQUEST['context'] ) && $_REQUEST['context'] == 'custom-background' ) {
+			add_filter( 'attachment_fields_to_edit', array( $this, 'attachment_fields_to_edit' ), 10, 2 );
+			add_filter( 'media_upload_tabs', array( $this, 'filter_upload_tabs' ) );
+			add_filter( 'media_upload_mime_type_links', '__return_empty_array' );
+		}
 
 		if ( $this->admin_header_callback )
 			add_action("admin_head-$page", $this->admin_header_callback, 51);
@@ -388,21 +392,26 @@ if ( get_background_image() ) {
 		$this->updated = true;
 	}
 
+	/**
+	 * Replace default attachment actions with "Set as background" link.
+	 *
+	 * @since 3.4.0
+	 */
 	function attachment_fields_to_edit( $form_fields, $post ) {
-		if ( isset( $_REQUEST['context'] ) && $_REQUEST['context'] == 'custom-background' ) {
-			$form_fields = array( 'image-size' => $form_fields['image-size'] );
-			$form_fields['buttons'] = array( 'tr' => '<tr class="submit"><td></td><td><a data-attachment-id="' . $post->ID . '" class="wp-set-background">' . __( 'Set as background' ) . '</a></td></tr>' );
-			$form_fields['context'] = array( 'input' => 'hidden', 'value' => 'custom-background' );
-		}
+		$form_fields = array( 'image-size' => $form_fields['image-size'] );
+		$form_fields['buttons'] = array( 'tr' => '<tr class="submit"><td></td><td><a data-attachment-id="' . $post->ID . '" class="wp-set-background">' . __( 'Set as background' ) . '</a></td></tr>' );
+		$form_fields['context'] = array( 'input' => 'hidden', 'value' => 'custom-background' );
 
 		return $form_fields;
 	}
 
-	function filter_upload_tabs ( $tabs ){
-		if ( isset( $_REQUEST['context'] ) && $_REQUEST['context'] == 'custom-background' )
-			return array( 'library' => __('Media Library') );
-
-		return $tabs;
+	/**
+	 * Leave only "Media Library" tab in the uploader window.
+	 *
+	 * @since 3.4.0
+	 */
+	function filter_upload_tabs() {
+		return array( 'library' => __('Media Library') );
 	}
 
 	public function wp_set_background_image() {
