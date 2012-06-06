@@ -189,9 +189,6 @@ $(document).ready( function() {
 		over: function(e){
 			var b, h, o, f, m = $(this).find('.wp-submenu'), menutop, wintop, maxtop;
 
-			if ( !$(document.body).hasClass('folded') && $(this).hasClass('wp-menu-open') )
-				return;
-
 			menutop = $(this).offset().top;
 			wintop = $(window).scrollTop();
 			maxtop = menutop - wintop - 30; // max = make the top of the sub almost touch admin bar
