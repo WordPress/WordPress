@@ -1792,6 +1792,7 @@ function media_upload_library_form($errors) {
 <input type="hidden" name="tab" value="<?php echo esc_attr( $tab ); ?>" />
 <input type="hidden" name="post_id" value="<?php echo (int) $post_id; ?>" />
 <input type="hidden" name="post_mime_type" value="<?php echo isset( $_GET['post_mime_type'] ) ? esc_attr( $_GET['post_mime_type'] ) : ''; ?>" />
+<input type="hidden" name="context" value="<?php echo isset( $_GET['context'] ) ? esc_attr( $_GET['context'] ) : ''; ?>" />
 
 <p id="media-search" class="search-box">
 	<label class="screen-reader-text" for="media-search-input"><?php _e('Search Media');?>:</label>
