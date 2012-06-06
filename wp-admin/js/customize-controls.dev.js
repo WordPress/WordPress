@@ -148,6 +148,13 @@
 				success:   this.success
 			}, this.uploader || {} );
 
+			if ( this.uploader.supported ) {
+				if ( control.params.context )
+					control.uploader.param( 'post_data[context]', this.params.context );
+
+				control.uploader.param( 'post_data[theme]', api.settings.theme.stylesheet );
+			}
+
 			this.uploader = new wp.Uploader( this.uploader );
 
 			this.remover = this.container.find('.remove');
@@ -159,11 +166,6 @@
 			this.removerVisibility = $.proxy( this.removerVisibility, this );
 			this.setting.bind( this.removerVisibility );
 			this.removerVisibility( this.setting.get() );
-
-			if ( this.params.context )
-				control.uploader.param( 'post_data[context]', this.params.context );
-
-			control.uploader.param( 'post_data[theme]', api.settings.theme.stylesheet );
 		},
 		success: function( attachment ) {
 			this.setting.set( attachment.url );
@@ -182,7 +184,7 @@
 				init: function( up ) {
 					var fallback, button;
 
-					if ( up.features.dragdrop )
+					if ( this.supports.dragdrop )
 						return;
 
 					// Maintain references while wrapping the fallback button.
@@ -566,6 +568,7 @@
 			return window.location = api.settings.url.fallback;
 
 		var body = $( document.body ),
+			overlay = body.children('.wp-full-overlay'),
 			query, previewer, parent;
 
 		// Prevent the form from saving when enter is pressed.
@@ -702,7 +705,7 @@
 		});
 
 		$('.collapse-sidebar').click( function( event ) {
-			body.toggleClass( 'collapsed' );
+			overlay.toggleClass( 'collapsed' ).toggleClass( 'expanded' );
 			event.preventDefault();
 		});
 

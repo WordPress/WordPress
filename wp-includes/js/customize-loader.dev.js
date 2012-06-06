@@ -67,6 +67,10 @@ if ( typeof wp === 'undefined' )
 			if ( this.active )
 				return;
 
+			// Load the full page on mobile devices.
+			if ( Loader.settings.browser.mobile )
+				return window.location = src;
+
 			this.active = true;
 			this.body.addClass('customize-loading');
 

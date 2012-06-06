@@ -402,10 +402,6 @@ body {
 	text-align: right;
 }
 
-.customize-section .customize-control-image .actions a {
-	display: block;
-}
-
 .customize-section .customize-control-image .library ul {
 	border-bottom: 1px solid #dfdfdf;
 	float: left;
@@ -456,7 +452,7 @@ body {
 
 .customize-section .customize-control-image .library .thumbnail img {
 	display: block;
-	max-width: 220px;
+	max-width: 90%;
 	max-height: 80px;
 
 	margin: 5px auto;
@@ -479,6 +475,7 @@ body {
 	text-align: center;
 	color: #777;
 	position: relative;
+	cursor: default;
 }
 
 .customize-section .customize-control-upload .upload-dropzone.supports-drag-drop,
@@ -491,7 +488,29 @@ body {
 	transition:         border-color 0.1s;
 }
 
+.customize-section .customize-control-upload .library ul li,
+.customize-section .customize-control-image .library ul li {
+	cursor: pointer;
+}
+
 .customize-section .customize-control-upload .upload-dropzone.supports-drag-drop.drag-over,
 .customize-section .customize-control-image .upload-dropzone.supports-drag-drop.drag-over {
 	border-color: #83b4d8;
 }
+
+/**
+ * iOS can't scroll iframes,
+ * instead it expands the iframe size to match the size of the content
+ */
+.ios .wp-full-overlay {
+	position: relative;
+}
+
+.ios #customize-preview {
+	position: relative;
+}
+
+.ios #customize-controls .wp-full-overlay-sidebar-content {
+	-webkit-overflow-scrolling: touch;
+}
+

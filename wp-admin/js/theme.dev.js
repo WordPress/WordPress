@@ -41,7 +41,7 @@ jQuery( function($) {
 	});
 
 	preview.on( 'click', '.collapse-sidebar', function( event ) {
-		preview.toggleClass('collapsed');
+		preview.toggleClass( 'collapsed' ).toggleClass( 'expanded' );
 		event.preventDefault();
 	});
 

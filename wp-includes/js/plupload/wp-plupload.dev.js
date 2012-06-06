@@ -4,6 +4,9 @@ if ( typeof wp === 'undefined' )
 (function( exports, $ ) {
 	var Uploader;
 
+	if ( typeof _wpPluploadSettings === 'undefined' )
+		return;
+
 	/*
 	 * An object that helps create a WordPress uploader using plupload.
 	 *
@@ -27,8 +30,17 @@ if ( typeof wp === 'undefined' )
 			},
 			key;
 
+		this.supports = {
+			upload: Uploader.browser.supported
+		};
+
+		this.supported = this.supports.upload;
+
+		if ( ! this.supported )
+			return;
+
 		// Use deep extend to ensure that multipart_params and other objects are cloned.
-		this.plupload = $.extend( true, { multipart_params: {} }, wpPluploadDefaults );
+		this.plupload = $.extend( true, { multipart_params: {} }, Uploader.defaults );
 		this.container = document.body; // Set default container.
 
 		// Extend the instance with options
@@ -68,9 +80,9 @@ if ( typeof wp === 'undefined' )
 		this.param( this.params || {} );
 		delete this.params;
 
-		this.uploader.bind( 'Init', this.init );
-
 		this.uploader.init();
+
+		this.supports.dragdrop = this.uploader.features.dragdrop && ! Uploader.browser.mobile;
 
 		// Generate drag/drop helper classes.
 		(function( dropzone, supported ) {
@@ -99,7 +111,7 @@ if ( typeof wp === 'undefined' )
 				active = false;
 				dropzone.removeClass('drag-over');
 			});
-		}( this.dropzone, this.uploader.features.dragdrop ));
+		}( this.dropzone, this.supports.dragdrop ));
 
 		this.browser.on( 'mouseenter', this.refresh );
 
@@ -147,7 +159,12 @@ if ( typeof wp === 'undefined' )
 			up.refresh();
 			up.start();
 		});
+
+		this.init();
 	};
+
+	// Adds the 'defaults' and 'browser' properties.
+	$.extend( Uploader, _wpPluploadSettings );
 
 	Uploader.uuid = 0;
 

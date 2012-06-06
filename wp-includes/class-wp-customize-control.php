@@ -331,7 +331,7 @@ class WP_Customize_Image_Control extends WP_Customize_Upload_Control {
 			$src = call_user_func( $this->get_url, $src );
 
 		?>
-		<label class="customize-image-picker">
+		<div class="customize-image-picker">
 			<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
 
 			<div class="customize-control-content">
@@ -366,7 +366,7 @@ class WP_Customize_Image_Control extends WP_Customize_Upload_Control {
 			<div class="actions">
 				<a href="#" class="remove"><?php _e( 'Remove Image' ); ?></a>
 			</div>
-		</label>
+		</div>
 		<?php
 	}
 
@@ -382,14 +382,20 @@ class WP_Customize_Image_Control extends WP_Customize_Upload_Control {
 	}
 
 	public function tab_upload_new() {
-		?>
-		<div class="upload-dropzone">
-			<?php _e('Drop a file here or <a href="#" class="upload">select a file</a>.'); ?>
-		</div>
-		<div class="upload-fallback">
-			<span class="button-secondary"><?php _e('Select File'); ?></span>
-		</div>
-		<?php
+		if ( ! _device_can_upload() ) {
+			?>
+			<p><?php _e('The web browser on your device cannot be used to upload files. You may be able to use the <a href="http://wordpress.org/extend/mobile/">native app for your device</a> instead.'); ?></p>
+			<?php
+		} else {
+			?>
+			<div class="upload-dropzone">
+				<?php _e('Drop a file here or <a href="#" class="upload">select a file</a>.'); ?>
+			</div>
+			<div class="upload-fallback">
+				<span class="button-secondary"><?php _e('Select File'); ?></span>
+			</div>
+			<?php
+		}
 	}
 
 	public function tab_uploaded() {

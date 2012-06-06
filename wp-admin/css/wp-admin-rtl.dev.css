@@ -1566,19 +1566,10 @@ table .column-rating {
 /*------------------------------------------------------------------------------
   26.0 - Full Overlay w/ Sidebar
 ------------------------------------------------------------------------------*/
-.wp-full-overlay {
-	left: 0;
-	right: 300px;
-}
-
-.wp-full-overlay.collapsed {
-	right: 0 !important;
-}
-
 .wp-full-overlay .wp-full-overlay-sidebar {
 	margin: 0;
-	left: 100%;
-	right: auto;
+	left: auto;
+	right: 0;
 	border-right: 0;
 	border-left: 1px solid rgba( 0, 0, 0, 0.2 );
 }
@@ -1587,6 +1578,21 @@ table .column-rating {
 	right: auto;
 	left: 0;
 	box-shadow: inset 5px 0 4px -4px rgba(0, 0, 0, 0.1);
+}
+
+.wp-full-overlay.collapsed,
+.wp-full-overlay.expanded .wp-full-overlay-sidebar {
+	margin-right: 0 !important;
+}
+
+.wp-full-overlay.expanded {
+	margin-right: 300px;
+	margin-left: 0;
+}
+
+.wp-full-overlay.collapsed .wp-full-overlay-sidebar {
+	margin-right: -300px;
+	margin-left: 0;
 }
 
 /* Collapse Button */

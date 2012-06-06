@@ -1467,7 +1467,7 @@ function wp_plupload_default_settings() {
 
 	$max_upload_size = wp_max_upload_size();
 
-	$settings = array(
+	$defaults = array(
 		'runtimes'            => 'html5,silverlight,flash,html4',
 		'file_data_name'      => 'async-upload', // key passed to $_FILE.
 		'multiple_queues'     => true,
@@ -1480,7 +1480,7 @@ function wp_plupload_default_settings() {
 		'urlstream_upload'    => true,
 	);
 
-	$settings = apply_filters( 'plupload_default_settings', $settings );
+	$defaults = apply_filters( 'plupload_default_settings', $defaults );
 
 	$params = array(
 		'action' => 'upload-attachment',
@@ -1488,9 +1488,17 @@ function wp_plupload_default_settings() {
 
 	$params = apply_filters( 'plupload_default_params', $params );
 	$params['_wpnonce'] = wp_create_nonce( 'media-form' );
-	$settings['multipart_params'] = $params;
+	$defaults['multipart_params'] = $params;
 
-	$script = 'var wpPluploadDefaults = ' . json_encode( $settings ) . ';';
+	$settings = array(
+		'defaults' => $defaults,
+		'browser'  => array(
+			'mobile'    => wp_is_mobile(),
+			'supported' => _device_can_upload(),
+		),
+	);
+
+	$script = 'var _wpPluploadSettings = ' . json_encode( $settings ) . ';';
 
 	$data = $wp_scripts->get_data( 'wp-plupload', 'data' );
 	if ( $data )

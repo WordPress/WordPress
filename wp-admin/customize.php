@@ -34,6 +34,19 @@ do_action( 'customize_controls_enqueue_scripts' );
 wp_user_settings();
 _wp_admin_html_begin();
 
+$body_class = '';
+
+if ( wp_is_mobile() ) :
+	$body_class .= ' mobile';
+
+	?><meta name="viewport" id="viewport-meta" content="width=device-width, initial-scale=0.8, minimum-scale=0.5, maximum-scale=1.2"><?php
+endif;
+
+$is_ios = wp_is_mobile() && preg_match( '/iPad|iPod|iPhone/', $_SERVER['HTTP_USER_AGENT'] );
+
+if ( $is_ios )
+	$body_class .= ' ios';
+
 $admin_title = sprintf( __( '%1$s &#8212; WordPress' ), strip_tags( sprintf( __( 'Customize %s' ), $wp_customize->theme()->display('Name') ) ) );
 ?><title><?php echo $admin_title; ?></title><?php
 
@@ -41,7 +54,8 @@ do_action( 'customize_controls_print_styles' );
 do_action( 'customize_controls_print_scripts' );
 ?>
 </head>
-<body class="wp-full-overlay">
+<body class="<?php echo esc_attr( $body_class ); ?>">
+<div class="wp-full-overlay expanded">
 	<form id="customize-controls" class="wrap wp-full-overlay-sidebar">
 		<?php wp_nonce_field( 'customize_controls-' . $wp_customize->get_stylesheet() ); ?>
 		<div id="customize-header-actions" class="wp-full-overlay-header">
@@ -140,6 +154,10 @@ do_action( 'customize_controls_print_scripts' );
 			'isCrossDomain' => $cross_domain,
 			'fallback'      => $fallback_url,
 		),
+		'browser'  => array(
+			'mobile' => wp_is_mobile(),
+			'ios'    => $is_ios,
+		),
 		'settings' => array(),
 		'controls' => array(),
 	);
@@ -160,5 +178,6 @@ do_action( 'customize_controls_print_scripts' );
 	<script type="text/javascript">
 		var _wpCustomizeSettings = <?php echo json_encode( $settings ); ?>;
 	</script>
+</div>
 </body>
 </html>

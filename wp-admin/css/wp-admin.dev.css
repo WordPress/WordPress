@@ -5255,14 +5255,10 @@ body.full-overlay-active {
 	overflow: visible;
 	top: 0;
 	bottom: 0;
-	left: 300px;
+	left: 0;
 	right: 0;
 	height: 100%;
 	min-width: 0;
-}
-
-.wp-full-overlay.collapsed {
-	left: 0 !important;
 }
 
 .wp-full-overlay-sidebar {
@@ -5270,12 +5266,12 @@ body.full-overlay-active {
 	-moz-box-sizing:    border-box;
 	box-sizing:         border-box;
 
-	position: absolute;
+	position: fixed;
 	width: 300px;
 	height: 100%;
 	top: 0;
 	bottom: 0;
-	right: 100%;
+	left: 0;
 	padding: 0;
 	margin: 0;
 	z-index: 10;
@@ -5286,6 +5282,19 @@ body.full-overlay-active {
 
 .wp-full-overlay.collapsed .wp-full-overlay-sidebar {
 	overflow: visible;
+}
+
+.wp-full-overlay.collapsed,
+.wp-full-overlay.expanded .wp-full-overlay-sidebar {
+	margin-left: 0 !important;
+}
+
+.wp-full-overlay.expanded {
+	margin-left: 300px;
+}
+
+.wp-full-overlay.collapsed .wp-full-overlay-sidebar {
+	margin-left: -300px;
 }
 
 .wp-full-overlay-sidebar:after {
@@ -5404,11 +5413,11 @@ body.full-overlay-active {
 .wp-full-overlay-sidebar,
 .wp-full-overlay .collapse-sidebar,
 .wp-full-overlay-main {
-	-webkit-transition-property: left, right, top, bottom, width;
-	-moz-transition-property:    left, right, top, bottom, width;
-	-ms-transition-property:     left, right, top, bottom, width;
-	-o-transition-property:      left, right, top, bottom, width;
-	transition-property:         left, right, top, bottom, width;
+	-webkit-transition-property: left, right, top, bottom, width, margin;
+	-moz-transition-property:    left, right, top, bottom, width, margin;
+	-ms-transition-property:     left, right, top, bottom, width, margin;
+	-o-transition-property:      left, right, top, bottom, width, margin;
+	transition-property:         left, right, top, bottom, width, margin;
 
 	-webkit-transition-duration: 0.2s;
 	-moz-transition-duration:    0.2s;
