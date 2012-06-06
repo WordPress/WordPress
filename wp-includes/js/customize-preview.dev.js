@@ -109,13 +109,14 @@
 				return;
 
 			update = function() {
-				var css = '';
+				var css = '',
+					hasDefault = api.settings.backgroundImageHasDefault;
 
 				// The body will support custom backgrounds if either
 				// the color or image are set.
 				//
 				// See get_body_class() in /wp-includes/post-template.php
-				body.toggleClass( 'custom-background', !! ( color() || image() ) );
+				body.toggleClass( 'custom-background', !! ( color() || image() || hasDefault ) );
 
 				if ( color() )
 					css += 'background-color: ' + color() + ';';
@@ -125,6 +126,8 @@
 					css += 'background-position: top ' + position_x() + ';';
 					css += 'background-repeat: ' + repeat() + ';';
 					css += 'background-position: top ' + attachment() + ';';
+				} else if ( hasDefault ) {
+					css += 'background-image: none;';
 				}
 
 				// Refresh the stylesheet by removing and recreating it.
