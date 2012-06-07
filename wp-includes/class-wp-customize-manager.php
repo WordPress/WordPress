@@ -78,6 +78,9 @@ final class WP_Customize_Manager {
 	 * @since 3.4.0
 	 */
 	public function setup_theme() {
+		if ( is_admin() && ! defined( 'DOING_AJAX' ) )
+			auth_redirect();
+
 		send_origin_headers();
 
 		$this->original_stylesheet = get_stylesheet();
