@@ -122,7 +122,7 @@
 			this.farbtastic = $.farbtastic( this.container.find('.farbtastic-placeholder'), control.setting.set );
 
 			// Only pass through values that are valid hexes/empty.
-			input.link( this.setting ).validate = function( to ) {
+			input.sync( this.setting ).validate = function( to ) {
 				return rhex.test( to ) ? to : null;
 			};
 
