@@ -586,9 +586,9 @@
 		}, {
 			query: function() {
 				return {
-					customize:  'on',
-					theme:      api.settings.theme.stylesheet,
-					customized: JSON.stringify( api.get() )
+					wp_customize: 'on',
+					theme:        api.settings.theme.stylesheet,
+					customized:   JSON.stringify( api.get() )
 				};
 			},
 

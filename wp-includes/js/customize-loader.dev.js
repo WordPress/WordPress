@@ -54,7 +54,7 @@ if ( typeof wp === 'undefined' )
 		hashchange: function( e ) {
 			var hash = window.location.toString().split('#')[1];
 
-			if ( hash && 0 === hash.indexOf( 'customize=on' ) )
+			if ( hash && 0 === hash.indexOf( 'wp_customize=on' ) )
 				Loader.open( Loader.settings.url + '?' + hash );
 
 			if ( ! hash && ! $.support.history )
@@ -104,7 +104,7 @@ if ( typeof wp === 'undefined' )
 			if ( $.support.history && window.location.href !== src )
 				history.pushState( { customize: src }, '', src );
 			else if ( ! $.support.history && $.support.hashchange && hash )
-				window.location.hash = 'customize=on&' + hash;
+				window.location.hash = 'wp_customize=on&' + hash;
 
 			this.trigger( 'open' );
 		},

@@ -1578,13 +1578,14 @@ function check_theme_switched() {
 /**
  * Includes and instantiates the WP_Customize_Manager class.
  *
- * Fires when ?customize=on.
+ * Fires when ?wp_customize=on or on wp-admin/customize.php.
  *
  * @since 3.4.0
  */
 function _wp_customize_include() {
-	// Load on themes.php or ?customize=on
-	if ( ! ( ( isset( $_REQUEST['customize'] ) && 'on' == $_REQUEST['customize'] ) || 'customize.php' == basename( $_SERVER['PHP_SELF'] ) ) )
+	if ( ! ( ( isset( $_REQUEST['wp_customize'] ) && 'on' == $_REQUEST['wp_customize'] )
+		|| ( is_admin() && 'customize.php' == basename( $_SERVER['PHP_SELF'] ) )
+	) )
 		return;
 
 	require( ABSPATH . WPINC . '/class-wp-customize-manager.php' );
