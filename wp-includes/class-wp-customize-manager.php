@@ -53,24 +53,6 @@ final class WP_Customize_Manager {
 	}
 
 	/**
-	 * Update theme modifications for the current theme.
-	 * Note: Candidate core function.
-	 * http://core.trac.wordpress.org/ticket/20091
-	 *
-	 * @since 3.4.0
-	 *
-	 * @param array $mods Theme modifications.
-	 */
-	public function set_theme_mods( $mods ) {
-		$current = get_theme_mods();
-
-		$mods = wp_parse_args( $mods, $current );
-
-		$theme = get_stylesheet();
-		update_option( "theme_mods_$theme", $mods );
-	}
-
-	/**
 	 * Start preview and customize theme.
 	 *
 	 * Check if customize query variable exist. Init filters to filter the current theme.
