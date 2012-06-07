@@ -406,6 +406,8 @@ if ( typeof wp === 'undefined' )
 						synchronizer = api.Element.synchronizer[ type ];
 					if ( 'text' === type || 'password' === type )
 						this.events += ' keyup';
+				} else if ( this.element.is('textarea') ) {
+					this.events += ' keyup';
 				}
 			}
 

@@ -573,6 +573,9 @@
 
 		// Prevent the form from saving when enter is pressed.
 		$('#customize-controls').on( 'keydown', function( e ) {
+			if ( $( e.target ).is('textarea') )
+				return;
+
 			if ( 13 === e.which ) // Enter
 				e.preventDefault();
 		});
