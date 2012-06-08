@@ -514,3 +514,24 @@ body {
 	-webkit-overflow-scrolling: touch;
 }
 
+/**
+ * Handle cheaters.
+ */
+body.cheatin {
+	min-width: 0;
+	background: #f9f9f9;
+	padding: 50px;
+}
+
+body.cheatin p {
+	max-width: 700px;
+	margin: 0 auto;
+	padding: 2em;
+	font-size: 14px;
+
+	background: #fff;
+	border: 1px solid #dfdfdf;
+
+	-webkit-border-radius: 3px;
+	border-radius:         3px;
+}

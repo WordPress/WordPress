@@ -334,6 +334,18 @@
 					return;
 				}
 
+				// Check if the user is not logged in.
+				if ( '0' === response ) {
+					deferred.rejectWith( self, [ 'logged out' ] );
+					return;
+				}
+
+				// Check for cheaters.
+				if ( '-1' === response ) {
+					deferred.rejectWith( self, [ 'cheatin' ] );
+					return;
+				}
+
 				// Check for a signature in the request.
 				index = response.lastIndexOf( signature );
 				if ( -1 === index || index < response.lastIndexOf('</html>') ) {
@@ -548,7 +560,52 @@
 			this.loading.fail( function( reason, location ) {
 				if ( 'redirect' === reason && location )
 					self.url( location );
+
+				if ( 'logged out' === reason ) {
+					if ( self.iframe ) {
+						self.iframe.destroy();
+						delete self.iframe;
+					}
+
+					self.login().done( self.refresh );
+				}
+
+				if ( 'cheatin' === reason )
+					self.cheatin();
 			});
+		},
+
+		login: function() {
+			var previewer = this,
+				deferred, messenger, iframe;
+
+			if ( this._login )
+				return this._login;
+
+			deferred = $.Deferred();
+			this._login = deferred.promise();
+
+			messenger = new api.Messenger({
+				channel: 'login',
+				url:     api.settings.url.login
+			});
+
+			iframe = $('<iframe src="' + api.settings.url.login + '" />').appendTo( this.container );
+
+			messenger.targetWindow( iframe[0].contentWindow );
+
+			messenger.bind( 'login', function() {
+				iframe.remove();
+				messenger.destroy();
+				delete previewer._login;
+				deferred.resolve();
+			});
+
+			return this._login;
+		},
+
+		cheatin: function() {
+			$( document.body ).empty().addClass('cheatin').append( '<p>' + api.l10n.cheatin + '</p>' );
 		}
 	});
 
@@ -605,7 +662,8 @@
 			nonce: $('#_wpnonce').val(),
 
 			save: function() {
-				var query = $.extend( this.query(), {
+				var self  = this,
+					query = $.extend( this.query(), {
 						action: 'customize_save',
 						nonce:  this.nonce
 					}),
@@ -619,7 +677,23 @@
 					body.removeClass('saving');
 				});
 
-				request.done( function() {
+				request.done( function( response ) {
+					// Check if the user is logged out.
+					if ( '0' === response ) {
+						self.iframe.iframe.hide();
+						self.login().done( function() {
+							self.save();
+							self.iframe.iframe.show();
+						});
+						return;
+					}
+
+					// Check for cheaters.
+					if ( '-1' === response ) {
+						self.cheatin();
+						return;
+					}
+
 					api.trigger( 'saved' );
 				});
 			}

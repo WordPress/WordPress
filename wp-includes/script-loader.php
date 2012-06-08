@@ -305,6 +305,7 @@ function wp_default_scripts( &$scripts ) {
 		'saved'     => __( 'Saved' ),
 		'cancel'    => __( 'Cancel' ),
 		'close'     => __( 'Close' ),
+		'cheatin'   => __( 'Cheatin&#8217; uh?' ),
 	) );
 
 	if ( is_admin() ) {

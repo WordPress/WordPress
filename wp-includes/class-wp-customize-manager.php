@@ -31,6 +31,8 @@ final class WP_Customize_Manager {
 		require( ABSPATH . WPINC . '/class-wp-customize-section.php' );
 		require( ABSPATH . WPINC . '/class-wp-customize-control.php' );
 
+		add_filter( 'wp_die_handler', array( $this, 'wp_die_handler' ) );
+
 		add_action( 'setup_theme',  array( $this, 'setup_theme' ) );
 		add_action( 'wp_loaded',    array( $this, 'wp_loaded' ) );
 
@@ -52,16 +54,54 @@ final class WP_Customize_Manager {
 		add_action( 'customize_controls_enqueue_scripts', array( $this, 'enqueue_control_scripts' ) );
 	}
 
-	/**
-	 * Start preview and customize theme.
+ 	/**
+	 * Return true if it's an AJAX request.
 	 *
-	 * Check if customize query variable exist. Init filters to filter the current theme.
+	 * @since 3.4.0
+	 */
+	public function doing_ajax() {
+		return isset( $_POST['customized'] ) || ( defined( 'DOING_AJAX' ) && DOING_AJAX );
+	}
+
+	/**
+	 * Custom wp_die wrapper. Returns either the standard message for UI
+	 * or the AJAX message.
+	 *
+	 * @param  mixed $ajax_message AJAX return
+	 * @param  mixed $message      UI message
+	 *
+	 * @since 3.4.0
+	 */
+	private function wp_die( $ajax_message, $message ) {
+		if ( $this->doing_ajax() )
+			wp_die( $ajax_message );
+
+		wp_die( $message );
+	}
+
+	/**
+	 * Return the AJAX wp_die() handler if it's a customized request.
+	 *
+	 * @since 3.4.0
+	 */
+	public function wp_die_handler() {
+		if ( $this->doing_ajax() )
+			return '_ajax_wp_die_handler';
+
+		return '_default_wp_die_handler';
+	}
+	/**
+	* Start preview and customize theme.
+	*
+	* Check if customize query variable exist. Init filters to filter the current theme.
 	 *
 	 * @since 3.4.0
 	 */
 	public function setup_theme() {
-		if ( is_admin() && ! defined( 'DOING_AJAX' ) )
-			auth_redirect();
+		if ( is_admin() && ! $this->doing_ajax() )
+		    auth_redirect();
+		elseif ( $this->doing_ajax() && ! is_user_logged_in())
+		    wp_die( 0 );
 
 		send_origin_headers();
 
@@ -71,13 +111,13 @@ final class WP_Customize_Manager {
 
 		// You can't preview a theme if it doesn't exist, or if it is not allowed (unless active).
 		if ( ! $this->theme->exists() )
-			wp_die( __( 'Cheatin&#8217; uh?' ) );
+			$this->wp_die( -1, __( 'Cheatin&#8217; uh?' ) );
 
 		if ( $this->theme->get_stylesheet() != get_stylesheet() && ( ! $this->theme()->is_allowed() || ! current_user_can( 'switch_themes' ) ) )
-			wp_die( __( 'Cheatin&#8217; uh?' ) );
+			$this->wp_die( -1, __( 'Cheatin&#8217; uh?' ) );
 
 		if ( ! current_user_can( 'edit_theme_options' ) )
-			wp_die( __( 'Cheatin&#8217; uh?' ) );
+			$this->wp_die( -1, __( 'Cheatin&#8217; uh?' ) );
 
 		$this->start_previewing_theme();
 		show_admin_bar( false );

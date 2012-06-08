@@ -148,6 +148,11 @@ do_action( 'customize_controls_print_scripts' );
 		'TB_iframe'      => 'true'
 	), home_url( '/' ) );
 
+	$login_url = add_query_arg( array(
+		'interim-login' => 1,
+		'customize-login' => 1
+	), wp_login_url() );
+
 	$settings = array(
 		'theme'    => array(
 			'stylesheet' => $wp_customize->get_stylesheet(),
@@ -162,6 +167,7 @@ do_action( 'customize_controls_print_scripts' );
 			'isCrossDomain' => $cross_domain,
 			'fallback'      => $fallback_url,
 			'home'          => esc_url( home_url( '/' ) ),
+			'login'         => $login_url,
 		),
 		'browser'  => array(
 			'mobile' => wp_is_mobile(),
