@@ -192,8 +192,11 @@ if ( typeof wp === 'undefined' )
 		},
 
 		setter: function( callback ) {
+			var from = this.get();
 			this._setter = callback;
-			this.set( this.get() );
+			// Temporarily clear value so setter can decide if it's valid.
+			this._value = null;
+			this.set( from );
 			return this;
 		},
 

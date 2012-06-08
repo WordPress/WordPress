@@ -301,6 +301,8 @@
 
 			api.Messenger.prototype.initialize.call( this, params, options );
 
+			this.add( 'previewUrl', params.previewUrl );
+
 			this.bind( 'ready', function() {
 				ready = true;
 
@@ -310,7 +312,7 @@
 
 			params.query = $.extend( params.query || {}, { customize_messenger_channel: this.channel() });
 
-			this.request = $.ajax( this.url(), {
+			this.request = $.ajax( this.previewUrl(), {
 				type: 'POST',
 				data: params.query,
 				xhrFields: {
@@ -329,7 +331,7 @@
 
 				// Check if the location response header differs from the current URL.
 				// If so, the request was redirected; try loading the requested page.
-				if ( location && location != self.url() ) {
+				if ( location && location != self.previewUrl() ) {
 					deferred.rejectWith( self, [ 'redirect', location ] );
 					return;
 				}
@@ -410,8 +412,8 @@
 
 		/**
 		 * Requires params:
-		 *  - container - a selector or jQuery element
-		 *  - url       - the URL of preview frame
+		 *  - container  - a selector or jQuery element
+		 *  - previewUrl - the URL of preview frame
 		 */
 		initialize: function( params, options ) {
 			var self = this,
@@ -457,14 +459,9 @@
 			this.container   = api.ensure( params.container );
 			this.allowedUrls = params.allowedUrls;
 
-			url = params.url;
-			delete params.url;
+			params.url = window.location.href;
 
 			api.Messenger.prototype.initialize.call( this, params );
-
-			// We're dynamically generating the iframe, so the origin is set
-			// to the current window's location, not the url's.
-			this.origin.unlink( this.url ).set( window.location.href );
 
 			this.add( 'scheme', this.origin() ).link( this.origin ).setter( function( to ) {
 				var match = to.match( rscheme );
@@ -479,7 +476,7 @@
 			// are on different domains to avoid the case where the frontend doesn't have
 			// ssl certs.
 
-			this.url.setter( function( to ) {
+			this.add( 'previewUrl', params.previewUrl ).setter( function( to ) {
 				var result;
 
 				// Check for URLs that include "/wp-admin/" or end in "/wp-admin".
@@ -504,11 +501,8 @@
 				return result ? result : null;
 			});
 
-			// Set the url.
-			this.url( url );
-
 			// Refresh the preview when the URL is changed (but not yet).
-			this.url.bind( this.refresh );
+			this.previewUrl.bind( this.refresh );
 
 			this.scroll = 0;
 			this.bind( 'scroll', function( distance ) {
@@ -516,7 +510,7 @@
 			});
 
 			// Update the URL when the iframe sends a URL message.
-			this.bind( 'url', this.url );
+			this.bind( 'url', this.previewUrl );
 		},
 
 		query: function() {},
@@ -534,17 +528,18 @@
 			this.abort();
 
 			this.loading = new api.PreviewFrame({
-				url:       this.url(),
-				query:     this.query() || {},
-				previewer: this
+				url:        this.url(),
+				previewUrl: this.previewUrl(),
+				query:      this.query() || {},
+				previewer:  this
 			});
 
 			this.loading.done( function() {
 				// 'this' is the loading frame
 				this.bind( 'synced', function() {
-					if ( self.iframe )
-						self.iframe.destroy();
-					self.iframe = this;
+					if ( self.preview )
+						self.preview.destroy();
+					self.preview = this;
 					delete self.loading;
 
 					self.targetWindow( this.targetWindow() );
@@ -559,12 +554,12 @@
 
 			this.loading.fail( function( reason, location ) {
 				if ( 'redirect' === reason && location )
-					self.url( location );
+					self.previewUrl( location );
 
 				if ( 'logged out' === reason ) {
-					if ( self.iframe ) {
-						self.iframe.destroy();
-						delete self.iframe;
+					if ( self.preview ) {
+						self.preview.destroy();
+						delete self.preview;
 					}
 
 					self.login().done( self.refresh );
@@ -648,7 +643,7 @@
 		previewer = new api.Previewer({
 			container:   '#customize-preview',
 			form:        '#customize-controls',
-			url:         api.settings.url.preview,
+			previewUrl:  api.settings.url.preview,
 			allowedUrls: api.settings.url.allowed
 		}, {
 			query: function() {
@@ -680,10 +675,10 @@
 				request.done( function( response ) {
 					// Check if the user is logged out.
 					if ( '0' === response ) {
-						self.iframe.iframe.hide();
+						self.preview.iframe.hide();
 						self.login().done( function() {
 							self.save();
-							self.iframe.iframe.show();
+							self.preview.iframe.show();
 						});
 						return;
 					}
@@ -717,10 +712,10 @@
 		});
 
 		// Check if preview url is valid and load the preview frame.
-		if ( previewer.url() )
+		if ( previewer.previewUrl() )
 			previewer.refresh();
 		else
-			previewer.url( api.settings.url.home );
+			previewer.previewUrl( api.settings.url.home );
 
 		// Save and activated states
 		(function() {
