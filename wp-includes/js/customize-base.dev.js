@@ -547,7 +547,7 @@ if ( typeof wp === 'undefined' )
 		send: function( id, data ) {
 			var message;
 
-			data = typeof data === 'undefined' ? {} : data;
+			data = typeof data === 'undefined' ? null : data;
 
 			if ( ! this.url() || ! this.targetWindow() )
 				return;

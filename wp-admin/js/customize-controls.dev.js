@@ -694,11 +694,6 @@
 			api.state = state;
 		}());
 
-		api.bind( 'activated', function() {
-			if ( api.settings.url.activated )
-				window.location = api.settings.url.activated;
-		});
-
 		// Temporary accordion code.
 		$('.customize-section-title').click( function( event ) {
 			var clicked = $( this ).parents( '.customize-section' );
@@ -738,10 +733,17 @@
 		});
 
 		// Pass events through to the parent.
-		$.each([ 'saved', 'activated' ], function( i, id ) {
-			api.bind( id, function() {
-				parent.send( id );
-			});
+		api.bind( 'saved', function() {
+			parent.send( 'saved' );
+		});
+
+		// When activated, let the loader handle redirecting the page.
+		// If no loader exists, redirect the page ourselves (if a url exists).
+		api.bind( 'activated', function() {
+			if ( parent.targetWindow() )
+				parent.send( 'activated', api.settings.url.activated );
+			else if ( api.settings.url.activated )
+				window.location = api.settings.url.activated;
 		});
 
 		// Initialize the connection with the parent frame.

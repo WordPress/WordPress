@@ -98,6 +98,11 @@ if ( typeof wp === 'undefined' )
 					Loader.close();
 			});
 
+			this.messenger.bind( 'activated', function( location ) {
+				if ( location )
+					window.location = location;
+			});
+
 			hash = src.split('?')[1];
 
 			// Ensure we don't call pushState if the user hit the forward button.
