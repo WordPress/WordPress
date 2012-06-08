@@ -576,11 +576,12 @@ function wp_admin_bar_appearance_menu( $wp_admin_bar ) {
 	if ( ! current_user_can( 'edit_theme_options' ) )
 		return;
 
+	$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 	$wp_admin_bar->add_menu( array(
 		'parent' => 'appearance',
 		'id'     => 'customize',
 		'title'  => __('Customize'),
-		'href'   => wp_customize_url(),
+		'href'   => add_query_arg( 'url', urlencode( $current_url ), wp_customize_url() ),
 		'meta'   => array(
 			'class' => 'hide-if-no-customize',
 		),

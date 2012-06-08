@@ -498,7 +498,7 @@ if ( typeof wp === 'undefined' )
 			$.extend( this, options || {} );
 
 			this.add( 'channel', params.channel );
-			this.add( 'url', params.url );
+			this.add( 'url', params.url || '' );
 			this.add( 'targetWindow', params.targetWindow || defaultTarget );
 			this.add( 'origin', this.url() ).link( this.url ).setter( function( to ) {
 				return to.replace( /([^:]+:\/\/[^\/]+).*/, '$1' );

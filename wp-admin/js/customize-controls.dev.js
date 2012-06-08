@@ -403,7 +403,8 @@
 		 */
 		initialize: function( params, options ) {
 			var self = this,
-				rscheme = /^https?/;
+				rscheme = /^https?/,
+				url;
 
 			$.extend( this, options || {} );
 
@@ -443,6 +444,9 @@
 
 			this.container   = api.ensure( params.container );
 			this.allowedUrls = params.allowedUrls;
+
+			url = params.url;
+			delete params.url;
 
 			api.Messenger.prototype.initialize.call( this, params );
 
@@ -488,7 +492,10 @@
 				return result ? result : null;
 			});
 
-			// Refresh the preview when the URL is changed.
+			// Set the url.
+			this.url( url );
+
+			// Refresh the preview when the URL is changed (but not yet).
 			this.url.bind( this.refresh );
 
 			this.scroll = 0;
@@ -635,8 +642,11 @@
 			} ) );
 		});
 
-		// Load the preview frame.
-		previewer.refresh();
+		// Check if preview url is valid and load the preview frame.
+		if ( previewer.url() )
+			previewer.refresh();
+		else
+			previewer.url( api.settings.url.home );
 
 		// Save and activated states
 		(function() {

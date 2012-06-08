@@ -11,6 +11,14 @@ require_once( './admin.php' );
 if ( ! current_user_can( 'edit_theme_options' ) )
 	wp_die( __( 'Cheatin&#8217; uh?' ) );
 
+wp_reset_vars( array( 'url', 'return' ) );
+$url = urldecode( $url );
+$url = wp_validate_redirect( $url, home_url( '/' ) );
+if ( $return )
+	$return = wp_validate_redirect( urldecode( $return ) );
+if ( ! $return )
+	$return = $url;
+
 global $wp_scripts, $wp_customize;
 
 $registered = $wp_scripts->registered;
@@ -64,7 +72,7 @@ do_action( 'customize_controls_print_scripts' );
 				submit_button( $save_text, 'primary', 'save', false );
 			?>
 			<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" />
-			<a class="back button" href="<?php echo esc_url( admin_url( 'themes.php' ) ); ?>">
+			<a class="back button" href="<?php echo esc_url( $return ? $return : admin_url( 'themes.php' ) ); ?>">
 				<?php _e( 'Cancel' ); ?>
 			</a>
 		</div>
@@ -146,13 +154,14 @@ do_action( 'customize_controls_print_scripts' );
 			'active'     => $wp_customize->is_theme_active(),
 		),
 		'url'      => array(
-			'preview'       => esc_url( home_url( '/' ) ),
+			'preview'       => esc_url( $url ? $url : home_url( '/' ) ),
 			'parent'        => esc_url( admin_url() ),
 			'activated'     => esc_url( admin_url( 'themes.php?activated=true' ) ),
 			'ajax'          => esc_url( admin_url( 'admin-ajax.php', 'relative' ) ),
 			'allowed'       => array_map( 'esc_url', $allowed_urls ),
 			'isCrossDomain' => $cross_domain,
 			'fallback'      => $fallback_url,
+			'home'          => esc_url( home_url( '/' ) ),
 		),
 		'browser'  => array(
 			'mobile' => wp_is_mobile(),
