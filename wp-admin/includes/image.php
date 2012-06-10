@@ -448,6 +448,11 @@ function _copy_image_file( $attachment_id ) {
 	if ( $src_file ) {
 		$dst_file = str_replace( basename( $dst_file ), 'copy-' . basename( $dst_file ), $dst_file );
 		$dst_file = dirname( $dst_file ) . '/' . wp_unique_filename( dirname( $dst_file ), basename( $dst_file ) );
+
+		// The directory containing the original file may no longer exist when
+		// using a replication plugin.
+		wp_mkdir_p( dirname( $dst_file ) );
+
 		if ( ! @copy( $src_file, $dst_file ) )
 			$dst_file = false;
 	} else {
