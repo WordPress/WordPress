@@ -37,6 +37,9 @@ if ( isset($action) && $action == 'edit' && !$ID )
 if ( isset($_GET['inline']) ) {
 	$errors = array();
 
+	if ( ! empty( $_REQUEST['post_id'] ) && ! current_user_can( 'edit_post' , $_REQUEST['post_id'] ) )
+		wp_die( __( 'Cheatin&#8217; uh?' ) );
+
 	if ( isset($_POST['html-upload']) && !empty($_FILES) ) {
 		check_admin_referer('media-form');
 		// Upload File button was clicked
@@ -58,6 +61,9 @@ if ( isset($_GET['inline']) ) {
 		wp_redirect( admin_url($location) );
 		exit;
 	}
+
+	if ( isset( $_REQUEST['post_id'] ) )
+		wp_die( __( 'Cheatin&#8217; uh?' ) );
 
 	$title = __('Upload New Media');
 	$parent_file = 'upload.php';
@@ -116,6 +122,8 @@ if ( isset($_GET['inline']) ) {
 	include('./admin-footer.php');
 
 } else {
+	if ( ! empty( $_REQUEST['post_id'] ) && ! current_user_can( 'edit_post' , $_REQUEST['post_id'] ) )
+		wp_die( __( 'Cheatin&#8217; uh?' ) );
 
 	// upload type: image, video, file, ..?
 	if ( isset($_GET['type']) )
