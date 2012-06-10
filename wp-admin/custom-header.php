@@ -211,21 +211,7 @@ class Custom_Image_Header {
 
 		if ( isset( $_POST['resetheader'] ) ) {
 			check_admin_referer( 'custom-header-options', '_wpnonce-custom-header-options' );
-			$this->process_default_headers();
-			$default = get_theme_support( 'custom-header', 'default-image' );
-			$default = sprintf( $default, get_template_directory_uri(), get_stylesheet_directory_uri() );
-			foreach ( $this->default_headers as $header => $details ) {
-				if ( $details['url'] == $default ) {
-					$default_data = $details;
-					break;
-				}
-			}
-			set_theme_mod( 'header_image', $default );
-			if ( empty( $default_data['width'] ) )
-				$default_data['width'] = get_theme_support( 'custom-header', 'width' );
-			if ( empty( $default_data['height'] ) )
-				$default_data['height'] = get_theme_support( 'custom-header', 'height' );
-			set_theme_mod( 'header_image_data', (object) $default_data );
+			$this->reset_header_image();
 			return;
 		}
 
@@ -237,7 +223,7 @@ class Custom_Image_Header {
 
 		if ( isset( $_POST['removeheader'] ) ) {
 			check_admin_referer( 'custom-header-options', '_wpnonce-custom-header-options' );
-			set_theme_mod( 'header_image', 'remove-header' );
+			$this->remove_header_image();
 			return;
 		}
 
@@ -256,25 +242,8 @@ class Custom_Image_Header {
 
 		if ( isset( $_POST['default-header'] ) ) {
 			check_admin_referer( 'custom-header-options', '_wpnonce-custom-header-options' );
-			if ( 'random-default-image' == $_POST['default-header'] ) {
-				set_theme_mod( 'header_image', 'random-default-image' );
-			} elseif ( 'random-uploaded-image' == $_POST['default-header'] ) {
-				set_theme_mod( 'header_image', 'random-uploaded-image' );
-			} else {
-				$this->process_default_headers();
-				$uploaded = get_uploaded_header_images();
-				if ( isset( $uploaded[$_POST['default-header']] ) ) {
-					set_theme_mod( 'header_image', esc_url( $uploaded[$_POST['default-header']]['url'] ) );
-					set_theme_mod( 'header_image_data', (object) $uploaded[$_POST['default-header']] );
-				} elseif ( isset( $this->default_headers[$_POST['default-header']] ) ) {
-					set_theme_mod( 'header_image', esc_url( $this->default_headers[$_POST['default-header']]['url'] ) );
-					if ( empty( $this->default_headers[$_POST['default-header']]['width'] ) )
-						$this->default_headers[$_POST['default-header']]['width'] = get_theme_support( 'custom-header', 'width' );
-					if ( empty( $this->default_headers[$_POST['default-header']]['height'] ) )
-						$this->default_headers[$_POST['default-header']]['height'] = get_theme_support( 'custom-header', 'height' );
-					set_theme_mod( 'header_image_data', (object) $this->default_headers[$_POST['default-header']] );
-				}
-			}
+			$this->set_header_image( $_POST['default-header'] );
+			return;
 		}
 	}
 
@@ -718,9 +687,9 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 			wp_die( __( 'Cheatin&#8217; uh?' ) );
 
 		if ( empty( $_POST ) && isset( $_GET['file'] ) ) {
-			$id = absint( $_GET['file'] );
-			$file = get_attached_file( $id, true );
-			$url = wp_get_attachment_image_src( $id, 'full');
+			$attachment_id = absint( $_GET['file'] );
+			$file = get_attached_file( $attachment_id, true );
+			$url = wp_get_attachment_image_src( $attachment_id, 'full');
 			$url = $url[0];
 		} elseif ( isset( $_POST ) ) {
 			extract($this->step_2_manage_upload());
@@ -729,7 +698,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 		if ( file_exists( $file ) ) {
 			list( $width, $height, $type, $attr ) = getimagesize( $file );
 		} else {
-			$data = wp_get_attachment_metadata( $id );
+			$data = wp_get_attachment_metadata( $attachment_id );
 			$height = $data[ 'height' ];
 			$width = $data[ 'width' ];
 			unset( $data );
@@ -750,19 +719,19 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 		{
 			// Add the meta-data
 			if ( file_exists( $file ) )
-				wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $file ) );
-			update_post_meta( $id, '_wp_attachment_is_custom_header', get_option('stylesheet' ) );
+				wp_update_attachment_metadata( $attachment_id, wp_generate_attachment_metadata( $attachment_id, $file ) );
 
-			set_theme_mod('header_image', esc_url($url));
-			do_action('wp_create_file_in_uploads', $file, $id); // For replication
+			$this->set_header_image( compact( 'url', 'attachment_id', 'width', 'height' ) );
+
+			do_action('wp_create_file_in_uploads', $file, $attachment_id); // For replication
 			return $this->finished();
 		} elseif ( $width > $max_width ) {
 			$oitar = $width / $max_width;
-			$image = wp_crop_image($id, 0, 0, $width, $height, $max_width, $height / $oitar, false, str_replace(basename($file), 'midsize-'.basename($file), $file));
+			$image = wp_crop_image($attachment_id, 0, 0, $width, $height, $max_width, $height / $oitar, false, str_replace(basename($file), 'midsize-'.basename($file), $file));
 			if ( ! $image || is_wp_error( $image ) )
 				wp_die( __( 'Image could not be processed. Please go back and try again.' ), __( 'Image Processing Error' ) );
 
-			$image = apply_filters('wp_create_file_in_uploads', $image, $id); // For replication
+			$image = apply_filters('wp_create_file_in_uploads', $image, $attachment_id); // For replication
 
 			$url = str_replace(basename($url), basename($image), $url);
 			$width = $width / $oitar;
@@ -788,7 +757,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	<input type="hidden" name="y1" id="y1" value="0"/>
 	<input type="hidden" name="width" id="width" value="<?php echo esc_attr( $width ); ?>"/>
 	<input type="hidden" name="height" id="height" value="<?php echo esc_attr( $height ); ?>"/>
-	<input type="hidden" name="attachment_id" id="attachment_id" value="<?php echo esc_attr( $id ); ?>" />
+	<input type="hidden" name="attachment_id" id="attachment_id" value="<?php echo esc_attr( $attachment_id ); ?>" />
 	<input type="hidden" name="oitar" id="oitar" value="<?php echo esc_attr( $oitar ); ?>" />
 	<?php if ( empty( $_POST ) && isset( $_GET['file'] ) ) { ?>
 	<input type="hidden" name="create-new-attachment" value="true" />
@@ -835,8 +804,8 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 		);
 
 		// Save the data
-		$id = wp_insert_attachment( $object, $file );
-		return compact( 'id', 'file', 'filename', 'url', 'type' );
+		$attachment_id = wp_insert_attachment( $object, $file );
+		return compact( 'attachment_id', 'file', 'filename', 'url', 'type' );
 	}
 
 	/**
@@ -918,18 +887,10 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 		// Update the attachment
 		$attachment_id = wp_insert_attachment( $object, $cropped );
 		wp_update_attachment_metadata( $attachment_id, wp_generate_attachment_metadata( $attachment_id, $cropped ) );
-		update_post_meta( $attachment_id, '_wp_attachment_is_custom_header', get_option( 'stylesheet' ) );
 
-		set_theme_mod('header_image', $url);
-
-		$header_data                = new stdClass();
-		$header_data->attachment_id = $attachment_id;
-		$header_data->url           = $url;
-		$header_data->thumbnail_url = $url;
-		$header_data->width         = $dst_width;
-		$header_data->height        = $dst_height;
-
-		set_theme_mod( 'header_image_data', $header_data );
+		$width = $dst_width;
+		$height = $dst_height;
+		$this->set_header_image( compact( 'url', 'attachment_id', 'width', 'height' ) );
 
 		// cleanup
 		$medium = str_replace( basename( $original ), 'midsize-' . basename( $original ), $original );
@@ -997,4 +958,95 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 		return array( 'library' => __('Media Library') );
 	}
 
+	/**
+	 * Choose a header image, selected from existing uploaded and default headers,
+	 * or provide an array of uploaded header data (either new, or from media library).
+	 *
+	 * @param mixed $choice Which header image to select. Allows for values of 'random-default-image',
+	 * 	for randomly cycling among the default images; 'random-uploaded-image', for randomly cycling
+	 * 	among the uploaded images; the key of a default image registered for that theme; and
+	 * 	the key of an image uploaded for that theme (the basename of the URL).
+	 *  Or an array of arguments: attachment_id, url, width, height. All are required.
+	 *
+	 * @since 3.4.0
+	 */
+	final public function set_header_image( $choice ) {
+		if ( is_array( $choice ) || is_object( $choice ) ) {
+			$choice = (array) $choice;
+			if ( ! isset( $choice['attachment_id'] ) || ! isset( $choice['url'] ) )
+				return;
+
+			$choice['url'] = esc_url_raw( $choice['url'] );
+
+			$header_image_data = (object) array(
+				'attachment_id' => $choice['attachment_id'],
+				'url'           => $choice['url'],
+				'thumbnail_url' => $choice['url'],
+				'height'        => $choice['height'],
+				'width'         => $choice['width'],
+			);
+
+			update_post_meta( $choice['attachment_id'], '_wp_attachment_is_custom_header', get_stylesheet() );
+			set_theme_mod( 'header_image', $choice['url'] );
+			set_theme_mod( 'header_image_data', $header_image_data );
+			return;
+		}
+
+		if ( in_array( $choice, array( 'remove-header', 'random-default-image', 'random-uploaded-image' ) ) ) {
+			set_theme_mod( 'header_image', $choice );
+			remove_theme_mod( 'header_image_data' );
+			return;
+		}
+
+		$uploaded = get_uploaded_header_images();
+		if ( $uploaded && isset( $uploaded[ $choice ] ) ) {
+			$header_image_data = $uploaded[ $choice ];
+
+		} else {
+			$this->process_default_headers();
+			if ( isset( $this->default_headers[ $choice ] ) )
+				$header_image_data = $this->default_headers[ $choice ];
+			else
+				return;
+		}
+
+		set_theme_mod( 'header_image', esc_url_raw( $header_image_data['url'] ) );
+		set_theme_mod( 'header_image_data', $header_image_data );
+	}
+
+	/**
+	 * Remove a header image.
+	 *
+	 * @since 3.4.0
+	 */
+	final public function remove_header_image() {
+		return $this->set_header_image( 'remove-header' );
+	}
+
+	/**
+	 * Reset a header image to the default image for the theme.
+	 *
+	 * This method does not do anything if the theme does not have a default header image.
+	 *
+	 * @since 3.4.0
+	 */
+	final public function reset_header_image() {
+		$this->process_default_headers();
+		$default = get_theme_support( 'custom-header', 'default-image' );
+
+		if ( ! $default )
+			return $this->remove_header_image();
+
+		$default = sprintf( $default, get_template_directory_uri(), get_stylesheet_directory_uri() );
+
+		foreach ( $this->default_headers as $header => $details ) {
+			if ( $details['url'] == $default ) {
+				$default_data = $details;
+				break;
+			}
+		}
+
+		set_theme_mod( 'header_image', $default );
+		set_theme_mod( 'header_image_data', (object) $default_data );
+	}
 }

@@ -756,10 +756,15 @@ final class WP_Customize_Manager {
 			'priority'       => 60,
 		) );
 
-		$this->add_setting( 'header_image', array(
+		$this->add_setting( new WP_Customize_Filter_Setting( $this, 'header_image', array(
 			'default'        => get_theme_support( 'custom-header', 'default-image' ),
 			'theme_supports' => 'custom-header',
-		) );
+		) ) );
+
+		$this->add_setting( new WP_Customize_Header_Image_Setting( $this, 'header_image_data', array(
+			// 'default'        => get_theme_support( 'custom-header', 'default-image' ),
+			'theme_supports' => 'custom-header',
+		) ) );
 
 		$this->add_control( new WP_Customize_Header_Image_Control( $this ) );
 

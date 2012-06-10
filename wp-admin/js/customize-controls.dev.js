@@ -239,6 +239,7 @@
 				control.selected.both.addClass('library-selected');
 			});
 
+			// Bind events to switch image urls.
 			this.library.on( 'click', 'a', function( event ) {
 				var value = $(this).data('customizeImageValue');
 
@@ -263,7 +264,7 @@
 			if ( this.tabs.uploaded && this.tabs.uploaded.target.length ) {
 				this.tabs.uploaded.both.removeClass('hidden');
 
-				$( '<a href="#" class="thumbnail"></a>' )
+				attachment.element = $( '<a href="#" class="thumbnail"></a>' )
 					.data( 'customizeImageValue', attachment.url )
 					.append( '<img src="' +  attachment.url+ '" />' )
 					.appendTo( this.tabs.uploaded.target );
@@ -866,6 +867,35 @@
 			control.setting.bind( function( to ) {
 				control.element.set( 'blank' !== to );
 			});
+		});
+
+		// Handle header image data
+		api.control( 'header_image', function( control ) {
+			control.setting.bind( function( to ) {
+				if ( to === control.params.removed )
+					control.settings.data.set( false );
+			});
+
+			control.library.on( 'click', 'a', function( event ) {
+				control.settings.data.set( $(this).data('customizeHeaderImageData') );
+			});
+
+			control.uploader.success = function( attachment ) {
+				var data;
+
+				api.ImageControl.prototype.success.call( control, attachment );
+
+				data = {
+					attachment_id: attachment.id,
+					url:           attachment.url,
+					thumbnail_url: attachment.url,
+					height:        attachment.meta.height,
+					width:         attachment.meta.width
+				};
+
+				attachment.element.data( 'customizeHeaderImageData', data );
+				control.settings.data.set( data );
+			}
 		});
 
 		api.trigger( 'ready' );
