@@ -286,8 +286,7 @@ form#template div {
 	width: 100%;
 }
 
-#ed_toolbar input,
-#ed_reply_toolbar input {
+.wp-editor-container .quicktags-toolbar input {
 	overflow: visible;
 	padding: 0 4px;
 }
