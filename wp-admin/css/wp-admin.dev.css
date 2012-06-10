@@ -731,7 +731,6 @@ p.install-help {
 .wp-admin select {
 	padding: 2px;
 	height: 2em;
-	max-width: 100%;
 }
 
 .wp-admin select[multiple] {
@@ -5650,6 +5649,11 @@ table.form-table td .updated {
 
 #poststuff .inside {
 	margin: 6px 0 8px;
+}
+
+#poststuff .inside #parent_id,
+.inline-edit-row #post_parent {
+	max-width: 100%;
 }
 
 #post-visibility-select,
