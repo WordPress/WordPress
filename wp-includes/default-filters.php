@@ -190,6 +190,7 @@ add_filter( 'the_posts',                '_close_comments_for_old_posts', 10, 2);
 add_filter( 'comments_open',            '_close_comments_for_old_post', 10, 2 );
 add_filter( 'pings_open',               '_close_comments_for_old_post', 10, 2 );
 add_filter( 'editable_slug',            'urldecode'                           );
+add_filter( 'editable_slug',            'esc_textarea'                        );
 add_filter( 'nav_menu_meta_box_object', '_wp_nav_menu_meta_box_object'        );
 
 // Actions
