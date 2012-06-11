@@ -1109,7 +1109,7 @@ function _custom_background_cb() {
 	// A default has to be specified in style.css. It will not be printed here.
 	$color = get_theme_mod( 'background_color' );
 
-	if ( ! $background && ! $color && ! get_theme_support( 'custom-background', 'default-image' ) )
+	if ( ! $background && ! $color )
 		return;
 
 	$style = $color ? "background-color: #$color;" : '';
@@ -1133,10 +1133,6 @@ function _custom_background_cb() {
 		$attachment = " background-attachment: $attachment;";
 
 		$style .= $image . $repeat . $position . $attachment;
-	} elseif ( get_theme_support( 'custom-background', 'default-image' ) ) {
-		// If there is not a $background, but there is a default, then the default was
-		// removed and an empty value was saved. Remove it:
-		$style .= " background-image: none;";
 	}
 ?>
 <style type="text/css" id="custom-background-css">

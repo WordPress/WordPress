@@ -337,7 +337,6 @@ final class WP_Customize_Manager {
 		$settings = array(
 			'values'  => array(),
 			'channel' => esc_js( $_POST['customize_messenger_channel'] ),
-			'backgroundImageHasDefault' => current_theme_supports( 'custom-background', 'default-image' ),
 		);
 
 		foreach ( $this->settings as $id => $setting ) {
