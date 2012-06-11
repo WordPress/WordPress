@@ -8195,13 +8195,13 @@ a.widget-control-edit {
 	width: auto; /* default 5em */
 	min-width: 5em;
 }
-.locale-ru-ru .press-this .posting {
+.locale-ru-ru.press-this .posting {
 	margin-right: 257px; /* default 212px + 45px */
 }
-.locale-ru-ru .press-this #photo-add-url-div input[type="text"]  {
+.locale-ru-ru.press-this #photo-add-url-div input[type="text"]  {
 	width: 255px; /* default 300px - 45px */
 }
-.locale-ru-ru .press-this #side-sortables {
+.locale-ru-ru.press-this #side-sortables {
 	width: 245px; /* default 200px + 45px */
 }
 
