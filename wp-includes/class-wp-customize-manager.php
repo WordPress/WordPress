@@ -781,6 +781,10 @@ final class WP_Customize_Manager {
 			'theme_supports' => 'custom-background',
 		) );
 
+		$this->add_setting( new WP_Customize_Background_Image_Setting( $this, 'background_image_thumb', array(
+			'theme_supports' => 'custom-background',
+		) ) );
+
 		$this->add_control( new WP_Customize_Background_Image_Control( $this ) );
 
 		$this->add_setting( 'background_repeat', array(

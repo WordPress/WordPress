@@ -382,7 +382,7 @@ class WP_Customize_Filter_Setting extends WP_Customize_Setting {
  *
  * Results should be properly handled using another setting or callback.
  */
-class WP_Customize_Header_Image_Setting extends WP_Customize_Setting {
+final class WP_Customize_Header_Image_Setting extends WP_Customize_Setting {
 	public $id = 'header_image_data';
 
 	public function update( $value ) {
@@ -397,5 +397,13 @@ class WP_Customize_Header_Image_Setting extends WP_Customize_Setting {
 			$custom_image_header->set_header_image( $value['choice'] );
 		else
 			$custom_image_header->set_header_image( $value );
+	}
+}
+
+final class WP_Customize_Background_Image_Setting extends WP_Customize_Setting {
+	public $id = 'background_image_thumb';
+
+	public function update( $value ) {
+		remove_theme_mod( 'background_image_thumb' );
 	}
 }
