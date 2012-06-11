@@ -563,7 +563,7 @@ final class WP_Theme implements ArrayAccess {
 	public function display( $header, $markup = true, $translate = true ) {
 		$value = $this->get( $header );
 
-		if ( empty( $value ) || ! $this->load_textdomain() )
+		if ( $translate && ( empty( $value ) || ! $this->load_textdomain() ) )
 			$translate = false;
 
 		if ( $translate )

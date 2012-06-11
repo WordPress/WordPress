@@ -3111,8 +3111,13 @@ function get_theme_data( $theme_file ) {
 		'Status' => $theme->get('Status'),
 		'Tags' => $theme->get('Tags'),
 		'Title' => $theme->get('Name'),
-		'AuthorName' => $theme->display('Author', false, false),
+		'AuthorName' => $theme->get('Author'),
 	);
+
+	foreach ( apply_filters( 'extra_theme_headers', array() ) as $extra_header ) {
+		if ( ! isset( $theme_data[ $extra_header ] ) )
+			$theme_data[ $extra_header ] = $theme->get( $extra_header );
+	}
 
 	return $theme_data;
 }
