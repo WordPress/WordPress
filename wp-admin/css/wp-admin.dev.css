@@ -139,6 +139,8 @@ TABLE OF CONTENTS:
 
 .has-right-sidebar #post-body-content {
 	margin-right: 300px;
+	float: none;
+	width: auto;
 }
 
 /* 2 columns main area */
