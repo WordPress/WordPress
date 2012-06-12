@@ -2673,7 +2673,7 @@ class WP_Query {
 
 		// Check post status to determine if post should be displayed.
 		if ( !empty($this->posts) && ($this->is_single || $this->is_page) ) {
-			$status = get_post_status($this->posts[0]->ID);
+			$status = get_post_status($this->posts[0]);
 			$post_status_obj = get_post_status_object($status);
 			//$type = get_post_type($this->posts[0]);
 			if ( !$post_status_obj->public ) {
