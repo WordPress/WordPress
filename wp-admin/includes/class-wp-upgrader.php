@@ -1513,7 +1513,7 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 			'template'   => $template,
 			'stylesheet' => $stylesheet,
 		), admin_url('themes.php') );
-		$activate_link = wp_nonce_url( $activate_link, 'switch-theme_' . $template );
+		$activate_link = wp_nonce_url( $activate_link, 'switch-theme_' . $stylesheet );
 
 		$install_actions = array();
 		$install_actions['preview']  = '<a href="' . esc_url( $preview_link ) . '" class="hide-if-customize" title="' . esc_attr( sprintf( __('Preview &#8220;%s&#8221;'), $name ) ) . '">' . __('Preview') . '</a>';
@@ -1577,7 +1577,7 @@ class Theme_Upgrader_Skin extends WP_Upgrader_Skin {
 				'template'   => $template,
 				'stylesheet' => $stylesheet,
 			), admin_url('themes.php') );
-			$activate_link = wp_nonce_url( $activate_link, 'switch-theme_' . $template );
+			$activate_link = wp_nonce_url( $activate_link, 'switch-theme_' . $stylesheet );
 
 			if ( get_stylesheet() == $stylesheet ) {
 				$update_actions['preview']  = '<a href="' . wp_customize_url( $stylesheet ) . '" class="hide-if-no-customize load-customize" title="' . esc_attr( sprintf( __('Customize &#8220;%s&#8221;'), $name ) ) . '">' . __('Customize') . '</a>';
