@@ -160,11 +160,11 @@ final class WP_Customize_Manager {
 			add_filter( 'template', array( $this, 'get_template' ) );
 			add_filter( 'stylesheet', array( $this, 'get_stylesheet' ) );
 			add_filter( 'pre_option_current_theme', array( $this, 'current_theme' ) );
-	
+
 			// @link: http://core.trac.wordpress.org/ticket/20027
 			add_filter( 'pre_option_stylesheet', array( $this, 'get_stylesheet' ) );
 			add_filter( 'pre_option_template', array( $this, 'get_template' ) );
-	
+
 			// Handle custom theme roots.
 			add_filter( 'pre_option_stylesheet_root', array( $this, 'get_stylesheet_root' ) );
 			add_filter( 'pre_option_template_root', array( $this, 'get_template_root' ) );
@@ -190,11 +190,11 @@ final class WP_Customize_Manager {
 			remove_filter( 'template', array( $this, 'get_template' ) );
 			remove_filter( 'stylesheet', array( $this, 'get_stylesheet' ) );
 			remove_filter( 'pre_option_current_theme', array( $this, 'current_theme' ) );
-	
+
 			// @link: http://core.trac.wordpress.org/ticket/20027
 			remove_filter( 'pre_option_stylesheet', array( $this, 'get_stylesheet' ) );
 			remove_filter( 'pre_option_template', array( $this, 'get_template' ) );
-	
+
 			// Handle custom theme roots.
 			remove_filter( 'pre_option_stylesheet_root', array( $this, 'get_stylesheet_root' ) );
 			remove_filter( 'pre_option_template_root', array( $this, 'get_template_root' ) );

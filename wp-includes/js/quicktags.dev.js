@@ -1,6 +1,6 @@
 /*
  * Quicktags
- * 
+ *
  * This is the HTML editor in WordPress. It can be attached to any textarea and will
  * append a toolbar above it. This script is self-contained (does not require external libraries).
  *
@@ -51,7 +51,7 @@ function quicktags(settings) {
 
 /**
  * Inserts content at the caret in the active editor (textarea)
- * 
+ *
  * Added for back compatibility
  * @see QTags.insertContent()
  */
@@ -61,12 +61,12 @@ function edInsertContent(bah, txt) {
 
 /**
  * Adds a button to all instances of the editor
- * 
+ *
  * Added for back compatibility, use QTags.addButton() as it gives more flexibility like type of button, button placement, etc.
  * @see QTags.addButton()
  */
 function edButton(id, display, tagStart, tagEnd, access, open) {
-	return QTags.addButton( id, display, tagStart, tagEnd, access, '', -1 );	
+	return QTags.addButton( id, display, tagStart, tagEnd, access, '', -1 );
 }
 
 (function(){
@@ -278,7 +278,7 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 
 	/**
 	 * Main API function for adding a button to Quicktags
-	 * 
+	 *
 	 * Adds qt.Button or qt.TagButton depending on the args. The first three args are always required.
 	 * To be able to add button(s) to Quicktags, your script should be enqueued as dependent
 	 * on "quicktags" and outputted in the footer. If you are echoing JS directly from PHP,
@@ -297,14 +297,14 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 	 * @param arg1 string || function required Either a starting tag to be inserted like "<span>" or a callback that is executed when the button is clicked.
 	 * @param arg2 string optional Ending tag like "</span>"
 	 * @param access_key string optional Access key for the button.
-	 * @param title string optional Button's title="..." 
+	 * @param title string optional Button's title="..."
 	 * @param priority int optional Number representing the desired position of the button in the toolbar. 1 - 9 = first, 11 - 19 = second, 21 - 29 = third, etc.
 	 * @param instance string optional Limit the button to a specifric instance of Quicktags, add to all instances if not present.
 	 * @return mixed null or the button object that is needed for back-compat.
-	 */	 	 	 	
+	 */
 	qt.addButton = function( id, display, arg1, arg2, access_key, title, priority, instance ) {
 		var btn;
-		
+
 		if ( !id || !display )
 			return;
 
