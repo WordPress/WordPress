@@ -4441,6 +4441,11 @@ h3.available-themes {
 	border-right: 1px solid #dfdfdf;
 }
 
+.available-theme .action-links li {
+	padding-right: 8px;
+	margin-right: 8px;
+}
+
 #current-theme .theme-info li:last-child,
 .theme-options li:last-child,
 .available-theme .action-links li:last-child {
@@ -4451,6 +4456,7 @@ h3.available-themes {
 
 .available-theme .action-links .delete-theme {
 	float: right;
+	margin-left: 8px;
 	margin-right: 0;
 }
 

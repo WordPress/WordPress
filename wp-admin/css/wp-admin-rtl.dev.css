@@ -1180,6 +1180,11 @@ h3.available-themes {
 	border-left: 1px solid #dfdfdf;
 }
 
+.available-theme .action-links li {
+	padding-left: 8px;
+	margin-left: 8px;
+}
+
 #current-theme .theme-info li:last-child,
 .theme-options li:last-child,
 .available-theme .action-links li:last-child {
@@ -1191,6 +1196,7 @@ h3.available-themes {
 .available-theme .action-links .delete-theme {
 	float: left;
 	margin-left: 0;
+	margin-right: 8px;
 }
 
 .available-theme .action-links p {
