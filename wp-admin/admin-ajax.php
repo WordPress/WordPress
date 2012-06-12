@@ -38,7 +38,7 @@ do_action( 'admin_init' );
 
 $core_actions_get = array(
 	'fetch-list', 'ajax-tag-search', 'wp-compression-test', 'imgedit-preview', 'oembed-cache',
-	'autocomplete-user', 'dashboard-widgets',
+	'autocomplete-user', 'dashboard-widgets', 'logged-in',
 );
 
 $core_actions_post = array(

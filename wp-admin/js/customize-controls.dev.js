@@ -288,9 +288,7 @@
 		sensitivity: 2000,
 
 		initialize: function( params, options ) {
-			var loaded   = false,
-				ready    = false,
-				deferred = $.Deferred(),
+			var deferred = $.Deferred(),
 				self     = this;
 
 			// This is the promise object.
@@ -304,18 +302,31 @@
 
 			this.add( 'previewUrl', params.previewUrl );
 
-			this.bind( 'ready', function() {
+			this.query = $.extend( params.query || {}, { customize_messenger_channel: this.channel() });
+
+			this.run( deferred );
+		},
+
+		run: function( deferred ) {
+			var self   = this,
+				loaded = false,
+				ready  = false;
+
+			if ( this._ready )
+				this.unbind( 'ready', this._ready );
+
+			this._ready = function() {
 				ready = true;
 
 				if ( loaded )
 					deferred.resolveWith( self );
-			});
+			};
 
-			params.query = $.extend( params.query || {}, { customize_messenger_channel: this.channel() });
+			this.bind( 'ready', this._ready );
 
 			this.request = $.ajax( this.previewUrl(), {
 				type: 'POST',
-				data: params.query,
+				data: this.query,
 				xhrFields: {
 					withCredentials: true
 				}
@@ -339,7 +350,7 @@
 
 				// Check if the user is not logged in.
 				if ( '0' === response ) {
-					deferred.rejectWith( self, [ 'logged out' ] );
+					self.login( deferred );
 					return;
 				}
 
@@ -356,10 +367,6 @@
 					return;
 				}
 
-				// Strip the signature from the request.
-				response = response.slice( 0, index ) + response.slice( index + signature.length );
-
-				// Create the iframe and inject the html content.
 				// Strip the signature from the request.
 				response = response.slice( 0, index ) + response.slice( index + signature.length );
 
@@ -385,6 +392,37 @@
 				self.targetWindow().document.open();
 				self.targetWindow().document.write( response );
 				self.targetWindow().document.close();
+			});
+		},
+
+		login: function( deferred ) {
+			var self = this,
+				reject;
+
+			reject = function() {
+				deferred.rejectWith( self, [ 'logged out' ] );
+			};
+
+			if ( this.triedLogin )
+				return reject();
+
+			// Check if we have an admin cookie.
+			$.get( api.settings.url.ajax, {
+				action: 'logged-in'
+			}).fail( reject ).done( function( response ) {
+				var iframe;
+
+				if ( '1' !== response )
+					reject();
+
+				iframe = $('<iframe src="' + self.previewUrl() + '" />').hide();
+				iframe.appendTo( self.previewer.container );
+				iframe.load( function() {
+					self.triedLogin = true;
+
+					iframe.remove();
+					self.run( deferred );
+				});
 			});
 		},
 

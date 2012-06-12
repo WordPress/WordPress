@@ -212,6 +212,10 @@ function wp_ajax_dashboard_widgets() {
 	wp_die();
 }
 
+function wp_ajax_logged_in() {
+	wp_die( 1 );
+}
+
 /*
  * Ajax helper.
  */
