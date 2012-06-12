@@ -764,6 +764,7 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		// Force refresh of theme update information
 		delete_site_transient('update_themes');
+		search_theme_directories( true );
 		foreach ( wp_get_themes() as $theme )
 			$theme->cache_delete();
 
@@ -812,6 +813,7 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		// Force refresh of theme update information
 		delete_site_transient('update_themes');
+		search_theme_directories( true );
 		foreach ( wp_get_themes() as $theme )
 			$theme->cache_delete();
 
@@ -901,6 +903,7 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		// Force refresh of theme update information
 		delete_site_transient('update_themes');
+		search_theme_directories( true );
 		foreach ( wp_get_themes() as $theme )
 			$theme->cache_delete();
 
