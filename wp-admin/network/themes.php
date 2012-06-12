@@ -40,7 +40,10 @@ if ( $action ) {
 			check_admin_referer('enable-theme_' . $_GET['theme']);
 			$allowed_themes[ $_GET['theme'] ] = true;
 			update_site_option( 'allowedthemes', $allowed_themes );
-			wp_safe_redirect( add_query_arg( 'enabled', 1, $referer ) );
+			if ( false === strpos( $referer, '/network/themes.php' ) )
+				wp_redirect( network_admin_url( 'themes.php?enabled=1' ) );
+			else
+				wp_safe_redirect( add_query_arg( 'enabled', 1, $referer ) );
 			exit;
 			break;
 		case 'disable':
