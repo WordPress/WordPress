@@ -107,6 +107,18 @@ function wp_get_theme( $stylesheet = null, $theme_root = null ) {
 }
 
 /**
+ * Clears the cache held by get_theme_roots() and WP_Theme.
+ *
+ * @since 3.5.0
+ */
+function wp_clean_themes_cache() {
+	delete_site_transient('update_themes');
+	search_theme_directories( true );
+	foreach ( wp_get_themes( array( 'errors' => null ) ) as $theme )
+		$theme->cache_delete();
+}
+
+/**
  * Whether a child theme is in use.
  *
  * @since 3.0.0
