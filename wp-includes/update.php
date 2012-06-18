@@ -278,8 +278,6 @@ function wp_update_themes() {
 	if ( $time_not_changed ) {
 		$theme_changed = false;
 		foreach ( $checked as $slug => $v ) {
-			$update_request->checked[ $slug ] = $v;
-
 			if ( !isset( $last_update->checked[ $slug ] ) || strval($last_update->checked[ $slug ]) !== strval($v) )
 				$theme_changed = true;
 		}
