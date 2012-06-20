@@ -216,7 +216,7 @@ $(document).ready( function() {
 			m.addClass('sub-open');
 		},
 		out: function(){
-			$(this).find('.wp-submenu').removeClass('sub-open');
+			$(this).find('.wp-submenu').removeClass('sub-open').css('margin-top', '');
 		},
 		timeout: 200,
 		sensitivity: 7,
