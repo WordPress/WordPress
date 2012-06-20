@@ -157,17 +157,22 @@ var postboxes;
 		},
 
 		_pb_change : function() {
+			var check = $( 'label.columns-prefs-1 input[type="radio"]' );
+
 			switch ( window.orientation ) {
 				case 90:
 				case -90:
-					this._pb_edit(2);
+					if ( !check.length || !check.is(':checked') )
+						this._pb_edit(2);
 					break;
 				case 0:
 				case 180:
-					if ( $('#poststuff').length )
+					if ( $('#poststuff').length ) {
 						this._pb_edit(1);
-					else
-						this._pb_edit(2);
+					} else {
+						if ( !check.length || !check.is(':checked') )
+							this._pb_edit(2);
+					}
 					break;
 			}
 		},
