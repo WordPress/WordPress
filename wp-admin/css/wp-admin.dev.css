@@ -1968,13 +1968,7 @@ html.wp-toolbar {
 	box-sizing: border-box;
 }
 
-.postbox-container .meta-box-sortables:empty {
-	min-height: 0;
-	height: 0;
-}
-
-.metabox-holder .postbox-container .empty-container,
-#post-body.columns-2 #side-sortables:empty {
+.metabox-holder .postbox-container .empty-container {
 	border: 3px dashed #CCCCCC;
 	height: 250px;
 }
