@@ -11,6 +11,12 @@
 /** Make sure that the WordPress bootstrap has run before continuing. */
 require( dirname(__FILE__) . '/wp-load.php' );
 
+/** If a user is logged in he should be redirected to the home page automatically. */  
+if ( is_user_logged_in() ) {
+  wp_redirect( home_url() ); 
+  exit();
+}
+
 // Redirect to https login if forced to use SSL
 if ( force_ssl_admin() && !is_ssl() ) {
 	if ( 0 === strpos($_SERVER['REQUEST_URI'], 'http') ) {
