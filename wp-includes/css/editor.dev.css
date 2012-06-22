@@ -410,6 +410,47 @@
 	background-image: url(../images/wpicons.png);
 }
 
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
+	.wp_themeSkin span.mce_undo,
+	.wp_themeSkin span.mce_redo,
+	.wp_themeSkin span.mce_bullist,
+	.wp_themeSkin span.mce_numlist,
+	.wp_themeSkin span.mce_blockquote,
+	.wp_themeSkin span.mce_charmap,
+	.wp_themeSkin span.mce_bold,
+	.wp_themeSkin span.mce_italic,
+	.wp_themeSkin span.mce_underline,
+	.wp_themeSkin span.mce_justifyleft,
+	.wp_themeSkin span.mce_justifyright,
+	.wp_themeSkin span.mce_justifycenter,
+	.wp_themeSkin span.mce_justifyfull,
+	.wp_themeSkin span.mce_indent,
+	.wp_themeSkin span.mce_outdent,
+	.wp_themeSkin span.mce_link,
+	.wp_themeSkin span.mce_unlink,
+	.wp_themeSkin span.mce_help,
+	.wp_themeSkin span.mce_removeformat,
+	.wp_themeSkin span.mce_fullscreen,
+	.wp_themeSkin span.mce_wp_fullscreen,
+	.wp_themeSkin span.mce_media,
+	.wp_themeSkin span.mce_pastetext,
+	.wp_themeSkin span.mce_pasteword,
+	.wp_themeSkin span.mce_wp_help,
+	.wp_themeSkin span.mce_wp_adv,
+	.wp_themeSkin span.mce_wp_more,
+	.wp_themeSkin span.mce_strikethrough,
+	.wp_themeSkin span.mce_spellchecker,
+	.wp_themeSkin span.mce_forecolor,
+	.wp_themeSkin .mce_forecolorpicker,
+	.wp_themeSkin .mceSplitButton .mce_spellchecker span.mce_spellchecker,
+	.wp_themeSkin .mceSplitButton .mce_forecolor span.mce_forecolor,
+	.wp_themeSkin .mceSplitButton span.mce_numlist,
+	.wp_themeSkin .mceSplitButton span.mce_bullist {
+		background-image: url(../images/wpicons-2x.png);
+		background-size: 560px 40px;
+	}
+}
+
 /* ColorSplitButton */
 .wp_themeSkin div.mceColorSplitMenu table {
 	background-color: #ebebeb;
