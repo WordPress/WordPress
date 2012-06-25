@@ -64,6 +64,8 @@ if ( current_user_can( 'install_themes' ) ) {
 	) );
 }
 
+add_thickbox();
+
 endif; // switch_themes
 
 if ( current_user_can( 'edit_theme_options' ) ) {
