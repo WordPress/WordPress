@@ -483,17 +483,17 @@ function post_comment_meta_box($post) {
 	if ( 1 > $total ) {
 		echo '<p id="no-comments">' . __('No comments yet.') . '</p>';
 	} else {
-		$hidden = get_hidden_meta_boxes('post');
+		$hidden = get_hidden_meta_boxes( get_current_screen() );
 		if ( ! in_array('commentsdiv', $hidden) ) {
 			?>
 			<script type="text/javascript">jQuery(document).ready(function(){commentsBox.get(<?php echo $total; ?>, 10);});</script>
 			<?php
 		}
-	}
 
-	?>
-	<p class="hide-if-no-js hidden" id="show-comments"><a href="#commentstatusdiv" onclick="commentsBox.get(<?php echo $total; ?>);return false;"><?php _e('Show comments'); ?></a> <img class="waiting" style="display:none;" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" /></p>
-	<?php
+		?>
+		<p class="hide-if-no-js" id="show-comments"><a href="#commentstatusdiv" onclick="commentsBox.get(<?php echo $total; ?>);return false;"><?php _e('Show comments'); ?></a> <img class="waiting" style="display:none;" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" /></p>
+		<?php
+	}
 
 	wp_comment_trashnotice();
 }
