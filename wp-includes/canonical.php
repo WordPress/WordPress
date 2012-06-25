@@ -100,7 +100,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 		}
 
 		if ( ! $redirect_url ) {
-			if ( $redirect_url = redirect_guess_404_permalink( $requested_url ) ) {
+			if ( $redirect_url = redirect_guess_404_permalink() ) {
 				$redirect['query'] = _remove_qs_args_if_not_in_url( $redirect['query'], array( 'page', 'feed', 'p', 'page_id', 'attachment_id', 'pagename', 'name', 'post_type' ), $redirect_url );
 			}
 		}
@@ -461,30 +461,15 @@ function _remove_qs_args_if_not_in_url( $query_string, Array $args_to_check, $ur
 }
 
 /**
- * Attempts to guess the correct URL from the current URL (that produced a 404) or
- * the current query variables.
+ * Attempts to guess the correct URL based on query vars
  *
  * @since 2.3.0
  * @uses $wpdb
  *
- * @param string $current_url Optional. The URL that has 404'd.
  * @return bool|string The correct URL if one is found. False on failure.
  */
-function redirect_guess_404_permalink( $current_url = '' ) {
+function redirect_guess_404_permalink() {
 	global $wpdb, $wp_rewrite;
-
-	if ( ! empty( $current_url ) )
-		$parsed_url = @parse_url( $current_url );
-
-	// Attempt to redirect bare category slugs if the permalink structure starts
-	// with the %category% tag.
-	if ( isset( $parsed_url['path'] )
-		&& preg_match( '#^[^%]+%category%#', $wp_rewrite->permalink_structure )
-		&& $cat = get_category_by_path( $parsed_url['path'] )
-	) {
-		if ( ! is_wp_error( $cat ) )
-			return get_term_link( $cat );
-	}
 
 	if ( get_query_var('name') ) {
 		$where = $wpdb->prepare("post_name LIKE %s", like_escape( get_query_var('name') ) . '%');
