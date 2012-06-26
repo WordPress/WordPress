@@ -953,13 +953,11 @@ class Theme_Upgrader extends WP_Upgrader {
 		if ( $theme != get_stylesheet() ) // If not current
 			return $return;
 
-		// Ensure stylesheet name hasnt changed after the upgrade:
-		// @TODO: Note, This doesn't handle the Template changing, or the Template name changing.
+		// Ensure stylesheet name hasn't changed after the upgrade:
 		if ( $theme == get_stylesheet() && $theme != $this->result['destination_name'] ) {
-			$theme_info = $this->theme_info();
+			wp_clean_themes_cache();
 			$stylesheet = $this->result['destination_name'];
-			$template = $theme_info->get_template();
-			switch_theme($template, $stylesheet, true);
+			switch_theme( $stylesheet );
 		}
 
 		//Time to remove maintenance mode

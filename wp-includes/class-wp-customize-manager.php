@@ -475,7 +475,7 @@ final class WP_Customize_Manager {
 			// Temporarily stop previewing the theme to allow switch_themes()
 			// to operate properly.
 			$this->stop_previewing_theme();
-			switch_theme( $this->get_template(), $this->get_stylesheet() );
+			switch_theme( $this->get_stylesheet() );
 			$this->start_previewing_theme();
 		}
 
