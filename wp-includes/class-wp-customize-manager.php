@@ -17,6 +17,8 @@ final class WP_Customize_Manager {
 	protected $sections = array();
 	protected $controls = array();
 
+	protected $nonce_tick;
+
 	protected $customized;
 
 	private $_post_values;
@@ -308,6 +310,8 @@ final class WP_Customize_Manager {
 	 * @since 3.4.0
 	 */
 	public function customize_preview_init() {
+		$this->nonce_tick = check_ajax_referer( 'preview-customize_' . $this->get_stylesheet(), 'nonce' );
+
 		$this->prepare_controls();
 
 		wp_enqueue_script( 'customize-preview' );
@@ -361,6 +365,13 @@ final class WP_Customize_Manager {
 			'values'  => array(),
 			'channel' => esc_js( $_POST['customize_messenger_channel'] ),
 		);
+
+		if ( 2 == $this->nonce_tick ) {
+ 			$settings['nonce'] = array(
+ 				'save' => wp_create_nonce( 'save-customize_' . $this->get_stylesheet() ),
+ 				'preview' => wp_create_nonce( 'preview-customize_' . $this->get_stylesheet() )
+ 			);
+ 		}
 
 		foreach ( $this->settings as $id => $setting ) {
 			$settings['values'][ $id ] = $setting->js_value();
@@ -468,7 +479,7 @@ final class WP_Customize_Manager {
 		if ( ! $this->is_preview() )
 			die;
 
-		check_ajax_referer( 'customize_controls-' . $this->get_stylesheet(), 'nonce' );
+		check_ajax_referer( 'save-customize_' . $this->get_stylesheet(), 'nonce' );
 
 		// Do we have to switch themes?
 		if ( ! $this->is_theme_active() ) {
