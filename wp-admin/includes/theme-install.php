@@ -64,7 +64,7 @@ function install_theme_search_form( $type_selector = true ) {
 	<option value="tag" <?php selected('tag', $type) ?>><?php _ex('Tag', 'Theme Installer'); ?></option>
 	</select>
 	<?php endif; ?>
-	<input type="search" name="s" size="30" value="<?php echo esc_attr($term) ?>" />
+	<input type="search" name="s" size="30" value="<?php echo esc_attr($term) ?>" autofocus="autofocus" />
 	<?php submit_button( __( 'Search' ), 'button', 'search', false ); ?>
 </form>
 <?php
