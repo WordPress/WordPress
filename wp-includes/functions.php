@@ -3599,9 +3599,9 @@ function _device_can_upload() {
 	if ( strpos($ua, 'iPhone') !== false
 		|| strpos($ua, 'iPad') !== false
 		|| strpos($ua, 'iPod') !== false ) {
-			return false;
-	} else {
-		return true;
+			return preg_match( '#OS ([\d_]+) like Mac OS X#', $ua, $version ) && version_compare( $version[1], '6', '>=' );
 	}
+
+	return true;
 }
 
