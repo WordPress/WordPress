@@ -392,7 +392,7 @@ function load_default_textdomain() {
 		return;
 	}
 
-	if ( is_admin()  )
+	if ( is_admin() || ( defined( 'WP_REPAIRING' ) && WP_REPAIRING ) )
 		load_textdomain( 'default', WP_LANG_DIR . "/admin-$locale.mo" );
 
 	if ( is_network_admin() || ( defined( 'WP_INSTALLING_NETWORK' ) && WP_INSTALLING_NETWORK ) )
