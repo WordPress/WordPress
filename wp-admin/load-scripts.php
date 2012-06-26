@@ -54,6 +54,11 @@ function add_action() {}
 /**
  * @ignore
  */
+function did_action() {}
+
+/**
+ * @ignore
+ */
 function do_action_ref_array() {}
 
 /**
