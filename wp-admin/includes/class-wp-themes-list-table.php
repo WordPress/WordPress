@@ -146,7 +146,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 	$preview_text = esc_attr( sprintf( __( 'Preview of &#8220;%s&#8221;' ), $title ) );
 	$tags = $themes[$theme_name]['Tags'];
 	$thickbox_class = 'thickbox thickbox-preview';
-	$activate_link = wp_nonce_url( "themes.php?action=activate&amp;template=".urlencode( $template )."&amp;stylesheet=".urlencode( $stylesheet ), 'switch-theme_' . $template );
+	$activate_link = wp_nonce_url( "themes.php?action=activate&amp;template=".urlencode( $template )."&amp;stylesheet=".urlencode( $stylesheet ), 'switch-theme_' . $stylesheet );
 	$activate_text = esc_attr( sprintf( __( 'Activate &#8220;%s&#8221;' ), $title ) );
 	$actions = array();
 	$actions[] = '<a href="' . $activate_link .  '" class="activatelink" title="' . $activate_text . '">' . __( 'Activate' ) . '</a>';

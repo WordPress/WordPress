@@ -16,7 +16,17 @@ $wp_list_table = _get_list_table('WP_Themes_List_Table');
 
 if ( current_user_can( 'switch_themes' ) && isset($_GET['action'] ) ) {
 	if ( 'activate' == $_GET['action'] ) {
-		check_admin_referer('switch-theme_' . $_GET['template']);
+		check_admin_referer('switch-theme_' . $_GET['stylesheet']);
+		$themes = get_allowed_themes();
+		foreach ( $themes as $theme ) {
+			if ( $theme['Stylesheet'] == $_GET['stylesheet'] &&
+				$theme['Template'] == $_GET['template'] ) {
+					$found = true;
+					break;
+			}
+		}
+		if ( empty( $found ) )
+			wp_die( __( 'Cheatin&#8217; uh?' ) );
 		switch_theme($_GET['template'], $_GET['stylesheet']);
 		wp_redirect( admin_url('themes.php?activated=true') );
 		exit;
