@@ -58,6 +58,7 @@ function wp_version_check() {
 		$multisite_enabled = 1;
 	} else {
 		$user_count = count_users( );
+		$user_count = $user_count['total_users'];
 		$multisite_enabled = 0;
 		$num_blogs = 1;
 		$wp_install = home_url( '/' );
@@ -70,7 +71,7 @@ function wp_version_check() {
 		'mysql'             => $mysql_version,
 		'local_package'     => isset( $wp_local_package ) ? $wp_local_package : '',
 		'blogs'             => $num_blogs,
-		'users'             => $user_count['total_users'],
+		'users'             => $user_count,
 		'multisite_enabled' => $multisite_enabled
 	);
 
