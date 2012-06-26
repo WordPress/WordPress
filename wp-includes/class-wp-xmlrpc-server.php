@@ -3898,7 +3898,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		// Handle post formats if assigned, value is validated earlier
 		// in this function
 		if ( isset( $content_struct['wp_post_format'] ) )
-			wp_set_post_terms( $post_ID, array( 'post-format-' . $content_struct['wp_post_format'] ), 'post_format' );
+			set_post_format( $post_ID, $content_struct['wp_post_format'] );
 
 		$post_ID = wp_insert_post( $postdata, true );
 		if ( is_wp_error( $post_ID ) )
@@ -4215,7 +4215,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		// Handle post formats if assigned, validation is handled
 		// earlier in this function
 		if ( isset( $content_struct['wp_post_format'] ) )
-			wp_set_post_terms( $post_ID, array( 'post-format-' . $content_struct['wp_post_format'] ), 'post_format' );
+			set_post_format( $post_ID, $content_struct['wp_post_format'] );
 
 		do_action( 'xmlrpc_call_success_mw_editPost', $post_ID, $args );
 
