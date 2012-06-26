@@ -1833,104 +1833,6 @@ function get_allowed_mime_types() {
 }
 
 /**
- * Retrieve nonce action "Are you sure" message.
- *
- * The action is split by verb and noun. The action format is as follows:
- * verb-action_extra. The verb is before the first dash and has the format of
- * letters and no spaces and numbers. The noun is after the dash and before the
- * underscore, if an underscore exists. The noun is also only letters.
- *
- * The filter will be called for any action, which is not defined by WordPress.
- * You may use the filter for your plugin to explain nonce actions to the user,
- * when they get the "Are you sure?" message. The filter is in the format of
- * 'explain_nonce_$verb-$noun' with the $verb replaced by the found verb and the
- * $noun replaced by the found noun. The two parameters that are given to the
- * hook are the localized "Are you sure you want to do this?" message with the
- * extra text (the text after the underscore).
- *
- * @package WordPress
- * @subpackage Security
- * @since 2.0.4
- *
- * @param string $action Nonce action.
- * @return string Are you sure message.
- */
-function wp_explain_nonce( $action ) {
-	if ( $action !== -1 && preg_match( '/([a-z]+)-([a-z]+)(_(.+))?/', $action, $matches ) ) {
-		$verb = $matches[1];
-		$noun = $matches[2];
-
-		$trans = array();
-		$trans['update']['attachment'] = array( __( 'Your attempt to edit this attachment: &#8220;%s&#8221; has failed.' ), 'get_the_title' );
-
-		$trans['add']['category']      = array( __( 'Your attempt to add this category has failed.' ), false );
-		$trans['delete']['category']   = array( __( 'Your attempt to delete this category: &#8220;%s&#8221; has failed.' ), 'get_cat_name' );
-		$trans['update']['category']   = array( __( 'Your attempt to edit this category: &#8220;%s&#8221; has failed.' ), 'get_cat_name' );
-
-		$trans['delete']['comment']    = array( __( 'Your attempt to delete this comment: &#8220;%s&#8221; has failed.' ), 'use_id' );
-		$trans['unapprove']['comment'] = array( __( 'Your attempt to unapprove this comment: &#8220;%s&#8221; has failed.' ), 'use_id' );
-		$trans['approve']['comment']   = array( __( 'Your attempt to approve this comment: &#8220;%s&#8221; has failed.' ), 'use_id' );
-		$trans['update']['comment']    = array( __( 'Your attempt to edit this comment: &#8220;%s&#8221; has failed.' ), 'use_id' );
-		$trans['bulk']['comments']     = array( __( 'Your attempt to bulk modify comments has failed.' ), false );
-		$trans['moderate']['comments'] = array( __( 'Your attempt to moderate comments has failed.' ), false );
-
-		$trans['add']['bookmark']      = array( __( 'Your attempt to add this link has failed.' ), false );
-		$trans['delete']['bookmark']   = array( __( 'Your attempt to delete this link: &#8220;%s&#8221; has failed.' ), 'use_id' );
-		$trans['update']['bookmark']   = array( __( 'Your attempt to edit this link: &#8220;%s&#8221; has failed.' ), 'use_id' );
-		$trans['bulk']['bookmarks']    = array( __( 'Your attempt to bulk modify links has failed.' ), false );
-
-		$trans['add']['page']          = array( __( 'Your attempt to add this page has failed.' ), false );
-		$trans['delete']['page']       = array( __( 'Your attempt to delete this page: &#8220;%s&#8221; has failed.' ), 'get_the_title' );
-		$trans['update']['page']       = array( __( 'Your attempt to edit this page: &#8220;%s&#8221; has failed.' ), 'get_the_title' );
-
-		$trans['edit']['plugin']       = array( __( 'Your attempt to edit this plugin file: &#8220;%s&#8221; has failed.' ), 'use_id' );
-		$trans['activate']['plugin']   = array( __( 'Your attempt to activate this plugin: &#8220;%s&#8221; has failed.' ), 'use_id' );
-		$trans['deactivate']['plugin'] = array( __( 'Your attempt to deactivate this plugin: &#8220;%s&#8221; has failed.' ), 'use_id' );
-		$trans['upgrade']['plugin']    = array( __( 'Your attempt to update this plugin: &#8220;%s&#8221; has failed.' ), 'use_id' );
-
-		$trans['add']['post']          = array( __( 'Your attempt to add this post has failed.' ), false );
-		$trans['delete']['post']       = array( __( 'Your attempt to delete this post: &#8220;%s&#8221; has failed.' ), 'get_the_title' );
-		$trans['update']['post']       = array( __( 'Your attempt to edit this post: &#8220;%s&#8221; has failed.' ), 'get_the_title' );
-
-		$trans['add']['user']          = array( __( 'Your attempt to add this user has failed.' ), false );
-		$trans['delete']['users']      = array( __( 'Your attempt to delete users has failed.' ), false );
-		$trans['bulk']['users']        = array( __( 'Your attempt to bulk modify users has failed.' ), false );
-		$trans['update']['user']       = array( __( 'Your attempt to edit this user: &#8220;%s&#8221; has failed.' ), 'get_the_author_meta', 'display_name' );
-		$trans['update']['profile']    = array( __( 'Your attempt to modify the profile for: &#8220;%s&#8221; has failed.' ), 'get_the_author_meta', 'display_name' );
-
-		$trans['update']['options']    = array( __( 'Your attempt to edit your settings has failed.' ), false );
-		$trans['update']['permalink']  = array( __( 'Your attempt to change your permalink structure to: %s has failed.' ), 'use_id' );
-		$trans['edit']['file']         = array( __( 'Your attempt to edit this file: &#8220;%s&#8221; has failed.' ), 'use_id' );
-		$trans['edit']['theme']        = array( __( 'Your attempt to edit this theme file: &#8220;%s&#8221; has failed.' ), 'use_id' );
-		$trans['switch']['theme']      = array( __( 'Your attempt to switch to this theme: &#8220;%s&#8221; has failed.' ), 'use_id' );
-
-		$trans['log']['out']           = array( sprintf( __( 'You are attempting to log out of %s' ), get_bloginfo( 'sitename' ) ), false );
-
-		if ( isset( $trans[$verb][$noun] ) ) {
-			if ( !empty( $trans[$verb][$noun][1] ) ) {
-				$lookup = $trans[$verb][$noun][1];
-				if ( isset($trans[$verb][$noun][2]) )
-					$lookup_value = $trans[$verb][$noun][2];
-				$object = $matches[4];
-				if ( 'use_id' != $lookup ) {
-					if ( isset( $lookup_value ) )
-						$object = call_user_func( $lookup, $lookup_value, $object );
-					else
-						$object = call_user_func( $lookup, $object );
-				}
-				return sprintf( $trans[$verb][$noun][0], esc_html($object) );
-			} else {
-				return $trans[$verb][$noun][0];
-			}
-		}
-
-		return apply_filters( 'explain_nonce_' . $verb . '-' . $noun, __( 'Are you sure you want to do this?' ), isset($matches[4]) ? $matches[4] : '' );
-	} else {
-		return apply_filters( 'explain_nonce_' . $action, __( 'Are you sure you want to do this?' ) );
-	}
-}
-
-/**
  * Display "Are You Sure" message to confirm the action being taken.
  *
  * If the action has the nonce explain message, then it will be displayed along
@@ -1944,11 +1846,14 @@ function wp_explain_nonce( $action ) {
  */
 function wp_nonce_ays( $action ) {
 	$title = __( 'WordPress Failure Notice' );
-	$html = esc_html( wp_explain_nonce( $action ) );
-	if ( 'log-out' == $action )
-		$html .= "</p><p>" . sprintf( __( "Do you really want to <a href='%s'>log out</a>?"), wp_logout_url() );
-	elseif ( wp_get_referer() )
-		$html .= "</p><p><a href='" . esc_url( remove_query_arg( 'updated', wp_get_referer() ) ) . "'>" . __( 'Please try again.' ) . "</a>";
+	if ( 'log-out' == $action ) {
+		$html = sprintf( __( 'You are attempting to log out of %s' ), get_bloginfo( 'name' ) ) . '</p><p>';
+		$html .= sprintf( __( "Do you really want to <a href='%s'>log out</a>?"), wp_logout_url() );
+	} else {
+		$html = __( 'Are you sure you want to do this?' );
+		if ( wp_get_referer() )
+			$html .= "</p><p><a href='" . esc_url( remove_query_arg( 'updated', wp_get_referer() ) ) . "'>" . __( 'Please try again.' ) . "</a>";
+	}
 
 	wp_die( $html, $title, array('response' => 403) );
 }
