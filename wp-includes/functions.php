@@ -2629,7 +2629,7 @@ function get_allowed_mime_types() {
  * Retrieve nonce action "Are you sure" message.
  *
  * @since 2.0.4
- * @deprecated 3.4.1
+ * @deprecated 3.3.3
  * @deprecated Use wp_nonce_ays()
  * @see wp_nonce_ays()
  *
@@ -2637,7 +2637,7 @@ function get_allowed_mime_types() {
  * @return string Are you sure message.
  */
 function wp_explain_nonce( $action ) {
-	_deprecated_function( __FUNCTION__, '3.4', 'wp_nonce_ays()' );
+	_deprecated_function( __FUNCTION__, '3.3.3', 'wp_nonce_ays()' );
 	return __( 'Are you sure you want to do this?' );
 }
 
