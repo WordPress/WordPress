@@ -337,7 +337,6 @@ final class _WP_Editors {
 						foreach ( $editor_styles as $key => $file ) {
 							if ( $file && file_exists( "$template_dir/$file" ) ) {
 								$mce_css[] = "$template_uri/$file";
-								$editor_styles[$key] = '';
 							}
 						}
 					}
