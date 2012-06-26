@@ -521,6 +521,7 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false, $silen
 	if ( is_multisite() && ( $network_wide || is_network_only_plugin($plugin) ) ) {
 		$network_wide = true;
 		$current = get_site_option( 'active_sitewide_plugins', array() );
+		$_GET['networkwide'] = 1; // Back compat for plugins looking for this value.
 	} else {
 		$current = get_option( 'active_plugins', array() );
 	}
