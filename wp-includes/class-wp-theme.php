@@ -930,10 +930,9 @@ final class WP_Theme implements ArrayAccess {
 			$files = (array) $this->get_files( 'php', 1 );
 
 			foreach ( $files as $file => $full_path ) {
-				$headers = get_file_data( $full_path, array( 'Template Name' => 'Template Name' ) );
-				if ( empty( $headers['Template Name'] ) )
+				if ( ! preg_match( '|Template Name:(.*)$|mi', file_get_contents( $full_path ), $header ) )
 					continue;
-				$page_templates[ $file ] = $headers['Template Name'];
+				$page_templates[ $file ] = _cleanup_header_comment( $header[1] );
 			}
 
 			$this->cache_add( 'page_templates', $page_templates );
