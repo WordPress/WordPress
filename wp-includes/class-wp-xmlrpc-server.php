@@ -1337,7 +1337,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
 
 		$post_type = get_post_type_object( $post['post_type'] );
-		if ( ! current_user_can( $post_type->cap->edit_posts, $post_id ) )
+		if ( ! current_user_can( $post_type->cap->edit_post, $post_id ) )
 			return new IXR_Error( 401, __( 'Sorry, you cannot edit this post.' ) );
 
 		return $this->_prepare_post( $post, $fields );
@@ -1394,12 +1394,14 @@ class wp_xmlrpc_server extends IXR_Server {
 			$post_type = get_post_type_object( $filter['post_type'] );
 			if ( ! ( (bool) $post_type ) )
 				return new IXR_Error( 403, __( 'The post type specified is not valid' ) );
-
-			if ( ! current_user_can( $post_type->cap->edit_posts ) )
-				return new IXR_Error( 401, __( 'Sorry, you are not allowed to edit posts in this post type' ));
-
-			$query['post_type'] = $filter['post_type'];
+		} else {
+			$post_type = get_post_type_object( 'post' );
 		}
+
+		if ( ! current_user_can( $post_type->cap->edit_posts ) )
+			return new IXR_Error( 401, __( 'Sorry, you are not allowed to edit posts in this post type' ));
+
+		$query['post_type'] = $post_type->name;
 
 		if ( isset( $filter['post_status'] ) )
 			$query['post_status'] = $filter['post_status'];
@@ -1427,7 +1429,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		foreach ( $posts_list as $post ) {
 			$post_type = get_post_type_object( $post['post_type'] );
-			if ( ! current_user_can( $post_type->cap->edit_posts, $post['ID'] ) )
+			if ( ! current_user_can( $post_type->cap->edit_post, $post['ID'] ) )
 				continue;
 
 			$struct[] = $this->_prepare_post( $post, $fields );
