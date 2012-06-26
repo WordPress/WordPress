@@ -3622,7 +3622,11 @@ function wp_allowed_protocols() {
  * @return string|array Either a string containing a reversed comma separated trace or an array of individual calls.
  */
 function wp_debug_backtrace_summary( $ignore_class = null, $skip_frames = 0, $pretty = true ) {
-	$trace  = debug_backtrace( false );
+	if ( version_compare( PHP_VERSION, '5.2.5', '>=' ) )
+		$trace = debug_backtrace( false );
+	else
+		$trace = debug_backtrace();
+
 	$caller = array();
 	$check_class = ! is_null( $ignore_class );
 	$skip_frames++; // skip this function
