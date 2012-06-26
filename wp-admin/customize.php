@@ -7,6 +7,8 @@
  * @since 3.4.0
  */
 
+define( 'IFRAME_REQUEST', true );
+
 require_once( './admin.php' );
 if ( ! current_user_can( 'edit_theme_options' ) )
 	wp_die( __( 'Cheatin&#8217; uh?' ) );
@@ -65,7 +67,6 @@ do_action( 'customize_controls_print_scripts' );
 <body class="<?php echo esc_attr( $body_class ); ?>">
 <div class="wp-full-overlay expanded">
 	<form id="customize-controls" class="wrap wp-full-overlay-sidebar">
-		<?php wp_nonce_field( 'customize_controls-' . $wp_customize->get_stylesheet() ); ?>
 		<div id="customize-header-actions" class="wp-full-overlay-header">
 			<?php
 				$save_text = $wp_customize->is_theme_active() ? __( 'Save &amp; Publish' ) : __( 'Save &amp; Activate' );
@@ -175,6 +176,10 @@ do_action( 'customize_controls_print_scripts' );
 		),
 		'settings' => array(),
 		'controls' => array(),
+		'nonce'    => array(
+ 			'save'    => wp_create_nonce( 'save-customize_' . $wp_customize->get_stylesheet() ),
+ 			'preview' => wp_create_nonce( 'preview-customize_' . $wp_customize->get_stylesheet() )
+ 		),
 	);
 
 	foreach ( $wp_customize->settings() as $id => $setting ) {

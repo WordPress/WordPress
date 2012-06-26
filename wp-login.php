@@ -39,7 +39,7 @@ if ( force_ssl_admin() && !is_ssl() ) {
  * @param WP_Error $wp_error Optional. WordPress Error Object
  */
 function login_header($title = 'Log In', $message = '', $wp_error = '') {
-	global $error, $interim_login, $current_site, $customize_login;
+	global $error, $interim_login, $current_site;
 
 	// Don't index any of these forms
 	add_action( 'login_head', 'wp_no_robots' );
@@ -67,9 +67,6 @@ function login_header($title = 'Log In', $message = '', $wp_error = '') {
 	if ( wp_is_mobile() ) { ?>
 		<meta name="viewport" content="width=320; initial-scale=0.9; maximum-scale=1.0; user-scalable=0;" /><?php
 	}
-
-	if ( $customize_login )
-		wp_enqueue_script( 'customize-base' );
 
 	do_action( 'login_enqueue_scripts' );
 	do_action( 'login_head' );
@@ -568,6 +565,8 @@ default:
 	$secure_cookie = '';
 	$interim_login = isset($_REQUEST['interim-login']);
 	$customize_login = isset( $_REQUEST['customize-login'] );
+	if ( $customize_login )
+		wp_enqueue_script( 'customize-base' );
 
 	// If the user wants ssl but the session is not ssl, force a secure cookie.
 	if ( !empty($_POST['log']) && !force_ssl_admin() ) {
@@ -604,21 +603,18 @@ default:
 	if ( !is_wp_error($user) && !$reauth ) {
 		if ( $interim_login ) {
 			$message = '<p class="message">' . __('You have logged in successfully.') . '</p>';
-			login_header( '', $message );
+			login_header( '', $message ); ?>
 
-			if ( ! $customize_login ) : ?>
-				<script type="text/javascript">setTimeout( function(){window.close()}, 8000);</script>
-				<p class="alignright">
-				<input type="button" class="button-primary" value="<?php esc_attr_e('Close'); ?>" onclick="window.close()" /></p>
-<?php		endif;
-
-			?></div><?php
-
-			do_action('login_footer');
-
-			if ( $customize_login ) : ?>
+			<?php if ( ! $customize_login ) : ?>
+			<script type="text/javascript">setTimeout( function(){window.close()}, 8000);</script>
+			<p class="alignright">
+			<input type="button" class="button-primary" value="<?php esc_attr_e('Close'); ?>" onclick="window.close()" /></p>
+			<?php endif; ?>
+			</div>
+			<?php do_action( 'login_footer' ); ?>
+			<?php if ( $customize_login ) : ?>
 				<script type="text/javascript">setTimeout( function(){ new wp.customize.Messenger({ url: '<?php echo wp_customize_url(); ?>', channel: 'login' }).send('login') }, 1000 );</script>
-<?php		endif; ?>
+			<?php endif; ?>
 			</body></html>
 <?php		exit;
 		}

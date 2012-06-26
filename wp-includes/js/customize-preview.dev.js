@@ -88,7 +88,12 @@
 				preview.trigger( event, args );
 			});
 			preview.send( 'synced' );
-		})
+		});
+
+	 	preview.bind( 'active', function() {
+	 		if ( api.settings.nonce )
+	 			preview.send( 'nonce', api.settings.nonce );
+	 	});
 
 		preview.send( 'ready' );
 
