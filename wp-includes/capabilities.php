@@ -947,16 +947,16 @@ function map_meta_cap( $cap, $user_id ) {
 		$caps[] = 'promote_users';
 		break;
 	case 'edit_user':
-		// Allow user to edit itself
-		if ( isset( $args[0] ) && $user_id == $args[0] )
-			break;
-		// Fall through
 	case 'edit_users':
+		// Allow user to edit itself
+		if ( 'edit_user' == $cap && isset( $args[0] ) && $user_id == $args[0] )
+			break;
+
 		// If multisite these caps are allowed only for super admins.
 		if ( is_multisite() && !is_super_admin( $user_id ) )
 			$caps[] = 'do_not_allow';
 		else
-			$caps[] = 'edit_users'; // Explicit due to primitive fall through
+			$caps[] = 'edit_users'; // edit_user maps to edit_users.
 		break;
 	case 'delete_post':
 	case 'delete_page':
@@ -1130,17 +1130,24 @@ function map_meta_cap( $cap, $user_id ) {
 		// Disallow unfiltered_html for all users, even admins and super admins.
 		if ( defined( 'DISALLOW_UNFILTERED_HTML' ) && DISALLOW_UNFILTERED_HTML )
 			$caps[] = 'do_not_allow';
+		elseif ( is_multisite() && ! is_super_admin( $user_id ) )
+			$caps[] = 'do_not_allow';
 		else
 			$caps[] = $cap;
 		break;
 	case 'edit_files':
 	case 'edit_plugins':
 	case 'edit_themes':
-		if ( defined('DISALLOW_FILE_EDIT') && DISALLOW_FILE_EDIT ) {
+		// Disallow the file editors.
+		if ( defined( 'DISALLOW_FILE_EDIT' ) && DISALLOW_FILE_EDIT )
 			$caps[] = 'do_not_allow';
-			break;
-		}
-		// Fall through if not DISALLOW_FILE_EDIT.
+		elseif ( defined( 'DISALLOW_FILE_MODS' ) && DISALLOW_FILE_MODS )
+			$caps[] = 'do_not_allow';
+		elseif ( is_multisite() && ! is_super_admin( $user_id ) )
+			$caps[] = 'do_not_allow';
+		else
+			$caps[] = $cap;
+		break;
 	case 'update_plugins':
 	case 'delete_plugins':
 	case 'install_plugins':
@@ -1148,23 +1155,22 @@ function map_meta_cap( $cap, $user_id ) {
 	case 'delete_themes':
 	case 'install_themes':
 	case 'update_core':
-		// Disallow anything that creates, deletes, or edits core, plugin, or theme files.
+		// Disallow anything that creates, deletes, or updates core, plugin, or theme files.
 		// Files in uploads are excepted.
-		if ( defined('DISALLOW_FILE_MODS') && DISALLOW_FILE_MODS ) {
+		if ( defined( 'DISALLOW_FILE_MODS' ) && DISALLOW_FILE_MODS )
 			$caps[] = 'do_not_allow';
-			break;
-		}
-		// Fall through if not DISALLOW_FILE_MODS.
+		elseif ( is_multisite() && ! is_super_admin( $user_id ) )
+			$caps[] = 'do_not_allow';
+		else
+			$caps[] = $cap;
+		break;
 	case 'delete_user':
 	case 'delete_users':
-		// If multisite these caps are allowed only for super admins.
-		if ( is_multisite() && !is_super_admin( $user_id ) ) {
+		// If multisite only super admins can delete users.
+		if ( is_multisite() && ! is_super_admin( $user_id ) )
 			$caps[] = 'do_not_allow';
-		} else {
-			if ( 'delete_user' == $cap )
-				$cap = 'delete_users';
-			$caps[] = $cap;
-		}
+		else
+			$caps[] = 'delete_users'; // delete_user maps to delete_users.
 		break;
 	case 'create_users':
 		if ( !is_multisite() )
