@@ -1130,6 +1130,8 @@ function map_meta_cap( $cap, $user_id ) {
 		// Disallow unfiltered_html for all users, even admins and super admins.
 		if ( defined( 'DISALLOW_UNFILTERED_HTML' ) && DISALLOW_UNFILTERED_HTML )
 			$caps[] = 'do_not_allow';
+		elseif ( is_multisite() && ! is_super_admin( $user_id ) )
+			$caps[] = $cap;
 		else
 			$caps[] = $cap;
 		break;
