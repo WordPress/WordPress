@@ -861,13 +861,17 @@ function media_post_single_attachment_fields_to_edit( $form_fields, $post ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Filters input from media_upload_form_handler() and assigns a default
+ * post_title from the file name if none supplied. 
+ *
+ * Illustrates the use of the attachment_fields_to_save filter 
+ * which can be used to add default values to any field before saving to DB.
  *
  * @since 2.5.0
  *
- * @param unknown_type $post
- * @param unknown_type $attachment
- * @return unknown
+ * @param array $post
+ * @param array $attachment
+ * @return array
  */
 function image_attachment_fields_to_save($post, $attachment) {
 	if ( substr($post['post_mime_type'], 0, 5) == 'image' ) {
