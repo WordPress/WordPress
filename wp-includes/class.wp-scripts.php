@@ -110,7 +110,7 @@ class WP_Scripts extends WP_Dependencies {
 		}
 
 		$this->print_extra_script( $handle );
-		if ( !preg_match('|^https?://|', $src) && ! ( $this->content_url && 0 === strpos($src, $this->content_url) ) ) {
+		if ( !preg_match('|^(https?:)?//|', $src) && ! ( $this->content_url && 0 === strpos($src, $this->content_url) ) ) {
 			$src = $this->base_url . $src;
 		}
 
