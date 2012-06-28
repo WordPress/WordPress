@@ -4376,6 +4376,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( !$posts_list )
 			return array();
 
+		$struct = array();
 		foreach ($posts_list as $entry) {
 			if ( !current_user_can( 'edit_post', $entry['ID'] ) )
 				continue;
