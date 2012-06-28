@@ -273,7 +273,7 @@ foreach ( $columns as $column_name => $column_display_name ) {
 		break;
 
 	case 'date':
-		if ( '0000-00-00 00:00:00' == $post->post_date && 'date' == $column_name ) {
+		if ( '0000-00-00 00:00:00' == $post->post_date ) {
 			$t_time = $h_time = __( 'Unpublished' );
 		} else {
 			$t_time = get_the_time( __( 'Y/m/d g:i:s A' ) );

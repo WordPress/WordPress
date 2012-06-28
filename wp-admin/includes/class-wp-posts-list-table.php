@@ -561,7 +561,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			break;
 
 			case 'date':
-				if ( '0000-00-00 00:00:00' == $post->post_date && 'date' == $column_name ) {
+				if ( '0000-00-00 00:00:00' == $post->post_date ) {
 					$t_time = $h_time = __( 'Unpublished' );
 					$time_diff = 0;
 				} else {
