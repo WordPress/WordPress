@@ -1164,7 +1164,7 @@ function _wp_post_thumbnail_html( $thumbnail_id = null, $post_id = null ) {
 		$content_width = $old_content_width;
 	}
 
-	return apply_filters( 'admin_post_thumbnail_html', $content );
+	return apply_filters( 'admin_post_thumbnail_html', $content, $post_id );
 }
 
 /**
