@@ -120,6 +120,9 @@ class WP {
 	function parse_request($extra_query_vars = '') {
 		global $wp_rewrite;
 
+		if ( ! apply_filters( 'do_parse_request', true, $this, $extra_query_vars ) )
+			return;
+
 		$this->query_vars = array();
 		$post_type_query_vars = array();
 
