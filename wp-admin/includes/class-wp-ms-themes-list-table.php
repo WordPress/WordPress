@@ -240,10 +240,10 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		if ( 'disabled' != $status )
 			$actions['disable-selected'] = $this->is_site_themes ? __( 'Disable' ) : __( 'Network Disable' );
 		if ( ! $this->is_site_themes ) {
-			if ( current_user_can( 'delete_themes' ) )
-				$actions['delete-selected'] = __( 'Delete' );
 			if ( current_user_can( 'update_themes' ) )
 				$actions['update-selected'] = __( 'Update' );
+			if ( current_user_can( 'delete_themes' ) )
+				$actions['delete-selected'] = __( 'Delete' );
 		}
 		return $actions;
 	}
