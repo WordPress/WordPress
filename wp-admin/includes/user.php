@@ -69,7 +69,8 @@ function edit_user( $user_id = 0 ) {
 			$user->user_url = '';
 		} else {
 			$user->user_url = esc_url_raw( $_POST['url'] );
-			$user->user_url = preg_match('/^(https?|ftps?|mailto|news|irc|gopher|nntp|feed|telnet):/is', $user->user_url) ? $user->user_url : 'http://'.$user->user_url;
+			$protocols = implode( '|', array_map( 'preg_quote', wp_allowed_protocols() ) );
+			$user->user_url = preg_match('/^(' . $protocols . '):/is', $user->user_url) ? $user->user_url : 'http://'.$user->user_url;
 		}
 	}
 	if ( isset( $_POST['first_name'] ) )
