@@ -1387,7 +1387,7 @@ function get_pagenum_link($pagenum = 1, $escape = true ) {
 
 	$home_root = parse_url(home_url());
 	$home_root = ( isset($home_root['path']) ) ? $home_root['path'] : '';
-	$home_root = preg_quote( trailingslashit( $home_root ), '|' );
+	$home_root = preg_quote( $home_root, '|' );
 
 	$request = preg_replace('|^'. $home_root . '|', '', $request);
 	$request = preg_replace('|^/+|', '', $request);
