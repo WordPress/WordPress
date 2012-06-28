@@ -961,12 +961,7 @@ function wp_dashboard_plugins_output() {
 		if ( !isset($items[$item_key]) )
 			continue;
 
-		// current bbPress feed item titles are: user on "topic title"
-		if ( preg_match( '/&quot;(.*)&quot;/s', $item->get_title(), $matches ) )
-			$title = $matches[1];
-		else // but let's make it forward compatible if things change
-			$title = $item->get_title();
-		$title = esc_html( $title );
+		$title = esc_html( $item->get_title() );
 
 		$description = esc_html( strip_tags(@html_entity_decode($item->get_description(), ENT_QUOTES, get_option('blog_charset'))) );
 
