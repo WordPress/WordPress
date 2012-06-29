@@ -2402,7 +2402,7 @@ function wp_list_filter( $list, $args = array(), $operator = 'AND' ) {
 
 		$matched = 0;
 		foreach ( $args as $m_key => $m_value ) {
-			if ( $m_value == $to_match[ $m_key ] )
+			if ( array_key_exists( $m_key, $to_match ) && $m_value == $to_match[ $m_key ] )
 				$matched++;
 		}
 
