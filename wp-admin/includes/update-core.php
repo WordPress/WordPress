@@ -395,6 +395,9 @@ $_old_files = array(
 'wp-includes/js/tinymce/plugins/wplink/editor_plugin.dev.js',
 // Don't delete, yet: 'wp-pass.php',
 // Don't delete, yet: 'wp-register.php',
+// 3.5
+'wp-admin/gears-manifest.php',
+'wp-admin/includes/manifest.php',
 );
 
 /**

@@ -21,13 +21,6 @@ $wp_db_version = 20596;
 $tinymce_version = '349-20805';
 
 /**
- * Holds the cache manifest version
- *
- * @global string $manifest_version
- */
-$manifest_version = '20111113';
-
-/**
  * Holds the required PHP version
  *
  * @global string $required_php_version
