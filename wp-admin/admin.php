@@ -187,6 +187,8 @@ if ( isset($plugin_page) ) {
 		exit;
 	}
 
+	do_action( 'load-importer-' . $importer );
+
 	$parent_file = 'tools.php';
 	$submenu_file = 'import.php';
 	$title = __('Import');
