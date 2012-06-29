@@ -399,14 +399,14 @@ function get_comment_statuses( ) {
  *
  * @since 1.5.0
  * @uses $wpdb
- * @global array $cache_lastcommentmodified
  *
  * @param string $timezone Which timezone to use in reference to 'gmt', 'blog',
  *		or 'server' locations.
  * @return string Last comment modified date.
  */
 function get_lastcommentmodified($timezone = 'server') {
-	global $cache_lastcommentmodified, $wpdb;
+	global $wpdb;
+	static $cache_lastcommentmodified = array();
 
 	if ( isset($cache_lastcommentmodified[$timezone]) )
 		return $cache_lastcommentmodified[$timezone];
