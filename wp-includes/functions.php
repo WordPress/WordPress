@@ -1756,6 +1756,7 @@ function wp_check_filetype_and_ext( $file, $filename, $mimes = null ) {
  * Retrieve list of allowed mime types and file extensions.
  *
  * @since 2.8.6
+ *
  * @uses apply_filters() Calls 'upload_mimes' on returned array
  * @return array Array of mime types keyed by the file extension regex corresponding to those types.
  */
