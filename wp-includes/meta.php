@@ -720,10 +720,35 @@ class WP_Meta_Query {
 			elseif ( ! in_array( $meta_type, array( 'BINARY', 'CHAR', 'DATE', 'DATETIME', 'DECIMAL', 'SIGNED', 'TIME', 'UNSIGNED' ) ) )
 				$meta_type = 'CHAR';
 
+			$meta_value = isset( $q['value'] ) ? $q['value'] : null;
+
+			if ( isset( $q['compare'] ) )
+				$meta_compare = strtoupper( $q['compare'] );
+			else
+				$meta_compare = is_array( $meta_value ) ? 'IN' : '=';
+
+			if ( ! in_array( $meta_compare, array(
+				'=', '!=', '>', '>=', '<', '<=',
+				'LIKE', 'NOT LIKE',
+				'IN', 'NOT IN',
+				'BETWEEN', 'NOT BETWEEN',
+				'NOT EXISTS'
+			) ) )
+				$meta_compare = '=';
+
 			$i = count( $join );
 			$alias = $i ? 'mt' . $i : $meta_table;
 
-			// Set JOIN
+			if ( 'NOT EXISTS' == $meta_compare ) {
+				$join[$i]  = "LEFT JOIN $meta_table";
+				$join[$i] .= $i ? " AS $alias" : '';
+				$join[$i] .= " ON ($primary_table.$primary_id_column = $alias.$meta_id_column AND $alias.meta_key = '$meta_key')";
+
+				$where[$k] = ' ' . $alias . '.' . $meta_id_column . ' IS NULL';
+
+				continue;
+			}
+
 			$join[$i]  = "INNER JOIN $meta_table";
 			$join[$i] .= $i ? " AS $alias" : '';
 			$join[$i] .= " ON ($primary_table.$primary_id_column = $alias.$meta_id_column)";
@@ -732,20 +757,11 @@ class WP_Meta_Query {
 			if ( !empty( $meta_key ) )
 				$where[$k] = $wpdb->prepare( "$alias.meta_key = %s", $meta_key );
 
-			if ( !isset( $q['value'] ) ) {
+			if ( is_null( $meta_value ) ) {
 				if ( empty( $where[$k] ) )
 					unset( $join[$i] );
 				continue;
 			}
-
-			$meta_value = $q['value'];
-
-			$meta_compare = is_array( $meta_value ) ? 'IN' : '=';
-			if ( isset( $q['compare'] ) )
-				$meta_compare = strtoupper( $q['compare'] );
-
-			if ( ! in_array( $meta_compare, array( '=', '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE', 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN' ) ) )
-				$meta_compare = '=';
 
 			if ( in_array( $meta_compare, array( 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN' ) ) ) {
 				if ( ! is_array( $meta_value ) )
