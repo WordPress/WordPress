@@ -2837,6 +2837,8 @@ function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_p
 
 	global $wpdb, $wp_rewrite;
 
+	$original_slug = $slug;
+
 	$feeds = $wp_rewrite->feeds;
 	if ( ! is_array( $feeds ) )
 		$feeds = array();
@@ -2887,7 +2889,7 @@ function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_p
 		}
 	}
 
-	return apply_filters( 'wp_unique_post_slug', $slug, $post_ID, $post_status, $post_type, $post_parent );
+	return apply_filters( 'wp_unique_post_slug', $slug, $post_ID, $post_status, $post_type, $post_parent, $original_slug );
 }
 
 /**
