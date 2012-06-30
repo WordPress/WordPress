@@ -920,13 +920,12 @@ function count_users($strategy = 'time') {
  * @global int $user_ID The ID of the user
  * @global string $user_email The email address of the user
  * @global string $user_url The url in the user's profile
- * @global string $user_pass_md5 MD5 of the user's password
  * @global string $user_identity The display name of the user
  *
  * @param int $for_user_id Optional. User ID to set up global data.
  */
 function setup_userdata($for_user_id = '') {
-	global $user_login, $userdata, $user_level, $user_ID, $user_email, $user_url, $user_pass_md5, $user_identity;
+	global $user_login, $userdata, $user_level, $user_ID, $user_email, $user_url, $user_identity;
 
 	if ( '' == $for_user_id )
 		$user = wp_get_current_user();
@@ -938,7 +937,7 @@ function setup_userdata($for_user_id = '') {
 	$user_level = (int) isset($user->user_level) ? $user->user_level : 0;
 
 	if ( ! $user->exists() ) {
-		$user_login = $user_email = $user_url = $user_pass_md5 = $user_identity = '';
+		$user_login = $user_email = $user_url = $user_identity = '';
 		return;
 	}
 
@@ -946,7 +945,6 @@ function setup_userdata($for_user_id = '') {
 	$user_login = $user->user_login;
 	$user_email = $user->user_email;
 	$user_url   = $user->user_url;
-	$user_pass_md5 = md5( $user->user_pass );
 	$user_identity = $user->display_name;
 }
 
