@@ -1995,7 +1995,7 @@ div.widgets-sortables,
 ------------------------------------------------------------------------------*/
 
 .rtl .bar {
-	border-right-color: none;
+	border-right-color: transparent;
 	border-left-color: #99d;
 }
 
@@ -2029,7 +2029,7 @@ div.widgets-sortables,
 }
 
 .rtl #adminmenu .wp-submenu .wp-submenu-head {
-	border-right-color: none;
+	border-right-color: transparent;
 	border-left-color: #dfdfdf;
 }
 
@@ -2073,7 +2073,7 @@ div.widgets-sortables,
 }
 
 .rtl #post-body .misc-pub-section {
-	border-right-color: none;
+	border-right-color: transparent;
 	border-left-color: #eee;
 }
 
