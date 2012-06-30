@@ -473,18 +473,15 @@ class wp_xmlrpc_server extends IXR_Server {
 				continue;
 
 			$blog_id = $blog->userblog_id;
-			switch_to_blog($blog_id);
-			$is_admin = current_user_can('manage_options');
+			$is_admin = current_user_can_for_blog( $blog_id, 'manage_options' );
 
 			$struct[] = array(
 				'isAdmin'		=> $is_admin,
-				'url'			=> get_option( 'home' ) . '/',
+				'url'			=> get_home_url( $blog_id, '/' ),
 				'blogid'		=> (string) $blog_id,
-				'blogName'		=> get_option( 'blogname' ),
-				'xmlrpc'		=> site_url( 'xmlrpc.php' )
+				'blogName'		=> get_blog_option( $blog_id, 'blogname' ),
+				'xmlrpc'		=> get_site_url( $blog_id, 'xmlrpc.php' )
 			);
-
-			restore_current_blog();
 		}
 
 		return $struct;
