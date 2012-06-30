@@ -131,24 +131,9 @@ function dismissed_updates() {
  * @return null
  */
 function core_upgrade_preamble() {
-	global $upgrade_error, $wp_version;
+	global $wp_version;
 
 	$updates = get_core_updates();
-
-	if ( $upgrade_error ) {
-		echo '<div class="error"><p>';
-		if ( $upgrade_error == 'themes' )
-			_e('Please select one or more themes to update.');
-		else
-			_e('Please select one or more plugins to update.');
-		echo '</p></div>';
-	}
-
-	echo '<p>';
-	/* translators: %1 date, %2 time. */
-	printf( __('Last checked on %1$s at %2$s.'), date_i18n( get_option( 'date_format' ) ), date_i18n( get_option( 'time_format' ) ) );
-	echo ' &nbsp; <a class="button" href="' . esc_url( self_admin_url('update-core.php') ) . '">' . __( 'Check Again' ) . '</a>';
-	echo '</p>';
 
 	if ( !isset($updates[0]->response) || 'latest' == $updates[0]->response ) {
 		echo '<h3>';
@@ -448,6 +433,21 @@ if ( 'upgrade-core' == $action ) {
 	<?php screen_icon('tools'); ?>
 	<h2><?php _e('WordPress Updates'); ?></h2>
 	<?php
+	if ( $upgrade_error ) {
+		echo '<div class="error"><p>';
+		if ( $upgrade_error == 'themes' )
+			_e('Please select one or more themes to update.');
+		else
+			_e('Please select one or more plugins to update.');
+		echo '</p></div>';
+	}
+
+	echo '<p>';
+	/* translators: %1 date, %2 time. */
+	printf( __('Last checked on %1$s at %2$s.'), date_i18n( get_option( 'date_format' ) ), date_i18n( get_option( 'time_format' ) ) );
+	echo ' &nbsp; <a class="button" href="' . esc_url( self_admin_url('update-core.php') ) . '">' . __( 'Check Again' ) . '</a>';
+	echo '</p>';
+
 	if ( current_user_can( 'update_core' ) )
 		core_upgrade_preamble();
 	if ( current_user_can( 'update_plugins' ) )
