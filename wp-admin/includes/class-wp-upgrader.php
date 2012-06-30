@@ -1195,9 +1195,7 @@ class Plugin_Upgrader_Skin extends WP_Upgrader_Skin {
 			'activate_plugin' => '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;plugin=' . $this->plugin, 'activate-plugin_' . $this->plugin) . '" title="' . esc_attr__('Activate this plugin') . '" target="_parent">' . __('Activate Plugin') . '</a>',
 			'plugins_page' => '<a href="' . self_admin_url('plugins.php') . '" title="' . esc_attr__('Go to plugins page') . '" target="_parent">' . __('Return to Plugins page') . '</a>'
 		);
-		if ( $this->plugin_active )
-			unset( $update_actions['activate_plugin'] );
-		if ( ! $this->result || is_wp_error($this->result) )
+		if ( $this->plugin_active || ! $this->result || is_wp_error( $this->result ) || ! current_user_can( 'activate_plugins' ) )
 			unset( $update_actions['activate_plugin'] );
 
 		$update_actions = apply_filters('update_plugin_complete_actions', $update_actions, $this->plugin);
@@ -1449,9 +1447,11 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin {
 			$install_actions['plugins_page'] = '<a href="' . self_admin_url('plugins.php') . '" title="' . esc_attr__('Return to Plugins page') . '" target="_parent">' . __('Return to Plugins page') . '</a>';
 
 		if ( ! $this->result || is_wp_error($this->result) ) {
+			unset( $install_actions['activate_plugin'], $install_actions['network_activate'] );
+		} elseif ( ! current_user_can( 'activate_plugins' ) ) {
 			unset( $install_actions['activate_plugin'] );
-			unset( $install_actions['network_activate'] );
 		}
+
 		$install_actions = apply_filters('install_plugin_complete_actions', $install_actions, $this->api, $plugin_file);
 		if ( ! empty($install_actions) )
 			$this->feedback(implode(' | ', (array)$install_actions));
