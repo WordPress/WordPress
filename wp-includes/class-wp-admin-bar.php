@@ -237,8 +237,9 @@ class WP_Admin_Bar {
 
 			if ( $node->type == 'group' ) {
 				if ( empty( $node->meta['class'] ) )
-					$node->meta['class'] = '';
-				$node->meta['class'] .= ' ' . $group_class;
+					$node->meta['class'] = $group_class;
+				else
+					$node->meta['class'] .= ' ' . $group_class;
 			}
 
 			// Items in items aren't allowed. Wrap nested items in 'default' groups.
@@ -367,9 +368,12 @@ class WP_Admin_Bar {
 		if ( $node->type != 'group' || empty( $node->children ) )
 			return;
 
-		$class = empty( $node->meta['class'] ) ? '' : $node->meta['class'];
+		if ( ! empty( $node->meta['class'] ) )
+			$class = ' class="' . esc_attr( trim( $node->meta['class'] ) ) . '"';
+		else
+			$class = '';
 
-		?><ul id="<?php echo esc_attr( 'wp-admin-bar-' . $node->id ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php
+		?><ul id="<?php echo esc_attr( 'wp-admin-bar-' . $node->id ); ?>"<?php echo $class; ?>><?php
 			foreach ( $node->children as $item ) {
 				$this->_render_item( $item );
 			}
@@ -389,16 +393,19 @@ class WP_Admin_Bar {
 		$aria_attributes = 'tabindex="' . $tabindex . '"';
 
 		if ( $is_parent ) {
-			$menuclass = 'menupop';
+			$menuclass = 'menupop ';
 			$aria_attributes .= ' aria-haspopup="true"';
 		}
 
 		if ( ! empty( $node->meta['class'] ) )
-			$menuclass .= ' ' . $node->meta['class'];
+			$menuclass .= $node->meta['class'];
+
+		if ( $menuclass )
+			$menuclass = ' class="' . esc_attr( trim( $menuclass ) ) . '"';
 
 		?>
 
-		<li id="<?php echo esc_attr( 'wp-admin-bar-' . $node->id ); ?>" class="<?php echo esc_attr( $menuclass ); ?>"><?php
+		<li id="<?php echo esc_attr( 'wp-admin-bar-' . $node->id ); ?>"<?php echo $menuclass; ?>><?php
 			if ( $has_link ):
 				?><a class="ab-item" <?php echo $aria_attributes; ?> href="<?php echo esc_url( $node->href ) ?>"<?php
 					if ( ! empty( $node->meta['onclick'] ) ) :
