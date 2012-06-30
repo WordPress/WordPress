@@ -1404,14 +1404,19 @@ function wp_ajax_inline_save_tax() {
 				wp_die( $tag->get_error_message() );
 			wp_die( __( 'Item not updated.' ) );
 		}
-
-		echo $wp_list_table->single_row( $tag );
 	} else {
 		if ( is_wp_error($updated) && $updated->get_error_message() )
 			wp_die( $updated->get_error_message() );
 		wp_die( __( 'Item not updated.' ) );
 	}
-
+	$level = 0;
+	$parent = $tag->parent;
+	while ( $parent > 0 ) {
+		$parent_tag = get_term( $parent, $taxonomy );
+		$parent = $parent_tag->parent;
+		$level++; 
+	}
+	echo $wp_list_table->single_row( $tag, $level );
 	wp_die();
 }
 
