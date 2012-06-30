@@ -1164,6 +1164,15 @@ function map_meta_cap( $cap, $user_id ) {
 		else
 			$caps[] = $cap;
 		break;
+	case 'activate_plugins':
+		$caps[] = $cap;
+		if ( is_multisite() ) {
+			// update_, install_, and delete_ are handled above with is_super_admin().
+			$menu_perms = get_site_option( 'menu_items', array() );
+			if ( empty( $menu_perms['plugins'] ) )
+				$caps[] = 'manage_network_plugins';
+		}
+		break;
 	case 'delete_user':
 	case 'delete_users':
 		// If multisite only super admins can delete users.

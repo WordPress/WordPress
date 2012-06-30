@@ -142,14 +142,12 @@ function _add_themes_utility_last() {
 	add_submenu_page('themes.php', _x('Editor', 'theme editor'), _x('Editor', 'theme editor'), 'edit_themes', 'theme-editor.php');
 }
 
-$menu_perms = get_site_option( 'menu_items', array() );
-if ( ! is_multisite() || is_super_admin() || ! empty( $menu_perms['plugins'] ) ) {
-	if ( ! isset( $update_data ) )
-		$update_data = wp_get_update_data();
-
 	$count = '';
-	if ( ! is_multisite() && current_user_can( 'update_plugins' ) )
+	if ( ! is_multisite() && current_user_can( 'update_plugins' ) ) {
+		if ( ! isset( $update_data ) )
+			$update_data = wp_get_update_data();
 		$count = "<span class='update-plugins count-{$update_data['counts']['plugins']}'><span class='plugin-count'>" . number_format_i18n($update_data['counts']['plugins']) . "</span></span>";
+	}
 
 	$menu[65] = array( sprintf( __('Plugins %s'), $count ), 'activate_plugins', 'plugins.php', '', 'menu-top menu-icon-plugins', 'menu-plugins', 'div' );
 
@@ -160,8 +158,8 @@ if ( ! is_multisite() || is_super_admin() || ! empty( $menu_perms['plugins'] ) )
 			$submenu['plugins.php'][10] = array( _x('Add New', 'plugin'), 'install_plugins', 'plugin-install.php' );
 			$submenu['plugins.php'][15] = array( _x('Editor', 'plugin editor'), 'edit_plugins', 'plugin-editor.php' );
 		}
-}
-unset($menu_perms, $update_data);
+
+unset( $update_data );
 
 if ( current_user_can('list_users') )
 	$menu[70] = array( __('Users'), 'list_users', 'users.php', '', 'menu-top menu-icon-users', 'menu-users', 'div' );

@@ -13,11 +13,6 @@ require_once( './admin.php' );
 if ( ! is_multisite() )
 	wp_die( __( 'Multisite support is not enabled.' ) );
 
-$menu_perms = get_site_option( 'menu_items', array() );
-
-if ( empty( $menu_perms['themes'] ) && ! is_super_admin() )
-	wp_die( __( 'Cheatin&#8217; uh?' ) );
-
 if ( ! current_user_can( 'manage_sites' ) )
 	wp_die( __( 'You do not have sufficient permissions to manage themes for this site.' ) );
 

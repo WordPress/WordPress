@@ -31,13 +31,6 @@ class WP_Plugins_List_Table extends WP_List_Table {
 	}
 
 	function ajax_user_can() {
-		if ( is_multisite() ) {
-			$menu_perms = get_site_option( 'menu_items', array() );
-
-			if ( empty( $menu_perms['plugins'] ) && ! is_super_admin() )
-				return false;
-		}
-
 		return current_user_can('activate_plugins');
 	}
 
