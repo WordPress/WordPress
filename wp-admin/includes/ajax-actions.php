@@ -193,7 +193,7 @@ function wp_ajax_autocomplete_user() {
 }
 
 function wp_ajax_dashboard_widgets() {
-	require ABSPATH . 'wp-admin/includes/dashboard.php';
+	require_once ABSPATH . 'wp-admin/includes/dashboard.php';
 
 	switch ( $_GET['widget'] ) {
 		case 'dashboard_incoming_links' :
