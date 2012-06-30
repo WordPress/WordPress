@@ -300,7 +300,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 		);
 	}
 
-	function display_rows( $posts = array() ) {
+	function display_rows( $posts = array(), $level = 0 ) {
 		global $wp_query, $post_type_object, $per_page;
 
 		if ( empty( $posts ) )
@@ -311,11 +311,11 @@ class WP_Posts_List_Table extends WP_List_Table {
 		if ( $this->hierarchical_display ) {
 			$this->_display_rows_hierarchical( $posts, $this->get_pagenum(), $per_page );
 		} else {
-			$this->_display_rows( $posts );
+			$this->_display_rows( $posts, $level );
 		}
 	}
 
-	function _display_rows( $posts ) {
+	function _display_rows( $posts, $level = 0 ) {
 		global $post, $mode;
 
 		// Create array of post IDs.
@@ -327,7 +327,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 		$this->comment_pending_count = get_pending_comments_num( $post_ids );
 
 		foreach ( $posts as $post )
-			$this->single_row( $post );
+			$this->single_row( $post, $level );
 	}
 
 	function _display_rows_hierarchical( $pages, $pagenum = 1, $per_page = 20 ) {
@@ -524,8 +524,10 @@ class WP_Posts_List_Table extends WP_List_Table {
 				}
 				else {
 					$attributes = 'class="post-title page-title column-title"' . $style;
+					
+					$pad = str_repeat( '&#8212; ', $level );
 ?>
-			<td <?php echo $attributes ?>><strong><?php if ( $can_edit_post && $post->post_status != 'trash' ) { ?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $title ) ); ?>"><?php echo $title ?></a><?php } else { echo $title; }; _post_states( $post ); ?></strong>
+			<td <?php echo $attributes ?>><strong><?php if ( $can_edit_post && $post->post_status != 'trash' ) { ?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $title ) ); ?>"><?php echo $pad; echo $title ?></a><?php } else { echo $pad; echo $title; }; _post_states( $post ); ?></strong>
 <?php
 					if ( 'excerpt' == $mode && current_user_can( 'read_post', $post->ID ) )
 						the_excerpt();

@@ -1368,7 +1368,18 @@ function wp_ajax_inline_save() {
 	$wp_list_table = _get_list_table('WP_Posts_List_Table');
 
 	$mode = $_POST['post_view'];
-	$wp_list_table->display_rows( array( get_post( $_POST['post_ID'] ) ) );
+
+	$level = 0;
+	$request_post = array( get_post( $_POST['post_ID'] ) );
+	$parent = $request_post[0]->post_parent;
+
+	while ( $parent > 0 ) {
+		$parent_post = get_post( $parent );
+		$parent = $parent_post->post_parent;
+		$level++;
+	}
+
+	$wp_list_table->display_rows( array( get_post( $_POST['post_ID'] ) ), $level );
 
 	wp_die();
 }
