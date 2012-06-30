@@ -18,7 +18,7 @@ if ( is_multisite() && ! is_network_admin() ) {
 	exit();
 }
 
-if ( ! current_user_can( 'update_core' ) )
+if ( ! current_user_can( 'update_core' ) && ! current_user_can( 'update_themes' ) && ! current_user_can( 'update_plugins' ) )
 	wp_die( __( 'You do not have sufficient permissions to update this site.' ) );
 
 function list_core_update( $update ) {
@@ -134,11 +134,7 @@ function core_upgrade_preamble() {
 	global $upgrade_error, $wp_version;
 
 	$updates = get_core_updates();
-?>
-	<div class="wrap">
-	<?php screen_icon('tools'); ?>
-	<h2><?php _e('WordPress Updates'); ?></h2>
-<?php
+
 	if ( $upgrade_error ) {
 		echo '<div class="error"><p>';
 		if ( $upgrade_error == 'themes' )
@@ -183,13 +179,6 @@ function core_upgrade_preamble() {
 		echo '<p>' . sprintf( __( '<a href="%s">Learn more about WordPress %s</a>.' ), esc_url( self_admin_url( 'about.php' ) ), $normalized_version ) . '</p>';
 	}
 	dismissed_updates();
-
-	if ( current_user_can( 'update_plugins' ) )
-		list_plugin_updates();
-	if ( current_user_can( 'update_themes' ) )
-		list_theme_updates();
-	do_action('core_upgrade_preamble');
-	echo '</div>';
 }
 
 function list_plugin_updates() {
@@ -454,10 +443,26 @@ if ( 'upgrade-core' == $action ) {
 
 	wp_version_check();
 	require_once(ABSPATH . 'wp-admin/admin-header.php');
-	core_upgrade_preamble();
+	?>
+	<div class="wrap">
+	<?php screen_icon('tools'); ?>
+	<h2><?php _e('WordPress Updates'); ?></h2>
+	<?php
+	if ( current_user_can( 'update_core' ) )
+		core_upgrade_preamble();
+	if ( current_user_can( 'update_plugins' ) )
+		list_plugin_updates();
+	if ( current_user_can( 'update_themes' ) )
+		list_theme_updates();
+	do_action('core_upgrade_preamble');
+	echo '</div>';
 	include(ABSPATH . 'wp-admin/admin-footer.php');
 
 } elseif ( 'do-core-upgrade' == $action || 'do-core-reinstall' == $action ) {
+
+	if ( ! current_user_can( 'update_core' ) )
+		wp_die( __( 'You do not have sufficient permissions to update this site.' ) );
+
 	check_admin_referer('upgrade-core');
 
 	// do the (un)dismiss actions before headers,

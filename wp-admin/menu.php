@@ -34,7 +34,14 @@ if ( ! is_multisite() || is_super_admin() )
 	$update_data = wp_get_update_data();
 
 if ( ! is_multisite() ) {
-	$submenu[ 'index.php' ][10] = array( sprintf( __('Updates %s'), "<span class='update-plugins count-{$update_data['counts']['total']}' title='{$update_data['title']}'><span class='update-count'>" . number_format_i18n($update_data['counts']['total']) . "</span></span>" ), 'update_core',  'update-core.php');
+	if ( current_user_can( 'update_core' ) )
+		$cap = 'update_core';
+	elseif ( current_user_can( 'update_plugins' ) )
+		$cap = 'update_plugins';
+	else
+		$cap = 'update_themes';
+	$submenu[ 'index.php' ][10] = array( sprintf( __('Updates %s'), "<span class='update-plugins count-{$update_data['counts']['total']}' title='{$update_data['title']}'><span class='update-count'>" . number_format_i18n($update_data['counts']['total']) . "</span></span>" ), $cap, 'update-core.php');
+	unset( $cap );
 }
 
 $menu[4] = array( '', 'read', 'separator1', '', 'wp-menu-separator' );
