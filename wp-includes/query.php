@@ -2177,6 +2177,8 @@ class WP_Query {
 		if ( !empty($q['s']) ) {
 			// added slashes screw with quote grouping when done early, so done later
 			$q['s'] = stripslashes($q['s']);
+			if ( empty( $_GET['s'] ) && is_main_query() )
+				$q['s'] = urldecode($q['s']);
 			if ( !empty($q['sentence']) ) {
 				$q['search_terms'] = array($q['s']);
 			} else {
