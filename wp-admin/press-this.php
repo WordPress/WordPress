@@ -110,7 +110,7 @@ $image = isset($_GET['i']) ? $_GET['i'] : '';
 if ( !empty($_REQUEST['ajax']) ) {
 	switch ($_REQUEST['ajax']) {
 		case 'video': ?>
-			<script type="text/javascript" charset="utf-8">
+			<script type="text/javascript">
 			/* <![CDATA[ */
 				jQuery('.select').click(function() {
 					append_editor(jQuery('#embed-code').val());
@@ -133,7 +133,7 @@ if ( !empty($_REQUEST['ajax']) ) {
 			<?php break;
 
 		case 'photo_thickbox': ?>
-			<script type="text/javascript" charset="utf-8">
+			<script type="text/javascript">
 				/* <![CDATA[ */
 				jQuery('.cancel').click(function() {
 					tb_remove();

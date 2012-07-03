@@ -423,7 +423,7 @@ if ( $show_password_fields ) :
 break;
 }
 ?>
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
 	if (window.location.hash == '#password') {
 		document.getElementById('pass1').focus();
 	}
