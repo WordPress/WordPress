@@ -275,6 +275,13 @@ $(document).ready( function() {
 			}
 		}
 		lastClicked = this;
+
+		// toggle "check all" checkboxes
+		var unchecked = $(this).closest('tbody').find(':checkbox').filter(':visible').not(':checked');
+		$(this).closest('table').children('thead, tfoot').find(':checkbox').prop('checked', function() {
+			return ( 0 == unchecked.length );
+		});
+
 		return true;
 	});
 
