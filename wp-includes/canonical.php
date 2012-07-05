@@ -28,7 +28,7 @@
  *
  * @since 2.3.0
  * @uses $wp_rewrite
- * @uses $is_iis7
+ * @uses $is_IIS
  *
  * @param string $requested_url Optional. The URL that was requested, used to
  *		figure if redirect is needed.
