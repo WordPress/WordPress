@@ -2710,9 +2710,10 @@ function wp_insert_post($postarr, $wp_error = false) {
  * @since 1.0.0
  *
  * @param array|object $postarr Post data. Arrays are expected to be escaped, objects are not.
- * @return int 0 on failure, Post ID on success.
+ * @param bool $wp_error Optional. Allow return of WP_Error on failure.
+ * @return int|WP_Error The value 0 or WP_Error on failure. The post ID on success.
  */
-function wp_update_post($postarr = array()) {
+function wp_update_post( $postarr = array(), $wp_error = false ) {
 	if ( is_object($postarr) ) {
 		// non-escaped post was passed
 		$postarr = get_object_vars($postarr);
@@ -2750,7 +2751,7 @@ function wp_update_post($postarr = array()) {
 	if ($postarr['post_type'] == 'attachment')
 		return wp_insert_attachment($postarr);
 
-	return wp_insert_post($postarr);
+	return wp_insert_post( $postarr, $wp_error );
 }
 
 /**
