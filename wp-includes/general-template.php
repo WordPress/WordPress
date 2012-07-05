@@ -1767,7 +1767,7 @@ function user_can_richedit() {
  * Find out which editor should be displayed by default.
  *
  * Works out which of the two editors to display as the current editor for a
- * user.
+ * user. The 'html' setting is for the "Text" editor tab.
  *
  * @since 2.5.0
  *

@@ -76,6 +76,7 @@ final class _WP_Editors {
 		if ( self::$this_quicktags && self::$this_tinymce ) {
 			$switch_class = 'html-active';
 
+			// 'html' and 'switch-html' are used for the "Text" editor tab.
 			if ( 'html' == wp_default_editor() ) {
 				add_filter('the_editor_content', 'wp_htmledit_pre');
 			} else {

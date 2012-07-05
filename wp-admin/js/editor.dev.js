@@ -7,7 +7,7 @@ var switchEditors = {
 		this.go(id, mode);
 	},
 
-	go: function(id, mode) { // mode can be 'html', 'tmce', or 'toggle'
+	go: function(id, mode) { // mode can be 'html', 'tmce', or 'toggle'; 'html' is used for the "Text" editor tab.
 		id = id || 'content';
 		mode = mode || 'toggle';
 
