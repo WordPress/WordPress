@@ -222,10 +222,10 @@ wp_admin_css( 'wp-admin', true );
 	<p><?php _e('There is a button in the editor toolbar for inserting images that are already hosted somewhere on the internet. If you have a URL for an image, click this button and enter the URL in the box which appears.') ?></p>
 	<p><?php _e('If you need to upload an image or another media file from your computer, you can use the Media Library button above the editor. The media library will attempt to create a thumbnail-sized copy from each uploaded image. To insert your image into the post, first click on the thumbnail to reveal a menu of options. When you have selected the options you like, click "Insert into Post" and your image or file will appear in the post you are editing.') ?></p>
 	<h3><?php _e('HTML in the Rich Editor') ?></h3>
-	<p><?php _e('Any HTML entered directly into the rich editor will show up as text when the post is viewed. What you see is what you get. When you want to include HTML elements that cannot be generated with the toolbar buttons, you must enter it by hand in the HTML editor. Examples are tables and &lt;code&gt;. To do this, click the HTML tab and edit the code, then switch back to Visual mode. If the code is valid and understood by the editor, you should see it rendered immediately.') ?></p>
+	<p><?php _e('Any HTML entered directly into the rich editor will show up as text when the post is viewed. What you see is what you get. When you want to include HTML elements that cannot be generated with the toolbar buttons, you must enter it by hand in the Text editor. Examples are tables and &lt;code&gt;. To do this, click the Text tab and edit the code, then switch back to Visual mode. If the code is valid and understood by the editor, you should see it rendered immediately.') ?></p>
 	<h3><?php _e('Pasting in the Rich Editor') ?></h3>
-	<p><?php _e('When pasting content from another web page the results can be inconsistent and depend on your browser and on the web page you are pasting from. The editor tries to correct any invalid HTML code that was pasted, but for best results try using the HTML tab or one of the paste buttons that are on the second row. Alternatively try pasting paragraph by paragraph. In most browsers to select one paragraph at a time, triple-click on it.') ?></p>
-	<p><?php _e('Pasting content from another application, like Word or Excel, is best done with the Paste from Word button on the second row, or in HTML mode.') ?></p>
+	<p><?php _e('When pasting content from another web page the results can be inconsistent and depend on your browser and on the web page you are pasting from. The editor tries to correct any invalid HTML code that was pasted, but for best results try using the Text tab or one of the paste buttons that are on the second row. Alternatively try pasting paragraph by paragraph. In most browsers to select one paragraph at a time, triple-click on it.') ?></p>
+	<p><?php _e('Pasting content from another application, like Word or Excel, is best done with the Paste from Word button on the second row, or in Text mode.') ?></p>
 </div>
 
 <div id="content3" class="hidden">
@@ -258,7 +258,7 @@ wp_admin_css( 'wp-admin', true );
 		<tr><th>q</th><td><?php _e('Quote') ?></td><th>m</th><td><?php _e('Insert Image') ?></td></tr>
 		<tr><th>g</th><td><?php _e('Full Screen') ?></td><th>t</th><td><?php _e('Insert More Tag') ?></td></tr>
 		<tr><th>p</th><td><?php _e('Insert Page Break tag') ?></td><th>h</th><td><?php _e('Help') ?></td></tr>
-		<tr><th>e</th><td colspan="3"><?php _e('Switch to HTML mode') ?></td></tr>
+		<tr><th>e</th><td colspan="3"><?php _e('Switch to Text mode') ?></td></tr>
 
 		<tr><th colspan="4" style="font-weight: normal;padding: 15px 10px 10px;"><?php _e('Editor width in Distraction-free writing mode:'); ?></th></tr>
 		<tr><th><span class="win">Alt +</span><span class="mac">Ctrl +</span></th><td><?php _e('Wider') ?></td>

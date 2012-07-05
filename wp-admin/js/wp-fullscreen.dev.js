@@ -576,7 +576,7 @@ PubSub.prototype.publish = function( topic, args ) {
 				return false;
 			});
 
-			// word count in HTML mode
+			// word count in Text mode
 			if ( typeof(wpWordCount) != 'undefined' ) {
 
 				txtarea.keyup( function(e) {

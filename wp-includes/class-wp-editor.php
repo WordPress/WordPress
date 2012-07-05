@@ -34,7 +34,7 @@ final class _WP_Editors {
 			'textarea_name' => $editor_id, // set the textarea name to something different, square brackets [] can be used here
 			'textarea_rows' => get_option('default_post_edit_rows', 10), // rows="..."
 			'tabindex' => '',
-			'editor_css' => '', // intended for extra styles for both visual and HTML editors buttons, needs to include the <style> tags, can use "scoped".
+			'editor_css' => '', // intended for extra styles for both visual and Text editors buttons, needs to include the <style> tags, can use "scoped".
 			'editor_class' => '', // add extra class(es) to the editor textarea
 			'teeny' => false, // output the minimal editor config used in Press This
 			'dfw' => false, // replace the default fullscreen with DFW (needs specific DOM elements and css)
@@ -624,7 +624,7 @@ final class _WP_Editors {
 
 			<div id="wp-fullscreen-mode-bar"><div id="wp-fullscreen-modes">
 				<a href="#" onclick="fullscreen.switchmode('tinymce');return false;"><?php _e('Visual'); ?></a>
-				<a href="#" onclick="fullscreen.switchmode('html');return false;"><?php _e('HTML'); ?></a>
+				<a href="#" onclick="fullscreen.switchmode('html');return false;"><?php _e('Text'); ?></a>
 			</div></div>
 
 			<div id="wp-fullscreen-button-bar"><div id="wp-fullscreen-buttons" class="wp_themeSkin">
