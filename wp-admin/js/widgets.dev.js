@@ -77,7 +77,7 @@ wpWidgets = {
 			handle: '> .widget-top > .widget-title',
 			distance: 2,
 			helper: 'clone',
-			zIndex: 5,
+			zIndex: 100,
 			containment: 'document',
 			start: function(e,ui) {
 				ui.helper.find('div.widget-description').hide();
