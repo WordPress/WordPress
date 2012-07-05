@@ -18,7 +18,9 @@
  * one or the other.
  *
  * Prevents redirection for feeds, trackbacks, searches, comment popup, and
- * admin URLs. Does not redirect on IIS, page/post previews, and on form data.
+ * admin URLs. Does not redirect on non-pretty-permalink-supporting IIS 7, 
+ * page/post previews, WP admin, Trackbacks, robots.txt, searches, or on POST
+ * requests.
  *
  * Will also attempt to find the correct link when a user enters a URL that does
  * not exist based on exact WordPress query. Will instead try to parse the URL
@@ -26,7 +28,7 @@
  *
  * @since 2.3.0
  * @uses $wp_rewrite
- * @uses $is_IIS
+ * @uses $is_iis7
  *
  * @param string $requested_url Optional. The URL that was requested, used to
  *		figure if redirect is needed.
@@ -35,9 +37,9 @@
  *		not needed or the string of the URL
  */
 function redirect_canonical( $requested_url = null, $do_redirect = true ) {
-	global $wp_rewrite, $is_IIS, $wp_query, $wpdb;
+	global $wp_rewrite, $is_iis7, $wp_query, $wpdb;
 
-	if ( is_trackback() || is_search() || is_comments_popup() || is_admin() || !empty($_POST) || is_preview() || is_robots() || $is_IIS )
+	if ( is_trackback() || is_search() || is_comments_popup() || is_admin() || !empty($_POST) || is_preview() || is_robots() || ( $is_iis7 && !iis7_supports_permalinks() ) )
 		return;
 
 	if ( !$requested_url ) {
