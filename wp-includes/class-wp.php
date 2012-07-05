@@ -164,13 +164,13 @@ class WP {
 			// requested permalink.
 			$req_uri = str_replace($pathinfo, '', $req_uri);
 			$req_uri = trim($req_uri, '/');
-			$req_uri = preg_replace("|^$home_path|", '', $req_uri);
+			$req_uri = preg_replace("|^$home_path|i", '', $req_uri);
 			$req_uri = trim($req_uri, '/');
 			$pathinfo = trim($pathinfo, '/');
-			$pathinfo = preg_replace("|^$home_path|", '', $pathinfo);
+			$pathinfo = preg_replace("|^$home_path|i", '', $pathinfo);
 			$pathinfo = trim($pathinfo, '/');
 			$self = trim($self, '/');
-			$self = preg_replace("|^$home_path|", '', $self);
+			$self = preg_replace("|^$home_path|i", '', $self);
 			$self = trim($self, '/');
 
 			// The requested permalink is in $pathinfo for path info requests and
