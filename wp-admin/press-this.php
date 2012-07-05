@@ -172,7 +172,7 @@ if ( !empty($_REQUEST['ajax']) ) {
 		 */
 		function get_images_from_uri($uri) {
 			$uri = preg_replace('/\/#.+?$/','', $uri);
-			if ( preg_match('/\.(jpg|jpe|jpeg|png|gif)$/', $uri) && !strpos($uri,'blogger.com') )
+			if ( preg_match( '/\.(jpe?g|jpe|gif|png)\b/i', $uri ) && !strpos( $uri, 'blogger.com' ) )
 				return "'" . esc_attr( html_entity_decode($uri) ) . "'";
 			$content = wp_remote_fopen($uri);
 			if ( false === $content )

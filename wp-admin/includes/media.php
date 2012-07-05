@@ -599,7 +599,7 @@ function media_sideload_image($file, $post_id, $desc = null) {
 
 		// Set variables for storage
 		// fix file filename for query strings
-		preg_match('/[^\?]+\.(jpg|JPG|jpe|JPE|jpeg|JPEG|gif|GIF|png|PNG)/', $file, $matches);
+		preg_match( '/[^\?]+\.(jpe?g|jpe|gif|png)\b/i', $file, $matches );
 		$file_array['name'] = basename($matches[0]);
 		$file_array['tmp_name'] = $tmp;
 
