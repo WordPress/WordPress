@@ -305,7 +305,7 @@ endif; ?>
 </div>
 <?php elseif ( 'post_tag' == $taxonomy && current_user_can( 'import' ) ) : ?>
 <div class="form-wrap">
-<p><?php printf(__('Tags can be selectively converted to categories using the <a href="%s">tag to category converter</a>'), 'import.php') ;?>.</p>
+<p><?php printf(__('Tags can be selectively converted to categories using the <a href="%s">tag to category converter</a>.'), 'import.php') ;?></p>
 </div>
 <?php endif;
 do_action('after-' . $taxonomy . '-table', $taxonomy);
