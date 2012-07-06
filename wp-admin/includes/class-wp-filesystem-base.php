@@ -193,12 +193,13 @@ class WP_Filesystem_Base {
 		$folder = untrailingslashit($folder);
 
 		$folder_parts = explode('/', $folder);
-		$last_path = $folder_parts[ count($folder_parts) - 1 ];
+		$last_index = array_pop( array_keys( $folder_parts ) );
+		$last_path = $folder_parts[ $last_index ];
 
 		$files = $this->dirlist( $base );
 
-		foreach ( $folder_parts as $key ) {
-			if ( $key == $last_path )
+		foreach ( $folder_parts as $index => $key ) {
+			if ( $index == $last_index )
 				continue; //We want this to be caught by the next code block.
 
 			//Working from /home/ to /user/ to /wordpress/ see if that file exists within the current folder,
