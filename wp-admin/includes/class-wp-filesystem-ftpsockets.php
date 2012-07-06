@@ -318,6 +318,10 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 					$struc['files'] = array();
 			}
 
+			// Replace symlinks formatted as "source -> target" with just the source name
+			if ( $struc['islink'] )
+				$struc['name'] = preg_replace( '/(\s*->\s*.*)$/', '', $struc['name'] );
+
 			$ret[ $struc['name'] ] = $struc;
 		}
 		return $ret;
