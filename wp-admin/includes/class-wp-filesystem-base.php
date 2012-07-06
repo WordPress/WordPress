@@ -211,7 +211,9 @@ class WP_Filesystem_Base {
 				$newdir = trailingslashit(path_join($base, $key));
 				if ( $this->verbose )
 					printf( __('Changing to %s') . '<br/>', $newdir );
-				if ( $ret = $this->search_for_folder( $folder, $newdir, $loop) )
+				// only search for the remaining path tokens in the directory, not the full path again
+				$newfolder = implode( '/', array_slice( $folder_parts, $index + 1 ) );
+				if ( $ret = $this->search_for_folder( $newfolder, $newdir, $loop) )
 					return $ret;
 			}
 		}
