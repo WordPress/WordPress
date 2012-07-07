@@ -1590,7 +1590,7 @@ class WP_Http_Cookie {
 	 * @return string Header encoded cookie name and value.
 	 */
 	function getHeaderValue() {
-		if ( empty( $this->name ) || empty( $this->value ) )
+		if ( ! isset( $this->name ) || ! isset( $this->value ) )
 			return '';
 
 		return $this->name . '=' . apply_filters( 'wp_http_cookie_value', $this->value, $this->name );
