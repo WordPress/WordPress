@@ -105,11 +105,12 @@ h3 {font-size:14px;}
 #plugintable, #about #plugintable td {border:1px solid #919B9C;}
 #plugintable {width:96%; margin-top:10px;}
 #pluginscontainer {height:290px; overflow:auto;}
-#colorpicker #preview {float:right; width:50px; height:14px;line-height:1px; border:1px solid black; margin-left:5px;}
+#colorpicker #preview {display:inline-block; padding-left:40px; height:14px; border:1px solid black; margin-left:5px; margin-right: 5px}
+#colorpicker #previewblock {position: relative; top: -3px; padding-left:5px; padding-top: 0px; display:inline}
+#colorpicker #preview_wrapper { text-align:center; padding-top:4px; white-space: nowrap}
 #colorpicker #colors {float:left; border:1px solid gray; cursor:crosshair;}
 #colorpicker #light {border:1px solid gray; margin-left:5px; float:left;width:15px; height:150px; cursor:crosshair;}
 #colorpicker #light div {overflow:hidden;}
-#colorpicker #previewblock {float:right; padding-left:10px; height:20px;}
 #colorpicker .panel_wrapper div.current {height:175px;}
 #colorpicker #namedcolors {width:150px;}
 #colorpicker #namedcolors a {display:block; float:left; width:10px; height:10px; margin:1px 1px 0 0; overflow:hidden;}

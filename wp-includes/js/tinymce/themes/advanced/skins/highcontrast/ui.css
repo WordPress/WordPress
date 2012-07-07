@@ -58,7 +58,7 @@
 
 /* Menu */
 .highcontrastSkin .mceNoIcons span.mceIcon {width:0;}
-.highcontrastSkin .mceMenu {position:absolute; left:0; top:0; z-index:1000; border:1px solid; }
+.highcontrastSkin .mceMenu {position:absolute; left:0; top:0; z-index:1000; border:1px solid; direction:ltr}
 .highcontrastSkin .mceMenu table {background:white; color: black}
 .highcontrastSkin .mceNoIcons a .mceText {padding-left:10px}
 .highcontrastSkin .mceMenu a, .highcontrastSkin .mceMenu span, .highcontrastSkin .mceMenu {display:block;background:white; color: black}
@@ -89,6 +89,10 @@
 /* Progress,Resize */
 .highcontrastSkin .mceBlocker {position:absolute; left:0; top:0; z-index:1000; opacity:0.5; -ms-filter:'alpha(opacity=30)'; filter:alpha(opacity=50); background:#FFF}
 .highcontrastSkin .mceProgress {position:absolute; left:0; top:0; z-index:1001; background:url(../default/img/progress.gif) no-repeat; width:32px; height:32px; margin:-16px 0 0 -16px}
+
+/* Rtl */
+.mceRtl .mceListBox .mceText {text-align: right; padding: 0 4px 0 0}
+.mceRtl .mceMenuItem .mceText {text-align: right}
 
 /* Formats */
 .highcontrastSkin .mce_p span.mceText {}

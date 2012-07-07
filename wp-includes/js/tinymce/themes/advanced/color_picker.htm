@@ -2,9 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>{#advanced_dlg.colorpicker_title}</title>
-	<script type="text/javascript" src="../../tiny_mce_popup.js?ver=349-20120314"></script>
-	<script type="text/javascript" src="../../utils/mctabs.js?ver=349-20120314"></script>
-	<script type="text/javascript" src="js/color_picker.js?ver=349-20120314"></script>
+	<script type="text/javascript" src="../../tiny_mce_popup.js?ver=3541-20120705"></script>
+	<script type="text/javascript" src="../../utils/mctabs.js?ver=3541-20120705"></script>
+	<script type="text/javascript" src="js/color_picker.js?ver=3541-20120705"></script>
 </head>
 <body id="colorpicker" style="display: none" role="application" aria-labelledby="app_label">
 	<span class="mceVoiceLabel" id="app_label" style="display:none;">{#advanced_dlg.colorpicker_title}</span>
@@ -61,15 +61,9 @@
 	</div>
 
 	<div class="mceActionPanel">
-		<div style="float: left">
-			<input type="submit" id="insert" name="insert" value="{#apply}" />
-		</div>
-
-		<div id="preview"></div>
-
-		<div id="previewblock">
-			<label for="color">{#advanced_dlg.colorpicker_color}</label> <input id="color" type="text" size="8" class="text mceFocus" aria-required="true" />
-		</div>
+		<input type="submit" id="insert" name="insert" value="{#apply}" />
+		<input type="button" id="cancel" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();"/>
+		<div id="preview_wrapper"><div id="previewblock"><label for="color">{#advanced_dlg.colorpicker_color}</label> <input id="color" type="text" size="8" class="text mceFocus" aria-required="true" /></div><span id="preview"></span></div>
 	</div>
 </form>
 </body>

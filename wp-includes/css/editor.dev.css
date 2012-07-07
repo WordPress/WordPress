@@ -499,6 +499,7 @@
 	top: 0;
 	z-index: 1000;
 	border-color: #ddd;
+	direction: ltr;
 }
 
 .wp_themeSkin .mceNoIcons span.mceIcon {
@@ -620,6 +621,16 @@
 
 .wp_themeSkin .mcePlaceHolder {
 	border: 1px dotted gray;
+}
+
+/* Rtl */
+.mceRtl .mceListBox .mceText {
+	text-align: right;
+	padding: 0 4px 0 0;
+}
+
+.mceRtl .mceMenuItem .mceText {
+	text-align: right;
 }
 
 /* Formats */
@@ -853,6 +864,8 @@
 .wp_themeSkin span.mce_del {background-position:-940px -20px}
 .wp_themeSkin span.mce_ins {background-position:-960px -20px}
 .wp_themeSkin span.mce_pagebreak {background-position:0 -40px}
+.wp_themeSkin span.mce_restoredraft {background-position:-20px -40px}
+.wp_themeSkin span.mce_visualblocks {background-position: -40px -40px}
 
 /* border */
 .wp_themeSkin .mceExternalToolbar,

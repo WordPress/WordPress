@@ -77,7 +77,7 @@ function init() {
 		if (col)
 			updateLight(col.r, col.g, col.b);
 	}
-	
+
 	for (key in named) {
 		value = named[key];
 		namedLookup[value.replace(/\s+/, '').toLowerCase()] = key.replace(/#/, '').toLowerCase();
@@ -93,40 +93,56 @@ function toHexColor(color) {
 		return value.length > 1 ? value : '0' + value; // Padd with leading zero
 	};
 
-	color = color.replace(/[\s#]+/g, '').toLowerCase();
+	color = tinymce.trim(color);
+	color = color.replace(/^[#]/, '').toLowerCase();  // remove leading '#'
 	color = namedLookup[color] || color;
-	matches = /^rgb\((\d{1,3}),(\d{1,3}),(\d{1,3})\)|([a-f0-9]{2})([a-f0-9]{2})([a-f0-9]{2})|([a-f0-9])([a-f0-9])([a-f0-9])$/.exec(color);
+
+	matches = /^rgb\((\d{1,3}),(\d{1,3}),(\d{1,3})\)$/.exec(color);
 
 	if (matches) {
-		if (matches[1]) {
-			red = toInt(matches[1]);
-			green = toInt(matches[2]);
-			blue = toInt(matches[3]);
-		} else if (matches[4]) {
-			red = toInt(matches[4], 16);
-			green = toInt(matches[5], 16);
-			blue = toInt(matches[6], 16);
-		} else if (matches[7]) {
-			red = toInt(matches[7] + matches[7], 16);
-			green = toInt(matches[8] + matches[8], 16);
-			blue = toInt(matches[9] + matches[9], 16);
-		}
+		red   = toInt(matches[1]);
+		green = toInt(matches[2]);
+		blue  = toInt(matches[3]);
+	} else {
+		matches = /^([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/.exec(color);
 
-		return '#' + hex(red) + hex(green) + hex(blue);
+		if (matches) {
+			red   = toInt(matches[1], 16);
+			green = toInt(matches[2], 16);
+			blue  = toInt(matches[3], 16);
+		} else {
+			matches = /^([0-9a-f])([0-9a-f])([0-9a-f])$/.exec(color);
+
+			if (matches) {
+				red   = toInt(matches[1] + matches[1], 16);
+				green = toInt(matches[2] + matches[2], 16);
+				blue  = toInt(matches[3] + matches[3], 16);
+			} else {
+				return '';
+			}
+		}
 	}
 
-	return '';
+	return '#' + hex(red) + hex(green) + hex(blue);
 }
 
 function insertAction() {
 	var color = document.getElementById("color").value, f = tinyMCEPopup.getWindowArg('func');
 
-	tinyMCEPopup.restoreSelection();
+	var hexColor = toHexColor(color);
 
-	if (f)
-		f(toHexColor(color));
+	if (hexColor === '') {
+		var text = tinyMCEPopup.editor.getLang('advanced_dlg.invalid_color_value');
+		tinyMCEPopup.alert(text + ': ' + color);
+	}
+	else {
+		tinyMCEPopup.restoreSelection();
 
-	tinyMCEPopup.close();
+		if (f)
+			f(hexColor);
+
+		tinyMCEPopup.close();
+	}
 }
 
 function showColor(color, name) {

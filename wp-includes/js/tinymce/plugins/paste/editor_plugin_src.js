@@ -359,7 +359,7 @@
 			}
 
 			// IE9 adds BRs before/after block elements when contents is pasted from word or for example another browser
-			if (tinymce.isIE && document.documentMode >= 9) {
+			if (tinymce.isIE && document.documentMode >= 9 && /<(h[1-6r]|p|div|address|pre|form|table|tbody|thead|tfoot|th|tr|td|li|ol|ul|caption|blockquote|center|dl|dt|dd|dir|fieldset)/.test(o.content)) {
 				// IE9 adds BRs before/after block elements when contents is pasted from word or for example another browser
 				process([[/(?:<br>&nbsp;[\s\r\n]+|<br>)*(<\/?(h[1-6r]|p|div|address|pre|form|table|tbody|thead|tfoot|th|tr|td|li|ol|ul|caption|blockquote|center|dl|dt|dd|dir|fieldset)[^>]*>)(?:<br>&nbsp;[\s\r\n]+|<br>)*/g, '$1']]);
 
