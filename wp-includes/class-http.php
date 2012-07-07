@@ -1550,7 +1550,7 @@ class WP_Http_Cookie {
 	 */
 	function test( $url ) {
 		// Expires - if expired then nothing else matters
-		if ( time() > $this->expires )
+		if ( isset( $this->expires ) && time() > $this->expires )
 			return false;
 
 		// Get details on the URL we're thinking about sending to
