@@ -1392,6 +1392,10 @@ class WP_HTTP_Proxy {
 
 		$home = parse_url( get_option('siteurl') );
 
+		$result = apply_filters( 'pre_http_send_through_proxy', null, $uri, $check, $home );
+		if ( ! is_null( $result ) )
+			return $result;
+
 		if ( $check['host'] == 'localhost' || $check['host'] == $home['host'] )
 			return false;
 
