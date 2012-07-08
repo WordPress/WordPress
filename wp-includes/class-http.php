@@ -382,18 +382,18 @@ class WP_Http {
 
 			list($key, $value) = explode(':', $tempheader, 2);
 
-			if ( !empty( $value ) ) {
-				$key = strtolower( $key );
-				if ( isset( $newheaders[$key] ) ) {
-					if ( !is_array($newheaders[$key]) )
-						$newheaders[$key] = array($newheaders[$key]);
-					$newheaders[$key][] = trim( $value );
-				} else {
-					$newheaders[$key] = trim( $value );
-				}
-				if ( 'set-cookie' == $key )
-					$cookies[] = new WP_Http_Cookie( $value );
+			$key = strtolower( $key );
+			$value = trim( $value );
+
+			if ( isset( $newheaders[ $key ] ) ) {
+				if ( ! is_array( $newheaders[ $key ] ) )
+					$newheaders[$key] = array( $newheaders[ $key ] );
+				$newheaders[ $key ][] = $value;
+			} else {
+				$newheaders[ $key ] = $value;
 			}
+			if ( 'set-cookie' == $key )
+				$cookies[] = new WP_Http_Cookie( $value );
 		}
 
 		return array('response' => $response, 'headers' => $newheaders, 'cookies' => $cookies);
