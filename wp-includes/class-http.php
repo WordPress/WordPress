@@ -429,6 +429,8 @@ class WP_Http {
 	 * Based off the HTTP http_encoding_dechunk function. Does not support UTF-8. Does not support
 	 * returning footer headers. Shouldn't be too difficult to support it though.
 	 *
+	 * @link http://tools.ietf.org/html/rfc2616#section-19.4.6 Process for chunked decoding.
+	 *
 	 * @todo Add support for footer chunked headers.
 	 * @access public
 	 * @since 2.7.0
