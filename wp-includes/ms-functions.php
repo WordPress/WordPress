@@ -1653,7 +1653,7 @@ function redirect_this_site( $deprecated = '' ) {
  * @return mixed If the upload is under the size limit, $upload is returned. Otherwise returns an error message.
  */
 function upload_is_file_too_big( $upload ) {
-	if ( is_array( $upload ) == false || defined( 'WP_IMPORTING' ) )
+	if ( is_array( $upload ) == false || defined( 'WP_IMPORTING' ) || get_site_option( 'upload_space_check_disabled' ) )
 		return $upload;
 
 	if ( strlen( $upload['bits'] )  > ( 1024 * get_site_option( 'fileupload_maxk', 1500 ) ) )
