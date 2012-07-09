@@ -496,11 +496,11 @@ class Plugin_Upgrader extends WP_Upgrader {
 			$this->skin->plugin_info = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin, false, true);
 
 			if ( !isset( $current->response[ $plugin ] ) ) {
-				$this->skin->set_result(false);
+				$this->skin->set_result(true);
 				$this->skin->before();
-				$this->skin->error('up_to_date');
+				$this->skin->feedback('up_to_date');
 				$this->skin->after();
-				$results[$plugin] = false;
+				$results[$plugin] = true;
 				continue;
 			}
 
@@ -854,11 +854,11 @@ class Theme_Upgrader extends WP_Upgrader {
 			$this->skin->theme_info = $this->theme_info($theme);
 
 			if ( !isset( $current->response[ $theme ] ) ) {
-				$this->skin->set_result(false);
+				$this->skin->set_result(true);
 				$this->skin->before();
-				$this->skin->error('up_to_date');
+				$this->skin->feedback('up_to_date');
 				$this->skin->after();
-				$results[$theme] = false;
+				$results[$theme] = true;
 				continue;
 			}
 
