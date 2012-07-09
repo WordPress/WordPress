@@ -224,7 +224,8 @@ function wp_install_defaults($user_id) {
 	// Default comment
 	$first_comment_author = __('Mr WordPress');
 	$first_comment_url = 'http://wordpress.org/';
-	$first_comment = __('Hi, this is a comment.<br />To delete a comment, just log in and view the post&#039;s comments. There you will have the option to edit or delete them.');
+	$first_comment = __('Hi, this is a comment.
+To delete a comment, just log in and view the post&#039;s comments. There you will have the option to edit or delete them.');
 	if ( is_multisite() ) {
 		$first_comment_author = get_site_option( 'first_comment_author', $first_comment_author );
 		$first_comment_url = get_site_option( 'first_comment_url', network_home_url() );
