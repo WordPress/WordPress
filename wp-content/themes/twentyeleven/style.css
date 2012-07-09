@@ -530,7 +530,7 @@ a:hover {
 }
 #branding img {
 	height: auto;
-	margin-bottom: -7px;
+	display: block;
 	width: 100%;
 }
 
