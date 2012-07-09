@@ -813,10 +813,13 @@ function wp_dashboard_incoming_links_output() {
 			/* translators: incoming links feed, %1$s is other person, %3$s is content */
 			$text = __( '%1$s linked here saying, "%3$s"' );
 
-		if ( !empty($show_date) ) {
-			if ( !empty($show_author) || !empty($show_summary) )
-				/* translators: incoming links feed, %4$s is the date */
-				$text .= ' ' . __( 'on %4$s' );
+		if ( !empty( $show_date ) ) {
+			if ( $link )
+				/* translators: incoming links feed, %1$s is other person, %3$s is content, %4$s is the date */
+				$text = __( '%1$s linked here <a href="%2$s">saying</a>, "%3$s" on %4$s' );
+			else
+				/* translators: incoming links feed, %1$s is other person, %3$s is content, %4$s is the date */
+				$text = __( '%1$s linked here saying, "%3$s" on %4$s' );
 			$date = esc_html( strip_tags( $item->get_date() ) );
 			$date = strtotime( $date );
 			$date = gmdate( get_option( 'date_format' ), $date );
