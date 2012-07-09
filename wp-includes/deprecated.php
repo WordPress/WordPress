@@ -3097,7 +3097,7 @@ function remove_custom_background() {
  * @return array Theme data.
  */
 function get_theme_data( $theme_file ) {
-	_deprecated_function( __FUNCTION__, 3.4, 'wp_get_theme()' );
+	_deprecated_function( __FUNCTION__, '3.4', 'wp_get_theme()' );
 	$theme = new WP_Theme( basename( dirname( $theme_file ) ), dirname( dirname( $theme_file ) ) );
 
 	$theme_data = array(
@@ -3133,7 +3133,7 @@ function get_theme_data( $theme_file ) {
  * @param array $pages list of page objects
  */
 function update_page_cache( &$pages ) {
-	_deprecated_function( __FUNCTION__, 3.4, 'update_post_cache()' );
+	_deprecated_function( __FUNCTION__, '3.4', 'update_post_cache()' );
 
 	update_post_cache( $pages );
 }
@@ -3152,7 +3152,7 @@ function update_page_cache( &$pages ) {
  * @param int $id Page ID to clean
  */
 function clean_page_cache( $id ) {
-	_deprecated_function( __FUNCTION__, 3.4, 'clean_post_cache()' );
+	_deprecated_function( __FUNCTION__, '3.4', 'clean_post_cache()' );
 
 	clean_post_cache( $id );
 }
@@ -3173,4 +3173,20 @@ function clean_page_cache( $id ) {
 function wp_explain_nonce( $action ) {
 	_deprecated_function( __FUNCTION__, '3.4.1', 'wp_nonce_ays()' );
 	return __( 'Are you sure you want to do this?' );
+}
+
+/**
+ * Display "sticky" CSS class, if a post is sticky.
+ *
+ * @since 2.7.0
+ * @deprecated 3.5.0
+ * @deprecated Use post_class()
+ * @see post_class()
+ *
+ * @param int $post_id An optional post ID.
+ */
+function sticky_class( $post_id = null ) {
+	_deprecated_function( __FUNCTION__, '3.5', 'post_class()' );
+	if ( is_sticky( $post_id ) )
+		echo ' sticky';
 }

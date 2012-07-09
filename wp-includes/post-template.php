@@ -573,20 +573,6 @@ function post_password_required( $post = null ) {
 }
 
 /**
- * Display "sticky" CSS class, if a post is sticky.
- *
- * @since 2.7.0
- *
- * @param int $post_id An optional post ID.
- */
-function sticky_class( $post_id = null ) {
-	if ( !is_sticky($post_id) )
-		return;
-
-	echo " sticky";
-}
-
-/**
  * Page Template Functions for usage in Themes
  *
  * @package WordPress
