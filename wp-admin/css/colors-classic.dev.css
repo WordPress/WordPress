@@ -2056,20 +2056,35 @@ body.press-this ul.category-tabs li.tabs a {
 	color: #333;
 }
 
+.view-switch #view-switch-list,
+.view-switch #view-switch-excerpt {
+	background-color: transparent;
+	background-image: url('../images/list.png');
+	background-repeat: no-repeat;
+}
+
 .view-switch #view-switch-list {
-	background: transparent url(../images/list.png) no-repeat 0 0;
+	background-position: 0 0;
 }
 
 .view-switch .current #view-switch-list {
-	background: transparent url(../images/list.png) no-repeat -40px 0;
+	background-position: -40px 0;
 }
 
 .view-switch #view-switch-excerpt {
-	background: transparent url(../images/list.png) no-repeat -20px 0;
+	background-position: -20px 0;
 }
 
 .view-switch .current #view-switch-excerpt {
-	background: transparent url(../images/list.png) no-repeat -60px 0;
+	background-position: -60px 0;
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
+	.view-switch #view-switch-list,
+	.view-switch #view-switch-excerpt {
+		background-image: url('../images/list-2x.png');
+		background-size: 80px 20px;
+	}
 }
 
 #header-logo {
