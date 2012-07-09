@@ -361,7 +361,7 @@ nocache_headers();
 
 header('Content-Type: '.get_bloginfo('html_type').'; charset='.get_bloginfo('charset'));
 
-if ( defined('RELOCATE') ) { // Move flag is set
+if ( defined( 'RELOCATE' ) && RELOCATE ) { // Move flag is set
 	if ( isset( $_SERVER['PATH_INFO'] ) && ($_SERVER['PATH_INFO'] != $_SERVER['PHP_SELF']) )
 		$_SERVER['PHP_SELF'] = str_replace( $_SERVER['PATH_INFO'], '', $_SERVER['PHP_SELF'] );
 
