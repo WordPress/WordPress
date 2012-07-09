@@ -1156,7 +1156,7 @@ function force_balance_tags( $text ) {
 	$tagqueue = '';
 	$newtext = '';
 	$single_tags = array( 'br', 'hr', 'img', 'input' ); // Known single-entity/self-closing tags
-	$nestable_tags = array( 'blockquote', 'div', 'span', 'q' ); // Tags that can be immediately nested within themselves
+	$nestable_tags = array( 'blockquote', 'div', 'object', 'q', 'span' ); // Tags that can be immediately nested within themselves
 
 	// WP bug fix for comments - in case you REALLY meant to type '< !--'
 	$text = str_replace('< !--', '<    !--', $text);
