@@ -54,7 +54,7 @@ if ( have_comments() ) : while ( have_comments() ) : the_comment();
 		<description><?php echo ent2ncr(__('Protected Comments: Please enter your password to view comments.')); ?></description>
 		<content:encoded><![CDATA[<?php echo get_the_password_form() ?>]]></content:encoded>
 <?php else : // post pass ?>
-		<description><?php comment_text_rss() ?></description>
+		<description><![CDATA[<?php comment_text_rss() ?>]]></description>
 		<content:encoded><![CDATA[<?php comment_text() ?>]]></content:encoded>
 <?php endif; // post pass
 	do_action('commentrss2_item', $comment->comment_ID, $comment_post->ID);
