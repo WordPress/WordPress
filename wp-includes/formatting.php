@@ -100,7 +100,7 @@ function wptexturize($text) {
 	}
 
 	// Transform into regexp sub-expression used in _wptexturize_pushpop_element
-	// Must do this everytime in case plugins use these filters in a context sensitive manner
+	// Must do this every time in case plugins use these filters in a context sensitive manner
 	$no_texturize_tags = '(' . implode('|', apply_filters('no_texturize_tags', $default_no_texturize_tags) ) . ')';
 	$no_texturize_shortcodes = '(' . implode('|', apply_filters('no_texturize_shortcodes', $default_no_texturize_shortcodes) ) . ')';
 
@@ -141,8 +141,7 @@ function wptexturize($text) {
  * @param array $stack Array used as stack of opened tag elements
  * @param string $disabled_elements Tags to match against formatted as regexp sub-expression
  * @param string $opening Tag opening character, assumed to be 1 character long
- * @param string $opening Tag closing  character
- * @return object
+ * @param string $closing Tag closing character
  */
 function _wptexturize_pushpop_element($text, &$stack, $disabled_elements, $opening = '<', $closing = '>') {
 	// Check if it is a closing tag -- otherwise assume opening tag
@@ -264,7 +263,7 @@ function wpautop($pee, $br = true) {
  * @since 3.1.0
  * @access private
  * @param array $matches preg_replace_callback matches array
- * @returns string
+ * @return string
  */
 function _autop_newline_preservation_helper( $matches ) {
 	return str_replace("\n", "<WPPreserveNewline />", $matches[0]);
@@ -1009,7 +1008,7 @@ function sanitize_title_with_dashes($title, $raw_title = '', $context = 'display
  * @since 2.5.1
  *
  * @param string $orderby Order by string to be checked.
- * @return string|false Returns the order by clause if it is a match, false otherwise.
+ * @return string|bool Returns the order by clause if it is a match, false otherwise.
  */
 function sanitize_sql_orderby( $orderby ){
 	preg_match('/^\s*([a-z0-9_]+(\s+(ASC|DESC))?(\s*,\s*|\s*$))+|^\s*RAND\(\s*\)\s*$/i', $orderby, $obmatches);
@@ -1623,8 +1622,8 @@ function make_clickable( $text ) {
  * @since 3.4.0
  * @access private
  *
- * @param string $string The string to split
- * @param    int $goal   The desired chunk length.
+ * @param string $string The string to split.
+ * @param int $goal The desired chunk length.
  * @return array Numeric array of chunks.
  */
 function _split_str_by_whitespace( $string, $goal ) {
@@ -1822,7 +1821,6 @@ function is_email( $email, $deprecated = false ) {
  * Convert to ASCII from email subjects.
  *
  * @since 1.2.0
- * @usedby wp_mail() handles charsets in email subjects
  *
  * @param string $string Subject line
  * @return string Converted string to ASCII
@@ -1839,11 +1837,12 @@ function wp_iso_descrambler($string) {
 }
 
 /**
- * Helper function to convert hex encoded chars to ascii
+ * Helper function to convert hex encoded chars to ASCII
  *
  * @since 3.1.0
  * @access private
- * @param array $match the preg_replace_callback matches array
+ * @param array $match The preg_replace_callback matches array
+ * @return array Converted chars
  */
 function _wp_iso_convert( $match ) {
 	return chr( hexdec( strtolower( $match[1] ) ) );

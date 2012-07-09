@@ -42,7 +42,6 @@
  *
  * @since 2.1.0
  * @access private
- * @usedby wp_list_bookmarks()
  *
  * @param array $bookmarks List of bookmarks to traverse
  * @param string|array $args Optional. Overwrite the defaults.
@@ -189,7 +188,7 @@ function _walk_bookmarks($bookmarks, $args = '' ) {
  * @link http://codex.wordpress.org/Template_Tags/wp_list_bookmarks
  *
  * @since 2.1.0
- * @uses _list_bookmarks() Used to iterate over all of the bookmarks and return
+ * @uses _walk_bookmarks() Used to iterate over all of the bookmarks and return
  *		the html
  * @uses get_terms() Gets all of the categories that are for links.
  *

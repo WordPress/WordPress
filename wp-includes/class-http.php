@@ -200,7 +200,7 @@ class WP_Http {
 	 * @param array $args Request arguments
 	 * @param string $url URL to Request
 	 *
-	 * @return string|false Class name for the first transport that claims to support the request. False if no transport claims to support the request.
+	 * @return string|bool Class name for the first transport that claims to support the request. False if no transport claims to support the request.
 	 */
 	public function _get_first_available_transport( $args, $url = null ) {
 		$request_order = array( 'curl', 'streams', 'fsockopen' );

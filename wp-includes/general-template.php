@@ -1050,7 +1050,6 @@ function wp_get_archives($args = '') {
  * Get number of days since the start of the week.
  *
  * @since 1.5.0
- * @usedby get_calendar()
  *
  * @param int $num Number of day.
  * @return int Days since the start of the week.
@@ -1067,6 +1066,7 @@ function calendar_week_mod($num) {
  * no posts for the month, then it will not be displayed.
  *
  * @since 1.0.0
+ * @uses calendar_week_mod()
  *
  * @param bool $initial Optional, default is true. Use initial calendar names.
  * @param bool $echo Optional, default is true. Set to false for return.
