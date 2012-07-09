@@ -3205,7 +3205,7 @@ function capital_P_dangit( $text ) {
 	// Still here? Use the more judicious replacement
 	static $dblq = false;
 	if ( false === $dblq )
-		$dblq = _x('&#8220;', 'opening curly quote');
+		$dblq = _x( '&#8220;', 'opening curly double quote' );
 	return str_replace(
 		array( ' Wordpress', '&#8216;Wordpress', $dblq . 'Wordpress', '>Wordpress', '(Wordpress' ),
 		array( ' WordPress', '&#8216;WordPress', $dblq . 'WordPress', '>WordPress', '(WordPress' ),
