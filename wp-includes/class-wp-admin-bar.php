@@ -1,4 +1,12 @@
 <?php
+/**
+ * The WordPress Toolbar
+ *
+ * @since 3.1.0
+ *
+ * @package WordPress
+ * @subpackage Toolbar
+ */
 class WP_Admin_Bar {
 	private $nodes = array();
 	private $bound = false;
@@ -149,13 +157,13 @@ class WP_Admin_Bar {
 	}
 
 	final public function get_nodes() {
-	   if ( ! $nodes = $this->_get_nodes() )
-	      return;
+		if ( ! $nodes = $this->_get_nodes() )
+			return;
 
-	   foreach ( $nodes as &$node ) {
-	       $node = clone $node;
-	   }
-	   return $nodes;
+		foreach ( $nodes as &$node ) {
+			$node = clone $node;
+		}
+		return $nodes;
 	}
 
 	final protected function _get_nodes() {
