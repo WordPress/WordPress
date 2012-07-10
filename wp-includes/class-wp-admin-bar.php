@@ -112,7 +112,7 @@ class WP_Admin_Bar {
 			$defaults = get_object_vars( $maybe_defaults );
 
 		// Do the same for 'meta' items.
-		if ( ! empty( $defaults['meta'] ) && empty( $args['meta'] ) )
+		if ( ! empty( $defaults['meta'] ) && ! empty( $args['meta'] ) )
 			$args['meta'] = wp_parse_args( $args['meta'], $defaults['meta'] );
 
 		$args = wp_parse_args( $args, $defaults );
