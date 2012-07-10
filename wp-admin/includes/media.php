@@ -1326,9 +1326,8 @@ function media_upload_form( $errors = null ) {
 
 ?></div>
 <?php
-// Check quota for this blog if multisite
 if ( is_multisite() && !is_upload_space_available() ) {
-	echo '<p>' . sprintf( __( 'Sorry, you have filled your storage quota (%s MB).' ), get_space_allowed() ) . '</p>';
+	do_action( 'upload_ui_over_quota' );
 	return;
 }
 
@@ -2064,6 +2063,10 @@ function media_upload_flash_bypass() {
 	<?php
 }
 add_action('post-plupload-upload-ui', 'media_upload_flash_bypass');
+
+function multisite_over_quota_message() {
+	echo '<p>' . sprintf( __( 'Sorry, you have used all of your storage quota of %s MB.' ), get_space_allowed() ) . '</p>';
+}
 
 /**
  * {@internal Missing Short Description}}

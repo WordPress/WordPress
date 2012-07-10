@@ -45,6 +45,7 @@ add_filter( 'wp_upload_bits', 'upload_is_file_too_big' );
 add_filter( 'import_upload_size_limit', 'fix_import_form_size' );
 add_filter( 'upload_mimes', 'check_upload_mimes' );
 add_filter( 'upload_size_limit', 'upload_size_limit_filter' );
+add_action( 'upload_ui_over_quota', 'multisite_over_quota_message' );
 
 // Mail
 add_action( 'phpmailer_init', 'fix_phpmailer_messageid' );
