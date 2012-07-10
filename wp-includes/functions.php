@@ -1300,19 +1300,10 @@ function wp_mkdir_p( $target ) {
 		$target = '/';
 
 	if ( file_exists( $target ) )
-		return @is_dir( $target );
+		return is_dir( $target );
 
 	// Attempting to create the directory may clutter up our display.
-	if ( @mkdir( $target, 0777, true ) ) {
-		$stat = @stat( dirname( $target ) );
-		$dir_perms = $stat['mode'] & 0007777;  // Get the permission bits.
-		@chmod( $target, $dir_perms );
-		return true;
-	} elseif ( is_dir( dirname( $target ) ) ) {
-			return false;
-	}
-
-	return false;
+	return @mkdir( $target, 0777, true );
 }
 
 /**
