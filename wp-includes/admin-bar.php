@@ -508,6 +508,9 @@ function wp_admin_bar_new_content_menu( $wp_admin_bar ) {
 		$key = 'post-new.php?post_type=' . $cpt->name;
 		$actions[ $key ] = array( $cpt->labels->name_admin_bar, 'new-' . $cpt->name );
 	}
+	// Avoid clash with parent node and a 'content' post type.
+	if ( isset( $actions['post-new.php?post_type=content'] ) )
+		$actions['post-new.php?post_type=content'][1] = 'add-new-content';
 
 	if ( current_user_can( 'create_users' ) || current_user_can( 'promote_users' ) )
 		$actions[ 'user-new.php' ] = array( _x( 'User', 'add new from admin bar' ), 'new-user' );
