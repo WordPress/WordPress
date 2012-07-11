@@ -2051,7 +2051,7 @@ function _insert_into_post_button($type) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Displays the multi-file uploader message.
  *
  * @since 2.6.0
  */
@@ -2064,12 +2064,8 @@ function media_upload_flash_bypass() {
 }
 add_action('post-plupload-upload-ui', 'media_upload_flash_bypass');
 
-function multisite_over_quota_message() {
-	echo '<p>' . sprintf( __( 'Sorry, you have used all of your storage quota of %s MB.' ), get_space_allowed() ) . '</p>';
-}
-
 /**
- * {@internal Missing Short Description}}
+ * Displays the browser's built-in uploader message.
  *
  * @since 2.6.0
  */
@@ -2082,6 +2078,11 @@ function media_upload_html_bypass() {
 }
 add_action('post-html-upload-ui', 'media_upload_html_bypass');
 
+/**
+ * Displays the "After a file has been uploaded..." message.
+ *
+ * @since 3.3.0
+ */
 function media_upload_text_after() {
 	?>
 	<span class="after-file-upload"><?php _e('After a file has been uploaded, you can add titles and descriptions.'); ?></span>
@@ -2090,9 +2091,9 @@ function media_upload_text_after() {
 add_action('post-upload-ui', 'media_upload_text_after', 5);
 
 /**
- * {@internal Missing Short Description}}
+ * Displays the checkbox to scale images.
  *
- * @since 2.6.0
+ * @since 3.3.0
  */
 function media_upload_max_image_resize() {
 	$checked = get_user_setting('upload_resize') ? ' checked="true"' : '';
@@ -2111,6 +2112,15 @@ function media_upload_max_image_resize() {
 ?>
 </label></p>
 <?php
+}
+
+/**
+ * Displays the out of storage quota message in Multisite.
+ *
+ * @since 3.5.0
+ */
+function multisite_over_quota_message() {
+	echo '<p>' . sprintf( __( 'Sorry, you have used all of your storage quota of %s MB.' ), get_space_allowed() ) . '</p>';
 }
 
 add_filter( 'async_upload_image', 'get_media_item', 10, 2 );
