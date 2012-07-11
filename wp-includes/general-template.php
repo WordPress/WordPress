@@ -1074,7 +1074,6 @@ function calendar_week_mod($num) {
 function get_calendar($initial = true, $echo = true, $post_type = 'post') {
 	global $wpdb, $m, $monthnum, $year, $wp_locale, $posts;
 
-	$cache = array();
 	$key = md5( $m . $monthnum . $year );
 	if ( $cache = wp_cache_get( 'get_calendar', 'calendar' ) ) {
 		if ( is_array($cache) && isset( $cache[ $key ] ) ) {
