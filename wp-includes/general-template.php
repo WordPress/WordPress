@@ -1070,6 +1070,7 @@ function calendar_week_mod($num) {
  *
  * @param bool $initial Optional, default is true. Use initial calendar names.
  * @param bool $echo Optional, default is true. Set to false for return.
+ * @param string $post_type Optional, default is post. Set to your custom post type.
  */
 function get_calendar($initial = true, $echo = true, $post_type = 'post') {
 	global $wpdb, $m, $monthnum, $year, $wp_locale, $posts;
