@@ -1071,7 +1071,7 @@ function calendar_week_mod($num) {
  * @param bool $initial Optional, default is true. Use initial calendar names.
  * @param bool $echo Optional, default is true. Set to false for return.
  */
-function get_calendar($initial = true, $echo = true) {
+function get_calendar($initial = true, $echo = true, $post_type = 'post') {
 	global $wpdb, $m, $monthnum, $year, $wp_locale, $posts;
 
 	$cache = array();
@@ -1092,7 +1092,7 @@ function get_calendar($initial = true, $echo = true) {
 
 	// Quick check. If we have no posts at all, abort!
 	if ( !$posts ) {
-		$gotsome = $wpdb->get_var("SELECT 1 as test FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'publish' LIMIT 1");
+		$gotsome = $wpdb->get_var("SELECT 1 as test FROM $wpdb->posts WHERE post_type = '{$post_type}' AND post_status = 'publish' LIMIT 1");
 		if ( !$gotsome ) {
 			$cache[ $key ] = '';
 			wp_cache_set( 'get_calendar', $cache, 'calendar' );
@@ -1133,13 +1133,13 @@ function get_calendar($initial = true, $echo = true) {
 	$previous = $wpdb->get_row("SELECT MONTH(post_date) AS month, YEAR(post_date) AS year
 		FROM $wpdb->posts
 		WHERE post_date < '$thisyear-$thismonth-01'
-		AND post_type = 'post' AND post_status = 'publish'
+		AND post_type = '{$post_type}' AND post_status = 'publish'
 			ORDER BY post_date DESC
 			LIMIT 1");
 	$next = $wpdb->get_row("SELECT MONTH(post_date) AS month, YEAR(post_date) AS year
 		FROM $wpdb->posts
 		WHERE post_date > '$thisyear-$thismonth-{$last_day} 23:59:59'
-		AND post_type = 'post' AND post_status = 'publish'
+		AND post_type = '{$post_type}' AND post_status = 'publish'
 			ORDER BY post_date ASC
 			LIMIT 1");
 
@@ -1193,7 +1193,7 @@ function get_calendar($initial = true, $echo = true) {
 	// Get days with posts
 	$dayswithposts = $wpdb->get_results("SELECT DISTINCT DAYOFMONTH(post_date)
 		FROM $wpdb->posts WHERE post_date >= '{$thisyear}-{$thismonth}-01 00:00:00'
-		AND post_type = 'post' AND post_status = 'publish'
+		AND post_type = '{$post_type}' AND post_status = 'publish'
 		AND post_date <= '{$thisyear}-{$thismonth}-{$last_day} 23:59:59'", ARRAY_N);
 	if ( $dayswithposts ) {
 		foreach ( (array) $dayswithposts as $daywith ) {
@@ -1213,7 +1213,7 @@ function get_calendar($initial = true, $echo = true) {
 		."FROM $wpdb->posts "
 		."WHERE post_date >= '{$thisyear}-{$thismonth}-01 00:00:00' "
 		."AND post_date <= '{$thisyear}-{$thismonth}-{$last_day} 23:59:59' "
-		."AND post_type = 'post' AND post_status = 'publish'"
+		."AND post_type = '{$post_type}' AND post_status = 'publish'"
 	);
 	if ( $ak_post_titles ) {
 		foreach ( (array) $ak_post_titles as $ak_post_title ) {
