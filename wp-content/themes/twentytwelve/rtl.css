@@ -1,0 +1,215 @@
+/*
+Theme Name: Twenty Twelve
+
+Adding support for language written in a Right To Left (RTL) direction is easy -
+it's just a matter of overwriting all the horizontal positioning attributes
+of your CSS stylesheet in a separate stylesheet file named rtl.css.
+
+http://codex.wordpress.org/Right_to_Left_Language_Support
+*/
+
+caption,
+th,
+td {
+	text-align: right;
+}
+
+/* =Repeatable patterns
+-------------------------------------------------------------- */
+
+/* Buttons */
+.menu-toggle,
+input#searchsubmit,
+li.bypostauthor cite span {
+	background-image: -khtml-gradient(linear, right top, right bottom, from(#f4f4f4), to(#e6e6e6));
+	background-image: -webkit-gradient(linear, right top, right bottom, color-stop(0%, #f4f4f4), color-stop(100%, #e6e6e6));
+}
+.menu-toggle:hover,
+input#searchsubmit:hover,
+li.bypostauthor cite span:hover {
+	background-image: -khtml-gradient(linear, right top, right bottom, from(#f9f9f9), to(#ebebeb));
+	background-image: -webkit-gradient(linear, right top, right bottom, color-stop(0%, #f9f9f9), color-stop(100%, #ebebeb));
+}
+.menu-toggle:active, .menu-toggle.toggled-on,
+input#searchsubmit:active,
+input#searchsubmit.toggled-on,
+li.bypostauthor cite span:active,
+li.bypostauthor cite span.toggled-on {
+	background-image: -khtml-gradient(linear, right top, right bottom, from(#ebebeb), to(#e1e1e1));
+	background-image: -webkit-gradient(linear, right top, right bottom, color-stop(0%, #ebebeb), color-stop(100%, #e1e1e1));
+}
+
+/* Images */
+.alignright {
+	float: right;
+}
+.alignleft {
+	float: left;
+}
+#content .gallery-columns-4 .gallery-item {
+	padding-left: 2%;
+	padding-right: 0;
+}
+#content .gallery-columns-5 .gallery-item {
+	padding-left: 2%;
+	padding-right: 0;
+}
+
+/* Navigation */
+.nav-previous,
+.previous-image {
+	float: right;
+}
+.nav-next,
+.next-image {
+	float: left;
+	text-align: left;
+}
+
+/* Author profiles */
+#author-avatar {
+	float: right;
+}
+#author-description {
+	float: right;
+	margin-right: 15px;
+	margin-right: 1.071428571rem;
+	margin-left: auto;
+}
+
+
+/* =Basic structure
+-------------------------------------------------------------- */
+
+/* Navigation Menu */
+nav.main-navigation li {
+	margin-left: 40px;
+	margin-left: 2.857142857rem;
+	margin-right: auto;
+}
+nav.main-navigation li ul ul {
+	right: 100%;
+	left: auto;
+}
+nav.main-navigation ul li:hover > ul {
+	border-right: 0;
+	border-left: none;
+}
+
+
+/* =Basic post styling
+-------------------------------------------------------------- */
+
+.entry-content img.alignright {
+	float: right;
+	margin: 0 0 0 24px;
+}
+.entry-content li {
+	margin: 0 24px 0 0;
+}
+.entry-content img.alignright {
+	margin: 12px 0 12px 24px;
+}
+.entry-content img.alignleft {
+	margin: 12px 24px 12px 0;
+}
+.entry-content td {
+	padding: 6px 0 6px 10px;
+}
+
+/* =Aside post styling
+-------------------------------------------------------------- */
+
+article.format-aside .aside {
+	border-right: 22px solid #a8bfe8;
+	border-left: none;
+}
+
+
+/* =Link post styling
+-------------------------------------------------------------- */
+
+article.format-link header {
+	float: left;
+}
+article.format-link .entry-content {
+	float: right;
+}
+
+/* =Comment styling
+-------------------------------------------------------------- */
+
+#comments article header img {
+	float: right;
+}
+#comments article header cite,
+#comments article header time {
+	margin-right: 85px;
+	margin-right: 6.071428571rem;
+	margin-left: auto;
+}
+#comments article header h4 {
+	left: 0;
+	background-image: -khtml-gradient(linear, right top, right bottom, from(#009cee), to(#0088d0));
+	background-image: -webkit-gradient(linear, right top, right bottom, color-stop(0%, #009cee), color-stop(100%, #0088d0));
+	right: auto;
+}
+#comments li.bypostauthor cite span {
+	margin-right: 5px;
+	margin-right: 0.357142857rem;
+	background-image: -khtml-gradient(linear, right top, right bottom, from(#4aacd8), to(#21759b));
+	background-image: -webkit-gradient(linear, right top, right bottom, color-stop(0%, #4aacd8), color-stop(100%, #21759b));
+	margin-left: auto;
+}
+
+/* Comment form */
+#respond h3#reply-title #cancel-comment-reply-link {
+	margin-right: 10px;
+	margin-right: 0.714285714rem;
+	margin-left: auto;
+}
+label ~ span.required {
+	float: right;
+	margin: -18px -16px 0 0;
+}
+
+
+/* =Home page template styling
+-------------------------------------------------------------- */
+
+.page-template-homepage-php #secondary aside.widget_text img {
+	float: right;
+	margin: 8px 0 8px 24px;
+}
+
+@media screen and (min-width: 600px) {
+	.page-template-homepage-php #secondary aside.widget_text img {
+		float: right;
+		margin: 8px 0 8px 24px;
+	}
+}
+
+/* =Widget styling
+-------------------------------------------------------------- */
+
+.widget ul ul {
+	margin-right: 12px;
+	margin-right: 0.857142857rem;
+	margin-left: auto;
+}
+.widget_recent_entries .post-date {
+	margin-right: 12px;
+	margin-right: 0.857142857rem;
+	margin-left: auto;
+}
+#wp-calendar th,
+#wp-calendar td,
+#wp-calendar caption {
+	text-align: right;
+}
+#wp-calendar #next {
+	padding-left: 24px;
+	padding-left: 1.714285714rem;
+	text-align: left;
+	padding-right: 0;
+}
