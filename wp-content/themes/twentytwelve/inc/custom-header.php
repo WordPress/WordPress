@@ -3,7 +3,8 @@
  * Implement an optional custom header for Twenty Twelve.
  * http://codex.wordpress.org/Custom_Headers
  *
- * @package Twenty_Twelve
+ * @package WordPress
+ * @subpackage Twenty_Twelve
  * @since Twenty Twelve 1.0
  */
 
