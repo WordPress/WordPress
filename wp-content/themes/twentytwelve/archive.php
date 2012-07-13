@@ -30,13 +30,13 @@ get_header(); ?>
 					// Show an optional tag description
 					$tag_description = tag_description();
 					if ( $tag_description )
-						echo apply_filters( 'tag_archive_meta', '<div class="tag-archive-meta">' . $tag_description . '</div>' );
+						echo '<div class="tag-archive-meta">' . $tag_description . '</div>';
 				} elseif ( is_category() ) {
 					printf( __( 'Category Archives: %s', 'twentytwelve' ), '<span>' . single_cat_title( '', false ) . '</span>' );
 					// Show an optional category description
 					$category_description = category_description();
 					if ( $category_description )
-						echo apply_filters( 'category_archive_meta', '<div class="category-archive-meta">' . $category_description . '</div>' );
+						echo '<div class="category-archive-meta">' . $category_description . '</div>';
 				} else {
 					_e( 'Blog Archives', 'twentytwelve' );
 				}
