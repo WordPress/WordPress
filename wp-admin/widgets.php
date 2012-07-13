@@ -365,7 +365,7 @@ foreach ( $wp_registered_sidebars as $sidebar => $registered_sidebar ) {
 			</div>
 			<div class="widget-holder inactive">
 				<?php wp_list_widget_controls( $registered_sidebar['id'] ); ?>
-				<br class="clear" />
+				<div class="clear"></div>
 			</div>
 		</div>
 <?php

@@ -258,7 +258,6 @@ a.button {
 .widgets-sortables,
 #dragHelper,
 .widget .widget-top,
-.widget,
 .widget-control-actions,
 .tagchecklist,
 #col-container,
@@ -377,6 +376,11 @@ table.ie-fixed {
 .widget-liquid-right .widget,
 .inactive-sidebar .widget {
 	position: relative;
+}
+
+.inactive-sidebar .widget {
+	display: block;
+	float: left;
 }
 
 #wpcontent .button-primary-disabled {

@@ -7756,7 +7756,7 @@ div.widget-liquid-right {
 
 .inactive-sidebar .widget {
 	margin: 0 10px 20px;
-	float: left;
+	display: inline-block;
 }
 
 div.sidebar-name h3 {
@@ -7918,6 +7918,7 @@ a.widget-action {
 
 .widget-title h4 {
 	margin: 0;
+	padding-bottom: 0.2em;
 	line-height: 1;
 	overflow: hidden;
 	white-space: nowrap;
