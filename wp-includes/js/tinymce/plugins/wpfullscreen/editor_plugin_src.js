@@ -93,13 +93,21 @@
 				}
 			});
 
+			ed.addCommand('wpFullScreen', function() {
+				if ( typeof(fullscreen) == 'undefined' )
+					return;
+
+				if ( 'wp_mce_fullscreen' == ed.id )
+					fullscreen.off();
+				else
+					fullscreen.on();
+			});
+
 			// Register buttons
-			if ( 'undefined' != fullscreen ) {
-				ed.addButton('wp_fullscreen', {
-					title : 'fullscreen.desc',
-					onclick : function(){ fullscreen.on(); }
-				});
-			}
+			ed.addButton('wp_fullscreen', {
+				title : 'wordpress.wp_fullscreen_desc',
+				cmd : 'wpFullScreen'
+			});
 
 			// END fullscreen
 //----------------------------------------------------------------
