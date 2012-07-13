@@ -29,7 +29,7 @@
  * Set the content width based on the theme's design and stylesheet.
  */
 if ( ! isset( $content_width ) )
-	$content_width = 584;
+	$content_width = 625;
 
 /**
  * Sets up theme defaults and registers support for various WordPress features.
