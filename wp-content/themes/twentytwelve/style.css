@@ -972,17 +972,13 @@ footer .edit-link {
 /* =Styling for the archive view
 -------------------------------------------------------------- */
 
-.archive #content h1.archive-title {
+.archive #content .archive-title,
+.search .page-header {
 	margin-bottom: 48px;
 	margin-bottom: 3.428571429rem;
 	padding-bottom: 22px;
 	padding-bottom: 1.571428571rem;
 	border-bottom: 1px solid #ededed;
-	color: #636363;
-}
-.search .page-header {
-	margin-bottom: 48px;
-	margin-bottom: 3.428571429rem;
 }
 
 
