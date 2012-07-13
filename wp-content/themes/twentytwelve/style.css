@@ -404,9 +404,12 @@ a {
 a:hover {
 	color: #0f3647;
 }
+/* Assistive text */
 .skip-link,
+.screen-reader-text,
 .assistive-text {
-	display: none;
+	position: absolute !important;
+	clip: rect(1px, 1px, 1px, 1px);
 }
 
 /* Page structure */
@@ -834,11 +837,6 @@ article.sticky .featured-post {
 	margin: 0 0 24px;
 	margin: 0 0 1.714285714rem;
 	line-height: 1.714285714;
-}
-.entry-content img.alignleft {
-	float: left;
-	margin: 0 24px 0 0;
-	margin: 0 1.714285714rem 0 0;
 }
 .entry-content ol,
 .entry-content ul {
