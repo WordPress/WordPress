@@ -270,9 +270,12 @@
 			ed.addShortcut(mod_key + '+d', 'striketrough_desc', 'Strikethrough');
 			ed.addShortcut(mod_key + '+h', 'help_desc', 'WP_Help');
 			ed.addShortcut(mod_key + '+p', 'wordpress.wp_page_desc', 'WP_Page');
-			ed.addShortcut(mod_key + '+w', 'wordpress.wp_fullscreen_desc', 'wpFullScreen');
-			ed.addShortcut(mod_key + '+g', 'fullscreen.desc', 'mceFullScreen');
 			ed.addShortcut('ctrl+s', 'save_desc', function(){if('function'==typeof autosave)autosave();});
+
+			if ( /\bwpfullscreen\b/.test(ed.settings.plugins) )
+				ed.addShortcut(mod_key + '+w', 'wordpress.wp_fullscreen_desc', 'wpFullScreen');
+			else if ( /\bfullscreen\b/.test(ed.settings.plugins) )
+				ed.addShortcut(mod_key + '+g', 'fullscreen.desc', 'mceFullScreen');
 
 			// popup buttons for images and the gallery
 			ed.onInit.add(function(ed) {
