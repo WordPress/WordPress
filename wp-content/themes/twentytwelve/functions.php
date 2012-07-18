@@ -131,6 +131,31 @@ function twentytwelve_scripts_styles() {
 add_action( 'wp_enqueue_scripts', 'twentytwelve_scripts_styles' );
 
 /**
+ * Creates a nicely formatted and more specific title element text
+ * for output in head of document, based on current view.
+ *
+ * @since Twenty Twelve 1.0
+ */
+function twentytwelve_wp_title( $title, $sep ) {
+	global $paged, $page;
+
+	// Add the blog name.
+	$title .= get_bloginfo( 'name' );
+
+	// Add the blog description for the home/front page.
+	$site_description = get_bloginfo( 'description', 'display' );
+	if ( $site_description && ( is_home() || is_front_page() ) )
+		$title = "$title $sep $site_description";
+
+	// Add a page number if necessary.
+	if ( $paged >= 2 || $page >= 2 )
+		$title =  "$title $sep " . sprintf( __( 'Page %s', 'twentytwelve' ), max( $paged, $page ) );
+
+	return $title;
+}
+add_filter( 'wp_title', 'twentytwelve_wp_title', 10, 2 );
+
+/**
  * Get our wp_nav_menu() fallback, wp_page_menu(), to show a home link.
  *
  * @since Twenty Twelve 1.0
