@@ -103,7 +103,7 @@ function twentytwelve_scripts_styles() {
 	 * JavaScript for handling navigation menus and the resized
 	 * styles for small screen sizes.
 	 */
-	wp_enqueue_script( 'navigation', get_template_directory_uri() . '/js/theme.js', array( 'jquery' ), '20130320', true );
+	wp_enqueue_script( 'twentytwelve-navigation', get_template_directory_uri() . '/js/theme.js', array( 'jquery' ), '20130320', true );
 
 	/**
 	 * Load special font CSS file.
@@ -111,7 +111,7 @@ function twentytwelve_scripts_styles() {
  	 */
 	$options = $twentytwelve_options->get_theme_options();
 	if ( $options['enable_fonts'] )
-		wp_enqueue_style( 'fonts', 'http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700' );
+		wp_enqueue_style( 'twentytwelve-fonts', 'http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700' );
 
 	/**
 	 * Load our main CSS file.
