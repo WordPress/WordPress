@@ -196,7 +196,7 @@ add_action( 'widgets_init', 'twentytwelve_widgets_init' );
 
 if ( ! function_exists( 'twentytwelve_content_nav' ) ) :
 /**
- * Display navigation to next/previous pages when applicable
+ * Display navigation to next/previous pages when applicable.
  *
  * @since Twenty Twelve 1.0
  */
