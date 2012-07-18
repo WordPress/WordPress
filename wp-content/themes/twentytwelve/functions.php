@@ -326,8 +326,7 @@ endif;
 
 /**
  * Extends the default WordPress body class to denote a full-width layout.
- *
- * Used in two cases: no active widgets in sidebar, and full-width page template.
+ * Used when there are no active widgets in the sidebar.
  *
  * @since Twenty Twelve 1.0
  */
@@ -340,10 +339,13 @@ function twentytwelve_body_class( $classes ) {
 add_filter( 'body_class', 'twentytwelve_body_class' );
 
 /**
- * Adjust $content width for full-width and single image attachment templates.
+ * Adjust $content width for full-width and single image attachment templates
+ * and when there are no active widgets in the sidebar.
+ *
+ * @since Twenty Twelve 1.0
  */
 function twentytwelve_content_width() {
-	if ( is_page_template( 'full-width-page.php' ) || is_attachment() ) {
+	if ( is_page_template( 'full-width-page.php' ) || is_attachment() || ! is_active_sidebar( 'sidebar-1' ) ) {
 		global $content_width;
 		$content_width = 960;
 	}

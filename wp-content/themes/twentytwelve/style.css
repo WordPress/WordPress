@@ -487,7 +487,8 @@ a:hover {
 @media screen and (min-width: 600px) {
 	body.page-template-full-width-page-php #primary,
 	body.page-template-homepage-php #primary,
-	body.single-attachment #primary {
+	body.single-attachment #primary,
+	body.full-width #primary {
 		width: 100%;
 	}
 }
