@@ -11,15 +11,28 @@ class Twenty_Twelve_Options {
 	/**
 	 * The option value in the database will be based on get_stylesheet()
 	 * so child themes don't share the parent theme's option value.
+	 *
+	 * @access public
+	 * @var string
 	 */
-	var $option_key = 'twentytwelve_theme_options';
+	public $option_key = 'twentytwelve_theme_options';
 
 	/**
-	 * Initialize our options.
+	 * Holds our options.
+	 *
+	 * @access public
+	 * @var array
 	 */
-	var $options = array();
+	public $options = array();
 
-	function Twenty_Twelve_Options() {
+	/**
+	 * Constructor
+	 *
+	 * @access public
+	 *
+	 * @return Twenty_Twelve_Options
+	 */
+	public function __construct() {
 		// Set option key based on get_stylesheet()
 		if ( 'twentytwelve' != get_stylesheet() )
 			$this->option_key = get_stylesheet() . '_theme_options';
@@ -37,8 +50,12 @@ class Twenty_Twelve_Options {
 	 * This call to register_setting() registers a validation callback, validate(),
 	 * which is used when the option is saved, to ensure that our option values are properly
 	 * formatted, and safe.
+	 *
+	 * @access public
+	 *
+	 * @return void
 	 */
-	function options_init() {
+	public function options_init() {
 		// Load our options for use in any method.
 		$this->options = $this->get_theme_options();
 
@@ -71,8 +88,12 @@ class Twenty_Twelve_Options {
 	 * Add our theme options page to the admin menu.
 	 *
 	 * This function is attached to the admin_menu action hook.
+	 *
+	 * @access public
+	 *
+	 * @return void
 	 */
-	function add_page() {
+	public function add_page() {
 		$theme_page = add_theme_page(
 			__( 'Theme Options', 'twentytwelve' ), // Name of page
 			__( 'Theme Options', 'twentytwelve' ), // Label in menu
@@ -84,8 +105,12 @@ class Twenty_Twelve_Options {
 
 	/**
 	 * Returns the default options.
+	 *
+	 * @access public
+	 *
+	 * @return array
 	 */
-	function get_default_theme_options() {
+	public function get_default_theme_options() {
 		$default_theme_options = array(
 			'enable_fonts' => false,
 		);
@@ -95,15 +120,23 @@ class Twenty_Twelve_Options {
 
 	/**
 	 * Returns the options array.
+	 *
+	 * @access public
+	 *
+	 * @return array
 	 */
-	function get_theme_options() {
+	public function get_theme_options() {
 		return get_option( $this->option_key, $this->get_default_theme_options() );
 	}
 
 	/**
 	 * Renders the enable fonts checkbox setting field.
+	 *
+	 * @access public
+	 *
+	 * @return void
 	 */
-	function settings_field_enable_fonts() {
+	public function settings_field_enable_fonts() {
 		$options = $this->options;
 		?>
 		<label for="enable-fonts">
@@ -117,8 +150,11 @@ class Twenty_Twelve_Options {
 	 * Returns the options array.
 	 *
 	 * @uses get_current_theme() for back compat, fallback for < 3.4
+	 * @access public
+	 *
+	 * @return void
 	 */
-	function render_page() {
+	public function render_page() {
 		?>
 		<div class="wrap">
 			<?php screen_icon(); ?>
@@ -141,8 +177,12 @@ class Twenty_Twelve_Options {
 	 * Sanitize and validate form input. Accepts an array, return a sanitized array.
 	 *
 	 * @see options_init()
+	 * @access public
+	 * @param array $input
+	 *
+	 * @return array The validated data.
 	 */
-	function validate( $input ) {
+	public function validate( $input ) {
 		$output = $defaults = $this->get_default_theme_options();
 
 		// The enable fonts checkbox should boolean true or false
@@ -154,14 +194,15 @@ class Twenty_Twelve_Options {
 	}
 
 	/**
-	 * Implement Twenty Twelve theme options into Theme Customizer
-	 *
-	 * @param $wp_customize Theme Customizer object
-	 * @return void
+	 * Implement Twenty Twelve theme options into Theme Customizer.
 	 *
 	 * @since Twenty Twelve 1.0
+	 * @access public
+	 * @param WP_Customize_Manager $wp_customize Theme Customizer object.
+	 *
+	 * @return void
 	 */
-	function customize_register( $wp_customize ) {
+	public function customize_register( $wp_customize ) {
 		// Enable Web Fonts
 		$wp_customize->add_section( $this->option_key . '_enable_fonts', array(
 			'title'    => __( 'Fonts', 'twentytwelve' ),
