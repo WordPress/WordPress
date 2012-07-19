@@ -1678,6 +1678,7 @@ body.no-js #adminmenu .wp-menu-toggle,
 	margin-left: 7px;
 	-webkit-border-radius: 10px;
 	border-radius: 10px;
+	z-index: 26;
 }
 
 #adminmenu li .awaiting-mod span,
