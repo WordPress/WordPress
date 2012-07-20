@@ -531,10 +531,13 @@ class WP_Object_Cache {
 
 	/**
 	 * Utility function to determine whether a key exists in the cache.
-	 * @access private
+	 *
+	 * @since 3.4.0
+	 *
+	 * @access protected
 	 */
-	protected function _exists($key, $group) {
-		return isset( $this->cache[$group] ) && is_array( $this->cache[$group] ) && array_key_exists( $key, $this->cache[$group] );
+	protected function _exists( $key, $group ) {
+		return isset( $this->cache[ $group ] ) && ( isset( $this->cache[ $group ][ $key ] ) || array_key_exists( $key, $this->cache[ $group ] ) );
 	}
 
 	/**
