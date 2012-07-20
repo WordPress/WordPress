@@ -1380,8 +1380,8 @@ function addslashes_gpc($gpc) {
  *
  * @since 2.0.0
  *
- * @param array|string $value The array or string to be stripped.
- * @return array|string Stripped array (or string in the callback).
+ * @param mixed $value The value to be stripped.
+ * @return mixed Stripped value.
  */
 function stripslashes_deep($value) {
 	if ( is_array($value) ) {
@@ -1391,7 +1391,7 @@ function stripslashes_deep($value) {
 		foreach ($vars as $key=>$data) {
 			$value->{$key} = stripslashes_deep( $data );
 		}
-	} else {
+	} elseif ( is_string( $value ) ) {
 		$value = stripslashes($value);
 	}
 
