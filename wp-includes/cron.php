@@ -244,8 +244,13 @@ function spawn_cron( $local_time = 0 ) {
 	$doing_wp_cron = sprintf( '%.22F', $local_time );
 	set_transient( 'doing_cron', $doing_wp_cron );
 
-	$cron_url = site_url( 'wp-cron.php?doing_wp_cron=' . $doing_wp_cron );
-	wp_remote_post( $cron_url, array( 'timeout' => 0.01, 'blocking' => false, 'sslverify' => apply_filters( 'https_local_ssl_verify', true ) ) );
+	$cron_request = apply_filters( 'cron_request', array(
+		'url' => site_url( 'wp-cron.php?doing_wp_cron=' . $doing_wp_cron ),
+		'key' => $doing_wp_cron,
+		'args' => array( 'timeout' => 0.01, 'blocking' => false, 'sslverify' => apply_filters( 'https_local_ssl_verify', true ) )
+	) );
+
+	wp_remote_post( $cron_request['url'], $cron_request['args'] );
 }
 
 /**
