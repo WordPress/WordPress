@@ -407,7 +407,7 @@
 .wp_themeSkin .mceSplitButton .mce_forecolor span.mce_forecolor,
 .wp_themeSkin .mceSplitButton span.mce_numlist,
 .wp_themeSkin .mceSplitButton span.mce_bullist {
-	background-image: url(../images/wpicons.png);
+	background-image: url('../images/wpicons.png?ver=20120720');
 }
 
 @media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
@@ -446,7 +446,7 @@
 	.wp_themeSkin .mceSplitButton .mce_forecolor span.mce_forecolor,
 	.wp_themeSkin .mceSplitButton span.mce_numlist,
 	.wp_themeSkin .mceSplitButton span.mce_bullist {
-		background-image: url(../images/wpicons-2x.png);
+		background-image: url('../images/wpicons-2x.png?ver=20120720');
 		background-size: 560px 40px;
 	}
 }
