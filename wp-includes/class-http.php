@@ -1679,7 +1679,7 @@ class WP_Http_Encoding {
 	/**
 	 * Decompression of deflated string while staying compatible with the majority of servers.
 	 *
-	 * Certain Servers will return deflated data with headers which PHP's gziniflate()
+	 * Certain Servers will return deflated data with headers which PHP's gzinflate()
 	 * function cannot handle out of the box. The following function has been created from
 	 * various snippets on the gzinflate() PHP documentation.
 	 *
