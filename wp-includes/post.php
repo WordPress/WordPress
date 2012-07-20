@@ -4386,9 +4386,11 @@ function clean_post_cache( $post ) {
 
 	do_action( 'clean_post_cache', $post->ID, $post );
 
+	if ( is_post_type_hierarchical( $post->post_type ) )
+		wp_cache_delete( 'get_pages', 'posts' );
+
 	if ( 'page' == $post->post_type ) {
 		wp_cache_delete( 'all_page_ids', 'posts' );
-		wp_cache_delete( 'get_pages', 'posts' );
 		do_action( 'clean_page_cache', $post->ID );
 	}
 
