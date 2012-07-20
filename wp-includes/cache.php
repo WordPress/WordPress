@@ -323,6 +323,9 @@ class WP_Object_Cache {
 	 * @return false|int False on failure, the item's new value on success.
 	 */
 	function decr( $key, $offset = 1, $group = 'default' ) {
+		if ( empty( $group ) )
+			$group = 'default';
+		
 		if ( ! $this->_exists( $key, $group ) )
 			return false;
 
