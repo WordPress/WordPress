@@ -167,10 +167,12 @@ function apply_filters($tag, $value) {
 		$args = func_get_args();
 
 	do {
-		foreach( (array) current($wp_filter[$tag]) as $the_ ) {
-			$args[1] = $value;
-			$value = call_user_func_array($the_['function'], array_slice($args, 1, (int) $the_['accepted_args']));
-		}
+		foreach( (array) current($wp_filter[$tag]) as $the_ )
+			if ( !is_null($the_['function']) ){
+				$args[1] = $value;
+				$value = call_user_func_array($the_['function'], array_slice($args, 1, (int) $the_['accepted_args']));
+			}
+
 	} while ( next($wp_filter[$tag]) !== false );
 
 	array_pop( $wp_current_filter );
@@ -223,9 +225,10 @@ function apply_filters_ref_array($tag, $args) {
 	reset( $wp_filter[ $tag ] );
 
 	do {
-		foreach( (array) current($wp_filter[$tag]) as $the_ ) {
-			$args[0] = call_user_func_array($the_['function'], array_slice($args, 0, (int) $the_['accepted_args']));
-		}
+		foreach( (array) current($wp_filter[$tag]) as $the_ )
+			if ( !is_null($the_['function']) )
+				$args[0] = call_user_func_array($the_['function'], array_slice($args, 0, (int) $the_['accepted_args']));
+
 	} while ( next($wp_filter[$tag]) !== false );
 
 	array_pop( $wp_current_filter );
@@ -263,8 +266,6 @@ function remove_filter( $tag, $function_to_remove, $priority = 10 ) {
 		unset($GLOBALS['wp_filter'][$tag][$priority][$function_to_remove]);
 		if ( empty($GLOBALS['wp_filter'][$tag][$priority]) )
 			unset($GLOBALS['wp_filter'][$tag][$priority]);
-		if ( empty( $GLOBALS['wp_filter'][ $tag ] ) )
-			unset( $GLOBALS['wp_filter'][ $tag ] );
 		unset($GLOBALS['merged_filters'][$tag]);
 	}
 
@@ -400,9 +401,10 @@ function do_action($tag, $arg = '') {
 	reset( $wp_filter[ $tag ] );
 
 	do {
-		foreach ( (array) current($wp_filter[$tag]) as $the_ ) {
-			call_user_func_array($the_['function'], array_slice($args, 0, (int) $the_['accepted_args']));
-		}
+		foreach ( (array) current($wp_filter[$tag]) as $the_ )
+			if ( !is_null($the_['function']) )
+				call_user_func_array($the_['function'], array_slice($args, 0, (int) $the_['accepted_args']));
+
 	} while ( next($wp_filter[$tag]) !== false );
 
 	array_pop($wp_current_filter);
@@ -480,9 +482,10 @@ function do_action_ref_array($tag, $args) {
 	reset( $wp_filter[ $tag ] );
 
 	do {
-		foreach( (array) current($wp_filter[$tag]) as $the_ ) {
-			call_user_func_array($the_['function'], array_slice($args, 0, (int) $the_['accepted_args']));
-		}
+		foreach( (array) current($wp_filter[$tag]) as $the_ )
+			if ( !is_null($the_['function']) )
+				call_user_func_array($the_['function'], array_slice($args, 0, (int) $the_['accepted_args']));
+
 	} while ( next($wp_filter[$tag]) !== false );
 
 	array_pop($wp_current_filter);
@@ -711,9 +714,10 @@ function _wp_call_all_hook($args) {
 
 	reset( $wp_filter['all'] );
 	do {
-		foreach( (array) current($wp_filter['all']) as $the_ ) {
-			call_user_func_array($the_['function'], $args);
-		}
+		foreach( (array) current($wp_filter['all']) as $the_ )
+			if ( !is_null($the_['function']) )
+				call_user_func_array($the_['function'], $args);
+
 	} while ( next($wp_filter['all']) !== false );
 }
 
