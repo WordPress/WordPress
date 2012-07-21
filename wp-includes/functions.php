@@ -638,15 +638,15 @@ function _http_build_query($data, $prefix=null, $sep=null, $key='', $urlencode=t
 function add_query_arg() {
 	$ret = '';
 	if ( is_array( func_get_arg(0) ) ) {
-		if ( @func_num_args() < 2 || false === @func_get_arg( 1 ) )
+		if ( func_num_args() < 2 || false === func_get_arg( 1 ) )
 			$uri = $_SERVER['REQUEST_URI'];
 		else
-			$uri = @func_get_arg( 1 );
+			$uri = func_get_arg( 1 );
 	} else {
-		if ( @func_num_args() < 3 || false === @func_get_arg( 2 ) )
+		if ( func_num_args() < 3 || false === func_get_arg( 2 ) )
 			$uri = $_SERVER['REQUEST_URI'];
 		else
-			$uri = @func_get_arg( 2 );
+			$uri = func_get_arg( 2 );
 	}
 
 	if ( $frag = strstr( $uri, '#' ) )
