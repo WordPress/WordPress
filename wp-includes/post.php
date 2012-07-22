@@ -671,7 +671,21 @@ function register_post_status($post_status, $args = array()) {
 		$wp_post_statuses = array();
 
 	// Args prefixed with an underscore are reserved for internal use.
-	$defaults = array('label' => false, 'label_count' => false, 'exclude_from_search' => null, '_builtin' => false, '_edit_link' => 'post.php?post=%d', 'capability_type' => 'post', 'hierarchical' => false, 'public' => null, 'internal' => null, 'protected' => null, 'private' => null, 'show_in_admin_all' => null, 'publicly_queryable' => null, 'show_in_admin_status_list' => null, 'show_in_admin_all_list' => null, 'single_view_cap' => null);
+	$defaults = array(
+		'label' => false,
+		'label_count' => false,
+		'exclude_from_search' => null,
+		'_builtin' => false,
+		'public' => null,
+		'internal' => null,
+		'protected' => null,
+		'private' => null,
+		'show_in_admin_all' => null,
+		'publicly_queryable' => null,
+		'show_in_admin_status_list' => null,
+		'show_in_admin_all_list' => null,
+		'single_view_cap' => null,
+	);
 	$args = wp_parse_args($args, $defaults);
 	$args = (object) $args;
 
@@ -703,7 +717,7 @@ function register_post_status($post_status, $args = array()) {
 		$args->show_in_admin_all_list = !$args->internal;
 
 	if ( null === $args->show_in_admin_status_list )
-			$args->show_in_admin_status_list = !$args->internal;
+		$args->show_in_admin_status_list = !$args->internal;
 
 	if ( null === $args->single_view_cap )
 		$args->single_view_cap = $args->public ? '' : 'edit';
