@@ -1091,7 +1091,7 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 	}
 
 	if ( false === strpos($permalink, '%postname%') && false === strpos($permalink, '%pagename%') ) {
-		$return = '<strong>' . __('Permalink:') . "</strong>\n" . '<span id="sample-permalink">' . $permalink . "</span>\n";
+		$return = '<strong>' . __('Permalink:') . "</strong>\n" . '<span id="sample-permalink" tabindex="-1">' . $permalink . "</span>\n";
 		if ( '' == get_option( 'permalink_structure' ) && current_user_can( 'manage_options' ) && !( 'page' == get_option('show_on_front') && $id == get_option('page_on_front') ) )
 			$return .= '<span id="change-permalinks"><a href="options-permalink.php" class="button" target="_blank">' . __('Change Permalinks') . "</a></span>\n";
 		if ( isset($view_post) )
@@ -1120,7 +1120,7 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 	$display_link = str_replace(array('%pagename%','%postname%'), $post_name_html, $permalink);
 	$view_link = str_replace(array('%pagename%','%postname%'), $post_name, $permalink);
 	$return =  '<strong>' . __('Permalink:') . "</strong>\n";
-	$return .= '<span id="sample-permalink">' . $display_link . "</span>\n";
+	$return .= '<span id="sample-permalink" tabindex="-1">' . $display_link . "</span>\n";
 	$return .= '&lrm;'; // Fix bi-directional text display defect in RTL languages.
 	$return .= '<span id="edit-slug-buttons"><a href="#post_name" class="edit-slug button hide-if-no-js" onclick="editPermalink(' . $id . '); return false;">' . __('Edit') . "</a></span>\n";
 	$return .= '<span id="editable-post-name-full">' . $post_name . "</span>\n";

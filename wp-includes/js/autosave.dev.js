@@ -1,7 +1,6 @@
 var autosave, autosaveLast = '', autosavePeriodical, autosaveOldMessage = '', autosaveDelayPreview = false, notSaved = true, blockSave = false, fullscreen, autosaveLockRelease = true;
 
 jQuery(document).ready( function($) {
-	var dotabkey = true;
 
 	autosaveLast = $('#post #title').val() + $('#post #content').val();
 	autosavePeriodical = $.schedule({time: autosaveL10n.autosaveInterval * 1000, func: function() { autosave(); }, repeat: true, protect: true});
@@ -29,7 +28,7 @@ jQuery(document).ready( function($) {
 	});
 
 	window.onbeforeunload = function(){
-		var mce = typeof(tinyMCE) != 'undefined' ? tinyMCE.activeEditor : false, title, content;
+		var mce = typeof(tinymce) != 'undefined' ? tinymce.activeEditor : false, title, content;
 
 		if ( mce && !mce.isHidden() ) {
 			if ( mce.isDirty() )
@@ -97,17 +96,15 @@ jQuery(document).ready( function($) {
 		$('input#wp-preview').val('');
 	}
 
-	//  This code is meant to allow tabbing from Title to Post if tinyMCE is defined.
-	if ( typeof tinyMCE != 'undefined' ) {
-		$('#title')[$.browser.opera ? 'keypress' : 'keydown'](function (e) {
-			if ( e.which == 9 && !e.shiftKey && !e.controlKey && !e.altKey ) {
-				if ( ($('#auto_draft').val() == '1') && ($("#title").val().length > 0) ) { autosave(); }
-				if ( tinyMCE.activeEditor && ! tinyMCE.activeEditor.isHidden() && dotabkey ) {
-					e.preventDefault();
-					dotabkey = false;
-					tinyMCE.activeEditor.focus();
-					return false;
-				}
+	//  This code is meant to allow tabbing from Title to Post if tinymce is defined.
+	if ( typeof tinymce != 'undefined' ) {
+		$('#title').bind('keydown.focus-tinymce', function(e) {
+			if ( e.which != 9 )
+				return;
+
+			if ( !e.ctrlKey && !e.altKey && !e.shiftKey && tinymce.activeEditor && !tinymce.activeEditor.isHidden() ) {
+				$('td.mceToolbar > a').focus();
+				e.preventDefault();
 			}
 		});
 	}
@@ -244,7 +241,7 @@ function delayed_autosave() {
 autosave = function() {
 	// (bool) is rich editor enabled and active
 	blockSave = true;
-	var rich = (typeof tinyMCE != "undefined") && tinyMCE.activeEditor && !tinyMCE.activeEditor.isHidden(),
+	var rich = (typeof tinymce != "undefined") && tinymce.activeEditor && !tinymce.activeEditor.isHidden(),
 		post_data, doAutoSave, ed, origStatus, successCallback;
 
 	autosave_disable_buttons();
@@ -269,16 +266,16 @@ autosave = function() {
 	if ( jQuery("#TB_window").css('display') == 'block' )
 		doAutoSave = false;
 
-	/* Gotta do this up here so we can check the length when tinyMCE is in use */
+	/* Gotta do this up here so we can check the length when tinymce is in use */
 	if ( rich && doAutoSave ) {
-		ed = tinyMCE.activeEditor;
-		// Don't run while the TinyMCE spellcheck is on. It resets all found words.
+		ed = tinymce.activeEditor;
+		// Don't run while the tinymce spellcheck is on. It resets all found words.
 		if ( ed.plugins.spellchecker && ed.plugins.spellchecker.active ) {
 			doAutoSave = false;
 		} else {
 			if ( 'mce_fullscreen' == ed.id || 'wp_mce_fullscreen' == ed.id )
-				tinyMCE.get('content').setContent(ed.getContent({format : 'raw'}), {format : 'raw'});
-			tinyMCE.triggerSave();
+				tinymce.get('content').setContent(ed.getContent({format : 'raw'}), {format : 'raw'});
+			tinymce.triggerSave();
 		}
 	}
 

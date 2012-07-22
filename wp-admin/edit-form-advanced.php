@@ -312,7 +312,7 @@ wp_nonce_field( 'samplepermalink', 'samplepermalinknonce', false );
 <?php if ( post_type_supports($post_type, 'editor') ) { ?>
 <div id="postdivrich" class="postarea">
 
-<?php wp_editor($post->post_content, 'content', array('dfw' => true, 'tabindex' => 1) ); ?>
+<?php wp_editor($post->post_content, 'content', array('dfw' => true, 'tabindex' => 1, 'tabfocus_elements' => 'sample-permalink,post-preview') ); ?>
 
 <table id="post-status-info" cellspacing="0"><tbody><tr>
 	<td id="wp-word-count"><?php printf( __( 'Word count: %s' ), '<span class="word-count">0</span>' ); ?></td>

@@ -34,6 +34,7 @@ final class _WP_Editors {
 			'textarea_name' => $editor_id, // set the textarea name to something different, square brackets [] can be used here
 			'textarea_rows' => get_option('default_post_edit_rows', 10), // rows="..."
 			'tabindex' => '',
+			'tabfocus_elements' => ':prev,:next', // the previous and next element ID to move the focus to when pressing the Tab key in TinyMCE
 			'editor_css' => '', // intended for extra styles for both visual and Text editors buttons, needs to include the <style> tags, can use "scoped".
 			'editor_class' => '', // add extra class(es) to the editor textarea
 			'teeny' => false, // output the minimal editor config used in Press This
@@ -311,7 +312,6 @@ final class _WP_Editors {
 					'keep_styles' => false,
 					'entities' => '38,amp,60,lt,62,gt',
 					'accessibility_focus' => true,
-					'tabfocus_elements' => 'title,publish',
 					'media_strict' => false,
 					'paste_remove_styles' => true,
 					'paste_remove_spans' => true,
@@ -398,6 +398,7 @@ final class _WP_Editors {
 				'theme_advanced_buttons2' => implode($mce_buttons_2, ','),
 				'theme_advanced_buttons3' => implode($mce_buttons_3, ','),
 				'theme_advanced_buttons4' => implode($mce_buttons_4, ','),
+				'tabfocus_elements' => $set['tabfocus_elements'],
 				'body_class' => $body_class
 			);
 
