@@ -96,18 +96,25 @@ jQuery(document).ready( function($) {
 		$('input#wp-preview').val('');
 	}
 
-	//  This code is meant to allow tabbing from Title to Post if tinymce is defined.
-	if ( typeof tinymce != 'undefined' ) {
-		$('#title').bind('keydown.focus-tinymce', function(e) {
-			if ( e.which != 9 )
-				return;
+	//  This code is meant to allow tabbing from Title to Post content.
+	$('#title').bind('keydown.editor-focus', function(e) {
+		var ed;
 
-			if ( !e.ctrlKey && !e.altKey && !e.shiftKey && tinymce.activeEditor && !tinymce.activeEditor.isHidden() ) {
-				$('td.mceToolbar > a').focus();
-				e.preventDefault();
-			}
-		});
-	}
+		if ( e.which != 9 )
+			return;
+
+		if ( !e.ctrlKey && !e.altKey && !e.shiftKey ) {
+			if ( typeof(tinymce) != 'undefined' )
+				ed = tinymce.get('content');
+
+			if ( ed && !ed.isHidden() )
+				$('#content_tbl td.mceToolbar > a').focus();
+			else
+				$('#content').focus();
+
+			e.preventDefault();
+		}
+	});
 
 	// autosave new posts after a title is typed but not if Publish or Save Draft is clicked
 	if ( '1' == $('#auto_draft').val() ) {
