@@ -284,7 +284,8 @@ select {
 
 a,
 input,
-select {
+select,
+#wpbody-content {
 	outline: 0;
 }
 
