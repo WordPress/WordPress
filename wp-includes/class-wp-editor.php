@@ -783,7 +783,7 @@ final class _WP_Editors {
 			<div class="link-search-wrapper">
 				<label>
 					<span><?php _e( 'Search' ); ?></span>
-					<input type="search" id="search-field" class="link-search-field" tabindex="60" autocomplete="off" />
+					<input type="text" id="search-field" class="link-search-field" tabindex="60" autocomplete="off" />
 					<img class="waiting" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
 				</label>
 			</div>
