@@ -321,10 +321,24 @@ $(document).ready( function() {
 
 	// tab in textareas
 	$('#newcontent').bind('keydown.wpevent_InsertTab', function(e) {
-		if ( e.keyCode != 9 )
-			return true;
+		var el = e.target, selStart, selEnd, val, scroll, sel;
 
-		var el = e.target, selStart = el.selectionStart, selEnd = el.selectionEnd, val = el.value, scroll, sel;
+		if ( e.keyCode == 27 ) { // escape key
+			$(el).data('tab-out', true);
+			return;
+		}
+
+		if ( e.keyCode != 9 || e.ctrlKey || e.altKey || e.shiftKey ) // tab key
+			return;
+
+		if ( $(el).data('tab-out') ) {
+			$(el).data('tab-out', false);
+			return;
+		}
+
+		selStart = el.selectionStart;
+		selEnd = el.selectionEnd;
+		val = el.value;
 
 		try {
 			this.lastKey = 9; // not a standard DOM property, lastKey is to help stop Opera tab event. See blur handler below.

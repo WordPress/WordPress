@@ -226,7 +226,8 @@ foreach ( $plugin_files as $plugin_file ) :
 </div>
 <form name="template" id="template" action="plugin-editor.php" method="post">
 	<?php wp_nonce_field('edit-plugin_' . $file) ?>
-		<div><textarea cols="70" rows="25" name="newcontent" id="newcontent" tabindex="1"><?php echo $content ?></textarea>
+		<div><textarea cols="70" rows="25" name="newcontent" id="newcontent" aria-describedby="newcontent-description" tabindex="1"><?php echo $content ?></textarea>
+		<span id="newcontent-description" class="screen-reader-text"><?php _e('Content of the edited file. The Tab key enters a tab character, to move below this area, press the Esc key followed by the Tab key. Shift + Tab works as expected.'); ?></span>
 		<input type="hidden" name="action" value="update" />
 		<input type="hidden" name="file" value="<?php echo esc_attr($file) ?>" />
 		<input type="hidden" name="plugin" value="<?php echo esc_attr($plugin) ?>" />
@@ -256,12 +257,10 @@ foreach ( $plugin_files as $plugin_file ) :
 <br class="clear" />
 </div>
 <script type="text/javascript">
-/* <![CDATA[ */
 jQuery(document).ready(function($){
 	$('#template').submit(function(){ $('#scrollto').val( $('#newcontent').scrollTop() ); });
 	$('#newcontent').scrollTop( $('#scrollto').val() );
 });
-/* ]]> */
 </script>
 <?php
 	break;

@@ -198,12 +198,13 @@ if ( $allowed_files ) :
 else : ?>
 	<form name="template" id="template" action="theme-editor.php" method="post">
 	<?php wp_nonce_field( 'edit-theme_' . $file . $stylesheet ); ?>
-		 <div><textarea cols="70" rows="30" name="newcontent" id="newcontent" tabindex="1"><?php echo $content ?></textarea>
-		 <input type="hidden" name="action" value="update" />
-		 <input type="hidden" name="file" value="<?php echo esc_attr( $relative_file ); ?>" />
-		 <input type="hidden" name="theme" value="<?php echo esc_attr( $theme->get_stylesheet() ); ?>" />
-		 <input type="hidden" name="scrollto" id="scrollto" value="<?php echo $scrollto; ?>" />
-		 </div>
+		<div><textarea cols="70" rows="30" name="newcontent" id="newcontent" aria-describedby="newcontent-description" tabindex="1"><?php echo $content ?></textarea>
+		<span id="newcontent-description" class="screen-reader-text"><?php _e('Content of the edited file. The Tab key enters a tab character, to move below this area, press the Esc key followed by the Tab key. Shift + Tab works as expected.'); ?></span>
+		<input type="hidden" name="action" value="update" />
+		<input type="hidden" name="file" value="<?php echo esc_attr( $relative_file ); ?>" />
+		<input type="hidden" name="theme" value="<?php echo esc_attr( $theme->get_stylesheet() ); ?>" />
+		<input type="hidden" name="scrollto" id="scrollto" value="<?php echo $scrollto; ?>" />
+		</div>
 	<?php if ( ! empty( $functions ) ) : ?>
 		<div id="documentation" class="hide-if-no-js">
 		<label for="docs-list"><?php _e('Documentation:') ?></label>
