@@ -107,6 +107,7 @@ if ( wp_script_is( 'customize-loader', 'queue' ) && current_user_can( 'edit_them
 ?>
 
 <div id="wpwrap">
+<a id="wpbody-content-shortcut" tabindex="5" href="#wpbody-content" class="hide-if-no-js screen-reader-text"><?php _e('Skip to main content'); ?></a>
 <?php require(ABSPATH . 'wp-admin/menu-header.php'); ?>
 <div id="wpcontent">
 
@@ -122,7 +123,7 @@ $current_screen->set_parentage( $parent_file );
 
 ?>
 
-<div id="wpbody-content">
+<div id="wpbody-content" tabindex="-1" aria-label="<?php esc_attr_e('Main content'); ?>">
 <?php
 
 $current_screen->render_screen_meta();
