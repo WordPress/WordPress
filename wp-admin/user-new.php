@@ -18,6 +18,8 @@ if ( is_multisite() ) {
 
 if ( is_multisite() ) {
 	function admin_created_user_email( $text ) {
+		$roles = get_editable_roles();
+		$role = $roles[ $_REQUEST['role'] ];
 		/* translators: 1: Site name, 2: site URL, 3: role */
 		return sprintf( __( 'Hi,
 You\'ve been invited to join \'%1$s\' at
@@ -26,7 +28,7 @@ If you do not want to join this site please ignore
 this email. This invitation will expire in a few days.
 
 Please click the following link to activate your user account:
-%%s' ), get_bloginfo('name'), home_url(), esc_html( $_REQUEST[ 'role' ] ) );
+%%s' ), get_bloginfo( 'name' ), home_url(), wp_specialchars_decode( translate_user_role( $role['name'] ) ) );
 	}
 	add_filter( 'wpmu_signup_user_notification_email', 'admin_created_user_email' );
 
@@ -72,6 +74,9 @@ if ( isset($_REQUEST['action']) && 'adduser' == $_REQUEST['action'] ) {
 		} else {
 			$newuser_key = substr( md5( $user_id ), 0, 5 );
 			add_option( 'new_user_' . $newuser_key, array( 'user_id' => $user_id, 'email' => $user_details->user_email, 'role' => $_REQUEST[ 'role' ] ) );
+			
+			$roles = get_editable_roles();
+			$role = $roles[ $_REQUEST['role'] ];
 			/* translators: 1: Site name, 2: site URL, 3: role, 4: activation URL */
 			$message = __( 'Hi,
 
@@ -80,7 +85,7 @@ You\'ve been invited to join \'%1$s\' at
 
 Please click the following link to confirm the invite:
 %4$s' );
-			wp_mail( $new_user_email, sprintf( __( '[%s] Joining confirmation' ), get_option( 'blogname' ) ), sprintf($message, get_option('blogname'), home_url(), $_REQUEST[ 'role' ], home_url("/newbloguser/$newuser_key/")));
+			wp_mail( $new_user_email, sprintf( __( '[%s] Joining confirmation' ), get_option( 'blogname' ) ), sprintf( $message, get_option( 'blogname' ), home_url(), wp_specialchars_decode( translate_user_role( $role['name'] ) ), home_url( "/newbloguser/$newuser_key/" ) ) );
 			$redirect = add_query_arg( array('update' => 'add'), 'user-new.php' );
 		}
 	}
