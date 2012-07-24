@@ -236,9 +236,10 @@ class WP_Terms_List_Table extends WP_List_Table {
 		$default_term = get_option( 'default_' . $taxonomy );
 
 		if ( current_user_can( $tax->cap->delete_terms ) && $tag->term_id != $default_term )
-			return '<input type="checkbox" name="delete_tags[]" value="' . $tag->term_id . '" />';
-		else
-			return '&nbsp;';
+			return '<label for="cb-select-' . $tag->term_id . '" class="screen-reader-text">' . sprintf( __( 'Select %s' ), $tag->name )
+				. '</label><input type="checkbox" name="delete_tags[]" value="' . $tag->term_id . '" id="cb-select-' . $tag->term_id . '" />';
+
+		return '&nbsp;';
 	}
 
 	function column_name( $tag ) {

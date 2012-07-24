@@ -129,7 +129,8 @@ class WP_Links_List_Table extends WP_List_Table {
 
 				switch ( $column_name ) {
 					case 'cb':
-						echo '<th scope="row" class="check-column"><input type="checkbox" name="linkcheck[]" value="'. esc_attr( $link->link_id ) .'" /></th>';
+						echo '<th scope="row" class="check-column"><label for="cb-select-' . $link->link_id . '" class="screen-reader-text">' . sprintf( __( 'Select %s' ), $link->link_name )
+								. '</label><input type="checkbox" name="linkcheck[]" id="cb-select-' . $link->link_id . '" value="'. esc_attr( $link->link_id ) .'" /></th>';
 						break;
 
 					case 'name':

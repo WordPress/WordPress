@@ -191,7 +191,8 @@ foreach ( $columns as $column_name => $column_display_name ) {
 ?>
 		<th scope="row" class="check-column">
 			<?php if ( $user_can_edit ) { ?>
-				<input type="checkbox" name="media[]" value="<?php the_ID(); ?>" />
+				<label for="cb-select-<?php the_ID(); ?>" class="screen-reader-text"><?php echo sprintf( __( 'Select %s' ), $att_title );?></label>
+				<input type="checkbox" name="media[]" id="cb-select-<?php the_ID(); ?>" value="<?php the_ID(); ?>" />
 			<?php } ?>
 		</th>
 <?php

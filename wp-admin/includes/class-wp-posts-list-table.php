@@ -492,7 +492,10 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 			case 'cb':
 			?>
-			<th scope="row" class="check-column"><?php if ( $can_edit_post ) { ?><input type="checkbox" name="post[]" value="<?php the_ID(); ?>" /><?php } ?></th>
+			<th scope="row" class="check-column"><?php if ( $can_edit_post ) { ?>
+			<label class="screen-reader-text" for="cb-select-<?php the_ID(); ?>"><?php printf( __( 'Select %s' ), $title );
+			?></label><input id="cb-select-<?php the_ID(); ?>" type="checkbox" name="post[]" value="<?php the_ID(); ?>" />
+			<?php } ?></th>
 			<?php
 			break;
 
