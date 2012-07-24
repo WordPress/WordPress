@@ -58,13 +58,17 @@ function install_theme_search_form( $type_selector = true ) {
 <form id="search-themes" method="get" action="">
 	<input type="hidden" name="tab" value="search" />
 	<?php if ( $type_selector ) : ?>
+	<label class="screen-reader-text" for="typeselector"><?php _e("Type of search"); ?></label>
 	<select	name="type" id="typeselector">
 	<option value="term" <?php selected('term', $type) ?>><?php _e('Keyword'); ?></option>
 	<option value="author" <?php selected('author', $type) ?>><?php _e('Author'); ?></option>
 	<option value="tag" <?php selected('tag', $type) ?>><?php _ex('Tag', 'Theme Installer'); ?></option>
 	</select>
+	<label class="screen-reader-text" for="s"><?php printf( __("Search by %s"), ( $type == 'term' ? __( 'keyword' ) : $type ) ); ?></label>
+	<?php else : ?>
+	<label class="screen-reader-text" for="s"><?php _e("Search by keyword"); ?></label>
 	<?php endif; ?>
-	<input type="search" name="s" size="30" value="<?php echo esc_attr($term) ?>" autofocus="autofocus" />
+	<input type="search" name="s" id="s" size="30" value="<?php echo esc_attr($term) ?>" autofocus="autofocus" />
 	<?php submit_button( __( 'Search' ), 'button', 'search', false ); ?>
 </form>
 <?php
