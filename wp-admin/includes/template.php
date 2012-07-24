@@ -1224,27 +1224,30 @@ function get_settings_errors( $setting = '', $sanitize = false ) {
 	// This allows the $sanitize_callback from register_setting() to run, adding
 	// any settings errors you want to show by default.
 	if ( $sanitize )
-		sanitize_option( $setting, get_option($setting));
+		sanitize_option( $setting, get_option( $setting ) );
 
 	// If settings were passed back from options.php then use them
-	// Ignore transients if $sanitize is true, we don't want the old values anyway
-	if ( isset($_GET['settings-updated']) && $_GET['settings-updated'] && get_transient('settings_errors') ) {
-		$settings_errors = get_transient('settings_errors');
-		delete_transient('settings_errors');
-	// Otherwise check global in case validation has been run on this pageload
-	} elseif ( count( $wp_settings_errors ) ) {
-		$settings_errors = $wp_settings_errors;
-	} else {
-		return;
+	if ( isset( $_GET['settings-updated'] ) && $_GET['settings-updated'] && get_transient( 'settings_errors' ) ) {
+		$wp_settings_errors = array_merge( (array) $wp_settings_errors, get_transient( 'settings_errors' ) );
+		delete_transient( 'settings_errors' );
+	}
+
+	// Check global in case errors have been added on this pageload
+	if ( ! count( $wp_settings_errors ) ) {
+		return array();
 	}
 
 	// Filter the results to those of a specific setting if one was set
 	if ( $setting ) {
-		foreach ( (array) $settings_errors as $key => $details )
-			if ( $setting != $details['setting'] )
-				unset( $settings_errors[$key] );
+		foreach ( (array) $wp_settings_errors as $key => $details ) {
+			debug_log( $details['setting'] );
+			if ( $setting == $details['setting'] )
+				$setting_errors[] = $wp_settings_errors[$key];
+		}
+		return $setting_errors;
 	}
-	return $settings_errors;
+
+	return $wp_settings_errors;
 }
 
 /**
@@ -1276,7 +1279,7 @@ function settings_errors( $setting = '', $sanitize = false, $hide_on_update = fa
 
 	$settings_errors = get_settings_errors( $setting, $sanitize );
 
-	if ( ! is_array( $settings_errors ) )
+	if ( empty( $settings_errors ) )
 		return;
 
 	$output = '';
