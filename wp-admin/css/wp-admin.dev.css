@@ -3376,11 +3376,6 @@ div.tabs-panel-inactive {
 	display:none;
 }
 
-.colunms-1 .categorydiv div.tabs-panel,
-.taxonomy div.tabs-panel {
-	margin: 0 5px 0 125px;
-}
-
 .customlinkdiv ul,
 .posttypediv ul,
 .taxonomydiv ul {
