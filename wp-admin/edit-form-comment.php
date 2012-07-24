@@ -31,7 +31,7 @@ if ( !defined('ABSPATH') )
 <tbody>
 <tr valign="top">
 	<td class="first"><?php _e( 'Name:' ); ?></td>
-	<td><input type="text" name="newcomment_author" size="30" value="<?php echo esc_attr( $comment->comment_author ); ?>" tabindex="1" id="name" /></td>
+	<td><input type="text" name="newcomment_author" size="30" value="<?php echo esc_attr( $comment->comment_author ); ?>" id="name" /></td>
 </tr>
 <tr valign="top">
 	<td class="first">
@@ -42,7 +42,7 @@ if ( !defined('ABSPATH') )
 			_e( 'E-mail:' );
 		}
 ?></td>
-	<td><input type="text" name="newcomment_author_email" size="30" value="<?php echo $comment->comment_author_email; ?>" tabindex="2" id="email" /></td>
+	<td><input type="text" name="newcomment_author_email" size="30" value="<?php echo $comment->comment_author_email; ?>" id="email" /></td>
 </tr>
 <tr valign="top">
 	<td class="first">
@@ -53,7 +53,7 @@ if ( !defined('ABSPATH') )
 		} else {
 			_e( 'URL:' );
 		} ?></td>
-	<td><input type="text" id="newcomment_author_url" name="newcomment_author_url" size="30" class="code" value="<?php echo esc_attr($comment->comment_author_url); ?>" tabindex="3" /></td>
+	<td><input type="text" id="newcomment_author_url" name="newcomment_author_url" size="30" class="code" value="<?php echo esc_attr($comment->comment_author_url); ?>" /></td>
 </tr>
 </tbody>
 </table>
@@ -98,8 +98,8 @@ $datef = __( 'M j, Y @ G:i' );
 $stamp = __('Submitted on: <b>%1$s</b>');
 $date = date_i18n( $datef, strtotime( $comment->comment_date ) );
 ?>
-<span id="timestamp"><?php printf($stamp, $date); ?></span>&nbsp;<a href="#edit_timestamp" class="edit-timestamp hide-if-no-js" tabindex='4'><?php _e('Edit') ?></a>
-<div id='timestampdiv' class='hide-if-js'><?php touch_time(('editcomment' == $action), 0, 5); ?></div>
+<span id="timestamp"><?php printf($stamp, $date); ?></span>&nbsp;<a href="#edit_timestamp" class="edit-timestamp hide-if-no-js"><?php _e('Edit') ?></a>
+<div id='timestampdiv' class='hide-if-js'><?php touch_time(('editcomment' == $action), 0); ?></div>
 </div>
 </div> <!-- misc actions -->
 <div class="clear"></div>
@@ -110,7 +110,7 @@ $date = date_i18n( $datef, strtotime( $comment->comment_date ) );
 <?php echo "<a class='submitdelete deletion' href='" . wp_nonce_url("comment.php?action=" . ( !EMPTY_TRASH_DAYS ? 'deletecomment' : 'trashcomment' ) . "&amp;c=$comment->comment_ID&amp;_wp_original_http_referer=" . urlencode(wp_get_referer()), 'delete-comment_' . $comment->comment_ID) . "'>" . ( !EMPTY_TRASH_DAYS ? __('Delete Permanently') : __('Move to Trash') ) . "</a>\n"; ?>
 </div>
 <div id="publishing-action">
-<?php submit_button( __( 'Update' ), 'primary', 'save', false, array( 'tabindex' => '4' ) ); ?>
+<?php submit_button( __( 'Update' ), 'primary', 'save', false ); ?>
 </div>
 <div class="clear"></div>
 </div>

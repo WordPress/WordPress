@@ -198,7 +198,7 @@ if ( $allowed_files ) :
 else : ?>
 	<form name="template" id="template" action="theme-editor.php" method="post">
 	<?php wp_nonce_field( 'edit-theme_' . $file . $stylesheet ); ?>
-		<div><textarea cols="70" rows="30" name="newcontent" id="newcontent" aria-describedby="newcontent-description" tabindex="1"><?php echo $content ?></textarea>
+		<div><textarea cols="70" rows="30" name="newcontent" id="newcontent" aria-describedby="newcontent-description"><?php echo $content ?></textarea>
 		<span id="newcontent-description" class="screen-reader-text"><?php _e('Content of the edited file. The Tab key enters a tab character, to move below this area, press the Esc key followed by the Tab key. Shift + Tab works as expected.'); ?></span>
 		<input type="hidden" name="action" value="update" />
 		<input type="hidden" name="file" value="<?php echo esc_attr( $relative_file ); ?>" />
@@ -220,7 +220,7 @@ else : ?>
 		<?php endif; ?>
 <?php
 	if ( is_writeable( $file ) ) :
-		submit_button( __( 'Update File' ), 'primary', 'submit', true, array( 'tabindex' => '2' ) );
+		submit_button( __( 'Update File' ), 'primary', 'submit', true );
 	else : ?>
 <p><em><?php _e('You need to make this file writable before you can save your changes. See <a href="http://codex.wordpress.org/Changing_File_Permissions">the Codex</a> for more information.'); ?></em></p>
 <?php endif; ?>

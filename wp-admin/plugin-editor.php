@@ -226,7 +226,7 @@ foreach ( $plugin_files as $plugin_file ) :
 </div>
 <form name="template" id="template" action="plugin-editor.php" method="post">
 	<?php wp_nonce_field('edit-plugin_' . $file) ?>
-		<div><textarea cols="70" rows="25" name="newcontent" id="newcontent" aria-describedby="newcontent-description" tabindex="1"><?php echo $content ?></textarea>
+		<div><textarea cols="70" rows="25" name="newcontent" id="newcontent" aria-describedby="newcontent-description"><?php echo $content ?></textarea>
 		<span id="newcontent-description" class="screen-reader-text"><?php _e('Content of the edited file. The Tab key enters a tab character, to move below this area, press the Esc key followed by the Tab key. Shift + Tab works as expected.'); ?></span>
 		<input type="hidden" name="action" value="update" />
 		<input type="hidden" name="file" value="<?php echo esc_attr($file) ?>" />
@@ -244,9 +244,9 @@ foreach ( $plugin_files as $plugin_file ) :
 	<?php
 		if ( isset($_GET['phperror']) ) {
 			echo "<input type='hidden' name='phperror' value='1' />";
-			submit_button( __( 'Update File and Attempt to Reactivate' ), 'primary', 'submit', false, array( 'tabindex' => '2' ) );
+			submit_button( __( 'Update File and Attempt to Reactivate' ), 'primary', 'submit', false );
 		} else {
-			submit_button( __( 'Update File' ), 'primary', 'submit', false, array( 'tabindex' => '2' ) );
+			submit_button( __( 'Update File' ), 'primary', 'submit', false );
 		}
 	?>
 	</p>

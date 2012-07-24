@@ -408,7 +408,9 @@ do_action($taxonomy . '_add_form', $taxonomy);
 
 </div><!-- /col-container -->
 </div><!-- /wrap -->
-
+<script type="text/javascript">
+try{document.forms.addtag['tag-name'].focus();}catch(e){}
+</script>
 <?php $wp_list_table->inline_edit(); ?>
 
 <?php

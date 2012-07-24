@@ -505,7 +505,7 @@ function wp_dashboard_quick_press() {
 	<form name="post" action="<?php echo esc_url( admin_url( 'post.php' ) ); ?>" method="post" id="quick-press">
 		<h4 id="quick-post-title"><label for="title"><?php _e('Title') ?></label></h4>
 		<div class="input-text-wrap">
-			<input type="text" name="post_title" id="title" tabindex="1" autocomplete="off" value="<?php echo esc_attr( $post->post_title ); ?>" />
+			<input type="text" name="post_title" id="title" autocomplete="off" value="<?php echo esc_attr( $post->post_title ); ?>" />
 		</div>
 
 		<?php if ( current_user_can( 'upload_files' ) ) : ?>
@@ -516,14 +516,14 @@ function wp_dashboard_quick_press() {
 
 		<h4 id="content-label"><label for="content"><?php _e('Content') ?></label></h4>
 		<div class="textarea-wrap">
-			<textarea name="content" id="content" class="mceEditor" rows="3" cols="15" tabindex="2"><?php echo esc_textarea( $post->post_content ); ?></textarea>
+			<textarea name="content" id="content" class="mceEditor" rows="3" cols="15"><?php echo esc_textarea( $post->post_content ); ?></textarea>
 		</div>
 
 		<script type="text/javascript">edCanvas = document.getElementById('content');edInsertContent = null;</script>
 
 		<h4><label for="tags-input"><?php _e('Tags') ?></label></h4>
 		<div class="input-text-wrap">
-			<input type="text" name="tags_input" id="tags-input" tabindex="3" value="<?php echo get_tags_to_edit( $post->ID ); ?>" />
+			<input type="text" name="tags_input" id="tags-input" value="<?php echo get_tags_to_edit( $post->ID ); ?>" />
 		</div>
 
 		<p class="submit">
@@ -531,10 +531,10 @@ function wp_dashboard_quick_press() {
 			<input type="hidden" name="post_ID" value="<?php echo $post_ID; ?>" />
 			<input type="hidden" name="post_type" value="post" />
 			<?php wp_nonce_field('add-post'); ?>
-			<?php submit_button( __( 'Save Draft' ), 'button', 'save', false, array( 'id' => 'save-post', 'tabindex'=> 4 ) ); ?>
+			<?php submit_button( __( 'Save Draft' ), 'button', 'save', false, array( 'id' => 'save-post' ) ); ?>
 			<input type="reset" value="<?php esc_attr_e( 'Reset' ); ?>" class="button" />
 			<span id="publishing-action">
-				<input type="submit" name="publish" id="publish" accesskey="p" tabindex="5" class="button-primary" value="<?php current_user_can('publish_posts') ? esc_attr_e('Publish') : esc_attr_e('Submit for Review'); ?>" />
+				<input type="submit" name="publish" id="publish" accesskey="p" class="button-primary" value="<?php current_user_can('publish_posts') ? esc_attr_e('Publish') : esc_attr_e('Submit for Review'); ?>" />
 				<img class="waiting" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
 			</span>
 			<br class="clear" />

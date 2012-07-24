@@ -28,9 +28,9 @@ function post_submit_meta_box($post) {
 <div id="minor-publishing-actions">
 <div id="save-action">
 <?php if ( 'publish' != $post->post_status && 'future' != $post->post_status && 'pending' != $post->post_status ) { ?>
-<input <?php if ( 'private' == $post->post_status ) { ?>style="display:none"<?php } ?> type="submit" name="save" id="save-post" value="<?php esc_attr_e('Save Draft'); ?>" tabindex="4" class="button button-highlighted" />
+<input <?php if ( 'private' == $post->post_status ) { ?>style="display:none"<?php } ?> type="submit" name="save" id="save-post" value="<?php esc_attr_e('Save Draft'); ?>" class="button button-highlighted" />
 <?php } elseif ( 'pending' == $post->post_status && $can_publish ) { ?>
-<input type="submit" name="save" id="save-post" value="<?php esc_attr_e('Save as Pending'); ?>" tabindex="4" class="button button-highlighted" />
+<input type="submit" name="save" id="save-post" value="<?php esc_attr_e('Save as Pending'); ?>" class="button button-highlighted" />
 <?php } ?>
 <img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" id="draft-ajax-loading" alt="" />
 </div>
@@ -48,7 +48,7 @@ if ( 'publish' == $post->post_status ) {
 	$preview_button = __( 'Preview' );
 }
 ?>
-<a class="preview button" href="<?php echo $preview_link; ?>" target="wp-preview" id="post-preview" tabindex="4"><?php echo $preview_button; ?></a>
+<a class="preview button" href="<?php echo $preview_link; ?>" target="wp-preview" id="post-preview"><?php echo $preview_button; ?></a>
 <input type="hidden" name="wp-preview" id="wp-preview" value="" />
 </div>
 <?php endif; // public post type ?>
@@ -81,11 +81,11 @@ switch ( $post->post_status ) {
 ?>
 </span>
 <?php if ( 'publish' == $post->post_status || 'private' == $post->post_status || $can_publish ) { ?>
-<a href="#post_status" <?php if ( 'private' == $post->post_status ) { ?>style="display:none;" <?php } ?>class="edit-post-status hide-if-no-js" tabindex='4'><?php _e('Edit') ?></a>
+<a href="#post_status" <?php if ( 'private' == $post->post_status ) { ?>style="display:none;" <?php } ?>class="edit-post-status hide-if-no-js"><?php _e('Edit') ?></a>
 
 <div id="post-status-select" class="hide-if-js">
 <input type="hidden" name="hidden_post_status" id="hidden_post_status" value="<?php echo esc_attr( ('auto-draft' == $post->post_status ) ? 'draft' : $post->post_status); ?>" />
-<select name='post_status' id='post_status' tabindex='4'>
+<select name='post_status' id='post_status'>
 <?php if ( 'publish' == $post->post_status ) : ?>
 <option<?php selected( $post->post_status, 'publish' ); ?> value='publish'><?php _e('Published') ?></option>
 <?php elseif ( 'private' == $post->post_status ) : ?>
@@ -137,7 +137,7 @@ echo esc_html( $visibility_trans ); ?></span>
 <input type="hidden" name="hidden_post_visibility" id="hidden-post-visibility" value="<?php echo esc_attr( $visibility ); ?>" />
 <input type="radio" name="visibility" id="visibility-radio-public" value="public" <?php checked( $visibility, 'public' ); ?> /> <label for="visibility-radio-public" class="selectit"><?php _e('Public'); ?></label><br />
 <?php if ( $post_type == 'post' && current_user_can( 'edit_others_posts' ) ) : ?>
-<span id="sticky-span"><input id="sticky" name="sticky" type="checkbox" value="sticky" <?php checked( is_sticky( $post->ID ) ); ?> tabindex="4" /> <label for="sticky" class="selectit"><?php _e( 'Stick this post to the front page' ); ?></label><br /></span>
+<span id="sticky-span"><input id="sticky" name="sticky" type="checkbox" value="sticky" <?php checked( is_sticky( $post->ID ) ); ?> /> <label for="sticky" class="selectit"><?php _e( 'Stick this post to the front page' ); ?></label><br /></span>
 <?php endif; ?>
 <input type="radio" name="visibility" id="visibility-radio-password" value="password" <?php checked( $visibility, 'password' ); ?> /> <label for="visibility-radio-password" class="selectit"><?php _e('Password protected'); ?></label><br />
 <span id="password-span"><label for="post_password"><?php _e('Password:'); ?></label> <input type="text" name="post_password" id="post_password" value="<?php echo esc_attr($post->post_password); ?>" /><br /></span>
@@ -177,8 +177,8 @@ if ( $can_publish ) : // Contributors don't get to choose the date of publish ?>
 <div class="misc-pub-section curtime">
 	<span id="timestamp">
 	<?php printf($stamp, $date); ?></span>
-	<a href="#edit_timestamp" class="edit-timestamp hide-if-no-js" tabindex='4'><?php _e('Edit') ?></a>
-	<div id="timestampdiv" class="hide-if-js"><?php touch_time(($action == 'edit'),1,4); ?></div>
+	<a href="#edit_timestamp" class="edit-timestamp hide-if-no-js"><?php _e('Edit') ?></a>
+	<div id="timestampdiv" class="hide-if-js"><?php touch_time(($action == 'edit'), 1); ?></div>
 </div><?php // /misc-pub-section ?>
 <?php endif; ?>
 
@@ -208,19 +208,19 @@ if ( !in_array( $post->post_status, array('publish', 'future', 'private') ) || 0
 	if ( $can_publish ) :
 		if ( !empty($post->post_date_gmt) && time() < strtotime( $post->post_date_gmt . ' +0000' ) ) : ?>
 		<input name="original_publish" type="hidden" id="original_publish" value="<?php esc_attr_e('Schedule') ?>" />
-		<?php submit_button( __( 'Schedule' ), 'primary', 'publish', false, array( 'tabindex' => '5', 'accesskey' => 'p' ) ); ?>
+		<?php submit_button( __( 'Schedule' ), 'primary', 'publish', false, array( 'accesskey' => 'p' ) ); ?>
 <?php	else : ?>
 		<input name="original_publish" type="hidden" id="original_publish" value="<?php esc_attr_e('Publish') ?>" />
-		<?php submit_button( __( 'Publish' ), 'primary', 'publish', false, array( 'tabindex' => '5', 'accesskey' => 'p' ) ); ?>
+		<?php submit_button( __( 'Publish' ), 'primary', 'publish', false, array( 'accesskey' => 'p' ) ); ?>
 <?php	endif;
 	else : ?>
 		<input name="original_publish" type="hidden" id="original_publish" value="<?php esc_attr_e('Submit for Review') ?>" />
-		<?php submit_button( __( 'Submit for Review' ), 'primary', 'publish', false, array( 'tabindex' => '5', 'accesskey' => 'p' ) ); ?>
+		<?php submit_button( __( 'Submit for Review' ), 'primary', 'publish', false, array( 'accesskey' => 'p' ) ); ?>
 <?php
 	endif;
 } else { ?>
 		<input name="original_publish" type="hidden" id="original_publish" value="<?php esc_attr_e('Update') ?>" />
-		<input name="save" type="submit" class="button-primary" id="publish" tabindex="5" accesskey="p" value="<?php esc_attr_e('Update') ?>" />
+		<input name="save" type="submit" class="button-primary" id="publish" accesskey="p" value="<?php esc_attr_e('Update') ?>" />
 <?php
 } ?>
 </div>
@@ -288,7 +288,7 @@ function post_tags_meta_box($post, $box) {
 		<label class="screen-reader-text" for="new-tag-<?php echo $tax_name; ?>"><?php echo $box['title']; ?></label>
 		<div class="taghint"><?php echo $taxonomy->labels->add_new_item; ?></div>
 		<p><input type="text" id="new-tag-<?php echo $tax_name; ?>" name="newtag[<?php echo $tax_name; ?>]" class="newtag form-input-tip" size="16" autocomplete="off" value="" />
-		<input type="button" class="button tagadd" value="<?php esc_attr_e('Add'); ?>" tabindex="3" /></p>
+		<input type="button" class="button tagadd" value="<?php esc_attr_e('Add'); ?>" /></p>
 	</div>
 	<p class="howto"><?php echo esc_attr( $taxonomy->labels->separate_items_with_commas ); ?></p>
 	<?php endif; ?>
@@ -320,8 +320,8 @@ function post_categories_meta_box( $post, $box ) {
 	?>
 	<div id="taxonomy-<?php echo $taxonomy; ?>" class="categorydiv">
 		<ul id="<?php echo $taxonomy; ?>-tabs" class="category-tabs">
-			<li class="tabs"><a href="#<?php echo $taxonomy; ?>-all" tabindex="3"><?php echo $tax->labels->all_items; ?></a></li>
-			<li class="hide-if-no-js"><a href="#<?php echo $taxonomy; ?>-pop" tabindex="3"><?php _e( 'Most Used' ); ?></a></li>
+			<li class="tabs"><a href="#<?php echo $taxonomy; ?>-all"><?php echo $tax->labels->all_items; ?></a></li>
+			<li class="hide-if-no-js"><a href="#<?php echo $taxonomy; ?>-pop"><?php _e( 'Most Used' ); ?></a></li>
 		</ul>
 
 		<div id="<?php echo $taxonomy; ?>-pop" class="tabs-panel" style="display: none;">
@@ -342,7 +342,7 @@ function post_categories_meta_box( $post, $box ) {
 	<?php if ( current_user_can($tax->cap->edit_terms) ) : ?>
 			<div id="<?php echo $taxonomy; ?>-adder" class="wp-hidden-children">
 				<h4>
-					<a id="<?php echo $taxonomy; ?>-add-toggle" href="#<?php echo $taxonomy; ?>-add" class="hide-if-no-js" tabindex="3">
+					<a id="<?php echo $taxonomy; ?>-add-toggle" href="#<?php echo $taxonomy; ?>-add" class="hide-if-no-js">
 						<?php
 							/* translators: %s: add new taxonomy label */
 							printf( __( '+ %s' ), $tax->labels->add_new_item );
@@ -351,12 +351,12 @@ function post_categories_meta_box( $post, $box ) {
 				</h4>
 				<p id="<?php echo $taxonomy; ?>-add" class="category-add wp-hidden-child">
 					<label class="screen-reader-text" for="new<?php echo $taxonomy; ?>"><?php echo $tax->labels->add_new_item; ?></label>
-					<input type="text" name="new<?php echo $taxonomy; ?>" id="new<?php echo $taxonomy; ?>" class="form-required form-input-tip" value="<?php echo esc_attr( $tax->labels->new_item_name ); ?>" tabindex="3" aria-required="true"/>
+					<input type="text" name="new<?php echo $taxonomy; ?>" id="new<?php echo $taxonomy; ?>" class="form-required form-input-tip" value="<?php echo esc_attr( $tax->labels->new_item_name ); ?>" aria-required="true"/>
 					<label class="screen-reader-text" for="new<?php echo $taxonomy; ?>_parent">
 						<?php echo $tax->labels->parent_item_colon; ?>
 					</label>
-					<?php wp_dropdown_categories( array( 'taxonomy' => $taxonomy, 'hide_empty' => 0, 'name' => 'new'.$taxonomy.'_parent', 'orderby' => 'name', 'hierarchical' => 1, 'show_option_none' => '&mdash; ' . $tax->labels->parent_item . ' &mdash;', 'tab_index' => 3 ) ); ?>
-					<input type="button" id="<?php echo $taxonomy; ?>-add-submit" class="add:<?php echo $taxonomy ?>checklist:<?php echo $taxonomy ?>-add button category-add-submit" value="<?php echo esc_attr( $tax->labels->add_new_item ); ?>" tabindex="3" />
+					<?php wp_dropdown_categories( array( 'taxonomy' => $taxonomy, 'hide_empty' => 0, 'name' => 'new'.$taxonomy.'_parent', 'orderby' => 'name', 'hierarchical' => 1, 'show_option_none' => '&mdash; ' . $tax->labels->parent_item . ' &mdash;' ) ); ?>
+					<input type="button" id="<?php echo $taxonomy; ?>-add-submit" class="add:<?php echo $taxonomy ?>checklist:<?php echo $taxonomy ?>-add button category-add-submit" value="<?php echo esc_attr( $tax->labels->add_new_item ); ?>" />
 					<?php wp_nonce_field( 'add-'.$taxonomy, '_ajax_nonce-add-'.$taxonomy, false ); ?>
 					<span id="<?php echo $taxonomy; ?>-ajax-response"></span>
 				</p>
@@ -375,7 +375,7 @@ function post_categories_meta_box( $post, $box ) {
  */
 function post_excerpt_meta_box($post) {
 ?>
-<label class="screen-reader-text" for="excerpt"><?php _e('Excerpt') ?></label><textarea rows="1" cols="40" name="excerpt" tabindex="6" id="excerpt"><?php echo $post->post_excerpt; // textarea_escaped ?></textarea>
+<label class="screen-reader-text" for="excerpt"><?php _e('Excerpt') ?></label><textarea rows="1" cols="40" name="excerpt" id="excerpt"><?php echo $post->post_excerpt; // textarea_escaped ?></textarea>
 <p><?php _e('Excerpts are optional hand-crafted summaries of your content that can be used in your theme. <a href="http://codex.wordpress.org/Excerpt" target="_blank">Learn more about manual excerpts.</a>'); ?></p>
 <?php
 }
@@ -388,7 +388,7 @@ function post_excerpt_meta_box($post) {
  * @param object $post
  */
 function post_trackback_meta_box($post) {
-	$form_trackback = '<input type="text" name="trackback_url" id="trackback_url" class="code" tabindex="7" value="'. esc_attr( str_replace("\n", ' ', $post->to_ping) ) .'" />';
+	$form_trackback = '<input type="text" name="trackback_url" id="trackback_url" class="code" value="'. esc_attr( str_replace("\n", ' ', $post->to_ping) ) .'" />';
 	if ('' != $post->pinged) {
 		$pings = '<p>'. __('Already pinged:') . '</p><ul>';
 		$already_pinged = explode("\n", trim($post->pinged));
@@ -613,7 +613,7 @@ function link_submit_meta_box($link) {
 <div id="minor-publishing-actions">
 <div id="preview-action">
 <?php if ( !empty($link->link_id) ) { ?>
-	<a class="preview button" href="<?php echo $link->link_url; ?>" target="_blank" tabindex="4"><?php _e('Visit Link'); ?></a>
+	<a class="preview button" href="<?php echo $link->link_url; ?>" target="_blank"><?php _e('Visit Link'); ?></a>
 <?php } ?>
 </div>
 <div class="clear"></div>
@@ -638,9 +638,9 @@ if ( !empty($_GET['action']) && 'edit' == $_GET['action'] && current_user_can('m
 
 <div id="publishing-action">
 <?php if ( !empty($link->link_id) ) { ?>
-	<input name="save" type="submit" class="button-primary" id="publish" tabindex="4" accesskey="p" value="<?php esc_attr_e('Update Link') ?>" />
+	<input name="save" type="submit" class="button-primary" id="publish" accesskey="p" value="<?php esc_attr_e('Update Link') ?>" />
 <?php } else { ?>
-	<input name="save" type="submit" class="button-primary" id="publish" tabindex="4" accesskey="p" value="<?php esc_attr_e('Add Link') ?>" />
+	<input name="save" type="submit" class="button-primary" id="publish" accesskey="p" value="<?php esc_attr_e('Add Link') ?>" />
 <?php } ?>
 </div>
 <div class="clear"></div>

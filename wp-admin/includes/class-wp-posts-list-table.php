@@ -754,7 +754,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	<?php if ( !$bulk ) : ?>
 			<label><span class="title"><?php _e( 'Date' ); ?></span></label>
 			<div class="inline-edit-date">
-				<?php touch_time( 1, 1, 4, 1 ); ?>
+				<?php touch_time( 1, 1, 0, 1 ); ?>
 			</div>
 			<br class="clear" />
 	<?php endif; // $bulk

@@ -283,7 +283,7 @@ wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 <div id="titlediv">
 <div id="titlewrap">
 	<label class="hide-if-no-js" style="visibility:hidden" id="title-prompt-text" for="title"><?php echo apply_filters( 'enter_title_here', __( 'Enter title here' ), $post ); ?></label>
-	<input type="text" name="post_title" size="30" tabindex="1" value="<?php echo esc_attr( htmlspecialchars( $post->post_title ) ); ?>" id="title" autocomplete="off" />
+	<input type="text" name="post_title" size="30" value="<?php echo esc_attr( htmlspecialchars( $post->post_title ) ); ?>" id="title" autocomplete="off" />
 </div>
 <div class="inside">
 <?php
@@ -312,7 +312,7 @@ wp_nonce_field( 'samplepermalink', 'samplepermalinknonce', false );
 <?php if ( post_type_supports($post_type, 'editor') ) { ?>
 <div id="postdivrich" class="postarea">
 
-<?php wp_editor($post->post_content, 'content', array('dfw' => true, 'tabindex' => 1, 'tabfocus_elements' => 'sample-permalink,post-preview') ); ?>
+<?php wp_editor($post->post_content, 'content', array('dfw' => true, 'tabfocus_elements' => 'sample-permalink,post-preview') ); ?>
 
 <table id="post-status-info" cellspacing="0"><tbody><tr>
 	<td id="wp-word-count"><?php printf( __( 'Word count: %s' ), '<span class="word-count">0</span>' ); ?></td>
@@ -378,7 +378,7 @@ if ( post_type_supports( $post_type, 'comments' ) )
 	wp_comment_reply();
 ?>
 
-<?php if ((isset($post->post_title) && '' == $post->post_title) || (isset($_GET['message']) && 2 > $_GET['message'])) : ?>
+<?php if ( (isset($post->post_title) && '' == $post->post_title) || (isset($_GET['message']) && 2 > $_GET['message']) ) : ?>
 <script type="text/javascript">
 try{document.post.title.focus();}catch(e){}
 </script>

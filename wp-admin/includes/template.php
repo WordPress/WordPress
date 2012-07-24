@@ -332,17 +332,17 @@ function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single', 
 	<div id="edithead" style="display:none;">
 		<div class="inside">
 		<label for="author"><?php _e('Name') ?></label>
-		<input type="text" name="newcomment_author" size="50" value="" tabindex="101" id="author" />
+		<input type="text" name="newcomment_author" size="50" value="" id="author" />
 		</div>
 
 		<div class="inside">
 		<label for="author-email"><?php _e('E-mail') ?></label>
-		<input type="text" name="newcomment_author_email" size="50" value="" tabindex="102" id="author-email" />
+		<input type="text" name="newcomment_author_email" size="50" value="" id="author-email" />
 		</div>
 
 		<div class="inside">
 		<label for="author-url"><?php _e('URL') ?></label>
-		<input type="text" id="author-url" name="newcomment_author_url" size="103" value="" tabindex="103" />
+		<input type="text" id="author-url" name="newcomment_author_url" size="103" value="" />
 		</div>
 		<div style="clear:both;"></div>
 	</div>
@@ -350,13 +350,13 @@ function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single', 
 	<div id="replycontainer">
 	<?php
 	$quicktags_settings = array( 'buttons' => 'strong,em,link,block,del,ins,img,ul,ol,li,code,spell,close' );
-	wp_editor( '', 'replycontent', array( 'media_buttons' => false, 'tinymce' => false, 'quicktags' => $quicktags_settings, 'tabindex' => 104 ) );
+	wp_editor( '', 'replycontent', array( 'media_buttons' => false, 'tinymce' => false, 'quicktags' => $quicktags_settings ) );
 	?>
 	</div>
 
 	<p id="replysubmit" class="submit">
-	<a href="#comments-form" class="cancel button-secondary alignleft" tabindex="106"><?php _e('Cancel'); ?></a>
-	<a href="#comments-form" class="save button-primary alignright" tabindex="104">
+	<a href="#comments-form" class="cancel button-secondary alignleft"><?php _e('Cancel'); ?></a>
+	<a href="#comments-form" class="save button-primary alignright">
 	<span id="addbtn" style="display:none;"><?php _e('Add Comment'); ?></span>
 	<span id="savebtn" style="display:none;"><?php _e('Update Comment'); ?></span>
 	<span id="replybtn" style="display:none;"><?php _e('Submit Reply'); ?></span></a>
@@ -489,17 +489,17 @@ function _list_meta_row( $entry, &$count ) {
 	$delete_nonce = wp_create_nonce( 'delete-meta_' . $entry['meta_id'] );
 
 	$r .= "\n\t<tr id='meta-{$entry['meta_id']}' class='$style'>";
-	$r .= "\n\t\t<td class='left'><label class='screen-reader-text' for='meta[{$entry['meta_id']}][key]'>" . __( 'Key' ) . "</label><input name='meta[{$entry['meta_id']}][key]' id='meta[{$entry['meta_id']}][key]' tabindex='6' type='text' size='20' value='{$entry['meta_key']}' />";
+	$r .= "\n\t\t<td class='left'><label class='screen-reader-text' for='meta[{$entry['meta_id']}][key]'>" . __( 'Key' ) . "</label><input name='meta[{$entry['meta_id']}][key]' id='meta[{$entry['meta_id']}][key]' type='text' size='20' value='{$entry['meta_key']}' />";
 
 	$r .= "\n\t\t<div class='submit'>";
-	$r .= get_submit_button( __( 'Delete' ), "delete:the-list:meta-{$entry['meta_id']}::_ajax_nonce=$delete_nonce deletemeta", "deletemeta[{$entry['meta_id']}]", false, array( 'tabindex' => '6' ) );
+	$r .= get_submit_button( __( 'Delete' ), "delete:the-list:meta-{$entry['meta_id']}::_ajax_nonce=$delete_nonce deletemeta", "deletemeta[{$entry['meta_id']}]", false );
 	$r .= "\n\t\t";
-	$r .= get_submit_button( __( 'Update' ), "add:the-list:meta-{$entry['meta_id']}::_ajax_nonce-add-meta=$update_nonce updatemeta" , 'updatemeta', false, array( 'tabindex' => '6' ) );
+	$r .= get_submit_button( __( 'Update' ), "add:the-list:meta-{$entry['meta_id']}::_ajax_nonce-add-meta=$update_nonce updatemeta" , 'updatemeta', false );
 	$r .= "</div>";
 	$r .= wp_nonce_field( 'change-meta', '_ajax_nonce', false, false );
 	$r .= "</td>";
 
-	$r .= "\n\t\t<td><label class='screen-reader-text' for='meta[{$entry['meta_id']}][value]'>" . __( 'Value' ) . "</label><textarea name='meta[{$entry['meta_id']}][value]' id='meta[{$entry['meta_id']}][value]' tabindex='6' rows='2' cols='30'>{$entry['meta_value']}</textarea></td>\n\t</tr>";
+	$r .= "\n\t\t<td><label class='screen-reader-text' for='meta[{$entry['meta_id']}][value]'>" . __( 'Value' ) . "</label><textarea name='meta[{$entry['meta_id']}][value]' id='meta[{$entry['meta_id']}][value]' rows='2' cols='30'>{$entry['meta_value']}</textarea></td>\n\t</tr>";
 	return $r;
 }
 
@@ -534,7 +534,7 @@ function meta_form() {
 <tr>
 <td id="newmetaleft" class="left">
 <?php if ( $keys ) { ?>
-<select id="metakeyselect" name="metakeyselect" tabindex="7">
+<select id="metakeyselect" name="metakeyselect">
 <option value="#NONE#"><?php _e( '&mdash; Select &mdash;' ); ?></option>
 <?php
 
@@ -543,19 +543,19 @@ function meta_form() {
 	}
 ?>
 </select>
-<input class="hide-if-js" type="text" id="metakeyinput" name="metakeyinput" tabindex="7" value="" />
+<input class="hide-if-js" type="text" id="metakeyinput" name="metakeyinput" value="" />
 <a href="#postcustomstuff" class="hide-if-no-js" onclick="jQuery('#metakeyinput, #metakeyselect, #enternew, #cancelnew').toggle();return false;">
 <span id="enternew"><?php _e('Enter new'); ?></span>
 <span id="cancelnew" class="hidden"><?php _e('Cancel'); ?></span></a>
 <?php } else { ?>
-<input type="text" id="metakeyinput" name="metakeyinput" tabindex="7" value="" />
+<input type="text" id="metakeyinput" name="metakeyinput" value="" />
 <?php } ?>
 </td>
-<td><textarea id="metavalue" name="metavalue" rows="2" cols="25" tabindex="8"></textarea></td>
+<td><textarea id="metavalue" name="metavalue" rows="2" cols="25"></textarea></td>
 </tr>
 
 <tr><td colspan="2" class="submit">
-<?php submit_button( __( 'Add Custom Field' ), 'add:the-list:newmeta', 'addmeta', false, array( 'id' => 'addmetasub', 'tabindex' => '9' ) ); ?>
+<?php submit_button( __( 'Add Custom Field' ), 'add:the-list:newmeta', 'addmeta', false, array( 'id' => 'addmetasub' ) ); ?>
 <?php wp_nonce_field( 'add-meta', '_ajax_nonce-add-meta', false ); ?>
 </td></tr>
 </tbody>

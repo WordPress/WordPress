@@ -769,13 +769,13 @@ final class _WP_Editors {
 		<div id="link-options">
 			<p class="howto"><?php _e( 'Enter the destination URL' ); ?></p>
 			<div>
-				<label><span><?php _e( 'URL' ); ?></span><input id="url-field" type="text" tabindex="10" name="href" /></label>
+				<label><span><?php _e( 'URL' ); ?></span><input id="url-field" type="text" name="href" /></label>
 			</div>
 			<div>
-				<label><span><?php _e( 'Title' ); ?></span><input id="link-title-field" type="text" tabindex="20" name="linktitle" /></label>
+				<label><span><?php _e( 'Title' ); ?></span><input id="link-title-field" type="text" name="linktitle" /></label>
 			</div>
 			<div class="link-target">
-				<label><input type="checkbox" id="link-target-checkbox" tabindex="30" /> <?php _e( 'Open link in a new window/tab' ); ?></label>
+				<label><input type="checkbox" id="link-target-checkbox" /> <?php _e( 'Open link in a new window/tab' ); ?></label>
 			</div>
 		</div>
 		<?php $show_internal = '1' == get_user_setting( 'wplink', '0' ); ?>
@@ -785,7 +785,7 @@ final class _WP_Editors {
 				<label>
 					<span><img class="waiting" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
 					<?php _e( 'Search' ); ?></span>
-					<input type="search" id="search-field" class="link-search-field" tabindex="60" autocomplete="off" />
+					<input type="search" id="search-field" class="link-search-field" autocomplete="off" />
 				</label>
 			</div>
 			<div id="search-results" class="query-results">
@@ -808,7 +808,7 @@ final class _WP_Editors {
 			<a class="submitdelete deletion" href="#"><?php _e( 'Cancel' ); ?></a>
 		</div>
 		<div id="wp-link-update">
-			<input type="submit" tabindex="100" value="<?php esc_attr_e( 'Add Link' ); ?>" class="button-primary" id="wp-link-submit" name="wp-link-submit">
+			<input type="submit" value="<?php esc_attr_e( 'Add Link' ); ?>" class="button-primary" id="wp-link-submit" name="wp-link-submit">
 		</div>
 	</div>
 	</form>
