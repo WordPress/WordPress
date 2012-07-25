@@ -57,6 +57,7 @@
 	margin: 0;
 	padding: 0;
 	position: relative;
+	text-indent: 0;
 	z-index: 99999;
 }
 
