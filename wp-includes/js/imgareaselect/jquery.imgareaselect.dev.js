@@ -1,6 +1,6 @@
 /*
  * imgAreaSelect jQuery plugin
- * version 0.9.8
+ * version 0.9.9
  *
  * Copyright (c) 2008-2011 Michal Wojciechowski (odyniec.net)
  *
@@ -706,7 +706,7 @@ $.imgAreaSelect = function (img, options) {
         setSelection(selX(x1), selY(y1), selX(x1), selY(y1));
 
         /* If this is an API call, callback functions should not be triggered */
-        if (!this instanceof $.imgAreaSelect) {
+        if (!(this instanceof $.imgAreaSelect)) {
             options.onSelectChange(img, getSelection());
             options.onSelectEnd(img, getSelection());
         }
@@ -866,7 +866,7 @@ $.imgAreaSelect = function (img, options) {
      *            properties
      */
     function styleOptions($elem, props) {
-        for (option in props)
+        for (var option in props)
             if (options[option] !== undefined)
                 $elem.css(props[option], options[option]);
     }
@@ -1143,7 +1143,7 @@ $.imgAreaSelect = function (img, options) {
      * attribute seems to trigger it. The check is for version 7 and above to
      * accommodate for MSIE 9 running in compatibility mode.
      */
-   if ($.browser.msie && $.browser.version >= 7)
+   if (!imgLoaded && $.browser.msie && $.browser.version >= 7)
         img.src = img.src;
 };
 
