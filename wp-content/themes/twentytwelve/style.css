@@ -1072,13 +1072,22 @@ footer .edit-link {
 /* =Styling for the archive view
 -------------------------------------------------------------- */
 
-.archive #content .archive-title,
+.archive #content .archive-header,
 .search .page-header {
 	margin-bottom: 48px;
 	margin-bottom: 3.428571429rem;
 	padding-bottom: 22px;
 	padding-bottom: 1.571428571rem;
 	border-bottom: 1px solid #ededed;
+}
+.archive-meta {
+	color: #636363;
+	font-size: 11px;
+	font-size: 0.785714286rem;
+	line-height: 2.181818182;
+	margin-top: 22px;
+	margin-top: 1.571428571rem;
+	text-transform: uppercase;
 }
 
 
