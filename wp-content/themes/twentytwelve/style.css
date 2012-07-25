@@ -14,6 +14,41 @@ This theme, like WordPress, is licensed under the GPL.
 Use it to make something cool, have fun, and share what you've learned with others.
 */
 
+/* =Notes
+--------------------------------------------------------------
+This stylesheet uses rem values with a pixel fallback. The rem
+values (and line heights) are calculated using two variables:
+
+$rembase:      14;
+$line-height:  24;
+
+---------- Examples
+
+* Use a pixel value with a rem fallback for font-size, padding, margins, etc.
+	padding: 5px 0;
+	padding: 0.357142857rem 0; (5 / $rembase)
+
+* Set a font-size and then set a line-height based on the font-size
+	font-size: 16px
+	font-size: 1.142857143rem; (16 / $rembase)
+	line-height: 1.846153846; ($line-height / 16)
+
+---------- Vertical spacing
+
+Vertical spacing between most elements should use 24px or 48px
+to maintain vertical rhythm:
+
+.my-new-div {
+	margin: 24px 0;
+	margin: 1.714285714rem 0; ( 24 / $rembase )
+}
+
+---------- Further reading
+
+http://snook.ca/archives/html_and_css/font-size-with-rem
+http://blog.typekit.com/2011/11/09/type-study-sizing-the-legible-letter/
+
+
 /* =Reset
 -------------------------------------------------------------- */
 
