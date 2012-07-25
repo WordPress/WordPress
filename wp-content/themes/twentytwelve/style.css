@@ -158,7 +158,9 @@ img {
 /* Small headers */
 .archive-title,
 .page-title,
-.widget-title {
+.widget-title,
+.entry-content th,
+.comment-content th {
 	font-size: 11px;
 	font-size: 0.785714286rem;
 	line-height: 2.181818182;
@@ -966,19 +968,20 @@ article.sticky .featured-post {
 .entry-content table,
 .comment-content table {
 	border-bottom: 1px solid #ededed;
+	color: #777;
+	font-size: 12px;
+	font-size: 0.857142857rem;
+	line-height: 2;
 	margin: 0 0 24px;
 	margin: 0 0 1.714285714rem;
 	width: 100%;
 }
-.entry-content th,
-.comment-content th {
-	color: #666;
-	font-size: 10px;
-	font-size: 0.714285714rem;
-	font-weight: bold;
-	letter-spacing: 0.1em;
-	line-height: 1.846153846;
-	text-transform: uppercase;
+.entry-content table caption,
+.comment-content table caption {
+	font-size: 16px;
+	font-size: 1.142857143rem;
+	margin: 24px 0;
+	margin: 1.714285714rem 0;
 }
 .entry-content td,
 .comment-content td {
