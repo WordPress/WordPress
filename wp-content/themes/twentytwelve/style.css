@@ -118,8 +118,6 @@ audio,
 canvas,
 video {
 	display: inline-block;
-	*display: inline;
-	*zoom: 1;
 }
 audio:not([controls]) {
 	display: none;
@@ -141,16 +139,16 @@ img {
 	border: 0;
 	-ms-interpolation-mode: bicubic;
 }
-.clear {
-	zoom: 1;
+
+/* Clearing floats */
+
+.clear:after {
+	clear: both;
 }
 .clear:before,
 .clear:after {
 	display: table;
 	content: "";
-}
-.clear:after {
-	clear: both;
 }
 
 
@@ -378,20 +376,12 @@ img.wp-post-image {
 
 /* Author profiles */
 #author-info {
-	zoom: 1;
+	border-top: 1px solid #ededed;
 	margin: 24px 0;
 	margin: 1.714285714rem 0;
 	padding-top: 24px;
 	padding-top: 1.714285714rem;
-	border-top: 1px solid #ededed;
-}
-#author-info:before,
-#author-info:after {
-	display: table;
-	content: "";
-}
-#author-info:after {
-	clear: both;
+	overflow: hidden;
 }
 @media screen and (min-width: 600px) {
 	#author-avatar {
@@ -451,18 +441,10 @@ a:hover {
 }
 @media screen and (min-width: 600px) {
 	#page {
-		zoom: 1;
 		margin: 0 auto;
 		max-width: 960px;
 		max-width: 68.571428571rem;
-	}
-	#page:before,
-	#page:after {
-		display: table;
-		content: "";
-	}
-	#page:after {
-		clear: both;
+		overflow: hidden;
 	}
 }
 @media screen and (min-width: 960px) {
@@ -490,15 +472,7 @@ a:hover {
 	}
 }
 #main {
-	zoom: 1;
-}
-#main:before,
-#main:after {
-	display: table;
-	content: "";
-}
-#main:after {
-	clear: both;
+	overflow: hidden;
 }
 #primary {
 	margin: 24px 0 0;
@@ -722,8 +696,8 @@ section[role="banner"] {
 
 /* Footer */
 footer[role="contentinfo"] {
+	border-top: 1px solid #ededed;
 	clear: both;
-	zoom: 1;
 	max-width: 960px;
 	max-width: 68.571428571rem;
 	margin-top: 24px;
@@ -732,15 +706,7 @@ footer[role="contentinfo"] {
 	margin-right: auto;
 	padding: 24px 0;
 	padding: 1.714285714rem 0;
-	border-top: 1px solid #ededed;
-}
-footer[role="contentinfo"]:before,
-footer[role="contentinfo"]:after {
-	display: table;
-	content: "";
-}
-footer[role="contentinfo"]:after {
-	clear: both;
+	overflow: hidden;
 }
 footer[role="contentinfo"] a {
 	font-size: 12px;
@@ -816,17 +782,9 @@ article.sticky .featured-post {
 }
 @media screen and (min-width: 600px) {
 	article.sticky header.entry-header {
-		zoom: 1;
 		float: left;
 		max-width: 73.6%;
-	}
-	article.sticky header.entry-header:before,
-	article.sticky header.entry-header:after {
-		display: table;
-		content: "";
-	}
-	article.sticky header.entry-header:after {
-		clear: both;
+		overflow: hidden;
 	}
 	article.sticky .featured-post {
 		float: right;
@@ -1197,31 +1155,15 @@ article.format-quote .entry-content blockquote {
 	font-weight: normal;
 }
 #comments article {
-	zoom: 1;
 	margin: 24px 0;
 	margin: 1.714285714rem 0;
-}
-#comments article:before,
-#comments article:after {
-	display: table;
-	content: "";
-}
-#comments article:after {
-	clear: both;
+	overflow: hidden;
 }
 #comments article header {
-	position: relative;
-	zoom: 1;
 	margin: 0 0 48px;
 	margin: 0 0 3.428571429rem;
-}
-#comments article header:before,
-#comments article header:after {
-	display: table;
-	content: "";
-}
-#comments article header:after {
-	clear: both;
+	overflow: hidden;
+	position: relative;
 }
 #comments article header img {
 	float: left;
@@ -1330,17 +1272,9 @@ a.comment-reply-link:hover {
 	margin: 1.714285714rem 0;
 }
 #respond form p {
-	zoom: 1;
 	margin: 11px 0;
 	margin: 0.785714286rem 0;
-}
-#respond form p:before,
-#respond form p:after {
-	display: table;
-	content: "";
-}
-#respond form p:after {
-	clear: both;
+	overflow: hidden;
 }
 #respond form p.logged-in-as {
 	margin-bottom: 24px;
@@ -1394,18 +1328,7 @@ label ~ span.required {
 @media screen and (min-width: 600px) {
 	div.home-top,
 	div.home-middle {
-		zoom: 1;
-	}
-	div.home-top:before,
-	div.home-top:after,
-	div.home-middle:before,
-	div.home-middle:after {
-		display: table;
-		content: "";
-	}
-	div.home-top:after,
-	div.home-middle:after {
-		clear: both;
+		overflow: hidden;
 	}
 }
 div.home-top {
@@ -1414,15 +1337,7 @@ div.home-top {
 }
 @media screen and (min-width: 600px) {
 	section.home-content {
-		zoom: 1;
-	}
-	section.home-content:before,
-	section.home-content:after {
-		display: table;
-		content: "";
-	}
-	section.home-content:after {
-		clear: both;
+		overflow: hidden;
 	}
 	section.home-content h1.entry-title {
 		margin: 0 0 24px;
@@ -1443,15 +1358,7 @@ div.home-top {
 }
 @media screen and (min-width: 600px) {
 	.page-template-homepage-php #content {
-		zoom: 1;
-	}
-	.page-template-homepage-php #content:before,
-	.page-template-homepage-php #content:after {
-		display: table;
-		content: "";
-	}
-	.page-template-homepage-php #content:after {
-		clear: both;
+		overflow: hidden;
 	}
 }
 .page-template-homepage-php #secondary {
