@@ -71,7 +71,9 @@ function twentytwelve_setup() {
 	register_nav_menu( 'primary', __( 'Primary Menu', 'twentytwelve' ) );
 
 	// Add support for custom background.
-	add_theme_support( 'custom-background' );
+	add_theme_support( 'custom-background', array(
+		'default-color' => 'e6e6e6',
+	) );
 
 	// Add custom image size for featured image use, displayed on "standard" posts.
 	add_theme_support( 'post-thumbnails' );
@@ -325,14 +327,23 @@ function twentytwelve_entry_meta() {
 endif;
 
 /**
- * Extends the default WordPress body class to denote a full-width layout.
- * Used when there are no active widgets in the sidebar.
+ * Extends the default WordPress body class to denote:
+ * 1. Using a full-width layout, when no active widgets in the sidebar
+ *    or full-width template.
+ * 2. White or empty background color to change the layout and spacing.
  *
  * @since Twenty Twelve 1.0
  */
 function twentytwelve_body_class( $classes ) {
-	if ( ! is_active_sidebar( 'sidebar-1' ) || is_page_template( 'full-width' ) )
+	$background_color = get_background_color();
+
+	if ( ! is_active_sidebar( 'sidebar-1' ) || is_page_template( 'full-width-page.php' ) )
 		$classes[] = 'full-width';
+
+	if ( empty( $background_color ) )
+		$classes[] = 'custom-background-empty';
+	elseif ( in_array( $background_color, array( 'fff', 'ffffff' ) ) )
+		$classes[] = 'custom-background-white';
 
 	return $classes;
 }
