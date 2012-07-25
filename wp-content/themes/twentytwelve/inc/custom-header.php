@@ -10,14 +10,13 @@
 
 /**
  * Set up the WordPress core custom header arguments and settings.
- *
- * Use add_theme_support() to register support for WordPress 3.4+
+ * Use add_theme_support() to register support for 3.4 and up.
  *
  * @uses twentytwelve_header_style()
  * @uses twentytwelve_admin_header_style()
  * @uses twentytwelve_admin_header_image()
  *
- * @package Twenty_Twelve
+ * @since Twenty Twelve 1.0
  */
 function twentytwelve_custom_header_setup() {
 	$args = array(
@@ -43,8 +42,7 @@ function twentytwelve_custom_header_setup() {
 		'admin-preview-callback' => 'twentytwelve_admin_header_image',
 	);
 
-	// Add support and allow child themes to filter any of these arguments.
-	add_theme_support( 'custom-header', apply_filters( 'twentytwelve_custom_header_args', $args ) );
+	add_theme_support( 'custom-header', $args );
 }
 add_action( 'after_setup_theme', 'twentytwelve_custom_header_setup' );
 
