@@ -17,28 +17,6 @@ td {
 /* =Repeatable patterns
 -------------------------------------------------------------- */
 
-/* Buttons */
-.menu-toggle,
-input#searchsubmit,
-li.bypostauthor cite span {
-	background-image: -khtml-gradient(linear, right top, right bottom, from(#f4f4f4), to(#e6e6e6));
-	background-image: -webkit-gradient(linear, right top, right bottom, color-stop(0%, #f4f4f4), color-stop(100%, #e6e6e6));
-}
-.menu-toggle:hover,
-input#searchsubmit:hover,
-li.bypostauthor cite span:hover {
-	background-image: -khtml-gradient(linear, right top, right bottom, from(#f9f9f9), to(#ebebeb));
-	background-image: -webkit-gradient(linear, right top, right bottom, color-stop(0%, #f9f9f9), color-stop(100%, #ebebeb));
-}
-.menu-toggle:active, .menu-toggle.toggled-on,
-input#searchsubmit:active,
-input#searchsubmit.toggled-on,
-li.bypostauthor cite span:active,
-li.bypostauthor cite span.toggled-on {
-	background-image: -khtml-gradient(linear, right top, right bottom, from(#ebebeb), to(#e1e1e1));
-	background-image: -webkit-gradient(linear, right top, right bottom, color-stop(0%, #ebebeb), color-stop(100%, #e1e1e1));
-}
-
 /* Images */
 .alignright {
 	float: right;
@@ -150,15 +128,11 @@ article.format-link .entry-content {
 }
 #comments article header h4 {
 	left: 0;
-	background-image: -khtml-gradient(linear, right top, right bottom, from(#009cee), to(#0088d0));
-	background-image: -webkit-gradient(linear, right top, right bottom, color-stop(0%, #009cee), color-stop(100%, #0088d0));
 	right: auto;
 }
 #comments li.bypostauthor cite span {
 	margin-right: 5px;
 	margin-right: 0.357142857rem;
-	background-image: -khtml-gradient(linear, right top, right bottom, from(#4aacd8), to(#21759b));
-	background-image: -webkit-gradient(linear, right top, right bottom, color-stop(0%, #4aacd8), color-stop(100%, #21759b));
 	margin-left: auto;
 }
 

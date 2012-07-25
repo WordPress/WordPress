@@ -192,19 +192,13 @@ li.bypostauthor cite span,
 	color: #7c7c7c;
 	background-color: #e6e6e6;
 	background-repeat: repeat-x;
-	background-image: -khtml-gradient(linear, left top, left bottom, from(#f4f4f4), to(#e6e6e6));
 	background-image: -moz-linear-gradient(top, #f4f4f4, #e6e6e6);
 	background-image: -ms-linear-gradient(top, #f4f4f4, #e6e6e6);
-	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f4f4f4), color-stop(100%, #e6e6e6));
 	background-image: -webkit-linear-gradient(top, #f4f4f4, #e6e6e6);
 	background-image: -o-linear-gradient(top, #f4f4f4, #e6e6e6);
 	background-image: linear-gradient(top, #f4f4f4, #e6e6e6);
 	border: 1px solid #d2d2d2;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
 	border-radius: 3px;
-	-webkit-box-shadow: 0 1px 2px rgba(64, 64, 64, 0.1);
-	-moz-box-shadow: 0 1px 2px rgba(64, 64, 64, 0.1);
 	box-shadow: 0 1px 2px rgba(64, 64, 64, 0.1);
 }
 
@@ -219,10 +213,8 @@ article.post-password-required input[type=submit]:hover {
 	color: #5e5e5e;
 	background-color: #ebebeb;
 	background-repeat: repeat-x;
-	background-image: -khtml-gradient(linear, left top, left bottom, from(#f9f9f9), to(#ebebeb));
 	background-image: -moz-linear-gradient(top, #f9f9f9, #ebebeb);
 	background-image: -ms-linear-gradient(top, #f9f9f9, #ebebeb);
-	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f9f9f9), color-stop(100%, #ebebeb));
 	background-image: -webkit-linear-gradient(top, #f9f9f9, #ebebeb);
 	background-image: -o-linear-gradient(top, #f9f9f9, #ebebeb);
 	background-image: linear-gradient(top, #f9f9f9, #ebebeb);
@@ -234,15 +226,11 @@ input#searchsubmit.toggled-on {
 	color: #777;
 	background-color: #e1e1e1;
 	background-repeat: repeat-x;
-	background-image: -khtml-gradient(linear, left top, left bottom, from(#ebebeb), to(#e1e1e1));
 	background-image: -moz-linear-gradient(top, #ebebeb, #e1e1e1);
 	background-image: -ms-linear-gradient(top, #ebebeb, #e1e1e1);
-	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ebebeb), color-stop(100%, #e1e1e1));
 	background-image: -webkit-linear-gradient(top, #ebebeb, #e1e1e1);
 	background-image: -o-linear-gradient(top, #ebebeb, #e1e1e1);
 	background-image: linear-gradient(top, #ebebeb, #e1e1e1);
-	-webkit-box-shadow: inset 0 0 8px 2px #c6c6c6, 0 1px 0 0 #f4f4f4;
-	-moz-box-shadow: inset 0 0 8px 2px #c6c6c6, 0 1px 0 0 #f4f4f4;
 	box-shadow: inset 0 0 8px 2px #c6c6c6, 0 1px 0 0 #f4f4f4;
 	border: none;
 }
@@ -251,10 +239,8 @@ li.bypostauthor cite span,
 	color: #fff;
 	background-color: #21759b;
 	background-repeat: repeat-x;
-	background-image: -khtml-gradient(linear, left top, left bottom, from(#4aacd8), to(#21759b));
 	background-image: -moz-linear-gradient(top, #4aacd8, #21759b);
 	background-image: -ms-linear-gradient(top, #4aacd8, #21759b);
-	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #4aacd8), color-stop(100%, #21759b));
 	background-image: -webkit-linear-gradient(top, #4aacd8, #21759b);
 	background-image: -o-linear-gradient(top, #4aacd8, #21759b);
 	background-image: linear-gradient(top, #4aacd8, #21759b);
@@ -268,8 +254,6 @@ article.post-password-required form input[type="password"] {
 	padding: 0.428571429rem;
 	font-family: inherit;
 	border: 1px solid #ccc;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
 	border-radius: 3px;
 }
 
@@ -319,11 +303,7 @@ img.header-image,
 #author-avatar img,
 img.wp-post-image {
 	/* Add fancy borders to all WordPress-added images but not things like badges and icons and the like */
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
 	border-radius: 3px;
-	-webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-	-moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
 	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
 }
 .wp-caption {
@@ -496,8 +476,6 @@ a:hover {
 		margin-top: 3.428571429rem;
 		margin-bottom: 48px;
 		margin-bottom: 3.428571429rem;
-		-webkit-box-shadow: 0 2px 6px rgba(100, 100, 100, 0.3);
-		-moz-box-shadow: 0 2px 6px rgba(100, 100, 100, 0.3);
 		box-shadow: 0 2px 6px rgba(100, 100, 100, 0.3);
 	}
 	body.custom-background-empty {
@@ -1172,8 +1150,6 @@ article.format-link header {
 	text-transform: uppercase;
 	color: #848484;
 	background-color: #ebebeb;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
 	border-radius: 3px;
 }
 article.format-link .entry-content {
@@ -1296,15 +1272,11 @@ article.format-quote .entry-content blockquote {
 	color: #fff;
 	background-color: #0088d0;
 	background-repeat: repeat-x;
-	background-image: -khtml-gradient(linear, left top, left bottom, from(#009cee), to(#0088d0));
 	background-image: -moz-linear-gradient(top, #009cee, #0088d0);
 	background-image: -ms-linear-gradient(top, #009cee, #0088d0);
-	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #009cee), color-stop(100%, #0088d0));
 	background-image: -webkit-linear-gradient(top, #009cee, #0088d0);
 	background-image: -o-linear-gradient(top, #009cee, #0088d0);
 	background-image: linear-gradient(top, #009cee, #0088d0);
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
 	border-radius: 3px;
 	border: 1px solid #007cbd;
 }
@@ -1387,8 +1359,6 @@ a.comment-reply-link:hover {
 	padding: 10px;
 	padding: 0.714285714rem;
 	border: 1px solid #d5d2ca;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
 	border-radius: 3px;
 	width: 96%;
 }
