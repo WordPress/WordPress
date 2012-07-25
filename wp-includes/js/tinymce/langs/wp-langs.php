@@ -8,6 +8,9 @@ function mce_escape($text) {
 	return esc_js($text);
 }
 
+if ( ! class_exists( '_WP_Editors' ) )
+	require( ABSPATH . WPINC . '/class-wp-editor.php' );
+
 function wp_mce_translation() {
 
 	$default = array(
