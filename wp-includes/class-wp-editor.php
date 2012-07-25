@@ -783,9 +783,9 @@ final class _WP_Editors {
 		<div id="search-panel"<?php if ( ! $show_internal ) echo ' style="display:none"'; ?>>
 			<div class="link-search-wrapper">
 				<label>
-					<span><img class="waiting" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
-					<?php _e( 'Search' ); ?></span>
+					<span><?php _e( 'Search' ); ?></span>
 					<input type="search" id="search-field" class="link-search-field" autocomplete="off" />
+					<img class="waiting" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
 				</label>
 			</div>
 			<div id="search-results" class="query-results">
