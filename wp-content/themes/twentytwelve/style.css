@@ -898,16 +898,17 @@ article.sticky .featured-post {
 }
 .entry-content pre,
 .comment-content pre {
-	margin: 24px 0;
-	margin: 1.714285714rem 0;
-	padding: 24px;
-	padding: 1.714285714rem;
-	line-height: 1.714285714;
+	border: 1px solid #ededed;
+	color: #666;
 	font-family: Consolas, Monaco, Lucida Console, monospace;
 	font-size: 12px;
 	font-size: 0.857142857rem;
-	line-height: 2;
+	line-height: 1.714285714;
+	margin: 24px 0;
+	margin: 1.714285714rem 0;
 	overflow: auto;
+	padding: 24px;
+	padding: 1.714285714rem;
 }
 .entry-content pre code,
 .comment-content pre code {
