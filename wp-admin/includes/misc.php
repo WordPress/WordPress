@@ -328,15 +328,15 @@ function set_screen_options() {
 		if ( !preg_match( '/^[a-z_-]+$/', $option ) )
 			return;
 
-		$option = str_replace('-', '_', $option);
-
 		$map_option = $option;
 		$type = str_replace('edit_', '', $map_option);
 		$type = str_replace('_per_page', '', $type);
-		if ( in_array($type, get_post_types()) )
-			$map_option = 'edit_per_page';
-		if ( in_array( $type, get_taxonomies()) )
+		if ( in_array( $type, get_taxonomies() ) )
 			$map_option = 'edit_tags_per_page';
+		elseif ( in_array( $type, get_post_types() ) )
+			$map_option = 'edit_per_page';
+		else
+			$option = str_replace('-', '_', $option);
 
 		switch ( $map_option ) {
 			case 'edit_per_page':

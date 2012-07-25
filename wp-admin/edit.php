@@ -215,7 +215,7 @@ if ( 'post' == $post_type ) {
 	);
 }
 
-add_screen_option( 'per_page', array('label' => $title, 'default' => 20) );
+add_screen_option( 'per_page', array( 'label' => $title, 'default' => 20, 'option' => 'edit_' . $post_type . '_per_page' ) );
 
 require_once('./admin-header.php');
 ?>
