@@ -923,6 +923,7 @@ article.sticky .featured-post {
 .entry-content address,
 .comment-content address {
 	display: block;
+	line-height: 1.714285714;
 	margin: 0 0 24px;
 	margin: 0 0 1.714285714rem;
 }
