@@ -907,7 +907,7 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 		$overridden_cpage = true;
 	}
 
-	if ( !defined('COMMENTS_TEMPLATE') || !COMMENTS_TEMPLATE)
+	if ( !defined('COMMENTS_TEMPLATE') )
 		define('COMMENTS_TEMPLATE', true);
 
 	$include = apply_filters('comments_template', STYLESHEETPATH . $file );
