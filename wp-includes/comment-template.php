@@ -1331,13 +1331,13 @@ class Walker_Comment extends Walker {
 	function start_el( &$output, $comment, $depth, $args, $id = 0 ) {
 		$depth++;
 		$GLOBALS['comment_depth'] = $depth;
+		$GLOBALS['comment'] = $comment;
 
 		if ( !empty($args['callback']) ) {
 			call_user_func($args['callback'], $comment, $args, $depth);
 			return;
 		}
 
-		$GLOBALS['comment'] = $comment;
 		extract($args, EXTR_SKIP);
 
 		if ( 'div' == $args['style'] ) {
