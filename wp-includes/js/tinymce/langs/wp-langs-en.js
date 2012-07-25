@@ -106,7 +106,7 @@ iespell_desc:"Run spell checking",
 download:"ieSpell not detected. Do you want to install it now?"
 },
 advhr:{
-advhr_desc:"Horizontale rule"
+advhr_desc:"Horizontal rule"
 },
 emotions:{
 emotions_desc:"Emotions"
@@ -400,7 +400,7 @@ playcount:"Play count",
 rate:"Rate",
 uimode:"UI Mode",
 flash_options:"Flash options",
-qt_options:"Quicktime options",
+qt_options:"QuickTime options",
 wmp_options:"Windows media player options",
 rmp_options:"Real media player options",
 shockwave_options:"Shockwave options",

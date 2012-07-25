@@ -129,7 +129,7 @@ function wp_mce_translation() {
 		),
 
 		'advhr' => array(
-			'advhr_desc' => __('Horizontale rule')
+			'advhr_desc' => __('Horizontal rule')
 		),
 
 		'emotions' => array(
@@ -443,7 +443,7 @@ function wp_mce_translation() {
 		'rate' => __('Rate'),
 		'uimode' => __('UI Mode'),
 		'flash_options' => __('Flash options'),
-		'qt_options' => __('Quicktime options'),
+		'qt_options' => __('QuickTime options'),
 		'wmp_options' => __('Windows media player options'),
 		'rmp_options' => __('Real media player options'),
 		'shockwave_options' => __('Shockwave options'),
