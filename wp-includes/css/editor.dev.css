@@ -1568,11 +1568,6 @@ RTL
 	float: right;
 }
 
-.rtl #wp-link .link-search-wrapper img.waiting {
-	margin: 8px 4px 0 1px;
-	float: right;
-}
-
 .rtl #wp-link .link-target {
 	margin: 0 87px 0 0;
 }
