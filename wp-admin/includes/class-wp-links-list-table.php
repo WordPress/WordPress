@@ -128,9 +128,12 @@ class WP_Links_List_Table extends WP_List_Table {
 				$attributes = $class . $style;
 
 				switch ( $column_name ) {
-					case 'cb':
-						echo '<th scope="row" class="check-column"><label for="cb-select-' . $link->link_id . '" class="screen-reader-text">' . sprintf( __( 'Select %s' ), $link->link_name )
-								. '</label><input type="checkbox" name="linkcheck[]" id="cb-select-' . $link->link_id . '" value="'. esc_attr( $link->link_id ) .'" /></th>';
+					case 'cb': ?>
+						<th scope="row" class="check-column">
+							<label class="screen-reader-text" for="cb-select-<?php echo $link->link_id; ?>"><?php echo sprintf( __( 'Select %s' ), $link->link_name ); ?></label>
+							<input type="checkbox" name="linkcheck[]" id="cb-select-<?php echo $link->link_id; ?>" value="<?php echo esc_attr( $link->link_id ); ?>" />
+						</th>
+						<?php
 						break;
 
 					case 'name':
