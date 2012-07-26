@@ -2026,30 +2026,6 @@ function wp_media_insert_url_form( $default_view = 'image' ) {
 
 }
 
-function _insert_into_post_button($type) {
-	if ( !post_type_supports(get_post_type($_GET['post_id']), 'editor') )
-		return '';
-
-	if ( 'image' == $type )
-	return '
-		<tr>
-			<td></td>
-			<td>
-				<input type="button" class="button" id="go_button" style="color:#bbb;" onclick="addExtImage.insert()" value="' . esc_attr__('Insert into Post') . '" />
-			</td>
-		</tr>
-	';
-
-	return '
-		<tr>
-			<td></td>
-			<td>
-				' . get_submit_button( __( 'Insert into Post' ), 'button', 'insertonlybutton', false ) . '
-			</td>
-		</tr>
-	';
-}
-
 /**
  * Displays the multi-file uploader message.
  *
