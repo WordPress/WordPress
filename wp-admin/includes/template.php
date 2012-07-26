@@ -1233,14 +1233,12 @@ function get_settings_errors( $setting = '', $sanitize = false ) {
 	}
 
 	// Check global in case errors have been added on this pageload
-	if ( ! count( $wp_settings_errors ) ) {
+	if ( ! count( $wp_settings_errors ) )
 		return array();
-	}
 
 	// Filter the results to those of a specific setting if one was set
 	if ( $setting ) {
 		foreach ( (array) $wp_settings_errors as $key => $details ) {
-			debug_log( $details['setting'] );
 			if ( $setting == $details['setting'] )
 				$setting_errors[] = $wp_settings_errors[$key];
 		}
