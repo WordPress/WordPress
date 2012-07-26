@@ -1420,6 +1420,29 @@ function wp_oembed_add_provider( $format, $provider, $regex = false ) {
 }
 
 /**
+ * Removes an oEmbed provider.
+ *
+ * @since 3.5
+ * @see WP_oEmbed
+ *
+ * @uses _wp_oembed_get_object()
+ *
+ * @param string $format The URL format for the oEmbed provider to remove.
+ */
+function wp_oembed_remove_provider( $format ) {
+	require_once( ABSPATH . WPINC . '/class-oembed.php' );
+
+	$oembed = _wp_oembed_get_object();
+
+	if ( isset( $oembed->providers[ $format ] ) ) {
+		unset( $oembed->providers[ $format ] );
+		return true;
+	}
+
+	return false;
+}
+
+/**
  * Determines if default embed handlers should be loaded.
  *
  * Checks to make sure that the embeds library hasn't already been loaded. If
