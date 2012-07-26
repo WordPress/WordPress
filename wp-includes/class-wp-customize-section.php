@@ -1,12 +1,11 @@
 <?php
 /**
- * Customize Section Class
+ * Customize Section Class.
  *
  * @package WordPress
  * @subpackage Customize
  * @since 3.4.0
  */
-
 class WP_Customize_Section {
 	public $manager;
 	public $id;
@@ -22,6 +21,7 @@ class WP_Customize_Section {
 	 *
 	 * @since 3.4.0
 	 *
+	 * @param WP_Customize_Manager $manager
 	 * @param string $id An specific ID of the section.
 	 * @param array $args Section arguments.
 	 */
@@ -71,7 +71,6 @@ class WP_Customize_Section {
 
 		$this->render();
 	}
-
 
 	/**
 	 * Render the section.

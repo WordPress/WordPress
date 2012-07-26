@@ -1,12 +1,11 @@
 <?php
 /**
- * Customize Setting Class
+ * Customize Setting Class.
  *
  * @package WordPress
  * @subpackage Customize
  * @since 3.4.0
  */
-
 class WP_Customize_Setting {
 	public $manager;
 	public $id;
@@ -28,9 +27,11 @@ class WP_Customize_Setting {
 	 *
 	 * @since 3.4.0
 	 *
+	 * @param WP_Customize_Manager $manager
 	 * @param string $id An specific ID of the setting. Can be a
 	 *                   theme mod or option name.
 	 * @param array $args Setting arguments.
+	 * @return WP_Customize_Setting
 	 */
 	function __construct( $manager, $id, $args = array() ) {
 		$keys = array_keys( get_class_vars( __CLASS__ ) );
@@ -87,8 +88,9 @@ class WP_Customize_Setting {
 	 * Callback function to filter the theme mods and options.
 	 *
 	 * @since 3.4.0
+	 * @uses WP_Customize_Setting::multidimensional_replace()
 	 *
-	 * @param mixed Old value.
+	 * @param mixed $original Old value.
 	 * @return mixed New or old value.
 	 */
 	public function _preview_filter( $original ) {
@@ -118,8 +120,8 @@ class WP_Customize_Setting {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param $default mixed A default value which is used as a fallback. Default is null.
-	 * @return mixed Either the default value on failure or sanitized value.
+	 * @param mixed $default A default value which is used as a fallback. Default is null.
+	 * @return mixed The default value on failure, otherwise the sanitized value.
 	 */
 	public final function post_value( $default = null ) {
 		if ( isset( $this->_post_value ) )
@@ -138,7 +140,7 @@ class WP_Customize_Setting {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param $value mixed The value to sanitize.
+	 * @param mixed $value The value to sanitize.
 	 * @return mixed Null if an input isn't valid, otherwise the sanitized value.
 	 */
 	public function sanitize( $value ) {
@@ -151,7 +153,7 @@ class WP_Customize_Setting {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param $value mixed The value to update.
+	 * @param mixed $value The value to update.
 	 * @return mixed The result of saving the value.
 	 */
 	protected function update( $value ) {
@@ -172,7 +174,7 @@ class WP_Customize_Setting {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param $value mixed The value to update.
+	 * @param mixed $value The value to update.
 	 * @return mixed The result of saving the value.
 	 */
 	protected function _update_theme_mod( $value ) {
@@ -192,7 +194,7 @@ class WP_Customize_Setting {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param $value mixed The value to update.
+	 * @param mixed $value The value to update.
 	 * @return mixed The result of saving the value.
 	 */
 	protected function _update_option( $value ) {
@@ -276,7 +278,7 @@ class WP_Customize_Setting {
 	 * @param $root
 	 * @param $keys
 	 * @param bool $create Default is false.
-	 * @return null|array
+	 * @return null|array Keys are 'root', 'node', and 'key'.
 	 */
 	final protected function multidimensional( &$root, $keys, $create = false ) {
 		if ( $create && empty( $root ) )
@@ -372,8 +374,16 @@ class WP_Customize_Setting {
  * A setting that is used to filter a value, but will not save the results.
  *
  * Results should be properly handled using another setting or callback.
+ *
+ * @package WordPress
+ * @subpackage Customize
+ * @since 3.4.0
  */
 class WP_Customize_Filter_Setting extends WP_Customize_Setting {
+	
+	/**
+	 * @since 3.4.0
+	 */
 	public function update() {}
 }
 
@@ -381,10 +391,19 @@ class WP_Customize_Filter_Setting extends WP_Customize_Setting {
  * A setting that is used to filter a value, but will not save the results.
  *
  * Results should be properly handled using another setting or callback.
+ *
+ * @package WordPress
+ * @subpackage Customize
+ * @since 3.4.0
  */
 final class WP_Customize_Header_Image_Setting extends WP_Customize_Setting {
 	public $id = 'header_image_data';
 
+	/**
+	 * @since 3.4.0
+	 *
+	 * @param $value
+	 */
 	public function update( $value ) {
 		global $custom_image_header;
 
@@ -400,9 +419,20 @@ final class WP_Customize_Header_Image_Setting extends WP_Customize_Setting {
 	}
 }
 
+/**
+ * @package WordPress
+ * @subpackage Customize
+ * @since 3.4.0
+ */
 final class WP_Customize_Background_Image_Setting extends WP_Customize_Setting {
 	public $id = 'background_image_thumb';
 
+	/**
+	 * @since 3.4.0
+	 * @uses remove_theme_mod()
+	 *
+	 * @param $value
+	 */
 	public function update( $value ) {
 		remove_theme_mod( 'background_image_thumb' );
 	}
