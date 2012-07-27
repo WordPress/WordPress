@@ -307,114 +307,95 @@ function update_blog_details( $blog_id, $details = array() ) {
 }
 
 /**
- * Retrieve option value based on setting name and blog_id.
+ * Retrieve option value for a given blog id based on name of option.
  *
  * If the option does not exist or does not have a value, then the return value
  * will be false. This is useful to check whether you need to install an option
  * and is commonly used during installation of plugin options and to test
  * whether upgrading is required.
  *
- * There is a filter called 'blog_option_$option' with the $option being
- * replaced with the option name. The filter takes two parameters. $value and
- * $blog_id. It returns $value.
- * The 'option_$option' filter in get_option() is not called.
+ * If the option was serialized then it will be unserialized when it is returned.
  *
  * @since MU
- * @uses apply_filters() Calls 'blog_option_$optionname' with the option name value.
  *
- * @param int $blog_id Optional. Blog ID, can be null to refer to the current blog.
- * @param string $setting Name of option to retrieve. Should already be SQL-escaped.
- * @param string $default (optional) Default value returned if option not found.
+ * @param int $id A blog ID. Can be null to refer to the current blog.
+ * @param string $option Name of option to retrieve. Expected to not be SQL-escaped.
+ * @param mixed $default Optional. Default value to return if the option does not exist.
  * @return mixed Value set for the option.
  */
-function get_blog_option( $blog_id, $setting, $default = false ) {
-	global $wpdb;
+function get_blog_option( $id, $option, $default = false ) {
+	$id = (int) $id;
 
-	if ( null === $blog_id )
-		$blog_id = $wpdb->blogid;
+	if ( empty( $id ) )
+		$id = get_current_blog_id();
 
-	$key = $blog_id . '-' . $setting . '-blog_option';
-	$value = wp_cache_get( $key, 'site-options' );
-	if ( $value == null ) {
-		if ( $blog_id == $wpdb->blogid ) {
-			$value = get_option( $setting, $default );
-			$notoptions = wp_cache_get( 'notoptions', 'options' );
-			if ( isset( $notoptions[$setting] ) ) {
-				wp_cache_set( $key, 'noop', 'site-options' );
-				$value = $default;
-			} elseif ( $value == false ) {
-				wp_cache_set( $key, 'falsevalue', 'site-options' );
-			} else {
-				wp_cache_set( $key, $value, 'site-options' );
-			}
-			return apply_filters( 'blog_option_' . $setting, $value, $blog_id );
-		} else {
-			$blog_prefix = $wpdb->get_blog_prefix( $blog_id );
-			$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$blog_prefix}options WHERE option_name = %s", $setting ) );
-			if ( is_object( $row ) ) { // Has to be get_row instead of get_var because of funkiness with 0, false, null values
-				$value = $row->option_value;
-				if ( $value == false )
-					wp_cache_set( $key, 'falsevalue', 'site-options' );
-				else
-					wp_cache_set( $key, $value, 'site-options' );
-			} else { // option does not exist, so we must cache its non-existence
-				wp_cache_set( $key, 'noop', 'site-options' );
-				$value = $default;
-			}
-		}
-	} elseif ( $value == 'noop' ) {
-		$value = $default;
-	} elseif ( $value == 'falsevalue' ) {
-		$value = false;
-	}
-	// If home is not set use siteurl.
-	if ( 'home' == $setting && '' == $value )
-		return get_blog_option( $blog_id, 'siteurl' );
+	if ( $id == get_current_blog_id() )
+		return get_option( $option, $default );
 
-	if ( 'siteurl' == $setting || 'home' == $setting || 'category_base' == $setting )
-		$value = untrailingslashit( $value );
+	switch_to_blog( $id );
+	$option = get_option( $option, $default );
+	restore_current_blog();
 
-	return apply_filters( 'blog_option_' . $setting, maybe_unserialize( $value ), $blog_id );
+	return $option;
 }
 
 /**
- * Add an option for a particular blog.
+ * Add a new option for a given blog id.
+ *
+ * You do not need to serialize values. If the value needs to be serialized, then
+ * it will be serialized before it is inserted into the database. Remember,
+ * resources can not be serialized or added as an option.
+ *
+ * You can create options without values and then update the values later.
+ * Existing options will not be updated and checks are performed to ensure that you
+ * aren't adding a protected WordPress option. Care should be taken to not name
+ * options the same as the ones which are protected.
  *
  * @since MU
  *
- * @param int $id The blog id
- * @param string $key The option key
- * @param mixed $value The option value
- * @return bool True on success, false on failure.
+ * @param int $id A blog ID. Can be null to refer to the current blog.
+ * @param string $option Name of option to add. Expected to not be SQL-escaped.
+ * @param mixed $value Optional. Option value, can be anything. Expected to not be SQL-escaped.
+ * @return bool False if option was not added and true if option was added.
  */
-function add_blog_option( $id, $key, $value ) {
+function add_blog_option( $id, $option, $value ) {
 	$id = (int) $id;
 
-	switch_to_blog($id);
-	$return = add_option( $key, $value );
+	if ( empty( $id ) )
+		$id = get_current_blog_id();
+
+	if ( $id == get_current_blog_id() )
+		return add_option( $option, $value );
+
+	switch_to_blog( $id );
+	$return = add_option( $option, $value );
 	restore_current_blog();
-	if ( $return )
-		wp_cache_set( $id . '-' . $key . '-blog_option', $value, 'site-options' );
+
 	return $return;
 }
 
 /**
- * Delete an option for a particular blog.
+ * Removes option by name for a given blog id. Prevents removal of protected WordPress options.
  *
  * @since MU
  *
- * @param int $id The blog id
- * @param string $key The option key
- * @return bool True on success, false on failure.
+ * @param int $id A blog ID. Can be null to refer to the current blog.
+ * @param string $option Name of option to remove. Expected to not be SQL-escaped.
+ * @return bool True, if option is successfully deleted. False on failure.
  */
-function delete_blog_option( $id, $key ) {
+function delete_blog_option( $id, $option ) {
 	$id = (int) $id;
 
-	switch_to_blog($id);
-	$return = delete_option( $key );
+	if ( empty( $id ) )
+		$id = get_current_blog_id();
+
+	if ( $id == get_current_blog_id() )
+		return delete_option( $option );
+
+	switch_to_blog( $id );
+	$return = delete_option( $option );
 	restore_current_blog();
-	if ( $return )
-		wp_cache_set( $id . '-' . $key . '-blog_option', '', 'site-options' );
+
 	return $return;
 }
 
@@ -424,24 +405,25 @@ function delete_blog_option( $id, $key ) {
  * @since MU
  *
  * @param int $id The blog id
- * @param string $key The option key
+ * @param string $option The option key
  * @param mixed $value The option value
  * @return bool True on success, false on failrue.
  */
-function update_blog_option( $id, $key, $value, $deprecated = null ) {
+function update_blog_option( $id, $option, $value, $deprecated = null ) {
 	$id = (int) $id;
 
 	if ( null !== $deprecated  )
 		_deprecated_argument( __FUNCTION__, '3.1' );
 
-	switch_to_blog($id);
-	$return = update_option( $key, $value );
+	if ( $id == get_current_blog_id() )
+		return update_option( $option, $value );
+
+	switch_to_blog( $id );
+	$return = update_option( $option, $value );
 	restore_current_blog();
 
 	refresh_blog_details( $id );
 
-	if ( $return )
-		wp_cache_set( $id . '-' . $key . '-blog_option', $value, 'site-options');
 	return $return;
 }
 
