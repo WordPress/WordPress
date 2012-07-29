@@ -249,10 +249,10 @@
 			t._handleMoreBreak(ed, url);
 
 			// Add custom shortcuts
-			mod_key = 'alt';
+			mod_key = 'alt+shift';
 
-			if ( tinymce.isIE || tinymce.isOpera )
-				mod_key = 'shift+alt';
+			if ( tinymce.isGecko )
+				mod_key = 'ctrl+alt';
 
 			ed.addShortcut(mod_key + '+c', 'justifycenter_desc', 'JustifyCenter');
 			ed.addShortcut(mod_key + '+r', 'justifyright_desc', 'JustifyRight');

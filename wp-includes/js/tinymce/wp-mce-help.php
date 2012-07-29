@@ -204,7 +204,7 @@ if ( tinymce.isMac )
 		<tr><th>6</th><td><?php _e('Heading 6') ?></td><th>9</th><td><?php _e('Address') ?></td></tr>
 	</table>
 
-	<p><?php _e('The following shortcuts use different access keys: Alt + letter in Firefox, Chrome and Safari, Alt + Shift + letter in Internet Explorer and Opera.') ?></p>
+	<p><?php _e('The following shortcuts use different access keys: Alt + Shift + letter in Chrome, Safari, Internet Explorer and Opera, and Ctrl + Alt + letter (Command + Option + letter on Macintosh) in Firefox.') ?></p>
 	<table class="keys">
 		<tr class="top"><th class="key center"><?php _e('Letter') ?></th><th class="left"><?php _e('Action') ?></th><th class="key center"><?php _e('Letter') ?></th><th class="left"><?php _e('Action') ?></th></tr>
 		<tr><th>n</th><td><?php _e('Check Spelling') ?></td><th>l</th><td><?php _e('Align Left') ?></td></tr>
