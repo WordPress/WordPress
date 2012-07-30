@@ -74,7 +74,7 @@ if ( isset($_REQUEST['action']) && 'adduser' == $_REQUEST['action'] ) {
 		} else {
 			$newuser_key = substr( md5( $user_id ), 0, 5 );
 			add_option( 'new_user_' . $newuser_key, array( 'user_id' => $user_id, 'email' => $user_details->user_email, 'role' => $_REQUEST[ 'role' ] ) );
-			
+
 			$roles = get_editable_roles();
 			$role = $roles[ $_REQUEST['role'] ];
 			/* translators: 1: Site name, 2: site URL, 3: role, 4: activation URL */
@@ -127,7 +127,7 @@ Please click the following link to confirm the invite:
 				wpmu_activate_signup( $key );
 				$redirect = add_query_arg( array('update' => 'addnoconfirmation'), 'user-new.php' );
 			} else {
-				$redirect = add_query_arg( array('update' => 'newuserconfimation'), 'user-new.php' );
+				$redirect = add_query_arg( array('update' => 'newuserconfirmation'), 'user-new.php' );
 			}
 			wp_redirect( $redirect );
 			die();
@@ -194,7 +194,7 @@ if ( isset($_GET['update']) ) {
 	$messages = array();
 	if ( is_multisite() ) {
 		switch ( $_GET['update'] ) {
-			case "newuserconfimation":
+			case "newuserconfirmation":
 				$messages[] = __('Invitation email sent to new user. A confirmation link must be clicked before their account is created.');
 				break;
 			case "add":
