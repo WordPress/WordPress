@@ -956,8 +956,7 @@ article.sticky .featured-post {
 .entry-content dt,
 .comment-content dt {
 	font-weight: bold;
-	margin-bottom: 24px;
-	margin-bottom: 1.714285714rem;
+	line-height: 1.714285714;
 }
 .entry-content dd,
 .comment-content dd {
