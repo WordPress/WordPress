@@ -267,7 +267,7 @@ function twentytwelve_comment( $comment, $args, $depth ) {
 				<p class="comment-awaiting-moderation"><?php _e( 'Your comment is awaiting moderation.', 'twentytwelve' ); ?></p>
 			<?php endif; ?>
 
-			<section class="comment post-content">
+			<section class="comment comment-content">
 				<?php comment_text(); ?>
 				<?php edit_comment_link( __( 'Edit', 'twentytwelve' ), '<p class="edit-link">', '</p>' ); ?>
 			</section>
