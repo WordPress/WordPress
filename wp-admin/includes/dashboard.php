@@ -1263,7 +1263,7 @@ function wp_welcome_panel() {
 		<li><?php echo sprintf(	__( '<a href="%s">Choose your privacy setting</a>' ), esc_url( admin_url('options-privacy.php') ) ); ?></li>
 		<li><?php echo sprintf( __( '<a href="%s">Select your tagline and time zone</a>' ), esc_url( admin_url('options-general.php') ) ); ?></li>
 		<li><?php echo sprintf( __( '<a href="%s">Turn comments on or off</a>' ), esc_url( admin_url('options-discussion.php') ) ); ?></li>
-		<li><?php echo sprintf( __( '<a href="%s">Fill in your profile</a>' ), esc_url( admin_url('profile.php') ) ); ?></li>
+		<li><?php echo sprintf( __( '<a href="%s">Fill in your profile</a>' ), esc_url( get_edit_profile_url( get_current_user_id() ) ) ); ?></li>
 		</ul>
 	</div>
 	<div class="welcome-panel-column">

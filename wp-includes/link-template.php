@@ -1056,6 +1056,34 @@ function edit_bookmark_link( $link = '', $before = '', $after = '', $bookmark = 
 	echo $before . apply_filters( 'edit_bookmark_link', $link, $bookmark->link_id ) . $after;
 }
 
+/**
+ * Retrieve edit user link
+ *
+ * @since 3.5.0
+ *
+ * @param int $user_id Optional. User ID. Defaults to the current user.
+ * @return string URL to edit user page or empty string.
+ */
+function get_edit_user_link( $user_id = null ) {
+	if ( ! $user_id )
+		$user_id = get_current_user_id();
+
+	if ( empty( $user_id ) || ! current_user_can( 'edit_user', $user_id ) )
+		return '';
+
+	$user = new WP_User( $user_id );
+
+	if ( ! $user->exists() )
+		return '';
+
+	if ( get_current_user_id() == $user->ID )
+		$link = get_edit_profile_url( $user->ID );
+	else
+		$link = add_query_arg( 'user_id', $user->ID, self_admin_url( 'user-edit.php' ) );
+
+	return apply_filters( 'get_edit_user_link', $link, $user->ID );
+}
+
 // Navigation links
 
 /**

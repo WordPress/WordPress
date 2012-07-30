@@ -231,12 +231,7 @@ class WP_Users_List_Table extends WP_List_Table {
 		// Check if the user for this row is editable
 		if ( current_user_can( 'list_users' ) ) {
 			// Set up the user editing link
-			// TODO: make profile/user-edit determination a separate function
-			if ( get_current_user_id() == $user_object->ID ) {
-				$edit_link = 'profile.php';
-			} else {
-				$edit_link = esc_url( add_query_arg( 'wp_http_referer', urlencode( stripslashes( $_SERVER['REQUEST_URI'] ) ), "user-edit.php?user_id=$user_object->ID" ) );
-			}
+			$edit_link = esc_url( add_query_arg( 'wp_http_referer', urlencode( stripslashes( $_SERVER['REQUEST_URI'] ) ), get_edit_user_link( $user_object->ID ) ) );
 
 			// Set up the hover actions for this user
 			$actions = array();
