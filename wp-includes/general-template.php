@@ -1754,11 +1754,8 @@ function user_can_richedit() {
 		if ( get_user_option( 'rich_editing' ) == 'true' || ! is_user_logged_in() ) { // default to 'true' for logged out users
 			if ( $is_safari ) {
 				$wp_rich_edit = ! wp_is_mobile() || ( preg_match( '!AppleWebKit/(\d+)!', $_SERVER['HTTP_USER_AGENT'], $match ) && intval( $match[1] ) >= 534 );
-			} elseif ( $is_gecko || $is_chrome || $is_IE ) {
+			} elseif ( $is_gecko || $is_chrome || $is_IE || ( $is_opera && !wp_is_mobile() ) ) {
 				$wp_rich_edit = true;
-			} elseif ( $is_opera ) {
-				if ( strpos($_SERVER['HTTP_USER_AGENT'], 'Opera Mobi/') === false && strpos($_SERVER['HTTP_USER_AGENT'], 'Opera Mini/') === false )
-					$wp_rich_edit = true;
 			}
 		}
 	}

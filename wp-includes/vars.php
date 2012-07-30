@@ -116,7 +116,8 @@ function wp_is_mobile() {
 		|| strpos($_SERVER['HTTP_USER_AGENT'], 'Silk/') !== false
 		|| strpos($_SERVER['HTTP_USER_AGENT'], 'Kindle') !== false
 		|| strpos($_SERVER['HTTP_USER_AGENT'], 'BlackBerry') !== false
-		|| strpos($_SERVER['HTTP_USER_AGENT'], 'Opera Mini') !== false ) {
+		|| strpos($_SERVER['HTTP_USER_AGENT'], 'Opera Mini') !== false
+		|| strpos($_SERVER['HTTP_USER_AGENT'], 'Opera Mobi') !== false ) {
 			$is_mobile = true;
 	} else {
 		$is_mobile = false;
