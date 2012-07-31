@@ -1219,7 +1219,7 @@ function validate_username( $username ) {
  * 'ID' - An integer that will be used for updating an existing user.
  * 'user_pass' - A string that contains the plain text password for the user.
  * 'user_login' - A string that contains the user's username for logging in.
- * 'user_nicename' - A string that contains a nicer looking name for the user.
+ * 'user_nicename' - A string that contains a URL-friendly name for the user.
  *		The default is the user's username.
  * 'user_url' - A string containing the user's URL for the user's web site.
  * 'user_email' - A string containing the user's email address.
