@@ -133,6 +133,9 @@ if ( !function_exists('get_user_by') ) :
  * @return bool|object False on failure, WP_User object on success
  */
 function get_user_by( $field, $value ) {
+	if ( 'id' === $field && (int) $value && get_current_user_id() === (int) $value )
+		return wp_get_current_user();
+
 	$userdata = WP_User::get_data_by( $field, $value );
 
 	if ( !$userdata )
