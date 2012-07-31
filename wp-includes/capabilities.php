@@ -1377,12 +1377,10 @@ function get_super_admins() {
  * @return bool True if the user is a site admin.
  */
 function is_super_admin( $user_id = false ) {
-	if ( $user_id )
-		$user = new WP_User( $user_id );
-	else
-		$user = wp_get_current_user();
+	if ( ! $user_id )
+		$user_id = get_current_user_id();
 
-	if ( ! $user->exists() )
+	if ( ! $user = get_userdata( $user_id ) )
 		return false;
 
 	if ( is_multisite() ) {
