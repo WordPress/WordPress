@@ -329,7 +329,7 @@ function get_blog_option( $id, $option, $default = false ) {
 	if ( empty( $id ) )
 		$id = get_current_blog_id();
 
-	if ( $id == get_current_blog_id() )
+	if ( get_current_blog_id() == $id )
 		return get_option( $option, $default );
 
 	switch_to_blog( $id );
@@ -364,7 +364,7 @@ function add_blog_option( $id, $option, $value ) {
 	if ( empty( $id ) )
 		$id = get_current_blog_id();
 
-	if ( $id == get_current_blog_id() )
+	if ( get_current_blog_id() == $id )
 		return add_option( $option, $value );
 
 	switch_to_blog( $id );
@@ -389,7 +389,7 @@ function delete_blog_option( $id, $option ) {
 	if ( empty( $id ) )
 		$id = get_current_blog_id();
 
-	if ( $id == get_current_blog_id() )
+	if ( get_current_blog_id() == $id )
 		return delete_option( $option );
 
 	switch_to_blog( $id );
@@ -415,7 +415,7 @@ function update_blog_option( $id, $option, $value, $deprecated = null ) {
 	if ( null !== $deprecated  )
 		_deprecated_argument( __FUNCTION__, '3.1' );
 
-	if ( $id == get_current_blog_id() )
+	if ( get_current_blog_id() == $id )
 		return update_option( $option, $value );
 
 	switch_to_blog( $id );
