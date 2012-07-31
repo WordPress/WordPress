@@ -637,16 +637,17 @@ function _http_build_query($data, $prefix=null, $sep=null, $key='', $urlencode=t
  */
 function add_query_arg() {
 	$ret = '';
-	if ( is_array( func_get_arg(0) ) ) {
-		if ( func_num_args() < 2 || false === func_get_arg( 1 ) )
+	$args = func_get_args();
+	if ( is_array( $args[0] ) ) {
+		if ( count( $args ) < 2 || false === $args[1] )
 			$uri = $_SERVER['REQUEST_URI'];
 		else
-			$uri = func_get_arg( 1 );
+			$uri = $args[1];
 	} else {
-		if ( func_num_args() < 3 || false === func_get_arg( 2 ) )
+		if ( count( $args ) < 3 || false === $args[2] )
 			$uri = $_SERVER['REQUEST_URI'];
 		else
-			$uri = func_get_arg( 2 );
+			$uri = $args[2];
 	}
 
 	if ( $frag = strstr( $uri, '#' ) )
@@ -680,11 +681,11 @@ function add_query_arg() {
 
 	wp_parse_str( $query, $qs );
 	$qs = urlencode_deep( $qs ); // this re-URL-encodes things that were already in the query string
-	if ( is_array( func_get_arg( 0 ) ) ) {
-		$kayvees = func_get_arg( 0 );
+	if ( is_array( $args[0] ) ) {
+		$kayvees = $args[0];
 		$qs = array_merge( $qs, $kayvees );
 	} else {
-		$qs[func_get_arg( 0 )] = func_get_arg( 1 );
+		$qs[ $args[0] ] = $args[1];
 	}
 
 	foreach ( (array) $qs as $k => $v ) {
