@@ -111,9 +111,11 @@ function twentytwelve_scripts_styles() {
 	 * Depends on Theme Options setting.
  	 */
 	$options = $twentytwelve_options->get_theme_options();
-	if ( $options['enable_fonts'] )
-		wp_enqueue_style( 'twentytwelve-fonts', 'http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700' );
-
+	if ( $options['enable_fonts'] ) {
+		$protocol = is_ssl() ? 'https' : 'http';
+		wp_enqueue_style( 'twentytwelve-fonts', "$protocol://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700" );
+	}
+	
 	/**
 	 * Load our main CSS file.
 	 */
