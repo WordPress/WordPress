@@ -113,8 +113,13 @@ if ( typeof wp === 'undefined' )
 			});
 		}( this.dropzone, this.supports.dragdrop ));
 
-		if ( this.browser )
+		if ( this.browser ) {
 			this.browser.on( 'mouseenter', this.refresh );
+		} else {
+			this.uploader.disableBrowse( true );
+			// If HTML5 mode, hide the auto-created file container.
+			$('#' + this.uploader.id + '_html5_container').hide();
+		}
 
 		this.uploader.bind( 'UploadProgress', this.progress );
 
