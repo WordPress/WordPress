@@ -1256,6 +1256,10 @@ a.comment-reply-link:hover {
 	margin-bottom: 24px;
 	margin-bottom: 1.714285714rem;
 }
+.commentlist .children {
+	margin-left: 48px;
+	margin-left: 3.428571429rem;
+}
 
 /* Comment form */
 #respond {
