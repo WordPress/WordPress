@@ -4023,7 +4023,7 @@ td.imgedit-settings input {
 }
 
 .imgedit-crop {
-	background: transparent url(../images/imgedit-icons.png) no-repeat scroll -9px -31px;
+	background: transparent url('../images/imgedit-icons.png') no-repeat scroll -9px -31px;
 	margin: 0 8px 0 0;
 }
 
@@ -4036,7 +4036,7 @@ td.imgedit-settings input {
 }
 
 .imgedit-rleft {
-	background: transparent url(../images/imgedit-icons.png) no-repeat scroll -46px -31px;
+	background: transparent url('../images/imgedit-icons.png') no-repeat scroll -46px -31px;
 	margin: 0 3px;
 }
 
@@ -4049,7 +4049,7 @@ td.imgedit-settings input {
 }
 
 .imgedit-rright {
-	background: transparent url(../images/imgedit-icons.png) no-repeat scroll -77px -31px;
+	background: transparent url('../images/imgedit-icons.png') no-repeat scroll -77px -31px;
 	margin: 0 8px 0 3px;
 }
 
@@ -4062,7 +4062,7 @@ td.imgedit-settings input {
 }
 
 .imgedit-flipv {
-	background: transparent url(../images/imgedit-icons.png) no-repeat scroll -115px -31px;
+	background: transparent url('../images/imgedit-icons.png') no-repeat scroll -115px -31px;
 	margin: 0 3px;
 }
 
@@ -4075,7 +4075,7 @@ td.imgedit-settings input {
 }
 
 .imgedit-fliph {
-	background: transparent url(../images/imgedit-icons.png) no-repeat scroll -147px -31px;
+	background: transparent url('../images/imgedit-icons.png') no-repeat scroll -147px -31px;
 	margin: 0 8px 0 3px;
 }
 
@@ -4088,7 +4088,7 @@ td.imgedit-settings input {
 }
 
 .imgedit-undo {
-	background: transparent url(../images/imgedit-icons.png) no-repeat scroll -184px -31px;
+	background: transparent url('../images/imgedit-icons.png') no-repeat scroll -184px -31px;
 	margin: 0 3px;
 }
 
@@ -4101,7 +4101,7 @@ td.imgedit-settings input {
 }
 
 .imgedit-redo {
-	background: transparent url(../images/imgedit-icons.png) no-repeat scroll -215px -31px;
+	background: transparent url('../images/imgedit-icons.png') no-repeat scroll -215px -31px;
 	margin: 0 8px 0 3px;
 }
 
@@ -4178,6 +4178,18 @@ span.imgedit-scale-warn {
 	padding: 2px 10px;
 }
 
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
+	.imgedit-crop,
+	.imgedit-rleft,
+	.imgedit-rright,
+	.imgedit-flipv,
+	.imgedit-fliph,
+	.imgedit-undo,
+	.imgedit-redo {
+		background-image: url('../images/imgedit-icons-2x.png');
+		background-size: 260px 64px;
+	}
+}
 
 /*------------------------------------------------------------------------------
   15.0 - Comments Screen
