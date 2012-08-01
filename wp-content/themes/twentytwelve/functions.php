@@ -138,8 +138,12 @@ add_action( 'wp_enqueue_scripts', 'twentytwelve_scripts_styles' );
  * for output in head of document, based on current view.
  *
  * @since Twenty Twelve 1.0
+ *
+ * @param string $title Default title text for current view.
+ * @param string $sep Optional separator.
+ * @return string Filtered title.
  */
-function twentytwelve_wp_title( $title, $sep ) {
+function twentytwelve_wp_title( $title = '', $sep = '' ) {
 	global $paged, $page;
 
 	if ( is_feed() )
