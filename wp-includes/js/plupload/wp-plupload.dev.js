@@ -113,7 +113,8 @@ if ( typeof wp === 'undefined' )
 			});
 		}( this.dropzone, this.supports.dragdrop ));
 
-		this.browser.on( 'mouseenter', this.refresh );
+		if ( this.browser )
+			this.browser.on( 'mouseenter', this.refresh );
 
 		this.uploader.bind( 'UploadProgress', this.progress );
 
