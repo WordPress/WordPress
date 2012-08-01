@@ -143,7 +143,7 @@ add_action( 'wp_enqueue_scripts', 'twentytwelve_scripts_styles' );
  * @param string $sep Optional separator.
  * @return string Filtered title.
  */
-function twentytwelve_wp_title( $title = '', $sep = '' ) {
+function twentytwelve_wp_title( $title, $sep ) {
 	global $paged, $page;
 
 	if ( is_feed() )
