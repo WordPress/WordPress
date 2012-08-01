@@ -12,7 +12,7 @@ class WP_Customize_Control {
 	 * @var WP_Customize_Manager
 	 */
 	public $manager;
-	
+
 	/**
 	 * @access public
 	 * @var string
@@ -40,19 +40,19 @@ class WP_Customize_Control {
 	 * @var int
 	 */
 	public $priority          = 10;
-	
+
 	/**
 	 * @access public
 	 * @var string
 	 */
 	public $section           = '';
-	
+
 	/**
 	 * @access public
 	 * @var string
 	 */
 	public $label             = '';
-	
+
 	/**
 	 * @todo: Remove choices
 	 *
@@ -197,7 +197,7 @@ class WP_Customize_Control {
 			<?php $this->render_content(); ?>
 		</li><?php
 	}
-	
+
 	/**
 	 * Get the data link parameter for a setting.
 	 *
@@ -212,7 +212,7 @@ class WP_Customize_Control {
 
 		return 'data-customize-setting-link="' . esc_attr( $this->settings[ $setting_key ]->id ) . '"';
 	}
-	
+
 	/**
 	 * Render the data link parameter for a setting
 	 *
@@ -321,7 +321,7 @@ class WP_Customize_Color_Control extends WP_Customize_Control {
 	 * @var string
 	 */
 	public $type = 'color';
-	
+
 	/**
 	 * @access public
 	 * @var array
@@ -410,7 +410,7 @@ class WP_Customize_Upload_Control extends WP_Customize_Control {
 	public function enqueue() {
 		wp_enqueue_script( 'wp-plupload' );
 	}
-	
+
 	/**
 	 * Refresh the parameters passed to the JavaScript via JSON.
 	 *
@@ -539,7 +539,7 @@ class WP_Customize_Image_Control extends WP_Customize_Upload_Control {
 		</div>
 		<?php
 	}
-	
+
 	/**
 	 * Add a tab to the control.
 	 *
@@ -586,7 +586,7 @@ class WP_Customize_Image_Control extends WP_Customize_Upload_Control {
 			<?php
 		}
 	}
-	
+
 	/**
 	 * @since 3.4.0
 	 */
@@ -662,7 +662,7 @@ class WP_Customize_Background_Image_Control extends WP_Customize_Image_Control {
 		foreach ( (array) $backgrounds as $background )
 			$this->print_tab_image( esc_url_raw( $background->guid ) );
 	}
-	
+
 	/**
 	 * @since 3.4.0
 	 * @uses WP_Customize_Image_Control::print_tab_image()
@@ -737,7 +737,7 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 		</a>
 		<?php
 	}
-	
+
 	/**
 	 * @since 3.4.0
 	 */
