@@ -477,6 +477,21 @@ class WP_Customize_Image_Control extends WP_Customize_Upload_Control {
 
 		$this->add_tab( 'upload-new', __('Upload New'), array( $this, 'tab_upload_new' ) );
 		$this->add_tab( 'uploaded',   __('Uploaded'),   array( $this, 'tab_uploaded' ) );
+
+		// Early priority to occur before $this->manager->prepare_controls();
+		add_action( 'customize_controls_init', array( $this, 'prepare_control' ), 5 );
+	}
+
+	/**
+	 * Prepares the control.
+	 *
+	 * If no tabs exist, removes the control from the manager.
+	 *
+	 * @since 3.4.1
+	 */
+	public function prepare_control() {
+		if ( ! $this->tabs )
+			$this->manager->remove_control( $this->id );
 	}
 
 	/**
@@ -680,6 +695,17 @@ class WP_Customize_Background_Image_Control extends WP_Customize_Image_Control {
  * @since 3.4.0
  */
 class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
+	/**
+	 * The processed default headers.
+	 * @var array
+	 */
+	protected $default_headers;
+
+	/**
+	 * The uploaded headers.
+	 * @var array
+	 */
+	protected $uploaded_headers;
 
 	/**
 	 * Constructor.
@@ -709,7 +735,32 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 			)
 		) );
 
-		$this->add_tab( 'default',  __('Default'),  array( $this, 'tab_default_headers' ) );
+		// Remove the upload tab.
+		$this->remove_tab( 'upload-new' );
+	}
+
+	/**
+	 * Prepares the control.
+	 *
+	 * If no tabs exist, removes the control from the manager.
+	 *
+	 * @since 3.4.1
+	 */
+	public function prepare_control() {
+		global $custom_image_header;
+
+		// Process default headers and uploaded headers.
+		$custom_image_header->process_default_headers();
+		$this->default_headers = $custom_image_header->default_headers;
+		$this->uploaded_headers = get_uploaded_header_images();
+
+		if ( $this->default_headers )
+			$this->add_tab( 'default',  __('Default'),  array( $this, 'tab_default_headers' ) );
+
+		if ( ! $this->uploaded_headers )
+			$this->remove_tab( 'uploaded' );
+
+		return parent::prepare_control();
 	}
 
 	/**
@@ -742,11 +793,9 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 	 * @since 3.4.0
 	 */
 	public function tab_uploaded() {
-		$headers = get_uploaded_header_images();
-
 		?><div class="uploaded-target"></div><?php
 
-		foreach ( $headers as $choice => $header )
+		foreach ( $this->uploaded_headers as $choice => $header )
 			$this->print_header_image( $choice, $header );
 	}
 
@@ -754,10 +803,7 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 	 * @since 3.4.0
 	 */
 	public function tab_default_headers() {
-		global $custom_image_header;
-		$custom_image_header->process_default_headers();
-
-		foreach ( $custom_image_header->default_headers as $choice => $header )
+		foreach ( $this->default_headers as $choice => $header )
 			$this->print_header_image( $choice, $header );
 	}
 }
