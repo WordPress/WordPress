@@ -1007,13 +1007,12 @@ footer .edit-link {
 	border-bottom: 1px solid #ededed;
 }
 .archive-meta {
-	color: #636363;
-	font-size: 11px;
-	font-size: 0.785714286rem;
-	line-height: 2.181818182;
+	color: #777;
+	font-size: 12px;
+	font-size: 0.857142857rem;
+	line-height: 2;
 	margin-top: 22px;
 	margin-top: 1.571428571rem;
-	text-transform: uppercase;
 }
 
 
