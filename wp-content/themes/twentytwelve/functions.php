@@ -57,8 +57,7 @@ function twentytwelve_setup() {
 	require( get_template_directory() . '/inc/theme-options.php' );
 	$twentytwelve_options = new Twenty_Twelve_Options();
 
-	// You can define support for an editor stylesheet here; Twenty Twelve doesn't have a default one.
-	// Then, create a CSS file called editor-style.css and place it in your theme directory.
+	// This theme styles the visual editor with editor-style.css to match the theme style.
 	add_editor_style();
 
 	// Add default posts and comments RSS feed links to <head>.
