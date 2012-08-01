@@ -697,12 +697,14 @@ class WP_Customize_Background_Image_Control extends WP_Customize_Image_Control {
 class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 	/**
 	 * The processed default headers.
+	 * @since 3.4.1
 	 * @var array
 	 */
 	protected $default_headers;
 
 	/**
 	 * The uploaded headers.
+	 * @since 3.4.1
 	 * @var array
 	 */
 	protected $uploaded_headers;
