@@ -487,7 +487,7 @@ class WP_Customize_Image_Control extends WP_Customize_Upload_Control {
 	 *
 	 * If no tabs exist, removes the control from the manager.
 	 *
-	 * @since 3.4.1
+	 * @since 3.4.2
 	 */
 	public function prepare_control() {
 		if ( ! $this->tabs )
@@ -697,14 +697,14 @@ class WP_Customize_Background_Image_Control extends WP_Customize_Image_Control {
 class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 	/**
 	 * The processed default headers.
-	 * @since 3.4.1
+	 * @since 3.4.2
 	 * @var array
 	 */
 	protected $default_headers;
 
 	/**
 	 * The uploaded headers.
-	 * @since 3.4.1
+	 * @since 3.4.2
 	 * @var array
 	 */
 	protected $uploaded_headers;
@@ -746,7 +746,7 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 	 *
 	 * If no tabs exist, removes the control from the manager.
 	 *
-	 * @since 3.4.1
+	 * @since 3.4.2
 	 */
 	public function prepare_control() {
 		global $custom_image_header;
