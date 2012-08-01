@@ -181,8 +181,7 @@ article.format-link footer.entry-meta {
 .menu-toggle,
 input#searchsubmit,
 article.post-password-required input[type=submit],
-li.bypostauthor cite span,
-.featured-post {
+li.bypostauthor cite span {
 	padding: 1px 10px;
 	padding: 0.071428571rem 0.714285714rem;
 	font-size: 11px;
@@ -234,17 +233,14 @@ input#searchsubmit.toggled-on {
 	box-shadow: inset 0 0 8px 2px #c6c6c6, 0 1px 0 0 #f4f4f4;
 	border: none;
 }
-li.bypostauthor cite span,
-.featured-post {
+li.bypostauthor cite span {
 	color: #fff;
 	background-color: #21759b;
-	background-repeat: repeat-x;
-	background-image: -moz-linear-gradient(top, #4aacd8, #21759b);
-	background-image: -ms-linear-gradient(top, #4aacd8, #21759b);
-	background-image: -webkit-linear-gradient(top, #4aacd8, #21759b);
-	background-image: -o-linear-gradient(top, #4aacd8, #21759b);
-	background-image: linear-gradient(top, #4aacd8, #21759b);
+	background-image: none;
 	border: 1px solid #1f6f93;
+	border-radius: 2px;
+	box-shadow: none;
+	padding: 0;
 }
 
 /* Form fields */
@@ -773,28 +769,15 @@ header.entry-header .comments-link {
 	color: #21759b;
 }
 article.sticky .featured-post {
+	border-top: 4px double #ededed;
+	border-bottom: 4px double #ededed;
+	color: #777;
+	font-size: 13px;
+	font-size: 0.928571429rem;
+	line-height: 3.692307692;
 	margin-bottom: 24px;
 	margin-bottom: 1.714285714rem;
-	padding: 0 5px;
-	padding: 0 0.357142857rem;
-	font-size: 11px;
-	font-size: 0.785714286rem;
-	line-height: 2.181818182;
 	text-align: center;
-}
-@media screen and (min-width: 600px) {
-	article.sticky header.entry-header {
-		float: left;
-		max-width: 73.6%;
-		overflow: hidden;
-	}
-	article.sticky .featured-post {
-		float: right;
-		text-align: left;
-	}
-	article.sticky .entry-content {
-		clear: both;
-	}
 }
 .entry-content h1,
 .comment-content h1,
