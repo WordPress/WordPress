@@ -1318,40 +1318,22 @@ label ~ span.required {
 /* =Home page template styling
 -------------------------------------------------------------- */
 
-@media screen and (min-width: 600px) {
-	div.home-top,
-	div.home-middle {
-		overflow: hidden;
-	}
-}
-div.home-top {
-	margin-bottom: 24px;
-	margin-bottom: 1.714285714rem;
+.page-template-homepage-php #content article {
+	border: 0;
+	margin-bottom: 0;
 }
 @media screen and (min-width: 600px) {
-	section.home-content {
+	.page-template-homepage-php #content,
+	.page-template-homepage-php article {
 		overflow: hidden;
 	}
-	section.home-content h1.entry-title {
-		margin: 0 0 24px;
-		margin: 0 0 1.714285714rem;
-	}
-	section.home-content.thumbnail {
+	.page-template-homepage-php.has-post-thumbnail article {
 		float: left;
 		width: 47.916666667%;
 	}
-}
-@media screen and (min-width: 600px) {
 	.entry-page-image {
 		float: right;
 		width: 47.916666667%;
-		margin-bottom: 24px;
-		margin-bottom: 1.714285714rem;
-	}
-}
-@media screen and (min-width: 600px) {
-	.page-template-homepage-php #content {
-		overflow: hidden;
 	}
 }
 .page-template-homepage-php #secondary {

@@ -115,7 +115,7 @@ function twentytwelve_scripts_styles() {
 		$protocol = is_ssl() ? 'https' : 'http';
 		wp_enqueue_style( 'twentytwelve-fonts', "$protocol://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700" );
 	}
-	
+
 	/**
 	 * Load our main CSS file.
 	 */
@@ -338,7 +338,8 @@ endif;
  * Extends the default WordPress body class to denote:
  * 1. Using a full-width layout, when no active widgets in the sidebar
  *    or full-width template.
- * 2. White or empty background color to change the layout and spacing.
+ * 2. A thumbnail in the Homepage page template.
+ * 3. White or empty background color to change the layout and spacing.
  *
  * @since Twenty Twelve 1.0
  */
@@ -347,6 +348,9 @@ function twentytwelve_body_class( $classes ) {
 
 	if ( ! is_active_sidebar( 'sidebar-1' ) || is_page_template( 'full-width-page.php' ) )
 		$classes[] = 'full-width';
+
+	if ( is_page_template( 'homepage.php' ) && has_post_thumbnail() )
+		$classes[] = 'has-post-thumbnail';
 
 	if ( empty( $background_color ) )
 		$classes[] = 'custom-background-empty';
