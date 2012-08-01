@@ -1459,34 +1459,6 @@ function recurse_dirsize( $directory ) {
 }
 
 /**
- * Check whether a blog has used its allotted upload space.
- *
- * @since MU
- * @uses get_dirsize()
- *
- * @param bool $echo Optional. If $echo is set and the quota is exceeded, a warning message is echoed. Default is true.
- * @return int
- */
-function upload_is_user_over_quota( $echo = true ) {
-	if ( get_site_option( 'upload_space_check_disabled' ) )
-		return false;
-
-	$spaceAllowed = get_space_allowed();
-	if ( empty( $spaceAllowed ) || !is_numeric( $spaceAllowed ) )
-		$spaceAllowed = 10;	// Default space allowed is 10 MB
-
-	$size = get_dirsize( BLOGUPLOADDIR ) / 1024 / 1024;
-
-	if ( ($spaceAllowed-$size) < 0 ) {
-		if ( $echo )
-			_e( 'Sorry, you have used your space allocation. Please delete some files to upload more files.' ); // No space left
-		return true;
-	} else {
-		return false;
-	}
-}
-
-/**
  * Check an array of MIME types against a whitelist.
  *
  * WordPress ships with a set of allowed upload filetypes,
@@ -1538,29 +1510,6 @@ function wpmu_log_new_registrations( $blog_id, $user_id ) {
 	global $wpdb;
 	$user = new WP_User( (int) $user_id );
 	$wpdb->insert( $wpdb->registration_log, array('email' => $user->user_email, 'IP' => preg_replace( '/[^0-9., ]/', '',$_SERVER['REMOTE_ADDR'] ), 'blog_id' => $blog_id, 'date_registered' => current_time('mysql')) );
-}
-
-/**
- * Get the remaining upload space for this blog.
- *
- * @since MU
- * @uses upload_is_user_over_quota()
- * @uses get_space_allowed()
- * @uses get_dirsize()
- *
- * @param int $size
- * @return int
- */
-function fix_import_form_size( $size ) {
-	if ( upload_is_user_over_quota( false ) == true )
-		return 0;
-
-	$spaceAllowed = 1024 * 1024 * get_space_allowed();
-	$dirsize = get_dirsize( BLOGUPLOADDIR );
-	if ( $size > $spaceAllowed - $dirsize )
-		return $spaceAllowed - $dirsize; // remaining space
-	else
-		return $size; // default
 }
 
 /**

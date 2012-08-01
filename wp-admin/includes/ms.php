@@ -25,9 +25,8 @@ function check_upload_size( $file ) {
 	if ( defined( 'WP_IMPORTING' ) )
 		return $file;
 
-	$space_allowed = 1048576 * get_space_allowed();
-	$space_used = get_dirsize( BLOGUPLOADDIR );
-	$space_left = $space_allowed - $space_used;
+	$space_left = get_upload_space_available();
+
 	$file_size = filesize( $file['tmp_name'] );
 	if ( $space_left < $file_size )
 		$file['error'] = sprintf( __( 'Not enough space to upload. %1$s KB needed.' ), number_format( ($file_size - $space_left) /1024 ) );
@@ -310,28 +309,48 @@ function get_upload_space_available() {
 	if ( get_site_option( 'upload_space_check_disabled' ) )
 		return $space_allowed;
 
-	$dir_name = trailingslashit( BLOGUPLOADDIR );
-	if ( !( is_dir( $dir_name) && is_readable( $dir_name ) ) )
-		return $space_allowed;
+	$space_used = get_space_used() * 1024 * 1024;
 
-  	$dir = dir( $dir_name );
-   	$size = 0;
-
-	while ( $file = $dir->read() ) {
-		if ( $file != '.' && $file != '..' ) {
-			if ( is_dir( $dir_name . $file) ) {
-				$size += get_dirsize( $dir_name . $file );
-			} else {
-				$size += filesize( $dir_name . $file );
-			}
-		}
-	}
-	$dir->close();
-
-	if ( ( $space_allowed - $size ) <= 0 )
+	if ( ( $space_allowed - $space_used ) <= 0 )
 		return 0;
 
-	return $space_allowed - $size;
+	return $space_allowed - $space_used;
+}
+
+/**
+ * Check whether a blog has used its allotted upload space.
+ *
+ * @since MU
+ *
+ * @param bool $echo Optional. If $echo is set and the quota is exceeded, a warning message is echoed. Default is true.
+ * @return int
+ */
+function upload_is_user_over_quota( $echo = true ) {
+	if ( get_site_option( 'upload_space_check_disabled' ) )
+		return false;
+
+	$space_allowed = get_space_allowed();
+	if ( empty( $space_allowed ) || !is_numeric( $space_allowed ) )
+		$space_allowed = 10;// Default space allowed is 10 MB
+
+	$space_used = get_space_used();
+
+	if ( ($space_allowed - $space_used ) < 0 ) {
+		if ( $echo )
+			_e( 'Sorry, you have used your space allocation. Please delete some files to upload more files.' );
+		return true;
+	} else {
+		return false;
+	}
+}
+
+function get_space_used() {
+	// Allow for an alternative way of tracking storage space used
+	$space_used = apply_filters( 'pre_get_space_used', false );
+	if ( false === $space_used )
+		$space_used = get_dirsize( BLOGUPLOADDIR );
+
+	return $space_used;
 }
 
 /**
@@ -352,22 +371,42 @@ function get_space_allowed() {
 }
 
 function display_space_usage() {
-	$space = get_space_allowed();
-	$used = get_dirsize( BLOGUPLOADDIR ) / 1024 / 1024;
+	$space_allowed = get_space_allowed();
+	$space_used = get_space_used();
 
-	$percentused = ( $used / $space ) * 100;
+	$percent_used = ( $space_used / $space_allowed ) * 100;
 
-	if ( $space > 1000 ) {
-		$space = number_format( $space / 1024 );
+	if ( $space_allowed > 1000 ) {
+		$space = number_format( $space_allowed / 1024 );
 		/* translators: Gigabytes */
 		$space .= __( 'GB' );
 	} else {
+		$space = number_format( $space_allowed );
 		/* translators: Megabytes */
 		$space .= __( 'MB' );
 	}
 	?>
-	<strong><?php printf( __( 'Used: %1s%% of %2s' ), number_format( $percentused ), $space ); ?></strong>
+	<strong><?php printf( __( 'Used: %1s%% of %2s' ), number_format( $percent_used ), $space ); ?></strong>
 	<?php
+}
+
+/**
+ * Get the remaining upload space for this blog.
+ *
+ * @since MU
+ * @uses upload_is_user_over_quota()
+ * @uses get_space_allowed()
+ * @uses get_upload_space_available()
+ *
+ * @param int $size Current max size in bytes
+ * @return int Max size in bytes
+ */
+function fix_import_form_size( $size ) {
+	if ( upload_is_user_over_quota( false ) == true )
+		return 0;
+
+	$available = get_upload_space_available();
+	return min( $size, $available);
 }
 
 // Edit blog upload space setting on Edit Blog page
