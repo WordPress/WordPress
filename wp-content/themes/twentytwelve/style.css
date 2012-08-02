@@ -1463,9 +1463,17 @@ label ~ span.required {
 		font-size: 10pt;
 		text-align: left;
 	}
-	img.header-image {
-		display: none;
-	}
+	#author-avatar,
+	#colophon,
+	#respond,
+	.commentlist .comment-edit-link,
+	.commentlist .reply,
+	.entry-header .comments-link,
+	.entry-meta .edit-link a,
+	.page-link,
+	.site-content nav,
+	.widget-area,
+	img.header-image,
 	nav.site-navigation {
 		display: none;
 	}
@@ -1482,19 +1490,10 @@ label ~ span.required {
 		margin: 0;
 		width: auto;
 	}
-	.singular .site-content {
-		margin: 0;
-		width: 100%;
-	}
 	.singular .entry-header .entry-meta {
 		position: static;
 	}
-	.entry-meta .edit-link a {
-		display: none;
-	}
-	.site-content nav {
-		display: none;
-	}
+	.singular .site-content,
 	.singular .entry-header,
 	.singular .entry-content,
 	.singular footer.entry-meta,
@@ -1510,27 +1509,9 @@ label ~ span.required {
 	.entry-meta {
 		font-size: 10pt;
 	}
-	.entry-header .comments-link {
-		display: none;
-	}
-	.page-link {
-		display: none;
-	}
-	#author-avatar {
-		display: none;
-	}
 	#author-description {
 		float: none;
 		width: auto;
-	}
-	#respond {
-		display: none;
-	}
-	.widget-area {
-		display: none;
-	}
-	#colophon {
-		display: none;
 	}
 
 	/* Comments */
@@ -1549,11 +1530,5 @@ label ~ span.required {
 	.comments-area article header time {
 		margin-left: 50px;
 		margin-left: 3.57142857rem;
-	}
-	.commentlist .comment-edit-link {
-		display: none;
-	}
-	.commentlist .reply {
-		display: none;
 	}
 }
