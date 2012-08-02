@@ -1,6 +1,6 @@
-/*
-Theme Name: Twenty Twelve
-Description: Used to style the TinyMCE editor.
+/**
+* Theme Name: Twenty Twelve
+* Description: Used to style the TinyMCE editor.
 */
 
 html {
@@ -19,7 +19,10 @@ body {
 	vertical-align: baseline;
 }
 
-/* Headings */
+
+/* =Headings
+-------------------------------------------------------------- */
+
 h1,
 h2,
 h3,
@@ -65,13 +68,17 @@ hr {
 	margin-bottom: 1.714285714rem;
 }
 
-/* Text elements */
+
+/* =Text elements
+-------------------------------------------------------------- */
+
 p {
 	line-height: 1.714285714;
 	margin: 0 0 24px;
 	margin: 0 0 1.714285714rem;
 }
-ul, ol {
+ul,
+ol {
 	margin: 0 0 24px;
 	margin: 0 0 1.714285714rem;
 	line-height: 1.714285714;
@@ -83,7 +90,10 @@ ul {
 ol {
 	list-style: decimal outside;
 }
-ul ul, ol ol, ul ol, ol ul {
+ul ul,
+ol ol,
+ul ol,
+ol ul {
 	margin-bottom: 0;
 }
 li {
@@ -107,7 +117,9 @@ dd {
 strong {
 	font-weight: bold;
 }
-cite, em, i {
+cite,
+em,
+i {
 	font-style: italic;
 }
 cite {
@@ -136,13 +148,18 @@ pre {
 	padding: 24px;
 	padding: 1.714285714rem;
 }
-code, kbd, samp, var {
+code,
+kbd,
+samp,
+var {
 	font-family: Consolas, Monaco, Lucida Console, monospace;
 	font-size: 12px;
 	font-size: 0.857142857rem;
 	line-height: 2;
 }
-abbr, acronym, dfn {
+abbr,
+acronym,
+dfn {
 	border-bottom: 1px dotted #666;
 	cursor: help;
 }
@@ -174,7 +191,7 @@ sup {
 sub {
 	bottom: -0.25em;
 }
-input[type=text] {
+input[type="text"] {
 	border: 1px solid #ccc;
 	border-radius: 3px;
 	font-family: inherit;
@@ -193,7 +210,10 @@ textarea {
 	width: 96%;
 }
 
-/* Links */
+
+/* =Links
+-------------------------------------------------------------- */
+
 a,
 a em,
 a strong {
@@ -206,10 +226,15 @@ a:hover {
 	color: #0f3647;
 }
 
-/* Alignment */
+
+/* =Alignment
+-------------------------------------------------------------- */
+
 .alignleft {
 	display: inline;
 	float: left;
+	margin: 12px 24px 12px 0;
+	margin: 0.857142857rem 1.714285714rem 0.857142857rem 0;
 }
 .alignright {
 	display: inline;
@@ -226,7 +251,10 @@ a:hover {
 	margin-bottom: 0.857142857rem;
 }
 
-/* Tables */
+
+/* =Tables
+-------------------------------------------------------------- */
+
 table {
 	border-bottom: 1px solid #ededed;
 	border-collapse: collapse;
@@ -257,7 +285,10 @@ td {
 	text-align: left;
 }
 
-/* Images */
+
+/* =Images
+-------------------------------------------------------------- */
+
 img {
 	border: 0;
 	border-radius: 3px;
@@ -270,10 +301,6 @@ img.size-full {
 img[class*="wp-image-"] {
 	height: auto;
 	max-width: 100%;
-}
-img.alignleft {
-	margin: 12px 24px 12px 0;
-	margin: 0.857142857rem 1.714285714rem 0.857142857rem 0;
 }
 img[class*="align"],
 img[class*="wp-image-"],
