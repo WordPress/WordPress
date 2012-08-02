@@ -241,7 +241,7 @@ class Twenty_Twelve_Options {
 	 * @return void
 	 */
 	public function customize_preview_js() {
-		wp_enqueue_script( 'twentytwelve-customizer', get_template_directory_uri() . '/js/theme-customizer.js', array( 'customize-preview' ), '20120725', true );
+		wp_enqueue_script( 'twentytwelve-customizer', get_template_directory_uri() . '/js/theme-customizer.js', array( 'customize-preview' ), '20120802', true );
 		wp_localize_script( 'twentytwelve-customizer', 'twentytwelve_customizer', array(
 			'option_key' => $this->option_key,
 			'link'       => $this->custom_fonts_url(),
