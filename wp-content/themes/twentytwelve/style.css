@@ -287,8 +287,9 @@ img.wp-post-image {
 	height: auto; /* Make sure images with WordPress-added height and width attributes are scaled correctly */
 }
 
-/* Media */
+/* Make sure videos and embeds fit their containers */
 embed,
+iframe,
 object,
 video {
 	max-width: 100%;
@@ -853,7 +854,10 @@ img.aligncenter {
 	margin-bottom: 12px;
 	margin-bottom: 0.857142857rem;
 }
-.entry-content iframe {
+.entry-content embed,
+.entry-content iframe,
+.entry-content object,
+.entry-content video {
 	margin-bottom: 24px;
 	margin-bottom: 1.714285714rem;
 }
