@@ -58,7 +58,11 @@ h6 {
 	font-size: 0.857142857rem;
 }
 hr {
-	/* TODO */
+	background-color: #ccc;
+	border: 0;
+	height: 1px;
+	margin: 24px;
+	margin-bottom: 1.714285714rem;
 }
 
 /* Text elements */
@@ -109,9 +113,8 @@ cite, em, i {
 cite {
 	border: none;
 }
-
 big {
-	/* TODO */
+	font-size: 128.571429%;
 }
 .mceContentBody blockquote {
 	font-style: italic !important;
@@ -150,10 +153,13 @@ address {
 	margin: 0 0 1.714285714rem;
 }
 del {
-	/* TODO */
+	color: #333;
 }
 ins {
-	/* TODO */
+	background: #fff9c0;
+	border: none;
+	color: #333;
+	text-decoration: none;
 }
 sup,
 sub {
