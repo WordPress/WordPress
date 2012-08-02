@@ -156,12 +156,6 @@ label ~ span.required {
 	margin: 8px 0 8px 24px;
 }
 
-@media screen and (min-width: 600px) {
-	.page-template-homepage-php #secondary aside.widget_text img {
-		float: right;
-		margin: 8px 0 8px 24px;
-	}
-}
 
 /* =Widget styling
 -------------------------------------------------------------- */
@@ -186,4 +180,15 @@ label ~ span.required {
 	padding-left: 1.714285714rem;
 	text-align: left;
 	padding-right: 0;
+}
+
+/* =Media queries
+-------------------------------------------------------------- */
+
+/* Minimum width of 600 pixels. */
+@media screen and (min-width: 600px) {
+	.page-template-homepage-php #secondary aside.widget_text img {
+		float: right;
+		margin: 8px 0 8px 24px;
+	}
 }

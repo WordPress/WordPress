@@ -4,7 +4,7 @@ Theme URI: http://wordpress.org/extend/themes/twentytwelve
 Author: the WordPress team
 Author URI: http://wordpress.org/
 Description: The 2012 theme for WordPress is a fully responsive theme that looks great on any device. Features include a homepage template with a its own widgets, an optional display font, styling for post formats on both index and single views, and an optional no-sidebar page template. Make it yours with a custom menu, header image, and background.
-Version: 0.6
+Version: 0.7
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: light, gray, white, one-column, two-columns, right-sidebar, flexible-width, responsive-width, custom-background, custom-header, custom-menu, featured-images, full-width-template, microformats, post-formats, rtl-language-support, sticky-post, theme-options, translation-ready
@@ -19,8 +19,8 @@ Use it to make something cool, have fun, and share what you've learned with othe
 This stylesheet uses rem values with a pixel fallback. The rem
 values (and line heights) are calculated using two variables:
 
-$rembase:      14;
-$line-height:  24;
+$rembase:     14;
+$line-height: 24;
 
 ---------- Examples
 
@@ -200,7 +200,6 @@ li.bypostauthor cite span {
 	border-radius: 3px;
 	box-shadow: 0 1px 2px rgba(64, 64, 64, 0.1);
 }
-
 .menu-toggle,
 input#searchsubmit,
 article.post-password-required input[type=submit] {
@@ -381,19 +380,6 @@ img.wp-post-image {
 	padding-top: 1.714285714rem;
 	overflow: hidden;
 }
-@media screen and (min-width: 600px) {
-	#author-avatar {
-		float: left;
-		margin-top: 8px;
-		margin-top: 0.571428571rem;
-	}
-}
-@media screen and (min-width: 600px) {
-	#author-description {
-		float: right;
-		width: 80%;
-	}
-}
 #author-description p {
 	color: #777;
 	font-size: 13px;
@@ -437,38 +423,6 @@ a:hover {
 	padding: 0 1.714285714rem;
 	background-color: #fff;
 }
-@media screen and (min-width: 600px) {
-	#page {
-		margin: 0 auto;
-		max-width: 960px;
-		max-width: 68.571428571rem;
-		overflow: hidden;
-	}
-}
-@media screen and (min-width: 960px) {
-	body {
-		background-color: #e6e6e6;
-	}
-	body #page {
-		padding: 0 40px;
-		padding: 0 2.857142857rem;
-		margin-top: 48px;
-		margin-top: 3.428571429rem;
-		margin-bottom: 48px;
-		margin-bottom: 3.428571429rem;
-		box-shadow: 0 2px 6px rgba(100, 100, 100, 0.3);
-	}
-	body.custom-background-empty {
-		background-color: #fff;
-	}
-	body.custom-background-empty #page,
-	body.custom-background-white #page {
-		padding: 0;
-		margin-top: 0;
-		margin-bottom: 0;
-		box-shadow: none;
-	}
-}
 #main {
 	overflow: hidden;
 }
@@ -476,29 +430,9 @@ a:hover {
 	margin: 24px 0 0;
 	margin: 1.714285714rem 0 0;
 }
-@media screen and (min-width: 600px) {
-	#primary {
-		float: left;
-		width: 65.104166667%;
-	}
-}
-@media screen and (min-width: 600px) {
-	body.page-template-full-width-page-php #primary,
-	body.page-template-homepage-php #primary,
-	body.single-attachment #primary,
-	body.full-width #primary {
-		width: 100%;
-	}
-}
 #secondary {
 	margin: 24px 0 0;
 	margin: 1.714285714rem 0 0;
-}
-@media screen and (min-width: 600px) {
-	#secondary {
-		float: right;
-		width: 26.041666667%;
-	}
 }
 
 /* Header */
@@ -509,12 +443,6 @@ a:hover {
 .site-header hgroup h1,
 .site-header hgroup h2 {
 	text-align: center;
-}
-@media screen and (min-width: 600px) {
-	.site-header hgroup h1,
-	.site-header hgroup h2 {
-		text-align: left;
-	}
 }
 .site-header hgroup h1 a,
 .site-header hgroup h2 a {
@@ -530,13 +458,6 @@ a:hover {
 	font-size: 24px;
 	font-size: 1.714285714rem;
 	line-height: 2;
-}
-@media screen and (min-width: 600px) {
-	.site-header hgroup h1 {
-		font-size: 26px;
-		font-size: 1.857142857rem;
-		line-height: 1.846153846;
-	}
 }
 .site-header hgroup h2 {
 	font-weight: normal;
@@ -717,7 +638,7 @@ footer[role="contentinfo"] a:hover {
 }
 
 
-/* =Basic post styling
+/* =Main content
 -------------------------------------------------------------- */
 
 .entry-meta {
@@ -739,13 +660,6 @@ header.entry-header .entry-title {
 }
 header.entry-header .entry-title a {
 	text-decoration: none;
-}
-@media screen and (min-width: 600px) {
-	header.entry-header .entry-title {
-		font-size: 22px;
-		font-size: 1.571428571rem;
-		line-height: 1.090909091;
-	}
 }
 header.entry-header .entry-format {
 	margin-top: 24px;
@@ -995,7 +909,7 @@ footer .edit-link {
 }
 
 
-/* =Styling for the archive view
+/* =Archives
 -------------------------------------------------------------- */
 
 .archive #content .archive-header,
@@ -1016,7 +930,7 @@ footer .edit-link {
 }
 
 
-/* =Styling for the single image attachment view
+/* =Single image attachment view
 -------------------------------------------------------------- */
 
 .image-attachment div.attachment {
@@ -1035,7 +949,7 @@ footer .edit-link {
 }
 
 
-/* =Aside post styling
+/* =Aside post format
 -------------------------------------------------------------- */
 
 article.format-aside h1 {
@@ -1066,9 +980,10 @@ article.format-aside p {
 }
 
 
-/* =Image post styling
+/* =Post formats
 -------------------------------------------------------------- */
 
+/* Image posts */
 article.format-image footer h1 {
 	font-size: 13px;
 	font-size: 0.928571429rem;
@@ -1081,10 +996,7 @@ article.format-image footer h2 {
 	line-height: 2.181818182;
 }
 
-
-/* =Link post styling
--------------------------------------------------------------- */
-
+/* Link posts */
 article.format-link header {
 	padding: 0 10px;
 	padding: 0 0.714285714rem;
@@ -1110,10 +1022,7 @@ article.format-link .entry-content a {
 	text-decoration: none;
 }
 
-
-/* =Quote post styling
--------------------------------------------------------------- */
-
+/* Quote posts */
 article.format-quote .entry-content p {
 	margin: 0;
 	padding-bottom: 24px;
@@ -1132,7 +1041,7 @@ article.format-quote .entry-content blockquote {
 }
 
 
-/* =Comment styling
+/* =Comments
 -------------------------------------------------------------- */
 
 #comments-title {
@@ -1289,14 +1198,6 @@ a.comment-reply-link:hover {
 	border-radius: 3px;
 	width: 96%;
 }
-@media screen and (min-width: 600px) {
-	#respond form input[type="text"] {
-		width: 46.333333333%;
-	}
-	#respond form textarea.blog-textarea {
-		width: 79.666666667%;
-	}
-}
 #respond form p.form-allowed-tags {
 	margin: 0;
 	font-size: 12px;
@@ -1315,26 +1216,12 @@ label ~ span.required {
 }
 
 
-/* =Home page template styling
+/* =Homepage template
 -------------------------------------------------------------- */
 
 .page-template-homepage-php #content article {
 	border: 0;
 	margin-bottom: 0;
-}
-@media screen and (min-width: 600px) {
-	.page-template-homepage-php #content,
-	.page-template-homepage-php article {
-		overflow: hidden;
-	}
-	.page-template-homepage-php.has-post-thumbnail article {
-		float: left;
-		width: 47.916666667%;
-	}
-	.entry-page-image {
-		float: right;
-		width: 47.916666667%;
-	}
 }
 .page-template-homepage-php #secondary {
 	clear: both;
@@ -1365,23 +1252,9 @@ label ~ span.required {
 	margin: 8px 24px 8px 0;
 	margin: 0.571428571rem 1.714285714rem 0.571428571rem 0;
 }
-@media screen and (min-width: 600px) {
-	.page-template-homepage-php #secondary aside {
-		float: left;
-		width: 51.875%;
-		margin-bottom: 24px;
-		margin-bottom: 1.714285714rem;
-	}
-	.page-template-homepage-php #secondary aside:nth-child(even) {
-		float: right;
-		width: 39.0625%;
-		margin: 0 0 24px;
-		margin: 0 0 1.714285714rem;
-	}
-}
 
 
-/* =Widget styling
+/* =Widgets
 -------------------------------------------------------------- */
 
 .widget ul ul {
@@ -1422,6 +1295,113 @@ label ~ span.required {
 .widget_rss li {
 	margin: 12px 0;
 	margin: 0.857142857rem 0;
+}
+
+
+/* =Media queries
+-------------------------------------------------------------- */
+
+/* Minimum width of 600 pixels. */
+@media screen and (min-width: 600px) {
+	#author-avatar {
+		float: left;
+		margin-top: 8px;
+		margin-top: 0.571428571rem;
+	}
+	#author-description {
+		float: right;
+		width: 80%;
+	}
+	#page {
+		margin: 0 auto;
+		max-width: 960px;
+		max-width: 68.571428571rem;
+		overflow: hidden;
+	}
+	#primary {
+		float: left;
+		width: 65.104166667%;
+	}
+	body.page-template-full-width-page-php #primary,
+	body.page-template-homepage-php #primary,
+	body.single-attachment #primary,
+	body.full-width #primary {
+		width: 100%;
+	}
+	#secondary {
+		float: right;
+		width: 26.041666667%;
+	}
+	.site-header hgroup h1,
+	.site-header hgroup h2 {
+		text-align: left;
+	}
+	.site-header hgroup h1 {
+		font-size: 26px;
+		font-size: 1.857142857rem;
+		line-height: 1.846153846;
+	}
+	header.entry-header .entry-title {
+		font-size: 22px;
+		font-size: 1.571428571rem;
+		line-height: 1.090909091;
+	}
+	#respond form input[type="text"] {
+		width: 46.333333333%;
+	}
+	#respond form textarea.blog-textarea {
+		width: 79.666666667%;
+	}
+	.page-template-homepage-php #content,
+	.page-template-homepage-php article {
+		overflow: hidden;
+	}
+	.page-template-homepage-php.has-post-thumbnail article {
+		float: left;
+		width: 47.916666667%;
+	}
+	.entry-page-image {
+		float: right;
+		width: 47.916666667%;
+	}
+	.page-template-homepage-php #secondary aside {
+		float: left;
+		width: 51.875%;
+		margin-bottom: 24px;
+		margin-bottom: 1.714285714rem;
+	}
+	.page-template-homepage-php #secondary aside:nth-child(even) {
+		float: right;
+		width: 39.0625%;
+		margin: 0 0 24px;
+		margin: 0 0 1.714285714rem;
+	}
+}
+
+/* Minimum width of 960 pixels. */
+@media screen and (min-width: 960px) {
+	body {
+		background-color: #e6e6e6;
+	}
+	body #page {
+		padding: 0 40px;
+		padding: 0 2.857142857rem;
+		margin-top: 48px;
+		margin-top: 3.428571429rem;
+		margin-bottom: 48px;
+		margin-bottom: 3.428571429rem;
+		box-shadow: 0 2px 6px rgba(100, 100, 100, 0.3);
+	}
+	body.custom-background-empty {
+		background-color: #fff;
+	}
+	body.custom-background-empty #page,
+	body.custom-background-white #page {
+		padding: 0;
+		margin-top: 0;
+		margin-bottom: 0;
+		box-shadow: none;
+	}
 }
 
 
