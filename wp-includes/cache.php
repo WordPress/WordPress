@@ -180,6 +180,19 @@ function wp_cache_set($key, $data, $group = '', $expire = 0) {
 }
 
 /**
+ * Switch the interal blog id.
+ *
+ * This changes the blog id used to create keys in blog specific groups.
+ *
+ * @param int $blog_id Blog ID
+ */
+function wp_cache_switch_to_blog( $blog_id ) {
+	global $wp_object_cache;
+
+	return $wp_object_cache->switch_to_blog( $blog_id );
+}
+
+/**
  * Adds a group or set of groups to the list of global groups.
  *
  * @since 2.6.0
@@ -189,7 +202,7 @@ function wp_cache_set($key, $data, $group = '', $expire = 0) {
 function wp_cache_add_global_groups( $groups ) {
 	global $wp_object_cache;
 
-	return $wp_object_cache->add_global_groups($groups);
+	return $wp_object_cache->add_global_groups( $groups );
 }
 
 /**
@@ -209,8 +222,11 @@ function wp_cache_add_non_persistent_groups( $groups ) {
  * this function instructs the backend to reset those keys and perform any cleanup since blog or site IDs have changed since cache init.
  *
  * @since 2.6.0
+ * @deprecated 3.5.0
  */
 function wp_cache_reset() {
+	_deprecated_function( __FUNCTION__, '3.5', 'wp_cache_switch_to_blog()' );
+
 	global $wp_object_cache;
 
 	return $wp_object_cache->reset();
@@ -271,6 +287,15 @@ class WP_Object_Cache {
 	var $global_groups = array();
 
 	/**
+	 * The blog prefix to prepend to keys in non-global groups.
+	 *
+	 * @var int
+	 * @access private
+	 * @since 3.5.0
+	 */
+	var $blog_prefix;
+
+	/**
 	 * Adds data to the cache if it doesn't already exist.
 	 *
 	 * @uses WP_Object_Cache::_exists Checks to see if the cache already has data.
@@ -292,7 +317,11 @@ class WP_Object_Cache {
 		if ( empty( $group ) )
 			$group = 'default';
 
-		if ( $this->_exists($key, $group) )
+		$id = $key;
+		if ( $this->multisite && ! isset( $this->global_groups[ $group ] ) )
+			$id = $this->blog_prefix . $key;
+
+		if ( $this->_exists( $id, $group ) )
 			return false;
 
 		return $this->set($key, $data, $group, $expire);
@@ -308,8 +337,8 @@ class WP_Object_Cache {
 	function add_global_groups( $groups ) {
 		$groups = (array) $groups;
 
-		$this->global_groups = array_merge($this->global_groups, $groups);
-		$this->global_groups = array_unique($this->global_groups);
+		$groups = array_fill_keys( $groups, true );
+		$this->global_groups = array_merge( $this->global_groups, $groups );
 	}
 
 	/**
@@ -325,7 +354,10 @@ class WP_Object_Cache {
 	function decr( $key, $offset = 1, $group = 'default' ) {
 		if ( empty( $group ) )
 			$group = 'default';
-		
+
+		if ( $this->multisite && ! isset( $this->global_groups[ $group ] ) )
+			$key = $this->blog_prefix . $key;
+
 		if ( ! $this->_exists( $key, $group ) )
 			return false;
 
@@ -360,6 +392,9 @@ class WP_Object_Cache {
 	function delete($key, $group = 'default', $force = false) {
 		if ( empty( $group ) )
 			$group = 'default';
+
+		if ( $this->multisite && ! isset( $this->global_groups[ $group ] ) )
+			$key = $this->blog_prefix . $key;
 
 		if ( ! $force && ! $this->_exists( $key, $group ) )
 			return false;
@@ -402,6 +437,9 @@ class WP_Object_Cache {
 		if ( empty( $group ) )
 			$group = 'default';
 
+		if ( $this->multisite && ! isset( $this->global_groups[ $group ] ) )
+			$key = $this->blog_prefix . $key;
+
 		if ( $this->_exists( $key, $group ) ) {
 			$found = true;
 			$this->cache_hits += 1;
@@ -429,6 +467,9 @@ class WP_Object_Cache {
 	function incr( $key, $offset = 1, $group = 'default' ) {
 		if ( empty( $group ) )
 			$group = 'default';
+
+		if ( $this->multisite && ! isset( $this->global_groups[ $group ] ) )
+			$key = $this->blog_prefix . $key;
 
 		if ( ! $this->_exists( $key, $group ) )
 			return false;
@@ -458,26 +499,33 @@ class WP_Object_Cache {
 	 * @param int $expire When to expire the cache contents
 	 * @return bool False if not exists, true if contents were replaced
 	 */
-	function replace($key, $data, $group = 'default', $expire = '') {
+	function replace( $key, $data, $group = 'default', $expire = '' ) {
 		if ( empty( $group ) )
 			$group = 'default';
 
-		if ( ! $this->_exists( $key, $group ) )
+		$id = $key;
+		if ( $this->multisite && ! isset( $this->global_groups[ $group ] ) )
+			$id = $this->blog_prefix . $key;
+
+		if ( ! $this->_exists( $id, $group ) )
 			return false;
 
-		return $this->set($key, $data, $group, $expire);
+		return $this->set( $key, $data, $group, $expire );
 	}
 
 	/**
 	 * Reset keys
 	 *
 	 * @since 3.0.0
+	 * @deprecated 3.5.0
 	 */
 	function reset() {
+		_deprecated_function( __FUNCTION__, '3.5', 'switch_to_blog()' );
+
 		// Clear out non-global caches since the blog ID has changed.
-		foreach ( array_keys($this->cache) as $group ) {
-			if ( !in_array($group, $this->global_groups) )
-				unset($this->cache[$group]);
+		foreach ( array_keys( $this->cache ) as $group ) {
+			if ( ! isset( $this->global_groups[ $group ] ) )
+				unset( $this->cache[ $group ] );
 		}
 	}
 
@@ -505,7 +553,10 @@ class WP_Object_Cache {
 		if ( empty( $group ) )
 			$group = 'default';
 
-		if ( is_object($data) )
+		if ( $this->multisite && ! isset( $this->global_groups[ $group ] ) )
+			$key = $this->blog_prefix . $key;
+
+		if ( is_object( $data ) )
 			$data = clone $data;
 
 		$this->cache[$group][$key] = $data;
@@ -533,6 +584,18 @@ class WP_Object_Cache {
 	}
 
 	/**
+	 * Switch the interal blog id.
+	 *
+	 * This changes the blog id used to create keys in blog specific groups.
+	 *
+	 * @param int $blog_id Blog ID
+	 */
+	function switch_to_blog( $blog_id ) {
+		$blog_id = (int) $blog_id;
+		$this->blog_prefix = $this->multisite ? $blog_id . ':' : '';
+	}
+
+	/**
 	 * Utility function to determine whether a key exists in the cache.
 	 *
 	 * @since 3.4.0
@@ -550,11 +613,17 @@ class WP_Object_Cache {
 	 * @return null|WP_Object_Cache If cache is disabled, returns null.
 	 */
 	function __construct() {
+		global $blog_id;
+
+		$this->multisite = is_multisite();
+		$this->blog_prefix =  $this->multisite ? $blog_id . ':' : '';
+		
+
 		/**
 		 * @todo This should be moved to the PHP4 style constructor, PHP5
 		 * already calls __destruct()
 		 */
-		register_shutdown_function(array(&$this, "__destruct"));
+		register_shutdown_function( array( &$this, '__destruct' ) );
 	}
 
 	/**

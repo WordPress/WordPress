@@ -381,7 +381,7 @@ function wp_set_wpdb_vars() {
  * @since 3.0.0
  */
 function wp_start_object_cache() {
-	global $_wp_using_ext_object_cache;
+	global $_wp_using_ext_object_cache, $blog_id;
 
 	$first_init = false;
  	if ( ! function_exists( 'wp_cache_init' ) ) {
@@ -403,8 +403,8 @@ function wp_start_object_cache() {
 	// If cache supports reset, reset instead of init if already initialized.
 	// Reset signals to the cache that global IDs have changed and it may need to update keys
 	// and cleanup caches.
-	if ( !$first_init && function_exists('wp_cache_reset') )
-		wp_cache_reset();
+	if ( ! $first_init && function_exists( 'wp_cache_switch_to_blog' ) )
+		wp_cache_switch_to_blog( $blog_id );
 	else
 		wp_cache_init();
 
