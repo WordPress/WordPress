@@ -24,11 +24,11 @@ td {
 .alignleft {
 	float: left;
 }
-#content .gallery-columns-4 .gallery-item {
+.site-content .gallery-columns-4 .gallery-item {
 	padding-left: 2%;
 	padding-right: 0;
 }
-#content .gallery-columns-5 .gallery-item {
+.site-content .gallery-columns-5 .gallery-item {
 	padding-left: 2%;
 	padding-right: 0;
 }
@@ -117,20 +117,20 @@ article.format-link .entry-content {
 /* =Comment styling
 -------------------------------------------------------------- */
 
-#comments article header img {
+.comments-area article header img {
 	float: right;
 }
-#comments article header cite,
-#comments article header time {
+.comments-area article header cite,
+.comments-area article header time {
 	margin-right: 85px;
 	margin-right: 6.071428571rem;
 	margin-left: auto;
 }
-#comments article header h4 {
+.comments-area article header h4 {
 	left: 0;
 	right: auto;
 }
-#comments li.bypostauthor cite span {
+.comments-area li.bypostauthor cite span {
 	margin-right: 5px;
 	margin-right: 0.357142857rem;
 	margin-left: auto;
@@ -151,7 +151,7 @@ label ~ span.required {
 /* =Home page template styling
 -------------------------------------------------------------- */
 
-.page-template-homepage-php #secondary aside.widget_text img {
+.page-template-homepage-php .widget-area .widget_text img {
 	float: right;
 	margin: 8px 0 8px 24px;
 }
@@ -160,7 +160,7 @@ label ~ span.required {
 /* =Widget styling
 -------------------------------------------------------------- */
 
-.widget ul ul {
+.widget-area .widget ul ul {
 	margin-right: 12px;
 	margin-right: 0.857142857rem;
 	margin-left: auto;
@@ -187,7 +187,7 @@ label ~ span.required {
 
 /* Minimum width of 600 pixels. */
 @media screen and (min-width: 600px) {
-	.page-template-homepage-php #secondary aside.widget_text img {
+	.page-template-homepage-php .widget-area .widget_text img {
 		float: right;
 		margin: 8px 0 8px 24px;
 	}

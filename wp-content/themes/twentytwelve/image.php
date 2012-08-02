@@ -9,12 +9,12 @@
 
 get_header(); ?>
 
-	<div id="primary" class="image-attachment">
+	<div id="primary" class="site-content">
 		<div id="content" role="main">
 
 		<?php while ( have_posts() ) : the_post(); ?>
 
-				<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+				<article id="post-<?php the_ID(); ?>" <?php post_class( 'image-attachment' ); ?>>
 					<header class="entry-header">
 						<h1 class="entry-title"><?php the_title(); ?></h1>
 
@@ -35,7 +35,7 @@ get_header(); ?>
 							<?php edit_post_link( __( 'Edit', 'twentytwelve' ), '<span class="edit-link">', '</span>' ); ?>
 						</footer><!-- .entry-meta -->
 
-						<nav id="image-navigation" role="navigation">
+						<nav id="image-navigation" class="navigation" role="navigation">
 							<span class="previous-image"><?php previous_image_link( false, __( '&larr; Previous', 'twentytwelve' ) ); ?></span>
 							<span class="next-image"><?php next_image_link( false, __( 'Next &rarr;', 'twentytwelve' ) ); ?></span>
 						</nav><!-- #image-navigation -->
@@ -97,6 +97,6 @@ if ( count( $attachments ) > 1 ) {
 			<?php endwhile; // end of the loop. ?>
 
 		</div><!-- #content -->
-	</div><!-- #primary -->
+	</div><!-- #primary .site-content -->
 
 <?php get_footer(); ?>

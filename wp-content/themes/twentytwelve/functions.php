@@ -104,7 +104,7 @@ function twentytwelve_scripts_styles() {
 	 * JavaScript for handling navigation menus and the resized
 	 * styles for small screen sizes.
 	 */
-	wp_enqueue_script( 'twentytwelve-navigation', get_template_directory_uri() . '/js/theme.js', array( 'jquery' ), '20130320', true );
+	wp_enqueue_script( 'twentytwelve-navigation', get_template_directory_uri() . '/js/theme.js', array( 'jquery' ), '20120802', true );
 
 	/**
 	 * Load special font CSS file.
@@ -214,7 +214,7 @@ function twentytwelve_content_nav( $nav_id ) {
 	global $wp_query;
 
 	if ( $wp_query->max_num_pages > 1 ) : ?>
-		<nav id="<?php echo $nav_id; ?>" role="navigation">
+		<nav id="<?php echo $nav_id; ?>" class="navigation" role="navigation">
 			<h3 class="assistive-text"><?php _e( 'Post navigation', 'twentytwelve' ); ?></h3>
 			<div class="nav-previous alignleft"><?php next_posts_link( __( '<span class="meta-nav">&larr;</span> Older posts', 'twentytwelve' ) ); ?></div>
 			<div class="nav-next alignright"><?php previous_posts_link( __( 'Newer posts <span class="meta-nav">&rarr;</span>', 'twentytwelve' ) ); ?></div>

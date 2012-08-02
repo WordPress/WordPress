@@ -15,7 +15,7 @@
 
 get_header(); ?>
 
-	<div id="primary">
+	<div id="primary" class="site-content">
 		<div id="content" role="main">
 		<?php if ( have_posts() ) : ?>
 
@@ -59,7 +59,7 @@ get_header(); ?>
 		<?php endif; // end have_posts() check ?>
 
 		</div><!-- #content -->
-	</div><!-- #primary -->
+	</div><!-- #primary .site-content -->
 
 <?php get_sidebar(); ?>
 <?php get_footer(); ?>

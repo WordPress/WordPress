@@ -329,17 +329,17 @@ img.wp-smiley {
 	width: 100%;
 	height: auto;
 }
-#content .gallery-columns-4 .gallery-item {
+.site-content .gallery-columns-4 .gallery-item {
 	width: 23%;
 	padding-right: 2%;
 }
-#content .gallery-columns-5 .gallery-item {
+.site-content .gallery-columns-5 .gallery-item {
 	width: 18%;
 	padding-right: 2%;
 }
 
 /* Navigation */
-#content nav {
+.site-content nav {
 	clear: both;
 	line-height: 2;
 	overflow: hidden;
@@ -365,7 +365,7 @@ img.wp-smiley {
 	text-align: right;
 	width: 50%;
 }
-#nav-single + #comments,
+.nav-single + .comments-area,
 #comment-nav-above {
 	margin: 48px 0;
 	margin: 3.428571429rem 0;
@@ -418,19 +418,19 @@ a:hover {
 }
 
 /* Page structure */
-#page {
+.wrapper {
+	overflow: hidden;
+}
+.site {
 	padding: 0 24px;
 	padding: 0 1.714285714rem;
 	background-color: #fff;
 }
-#main {
-	overflow: hidden;
-}
-#primary {
+.site-content {
 	margin: 24px 0 0;
 	margin: 1.714285714rem 0 0;
 }
-#secondary {
+.widget-area {
 	margin: 24px 0 0;
 	margin: 1.714285714rem 0 0;
 }
@@ -592,24 +592,24 @@ section[role="banner"] {
 }
 
 /* Sidebar */
-#secondary aside {
+.widget-area .widget {
 	margin-bottom: 48px;
 	margin-bottom: 3.428571429rem;
 }
-#secondary aside h3 {
+.widget-area .widget h3 {
 	margin-bottom: 24px;
 	margin-bottom: 1.714285714rem;
 }
-#secondary aside p,
-#secondary aside li {
+.widget-area .widget p,
+.widget-area .widget li {
 	font-size: 13px;
 	font-size: 0.928571429rem;
 	line-height: 1.846153846;
 }
-#secondary aside a {
+.widget-area .widget a {
 	color: #777;
 }
-#secondary aside a:hover {
+.widget-area .widget a:hover {
 	color: #21759b;
 }
 
@@ -884,7 +884,7 @@ img.aligncenter {
 	border-top: 1px solid #ededed;
 	padding: 6px 10px 6px 0;
 }
-#content article {
+.site-content article {
 	padding-bottom: 24px;
 	padding-bottom: 1.714285714rem;
 	margin-bottom: 72px;
@@ -912,7 +912,7 @@ footer .edit-link {
 /* =Archives
 -------------------------------------------------------------- */
 
-.archive #content .archive-header,
+.archive .site-content .archive-header,
 .search .page-header {
 	margin-bottom: 48px;
 	margin-bottom: 3.428571429rem;
@@ -1044,7 +1044,7 @@ article.format-quote .entry-content blockquote {
 /* =Comments
 -------------------------------------------------------------- */
 
-#comments-title {
+.comments-title {
 	margin-bottom: 48px;
 	margin-bottom: 3.428571429rem;
 	font-size: 16px;
@@ -1052,55 +1052,55 @@ article.format-quote .entry-content blockquote {
 	line-height: 1.5;
 	font-weight: normal;
 }
-#comments article {
+.comments-area article {
 	margin: 24px 0;
 	margin: 1.714285714rem 0;
 	overflow: hidden;
 }
-#comments article header {
+.comments-area article header {
 	margin: 0 0 48px;
 	margin: 0 0 3.428571429rem;
 	overflow: hidden;
 	position: relative;
 }
-#comments article header img {
+.comments-area article header img {
 	float: left;
 	padding: 0;
 	line-height: 0;
 }
-#comments article header cite,
-#comments article header time {
+.comments-area article header cite,
+.comments-area article header time {
 	display: block;
 	margin-left: 85px;
 	margin-left: 6.071428571rem;
 }
-#comments article header cite {
+.comments-area article header cite {
 	font-style: normal;
 	font-size: 15px;
 	font-size: 1.071428571rem;
 	line-height: 1.6;
 }
-#comments article header time {
+.comments-area article header time {
 	line-height: 1.714285714;
 	text-decoration: none;
 	font-size: 12px;
 	font-size: 0.857142857rem;
 	color: #5e5e5e;
 }
-#comments article header a {
+.comments-area article header a {
 	text-decoration: none;
 	color: #5e5e5e;
 }
-#comments article header a:hover {
+.comments-area article header a:hover {
 	color: #21759b;
 }
-#comments article header cite a {
+.comments-area article header cite a {
 	color: #444;
 }
-#comments article header cite a:hover {
+.comments-area article header cite a:hover {
 	text-decoration: underline;
 }
-#comments article header h4 {
+.comments-area article header h4 {
 	position: absolute;
 	top: 0;
 	right: 0;
@@ -1120,12 +1120,12 @@ article.format-quote .entry-content blockquote {
 	border-radius: 3px;
 	border: 1px solid #007cbd;
 }
-#comments article p {
+.comments-area article p {
 	margin: 24px 0;
 	margin: 1.714285714rem 0;
 	line-height: 1.714285714;
 }
-#comments li.bypostauthor cite span {
+.comments-area li.bypostauthor cite span {
 	margin-left: 5px;
 	margin-left: 0.357142857rem;
 	padding: 2px 5px;
@@ -1219,11 +1219,11 @@ label ~ span.required {
 /* =Homepage template
 -------------------------------------------------------------- */
 
-.page-template-homepage-php #content article {
+.page-template-homepage-php .site-content article {
 	border: 0;
 	margin-bottom: 0;
 }
-.page-template-homepage-php #secondary {
+.page-template-homepage-php .widget-area {
 	clear: both;
 	float: none;
 	width: auto;
@@ -1231,7 +1231,7 @@ label ~ span.required {
 	padding-top: 1.714285714rem;
 	border-top: 1px solid #ededed;
 }
-.page-template-homepage-php #secondary aside li {
+.page-template-homepage-php .widget-area .widget li {
 	margin: 8px 0 0;
 	margin: 0.571428571rem 0 0;
 	font-size: 13px;
@@ -1241,13 +1241,13 @@ label ~ span.required {
 	list-style-type: square;
 	list-style-position: inside;
 }
-.page-template-homepage-php #secondary aside li a {
+.page-template-homepage-php .widget-area .widget li a {
 	color: #777;
 }
-.page-template-homepage-php #secondary aside li a:hover {
+.page-template-homepage-php .widget-area .widget li a:hover {
 	color: #21759b;
 }
-.page-template-homepage-php #secondary aside.widget_text img {
+.page-template-homepage-php .widget-area .widget_text img {
 	float: left;
 	margin: 8px 24px 8px 0;
 	margin: 0.571428571rem 1.714285714rem 0.571428571rem 0;
@@ -1257,7 +1257,7 @@ label ~ span.required {
 /* =Widgets
 -------------------------------------------------------------- */
 
-.widget ul ul {
+.widget-area .widget ul ul {
 	margin-left: 12px;
 	margin-left: 0.857142857rem;
 }
@@ -1312,23 +1312,23 @@ label ~ span.required {
 		float: right;
 		width: 80%;
 	}
-	#page {
+	.site {
 		margin: 0 auto;
 		max-width: 960px;
 		max-width: 68.571428571rem;
 		overflow: hidden;
 	}
-	#primary {
+	.site-content {
 		float: left;
 		width: 65.104166667%;
 	}
-	body.page-template-full-width-page-php #primary,
-	body.page-template-homepage-php #primary,
-	body.single-attachment #primary,
-	body.full-width #primary {
+	body.page-template-full-width-page-php .site-content,
+	body.page-template-homepage-php .site-content,
+	body.single-attachment .site-content,
+	body.full-width .site-content {
 		width: 100%;
 	}
-	#secondary {
+	.widget-area {
 		float: right;
 		width: 26.041666667%;
 	}
@@ -1352,7 +1352,7 @@ label ~ span.required {
 	#respond form textarea.blog-textarea {
 		width: 79.666666667%;
 	}
-	.page-template-homepage-php #content,
+	.page-template-homepage-php .site-content,
 	.page-template-homepage-php article {
 		overflow: hidden;
 	}
@@ -1364,13 +1364,13 @@ label ~ span.required {
 		float: right;
 		width: 47.916666667%;
 	}
-	.page-template-homepage-php #secondary aside {
+	.page-template-homepage-php .widget-area .widget {
 		float: left;
 		width: 51.875%;
 		margin-bottom: 24px;
 		margin-bottom: 1.714285714rem;
 	}
-	.page-template-homepage-php #secondary aside:nth-child(even) {
+	.page-template-homepage-php .widget-area .widget:nth-child(even) {
 		float: right;
 		width: 39.0625%;
 		margin: 0 0 24px;
@@ -1383,7 +1383,7 @@ label ~ span.required {
 	body {
 		background-color: #e6e6e6;
 	}
-	body #page {
+	body .site {
 		padding: 0 40px;
 		padding: 0 2.857142857rem;
 		margin-top: 48px;
@@ -1395,8 +1395,8 @@ label ~ span.required {
 	body.custom-background-empty {
 		background-color: #fff;
 	}
-	body.custom-background-empty #page,
-	body.custom-background-white #page {
+	body.custom-background-empty .site,
+	body.custom-background-white .site {
 		padding: 0;
 		margin-top: 0;
 		margin-bottom: 0;
@@ -1424,7 +1424,7 @@ label ~ span.required {
 		border-radius: 0;
 		box-shadow: none;
 	}
-	#page {
+	.site {
 		clear: both !important;
 		display: block !important;
 		float: none !important;
@@ -1448,23 +1448,23 @@ label ~ span.required {
 	img.header-image {
 		display: none;
 	}
-	nav.site-navigation {
+	nav.main-navigation {
 		display: none;
 	}
-	#main {
+	.wrapper {
 		border-top: none;
 		box-shadow: none;
 	}
-	#primary {
+	.site-content {
 		float: left;
 		margin: 0;
 		width: 100%;
 	}
-	#content {
+	.site-content {
 		margin: 0;
 		width: auto;
 	}
-	.singular #content {
+	.singular .site-content {
 		margin: 0;
 		width: 100%;
 	}
@@ -1474,13 +1474,13 @@ label ~ span.required {
 	.entry-meta .edit-link a {
 		display: none;
 	}
-	#content nav {
+	.site-content nav {
 		display: none;
 	}
 	.singular .entry-header,
 	.singular .entry-content,
 	.singular footer.entry-meta,
-	.singular #comments-title {
+	.singular .comments-title {
 		margin: 0;
 		width: 100%;
 	}
@@ -1508,7 +1508,7 @@ label ~ span.required {
 	#respond {
 		display: none;
 	}
-	#secondary {
+	.widget-area {
 		display: none;
 	}
 	#colophon {
@@ -1527,8 +1527,8 @@ label ~ span.required {
 		top: 2.2em;
 		width: 39px;
 	}
-	#comments article header cite,
-	#comments article header time {
+	.comments-area article header cite,
+	.comments-area article header time {
 		margin-left: 50px;
 		margin-left: 3.57142857rem;
 	}
