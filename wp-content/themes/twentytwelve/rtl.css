@@ -60,16 +60,16 @@ td {
 -------------------------------------------------------------- */
 
 /* Navigation Menu */
-nav.main-navigation li {
+.main-navigation li {
 	margin-left: 40px;
 	margin-left: 2.857142857rem;
 	margin-right: auto;
 }
-nav.main-navigation li ul ul {
+.main-navigation li ul ul {
 	right: 100%;
 	left: auto;
 }
-nav.main-navigation ul li:hover > ul {
+.main-navigation ul li:hover > ul {
 	border-right: 0;
 	border-left: none;
 }
@@ -78,17 +78,17 @@ nav.main-navigation ul li:hover > ul {
 /* =Basic post styling
 -------------------------------------------------------------- */
 
-.entry-content img.alignright {
+img.alignright {
 	float: right;
 	margin: 0 0 0 24px;
 }
 .entry-content li {
 	margin: 0 24px 0 0;
 }
-.entry-content img.alignright {
+img.alignright {
 	margin: 12px 0 12px 24px;
 }
-.entry-content img.alignleft {
+img.alignleft {
 	margin: 12px 24px 12px 0;
 }
 .entry-content td {

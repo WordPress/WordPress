@@ -313,7 +313,7 @@ img.wp-post-image {
 	line-height: 2;
 	color: #777;
 }
-.entry-content img.wp-smiley {
+img.wp-smiley {
 	border: 0;
 	border-radius: 0;
 	box-shadow: none;
@@ -440,26 +440,26 @@ a:hover {
 	padding: 24px 0;
 	padding: 1.714285714rem 0;
 }
-.site-header hgroup h1,
-.site-header hgroup h2 {
+.site-header h1,
+.site-header h2 {
 	text-align: center;
 }
-.site-header hgroup h1 a,
-.site-header hgroup h2 a {
+.site-header h1 a,
+.site-header h2 a {
 	color: #515151;
 	display: block;
 	text-decoration: none;
 }
-.site-header hgroup h1 a:hover,
-.site-header hgroup h2 a:hover {
+.site-header h1 a:hover,
+.site-header h2 a:hover {
 	color: #21759b;
 }
-.site-header hgroup h1 {
+.site-header h1 {
 	font-size: 24px;
 	font-size: 1.714285714rem;
 	line-height: 2;
 }
-.site-header hgroup h2 {
+.site-header h2 {
 	font-weight: normal;
 	font-size: 13px;
 	font-size: 0.928571429rem;
@@ -472,7 +472,7 @@ a:hover {
 }
 
 /* Navigation Menu */
-nav.main-navigation {
+.main-navigation {
 	display: inline-block;
 	margin-top: 24px;
 	margin-top: 1.714285714rem;
@@ -482,39 +482,39 @@ nav.main-navigation {
 	border-top: 1px solid #ededed;
 	border-bottom: 1px solid #ededed;
 }
-nav.main-navigation ul {
+.main-navigation ul {
 	margin: 0;
 	text-indent: 0;
 }
-nav.main-navigation li ul li {
+.main-navigation li ul li {
 	padding-left: 0;
 }
-nav.main-navigation li a,
-nav.main-navigation li {
+.main-navigation li a,
+.main-navigation li {
 	display: inline-block;
 	text-decoration: none;
 }
-nav.main-navigation li a .main-small-navigation,
-nav.main-navigation li .main-small-navigation {
+.main-navigation li a .main-small-navigation,
+.main-navigation li .main-small-navigation {
 	display: list-item;
 }
-nav.main-navigation li a {
+.main-navigation li a {
 	text-transform: uppercase;
 	color: #6a6a6a;
 }
-nav.main-navigation li a:hover {
+.main-navigation li a:hover {
 	color: #000;
 }
-nav.main-navigation li {
+.main-navigation li {
 	margin-right: 40px;
 	margin-right: 2.857142857rem;
 	position: relative;
 }
-nav.main-navigation li a {
+.main-navigation li a {
 	border-bottom: 0;
 	line-height: 3.692307692;
 }
-nav.main-navigation li ul {
+.main-navigation li ul {
 	display: none;
 	position: absolute;
 	top: 100%;
@@ -522,19 +522,19 @@ nav.main-navigation li ul {
 	margin: 0;
 	z-index: 1;
 }
-nav.main-navigation li ul ul {
+.main-navigation li ul ul {
 	top: 0;
 	left: 100%;
 }
-nav.main-navigation ul li:hover > ul {
+.main-navigation ul li:hover > ul {
 	display: block;
 	border-left: 0;
 }
-nav.main-navigation li ul li,
-nav.main-navigation li ul li a {
+.main-navigation li ul li,
+.main-navigation li ul li a {
 	text-align: center;
 }
-nav.main-navigation li ul li a {
+.main-navigation li ul li a {
 	background: #efefef;
 	border-bottom: 1px solid #ededed;
 	display: block;
@@ -546,14 +546,14 @@ nav.main-navigation li ul li a {
 	width: 120px;
 	width: 8.571428571rem;
 }
-nav.main-navigation li ul li a:hover {
+.main-navigation li ul li a:hover {
 	background: #e3e3e3;
 	color: #444;
 }
-nav.main-navigation .current-menu-item > a,
-nav.main-navigation .current-menu-ancestor > a,
-nav.main-navigation .current_page_item > a,
-nav.main-navigation .current_page_ancestor > a {
+.main-navigation .current-menu-item > a,
+.main-navigation .current-menu-ancestor > a,
+.main-navigation .current_page_item > a,
+.main-navigation .current_page_ancestor > a {
 	color: #636363;
 	font-weight: bold;
 }
@@ -644,29 +644,29 @@ footer[role="contentinfo"] a:hover {
 .entry-meta {
 	clear: both;
 }
-header.entry-header {
+.entry-header {
 	margin-bottom: 24px;
 	margin-bottom: 1.714285714rem;
 }
-header.entry-header img.wp-post-image {
+.entry-header img.wp-post-image {
 	margin-bottom: 24px;
 	margin-bottom: 1.714285714rem;
 }
-header.entry-header .entry-title {
+.entry-header .entry-title {
 	font-size: 20px;
 	font-size: 1.428571429rem;
 	line-height: 1.2;
 	font-weight: normal;
 }
-header.entry-header .entry-title a {
+.entry-header .entry-title a {
 	text-decoration: none;
 }
-header.entry-header .entry-format {
+.entry-header .entry-format {
 	margin-top: 24px;
 	margin-top: 1.714285714rem;
 	font-weight: normal;
 }
-header.entry-header .comments-link {
+.entry-header .comments-link {
 	margin-top: 24px;
 	margin-top: 1.714285714rem;
 	font-size: 13px;
@@ -827,15 +827,15 @@ article.sticky .featured-post {
 	margin: 0 0 24px;
 	margin: 0 0 1.714285714rem;
 }
-.entry-content img.alignleft {
+img.alignleft {
 	margin: 12px 24px 12px 0;
 	margin: 0.857142857rem 1.714285714rem 0.857142857rem 0;
 }
-.entry-content img.alignright {
+img.alignright {
 	margin: 12px 0 12px 24px;
 	margin: 0.857142857rem 0 0.857142857rem 1.714285714rem;
 }
-.entry-content img.aligncenter {
+img.aligncenter {
 	margin-top: 12px;
 	margin-top: 0.857142857rem;
 	margin-bottom: 12px;
@@ -1332,16 +1332,16 @@ label ~ span.required {
 		float: right;
 		width: 26.041666667%;
 	}
-	.site-header hgroup h1,
-	.site-header hgroup h2 {
+	.site-header h1,
+	.site-header h2 {
 		text-align: left;
 	}
-	.site-header hgroup h1 {
+	.site-header h1 {
 		font-size: 26px;
 		font-size: 1.857142857rem;
 		line-height: 1.846153846;
 	}
-	header.entry-header .entry-title {
+	.entry-header .entry-title {
 		font-size: 22px;
 		font-size: 1.571428571rem;
 		line-height: 1.090909091;
@@ -1436,12 +1436,12 @@ label ~ span.required {
 		margin-bottom: 5.142857143rem;
 		text-align: left;
 	}
-	.site-header hgroup h1 {
+	.site-header h1 {
 		font-size: 21pt;
 		line-height: 1;
 		text-align: left;
 	}
-	.site-header hgroup h2 {
+	.site-header h2 {
 		font-size: 10pt;
 		text-align: left;
 	}
@@ -1484,7 +1484,7 @@ label ~ span.required {
 		margin: 0;
 		width: 100%;
 	}
-	header.entry-header .entry-title,
+	.entry-header .entry-title,
 	.entry-title,
 	.singular .entry-title {
 		font-size: 21pt;
