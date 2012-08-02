@@ -111,10 +111,8 @@ function twentytwelve_scripts_styles() {
 	 * Depends on Theme Options setting.
  	 */
 	$options = $twentytwelve_options->get_theme_options();
-	if ( $options['enable_fonts'] ) {
-		$protocol = is_ssl() ? 'https' : 'http';
-		wp_enqueue_style( 'twentytwelve-fonts', "$protocol://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700" );
-	}
+	if ( $options['enable_fonts'] )
+		wp_enqueue_style( 'twentytwelve-fonts', $twentytwelve_options->custom_fonts_url() );
 
 	/**
 	 * Load our main CSS file.
@@ -374,14 +372,3 @@ function twentytwelve_content_width() {
 	}
 }
 add_action( 'template_redirect', 'twentytwelve_content_width' );
-
-/**
- * Bind JS handler to make Theme Customizer preview reload
- * custom background `body_class` value changes asynchronously.
- *
- * @since Twenty Twelve 1.0
- */
-function twentytwelve_customize_preview_js() {
-	wp_enqueue_script( 'twentytwelve-customizer', get_template_directory_uri() . '/js/theme-customizer.js', array( 'customize-preview' ), '20120725', true );
-}
-add_action( 'customize_preview_init', 'twentytwelve_customize_preview_js' );

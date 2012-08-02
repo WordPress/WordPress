@@ -37,9 +37,10 @@ class Twenty_Twelve_Options {
 		if ( 'twentytwelve' != get_stylesheet() )
 			$this->option_key = get_stylesheet() . '_theme_options';
 
-		add_action( 'admin_init',         array( $this, 'options_init'       ) );
-		add_action( 'admin_menu',         array( $this, 'add_page'           ) );
-		add_action( 'customize_register', array( $this, 'customize_register' ) );
+		add_action( 'admin_init',             array( $this, 'options_init'         ) );
+		add_action( 'admin_menu',             array( $this, 'add_page'             ) );
+		add_action( 'customize_register',     array( $this, 'customize_register'   ) );
+		add_action( 'customize_preview_init', array( $this, 'customize_preview_js' ) );
 	}
 
 	/**
@@ -203,6 +204,11 @@ class Twenty_Twelve_Options {
 	 * @return void
 	 */
 	public function customize_register( $wp_customize ) {
+
+		// Add postMessage support for site title and tagline
+		$wp_customize->get_setting( 'blogname' )->transport        = 'postMessage';
+		$wp_customize->get_setting( 'blogdescription' )->transport = 'postMessage';
+
 		// Enable Web Fonts
 		$wp_customize->add_section( $this->option_key . '_enable_fonts', array(
 			'title'    => __( 'Fonts', 'twentytwelve' ),
@@ -215,6 +221,7 @@ class Twenty_Twelve_Options {
 			'default'    => $defaults['enable_fonts'],
 			'type'       => 'option',
 			'capability' => 'edit_theme_options',
+			'transport'  => 'postMessage',
 		) );
 
 		$wp_customize->add_control( $this->option_key . '_enable_fonts', array(
@@ -223,5 +230,34 @@ class Twenty_Twelve_Options {
 			'settings' => $this->option_key . '[enable_fonts]',
 			'type'     => 'checkbox',
 		) );
+	}
+
+	/**
+	 * Bind JS handlers to make Theme Customizer preview reload changes asynchronously.
+	 *
+	 * @since Twenty Twelve 1.0
+	 * @access public
+	 *
+	 * @return void
+	 */
+	public function customize_preview_js() {
+		wp_enqueue_script( 'twentytwelve-customizer', get_template_directory_uri() . '/js/theme-customizer.js', array( 'customize-preview' ), '20120725', true );
+		wp_localize_script( 'twentytwelve-customizer', 'twentytwelve_customizer', array(
+			'option_key' => $this->option_key,
+			'link'       => $this->custom_fonts_url(),
+		) );
+	}
+
+	/**
+	 * Create path to load fonts CSS file with correct protocol.
+	 *
+	 * @since Twenty Twelve 1.0
+	 * @access public
+	 *
+	 * @return string Path to load fonts CSS.
+	 */
+	public function custom_fonts_url() {
+		$protocol = is_ssl() ? 'https' : 'http';
+		return $protocol . '://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700';
 	}
 }
