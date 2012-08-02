@@ -317,6 +317,7 @@ img.wp-post-image {
 	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
 }
 .wp-caption {
+	max-width: 100%; /* Keep wide captions from overflowing their container. */
 	padding: 4px;
 }
 .wp-caption .wp-caption-text,
