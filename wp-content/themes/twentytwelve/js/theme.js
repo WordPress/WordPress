@@ -10,8 +10,8 @@ jQuery( document ).ready( function( $ ) {
 		timeout = false;
 
 	$.fn.smallMenu = function() {
-		masthead.find( '.main-navigation' ).removeClass( 'main-navigation' ).addClass( 'main-small-navigation' );
-		masthead.find( '.main-navigation h3' ).removeClass( 'assistive-text' ).addClass( 'menu-toggle' );
+		masthead.find( '.site-navigation' ).removeClass( 'main-navigation' ).addClass( 'main-small-navigation' );
+		masthead.find( '.site-navigation h3' ).removeClass( 'assistive-text' ).addClass( 'menu-toggle' );
 
 		$( '.menu-toggle' ).off( 'click' ).click( function() {
 			masthead.find( '.menu' ).slideToggle();
@@ -32,8 +32,8 @@ jQuery( document ).ready( function( $ ) {
 			if ( ! largeWindow.matches ) {
 				$.fn.smallMenu();
 			} else {
-				masthead.find( '.main-navigation' ).removeClass( 'main-small-navigation' ).addClass( 'main-navigation' );
-				masthead.find( '.main-navigation h3' ).removeClass( 'menu-toggle' ).addClass( 'assistive-text' );
+				masthead.find( '.site-navigation' ).removeClass( 'main-small-navigation' ).addClass( 'main-navigation' );
+				masthead.find( '.site-navigation h3' ).removeClass( 'menu-toggle' ).addClass( 'assistive-text' );
 				masthead.find( '.menu' ).removeAttr( 'style' );
 			}
 		}, 200 );

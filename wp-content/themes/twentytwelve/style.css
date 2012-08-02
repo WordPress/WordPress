@@ -217,7 +217,8 @@ article.post-password-required input[type=submit]:hover {
 	background-image: -o-linear-gradient(top, #f9f9f9, #ebebeb);
 	background-image: linear-gradient(top, #f9f9f9, #ebebeb);
 }
-.menu-toggle:active, .menu-toggle.toggled-on,
+.menu-toggle:active,
+.menu-toggle.toggled-on,
 input#searchsubmit:active,
 article.post-password-required input[type=submit]:active,
 input#searchsubmit.toggled-on {
@@ -493,10 +494,6 @@ a:hover {
 .main-navigation li {
 	display: inline-block;
 	text-decoration: none;
-}
-.main-navigation li a .main-small-navigation,
-.main-navigation li .main-small-navigation {
-	display: list-item;
 }
 .main-navigation li a {
 	text-transform: uppercase;
@@ -1448,7 +1445,7 @@ label ~ span.required {
 	img.header-image {
 		display: none;
 	}
-	nav.main-navigation {
+	nav.site-navigation {
 		display: none;
 	}
 	.wrapper {
