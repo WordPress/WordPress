@@ -198,7 +198,7 @@ function get_editable_roles() {
  * @return object WP_User object with user data.
  */
 function get_user_to_edit( $user_id ) {
-	$user = new WP_User( $user_id );
+	$user = get_userdata( $user_id );
 
 	$user->filter = 'edit';
 

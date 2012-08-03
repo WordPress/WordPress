@@ -143,7 +143,7 @@ if ( $action ) {
 					if ( !is_user_member_of_blog( $user_id ) )
 						wp_die(__('Cheatin&#8217; uh?'));
 
-					$user = new WP_User( $user_id );
+					$user = get_userdata( $user_id );
 					$user->set_role( $_REQUEST['new_role'] );
 				}
 			} else {

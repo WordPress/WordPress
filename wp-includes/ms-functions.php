@@ -183,9 +183,9 @@ function get_blog_post( $blog_id, $post_id ) {
 function add_user_to_blog( $blog_id, $user_id, $role ) {
 	switch_to_blog($blog_id);
 
-	$user = new WP_User($user_id);
+	$user = get_userdata( $user_id );
 
-	if ( ! $user->exists() ) {
+	if ( ! $user ) {
 		restore_current_blog();
 		return new WP_Error('user_does_not_exist', __('That user does not exist.'));
 	}
@@ -246,8 +246,8 @@ function remove_user_from_blog($user_id, $blog_id = '', $reassign = '') {
 	}
 
 	// wp_revoke_user($user_id);
-	$user = new WP_User($user_id);
-	if ( ! $user->exists() ) {
+	$user = get_userdata( $user_id );
+	if ( ! $user ) {
 		restore_current_blog();
 		return new WP_Error('user_does_not_exist', __('That user does not exist.'));
 	}
@@ -1056,7 +1056,7 @@ function newuser_notify_siteadmin( $user_id ) {
 	if ( is_email($email) == false )
 		return false;
 
-	$user = new WP_User($user_id);
+	$user = get_userdata( $user_id );
 
 	$options_site_url = esc_url(network_admin_url('settings.php'));
 	$msg = sprintf(__('New User: %1s
@@ -1233,7 +1233,7 @@ We hope you enjoy your new site. Thanks!
 --The Team @ SITE_NAME' ) );
 
 	$url = get_blogaddress_by_id($blog_id);
-	$user = new WP_User($user_id);
+	$user = get_userdata( $user_id );
 
 	$welcome_email = str_replace( 'SITE_NAME', $current_site->site_name, $welcome_email );
 	$welcome_email = str_replace( 'BLOG_TITLE', $title, $welcome_email );
@@ -1282,7 +1282,7 @@ function wpmu_welcome_user_notification($user_id, $password, $meta = '') {
 
 	$welcome_email = get_site_option( 'welcome_user_email' );
 
-	$user = new WP_User($user_id);
+	$user = get_userdata( $user_id );
 
 	$welcome_email = apply_filters( 'update_welcome_user_email', $welcome_email, $user_id, $password, $meta);
 	$welcome_email = str_replace( 'SITE_NAME', $current_site->site_name, $welcome_email );
@@ -1508,7 +1508,7 @@ function update_posts_count( $deprecated = '' ) {
  */
 function wpmu_log_new_registrations( $blog_id, $user_id ) {
 	global $wpdb;
-	$user = new WP_User( (int) $user_id );
+	$user = get_userdata( (int) $user_id );
 	$wpdb->insert( $wpdb->registration_log, array('email' => $user->user_email, 'IP' => preg_replace( '/[^0-9., ]/', '',$_SERVER['REMOTE_ADDR'] ), 'blog_id' => $blog_id, 'date_registered' => current_time('mysql')) );
 }
 
@@ -1751,7 +1751,7 @@ function is_user_spammy( $username = 0 ) {
 	} else {
 		$user_id = get_user_id_from_string( $username );
 	}
-	$u = new WP_User( $user_id );
+	$u = get_userdata( $user_id );
 
 	return ( isset( $u->spam ) && $u->spam == 1 );
 }

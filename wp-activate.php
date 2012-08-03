@@ -77,7 +77,7 @@ get_header();
 		} else {
 			extract($result);
 			$url = get_blogaddress_by_id( (int) $blog_id);
-			$user = new WP_User( (int) $user_id);
+			$user = get_userdata( (int) $user_id);
 			?>
 			<h2><?php _e('Your account is now active!'); ?></h2>
 

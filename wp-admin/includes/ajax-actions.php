@@ -1018,7 +1018,7 @@ function wp_ajax_add_user( $action ) {
 		) );
 		$x->send();
 	}
-	$user_object = new WP_User( $user_id );
+	$user_object = get_userdata( $user_id );
 
 	$wp_list_table = _get_list_table('WP_Users_List_Table');
 

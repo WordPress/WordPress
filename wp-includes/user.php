@@ -84,33 +84,32 @@ function wp_authenticate_username_password($user, $username, $password) {
 		return $error;
 	}
 
-	$userdata = get_user_by('login', $username);
+	$user = get_user_by('login', $username);
 
-	if ( !$userdata )
+	if ( !$user )
 		return new WP_Error('invalid_username', sprintf(__('<strong>ERROR</strong>: Invalid username. <a href="%s" title="Password Lost and Found">Lost your password</a>?'), wp_lostpassword_url()));
 
 	if ( is_multisite() ) {
 		// Is user marked as spam?
-		if ( 1 == $userdata->spam)
+		if ( 1 == $user->spam)
 			return new WP_Error('invalid_username', __('<strong>ERROR</strong>: Your account has been marked as a spammer.'));
 
 		// Is a user's blog marked as spam?
-		if ( !is_super_admin( $userdata->ID ) && isset($userdata->primary_blog) ) {
-			$details = get_blog_details( $userdata->primary_blog );
+		if ( !is_super_admin( $user->ID ) && isset($user->primary_blog) ) {
+			$details = get_blog_details( $user->primary_blog );
 			if ( is_object( $details ) && $details->spam == 1 )
 				return new WP_Error('blog_suspended', __('Site Suspended.'));
 		}
 	}
 
-	$userdata = apply_filters('wp_authenticate_user', $userdata, $password);
-	if ( is_wp_error($userdata) )
-		return $userdata;
+	$user = apply_filters('wp_authenticate_user', $user, $password);
+	if ( is_wp_error($user) )
+		return $user;
 
-	if ( !wp_check_password($password, $userdata->user_pass, $userdata->ID) )
+	if ( !wp_check_password($password, $user->user_pass, $user->ID) )
 		return new WP_Error( 'incorrect_password', sprintf( __( '<strong>ERROR</strong>: The password you entered for the username <strong>%1$s</strong> is incorrect. <a href="%2$s" title="Password Lost and Found">Lost your password</a>?' ),
 		$username, wp_lostpassword_url() ) );
 
-	$user =  new WP_User($userdata->ID);
 	return $user;
 }
 
@@ -255,11 +254,9 @@ function get_user_option( $option, $user = 0, $deprecated = '' ) {
 		_deprecated_argument( __FUNCTION__, '3.0' );
 
 	if ( empty( $user ) )
-		$user = wp_get_current_user();
-	else
-		$user = new WP_User( $user );
+		$user = get_current_user_id();
 
-	if ( ! $user->exists() )
+	if ( ! $user = get_userdata( $user ) )
 		return false;
 
 	if ( $user->has_prop( $wpdb->prefix . $option ) ) // Blog specific
@@ -928,19 +925,19 @@ function setup_userdata($for_user_id = '') {
 	global $user_login, $userdata, $user_level, $user_ID, $user_email, $user_url, $user_identity;
 
 	if ( '' == $for_user_id )
-		$user = wp_get_current_user();
-	else
-		$user = new WP_User($for_user_id);
+		$for_user_id = get_current_user_id();
+	$user = get_userdata( $for_user_id );
 
-	$userdata   = null;
-	$user_ID    = (int) $user->ID;
-	$user_level = (int) isset($user->user_level) ? $user->user_level : 0;
-
-	if ( ! $user->exists() ) {
+	if ( ! $user ) {
+		$user_ID = 0;
+		$user_level = 0;
+		$userdata = null;
 		$user_login = $user_email = $user_url = $user_identity = '';
 		return;
 	}
 
+	$user_ID    = (int) $user->ID;
+	$user_level = (int) $user->user_level;
 	$userdata   = $user;
 	$user_login = $user->user_login;
 	$user_email = $user->user_email;

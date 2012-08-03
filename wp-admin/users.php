@@ -111,7 +111,7 @@ case 'promote':
 		if ( is_multisite() && !is_user_member_of_blog( $id ) )
 			wp_die(__('Cheatin&#8217; uh?'));
 
-		$user = new WP_User($id);
+		$user = get_userdata( $id );
 		$user->set_role($_REQUEST['new_role']);
 	}
 
@@ -201,7 +201,7 @@ case 'delete':
 	$go_delete = 0;
 	foreach ( $userids as $id ) {
 		$id = (int) $id;
-		$user = new WP_User($id);
+		$user = get_userdata( $id );
 		if ( $id == $current_user->ID ) {
 			echo "<li>" . sprintf(__('ID #%1s: %2s <strong>The current user will not be deleted.</strong>'), $id, $user->user_login) . "</li>\n";
 		} else {
@@ -302,7 +302,7 @@ case 'remove':
 	$go_remove = false;
  	foreach ( $userids as $id ) {
 		$id = (int) $id;
- 		$user = new WP_User($id);
+ 		$user = get_userdata( $id );
 		if ( $id == $current_user->ID && !is_super_admin() ) {
 			echo "<li>" . sprintf(__('ID #%1s: %2s <strong>The current user will not be removed.</strong>'), $id, $user->user_login) . "</li>\n";
 		} elseif ( !current_user_can('remove_user', $id) ) {

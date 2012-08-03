@@ -1071,9 +1071,9 @@ function get_edit_user_link( $user_id = null ) {
 	if ( empty( $user_id ) || ! current_user_can( 'edit_user', $user_id ) )
 		return '';
 
-	$user = new WP_User( $user_id );
+	$user = get_userdata( $user_id );
 
-	if ( ! $user->exists() )
+	if ( ! $user )
 		return '';
 
 	if ( get_current_user_id() == $user->ID )

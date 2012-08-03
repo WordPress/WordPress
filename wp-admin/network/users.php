@@ -34,7 +34,7 @@ function confirm_delete_users( $users ) {
 
 	foreach ( ( $allusers = (array) $_POST['allusers'] ) as $key => $val ) {
 		if ( $val != '' && $val != '0' ) {
-			$delete_user = new WP_User( $val );
+			$delete_user = get_userdata( $val );
 
 			if ( ! current_user_can( 'delete_user', $delete_user->ID ) )
 				wp_die( sprintf( __( 'Warning! User %s cannot be deleted.' ), $delete_user->user_login ) );
@@ -139,8 +139,8 @@ if ( isset( $_GET['action'] ) ) {
 							break;
 
 							case 'spam':
-								$user = new WP_User( $val );
-								if ( in_array( $user->user_login, get_super_admins() ) )
+								$user = get_userdata( $val );
+								if ( is_super_admin( $user->ID ) )
 									wp_die( sprintf( __( 'Warning! User cannot be modified. The user %s is a network administrator.' ), esc_html( $user->user_login ) ) );
 
 								$userfunction = 'all_spam';

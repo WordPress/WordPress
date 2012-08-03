@@ -1237,7 +1237,7 @@ function current_user_can_for_blog( $blog_id, $capability ) {
 		return false;
 
 	// Create new object to avoid stomping the global current_user.
-	$user = new WP_User( $current_user->ID) ;
+	$user = new WP_User( $current_user->ID );
 
 	// Set the blog id. @todo add blog id arg to WP_User constructor?
 	$user->for_blog( $blog_id );
@@ -1261,9 +1261,9 @@ function author_can( $post, $capability ) {
 	if ( !$post = get_post($post) )
 		return false;
 
-	$author = new WP_User( $post->post_author );
+	$author = get_userdata( $post->post_author );
 
-	if ( empty( $author->ID ) )
+	if ( ! $author )
 		return false;
 
 	$args = array_slice( func_get_args(), 2 );
@@ -1283,7 +1283,7 @@ function author_can( $post, $capability ) {
  */
 function user_can( $user, $capability ) {
 	if ( ! is_object( $user ) )
-		$user = new WP_User( $user );
+		$user = get_userdata( $user );
 
 	if ( ! $user || ! $user->exists() )
 		return false;

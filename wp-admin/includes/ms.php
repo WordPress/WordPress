@@ -689,8 +689,8 @@ function grant_super_admin( $user_id ) {
 	// Directly fetch site_admins instead of using get_super_admins()
 	$super_admins = get_site_option( 'site_admins', array( 'admin' ) );
 
-	$user = new WP_User( $user_id );
-	if ( ! in_array( $user->user_login, $super_admins ) ) {
+	$user = get_userdata( $user_id );
+	if ( $user && ! in_array( $user->user_login, $super_admins ) ) {
 		$super_admins[] = $user->user_login;
 		update_site_option( 'site_admins' , $super_admins );
 		do_action( 'granted_super_admin', $user_id );
@@ -717,8 +717,8 @@ function revoke_super_admin( $user_id ) {
 	// Directly fetch site_admins instead of using get_super_admins()
 	$super_admins = get_site_option( 'site_admins', array( 'admin' ) );
 
-	$user = new WP_User( $user_id );
-	if ( $user->user_email != get_site_option( 'admin_email' ) ) {
+	$user = get_userdata( $user_id );
+	if ( $user && $user->user_email != get_site_option( 'admin_email' ) ) {
 		if ( false !== ( $key = array_search( $user->user_login, $super_admins ) ) ) {
 			unset( $super_admins[$key] );
 			update_site_option( 'site_admins', $super_admins );

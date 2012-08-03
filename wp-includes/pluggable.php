@@ -1198,7 +1198,7 @@ if ( !function_exists('wp_new_user_notification') ) :
  * @param string $plaintext_pass Optional. The user's plaintext password
  */
 function wp_new_user_notification($user_id, $plaintext_pass = '') {
-	$user = new WP_User($user_id);
+	$user = get_userdata( $user_id );
 
 	$user_login = stripslashes($user->user_login);
 	$user_email = stripslashes($user->user_email);
