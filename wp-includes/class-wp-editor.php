@@ -625,8 +625,8 @@ final class _WP_Editors {
 			<div id="wp-fullscreen-central-toolbar" style="width:<?php echo $width; ?>px;">
 
 			<div id="wp-fullscreen-mode-bar"><div id="wp-fullscreen-modes">
-				<a href="#" onclick="fullscreen.switchmode('tinymce');return false;"><?php _e('Visual'); ?></a>
-				<a href="#" onclick="fullscreen.switchmode('html');return false;"><?php _e('Text'); ?></a>
+				<a href="#" onclick="fullscreen.switchmode('tinymce');return false;"><?php _e( 'Visual' ); ?></a>
+				<a href="#" onclick="fullscreen.switchmode('html');return false;"><?php _ex( 'Text', 'Name for the Text editor tab (formerly HTML)' ); ?></a>
 			</div></div>
 
 			<div id="wp-fullscreen-button-bar"><div id="wp-fullscreen-buttons" class="wp_themeSkin">
