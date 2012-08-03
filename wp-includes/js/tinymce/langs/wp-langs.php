@@ -207,7 +207,7 @@ function wp_mce_translation() {
 		),
 
 		'fullscreen' => array(
-			'desc' => __('Toggle fullscreen mode (Alt + G)')
+			'desc' => __('Toggle fullscreen mode (Alt + Shift + G)')
 		),
 
 		'media' => array(
@@ -228,7 +228,7 @@ function wp_mce_translation() {
 		),
 
 		'spellchecker' => array(
-			'desc' => __('Toggle spellchecker (Alt + N)'),
+			'desc' => __('Toggle spellchecker (Alt + Shift + N)'),
 			'menu' => __('Spellchecker settings'),
 			'ignore_word' => __('Ignore word'),
 			'ignore_words' => __('Ignore all'),
@@ -289,20 +289,20 @@ function wp_mce_translation() {
 		'bold_desc' => __('Bold (Ctrl + B)'),
 		'italic_desc' => __('Italic (Ctrl + I)'),
 		'underline_desc' => __('Underline'),
-		'striketrough_desc' => __('Strikethrough (Alt + D)'),
-		'justifyleft_desc' => __('Align Left (Alt + L)'),
-		'justifycenter_desc' => __('Align Center (Alt + C)'),
-		'justifyright_desc' => __('Align Right (Alt + R)'),
-		'justifyfull_desc' => __('Align Full (Alt + J)'),
-		'bullist_desc' => __('Unordered list (Alt + U)'),
-		'numlist_desc' => __('Ordered list (Alt + O)'),
+		'striketrough_desc' => __('Strikethrough (Alt + Shift + D)'),
+		'justifyleft_desc' => __('Align Left (Alt + Shift + L)'),
+		'justifycenter_desc' => __('Align Center (Alt + Shift + C)'),
+		'justifyright_desc' => __('Align Right (Alt + Shift + R)'),
+		'justifyfull_desc' => __('Align Full (Alt + Shift + J)'),
+		'bullist_desc' => __('Unordered list (Alt + Shift + U)'),
+		'numlist_desc' => __('Ordered list (Alt + Shift + O)'),
 		'outdent_desc' => __('Outdent'),
 		'indent_desc' => __('Indent'),
 		'undo_desc' => __('Undo (Ctrl + Z)'),
 		'redo_desc' => __('Redo (Ctrl + Y)'),
-		'link_desc' => __('Insert/edit link (Alt + A)'),
-		'unlink_desc' => __('Unlink (Alt + S)'),
-		'image_desc' => __('Insert/edit image (Alt + M)'),
+		'link_desc' => __('Insert/edit link (Alt + Shift + A)'),
+		'unlink_desc' => __('Unlink (Alt + Shift + S)'),
+		'image_desc' => __('Insert/edit image (Alt + Shift + M)'),
 		'cleanup_desc' => __('Cleanup messy code'),
 		'code_desc' => __('Edit HTML Source'),
 		'sub_desc' => __('Subscript'),
@@ -320,7 +320,7 @@ function wp_mce_translation() {
 		'image_props_desc' => __('Image properties'),
 		'newdocument_desc' => __('New document'),
 		'help_desc' => __('Help'),
-		'blockquote_desc' => __('Blockquote (Alt + Q)'),
+		'blockquote_desc' => __('Blockquote (Alt + Shift + Q)'),
 		'clipboard_msg' => __('Copy/Cut/Paste is not available in Mozilla and Firefox.'),
 		'path' => __('Path'),
 		'newdocument' => __('Are you sure you want to clear all contents?'),
@@ -498,10 +498,10 @@ function wp_mce_translation() {
 	);
 
 	$wordpress = array(
-		'wp_adv_desc' => __('Show/Hide Kitchen Sink (Alt + Z)'),
-		'wp_more_desc' => __('Insert More Tag (Alt + T)'),
-		'wp_page_desc' => __('Insert Page break (Alt + P)'),
-		'wp_help_desc' => __('Help (Alt + H)'),
+		'wp_adv_desc' => __('Show/Hide Kitchen Sink (Alt + Shift + Z)'),
+		'wp_more_desc' => __('Insert More Tag (Alt + Shift + T)'),
+		'wp_page_desc' => __('Insert Page break (Alt + Shift + P)'),
+		'wp_help_desc' => __('Help (Alt + Shift + H)'),
 		'wp_more_alt' => __('More...'),
 		'wp_page_alt' => __('Next page...'),
 		'add_media' => __('Add Media'),
@@ -510,7 +510,7 @@ function wp_mce_translation() {
 		'add_audio' => __('Add Audio'),
 		'editgallery' => __('Edit Gallery'),
 		'delgallery' => __('Delete Gallery'),
-		'wp_fullscreen_desc' => __('Distraction Free Writing mode (Alt + W)')
+		'wp_fullscreen_desc' => __('Distraction Free Writing mode (Alt + Shift + W)')
 	);
 
 	$wpeditimage = array(

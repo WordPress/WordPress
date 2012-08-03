@@ -251,8 +251,8 @@
 			// Add custom shortcuts
 			mod_key = 'alt+shift';
 
-			if ( tinymce.isGecko )
-				mod_key = 'ctrl+alt';
+		//	if ( tinymce.isGecko ) // disable for mow, too many shortcuts conflicts
+		//		mod_key = 'ctrl+alt';
 
 			ed.addShortcut(mod_key + '+c', 'justifycenter_desc', 'JustifyCenter');
 			ed.addShortcut(mod_key + '+r', 'justifyright_desc', 'JustifyRight');
