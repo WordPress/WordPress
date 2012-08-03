@@ -182,7 +182,11 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 		// listen for click events
 		onclick = function(e) {
 			e = e || window.event;
-			var target = e.target || e.srcElement, i;
+			var target = e.target || e.srcElement, visible = target.clientWidth || target.offsetWidth, i;
+
+			// don't call the callback on pressing the accesskey when the button is not visible
+			if ( !visible )
+				return;
 
 			// as long as it has the class ed_button, execute the callback
 			if ( / ed_button /.test(' ' + target.className + ' ') ) {
