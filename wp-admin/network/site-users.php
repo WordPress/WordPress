@@ -45,33 +45,26 @@ if ( ! $id )
 	wp_die( __('Invalid site ID.') );
 
 $details = get_blog_details( $id );
-if ( !can_edit_network( $details->site_id ) )
+if ( ! can_edit_network( $details->site_id ) )
 	wp_die( __( 'You do not have permission to access this page.' ) );
 
 $is_main_site = is_main_site( $id );
 
-// get blog prefix
-$blog_prefix = $wpdb->get_blog_prefix( $id );
+switch_to_blog( $id );
 
-// @todo This is a hack. Eventually, add API to WP_Roles allowing retrieval of roles for a particular blog.
-if ( ! empty($wp_roles->use_db) ) {
-	$editblog_roles = get_blog_option( $id, "{$blog_prefix}user_roles" );
-} else {
-	// Roles are stored in memory, not the DB.
-	$editblog_roles = $wp_roles->roles;
-}
-$default_role = get_blog_option( $id, 'default_role' );
+$editblog_roles = $wp_roles->roles;
+
+$default_role = get_option( 'default_role' );
 
 $action = $wp_list_table->current_action();
 
 if ( $action ) {
-	switch_to_blog( $id );
 
 	switch ( $action ) {
 		case 'newuser':
 			check_admin_referer( 'add-user', '_wpnonce_add-new-user' );
 			$user = $_POST['user'];
-			if ( !is_array( $_POST['user'] ) || empty( $user['username'] ) || empty( $user['email'] ) ) {
+			if ( ! is_array( $_POST['user'] ) || empty( $user['username'] ) || empty( $user['email'] ) ) {
 				$update = 'err_new';
 			} else {
 				$password = wp_generate_password( 12, false);
@@ -94,6 +87,7 @@ if ( $action ) {
 				$newuser = $_POST['newuser'];
 				$userid = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM " . $wpdb->users . " WHERE user_login = %s", $newuser ) );
 				if ( $userid ) {
+					$blog_prefix = $wpdb->get_blog_prefix( $id );
 					$user = $wpdb->get_var( "SELECT user_id FROM " . $wpdb->usermeta . " WHERE user_id='$userid' AND meta_key='{$blog_prefix}capabilities'" );
 					if ( $user == false )
 						add_user_to_blog( $id, $userid, $_POST['new_role'] );
@@ -108,7 +102,7 @@ if ( $action ) {
 			break;
 
 		case 'remove':
-			if ( !current_user_can('remove_users')  )
+			if ( ! current_user_can( 'remove_users' )  )
 				die(__('You can&#8217;t remove users.'));
 			check_admin_referer( 'bulk-users' );
 
@@ -152,10 +146,11 @@ if ( $action ) {
 			break;
 	}
 
-	restore_current_blog();
 	wp_safe_redirect( add_query_arg( 'update', $update, $referer ) );
 	exit();
 }
+
+restore_current_blog();
 
 if ( isset( $_GET['action'] ) && 'update-site' == $_GET['action'] ) {
 	wp_safe_redirect( $referer );

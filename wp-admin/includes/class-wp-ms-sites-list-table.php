@@ -230,8 +230,11 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 						echo "<td class='column-$column_name $column_name'$style>"; ?>
 							<a href="<?php echo esc_url( network_admin_url( 'site-info.php?id=' . $blog['blog_id'] ) ); ?>" class="edit"><?php echo $blogname . $blog_state; ?></a>
 							<?php
-							if ( 'list' != $mode )
-								echo '<p>' . sprintf( _x( '%1$s &#8211; <em>%2$s</em>', '%1$s: site name. %2$s: site tagline.' ), get_blog_option( $blog['blog_id'], 'blogname' ), get_blog_option( $blog['blog_id'], 'blogdescription ' ) ) . '</p>';
+							if ( 'list' != $mode ) {
+								switch_to_blog( $blog['blog_id'] );
+								echo '<p>' . sprintf( _x( '%1$s &#8211; <em>%2$s</em>', '%1$s: site name. %2$s: site tagline.' ), get_option( 'blogname' ), get_option( 'blogdescription ' ) ) . '</p>';
+								restore_current_blog();
+							}
 
 							// Preordered.
 							$actions = array(

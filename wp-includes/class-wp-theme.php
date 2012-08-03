@@ -1109,18 +1109,24 @@ final class WP_Theme implements ArrayAccess {
 
 		$current = $blog_id == get_current_blog_id();
 
-		if ( $current )
+		if ( $current ) {
 			$allowed_themes[ $blog_id ] = get_option( 'allowedthemes' );
-		else
-			$allowed_themes[ $blog_id ] = get_blog_option( $blog_id, 'allowedthemes' );
+		} else {
+			switch_to_blog( $blog_id );
+			$allowed_themes[ $blog_id ] = get_option( 'allowedthemes' );
+			restore_current_blog();
+		}
 
 		// This is all super old MU back compat joy.
 		// 'allowedthemes' keys things by stylesheet. 'allowed_themes' keyed things by name.
 		if ( false === $allowed_themes[ $blog_id ] ) {
-			if ( $current )
+			if ( $current ) {
 				$allowed_themes[ $blog_id ] = get_option( 'allowed_themes' );
-			else
-				$allowed_themes[ $blog_id ] = get_blog_option( $blog_id, 'allowed_themes' );
+			} else {
+				switch_to_blog( $blog_id );
+				$allowed_themes[ $blog_id ] = get_option( 'allowed_themes' );
+				restore_current_blog();
+			}
 
 			if ( ! is_array( $allowed_themes[ $blog_id ] ) || empty( $allowed_themes[ $blog_id ] ) ) {
 				$allowed_themes[ $blog_id ] = array();
@@ -1139,8 +1145,10 @@ final class WP_Theme implements ArrayAccess {
 					update_option( 'allowedthemes', $allowed_themes[ $blog_id ] );
 					delete_option( 'allowed_themes' );
 				} else {
-					update_blog_option( $blog_id, 'allowedthemes', $allowed_themes[ $blog_id ] );
-					delete_blog_option( $blog_id, 'allowed_themes' );
+					switch_to_blog( $blog_id );
+					update_option( 'allowedthemes', $allowed_themes[ $blog_id ] );
+					delete_option( 'allowed_themes' );
+					restore_current_blog();
 				}
 			}
 		}

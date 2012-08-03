@@ -1896,10 +1896,13 @@ function get_home_url( $blog_id = null, $path = '', $scheme = null ) {
 	if ( !in_array( $scheme, array( 'http', 'https', 'relative' ) ) )
 		$scheme = is_ssl() && !is_admin() ? 'https' : 'http';
 
-	if ( empty( $blog_id ) || !is_multisite() )
+	if ( empty( $blog_id ) || !is_multisite() ) {
 		$url = get_option( 'home' );
-	else
-		$url = get_blog_option( $blog_id, 'home' );
+	} else {
+		switch_to_blog( $blog_id );
+		$url = get_option( 'home' );
+		restore_current_blog();
+	}
 
 	if ( 'relative' == $scheme )
 		$url = preg_replace( '#^.+://[^/]*#', '', $url );
@@ -1961,10 +1964,13 @@ function get_site_url( $blog_id = null, $path = '', $scheme = null ) {
 			$scheme = ( is_ssl() ? 'https' : 'http' );
 	}
 
-	if ( empty( $blog_id ) || !is_multisite() )
+	if ( empty( $blog_id ) || !is_multisite() ) {
 		$url = get_option( 'siteurl' );
-	else
-		$url = get_blog_option( $blog_id, 'siteurl' );
+	} else {
+		switch_to_blog( $blog_id );
+		$url = get_option( 'siteurl' );
+		restore_current_blog();
+	}
 
 	if ( 'relative' == $scheme )
 		$url = preg_replace( '#^.+://[^/]*#', '', $url );

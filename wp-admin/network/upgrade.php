@@ -60,9 +60,12 @@ switch ( $action ) {
 		}
 		echo "<ul>";
 		foreach ( (array) $blogs as $details ) {
-			$siteurl = get_blog_option( $details['blog_id'], 'siteurl' );
+			switch_to_blog( $details['blog_id'] );
+			$siteurl = site_url();
+			$upgrade_url = admin_url( 'upgrade.php?step=upgrade_db' );
+			restore_current_blog();
 			echo "<li>$siteurl</li>";
-			$response = wp_remote_get( trailingslashit( $siteurl ) . "wp-admin/upgrade.php?step=upgrade_db", array( 'timeout' => 120, 'httpversion' => '1.1' ) );
+			$response = wp_remote_get( $upgrade_url, array( 'timeout' => 120, 'httpversion' => '1.1' ) );
 			if ( is_wp_error( $response ) )
 				wp_die( sprintf( __( 'Warning! Problem updating %1$s. Your server may not be able to connect to sites running on it. Error message: <em>%2$s</em>' ), $siteurl, $response->get_error_message() ) );
 			do_action( 'after_mu_upgrade', $response );

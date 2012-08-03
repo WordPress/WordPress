@@ -222,9 +222,11 @@ function get_blog_details( $fields, $get_all = true ) {
 		return $details;
 	}
 
-	$details->blogname		= get_blog_option( $blog_id, 'blogname' );
-	$details->siteurl		= get_blog_option( $blog_id, 'siteurl' );
-	$details->post_count	= get_blog_option( $blog_id, 'post_count' );
+	switch_to_blog( $blog_id );
+	$details->blogname		= get_option( 'blogname' );
+	$details->siteurl		= get_option( 'siteurl' );
+	$details->post_count	= get_option( 'post_count' );
+	restore_current_blog();
 
 	$details = apply_filters( 'blog_details', $details );
 
@@ -298,133 +300,15 @@ function update_blog_details( $blog_id, $details = array() ) {
 			do_action( "make_ham_blog", $blog_id );
 	}
 
-	if ( isset($details[ 'public' ]) )
-		update_blog_option( $blog_id, 'blog_public', $details[ 'public' ] );
+	if ( isset($details[ 'public' ]) ) {
+		switch_to_blog( $blog_id );
+		update_option( 'blog_public', $details[ 'public' ] );
+		restore_current_blog();
+	}
 
 	refresh_blog_details($blog_id);
 
 	return true;
-}
-
-/**
- * Retrieve option value for a given blog id based on name of option.
- *
- * If the option does not exist or does not have a value, then the return value
- * will be false. This is useful to check whether you need to install an option
- * and is commonly used during installation of plugin options and to test
- * whether upgrading is required.
- *
- * If the option was serialized then it will be unserialized when it is returned.
- *
- * @since MU
- *
- * @param int $id A blog ID. Can be null to refer to the current blog.
- * @param string $option Name of option to retrieve. Expected to not be SQL-escaped.
- * @param mixed $default Optional. Default value to return if the option does not exist.
- * @return mixed Value set for the option.
- */
-function get_blog_option( $id, $option, $default = false ) {
-	$id = (int) $id;
-
-	if ( empty( $id ) )
-		$id = get_current_blog_id();
-
-	if ( get_current_blog_id() == $id )
-		return get_option( $option, $default );
-
-	switch_to_blog( $id );
-	$option = get_option( $option, $default );
-	restore_current_blog();
-
-	return $option;
-}
-
-/**
- * Add a new option for a given blog id.
- *
- * You do not need to serialize values. If the value needs to be serialized, then
- * it will be serialized before it is inserted into the database. Remember,
- * resources can not be serialized or added as an option.
- *
- * You can create options without values and then update the values later.
- * Existing options will not be updated and checks are performed to ensure that you
- * aren't adding a protected WordPress option. Care should be taken to not name
- * options the same as the ones which are protected.
- *
- * @since MU
- *
- * @param int $id A blog ID. Can be null to refer to the current blog.
- * @param string $option Name of option to add. Expected to not be SQL-escaped.
- * @param mixed $value Optional. Option value, can be anything. Expected to not be SQL-escaped.
- * @return bool False if option was not added and true if option was added.
- */
-function add_blog_option( $id, $option, $value ) {
-	$id = (int) $id;
-
-	if ( empty( $id ) )
-		$id = get_current_blog_id();
-
-	if ( get_current_blog_id() == $id )
-		return add_option( $option, $value );
-
-	switch_to_blog( $id );
-	$return = add_option( $option, $value );
-	restore_current_blog();
-
-	return $return;
-}
-
-/**
- * Removes option by name for a given blog id. Prevents removal of protected WordPress options.
- *
- * @since MU
- *
- * @param int $id A blog ID. Can be null to refer to the current blog.
- * @param string $option Name of option to remove. Expected to not be SQL-escaped.
- * @return bool True, if option is successfully deleted. False on failure.
- */
-function delete_blog_option( $id, $option ) {
-	$id = (int) $id;
-
-	if ( empty( $id ) )
-		$id = get_current_blog_id();
-
-	if ( get_current_blog_id() == $id )
-		return delete_option( $option );
-
-	switch_to_blog( $id );
-	$return = delete_option( $option );
-	restore_current_blog();
-
-	return $return;
-}
-
-/**
- * Update an option for a particular blog.
- *
- * @since MU
- *
- * @param int $id The blog id
- * @param string $option The option key
- * @param mixed $value The option value
- * @return bool True on success, false on failrue.
- */
-function update_blog_option( $id, $option, $value, $deprecated = null ) {
-	$id = (int) $id;
-
-	if ( null !== $deprecated  )
-		_deprecated_argument( __FUNCTION__, '3.1' );
-
-	if ( get_current_blog_id() == $id )
-		return update_option( $option, $value );
-
-	switch_to_blog( $id );
-	$return = update_option( $option, $value );
-	restore_current_blog();
-
-	refresh_blog_details( $id );
-
-	return $return;
 }
 
 /**

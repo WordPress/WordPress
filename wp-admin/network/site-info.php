@@ -135,10 +135,15 @@ if ( ! empty( $messages ) ) {
 			<th scope="row"><?php _e( 'Path' ) ?></th>
 			<?php if ( $is_main_site ) { ?>
 			<td><code><?php echo esc_attr( $details->path ) ?></code></td>
-			<?php } else { ?>
+			<?php
+			} else {
+				switch_to_blog( $id );
+			?>
 			<td><input name="blog[path]" type="text" id="path" value="<?php echo esc_attr( $details->path ) ?>" size="40" style='margin-bottom:5px;' />
-			<br /><input type="checkbox" style="width:20px;" name="update_home_url" value="update" <?php if ( get_blog_option( $id, 'siteurl' ) == untrailingslashit( get_blogaddress_by_id ($id ) ) || get_blog_option( $id, 'home' ) == untrailingslashit( get_blogaddress_by_id( $id ) ) ) echo 'checked="checked"'; ?> /> <?php _e( 'Update <code>siteurl</code> and <code>home</code> as well.' ); ?></td>
-			<?php } ?>
+			<br /><input type="checkbox" style="width:20px;" name="update_home_url" value="update" <?php if ( get_option( 'siteurl' ) == untrailingslashit( get_blogaddress_by_id ($id ) ) || get_option( 'home' ) == untrailingslashit( get_blogaddress_by_id( $id ) ) ) echo 'checked="checked"'; ?> /> <?php _e( 'Update <code>siteurl</code> and <code>home</code> as well.' ); ?></td>
+			<?php
+				restore_current_blog();
+			} ?>
 		</tr>
 		<tr class="form-field">
 			<th scope="row"><?php _ex( 'Registered', 'site' ) ?></th>

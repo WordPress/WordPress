@@ -411,7 +411,10 @@ function fix_import_form_size( $size ) {
 
 // Edit blog upload space setting on Edit Blog page
 function upload_space_setting( $id ) {
-	$quota = get_blog_option( $id, 'blog_upload_space' );
+	switch_to_blog( $id );
+	$quota = get_option( 'blog_upload_space' );
+	restore_current_blog();
+
 	if ( !$quota )
 		$quota = '';
 
