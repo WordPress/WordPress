@@ -74,6 +74,15 @@ td {
 	border-left: none;
 }
 
+/* =Main Content
+----------------------------------------------- */
+
+.comment-content ol,
+.comment-content ul {
+	margin: 0 24px 0 0;
+	margin: 0 1.714285714rem 0 0;
+}
+
 
 /* =Basic post styling
 -------------------------------------------------------------- */
