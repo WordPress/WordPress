@@ -348,7 +348,8 @@ class WP_Admin_Bar {
 
 		?>
 		<div id="wpadminbar" class="<?php echo $class; ?>" role="navigation">
-			<div class="quicklinks">
+			<a id="wpadminbar-shortcut" href="#wp-toolbar" tabindex="1"><?php _e('Skip to toolbar'); ?></a>
+			<div class="quicklinks" id="wp-toolbar" role="navigation" aria-label="<?php esc_attr_e('Top navigation toolbar.'); ?>">
 				<?php foreach ( $root->children as $group ) {
 					$this->_render_group( $group );
 				} ?>
@@ -395,10 +396,10 @@ class WP_Admin_Bar {
 		$is_parent = ! empty( $node->children );
 		$has_link  = ! empty( $node->href );
 
-		$tabindex = isset( $node->meta['tabindex'] ) ? (int) $node->meta['tabindex'] : 10;
+		$tabindex = isset( $node->meta['tabindex'] ) ? (int) $node->meta['tabindex'] : '';
+		$aria_attributes = $tabindex ? 'tabindex="' . $tabindex . '"' : '';
 
 		$menuclass = '';
-		$aria_attributes = 'tabindex="' . $tabindex . '"';
 
 		if ( $is_parent ) {
 			$menuclass = 'menupop ';

@@ -606,6 +606,32 @@
 	}
 }
 
+/* Skip link */
+#wpadminbar #wpadminbar-shortcut {
+	position: absolute;
+	left: -1000em;
+	top: -1000em;
+	height: 1px;
+	width: 1px;
+	overflow: hidden;
+	padding: 0;
+	margin: 0;
+}
+
+#wpadminbar #wpadminbar-shortcut:focus {
+	left: 0;
+	top: 0;
+	height: auto;
+	width: auto;
+	display: block;
+	padding: 10px 15px;
+	background: #fff;
+	color: #000;
+	outline: none;
+	z-index: 100000;
+	text-shadow: none;
+}
+
 /**
  * IE 6-targeted rules
  */
