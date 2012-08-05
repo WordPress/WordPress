@@ -374,11 +374,6 @@ $(document).ready( function() {
 				pageInput.val('1');
 		});
 	}
-
-	$('#wpbody-content-shortcut').bind('click.wp-skip-to-content', function(e){
-		$('#wpbody-content').focus();
-		e.preventDefault();
-	});
 });
 
 // internal use

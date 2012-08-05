@@ -619,17 +619,19 @@
 }
 
 #wpadminbar #wpadminbar-shortcut:focus {
-	left: 0;
-	top: 0;
+	left: 5px;
+	top: 5px;
 	height: auto;
 	width: auto;
 	display: block;
 	padding: 10px 15px;
 	background: #fff;
 	color: #000;
-	outline: none;
+	border: 2px solid #333;
+	border-radius: 3px;
 	z-index: 100000;
 	text-shadow: none;
+	line-height: normal;
 }
 
 /**

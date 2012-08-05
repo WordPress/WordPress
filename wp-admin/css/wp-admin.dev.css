@@ -198,6 +198,20 @@ TABLE OF CONTENTS:
 	overflow: hidden;
 }
 
+.screen-reader-shortcut:focus {
+	left: 5px;
+	top: 5px;
+	height: auto;
+	width: auto;
+	display: block;
+	padding: 10px 15px;
+	background: #fff;
+	color: #000;
+	border: 2px solid #333;
+	border-radius: 3px;
+	z-index: 100000;
+}
+
 .hidden,
 .js .closed .inside,
 .js .hide-if-js,
