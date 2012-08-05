@@ -835,7 +835,10 @@ article.sticky .featured-post {
 .entry-content abbr,
 .comment-content abbr,
 .entry-content dfn,
-.comment-content dfn {
+.comment-content dfn,
+.entry-content acronym,
+.comment-content acronym,
+{
 	border-bottom: 1px dotted #666;
 	cursor: help;
 }
