@@ -112,7 +112,7 @@ function twentytwelve_scripts_styles() {
  	 */
 	$options = $twentytwelve_options->get_theme_options();
 	if ( $options['enable_fonts'] )
-		wp_enqueue_style( 'twentytwelve-fonts', $twentytwelve_options->custom_fonts_url() );
+		wp_enqueue_style( 'twentytwelve-fonts', $twentytwelve_options->custom_fonts_url(), array(), null );
 
 	/**
 	 * Load our main CSS file.
