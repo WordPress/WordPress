@@ -332,7 +332,8 @@ img.wp-post-image {
 	line-height: 2;
 	color: #777;
 }
-img.wp-smiley {
+img.wp-smiley,
+.rsswidget img {
 	border: 0;
 	border-radius: 0;
 	box-shadow: none;
@@ -1281,7 +1282,12 @@ label ~ span.required {
 	margin-left: 12px;
 	margin-left: 0.857142857rem;
 }
-.widget_recent_entries .post-date {
+.widget_rss li {
+	margin: 12px 0;
+	margin: 0.857142857rem 0;
+}
+.widget_recent_entries .post-date,
+.widget_rss .rss-date {
 	color: #aaa;
 	font-size: 11px;
 	font-size: 0.785714286rem;
@@ -1311,10 +1317,6 @@ label ~ span.required {
 	font-size: 13px;
 	font-size: 0.928571429rem;
 	line-height: 1.846153846;
-}
-.widget_rss li {
-	margin: 12px 0;
-	margin: 0.857142857rem 0;
 }
 
 
