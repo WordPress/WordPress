@@ -173,7 +173,8 @@ label ~ span.required {
 	margin-right: 0.857142857rem;
 	margin-left: auto;
 }
-.widget_recent_entries .post-date {
+.widget_recent_entries .post-date,
+.widget_rss .rss-date {
 	margin-right: 12px;
 	margin-right: 0.857142857rem;
 	margin-left: auto;
