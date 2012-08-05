@@ -51,6 +51,7 @@ if ( get_option('db_upgraded') ) {
 		 * @since 2.8.4b
 		 */
 		$c = get_blog_count();
+		// If 50 or fewer sites, run every time. Else, run "about ten percent" of the time. Shh, don't check that math.
 		if ( $c <= 50 || ( $c > 50 && mt_rand( 0, (int)( $c / 50 ) ) == 1 ) ) {
 			require_once( ABSPATH . WPINC . '/http.php' );
 			$response = wp_remote_get( admin_url( 'upgrade.php?step=1' ), array( 'timeout' => 120, 'httpversion' => '1.1' ) );
