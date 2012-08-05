@@ -142,7 +142,7 @@ class Twenty_Twelve_Options {
 		?>
 		<label for="enable-fonts">
 			<input type="checkbox" name="<?php echo $this->option_key; ?>[enable_fonts]" id="enable-fonts" <?php checked( $options['enable_fonts'] ); ?> />
-			<?php _e( 'Yes, I&#8217;d like to enable the gorgeous, open-source <em>Open Sans</em> typeface.', 'twentytwelve' );  ?>
+			<?php _e( 'Enable the Open Sans typeface.', 'twentytwelve' );  ?>
 		</label>
 		<?php
 	}
@@ -225,7 +225,7 @@ class Twenty_Twelve_Options {
 		) );
 
 		$wp_customize->add_control( $this->option_key . '_enable_fonts', array(
-			'label'    => __( 'Enable Web Fonts', 'twentytwelve' ),
+			'label'    => __( 'Enable the Open Sans typeface.', 'twentytwelve' ),
 			'section'  => $this->option_key . '_enable_fonts',
 			'settings' => $this->option_key . '[enable_fonts]',
 			'type'     => 'checkbox',
