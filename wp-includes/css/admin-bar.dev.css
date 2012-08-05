@@ -607,15 +607,15 @@
 }
 
 /* Skip link */
-#wpadminbar #wpadminbar-shortcut {
+#wpadminbar #wpadminbar-shortcut,
+#wpadminbar .screen-reader-text,
+#wpadminbar .screen-reader-text span {
 	position: absolute;
 	left: -1000em;
 	top: -1000em;
 	height: 1px;
 	width: 1px;
 	overflow: hidden;
-	padding: 0;
-	margin: 0;
 }
 
 #wpadminbar #wpadminbar-shortcut:focus {
