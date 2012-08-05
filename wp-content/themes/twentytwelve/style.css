@@ -762,6 +762,7 @@ article.sticky .featured-post {
 	line-height: 1.846153846;
 }
 .entry-content p,
+.entry-summary p,
 .comment-content p {
 	margin: 0 0 24px;
 	margin: 0 0 1.714285714rem;
@@ -1325,7 +1326,8 @@ label ~ span.required {
 
 /* Minimum width of 600 pixels. */
 @media screen and (min-width: 600px) {
-	.entry-content p {
+	.entry-content p,
+	.entry-summary p {
 		text-align: left;
 		text-justify: auto;
 	}

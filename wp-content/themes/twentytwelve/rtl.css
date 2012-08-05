@@ -207,7 +207,8 @@ label ~ span.required {
 	.site-header h2 {
 		text-align: right;
 	}
-	.entry-content p {
+	.entry-content p,
+	.entry-summary p {
 		text-align: right;
 	}
 	.page-template-homepage-php .widget-area .widget_text img {
