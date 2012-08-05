@@ -467,7 +467,7 @@ a:hover {
 .site-header h1 a,
 .site-header h2 a {
 	color: #515151;
-	display: block;
+	display: inline-block;
 	text-decoration: none;
 }
 .site-header h1 a:hover,
