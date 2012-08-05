@@ -217,7 +217,7 @@ function wp_default_scripts( &$scripts ) {
 		'error_uploading' => __('&#8220;%s&#8221; has failed to upload.')
 	);
 
-	$scripts->add( 'plupload', '/wp-includes/js/plupload/plupload.js', '1.5.4' );
+	$scripts->add( 'plupload', '/wp-includes/js/plupload/plupload.js', array(), '1.5.4' );
 	$scripts->add( 'plupload-html5', '/wp-includes/js/plupload/plupload.html5.js', array('plupload'), '1.5.4' );
 	$scripts->add( 'plupload-flash', '/wp-includes/js/plupload/plupload.flash.js', array('plupload'), '1.5.4' );
 	$scripts->add( 'plupload-silverlight', '/wp-includes/js/plupload/plupload.silverlight.js', array('plupload'), '1.5.4' );
