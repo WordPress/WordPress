@@ -1,0 +1,23 @@
+/*
+Theme Name: Twenty Twelve
+
+Used to style the TinyMCE editor for RTL languages.
+See also rtl.css
+*/
+
+html .mceContentBody {
+	direction: rtl;
+	unicode-bidi: embed;
+	float: right;
+}
+li {
+	margin: 0 24px 0 0;
+	margin: 0 1.714285714rem 0 0;
+}
+td {
+	text-align: right;
+}
+.wp-caption-dd {
+	padding-right: 10px;
+	text-align: right;
+}
