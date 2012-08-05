@@ -18,12 +18,6 @@ td {
 -------------------------------------------------------------- */
 
 /* Images */
-.alignright {
-	float: right;
-}
-.alignleft {
-	float: left;
-}
 .site-content .gallery-columns-4 .gallery-item {
 	padding-left: 2%;
 	padding-right: 0;
@@ -87,18 +81,8 @@ td {
 /* =Basic post styling
 -------------------------------------------------------------- */
 
-img.alignright {
-	float: right;
-	margin: 0 0 0 24px;
-}
 .entry-content li {
 	margin: 0 24px 0 0;
-}
-img.alignright {
-	margin: 12px 0 12px 24px;
-}
-img.alignleft {
-	margin: 12px 24px 12px 0;
 }
 .entry-content td {
 	padding: 6px 0 6px 10px;
