@@ -8,6 +8,11 @@ of your CSS stylesheet in a separate stylesheet file named rtl.css.
 http://codex.wordpress.org/Right_to_Left_Language_Support
 */
 
+
+body {
+	direction: rtl;
+	unicode-bidi: embed;
+}
 caption,
 th,
 td {
@@ -81,10 +86,13 @@ td {
 /* =Basic post styling
 -------------------------------------------------------------- */
 
-.entry-content li {
+.entry-content li,
+.comment-content li {
 	margin: 0 24px 0 0;
+	margin: 0 1.714285714rem 0 0;
 }
-.entry-content td {
+.entry-content td,
+.comment-content td {
 	padding: 6px 0 6px 10px;
 }
 
@@ -131,6 +139,7 @@ article.format-link .entry-content {
 .commentlist .children {
 	margin-right: 48px;
 	margin-right: 3.428571429rem;
+	margin-left: auto;
 }
 
 /* Comment form */
@@ -142,6 +151,7 @@ article.format-link .entry-content {
 label ~ span.required {
 	float: right;
 	margin: -18px -16px 0 0;
+	margin: -1.285714286rem -1.142857143rem 0 0;
 }
 
 
@@ -151,6 +161,7 @@ label ~ span.required {
 .page-template-homepage-php .widget-area .widget_text img {
 	float: right;
 	margin: 8px 0 8px 24px;
+	margin: 0.571428571rem 0 0.571428571rem 1.714285714rem;
 }
 
 
@@ -184,6 +195,18 @@ label ~ span.required {
 
 /* Minimum width of 600 pixels. */
 @media screen and (min-width: 600px) {
+	.site-content,
+	.page-template-homepage-php.has-post-thumbnail article {
+		float: right;
+	}
+	.widget-area,
+	.entry-page-image {
+		float: left;
+	}
+	.site-header h1,
+	.site-header h2 {
+		text-align: right;
+	}
 	.entry-content p {
 		text-align: right;
 	}
