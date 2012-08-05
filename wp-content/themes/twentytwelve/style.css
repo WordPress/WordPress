@@ -1324,6 +1324,16 @@ label ~ span.required {
 }
 
 
+/* =Plugins
+----------------------------------------------- */
+
+img#wpstats {
+	display: block;
+	margin: 0 auto 24px;
+	margin: 0 auto 1.714285714rem;	
+}
+
+
 /* =Media queries
 -------------------------------------------------------------- */
 
