@@ -1441,6 +1441,9 @@ label ~ span.required {
 	footer a[rel=bookmark]:visited:after {
 		content: " [" attr(href) "] "; /* Show URLs */
 	}
+	a {
+		text-decoration: none;
+	}
 	.entry-content img,
 	.comment-content img,
 	#author-avatar img,
@@ -1512,7 +1515,9 @@ label ~ span.required {
 	.singular .entry-title {
 		font-size: 21pt;
 	}
-	.entry-meta {
+	footer.entry-meta,
+	footer.entry-meta a {
+		color: #444;
 		font-size: 10pt;
 	}
 	#author-description {
