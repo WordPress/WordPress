@@ -187,6 +187,9 @@ label ~ span.required {
 
 /* Minimum width of 600 pixels. */
 @media screen and (min-width: 600px) {
+	.entry-content p {
+		text-align: right;
+	}
 	.page-template-homepage-php .widget-area .widget_text img {
 		float: right;
 		margin: 8px 0 8px 24px;
