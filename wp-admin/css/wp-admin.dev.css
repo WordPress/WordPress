@@ -971,7 +971,6 @@ ul#add-to-blog-users {
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
 	-webkit-box-shadow: 0 1px 0 #fff;
-	-moz-box-shadow: 0 1px 0 #fff;
 	box-shadow: 0 1px 0 #fff;
 }
 
@@ -1368,7 +1367,6 @@ form.upgrade .hint {
 }
 
 #adminmenu .wp-has-current-submenu .wp-submenu-wrap {
-	-moz-box-shadow: none;
 	-webkit-box-shadow: none;
 	box-shadow: none;
 }
@@ -2183,7 +2181,6 @@ html.wp-toolbar {
 
 .postbox.closed h3 {
 	border: none;
-	-moz-box-shadow: none;
 	-webkit-box-shadow: none;
 	box-shadow: none;
 }
@@ -4880,12 +4877,11 @@ input.button-highlighted,
 }
 
 .pressthis a:hover:after {
-	transform: skew(20deg) rotate(9deg);
 	-webkit-transform: skew(20deg) rotate(9deg);
 	-moz-transform: skew(20deg) rotate(9deg);
-	box-shadow: 0 10px 8px rgba(0, 0, 0, 0.7);
+	transform: skew(20deg) rotate(9deg);
 	-webkit-box-shadow: 0 10px 8px rgba(0, 0, 0, 0.7);
-	-moz-box-shadow: 0 10px 8px rgba(0, 0, 0, 0.7);
+	box-shadow: 0 10px 8px rgba(0, 0, 0, 0.7);
 }
 
 .pressthis a span {
@@ -4904,12 +4900,12 @@ input.button-highlighted,
 	right: 10px;
 	bottom: 9px;
 	background: transparent;
-	transform: skew(20deg) rotate(6deg);
+
 	-webkit-transform: skew(20deg) rotate(6deg);
 	-moz-transform: skew(20deg) rotate(6deg);
-	box-shadow: 0 10px 8px rgba(0, 0, 0, 0.6);
+	transform: skew(20deg) rotate(6deg);
 	-webkit-box-shadow: 0 10px 8px rgba(0, 0, 0, 0.6);
-	-moz-box-shadow: 0 10px 8px rgba(0, 0, 0, 0.6);
+	box-shadow: 0 10px 8px rgba(0, 0, 0, 0.6);
 }
 
 
@@ -6304,10 +6300,9 @@ a.rsswidget {
 	background-color: #e29808;
 	background-image: none;
 	border-color: #edc048;
-	-moz-box-shadow: none;
+	color: #fff;
 	-webkit-box-shadow: none;
 	box-shadow: none;
-	color: #fff;
 }
 
 #dashboard_browser_nag.postbox.browser-insecure h3 {
@@ -6318,11 +6313,10 @@ a.rsswidget {
 #dashboard_browser_nag.postbox h3 {
 	border-bottom-color: #f6e2ac;
 	text-shadow: none;
-	-moz-box-shadow: none;
-	-webkit-box-shadow: none;
-	box-shadow: none;
 	background: transparent none;
 	color: #fff;
+	-webkit-box-shadow: none;
+	box-shadow: none;
 }
 
 #dashboard_browser_nag a {
@@ -6353,7 +6347,6 @@ a.rsswidget {
 	font-weight: normal;
 	background: #fff;
 	border: 1px solid #e5e5e5;
-	-moz-box-shadow: rgba(200, 200, 200, 0.7) 0px 4px 10px -1px;
 	-webkit-box-shadow: rgba(200, 200, 200, 0.7) 0px 4px 10px -1px;
 	box-shadow: rgba(200, 200, 200, 0.7) 0px 4px 10px -1px;
 }
@@ -6451,7 +6444,6 @@ a.rsswidget {
 	border: 1px solid #e5e5e5;
 	background: #fbfbfb;
 	outline: none;
-	-moz-box-shadow: inset 1px 1px 2px rgba(200, 200, 200, 0.2);
 	-webkit-box-shadow: inset 1px 1px 2px rgba(200, 200, 200, 0.2);
 	box-shadow: inset 1px 1px 2px rgba(200, 200, 200, 0.2);
 }
@@ -7833,7 +7825,6 @@ div.sidebar-name {
 }
 
 #available-widgets .widget {
-	-moz-box-shadow: none;
 	-webkit-box-shadow: none;
 	box-shadow: none;
 }

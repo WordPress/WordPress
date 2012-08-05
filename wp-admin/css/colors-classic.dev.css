@@ -216,7 +216,6 @@ h3.dashboard-widget-title small,
 .stuffbox h3 {
 	border-bottom-color: #D1E5EE;
 	text-shadow: #fff 0 1px 0;
-	-moz-box-shadow: 0 1px 0 #fff;
 	-webkit-box-shadow: 0 1px 0 #fff;
 	box-shadow: 0 1px 0 #fff;
 }
@@ -600,7 +599,6 @@ a,
 #rightnow .reallynow {
 	background-color: #464646;
 	color: #fff;
-	-moz-box-shadow: rgba(255,255,255,0.5) 0 1px 0;
 	-webkit-box-shadow: rgba(255,255,255,0.5) 0 1px 0;
 	box-shadow: rgba(255,255,255,0.5) 0 1px 0;
 }
@@ -613,7 +611,6 @@ a,
 #adminmenu	li a.wp-has-current-submenu .update-plugins{
 	background-color: #464646;
 	color: #fff;
-	-moz-box-shadow: rgba(255,255,255,0.5) 0 1px 0;
 	-webkit-box-shadow: rgba(255,255,255,0.5) 0 1px 0;
 	box-shadow: rgba(255,255,255,0.5) 0 1px 0;
 }
@@ -753,7 +750,6 @@ table.widefat span.spam a,
 #poststuff .postarea,
 .stuffbox {
 	border-color: #d1e5ee;
-	-moz-box-shadow: inset 0 1px 0 #fff;
 	-webkit-box-shadow: inset 0 1px 0 #fff;
 	box-shadow: inset 0 1px 0 #fff;
 	-webkit-border-radius: 3px;
@@ -921,10 +917,10 @@ table.widefat .spam a:hover,
 
 #editorcontainer #content,
 #editorcontainer .wp-editor-wrap .wp_themeSkin .mceIframeContainer {
-	-moz-box-shadow: inset 1px 1px 2px rgba( 0, 0, 0, 0.1 );
 	-webkit-box-shadow: inset 1px 1px 2px rgba( 0, 0, 0, 0.1 );
 	box-shadow: inset 1px 1px 2px rgba( 0, 0, 0, 0.1 );
 }
+
 .wp-editor-wrap .wp_themeSkin iframe {
 	background: transparent;
 }
@@ -1400,7 +1396,6 @@ table.widefat .spam a:hover,
 
 #adminmenu .wp-submenu-wrap,
 .folded #adminmenu .wp-has-current-submenu .wp-submenu-wrap {
-	-moz-box-shadow: 2px 2px 5px rgba( 0, 0, 0, 0.4 );
 	-webkit-box-shadow: 2px 2px 5px rgba( 0, 0, 0, 0.4 );
 	box-shadow: 2px 2px 5px rgba( 0, 0, 0, 0.4 );
 }
@@ -1472,7 +1467,6 @@ table.widefat .spam a:hover,
 	}
 
 	#adminmenu .wp-has-current-submenu .wp-submenu-wrap {
-		-moz-box-shadow: 2px 2px 5px rgba( 0, 0, 0, 0.4 );
 		-webkit-box-shadow: 2px 2px 5px rgba( 0, 0, 0, 0.4 );
 		box-shadow: 2px 2px 5px rgba( 0, 0, 0, 0.4 );
 	}
@@ -2123,7 +2117,6 @@ div.widgets-sortables,
 	background-image: linear-gradient(top, #ECF8FE, #f7fcfe); /* proposed W3C Markup */
 	text-shadow: #fff 0 1px 0;
 	border-color: #d0dfe9;
-	-moz-box-shadow: inset 0 1px 0 #fff;
 	-webkit-box-shadow: inset 0 1px 0 #fff;
 	box-shadow: inset 0 1px 0 #fff;
 }
@@ -2304,7 +2297,6 @@ div.widgets-sortables,
 #menu-management .nav-tab-active,
 .menu-item-handle,
 .menu-item-settings {
-	-moz-box-shadow: inset 0 1px 0 #fff;
 	-webkit-box-shadow: inset 0 1px 0 #fff;
 	box-shadow: inset 0 1px 0 #fff;
 }
@@ -2377,7 +2369,6 @@ div.widgets-sortables,
 	background: #fff;
 	border: 1px #ccc solid;
 
-	-moz-box-shadow:    0 1px 3px rgba( 0, 0, 0, 0.3 );
 	-webkit-box-shadow: 0 1px 3px rgba( 0, 0, 0, 0.3 );
 	box-shadow:         0 1px 3px rgba( 0, 0, 0, 0.3 );
 }
@@ -2399,7 +2390,6 @@ div.widgets-sortables,
 }
 
 .about-wrap li.wp-person img.gravatar {
-	-moz-box-shadow: 0 0 4px rgba( 0, 0, 0, 0.4 );
 	-webkit-box-shadow: 0 0 4px rgba( 0, 0, 0, 0.4 );
 	box-shadow: 0 0 4px rgba( 0, 0, 0, 0.4 );
 }
@@ -2463,7 +2453,6 @@ div.widgets-sortables,
 
 .rtl #adminmenu .wp-submenu-wrap,
 .rtl.folded #adminmenu .wp-has-current-submenu .wp-submenu-wrap{
-	-moz-box-shadow: -2px 2px 5px rgba( 0, 0, 0, 0.4 );
 	-webkit-box-shadow: -2px 2px 5px rgba( 0, 0, 0, 0.4 );
 	box-shadow: -2px 2px 5px rgba( 0, 0, 0, 0.4 );
 }
@@ -2480,7 +2469,6 @@ div.widgets-sortables,
 /* Auto-folding of the admin menu for RTL */
 @media only screen and (max-width: 900px) {
 	.rtl #adminmenu .wp-has-current-submenu .wp-submenu-wrap{
-		-moz-box-shadow: -2px 2px 5px rgba( 0, 0, 0, 0.4 );
 		-webkit-box-shadow: -2px 2px 5px rgba( 0, 0, 0, 0.4 );
 		box-shadow: -2px 2px 5px rgba( 0, 0, 0, 0.4 );
 	}
