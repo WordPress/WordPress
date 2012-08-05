@@ -198,11 +198,11 @@ article.format-link footer.entry-meta {
 input#searchsubmit,
 article.post-password-required input[type=submit],
 li.bypostauthor cite span {
-	padding: 1px 10px;
-	padding: 0.071428571rem 0.714285714rem;
+	padding: 6px 10px;
+	padding: 0.428571429rem 0.714285714rem;
 	font-size: 11px;
 	font-size: 0.785714286rem;
-	line-height: 2.181818182;
+	line-height: 1.428571429;
 	font-weight: normal;
 	color: #7c7c7c;
 	background-color: #e6e6e6;
