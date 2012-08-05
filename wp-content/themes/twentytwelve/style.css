@@ -1322,6 +1322,13 @@ label ~ span.required {
 	font-size: 0.928571429rem;
 	line-height: 1.846153846;
 }
+.widget_twitter li {
+	list-style-type: none;
+}
+.widget_twitter .timesince {
+	display: block;
+	text-align: right;
+}
 
 
 /* =Plugins
