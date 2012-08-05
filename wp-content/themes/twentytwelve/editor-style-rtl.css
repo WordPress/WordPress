@@ -8,7 +8,7 @@ See also rtl.css
 html .mceContentBody {
 	direction: rtl;
 	unicode-bidi: embed;
-	float: right;
+	margin: 10px auto;
 }
 li {
 	margin: 0 24px 0 0;
