@@ -1,4 +1,12 @@
 <?php
+/**
+ * Confirms that the activation key that is sent in an email after a user signs
+ * up for a new blog matchs the key for that user and then displays confirmation.
+ * 
+ * @package WordPress
+ */
+
+/** Define ABSPATH as this file's directory */
 define( 'WP_INSTALLING', true );
 
 /** Sets up the WordPress Environment. */
@@ -16,11 +24,21 @@ if ( is_object( $wp_object_cache ) )
 
 do_action( 'activate_header' );
 
+/**
+ * Adds an action hook specific to this page that fires on wp_head
+ * 
+ * @since MU
+ */
 function do_activate_header() {
 	do_action( 'activate_wp_head' );
 }
 add_action( 'wp_head', 'do_activate_header' );
 
+/**
+ * Loads styles specific to this page.
+ * 
+ * @since MU
+ */
 function wpmu_activate_stylesheet() {
 	?>
 	<style type="text/css">
