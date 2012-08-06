@@ -710,6 +710,10 @@ article.sticky .featured-post {
 	margin-bottom: 1.714285714rem;
 	text-align: center;
 }
+.entry-content,
+.entry-summary {
+	line-height: 1.714285714;
+}
 .entry-content h1,
 .comment-content h1,
 .entry-content h2,
@@ -1170,6 +1174,7 @@ a.comment-reply-link:hover {
 	color: #21759b;
 }
 .commentlist .pingback {
+	line-height: 1.714285714;
 	margin-bottom: 24px;
 	margin-bottom: 1.714285714rem;
 }
@@ -1335,7 +1340,7 @@ label ~ span.required {
 img#wpstats {
 	display: block;
 	margin: 0 auto 24px;
-	margin: 0 auto 1.714285714rem;	
+	margin: 0 auto 1.714285714rem;
 }
 
 
@@ -1390,7 +1395,6 @@ img#wpstats {
 	.entry-header .entry-title {
 		font-size: 22px;
 		font-size: 1.571428571rem;
-		line-height: 1.090909091;
 	}
 	#respond form input[type="text"] {
 		width: 46.333333333%;
