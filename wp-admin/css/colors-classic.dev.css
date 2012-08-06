@@ -1248,16 +1248,6 @@ table.widefat .spam a:hover,
 	border-color: #D1E5EE;
 }
 
-#adminmenu li.wp-has-current-submenu.wp-menu-open .wp-menu-toggle,
-#adminmenu li.wp-has-current-submenu:hover .wp-menu-toggle {
-	background: transparent url(../images/arrows-dark-vs.png) no-repeat -1px 6px;
-}
-
-#adminmenu .wp-has-submenu:hover .wp-menu-toggle,
-#adminmenu .wp-menu-open .wp-menu-toggle {
-	background: transparent url(../images/arrows-vs.png) no-repeat -2px 6px;
-}
-
 #adminmenu a.menu-top,
 .folded #adminmenu li.menu-top,
 #adminmenu .wp-submenu .wp-submenu-head {
@@ -2389,16 +2379,6 @@ div.widgets-sortables,
 .rtl #adminmenuback {
 	background-image: url(../images/menu-shadow-rtl.png);
 	background-position: top left;
-}
-
-.rtl #adminmenu li.wp-has-current-submenu.wp-menu-open .wp-menu-toggle,
-.rtl #adminmenu li.wp-has-current-submenu:hover .wp-menu-toggle {
-	background: transparent url(../images/arrows-dark-vs.png) no-repeat 8px 6px;
-}
-
-.rtl #adminmenu .wp-has-submenu:hover .wp-menu-toggle,
-.rtl #adminmenu .wp-menu-open .wp-menu-toggle {
-	background: transparent url(../images/arrows-vs.png) no-repeat 8px 6px;
 }
 
 .rtl #adminmenu .wp-submenu .wp-submenu-head {

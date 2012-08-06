@@ -165,7 +165,6 @@ table.fixed td {
 .major-publishing-actions,
 .wp-submenu,
 .wp-submenu li,
-.wp-menu-toggle,
 #template,
 #template div,
 #editcat,
@@ -558,18 +557,6 @@ table.ie-fixed {
 
 * html #footer {
 	margin: 0;
-}
-
-* html #wpcontent #adminmenu .wp-menu-open .wp-menu-toggle {
-	background: none;
-}
-
-* html #wpcontent #adminmenu .wp-has-submenu .wp-menu-toggle {
-	background: url(../images/menu-bits.gif?ver=20100610) no-repeat scroll left -109px;
-}
-
-* html #wpcontent #adminmenu li.wp-has-current-submenu .wp-menu-toggle {
-	background: url(../images/menu-bits.gif?ver=20100610) no-repeat scroll left -206px;
 }
 
 * html #adminmenu div.wp-menu-image {
