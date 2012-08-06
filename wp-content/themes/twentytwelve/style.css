@@ -393,6 +393,10 @@ img.wp-smiley,
 }
 
 /* Author profiles */
+.author .archive-header {
+	margin-bottom: 24px;
+	margin-bottom: 1.714285714rem;
+}
 #author-info {
 	border-top: 1px solid #ededed;
 	margin: 24px 0;
@@ -406,6 +410,14 @@ img.wp-smiley,
 	font-size: 13px;
 	font-size: 0.928571429rem;
 	line-height: 1.846153846;
+}
+.author.archive #author-info {
+	border-top: 0;
+	margin: 0 0 48px;
+	margin: 0 0 3.428571429rem;
+}
+.author.archive #author-avatar {
+	margin-top: 0;
 }
 
 
@@ -942,8 +954,8 @@ footer .edit-link {
 /* =Archives
 -------------------------------------------------------------- */
 
-.archive .site-content .archive-header,
-.search .page-header {
+.archive-header,
+.page-header {
 	margin-bottom: 48px;
 	margin-bottom: 3.428571429rem;
 	padding-bottom: 22px;
