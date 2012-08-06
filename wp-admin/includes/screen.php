@@ -744,7 +744,7 @@ final class WP_Screen {
 		?>
 		<div id="screen-meta" class="metabox-prefs">
 
-			<div id="contextual-help-wrap" class="<?php echo esc_attr( $help_class ); ?>">
+			<div id="contextual-help-wrap" class="<?php echo esc_attr( $help_class ); ?>" tabindex="-1" aria-label="<?php esc_attr_e('Contextual Help Tab'); ?>">
 				<div id="contextual-help-back"></div>
 				<div id="contextual-help-columns">
 					<div class="contextual-help-tabs">
@@ -757,7 +757,7 @@ final class WP_Screen {
 							?>
 
 							<li id="<?php echo esc_attr( $link_id ); ?>"<?php echo $class; ?>>
-								<a href="<?php echo esc_url( "#$panel_id" ); ?>">
+								<a href="<?php echo esc_url( "#$panel_id" ); ?>" aria-controls="<?php echo esc_attr( $panel_id ); ?>">
 									<?php echo esc_html( $tab['title'] ); ?>
 								</a>
 							</li>
@@ -827,12 +827,12 @@ final class WP_Screen {
 		<div id="screen-meta-links">
 		<?php if ( $this->get_help_tabs() ) : ?>
 			<div id="contextual-help-link-wrap" class="hide-if-no-js screen-meta-toggle">
-			<a href="#contextual-help-wrap" id="contextual-help-link" class="show-settings"><?php _e( 'Help' ); ?></a>
+			<a href="#contextual-help-wrap" id="contextual-help-link" class="show-settings" aria-controls="contextual-help-wrap" aria-expanded="false"><?php _e( 'Help' ); ?></a>
 			</div>
 		<?php endif;
 		if ( $this->show_screen_options() ) : ?>
 			<div id="screen-options-link-wrap" class="hide-if-no-js screen-meta-toggle">
-			<a href="#screen-options-wrap" id="show-settings-link" class="show-settings"><?php _e( 'Screen Options' ); ?></a>
+			<a href="#screen-options-wrap" id="show-settings-link" class="show-settings" aria-controls="screen-options-wrap" aria-expanded="false"><?php _e( 'Screen Options' ); ?></a>
 			</div>
 		<?php endif; ?>
 		</div>
@@ -876,7 +876,7 @@ final class WP_Screen {
 		$hidden  = get_hidden_columns( $this );
 
 		?>
-		<div id="screen-options-wrap" class="hidden">
+		<div id="screen-options-wrap" class="hidden" tabindex="-1" aria-label="<?php esc_attr_e('Screen Options Tab'); ?>">
 		<form id="adv-settings" action="" method="post">
 		<?php if ( isset( $wp_meta_boxes[ $this->id ] ) || $this->get_option( 'per_page' ) || ( $columns && empty( $columns['_title'] ) ) ) : ?>
 			<h5><?php _e( 'Show on screen' ); ?></h5>

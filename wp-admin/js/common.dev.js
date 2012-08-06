@@ -121,13 +121,14 @@ screenMeta = {
 
 		panel.parent().show();
 		panel.slideDown( 'fast', function() {
-			link.addClass('screen-meta-active');
+			panel.focus();
+			link.addClass('screen-meta-active').attr('aria-expanded', true);
 		});
 	},
 
 	close: function( panel, link ) {
 		panel.slideUp( 'fast', function() {
-			link.removeClass('screen-meta-active');
+			link.removeClass('screen-meta-active').attr('aria-expanded', false);
 			$('.screen-meta-toggle').css('visibility', '');
 			panel.parent().hide();
 		});
