@@ -195,7 +195,7 @@ article.format-link footer.entry-meta {
 
 /* Buttons */
 .menu-toggle,
-input#searchsubmit,
+input[type="submit"],
 article.post-password-required input[type=submit],
 li.bypostauthor cite span {
 	padding: 6px 10px;
@@ -217,12 +217,12 @@ li.bypostauthor cite span {
 	box-shadow: 0 1px 2px rgba(64, 64, 64, 0.1);
 }
 .menu-toggle,
-input#searchsubmit,
+input[type="submit"],
 article.post-password-required input[type=submit] {
 	cursor: pointer;
 }
 .menu-toggle:hover,
-input#searchsubmit:hover,
+input[type="submit"]:hover,
 article.post-password-required input[type=submit]:hover {
 	color: #5e5e5e;
 	background-color: #ebebeb;
@@ -235,9 +235,9 @@ article.post-password-required input[type=submit]:hover {
 }
 .menu-toggle:active,
 .menu-toggle.toggled-on,
-input#searchsubmit:active,
+input[type="submit"]:active,
 article.post-password-required input[type=submit]:active,
-input#searchsubmit.toggled-on {
+input[type="submit"].toggled-on {
 	color: #777;
 	background-color: #e1e1e1;
 	background-repeat: repeat-x;
@@ -260,8 +260,8 @@ li.bypostauthor cite span {
 }
 
 /* Form fields */
-.widget_search input[type="text"],
-article.post-password-required form input[type="password"] {
+input[type="text"],
+input[type="password"] {
 	padding: 6px;
 	padding: 0.428571429rem;
 	font-family: inherit;
@@ -1212,7 +1212,7 @@ a.comment-reply-link:hover {
 	line-height: 1.714285714;
 }
 #respond form input[type="text"],
-#respond form textarea {
+textarea {
 	font-family: inherit;
 	font-size: 12px;
 	font-size: 0.857142857rem;
