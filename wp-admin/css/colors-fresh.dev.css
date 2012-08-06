@@ -193,13 +193,12 @@ h3.dashboard-widget-title small,
 #nav-menu-header,
 #nav-menu-footer,
 .menu-item-handle {
-	background-color: #f1f1f1; /* Fallback */
-	background-image: -ms-linear-gradient(top, #f9f9f9, #ececec); /* IE10 */
-	background-image: -moz-linear-gradient(top, #f9f9f9, #ececec); /* Firefox */
-	background-image: -o-linear-gradient(top, #f9f9f9, #ececec); /* Opera */
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#f9f9f9), to(#ececec)); /* old Webkit */
-	background-image: -webkit-linear-gradient(top, #f9f9f9, #ececec); /* new Webkit */
-	background-image: linear-gradient(top, #f9f9f9, #ececec); /* proposed W3C Markup */
+	background: #f1f1f1;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#ececec), to(#f9f9f9));
+	background-image: -webkit-linear-gradient(bottom, #ececec, #f9f9f9);
+	background-image:    -moz-linear-gradient(bottom, #ececec, #f9f9f9);
+	background-image:      -o-linear-gradient(bottom, #ececec, #f9f9f9);
+	background-image: linear-gradient(to top, #ececec, #f9f9f9);
 }
 
 .widget .widget-top,
@@ -383,14 +382,24 @@ input[type=submit]:hover {
 .button,
 .submit input,
 .button-secondary {
-	background: #f2f2f2 url(../images/white-grad.png) repeat-x scroll left top;
-	text-shadow: rgba(255,255,255,1) 0 1px 0;
+	text-shadow: 0 1px 0 #fff;
+	background: #f2f2f2;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#ededed), to(#fff));
+	background-image: -webkit-linear-gradient(bottom, #ededed, #fff);
+	background-image:    -moz-linear-gradient(bottom, #ededed, #fff);
+	background-image:      -o-linear-gradient(bottom, #ededed, #fff);
+	background-image: linear-gradient(to top, #ededed, #fff);
 }
 
 .button:active,
 .submit input:active,
 .button-secondary:active {
-	background: #eee url(../images/white-grad-active.png) repeat-x scroll left top;
+	background: #eee;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#ededed), to(#fff));
+	background-image: -webkit-linear-gradient(top, #ededed, #fff);
+	background-image:    -moz-linear-gradient(top, #ededed, #fff);
+	background-image:      -o-linear-gradient(top, #ededed, #fff);
+	background-image: linear-gradient(to bottom, #ededed, #fff);
 }
 
 input.button-primary,
@@ -399,15 +408,25 @@ a.button-primary {
 	border-color: #298cba;
 	font-weight: bold;
 	color: #fff;
-	background: #21759B url(../images/button-grad.png) repeat-x scroll left top;
-	text-shadow: rgba(0,0,0,0.3) 0 -1px 0;
+	text-shadow: 0 -1px 0 rgba(0,0,0,0.3);
+	background: #21759b;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#227199), to(#298cba));
+	background-image: -webkit-linear-gradient(bottom, #227199, #298cba);
+	background-image:    -moz-linear-gradient(bottom, #227199, #298cba);
+	background-image:      -o-linear-gradient(bottom, #227199, #298cba);
+	background-image: linear-gradient(to top, #227199, #298cba);
 }
 
 input.button-primary:active,
 button.button-primary:active,
 a.button-primary:active {
-	background: #21759b url(../images/button-grad-active.png) repeat-x scroll left top;
 	color: #eaf2fa;
+	background: #298cba;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#227199), to(#298cba));
+	background-image: -webkit-linear-gradient(top, #227199, #298cba);
+	background-image:    -moz-linear-gradient(top, #227199, #298cba);
+	background-image:      -o-linear-gradient(top, #227199, #298cba);
+	background-image: linear-gradient(to bottom, #227199, #298cba);
 }
 
 input.button-primary:hover,
@@ -432,8 +451,8 @@ a.button.disabled {
 .button-primary-disabled,
 .button-primary[disabled],
 .button-primary:disabled {
-	color: #9FD0D5 !important;
-	background: #298CBA !important;
+	color: #9fd0d5 !important;
+	background: #298cba !important;
 }
 
 a:hover,
@@ -741,13 +760,12 @@ table.widefat span.spam a,
 #widget-list .widget-top,
 .postbox,
 .menu-item-settings {
-	background-color: #f5f5f5; /* Fallback */
-	background-image: -ms-linear-gradient(top, #f9f9f9, #f5f5f5); /* IE10 */
-	background-image: -moz-linear-gradient(top, #f9f9f9, #f5f5f5); /* Firefox */
-	background-image: -o-linear-gradient(top, #f9f9f9, #f5f5f5); /* Opera */
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#f9f9f9), to(#f5f5f5)); /* old Webkit */
-	background-image: -webkit-linear-gradient(top, #f9f9f9, #f5f5f5); /* new Webkit */
-	background-image: linear-gradient(top, #f9f9f9, #f5f5f5); /* proposed W3C Markup */
+	background: #f5f5f5;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#f5f5f5), to(#f9f9f9));
+	background-image: -webkit-linear-gradient(bottom, #f5f5f5, #f9f9f9);
+	background-image:    -moz-linear-gradient(bottom, #f5f5f5, #f9f9f9);
+	background-image:      -o-linear-gradient(bottom, #f5f5f5, #f9f9f9);
+	background-image: linear-gradient(to top, #f5f5f5, #f9f9f9);
 }
 
 .postbox h3 {
@@ -765,10 +783,6 @@ table.widefat span.spam a,
 
 .curtime #timestamp {
 	background-image: url(../images/date-button.gif);
-}
-
-#quicktags #ed_link {
-	color: #00f;
 }
 
 #rightnow .youhave {
@@ -825,16 +839,15 @@ table.widefat span.spam a,
 /* screen options and help tabs */
 #screen-options-link-wrap,
 #contextual-help-link-wrap {
-	background-color: #e3e3e3; /* Fallback */
 	border-right: 1px solid #ccc;
 	border-left: 1px solid #ccc;
 	border-bottom: 1px solid #ccc;
-	background-image: -ms-linear-gradient(bottom, #dfdfdf, #f1f1f1); /* IE10 */
-	background-image: -moz-linear-gradient(bottom, #dfdfdf, #f1f1f1); /* Firefox */
-	background-image: -o-linear-gradient(bottom, #dfdfdf, #f1f1f1); /* Opera */
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#dfdfdf), to(#f1f1f1)); /* old Webkit */
-	background-image: -webkit-linear-gradient(bottom, #dfdfdf, #f1f1f1); /* new Webkit */
-	background-image: linear-gradient(bottom, #dfdfdf, #f1f1f1); /* proposed W3C Markup */
+	background: #e3e3e3;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#dfdfdf), to(#f1f1f1));
+	background-image: -webkit-linear-gradient(bottom, #dfdfdf, #f1f1f1);
+	background-image:    -moz-linear-gradient(bottom, #dfdfdf, #f1f1f1);
+	background-image:      -o-linear-gradient(bottom, #dfdfdf, #f1f1f1);
+	background-image: linear-gradient(to top, #dfdfdf, #f1f1f1);
 }
 
 #screen-meta-links a.show-settings {
@@ -998,23 +1011,21 @@ table.widefat .spam a:hover,
 .folded #adminmenu li.current.menu-top,
 #adminmenu .wp-menu-arrow,
 #adminmenu .wp-has-current-submenu .wp-submenu .wp-submenu-head {
-	background-color: #777; /* Fallback */
-	background-image: -ms-linear-gradient(bottom, #6d6d6d, #808080); /* IE10 */
-	background-image: -moz-linear-gradient(bottom, #6d6d6d, #808080); /* Firefox */
-	background-image: -o-linear-gradient(bottom, #6d6d6d, #808080); /* Opera */
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#6d6d6d), to(#808080)); /* old Webkit */
-	background-image: -webkit-linear-gradient(bottom, #6d6d6d, #808080); /* new Webkit */
-	background-image: linear-gradient(bottom, #6d6d6d, #808080); /* proposed W3C Markup */
+	background: #777;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#6d6d6d), to(#808080));
+	background-image: -webkit-linear-gradient(bottom, #6d6d6d, #808080);
+	background-image:    -moz-linear-gradient(bottom, #6d6d6d, #808080);
+	background-image:      -o-linear-gradient(bottom, #6d6d6d, #808080);
+	background-image: linear-gradient(to top, #6d6d6d, #808080);
 }
 
 #adminmenu .wp-menu-arrow div {
-	background-color: #777; /* Fallback */
-	background-image: -ms-linear-gradient(right bottom, #6d6d6d, #808080); /* IE10 */
-	background-image: -moz-linear-gradient(right bottom, #6d6d6d, #808080); /* Firefox */
-	background-image: -o-linear-gradient(right bottom, #6d6d6d, #808080); /* Opera */
-	background-image: -webkit-gradient(linear, right bottom, left top, from(#6d6d6d), to(#808080)); /* old Webkit */
-	background-image: -webkit-linear-gradient(right bottom, #6d6d6d, #808080); /* new Webkit */
-	background-image: linear-gradient(right bottom, #6d6d6d, #808080); /* proposed W3C Markup */
+	background: #777;
+	background-image: -webkit-gradient(linear, right bottom, left top, from(#6d6d6d), to(#808080));
+	background-image: -webkit-linear-gradient(bottom right, #6d6d6d, #808080);
+	background-image:    -moz-linear-gradient(bottom right, #6d6d6d, #808080);
+	background-image:      -o-linear-gradient(bottom right, #6d6d6d, #808080);
+	background-image: linear-gradient(to top left, #6d6d6d, #808080);
 }
 
 #adminmenu li.wp-not-current-submenu .wp-menu-arrow {
@@ -1094,13 +1105,12 @@ table.widefat .spam a:hover,
 
 #collapse-button {
 	border-color: #ccc;
-	background-color: #f4f4f4; /* Fallback */
-	background-image: -ms-linear-gradient(bottom, #dfdfdf, #fff); /* IE10 */
-	background-image: -moz-linear-gradient(bottom, #dfdfdf, #fff); /* Firefox */
-	background-image: -o-linear-gradient(bottom, #dfdfdf, #fff); /* Opera */
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#dfdfdf), to(#fff)); /* old Webkit */
-	background-image: -webkit-linear-gradient(bottom, #dfdfdf, #fff); /* new Webkit */
-	background-image: linear-gradient(bottom, #dfdfdf, #fff); /* proposed W3C Markup */
+	background: #f4f4f4;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#dfdfdf), to(#fff));
+	background-image: -webkit-linear-gradient(bottom, #dfdfdf, #fff);
+	background-image:    -moz-linear-gradient(bottom, #dfdfdf, #fff);
+	background-image:      -o-linear-gradient(bottom, #dfdfdf, #fff);
+	background-image: linear-gradient(to top, #dfdfdf, #fff);
 }
 
 #collapse-menu:hover #collapse-button {
@@ -1124,13 +1134,12 @@ table.widefat .spam a:hover,
 
 	#adminmenu li.wp-has-current-submenu,
 	#adminmenu li.current.menu-top {
-		background-color: #777; /* Fallback */
-		background-image: -ms-linear-gradient(bottom, #6d6d6d, #808080); /* IE10 */
-		background-image: -moz-linear-gradient(bottom, #6d6d6d, #808080); /* Firefox */
-		background-image: -o-linear-gradient(bottom, #6d6d6d, #808080); /* Opera */
-		background-image: -webkit-gradient(linear, left bottom, left top, from(#6d6d6d), to(#808080)); /* old Webkit */
-		background-image: -webkit-linear-gradient(bottom, #6d6d6d, #808080); /* new Webkit */
-		background-image: linear-gradient(bottom, #6d6d6d, #808080); /* proposed W3C Markup */
+		background: #777;
+		background-image: -webkit-gradient(linear, left bottom, left top, from(#6d6d6d), to(#808080));
+		background-image: -webkit-linear-gradient(bottom, #6d6d6d, #808080);
+		background-image:    -moz-linear-gradient(bottom, #6d6d6d, #808080);
+		background-image:      -o-linear-gradient(bottom, #6d6d6d, #808080);
+		background-image: linear-gradient(to top, #6d6d6d, #808080);
 	}
 
 	#adminmenu li.menu-top li:hover a {
@@ -1596,7 +1605,10 @@ fieldset.inline-edit-col-right .inline-edit-col {
 
 .tablenav .tablenav-pages a {
 	border-color: #e3e3e3;
-	background: #eee url('../images/menu-bits.gif?ver=20100610') repeat-x scroll left -379px;
+	background: #eee;
+	-moz-box-shadow:    inset 0 1px 0 #fff;
+	-webkit-box-shadow: inset 0 1px 0 #fff;
+	box-shadow:         inset 0 1px 0 #fff;
 }
 
 .tablenav .tablenav-pages a:hover,
@@ -1916,7 +1928,7 @@ div.widgets-sortables,
 
 .about-wrap h1 {
 	color: #333;
-	text-shadow: 1px 1px 1px white;
+	text-shadow: 1px 1px 1px #fff;
 }
 
 .about-text {
@@ -1931,21 +1943,24 @@ div.widgets-sortables,
 .about-wrap h2 .nav-tab {
 	color: #21759B;
 }
+
 .about-wrap h2 .nav-tab:hover {
 	color: #d54e21;
 }
+
 .about-wrap h2 .nav-tab-active,
 .about-wrap h2 .nav-tab-active:hover {
 	color: #333;
 }
+
 .about-wrap h2 .nav-tab-active {
-	text-shadow: 1px 1px 1px white;
+	text-shadow: 1px 1px 1px #fff;
 	color: #464646;
 }
 
 .about-wrap h3 {
 	color: #333;
-	text-shadow: 1px 1px 1px white;
+	text-shadow: 1px 1px 1px #fff;
 }
 
 .about-wrap .feature-section h4 {
@@ -1960,7 +1975,7 @@ div.widgets-sortables,
 }
 
 .about-wrap h4.wp-people-group {
-	text-shadow: 1px 1px 1px white;
+	text-shadow: 1px 1px 1px #fff;
 }
 
 .about-wrap .point-releases {
@@ -1978,14 +1993,16 @@ div.widgets-sortables,
 .about-wrap li.wp-person img.gravatar {
 	-webkit-box-shadow: 0 0 4px rgba( 0, 0, 0, 0.4 );
 	box-shadow: 0 0 4px rgba( 0, 0, 0, 0.4 );
+
 }
 .about-wrap li.wp-person .title {
 	color: #464646;
-	text-shadow: 1px 1px 1px white;
+	text-shadow: 1px 1px 1px #fff;
 }
 
 .freedoms-php .about-wrap ol li {
 	color: #999;
+
 }
 .freedoms-php .about-wrap ol p {
 	color: #464646;
@@ -2067,11 +2084,6 @@ div.widgets-sortables,
 /* Edit Image */
 .rtl .meta-box-sortables .postbox:hover .handlediv {
 	background: transparent url(../images/arrows.png) no-repeat 6px 7px;
-}
-
-.rtl .tablenav .tablenav-pages a {
-	border-color: #e3e3e3;
-	background: #eee url('../images/menu-bits-rtl.gif?ver=20100610') repeat-x scroll right -379px;
 }
 
 .rtl #post-body .misc-pub-section {

@@ -38,14 +38,12 @@
 	width: 100%;
 	min-width: 600px; /* match the min-width of the body in wp-admin.css */
 	z-index: 99999;
-
-	background-color: #464646; /* Fallback */
-	background-image: -ms-linear-gradient(bottom, #373737, #464646 5px); /* IE10 */
-	background-image: -moz-linear-gradient(bottom, #373737, #464646 5px); /* Firefox */
-	background-image: -o-linear-gradient(bottom, #373737, #464646 5px); /* Opera */
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#373737), to(#464646)); /* old Webkit */
-	background-image: -webkit-linear-gradient(bottom, #373737, #464646 5px); /* new Webkit */
-	background-image: linear-gradient(bottom, #373737, #464646 5px); /* proposed W3C Markup */
+	background: #464646;
+	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #373737), color-stop(18%, #464646));
+	background-image: -webkit-linear-gradient(bottom, #373737 0, #464646 5px);
+	background-image:    -moz-linear-gradient(bottom, #373737 0, #464646 5px);
+	background-image:      -o-linear-gradient(bottom, #373737 0, #464646 5px);
+	background-image: linear-gradient(to top, #373737 0, #464646 5px);
 }
 
 #wpadminbar .ab-sub-wrapper,
@@ -199,13 +197,12 @@
 #wpadminbar .ab-top-menu > li > .ab-item:focus,
 #wpadminbar.nojq .quicklinks .ab-top-menu > li > .ab-item:focus {
 	color: #fafafa;
-	background-color: #3a3a3a; /* Fallback */
-	background-image: -ms-linear-gradient(bottom, #3a3a3a, #222); /* IE10 */
-	background-image: -moz-linear-gradient(bottom, #3a3a3a, #222); /* Firefox */
-	background-image: -o-linear-gradient(bottom, #3a3a3a, #222); /* Opera */
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#3a3a3a), to(#222)); /* old Webkit */
-	background-image: -webkit-linear-gradient(bottom, #3a3a3a, #222); /* new Webkit */
-	background-image: linear-gradient(bottom, #3a3a3a, #222); /* proposed W3C Markup */
+	background: #222;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#3a3a3a), to(#222));
+	background-image: -webkit-linear-gradient(bottom, #3a3a3a, #222);
+	background-image:    -moz-linear-gradient(bottom, #3a3a3a, #222);
+	background-image:      -o-linear-gradient(bottom, #3a3a3a, #222);
+	background-image: linear-gradient(to top, #3a3a3a, #222);
 }
 
 #wpadminbar.nojs .ab-top-menu > li.menupop:hover > .ab-item,
@@ -297,13 +294,12 @@
 
 #wpadminbar .ab-top-secondary {
 	float: right;
-	background-color: #464646; /* Fallback */
-	background-image: -ms-linear-gradient(bottom, #373737, #464646 5px); /* IE10 */
-	background-image: -moz-linear-gradient(bottom, #373737, #464646 5px); /* Firefox */
-	background-image: -o-linear-gradient(bottom, #373737, #464646 5px); /* Opera */
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#373737), to(#464646)); /* old Webkit */
-	background-image: -webkit-linear-gradient(bottom, #373737, #464646 5px); /* new Webkit */
-	background-image: linear-gradient(bottom, #373737, #464646 5px); /* proposed W3C Markup */
+	background: #464646;
+	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #373737), color-stop(18%, #464646));
+	background-image: -webkit-linear-gradient(bottom, #373737 0, #464646 5px);
+	background-image:    -moz-linear-gradient(bottom, #373737 0, #464646 5px);
+	background-image:      -o-linear-gradient(bottom, #373737 0, #464646 5px);
+	background-image: linear-gradient(to top, #373737 0, #464646 5px);
 }
 
 #wpadminbar ul li:last-child,

@@ -29,12 +29,12 @@
 	color: #fff;
 	border-radius: 3px 3px 0 0;
 	text-shadow: 0 -1px 0 rgba(0,0,0,0.3);
-	background-color: #8cc1e9;
-	background-image: -webkit-linear-gradient(bottom, rgb(114,167,207) 0%, rgb(140,193,233) 100%);
-	background-image: -moz-linear-gradient(bottom, rgb(114,167,207) 0%, rgb(140,193,233) 100%);
-	background-image: -ms-linear-gradient(bottom, rgb(114,167,207) 0%, rgb(140,193,233) 100%);
-	background-image: -o-linear-gradient(bottom, rgb(114,167,207) 0%, rgb(140,193,233) 100%);
-	background-image: linear-gradient(bottom, rgb(114,167,207) 0%, rgb(140,193,233) 100%);
+	background: #8cc1e9;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#72a7cf), to(#8cc1e9));
+	background-image: -webkit-linear-gradient(bottom, #72a7cf, #8cc1e9);
+	background-image:    -moz-linear-gradient(bottom, #72a7cf, #8cc1e9);
+	background-image:      -o-linear-gradient(bottom, #72a7cf, #8cc1e9);
+	background-image: linear-gradient(to top, #72a7cf, #8cc1e9);
 }
 
 .wp-pointer-content h3:before {

@@ -202,19 +202,18 @@ h3.dashboard-widget-title small,
 #nav-menu-footer,
 .menu-item-handle,
 #fullscreen-topbar {
-	background-color: #f5fafd; /* Fallback */
-	background-image: -ms-linear-gradient(top, #f7fcfe, #eff8ff); /* IE10 */
-	background-image: -moz-linear-gradient(top, #f7fcfe, #eff8ff); /* Firefox */
-	background-image: -o-linear-gradient(top, #f7fcfe, #eff8ff); /* Opera */
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#f7fcfe), to(#eff8ff)); /* old Webkit */
-	background-image: -webkit-linear-gradient(top, #f7fcfe, #eff8ff); /* new Webkit */
-	background-image: linear-gradient(top, #f7fcfe, #eff8ff); /* proposed W3C Markup */
+	background: #f5fafd;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#eff8ff), to(#f7fcfe));
+	background-image: -webkit-linear-gradient(bottom, #eff8ff, #f7fcfe);
+	background-image:    -moz-linear-gradient(bottom, #eff8ff, #f7fcfe);
+	background-image:      -o-linear-gradient(bottom, #eff8ff, #f7fcfe);
+	background-image: linear-gradient(to top, #eff8ff, #f7fcfe);
 }
 
 .widget .widget-top,
 .postbox h3,
 .stuffbox h3 {
-	border-bottom-color: #D1E5EE;
+	border-bottom-color: #d1e5ee;
 	text-shadow: #fff 0 1px 0;
 	-webkit-box-shadow: 0 1px 0 #fff;
 	box-shadow: 0 1px 0 #fff;
@@ -223,7 +222,7 @@ h3.dashboard-widget-title small,
 .form-table th,
 .form-wrap label {
 	color: #222;
-	text-shadow: #fff 0 1px 0;
+	text-shadow: 0 1px 0 #fff;
 }
 
 .description,
@@ -392,14 +391,24 @@ input[type=submit]:hover {
 .button,
 .submit input,
 .button-secondary {
-	background: #f2f2f2 url(../images/white-grad.png) repeat-x scroll left top;
-	text-shadow: rgba(255,255,255,1) 0 1px 0;
+	text-shadow: 0 1px 0 #fff;
+	background: #f2f2f2;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#ededed), to(#fff));
+	background-image: -webkit-linear-gradient(bottom, #ededed, #fff);
+	background-image:    -moz-linear-gradient(bottom, #ededed, #fff);
+	background-image:      -o-linear-gradient(bottom, #ededed, #fff);
+	background-image: linear-gradient(to top, #ededed, #fff);
 }
 
 .button:active,
 .submit input:active,
 .button-secondary:active {
-	background: #eee url(../images/white-grad-active.png) repeat-x scroll left top;
+	background: #eee;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#ededed), to(#fff));
+	background-image: -webkit-linear-gradient(top, #ededed, #fff);
+	background-image:    -moz-linear-gradient(top, #ededed, #fff);
+	background-image:      -o-linear-gradient(top, #ededed, #fff);
+	background-image: linear-gradient(to bottom, #ededed, #fff);
 }
 
 input.button-primary,
@@ -408,15 +417,25 @@ a.button-primary {
 	border-color: #298cba;
 	font-weight: bold;
 	color: #fff;
-	background: #21759B url(../images/button-grad.png) repeat-x scroll left top;
-	text-shadow: rgba(0,0,0,0.3) 0 -1px 0;
+	text-shadow: 0 -1px 0 rgba(0,0,0,0.3);
+	background: #21759b;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#227199), to(#298cba));
+	background-image: -webkit-linear-gradient(bottom, #227199, #298cba);
+	background-image:    -moz-linear-gradient(bottom, #227199, #298cba);
+	background-image:      -o-linear-gradient(bottom, #227199, #298cba);
+	background-image: linear-gradient(to top, #227199, #298cba);
 }
 
 input.button-primary:active,
 button.button-primary:active,
 a.button-primary:active {
-	background: #21759b url(../images/button-grad-active.png) repeat-x scroll left top;
 	color: #eaf2fa;
+	background: #298cba;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#227199), to(#298cba));
+	background-image: -webkit-linear-gradient(top, #227199, #298cba);
+	background-image:    -moz-linear-gradient(top, #227199, #298cba);
+	background-image:      -o-linear-gradient(top, #227199, #298cba);
+	background-image: linear-gradient(to bottom, #227199, #298cba);
 }
 
 input.button-primary:hover,
@@ -441,8 +460,8 @@ a.button.disabled {
 .button-primary-disabled,
 .button-primary[disabled],
 .button-primary:disabled {
-	color: #9FD0D5 !important;
-	background: #298CBA !important;
+	color: #9fd0d5 !important;
+	background: #298cba !important;
 }
 
 a:hover,
@@ -631,16 +650,6 @@ div#plugin-information-header {
 
 input.readonly, textarea.readonly {
 	background-color: #ddd;
-}
-
-.quicktags-toolbar input {
-	background: #fff;
-	background-image: -ms-linear-gradient(bottom, #e5f0f8, #fff); /* IE10 */
-	background-image: -moz-linear-gradient(bottom, #e5f0f8, #fff); /* Firefox */
-	background-image: -o-linear-gradient(bottom, #e5f0f8, #fff); /* Opera */
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#e5f0f8), to(#fff)); /* old Webkit	 */
-	background-image: -webkit-linear-gradient(bottom, #e5f0f8, #fff) !important; /* new Webkit */
-	background-image: linear-gradient(bottom, #e5f0f8, #fff); /* proposed W3C Markup */
 }
 
 #editable-post-name {
@@ -868,21 +877,6 @@ table.widefat .spam a:hover,
 }
 
 /* editors */
-#quicktags {
-	border-color: #cfdfe9;
-	background-color: #cfdfe9;
-	background-image: url("../images/ed-bg-vs.gif?ver=20101102");
-}
-
-.quicktags-toolbar input {
-	border-color: #b2c4c8;
-}
-
-.quicktags-toolbar input:hover {
-	border-color: #d0dfe9;
-	background: #f0f8fe;
-}
-
 #poststuff .wp-editor-wrap .wp_themeSkin .mceStatusbar {
 	border-color: #d0dfe9;
 }
@@ -910,6 +904,15 @@ table.widefat .spam a:hover,
 	color: #000;
 }
 
+.wp-editor-wrap .quicktags-toolbar input {
+	background: #fff;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#e5f0f8), to(#fff));
+	background-image: -webkit-linear-gradient(bottom, #e5f0f8, #fff);
+	background-image:    -moz-linear-gradient(bottom, #e5f0f8, #fff);
+	background-image:      -o-linear-gradient(bottom, #e5f0f8, #fff);
+	background-image: linear-gradient(to top, #e5f0f8, #fff);
+}
+
 /* Containers */
 .wp-editor-wrap .wp_themeSkin table.mceLayout {
 	border-color: #bed1dd #bed1dd #d0dfe9;
@@ -932,26 +935,26 @@ table.widefat .spam a:hover,
 }
 
 /* Button */
-.wp-editor-wrap .wp_themeSkin .mceButton {
-	border-color: #B0C8D7;
-	background-color: #cfdfe9; /* Fallback */
-	background-image: -ms-linear-gradient(bottom, #cfdfe9, #fff); /* IE10 */
-	background-image: -moz-linear-gradient(bottom, #cfdfe9, #fff); /* Firefox */
-	background-image: -o-linear-gradient(bottom, #cfdfe9, #fff); /* Opera */
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#cfdfe9), to(#fff)); /* old Webkit	*/
-	background-image: -webkit-linear-gradient(bottom, #cfdfe9, #fff) !important; /* new Webkit */
-	background-image: linear-gradient(bottom, #cfdfe9, #fff); /* proposed W3C Markup */
+.wp-editor-wrap .wp_themeSkin .mceButton,
+.wp-editor-wrap .wp_themeSkin .mceListBox .mceText,
+.wp-editor-wrap .wp_themeSkin .mceListBox .mceOpen {
+	border-color: #b0c8d7;
+	background: #cfdfe9;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#cfdfe9), to(#fff));
+	background-image: -webkit-linear-gradient(bottom, #cfdfe9, #fff);
+	background-image:    -moz-linear-gradient(bottom, #cfdfe9, #fff);
+	background-image:      -o-linear-gradient(bottom, #cfdfe9, #fff);
+	background-image: linear-gradient(to top, #cfdfe9, #fff);
 }
 
 .wp-editor-wrap .wp_themeSkin a.mceButtonEnabled:hover {
-	border-color: #5589AA !important;
-	background-color: #c9c9c9; /* Fallback */
-	background-image: -ms-linear-gradient(bottom, #bdccd5, #fff); /* IE10 */
-	background-image: -moz-linear-gradient(bottom, #bdccd5, #fff); /* Firefox */
-	background-image: -o-linear-gradient(bottom, #bdccd5, #fff); /* Opera */
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#bdccd5), to(#fff)); /* old Webkit	 */
-	background-image: -webkit-linear-gradient(bottom, #bdccd5, #fff) !important; /* new Webkit */
-	background-image: linear-gradient(bottom, #bdccd5, #fff); /* proposed W3C Markup */
+	border-color: #5589aa;
+	background: #c9c9c9;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#bdccd5), to(#000));
+	background-image: -webkit-linear-gradient(bottom, #bdccd5, #fff);
+	background-image:    -moz-linear-gradient(bottom, #bdccd5, #fff);
+	background-image:      -o-linear-gradient(bottom, #bdccd5, #fff);
+	background-image: linear-gradient(to top, #bdccd5, #fff);
 }
 
 .wp-editor-wrap .wp_themeSkin a.mceButton:active,
@@ -960,35 +963,21 @@ table.widefat .spam a:hover,
 .wp-editor-wrap .wp_themeSkin a.mceButtonActive,
 .wp-editor-wrap .wp_themeSkin a.mceButtonActive:active,
 .wp-editor-wrap .wp_themeSkin a.mceButtonActive:hover {
-	background: #B0C8D7 !important;
-	background-image: -ms-linear-gradient(bottom, #fff, #cfdfe9); /* IE10 */
-	background-image: -moz-linear-gradient(bottom, #fff, #cfdfe9); /* Firefox */
-	background-image: -o-linear-gradient(bottom, #fff, #cfdfe9); /* Opera */
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#fff), to(#cfdfe9)); /* old Webkit	 */
-	background-image: -webkit-linear-gradient(bottom, #fff, #cfdfe9) !important; /* new Webkit */
-	background-image: linear-gradient(bottom, #fff, #cfdfe9); /* proposed W3C Markup */
-	border-color: #5589AA !important;
+	background: #b0c8d7;
+	border-color: #5589aa;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#cfdfe9), to(#fff));
+	background-image: -webkit-linear-gradient(top, #cfdfe9, #fff);
+	background-image:    -moz-linear-gradient(top, #cfdfe9, #fff);
+	background-image:      -o-linear-gradient(top, #cfdfe9, #fff);
+	background-image: linear-gradient(to bottom, #cfdfe9, #fff);
 }
 
 .wp-editor-wrap .wp_themeSkin .mceButtonDisabled {
-	border-color: #B0C8D7 !important;
-}
-
-/* ListBox */
-.wp-editor-wrap .wp_themeSkin .mceListBox .mceText,
-.wp-editor-wrap .wp_themeSkin .mceListBox .mceOpen	{
-	border-color: #B0C8D7;
-	background-color: #cfdfe9; /* Fallback */
-	background-image: -ms-linear-gradient(bottom, #cfdfe9, #fff); /* IE10 */
-	background-image: -moz-linear-gradient(bottom, #cfdfe9, #fff); /* Firefox */
-	background-image: -o-linear-gradient(bottom, #cfdfe9, #fff); /* Opera */
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#cfdfe9), to(#fff)); /* old Webkit	*/
-	background-image: -webkit-linear-gradient(bottom, #cfdfe9, #fff) !important; /* new Webkit */
-	background-image: linear-gradient(bottom, #cfdfe9, #fff); /* proposed W3C Markup */
+	border-color: #b0c8d7 !important;
 }
 
 .wp-editor-wrap .wp_themeSkin .mceListBox .mceOpen {
-	border-left: 0px !important;
+	border-left: 0 !important;
 }
 
 .wp-editor-wrap .wp_themeSkin table.mceListBoxEnabled:hover .mceOpen,
@@ -997,74 +986,66 @@ table.widefat .spam a:hover,
 .wp-editor-wrap .wp_themeSkin .mceListBoxSelected .mceOpen,
 .wp-editor-wrap .wp_themeSkin .mceListBoxSelected .mceText,
 .wp-editor-wrap .wp_themeSkin table.mceListBoxEnabled:active .mceText {
-	background: #B0C8D7;
-	border-color: #5589AA !important;
+	background: #b0c8d7;
+	border-color: #5589aa;
 }
 
-/* List Box Hover */
 .wp-editor-wrap .wp_themeSkin table.mceListBoxEnabled:hover .mceText,
 .wp-editor-wrap .wp_themeSkin .mceListBoxHover .mceText,
 .wp-editor-wrap .wp_themeSkin table.mceListBoxEnabled:hover .mceOpen,
 .wp-editor-wrap .wp_themeSkin .mceListBoxHover .mceOpen {
-	border-color: #5589AA !important;
-	background-color: #c9c9c9; /* Fallback */
-	background-image: -ms-linear-gradient(bottom, #cfdfe9, #fff); /* IE10 */
-	background-image: -moz-linear-gradient(bottom, #cfdfe9, #fff); /* Firefox */
-	background-image: -o-linear-gradient(bottom, #cfdfe9, #fff); /* Opera */
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#cfdfe9), to(#fff)); /* old Webkit	*/
-	background-image: -webkit-linear-gradient(bottom, #cfdfe9, #fff) !important; /* new Webkit */
-	background-image: linear-gradient(bottom, #cfdfe9, #fff); /* proposed W3C Markup */
-}
-
-.wp-editor-wrap .wp_themeSkin select.mceListBox {
-	border-color: #B2B2B2;
-	background-color: #fff;
+	border-color: #5589aa;
+	background: #c9c9c9;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#cfdfe9), to(#fff));
+	background-image: -webkit-linear-gradient(bottom, #cfdfe9, #fff);
+	background-image:    -moz-linear-gradient(bottom, #cfdfe9, #fff);
+	background-image:      -o-linear-gradient(bottom, #cfdfe9, #fff);
+	background-image: linear-gradient(to top, #cfdfe9, #fff);
 }
 
 /* SplitButton */
 .wp-editor-wrap .wp_themeSkin .mceSplitButton a.mceAction,
 .wp-editor-wrap .wp_themeSkin .mceSplitButton a.mceOpen {
-	border-color: #B0C8D7;
+	border-color: #b0c8d7;
 }
 
 .wp-editor-wrap .wp_themeSkin .mceSplitButton a.mceOpen:hover,
 .wp-editor-wrap .wp_themeSkin .mceSplitButtonSelected a.mceOpen,
 .wp-editor-wrap .wp_themeSkin table.mceSplitButtonEnabled:hover a.mceAction,
 .wp-editor-wrap .wp_themeSkin .mceSplitButton a.mceAction:hover {
-	border-color: #5589AA !important;
+	border-color: #5589aa;
 }
 
 .wp-editor-wrap .wp_themeSkin table.mceSplitButton td {
-	background-color: #cfdfe9; /* Fallback */
-	background-image: -ms-linear-gradient(bottom, #cfdfe9, #fff); /* IE10 */
-	background-image: -moz-linear-gradient(bottom, #cfdfe9, #fff); /* Firefox */
-	background-image: -o-linear-gradient(bottom, #cfdfe9, #fff); /* Opera */
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#cfdfe9), to(#fff)); /* old Webkit	*/
-	background-image: -webkit-linear-gradient(bottom, #cfdfe9, #fff) !important; /* new Webkit */
-	background-image: linear-gradient(bottom, #cfdfe9, #fff); /* proposed W3C Markup */
+	background: #cfdfe9;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#cfdfe9), to(#fff));
+	background-image: -webkit-linear-gradient(bottom, #cfdfe9, #fff);
+	background-image:    -moz-linear-gradient(bottom, #cfdfe9, #fff);
+	background-image:      -o-linear-gradient(bottom, #cfdfe9, #fff);
+	background-image: linear-gradient(to top, #cfdfe9, #fff);
 }
 
 .wp-editor-wrap .wp_themeSkin table.mceSplitButton:hover td {
-	background-image: -ms-linear-gradient(bottom, #cfdfe9, #fff); /* IE10 */
-	background-image: -moz-linear-gradient(bottom, #cfdfe9, #fff); /* Firefox */
-	background-image: -o-linear-gradient(bottom, #cfdfe9, #fff); /* Opera */
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#cfdfe9), to(#fff)); /* old Webkit	*/
-	background-image: -webkit-linear-gradient(bottom, #cfdfe9, #fff) !important; /* new Webkit */
-	background-image: linear-gradient(bottom, #cfdfe9, #fff); /* proposed W3C Markup */
+	background: #c9c9c9;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#bdccd5), to(#000));
+	background-image: -webkit-linear-gradient(bottom, #bdccd5, #fff);
+	background-image:    -moz-linear-gradient(bottom, #bdccd5, #fff);
+	background-image:      -o-linear-gradient(bottom, #bdccd5, #fff);
+	background-image: linear-gradient(to top, #bdccd5, #fff);
 }
 
 .wp-editor-wrap .wp_themeSkin .mceSplitButtonActive {
-	background-color: #B0C8D7;
+	background-color: #b0c8d7;
 }
 
 /* ColorSplitButton */
 .wp-editor-wrap .wp_themeSkin div.mceColorSplitMenu table {
 	background-color: #ebebeb;
-	border-color: #B2B2B2;
+	border-color: #b2b2b2;
 }
 
 .wp-editor-wrap .wp_themeSkin .mceColorSplitMenu a {
-	border-color: #B2B2B2;
+	border-color: #b2b2b2;
 }
 
 .wp-editor-wrap .wp_themeSkin .mceColorSplitMenu a.mceMoreColors {
@@ -1097,23 +1078,22 @@ table.widefat .spam a:hover,
 .wp-editor-wrap .wp_themeSkin .mceMenu .mceMenuItemActive {
 	background-color: #f5f5f5;
 }
+
 .wp-editor-wrap .wp_themeSkin td.mceMenuItemSeparator {
 	background-color: #aaa;
 }
+
 .wp-editor-wrap .wp_themeSkin .mceMenuItemTitle a {
 	background-color: #ccc;
 	border-bottom-color: #aaa;
 }
+
 .wp-editor-wrap .wp_themeSkin .mceMenuItemTitle span.mceText {
 	color: #000;
 }
+
 .wp-editor-wrap .wp_themeSkin .mceMenuItemDisabled .mceText {
 	color: #888;
-}
-
-.wp-editor-wrap .wp_themeSkin tr.mceFirst td.mceToolbar {
-	background: #cfdfe9 url("../images/ed-bg-vs.gif?ver=20101102") repeat-x scroll left top;
-	border-color: #cfdfe9;
 }
 
 .wp-admin #mceModalBlocker {
@@ -1185,53 +1165,31 @@ table.widefat .spam a:hover,
 	color: #333;
 }
 
-.wp-editor-wrap.quicktags-toolbar input {
+.wp-editor-wrap .quicktags-toolbar input {
 	color: #464646;
-	border-color: #d1e5ee;
-	background-color: #eff8ff;
-	background-image: -ms-linear-gradient(bottom, #eff8ff, #fff);
-	background-image: -moz-linear-gradient(bottom, #eff8ff, #fff);
-	background-image: -o-linear-gradient(bottom, #eff8ff, #fff);
-	background-image: -webkit-linear-gradient(bottom, #eff8ff, #fff);
-	background-image: linear-gradient(bottom, #eff8ff, #fff);
+	border-color: #b1c6cf;
+	background: #fff;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#e5f0f8), to(#fff));
+	background-image: -webkit-linear-gradient(bottom, #e5f0f8, #fff);
+	background-image:    -moz-linear-gradient(bottom, #e5f0f8, #fff);
+	background-image:      -o-linear-gradient(bottom, #e5f0f8, #fff);
+	background-image: linear-gradient(to top, #e5f0f8, #fff);
 }
-.wp-editor-wrap .quicktags-toolbar,
-.wp-editor-wrap.wp_themeSkin tr.mceFirst td.mceToolbar {
-	border-bottom: 1px solid #ccc;
-	background-color: #eff8ff; /* Fallback */
-	background-image: -ms-linear-gradient(bottom, #cfdfe9, #eff8ff); /* IE10 */
-	background-image: -moz-linear-gradient(bottom, #cfdfe9, #eff8ff); /* Firefox */
-	background-image: -o-linear-gradient(bottom, #cfdfe9, #eff8ff); /* Opera */
-	background-image: -webkit-linear-gradient(bottom, #cfdfe9, #eff8ff); /* new Webkit */
-	background-image: linear-gradient(bottom, #cfdfe9, #eff8ff); /* proposed W3C Markup */
-}
+
 .wp-editor-wrap .quicktags-toolbar input:hover {
-	border-color: #aaa;
-	background: #ddd;
+	border-color: #5589aa;
+	background: #e0f1ff;
 }
 
-.wp-editor-wrap.wp_themeSkin .mceButton,
-.wp-editor-wrap.wp_themeSkin .mceListBox .mceText,
-.wp-editor-wrap.wp_themeSkin .mceListBox .mceOpen {
-	border-color: #ccc;
-	background-color: #eff8ff; /* Fallback */
-	background-image: -ms-linear-gradient(bottom, #eff8ff, #fff); /* IE10 */
-	background-image: -moz-linear-gradient(bottom, #eff8ff, #fff); /* Firefox */
-	background-image: -o-linear-gradient(bottom, #eff8ff, #fff); /* Opera */
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#eff8ff), to(#fff)); /* old Webkit */
-	background-image: -webkit-linear-gradient(bottom, #eff8ff, #fff); /* new Webkit */
-	background-image: linear-gradient(bottom, #eff8ff, #fff); /* proposed W3C Markup */
-}
-
-.wp-editor-wrap.wp_themeSkin a.mceButtonEnabled:hover {
-	border-color: #a0a0a0;
-	background: #ddd; /* Fallback */
-	background-image: -ms-linear-gradient(bottom, #cfdfe9, #fff); /* IE10 */
-	background-image: -moz-linear-gradient(bottom, #cfdfe9, #fff); /* Firefox */
-	background-image: -o-linear-gradient(bottom, #cfdfe9, #fff); /* Opera */
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#cfdfe9), to(#fff)); /* old Webkit */
-	background-image: -webkit-linear-gradient(bottom, #cfdfe9, #fff); /* new Webkit */
-	background-image: linear-gradient(bottom, #cfdfe9, #fff); /* proposed W3C Markup */
+.wp-editor-wrap .quicktags-toolbar,
+.wp-editor-wrap .wp_themeSkin tr.mceFirst td.mceToolbar {
+	border-bottom: 1px solid #ccc;
+	background: #eff8ff;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#cfdfe9), to(#eff8ff));
+	background-image: -webkit-linear-gradient(bottom, #cfdfe9, #eff8ff);
+	background-image:    -moz-linear-gradient(bottom, #cfdfe9, #eff8ff);
+	background-image:      -o-linear-gradient(bottom, #cfdfe9, #eff8ff);
+	background-image: linear-gradient(to top, #cfdfe9, #eff8ff);
 }
 
 /* end TinyMCE */
@@ -1324,23 +1282,22 @@ table.widefat .spam a:hover,
 .folded #adminmenu li.current.menu-top,
 #adminmenu .wp-menu-arrow,
 #adminmenu .wp-has-current-submenu .wp-submenu .wp-submenu-head {
-	background-color: #5589AA; /* Fallback */
-	background-image: -ms-linear-gradient(bottom, #5589AA, #619bbb); /* IE10 */
-	background-image: -moz-linear-gradient(bottom, #5589AA, #619bbb); /* Firefox */
-	background-image: -o-linear-gradient(bottom, #5589AA, #619bbb); /* Opera */
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#5589AA), to(#619bbb)); /* old Webkit */
-	background-image: -webkit-linear-gradient(bottom, #5589AA, #619bbb); /* new Webkit */
-	background-image: linear-gradient(bottom, #5589AA, #619bbb); /* proposed W3C Markup */
+	background: #5589aa;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#5589aa), to(#619bbb));
+	background-image: -webkit-linear-gradient(bottom, #5589aa, #619bbb);
+	background-image:    -moz-linear-gradient(bottom, #5589aa, #619bbb);
+	background-image:      -o-linear-gradient(bottom, #5589aa, #619bbb);
+	background-image: linear-gradient(to top, #5589aa, #619bbb);
 }
 
 #adminmenu .wp-menu-arrow div {
-	background-color: #5589AA; /* Fallback */
-	background-image: -ms-linear-gradient(right bottom, #5589AA, #619bbb); /* IE10 */
-	background-image: -moz-linear-gradient(right bottom, #5589AA, #619bbb); /* Firefox */
-	background-image: -o-linear-gradient(right bottom, #5589AA, #619bbb); /* Opera */
-	background-image: -webkit-gradient(linear, right bottom, left top, from(#5589AA), to(#619bbb)); /* old Webkit */
-	background-image: -webkit-linear-gradient(right bottom, #5589AA, #619bbb); /* new Webkit */
-	background-image: linear-gradient(right bottom, #5589AA, #619bbb); /* proposed W3C Markup */
+	background: #5589aa;
+	background-image: -webkit-gradient(linear, right bottom, left top, from(#5589aa), to(#619bbb));
+	background-image: -webkit-linear-gradient(bottom right, #5589aa, #619bbb);
+	background-image:    -moz-linear-gradient(bottom right, #5589aa, #619bbb);
+	background-image:      -o-linear-gradient(bottom right, #5589aa, #619bbb);
+	background-image: linear-gradient(to top left, #5589aa, #619bbb);
+
 }
 
 #adminmenu li.wp-not-current-submenu .wp-menu-arrow {
@@ -1420,20 +1377,23 @@ table.widefat .spam a:hover,
 
 #collapse-button {
 	border-color: #d0dfe9;
-	background-color: #eff8ff; /* Fallback */
-	background-image: -ms-linear-gradient(bottom, #eff8ff, #fff); /* IE10 */
-	background-image: -moz-linear-gradient(bottom, #eff8ff, #fff); /* Firefox */
-	background-image: -o-linear-gradient(bottom, #eff8ff, #fff); /* Opera */
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#eff8ff), to(#fff)); /* old Webkit */
-	background-image: -webkit-linear-gradient(bottom, #eff8ff, #fff); /* new Webkit */
-	background-image: linear-gradient(bottom, #eff8ff, #fff); /* proposed W3C Markup */
+	background: #eff8ff; /* Fallback */
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#eff8ff), to(#fff));
+	background-image: -webkit-linear-gradient(bottom, #eff8ff, #fff);
+	background-image:    -moz-linear-gradient(bottom, #eff8ff, #fff);
+	background-image:      -o-linear-gradient(bottom, #eff8ff, #fff);
+	background-image: linear-gradient(to top, #eff8ff, #fff);
 }
+
 #collapse-menu:hover #collapse-button {
 	border-color: #A0C3D5;
 }
+
 #collapse-button div {
 	background: transparent url(../images/arrows-vs.png) no-repeat 0 -72px;
+
 }
+
 .folded #collapse-button div {
 	background-position: 0 -108px;
 }
@@ -1447,13 +1407,12 @@ table.widefat .spam a:hover,
 
 	#adminmenu li.wp-has-current-submenu,
 	#adminmenu li.current.menu-top {
-		background-color: #5589AA; /* Fallback */
-		background-image: -ms-linear-gradient(bottom, #5589AA, #619bbb); /* IE10 */
-		background-image: -moz-linear-gradient(bottom, #5589AA, #619bbb); /* Firefox */
-		background-image: -o-linear-gradient(bottom, #5589AA, #619bbb); /* Opera */
-		background-image: -webkit-gradient(linear, left bottom, left top, from(#5589AA), to(#619bbb)); /* old Webkit */
-		background-image: -webkit-linear-gradient(bottom, #5589AA, #619bbb); /* new Webkit */
-		background-image: linear-gradient(bottom, #5589AA, #619bbb); /* proposed W3C Markup */
+		background: #5589aa;
+		background-image: -webkit-gradient(linear, left bottom, left top, from(#5589aa), to(#619bbb));
+		background-image: -webkit-linear-gradient(bottom, #5589aa, #619bbb);
+		background-image:    -moz-linear-gradient(bottom, #5589aa, #619bbb);
+		background-image:      -o-linear-gradient(bottom, #5589aa, #619bbb);
+		background-image: linear-gradient(to top, #5589aa, #619bbb);
 	}
 
 	#adminmenu li.menu-top li:hover a {
@@ -1877,16 +1836,15 @@ table.diff .diff-addedline ins {
 /* screen options and help tabs */
 #screen-options-link-wrap,
 #contextual-help-link-wrap {
-	background-color: #eff8ff; /* Fallback */
 	border-right: 1px solid #D1E5EE;
 	border-left: 1px solid #D1E5EE;
 	border-bottom: 1px solid #D1E5EE;
-	background-image: -ms-linear-gradient(bottom, #eff8ff, #eff8ff); /* IE10 */
-	background-image: -moz-linear-gradient(bottom, #def1ff, #eff8ff); /* Firefox */
-	background-image: -o-linear-gradient(bottom, #def1ff, #eff8ff); /* Opera */
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#def1ff), to(#eff8ff)); /* old Webkit */
-	background-image: -webkit-linear-gradient(bottom, #def1ff, #eff8ff); /* new Webkit */
-	background-image: linear-gradient(bottom, #def1ff, #eff8ff); /* proposed W3C Markup */
+	background: #eff8ff;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#def1ff), to(#eff8ff));
+	background-image: -webkit-linear-gradient(bottom, #def1ff, #eff8ff);
+	background-image:    -moz-linear-gradient(bottom, #def1ff, #eff8ff);
+	background-image:      -o-linear-gradient(bottom, #def1ff, #eff8ff);
+	background-image: linear-gradient(to top, #def1ff, #eff8ff);
 }
 
 #screen-meta-links a.show-settings {
@@ -1980,7 +1938,10 @@ fieldset.inline-edit-col-right .inline-edit-col {
 
 .tablenav .tablenav-pages a {
 	border-color: #d1e5ee;
-	background: #eee url('../images/menu-bits-vs.gif?ver=20101102') repeat-x scroll left -379px;
+	background: #eee;
+	-moz-box-shadow:    inset 0 1px 0 #fff;
+	-webkit-box-shadow: inset 0 1px 0 #fff;
+	box-shadow:         inset 0 1px 0 #fff;
 }
 
 .tablenav .tablenav-pages a:hover,
@@ -2092,11 +2053,7 @@ body.press-this ul.category-tabs li.tabs a {
 }
 
 div.widgets-sortables,
-#widgets-left .inactive {
-	background-color: #f7fcfe;
-	border-color: #d0dfe9;
-}
-
+#widgets-left .inactive,
 #available-widgets .widget-holder {
 	background-color: #f7fcfe;
 	border-color: #d0dfe9;
@@ -2108,13 +2065,6 @@ div.widgets-sortables,
 
 .sidebar-name {
 	color: #464646;
-	background-color: #f7fcfe; /* Fallback */
-	background-image: -ms-linear-gradient(top, #ECF8FE, #f7fcfe); /* IE10 */
-	background-image: -moz-linear-gradient(top, #ECF8FE, #f7fcfe); /* Firefox */
-	background-image: -o-linear-gradient(top, #ECF8FE, #f7fcfe); /* Opera */
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#ECF8FE), to(#f7fcfe)); /* old Webkit */
-	background-image: -webkit-linear-gradient(top, #ECF8FE, #f7fcfe); /* new Webkit */
-	background-image: linear-gradient(top, #ECF8FE, #f7fcfe); /* proposed W3C Markup */
 	text-shadow: #fff 0 1px 0;
 	border-color: #d0dfe9;
 	-webkit-box-shadow: inset 0 1px 0 #fff;
@@ -2182,7 +2132,7 @@ div.widgets-sortables,
 }
 
 #post-body {
-	background: #ffffff;
+	background: #fff;
 	border-top-color: #fff;
 	border-bottom-color: #d0dfe9;
 }
@@ -2329,7 +2279,7 @@ div.widgets-sortables,
 
 .about-wrap h1 {
 	color: #333;
-	text-shadow: 1px 1px 1px white;
+	text-shadow: 1px 1px 1px #fff;
 }
 
 .about-text {
@@ -2344,21 +2294,25 @@ div.widgets-sortables,
 .about-wrap h2 .nav-tab {
 	color: #21759B;
 }
+
 .about-wrap h2 .nav-tab:hover {
 	color: #d54e21;
+
 }
+
 .about-wrap h2 .nav-tab-active,
 .about-wrap h2 .nav-tab-active:hover {
 	color: #333;
 }
+
 .about-wrap h2 .nav-tab-active {
-	text-shadow: 1px 1px 1px white;
+	text-shadow: 1px 1px 1px #fff;
 	color: #464646;
 }
 
 .about-wrap h3 {
 	color: #333;
-	text-shadow: 1px 1px 1px white;
+	text-shadow: 1px 1px 1px #fff;
 }
 
 .about-wrap .feature-section h4 {
@@ -2367,7 +2321,7 @@ div.widgets-sortables,
 
 .about-wrap .feature-section img {
 	background: #fff;
-	border: 1px #ccc solid;
+	border: 1px solid #ccc;
 
 	-webkit-box-shadow: 0 1px 3px rgba( 0, 0, 0, 0.3 );
 	box-shadow:         0 1px 3px rgba( 0, 0, 0, 0.3 );
@@ -2386,16 +2340,17 @@ div.widgets-sortables,
 }
 
 .about-wrap h4.wp-people-group {
-	text-shadow: 1px 1px 1px white;
+	text-shadow: 1px 1px 1px #fff;
 }
 
 .about-wrap li.wp-person img.gravatar {
 	-webkit-box-shadow: 0 0 4px rgba( 0, 0, 0, 0.4 );
 	box-shadow: 0 0 4px rgba( 0, 0, 0, 0.4 );
 }
+
 .about-wrap li.wp-person .title {
 	color: #464646;
-	text-shadow: 1px 1px 1px white;
+	text-shadow: 1px 1px 1px #fff;
 }
 
 .freedoms-php .about-wrap ol li {
@@ -2483,11 +2438,6 @@ div.widgets-sortables,
 	background: transparent url(../images/arrows-vs.png) no-repeat 6px 7px;
 }
 
-.rtl .tablenav .tablenav-pages a {
-	border-color: #d1e5ee;
-	background: #eee url('../images/menu-bits-rtl-vs.gif?ver=20100610') repeat-x scroll right -379px;
-}
-
 .rtl #post-body .misc-pub-section {
 	border-right-color: transparent;
 	border-left-color: #d1e5ee;
@@ -2496,6 +2446,7 @@ div.widgets-sortables,
 .rtl .sidebar-name-arrow {
 	background: transparent url(../images/arrows-vs.png) no-repeat 5px 9px;
 }
+
 .rtl .sidebar-name:hover .sidebar-name-arrow {
 	background: transparent url(../images/arrows-dark-vs.png) no-repeat 5px 9px;
 }
