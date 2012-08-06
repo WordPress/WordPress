@@ -261,7 +261,8 @@ li.bypostauthor cite span {
 
 /* Form fields */
 input[type="text"],
-input[type="password"] {
+input[type="password"],
+textarea {
 	padding: 6px;
 	padding: 0.428571429rem;
 	font-family: inherit;
@@ -1212,15 +1213,12 @@ a.comment-reply-link:hover {
 	line-height: 1.714285714;
 }
 #respond form input[type="text"],
-textarea {
-	font-family: inherit;
+#respond form textarea {
 	font-size: 12px;
 	font-size: 0.857142857rem;
 	line-height: 1.714285714;
 	padding: 10px;
 	padding: 0.714285714rem;
-	border: 1px solid #d5d2ca;
-	border-radius: 3px;
 	width: 96%;
 }
 #respond form p.form-allowed-tags {
