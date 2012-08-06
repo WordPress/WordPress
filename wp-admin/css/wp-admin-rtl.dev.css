@@ -1705,12 +1705,6 @@ table .column-rating {
 	text-align: left;
 }
 
-/* Hide visually but not from screen readers */
-.screen-reader-text, .screen-reader-text span {
-	left: auto;
-	right: -1000em;
-}
-
 /* styles for use by people extending the WordPress interface */
 
 body,
