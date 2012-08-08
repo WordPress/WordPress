@@ -1549,10 +1549,13 @@ class wpdb {
 	 * Called when WordPress is generating the table scheme.
 	 *
 	 * @since 2.5.0
+	 * @deprecated 3.5.0
+	 * @deprecated Use wpdb::has_cap( 'collation' )
 	 *
 	 * @return bool True if collation is supported, false if version does not
 	 */
 	function supports_collation() {
+		_deprecated_function( __FUNCTION__, '3.5', 'wpdb::has_cap( \'collation\' )' );
 		return $this->has_cap( 'collation' );
 	}
 
