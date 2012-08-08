@@ -134,10 +134,10 @@ class wpdb {
 	 * Saved info on the table column
 	 *
 	 * @since 1.2.0
-	 * @access private
+	 * @access protected
 	 * @var array
 	 */
-	var $col_info;
+	protected $col_info;
 
 	/**
 	 * Saved queries that were executed
@@ -513,6 +513,21 @@ class wpdb {
 	 */
 	function __destruct() {
 		return true;
+	}
+
+	/**
+	 * PHP5 style magic getter, used to lazy-load expensive data.
+	 *
+	 * @since 3.5.0
+	 *
+	 * @param string $var The private member to get, and optionally process
+	 * @return mixed The private member
+	 */
+	function __get( $var ) {
+		if ( 'col_info' == $var )
+			$this->load_col_info();
+
+		return $this->$var;
 	}
 
 	/**
@@ -902,7 +917,7 @@ class wpdb {
 			$args = $args[0];
 		$query = str_replace( "'%s'", '%s', $query ); // in case someone mistakenly already singlequoted it
 		$query = str_replace( '"%s"', '%s', $query ); // doublequote unquoting
-		$query = str_replace( '%f' , '%F', $query ); // Force floats to be locale unaware		
+		$query = str_replace( '%f' , '%F', $query ); // Force floats to be locale unaware
 		$query = preg_replace( '|(?<!%)%s|', "'%s'", $query ); // quote the strings, avoiding escaped strings like %%s
 		array_walk( $args, array( &$this, 'escape_by_ref' ) );
 		return @vsprintf( $query, $args );
@@ -1025,6 +1040,7 @@ class wpdb {
 		$this->last_result = array();
 		$this->col_info    = null;
 		$this->last_query  = null;
+		@mysql_free_result( $this->result );
 	}
 
 	/**
@@ -1117,18 +1133,11 @@ class wpdb {
 			// Return number of rows affected
 			$return_val = $this->rows_affected;
 		} else {
-			$i = 0;
-			while ( $i < @mysql_num_fields( $this->result ) ) {
-				$this->col_info[$i] = @mysql_fetch_field( $this->result );
-				$i++;
-			}
 			$num_rows = 0;
 			while ( $row = @mysql_fetch_object( $this->result ) ) {
 				$this->last_result[$num_rows] = $row;
 				$num_rows++;
 			}
-
-			@mysql_free_result( $this->result );
 
 			// Log number of rows the query returned
 			// and return number of rows selected
@@ -1458,6 +1467,22 @@ class wpdb {
 	}
 
 	/**
+	 * Load the column metadata from the last query.
+	 *
+	 * @since 3.5.0
+	 *
+	 * @access protected
+	 */
+	protected function load_col_info() {
+		if ( $this->col_info )
+			return;
+
+		for ( $i = 0; $i < @mysql_num_fields( $this->result ); $i++ ) {
+			$this->col_info[ $i ] = @mysql_fetch_field( $this->result, $i );
+		}
+	}
+
+	/**
 	 * Retrieve column metadata from the last query.
 	 *
 	 * @since 0.71
@@ -1467,6 +1492,8 @@ class wpdb {
 	 * @return mixed Column Results
 	 */
 	function get_col_info( $info_type = 'name', $col_offset = -1 ) {
+		$this->load_col_info();
+
 		if ( $this->col_info ) {
 			if ( $col_offset == -1 ) {
 				$i = 0;
