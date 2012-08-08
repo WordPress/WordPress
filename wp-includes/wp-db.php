@@ -1560,6 +1560,24 @@ class wpdb {
 	}
 
 	/**
+	 * The database character collate.
+	 *
+	 * @since 3.5.0
+	 *
+	 * @return string The database character collate.
+	 */
+	public function get_charset_collate() {
+		$charset_collate = '';
+
+		if ( ! empty( $this->charset ) )
+			$charset_collate = "DEFAULT CHARACTER SET $this->charset";
+		if ( ! empty( $this->collate ) )
+			$charset_collate .= " COLLATE $this->collate";
+
+		return $charset_collate;
+	}
+
+	/**
 	 * Determine if a database supports a particular feature
 	 *
 	 * @since 2.7.0

@@ -17,12 +17,7 @@ global $wpdb, $wp_queries, $charset_collate;
  * @global string
  * @name $charset_collate
  */
-$charset_collate = '';
-
-if ( ! empty( $wpdb->charset ) )
-	$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
-if ( ! empty( $wpdb->collate ) )
-	$charset_collate .= " COLLATE $wpdb->collate";
+$charset_collate = $wpdb->get_charset_collate();
 
 /**
  * Retrieve the SQL for creating database tables.
