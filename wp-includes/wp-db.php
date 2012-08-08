@@ -445,10 +445,46 @@ class wpdb {
 	 * Database Username
 	 *
 	 * @since 2.9.0
-	 * @access private
+	 * @access protected
 	 * @var string
 	 */
-	var $dbuser;
+	protected $dbuser;
+
+	/**
+	 * Database Password
+	 *
+	 * @since 3.5.0
+	 * @access protected
+	 * @var string
+	 */
+	protected $dbpassword;
+
+	/**
+	 * Database Name
+	 *
+	 * @since 3.5.0
+	 * @access protected
+	 * @var string
+	 */
+	protected $dbname;
+
+	/**
+	 * Database Host
+	 *
+	 * @since 3.5.0
+	 * @access protected
+	 * @var string
+	 */
+	protected $dbhost;
+
+	/**
+	 * Database Handle
+	 *
+	 * @since 3.5.0
+	 * @access protected
+	 * @var string
+	 */
+	protected $dbh;
 
 	/**
 	 * A textual description of the last query/get_row/get_var call
