@@ -1127,7 +1127,7 @@ article.format-quote .entry-content blockquote {
 	font-style: normal;
 	font-size: 15px;
 	font-size: 1.071428571rem;
-	line-height: 1.6;
+	line-height: 1.42857143;
 }
 .comments-area article header time {
 	line-height: 1.714285714;
@@ -1175,13 +1175,13 @@ article.format-quote .entry-content blockquote {
 	line-height: 1.714285714;
 }
 .comments-area li.bypostauthor cite span {
+	position: absolute;
 	margin-left: 5px;
 	margin-left: 0.357142857rem;
 	padding: 2px 5px;
 	padding: 0.142857143rem 0.357142857rem;
 	font-size: 10px;
 	font-size: 0.714285714rem;
-	line-height: 2.4;
 }
 a.comment-reply-link {
 	font-size: 13px;
