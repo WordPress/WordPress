@@ -607,8 +607,6 @@ nav[role="navigation"].main-small-navigation a:hover {
 }
 .menu-toggle {
 	display: inline-block;
-	padding: 4px 10px;
-	padding: 0.285714286rem 0.714285714rem;
 }
 .main-small-navigation .menu {
 	display: none;
