@@ -345,18 +345,21 @@ img.wp-smiley,
 .entry-content dl.gallery-item {
 	margin: 0;
 }
-.gallery-columns-4 .gallery-item img
-.gallery-columns-5 .gallery-item img {
-	width: 100%;
+.gallery-item a {
+	display: block;
+	width: 90%;
+}
+.gallery-columns-1 .gallery-item a {
+	max-width: 100%;
+	width: auto;
+}
+.gallery .gallery-icon img {
 	height: auto;
+	max-width: 90%;
+	padding: 5%;
 }
-.site-content .gallery-columns-4 .gallery-item {
-	width: 23%;
-	padding-right: 2%;
-}
-.site-content .gallery-columns-5 .gallery-item {
-	width: 18%;
-	padding-right: 2%;
+.gallery-columns-1 .gallery-icon img {
+	padding: 3%;
 }
 
 /* Navigation */
