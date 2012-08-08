@@ -9,7 +9,12 @@
  * @since Twenty Twelve 1.0
  */
 ?><!DOCTYPE html>
+<!--[if IE 7 | IE 8]> 
+<html class="ie" <?php language_attributes(); ?>> 
+<![endif]--> 
+<!--[if !(IE 7) | !(IE 8)  ]><!--> 
 <html <?php language_attributes(); ?>>
+<!--<![endif]-->
 <head>
 <meta charset="<?php bloginfo( 'charset' ); ?>" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
