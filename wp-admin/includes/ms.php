@@ -302,6 +302,8 @@ function upload_size_limit_filter( $size ) {
 /**
  * Determines if there is any upload space left in the current blog's quota.
  *
+ * @since 3.0.0
+ *
  * @return int of upload space available in bytes
  */
 function get_upload_space_available() {
@@ -331,11 +333,11 @@ function upload_is_user_over_quota( $echo = true ) {
 
 	$space_allowed = get_space_allowed();
 	if ( empty( $space_allowed ) || !is_numeric( $space_allowed ) )
-		$space_allowed = 10;// Default space allowed is 10 MB
+		$space_allowed = 10; // Default space allowed is 10 MB
 
 	$space_used = get_space_used();
 
-	if ( ($space_allowed - $space_used ) < 0 ) {
+	if ( ( $space_allowed - $space_used ) < 0 ) {
 		if ( $echo )
 			_e( 'Sorry, you have used your space allocation. Please delete some files to upload more files.' );
 		return true;
@@ -344,11 +346,18 @@ function upload_is_user_over_quota( $echo = true ) {
 	}
 }
 
+/**
+ * Returns the space used by the current blog.
+ *
+ * @since 3.5.0
+ *
+ * @return int Used space in megabytes
+ */
 function get_space_used() {
 	// Allow for an alternative way of tracking storage space used
 	$space_used = apply_filters( 'pre_get_space_used', false );
 	if ( false === $space_used )
-		$space_used = get_dirsize( BLOGUPLOADDIR );
+		$space_used = get_dirsize( BLOGUPLOADDIR ) / 1024 / 1024;
 
 	return $space_used;
 }
@@ -356,7 +365,9 @@ function get_space_used() {
 /**
  * Returns the upload quota for the current blog.
  *
- * @return int Quota
+ * @since MU
+ *
+ * @return int Quota in megabytes
  */
 function get_space_allowed() {
 	$space_allowed = get_option( 'blog_upload_space' );
@@ -370,6 +381,11 @@ function get_space_allowed() {
 	return $space_allowed;
 }
 
+/**
+ * Displays the amount of disk space used by the current blog. Not used in core.
+ *
+ * @since MU
+ */
 function display_space_usage() {
 	$space_allowed = get_space_allowed();
 	$space_used = get_space_used();
@@ -406,7 +422,7 @@ function fix_import_form_size( $size ) {
 		return 0;
 
 	$available = get_upload_space_available();
-	return min( $size, $available);
+	return min( $size, $available );
 }
 
 // Edit blog upload space setting on Edit Blog page
