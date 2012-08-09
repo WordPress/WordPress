@@ -332,6 +332,7 @@ function twentytwelve_entry_meta() {
 }
 endif;
 
+if ( ! function_exists( 'twentytwelve_is_categorized_site' ) ) :
 /**
  * Returns true if a blog has more than one category.
  *
@@ -347,6 +348,7 @@ function twentytwelve_is_categorized_site() {
 
 	return true;
 }
+endif;
 
 /**
  * Extends the default WordPress body class to denote:
