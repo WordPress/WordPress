@@ -243,6 +243,7 @@ function twentyten_excerpt_length( $length ) {
 }
 add_filter( 'excerpt_length', 'twentyten_excerpt_length' );
 
+if ( ! function_exists( 'twentyten_continue_reading_link' ) ) :
 /**
  * Returns a "Continue Reading" link for excerpts
  *
@@ -252,6 +253,7 @@ add_filter( 'excerpt_length', 'twentyten_excerpt_length' );
 function twentyten_continue_reading_link() {
 	return ' <a href="'. get_permalink() . '">' . __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'twentyten' ) . '</a>';
 }
+endif;
 
 /**
  * Replaces "[...]" (appended to automatically generated excerpts) with an ellipsis and twentyten_continue_reading_link().

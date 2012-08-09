@@ -337,12 +337,14 @@ function twentyeleven_excerpt_length( $length ) {
 }
 add_filter( 'excerpt_length', 'twentyeleven_excerpt_length' );
 
+if ( ! function_exists( 'twentyeleven_continue_reading_link' ) ) :
 /**
  * Returns a "Continue Reading" link for excerpts
  */
 function twentyeleven_continue_reading_link() {
 	return ' <a href="'. esc_url( get_permalink() ) . '">' . __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'twentyeleven' ) . '</a>';
 }
+endif; // twentyeleven_continue_reading_link
 
 /**
  * Replaces "[...]" (appended to automatically generated excerpts) with an ellipsis and twentyeleven_continue_reading_link().
