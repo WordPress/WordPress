@@ -1960,6 +1960,12 @@ section.ephemera .entry-title a span {
 }
 .commentlist .children li.comment .comment-content {
 	margin: 1.625em 0 0;
+	-ms-word-break: break-all;
+	word-break: break-all;
+	word-break: break-word;
+	-webkit-hyphens: auto;
+	-moz-hyphens: auto;
+	hyphens: auto;
 }
 .comment-meta a {
 	font-weight: bold;
@@ -2686,9 +2692,9 @@ p.comment-form-comment {
 	margin-right: 7.6%;
 }
 
-/* =IE8 
------------------------------------------------ */ 
- 
-#ie8 section.feature-image.large img { 
-	width: 100%; 
-} 
+/* =IE8
+----------------------------------------------- */
+
+#ie8 section.feature-image.large img {
+	width: 100%;
+}

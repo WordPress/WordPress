@@ -131,7 +131,7 @@ function twentyeleven_setup() {
 		// Callback used to display the header preview in the admin.
 		'admin-preview-callback' => 'twentyeleven_admin_header_image',
 	);
-	
+
 	add_theme_support( 'custom-header', $custom_header_support );
 
 	if ( ! function_exists( 'get_custom_header' ) ) {
@@ -221,7 +221,7 @@ function twentyeleven_header_style() {
 	// If no custom options for text are set, let's bail.
 	if ( $text_color == HEADER_TEXTCOLOR )
 		return;
-		
+
 	// If we get this far, we have custom styles. Let's do this.
 	?>
 	<style type="text/css">
