@@ -1190,6 +1190,7 @@ blockquote.pull.alignright {
 	float: left;
 	display: block;
 	margin: .375em 1.625em 0 0;
+	max-width: 100%;
 }
 
 
