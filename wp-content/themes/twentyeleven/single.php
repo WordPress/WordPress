@@ -20,7 +20,7 @@ get_header(); ?>
 						<span class="nav-next"><?php next_post_link( '%link', __( 'Next <span class="meta-nav">&rarr;</span>', 'twentyeleven' ) ); ?></span>
 					</nav><!-- #nav-single -->
 
-					<?php get_template_part( 'content', 'single' ); ?>
+					<?php get_template_part( 'content-single', get_post_format() ); ?>
 
 					<?php comments_template( '', true ); ?>
 
