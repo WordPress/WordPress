@@ -344,8 +344,8 @@ function wp_admin_bar_my_sites_menu( $wp_admin_bar ) {
 	$blue_wp_logo_url = includes_url('images/wpmini-blue.png');
 
 	foreach ( (array) $wp_admin_bar->user->blogs as $blog ) {
-		// @todo Replace with some favicon lookup.
-		//$blavatar = '<img src="' . esc_url( blavatar_url( blavatar_domain( $blog->siteurl ), 'img', 16, $blue_wp_logo_url ) ) . '" alt="Blavatar" width="16" height="16" />';
+		switch_to_blog( $blog->userblog_id );
+
 		$blavatar = '<img src="' . esc_url($blue_wp_logo_url) . '" alt="' . esc_attr__( 'Blavatar' ) . '" width="16" height="16" class="blavatar"/>';
 
 		$blogname = empty( $blog->blogname ) ? $blog->domain : $blog->blogname;
@@ -355,28 +355,28 @@ function wp_admin_bar_my_sites_menu( $wp_admin_bar ) {
 			'parent'    => 'my-sites-list',
 			'id'        => $menu_id,
 			'title'     => $blavatar . $blogname,
-			'href'      => get_admin_url( $blog->userblog_id ),
+			'href'      => admin_url(),
 		) );
 
 		$wp_admin_bar->add_menu( array(
 			'parent' => $menu_id,
 			'id'     => $menu_id . '-d',
 			'title'  => __( 'Dashboard' ),
-			'href'   => get_admin_url( $blog->userblog_id ),
+			'href'   => admin_url(),
 		) );
 
-		if ( current_user_can_for_blog( $blog->userblog_id, 'edit_posts' ) ) {
+		if ( current_user_can( 'edit_posts' ) ) {
 			$wp_admin_bar->add_menu( array(
 				'parent' => $menu_id,
 				'id'     => $menu_id . '-n',
 				'title'  => __( 'New Post' ),
-				'href'   => get_admin_url( $blog->userblog_id, 'post-new.php' ),
+				'href'   => admin_url( 'post-new.php' ),
 			) );
 			$wp_admin_bar->add_menu( array(
 				'parent' => $menu_id,
 				'id'     => $menu_id . '-c',
 				'title'  => __( 'Manage Comments' ),
-				'href'   => get_admin_url( $blog->userblog_id, 'edit-comments.php' ),
+				'href'   => admin_url( 'edit-comments.php' ),
 			) );
 		}
 
@@ -384,8 +384,10 @@ function wp_admin_bar_my_sites_menu( $wp_admin_bar ) {
 			'parent' => $menu_id,
 			'id'     => $menu_id . '-v',
 			'title'  => __( 'Visit Site' ),
-			'href'   => get_home_url( $blog->userblog_id, '/' ),
+			'href'   => home_url( '/' ),
 		) );
+
+		restore_current_blog();
 	}
 }
 

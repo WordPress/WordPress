@@ -446,72 +446,61 @@ function update_blog_option( $id, $option, $value, $deprecated = null ) {
  * @since MU
  *
  * @param int $new_blog The id of the blog you want to switch to. Default: current blog
- * @param bool $validate Whether to check if $new_blog exists before proceeding
+ * @param bool $deprecated Depecreated argument
  * @return bool	True on success, False if the validation failed
  */
-function switch_to_blog( $new_blog, $validate = false ) {
-	global $wpdb, $table_prefix, $blog_id, $switched, $switched_stack, $wp_roles, $wp_object_cache;
+function switch_to_blog( $new_blog, $deprecated = null ) {
+	global $wpdb, $wp_roles;
 
-	if ( empty($new_blog) )
-		$new_blog = $blog_id;
+	if ( empty( $new_blog ) )
+		$new_blog = $GLOBALS['blog_id'];
 
-	if ( $validate && ! get_blog_details( $new_blog ) )
-		return false;
-
-	if ( empty($switched_stack) )
-		$switched_stack = array();
-
-	$switched_stack[] = $blog_id;
+	$GLOBALS['_wp_switched_stack'][] = $GLOBALS['blog_id'];
 
 	/* If we're switching to the same blog id that we're on,
 	* set the right vars, do the associated actions, but skip
 	* the extra unnecessary work */
-	if ( $blog_id == $new_blog ) {
-		do_action( 'switch_blog', $blog_id, $blog_id );
-		$switched = true;
+	if ( $new_blog == $GLOBALS['blog_id'] ) {
+		do_action( 'switch_blog', $new_blog, $new_blog );
+		$GLOBALS['_wp_switched'] = true;
 		return true;
 	}
 
-	$wpdb->set_blog_id($new_blog);
-	$table_prefix = $wpdb->prefix;
-	$prev_blog_id = $blog_id;
-	$blog_id = $new_blog;
+	$wpdb->set_blog_id( $new_blog );
+	$GLOBALS['table_prefix'] = $wpdb->prefix;
+	$prev_blog_id = $GLOBALS['blog_id'];
+	$GLOBALS['blog_id'] = $new_blog;
 
-	if ( is_object( $wp_roles ) ) {
-		$wpdb->suppress_errors();
-		if ( method_exists( $wp_roles ,'_init' ) )
-			$wp_roles->_init();
-		elseif ( method_exists( $wp_roles, '__construct' ) )
-			$wp_roles->__construct();
-		$wpdb->suppress_errors( false );
-	}
-
-	if ( did_action('init') ) {
+	if ( did_action( 'init' ) ) {
+		$wp_roles->reinit();
 		$current_user = wp_get_current_user();
-		if ( is_object( $current_user ) )
-			$current_user->for_blog( $blog_id );
+		$current_user->for_blog( $new_blog );
 	}
 
 	if ( function_exists( 'wp_cache_switch_to_blog' ) ) {
-		wp_cache_switch_to_blog( $blog_id );
+		wp_cache_switch_to_blog( $new_blog );
 	} else {
+		global $wp_object_cache;
+
 		if ( is_object( $wp_object_cache ) && isset( $wp_object_cache->global_groups ) )
 			$global_groups = $wp_object_cache->global_groups;
 		else
 			$global_groups = false;
 	
 		wp_cache_init();
-		if ( function_exists('wp_cache_add_global_groups') ) {
+
+		if ( function_exists( 'wp_cache_add_global_groups' ) ) {
 			if ( is_array( $global_groups ) )
 				wp_cache_add_global_groups( $global_groups );
 			else
 				wp_cache_add_global_groups( array( 'users', 'userlogins', 'usermeta', 'user_meta', 'site-transient', 'site-options', 'site-lookup', 'blog-lookup', 'blog-details', 'rss', 'global-posts' ) );
-			wp_cache_add_non_persistent_groups(array( 'comment', 'counts', 'plugins' ));
+			wp_cache_add_non_persistent_groups( array( 'comment', 'counts', 'plugins' ) );
 		}
 	}
 
-	do_action('switch_blog', $blog_id, $prev_blog_id);
-	$switched = true;
+	do_action( 'switch_blog', $new_blog, $prev_blog_id );
+	$GLOBALS['_wp_switched'] = true;
+
 	return true;
 }
 
@@ -524,64 +513,57 @@ function switch_to_blog( $new_blog, $validate = false ) {
  * @return bool True on success, False if we're already on the current blog
  */
 function restore_current_blog() {
-	global $table_prefix, $wpdb, $blog_id, $switched, $switched_stack, $wp_roles, $wp_object_cache;
+	global $wpdb, $wp_roles;
 
-	if ( !$switched )
+	if ( ! $GLOBALS['_wp_switched'] )
 		return false;
 
-	if ( !is_array( $switched_stack ) )
-		return false;
+	$blog = array_pop( $GLOBALS['_wp_switched_stack'] );
 
-	$blog = array_pop( $switched_stack );
-	if ( $blog_id == $blog ) {
+	if ( $GLOBALS['blog_id'] == $blog ) {
 		do_action( 'switch_blog', $blog, $blog );
-		/* If we still have items in the switched stack, consider ourselves still 'switched' */
-		$switched = ( is_array( $switched_stack ) && count( $switched_stack ) > 0 );
+		// If we still have items in the switched stack, consider ourselves still 'switched'
+		$GLOBALS['_wp_switched'] = ! empty( $GLOBALS['_wp_switched_stack'] );
 		return true;
 	}
 
-	$wpdb->set_blog_id($blog);
-	$prev_blog_id = $blog_id;
-	$blog_id = $blog;
-	$table_prefix = $wpdb->prefix;
+	$wpdb->set_blog_id( $blog );
+	$prev_blog_id = $GLOBALS['blog_id'];
+	$GLOBALS['blog_id'] = $blog;
+	$GLOBALS['table_prefix'] = $wpdb->prefix;
 
-	if ( is_object( $wp_roles ) ) {
-		$wpdb->suppress_errors();
-		if ( method_exists( $wp_roles ,'_init' ) )
-			$wp_roles->_init();
-		elseif ( method_exists( $wp_roles, '__construct' ) )
-			$wp_roles->__construct();
-		$wpdb->suppress_errors( false );
-	}
-
-	if ( did_action('init') ) {
+	if ( did_action( 'init' ) ) {
+		$wp_roles->reinit();
 		$current_user = wp_get_current_user();
-		if ( is_object( $current_user ) )
-			$current_user->for_blog( $blog_id );
+		$current_user->for_blog( $blog );
 	}
 
 	if ( function_exists( 'wp_cache_switch_to_blog' ) ) {
-		wp_cache_switch_to_blog( $blog_id );
+		wp_cache_switch_to_blog( $blog );
 	} else {
+		global $wp_object_cache;
+
 		if ( is_object( $wp_object_cache ) && isset( $wp_object_cache->global_groups ) )
 			$global_groups = $wp_object_cache->global_groups;
 		else
 			$global_groups = false;
 	
 		wp_cache_init();
-		if ( function_exists('wp_cache_add_global_groups') ) {
+
+		if ( function_exists( 'wp_cache_add_global_groups' ) ) {
 			if ( is_array( $global_groups ) )
 				wp_cache_add_global_groups( $global_groups );
 			else
 				wp_cache_add_global_groups( array( 'users', 'userlogins', 'usermeta', 'user_meta', 'site-transient', 'site-options', 'site-lookup', 'blog-lookup', 'blog-details', 'rss', 'global-posts' ) );
-			wp_cache_add_non_persistent_groups(array( 'comment', 'counts', 'plugins' ));
+			wp_cache_add_non_persistent_groups( array( 'comment', 'counts', 'plugins' ) );
 		}
 	}
 
-	do_action('switch_blog', $blog_id, $prev_blog_id);
+	do_action( 'switch_blog', $blog, $prev_blog_id );
 
-	/* If we still have items in the switched stack, consider ourselves still 'switched' */
-	$switched = ( is_array( $switched_stack ) && count( $switched_stack ) > 0 );
+	// If we still have items in the switched stack, consider ourselves still 'switched'
+	$GLOBALS['_wp_switched'] = ! empty( $GLOBALS['_wp_switched_stack'] );
+
 	return true;
 }
 

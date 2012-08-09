@@ -1432,7 +1432,7 @@ function get_temp_dir() {
  * @return array See above for description.
  */
 function wp_upload_dir( $time = null ) {
-	global $switched;
+	global $_wp_switched;
 	$siteurl = get_option( 'siteurl' );
 	$upload_path = get_option( 'upload_path' );
 	$upload_path = trim($upload_path);
@@ -1456,12 +1456,12 @@ function wp_upload_dir( $time = null ) {
 			$url = trailingslashit( $siteurl ) . $upload_path;
 	}
 
-	if ( defined('UPLOADS') && !$main_override && ( !isset( $switched ) || $switched === false ) ) {
+	if ( defined('UPLOADS') && ! $main_override && ! $_wp_switched ) {
 		$dir = ABSPATH . UPLOADS;
 		$url = trailingslashit( $siteurl ) . UPLOADS;
 	}
 
-	if ( is_multisite() && !$main_override && ( !isset( $switched ) || $switched === false ) ) {
+	if ( is_multisite() && ! $main_override && ! $_wp_switched  ) {
 		if ( defined( 'BLOGUPLOADDIR' ) )
 			$dir = untrailingslashit(BLOGUPLOADDIR);
 		$url = str_replace( UPLOADS, 'files', $url );

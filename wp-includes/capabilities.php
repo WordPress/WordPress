@@ -108,7 +108,37 @@ class WP_Roles {
 
 		$this->role_objects = array();
 		$this->role_names =  array();
-		foreach ( (array) $this->roles as $role => $data ) {
+		foreach ( array_keys( $this->roles ) as $role ) {
+			$this->role_objects[$role] = new WP_Role( $role, $this->roles[$role]['capabilities'] );
+			$this->role_names[$role] = $this->roles[$role]['name'];
+		}
+	}
+
+	/**
+	 * Reinitialize the object
+	 *
+	 * Recreates the role objects. This is typically called only by switch_to_blog()
+	 * after switching wpdb to a new blog ID.
+	 *
+	 * @since 3.5.0
+	 * @access public
+	 */
+	function reinit() {
+		// There is no need to reinit if using the wp_user_roles global.
+		if ( ! $this->use_db )
+			return;
+
+		global $wpdb, $wp_user_roles;
+
+		// Duplicated from _init() to avoid an extra function call.
+		$this->role_key = $wpdb->prefix . 'user_roles';
+		$this->roles = get_option( $this->role_key );
+		if ( empty( $this->roles ) )
+			return;
+
+		$this->role_objects = array();
+		$this->role_names =  array();
+		foreach ( array_keys( $this->roles ) as $role ) {
 			$this->role_objects[$role] = new WP_Role( $role, $this->roles[$role]['capabilities'] );
 			$this->role_names[$role] = $this->roles[$role]['name'];
 		}
@@ -233,8 +263,7 @@ class WP_Roles {
 	 * @param string $role Role name to look up.
 	 * @return bool
 	 */
-	function is_role( $role )
-	{
+	function is_role( $role ) {
 		return isset( $this->role_names[$role] );
 	}
 }
@@ -1231,21 +1260,21 @@ function current_user_can( $capability ) {
  * @return bool
  */
 function current_user_can_for_blog( $blog_id, $capability ) {
+	switch_to_blog( $blog_id );
+
 	$current_user = wp_get_current_user();
 
 	if ( empty( $current_user ) )
 		return false;
 
-	// Create new object to avoid stomping the global current_user.
-	$user = new WP_User( $current_user->ID );
-
-	// Set the blog id. @todo add blog id arg to WP_User constructor?
-	$user->for_blog( $blog_id );
-
 	$args = array_slice( func_get_args(), 2 );
 	$args = array_merge( array( $capability ), $args );
 
-	return call_user_func_array( array( &$user, 'has_cap' ), $args );
+	$can = call_user_func_array( array( $current_user, 'has_cap' ), $args );
+
+	restore_current_blog();
+
+	return $can;
 }
 
 /**
