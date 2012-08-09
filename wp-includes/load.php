@@ -654,6 +654,18 @@ function is_multisite() {
 }
 
 /**
+ * Retrieve the current blog id
+ *
+ * @since 3.1.0
+ *
+ * @return int Blog id
+ */
+function get_current_blog_id() {
+	global $blog_id;
+	return absint($blog_id);
+}
+
+/**
  * Attempts an early load of translations.
  *
  * Used for errors encountered during the initial loading process, before the locale has been
