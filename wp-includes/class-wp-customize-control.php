@@ -750,6 +750,8 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 	 */
 	public function prepare_control() {
 		global $custom_image_header;
+		if ( empty( $custom_image_header ) )
+			return parent::prepare_control();
 
 		// Process default headers and uploaded headers.
 		$custom_image_header->process_default_headers();
