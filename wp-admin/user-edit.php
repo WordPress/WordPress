@@ -82,11 +82,12 @@ if ( is_multisite() && ! current_user_can( 'manage_network_users' ) && $user_id 
 if ( is_multisite() && IS_PROFILE_PAGE && isset( $_GET[ 'newuseremail' ] ) && $current_user->ID ) {
 	$new_email = get_option( $current_user->ID . '_new_email' );
 	if ( $new_email[ 'hash' ] == $_GET[ 'newuseremail' ] ) {
+		$user = new stdClass;
 		$user->ID = $current_user->ID;
 		$user->user_email = esc_html( trim( $new_email[ 'newemail' ] ) );
 		if ( $wpdb->get_var( $wpdb->prepare( "SELECT user_login FROM {$wpdb->signups} WHERE user_login = %s", $current_user->user_login ) ) )
 			$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->signups} SET user_email = %s WHERE user_login = %s", $user->user_email, $current_user->user_login ) );
-		wp_update_user( get_object_vars( $user ) );
+		wp_update_user( $user );
 		delete_option( $current_user->ID . '_new_email' );
 		wp_redirect( add_query_arg( array('updated' => 'true'), self_admin_url( 'profile.php' ) ) );
 		die();

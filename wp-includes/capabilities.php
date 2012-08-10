@@ -665,6 +665,17 @@ class WP_User {
 		return $this->__isset( $key );
 	}
 
+	/*
+	 * Return an array representation.
+	 *
+	 * @since 3.5.0
+	 *
+	 * @return array Array representation.
+	 */
+	function to_array() {
+		return get_object_vars( $this->data );
+	}
+
 	/**
 	 * Set up capability object properties.
 	 *

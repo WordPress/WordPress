@@ -1240,13 +1240,18 @@ function validate_username( $username ) {
  * @uses do_action() Calls 'profile_update' hook when updating giving the user's ID
  * @uses do_action() Calls 'user_register' hook when creating a new user giving the user's ID
  *
- * @param array $userdata An array of user data.
+ * @param mixed $userdata An array of user data or a user object of type stdClass or WP_User.
  * @return int|WP_Error The newly created user's ID or a WP_Error object if the user could not be created.
  */
-function wp_insert_user($userdata) {
+function wp_insert_user( $userdata ) {
 	global $wpdb;
 
-	extract($userdata, EXTR_SKIP);
+	if ( is_a( $userdata, 'stdClass' ) )
+		$userdata = get_object_vars( $userdata );
+	elseif ( is_a( $userdata, 'WP_User' ) )
+		$userdata = $userdata->to_array();
+
+	extract( $userdata, EXTR_SKIP );
 
 	// Are we updating or creating?
 	if ( !empty($ID) ) {
@@ -1387,16 +1392,21 @@ function wp_insert_user($userdata) {
  * @see wp_insert_user() For what fields can be set in $userdata
  * @uses wp_insert_user() Used to update existing user or add new one if user doesn't exist already
  *
- * @param array $userdata An array of user data.
+ * @param mixed $userdata An array of user data or a user object of type stdClass or WP_User.
  * @return int The updated user's ID.
  */
 function wp_update_user($userdata) {
+	if ( is_a( $userdata, 'stdClass' ) )
+		$userdata = get_object_vars( $userdata );
+	elseif ( is_a( $userdata, 'WP_User' ) )
+		$userdata = $userdata->to_array();
+
 	$ID = (int) $userdata['ID'];
 
 	// First, get all of the original fields
 	$user_obj = get_userdata( $ID );
 
-	$user = get_object_vars( $user_obj->data );
+	$user = $user_obj->to_array();
 
 	// Add additional custom fields
 	foreach ( _get_additional_user_keys( $user_obj ) as $key ) {
