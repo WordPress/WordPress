@@ -479,10 +479,6 @@ table.ie-fixed {
 	width: 145px;
 }
 
-* html .widget-top .widget-title-action a {
-	background: url("../images/menu-bits.gif?ver=20100610") no-repeat scroll 0 -110px;
-}
-
 * html div.widget-liquid-left {
 	width: 99%;
 }
@@ -515,10 +511,6 @@ table.ie-fixed {
 
 * html input {
 	border: 1px solid #dfdfdf;
-}
-
-* html .meta-box-sortables .postbox .handlediv {
-	background: transparent url(../images/menu-bits-vs.gif) no-repeat scroll left -111px;
 }
 
 * html .edit-box {
