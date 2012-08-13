@@ -1158,7 +1158,8 @@ function wp_widgets_init() {
 
 	register_widget('WP_Widget_Archives');
 
-	register_widget('WP_Widget_Links');
+	if ( get_option( 'link_manager_enabled' ) )
+		register_widget('WP_Widget_Links');
 
 	register_widget('WP_Widget_Meta');
 

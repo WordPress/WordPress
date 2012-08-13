@@ -89,6 +89,12 @@ function create_initial_taxonomies() {
 			'add_or_remove_items' => null,
 			'choose_from_most_used' => null,
 		),
+		'capabilities' => array(
+			'manage_terms' => 'manage_links',
+			'edit_terms'   => 'manage_links',
+			'delete_terms' => 'manage_links',
+			'assign_terms' => 'manage_links',
+		),
 		'query_var' => false,
 		'rewrite' => false,
 		'public' => false,

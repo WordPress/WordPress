@@ -399,6 +399,9 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 20080 )
 		upgrade_340();
 
+	if ( $wp_current_db_version < 21501 )
+		upgrade_350();
+
 	maybe_disable_automattic_widgets();
 
 	update_option( 'db_version', $wp_db_version );
@@ -1179,6 +1182,18 @@ function upgrade_340() {
 			add_option( 'uninstall_plugins', $uninstall_plugins, null, 'no' );
 		}
 	}
+}
+
+/**
+ * Execute changes made in WordPress 3.5.
+ *
+ * @since 3.5.0
+ */
+function upgrade_350() {
+	global $wp_current_db_version, $wpdb;
+
+	if ( $wp_current_db_version < 21501 && $wpdb->get_var( "SELECT link_id FROM $wpdb->links LIMIT 1" ) )
+		update_option( 'link_manager_enabled', 1 ); // Previously set to 0 by populate_options()
 }
 
 /**
