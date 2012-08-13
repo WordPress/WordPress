@@ -123,68 +123,6 @@ function wp_install_defaults($user_id) {
 	$wpdb->insert( $wpdb->term_taxonomy, array('term_id' => $cat_id, 'taxonomy' => 'category', 'description' => '', 'parent' => 0, 'count' => 1));
 	$cat_tt_id = $wpdb->insert_id;
 
-	// Default link category
-	$cat_name = __('Blogroll');
-	/* translators: Default link category slug */
-	$cat_slug = sanitize_title(_x('Blogroll', 'Default link category slug'));
-
-	if ( global_terms_enabled() ) {
-		$blogroll_id = $wpdb->get_var( $wpdb->prepare( "SELECT cat_ID FROM {$wpdb->sitecategories} WHERE category_nicename = %s", $cat_slug ) );
-		if ( $blogroll_id == null ) {
-			$wpdb->insert( $wpdb->sitecategories, array('cat_ID' => 0, 'cat_name' => $cat_name, 'category_nicename' => $cat_slug, 'last_updated' => current_time('mysql', true)) );
-			$blogroll_id = $wpdb->insert_id;
-		}
-		update_option('default_link_category', $blogroll_id);
-	} else {
-		$blogroll_id = 2;
-	}
-
-	$wpdb->insert( $wpdb->terms, array('term_id' => $blogroll_id, 'name' => $cat_name, 'slug' => $cat_slug, 'term_group' => 0) );
-	$wpdb->insert( $wpdb->term_taxonomy, array('term_id' => $blogroll_id, 'taxonomy' => 'link_category', 'description' => '', 'parent' => 0, 'count' => 7));
-	$blogroll_tt_id = $wpdb->insert_id;
-
-	// Now drop in some default links
-	$default_links = array();
-	$default_links[] = array(	'link_url' => __( 'http://codex.wordpress.org/' ),
-								'link_name' => __( 'Documentation' ),
-								'link_rss' => '',
-								'link_notes' => '');
-
-	$default_links[] = array(	'link_url' => __( 'http://wordpress.org/news/' ),
-								'link_name' => __( 'WordPress Blog' ),
-								'link_rss' => __( 'http://wordpress.org/news/feed/' ),
-								'link_notes' => '');
-
-	$default_links[] = array(	'link_url' => __( 'http://wordpress.org/support/' ),
-								'link_name' => _x( 'Support Forums', 'default link' ),
-								'link_rss' => '',
-								'link_notes' =>'');
-
-	$default_links[] = array(	'link_url' => 'http://wordpress.org/extend/plugins/',
-								'link_name' => _x( 'Plugins', 'Default link to wordpress.org/extend/plugins/' ),
-								'link_rss' => '',
-								'link_notes' =>'');
-
-	$default_links[] = array(	'link_url' => 'http://wordpress.org/extend/themes/',
-								'link_name' => _x( 'Themes', 'Default link to wordpress.org/extend/themes/' ),
-								'link_rss' => '',
-								'link_notes' =>'');
-
-	$default_links[] = array(	'link_url' => __( 'http://wordpress.org/support/forum/requests-and-feedback' ),
-								'link_name' => __( 'Feedback' ),
-								'link_rss' => '',
-								'link_notes' =>'');
-
-	$default_links[] = array(	'link_url' => __( 'http://planet.wordpress.org/' ),
-								'link_name' => __( 'WordPress Planet' ),
-								'link_rss' => '',
-								'link_notes' =>'');
-
-	foreach ( $default_links as $link ) {
-		$wpdb->insert( $wpdb->links, $link);
-		$wpdb->insert( $wpdb->term_relationships, array('term_taxonomy_id' => $blogroll_tt_id, 'object_id' => $wpdb->insert_id) );
-	}
-
 	// First post
 	$now = date('Y-m-d H:i:s');
 	$now_gmt = gmdate('Y-m-d H:i:s');
