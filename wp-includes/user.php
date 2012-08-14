@@ -1393,7 +1393,7 @@ function wp_insert_user( $userdata ) {
  * @uses wp_insert_user() Used to update existing user or add new one if user doesn't exist already
  *
  * @param mixed $userdata An array of user data or a user object of type stdClass or WP_User.
- * @return int The updated user's ID.
+ * @return int|WP_Error The updated user's ID or a WP_Error object if the user could not be updated.
  */
 function wp_update_user($userdata) {
 	if ( is_a( $userdata, 'stdClass' ) )
