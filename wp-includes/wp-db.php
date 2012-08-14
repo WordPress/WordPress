@@ -133,7 +133,7 @@ class wpdb {
 	/**
 	 * MySQL result, which is either a resource or boolean.
 	 *
-	 * @since unknown
+	 * @since 0.71
 	 * @access protected
 	 * @var mixed
 	 */
