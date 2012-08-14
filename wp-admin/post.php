@@ -177,7 +177,7 @@ case 'edit':
 	break;
 
 case 'editattachment':
-	check_admin_referer('update-attachment_' . $post_id);
+	check_admin_referer('update-post_' . $post_id);
 
 	// Don't let these be changed
 	unset($_POST['guid']);
@@ -190,7 +190,7 @@ case 'editattachment':
 	wp_update_attachment_metadata( $post_id, $newmeta );
 
 case 'editpost':
-	check_admin_referer('update-' . $post_type . '_' . $post_id);
+	check_admin_referer('update-post_' . $post_id);
 
 	$post_id = edit_post();
 
@@ -200,7 +200,7 @@ case 'editpost':
 	break;
 
 case 'trash':
-	check_admin_referer('trash-' . $post_type . '_' . $post_id);
+	check_admin_referer('trash-post_' . $post_id);
 
 	$post = & get_post($post_id);
 
@@ -215,7 +215,7 @@ case 'trash':
 	break;
 
 case 'untrash':
-	check_admin_referer('untrash-' . $post_type . '_' . $post_id);
+	check_admin_referer('untrash-post_' . $post_id);
 
 	if ( !current_user_can($post_type_object->cap->delete_post, $post_id) )
 		wp_die( __('You are not allowed to move this item out of the Trash.') );
@@ -228,7 +228,7 @@ case 'untrash':
 	break;
 
 case 'delete':
-	check_admin_referer('delete-' . $post_type . '_' . $post_id);
+	check_admin_referer('delete-post_' . $post_id);
 
 	if ( !current_user_can($post_type_object->cap->delete_post, $post_id) )
 		wp_die( __('You are not allowed to delete this item.') );

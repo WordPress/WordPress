@@ -507,7 +507,8 @@ div.dashboard-widget-submit input:hover,
 }
 
 .submitbox .submitdelete:hover,
-#media-items a.delete:hover {
+#media-items a.delete:hover,
+#media-items a.delete-permanently:hover {
 	color: #fff;
 	background-color: #f00;
 	border-bottom-color: #f00;
@@ -598,6 +599,7 @@ a,
 #the-comment-list p.comment-author strong a,
 #media-upload a.del-link,
 #media-items a.delete,
+#media-items a.delete-permanently,
 .plugins a.delete,
 .ui-tabs-nav a {
 	color: #21759b;

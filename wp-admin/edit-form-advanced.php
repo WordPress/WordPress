@@ -83,7 +83,7 @@ if ( 'auto-draft' == $post->post_status ) {
 }
 
 $form_action = 'editpost';
-$nonce_action = 'update-' . $post_type . '_' . $post_ID;
+$nonce_action = 'update-post_' . $post_ID;
 $form_extra .= "<input type='hidden' id='post_ID' name='post_ID' value='" . esc_attr($post_ID) . "' />";
 
 // Detect if there exists an autosave newer than the post and if that autosave is different than the post

@@ -1727,7 +1727,7 @@ function wp_ajax_wp_fullscreen_save_post() {
 	elseif ( isset( $_POST['post_type'] ) && post_type_exists( $_POST['post_type'] ) )
 		$post_type = $_POST['post_type'];
 
-	check_ajax_referer('update-' . $post_type . '_' . $post_id, '_wpnonce');
+	check_ajax_referer('update-post_' . $post_id, '_wpnonce');
 
 	$post_id = edit_post();
 
@@ -1769,7 +1769,7 @@ function wp_ajax_wp_remove_post_lock() {
 	if ( ! $post = get_post( $post_id ) )
 		wp_die( 0 );
 
-	check_ajax_referer( 'update-' . $post->post_type . '_' . $post_id );
+	check_ajax_referer( 'update-post_' . $post_id );
 
 	if ( ! current_user_can( 'edit_post', $post_id ) )
 		wp_die( -1 );

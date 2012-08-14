@@ -971,7 +971,7 @@ function get_delete_post_link( $id = 0, $deprecated = '', $force_delete = false 
 
 	$delete_link = add_query_arg( 'action', $action, admin_url( sprintf( $post_type_object->_edit_link, $post->ID ) ) );
 
-	return apply_filters( 'get_delete_post_link', wp_nonce_url( $delete_link, "$action-{$post->post_type}_{$post->ID}" ), $post->ID, $force_delete );
+	return apply_filters( 'get_delete_post_link', wp_nonce_url( $delete_link, "$action-post_{$post->ID}" ), $post->ID, $force_delete );
 }
 
 /**
