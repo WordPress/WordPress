@@ -565,14 +565,50 @@ class wpdb {
 	 *
 	 * @since 3.5.0
 	 *
-	 * @param string $var The private member to get, and optionally process
+	 * @param string $name The private member to get, and optionally process
 	 * @return mixed The private member
 	 */
-	function __get( $var ) {
-		if ( 'col_info' == $var )
+	function __get( $name ) {
+		if ( 'col_info' == $name )
 			$this->load_col_info();
 
-		return $this->$var;
+		return $this->$name;
+	}
+
+	/**
+	 * Magic function, for backwards compatibility
+	 *
+	 * @since 3.5.0
+	 *
+	 * @param string $name  The private member to set
+	 * @param mixed  $value The value to set
+	 */
+	function __set( $name, $value ) {
+		$this->$name = $value;
+	}
+
+	/**
+	 * Magic function, for backwards compatibility
+	 *
+	 * @since 3.5.0
+	 *
+	 * @param string $name  The private member to check
+	 *
+	 * @return bool If the member is set or not
+	 */
+	function __isset( $name ) {
+		return isset( $this->$name );
+	}
+
+	/**
+	 * Magic function, for backwards compatibility
+	 *
+	 * @since 3.5.0
+	 *
+	 * @param string $name  The private member to unset
+	 */
+	function __unset( $name ) {
+		unset( $this->$name );
 	}
 
 	/**
