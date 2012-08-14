@@ -510,8 +510,14 @@ var farbtastic;
 	<?php if ( $this->admin_image_div_callback ) {
 	  call_user_func( $this->admin_image_div_callback );
 	} else {
+		$custom_header = get_custom_header();
+		$header_image_style = 'background-image:url(' . esc_url( get_header_image() ) . ');';
+		if ( $custom_header->width )
+			$header_image_style .= 'max-width:' . $custom_header->width . 'px;';
+		if ( $custom_header->height )
+			$header_image_style .= 'height:' . $custom_header->height . 'px;';
 	?>
-	<div id="headimg" style="background-image:url(<?php esc_url ( header_image() ) ?>);max-width:<?php echo get_custom_header()->width; ?>px;height:<?php echo get_custom_header()->height; ?>px;">
+	<div id="headimg" style="<?php echo $header_image_style; ?>">
 		<?php
 		if ( display_header_text() )
 			$style = ' style="color:#' . get_header_textcolor() . ';"';

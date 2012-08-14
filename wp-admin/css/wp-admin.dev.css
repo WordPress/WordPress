@@ -4608,6 +4608,7 @@ h3.available-themes {
 
 .appearance_page_custom-header #headimg {
 	border: 1px solid #DFDFDF;
+	overflow: hidden;
 	width: 100%;
 }
 
