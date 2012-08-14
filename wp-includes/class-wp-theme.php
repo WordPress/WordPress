@@ -814,7 +814,7 @@ final class WP_Theme implements ArrayAccess {
 		else
 			$theme_root_uri = $this->get_theme_root_uri();
 
-		return $theme_root . '/' . $this->template;
+		return $theme_root_uri . '/' . $this->template;
 	}
 
 	/**
