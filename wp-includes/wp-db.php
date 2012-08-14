@@ -131,6 +131,15 @@ class wpdb {
 	var $last_result;
 
 	/**
+	 * MySQL result, which is either a resource or boolean.
+	 *
+	 * @since unknown
+	 * @access protected
+	 * @var mixed
+	 */
+	protected $result;
+
+	/**
 	 * Saved info on the table column
 	 *
 	 * @since 1.2.0
@@ -1076,7 +1085,9 @@ class wpdb {
 		$this->last_result = array();
 		$this->col_info    = null;
 		$this->last_query  = null;
-		@mysql_free_result( $this->result );
+
+		if ( is_resource( $this->result ) )
+			mysql_free_result( $this->result );
 	}
 
 	/**
