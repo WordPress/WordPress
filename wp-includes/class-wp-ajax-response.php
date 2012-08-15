@@ -126,8 +126,8 @@ class WP_Ajax_Response {
 	 * @since 2.1.0
 	 */
 	function send() {
-		header('Content-Type: text/xml');
-		echo "<?xml version='1.0' standalone='yes'?><wp_ajax>";
+		header( 'Content-Type: text/xml; charset=' . get_option( 'blog_charset' ) );
+		echo "<?xml version='1.0' encoding='" . get_option( 'blog_charset' ) . "' standalone='yes'?><wp_ajax>";
 		foreach ( (array) $this->responses as $response )
 			echo $response;
 		echo '</wp_ajax>';
