@@ -986,6 +986,9 @@ footer .edit-link {
 	overflow: hidden;
 	text-align: center;
 }
+.image-attachment div.attachment p {
+	text-align: center;
+}
 .image-attachment div.attachment img {
 	display: block;
 	height: auto;
