@@ -375,6 +375,11 @@ $(document).ready( function() {
 				pageInput.val('1');
 		});
 	}
+
+	// Blur accessibility link background color onclick
+	$(document).on('click.wp-accessibility-blur', 'a', function() {
+		$(this).blur();
+	});
 });
 
 // internal use
