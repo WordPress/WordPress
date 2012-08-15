@@ -286,7 +286,6 @@ img.size-large,
 img.header-image,
 img.wp-post-image {
 	max-width: 100%;
-	width: auto; /* Prevent stretching of full-size and large-size images with height and width attributes in IE8 */
 	height: auto; /* Make sure images with WordPress-added height and width attributes are scaled correctly */
 }
 
@@ -1608,4 +1607,10 @@ img#wpstats {
 .ie .widget-area {
 	float: right;
 	width: 26.041666667%;
+}
+.ie img.size-full,
+.ie img.size-large,
+.ie img.header-image,
+.ie img.wp-post-image {
+	width: auto; /* Prevent stretching of full-size and large-size images with height and width attributes in IE8 */
 }
