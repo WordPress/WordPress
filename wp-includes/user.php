@@ -1466,10 +1466,10 @@ function wp_create_user($username, $password, $email = '') {
 /**
  * Return a list of meta keys that wp_insert_user() is supposed to set.
  *
- * @access private
  * @since 3.3.0
+ * @access private
  *
- * @param object $user WP_User instance
+ * @param object $user WP_User instance.
  * @return array
  */
 function _get_additional_user_keys( $user ) {
@@ -1478,12 +1478,12 @@ function _get_additional_user_keys( $user ) {
 }
 
 /**
- * Set up the default contact methods
+ * Set up the default contact methods.
  *
+ * @since 2.9.0
  * @access private
- * @since
  *
- * @param object $user User data object (optional)
+ * @param object $user User data object (optional).
  * @return array $user_contactmethods Array of contact methods and their labels.
  */
 function _wp_get_user_contactmethods( $user = null ) {
