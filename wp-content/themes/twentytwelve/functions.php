@@ -185,7 +185,7 @@ function twentytwelve_widgets_init() {
 		'id' => 'sidebar-1',
 		'description' => __( 'Appears on posts and pages except the optional Homepage template, which uses its own set of widgets', 'twentytwelve' ),
 		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
-		'after_widget' => "</aside>",
+		'after_widget' => '</aside>',
 		'before_title' => '<h3 class="widget-title">',
 		'after_title' => '</h3>',
 	) );
@@ -195,7 +195,7 @@ function twentytwelve_widgets_init() {
 		'id' => 'sidebar-home',
 		'description' => __( 'Appears when using the optional homepage template with a page set as Static Front Page', 'twentytwelve' ),
 		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
-		'after_widget' => "</aside>",
+		'after_widget' => '</aside>',
 		'before_title' => '<h3 class="widget-title">',
 		'after_title' => '</h3>',
 	) );
