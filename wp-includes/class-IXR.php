@@ -466,11 +466,18 @@ EOD;
 
     function output($xml)
     {
-        $xml = '<?xml version="1.0"?>'."\n".$xml;
+        $charset = function_exists('get_option') ? get_option('blog_charset') : '';
+        if ($charset)
+            $xml = '<?xml version="1.0" encoding="'.$charset.'"?>'."\n".$xml;
+        else
+            $xml = '<?xml version="1.0"?>'."\n".$xml;
         $length = strlen($xml);
         header('Connection: close');
         header('Content-Length: '.$length);
-        header('Content-Type: text/xml');
+        if ($charset)
+            header('Content-Type: text/xml; charset='.$charset);
+        else
+            header('Content-Type: text/xml');
         header('Date: '.date('r'));
         echo $xml;
         exit;
