@@ -88,7 +88,7 @@ class wpdb {
 	/**
 	 * Count of rows returned by previous query
 	 *
-	 * @since 1.2.0
+	 * @since 0.71
 	 * @access private
 	 * @var int
 	 */
@@ -113,9 +113,9 @@ class wpdb {
 	var $insert_id = 0;
 
 	/**
-	 * Saved result of the last query made
+	 * Last query made
 	 *
-	 * @since 1.2.0
+	 * @since 0.71
 	 * @access private
 	 * @var array
 	 */
@@ -124,7 +124,7 @@ class wpdb {
 	/**
 	 * Results of the last query made
 	 *
-	 * @since 1.0.0
+	 * @since 0.71
 	 * @access private
 	 * @var array|null
 	 */
@@ -142,7 +142,7 @@ class wpdb {
 	/**
 	 * Saved info on the table column
 	 *
-	 * @since 1.2.0
+	 * @since 0.71
 	 * @access protected
 	 * @var array
 	 */
@@ -164,7 +164,7 @@ class wpdb {
 	 * in a single database. The second reason is for possible
 	 * security precautions.
 	 *
-	 * @since 0.71
+	 * @since 2.5.0
 	 * @access private
 	 * @var string
 	 */
@@ -173,7 +173,7 @@ class wpdb {
 	/**
 	 * Whether the database queries are ready to start executing.
 	 *
-	 * @since 2.5.0
+	 * @since 2.3.2
 	 * @access private
 	 * @var bool
 	 */
@@ -462,7 +462,7 @@ class wpdb {
 	/**
 	 * Database Password
 	 *
-	 * @since 3.5.0
+	 * @since 3.1.0
 	 * @access protected
 	 * @var string
 	 */
@@ -471,7 +471,7 @@ class wpdb {
 	/**
 	 * Database Name
 	 *
-	 * @since 3.5.0
+	 * @since 3.1.0
 	 * @access protected
 	 * @var string
 	 */
@@ -480,7 +480,7 @@ class wpdb {
 	/**
 	 * Database Host
 	 *
-	 * @since 3.5.0
+	 * @since 3.1.0
 	 * @access protected
 	 * @var string
 	 */
@@ -489,7 +489,7 @@ class wpdb {
 	/**
 	 * Database Handle
 	 *
-	 * @since 3.5.0
+	 * @since 0.71
 	 * @access protected
 	 * @var string
 	 */
