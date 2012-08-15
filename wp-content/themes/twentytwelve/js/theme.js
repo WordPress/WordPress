@@ -14,7 +14,7 @@ jQuery( document ).ready( function( $ ) {
 		masthead.find( '.site-navigation h3' ).removeClass( 'assistive-text' ).addClass( 'menu-toggle' );
 
 		$( '.menu-toggle' ).off( 'click' ).click( function() {
-			masthead.find( '.menu' ).slideToggle();
+			masthead.find( '.menu' ).stop().slideToggle();
 			$( this ).toggleClass( 'toggled-on' );
 		} );
 	};
