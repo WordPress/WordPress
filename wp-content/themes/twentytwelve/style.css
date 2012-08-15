@@ -455,12 +455,6 @@ a:hover {
 /* Page structure */
 .wrapper {
 	overflow: hidden;
-	-moz-hyphens: auto;
-	-ms-word-break: break-all;
-	-webkit-hyphens: auto;
-	hyphens: auto;
-	word-break: break-all;
-	word-break: break-word;
 }
 .site {
 	padding: 0 24px;
@@ -628,6 +622,13 @@ section[role="banner"] {
 
 /* Sidebar */
 .widget-area .widget {
+	overflow: hidden;
+	-moz-hyphens: auto;
+	-ms-word-break: break-all;
+	-webkit-hyphens: auto;
+	hyphens: auto;
+	word-break: break-all;
+	word-break: break-word;
 	margin-bottom: 48px;
 	margin-bottom: 3.428571429rem;
 }
