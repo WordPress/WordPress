@@ -8,16 +8,22 @@ See also rtl.css
 html .mceContentBody {
 	direction: rtl;
 	unicode-bidi: embed;
-	margin: 10px auto;
 }
 li {
 	margin: 0 24px 0 0;
 	margin: 0 1.714285714rem 0 0;
 }
-td {
+dl {
+	margin: 0 24px;
+	margin: 0 1.714285714rem;
+}
+tr th {
 	text-align: right;
 }
-.wp-caption-dd {
-	padding-right: 10px;
+td {
+	padding: 6px 0 6px 10px;
+	text-align: right;
+}
+.wp-caption {
 	text-align: right;
 }
