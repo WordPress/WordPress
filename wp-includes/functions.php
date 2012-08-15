@@ -1642,13 +1642,13 @@ function wp_upload_bits( $name, $deprecated, $bits, $time = null ) {
  */
 function wp_ext2type( $ext ) {
 	$ext2type = apply_filters( 'ext2type', array(
-		'audio'       => array( 'aac', 'ac3',  'aif',  'aiff', 'm3a',  'm4a',   'm4b', 'mka', 'mp1', 'mp2',  'mp3', 'ogg', 'oga', 'ram', 'wav', 'wma' ),
-		'video'       => array( 'asf', 'avi',  'divx', 'dv',   'flv',  'm4v',   'mkv', 'mov', 'mp4', 'mpeg', 'mpg', 'mpv', 'ogm', 'ogv', 'qt',  'rm', 'vob', 'wmv' ),
-		'document'    => array( 'doc', 'docx', 'docm', 'dotm', 'odt',  'pages', 'pdf', 'rtf', 'wp',  'wpd' ),
-		'spreadsheet' => array( 'numbers',     'ods',  'xls',  'xlsx', 'xlsb',  'xlsm' ),
-		'interactive' => array( 'key', 'ppt',  'pptx', 'pptm', 'odp',  'swf' ),
+		'audio'       => array( 'aac', 'ac3',  'aif',  'aiff', 'm3a',  'm4a',   'm4b',  'mka',  'mp1',  'mp2',  'mp3', 'ogg', 'oga', 'ram', 'wav', 'wma' ),
+		'video'       => array( 'asf', 'avi',  'divx', 'dv',   'flv',  'm4v',   'mkv',  'mov',  'mp4',  'mpeg', 'mpg', 'mpv', 'ogm', 'ogv', 'qt',  'rm', 'vob', 'wmv' ),
+		'document'    => array( 'doc', 'docx', 'docm', 'dotm', 'odt',  'pages', 'pdf',  'rtf',  'wp',   'wpd' ),
+		'spreadsheet' => array( 'numbers',     'ods',  'xls',  'xlsx', 'xlsm',  'xlsb' ),
+		'interactive' => array( 'swf', 'key',  'ppt',  'pptx', 'pptm', 'pps',   'ppsx', 'ppsm', 'sldx', 'sldm', 'odp' ),
 		'text'        => array( 'asc', 'csv',  'tsv',  'txt' ),
-		'archive'     => array( 'bz2', 'cab',  'dmg',  'gz',   'rar',  'sea',   'sit', 'sqx', 'tar', 'tgz',  'zip', '7z' ),
+		'archive'     => array( 'bz2', 'cab',  'dmg',  'gz',   'rar',  'sea',   'sit',  'sqx',  'tar',  'tgz',  'zip', '7z' ),
 		'code'        => array( 'css', 'htm',  'html', 'php',  'js' ),
 	));
 	foreach ( $ext2type as $type => $exts )
@@ -1767,18 +1767,24 @@ function get_allowed_mime_types() {
 	if ( !$mimes ) {
 		// Accepted MIME types are set here as PCRE unless provided.
 		$mimes = apply_filters( 'upload_mimes', array(
+		// Image formats
 		'jpg|jpeg|jpe' => 'image/jpeg',
 		'gif' => 'image/gif',
 		'png' => 'image/png',
 		'bmp' => 'image/bmp',
 		'tif|tiff' => 'image/tiff',
 		'ico' => 'image/x-icon',
+		// Video formats
 		'asf|asx|wax|wmv|wmx' => 'video/asf',
 		'avi' => 'video/avi',
 		'divx' => 'video/divx',
 		'flv' => 'video/x-flv',
 		'mov|qt' => 'video/quicktime',
 		'mpeg|mpg|mpe' => 'video/mpeg',
+		'mp4|m4v' => 'video/mp4',
+		'ogv' => 'video/ogg',
+		'mkv' => 'video/x-matroska',
+		// Text formats
 		'txt|asc|c|cc|h' => 'text/plain',
 		'csv' => 'text/csv',
 		'tsv' => 'text/tab-separated-values',
@@ -1786,30 +1792,18 @@ function get_allowed_mime_types() {
 		'rtx' => 'text/richtext',
 		'css' => 'text/css',
 		'htm|html' => 'text/html',
+		// Audio formats
 		'mp3|m4a|m4b' => 'audio/mpeg',
-		'mp4|m4v' => 'video/mp4',
 		'ra|ram' => 'audio/x-realaudio',
 		'wav' => 'audio/wav',
 		'ogg|oga' => 'audio/ogg',
-		'ogv' => 'video/ogg',
 		'mid|midi' => 'audio/midi',
 		'wma' => 'audio/wma',
 		'mka' => 'audio/x-matroska',
-		'mkv' => 'video/x-matroska',
+		// Misc application formats 
 		'rtf' => 'application/rtf',
 		'js' => 'application/javascript',
 		'pdf' => 'application/pdf',
-		'doc|docx' => 'application/msword',
-		'pot|pps|ppt|pptx|ppam|pptm|sldm|ppsm|potm' => 'application/vnd.ms-powerpoint',
-		'wri' => 'application/vnd.ms-write',
-		'xla|xls|xlsx|xlt|xlw|xlam|xlsb|xlsm|xltm' => 'application/vnd.ms-excel',
-		'mdb' => 'application/vnd.ms-access',
-		'mpp' => 'application/vnd.ms-project',
-		'docm|dotm' => 'application/vnd.ms-word',
-		'pptx|sldx|ppsx|potx' => 'application/vnd.openxmlformats-officedocument.presentationml',
-		'xlsx|xltx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml',
-		'docx|dotx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml',
-		'onetoc|onetoc2|onetmp|onepkg' => 'application/onenote',
 		'swf' => 'application/x-shockwave-flash',
 		'class' => 'application/java',
 		'tar' => 'application/x-tar',
@@ -1818,7 +1812,34 @@ function get_allowed_mime_types() {
 		'rar' => 'application/rar',
 		'7z' => 'application/x-7z-compressed',
 		'exe' => 'application/x-msdownload',
-		// openoffice formats
+		// MS Office formats
+		'doc' => 'application/msword',
+		'pot|pps|ppt' => 'application/vnd.ms-powerpoint',
+		'wri' => 'application/vnd.ms-write',
+		'xla|xls|xlt|xlw' => 'application/vnd.ms-excel',
+		'mdb' => 'application/vnd.ms-access',
+		'mpp' => 'application/vnd.ms-project',
+		'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+		'docm' => 'application/vnd.ms-word.document.macroEnabled.12',
+		'dotx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
+		'dotm' => 'application/vnd.ms-word.template.macroEnabled.12',
+		'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+		'xlsm' => 'application/vnd.ms-excel.sheet.macroEnabled.12',
+		'xlsb' => 'application/vnd.ms-excel.sheet.binary.macroEnabled.12',
+		'xltx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.template',
+		'xltm' => 'application/vnd.ms-excel.template.macroEnabled.12',
+		'xlam' => 'application/vnd.ms-excel.addin.macroEnabled.12',
+		'pptx' => 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+		'pptm' => 'application/vnd.ms-powerpoint.presentation.macroEnabled.12',
+		'ppsx' => 'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
+		'ppsm' => 'application/vnd.ms-powerpoint.slideshow.macroEnabled.12',
+		'potx' => 'application/vnd.openxmlformats-officedocument.presentationml.template',
+		'potm' => 'application/vnd.ms-powerpoint.template.macroEnabled.12',
+		'ppam' => 'application/vnd.ms-powerpoint.addin.macroEnabled.12',
+		'sldx' => 'application/vnd.openxmlformats-officedocument.presentationml.slide',
+		'sldm' => 'application/vnd.ms-powerpoint.slide.macroEnabled.12',
+		'onetoc|onetoc2|onetmp|onepkg' => 'application/onenote',
+		// OpenOffice formats
 		'odt' => 'application/vnd.oasis.opendocument.text',
 		'odp' => 'application/vnd.oasis.opendocument.presentation',
 		'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
@@ -1826,7 +1847,7 @@ function get_allowed_mime_types() {
 		'odc' => 'application/vnd.oasis.opendocument.chart',
 		'odb' => 'application/vnd.oasis.opendocument.database',
 		'odf' => 'application/vnd.oasis.opendocument.formula',
-		// wordperfect formats
+		// WordPerfect formats
 		'wp|wpd' => 'application/wordperfect',
 		) );
 	}
