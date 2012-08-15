@@ -507,7 +507,7 @@ a:hover {
 }
 
 /* Navigation Menu */
-.main-navigation {
+.main-navigation .menu {
 	display: inline-block;
 	margin-top: 24px;
 	margin-top: 1.714285714rem;
@@ -1286,7 +1286,6 @@ label ~ span.required {
 	margin: 0.571428571rem 0 0;
 	font-size: 13px;
 	font-size: 0.928571429rem;
-	line-height: 1.846153846;
 	line-height: 1.714285714;
 	list-style-type: square;
 	list-style-position: inside;
