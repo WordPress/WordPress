@@ -881,29 +881,24 @@ table.widefat span.spam a,
 	background-image: linear-gradient(to top, #dfdfdf, #f1f1f1);
 }
 
-#screen-meta-links a.show-settings {
+#screen-meta-links a {
 	color: #777;
-}
-
-#screen-meta-links a.show-settings:hover {
-	color: #333;
-}
-
-#screen-meta-links a.show-settings {
 	background: transparent url(../images/arrows.png) no-repeat right 4px;
 }
 
 #screen-meta-links a:focus {
-	background: #c7e7fd url(../images/arrows.png) no-repeat right 4px;
+	background-color: #c7e7fd;
 	color: #124964;
 }
 
+#screen-meta-links a:hover,
 #screen-meta-links a:active {
-	background-color: transparent url(../images/arrows.png) no-repeat right 4px;
+	color: #333;
+	background-color: transparent;
 }
 
-#screen-meta-links a.show-settings.screen-meta-active {
-	background: transparent url(../images/arrows.png) no-repeat right -31px;
+#screen-meta-links a.screen-meta-active {
+	background-position: right -31px;
 }
 
 /* end screen options and help tabs */
