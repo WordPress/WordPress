@@ -402,6 +402,8 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 21501 )
 		upgrade_350();
 
+	maybe_disable_link_manager();
+
 	maybe_disable_automattic_widgets();
 
 	update_option( 'db_version', $wp_db_version );
@@ -1908,9 +1910,7 @@ function wp_check_mysql_version() {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Disables the Automattic widgets plugin, which was merged into core.
  *
  * @since 2.2.0
  */
@@ -1924,6 +1924,18 @@ function maybe_disable_automattic_widgets() {
 			break;
 		}
 	}
+}
+
+/**
+ * Disables the Link Manager on upgrade, if at the time of upgrade, no links exist in the DB.
+ *
+ * @since 3.5.0
+ */
+function maybe_disable_link_manager() {
+	global $wp_current_db_version, $wpdb;
+
+	if ( $wp_current_db_version >= 21501 && get_option( 'link_manager_enabled' ) && ! $wpdb->get_var( "SELECT link_id FROM $wpdb->links LIMIT 1" ) )
+		update_option( 'link_manager_enabled', 0 );
 }
 
 /**
