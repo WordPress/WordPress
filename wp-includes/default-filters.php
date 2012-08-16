@@ -282,4 +282,7 @@ add_filter( 'pre_option_gmt_offset','wp_timezone_override_offset' );
 add_action( 'admin_init', 'register_admin_color_schemes', 1);
 add_action( 'admin_color_scheme_picker', 'admin_color_scheme_picker' );
 
+// If the upgrade hasn't run yet, assume link manager is used.
+add_filter( 'default_option_link_manager_enabled', '__return_true' );
+
 unset($filter, $action);
