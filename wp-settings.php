@@ -32,9 +32,8 @@ wp_check_php_mysql_versions();
 @ini_set( 'magic_quotes_runtime', 0 );
 @ini_set( 'magic_quotes_sybase',  0 );
 
-// Set default timezone in PHP 5.
-if ( function_exists( 'date_default_timezone_set' ) )
-	date_default_timezone_set( 'UTC' );
+// WordPress calculates offsets from UTC.
+date_default_timezone_set( 'UTC' );
 
 // Turn register_globals off.
 wp_unregister_GLOBALS();
