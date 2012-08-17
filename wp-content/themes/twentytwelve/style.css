@@ -332,7 +332,7 @@ img.wp-post-image {
 	line-height: 2;
 	color: #777;
 }
-img.wp-smiley,
+.wp-smiley,
 .rsswidget img {
 	border: 0;
 	border-radius: 0;
@@ -444,6 +444,7 @@ a {
 a:hover {
 	color: #0f3647;
 }
+
 /* Assistive text */
 .skip-link,
 .screen-reader-text,
@@ -861,8 +862,7 @@ article.sticky .featured-post {
 .entry-content dfn,
 .comment-content dfn,
 .entry-content acronym,
-.comment-content acronym,
-{
+.comment-content acronym {
 	border-bottom: 1px dotted #666;
 	cursor: help;
 }
