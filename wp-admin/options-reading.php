@@ -64,7 +64,19 @@ include( './admin-header.php' );
 <h2><?php echo esc_html( $title ); ?></h2>
 
 <form name="form1" method="post" action="options.php">
-<?php settings_fields( 'reading' ); ?>
+<?php
+settings_fields( 'reading' );
+
+function options_reading_blog_charset() {
+	echo '<input name="blog_charset" type="text" id="blog_charset" value="' . esc_attr( get_option( 'blog_charset' ) ) . '" class="regular-text" />';
+	echo '<p class="description">' . __( 'The <a href="http://codex.wordpress.org/Glossary#Character_set">character encoding</a> of your site (UTF-8 is recommended)' ) . '</p>';
+}
+
+if ( ! in_array( get_option( 'blog_charset' ), array( 'utf8', 'utf-8', 'UTF8', 'UTF-8' ) ) )
+	add_settings_field( 'blog_charset', __( 'Encoding for pages and feeds' ), 'options_reading_blog_charset', 'reading' );
+else
+	echo '<input name="blog_charset" type="hidden" id="blog_charset" value="' . esc_attr( get_option( 'blog_charset' ) ) . '" />';
+?>
 
 <?php if ( ! get_pages() ) : ?>
 <input name="show_on_front" type="hidden" value="posts" />
@@ -120,17 +132,7 @@ else :
 </fieldset></td>
 </tr>
 
-<?php
-function options_reading_blog_charset() {
-	echo '<input name="blog_charset" type="text" id="blog_charset" value="' . esc_attr( get_option( 'blog_charset' ) ) . '" class="regular-text" />';
-	echo '<p class="description">' . __( 'The <a href="http://codex.wordpress.org/Glossary#Character_set">character encoding</a> of your site (UTF-8 is recommended)' )
-		. '</p>';
-}
-
-if ( ! in_array( get_option( 'blog_charset' ), array( 'utf8', 'utf-8', 'UTF8', 'UTF-8' ) ) )
-	add_settings_field( 'blog_charset', __( 'Encoding for pages and feeds' ), 'options_reading_blog_charset', 'reading' );
-
-do_settings_fields( 'reading', 'default' ); ?>
+<?php do_settings_fields( 'reading', 'default' ); ?>
 </table>
 
 <?php do_settings_sections( 'reading' ); ?>
