@@ -1395,6 +1395,7 @@ function iframe_header( $title = '', $limit_styles = false ) {
 
 	$current_screen = get_current_screen();
 
+	@header( 'Content-Type: ' . get_option( 'html_type' ) . '; charset=' . get_option( 'blog_charset' ) );
 	_wp_admin_html_begin();
 ?>
 <title><?php bloginfo('name') ?> &rsaquo; <?php echo $title ?> &#8212; <?php _e('WordPress'); ?></title>
