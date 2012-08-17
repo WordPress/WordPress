@@ -314,9 +314,9 @@ function twentytwelve_entry_meta() {
 	);
 
 	// Translators: 1 is category, 2 is tag, 3 is the date and 4 is the author's name.
-	if ( '' != $tag_list ) {
+	if ( $tag_list ) {
 		$utility_text = __( 'This entry was posted in %1$s and tagged %2$s on %3$s by %4$s.', 'twentytwelve' );
-	} elseif ( ! empty( $categories_list ) && twentytwelve_is_categorized_site() ) {
+	} elseif ( $categories_list ) {
 		$utility_text = __( 'This entry was posted in %1$s on %3$s by %4$s.', 'twentytwelve' );
 	} else {
 		$utility_text = __( 'This entry was posted on %3$s by %4$s.', 'twentytwelve' );
@@ -329,24 +329,6 @@ function twentytwelve_entry_meta() {
 		$date,
 		$author
 	);
-}
-endif;
-
-if ( ! function_exists( 'twentytwelve_is_categorized_site' ) ) :
-/**
- * Returns true if a blog has more than one category.
- *
- * @since Twenty Twelve 1.0
- */
-function twentytwelve_is_categorized_site() {
-	$non_empty_categories = get_categories( array(
-		'hide_empty' => 1,
-	) );
-
-	if ( is_wp_error( $non_empty_categories ) || empty( $non_empty_categories ) || count( $non_empty_categories ) < 1 )
-		return false;
-
-	return true;
 }
 endif;
 
