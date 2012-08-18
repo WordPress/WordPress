@@ -97,10 +97,13 @@
 			}
 
 			ed.onKeyUp.add(tabCancel);
-			ed.onKeyDown.add(tabHandler);
 
-			if (tinymce.isGecko)
-				ed.onKeyPress.add(tabCancel);
+			if (tinymce.isGecko) {
+				ed.onKeyPress.add(tabHandler);
+				ed.onKeyDown.add(tabCancel);
+			} else
+				ed.onKeyDown.add(tabHandler);
+
 		},
 
 		getInfo : function() {

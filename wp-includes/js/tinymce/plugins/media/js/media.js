@@ -78,7 +78,7 @@
 			get('video_altsource2_filebrowser').innerHTML = getBrowserHTML('video_filebrowser_altsource2','video_altsource2','media','media');
 			get('audio_altsource1_filebrowser').innerHTML = getBrowserHTML('audio_filebrowser_altsource1','audio_altsource1','media','media');
 			get('audio_altsource2_filebrowser').innerHTML = getBrowserHTML('audio_filebrowser_altsource2','audio_altsource2','media','media');
-			get('video_poster_filebrowser').innerHTML = getBrowserHTML('filebrowser_poster','video_poster','media','image');
+			get('video_poster_filebrowser').innerHTML = getBrowserHTML('filebrowser_poster','video_poster','image','media');
 
 			html = self.getMediaListHTML('medialist', 'src', 'media', 'media');
 			if (html == "")
@@ -323,6 +323,39 @@
 					data.height = 326;
 					data.type = 'flash';
 					src = 'http://video.google.com/googleplayer.swf?docId=' + src.match(/docid=([^&]+)/)[1] + '&hl=en';
+					setVal('src', src);
+					setVal('media_type', data.type);
+				}
+				
+				// Vimeo
+				if (src.match(/vimeo.com\/([0-9]+)/)) {
+					data.width = 425;
+					data.height = 350;
+					data.params.frameborder = '0';
+					data.type = 'iframe';
+					src = 'http://player.vimeo.com/video/' + src.match(/vimeo.com\/([0-9]+)/)[1];
+					setVal('src', src);
+					setVal('media_type', data.type);
+				}
+            
+				// stream.cz
+				if (src.match(/stream.cz\/((?!object).)*\/([0-9]+)/)) {
+					data.width = 425;
+					data.height = 350;
+					data.params.frameborder = '0';
+					data.type = 'iframe';
+					src = 'http://www.stream.cz/object/' + src.match(/stream.cz\/[^/]+\/([0-9]+)/)[1];
+					setVal('src', src);
+					setVal('media_type', data.type);
+				}
+				
+				// Google maps
+				if (src.match(/maps.google.([a-z]{2,3})\/maps\/(.+)msid=(.+)/)) {
+					data.width = 425;
+					data.height = 350;
+					data.params.frameborder = '0';
+					data.type = 'iframe';
+					src = 'http://maps.google.com/maps/ms?msid=' + src.match(/msid=(.+)/)[1] + "&output=embed";
 					setVal('src', src);
 					setVal('media_type', data.type);
 				}

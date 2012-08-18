@@ -65,7 +65,7 @@
 
 					// Fixes an IE bug where the scrollbars doesn't reappear
 					if (tinymce.isIE && (s.fullscreen_html_overflow == 'visible' || s.fullscreen_html_overflow == 'scroll'))
-						s.fullscreen_html_overflow = 'auto'; 
+						s.fullscreen_html_overflow = 'auto';
 
 					if (s.fullscreen_overflow == '0px')
 						s.fullscreen_overflow = '';
@@ -85,7 +85,7 @@
 						posCss = 'fixed;top:0';
 
 					n = DOM.add(DOM.doc.body, 'div', {
-						id : 'mce_fullscreen_container', 
+						id : 'mce_fullscreen_container',
 						style : 'position:' + posCss + ';left:0;width:' + vp.w + 'px;height:' + vp.h + 'px;z-index:200000;'});
 					DOM.add(n, 'div', {id : 'mce_fullscreen'});
 
@@ -127,7 +127,7 @@
 						var vp = tinymce.DOM.getViewPort(), fed = t.fullscreenEditor, outerSize, innerSize;
 
 						// Get outer/inner size to get a delta size that can be used to calc the new iframe size
-						outerSize = fed.dom.getSize(fed.getContainer().firstChild);
+						outerSize = fed.dom.getSize(fed.getContainer().getElementsByTagName('table')[0]);
 						innerSize = fed.dom.getSize(fed.getContainer().getElementsByTagName('iframe')[0]);
 
 						fed.theme.resizeTo(vp.w - outerSize.w + innerSize.w, vp.h - outerSize.h + innerSize.h);

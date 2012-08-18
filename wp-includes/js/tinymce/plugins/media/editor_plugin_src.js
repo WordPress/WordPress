@@ -382,7 +382,7 @@
 			data = JSON.parse(data);
 			typeItem = this.getType(node.attr('class'));
 
-			style = node.attr('data-mce-style')
+			style = node.attr('data-mce-style');
 			if (!style) {
 				style = node.attr('style');
 

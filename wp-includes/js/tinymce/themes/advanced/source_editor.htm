@@ -1,8 +1,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>{#advanced_dlg.code_title}</title>
-	<script type="text/javascript" src="../../tiny_mce_popup.js?ver=3541-20120705"></script>
-	<script type="text/javascript" src="js/source_editor.js?ver=3541-20120705"></script>
+	<script type="text/javascript" src="../../tiny_mce_popup.js?ver=356-20120818"></script>
+	<script type="text/javascript" src="js/source_editor.js?ver=356-20120818"></script>
 </head>
 <body onresize="resizeInputs();" style="display:none; overflow:hidden;" spellcheck="false">
 	<form name="source" onsubmit="saveContent();return false;" action="#">
@@ -17,13 +17,8 @@
 		<textarea name="htmlSource" id="htmlSource" rows="15" cols="100" style="width: 100%; height: 100%; font-family: 'Courier New',Courier,monospace; font-size: 12px;" dir="ltr" wrap="off" class="mceFocus"></textarea>
 
 		<div class="mceActionPanel">
-			<div style="float: left">
-				<input type="button" role="button" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();" id="cancel" />
-			</div>
-
-			<div style="float: right">
-				<input type="submit" role="button" name="insert" value="{#update}" id="insert" />
-			</div>
+			<input type="submit" role="button" name="insert" value="{#update}" id="insert" />
+			<input type="button" role="button" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();" id="cancel" />
 		</div>
 	</form>
 </body>

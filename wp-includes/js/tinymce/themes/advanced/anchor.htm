@@ -2,8 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>{#advanced_dlg.anchor_title}</title>
-	<script type="text/javascript" src="../../tiny_mce_popup.js?ver=3541-20120705"></script>
-	<script type="text/javascript" src="js/anchor.js?ver=3541-20120705"></script>
+	<script type="text/javascript" src="../../tiny_mce_popup.js?ver=356-20120818"></script>
+	<script type="text/javascript" src="js/anchor.js?ver=356-20120818"></script>
 </head>
 <body style="display: none" role="application" aria-labelledby="app_title">
 <form onsubmit="AnchorDialog.update();return false;" action="#">
@@ -18,13 +18,8 @@
 	</table>
 
 	<div class="mceActionPanel">
-		<div style="float: left">
-			<input type="button" id="cancel" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();" />
-		</div>
-
-		<div style="float: right">
-			<input type="submit" id="insert" name="insert" value="{#update}" />
-		</div>
+		<input type="submit" id="insert" name="insert" value="{#update}" />
+		<input type="button" id="cancel" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();" />
 	</div>
 </form>
 </body>
