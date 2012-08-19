@@ -619,7 +619,7 @@ function wp_admin_bar_updates_menu( $wp_admin_bar ) {
 		return;
 
 	$title = '<span class="ab-icon"></span><span class="ab-label">' . number_format_i18n( $update_data['counts']['total'] ) . '</span>';
-	$title .= '<legend class="screen-reader-text"><span>' . $update_data['title'] . '</span></legend>'; 
+	$title .= '<span class="screen-reader-text">' . $update_data['title'] . '</span>'; 
 
 	$wp_admin_bar->add_menu( array(
 		'id'    => 'updates',
