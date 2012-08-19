@@ -7822,7 +7822,8 @@ div.sidebar-name {
 	margin: 0 10px 15px;
 	border: 0 none;
 	background: transparent;
-	float: left;
+	display: inline-block;
+	vertical-align: top;
 }
 
 #widget-list .widget-description {

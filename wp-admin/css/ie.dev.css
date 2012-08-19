@@ -273,6 +273,9 @@ p.search-box {
 	margin: -3px 0 4px;
 }
 
+#widget-list .widget {
+	display: inline;
+}
 
 #editorcontainer #content {
 	overflow: auto;
