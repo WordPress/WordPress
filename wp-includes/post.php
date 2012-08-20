@@ -375,53 +375,142 @@ function get_extended($post) {
  * @param int|object $post Post ID or post object.
  * @param string $output Optional, default is Object. Either OBJECT, ARRAY_A, or ARRAY_N.
  * @param string $filter Optional, default is raw.
- * @return mixed Post data
+ * @return mixed Post data or null on failure
  */
-function &get_post(&$post, $output = OBJECT, $filter = 'raw') {
-	global $wpdb;
+function &get_post( &$post, $output = OBJECT, $filter = 'raw' ) {
 	$null = null;
 
-	if ( empty($post) ) {
-		if ( isset($GLOBALS['post']) )
-			$_post = & $GLOBALS['post'];
-		else
-			return $null;
-	} elseif ( is_object($post) && empty($post->filter) ) {
-		_get_post_ancestors($post);
-		$_post = sanitize_post($post, 'raw');
-		wp_cache_add($post->ID, $_post, 'posts');
-	} elseif ( is_object($post) && 'raw' == $post->filter ) {
+	if ( empty( $post ) && isset( $GLOBALS['post'] ) ) {
+		$_post = & $GLOBALS['post'];
+	} elseif ( is_a( $post, 'WP_Post' ) ) {
 		$_post = $post;
-	} else {
-		if ( is_object($post) )
-			$post_id = $post->ID;
-		else
-			$post_id = $post;
-
-		$post_id = (int) $post_id;
-		if ( ! $_post = wp_cache_get($post_id, 'posts') ) {
-			$_post = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->posts WHERE ID = %d LIMIT 1", $post_id));
-			if ( ! $_post )
-				return $null;
-			_get_post_ancestors($_post);
-			$_post = sanitize_post($_post, 'raw');
-			wp_cache_add($_post->ID, $_post, 'posts');
+	} elseif ( is_object( $post ) ) {
+		if ( empty( $post->filter ) ) {
+			$_post = sanitize_post( $post, 'raw' );
+			wp_cache_add( $post->ID, $_post, 'posts' );
+			$_post = new WP_Post( $_post );
+		} elseif ( 'raw' == $post->filter ) {
+			$_post = new WP_Post( $post );
+		} else {
+			$_post = WP_Post::get_instance( $post->ID );
 		}
+	} else {
+		$_post = WP_Post::get_instance( $post );
 	}
 
-	if ($filter != 'raw')
-		$_post = sanitize_post($_post, $filter);
+	if ( !$_post )
+		return $null;
 
-	if ( $output == OBJECT ) {
-		return $_post;
-	} elseif ( $output == ARRAY_A ) {
-		$__post = get_object_vars($_post);
+	$_post = $_post->filter( $filter );
+
+	if ( $output == ARRAY_A ) {
+		$__post = $_post->to_array();
 		return $__post;
 	} elseif ( $output == ARRAY_N ) {
-		$__post = array_values(get_object_vars($_post));
+		$__post = array_values( $_post->to_array() );
 		return $__post;
-	} else {
-		return $_post;
+	}
+
+	return $_post;
+}
+
+/**
+ * WordPress Post class.
+ *
+ * @since 3.5.0
+ *
+ * @property $ID;
+ * @property $post_author;
+ * @property $post_date;
+ * @property $post_date_gmt;
+ * @property $post_content;
+ * @property $post_title;
+ * @property $post_excerpt;
+ * @property $post_status;
+ * @property $comment_status;
+ * @property $ping_status;
+ * @property $post_password;
+ * @property $post_name;
+ * @property $to_ping;
+ * @property $pinged;
+ * @property $post_modified;
+ * @property $post_modified_gmt;
+ * @property $post_content_filtered;
+ * @property $post_parent;
+ * @property $guid;
+ * @property $menu_order;
+ * @property $post_type;
+ * @property $post_mime_type;
+ * @property $comment_count;
+ * @property $ancestors;
+ */
+final class WP_Post {
+
+	public $filter;
+
+	public static function get_instance( $post_id ) {
+		global $wpdb;
+
+		$post_id = (int) $post_id;
+		if ( !$post_id )
+			return false;
+
+		if ( ! $_post = wp_cache_get( $post_id, 'posts' ) ) {
+			$_post = $wpdb->get_row( $wpdb->prepare( "
+				SELECT * FROM $wpdb->posts WHERE ID = %d LIMIT 1
+			", $post_id ) );
+
+			if ( ! $_post )
+				return false;
+
+			$_post = sanitize_post( $_post, 'raw' );
+			wp_cache_add( $_post->ID, $_post, 'posts' );
+		}
+
+		return new WP_Post( $_post );
+	}
+
+	public function __construct( $post ) {
+		foreach ( get_object_vars( $post ) as $key => $value )
+			$this->$key = $value;
+	}
+
+	public function __isset( $key ) {
+		if ( 'ancestors' == $key )
+			return true;
+
+		return metadata_exists( 'post', $this->ID, $key );
+	}
+
+	public function &__get( $key ) {
+		if ( 'ancestors' == $key ) {
+			$value = get_post_ancestors( $this );
+		} else {
+			$value = get_post_meta( $this->ID, $key, true );
+		}
+
+		if ( $this->filter ) {
+			$value = sanitize_post_field( $key, $value, $this->ID, $this->filter );
+		}
+
+		return $value;
+	}
+
+	public function filter( $filter ) {
+		if ( $this->filter == $filter )
+			return $this;
+
+		if ( $filter == 'raw' )
+			return self::get_instance( $this->ID );
+
+		return sanitize_post( $this, $filter );
+	}
+
+	public function to_array() {
+		$post = get_object_vars( $this );
+		$post['ancestors'] = array();
+
+		return $post;
 	}
 }
 
@@ -433,16 +522,31 @@ function &get_post(&$post, $output = OBJECT, $filter = 'raw') {
  * @param int|object $post Post ID or post object
  * @return array Ancestor IDs or empty array if none are found.
  */
-function get_post_ancestors($post) {
-	$post = get_post($post);
+function get_post_ancestors( $post ) {
+	if ( ! $post )
+		return false;
 
-	if ( ! isset( $post->ancestors ) )
-		_get_post_ancestors( $post );
+	$post = get_post( $post );
 
-	if ( ! empty( $post->ancestors ) )
-		return $post->ancestors;
+	if ( ! $ancestors = wp_cache_get( $post->ID, 'post_ancestors' ) ) {
+		$ancestors = array();
 
-	return array();
+		if ( !empty( $post->post_parent ) && $post->ID != $post->post_parent ) {
+			$id = $ancestors[] = $post->post_parent;
+
+			while ( $ancestor = get_post( $id ) ) {
+				// Loop detection: If the ancestor has been seen before, break.
+				if ( empty( $ancestor->post_parent ) || ( $ancestor->post_parent == $post->ID ) || in_array( $ancestor->post_parent, $ancestors ) )
+					break;
+
+				$id = $ancestors[] = $ancestor->post_parent;
+			}
+		}
+
+		wp_cache_add( $post->ID, $ancestors, 'post_ancestors' );
+	}
+
+	return $ancestors;
 }
 
 /**
@@ -460,16 +564,12 @@ function get_post_ancestors($post) {
  * @param string $field Post field name
  * @param id $post Post ID
  * @param string $context Optional. How to filter the field. Default is display.
- * @return WP_Error|string Value in post field or WP_Error on failure
+ * @return bool|string False on failure or returns the value in post field
  */
 function get_post_field( $field, $post, $context = 'display' ) {
-	$post = (int) $post;
 	$post = get_post( $post );
 
-	if ( is_wp_error($post) )
-		return $post;
-
-	if ( !is_object($post) )
+	if ( !$post )
 		return '';
 
 	if ( !isset($post->$field) )
@@ -3363,13 +3463,8 @@ function get_page_uri($page) {
 		$page = get_page($page);
 	$uri = $page->post_name;
 
-	// A page cannot be it's own parent.
-	if ( $page->post_parent == $page->ID )
-		return $uri;
-
-	while ($page->post_parent != 0) {
-		$page = get_page($page->post_parent);
-		$uri = $page->post_name . "/" . $uri;
+	foreach ( $page->ancestors as $parent ) {
+		$uri = get_page($parent)->post_name . "/" . $uri;
 	}
 
 	return $uri;
@@ -3423,8 +3518,10 @@ function &get_pages($args = '') {
 	$key = md5( serialize( compact(array_keys($defaults)) ) );
 	if ( $cache = wp_cache_get( 'get_pages', 'posts' ) ) {
 		if ( is_array($cache) && isset( $cache[ $key ] ) ) {
-			$pages = apply_filters('get_pages', $cache[ $key ], $r );
-			return $pages;
+			// Convert to WP_Post instances
+			$pages = array_map( 'get_post', $cache[ $key ] );
+
+			return apply_filters( 'get_pages', $pages, $r );
 		}
 	}
 
@@ -3597,6 +3694,9 @@ function &get_pages($args = '') {
 
 	$cache[ $key ] = $pages;
 	wp_cache_set( 'get_pages', $cache, 'posts' );
+
+	// Convert to WP_Post instances
+	$pages = array_map( 'get_post', $pages );
 
 	$pages = apply_filters('get_pages', $pages, $r);
 
@@ -4628,45 +4728,6 @@ function _publish_post_hook($post_id) {
  */
 function _save_post_hook( $post_id, $post ) {
 	clean_post_cache( $post );
-}
-
-/**
- * Retrieve post ancestors and append to post ancestors property.
- *
- * Will only retrieve ancestors once, if property is already set, then nothing
- * will be done. If there is not a parent post, or post ID and post parent ID
- * are the same then nothing will be done.
- *
- * The parameter is passed by reference, so nothing needs to be returned. The
- * property will be updated and can be referenced after the function is
- * complete. The post parent will be an ancestor and the parent of the post
- * parent will be an ancestor. There will only be two ancestors at the most.
- *
- * @since 2.5.0
- * @access private
- * @uses $wpdb
- *
- * @param object $_post Post data.
- * @return null When nothing needs to be done.
- */
-function _get_post_ancestors(&$_post) {
-	global $wpdb;
-
-	if ( isset($_post->ancestors) )
-		return;
-
-	$_post->ancestors = array();
-
-	if ( empty($_post->post_parent) || $_post->ID == $_post->post_parent )
-		return;
-
-	$id = $_post->ancestors[] = (int) $_post->post_parent;
-	while ( $ancestor = $wpdb->get_var( $wpdb->prepare("SELECT `post_parent` FROM $wpdb->posts WHERE ID = %d LIMIT 1", $id) ) ) {
-		// Loop detection: If the ancestor has been seen before, break.
-		if ( ( $ancestor == $_post->ID ) || in_array($ancestor,  $_post->ancestors) )
-			break;
-		$id = $_post->ancestors[] = (int) $ancestor;
-	}
 }
 
 /**

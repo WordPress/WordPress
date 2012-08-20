@@ -3221,16 +3221,8 @@ function get_ancestors($object_id = 0, $object_type = '') {
 			$ancestors[] = (int) $term->parent;
 			$term = get_term($term->parent, $object_type);
 		}
-	} elseif ( null !== get_post_type_object( $object_type ) ) {
-		$object = get_post($object_id);
-		if ( ! is_wp_error( $object ) && isset( $object->ancestors ) && is_array( $object->ancestors ) )
-			$ancestors = $object->ancestors;
-		else {
-			while ( ! is_wp_error($object) && ! empty( $object->post_parent ) && ! in_array( $object->post_parent, $ancestors ) ) {
-				$ancestors[] = (int) $object->post_parent;
-				$object = get_post($object->post_parent);
-			}
-		}
+	} elseif ( post_type_exists( $object_type ) ) {
+		$ancestors = get_post_ancestors($object_id);
 	}
 
 	return apply_filters('get_ancestors', $ancestors, $object_id, $object_type);

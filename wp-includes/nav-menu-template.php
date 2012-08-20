@@ -286,8 +286,6 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 				}
 			}
 		}
-	} elseif ( ! empty( $queried_object->post_type ) && is_post_type_hierarchical( $queried_object->post_type ) ) {
-		_get_post_ancestors( $queried_object );
 	} elseif ( ! empty( $queried_object->taxonomy ) && is_taxonomy_hierarchical( $queried_object->taxonomy ) ) {
 		$term_hierarchy = _get_term_hierarchy( $queried_object->taxonomy );
 		$term_to_ancestor = array();

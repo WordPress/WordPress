@@ -1016,8 +1016,7 @@ class Walker_Page extends Walker {
 		$css_class = array('page_item', 'page-item-'.$page->ID);
 		if ( !empty($current_page) ) {
 			$_current_page = get_page( $current_page );
-			_get_post_ancestors($_current_page);
-			if ( isset($_current_page->ancestors) && in_array($page->ID, (array) $_current_page->ancestors) )
+			if ( in_array( $page->ID, $_current_page->ancestors ) )
 				$css_class[] = 'current_page_ancestor';
 			if ( $page->ID == $current_page )
 				$css_class[] = 'current_page_item';
