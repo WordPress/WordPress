@@ -1042,7 +1042,8 @@ function register_post_type( $post_type, $args = array() ) {
 	if ( false !== $args->query_var && !empty($wp) ) {
 		if ( true === $args->query_var )
 			$args->query_var = $post_type;
-		$args->query_var = sanitize_title_with_dashes($args->query_var);
+		else
+			$args->query_var = sanitize_title_with_dashes($args->query_var);
 		$wp->add_query_var($args->query_var);
 	}
 
