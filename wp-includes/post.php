@@ -3390,6 +3390,8 @@ function get_page_uri($page) {
 function &get_pages($args = '') {
 	global $wpdb;
 
+	$pages = false;
+
 	$defaults = array(
 		'child_of' => 0, 'sort_order' => 'ASC',
 		'sort_column' => 'post_title', 'hierarchical' => 1,
@@ -3408,13 +3410,13 @@ function &get_pages($args = '') {
 	// Make sure the post type is hierarchical
 	$hierarchical_post_types = get_post_types( array( 'hierarchical' => true ) );
 	if ( !in_array( $post_type, $hierarchical_post_types ) )
-		return false;
+		return $pages;
 
 	// Make sure we have a valid post status
 	if ( !is_array( $post_status ) )
 		$post_status = explode( ',', $post_status );
 	if ( array_diff( $post_status, get_post_stati() ) )
-		return false;
+		return $pages;
 
 	$cache = array();
 	$key = md5( serialize( compact(array_keys($defaults)) ) );
