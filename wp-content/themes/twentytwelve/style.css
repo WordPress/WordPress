@@ -518,7 +518,7 @@ a:hover {
 	margin-top: 1.714285714rem;
 	font-size: 12px;
 	font-size: 0.857142857rem;
-	line-height: 2;
+	line-height: 1.42857143;
 	float: none;
 }
 .main-navigation a {
@@ -1188,6 +1188,10 @@ label ~ span.required {
 /* =Homepage template
 -------------------------------------------------------------- */
 
+.entry-page-image {
+	margin-bottom: 14px;
+	margin-bottom: 1rem;
+}
 .page-template-homepage-php .site-content article {
 	border: 0;
 	margin-bottom: 0;
@@ -1431,6 +1435,7 @@ img#wpstats {
 	}
 	.entry-page-image {
 		float: right;
+		margin-bottom: 0;
 		width: 47.916666667%;
 	}
 	.page-template-homepage-php .widget-area .widget,
