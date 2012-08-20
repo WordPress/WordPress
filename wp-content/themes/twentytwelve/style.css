@@ -1603,6 +1603,11 @@ img#wpstats {
 /* =IE 7 and 8
 ----------------------------------------------- */
 
+.ie .skip-link,
+.ie .screen-reader-text,
+.ie .assistive-text {
+	clip: rect(1px 1px 1px 1px); /* IE7 */
+}
 .ie .site {
 	margin: 48px auto;
 	max-width: 960px;
