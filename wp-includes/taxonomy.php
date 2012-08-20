@@ -790,7 +790,14 @@ class WP_Tax_Query {
 					AND $wpdb->terms.{$query['field']} IN ($terms)
 				" );
 				break;
-
+			case 'term_taxonomy_id':
+				$terms = implode( ',', array_map( 'intval', $query['terms'] ) );
+				$terms = $wpdb->get_col( "
+					SELECT $resulting_field
+					FROM $wpdb->term_taxonomy
+					WHERE term_taxonomy_id IN ($terms)
+				" );
+				break;
 			default:
 				$terms = implode( ',', array_map( 'intval', $query['terms'] ) );
 				$terms = $wpdb->get_col( "
