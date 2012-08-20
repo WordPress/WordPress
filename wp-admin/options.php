@@ -87,7 +87,6 @@ if ( !is_multisite() ) {
 } else {
 	$whitelist_options['general'][] = 'new_admin_email';
 	$whitelist_options['general'][] = 'WPLANG';
-	$whitelist_options['general'][] = 'language';
 
 	if ( apply_filters( 'enable_post_by_email_configuration', true ) )
 		$whitelist_options['writing'] = array_merge($whitelist_options['writing'], $mail_options);
