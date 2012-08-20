@@ -3520,8 +3520,8 @@ function &get_pages($args = '') {
 		if ( is_array($cache) && isset( $cache[ $key ] ) ) {
 			// Convert to WP_Post instances
 			$pages = array_map( 'get_post', $cache[ $key ] );
-
-			return apply_filters( 'get_pages', $pages, $r );
+			$pages = apply_filters( 'get_pages', $pages, $r );
+			return $pages;
 		}
 	}
 
