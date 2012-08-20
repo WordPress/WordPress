@@ -1016,12 +1016,13 @@ function map_meta_cap( $cap, $user_id ) {
 			break;
 		}
 
-		if ( '' != $post->post_author ) {
-			$post_author_data = get_userdata( $post->post_author );
-		} else {
-			// No author set yet, so default to current user for cap checks.
-			$post_author_data = get_userdata( $user_id );
-		}
+		$post_author_id = $post->post_author;
+
+		// If no author set yet, default to current user for cap checks.
+		if ( ! $post_author_id )
+			$post_author_id = $user_id;
+
+		$post_author_data = $post_author_id == get_current_user_id() ? wp_get_current_user() : get_userdata( $post_author_id );
 
 		// If the user is the author...
 		if ( is_object( $post_author_data ) && $user_id == $post_author_data->ID ) {
@@ -1065,14 +1066,14 @@ function map_meta_cap( $cap, $user_id ) {
 			break;
 		}
 
-		if ( '' != $post->post_author ) {
-			$post_author_data = get_userdata( $post->post_author );
-		} else {
-			// No author set yet, so default to current user for cap checks.
-			$post_author_data = get_userdata( $user_id );
-		}
+		$post_author_id = $post->post_author;
 
-		//echo "current user id : $user_id, post author id: " . $post_author_data->ID . "<br />";
+		// If no author set yet, default to current user for cap checks.
+		if ( ! $post_author_id )
+			$post_author_id = $user_id;
+
+		$post_author_data = $post_author_id == get_current_user_id() ? wp_get_current_user() : get_userdata( $post_author_id );
+
 		// If the user is the author...
 		if ( is_object( $post_author_data ) && $user_id == $post_author_data->ID ) {
 			// If the post is published...
@@ -1119,12 +1120,13 @@ function map_meta_cap( $cap, $user_id ) {
 			break;
 		}
 
-		if ( '' != $post->post_author ) {
-			$post_author_data = get_userdata( $post->post_author );
-		} else {
-			// No author set yet, so default to current user for cap checks.
-			$post_author_data = get_userdata( $user_id );
-		}
+		$post_author_id = $post->post_author;
+
+		// If no author set yet, default to current user for cap checks.
+		if ( ! $post_author_id )
+			$post_author_id = $user_id;
+
+		$post_author_data = $post_author_id == get_current_user_id() ? wp_get_current_user() : get_userdata( $post_author_id );
 
 		if ( is_object( $post_author_data ) && $user_id == $post_author_data->ID )
 			$caps[] = $post_type->cap->read;
@@ -1423,10 +1425,12 @@ function get_super_admins() {
  * @return bool True if the user is a site admin.
  */
 function is_super_admin( $user_id = false ) {
-	if ( ! $user_id )
-		$user_id = get_current_user_id();
+	if ( ! $user_id || $user_id == get_current_user_id() )
+		$user = wp_get_current_user();
+	else
+		$user = get_userdata( $user_id );
 
-	if ( ! $user = get_userdata( $user_id ) )
+	if ( ! $user || ! $user->exists() )
 		return false;
 
 	if ( is_multisite() ) {
