@@ -513,6 +513,10 @@ a:hover {
 	margin-top: 1.714285714rem;
 	text-align: center;
 }
+.main-navigation li ul ul {
+	margin-left: 40px;
+	margin-left: 2.857142857rem;
+}
 .main-navigation li {
 	margin-top: 24px;
 	margin-top: 1.714285714rem;
@@ -1382,6 +1386,7 @@ img#wpstats {
 		z-index: 1;
 	}
 	.main-navigation li ul ul {
+		margin-left: 0;
 		top: 0;
 		left: 100%;
 	}
