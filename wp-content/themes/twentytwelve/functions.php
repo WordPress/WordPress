@@ -191,7 +191,7 @@ function twentytwelve_widgets_init() {
 	) );
 
 	register_sidebar( array(
-		'name' => __( 'Homepage Widgets One', 'twentytwelve' ),
+		'name' => __( 'First Homepage Widget Area', 'twentytwelve' ),
 		'id' => 'sidebar-2',
 		'description' => __( 'Appears when using the optional homepage template with a page set as Static Front Page', 'twentytwelve' ),
 		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
@@ -201,7 +201,7 @@ function twentytwelve_widgets_init() {
 	) );
 
 	register_sidebar( array(
-		'name' => __( 'Homepage Widgets Two', 'twentytwelve' ),
+		'name' => __( 'Second Homepage Widget Area', 'twentytwelve' ),
 		'id' => 'sidebar-3',
 		'description' => __( 'Appears when using the optional homepage template with a page set as Static Front Page', 'twentytwelve' ),
 		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
