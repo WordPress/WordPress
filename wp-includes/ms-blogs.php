@@ -574,7 +574,7 @@ function restore_current_blog() {
  *
  * @return bool True if switched, false otherwise.
  */
-function is_ms_switched() {
+function ms_is_switched() {
 	return $GLOBALS['_wp_switched'];
 }
 
