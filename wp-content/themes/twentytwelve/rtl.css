@@ -58,19 +58,10 @@ td {
 /* =Basic structure
 -------------------------------------------------------------- */
 
-/* Navigation Menu */
-.main-navigation li {
-	margin-left: 40px;
-	margin-left: 2.857142857rem;
-	margin-right: auto;
-}
 .main-navigation li ul ul {
-	right: 100%;
-	left: auto;
-}
-.main-navigation ul li:hover > ul {
-	border-right: 0;
-	border-left: none;
+	margin-left: 0;
+	margin-right: 40px;
+	margin-right: 2.857142857rem;
 }
 
 /* =Main Content
@@ -215,5 +206,32 @@ label ~ span.required {
 	.page-template-homepage-php .widget-area .widget_text img {
 		float: right;
 		margin: 8px 0 8px 24px;
+	}
+	.page-template-homepage-php .widget-area .widget,
+	.page-template-homepage-php .widget-area.two .home-widgets {
+		float: right;
+	}
+	.page-template-homepage-php .widget-area .widget:nth-child(odd) {
+		clear: left;
+	}
+	.page-template-homepage-php .widget-area .widget:nth-child(even),
+	.page-template-homepage-php .widget-area.two .home-widgets + .home-widgets {
+		float: left;
+		margin: 0 24px 0;
+		margin: 0 1.714285714rem 0;
+	}
+	.main-navigation li {
+		margin-left: 40px;
+		margin-left: 2.857142857rem;
+		margin-right: auto;
+	}
+	.main-navigation li ul ul {
+		margin-right: 0;
+		right: 100%;
+		left: auto;
+	}
+	.main-navigation ul li:hover > ul {
+		border-right: 0;
+		border-left: none;
 	}
 }
