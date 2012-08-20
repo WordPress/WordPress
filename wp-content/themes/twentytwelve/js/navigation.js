@@ -5,8 +5,8 @@
  */
 
 jQuery( document ).ready( function( $ ) {
-	if ( $( '#masthead .menu' ).children().length ) {
-		$( '#masthead h3.assistive-text' ).addClass( 'menu-toggle' );
+	if ( ! $( '#masthead .menu' ).children().length ) {
+		$( '#masthead .menu-toggle' ).hide();
 	}
 
 	$( '.menu-toggle' ).off( 'click' ).click( function() {
