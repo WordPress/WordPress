@@ -568,6 +568,17 @@ function restore_current_blog() {
 }
 
 /**
+ * Determines if switch_to_blog() is in effect
+ *
+ * @since 3.5.0
+ *
+ * @return bool True if switched, false otherwise.
+ */
+function is_ms_switched() {
+	return $GLOBALS['_wp_switched'];
+}
+
+/**
  * Check if a particular blog is archived.
  *
  * @since MU
