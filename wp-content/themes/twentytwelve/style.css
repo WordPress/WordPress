@@ -508,93 +508,12 @@ a:hover {
 }
 
 /* Navigation Menu */
-.main-navigation .menu {
-	display: inline-block;
-	margin-top: 24px;
-	margin-top: 1.714285714rem;
-	width: 100%;
-	font-size: 12px;
-	font-size: 0.857142857rem;
-	border-top: 1px solid #ededed;
-	border-bottom: 1px solid #ededed;
-}
-.main-navigation ul {
-	margin: 0;
-	text-indent: 0;
-}
-.main-navigation li ul li {
-	padding-left: 0;
-}
-.main-navigation li a,
-.main-navigation li {
-	display: inline-block;
-	text-decoration: none;
-}
-.main-navigation li a {
-	text-transform: uppercase;
-	color: #6a6a6a;
-}
-.main-navigation li a:hover {
-	color: #000;
-}
-.main-navigation li {
-	margin-right: 40px;
-	margin-right: 2.857142857rem;
-	position: relative;
-}
-.main-navigation li a {
-	border-bottom: 0;
-	line-height: 3.692307692;
-}
-.main-navigation li ul {
-	display: none;
-	position: absolute;
-	top: 100%;
-	padding: 0;
-	margin: 0;
-	z-index: 1;
-}
-.main-navigation li ul ul {
-	top: 0;
-	left: 100%;
-}
-.main-navigation ul li:hover > ul {
-	display: block;
-	border-left: 0;
-}
-.main-navigation li ul li,
-.main-navigation li ul li a {
-	text-align: center;
-}
-.main-navigation li ul li a {
-	background: #efefef;
-	border-bottom: 1px solid #ededed;
-	display: block;
-	font-size: 11px;
-	font-size: 0.785714286rem;
-	line-height: 2.181818182;
-	padding: 8px 10px;
-	padding: 0.571428571rem 0.714285714rem;
-	width: 120px;
-	width: 8.571428571rem;
-}
-.main-navigation li ul li a:hover {
-	background: #e3e3e3;
-	color: #444;
-}
-.main-navigation .current-menu-item > a,
-.main-navigation .current-menu-ancestor > a,
-.main-navigation .current_page_item > a,
-.main-navigation .current_page_ancestor > a {
-	color: #636363;
-	font-weight: bold;
-}
-nav[role="navigation"].main-small-navigation {
+.main-navigation {
 	margin-top: 24px;
 	margin-top: 1.714285714rem;
 	text-align: center;
 }
-nav[role="navigation"].main-small-navigation li {
+.main-navigation li {
 	margin-top: 24px;
 	margin-top: 1.714285714rem;
 	font-size: 12px;
@@ -602,17 +521,17 @@ nav[role="navigation"].main-small-navigation li {
 	line-height: 2;
 	float: none;
 }
-nav[role="navigation"].main-small-navigation a {
+.main-navigation a {
 	color: #5e5e5e;
 }
-nav[role="navigation"].main-small-navigation a:hover {
+.main-navigation a:hover {
 	color: #21759b;
+}
+.main-navigation .menu {
+	display: none;
 }
 .menu-toggle {
 	display: inline-block;
-}
-.main-small-navigation .menu {
-	display: none;
 }
 
 /* Banner */
@@ -1412,6 +1331,85 @@ img#wpstats {
 		font-size: 26px;
 		font-size: 1.857142857rem;
 		line-height: 1.846153846;
+	}
+	.main-navigation .menu {
+		border-bottom: 1px solid #ededed;
+		border-top: 1px solid #ededed;
+		display: inline-block !important;
+		font-size: 12px;
+		font-size: 0.857142857rem;
+		text-align: left;
+		width: 100%;
+	}
+	.main-navigation ul {
+		margin: 0;
+		text-indent: 0;
+	}
+	.main-navigation li ul li {
+		padding-left: 0;
+	}
+	.main-navigation li a,
+	.main-navigation li {
+		display: inline-block;
+		text-decoration: none;
+	}
+	.main-navigation li a {
+		color: #6a6a6a;
+		text-transform: uppercase;
+	}
+	.main-navigation li a:hover {
+		color: #000;
+	}
+	.main-navigation li {
+		margin: 0 40px 0 0;
+		margin: 0 2.857142857rem 0 0;
+		position: relative;
+	}
+	.main-navigation li a {
+		border-bottom: 0;
+		line-height: 3.692307692;
+	}
+	.main-navigation li ul {
+		display: none;
+		margin: 0;
+		padding: 0;
+		position: absolute;
+		top: 100%;
+		z-index: 1;
+	}
+	.main-navigation li ul ul {
+		top: 0;
+		left: 100%;
+	}
+	.main-navigation ul li:hover > ul {
+		border-left: 0;
+		display: block;
+	}
+	.main-navigation li ul li a {
+		background: #efefef;
+		border-bottom: 1px solid #ededed;
+		display: block;
+		font-size: 11px;
+		font-size: 0.785714286rem;
+		line-height: 2.181818182;
+		padding: 8px 10px;
+		padding: 0.571428571rem 0.714285714rem;
+		width: 120px;
+		width: 8.571428571rem;
+	}
+	.main-navigation li ul li a:hover {
+		background: #e3e3e3;
+		color: #444;
+	}
+	.main-navigation .current-menu-item > a,
+	.main-navigation .current-menu-ancestor > a,
+	.main-navigation .current_page_item > a,
+	.main-navigation .current_page_ancestor > a {
+		color: #636363;
+		font-weight: bold;
+	}
+	.menu-toggle {
+		display: none;
 	}
 	.entry-header .entry-title {
 		font-size: 22px;

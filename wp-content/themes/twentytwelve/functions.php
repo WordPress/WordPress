@@ -104,7 +104,7 @@ function twentytwelve_scripts_styles() {
 	 * JavaScript for handling navigation menus and the resized
 	 * styles for small screen sizes.
 	 */
-	wp_enqueue_script( 'twentytwelve-navigation', get_template_directory_uri() . '/js/theme.js', array( 'jquery' ), '20120802', true );
+	wp_enqueue_script( 'twentytwelve-navigation', get_template_directory_uri() . '/js/navigation.js', array( 'jquery' ), '20120820', true );
 
 	/**
 	 * Load special font CSS file.
