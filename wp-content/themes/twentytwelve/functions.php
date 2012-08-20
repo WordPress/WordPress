@@ -183,7 +183,7 @@ function twentytwelve_widgets_init() {
 	register_sidebar( array(
 		'name' => __( 'Main Sidebar', 'twentytwelve' ),
 		'id' => 'sidebar-1',
-		'description' => __( 'Appears on posts and pages except the optional Homepage template, which uses its own set of widgets', 'twentytwelve' ),
+		'description' => __( 'Appears on posts and pages except the optional Homepage template, which has its own widgets', 'twentytwelve' ),
 		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
 		'after_widget' => '</aside>',
 		'before_title' => '<h3 class="widget-title">',
@@ -191,8 +191,18 @@ function twentytwelve_widgets_init() {
 	) );
 
 	register_sidebar( array(
-		'name' => __( 'Homepage Widgets', 'twentytwelve' ),
-		'id' => 'sidebar-home',
+		'name' => __( 'Homepage Widgets One', 'twentytwelve' ),
+		'id' => 'sidebar-2',
+		'description' => __( 'Appears when using the optional homepage template with a page set as Static Front Page', 'twentytwelve' ),
+		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
+		'after_widget' => '</aside>',
+		'before_title' => '<h3 class="widget-title">',
+		'after_title' => '</h3>',
+	) );
+
+	register_sidebar( array(
+		'name' => __( 'Homepage Widgets Two', 'twentytwelve' ),
+		'id' => 'sidebar-3',
 		'description' => __( 'Appears when using the optional homepage template with a page set as Static Front Page', 'twentytwelve' ),
 		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
 		'after_widget' => '</aside>',
@@ -201,6 +211,20 @@ function twentytwelve_widgets_init() {
 	) );
 }
 add_action( 'widgets_init', 'twentytwelve_widgets_init' );
+
+/**
+ * Count the number of footer sidebars to enable dynamic classes for the footer
+ *
+ * @since Twenty Twelve 1.0
+ */
+function twentytwelve_homepage_sidebar_class() {
+	$classes = array( 'widget-area' );
+
+	if ( is_active_sidebar( 2 ) && is_active_sidebar( 3 ) )
+		$classes[] = 'two';
+
+	echo 'class="' . implode( ' ', $classes ) . '"';
+}
 
 if ( ! function_exists( 'twentytwelve_content_nav' ) ) :
 /**

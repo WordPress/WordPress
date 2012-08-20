@@ -1433,17 +1433,27 @@ img#wpstats {
 		float: right;
 		width: 47.916666667%;
 	}
-	.page-template-homepage-php .widget-area .widget {
+	.page-template-homepage-php .widget-area .widget,
+	.page-template-homepage-php .widget-area.two .home-widgets {
 		float: left;
 		width: 51.875%;
 		margin-bottom: 24px;
 		margin-bottom: 1.714285714rem;
 	}
-	.page-template-homepage-php .widget-area .widget:nth-child(even) {
+	.page-template-homepage-php .widget-area .widget:nth-child(odd) {
+		clear: right;
+	}
+	.page-template-homepage-php .widget-area .widget:nth-child(even),
+	.page-template-homepage-php .widget-area.two .home-widgets + .home-widgets {
 		float: right;
 		width: 39.0625%;
 		margin: 0 0 24px;
 		margin: 0 0 1.714285714rem;
+	}
+	.page-template-homepage-php .widget-area.two .widget,
+	.page-template-homepage-php .widget-area.two .widget:nth-child(even) {
+		float: none;
+		width: auto;
 	}
 }
 
