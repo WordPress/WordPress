@@ -222,7 +222,9 @@ class WP_Comment_Query {
 			'type' => '',
 			'user_id' => '',
 			'search' => '',
-			'count' => false
+			'count' => false,
+			// lets us override the status query var by explicitly setting a value for comment_approved
+			'comment_approved' => false,
 		);
 
 		$this->query_vars = wp_parse_args( $query_vars, $defaults );
@@ -254,6 +256,10 @@ class WP_Comment_Query {
 			$approved = "comment_approved = 'trash'";
 		else
 			$approved = "( comment_approved = '0' OR comment_approved = '1' )";
+
+		if ( false !== $comment_approved ) {
+			$approved = $wpdb->prepare( 'comment_approved = %s', $comment_approved );
+		}
 
 		$order = ( 'ASC' == strtoupper($order) ) ? 'ASC' : 'DESC';
 
