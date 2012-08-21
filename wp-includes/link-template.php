@@ -2338,6 +2338,10 @@ function rel_canonical() {
 		return;
 
 	$link = get_permalink( $id );
+
+	if ( $page = get_query_var('cpage') )
+		$link = get_comments_pagenum_link( $page );
+
 	echo "<link rel='canonical' href='$link' />\n";
 }
 
