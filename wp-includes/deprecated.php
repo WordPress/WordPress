@@ -3190,3 +3190,17 @@ function sticky_class( $post_id = null ) {
 	if ( is_sticky( $post_id ) )
 		echo ' sticky';
 }
+
+/**
+ * Retrieve post ancestors.
+ *
+ * This is no longer needed as WP_Post lazy-loads the ancestors
+ * property with get_post_ancestors().
+ *
+ * @since 2.3.4
+ * @deprecated 3.5.0
+ * @see get_post_ancestors()
+ */
+function _get_post_ancestors( &$post ) {
+	_deprecated_function( __FUNCTION__, '3.5' );
+}
