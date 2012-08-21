@@ -377,12 +377,11 @@ function get_extended($post) {
  * @param string $filter Optional, default is raw.
  * @return mixed Post data or null on failure
  */
-function &get_post( &$post, $output = OBJECT, $filter = 'raw' ) {
-	$null = null;
+function get_post( $post, $output = OBJECT, $filter = 'raw' ) {
+	if ( empty( $post ) && isset( $GLOBALS['post'] ) )
+		$post = $GLOBALS['post'];
 
-	if ( empty( $post ) && isset( $GLOBALS['post'] ) ) {
-		$_post = & $GLOBALS['post'];
-	} elseif ( is_a( $post, 'WP_Post' ) ) {
+	if ( is_a( $post, 'WP_Post' ) ) {
 		$_post = $post;
 	} elseif ( is_object( $post ) ) {
 		if ( empty( $post->filter ) ) {
@@ -398,18 +397,15 @@ function &get_post( &$post, $output = OBJECT, $filter = 'raw' ) {
 		$_post = WP_Post::get_instance( $post );
 	}
 
-	if ( !$_post )
-		return $null;
+	if ( ! $_post )
+		return null;
 
 	$_post = $_post->filter( $filter );
 
-	if ( $output == ARRAY_A ) {
-		$__post = $_post->to_array();
-		return $__post;
-	} elseif ( $output == ARRAY_N ) {
-		$__post = array_values( $_post->to_array() );
-		return $__post;
-	}
+	if ( $output == ARRAY_A )
+		return $_post->to_array();
+	elseif ( $output == ARRAY_N )
+		return array_values( $_post->to_array() );
 
 	return $_post;
 }
@@ -3299,9 +3295,8 @@ function get_all_page_ids() {
  * @param string $filter How the return value should be filtered.
  * @return mixed Page data.
  */
-function &get_page(&$page, $output = OBJECT, $filter = 'raw') {
-	$p = get_post($page, $output, $filter);
-	return $p;
+function get_page( $page, $output = OBJECT, $filter = 'raw') {
+	return get_post( $page, $output, $filter );
 }
 
 /**
