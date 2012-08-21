@@ -2750,7 +2750,7 @@ class WP_Query {
 					// Ignore sticky posts the current user cannot read or are not published.
 					if ( 'publish' != $sticky_post->post_status )
 						continue;
-					array_splice($this->posts, $sticky_offset, 0, array($sticky_post));
+					array_splice($this->posts, $sticky_offset, 0, array( get_post( $sticky_post ) ) );
 					$sticky_offset++;
 				}
 			}
