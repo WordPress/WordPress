@@ -76,6 +76,9 @@ do_action('admin_head');
 if ( get_user_setting('mfold') == 'f' )
 	$admin_body_class .= ' folded';
 
+if ( !get_user_setting('unfold') )
+	$admin_body_class .= ' auto-fold';
+
 if ( is_admin_bar_showing() )
 	$admin_body_class .= ' admin-bar';
 

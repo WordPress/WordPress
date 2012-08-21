@@ -27,8 +27,8 @@ body {
 	width: 99%;
 }
 
-#adminmenu .wp-submenu .wp-submenu .wp-submenu-wrap,
-#adminmenu .wp-menu-open .wp-submenu .wp-submenu-wrap {
+#adminmenu .wp-submenu .wp-submenu .wp-submenu,
+#adminmenu .wp-menu-open .wp-submenu .wp-submenu {
 	border: 1px solid #dfdfdf;
 }
 
@@ -39,10 +39,6 @@ body {
 
 #adminmenu .wp-submenu .wp-submenu-head {
 	padding: 6px 10px 6px 4px;
-}
-
-#adminmenu .wp-menu-arrow {
-	display: none !important;
 }
 
 #wpcontent #adminmenu .wp-submenu li.wp-submenu-head {

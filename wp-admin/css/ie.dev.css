@@ -74,21 +74,17 @@
 	margin-bottom: -2px;
 }
 
-#adminmenu li.wp-not-current-submenu:hover .wp-menu-arrow {
-	display: none;
+#adminmenu .wp-menu-arrow {
+	display: none !important;
 }
 
-#wpcontent #adminmenu .wp-submenu li.wp-submenu-head {
-	padding: 3px 4px 4px 10px;
+#adminmenu .wp-submenu li.wp-submenu-head {
+	padding: 6px 4px 7px 10px;
 	zoom: 100%;
 }
 
 .js.folded #adminmenu .menu-top {
 	height: 30px;
-}
-
-.js.folded #adminmenu .wp-submenu {
-	margin: -1px 0 0 0;
 }
 
 .js.folded #adminmenu li.menu-top {

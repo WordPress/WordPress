@@ -161,36 +161,45 @@ $('.contextual-help-tabs').delegate('a', 'click focus', function(e) {
 
 $(document).ready( function() {
 	var lastClicked = false, checks, first, last, checked, menu = $('#adminmenu'),
-		pageInput = $('input.current-page'), currentPage = pageInput.val(), refresh;
+		pageInput = $('input.current-page'), currentPage = pageInput.val();
 
-	// admin menu
-	refresh = function(i, el){ // force the browser to refresh the tabbing index
-		var node = $(el), tab = node.attr('tabindex');
-		if ( tab )
-			node.attr('tabindex', '0').attr('tabindex', tab);
-	};
+	// when the menu is folded, make the fly-out submenu header clickable
+	menu.on('click.wp-submenu-head', '.wp-submenu-head', function(e){
+		$(e.target).parent().siblings('a').get(0).click();
+	});
 
-	$('#collapse-menu', menu).click(function(){
+	$('#collapse-menu').on('click.collapse-menu', function(e){
 		var body = $(document.body);
 
 		// reset any compensation for submenus near the bottom of the screen
 		$('#adminmenu div.wp-submenu').css('margin-top', '');
 
-		if ( body.hasClass('folded') ) {
-			body.removeClass('folded');
-			setUserSetting('mfold', 'o');
+		if ( $(window).width() < 900 ) {
+			if ( body.hasClass('auto-fold') ) {
+				body.removeClass('auto-fold');
+				setUserSetting('unfold', 1);
+				body.removeClass('folded');
+				deleteUserSetting('mfold');
+			} else {
+				body.addClass('auto-fold');
+				deleteUserSetting('unfold');
+			}
 		} else {
-			body.addClass('folded');
-			setUserSetting('mfold', 'f');
+			if ( body.hasClass('folded') ) {
+				body.removeClass('folded');
+				deleteUserSetting('mfold');
+			} else {
+				body.addClass('folded');
+				setUserSetting('mfold', 'f');
+			}
 		}
-		return false;
 	});
 
 	$('li.wp-has-submenu', menu).hoverIntent({
 		over: function(e){
 			var b, h, o, f, m = $(this).find('.wp-submenu'), menutop, wintop, maxtop;
 
-			if ( m.is(':visible') )
+			if ( parseInt( m.css('top'), 10 ) > -5 )
 				return;
 
 			menutop = $(this).offset().top;
@@ -213,41 +222,21 @@ $(document).ready( function() {
 			else
 				m.css('margin-top', '');
 
-			menu.find('.wp-submenu').removeClass('sub-open');
-			m.addClass('sub-open');
+			menu.find('li.menu-top').removeClass('opensub');
+			$(this).addClass('opensub');
 		},
 		out: function(){
-			$(this).find('.wp-submenu').removeClass('sub-open').css('margin-top', '');
+			$(this).removeClass('opensub').find('.wp-submenu').css('margin-top', '');
 		},
 		timeout: 200,
 		sensitivity: 7,
 		interval: 90
 	});
 
-	// Tab to select, Enter to open sub, Esc to close sub and focus the top menu
-	$('li.wp-has-submenu > a.wp-not-current-submenu', menu).bind('keydown.adminmenu', function(e){
-		if ( e.which != 13 )
-			return;
-
-		var target = $(e.target);
-
-		e.stopPropagation();
-		e.preventDefault();
-
-		menu.find('.wp-submenu').removeClass('sub-open');
-		target.siblings('.wp-submenu').toggleClass('sub-open').find('a[role="menuitem"]').each(refresh);
-	}).each(refresh);
-
-	$('a[role="menuitem"]', menu).bind('keydown.adminmenu', function(e){
-		if ( e.which != 27 )
-			return;
-
-		var target = $(e.target);
-
-		e.stopPropagation();
-		e.preventDefault();
-
-		target.add( target.siblings() ).closest('.sub-open').removeClass('sub-open').siblings('a.wp-not-current-submenu').focus();
+	menu.on('focus.adminmenu', '.wp-submenu a', function(e){
+		$(e.target).closest('li.menu-top').addClass('opensub');
+	}).on('blur.adminmenu', '.wp-submenu a', function(e){
+		$(e.target).closest('li.menu-top').removeClass('opensub');
 	});
 
 	// Move .updated and .error alert boxes. Don't move boxes designed to be inline.

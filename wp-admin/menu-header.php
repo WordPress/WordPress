@@ -87,9 +87,9 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 				$menu_file = substr( $menu_file, 0, $pos );
 			if ( ! empty( $menu_hook ) || ( ('index.php' != $submenu_items[0][2]) && file_exists( WP_PLUGIN_DIR . "/$menu_file" ) ) ) {
 				$admin_is_parent = true;
-				echo "<div class='wp-menu-image'><a href='admin.php?page={$submenu_items[0][2]}' tabindex='-1' aria-label='$aria_label'>$img</a></div>$arrow<a href='admin.php?page={$submenu_items[0][2]}'$class $aria_attributes>$title</a>";
+				echo "<a href='admin.php?page={$submenu_items[0][2]}'$class $aria_attributes>$arrow<div class='wp-menu-image'>$img</div><div class='wp-menu-name'>$title</div></a>";
 			} else {
-				echo "\n\t<div class='wp-menu-image'><a href='{$submenu_items[0][2]}' tabindex='-1' aria-label='$aria_label'>$img</a></div>$arrow<a href='{$submenu_items[0][2]}'$class $aria_attributes>$title</a>";
+				echo "\n\t<a href='{$submenu_items[0][2]}'$class $aria_attributes>$arrow<div class='wp-menu-image'>$img</div><div class='wp-menu-name'>$title</div></a>";
 			}
 		} elseif ( ! empty( $item[2] ) && current_user_can( $item[1] ) ) {
 			$menu_hook = get_plugin_page_hook( $item[2], 'admin.php' );
@@ -98,15 +98,16 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 				$menu_file = substr( $menu_file, 0, $pos );
 			if ( ! empty( $menu_hook ) || ( ('index.php' != $item[2]) && file_exists( WP_PLUGIN_DIR . "/$menu_file" ) ) ) {
 				$admin_is_parent = true;
-				echo "\n\t<div class='wp-menu-image'><a href='admin.php?page={$item[2]}' tabindex='-1' aria-label='$aria_label'>$img</a></div>$arrow<a href='admin.php?page={$item[2]}'$class $aria_attributes>{$item[0]}</a>";
+				echo "\n\t<a href='admin.php?page={$item[2]}'$class $aria_attributes>$arrow<div class='wp-menu-image'>$img</div><div class='wp-menu-name'>{$item[0]}</div></a>";
 			} else {
-				echo "\n\t<div class='wp-menu-image'><a href='{$item[2]}' tabindex='-1' aria-label='$aria_label'>$img</a></div>$arrow<a href='{$item[2]}'$class $aria_attributes>{$item[0]}</a>";
+				echo "\n\t<a href='{$item[2]}'$class $aria_attributes>$arrow<div class='wp-menu-image'>$img</div><div class='wp-menu-name'>{$item[0]}</div></a>";
 			}
 		}
 
 		if ( ! empty( $submenu_items ) ) {
-			echo "\n\t<div class='wp-submenu'><div class='wp-submenu-wrap'>";
-			echo "<div class='wp-submenu-head'>{$item[0]}</div><ul>";
+			echo "\n\t<ul class='wp-submenu wp-submenu-wrap'>";
+			echo "<li class='wp-submenu-head'>{$item[0]}</li>";
+	
 			$first = true;
 			foreach ( $submenu_items as $sub_key => $sub_item ) {
 				if ( ! current_user_can( $sub_item[1] ) )
@@ -160,7 +161,7 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 					echo "<li$class><a href='{$sub_item[2]}'$class>$title</a></li>";
 				}
 			}
-			echo "</ul></div></div>";
+			echo "</ul>";
 		}
 		echo "</li>";
 	}
