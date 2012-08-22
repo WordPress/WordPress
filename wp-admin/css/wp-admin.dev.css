@@ -4228,7 +4228,6 @@ span.imgedit-scale-warn {
 	color: red;
 	line-height: 21px;
 	text-align: center;
-	vertical-align: center;
 }
 
 #replyrow h5 {
@@ -7429,7 +7428,6 @@ h3.tb {
 	display: block;
 	float: left;
 	overflow: hidden;
-	vertical-align: center;
 }
 
 #img_container img,
