@@ -96,8 +96,8 @@ jQuery(document).ready( function($) {
 		$('input#wp-preview').val('');
 	}
 
-	//  This code is meant to allow tabbing from Title to Post content.
-	$('#title').bind('keydown.editor-focus', function(e) {
+	// This code is meant to allow tabbing from Title to Post content.
+	$('#title').on('keydown.editor-focus', function(e) {
 		var ed;
 
 		if ( e.which != 9 )
@@ -107,10 +107,13 @@ jQuery(document).ready( function($) {
 			if ( typeof(tinymce) != 'undefined' )
 				ed = tinymce.get('content');
 
-			if ( ed && !ed.isHidden() )
-				$('#content_tbl td.mceToolbar > a').focus();
-			else
+			if ( ed && !ed.isHidden() ) {
+				$(this).one('keyup', function(e){
+					$('#content_tbl td.mceToolbar > a').focus();
+				});
+			} else {
 				$('#content').focus();
+			}
 
 			e.preventDefault();
 		}
