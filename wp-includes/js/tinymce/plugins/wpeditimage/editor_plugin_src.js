@@ -14,11 +14,14 @@
 			ed.addCommand('WP_EditImage', t._editImage);
 
 			ed.onInit.add(function(ed) {
-				ed.dom.events.add(ed.getBody(), 'dragstart', function(e) {
+				ed.dom.events.add(ed.getBody(), 'mousedown', function(e) {
 					var parent;
 
 					if ( e.target.nodeName == 'IMG' && ( parent = ed.dom.getParent(e.target, 'div.mceTemp') ) ) {
-						ed.selection.select(parent);
+						if ( tinymce.isGecko )
+							ed.selection.select(parent);
+						else if ( tinymce.isWebKit )
+							ed.dom.events.cancel(e);
 					}
 				});
 
@@ -44,7 +47,7 @@
 				});
 			});
 
-			// resize the caption <dl> when the image is soft-resized by the user (only possible in Firefox and IE)
+			// resize the caption <dl> when the image is soft-resized by the user
 			ed.onMouseUp.add(function(ed, e) {
 				if ( tinymce.isWebKit || tinymce.isOpera )
 					return;
