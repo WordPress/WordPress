@@ -7625,8 +7625,8 @@ h3 span {
 }
 
 .feature-filter .feature-group li {
-	display: inline;
-	float: left;
+	display: inline-block;
+	vertical-align: top;
 	list-style-type: none;
 	padding-right: 25px;
 	width: 150px;

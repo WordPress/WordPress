@@ -269,8 +269,13 @@ p.search-box {
 	margin: -3px 0 4px;
 }
 
-#widget-list .widget {
+#widget-list .widget,
+.feature-filter .feature-group li {
 	display: inline;
+}
+
+.feature-filter .feature-group li input {
+	vertical-align: middle;
 }
 
 #editorcontainer #content {
