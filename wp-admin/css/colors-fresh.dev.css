@@ -1030,6 +1030,12 @@ table.widefat .spam a:hover,
 	text-shadow: 0 1px 0 rgba( 255, 255, 255, 0.4 );
 }
 
+/* So it doesn't get applied to the number spans (comments, updates, etc) */
+#adminmenu li.menu-top:hover > a span,
+#adminmenu li.menu-top > a:focus span {
+	text-shadow: none;
+}
+
 #adminmenu li.wp-has-current-submenu a.wp-has-current-submenu,
 #adminmenu li.current a.menu-top,
 .folded #adminmenu li.wp-has-current-submenu,
