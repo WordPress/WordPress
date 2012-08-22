@@ -435,6 +435,7 @@ $_old_files = array(
 'wp-admin/images/white-grad.png',
 'wp-admin/images/widgets-arrow-vs.gif',
 'wp-admin/images/widgets-arrow.gif',
+'wp-admin/images/wpspin_dark.gif',
 'wp-includes/images/upload.png',
 // Don't delete, yet: 'wp-admin/images/media-button-music.gif',
 // Don't delete, yet: 'wp-admin/images/media-button-other.gif',
