@@ -462,7 +462,7 @@ function switch_to_blog( $new_blog, $deprecated = null ) {
 	* the extra unnecessary work */
 	if ( $new_blog == $GLOBALS['blog_id'] ) {
 		do_action( 'switch_blog', $new_blog, $new_blog );
-		$GLOBALS['_wp_switched'] = true;
+		$GLOBALS['switched'] = true;
 		return true;
 	}
 
@@ -499,7 +499,7 @@ function switch_to_blog( $new_blog, $deprecated = null ) {
 	}
 
 	do_action( 'switch_blog', $new_blog, $prev_blog_id );
-	$GLOBALS['_wp_switched'] = true;
+	$GLOBALS['switched'] = true;
 
 	return true;
 }
@@ -515,7 +515,7 @@ function switch_to_blog( $new_blog, $deprecated = null ) {
 function restore_current_blog() {
 	global $wpdb, $wp_roles;
 
-	if ( ! $GLOBALS['_wp_switched'] )
+	if ( ! $GLOBALS['switched'] )
 		return false;
 
 	$blog = array_pop( $GLOBALS['_wp_switched_stack'] );
@@ -523,7 +523,7 @@ function restore_current_blog() {
 	if ( $GLOBALS['blog_id'] == $blog ) {
 		do_action( 'switch_blog', $blog, $blog );
 		// If we still have items in the switched stack, consider ourselves still 'switched'
-		$GLOBALS['_wp_switched'] = ! empty( $GLOBALS['_wp_switched_stack'] );
+		$GLOBALS['switched'] = ! empty( $GLOBALS['_wp_switched_stack'] );
 		return true;
 	}
 
@@ -562,7 +562,7 @@ function restore_current_blog() {
 	do_action( 'switch_blog', $blog, $prev_blog_id );
 
 	// If we still have items in the switched stack, consider ourselves still 'switched'
-	$GLOBALS['_wp_switched'] = ! empty( $GLOBALS['_wp_switched_stack'] );
+	$GLOBALS['switched'] = ! empty( $GLOBALS['_wp_switched_stack'] );
 
 	return true;
 }
@@ -575,7 +575,7 @@ function restore_current_blog() {
  * @return bool True if switched, false otherwise.
  */
 function ms_is_switched() {
-	return $GLOBALS['_wp_switched'];
+	return $GLOBALS['switched'];
 }
 
 /**

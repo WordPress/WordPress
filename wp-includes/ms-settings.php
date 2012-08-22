@@ -127,7 +127,7 @@ $wpdb->set_prefix( $table_prefix, false ); // $table_prefix can be set in sunris
 $wpdb->set_blog_id( $current_blog->blog_id, $current_blog->site_id );
 $table_prefix = $wpdb->get_blog_prefix();
 $_wp_switched_stack = array();
-$_wp_switched = false;
+$switched = false;
 
 // need to init cache again after blog_id is set
 wp_start_object_cache();
