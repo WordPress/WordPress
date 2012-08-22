@@ -282,7 +282,7 @@ wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 <?php if ( post_type_supports($post_type, 'title') ) { ?>
 <div id="titlediv">
 <div id="titlewrap">
-	<label class="hide-if-no-js" style="visibility:hidden" id="title-prompt-text" for="title"><?php echo apply_filters( 'enter_title_here', __( 'Enter title here' ), $post ); ?></label>
+	<label class="screen-reader-text" id="title-prompt-text" for="title"><?php echo apply_filters( 'enter_title_here', __( 'Enter title here' ), $post ); ?></label>
 	<input type="text" name="post_title" size="30" value="<?php echo esc_attr( htmlspecialchars( $post->post_title ) ); ?>" id="title" autocomplete="off" />
 </div>
 <div class="inside">

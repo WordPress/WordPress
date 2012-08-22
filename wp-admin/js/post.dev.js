@@ -641,20 +641,20 @@ jQuery(document).ready( function($) {
 		var title = $('#' + id), titleprompt = $('#' + id + '-prompt-text');
 
 		if ( title.val() == '' )
-			titleprompt.css('visibility', '');
+			titleprompt.removeClass('screen-reader-text');
 
 		titleprompt.click(function(){
-			$(this).css('visibility', 'hidden');
+			$(this).addClass('screen-reader-text');
 			title.focus();
 		});
 
 		title.blur(function(){
 			if ( this.value == '' )
-				titleprompt.css('visibility', '');
+				titleprompt.removeClass('screen-reader-text');
 		}).focus(function(){
-			titleprompt.css('visibility', 'hidden');
+			titleprompt.addClass('screen-reader-text');
 		}).keydown(function(e){
-			titleprompt.css('visibility', 'hidden');
+			titleprompt.addClass('screen-reader-text');
 			$(this).unbind(e);
 		});
 	}
