@@ -2733,24 +2733,15 @@ class WP_Query {
 
 			// Fetch sticky posts that weren't in the query results
 			if ( !empty($sticky_posts) ) {
-				$stickies__in = implode(',', array_map( 'absint', $sticky_posts ));
-				// honor post type(s) if not set to any
-				$stickies_where = '';
-				if ( 'any' != $post_type && '' != $post_type ) {
-					if ( is_array( $post_type ) ) {
-						$post_types = join( "', '", $post_type );
-					} else {
-						$post_types = $post_type;
-					}
-					$stickies_where = "AND $wpdb->posts.post_type IN ('" . $post_types . "')";
-				}
+				$stickies = get_posts( array(
+					'post__in' => $sticky_posts,
+					'post_type' => $post_type,
+					'post_status' => 'publish',
+					'nopaging' => true
+				) );
 
-				$stickies = $wpdb->get_results( "SELECT * FROM $wpdb->posts WHERE $wpdb->posts.ID IN ($stickies__in) $stickies_where" );
 				foreach ( $stickies as $sticky_post ) {
-					// Ignore sticky posts the current user cannot read or are not published.
-					if ( 'publish' != $sticky_post->post_status )
-						continue;
-					array_splice($this->posts, $sticky_offset, 0, array( get_post( $sticky_post ) ) );
+					array_splice( $this->posts, $sticky_offset, 0, array( $sticky_post ) );
 					$sticky_offset++;
 				}
 			}
