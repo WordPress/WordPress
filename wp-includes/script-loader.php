@@ -252,6 +252,9 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'json2', "/wp-includes/js/json2$suffix.js", array(), '2011-02-23');
 
+	$scripts->add( 'underscore', '/wp-includes/js/underscore.min.js', array(), '1.3.3', 1 );
+	$scripts->add( 'backbone', '/wp-includes/js/backbone.min.js', array('underscore'), '0.9.2', 1 );
+
 	$scripts->add( 'imgareaselect', "/wp-includes/js/imgareaselect/jquery.imgareaselect$suffix.js", array('jquery'), '0.9.8', 1 );
 
 	$scripts->add( 'password-strength-meter', "/wp-admin/js/password-strength-meter$suffix.js", array('jquery'), false, 1 );
