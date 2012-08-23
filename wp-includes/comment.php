@@ -1371,7 +1371,7 @@ function wp_new_comment( $commentdata ) {
 		if ( '0' == $commentdata['comment_approved'] )
 			wp_notify_moderator($comment_ID);
 
-		$post = &get_post($commentdata['comment_post_ID']); // Don't notify if it's your own comment
+		$post = get_post($commentdata['comment_post_ID']); // Don't notify if it's your own comment
 
 		if ( get_option('comments_notify') && $commentdata['comment_approved'] && ( ! isset( $commentdata['user_id'] ) || $post->post_author != $commentdata['user_id'] ) )
 			wp_notify_postauthor($comment_ID, isset( $commentdata['comment_type'] ) ? $commentdata['comment_type'] : '' );

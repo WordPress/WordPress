@@ -103,7 +103,7 @@ if ( $doaction ) {
 		case 'delete':
 			$deleted = 0;
 			foreach( (array) $post_ids as $post_id ) {
-				$post_del = & get_post($post_id);
+				$post_del = get_post($post_id);
 
 				if ( !current_user_can($post_type_object->cap->delete_post, $post_id) )
 					wp_die( __('You are not allowed to delete this item.') );

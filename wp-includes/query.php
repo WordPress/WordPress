@@ -2128,7 +2128,7 @@ class WP_Query {
 				$q['pagename'] = sanitize_title_for_query( wp_basename( $q['pagename'] ) );
 				$q['name'] = $q['pagename'];
 				$where .= " AND ($wpdb->posts.ID = '$reqpage')";
-				$reqpage_obj = get_page($reqpage);
+				$reqpage_obj = get_post( $reqpage );
 				if ( is_object($reqpage_obj) && 'attachment' == $reqpage_obj->post_type ) {
 					$this->is_attachment = true;
 					$post_type = $q['post_type'] = 'attachment';
@@ -2975,7 +2975,7 @@ class WP_Query {
 			$this->queried_object = get_post_type_object( $this->get('post_type') );
 		} elseif ( $this->is_posts_page ) {
 			$page_for_posts = get_option('page_for_posts');
-			$this->queried_object = get_page( $page_for_posts );
+			$this->queried_object = get_post( $page_for_posts );
 			$this->queried_object_id = (int) $this->queried_object->ID;
 		} elseif ( $this->is_singular && !is_null($this->post) ) {
 			$this->queried_object = $this->post;

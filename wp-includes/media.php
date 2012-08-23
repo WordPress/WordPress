@@ -655,7 +655,7 @@ function wp_get_attachment_image($attachment_id, $size = 'thumbnail', $icon = fa
 		$hwstring = image_hwstring($width, $height);
 		if ( is_array($size) )
 			$size = join('x', $size);
-		$attachment =& get_post($attachment_id);
+		$attachment = get_post($attachment_id);
 		$default_attr = array(
 			'src'	=> $src,
 			'class'	=> "attachment-$size",

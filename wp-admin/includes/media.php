@@ -893,7 +893,7 @@ add_filter('attachment_fields_to_save', 'image_attachment_fields_to_save', 10, 2
  * @return unknown
  */
 function image_media_send_to_editor($html, $attachment_id, $attachment) {
-	$post =& get_post($attachment_id);
+	$post = get_post($attachment_id);
 	if ( substr($post->post_mime_type, 0, 5) == 'image' ) {
 		$url = $attachment['url'];
 		$align = !empty($attachment['align']) ? $attachment['align'] : 'none';
@@ -920,9 +920,9 @@ add_filter('media_send_to_editor', 'image_media_send_to_editor', 10, 3);
  */
 function get_attachment_fields_to_edit($post, $errors = null) {
 	if ( is_int($post) )
-		$post =& get_post($post);
+		$post = get_post($post);
 	if ( is_array($post) )
-		$post = (object) $post;
+		$post = new WP_Post( (object) $post );
 
 	$image_url = wp_get_attachment_url($post->ID);
 

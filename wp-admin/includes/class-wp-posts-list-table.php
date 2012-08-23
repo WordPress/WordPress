@@ -509,7 +509,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 						//sent level 0 by accident, by default, or because we don't know the actual level
 						$find_main_page = (int) $post->post_parent;
 						while ( $find_main_page > 0 ) {
-							$parent = get_page( $find_main_page );
+							$parent = get_post( $find_main_page );
 
 							if ( is_null( $parent ) )
 								break;

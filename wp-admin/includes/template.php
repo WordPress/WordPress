@@ -705,7 +705,7 @@ function parent_dropdown( $default = 0, $parent = 0, $level = 0 ) {
  */
 function the_attachment_links( $id = false ) {
 	$id = (int) $id;
-	$post = & get_post( $id );
+	$post = get_post( $id );
 
 	if ( $post->post_type != 'attachment' )
 		return false;

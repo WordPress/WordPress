@@ -160,7 +160,7 @@ function edit_post( $post_data = null ) {
 
 	// Autosave shouldn't save too soon after a real save
 	if ( 'autosave' == $post_data['action'] ) {
-		$post =& get_post( $post_ID );
+		$post = get_post( $post_ID );
 		$now = time();
 		$then = strtotime($post->post_date_gmt . ' +0000');
 		$delta = AUTOSAVE_INTERVAL / 2;
@@ -439,6 +439,7 @@ function get_default_post_to_edit( $post_type = 'post', $create_in_db = false ) 
 		$post->page_template = 'default';
 		$post->post_parent = 0;
 		$post->menu_order = 0;
+		$post = new WP_Post( $post );
 	}
 
 	$post->post_content = apply_filters( 'default_content', $post_content, $post );
@@ -745,7 +746,7 @@ function update_meta( $meta_id, $meta_key, $meta_value ) {
  * @return unknown
  */
 function _fix_attachment_links( $post_ID ) {
-	$post = & get_post( $post_ID, ARRAY_A );
+	$post = get_post( $post_ID, ARRAY_A );
 	$content = $post['post_content'];
 
 	// quick sanity check, don't run if no pretty permalinks or post is not published
@@ -1012,7 +1013,7 @@ function postbox_classes( $id, $page ) {
  * @return array With two entries of type string
  */
 function get_sample_permalink($id, $title = null, $name = null) {
-	$post = &get_post($id);
+	$post = get_post($id);
 	if ( !$post->ID )
 		return array('', '');
 
@@ -1078,7 +1079,7 @@ function get_sample_permalink($id, $title = null, $name = null) {
  */
 function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 	global $wpdb;
-	$post = &get_post($id);
+	$post = get_post($id);
 
 	list($permalink, $post_name) = get_sample_permalink($post->ID, $new_title, $new_slug);
 

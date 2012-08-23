@@ -3073,10 +3073,7 @@ function the_taxonomies($args = array()) {
  * @return array
  */
 function get_the_taxonomies($post = 0, $args = array() ) {
-	if ( is_int($post) )
-		$post =& get_post($post);
-	elseif ( !is_object($post) )
-		$post =& $GLOBALS['post'];
+	$post = get_post( $post );
 
 	$args = wp_parse_args( $args, array(
 		'template' => '%s: %l.',
@@ -3122,7 +3119,7 @@ function get_the_taxonomies($post = 0, $args = array() ) {
  * @return array
  */
 function get_post_taxonomies($post = 0) {
-	$post =& get_post($post);
+	$post = get_post( $post );
 
 	return get_object_taxonomies($post);
 }

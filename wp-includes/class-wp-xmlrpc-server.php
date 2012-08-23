@@ -775,7 +775,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		// Get info the page parent if there is one.
 		$parent_title = "";
 		if ( ! empty( $page->post_parent ) ) {
-			$parent = get_page( $page->post_parent );
+			$parent = get_post( $page->post_parent );
 			$parent_title = $parent->post_title;
 		}
 
@@ -1943,7 +1943,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 		}
 
-		$page = get_page($page_id);
+		$page = get_post($page_id);
 		if ( ! $page )
 			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
 

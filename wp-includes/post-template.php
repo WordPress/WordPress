@@ -101,7 +101,7 @@ function the_title_attribute( $args = '' ) {
  * @return string
  */
 function get_the_title( $id = 0 ) {
-	$post = &get_post($id);
+	$post = get_post($id);
 
 	$title = isset($post->post_title) ? $post->post_title : '';
 	$id = isset($post->ID) ? $post->ID : (int) $id;
@@ -148,7 +148,7 @@ function the_guid( $id = 0 ) {
  * @return string
  */
 function get_the_guid( $id = 0 ) {
-	$post = &get_post($id);
+	$post = get_post($id);
 
 	return apply_filters('get_the_guid', $post->guid);
 }
@@ -276,7 +276,7 @@ function get_the_excerpt( $deprecated = '' ) {
  * @return bool
  */
 function has_excerpt( $id = 0 ) {
-	$post = &get_post( $id );
+	$post = get_post( $id );
 	return ( !empty( $post->post_excerpt ) );
 }
 
@@ -474,7 +474,7 @@ function get_body_class( $class = '' ) {
 
 		$page_id = $wp_query->get_queried_object_id();
 
-		$post = get_page($page_id);
+		$post = get_post($page_id);
 
 		$classes[] = 'page-id-' . $page_id;
 
@@ -1015,7 +1015,7 @@ class Walker_Page extends Walker {
 		extract($args, EXTR_SKIP);
 		$css_class = array('page_item', 'page-item-'.$page->ID);
 		if ( !empty($current_page) ) {
-			$_current_page = get_page( $current_page );
+			$_current_page = get_post( $current_page );
 			if ( in_array( $page->ID, $_current_page->ancestors ) )
 				$css_class[] = 'current_page_ancestor';
 			if ( $page->ID == $current_page )
@@ -1138,7 +1138,7 @@ function the_attachment_link( $id = 0, $fullsize = false, $deprecated = false, $
  */
 function wp_get_attachment_link( $id = 0, $size = 'thumbnail', $permalink = false, $icon = false, $text = false ) {
 	$id = intval( $id );
-	$_post = & get_post( $id );
+	$_post = get_post( $id );
 
 	if ( empty( $_post ) || ( 'attachment' != $_post->post_type ) || ! $url = wp_get_attachment_url( $_post->ID ) )
 		return __( 'Missing Attachment' );

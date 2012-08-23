@@ -512,7 +512,7 @@ function wp_ajax_delete_page( $action ) {
 	if ( !current_user_can( 'delete_page', $id ) )
 		wp_die( -1 );
 
-	if ( !get_page( $id ) )
+	if ( ! get_post( $id ) )
 		wp_die( 1 );
 
 	if ( wp_delete_post( $id ) )

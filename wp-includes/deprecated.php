@@ -26,7 +26,7 @@
 function get_postdata($postid) {
 	_deprecated_function( __FUNCTION__, '1.5.1', 'get_post()' );
 
-	$post = &get_post($postid);
+	$post = get_post($postid);
 
 	$postdata = array (
 		'ID' => $post->ID,
@@ -1892,7 +1892,7 @@ function get_alloptions() {
 function get_the_attachment_link($id = 0, $fullsize = false, $max_dims = false, $permalink = false) {
 	_deprecated_function( __FUNCTION__, '2.5', 'wp_get_attachment_link()' );
 	$id = (int) $id;
-	$_post = & get_post($id);
+	$_post = get_post($id);
 
 	if ( ('attachment' != $_post->post_type) || !$url = wp_get_attachment_url($_post->ID) )
 		return __('Missing Attachment');
@@ -1921,7 +1921,7 @@ function get_the_attachment_link($id = 0, $fullsize = false, $max_dims = false, 
 function get_attachment_icon_src( $id = 0, $fullsize = false ) {
 	_deprecated_function( __FUNCTION__, '2.5', 'wp_get_attachment_image_src()' );
 	$id = (int) $id;
-	if ( !$post = & get_post($id) )
+	if ( !$post = get_post($id) )
 		return false;
 
 	$file = get_attached_file( $post->ID );
@@ -1966,7 +1966,7 @@ function get_attachment_icon_src( $id = 0, $fullsize = false ) {
 function get_attachment_icon( $id = 0, $fullsize = false, $max_dims = false ) {
 	_deprecated_function( __FUNCTION__, '2.5', 'wp_get_attachment_image()' );
 	$id = (int) $id;
-	if ( !$post = & get_post($id) )
+	if ( !$post = get_post($id) )
 		return false;
 
 	if ( !$src = get_attachment_icon_src( $post->ID, $fullsize ) )
@@ -2023,7 +2023,7 @@ function get_attachment_icon( $id = 0, $fullsize = false, $max_dims = false ) {
 function get_attachment_innerHTML($id = 0, $fullsize = false, $max_dims = false) {
 	_deprecated_function( __FUNCTION__, '2.5', 'wp_get_attachment_image()' );
 	$id = (int) $id;
-	if ( !$post = & get_post($id) )
+	if ( !$post = get_post($id) )
 		return false;
 
 	if ( $innerHTML = get_attachment_icon($post->ID, $fullsize, $max_dims))
@@ -2801,7 +2801,7 @@ function get_parent_post_rel_link($title = '%title') {
 	_deprecated_function( __FUNCTION__, '3.3' );
 
 	if ( ! empty( $GLOBALS['post'] ) && ! empty( $GLOBALS['post']->post_parent ) )
-		$post = & get_post($GLOBALS['post']->post_parent);
+		$post = get_post($GLOBALS['post']->post_parent);
 
 	if ( empty($post) )
 		return;

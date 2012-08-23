@@ -202,7 +202,7 @@ case 'editpost':
 case 'trash':
 	check_admin_referer('trash-post_' . $post_id);
 
-	$post = & get_post($post_id);
+	$post = get_post($post_id);
 
 	if ( !current_user_can($post_type_object->cap->delete_post, $post_id) )
 		wp_die( __('You are not allowed to move this item to the Trash.') );

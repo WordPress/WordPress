@@ -96,7 +96,7 @@ function get_permalink($id = 0, $leavename = false) {
 		$post = $id;
 		$sample = true;
 	} else {
-		$post = &get_post($id);
+		$post = get_post($id);
 		$sample = false;
 	}
 
@@ -178,7 +178,7 @@ function get_permalink($id = 0, $leavename = false) {
 function get_post_permalink( $id = 0, $leavename = false, $sample = false ) {
 	global $wp_rewrite;
 
-	$post = &get_post($id);
+	$post = get_post($id);
 
 	if ( is_wp_error( $post ) )
 		return $post;
@@ -895,7 +895,7 @@ function get_post_type_archive_feed_link( $post_type, $feed = '' ) {
  * @return string
  */
 function get_edit_post_link( $id = 0, $context = 'display' ) {
-	if ( !$post = &get_post( $id ) )
+	if ( !$post = get_post( $id ) )
 		return;
 
 	if ( 'display' == $context )
@@ -924,7 +924,7 @@ function get_edit_post_link( $id = 0, $context = 'display' ) {
  * @param int $id Optional. Post ID.
  */
 function edit_post_link( $link = null, $before = '', $after = '', $id = 0 ) {
-	if ( !$post = &get_post( $id ) )
+	if ( !$post = get_post( $id ) )
 		return;
 
 	if ( !$url = get_edit_post_link( $post->ID ) )
@@ -954,7 +954,7 @@ function get_delete_post_link( $id = 0, $deprecated = '', $force_delete = false 
 	if ( ! empty( $deprecated ) )
 		_deprecated_argument( __FUNCTION__, '3.0' );
 
-	if ( !$post = &get_post( $id ) )
+	if ( !$post = get_post( $id ) )
 		return;
 
 	$post_type_object = get_post_type_object( $post->post_type );
@@ -1201,7 +1201,7 @@ function get_adjacent_post( $in_same_cat = false, $excluded_categories = '', $pr
  */
 function get_adjacent_post_rel_link($title = '%title', $in_same_cat = false, $excluded_categories = '', $previous = true) {
 	if ( $previous && is_attachment() && is_object( $GLOBALS['post'] ) )
-		$post = & get_post($GLOBALS['post']->post_parent);
+		$post = get_post($GLOBALS['post']->post_parent);
 	else
 		$post = get_adjacent_post($in_same_cat,$excluded_categories,$previous);
 
@@ -1366,7 +1366,7 @@ function next_post_link($format='%link &raquo;', $link='%title', $in_same_cat = 
  */
 function adjacent_post_link($format, $link, $in_same_cat = false, $excluded_categories = '', $previous = true) {
 	if ( $previous && is_attachment() )
-		$post = & get_post($GLOBALS['post']->post_parent);
+		$post = get_post($GLOBALS['post']->post_parent);
 	else
 		$post = get_adjacent_post($in_same_cat, $excluded_categories, $previous);
 
