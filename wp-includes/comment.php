@@ -1709,7 +1709,7 @@ function do_all_pings() {
 function do_trackbacks($post_id) {
 	global $wpdb;
 
-	$post = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->posts WHERE ID = %d", $post_id) );
+	$post = get_post( $post_id );
 	$to_ping = get_to_ping($post_id);
 	$pinged  = get_pung($post_id);
 	if ( empty($to_ping) ) {
