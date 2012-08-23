@@ -3288,7 +3288,7 @@ function get_all_page_ids() {
 /**
  * Retrieves page data given a page ID or page object.
  *
- * Use get_post() instead instead of get_page().
+ * Use get_post() instead of get_page().
  *
  * @since 1.5.1
  * @deprecated 3.5.0
