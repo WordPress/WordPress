@@ -1,1 +1,36 @@
-function passwordStrength(f,i,d){var k=1,h=2,b=3,a=4,c=5,g=0,j,e;if((f!=d)&&d.length>0){return c}if(f.length<4){return k}if(f.toLowerCase()==i.toLowerCase()){return h}if(f.match(/[0-9]/)){g+=10}if(f.match(/[a-z]/)){g+=26}if(f.match(/[A-Z]/)){g+=26}if(f.match(/[^a-zA-Z0-9]/)){g+=31}j=Math.log(Math.pow(g,f.length));e=j/Math.LN2;if(e<40){return h}if(e<56){return b}return a};
+// Password strength meter
+function passwordStrength(password1, username, password2) {
+	var shortPass = 1, badPass = 2, goodPass = 3, strongPass = 4, mismatch = 5, symbolSize = 0, natLog, score;
+
+	// password 1 != password 2
+	if ( (password1 != password2) && password2.length > 0)
+		return mismatch
+
+	//password < 4
+	if ( password1.length < 4 )
+		return shortPass
+
+	//password1 == username
+	if ( password1.toLowerCase() == username.toLowerCase() )
+		return badPass;
+
+	if ( password1.match(/[0-9]/) )
+		symbolSize +=10;
+	if ( password1.match(/[a-z]/) )
+		symbolSize +=26;
+	if ( password1.match(/[A-Z]/) )
+		symbolSize +=26;
+	if ( password1.match(/[^a-zA-Z0-9]/) )
+		symbolSize +=31;
+
+	natLog = Math.log( Math.pow(symbolSize, password1.length) );
+	score = natLog / Math.LN2;
+
+	if (score < 40 )
+		return badPass
+
+	if (score < 56 )
+		return goodPass
+
+    return strongPass;
+}

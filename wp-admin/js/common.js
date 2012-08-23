@@ -1,1 +1,385 @@
-var showNotice,adminMenu,columns,validateForm,screenMeta;(function(a){adminMenu={init:function(){},fold:function(){},restoreMenuState:function(){},toggle:function(){},favorites:function(){}};columns={init:function(){var b=this;a(".hide-column-tog","#adv-settings").click(function(){var d=a(this),c=d.val();if(d.prop("checked")){b.checked(c)}else{b.unchecked(c)}columns.saveManageColumnsState()})},saveManageColumnsState:function(){var b=this.hidden();a.post(ajaxurl,{action:"hidden-columns",hidden:b,screenoptionnonce:a("#screenoptionnonce").val(),page:pagenow})},checked:function(b){a(".column-"+b).show();this.colSpanChange(+1)},unchecked:function(b){a(".column-"+b).hide();this.colSpanChange(-1)},hidden:function(){return a(".manage-column").filter(":hidden").map(function(){return this.id}).get().join(",")},useCheckboxesForHidden:function(){this.hidden=function(){return a(".hide-column-tog").not(":checked").map(function(){var b=this.id;return b.substring(b,b.length-5)}).get().join(",")}},colSpanChange:function(b){var d=a("table").find(".colspanchange"),c;if(!d.length){return}c=parseInt(d.attr("colspan"),10)+b;d.attr("colspan",c.toString())}};a(document).ready(function(){columns.init()});validateForm=function(b){return !a(b).find(".form-required").filter(function(){return a("input:visible",this).val()==""}).addClass("form-invalid").find("input:visible").change(function(){a(this).closest(".form-invalid").removeClass("form-invalid")}).size()};showNotice={warn:function(){var b=commonL10n.warnDelete||"";if(confirm(b)){return true}return false},note:function(b){alert(b)}};screenMeta={element:null,toggles:null,page:null,init:function(){this.element=a("#screen-meta");this.toggles=a(".screen-meta-toggle a");this.page=a("#wpcontent");this.toggles.click(this.toggleEvent)},toggleEvent:function(c){var b=a(this.href.replace(/.+#/,"#"));c.preventDefault();if(!b.length){return}if(b.is(":visible")){screenMeta.close(b,a(this))}else{screenMeta.open(b,a(this))}},open:function(b,c){a(".screen-meta-toggle").not(c.parent()).css("visibility","hidden");b.parent().show();b.slideDown("fast",function(){b.focus();c.addClass("screen-meta-active").attr("aria-expanded",true)})},close:function(b,c){b.slideUp("fast",function(){c.removeClass("screen-meta-active").attr("aria-expanded",false);a(".screen-meta-toggle").css("visibility","");b.parent().hide()})}};a(".contextual-help-tabs").delegate("a","click focus",function(d){var c=a(this),b;d.preventDefault();if(c.is(".active a")){return false}a(".contextual-help-tabs .active").removeClass("active");c.parent("li").addClass("active");b=a(c.attr("href"));a(".help-tab-content").not(b).removeClass("active").hide();b.addClass("active").show()});a(document).ready(function(){var i=false,b,g,e,d,f=a("#adminmenu"),h=a("input.current-page"),c=h.val();f.on("click.wp-submenu-head",".wp-submenu-head",function(j){a(j.target).parent().siblings("a").get(0).click()});a("#collapse-menu").on("click.collapse-menu",function(k){var j=a(document.body);a("#adminmenu div.wp-submenu").css("margin-top","");if(a(window).width()<900){if(j.hasClass("auto-fold")){j.removeClass("auto-fold");setUserSetting("unfold",1);j.removeClass("folded");deleteUserSetting("mfold")}else{j.addClass("auto-fold");deleteUserSetting("unfold")}}else{if(j.hasClass("folded")){j.removeClass("folded");deleteUserSetting("mfold")}else{j.addClass("folded");setUserSetting("mfold","f")}}});a("li.wp-has-submenu",f).hoverIntent({over:function(r){var s,p,j,q,k=a(this).find(".wp-submenu"),t,l,n;if(parseInt(k.css("top"),10)>-5){return}t=a(this).offset().top;l=a(window).scrollTop();n=t-l-30;s=t+k.height()+1;p=a("#wpwrap").height();j=60+s-p;q=a(window).height()+l-15;if(q<(s-j)){j=s-q}if(j>n){j=n}if(j>1){k.css("margin-top","-"+j+"px")}else{k.css("margin-top","")}f.find("li.menu-top").removeClass("opensub");a(this).addClass("opensub")},out:function(){a(this).removeClass("opensub").find(".wp-submenu").css("margin-top","")},timeout:200,sensitivity:7,interval:90});f.on("focus.adminmenu",".wp-submenu a",function(j){a(j.target).closest("li.menu-top").addClass("opensub")}).on("blur.adminmenu",".wp-submenu a",function(j){a(j.target).closest("li.menu-top").removeClass("opensub")});a("div.wrap h2:first").nextAll("div.updated, div.error").addClass("below-h2");a("div.updated, div.error").not(".below-h2, .inline").insertAfter(a("div.wrap h2:first"));screenMeta.init();a("tbody").children().children(".check-column").find(":checkbox").click(function(k){if("undefined"==k.shiftKey){return true}if(k.shiftKey){if(!i){return true}b=a(i).closest("form").find(":checkbox");g=b.index(i);e=b.index(this);d=a(this).prop("checked");if(0<g&&0<e&&g!=e){b.slice(g,e).prop("checked",function(){if(a(this).closest("tr").is(":visible")){return d}return false})}}i=this;var j=a(this).closest("tbody").find(":checkbox").filter(":visible").not(":checked");a(this).closest("table").children("thead, tfoot").find(":checkbox").prop("checked",function(){return(0==j.length)});return true});a("thead, tfoot").find(".check-column :checkbox").click(function(l){var m=a(this).prop("checked"),k="undefined"==typeof toggleWithKeyboard?false:toggleWithKeyboard,j=l.shiftKey||k;a(this).closest("table").children("tbody").filter(":visible").children().children(".check-column").find(":checkbox").prop("checked",function(){if(a(this).closest("tr").is(":hidden")){return false}if(j){return a(this).prop("checked")}else{if(m){return true}}return false});a(this).closest("table").children("thead,  tfoot").filter(":visible").children().children(".check-column").find(":checkbox").prop("checked",function(){if(j){return false}else{if(m){return true}}return false})});a("#default-password-nag-no").click(function(){setUserSetting("default_password_nag","hide");a("div.default-password-nag").hide();return false});a("#newcontent").bind("keydown.wpevent_InsertTab",function(o){var l=o.target,q,k,p,j,n;if(o.keyCode==27){a(l).data("tab-out",true);return}if(o.keyCode!=9||o.ctrlKey||o.altKey||o.shiftKey){return}if(a(l).data("tab-out")){a(l).data("tab-out",false);return}q=l.selectionStart;k=l.selectionEnd;p=l.value;try{this.lastKey=9}catch(m){}if(document.selection){l.focus();n=document.selection.createRange();n.text="\t"}else{if(q>=0){j=this.scrollTop;l.value=p.substring(0,q).concat("\t",p.substring(k));l.selectionStart=l.selectionEnd=q+1;this.scrollTop=j}}if(o.stopPropagation){o.stopPropagation()}if(o.preventDefault){o.preventDefault()}});a("#newcontent").bind("blur.wpevent_InsertTab",function(j){if(this.lastKey&&9==this.lastKey){this.focus()}});if(h.length){h.closest("form").submit(function(j){if(a('select[name="action"]').val()==-1&&a('select[name="action2"]').val()==-1&&h.val()==c){h.val("1")}})}a(document).on("click.wp-accessibility-blur","a",function(){a(this).blur()})});a(document).bind("wp_CloseOnEscape",function(c,b){if(typeof(b.cb)!="function"){return}if(typeof(b.condition)!="function"||b.condition()){b.cb()}return true})})(jQuery);
+var showNotice, adminMenu, columns, validateForm, screenMeta;
+(function($){
+// Removed in 3.3.
+// (perhaps) needed for back-compat
+adminMenu = {
+	init : function() {},
+	fold : function() {},
+	restoreMenuState : function() {},
+	toggle : function() {},
+	favorites : function() {}
+};
+
+// show/hide/save table columns
+columns = {
+	init : function() {
+		var that = this;
+		$('.hide-column-tog', '#adv-settings').click( function() {
+			var $t = $(this), column = $t.val();
+			if ( $t.prop('checked') )
+				that.checked(column);
+			else
+				that.unchecked(column);
+
+			columns.saveManageColumnsState();
+		});
+	},
+
+	saveManageColumnsState : function() {
+		var hidden = this.hidden();
+		$.post(ajaxurl, {
+			action: 'hidden-columns',
+			hidden: hidden,
+			screenoptionnonce: $('#screenoptionnonce').val(),
+			page: pagenow
+		});
+	},
+
+	checked : function(column) {
+		$('.column-' + column).show();
+		this.colSpanChange(+1);
+	},
+
+	unchecked : function(column) {
+		$('.column-' + column).hide();
+		this.colSpanChange(-1);
+	},
+
+	hidden : function() {
+		return $('.manage-column').filter(':hidden').map(function() { return this.id; }).get().join(',');
+	},
+
+	useCheckboxesForHidden : function() {
+		this.hidden = function(){
+			return $('.hide-column-tog').not(':checked').map(function() {
+				var id = this.id;
+				return id.substring( id, id.length - 5 );
+			}).get().join(',');
+		};
+	},
+
+	colSpanChange : function(diff) {
+		var $t = $('table').find('.colspanchange'), n;
+		if ( !$t.length )
+			return;
+		n = parseInt( $t.attr('colspan'), 10 ) + diff;
+		$t.attr('colspan', n.toString());
+	}
+}
+
+$(document).ready(function(){columns.init();});
+
+validateForm = function( form ) {
+	return !$( form ).find('.form-required').filter( function() { return $('input:visible', this).val() == ''; } ).addClass( 'form-invalid' ).find('input:visible').change( function() { $(this).closest('.form-invalid').removeClass( 'form-invalid' ); } ).size();
+}
+
+// stub for doing better warnings
+showNotice = {
+	warn : function() {
+		var msg = commonL10n.warnDelete || '';
+		if ( confirm(msg) ) {
+			return true;
+		}
+
+		return false;
+	},
+
+	note : function(text) {
+		alert(text);
+	}
+};
+
+screenMeta = {
+	element: null, // #screen-meta
+	toggles: null, // .screen-meta-toggle
+	page:    null, // #wpcontent
+
+	init: function() {
+		this.element = $('#screen-meta');
+		this.toggles = $('.screen-meta-toggle a');
+		this.page    = $('#wpcontent');
+
+		this.toggles.click( this.toggleEvent );
+	},
+
+	toggleEvent: function( e ) {
+		var panel = $( this.href.replace(/.+#/, '#') );
+		e.preventDefault();
+
+		if ( !panel.length )
+			return;
+
+		if ( panel.is(':visible') )
+			screenMeta.close( panel, $(this) );
+		else
+			screenMeta.open( panel, $(this) );
+	},
+
+	open: function( panel, link ) {
+
+		$('.screen-meta-toggle').not( link.parent() ).css('visibility', 'hidden');
+
+		panel.parent().show();
+		panel.slideDown( 'fast', function() {
+			panel.focus();
+			link.addClass('screen-meta-active').attr('aria-expanded', true);
+		});
+	},
+
+	close: function( panel, link ) {
+		panel.slideUp( 'fast', function() {
+			link.removeClass('screen-meta-active').attr('aria-expanded', false);
+			$('.screen-meta-toggle').css('visibility', '');
+			panel.parent().hide();
+		});
+	}
+};
+
+/**
+ * Help tabs.
+ */
+$('.contextual-help-tabs').delegate('a', 'click focus', function(e) {
+	var link = $(this),
+		panel;
+
+	e.preventDefault();
+
+	// Don't do anything if the click is for the tab already showing.
+	if ( link.is('.active a') )
+		return false;
+
+	// Links
+	$('.contextual-help-tabs .active').removeClass('active');
+	link.parent('li').addClass('active');
+
+	panel = $( link.attr('href') );
+
+	// Panels
+	$('.help-tab-content').not( panel ).removeClass('active').hide();
+	panel.addClass('active').show();
+});
+
+$(document).ready( function() {
+	var lastClicked = false, checks, first, last, checked, menu = $('#adminmenu'),
+		pageInput = $('input.current-page'), currentPage = pageInput.val();
+
+	// when the menu is folded, make the fly-out submenu header clickable
+	menu.on('click.wp-submenu-head', '.wp-submenu-head', function(e){
+		$(e.target).parent().siblings('a').get(0).click();
+	});
+
+	$('#collapse-menu').on('click.collapse-menu', function(e){
+		var body = $(document.body);
+
+		// reset any compensation for submenus near the bottom of the screen
+		$('#adminmenu div.wp-submenu').css('margin-top', '');
+
+		if ( $(window).width() < 900 ) {
+			if ( body.hasClass('auto-fold') ) {
+				body.removeClass('auto-fold');
+				setUserSetting('unfold', 1);
+				body.removeClass('folded');
+				deleteUserSetting('mfold');
+			} else {
+				body.addClass('auto-fold');
+				deleteUserSetting('unfold');
+			}
+		} else {
+			if ( body.hasClass('folded') ) {
+				body.removeClass('folded');
+				deleteUserSetting('mfold');
+			} else {
+				body.addClass('folded');
+				setUserSetting('mfold', 'f');
+			}
+		}
+	});
+
+	$('li.wp-has-submenu', menu).hoverIntent({
+		over: function(e){
+			var b, h, o, f, m = $(this).find('.wp-submenu'), menutop, wintop, maxtop;
+
+			if ( parseInt( m.css('top'), 10 ) > -5 )
+				return;
+
+			menutop = $(this).offset().top;
+			wintop = $(window).scrollTop();
+			maxtop = menutop - wintop - 30; // max = make the top of the sub almost touch admin bar
+
+			b = menutop + m.height() + 1; // Bottom offset of the menu
+			h = $('#wpwrap').height(); // Height of the entire page
+			o = 60 + b - h;
+			f = $(window).height() + wintop - 15; // The fold
+
+			if ( f < (b - o) )
+				o = b - f;
+
+			if ( o > maxtop )
+				o = maxtop;
+
+			if ( o > 1 )
+				m.css('margin-top', '-'+o+'px');
+			else
+				m.css('margin-top', '');
+
+			menu.find('li.menu-top').removeClass('opensub');
+			$(this).addClass('opensub');
+		},
+		out: function(){
+			$(this).removeClass('opensub').find('.wp-submenu').css('margin-top', '');
+		},
+		timeout: 200,
+		sensitivity: 7,
+		interval: 90
+	});
+
+	menu.on('focus.adminmenu', '.wp-submenu a', function(e){
+		$(e.target).closest('li.menu-top').addClass('opensub');
+	}).on('blur.adminmenu', '.wp-submenu a', function(e){
+		$(e.target).closest('li.menu-top').removeClass('opensub');
+	});
+
+	// Move .updated and .error alert boxes. Don't move boxes designed to be inline.
+	$('div.wrap h2:first').nextAll('div.updated, div.error').addClass('below-h2');
+	$('div.updated, div.error').not('.below-h2, .inline').insertAfter( $('div.wrap h2:first') );
+
+	// Init screen meta
+	screenMeta.init();
+
+	// check all checkboxes
+	$('tbody').children().children('.check-column').find(':checkbox').click( function(e) {
+		if ( 'undefined' == e.shiftKey ) { return true; }
+		if ( e.shiftKey ) {
+			if ( !lastClicked ) { return true; }
+			checks = $( lastClicked ).closest( 'form' ).find( ':checkbox' );
+			first = checks.index( lastClicked );
+			last = checks.index( this );
+			checked = $(this).prop('checked');
+			if ( 0 < first && 0 < last && first != last ) {
+				checks.slice( first, last ).prop( 'checked', function(){
+					if ( $(this).closest('tr').is(':visible') )
+						return checked;
+
+					return false;
+				});
+			}
+		}
+		lastClicked = this;
+
+		// toggle "check all" checkboxes
+		var unchecked = $(this).closest('tbody').find(':checkbox').filter(':visible').not(':checked');
+		$(this).closest('table').children('thead, tfoot').find(':checkbox').prop('checked', function() {
+			return ( 0 == unchecked.length );
+		});
+
+		return true;
+	});
+
+	$('thead, tfoot').find('.check-column :checkbox').click( function(e) {
+		var c = $(this).prop('checked'),
+			kbtoggle = 'undefined' == typeof toggleWithKeyboard ? false : toggleWithKeyboard,
+			toggle = e.shiftKey || kbtoggle;
+
+		$(this).closest( 'table' ).children( 'tbody' ).filter(':visible')
+		.children().children('.check-column').find(':checkbox')
+		.prop('checked', function() {
+			if ( $(this).closest('tr').is(':hidden') )
+				return false;
+			if ( toggle )
+				return $(this).prop( 'checked' );
+			else if (c)
+				return true;
+			return false;
+		});
+
+		$(this).closest('table').children('thead,  tfoot').filter(':visible')
+		.children().children('.check-column').find(':checkbox')
+		.prop('checked', function() {
+			if ( toggle )
+				return false;
+			else if (c)
+				return true;
+			return false;
+		});
+	});
+
+	$('#default-password-nag-no').click( function() {
+		setUserSetting('default_password_nag', 'hide');
+		$('div.default-password-nag').hide();
+		return false;
+	});
+
+	// tab in textareas
+	$('#newcontent').bind('keydown.wpevent_InsertTab', function(e) {
+		var el = e.target, selStart, selEnd, val, scroll, sel;
+
+		if ( e.keyCode == 27 ) { // escape key
+			$(el).data('tab-out', true);
+			return;
+		}
+
+		if ( e.keyCode != 9 || e.ctrlKey || e.altKey || e.shiftKey ) // tab key
+			return;
+
+		if ( $(el).data('tab-out') ) {
+			$(el).data('tab-out', false);
+			return;
+		}
+
+		selStart = el.selectionStart;
+		selEnd = el.selectionEnd;
+		val = el.value;
+
+		try {
+			this.lastKey = 9; // not a standard DOM property, lastKey is to help stop Opera tab event. See blur handler below.
+		} catch(err) {}
+
+		if ( document.selection ) {
+			el.focus();
+			sel = document.selection.createRange();
+			sel.text = '\t';
+		} else if ( selStart >= 0 ) {
+			scroll = this.scrollTop;
+			el.value = val.substring(0, selStart).concat('\t', val.substring(selEnd) );
+			el.selectionStart = el.selectionEnd = selStart + 1;
+			this.scrollTop = scroll;
+		}
+
+		if ( e.stopPropagation )
+			e.stopPropagation();
+		if ( e.preventDefault )
+			e.preventDefault();
+	});
+
+	$('#newcontent').bind('blur.wpevent_InsertTab', function(e) {
+		if ( this.lastKey && 9 == this.lastKey )
+			this.focus();
+	});
+
+	if ( pageInput.length ) {
+		pageInput.closest('form').submit( function(e){
+
+			// Reset paging var for new filters/searches but not for bulk actions. See #17685.
+			if ( $('select[name="action"]').val() == -1 && $('select[name="action2"]').val() == -1 && pageInput.val() == currentPage )
+				pageInput.val('1');
+		});
+	}
+
+	// Blur accessibility link background color onclick
+	$(document).on('click.wp-accessibility-blur', 'a', function() {
+		$(this).blur();
+	});
+});
+
+// internal use
+$(document).bind( 'wp_CloseOnEscape', function( e, data ) {
+	if ( typeof(data.cb) != 'function' )
+		return;
+
+	if ( typeof(data.condition) != 'function' || data.condition() )
+		data.cb();
+
+	return true;
+});
+
+})(jQuery);

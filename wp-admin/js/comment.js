@@ -1,1 +1,47 @@
-jQuery(document).ready(function(b){var a=b("#timestamp").html();b(".edit-timestamp").click(function(){if(b("#timestampdiv").is(":hidden")){b("#timestampdiv").slideDown("normal");b(".edit-timestamp").hide()}return false});b(".cancel-timestamp").click(function(){b("#timestampdiv").slideUp("normal");b("#mm").val(b("#hidden_mm").val());b("#jj").val(b("#hidden_jj").val());b("#aa").val(b("#hidden_aa").val());b("#hh").val(b("#hidden_hh").val());b("#mn").val(b("#hidden_mn").val());b("#timestamp").html(a);b(".edit-timestamp").show();return false});b(".save-timestamp").click(function(){var g=b("#aa").val(),h=b("#mm").val(),d=b("#jj").val(),c=b("#hh").val(),f=b("#mn").val(),e=new Date(g,h-1,d,c,f);if(e.getFullYear()!=g||(1+e.getMonth())!=h||e.getDate()!=d||e.getMinutes()!=f){b(".timestamp-wrap","#timestampdiv").addClass("form-invalid");return false}else{b(".timestamp-wrap","#timestampdiv").removeClass("form-invalid")}b("#timestampdiv").slideUp("normal");b(".edit-timestamp").show();b("#timestamp").html(commentL10n.submittedOn+" <b>"+b('#mm option[value="'+h+'"]').text()+" "+d+", "+g+" @ "+c+":"+f+"</b> ");return false})});
+jQuery(document).ready( function($) {
+
+	var stamp = $('#timestamp').html();
+	$('.edit-timestamp').click(function () {
+		if ($('#timestampdiv').is(":hidden")) {
+			$('#timestampdiv').slideDown("normal");
+			$('.edit-timestamp').hide();
+		}
+		return false;
+	});
+
+	$('.cancel-timestamp').click(function() {
+		$('#timestampdiv').slideUp("normal");
+		$('#mm').val($('#hidden_mm').val());
+		$('#jj').val($('#hidden_jj').val());
+		$('#aa').val($('#hidden_aa').val());
+		$('#hh').val($('#hidden_hh').val());
+		$('#mn').val($('#hidden_mn').val());
+		$('#timestamp').html(stamp);
+		$('.edit-timestamp').show();
+		return false;
+	});
+
+	$('.save-timestamp').click(function () { // crazyhorse - multiple ok cancels
+		var aa = $('#aa').val(), mm = $('#mm').val(), jj = $('#jj').val(), hh = $('#hh').val(), mn = $('#mn').val(),
+			newD = new Date( aa, mm - 1, jj, hh, mn );
+
+		if ( newD.getFullYear() != aa || (1 + newD.getMonth()) != mm || newD.getDate() != jj || newD.getMinutes() != mn ) {
+			$('.timestamp-wrap', '#timestampdiv').addClass('form-invalid');
+			return false;
+		} else {
+			$('.timestamp-wrap', '#timestampdiv').removeClass('form-invalid');
+		}
+
+		$('#timestampdiv').slideUp("normal");
+		$('.edit-timestamp').show();
+		$('#timestamp').html(
+			commentL10n.submittedOn + ' <b>' +
+			$( '#mm option[value="' + mm + '"]' ).text() + ' ' +
+			jj + ', ' +
+			aa + ' @ ' +
+			hh + ':' +
+			mn + '</b> '
+		);
+		return false;
+	});
+});

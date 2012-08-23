@@ -1,1 +1,586 @@
-if(typeof wp==="undefined"){var wp={}}(function(a,d){var b,g,c,f,e=Array.prototype.slice;g=function(h,i){var j=f(this,h,i);j.extend=this.extend;return j};c=function(){};f=function(i,h,j){var k;if(h&&h.hasOwnProperty("constructor")){k=h.constructor}else{k=function(){var l=i.apply(this,arguments);return l}}d.extend(k,i);c.prototype=i.prototype;k.prototype=new c();if(h){d.extend(k.prototype,h)}if(j){d.extend(k,j)}k.prototype.constructor=k;k.__super__=i.prototype;return k};b={};b.Class=function(l,k,i){var j,h=arguments;if(l&&k&&b.Class.applicator===l){h=k;d.extend(this,i||{})}j=this;if(this.instance){j=function(){return j.instance.apply(j,arguments)};d.extend(j,this)}j.initialize.apply(j,h);return j};b.Class.applicator={};b.Class.prototype.initialize=function(){};b.Class.prototype.extended=function(h){var i=this;while(typeof i.constructor!=="undefined"){if(i.constructor===h){return true}if(typeof i.constructor.__super__==="undefined"){return false}i=i.constructor.__super__}return false};b.Class.extend=g;b.Events={trigger:function(h){if(this.topics&&this.topics[h]){this.topics[h].fireWith(this,e.call(arguments,1))}return this},bind:function(i,h){this.topics=this.topics||{};this.topics[i]=this.topics[i]||d.Callbacks();this.topics[i].add.apply(this.topics[i],e.call(arguments,1));return this},unbind:function(i,h){if(this.topics&&this.topics[i]){this.topics[i].remove.apply(this.topics[i],e.call(arguments,1))}return this}};b.Value=b.Class.extend({initialize:function(i,h){this._value=i;this.callbacks=d.Callbacks();d.extend(this,h||{});this.set=d.proxy(this.set,this)},instance:function(){return arguments.length?this.set.apply(this,arguments):this.get()},get:function(){return this._value},set:function(i){var h=this._value;i=this._setter.apply(this,arguments);i=this.validate(i);if(null===i||this._value===i){return this}this._value=i;this.callbacks.fireWith(this,[i,h]);return this},_setter:function(h){return h},setter:function(i){var h=this.get();this._setter=i;this._value=null;this.set(h);return this},resetSetter:function(){this._setter=this.constructor.prototype._setter;this.set(this.get());return this},validate:function(h){return h},bind:function(h){this.callbacks.add.apply(this.callbacks,arguments);return this},unbind:function(h){this.callbacks.remove.apply(this.callbacks,arguments);return this},link:function(){var h=this.set;d.each(arguments,function(){this.bind(h)});return this},unlink:function(){var h=this.set;d.each(arguments,function(){this.unbind(h)});return this},sync:function(){var h=this;d.each(arguments,function(){h.link(this);this.link(h)});return this},unsync:function(){var h=this;d.each(arguments,function(){h.unlink(this);this.unlink(h)});return this}});b.Values=b.Class.extend({defaultConstructor:b.Value,initialize:function(h){d.extend(this,h||{});this._value={};this._deferreds={}},instance:function(h){if(arguments.length===1){return this.value(h)}return this.when.apply(this,arguments)},value:function(h){return this._value[h]},has:function(h){return typeof this._value[h]!=="undefined"},add:function(i,h){if(this.has(i)){return this.value(i)}this._value[i]=h;h.parent=this;if(h.extended(b.Value)){h.bind(this._change)}this.trigger("add",h);if(this._deferreds[i]){this._deferreds[i].resolve()}return this._value[i]},create:function(h){return this.add(h,new this.defaultConstructor(b.Class.applicator,e.call(arguments,1)))},each:function(i,h){h=typeof h==="undefined"?this:h;d.each(this._value,function(j,k){i.call(h,k,j)})},remove:function(i){var h;if(this.has(i)){h=this.value(i);this.trigger("remove",h);if(h.extended(b.Value)){h.unbind(this._change)}delete h.parent}delete this._value[i];delete this._deferreds[i]},when:function(){var i=this,j=e.call(arguments),h=d.Deferred();if(d.isFunction(j[j.length-1])){h.done(j.pop())}d.when.apply(d,d.map(j,function(k){if(i.has(k)){return}return i._deferreds[k]=i._deferreds[k]||d.Deferred()})).done(function(){var k=d.map(j,function(l){return i(l)});if(k.length!==j.length){i.when.apply(i,j).done(function(){h.resolveWith(i,k)});return}h.resolveWith(i,k)});return h.promise()},_change:function(){this.parent.trigger("change",this)}});d.extend(b.Values.prototype,b.Events);b.ensure=function(h){return typeof h=="string"?d(h):h};b.Element=b.Value.extend({initialize:function(j,i){var h=this,m=b.Element.synchronizer.html,l,n,k;this.element=b.ensure(j);this.events="";if(this.element.is("input, select, textarea")){this.events+="change";m=b.Element.synchronizer.val;if(this.element.is("input")){l=this.element.prop("type");if(b.Element.synchronizer[l]){m=b.Element.synchronizer[l]}if("text"===l||"password"===l){this.events+=" keyup"}}else{if(this.element.is("textarea")){this.events+=" keyup"}}}b.Value.prototype.initialize.call(this,null,d.extend(i||{},m));this._value=this.get();n=this.update;k=this.refresh;this.update=function(o){if(o!==k.call(h)){n.apply(this,arguments)}};this.refresh=function(){h.set(k.call(h))};this.bind(this.update);this.element.bind(this.events,this.refresh)},find:function(h){return d(h,this.element)},refresh:function(){},update:function(){}});b.Element.synchronizer={};d.each(["html","val"],function(h,j){b.Element.synchronizer[j]={update:function(i){this.element[j](i)},refresh:function(){return this.element[j]()}}});b.Element.synchronizer.checkbox={update:function(h){this.element.prop("checked",h)},refresh:function(){return this.element.prop("checked")}};b.Element.synchronizer.radio={update:function(h){this.element.filter(function(){return this.value===h}).prop("checked",true)},refresh:function(){return this.element.filter(":checked").val()}};d.support.postMessage=!!window.postMessage;b.Messenger=b.Class.extend({add:function(j,i,h){return this[j]=new b.Value(i,h)},initialize:function(j,h){var i=window.parent==window?null:window.parent;d.extend(this,h||{});this.add("channel",j.channel);this.add("url",j.url||"");this.add("targetWindow",j.targetWindow||i);this.add("origin",this.url()).link(this.url).setter(function(k){return k.replace(/([^:]+:\/\/[^\/]+).*/,"$1")});this.receive=d.proxy(this.receive,this);this.receive.guid=d.guid++;d(window).on("message",this.receive)},destroy:function(){d(window).off("message",this.receive)},receive:function(i){var h;i=i.originalEvent;if(!this.targetWindow()){return}if(this.origin()&&i.origin!==this.origin()){return}h=JSON.parse(i.data);if(!h||!h.id||typeof h.data==="undefined"){return}if((h.channel||this.channel())&&this.channel()!==h.channel){return}this.trigger(h.id,h.data)},send:function(j,i){var h;i=typeof i==="undefined"?null:i;if(!this.url()||!this.targetWindow()){return}h={id:j,data:i};if(this.channel()){h.channel=this.channel()}this.targetWindow().postMessage(JSON.stringify(h),this.origin())}});d.extend(b.Messenger.prototype,b.Events);b=d.extend(new b.Values(),b);b.get=function(){var h={};this.each(function(j,i){h[i]=j.get()});return h};a.customize=b})(wp,jQuery);
+if ( typeof wp === 'undefined' )
+	var wp = {};
+
+(function( exports, $ ){
+	var api, extend, ctor, inherits,
+		slice = Array.prototype.slice;
+
+	/* =====================================================================
+	 * Micro-inheritance - thank you, backbone.js.
+	 * ===================================================================== */
+
+	extend = function( protoProps, classProps ) {
+		var child = inherits( this, protoProps, classProps );
+		child.extend = this.extend;
+		return child;
+	};
+
+	// Shared empty constructor function to aid in prototype-chain creation.
+	ctor = function() {};
+
+	// Helper function to correctly set up the prototype chain, for subclasses.
+	// Similar to `goog.inherits`, but uses a hash of prototype properties and
+	// class properties to be extended.
+	inherits = function( parent, protoProps, staticProps ) {
+		var child;
+
+		// The constructor function for the new subclass is either defined by you
+		// (the "constructor" property in your `extend` definition), or defaulted
+		// by us to simply call `super()`.
+		if ( protoProps && protoProps.hasOwnProperty( 'constructor' ) ) {
+			child = protoProps.constructor;
+		} else {
+			child = function() {
+				// Storing the result `super()` before returning the value
+				// prevents a bug in Opera where, if the constructor returns
+				// a function, Opera will reject the return value in favor of
+				// the original object. This causes all sorts of trouble.
+				var result = parent.apply( this, arguments );
+				return result;
+			};
+		}
+
+		// Inherit class (static) properties from parent.
+		$.extend( child, parent );
+
+		// Set the prototype chain to inherit from `parent`, without calling
+		// `parent`'s constructor function.
+		ctor.prototype  = parent.prototype;
+		child.prototype = new ctor();
+
+		// Add prototype properties (instance properties) to the subclass,
+		// if supplied.
+		if ( protoProps )
+			$.extend( child.prototype, protoProps );
+
+		// Add static properties to the constructor function, if supplied.
+		if ( staticProps )
+			$.extend( child, staticProps );
+
+		// Correctly set child's `prototype.constructor`.
+		child.prototype.constructor = child;
+
+		// Set a convenience property in case the parent's prototype is needed later.
+		child.__super__ = parent.prototype;
+
+		return child;
+	};
+
+	api = {};
+
+	/* =====================================================================
+	 * Base class.
+	 * ===================================================================== */
+
+	api.Class = function( applicator, argsArray, options ) {
+		var magic, args = arguments;
+
+		if ( applicator && argsArray && api.Class.applicator === applicator ) {
+			args = argsArray;
+			$.extend( this, options || {} );
+		}
+
+		magic = this;
+		if ( this.instance ) {
+			magic = function() {
+				return magic.instance.apply( magic, arguments );
+			};
+
+			$.extend( magic, this );
+		}
+
+		magic.initialize.apply( magic, args );
+		return magic;
+	};
+
+	api.Class.applicator = {};
+
+	api.Class.prototype.initialize = function() {};
+
+	/*
+	 * Checks whether a given instance extended a constructor.
+	 *
+	 * The magic surrounding the instance parameter causes the instanceof
+	 * keyword to return inaccurate results; it defaults to the function's
+	 * prototype instead of the constructor chain. Hence this function.
+	 */
+	api.Class.prototype.extended = function( constructor ) {
+		var proto = this;
+
+		while ( typeof proto.constructor !== 'undefined' ) {
+			if ( proto.constructor === constructor )
+				return true;
+			if ( typeof proto.constructor.__super__ === 'undefined' )
+				return false;
+			proto = proto.constructor.__super__;
+		}
+		return false;
+	};
+
+	api.Class.extend = extend;
+
+	/* =====================================================================
+	 * Events mixin.
+	 * ===================================================================== */
+
+	api.Events = {
+		trigger: function( id ) {
+			if ( this.topics && this.topics[ id ] )
+				this.topics[ id ].fireWith( this, slice.call( arguments, 1 ) );
+			return this;
+		},
+
+		bind: function( id, callback ) {
+			this.topics = this.topics || {};
+			this.topics[ id ] = this.topics[ id ] || $.Callbacks();
+			this.topics[ id ].add.apply( this.topics[ id ], slice.call( arguments, 1 ) );
+			return this;
+		},
+
+		unbind: function( id, callback ) {
+			if ( this.topics && this.topics[ id ] )
+				this.topics[ id ].remove.apply( this.topics[ id ], slice.call( arguments, 1 ) );
+			return this;
+		}
+	};
+
+	/* =====================================================================
+	 * Observable values that support two-way binding.
+	 * ===================================================================== */
+
+	api.Value = api.Class.extend({
+		initialize: function( initial, options ) {
+			this._value = initial; // @todo: potentially change this to a this.set() call.
+			this.callbacks = $.Callbacks();
+
+			$.extend( this, options || {} );
+
+			this.set = $.proxy( this.set, this );
+		},
+
+		/*
+		 * Magic. Returns a function that will become the instance.
+		 * Set to null to prevent the instance from extending a function.
+		 */
+		instance: function() {
+			return arguments.length ? this.set.apply( this, arguments ) : this.get();
+		},
+
+		get: function() {
+			return this._value;
+		},
+
+		set: function( to ) {
+			var from = this._value;
+
+			to = this._setter.apply( this, arguments );
+			to = this.validate( to );
+
+			// Bail if the sanitized value is null or unchanged.
+			if ( null === to || this._value === to )
+				return this;
+
+			this._value = to;
+
+			this.callbacks.fireWith( this, [ to, from ] );
+
+			return this;
+		},
+
+		_setter: function( to ) {
+			return to;
+		},
+
+		setter: function( callback ) {
+			var from = this.get();
+			this._setter = callback;
+			// Temporarily clear value so setter can decide if it's valid.
+			this._value = null;
+			this.set( from );
+			return this;
+		},
+
+		resetSetter: function() {
+			this._setter = this.constructor.prototype._setter;
+			this.set( this.get() );
+			return this;
+		},
+
+		validate: function( value ) {
+			return value;
+		},
+
+		bind: function( callback ) {
+			this.callbacks.add.apply( this.callbacks, arguments );
+			return this;
+		},
+
+		unbind: function( callback ) {
+			this.callbacks.remove.apply( this.callbacks, arguments );
+			return this;
+		},
+
+		link: function() { // values*
+			var set = this.set;
+			$.each( arguments, function() {
+				this.bind( set );
+			});
+			return this;
+		},
+
+		unlink: function() { // values*
+			var set = this.set;
+			$.each( arguments, function() {
+				this.unbind( set );
+			});
+			return this;
+		},
+
+		sync: function() { // values*
+			var that = this;
+			$.each( arguments, function() {
+				that.link( this );
+				this.link( that );
+			});
+			return this;
+		},
+
+		unsync: function() { // values*
+			var that = this;
+			$.each( arguments, function() {
+				that.unlink( this );
+				this.unlink( that );
+			});
+			return this;
+		}
+	});
+
+	/* =====================================================================
+	 * A collection of observable values.
+	 * ===================================================================== */
+
+	api.Values = api.Class.extend({
+		defaultConstructor: api.Value,
+
+		initialize: function( options ) {
+			$.extend( this, options || {} );
+
+			this._value = {};
+			this._deferreds = {};
+		},
+
+		instance: function( id ) {
+			if ( arguments.length === 1 )
+				return this.value( id );
+
+			return this.when.apply( this, arguments );
+		},
+
+		value: function( id ) {
+			return this._value[ id ];
+		},
+
+		has: function( id ) {
+			return typeof this._value[ id ] !== 'undefined';
+		},
+
+		add: function( id, value ) {
+			if ( this.has( id ) )
+				return this.value( id );
+
+			this._value[ id ] = value;
+			value.parent = this;
+			if ( value.extended( api.Value ) )
+				value.bind( this._change );
+
+			this.trigger( 'add', value );
+
+			if ( this._deferreds[ id ] )
+				this._deferreds[ id ].resolve();
+
+			return this._value[ id ];
+		},
+
+		create: function( id ) {
+			return this.add( id, new this.defaultConstructor( api.Class.applicator, slice.call( arguments, 1 ) ) );
+		},
+
+		each: function( callback, context ) {
+			context = typeof context === 'undefined' ? this : context;
+
+			$.each( this._value, function( key, obj ) {
+				callback.call( context, obj, key );
+			});
+		},
+
+		remove: function( id ) {
+			var value;
+
+			if ( this.has( id ) ) {
+				value = this.value( id );
+				this.trigger( 'remove', value );
+				if ( value.extended( api.Value ) )
+					value.unbind( this._change );
+				delete value.parent;
+			}
+
+			delete this._value[ id ];
+			delete this._deferreds[ id ];
+		},
+
+		/**
+		 * Runs a callback once all requested values exist.
+		 *
+		 * when( ids*, [callback] );
+		 *
+		 * For example:
+		 *     when( id1, id2, id3, function( value1, value2, value3 ) {} );
+		 *
+		 * @returns $.Deferred.promise();
+		 */
+		when: function() {
+			var self = this,
+				ids  = slice.call( arguments ),
+				dfd  = $.Deferred();
+
+			// If the last argument is a callback, bind it to .done()
+			if ( $.isFunction( ids[ ids.length - 1 ] ) )
+				dfd.done( ids.pop() );
+
+			$.when.apply( $, $.map( ids, function( id ) {
+				if ( self.has( id ) )
+					return;
+
+				return self._deferreds[ id ] = self._deferreds[ id ] || $.Deferred();
+			})).done( function() {
+				var values = $.map( ids, function( id ) {
+						return self( id );
+					});
+
+				// If a value is missing, we've used at least one expired deferred.
+				// Call Values.when again to generate a new deferred.
+				if ( values.length !== ids.length ) {
+					// ids.push( callback );
+					self.when.apply( self, ids ).done( function() {
+						dfd.resolveWith( self, values );
+					});
+					return;
+				}
+
+				dfd.resolveWith( self, values );
+			});
+
+			return dfd.promise();
+		},
+
+		_change: function() {
+			this.parent.trigger( 'change', this );
+		}
+	});
+
+	$.extend( api.Values.prototype, api.Events );
+
+	/* =====================================================================
+	 * An observable value that syncs with an element.
+	 *
+	 * Handles inputs, selects, and textareas by default.
+	 * ===================================================================== */
+
+	api.ensure = function( element ) {
+		return typeof element == 'string' ? $( element ) : element;
+	};
+
+	api.Element = api.Value.extend({
+		initialize: function( element, options ) {
+			var self = this,
+				synchronizer = api.Element.synchronizer.html,
+				type, update, refresh;
+
+			this.element = api.ensure( element );
+			this.events = '';
+
+			if ( this.element.is('input, select, textarea') ) {
+				this.events += 'change';
+				synchronizer = api.Element.synchronizer.val;
+
+				if ( this.element.is('input') ) {
+					type = this.element.prop('type');
+					if ( api.Element.synchronizer[ type ] )
+						synchronizer = api.Element.synchronizer[ type ];
+					if ( 'text' === type || 'password' === type )
+						this.events += ' keyup';
+				} else if ( this.element.is('textarea') ) {
+					this.events += ' keyup';
+				}
+			}
+
+			api.Value.prototype.initialize.call( this, null, $.extend( options || {}, synchronizer ) );
+			this._value = this.get();
+
+			update  = this.update;
+			refresh = this.refresh;
+
+			this.update = function( to ) {
+				if ( to !== refresh.call( self ) )
+					update.apply( this, arguments );
+			};
+			this.refresh = function() {
+				self.set( refresh.call( self ) );
+			};
+
+			this.bind( this.update );
+			this.element.bind( this.events, this.refresh );
+		},
+
+		find: function( selector ) {
+			return $( selector, this.element );
+		},
+
+		refresh: function() {},
+
+		update: function() {}
+	});
+
+	api.Element.synchronizer = {};
+
+	$.each( [ 'html', 'val' ], function( i, method ) {
+		api.Element.synchronizer[ method ] = {
+			update: function( to ) {
+				this.element[ method ]( to );
+			},
+			refresh: function() {
+				return this.element[ method ]();
+			}
+		};
+	});
+
+	api.Element.synchronizer.checkbox = {
+		update: function( to ) {
+			this.element.prop( 'checked', to );
+		},
+		refresh: function() {
+			return this.element.prop( 'checked' );
+		}
+	};
+
+	api.Element.synchronizer.radio = {
+		update: function( to ) {
+			this.element.filter( function() {
+				return this.value === to;
+			}).prop( 'checked', true );
+		},
+		refresh: function() {
+			return this.element.filter( ':checked' ).val();
+		}
+	};
+
+	/* =====================================================================
+	 * Messenger for postMessage.
+	 * ===================================================================== */
+
+	$.support.postMessage = !! window.postMessage;
+
+	api.Messenger = api.Class.extend({
+		add: function( key, initial, options ) {
+			return this[ key ] = new api.Value( initial, options );
+		},
+
+		/**
+		 * Initialize Messenger.
+		 *
+		 * @param  {object} params        Parameters to configure the messenger.
+		 *         {string} .url          The URL to communicate with.
+		 *         {window} .targetWindow The window instance to communicate with. Default window.parent.
+		 *         {string} .channel      If provided, will send the channel with each message and only accept messages a matching channel.
+		 * @param  {object} options       Extend any instance parameter or method with this object.
+		 */
+		initialize: function( params, options ) {
+			// Target the parent frame by default, but only if a parent frame exists.
+			var defaultTarget = window.parent == window ? null : window.parent;
+
+			$.extend( this, options || {} );
+
+			this.add( 'channel', params.channel );
+			this.add( 'url', params.url || '' );
+			this.add( 'targetWindow', params.targetWindow || defaultTarget );
+			this.add( 'origin', this.url() ).link( this.url ).setter( function( to ) {
+				return to.replace( /([^:]+:\/\/[^\/]+).*/, '$1' );
+			});
+
+			// Since we want jQuery to treat the receive function as unique
+			// to this instance, we give the function a new guid.
+			//
+			// This will prevent every Messenger's receive function from being
+			// unbound when calling $.off( 'message', this.receive );
+			this.receive = $.proxy( this.receive, this );
+			this.receive.guid = $.guid++;
+
+			$( window ).on( 'message', this.receive );
+		},
+
+		destroy: function() {
+			$( window ).off( 'message', this.receive );
+		},
+
+		receive: function( event ) {
+			var message;
+
+			event = event.originalEvent;
+
+			if ( ! this.targetWindow() )
+				return;
+
+			// Check to make sure the origin is valid.
+			if ( this.origin() && event.origin !== this.origin() )
+				return;
+
+			message = JSON.parse( event.data );
+
+			// Check required message properties.
+			if ( ! message || ! message.id || typeof message.data === 'undefined' )
+				return;
+
+			// Check if channel names match.
+			if ( ( message.channel || this.channel() ) && this.channel() !== message.channel )
+				return;
+
+			this.trigger( message.id, message.data );
+		},
+
+		send: function( id, data ) {
+			var message;
+
+			data = typeof data === 'undefined' ? null : data;
+
+			if ( ! this.url() || ! this.targetWindow() )
+				return;
+
+			message = { id: id, data: data };
+			if ( this.channel() )
+				message.channel = this.channel();
+
+			this.targetWindow().postMessage( JSON.stringify( message ), this.origin() );
+		}
+	});
+
+	// Add the Events mixin to api.Messenger.
+	$.extend( api.Messenger.prototype, api.Events );
+
+	/* =====================================================================
+	 * Core customize object.
+	 * ===================================================================== */
+
+	api = $.extend( new api.Values(), api );
+	api.get = function() {
+		var result = {};
+
+		this.each( function( obj, key ) {
+			result[ key ] = obj.get();
+		});
+
+		return result;
+	};
+
+	// Expose the API to the world.
+	exports.customize = api;
+})( wp, jQuery );

@@ -1,1 +1,254 @@
-if(typeof(jQuery)!="undefined"){if(typeof(jQuery.fn.hoverIntent)=="undefined"){(function(b){b.fn.hoverIntent=function(p,r){var g={sensitivity:7,interval:100,timeout:0};g=b.extend(g,r?{over:p,out:r}:p);var a,f,t,v;var u=function(c){a=c.pageX;f=c.pageY};var w=function(c,d){d.hoverIntent_t=clearTimeout(d.hoverIntent_t);if((Math.abs(t-a)+Math.abs(v-f))<g.sensitivity){b(d).unbind("mousemove",u);d.hoverIntent_s=1;return g.over.apply(d,[c])}else{t=a;v=f;d.hoverIntent_t=setTimeout(function(){w(c,d)},g.interval)}};var s=function(c,d){d.hoverIntent_t=clearTimeout(d.hoverIntent_t);d.hoverIntent_s=0;return g.out.apply(d,[c])};var x=function(e){var d=this;var c=(e.type=="mouseover"?e.fromElement:e.toElement)||e.relatedTarget;while(c&&c!=this){try{c=c.parentNode}catch(e){c=this}}if(c==this){if(b.browser.mozilla){if(e.type=="mouseout"){d.mtout=setTimeout(function(){q(e,d)},30)}else{if(d.mtout){d.mtout=clearTimeout(d.mtout)}}}return}else{if(d.mtout){d.mtout=clearTimeout(d.mtout)}q(e,d)}};var q=function(e,d){var c=jQuery.extend({},e);if(d.hoverIntent_t){d.hoverIntent_t=clearTimeout(d.hoverIntent_t)}if(e.type=="mouseover"){t=c.pageX;v=c.pageY;b(d).bind("mousemove",u);if(d.hoverIntent_s!=1){d.hoverIntent_t=setTimeout(function(){w(c,d)},g.interval)}}else{b(d).unbind("mousemove",u);if(d.hoverIntent_s==1){d.hoverIntent_t=setTimeout(function(){s(c,d)},g.timeout)}}};return this.mouseover(x).mouseout(x)}})(jQuery)}jQuery(document).ready(function(b){var a=function(c,e){var f=b(e),d=f.attr("tabindex");if(d){f.attr("tabindex","0").attr("tabindex",d)}};b("#wpadminbar").removeClass("nojq").removeClass("nojs").find("li.menupop").hoverIntent({over:function(c){b(this).addClass("hover")},out:function(c){b(this).removeClass("hover")},timeout:180,sensitivity:7,interval:100});b("#wp-admin-bar-get-shortlink").click(function(c){c.preventDefault();b(this).addClass("selected").children(".shortlink-input").blur(function(){b(this).parents("#wp-admin-bar-get-shortlink").removeClass("selected")}).focus().select()});b("#wpadminbar li.menupop > .ab-item").bind("keydown.adminbar",function(f){if(f.which!=13){return}var d=b(f.target),c=d.closest("ab-sub-wrapper");f.stopPropagation();f.preventDefault();if(!c.length){c=b("#wpadminbar .quicklinks")}c.find(".menupop").removeClass("hover");d.parent().toggleClass("hover");d.siblings(".ab-sub-wrapper").find(".ab-item").each(a)}).each(a);b("#wpadminbar .ab-item").bind("keydown.adminbar",function(d){if(d.which!=27){return}var c=b(d.target);d.stopPropagation();d.preventDefault();c.closest(".hover").removeClass("hover").children(".ab-item").focus();c.siblings(".ab-sub-wrapper").find(".ab-item").each(a)});b("#wpadminbar").click(function(c){if(c.target.id!="wpadminbar"&&c.target.id!="wp-admin-bar-top-secondary"){return}c.preventDefault();b("html, body").animate({scrollTop:0},"fast")})})}else{(function(j,l){var e=function(o,n,d){if(o.addEventListener){o.addEventListener(n,d,false)}else{if(o.attachEvent){o.attachEvent("on"+n,function(){return d.call(o,window.event)})}}},f,g=new RegExp("\\bhover\\b","g"),b=[],k=new RegExp("\\bselected\\b","g"),h=function(n){var d=b.length;while(d--){if(b[d]&&n==b[d][1]){return b[d][0]}}return false},i=function(u){var o,d,r,n,q,s,v=[],p=0;while(u&&u!=f&&u!=j){if("LI"==u.nodeName.toUpperCase()){v[v.length]=u;d=h(u);if(d){clearTimeout(d)}u.className=u.className?(u.className.replace(g,"")+" hover"):"hover";n=u}u=u.parentNode}if(n&&n.parentNode){q=n.parentNode;if(q&&"UL"==q.nodeName.toUpperCase()){o=q.childNodes.length;while(o--){s=q.childNodes[o];if(s!=n){s.className=s.className?s.className.replace(k,""):""}}}}o=b.length;while(o--){r=false;p=v.length;while(p--){if(v[p]==b[o][1]){r=true}}if(!r){b[o][1].className=b[o][1].className?b[o][1].className.replace(g,""):""}}},m=function(d){while(d&&d!=f&&d!=j){if("LI"==d.nodeName.toUpperCase()){(function(n){var o=setTimeout(function(){n.className=n.className?n.className.replace(g,""):""},500);b[b.length]=[o,n]})(d)}d=d.parentNode}},c=function(q){var o,d,p,n=q.target||q.srcElement;while(true){if(!n||n==j||n==f){return}if(n.id&&n.id=="wp-admin-bar-get-shortlink"){break}n=n.parentNode}if(q.preventDefault){q.preventDefault()}q.returnValue=false;if(-1==n.className.indexOf("selected")){n.className+=" selected"}for(o=0,d=n.childNodes.length;o<d;o++){p=n.childNodes[o];if(p.className&&-1!=p.className.indexOf("shortlink-input")){p.focus();p.select();p.onblur=function(){n.className=n.className?n.className.replace(k,""):""};break}}return false},a=function(n){var s,q,p,d,r,o;if(n.id!="wpadminbar"&&n.id!="wp-admin-bar-top-secondary"){return}s=window.pageYOffset||document.documentElement.scrollTop||document.body.scrollTop||0;if(s<1){return}o=s>800?130:100;q=Math.min(12,Math.round(s/o));p=s>800?Math.round(s/30):Math.round(s/20);d=[];r=0;while(s){s-=p;if(s<0){s=0}d.push(s);setTimeout(function(){window.scrollTo(0,d.shift())},r*q);r++}};e(l,"load",function(){f=j.getElementById("wpadminbar");if(j.body&&f){j.body.appendChild(f);if(f.className){f.className=f.className.replace(/nojs/,"")}e(f,"mouseover",function(d){i(d.target||d.srcElement)});e(f,"mouseout",function(d){m(d.target||d.srcElement)});e(f,"click",c);e(f,"click",function(d){a(d.target||d.srcElement)})}if(l.location.hash){l.scrollBy(0,-32)}})})(document,window)};
+// use jQuery and hoverIntent if loaded
+if ( typeof(jQuery) != 'undefined' ) {
+	if ( typeof(jQuery.fn.hoverIntent) == 'undefined' )
+		(function(a){a.fn.hoverIntent=function(l,j){var m={sensitivity:7,interval:100,timeout:0};m=a.extend(m,j?{over:l,out:j}:l);var o,n,h,d;var e=function(f){o=f.pageX;n=f.pageY};var c=function(g,f){f.hoverIntent_t=clearTimeout(f.hoverIntent_t);if((Math.abs(h-o)+Math.abs(d-n))<m.sensitivity){a(f).unbind("mousemove",e);f.hoverIntent_s=1;return m.over.apply(f,[g])}else{h=o;d=n;f.hoverIntent_t=setTimeout(function(){c(g,f)},m.interval)}};var i=function(g,f){f.hoverIntent_t=clearTimeout(f.hoverIntent_t);f.hoverIntent_s=0;return m.out.apply(f,[g])};var b=function(q){var f=this;var g=(q.type=="mouseover"?q.fromElement:q.toElement)||q.relatedTarget;while(g&&g!=this){try{g=g.parentNode}catch(q){g=this}}if(g==this){if(a.browser.mozilla){if(q.type=="mouseout"){f.mtout=setTimeout(function(){k(q,f)},30)}else{if(f.mtout){f.mtout=clearTimeout(f.mtout)}}}return}else{if(f.mtout){f.mtout=clearTimeout(f.mtout)}k(q,f)}};var k=function(p,f){var g=jQuery.extend({},p);if(f.hoverIntent_t){f.hoverIntent_t=clearTimeout(f.hoverIntent_t)}if(p.type=="mouseover"){h=g.pageX;d=g.pageY;a(f).bind("mousemove",e);if(f.hoverIntent_s!=1){f.hoverIntent_t=setTimeout(function(){c(g,f)},m.interval)}}else{a(f).unbind("mousemove",e);if(f.hoverIntent_s==1){f.hoverIntent_t=setTimeout(function(){i(g,f)},m.timeout)}}};return this.mouseover(b).mouseout(b)}})(jQuery);
+
+	jQuery(document).ready(function($){
+		var refresh = function(i, el){ // force the browser to refresh the tabbing index
+			var node = $(el), tab = node.attr('tabindex');
+			if ( tab )
+				node.attr('tabindex', '0').attr('tabindex', tab);
+		};
+
+		$('#wpadminbar').removeClass('nojq').removeClass('nojs').find('li.menupop').hoverIntent({
+			over: function(e){
+				$(this).addClass('hover');
+			},
+			out: function(e){
+				$(this).removeClass('hover');
+			},
+			timeout: 180,
+			sensitivity: 7,
+			interval: 100
+		});
+
+		$('#wp-admin-bar-get-shortlink').click(function(e){
+			e.preventDefault();
+			$(this).addClass('selected').children('.shortlink-input').blur(function(){
+				$(this).parents('#wp-admin-bar-get-shortlink').removeClass('selected');
+			}).focus().select();
+		});
+
+		$('#wpadminbar li.menupop > .ab-item').bind('keydown.adminbar', function(e){
+			if ( e.which != 13 )
+				return;
+
+			var target = $(e.target), wrap = target.closest('ab-sub-wrapper');
+
+			e.stopPropagation();
+			e.preventDefault();
+
+			if ( !wrap.length )
+				wrap = $('#wpadminbar .quicklinks');
+
+			wrap.find('.menupop').removeClass('hover');
+			target.parent().toggleClass('hover');
+			target.siblings('.ab-sub-wrapper').find('.ab-item').each(refresh);
+		}).each(refresh);
+
+		$('#wpadminbar .ab-item').bind('keydown.adminbar', function(e){
+			if ( e.which != 27 )
+				return;
+
+			var target = $(e.target);
+
+			e.stopPropagation();
+			e.preventDefault();
+
+			target.closest('.hover').removeClass('hover').children('.ab-item').focus();
+			target.siblings('.ab-sub-wrapper').find('.ab-item').each(refresh);
+		});
+
+		$('#wpadminbar').click( function(e) {
+			if ( e.target.id != 'wpadminbar' && e.target.id != 'wp-admin-bar-top-secondary' )
+				return;
+
+			e.preventDefault();
+			$('html, body').animate({ scrollTop: 0 }, 'fast');
+		});
+
+	});
+} else {
+	(function(d, w) {
+		var addEvent = function( obj, type, fn ) {
+			if (obj.addEventListener)
+				obj.addEventListener(type, fn, false);
+			else if (obj.attachEvent)
+				obj.attachEvent('on' + type, function() { return fn.call(obj, window.event);});
+		},
+
+		aB, hc = new RegExp('\\bhover\\b', 'g'), q = [],
+		rselected = new RegExp('\\bselected\\b', 'g'),
+
+		/**
+		 * Get the timeout ID of the given element
+		 */
+		getTOID = function(el) {
+			var i = q.length;
+			while( i-- )
+				if ( q[i] && el == q[i][1] )
+					return q[i][0];
+			return false;
+		},
+
+		addHoverClass = function(t) {
+			var i, id, inA, hovering, ul, li,
+				ancestors = [],
+				ancestorLength = 0;
+
+			while ( t && t != aB && t != d ) {
+				if( 'LI' == t.nodeName.toUpperCase() ) {
+					ancestors[ ancestors.length ] = t;
+					id = getTOID(t);
+					if ( id )
+						clearTimeout( id );
+					t.className = t.className ? ( t.className.replace(hc, '') + ' hover' ) : 'hover';
+					hovering = t;
+				}
+				t = t.parentNode;
+			}
+
+			// Remove any selected classes.
+			if ( hovering && hovering.parentNode ) {
+				ul = hovering.parentNode;
+				if ( ul && 'UL' == ul.nodeName.toUpperCase() ) {
+					i = ul.childNodes.length;
+					while ( i-- ) {
+						li = ul.childNodes[i];
+						if ( li != hovering )
+							li.className = li.className ? li.className.replace( rselected, '' ) : '';
+					}
+				}
+			}
+
+			/* remove the hover class for any objects not in the immediate element's ancestry */
+			i = q.length;
+			while ( i-- ) {
+				inA = false;
+				ancestorLength = ancestors.length;
+				while( ancestorLength-- ) {
+					if ( ancestors[ ancestorLength ] == q[i][1] )
+						inA = true;
+				}
+
+				if ( ! inA )
+					q[i][1].className = q[i][1].className ? q[i][1].className.replace(hc, '') : '';
+			}
+		},
+
+		removeHoverClass = function(t) {
+			while ( t && t != aB && t != d ) {
+				if( 'LI' == t.nodeName.toUpperCase() ) {
+					(function(t) {
+						var to = setTimeout(function() {
+							t.className = t.className ? t.className.replace(hc, '') : '';
+						}, 500);
+						q[q.length] = [to, t];
+					})(t);
+				}
+				t = t.parentNode;
+			}
+		},
+
+		clickShortlink = function(e) {
+			var i, l, node,
+				t = e.target || e.srcElement;
+
+			// Make t the shortlink menu item, or return.
+			while ( true ) {
+				// Check if we've gone past the shortlink node,
+				// or if the user is clicking on the input.
+				if ( ! t || t == d || t == aB )
+					return;
+				// Check if we've found the shortlink node.
+				if ( t.id && t.id == 'wp-admin-bar-get-shortlink' )
+					break;
+				t = t.parentNode;
+			}
+
+			// IE doesn't support preventDefault, and does support returnValue
+			if ( e.preventDefault )
+				e.preventDefault();
+			e.returnValue = false;
+
+			if ( -1 == t.className.indexOf('selected') )
+				t.className += ' selected';
+
+			for ( i = 0, l = t.childNodes.length; i < l; i++ ) {
+				node = t.childNodes[i];
+				if ( node.className && -1 != node.className.indexOf('shortlink-input') ) {
+					node.focus();
+					node.select();
+					node.onblur = function() {
+						t.className = t.className ? t.className.replace( rselected, '' ) : '';
+					};
+					break;
+				}
+			}
+			return false;
+		},
+
+		scrollToTop = function(t) {
+			var distance, speed, step, steps, timer, speed_step;
+
+			// Ensure that the #wpadminbar was the target of the click.
+			if ( t.id != 'wpadminbar' && t.id != 'wp-admin-bar-top-secondary' )
+				return;
+
+			distance    = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+
+			if ( distance < 1 )
+				return;
+
+			speed_step = distance > 800 ? 130 : 100;
+			speed     = Math.min( 12, Math.round( distance / speed_step ) );
+			step      = distance > 800 ? Math.round( distance / 30  ) : Math.round( distance / 20  );
+			steps     = [];
+			timer     = 0;
+
+			// Animate scrolling to the top of the page by generating steps to
+			// the top of the page and shifting to each step at a set interval.
+			while ( distance ) {
+				distance -= step;
+				if ( distance < 0 )
+					distance = 0;
+				steps.push( distance );
+
+				setTimeout( function() {
+					window.scrollTo( 0, steps.shift() );
+				}, timer * speed );
+
+				timer++;
+			}
+		};
+
+		addEvent(w, 'load', function() {
+			aB = d.getElementById('wpadminbar');
+
+			if ( d.body && aB ) {
+				d.body.appendChild( aB );
+
+				if ( aB.className )
+					aB.className = aB.className.replace(/nojs/, '');
+
+				addEvent(aB, 'mouseover', function(e) {
+					addHoverClass( e.target || e.srcElement );
+				});
+
+				addEvent(aB, 'mouseout', function(e) {
+					removeHoverClass( e.target || e.srcElement );
+				});
+
+				addEvent(aB, 'click', clickShortlink );
+
+				addEvent(aB, 'click', function(e) {
+					scrollToTop( e.target || e.srcElement );
+				});
+			}
+
+			if ( w.location.hash )
+				w.scrollBy(0,-32);
+		});
+	})(document, window);
+
+}

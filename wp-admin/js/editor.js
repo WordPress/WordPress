@@ -1,1 +1,240 @@
-var switchEditors={switchto:function(b){var c=b.id,a=c.length,e=c.substr(0,a-5),d=c.substr(a-4);this.go(e,d)},go:function(g,f){g=g||"content";f=f||"toggle";var c=this,b=tinyMCE.get(g),a,d,e=tinymce.DOM;a="wp-"+g+"-wrap";d=e.get(g);if("toggle"==f){if(b&&!b.isHidden()){f="html"}else{f="tmce"}}if("tmce"==f||"tinymce"==f){if(b&&!b.isHidden()){return false}if(typeof(QTags)!="undefined"){QTags.closeAllTags(g)}if(tinyMCEPreInit.mceInit[g]&&tinyMCEPreInit.mceInit[g].wpautop){d.value=c.wpautop(d.value)}if(b){b.show()}else{b=new tinymce.Editor(g,tinyMCEPreInit.mceInit[g]);b.render()}e.removeClass(a,"html-active");e.addClass(a,"tmce-active");setUserSetting("editor","tinymce")}else{if("html"==f){if(b&&b.isHidden()){return false}if(b){d.style.height=b.getContentAreaContainer().offsetHeight+20+"px";b.hide()}e.removeClass(a,"tmce-active");e.addClass(a,"html-active");setUserSetting("editor","html")}}return false},_wp_Nop:function(c){var d,b,e=false,a=false;if(c.indexOf("<pre")!=-1||c.indexOf("<script")!=-1){e=true;c=c.replace(/<(pre|script)[^>]*>[\s\S]+?<\/\1>/g,function(f){f=f.replace(/<br ?\/?>(\r\n|\n)?/g,"<wp-temp-lb>");return f.replace(/<\/?p( [^>]*)?>(\r\n|\n)?/g,"<wp-temp-lb>")})}if(c.indexOf("[caption")!=-1){a=true;c=c.replace(/\[caption[\s\S]+?\[\/caption\]/g,function(f){return f.replace(/<br([^>]*)>/g,"<wp-temp-br$1>").replace(/[\r\n\t]+/,"")})}d="blockquote|ul|ol|li|table|thead|tbody|tfoot|tr|th|td|div|h[1-6]|p|fieldset";c=c.replace(new RegExp("\\s*</("+d+")>\\s*","g"),"</$1>\n");c=c.replace(new RegExp("\\s*<((?:"+d+")(?: [^>]*)?)>","g"),"\n<$1>");c=c.replace(/(<p [^>]+>.*?)<\/p>/g,"$1</p#>");c=c.replace(/<div( [^>]*)?>\s*<p>/gi,"<div$1>\n\n");c=c.replace(/\s*<p>/gi,"");c=c.replace(/\s*<\/p>\s*/gi,"\n\n");c=c.replace(/\n[\s\u00a0]+\n/g,"\n\n");c=c.replace(/\s*<br ?\/?>\s*/gi,"\n");c=c.replace(/\s*<div/g,"\n<div");c=c.replace(/<\/div>\s*/g,"</div>\n");c=c.replace(/\s*\[caption([^\[]+)\[\/caption\]\s*/gi,"\n\n[caption$1[/caption]\n\n");c=c.replace(/caption\]\n\n+\[caption/g,"caption]\n\n[caption");b="blockquote|ul|ol|li|table|thead|tbody|tfoot|tr|th|td|h[1-6]|pre|fieldset";c=c.replace(new RegExp("\\s*<((?:"+b+")(?: [^>]*)?)\\s*>","g"),"\n<$1>");c=c.replace(new RegExp("\\s*</("+b+")>\\s*","g"),"</$1>\n");c=c.replace(/<li([^>]*)>/g,"\t<li$1>");if(c.indexOf("<hr")!=-1){c=c.replace(/\s*<hr( [^>]*)?>\s*/g,"\n\n<hr$1>\n\n")}if(c.indexOf("<object")!=-1){c=c.replace(/<object[\s\S]+?<\/object>/g,function(f){return f.replace(/[\r\n]+/g,"")})}c=c.replace(/<\/p#>/g,"</p>\n");c=c.replace(/\s*(<p [^>]+>[\s\S]*?<\/p>)/g,"\n$1");c=c.replace(/^\s+/,"");c=c.replace(/[\s\u00a0]+$/,"");if(e){c=c.replace(/<wp-temp-lb>/g,"\n")}if(a){c=c.replace(/<wp-temp-br([^>]*)>/g,"<br$1>")}return c},_wp_Autop:function(a){var c=false,b=false,d="table|thead|tfoot|tbody|tr|td|th|caption|col|colgroup|div|dl|dd|dt|ul|ol|li|pre|select|form|blockquote|address|math|p|h[1-6]|fieldset|legend|hr|noscript|menu|samp|header|footer|article|section|hgroup|nav|aside|details|summary";if(a.indexOf("<object")!=-1){a=a.replace(/<object[\s\S]+?<\/object>/g,function(e){return e.replace(/[\r\n]+/g,"")})}a=a.replace(/<[^<>]+>/g,function(e){return e.replace(/[\r\n]+/g," ")});if(a.indexOf("<pre")!=-1||a.indexOf("<script")!=-1){c=true;a=a.replace(/<(pre|script)[^>]*>[\s\S]+?<\/\1>/g,function(e){return e.replace(/(\r\n|\n)/g,"<wp-temp-lb>")})}if(a.indexOf("[caption")!=-1){b=true;a=a.replace(/\[caption[\s\S]+?\[\/caption\]/g,function(e){e=e.replace(/<br([^>]*)>/g,"<wp-temp-br$1>");e=e.replace(/<[a-zA-Z0-9]+( [^<>]+)?>/g,function(f){return f.replace(/[\r\n\t]+/," ")});return e.replace(/\s*\n\s*/g,"<wp-temp-br />")})}a=a+"\n\n";a=a.replace(/<br \/>\s*<br \/>/gi,"\n\n");a=a.replace(new RegExp("(<(?:"+d+")(?: [^>]*)?>)","gi"),"\n$1");a=a.replace(new RegExp("(</(?:"+d+")>)","gi"),"$1\n\n");a=a.replace(/<hr( [^>]*)?>/gi,"<hr$1>\n\n");a=a.replace(/\r\n|\r/g,"\n");a=a.replace(/\n\s*\n+/g,"\n\n");a=a.replace(/([\s\S]+?)\n\n/g,"<p>$1</p>\n");a=a.replace(/<p>\s*?<\/p>/gi,"");a=a.replace(new RegExp("<p>\\s*(</?(?:"+d+")(?: [^>]*)?>)\\s*</p>","gi"),"$1");a=a.replace(/<p>(<li.+?)<\/p>/gi,"$1");a=a.replace(/<p>\s*<blockquote([^>]*)>/gi,"<blockquote$1><p>");a=a.replace(/<\/blockquote>\s*<\/p>/gi,"</p></blockquote>");a=a.replace(new RegExp("<p>\\s*(</?(?:"+d+")(?: [^>]*)?>)","gi"),"$1");a=a.replace(new RegExp("(</?(?:"+d+")(?: [^>]*)?>)\\s*</p>","gi"),"$1");a=a.replace(/\s*\n/gi,"<br />\n");a=a.replace(new RegExp("(</?(?:"+d+")[^>]*>)\\s*<br />","gi"),"$1");a=a.replace(/<br \/>(\s*<\/?(?:p|li|div|dl|dd|dt|th|pre|td|ul|ol)>)/gi,"$1");a=a.replace(/(?:<p>|<br ?\/?>)*\s*\[caption([^\[]+)\[\/caption\]\s*(?:<\/p>|<br ?\/?>)*/gi,"[caption$1[/caption]");a=a.replace(/(<(?:div|th|td|form|fieldset|dd)[^>]*>)(.*?)<\/p>/g,function(f,e,g){if(g.match(/<p( [^>]*)?>/)){return f}return e+"<p>"+g+"</p>"});if(c){a=a.replace(/<wp-temp-lb>/g,"\n")}if(b){a=a.replace(/<wp-temp-br([^>]*)>/g,"<br$1>")}return a},pre_wpautop:function(b){var a=this,d={o:a,data:b,unfiltered:b},c=typeof(jQuery)!="undefined";if(c){jQuery("body").trigger("beforePreWpautop",[d])}d.data=a._wp_Nop(d.data);if(c){jQuery("body").trigger("afterPreWpautop",[d])}return d.data},wpautop:function(b){var a=this,d={o:a,data:b,unfiltered:b},c=typeof(jQuery)!="undefined";if(c){jQuery("body").trigger("beforeWpautop",[d])}d.data=a._wp_Autop(d.data);if(c){jQuery("body").trigger("afterWpautop",[d])}return d.data}};
+
+var switchEditors = {
+
+	switchto: function(el) {
+		var aid = el.id, l = aid.length, id = aid.substr(0, l - 5), mode = aid.substr(l - 4);
+
+		this.go(id, mode);
+	},
+
+	go: function(id, mode) { // mode can be 'html', 'tmce', or 'toggle'; 'html' is used for the "Text" editor tab.
+		id = id || 'content';
+		mode = mode || 'toggle';
+
+		var t = this, ed = tinyMCE.get(id), wrap_id, txtarea_el, dom = tinymce.DOM;
+
+		wrap_id = 'wp-'+id+'-wrap';
+		txtarea_el = dom.get(id);
+
+		if ( 'toggle' == mode ) {
+			if ( ed && !ed.isHidden() )
+				mode = 'html';
+			else
+				mode = 'tmce';
+		}
+
+		if ( 'tmce' == mode || 'tinymce' == mode ) {
+			if ( ed && ! ed.isHidden() )
+				return false;
+
+			if ( typeof(QTags) != 'undefined' )
+				QTags.closeAllTags(id);
+
+			if ( tinyMCEPreInit.mceInit[id] && tinyMCEPreInit.mceInit[id].wpautop )
+				txtarea_el.value = t.wpautop( txtarea_el.value );
+
+			if ( ed ) {
+				ed.show();
+			} else {
+				ed = new tinymce.Editor(id, tinyMCEPreInit.mceInit[id]);
+				ed.render();
+			}
+
+			dom.removeClass(wrap_id, 'html-active');
+			dom.addClass(wrap_id, 'tmce-active');
+			setUserSetting('editor', 'tinymce');
+
+		} else if ( 'html' == mode ) {
+
+			if ( ed && ed.isHidden() )
+				return false;
+
+			if ( ed ) {
+				txtarea_el.style.height = ed.getContentAreaContainer().offsetHeight + 20 + 'px';
+				ed.hide();
+			}
+
+			dom.removeClass(wrap_id, 'tmce-active');
+			dom.addClass(wrap_id, 'html-active');
+			setUserSetting('editor', 'html');
+		}
+		return false;
+	},
+
+	_wp_Nop : function(content) {
+		var blocklist1, blocklist2, preserve_linebreaks = false, preserve_br = false;
+
+		// Protect pre|script tags
+		if ( content.indexOf('<pre') != -1 || content.indexOf('<script') != -1 ) {
+			preserve_linebreaks = true;
+			content = content.replace(/<(pre|script)[^>]*>[\s\S]+?<\/\1>/g, function(a) {
+				a = a.replace(/<br ?\/?>(\r\n|\n)?/g, '<wp-temp-lb>');
+				return a.replace(/<\/?p( [^>]*)?>(\r\n|\n)?/g, '<wp-temp-lb>');
+			});
+		}
+
+		// keep <br> tags inside captions and remove line breaks
+		if ( content.indexOf('[caption') != -1 ) {
+			preserve_br = true;
+			content = content.replace(/\[caption[\s\S]+?\[\/caption\]/g, function(a) {
+				return a.replace(/<br([^>]*)>/g, '<wp-temp-br$1>').replace(/[\r\n\t]+/, '');
+			});
+		}
+
+		// Pretty it up for the source editor
+		blocklist1 = 'blockquote|ul|ol|li|table|thead|tbody|tfoot|tr|th|td|div|h[1-6]|p|fieldset';
+		content = content.replace(new RegExp('\\s*</('+blocklist1+')>\\s*', 'g'), '</$1>\n');
+		content = content.replace(new RegExp('\\s*<((?:'+blocklist1+')(?: [^>]*)?)>', 'g'), '\n<$1>');
+
+		// Mark </p> if it has any attributes.
+		content = content.replace(/(<p [^>]+>.*?)<\/p>/g, '$1</p#>');
+
+		// Sepatate <div> containing <p>
+		content = content.replace(/<div( [^>]*)?>\s*<p>/gi, '<div$1>\n\n');
+
+		// Remove <p> and <br />
+		content = content.replace(/\s*<p>/gi, '');
+		content = content.replace(/\s*<\/p>\s*/gi, '\n\n');
+		content = content.replace(/\n[\s\u00a0]+\n/g, '\n\n');
+		content = content.replace(/\s*<br ?\/?>\s*/gi, '\n');
+
+		// Fix some block element newline issues
+		content = content.replace(/\s*<div/g, '\n<div');
+		content = content.replace(/<\/div>\s*/g, '</div>\n');
+		content = content.replace(/\s*\[caption([^\[]+)\[\/caption\]\s*/gi, '\n\n[caption$1[/caption]\n\n');
+		content = content.replace(/caption\]\n\n+\[caption/g, 'caption]\n\n[caption');
+
+		blocklist2 = 'blockquote|ul|ol|li|table|thead|tbody|tfoot|tr|th|td|h[1-6]|pre|fieldset';
+		content = content.replace(new RegExp('\\s*<((?:'+blocklist2+')(?: [^>]*)?)\\s*>', 'g'), '\n<$1>');
+		content = content.replace(new RegExp('\\s*</('+blocklist2+')>\\s*', 'g'), '</$1>\n');
+		content = content.replace(/<li([^>]*)>/g, '\t<li$1>');
+
+		if ( content.indexOf('<hr') != -1 ) {
+			content = content.replace(/\s*<hr( [^>]*)?>\s*/g, '\n\n<hr$1>\n\n');
+		}
+
+		if ( content.indexOf('<object') != -1 ) {
+			content = content.replace(/<object[\s\S]+?<\/object>/g, function(a){
+				return a.replace(/[\r\n]+/g, '');
+			});
+		}
+
+		// Unmark special paragraph closing tags
+		content = content.replace(/<\/p#>/g, '</p>\n');
+		content = content.replace(/\s*(<p [^>]+>[\s\S]*?<\/p>)/g, '\n$1');
+
+		// Trim whitespace
+		content = content.replace(/^\s+/, '');
+		content = content.replace(/[\s\u00a0]+$/, '');
+
+		// put back the line breaks in pre|script
+		if ( preserve_linebreaks )
+			content = content.replace(/<wp-temp-lb>/g, '\n');
+
+		// and the <br> tags in captions
+		if ( preserve_br )
+			content = content.replace(/<wp-temp-br([^>]*)>/g, '<br$1>');
+
+		return content;
+	},
+
+	_wp_Autop : function(pee) {
+		var preserve_linebreaks = false, preserve_br = false,
+			blocklist = 'table|thead|tfoot|tbody|tr|td|th|caption|col|colgroup|div|dl|dd|dt|ul|ol|li|pre|select|form|blockquote|address|math|p|h[1-6]|fieldset|legend|hr|noscript|menu|samp|header|footer|article|section|hgroup|nav|aside|details|summary';
+
+		if ( pee.indexOf('<object') != -1 ) {
+			pee = pee.replace(/<object[\s\S]+?<\/object>/g, function(a){
+				return a.replace(/[\r\n]+/g, '');
+			});
+		}
+
+		pee = pee.replace(/<[^<>]+>/g, function(a){
+			return a.replace(/[\r\n]+/g, ' ');
+		});
+
+		// Protect pre|script tags
+		if ( pee.indexOf('<pre') != -1 || pee.indexOf('<script') != -1 ) {
+			preserve_linebreaks = true;
+			pee = pee.replace(/<(pre|script)[^>]*>[\s\S]+?<\/\1>/g, function(a) {
+				return a.replace(/(\r\n|\n)/g, '<wp-temp-lb>');
+			});
+		}
+
+		// keep <br> tags inside captions and convert line breaks
+		if ( pee.indexOf('[caption') != -1 ) {
+			preserve_br = true;
+			pee = pee.replace(/\[caption[\s\S]+?\[\/caption\]/g, function(a) {
+				// keep existing <br>
+				a = a.replace(/<br([^>]*)>/g, '<wp-temp-br$1>');
+				// no line breaks inside HTML tags
+				a = a.replace(/<[a-zA-Z0-9]+( [^<>]+)?>/g, function(b){
+					return b.replace(/[\r\n\t]+/, ' ');
+				});
+				// convert remaining line breaks to <br>
+				return a.replace(/\s*\n\s*/g, '<wp-temp-br />');
+			});
+		}
+
+		pee = pee + '\n\n';
+		pee = pee.replace(/<br \/>\s*<br \/>/gi, '\n\n');
+		pee = pee.replace(new RegExp('(<(?:'+blocklist+')(?: [^>]*)?>)', 'gi'), '\n$1');
+		pee = pee.replace(new RegExp('(</(?:'+blocklist+')>)', 'gi'), '$1\n\n');
+		pee = pee.replace(/<hr( [^>]*)?>/gi, '<hr$1>\n\n'); // hr is self closing block element
+		pee = pee.replace(/\r\n|\r/g, '\n');
+		pee = pee.replace(/\n\s*\n+/g, '\n\n');
+		pee = pee.replace(/([\s\S]+?)\n\n/g, '<p>$1</p>\n');
+		pee = pee.replace(/<p>\s*?<\/p>/gi, '');
+		pee = pee.replace(new RegExp('<p>\\s*(</?(?:'+blocklist+')(?: [^>]*)?>)\\s*</p>', 'gi'), "$1");
+		pee = pee.replace(/<p>(<li.+?)<\/p>/gi, '$1');
+		pee = pee.replace(/<p>\s*<blockquote([^>]*)>/gi, '<blockquote$1><p>');
+		pee = pee.replace(/<\/blockquote>\s*<\/p>/gi, '</p></blockquote>');
+		pee = pee.replace(new RegExp('<p>\\s*(</?(?:'+blocklist+')(?: [^>]*)?>)', 'gi'), "$1");
+		pee = pee.replace(new RegExp('(</?(?:'+blocklist+')(?: [^>]*)?>)\\s*</p>', 'gi'), "$1");
+		pee = pee.replace(/\s*\n/gi, '<br />\n');
+		pee = pee.replace(new RegExp('(</?(?:'+blocklist+')[^>]*>)\\s*<br />', 'gi'), "$1");
+		pee = pee.replace(/<br \/>(\s*<\/?(?:p|li|div|dl|dd|dt|th|pre|td|ul|ol)>)/gi, '$1');
+		pee = pee.replace(/(?:<p>|<br ?\/?>)*\s*\[caption([^\[]+)\[\/caption\]\s*(?:<\/p>|<br ?\/?>)*/gi, '[caption$1[/caption]');
+
+		pee = pee.replace(/(<(?:div|th|td|form|fieldset|dd)[^>]*>)(.*?)<\/p>/g, function(a, b, c) {
+			if ( c.match(/<p( [^>]*)?>/) )
+				return a;
+
+			return b + '<p>' + c + '</p>';
+		});
+
+		// put back the line breaks in pre|script
+		if ( preserve_linebreaks )
+			pee = pee.replace(/<wp-temp-lb>/g, '\n');
+
+		if ( preserve_br )
+			pee = pee.replace(/<wp-temp-br([^>]*)>/g, '<br$1>');
+
+		return pee;
+	},
+
+	pre_wpautop : function(content) {
+		var t = this, o = { o: t, data: content, unfiltered: content },
+			q = typeof(jQuery) != 'undefined';
+
+		if ( q )
+			jQuery('body').trigger('beforePreWpautop', [o]);
+		o.data = t._wp_Nop(o.data);
+		if ( q )
+			jQuery('body').trigger('afterPreWpautop', [o]);
+
+		return o.data;
+	},
+
+	wpautop : function(pee) {
+		var t = this, o = { o: t, data: pee, unfiltered: pee },
+			q = typeof(jQuery) != 'undefined';
+
+		if ( q )
+			jQuery('body').trigger('beforeWpautop', [o]);
+		o.data = t._wp_Autop(o.data);
+		if ( q )
+			jQuery('body').trigger('afterWpautop', [o]);
+
+		return o.data;
+	}
+}

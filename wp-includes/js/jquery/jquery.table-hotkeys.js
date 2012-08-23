@@ -1,1 +1,99 @@
-(function(a){a.fn.filter_visible=function(c){c=c||3;var b=function(){var e=a(this),d;for(d=0;d<c-1;++d){if(!e.is(":visible")){return false}e=e.parent()}return true};return this.filter(b)};a.table_hotkeys=function(p,q,b){b=a.extend(a.table_hotkeys.defaults,b);var i,l,e,f,m,d,k,o,c,h,g,n,j;i=b.class_prefix+b.selected_suffix;l=b.class_prefix+b.destructive_suffix;e=function(r){if(a.table_hotkeys.current_row){a.table_hotkeys.current_row.removeClass(i)}r.addClass(i);r[0].scrollIntoView(false);a.table_hotkeys.current_row=r};f=function(r){if(!d(r)&&a.isFunction(b[r+"_page_link_cb"])){b[r+"_page_link_cb"]()}};m=function(s){var r,t;if(!a.table_hotkeys.current_row){r=h();a.table_hotkeys.current_row=r;return r[0]}t="prev"==s?a.fn.prevAll:a.fn.nextAll;return t.call(a.table_hotkeys.current_row,b.cycle_expr).filter_visible()[0]};d=function(s){var r=m(s);if(!r){return false}e(a(r));return true};k=function(){return d("prev")};o=function(){return d("next")};c=function(){a(b.checkbox_expr,a.table_hotkeys.current_row).each(function(){this.checked=!this.checked})};h=function(){return a(b.cycle_expr,p).filter_visible().eq(b.start_row_index)};g=function(){var r=a(b.cycle_expr,p).filter_visible();return r.eq(r.length-1)};n=function(r){return function(){if(null==a.table_hotkeys.current_row){return false}var s=a(r,a.table_hotkeys.current_row);if(!s.length){return false}if(s.is("."+l)){o()||k()}s.click()}};j=h();if(!j.length){return}if(b.highlight_first){e(j)}else{if(b.highlight_last){e(g())}}a.hotkeys.add(b.prev_key,b.hotkeys_opts,function(){return f("prev")});a.hotkeys.add(b.next_key,b.hotkeys_opts,function(){return f("next")});a.hotkeys.add(b.mark_key,b.hotkeys_opts,c);a.each(q,function(){var s,r;if(a.isFunction(this[1])){s=this[1];r=this[0];a.hotkeys.add(r,b.hotkeys_opts,function(t){return s(t,a.table_hotkeys.current_row)})}else{r=this;a.hotkeys.add(r,b.hotkeys_opts,n("."+b.class_prefix+r))}})};a.table_hotkeys.current_row=null;a.table_hotkeys.defaults={cycle_expr:"tr",class_prefix:"vim-",selected_suffix:"current",destructive_suffix:"destructive",hotkeys_opts:{disableInInput:true,type:"keypress"},checkbox_expr:":checkbox",next_key:"j",prev_key:"k",mark_key:"x",start_row_index:2,highlight_first:false,highlight_last:false,next_page_link_cb:false,prev_page_link_cb:false}})(jQuery);
+(function($){
+	$.fn.filter_visible = function(depth) {
+		depth = depth || 3;
+		var is_visible = function() {
+			var p = $(this), i;
+			for(i=0; i<depth-1; ++i) {
+				if (!p.is(':visible')) return false;
+				p = p.parent();
+			}
+			return true;
+		}
+		return this.filter(is_visible);
+	};
+	$.table_hotkeys = function(table, keys, opts) {
+		opts = $.extend($.table_hotkeys.defaults, opts);
+		var selected_class, destructive_class, set_current_row, adjacent_row_callback, get_adjacent_row, adjacent_row, prev_row, next_row, check, get_first_row, get_last_row, make_key_callback, first_row;
+		
+		selected_class = opts.class_prefix + opts.selected_suffix;
+		destructive_class = opts.class_prefix + opts.destructive_suffix
+		set_current_row = function (tr) {
+			if ($.table_hotkeys.current_row) $.table_hotkeys.current_row.removeClass(selected_class);
+			tr.addClass(selected_class);
+			tr[0].scrollIntoView(false);
+			$.table_hotkeys.current_row = tr;
+		};
+		adjacent_row_callback = function(which) {
+			if (!adjacent_row(which) && $.isFunction(opts[which+'_page_link_cb'])) {
+				opts[which+'_page_link_cb']();
+			}
+		};
+		get_adjacent_row = function(which) {
+			var first_row, method;
+			
+			if (!$.table_hotkeys.current_row) {
+				first_row = get_first_row();
+				$.table_hotkeys.current_row = first_row;
+				return first_row[0];
+			}
+			method = 'prev' == which? $.fn.prevAll : $.fn.nextAll;
+			return method.call($.table_hotkeys.current_row, opts.cycle_expr).filter_visible()[0];
+		};
+		adjacent_row = function(which) {
+			var adj = get_adjacent_row(which);
+			if (!adj) return false;
+			set_current_row($(adj));
+			return true;
+		};
+		prev_row = function() { return adjacent_row('prev'); };
+		next_row = function() { return adjacent_row('next'); };
+		check = function() {
+			$(opts.checkbox_expr, $.table_hotkeys.current_row).each(function() {
+				this.checked = !this.checked;
+			});
+		};
+		get_first_row = function() {
+			return $(opts.cycle_expr, table).filter_visible().eq(opts.start_row_index);
+		};
+		get_last_row = function() {
+			var rows = $(opts.cycle_expr, table).filter_visible();
+			return rows.eq(rows.length-1);
+		};
+		make_key_callback = function(expr) {
+			return function() {
+				if ( null == $.table_hotkeys.current_row ) return false;
+				var clickable = $(expr, $.table_hotkeys.current_row);
+				if (!clickable.length) return false;
+				if (clickable.is('.'+destructive_class)) next_row() || prev_row();
+				clickable.click();
+			}
+		};
+		first_row = get_first_row();
+		if (!first_row.length) return;
+		if (opts.highlight_first)
+			set_current_row(first_row);
+		else if (opts.highlight_last)
+			set_current_row(get_last_row());
+		$.hotkeys.add(opts.prev_key, opts.hotkeys_opts, function() {return adjacent_row_callback('prev')});
+		$.hotkeys.add(opts.next_key, opts.hotkeys_opts, function() {return adjacent_row_callback('next')});
+		$.hotkeys.add(opts.mark_key, opts.hotkeys_opts, check);
+		$.each(keys, function() {
+			var callback, key;
+			
+			if ($.isFunction(this[1])) {
+				callback = this[1];
+				key = this[0];
+				$.hotkeys.add(key, opts.hotkeys_opts, function(event) { return callback(event, $.table_hotkeys.current_row); });
+			} else {
+				key = this;
+				$.hotkeys.add(key, opts.hotkeys_opts, make_key_callback('.'+opts.class_prefix+key));
+			}
+		});
+
+	};
+	$.table_hotkeys.current_row = null;
+	$.table_hotkeys.defaults = {cycle_expr: 'tr', class_prefix: 'vim-', selected_suffix: 'current',
+		destructive_suffix: 'destructive', hotkeys_opts: {disableInInput: true, type: 'keypress'},
+		checkbox_expr: ':checkbox', next_key: 'j', prev_key: 'k', mark_key: 'x',
+		start_row_index: 2, highlight_first: false, highlight_last: false, next_page_link_cb: false, prev_page_link_cb: false};
+})(jQuery);

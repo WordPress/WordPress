@@ -1,1 +1,649 @@
-var QTags,edButtons=[],edCanvas,edAddTag=function(){},edCheckOpenTags=function(){},edCloseAllTags=function(){},edInsertImage=function(){},edInsertLink=function(){},edInsertTag=function(){},edLink=function(){},edQuickLink=function(){},edRemoveTag=function(){},edShowButton=function(){},edShowLinks=function(){},edSpell=function(){},edToolbar=function(){};function quicktags(a){return new QTags(a)}function edInsertContent(b,a){return QTags.insertContent(a)}function edButton(f,e,c,b,a,d){return QTags.addButton(f,e,c,b,a,"",-1)}(function(){var b=function(g){var f,e,d;if(typeof jQuery!="undefined"){jQuery(document).ready(g)}else{f=b;f.funcs=[];f.ready=function(){if(!f.isReady){f.isReady=true;for(e=0;e<f.funcs.length;e++){f.funcs[e]()}}};if(f.isReady){g()}else{f.funcs.push(g)}if(!f.eventAttached){if(document.addEventListener){d=function(){document.removeEventListener("DOMContentLoaded",d,false);f.ready()};document.addEventListener("DOMContentLoaded",d,false);window.addEventListener("load",f.ready,false)}else{if(document.attachEvent){d=function(){if(document.readyState==="complete"){document.detachEvent("onreadystatechange",d);f.ready()}};document.attachEvent("onreadystatechange",d);window.attachEvent("onload",f.ready);(function(){try{document.documentElement.doScroll("left")}catch(h){setTimeout(arguments.callee,50);return}f.ready()})()}}f.eventAttached=true}}},a=(function(){var d=new Date(),e;e=function(f){var g=f.toString();if(g.length<2){g="0"+g}return g};return d.getUTCFullYear()+"-"+e(d.getUTCMonth()+1)+"-"+e(d.getUTCDate())+"T"+e(d.getUTCHours())+":"+e(d.getUTCMinutes())+":"+e(d.getUTCSeconds())+"+00:00"})(),c;c=QTags=function(j){if(typeof(j)=="string"){j={id:j}}else{if(typeof(j)!="object"){return false}}var i=this,k=j.id,h=document.getElementById(k),g="qt_"+k,d,f,e;if(!k||!h){return false}i.name=g;i.id=k;i.canvas=h;i.settings=j;if(k=="content"&&typeof(adminpage)=="string"&&(adminpage=="post-new-php"||adminpage=="post-php")){edCanvas=h;e="ed_toolbar"}else{e=g+"_toolbar"}d=document.createElement("div");d.id=e;d.className="quicktags-toolbar";h.parentNode.insertBefore(d,h);i.toolbar=d;f=function(n){n=n||window.event;var m=n.target||n.srcElement,o=m.clientWidth||m.offsetWidth,l;if(!o){return}if(/ ed_button /.test(" "+m.className+" ")){i.canvas=h=document.getElementById(k);l=m.id.replace(g+"_","");if(i.theButtons[l]){i.theButtons[l].callback.call(i.theButtons[l],m,h,i)}}};if(d.addEventListener){d.addEventListener("click",f,false)}else{if(d.attachEvent){d.attachEvent("onclick",f)}}i.getButton=function(l){return i.theButtons[l]};i.getButtonElement=function(l){return document.getElementById(g+"_"+l)};c.instances[k]=i;if(!c.instances[0]){c.instances[0]=c.instances[k];b(function(){c._buttonsInit()})}};c.instances={};c.getInstance=function(d){return c.instances[d]};c._buttonsInit=function(){var p=this,g,e,h,o,m,l,n,f,k,d,j=",strong,em,link,block,del,ins,img,ul,ol,li,code,more,spell,close,";for(l in p.instances){if(l==0){continue}n=p.instances[l];g=n.canvas;e=n.name;h=n.settings;m="";o={};d="";if(h.buttons){d=","+h.buttons+","}for(k in edButtons){if(!edButtons[k]){continue}f=edButtons[k].id;if(d&&j.indexOf(","+f+",")!=-1&&d.indexOf(","+f+",")==-1){continue}if(!edButtons[k].instance||edButtons[k].instance==l){o[f]=edButtons[k];if(edButtons[k].html){m+=edButtons[k].html(e+"_")}}}if(d&&d.indexOf(",fullscreen,")!=-1){o.fullscreen=new c.FullscreenButton();m+=o.fullscreen.html(e+"_")}if("rtl"==document.getElementsByTagName("html")[0].dir){o.textdirection=new c.TextDirectionButton();m+=o.textdirection.html(e+"_")}n.toolbar.innerHTML=m;n.theButtons=o}p.buttonsInitDone=true};c.addButton=function(e,i,h,g,d,j,k,l){var f;if(!e||!i){return}k=k||0;g=g||"";if(typeof(h)==="function"){f=new c.Button(e,i,d,j,l);f.callback=h}else{if(typeof(h)==="string"){f=new c.TagButton(e,i,h,g,d,j,l)}else{return}}if(k==-1){return f}if(k>0){while(typeof(edButtons[k])!="undefined"){k++}edButtons[k]=f}else{edButtons[edButtons.length]=f}if(this.buttonsInitDone){this._buttonsInit()}};c.insertContent=function(g){var h,f,e,i,j,d=document.getElementById(wpActiveEditor);if(!d){return false}if(document.selection){d.focus();h=document.selection.createRange();h.text=g;d.focus()}else{if(d.selectionStart||d.selectionStart=="0"){j=d.value;f=d.selectionStart;e=d.selectionEnd;i=d.scrollTop;d.value=j.substring(0,f)+g+j.substring(e,j.length);d.focus();d.selectionStart=f+g.length;d.selectionEnd=f+g.length;d.scrollTop=i}else{d.value+=g;d.focus()}}return true};c.Button=function(i,g,e,h,d){var f=this;f.id=i;f.display=g;f.access=e;f.title=h||"";f.instance=d||""};c.Button.prototype.html=function(e){var d=this.access?' accesskey="'+this.access+'"':"";return'<input type="button" id="'+e+this.id+'"'+d+' class="ed_button" title="'+this.title+'" value="'+this.display+'" />'};c.Button.prototype.callback=function(){};c.TagButton=function(k,i,g,f,e,j,d){var h=this;c.Button.call(h,k,i,e,j,d);h.tagStart=g;h.tagEnd=f};c.TagButton.prototype=new c.Button();c.TagButton.prototype.openTag=function(g,d){var f=this;if(!d.openTags){d.openTags=[]}if(f.tagEnd){d.openTags.push(f.id);g.value="/"+g.value}};c.TagButton.prototype.closeTag=function(h,d){var g=this,f=g.isOpen(d);if(f!==false){d.openTags.splice(f,1)}h.value=g.display};c.TagButton.prototype.isOpen=function(d){var g=this,f=0,e=false;if(d.openTags){while(e===false&&f<d.openTags.length){e=d.openTags[f]==g.id?f:false;f++}}else{e=false}return e};c.TagButton.prototype.callback=function(o,h,p){var u=this,q,e,m,g,s=h.value,j,d,n,f,k=s?u.tagEnd:"";if(document.selection){h.focus();f=document.selection.createRange();if(f.text.length>0){if(!u.tagEnd){f.text=f.text+u.tagStart}else{f.text=u.tagStart+f.text+k}}else{if(!u.tagEnd){f.text=u.tagStart}else{if(u.isOpen(p)===false){f.text=u.tagStart;u.openTag(o,p)}else{f.text=k;u.closeTag(o,p)}}}h.focus()}else{if(h.selectionStart||h.selectionStart=="0"){q=h.selectionStart;e=h.selectionEnd;m=e;g=h.scrollTop;j=s.substring(0,q);d=s.substring(e,s.length);n=s.substring(q,e);if(q!=e){if(!u.tagEnd){h.value=j+n+u.tagStart+d;m+=u.tagStart.length}else{h.value=j+u.tagStart+n+k+d;m+=u.tagStart.length+k.length}}else{if(!u.tagEnd){h.value=j+u.tagStart+d;m=q+u.tagStart.length}else{if(u.isOpen(p)===false){h.value=j+u.tagStart+d;u.openTag(o,p);m=q+u.tagStart.length}else{h.value=j+k+d;m=q+k.length;u.closeTag(o,p)}}}h.focus();h.selectionStart=m;h.selectionEnd=m;h.scrollTop=g}else{if(!k){h.value+=u.tagStart}else{if(u.isOpen(p)!==false){h.value+=u.tagStart;u.openTag(o,p)}else{h.value+=k;u.closeTag(o,p)}}h.focus()}}};c.SpellButton=function(){c.Button.call(this,"spell",quicktagsL10n.lookup,"",quicktagsL10n.dictionaryLookup)};c.SpellButton.prototype=new c.Button();c.SpellButton.prototype.callback=function(h,g,d){var j="",i,f,e;if(document.selection){g.focus();i=document.selection.createRange();if(i.text.length>0){j=i.text}}else{if(g.selectionStart||g.selectionStart=="0"){f=g.selectionStart;e=g.selectionEnd;if(f!=e){j=g.value.substring(f,e)}}}if(j===""){j=prompt(quicktagsL10n.wordLookup,"")}if(j!==null&&/^\w[\w ]*$/.test(j)){window.open("http://www.answers.com/"+encodeURIComponent(j))}};c.CloseButton=function(){c.Button.call(this,"close",quicktagsL10n.closeTags,"",quicktagsL10n.closeAllOpenTags)};c.CloseButton.prototype=new c.Button();c._close=function(i,j,d){var g,f,h=d.openTags;if(h){while(h.length>0){g=d.getButton(h[h.length-1]);f=document.getElementById(d.name+"_"+g.id);if(i){g.callback.call(g,f,j,d)}else{g.closeTag(f,d)}}}};c.CloseButton.prototype.callback=c._close;c.closeAllTags=function(e){var d=this.getInstance(e);c._close("",d.canvas,d)};c.LinkButton=function(){c.TagButton.call(this,"link","link","","</a>","a")};c.LinkButton.prototype=new c.TagButton();c.LinkButton.prototype.callback=function(i,j,g,f){var d,h=this;if(typeof(wpLink)!="undefined"){wpLink.open();return}if(!f){f="http://"}if(h.isOpen(g)===false){d=prompt(quicktagsL10n.enterURL,f);if(d){h.tagStart='<a href="'+d+'">';c.TagButton.prototype.callback.call(h,i,j,g)}}else{c.TagButton.prototype.callback.call(h,i,j,g)}};c.ImgButton=function(){c.TagButton.call(this,"img","img","","","m")};c.ImgButton.prototype=new c.TagButton();c.ImgButton.prototype.callback=function(h,j,f,d){if(!d){d="http://"}var i=prompt(quicktagsL10n.enterImageURL,d),g;if(i){g=prompt(quicktagsL10n.enterImageDescription,"");this.tagStart='<img src="'+i+'" alt="'+g+'" />';c.TagButton.prototype.callback.call(this,h,j,f)}};c.FullscreenButton=function(){c.Button.call(this,"fullscreen",quicktagsL10n.fullscreen,"f",quicktagsL10n.toggleFullscreen)};c.FullscreenButton.prototype=new c.Button();c.FullscreenButton.prototype.callback=function(d,f){if(!f.id||typeof(fullscreen)=="undefined"){return}fullscreen.on()};c.TextDirectionButton=function(){c.Button.call(this,"textdirection",quicktagsL10n.textdirection,"",quicktagsL10n.toggleTextdirection)};c.TextDirectionButton.prototype=new c.Button();c.TextDirectionButton.prototype.callback=function(f,h){var d=("rtl"==document.getElementsByTagName("html")[0].dir),g=h.style.direction;if(!g){g=(d)?"rtl":"ltr"}h.style.direction=("rtl"==g)?"ltr":"rtl";h.focus()};edButtons[10]=new c.TagButton("strong","b","<strong>","</strong>","b");edButtons[20]=new c.TagButton("em","i","<em>","</em>","i"),edButtons[30]=new c.LinkButton(),edButtons[40]=new c.TagButton("block","b-quote","\n\n<blockquote>","</blockquote>\n\n","q"),edButtons[50]=new c.TagButton("del","del",'<del datetime="'+a+'">',"</del>","d"),edButtons[60]=new c.TagButton("ins","ins",'<ins datetime="'+a+'">',"</ins>","s"),edButtons[70]=new c.ImgButton(),edButtons[80]=new c.TagButton("ul","ul","<ul>\n","</ul>\n\n","u"),edButtons[90]=new c.TagButton("ol","ol","<ol>\n","</ol>\n\n","o"),edButtons[100]=new c.TagButton("li","li","\t<li>","</li>\n","l"),edButtons[110]=new c.TagButton("code","code","<code>","</code>","c"),edButtons[120]=new c.TagButton("more","more","<!--more-->","","t"),edButtons[130]=new c.SpellButton(),edButtons[140]=new c.CloseButton()})();
+/*
+ * Quicktags
+ *
+ * This is the HTML editor in WordPress. It can be attached to any textarea and will
+ * append a toolbar above it. This script is self-contained (does not require external libraries).
+ *
+ * Run quicktags(settings) to initialize it, where settings is an object containing up to 3 properties:
+ * settings = {
+ *   id : 'my_id',          the HTML ID of the textarea, required
+ *   buttons: ''            Comma separated list of the names of the default buttons to show. Optional.
+ *                          Current list of default button names: 'strong,em,link,block,del,ins,img,ul,ol,li,code,more,spell,close';
+ * }
+ *
+ * The settings can also be a string quicktags_id.
+ *
+ * quicktags_id string The ID of the textarea that will be the editor canvas
+ * buttons string Comma separated list of the default buttons names that will be shown in that instance.
+ */
+
+// new edit toolbar used with permission
+// by Alex King
+// http://www.alexking.org/
+
+var QTags, edButtons = [], edCanvas,
+
+/**
+ * Back-compat
+ *
+ * Define all former global functions so plugins that hack quicktags.js directly don't cause fatal errors.
+ */
+edAddTag = function(){},
+edCheckOpenTags = function(){},
+edCloseAllTags = function(){},
+edInsertImage = function(){},
+edInsertLink = function(){},
+edInsertTag = function(){},
+edLink = function(){},
+edQuickLink = function(){},
+edRemoveTag = function(){},
+edShowButton = function(){},
+edShowLinks = function(){},
+edSpell = function(){},
+edToolbar = function(){};
+
+/**
+ * Initialize new instance of the Quicktags editor
+ */
+function quicktags(settings) {
+	return new QTags(settings);
+}
+
+/**
+ * Inserts content at the caret in the active editor (textarea)
+ *
+ * Added for back compatibility
+ * @see QTags.insertContent()
+ */
+function edInsertContent(bah, txt) {
+	return QTags.insertContent(txt);
+}
+
+/**
+ * Adds a button to all instances of the editor
+ *
+ * Added for back compatibility, use QTags.addButton() as it gives more flexibility like type of button, button placement, etc.
+ * @see QTags.addButton()
+ */
+function edButton(id, display, tagStart, tagEnd, access, open) {
+	return QTags.addButton( id, display, tagStart, tagEnd, access, '', -1 );
+}
+
+(function(){
+	// private stuff is prefixed with an underscore
+	var _domReady = function(func) {
+		var t, i,  DOMContentLoaded;
+
+		if ( typeof jQuery != 'undefined' ) {
+			jQuery(document).ready(func);
+		} else {
+			t = _domReady;
+			t.funcs = [];
+
+			t.ready = function() {
+				if ( ! t.isReady ) {
+					t.isReady = true;
+					for ( i = 0; i < t.funcs.length; i++ ) {
+						t.funcs[i]();
+					}
+				}
+			};
+
+			if ( t.isReady ) {
+				func();
+			} else {
+				t.funcs.push(func);
+			}
+
+			if ( ! t.eventAttached ) {
+				if ( document.addEventListener ) {
+					DOMContentLoaded = function(){document.removeEventListener('DOMContentLoaded', DOMContentLoaded, false);t.ready();};
+					document.addEventListener('DOMContentLoaded', DOMContentLoaded, false);
+					window.addEventListener('load', t.ready, false);
+				} else if ( document.attachEvent ) {
+					DOMContentLoaded = function(){if (document.readyState === 'complete'){ document.detachEvent('onreadystatechange', DOMContentLoaded);t.ready();}};
+					document.attachEvent('onreadystatechange', DOMContentLoaded);
+					window.attachEvent('onload', t.ready);
+
+					(function(){
+						try {
+							document.documentElement.doScroll("left");
+						} catch(e) {
+							setTimeout(arguments.callee, 50);
+							return;
+						}
+
+						t.ready();
+					})();
+				}
+
+				t.eventAttached = true;
+			}
+		}
+	},
+
+	_datetime = (function() {
+		var now = new Date(), zeroise;
+
+		zeroise = function(number) {
+			var str = number.toString();
+
+			if ( str.length < 2 )
+				str = "0" + str;
+
+			return str;
+		}
+
+		return now.getUTCFullYear() + '-' +
+			zeroise( now.getUTCMonth() + 1 ) + '-' +
+			zeroise( now.getUTCDate() ) + 'T' +
+			zeroise( now.getUTCHours() ) + ':' +
+			zeroise( now.getUTCMinutes() ) + ':' +
+			zeroise( now.getUTCSeconds() ) +
+			'+00:00';
+	})(),
+	qt;
+
+	qt = QTags = function(settings) {
+		if ( typeof(settings) == 'string' )
+			settings = {id: settings};
+		else if ( typeof(settings) != 'object' )
+			return false;
+
+		var t = this,
+			id = settings.id,
+			canvas = document.getElementById(id),
+			name = 'qt_' + id,
+			tb, onclick, toolbar_id;
+
+		if ( !id || !canvas )
+			return false;
+
+		t.name = name;
+		t.id = id;
+		t.canvas = canvas;
+		t.settings = settings;
+
+		if ( id == 'content' && typeof(adminpage) == 'string' && ( adminpage == 'post-new-php' || adminpage == 'post-php' ) ) {
+			// back compat hack :-(
+			edCanvas = canvas;
+			toolbar_id = 'ed_toolbar';
+		} else {
+			toolbar_id = name + '_toolbar';
+		}
+
+		tb = document.createElement('div');
+		tb.id = toolbar_id;
+		tb.className = 'quicktags-toolbar';
+
+		canvas.parentNode.insertBefore(tb, canvas);
+		t.toolbar = tb;
+
+		// listen for click events
+		onclick = function(e) {
+			e = e || window.event;
+			var target = e.target || e.srcElement, visible = target.clientWidth || target.offsetWidth, i;
+
+			// don't call the callback on pressing the accesskey when the button is not visible
+			if ( !visible )
+				return;
+
+			// as long as it has the class ed_button, execute the callback
+			if ( / ed_button /.test(' ' + target.className + ' ') ) {
+				// we have to reassign canvas here
+				t.canvas = canvas = document.getElementById(id);
+				i = target.id.replace(name + '_', '');
+
+				if ( t.theButtons[i] )
+					t.theButtons[i].callback.call(t.theButtons[i], target, canvas, t);
+			}
+		};
+
+		if ( tb.addEventListener ) {
+			tb.addEventListener('click', onclick, false);
+		} else if ( tb.attachEvent ) {
+			tb.attachEvent('onclick', onclick);
+		}
+
+		t.getButton = function(id) {
+			return t.theButtons[id];
+		};
+
+		t.getButtonElement = function(id) {
+			return document.getElementById(name + '_' + id);
+		};
+
+		qt.instances[id] = t;
+
+		if ( !qt.instances[0] ) {
+			qt.instances[0] = qt.instances[id];
+			_domReady( function(){ qt._buttonsInit(); } );
+		}
+	};
+
+	qt.instances = {};
+
+	qt.getInstance = function(id) {
+		return qt.instances[id];
+	};
+
+	qt._buttonsInit = function() {
+		var t = this, canvas, name, settings, theButtons, html, inst, ed, id, i, use,
+			defaults = ',strong,em,link,block,del,ins,img,ul,ol,li,code,more,spell,close,';
+
+		for ( inst in t.instances ) {
+			if ( inst == 0 )
+				continue;
+
+			ed = t.instances[inst];
+			canvas = ed.canvas;
+			name = ed.name;
+			settings = ed.settings;
+			html = '';
+			theButtons = {};
+			use = '';
+
+			// set buttons
+			if ( settings.buttons )
+				use = ','+settings.buttons+',';
+
+			for ( i in edButtons ) {
+				if ( !edButtons[i] )
+					continue;
+
+				id = edButtons[i].id;
+				if ( use && defaults.indexOf(','+id+',') != -1 && use.indexOf(','+id+',') == -1 )
+					continue;
+
+				if ( !edButtons[i].instance || edButtons[i].instance == inst ) {
+					theButtons[id] = edButtons[i];
+
+					if ( edButtons[i].html )
+						html += edButtons[i].html(name + '_');
+				}
+			}
+
+			if ( use && use.indexOf(',fullscreen,') != -1 ) {
+				theButtons['fullscreen'] = new qt.FullscreenButton();
+				html += theButtons['fullscreen'].html(name + '_');
+			}
+
+
+			if ( 'rtl' == document.getElementsByTagName('html')[0].dir ) {
+				theButtons['textdirection'] = new qt.TextDirectionButton();
+				html += theButtons['textdirection'].html(name + '_');
+			}
+
+			ed.toolbar.innerHTML = html;
+			ed.theButtons = theButtons;
+		}
+		t.buttonsInitDone = true;
+	};
+
+	/**
+	 * Main API function for adding a button to Quicktags
+	 *
+	 * Adds qt.Button or qt.TagButton depending on the args. The first three args are always required.
+	 * To be able to add button(s) to Quicktags, your script should be enqueued as dependent
+	 * on "quicktags" and outputted in the footer. If you are echoing JS directly from PHP,
+	 * use add_action( 'admin_print_footer_scripts', 'output_my_js', 100 ) or add_action( 'wp_footer', 'output_my_js', 100 )
+	 *
+	 * Minimum required to add a button that calls an external function:
+	 *     QTags.addButton( 'my_id', 'my button', my_callback );
+	 *     function my_callback() { alert('yeah!'); }
+	 *
+	 * Minimum required to add a button that inserts a tag:
+	 *     QTags.addButton( 'my_id', 'my button', '<span>', '</span>' );
+	 *     QTags.addButton( 'my_id2', 'my button', '<br />' );
+	 *
+	 * @param id string required Button HTML ID
+	 * @param display string required Button's value="..."
+	 * @param arg1 string || function required Either a starting tag to be inserted like "<span>" or a callback that is executed when the button is clicked.
+	 * @param arg2 string optional Ending tag like "</span>"
+	 * @param access_key string optional Access key for the button.
+	 * @param title string optional Button's title="..."
+	 * @param priority int optional Number representing the desired position of the button in the toolbar. 1 - 9 = first, 11 - 19 = second, 21 - 29 = third, etc.
+	 * @param instance string optional Limit the button to a specifric instance of Quicktags, add to all instances if not present.
+	 * @return mixed null or the button object that is needed for back-compat.
+	 */
+	qt.addButton = function( id, display, arg1, arg2, access_key, title, priority, instance ) {
+		var btn;
+
+		if ( !id || !display )
+			return;
+
+		priority = priority || 0;
+		arg2 = arg2 || '';
+
+		if ( typeof(arg1) === 'function' ) {
+			btn = new qt.Button(id, display, access_key, title, instance);
+			btn.callback = arg1;
+		} else if ( typeof(arg1) === 'string' ) {
+			btn = new qt.TagButton(id, display, arg1, arg2, access_key, title, instance);
+		} else {
+			return;
+		}
+
+		if ( priority == -1 ) // back-compat
+			return btn;
+
+		if ( priority > 0 ) {
+			while ( typeof(edButtons[priority]) != 'undefined' ) {
+				priority++
+			}
+
+			edButtons[priority] = btn;
+		} else {
+			edButtons[edButtons.length] = btn;
+		}
+
+		if ( this.buttonsInitDone )
+			this._buttonsInit(); // add the button HTML to all instances toolbars if addButton() was called too late
+	};
+
+	qt.insertContent = function(content) {
+		var sel, startPos, endPos, scrollTop, text, canvas = document.getElementById(wpActiveEditor);
+
+		if ( !canvas )
+			return false;
+
+		if ( document.selection ) { //IE
+			canvas.focus();
+			sel = document.selection.createRange();
+			sel.text = content;
+			canvas.focus();
+		} else if ( canvas.selectionStart || canvas.selectionStart == '0' ) { // FF, WebKit, Opera
+			text = canvas.value;
+			startPos = canvas.selectionStart;
+			endPos = canvas.selectionEnd;
+			scrollTop = canvas.scrollTop;
+
+			canvas.value = text.substring(0, startPos) + content + text.substring(endPos, text.length);
+
+			canvas.focus();
+			canvas.selectionStart = startPos + content.length;
+			canvas.selectionEnd = startPos + content.length;
+			canvas.scrollTop = scrollTop;
+		} else {
+			canvas.value += content;
+			canvas.focus();
+		}
+		return true;
+	};
+
+	// a plain, dumb button
+	qt.Button = function(id, display, access, title, instance) {
+		var t = this;
+		t.id = id;
+		t.display = display;
+		t.access = access;
+		t.title = title || '';
+		t.instance = instance || '';
+	};
+	qt.Button.prototype.html = function(idPrefix) {
+		var access = this.access ? ' accesskey="' + this.access + '"' : '';
+		return '<input type="button" id="' + idPrefix + this.id + '"' + access + ' class="ed_button" title="' + this.title + '" value="' + this.display + '" />';
+	};
+	qt.Button.prototype.callback = function(){};
+
+	// a button that inserts HTML tag
+	qt.TagButton = function(id, display, tagStart, tagEnd, access, title, instance) {
+		var t = this;
+		qt.Button.call(t, id, display, access, title, instance);
+		t.tagStart = tagStart;
+		t.tagEnd = tagEnd;
+	};
+	qt.TagButton.prototype = new qt.Button();
+	qt.TagButton.prototype.openTag = function(e, ed) {
+		var t = this;
+
+		if ( ! ed.openTags ) {
+			ed.openTags = [];
+		}
+		if ( t.tagEnd ) {
+			ed.openTags.push(t.id);
+			e.value = '/' + e.value;
+		}
+	};
+	qt.TagButton.prototype.closeTag = function(e, ed) {
+		var t = this, i = t.isOpen(ed);
+
+		if ( i !== false ) {
+			ed.openTags.splice(i, 1);
+		}
+
+		e.value = t.display;
+	};
+	// whether a tag is open or not. Returns false if not open, or current open depth of the tag
+	qt.TagButton.prototype.isOpen = function (ed) {
+		var t = this, i = 0, ret = false;
+		if ( ed.openTags ) {
+			while ( ret === false && i < ed.openTags.length ) {
+				ret = ed.openTags[i] == t.id ? i : false;
+				i ++;
+			}
+		} else {
+			ret = false;
+		}
+		return ret;
+	};
+	qt.TagButton.prototype.callback = function(element, canvas, ed) {
+		var t = this, startPos, endPos, cursorPos, scrollTop, v = canvas.value, l, r, i, sel, endTag = v ? t.tagEnd : '';
+
+		if ( document.selection ) { // IE
+			canvas.focus();
+			sel = document.selection.createRange();
+			if ( sel.text.length > 0 ) {
+				if ( !t.tagEnd )
+					sel.text = sel.text + t.tagStart;
+				else
+					sel.text = t.tagStart + sel.text + endTag;
+			} else {
+				if ( !t.tagEnd ) {
+					sel.text = t.tagStart;
+				} else if ( t.isOpen(ed) === false ) {
+					sel.text = t.tagStart;
+					t.openTag(element, ed);
+				} else {
+					sel.text = endTag;
+					t.closeTag(element, ed);
+				}
+			}
+			canvas.focus();
+		} else if ( canvas.selectionStart || canvas.selectionStart == '0' ) { // FF, WebKit, Opera
+			startPos = canvas.selectionStart;
+			endPos = canvas.selectionEnd;
+			cursorPos = endPos;
+			scrollTop = canvas.scrollTop;
+			l = v.substring(0, startPos); // left of the selection
+			r = v.substring(endPos, v.length); // right of the selection
+			i = v.substring(startPos, endPos); // inside the selection
+			if ( startPos != endPos ) {
+				if ( !t.tagEnd ) {
+					canvas.value = l + i + t.tagStart + r; // insert self closing tags after the selection
+					cursorPos += t.tagStart.length;
+				} else {
+					canvas.value = l + t.tagStart + i + endTag + r;
+					cursorPos += t.tagStart.length + endTag.length;
+				}
+			} else {
+				if ( !t.tagEnd ) {
+					canvas.value = l + t.tagStart + r;
+					cursorPos = startPos + t.tagStart.length;
+				} else if ( t.isOpen(ed) === false ) {
+					canvas.value = l + t.tagStart + r;
+					t.openTag(element, ed);
+					cursorPos = startPos + t.tagStart.length;
+				} else {
+					canvas.value = l + endTag + r;
+					cursorPos = startPos + endTag.length;
+					t.closeTag(element, ed);
+				}
+			}
+
+			canvas.focus();
+			canvas.selectionStart = cursorPos;
+			canvas.selectionEnd = cursorPos;
+			canvas.scrollTop = scrollTop;
+		} else { // other browsers?
+			if ( !endTag ) {
+				canvas.value += t.tagStart;
+			} else if ( t.isOpen(ed) !== false ) {
+				canvas.value += t.tagStart;
+				t.openTag(element, ed);
+			} else {
+				canvas.value += endTag;
+				t.closeTag(element, ed);
+			}
+			canvas.focus();
+		}
+	};
+
+	// the spell button
+	qt.SpellButton = function() {
+		qt.Button.call(this, 'spell', quicktagsL10n.lookup, '', quicktagsL10n.dictionaryLookup);
+	};
+	qt.SpellButton.prototype = new qt.Button();
+	qt.SpellButton.prototype.callback = function(element, canvas, ed) {
+		var word = '', sel, startPos, endPos;
+
+		if ( document.selection ) {
+			canvas.focus();
+			sel = document.selection.createRange();
+			if ( sel.text.length > 0 ) {
+				word = sel.text;
+			}
+		} else if ( canvas.selectionStart || canvas.selectionStart == '0' ) {
+			startPos = canvas.selectionStart;
+			endPos = canvas.selectionEnd;
+			if ( startPos != endPos ) {
+				word = canvas.value.substring(startPos, endPos);
+			}
+		}
+
+		if ( word === '' ) {
+			word = prompt(quicktagsL10n.wordLookup, '');
+		}
+
+		if ( word !== null && /^\w[\w ]*$/.test(word)) {
+			window.open('http://www.answers.com/' + encodeURIComponent(word));
+		}
+	};
+
+	// the close tags button
+	qt.CloseButton = function() {
+		qt.Button.call(this, 'close', quicktagsL10n.closeTags, '', quicktagsL10n.closeAllOpenTags);
+	};
+
+	qt.CloseButton.prototype = new qt.Button();
+
+	qt._close = function(e, c, ed) {
+		var button, element, tbo = ed.openTags;
+
+		if ( tbo ) {
+			while ( tbo.length > 0 ) {
+				button = ed.getButton(tbo[tbo.length - 1]);
+				element = document.getElementById(ed.name + '_' + button.id);
+
+				if ( e )
+					button.callback.call(button, element, c, ed);
+				else
+					button.closeTag(element, ed);
+			}
+		}
+	};
+
+	qt.CloseButton.prototype.callback = qt._close;
+
+	qt.closeAllTags = function(editor_id) {
+		var ed = this.getInstance(editor_id);
+		qt._close('', ed.canvas, ed);
+	};
+
+	// the link button
+	qt.LinkButton = function() {
+		qt.TagButton.call(this, 'link', 'link', '', '</a>', 'a');
+	};
+	qt.LinkButton.prototype = new qt.TagButton();
+	qt.LinkButton.prototype.callback = function(e, c, ed, defaultValue) {
+		var URL, t = this;
+
+		if ( typeof(wpLink) != 'undefined' ) {
+			wpLink.open();
+			return;
+		}
+
+		if ( ! defaultValue )
+			defaultValue = 'http://';
+
+		if ( t.isOpen(ed) === false ) {
+			URL = prompt(quicktagsL10n.enterURL, defaultValue);
+			if ( URL ) {
+				t.tagStart = '<a href="' + URL + '">';
+				qt.TagButton.prototype.callback.call(t, e, c, ed);
+			}
+		} else {
+			qt.TagButton.prototype.callback.call(t, e, c, ed);
+		}
+	};
+
+	// the img button
+	qt.ImgButton = function() {
+		qt.TagButton.call(this, 'img', 'img', '', '', 'm');
+	};
+	qt.ImgButton.prototype = new qt.TagButton();
+	qt.ImgButton.prototype.callback = function(e, c, ed, defaultValue) {
+		if ( ! defaultValue ) {
+			defaultValue = 'http://';
+		}
+		var src = prompt(quicktagsL10n.enterImageURL, defaultValue), alt;
+		if ( src ) {
+			alt = prompt(quicktagsL10n.enterImageDescription, '');
+			this.tagStart = '<img src="' + src + '" alt="' + alt + '" />';
+			qt.TagButton.prototype.callback.call(this, e, c, ed);
+		}
+	};
+
+	qt.FullscreenButton = function() {
+		qt.Button.call(this, 'fullscreen', quicktagsL10n.fullscreen, 'f', quicktagsL10n.toggleFullscreen);
+	};
+	qt.FullscreenButton.prototype = new qt.Button();
+	qt.FullscreenButton.prototype.callback = function(e, c) {
+		if ( !c.id || typeof(fullscreen) == 'undefined' )
+			return;
+
+		fullscreen.on();
+	};
+
+	qt.TextDirectionButton = function() {
+		qt.Button.call(this, 'textdirection', quicktagsL10n.textdirection, '', quicktagsL10n.toggleTextdirection)
+	};
+	qt.TextDirectionButton.prototype = new qt.Button();
+	qt.TextDirectionButton.prototype.callback = function(e, c) {
+		var isRTL = ( 'rtl' == document.getElementsByTagName('html')[0].dir ),
+			currentDirection = c.style.direction;
+
+		if ( ! currentDirection )
+			currentDirection = ( isRTL ) ? 'rtl' : 'ltr';
+
+		c.style.direction = ( 'rtl' == currentDirection ) ? 'ltr' : 'rtl';
+		c.focus();
+	}
+
+	// ensure backward compatibility
+	edButtons[10] = new qt.TagButton('strong','b','<strong>','</strong>','b');
+	edButtons[20] = new qt.TagButton('em','i','<em>','</em>','i'),
+	edButtons[30] = new qt.LinkButton(), // special case
+	edButtons[40] = new qt.TagButton('block','b-quote','\n\n<blockquote>','</blockquote>\n\n','q'),
+	edButtons[50] = new qt.TagButton('del','del','<del datetime="' + _datetime + '">','</del>','d'),
+	edButtons[60] = new qt.TagButton('ins','ins','<ins datetime="' + _datetime + '">','</ins>','s'),
+	edButtons[70] = new qt.ImgButton(), // special case
+	edButtons[80] = new qt.TagButton('ul','ul','<ul>\n','</ul>\n\n','u'),
+	edButtons[90] = new qt.TagButton('ol','ol','<ol>\n','</ol>\n\n','o'),
+	edButtons[100] = new qt.TagButton('li','li','\t<li>','</li>\n','l'),
+	edButtons[110] = new qt.TagButton('code','code','<code>','</code>','c'),
+	edButtons[120] = new qt.TagButton('more','more','<!--more-->','','t'),
+	edButtons[130] = new qt.SpellButton(),
+	edButtons[140] = new qt.CloseButton()
+
+})();

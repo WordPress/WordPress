@@ -1,1 +1,16 @@
-jQuery(document).ready(function(a){a("#link_rel").prop("readonly",true);a("#linkxfndiv input").bind("click keyup",function(){var c=a("#me").is(":checked"),b="";a("input.valinp").each(function(){if(c){a(this).prop("disabled",true).parent().addClass("disabled")}else{a(this).removeAttr("disabled").parent().removeClass("disabled");if(a(this).is(":checked")&&a(this).val()!=""){b+=a(this).val()+" "}}});a("#link_rel").val((c)?"me":b.substr(0,b.length-1))})});
+jQuery(document).ready( function($) {
+	$('#link_rel').prop('readonly', true);
+	$('#linkxfndiv input').bind('click keyup', function() {
+		var isMe = $('#me').is(':checked'), inputs = '';
+		$('input.valinp').each( function() {
+			if (isMe) {
+				$(this).prop('disabled', true).parent().addClass('disabled');
+			} else {
+				$(this).removeAttr('disabled').parent().removeClass('disabled');
+				if ( $(this).is(':checked') && $(this).val() != '')
+					inputs += $(this).val() + ' ';
+			}
+		});
+		$('#link_rel').val( (isMe) ? 'me' : inputs.substr(0,inputs.length - 1) );
+	});
+});

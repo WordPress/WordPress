@@ -1,1 +1,53 @@
-var tb_position;jQuery(document).ready(function(a){tb_position=function(){var f=a("#TB_window"),e=a(window).width(),d=a(window).height(),c=(720<e)?720:e,b=0;if(a("body.admin-bar").length){b=28}if(f.size()){f.width(c-50).height(d-45-b);a("#TB_iframeContent").width(c-50).height(d-75-b);f.css({"margin-left":"-"+parseInt(((c-50)/2),10)+"px"});if(typeof document.body.style.maxWidth!="undefined"){f.css({top:20+b+"px","margin-top":"0"})}}return a("a.thickbox").each(function(){var g=a(this).attr("href");if(!g){return}g=g.replace(/&width=[0-9]+/g,"");g=g.replace(/&height=[0-9]+/g,"");a(this).attr("href",g+"&width="+(c-80)+"&height="+(d-85-b))})};a(window).resize(function(){tb_position()});a("#dashboard_plugins a.thickbox, .plugins a.thickbox").click(function(){tb_click.call(this);a("#TB_title").css({"background-color":"#222",color:"#cfcfcf"});a("#TB_ajaxWindowTitle").html("<strong>"+plugininstallL10n.plugin_information+"</strong>&nbsp;"+a(this).attr("title"));return false});a("#plugin-information #sidemenu a").click(function(){var b=a(this).attr("name");a("#plugin-information-header a.current").removeClass("current");a(this).addClass("current");a("#section-holder div.section").hide();a("#section-"+b).show();return false});a("a.install-now").click(function(){return confirm(plugininstallL10n.ays)})});
+/* Plugin Browser Thickbox related JS*/
+var tb_position;
+jQuery(document).ready(function($) {
+	tb_position = function() {
+		var tbWindow = $('#TB_window'), width = $(window).width(), H = $(window).height(), W = ( 720 < width ) ? 720 : width, adminbar_height = 0;
+
+		if ( $('body.admin-bar').length )
+			adminbar_height = 28;
+
+		if ( tbWindow.size() ) {
+			tbWindow.width( W - 50 ).height( H - 45 - adminbar_height );
+			$('#TB_iframeContent').width( W - 50 ).height( H - 75 - adminbar_height );
+			tbWindow.css({'margin-left': '-' + parseInt((( W - 50 ) / 2),10) + 'px'});
+			if ( typeof document.body.style.maxWidth != 'undefined' )
+				tbWindow.css({'top': 20 + adminbar_height + 'px','margin-top':'0'});
+		};
+
+		return $('a.thickbox').each( function() {
+			var href = $(this).attr('href');
+			if ( ! href )
+				return;
+			href = href.replace(/&width=[0-9]+/g, '');
+			href = href.replace(/&height=[0-9]+/g, '');
+			$(this).attr( 'href', href + '&width=' + ( W - 80 ) + '&height=' + ( H - 85 - adminbar_height ) );
+		});
+	};
+
+	$(window).resize(function(){ tb_position(); });
+
+	 $('#dashboard_plugins a.thickbox, .plugins a.thickbox').click( function() {
+		tb_click.call(this);
+
+		$('#TB_title').css({'background-color':'#222','color':'#cfcfcf'});
+		$('#TB_ajaxWindowTitle').html('<strong>' + plugininstallL10n.plugin_information + '</strong>&nbsp;' + $(this).attr('title') );
+		return false;
+	});
+
+	/* Plugin install related JS*/
+	$('#plugin-information #sidemenu a').click( function() {
+		var tab = $(this).attr('name');
+		//Flip the tab
+		$('#plugin-information-header a.current').removeClass('current');
+		$(this).addClass('current');
+		//Flip the content.
+		$('#section-holder div.section').hide(); //Hide 'em all
+		$('#section-' + tab).show();
+		return false;
+	});
+
+	$('a.install-now').click( function() {
+		return confirm( plugininstallL10n.ays );
+	});
+});

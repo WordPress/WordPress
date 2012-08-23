@@ -1,1 +1,24 @@
-(function(a){var b=function(){var d=document.getElementById("post-revisions"),c=d?d.getElementsByTagName("input"):[];d.onclick=function(){var g,f=0,e;for(g=0;g<c.length;g++){f+=c[g].checked?1:0;e=c[g].getAttribute("name");if(!c[g].checked&&("left"==e&&1>f||"right"==e&&1<f&&(!c[g-1]||!c[g-1].checked))&&!(c[g+1]&&c[g+1].checked&&"right"==c[g+1].getAttribute("name"))){c[g].style.visibility="hidden"}else{if("left"==e||"right"==e){c[g].style.visibility="visible"}}}};d.onclick()};if(a&&a.addEventListener){a.addEventListener("load",b,false)}else{if(a&&a.attachEvent){a.attachEvent("onload",b)}}})(window);
+(function(w) {
+	var init = function() {
+		var pr = document.getElementById('post-revisions'),
+		inputs = pr ? pr.getElementsByTagName('input') : [];
+		pr.onclick = function() {
+			var i, checkCount = 0, side;
+			for ( i = 0; i < inputs.length; i++ ) {
+				checkCount += inputs[i].checked ? 1 : 0;
+				side = inputs[i].getAttribute('name');
+				if ( ! inputs[i].checked &&
+				( 'left' == side && 1 > checkCount || 'right' == side && 1 < checkCount && ( ! inputs[i-1] || ! inputs[i-1].checked ) ) &&
+				! ( inputs[i+1] && inputs[i+1].checked && 'right' == inputs[i+1].getAttribute('name') ) )
+					inputs[i].style.visibility = 'hidden';
+				else if ( 'left' == side || 'right' == side )
+					inputs[i].style.visibility = 'visible';
+			}
+		}
+		pr.onclick();
+	}
+	if ( w && w.addEventListener )
+		w.addEventListener('load', init, false);
+	else if ( w && w.attachEvent )
+		w.attachEvent('onload', init);
+})(window);

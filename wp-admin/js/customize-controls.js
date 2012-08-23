@@ -1,1 +1,963 @@
-(function(a,c){var b=wp.customize;b.Setting=b.Value.extend({initialize:function(g,f,d){var e;b.Value.prototype.initialize.call(this,f,d);this.id=g;this.transport=this.transport||"refresh";this.bind(this.preview)},preview:function(){switch(this.transport){case"refresh":return this.previewer.refresh();case"postMessage":return this.previewer.send("setting",[this.id,this()])}}});b.Control=b.Class.extend({initialize:function(i,e){var g=this,d,h,f;this.params={};c.extend(this,e||{});this.id=i;this.selector="#customize-control-"+i.replace("]","").replace("[","-");this.container=c(this.selector);f=c.map(this.params.settings,function(j){return j});b.apply(b,f.concat(function(){var j;g.settings={};for(j in g.params.settings){g.settings[j]=b(g.params.settings[j])}g.setting=g.settings["default"]||null;g.ready()}));g.elements=[];d=this.container.find("[data-customize-setting-link]");h={};d.each(function(){var k=c(this),j;if(k.is(":radio")){j=k.prop("name");if(h[j]){return}h[j]=true;k=d.filter('[name="'+j+'"]')}b(k.data("customizeSettingLink"),function(m){var l=new b.Element(k);g.elements.push(l);l.sync(m);l.set(m())})})},ready:function(){},dropdownInit:function(){var e=this,d=this.container.find(".dropdown-status"),f=this.params,g=function(h){if(typeof h==="string"&&f.statuses&&f.statuses[h]){d.html(f.statuses[h]).show()}else{d.hide()}};this.container.on("click",".dropdown",function(h){h.preventDefault();e.container.toggleClass("open")});this.setting.bind(g);g(this.setting())}});b.ColorControl=b.Control.extend({ready:function(){var g=this,f,e,d,h,i;f=/^#([A-Fa-f0-9]{3}){0,2}$/;e=this.container.find(".dropdown-content");d=new b.Element(this.container.find(".color-picker-hex"));i=function(j){e.css("background",j);g.farbtastic.setColor(j)};this.farbtastic=c.farbtastic(this.container.find(".farbtastic-placeholder"),g.setting.set);d.sync(this.setting).validate=function(j){return f.test(j)?j:null};this.setting.bind(i);i(this.setting());this.dropdownInit()}});b.UploadControl=b.Control.extend({ready:function(){var d=this;this.params.removed=this.params.removed||"";this.success=c.proxy(this.success,this);this.uploader=c.extend({container:this.container,browser:this.container.find(".upload"),dropzone:this.container.find(".upload-dropzone"),success:this.success},this.uploader||{});if(this.uploader.supported){if(d.params.context){d.uploader.param("post_data[context]",this.params.context)}d.uploader.param("post_data[theme]",b.settings.theme.stylesheet)}this.uploader=new wp.Uploader(this.uploader);this.remover=this.container.find(".remove");this.remover.click(function(e){d.setting.set(d.params.removed);e.preventDefault()});this.removerVisibility=c.proxy(this.removerVisibility,this);this.setting.bind(this.removerVisibility);this.removerVisibility(this.setting.get())},success:function(d){this.setting.set(d.url)},removerVisibility:function(d){this.remover.toggle(d!=this.params.removed)}});b.ImageControl=b.UploadControl.extend({ready:function(){var e=this,d;this.uploader={init:function(f){var h,g;if(this.supports.dragdrop){return}h=e.container.find(".upload-fallback");g=h.children().detach();this.browser.detach().empty().append(g);h.append(this.browser).show()}};b.UploadControl.prototype.ready.call(this);this.thumbnail=this.container.find(".preview-thumbnail img");this.thumbnailSrc=c.proxy(this.thumbnailSrc,this);this.setting.bind(this.thumbnailSrc);this.library=this.container.find(".library");this.tabs={};d=this.library.find(".library-content");this.library.children("ul").children("li").each(function(){var g=c(this),h=g.data("customizeTab"),f=d.filter('[data-customize-tab="'+h+'"]');e.tabs[h]={both:g.add(f),link:g,panel:f}});this.library.children("ul").on("click","li",function(g){var h=c(this).data("customizeTab"),f=e.tabs[h];g.preventDefault();if(f.link.hasClass("library-selected")){return}e.selected.both.removeClass("library-selected");e.selected=f;e.selected.both.addClass("library-selected")});this.library.on("click","a",function(f){var g=c(this).data("customizeImageValue");if(g){e.setting.set(g);f.preventDefault()}});if(this.tabs.uploaded){this.tabs.uploaded.target=this.library.find(".uploaded-target");if(!this.tabs.uploaded.panel.find(".thumbnail").length){this.tabs.uploaded.both.addClass("hidden")}}d.each(function(){var f=e.tabs[c(this).data("customizeTab")];if(!f.link.hasClass("hidden")){e.selected=f;f.both.addClass("library-selected");return false}});this.dropdownInit()},success:function(d){b.UploadControl.prototype.success.call(this,d);if(this.tabs.uploaded&&this.tabs.uploaded.target.length){this.tabs.uploaded.both.removeClass("hidden");d.element=c('<a href="#" class="thumbnail"></a>').data("customizeImageValue",d.url).append('<img src="'+d.url+'" />').appendTo(this.tabs.uploaded.target)}},thumbnailSrc:function(d){if(/^(https?:)?\/\//.test(d)){this.thumbnail.prop("src",d).show()}else{this.thumbnail.hide()}}});b.defaultConstructor=b.Setting;b.control=new b.Values({defaultConstructor:b.Control});b.PreviewFrame=b.Messenger.extend({sensitivity:2000,initialize:function(g,f){var e=c.Deferred(),d=this;e.promise(this);this.container=g.container;this.signature=g.signature;c.extend(g,{channel:b.PreviewFrame.uuid()});b.Messenger.prototype.initialize.call(this,g,f);this.add("previewUrl",g.previewUrl);this.query=c.extend(g.query||{},{customize_messenger_channel:this.channel()});this.run(e)},run:function(e){var d=this,f=false,g=false;if(this._ready){this.unbind("ready",this._ready)}this._ready=function(){g=true;if(f){e.resolveWith(d)}};this.bind("ready",this._ready);this.request=c.ajax(this.previewUrl(),{type:"POST",data:this.query,xhrFields:{withCredentials:true}});this.request.fail(function(){e.rejectWith(d,["request failure"])});this.request.done(function(j){var i=d.request.getResponseHeader("Location"),h=d.signature,k;if(i&&i!=d.previewUrl()){e.rejectWith(d,["redirect",i]);return}if("0"===j){d.login(e);return}if("-1"===j){e.rejectWith(d,["cheatin"]);return}k=j.lastIndexOf(h);if(-1===k||k<j.lastIndexOf("</html>")){e.rejectWith(d,["unsigned"]);return}j=j.slice(0,k)+j.slice(k+h.length);d.iframe=c("<iframe />").appendTo(d.container);d.iframe.one("load",function(){f=true;if(g){e.resolveWith(d)}else{setTimeout(function(){e.rejectWith(d,["ready timeout"])},d.sensitivity)}});d.targetWindow(d.iframe[0].contentWindow);d.targetWindow().document.open();d.targetWindow().document.write(j);d.targetWindow().document.close()})},login:function(e){var d=this,f;f=function(){e.rejectWith(d,["logged out"])};if(this.triedLogin){return f()}c.get(b.settings.url.ajax,{action:"logged-in"}).fail(f).done(function(g){var h;if("1"!==g){f()}h=c('<iframe src="'+d.previewUrl()+'" />').hide();h.appendTo(d.container);h.load(function(){d.triedLogin=true;h.remove();d.run(e)})})},destroy:function(){b.Messenger.prototype.destroy.call(this);this.request.abort();if(this.iframe){this.iframe.remove()}delete this.request;delete this.iframe;delete this.targetWindow}});(function(){var d=0;b.PreviewFrame.uuid=function(){return"preview-"+d++}}());b.Previewer=b.Messenger.extend({refreshBuffer:250,initialize:function(h,f){var d=this,g=/^https?/,e;c.extend(this,f||{});this.refresh=(function(i){var j=i.refresh,l=function(){k=null;j.call(i)},k;return function(){if(typeof k!=="number"){if(i.loading){i.abort()}else{return l()}}clearTimeout(k);k=setTimeout(l,i.refreshBuffer)}})(this);this.container=b.ensure(h.container);this.allowedUrls=h.allowedUrls;this.signature=h.signature;h.url=window.location.href;b.Messenger.prototype.initialize.call(this,h);this.add("scheme",this.origin()).link(this.origin).setter(function(j){var i=j.match(g);return i?i[0]:""});this.add("previewUrl",h.previewUrl).setter(function(j){var i;if(/\/wp-admin(\/|$)/.test(j.replace(/[#?].*$/,""))){return null}c.each([j.replace(g,d.scheme()),j],function(l,k){c.each(d.allowedUrls,function(m,n){if(0===k.indexOf(n)){i=k;return false}});if(i){return false}});return i?i:null});this.previewUrl.bind(this.refresh);this.scroll=0;this.bind("scroll",function(i){this.scroll=i});this.bind("url",this.previewUrl)},query:function(){},abort:function(){if(this.loading){this.loading.destroy();delete this.loading}},refresh:function(){var d=this;this.abort();this.loading=new b.PreviewFrame({url:this.url(),previewUrl:this.previewUrl(),query:this.query()||{},container:this.container,signature:this.signature});this.loading.done(function(){this.bind("synced",function(){if(d.preview){d.preview.destroy()}d.preview=this;delete d.loading;d.targetWindow(this.targetWindow());d.channel(this.channel());d.send("active")});this.send("sync",{scroll:d.scroll,settings:b.get()})});this.loading.fail(function(f,e){if("redirect"===f&&e){d.previewUrl(e)}if("logged out"===f){if(d.preview){d.preview.destroy();delete d.preview}d.login().done(d.refresh)}if("cheatin"===f){d.cheatin()}})},login:function(){var g=this,d,f,e;if(this._login){return this._login}d=c.Deferred();this._login=d.promise();f=new b.Messenger({channel:"login",url:b.settings.url.login});e=c('<iframe src="'+b.settings.url.login+'" />').appendTo(this.container);f.targetWindow(e[0].contentWindow);f.bind("login",function(){e.remove();f.destroy();delete g._login;d.resolve()});return this._login},cheatin:function(){c(document.body).empty().addClass("cheatin").append("<p>"+b.l10n.cheatin+"</p>")}});b.controlConstructor={color:b.ColorControl,upload:b.UploadControl,image:b.ImageControl};c(function(){b.settings=window._wpCustomizeSettings;b.l10n=window._wpCustomizeControlsL10n;if(!b.settings){return}if(!c.support.postMessage||(!c.support.cors&&b.settings.isCrossDomain)){return window.location=b.settings.url.fallback}var d=c(document.body),e=d.children(".wp-full-overlay"),g,h,f;c("#customize-controls").on("keydown",function(i){if(c(i.target).is("textarea")){return}if(13===i.which){i.preventDefault()}});h=new b.Previewer({container:"#customize-preview",form:"#customize-controls",previewUrl:b.settings.url.preview,allowedUrls:b.settings.url.allowed,signature:"WP_CUSTOMIZER_SIGNATURE"},{nonce:b.settings.nonce,query:function(){return{wp_customize:"on",theme:b.settings.theme.stylesheet,customized:JSON.stringify(b.get()),nonce:this.nonce.preview}},save:function(){var i=this,k=c.extend(this.query(),{action:"customize_save",nonce:this.nonce.save}),j=c.post(b.settings.url.ajax,k);b.trigger("save",j);d.addClass("saving");j.always(function(){d.removeClass("saving")});j.done(function(l){if("0"===l){i.preview.iframe.hide();i.login().done(function(){i.save();i.preview.iframe.show()});return}if("-1"===l){i.cheatin();return}b.trigger("saved")})}});h.bind("nonce",function(i){c.extend(this.nonce,i)});c.each(b.settings.settings,function(j,i){b.create(j,j,i.value,{transport:i.transport,previewer:h})});c.each(b.settings.controls,function(l,j){var i=b.controlConstructor[j.type]||b.Control,k;k=b.control.add(l,new i(l,{params:j,previewer:h}))});if(h.previewUrl()){h.refresh()}else{h.previewUrl(b.settings.url.home)}(function(){var k=new b.Values(),j=k.create("saved"),i=k.create("activated");k.bind("change",function(){var m=c("#save"),l=c(".back");if(!i()){m.val(b.l10n.activate).prop("disabled",false);l.text(b.l10n.cancel)}else{if(j()){m.val(b.l10n.saved).prop("disabled",true);l.text(b.l10n.close)}else{m.val(b.l10n.save).prop("disabled",false);l.text(b.l10n.cancel)}}});j(true);i(b.settings.theme.active);b.bind("change",function(){k("saved").set(false)});b.bind("saved",function(){k("saved").set(true);k("activated").set(true)});i.bind(function(l){if(l){b.trigger("activated")}});b.state=k}());c(".customize-section-title").click(function(j){var i=c(this).parents(".customize-section");if(i.hasClass("cannot-expand")){return}c(".customize-section").not(i).removeClass("open");i.toggleClass("open");j.preventDefault()});c("#save").click(function(i){h.save();i.preventDefault()});c(".collapse-sidebar").click(function(i){e.toggleClass("collapsed").toggleClass("expanded");i.preventDefault()});f=new b.Messenger({url:b.settings.url.parent,channel:"loader"});f.bind("back",function(){c(".back").on("click.back",function(i){i.preventDefault();f.send("close")})});b.bind("saved",function(){f.send("saved")});b.bind("activated",function(){if(f.targetWindow()){f.send("activated",b.settings.url.activated)}else{if(b.settings.url.activated){window.location=b.settings.url.activated}}});f.send("ready");c.each({background_image:{controls:["background_repeat","background_position_x","background_attachment"],callback:function(i){return !!i}},show_on_front:{controls:["page_on_front","page_for_posts"],callback:function(i){return"page"===i}},header_textcolor:{controls:["header_textcolor"],callback:function(i){return"blank"!==i}}},function(i,j){b(i,function(k){c.each(j.controls,function(l,m){b.control(m,function(o){var n=function(p){o.container.toggle(j.callback(p))};n(k.get());k.bind(n)})})})});b.control("display_header_text",function(j){var i="";j.elements[0].unsync(b("header_textcolor"));j.element=new b.Element(j.container.find("input"));j.element.set("blank"!==j.setting());j.element.bind(function(k){if(!k){i=b("header_textcolor").get()}j.setting.set(k?i:"blank")});j.setting.bind(function(k){j.element.set("blank"!==k)})});b.control("header_image",function(i){i.setting.bind(function(j){if(j===i.params.removed){i.settings.data.set(false)}});i.library.on("click","a",function(j){i.settings.data.set(c(this).data("customizeHeaderImageData"))});i.uploader.success=function(k){var j;b.ImageControl.prototype.success.call(i,k);j={attachment_id:k.id,url:k.url,thumbnail_url:k.url,height:k.meta.height,width:k.meta.width};k.element.data("customizeHeaderImageData",j);i.settings.data.set(j)}});b.trigger("ready")})})(wp,jQuery);
+(function( exports, $ ){
+	var api = wp.customize;
+
+	/*
+	 * @param options
+	 * - previewer - The Previewer instance to sync with.
+	 * - transport - The transport to use for previewing. Supports 'refresh' and 'postMessage'.
+	 */
+	api.Setting = api.Value.extend({
+		initialize: function( id, value, options ) {
+			var element;
+
+			api.Value.prototype.initialize.call( this, value, options );
+
+			this.id = id;
+			this.transport = this.transport || 'refresh';
+
+			this.bind( this.preview );
+		},
+		preview: function() {
+			switch ( this.transport ) {
+				case 'refresh':
+					return this.previewer.refresh();
+				case 'postMessage':
+					return this.previewer.send( 'setting', [ this.id, this() ] );
+			}
+		}
+	});
+
+	api.Control = api.Class.extend({
+		initialize: function( id, options ) {
+			var control = this,
+				nodes, radios, settings;
+
+			this.params = {};
+			$.extend( this, options || {} );
+
+			this.id = id;
+			this.selector = '#customize-control-' + id.replace( ']', '' ).replace( '[', '-' );
+			this.container = $( this.selector );
+
+			settings = $.map( this.params.settings, function( value ) {
+				return value;
+			});
+
+			api.apply( api, settings.concat( function() {
+				var key;
+
+				control.settings = {};
+				for ( key in control.params.settings ) {
+					control.settings[ key ] = api( control.params.settings[ key ] );
+				}
+
+				control.setting = control.settings['default'] || null;
+				control.ready();
+			}) );
+
+			control.elements = [];
+
+			nodes  = this.container.find('[data-customize-setting-link]');
+			radios = {};
+
+			nodes.each( function() {
+				var node = $(this),
+					name;
+
+				if ( node.is(':radio') ) {
+					name = node.prop('name');
+					if ( radios[ name ] )
+						return;
+
+					radios[ name ] = true;
+					node = nodes.filter( '[name="' + name + '"]' );
+				}
+
+				api( node.data('customizeSettingLink'), function( setting ) {
+					var element = new api.Element( node );
+					control.elements.push( element );
+					element.sync( setting );
+					element.set( setting() );
+				});
+			});
+		},
+
+		ready: function() {},
+
+		dropdownInit: function() {
+			var control  = this,
+				statuses = this.container.find('.dropdown-status'),
+				params   = this.params,
+				update   = function( to ) {
+					if ( typeof	to === 'string' && params.statuses && params.statuses[ to ] )
+						statuses.html( params.statuses[ to ] ).show();
+					else
+						statuses.hide();
+				};
+
+			// Support the .dropdown class to open/close complex elements
+			this.container.on( 'click', '.dropdown', function( event ) {
+				event.preventDefault();
+				control.container.toggleClass('open');
+			});
+
+			this.setting.bind( update );
+			update( this.setting() );
+		}
+	});
+
+	api.ColorControl = api.Control.extend({
+		ready: function() {
+			var control = this,
+				rhex, spot, input, text, update;
+
+			rhex   = /^#([A-Fa-f0-9]{3}){0,2}$/;
+			spot   = this.container.find('.dropdown-content');
+			input  = new api.Element( this.container.find('.color-picker-hex') );
+			update = function( color ) {
+				spot.css( 'background', color );
+				control.farbtastic.setColor( color );
+			};
+
+			this.farbtastic = $.farbtastic( this.container.find('.farbtastic-placeholder'), control.setting.set );
+
+			// Only pass through values that are valid hexes/empty.
+			input.sync( this.setting ).validate = function( to ) {
+				return rhex.test( to ) ? to : null;
+			};
+
+			this.setting.bind( update );
+			update( this.setting() );
+
+			this.dropdownInit();
+		}
+	});
+
+	api.UploadControl = api.Control.extend({
+		ready: function() {
+			var control = this;
+
+			this.params.removed = this.params.removed || '';
+
+			this.success = $.proxy( this.success, this );
+
+			this.uploader = $.extend({
+				container: this.container,
+				browser:   this.container.find('.upload'),
+				dropzone:  this.container.find('.upload-dropzone'),
+				success:   this.success
+			}, this.uploader || {} );
+
+			if ( this.uploader.supported ) {
+				if ( control.params.context )
+					control.uploader.param( 'post_data[context]', this.params.context );
+
+				control.uploader.param( 'post_data[theme]', api.settings.theme.stylesheet );
+			}
+
+			this.uploader = new wp.Uploader( this.uploader );
+
+			this.remover = this.container.find('.remove');
+			this.remover.click( function( event ) {
+				control.setting.set( control.params.removed );
+				event.preventDefault();
+			});
+
+			this.removerVisibility = $.proxy( this.removerVisibility, this );
+			this.setting.bind( this.removerVisibility );
+			this.removerVisibility( this.setting.get() );
+		},
+		success: function( attachment ) {
+			this.setting.set( attachment.url );
+		},
+		removerVisibility: function( to ) {
+			this.remover.toggle( to != this.params.removed );
+		}
+	});
+
+	api.ImageControl = api.UploadControl.extend({
+		ready: function() {
+			var control = this,
+				panels;
+
+			this.uploader = {
+				init: function( up ) {
+					var fallback, button;
+
+					if ( this.supports.dragdrop )
+						return;
+
+					// Maintain references while wrapping the fallback button.
+					fallback = control.container.find( '.upload-fallback' );
+					button   = fallback.children().detach();
+
+					this.browser.detach().empty().append( button );
+					fallback.append( this.browser ).show();
+				}
+			};
+
+			api.UploadControl.prototype.ready.call( this );
+
+			this.thumbnail    = this.container.find('.preview-thumbnail img');
+			this.thumbnailSrc = $.proxy( this.thumbnailSrc, this );
+			this.setting.bind( this.thumbnailSrc );
+
+			this.library = this.container.find('.library');
+
+			// Generate tab objects
+			this.tabs = {};
+			panels    = this.library.find('.library-content');
+
+			this.library.children('ul').children('li').each( function() {
+				var link  = $(this),
+					id    = link.data('customizeTab'),
+					panel = panels.filter('[data-customize-tab="' + id + '"]');
+
+				control.tabs[ id ] = {
+					both:  link.add( panel ),
+					link:  link,
+					panel: panel
+				};
+			});
+
+			// Bind tab switch events
+			this.library.children('ul').on( 'click', 'li', function( event ) {
+				var id  = $(this).data('customizeTab'),
+					tab = control.tabs[ id ];
+
+				event.preventDefault();
+
+				if ( tab.link.hasClass('library-selected') )
+					return;
+
+				control.selected.both.removeClass('library-selected');
+				control.selected = tab;
+				control.selected.both.addClass('library-selected');
+			});
+
+			// Bind events to switch image urls.
+			this.library.on( 'click', 'a', function( event ) {
+				var value = $(this).data('customizeImageValue');
+
+				if ( value ) {
+					control.setting.set( value );
+					event.preventDefault();
+				}
+			});
+
+			if ( this.tabs.uploaded ) {
+				this.tabs.uploaded.target = this.library.find('.uploaded-target');
+				if ( ! this.tabs.uploaded.panel.find('.thumbnail').length )
+					this.tabs.uploaded.both.addClass('hidden');
+			}
+
+			// Select a tab
+			panels.each( function() {
+				var tab = control.tabs[ $(this).data('customizeTab') ];
+
+				// Select the first visible tab.
+				if ( ! tab.link.hasClass('hidden') ) {
+					control.selected = tab;
+					tab.both.addClass('library-selected');
+					return false;
+				}
+			});
+
+			this.dropdownInit();
+		},
+		success: function( attachment ) {
+			api.UploadControl.prototype.success.call( this, attachment );
+
+			// Add the uploaded image to the uploaded tab.
+			if ( this.tabs.uploaded && this.tabs.uploaded.target.length ) {
+				this.tabs.uploaded.both.removeClass('hidden');
+
+				attachment.element = $( '<a href="#" class="thumbnail"></a>' )
+					.data( 'customizeImageValue', attachment.url )
+					.append( '<img src="' +  attachment.url+ '" />' )
+					.appendTo( this.tabs.uploaded.target );
+			}
+		},
+		thumbnailSrc: function( to ) {
+			if ( /^(https?:)?\/\//.test( to ) )
+				this.thumbnail.prop( 'src', to ).show();
+			else
+				this.thumbnail.hide();
+		}
+	});
+
+	// Change objects contained within the main customize object to Settings.
+	api.defaultConstructor = api.Setting;
+
+	// Create the collection of Control objects.
+	api.control = new api.Values({ defaultConstructor: api.Control });
+
+	api.PreviewFrame = api.Messenger.extend({
+		sensitivity: 2000,
+
+		initialize: function( params, options ) {
+			var deferred = $.Deferred(),
+				self     = this;
+
+			// This is the promise object.
+			deferred.promise( this );
+
+			this.container = params.container;
+			this.signature = params.signature;
+
+			$.extend( params, { channel: api.PreviewFrame.uuid() });
+
+			api.Messenger.prototype.initialize.call( this, params, options );
+
+			this.add( 'previewUrl', params.previewUrl );
+
+			this.query = $.extend( params.query || {}, { customize_messenger_channel: this.channel() });
+
+			this.run( deferred );
+		},
+
+		run: function( deferred ) {
+			var self   = this,
+				loaded = false,
+				ready  = false;
+
+			if ( this._ready )
+				this.unbind( 'ready', this._ready );
+
+			this._ready = function() {
+				ready = true;
+
+				if ( loaded )
+					deferred.resolveWith( self );
+			};
+
+			this.bind( 'ready', this._ready );
+
+			this.request = $.ajax( this.previewUrl(), {
+				type: 'POST',
+				data: this.query,
+				xhrFields: {
+					withCredentials: true
+				}
+			} );
+
+			this.request.fail( function() {
+				deferred.rejectWith( self, [ 'request failure' ] );
+			});
+
+			this.request.done( function( response ) {
+				var location = self.request.getResponseHeader('Location'),
+					signature = self.signature,
+					index;
+
+				// Check if the location response header differs from the current URL.
+				// If so, the request was redirected; try loading the requested page.
+				if ( location && location != self.previewUrl() ) {
+					deferred.rejectWith( self, [ 'redirect', location ] );
+					return;
+				}
+
+				// Check if the user is not logged in.
+				if ( '0' === response ) {
+					self.login( deferred );
+					return;
+				}
+
+				// Check for cheaters.
+				if ( '-1' === response ) {
+					deferred.rejectWith( self, [ 'cheatin' ] );
+					return;
+				}
+
+				// Check for a signature in the request.
+				index = response.lastIndexOf( signature );
+				if ( -1 === index || index < response.lastIndexOf('</html>') ) {
+					deferred.rejectWith( self, [ 'unsigned' ] );
+					return;
+				}
+
+				// Strip the signature from the request.
+				response = response.slice( 0, index ) + response.slice( index + signature.length );
+
+				// Create the iframe and inject the html content.
+				self.iframe = $('<iframe />').appendTo( self.container );
+
+				// Bind load event after the iframe has been added to the page;
+				// otherwise it will fire when injected into the DOM.
+				self.iframe.one( 'load', function() {
+					loaded = true;
+
+					if ( ready ) {
+						deferred.resolveWith( self );
+					} else {
+						setTimeout( function() {
+							deferred.rejectWith( self, [ 'ready timeout' ] );
+						}, self.sensitivity );
+					}
+				});
+
+				self.targetWindow( self.iframe[0].contentWindow );
+
+				self.targetWindow().document.open();
+				self.targetWindow().document.write( response );
+				self.targetWindow().document.close();
+			});
+		},
+
+		login: function( deferred ) {
+			var self = this,
+				reject;
+
+			reject = function() {
+				deferred.rejectWith( self, [ 'logged out' ] );
+			};
+
+			if ( this.triedLogin )
+				return reject();
+
+			// Check if we have an admin cookie.
+			$.get( api.settings.url.ajax, {
+				action: 'logged-in'
+			}).fail( reject ).done( function( response ) {
+				var iframe;
+
+				if ( '1' !== response )
+					reject();
+
+				iframe = $('<iframe src="' + self.previewUrl() + '" />').hide();
+				iframe.appendTo( self.container );
+				iframe.load( function() {
+					self.triedLogin = true;
+
+					iframe.remove();
+					self.run( deferred );
+				});
+			});
+		},
+
+		destroy: function() {
+			api.Messenger.prototype.destroy.call( this );
+			this.request.abort();
+
+			if ( this.iframe )
+				this.iframe.remove();
+
+			delete this.request;
+			delete this.iframe;
+			delete this.targetWindow;
+		}
+	});
+
+	(function(){
+		var uuid = 0;
+		api.PreviewFrame.uuid = function() {
+			return 'preview-' + uuid++;
+		};
+	}());
+
+	api.Previewer = api.Messenger.extend({
+		refreshBuffer: 250,
+
+		/**
+		 * Requires params:
+		 *  - container  - a selector or jQuery element
+		 *  - previewUrl - the URL of preview frame
+		 */
+		initialize: function( params, options ) {
+			var self = this,
+				rscheme = /^https?/,
+				url;
+
+			$.extend( this, options || {} );
+
+			/*
+			 * Wrap this.refresh to prevent it from hammering the servers:
+			 *
+			 * If refresh is called once and no other refresh requests are
+			 * loading, trigger the request immediately.
+			 *
+			 * If refresh is called while another refresh request is loading,
+			 * debounce the refresh requests:
+			 * 1. Stop the loading request (as it is instantly outdated).
+			 * 2. Trigger the new request once refresh hasn't been called for
+			 *    self.refreshBuffer milliseconds.
+			 */
+			this.refresh = (function( self ) {
+				var refresh  = self.refresh,
+					callback = function() {
+						timeout = null;
+						refresh.call( self );
+					},
+					timeout;
+
+				return function() {
+					if ( typeof timeout !== 'number' ) {
+						if ( self.loading ) {
+							self.abort();
+						} else {
+							return callback();
+						}
+					}
+
+					clearTimeout( timeout );
+					timeout = setTimeout( callback, self.refreshBuffer );
+				};
+			})( this );
+
+			this.container   = api.ensure( params.container );
+			this.allowedUrls = params.allowedUrls;
+			this.signature   = params.signature;
+
+			params.url = window.location.href;
+
+			api.Messenger.prototype.initialize.call( this, params );
+
+			this.add( 'scheme', this.origin() ).link( this.origin ).setter( function( to ) {
+				var match = to.match( rscheme );
+				return match ? match[0] : '';
+			});
+
+			// Limit the URL to internal, front-end links.
+			//
+			// If the frontend and the admin are served from the same domain, load the
+			// preview over ssl if the customizer is being loaded over ssl. This avoids
+			// insecure content warnings. This is not attempted if the admin and frontend
+			// are on different domains to avoid the case where the frontend doesn't have
+			// ssl certs.
+
+			this.add( 'previewUrl', params.previewUrl ).setter( function( to ) {
+				var result;
+
+				// Check for URLs that include "/wp-admin/" or end in "/wp-admin".
+				// Strip hashes and query strings before testing.
+				if ( /\/wp-admin(\/|$)/.test( to.replace(/[#?].*$/, '') ) )
+					return null;
+
+				// Attempt to match the URL to the control frame's scheme
+				// and check if it's allowed. If not, try the original URL.
+				$.each([ to.replace( rscheme, self.scheme() ), to ], function( i, url ) {
+					$.each( self.allowedUrls, function( i, allowed ) {
+						if ( 0 === url.indexOf( allowed ) ) {
+							result = url;
+							return false;
+						}
+					});
+					if ( result )
+						return false;
+				});
+
+				// If we found a matching result, return it. If not, bail.
+				return result ? result : null;
+			});
+
+			// Refresh the preview when the URL is changed (but not yet).
+			this.previewUrl.bind( this.refresh );
+
+			this.scroll = 0;
+			this.bind( 'scroll', function( distance ) {
+				this.scroll = distance;
+			});
+
+			// Update the URL when the iframe sends a URL message.
+			this.bind( 'url', this.previewUrl );
+		},
+
+		query: function() {},
+
+		abort: function() {
+			if ( this.loading ) {
+				this.loading.destroy();
+				delete this.loading;
+			}
+		},
+
+		refresh: function() {
+			var self = this;
+
+			this.abort();
+
+			this.loading = new api.PreviewFrame({
+				url:        this.url(),
+				previewUrl: this.previewUrl(),
+				query:      this.query() || {},
+				container:  this.container,
+				signature:  this.signature
+			});
+
+			this.loading.done( function() {
+				// 'this' is the loading frame
+				this.bind( 'synced', function() {
+					if ( self.preview )
+						self.preview.destroy();
+					self.preview = this;
+					delete self.loading;
+
+					self.targetWindow( this.targetWindow() );
+					self.channel( this.channel() );
+
+					self.send( 'active' );
+				});
+
+				this.send( 'sync', {
+					scroll:   self.scroll,
+					settings: api.get()
+				});
+			});
+
+			this.loading.fail( function( reason, location ) {
+				if ( 'redirect' === reason && location )
+					self.previewUrl( location );
+
+				if ( 'logged out' === reason ) {
+					if ( self.preview ) {
+						self.preview.destroy();
+						delete self.preview;
+					}
+
+					self.login().done( self.refresh );
+				}
+
+				if ( 'cheatin' === reason )
+					self.cheatin();
+			});
+		},
+
+		login: function() {
+			var previewer = this,
+				deferred, messenger, iframe;
+
+			if ( this._login )
+				return this._login;
+
+			deferred = $.Deferred();
+			this._login = deferred.promise();
+
+			messenger = new api.Messenger({
+				channel: 'login',
+				url:     api.settings.url.login
+			});
+
+			iframe = $('<iframe src="' + api.settings.url.login + '" />').appendTo( this.container );
+
+			messenger.targetWindow( iframe[0].contentWindow );
+
+			messenger.bind( 'login', function() {
+				iframe.remove();
+				messenger.destroy();
+				delete previewer._login;
+				deferred.resolve();
+			});
+
+			return this._login;
+		},
+
+		cheatin: function() {
+			$( document.body ).empty().addClass('cheatin').append( '<p>' + api.l10n.cheatin + '</p>' );
+		}
+	});
+
+	/* =====================================================================
+	 * Ready.
+	 * ===================================================================== */
+
+	api.controlConstructor = {
+		color:  api.ColorControl,
+		upload: api.UploadControl,
+		image:  api.ImageControl
+	};
+
+	$( function() {
+		api.settings = window._wpCustomizeSettings;
+		api.l10n = window._wpCustomizeControlsL10n;
+
+		// Check if we can run the customizer.
+		if ( ! api.settings )
+			return;
+
+		// Redirect to the fallback preview if any incompatibilities are found.
+		if ( ! $.support.postMessage || ( ! $.support.cors && api.settings.isCrossDomain ) )
+			return window.location = api.settings.url.fallback;
+
+		var body = $( document.body ),
+			overlay = body.children('.wp-full-overlay'),
+			query, previewer, parent;
+
+		// Prevent the form from saving when enter is pressed.
+		$('#customize-controls').on( 'keydown', function( e ) {
+			if ( $( e.target ).is('textarea') )
+				return;
+
+			if ( 13 === e.which ) // Enter
+				e.preventDefault();
+		});
+
+		// Initialize Previewer
+		previewer = new api.Previewer({
+			container:   '#customize-preview',
+			form:        '#customize-controls',
+			previewUrl:  api.settings.url.preview,
+			allowedUrls: api.settings.url.allowed,
+			signature:   'WP_CUSTOMIZER_SIGNATURE'
+		}, {
+
+			nonce: api.settings.nonce,
+
+			query: function() {
+				return {
+					wp_customize: 'on',
+					theme:        api.settings.theme.stylesheet,
+					customized:   JSON.stringify( api.get() ),
+					nonce:        this.nonce.preview
+				};
+			},
+
+			save: function() {
+				var self  = this,
+					query = $.extend( this.query(), {
+						action: 'customize_save',
+						nonce:  this.nonce.save
+					}),
+					request = $.post( api.settings.url.ajax, query );
+
+				api.trigger( 'save', request );
+
+				body.addClass('saving');
+
+				request.always( function() {
+					body.removeClass('saving');
+				});
+
+				request.done( function( response ) {
+					// Check if the user is logged out.
+					if ( '0' === response ) {
+						self.preview.iframe.hide();
+						self.login().done( function() {
+							self.save();
+							self.preview.iframe.show();
+						});
+						return;
+					}
+
+					// Check for cheaters.
+					if ( '-1' === response ) {
+						self.cheatin();
+						return;
+					}
+
+					api.trigger( 'saved' );
+				});
+			}
+		});
+
+		// Refresh the nonces if the preview sends updated nonces over.
+ 		previewer.bind( 'nonce', function( nonce ) {
+ 			$.extend( this.nonce, nonce );
+ 		});
+
+		$.each( api.settings.settings, function( id, data ) {
+			api.create( id, id, data.value, {
+				transport: data.transport,
+				previewer: previewer
+			} );
+		});
+
+		$.each( api.settings.controls, function( id, data ) {
+			var constructor = api.controlConstructor[ data.type ] || api.Control,
+				control;
+
+			control = api.control.add( id, new constructor( id, {
+				params: data,
+				previewer: previewer
+			} ) );
+		});
+
+		// Check if preview url is valid and load the preview frame.
+		if ( previewer.previewUrl() )
+			previewer.refresh();
+		else
+			previewer.previewUrl( api.settings.url.home );
+
+		// Save and activated states
+		(function() {
+			var state = new api.Values(),
+				saved = state.create('saved'),
+				activated = state.create('activated');
+
+			state.bind( 'change', function() {
+				var save = $('#save'),
+					back = $('.back');
+
+				if ( ! activated() ) {
+					save.val( api.l10n.activate ).prop( 'disabled', false );
+					back.text( api.l10n.cancel );
+
+				} else if ( saved() ) {
+					save.val( api.l10n.saved ).prop( 'disabled', true );
+					back.text( api.l10n.close );
+
+				} else {
+					save.val( api.l10n.save ).prop( 'disabled', false );
+					back.text( api.l10n.cancel );
+				}
+			});
+
+			// Set default states.
+			saved( true );
+			activated( api.settings.theme.active );
+
+			api.bind( 'change', function() {
+				state('saved').set( false );
+			});
+
+			api.bind( 'saved', function() {
+				state('saved').set( true );
+				state('activated').set( true );
+			});
+
+			activated.bind( function( to ) {
+				if ( to )
+					api.trigger( 'activated' );
+			});
+
+			// Expose states to the API.
+			api.state = state;
+		}());
+
+		// Temporary accordion code.
+		$('.customize-section-title').click( function( event ) {
+			var clicked = $( this ).parents( '.customize-section' );
+
+			if ( clicked.hasClass('cannot-expand') )
+				return;
+
+			$( '.customize-section' ).not( clicked ).removeClass( 'open' );
+			clicked.toggleClass( 'open' );
+			event.preventDefault();
+		});
+
+		// Button bindings.
+		$('#save').click( function( event ) {
+			previewer.save();
+			event.preventDefault();
+		});
+
+		$('.collapse-sidebar').click( function( event ) {
+			overlay.toggleClass( 'collapsed' ).toggleClass( 'expanded' );
+			event.preventDefault();
+		});
+
+		// Create a potential postMessage connection with the parent frame.
+		parent = new api.Messenger({
+			url: api.settings.url.parent,
+			channel: 'loader'
+		});
+
+		// If we receive a 'back' event, we're inside an iframe.
+		// Send any clicks to the 'Return' link to the parent page.
+		parent.bind( 'back', function() {
+			$('.back').on( 'click.back', function( event ) {
+				event.preventDefault();
+				parent.send( 'close' );
+			});
+		});
+
+		// Pass events through to the parent.
+		api.bind( 'saved', function() {
+			parent.send( 'saved' );
+		});
+
+		// When activated, let the loader handle redirecting the page.
+		// If no loader exists, redirect the page ourselves (if a url exists).
+		api.bind( 'activated', function() {
+			if ( parent.targetWindow() )
+				parent.send( 'activated', api.settings.url.activated );
+			else if ( api.settings.url.activated )
+				window.location = api.settings.url.activated;
+		});
+
+		// Initialize the connection with the parent frame.
+		parent.send( 'ready' );
+
+		// Control visibility for default controls
+		$.each({
+			'background_image': {
+				controls: [ 'background_repeat', 'background_position_x', 'background_attachment' ],
+				callback: function( to ) { return !! to }
+			},
+			'show_on_front': {
+				controls: [ 'page_on_front', 'page_for_posts' ],
+				callback: function( to ) { return 'page' === to }
+			},
+			'header_textcolor': {
+				controls: [ 'header_textcolor' ],
+				callback: function( to ) { return 'blank' !== to }
+			}
+		}, function( settingId, o ) {
+			api( settingId, function( setting ) {
+				$.each( o.controls, function( i, controlId ) {
+					api.control( controlId, function( control ) {
+						var visibility = function( to ) {
+							control.container.toggle( o.callback( to ) );
+						};
+
+						visibility( setting.get() );
+						setting.bind( visibility );
+					});
+				});
+			});
+		});
+
+		// Juggle the two controls that use header_textcolor
+		api.control( 'display_header_text', function( control ) {
+			var last = '';
+
+			control.elements[0].unsync( api( 'header_textcolor' ) );
+
+			control.element = new api.Element( control.container.find('input') );
+			control.element.set( 'blank' !== control.setting() );
+
+			control.element.bind( function( to ) {
+				if ( ! to )
+					last = api( 'header_textcolor' ).get();
+
+				control.setting.set( to ? last : 'blank' );
+			});
+
+			control.setting.bind( function( to ) {
+				control.element.set( 'blank' !== to );
+			});
+		});
+
+		// Handle header image data
+		api.control( 'header_image', function( control ) {
+			control.setting.bind( function( to ) {
+				if ( to === control.params.removed )
+					control.settings.data.set( false );
+			});
+
+			control.library.on( 'click', 'a', function( event ) {
+				control.settings.data.set( $(this).data('customizeHeaderImageData') );
+			});
+
+			control.uploader.success = function( attachment ) {
+				var data;
+
+				api.ImageControl.prototype.success.call( control, attachment );
+
+				data = {
+					attachment_id: attachment.id,
+					url:           attachment.url,
+					thumbnail_url: attachment.url,
+					height:        attachment.meta.height,
+					width:         attachment.meta.width
+				};
+
+				attachment.element.data( 'customizeHeaderImageData', data );
+				control.settings.data.set( data );
+			}
+		});
+
+		api.trigger( 'ready' );
+	});
+
+})( wp, jQuery );

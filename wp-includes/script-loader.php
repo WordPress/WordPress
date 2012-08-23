@@ -57,7 +57,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->default_version = get_bloginfo( 'version' );
 	$scripts->default_dirs = array('/wp-admin/js/', '/wp-includes/js/');
 
-	$suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '.dev' : '';
+	$suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
 
 	$scripts->add( 'utils', "/wp-admin/js/utils$suffix.js" );
 
@@ -460,10 +460,10 @@ function wp_default_styles( &$styles ) {
 	$styles->text_direction = function_exists( 'is_rtl' ) && is_rtl() ? 'rtl' : 'ltr';
 	$styles->default_dirs = array('/wp-admin/', '/wp-includes/css/');
 
-	$suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '.dev' : '';
+	$suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
 
-	$rtl_styles = array( 'wp-admin', 'ie', 'media', 'admin-bar', 'wplink', 'customize-controls' );
-	// Any rtl stylesheets that don't have a .dev version for ltr
+	$rtl_styles = array( 'wp-admin', 'ie', 'media', 'admin-bar', 'customize-controls' );
+	// Any rtl stylesheets that don't have a .min version
 	$no_suffix = array( 'farbtastic' );
 
 	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css" );
@@ -506,10 +506,10 @@ function wp_default_styles( &$styles ) {
  * @return array Reordered array, if needed.
  */
 function wp_prototype_before_jquery( $js_array ) {
-	if ( false === $jquery = array_search( 'jquery', $js_array, true ) )
+	if ( false === $prototype = array_search( 'prototype', $js_array, true ) )
 		return $js_array;
 
-	if ( false === $prototype = array_search( 'prototype', $js_array, true ) )
+	if ( false === $jquery = array_search( 'jquery', $js_array, true ) )
 		return $js_array;
 
 	if ( $prototype < $jquery )
@@ -575,7 +575,7 @@ function wp_style_loader_src( $src, $handle ) {
 		$url = $color->url;
 
 		if ( defined('SCRIPT_DEBUG') && SCRIPT_DEBUG )
-			$url = preg_replace('/.css$|.css(?=\?)/', '.dev.css', $url);
+			$url = preg_replace( '/.min.css$|.min.css(?=\?)/', '.css', $url );
 
 		if ( isset($parsed['query']) && $parsed['query'] ) {
 			wp_parse_str( $parsed['query'], $qv );

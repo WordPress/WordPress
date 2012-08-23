@@ -2020,9 +2020,9 @@ function wp_admin_css_color($key, $name, $url, $colors = array()) {
  * @since 3.0.0
  */
 function register_admin_color_schemes() {
-	wp_admin_css_color( 'classic', _x( 'Blue', 'admin color scheme' ), admin_url( 'css/colors-classic.css' ),
+	wp_admin_css_color( 'classic', _x( 'Blue', 'admin color scheme' ), admin_url( 'css/colors-classic.min.css' ),
 		array( '#5589aa', '#cfdfe9', '#d1e5ee', '#eff8ff' ) );
-	wp_admin_css_color( 'fresh', _x( 'Gray', 'admin color scheme' ), admin_url( 'css/colors-fresh.css' ),
+	wp_admin_css_color( 'fresh', _x( 'Gray', 'admin color scheme' ), admin_url( 'css/colors-fresh.min.css' ),
 		array( '#555', '#a0a0a0', '#ccc', '#f1f1f1' ) );
 }
 

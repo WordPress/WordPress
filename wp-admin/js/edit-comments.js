@@ -1,1 +1,606 @@
-var theList,theExtraList,toggleWithKeyboard=false;(function(d){var b,a,e,c;setCommentsList=function(){var g,i,k,n=0,j,l,h,m,f;g=d('input[name="_total"]',"#comments-form");i=d('input[name="_per_page"]',"#comments-form");k=d('input[name="_page"]',"#comments-form");j=function(s,p){var v=d("#"+p.element),o,u,q;o=d("#replyrow");u=d("#comment_ID",o).val();q=d("#replybtn",o);if(v.is(".unapproved")){if(p.data.id==u){q.text(adminCommentsL10n.replyApprove)}v.find("div.comment_status").html("0")}else{if(p.data.id==u){q.text(adminCommentsL10n.reply)}v.find("div.comment_status").html("1")}var t=d("#"+p.element).is("."+p.dimClass)?1:-1;e(t)};l=function(r,v){var x=d(r.target).attr("class"),o,p,q,u,w,t,s=false;r.data._total=g.val()||0;r.data._per_page=i.val()||0;r.data._page=k.val()||0;r.data._url=document.location.href;r.data.comment_status=d('input[name="comment_status"]',"#comments-form").val();if(x.indexOf(":trash=1")!=-1){s="trash"}else{if(x.indexOf(":spam=1")!=-1){s="spam"}}if(s){o=x.replace(/.*?comment-([0-9]+).*/,"$1");p=d("#comment-"+o);note=d("#"+s+"-undo-holder").html();p.find(".check-column :checkbox").prop("checked",false);if(p.siblings("#replyrow").length&&commentReply.cid==o){commentReply.close()}if(p.is("tr")){q=p.children(":visible").length;t=d(".author strong",p).text();u=d('<tr id="undo-'+o+'" class="undo un'+s+'" style="display:none;"><td colspan="'+q+'">'+note+"</td></tr>")}else{t=d(".comment-author",p).text();u=d('<div id="undo-'+o+'" style="display:none;" class="undo un'+s+'">'+note+"</div>")}p.before(u);d("strong","#undo-"+o).text(t);w=d(".undo a","#undo-"+o);w.attr("href","comment.php?action=un"+s+"comment&c="+o+"&_wpnonce="+r.data._ajax_nonce);w.attr("class","delete:the-comment-list:comment-"+o+"::un"+s+"=1 vim-z vim-destructive");d(".avatar",p).clone().prependTo("#undo-"+o+" ."+s+"-undo-inside");w.click(function(){v.wpList.del(this);d("#undo-"+o).css({backgroundColor:"#ceb"}).fadeOut(350,function(){d(this).remove();d("#comment-"+o).css("backgroundColor","").fadeIn(300,function(){d(this).show()})});return false})}return r};h=function(o,p,q){if(p<n){return}if(q){n=p}g.val(o.toString())};c=function(t){var s=d("#dashboard_right_now"),p,r,q,o;t=t||0;if(isNaN(t)||!s.length){return}p=d("span.total-count",s);r=d("span.approved-count",s);q=b(p);q=q+t;o=q-b(d("span.pending-count",s))-b(d("span.spam-count",s));a(p,q);a(r,o)};b=function(o){var p=parseInt(o.html().replace(/[^0-9]+/g,""),10);if(isNaN(p)){return 0}return p};a=function(p,q){var o="";if(isNaN(q)){return}q=q<1?"0":q.toString();if(q.length>3){while(q.length>3){o=thousandsSeparator+q.substr(q.length-3)+o;q=q.substr(0,q.length-3)}q=q+o}p.html(q)};e=function(o){d("span.pending-count").each(function(){var p=d(this),q=b(p)+o;if(q<1){q=0}p.closest(".awaiting-mod")[0==q?"addClass":"removeClass"]("count-0");a(p,q)});c()};m=function(o,s){var v,t,x,w,p,y=d(s.target).parent().is("span.untrash"),q=d(s.target).parent().is("span.unspam"),u=d("#"+s.element).is(".unapproved");function z(r){if(d(s.target).parent().is("span."+r)){return 1}else{if(d("#"+s.element).is("."+r)){return -1}}return 0}if(y){w=-1}else{w=z("trash")}if(q){x=-1}else{x=z("spam")}if(d(s.target).parent().is("span.unapprove")||((y||q)&&u)){p=1}else{if(u){p=-1}}if(p){e(p)}d("span.spam-count").each(function(){var r=d(this),A=b(r)+x;a(r,A)});d("span.trash-count").each(function(){var r=d(this),A=b(r)+w;a(r,A)});if(d("#dashboard_right_now").length){t=w?-1*w:0;c(t)}else{v=g.val()?parseInt(g.val(),10):0;if(d(s.target).parent().is("span.undo")){v++}else{v--}if(v<0){v=0}if(("object"==typeof o)&&n<s.parsed.responses[0].supplemental.time){total_items_i18n=s.parsed.responses[0].supplemental.total_items_i18n||"";if(total_items_i18n){d(".displaying-num").text(total_items_i18n);d(".total-pages").text(s.parsed.responses[0].supplemental.total_pages_i18n);d(".tablenav-pages").find(".next-page, .last-page").toggleClass("disabled",s.parsed.responses[0].supplemental.total_pages==d(".current-page").val())}h(v,s.parsed.responses[0].supplemental.time,true)}else{h(v,o,false)}}if(!theExtraList||theExtraList.size()==0||theExtraList.children().size()==0||y||q){return}theList.get(0).wpList.add(theExtraList.children(":eq(0)").remove().clone());f()};f=function(r){var p=d.query.get(),o=d(".total-pages").text(),q=d('input[name="_per_page"]',"#comments-form").val();if(!p.paged){p.paged=1}if(p.paged>o){return}if(r){theExtraList.empty();p.number=Math.min(8,q)}else{p.number=1;p.offset=Math.min(8,q)-1}p.no_placeholder=true;p.paged++;if(true===p.comment_type){p.comment_type=""}p=d.extend(p,{action:"fetch-list",list_args:list_args,_ajax_fetch_list_nonce:d("#_ajax_fetch_list_nonce").val()});d.ajax({url:ajaxurl,global:false,dataType:"json",data:p,success:function(s){theExtraList.get(0).wpList.add(s.rows)}})};theExtraList=d("#the-extra-comment-list").wpList({alt:"",delColor:"none",addColor:"none"});theList=d("#the-comment-list").wpList({alt:"",delBefore:l,dimAfter:j,delAfter:m,addColor:"none"}).bind("wpListDelEnd",function(p,o){var q=o.element.replace(/[^0-9]+/g,"");if(o.target.className.indexOf(":trash=1")!=-1||o.target.className.indexOf(":spam=1")!=-1){d("#undo-"+q).fadeIn(300,function(){d(this).show()})}})};commentReply={cid:"",act:"",init:function(){var f=d("#replyrow");d("a.cancel",f).click(function(){return commentReply.revert()});d("a.save",f).click(function(){return commentReply.send()});d("input#author, input#author-email, input#author-url",f).keypress(function(g){if(g.which==13){commentReply.send();g.preventDefault();return false}});d("#the-comment-list .column-comment > p").dblclick(function(){commentReply.toggle(d(this).parent())});d("#doaction, #doaction2, #post-query-submit").click(function(g){if(d("#the-comment-list #replyrow").length>0){commentReply.close()}});this.comments_listing=d('#comments-form > input[name="comment_status"]').val()||""},addEvents:function(f){f.each(function(){d(this).find(".column-comment > p").dblclick(function(){commentReply.toggle(d(this).parent())})})},toggle:function(f){if(d(f).css("display")!="none"){d(f).find("a.vim-q").click()}},revert:function(){if(d("#the-comment-list #replyrow").length<1){return false}d("#replyrow").fadeOut("fast",function(){commentReply.close()});return false},close:function(){var g,f=d("#replyrow");if(f.parent().is("#com-reply")){return}if(this.cid&&this.act=="edit-comment"){g=d("#comment-"+this.cid);g.fadeIn(300,function(){g.show()}).css("backgroundColor","")}if(typeof QTags!="undefined"){QTags.closeAllTags("replycontent")}d("#add-new-comment").css("display","");f.hide();d("#com-reply").append(f);d("#replycontent").css("height","").val("");d("#edithead input").val("");d(".error",f).html("").hide();d(".waiting",f).hide();this.cid=""},open:function(f,i,k){var p=this,g,j,m,n=d("#comment-"+f),l=n.height(),o;p.close();p.cid=f;g=d("#replyrow");j=d("#inline-"+f);k=k||"replyto";m="edit"==k?"edit":"replyto";m=p.act=m+"-comment";d("#action",g).val(m);d("#comment_post_ID",g).val(i);d("#comment_ID",g).val(f);if(l>120){d("#replycontent",g).css("height",(35+l)+"px")}if(k=="edit"){d("#author",g).val(d("div.author",j).text());d("#author-email",g).val(d("div.author-email",j).text());d("#author-url",g).val(d("div.author-url",j).text());d("#status",g).val(d("div.comment_status",j).text());d("#replycontent",g).val(d("textarea.comment",j).val());d("#edithead, #savebtn",g).show();d("#replyhead, #replybtn, #addhead, #addbtn",g).hide();n.after(g).fadeOut("fast",function(){d("#replyrow").fadeIn(300,function(){d(this).show()})})}else{if(k=="add"){d("#addhead, #addbtn",g).show();d("#replyhead, #replybtn, #edithead, #editbtn",g).hide();d("#the-comment-list").prepend(g);d("#replyrow").fadeIn(300)}else{o=d("#replybtn",g);d("#edithead, #savebtn, #addhead, #addbtn",g).hide();d("#replyhead, #replybtn",g).show();n.after(g);if(n.hasClass("unapproved")){o.text(adminCommentsL10n.replyApprove)}else{o.text(adminCommentsL10n.reply)}d("#replyrow").fadeIn(300,function(){d(this).show()})}}setTimeout(function(){var s,q,t,h,r;s=d("#replyrow").offset().top;q=s+d("#replyrow").height();t=window.pageYOffset||document.documentElement.scrollTop;h=document.documentElement.clientHeight||self.innerHeight||0;r=t+h;if(r-20<q){window.scroll(0,q-h+35)}else{if(s-20<t){window.scroll(0,s-35)}}d("#replycontent").focus().keyup(function(u){if(u.which==27){commentReply.revert()}})},600);return false},send:function(){var f={};d("#replysubmit .error").hide();d("#replysubmit .waiting").show();d("#replyrow input").not(":button").each(function(){var g=d(this);f[g.attr("name")]=g.val()});f.content=d("#replycontent").val();f.id=f.comment_post_ID;f.comments_listing=this.comments_listing;f.p=d('[name="p"]').val();if(d("#comment-"+d("#comment_ID").val()).hasClass("unapproved")){f.approve_parent=1}d.ajax({type:"POST",url:ajaxurl,data:f,success:function(g){commentReply.show(g)},error:function(g){commentReply.error(g)}});return false},show:function(g){var i=this,j,l,k,h,f;if(typeof(g)=="string"){i.error({responseText:g});return false}j=wpAjax.parseAjaxResponse(g);if(j.errors){i.error({responseText:wpAjax.broken});return false}i.revert();j=j.responses[0];l=j.data;k="#comment-"+j.id;if("edit-comment"==i.act){d(k).remove()}if(j.supplemental.parent_approved){f=d("#comment-"+j.supplemental.parent_approved);e(-1);if(this.comments_listing=="moderated"){f.animate({backgroundColor:"#CCEEBB"},400,function(){f.fadeOut()});return}}d(l).hide();d("#replyrow").after(l);k=d(k);i.addEvents(k);h=k.hasClass("unapproved")?"#FFFFE0":k.closest(".widefat, .postbox").css("backgroundColor");k.animate({backgroundColor:"#CCEEBB"},300).animate({backgroundColor:h},300,function(){if(f&&f.length){f.animate({backgroundColor:"#CCEEBB"},300).animate({backgroundColor:h},300).removeClass("unapproved").addClass("approved").find("div.comment_status").html("1")}})},error:function(f){var g=f.statusText;d("#replysubmit .waiting").hide();if(f.responseText){g=f.responseText.replace(/<.[^<>]*?>/g,"")}if(g){d("#replysubmit .error").html(g).show()}},addcomment:function(f){var g=this;d("#add-new-comment").fadeOut(200,function(){g.open(0,f,"add");d("table.comments-box").css("display","");d("#no-comments").remove()})}};d(document).ready(function(){var i,f,g,h;setCommentsList();commentReply.init();d(document).delegate("span.delete a.delete","click",function(){return false});if(typeof d.table_hotkeys!="undefined"){i=function(j){return function(){var m,k;m="next"==j?"first":"last";k=d(".tablenav-pages ."+j+"-page:not(.disabled)");if(k.length){window.location=k[0].href.replace(/\&hotkeys_highlight_(first|last)=1/g,"")+"&hotkeys_highlight_"+m+"=1"}}};f=function(k,j){window.location=d("span.edit a",j).attr("href")};g=function(){toggleWithKeyboard=true;d("input:checkbox","#cb").click().prop("checked",false);toggleWithKeyboard=false};h=function(j){return function(){var k=d('select[name="action"]');d('option[value="'+j+'"]',k).prop("selected",true);d("#doaction").click()}};d.table_hotkeys(d("table.widefat"),["a","u","s","d","r","q","z",["e",f],["shift+x",g],["shift+a",h("approve")],["shift+s",h("spam")],["shift+d",h("delete")],["shift+t",h("trash")],["shift+z",h("untrash")],["shift+u",h("unapprove")]],{highlight_first:adminCommentsL10n.hotkeys_highlight_first,highlight_last:adminCommentsL10n.hotkeys_highlight_last,prev_page_link_cb:i("prev"),next_page_link_cb:i("next")})}})})(jQuery);
+var theList, theExtraList, toggleWithKeyboard = false;
+
+(function($) {
+var getCount, updateCount, updatePending, dashboardTotals;
+
+setCommentsList = function() {
+	var totalInput, perPageInput, pageInput, lastConfidentTime = 0, dimAfter, delBefore, updateTotalCount, delAfter, refillTheExtraList;
+
+	totalInput = $('input[name="_total"]', '#comments-form');
+	perPageInput = $('input[name="_per_page"]', '#comments-form');
+	pageInput = $('input[name="_page"]', '#comments-form');
+
+	dimAfter = function( r, settings ) {
+		var c = $('#' + settings.element), editRow, replyID, replyButton;
+
+		editRow = $('#replyrow');
+		replyID = $('#comment_ID', editRow).val();
+		replyButton = $('#replybtn', editRow);
+
+		if ( c.is('.unapproved') ) {
+			if ( settings.data.id == replyID )
+				replyButton.text(adminCommentsL10n.replyApprove);
+
+			c.find('div.comment_status').html('0');
+		} else {
+			if ( settings.data.id == replyID )
+				replyButton.text(adminCommentsL10n.reply);
+
+			c.find('div.comment_status').html('1');
+		}
+
+		var diff = $('#' + settings.element).is('.' + settings.dimClass) ? 1 : -1;
+		updatePending( diff );
+	};
+
+	// Send current total, page, per_page and url
+	delBefore = function( settings, list ) {
+		var cl = $(settings.target).attr('class'), id, el, n, h, a, author, action = false;
+
+		settings.data._total = totalInput.val() || 0;
+		settings.data._per_page = perPageInput.val() || 0;
+		settings.data._page = pageInput.val() || 0;
+		settings.data._url = document.location.href;
+		settings.data.comment_status = $('input[name="comment_status"]', '#comments-form').val();
+
+		if ( cl.indexOf(':trash=1') != -1 )
+			action = 'trash';
+		else if ( cl.indexOf(':spam=1') != -1 )
+			action = 'spam';
+
+		if ( action ) {
+			id = cl.replace(/.*?comment-([0-9]+).*/, '$1');
+			el = $('#comment-' + id);
+			note = $('#' + action + '-undo-holder').html();
+
+			el.find('.check-column :checkbox').prop('checked', false); // Uncheck the row so as not to be affected by Bulk Edits.
+
+			if ( el.siblings('#replyrow').length && commentReply.cid == id )
+				commentReply.close();
+
+			if ( el.is('tr') ) {
+				n = el.children(':visible').length;
+				author = $('.author strong', el).text();
+				h = $('<tr id="undo-' + id + '" class="undo un' + action + '" style="display:none;"><td colspan="' + n + '">' + note + '</td></tr>');
+			} else {
+				author = $('.comment-author', el).text();
+				h = $('<div id="undo-' + id + '" style="display:none;" class="undo un' + action + '">' + note + '</div>');
+			}
+
+			el.before(h);
+
+			$('strong', '#undo-' + id).text(author);
+			a = $('.undo a', '#undo-' + id);
+			a.attr('href', 'comment.php?action=un' + action + 'comment&c=' + id + '&_wpnonce=' + settings.data._ajax_nonce);
+			a.attr('class', 'delete:the-comment-list:comment-' + id + '::un' + action + '=1 vim-z vim-destructive');
+			$('.avatar', el).clone().prependTo('#undo-' + id + ' .' + action + '-undo-inside');
+
+			a.click(function(){
+				list.wpList.del(this);
+				$('#undo-' + id).css( {backgroundColor:'#ceb'} ).fadeOut(350, function(){
+					$(this).remove();
+					$('#comment-' + id).css('backgroundColor', '').fadeIn(300, function(){ $(this).show() });
+				});
+				return false;
+			});
+		}
+
+		return settings;
+	};
+
+	// Updates the current total (stored in the _total input)
+	updateTotalCount = function( total, time, setConfidentTime ) {
+		if ( time < lastConfidentTime )
+			return;
+
+		if ( setConfidentTime )
+			lastConfidentTime = time;
+
+		totalInput.val( total.toString() );
+	};
+
+	dashboardTotals = function(n) {
+		var dash = $('#dashboard_right_now'), total, appr, totalN, apprN;
+
+		n = n || 0;
+		if ( isNaN(n) || !dash.length )
+			return;
+
+		total = $('span.total-count', dash);
+		appr = $('span.approved-count', dash);
+		totalN = getCount(total);
+
+		totalN = totalN + n;
+		apprN = totalN - getCount( $('span.pending-count', dash) ) - getCount( $('span.spam-count', dash) );
+		updateCount(total, totalN);
+		updateCount(appr, apprN);
+	};
+
+	getCount = function(el) {
+		var n = parseInt( el.html().replace(/[^0-9]+/g, ''), 10 );
+		if ( isNaN(n) )
+			return 0;
+		return n;
+	};
+
+	updateCount = function(el, n) {
+		var n1 = '';
+		if ( isNaN(n) )
+			return;
+		n = n < 1 ? '0' : n.toString();
+		if ( n.length > 3 ) {
+			while ( n.length > 3 ) {
+				n1 = thousandsSeparator + n.substr(n.length - 3) + n1;
+				n = n.substr(0, n.length - 3);
+			}
+			n = n + n1;
+		}
+		el.html(n);
+	};
+
+	updatePending = function( diff ) {
+		$('span.pending-count').each(function() {
+			var a = $(this), n = getCount(a) + diff;
+			if ( n < 1 )
+				n = 0;
+			a.closest('.awaiting-mod')[ 0 == n ? 'addClass' : 'removeClass' ]('count-0');
+			updateCount( a, n );
+		});
+
+		dashboardTotals();
+	};
+
+	// In admin-ajax.php, we send back the unix time stamp instead of 1 on success
+	delAfter = function( r, settings ) {
+		var total, N, spam, trash, pending,
+			untrash = $(settings.target).parent().is('span.untrash'),
+			unspam = $(settings.target).parent().is('span.unspam'),
+			unapproved = $('#' + settings.element).is('.unapproved');
+
+		function getUpdate(s) {
+			if ( $(settings.target).parent().is('span.' + s) )
+				return 1;
+			else if ( $('#' + settings.element).is('.' + s) )
+				return -1;
+
+			return 0;
+		}
+
+		if ( untrash )
+			trash = -1;
+		else
+			trash = getUpdate('trash');
+
+		if ( unspam )
+			spam = -1;
+		else
+			spam = getUpdate('spam');
+
+		if ( $(settings.target).parent().is('span.unapprove') || ( ( untrash || unspam ) && unapproved ) ) {
+			// a comment was 'deleted' from another list (e.g. approved, spam, trash) and moved to pending,
+			// or a trash/spam of a pending comment was undone
+			pending = 1;
+		} else if ( unapproved ) {
+			// a pending comment was trashed/spammed/approved
+			pending = -1;
+		}
+
+		if ( pending )
+			updatePending(pending);
+
+		$('span.spam-count').each( function() {
+			var a = $(this), n = getCount(a) + spam;
+			updateCount(a, n);
+		});
+
+		$('span.trash-count').each( function() {
+			var a = $(this), n = getCount(a) + trash;
+			updateCount(a, n);
+		});
+
+		if ( $('#dashboard_right_now').length ) {
+			N = trash ? -1 * trash : 0;
+			dashboardTotals(N);
+		} else {
+			total = totalInput.val() ? parseInt( totalInput.val(), 10 ) : 0;
+			if ( $(settings.target).parent().is('span.undo') )
+				total++;
+			else
+				total--;
+
+			if ( total < 0 )
+				total = 0;
+
+			if ( ( 'object' == typeof r ) && lastConfidentTime < settings.parsed.responses[0].supplemental.time ) {
+				total_items_i18n = settings.parsed.responses[0].supplemental.total_items_i18n || '';
+				if ( total_items_i18n ) {
+					$('.displaying-num').text( total_items_i18n );
+					$('.total-pages').text( settings.parsed.responses[0].supplemental.total_pages_i18n );
+					$('.tablenav-pages').find('.next-page, .last-page').toggleClass('disabled', settings.parsed.responses[0].supplemental.total_pages == $('.current-page').val());
+				}
+				updateTotalCount( total, settings.parsed.responses[0].supplemental.time, true );
+			} else {
+				updateTotalCount( total, r, false );
+			}
+		}
+
+		if ( ! theExtraList || theExtraList.size() == 0 || theExtraList.children().size() == 0 || untrash || unspam ) {
+			return;
+		}
+
+		theList.get(0).wpList.add( theExtraList.children(':eq(0)').remove().clone() );
+
+		refillTheExtraList();
+	};
+
+	refillTheExtraList = function(ev) {
+		var args = $.query.get(), total_pages = $('.total-pages').text(), per_page = $('input[name="_per_page"]', '#comments-form').val();
+
+		if (! args.paged)
+			args.paged = 1;
+
+		if (args.paged > total_pages) {
+			return;
+		}
+
+		if (ev) {
+			theExtraList.empty();
+			args.number = Math.min(8, per_page); // see WP_Comments_List_Table::prepare_items() @ class-wp-comments-list-table.php
+		} else {
+			args.number = 1;
+			args.offset = Math.min(8, per_page) - 1; // fetch only the next item on the extra list
+		}
+
+		args.no_placeholder = true;
+
+		args.paged ++;
+
+		// $.query.get() needs some correction to be sent into an ajax request
+		if ( true === args.comment_type )
+			args.comment_type = '';
+
+		args = $.extend(args, {
+			'action': 'fetch-list',
+			'list_args': list_args,
+			'_ajax_fetch_list_nonce': $('#_ajax_fetch_list_nonce').val()
+		});
+
+		$.ajax({
+			url: ajaxurl,
+			global: false,
+			dataType: 'json',
+			data: args,
+			success: function(response) {
+				theExtraList.get(0).wpList.add( response.rows );
+			}
+		});
+	};
+
+	theExtraList = $('#the-extra-comment-list').wpList( { alt: '', delColor: 'none', addColor: 'none' } );
+	theList = $('#the-comment-list').wpList( { alt: '', delBefore: delBefore, dimAfter: dimAfter, delAfter: delAfter, addColor: 'none' } )
+		.bind('wpListDelEnd', function(e, s){
+			var id = s.element.replace(/[^0-9]+/g, '');
+
+			if ( s.target.className.indexOf(':trash=1') != -1 || s.target.className.indexOf(':spam=1') != -1 )
+				$('#undo-' + id).fadeIn(300, function(){ $(this).show() });
+		});
+};
+
+commentReply = {
+	cid : '',
+	act : '',
+
+	init : function() {
+		var row = $('#replyrow');
+
+		$('a.cancel', row).click(function() { return commentReply.revert(); });
+		$('a.save', row).click(function() { return commentReply.send(); });
+		$('input#author, input#author-email, input#author-url', row).keypress(function(e){
+			if ( e.which == 13 ) {
+				commentReply.send();
+				e.preventDefault();
+				return false;
+			}
+		});
+
+		// add events
+		$('#the-comment-list .column-comment > p').dblclick(function(){
+			commentReply.toggle($(this).parent());
+		});
+
+		$('#doaction, #doaction2, #post-query-submit').click(function(e){
+			if ( $('#the-comment-list #replyrow').length > 0 )
+				commentReply.close();
+		});
+
+		this.comments_listing = $('#comments-form > input[name="comment_status"]').val() || '';
+
+		/* $(listTable).bind('beforeChangePage', function(){
+			commentReply.close();
+		}); */
+	},
+
+	addEvents : function(r) {
+		r.each(function() {
+			$(this).find('.column-comment > p').dblclick(function(){
+				commentReply.toggle($(this).parent());
+			});
+		});
+	},
+
+	toggle : function(el) {
+		if ( $(el).css('display') != 'none' )
+			$(el).find('a.vim-q').click();
+	},
+
+	revert : function() {
+
+		if ( $('#the-comment-list #replyrow').length < 1 )
+			return false;
+
+		$('#replyrow').fadeOut('fast', function(){
+			commentReply.close();
+		});
+
+		return false;
+	},
+
+	close : function() {
+		var c, replyrow = $('#replyrow');
+
+		// replyrow is not showing?
+		if ( replyrow.parent().is('#com-reply') )
+			return;
+
+		if ( this.cid && this.act == 'edit-comment' ) {
+			c = $('#comment-' + this.cid);
+			c.fadeIn(300, function(){ c.show() }).css('backgroundColor', '');
+		}
+
+		// reset the Quicktags buttons
+		if ( typeof QTags != 'undefined' )
+			QTags.closeAllTags('replycontent');
+
+		$('#add-new-comment').css('display', '');
+
+		replyrow.hide();
+		$('#com-reply').append( replyrow );
+		$('#replycontent').css('height', '').val('');
+		$('#edithead input').val('');
+		$('.error', replyrow).html('').hide();
+		$('.waiting', replyrow).hide();
+
+		this.cid = '';
+	},
+
+	open : function(comment_id, post_id, action) {
+		var t = this, editRow, rowData, act, c = $('#comment-' + comment_id), h = c.height(), replyButton;
+
+		t.close();
+		t.cid = comment_id;
+
+		editRow = $('#replyrow');
+		rowData = $('#inline-'+comment_id);
+		action = action || 'replyto';
+		act = 'edit' == action ? 'edit' : 'replyto';
+		act = t.act = act + '-comment';
+
+		$('#action', editRow).val(act);
+		$('#comment_post_ID', editRow).val(post_id);
+		$('#comment_ID', editRow).val(comment_id);
+
+		if ( h > 120 )
+			$('#replycontent', editRow).css('height', (35+h) + 'px');
+
+		if ( action == 'edit' ) {
+			$('#author', editRow).val( $('div.author', rowData).text() );
+			$('#author-email', editRow).val( $('div.author-email', rowData).text() );
+			$('#author-url', editRow).val( $('div.author-url', rowData).text() );
+			$('#status', editRow).val( $('div.comment_status', rowData).text() );
+			$('#replycontent', editRow).val( $('textarea.comment', rowData).val() );
+			$('#edithead, #savebtn', editRow).show();
+			$('#replyhead, #replybtn, #addhead, #addbtn', editRow).hide();
+
+			c.after( editRow ).fadeOut('fast', function(){
+				$('#replyrow').fadeIn(300, function(){ $(this).show() });
+			});
+		} else if ( action == 'add' ) {
+			$('#addhead, #addbtn', editRow).show();
+			$('#replyhead, #replybtn, #edithead, #editbtn', editRow).hide();
+			$('#the-comment-list').prepend(editRow);
+			$('#replyrow').fadeIn(300);
+ 		} else {
+ 			replyButton = $('#replybtn', editRow);
+			$('#edithead, #savebtn, #addhead, #addbtn', editRow).hide();
+			$('#replyhead, #replybtn', editRow).show();
+			c.after(editRow);
+
+			if ( c.hasClass('unapproved') ) {
+				replyButton.text(adminCommentsL10n.replyApprove);
+			} else {
+				replyButton.text(adminCommentsL10n.reply);
+			}
+
+			$('#replyrow').fadeIn(300, function(){ $(this).show() });
+		}
+
+		setTimeout(function() {
+			var rtop, rbottom, scrollTop, vp, scrollBottom;
+
+			rtop = $('#replyrow').offset().top;
+			rbottom = rtop + $('#replyrow').height();
+			scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+			vp = document.documentElement.clientHeight || self.innerHeight || 0;
+			scrollBottom = scrollTop + vp;
+
+			if ( scrollBottom - 20 < rbottom )
+				window.scroll(0, rbottom - vp + 35);
+			else if ( rtop - 20 < scrollTop )
+				window.scroll(0, rtop - 35);
+
+			$('#replycontent').focus().keyup(function(e){
+				if ( e.which == 27 )
+					commentReply.revert(); // close on Escape
+			});
+		}, 600);
+
+		return false;
+	},
+
+	send : function() {
+		var post = {};
+
+		$('#replysubmit .error').hide();
+		$('#replysubmit .waiting').show();
+
+		$('#replyrow input').not(':button').each(function() {
+			var t = $(this);
+			post[ t.attr('name') ] = t.val();
+		});
+
+		post.content = $('#replycontent').val();
+		post.id = post.comment_post_ID;
+		post.comments_listing = this.comments_listing;
+		post.p = $('[name="p"]').val();
+
+		if ( $('#comment-' + $('#comment_ID').val()).hasClass('unapproved') )
+			post.approve_parent = 1;
+
+		$.ajax({
+			type : 'POST',
+			url : ajaxurl,
+			data : post,
+			success : function(x) { commentReply.show(x); },
+			error : function(r) { commentReply.error(r); }
+		});
+
+		return false;
+	},
+
+	show : function(xml) {
+		var t = this, r, c, id, bg, pid;
+
+		if ( typeof(xml) == 'string' ) {
+			t.error({'responseText': xml});
+			return false;
+		}
+
+		r = wpAjax.parseAjaxResponse(xml);
+		if ( r.errors ) {
+			t.error({'responseText': wpAjax.broken});
+			return false;
+		}
+
+		t.revert();
+
+		r = r.responses[0];
+		c = r.data;
+		id = '#comment-' + r.id;
+
+		if ( 'edit-comment' == t.act )
+			$(id).remove();
+
+		if ( r.supplemental.parent_approved ) {
+			pid = $('#comment-' + r.supplemental.parent_approved);
+			updatePending( -1 );
+
+			if ( this.comments_listing == 'moderated' ) {
+				pid.animate( { 'backgroundColor':'#CCEEBB' }, 400, function(){
+					pid.fadeOut();
+				});
+				return;
+			}
+		}
+
+		$(c).hide()
+		$('#replyrow').after(c);
+		id = $(id);
+		t.addEvents(id);
+		bg = id.hasClass('unapproved') ? '#FFFFE0' : id.closest('.widefat, .postbox').css('backgroundColor');
+
+		id.animate( { 'backgroundColor':'#CCEEBB' }, 300 )
+			.animate( { 'backgroundColor': bg }, 300, function() {
+				if ( pid && pid.length ) {
+					pid.animate( { 'backgroundColor':'#CCEEBB' }, 300 )
+						.animate( { 'backgroundColor': bg }, 300 )
+						.removeClass('unapproved').addClass('approved')
+						.find('div.comment_status').html('1');
+				}
+			});
+
+	},
+
+	error : function(r) {
+		var er = r.statusText;
+
+		$('#replysubmit .waiting').hide();
+
+		if ( r.responseText )
+			er = r.responseText.replace( /<.[^<>]*?>/g, '' );
+
+		if ( er )
+			$('#replysubmit .error').html(er).show();
+
+	},
+
+	addcomment: function(post_id) {
+		var t = this;
+
+		$('#add-new-comment').fadeOut(200, function(){
+			t.open(0, post_id, 'add');
+			$('table.comments-box').css('display', '');
+			$('#no-comments').remove();
+		});
+	}
+};
+
+$(document).ready(function(){
+	var make_hotkeys_redirect, edit_comment, toggle_all, make_bulk;
+
+	setCommentsList();
+	commentReply.init();
+	$(document).delegate('span.delete a.delete', 'click', function(){return false;});
+
+	if ( typeof $.table_hotkeys != 'undefined' ) {
+		make_hotkeys_redirect = function(which) {
+			return function() {
+				var first_last, l;
+
+				first_last = 'next' == which? 'first' : 'last';
+				l = $('.tablenav-pages .'+which+'-page:not(.disabled)');
+				if (l.length)
+					window.location = l[0].href.replace(/\&hotkeys_highlight_(first|last)=1/g, '')+'&hotkeys_highlight_'+first_last+'=1';
+			}
+		};
+
+		edit_comment = function(event, current_row) {
+			window.location = $('span.edit a', current_row).attr('href');
+		};
+
+		toggle_all = function() {
+			toggleWithKeyboard = true;
+			$('input:checkbox', '#cb').click().prop('checked', false);
+			toggleWithKeyboard = false;
+		};
+
+		make_bulk = function(value) {
+			return function() {
+				var scope = $('select[name="action"]');
+				$('option[value="' + value + '"]', scope).prop('selected', true);
+				$('#doaction').click();
+			}
+		};
+
+		$.table_hotkeys(
+			$('table.widefat'),
+			['a', 'u', 's', 'd', 'r', 'q', 'z', ['e', edit_comment], ['shift+x', toggle_all],
+			['shift+a', make_bulk('approve')], ['shift+s', make_bulk('spam')],
+			['shift+d', make_bulk('delete')], ['shift+t', make_bulk('trash')],
+			['shift+z', make_bulk('untrash')], ['shift+u', make_bulk('unapprove')]],
+			{ highlight_first: adminCommentsL10n.hotkeys_highlight_first, highlight_last: adminCommentsL10n.hotkeys_highlight_last,
+			prev_page_link_cb: make_hotkeys_redirect('prev'), next_page_link_cb: make_hotkeys_redirect('next') }
+		);
+	}
+});
+
+})(jQuery);
