@@ -399,7 +399,7 @@ function bulk_edit_posts( $post_data = null ) {
  * @since 2.0.0
  *
  * @param string $post_type A post type string, defaults to 'post'.
- * @return object stdClass object containing all the default post data as attributes
+ * @return WP_Post Post object containing all the default post data as attributes
  */
 function get_default_post_to_edit( $post_type = 'post', $create_in_db = false ) {
 	global $wpdb;
@@ -455,7 +455,7 @@ function get_default_post_to_edit( $post_type = 'post', $create_in_db = false ) 
  *
  * @since 2.5.0
  *
- * @return object stdClass object containing all the default post data as attributes
+ * @return WP_Post Post object containing all the default post data as attributes
  */
 function get_default_page_to_edit() {
 	$page = get_default_post_to_edit();
@@ -468,8 +468,8 @@ function get_default_page_to_edit() {
  *
  * @since 2.0.0
  *
- * @param unknown_type $id
- * @return unknown
+ * @param int $id
+ * @return WP_Post
  */
 function get_post_to_edit( $id ) {
 

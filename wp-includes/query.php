@@ -2785,7 +2785,7 @@ class WP_Query {
 	 * @since 1.5.0
 	 * @access public
 	 *
-	 * @return object Next post.
+	 * @return WP_Post Next post.
 	 */
 	function next_post() {
 

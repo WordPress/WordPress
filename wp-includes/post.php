@@ -375,7 +375,7 @@ function get_extended($post) {
  * @param int|object $post Post ID or post object.
  * @param string $output Optional, default is Object. Either OBJECT, ARRAY_A, or ARRAY_N.
  * @param string $filter Optional, default is raw.
- * @return mixed Post data or null on failure
+ * @return WP_Post|null WP_Post on success or null on failure
  */
 function get_post( $post, $output = OBJECT, $filter = 'raw' ) {
 	if ( empty( $post ) && isset( $GLOBALS['post'] ) )
@@ -1779,9 +1779,9 @@ function is_sticky( $post_id = 0 ) {
  * @since 2.3.0
  * @uses sanitize_post_field() Used to sanitize the fields.
  *
- * @param object|array $post The Post Object or Array
+ * @param object|WP_Post|array $post The Post Object or Array
  * @param string $context Optional, default is 'display'. How to sanitize post fields.
- * @return object|array The now sanitized Post Object or Array (will be the same type as $post)
+ * @return object|WP_Post|array The now sanitized Post Object or Array (will be the same type as $post)
  */
 function sanitize_post($post, $context = 'display') {
 	if ( is_object($post) ) {
@@ -2498,7 +2498,7 @@ function wp_get_recent_posts( $args = array(), $output = ARRAY_A ) {
  *
  * @param int $postid Post ID.
  * @param string $mode How to return result, either OBJECT, ARRAY_N, or ARRAY_A.
- * @return object|array Post object or array holding post contents and information
+ * @return WP_Post|array WP_Post object or array holding post contents and information
  */
 function wp_get_single_post($postid = 0, $mode = OBJECT) {
 	$postid = (int) $postid;
@@ -3288,12 +3288,15 @@ function get_all_page_ids() {
 /**
  * Retrieves page data given a page ID or page object.
  *
+ * Use get_post() instead instead of get_page().
+ *
  * @since 1.5.1
+ * @deprecated 3.5.0
  *
  * @param mixed $page Page object or page ID. Passed by reference.
  * @param string $output What to output. OBJECT, ARRAY_A, or ARRAY_N.
  * @param string $filter How the return value should be filtered.
- * @return mixed Page data.
+ * @return WP_Post|null WP_Post on success or null on failure
  */
 function get_page( $page, $output = OBJECT, $filter = 'raw') {
 	return get_post( $page, $output, $filter );
@@ -3308,7 +3311,7 @@ function get_page( $page, $output = OBJECT, $filter = 'raw') {
  * @param string $page_path Page path
  * @param string $output Optional. Output type. OBJECT, ARRAY_N, or ARRAY_A. Default OBJECT.
  * @param string $post_type Optional. Post type. Default page.
- * @return mixed Null when complete.
+ * @return WP_Post|null WP_Post on success or null on failure
  */
 function get_page_by_path($page_path, $output = OBJECT, $post_type = 'page') {
 	global $wpdb;
@@ -3362,7 +3365,7 @@ function get_page_by_path($page_path, $output = OBJECT, $post_type = 'page') {
  * @param string $page_title Page title
  * @param string $output Optional. Output type. OBJECT, ARRAY_N, or ARRAY_A. Default OBJECT.
  * @param string $post_type Optional. Post type. Default page.
- * @return mixed
+ * @return WP_Post|null WP_Post on success or null on failure
  */
 function get_page_by_title($page_title, $output = OBJECT, $post_type = 'page' ) {
 	global $wpdb;
