@@ -437,6 +437,8 @@ $_old_files = array(
 'wp-admin/images/widgets-arrow.gif',
 'wp-admin/images/wpspin_dark.gif',
 'wp-includes/images/upload.png',
+'wp-includes/js/prototype.js',
+'wp-includes/js/scriptaculous',
 // Don't delete, yet: 'wp-admin/images/media-button-music.gif',
 // Don't delete, yet: 'wp-admin/images/media-button-other.gif',
 );
