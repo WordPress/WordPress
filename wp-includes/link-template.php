@@ -266,12 +266,9 @@ function get_page_link( $id = false, $leavename = false, $sample = false ) {
  * @return string
  */
 function _get_page_link( $id = false, $leavename = false, $sample = false ) {
-	global $post, $wp_rewrite;
+	global $wp_rewrite;
 
-	if ( !$id )
-		$id = (int) $post->ID;
-	else
-		$post = &get_post($id);
+	$post = get_post( $id );
 
 	$draft_or_pending = in_array( $post->post_status, array( 'draft', 'pending', 'auto-draft' ) );
 
