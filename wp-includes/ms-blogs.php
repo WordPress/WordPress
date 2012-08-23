@@ -338,10 +338,10 @@ function get_blog_option( $id, $option, $default = false ) {
 		return get_option( $option, $default );
 
 	switch_to_blog( $id );
-	$option = get_option( $option, $default );
+	$value = get_option( $option, $default );
 	restore_current_blog();
 
-	return $option;
+	return apply_filters( 'blog_option_' . $option, $value, $id );
 }
 
 /**
