@@ -192,7 +192,7 @@ class WP_Admin_Bar {
 	/**
 	 * Remove a node.
 	 *
-	 * @return object The removed node.
+	 * @param string The ID of the item.
 	 */
 	public function remove_node( $id ) {
 		$this->_unset_node( $id );
