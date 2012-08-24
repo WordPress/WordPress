@@ -69,12 +69,14 @@ if ( $doaction ) {
 					continue;
 
 				$attach[] = $att_id;
-				clean_attachment_cache( $att_id );
 			}
 
 			if ( ! empty( $attach ) ) {
-				$attach = implode( ',', $attach );
-				$attached = $wpdb->query( $wpdb->prepare( "UPDATE $wpdb->posts SET post_parent = %d WHERE post_type = 'attachment' AND ID IN ( $attach )", $parent_id ) );
+				$attach_string = implode( ',', $attach );
+				$attached = $wpdb->query( $wpdb->prepare( "UPDATE $wpdb->posts SET post_parent = %d WHERE post_type = 'attachment' AND ID IN ( $attach_string )", $parent_id ) );
+				foreach ( $attach as $att_id ) {
+					clean_attachment_cache( $att_id );
+				}
 			}
 
 			if ( isset( $attached ) ) {
