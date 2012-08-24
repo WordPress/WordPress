@@ -55,15 +55,6 @@ td {
 }
 
 
-/* =Basic structure
--------------------------------------------------------------- */
-
-.main-navigation li ul ul {
-	margin-left: 0;
-	margin-right: 40px;
-	margin-right: 2.857142857rem;
-}
-
 /* =Main Content
 ----------------------------------------------- */
 
@@ -219,6 +210,10 @@ label ~ span.required {
 		float: left;
 		margin: 0 24px 0;
 		margin: 0 1.714285714rem 0;
+	}
+	.main-navigation ul.nav-menu,
+ 	.main-navigation div.nav-menu > ul {
+		text-align: right;
 	}
 	.main-navigation li {
 		margin-left: 40px;

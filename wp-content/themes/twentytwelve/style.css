@@ -1,5 +1,5 @@
 /*
-Theme Name: Twenty Twelve
+13Theme Name: Twenty Twelve
 Theme URI: http://wordpress.org/extend/themes/twentytwelve
 Author: the WordPress team
 Author URI: http://wordpress.org/
@@ -513,10 +513,6 @@ a:hover {
 	margin-top: 1.714285714rem;
 	text-align: center;
 }
-.main-navigation li ul ul {
-	margin-left: 40px;
-	margin-left: 2.857142857rem;
-}
 .main-navigation li {
 	margin-top: 24px;
 	margin-top: 1.714285714rem;
@@ -531,9 +527,11 @@ a:hover {
 .main-navigation a:hover {
 	color: #21759b;
 }
-.main-navigation .menu {
+.main-navigation ul.nav-menu,
+.main-navigation div.nav-menu > ul {
 	display: none;
 }
+.main-navigation ul.nav-menu.toggled-on,
 .menu-toggle {
 	display: inline-block;
 }
@@ -1340,7 +1338,8 @@ img#wpstats {
 		font-size: 1.857142857rem;
 		line-height: 1.846153846;
 	}
-	.main-navigation .menu {
+	.main-navigation ul.nav-menu,
+ 	.main-navigation div.nav-menu > ul {
 		border-bottom: 1px solid #ededed;
 		border-top: 1px solid #ededed;
 		display: inline-block !important;
@@ -1353,16 +1352,15 @@ img#wpstats {
 		margin: 0;
 		text-indent: 0;
 	}
-	.main-navigation li ul li {
-		padding-left: 0;
-	}
 	.main-navigation li a,
 	.main-navigation li {
 		display: inline-block;
 		text-decoration: none;
 	}
 	.main-navigation li a {
+		border-bottom: 0;
 		color: #6a6a6a;
+		line-height: 3.692307692;
 		text-transform: uppercase;
 	}
 	.main-navigation li a:hover {
@@ -1373,10 +1371,6 @@ img#wpstats {
 		margin: 0 2.857142857rem 0 0;
 		position: relative;
 	}
-	.main-navigation li a {
-		border-bottom: 0;
-		line-height: 3.692307692;
-	}
 	.main-navigation li ul {
 		display: none;
 		margin: 0;
@@ -1386,7 +1380,6 @@ img#wpstats {
 		z-index: 1;
 	}
 	.main-navigation li ul ul {
-		margin-left: 0;
 		top: 0;
 		left: 100%;
 	}
@@ -1548,7 +1541,7 @@ img#wpstats {
 	.site-content nav,
 	.widget-area,
 	img.header-image,
-	nav.site-navigation {
+	.main-navigation {
 		display: none;
 	}
 	.wrapper {
