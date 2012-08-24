@@ -151,7 +151,7 @@ function theme_update_available( $theme ) {
 function get_theme_feature_list( $api = true ) {
 	// Hard-coded list is used if api not accessible.
 	$features = array(
-			__('Colors') => array(
+			__( 'Colors' ) => array(
 				'black'   => __( 'Black' ),
 				'blue'    => __( 'Blue' ),
 				'brown'   => __( 'Brown' ),
@@ -169,7 +169,7 @@ function get_theme_feature_list( $api = true ) {
 				'light'   => __( 'Light' ),
 			),
 
-		__('Columns') => array(
+		__( 'Columns' ) => array(
 			'one-column'    => __( 'One Column' ),
 			'two-columns'   => __( 'Two Columns' ),
 			'three-columns' => __( 'Three Columns' ),
@@ -178,7 +178,7 @@ function get_theme_feature_list( $api = true ) {
 			'right-sidebar' => __( 'Right Sidebar' ),
 		),
 
-		__('Width') => array(
+		__( 'Width' ) => array(
 			'fixed-width'    => __( 'Fixed Width' ),
 			'flexible-width' => __( 'Flexible Width' ),
 		),
@@ -193,6 +193,7 @@ function get_theme_feature_list( $api = true ) {
 			'editor-style'          => __( 'Editor Style' ),
 			'featured-image-header' => __( 'Featured Image Header' ),
 			'featured-images'       => __( 'Featured Images' ),
+			'flexible-header'       => __( 'Flexible Header' ),
 			'front-page-post-form'  => __( 'Front Page Posting' ),
 			'full-width-template'   => __( 'Full Width Template' ),
 			'microformats'          => __( 'Microformats' ),
