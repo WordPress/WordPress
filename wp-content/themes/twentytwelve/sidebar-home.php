@@ -24,12 +24,12 @@ if ( ! is_active_sidebar( 2 ) && ! is_active_sidebar( 3 ) )
 	<?php if ( is_active_sidebar( 2 ) ) : ?>
 	<div class="first home-widgets">
 		<?php dynamic_sidebar( 'sidebar-2' ); ?>
-	</div><!-- .first .home-widgets -->
+	</div><!-- .first -->
 	<?php endif; ?>
 
 	<?php if ( is_active_sidebar( 3 ) ) : ?>
 	<div class="second home-widgets">
 		<?php dynamic_sidebar( 'sidebar-3' ); ?>
-	</div><!-- .second .home-widgets -->
+	</div><!-- .second -->
 	<?php endif; ?>
-</div><!-- #secondary .widget-area -->
+</div><!-- #secondary -->

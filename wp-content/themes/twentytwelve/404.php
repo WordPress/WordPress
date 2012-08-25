@@ -24,6 +24,6 @@ get_header(); ?>
 			</article><!-- #post-0 -->
 
 		</div><!-- #content -->
-	</div><!-- #primary .site-content -->
+	</div><!-- #primary -->
 
 <?php get_footer(); ?>

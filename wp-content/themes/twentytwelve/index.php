@@ -35,7 +35,7 @@ get_header(); ?>
 			?>
 				<header class="entry-header">
 					<h1 class="entry-title"><?php _e( 'No posts to display', 'twentytwelve' ); ?></h1>
-				</header><!-- .entry-header -->
+				</header>
 
 				<div class="entry-content">
 					<p><?php printf( __( 'Ready to publish your first post? <a href="%s">Get started here</a>.', 'twentytwelve' ), admin_url( 'post-new.php' ) ); ?></p>
@@ -46,7 +46,7 @@ get_header(); ?>
 			?>
 				<header class="entry-header">
 					<h1 class="entry-title"><?php _e( 'Nothing found', 'twentytwelve' ); ?></h1>
-				</header><!-- .entry-header -->
+				</header>
 
 				<div class="entry-content">
 					<p><?php _e( 'Apologies, but no results were found for the requested archive. Perhaps searching will help find a related post.', 'twentytwelve' ); ?></p>
@@ -59,7 +59,7 @@ get_header(); ?>
 		<?php endif; // end have_posts() check ?>
 
 		</div><!-- #content -->
-	</div><!-- #primary .site-content -->
+	</div><!-- #primary -->
 
 <?php get_sidebar(); ?>
 <?php get_footer(); ?>

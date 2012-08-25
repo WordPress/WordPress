@@ -97,6 +97,6 @@ if ( count( $attachments ) > 1 ) {
 			<?php endwhile; // end of the loop. ?>
 
 		</div><!-- #content -->
-	</div><!-- #primary .site-content -->
+	</div><!-- #primary -->
 
 <?php get_footer(); ?>

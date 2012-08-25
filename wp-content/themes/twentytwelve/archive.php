@@ -49,7 +49,7 @@ get_header(); ?>
 							echo '<div class="archive-meta">' . $category_description . '</div>';
 					}
 				?>
-			</header><!-- /. archive-header -->
+			</header><!-- .archive-header -->
 
 			<?php
 			/* Start the Loop */
@@ -71,7 +71,7 @@ get_header(); ?>
 		<?php endif; ?>
 
 		</div><!-- #content -->
-	</section><!-- #primary .site-content -->
+	</section><!-- #primary -->
 
 <?php get_sidebar(); ?>
 <?php get_footer(); ?>
