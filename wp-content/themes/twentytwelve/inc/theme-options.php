@@ -186,10 +186,8 @@ class Twenty_Twelve_Options {
 	public function validate( $input ) {
 		$output = $defaults = $this->get_default_theme_options();
 
-		// The enable fonts checkbox should boolean true or false
-		if ( ! isset( $input['enable_fonts'] ) )
-			$input['enable_fonts'] = false;
-		$output['enable_fonts'] = ( false != $input['enable_fonts'] ? true : false );
+		// The enable fonts checkbox should a boolean value, true or false.
+		$output['enable_fonts'] = ( isset( $input['enable_fonts'] ) && $input['enable_fonts'] );
 
 		return apply_filters( 'twentytwelve_options_validate', $output, $input, $defaults );
 	}
@@ -220,7 +218,6 @@ class Twenty_Twelve_Options {
 		$wp_customize->add_setting( $this->option_key . '[enable_fonts]', array(
 			'default'    => $defaults['enable_fonts'],
 			'type'       => 'option',
-			'capability' => 'edit_theme_options',
 			'transport'  => 'postMessage',
 		) );
 
