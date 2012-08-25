@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Twelve 0.9\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentytwelve\n"
-"POT-Creation-Date: 2012-08-25 17:18:50+00:00\n"
+"POT-Creation-Date: 2012-08-25 18:18:46+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -141,15 +141,15 @@ msgstr ""
 
 #. #-#-#-#-#  twentytwelve.pot (Twenty Twelve 0.9)  #-#-#-#-#
 #. Author URI of the plugin/theme
-#: footer.php:16
+#: footer.php:17
 msgid "http://wordpress.org/"
 msgstr ""
 
-#: footer.php:16
+#: footer.php:17
 msgid "Semantic Personal Publishing Platform"
 msgstr ""
 
-#: footer.php:16
+#: footer.php:17
 msgid "Proudly powered by %s"
 msgstr ""
 
@@ -275,7 +275,7 @@ msgstr ""
 msgid "Theme Options"
 msgstr ""
 
-#: inc/theme-options.php:145 inc/theme-options.php:228
+#: inc/theme-options.php:145 inc/theme-options.php:225
 msgid "Enable the Open Sans typeface."
 msgstr ""
 
@@ -283,7 +283,7 @@ msgstr ""
 msgid "%s Theme Options"
 msgstr ""
 
-#: inc/theme-options.php:214
+#: inc/theme-options.php:212
 msgid "Fonts"
 msgstr ""
 
