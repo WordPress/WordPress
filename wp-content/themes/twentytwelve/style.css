@@ -157,7 +157,6 @@ img {
 }
 
 /* Clearing floats */
-
 .clear:after {
 	clear: both;
 }
@@ -262,6 +261,8 @@ li.bypostauthor cite span {
 /* Form fields */
 input[type="text"],
 input[type="password"],
+input[type="email"],
+input[type="url"],
 textarea {
 	padding: 6px;
 	padding: 0.428571429rem;
@@ -1339,7 +1340,7 @@ img#wpstats {
 		line-height: 1.846153846;
 	}
 	.main-navigation ul.nav-menu,
- 	.main-navigation div.nav-menu > ul {
+	.main-navigation div.nav-menu > ul {
 		border-bottom: 1px solid #ededed;
 		border-top: 1px solid #ededed;
 		display: inline-block !important;
