@@ -26,7 +26,7 @@ class Twenty_Twelve_Options {
 	public $options = array();
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
 	 * @access public
 	 *
@@ -44,7 +44,7 @@ class Twenty_Twelve_Options {
 	}
 
 	/**
-	 * Register the form setting for our options array.
+	 * Registers the form setting for our options array.
 	 *
 	 * This function is attached to the admin_init action hook.
 	 *
@@ -86,7 +86,7 @@ class Twenty_Twelve_Options {
 	}
 
 	/**
-	 * Add our theme options page to the admin menu.
+	 * Adds our theme options page to the admin menu.
 	 *
 	 * This function is attached to the admin_menu action hook.
 	 *
@@ -148,7 +148,7 @@ class Twenty_Twelve_Options {
 	}
 
 	/**
-	 * Returns the options array.
+	 * Displays the theme options page.
 	 *
 	 * @uses get_current_theme() for back compat, fallback for < 3.4
 	 * @access public
@@ -175,7 +175,7 @@ class Twenty_Twelve_Options {
 	}
 
 	/**
-	 * Sanitize and validate form input. Accepts an array, return a sanitized array.
+	 * Sanitizes and validates form input.
 	 *
 	 * @see options_init()
 	 * @access public
@@ -195,7 +195,7 @@ class Twenty_Twelve_Options {
 	}
 
 	/**
-	 * Implement Twenty Twelve theme options into Theme Customizer.
+	 * Implements Twenty Twelve theme options into Theme Customizer.
 	 *
 	 * @since Twenty Twelve 1.0
 	 * @access public
@@ -233,7 +233,7 @@ class Twenty_Twelve_Options {
 	}
 
 	/**
-	 * Bind JS handlers to make Theme Customizer preview reload changes asynchronously.
+	 * Binds JS handlers to make Theme Customizer preview reload changes asynchronously.
 	 *
 	 * @since Twenty Twelve 1.0
 	 * @access public
@@ -249,7 +249,7 @@ class Twenty_Twelve_Options {
 	}
 
 	/**
-	 * Create path to load fonts CSS file with correct protocol.
+	 * Creates path to load fonts CSS file with correct protocol.
 	 *
 	 * @since Twenty Twelve 1.0
 	 * @access public

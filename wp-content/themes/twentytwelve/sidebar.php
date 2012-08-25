@@ -1,8 +1,8 @@
 <?php
 /**
- * The Sidebar containing the main widget area.
+ * The sidebar containing the main widget area.
  *
- * If no active widgets in sidebar, hide it completely.
+ * If no active widgets in sidebar, let's hide it completely.
  *
  * @package WordPress
  * @subpackage Twenty_Twelve

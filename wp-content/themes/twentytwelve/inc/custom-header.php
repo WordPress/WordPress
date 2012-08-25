@@ -1,7 +1,7 @@
 <?php
 /**
- * Implement an optional custom header for Twenty Twelve.
- * http://codex.wordpress.org/Custom_Headers
+ * Implements an optional custom header for Twenty Twelve.
+ * See http://codex.wordpress.org/Custom_Headers
  *
  * @package WordPress
  * @subpackage Twenty_Twelve
@@ -9,12 +9,12 @@
  */
 
 /**
- * Set up the WordPress core custom header arguments and settings.
- * Use add_theme_support() to register support for 3.4 and up.
+ * Sets up the WordPress core custom header arguments and settings.
  *
- * @uses twentytwelve_header_style()
- * @uses twentytwelve_admin_header_style()
- * @uses twentytwelve_admin_header_image()
+ * @uses add_theme_support() to register support for 3.4 and up.
+ * @uses twentytwelve_header_style() to style front-end.
+ * @uses twentytwelve_admin_header_style() to style wp-admin form.
+ * @uses twentytwelve_admin_header_image() to add custom markup to wp-admin form.
  *
  * @since Twenty Twelve 1.0
  */
@@ -126,7 +126,8 @@ function twentytwelve_admin_header_style() {
 }
 
 /**
- * Custom header image markup displayed on the Appearance > Header admin panel.
+ * Outputs markup to be displayed on the Appearance > Header admin panel.
+ * This callback overrides the default markup displayed there.
  *
  * @since Twenty Twelve 1.0
  */

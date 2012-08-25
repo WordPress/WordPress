@@ -1,13 +1,10 @@
 <?php
 /**
- * Twenty Twelve functions and definitions
+ * Twenty Twelve functions and definitions.
  *
- * Sets up the theme and provides some helper functions. Some helper functions
- * are used in the theme as custom template tags. Others are attached to action and
+ * Sets up the theme and provides some helper functions, which are used
+ * in the theme as custom template tags. Others are attached to action and
  * filter hooks in WordPress to change core functionality.
- *
- * The first function, twentytwelve_setup(), sets up the theme by registering support
- * for various features in WordPress, such as a custom background and a navigation menu.
  *
  * When using a child theme (see http://codex.wordpress.org/Theme_Development and
  * http://codex.wordpress.org/Child_Themes), you can override certain functions
@@ -26,17 +23,19 @@
  */
 
 /**
- * Set the content width based on the theme's design and stylesheet.
+ * Sets up the content width value based on the theme's design and stylesheet.
  */
 if ( ! isset( $content_width ) )
 	$content_width = 625;
 
 /**
- * Sets up theme defaults and registers support for various WordPress features.
+ * Sets up theme defaults and registers the various WordPress features that
+ * Twenty Twelve supports.
  *
  * @uses load_theme_textdomain() For translation/localization support.
- * @uses add_theme_support() To add support for post thumbnails, automatic feed links, custom headers
- * 	and backgrounds, and post formats.
+ * @uses add_editor_style() To add a Visual Editor stylesheet.
+ * @uses add_theme_support() To add support for post thumbnails, automatic feed links,
+ * 	custom background, and post formats.
  * @uses register_nav_menu() To add support for navigation menus.
  * @uses set_post_thumbnail_size() To set a custom post thumbnail size.
  *
@@ -45,8 +44,9 @@ if ( ! isset( $content_width ) )
 function twentytwelve_setup() {
 	global $twentytwelve_options;
 
-	/**
-	 * Make Twenty Twelve available for translation.
+	/*
+	 * Makes Twenty Twelve available for translation.
+	 *
 	 * Translations can be added to the /languages/ directory.
 	 * If you're building a theme based on Twenty Twelve, use a find and replace
 	 * to change 'twentytwelve' to the name of your theme in all the template files.
@@ -60,69 +60,70 @@ function twentytwelve_setup() {
 	// This theme styles the visual editor with editor-style.css to match the theme style.
 	add_editor_style();
 
-	// Add default posts and comments RSS feed links to <head>.
+	// Adds RSS feed links to <head> for posts and comments.
 	add_theme_support( 'automatic-feed-links' );
 
-	// Add support for a variety of post formats
+	// This theme supports a variety of post formats.
 	add_theme_support( 'post-formats', array( 'aside', 'image', 'link', 'quote' ) );
 
 	// This theme uses wp_nav_menu() in one location.
 	register_nav_menu( 'primary', __( 'Primary Menu', 'twentytwelve' ) );
 
-	// Add support for custom background.
+	/*
+	 * This theme supports custom background color and image, and here
+	 * we also set up the default background color.
+	 */
 	add_theme_support( 'custom-background', array(
 		'default-color' => 'e6e6e6',
 	) );
 
-	// Add custom image size for featured image use, displayed on "standard" posts.
+	// This theme uses a custom image size for featured images, displayed on "standard" posts.
 	add_theme_support( 'post-thumbnails' );
 	set_post_thumbnail_size( 624, 9999 ); // Unlimited height, soft crop
 }
 add_action( 'after_setup_theme', 'twentytwelve_setup' );
 
 /**
- * Add support for a custom header image.
+ * Adds support for a custom header image.
  */
 require( get_template_directory() . '/inc/custom-header.php' );
 
 /**
- * Enqueue scripts and styles for front-end.
+ * Enqueues scripts and styles for front-end.
  *
  * @since Twenty Twelve 1.0
  */
 function twentytwelve_scripts_styles() {
 	global $twentytwelve_options;
 
-	/**
-	 * Add JavaScript to pages with the comment form to support
+	/*
+	 * Adds JavaScript to pages with the comment form to support
 	 * sites with threaded comments (when in use).
 	 */
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) )
 		wp_enqueue_script( 'comment-reply' );
 
-	/**
-	 * JavaScript for handling navigation menus and the resized
-	 * styles for small screen sizes.
+	/*
+	 * Adds JavaScript for handling the navigation menu hide-and-show behavior.
 	 */
 	wp_enqueue_script( 'twentytwelve-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20120824', true );
 
-	/**
-	 * Load special font CSS file.
+	/*
+	 * Loads our special font CSS file.
 	 * Depends on Theme Options setting.
  	 */
 	$options = $twentytwelve_options->get_theme_options();
 	if ( $options['enable_fonts'] )
 		wp_enqueue_style( 'twentytwelve-fonts', $twentytwelve_options->custom_fonts_url(), array(), null );
 
-	/**
-	 * Load our main CSS file.
+	/*
+	 * Loads our main stylesheet.
 	 */
 	wp_enqueue_style( 'twentytwelve-style', get_stylesheet_uri() );
 
-	/**
-	 * Load HTML5 shiv for older IE version support for HTML5 elements.
+	/*
+	 * Loads HTML5 JavaScript file to add support for HTML5 elements in older IE versions.
 	 * Ideally, should load after main CSS file.
-	 *
 	 * See html5.js link in header.php.
 	 *
 	 * TODO depends on IE dependency being in core for JS enqueuing
@@ -164,7 +165,7 @@ function twentytwelve_wp_title( $title, $sep ) {
 add_filter( 'wp_title', 'twentytwelve_wp_title', 10, 2 );
 
 /**
- * Get our wp_nav_menu() fallback, wp_page_menu(), to show a home link.
+ * Makes our wp_nav_menu() fallback -- wp_page_menu() -- show a home link.
  *
  * @since Twenty Twelve 1.0
  */
@@ -175,7 +176,7 @@ function twentytwelve_page_menu_args( $args ) {
 add_filter( 'wp_page_menu_args', 'twentytwelve_page_menu_args' );
 
 /**
- * Register our single widget area.
+ * Registers our main widget area and the homepage widget areas.
  *
  * @since Twenty Twelve 1.0
  */
@@ -213,7 +214,7 @@ function twentytwelve_widgets_init() {
 add_action( 'widgets_init', 'twentytwelve_widgets_init' );
 
 /**
- * Count the number of footer sidebars to enable dynamic classes for the footer
+ * Counts the number of footer sidebars to enable dynamic classes for the footer.
  *
  * @since Twenty Twelve 1.0
  */
@@ -228,7 +229,7 @@ function twentytwelve_homepage_sidebar_class() {
 
 if ( ! function_exists( 'twentytwelve_content_nav' ) ) :
 /**
- * Display navigation to next/previous pages when applicable.
+ * Displays navigation to next/previous pages when applicable.
  *
  * @since Twenty Twelve 1.0
  */
@@ -364,6 +365,9 @@ endif;
  * 3. White or empty background color to change the layout and spacing.
  *
  * @since Twenty Twelve 1.0
+ *
+ * @param array Existing class values.
+ * @return array Filtered class values.
  */
 function twentytwelve_body_class( $classes ) {
 	$background_color = get_background_color();
@@ -384,8 +388,8 @@ function twentytwelve_body_class( $classes ) {
 add_filter( 'body_class', 'twentytwelve_body_class' );
 
 /**
- * Adjust $content width for full-width and single image attachment templates
- * and when there are no active widgets in the sidebar.
+ * Adjusts content_width value for full-width and single image attachment
+ * templates, and when there are no active widgets in the sidebar.
  *
  * @since Twenty Twelve 1.0
  */

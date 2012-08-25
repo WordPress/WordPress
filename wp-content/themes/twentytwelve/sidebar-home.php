@@ -1,6 +1,6 @@
 <?php
 /**
- * The Sidebar containing the homepage widget areas.
+ * The sidebar containing the homepage widget areas.
  *
  * If no active widgets in either sidebar, they will be hidden completely.
  *
@@ -10,11 +10,11 @@
  */
 
 /*
-The homepage widget area is triggered if any of the areas
-have widgets. So let's check that first.
-
-If none of the sidebars have widgets, then let's bail early.
-*/
+ * The homepage widget area is triggered if any of the areas
+ * have widgets. So let's check that first.
+ *
+ * If none of the sidebars have widgets, then let's bail early.
+ */
 if ( ! is_active_sidebar( 2 ) && ! is_active_sidebar( 3 ) )
 	return;
 
