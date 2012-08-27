@@ -152,17 +152,12 @@ function get_blog_count( $id = 0 ) {
  *
  * @param int $blog_id ID of the blog.
  * @param int $post_id ID of the post you're looking for.
- * @return object The post.
+ * @return WP_Post|null WP_Post on success or null on failure
  */
 function get_blog_post( $blog_id, $post_id ) {
-	global $wpdb;
-
-	$key = $blog_id . '-' . $post_id;
-	$post = wp_cache_get( $key, 'global-posts' );
-	if ( $post == false ) {
-		$post = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM ' . $wpdb->get_blog_prefix( $blog_id ) . 'posts WHERE ID = %d', $post_id ) );
-		wp_cache_add( $key, $post, 'global-posts' );
-	}
+	switch_to_blog( $blog_id );
+	$post = get_post( $post_id );
+	restore_current_blog();
 
 	return $post;
 }
@@ -313,19 +308,15 @@ function create_empty_blog( $domain, $path, $weblog_title, $site_id = 1 ) {
  *
  * @since MU 1.0
  *
- * @param int $_blog_id ID of the source blog.
+ * @param int $blog_id ID of the source blog.
  * @param int $post_id ID of the desired post.
  * @return string The post's permalink
  */
-function get_blog_permalink( $_blog_id, $post_id ) {
-	$key = "{$_blog_id}-{$post_id}-blog_permalink";
-	$link = wp_cache_get( $key, 'site-options' );
-	if ( $link == false ) {
-		switch_to_blog( $_blog_id );
-		$link = get_permalink( $post_id );
-		restore_current_blog();
-		wp_cache_add( $key, $link, 'site-options', 360 );
-	}
+function get_blog_permalink( $blog_id, $post_id ) {
+	switch_to_blog( $blog_id );
+	$link = get_permalink( $post_id );
+	restore_current_blog();
+
 	return $link;
 }
 

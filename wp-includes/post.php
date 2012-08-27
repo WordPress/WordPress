@@ -4517,9 +4517,6 @@ function clean_post_cache( $post ) {
 			clean_post_cache( $child );
 		}
 	}
-
-	if ( is_multisite() )
-		wp_cache_delete( $wpdb->blogid . '-' . $post->ID, 'global-posts' );
 }
 
 /**
