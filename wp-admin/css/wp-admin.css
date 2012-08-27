@@ -1527,11 +1527,11 @@ form.upgrade .hint {
 	transform:         translate( 33px );
 }
 
-#adminmenu li.wp-has-current-submenu .wp-menu-arrow,
-#adminmenu a.menu-top:focus .wp-menu-arrow,
-.no-js #adminmenu li.wp-has-submenu:hover .wp-menu-arrow,
 #adminmenu li.current .wp-menu-arrow,
-#adminmenu li.wp-has-submenu.opensub .wp-menu-arrow {
+#adminmenu li.wp-has-current-submenu .wp-menu-arrow,
+.no-js #adminmenu li.wp-has-submenu:hover .wp-menu-arrow,
+#adminmenu li.wp-has-submenu.opensub .wp-menu-arrow,
+#adminmenu a.wp-has-submenu:focus .wp-menu-arrow {
 	display: block;
 }
 
@@ -1541,7 +1541,7 @@ form.upgrade .hint {
 }
 
 .no-js #adminmenu li.wp-has-submenu:hover .wp-menu-arrow,
-#adminmenu .opensub a.wp-has-submenu .wp-menu-arrow,
+#adminmenu li.wp-has-submenu.opensub .wp-menu-arrow,
 #adminmenu a.wp-has-submenu:focus .wp-menu-arrow {
 	z-index: 1001;
 }
