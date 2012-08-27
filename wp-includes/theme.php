@@ -1125,7 +1125,7 @@ function background_color() {
  */
 function _custom_background_cb() {
 	// $background is the saved custom image, or the default image.
-	$background = get_background_image();
+	$background = set_url_scheme( get_background_image() );
 
 	// $color is the saved custom color.
 	// A default has to be specified in style.css. It will not be printed here.
