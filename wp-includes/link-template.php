@@ -1175,14 +1175,21 @@ function get_adjacent_post( $in_same_cat = false, $excluded_categories = '', $pr
 	$query = "SELECT p.* FROM $wpdb->posts AS p $join $where $sort";
 	$query_key = 'adjacent_post_' . md5($query);
 	$result = wp_cache_get($query_key, 'counts');
-	if ( false !== $result )
+	if ( false !== $result ) {
+		if ( is_object( $result ) )
+			$result = new WP_Post( $result );
 		return $result;
+	}
 
 	$result = $wpdb->get_row("SELECT p.* FROM $wpdb->posts AS p $join $where $sort");
 	if ( null === $result )
 		$result = '';
 
 	wp_cache_set($query_key, $result, 'counts');
+
+	if ( is_object( $result ) )
+		$result = new WP_Post( $result );
+
 	return $result;
 }
 
