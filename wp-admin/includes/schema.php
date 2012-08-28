@@ -917,6 +917,7 @@ We hope you enjoy your new site. Thanks!
 	}
 	$wpdb->query( "INSERT INTO $wpdb->sitemeta ( site_id, meta_key, meta_value ) VALUES " . $insert );
 
+	$current_site = new stdClass;
 	$current_site->domain = $domain;
 	$current_site->path = $path;
 	$current_site->site_name = ucfirst( $domain );
