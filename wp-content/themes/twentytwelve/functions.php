@@ -42,8 +42,6 @@ if ( ! isset( $content_width ) )
  * @since Twenty Twelve 1.0
  */
 function twentytwelve_setup() {
-	global $twentytwelve_options;
-
 	/*
 	 * Makes Twenty Twelve available for translation.
 	 *
@@ -52,10 +50,6 @@ function twentytwelve_setup() {
 	 * to change 'twentytwelve' to the name of your theme in all the template files.
 	 */
 	load_theme_textdomain( 'twentytwelve', get_template_directory() . '/languages' );
-
-	// Load up our theme options page and related code.
-	require( get_template_directory() . '/inc/theme-options.php' );
-	$twentytwelve_options = new Twenty_Twelve_Options();
 
 	// This theme styles the visual editor with editor-style.css to match the theme style.
 	add_editor_style();
@@ -94,8 +88,6 @@ require( get_template_directory() . '/inc/custom-header.php' );
  * @since Twenty Twelve 1.0
  */
 function twentytwelve_scripts_styles() {
-	global $twentytwelve_options;
-
 	/*
 	 * Adds JavaScript to pages with the comment form to support
 	 * sites with threaded comments (when in use).
@@ -110,11 +102,9 @@ function twentytwelve_scripts_styles() {
 
 	/*
 	 * Loads our special font CSS file.
-	 * Depends on Theme Options setting.
  	 */
-	$options = $twentytwelve_options->get_theme_options();
-	if ( $options['enable_fonts'] )
-		wp_enqueue_style( 'twentytwelve-fonts', $twentytwelve_options->custom_fonts_url(), array(), null );
+	$protocol = is_ssl() ? 'https' : 'http';
+	wp_enqueue_style( 'twentytwelve-fonts', "$protocol://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700", array(), null );
 
 	/*
 	 * Loads our main stylesheet.
@@ -400,3 +390,27 @@ function twentytwelve_content_width() {
 	}
 }
 add_action( 'template_redirect', 'twentytwelve_content_width' );
+
+/**
+ * Add postMessage support for site title and description for the Theme Customizer.
+ *
+ * @since Twenty Twelve 1.0
+ *
+ * @param WP_Customize_Manager $wp_customize Theme Customizer object.
+ * @return void
+ */
+function twentytwelve_customize_register( $wp_customize ) {
+	$wp_customize->get_setting( 'blogname' )->transport = 'postMessage';
+	$wp_customize->get_setting( 'blogdescription' )->transport = 'postMessage';
+}
+add_action( 'customize_register', 'twentytwelve_customize_register' );
+
+/**
+ * Binds JS handlers to make Theme Customizer preview reload changes asynchronously.
+ *
+ * @since Twenty Twelve 1.0
+ */
+function twentytwelve_customize_preview_js() {
+	wp_enqueue_script( 'twentytwelve-customizer', get_template_directory_uri() . '/js/theme-customizer.js', array( 'customize-preview' ), '20120827', true );
+}
+add_action( 'customize_preview_init', 'twentytwelve_customize_preview_js' );
