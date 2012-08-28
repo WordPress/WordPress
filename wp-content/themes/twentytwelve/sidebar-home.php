@@ -15,21 +15,21 @@
  *
  * If none of the sidebars have widgets, then let's bail early.
  */
-if ( ! is_active_sidebar( 2 ) && ! is_active_sidebar( 3 ) )
+if ( ! is_active_sidebar( 'sidebar-2' ) && ! is_active_sidebar( 'sidebar-3' ) )
 	return;
 
 // If we get this far, we have widgets. Let do this.
 ?>
 <div id="secondary" <?php twentytwelve_homepage_sidebar_class(); ?> role="complementary">
-	<?php if ( is_active_sidebar( 2 ) ) : ?>
+	<?php if ( is_active_sidebar( 'sidebar-2' ) ) : ?>
 	<div class="first home-widgets">
-		<?php dynamic_sidebar( 2 ); ?>
+		<?php dynamic_sidebar( 'sidebar-2' ); ?>
 	</div><!-- .first -->
 	<?php endif; ?>
 
-	<?php if ( is_active_sidebar( 3 ) ) : ?>
+	<?php if ( is_active_sidebar( 'sidebar-3' ) ) : ?>
 	<div class="second home-widgets">
-		<?php dynamic_sidebar( 3 ); ?>
+		<?php dynamic_sidebar( 'sidebar-3' ); ?>
 	</div><!-- .second -->
 	<?php endif; ?>
 </div><!-- #secondary -->
