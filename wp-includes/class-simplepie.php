@@ -25,7 +25,7 @@ function wp_simplepie_autoload( $class ) {
 	if ( 0 !== strpos( $class, 'SimplePie_' ) )
 		return;
 
-	$file = dirname( __FILE__ ) . '/' . str_replace( '_', '/', $class ) . '.php';
+	$file = ABSPATH . WPINC . '/' . str_replace( '_', '/', $class ) . '.php';
 	include $file;
 }
 
