@@ -362,11 +362,14 @@ endif;
 function twentytwelve_body_class( $classes ) {
 	$background_color = get_background_color();
 
-	if ( ! is_active_sidebar( 1 ) || is_page_template( 'full-width-page.php' ) )
+	if ( ! is_active_sidebar( 1 ) || is_page_template( 'page-templates/full-width.php' ) )
 		$classes[] = 'full-width';
 
-	if ( is_page_template( 'homepage.php' ) && has_post_thumbnail() )
-		$classes[] = 'has-post-thumbnail';
+	if ( is_page_template( 'page-templates/home.php' ) ) {
+		$classes[] = 'template-home';
+		if ( has_post_thumbnail() )
+			$classes[] = 'has-post-thumbnail';
+	}
 
 	if ( empty( $background_color ) )
 		$classes[] = 'custom-background-empty';
@@ -384,7 +387,7 @@ add_filter( 'body_class', 'twentytwelve_body_class' );
  * @since Twenty Twelve 1.0
  */
 function twentytwelve_content_width() {
-	if ( is_page_template( 'full-width-page.php' ) || is_attachment() || ! is_active_sidebar( 1 ) ) {
+	if ( is_page_template( 'page-templates/full-width.php' ) || is_attachment() || ! is_active_sidebar( 1 ) ) {
 		global $content_width;
 		$content_width = 960;
 	}

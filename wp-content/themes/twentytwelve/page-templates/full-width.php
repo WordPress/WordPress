@@ -1,6 +1,8 @@
 <?php
 /**
- * Template Name: Full-width page, no sidebar
+ * Template Name: Full-width Page Template, No Sidebar
+ *
+ * @todo Better documentation here.
  *
  * @package WordPress
  * @subpackage Twenty_Twelve

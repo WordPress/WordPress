@@ -1199,11 +1199,11 @@ label ~ span.required {
 	margin-bottom: 14px;
 	margin-bottom: 1rem;
 }
-.page-template-homepage-php .site-content article {
+.template-home .site-content article {
 	border: 0;
 	margin-bottom: 0;
 }
-.page-template-homepage-php .widget-area {
+.template-home .widget-area {
 	clear: both;
 	float: none;
 	width: auto;
@@ -1211,7 +1211,7 @@ label ~ span.required {
 	padding-top: 1.714285714rem;
 	border-top: 1px solid #ededed;
 }
-.page-template-homepage-php .widget-area .widget li {
+.template-home .widget-area .widget li {
 	margin: 8px 0 0;
 	margin: 0.571428571rem 0 0;
 	font-size: 13px;
@@ -1220,13 +1220,13 @@ label ~ span.required {
 	list-style-type: square;
 	list-style-position: inside;
 }
-.page-template-homepage-php .widget-area .widget li a {
+.template-home .widget-area .widget li a {
 	color: #777;
 }
-.page-template-homepage-php .widget-area .widget li a:hover {
+.template-home .widget-area .widget li a:hover {
 	color: #21759b;
 }
-.page-template-homepage-php .widget-area .widget_text img {
+.template-home .widget-area .widget_text img {
 	float: left;
 	margin: 8px 24px 8px 0;
 	margin: 0.571428571rem 1.714285714rem 0.571428571rem 0;
@@ -1324,8 +1324,7 @@ img#wpstats {
 		float: left;
 		width: 65.104166667%;
 	}
-	body.page-template-full-width-page-php .site-content,
-	body.page-template-homepage-php .site-content,
+	body.template-home .site-content,
 	body.single-attachment .site-content,
 	body.full-width .site-content {
 		width: 100%;
@@ -1428,11 +1427,11 @@ img#wpstats {
 	#respond form textarea.blog-textarea {
 		width: 79.666666667%;
 	}
-	.page-template-homepage-php .site-content,
-	.page-template-homepage-php article {
+	.template-home .site-content,
+	.template-home article {
 		overflow: hidden;
 	}
-	.page-template-homepage-php.has-post-thumbnail article {
+	.template-home.has-post-thumbnail article {
 		float: left;
 		width: 47.916666667%;
 	}
@@ -1441,25 +1440,25 @@ img#wpstats {
 		margin-bottom: 0;
 		width: 47.916666667%;
 	}
-	.page-template-homepage-php .widget-area .widget,
-	.page-template-homepage-php .widget-area.two .home-widgets {
+	.template-home .widget-area .widget,
+	.template-home .widget-area.two .home-widgets {
 		float: left;
 		width: 51.875%;
 		margin-bottom: 24px;
 		margin-bottom: 1.714285714rem;
 	}
-	.page-template-homepage-php .widget-area .widget:nth-child(odd) {
+	.template-home .widget-area .widget:nth-child(odd) {
 		clear: right;
 	}
-	.page-template-homepage-php .widget-area .widget:nth-child(even),
-	.page-template-homepage-php .widget-area.two .home-widgets + .home-widgets {
+	.template-home .widget-area .widget:nth-child(even),
+	.template-home .widget-area.two .home-widgets + .home-widgets {
 		float: right;
 		width: 39.0625%;
 		margin: 0 0 24px;
 		margin: 0 0 1.714285714rem;
 	}
-	.page-template-homepage-php .widget-area.two .widget,
-	.page-template-homepage-php .widget-area.two .widget:nth-child(even) {
+	.template-home .widget-area.two .widget,
+	.template-home .widget-area.two .widget:nth-child(even) {
 		float: none;
 		width: auto;
 	}

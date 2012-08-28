@@ -1,6 +1,8 @@
 <?php
 /**
- * Template Name: Homepage
+ * Template Name: Homepage Template
+ *
+ * @todo Better documentation here.
  *
  * @package WordPress
  * @subpackage Twenty_Twelve
