@@ -80,7 +80,6 @@ $time_format = get_option('time_format');
 wp_reset_vars(array('profile', 'redirect', 'redirect_url', 'a', 'text', 'trackback', 'pingback'));
 
 wp_enqueue_script( 'common' );
-wp_enqueue_script( 'jquery-color' );
 
 $editing = false;
 
