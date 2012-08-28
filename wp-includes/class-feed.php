@@ -10,7 +10,7 @@ class WP_Feed_Cache extends SimplePie_Cache {
 	 * @static
 	 * @access public
 	 */
-	function create($location, $filename, $extension) {
+	public static function create($location, $filename, $extension) {
 		return new WP_Feed_Cache_Transient($location, $filename, $extension);
 	}
 }
