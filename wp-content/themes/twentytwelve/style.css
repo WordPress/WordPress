@@ -560,7 +560,8 @@ section[role="banner"] {
 	margin-bottom: 1.714285714rem;
 }
 .widget-area .widget p,
-.widget-area .widget li {
+.widget-area .widget li,
+.widget-area .widget .textwidget {
 	font-size: 13px;
 	font-size: 0.928571429rem;
 	line-height: 1.846153846;
