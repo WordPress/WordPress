@@ -1256,7 +1256,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		do_action( 'xmlrpc_call', 'wp.deletePost' );
 
-		$post = wp_get_single_post( $post_id, ARRAY_A );
+		$post = get_post( $post_id, ARRAY_A );
 		if ( empty( $post['ID'] ) )
 			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
 
@@ -1286,7 +1286,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * groups are 'post' (all basic fields), 'taxonomies', 'custom_fields',
 	 * and 'enclosure'.
 	 *
-	 * @uses wp_get_single_post()
+	 * @uses get_post()
 	 * @param array $args Method parameters. Contains:
 	 *  - int     $post_id
 	 *  - string  $username
@@ -1337,7 +1337,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		do_action( 'xmlrpc_call', 'wp.getPost' );
 
-		$post = wp_get_single_post( $post_id, ARRAY_A );
+		$post = get_post( $post_id, ARRAY_A );
 
 		if ( empty( $post['ID'] ) )
 			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
@@ -2060,7 +2060,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		// Get the current page based on the page_id and
 		// make sure it is a page and not a post.
-		$actual_page = wp_get_single_post($page_id, ARRAY_A);
+		$actual_page = get_post($page_id, ARRAY_A);
 		if ( !$actual_page || ($actual_page['post_type'] != 'page') )
 			return(new IXR_Error(404, __('Sorry, no such page.')));
 
@@ -2101,7 +2101,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		do_action('xmlrpc_call', 'wp.editPage');
 
 		// Get the page data and make sure it is a page.
-		$actual_page = wp_get_single_post($page_id, ARRAY_A);
+		$actual_page = get_post($page_id, ARRAY_A);
 		if ( !$actual_page || ($actual_page['post_type'] != 'page') )
 			return(new IXR_Error(404, __('Sorry, no such page.')));
 
@@ -3296,7 +3296,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( !$user = $this->login($username, $password) )
 			return $this->error;
 
-		$post_data = wp_get_single_post($post_ID, ARRAY_A);
+		$post_data = get_post($post_ID, ARRAY_A);
 		if ( ! $post_data )
 			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
 
@@ -3538,7 +3538,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		do_action('xmlrpc_call', 'blogger.editPost');
 
-		$actual_post = wp_get_single_post($post_ID,ARRAY_A);
+		$actual_post = get_post($post_ID,ARRAY_A);
 
 		if ( !$actual_post || $actual_post['post_type'] != 'post' )
 			return new IXR_Error(404, __('Sorry, no such post.'));
@@ -3592,7 +3592,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		do_action('xmlrpc_call', 'blogger.deletePost');
 
-		$actual_post = wp_get_single_post($post_ID,ARRAY_A);
+		$actual_post = get_post($post_ID,ARRAY_A);
 
 		if ( !$actual_post || $actual_post['post_type'] != 'post' )
 			return new IXR_Error(404, __('Sorry, no such post.'));
@@ -3982,7 +3982,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		do_action('xmlrpc_call', 'metaWeblog.editPost');
 
-		$postdata = wp_get_single_post( $post_ID, ARRAY_A );
+		$postdata = get_post( $post_ID, ARRAY_A );
 
 		// If there is no post data for the give post id, stop
 		// now and return an error. Other wise a new post will be
@@ -4247,7 +4247,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( !$user = $this->login($username, $password) )
 			return $this->error;
 
-		$postdata = wp_get_single_post($post_ID, ARRAY_A);
+		$postdata = get_post($post_ID, ARRAY_A);
 		if ( ! $postdata )
 			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
 
@@ -4827,7 +4827,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		do_action('xmlrpc_call', 'mt.getTrackbackPings');
 
-		$actual_post = wp_get_single_post($post_ID, ARRAY_A);
+		$actual_post = get_post($post_ID, ARRAY_A);
 
 		if ( !$actual_post )
 			return new IXR_Error(404, __('Sorry, no such post.'));
@@ -4874,7 +4874,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		do_action('xmlrpc_call', 'mt.publishPost');
 
-		$postdata = wp_get_single_post($post_ID, ARRAY_A);
+		$postdata = get_post($post_ID, ARRAY_A);
 		if ( ! $postdata )
 			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
 
@@ -5088,7 +5088,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  		return new IXR_Error(33, __('The specified target URL cannot be used as a target. It either doesn&#8217;t exist, or it is not a pingback-enabled resource.'));
 		}
 
-		$actual_post = wp_get_single_post($post_ID, ARRAY_A);
+		$actual_post = get_post($post_ID, ARRAY_A);
 
 		if ( !$actual_post ) {
 			// No such post = resource not found

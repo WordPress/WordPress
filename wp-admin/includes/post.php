@@ -464,24 +464,6 @@ function get_default_page_to_edit() {
 }
 
 /**
- * Get an existing post and format it for editing.
- *
- * @since 2.0.0
- *
- * @param int $id
- * @return WP_Post
- */
-function get_post_to_edit( $id ) {
-
-	$post = get_post( $id, OBJECT, 'edit' );
-
-	if ( $post->post_type == 'page' )
-		$post->page_template = get_post_meta( $id, '_wp_page_template', true );
-
-	return $post;
-}
-
-/**
  * Determine if a post exists based on title, content, and date
  *
  * @since 2.0.0
@@ -928,7 +910,7 @@ function get_available_post_mime_types($type = 'attachment') {
 /**
  * Executes a query for attachments. An array of WP_Query arguments
  * can be passed in, which will override the arguments set by this function.
- * 
+ *
  * @since 2.5.0
  * @uses apply_filters() Calls 'upload_per_page' on posts_per_page argument
  *
