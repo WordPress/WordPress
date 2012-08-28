@@ -181,7 +181,7 @@ function wp_default_scripts( &$scripts ) {
 			'closeImage' => includes_url('js/thickbox/tb-close.png')
 	) );
 
-	$scripts->add( 'jcrop', "/wp-includes/js/jcrop/jquery.Jcrop$suffix.js", array('jquery'), '0.9.10');
+	$scripts->add( 'jcrop', "/wp-includes/js/jcrop/jquery.Jcrop.min.js", array('jquery'), '0.9.10');
 
 	$scripts->add( 'swfobject', "/wp-includes/js/swfobject.js", array(), '2.2-20120417');
 
@@ -482,7 +482,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'install', "/wp-admin/css/install$suffix.css" );
 	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css' );
 	$styles->add( 'farbtastic', '/wp-admin/css/farbtastic.css', array(), '1.3u1' );
-	$styles->add( 'jcrop', "/wp-includes/js/jcrop/jquery.Jcrop$suffix.css", array(), '0.9.10' );
+	$styles->add( 'jcrop', "/wp-includes/js/jcrop/jquery.Jcrop.min.css", array(), '0.9.10' );
 	$styles->add( 'imgareaselect', '/wp-includes/js/imgareaselect/imgareaselect.css', array(), '0.9.8' );
 	$styles->add( 'admin-bar', "/wp-includes/css/admin-bar$suffix.css" );
 	$styles->add( 'wp-jquery-ui-dialog', "/wp-includes/css/jquery-ui-dialog$suffix.css" );
