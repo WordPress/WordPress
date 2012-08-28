@@ -337,7 +337,8 @@ table.ie-fixed {
 	table-layout: fixed;
 }
 
-.widefat tr, .widefat th {
+.widefat tr,
+.widefat th {
 	margin-bottom: 0;
 	border-spacing: 0;
 }
@@ -346,12 +347,14 @@ table.ie-fixed {
 	margin: 0 0 0 5px;
 }
 
-.widefat .check-column {
-	padding: 6px 0 2px;
+.widefat thead .check-column,
+.widefat tfoot .check-column {
+	padding-top: 6px;
 }
 
-.widefat tbody th.check-column {
-	padding: 4px 0 22px;
+.widefat tbody th.check-column,
+.media.widefat tbody th.check-column {
+	padding: 4px 0 0;
 }
 
 .widefat {

@@ -60,7 +60,9 @@ input[type="search"]:focus,
 input[type="tel"]:focus,
 input[type="url"]:focus,
 select:focus {
-	border-color: #bbb;
+	border-color: #a1a1a1;
+	-webkit-box-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+	box-shadow: 1px 1px 2px rgba(0,0,0,0.1);
 }
 
 kbd,
@@ -961,10 +963,6 @@ table.widefat .spam a:hover,
 	border-color: #8dff1c !important;
 }
 
-#titlediv #title {
-	border-color: #ccc;
-}
-
 #post-status-info {
 	border-color: #dfdfdf #ccc #ccc;
 	background-color: #eaeaea;
@@ -983,8 +981,6 @@ table.widefat .spam a:hover,
 	color: #333;
 }
 
-#timestampdiv input,
-#namediv input,
 #poststuff .inside .the-tagcloud {
 	border-color: #ddd;
 }
@@ -1579,8 +1575,6 @@ table.diff .diff-addedline ins {
 }
 
 /* inline editor */
-.inline-edit-row fieldset input[type="text"],
-.inline-edit-row fieldset textarea,
 #bulk-titles {
 	border-color: #ddd;
 }

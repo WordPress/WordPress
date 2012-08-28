@@ -1047,6 +1047,8 @@
 
 .wp-editor-container textarea.wp-editor-area {
 	width: 99.9%;
+	-webkit-box-shadow: none;
+	box-shadow: none;
 }
 
 .quicktags-toolbar,

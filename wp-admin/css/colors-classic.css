@@ -65,7 +65,9 @@ input[type="search"]:focus,
 input[type="tel"]:focus,
 input[type="url"]:focus,
 select:focus {
-	border-color: #d1e5ee;
+	border-color: #a1a1a1;
+	-webkit-box-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+	box-shadow: 1px 1px 2px rgba(0,0,0,0.1);
 }
 
 kbd,
@@ -1225,10 +1227,6 @@ table.widefat .spam a:hover,
 
 /* end TinyMCE */
 
-#titlediv #title {
-	border-color: #bdccd5;
-}
-
 #editorcontainer {
 	border-color: #bdccd5 #bdccd5 #d0dfe9;
 }
@@ -1250,8 +1248,6 @@ table.widefat .spam a:hover,
 	color: #333;
 }
 
-#timestampdiv input,
-#namediv input,
 #poststuff .inside .the-tagcloud {
 	border-color: #ddd;
 }
@@ -1911,8 +1907,6 @@ table.diff .diff-addedline ins {
 }
 
 /* inline editor */
-.inline-edit-row fieldset input[type="text"],
-.inline-edit-row fieldset textarea,
 #bulk-titles {
 	border-color: #ddd;
 }

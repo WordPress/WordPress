@@ -297,6 +297,7 @@ select {
 a,
 input,
 select,
+textarea,
 div {
 	outline: 0;
 }
@@ -581,12 +582,17 @@ select,
 
 .widefat .check-column {
 	width: 2.2em;
-	padding: 11px 0 0;
+	padding: 6px 0 0;
 	vertical-align: top;
 }
 
-.widefat tbody th.check-column {
-	padding: 9px 0 22px;
+.widefat.media .check-column {
+	padding-top: 8px;
+}
+
+.widefat thead .check-column,
+.widefat tfoot .check-column {
+	padding-top: 10px;
 }
 
 .widefat .num,
@@ -4257,6 +4263,8 @@ span.imgedit-scale-warn {
 
 #replycontent {
 	height: 120px;
+	-webkit-box-shadow: none;
+	box-shadow: none;
 }
 
 .comment-ays {
@@ -5791,39 +5799,12 @@ h3:hover .edit-box {
 	display: inline;
 }
 
-.index-php form .input-text-wrap {
-	background: #fff;
-	border-style: solid;
-	border-width: 1px;
-	padding: 2px 3px;
-	border-color: #ccc;
-}
-
 #dashboard-widgets form .input-text-wrap input {
-	border: 0 none;
-	outline: none;
-	margin: 0;
-	padding: 0;
 	width: 99%;
-	color: #333;
-}
-
-form .textarea-wrap {
-	background: #fff;
-	border-style: solid;
-	border-width: 1px;
-	padding: 2px;
-	border-color: #ccc;
 }
 
 #dashboard-widgets form .textarea-wrap textarea {
-	border: 0 none;
-	padding: 0;
-	outline: none;
 	width: 99%;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
 }
 
 #dashboard-widgets .postbox form .submit {
