@@ -181,15 +181,6 @@ class WP_Themes_List_Table extends WP_List_Table {
 			<div class="themedetaildiv hide-if-js">
 				<p><strong><?php _e('Version: '); ?></strong><?php echo $version; ?></p>
 				<p><?php echo $theme->display('Description'); ?></p>
-				<?php if ( current_user_can( 'edit_themes' ) && $theme->parent() ) :
-					/* translators: 1: theme title, 2:  template dir, 3: stylesheet_dir, 4: theme title, 5: parent_theme */ ?>
-					<p><?php printf( __( 'The template files are located in <code>%2$s</code>. The stylesheet files are located in <code>%3$s</code>. <strong>%4$s</strong> uses templates from <strong>%5$s</strong>. Changes made to the templates will affect both themes.' ),
-						$title, str_replace( WP_CONTENT_DIR, '', $theme->get_template_directory() ), str_replace( WP_CONTENT_DIR, '', $theme->get_stylesheet_directory() ), $title, $theme->parent()->display('Name') ); ?></p>
-				<?php else :
-						/* translators: 1: theme title, 2:  template dir, 3: stylesheet_dir */ ?>
-					<p><?php printf( __( 'All of this theme&#8217;s files are located in <code>%2$s</code>.' ),
-						$title, str_replace( WP_CONTENT_DIR, '', $theme->get_template_directory() ), str_replace( WP_CONTENT_DIR, '', $theme->get_stylesheet_directory() ) ); ?></p>
-				<?php endif; ?>
 			</div>
 
 			</div>
