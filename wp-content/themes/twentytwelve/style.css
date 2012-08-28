@@ -297,6 +297,9 @@ object,
 video {
 	max-width: 100%;
 }
+.entry-content .twitter-tweet-rendered { 
+	max-width: 100% !important; /* Override the Twitter embed fixed width */
+}
 
 /* Images */
 .alignleft {
