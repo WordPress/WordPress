@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Twelve 0.9\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentytwelve\n"
-"POT-Creation-Date: 2012-08-28 03:19:02+00:00\n"
+"POT-Creation-Date: 2012-08-28 18:18:47+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -330,12 +330,4 @@ msgid ""
 "custom-background, custom-header, custom-menu, editor-style, featured-"
 "images, flexible-header, full-width-template, microformats, post-formats, "
 "rtl-language-support, sticky-post, theme-options, translation-ready"
-msgstr ""
-
-#. Template Name of the plugin/theme
-msgid "Full-width page, no sidebar"
-msgstr ""
-
-#. Template Name of the plugin/theme
-msgid "Homepage"
 msgstr ""
