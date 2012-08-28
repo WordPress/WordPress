@@ -333,7 +333,7 @@ img.wp-post-image {
 	line-height: 2;
 	color: #777;
 }
-.wp-smiley,
+img.wp-smiley,
 .rsswidget img {
 	border: 0;
 	border-radius: 0;
