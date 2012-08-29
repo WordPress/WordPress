@@ -489,39 +489,32 @@ final class WP_Post {
 
 	public function __get( $key ) {
 		if ( 'page_template' == $key && $this->__isset( $key ) ) {
-			$_ref = get_post_meta( $this->ID, '_wp_page_template', true );
+			return get_post_meta( $this->ID, '_wp_page_template', true );
 		}
 
 		if ( 'post_category' == $key ) {
-			if ( is_object_in_taxonomy( $this->post_type, 'category' ) ) {
-				$_ref = wp_get_post_categories( $this->ID );
-			} else {
-				$_ref = array();
-			}
+			if ( is_object_in_taxonomy( $this->post_type, 'category' ) )
+				return wp_get_post_categories( $this->ID );
+			else
+				return array();
 		}
 
 		if ( 'tags_input' == $key ) {
-			if ( is_object_in_taxonomy( $this->post_type, 'post_tag' ) ) {
-				$_ref = wp_get_post_tags( $this->ID, array( 'fields' => 'names' ) );
-			} else {
-				$_ref = array();
-			}
+			if ( is_object_in_taxonomy( $this->post_type, 'post_tag' ) )
+				return wp_get_post_tags( $this->ID, array( 'fields' => 'names' ) );
+			else
+				return array();
 		}
-
-		if ( isset( $_ref ) )
-			return $_ref;
 
 		// Rest of the values need filtering
 
-		if ( 'ancestors' == $key ) {
+		if ( 'ancestors' == $key )
 			$value = get_post_ancestors( $this );
-		} else {
+		else
 			$value = get_post_meta( $this->ID, $key, true );
-		}
 
-		if ( $this->filter ) {
+		if ( $this->filter )
 			$value = sanitize_post_field( $key, $value, $this->ID, $this->filter );
-		}
 
 		return $value;
 	}
