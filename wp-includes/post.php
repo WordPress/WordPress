@@ -487,7 +487,7 @@ final class WP_Post {
 		return metadata_exists( 'post', $this->ID, $key );
 	}
 
-	public function &__get( $key ) {
+	public function __get( $key ) {
 		if ( 'page_template' == $key && $this->__isset( $key ) ) {
 			$_ref = get_post_meta( $this->ID, '_wp_page_template', true );
 		}
