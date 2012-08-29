@@ -130,7 +130,9 @@ if ( typeof wp === 'undefined' )
 			$('#' + this.uploader.id + '_html5_container').hide();
 		}
 
-		this.uploader.bind( 'UploadProgress', this.progress );
+		this.uploader.bind( 'UploadProgress', function( up, file ) {
+			self.progress( file );
+		});
 
 		this.uploader.bind( 'FileUploaded', function( up, file, response ) {
 			try {
@@ -143,10 +145,10 @@ if ( typeof wp === 'undefined' )
 				return self.error( pluploadL10n.default_error );
 
 			if ( 'error' === response.type )
-				return self.error( response.data.message, response.data );
+				return self.error( response.data.message, response.data, file );
 
 			if ( 'success' === response.type )
-				return self.success( response.data );
+				return self.success( response.data, file );
 
 		});
 
@@ -162,7 +164,7 @@ if ( typeof wp === 'undefined' )
 				}
 			}
 
-			self.error( message, error );
+			self.error( message, error, error.file );
 			up.refresh();
 		});
 
