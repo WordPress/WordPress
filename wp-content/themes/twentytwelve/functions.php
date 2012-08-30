@@ -102,6 +102,12 @@ function twentytwelve_scripts_styles() {
 
 	/*
 	 * Loads our special font CSS file.
+	 *
+ 	 * To disable in a child theme, use wp_dequeue_style()
+ 	 * function mytheme_dequeue_fonts() {
+ 	 *     wp_dequeue_style( 'twentytwelve-fonts' );
+ 	 * }
+	 * add_action( 'wp_enqueue_scripts', 'mytheme_dequeue_fonts', 11 );
  	 */
 	$protocol = is_ssl() ? 'https' : 'http';
 	wp_enqueue_style( 'twentytwelve-fonts', "$protocol://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700", array(), null );
@@ -375,6 +381,10 @@ function twentytwelve_body_class( $classes ) {
 		$classes[] = 'custom-background-empty';
 	elseif ( in_array( $background_color, array( 'fff', 'ffffff' ) ) )
 		$classes[] = 'custom-background-white';
+
+	// Enable custom font class only if the font CSS is queued to load.
+	if ( wp_style_is( 'twentytwelve-fonts', 'queue' ) )
+		$classes[] = 'custom-font-enabled';
 
 	return $classes;
 }
