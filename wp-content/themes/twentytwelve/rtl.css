@@ -189,10 +189,6 @@ label ~ span.required {
 	.site-header h2 {
 		text-align: right;
 	}
-	.entry-content p,
-	.entry-summary p {
-		text-align: right;
-	}
 	.template-home .widget-area .widget_text img {
 		float: right;
 		margin: 8px 0 8px 24px;

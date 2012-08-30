@@ -1301,7 +1301,7 @@ img#wpstats {
 @media screen and (min-width: 600px) {
 	.entry-content p,
 	.entry-summary p {
-		text-align: left;
+		text-align: inherit;
 		text-justify: auto;
 	}
 	#author-avatar {
