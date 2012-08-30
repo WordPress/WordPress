@@ -167,16 +167,19 @@ function wp_dequeue_style( $handle ) {
 /**
  * Check whether style has been added to WordPress Styles.
  *
- * The values for list defaults to 'queue', which is the same as wp_enqueue_style().
+ * By default, checks if the style has been enqueued. You can also
+ * pass 'registered' to $list, to see if the style is registered,
+ * and you can check processing statuses with 'to_do' and 'done'.
  *
  * @since WP unknown; BP unknown
  * @global object $wp_styles The WP_Styles object for printing styles.
  *
  * @param string $handle Name of the stylesheet.
- * @param string $list Values are 'registered', 'done', 'queue' and 'to_do'.
- * @return bool True on success, false on failure.
+ * @param string $list Optional. Defaults to 'enqueued'. Values are
+ * 	'registered', 'enqueued' (or 'queue'), 'to_do', and 'done'.
+ * @return bool Whether style is in the list.
  */
-function wp_style_is( $handle, $list = 'queue' ) {
+function wp_style_is( $handle, $list = 'enqueued' ) {
 	global $wp_styles;
 	if ( ! is_a( $wp_styles, 'WP_Styles' ) ) {
 		if ( ! did_action( 'init' ) )
@@ -185,10 +188,5 @@ function wp_style_is( $handle, $list = 'queue' ) {
 		$wp_styles = new WP_Styles();
 	}
 
-	$query = $wp_styles->query( $handle, $list );
-
-	if ( is_object( $query ) )
-		return true;
-
-	return $query;
+	return (bool) $wp_styles->query( $handle, $list );
 }

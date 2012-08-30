@@ -161,16 +161,18 @@ function wp_dequeue_script( $handle ) {
 /**
  * Check whether script has been added to WordPress Scripts.
  *
- * The values for list defaults to 'queue', which is the same as enqueue for
- * scripts.
+ * By default, checks if the script has been enqueued. You can also
+ * pass 'registered' to $list, to see if the script is registered,
+ * and you can check processing statuses with 'to_do' and 'done'.
  *
  * @since WP unknown; BP unknown
  *
- * @param string $handle Handle used to add script.
- * @param string $list Optional, defaults to 'queue'. Others values are 'registered', 'queue', 'done', 'to_do'
- * @return bool
+ * @param string $handle Name of the script.
+ * @param string $list Optional. Defaults to 'enqueued'. Values are
+ * 	'registered', 'enqueued' (or 'queue'), 'to_do', and 'done'.
+ * @return bool Whether script is in the list.
  */
-function wp_script_is( $handle, $list = 'queue' ) {
+function wp_script_is( $handle, $list = 'enqueued' ) {
 	global $wp_scripts;
 	if ( ! is_a( $wp_scripts, 'WP_Scripts' ) ) {
 		if ( ! did_action( 'init' ) )
@@ -179,10 +181,5 @@ function wp_script_is( $handle, $list = 'queue' ) {
 		$wp_scripts = new WP_Scripts();
 	}
 
-	$query = $wp_scripts->query( $handle, $list );
-
-	if ( is_object( $query ) )
-		return true;
-
-	return $query;
+	return (bool) $wp_scripts->query( $handle, $list );
 }
