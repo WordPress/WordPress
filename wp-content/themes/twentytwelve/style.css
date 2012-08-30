@@ -579,6 +579,9 @@ section[role="banner"] {
 footer[role="contentinfo"] {
 	border-top: 1px solid #ededed;
 	clear: both;
+	font-size: 12px;
+	font-size: 0.857142857rem;
+	line-height: 2;
 	max-width: 960px;
 	max-width: 68.571428571rem;
 	margin-top: 24px;
@@ -590,9 +593,6 @@ footer[role="contentinfo"] {
 	overflow: hidden;
 }
 footer[role="contentinfo"] a {
-	font-size: 12px;
-	font-size: 0.857142857rem;
-	line-height: 2;
 	color: #686868;
 }
 footer[role="contentinfo"] a:hover {
