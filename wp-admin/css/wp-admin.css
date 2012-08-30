@@ -582,7 +582,7 @@ select,
 
 .widefat .check-column {
 	width: 2.2em;
-	padding: 6px 0 0;
+	padding: 6px 0 25px;
 	vertical-align: top;
 }
 
@@ -592,7 +592,7 @@ select,
 
 .widefat thead .check-column,
 .widefat tfoot .check-column {
-	padding-top: 10px;
+	padding: 10px 0 0;
 }
 
 .widefat .num,
