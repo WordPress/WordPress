@@ -975,6 +975,9 @@ article.format-image footer h2 {
 	font-size: 0.785714286rem;
 	line-height: 2.181818182;
 }
+article.format-image footer a h2 {
+	font-weight: normal;
+}
 
 /* Link posts */
 article.format-link header {
