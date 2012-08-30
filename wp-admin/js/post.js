@@ -281,7 +281,7 @@ jQuery(document).ready( function($) {
  		if ( taxonomy == 'category' )
  			settingName = 'cats';
 
-		// TODO: move to jQuery 1.3+, support for multiple hierarchical taxonomies, see wp-lists.dev.js
+		// TODO: move to jQuery 1.3+, support for multiple hierarchical taxonomies, see wp-lists.js
 		$('a', '#' + taxonomy + '-tabs').click( function(){
 			var t = $(this).attr('href');
 			$(this).parent().addClass('tabs').siblings('li').removeClass('tabs');
