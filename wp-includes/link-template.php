@@ -623,7 +623,7 @@ function get_term_feed_link( $term_id, $taxonomy = 'category', $feed = '' ) {
 	if ( 'category' == $taxonomy )
 		$link = apply_filters( 'category_feed_link', $link, $feed );
 	elseif ( 'post_tag' == $taxonomy )
-		$link = apply_filters( 'category_feed_link', $link, $feed );
+		$link = apply_filters( 'tag_feed_link', $link, $feed );
 	else
 		$link = apply_filters( 'taxonomy_feed_link', $link, $feed, $taxonomy );
 
