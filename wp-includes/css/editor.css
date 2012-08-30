@@ -2035,7 +2035,7 @@ RTL
 	border-width: 1px;
 	border-top-left-radius: 0;
 	border-top-right-radius: 3px;
-	border-bottom-right-left: 0;
+	border-bottom-left-radius: 0;
 	border-bottom-right-radius: 3px;
 }
 
