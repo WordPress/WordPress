@@ -488,12 +488,7 @@ function prep_atom_text_construct($data) {
  */
 function self_link() {
 	$host = @parse_url(home_url());
-	$host = $host['host'];
-	echo esc_url(
-		( is_ssl() ? 'https' : 'http' ) . '://'
-		. $host
-		. stripslashes($_SERVER['REQUEST_URI'])
-		);
+	echo esc_url( set_url_scheme( 'http://' . $host['host'] . stripslashes($_SERVER['REQUEST_URI']) ) );
 }
 
 /**

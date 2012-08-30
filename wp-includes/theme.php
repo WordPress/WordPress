@@ -891,12 +891,7 @@ function get_header_image() {
 	if ( is_random_header_image() )
 		$url = get_random_header_image();
 
-	if ( is_ssl() )
-		$url = str_replace( 'http://', 'https://', $url );
-	else
-		$url = str_replace( 'https://', 'http://', $url );
-
-	return esc_url_raw( $url );
+	return esc_url_raw( set_url_scheme( $url ) );
 }
 
 /**

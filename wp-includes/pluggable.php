@@ -748,11 +748,11 @@ function auth_redirect() {
 
 	// If https is required and request is http, redirect
 	if ( $secure && !is_ssl() && false !== strpos($_SERVER['REQUEST_URI'], 'wp-admin') ) {
-		if ( 0 === strpos($_SERVER['REQUEST_URI'], 'http') ) {
-			wp_redirect(preg_replace('|^http://|', 'https://', $_SERVER['REQUEST_URI']));
+		if ( 0 === strpos( $_SERVER['REQUEST_URI'], 'http' ) ) {
+			wp_redirect( set_url_scheme( $_SERVER['REQUEST_URI'], 'https' ) );
 			exit();
 		} else {
-			wp_redirect('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+			wp_redirect( 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
 			exit();
 		}
 	}
@@ -767,11 +767,11 @@ function auth_redirect() {
 
 		// If the user wants ssl but the session is not ssl, redirect.
 		if ( !$secure && get_user_option('use_ssl', $user_id) && false !== strpos($_SERVER['REQUEST_URI'], 'wp-admin') ) {
-			if ( 0 === strpos($_SERVER['REQUEST_URI'], 'http') ) {
-				wp_redirect(preg_replace('|^http://|', 'https://', $_SERVER['REQUEST_URI']));
+			if ( 0 === strpos( $_SERVER['REQUEST_URI'], 'http' ) ) {
+				wp_redirect( set_url_scheme( $_SERVER['REQUEST_URI'], 'https' ) );
 				exit();
 			} else {
-				wp_redirect('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+				wp_redirect( 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
 				exit();
 			}
 		}
@@ -782,12 +782,7 @@ function auth_redirect() {
 	// The cookie is no good so force login
 	nocache_headers();
 
-	if ( is_ssl() )
-		$proto = 'https://';
-	else
-		$proto = 'http://';
-
-	$redirect = ( strpos($_SERVER['REQUEST_URI'], '/options.php') && wp_get_referer() ) ? wp_get_referer() : $proto . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+	$redirect = ( strpos( $_SERVER['REQUEST_URI'], '/options.php' ) && wp_get_referer() ) ? wp_get_referer() : set_url_scheme( 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
 
 	$login_url = wp_login_url($redirect, true);
 

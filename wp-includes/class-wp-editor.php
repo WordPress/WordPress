@@ -211,7 +211,7 @@ final class _WP_Editors {
 
 						foreach ( $mce_external_plugins as $name => $url ) {
 
-							if ( is_ssl() ) $url = str_replace('http://', 'https://', $url);
+							$url = set_url_scheme( $url );
 
 							$plugins[] = '-' . $name;
 

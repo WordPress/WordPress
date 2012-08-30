@@ -2585,8 +2585,8 @@ function absint( $maybeint ) {
  */
 function url_is_accessable_via_ssl($url)
 {
-	if (in_array('curl', get_loaded_extensions())) {
-		$ssl = preg_replace( '/^http:\/\//', 'https://',  $url );
+	if ( in_array( 'curl', get_loaded_extensions() ) ) {
+		$ssl = set_url_scheme( $url, 'https' );
 
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $ssl);
@@ -2933,12 +2933,11 @@ function force_ssl_admin( $force = null ) {
  * @return string
  */
 function wp_guess_url() {
-	if ( defined('WP_SITEURL') && '' != WP_SITEURL ) {
+	if ( defined('WP_SITEURL') && '' != WP_SITEURL )
 		$url = WP_SITEURL;
-	} else {
-		$schema = is_ssl() ? 'https://' : 'http://';
-		$url = preg_replace('#/(wp-admin/.*|wp-login.php)#i', '', $schema . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
-	}
+	else
+		$url = set_url_scheme( preg_replace( '#/(wp-admin/.*|wp-login.php)#i', '', 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] ) );
+
 	return rtrim($url, '/');
 }
 

@@ -1875,21 +1875,21 @@ function force_ssl_content( $force = '' ) {
 }
 
 /**
- * Formats an String URL to use HTTPS if HTTP is found.
+ * Formats a URL to use https.
+ * 
  * Useful as a filter.
  *
  * @since 2.8.5
- **/
+ *
+ * @param string URL
+ * @return string URL with https as the scheme
+ */
 function filter_SSL( $url ) {
-	if ( !is_string( $url ) )
-		return get_bloginfo( 'url' ); //return home blog url with proper scheme
+	if ( ! is_string( $url ) )
+		return get_bloginfo( 'url' ); // Return home blog url with proper scheme
 
-	$arrURL = parse_url( $url );
-
-	if ( force_ssl_content() && is_ssl() ) {
-		if ( 'http' === $arrURL['scheme'] )
-			$url = str_replace( $arrURL['scheme'], 'https', $url );
-	}
+	if ( force_ssl_content() && is_ssl() )
+		$url = set_url_scheme( $url, 'https' );
 
 	return $url;
 }

@@ -41,9 +41,7 @@ if ( 'publish' == $post->post_status ) {
 	$preview_link = esc_url( get_permalink( $post->ID ) );
 	$preview_button = __( 'Preview Changes' );
 } else {
-	$preview_link = get_permalink( $post->ID );
-	if ( is_ssl() )
-		$preview_link = str_replace( 'http://', 'https://', $preview_link );
+	$preview_link = set_url_scheme( get_permalink( $post->ID ) );
 	$preview_link = esc_url( apply_filters( 'preview_post_link', add_query_arg( 'preview', 'true', $preview_link ) ) );
 	$preview_button = __( 'Preview' );
 }

@@ -2049,9 +2049,7 @@ function includes_url($path = '') {
  * @return string Content url link with optional path appended.
 */
 function content_url($path = '') {
-	$url = WP_CONTENT_URL;
-	if ( 0 === strpos($url, 'http') && is_ssl() )
-		$url = str_replace( 'http://', 'https://', $url );
+	$url = set_url_scheme( WP_CONTENT_URL );
 
 	if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
 		$url .= '/' . ltrim($path, '/');
@@ -2083,8 +2081,8 @@ function plugins_url($path = '', $plugin = '') {
 	else
 		$url = WP_PLUGIN_URL;
 
-	if ( 0 === strpos($url, 'http') && is_ssl() )
-		$url = str_replace( 'http://', 'https://', $url );
+	
+	$url = set_url_scheme( $url );
 
 	if ( !empty($plugin) && is_string($plugin) ) {
 		$folder = dirname(plugin_basename($plugin));

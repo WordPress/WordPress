@@ -903,8 +903,8 @@ function add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $func
 
 	if ( empty($icon_url) )
 		$icon_url = esc_url( admin_url( 'images/generic.png' ) );
-	elseif ( is_ssl() && 0 === strpos($icon_url, 'http://') )
-		$icon_url = 'https://' . substr($icon_url, 7);
+	else
+		$icon_url = set_url_scheme( $icon_url );
 
 	$new_menu = array( $menu_title, $capability, $menu_slug, $page_title, 'menu-top ' . $hookname, $hookname, $icon_url );
 

@@ -3221,9 +3221,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		global $current_blog;
 		$domain = $current_blog->domain;
 		$path = $current_blog->path . 'xmlrpc.php';
-		$protocol = is_ssl() ? 'https' : 'http';
 
-		$rpc = new IXR_Client("$protocol://{$domain}{$path}");
+		$rpc = new IXR_Client( set_url_scheme( "http://{$domain}{$path}" ) );
 		$rpc->query('wp.getUsersBlogs', $args[1], $args[2]);
 		$blogs = $rpc->getResponse();
 
