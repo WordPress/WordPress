@@ -245,14 +245,14 @@
 
 #wpadminbar .menupop .menupop > .ab-item {
 	display: block;
-	background-image: url(../images/admin-bar-sprite.png?d=20111130);
+	background-image: url(../images/admin-bar-sprite.png?d=20120830);
 	background-position: 95% -20px;
 	background-repeat: no-repeat;
 	padding-right: 2em;
 }
 
 #wpadminbar .ab-top-secondary .menupop .menupop > .ab-item {
-	background-image: url(../images/admin-bar-sprite.png?d=20111130);
+	background-image: url(../images/admin-bar-sprite.png?d=20120830);
 	background-position: 5% -46px;
 	background-repeat: no-repeat;
 	padding-left: 2em;
@@ -423,7 +423,7 @@
 	color: #ccc;
 	text-shadow: #444 0px -1px 0px;
 	background-color: rgba( 255, 255, 255, 0 );
-	background-image: url(../images/admin-bar-sprite.png?d=20111130);
+	background-image: url(../images/admin-bar-sprite.png?d=20120830);
 	background-position: 3px 2px;
 	background-repeat: no-repeat;
 	outline: none;
@@ -523,7 +523,7 @@
 	width: 20px;
 	height: 20px;
 	margin-top: 4px;
-	background-image: url(../images/admin-bar-sprite.png?d=20111130);
+	background-image: url(../images/admin-bar-sprite.png?d=20120830);
 	background-position: 0 -76px;
 	background-repeat: no-repeat;
 }
@@ -537,7 +537,7 @@
  * Updates icon
  */
 #wp-admin-bar-updates > .ab-item .ab-icon {
-	background-image: url(../images/admin-bar-sprite.png?d=20111130);
+	background-image: url(../images/admin-bar-sprite.png?d=20120830);
 	background-position: -2px -159px;
 	background-repeat: no-repeat;
 }
@@ -546,7 +546,7 @@
  * Comments icon
  */
 #wp-admin-bar-comments > .ab-item .ab-icon {
-	background-image: url(../images/admin-bar-sprite.png?d=20111130);
+	background-image: url(../images/admin-bar-sprite.png?d=20120830);
 	background-position: -1px -134px;
 	background-repeat: no-repeat;
 }
@@ -559,7 +559,7 @@
  * Add New icon
  */
 #wpadminbar #wp-admin-bar-new-content > .ab-item .ab-icon {
-	background-image: url(../images/admin-bar-sprite.png?d=20111130);
+	background-image: url(../images/admin-bar-sprite.png?d=20120830);
 	background-position: -2px -182px;
 	background-repeat: no-repeat;
 }
@@ -591,7 +591,7 @@
 	#wp-admin-bar-updates > .ab-item .ab-icon,
 	#wp-admin-bar-comments > .ab-item .ab-icon,
 	#wpadminbar #wp-admin-bar-new-content > .ab-item .ab-icon {
-		background-image: url(../images/admin-bar-sprite-2x.png?d=20120516);
+		background-image: url(../images/admin-bar-sprite-2x.png?d=20120830);
 		background-size: 20px 220px;
 	}
 }
