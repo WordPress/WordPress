@@ -145,34 +145,29 @@ if ( typeof wp === 'undefined' )
 
 			this.filters = options.filters || {};
 
-			if ( options.watch )
-				this.watch( options.watch );
+			if ( options.observe )
+				this.observe( options.observe );
 
 			if ( options.mirror )
 				this.mirror( options.mirror );
 		},
 
-		validate: function( attachment ) {
+		validator: function( attachment ) {
 			return _.all( this.filters, function( filter ) {
 				return !! filter.call( this, attachment );
 			}, this );
 		},
 
-		changed: function( attachment, options ) {
-
-			if ( this.validate( attachment ) )
-				this.add( attachment );
-			else
-				this.remove( attachment );
-			return this;
+		validate: function( attachment, options ) {
+			return this[ this.validator( attachment ) ? 'add' : 'remove' ]( attachment, options );
 		},
 
-		watch: function( attachments ) {
-			attachments.on( 'add change', this.changed, this );
+		observe: function( attachments ) {
+			attachments.on( 'add change', this.validate, this );
 		},
 
-		unwatch: function( attachments ) {
-			attachments.off( 'add change', this.changed, this );
+		unobserve: function( attachments ) {
+			attachments.off( 'add change', this.validate, this );
 		},
 
 		mirror: function( attachments ) {
@@ -318,7 +313,7 @@ if ( typeof wp === 'undefined' )
 				};
 			}
 
-			this.watch( Attachments.all );
+			this.observe( Attachments.all );
 		},
 
 		more: function( options ) {
