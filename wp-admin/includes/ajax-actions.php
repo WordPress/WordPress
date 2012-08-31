@@ -1425,7 +1425,7 @@ function wp_ajax_inline_save_tax() {
 	while ( $parent > 0 ) {
 		$parent_tag = get_term( $parent, $taxonomy );
 		$parent = $parent_tag->parent;
-		$level++; 
+		$level++;
 	}
 	echo $wp_list_table->single_row( $tag, $level );
 	wp_die();
@@ -1800,4 +1800,47 @@ function wp_ajax_dismiss_wp_pointer() {
 
 	update_user_meta( get_current_user_id(), 'dismissed_wp_pointers', $dismissed );
 	wp_die( 1 );
+}
+
+/**
+ * Get an attachment.
+ *
+ * @since 3.5.0
+ */
+function wp_ajax_get_attachment() {
+	if ( ! isset( $_REQUEST['id'] ) )
+		wp_send_json_error();
+
+	if ( ! $id = absint( $_REQUEST['id'] ) )
+		wp_send_json_error();
+
+	if ( ! current_user_can( 'read_post', $id ) )
+		wp_send_json_error();
+
+	if ( ! $attachment = wp_prepare_attachment_for_js( $id ) )
+		wp_send_json_error();
+
+	wp_send_json_success( $attachment );
+}
+
+/**
+ * Query for attachments.
+ *
+ * @since 3.5.0
+ */
+function wp_ajax_query_attachments() {
+	$qvs = isset( $_REQUEST['query'] ) ? (array) $_REQUEST['query'] : array();
+	$qvs = array_intersect_key( $qvs, array_flip( array( 's', 'order', 'orderby', 'posts_per_page', 'paged' ) ) );
+
+	$query['post_type'] = 'attachment';
+	$query['post_status'] = 'inherit';
+	if ( current_user_can( get_post_type_object( 'attachment' )->cap->read_private_posts ) )
+		$query['post_status'] .= ',private';
+
+	$query = new WP_Query( $query );
+
+	$posts = array_map( 'wp_prepare_attachment_for_js', $query->posts );
+	$posts = array_filter( $posts );
+
+	wp_send_json_success( $posts );
 }

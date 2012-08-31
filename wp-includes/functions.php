@@ -2151,7 +2151,7 @@ function _scalar_wp_die_handler( $message = '' ) {
  */
 function wp_send_json( $response ) {
 	@header( 'Content-Type: application/json; charset=' . get_option( 'blog_charset' ) );
-	echo json_encode( $json );
+	echo json_encode( $response );
 	if ( defined( 'DOING_AJAX' ) && DOING_AJAX )
 		wp_die();
 	else
