@@ -1496,13 +1496,13 @@ function wp_generate_password( $length = 12, $special_chars = true, $extra_speci
 endif;
 
 if ( !function_exists('wp_rand') ) :
- /**
+/**
  * Generates a random number
  *
  * @since 2.6.2
  *
- * @param int $min Lower limit for the generated number (optional, default is 0)
- * @param int $max Upper limit for the generated number (optional, default is 4294967295)
+ * @param int $min Lower limit for the generated number
+ * @param int $max Upper limit for the generated number
  * @return int A random number between min and max
  */
 function wp_rand( $min = 0, $max = 0 ) {
@@ -1531,10 +1531,12 @@ function wp_rand( $min = 0, $max = 0 ) {
 
 	$value = abs(hexdec($value));
 
+	// Some misconfigured 32bit environments (Entropy PHP, for example) truncate integers larger than PHP_INT_MAX to PHP_INT_MAX rather than overflowing them to floats.
+	$max_random_number = 3000000000 === 2147483647 ? (float) "4294967295" : 4294967295; // 4294967295 = 0xffffffff
+
 	// Reduce the value to be within the min - max range
-	// 4294967295 = 0xffffffff = max random number
 	if ( $max != 0 )
-		$value = $min + (($max - $min + 1) * ($value / (4294967295 + 1)));
+		$value = $min + ( $max - $min + 1 ) * $value / ( $max_random_number + 1 );
 
 	return abs(intval($value));
 }
