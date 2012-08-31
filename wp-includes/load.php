@@ -583,8 +583,11 @@ function wp_clone( $object ) {
  * @return bool True if inside WordPress administration pages.
  */
 function is_admin() {
-	if ( defined( 'WP_ADMIN' ) )
+	if ( isset( $GLOBALS['current_screen'] ) )
+		return $GLOBALS['current_screen']->in_admin();
+	elseif ( defined( 'WP_ADMIN' ) )
 		return WP_ADMIN;
+
 	return false;
 }
 
@@ -599,8 +602,11 @@ function is_admin() {
  * @return bool True if inside WordPress network administration pages.
  */
 function is_blog_admin() {
-	if ( defined( 'WP_BLOG_ADMIN' ) )
+	if ( isset( $GLOBALS['current_screen'] ) )
+		return $GLOBALS['current_screen']->in_admin( 'blog' );
+	elseif ( defined( 'WP_BLOG_ADMIN' ) )
 		return WP_BLOG_ADMIN;
+
 	return false;
 }
 
@@ -615,8 +621,11 @@ function is_blog_admin() {
  * @return bool True if inside WordPress network administration pages.
  */
 function is_network_admin() {
-	if ( defined( 'WP_NETWORK_ADMIN' ) )
+	if ( isset( $GLOBALS['current_screen'] ) )
+		return $GLOBALS['current_screen']->in_admin( 'network' );
+	elseif ( defined( 'WP_NETWORK_ADMIN' ) )
 		return WP_NETWORK_ADMIN;
+
 	return false;
 }
 
@@ -631,8 +640,11 @@ function is_network_admin() {
  * @return bool True if inside WordPress user administration pages.
  */
 function is_user_admin() {
-	if ( defined( 'WP_USER_ADMIN' ) )
+	if ( isset( $GLOBALS['current_screen'] ) )
+		return $GLOBALS['current_screen']->in_admin( 'user' );
+	elseif ( defined( 'WP_USER_ADMIN' ) )
 		return WP_USER_ADMIN;
+
 	return false;
 }
 
