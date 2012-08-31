@@ -1595,3 +1595,60 @@ function wp_prepare_attachment_for_js( $attachment ) {
 
 	return apply_filters( 'wp_prepare_attachment_for_js', $response, $attachment, $meta );
 }
+
+/**
+ * Prints the templates used in the media manager.
+ *
+ * @since 3.5.0
+ */
+function wp_print_media_templates( $attachment ) {
+	?>
+	<script type="text/html" id="tmpl-media-modal">
+		<div class="media-modal">
+			<div class="media-modal-header">
+				<h3><%- title %></h3>
+				<a class="media-modal-close" href="" title="<?php esc_attr_e('Close'); ?>"><?php echo 'Close'; ?></a>
+			</div>
+			<div class="media-modal-content"></div>
+		</div>
+		<div class="media-modal-backdrop"></div>
+	</script>
+
+	<script type="text/html" id="tmpl-media-workspace">
+		<div class="upload-attachments">
+			<% if ( selectOne ) { %>
+				<h3><?php _e( 'Drop a file here' ); ?></h3>
+				<span><?php _ex( 'or', 'Uploader: Drop a file here - or - Select a File' ); ?></span>
+				<a href="#" class="button-secondary"><?php _e( 'Select a File' ); ?></a>
+			<% } else { %>
+				<h3><?php _e( 'Drop files here' ); ?></h3>
+				<span><?php _ex( 'or', 'Uploader: Drop files here - or - Select Files' ); ?></span>
+				<a href="#" class="button-secondary"><?php _e( 'Select Files' ); ?></a>
+			<% } %>
+
+			<div class="media-progress-bar"><div></div></div>
+		</div>
+	</script>
+
+	<script type="text/html" id="tmpl-attachments">
+		<div class="attachments-header">
+			<h3><%- directions %></h3>
+			<input class="search" type="text" placeholder="<?php esc_attr_e('Search'); ?>" />
+		</div>
+	</script>
+
+	<script type="text/html" id="tmpl-attachment">
+		<div class="attachment-thumbnail <%- orientation %>">
+			<% if ( thumbnail ) { %>
+				<img src="<%- thumbnail %>" />
+			<% } %>
+
+			<% if ( uploading ) { %>
+				<div class="media-progress-bar"><div></div></div>
+			<% } %>
+			<div class="actions"></div>
+		</div>
+		<div class="describe"></div>
+	</script>
+	<?php
+}

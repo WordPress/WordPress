@@ -314,6 +314,15 @@ function wp_default_scripts( &$scripts ) {
 		'cheatin'   => __( 'Cheatin&#8217; uh?' ),
 	) );
 
+	$scripts->add( 'media-models', "/wp-includes/js/media-models$suffix.js", array( 'backbone', 'jquery' ), false, 1 );
+	$scripts->add( 'media-views',  "/wp-includes/js/media-views$suffix.js",  array( 'media-models', 'wp-plupload' ), false, 1 );
+	did_action( 'init' ) && $scripts->localize( 'media-views', '_wpMediaViewsL10n', array(
+		'insertMedia'         => __( 'Insert Media' ),
+		'chooseFeatured'      => __( 'Choose a Featured Image' ),
+		'selectMediaSingular' => __( 'Select a media file:' ),
+		'selectMediaMultiple' => __( 'Select one or more media files:' ),
+	) );
+
 	if ( is_admin() ) {
 		$scripts->add( 'ajaxcat', "/wp-admin/js/cat$suffix.js", array( 'wp-lists' ) );
 		$scripts->add_data( 'ajaxcat', 'group', 1 );
@@ -492,6 +501,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'editor-buttons', "/wp-includes/css/editor$suffix.css" );
 	$styles->add( 'wp-pointer', "/wp-includes/css/wp-pointer$suffix.css" );
 	$styles->add( 'customize-controls', "/wp-admin/css/customize-controls$suffix.css", array( 'wp-admin', 'colors', 'ie' ) );
+	$styles->add( 'media-views', "/wp-includes/css/media-views$suffix.css" );
 
 	foreach ( $rtl_styles as $rtl_style ) {
 		$styles->add_data( $rtl_style, 'rtl', true );

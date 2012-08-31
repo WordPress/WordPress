@@ -18,6 +18,10 @@ if ( wp_is_mobile() )
 if ( post_type_supports($post_type, 'editor') || post_type_supports($post_type, 'thumbnail') ) {
 	add_thickbox();
 	wp_enqueue_script('media-upload');
+	wp_enqueue_script( 'media-views' );
+	wp_enqueue_style( 'media-views' );
+	wp_plupload_default_settings();
+	add_action( 'admin_footer', 'wp_print_media_templates' );
 }
 
 /**
