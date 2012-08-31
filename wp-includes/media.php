@@ -1530,3 +1530,68 @@ function wp_plupload_default_settings() {
 	$wp_scripts->add_data( 'wp-plupload', 'data', $script );
 }
 add_action( 'customize_controls_enqueue_scripts', 'wp_plupload_default_settings' );
+
+
+/**
+ * Prepares an attachment post object for JS, where it is expected
+ * to be JSON-encoded and fit into an Attachment model.
+ *
+ * @since 3.5.0
+ *
+ * @param mixed $attachment Attachment ID or object.
+ * @return array Array of attachment details.
+ */
+function wp_prepare_attachment_for_js( $attachment ) {
+	if ( ! $attachment = get_post( $attachment ) )
+	   return;
+
+	if ( 'attachment' != $attachment->post_type )
+	   return;
+
+	$meta = wp_get_attachment_metadata( $attachment->ID );
+	list( $type, $subtype ) = explode( '/', $attachment->post_mime_type );
+
+	$attachment_url = wp_get_attachment_url( $attachment->ID );
+
+	$response = array(
+		'id'          => $attachment->ID,
+		'title'       => $attachment->post_title,
+		'filename'    => basename( $attachment->guid ),
+		'url'         => $attachment_url,
+		'alt'         => get_post_meta( $attachment->ID, '_wp_attachment_image_alt', true ),
+		'author'      => $attachment->post_author,
+		'description' => $attachment->post_content,
+		'caption'     => $attachment->post_excerpt,
+		'name'        => $attachment->post_name,
+		'status'      => $attachment->post_status,
+		'uploadedTo'  => $attachment->post_parent,
+		'date'        => $attachment->post_date_gmt . ' UTC',
+		'modified'    => $attachment->post_modified_gmt . ' UTC',
+		'mime'        => $attachment->post_mime_type,
+		'type'        => $type,
+		'subtype'     => $subtype,
+	);
+
+	if ( 'image' === $type ) {
+		$sizes = array();
+		$base_url = str_replace( wp_basename( $attachment_url ), '', $attachment_url );
+
+		foreach ( $meta['sizes'] as $slug => $size ) {
+			$sizes[ $slug ] = array(
+				'height'      => $size['height'],
+				'width'       => $size['width'],
+				'url'         => $base_url . $size['file'],
+				'orientation' => $size['height'] > $size['width'] ? 'portrait' : 'landscape',
+			);
+		}
+
+		$response = array_merge( $response, array(
+			'height'      => $meta['height'],
+			'width'       => $meta['width'],
+			'sizes'       => $sizes,
+			'orientation' => $meta['height'] > $meta['width'] ? 'portrait' : 'landscape',
+		) );
+	}
+
+	return apply_filters( 'wp_prepare_attachment_for_js', $response, $attachment, $meta );
+}
