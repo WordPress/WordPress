@@ -2,8 +2,24 @@ if ( typeof wp === 'undefined' )
 	var wp = {};
 
 (function($){
-	var media = wp.media = { model: {}, view: {}, controller: {} },
-		Attachment, Attachments, Query;
+	var Attachment, Attachments, Query;
+
+	/**
+	 * wp.media( attributes )
+	 *
+	 * Handles the default media experience. Automatically creates
+	 * and opens a media workflow, and returns the result.
+	 * Does nothing if the controllers do not exist.
+	 *
+	 * @param  {object} attributes The properties passed to the main media controller.
+	 * @return {object}            A media workflow.
+	 */
+	media = wp.media = function( attributes ) {
+		if ( media.controller.Workflow )
+			return new media.controller.Workflow( attributes ).render();
+	};
+
+	_.extend( media, { model: {}, view: {}, controller: {} });
 
 	/**
 	 * ========================================================================
