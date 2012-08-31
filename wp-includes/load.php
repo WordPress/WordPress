@@ -603,7 +603,7 @@ function is_admin() {
  */
 function is_blog_admin() {
 	if ( isset( $GLOBALS['current_screen'] ) )
-		return $GLOBALS['current_screen']->in_admin( 'blog' );
+		return $GLOBALS['current_screen']->in_admin( 'site' );
 	elseif ( defined( 'WP_BLOG_ADMIN' ) )
 		return WP_BLOG_ADMIN;
 
