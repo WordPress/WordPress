@@ -1799,7 +1799,7 @@ function wp_get_mime_types() {
 	'mid|midi' => 'audio/midi',
 	'wma' => 'audio/wma',
 	'mka' => 'audio/x-matroska',
-	// Misc application formats 
+	// Misc application formats
 	'rtf' => 'application/rtf',
 	'js' => 'application/javascript',
 	'pdf' => 'application/pdf',
@@ -1857,7 +1857,7 @@ function wp_get_mime_types() {
  *
  * @uses apply_filters() Calls 'upload_mimes' on returned array
  * @uses wp_get_upload_mime_types() to fetch the list of mime types
- * 
+ *
  * @return array Array of mime types keyed by the file extension regex corresponding to those types.
  */
 function get_allowed_mime_types() {
@@ -2140,6 +2140,54 @@ function _scalar_wp_die_handler( $message = '' ) {
 	if ( is_scalar( $message ) )
 		die( (string) $message );
 	die();
+}
+
+/**
+ * Send a JSON response back to an Ajax request.
+ *
+ * @since 3.5.0
+ *
+ * @param mixed $response Variable (usually an array or object) to encode as JSON, then print and die.
+ */
+function wp_send_json( $response ) {
+	@header( 'Content-Type: application/json; charset=' . get_option( 'blog_charset' ) );
+	echo json_encode( $json );
+	if ( defined( 'DOING_AJAX' ) && DOING_AJAX )
+		wp_die();
+	else
+		die;
+}
+
+/**
+ * Send a JSON response back to an Ajax request, indicating success.
+ *
+ * @since 3.5.0
+ *
+ * @param mixed $data Data to encode as JSON, then print and die.
+ */
+function wp_send_json_success( $data = null ) {
+	$response = array( 'success' => true );
+
+	if ( isset( $data ) )
+		$response['data'] = $data;
+
+	wp_send_json( $response );
+}
+
+/**
+ * Send a JSON response back to an Ajax request, indicating failure.
+ *
+ * @since 3.5.0
+ *
+ * @param mixed $data Data to encode as JSON, then print and die.
+ */
+function wp_send_json_error( $data = null ) {
+	$response = array( 'success' => false );
+
+	if ( isset( $data ) )
+		$response['data'] = $data;
+
+	wp_send_json( $response );
 }
 
 /**
