@@ -1829,8 +1829,8 @@ function wp_ajax_get_attachment() {
  * @since 3.5.0
  */
 function wp_ajax_query_attachments() {
-	$qvs = isset( $_REQUEST['query'] ) ? (array) $_REQUEST['query'] : array();
-	$qvs = array_intersect_key( $qvs, array_flip( array( 's', 'order', 'orderby', 'posts_per_page', 'paged' ) ) );
+	$query = isset( $_REQUEST['query'] ) ? (array) $_REQUEST['query'] : array();
+	$query = array_intersect_key( $query, array_flip( array( 's', 'order', 'orderby', 'posts_per_page', 'paged' ) ) );
 
 	$query['post_type'] = 'attachment';
 	$query['post_status'] = 'inherit';
