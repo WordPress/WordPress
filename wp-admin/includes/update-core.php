@@ -680,7 +680,7 @@ function _copy_dir($from, $to, $skip_list = array() ) {
 function _redirect_to_about_wordpress( $new_version ) {
 	global $wp_version, $pagenow, $action;
 
-	if ( version_compare( $wp_version, '3.4-RC1', '>=' ) )
+	if ( version_compare( $wp_version, '3.5-alpha', '>=' ) )
 		return;
 
 	// Ensure we only run this on the update-core.php page. wp_update_core() could be called in other contexts.
@@ -696,8 +696,11 @@ function _redirect_to_about_wordpress( $new_version ) {
 	// See do_core_upgrade()
 	show_message( __('WordPress updated successfully') );
 
+	$js_message = __( 'Welcome to WordPress %1$s. You will be redirected to the About WordPress screen. If not, click <a href="%s">here</a>.' );
+	$js_message = str_replace( '"%s"', '"%2$s"', $js_message ); // in lieu of breaking the string.
+
 	// self_admin_url() won't exist when upgrading from <= 3.0, so relative URLs are intentional.
-	show_message( '<span class="hide-if-no-js">' . sprintf( __( 'Welcome to WordPress %1$s. You will be redirected to the About WordPress screen. If not, click <a href="%s">here</a>.' ), $new_version, 'about.php?updated' ) . '</span>' );
+	show_message( '<span class="hide-if-no-js">' . sprintf( $js_message, $new_version, 'about.php?updated' ) . '</span>' );
 	show_message( '<span class="hide-if-js">' . sprintf( __( 'Welcome to WordPress %1$s. <a href="%2$s">Learn more</a>.' ), $new_version, 'about.php?updated' ) . '</span>' );
 	echo '</div>';
 	?>
