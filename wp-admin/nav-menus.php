@@ -22,18 +22,7 @@ if ( ! current_theme_supports( 'menus' ) && ! current_theme_supports( 'widgets' 
 if ( ! current_user_can('edit_theme_options') )
 	wp_die( __( 'Cheatin&#8217; uh?' ) );
 
-// jQuery
-wp_enqueue_script( 'jquery-ui-draggable' );
-wp_enqueue_script( 'jquery-ui-droppable' );
-wp_enqueue_script( 'jquery-ui-sortable' );
-
-// Nav Menu functions
 wp_enqueue_script( 'nav-menu' );
-
-// Metaboxes
-wp_enqueue_script( 'common' );
-wp_enqueue_script( 'wp-lists' );
-wp_enqueue_script( 'postbox' );
 
 if ( wp_is_mobile() )
 	wp_enqueue_script( 'jquery-touch-punch' );
