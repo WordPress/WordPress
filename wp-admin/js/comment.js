@@ -1,5 +1,7 @@
 jQuery(document).ready( function($) {
 
+	postboxes.add_postbox_toggles('comment');
+
 	var stamp = $('#timestamp').html();
 	$('.edit-timestamp').click(function () {
 		if ($('#timestampdiv').is(":hidden")) {

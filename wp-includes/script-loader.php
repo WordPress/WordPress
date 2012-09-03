@@ -376,9 +376,9 @@ function wp_default_scripts( &$scripts ) {
 			'comma' => _x( ',', 'tag delimiter' ),
 		) );
 
-		$scripts->add( 'link', "/wp-admin/js/link$suffix.js", array('wp-lists', 'postbox'), false, 1 );
+		$scripts->add( 'link', "/wp-admin/js/link$suffix.js", array( 'wp-lists', 'postbox' ), false, 1 );
 
-		$scripts->add( 'comment', "/wp-admin/js/comment$suffix.js", array('jquery') );
+		$scripts->add( 'comment', "/wp-admin/js/comment$suffix.js", array( 'jquery', 'postbox' ) );
 		$scripts->add_data( 'comment', 'group', 1 );
 		did_action( 'init' ) && $scripts->localize( 'comment', 'commentL10n', array(
 			'submittedOn' => __('Submitted on:')
