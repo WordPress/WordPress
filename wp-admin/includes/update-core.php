@@ -835,12 +835,14 @@ function _redirect_to_about_wordpress( $new_version ) {
 
 	// See do_core_upgrade()
 	show_message( __('WordPress updated successfully') );
-	show_message( '<span class="hide-if-no-js">' . sprintf( __( 'Welcome to WordPress %1$s. You will be redirected to the About WordPress screen. If not, click <a href="%s">here</a>.' ), $new_version, esc_url( self_admin_url( 'about.php?updated' ) ) ) . '</span>' );
-	show_message( '<span class="hide-if-js">' . sprintf( __( 'Welcome to WordPress %1$s. <a href="%2$s">Learn more</a>.' ), $new_version, esc_url( self_admin_url( 'about.php?updated' ) ) ) . '</span>' );
+
+	// self_admin_url() won't exist when upgrading from <= 3.0, so relative URLs are intentional.
+	show_message( '<span class="hide-if-no-js">' . sprintf( __( 'Welcome to WordPress %1$s. You will be redirected to the About WordPress screen. If not, click <a href="%s">here</a>.' ), $new_version, 'about.php?updated' ) . '</span>' );
+	show_message( '<span class="hide-if-js">' . sprintf( __( 'Welcome to WordPress %1$s. <a href="%2$s">Learn more</a>.' ), $new_version, 'about.php?updated' ) . '</span>' );
 	echo '</div>';
 	?>
 <script type="text/javascript">
-window.location = '<?php echo self_admin_url( 'about.php?updated' ); ?>';
+window.location = 'about.php?updated';
 </script>
 	<?php
 
