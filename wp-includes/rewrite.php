@@ -1537,7 +1537,7 @@ class WP_Rewrite {
 		$registration_pages['.*wp-register.php$'] = $this->index . '?register=true'; // Deprecated
 
 		// Post
-		$post_rewrite = $this->generate_rewrite_rules( $this->permalink_structure, EP_PERMALINK, false );
+		$post_rewrite = $this->generate_rewrite_rules( $this->permalink_structure, EP_PERMALINK );
 		$post_rewrite = apply_filters('post_rewrite_rules', $post_rewrite);
 
 		// Date
