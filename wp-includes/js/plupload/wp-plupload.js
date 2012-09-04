@@ -73,6 +73,10 @@ if ( typeof wp === 'undefined' )
 			this.plupload[ elements[ key ] ] = this[ key ].prop('id');
 		}
 
+		// If the uploader has neither a browse button nor a dropzone, bail.
+		if ( ! ( this.browser && this.browser.length ) && ! ( this.dropzone && this.dropzone.length ) )
+			return;
+
 		this.uploader = new plupload.Uploader( this.plupload );
 		delete this.plupload;
 
