@@ -46,7 +46,7 @@ get_current_screen()->set_help_sidebar(
 wp_reset_vars( array( 'action', 'error', 'file', 'theme' ) );
 
 if ( $theme )
-	$stylesheet = urldecode( $theme );
+	$stylesheet = $theme;
 else
 	$stylesheet = get_stylesheet();
 
@@ -68,7 +68,7 @@ if ( empty( $file ) ) {
 	$relative_file = 'style.css';
 	$file = $allowed_files['style.css'];
 } else {
-	$relative_file = urldecode( stripslashes( $file ) );
+	$relative_file = stripslashes( $file );
 	$file = $theme->get_stylesheet_directory() . '/' . $relative_file;
 }
 

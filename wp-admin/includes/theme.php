@@ -23,7 +23,7 @@ function delete_theme($stylesheet, $redirect = '') {
 
 	ob_start();
 	if ( empty( $redirect ) )
-		$redirect = wp_nonce_url('themes.php?action=delete&stylesheet=' . $stylesheet, 'delete-theme_' . $stylesheet);
+		$redirect = wp_nonce_url('themes.php?action=delete&stylesheet=' . urlencode( $stylesheet ), 'delete-theme_' . $stylesheet);
 	if ( false === ($credentials = request_filesystem_credentials($redirect)) ) {
 		$data = ob_get_contents();
 		ob_end_clean();

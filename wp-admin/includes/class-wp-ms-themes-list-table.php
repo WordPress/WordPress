@@ -277,27 +277,28 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			'delete' => ''
 		);
 
-		$theme_key = $theme->get_stylesheet();
+		$stylesheet = $theme->get_stylesheet();
+		$theme_key = urlencode( $stylesheet );
 
 		if ( ! $allowed ) {
 			if ( ! $theme->errors() )
-				$actions['enable'] = '<a href="' . esc_url( wp_nonce_url($url . 'action=enable&amp;theme=' . $theme_key . '&amp;paged=' . $page . '&amp;s=' . $s, 'enable-theme_' . $theme_key) ) . '" title="' . esc_attr__('Enable this theme') . '" class="edit">' . ( $this->is_site_themes ? __( 'Enable' ) : __( 'Network Enable' ) ) . '</a>';
+				$actions['enable'] = '<a href="' . esc_url( wp_nonce_url($url . 'action=enable&amp;theme=' . $theme_key . '&amp;paged=' . $page . '&amp;s=' . $s, 'enable-theme_' . $stylesheet ) ) . '" title="' . esc_attr__('Enable this theme') . '" class="edit">' . ( $this->is_site_themes ? __( 'Enable' ) : __( 'Network Enable' ) ) . '</a>';
 		} else {
-			$actions['disable'] = '<a href="' . esc_url( wp_nonce_url($url . 'action=disable&amp;theme=' . $theme_key . '&amp;paged=' . $page . '&amp;s=' . $s, 'disable-theme_' . $theme_key) ) . '" title="' . esc_attr__('Disable this theme') . '">' . ( $this->is_site_themes ? __( 'Disable' ) : __( 'Network Disable' ) ) . '</a>';
+			$actions['disable'] = '<a href="' . esc_url( wp_nonce_url($url . 'action=disable&amp;theme=' . $theme_key . '&amp;paged=' . $page . '&amp;s=' . $s, 'disable-theme_' . $stylesheet ) ) . '" title="' . esc_attr__('Disable this theme') . '">' . ( $this->is_site_themes ? __( 'Disable' ) : __( 'Network Disable' ) ) . '</a>';
 		}
 
 		if ( current_user_can('edit_themes') )
-			$actions['edit'] = '<a href="' . esc_url('theme-editor.php?theme=' . urlencode( $theme_key ) ) . '" title="' . esc_attr__('Open this theme in the Theme Editor') . '" class="edit">' . __('Edit') . '</a>';
+			$actions['edit'] = '<a href="' . esc_url('theme-editor.php?theme=' . $theme_key ) . '" title="' . esc_attr__('Open this theme in the Theme Editor') . '" class="edit">' . __('Edit') . '</a>';
 
-		if ( ! $allowed && current_user_can( 'delete_themes' ) && ! $this->is_site_themes && $theme_key != get_option( 'stylesheet' ) && $theme_key != get_option( 'template' ) )
+		if ( ! $allowed && current_user_can( 'delete_themes' ) && ! $this->is_site_themes && $stylesheet != get_option( 'stylesheet' ) && $stylesheet != get_option( 'template' ) )
 			$actions['delete'] = '<a href="' . esc_url( wp_nonce_url( 'themes.php?action=delete-selected&amp;checked[]=' . $theme_key . '&amp;theme_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'bulk-themes' ) ) . '" title="' . esc_attr__( 'Delete this theme' ) . '" class="delete">' . __( 'Delete' ) . '</a>';
 
-		$actions = apply_filters( 'theme_action_links', array_filter( $actions ), $theme_key, $theme, $context );
-		$actions = apply_filters( "theme_action_links_$theme_key", $actions, $theme_key, $theme, $context );
+		$actions = apply_filters( 'theme_action_links', array_filter( $actions ), $stylesheet, $theme, $context );
+		$actions = apply_filters( "theme_action_links_$stylesheet", $actions, $stylesheet, $theme, $context );
 
 		$class = ! $allowed ? 'inactive' : 'active';
 		$checkbox_id = "checkbox_" . md5( $theme->get('Name') );
-		$checkbox = "<input type='checkbox' name='checked[]' value='" . esc_attr( $theme_key ) . "' id='" . $checkbox_id . "' /><label class='screen-reader-text' for='" . $checkbox_id . "' >" . __('Select') . " " . $theme->display('Name') . "</label>";
+		$checkbox = "<input type='checkbox' name='checked[]' value='" . esc_attr( $stylesheet ) . "' id='" . $checkbox_id . "' /><label class='screen-reader-text' for='" . $checkbox_id . "' >" . __('Select') . " " . $theme->display('Name') . "</label>";
 
 		$id = sanitize_html_class( $theme->get_stylesheet() );
 
@@ -341,7 +342,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 					if ( $theme->get('ThemeURI') )
 						$theme_meta[] = '<a href="' . $theme->display('ThemeURI') . '" title="' . esc_attr__( 'Visit theme homepage' ) . '">' . __( 'Visit Theme Site' ) . '</a>';
 
-					$theme_meta = apply_filters( 'theme_row_meta', $theme_meta, $theme_key, $theme, $status );
+					$theme_meta = apply_filters( 'theme_row_meta', $theme_meta, $stylesheet, $theme, $status );
 					echo implode( ' | ', $theme_meta );
 
 					echo "</div></td>";
@@ -349,7 +350,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 
 				default:
 					echo "<td class='$column_name column-$column_name'$style>";
-					do_action( 'manage_themes_custom_column', $column_name, $theme_key, $theme );
+					do_action( 'manage_themes_custom_column', $column_name, $stylesheet, $theme );
 					echo "</td>";
 			}
 		}
@@ -357,8 +358,8 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		echo "</tr>";
 
 		if ( $this->is_site_themes )
-			remove_action( "after_theme_row_$theme_key", 'wp_theme_update_row' );
-		do_action( 'after_theme_row', $theme_key, $theme, $status );
-		do_action( "after_theme_row_$theme_key", $theme_key, $theme, $status );
+			remove_action( "after_theme_row_$stylesheet", 'wp_theme_update_row' );
+		do_action( 'after_theme_row', $stylesheet, $theme, $status );
+		do_action( "after_theme_row_$stylesheet", $stylesheet, $theme, $status );
 	}
 }
