@@ -293,7 +293,6 @@ class WP_Posts_List_Table extends WP_List_Table {
 	function get_sortable_columns() {
 		return array(
 			'title'    => 'title',
-			'author'   => 'author',
 			'parent'   => 'parent',
 			'comments' => 'comment_count',
 			'date'     => array( 'date', true )
