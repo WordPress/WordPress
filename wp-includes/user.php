@@ -165,7 +165,7 @@ function count_user_posts($userid) {
  * @since 3.0.0
  *
  * @param array $users Array of user IDs.
- * @param string|array $post_type Optional. Post type to check. Defaults to post.
+ * @param string $post_type Optional. Post type to check. Defaults to post.
  * @return array Amount of posts each user has written.
  */
 function count_many_users_posts( $users, $post_type = 'post' ) {
