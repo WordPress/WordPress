@@ -1452,6 +1452,7 @@ class WP_Query {
 		if ( '' !== $qv['hour'] ) $qv['hour'] = absint($qv['hour']);
 		if ( '' !== $qv['minute'] ) $qv['minute'] = absint($qv['minute']);
 		if ( '' !== $qv['second'] ) $qv['second'] = absint($qv['second']);
+		if ( '' !== $qv['menu_order'] ) $qv['menu_order'] = absint($qv['menu_order']);
 
 		// Compat. Map subpost to attachment.
 		if ( '' != $qv['subpost'] )
@@ -2040,6 +2041,9 @@ class WP_Query {
 				$fields = "$wpdb->posts.*";
 		}
 
+		if ( '' !== $q['menu_order'] )
+			$where .= " AND $wpdb->posts.menu_order = " . $q['menu_order'];
+		
 		// If a month is specified in the querystring, load that month
 		if ( $q['m'] ) {
 			$q['m'] = '' . preg_replace('|[^0-9]|', '', $q['m']);
