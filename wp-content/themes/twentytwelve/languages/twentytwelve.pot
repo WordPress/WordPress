@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Twelve 0.9\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentytwelve\n"
-"POT-Creation-Date: 2012-09-04 05:18:55+00:00\n"
+"POT-Creation-Date: 2012-09-04 06:18:25+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -245,7 +245,7 @@ msgid "This entry was posted on %3$s by %4$s."
 msgstr ""
 
 #: header.php:39
-msgid "Show menu"
+msgid "Menu"
 msgstr ""
 
 #: header.php:40
