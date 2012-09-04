@@ -2,6 +2,8 @@
 /**
  * Dashboard Administration Screen
  *
+ * @internal This file should be parseable by PHP4.
+ *
  * @package WordPress
  * @subpackage Administration
  */
@@ -32,7 +34,10 @@ else
 
 $help = '<p>' . __( 'Welcome to your WordPress Dashboard! This is the screen you will see when you log in to your site, and gives you access to all the site management features of WordPress. You can get help for any screen by clicking the Help tab in the upper corner.' ) . '</p>';
 
-get_current_screen()->add_help_tab( array(
+// Not using chaining here, so as to be parseable by PHP4.
+$screen = get_current_screen();
+
+$screen->add_help_tab( array(
 	'id'      => 'overview',
 	'title'   => __( 'Overview' ),
 	'content' => $help,
@@ -43,7 +48,7 @@ get_current_screen()->add_help_tab( array(
 $help  = '<p>' . __('The left-hand navigation menu provides links to all of the WordPress administration screens, with submenu items displayed on hover. You can minimize this menu to a narrow icon strip by clicking on the Collapse Menu arrow at the bottom.') . '</p>';
 $help .= '<p>' . __('Links in the Toolbar at the top of the screen connect your dashboard and the front end of your site, and provide access to your profile and helpful WordPress information.') . '</p>';
 
-get_current_screen()->add_help_tab( array(
+$screen->add_help_tab( array(
 	'id'      => 'help-navigation',
 	'title'   => __('Navigation'),
 	'content' => $help,
@@ -54,7 +59,7 @@ $help .= '<p>' . __('<strong>Screen Options</strong> - Use the Screen Options ta
 $help .= '<p>' . __('<strong>Drag and Drop</strong> - To rearrange the boxes, drag and drop by clicking on the title bar of the selected box and releasing when you see a gray dotted-line rectangle appear in the location you want to place the box.') . '</p>';
 $help .= '<p>' . __('<strong>Box Controls</strong> - Click the title bar of the box to expand or collapse it. In addition, some box have configurable content, and will show a &#8220;Configure&#8221; link in the title bar if you hover over it.') . '</p>';
 
-get_current_screen()->add_help_tab( array(
+$screen->add_help_tab( array(
 	'id'      => 'help-layout',
 	'title'   => __('Layout'),
 	'content' => $help,
@@ -78,7 +83,7 @@ if ( ! is_multisite() && current_user_can( 'install_plugins' ) )
 if ( current_user_can( 'edit_theme_options' ) )
 	$help .= '<p>' . __('<strong>Welcome</strong> - Shows links for some of the most common tasks when setting up a new site.') . '</p>';
 
-get_current_screen()->add_help_tab( array(
+$screen->add_help_tab( array(
 	'id'      => 'help-content',
 	'title'   => __('Content'),
 	'content' => $help,
@@ -86,7 +91,7 @@ get_current_screen()->add_help_tab( array(
 
 unset( $help );
 
-get_current_screen()->set_help_sidebar(
+$screen->set_help_sidebar(
 	'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
 	'<p>' . __( '<a href="http://codex.wordpress.org/Dashboard_Screen" target="_blank">Documentation on Dashboard</a>' ) . '</p>' .
 	'<p>' . __( '<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>' ) . '</p>'
