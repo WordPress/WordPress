@@ -26,8 +26,7 @@ function the_ID() {
  * @return int
  */
 function get_the_ID() {
-	global $post;
-	return $post->ID;
+	return get_post()->ID;
 }
 
 /**
@@ -97,24 +96,25 @@ function the_title_attribute( $args = '' ) {
  *
  * @since 0.71
  *
- * @param int $id Optional. Post ID.
+ * @param mixed $post Optional. Post ID or object.
  * @return string
  */
-function get_the_title( $id = 0 ) {
-	$post = get_post($id);
+function get_the_title( $post = 0 ) {
+	$post = get_post( $post );
 
-	$title = isset($post->post_title) ? $post->post_title : '';
-	$id = isset($post->ID) ? $post->ID : (int) $id;
+	$title = isset( $post->post_title ) ? $post->post_title : '';
+	$id = isset( $post->ID ) ? $post->ID : 0;
 
-	if ( !is_admin() ) {
-		if ( !empty($post->post_password) ) {
-			$protected_title_format = apply_filters('protected_title_format', __('Protected: %s'));
-			$title = sprintf($protected_title_format, $title);
-		} else if ( isset($post->post_status) && 'private' == $post->post_status ) {
-			$private_title_format = apply_filters('private_title_format', __('Private: %s'));
-			$title = sprintf($private_title_format, $title);
+	if ( ! is_admin() ) {
+		if ( ! empty( $post->post_password ) ) {
+			$protected_title_format = apply_filters( 'protected_title_format', __( 'Protected: %s' ) );
+			$title = sprintf( $protected_title_format, $title );
+		} else if ( isset( $post->post_status ) && 'private' == $post->post_status ) {
+			$private_title_format = apply_filters( 'private_title_format', __( 'Private: %s' ) );
+			$title = sprintf( $private_title_format, $title );
 		}
 	}
+
 	return apply_filters( 'the_title', $title, $id );
 }
 
@@ -177,8 +177,10 @@ function the_content($more_link_text = null, $stripteaser = false) {
  * @param bool $stripteaser Optional. Strip teaser content before the more text. Default is false.
  * @return string
  */
-function get_the_content($more_link_text = null, $stripteaser = false) {
-	global $post, $more, $page, $pages, $multipage, $preview;
+function get_the_content( $more_link_text = null, $stripteaser = false ) {
+	global $more, $page, $pages, $multipage, $preview;
+
+	$post = get_post();
 
 	if ( null === $more_link_text )
 		$more_link_text = __( '(more...)' );
@@ -187,7 +189,7 @@ function get_the_content($more_link_text = null, $stripteaser = false) {
 	$hasTeaser = false;
 
 	// If post password required and it doesn't match the cookie.
-	if ( post_password_required($post) )
+	if ( post_password_required() )
 		return get_the_password_form();
 
 	if ( $page > count($pages) ) // if the requested page doesn't exist
@@ -259,8 +261,7 @@ function get_the_excerpt( $deprecated = '' ) {
 	if ( !empty( $deprecated ) )
 		_deprecated_argument( __FUNCTION__, '2.3' );
 
-	global $post;
-	if ( post_password_required($post) ) {
+	if ( post_password_required() ) {
 		return __( 'There is no excerpt because this is a protected post.' );
 	}
 
@@ -676,7 +677,8 @@ function wp_link_pages($args = '') {
  * @return string Link.
  */
 function _wp_link_page( $i ) {
-	global $post, $wp_rewrite;
+	global $wp_rewrite;
+	$post = get_post();
 
 	if ( 1 == $i ) {
 		$url = get_permalink();
@@ -1171,7 +1173,7 @@ function wp_get_attachment_link( $id = 0, $size = 'thumbnail', $permalink = fals
  * @return string
  */
 function prepend_attachment($content) {
-	global $post;
+	$post = get_post();
 
 	if ( empty($post->post_type) || $post->post_type != 'attachment' )
 		return $content;
@@ -1198,7 +1200,7 @@ function prepend_attachment($content) {
  * @return string HTML content for password form for password protected post.
  */
 function get_the_password_form() {
-	global $post;
+	$post = get_post();
 	$label = 'pwbox-' . ( empty($post->ID) ? rand() : $post->ID );
 	$output = '<form action="' . esc_url( site_url( 'wp-login.php?action=postpass', 'login_post' ) ) . '" method="post">
 	<p>' . __("This post is password protected. To view it please enter your password below:") . '</p>

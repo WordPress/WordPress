@@ -846,10 +846,9 @@ EOD;
 	 * @param int $postID Post ID.
 	 * @return string
 	 */
-	function get_entry_url($postID = null) {
+	function get_entry_url( $postID = null ) {
 		if (!isset($postID)) {
-			global $post;
-			$postID = (int) $post->ID;
+			$postID = (int) get_post()->ID;
 		}
 
 		$url = $this->app_base . $this->ENTRY_PATH . "/$postID";
@@ -878,8 +877,7 @@ EOD;
 	 */
 	function get_media_url($postID = null) {
 		if (!isset($postID)) {
-			global $post;
-			$postID = (int) $post->ID;
+			$postID = (int) get_post()->ID;
 		}
 
 		$url = $this->app_base . $this->MEDIA_SINGLE_PATH ."/file/$postID";

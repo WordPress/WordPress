@@ -1121,16 +1121,15 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
  * @since 2.9.0
  *
  * @param int $thumbnail_id ID of the attachment used for thumbnail
- * @param int $post_id ID of the post associated with the thumbnail, defaults to global $post_ID
+ * @param mixed $post The post ID or object associated with the thumbnail, defaults to global $post.
  * @return string html
  */
-function _wp_post_thumbnail_html( $thumbnail_id = null, $post_id = null ) {
-	global $content_width, $_wp_additional_image_sizes, $post_ID;
+function _wp_post_thumbnail_html( $thumbnail_id = null, $post = null ) {
+	global $content_width, $_wp_additional_image_sizes;
 
-	if ( empty( $post_id ) )
-		$post_id = $post_ID;
+	$post = get_post( $post );
 
-	$upload_iframe_src = esc_url( get_upload_iframe_src('image', $post_id) );
+	$upload_iframe_src = esc_url( get_upload_iframe_src('image', $post->ID ) );
 	$set_thumbnail_link = '<p class="hide-if-no-js"><a title="' . esc_attr__( 'Set featured image' ) . '" href="%s" id="set-post-thumbnail" class="thickbox">%s</a></p>';
 	$content = sprintf( $set_thumbnail_link, $upload_iframe_src, esc_html__( 'Set featured image' ) );
 
@@ -1142,14 +1141,14 @@ function _wp_post_thumbnail_html( $thumbnail_id = null, $post_id = null ) {
 		else
 			$thumbnail_html = wp_get_attachment_image( $thumbnail_id, 'post-thumbnail' );
 		if ( !empty( $thumbnail_html ) ) {
-			$ajax_nonce = wp_create_nonce( "set_post_thumbnail-$post_id" );
+			$ajax_nonce = wp_create_nonce( 'set_post_thumbnail-' . $post->ID );
 			$content = sprintf( $set_thumbnail_link, $upload_iframe_src, $thumbnail_html );
 			$content .= '<p class="hide-if-no-js"><a href="#" id="remove-post-thumbnail" onclick="WPRemoveThumbnail(\'' . $ajax_nonce . '\');return false;">' . esc_html__( 'Remove featured image' ) . '</a></p>';
 		}
 		$content_width = $old_content_width;
 	}
 
-	return apply_filters( 'admin_post_thumbnail_html', $content, $post_id );
+	return apply_filters( 'admin_post_thumbnail_html', $content, $post->ID );
 }
 
 /**
@@ -1207,8 +1206,7 @@ function wp_set_post_lock( $post_id ) {
  * @return none
  */
 function _admin_notice_post_locked() {
-	global $post;
-
+	$post = get_post();
 	$lock = explode( ':', get_post_meta( $post->ID, '_edit_lock', true ) );
 	$user = isset( $lock[1] ) ? $lock[1] : get_post_meta( $post->ID, '_edit_last', true );
 	$last_user = get_userdata( $user );

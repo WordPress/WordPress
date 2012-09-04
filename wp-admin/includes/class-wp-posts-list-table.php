@@ -316,7 +316,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	}
 
 	function _display_rows( $posts, $level = 0 ) {
-		global $post, $mode;
+		global $mode;
 
 		// Create array of post IDs.
 		$post_ids = array();
@@ -458,12 +458,12 @@ class WP_Posts_List_Table extends WP_List_Table {
 		unset( $children_pages[$parent] ); //required in order to keep track of orphans
 	}
 
-	function single_row( $a_post, $level = 0 ) {
-		global $post, $mode;
+	function single_row( $post, $level = 0 ) {
+		global $mode;
 		static $alternate;
 
-		$global_post = $post;
-		$post = $a_post;
+		$global_post = get_post();
+		$GLOBALS['post'] = $post;
 		setup_postdata( $post );
 
 		$edit_link = get_edit_post_link( $post->ID );
@@ -529,7 +529,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 				}
 				else {
 					$attributes = 'class="post-title page-title column-title"' . $style;
-					
+
 					$pad = str_repeat( '&#8212; ', $level );
 ?>
 			<td <?php echo $attributes ?>><strong><?php if ( $can_edit_post && $post->post_status != 'trash' ) { ?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $title ) ); ?>"><?php echo $pad; echo $title ?></a><?php } else { echo $pad; echo $title; }; _post_states( $post ); ?></strong>
@@ -684,7 +684,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	?>
 		</tr>
 	<?php
-		$post = $global_post;
+		$GLOBALS['post'] = $global_post;
 	}
 
 	/**

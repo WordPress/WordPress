@@ -57,14 +57,14 @@ function get_postdata($postid) {
  * @deprecated Use The Loop - {@link http://codex.wordpress.org/The_Loop Use new WordPress Loop}
  */
 function start_wp() {
-	global $wp_query, $post;
+	global $wp_query;
 
 	_deprecated_function( __FUNCTION__, '1.5', __('new WordPress Loop') );
 
 	// Since the old style loop is being used, advance the query iterator here.
 	$wp_query->next_post();
 
-	setup_postdata($post);
+	setup_postdata( get_post() );
 }
 
 /**

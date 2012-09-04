@@ -419,10 +419,11 @@ function wp_admin_bar_shortlink_menu( $wp_admin_bar ) {
  * @since 3.1.0
  */
 function wp_admin_bar_edit_menu( $wp_admin_bar ) {
-	global $post, $tag, $wp_the_query;
+	global $tag, $wp_the_query;
 
 	if ( is_admin() ) {
 		$current_screen = get_current_screen();
+		$post = get_post();
 
 		if ( 'post' == $current_screen->base
 			&& 'add' != $current_screen->action
@@ -619,7 +620,7 @@ function wp_admin_bar_updates_menu( $wp_admin_bar ) {
 		return;
 
 	$title = '<span class="ab-icon"></span><span class="ab-label">' . number_format_i18n( $update_data['counts']['total'] ) . '</span>';
-	$title .= '<span class="screen-reader-text">' . $update_data['title'] . '</span>'; 
+	$title .= '<span class="screen-reader-text">' . $update_data['title'] . '</span>';
 
 	$wp_admin_bar->add_menu( array(
 		'id'    => 'updates',

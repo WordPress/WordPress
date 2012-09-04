@@ -372,12 +372,12 @@ function get_extended($post) {
  * @uses $wpdb
  * @link http://codex.wordpress.org/Function_Reference/get_post
  *
- * @param int|object $post Post ID or post object.
+ * @param int|object $post Post ID or post object. Optional, default is the current post from the loop.
  * @param string $output Optional, default is Object. Either OBJECT, ARRAY_A, or ARRAY_N.
  * @param string $filter Optional, default is raw.
  * @return WP_Post|null WP_Post on success or null on failure
  */
-function get_post( $post, $output = OBJECT, $filter = 'raw' ) {
+function get_post( $post = null, $output = OBJECT, $filter = 'raw' ) {
 	if ( empty( $post ) && isset( $GLOBALS['post'] ) )
 		$post = $GLOBALS['post'];
 
@@ -945,19 +945,12 @@ function post_type_exists( $post_type ) {
  *
  * @uses $post The Loop current post global
  *
- * @param mixed $the_post Optional. Post object or post ID.
+ * @param mixed $post Optional. Post object or post ID.
  * @return bool|string post type or false on failure.
  */
-function get_post_type( $the_post = false ) {
-	global $post;
-
-	if ( false === $the_post )
-		$the_post = $post;
-	elseif ( is_numeric($the_post) )
-		$the_post = get_post($the_post);
-
-	if ( is_object($the_post) )
-		return $the_post->post_type;
+function get_post_type( $post = null ) {
+	if ( $post = get_post( $post ) )
+		return $post->post_type;
 
 	return false;
 }

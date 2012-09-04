@@ -279,7 +279,7 @@ function export_wp( $args = array() ) {
 	 * @since 2.3.0
 	 */
 	function wxr_post_taxonomy() {
-		global $post;
+		$post = get_post();
 
 		$taxonomies = get_object_taxonomies( $post->post_type );
 		if ( empty( $taxonomies ) )

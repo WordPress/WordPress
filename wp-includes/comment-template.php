@@ -810,11 +810,8 @@ function pings_open( $post_id = null ) {
  * @uses $post Gets the ID of the current post for the token
  */
 function wp_comment_form_unfiltered_html_nonce() {
-	global $post;
-
-	$post_id = 0;
-	if ( !empty($post) )
-		$post_id = $post->ID;
+	$post = get_post();
+	$post_id = $post ? $post->ID : 0;
 
 	if ( current_user_can( 'unfiltered_html' ) ) {
 		wp_nonce_field( 'unfiltered-html-comment_' . $post_id, '_wp_unfiltered_html_comment_disabled', false );

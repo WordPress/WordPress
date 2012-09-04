@@ -166,10 +166,9 @@ function wp_terms_checklist($post_id = 0, $args = array()) {
  * @return array List of popular term IDs.
  */
 function wp_popular_terms_checklist( $taxonomy, $default = 0, $number = 10, $echo = true ) {
-	global $post_ID;
-
-	if ( $post_ID )
-		$checked_terms = wp_get_object_terms($post_ID, $taxonomy, array('fields'=>'ids'));
+	$post = get_post();
+	if ( $post->ID )
+		$checked_terms = wp_get_object_terms($post->ID, $taxonomy, array('fields'=>'ids'));
 	else
 		$checked_terms = array();
 
@@ -575,7 +574,8 @@ function meta_form() {
  * @param unknown_type $multi
  */
 function touch_time( $edit = 1, $for_post = 1, $tab_index = 0, $multi = 0 ) {
-	global $wp_locale, $post, $comment;
+	global $wp_locale, $comment;
+	$post = get_post();
 
 	if ( $for_post )
 		$edit = ! ( in_array($post->post_status, array('draft', 'pending') ) && (!$post->post_date_gmt || '0000-00-00 00:00:00' == $post->post_date_gmt ) );
@@ -670,17 +670,16 @@ function page_template_dropdown( $default = '' ) {
  * @return unknown
  */
 function parent_dropdown( $default = 0, $parent = 0, $level = 0 ) {
-	global $wpdb, $post_ID;
+	global $wpdb;
+	$post = get_post();
 	$items = $wpdb->get_results( $wpdb->prepare("SELECT ID, post_parent, post_title FROM $wpdb->posts WHERE post_parent = %d AND post_type = 'page' ORDER BY menu_order", $parent) );
 
 	if ( $items ) {
 		foreach ( $items as $item ) {
 			// A page cannot be its own parent.
-			if (!empty ( $post_ID ) ) {
-				if ( $item->ID == $post_ID ) {
-					continue;
-				}
-			}
+			if ( $post->ID && $item->ID == $post->ID )
+				continue;
+
 			$pad = str_repeat( '&nbsp;', $level * 3 );
 			if ( $item->ID == $default)
 				$current = ' selected="selected"';
@@ -1345,8 +1344,9 @@ function find_posts_div($found_action = '') {
  * @since 2.7.0
  */
 function the_post_password() {
-	global $post;
-	if ( isset( $post->post_password ) ) echo esc_attr( $post->post_password );
+	$post = get_post();
+	if ( isset( $post->post_password ) )
+		echo esc_attr( $post->post_password );
 }
 
 /**
@@ -1356,13 +1356,13 @@ function the_post_password() {
  * returned.
  *
  * @since 2.7.0
- * @param int $post_id The post id. If not supplied the global $post is used.
+ * @param mixed $post Post id or object. If not supplied the global $post is used.
  * @return string The post title if set
  */
-function _draft_or_post_title( $post_id = 0 ) {
-	$title = get_the_title($post_id);
-	if ( empty($title) )
-		$title = __('(no title)');
+function _draft_or_post_title( $post = 0 ) {
+	$title = get_the_title( $post );
+	if ( empty( $title ) )
+		$title = __( '(no title)' );
 	return $title;
 }
 

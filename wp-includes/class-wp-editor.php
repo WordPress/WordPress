@@ -126,7 +126,7 @@ final class _WP_Editors {
 	}
 
 	public static function editor_settings($editor_id, $set) {
-		global $editor_styles, $post;
+		global $editor_styles;
 		$first_run = false;
 
 		if ( empty(self::$first_init) ) {
@@ -370,8 +370,8 @@ final class _WP_Editors {
 
 			$body_class = $editor_id;
 
-			if ( isset($post) )
-				$body_class .= " post-type-$post->post_type";
+			if ( $post = get_post() )
+				$body_class .= ' post-type-' . $post->post_type;
 
 			if ( !empty($set['tinymce']['body_class']) ) {
 				$body_class .= ' ' . $set['tinymce']['body_class'];
@@ -612,7 +612,8 @@ final class _WP_Editors {
 	}
 
 	public static function wp_fullscreen_html() {
-		global $content_width, $post;
+		global $content_width;
+		$post = get_post();
 
 		$width = isset($content_width) && 800 > $content_width ? $content_width : 800;
 		$width = $width + 22; // compensate for the padding and border

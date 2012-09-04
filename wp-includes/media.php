@@ -775,7 +775,7 @@ add_shortcode('gallery', 'gallery_shortcode');
  * @return string HTML content to display gallery.
  */
 function gallery_shortcode($attr) {
-	global $post;
+	$post = get_post();
 
 	static $instance = 0;
 	$instance++;
@@ -928,9 +928,8 @@ function next_image_link($size = 'thumbnail', $text = false) {
  * @param bool $prev Optional. Default is true to display previous link, false for next.
  */
 function adjacent_image_link($prev = true, $size = 'thumbnail', $text = false) {
-	global $post;
-	$post = get_post($post);
-	$attachments = array_values(get_children( array('post_parent' => $post->post_parent, 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => 'ASC', 'orderby' => 'menu_order ID') ));
+	$post = get_post();
+	$attachments = array_values( get_children( array( 'post_parent' => $post->post_parent, 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => 'ASC', 'orderby' => 'menu_order ID' ) ) );
 
 	foreach ( $attachments as $k => $attachment )
 		if ( $attachment->ID == $post->ID )
@@ -1102,16 +1101,16 @@ class WP_Embed {
 	 * an AJAX request that will call WP_Embed::cache_oembed().
 	 */
 	function maybe_run_ajax_cache() {
-		global $post_ID;
+		$post = get_post();
 
-		if ( empty($post_ID) || empty($_GET['message']) || 1 != $_GET['message'] )
+		if ( ! $post || empty($_GET['message']) || 1 != $_GET['message'] )
 			return;
 
 ?>
 <script type="text/javascript">
 /* <![CDATA[ */
 	jQuery(document).ready(function($){
-		$.get("<?php echo admin_url( 'admin-ajax.php?action=oembed-cache&post=' . $post_ID, 'relative' ); ?>");
+		$.get("<?php echo admin_url( 'admin-ajax.php?action=oembed-cache&post=' . $post->ID, 'relative' ); ?>");
 	});
 /* ]]> */
 </script>
@@ -1167,9 +1166,9 @@ class WP_Embed {
 	 * @return string The embed HTML on success, otherwise the original URL.
 	 */
 	function shortcode( $attr, $url = '' ) {
-		global $post;
+		$post = get_post();
 
-		if ( empty($url) )
+		if ( empty( $url ) )
 			return '';
 
 		$rawattr = $attr;
@@ -1190,8 +1189,8 @@ class WP_Embed {
 			}
 		}
 
-		$post_ID = ( !empty($post->ID) ) ? $post->ID : null;
-		if ( !empty($this->post_ID) ) // Potentially set by WP_Embed::cache_oembed()
+		$post_ID = ( ! empty( $post->ID ) ) ? $post->ID : null;
+		if ( ! empty( $this->post_ID ) ) // Potentially set by WP_Embed::cache_oembed()
 			$post_ID = $this->post_ID;
 
 		// Unknown URL format. Let oEmbed have a go.
@@ -1206,7 +1205,7 @@ class WP_Embed {
 				if ( '{{unknown}}' === $cache )
 					return $this->maybe_make_link( $url );
 
-				if ( !empty($cache) )
+				if ( ! empty( $cache ) )
 					return apply_filters( 'embed_oembed_html', $cache, $url, $attr, $post_ID );
 			}
 
