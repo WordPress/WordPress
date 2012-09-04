@@ -1876,7 +1876,7 @@ function get_shortcut_link() {
  * @return string Home url link with optional path appended.
 */
 function home_url( $path = '', $scheme = null ) {
-	return get_home_url(null, $path, $scheme);
+	return get_home_url( null, $path, $scheme );
 }
 
 /**
@@ -1897,7 +1897,7 @@ function home_url( $path = '', $scheme = null ) {
 function get_home_url( $blog_id = null, $path = '', $scheme = null ) {
 	$orig_scheme = $scheme;
 
-	if ( !in_array( $scheme, array( 'http', 'https', 'relative' ) ) )
+	if ( ! in_array( $scheme, array( 'http', 'https', 'relative' ) ) )
 		$scheme = is_ssl() && !is_admin() ? 'https' : 'http';
 
 	if ( empty( $blog_id ) || !is_multisite() ) {
@@ -1908,12 +1908,9 @@ function get_home_url( $blog_id = null, $path = '', $scheme = null ) {
 		restore_current_blog();
 	}
 
-	if ( 'relative' == $scheme )
-		$url = preg_replace( '#^.+://[^/]*#', '', $url );
-	elseif ( 'http' != $scheme )
-		$url = str_replace( 'http://', "$scheme://", $url );
+	$url = set_url_scheme( $url, $scheme );
 
-	if ( !empty( $path ) && is_string( $path ) && strpos( $path, '..' ) === false )
+	if ( ! empty( $path ) && is_string( $path ) && strpos( $path, '..' ) === false )
 		$url .= '/' . ltrim( $path, '/' );
 
 	return apply_filters( 'home_url', $url, $path, $orig_scheme, $blog_id );
@@ -1932,11 +1929,11 @@ function get_home_url( $blog_id = null, $path = '', $scheme = null ) {
  * @uses get_site_url()
  *
  * @param string $path Optional. Path relative to the site url.
- * @param string $scheme Optional. Scheme to give the site url context. Currently 'http', 'https', 'login', 'login_post', 'admin', or 'relative'.
+ * @param string $scheme Optional. Scheme to give the site url context. See set_url_scheme().
  * @return string Site url link with optional path appended.
 */
 function site_url( $path = '', $scheme = null ) {
-	return get_site_url(null, $path, $scheme);
+	return get_site_url( null, $path, $scheme );
 }
 
 /**
@@ -1955,19 +1952,6 @@ function site_url( $path = '', $scheme = null ) {
  * @return string Site url link with optional path appended.
 */
 function get_site_url( $blog_id = null, $path = '', $scheme = null ) {
-	// should the list of allowed schemes be maintained elsewhere?
-	$orig_scheme = $scheme;
-	if ( !in_array( $scheme, array( 'http', 'https', 'relative' ) ) ) {
-		if ( ( 'login_post' == $scheme || 'rpc' == $scheme ) && ( force_ssl_login() || force_ssl_admin() ) )
-			$scheme = 'https';
-		elseif ( ( 'login' == $scheme ) && force_ssl_admin() )
-			$scheme = 'https';
-		elseif ( ( 'admin' == $scheme ) && force_ssl_admin() )
-			$scheme = 'https';
-		else
-			$scheme = ( is_ssl() ? 'https' : 'http' );
-	}
-
 	if ( empty( $blog_id ) || !is_multisite() ) {
 		$url = get_option( 'siteurl' );
 	} else {
@@ -1976,15 +1960,12 @@ function get_site_url( $blog_id = null, $path = '', $scheme = null ) {
 		restore_current_blog();
 	}
 
-	if ( 'relative' == $scheme )
-		$url = preg_replace( '#^.+://[^/]*#', '', $url );
-	elseif ( 'http' != $scheme )
-		$url = str_replace( 'http://', "{$scheme}://", $url );
+	$url = set_url_scheme( $url, $scheme );
 
-	if ( !empty( $path ) && is_string( $path ) && strpos( $path, '..' ) === false )
+	if ( ! empty( $path ) && is_string( $path ) && strpos( $path, '..' ) === false )
 		$url .= '/' . ltrim( $path, '/' );
 
-	return apply_filters( 'site_url', $url, $path, $orig_scheme, $blog_id );
+	return apply_filters( 'site_url', $url, $path, $scheme, $blog_id );
 }
 
 /**
@@ -1998,7 +1979,7 @@ function get_site_url( $blog_id = null, $path = '', $scheme = null ) {
  * @return string Admin url link with optional path appended.
 */
 function admin_url( $path = '', $scheme = 'admin' ) {
-	return get_admin_url(null, $path, $scheme);
+	return get_admin_url( null, $path, $scheme );
 }
 
 /**
@@ -2015,10 +1996,10 @@ function admin_url( $path = '', $scheme = 'admin' ) {
 function get_admin_url( $blog_id = null, $path = '', $scheme = 'admin' ) {
 	$url = get_site_url($blog_id, 'wp-admin/', $scheme);
 
-	if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
-		$url .= ltrim($path, '/');
+	if ( !empty( $path ) && is_string( $path ) && strpos( $path, '..' ) === false )
+		$url .= ltrim( $path, '/' );
 
-	return apply_filters('admin_url', $url, $path, $blog_id);
+	return apply_filters( 'admin_url', $url, $path, $blog_id );
 }
 
 /**
@@ -2107,36 +2088,24 @@ function plugins_url($path = '', $plugin = '') {
  * @since 3.0.0
  *
  * @param string $path Optional. Path relative to the site url.
- * @param string $scheme Optional. Scheme to give the site url context. Currently 'http', 'https', 'login', 'login_post', 'admin', or 'relative'.
+ * @param string $scheme Optional. Scheme to give the site url context. See set_url_scheme().
  * @return string Site url link with optional path appended.
 */
 function network_site_url( $path = '', $scheme = null ) {
 	global $current_site;
 
-	if ( !is_multisite() )
+	if ( ! is_multisite() )
 		return site_url($path, $scheme);
-
-	$orig_scheme = $scheme;
-	if ( !in_array( $scheme, array( 'http', 'https', 'relative' ) ) ) {
-		if ( ( 'login_post' == $scheme || 'rpc' == $scheme ) && ( force_ssl_login() || force_ssl_admin() ) )
-			$scheme = 'https';
-		elseif ( ('login' == $scheme) && ( force_ssl_admin() ) )
-			$scheme = 'https';
-		elseif ( ('admin' == $scheme) && force_ssl_admin() )
-			$scheme = 'https';
-		else
-			$scheme = ( is_ssl() ? 'https' : 'http' );
-	}
 
 	if ( 'relative' == $scheme )
 		$url = $current_site->path;
 	else
-		$url = $scheme . '://' . $current_site->domain . $current_site->path;
+		$url = set_url_scheme( 'http://' . $current_site->domain . $current_site->path, $scheme );
 
-	if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
-		$url .= ltrim($path, '/');
+	if ( ! empty( $path ) && is_string( $path ) && strpos( $path, '..' ) === false )
+		$url .= ltrim( $path, '/' );
 
-	return apply_filters('network_site_url', $url, $path, $orig_scheme);
+	return apply_filters( 'network_site_url', $url, $path, $scheme );
 }
 
 /**
@@ -2156,20 +2125,20 @@ function network_site_url( $path = '', $scheme = null ) {
 function network_home_url( $path = '', $scheme = null ) {
 	global $current_site;
 
-	if ( !is_multisite() )
+	if ( ! is_multisite() )
 		return home_url($path, $scheme);
 
 	$orig_scheme = $scheme;
 
-	if ( !in_array( $scheme, array( 'http', 'https', 'relative' ) ) )
-		$scheme = is_ssl() && !is_admin() ? 'https' : 'http';
+	if ( ! in_array( $scheme, array( 'http', 'https', 'relative' ) ) )
+		$scheme = is_ssl() && ! is_admin() ? 'https' : 'http';
 
 	if ( 'relative' == $scheme )
 		$url = $current_site->path;
 	else
-		$url = $scheme . '://' . $current_site->domain . $current_site->path;
+		$url = set_url_scheme( 'http://' . $current_site->domain . $current_site->path, $scheme );
 
-	if ( !empty( $path ) && is_string( $path ) && strpos( $path, '..' ) === false )
+	if ( ! empty( $path ) && is_string( $path ) && strpos( $path, '..' ) === false )
 		$url .= ltrim( $path, '/' );
 
 	return apply_filters( 'network_home_url', $url, $path, $orig_scheme);
