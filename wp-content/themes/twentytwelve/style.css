@@ -550,15 +550,13 @@ section[role="banner"] {
 
 /* Sidebar */
 .widget-area .widget {
-	overflow: hidden;
-	-moz-hyphens: auto;
-	-ms-word-break: break-all;
+	word-wrap: break-word;
 	-webkit-hyphens: auto;
+	-moz-hyphens: auto;
 	hyphens: auto;
-	word-break: break-all;
-	word-break: break-word;
 	margin-bottom: 48px;
 	margin-bottom: 3.428571429rem;
+	overflow: hidden;
 }
 .widget-area .widget h3 {
 	margin-bottom: 24px;
