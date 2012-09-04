@@ -556,7 +556,6 @@ section[role="banner"] {
 	hyphens: auto;
 	margin-bottom: 48px;
 	margin-bottom: 3.428571429rem;
-	overflow: hidden;
 }
 .widget-area .widget h3 {
 	margin-bottom: 24px;
@@ -591,7 +590,6 @@ footer[role="contentinfo"] {
 	margin-right: auto;
 	padding: 24px 0;
 	padding: 1.714285714rem 0;
-	overflow: hidden;
 }
 footer[role="contentinfo"] a {
 	color: #686868;
@@ -902,8 +900,10 @@ footer.entry-meta {
 /* =Single image attachment view
 -------------------------------------------------------------- */
 
-.image-attachment div.attachment {
+.article.attachment {
 	overflow: hidden;
+}
+.image-attachment div.attachment {
 	text-align: center;
 }
 .image-attachment div.attachment p {
@@ -1030,7 +1030,6 @@ article.format-quote .entry-content blockquote {
 .comments-area article {
 	margin: 24px 0;
 	margin: 1.714285714rem 0;
-	overflow: hidden;
 }
 .comments-area article header {
 	margin: 0 0 48px;
@@ -1095,11 +1094,6 @@ article.format-quote .entry-content blockquote {
 	border-radius: 3px;
 	border: 1px solid #007cbd;
 }
-.comments-area article p {
-	margin: 24px 0;
-	margin: 1.714285714rem 0;
-	line-height: 1.714285714;
-}
 .comments-area li.bypostauthor cite span {
 	position: absolute;
 	margin-left: 5px;
@@ -1152,7 +1146,6 @@ a.comment-reply-link:hover {
 #respond form p {
 	margin: 11px 0;
 	margin: 0.785714286rem 0;
-	overflow: hidden;
 }
 #respond form p.logged-in-as {
 	margin-bottom: 24px;
