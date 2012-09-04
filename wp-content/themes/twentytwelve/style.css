@@ -718,8 +718,6 @@ article.sticky .featured-post {
 	margin: 0 0 24px;
 	margin: 0 0 1.714285714rem;
 	line-height: 1.714285714;
-	text-align: justify;
-	text-justify: distribute;
 }
 .entry-content ol,
 .comment-content ol,
@@ -1303,11 +1301,6 @@ img#wpstats {
 
 /* Minimum width of 600 pixels. */
 @media screen and (min-width: 600px) {
-	.entry-content p,
-	.entry-summary p {
-		text-align: inherit;
-		text-justify: auto;
-	}
 	#author-avatar {
 		float: left;
 		margin-top: 8px;
