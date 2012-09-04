@@ -302,8 +302,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 	}
 
 	function single_row( $a_comment ) {
-		global $comment;
-		$post = get_post();
+		global $post, $comment;
 
 		$comment = $a_comment;
 		$the_comment_class = join( ' ', get_comment_class( wp_get_comment_status( $comment->comment_ID ) ) );

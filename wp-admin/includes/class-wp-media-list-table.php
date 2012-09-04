@@ -156,8 +156,7 @@ class WP_Media_List_Table extends WP_List_Table {
 	}
 
 	function display_rows() {
-		$post = get_post();
-		$id = $post->ID;
+		global $post, $id;
 
 		add_filter( 'the_title','esc_html' );
 		$alt = '';
