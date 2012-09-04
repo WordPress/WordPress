@@ -186,7 +186,8 @@ img {
 
 /* Shared Post Format styling */
 article.format-quote footer.entry-meta,
-article.format-link footer.entry-meta {
+article.format-link footer.entry-meta,
+article.format-status footer.entry-meta {
 	font-size: 11px;
 	font-size: 0.785714286rem;
 	line-height: 2.181818182;
@@ -1013,6 +1014,17 @@ article.format-quote .entry-content blockquote {
 	font-style: normal;
 	color: #6a6a6a;
 	background: #efefef;
+}
+
+/* Status posts */
+.format-status .entry-content p {
+	margin-right: 48px;
+	margin-right: 3.428571429rem;
+}
+.format-status div.avatar {
+	float: right;
+	margin-left: 14px;
+	margin-left: 1rem;
 }
 
 
