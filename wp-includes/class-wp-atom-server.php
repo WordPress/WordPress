@@ -167,9 +167,7 @@ class wp_atom_server {
 				array('GET' => 'get_attachment',
 						'POST' => 'create_attachment'),
 			'@/attachment/file/(\d+)$@' =>
-				array('GET' => 'get_file',
-						'PUT' => 'put_file',
-						'DELETE' => 'delete_file'),
+				array('GET' => 'get_file'),
 			'@/attachment/(\d+)$@' =>
 				array('GET' => 'get_attachment',
 						'PUT' => 'put_attachment',
@@ -315,6 +313,12 @@ EOD;
 
 		$entry = array_pop($parser->feed->entries);
 
+		$publish = ! ( isset( $entry->draft ) && 'yes' == trim( $entry->draft ) );
+		$cap = ($publish) ? 'publish_posts' : 'edit_posts';
+
+		if ( !current_user_can($cap) )
+			$this->auth_required(__('Sorry, you do not have the right to edit/publish new posts.'));
+
 		$catnames = array();
 		if ( !empty( $entry->categories ) ) {
 			foreach ( $entry->categories as $cat ) {
@@ -330,13 +334,6 @@ EOD;
 			if ( in_array($cat->name, $catnames) )
 				array_push($post_category, $cat->term_id);
 		}
-
-		$publish = ! ( isset( $entry->draft ) && 'yes' == trim( $entry->draft ) );
-
-		$cap = ($publish) ? 'publish_posts' : 'edit_posts';
-
-		if ( !current_user_can($cap) )
-			$this->auth_required(__('Sorry, you do not have the right to edit/publish new posts.'));
 
 		$blog_ID = get_current_blog_id();
 		$post_status = ($publish) ? 'publish' : 'draft';
@@ -398,7 +395,7 @@ EOD;
 	function get_post($postID) {
 		global $entry;
 
-		if ( !current_user_can( 'edit_post', $postID ) )
+		if ( ! get_post( $postID ) || ! current_user_can( 'edit_post', $postID ) )
 			$this->auth_required( __( 'Sorry, you do not have the right to access this post.' ) );
 
 		$this->set_current_entry($postID);
@@ -429,10 +426,14 @@ EOD;
 		global $entry;
 		$this->set_current_entry($postID);
 
-		if ( !current_user_can('edit_post', $entry['ID']) )
+		if ( !current_user_can('edit_post', $postID) )
 			$this->auth_required(__('Sorry, you do not have the right to edit this post.'));
 
 		$publish = ! ( isset($parsed->draft) && 'yes' == trim($parsed->draft) );
+
+		if ( $publish && ! current_user_can( 'publish_posts' ) )
+			$this->auth_required( __( 'Sorry, you do not have the right to publish this post.' ) );
+
 		$post_status = ($publish) ? 'publish' : 'draft';
 
 		extract($entry);
@@ -473,7 +474,7 @@ EOD;
 		global $entry;
 		$this->set_current_entry($postID);
 
-		if ( !current_user_can('edit_post', $postID) )
+		if ( !current_user_can('delete_post', $postID) )
 			$this->auth_required(__('Sorry, you do not have the right to delete this post.'));
 
 		if ( $entry['post_type'] == 'attachment' ) {
@@ -504,6 +505,9 @@ EOD;
 		if ( !isset($postID) ) {
 			$this->get_attachments();
 		} else {
+			if ( ! current_user_can( 'edit_post', $postID ) )
+				$this->auth_required( __( 'Sorry, you do not have the right to edit this post.' ) );
+
 			$this->set_current_entry($postID);
 			$output = $this->get_entry($postID, 'attachment');
 			$this->output($output);
@@ -589,7 +593,7 @@ EOD;
 		global $entry;
 		$this->set_current_entry($postID);
 
-		if ( !current_user_can('edit_post', $entry['ID']) )
+		if ( !current_user_can('edit_post', $entry['ID']) || 'attachment' != $entry['post_type'] )
 			$this->auth_required(__('Sorry, you do not have the right to edit this post.'));
 
 		extract($entry);
@@ -624,7 +628,7 @@ EOD;
 		global $entry;
 		$this->set_current_entry($postID);
 
-		if ( !current_user_can('edit_post', $postID) )
+		if ( !current_user_can('delete_post', $postID) )
 			$this->auth_required(__('Sorry, you do not have the right to delete this post.'));
 
 		$location = get_post_meta($entry['ID'], '_wp_attached_file', true);
@@ -633,11 +637,8 @@ EOD;
 		if ( !isset($location) || 'attachment' != $entry['post_type'] || empty($filetype['ext']) )
 			$this->internal_error(__('Error occurred while accessing post metadata for file location.'));
 
-		// delete file
-		@unlink($location);
-
 		// delete attachment
-		$result = wp_delete_post($postID);
+		$result = wp_delete_attachment($postID);
 
 		if ( !$result )
 			$this->internal_error(__('For some strange yet very annoying reason, this post could not be deleted.'));
@@ -970,7 +971,7 @@ EOD;
 
 		$count = get_option('posts_per_rss');
 
-		wp('posts_per_page=' . $count . '&offset=' . ($count * ($page-1)) . '&orderby=modified&post_status=any');
+		wp('posts_per_page=' . $count . '&offset=' . ($count * ($page-1)) . '&orderby=modified&perm=readable');
 
 		$post = $GLOBALS['post'];
 		$posts = $GLOBALS['posts'];
