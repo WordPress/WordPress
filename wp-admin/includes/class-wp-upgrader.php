@@ -1507,14 +1507,14 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 
 		$preview_link = add_query_arg( array(
 			'preview'    => 1,
-			'template'   => $template,
-			'stylesheet' => $stylesheet,
+			'template'   => urlencode( $template ),
+			'stylesheet' => urlencode( $stylesheet ),
 		), trailingslashit( get_home_url() ) );
 
 		$activate_link = add_query_arg( array(
 			'action'     => 'activate',
-			'template'   => $template,
-			'stylesheet' => $stylesheet,
+			'template'   => urlencode( $template ),
+			'stylesheet' => urlencode( $stylesheet ),
 		), admin_url('themes.php') );
 		$activate_link = wp_nonce_url( $activate_link, 'switch-theme_' . $stylesheet );
 
@@ -1571,14 +1571,14 @@ class Theme_Upgrader_Skin extends WP_Upgrader_Skin {
 
 			$preview_link = add_query_arg( array(
 				'preview'    => 1,
-				'template'   => $template,
-				'stylesheet' => $stylesheet,
+				'template'   => urlencode( $template ),
+				'stylesheet' => urlencode( $stylesheet ),
 			), trailingslashit( get_home_url() ) );
 
 			$activate_link = add_query_arg( array(
 				'action'     => 'activate',
-				'template'   => $template,
-				'stylesheet' => $stylesheet,
+				'template'   => urlencode( $template ),
+				'stylesheet' => urlencode( $stylesheet ),
 			), admin_url('themes.php') );
 			$activate_link = wp_nonce_url( $activate_link, 'switch-theme_' . $stylesheet );
 
