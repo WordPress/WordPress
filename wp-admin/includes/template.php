@@ -1106,20 +1106,23 @@ function add_settings_field($id, $title, $callback, $page, $section = 'default',
  *
  * @param string $page The slug name of the page whos settings sections you want to output
  */
-function do_settings_sections($page) {
+function do_settings_sections( $page ) {
 	global $wp_settings_sections, $wp_settings_fields;
 
-	if ( !isset($wp_settings_sections) || !isset($wp_settings_sections[$page]) )
+	if ( ! isset( $wp_settings_sections ) || !isset( $wp_settings_sections[$page] ) )
 		return;
 
 	foreach ( (array) $wp_settings_sections[$page] as $section ) {
 		if ( $section['title'] )
 			echo "<h3>{$section['title']}</h3>\n";
-		call_user_func($section['callback'], $section);
-		if ( !isset($wp_settings_fields) || !isset($wp_settings_fields[$page]) || !isset($wp_settings_fields[$page][$section['id']]) )
+		
+		if ( $section['callback'] )
+			call_user_func( $section['callback'], $section );
+		
+		if ( ! isset( $wp_settings_fields ) || !isset( $wp_settings_fields[$page] ) || !isset( $wp_settings_fields[$page][$section['id']] ) )
 			continue;
 		echo '<table class="form-table">';
-		do_settings_fields($page, $section['id']);
+		do_settings_fields( $page, $section['id'] );
 		echo '</table>';
 	}
 }
