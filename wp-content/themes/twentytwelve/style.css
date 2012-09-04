@@ -751,9 +751,15 @@ article.sticky .featured-post {
 }
 .entry-content blockquote,
 .comment-content blockquote {
+	margin-bottom: 24px;
+	margin-bottom: 1.714285714rem;
 	padding: 24px;
 	padding: 1.714285714rem;
 	font-style: italic;
+}
+.entry-content blockquote p:last-child,
+.comment-content blockquote p:last-child {
+	margin-bottom: 0;
 }
 .entry-content code,
 .comment-content code {
@@ -938,18 +944,19 @@ article.format-aside h1 a:hover {
 }
 article.format-aside .aside {
 	padding: 24px 24px 0;
-	padding: 1.714285714rem 1.714285714rem 0;
+	padding: 1.714285714rem;
 	background: #d2e0f9;
 	border-left: 22px solid #a8bfe8;
 }
 article.format-aside p {
-	margin: 0;
-	padding-bottom: 24px;
-	padding-bottom: 1.714285714rem;
 	font-size: 13px;
 	font-size: 0.928571429rem;
 	line-height: 1.846153846;
 	color: #4a5466;
+}
+article.format-aside blockquote:last-child,
+article.format-aside p:last-child {
+	margin-bottom: 0;
 }
 
 
