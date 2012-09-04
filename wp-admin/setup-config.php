@@ -44,11 +44,13 @@ define('WP_DEBUG', false);
 require(ABSPATH . WPINC . '/load.php');
 require(ABSPATH . WPINC . '/version.php');
 
-// Also loads functions.php, plugin.php, l10n.php, pomo/mo.php (all required by setup-config.php)
-wp_load_translations_early();
-
 // Check for the required PHP version and for the MySQL extension or a database drop-in.
 wp_check_php_mysql_versions();
+
+require_once(ABSPATH . WPINC . '/functions.php');
+
+// Also loads plugin.php, l10n.php, pomo/mo.php (all required by setup-config.php)
+wp_load_translations_early();
 
 // Turn register_globals off.
 wp_unregister_GLOBALS();

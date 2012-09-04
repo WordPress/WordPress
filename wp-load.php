@@ -48,8 +48,10 @@ if ( file_exists( ABSPATH . 'wp-config.php') ) {
 	require_once( ABSPATH . WPINC . '/load.php' );
 	require_once( ABSPATH . WPINC . '/version.php' );
 
-	wp_load_translations_early();
 	wp_check_php_mysql_versions();
+	wp_load_translations_early();
+
+	require_once( ABSPATH . WPINC . '/functions.php' );
 
 	// Die with an error message
 	$die  = __( "There doesn't seem to be a <code>wp-config.php</code> file. I need this before we can get started." ) . '</p>';
