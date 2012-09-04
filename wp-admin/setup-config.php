@@ -44,11 +44,13 @@ define('WP_DEBUG', false);
 require(ABSPATH . WPINC . '/load.php');
 require(ABSPATH . WPINC . '/version.php');
 
-// Also loads functions.php, plugin.php, l10n.php, pomo/mo.php (all required by setup-config.php)
-wp_load_translations_early();
-
 // Check for the required PHP version and for the MySQL extension or a database drop-in.
 wp_check_php_mysql_versions();
+
+require_once(ABSPATH . WPINC . '/functions.php');
+
+// Also loads plugin.php, l10n.php, pomo/mo.php (all required by setup-config.php)
+wp_load_translations_early();
 
 // Turn register_globals off.
 wp_unregister_GLOBALS();
@@ -217,9 +219,10 @@ switch($step) {
 	}
 
 	$key = 0;
-	foreach ( $config_file as &$line ) {
+	// Not a PHP5-style by-reference foreach, as this file must be parseable by PHP4.
+	foreach ( $config_file as $line_num => $line ) {
 		if ( '$table_prefix  =' == substr( $line, 0, 16 ) ) {
-			$line = '$table_prefix  = \'' . addcslashes( $prefix, "\\'" ) . "';\r\n";
+			$config_file[ $line_num ] = '$table_prefix  = \'' . addcslashes( $prefix, "\\'" ) . "';\r\n";
 			continue;
 		}
 
@@ -234,7 +237,7 @@ switch($step) {
 			case 'DB_USER'     :
 			case 'DB_PASSWORD' :
 			case 'DB_HOST'     :
-				$line = "define('" . $constant . "'," . $padding . "'" . addcslashes( constant( $constant ), "\\'" ) . "');\r\n";
+				$config_file[ $line_num ] = "define('" . $constant . "'," . $padding . "'" . addcslashes( constant( $constant ), "\\'" ) . "');\r\n";
 				break;
 			case 'AUTH_KEY'         :
 			case 'SECURE_AUTH_KEY'  :
@@ -244,7 +247,7 @@ switch($step) {
 			case 'SECURE_AUTH_SALT' :
 			case 'LOGGED_IN_SALT'   :
 			case 'NONCE_SALT'       :
-				$line = "define('" . $constant . "'," . $padding . "'" . $secret_keys[$key++] . "');\r\n";
+				$config_file[ $line_num ] = "define('" . $constant . "'," . $padding . "'" . $secret_keys[$key++] . "');\r\n";
 				break;
 		}
 	}
