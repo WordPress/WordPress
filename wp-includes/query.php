@@ -1398,6 +1398,7 @@ class WP_Query {
 			, 's'
 			, 'sentence'
 			, 'fields'
+			, 'menu_order'
 		);
 
 		foreach ( $keys as $key ) {
