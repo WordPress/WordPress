@@ -397,7 +397,7 @@ wpList = {
 			return list.wpList.add(this);
 		});
 
-		$el.delegate( '[class^="add:' + list.id + ':"]:not(form)', 'click', function(){
+		$el.delegate( 'a[class^="add:' + list.id + ':"], input[class^="add:' + list.id + ':"]', 'click', function(){
 			return list.wpList.add(this);
 		});
 
