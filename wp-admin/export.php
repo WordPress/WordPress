@@ -204,7 +204,7 @@ function export_date_options( $post_type = 'post' ) {
 <p><label><input type="radio" name="content" value="<?php echo esc_attr( $post_type->name ); ?>" /> <?php echo esc_html( $post_type->label ); ?></label></p>
 <?php endforeach; ?>
 
-<?php submit_button( __('Download Export File'), 'secondary' ); ?>
+<?php submit_button( __('Download Export File') ); ?>
 </form>
 </div>
 
