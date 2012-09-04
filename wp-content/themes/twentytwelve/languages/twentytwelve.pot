@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Twelve 0.9\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentytwelve\n"
-"POT-Creation-Date: 2012-08-30 17:18:55+00:00\n"
+"POT-Creation-Date: 2012-09-04 05:18:55+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -86,18 +86,20 @@ msgstr ""
 msgid "Comments are closed."
 msgstr ""
 
-#: content-aside.php:13 content-aside.php:21 content-image.php:17
-#: content-link.php:19 content-quote.php:18 content.php:23
+#: content-aside.php:13 content-aside.php:20 content-image.php:17
+#: content-link.php:18 content-quote.php:17 content-status.php:18
+#: content.php:23
 msgid "Permalink to %s"
 msgstr ""
 
 #: content-aside.php:15 content-image.php:13 content-link.php:14
-#: content-quote.php:13 content.php:39
+#: content-quote.php:13 content-status.php:14 content.php:39
 msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: content-aside.php:20 content-link.php:18 content-page.php:21
-#: content-quote.php:17 content.php:46 functions.php:296 image.php:35
+#: content-aside.php:21 content-image.php:20 content-link.php:19
+#: content-page.php:21 content-quote.php:18 content-status.php:19
+#: content.php:46 functions.php:296 image.php:35
 msgid "Edit"
 msgstr ""
 
