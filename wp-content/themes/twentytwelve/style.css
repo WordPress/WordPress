@@ -881,6 +881,9 @@ footer.entry-meta {
 	line-height: 1.846153846;
 	color: #777;
 }
+.single-author .entry-meta .by-author {
+	display: none;
+}
 
 
 /* =Archives
