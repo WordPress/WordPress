@@ -42,7 +42,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 		unset( $themes[ get_option( 'stylesheet' ) ] );
 		WP_Theme::sort_by_name( $themes );
 
-		$per_page = 999;
+		$per_page = 36;
 		$page = $this->get_pagenum();
 
 		$start = ( $page - 1 ) * $per_page;
