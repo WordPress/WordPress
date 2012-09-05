@@ -1926,6 +1926,10 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 	if ( !empty($orderby) )
 		$orderby = "ORDER BY $orderby";
 
+	$order = strtoupper( $order );
+	if ( '' !== $order && ! in_array( $order, array( 'ASC', 'DESC' ) ) )
+		$order = 'ASC';
+
 	$taxonomies = "'" . implode("', '", $taxonomies) . "'";
 	$object_ids = implode(', ', $object_ids);
 
