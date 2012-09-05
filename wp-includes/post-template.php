@@ -261,6 +261,8 @@ function get_the_excerpt( $deprecated = '' ) {
 	if ( !empty( $deprecated ) )
 		_deprecated_argument( __FUNCTION__, '2.3' );
 
+	$post = get_post();
+
 	if ( post_password_required() ) {
 		return __( 'There is no excerpt because this is a protected post.' );
 	}
