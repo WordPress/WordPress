@@ -45,7 +45,7 @@ get_header(); ?>
 				// Show the default message to everyone else.
 			?>
 				<header class="entry-header">
-					<h1 class="entry-title"><?php _e( 'Nothing found', 'twentytwelve' ); ?></h1>
+					<h1 class="entry-title"><?php _e( 'Nothing Found', 'twentytwelve' ); ?></h1>
 				</header>
 
 				<div class="entry-content">
