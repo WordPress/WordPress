@@ -1486,7 +1486,12 @@ function wp_upload_dir( $time = null ) {
 
 	// Make sure we have an uploads dir
 	if ( ! wp_mkdir_p( $uploads['path'] ) ) {
-		$message = sprintf( __( 'Unable to create directory %s. Is its parent directory writable by the server?' ), $uploads['path'] );
+		if ( 0 === strpos( $uploads['basedir'], ABSPATH ) )
+			$error_path = str_replace( ABSPATH, '', $uploads['basedir'] ) . $uploads['subdir'];
+		else
+			$error_path = basename( $uploads['basedir'] ) . $uploads['subdir'];
+
+		$message = sprintf( __( 'Unable to create directory %s. Is its parent directory writable by the server?' ), $error_path );
 		return array( 'error' => $message );
 	}
 
@@ -1604,7 +1609,12 @@ function wp_upload_bits( $name, $deprecated, $bits, $time = null ) {
 
 	$new_file = $upload['path'] . "/$filename";
 	if ( ! wp_mkdir_p( dirname( $new_file ) ) ) {
-		$message = sprintf( __( 'Unable to create directory %s. Is its parent directory writable by the server?' ), dirname( $new_file ) );
+		if ( 0 === strpos( $upload['basedir'], ABSPATH ) )
+			$error_path = str_replace( ABSPATH, '', $upload['basedir'] ) . $upload['subdir'];
+		else
+			$error_path = basename( $upload['basedir'] ) . $upload['subdir'];
+
+		$message = sprintf( __( 'Unable to create directory %s. Is its parent directory writable by the server?' ), $error_path );
 		return array( 'error' => $message );
 	}
 
