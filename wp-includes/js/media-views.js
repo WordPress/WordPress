@@ -547,6 +547,10 @@
 			else
 				delete this.$bar;
 
+			// Check if the model is selected.
+			if ( this.controller.selection.has( this.model ) )
+				this.select();
+
 			return this;
 		},
 
@@ -561,13 +565,21 @@
 		},
 
 		select: function( model, collection ) {
-			if ( collection === this.controller.selection )
-				this.$el.addClass('selected');
+			// If a collection is provided, check if it's the selection.
+			// If it's not, bail; we're in another selection's event loop.
+			if ( collection && collection !== this.controller.selection )
+				return;
+
+			this.$el.addClass('selected');
 		},
 
 		deselect: function( model, collection ) {
-			if ( collection === this.controller.selection )
-				this.$el.removeClass('selected');
+			// If a collection is provided, check if it's the selection.
+			// If it's not, bail; we're in another selection's event loop.
+			if ( collection && collection !== this.controller.selection )
+				return;
+
+			this.$el.removeClass('selected');
 		}
 	});
 
