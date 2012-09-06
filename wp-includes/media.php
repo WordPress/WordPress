@@ -1571,17 +1571,19 @@ function wp_prepare_attachment_for_js( $attachment ) {
 		'subtype'     => $subtype,
 	);
 
-	if ( 'image' === $type ) {
+	if ( $meta && 'image' === $type ) {
 		$sizes = array();
 		$base_url = str_replace( wp_basename( $attachment_url ), '', $attachment_url );
 
-		foreach ( $meta['sizes'] as $slug => $size ) {
-			$sizes[ $slug ] = array(
-				'height'      => $size['height'],
-				'width'       => $size['width'],
-				'url'         => $base_url . $size['file'],
-				'orientation' => $size['height'] > $size['width'] ? 'portrait' : 'landscape',
-			);
+		if ( isset( $meta['sizes'] ) ) {
+			foreach ( $meta['sizes'] as $slug => $size ) {
+				$sizes[ $slug ] = array(
+					'height'      => $size['height'],
+					'width'       => $size['width'],
+					'url'         => $base_url . $size['file'],
+					'orientation' => $size['height'] > $size['width'] ? 'portrait' : 'landscape',
+				);
+			}
 		}
 
 		$response = array_merge( $response, array(
