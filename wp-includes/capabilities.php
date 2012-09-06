@@ -1131,7 +1131,7 @@ function map_meta_cap( $cap, $user_id ) {
 		if ( defined( 'DISALLOW_UNFILTERED_HTML' ) && DISALLOW_UNFILTERED_HTML )
 			$caps[] = 'do_not_allow';
 		elseif ( is_multisite() && ! is_super_admin( $user_id ) )
-			$caps[] = $cap;
+			$caps[] = 'do_not_allow';
 		else
 			$caps[] = $cap;
 		break;
