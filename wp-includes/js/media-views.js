@@ -101,6 +101,13 @@
 		},
 
 		render: function() {
+			// Ensure content div exists.
+			this.options.$content = this.options.$content || $('<div />');
+
+			// Detach the content element from the DOM to prevent
+			// `this.$el.html()` from garbage collecting its events.
+			this.options.$content.detach();
+
 			this.$el.html( this.template( this.options ) );
 			this.$('.media-modal-content').append( this.options.$content );
 			return this;
