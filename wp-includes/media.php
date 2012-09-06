@@ -801,6 +801,7 @@ function gallery_shortcode($attr) {
 		'captiontag' => 'dd',
 		'columns'    => 3,
 		'size'       => 'thumbnail',
+		'ids'        => '',
 		'include'    => '',
 		'exclude'    => ''
 	), $attr));
@@ -808,6 +809,12 @@ function gallery_shortcode($attr) {
 	$id = intval($id);
 	if ( 'RAND' == $order )
 		$orderby = 'none';
+
+	if ( !empty( $ids ) ) {
+		// 'ids' is explicitly ordered
+		$orderby = 'post__in';
+		$include = $ids;
+	}
 
 	if ( !empty($include) ) {
 		$include = preg_replace( '/[^0-9,]+/', '', $include );
