@@ -23,6 +23,7 @@ TABLE OF CONTENTS:
 11.0 - Write/Edit Post Screen
 	11.1 - Custom Fields
 	11.2 - Post Revisions
+	11.3 - Featured Images
 12.0 - Categories
 13.0 - Tags
 14.0 - Media Screen
@@ -3239,6 +3240,34 @@ table.diff .diff-deletedline del, table.diff .diff-addedline ins {
 	text-decoration: none;
 }
 
+/*------------------------------------------------------------------------------
+  11.3 - Featured Images
+------------------------------------------------------------------------------*/
+
+#select-featured-image {
+	padding: 4px 0;
+	overflow: hidden;
+}
+
+#select-featured-image img {
+	max-width: 100%;
+	height: auto;
+	margin-bottom: 10px;
+}
+
+#select-featured-image a {
+	float: left;
+	clear: both;
+}
+
+#select-featured-image .remove {
+	display: none;
+	margin-top: 10px;
+}
+
+#select-featured-image.has-featured-image .remove {
+	display: inline-block;
+}
 
 /*------------------------------------------------------------------------------
   12.0 - Categories

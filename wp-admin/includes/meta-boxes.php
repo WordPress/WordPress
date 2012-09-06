@@ -911,6 +911,75 @@ function link_advanced_meta_box($link) {
  * @since 2.9.0
  */
 function post_thumbnail_meta_box( $post ) {
-	$thumbnail_id = get_post_meta( $post->ID, '_thumbnail_id', true );
-	echo _wp_post_thumbnail_html( $thumbnail_id );
+	global $_wp_additional_image_sizes;
+
+	?><script type="text/javascript">
+	jQuery( function($) {
+		var $element     = $('#select-featured-image'),
+			$thumbnailId = $element.find('input[name="thumbnail_id"]'),
+			title        = '<?php _e( "Choose a Featured Image" ); ?>',
+			workflow, setFeaturedImage;
+
+		setFeaturedImage = function( thumbnailId ) {
+			$element.find('img').remove();
+			$element.toggleClass( 'has-featured-image', -1 != thumbnailId );
+			$thumbnailId.val( thumbnailId );
+		};
+
+		$element.on( 'click', '.choose, img', function( event ) {
+			event.preventDefault();
+
+			if ( ! workflow ) {
+				workflow = wp.media();
+				workflow.selection.on( 'add', function( model ) {
+					var sizes = model.get('sizes'),
+						size;
+
+					setFeaturedImage( model.id );
+
+					// @todo: might need a size hierarchy equivalent.
+					if ( sizes )
+						size = sizes['post-thumbnail'] || sizes.medium;
+
+					// @todo: Need a better way of accessing full size
+					// data besides just calling toJSON().
+					size = size || model.toJSON();
+
+					workflow.modal.close();
+					workflow.selection.clear();
+
+					$( '<img />', {
+						src:    size.url,
+						width:  size.width
+					}).prependTo( $element );
+				});
+				workflow.modal.title( title );
+			}
+
+			workflow.modal.open();
+		});
+
+		$element.on( 'click', '.remove', function( event ) {
+			event.preventDefault();
+			setFeaturedImage( -1 );
+		});
+	});
+	</script>
+
+	<?php
+	$thumbnail_id   = get_post_meta( $post->ID, '_thumbnail_id', true );
+	$thumbnail_size = isset( $_wp_additional_image_sizes['post-thumbnail'] ) ? 'post-thumbnail' : 'medium';
+	$thumbnail_html = wp_get_attachment_image( $thumbnail_id, $thumbnail_size );
+
+	$classes = empty( $thumbnail_id ) ? '' : 'has-featured-image';
+
+	?><div id="select-featured-image"
+		class="<?php echo esc_attr( $classes ); ?>"
+		data-post-id="<?php echo esc_attr( $post->ID ); ?>">
+		<?php echo $thumbnail_html; ?>
+		<input type="hidden" name="thumbnail_id" value="<?php echo esc_attr( $thumbnail_id ); ?>" />
+		<a href="#" class="choose button-secondary"><?php _e( 'Choose a Featured Image' ); ?></a>
+		<a href="#" class="remove"><?php _e( 'Remove Featured Image' ); ?></a>
+	</div>
+	<?php
 }

@@ -198,6 +198,14 @@ function edit_post( $post_data = null ) {
 			set_post_format( $post_ID, false );
 	}
 
+	// Featured Images
+	if ( isset( $post_data['thumbnail_id'] ) ) {
+		if ( '-1' == $post_data['thumbnail_id'] )
+			delete_post_thumbnail( $post_ID );
+		else
+			set_post_thumbnail( $post_ID, $post_data['thumbnail_id'] );
+	}
+
 	// Meta Stuff
 	if ( isset($post_data['meta']) && $post_data['meta'] ) {
 		foreach ( $post_data['meta'] as $key => $value ) {

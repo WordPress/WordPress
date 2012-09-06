@@ -318,7 +318,6 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'media-views',  "/wp-includes/js/media-views$suffix.js",  array( 'media-models', 'wp-plupload' ), false, 1 );
 	did_action( 'init' ) && $scripts->localize( 'media-views', '_wpMediaViewsL10n', array(
 		'insertMedia'         => __( 'Insert Media' ),
-		'chooseFeatured'      => __( 'Choose a Featured Image' ),
 		'selectMediaSingular' => __( 'Select a media file:' ),
 		'selectMediaMultiple' => __( 'Select one or more media files:' ),
 	) );
