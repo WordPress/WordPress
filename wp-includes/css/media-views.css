@@ -54,6 +54,37 @@
 }
 
 /**
+ * Toolbar
+ */
+.media-toolbar {
+	position: relative;
+	z-index: 50;
+	height: 60px;
+	border-bottom: 1px solid #dfdfdf;
+}
+
+.media-toolbar-primary {
+	float: right;
+}
+
+.media-toolbar-secondary {
+	float: left;
+}
+
+.media-toolbar .media-button {
+	float: left;
+	margin-top: 19px;
+}
+
+.media-toolbar-primary .media-button {
+	margin-left: 10px;
+}
+
+.media-toolbar-secondary .media-button {
+	margin-right: 10px;
+}
+
+/**
  * Workspace
  */
 .media-workspace {
@@ -98,6 +129,7 @@
 	width: auto;
 	right: 0;
 	border-color: #83B4D8;
+	box-shadow: 0 0 0 10px #fff;
 }
 
 .existing-attachments {
@@ -106,12 +138,56 @@
 	left: 200px;
 	right: 0;
 	bottom: 0;
+	margin: 0 20px;
+}
+
+.media-workspace .attachments,
+.media-workspace .media-toolbar {
+	-webkit-transition-property: left, right, top, bottom, margin;
+	-moz-transition-property:    left, right, top, bottom, margin;
+	-ms-transition-property:     left, right, top, bottom, margin;
+	-o-transition-property:      left, right, top, bottom, margin;
+	transition-property:         left, right, top, bottom, margin;
+
+	-webkit-transition-duration: 0.2s;
+	-moz-transition-duration:    0.2s;
+	-ms-transition-duration:     0.2s;
+	-o-transition-duration:      0.2s;
+	transition-duration:         0.2s;
+}
+
+.media-workspace .attachments {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: auto;
+	width: auto;
+}
+
+.media-workspace.with-toolbar .attachments {
+	top: 61px;
+}
+
+.media-workspace .media-toolbar {
+	margin-top: -61px;
+}
+
+.media-workspace.with-toolbar .media-toolbar {
+	margin-top: 0;
+}
+
+.media-workspace .media-toolbar .add-to-gallery,
+.media-workspace .media-toolbar .create-new-gallery {
+	display: none;
 }
 
 /**
  * Attachments
  */
 .attachments {
+	position: relative;
 	width: 100%;
 	height: 100%;
 }
@@ -128,15 +204,15 @@
 .attachments-header h3 {
 	float: left;
 	margin: 0;
-	padding: 0 0 0 10px;
+	padding: 0;
 	line-height: 50px;
 	font-size: 18px;
 	font-weight: 200;
 }
 .attachments-header input {
 	float: right;
-	margin-top: 10px;
-	margin-right: 10px;
+	margin-top: 12px;
+	line-height: 18px;
 }
 
 .attachments ul {
@@ -146,7 +222,7 @@
 	right: 0;
 	bottom: 0;
 	overflow: auto;
-	margin: 0 10px 20px;
+	margin: 0 -10px 20px;
 }
 
 /**
@@ -169,6 +245,21 @@
 
 .attachment.selected {
 	border-color: #21759b;
+}
+
+.attachment.selected:after {
+	content: '\2713';
+	display: block;
+	height: 24px;
+	width: 24px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	line-height: 24px;
+	font-size: 18px;
+	text-align: center;
+	color: #fff;
+	background: #21759b;
 }
 
 .attachment-thumbnail {
@@ -275,4 +366,68 @@
 
 .uploading .upload-attachments .media-progress-bar {
 	display: block;
+}
+
+/**
+ * Selection Preview
+ */
+
+.selection-preview {
+	position: relative;
+	height: 60px;
+	overflow: hidden;
+}
+
+.selected-img {
+	float: left;
+	position: relative;
+	margin-right: 14px;
+}
+
+.selection-preview img {
+	max-width: 40px;
+	max-height: 40px;
+	float: left;
+	margin-top: 6px;
+	margin-left: 1px;
+	border: 2px solid white;
+	box-shadow:
+	    0 0 0 1px #ccc,
+	    3px 3px 0 0 #fff,
+	    3px 3px 0 1px #ccc,
+	    6px 6px 0 0 #fff,
+	    6px 6px 0 1px #ccc;
+}
+
+.selection-preview .selected-count-1 img {
+	margin-top: 8px;
+	box-shadow: 0 0 0 1px #ccc;
+}
+
+.selection-preview .selected-count-2 img {
+	margin-top: 7px;
+	box-shadow:
+	    0 0 0 1px #ccc,
+	    3px 3px 0 0 #fff,
+	    3px 3px 0 1px #ccc;
+}
+
+.selection-preview .count {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	height: 16px;
+	min-width: 8px;
+	padding: 0 4px;
+	font-size: 12px;
+	text-align: center;
+	font-weight: bold;
+	color: #999;
+	background: #fff;
+	box-shadow: -1px -1px 2px -1px rgba( 0, 0, 0, 0.2 );
+}
+
+.selection-preview .clear-selection {
+	float: left;
+	line-height: 60px;
 }

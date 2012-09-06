@@ -1649,5 +1649,16 @@ function wp_print_media_templates( $attachment ) {
 		</div>
 		<div class="describe"></div>
 	</script>
+
+	<script type="text/html" id="tmpl-media-selection-preview">
+		<div class="selected-img selected-count-<%- count %>">
+			<% if ( thumbnail ) { %>
+				<img src="<%- thumbnail %>" />
+			<% } %>
+
+			<span class="count"><%- count %></span>
+		</div>
+		<a class="clear-selection" href="#"><?php _e('Clear selection'); ?></a>
+	</script>
 	<?php
 }
