@@ -2331,6 +2331,8 @@ class WP_Query {
 			$orderby = "$wpdb->posts.post_date " . $q['order'];
 		} elseif ( 'none' == $q['orderby'] ) {
 			$orderby = '';
+		} elseif ( $q['orderby'] == 'post__in' && ! empty( $post__in ) ) {
+			$orderby = "FIELD( {$wpdb->posts}.ID, $post__in )";
 		} else {
 			// Used to filter values
 			$allowed_keys = array('name', 'author', 'date', 'title', 'modified', 'menu_order', 'parent', 'ID', 'rand', 'comment_count');
