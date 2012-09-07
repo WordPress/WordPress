@@ -4150,8 +4150,9 @@ function wp_attachment_is_image( $post_id = 0 ) {
 function wp_mime_type_icon( $mime = 0 ) {
 	if ( !is_numeric($mime) )
 		$icon = wp_cache_get("mime_type_icon_$mime");
+
+	$post_id = 0;
 	if ( empty($icon) ) {
-		$post_id = 0;
 		$post_mimes = array();
 		if ( is_numeric($mime) ) {
 			$mime = (int) $mime;
