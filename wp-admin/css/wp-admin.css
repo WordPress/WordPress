@@ -3200,7 +3200,7 @@ td.plugin-title p {
 }
 
 #postcustomstuff .submit input,
-#postcustomstuff table #addmetasub {
+#postcustomstuff table #newmeta-submit {
 	width: auto;
 }
 

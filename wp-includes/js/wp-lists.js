@@ -78,7 +78,7 @@ wpList = {
 		if ( !s )
 			return false;
 
-		if ( !e.is('[id="' + s.what + '-add-submit"]') )
+		if ( !e.is('[id="' + s.element + '-submit"]') )
 			return !wpList.add.call( list, e, s );
 
 		if ( !s.element )
