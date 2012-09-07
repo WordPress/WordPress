@@ -4218,7 +4218,7 @@ function wp_mime_type_icon( $mime = 0 ) {
 			if ( isset($types[$wilds[0]])) {
 				$icon = $types[$wilds[0]];
 				if ( !is_numeric($mime) )
-					wp_cache_set("mime_type_icon_$mime", $icon);
+					wp_cache_add("mime_type_icon_$mime", $icon);
 				break;
 			}
 		}
