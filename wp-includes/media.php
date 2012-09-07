@@ -1576,6 +1576,7 @@ function wp_prepare_attachment_for_js( $attachment ) {
 		'mime'        => $attachment->post_mime_type,
 		'type'        => $type,
 		'subtype'     => $subtype,
+		'icon'        => wp_mime_type_icon( $attachment->post_mime_type ),
 	);
 
 	if ( $meta && 'image' === $type ) {
@@ -1646,7 +1647,7 @@ function wp_print_media_templates( $attachment ) {
 	</script>
 
 	<script type="text/html" id="tmpl-attachment">
-		<div class="attachment-thumbnail <%- orientation %>">
+		<div class="attachment-thumbnail type-<%- type %> subtype-<%- subtype %> <%- orientation %>">
 			<% if ( thumbnail ) { %>
 				<img src="<%- thumbnail %>" />
 			<% } %>

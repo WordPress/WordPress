@@ -527,12 +527,14 @@
 		render: function() {
 			var attachment = this.model.toJSON(),
 				options = {
+					thumbnail:   'image' === attachment.type ? attachment.url : attachment.icon,
+					uploading:   attachment.uploading,
 					orientation: attachment.orientation || 'landscape',
-					thumbnail:   attachment.url || '',
-					uploading:   attachment.uploading
+					type:        attachment.type,
+					subtype:     attachment.subtype
 				};
 
-			// Use the medium size if possible. If the medium size
+			// Use the medium image size if possible. If the medium size
 			// doesn't exist, then the attachment is too small.
 			// In that case, use the attachment itself.
 			if ( attachment.sizes && attachment.sizes.medium ) {
@@ -614,7 +616,11 @@
 			options.count = this.collection.length;
 			first = this.collection.first();
 			sizes = first.get('sizes');
-			options.thumbnail = ( sizes && sizes.thumbnail ) ? sizes.thumbnail.url : first.get('url');
+
+			if ( 'image' === first.get('type') )
+				options.thumbnail = ( sizes && sizes.thumbnail ) ? sizes.thumbnail.url : first.get('url');
+			else
+				options.thumbnail =  first.get('icon');
 
 			this.$el.html( this.template( options ) );
 			return this;
