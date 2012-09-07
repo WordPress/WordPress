@@ -197,9 +197,9 @@ $(document).ready( function() {
 
 	$('li.wp-has-submenu', menu).hoverIntent({
 		over: function(e){
-			var b, h, o, f, m = $(this).find('.wp-submenu'), menutop, wintop, maxtop;
+			var b, h, o, f, m = $(this).find('.wp-submenu'), menutop, wintop, maxtop, top = parseInt( m.css('top'), 10 );
 
-			if ( parseInt( m.css('top'), 10 ) > -5 )
+			if ( isNaN(top) || top > -5 ) // meaning the submenu is visible
 				return;
 
 			menutop = $(this).offset().top;
