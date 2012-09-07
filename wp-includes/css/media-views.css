@@ -237,6 +237,12 @@
 	padding: 0;
 	margin: 0 10px 20px;
 	border: 1px solid #dfdfdf;
+
+	-webkit-user-select: none;
+	-moz-user-select:    none;
+	-ms-user-select:     none;
+	-o-user-select:      none;
+	user-select:         none;
 }
 
 .attachment:hover {
