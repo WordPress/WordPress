@@ -124,8 +124,7 @@ table.fixed td {
 
 #wpbody-content input.button,
 #wpbody-content input.button-primary,
-#wpbody-content input.button-secondary,
-#wpbody-content input.button-highlighted {
+#wpbody-content input.button-secondary {
 	overflow: visible;
 }
 

@@ -91,13 +91,13 @@ class WP_Media_List_Table extends WP_List_Table {
 			$this->months_dropdown( 'attachment' );
 
 			do_action( 'restrict_manage_posts' );
-			submit_button( __( 'Filter' ), 'secondary', false, false, array( 'id' => 'post-query-submit' ) );
+			submit_button( __( 'Filter' ), 'small', false, false, array( 'id' => 'post-query-submit' ) );
 		}
 
 		if ( $this->detached ) {
 			submit_button( __( 'Scan for lost attachments' ), 'secondary', 'find_detached', false );
 		} elseif ( $this->is_trash && current_user_can( 'edit_others_posts' ) ) {
-			submit_button( __( 'Empty Trash' ), 'button-secondary apply', 'delete_all', false );
+			submit_button( __( 'Empty Trash' ), 'small apply', 'delete_all', false );
 		} ?>
 		</div>
 <?php

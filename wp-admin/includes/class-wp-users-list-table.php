@@ -145,7 +145,7 @@ class WP_Users_List_Table extends WP_List_Table {
 			<option value=''><?php _e( 'Change role to&hellip;' ) ?></option>
 			<?php wp_dropdown_roles(); ?>
 		</select>
-		<?php submit_button( __( 'Change' ), 'secondary', 'changeit', false ); ?>
+		<?php submit_button( __( 'Change' ), 'small', 'changeit', false ); ?>
 	</div>
 <?php
 	}

@@ -57,6 +57,7 @@ input[type="text"]:focus,
 input[type="password"]:focus,
 input[type="file"]:focus,
 input[type="button"]:focus,
+input[type="submit"].focus,
 input[type="submit"]:focus,
 input[type="reset"]:focus,
 input[type="email"]:focus,
@@ -377,81 +378,147 @@ td.help {
 	color: #666;
 }
 
+a.button:active {
+	outline: none;
+}
+
 .button,
 .button-secondary,
 .submit input,
 input[type=button],
 input[type=submit] {
-	border-color: #bbb;
-	color: #464646;
+	background: #ececec;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#eee));
+	background-image: -webkit-linear-gradient(top, #fff, #eee);
+	background-image:    -moz-linear-gradient(top, #fff, #eee);
+	background-image:      -o-linear-gradient(top, #fff, #eee);
+	background-image:   linear-gradient(to bottom, #fff, #eee);
+	border-color: #ccc;
+	-webkit-box-shadow: inset 0 0 1px 1px rgba(255,255,255, 0.9);
+ 	box-shadow: inset 0 0 1px 1px rgba(255,255,255, 0.9);
+ 	color: #464646;
+	text-shadow: 1px 1px 0 #fff;
 }
 
+.button.hover,
 .button:hover,
+.button-secondary.hover,
 .button-secondary:hover,
 .submit input:hover,
 input[type=button]:hover,
-input[type=submit]:hover {
+input[type=submit]:hover,
+.button.focus,
+.button:focus,
+.button-secondary.focus,
+.button-secondary:focus,
+.submit input.focus,
+.submit input:focus,
+input[type=button]:focus,
+input[type=submit].focus,
+input[type=submit]:focus {
+	background: #ececec;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#eee));
+	background-image: -webkit-linear-gradient(top, #fff, #eee);
+	background-image:    -moz-linear-gradient(top, #fff, #eee);
+	background-image:      -o-linear-gradient(top, #fff, #eee);
+	background-image:   linear-gradient(to bottom, #fff, #eee);
+	border-color: #bbb;
+	-webkit-box-shadow: 0px 1px 1px rgba(0,0,0,.1);
+	box-shadow: 0px 1px 1px rgba(0,0,0,.1);
 	color: #000;
-	border-color: #666;
 }
 
-.button,
-.submit input,
-.button-secondary {
-	text-shadow: 0 1px 0 #fff;
-	background: #f2f2f2;
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#ededed), to(#fff));
-	background-image: -webkit-linear-gradient(bottom, #ededed, #fff);
-	background-image:    -moz-linear-gradient(bottom, #ededed, #fff);
-	background-image:      -o-linear-gradient(bottom, #ededed, #fff);
-	background-image: linear-gradient(to top, #ededed, #fff);
-}
-
+.button.active,
 .button:active,
+.button-secondary.active,
+.button-secondary:active,
 .submit input:active,
-.button-secondary:active {
+input[type=button]:active,
+input[type=submit].active,
+input[type=submit]:active {
 	background: #eee;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#ededed), to(#fff));
-	background-image: -webkit-linear-gradient(top, #ededed, #fff);
-	background-image:    -moz-linear-gradient(top, #ededed, #fff);
-	background-image:      -o-linear-gradient(top, #ededed, #fff);
-	background-image: linear-gradient(to bottom, #ededed, #fff);
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#eee), to(#f9f9f9));
+	background-image: -webkit-linear-gradient(top, #eee, #f9f9f9);
+	background-image:    -moz-linear-gradient(top, #eee, #f9f9f9);
+	background-image:      -o-linear-gradient(top, #eee, #f9f9f9);
+	background-image:   linear-gradient(to bottom, #eee, #f9f9f9);
+	border-color: #999 #ddd #ddd #999;
+	color: #555;
+	-webkit-box-shadow: inset 1px 1px 0 rgba(50,50,50,0.1);
+ 	box-shadow: inset 1px 1px 0 rgba(50,50,50,0.1);
+}
+
+.button.focus,
+.button:focus,
+.button-secondary.focus,
+.button-secondary:focus,
+.submit input.focus,
+.submit input:focus,
+input[type=button].focus,
+input[type=submit]:focus {
+	border-color: #aaa;
 }
 
 input.button-primary,
 button.button-primary,
 a.button-primary {
-	border-color: #298cba;
-	font-weight: bold;
-	color: #fff;
-	text-shadow: 0 -1px 0 rgba(0,0,0,0.3);
-	background: #21759b;
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#227199), to(#298cba));
-	background-image: -webkit-linear-gradient(bottom, #227199, #298cba);
-	background-image:    -moz-linear-gradient(bottom, #227199, #298cba);
-	background-image:      -o-linear-gradient(bottom, #227199, #298cba);
-	background-image: linear-gradient(to top, #227199, #298cba);
+	background-color: #21759b;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#2a95c5), to(#21759b));
+	background-image: -webkit-linear-gradient(top, #2a95c5, #21759b);
+	background-image:    -moz-linear-gradient(top, #2a95c5, #21759b);
+	background-image:      -o-linear-gradient(top, #2a95c5, #21759b);
+	background-image:   linear-gradient(to bottom, #2a95c5, #21759b);
+	border-color: #21759b;
+	border-bottom-color: #1e6a8d;
+	-webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.5);
+ 	box-shadow: inset 0 1px 0 rgba(120,200,230,0.5);
+ 	color: #fff;
+	text-decoration: none;
+	text-shadow: -1px -1px 0 rgba(0,0,0,0.1);
 }
 
-input.button-primary:active,
-button.button-primary:active,
-a.button-primary:active {
-	color: #eaf2fa;
-	background: #298cba;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#227199), to(#298cba));
-	background-image: -webkit-linear-gradient(top, #227199, #298cba);
-	background-image:    -moz-linear-gradient(top, #227199, #298cba);
-	background-image:      -o-linear-gradient(top, #227199, #298cba);
-	background-image: linear-gradient(to bottom, #227199, #298cba);
-}
-
+input.button-primary.hover,
 input.button-primary:hover,
 button.button-primary:hover,
 a.button-primary:hover,
-a.button-primary:focus,
+input.button-primary.focus,
+input.button-primary:focus,
+button.button-primary:focus,
+a.button-primary:focus {
+	background-color: #278ab7;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#2e9fd2), to(#21759b));
+	background-image: -webkit-linear-gradient(top, #2e9fd2, #21759b);
+	background-image:    -moz-linear-gradient(top, #2e9fd2, #21759b);
+	background-image:      -o-linear-gradient(top, #2e9fd2, #21759b);
+	background-image:   linear-gradient(to bottom, #2e9fd2, #21759b);
+	border-color: #1b607f;
+	-webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.6), 0px 1px 2px rgba(0,0,0,.4);
+ 	box-shadow: inset 0 1px 0 rgba(120,200,230,0.6), 0px 1px 2px rgba(0,0,0,.4);
+	color: #fff;
+	text-shadow: -1px -1px 0 rgba(0,0,0,0.3);
+}
+
+input.button-primary.active,
+input.button-primary:active,
+button.button-primary:active,
 a.button-primary:active {
-	border-color: #13455b;
-	color: #eaf2fa;
+	background: #1b607f;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#21759b), to(#278ab7));
+	background-image: -webkit-linear-gradient(top, #21759b, #278ab7);
+	background-image:    -moz-linear-gradient(top, #21759b, #278ab7);
+	background-image:      -o-linear-gradient(top, #21759b, #278ab7);
+	background-image:   linear-gradient(to bottom, #21759b, #278ab7);
+	border-color: #124560 #2382ae #2382ae #124560;
+	color: rgba(255,255,255,0.95);
+	-webkit-box-shadow: inset 1px 1px 0 rgba(0,0,0,0.1);
+ 	box-shadow: inset 1px 1px 0 rgba(0,0,0,0.1);
+}
+
+input.button-primary.focus,
+input.button-primary:focus,
+button.button-primary:focus,
+a.button-primary:focus {
+	border-color: #124560;
 }
 
 .button-disabled,
@@ -462,13 +529,17 @@ a.button-primary:active {
 a.button.disabled {
 	color: #aaa !important;
 	border-color: #ddd !important;
+	-webkit-box-shadow: none !important;
+	box-shadow:         none !important;
 }
 
 .button-primary-disabled,
 .button-primary[disabled],
 .button-primary:disabled {
-	color: #9fd0d5 !important;
+	color: #94cde7 !important;
 	background: #298cba !important;
+	-webkit-box-shadow: none !important;
+	box-shadow:         none !important;
 }
 
 a:hover,
@@ -947,6 +1018,7 @@ table.widefat .spam a:hover,
 }
 
 /* Containers */
+.wp-editor-wrap .wp-editor-container,
 .wp-editor-wrap .wp_themeSkin table.mceLayout {
 	border-color: #bed1dd #bed1dd #d0dfe9;
 }
@@ -967,27 +1039,14 @@ table.widefat .spam a:hover,
 	background-color: #f5f5f5;
 }
 
-/* Button */
-.wp-editor-wrap .wp_themeSkin .mceButton,
-.wp-editor-wrap .wp_themeSkin .mceListBox .mceText,
-.wp-editor-wrap .wp_themeSkin .mceListBox .mceOpen {
-	border-color: #b0c8d7;
-	background: #cfdfe9;
+.wp-editor-wrap .wp_themeSkin a.mceButtonEnabled:hover {
+	border-color: #bbb;
+	background: #eee;
 	background-image: -webkit-gradient(linear, left bottom, left top, from(#cfdfe9), to(#fff));
 	background-image: -webkit-linear-gradient(bottom, #cfdfe9, #fff);
 	background-image:    -moz-linear-gradient(bottom, #cfdfe9, #fff);
 	background-image:      -o-linear-gradient(bottom, #cfdfe9, #fff);
 	background-image: linear-gradient(to top, #cfdfe9, #fff);
-}
-
-.wp-editor-wrap .wp_themeSkin a.mceButtonEnabled:hover {
-	border-color: #5589aa;
-	background: #c9c9c9;
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#bdccd5), to(#000));
-	background-image: -webkit-linear-gradient(bottom, #bdccd5, #fff);
-	background-image:    -moz-linear-gradient(bottom, #bdccd5, #fff);
-	background-image:      -o-linear-gradient(bottom, #bdccd5, #fff);
-	background-image: linear-gradient(to top, #bdccd5, #fff);
 }
 
 .wp-editor-wrap .wp_themeSkin a.mceButton:active,
@@ -996,17 +1055,13 @@ table.widefat .spam a:hover,
 .wp-editor-wrap .wp_themeSkin a.mceButtonActive,
 .wp-editor-wrap .wp_themeSkin a.mceButtonActive:active,
 .wp-editor-wrap .wp_themeSkin a.mceButtonActive:hover {
-	background: #b0c8d7;
-	border-color: #5589aa;
+	background: #c7d8e2;
+	border-color: #b0c8d7;
 	background-image: -webkit-gradient(linear, left top, left bottom, from(#cfdfe9), to(#fff));
 	background-image: -webkit-linear-gradient(top, #cfdfe9, #fff);
 	background-image:    -moz-linear-gradient(top, #cfdfe9, #fff);
 	background-image:      -o-linear-gradient(top, #cfdfe9, #fff);
 	background-image: linear-gradient(to bottom, #cfdfe9, #fff);
-}
-
-.wp-editor-wrap .wp_themeSkin .mceButtonDisabled {
-	border-color: #b0c8d7 !important;
 }
 
 .wp-editor-wrap .wp_themeSkin .mceListBox .mceOpen {
@@ -1019,16 +1074,21 @@ table.widefat .spam a:hover,
 .wp-editor-wrap .wp_themeSkin .mceListBoxSelected .mceOpen,
 .wp-editor-wrap .wp_themeSkin .mceListBoxSelected .mceText,
 .wp-editor-wrap .wp_themeSkin table.mceListBoxEnabled:active .mceText {
-	background: #b0c8d7;
-	border-color: #5589aa;
+	border-color: #B0C8D7;
+	background: #c9c9c9;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#fff), to(#bdccd5));
+	background-image: -webkit-linear-gradient(bottom, #fff, #bdccd5);
+	background-image:    -moz-linear-gradient(bottom, #fff, #bdccd5);
+	background-image:      -o-linear-gradient(bottom, #fff, #bdccd5);
+	background-image: linear-gradient(to top, #fff, #bdccd5);
 }
 
 .wp-editor-wrap .wp_themeSkin table.mceListBoxEnabled:hover .mceText,
 .wp-editor-wrap .wp_themeSkin .mceListBoxHover .mceText,
 .wp-editor-wrap .wp_themeSkin table.mceListBoxEnabled:hover .mceOpen,
 .wp-editor-wrap .wp_themeSkin .mceListBoxHover .mceOpen {
-	border-color: #5589aa;
-	background: #c9c9c9;
+	border-color: #B0C8D7;
+	background: #c7d8e2;
 	background-image: -webkit-gradient(linear, left bottom, left top, from(#cfdfe9), to(#fff));
 	background-image: -webkit-linear-gradient(bottom, #cfdfe9, #fff);
 	background-image:    -moz-linear-gradient(bottom, #cfdfe9, #fff);
@@ -1036,39 +1096,56 @@ table.widefat .spam a:hover,
 	background-image: linear-gradient(to top, #cfdfe9, #fff);
 }
 
-/* SplitButton */
-.wp-editor-wrap .wp_themeSkin .mceSplitButton a.mceAction,
-.wp-editor-wrap .wp_themeSkin .mceSplitButton a.mceOpen {
-	border-color: #b0c8d7;
-}
-
-.wp-editor-wrap .wp_themeSkin .mceSplitButton a.mceOpen:hover,
+.wp-editor-wrap .wp_themeSkin .mceSplitButton:hover a.mceOpen,
 .wp-editor-wrap .wp_themeSkin .mceSplitButtonSelected a.mceOpen,
+.wp-editor-wrap .wp_themeSkin .mceSplitButtonSelected a.mceAction,
 .wp-editor-wrap .wp_themeSkin table.mceSplitButtonEnabled:hover a.mceAction,
 .wp-editor-wrap .wp_themeSkin .mceSplitButton a.mceAction:hover {
-	border-color: #5589aa;
+	border-color: #B0C8D7;
 }
 
-.wp-editor-wrap .wp_themeSkin table.mceSplitButton td {
-	background: #cfdfe9;
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#cfdfe9), to(#fff));
-	background-image: -webkit-linear-gradient(bottom, #cfdfe9, #fff);
-	background-image:    -moz-linear-gradient(bottom, #cfdfe9, #fff);
-	background-image:      -o-linear-gradient(bottom, #cfdfe9, #fff);
-	background-image: linear-gradient(to top, #cfdfe9, #fff);
+.wp-editor-wrap .wp_themeSkin .mceSplitButtonSelected td {
+	background: #c9c9c9;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#fff), to(#bdccd5));
+	background-image: -webkit-linear-gradient(bottom, #fff, #bdccd5);
+	background-image:    -moz-linear-gradient(bottom, #fff, #bdccd5);
+	background-image:      -o-linear-gradient(bottom, #fff, #bdccd5);
+	background-image: linear-gradient(to top, #fff, #bdccd5);
 }
 
 .wp-editor-wrap .wp_themeSkin table.mceSplitButton:hover td {
+	border-color: #bbb;
 	background: #c9c9c9;
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#bdccd5), to(#000));
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#bdccd5), to(#fff));
 	background-image: -webkit-linear-gradient(bottom, #bdccd5, #fff);
 	background-image:    -moz-linear-gradient(bottom, #bdccd5, #fff);
 	background-image:      -o-linear-gradient(bottom, #bdccd5, #fff);
 	background-image: linear-gradient(to top, #bdccd5, #fff);
 }
 
-.wp-editor-wrap .wp_themeSkin .mceSplitButtonActive {
-	background-color: #b0c8d7;
+.wp-editor-wrap .wp_themeSkin table.mceSplitButton:active td.mceFirst,
+.wp-editor-wrap .wp_themeSkin table.mceSplitButton td.mceLast:active {
+	border-color: #bbb;
+	background: #c9c9c9;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#fff), to(#bdccd5));
+	background-image: -webkit-linear-gradient(bottom, #fff, #bdccd5);
+	background-image:    -moz-linear-gradient(bottom, #fff, #bdccd5);
+	background-image:      -o-linear-gradient(bottom, #fff, #bdccd5);
+	background-image: linear-gradient(to top, #fff, #bdccd5);
+}
+
+.wp-editor-wrap .wp_themeSkin .mceSplitButtonActive td a.mceAction,
+.wp-editor-wrap .wp_themeSkin .mceSplitButtonActive td a.mceOpen {
+	border-color: #B0C8D7;
+}
+
+.wp-editor-wrap .wp_themeSkin .mceSplitButtonActive td {
+	background: #c9c9c9;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#fff), to(#bdccd5));
+	background-image: -webkit-linear-gradient(bottom, #fff, #bdccd5);
+	background-image:    -moz-linear-gradient(bottom, #fff, #bdccd5);
+	background-image:      -o-linear-gradient(bottom, #fff, #bdccd5);
+	background-image: linear-gradient(to top, #fff, #bdccd5);
 }
 
 /* ColorSplitButton */

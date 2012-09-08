@@ -554,7 +554,7 @@ function meta_form() {
 </tr>
 
 <tr><td colspan="2" class="submit">
-<?php submit_button( __( 'Add Custom Field' ), 'add:the-list:newmeta', 'addmeta', false, array( 'id' => 'newmeta-submit' ) ); ?>
+<?php submit_button( __( 'Add Custom Field' ), 'add:the-list:newmeta secondary', 'addmeta', false, array( 'id' => 'newmeta-submit' ) ); ?>
 <?php wp_nonce_field( 'add-meta', '_ajax_nonce-add-meta', false ); ?>
 </td></tr>
 </tbody>
@@ -1115,10 +1115,10 @@ function do_settings_sections( $page ) {
 	foreach ( (array) $wp_settings_sections[$page] as $section ) {
 		if ( $section['title'] )
 			echo "<h3>{$section['title']}</h3>\n";
-		
+
 		if ( $section['callback'] )
 			call_user_func( $section['callback'], $section );
-		
+
 		if ( ! isset( $wp_settings_fields ) || !isset( $wp_settings_fields[$page] ) || !isset( $wp_settings_fields[$page][$section['id']] ) )
 			continue;
 		echo '<table class="form-table">';
@@ -1637,18 +1637,22 @@ function submit_button( $text = null, $type = 'primary', $name = 'submit', $wrap
  *                     string such as 'tabindex="1"', though the array format is typically cleaner.
  */
 function get_submit_button( $text = null, $type = 'primary', $name = 'submit', $wrap = true, $other_attributes = null ) {
-	switch ( $type ) :
-		case 'primary' :
-		case 'secondary' :
-			$class = 'button-' . $type;
-			break;
-		case 'delete' :
-			$class = 'button-secondary delete';
-			break;
-		default :
-			$class = $type; // Custom cases can just pass in the classes they want to be used
-	endswitch;
-	$text = ( null == $text ) ? __( 'Save Changes' ) : $text;
+	if ( ! is_array( $type ) )
+		$type = explode( ' ', $type ); 
+
+	$button_shorthand = array( 'primary', 'tiny', 'small', 'large' );
+	$classes = array( 'button' );
+	foreach ( $type as $t ) {
+		if ( 'secondary' === $t || 'button-secondary' === $t )
+			continue;
+		$classes[] = in_array( $t, $button_shorthand ) ? 'button-' . $t : $t;
+	}
+	$class = implode( ' ', array_unique( $classes ) );
+
+	if ( 'delete' === $type )
+		$class = 'button-secondary delete';
+
+	$text = $text ? $text : __( 'Save Changes' );
 
 	// Default the id attribute to $name unless an id was specifically provided in $other_attributes
 	$id = $name;

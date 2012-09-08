@@ -558,7 +558,7 @@ jQuery(document).ready( function($) {
 			var i, c = 0, e = $('#editable-post-name'), revert_e = e.html(), real_slug = $('#post_name'), revert_slug = real_slug.val(), b = $('#edit-slug-buttons'), revert_b = b.html(), full = $('#editable-post-name-full').html();
 
 			$('#view-post-btn').hide();
-			b.html('<a href="#" class="save button">'+postL10n.ok+'</a> <a class="cancel" href="#">'+postL10n.cancel+'</a>');
+			b.html('<a href="#" class="save button button-tiny">'+postL10n.ok+'</a> <a class="cancel" href="#">'+postL10n.cancel+'</a>');
 			b.children('.save').click(function() {
 				var new_slug = e.children('input').val();
 				if ( new_slug == $('#editable-post-name-full').text() ) {

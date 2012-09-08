@@ -2303,7 +2303,6 @@ h3.tb {
 .button,
 .button-primary,
 .button-secondary,
-.button-highlighted,
 #postcustomstuff .submit input {
 	font-family: Tahoma, Arial, sans-serif;
 }
@@ -2473,7 +2472,6 @@ body.login.locale-he-il,
 .locale-he-il .button,
 .locale-he-il .button-primary,
 .locale-he-il .button-secondary,
-.locale-he-il .button-highlighted,
 .locale-he-il #postcustomstuff .submit input,
 .locale-he-il div.sidebar-name h3 {
 	font-family: Arial, sans-serif;

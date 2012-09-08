@@ -439,14 +439,14 @@ function wp_network_dashboard_right_now() {
 	<form action="<?php echo network_admin_url('users.php'); ?>" method="get">
 		<p>
 			<input type="search" name="s" value="" size="30" autocomplete="off" />
-			<?php submit_button( __( 'Search Users' ), 'button', 'submit', false, array( 'id' => 'submit_users' ) ); ?>
+			<?php submit_button( __( 'Search Users' ), 'small', 'submit', false, array( 'id' => 'submit_users' ) ); ?>
 		</p>
 	</form>
 
 	<form action="<?php echo network_admin_url('sites.php'); ?>" method="get">
 		<p>
 			<input type="search" name="s" value="" size="30" autocomplete="off" />
-			<?php submit_button( __( 'Search Sites' ), 'button', 'submit', false, array( 'id' => 'submit_sites' ) ); ?>
+			<?php submit_button( __( 'Search Sites' ), 'small', 'submit', false, array( 'id' => 'submit_sites' ) ); ?>
 		</p>
 	</form>
 <?php

@@ -130,7 +130,7 @@ function install_search_form( $type_selector = true ) {
 		<?php endif; ?>
 		<input type="search" name="s" value="<?php echo esc_attr($term) ?>" autofocus="autofocus" />
 		<label class="screen-reader-text" for="plugin-search-input"><?php _e('Search Plugins'); ?></label>
-		<?php submit_button( __( 'Search Plugins' ), 'button', 'plugin-search-input', false ); ?>
+		<?php submit_button( __( 'Search Plugins' ), 'small', 'plugin-search-input', false ); ?>
 	</form><?php
 }
 

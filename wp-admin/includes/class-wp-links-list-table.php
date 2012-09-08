@@ -68,7 +68,7 @@ class WP_Links_List_Table extends WP_List_Table {
 				'orderby' => 'name',
 			);
 			wp_dropdown_categories( $dropdown_options );
-			submit_button( __( 'Filter' ), 'secondary', false, false, array( 'id' => 'post-query-submit' ) );
+			submit_button( __( 'Filter' ), 'small', false, false, array( 'id' => 'post-query-submit' ) );
 ?>
 		</div>
 <?php

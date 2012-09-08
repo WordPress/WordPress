@@ -779,28 +779,41 @@ input.button,
 .button-primary,
 input.button-primary,
 .button-secondary,
-input.button-secondary,
-.button-highlighted,
-input.button-highlighted,
-#postcustomstuff .submit input {
+input.button-secondary {
+	display: inline-block;
 	text-decoration: none;
-	font-size: 12px !important;
-	line-height: 13px;
-	padding: 3px 8px;
+	font-size: 12px;
+	line-height: 15px;
+	margin: 0;
+	padding: 0.5em 0.8em 0.4em;
 	cursor: pointer;
 	border-width: 1px;
 	border-style: solid;
-	-webkit-border-radius: 11px;
-	border-radius: 11px;
-	-moz-box-sizing: content-box;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
 	-webkit-box-sizing: content-box;
-	box-sizing: content-box;
+	-moz-box-sizing:    content-box;
+	box-sizing:         content-box;
+	white-space: nowrap;
+}
+
+.button.button-small {
+	padding: 3px .8em 2px;
+}
+
+.button.button-large {
+    font-size: 14px;
+    padding: 0.6em 1em 0.5em;
+}
+
+.button.button-tiny {
+	padding: .2em .8em;
+	font-size: 11px;
 }
 
 #minor-publishing-actions input,
 #major-publishing-actions input,
 #minor-publishing-actions .preview {
-	min-width: 80px;
 	text-align: center;
 }
 
@@ -1013,15 +1026,6 @@ ul#add-to-blog-users {
 	margin: 0;
 	padding-left: 18px;
 	list-style: square;
-}
-
-a.button,
-a.button-primary,
-a.button-secondary {
-	line-height: 15px;
-	padding: 3px 10px;
-	white-space: nowrap;
-	-webkit-border-radius: 10px;
 }
 
 .approve,
@@ -2804,7 +2808,7 @@ table .inline-edit-row fieldset ul.cat-hover {
 
 #titlediv {
 	position: relative;
-	margin-bottom: 20px;
+	margin-bottom: 10px;
 }
 #titlediv label { cursor: text; }
 
@@ -2857,9 +2861,13 @@ input#link_url {
 }
 
 #edit-slug-box {
-	height: 1em;
 	margin-top: 8px;
 	padding: 0 10px;
+}
+
+#edit-slug-box .cancel {
+	margin-right: 10px;
+	font-size: 11px;
 }
 
 #editable-post-name-full {
@@ -3159,7 +3167,7 @@ td.plugin-title p {
 #postcustom #postcustomstuff .submit {
 	border: 0 none;
 	float: none;
-	padding: 5px 8px;
+	padding: 0 0 8px 8px;
 }
 
 #side-sortables #postcustom #postcustomstuff .submit {
@@ -3193,10 +3201,6 @@ td.plugin-title p {
 #postcustomstuff th.left,
 #postcustomstuff td.left {
 	width: 38%;
-}
-
-#postcustomstuff #newmeta .submit {
-	padding: 0 8px;
 }
 
 #postcustomstuff .submit input,
@@ -4243,7 +4247,7 @@ span.imgedit-scale-warn {
 
 #replysubmit {
 	margin: 0;
-	padding: 0 7px 3px;
+	padding: 0 5px 3px;
 	text-align: center;
 }
 
@@ -4672,8 +4676,6 @@ h2 .nav-tab {
 .plugins .name,
 #pass-strength-result.strong,
 #pass-strength-result.short,
-.button-highlighted,
-input.button-highlighted,
 #ed_reply_toolbar #ed_reply_strong,
 .item-controls .item-order a,
 .feature-filter .feature-name {
@@ -5631,7 +5633,6 @@ table.form-table td .updated {
 	padding: 0;
 }
 
-#titlediv,
 #poststuff .postarea {
 	margin-bottom: 20px;
 }
@@ -6084,7 +6085,7 @@ h3:hover .edit-box {
 }
 
 #dashboard-widgets #dashboard_quick_press form p.submit #save-post {
-	margin: 0 1em 0 10px;
+	margin: 0 0.3em 0 5px;
 }
 
 #dashboard-widgets #dashboard_quick_press form p.submit #publish {
@@ -6278,8 +6279,7 @@ a.rsswidget {
 
 .login .button-primary {
 	font-size: 13px !important;
-	line-height: 16px;
-	padding: 3px 10px;
+	padding: .4em .8em;
 	float: right;
 }
 
