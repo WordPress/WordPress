@@ -269,11 +269,24 @@ class WP_Posts_List_Table extends WP_List_Table {
 		if ( post_type_supports( $post_type, 'author' ) )
 			$posts_columns['author'] = __( 'Author' );
 
-		if ( empty( $post_type ) || is_object_in_taxonomy( $post_type, 'category' ) )
-			$posts_columns['categories'] = __( 'Categories' );
+		$taxonomies = array();
 
-		if ( empty( $post_type ) || is_object_in_taxonomy( $post_type, 'post_tag' ) )
-			$posts_columns['tags'] = __( 'Tags' );
+		$taxonomies = get_object_taxonomies( $post_type, 'objects' );
+		$taxonomies = wp_filter_object_list( $taxonomies, array( 'show_admin_column' => true ), 'and', 'name' );
+
+		$taxonomies = apply_filters( "manage_taxonomies_for_{$post_type}_columns", $taxonomies, $post_type );
+		$taxonomies = array_filter( $taxonomies, 'taxonomy_exists' );
+
+		foreach ( $taxonomies as $taxonomy ) {
+			if ( 'category' == $taxonomy )
+				$column_key = 'categories';
+			elseif ( 'post_tag' == $taxonomy )
+				$column_key = 'tags';
+			else
+				$column_key = 'taxonomy-' . $taxonomy;
+
+			$posts_columns[ $column_key ] = get_taxonomy( $taxonomy )->labels->name;
+		}
 
 		$post_status = !empty( $_REQUEST['post_status'] ) ? $_REQUEST['post_status'] : 'all';
 		if ( post_type_supports( $post_type, 'comments' ) && !in_array( $post_status, array( 'pending', 'draft', 'future' ) ) )
@@ -602,48 +615,6 @@ class WP_Posts_List_Table extends WP_List_Table {
 				echo '</td>';
 			break;
 
-			case 'categories':
-			?>
-			<td <?php echo $attributes ?>><?php
-				$categories = get_the_category();
-				if ( !empty( $categories ) ) {
-					$out = array();
-					foreach ( $categories as $c ) {
-						$out[] = sprintf( '<a href="%s">%s</a>',
-							esc_url( add_query_arg( array( 'post_type' => $post->post_type, 'category_name' => $c->slug ), 'edit.php' ) ),
-							esc_html( sanitize_term_field( 'name', $c->name, $c->term_id, 'category', 'display' ) )
-						);
-					}
-					/* translators: used between list items, there is a space after the comma */
-					echo join( __( ', ' ), $out );
-				} else {
-					_e( 'Uncategorized' );
-				}
-			?></td>
-			<?php
-			break;
-
-			case 'tags':
-			?>
-			<td <?php echo $attributes ?>><?php
-				$tags = get_the_tags( $post->ID );
-				if ( !empty( $tags ) ) {
-					$out = array();
-					foreach ( $tags as $c ) {
-						$out[] = sprintf( '<a href="%s">%s</a>',
-							esc_url( add_query_arg( array( 'post_type' => $post->post_type, 'tag' => $c->slug ), 'edit.php' ) ),
-							esc_html( sanitize_term_field( 'name', $c->name, $c->term_id, 'tag', 'display' ) )
-						);
-					}
-					/* translators: used between list items, there is a space after the comma */
-					echo join( __( ', ' ), $out );
-				} else {
-					_e( 'No Tags' );
-				}
-			?></td>
-			<?php
-			break;
-
 			case 'comments':
 			?>
 			<td <?php echo $attributes ?>><div class="post-com-count-wrapper">
@@ -668,6 +639,45 @@ class WP_Posts_List_Table extends WP_List_Table {
 			break;
 
 			default:
+				if ( 'categories' == $column_name )
+					$taxonomy = 'category';
+				elseif ( 'tags' == $column_name )
+					$taxonomy = 'post_tag';
+				elseif ( 0 === strpos( $column_name, 'taxonomy-' ) )
+					$taxonomy = substr( $column_name, 9 );
+
+				if ( ! empty( $taxonomy ) ) {
+					$taxonomy_object = get_taxonomy( $taxonomy );
+					echo '<td ' . $attributes . '>';
+					if ( $terms = get_the_terms( $post->ID, $taxonomy ) ) {
+						$out = array();
+						foreach ( $terms as $t ) {
+							$posts_in_term_qv = array();
+							if ( 'post' != $post->post_type )
+								$posts_in_term_qv['post_type'] = $post->post_type;
+							if ( $taxonomy_object->query_var ) {
+								$posts_in_term_qv[ $taxonomy_object->query_var ] = $t->slug;
+							} else {
+								$posts_in_term_qv['taxonomy'] = $taxonomy;
+								$posts_in_term_qv['term'] = $t->slug;
+							}
+
+							$out[] = sprintf( '<a href="%s">%s</a>',
+								esc_url( add_query_arg( $posts_in_term_qv, 'edit.php' ) ),
+								esc_html( sanitize_term_field( 'name', $t->name, $t->term_id, $taxonomy, 'display' ) )
+							);
+						}
+						/* translators: used between list items, there is a space after the comma */
+						echo join( __( ', ' ), $out );
+					} else {
+						if ( 'category' == $taxonomy )
+							echo __( 'Uncategorized' );
+						else
+							echo '&#8212;';
+					}
+					echo '</td>';
+					break;
+				}
 			?>
 			<td <?php echo $attributes ?>><?php
 				if ( is_post_type_hierarchical( $post->post_type ) )
@@ -678,8 +688,8 @@ class WP_Posts_List_Table extends WP_List_Table {
 			?></td>
 			<?php
 			break;
+			}
 		}
-	}
 	?>
 		</tr>
 	<?php

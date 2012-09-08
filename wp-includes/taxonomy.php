@@ -47,6 +47,7 @@ function create_initial_taxonomies() {
 		'rewrite' => $rewrite['category'],
 		'public' => true,
 		'show_ui' => true,
+		'show_admin_column' => true,
 		'_builtin' => true,
 	) );
 
@@ -56,6 +57,7 @@ function create_initial_taxonomies() {
 		'rewrite' => $rewrite['post_tag'],
 		'public' => true,
 		'show_ui' => true,
+		'show_admin_column' => true,
 		'_builtin' => true,
 	) );
 
