@@ -384,30 +384,18 @@ if ( ! CUSTOM_TAGS ) {
 		'blockquote' => array(
 			'cite' => true,
 		),
-		//	'br' => array(),
 		'cite' => array(),
 		'code' => array(),
 		'del' => array(
 			'datetime' => true,
 		),
-		//	'dd' => array(),
-		//	'dl' => array(),
-		//	'dt' => array(),
 		'em' => array(),
 		'i' => array(),
-		//	'ins' => array('datetime' => array(), 'cite' => array()),
-		//	'li' => array(),
-		//	'ol' => array(),
-		//	'p' => array(),
 		'q' => array(
 			'cite' => true,
 		),
 		'strike' => array(),
 		'strong' => array(),
-		//	'sub' => array(),
-		//	'sup' => array(),
-		//	'u' => array(),
-		//	'ul' => array(),
 	);
 
 	$allowedentitynames = array(
