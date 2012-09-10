@@ -673,6 +673,9 @@ function get_blogs_of_user( $user_id, $all = false ) {
 		$blogs[ $blog_id ]->path = '';
 		$blogs[ $blog_id ]->site_id = 1;
 		$blogs[ $blog_id ]->siteurl = get_option('siteurl');
+		$blogs[ $blog_id ]->archived = 0;
+		$blogs[ $blog_id ]->spam = 0;
+		$blogs[ $blog_id ]->deleted = 0;
 		return $blogs;
 	}
 
@@ -688,6 +691,9 @@ function get_blogs_of_user( $user_id, $all = false ) {
 				'path'        => $blog->path,
 				'site_id'     => $blog->site_id,
 				'siteurl'     => $blog->siteurl,
+				'archived'    => 0,
+				'spam'        => 0,
+				'deleted'     => 0
 			);
 		}
 		unset( $keys[ $wpdb->base_prefix . 'capabilities' ] );
@@ -714,6 +720,9 @@ function get_blogs_of_user( $user_id, $all = false ) {
 				'path'        => $blog->path,
 				'site_id'     => $blog->site_id,
 				'siteurl'     => $blog->siteurl,
+				'archived'    => 0,
+				'spam'        => 0,
+				'deleted'     => 0
 			);
 		}
 	}
