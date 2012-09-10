@@ -111,6 +111,7 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
 					else if ( @is_file( $dir . DIRECTORY_SEPARATOR . $file ) )
 						@unlink( $dir . DIRECTORY_SEPARATOR . $file );
 				}
+				@closedir( $dh );
 			}
 			$index++;
 		}
