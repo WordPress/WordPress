@@ -1364,33 +1364,35 @@ function next_post_link($format='%link &raquo;', $link='%title', $in_same_cat = 
  * @param array|string $excluded_categories Optional. Array or comma-separated list of excluded category IDs.
  * @param bool $previous Optional, default is true. Whether to display link to previous or next post.
  */
-function adjacent_post_link($format, $link, $in_same_cat = false, $excluded_categories = '', $previous = true) {
+function adjacent_post_link( $format, $link, $in_same_cat = false, $excluded_categories = '', $previous = true ) {
 	if ( $previous && is_attachment() )
 		$post = get_post( get_post()->post_parent );
 	else
-		$post = get_adjacent_post($in_same_cat, $excluded_categories, $previous);
+		$post = get_adjacent_post( $in_same_cat, $excluded_categories, $previous );
 
-	if ( !$post )
-		return;
+	if ( ! $post ) {
+		$output = '';
+	} else {
+		$title = $post->post_title;
 
-	$title = $post->post_title;
+		if ( empty( $post->post_title ) )
+			$title = $previous ? __( 'Previous Post' ) : __( 'Next Post' );
 
-	if ( empty($post->post_title) )
-		$title = $previous ? __('Previous Post') : __('Next Post');
+		$title = apply_filters( 'the_title', $title, $post->ID );
+		$date = mysql2date( get_option( 'date_format' ), $post->post_date );
+		$rel = $previous ? 'prev' : 'next';
 
-	$title = apply_filters('the_title', $title, $post->ID);
-	$date = mysql2date(get_option('date_format'), $post->post_date);
-	$rel = $previous ? 'prev' : 'next';
+		$string = '<a href="' . get_permalink( $post ) . '" rel="'.$rel.'">';
+		$inlink = str_replace( '%title', $title, $link );
+		$inlink = str_replace( '%date', $date, $inlink );
+		$inlink = $string . $inlink . '</a>';
 
-	$string = '<a href="'.get_permalink($post).'" rel="'.$rel.'">';
-	$link = str_replace('%title', $title, $link);
-	$link = str_replace('%date', $date, $link);
-	$link = $string . $link . '</a>';
-
-	$format = str_replace('%link', $link, $format);
+		$output = str_replace( '%link', $inlink, $format );
+	}
 
 	$adjacent = $previous ? 'previous' : 'next';
-	echo apply_filters( "{$adjacent}_post_link", $format, $link );
+
+	echo apply_filters( "{$adjacent}_post_link", $output, $format, $link, $post );
 }
 
 /**
