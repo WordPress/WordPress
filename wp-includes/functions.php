@@ -2981,10 +2981,12 @@ function force_ssl_admin( $force = null ) {
  * @return string
  */
 function wp_guess_url() {
-	if ( defined('WP_SITEURL') && '' != WP_SITEURL )
+	if ( defined('WP_SITEURL') && '' != WP_SITEURL ) {
 		$url = WP_SITEURL;
-	else
-		$url = set_url_scheme( preg_replace( '#/(wp-admin/.*|wp-login.php)#i', '', 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] ) );
+	} else {
+		$schema = is_ssl() ? 'https://' : 'http://'; // set_url_scheme() is not defined yet
+		$url = preg_replace( '#/(wp-admin/.*|wp-login.php)#i', '', $schema . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
+	}
 
 	return rtrim($url, '/');
 }
