@@ -493,7 +493,7 @@ function load_child_theme_textdomain( $domain, $path = false ) {
  * @param string $domain
  * @return object A Translation instance
  */
-function &get_translations_for_domain( $domain ) {
+function get_translations_for_domain( $domain ) {
 	global $l10n;
 	if ( !isset( $l10n[$domain] ) ) {
 		$l10n[$domain] = new NOOP_Translations;

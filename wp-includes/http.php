@@ -19,7 +19,7 @@
  *
  * @return WP_Http HTTP Transport object.
  */
-function &_wp_http_get_object() {
+function _wp_http_get_object() {
 	static $http;
 
 	if ( is_null($http) )

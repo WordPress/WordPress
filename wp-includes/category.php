@@ -36,7 +36,7 @@ function get_all_category_ids() {
  * @param string|array $args Optional. Change the defaults retrieving categories.
  * @return array List of categories.
  */
-function &get_categories( $args = '' ) {
+function get_categories( $args = '' ) {
 	$defaults = array( 'taxonomy' => 'category' );
 	$args = wp_parse_args( $args, $defaults );
 
@@ -78,7 +78,7 @@ function &get_categories( $args = '' ) {
  * @param string $filter Optional. Default is raw or no WordPress defined filter will applied.
  * @return mixed Category data in type defined by $output parameter.
  */
-function &get_category( $category, $output = OBJECT, $filter = 'raw' ) {
+function get_category( $category, $output = OBJECT, $filter = 'raw' ) {
 	$category = get_term( $category, 'category', $output, $filter );
 	if ( is_wp_error( $category ) )
 		return $category;
@@ -249,7 +249,7 @@ function sanitize_category_field( $field, $value, $cat_id, $context ) {
  * @param string|array $args Tag arguments to use when retrieving tags.
  * @return array List of tags.
  */
-function &get_tags( $args = '' ) {
+function get_tags( $args = '' ) {
 	$tags = get_terms( 'post_tag', $args );
 
 	if ( empty( $tags ) ) {
@@ -280,7 +280,7 @@ function &get_tags( $args = '' ) {
  * @param string $filter Optional. Default is raw or no WordPress defined filter will applied.
  * @return object|array Return type based on $output value.
  */
-function &get_tag( $tag, $output = OBJECT, $filter = 'raw' ) {
+function get_tag( $tag, $output = OBJECT, $filter = 'raw' ) {
 	return get_term( $tag, 'post_tag', $output, $filter );
 }
 

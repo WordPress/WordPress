@@ -3370,7 +3370,7 @@ function get_page_by_title($page_title, $output = OBJECT, $post_type = 'page' ) 
  * @param array $pages List of pages' objects.
  * @return array
  */
-function &get_page_children($page_id, $pages) {
+function get_page_children($page_id, $pages) {
 	$page_list = array();
 	foreach ( (array) $pages as $page ) {
 		if ( $page->post_parent == $page_id ) {
@@ -3394,7 +3394,7 @@ function &get_page_children($page_id, $pages) {
  * @param int $page_id Parent page ID.
  * @return array A list arranged by hierarchy. Children immediately follow their parents.
  */
-function &get_page_hierarchy( &$pages, $page_id = 0 ) {
+function get_page_hierarchy( &$pages, $page_id = 0 ) {
 	if ( empty( $pages ) ) {
 		$result = array();
 		return $result;
@@ -3462,7 +3462,7 @@ function get_page_uri($page) {
  * @param mixed $args Optional. Array or string of options that overrides defaults.
  * @return array List of pages matching defaults or $args
  */
-function &get_pages($args = '') {
+function get_pages($args = '') {
 	global $wpdb;
 
 	$pages = false;
@@ -4950,7 +4950,7 @@ function _wp_put_post_revision( $post = null, $autosave = false ) {
  * @param string $filter Optional sanitation filter. @see sanitize_post()
  * @return mixed Null if error or post object if success
  */
-function &wp_get_post_revision(&$post, $output = OBJECT, $filter = 'raw') {
+function wp_get_post_revision(&$post, $output = OBJECT, $filter = 'raw') {
 	$null = null;
 	if ( !$revision = get_post( $post, OBJECT, $filter ) )
 		return $revision;

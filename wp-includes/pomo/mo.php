@@ -215,7 +215,7 @@ class MO extends Gettext_Translations {
 	 * @param string $translation translation string from MO file. Might contain
 	 * 	0x00 as a plural translations separator
 	 */
-	function &make_entry($original, $translation) {
+	function make_entry($original, $translation) {
 		$entry = new Translation_Entry();
 		// look for context
 		$parts = explode(chr(4), $original);

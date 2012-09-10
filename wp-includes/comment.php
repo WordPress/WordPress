@@ -127,7 +127,7 @@ function get_approved_comments($post_id) {
  * @param string $output Optional. OBJECT or ARRAY_A or ARRAY_N constants.
  * @return object|array|null Depends on $output value.
  */
-function &get_comment(&$comment, $output = OBJECT) {
+function get_comment(&$comment, $output = OBJECT) {
 	global $wpdb;
 	$null = null;
 
@@ -723,7 +723,7 @@ function check_comment_flood_db( $ip, $email, $date ) {
  * @param array $comments Array of comments
  * @return array Array of comments keyed by comment_type.
  */
-function &separate_comments(&$comments) {
+function separate_comments(&$comments) {
 	$comments_by_type = array('comment' => array(), 'trackback' => array(), 'pingback' => array(), 'pings' => array());
 	$count = count($comments);
 	for ( $i = 0; $i < $count; $i++ ) {

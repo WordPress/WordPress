@@ -296,7 +296,7 @@ class WP_oEmbed {
  *
  * @return WP_oEmbed object.
  */
-function &_wp_oembed_get_object() {
+function _wp_oembed_get_object() {
 	static $wp_oembed;
 
 	if ( is_null($wp_oembed) )

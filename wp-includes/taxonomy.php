@@ -861,7 +861,7 @@ class WP_Tax_Query {
  * @return mixed|null|WP_Error Term Row from database. Will return null if $term is empty. If taxonomy does not
  * exist then WP_Error will be returned.
  */
-function &get_term($term, $taxonomy, $output = OBJECT, $filter = 'raw') {
+function get_term($term, $taxonomy, $output = OBJECT, $filter = 'raw') {
 	global $wpdb;
 	$null = null;
 
@@ -1178,7 +1178,7 @@ function get_term_to_edit( $id, $taxonomy ) {
  * @param string|array $args The values of what to search for when returning terms
  * @return array|WP_Error List of Term Objects and their children. Will return WP_Error, if any of $taxonomies do not exist.
  */
-function &get_terms($taxonomies, $args = '') {
+function get_terms($taxonomies, $args = '') {
 	global $wpdb;
 	$empty_array = array();
 
@@ -2637,7 +2637,7 @@ function clean_term_cache($ids, $taxonomy = '', $clean_taxonomy = true) {
  * @param string $taxonomy Taxonomy Name
  * @return bool|array Empty array if $terms found, but not $taxonomy. False if nothing is in cache for $taxonomy and $id.
  */
-function &get_object_term_cache($id, $taxonomy) {
+function get_object_term_cache($id, $taxonomy) {
 	$cache = wp_cache_get($id, "{$taxonomy}_relationships");
 	return $cache;
 }
@@ -2783,7 +2783,7 @@ function _get_term_hierarchy($taxonomy) {
  * @param string $taxonomy The taxonomy which determines the hierarchy of the terms.
  * @return array The subset of $terms that are descendants of $term_id.
  */
-function &_get_term_children($term_id, $terms, $taxonomy) {
+function _get_term_children($term_id, $terms, $taxonomy) {
 	$empty_array = array();
 	if ( empty($terms) )
 		return $empty_array;

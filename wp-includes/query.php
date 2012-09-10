@@ -86,7 +86,7 @@ function set_query_var($var, $value) {
  * @param string $query
  * @return array List of posts
  */
-function &query_posts($query) {
+function query_posts($query) {
 	unset($GLOBALS['wp_query']);
 	$GLOBALS['wp_query'] = new WP_Query();
 	return $GLOBALS['wp_query']->query($query);
@@ -1916,7 +1916,7 @@ class WP_Query {
 	 *
 	 * @return array List of posts.
 	 */
-	function &get_posts() {
+	function get_posts() {
 		global $wpdb, $user_ID, $_wp_using_ext_object_cache;
 
 		$this->parse_query();
@@ -2936,7 +2936,7 @@ class WP_Query {
 	 * @param string $query URL query string.
 	 * @return array List of posts.
 	 */
-	function &query( $query ) {
+	function query( $query ) {
 		$this->init();
 		$this->query = $this->query_vars = wp_parse_args( $query );
 		return $this->get_posts();
