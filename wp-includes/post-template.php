@@ -233,7 +233,7 @@ function get_the_content( $more_link_text = null, $stripteaser = false ) {
  * @since 3.1.0
  * @access private
  * @param array $match Match array from preg_replace_callback
- * @returns string
+ * @return string
  */
 function _convert_urlencoded_to_entities( $match ) {
 	return '&#' . base_convert( $match[1], 16, 10 ) . ';';
@@ -869,6 +869,7 @@ function wp_list_pages($args = '') {
  * @since 2.7.0
  *
  * @param array|string $args
+ * @return string html menu
  */
 function wp_page_menu( $args = array() ) {
 	$defaults = array('sort_column' => 'menu_order, post_title', 'menu_class' => 'menu', 'echo' => true, 'link_before' => '', 'link_after' => '');
@@ -982,6 +983,7 @@ class Walker_Page extends Walker {
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param int $depth Depth of page. Used for padding.
+	 * @param array $args
 	 */
 	function start_lvl( &$output, $depth = 0, $args = array() ) {
 		$indent = str_repeat("\t", $depth);
@@ -994,6 +996,7 @@ class Walker_Page extends Walker {
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param int $depth Depth of page. Used for padding.
+	 * @param array $args
 	 */
 	function end_lvl( &$output, $depth = 0, $args = array() ) {
 		$indent = str_repeat("\t", $depth);
@@ -1051,6 +1054,7 @@ class Walker_Page extends Walker {
 	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param object $page Page data object. Not used.
 	 * @param int $depth Depth of page. Not Used.
+	 * @param array $args
 	 */
 	function end_el( &$output, $page, $depth = 0, $args = array() ) {
 		$output .= "</li>\n";
@@ -1089,6 +1093,7 @@ class Walker_PageDropdown extends Walker {
 	 * @param object $page Page data object.
 	 * @param int $depth Depth of page in reference to parent pages. Used for padding.
 	 * @param array $args Uses 'selected' argument for selected page to set selected HTML attribute for option element.
+	 * @param int $id
 	 */
 	function start_el(&$output, $page, $depth, $args, $id = 0) {
 		$pad = str_repeat('&nbsp;', $depth * 3);
@@ -1137,7 +1142,7 @@ function the_attachment_link( $id = 0, $fullsize = false, $deprecated = false, $
  * @param string $size Optional, default is 'thumbnail'. Size of image, either array or string.
  * @param bool $permalink Optional, default is false. Whether to add permalink to image.
  * @param bool $icon Optional, default is false. Whether to include icon.
- * @param string $text Optional, default is false. If string, then will be link text.
+ * @param string|bool $text Optional, default is false. If string, then will be link text.
  * @return string HTML content.
  */
 function wp_get_attachment_link( $id = 0, $size = 'thumbnail', $permalink = false, $icon = false, $text = false ) {
@@ -1248,7 +1253,7 @@ function is_page_template( $template = '' ) {
  *
  * @since 3.4.0
  *
- * @param int $id The page ID to check. Defaults to the current post, when used in the loop.
+ * @param int $post_id The page ID to check. Defaults to the current post, when used in the loop.
  * @return string|bool Page template filename. Returns an empty string when the default page template
  * 	is in use. Returns false if the post is not a page.
  */
