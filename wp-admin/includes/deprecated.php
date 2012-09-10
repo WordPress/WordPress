@@ -974,3 +974,20 @@ function get_post_to_edit( $id ) {
 	return get_post( $id, OBJECT, 'edit' );
 }
 
+/**
+ * Get the default page information to use.
+ *
+ * @since 2.5.0
+ * @deprecated 3.5.0
+ * @deprecated Use get_default_post_to_edit() 
+ *
+ * @return WP_Post Post object containing all the default post data as attributes
+ */
+function get_default_page_to_edit() {
+	_deprecated_function( __FUNCTION__, '3.5', "get_default_post_to_edit( 'page' )" );
+
+	$page = get_default_post_to_edit();
+	$page->post_type = 'page';
+	return $page;
+}
+

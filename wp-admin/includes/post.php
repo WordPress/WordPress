@@ -459,19 +459,6 @@ function get_default_post_to_edit( $post_type = 'post', $create_in_db = false ) 
 }
 
 /**
- * Get the default page information to use.
- *
- * @since 2.5.0
- *
- * @return WP_Post Post object containing all the default post data as attributes
- */
-function get_default_page_to_edit() {
-	$page = get_default_post_to_edit();
-	$page->post_type = 'page';
-	return $page;
-}
-
-/**
  * Determine if a post exists based on title, content, and date
  *
  * @since 2.0.0
