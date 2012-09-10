@@ -34,6 +34,11 @@
 /**
  * You can override this in a plugin.
  *
+ * The wp_kses_allowed_html filter is more powerful and supplies context.
+ * CUSTOM_TAGS is not recommended and should be considered deprecated.
+ *
+ * @see wp_kses_allowed_html()
+ *
  * @since 1.2.0
  */
 if ( ! defined( 'CUSTOM_TAGS' ) )
