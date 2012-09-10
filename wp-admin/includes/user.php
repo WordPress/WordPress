@@ -270,8 +270,18 @@ function wp_delete_user( $id, $reassign = 'novalue' ) {
 		}
 	} else {
 		$reassign = (int) $reassign;
+		$post_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_author = %d", $id ) );
 		$wpdb->update( $wpdb->posts, array('post_author' => $reassign), array('post_author' => $id) );
+		if ( ! empty( $post_ids ) ) {
+			foreach ( $post_ids as $post_id )
+				clean_post_cache( $post_id );
+		}
+		$link_ids = $wpdb->get_col( $wpdb->prepare("SELECT link_id FROM $wpdb->links WHERE link_owner = %d", $id) );
 		$wpdb->update( $wpdb->links, array('link_owner' => $reassign), array('link_owner' => $id) );
+		if ( ! empty( $link_ids ) ) {
+			foreach ( $link_ids as $link_id )
+				clean_bookmark_cache( $link_id );
+		}
 	}
 
 	// FINALLY, delete user
