@@ -167,7 +167,8 @@ function wp_terms_checklist($post_id = 0, $args = array()) {
  */
 function wp_popular_terms_checklist( $taxonomy, $default = 0, $number = 10, $echo = true ) {
 	$post = get_post();
-	if ( $post->ID )
+
+	if ( $post && $post->ID )
 		$checked_terms = wp_get_object_terms($post->ID, $taxonomy, array('fields'=>'ids'));
 	else
 		$checked_terms = array();
