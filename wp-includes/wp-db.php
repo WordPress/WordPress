@@ -1030,11 +1030,7 @@ class wpdb {
 		else
 			$error_str = sprintf( __( 'WordPress database error %1$s for query %2$s' ), $str, $this->last_query );
 
-		if ( function_exists( 'error_log' )
-			&& ( $log_file = @ini_get( 'error_log' ) )
-			&& ( 'syslog' == $log_file || @is_writable( $log_file ) )
-			)
-			@error_log( $error_str );
+		error_log( $error_str );
 
 		// Are we showing errors?
 		if ( ! $this->show_errors )
