@@ -16,7 +16,7 @@ if ( typeof wp === 'undefined' )
 	 */
 	media = wp.media = function( attributes ) {
 		if ( media.controller.Workflow )
-			return new media.controller.Workflow( attributes ).render();
+			return new media.controller.Workflow( attributes ).attach().render();
 	};
 
 	_.extend( media, { model: {}, view: {}, controller: {} });

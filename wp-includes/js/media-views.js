@@ -16,15 +16,88 @@
 	 */
 	media.controller.Workflow = Backbone.Model.extend({
 		defaults: {
-			multiple: false
+			multiple: false,
+			view:     'library'
 		},
 
 		initialize: function() {
 			this.createSelection();
 
-			// Initialize views.
-			this.modal     = new media.view.Modal({ controller: this });
-			this.workspace = new media.view.Workspace({ controller: this });
+			// Initialize view storage.
+			this._views   = {};
+			this._pending = {};
+
+			// Initialize modal container view.
+			this.modal = new media.view.Modal({ controller: this });
+
+			// Add default views.
+			this.add( 'library', {
+				view: media.view.Workspace
+			});
+		},
+
+
+		// Accepts an `id` and `options` for a view. Options is an object that
+		// contains two keys: the `view` key is a `Backbone.View` constructor,
+		// and the `options` key are the options to be passed when the view is
+		// initialized.
+		//
+		// Triggers the `add` and `add:VIEW_ID` events.
+		add: function( id, options ) {
+			this.remove( id );
+			this._pending[ id ] = options;
+			this.trigger( 'add add:' + id, options );
+			return this;
+		},
+
+		// Returns a registered view instance. If an `id` is not provided,
+		// it will return the active view.
+		//
+		// Lazily instantiates a registered view.
+		//
+		// Triggers the `init` and `init:VIEW_ID` events.
+		view: function( id ) {
+			var pending;
+
+			id = id || this.get('view');
+			pending = this._pending[ id ];
+
+			if ( ! this._views[ id ] && pending ) {
+				this._views[ id ] = new pending.view( _.extend({ controller: this }, pending.options || {} ) );
+				delete this._pending[ id ];
+				this.trigger( 'init init:' + id, this._views[ id ] );
+			}
+
+			return this._views[ id ];
+		},
+
+		// Unregisters a view from the workflow.
+		//
+		// Triggers the `remove` and `remove:VIEW_ID` events.
+		remove: function( id ) {
+			delete this._views[ id ];
+			delete this._pending[ id ];
+			this.trigger( 'remove remove:' + id );
+			return this;
+		},
+
+		// Renders a view and places it within the modal window.
+		// Automatically adds a view if `options` are provided.
+		render: function( id, options ) {
+			var view;
+			id = id || this.get('view');
+
+			if ( options )
+				this.add( id, options );
+
+			view = this.view( id );
+
+			if ( ! view )
+				return;
+
+			view.render();
+			this.modal.content( view );
+			return this;
 		},
 
 		createSelection: function() {
@@ -65,13 +138,15 @@
 					return !! ( this.getByCid( attachment.cid ) || this.get( attachment.id ) );
 				}
 			});
-		},
-
-		render: function() {
-			this.workspace.render();
-			this.modal.content( this.workspace ).attach();
-			return this;
 		}
+	});
+
+	// Map modal methods to the workflow.
+	_.each(['attach','detach','open','close'], function( method ) {
+		media.controller.Workflow.prototype[ method ] = function() {
+			this.modal[ method ].apply( this.modal, arguments );
+			return this;
+		};
 	});
 
 	/**
