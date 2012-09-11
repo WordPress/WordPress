@@ -18,7 +18,7 @@
  * one or the other.
  *
  * Prevents redirection for feeds, trackbacks, searches, comment popup, and
- * admin URLs. Does not redirect on non-pretty-permalink-supporting IIS 7, 
+ * admin URLs. Does not redirect on non-pretty-permalink-supporting IIS 7,
  * page/post previews, WP admin, Trackbacks, robots.txt, searches, or on POST
  * requests.
  *
@@ -282,7 +282,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 
 		if ( 'wp-register.php' == basename( $redirect['path'] ) ) {
 			if ( is_multisite() )
-				$redirect_url = apply_filters( 'wp_signup_location', site_url( 'wp-signup.php' ) );
+				$redirect_url = apply_filters( 'wp_signup_location', network_site_url( 'wp-signup.php' ) );
 			else
 				$redirect_url = site_url( 'wp-login.php?action=register' );
 			wp_redirect( $redirect_url, 301 );

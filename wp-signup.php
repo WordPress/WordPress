@@ -23,7 +23,7 @@ if ( !is_multisite() ) {
 }
 
 if ( !is_main_site() ) {
-	wp_redirect( network_home_url( 'wp-signup.php' ) );
+	wp_redirect( network_site_url( 'wp-signup.php' ) );
 	die();
 }
 
@@ -390,7 +390,7 @@ $current_user = wp_get_current_user();
 if ( $active_signup == 'none' ) {
 	_e( 'Registration has been disabled.' );
 } elseif ( $active_signup == 'blog' && !is_user_logged_in() ) {
-	$login_url = site_url( 'wp-login.php?redirect_to=' . urlencode( set_url_scheme( 'http://' . $_SERVER['HTTP_HOST'] . '/wp-signup.php' ) ) );
+	$login_url = site_url( 'wp-login.php?redirect_to=' . urlencode( network_site_url( 'wp-signup.php' ) ) );
 	echo sprintf( __( 'You must first <a href="%s">log in</a>, and then you can create a new site.' ), $login_url );
 } else {
 	$stage = isset( $_POST['stage'] ) ?  $_POST['stage'] : 'default';

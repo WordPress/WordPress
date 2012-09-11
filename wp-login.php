@@ -509,7 +509,7 @@ break;
 case 'register' :
 	if ( is_multisite() ) {
 		// Multisite uses wp-signup.php
-		wp_redirect( apply_filters( 'wp_signup_location', site_url('wp-signup.php') ) );
+		wp_redirect( apply_filters( 'wp_signup_location', network_site_url('wp-signup.php') ) );
 		exit;
 	}
 
