@@ -117,8 +117,6 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 		$imagesize = getimagesize( $file );
 		$metadata['width'] = $imagesize[0];
 		$metadata['height'] = $imagesize[1];
-		list($uwidth, $uheight) = wp_constrain_dimensions($metadata['width'], $metadata['height'], 128, 96);
-		$metadata['hwstring_small'] = "height='$uheight' width='$uwidth'";
 
 		// Make the file path relative to the upload dir
 		$metadata['file'] = _wp_relative_upload_path($file);
@@ -158,20 +156,6 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 	}
 
 	return apply_filters( 'wp_generate_attachment_metadata', $metadata, $attachment_id );
-}
-
-/**
- * Calculated the new dimensions for a downsampled image.
- *
- * @since 2.0.0
- * @see wp_constrain_dimensions()
- *
- * @param int $width Current width of the image
- * @param int $height Current height of the image
- * @return mixed Array(height,width) of shrunk dimensions.
- */
-function get_udims( $width, $height) {
-	return wp_constrain_dimensions( $width, $height, 128, 96 );
 }
 
 /**
