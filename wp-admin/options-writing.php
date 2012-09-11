@@ -179,14 +179,6 @@ wp_dropdown_categories(array('hide_empty' => 0, 'name' => 'default_email_categor
 <?php _e('Enable the Atom Publishing Protocol.') ?></label><br />
 </fieldset></td>
 </tr>
-<tr valign="top">
-<th scope="row"><?php _e('XML-RPC') ?></th>
-<td><fieldset><legend class="screen-reader-text"><span><?php _e('XML-RPC') ?></span></legend>
-<label for="enable_xmlrpc">
-<input name="enable_xmlrpc" type="checkbox" id="enable_xmlrpc" value="1" <?php checked('1', get_option('enable_xmlrpc')); ?> />
-<?php _e('Enable the WordPress, Movable Type, MetaWeblog and Blogger XML-RPC publishing protocols.') ?></label><br />
-</fieldset></td>
-</tr>
 <?php do_settings_fields('writing', 'remote_publishing'); ?>
 </table>
 

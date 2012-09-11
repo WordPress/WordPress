@@ -445,7 +445,6 @@ function populate_options() {
 	// 2.6
 	'avatar_default' => 'mystery',
 	'enable_app' => 0,
-	'enable_xmlrpc' => 0,
 
 	// 2.7
 	'large_size_w' => 1024,
@@ -543,7 +542,7 @@ function populate_options() {
 		'_wp_http_referer', 'Update', 'action', 'rich_editing', 'autosave_interval', 'deactivated_plugins',
 		'can_compress_scripts', 'page_uris', 'update_core', 'update_plugins', 'update_themes', 'doing_cron',
 		'random_seed', 'rss_excerpt_length', 'secret', 'use_linksupdate', 'default_comment_status_page',
-		'wporg_popular_tags', 'what_to_show', 'rss_language', 'language',
+		'wporg_popular_tags', 'what_to_show', 'rss_language', 'language', 'enable_xmlrpc',
 	);
 	foreach ( $unusedoptions as $option )
 		delete_option($option);

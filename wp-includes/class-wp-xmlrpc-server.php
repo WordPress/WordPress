@@ -169,8 +169,17 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @see wp_xmlrpc_server::login
 	 */
 	function login_pass_ok($user_login, $user_pass) {
-		if ( !get_option( 'enable_xmlrpc' ) ) {
-			$this->error = new IXR_Error( 405, sprintf( __( 'XML-RPC services are disabled on this site. An admin user can enable them at %s'),  admin_url('options-writing.php') ) );
+
+		// Respect any old filters against get_option() for 'enable_xmlrpc'.
+		$enabled = apply_filters( 'pre_option_enable_xmlrpc', false ); // Deprecated
+		if ( false === $enabled )
+			$enabled = apply_filters( 'option_enable_xmlrpc', true ); // Deprecated
+
+		// Proper filter for turning off XML-RPC. It is on by default.
+		$enabled = apply_filters( 'xmlrpc_enabled', $enabled );
+
+		if ( ! $enabled ) {
+			$this->error = new IXR_Error( 405, sprintf( __( 'XML-RPC services are disabled on this site.' ) ) );
 			return false;
 		}
 
@@ -191,8 +200,16 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @return mixed WP_User object if authentication passed, false otherwise
 	 */
 	function login($username, $password) {
-		if ( !get_option( 'enable_xmlrpc' ) ) {
-			$this->error = new IXR_Error( 405, sprintf( __( 'XML-RPC services are disabled on this site. An admin user can enable them at %s'),  admin_url('options-writing.php') ) );
+		// Respect any old filters against get_option() for 'enable_xmlrpc'.
+		$enabled = apply_filters( 'pre_option_enable_xmlrpc', false ); // Deprecated
+		if ( false === $enabled )
+			$enabled = apply_filters( 'option_enable_xmlrpc', true ); // Deprecated
+
+		// Proper filter for turning off XML-RPC. It is on by default.
+		$enabled = apply_filters( 'xmlrpc_enabled', $enabled );
+
+		if ( ! $enabled ) {
+			$this->error = new IXR_Error( 405, sprintf( __( 'XML-RPC services are disabled on this site.' ) ) );
 			return false;
 		}
 
