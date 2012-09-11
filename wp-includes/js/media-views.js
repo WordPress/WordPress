@@ -279,26 +279,14 @@
 			this.$content.append( this.attachmentsView.$el );
 
 			// Track uploading attachments.
-			this.pending = new Attachments( [], { query: false });
-			this.pending.on( 'add remove reset change:percent', function() {
-				this.$el.toggleClass( 'uploading', !! this.pending.length );
-
-				if ( ! this.$bar || ! this.pending.length )
-					return;
-
-				this.$bar.width( ( this.pending.reduce( function( memo, attachment ) {
-					if ( attachment.get('uploading') )
-						return memo + ( attachment.get('percent') || 0 );
-					else
-						return memo + 100;
-				}, 0 ) / this.pending.length ) + '%' );
-			}, this );
+			wp.Uploader.queue.on( 'add remove reset change:percent', this.renderUploadProgress, this );
 		},
 
 		render: function() {
 			this.attachmentsView.render();
+			this.renderUploadProgress();
 			this.$el.html( this.template( this.options ) ).append( this.$content );
-			this.$bar = this.$('.media-progress-bar div');
+			this.$bar = this.$('.upload-attachments .media-progress-bar div');
 			return this;
 		},
 
@@ -312,44 +300,24 @@
 			this.uploader = new wp.Uploader( _.extend({
 				container: this.$el,
 				dropzone:  this.$el,
-				browser:   this.$('.upload-attachments a'),
-
-				added: function( file ) {
-					file.attachment = Attachment.create( _.extend({
-						file: file,
-						uploading: true,
-						date: new Date()
-					}, _.pick( file, 'loaded', 'size', 'percent' ) ) );
-
-					workspace.pending.add( file.attachment );
-				},
-
-				progress: function( file ) {
-					file.attachment.set( _.pick( file, 'loaded', 'percent' ) );
-				},
-
-				success: function( resp, file ) {
-					var complete;
-
-					_.each(['file','loaded','size','uploading','percent'], function( key ) {
-						file.attachment.unset( key );
-					});
-
-					file.attachment.set( 'id', resp.id );
-					Attachment.get( resp.id, file.attachment ).fetch();
-
-					complete = workspace.pending.all( function( attachment ) {
-						return ! attachment.get('uploading');
-					});
-
-					if ( complete )
-						workspace.pending.reset();
-				},
-
-				error: function( message, error, file ) {
-					file.attachment.destroy();
-				}
+				browser:   this.$('.upload-attachments a')
 			}, this.options.uploader ) );
+		},
+
+		renderUploadProgress: function() {
+			var queue = wp.Uploader.queue;
+
+			this.$el.toggleClass( 'uploading', !! queue.length );
+
+			if ( ! this.$bar || ! queue.length )
+				return;
+
+			this.$bar.width( ( queue.reduce( function( memo, attachment ) {
+				if ( attachment.get('uploading') )
+					return memo + ( attachment.get('percent') || 0 );
+				else
+					return memo + 100;
+			}, 0 ) / queue.length ) + '%' );
 		},
 
 		// Initializes the toolbar view. Currently uses defaults set for

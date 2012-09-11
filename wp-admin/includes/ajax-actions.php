@@ -1611,12 +1611,12 @@ function wp_ajax_upload_attachment() {
 	check_ajax_referer( 'media-form' );
 
 	if ( ! current_user_can( 'upload_files' ) )
-		wp_die( -1 );
+		wp_send_json_error();
 
 	if ( isset( $_REQUEST['post_id'] ) ) {
 		$post_id = $_REQUEST['post_id'];
 		if ( ! current_user_can( 'edit_post', $post_id ) )
-			wp_die( -1 );
+			wp_send_json_error();
 	} else {
 		$post_id = null;
 	}
@@ -1626,14 +1626,10 @@ function wp_ajax_upload_attachment() {
 	$attachment_id = media_handle_upload( 'async-upload', $post_id, $post_data );
 
 	if ( is_wp_error( $attachment_id ) ) {
-		echo json_encode( array(
-			'type' => 'error',
-			'data' => array(
-				'message'  => $attachment_id->get_error_message(),
-				'filename' => $_FILES['async-upload']['name'],
-			),
+		wp_send_json_error( array(
+			'message'  => $attachment_id->get_error_message(),
+			'filename' => $_FILES['async-upload']['name'],
 		) );
-		wp_die();
 	}
 
 	if ( isset( $post_data['context'] ) && isset( $post_data['theme'] ) ) {
@@ -1644,19 +1640,10 @@ function wp_ajax_upload_attachment() {
 			update_post_meta( $attachment_id, '_wp_attachment_is_custom_header', $post_data['theme'] );
 	}
 
-	$post = get_post( $attachment_id );
+	if ( ! $attachment = wp_prepare_attachment_for_js( $attachment_id ) )
+		wp_send_json_error();
 
-	echo json_encode( array(
-		'type' => 'success',
-		'data' => array(
-			'id'       => $attachment_id,
-			'title'    => esc_attr( $post->post_title ),
-			'filename' => esc_html( basename( $post->guid ) ),
-			'url'      => wp_get_attachment_url( $attachment_id ),
-			'meta'     => wp_get_attachment_metadata( $attachment_id ),
-		),
-	) );
-	wp_die();
+	wp_send_json_success( $attachment );
 }
 
 function wp_ajax_image_editor() {

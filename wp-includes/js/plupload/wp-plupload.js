@@ -28,7 +28,7 @@ if ( typeof wp === 'undefined' )
 				browser:   'browse_button',
 				dropzone:  'drop_element'
 			},
-			key;
+			key, error;
 
 		this.supports = {
 			upload: Uploader.browser.supported
@@ -84,6 +84,12 @@ if ( typeof wp === 'undefined' )
 		this.param( this.params || {} );
 		delete this.params;
 
+		error = function( message, data, file ) {
+			if ( file.attachment )
+				file.attachment.destroy();
+			self.error( message, data, file );
+		};
+
 		this.uploader.init();
 
 		this.supports.dragdrop = this.uploader.features.dragdrop && ! Uploader.browser.mobile;
@@ -134,26 +140,57 @@ if ( typeof wp === 'undefined' )
 			$('#' + this.uploader.id + '_html5_container').hide();
 		}
 
+		this.uploader.bind( 'FilesAdded', function( up, files ) {
+			_.each( files, function( file ) {
+				file.attachment = wp.media.model.Attachment.create( _.extend({
+					file:      file,
+					uploading: true,
+					date:      new Date()
+				}, _.pick( file, 'loaded', 'size', 'percent' ) ) );
+
+				Uploader.queue.add( file.attachment );
+
+				self.added( file.attachment );
+			});
+
+			up.refresh();
+			up.start();
+		});
+
 		this.uploader.bind( 'UploadProgress', function( up, file ) {
-			self.progress( file );
+			file.attachment.set( _.pick( file, 'loaded', 'percent' ) );
+			self.progress( file.attachment );
 		});
 
 		this.uploader.bind( 'FileUploaded', function( up, file, response ) {
+			var complete;
+
 			try {
 				response = JSON.parse( response.response );
 			} catch ( e ) {
-				return self.error( pluploadL10n.default_error, e );
+				return error( pluploadL10n.default_error, e, file );
 			}
 
-			if ( ! response || ! response.type || ! response.data )
-				return self.error( pluploadL10n.default_error );
+			if ( ! _.isObject( response ) || _.isUndefined( response.success ) )
+				return error( pluploadL10n.default_error, null, file );
+			else if ( ! response.success )
+				return error( response.data.message, response.data, file );
 
-			if ( 'error' === response.type )
-				return self.error( response.data.message, response.data, file );
+			_.each(['file','loaded','size','uploading','percent'], function( key ) {
+				file.attachment.unset( key );
+			});
 
-			if ( 'success' === response.type )
-				return self.success( response.data, file );
+			file.attachment.set( response.data );
+			wp.media.model.Attachment.get( response.data.id, file.attachment );
 
+			complete = Uploader.queue.all( function( attachment ) {
+				return ! attachment.get('uploading');
+			});
+
+			if ( complete )
+				Uploader.queue.reset();
+
+			self.success( file.attachment );
 		});
 
 		this.uploader.bind( 'Error', function( up, error ) {
@@ -168,17 +205,8 @@ if ( typeof wp === 'undefined' )
 				}
 			}
 
-			self.error( message, error, error.file );
+			error( message, error, error.file );
 			up.refresh();
-		});
-
-		this.uploader.bind( 'FilesAdded', function( up, files ) {
-			$.each( files, function() {
-				self.added( this );
-			});
-
-			up.refresh();
-			up.start();
 		});
 
 		this.init();
@@ -236,6 +264,8 @@ if ( typeof wp === 'undefined' )
 			this.uploader.refresh();
 		}
 	});
+
+	Uploader.queue = new wp.media.model.Attachments( [], { query: false });
 
 	exports.Uploader = Uploader;
 })( wp, jQuery );

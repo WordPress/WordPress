@@ -168,7 +168,7 @@
 			this.removerVisibility( this.setting.get() );
 		},
 		success: function( attachment ) {
-			this.setting.set( attachment.url );
+			this.setting.set( attachment.get('url') );
 		},
 		removerVisibility: function( to ) {
 			this.remover.toggle( to != this.params.removed );
@@ -272,9 +272,10 @@
 			if ( this.tabs.uploaded && this.tabs.uploaded.target.length ) {
 				this.tabs.uploaded.both.removeClass('hidden');
 
+				// @todo: Do NOT store this on the attachment model. That is bad.
 				attachment.element = $( '<a href="#" class="thumbnail"></a>' )
-					.data( 'customizeImageValue', attachment.url )
-					.append( '<img src="' +  attachment.url+ '" />' )
+					.data( 'customizeImageValue', attachment.get('url') )
+					.append( '<img src="' +  attachment.get('url')+ '" />' )
 					.appendTo( this.tabs.uploaded.target );
 			}
 		},
@@ -945,16 +946,16 @@
 				api.ImageControl.prototype.success.call( control, attachment );
 
 				data = {
-					attachment_id: attachment.id,
-					url:           attachment.url,
-					thumbnail_url: attachment.url,
-					height:        attachment.meta.height,
-					width:         attachment.meta.width
+					attachment_id: attachment.get('id'),
+					url:           attachment.get('url'),
+					thumbnail_url: attachment.get('url'),
+					height:        attachment.get('height'),
+					width:         attachment.get('width')
 				};
 
 				attachment.element.data( 'customizeHeaderImageData', data );
 				control.settings.data.set( data );
-			}
+			};
 		});
 
 		api.trigger( 'ready' );
