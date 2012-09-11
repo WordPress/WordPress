@@ -146,7 +146,14 @@ $customize_title = sprintf( __( 'Customize &#8220;%s&#8221;' ), $ct->display('Na
 			<li><?php printf( __('By %s'), $ct->display('Author') ); ?></li>
 			<li><?php printf( __('Version %s'), $ct->display('Version') ); ?></li>
 		</ul>
-		<p class="theme-description"><?php echo $ct->display('Description'); ?></p>
+		<p class="theme-description"><?php
+			echo $ct->display('Description');
+			if ( $ct->parent() ) {
+				printf( ' <p class="howto">' . __( 'This <a href="%1$s">child theme</a> requires its parent theme, %2$s.' ) . '</p>',
+					__( 'http://codex.wordpress.org/Child_Themes' ),
+					$ct->parent()->display( 'Name' ) );
+			}
+		?></p>
 		<?php theme_update_available( $ct ); ?>
 	</div>
 

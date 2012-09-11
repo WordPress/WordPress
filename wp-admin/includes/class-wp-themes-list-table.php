@@ -181,6 +181,11 @@ class WP_Themes_List_Table extends WP_List_Table {
 			<div class="themedetaildiv hide-if-js">
 				<p><strong><?php _e('Version: '); ?></strong><?php echo $version; ?></p>
 				<p><?php echo $theme->display('Description'); ?></p>
+				<?php if ( $theme->parent() ) {
+					printf( ' <p class="howto">' . __( 'This <a href="%1$s">child theme</a> requires its parent theme, %2$s.' ) . '</p>',
+						__( 'http://codex.wordpress.org/Child_Themes' ),
+						$theme->parent()->display( 'Name' ) );
+				} ?>
 			</div>
 
 			</div>
