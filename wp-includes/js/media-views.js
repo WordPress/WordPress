@@ -31,13 +31,13 @@
 			this.modal = new media.view.Modal({ controller: this });
 
 			// Add default views.
-			this.add( 'library', {
-				view: media.view.Workspace
-			});
+			this.add( 'library', media.view.Workspace );
 		},
 
 
-		// Accepts an `id` and `options` for a view. Options is an object that
+		// Accepts an `id` and `options` for a view.
+		//
+		// `options` is either a `Backbone.View` constructor or an object that
 		// contains two keys: the `view` key is a `Backbone.View` constructor,
 		// and the `options` key are the options to be passed when the view is
 		// initialized.
@@ -45,6 +45,8 @@
 		// Triggers the `add` and `add:VIEW_ID` events.
 		add: function( id, options ) {
 			this.remove( id );
+			if ( _.isFunction( options ) )
+				options = { view: options };
 			this._pending[ id ] = options;
 			this.trigger( 'add add:' + id, options );
 			return this;
