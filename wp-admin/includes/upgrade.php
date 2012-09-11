@@ -399,7 +399,7 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 20080 )
 		upgrade_340();
 
-	if ( $wp_current_db_version < 21501 )
+	if ( $wp_current_db_version < 21811 )
 		upgrade_350();
 
 	maybe_disable_link_manager();
@@ -1195,6 +1195,19 @@ function upgrade_350() {
 
 	if ( $wp_current_db_version < 21501 && $wpdb->get_var( "SELECT link_id FROM $wpdb->links LIMIT 1" ) )
 		update_option( 'link_manager_enabled', 1 ); // Previously set to 0 by populate_options()
+
+	if ( $wp_current_db_version < 21811 && is_main_site() && ! defined( 'DO_NOT_UPGRADE_GLOBAL_TABLES' ) ) {
+		$meta_keys = array();
+		foreach ( array_merge( get_post_types(), get_taxonomies() ) as $name ) {
+			if ( false !== strpos( $name, '-' ) )
+			$meta_keys[] = 'edit_' . str_replace( '-', '_', $name ) . '_per_page';
+		}
+		if ( $meta_keys ) {
+			$meta_keys = implode( "', '", $meta_keys );
+			$wpdb->query( "DELETE FROM $wpdb->usermeta WHERE meta_key IN ('$meta_keys')" );
+		}
+	}
+
 }
 
 /**
