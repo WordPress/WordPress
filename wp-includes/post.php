@@ -223,11 +223,10 @@ function update_attached_file( $attachment_id, $file ) {
 function _wp_relative_upload_path( $path ) {
 	$new_path = $path;
 
-	if ( ($uploads = wp_upload_dir()) && false === $uploads['error'] ) {
-		if ( 0 === strpos($new_path, $uploads['basedir']) ) {
-				$new_path = str_replace($uploads['basedir'], '', $new_path);
-				$new_path = ltrim($new_path, '/');
-		}
+	$uploads = wp_upload_dir();
+	if ( 0 === strpos( $new_path, $uploads['basedir'] ) ) {
+			$new_path = str_replace( $uploads['basedir'], '', $new_path );
+			$new_path = ltrim( $new_path, '/' );
 	}
 
 	return apply_filters( '_wp_relative_upload_path', $new_path, $path );
