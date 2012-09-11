@@ -1271,6 +1271,10 @@ function upgrade_network() {
 			delete_site_option( 'allowed_themes' );
 		}
 	}
+
+	// 3.5
+	if ( $wp_current_db_version < 21823 )
+		update_site_option( 'ms_files_rewriting', '1' );
 }
 
 // The functions we use to actually do stuff

@@ -1432,21 +1432,16 @@ function get_temp_dir() {
  * @return array See above for description.
  */
 function wp_upload_dir( $time = null ) {
-	global $_wp_switched;
 	$siteurl = get_option( 'siteurl' );
-	$upload_path = get_option( 'upload_path' );
-	$upload_path = trim($upload_path);
-	$main_override = is_multisite() && defined( 'MULTISITE' ) && is_main_site();
-	if ( empty($upload_path) ) {
+	$upload_path = trim( get_option( 'upload_path' ) );
+
+	if ( empty( $upload_path ) || 'wp-content/uploads' == $upload_path ) {
 		$dir = WP_CONTENT_DIR . '/uploads';
+	} elseif ( 0 !== strpos( $upload_path, ABSPATH ) ) {
+		// $dir is absolute, $upload_path is (maybe) relative to ABSPATH
+		$dir = path_join( ABSPATH, $upload_path );
 	} else {
 		$dir = $upload_path;
-		if ( 'wp-content/uploads' == $upload_path ) {
-			$dir = WP_CONTENT_DIR . '/uploads';
-		} elseif ( 0 !== strpos($dir, ABSPATH) ) {
-			// $dir is absolute, $upload_path is (maybe) relative to ABSPATH
-			$dir = path_join( ABSPATH, $dir );
-		}
 	}
 
 	if ( !$url = get_option( 'upload_url_path' ) ) {
@@ -1456,15 +1451,24 @@ function wp_upload_dir( $time = null ) {
 			$url = trailingslashit( $siteurl ) . $upload_path;
 	}
 
-	if ( defined('UPLOADS') && ! $main_override && ! $_wp_switched ) {
+	if ( defined( 'UPLOADS' ) ) {
 		$dir = ABSPATH . UPLOADS;
 		$url = trailingslashit( $siteurl ) . UPLOADS;
 	}
 
-	if ( is_multisite() && ! $main_override && ! $_wp_switched  ) {
-		if ( defined( 'BLOGUPLOADDIR' ) )
-			$dir = untrailingslashit(BLOGUPLOADDIR);
-		$url = str_replace( UPLOADS, 'files', $url );
+	// Multisite (if not the main site in a post-MU network)
+	if ( is_multisite() && ! ( is_main_site() && defined( 'MULTISITE' ) ) ) {
+		if ( ! get_site_option( 'ms_files_rewriting' ) ) {
+			// Append sites/%d if we're not on the main site (for post-MU networks).
+			$ms_dir = '/sites/' . get_current_blog_id();
+			$dir .= $ms_dir;
+			$url .= $ms_dir;
+		} elseif ( ! ms_is_switched() ) {
+			// Handle the old-form ms-files.php rewriting if the network still has that enabled.
+			if ( defined( 'BLOGUPLOADDIR' ) )
+				$dir = untrailingslashit( BLOGUPLOADDIR );
+			$url = str_replace( UPLOADS, 'files', $url );
+		}
 	}
 
 	$basedir = $dir;

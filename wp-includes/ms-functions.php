@@ -1120,8 +1120,7 @@ function insert_blog($domain, $path, $site_id) {
  * @param string $blog_title The title of the new site.
  */
 function install_blog($blog_id, $blog_title = '') {
-	global $wpdb, $table_prefix, $wp_roles;
-	$wpdb->suppress_errors();
+	global $wpdb, $wp_roles, $current_site;
 
 	// Cast for security
 	$blog_id = (int) $blog_id;
@@ -1129,11 +1128,9 @@ function install_blog($blog_id, $blog_title = '') {
 	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
 	if ( $wpdb->get_results("SELECT ID FROM $wpdb->posts") )
-		die(__('<h1>Already Installed</h1><p>You appear to have already installed WordPress. To reinstall please clear your old database tables first.</p>') . '</body></html>');
+		die( __( '<h1>Already Installed</h1><p>You appear to have already installed WordPress. To reinstall please clear your old database tables first.</p>' ) . '</body></html>' );
 
-	$wpdb->suppress_errors(false);
-
-	$url = get_blogaddress_by_id($blog_id);
+	$url = get_blogaddress_by_id( $blog_id );
 
 	// Set everything up
 	make_db_current_silent( 'blog' );
@@ -1142,21 +1139,22 @@ function install_blog($blog_id, $blog_title = '') {
 	$wp_roles->_init();
 
 	$url = untrailingslashit( $url );
-	// fix url.
-	update_option('siteurl', $url);
-	update_option('home', $url);
-	update_option('fileupload_url', $url . "/files" );
-	update_option('upload_path', UPLOADBLOGSDIR . "/$blog_id/files");
-	update_option('blogname', stripslashes( $blog_title ) );
-	update_option('admin_email', '');
-	$wpdb->update( $wpdb->options, array('option_value' => ''), array('option_name' => 'admin_email') );
+
+	update_option( 'siteurl', $url );
+	update_option( 'home', $url );
+
+	if ( get_site_option( 'ms_files_rewriting' ) )
+		update_option( 'upload_path', UPLOADBLOGSDIR . "/$blog_id/files" );
+	else
+		update_option( 'upload_path', get_blog_option( $current_site->blog_id, 'upload_path' ) );
+
+	update_option( 'blogname', stripslashes( $blog_title ) );
+	update_option( 'admin_email', '' );
 
 	// remove all perms
-	$wpdb->delete( $wpdb->usermeta, array( 'meta_key' => $table_prefix.'user_level' ) );
-
-	$wpdb->delete( $wpdb->usermeta, array( 'meta_key' => $table_prefix.'capabilities' ) );
-
-	$wpdb->suppress_errors( false );
+	$table_prefix = $wpdb->get_blog_prefix();
+	delete_metadata( 'user', 0, $table_prefix . 'user_level',   null, true ); // delete all
+	delete_metadata( 'user', 0, $table_prefix . 'capabilities', null, true ); // delete all
 }
 
 /**

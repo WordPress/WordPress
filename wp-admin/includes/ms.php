@@ -90,7 +90,8 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
 
 		$wpdb->delete( $wpdb->blogs, array( 'blog_id' => $blog_id ) );
 
-		$dir = apply_filters( 'wpmu_delete_blog_upload_dir', WP_CONTENT_DIR . "/blogs.dir/{$blog_id}/files/", $blog_id );
+		$uploads = wp_upload_dir();
+		$dir = apply_filters( 'wpmu_delete_blog_upload_dir', $uploads['basedir'], $blog_id );
 		$dir = rtrim( $dir, DIRECTORY_SEPARATOR );
 		$top_dir = $dir;
 		$stack = array($dir);
@@ -357,8 +358,10 @@ function upload_is_user_over_quota( $echo = true ) {
 function get_space_used() {
 	// Allow for an alternative way of tracking storage space used
 	$space_used = apply_filters( 'pre_get_space_used', false );
-	if ( false === $space_used )
-		$space_used = get_dirsize( BLOGUPLOADDIR ) / 1024 / 1024;
+	if ( false === $space_used ) {
+		$upload_dir = wp_upload_dir();
+		$space_used = get_dirsize( $upload_dir['basedir'] ) / 1024 / 1024;
+	}
 
 	return $space_used;
 }
@@ -681,15 +684,6 @@ function choose_primary_blog() {
 	</table>
 	<?php
 }
-
-function ms_deprecated_blogs_file() {
-	if ( ! is_super_admin() )
-		return;
-	if ( ! file_exists( WP_CONTENT_DIR . '/blogs.php' ) )
-		return;
-	echo '<div class="update-nag">' . sprintf( __( 'The <code>%1$s</code> file is deprecated. Please remove it and update your server rewrite rules to use <code>%2$s</code> instead.' ), 'wp-content/blogs.php', 'wp-includes/ms-files.php' ) . '</div>';
-}
-add_action( 'network_admin_notices', 'ms_deprecated_blogs_file' );
 
 /**
  * Grants super admin privileges.

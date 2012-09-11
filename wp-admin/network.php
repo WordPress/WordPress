@@ -106,7 +106,7 @@ if ( is_network_admin() ) {
 $network_help = '<p>' . __('This screen allows you to configure a network as having subdomains (<code>site1.example.com</code>) or subdirectories (<code>example.com/site1</code>). Subdomains require wildcard subdomains to be enabled in Apache and DNS records, if your host allows it.') . '</p>' .
 	'<p>' . __('Choose subdomains or subdirectories; this can only be switched afterwards by reconfiguring your install. Fill out the network details, and click install. If this does not work, you may have to add a wildcard DNS record (for subdomains) or change to another setting in Permalinks (for subdirectories).') . '</p>' .
 	'<p>' . __('The next screen for Network Setup will give you individually-generated lines of code to add to your wp-config.php and .htaccess files. Make sure the settings of your FTP client make files starting with a dot visible, so that you can find .htaccess; you may have to create this file if it really is not there. Make backup copies of those two files.') . '</p>' .
-	'<p>' . __('Add a <code>blogs.dir</code> directory under <code>/wp-content</code> and add the designated lines of code to wp-config.php (just before <code>/*...stop editing...*/</code>) and <code>.htaccess</code> (replacing the existing WordPress rules).') . '</p>' .
+	'<p>' . __('Add the designated lines of code to wp-config.php (just before <code>/*...stop editing...*/</code>) and <code>.htaccess</code> (replacing the existing WordPress rules).') . '</p>' .
 	'<p>' . __('Once you add this code and refresh your browser, multisite should be enabled. This screen, now in the Network Admin navigation menu, will keep an archive of the added code. You can toggle between Network Admin and Site Admin by clicking on the Network Admin or an individual site name under the My Sites dropdown in the Toolbar.') . '</p>' .
 	'<p>' . __('The choice of subdirectory sites is disabled if this setup is more than a month old because of permalink problems with &#8220;/blog/&#8221; from the main site. This disabling will be addressed in a future version.') . '</p>' .
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
@@ -190,9 +190,6 @@ function network_step1( $errors = false ) {
 		$error_codes = $errors->get_error_codes();
 	}
 
-	if ( WP_CONTENT_DIR != ABSPATH . 'wp-content' )
-		echo '<div class="error"><p><strong>' . __('Warning!') . '</strong> ' . __( 'Networks may not be fully compatible with custom wp-content directories.' ) . '</p></div>';
-
 	$site_name = ( ! empty( $_POST['sitename'] ) && ! in_array( 'empty_sitename', $error_codes ) ) ? $_POST['sitename'] : sprintf( _x('%s Sites', 'Default network name' ), get_option( 'blogname' ) );
 	$admin_email = ( ! empty( $_POST['email'] ) && ! in_array( 'invalid_email', $error_codes ) ) ? $_POST['email'] : get_option( 'admin_email' );
 	?>
@@ -234,6 +231,9 @@ function network_step1( $errors = false ) {
 
 <?php
 	endif;
+
+		if ( WP_CONTENT_DIR != ABSPATH . 'wp-content' && ( allow_subdirectory_install() || ! allow_subdomain_install() ) )
+			echo '<div class="error inline"><p><strong>' . __('Warning!') . '</strong> ' . __( 'Subdirectory networks may not be fully compatible with custom wp-content directories.' ) . '</p></div>';
 
 		$is_www = ( 0 === strpos( $hostname, 'www.' ) );
 		if ( $is_www ) :
@@ -360,11 +360,6 @@ function network_step2( $errors = false ) {
 	}
 ?>
 		<ol>
-			<li><p><?php
-				printf( __( 'Create a <code>blogs.dir</code> directory at <code>%s/blogs.dir</code>. This directory is used to store uploaded media for your additional sites and must be writeable by the web server.' ), WP_CONTENT_DIR );
-				if ( WP_CONTENT_DIR != ABSPATH . 'wp-content' )
-					echo ' <strong>' . __('Warning:') . ' ' . __( 'Networks may not be fully compatible with custom wp-content directories.' ) . '</strong>';
-			?></p></li>
 			<li><p><?php printf( __( 'Add the following to your <code>wp-config.php</code> file in <code>%s</code> <strong>above</strong> the line reading <code>/* That&#8217;s all, stop editing! Happy blogging. */</code>:' ), ABSPATH ); ?></p>
 				<textarea class="code" readonly="readonly" cols="100" rows="7">
 define('MULTISITE', true);
@@ -415,12 +410,16 @@ define('BLOG_ID_CURRENT_SITE', 1);</textarea>
                 <rule name="WordPress Rule 1" stopProcessing="true">
                     <match url="^index\.php$" ignoreCase="false" />
                     <action type="None" />
-                </rule>
-                <rule name="WordPress Rule 2" stopProcessing="true">
+                </rule>';
+				if ( is_multisite() && get_site_option( 'ms_files_rewriting' ) ) {
+					$web_config_file .= '
+                <rule name="WordPress Rule for Files" stopProcessing="true">
                     <match url="^files/(.+)" ignoreCase="false" />
                     <action type="Rewrite" url="wp-includes/ms-files.php?file={R:1}" appendQueryString="false" />
-                </rule>
-                <rule name="WordPress Rule 3" stopProcessing="true">
+                </rule>';
+                }
+                $web_config_file .= '
+                <rule name="WordPress Rule 2" stopProcessing="true">
                     <match url="^" ignoreCase="false" />
                     <conditions logicalGrouping="MatchAny">
                         <add input="{REQUEST_FILENAME}" matchType="IsFile" ignoreCase="false" />
@@ -428,7 +427,7 @@ define('BLOG_ID_CURRENT_SITE', 1);</textarea>
                     </conditions>
                     <action type="None" />
                 </rule>
-                <rule name="WordPress Rule 4" stopProcessing="true">
+                <rule name="WordPress Rule 3" stopProcessing="true">
                     <match url="." ignoreCase="false" />
                     <action type="Rewrite" url="index.php" />
                 </rule>
@@ -446,16 +445,20 @@ define('BLOG_ID_CURRENT_SITE', 1);</textarea>
                 <rule name="WordPress Rule 1" stopProcessing="true">
                     <match url="^index\.php$" ignoreCase="false" />
                     <action type="None" />
-                </rule>
+                </rule>';
+				if ( is_multisite() && get_site_option( 'ms_files_rewriting' ) ) {
+					$web_config_file .= '
+                <rule name="WordPress Rule for Files" stopProcessing="true">
+                    <match url="^files/(.+)" ignoreCase="false" />
+                    <action type="Rewrite" url="wp-includes/ms-files.php?file={R:1}" appendQueryString="false" />
+                </rule>';
+                }
+                $web_config_file .= '
                 <rule name="WordPress Rule 2" stopProcessing="true">
-                    <match url="^([_0-9a-zA-Z-]+/)?files/(.+)" ignoreCase="false" />
-                    <action type="Rewrite" url="wp-includes/ms-files.php?file={R:2}" appendQueryString="false" />
-                </rule>
-                <rule name="WordPress Rule 3" stopProcessing="true">
                     <match url="^([_0-9a-zA-Z-]+/)?wp-admin$" ignoreCase="false" />
                     <action type="Redirect" url="{R:1}wp-admin/" redirectType="Permanent" />
                 </rule>
-                <rule name="WordPress Rule 4" stopProcessing="true">
+                <rule name="WordPress Rule 3" stopProcessing="true">
                     <match url="^" ignoreCase="false" />
                     <conditions logicalGrouping="MatchAny">
                         <add input="{REQUEST_FILENAME}" matchType="IsFile" ignoreCase="false" />
@@ -463,15 +466,15 @@ define('BLOG_ID_CURRENT_SITE', 1);</textarea>
                     </conditions>
                     <action type="None" />
                 </rule>
-                <rule name="WordPress Rule 5" stopProcessing="true">
+                <rule name="WordPress Rule 4" stopProcessing="true">
                     <match url="^[_0-9a-zA-Z-]+/(wp-(content|admin|includes).*)" ignoreCase="false" />
                     <action type="Rewrite" url="{R:1}" />
                 </rule>
-                <rule name="WordPress Rule 6" stopProcessing="true">
+                <rule name="WordPress Rule 5" stopProcessing="true">
                     <match url="^([_0-9a-zA-Z-]+/)?(.*\.php)$" ignoreCase="false" />
                     <action type="Rewrite" url="{R:2}" />
                 </rule>
-                <rule name="WordPress Rule 7" stopProcessing="true">
+                <rule name="WordPress Rule 6" stopProcessing="true">
                     <match url="." ignoreCase="false" />
                     <action type="Rewrite" url="index.php" />
                 </rule>
@@ -482,8 +485,11 @@ define('BLOG_ID_CURRENT_SITE', 1);</textarea>
 			}
 	?>
 		<li><p><?php printf( __( 'Add the following to your <code>web.config</code> file in <code>%s</code>, replacing other WordPress rules:' ), ABSPATH ); ?></p>
-		<textarea class="code" readonly="readonly" cols="100" rows="20">
-		<?php echo esc_textarea( $web_config_file ); ?>
+		<?php
+		if ( ! $subdomain_install && WP_CONTENT_DIR != ABSPATH . 'wp-content' )
+			echo '<p><strong>' . __('Warning:') . ' ' . __( 'Subdirectory networks may not be fully compatible with custom wp-content directories.' ) . '</strong></p>';
+		?>
+		<textarea class="code" readonly="readonly" cols="100" rows="20"><?php echo esc_textarea( $web_config_file ); ?>
 		</textarea></li>
 		</ol>
 
@@ -491,10 +497,12 @@ define('BLOG_ID_CURRENT_SITE', 1);</textarea>
 
 		$htaccess_file = 'RewriteEngine On
 RewriteBase ' . $base . '
-RewriteRule ^index\.php$ - [L]
+RewriteRule ^index\.php$ - [L]' . "\n";
 
-# uploaded files
-RewriteRule ^' . ( $subdomain_install ? '' : '([_0-9a-zA-Z-]+/)?' ) . 'files/(.+) wp-includes/ms-files.php?file=$' . ( $subdomain_install ? 1 : 2 ) . ' [L]' . "\n";
+		if ( is_multisite() && get_site_option( 'ms_files_rewriting' ) ) {
+			$htaccess_file .= "\n# uploaded files\nRewriteRule ^";
+			$htaccess_file .= ( $subdomain_install ? '' : '([_0-9a-zA-Z-]+/)?' ) . 'files/(.+) wp-includes/ms-files.php?file=$' . ( $subdomain_install ? 1 : 2 ) . ' [L]' . "\n";
+		}
 
 		if ( ! $subdomain_install )
 			$htaccess_file .= "\n# add a trailing slash to /wp-admin\n" . 'RewriteRule ^([_0-9a-zA-Z-]+/)?wp-admin$ $1wp-admin/ [R=301,L]' . "\n";
@@ -511,7 +519,11 @@ RewriteRule ^ - [L]';
 
 		?>
 		<li><p><?php printf( __( 'Add the following to your <code>.htaccess</code> file in <code>%s</code>, replacing other WordPress rules:' ), ABSPATH ); ?></p>
-		<textarea class="code" readonly="readonly" cols="100" rows="<?php echo $subdomain_install ? 11 : 16; ?>">
+		<?php
+		if ( ! $subdomain_install && WP_CONTENT_DIR != ABSPATH . 'wp-content' )
+			echo '<p><strong>' . __('Warning:') . ' ' . __( 'Subdirectory networks may not be fully compatible with custom wp-content directories.' ) . '</strong></p>';
+		?>
+		<textarea class="code" readonly="readonly" cols="100" rows="<?php echo substr_count( $htaccess_file, "\n" ) + 1; ?>">
 <?php echo esc_textarea( $htaccess_file ); ?></textarea></li>
 		</ol>
 

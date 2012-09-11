@@ -912,6 +912,7 @@ We hope you enjoy your new site. Thanks!
 		'upload_space_check_disabled' => '0',
 		'subdomain_install' => intval( $subdomain_install ),
 		'global_terms_enabled' => global_terms_enabled() ? '1' : '0',
+		'ms_files_rewriting' => is_multisite() ? get_site_option( 'ms_files_rewriting' ) : '0',
 		'initial_db_version' => get_option( 'initial_db_version' ),
 		'active_sitewide_plugins' => array(),
 	);
@@ -940,11 +941,6 @@ We hope you enjoy your new site. Thanks!
 		$blog_id = $wpdb->insert_id;
 		update_user_meta( $site_user->ID, 'source_domain', $domain );
 		update_user_meta( $site_user->ID, 'primary_blog', $blog_id );
-		if ( !$upload_path = get_option( 'upload_path' ) ) {
-			$upload_path = substr( WP_CONTENT_DIR, strlen( ABSPATH ) ) . '/uploads';
-			update_option( 'upload_path', $upload_path );
-		}
-		update_option( 'fileupload_url', get_option( 'siteurl' ) . '/' . $upload_path );
 	}
 
 	if ( $subdomain_install )
