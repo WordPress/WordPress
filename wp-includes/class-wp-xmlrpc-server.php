@@ -336,6 +336,11 @@ class wp_xmlrpc_server extends IXR_Server {
 				'readonly'      => true,
 				'option'        => 'siteurl'
 			),
+			'home_url'          => array(
+				'desc'          => __( 'Home URL' ),
+				'readonly'      => true,
+				'option'        => 'home'
+			),
 			'image_default_link_type' => array(
 				'desc'          => __( 'Image default link type' ),
 				'readonly'      => true,
