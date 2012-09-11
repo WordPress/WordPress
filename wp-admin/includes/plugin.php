@@ -606,7 +606,7 @@ function deactivate_plugins( $plugins, $silent = false, $network_wide = null ) {
 			$key = array_search( $plugin, $current );
 			if ( false !== $key ) {
 				$do_blog = true;
-				array_splice( $current, $key, 1 );
+				unset( $current[ $key ] );
 			}
 		}
 
