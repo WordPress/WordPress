@@ -86,6 +86,9 @@ function core_update_footer( $msg = '' ) {
 		return sprintf( __( 'Version %s' ), $GLOBALS['wp_version'] );
 
 	$cur = get_preferred_from_update_core();
+	if ( ! is_object( $cur ) )
+		$cur = new stdClass;
+
 	if ( ! isset( $cur->current ) )
 		$cur->current = '';
 
