@@ -42,7 +42,7 @@ header('Content-Type: text/xml; charset=' . get_option('blog_charset'), true);
       <api name="Movable Type" blogID="1" preferred="false" apiLink="<?php echo site_url('xmlrpc.php', 'rpc') ?>" />
       <api name="MetaWeblog" blogID="1" preferred="false" apiLink="<?php echo site_url('xmlrpc.php', 'rpc') ?>" />
       <api name="Blogger" blogID="1" preferred="false" apiLink="<?php echo site_url('xmlrpc.php', 'rpc') ?>" />
-      <api name="Atom" blogID="" preferred="false" apiLink="<?php echo site_url('wp-app.php/service', 'rpc') ?>" />
+      <?php do_action( 'xmlrpc_rsd_apis' ); ?>
     </apis>
   </service>
 </rsd>

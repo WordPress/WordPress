@@ -121,7 +121,10 @@ wp_dropdown_categories(array('hide_empty' => 0, 'name' => 'default_link_category
 </tr>
 <?php endif; ?>
 
-<?php do_settings_fields('writing', 'default'); ?>
+<?php
+do_settings_fields('writing', 'default');
+do_settings_fields('writing', 'remote_publishing'); // A deprecated section.
+?>
 </table>
 
 <h3 class="title"><?php _e('Press This') ?></h3>
@@ -167,20 +170,6 @@ wp_dropdown_categories(array('hide_empty' => 0, 'name' => 'default_email_categor
 <?php do_settings_fields('writing', 'post_via_email'); ?>
 </table>
 <?php } ?>
-
-<h3><?php _e('Remote Publishing') ?></h3>
-<p><?php printf(__('To post to WordPress from a desktop blogging client or remote website that uses the Atom Publishing Protocol or one of the XML-RPC publishing interfaces you must enable them below.')) ?></p>
-<table class="form-table">
-<tr valign="top">
-<th scope="row"><?php _e('Atom Publishing Protocol') ?></th>
-<td><fieldset><legend class="screen-reader-text"><span><?php _e('Atom Publishing Protocol') ?></span></legend>
-<label for="enable_app">
-<input name="enable_app" type="checkbox" id="enable_app" value="1" <?php checked('1', get_option('enable_app')); ?> />
-<?php _e('Enable the Atom Publishing Protocol.') ?></label><br />
-</fieldset></td>
-</tr>
-<?php do_settings_fields('writing', 'remote_publishing'); ?>
-</table>
 
 <?php if ( apply_filters( 'enable_update_services_configuration', true ) ) { ?>
 <h3><?php _e('Update Services') ?></h3>

@@ -195,7 +195,7 @@ class WP {
 					$query = $rewrite['$'];
 					$matches = array('');
 				}
-			} else if ( $req_uri != 'wp-app.php' ) {
+			} else {
 				foreach ( (array) $rewrite as $match => $query ) {
 					// If the requesting file is the anchor of the match, prepend it to the path info.
 					if ( ! empty($req_uri) && strpos($match, $req_uri) === 0 && $req_uri != $request )
@@ -229,16 +229,14 @@ class WP {
 				// Parse the query.
 				parse_str($query, $perma_query_vars);
 
-				// If we're processing a 404 request, clear the error var
-				// since we found something.
-				unset( $_GET['error'] );
-				unset( $error );
+				// If we're processing a 404 request, clear the error var since we found something.
+				if ( '404' == $error )
+					unset( $error, $_GET['error'] );
 			}
 
 			// If req_uri is empty or if it is a request for ourself, unset error.
 			if ( empty($request) || $req_uri == $self || strpos($_SERVER['PHP_SELF'], 'wp-admin/') !== false ) {
-				unset( $_GET['error'] );
-				unset( $error );
+				unset( $error, $_GET['error'] );
 
 				if ( isset($perma_query_vars) && strpos($_SERVER['PHP_SELF'], 'wp-admin/') !== false )
 					unset( $perma_query_vars );
@@ -325,11 +323,15 @@ class WP {
 
 		if ( is_user_logged_in() )
 			$headers = array_merge($headers, wp_get_nocache_headers());
-		if ( !empty($this->query_vars['error']) && '404' == $this->query_vars['error'] ) {
-			$status = 404;
-			if ( !is_user_logged_in() )
-				$headers = array_merge($headers, wp_get_nocache_headers());
-			$headers['Content-Type'] = get_option('html_type') . '; charset=' . get_option('blog_charset');
+		if ( ! empty( $this->query_vars['error'] ) ) {
+			$status = (int) $this->query_vars['error'];
+			if ( 404 === $status ) {
+				if ( ! is_user_logged_in() )
+					$headers = array_merge($headers, wp_get_nocache_headers());
+				$headers['Content-Type'] = get_option('html_type') . '; charset=' . get_option('blog_charset');
+			} elseif ( in_array( $status, array( 403, 500, 502, 503 ) ) ) {
+				$exit_required = true;
+			}
 		} else if ( empty($this->query_vars['feed']) ) {
 			$headers['Content-Type'] = get_option('html_type') . '; charset=' . get_option('blog_charset');
 		} else {

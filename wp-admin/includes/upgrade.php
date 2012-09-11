@@ -994,10 +994,6 @@ function upgrade_260() {
 
 	if ( $wp_current_db_version < 8000 )
 		populate_roles_260();
-
-	if ( $wp_current_db_version < 8201 ) {
-		update_option('enable_app', 1);
-	}
 }
 
 /**

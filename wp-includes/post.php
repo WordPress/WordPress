@@ -4670,9 +4670,8 @@ function _future_post_hook( $deprecated = '', $post ) {
  * @since 2.3.0
  * @access private
  * @uses $wpdb
- * @uses XMLRPC_REQUEST and APP_REQUEST constants.
+ * @uses XMLRPC_REQUEST constant.
  * @uses do_action() Calls 'xmlprc_publish_post' on post ID if XMLRPC_REQUEST is defined.
- * @uses do_action() Calls 'app_publish_post' on post ID if APP_REQUEST is defined.
  *
  * @param int $post_id The ID in the database table of the post being published
  */
@@ -4681,8 +4680,6 @@ function _publish_post_hook($post_id) {
 
 	if ( defined('XMLRPC_REQUEST') )
 		do_action('xmlrpc_publish_post', $post_id);
-	if ( defined('APP_REQUEST') )
-		do_action('app_publish_post', $post_id);
 
 	if ( defined('WP_IMPORTING') )
 		return;

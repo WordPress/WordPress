@@ -168,3 +168,25 @@ function wp_login($username, $password, $deprecated = '') {
 else :
 	_deprecated_function( 'wp_login', '2.5', 'wp_signon()' );
 endif;
+
+/**
+ * WordPress AtomPub API implementation.
+ *
+ * Originally stored in wp-app.php, and later wp-includes/class-wp-atom-server.php.
+ * It is kept here in case a plugin directly referred to the class.
+ *
+ * @since 2.2.0
+ * @deprecated 3.5.0
+ * @link http://wordpress.org/extend/plugins/atom-publishing-protocol/
+ */
+if ( ! class_exists( 'wp_atom_server' ) ) {
+	class wp_atom_server {
+		public function __call( $name, $arguments ) {
+			_deprecated_function( __CLASS__ . '::' . $name, '3.5', 'the Atom Publishing Platform plugin' );
+		}
+
+		public static function __callStatic( $name, $arguments ) {
+			_deprecated_function( __CLASS__ . '::' . $name, '3.5', 'the Atom Publishing Platform plugin' );
+		}
+	}
+}
