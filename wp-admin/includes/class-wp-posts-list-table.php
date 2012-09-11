@@ -670,10 +670,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 						/* translators: used between list items, there is a space after the comma */
 						echo join( __( ', ' ), $out );
 					} else {
-						if ( 'category' == $taxonomy )
-							echo __( 'Uncategorized' );
-						else
-							echo '&#8212;';
+						echo '&#8212;';
 					}
 					echo '</td>';
 					break;
