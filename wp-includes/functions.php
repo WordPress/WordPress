@@ -2549,6 +2549,10 @@ function wp_maybe_load_widgets() {
  */
 function wp_widgets_add_menu() {
 	global $submenu;
+
+	if ( ! current_theme_supports( 'widgets' ) )
+		return;
+
 	$submenu['themes.php'][7] = array( __( 'Widgets' ), 'edit_theme_options', 'widgets.php' );
 	ksort( $submenu['themes.php'], SORT_NUMERIC );
 }
