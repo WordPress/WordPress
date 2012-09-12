@@ -48,6 +48,10 @@ class wp_xmlrpc_server extends IXR_Server {
 			'wp.getTerms'			=> 'this:wp_getTerms',
 			'wp.getTaxonomy'		=> 'this:wp_getTaxonomy',
 			'wp.getTaxonomies'		=> 'this:wp_getTaxonomies',
+			'wp.getUser'			=> 'this:wp_getUser',
+			'wp.getUsers'			=> 'this:wp_getUsers',
+			'wp.getProfile'			=> 'this:wp_getProfile',
+			'wp.editProfile'		=> 'this:wp_editProfile',
 			'wp.getPage'			=> 'this:wp_getPage',
 			'wp.getPages'			=> 'this:wp_getPages',
 			'wp.newPage'			=> 'this:wp_newPage',
@@ -892,6 +896,47 @@ class wp_xmlrpc_server extends IXR_Server {
 		);
 
 		return apply_filters( 'xmlrpc_prepare_comment', $_comment, $comment );
+	}
+
+	/**
+	 * Prepares user data for return in an XML-RPC object.
+	 *
+	 * @access protected
+	 *
+	 * @param WP_User $user The unprepared user object
+	 * @param array $fields The subset of user fields to return
+	 * @return array The prepared user data
+	 */
+	protected function _prepare_user( $user, $fields ) {
+		$_user = array( 'user_id' => strval( $user->ID ) );
+
+		$user_fields = array(
+			'username'          => $user->user_login,
+			'first_name'        => $user->user_firstname,
+			'last_name'         => $user->user_lastname,
+			'registered'        => $this->_convert_date( $user->user_registered ),
+			'bio'               => $user->user_description,
+			'email'             => $user->user_email,
+			'nickname'          => $user->nickname,
+			'nicename'          => $user->user_nicename,
+			'url'               => $user->user_url,
+			'display_name'      => $user->display_name,
+			'roles'             => $user->roles,
+		);
+
+		if ( in_array( 'all', $fields ) ) {
+			$_user = array_merge( $_user, $user_fields );
+		}
+		else {
+			if ( in_array( 'basic', $fields ) ) {
+				$basic_fields = array( 'username', 'email', 'registered', 'display_name', 'nicename' );
+				$fields = array_merge( $fields, $basic_fields );
+			}
+			$requested_fields = array_intersect_key( $user_fields, array_flip( $fields ) );
+			$_user = array_merge( $_user, $requested_fields );
+		}
+
+		return apply_filters( 'xmlrpc_prepare_user', $_user, $user, $fields );
 	}
 
 	/**
@@ -1939,6 +1984,263 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		return $struct;
+	}
+
+	/**
+	 * Retrieve a user.
+	 *
+	 * The optional $fields parameter specifies what fields will be included
+	 * in the response array. This should be a list of field names. 'user_id' will
+	 * always be included in the response regardless of the value of $fields.
+	 *
+	 * Instead of, or in addition to, individual field names, conceptual group
+	 * names can be used to specify multiple fields. The available conceptual
+	 * groups are 'basic' and 'all'.
+	 *
+	 * @uses get_userdata()
+	 * @param array $args Method parameters. Contains:
+	 *  - int     $blog_id
+	 *  - string  $username
+	 *  - string  $password
+	 *  - int     $user_id
+	 *  - array   $fields optional
+	 * @return array contains (based on $fields parameter):
+	 *  - 'user_id'
+	 *  - 'username'
+	 *  - 'first_name'
+	 *  - 'last_name'
+	 *  - 'registered'
+	 *  - 'bio'
+	 *  - 'email'
+	 *  - 'nickname'
+	 *  - 'nicename'
+	 *  - 'url'
+	 *  - 'display_name'
+	 *  - 'roles'
+	 */
+	function wp_getUser( $args ) {
+		if ( ! $this->minimum_args( $args, 4 ) )
+			return $this->error;
+
+		$this->escape( $args );
+
+		$blog_id    = (int) $args[0];
+		$username   = $args[1];
+		$password   = $args[2];
+		$user_id    = (int) $args[3];
+
+		if ( isset( $args[4] ) )
+			$fields = $args[4];
+		else
+			$fields = apply_filters( 'xmlrpc_default_user_fields', array( 'all' ), 'wp.getUser' );
+
+		if ( ! $user = $this->login( $username, $password ) )
+			return $this->error;
+
+		do_action( 'xmlrpc_call', 'wp.getUser' );
+
+		if ( ! current_user_can( 'edit_user', $user_id ) )
+			return new IXR_Error( 401, __( 'Sorry, you cannot edit users.' ) );
+
+		$user_data = get_userdata( $user_id );
+
+		if ( ! $user_data )
+			return new IXR_Error( 404, __( 'Invalid user ID' ) );
+
+		return $this->_prepare_user( $user_data, $fields );
+	}
+
+	/**
+	 * Retrieve users.
+	 *
+	 * The optional $filter parameter modifies the query used to retrieve users.
+	 * Accepted keys are 'number' (default: 50), 'offset' (default: 0), 'role',
+	 * 'who', 'orderby', and 'order'.
+	 *
+	 * The optional $fields parameter specifies what fields will be included
+	 * in the response array.
+	 *
+	 * @uses get_users()
+	 * @see wp_getUser() for more on $fields and return values
+	 *
+	 * @param array $args Method parameters. Contains:
+	 *  - int     $blog_id
+	 *  - string  $username
+	 *  - string  $password
+	 *  - array   $filter optional
+	 *  - array   $fields optional
+	 * @return array users data
+	 */
+	function wp_getUsers( $args ) {
+		if ( ! $this->minimum_args( $args, 3 ) )
+			return $this->error;
+
+		$this->escape( $args );
+
+		$blog_id    = (int) $args[0];
+		$username   = $args[1];
+		$password   = $args[2];
+		$filter     = isset( $args[3] ) ? $args[3] : array();
+
+		if ( isset( $args[4] ) )
+			$fields = $args[4];
+		else
+			$fields = apply_filters( 'xmlrpc_default_user_fields', array( 'all' ), 'wp.getUsers' );
+
+		if ( ! $user = $this->login( $username, $password ) )
+			return $this->error;
+
+		do_action( 'xmlrpc_call', 'wp.getUsers' );
+
+		if ( ! current_user_can( 'list_users' ) )
+			return new IXR_Error( 401, __( 'Sorry, you cannot list users.' ) );
+
+		$query = array();
+
+		$query['number'] = ( isset( $filter['number'] ) ) ? absint( $filter['number'] ) : 50;
+		$query['offset'] = ( isset( $filter['offset'] ) ) ? absint( $filter['offset'] ) : 0;
+
+		if ( isset( $filter['orderby'] ) ) {
+			$query['orderby'] = $filter['orderby'];
+
+			if ( isset( $filter['order'] ) )
+				$query['order'] = $filter['order'];
+		}
+
+		if ( isset( $filter['role'] ) ) {
+			if ( get_role( $filter['role'] ) === null )
+				return new IXR_Error( 403, __( 'The role specified is not valid' ) );
+
+			$query['role'] = $filter['role'];
+		}
+
+		if ( isset( $filter['who'] ) ) {
+			$query['who'] = $filter['who'];
+		}
+
+		$users = get_users( $query );
+
+		$_users = array();
+		foreach ( $users as $user_data ) {
+			if ( current_user_can( 'edit_user', $user_data->ID ) )
+				$_users[] = $this->_prepare_user( $user_data, $fields );
+		}
+		return $_users;
+	}
+
+	/**
+	 * Retrieve information about the requesting user.
+	 *
+	 * @uses get_userdata()
+	 * @param array $args Method parameters. Contains:
+	 *  - int     $blog_id
+	 *  - string  $username
+	 *  - string  $password
+	 *  - array   $fields optional
+	 * @return array (@see wp_getUser)
+	 */
+	function wp_getProfile( $args ) {
+		if ( ! $this->minimum_args( $args, 3 ) )
+			return $this->error;
+
+		$this->escape( $args );
+
+		$blog_id    = (int) $args[0];
+		$username   = $args[1];
+		$password   = $args[2];
+
+		if ( isset( $args[3] ) )
+			$fields = $args[3];
+		else
+			$fields = apply_filters( 'xmlrpc_default_user_fields', array( 'all' ), 'wp.getProfile' );
+
+		if ( ! $user = $this->login( $username, $password ) )
+			return $this->error;
+
+		do_action( 'xmlrpc_call', 'wp.getProfile' );
+
+		if ( ! current_user_can( 'edit_user', $user->ID ) )
+			return new IXR_Error( 401, __( 'Sorry, you cannot edit your profile.' ) );
+
+		$user_data = get_userdata( $user->ID );
+
+		return $this->_prepare_user( $user_data, $fields );
+	}
+
+	/**
+	 * Edit user's profile.
+	 *
+	 * @uses wp_update_user()
+	 * @param array $args Method parameters. Contains:
+	 *  - int     $blog_id
+	 *  - string  $username
+	 *  - string  $password
+	 *  - int     $user_id
+	 *  - array   $content_struct
+	 *      It can optionally contain:
+	 *      - 'first_name'
+	 *      - 'last_name'
+	 *      - 'website'
+	 *      - 'display_name'
+	 *      - 'nickname'
+	 *      - 'nicename'
+	 *      - 'bio'
+	 * @return bool True, on success.
+	 */
+	function wp_editProfile( $args ) {
+		if ( ! $this->minimum_args( $args, 4 ) )
+			return $this->error;
+
+		$this->escape( $args );
+
+		$blog_id        = (int) $args[0];
+		$username       = $args[1];
+		$password       = $args[2];
+		$content_struct = $args[3];
+
+		if ( ! $user = $this->login( $username, $password ) )
+			return $this->error;
+
+		do_action( 'xmlrpc_call', 'wp.editProfile' );
+
+		if ( ! current_user_can( 'edit_user', $user->ID ) )
+			return new IXR_Error( 401, __( 'Sorry, you cannot edit your profile.' ) );
+
+		// holds data of the user
+		$user_data = array();
+		$user_data['ID'] = $user->ID;
+
+		// only set the user details if it was given
+		if ( isset( $content_struct['first_name'] ) )
+			$user_data['first_name'] = $content_struct['first_name'];
+
+		if ( isset( $content_struct['last_name'] ) )
+			$user_data['last_name'] = $content_struct['last_name'];
+
+		if ( isset( $content_struct['website'] ) )
+			$user_data['user_url'] = $content_struct['website'];
+
+		if ( isset( $content_struct['display_name'] ) )
+			$user_data['display_name'] = $content_struct['display_name'];
+
+		if ( isset( $content_struct['nickname'] ) )
+			$user_data['nickname'] = $content_struct['nickname'];
+
+		if ( isset( $content_struct['nicename'] ) )
+			$user_data['user_nicename'] = $content_struct['nicename'];
+
+		if ( isset( $content_struct['bio'] ) )
+			$user_data['description'] = $content_struct['bio'];
+
+		$result = wp_update_user( $user_data );
+
+		if ( is_wp_error( $result ) )
+			return new IXR_Error( 500, $result->get_error_message() );
+
+		if ( ! $result )
+			return new IXR_Error( 500, __( 'Sorry, the user cannot be updated.' ) );
+
+		return true;
 	}
 
 	/**
