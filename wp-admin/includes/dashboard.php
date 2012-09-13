@@ -392,12 +392,12 @@ function wp_dashboard_right_now() {
 	}
 	echo '</p>';
 
-	// Check if search engines are blocked.
+	// Check if search engines are asked not to index this site.
 	if ( !is_network_admin() && !is_user_admin() && current_user_can('manage_options') && '1' != get_option('blog_public') ) {
 		$title = apply_filters('privacy_on_link_title', __('Your site is asking search engines not to index its content') );
-		$content = apply_filters('privacy_on_link_text', __('Search Engines Blocked') );
+		$content = apply_filters('privacy_on_link_text', __('Search Engines Discouraged') );
 
-		echo "<p><a href='options-privacy.php' title='$title'>$content</a></p>";
+		echo "<p><a href='options-reading.php' title='$title'>$content</a></p>";
 	}
 
 	update_right_now_message();
@@ -1260,7 +1260,6 @@ function wp_welcome_panel() {
 		<h4><span class="icon16 icon-settings"></span> <?php _e( 'Basic Settings' ); ?></h4>
 		<p><?php _e( 'Here are a few easy things you can do to get your feet wet. Make sure to click Save on each Settings screen.' ); ?></p>
 		<ul>
-		<li><?php echo sprintf(	__( '<a href="%s">Choose your privacy setting</a>' ), esc_url( admin_url('options-privacy.php') ) ); ?></li>
 		<li><?php echo sprintf( __( '<a href="%s">Select your tagline and time zone</a>' ), esc_url( admin_url('options-general.php') ) ); ?></li>
 		<li><?php echo sprintf( __( '<a href="%s">Turn comments on or off</a>' ), esc_url( admin_url('options-discussion.php') ) ); ?></li>
 		<li><?php echo sprintf( __( '<a href="%s">Fill in your profile</a>' ), esc_url( get_edit_profile_url( get_current_user_id() ) ) ); ?></li>

@@ -1624,8 +1624,13 @@ function register_setting( $option_group, $option_name, $sanitize_callback = '' 
 	global $new_whitelist_options;
 
 	if ( 'misc' == $option_group ) {
-		_deprecated_argument( __FUNCTION__, '3.0', __( 'The miscellaneous options group has been removed. Use another settings group.' ) );
+		_deprecated_argument( __FUNCTION__, '3.0', sprintf( __( 'The "%s" options group has been removed. Use another settings group.' ), 'misc' ) );
 		$option_group = 'general';
+	}
+
+	if ( 'privacy' == $option_group ) {
+		_deprecated_argument( __FUNCTION__, '3.5', sprintf( __( 'The "%s" options group has been removed. Use another settings group.' ), 'privacy' ) );
+		$option_group = 'reading';
 	}
 
 	$new_whitelist_options[ $option_group ][] = $option_name;
@@ -1647,8 +1652,13 @@ function unregister_setting( $option_group, $option_name, $sanitize_callback = '
 	global $new_whitelist_options;
 
 	if ( 'misc' == $option_group ) {
-		_deprecated_argument( __FUNCTION__, '3.0', __( 'The miscellaneous options group has been removed. Use another settings group.' ) );
+		_deprecated_argument( __FUNCTION__, '3.0', sprintf( __( 'The "%s" options group has been removed. Use another settings group.' ), 'misc' ) );
 		$option_group = 'general';
+	}
+
+	if ( 'privacy' == $option_group ) {
+		_deprecated_argument( __FUNCTION__, '3.5', sprintf( __( 'The "%s" options group has been removed. Use another settings group.' ), 'privacy' ) );
+		$option_group = 'reading';
 	}
 
 	$pos = array_search( $option_name, (array) $new_whitelist_options );

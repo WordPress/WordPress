@@ -182,7 +182,7 @@ wp_dropdown_categories(array('hide_empty' => 0, 'name' => 'default_email_categor
 
 <?php else : ?>
 
-	<p><?php printf(__('WordPress is not notifying any <a href="http://codex.wordpress.org/Update_Services">Update Services</a> because of your site&#8217;s <a href="%s">privacy settings</a>.'), 'options-privacy.php'); ?></p>
+	<p><?php printf(__('WordPress is not notifying any <a href="http://codex.wordpress.org/Update_Services">Update Services</a> because of your site&#8217;s <a href="%s">visibility settings</a>.'), 'options-reading.php'); ?></p>
 
 <?php endif; ?>
 <?php } // multisite ?>

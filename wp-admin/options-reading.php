@@ -50,6 +50,13 @@ get_current_screen()->add_help_tab( array(
 		'<p>' . __('You must click the Save Changes button at the bottom of the screen for new settings to take effect.') . '</p>',
 ) );
 
+get_current_screen()->add_help_tab( array(
+	'id'      => 'site-visibility',
+	'title'   => has_action( 'blog_privacy_selector' ) ? __( 'Site Visibility' ) : __( 'Search Engine Visibility' ),
+	'content' => '<p>' . __( 'You can choose whether or not your site will be crawled by robots, ping services, and spiders. If you want those services to ignore your site, click the radio button next to &#8220;Ask search engines not to index this site&#8221; and click the Save Changes button at the bottom of the screen. Note that your privacy is not complete; your site is still visible on the web.' ) . '</p>' .
+		'<p>' . __( 'When this setting is in effect a reminder is shown in the Right Now box of the Dashboard that says, &#8220;Search Engines Discouraged,&#8221; to remind you that your site is not being crawled.' ) . '</p>',
+) );
+
 get_current_screen()->set_help_sidebar(
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
 	'<p>' . __('<a href="http://codex.wordpress.org/Settings_Reading_Screen" target="_blank">Documentation on Reading Settings</a>') . '</p>' .
@@ -63,7 +70,7 @@ include( './admin-header.php' );
 <?php screen_icon(); ?>
 <h2><?php echo esc_html( $title ); ?></h2>
 
-<form name="form1" method="post" action="options.php">
+<form method="post" action="options.php">
 <?php
 settings_fields( 'reading' );
 
@@ -129,6 +136,24 @@ else :
 <td><fieldset><legend class="screen-reader-text"><span><?php _e( 'For each article in a feed, show' ); ?> </span></legend>
 <p><label><input name="rss_use_excerpt" type="radio" value="0" <?php checked( 0, get_option( 'rss_use_excerpt' ) ); ?>	/> <?php _e( 'Full text' ); ?></label><br />
 <label><input name="rss_use_excerpt" type="radio" value="1" <?php checked( 1, get_option( 'rss_use_excerpt' ) ); ?> /> <?php _e( 'Summary' ); ?></label></p>
+</fieldset></td>
+</tr>
+
+<tr valign="top">
+<th scope="row"><?php has_action( 'blog_privacy_selector' ) ? _e( 'Site Visibility' ) : _e( 'Search Engine Visibility' ); ?> </th>
+<td><fieldset><legend class="screen-reader-text"><span><?php has_action( 'blog_privacy_selector' ) ? _e( 'Site Visibility' ) : _e( 'Search Engine Visibility' ); ?> </span></legend>
+<?php if ( has_action( 'blog_privacy_selector' ) ) : ?>
+	<input id="blog-public" type="radio" name="blog_public" value="1" <?php checked('1', get_option('blog_public')); ?> />
+	<label for="blog-public"><?php _e( 'Allow search engines to index this site.' );?></label><br/>
+	<input id="blog-norobots" type="radio" name="blog_public" value="0" <?php checked('0', get_option('blog_public')); ?> />
+	<label for="blog-norobots"><?php _e( 'Ask search engines not to index this site.' ); ?></label>
+	<p class="description"><?php _e( 'Note: Neither of these options blocks access to your site &mdash; it is up to search engines to honor your request.' ); ?></p>
+	<?php do_action('blog_privacy_selector'); ?>
+<?php else : ?>
+	<label for="blog_public"><input name="blog_public" type="checkbox" id="blog_public" value="1" <?php checked( '1', get_option( 'blog_public' ) ); ?> />
+	<?php _e( 'Allow search engines to index this site' ); ?>
+	<p class="description"><?php _e( 'It is up to search engines to honor a request to not index this site.' ); ?></p>
+<?php endif; ?>
 </fieldset></td>
 </tr>
 
