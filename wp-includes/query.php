@@ -2044,7 +2044,7 @@ class WP_Query {
 
 		if ( '' !== $q['menu_order'] )
 			$where .= " AND $wpdb->posts.menu_order = " . $q['menu_order'];
-		
+
 		// If a month is specified in the querystring, load that month
 		if ( $q['m'] ) {
 			$q['m'] = '' . preg_replace('|[^0-9]|', '', $q['m']);
@@ -3192,8 +3192,13 @@ class WP_Query {
 		$tax_array = array_intersect( array_keys( $wp_taxonomies ), (array) $taxonomy );
 		$term_array = (array) $term;
 
-		if ( empty( $term ) ) // Only a Taxonomy provided
-			return isset( $queried_object->taxonomy ) && count( $tax_array ) && in_array( $queried_object->taxonomy, $tax_array );
+		// Check that the taxonomy matches.
+		if ( ! ( isset( $queried_object->taxonomy ) && count( $tax_array ) && in_array( $queried_object->taxonomy, $tax_array ) ) )
+			return false;
+
+		// Only a Taxonomy provided.
+		if ( empty( $term ) )
+			return true;
 
 		return isset( $queried_object->term_id ) &&
 			count( array_intersect(
