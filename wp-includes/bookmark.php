@@ -33,10 +33,15 @@ function get_bookmark($bookmark, $output = OBJECT, $filter = 'raw') {
 			$_bookmark = & $GLOBALS['link'];
 		} elseif ( ! $_bookmark = wp_cache_get($bookmark, 'bookmark') ) {
 			$_bookmark = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->links WHERE link_id = %d LIMIT 1", $bookmark));
-			$_bookmark->link_category = array_unique( wp_get_object_terms($_bookmark->link_id, 'link_category', array('fields' => 'ids')) );
-			wp_cache_add($_bookmark->link_id, $_bookmark, 'bookmark');
+			if ( $_bookmark ) {
+				$_bookmark->link_category = array_unique( wp_get_object_terms( $_bookmark->link_id, 'link_category', array( 'fields' => 'ids' ) ) );
+				wp_cache_add( $_bookmark->link_id, $_bookmark, 'bookmark' );
+			}
 		}
 	}
+
+	if ( ! $_bookmark )
+		return $_bookmark;
 
 	$_bookmark = sanitize_bookmark($_bookmark, $filter);
 
