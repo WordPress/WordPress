@@ -1251,6 +1251,8 @@ if ( !function_exists('wp_verify_nonce') ) :
 function wp_verify_nonce($nonce, $action = -1) {
 	$user = wp_get_current_user();
 	$uid = (int) $user->ID;
+	if ( ! $uid )
+		$uid = apply_filters( 'nonce_user_logged_out', $uid, $action );
 
 	$i = wp_nonce_tick();
 
@@ -1277,6 +1279,8 @@ if ( !function_exists('wp_create_nonce') ) :
 function wp_create_nonce($action = -1) {
 	$user = wp_get_current_user();
 	$uid = (int) $user->ID;
+	if ( ! $uid )
+		$uid = apply_filters( 'nonce_user_logged_out', $uid, $action );
 
 	$i = wp_nonce_tick();
 
