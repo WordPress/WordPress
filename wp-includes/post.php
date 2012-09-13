@@ -1153,7 +1153,7 @@ function register_post_type( $post_type, $args = array() ) {
 	if ( ! empty($args->supports) ) {
 		add_post_type_support($post_type, $args->supports);
 		unset($args->supports);
-	} else {
+	} elseif ( false !== $args->supports ) {
 		// Add default features
 		add_post_type_support($post_type, array('title', 'editor'));
 	}
