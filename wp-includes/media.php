@@ -1162,7 +1162,7 @@ class WP_Embed {
 	 * @uses wp_embed_defaults()
 	 * @uses WP_Embed::maybe_make_link()
 	 * @uses get_option()
-	 * @uses current_user_can()
+	 * @uses author_can()
 	 * @uses wp_cache_get()
 	 * @uses wp_cache_set()
 	 * @uses get_post_meta()
