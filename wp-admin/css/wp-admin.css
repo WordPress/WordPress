@@ -4798,7 +4798,9 @@ h2 .nav-tab {
 	margin: 20px 0;
 }
 
-.pressthis a {
+.pressthis a,
+.pressthis a:hover,
+.pressthis a:focus {
 	display: inline-block;
 	position: relative;
 	cursor: move;
@@ -4819,9 +4821,8 @@ h2 .nav-tab {
 	text-shadow: 0 1px 0px #fff;
 }
 
-.pressthis a:hover,
 .pressthis a:active {
-	color: #333
+	outline: none;
 }
 
 .pressthis a:hover:after {
