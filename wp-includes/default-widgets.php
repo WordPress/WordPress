@@ -355,7 +355,7 @@ class WP_Widget_Calendar extends WP_Widget {
 
 	function widget( $args, $instance ) {
 		extract($args);
-		$title = apply_filters('widget_title', empty($instance['title']) ? '&nbsp;' : $instance['title'], $instance, $this->id_base);
+		$title = apply_filters('widget_title', empty($instance['title']) ? '' : $instance['title'], $instance, $this->id_base);
 		echo $before_widget;
 		if ( $title )
 			echo $before_title . $title . $after_title;
