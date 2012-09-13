@@ -42,12 +42,13 @@ function documentation_link() {
  * @since 2.0.0
  * @deprecated 3.0.0
  * @deprecated Use wp_constrain_dimensions()
+ * @see wp_constrain_dimensions()
  *
  * @param int $width Current width of the image
  * @param int $height Current height of the image
  * @param int $wmax Maximum wanted width
  * @param int $hmax Maximum wanted height
- * @return mixed Array(height,width) of shrunk dimensions.
+ * @return array Shrunk dimensions (width, height).
  */
 function wp_shrink_dimensions( $width, $height, $wmax = 128, $hmax = 96 ) {
 	_deprecated_function( __FUNCTION__, '3.0', 'wp_constrain_dimensions()' );
@@ -59,11 +60,12 @@ function wp_shrink_dimensions( $width, $height, $wmax = 128, $hmax = 96 ) {
  *
  * @since 2.0.0
  * @deprecated 3.5.0
+ * @deprecated Use wp_constrain_dimensions()
  * @see wp_constrain_dimensions()
  *
  * @param int $width Current width of the image
  * @param int $height Current height of the image
- * @return mixed Array(height,width) of shrunk dimensions.
+ * @return array Shrunk dimensions (width, height).
  */
 function get_udims( $width, $height ) {
 	_deprecated_function( __FUNCTION__, '3.5', 'wp_constrain_dimensions()' );
