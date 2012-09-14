@@ -2763,8 +2763,8 @@ function wp_insert_post($postarr, $wp_error = false) {
 
 	if ( !empty($page_template) && 'page' == $data['post_type'] ) {
 		$post->page_template = $page_template;
-		$page_templates = get_page_templates();
-		if ( 'default' != $page_template && !in_array($page_template, $page_templates) ) {
+		$page_templates = wp_get_theme()->get_page_templates();
+		if ( 'default' != $page_template && ! isset( $page_templates[ $page_template ] ) ) {
 			if ( $wp_error )
 				return new WP_Error('invalid_page_template', __('The page template is invalid.'));
 			else
