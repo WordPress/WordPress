@@ -806,11 +806,9 @@ function register_post_status($post_status, $args = array()) {
 		'internal' => null,
 		'protected' => null,
 		'private' => null,
-		'show_in_admin_all' => null,
 		'publicly_queryable' => null,
 		'show_in_admin_status_list' => null,
 		'show_in_admin_all_list' => null,
-		'single_view_cap' => null,
 	);
 	$args = wp_parse_args($args, $defaults);
 	$args = (object) $args;
@@ -844,9 +842,6 @@ function register_post_status($post_status, $args = array()) {
 
 	if ( null === $args->show_in_admin_status_list )
 		$args->show_in_admin_status_list = !$args->internal;
-
-	if ( null === $args->single_view_cap )
-		$args->single_view_cap = $args->public ? '' : 'edit';
 
 	if ( false === $args->label )
 		$args->label = $post_status;
