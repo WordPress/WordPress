@@ -4528,8 +4528,8 @@ function update_post_caches(&$posts, $post_type = 'post', $update_term_cache = t
 	foreach ( $posts as $post )
 		$post_ids[] = $post->ID;
 
-	if ( empty($post_type) )
-		$post_type = 'post';
+	if ( ! $post_type )
+		$post_type = 'any';
 
 	if ( $update_term_cache ) {
 		if ( is_array($post_type) ) {
