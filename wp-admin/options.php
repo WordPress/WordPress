@@ -68,7 +68,6 @@ $whitelist_options = array(
 $whitelist_options['misc'] = $whitelist_options['options'] = $whitelist_options['privacy'] = array();
 
 $mail_options = array('mailserver_url', 'mailserver_port', 'mailserver_login', 'mailserver_pass');
-$uploads_options = array('uploads_use_yearmonth_folders', 'upload_path', 'upload_url_path');
 
 if ( ! in_array( get_option( 'blog_charset' ), array( 'utf8', 'utf-8', 'UTF8', 'UTF-8' ) ) )
 	$whitelist_options['reading'][] = 'blog_charset';
@@ -86,7 +85,13 @@ if ( !is_multisite() ) {
 	$whitelist_options['writing'] = array_merge($whitelist_options['writing'], $mail_options);
 	$whitelist_options['writing'][] = 'ping_sites';
 
-	$whitelist_options['media'] = array_merge($whitelist_options['media'], $uploads_options);
+	$whitelist_options['media'][] = 'uploads_use_yearmonth_folders';
+
+	// If upload_url_path and upload_path are both default values, they're locked.
+	if ( get_option( 'upload_url_path' ) || ( get_option('upload_path') != 'wp-content/uploads' && get_option('upload_path') ) ) {
+		$whitelist_options['media'][] = 'upload_path';
+		$whitelist_options['media'][] = 'upload_url_path';
+	}
 } else {
 	$whitelist_options['general'][] = 'new_admin_email';
 	$whitelist_options['general'][] = 'WPLANG';

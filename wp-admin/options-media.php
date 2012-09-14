@@ -121,6 +121,10 @@ include('./admin-header.php');
 <?php if ( !is_multisite() ) : ?>
 <h3><?php _e('Uploading Files'); ?></h3>
 <table class="form-table">
+<?php
+// If upload_url_path is not the default (empty), and upload_path is not the default ('wp-content/uploads' or empty)
+if ( get_option('upload_url_path') || ( get_option('upload_path') != 'wp-content/uploads' && get_option('upload_path') ) ) :
+?>
 <tr valign="top">
 <th scope="row"><label for="upload_path"><?php _e('Store uploads in this folder'); ?></label></th>
 <td><input name="upload_path" type="text" id="upload_path" value="<?php echo esc_attr(get_option('upload_path')); ?>" class="regular-text code" />
@@ -134,7 +138,7 @@ include('./admin-header.php');
 <p class="description"><?php _e('Configuring this is optional. By default, it should be blank.'); ?></p>
 </td>
 </tr>
-
+<?php endif; ?>
 <tr>
 <th scope="row" colspan="2" class="th-full">
 <label for="uploads_use_yearmonth_folders">
