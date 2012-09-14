@@ -2789,9 +2789,7 @@ function sanitize_option($option, $value) {
 
 		case 'blogdescription':
 		case 'blogname':
-			$value = addslashes($value);
-			$value = wp_filter_post_kses( $value ); // calls stripslashes then addslashes
-			$value = stripslashes($value);
+			$value = wp_kses_post( $value );
 			$value = esc_html( $value );
 			break;
 
@@ -2807,9 +2805,7 @@ function sanitize_option($option, $value) {
 		case 'ping_sites':
 		case 'upload_path':
 			$value = strip_tags($value);
-			$value = addslashes($value);
-			$value = wp_filter_kses($value); // calls stripslashes then addslashes
-			$value = stripslashes($value);
+			$value = wp_kses_data($value);
 			break;
 
 		case 'gmt_offset':
