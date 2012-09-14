@@ -142,15 +142,15 @@ else :
 <td><fieldset><legend class="screen-reader-text"><span><?php has_action( 'blog_privacy_selector' ) ? _e( 'Site Visibility' ) : _e( 'Search Engine Visibility' ); ?> </span></legend>
 <?php if ( has_action( 'blog_privacy_selector' ) ) : ?>
 	<input id="blog-public" type="radio" name="blog_public" value="1" <?php checked('1', get_option('blog_public')); ?> />
-	<label for="blog-public"><?php _e( 'Allow search engines to index this site.' );?></label><br/>
+	<label for="blog-public"><?php _e( 'Allow search engines to index this site' );?></label><br/>
 	<input id="blog-norobots" type="radio" name="blog_public" value="0" <?php checked('0', get_option('blog_public')); ?> />
-	<label for="blog-norobots"><?php _e( 'Ask search engines not to index this site.' ); ?></label>
+	<label for="blog-norobots"><?php _e( 'Discourage search engines from indexing this site' ); ?></label>
 	<p class="description"><?php _e( 'Note: Neither of these options blocks access to your site &mdash; it is up to search engines to honor your request.' ); ?></p>
 	<?php do_action('blog_privacy_selector'); ?>
 <?php else : ?>
-	<label for="blog_public"><input name="blog_public" type="checkbox" id="blog_public" value="1" <?php checked( '1', get_option( 'blog_public' ) ); ?> />
-	<?php _e( 'Allow search engines to index this site' ); ?>
-	<p class="description"><?php _e( 'It is up to search engines to honor a request to not index this site.' ); ?></p>
+	<label for="blog_public"><input name="blog_public" type="checkbox" id="blog_public" value="0" <?php checked( '0', get_option( 'blog_public' ) ); ?> />
+	<?php _e( 'Discourage search engines from indexing this site' ); ?></label>
+	<p class="description"><?php _e( 'It is up to search engines to honor this request.' ); ?></p>
 <?php endif; ?>
 </fieldset></td>
 </tr>

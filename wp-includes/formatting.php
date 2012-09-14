@@ -2797,6 +2797,14 @@ function sanitize_option($option, $value) {
 			$value = preg_replace('/[^a-zA-Z0-9_-]/', '', $value); // strips slashes
 			break;
 
+		case 'blog_public':
+			// This is the value if the settings checkbox is not checked on POST. Don't rely on this.
+			if ( null === $value )
+				$value = 1;
+			else
+				$value = intval( $value );
+			break;
+
 		case 'date_format':
 		case 'time_format':
 		case 'mailserver_url':
