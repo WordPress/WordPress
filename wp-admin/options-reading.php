@@ -80,9 +80,7 @@ function options_reading_blog_charset() {
 }
 
 if ( ! in_array( get_option( 'blog_charset' ), array( 'utf8', 'utf-8', 'UTF8', 'UTF-8' ) ) )
-	add_settings_field( 'blog_charset', __( 'Encoding for pages and feeds' ), 'options_reading_blog_charset', 'reading' );
-else
-	echo '<input name="blog_charset" type="hidden" id="blog_charset" value="' . esc_attr( get_option( 'blog_charset' ) ) . '" />';
+	add_settings_field( 'blog_charset', __( 'Encoding for pages and feeds' ), 'options_reading_blog_charset', 'reading', 'default', array( 'label_for' => 'blog_charset' ) );
 ?>
 
 <?php if ( ! get_pages() ) : ?>

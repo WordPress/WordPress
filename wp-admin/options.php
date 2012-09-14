@@ -62,13 +62,16 @@ $whitelist_options = array(
 	'general' => array( 'blogname', 'blogdescription', 'gmt_offset', 'date_format', 'time_format', 'start_of_week', 'timezone_string' ),
 	'discussion' => array( 'default_pingback_flag', 'default_ping_status', 'default_comment_status', 'comments_notify', 'moderation_notify', 'comment_moderation', 'require_name_email', 'comment_whitelist', 'comment_max_links', 'moderation_keys', 'blacklist_keys', 'show_avatars', 'avatar_rating', 'avatar_default', 'close_comments_for_old_posts', 'close_comments_days_old', 'thread_comments', 'thread_comments_depth', 'page_comments', 'comments_per_page', 'default_comments_page', 'comment_order', 'comment_registration' ),
 	'media' => array( 'thumbnail_size_w', 'thumbnail_size_h', 'thumbnail_crop', 'medium_size_w', 'medium_size_h', 'large_size_w', 'large_size_h', 'image_default_size', 'image_default_align', 'image_default_link_type', 'embed_autourls', 'embed_size_w', 'embed_size_h' ),
-	'reading' => array( 'posts_per_page', 'posts_per_rss', 'rss_use_excerpt', 'blog_charset', 'show_on_front', 'page_on_front', 'page_for_posts', 'blog_public' ),
+	'reading' => array( 'posts_per_page', 'posts_per_rss', 'rss_use_excerpt', 'show_on_front', 'page_on_front', 'page_for_posts', 'blog_public' ),
 	'writing' => array( 'default_post_edit_rows', 'use_smilies', 'default_category', 'default_email_category', 'use_balanceTags', 'default_link_category', 'default_post_format' )
 );
 $whitelist_options['misc'] = $whitelist_options['options'] = $whitelist_options['privacy'] = array();
 
 $mail_options = array('mailserver_url', 'mailserver_port', 'mailserver_login', 'mailserver_pass');
 $uploads_options = array('uploads_use_yearmonth_folders', 'upload_path', 'upload_url_path');
+
+if ( ! in_array( get_option( 'blog_charset' ), array( 'utf8', 'utf-8', 'UTF8', 'UTF-8' ) ) )
+	$whitelist_options['reading'][] = 'blog_charset';
 
 if ( !is_multisite() ) {
 	if ( !defined( 'WP_SITEURL' ) )
