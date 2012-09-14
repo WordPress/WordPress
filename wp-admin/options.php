@@ -139,14 +139,15 @@ if ( 'update' == $action ) {
 			if ( $unregistered )
 				_deprecated_argument( 'options.php', '2.7', sprintf( __( 'The <code>%1$s</code> setting is unregistered. Unregistered settings are deprecated. See http://codex.wordpress.org/Settings_API' ), $option, $option_page ) );
 
-			$option = trim($option);
+			$option = trim( $option );
 			$value = null;
-			if ( isset($_POST[$option]) )
-				$value = $_POST[$option];
-			if ( !is_array($value) )
-				$value = trim($value);
-			$value = stripslashes_deep($value);
-			update_option($option, $value);
+			if ( isset( $_POST[ $option ] ) ) {
+				$value = $_POST[ $option ];
+				if ( ! is_array( $value ) )
+					$value = trim( $value );
+				$value = stripslashes_deep( $value );
+			}
+			update_option( $option, $value );
 		}
 	}
 
