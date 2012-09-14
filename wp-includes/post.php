@@ -3306,7 +3306,7 @@ function get_page_by_path($page_path, $output = OBJECT, $post_type = 'page') {
 	$in_string = "'". implode( "','", $parts ) . "'";
 	$post_type_sql = $post_type;
 	$wpdb->escape_by_ref( $post_type_sql );
-	$pages = $wpdb->get_results( "SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE post_name IN ($in_string) AND (post_type = '$post_type_sql' OR post_type = 'attachment')", OBJECT_K );
+	$pages = $wpdb->get_results( "SELECT ID, post_name, post_parent, post_type FROM $wpdb->posts WHERE post_name IN ($in_string) AND (post_type = '$post_type_sql' OR post_type = 'attachment')", OBJECT_K );
 
 	$revparts = array_reverse( $parts );
 
@@ -3325,7 +3325,8 @@ function get_page_by_path($page_path, $output = OBJECT, $post_type = 'page') {
 
 			if ( $p->post_parent == 0 && $count+1 == count( $revparts ) && $p->post_name == $revparts[ $count ] ) {
 				$foundid = $page->ID;
-				break;
+				if ( $page->post_type == $post_type )
+					break;
 			}
 		}
 	}
