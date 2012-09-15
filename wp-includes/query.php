@@ -2220,7 +2220,16 @@ class WP_Query {
 
 		if ( $this->is_tax ) {
 			if ( empty($post_type) ) {
-				$post_type = 'any';
+				// Do a fully inclusive search for currently registered post types of queried taxonomies
+				$post_type = array();
+				$taxonomies = wp_list_pluck( $this->tax_query->queries, 'taxonomy' );
+				foreach ( get_post_types( array( 'exclude_from_search' => false ) ) as $pt ) {
+					if ( array_intersect( $taxonomies, get_object_taxonomies( $pt ) ) )
+						$post_type[] = $pt;
+				}
+				if ( ! $post_type )
+					$post_type = 'any';
+
 				$post_status_join = true;
 			} elseif ( in_array('attachment', (array) $post_type) ) {
 				$post_status_join = true;
