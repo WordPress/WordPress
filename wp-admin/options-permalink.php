@@ -52,7 +52,7 @@ get_current_screen()->set_help_sidebar(
  * @package WordPress
  * @subpackage Permalink_Settings_Screen
  */
-function add_js() {
+function options_permalink_add_js() {
 	?>
 <script type="text/javascript">
 //<![CDATA[
@@ -70,7 +70,7 @@ jQuery(document).ready(function() {
 </script>
 <?php
 }
-add_filter('admin_head', 'add_js');
+add_filter('admin_head', 'options_permalink_add_js');
 
 include('./admin-header.php');
 

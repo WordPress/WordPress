@@ -23,7 +23,7 @@ $timezone_format = _x('Y-m-d G:i:s', 'timezone date format');
  * @package WordPress
  * @subpackage General_Settings_Screen
  */
-function add_js() {
+function options_general_add_js() {
 ?>
 <script type="text/javascript">
 //<![CDATA[
@@ -56,7 +56,7 @@ function add_js() {
 </script>
 <?php
 }
-add_action('admin_head', 'add_js');
+add_action('admin_head', 'options_general_add_js');
 
 $options_help = '<p>' . __('The fields on this screen determine some of the basics of your site setup.') . '</p>' .
 	'<p>' . __('Most themes display the site title at the top of every page, in the title bar of the browser, and as the identifying name for syndicated feeds. The tagline is also displayed by many themes.') . '</p>';

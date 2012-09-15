@@ -21,7 +21,7 @@ $parent_file = 'options-general.php';
  * @package WordPress
  * @subpackage Reading_Settings_Screen
  */
-function add_js() {
+function options_reading_add_js() {
 ?>
 <script type="text/javascript">
 //<![CDATA[
@@ -39,7 +39,7 @@ function add_js() {
 </script>
 <?php
 }
-add_action('admin_head', 'add_js');
+add_action('admin_head', 'options_reading_add_js');
 
 get_current_screen()->add_help_tab( array(
 	'id'      => 'overview',

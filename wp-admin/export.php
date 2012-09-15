@@ -16,7 +16,7 @@ if ( !current_user_can('export') )
 require_once('./includes/export.php');
 $title = __('Export');
 
-function add_js() {
+function export_add_js() {
 ?>
 <script type="text/javascript">
 //<![CDATA[
@@ -36,7 +36,7 @@ function add_js() {
 </script>
 <?php
 }
-add_action( 'admin_head', 'add_js' );
+add_action( 'admin_head', 'export_add_js' );
 
 get_current_screen()->add_help_tab( array(
 	'id'      => 'overview',

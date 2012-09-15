@@ -85,7 +85,7 @@ $step = isset( $_GET['step'] ) ? (int) $_GET['step'] : 0;
  * @package WordPress
  * @subpackage Installer_WP_Config
  */
-function display_header() {
+function setup_config_display_header() {
 	global $wp_version;
 
 	header( 'Content-Type: text/html; charset=utf-8' );
@@ -101,11 +101,11 @@ function display_header() {
 <body<?php if ( is_rtl() ) echo ' class="rtl"'; ?>>
 <h1 id="logo"><img alt="WordPress" src="images/wordpress-logo.png?ver=20120216" /></h1>
 <?php
-}//end function display_header();
+} // end function setup_config_display_header();
 
 switch($step) {
 	case 0:
-		display_header();
+		setup_config_display_header();
 ?>
 
 <p><?php _e( 'Welcome to WordPress. Before getting started, we need some information on the database. You will need to know the following items before proceeding.' ) ?></p>
@@ -124,7 +124,7 @@ switch($step) {
 	break;
 
 	case 1:
-		display_header();
+		setup_config_display_header();
 	?>
 <form method="post" action="setup-config.php?step=2">
 	<p><?php _e( "Below you should enter your database connection details. If you're not sure about these, contact your host." ); ?></p>
@@ -254,7 +254,7 @@ switch($step) {
 	unset( $line );
 
 	if ( ! is_writable(ABSPATH) ) :
-		display_header();
+		setup_config_display_header();
 ?>
 <p><?php _e( "Sorry, but I can't write the <code>wp-config.php</code> file." ); ?></p>
 <p><?php _e( 'You can create the <code>wp-config.php</code> manually and paste the following text into it.' ); ?></p>
@@ -273,7 +273,7 @@ switch($step) {
 		}
 		fclose($handle);
 		chmod(ABSPATH . 'wp-config.php', 0666);
-		display_header();
+		setup_config_display_header();
 ?>
 <p><?php _e( "All right sparky! You've made it through this part of the installation. WordPress can now communicate with your database. If you are ready, time now to&hellip;" ); ?></p>
 
