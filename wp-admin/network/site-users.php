@@ -238,7 +238,7 @@ endif; ?>
 
 <?php $wp_list_table->views(); ?>
 
-<form method="post" action="site-users.php?action=update-site">
+<form method="post" action="site-users.php?action=update-site" class="site-users">
 	<?php wp_nonce_field( 'edit-site' ); ?>
 	<input type="hidden" name="id" value="<?php echo esc_attr( $id ) ?>" />
 
@@ -249,13 +249,7 @@ endif; ?>
 <?php do_action( 'network_site_users_after_list_table', '' );?>
 
 <?php if ( current_user_can( 'promote_users' ) && apply_filters( 'show_network_site_users_add_existing_form', true ) ) : ?>
-<h4 id="add-user"><?php _e('Add User to This Site') ?></h4>
-	<?php if ( current_user_can( 'create_users' ) && apply_filters( 'show_network_site_users_add_new_form', true ) ) : ?>
-<p><?php _e( 'You may add from existing network users, or set up a new user to add to this site.' ); ?></p>
-	<?php else : ?>
-<p><?php _e( 'You may add from existing network users to this site.' ); ?></p>
-	<?php endif; ?>
-<h5 id="add-existing-user"><?php _e('Add Existing User') ?></h5>
+<h3 id="add-existing-user"><?php _e( 'Add Existing User' ); ?></h3>
 <form action="site-users.php?action=adduser" id="adduser" method="post">
 	<?php wp_nonce_field( 'edit-site' ); ?>
 	<input type="hidden" name="id" value="<?php echo esc_attr( $id ) ?>" />
@@ -265,26 +259,25 @@ endif; ?>
 			<td><input type="text" class="regular-text wp-suggest-user" name="newuser" id="newuser" /></td>
 		</tr>
 		<tr>
-			<th scope="row"><?php _e( 'Role'); ?></th>
+			<th scope="row"><?php _e( 'Role' ); ?></th>
 			<td><select name="new_role" id="new_role_0">
 			<?php
 			reset( $editblog_roles );
-			foreach ( $editblog_roles as $role => $role_assoc ){
+			foreach ( $editblog_roles as $role => $role_assoc ) {
 				$name = translate_user_role( $role_assoc['name'] );
-				$selected = ( $role == $default_role ) ? 'selected="selected"' : '';
-				echo '<option ' . $selected . ' value="' . esc_attr( $role ) . '">' . esc_html( $name ) . '</option>';
+				echo '<option ' . selected( $default_role, $role, false ) . ' value="' . esc_attr( $role ) . '">' . esc_html( $name ) . '</option>';
 			}
 			?>
 			</select></td>
 		</tr>
 	</table>
 	<?php wp_nonce_field( 'add-user', '_wpnonce_add-user' ) ?>
-	<?php submit_button( __('Add User'), 'primary', 'add-user', false, array( 'id' => 'submit-add-existing-user' ) ); ?>
+	<?php submit_button( __( 'Add User' ), 'primary', 'add-user', true, array( 'id' => 'submit-add-existing-user' ) ); ?>
 </form>
 <?php endif; ?>
 
 <?php if ( current_user_can( 'create_users' ) && apply_filters( 'show_network_site_users_add_new_form', true ) ) : ?>
-<h5 id="add-new-user"><?php _e('Add New User') ?></h5>
+<h3 id="add-new-user"><?php _e( 'Add New User' ); ?></h3>
 <form action="<?php echo network_admin_url('site-users.php?action=newuser'); ?>" id="newuser" method="post">
 	<?php wp_nonce_field( 'edit-site' ); ?>
 	<input type="hidden" name="id" value="<?php echo esc_attr( $id ) ?>" />
@@ -298,14 +291,13 @@ endif; ?>
 			<td><input type="text" class="regular-text" name="user[email]" /></td>
 		</tr>
 		<tr>
-			<th scope="row"><?php _e( 'Role'); ?></th>
+			<th scope="row"><?php _e( 'Role' ); ?></th>
 			<td><select name="new_role" id="new_role_0">
 			<?php
 			reset( $editblog_roles );
-			foreach ( $editblog_roles as $role => $role_assoc ){
+			foreach ( $editblog_roles as $role => $role_assoc ) {
 				$name = translate_user_role( $role_assoc['name'] );
-				$selected = ( $role == $default_role ) ? 'selected="selected"' : '';
-				echo '<option ' . $selected . ' value="' . esc_attr( $role ) . '">' . esc_html( $name ) . '</option>';
+				echo '<option ' . selected( $default_role, $role, false ) . ' value="' . esc_attr( $role ) . '">' . esc_html( $name ) . '</option>';
 			}
 			?>
 			</select></td>
@@ -315,7 +307,7 @@ endif; ?>
 		</tr>
 	</table>
 	<?php wp_nonce_field( 'add-user', '_wpnonce_add-new-user' ) ?>
-	<?php submit_button( __('Add New User'), 'primary', 'add-user', false, array( 'id' => 'submit-add-user' ) ); ?>
+	<?php submit_button( __( 'Add New User' ), 'primary', 'add-user', true, array( 'id' => 'submit-add-user' ) ); ?>
 </form>
 <?php endif; ?>
 </div>
