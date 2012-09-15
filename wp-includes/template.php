@@ -59,11 +59,11 @@ function get_404_template() {
  * @return string
  */
 function get_archive_template() {
-	$post_type = get_query_var( 'post_type' );
+	$post_types = get_query_var( 'post_type' );
 
 	$templates = array();
 
-	if ( $post_type )
+	foreach ( (array) $post_types as $post_type )
 		$templates[] = "archive-{$post_type}.php";
 	$templates[] = 'archive.php';
 
