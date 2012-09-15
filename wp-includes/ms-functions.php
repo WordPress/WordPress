@@ -589,7 +589,7 @@ function wpmu_validate_blog_signup($blogname, $blog_title, $user = '') {
 		$mydomain = "$domain";
 		$path = $base.$blogname.'/';
 	}
-	if ( domain_exists($mydomain, $path) )
+	if ( domain_exists($mydomain, $path, $current_site->id) )
 		$errors->add('blogname', __('Sorry, that site already exists!'));
 
 	if ( username_exists( $blogname ) ) {
