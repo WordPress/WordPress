@@ -765,12 +765,11 @@ class WP_Tax_Query {
 	 * Transforms a single query, from one field to another.
 	 *
 	 * @since 3.2.0
-	 * @access private
 	 *
 	 * @param array &$query The single query
 	 * @param string $resulting_field The resulting field
 	 */
-	private function transform_query( &$query, $resulting_field ) {
+	public function transform_query( &$query, $resulting_field ) {
 		global $wpdb;
 
 		if ( empty( $query['terms'] ) )
