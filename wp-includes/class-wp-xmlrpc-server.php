@@ -4055,18 +4055,18 @@ class wp_xmlrpc_server extends IXR_Server {
 		$post_author = $user->ID;
 
 		// If an author id was provided then use it instead.
-		if ( isset($content_struct['wp_author_id']) && ($user->ID != $content_struct['wp_author_id']) ) {
+		if ( isset( $content_struct['wp_author_id'] ) && ( $user->ID != $content_struct['wp_author_id'] ) ) {
 			switch ( $post_type ) {
 				case "post":
-					if ( !current_user_can('edit_others_posts') )
-						return(new IXR_Error(401, __('You are not allowed to post as this user')));
+					if ( !current_user_can( 'edit_others_posts' ) )
+						return( new IXR_Error( 401, __( 'You are not allowed to create posts as this user.' ) ) );
 					break;
 				case "page":
-					if ( !current_user_can('edit_others_pages') )
-						return(new IXR_Error(401, __('You are not allowed to create pages as this user')));
+					if ( !current_user_can( 'edit_others_pages' ) )
+						return( new IXR_Error( 401, __( 'You are not allowed to create pages as this user.' ) ) );
 					break;
 				default:
-					return(new IXR_Error(401, __('Invalid post type')));
+					return( new IXR_Error( 401, __( 'Invalid post type' ) ) );
 					break;
 			}
 			$author = get_userdata( $content_struct['wp_author_id'] );

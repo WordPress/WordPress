@@ -62,7 +62,7 @@ function _wp_translate_postdata( $update = false, $post_data = null ) {
 			} else {
 				return new WP_Error( 'edit_others_posts', $update ?
 					__( 'You are not allowed to edit posts as this user.' ) :
-					__( 'You are not allowed to post as this user.' )
+					__( 'You are not allowed to create posts as this user.' )
 				);
 			}
 		}
