@@ -769,6 +769,20 @@ function remove_accents($string) {
 		chr(225).chr(187).chr(164) => 'U', chr(225).chr(187).chr(165) => 'u',
 		chr(225).chr(187).chr(176) => 'U', chr(225).chr(187).chr(177) => 'u',
 		chr(225).chr(187).chr(180) => 'Y', chr(225).chr(187).chr(181) => 'y',
+		// Vowels with diacritic (Chinese, Hanyu Pinyin)
+		chr(201).chr(145) => 'a',
+		// macron
+		chr(199).chr(149) => 'U', chr(199).chr(150) => 'u',
+		// acute accent
+		chr(199).chr(151) => 'U', chr(199).chr(152) => 'u',
+		// caron
+		chr(199).chr(141) => 'A', chr(199).chr(142) => 'a',
+		chr(199).chr(143) => 'I', chr(199).chr(144) => 'i',
+		chr(199).chr(145) => 'O', chr(199).chr(146) => 'o',
+		chr(199).chr(147) => 'U', chr(199).chr(148) => 'u',
+		chr(199).chr(153) => 'U', chr(199).chr(154) => 'u',
+		// grave accent
+		chr(199).chr(155) => 'U', chr(199).chr(156) => 'u',
 		);
 
 		$string = strtr($string, $chars);
@@ -985,6 +999,8 @@ function sanitize_title_with_dashes($title, $raw_title = '', $context = 'display
 			'%e2%80%9a', '%e2%80%9b', '%e2%80%9e', '%e2%80%9f',
 			// copy, reg, deg, hellip and trade
 			'%c2%a9', '%c2%ae', '%c2%b0', '%e2%80%a6', '%e2%84%a2',
+			// grave accent, acute accent, macron, caron
+			'%cc%80', '%cc%81', '%cc%84', '%cc%8c',
 		), '', $title );
 
 		// Convert times to x
