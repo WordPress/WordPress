@@ -18,8 +18,7 @@ $parent_file = 'options-general.php';
 /**
  * Display JavaScript on the page.
  *
- * @package WordPress
- * @subpackage Reading_Settings_Screen
+ * @since 3.5.0
  */
 function options_reading_add_js() {
 ?>
@@ -40,6 +39,16 @@ function options_reading_add_js() {
 <?php
 }
 add_action('admin_head', 'options_reading_add_js');
+
+/**
+ * Render the blog charset setting.
+ *
+ * @since 3.5.0
+ */
+function options_reading_blog_charset() {
+	echo '<input name="blog_charset" type="text" id="blog_charset" value="' . esc_attr( get_option( 'blog_charset' ) ) . '" class="regular-text" />';
+	echo '<p class="description">' . __( 'The <a href="http://codex.wordpress.org/Glossary#Character_set">character encoding</a> of your site (UTF-8 is recommended)' ) . '</p>';
+}
 
 get_current_screen()->add_help_tab( array(
 	'id'      => 'overview',
@@ -73,11 +82,6 @@ include( './admin-header.php' );
 <form method="post" action="options.php">
 <?php
 settings_fields( 'reading' );
-
-function options_reading_blog_charset() {
-	echo '<input name="blog_charset" type="text" id="blog_charset" value="' . esc_attr( get_option( 'blog_charset' ) ) . '" class="regular-text" />';
-	echo '<p class="description">' . __( 'The <a href="http://codex.wordpress.org/Glossary#Character_set">character encoding</a> of your site (UTF-8 is recommended)' ) . '</p>';
-}
 
 if ( ! in_array( get_option( 'blog_charset' ), array( 'utf8', 'utf-8', 'UTF8', 'UTF-8' ) ) )
 	add_settings_field( 'blog_charset', __( 'Encoding for pages and feeds' ), 'options_reading_blog_charset', 'reading', 'default', array( 'label_for' => 'blog_charset' ) );
