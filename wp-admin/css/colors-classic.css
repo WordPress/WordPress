@@ -777,7 +777,7 @@ input.readonly, textarea.readonly {
 	color: #d54e21 !important;
 }
 
-#footer {
+#wpfooter {
 	color: #777;
 	border-color: #b0c8d7;
 }
@@ -933,12 +933,12 @@ table.widefat span.spam a,
 	color: #174f69;
 }
 
-#footer a:link,
-#footer a:visited {
+#wpfooter a:link,
+#wpfooter a:visited {
 	text-decoration: none;
 }
 
-#footer a:hover {
+#wpfooter a:hover {
 	color: #000;
 	text-decoration: underline;
 }

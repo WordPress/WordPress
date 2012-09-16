@@ -59,12 +59,12 @@ TABLE OF CONTENTS:
 }
 
 #wpcontent,
-#footer {
+#wpfooter {
 	margin-left: 165px;
 }
 
 .folded #wpcontent,
-.folded #footer {
+.folded #wpfooter {
 	margin-left: 52px;
 }
 
@@ -1685,7 +1685,7 @@ form.upgrade .hint {
 /* Auto-folding of the admin menu */
 @media only screen and (max-width: 900px) {
 	.auto-fold #wpcontent,
-	.auto-fold #footer {
+	.auto-fold #wpfooter {
 		margin-left: 52px;
 	}
 
@@ -4878,7 +4878,7 @@ h2 .nav-tab {
   21.0 - Admin Footer
 ------------------------------------------------------------------------------*/
 
-#footer {
+#wpfooter {
 	position: absolute;
 	bottom: 0;
 	left: 0;
@@ -4889,16 +4889,16 @@ h2 .nav-tab {
 	border-top-style: solid;
 }
 
-#footer p {
+#wpfooter p {
 	margin: 0;
 	line-height: 20px;
 }
 
-#footer a {
+#wpfooter a {
 	text-decoration: none;
 }
 
-#footer a:hover {
+#wpfooter a:hover {
 	text-decoration: underline;
 }
 

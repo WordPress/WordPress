@@ -347,7 +347,7 @@ form.upgrade .hint {
 	margin-right: 52px;
 }
 
-.folded.wp-admin #footer {
+.folded.wp-admin #wpfooter {
 	margin-left: 15px;
 	margin-right: 52px;
 }
@@ -481,7 +481,7 @@ form.upgrade .hint {
 		margin-right: 52px;
 	}
 
-	.auto-fold.wp-admin #footer {
+	.auto-fold.wp-admin #wpfooter {
 		margin-left: 15px;
 		margin-right: 52px;
 	}
@@ -1335,12 +1335,12 @@ h2 .nav-tab {
   21.0 - Admin Footer
 ------------------------------------------------------------------------------*/
 
-#footer {
+#wpfooter {
 	margin-left: 20px;
 }
 
 #wpcontent,
-#footer {
+#wpfooter {
 	margin-right: 165px;
 }
 
