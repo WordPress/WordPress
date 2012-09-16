@@ -166,13 +166,19 @@ function wp_nav_menu( $args = array() ) {
 	if ( $menu && ! is_wp_error($menu) && !isset($menu_items) )
 		$menu_items = wp_get_nav_menu_items( $menu->term_id );
 
-	// If no menu was found or if the menu has no items and no location was requested, call the fallback_cb if it exists
+	/*
+	 * If no menu was found:
+	 *  - Fallback (if one was specified), or bail.
+	 *
+	 * If no menu items were found:
+	 *  - Fallback, but only if no theme location was specified.
+	 *  - Otherwise, bail.
+	 */
 	if ( ( !$menu || is_wp_error($menu) || ( isset($menu_items) && empty($menu_items) && !$args->theme_location ) )
 		&& $args->fallback_cb && is_callable( $args->fallback_cb ) )
 			return call_user_func( $args->fallback_cb, (array) $args );
 
-	// If no fallback function was specified and the menu doesn't exists, bail.
-	if ( !$menu || is_wp_error($menu) )
+	if ( !$menu || is_wp_error( $menu ) || empty( $menu_items ) )
 		return false;
 
 	$nav_menu = $items = '';
