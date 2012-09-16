@@ -655,9 +655,12 @@ function add_query_arg() {
 	else
 		$frag = '';
 
-	if ( preg_match( '|^https?://|i', $uri, $matches ) ) {
-		$protocol = $matches[0];
-		$uri = substr( $uri, strlen( $protocol ) );
+	if ( 0 === stripos( 'http://', $uri ) ) {
+		$protocol = 'http://';
+		$uri = substr( $uri, 7 );
+	} elseif ( 0 === stripos( 'https://', $uri ) ) {
+		$protocol = 'https://';
+		$uri = substr( $uri, 8 );
 	} else {
 		$protocol = '';
 	}
@@ -671,7 +674,7 @@ function add_query_arg() {
 			$base = $parts[0] . '?';
 			$query = $parts[1];
 		}
-	} elseif ( !empty( $protocol ) || strpos( $uri, '=' ) === false ) {
+	} elseif ( $protocol || strpos( $uri, '=' ) === false ) {
 		$base = $uri . '?';
 		$query = '';
 	} else {
@@ -688,7 +691,7 @@ function add_query_arg() {
 		$qs[ $args[0] ] = $args[1];
 	}
 
-	foreach ( (array) $qs as $k => $v ) {
+	foreach ( $qs as $k => $v ) {
 		if ( $v === false )
 			unset( $qs[$k] );
 	}
