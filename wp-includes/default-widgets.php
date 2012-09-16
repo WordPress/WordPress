@@ -150,8 +150,8 @@ class WP_Widget_Links extends WP_Widget {
 		<option value=""><?php _ex('All Links', 'links widget'); ?></option>
 		<?php
 		foreach ( $link_cats as $link_cat ) {
-			echo '<option value="' . intval($link_cat->term_id) . '"'
-				. ( $link_cat->term_id == $instance['category'] ? ' selected="selected"' : '' )
+			echo '<option value="' . intval( $link_cat->term_id ) . '"'
+				. selected( $instance['category'], $link_cat->term_id, false )
 				. '>' . $link_cat->name . "</option>\n";
 		}
 		?>
@@ -935,7 +935,7 @@ function wp_widget_rss_form( $args, $inputs = null ) {
 	<select id="rss-items-<?php echo $number; ?>" name="widget-rss[<?php echo $number; ?>][items]">
 <?php
 		for ( $i = 1; $i <= 20; ++$i )
-			echo "<option value='$i' " . ( $items == $i ? "selected='selected'" : '' ) . ">$i</option>";
+			echo "<option value='$i' " . selected( $items, $i, false ) . ">$i</option>";
 ?>
 	</select></p>
 <?php endif; if ( $inputs['show_summary'] ) : ?>
@@ -1130,8 +1130,9 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 			<select id="<?php echo $this->get_field_id('nav_menu'); ?>" name="<?php echo $this->get_field_name('nav_menu'); ?>">
 		<?php
 			foreach ( $menus as $menu ) {
-				$selected = $nav_menu == $menu->term_id ? ' selected="selected"' : '';
-				echo '<option'. $selected .' value="'. $menu->term_id .'">'. $menu->name .'</option>';
+				echo '<option value="' . $menu->term_id . '"'
+					. selected( $nav_menu, $menu->term_id, false )
+					. '>'. $menu->name . '</option>';
 			}
 		?>
 			</select>
