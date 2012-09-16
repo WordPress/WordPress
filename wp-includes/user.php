@@ -1300,10 +1300,6 @@ function wp_insert_user( $userdata ) {
 	if ( !$update && ! defined( 'WP_IMPORTING' ) && email_exists($user_email) )
 		return new WP_Error('existing_user_email', __('This email address is already registered.') );
 
-	if ( empty($display_name) )
-		$display_name = $user_login;
-	$display_name = apply_filters('pre_user_display_name', $display_name);
-
 	if ( empty($nickname) )
 		$nickname = $user_login;
 	$nickname = apply_filters('pre_user_nickname', $nickname);
@@ -1315,6 +1311,21 @@ function wp_insert_user( $userdata ) {
 	if ( empty($last_name) )
 		$last_name = '';
 	$last_name = apply_filters('pre_user_last_name', $last_name);
+
+	if ( empty( $display_name ) ) {
+		if ( $update )
+			$display_name = $user_login;
+		elseif ( $first_name && $last_name )
+			/* translators: 1: first name, 2: last name */
+			$display_name = sprintf( _x( '%1$s %2$s', 'Display name based on first name and last name' ), $first_name, $last_name );
+		elseif ( $first_name )
+			$display_name = $first_name;
+		elseif ( $last_name )
+			$display_name = $last_name;
+		else
+			$display_name = $user_login;
+	}
+	$display_name = apply_filters( 'pre_user_display_name', $display_name );
 
 	if ( empty($description) )
 		$description = '';
