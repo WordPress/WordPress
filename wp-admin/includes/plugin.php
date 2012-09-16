@@ -884,7 +884,8 @@ function uninstall_plugin($plugin) {
  * @param string $capability The capability required for this menu to be displayed to the user.
  * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
  * @param callback $function The function to be called to output the content for this page.
- * @param string $icon_url The url to the icon to be used for this menu
+ * @param string $icon_url The url to the icon to be used for this menu. Using 'none' would leave div.wp-menu-image empty
+ *                         so an icon can be added as background with CSS.
  * @param int $position The position in the menu order this one should appear
  *
  * @return string The resulting page's hook_suffix

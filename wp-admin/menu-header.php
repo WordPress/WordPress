@@ -68,8 +68,10 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 		$class = $class ? ' class="' . join( ' ', $class ) . '"' : '';
 		$id = ! empty( $item[5] ) ? ' id="' . preg_replace( '|[^a-zA-Z0-9_:.]|', '-', $item[5] ) . '"' : '';
 		$img = '';
+		// if the string 'none' (previously 'div') is passed instead of an URL, don't output the default menu image
+		// so an icon can be added to div.wp-menu-image as background with CSS.
 		if ( ! empty( $item[6] ) )
-			$img = ( 'div' === $item[6] ) ? '<br />' : '<img src="' . $item[6] . '" alt="" />';
+			$img = ( 'none' === $item[6] || 'div' === $item[6] ) ? '<br />' : '<img src="' . $item[6] . '" alt="" />';
 		$arrow = '<div class="wp-menu-arrow"><div></div></div>';
 
 		$title = wptexturize( $item[0] );
