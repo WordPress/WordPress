@@ -352,17 +352,17 @@ function wp_get_update_data() {
 	}
 
 	$counts['total'] = $counts['plugins'] + $counts['themes'] + $counts['wordpress'];
-	$update_title = array();
+	$titles = array();
 	if ( $counts['wordpress'] )
-		$update_title[] = sprintf(__('%d WordPress Update'), $counts['wordpress']);
+		$titles['wordpress'] = sprintf( __( '%d WordPress Update'), $counts['wordpress'] );
 	if ( $counts['plugins'] )
-		$update_title[] = sprintf(_n('%d Plugin Update', '%d Plugin Updates', $counts['plugins']), $counts['plugins']);
+		$titles['plugins'] = sprintf( _n( '%d Plugin Update', '%d Plugin Updates', $counts['plugins'] ), $counts['plugins'] );
 	if ( $counts['themes'] )
-		$update_title[] = sprintf(_n('%d Theme Update', '%d Theme Updates', $counts['themes']), $counts['themes']);
+		$titles['themes'] = sprintf( _n( '%d Theme Update', '%d Theme Updates', $counts['themes'] ), $counts['themes'] );
 
-	$update_title = ! empty( $update_title ) ? esc_attr( implode( ', ', $update_title ) ) : '';
+	$update_title = $titles ? esc_attr( implode( ', ', $titles ) ) : '';
 
-	return array( 'counts' => $counts, 'title' => $update_title );
+	return apply_filters( 'wp_get_update_data', array( 'counts' => $counts, 'title' => $update_title ), $titles );
 }
 
 function _maybe_update_core() {
