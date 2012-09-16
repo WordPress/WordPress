@@ -319,7 +319,7 @@ final class _WP_Editors {
 					'paste_text_use_dialog' => true,
 					'webkit_fake_resize' => false,
 					'spellchecker_rpc_url' => self::$baseurl . '/plugins/spellchecker/rpc.php',
-					'extended_valid_elements' => 'article[*],aside[*],audio[*],canvas[*],command[*],datalist[*],details[*],embed[*],figcaption[*],figure[*],footer[*],header[*],hgroup[*],keygen[*],mark[*],meter[*],nav[*],output[*],progress[*],section[*],source[*],summary,time[*],video[*],wbr',
+					'schema' => 'html5',
 					'wpeditimage_disable_captions' => $no_captions,
 					'wp_fullscreen_content_css' => self::$baseurl . '/plugins/wpfullscreen/css/wp-fullscreen.css',
 					'plugins' => implode( ',', $plugins )
