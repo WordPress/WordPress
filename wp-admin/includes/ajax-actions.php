@@ -1022,13 +1022,15 @@ function wp_ajax_add_user( $action ) {
 
 	$wp_list_table = _get_list_table('WP_Users_List_Table');
 
+	$role = current( $user_object->roles );
+
 	$x = new WP_Ajax_Response( array(
 		'what' => 'user',
 		'id' => $user_id,
-		'data' => $wp_list_table->single_row( $user_object, '', $user_object->roles[0] ),
+		'data' => $wp_list_table->single_row( $user_object, '', $role ),
 		'supplemental' => array(
 			'show-link' => sprintf(__( 'User <a href="#%s">%s</a> added' ), "user-$user_id", $user_object->user_login),
-			'role' => $user_object->roles[0]
+			'role' => $role,
 		)
 	) );
 	$x->send();

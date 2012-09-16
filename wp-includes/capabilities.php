@@ -786,7 +786,7 @@ class WP_User {
 		foreach ( (array) $this->roles as $oldrole )
 			unset( $this->caps[$oldrole] );
 
-		if ( 1 == count( $this->roles ) && $role == $this->roles[0] )
+		if ( 1 == count( $this->roles ) && $role == current( $this->roles ) )
 			return;
 
 		if ( !empty( $role ) ) {
