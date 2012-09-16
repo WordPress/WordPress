@@ -265,6 +265,13 @@ switch($step) {
 ?></textarea>
 <p><?php _e( 'After you&#8217;ve done that, click &#8220;Run the install.&#8221;' ); ?></p>
 <p class="step"><a href="install.php" class="button"><?php _e( 'Run the install' ); ?></a></p>
+<script>
+(function(){
+var el=document.getElementById('wp-config');
+el.focus();
+el.select();
+})();
+</script>
 <?php
 	else :
 		$handle = fopen(ABSPATH . 'wp-config.php', 'w');
