@@ -258,7 +258,7 @@ switch($step) {
 ?>
 <p><?php _e( "Sorry, but I can't write the <code>wp-config.php</code> file." ); ?></p>
 <p><?php _e( 'You can create the <code>wp-config.php</code> manually and paste the following text into it.' ); ?></p>
-<textarea cols="98" rows="15" class="code"><?php
+<textarea cols="98" rows="15" class="code" readonly="readonly"><?php
 		foreach( $config_file as $line ) {
 			echo htmlentities($line, ENT_COMPAT, 'UTF-8');
 		}
