@@ -103,14 +103,21 @@ function twentytwelve_scripts_styles() {
 	/*
 	 * Loads our special font CSS file.
 	 *
- 	 * To disable in a child theme, use wp_dequeue_style()
- 	 * function mytheme_dequeue_fonts() {
- 	 *     wp_dequeue_style( 'twentytwelve-fonts' );
- 	 * }
+	 * The use of Open Sans by default is localized. For languages that use
+	 * characters not supported by the font, the font can be disabled.
+	 *
+	 * To disable in a child theme, use wp_dequeue_style()
+	 * function mytheme_dequeue_fonts() {
+	 *     wp_dequeue_style( 'twentytwelve-fonts' );
+	 * }
 	 * add_action( 'wp_enqueue_scripts', 'mytheme_dequeue_fonts', 11 );
- 	 */
-	$protocol = is_ssl() ? 'https' : 'http';
-	wp_enqueue_style( 'twentytwelve-fonts', "$protocol://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700", array(), null );
+	 */
+	/* translators: If there are characters in your language that are not supported by Open Sans,
+	   enter 'disable-open-sans'. Otherwise enter 'enable-open-sans'. Do not translate into your own language. */
+	if ( false === strpos( _x( 'enable-open-sans', 'Open Sans font: enable or disable', 'twentytwelve' ), 'disable' ) ) {
+		$protocol = is_ssl() ? 'https' : 'http';
+		wp_enqueue_style( 'twentytwelve-fonts', "$protocol://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700", array(), null );
+	}
 
 	/*
 	 * Loads our main stylesheet.
