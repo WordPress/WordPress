@@ -275,9 +275,8 @@ foreach ( $columns as $column_name => $column_display_name ) {
 
 	case 'date':
 		if ( '0000-00-00 00:00:00' == $post->post_date ) {
-			$t_time = $h_time = __( 'Unpublished' );
+			$h_time = __( 'Unpublished' );
 		} else {
-			$t_time = get_the_time( __( 'Y/m/d g:i:s A' ) );
 			$m_time = $post->post_date;
 			$time = get_post_time( 'G', true, $post, false );
 			if ( ( abs( $t_diff = time() - $time ) ) < 86400 ) {
