@@ -18,6 +18,9 @@
 function ms_upload_constants() {
 	global $wpdb;
 
+	// This filter is attached in ms-default-filters.php but that file is not included during SHORTINIT.
+	add_filter( 'default_site_option_ms_files_rewriting', '__return_true' );
+
 	if ( ! get_site_option( 'ms_files_rewriting' ) )
 		return;
 
