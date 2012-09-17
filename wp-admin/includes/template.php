@@ -355,11 +355,11 @@ function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single', 
 	</div>
 
 	<p id="replysubmit" class="submit">
-	<a href="#comments-form" class="cancel button-secondary alignleft"><?php _e('Cancel'); ?></a>
 	<a href="#comments-form" class="save button-primary alignright">
 	<span id="addbtn" style="display:none;"><?php _e('Add Comment'); ?></span>
 	<span id="savebtn" style="display:none;"><?php _e('Update Comment'); ?></span>
 	<span id="replybtn" style="display:none;"><?php _e('Submit Reply'); ?></span></a>
+	<a href="#comments-form" class="cancel button-secondary alignleft"><?php _e('Cancel'); ?></a>
 	<img class="waiting" style="display:none;" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
 	<span class="error" style="display:none;"></span>
 	<br class="clear" />
