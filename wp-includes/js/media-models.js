@@ -440,15 +440,18 @@ if ( typeof wp === 'undefined' )
 			}
 		}
 	}, {
-		defaultArgs: {
-			posts_per_page: 40,
+		defaultProps: {
 			orderby:       'date',
 			order:         'DESC'
 		},
 
+		defaultArgs: {
+			posts_per_page: 40
+		},
+
 		orderby: {
-			allowed: [ 'name', 'author', 'date', 'title', 'modified', 'parent', 'ID' ],
-			keymap:  {
+			allowed:  [ 'name', 'author', 'date', 'title', 'modified', 'uploadedTo', 'id' ],
+			valuemap: {
 				'id':         'ID',
 				'uploadedTo': 'parent'
 			}
@@ -465,39 +468,49 @@ if ( typeof wp === 'undefined' )
 			return function( props, options ) {
 				var args     = {},
 					orderby  = Query.orderby,
-					defaults = Query.defaultArgs,
+					defaults = Query.defaultProps,
 					query;
 
+				// Remove the `query` property. This isn't linked to a query,
+				// this *is* the query.
+				delete props.query;
+
+				// Fill default args.
+				_.defaults( props, defaults );
+
+				// Normalize the order.
+				props.order = props.order.toUpperCase();
+				if ( 'DESC' !== props.order && 'ASC' !== props.order )
+					props.order = defaults.order.toUpperCase();
+
+				// Ensure we have a valid orderby value.
+				if ( ! _.contains( orderby.allowed, props.orderby ) )
+					props.orderby = defaults.orderby;
+
+				// Generate the query `args` object.
 				// Correct any differing property names.
 				_.each( props, function( value, prop ) {
 					args[ Query.propmap[ prop ] || prop ] = value;
 				});
 
-				// Fill default args.
-				_.defaults( args, defaults );
+				// Fill any other default query args.
+				_.defaults( args, Query.defaultArgs );
 
-				// Normalize the order.
-				args.order = args.order.toUpperCase();
-				if ( 'DESC' !== args.order && 'ASC' !== args.order )
-					args.order = defaults.order.toUpperCase();
-
-				// Set allowed orderby values.
-				// These map directly to attachment keys in most scenarios.
+				// `props.orderby` does not always map directly to `args.orderby`.
 				// Substitute exceptions specified in orderby.keymap.
-				args.orderby = orderby.keymap[ args.orderby ] || args.orderby;
+				args.orderby = orderby.valuemap[ props.orderby ] || props.orderby;
 
-				// Ensure we have a valid orderby value.
-				if ( ! _.contains( orderby.allowed, args.orderby ) )
-					args.orderby = defaults.orderby;
-
-				// Search the query cache.
+				// Search the query cache for matches.
 				query = _.find( queries, function( query ) {
 					return _.isEqual( query.args, args );
 				});
 
 				// Otherwise, create a new query and add it to the cache.
 				if ( ! query ) {
-					query = new Query( [], _.extend( options || {}, { args: args } ) );
+					query = new Query( [], _.extend( options || {}, {
+						props: props,
+						args:  args
+					} ) );
 					queries.push( query );
 				}
 
