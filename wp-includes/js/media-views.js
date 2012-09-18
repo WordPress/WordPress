@@ -84,13 +84,13 @@
 		},
 
 		// Renders a view and places it within the modal window.
-		// Automatically adds a view if `options` are provided.
-		render: function( id, options ) {
+		// Automatically adds a view if `constructor` is provided.
+		render: function( id, constructor, options ) {
 			var view;
 			id = id || this.get('view');
 
-			if ( options )
-				this.add( id, options );
+			if ( constructor )
+				this.add( id, constructor, options );
 
 			view = this.view( id );
 
