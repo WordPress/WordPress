@@ -978,7 +978,7 @@ function get_attachment_fields_to_edit($post, $errors = null) {
 		$values = array();
 
 		foreach ( $terms as $term )
-			$values[] = $term->name;
+			$values[] = $term->slug;
 		$t['value'] = join(', ', $values);
 
 		$form_fields[$taxonomy] = $t;
