@@ -1846,8 +1846,8 @@ function language_attributes($doctype = 'html') {
 	$attributes = array();
 	$output = '';
 
-	if ( function_exists( 'is_rtl' ) )
-		$attributes[] = 'dir="' . ( is_rtl() ? 'rtl' : 'ltr' ) . '"';
+	if ( function_exists( 'is_rtl' ) && is_rtl() )
+		$attributes[] = 'dir="rtl"';
 
 	if ( $lang = get_bloginfo('language') ) {
 		if ( get_option('html_type') == 'text/html' || $doctype == 'html' )
