@@ -2,7 +2,7 @@ if ( typeof wp === 'undefined' )
 	var wp = {};
 
 (function($){
-	var Attachment, Attachments, Query;
+	var Attachment, Attachments, Query, compare;
 
 	/**
 	 * wp.media( attributes )
@@ -26,6 +26,24 @@ if ( typeof wp === 'undefined' )
 	 * UTILITIES
 	 * ========================================================================
 	 */
+
+	/**
+	 * A basic comparator.
+	 *
+	 * @param  {mixed}  a  The primary parameter to compare.
+	 * @param  {mixed}  b  The primary parameter to compare.
+	 * @param  {string} ac The fallback parameter to compare, a's cid.
+	 * @param  {string} bc The fallback parameter to compare, b's cid.
+	 * @return {number}    -1: a should come before b.
+	 *                      0: a and b are of the same rank.
+	 *                      1: b should come before a.
+	 */
+	compare = function( a, b, ac, bc ) {
+		if ( _.isEqual( a, b ) )
+			return ac === bc ? 0 : (ac > bc ? -1 : 1);
+		else
+			return a > b ? -1 : 1;
+	};
 
 	_.extend( media, {
 		/**
@@ -159,17 +177,75 @@ if ( typeof wp === 'undefined' )
 		initialize: function( models, options ) {
 			options = options || {};
 
+			this.props   = new Backbone.Model();
 			this.filters = options.filters || {};
 
+			// Bind default `change` events to the `props` model.
+			this.props.on( 'change:order',   this._changeOrder,   this );
+			this.props.on( 'change:orderby', this._changeOrderby, this );
+			this.props.on( 'change:query',   this._changeQuery,   this );
+			this.props.on( 'change:search',  this._changeSearch,  this );
+
+			// Set the `props` model and fill the default property values.
+			this.props.set( _.defaults( options.props || {}, {
+				order: 'DESC'
+			}) );
+
+			// Observe another `Attachments` collection if one is provided.
 			if ( options.observe )
 				this.observe( options.observe );
+		},
 
-			if ( options.mirror )
-				this.mirror( options.mirror );
+		// Automatically sort the collection when the order changes.
+		_changeOrder: function( model, order ) {
+			if ( this.comparator )
+				this.sort();
+		},
+
+		// Set the default comparator only when the `orderby` property is set.
+		_changeOrderby: function( model, orderby ) {
+			// If a different comparator is defined, bail.
+			if ( this.comparator && this.comparator !== Attachments.comparator )
+				return;
+
+			if ( orderby )
+				this.comparator = Attachments.comparator;
+			else
+				delete this.comparator;
+		},
+
+		// If the `query` property is set to true, query the server using
+		// the `props` values, and sync the results to this collection.
+		_changeQuery: function( model, query ) {
+			if ( query ) {
+				this.props.on( 'change', this._requery, this );
+				this._requery();
+			} else {
+				this.props.off( 'change', this._requery, this );
+			}
+		},
+
+		_changeSearch: function( model, term ) {
+			// Bail if we're currently searching for the same term.
+			if ( this.props.get('search') === term )
+				return;
+
+			if ( term && ! this.filters.search )
+				this.filters.search = Attachments.filters.search;
+			else if ( ! term && this.filters.search === Attachments.filters.search )
+				delete this.filters.search;
+
+			// If no `Attachments` model is provided to source the searches
+			// from, then automatically generate a source from the existing
+			// models.
+			if ( ! this.props.get('source') )
+				this.props.set( 'source', new Attachments( this.models ) );
+
+			this.reset( this.props.get('source').filter( this.validator ) );
 		},
 
 		validator: function( attachment ) {
-			return _.all( this.filters, function( filter ) {
+			return _.all( this.filters, function( filter, key ) {
 				return !! filter.call( this, attachment );
 			}, this );
 		},
@@ -230,6 +306,42 @@ if ( typeof wp === 'undefined' )
 				var attachment = Attachment.get( attrs.id );
 				return attachment.set( attachment.parse( attrs, xhr ) );
 			});
+		},
+
+		_requery: function() {
+			if ( this.props.get('query') )
+				this.mirror( Query.get( this.props.toJSON() ) );
+		}
+	}, {
+		comparator: function( a, b ) {
+			var key   = this.props.get('orderby'),
+				order = this.props.get('order'),
+				ac    = a.cid,
+				bc    = b.cid;
+
+			a = a.get( key );
+			b = b.get( key );
+
+			if ( 'date' === key || 'modified' === key ) {
+				a = a || new Date();
+				b = b || new Date();
+			}
+
+			return ( 'DESC' === order ) ? compare( a, b, ac, bc ) : compare( b, a, bc, ac );
+		},
+
+		filters: {
+			// Note that this client-side searching is *not* equivalent
+			// to our server-side searching.
+			search: function( attachment ) {
+				if ( ! this.searching )
+					return true;
+
+				return _.any(['title','filename','description','caption','name'], function( key ) {
+					var value = attachment.get( key );
+					return value && -1 !== value.search( this.searching );
+				}, this );
+			}
 		}
 	});
 
@@ -238,24 +350,11 @@ if ( typeof wp === 'undefined' )
 	/**
 	 * wp.media.query
 	 */
-	media.query = (function(){
-		var queries = [];
-
-		return function( args, options ) {
-			args = _.defaults( args || {}, Query.defaultArgs );
-
-			var query = _.find( queries, function( query ) {
-				return _.isEqual( query.args, args );
-			});
-
-			if ( ! query ) {
-				query = new Query( [], _.extend( options || {}, { args: args } ) );
-				queries.push( query );
-			}
-
-			return query;
-		};
-	}());
+	media.query = function( props ) {
+		return new Attachments( null, {
+			props: _.extend( _.defaults( props || {}, { orderby: 'date' } ), { query: true } )
+		});
+	};
 
 	/**
 	 * wp.media.model.Query
@@ -268,39 +367,17 @@ if ( typeof wp === 'undefined' )
 	 */
 	Query = media.model.Query = Attachments.extend({
 		initialize: function( models, options ) {
-			var orderby,
-				defaultArgs = Query.defaultArgs;
-
 			options = options || {};
 			Attachments.prototype.initialize.apply( this, arguments );
 
-			// Generate this.args. Don't mess with them.
-			this.args = _.defaults( options.args || {}, defaultArgs );
-
-			// Normalize the order.
-			this.args.order = this.args.order.toUpperCase();
-			if ( 'DESC' !== this.args.order && 'ASC' !== this.args.order )
-				this.args.order = defaultArgs.order.toUpperCase();
-
-			// Set allowed orderby values.
-			// These map directly to attachment keys in most scenarios.
-			// Exceptions are specified in orderby.keymap.
-			orderby = {
-				allowed: [ 'name', 'author', 'date', 'title', 'modified', 'parent', 'ID' ],
-				keymap:  {
-					'ID':     'id',
-					'parent': 'uploadedTo'
-				}
-			};
-
-			if ( ! _.contains( orderby.allowed, this.args.orderby ) )
-				this.args.orderby = defaultArgs.orderby;
-			this.orderkey = orderby.keymap[ this.args.orderby ] || this.args.orderby;
-
+			this.args    = options.args;
 			this.hasMore = true;
 			this.created = new Date();
 
 			this.filters.order = function( attachment ) {
+				if ( ! this.comparator )
+					return true;
+
 				// We want any items that can be placed before the last
 				// item in the set. If we add any items after the last
 				// item, then we can't guarantee the set is complete.
@@ -310,24 +387,13 @@ if ( typeof wp === 'undefined' )
 				// Handle the case where there are no items yet and
 				// we're sorting for recent items. In that case, we want
 				// changes that occurred after we created the query.
-				} else if ( 'DESC' === this.args.order && ( 'date' === this.orderkey || 'modified' === this.orderkey ) ) {
-					return attachment.get( this.orderkey ) >= this.created;
+				} else if ( 'DESC' === this.args.order && ( 'date' === this.args.orderby || 'modified' === this.args.orderby ) ) {
+					return attachment.get( this.args.orderby ) >= this.created;
 				}
 
 				// Otherwise, we don't want any items yet.
 				return false;
 			};
-
-			if ( this.args.s ) {
-				// Note that this client-side searching is *not* equivalent
-				// to our server-side searching.
-				this.filters.search = function( attachment ) {
-					return _.any(['title','filename','description','caption','name'], function( key ) {
-						var value = attachment.get( key );
-						return value && -1 !== value.search( this.args.s );
-					}, this );
-				};
-			}
 
 			this.observe( Attachments.all );
 		},
@@ -372,50 +438,72 @@ if ( typeof wp === 'undefined' )
 				fallback = Attachments.prototype.sync ? Attachments.prototype : Backbone;
 				return fallback.sync.apply( this, arguments );
 			}
-		},
-
-		comparator: (function(){
-			/**
-			 * A basic comparator.
-			 *
-			 * @param  {mixed}  a  The primary parameter to compare.
-			 * @param  {mixed}  b  The primary parameter to compare.
-			 * @param  {string} ac The fallback parameter to compare, a's cid.
-			 * @param  {string} bc The fallback parameter to compare, b's cid.
-			 * @return {number}    -1: a should come before b.
-			 *                      0: a and b are of the same rank.
-			 *                      1: b should come before a.
-			 */
-			var compare = function( a, b, ac, bc ) {
-				if ( _.isEqual( a, b ) )
-					return ac === bc ? 0 : (ac > bc ? -1 : 1);
-				else
-					return a > b ? -1 : 1;
-			};
-
-			return function( a, b ) {
-				var key   = this.orderkey,
-					order = this.args.order,
-					ac    = a.cid,
-					bc    = b.cid;
-
-				a = a.get( key );
-				b = b.get( key );
-
-				if ( 'date' === key || 'modified' === key ) {
-					a = a || new Date();
-					b = b || new Date();
-				}
-
-				return ( 'DESC' === order ) ? compare( a, b, ac, bc ) : compare( b, a, bc, ac );
-			};
-		}())
+		}
 	}, {
 		defaultArgs: {
 			posts_per_page: 40,
 			orderby:       'date',
 			order:         'DESC'
-		}
+		},
+
+		orderby: {
+			allowed: [ 'name', 'author', 'date', 'title', 'modified', 'parent', 'ID' ],
+			keymap:  {
+				'id':         'ID',
+				'uploadedTo': 'parent'
+			}
+		},
+
+		propmap: {
+			'search': 's'
+		},
+
+		// Caches query objects so queries can be easily reused.
+		get: (function(){
+			var queries = [];
+
+			return function( props, options ) {
+				var args     = {},
+					orderby  = Query.orderby,
+					defaults = Query.defaultArgs,
+					query;
+
+				// Correct any differing property names.
+				_.each( props, function( value, prop ) {
+					args[ Query.propmap[ prop ] || prop ] = value;
+				});
+
+				// Fill default args.
+				_.defaults( args, defaults );
+
+				// Normalize the order.
+				args.order = args.order.toUpperCase();
+				if ( 'DESC' !== args.order && 'ASC' !== args.order )
+					args.order = defaults.order.toUpperCase();
+
+				// Set allowed orderby values.
+				// These map directly to attachment keys in most scenarios.
+				// Substitute exceptions specified in orderby.keymap.
+				args.orderby = orderby.keymap[ args.orderby ] || args.orderby;
+
+				// Ensure we have a valid orderby value.
+				if ( ! _.contains( orderby.allowed, args.orderby ) )
+					args.orderby = defaults.orderby;
+
+				// Search the query cache.
+				query = _.find( queries, function( query ) {
+					return _.isEqual( query.args, args );
+				});
+
+				// Otherwise, create a new query and add it to the cache.
+				if ( ! query ) {
+					query = new Query( [], _.extend( options || {}, { args: args } ) );
+					queries.push( query );
+				}
+
+				return query;
+			};
+		}())
 	});
 
 }(jQuery));

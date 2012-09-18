@@ -348,9 +348,7 @@
 			this.attachmentsView = new media.view.Attachments({
 				controller: this.controller,
 				directions: 'Select stuff.',
-				collection: new Attachments( null, {
-					mirror: media.query()
-				})
+				collection: media.query()
 			});
 
 			this.$content.append( this.attachmentsView.$el );
@@ -532,18 +530,12 @@
 		},
 
 		search: function( event ) {
-			var args = _.clone( this.collection.mirroring.args );
-
-			// Bail if we're currently searching for the same string.
-			if ( args.s === event.target.value )
-				return;
+			var props = this.collection.props;
 
 			if ( event.target.value )
-				args.s = event.target.value;
+				props.set( 'search', event.target.value );
 			else
-				delete args.s;
-
-			this.collection.mirror( media.query( args ) );
+				props.unset('search');
 		}
 	});
 
