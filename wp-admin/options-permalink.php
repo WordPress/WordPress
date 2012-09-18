@@ -218,7 +218,7 @@ $structures = array(
 			</label>
 		</th>
 		<td>
-			<?php echo $blog_prefix; ?>
+			<code><?php echo get_option('home') . $blog_prefix; ?></code>
 			<input name="permalink_structure" id="permalink_structure" type="text" value="<?php echo esc_attr($permalink_structure); ?>" class="regular-text code" />
 		</td>
 	</tr>
