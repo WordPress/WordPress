@@ -1850,41 +1850,12 @@ a.rsswidget,
 }
 
 /* QuickPress */
-#dashboard_quick_press h4 {
-	float: right;
-	text-align: left;
-}
-
-#dashboard_quick_press .wp-media-buttons {
-	margin: 0 5em 0.5em 0;
-}
-
-#dashboard_quick_press h4 label {
-	margin-right: 0;
-	margin-left: 10px;
-}
-
-#dashboard_quick_press .input-text-wrap,
-#dashboard_quick_press .textarea-wrap {
-	margin: 0 5em 1em 0;
-}
-
-#dashboard_quick_press #media-buttons {
-	margin: 0 5em .5em 0;
-	padding: 0;
-}
-
-#dashboard-widgets #dashboard_quick_press form p.submit {
-	margin-left: 0;
-	margin-right: 4.6em;
-}
-
 #dashboard-widgets #dashboard_quick_press form p.submit input {
 	float: right;
 }
 
 #dashboard-widgets #dashboard_quick_press form p.submit #save-post {
-	margin: 0 10px 0 1em;
+	margin: 0 0 0 1em;
 }
 
 #dashboard-widgets #dashboard_quick_press form p.submit #publish {

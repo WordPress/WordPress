@@ -2810,7 +2810,10 @@ table .inline-edit-row fieldset ul.cat-hover {
 	position: relative;
 	margin-bottom: 10px;
 }
-#titlediv label { cursor: text; }
+
+#titlediv label {
+	cursor: text;
+}
 
 #titlediv div.inside {
 	margin: 0;
@@ -6049,27 +6052,48 @@ h3:hover .edit-box {
 }
 
 /* QuickPress */
-#dashboard_quick_press h4 {
-	font-family: sans-serif;
-	float: left;
-	width: 5em;
-	clear: both;
-	font-weight: normal;
-	text-align: right;
-	font-size: 12px;
+#dashboard_quick_press .input-text-wrap {
+	position: relative;
 }
 
-#dashboard_quick_press h4 label {
-	margin-right: 10px;
+#dashboard_quick_press .prompt {
+	color: #bbb;
+	position: absolute;
+}
+
+#title-wrap label,
+#tags-input-wrap label {
+	cursor: text;
+}
+
+#title-wrap #title {
+	padding: 2px 6px;
+	font-size: 1.3em;
+	line-height: 100%;
+	outline: none;
+}
+
+#tags-input-wrap #tags-input {
+	outline: none;
+}
+
+#title-wrap #title-prompt-text {
+	font-size: 1.3em;
+	padding: 5px 8px;
+}
+
+#tags-input-wrap #tags-input-prompt-text {
+	font-size: 1em;
+	padding: 4px 8px;
 }
 
 #dashboard_quick_press .input-text-wrap,
 #dashboard_quick_press .textarea-wrap {
-	margin: 0 0 1em 5em;
+	margin: 0 0 1em 0;
 }
 
 #dashboard_quick_press .wp-media-buttons {
-	margin: 0 0 .5em 5em;
+	margin: 0 0 .2em 8px;
 	padding: 0;
 }
 
@@ -6077,16 +6101,12 @@ h3:hover .edit-box {
 	color: #777;
 }
 
-#dashboard-widgets #dashboard_quick_press form p.submit {
-	margin-left: 4.6em;
-}
-
 #dashboard-widgets #dashboard_quick_press form p.submit input {
 	float: left;
 }
 
 #dashboard-widgets #dashboard_quick_press form p.submit #save-post {
-	margin: 0 0.3em 0 5px;
+	margin: 0 1em 0 0;
 }
 
 #dashboard-widgets #dashboard_quick_press form p.submit #publish {
@@ -8109,17 +8129,6 @@ a.widget-control-edit {
 .locale-zh-cn #sort-buttons { font-size: 1em !important; }
 
 /* ru_RU: Text needs more room to breathe. */
-.locale-ru-ru #dashboard_quick_press .input-text-wrap,
-.locale-ru-ru #dashboard_quick_press .textarea-wrap,
-.locale-ru-ru #dashboard_quick_press .wp-media-buttons  {
-	margin-left: 5.7em; /* default 5em + 0.7em */
-}
-.locale-ru-ru #dashboard_quick_press h4 {
-	width: 5.7em; /* default 5.5em + 0.2em */
-}
-.locale-ru-ru #dashboard-widgets #dashboard_quick_press form p.submit {
-	margin-left: 5.3em; /* default 4.6em + 0.7em */
-}
 .locale-ru-ru .inline-edit-row fieldset label span.title {
 	width: auto; /* default 5em */
 	min-width: 5em;
@@ -8134,15 +8143,7 @@ a.widget-control-edit {
 	width: 245px; /* default 200px + 45px */
 }
 
-/* lt_LT: QuickPress + QuickEdit */
-.locale-lt-lt #dashboard_quick_press .input-text-wrap,
-.locale-lt-lt #dashboard_quick_press .textarea-wrap,
-.locale-lt-lt #dashboard_quick_press .wp-media-buttons  {
-	margin-left: 7em;
-}
-.locale-lt-lt #dashboard_quick_press h4 {
-	width: 7em;
-}
+/* lt_LT: QuickEdit */
 .locale-lt-lt .inline-edit-row fieldset label span.title {
 	width: 8em;
 }
