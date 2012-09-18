@@ -134,6 +134,9 @@ case 'dodelete':
 	if ( ! current_user_can( 'delete_users' ) )
 		wp_die(__('You can&#8217;t delete users.'));
 
+	if ( $_REQUEST['delete_option'] == 'reassign' && $_REQUEST['reassign_user'] == '-1' )
+		wp_die(__('You have to select a user for attributing all posts and links to.'));
+
 	$userids = $_REQUEST['users'];
 	$update = 'del';
 	$delete_count = 0;
@@ -214,11 +217,11 @@ case 'delete':
 <?php if ( $go_delete ) : ?>
 	<fieldset><p><legend><?php echo _n( 'What should be done with posts owned by this user?', 'What should be done with posts owned by these users?', $go_delete ); ?></legend></p>
 	<ul style="list-style:none;">
-		<li><label><input type="radio" id="delete_option0" name="delete_option" value="delete" checked="checked" />
-		<?php _e('Delete all posts.'); ?></label></li>
-		<li><input type="radio" id="delete_option1" name="delete_option" value="reassign" />
+		<li><input type="radio" id="delete_option1" name="delete_option" value="reassign" checked="checked" />
 		<?php echo '<label for="delete_option1">'.__('Attribute all posts to:').'</label>';
-		wp_dropdown_users( array( 'name' => 'reassign_user', 'exclude' => array_diff( $userids, array($current_user->ID) ) ) ); ?></li>
+		wp_dropdown_users( array( 'name' => 'reassign_user', 'exclude' => array_diff( $userids, array($current_user->ID) ), 'show_option_none' => ' - ' ) ); ?></li>
+		<li><label><input type="radio" id="delete_option0" name="delete_option" value="delete" />
+		<?php _e('Delete all posts.'); ?></label></li>
 	</ul></fieldset>
 	<input type="hidden" name="action" value="dodelete" />
 	<?php submit_button( __('Confirm Deletion'), 'secondary' ); ?>
