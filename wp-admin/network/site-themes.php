@@ -172,7 +172,6 @@ if ( isset( $_GET['enabled'] ) ) {
 <?php $wp_list_table->views(); ?>
 
 <form method="post" action="site-themes.php?action=update-site">
-	<?php wp_nonce_field( 'edit-site' ); ?>
 	<input type="hidden" name="id" value="<?php echo esc_attr( $id ) ?>" />
 
 <?php $wp_list_table->display(); ?>
