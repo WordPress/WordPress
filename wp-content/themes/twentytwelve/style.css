@@ -1179,12 +1179,14 @@ a.comment-reply-link:hover {
 }
 #respond form input[type="text"],
 #respond form textarea {
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 	font-size: 12px;
 	font-size: 0.857142857rem;
 	line-height: 1.714285714;
 	padding: 10px;
 	padding: 0.714285714rem;
-	width: 96%;
+	width: 100%;
 }
 #respond form p.form-allowed-tags {
 	margin: 0;
