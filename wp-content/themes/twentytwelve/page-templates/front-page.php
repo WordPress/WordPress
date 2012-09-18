@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Name: Homepage Template
+ * Template Name: Front Page Template
  *
  * @todo Better documentation here.
  *
@@ -28,5 +28,5 @@ get_header(); ?>
 		</div><!-- #content -->
 	</div><!-- #primary -->
 
-<?php get_sidebar( 'home' ); ?>
+<?php get_sidebar( 'front' ); ?>
 <?php get_footer(); ?>

@@ -146,10 +146,10 @@ label ~ span.required {
 }
 
 
-/* =Home page template styling
+/* =Front page template styling
 -------------------------------------------------------------- */
 
-.template-home .widget-area .widget_text img {
+.template-front-page .widget-area .widget_text img {
 	float: right;
 	margin: 8px 0 8px 24px;
 	margin: 0.571428571rem 0 0.571428571rem 1.714285714rem;
@@ -188,7 +188,7 @@ label ~ span.required {
 /* Minimum width of 600 pixels. */
 @media screen and (min-width: 600px) {
 	.site-content,
-	.template-home.has-post-thumbnail article {
+	.template-front-page.has-post-thumbnail article {
 		float: right;
 	}
 	.widget-area,
@@ -199,19 +199,19 @@ label ~ span.required {
 	.site-header h2 {
 		text-align: right;
 	}
-	.template-home .widget-area .widget_text img {
+	.template-front-page .widget-area .widget_text img {
 		float: right;
 		margin: 8px 0 8px 24px;
 	}
-	.template-home .widget-area .widget,
-	.template-home .widget-area.two .home-widgets {
+	.template-front-page .widget-area .widget,
+	.template-front-page .widget-area.two .front-widgets {
 		float: right;
 	}
-	.template-home .widget-area .widget:nth-child(odd) {
+	.template-front-page .widget-area .widget:nth-child(odd) {
 		clear: left;
 	}
-	.template-home .widget-area .widget:nth-child(even),
-	.template-home .widget-area.two .home-widgets + .home-widgets {
+	.template-front-page .widget-area .widget:nth-child(even),
+	.template-front-page .widget-area.two .front-widgets + .front-widgets {
 		float: left;
 		margin: 0 24px 0;
 		margin: 0 1.714285714rem 0;

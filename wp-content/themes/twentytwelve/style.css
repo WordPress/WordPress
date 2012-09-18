@@ -3,7 +3,7 @@ Theme Name: Twenty Twelve
 Theme URI: http://wordpress.org/extend/themes/twentytwelve
 Author: the WordPress team
 Author URI: http://wordpress.org/
-Description: The 2012 theme for WordPress is a fully responsive theme that looks great on any device. Features include a homepage template with a its own widgets, an optional display font, styling for post formats on both index and single views, and an optional no-sidebar page template. Make it yours with a custom menu, header image, and background.
+Description: The 2012 theme for WordPress is a fully responsive theme that looks great on any device. Features include a front-page template with a its own widgets, an optional display font, styling for post formats on both index and single views, and an optional no-sidebar page template. Make it yours with a custom menu, header image, and background.
 Version: 0.9
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -1204,18 +1204,18 @@ label ~ span.required {
 }
 
 
-/* =Homepage template
+/* =Front page template
 -------------------------------------------------------------- */
 
 .entry-page-image {
 	margin-bottom: 14px;
 	margin-bottom: 1rem;
 }
-.template-home .site-content article {
+.template-front-page .site-content article {
 	border: 0;
 	margin-bottom: 0;
 }
-.template-home .widget-area {
+.template-front-page .widget-area {
 	clear: both;
 	float: none;
 	width: auto;
@@ -1223,7 +1223,7 @@ label ~ span.required {
 	padding-top: 1.714285714rem;
 	border-top: 1px solid #ededed;
 }
-.template-home .widget-area .widget li {
+.template-front-page .widget-area .widget li {
 	margin: 8px 0 0;
 	margin: 0.571428571rem 0 0;
 	font-size: 13px;
@@ -1232,13 +1232,13 @@ label ~ span.required {
 	list-style-type: square;
 	list-style-position: inside;
 }
-.template-home .widget-area .widget li a {
+.template-front-page .widget-area .widget li a {
 	color: #777;
 }
-.template-home .widget-area .widget li a:hover {
+.template-front-page .widget-area .widget li a:hover {
 	color: #21759b;
 }
-.template-home .widget-area .widget_text img {
+.template-front-page .widget-area .widget_text img {
 	float: left;
 	margin: 8px 24px 8px 0;
 	margin: 0.571428571rem 1.714285714rem 0.571428571rem 0;
@@ -1331,7 +1331,7 @@ img#wpstats {
 		float: left;
 		width: 65.104166667%;
 	}
-	body.template-home .site-content,
+	body.template-front-page .site-content,
 	body.single-attachment .site-content,
 	body.full-width .site-content {
 		width: 100%;
@@ -1434,11 +1434,11 @@ img#wpstats {
 	#respond form textarea.blog-textarea {
 		width: 79.666666667%;
 	}
-	.template-home .site-content,
-	.template-home article {
+	.template-front-page .site-content,
+	.template-front-page article {
 		overflow: hidden;
 	}
-	.template-home.has-post-thumbnail article {
+	.template-front-page.has-post-thumbnail article {
 		float: left;
 		width: 47.916666667%;
 	}
@@ -1447,25 +1447,25 @@ img#wpstats {
 		margin-bottom: 0;
 		width: 47.916666667%;
 	}
-	.template-home .widget-area .widget,
-	.template-home .widget-area.two .home-widgets {
+	.template-front-page .widget-area .widget,
+	.template-front-page .widget-area.two .front-widgets {
 		float: left;
 		width: 51.875%;
 		margin-bottom: 24px;
 		margin-bottom: 1.714285714rem;
 	}
-	.template-home .widget-area .widget:nth-child(odd) {
+	.template-front-page .widget-area .widget:nth-child(odd) {
 		clear: right;
 	}
-	.template-home .widget-area .widget:nth-child(even),
-	.template-home .widget-area.two .home-widgets + .home-widgets {
+	.template-front-page .widget-area .widget:nth-child(even),
+	.template-front-page .widget-area.two .front-widgets + .front-widgets {
 		float: right;
 		width: 39.0625%;
 		margin: 0 0 24px;
 		margin: 0 0 1.714285714rem;
 	}
-	.template-home .widget-area.two .widget,
-	.template-home .widget-area.two .widget:nth-child(even) {
+	.template-front-page .widget-area.two .widget,
+	.template-front-page .widget-area.two .widget:nth-child(even) {
 		float: none;
 		width: auto;
 	}

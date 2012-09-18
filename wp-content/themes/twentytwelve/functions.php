@@ -179,7 +179,7 @@ function twentytwelve_page_menu_args( $args ) {
 add_filter( 'wp_page_menu_args', 'twentytwelve_page_menu_args' );
 
 /**
- * Registers our main widget area and the homepage widget areas.
+ * Registers our main widget area and the front page widget areas.
  *
  * @since Twenty Twelve 1.0
  */
@@ -187,7 +187,7 @@ function twentytwelve_widgets_init() {
 	register_sidebar( array(
 		'name' => __( 'Main Sidebar', 'twentytwelve' ),
 		'id' => 'sidebar-1',
-		'description' => __( 'Appears on posts and pages except the optional Homepage template, which has its own widgets', 'twentytwelve' ),
+		'description' => __( 'Appears on posts and pages except the optional Front Page template, which has its own widgets', 'twentytwelve' ),
 		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
 		'after_widget' => '</aside>',
 		'before_title' => '<h3 class="widget-title">',
@@ -195,9 +195,9 @@ function twentytwelve_widgets_init() {
 	) );
 
 	register_sidebar( array(
-		'name' => __( 'First Homepage Widget Area', 'twentytwelve' ),
+		'name' => __( 'First Front Page Widget Area', 'twentytwelve' ),
 		'id' => 'sidebar-2',
-		'description' => __( 'Appears when using the optional homepage template with a page set as Static Front Page', 'twentytwelve' ),
+		'description' => __( 'Appears when using the optional Front Page template with a page set as Static Front Page', 'twentytwelve' ),
 		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
 		'after_widget' => '</aside>',
 		'before_title' => '<h3 class="widget-title">',
@@ -205,9 +205,9 @@ function twentytwelve_widgets_init() {
 	) );
 
 	register_sidebar( array(
-		'name' => __( 'Second Homepage Widget Area', 'twentytwelve' ),
+		'name' => __( 'Second Front Page Widget Area', 'twentytwelve' ),
 		'id' => 'sidebar-3',
-		'description' => __( 'Appears when using the optional homepage template with a page set as Static Front Page', 'twentytwelve' ),
+		'description' => __( 'Appears when using the optional Front Page template with a page set as Static Front Page', 'twentytwelve' ),
 		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
 		'after_widget' => '</aside>',
 		'before_title' => '<h3 class="widget-title">',
@@ -221,7 +221,7 @@ add_action( 'widgets_init', 'twentytwelve_widgets_init' );
  *
  * @since Twenty Twelve 1.0
  */
-function twentytwelve_homepage_sidebar_class() {
+function twentytwelve_frontpage_sidebar_class() {
 	$classes = array( 'widget-area' );
 
 	if ( is_active_sidebar( 'sidebar-2' ) && is_active_sidebar( 'sidebar-3' ) )
@@ -364,7 +364,7 @@ endif;
  * Extends the default WordPress body class to denote:
  * 1. Using a full-width layout, when no active widgets in the sidebar
  *    or full-width template.
- * 2. A thumbnail in the Homepage page template.
+ * 2. A thumbnail in the Front Page template.
  * 3. White or empty background color to change the layout and spacing.
  *
  * @since Twenty Twelve 1.0
@@ -378,8 +378,8 @@ function twentytwelve_body_class( $classes ) {
 	if ( ! is_active_sidebar( 'sidebar-1' ) || is_page_template( 'page-templates/full-width.php' ) )
 		$classes[] = 'full-width';
 
-	if ( is_page_template( 'page-templates/home.php' ) ) {
-		$classes[] = 'template-home';
+	if ( is_page_template( 'page-templates/front-page.php' ) ) {
+		$classes[] = 'template-front-page';
 		if ( has_post_thumbnail() )
 			$classes[] = 'has-post-thumbnail';
 	}
