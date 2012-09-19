@@ -807,7 +807,7 @@ function image_attachment_fields_to_edit($form_fields, $post) {
 
 		$form_fields['image_alt'] = array(
 			'value' => $alt,
-			'label' => __('Alternate Text'),
+			'label' => __('Alternative Text'),
 			'helps' => __('Alt text for the image, e.g. &#8220;The Mona Lisa&#8221;')
 		);
 
@@ -1975,7 +1975,7 @@ function wp_media_insert_url_form( $default_view = 'image' ) {
 
 		<tr class="image-only">
 			<th valign="top" scope="row" class="label">
-				<span class="alignleft"><label for="alt">' . __('Alternate Text') . '</label></span>
+				<span class="alignleft"><label for="alt">' . __('Alternative Text') . '</label></span>
 			</th>
 			<td class="field"><input id="alt" name="alt" value="" type="text" aria-required="true" />
 			<p class="help">' . __('Alt text for the image, e.g. &#8220;The Mona Lisa&#8221;') . '</p></td>

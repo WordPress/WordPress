@@ -546,7 +546,7 @@ function wp_mce_translation() {
 		's130' => __('130%'),
 		'img_title' => __('Title'),
 		'caption' => __('Caption'),
-		'alt' => __('Alternate Text')
+		'alt' => __('Alternative Text')
 	);
 
 	$locale = _WP_Editors::$mce_locale;
