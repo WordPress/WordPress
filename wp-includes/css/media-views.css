@@ -267,7 +267,7 @@
 	background: #21759b;
 }
 
-.attachment-thumbnail {
+.attachment-preview {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -304,11 +304,11 @@
 .attachment .landscape img {
 	height: 200px;
 }
-.attachment .attachment-thumbnail:hover {
+.attachment .attachment-preview:hover {
 	overflow: visible;
 	z-index: 1000;
 }
-.attachment .attachment-thumbnail:hover img {
+.attachment .attachment-preview:hover img {
 	border: 10px solid #fff;
 	box-shadow: 0 0 10px rgba( 0, 0, 0, 0.4 );
 }*/
@@ -322,7 +322,7 @@
 .attachment .landscape img {
 	height: 200px;
 }
-.attachment .attachment-thumbnail:hover img {
+.attachment .attachment-preview:hover img {
 	height: auto;
 	width: auto;
 	max-height: 200px;
@@ -356,7 +356,7 @@
 	transition:         width 200ms;
 }
 
-.attachment-thumbnail .media-progress-bar {
+.attachment-preview .media-progress-bar {
 	position: absolute;
 	top: 50%;
 	left: 15%;

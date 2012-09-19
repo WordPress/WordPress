@@ -1645,7 +1645,7 @@ function wp_print_media_templates( $attachment ) {
 	</script>
 
 	<script type="text/html" id="tmpl-attachment">
-		<div class="attachment-thumbnail type-<%- type %> subtype-<%- subtype %> <%- orientation %>">
+		<div class="attachment-preview type-<%- type %> subtype-<%- subtype %> <%- orientation %>">
 			<% if ( thumbnail ) { %>
 				<img src="<%- thumbnail %>" draggable="false" />
 			<% } %>

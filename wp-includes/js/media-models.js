@@ -441,8 +441,8 @@ if ( typeof wp === 'undefined' )
 		}
 	}, {
 		defaultProps: {
-			orderby:       'date',
-			order:         'DESC'
+			orderby: 'date',
+			order:   'DESC'
 		},
 
 		defaultArgs: {
