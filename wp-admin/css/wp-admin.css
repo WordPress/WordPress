@@ -846,17 +846,16 @@ input[type="number"].small-text {
 	margin-right: 8px;
 }
 
-.tablenav select[name="action"],
-.tablenav select[name="action2"] {
-	width: 130px;
+.tablenav .actions select {
+	max-width: 200px;
 }
 
-.tablenav select[name="m"] {
+.ie8 .tablenav .actions select {
 	width: 155px;
 }
 
-.tablenav select#cat {
-	width: 170px;
+.ie8 .tablenav .actions select#cat {
+	width: 200px;
 }
 
 #wpcontent option {
