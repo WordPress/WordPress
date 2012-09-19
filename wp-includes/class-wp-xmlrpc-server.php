@@ -187,7 +187,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$user = wp_authenticate($username, $password);
 
 		if (is_wp_error($user)) {
-			$this->error = new IXR_Error( 403, __('Bad login/pass combination.' ) );
+			$this->error = new IXR_Error( 403, __( 'Incorrect username or password.' ) );
+			$this->error = apply_filters( 'xmlrpc_login_error', $this->error, $user );
 			return false;
 		}
 
