@@ -30,23 +30,23 @@ class WP_oEmbed {
 		// The WP_Embed class disables discovery for non-unfiltered_html users, so only providers in this array will be used for them.
 		// Add to this list using the wp_oembed_add_provider() function (see its PHPDoc for details).
 		$this->providers = apply_filters( 'oembed_providers', array(
-			'#http://(www\.)?youtube.com/watch.*#i'              => array( 'http://www.youtube.com/oembed',                     true  ),
+			'#https?://(www\.)?youtube.com/watch.*#i'            => array( 'http://www.youtube.com/oembed',                     true  ),
 			'http://youtu.be/*'                                  => array( 'http://www.youtube.com/oembed',                     false ),
 			'http://blip.tv/*'                                   => array( 'http://blip.tv/oembed/',                            false ),
-			'#http://(www\.)?vimeo\.com/.*#i'                    => array( 'http://vimeo.com/api/oembed.{format}',              true  ),
-			'#http://(www\.)?dailymotion\.com/.*#i'              => array( 'http://www.dailymotion.com/services/oembed',        true  ),
-			'#http://(www\.)?flickr\.com/.*#i'                   => array( 'http://www.flickr.com/services/oembed/',            true  ),
-			'#http://(.+\.)?smugmug\.com/.*#i'                   => array( 'http://api.smugmug.com/services/oembed/',           true  ),
-			'#http://(www\.)?hulu\.com/watch/.*#i'               => array( 'http://www.hulu.com/api/oembed.{format}',           true  ),
-			'#http://(www\.)?viddler\.com/.*#i'                  => array( 'http://lab.viddler.com/services/oembed/',           true  ),
+			'#https?://(www\.)?vimeo\.com/.*#i'                  => array( 'http://vimeo.com/api/oembed.{format}',              true  ),
+			'#https?://(www\.)?dailymotion\.com/.*#i'            => array( 'http://www.dailymotion.com/services/oembed',        true  ),
+			'#https?://(www\.)?flickr\.com/.*#i'                 => array( 'http://www.flickr.com/services/oembed/',            true  ),
+			'#https?://(.+\.)?smugmug\.com/.*#i'                 => array( 'http://api.smugmug.com/services/oembed/',           true  ),
+			'#https?://(www\.)?hulu\.com/watch/.*#i'             => array( 'http://www.hulu.com/api/oembed.{format}',           true  ),
+			'#https?://(www\.)?viddler\.com/.*#i'                => array( 'http://lab.viddler.com/services/oembed/',           true  ),
 			'http://qik.com/*'                                   => array( 'http://qik.com/api/oembed.{format}',                false ),
 			'http://revision3.com/*'                             => array( 'http://revision3.com/api/oembed/',                  false ),
 			'http://i*.photobucket.com/albums/*'                 => array( 'http://photobucket.com/oembed',                     false ),
 			'http://gi*.photobucket.com/groups/*'                => array( 'http://photobucket.com/oembed',                     false ),
-			'#http://(www\.)?scribd\.com/.*#i'                   => array( 'http://www.scribd.com/services/oembed',             true  ),
+			'#https?://(www\.)?scribd\.com/.*#i'                 => array( 'http://www.scribd.com/services/oembed',             true  ),
 			'http://wordpress.tv/*'                              => array( 'http://wordpress.tv/oembed/',                       false ),
-			'#http://(.+\.)?polldaddy\.com/.*#i'                 => array( 'http://polldaddy.com/oembed/',                      true  ),
-			'#http://(www\.)?funnyordie\.com/videos/.*#i'        => array( 'http://www.funnyordie.com/oembed',                  true  ),
+			'#https?://(.+\.)?polldaddy\.com/.*#i'               => array( 'http://polldaddy.com/oembed/',                      true  ),
+			'#https?://(www\.)?funnyordie\.com/videos/.*#i'      => array( 'http://www.funnyordie.com/oembed',                  true  ),
 			'#https?://(www\.)?twitter.com/.+?/status(es)?/.*#i' => array( 'http://api.twitter.com/1/statuses/oembed.{format}', true  ),
 		) );
 
@@ -75,8 +75,10 @@ class WP_oEmbed {
 			list( $providerurl, $regex ) = $data;
 
 			// Turn the asterisk-type provider URLs into regex
-			if ( !$regex )
+			if ( !$regex ) {
 				$matchmask = '#' . str_replace( '___wildcard___', '(.+)', preg_quote( str_replace( '*', '___wildcard___', $matchmask ), '#' ) ) . '#i';
+				$matchmask = preg_replace( '|^#http\\\://|', '#https?\://', $matchmask );
+			}
 
 			if ( preg_match( $matchmask, $url ) ) {
 				$provider = str_replace( '{format}', 'json', $providerurl ); // JSON is easier to deal with than XML
