@@ -162,48 +162,15 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Check user's credentials.
-	 *
-	 * @since 1.5.0
-	 *
-	 * @param string $user_login User's username.
-	 * @param string $user_pass User's password.
-	 * @return bool Whether authentication passed.
-	 * @deprecated use wp_xmlrpc_server::login
-	 * @see wp_xmlrpc_server::login
-	 */
-	function login_pass_ok($user_login, $user_pass) {
-
-		// Respect any old filters against get_option() for 'enable_xmlrpc'.
-		$enabled = apply_filters( 'pre_option_enable_xmlrpc', false ); // Deprecated
-		if ( false === $enabled )
-			$enabled = apply_filters( 'option_enable_xmlrpc', true ); // Deprecated
-
-		// Proper filter for turning off XML-RPC. It is on by default.
-		$enabled = apply_filters( 'xmlrpc_enabled', $enabled );
-
-		if ( ! $enabled ) {
-			$this->error = new IXR_Error( 405, sprintf( __( 'XML-RPC services are disabled on this site.' ) ) );
-			return false;
-		}
-
-		if (!user_pass_ok($user_login, $user_pass)) {
-			$this->error = new IXR_Error(403, __('Bad login/pass combination.'));
-			return false;
-		}
-		return true;
-	}
-
-	/**
 	 * Log user in.
 	 *
-	 * @since 2.8
+	 * @since 2.8.0
 	 *
 	 * @param string $username User's username.
 	 * @param string $password User's password.
 	 * @return mixed WP_User object if authentication passed, false otherwise
 	 */
-	function login($username, $password) {
+	function login( $username, $password ) {
 		// Respect any old filters against get_option() for 'enable_xmlrpc'.
 		$enabled = apply_filters( 'pre_option_enable_xmlrpc', false ); // Deprecated
 		if ( false === $enabled )
@@ -220,12 +187,28 @@ class wp_xmlrpc_server extends IXR_Server {
 		$user = wp_authenticate($username, $password);
 
 		if (is_wp_error($user)) {
-			$this->error = new IXR_Error(403, __('Bad login/pass combination.'));
+			$this->error = new IXR_Error( 403, __('Bad login/pass combination.' ) );
 			return false;
 		}
 
 		wp_set_current_user( $user->ID );
 		return $user;
+	}
+
+	/**
+	 * Check user's credentials. Deprecated.
+	 *
+	 * @since 1.5.0
+	 * @deprecated 2.8.0
+	 * @deprecated use wp_xmlrpc_server::login
+	 * @see wp_xmlrpc_server::login
+	 *
+	 * @param string $username User's username.
+	 * @param string $password User's password.
+	 * @return bool Whether authentication passed.
+	 */
+	function login_pass_ok( $username, $password ) {
+		return (bool) $this->login( $username, $password );
 	}
 
 	/**
