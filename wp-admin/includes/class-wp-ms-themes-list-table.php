@@ -12,8 +12,13 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	var $site_id;
 	var $is_site_themes;
 
-	function __construct() {
+	function __construct( $args = array() ) {
 		global $status, $page;
+
+		parent::__construct( array(
+			'plural' => 'themes',
+			'screen' => isset( $args['screen'] ) ? $args['screen'] : null,
+		) );
 
 		$status = isset( $_REQUEST['theme_status'] ) ? $_REQUEST['theme_status'] : 'all';
 		if ( !in_array( $status, array( 'all', 'enabled', 'disabled', 'upgrade', 'search', 'broken' ) ) )
@@ -21,15 +26,10 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 
 		$page = $this->get_pagenum();
 
-		$screen = get_current_screen();
-		$this->is_site_themes = ( 'site-themes-network' == $screen->id ) ? true : false;
+		$this->is_site_themes = ( 'site-themes-network' == $this->screen->id ) ? true : false;
 
 		if ( $this->is_site_themes )
 			$this->site_id = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0;
-
-		parent::__construct( array(
-			'plural' => 'themes'
-		) );
 	}
 
 	function get_table_classes() {

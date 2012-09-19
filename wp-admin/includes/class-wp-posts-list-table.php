@@ -45,10 +45,15 @@ class WP_Posts_List_Table extends WP_List_Table {
 	 */
 	var $sticky_posts_count = 0;
 
-	function __construct() {
+	function __construct( $args = array() ) {
 		global $post_type_object, $wpdb;
 
-		$post_type = get_current_screen()->post_type;
+		parent::__construct( array(
+			'plural' => 'posts',
+			'screen' => isset( $args['screen'] ) ? $args['screen'] : null,
+		) );
+
+		$post_type = $this->screen->post_type;
 		$post_type_object = get_post_type_object( $post_type );
 
 		if ( !current_user_can( $post_type_object->cap->edit_others_posts ) ) {
@@ -66,28 +71,22 @@ class WP_Posts_List_Table extends WP_List_Table {
 			$sticky_posts = implode( ', ', array_map( 'absint', (array) $sticky_posts ) );
 			$this->sticky_posts_count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT( 1 ) FROM $wpdb->posts WHERE post_type = %s AND post_status != 'trash' AND ID IN ($sticky_posts)", $post_type ) );
 		}
-
-		parent::__construct( array(
-			'plural' => 'posts',
-		) );
 	}
 
 	function ajax_user_can() {
-		global $post_type_object;
-
-		return current_user_can( $post_type_object->cap->edit_posts );
+		return current_user_can( get_post_type_object( $this->screen->post_type )->cap->edit_posts );
 	}
 
 	function prepare_items() {
-		global $post_type_object, $avail_post_stati, $wp_query, $per_page, $mode;
+		global $avail_post_stati, $wp_query, $per_page, $mode;
 
 		$avail_post_stati = wp_edit_posts_query();
 
-		$this->hierarchical_display = ( $post_type_object->hierarchical && 'menu_order title' == $wp_query->query['orderby'] );
+		$this->hierarchical_display = ( is_post_type_hierarchical( $this->screen->post_type ) && 'menu_order title' == $wp_query->query['orderby'] );
 
 		$total_items = $this->hierarchical_display ? $wp_query->post_count : $wp_query->found_posts;
 
-		$post_type = $post_type_object->name;
+		$post_type = $this->screen->post_type;
 		$per_page = $this->get_items_per_page( 'edit_' . $post_type . '_per_page' );
  		$per_page = apply_filters( 'edit_posts_per_page', $per_page, $post_type );
 
@@ -112,18 +111,16 @@ class WP_Posts_List_Table extends WP_List_Table {
 	}
 
 	function no_items() {
-		global $post_type_object;
-
 		if ( isset( $_REQUEST['post_status'] ) && 'trash' == $_REQUEST['post_status'] )
-			echo $post_type_object->labels->not_found_in_trash;
+			echo get_post_type_object( $this->screen->post_type )->labels->not_found_in_trash;
 		else
-			echo $post_type_object->labels->not_found;
+			echo get_post_type_object( $this->screen->post_type )->labels->not_found;
 	}
 
 	function get_views() {
-		global $post_type_object, $locked_post_status, $avail_post_stati;
+		global $locked_post_status, $avail_post_stati;
 
-		$post_type = $post_type_object->name;
+		$post_type = $this->screen->post_type;
 
 		if ( !empty($locked_post_status) )
 			return array();
@@ -198,15 +195,15 @@ class WP_Posts_List_Table extends WP_List_Table {
 	}
 
 	function extra_tablenav( $which ) {
-		global $post_type_object, $cat;
+		global $cat;
 ?>
 		<div class="alignleft actions">
 <?php
 		if ( 'top' == $which && !is_singular() ) {
 
-			$this->months_dropdown( $post_type_object->name );
+			$this->months_dropdown( $this->screen->post_type );
 
-			if ( is_object_in_taxonomy( $post_type_object->name, 'category' ) ) {
+			if ( is_object_in_taxonomy( $this->screen->post_type, 'category' ) ) {
 				$dropdown_options = array(
 					'show_option_all' => __( 'View all categories' ),
 					'hide_empty' => 0,
@@ -221,7 +218,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			submit_button( __( 'Filter' ), 'small', false, false, array( 'id' => 'post-query-submit' ) );
 		}
 
-		if ( $this->is_trash && current_user_can( $post_type_object->cap->edit_others_posts ) ) {
+		if ( $this->is_trash && current_user_can( get_post_type_object( $this->screen->post_type )->cap->edit_others_posts ) ) {
 			submit_button( __( 'Empty Trash' ), 'small apply', 'delete_all', false );
 		}
 ?>
@@ -237,27 +234,20 @@ class WP_Posts_List_Table extends WP_List_Table {
 	}
 
 	function pagination( $which ) {
-		global $post_type_object, $mode;
+		global $mode;
 
 		parent::pagination( $which );
 
-		if ( 'top' == $which && !$post_type_object->hierarchical )
+		if ( 'top' == $which && ! is_post_type_hierarchical( $this->screen->post_type ) )
 			$this->view_switcher( $mode );
 	}
 
 	function get_table_classes() {
-		global $post_type_object;
-
-		return array( 'widefat', 'fixed', $post_type_object->hierarchical ? 'pages' : 'posts' );
+		return array( 'widefat', 'fixed', is_post_type_hierarchical( $this->screen->post_type ) ? 'pages' : 'posts' );
 	}
 
 	function get_columns() {
-		$screen = get_current_screen();
-
-		if ( empty( $screen ) )
-			$post_type = 'post';
-		else
-			$post_type = $screen->post_type;
+		$post_type = $this->screen->post_type;
 
 		$posts_columns = array();
 
@@ -313,7 +303,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	}
 
 	function display_rows( $posts = array(), $level = 0 ) {
-		global $wp_query, $post_type_object, $per_page;
+		global $wp_query, $per_page;
 
 		if ( empty( $posts ) )
 			$posts = $wp_query->posts;
@@ -701,7 +691,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	function inline_edit() {
 		global $mode;
 
-		$screen = get_current_screen();
+		$screen = $this->screen;
 
 		$post = get_default_post_to_edit( $screen->post_type );
 		$post_type_object = get_post_type_object( $screen->post_type );
@@ -733,8 +723,8 @@ class WP_Posts_List_Table extends WP_List_Table {
 		$bulk = 0;
 		while ( $bulk < 2 ) { ?>
 
-		<tr id="<?php echo $bulk ? 'bulk-edit' : 'inline-edit'; ?>" class="inline-edit-row inline-edit-row-<?php echo "$hclass inline-edit-$screen->post_type ";
-			echo $bulk ? "bulk-edit-row bulk-edit-row-$hclass bulk-edit-$screen->post_type" : "quick-edit-row quick-edit-row-$hclass inline-edit-$screen->post_type";
+		<tr id="<?php echo $bulk ? 'bulk-edit' : 'inline-edit'; ?>" class="inline-edit-row inline-edit-row-<?php echo "$hclass inline-edit-" . $screen->post_type;
+			echo $bulk ? "bulk-edit-row bulk-edit-row-$hclass bulk-edit-{$screen->post_type}" : "quick-edit-row quick-edit-row-$hclass inline-edit-{$screen->post_type}";
 		?>" style="display: none"><td colspan="<?php echo $this->get_column_count(); ?>" class="colspanchange">
 
 		<fieldset class="inline-edit-col-left"><div class="inline-edit-col">

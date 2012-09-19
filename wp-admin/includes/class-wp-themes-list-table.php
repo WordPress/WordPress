@@ -12,9 +12,10 @@ class WP_Themes_List_Table extends WP_List_Table {
 	protected $search_terms = array();
 	var $features = array();
 
-	function __construct() {
+	function __construct( $args = array() ) {
 		parent::__construct( array(
 			'ajax' => true,
+			'screen' => isset( $args['screen'] ) ? $args['screen'] : null,
 		) );
 	}
 

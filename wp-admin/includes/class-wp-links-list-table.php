@@ -9,9 +9,10 @@
  */
 class WP_Links_List_Table extends WP_List_Table {
 
-	function __construct() {
+	function __construct( $args = array() ) {
 		parent::__construct( array(
 			'plural' => 'bookmarks',
+			'screen' => isset( $args['screen'] ) ? $args['screen'] : null,
 		) );
 	}
 
