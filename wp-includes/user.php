@@ -191,24 +191,6 @@ function count_many_users_posts( $users, $post_type = 'post' ) {
 	return $count;
 }
 
-/**
- * Check that the user login name and password is correct.
- *
- * @since 0.71
- * @todo xmlrpc only. Maybe move to xmlrpc.php.
- *
- * @param string $user_login User name.
- * @param string $user_pass User password.
- * @return bool False if does not authenticate, true if username and password authenticates.
- */
-function user_pass_ok($user_login, $user_pass) {
-	$user = wp_authenticate($user_login, $user_pass);
-	if ( is_wp_error($user) )
-		return false;
-
-	return true;
-}
-
 //
 // User option functions
 //
