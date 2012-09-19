@@ -178,8 +178,7 @@
 	margin-top: 0;
 }
 
-.media-workspace .media-toolbar .add-to-gallery,
-.media-workspace .media-toolbar .create-new-gallery {
+.media-workspace .media-toolbar .add-to-gallery {
 	display: none;
 }
 

@@ -31,7 +31,8 @@
 			this.modal = new media.view.Modal({ controller: this });
 
 			// Add default views.
-			this.add( 'library', media.view.Workspace );
+			this.add( 'library', media.view.Workspace.Library, { collection: media.query() } );
+			this.add( 'gallery', media.view.Workspace.Gallery, { collection: this.selection } );
 		},
 
 
@@ -212,6 +213,11 @@
 		},
 
 		content: function( $content ) {
+			// Detach any existing content to prevent events from being lost.
+			if ( this.options.$content )
+				this.options.$content.detach();
+
+			// Set and render the content.
 			this.options.$content = ( $content instanceof Backbone.View ) ? $content.$el : $content;
 			return this.render();
 		},
@@ -293,17 +299,19 @@
 
 		initialize: function() {
 			_.defaults( this.options, {
-				style:   'secondary',
 				text:    '',
 				classes: []
 			});
 		},
 
 		render: function() {
-			var classes = [ this.className ];
+			var classes = [ 'button', this.className ];
 
 			if ( this.options.style )
 				classes.push( 'button-' + this.options.style );
+
+			if ( this.options.size )
+				classes.push( 'button-' + this.options.size );
 
 			classes = classes.concat( this.options.classes );
 			this.el.className = classes.join(' ');
@@ -341,14 +349,10 @@
 
 			this.$content = $('<div class="existing-attachments" />');
 
-			// If this supports multiple attachments, initialize the sample toolbar view.
-			if ( this.controller.get('multiple') )
-				this.initToolbarView();
-
 			this.attachmentsView = new media.view.Attachments({
 				controller: this.controller,
 				directions: 'Select stuff.',
-				collection: media.query()
+				collection: this.collection
 			});
 
 			this.$content.append( this.attachmentsView.$el );
@@ -358,6 +362,8 @@
 		},
 
 		render: function() {
+			this.$content.detach();
+
 			this.attachmentsView.render();
 			this.renderUploadProgress();
 			this.$el.html( this.template( this.options ) ).append( this.$content );
@@ -393,6 +399,19 @@
 				else
 					return memo + 100;
 			}, 0 ) / queue.length ) + '%' );
+		}
+	});
+
+	/**
+	 * wp.media.view.Workspace.Library
+	 */
+	media.view.Workspace.Library = media.view.Workspace.extend({
+		initialize: function() {
+			media.view.Workspace.prototype.initialize.apply( this, arguments );
+
+			// If this supports multiple attachments, initialize the sample toolbar view.
+			if ( this.controller.get('multiple') )
+				this.initToolbarView();
 		},
 
 		// Initializes the toolbar view. Currently uses defaults set for
@@ -400,6 +419,8 @@
 		// appropriate workflow when the time comes, but is currently here
 		// to test multiple selections.
 		initToolbarView: function() {
+			var controller = this.controller;
+
 			this.toolbarView = new media.view.Toolbar({
 				items: {
 					'selection-preview': new media.view.SelectionPreview({
@@ -415,7 +436,10 @@
 					'create-new-gallery': {
 						style: 'primary',
 						text:  'Create a new gallery',
-						priority: 30
+						priority: 30,
+						click:  function() {
+							controller.render('gallery');
+						}
 					},
 					'add-to-gallery': {
 						text:  'Add to gallery',
@@ -428,6 +452,53 @@
 				this.$el.toggleClass( 'with-toolbar', !! this.controller.selection.length );
 			}, this );
 
+			this.$content.append( this.toolbarView.$el );
+		}
+	});
+
+	/**
+	 * wp.media.view.Workspace.Gallery
+	 */
+	media.view.Workspace.Gallery = media.view.Workspace.extend({
+		initialize: function() {
+			media.view.Workspace.prototype.initialize.apply( this, arguments );
+			this.initToolbarView();
+		},
+
+		// Initializes the toolbar view. Currently uses defaults set for
+		// inserting media into a post. This should be pulled out into the
+		// appropriate workflow when the time comes, but is currently here
+		// to test multiple selections.
+		initToolbarView: function() {
+			var controller = this.controller;
+
+			this.toolbarView = new media.view.Toolbar({
+				items: {
+					'return-to-library': {
+						text:  'Return to media library',
+						priority: -40,
+						click:  function() {
+							controller.render('library');
+						}
+					},
+
+					'insert-gallery-into-post': {
+						style: 'primary',
+						text:  'Insert gallery into post',
+						priority: 40,
+						click:  function() {
+							controller.close();
+						}
+					},
+
+					'add-images': {
+						text:  'Add images from media library',
+						priority: 30
+					}
+				}
+			});
+
+			this.$el.addClass('with-toolbar');
 			this.$content.append( this.toolbarView.$el );
 		}
 	});
