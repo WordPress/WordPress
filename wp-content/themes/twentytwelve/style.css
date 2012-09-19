@@ -157,11 +157,14 @@ img {
 }
 
 /* Clearing floats */
-.clear:after {
+.clear:after,
+.wrapper:after {
 	clear: both;
 }
 .clear:before,
-.clear:after {
+.clear:after,
+.wrapper:before,
+.wrapper:after {
 	display: table;
 	content: "";
 }
@@ -462,9 +465,6 @@ a:hover {
 }
 
 /* Page structure */
-.wrapper {
-	overflow: hidden;
-}
 .site {
 	padding: 0 24px;
 	padding: 0 1.714285714rem;
