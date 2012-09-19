@@ -540,6 +540,9 @@
 		},
 
 		render: function() {
+			// Detach the list from the DOM to prevent event removal.
+			this.$list.detach();
+
 			this.$el.html( this.template( this.options ) ).append( this.$list );
 			this.refresh();
 			return this;
