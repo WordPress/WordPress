@@ -122,6 +122,10 @@ function _wp_translate_postdata( $update = false, $post_data = null ) {
 		$hh = ($hh > 23 ) ? $hh -24 : $hh;
 		$mn = ($mn > 59 ) ? $mn -60 : $mn;
 		$ss = ($ss > 59 ) ? $ss -60 : $ss;
+		$valid_date = apply_filters( '_wp_translate_postdata_valid_date', checkdate( $mm, $jj, $aa ), $post_data );
+		if ( !$valid_date ) {
+			return new WP_Error( 'invalid_date', __( 'Woops, the provided date is invalid.' ) );
+		}
 		$post_data['post_date'] = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $aa, $mm, $jj, $hh, $mn, $ss );
 		$post_data['post_date_gmt'] = get_gmt_from_date( $post_data['post_date'] );
 	}

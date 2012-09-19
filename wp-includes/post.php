@@ -2633,6 +2633,15 @@ function wp_insert_post($postarr, $wp_error = false) {
 	if ( empty($post_date) || '0000-00-00 00:00:00' == $post_date )
 		$post_date = current_time('mysql');
 
+		// validate the date
+		$mm = substr( $post_date, 5, 2 );
+		$jj = substr( $post_date, 8, 2 );
+		$aa = substr( $post_date, 0, 4 );
+		$valid_date = apply_filters( 'wp_insert_post_validate_date', checkdate( $mm, $jj, $aa ), $post_date );
+		if ( !$valid_date ) {
+			return new WP_Error( 'invalid_date', __( 'Woops, the provided date is invalid.' ) );
+		}
+
 	if ( empty($post_date_gmt) || '0000-00-00 00:00:00' == $post_date_gmt ) {
 		if ( !in_array( $post_status, array( 'draft', 'pending', 'auto-draft' ) ) )
 			$post_date_gmt = get_gmt_from_date($post_date);

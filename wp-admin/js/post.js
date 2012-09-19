@@ -528,6 +528,16 @@ jQuery(document).ready( function($) {
 			return false;
 		});
 
+		$('#post').submit(function(e){
+			if ( !updateText() ) {
+				e.preventDefault();
+				$('#timestampdiv').show();
+				$('#publishing-action .ajax-loading').css('visibility', 'hidden');
+				$('#publish').prop('disabled', false).removeClass('button-primary-disabled');
+				return false;
+			}
+		});
+
 		$('#post-status-select').siblings('a.edit-post-status').click(function() {
 			if ($('#post-status-select').is(":hidden")) {
 				$('#post-status-select').slideDown('fast');
