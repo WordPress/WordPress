@@ -1027,14 +1027,37 @@ article.format-quote .entry-content blockquote {
 }
 
 /* Status posts */
-.format-status .entry-content p {
-	margin-right: 48px;
-	margin-right: 3.428571429rem;
-}
 .format-status div.avatar {
-	float: right;
-	margin-left: 14px;
-	margin-left: 1rem;
+	margin-bottom: 24px;
+	margin-bottom: 1.714285714rem;
+}
+.format-status div.avatar header {
+	display: inline-block;
+}
+.format-status div.avatar h1 {
+	font-size: 15px;
+	font-size: 1.071428571rem;
+	font-weight: normal;
+	line-height: 1.6;
+	margin: 0;
+}
+.format-status div.avatar h2 {
+	font-size: 12px;
+	font-size: 0.857142857rem;
+	font-weight: normal;
+	line-height: 2;
+	margin: 0;
+}
+.format-status div.avatar a {
+	color: #777;
+}
+.format-status div.avatar a:hover {
+	color: #21759b;
+}
+.format-status div.avatar img {
+	float: left;
+	margin-right: 21px;
+	margin-right: 1.5rem;
 }
 
 

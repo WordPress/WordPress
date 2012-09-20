@@ -93,16 +93,11 @@ article.format-link .entry-content {
 }
 
 /* Status posts */
-.format-status .entry-content p {
-	margin-left: 48px;
-	margin-left: 3.428571429rem;
-	margin-right: auto;
-}
-.format-status div.avatar {
-	float: left;
-	margin-left: auto;
-	margin-right: 14px;
-	margin-right: 1rem;
+.format-status div.avatar img {
+	float: right;
+	margin-left: 21px;
+	margin-left: 1.5rem;
+	margin-right: 0;
 }
 
 
