@@ -3703,3 +3703,13 @@ function _device_can_upload() {
 	return true;
 }
 
+/**
+ * Test if the supplied date is valid for the Gregorian calendar
+ *
+ * @since 3.5.0
+ *
+ * @return bool true|false
+ */
+function wp_checkdate( $month, $day, $year, $source_date ) {
+	return apply_filters( 'wp_checkdate', checkdate( $month, $day, $year ), $source_date );
+}

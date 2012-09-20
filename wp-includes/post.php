@@ -2637,9 +2637,12 @@ function wp_insert_post($postarr, $wp_error = false) {
 		$mm = substr( $post_date, 5, 2 );
 		$jj = substr( $post_date, 8, 2 );
 		$aa = substr( $post_date, 0, 4 );
-		$valid_date = apply_filters( 'wp_insert_post_validate_date', checkdate( $mm, $jj, $aa ), $post_date );
+		$valid_date = wp_checkdate( $mm, $jj, $aa, $post_date );
 		if ( !$valid_date ) {
-			return new WP_Error( 'invalid_date', __( 'Woops, the provided date is invalid.' ) );
+			if ( $wp_error )
+				return new WP_Error( 'invalid_date', __( 'Whoops, the provided date is invalid.' ) );
+			else
+				return 0;
 		}
 
 	if ( empty($post_date_gmt) || '0000-00-00 00:00:00' == $post_date_gmt ) {
