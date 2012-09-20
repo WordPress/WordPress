@@ -1127,8 +1127,10 @@ function install_blog($blog_id, $blog_title = '') {
 
 	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
-	if ( $wpdb->get_results("SELECT ID FROM $wpdb->posts") )
+	$wpdb->suppress_errors();
+	if ( $wpdb->get_results( "DESCRIBE {$wpdb->posts}" ) )
 		die( __( '<h1>Already Installed</h1><p>You appear to have already installed WordPress. To reinstall please clear your old database tables first.</p>' ) . '</body></html>' );
+	$wpdb->suppress_errors( false );
 
 	$url = get_blogaddress_by_id( $blog_id );
 
