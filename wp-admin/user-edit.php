@@ -246,7 +246,7 @@ if ( !( IS_PROFILE_PAGE && !$user_can_edit ) ) : ?>
 	</tr>
 
 <?php if ( !IS_PROFILE_PAGE && !is_network_admin() ) : ?>
-<tr><th><label for="role"><?php _e('Role:') ?></label></th>
+<tr><th><label for="role"><?php _e('Role') ?></label></th>
 <td><select name="role" id="role">
 <?php
 // Get the highest/primary role for this user
@@ -267,7 +267,7 @@ else
 <?php endif; //!IS_PROFILE_PAGE
 
 if ( is_multisite() && is_network_admin() && ! IS_PROFILE_PAGE && current_user_can( 'manage_network_options' ) && !isset($super_admins) ) { ?>
-<tr><th><label for="role"><?php _e('Super Admin'); ?></label></th>
+<tr><th><?php _e('Super Admin'); ?></th>
 <td>
 <?php if ( $profileuser->user_email != get_site_option( 'admin_email' ) || ! is_super_admin( $profileuser->ID ) ) : ?>
 <p><label><input type="checkbox" id="super_admin" name="super_admin"<?php checked( is_super_admin( $profileuser->ID ) ); ?> /> <?php _e( 'Grant this user super admin privileges for the Network.' ); ?></label></p>
