@@ -158,13 +158,16 @@ img {
 
 /* Clearing floats */
 .clear:after,
-.wrapper:after {
+.wrapper:after,
+.format-status .entry-header:after {
 	clear: both;
 }
 .clear:before,
 .clear:after,
 .wrapper:before,
-.wrapper:after {
+.wrapper:after,
+.format-status .entry-header:before,
+.format-status .entry-header:after {
 	display: table;
 	content: "";
 }
@@ -1027,34 +1030,34 @@ article.format-quote .entry-content blockquote {
 }
 
 /* Status posts */
-.format-status div.avatar {
+.format-status .entry-header {
 	margin-bottom: 24px;
 	margin-bottom: 1.714285714rem;
 }
-.format-status div.avatar header {
+.format-status .entry-header header {
 	display: inline-block;
 }
-.format-status div.avatar h1 {
+.format-status .entry-header h1 {
 	font-size: 15px;
 	font-size: 1.071428571rem;
 	font-weight: normal;
 	line-height: 1.6;
 	margin: 0;
 }
-.format-status div.avatar h2 {
+.format-status .entry-header h2 {
 	font-size: 12px;
 	font-size: 0.857142857rem;
 	font-weight: normal;
 	line-height: 2;
 	margin: 0;
 }
-.format-status div.avatar a {
+.format-status .entry-header header a {
 	color: #777;
 }
-.format-status div.avatar a:hover {
+.format-status .entry-header header a:hover {
 	color: #21759b;
 }
-.format-status div.avatar img {
+.format-status .entry-header img {
 	float: left;
 	margin-right: 21px;
 	margin-right: 1.5rem;

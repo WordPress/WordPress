@@ -93,7 +93,7 @@ article.format-link .entry-content {
 }
 
 /* Status posts */
-.format-status div.avatar img {
+.format-status .entry-header img {
 	float: right;
 	margin-left: 21px;
 	margin-left: 1.5rem;
