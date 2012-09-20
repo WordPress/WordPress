@@ -7,8 +7,14 @@
 	var button = document.getElementById( 'site-navigation' ).getElementsByTagName( 'h3' )[0],
 	    menu   = document.getElementById( 'site-navigation' ).getElementsByTagName( 'ul' )[0];
 
-	if ( undefined == button || undefined == menu )
+	if ( undefined === button )
 		return false;
+
+	// Hide button if menu is missing or empty.
+	if ( undefined === menu || ! menu.childNodes.length ) {
+		button.style.display = 'none';
+		return false;
+	}
 
 	button.onclick = function() {
 		if ( -1 == menu.className.indexOf( 'nav-menu' ) )
@@ -22,8 +28,4 @@
 			menu.className += ' toggled-on';
 		}
 	};
-
-	// Hide menu toggle button if menu is empty.
-	if ( ! menu.childNodes.length )
-		button.style.display = 'none';
 } )();
