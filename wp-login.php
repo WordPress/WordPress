@@ -459,11 +459,14 @@ case 'rp' :
 		exit;
 	}
 
-	$errors = '';
+	$errors = new WP_Error();
 
-	if ( isset($_POST['pass1']) && $_POST['pass1'] != $_POST['pass2'] ) {
-		$errors = new WP_Error('password_reset_mismatch', __('The passwords do not match.'));
-	} elseif ( isset($_POST['pass1']) && !empty($_POST['pass1']) ) {
+	if ( isset($_POST['pass1']) && $_POST['pass1'] != $_POST['pass2'] )
+		$errors->add( 'password_reset_mismatch', __( 'The passwords do not match.' ) );
+
+	do_action( 'validate_password_reset', $errors, $user );
+
+	if ( ( ! $errors->get_error_code() ) && isset( $_POST['pass1'] ) && !empty( $_POST['pass1'] ) ) {
 		reset_password($user, $_POST['pass1']);
 		login_header( __( 'Password Reset' ), '<p class="message reset-pass">' . __( 'Your password has been reset.' ) . ' <a href="' . esc_url( wp_login_url() ) . '">' . __( 'Log in' ) . '</a></p>' );
 		login_footer();
