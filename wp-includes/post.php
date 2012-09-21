@@ -2856,32 +2856,18 @@ function wp_update_post( $postarr = array(), $wp_error = false ) {
  * Publish a post by transitioning the post status.
  *
  * @since 2.1.0
- * @uses $wpdb
- * @uses do_action() Calls 'edit_post', 'save_post', and 'wp_insert_post' on post_id and post data.
+ * @uses wp_insert_post()
  *
- * @param int $post_id Post ID.
- * @return null
+ * @param mixed $post Post ID or object.
  */
-function wp_publish_post($post_id) {
-	global $wpdb;
-
-	$post = get_post($post_id);
-
-	if ( empty($post) )
+function wp_publish_post( $post ) {
+	if ( ! $post = get_post( $post ) )
 		return;
-
 	if ( 'publish' == $post->post_status )
 		return;
 
-	$wpdb->update( $wpdb->posts, array( 'post_status' => 'publish' ), array( 'ID' => $post_id ) );
-
-	$old_status = $post->post_status;
 	$post->post_status = 'publish';
-	wp_transition_post_status('publish', $old_status, $post);
-
-	do_action('edit_post', $post_id, $post);
-	do_action('save_post', $post_id, $post);
-	do_action('wp_insert_post', $post_id, $post);
+	wp_insert_post( $post );
 }
 
 /**
