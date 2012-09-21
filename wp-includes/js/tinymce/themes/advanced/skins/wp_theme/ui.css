@@ -1,2 +1,2 @@
-/* not used, included for back-compat, see wp-includes/css/editor-buttons.css */
-@import url("../../../../../../css/editor-buttons.css?ver=20111114");
+/* not used, included for back-compat, see wp-includes/css/editor.css (formerly editor-buttons.css) */
+@import url("../../../../../../css/editor.css?ver=20111114");
