@@ -1892,15 +1892,19 @@ function home_url( $path = '', $scheme = null ) {
 function get_home_url( $blog_id = null, $path = '', $scheme = null ) {
 	$orig_scheme = $scheme;
 
-	if ( ! in_array( $scheme, array( 'http', 'https', 'relative' ) ) )
-		$scheme = is_ssl() && !is_admin() ? 'https' : 'http';
-
 	if ( empty( $blog_id ) || !is_multisite() ) {
 		$url = get_option( 'home' );
 	} else {
 		switch_to_blog( $blog_id );
 		$url = get_option( 'home' );
 		restore_current_blog();
+	}
+
+	if ( ! in_array( $scheme, array( 'http', 'https', 'relative' ) ) ) {
+		if ( is_ssl() && ! is_admin() )
+			$scheme = 'https';
+		else
+			$scheme = parse_url( $url, PHP_URL_SCHEME );
 	}
 
 	$url = set_url_scheme( $url, $scheme );
