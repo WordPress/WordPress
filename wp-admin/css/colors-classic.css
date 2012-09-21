@@ -387,15 +387,15 @@ a.button:active {
 .submit input,
 input[type=button],
 input[type=submit] {
-	background: #ececec;
+	background: #f3f3f3;
 	background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#eee));
 	background-image: -webkit-linear-gradient(top, #fff, #eee);
 	background-image:    -moz-linear-gradient(top, #fff, #eee);
 	background-image:      -o-linear-gradient(top, #fff, #eee);
 	background-image:   linear-gradient(to bottom, #fff, #eee);
 	border-color: #ccc;
-	-webkit-box-shadow: inset 0 0 1px 1px rgba(255,255,255, 0.9);
- 	box-shadow: inset 0 0 1px 1px rgba(255,255,255, 0.9);
+	-webkit-box-shadow: inset 0 0 1px 2px rgba(255,255,255, 0.9);
+ 	box-shadow: inset 0 0 1px 2px rgba(255,255,255, 0.9);
  	color: #464646;
 	text-shadow: 1px 1px 0 #fff;
 }
@@ -413,19 +413,33 @@ input[type=submit]:hover,
 .button-secondary:focus,
 .submit input.focus,
 .submit input:focus,
+input[type=button].focus,
 input[type=button]:focus,
-input[type=submit].focus,
 input[type=submit]:focus {
-	background: #ececec;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#eee));
-	background-image: -webkit-linear-gradient(top, #fff, #eee);
-	background-image:    -moz-linear-gradient(top, #fff, #eee);
-	background-image:      -o-linear-gradient(top, #fff, #eee);
-	background-image:   linear-gradient(to bottom, #fff, #eee);
+	background: #f3f3f3;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#f3f3f3));
+	background-image: -webkit-linear-gradient(top, #fff, #f3f3f3);
+	background-image:    -moz-linear-gradient(top, #fff, #f3f3f3);
+	background-image:      -o-linear-gradient(top, #fff, #f3f3f3);
+	background-image:   linear-gradient(to bottom, #fff, #f3f3f3);
 	border-color: #bbb;
-	-webkit-box-shadow: 0px 1px 1px rgba(0,0,0,.1);
-	box-shadow: 0px 1px 1px rgba(0,0,0,.1);
+	-webkit-box-shadow: inset 0 0 1px 2px #fff, 0px 1px 1px rgba(0,0,0,.1);
+	box-shadow: inset 0 0 1px 2px #fff, 0px 1px 1px rgba(0,0,0,.1);
 	color: #000;
+}
+
+.button.focus,
+.button:focus,
+.button-secondary.focus,
+.button-secondary:focus,
+.submit input.focus,
+.submit input:focus,
+input[type=button].focus,
+input[type=button]:focus,
+input[type=submit]:focus {
+	border-color: #999;
+	-webkit-box-shadow: 1px 1px 1px rgba(0,0,0,.2);
+	box-shadow: 1px 1px 1px rgba(0,0,0,.2);
 }
 
 .button.active,
@@ -446,17 +460,6 @@ input[type=submit]:active {
 	color: #555;
 	-webkit-box-shadow: inset 1px 1px 0 rgba(50,50,50,0.1);
  	box-shadow: inset 1px 1px 0 rgba(50,50,50,0.1);
-}
-
-.button.focus,
-.button:focus,
-.button-secondary.focus,
-.button-secondary:focus,
-.submit input.focus,
-.submit input:focus,
-input[type=button].focus,
-input[type=submit]:focus {
-	border-color: #aaa;
 }
 
 input.button-primary,
@@ -498,6 +501,15 @@ a.button-primary:focus {
 	text-shadow: -1px -1px 0 rgba(0,0,0,0.3);
 }
 
+input.button-primary.focus,
+input.button-primary:focus,
+button.button-primary:focus,
+a.button-primary:focus {
+	border-color: #0e3950;
+	-webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.6), 1px 1px 2px rgba(0,0,0,.4);
+	box-shadow: inset 0 1px 0 rgba(120,200,230,0.6), 1px 1px 2px rgba(0,0,0,.4);
+}
+
 input.button-primary.active,
 input.button-primary:active,
 button.button-primary:active,
@@ -512,13 +524,6 @@ a.button-primary:active {
 	color: rgba(255,255,255,0.95);
 	-webkit-box-shadow: inset 1px 1px 0 rgba(0,0,0,0.1);
  	box-shadow: inset 1px 1px 0 rgba(0,0,0,0.1);
-}
-
-input.button-primary.focus,
-input.button-primary:focus,
-button.button-primary:focus,
-a.button-primary:focus {
-	border-color: #124560;
 }
 
 .button-disabled,
@@ -540,6 +545,11 @@ a.button.disabled {
 	background: #298cba !important;
 	-webkit-box-shadow: none !important;
 	box-shadow:         none !important;
+}
+
+.button-primary-disabled:hover,
+.button-primary[disabled]:hover {
+	text-shadow: none;
 }
 
 a:hover,

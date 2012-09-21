@@ -74,7 +74,7 @@ function list_core_update( $update ) {
 	echo '<input name="locale" value="'. esc_attr($update->locale) .'" type="hidden"/>';
 	if ( $show_buttons ) {
 		if ( $first_pass ) {
-			submit_button( $submit, $current ? 'button' : 'primary', 'upgrade', false );
+			submit_button( $submit, $current ? 'button' : 'primary regular', 'upgrade', false );
 			$first_pass = false;
 		} else {
 			submit_button( $submit, 'button', 'upgrade', false );

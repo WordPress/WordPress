@@ -558,7 +558,7 @@ var farbtastic;
 		<input type="file" id="upload" name="import" />
 		<input type="hidden" name="action" value="save" />
 		<?php wp_nonce_field( 'custom-header-upload', '_wpnonce-custom-header-upload' ); ?>
-		<?php submit_button( __( 'Upload' ), 'button', 'submit', false ); ?>
+		<?php submit_button( __( 'Upload' ), 'small', 'submit', false ); ?>
 	</p>
 	<?php
 		$image_library_url = get_upload_iframe_src( 'image', null, 'library' );

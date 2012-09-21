@@ -1651,7 +1651,7 @@ function get_submit_button( $text = null, $type = 'primary', $name = 'submit', $
 	if ( ! is_array( $type ) )
 		$type = explode( ' ', $type ); 
 
-	$button_shorthand = array( 'primary', 'tiny', 'small', 'large' );
+	$button_shorthand = array( 'primary', 'small', 'large' );
 	$classes = array( 'button' );
 	foreach ( $type as $t ) {
 		if ( 'secondary' === $t || 'button-secondary' === $t )

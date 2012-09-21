@@ -215,11 +215,11 @@ class WP_Posts_List_Table extends WP_List_Table {
 				wp_dropdown_categories( $dropdown_options );
 			}
 			do_action( 'restrict_manage_posts' );
-			submit_button( __( 'Filter' ), 'small', false, false, array( 'id' => 'post-query-submit' ) );
+			submit_button( __( 'Filter' ), 'button', false, false, array( 'id' => 'post-query-submit' ) );
 		}
 
 		if ( $this->is_trash && current_user_can( get_post_type_object( $this->screen->post_type )->cap->edit_others_posts ) ) {
-			submit_button( __( 'Empty Trash' ), 'small apply', 'delete_all', false );
+			submit_button( __( 'Empty Trash' ), 'apply', 'delete_all', false );
 		}
 ?>
 		</div>

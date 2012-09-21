@@ -783,9 +783,10 @@ input.button-secondary {
 	display: inline-block;
 	text-decoration: none;
 	font-size: 12px;
-	line-height: 15px;
+	line-height: 17px;
+	height: 15px;
 	margin: 0;
-	padding: 0.5em 0.8em 0.4em;
+	padding: 0.25em 0.8em 0.35em;
 	cursor: pointer;
 	border-width: 1px;
 	border-style: solid;
@@ -797,18 +798,17 @@ input.button-secondary {
 	white-space: nowrap;
 }
 
+.button.button-large,
+.button.button-primary {
+	padding: 0.4em 0.8em 0.5em;
+}
+
 .button.button-small {
-	padding: 3px .8em 2px;
+	padding: 0.15em 0.8em 0.17em;
 }
 
-.button.button-large {
-    font-size: 14px;
-    padding: 0.6em 1em 0.5em;
-}
-
-.button.button-tiny {
-	padding: .2em .8em;
-	font-size: 11px;
+.button.regular {
+	padding: 0.25em 0.8em 0.35em !important;
 }
 
 #minor-publishing-actions input,
@@ -843,10 +843,12 @@ input[type="number"].small-text {
 #doaction,
 #doaction2,
 #post-query-submit {
-	margin-right: 8px;
+	margin: 1px 8px 0 0;
 }
 
 .tablenav .actions select {
+	float: left;
+	margin-right: 6px;
 	max-width: 200px;
 }
 
@@ -892,6 +894,12 @@ label,
 p.search-box {
 	float: right;
 	margin: 0;
+}
+
+.search-box input[name="s"], #search-plugins input[name="s"], .tagsdiv .newtag {
+	float: left;
+	height: 2em;
+	margin: 0 4px 0 0;
 }
 
 input[type="text"].ui-autocomplete-loading {
@@ -2482,6 +2490,7 @@ th.asc:hover span.sorting-indicator {
 }
 
 .tablenav .actions {
+	overflow: hidden;
 	padding: 2px 8px 0 0;
 }
 
@@ -5848,7 +5857,7 @@ h3:hover .edit-box {
 }
 
 #dashboard-widgets-wrap #dashboard-widgets .postbox form .submit input {
-	margin: 0;
+	margin: 0 5px 0 0;
 }
 
 #dashboard-widgets-wrap #dashboard-widgets .postbox form .submit #publish {
@@ -6105,7 +6114,7 @@ h3:hover .edit-box {
 }
 
 #dashboard-widgets #dashboard_quick_press form p.submit #save-post {
-	margin: 0 1em 0 0;
+	margin: 0 0.7em 0 1px;
 }
 
 #dashboard-widgets #dashboard_quick_press form p.submit #publish {

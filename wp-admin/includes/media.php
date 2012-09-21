@@ -1882,7 +1882,7 @@ foreach ($arc_result as $arc_row) {
 </select>
 <?php } ?>
 
-<?php submit_button( __( 'Filter &#187;' ), 'secondary', 'post-query-submit', false ); ?>
+<?php submit_button( __( 'Filter &#187;' ), 'button', 'post-query-submit', false ); ?>
 
 </div>
 
