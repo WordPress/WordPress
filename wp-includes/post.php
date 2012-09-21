@@ -2765,11 +2765,11 @@ function wp_insert_post($postarr, $wp_error = false) {
 
 	$current_guid = get_post_field( 'guid', $post_ID );
 
-	clean_post_cache( $post_ID );
-
 	// Set GUID
 	if ( !$update && '' == $current_guid )
 		$wpdb->update( $wpdb->posts, array( 'guid' => get_permalink( $post_ID ) ), $where );
+
+	clean_post_cache( $post_ID );
 
 	$post = get_post($post_ID);
 
@@ -4682,19 +4682,6 @@ function _publish_post_hook($post_id) {
 	add_post_meta( $post_id, '_encloseme', '1' );
 
 	wp_schedule_single_event(time(), 'do_pings');
-}
-
-/**
- * Hook used to prevent page/post cache from staying dirty when a post is saved.
- *
- * @since 2.3.0
- * @access private
- *
- * @param int $post_id The ID in the database table for the $post
- * @param object $post Object type containing the post information
- */
-function _save_post_hook( $post_id, $post ) {
-	clean_post_cache( $post );
 }
 
 /**

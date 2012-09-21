@@ -3244,3 +3244,11 @@ function user_pass_ok($user_login, $user_pass) {
 
 	return true;
 }
+
+/**
+ * Callback formerly fired on the save_post hook. No longer needed.
+ *
+ * @since 2.3.0
+ * @deprecated 3.5.0
+ */
+function _save_post_hook() {}
