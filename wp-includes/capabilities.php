@@ -868,7 +868,7 @@ class WP_User {
 	 * @param string $cap Capability name.
 	 */
 	function remove_cap( $cap ) {
-		if ( empty( $this->caps[$cap] ) )
+		if ( ! isset( $this->caps[$cap] ) )
 			return;
 		unset( $this->caps[$cap] );
 		update_user_meta( $this->ID, $this->cap_key, $this->caps );
