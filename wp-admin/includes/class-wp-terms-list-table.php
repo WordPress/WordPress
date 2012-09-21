@@ -299,6 +299,9 @@ class WP_Terms_List_Table extends WP_List_Table {
 		if ( 'post' != $this->screen->post_type )
 			$args['post_type'] = $this->screen->post_type;
 
+		if ( 'attachment' == $this->screen->post_type )
+			return "<a href='" . esc_url ( add_query_arg( $args, 'upload.php' ) ) . "'>$count</a>";
+
 		return "<a href='" . esc_url ( add_query_arg( $args, 'edit.php' ) ) . "'>$count</a>";
 	}
 

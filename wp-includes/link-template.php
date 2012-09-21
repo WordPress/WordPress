@@ -106,7 +106,7 @@ function get_permalink( $id = 0, $leavename = false ) {
 	if ( $post->post_type == 'page' )
 		return get_page_link($post->ID, $leavename, $sample);
 	elseif ( $post->post_type == 'attachment' )
-		return get_attachment_link($post->ID);
+		return get_attachment_link( $post->ID, $leavename );
 	elseif ( in_array($post->post_type, get_post_types( array('_builtin' => false) ) ) )
 		return get_post_permalink($post->ID, $leavename, $sample);
 
@@ -292,9 +292,10 @@ function _get_page_link( $post = false, $leavename = false, $sample = false ) {
  * @since 2.0.0
  *
  * @param mixed $post Optional. Post ID or object.
+ * @param bool $leavename Optional. Leave name.
  * @return string
  */
-function get_attachment_link( $post = null ) {
+function get_attachment_link( $post = null, $leavename = false ) {
 	global $wp_rewrite;
 
 	$link = false;
@@ -314,7 +315,10 @@ function get_attachment_link( $post = null ) {
 			$name = $post->post_name;
 
 		if ( strpos($parentlink, '?') === false )
-			$link = user_trailingslashit( trailingslashit($parentlink) . $name );
+			$link = user_trailingslashit( trailingslashit($parentlink) . '%postname%' );
+
+		if ( ! $leavename )
+			$link = str_replace( '%postname%', $name, $link );
 	}
 
 	if ( ! $link )

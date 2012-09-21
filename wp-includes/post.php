@@ -52,13 +52,16 @@ function create_initial_post_types() {
 
 	register_post_type( 'attachment', array(
 		'labels' => array(
-			'name' => __( 'Media' ),
-			'edit_item' => __( 'Edit Media' ),
+			'name' => _x('Media', 'post type general name'),
+			'name_admin_bar' => _x( 'Media', 'add new from admin bar' ),
+			'add_new' => _x( 'Add New', 'add new media' ),
+ 			'edit_item' => __( 'Edit Media' ),
+ 			'view_item' => __( 'View Attachment Page' ),
 		),
 		'public' => true,
-		'show_ui' => false,
+		'show_ui' => true,
 		'_builtin' => true, /* internal use only. don't use this when registering your own post type. */
-		'_edit_link' => 'media.php?attachment_id=%d', /* internal use only. don't use this when registering your own post type. */
+		'_edit_link' => 'post.php?post=%d', /* internal use only. don't use this when registering your own post type. */
 		'capability_type' => 'post',
 		'map_meta_cap' => true,
 		'hierarchical' => false,
@@ -66,7 +69,7 @@ function create_initial_post_types() {
 		'query_var' => false,
 		'show_in_nav_menus' => false,
 		'delete_with_user' => true,
-		'supports' => array( 'comments', 'author' ),
+		'supports' => array( 'title', 'author', 'comments' ),
 	) );
 
 	register_post_type( 'revision', array(
@@ -3768,13 +3771,12 @@ function wp_insert_attachment($object, $file = false, $parent = 0) {
 	if ( ! in_array( $post_status, array( 'inherit', 'private' ) ) )
 		$post_status = 'inherit';
 
+	if ( !empty($post_category) )
+		$post_category = array_filter($post_category); // Filter out empty terms
+
 	// Make sure we set a valid category.
-	if ( !isset($post_category) || 0 == count($post_category) || !is_array($post_category) ) {
-		// 'post' requires at least one category.
-		if ( 'post' == $post_type )
-			$post_category = array( get_option('default_category') );
-		else
-			$post_category = array();
+	if ( empty($post_category) || 0 == count($post_category) || !is_array($post_category) ) {
+		$post_category = array();
 	}
 
 	// Are we updating or creating?
@@ -3859,7 +3861,22 @@ function wp_insert_attachment($object, $file = false, $parent = 0) {
 		$wpdb->update( $wpdb->posts, compact("post_name"), array( 'ID' => $post_ID ) );
 	}
 
-	wp_set_post_categories($post_ID, $post_category);
+	if ( is_object_in_taxonomy($post_type, 'category') )
+		wp_set_post_categories( $post_ID, $post_category );
+
+	if ( isset( $tags_input ) && is_object_in_taxonomy($post_type, 'post_tag') )
+		wp_set_post_tags( $post_ID, $tags_input );
+
+	// support for all custom taxonomies
+	if ( !empty($tax_input) ) {
+		foreach ( $tax_input as $taxonomy => $tags ) {
+			$taxonomy_obj = get_taxonomy($taxonomy);
+			if ( is_array($tags) ) // array = hierarchical, string = non-hierarchical.
+				$tags = array_filter($tags);
+			if ( current_user_can($taxonomy_obj->cap->assign_terms) )
+				wp_set_post_terms( $post_ID, $tags, $taxonomy );
+		}
+	}
 
 	if ( $file )
 		update_attached_file( $post_ID, $file );

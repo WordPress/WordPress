@@ -986,6 +986,35 @@ function get_attachment_taxonomies($attachment) {
 }
 
 /**
+ * Return all of the taxonomy names that are registered for attachments.
+ *
+ * Handles mime-type-specific taxonomies such as attachment:image and attachment:video.
+ *
+ * @since 3.5.0
+ * @see get_attachment_taxonomies()
+ * @uses get_taxonomies()
+ *
+ * @param string $output The type of output to return, either taxonomy 'names' or 'objects'. 'names' is the default.
+ * @return array The names of all taxonomy of $object_type.
+ */
+function get_taxonomies_for_attachments( $output = 'names' ) {
+	$taxonomies = array();
+	foreach ( get_taxonomies( array(), 'objects' ) as $taxonomy ) {
+		foreach ( $taxonomy->object_type as $object_type ) {
+			if ( 'attachment' == $object_type || 0 === strpos( $object_type, 'attachment:' ) ) {
+				if ( 'names' == $output )
+					$taxonomies[] = $taxonomy->name;
+				else
+					$taxonomies[ $taxonomy->name ] = $taxonomy;
+				break;
+			}
+		}
+	}
+
+	return $taxonomies;
+}
+
+/**
  * Check if the installed version of GD supports particular image type
  *
  * @since 2.9.0

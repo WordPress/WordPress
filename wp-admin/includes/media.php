@@ -857,9 +857,9 @@ function media_post_single_attachment_fields_to_edit( $form_fields, $post ) {
 
 /**
  * Filters input from media_upload_form_handler() and assigns a default
- * post_title from the file name if none supplied. 
+ * post_title from the file name if none supplied.
  *
- * Illustrates the use of the attachment_fields_to_save filter 
+ * Illustrates the use of the attachment_fields_to_save filter
  * which can be used to add default values to any field before saving to DB.
  *
  * @since 2.5.0
@@ -2093,6 +2093,67 @@ function media_upload_max_image_resize() {
  */
 function multisite_over_quota_message() {
 	echo '<p>' . sprintf( __( 'Sorry, you have used all of your storage quota of %s MB.' ), get_space_allowed() ) . '</p>';
+}
+
+/**
+ * Displays the image and editor in the post editor
+ *
+ * @since 3.5.0
+ */
+function edit_form_image_editor() {
+	$post = get_post();
+
+	$thumb_url = false;
+	if ( $attachment_id = intval( $post->ID ) )
+		$thumb_url = wp_get_attachment_image_src( $attachment_id, array( 900, 600 ), true );
+
+	$filename = esc_html( basename( $post->guid ) );
+	$title = esc_attr( $post->post_title );
+
+	$post_mime_types = get_post_mime_types();
+	$keys = array_keys( wp_match_mime_types( array_keys( $post_mime_types ), $post->post_mime_type ) );
+	$type = array_shift( $keys );
+	$type_html = "<input type='hidden' id='type-of-$attachment_id' value='" . esc_attr( $type ) . "' />";
+
+	$media_dims = '';
+	$meta = wp_get_attachment_metadata( $post->ID );
+	if ( is_array( $meta ) && array_key_exists( 'width', $meta ) && array_key_exists( 'height', $meta ) )
+		$media_dims .= "<span id='media-dims-$post->ID'>{$meta['width']}&nbsp;&times;&nbsp;{$meta['height']}</span> ";
+	$media_dims = apply_filters( 'media_meta', $media_dims, $post );
+
+	$att_url = wp_get_attachment_url( $post->ID );
+
+	$image_edit_button = '';
+	if ( gd_edit_image_support( $post->post_mime_type ) ) {
+		$nonce = wp_create_nonce( "image_editor-$post->ID" );
+		$image_edit_button = "<input type='button' id='imgedit-open-btn-$post->ID' onclick='imageEdit.open( $post->ID, \"$nonce\" )' class='button' value='" . esc_attr__( 'Edit Image' ) . "' /> <img src='" . esc_url( admin_url( 'images/wpspin_light.gif' ) ) . "' class='imgedit-wait-spin' alt='' />";
+	}
+
+ 	?>
+	<div class="wp_attachment_holder">
+		<div class="imgedit-response" id="imgedit-response-<?php echo $attachment_id; ?>"></div>
+
+		<div class="wp_attachment_image" id="media-head-<?php echo $attachment_id; ?>">
+			<p><img class="thumbnail" src="<?php echo $thumb_url[0]; ?>" style="max-width:100%" width="<?php echo $thumb_url[1]; ?>" alt="" /></p>
+			<p><?php echo $image_edit_button; ?></p>
+		</div>
+		<div style="display:none" class="image-editor" id="image-editor-<?php echo $attachment_id; ?>"></div>
+
+		<div class="wp_attachment_details">
+			<p>
+				<label for="attachment_url"><strong><?php _e( 'File URL' ); ?></strong></label><br />
+				<input type="text" class="widefat urlfield" readonly="readonly" name="attachment_url" value="<?php echo esc_attr($att_url); ?>" /><br />
+			</p>
+			<p><strong><?php _e( 'File name:' ); ?></strong> <?php echo $filename; ?><br />
+			<strong><?php _e( 'File type:' ); ?></strong> <?php echo $post->post_mime_type; ?>
+			<?php
+				if ( $media_dims )
+					echo '<br /><strong>' . __( 'Dimensions:' ) . '</strong> ' . $media_dims;
+			?>
+			</p>
+		</div>
+	</div>
+	<?php
 }
 
 add_filter( 'async_upload_image', 'get_media_item', 10, 2 );

@@ -3759,7 +3759,7 @@ abbr.required {
 }
 
 .upload-php .fixed .column-parent {
-	width: 25%;
+	width: 15%;
 }
 
 .js .html-uploader #plupload-upload-ui {
@@ -3938,7 +3938,8 @@ borger color while dragging a file over the uploader drop area */
 	margin: 8px 0;
 }
 
-.describe .imgedit-wrap table td {
+.describe .imgedit-wrap table td,
+.wp_attachment_holder .imgedit-wrap table td {
 	vertical-align: top;
 	padding-top: 0;
 }

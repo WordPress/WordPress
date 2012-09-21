@@ -51,7 +51,7 @@ if ( 'publish' == $post->post_status ) {
 </div>
 <?php endif; // public post type ?>
 <div class="clear"></div>
-</div><?php // /minor-publishing-actions ?>
+</div><!-- #minor-publishing-actions -->
 
 <div id="misc-publishing-actions">
 
@@ -103,7 +103,7 @@ switch ( $post->post_status ) {
 </div>
 
 <?php } ?>
-</div><?php // /misc-pub-section ?>
+</div><!-- .misc-pub-section -->
 
 <div class="misc-pub-section" id="visibility">
 <?php _e('Visibility:'); ?> <span id="post-visibility-display"><?php
@@ -148,7 +148,7 @@ echo esc_html( $visibility_trans ); ?></span>
 </div>
 <?php } ?>
 
-</div><?php // /misc-pub-section ?>
+</div><!-- .misc-pub-section -->
 
 <?php
 // translators: Publish box date format, see http://php.net/date
@@ -226,6 +226,106 @@ if ( !in_array( $post->post_status, array('publish', 'future', 'private') ) || 0
 </div>
 </div>
 
+<?php
+}
+
+/**
+ * Display attachment submit form fields.
+ *
+ * @since 3.5.0
+ *
+ * @param object $post
+ */
+function attachment_submit_meta_box( $post ) {
+	global $action;
+
+	$post_type = $post->post_type;
+	$post_type_object = get_post_type_object($post_type);
+	$can_publish = current_user_can($post_type_object->cap->publish_posts);
+?>
+<div class="submitbox" id="submitpost">
+
+<div id="minor-publishing">
+
+<?php // Hidden submit button early on so that the browser chooses the right button when form is submitted with Return key ?>
+<div style="display:none;">
+<?php submit_button( __( 'Save' ), 'button', 'save' ); ?>
+</div>
+
+
+<div id="misc-publishing-actions">
+	<?php
+	// translators: Publish box date format, see http://php.net/date
+	$datef = __( 'M j, Y @ G:i' );
+	$stamp = __('Uploaded on: <b>%1$s</b>');
+	$date = date_i18n( $datef, strtotime( $post->post_date ) );
+	?>
+	<div class="misc-pub-section curtime">
+		<span id="timestamp"><?php printf($stamp, $date); ?></span>
+	</div><!-- .misc-pub-section -->
+
+	<?php do_action('attachment_submitbox_misc_actions'); ?>
+</div><!-- #misc-publishing-actions -->
+<div class="clear"></div>
+</div><!-- #minor-publishing -->
+
+<div id="major-publishing-actions">
+	<div id="delete-action">
+	<?php
+	if ( current_user_can( 'delete_post', $post->ID ) )
+		if ( EMPTY_TRASH_DAYS && MEDIA_TRASH ) {
+			echo "<a class='submitdelete deletion' href='" . get_delete_post_link( $post->ID ) . "'>" . __( 'Trash' ) . "</a>";
+		} else {
+			$delete_ays = ! MEDIA_TRASH ? " onclick='return showNotice.warn();'" : '';
+			echo  "<a class='submitdelete deletion'$delete_ays href='" . get_delete_post_link( $post->ID, null, true ) . "''>" . __( 'Delete Permanently' ) . "</a>";
+		}
+	?>
+	</div>
+
+	<div id="publishing-action">
+		<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" id="ajax-loading" alt="" />
+		<input name="original_publish" type="hidden" id="original_publish" value="<?php esc_attr_e('Update') ?>" />
+		<input name="save" type="submit" class="button-primary button-large" id="publish" accesskey="p" value="<?php esc_attr_e('Update') ?>" />
+	</div>
+	<div class="clear"></div>
+</div><!-- #major-publishing-actions -->
+
+</div>
+
+<?php
+}
+
+/**
+ * Display attachment/media-specific information
+ *
+ * @since 3.5.0
+ *
+ * @param object $post
+ */
+function attachment_data_meta_box( $post ) {
+	$alt_text = get_post_meta( $post->ID, '_wp_attachment_image_alt', true );
+	$quicktags_settings = array( 'buttons' => 'strong,em,link,block,del,ins,img,ul,ol,li,code,spell,close' );
+	$editor_args = array(
+		'textarea_name' => 'content',
+		'textarea_rows' => 5,
+		'media_buttons' => false,
+		'tinymce' => false,
+		'quicktags' => $quicktags_settings,
+	);
+?>
+<p>
+	<label class="screen-reader-text" for="content"><strong><?php _e( 'Attachment Page Content' ); ?></strong></label>
+	<?php wp_editor( $post->post_content, 'attachment_content', $editor_args ); ?>
+</p>
+
+<p>
+	<label for="attachment_caption"><strong><?php _e( 'Caption' ); ?></strong></label><br />
+	<textarea class="widefat" name="excerpt" id="attachment_caption"><?php echo $post->post_excerpt; ?></textarea>
+</p>
+<p>
+	<label for="attachment_alt"><strong><?php _e( 'Alternative Text' ); ?></strong></label><br />
+	<input type="text" class="widefat" name="_wp_attachment_image_alt" id="attachment_alt" value="<?php echo esc_attr( $alt_text ); ?>" />
+</p>
 <?php
 }
 

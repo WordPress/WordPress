@@ -132,7 +132,26 @@ class WP_Media_List_Table extends WP_List_Table {
 		/* translators: column name */
 		$posts_columns['title'] = _x( 'File', 'column name' );
 		$posts_columns['author'] = __( 'Author' );
-		//$posts_columns['tags'] = _x( 'Tags', 'column name' );
+
+		$taxonomies = array();
+
+		$taxonomies = get_taxonomies_for_attachments( 'objects' );
+		$taxonomies = wp_filter_object_list( $taxonomies, array( 'show_admin_column' => true ), 'and', 'name' );
+
+		$taxonomies = apply_filters( 'manage_taxonomies_for_attachment_columns', $taxonomies, 'attachment' );
+		$taxonomies = array_filter( $taxonomies, 'taxonomy_exists' );
+
+		foreach ( $taxonomies as $taxonomy ) {
+			if ( 'category' == $taxonomy )
+				$column_key = 'categories';
+			elseif ( 'post_tag' == $taxonomy )
+				$column_key = 'tags';
+			else
+				$column_key = 'taxonomy-' . $taxonomy;
+
+			$posts_columns[ $column_key ] = get_taxonomy( $taxonomy )->labels->name;
+		}
+
 		/* translators: column name */
 		if ( !$this->detached ) {
 			$posts_columns['parent'] = _x( 'Attached to', 'column name' );
@@ -251,23 +270,6 @@ foreach ( $columns as $column_name => $column_display_name ) {
 <?php
 		break;
 
-	case 'tags':
-?>
-		<td <?php echo $attributes ?>><?php
-		$tags = get_the_tags();
-		if ( !empty( $tags ) ) {
-			$out = array();
-			foreach ( $tags as $c )
-				$out[] = "<a href='edit.php?tag=$c->slug'> " . esc_html( sanitize_term_field( 'name', $c->name, $c->term_id, 'post_tag', 'display' ) ) . "</a>";
-			echo join( ', ', $out );
-		} else {
-			_e( 'No Tags' );
-		}
-?>
-		</td>
-<?php
-		break;
-
 	case 'desc':
 ?>
 		<td <?php echo $attributes ?>><?php echo has_excerpt() ? $post->post_excerpt : ''; ?></td>
@@ -339,6 +341,38 @@ foreach ( $columns as $column_name => $column_display_name ) {
 		break;
 
 	default:
+		if ( 'categories' == $column_name )
+			$taxonomy = 'category';
+		if ( 'tags' == $column_name )
+			$taxonomy = 'post_tag';
+		elseif ( 0 === strpos( $column_name, 'taxonomy-' ) )
+			$taxonomy = substr( $column_name, 9 );
+		else
+			$taxonomy = false;
+
+		if ( $taxonomy ) {
+			$taxonomy_object = get_taxonomy( $taxonomy );
+			echo '<td ' . $attributes . '>';
+			if ( $terms = get_the_terms( $post->ID, $taxonomy ) ) {
+				$out = array();
+				foreach ( $terms as $t ) {
+					$posts_in_term_qv = array();
+					$posts_in_term_qv['taxonomy'] = $taxonomy;
+					$posts_in_term_qv['term'] = $t->slug;
+
+					$out[] = sprintf( '<a href="%s">%s</a>',
+						esc_url( add_query_arg( $posts_in_term_qv, 'upload.php' ) ),
+						esc_html( sanitize_term_field( 'name', $t->name, $t->term_id, $taxonomy, 'display' ) )
+					);
+				}
+				/* translators: used between list items, there is a space after the comma */
+				echo join( __( ', ' ), $out );
+			} else {
+				echo '&#8212;';
+			}
+			echo '</td>';
+			break;
+		}
 ?>
 		<td <?php echo $attributes ?>>
 			<?php do_action( 'manage_media_custom_column', $column_name, $id ); ?>

@@ -235,6 +235,16 @@ function edit_post( $post_data = null ) {
 		}
 	}
 
+	// Attachment stuff
+	if ( 'attachment' == $post_data['post_type'] && isset( $post_data['_wp_attachment_image_alt'] ) ) {
+		$image_alt = get_post_meta( $post_ID, '_wp_attachment_image_alt', true );
+		if ( $image_alt != stripslashes( $post_data['_wp_attachment_image_alt'] ) ) {
+			$image_alt = wp_strip_all_tags( stripslashes( $post_data['_wp_attachment_image_alt'] ), true );
+			// update_meta expects slashed
+			update_post_meta( $post_ID, '_wp_attachment_image_alt', addslashes( $image_alt ) );
+		}
+	}
+
 	add_meta( $post_ID );
 
 	update_post_meta( $post_ID, '_edit_last', $GLOBALS['current_user']->ID );
@@ -1064,7 +1074,7 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 
 	list($permalink, $post_name) = get_sample_permalink($post->ID, $new_title, $new_slug);
 
-	if ( 'publish' == $post->post_status ) {
+	if ( 'publish' == get_post_status( $post ) ) {
 		$ptype = get_post_type_object($post->post_type);
 		$view_post = $ptype->labels->view_item;
 		$title = __('Click to edit this part of the permalink');

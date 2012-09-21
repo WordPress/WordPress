@@ -85,8 +85,12 @@ $sendback = wp_get_referer();
 if ( ! $sendback ||
      strpos( $sendback, 'post.php' ) !== false ||
      strpos( $sendback, 'post-new.php' ) !== false ) {
-	$sendback = admin_url( 'edit.php' );
-	$sendback .= ( ! empty( $post_type ) ) ? '?post_type=' . $post_type : '';
+	if ( 'attachment' == $post_type ) {
+		$sendback = admin_url( 'upload.php' );
+	} else {
+		$sendback = admin_url( 'edit.php' );
+		$sendback .= ( ! empty( $post_type ) ) ? '?post_type=' . $post_type : '';
+	}
 } else {
 	$sendback = remove_query_arg( array('trashed', 'untrashed', 'deleted', 'ids'), $sendback );
 }
@@ -148,6 +152,10 @@ case 'edit':
 		$parent_file = "edit.php";
 		$submenu_file = "edit.php";
 		$post_new_file = "post-new.php";
+	} elseif ( 'attachment' == $post_type ) {
+		$parent_file = 'upload.php';
+		$submenu_file = 'upload.php';
+		$post_new_file = 'media-new.php';
 	} else {
 		if ( isset( $post_type_object ) && $post_type_object->show_in_menu && $post_type_object->show_in_menu !== true )
 			$parent_file = $post_type_object->show_in_menu;
