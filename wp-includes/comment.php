@@ -1484,7 +1484,7 @@ function wp_update_comment($commentarr) {
 	else if ( 'approve' == $comment_approved )
 		$comment_approved = 1;
 
-	$data = compact('comment_content', 'comment_author', 'comment_author_email', 'comment_approved', 'comment_karma', 'comment_author_url', 'comment_date', 'comment_date_gmt');
+	$data = compact( 'comment_content', 'comment_author', 'comment_author_email', 'comment_approved', 'comment_karma', 'comment_author_url', 'comment_date', 'comment_date_gmt', 'comment_parent' );
 	$rval = $wpdb->update( $wpdb->comments, $data, compact( 'comment_ID' ) );
 
 	clean_comment_cache($comment_ID);
