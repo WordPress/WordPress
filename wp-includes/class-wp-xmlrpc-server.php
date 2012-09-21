@@ -1475,6 +1475,10 @@ class wp_xmlrpc_server extends IXR_Server {
 			if ( isset( $filter['order'] ) )
 				$query['order'] = $filter['order'];
 		}
+		
+		if ( isset( $filter['s'] ) ) {
+			$query['s'] = $filter['s'];
+		}
 
 		$posts_list = wp_get_recent_posts( $query );
 
