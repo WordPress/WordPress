@@ -238,7 +238,7 @@ function export_wp( $args = array() ) {
 		global $wpdb;
 
 		$authors = array();
-		$results = $wpdb->get_results( "SELECT DISTINCT post_author FROM $wpdb->posts" );
+		$results = $wpdb->get_results( "SELECT DISTINCT post_author FROM $wpdb->posts WHERE post_status != 'auto-draft'" );
 		foreach ( (array) $results as $result )
 			$authors[] = get_userdata( $result->post_author );
 
