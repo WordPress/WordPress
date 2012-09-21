@@ -324,7 +324,7 @@ video {
 .comment-content img,
 .widget img,
 img.header-image,
-#author-avatar img,
+.author-avatar img,
 img.wp-post-image {
 	/* Add fancy borders to all WordPress-added images but not things like badges and icons and the like */
 	border-radius: 3px;
@@ -410,7 +410,7 @@ img.wp-smiley,
 	margin-bottom: 24px;
 	margin-bottom: 1.714285714rem;
 }
-#author-info {
+.author-info {
 	border-top: 1px solid #ededed;
 	margin: 24px 0;
 	margin: 1.714285714rem 0;
@@ -418,18 +418,18 @@ img.wp-smiley,
 	padding-top: 1.714285714rem;
 	overflow: hidden;
 }
-#author-description p {
+.author-description p {
 	color: #777;
 	font-size: 13px;
 	font-size: 0.928571429rem;
 	line-height: 1.846153846;
 }
-.author.archive #author-info {
+.author.archive .author-info {
 	border-top: 0;
 	margin: 0 0 48px;
 	margin: 0 0 3.428571429rem;
 }
-.author.archive #author-avatar {
+.author.archive .author-avatar {
 	margin-top: 0;
 }
 
@@ -1340,12 +1340,12 @@ img#wpstats {
 
 /* Minimum width of 600 pixels. */
 @media screen and (min-width: 600px) {
-	#author-avatar {
+	.author-avatar {
 		float: left;
 		margin-top: 8px;
 		margin-top: 0.571428571rem;
 	}
-	#author-description {
+	.author-description {
 		float: right;
 		width: 80%;
 	}
@@ -1541,7 +1541,7 @@ img#wpstats {
 	}
 	.entry-content img,
 	.comment-content img,
-	#author-avatar img,
+	.author-avatar img,
 	img.wp-post-image {
 		border-radius: 0;
 		box-shadow: none;
@@ -1567,7 +1567,7 @@ img#wpstats {
 		font-size: 10pt;
 		text-align: left;
 	}
-	#author-avatar,
+	.author-avatar,
 	#colophon,
 	#respond,
 	.commentlist .comment-edit-link,
@@ -1615,7 +1615,7 @@ img#wpstats {
 		color: #444;
 		font-size: 10pt;
 	}
-	#author-description {
+	.author-description {
 		float: none;
 		width: auto;
 	}
