@@ -1817,6 +1817,9 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 	foreach ( $tax_object->object_type as $object_type )
 		clean_object_term_cache( $objects, $object_type );
 
+	// Get the object before deletion so we can pass to actions below
+	$deleted_term = get_term( $term, $taxonomy );
+
 	do_action( 'delete_term_taxonomy', $tt_id );
 	$wpdb->delete( $wpdb->term_taxonomy, array( 'term_taxonomy_id' => $tt_id ) );
 	do_action( 'deleted_term_taxonomy', $tt_id );
@@ -1827,8 +1830,8 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 
 	clean_term_cache($term, $taxonomy);
 
-	do_action('delete_term', $term, $tt_id, $taxonomy);
-	do_action("delete_$taxonomy", $term, $tt_id);
+	do_action( 'delete_term', $term, $tt_id, $taxonomy, $deleted_term );
+	do_action( "delete_$taxonomy", $term, $tt_id, $deleted_term );
 
 	return true;
 }
