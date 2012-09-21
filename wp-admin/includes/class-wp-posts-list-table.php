@@ -635,8 +635,10 @@ class WP_Posts_List_Table extends WP_List_Table {
 					$taxonomy = 'post_tag';
 				elseif ( 0 === strpos( $column_name, 'taxonomy-' ) )
 					$taxonomy = substr( $column_name, 9 );
+				else
+					$taxonomy = false;
 
-				if ( ! empty( $taxonomy ) ) {
+				if ( $taxonomy ) {
 					$taxonomy_object = get_taxonomy( $taxonomy );
 					echo '<td ' . $attributes . '>';
 					if ( $terms = get_the_terms( $post->ID, $taxonomy ) ) {
