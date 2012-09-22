@@ -557,19 +557,20 @@ function get_post_ancestors( $post ) {
 
 	$post = get_post( $post );
 
-		$ancestors = array();
+	if ( empty( $post->post_parent ) || $post->post_parent == $post->ID )
+		return array();
 
-		if ( !empty( $post->post_parent ) && $post->ID != $post->post_parent ) {
-			$id = $ancestors[] = $post->post_parent;
+	$ancestors = array();
 
-			while ( $ancestor = get_post( $id ) ) {
-				// Loop detection: If the ancestor has been seen before, break.
-				if ( empty( $ancestor->post_parent ) || ( $ancestor->post_parent == $post->ID ) || in_array( $ancestor->post_parent, $ancestors ) )
-					break;
+	$id = $ancestors[] = $post->post_parent;
 
-				$id = $ancestors[] = $ancestor->post_parent;
-			}
-		}
+	while ( $ancestor = get_post( $id ) ) {
+		// Loop detection: If the ancestor has been seen before, break.
+		if ( empty( $ancestor->post_parent ) || ( $ancestor->post_parent == $post->ID ) || in_array( $ancestor->post_parent, $ancestors ) )
+			break;
+
+		$id = $ancestors[] = $ancestor->post_parent;
+	}
 
 	return $ancestors;
 }
