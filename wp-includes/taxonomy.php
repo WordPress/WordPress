@@ -2559,8 +2559,10 @@ function clean_object_term_cache($object_ids, $object_type) {
 	if ( !is_array($object_ids) )
 		$object_ids = array($object_ids);
 
+	$taxonomies = get_object_taxonomies( $object_type );
+
 	foreach ( $object_ids as $id )
-		foreach ( get_object_taxonomies($object_type) as $taxonomy )
+		foreach ( $taxonomies as $taxonomy )
 			wp_cache_delete($id, "{$taxonomy}_relationships");
 
 	do_action('clean_object_term_cache', $object_ids, $object_type);
