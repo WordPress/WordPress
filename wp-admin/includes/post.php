@@ -162,16 +162,6 @@ function edit_post( $post_data = null ) {
 			wp_die( __('You are not allowed to edit this post.' ));
 	}
 
-	// Autosave shouldn't save too soon after a real save
-	if ( 'autosave' == $post_data['action'] ) {
-		$post = get_post( $post_ID );
-		$now = time();
-		$then = strtotime($post->post_date_gmt . ' +0000');
-		$delta = AUTOSAVE_INTERVAL / 2;
-		if ( ($now - $then) < $delta )
-			return $post_ID;
-	}
-
 	$post_data = _wp_translate_postdata( true, $post_data );
 	if ( is_wp_error($post_data) )
 		wp_die( $post_data->get_error_message() );
