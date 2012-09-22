@@ -557,7 +557,6 @@ function get_post_ancestors( $post ) {
 
 	$post = get_post( $post );
 
-	if ( ! $ancestors = wp_cache_get( $post->ID, 'post_ancestors' ) ) {
 		$ancestors = array();
 
 		if ( !empty( $post->post_parent ) && $post->ID != $post->post_parent ) {
@@ -571,9 +570,6 @@ function get_post_ancestors( $post ) {
 				$id = $ancestors[] = $ancestor->post_parent;
 			}
 		}
-
-		wp_cache_add( $post->ID, $ancestors, 'post_ancestors' );
-	}
 
 	return $ancestors;
 }
@@ -2218,8 +2214,8 @@ function wp_delete_post( $postid = 0, $force_delete = false ) {
 
 	clean_post_cache( $post );
 
-	if ( is_post_type_hierarchical( $post->post_type ) ) {
-		foreach ( (array) $children as $child )
+	if ( is_post_type_hierarchical( $post->post_type ) && $children ) {
+		foreach ( $children as $child )
 			clean_post_cache( $child );
 	}
 
@@ -4499,15 +4495,6 @@ function clean_post_cache( $post ) {
 	if ( 'page' == $post->post_type ) {
 		wp_cache_delete( 'all_page_ids', 'posts' );
 		do_action( 'clean_page_cache', $post->ID );
-	}
-
-	if ( $children = $wpdb->get_results( $wpdb->prepare("SELECT ID, post_type FROM $wpdb->posts WHERE post_parent = %d", $post->ID) ) ) {
-		foreach ( $children as $child ) {
-			// Loop detection
-			if ( $child->ID == $post->ID )
-				continue;
-			clean_post_cache( $child );
-		}
 	}
 }
 
