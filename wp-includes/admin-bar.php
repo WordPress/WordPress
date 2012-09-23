@@ -429,7 +429,8 @@ function wp_admin_bar_edit_menu( $wp_admin_bar ) {
 			&& 'add' != $current_screen->action
 			&& ( $post_type_object = get_post_type_object( $post->post_type ) )
 			&& current_user_can( $post_type_object->cap->read_post, $post->ID )
-			&& ( $post_type_object->public ) )
+			&& ( $post_type_object->public )
+			&& ( $post_type_object->show_in_admin_bar ) )
 		{
 			$wp_admin_bar->add_menu( array(
 				'id' => 'view',
@@ -456,7 +457,7 @@ function wp_admin_bar_edit_menu( $wp_admin_bar ) {
 		if ( ! empty( $current_object->post_type )
 			&& ( $post_type_object = get_post_type_object( $current_object->post_type ) )
 			&& current_user_can( $post_type_object->cap->edit_post, $current_object->ID )
-			&& ( $post_type_object->show_ui || 'attachment' == $current_object->post_type ) )
+			&& $post_type_object->show_ui && $post_type_object->show_in_admin_bar )
 		{
 			$wp_admin_bar->add_menu( array(
 				'id' => 'edit',
