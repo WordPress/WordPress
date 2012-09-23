@@ -883,11 +883,7 @@ th.sorted a span {
   11.1 - Custom Fields
 ------------------------------------------------------------------------------*/
 
-#postcustomstuff table input,
-#postcustomstuff table select,
-#postcustomstuff table textarea {
-	margin: 8px 8px 8px 0;
-}
+/* No RTL for now, this space intentionally left blank */
 
 /*------------------------------------------------------------------------------
   11.2 - Post Revisions

@@ -3166,11 +3166,6 @@ td.plugin-title p {
   11.1 - Custom Fields
 ------------------------------------------------------------------------------*/
 
-#postcustomstuff .updatemeta,
-#postcustomstuff .deletemeta {
-	margin: auto;
-}
-
 #postcustomstuff thead th {
 	padding: 5px 8px 8px;
 }
@@ -3178,20 +3173,22 @@ td.plugin-title p {
 #postcustom #postcustomstuff .submit {
 	border: 0 none;
 	float: none;
-	padding: 0 0 8px 8px;
+	padding: 0 8px 8px;
 }
 
 #side-sortables #postcustom #postcustomstuff .submit {
-	padding: 0 5px;
-}
-
-#side-sortables #postcustom #postcustomstuff td.left input {
-	margin: 3px 3px 0;
+	margin: 0;
+	padding: 0;
 }
 
 #side-sortables #postcustom #postcustomstuff #the-list textarea {
 	height: 85px;
-	margin: 3px;
+}
+
+#side-sortables #postcustom #postcustomstuff td.left input,
+#side-sortables #postcustom #postcustomstuff td.left select,
+#side-sortables #postcustomstuff #newmetaleft a {
+	margin: 3px 3px 0;
 }
 
 #postcustomstuff table {
@@ -3202,11 +3199,21 @@ td.plugin-title p {
 	border-spacing: 0;
 }
 
+#postcustomstuff tr {
+	vertical-align: top;
+}
+
 #postcustomstuff table input,
 #postcustomstuff table select,
 #postcustomstuff table textarea {
-	width: 95%;
-	margin: 8px 0 8px 8px;
+	width: 96%;
+	margin: 8px;
+}
+
+#side-sortables #postcustomstuff table input,
+#side-sortables #postcustomstuff table select,
+#side-sortables #postcustomstuff table textarea {
+	margin: 3px;
 }
 
 #postcustomstuff th.left,
@@ -3214,17 +3221,14 @@ td.plugin-title p {
 	width: 38%;
 }
 
-#postcustomstuff .submit input,
-#postcustomstuff table #newmeta-submit {
+#postcustomstuff .submit input {
+	margin: 0;
 	width: auto;
 }
 
-#postcustomstuff #newmetaleft {
-	vertical-align: top;
-}
-
-#postcustomstuff #newmetaleft a {
-	padding: 0 10px;
+#postcustomstuff #newmetaleft a {	
+	display: inline-block;
+	margin: 0 8px 8px;
 	text-decoration: none;
 }
 
