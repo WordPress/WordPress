@@ -2163,7 +2163,6 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *  - int     $blog_id
 	 *  - string  $username
 	 *  - string  $password
-	 *  - int     $user_id
 	 *  - array   $content_struct
 	 *      It can optionally contain:
 	 *      - 'first_name'
@@ -2205,8 +2204,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( isset( $content_struct['last_name'] ) )
 			$user_data['last_name'] = $content_struct['last_name'];
 
-		if ( isset( $content_struct['website'] ) )
-			$user_data['user_url'] = $content_struct['website'];
+		if ( isset( $content_struct['url'] ) )
+			$user_data['user_url'] = $content_struct['url'];
 
 		if ( isset( $content_struct['display_name'] ) )
 			$user_data['display_name'] = $content_struct['display_name'];
