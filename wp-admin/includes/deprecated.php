@@ -997,7 +997,7 @@ function get_post_to_edit( $id ) {
  *
  * @since 2.5.0
  * @deprecated 3.5.0
- * @deprecated Use get_default_post_to_edit() 
+ * @deprecated Use get_default_post_to_edit()
  *
  * @return WP_Post Post object containing all the default post data as attributes
  */
@@ -1009,3 +1009,20 @@ function get_default_page_to_edit() {
 	return $page;
 }
 
+/**
+ * This was once used to create a thumbnail from an Image given a maximum side size.
+ *
+ * @since 1.2.0
+ * @deprecated 3.5.0
+ * @deprecated Use image_resize()
+ * @see  image_resize()
+ *
+ * @param mixed $file Filename of the original image, Or attachment id.
+ * @param int $max_side Maximum length of a single side for the thumbnail.
+ * @param mixed $deprecated Never used.
+ * @return string Thumbnail path on success, Error string on failure.
+ */
+function wp_create_thumbnail( $file, $max_side, $deprecated = '' ) {
+	_deprecated_function( __FUNCTION__, '3.5', 'image_resize' );
+	return apply_filters( 'wp_create_thumbnail', image_resize( $file, $max_side, $max_side ) );
+}

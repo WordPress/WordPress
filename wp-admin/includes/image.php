@@ -7,27 +7,6 @@
  */
 
 /**
- * Create a thumbnail from an Image given a maximum side size.
- *
- * This function can handle most image file formats which PHP supports. If PHP
- * does not have the functionality to save in a file of the same format, the
- * thumbnail will be created as a jpeg.
- *
- * @since 1.2.0
- *
- * @param mixed $file Filename of the original image, Or attachment id.
- * @param int $max_side Maximum length of a single side for the thumbnail.
- * @param mixed $deprecated Never used.
- * @return string Thumbnail path on success, Error string on failure.
- */
-function wp_create_thumbnail( $file, $max_side, $deprecated = '' ) {
-	if ( !empty( $deprecated ) )
-		_deprecated_argument( __FUNCTION__, '1.2' );
-	$thumbpath = image_resize( $file, $max_side, $max_side );
-	return apply_filters( 'wp_create_thumbnail', $thumbpath );
-}
-
-/**
  * Crop an Image to a given size.
  *
  * @since 2.1.0
