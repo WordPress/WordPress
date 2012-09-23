@@ -192,10 +192,10 @@ function wp_next_scheduled( $hook, $args = array() ) {
  *
  * @return null Cron could not be spawned, because it is not needed to run.
  */
-function spawn_cron( $local_time = 0 ) {
+function spawn_cron( $gmt_time = 0 ) {
 
-	if ( ! $local_time )
-		$local_time = microtime( true );
+	if ( ! $gmt_time )
+		$gmt_time = microtime( true );
 
 	if ( defined('DOING_CRON') || isset($_GET['doing_wp_cron']) )
 		return;
@@ -206,11 +206,11 @@ function spawn_cron( $local_time = 0 ) {
 	*/
 	$lock = get_transient('doing_cron');
 
-	if ( $lock > $local_time + 10*60 )
+	if ( $lock > $gmt_time + 10*60 )
 		$lock = 0;
 
 	// don't run if another process is currently running it or more than once every 60 sec.
-	if ( $lock + WP_CRON_LOCK_TIMEOUT > $local_time )
+	if ( $lock + WP_CRON_LOCK_TIMEOUT > $gmt_time )
 		return;
 
 	//sanity check
@@ -219,14 +219,14 @@ function spawn_cron( $local_time = 0 ) {
 		return;
 
 	$keys = array_keys( $crons );
-	if ( isset($keys[0]) && $keys[0] > $local_time )
+	if ( isset($keys[0]) && $keys[0] > $gmt_time )
 		return;
 
 	if ( defined('ALTERNATE_WP_CRON') && ALTERNATE_WP_CRON ) {
 		if ( !empty($_POST) || defined('DOING_AJAX') )
 			return;
 
-		$doing_wp_cron = sprintf( '%.22F', $local_time );
+		$doing_wp_cron = sprintf( '%.22F', $gmt_time );
 		set_transient( 'doing_cron', $doing_wp_cron );
 
 		ob_start();
@@ -241,7 +241,7 @@ function spawn_cron( $local_time = 0 ) {
 		return;
 	}
 
-	$doing_wp_cron = sprintf( '%.22F', $local_time );
+	$doing_wp_cron = sprintf( '%.22F', $gmt_time );
 	set_transient( 'doing_cron', $doing_wp_cron );
 
 	$cron_request = apply_filters( 'cron_request', array(
@@ -269,18 +269,18 @@ function wp_cron() {
 	if ( false === $crons = _get_cron_array() )
 		return;
 
-	$local_time = microtime( true );
+	$gmt_time = microtime( true );
 	$keys = array_keys( $crons );
-	if ( isset($keys[0]) && $keys[0] > $local_time )
+	if ( isset($keys[0]) && $keys[0] > $gmt_time )
 		return;
 
 	$schedules = wp_get_schedules();
 	foreach ( $crons as $timestamp => $cronhooks ) {
-		if ( $timestamp > $local_time ) break;
+		if ( $timestamp > $gmt_time ) break;
 		foreach ( (array) $cronhooks as $hook => $args ) {
 			if ( isset($schedules[$hook]['callback']) && !call_user_func( $schedules[$hook]['callback'] ) )
 				continue;
-			spawn_cron( $local_time );
+			spawn_cron( $gmt_time );
 			break 2;
 		}
 	}

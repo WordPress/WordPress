@@ -48,9 +48,9 @@ if ( false === $crons = _get_cron_array() )
 	die();
 
 $keys = array_keys( $crons );
-$local_time = microtime( true );
+$gmt_time = microtime( true );
 
-if ( isset($keys[0]) && $keys[0] > $local_time )
+if ( isset($keys[0]) && $keys[0] > $gmt_time )
 	die();
 
 $doing_cron_transient = get_transient( 'doing_cron');
@@ -59,7 +59,7 @@ $doing_cron_transient = get_transient( 'doing_cron');
 if ( empty( $doing_wp_cron ) ) {
 	if ( empty( $_GET[ 'doing_wp_cron' ] ) ) {
 		// Called from external script/job. Try setting a lock.
-		if ( $doing_cron_transient && ( $doing_cron_transient + WP_CRON_LOCK_TIMEOUT > $local_time ) )
+		if ( $doing_cron_transient && ( $doing_cron_transient + WP_CRON_LOCK_TIMEOUT > $gmt_time ) )
 			return;
 		$doing_cron_transient = $doing_wp_cron = sprintf( '%.22F', microtime( true ) );
 		set_transient( 'doing_cron', $doing_wp_cron );
@@ -73,7 +73,7 @@ if ( $doing_cron_transient != $doing_wp_cron )
 	return;
 
 foreach ( $crons as $timestamp => $cronhooks ) {
-	if ( $timestamp > $local_time )
+	if ( $timestamp > $gmt_time )
 		break;
 
 	foreach ( $cronhooks as $hook => $keys ) {
