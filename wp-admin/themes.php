@@ -193,9 +193,11 @@ $customize_title = sprintf( __( 'Customize &#8220;%s&#8221;' ), $ct->display('Na
 				<li><?php echo $option; ?></li>
 			<?php endforeach; ?>
 		</ul>
+		<?php
+		endif; // options
+		?>
 	</div>
 	<?php
-		endif; // options
 	endif; // options || edit_theme_options
 	?>
 
