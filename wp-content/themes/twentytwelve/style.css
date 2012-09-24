@@ -572,6 +572,19 @@ section[role="banner"] {
 	font-size: 0.928571429rem;
 	line-height: 1.846153846;
 }
+.widget-area .widget p {
+	margin-bottom: 24px;
+	margin-bottom: 1.714285714rem;
+}
+.widget-area .textwidget ul {
+	list-style: disc outside;
+	margin: 0 0 24px;
+	margin: 0 0 1.714285714rem;
+}
+.widget-area .textwidget li {
+	margin-left: 36px;
+	margin-left: 2.571428571rem;
+}
 .widget-area .widget a {
 	color: #777;
 }
