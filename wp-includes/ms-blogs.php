@@ -84,28 +84,32 @@ function get_blogaddress_by_domain( $domain, $path ) {
 }
 
 /**
- * Given a blog's (subdomain or directory) name, retrieve it's id.
+ * Given a blog's (subdomain or directory) slug, retrieve it's id.
  *
  * @since MU
  *
- * @param string $name
+ * @param string $slug
  * @return int A blog id
  */
-function get_id_from_blogname( $name ) {
+function get_id_from_blogname( $slug ) {
 	global $wpdb, $current_site;
-	$blog_id = wp_cache_get( 'get_id_from_blogname_' . $name, 'blog-details' );
+
+	$slug = trim( $slug, '/' );
+
+	$blog_id = wp_cache_get( 'get_id_from_blogname_' . $slug, 'blog-details' );
 	if ( $blog_id )
 		return $blog_id;
 
 	if ( is_subdomain_install() ) {
-		$domain = $name . '.' . $current_site->domain;
+		$domain = $slug . '.' . $current_site->domain;
 		$path = $current_site->path;
 	} else {
 		$domain = $current_site->domain;
-		$path = $current_site->path . $name . '/';
+		$path = $current_site->path . $slug . '/';
 	}
+
 	$blog_id = $wpdb->get_var( $wpdb->prepare("SELECT blog_id FROM {$wpdb->blogs} WHERE domain = %s AND path = %s", $domain, $path) );
-	wp_cache_set( 'get_id_from_blogname_' . $name, $blog_id, 'blog-details' );
+	wp_cache_set( 'get_id_from_blogname_' . $slug, $blog_id, 'blog-details' );
 	return $blog_id;
 }
 
@@ -114,7 +118,7 @@ function get_id_from_blogname( $name ) {
  *
  * @since MU
  *
- * @param int|string|array $fields A blog ID, a blog name, or an array of fields to query against.
+ * @param int|string|array $fields A blog ID, a blog slug, or an array of fields to query against.
  * @param bool $get_all Whether to retrieve all details or only the details in the blogs table. Default is true.
  * @return object Blog details.
  */
@@ -254,6 +258,7 @@ function refresh_blog_details( $blog_id ) {
 	wp_cache_delete( md5( $details->domain . $details->path )  , 'blog-lookup' );
 	wp_cache_delete( 'current_blog_' . $details->domain, 'site-options' );
 	wp_cache_delete( 'current_blog_' . $details->domain . $details->path, 'site-options' );
+	wp_cache_delete( 'get_id_from_blogname_' . trim( $details->path, '/' ), 'blog-details' );
 
 	do_action( 'refresh_blog_details', $blog_id );
 }
