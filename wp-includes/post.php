@@ -496,17 +496,19 @@ final class WP_Post {
 		}
 
 		if ( 'post_category' == $key ) {
-			if ( is_object_in_taxonomy( $this->post_type, 'category' ) )
-				return wp_get_post_categories( $this->ID );
-			else
+			$terms = get_the_terms( $this, 'category' );
+			if ( ! $terms )
 				return array();
+
+			return wp_list_pluck( $terms, 'term_id' );
 		}
 
 		if ( 'tags_input' == $key ) {
-			if ( is_object_in_taxonomy( $this->post_type, 'post_tag' ) )
-				return wp_get_post_tags( $this->ID, array( 'fields' => 'names' ) );
-			else
+			$terms = get_the_terms( $this, 'post_tag' );
+			if ( ! $terms )
 				return array();
+
+			return wp_list_pluck( $terms, 'name' );
 		}
 
 		// Rest of the values need filtering
@@ -3041,11 +3043,16 @@ function wp_set_post_terms( $post_id = 0, $tags = '', $taxonomy = 'post_tag', $a
 	// Hierarchical taxonomies must always pass IDs rather than names so that children with the same
 	// names but different parents aren't confused.
 	if ( is_taxonomy_hierarchical( $taxonomy ) ) {
-		$tags = array_map( 'intval', $tags );
-		$tags = array_unique( $tags );
+		$tags = array_unique( array_map( 'intval', $tags ) );
 	}
 
-	return wp_set_object_terms($post_id, $tags, $taxonomy, $append);
+	$r = wp_set_object_terms( $post_id, $tags, $taxonomy, $append );
+	if ( is_wp_error( $r ) )
+		return $r;
+
+	wp_cache_delete( $post_id, $taxonomy . '_relationships' );
+
+	return $r;
 }
 
 /**
@@ -3074,12 +3081,7 @@ function wp_set_post_categories($post_ID = 0, $post_categories = array()) {
 		return true;
 	}
 
-	if ( !empty($post_categories) ) {
-		$post_categories = array_map('intval', $post_categories);
-		$post_categories = array_unique($post_categories);
-	}
-
-	return wp_set_object_terms($post_ID, $post_categories, 'category');
+	return wp_set_post_terms($post_ID, $post_categories, 'category');
 }
 
 /**
