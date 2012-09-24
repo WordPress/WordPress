@@ -151,10 +151,10 @@ function twentytwelve_wp_title( $title, $sep ) {
 	if ( is_feed() )
 		return $title;
 
-	// Add the blog name.
+	// Add the site name.
 	$title .= get_bloginfo( 'name' );
 
-	// Add the blog description for the home/front page.
+	// Add the site description for the home/front page.
 	$site_description = get_bloginfo( 'description', 'display' );
 	if ( $site_description && ( is_home() || is_front_page() ) )
 		$title = "$title $sep $site_description";
