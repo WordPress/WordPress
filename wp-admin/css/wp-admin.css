@@ -434,7 +434,6 @@ code {
 	list-style: none;
 	margin: 8px 0 5px;
 	padding: 0;
-	white-space: nowrap;
 	font-size: 12px;
 	float: left;
 }
@@ -460,6 +459,7 @@ code {
 	display: inline;
 	margin: 0;
 	padding: 0;
+	white-space: nowrap;
 }
 
 .widefat,
