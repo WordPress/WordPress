@@ -3330,18 +3330,11 @@ table.diff .diff-deletedline del, table.diff .diff-addedline ins {
 .customlinkdiv div.tabs-panel,
 .posttypediv div.tabs-panel,
 .taxonomydiv div.tabs-panel {
-	height: 200px;
+	max-height: 200px;
 	overflow: auto;
-	padding: 0.5em 0.9em;
+	padding: 0 0.9em;
 	border-style: solid;
 	border-width: 1px;
-}
-
-.nav-menus-php .customlinkdiv div.tabs-panel,
-.nav-menus-php .posttypediv div.tabs-panel,
-.nav-menus-php .taxonomydiv div.tabs-panel {
-	height: auto;
-	max-height: 205px;
 }
 
 div.tabs-panel-active {
