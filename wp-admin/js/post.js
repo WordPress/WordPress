@@ -299,6 +299,13 @@ jQuery(document).ready( function($) {
 
 		// Ajax Cat
 		$('#new' + taxonomy).one( 'focus', function() { $(this).val( '' ).removeClass( 'form-input-tip' ) } );
+
+		$('#new' + taxonomy).keypress( function(event){
+			if( 13 === event.keyCode ) {
+				 event.preventDefault();
+				 $('#' + taxonomy + '-add-submit').click();
+			}
+		});
 		$('#' + taxonomy + '-add-submit').click( function(){ $('#new' + taxonomy).focus(); });
 
 		syncChecks = function() {
