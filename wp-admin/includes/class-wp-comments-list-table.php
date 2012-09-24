@@ -224,6 +224,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 			?>
 			</select>
 <?php
+			do_action( 'restrict_manage_comments' );
 			submit_button( __( 'Filter' ), 'button', false, false, array( 'id' => 'post-query-submit' ) );
 		}
 
