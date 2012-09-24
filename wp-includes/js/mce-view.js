@@ -20,12 +20,25 @@ if ( typeof wp === 'undefined' )
 		//
 		// Accepts a unique `id` and an `options` object.
 		//
-		// `options`
-		// If `view` is an object, it will automatically be passed to
-		// `wp.mce.View.extend( view, properties )` to create a new view class.
+		// `options` accepts the following properties:
 		//
-		// If the `view` provided is already a constructor, the `properties`
-		// variable is ignored.
+		// `pattern` is the regular expression used to scan the content and
+		// detect matching views.
+		//
+		// `view` is a `Backbone.View` constructor. If a plain object is
+		// provided, it will automatically extend the parent constructor
+		// (usually `Backbone.View`). Views are instantiated when the `pattern`
+		// is successfully matched. The instance's `options` object is provided
+		// with the `original` matched value, the match `results` including
+		// capture groups, and the `viewType`, which is the constructor's `id`.
+		//
+		// `extend` an existing view by passing in its `id`. The current
+		// view will inherit all properties from the parent view, and if
+		// `view` is set to a plain object, it will extend the parent `view`
+		// constructor.
+		//
+		// `text` is a method that accepts an instance of the `view`
+		// constructor and transforms it into a text representation.
 		add: function( id, options ) {
 			var parent;
 
@@ -34,6 +47,7 @@ if ( typeof wp === 'undefined' )
 
 			// Extend the `options` object with the parent's properties.
 			_.defaults( options, parent );
+			options.id = id;
 
 			// If the `view` provided was an object, automatically create
 			// a new `Backbone.View` constructor, using the parent's `view`
