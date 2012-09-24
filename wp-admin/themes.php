@@ -174,7 +174,10 @@ $customize_title = sprintf( __( 'Customize &#8220;%s&#8221;' ), $ct->display('Na
 				else
 					$options[] = "<a href='{$submenu[$item[2]][0][2]}'$class>{$item[0]}</a>";
 			} else if ( current_user_can($item[1]) ) {
-				if ( file_exists(ABSPATH . 'wp-admin/' . $item[2]) ) {
+				$menu_file = $item[2];
+				if ( false !== ( $pos = strpos( $menu_file, '?' ) ) )
+					$menu_file = substr( $menu_file, 0, $pos );
+				if ( file_exists( ABSPATH . "wp-admin/$menu_file" ) ) {
 					$options[] = "<a href='{$item[2]}'$class>{$item[0]}</a>";
 				} else {
 					$options[] = "<a href='themes.php?page={$item[2]}'$class>{$item[0]}</a>";
