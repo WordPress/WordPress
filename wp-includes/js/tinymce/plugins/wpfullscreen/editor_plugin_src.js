@@ -6,6 +6,7 @@
 
 (function() {
 	tinymce.create('tinymce.plugins.wpFullscreenPlugin', {
+		resize_timeout: false,
 
 		init : function(ed, url) {
 			var t = this, oldHeight = 0, s = {}, DOM = tinymce.DOM;
@@ -119,23 +120,30 @@
 			/**
 			 * This method gets executed each time the editor needs to resize.
 			 */
-			function resize() {
-				var d = ed.getDoc(), DOM = tinymce.DOM, resizeHeight, myHeight;
+			function resize(editor, e) {
+				var DOM = tinymce.DOM, body = ed.getBody(), ifr = DOM.get(ed.id + '_ifr'), height, y = ed.dom.win.scrollY;
 
-				// Get height differently depending on the browser used
-				if ( tinymce.isWebKit )
-					myHeight = d.body.offsetHeight;
-				else
-					myHeight = d.body.scrollHeight;
+				if ( t.resize_timeout )
+					return;
 
-				// Don't make it smaller than 300px
-				resizeHeight = (myHeight > 300) ? myHeight : 300;
+				// sometimes several events are fired few ms apart, trottle down resizing a little
+				t.resize_timeout = true;
+				setTimeout(function(){
+					t.resize_timeout = false;
+				}, 500);
 
-				// Resize content element
-				if ( oldHeight != resizeHeight ) {
-					DOM.setStyle(DOM.get(ed.id + '_ifr'), 'height', resizeHeight + 'px');
-					oldHeight = resizeHeight;
-					ed.getWin().scrollTo(0,0);
+				height = body.scrollHeight > 300 ? body.scrollHeight : 300;
+
+				if ( height != ifr.scrollHeight ) {
+					DOM.setStyle(ifr, 'height', height + 'px');
+					ed.getWin().scrollTo(0, 0); // iframe window object, make sure there's no scrolling
+				}
+
+				// WebKit scrolls to top on paste...
+				if ( e && e.type == 'paste' && tinymce.isWebKit ) {
+					setTimeout(function(){
+						ed.dom.win.scrollTo(0, y);
+					}, 40);
 				}
 			};
 
@@ -150,7 +158,7 @@
 				ed.getBody().style.overflowY = "hidden";
 			});
 
-			if (ed.getParam('autoresize_on_init', true)) {
+			if ( ed.getParam('autoresize_on_init', true) ) {
 				ed.onLoadContent.add(function(ed, l) {
 					// Because the content area resizes when its content CSS loads,
 					// and we can't easily add a listener to its onload event,
