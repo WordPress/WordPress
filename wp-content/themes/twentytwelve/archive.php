@@ -31,7 +31,7 @@ get_header(); ?>
 					} elseif ( is_category() ) {
 						printf( __( 'Category Archives: %s', 'twentytwelve' ), '<span>' . single_cat_title( '', false ) . '</span>' );
 					} else {
-						_e( ' Archives', 'twentytwelve' );
+						_e( 'Archives', 'twentytwelve' );
 					}
 				?></h1>
 
