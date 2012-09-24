@@ -1631,6 +1631,8 @@ function feed_links_extra( $args = array() ) {
 		'authortitle' => __('%1$s %2$s Posts by %3$s Feed'),
 		/* translators: 1: blog name, 2: separator(raquo), 3: search phrase */
 		'searchtitle' => __('%1$s %2$s Search Results for &#8220;%3$s&#8221; Feed'),
+		/* translators: 1: blog name, 2: separator(raquo), 3: post type name */ 
+		'posttypetitle' => __('%1$s %2$s %3$s Feed'), 		
 	);
 
 	$args = wp_parse_args( $args, $defaults );
@@ -1661,7 +1663,10 @@ function feed_links_extra( $args = array() ) {
 	} elseif ( is_search() ) {
 		$title = sprintf( $args['searchtitle'], get_bloginfo('name'), $args['separator'], get_search_query( false ) );
 		$href = get_search_feed_link();
-	}
+	} elseif ( is_post_type_archive() ) { 
+		$title = sprintf( $args['posttypetitle'], get_bloginfo('name'), $args['separator'], post_type_archive_title( '', false ) ); 
+		$href = get_post_type_archive_feed_link( get_post_type() ); 
+	} 
 
 	if ( isset($title) && isset($href) )
 		echo '<link rel="alternate" type="' . feed_content_type() . '" title="' . esc_attr( $title ) . '" href="' . esc_url( $href ) . '" />' . "\n";
