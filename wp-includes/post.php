@@ -207,9 +207,10 @@ function update_attached_file( $attachment_id, $file ) {
 		return false;
 
 	$file = apply_filters( 'update_attached_file', $file, $attachment_id );
-	$file = _wp_relative_upload_path($file);
-
-	return update_post_meta( $attachment_id, '_wp_attached_file', $file );
+	if ( $file = _wp_relative_upload_path( $file ) )
+		return update_post_meta( $attachment_id, '_wp_attached_file', $file );
+	else
+		return delete_post_meta( $attachment_id, '_wp_attached_file' );
 }
 
 /**
@@ -4028,9 +4029,10 @@ function wp_update_attachment_metadata( $post_id, $data ) {
 	if ( !$post = get_post( $post_id ) )
 		return false;
 
-	$data = apply_filters( 'wp_update_attachment_metadata', $data, $post->ID );
-
-	return update_post_meta( $post->ID, '_wp_attachment_metadata', $data);
+	if ( $data = apply_filters( 'wp_update_attachment_metadata', $data, $post->ID ) )
+		return update_post_meta( $post->ID, '_wp_attachment_metadata', $data );
+	else
+		return delete_post_meta( $post->ID, '_wp_attachment_metadata' );
 }
 
 /**
@@ -5208,10 +5210,10 @@ function set_post_thumbnail( $post, $thumbnail_id ) {
 	$post = get_post( $post );
 	$thumbnail_id = absint( $thumbnail_id );
 	if ( $post && $thumbnail_id && get_post( $thumbnail_id ) ) {
-		$thumbnail_html = wp_get_attachment_image( $thumbnail_id, 'thumbnail' );
-		if ( ! empty( $thumbnail_html ) ) {
+		if ( $thumbnail_html = wp_get_attachment_image( $thumbnail_id, 'thumbnail' ) )
 			return update_post_meta( $post->ID, '_thumbnail_id', $thumbnail_id );
-		}
+		else
+			return delete_post_meta( $post->ID, '_thumbnail_id' );
 	}
 	return false;
 }
