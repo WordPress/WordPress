@@ -284,6 +284,10 @@ function is_allowed_http_origin( $origin = null ) {
  * Send Access-Control-Allow-Origin and related headers if the current request
  * is from an allowed origin.
  *
+ * If the request is an OPTIONS request, the script exits with either access
+ * control headers sent, or a 403 response if the origin is not allowed. For
+ * other request methods, you will receive a return value.
+ *
  * @since 3.4.0
  *
  * @return bool|string Returns the origin URL if headers are sent. Returns false
@@ -291,11 +295,19 @@ function is_allowed_http_origin( $origin = null ) {
  */
 function send_origin_headers() {
 	$origin = get_http_origin();
-	if ( ! is_allowed_http_origin( $origin ) )
-		return false;
 
-	@header( 'Access-Control-Allow-Origin: ' .  $origin );
-	@header( 'Access-Control-Allow-Credentials: true' );
+	if ( is_allowed_http_origin( $origin ) ) {
+		@header( 'Access-Control-Allow-Origin: ' .  $origin );
+		@header( 'Access-Control-Allow-Credentials: true' );
+		if ( 'OPTIONS' === $_SERVER['REQUEST_METHOD'] )
+			exit;
+		return $origin;
+	}
 
-	return $origin;
+	if ( 'OPTIONS' === $_SERVER['REQUEST_METHOD'] ) {
+		status_header( 403 );
+		exit;
+	}
+
+	return false;
 }
