@@ -20,7 +20,7 @@ if ( ! is_active_sidebar( 'sidebar-2' ) && ! is_active_sidebar( 'sidebar-3' ) )
 
 // If we get this far, we have widgets. Let do this.
 ?>
-<div id="secondary" <?php twentytwelve_frontpage_sidebar_class(); ?> role="complementary">
+<div id="secondary" class="widget-area" role="complementary">
 	<?php if ( is_active_sidebar( 'sidebar-2' ) ) : ?>
 	<div class="first front-widgets">
 		<?php dynamic_sidebar( 'sidebar-2' ); ?>

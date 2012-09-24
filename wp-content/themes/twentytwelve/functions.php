@@ -216,20 +216,6 @@ function twentytwelve_widgets_init() {
 }
 add_action( 'widgets_init', 'twentytwelve_widgets_init' );
 
-/**
- * Counts the number of footer sidebars to enable dynamic classes for the footer.
- *
- * @since Twenty Twelve 1.0
- */
-function twentytwelve_frontpage_sidebar_class() {
-	$classes = array( 'widget-area' );
-
-	if ( is_active_sidebar( 'sidebar-2' ) && is_active_sidebar( 'sidebar-3' ) )
-		$classes[] = 'two';
-
-	echo 'class="' . implode( ' ', $classes ) . '"';
-}
-
 if ( ! function_exists( 'twentytwelve_content_nav' ) ) :
 /**
  * Displays navigation to next/previous pages when applicable.
@@ -364,8 +350,11 @@ endif;
  * Extends the default WordPress body class to denote:
  * 1. Using a full-width layout, when no active widgets in the sidebar
  *    or full-width template.
- * 2. A thumbnail in the Front Page template.
+ * 2. Front Page template: thumbnail in use and number of sidebars for
+ *    widget areas.
  * 3. White or empty background color to change the layout and spacing.
+ * 4. Custom fonts enabled.
+ * 5. Single or multiple authors.
  *
  * @since Twenty Twelve 1.0
  *
@@ -382,6 +371,8 @@ function twentytwelve_body_class( $classes ) {
 		$classes[] = 'template-front-page';
 		if ( has_post_thumbnail() )
 			$classes[] = 'has-post-thumbnail';
+		if ( is_active_sidebar( 'sidebar-2' ) && is_active_sidebar( 'sidebar-3' ) )
+			$classes[] = 'two-sidebars';
 	}
 
 	if ( empty( $background_color ) )

@@ -1474,7 +1474,7 @@ img#wpstats {
 		width: 47.916666667%;
 	}
 	.template-front-page .widget-area .widget,
-	.template-front-page .widget-area.two .front-widgets {
+	.template-front-page.two-sidebars .widget-area .front-widgets {
 		float: left;
 		width: 51.875%;
 		margin-bottom: 24px;
@@ -1484,14 +1484,14 @@ img#wpstats {
 		clear: right;
 	}
 	.template-front-page .widget-area .widget:nth-child(even),
-	.template-front-page .widget-area.two .front-widgets + .front-widgets {
+	.template-front-page.two-sidebars .widget-area .front-widgets + .front-widgets {
 		float: right;
 		width: 39.0625%;
 		margin: 0 0 24px;
 		margin: 0 0 1.714285714rem;
 	}
-	.template-front-page .widget-area.two .widget,
-	.template-front-page .widget-area.two .widget:nth-child(even) {
+	.template-front-page.two-sidebars .widget,
+	.template-front-page.two-sidebars .widget:nth-child(even) {
 		float: none;
 		width: auto;
 	}
