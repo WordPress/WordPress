@@ -5,6 +5,10 @@
  * Used to display archive-type pages if nothing more specific matches a query.
  * For example, puts together date-based pages if no date.php file exists.
  *
+ * If you'd like to further customize these archive views, you may create a
+ * new template file for each specific one, like tag.php for Tag archives or
+ * author.php for Author archives.
+ *
  * Learn more: http://codex.wordpress.org/Template_Hierarchy
  *
  * @package WordPress
