@@ -22,6 +22,8 @@ if ( post_type_supports($post_type, 'editor') || post_type_supports($post_type, 
 	wp_enqueue_style( 'media-views' );
 	wp_plupload_default_settings();
 	add_action( 'admin_footer', 'wp_print_media_templates' );
+
+	wp_enqueue_script( 'mce-view' );
 }
 
 /**
