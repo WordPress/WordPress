@@ -314,6 +314,15 @@ function delete_user_option( $user_id, $option_name, $global = false ) {
 class WP_User_Query {
 
 	/**
+	 * Query vars, after parsing
+	 *
+	 * @since 3.5.0
+	 * @access public
+	 * @var array
+	 */
+	var $query_vars = array();
+
+	/**
 	 * List of found user ids
 	 *
 	 * @since 3.1.0
@@ -381,7 +390,7 @@ class WP_User_Query {
 	function prepare_query() {
 		global $wpdb;
 
-		$qv = &$this->query_vars;
+		$qv =& $this->query_vars;
 
 		if ( is_array( $qv['fields'] ) ) {
 			$qv['fields'] = array_unique( $qv['fields'] );
@@ -396,7 +405,7 @@ class WP_User_Query {
 			$this->query_fields = "$wpdb->users.ID";
 		}
 
-		if ( $this->query_vars['count_total'] )
+		if ( $qv['count_total'] )
 			$this->query_fields = 'SQL_CALC_FOUND_ROWS ' . $this->query_fields;
 
 		$this->query_from = "FROM $wpdb->users";
@@ -528,27 +537,58 @@ class WP_User_Query {
 	function query() {
 		global $wpdb;
 
-		if ( is_array( $this->query_vars['fields'] ) || 'all' == $this->query_vars['fields'] ) {
+		$qv =& $this->query_vars;
+
+		if ( is_array( $qv['fields'] ) || 'all' == $qv['fields'] ) {
 			$this->results = $wpdb->get_results("SELECT $this->query_fields $this->query_from $this->query_where $this->query_orderby $this->query_limit");
 		} else {
 			$this->results = $wpdb->get_col("SELECT $this->query_fields $this->query_from $this->query_where $this->query_orderby $this->query_limit");
 		}
 
-		if ( $this->query_vars['count_total'] )
+		if ( $qv['count_total'] )
 			$this->total_users = $wpdb->get_var( apply_filters( 'found_users_query', 'SELECT FOUND_ROWS()' ) );
 
 		if ( !$this->results )
 			return;
 
-		if ( 'all_with_meta' == $this->query_vars['fields'] ) {
+		if ( 'all_with_meta' == $qv['fields'] ) {
 			cache_users( $this->results );
 
 			$r = array();
 			foreach ( $this->results as $userid )
-				$r[ $userid ] = new WP_User( $userid, '', $this->query_vars['blog_id'] );
+				$r[ $userid ] = new WP_User( $userid, '', $qv['blog_id'] );
 
 			$this->results = $r;
 		}
+	}
+
+	/**
+	 * Retrieve query variable.
+	 *
+	 * @since 3.5.0
+	 * @access public
+	 *
+	 * @param string $query_var Query variable key.
+	 * @return mixed
+	 */
+	function get( $query_var ) {
+		if ( isset( $this->query_vars[$query_var] ) )
+			return $this->query_vars[$query_var];
+
+		return null;
+	}
+
+	/**
+	 * Set query variable.
+	 *
+	 * @since 3.5.0
+	 * @access public
+	 *
+	 * @param string $query_var Query variable key.
+	 * @param mixed $value Query variable value.
+	 */
+	function set( $query_var, $value ) {
+		$this->query_vars[$query_var] = $value;
 	}
 
 	/*
