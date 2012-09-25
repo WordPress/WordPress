@@ -39,7 +39,7 @@ if ( force_ssl_admin() && ! is_ssl() ) {
  * @param WP_Error $wp_error Optional. WordPress Error Object
  */
 function login_header($title = 'Log In', $message = '', $wp_error = '') {
-	global $error, $interim_login, $current_site;
+	global $error, $interim_login, $current_site, $action;
 
 	// Don't index any of these forms
 	add_action( 'login_head', 'wp_no_robots' );
@@ -86,9 +86,15 @@ function login_header($title = 'Log In', $message = '', $wp_error = '') {
 	if ( $interim_login )
 		$login_header_url = '#';
 
+	$classes = array( 'login-action-' . $action );
+	if ( wp_is_mobile() )
+		$classes[] = 'mobile';
+	if ( is_rtl() )
+		$classes[] = 'rtl';
+	$classes = apply_filters( 'login_body_class', $classes, $action );
 	?>
 	</head>
-	<body class="login<?php if ( wp_is_mobile() ) echo ' mobile'; ?>">
+	<body class="login <?php echo esc_attr( implode( ' ', $classes ) ); ?>">
 	<div id="login">
 		<h1><a href="<?php echo esc_url( $login_header_url ); ?>" title="<?php echo esc_attr( $login_header_title ); ?>"><?php bloginfo( 'name' ); ?></a></h1>
 	<?php
