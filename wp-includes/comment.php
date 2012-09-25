@@ -699,7 +699,7 @@ function check_comment_flood_db( $ip, $email, $date ) {
 	global $wpdb;
 	if ( current_user_can( 'manage_options' ) )
 		return; // don't throttle admins
-	$hour_ago = gmdate( 'Y-m-d H:i:s', time() - 3600 );
+	$hour_ago = gmdate( 'Y-m-d H:i:s', time() - HOUR_IN_SECONDS );
 	if ( $lasttime = $wpdb->get_var( $wpdb->prepare( "SELECT `comment_date_gmt` FROM `$wpdb->comments` WHERE `comment_date_gmt` >= %s AND ( `comment_author_IP` = %s OR `comment_author_email` = %s ) ORDER BY `comment_date_gmt` DESC LIMIT 1", $hour_ago, $ip, $email ) ) ) {
 		$time_lastcomment = mysql2date('U', $lasttime, false);
 		$time_newcomment  = mysql2date('U', $date, false);
@@ -1981,7 +1981,7 @@ function _close_comments_for_old_posts( $posts, $query ) {
 	if ( ! $days_old )
 		return $posts;
 
-	if ( time() - strtotime( $posts[0]->post_date_gmt ) > ( $days_old * 24 * 60 * 60 ) ) {
+	if ( time() - strtotime( $posts[0]->post_date_gmt ) > ( $days_old * DAY_IN_SECONDS ) ) {
 		$posts[0]->comment_status = 'closed';
 		$posts[0]->ping_status = 'closed';
 	}
@@ -2016,7 +2016,7 @@ function _close_comments_for_old_post( $open, $post_id ) {
 	if ( ! in_array( $post->post_type, $post_types ) )
 		return $open;
 
-	if ( time() - strtotime( $post->post_date_gmt ) > ( $days_old * 24 * 60 * 60 ) )
+	if ( time() - strtotime( $post->post_date_gmt ) > ( $days_old * DAY_IN_SECONDS ) )
 		return false;
 
 	return $open;

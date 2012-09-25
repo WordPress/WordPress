@@ -282,7 +282,7 @@ foreach ( $columns as $column_name => $column_display_name ) {
 		} else {
 			$m_time = $post->post_date;
 			$time = get_post_time( 'G', true, $post, false );
-			if ( ( abs( $t_diff = time() - $time ) ) < 86400 ) {
+			if ( ( abs( $t_diff = time() - $time ) ) < DAY_IN_SECONDS ) {
 				if ( $t_diff < 0 )
 					$h_time = sprintf( __( '%s from now' ), human_time_diff( $time ) );
 				else

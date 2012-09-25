@@ -1150,7 +1150,7 @@ function wp_nav_menu_manage_columns() {
  */
 function _wp_delete_orphaned_draft_menu_items() {
 	global $wpdb;
-	$delete_timestamp = time() - (60*60*24*EMPTY_TRASH_DAYS);
+	$delete_timestamp = time() - ( DAY_IN_SECONDS * EMPTY_TRASH_DAYS );
 
 	// delete orphaned draft menu items
 	$menu_items_to_delete = $wpdb->get_col($wpdb->prepare("SELECT ID FROM $wpdb->posts AS p LEFT JOIN $wpdb->postmeta AS m ON p.ID = m.post_id WHERE post_type = 'nav_menu_item' AND post_status = 'draft' AND meta_key = '_menu_item_orphaned' AND meta_value < '%d'", $delete_timestamp ) );

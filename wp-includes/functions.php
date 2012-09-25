@@ -59,10 +59,10 @@ function mysql2date( $format, $date, $translate = true ) {
 function current_time( $type, $gmt = 0 ) {
 	switch ( $type ) {
 		case 'mysql':
-			return ( $gmt ) ? gmdate( 'Y-m-d H:i:s' ) : gmdate( 'Y-m-d H:i:s', ( time() + ( get_option( 'gmt_offset' ) * 3600 ) ) );
+			return ( $gmt ) ? gmdate( 'Y-m-d H:i:s' ) : gmdate( 'Y-m-d H:i:s', ( time() + ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS ) ) );
 			break;
 		case 'timestamp':
-			return ( $gmt ) ? time() : time() + ( get_option( 'gmt_offset' ) * 3600 );
+			return ( $gmt ) ? time() : time() + ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS );
 			break;
 	}
 }
@@ -214,8 +214,8 @@ function get_weekstartend( $mysqlstring, $start_of_week = '' ) {
 	if ( $weekday < $start_of_week )
 		$weekday += 7;
 
-	$start = $day - 86400 * ( $weekday - $start_of_week ); // The most recent week start day on or before $day
-	$end = $start + 604799; // $start + 7 days - 1 second
+	$start = $day - DAY_IN_SECONDS * ( $weekday - $start_of_week ); // The most recent week start day on or before $day
+	$end = $start + 7 * DAY_IN_SECONDS - 1; // $start + 7 days - 1 second
 	return compact( 'start', 'end' );
 }
 
@@ -934,7 +934,7 @@ function nocache_headers() {
  * @since 2.1.0
  */
 function cache_javascript_headers() {
-	$expiresOffset = 864000; // 10 days
+	$expiresOffset = 10 * DAY_IN_SECONDS;
 	header( "Content-Type: text/javascript; charset=" . get_bloginfo( 'charset' ) );
 	header( "Vary: Accept-Encoding" ); // Handle proxies
 	header( "Expires: " . gmdate( "D, d M Y H:i:s", time() + $expiresOffset ) . " GMT" );
@@ -3117,7 +3117,7 @@ function wp_timezone_override_offset() {
 	if ( false === $timezone_object || false === $datetime_object ) {
 		return false;
 	}
-	return round( timezone_offset_get( $timezone_object, $datetime_object ) / 3600, 2 );
+	return round( timezone_offset_get( $timezone_object, $datetime_object ) / HOUR_IN_SECONDS, 2 );
 }
 
 /**
@@ -3317,7 +3317,7 @@ function _cleanup_header_comment($str) {
 function wp_scheduled_delete() {
 	global $wpdb;
 
-	$delete_timestamp = time() - (60*60*24*EMPTY_TRASH_DAYS);
+	$delete_timestamp = time() - ( DAY_IN_SECONDS * EMPTY_TRASH_DAYS );
 
 	$posts_to_delete = $wpdb->get_results($wpdb->prepare("SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_wp_trash_meta_time' AND meta_value < '%d'", $delete_timestamp), ARRAY_A);
 

@@ -22,7 +22,7 @@
 function wp_schedule_single_event( $timestamp, $hook, $args = array()) {
 	// don't schedule a duplicate if there's already an identical event due in the next 10 minutes
 	$next = wp_next_scheduled($hook, $args);
-	if ( $next && $next <= $timestamp + 600 )
+	if ( $next && $next <= $timestamp + 10 * MINUTE_IN_SECONDS )
 		return;
 
 	$crons = _get_cron_array();
@@ -206,7 +206,7 @@ function spawn_cron( $gmt_time = 0 ) {
 	*/
 	$lock = get_transient('doing_cron');
 
-	if ( $lock > $gmt_time + 10*60 )
+	if ( $lock > $gmt_time + 10 * MINUTE_IN_SECONDS )
 		$lock = 0;
 
 	// don't run if another process is currently running it or more than once every 60 sec.
@@ -318,9 +318,9 @@ function wp_cron() {
  */
 function wp_get_schedules() {
 	$schedules = array(
-		'hourly' => array( 'interval' => 3600, 'display' => __('Once Hourly') ),
-		'twicedaily' => array( 'interval' => 43200, 'display' => __('Twice Daily') ),
-		'daily' => array( 'interval' => 86400, 'display' => __('Once Daily') ),
+		'hourly'     => array( 'interval' => HOUR_IN_SECONDS,      'display' => __( 'Once Hourly' ) ),
+		'twicedaily' => array( 'interval' => 12 * HOUR_IN_SECONDS, 'display' => __( 'Twice Daily' ) ),
+		'daily'      => array( 'interval' => DAY_IN_SECONDS,       'display' => __( 'Once Daily' ) ),
 	);
 	return array_merge( apply_filters( 'cron_schedules', array() ), $schedules );
 }

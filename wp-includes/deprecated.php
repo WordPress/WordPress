@@ -984,7 +984,7 @@ function get_links($category = -1, $before = '', $after = '<br />', $between = '
 
 		if ( $show_updated )
 			if (substr($row->link_updated_f, 0, 2) != '00')
-				$title .= ' ('.__('Last updated') . ' ' . date(get_option('links_updated_date_format'), $row->link_updated_f + (get_option('gmt_offset') * 3600)) . ')';
+				$title .= ' ('.__('Last updated') . ' ' . date(get_option('links_updated_date_format'), $row->link_updated_f + (get_option('gmt_offset') * HOUR_IN_SECONDS)) . ')';
 
 		if ( '' != $title )
 			$title = ' title="' . $title . '"';

@@ -1898,13 +1898,13 @@ function get_gmt_from_date($string, $format = 'Y-m-d H:i:s') {
 		$datetime = new DateTime( $string );
 		$datetime->setTimezone( new DateTimeZone('UTC') );
 		$offset = $datetime->getOffset();
-		$datetime->modify( '+' . $offset / 3600 . ' hours');
+		$datetime->modify( '+' . $offset / HOUR_IN_SECONDS . ' hours');
 		$string_gmt = gmdate($format, $datetime->format('U'));
 
 		date_default_timezone_set('UTC');
 	} else {
 		$string_time = gmmktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
-		$string_gmt = gmdate($format, $string_time - get_option('gmt_offset') * 3600);
+		$string_gmt = gmdate($format, $string_time - get_option('gmt_offset') * HOUR_IN_SECONDS);
 	}
 	return $string_gmt;
 }
@@ -1924,7 +1924,7 @@ function get_gmt_from_date($string, $format = 'Y-m-d H:i:s') {
 function get_date_from_gmt($string, $format = 'Y-m-d H:i:s') {
 	preg_match('#([0-9]{1,4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})#', $string, $matches);
 	$string_time = gmmktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
-	$string_localtime = gmdate($format, $string_time + get_option('gmt_offset')*3600);
+	$string_localtime = gmdate($format, $string_time + get_option('gmt_offset') * HOUR_IN_SECONDS);
 	return $string_localtime;
 }
 
@@ -1944,7 +1944,7 @@ function iso8601_timezone_to_offset($timezone) {
 		$sign    = (substr($timezone, 0, 1) == '+') ? 1 : -1;
 		$hours   = intval(substr($timezone, 1, 2));
 		$minutes = intval(substr($timezone, 3, 4)) / 60;
-		$offset  = $sign * 3600 * ($hours + $minutes);
+		$offset  = $sign * HOUR_IN_SECONDS * ($hours + $minutes);
 	}
 	return $offset;
 }
@@ -1968,7 +1968,7 @@ function iso8601_to_datetime($date_string, $timezone = 'user') {
 		if (!empty($date_bits[7])) { // we have a timezone, so let's compute an offset
 			$offset = iso8601_timezone_to_offset($date_bits[7]);
 		} else { // we don't have a timezone, so we assume user local timezone (not server's!)
-			$offset = 3600 * get_option('gmt_offset');
+			$offset = HOUR_IN_SECONDS * get_option('gmt_offset');
 		}
 
 		$timestamp = gmmktime($date_bits[4], $date_bits[5], $date_bits[6], $date_bits[2], $date_bits[3], $date_bits[1]);
@@ -2093,28 +2093,28 @@ function sanitize_email( $email ) {
  * @return string Human readable time difference.
  */
 function human_time_diff( $from, $to = '' ) {
-	if ( empty($to) )
+	if ( empty( $to ) )
 		$to = time();
-	$diff = (int) abs($to - $from);
-	if ($diff <= 3600) {
-		$mins = round($diff / 60);
-		if ($mins <= 1) {
+	$diff = (int) abs( $to - $from );
+	if ( $diff <= HOUR_IN_SECONDS ) {
+		$mins = round( $diff / MINUTE_IN_SECONDS );
+		if ( $mins <= 1 ) {
 			$mins = 1;
 		}
 		/* translators: min=minute */
-		$since = sprintf(_n('%s min', '%s mins', $mins), $mins);
-	} else if (($diff <= 86400) && ($diff > 3600)) {
-		$hours = round($diff / 3600);
-		if ($hours <= 1) {
+		$since = sprintf( _n( '%s min', '%s mins', $mins ), $mins );
+	} elseif ( ( $diff <= DAY_IN_SECONDS ) && ( $diff > HOUR_IN_SECONDS ) ) {
+		$hours = round( $diff / HOUR_IN_SECONDS );
+		if ( $hours <= 1 ) {
 			$hours = 1;
 		}
-		$since = sprintf(_n('%s hour', '%s hours', $hours), $hours);
-	} elseif ($diff >= 86400) {
-		$days = round($diff / 86400);
-		if ($days <= 1) {
+		$since = sprintf( _n( '%s hour', '%s hours', $hours ), $hours );
+	} elseif ( $diff >= DAY_IN_SECONDS ) {
+		$days = round( $diff / DAY_IN_SECONDS );
+		if ( $days <= 1 ) {
 			$days = 1;
 		}
-		$since = sprintf(_n('%s day', '%s days', $days), $days);
+		$since = sprintf( _n( '%s day', '%s days', $days ), $days );
 	}
 	return $since;
 }

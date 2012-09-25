@@ -560,8 +560,8 @@ function wp_user_settings() {
 		}
 	}
 
-	setcookie( 'wp-settings-' . $user->ID, $settings, time() + 31536000, SITECOOKIEPATH );
-	setcookie( 'wp-settings-time-' . $user->ID, time(), time() + 31536000, SITECOOKIEPATH );
+	setcookie( 'wp-settings-' . $user->ID, $settings, time() + YEAR_IN_SECONDS, SITECOOKIEPATH );
+	setcookie( 'wp-settings-time-' . $user->ID, time(), time() + YEAR_IN_SECONDS, SITECOOKIEPATH );
 	$_COOKIE['wp-settings-' . $user->ID] = $settings;
 }
 
@@ -724,7 +724,7 @@ function delete_all_user_settings() {
 		return;
 
 	update_user_option( $user->ID, 'user-settings', '', false );
-	setcookie('wp-settings-' . $user->ID, ' ', time() - 31536000, SITECOOKIEPATH);
+	setcookie('wp-settings-' . $user->ID, ' ', time() - YEAR_IN_SECONDS, SITECOOKIEPATH);
 }
 
 /**

@@ -70,14 +70,13 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			}
 		}
 
-		set_transient( 'plugin_slugs', array_keys( $plugins['all'] ), 86400 );
+		set_transient( 'plugin_slugs', array_keys( $plugins['all'] ), DAY_IN_SECONDS );
 
 		if ( ! $screen->is_network ) {
 			$recently_activated = get_option( 'recently_activated', array() );
 
-			$one_week = 7*24*60*60;
 			foreach ( $recently_activated as $key => $time )
-				if ( $time + $one_week < time() )
+				if ( $time + WEEK_IN_SECONDS < time() )
 					unset( $recently_activated[$key] );
 			update_option( 'recently_activated', $recently_activated );
 		}

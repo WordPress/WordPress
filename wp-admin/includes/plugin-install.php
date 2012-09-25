@@ -74,7 +74,7 @@ function install_popular_tags( $args = array() ) {
 	if ( is_wp_error($tags) )
 		return $tags;
 
-	set_site_transient('poptags_' . $key, $tags, 10800); // 3 * 60 * 60 = 10800
+	set_site_transient( 'poptags_' . $key, $tags, 3 * HOUR_IN_SECONDS );
 
 	return $tags;
 }

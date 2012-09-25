@@ -30,7 +30,7 @@ function wp_credits() {
 		if ( ! is_array( $results ) )
 			return false;
 
-		set_site_transient( 'wordpress_credits_' . $locale, $results, 86400 ); // One day
+		set_site_transient( 'wordpress_credits_' . $locale, $results, DAY_IN_SECONDS );
 	}
 
 	return $results;

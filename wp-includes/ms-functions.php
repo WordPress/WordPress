@@ -1408,7 +1408,7 @@ function get_dirsize( $directory ) {
 
 	$dirsize[ $directory ][ 'size' ] = recurse_dirsize( $directory );
 
-	set_transient( 'dirsize_cache', $dirsize, 3600 );
+	set_transient( 'dirsize_cache', $dirsize, HOUR_IN_SECONDS );
 	return $dirsize[ $directory ][ 'size' ];
 }
 

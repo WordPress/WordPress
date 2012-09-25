@@ -538,7 +538,7 @@ function fetch_feed($url) {
 	}
 
 	$feed->set_feed_url($url);
-	$feed->set_cache_duration(apply_filters('wp_feed_cache_transient_lifetime', 43200, $url));
+	$feed->set_cache_duration( apply_filters( 'wp_feed_cache_transient_lifetime', 12 * HOUR_IN_SECONDS, $url ) );
 	do_action_ref_array( 'wp_feed_options', array( &$feed, $url ) );
 	$feed->init();
 	$feed->handle_content_type();

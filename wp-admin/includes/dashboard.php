@@ -916,7 +916,7 @@ function wp_dashboard_plugins_output() {
 
 	if ( false === $plugin_slugs = get_transient( 'plugin_slugs' ) ) {
 		$plugin_slugs = array_keys( get_plugins() );
-		set_transient( 'plugin_slugs', $plugin_slugs, 86400 );
+		set_transient( 'plugin_slugs', $plugin_slugs, DAY_IN_SECONDS );
 	}
 
 	foreach ( array( 'popular' => __('Most Popular'), 'new' => __('Newest Plugins') ) as $feed => $label ) {
@@ -1024,7 +1024,7 @@ function wp_dashboard_cached_rss_widget( $widget_id, $callback, $check_urls = ar
 		array_unshift( $args, $widget_id );
 		ob_start();
 		call_user_func_array( $callback, $args );
-		set_transient( $cache_key, ob_get_flush(), 43200); // Default lifetime in cache of 12 hours (same as the feeds)
+		set_transient( $cache_key, ob_get_flush(), 12 * HOUR_IN_SECONDS ); // Default lifetime in cache of 12 hours (same as the feeds)
 	}
 
 	return true;
@@ -1215,7 +1215,7 @@ function wp_check_browser_version() {
 		if ( ! is_array( $response ) )
 			return false;
 
-		set_site_transient( 'browser_' . $key, $response, 604800 ); // cache for 1 week
+		set_site_transient( 'browser_' . $key, $response, WEEK_IN_SECONDS );
 	}
 
 	return $response;

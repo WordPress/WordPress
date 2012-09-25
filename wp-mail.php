@@ -30,7 +30,7 @@ if ( $last_checked )
 
 set_transient('mailserver_last_checked', true, WP_MAIL_INTERVAL);
 
-$time_difference = get_option('gmt_offset') * 3600;
+$time_difference = get_option('gmt_offset') * HOUR_IN_SECONDS;
 
 $phone_delim = '::';
 

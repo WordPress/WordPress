@@ -808,7 +808,7 @@ class WP_Http_Fsockopen {
 		if ( ! function_exists( 'fsockopen' ) )
 			return false;
 
-		if ( false !== ($option = get_option( 'disable_fsockopen' )) && time()-$option < 43200 ) // 12 hours
+		if ( false !== ( $option = get_option( 'disable_fsockopen' ) ) && time() - $option < 12 * HOUR_IN_SECONDS )
 			return false;
 
 		$is_ssl = isset( $args['ssl'] ) && $args['ssl'];

@@ -511,11 +511,11 @@ function upgrade_110() {
 	$time_difference = $all_options->time_difference;
 
 		$server_time = time()+date('Z');
-	$weblogger_time = $server_time + $time_difference*3600;
+	$weblogger_time = $server_time + $time_difference * HOUR_IN_SECONDS;
 	$gmt_time = time();
 
-	$diff_gmt_server = ($gmt_time - $server_time) / 3600;
-	$diff_weblogger_server = ($weblogger_time - $server_time) / 3600;
+	$diff_gmt_server = ($gmt_time - $server_time) / HOUR_IN_SECONDS;
+	$diff_weblogger_server = ($weblogger_time - $server_time) / HOUR_IN_SECONDS;
 	$diff_gmt_weblogger = $diff_gmt_server - $diff_weblogger_server;
 	$gmt_offset = -$diff_gmt_weblogger;
 
