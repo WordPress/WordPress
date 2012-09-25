@@ -49,8 +49,7 @@ get_current_screen()->set_help_sidebar(
 /**
  * Display JavaScript on the page.
  *
- * @package WordPress
- * @subpackage Permalink_Settings_Screen
+ * @since 3.5.0
  */
 function options_permalink_add_js() {
 	?>

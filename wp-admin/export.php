@@ -16,6 +16,11 @@ if ( !current_user_can('export') )
 require_once('./includes/export.php');
 $title = __('Export');
 
+/**
+ * Display JavaScript on the page.
+ *
+ * @since 3.5.0
+ */
 function export_add_js() {
 ?>
 <script type="text/javascript">

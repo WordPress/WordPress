@@ -20,8 +20,7 @@ $timezone_format = _x('Y-m-d G:i:s', 'timezone date format');
 /**
  * Display JavaScript on the page.
  *
- * @package WordPress
- * @subpackage General_Settings_Screen
+ * @since 3.5.0
  */
 function options_general_add_js() {
 ?>
