@@ -129,7 +129,7 @@ function twentytwelve_scripts_styles() {
 	 * Ideally, should load after main CSS file.
 	 * See html5.js link in header.php.
 	 *
-	 * TODO depends on IE dependency being in core for JS enqueuing
+	 * @todo depends on IE dependency being in core for JS enqueuing
 	 * before we can move here properly: see http://core.trac.wordpress.org/ticket/16024
 	 */
 }
