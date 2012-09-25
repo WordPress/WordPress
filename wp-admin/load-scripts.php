@@ -125,7 +125,7 @@ require(ABSPATH . WPINC . '/version.php');
 
 $compress = ( isset($_GET['c']) && $_GET['c'] );
 $force_gzip = ( $compress && 'gzip' == $_GET['c'] );
-$expires_offset = YEAR_IN_SECONDS;
+$expires_offset = 31536000;
 $out = '';
 
 $wp_scripts = new WP_Scripts();
