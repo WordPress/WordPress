@@ -15,13 +15,7 @@ if ( ! current_user_can( 'manage_options' ) )
 $title = __('Media Settings');
 $parent_file = 'options-general.php';
 
-$media_options_help = '<p>' . __('You can set maximum sizes for images inserted into your written content; you can also insert an image as Full Size.') . '</p>' .
-	'<p>' . __('The Embed option allows you embed a video, image, or other media content into your content automatically by typing the URL (of the web page where the file lives) on its own line when you create your content.');
-
-if ( ! empty( $content_width ) )
-	$media_options_help .= ' ' . __( 'If you do not set the maximum embed size, it will be automatically sized to fit into your content area.' );
-
-$media_options_help .= '</p>';
+$media_options_help = '<p>' . __('You can set maximum sizes for images inserted into your written content; you can also insert an image as Full Size.') . '</p>';
 
 if ( ! is_multisite() ) {
 	$media_options_help .= '<p>' . __('Uploading Files allows you to choose the folder and path for storing your uploaded files.') . '</p>';
@@ -91,32 +85,12 @@ include('./admin-header.php');
 <?php do_settings_fields('media', 'default'); ?>
 </table>
 
+<?php if ( isset( $GLOBALS['wp_settings']['media']['embeds'] ) ) : ?>
 <h3><?php _e('Embeds') ?></h3>
-
 <table class="form-table">
-
-<tr valign="top">
-<th scope="row"><?php _e('Auto-embeds'); ?></th>
-<td><fieldset><legend class="screen-reader-text"><span><?php _e('When possible, embed the media content from a URL directly onto the page. For example: links to Flickr and YouTube.'); ?></span></legend>
-<label for="embed_autourls"><input name="embed_autourls" type="checkbox" id="embed_autourls" value="1" <?php checked( '1', get_option('embed_autourls') ); ?>/> <?php _e('When possible, embed the media content from a URL directly onto the page. For example: links to Flickr and YouTube.'); ?></label>
-</fieldset></td>
-</tr>
-
-<tr valign="top">
-<th scope="row"><?php _e('Maximum embed size') ?></th>
-<td>
-<label for="embed_size_w"><?php _e('Width'); ?></label>
-<input name="embed_size_w" type="number" step="1" min="0" id="embed_size_w" value="<?php form_option('embed_size_w'); ?>" class="small-text" />
-<label for="embed_size_h"><?php _e('Height'); ?></label>
-<input name="embed_size_h" type="number" step="1" min="0" id="embed_size_h" value="<?php form_option('embed_size_h'); ?>" class="small-text" />
-<?php if ( ! empty( $content_width ) )
-	echo '<p class="description">' . __( 'If the width value is left blank, embeds will default to the max width of your theme.' ) . '</p>';
-?>
-</td>
-</tr>
-
-<?php do_settings_fields('media', 'embeds'); ?>
+<?php do_settings_fields( 'media', 'embeds' ); ?>
 </table>
+<?php endif; ?>
 
 <?php if ( !is_multisite() ) : ?>
 <h3><?php _e('Uploading Files'); ?></h3>

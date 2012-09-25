@@ -1081,20 +1081,19 @@ class WP_Embed {
 	 */
 	function __construct() {
 		// Hack to get the [embed] shortcode to run before wpautop()
-		add_filter( 'the_content', array(&$this, 'run_shortcode'), 8 );
+		add_filter( 'the_content', array( $this, 'run_shortcode' ), 8 );
 
 		// Shortcode placeholder for strip_shortcodes()
 		add_shortcode( 'embed', '__return_false' );
 
 		// Attempts to embed all URLs in a post
-		if ( get_option('embed_autourls') )
-			add_filter( 'the_content', array(&$this, 'autoembed'), 8 );
+		add_filter( 'the_content', array( $this, 'autoembed' ), 8 );
 
 		// After a post is saved, invalidate the oEmbed cache
-		add_action( 'save_post', array(&$this, 'delete_oembed_caches') );
+		add_action( 'save_post', array( $this, 'delete_oembed_caches' ) );
 
 		// After a post is saved, cache oEmbed items via AJAX
-		add_action( 'edit_form_advanced', array(&$this, 'maybe_run_ajax_cache') );
+		add_action( 'edit_form_advanced', array( $this, 'maybe_run_ajax_cache' ) );
 	}
 
 	/**
@@ -1119,7 +1118,7 @@ class WP_Embed {
 		$orig_shortcode_tags = $shortcode_tags;
 		remove_all_shortcodes();
 
-		add_shortcode( 'embed', array(&$this, 'shortcode') );
+		add_shortcode( 'embed', array( $this, 'shortcode' ) );
 
 		// Do the shortcode (only the [embed] one is registered)
 		$content = do_shortcode( $content );
@@ -1293,8 +1292,7 @@ class WP_Embed {
 			$this->usecache = false;
 
 			$content = $this->run_shortcode( $post->post_content );
-			if ( get_option('embed_autourls') )
-				$this->autoembed( $content );
+			$this->autoembed( $content );
 
 			$this->usecache = true;
 		}
@@ -1309,7 +1307,7 @@ class WP_Embed {
 	 * @return string Potentially modified $content.
 	 */
 	function autoembed( $content ) {
-		return preg_replace_callback( '|^\s*(https?://[^\s"]+)\s*$|im', array(&$this, 'autoembed_callback'), $content );
+		return preg_replace_callback( '|^\s*(https?://[^\s"]+)\s*$|im', array( $this, 'autoembed_callback' ), $content );
 	}
 
 	/**
@@ -1367,31 +1365,27 @@ function wp_embed_unregister_handler( $id, $priority = 10 ) {
 /**
  * Create default array of embed parameters.
  *
+ * The width defaults to the content width as specified by the theme. If the
+ * theme does not specify a content width, then 500px is used.
+ *
+ * The default height is 1.5 times the width, or 1000px, whichever is smaller.
+ *
+ * The 'embed_defaults' filter can be used to adjust either of these values.
+ *
  * @since 2.9.0
  *
  * @return array Default embed parameters.
  */
 function wp_embed_defaults() {
-	if ( !empty($GLOBALS['content_width']) )
-		$theme_width = (int) $GLOBALS['content_width'];
+	if ( ! empty( $GLOBALS['content_width'] ) )
+		$width = (int) $GLOBALS['content_width'];
 
-	$width = get_option('embed_size_w');
-
-	if ( empty($width) && !empty($theme_width) )
-		$width = $theme_width;
-
-	if ( empty($width) )
+	if ( empty( $width ) )
 		$width = 500;
 
-	$height = get_option('embed_size_h');
+	$height = min( ceil( $width * 1.5 ), 1000 );
 
-	if ( empty($height) )
-		$height = 700;
-
-	return apply_filters( 'embed_defaults', array(
-		'width'  => $width,
-		'height' => $height,
-	) );
+	return apply_filters( 'embed_defaults', compact( 'width', 'height' ) );
 }
 
 /**

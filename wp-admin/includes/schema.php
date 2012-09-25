@@ -468,11 +468,6 @@ function populate_options() {
 	// 2.8
 	'timezone_string' => $timezone_string,
 
-	// 2.9
-	'embed_autourls' => 1,
-	'embed_size_w' => '',
-	'embed_size_h' => 600,
-
 	// 3.0
 	'page_for_posts' => 0,
 	'page_on_front' => 0,
@@ -542,6 +537,7 @@ function populate_options() {
 		'can_compress_scripts', 'page_uris', 'update_core', 'update_plugins', 'update_themes', 'doing_cron',
 		'random_seed', 'rss_excerpt_length', 'secret', 'use_linksupdate', 'default_comment_status_page',
 		'wporg_popular_tags', 'what_to_show', 'rss_language', 'language', 'enable_xmlrpc', 'enable_app',
+		'autoembed_urls',
 	);
 	foreach ( $unusedoptions as $option )
 		delete_option($option);
