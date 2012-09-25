@@ -2862,6 +2862,32 @@ function sanitize_option($option, $value) {
 				$value = get_option( $option );
 			break;
 
+		case 'illegal_names':
+			if ( ! is_array( $value ) )
+				$value = explode( "\n", $value );
+
+			$value = array_values( array_filter( array_map( 'trim', $value ) ) );
+
+			if ( ! $value )
+				$value = '';
+			break;
+
+		case 'limited_email_domains':
+		case 'banned_email_domains':
+			if ( ! is_array( $value ) )
+				$value = explode( "\n", $value );
+
+			$domains = array_values( array_filter( array_map( 'trim', $value ) ) );
+			$value = array();
+
+			foreach ( $domains as $domain ) {
+				if ( ! preg_match( '/(--|\.\.)/', $domain ) && preg_match( '|^([a-zA-Z0-9-\.])+$|', $domain ) )
+					$value[] = $domain;
+			}
+			if ( ! $value )
+				$value = '';
+			break;
+
 		case 'timezone_string':
 			$allowed_zones = timezone_identifiers_list();
 			if ( ! in_array( $value, $allowed_zones ) && ! empty( $value ) ) {

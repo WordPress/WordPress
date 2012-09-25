@@ -44,53 +44,20 @@ if ( $_POST ) {
 
 	check_admin_referer( 'siteoptions' );
 
-	if ( isset( $_POST['WPLANG'] ) && ( '' === $_POST['WPLANG'] || in_array( $_POST['WPLANG'], get_available_languages() ) ) )
-		update_site_option( 'WPLANG', $_POST['WPLANG'] );
-
-	if ( is_email( $_POST['admin_email'] ) )
-		update_site_option( 'admin_email', $_POST['admin_email'] );
-
-	$illegal_names = explode( ' ', $_POST['illegal_names'] );
-	foreach ( (array) $illegal_names as $name ) {
-		$name = trim( $name );
-		if ( $name != '' )
-			$names[] = trim( $name );
-	}
-	update_site_option( 'illegal_names', $names );
-
-	if ( $_POST['limited_email_domains'] != '' ) {
-		$limited_email_domains = str_replace( ' ', "\n", $_POST['limited_email_domains'] );
-		$limited_email_domains = explode( "\n", stripslashes( $limited_email_domains ) );
-		$limited_email = array();
-		foreach ( (array) $limited_email_domains as $domain ) {
-			$domain = trim( $domain );
-			if ( ! preg_match( '/(--|\.\.)/', $domain ) && preg_match( '|^([a-zA-Z0-9-\.])+$|', $domain ) )
-				$limited_email[] = trim( $domain );
-		}
-		update_site_option( 'limited_email_domains', $limited_email );
-	} else {
-		update_site_option( 'limited_email_domains', '' );
-	}
-
-	if ( $_POST['banned_email_domains'] != '' ) {
-		$banned_email_domains = explode( "\n", stripslashes( $_POST['banned_email_domains'] ) );
-		$banned = array();
-		foreach ( (array) $banned_email_domains as $domain ) {
-			$domain = trim( $domain );
-			if ( ! preg_match( '/(--|\.\.)/', $domain ) && preg_match( '|^([a-zA-Z0-9-\.])+$|', $domain ) )
-				$banned[] = trim( $domain );
-		}
-		update_site_option( 'banned_email_domains', $banned );
-	} else {
-		update_site_option( 'banned_email_domains', '' );
-	}
-
-	$options = array( 'registrationnotification', 'registration', 'add_new_users', 'menu_items', 'upload_space_check_disabled', 'blog_upload_space', 'upload_filetypes', 'site_name', 'first_post', 'first_page', 'first_comment', 'first_comment_url', 'first_comment_author', 'welcome_email', 'welcome_user_email', 'fileupload_maxk', 'global_terms_enabled' );
 	$checked_options = array( 'menu_items' => array(), 'registrationnotification' => 'no', 'upload_space_check_disabled' => 1, 'add_new_users' => 0 );
 	foreach ( $checked_options as $option_name => $option_unchecked_value ) {
 		if ( ! isset( $_POST[$option_name] ) )
 			$_POST[$option_name] = $option_unchecked_value;
 	}
+
+	$options = array(
+		'registrationnotification', 'registration', 'add_new_users', 'menu_items',
+		'upload_space_check_disabled', 'blog_upload_space', 'upload_filetypes', 'site_name',
+		'first_post', 'first_page', 'first_comment', 'first_comment_url', 'first_comment_author',
+		'welcome_email', 'welcome_user_email', 'fileupload_maxk', 'global_terms_enabled',
+		'illegal_names', 'limited_email_domains', 'banned_email_domains', 'WPLANG', 'admin_email',
+	);
+
 	foreach ( $options as $option_name ) {
 		if ( ! isset($_POST[$option_name]) )
 			continue;
