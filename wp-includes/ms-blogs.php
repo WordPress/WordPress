@@ -520,7 +520,7 @@ function switch_to_blog( $new_blog, $deprecated = null ) {
 function restore_current_blog() {
 	global $wpdb, $wp_roles;
 
-	if ( ! $GLOBALS['switched'] )
+	if ( empty( $GLOBALS['_wp_switched_stack'] ) )
 		return false;
 
 	$blog = array_pop( $GLOBALS['_wp_switched_stack'] );
@@ -580,7 +580,7 @@ function restore_current_blog() {
  * @return bool True if switched, false otherwise.
  */
 function ms_is_switched() {
-	return $GLOBALS['switched'];
+	return ! empty( $GLOBALS['_wp_switched_stack'] );
 }
 
 /**
