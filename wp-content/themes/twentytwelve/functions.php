@@ -115,8 +115,26 @@ function twentytwelve_scripts_styles() {
 	/* translators: If there are characters in your language that are not supported by Open Sans,
 	   enter 'disable-open-sans'. Otherwise enter 'enable-open-sans'. Do not translate into your own language. */
 	if ( false === strpos( _x( 'enable-open-sans', 'Open Sans font: enable or disable', 'twentytwelve' ), 'disable' ) ) {
+		$subsets = 'latin,latin-ext';
+		/* translators: To add an additional Open Sans character subset specific to your language enter 'greek', 'cyrillic' or 'vietnamese'.
+		   Otherwise enter 'open-sans-subset'. Do not translate into your own language. */
+		$add_subset = _x( 'open-sans-subset', 'Additional Open Sans font subset: greek, cyrillic or vietnamese', 'twentytwelve' );
+
+		if ( in_array( $add_subset, array( 'greek', 'cyrillic', 'vietnamese' ) ) ) {
+			$character_sets = array(
+				'greek'      => 'greek,greek-ext',
+				'cyrillic'   => 'cyrillic,cyrillic-ext',
+				'vietnamese' => 'vietnamese'
+			);
+			$subsets = implode( ',', array( $subsets, $character_sets[ $add_subset ] ) );
+		}
+
 		$protocol = is_ssl() ? 'https' : 'http';
-		wp_enqueue_style( 'twentytwelve-fonts', "$protocol://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700", array(), null );
+		$query_args = array(
+			'family' => 'Open+Sans:400italic,700italic,400,700',
+			'subset' => $subsets
+		);
+		wp_enqueue_style( 'twentytwelve-fonts', add_query_arg( $query_args, "$protocol://fonts.googleapis.com/css" ), array(), null );
 	}
 
 	/*
