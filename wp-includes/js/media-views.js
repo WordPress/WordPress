@@ -16,22 +16,32 @@
 	 */
 	media.controller.Workflow = Backbone.Model.extend({
 		defaults: {
-			multiple: false,
-			view:     'library'
+			multiple:  false,
+			view:      'library',
+			library:   {},
+			selection: []
 		},
 
 		initialize: function() {
 			this.createSelection();
 
 			// Initialize view storage.
-			this._views   = {};
-			this._pending = {};
+			this._views        = {};
+			this._pendingViews = {};
 
 			// Initialize modal container view.
 			this.modal = new media.view.Modal({ controller: this });
 
 			// Add default views.
-			this.add( 'library', media.view.Workspace.Library, { collection: media.query() } );
+			//
+			// Use the `library` property to initialize the corresponding view,
+			// then unset the property.
+			this.add( 'library', media.view.Workspace.Library, {
+				collection: media.query( this.get('library') )
+			} );
+			this.unset('library');
+
+			// Add the gallery view.
 			this.add( 'gallery', media.view.Workspace.Gallery, { collection: this.selection } );
 		},
 
@@ -45,7 +55,7 @@
 		// Triggers the `add` and `add:VIEW_ID` events.
 		add: function( id, constructor, options ) {
 			this.remove( id );
-			this._pending[ id ] = {
+			this._pendingViews[ id ] = {
 				view:    constructor,
 				options: options
 			};
@@ -63,11 +73,11 @@
 			var pending;
 
 			id = id || this.get('view');
-			pending = this._pending[ id ];
+			pending = this._pendingViews[ id ];
 
 			if ( ! this._views[ id ] && pending ) {
 				this._views[ id ] = new pending.view( _.extend({ controller: this }, pending.options || {} ) );
-				delete this._pending[ id ];
+				delete this._pendingViews[ id ];
 				this.trigger( 'init init:' + id, this._views[ id ] );
 			}
 
@@ -79,7 +89,7 @@
 		// Triggers the `remove` and `remove:VIEW_ID` events.
 		remove: function( id ) {
 			delete this._views[ id ];
-			delete this._pending[ id ];
+			delete this._pendingViews[ id ];
 			this.trigger( 'remove remove:' + id );
 			return this;
 		},
@@ -96,7 +106,7 @@
 			view = this.view( id );
 
 			if ( ! view )
-				return;
+				return this;
 
 			view.render();
 			this.modal.content( view );
@@ -107,7 +117,10 @@
 			var controller = this;
 
 			// Initialize workflow-specific models.
-			this.selection = new Attachments();
+			// Use the `selection` property to initialize the Attachments
+			// collection, then unset the property.
+			this.selection = new Attachments( this.get('selection') );
+			this.unset('selection');
 
 			_.extend( this.selection, {
 				// Override the selection's add method.

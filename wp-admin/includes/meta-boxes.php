@@ -1030,7 +1030,12 @@ function post_thumbnail_meta_box( $post ) {
 			event.preventDefault();
 
 			if ( ! workflow ) {
-				workflow = wp.media();
+				workflow = wp.media({
+					library: {
+						type: 'image'
+					}
+				});
+
 				workflow.selection.on( 'add', function( model ) {
 					var sizes = model.get('sizes'),
 						size;
