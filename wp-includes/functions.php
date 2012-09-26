@@ -1367,9 +1367,13 @@ function path_join( $base, $path ) {
 
 /**
  * Determines a writable directory for temporary files.
- * Function's preference is to WP_CONTENT_DIR followed by the return value of <code>sys_get_temp_dir()</code>, before finally defaulting to /tmp/
+ * Function's preference is the return value of <code>sys_get_temp_dir()</code>,
+ * followed by your PHP temporary upload directory, followed by WP_CONTENT_DIR,
+ * before finally defaulting to /tmp/
  *
- * In the event that this function does not find a writable location, It may be overridden by the <code>WP_TEMP_DIR</code> constant in your <code>wp-config.php</code> file.
+ * In the event that this function does not find a writable location,
+ * It may be overridden by the <code>WP_TEMP_DIR</code> constant in
+ * your <code>wp-config.php</code> file.
  *
  * @since 2.5.0
  *
@@ -1383,19 +1387,22 @@ function get_temp_dir() {
 	if ( $temp )
 		return trailingslashit($temp);
 
-	$temp = WP_CONTENT_DIR . '/';
-	if ( is_dir($temp) && @is_writable($temp) )
-		return $temp;
+	$is_win = ( 'WIN' === strtoupper( substr( PHP_OS, 0, 3 ) ) );
 
-	if  ( function_exists('sys_get_temp_dir') ) {
+	if ( function_exists('sys_get_temp_dir') ) {
 		$temp = sys_get_temp_dir();
-		if ( @is_writable($temp) )
-			return trailingslashit($temp);
+		if ( is_dir( $temp ) && ( $is_win ? win_is_writable( $temp ) : @is_writable( $temp ) ) ) {
+			return trailingslashit( $temp );
+		}
 	}
 
 	$temp = ini_get('upload_tmp_dir');
-	if ( is_dir($temp) && @is_writable($temp) )
+	if ( is_dir( $temp ) && ( $is_win ? win_is_writable( $temp ) : @is_writable( $temp ) ) )
 		return trailingslashit($temp);
+
+	$temp = WP_CONTENT_DIR . '/';
+	if ( is_dir( $temp ) && ( $is_win ? win_is_writable( $temp ) : @is_writable( $temp ) ) )
+		return $temp;
 
 	$temp = '/tmp/';
 	return $temp;
