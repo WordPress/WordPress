@@ -49,10 +49,8 @@ var switchEditors = {
 			if ( ed && ed.isHidden() )
 				return false;
 
-			if ( ed ) {
-				txtarea_el.style.height = ed.getContentAreaContainer().offsetHeight + 20 + 'px';
+			if ( ed )
 				ed.hide();
-			}
 
 			dom.removeClass(wrap_id, 'tmce-active');
 			dom.addClass(wrap_id, 'html-active');

@@ -32,7 +32,7 @@ final class _WP_Editors {
 			'wpautop' => true, // use wpautop?
 			'media_buttons' => true, // show insert/upload button(s)
 			'textarea_name' => $editor_id, // set the textarea name to something different, square brackets [] can be used here
-			'textarea_rows' => get_option('default_post_edit_rows', 10), // rows="..."
+			'textarea_rows' => 20,
 			'tabindex' => '',
 			'tabfocus_elements' => ':prev,:next', // the previous and next element ID to move the focus to when pressing the Tab key in TinyMCE
 			'editor_css' => '', // intended for extra styles for both visual and Text editors buttons, needs to include the <style> tags, can use "scoped".
@@ -52,6 +52,26 @@ final class _WP_Editors {
 		if ( self::$this_quicktags )
 			self::$has_quicktags = true;
 
+		if ( empty( $set['editor_height'] ) )
+			return $set;
+
+		if ( 'content' === $editor_id ) {
+			// A cookie (set when a user resizes the editor) overrides the height.
+			$cookie = (int) get_user_setting( 'ed_size' );
+
+			// Upgrade an old TinyMCE cookie if it is still around, and the new one isn't.
+			if ( ! $cookie && isset( $_COOKIE['TinyMCE_content_size'] ) ) {
+				parse_str( $_COOKIE['TinyMCE_content_size'], $cookie );
+ 				$cookie = $cookie['ch'];
+			}
+
+			if ( $cookie )
+				$set['editor_height'] = $cookie;
+		}
+
+		if ( $set['editor_height'] < 50 )
+			$set['editor_height'] = 50;
+
 		return $set;
 	}
 
@@ -67,9 +87,13 @@ final class _WP_Editors {
 		$set = self::parse_settings($editor_id, $settings);
 		$editor_class = ' class="' . trim( $set['editor_class'] . ' wp-editor-area' ) . '"';
 		$tabindex = $set['tabindex'] ? ' tabindex="' . (int) $set['tabindex'] . '"' : '';
-		$rows = ' rows="' . (int) $set['textarea_rows'] . '"';
 		$switch_class = 'html-active';
 		$toolbar = $buttons = '';
+
+		if ( ! empty( $set['editor_height'] ) )
+			$height = ' style="height: ' . $set['editor_height'] . 'px"';
+		else
+			$height = ' rows="' . $set['textarea_rows'] . '"';
 
 		if ( !current_user_can( 'upload_files' ) )
 			$set['media_buttons'] = false;
@@ -116,7 +140,7 @@ final class _WP_Editors {
 			echo "</div>\n";
 		}
 
-		$the_editor = apply_filters('the_editor', '<div id="wp-' . $editor_id . '-editor-container" class="wp-editor-container"><textarea' . $editor_class . $rows . $tabindex . ' cols="40" name="' . $set['textarea_name'] . '" id="' . $editor_id . '">%s</textarea></div>');
+		$the_editor = apply_filters('the_editor', '<div id="wp-' . $editor_id . '-editor-container" class="wp-editor-container"><textarea' . $editor_class . $height . $tabindex . ' cols="40" name="' . $set['textarea_name'] . '" id="' . $editor_id . '">%s</textarea></div>');
 		$content = apply_filters('the_editor_content', $content);
 
 		printf($the_editor, $content);
@@ -403,6 +427,9 @@ final class _WP_Editors {
 				'body_class' => $body_class
 			);
 
+			// The main editor doesn't use the TinyMCE resizing cookie.
+			$mceInit['theme_advanced_resizing_use_cookie'] = 'content' !== $editor_id || empty( $set['editor_height'] );
+
 			if ( $first_run )
 				$mceInit = array_merge(self::$first_init, $mceInit);
 
@@ -550,15 +577,25 @@ final class _WP_Editors {
 			else
 				echo "<script type='text/javascript' src='{$baseurl}/langs/wp-langs-en.js?$version'></script>\n";
 		}
+
+		$mce = ( self::$has_tinymce && wp_default_editor() == 'tinymce' ) || ! self::$has_quicktags;
 ?>
 
 	<script type="text/javascript">
+		var wpActiveEditor;
+
 		(function(){
-			var init, ed, qt, first_init, mce = <?php echo wp_default_editor() == 'tinymce' ? 'true' : 'false'; ?>;
+			var init, ed, qt, first_init, DOM, el, i, mce = <?php echo (int) $mce; ?>;
 
 			if ( typeof(tinymce) == 'object' ) {
+				DOM = tinymce.DOM;
 				// mark wp_theme/ui.css as loaded
-				tinymce.DOM.files[tinymce.baseURI.getURI() + '/themes/advanced/skins/wp_theme/ui.css'] = true;
+				DOM.files[tinymce.baseURI.getURI() + '/themes/advanced/skins/wp_theme/ui.css'] = true;
+
+				DOM.events.add( DOM.select('.wp-editor-wrap'), 'mousedown', function(e){
+					if ( this.id )
+						wpActiveEditor = this.id.slice(3, -5);
+				});
 
 				for ( ed in tinyMCEPreInit.mceInit ) {
 					if ( first_init ) {
@@ -570,6 +607,12 @@ final class _WP_Editors {
 					if ( mce )
 						try { tinymce.init(init); } catch(e){}
 				}
+			} else {
+				el = document.getElementsByClassName('wp-editor-wrap');
+				for ( i in el ) {
+					if ( typeof(el[i]) == 'object' )
+						el[i].onmousedown = function(){ wpActiveEditor = this.id.slice(3, -5); }
+				}
 			}
 
 			if ( typeof(QTags) == 'function' ) {
@@ -578,29 +621,23 @@ final class _WP_Editors {
 				}
 			}
 		})();
-
-		var wpActiveEditor;
-
-		jQuery('.wp-editor-wrap').mousedown(function(e){
-			wpActiveEditor = this.id.slice(3, -5);
-		});
-
-<?php
+		<?php
 
 		if ( self::$ext_plugins )
 			echo self::$ext_plugins . "\n";
 
 		if ( ! $compressed && $tmce_on ) {
-?>
-		(function(){var t=tinyMCEPreInit,sl=tinymce.ScriptLoader,ln=t.ref.language,th=t.ref.theme,pl=t.ref.plugins;sl.markDone(t.base+'/langs/'+ln+'.js');sl.markDone(t.base+'/themes/'+th+'/langs/'+ln+'.js');sl.markDone(t.base+'/themes/'+th+'/langs/'+ln+'_dlg.js');sl.markDone(t.base+'/themes/advanced/skins/wp_theme/ui.css');tinymce.each(pl.split(','),function(n){if(n&&n.charAt(0)!='-'){sl.markDone(t.base+'/plugins/'+n+'/langs/'+ln+'.js');sl.markDone(t.base+'/plugins/'+n+'/langs/'+ln+'_dlg.js');}});})();
-<?php
+			?>
+			(function(){var t=tinyMCEPreInit,sl=tinymce.ScriptLoader,ln=t.ref.language,th=t.ref.theme,pl=t.ref.plugins;sl.markDone(t.base+'/langs/'+ln+'.js');sl.markDone(t.base+'/themes/'+th+'/langs/'+ln+'.js');sl.markDone(t.base+'/themes/'+th+'/langs/'+ln+'_dlg.js');sl.markDone(t.base+'/themes/advanced/skins/wp_theme/ui.css');tinymce.each(pl.split(','),function(n){if(n&&n.charAt(0)!='-'){sl.markDone(t.base+'/plugins/'+n+'/langs/'+ln+'.js');sl.markDone(t.base+'/plugins/'+n+'/langs/'+ln+'_dlg.js');}});})();
+			<?php
 		}
 
 		if ( !is_admin() )
 			echo 'var ajaxurl = "' . admin_url( 'admin-ajax.php', 'relative' ) . '";';
-?>
-	</script>
-<?php
+
+		?>
+		</script>
+		<?php
 
 		if ( in_array('wplink', self::$plugins, true) || in_array('link', self::$qt_buttons, true) )
 			self::wp_link_dialog();

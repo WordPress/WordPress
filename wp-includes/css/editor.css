@@ -1018,12 +1018,18 @@
 }
 
 /* WP specific */
+.wp-editor-wrap {
+	position: relative;
+}
+
 .wp-editor-area {
 	font-family: Consolas, Monaco, monospace;
 	padding: 10px;
+	margin: 1px 0 0;
 	line-height: 150%;
 	border: 0 none;
 	outline: none;
+	display: block;
 	resize: vertical;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;

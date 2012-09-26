@@ -3107,13 +3107,30 @@ td.plugin-title p {
 	background: transparent url(../images/resize.gif) no-repeat scroll right bottom;
 	width: 12px;
 	cursor: se-resize;
-	margin: 0 2px;
+	margin: 0 1px;
 	position: relative;
 	top: -2px;
 }
 
 #post-body .postarea .wp_themeSkin .mceStatusbar a.mceResize {
 	top: 20px;
+}
+
+#content-resize-handle {
+	background: transparent url(../images/resize.gif) no-repeat scroll right bottom;
+	width: 12px;
+	cursor: se-resize;
+	position: absolute;
+	right: 2px;
+	height: 19px;
+}
+
+.press-this #content-resize-handle {
+	bottom: 2px;
+}
+
+.tmce-active #content-resize-handle {
+	display: none;
 }
 
 #wp-word-count {
@@ -4307,6 +4324,10 @@ span.imgedit-scale-warn {
 	height: 120px;
 	-webkit-box-shadow: none;
 	box-shadow: none;
+}
+
+.comment-php .wp-editor-area {
+	height: 200px;
 }
 
 .comment-ays {
@@ -7320,6 +7341,7 @@ img {
 /* Editor/Main Column */
 .press-this #poststuff {
 	margin: 0 10px 10px;
+	padding: 0;
 }
 
 #poststuff #editor-toolbar {
@@ -7415,7 +7437,7 @@ h3.tb {
 }
 
 .press-this #extra-fields .actions {
-	margin: -25px -7px 0 0;
+	margin: -32px -7px 0 0;
 }
 
 .press-this .actions li {
@@ -7515,7 +7537,7 @@ h3.tb {
 	margin: 5px 0;
 	padding: 0 5px;
 	border: 0 none;
-	height: 357px;
+	height: 345px;
 	font-family: Consolas, Monaco, monospace;
 	font-size: 13px;
 	line-height: 19px;
