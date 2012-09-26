@@ -2,6 +2,72 @@
 if ( typeof wp === 'undefined' )
 	var wp = {};
 
+// HTML utility functions
+// ----------------------
+(function(){
+	wp.html = _.extend( wp.html || {}, {
+		// ### Parse HTML attributes.
+		//
+		// Converts `content` to a set of parsed HTML attributes.
+		// Utilizes `wp.shortcode.attrs( content )`, which is a valid superset of
+		// the HTML attribute specification. Reformats the attributes into an
+		// object that contains the `attrs` with `key:value` mapping, and a record
+		// of the attributes that were entered using `empty` attribute syntax (i.e.
+		// with no value).
+		attrs: function( content ) {
+			var result, attrs;
+
+			// If `content` ends in a slash, strip it.
+			if ( '/' === content[ content.length - 1 ] )
+				content = content.slice( 0, -1 );
+
+			result = wp.shortcode.attrs( content );
+			attrs  = result.named;
+
+			_.each( result.numeric, function( key ) {
+				if ( /\s/.test( key ) )
+					return;
+
+				attrs[ key ] = '';
+			});
+
+			return attrs;
+		},
+
+		// ### Convert an HTML-representation of an object to a string.
+		string: function( options ) {
+			var text = '<' + options.tag,
+				content = options.content || '';
+
+			_.each( options.attrs, function( value, attr ) {
+				text += ' ' + attr;
+
+				// Use empty attribute notation where possible.
+				if ( '' === value )
+					return;
+
+				// Convert boolean values to strings.
+				if ( _.isBoolean( value ) )
+					value = value ? 'true' : 'false';
+
+				text += '="' + value + '"';
+			});
+
+			// Return the result if it is a self-closing tag.
+			if ( options.single )
+				return text + ' />';
+
+			// Complete the opening tag.
+			text += '>';
+
+			// If `content` is an object, recursively call this function.
+			text += _.isObject( content ) ? wp.html.string( content ) : content;
+
+			return text + '</' + options.tag + '>';
+		}
+	});
+}());
+
 (function($){
 	var views = {},
 		instances = {};
@@ -11,7 +77,6 @@ if ( typeof wp === 'undefined' )
 
 	// wp.mce.view
 	// -----------
-	//
 	// A set of utilities that simplifies adding custom UI within a TinyMCE editor.
 	// At its core, it serves as a series of converters, transforming text to a
 	// custom UI, and back again.
@@ -270,6 +335,21 @@ if ( typeof wp === 'undefined' )
 			});
 		},
 
+		// ### Remove internal TinyMCE attributes.
+		removeInternalAttrs: function( attrs ) {
+			var result = {};
+			_.each( attrs, function( value, attr ) {
+				if ( -1 === attr.indexOf('data-mce') )
+					result[ attr ] = value;
+			});
+			return result;
+		},
+
+		// ### Parse an attribute string and removes internal TinyMCE attributes.
+		attrs: function( content ) {
+			return wp.mce.view.removeInternalAttrs( wp.html.attrs( content ) );
+		},
+
 		// Link any localized strings.
 		l10n: _.isUndefined( _wpMceViewL10n ) ? {} : _wpMceViewL10n
 	};
@@ -280,68 +360,7 @@ if ( typeof wp === 'undefined' )
 // ---------------------
 (function($){
 	var mceview = wp.mce.view,
-		attrs;
-
-	wp.html = _.extend( wp.html || {}, {
-		// ### Parse HTML attributes.
-		//
-		// Converts `content` to a set of parsed HTML attributes.
-		// Utilizes `wp.shortcode.attrs( content )`, which is a valid superset of
-		// the HTML attribute specification. Reformats the attributes into an
-		// object that contains the `attrs` with `key:value` mapping, and a record
-		// of the attributes that were entered using `empty` attribute syntax (i.e.
-		// with no value).
-		attrs: function( content ) {
-			var result, attrs;
-
-			// If `content` ends in a slash, strip it.
-			if ( '/' === content[ content.length - 1 ] )
-				content = content.slice( 0, -1 );
-
-			result = wp.shortcode.attrs( content );
-			attrs  = result.named;
-
-			_.each( result.numeric, function( key ) {
-				if ( /\s/.test( key ) )
-					return;
-
-				attrs[ key ] = '';
-			});
-
-			return attrs;
-		},
-
-		string: function( options ) {
-			var text = '<' + options.tag,
-				content = options.content || '';
-
-			_.each( options.attrs, function( value, attr ) {
-				text += ' ' + attr;
-
-				// Use empty attribute notation where possible.
-				if ( '' === value )
-					return;
-
-				// Convert boolean values to strings.
-				if ( _.isBoolean( value ) )
-					value = value ? 'true' : 'false';
-
-				text += '="' + value + '"';
-			});
-
-			// Return the result if it is a self-closing tag.
-			if ( options.single )
-				return text + ' />';
-
-			// Complete the opening tag.
-			text += '>';
-
-			// If `content` is an object, recursively call this function.
-			text += _.isObject( content ) ? wp.html.string( content ) : content;
-
-			return text + '</' + options.tag + '>';
-		}
-	});
+		mceFreeAttrs;
 
 	mceview.add( 'attachment', {
 		pattern: new RegExp( '(?:<a([^>]*)>)?<img([^>]*class=(?:"[^"]*|\'[^\']*)\\bwp-image-(\\d+)[^>]*)>(?:</a>)?' ),
@@ -398,9 +417,9 @@ if ( typeof wp === 'undefined' )
 				this.model = wp.media.model.Attachment.get( id );
 
 				if ( results[1] )
-					this.anchor = wp.html.attrs( results[1] );
+					this.anchor = mceview.attrs( results[1] );
 
-				this.img = wp.html.attrs( results[2] );
+				this.img  = mceview.attrs( results[2] );
 				className = this.img['class'];
 
 				// Strip ID class.
