@@ -373,12 +373,12 @@ if ( typeof wp === 'undefined' )
 			// Note that this client-side searching is *not* equivalent
 			// to our server-side searching.
 			search: function( attachment ) {
-				if ( ! this.searching )
+				if ( ! this.props.get('search') )
 					return true;
 
 				return _.any(['title','filename','description','caption','name'], function( key ) {
 					var value = attachment.get( key );
-					return value && -1 !== value.search( this.searching );
+					return value && -1 !== value.search( this.props.get('search') );
 				}, this );
 			}
 		}
