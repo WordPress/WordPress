@@ -322,7 +322,8 @@ function wp_default_scripts( &$scripts ) {
 		'selectMediaMultiple' => __( 'Select one or more media files:' ),
 	) );
 
-	$scripts->add( 'mce-view', "/wp-includes/js/mce-view$suffix.js", array( 'backbone', 'jquery' ), false, 1 );
+	$scripts->add( 'shortcode', "/wp-includes/js/shortcode$suffix.js", array( 'underscore' ), false, 1 );
+	$scripts->add( 'mce-view', "/wp-includes/js/mce-view$suffix.js", array( 'shortcode', 'backbone', 'jquery' ), false, 1 );
 
 	if ( is_admin() ) {
 		$scripts->add( 'ajaxcat', "/wp-admin/js/cat$suffix.js", array( 'wp-lists' ) );

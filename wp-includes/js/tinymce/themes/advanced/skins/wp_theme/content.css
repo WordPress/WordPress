@@ -142,6 +142,7 @@ img.wp-oembed {
 }
 
 /* WordPress TinyMCE Previews */
-div.wp-preview-wrap {
-	display: inline;
+div.wp-view-wrap,
+div.wp-view {
+	display: inline-block;
 }
