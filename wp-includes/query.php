@@ -2676,7 +2676,8 @@ class WP_Query {
 		}
 
 		// Convert to WP_Post objects
-		$this->posts = array_map( 'get_post', $this->posts );
+		if ( $this->posts )
+			$this->posts = array_map( 'get_post', $this->posts );
 
 		// Raw results filter. Prior to status checks.
 		if ( !$q['suppress_filters'] )
