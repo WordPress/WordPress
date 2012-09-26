@@ -156,7 +156,7 @@ var ThemeScroller;
 
 			// Cache jQuery selectors
 			this.$outList = $('#availablethemes');
-			this.$spinner = $('div.tablenav.bottom').children( 'img.ajax-loading' );
+			this.$spinner = $('div.tablenav.bottom').children( '.spinner' );
 			this.$window = $(window);
 			this.$document = $(document);
 
@@ -231,16 +231,16 @@ var ThemeScroller;
 				'list_args': list_args
 			};
 
-			this.$spinner.css( 'visibility', 'visible' );
+			this.$spinner.show();
 			$.getJSON( ajaxurl, query )
 				.done( function( response ) {
 					self.nextPage++;
 					self.process( response );
-					self.$spinner.css( 'visibility', 'hidden' );
+					self.$spinner.hide();
 					self.querying = false;
 				})
 				.fail( function() {
-					self.$spinner.css( 'visibility', 'hidden' );
+					self.$spinner.hide();
 					self.querying = false;
 					setTimeout( function() { self.ajax(); }, self.failedRetryDelay );
 				});

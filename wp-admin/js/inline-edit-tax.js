@@ -60,7 +60,7 @@ inlineEditTax = {
 		if( typeof(id) == 'object' )
 			id = this.getId(id);
 
-		$('table.widefat .inline-edit-save .waiting').show();
+		$('table.widefat .spinner').show();
 
 		params = {
 			action: 'inline-save-tax',
@@ -76,7 +76,7 @@ inlineEditTax = {
 		$.post( ajaxurl, params,
 			function(r) {
 				var row, new_id;
-				$('table.widefat .inline-edit-save .waiting').hide();
+				$('table.widefat .spinner').hide();
 
 				if (r) {
 					if ( -1 != r.indexOf('<tr') ) {
@@ -99,7 +99,7 @@ inlineEditTax = {
 		var id = $('table.widefat tr.inline-editor').attr('id');
 
 		if ( id ) {
-			$('table.widefat .inline-edit-save .waiting').hide();
+			$('table.widefat .spinner').hide();
 			$('#'+id).remove();
 			id = id.substr( id.lastIndexOf('-') + 1 );
 			$(this.what+id).show();

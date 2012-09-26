@@ -130,7 +130,7 @@ var wpNavMenu;
 							return false;
 
 						// Show the ajax spinner
-						t.find('img.waiting').show();
+						t.find('.spinner').show();
 
 						// Retrieve menu item data
 						$(checkboxes).each(function(){
@@ -146,7 +146,7 @@ var wpNavMenu;
 						api.addItemToMenu(menuItems, processMethod, function(){
 							// Deselect the items and hide the ajax spinner
 							checkboxes.removeAttr('checked');
-							t.find('img.waiting').hide();
+							t.find('.spinner').hide();
 						});
 					});
 				},
@@ -471,9 +471,9 @@ var wpNavMenu;
 				loc.find('select').each(function() {
 					params[this.name] = $(this).val();
 				});
-				loc.find('.waiting').show();
+				loc.find('.spinner').show();
 				$.post( ajaxurl, params, function(r) {
-					loc.find('.waiting').hide();
+					loc.find('.spinner').hide();
 				});
 				return false;
 			});
@@ -515,7 +515,7 @@ var wpNavMenu;
 				'type': input.attr('name')
 			};
 
-			$('img.waiting', panel).show();
+			$('.spinner', panel).show();
 
 			$.post( ajaxurl, params, function(menuMarkup) {
 				api.processQuickSearchQueryResponse(menuMarkup, params, panel);
@@ -532,10 +532,10 @@ var wpNavMenu;
 				return false;
 
 			// Show the ajax spinner
-			$('.customlinkdiv img.waiting').show();
+			$('.customlinkdiv .spinner').show();
 			this.addLinkToMenu( url, label, processMethod, function() {
 				// Remove the ajax spinner
-				$('.customlinkdiv img.waiting').hide();
+				$('.customlinkdiv .spinner').hide();
 				// Set custom link form back to defaults
 				$('#custom-menu-item-name').val('').blur();
 				$('#custom-menu-item-url').val('http://');
@@ -905,7 +905,7 @@ var wpNavMenu;
 
 			if( ! $items.length ) {
 				$('.categorychecklist', panel).html( '<li><p>' + navMenuL10n.noResultsFound + '</p></li>' );
-				$('img.waiting', panel).hide();
+				$('.spinner', panel).hide();
 				return;
 			}
 
@@ -932,7 +932,7 @@ var wpNavMenu;
 			});
 
 			$('.categorychecklist', panel).html( $items );
-			$('img.waiting', panel).hide();
+			$('.spinner', panel).hide();
 		},
 
 		removeMenuItem : function(el) {

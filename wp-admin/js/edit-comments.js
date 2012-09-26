@@ -368,7 +368,7 @@ commentReply = {
 		$('#replycontent').css('height', '').val('');
 		$('#edithead input').val('');
 		$('.error', replyrow).html('').hide();
-		$('.waiting', replyrow).hide();
+		$('.spinner', replyrow).hide();
 
 		this.cid = '';
 	},
@@ -451,7 +451,7 @@ commentReply = {
 		var post = {};
 
 		$('#replysubmit .error').hide();
-		$('#replysubmit .waiting').show();
+		$('#replysubmit .spinner').show();
 
 		$('#replyrow input').not(':button').each(function() {
 			var t = $(this);
@@ -533,7 +533,7 @@ commentReply = {
 	error : function(r) {
 		var er = r.statusText;
 
-		$('#replysubmit .waiting').hide();
+		$('#replysubmit .spinner').hide();
 
 		if ( r.responseText )
 			er = r.responseText.replace( /<.[^<>]*?>/g, '' );

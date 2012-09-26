@@ -205,7 +205,7 @@ PubSub.prototype.publish = function( topic, args ) {
 	 */
 
 	api.save = function() {
-		var hidden = $('#hiddenaction'), old = hidden.val(), spinner = $('#wp-fullscreen-save img'),
+		var hidden = $('#hiddenaction'), old = hidden.val(), spinner = $('#wp-fullscreen-save .spinner'),
 			message = $('#wp-fullscreen-save span');
 
 		spinner.show();

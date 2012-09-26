@@ -272,10 +272,10 @@ imageEdit = {
 
 	open : function(postid, nonce) {
 		var data, elem = $('#image-editor-' + postid), head = $('#media-head-' + postid),
-			btn = $('#imgedit-open-btn-' + postid), spin = btn.siblings('img');
+			btn = $('#imgedit-open-btn-' + postid), spin = btn.siblings('.spinner');
 
 		btn.prop('disabled', true);
-		spin.css('visibility', 'visible');
+		spin.show();
 
 		data = {
 			'action': 'image-editor',
@@ -288,7 +288,7 @@ imageEdit = {
 			elem.fadeIn('fast');
 			head.fadeOut('fast', function(){
 				btn.removeAttr('disabled');
-				spin.css('visibility', 'hidden');
+				spin.hide();
 			});
 		});
 	},

@@ -66,7 +66,7 @@ jQuery(document).ready( function($) {
 	quickPressLoad = function() {
 		var act = $('#quickpost-action'), t;
 		t = $('#quick-press').submit( function() {
-			$('#dashboard_quick_press #publishing-action img.waiting').css('visibility', 'visible');
+			$('#dashboard_quick_press #publishing-action .spinner').show();
 			$('#quick-press .submit input[type="submit"], #quick-press .submit input[type="reset"]').prop('disabled', true);
 
 			if ( 'post' == act.val() ) {
@@ -74,7 +74,7 @@ jQuery(document).ready( function($) {
 			}
 
 			$('#dashboard_quick_press div.inside').load( t.attr( 'action' ), t.serializeArray(), function() {
-				$('#dashboard_quick_press #publishing-action img.waiting').css('visibility', 'hidden');
+				$('#dashboard_quick_press #publishing-action .spinner').hide();
 				$('#quick-press .submit input[type="submit"], #quick-press .submit input[type="reset"]').prop('disabled', false);
 				$('#dashboard_quick_press ul').next('p').remove();
 				$('#dashboard_quick_press ul').find('li').each( function() {

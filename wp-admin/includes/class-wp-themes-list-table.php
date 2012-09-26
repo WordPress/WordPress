@@ -91,8 +91,8 @@ class WP_Themes_List_Table extends WP_List_Table {
 		?>
 		<div class="tablenav themes <?php echo $which; ?>">
 			<?php $this->pagination( $which ); ?>
-		   <img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading list-ajax-loading" alt="" />
-		  <br class="clear" />
+			<span class="ajax-loading list-ajax-loading spinner"></span>
+			<br class="clear" />
 		</div>
 		<?php
 	}

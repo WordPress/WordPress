@@ -22,9 +22,9 @@ jQuery(document).ready( function($) {
 				t.addClass('button-disabled');
 		});
 		if ( $(this).attr('id') == 'publish' )
-			$('#ajax-loading').css('visibility', 'visible');
+			$('#major-publishing-actions .spinner').show();
 		else
-			$('#draft-ajax-loading').css('visibility', 'visible');
+			$('#minor-publishing .spinner').show();
 	});
 
 	window.onbeforeunload = function(){
@@ -230,7 +230,7 @@ function autosave_enable_buttons() {
 	// delay that a bit to avoid some rare collisions while the DOM is being updated.
 	setTimeout(function(){
 		jQuery(':button, :submit', '#submitpost').removeAttr('disabled');
-		jQuery('.ajax-loading').css('visibility', 'hidden');
+		jQuery('.spinner').hide();
 	}, 500);
 }
 

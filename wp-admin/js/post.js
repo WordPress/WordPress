@@ -185,7 +185,7 @@ commentsBox = {
 
 		this.st += num;
 		this.total = total;
-		$('#commentsdiv img.waiting').show();
+		$('#commentsdiv .spinner').show();
 
 		data = {
 			'action' : 'get-comments',
@@ -200,7 +200,7 @@ commentsBox = {
 			function(r) {
 				r = wpAjax.parseAjaxResponse(r);
 				$('#commentsdiv .widefat').show();
-				$('#commentsdiv img.waiting').hide();
+				$('#commentsdiv .spinner').hide();
 
 				if ( 'object' == typeof r && r.responses[0] ) {
 					$('#the-comment-list').append( r.responses[0].data );

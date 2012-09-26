@@ -176,7 +176,7 @@ wpWidgets = {
 
 	saveOrder : function(sb) {
 		if ( sb )
-			$('#' + sb).closest('div.widgets-holder-wrap').find('img.ajax-feedback').css('visibility', 'visible');
+			$('#' + sb).closest('div.widgets-holder-wrap').find('.spinner').css('display', 'inline-block');
 
 		var a = {
 			action: 'widgets-order',
@@ -190,7 +190,7 @@ wpWidgets = {
 		});
 
 		$.post( ajaxurl, a, function() {
-			$('img.ajax-feedback').css('visibility', 'hidden');
+			$('.spinner').hide();
 		});
 
 		this.resize();
@@ -199,7 +199,7 @@ wpWidgets = {
 	save : function(widget, del, animate, order) {
 		var sb = widget.closest('div.widgets-sortables').attr('id'), data = widget.find('form').serialize(), a;
 		widget = $(widget);
-		$('.ajax-feedback', widget).css('visibility', 'visible');
+		$('.spinner', widget).show();
 
 		a = {
 			action: 'save-widget',
@@ -235,7 +235,7 @@ wpWidgets = {
 					wpWidgets.resize();
 				}
 			} else {
-				$('.ajax-feedback').css('visibility', 'hidden');
+				$('.spinner').hide();
 				if ( r && r.length > 2 ) {
 					$('div.widget-content', widget).html(r);
 					wpWidgets.appendTitle(widget);

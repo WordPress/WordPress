@@ -237,7 +237,7 @@ inlineEditPost = {
 		if ( typeof(id) == 'object' )
 			id = this.getId(id);
 
-		$('table.widefat .inline-edit-save .waiting').show();
+		$('table.widefat .spinner').show();
 
 		params = {
 			action: 'inline-save',
@@ -253,7 +253,7 @@ inlineEditPost = {
 		// make ajax request
 		$.post( ajaxurl, params,
 			function(r) {
-				$('table.widefat .inline-edit-save .waiting').hide();
+				$('table.widefat .spinner').hide();
 
 				if (r) {
 					if ( -1 != r.indexOf('<tr') ) {
@@ -276,7 +276,7 @@ inlineEditPost = {
 		var id = $('table.widefat tr.inline-editor').attr('id');
 
 		if ( id ) {
-			$('table.widefat .inline-edit-save .waiting').hide();
+			$('table.widefat .spinner').hide();
 
 			if ( 'bulk-edit' == id ) {
 				$('table.widefat #bulk-edit').removeClass('inline-editor').hide();

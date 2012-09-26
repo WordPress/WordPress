@@ -427,7 +427,7 @@ var photostorage = false;
 			show('photo');
 		<?php } ?>
 		jQuery('#title').unbind();
-		jQuery('#publish, #save').click(function() { jQuery('#saving').css('display', 'inline'); });
+		jQuery('#publish, #save').click(function() { jQuery('.press-this #publishing-actions .spinner').css('display', 'inline-block'); });
 
 		$('#tagsdiv-post_tag, #categorydiv').children('h3, .handlediv').click(function(){
 			$(this).siblings('.inside').toggle();
@@ -467,7 +467,7 @@ $admin_body_class .= ' locale-' . sanitize_html_class( strtolower( str_replace( 
 							echo '<br /><br />';
 							submit_button( __( 'Submit for Review' ), 'primary', 'review', false );
 						} ?>
-						<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" id="saving" style="display:none;" />
+						<span class="spinner" style="display: none;"></span>
 					</p>
 					<?php if ( current_theme_supports( 'post-formats' ) && post_type_supports( 'post', 'post-formats' ) ) :
 							$post_formats = get_theme_support( 'post-formats' );
@@ -586,7 +586,7 @@ $admin_body_class .= ' locale-' . sanitize_html_class( strtolower( str_replace( 
 			</div>
 		</div>
 
-		<div id="waiting" style="display: none"><img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" /> <?php esc_html_e( 'Loading...' ); ?></div>
+		<div id="waiting" style="display: none"><span class="spinner"></span> <span><?php esc_html_e( 'Loading...' ); ?></span></div>
 
 		<div id="extra-fields" style="display: none"></div>
 

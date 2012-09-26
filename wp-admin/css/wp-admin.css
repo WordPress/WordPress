@@ -968,6 +968,10 @@ ul#add-to-blog-users {
 	line-height: 23px;
 }
 
+#publishing-action .spinner {
+	float: left;
+}
+
 #misc-publishing-actions {
 	padding: 6px 0 0;
 }
@@ -1099,7 +1103,6 @@ form.upgrade .hint {
 }
 
 .ajax-feedback {
-	visibility: hidden;
 	vertical-align: bottom;
 }
 
@@ -2398,7 +2401,7 @@ table.fixed {
 	border-bottom: 0 none;
 }
 
-#commentsdiv img.waiting {
+#commentsdiv .spinner {
 	padding-left: 5px;
 }
 
@@ -2838,6 +2841,16 @@ table .inline-edit-row fieldset ul.cat-hover {
   11.0 - Write/Edit Post Screen
 ------------------------------------------------------------------------------*/
 
+#show-comments {
+	overflow: hidden;
+}
+
+#save-action .spinner,
+#show-comments a,
+#show-comments .spinner {
+	float: left;
+}
+
 #titlediv {
 	position: relative;
 	margin-bottom: 10px;
@@ -2870,6 +2883,12 @@ table .inline-edit-row fieldset ul.cat-hover {
 	position: absolute;
 	font-size: 1.7em;
 	padding: 8px 10px;
+}
+
+#wp-fullscreen-save .fs-saved {
+	color: #999;
+	float: right;
+	margin-top: 4px;
 }
 
 #wp-fullscreen-title-prompt-text {
@@ -2920,10 +2939,6 @@ input#link_url {
 #submitpost #ajax-loading,
 #submitpost .ajax-loading {
 	vertical-align: middle;
-}
-
-#wpcontent .ajax-loading {
-	visibility: hidden;
 }
 
 .submitbox .submit {
@@ -3267,7 +3282,7 @@ td.plugin-title p {
 	width: auto;
 }
 
-#postcustomstuff #newmetaleft a {	
+#postcustomstuff #newmetaleft a {
 	display: inline-block;
 	margin: 0 8px 8px;
 	text-decoration: none;
@@ -3999,7 +4014,8 @@ td.imgedit-settings input {
 .imgedit-wait {
 	position: absolute;
 	top: 0;
-	background: #FFFFFF url(../images/wpspin_light.gif) no-repeat scroll 22px 10px;
+	background: #fff url(../images/wpspin_light.gif) no-repeat scroll 22px 10px;
+	background-size: 16px 16px;
 	opacity: 0.7;
 	filter: alpha(opacity=70);
 	width: 100%;
@@ -4007,15 +4023,47 @@ td.imgedit-settings input {
 	display: none;
 }
 
+.spinner {
+	background: url(../images/wpspin_light.gif) no-repeat;
+	background-size: 16px 16px;
+	display: none;
+	float: right;
+	opacity: 0.7;
+	filter: alpha(opacity=70);
+	width: 16px;
+	height: 16px;
+	margin: 5px 5px 0;
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
+	.spinner,
+	.imgedit-wait,
+	.customize-loading #customize-container {
+		background-image: url(../images/wpspin_light-2x.gif);
+	}
+}
+
+.no-float {
+	float: none;
+}
+
 .media-disabled,
 .imgedit-settings .disabled  {
 	color: grey;
 }
 
-.imgedit-wait-spin {
+.wp_attachment_image, .A1B1 {
+	overflow: hidden;
+}
+
+.wp_attachment_image .button, .A1B1 .button {
+	float: left;
+}
+
+.wp_attachment_image .spinner, .A1B1 .spinner {
+	float: left;
 	padding: 0 4px 4px;
 	vertical-align: bottom;
-	visibility: hidden;
 }
 
 .imgedit-menu {
@@ -4301,8 +4349,8 @@ span.imgedit-scale-warn {
 	text-align: center;
 }
 
-#replysubmit img.waiting,
-.inline-edit-save img.waiting {
+#replysubmit .spinner,
+.inline-edit-save .spinner {
 	padding: 4px 10px 0;
 	vertical-align: top;
 	float: right;
@@ -4927,6 +4975,10 @@ h2 .nav-tab {
 	vertical-align: middle;
 }
 
+.options-general-php .spinner {
+	float: none;
+	margin: -3px 3px;
+}
 
 /*------------------------------------------------------------------------------
   21.0 - Admin Footer
@@ -5481,6 +5533,7 @@ body.full-overlay-active {
 
 .customize-loading #customize-container {
 	background: #fff url("../images/wpspin_light.gif") no-repeat fixed center center;
+	background-size: 16px 16px;
 }
 
 #customize-container iframe,
@@ -5785,12 +5838,6 @@ td.media-icon img {
 	max-height: 60px;
 }
 
-.list-ajax-loading {
-	float: right;
-	margin-right: 9px;
-	margin-top: -1px;
-}
-
 .tablenav .list-ajax-loading {
 	margin-top: 7px;
 }
@@ -6006,7 +6053,7 @@ h3:hover .edit-box {
 	color: red;
 }
 
-#dashboard_right_now .waiting {
+#dashboard_right_now .spinner {
 	color: #e66f00;
 }
 
@@ -6164,7 +6211,7 @@ h3:hover .edit-box {
 	float: right;
 }
 
-#dashboard-widgets #dashboard_quick_press form p.submit img.waiting {
+#dashboard-widgets #dashboard_quick_press form p.submit .spinner {
 	vertical-align: middle;
 	visibility: hidden;
 	margin: 4px 6px 0 0;
@@ -6725,6 +6772,10 @@ a.rsswidget {
 	margin-top: 5px;
 }
 
+.button.right, .button-secondary.right, .button-primary.right {
+	float: right;
+}
+
 /* Button Secondary Actions */
 .list-controls {
 	float: left;
@@ -6735,7 +6786,7 @@ a.rsswidget {
 	float: right;
 }
 
-.postbox img.waiting {
+.postbox .spinner {
 	display: none;
 	vertical-align: middle;
 }
@@ -7495,6 +7546,16 @@ h3.tb {
 
 #waiting {
 	margin-top: 10px;
+	overflow: hidden;
+}
+
+#waiting span {
+	float: right;
+	margin: 0 0 0 5px;
+}
+
+#waiting .spinner {
+	display: block;
 }
 
 #extra-fields .postbox {
@@ -7569,7 +7630,7 @@ h3.tb {
 }
 
 /* Submit */
-#saving {
+.press-this #publishing-actions .spinner {
 	display: inline;
 	vertical-align: middle;
 }
@@ -8014,6 +8075,11 @@ a.widget-control-edit {
 	padding-top: 2px;
 }
 
+.sidebar-name .spinner {
+	float: none;
+	margin: 0 3px -3px;
+}
+
 .sidebar-name-arrow {
 	float: right;
 	height: 29px;
@@ -8202,4 +8268,9 @@ a.widget-control-edit {
 }
 .locale-lt-lt .inline-edit-row fieldset label span.input-text-wrap {
 	margin-left: 8em;
+}
+
+.update-php .spinner {
+	float: none;
+	margin: -4px 0;
 }

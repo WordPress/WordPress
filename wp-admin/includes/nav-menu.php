@@ -511,8 +511,8 @@ function wp_nav_menu_locations_meta_box() {
 	}
 	?>
 	<p class="button-controls">
-		<img class="waiting" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
-		<?php submit_button( __( 'Save' ), 'primary', 'nav-menu-locations', false, disabled( $nav_menu_selected_id, 0, false ) ); ?>
+		<?php submit_button( __( 'Save' ), 'primary right', 'nav-menu-locations', false, disabled( $nav_menu_selected_id, 0, false ) ); ?>
+		<span class="spinner"></span>
 	</p>
 	<?php
 }
@@ -560,8 +560,8 @@ function wp_nav_menu_item_link_meta_box() {
 
 		<p class="button-controls">
 			<span class="add-to-menu">
-				<img class="waiting" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
-				<input type="submit"<?php disabled( $nav_menu_selected_id, 0 ); ?> class="button-secondary submit-add-to-menu" value="<?php esc_attr_e('Add to Menu'); ?>" name="add-custom-menu-item" id="submit-customlinkdiv" />
+				<input type="submit"<?php disabled( $nav_menu_selected_id, 0 ); ?> class="button-secondary submit-add-to-menu right" value="<?php esc_attr_e('Add to Menu'); ?>" name="add-custom-menu-item" id="submit-customlinkdiv" />
+				<span class="spinner"></span>
 			</span>
 		</p>
 
@@ -692,7 +692,7 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 			?>
 			<p class="quick-search-wrap">
 				<input type="search" class="quick-search input-with-default-title" title="<?php esc_attr_e('Search'); ?>" value="<?php echo $searched; ?>" name="quick-search-posttype-<?php echo $post_type_name; ?>" />
-				<img class="waiting" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
+				<span class="spinner"></span>
 				<?php submit_button( __( 'Search' ), 'button-small quick-search-submit button-secondary hide-if-js', 'submit', false, array( 'id' => 'submit-quick-search-posttype-' . $post_type_name ) ); ?>
 			</p>
 
@@ -779,8 +779,8 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 			</span>
 
 			<span class="add-to-menu">
-				<img class="waiting" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
-				<input type="submit"<?php disabled( $nav_menu_selected_id, 0 ); ?> class="button-secondary submit-add-to-menu" value="<?php esc_attr_e('Add to Menu'); ?>" name="add-post-type-menu-item" id="submit-posttype-<?php echo $post_type_name; ?>" />
+				<input type="submit"<?php disabled( $nav_menu_selected_id, 0 ); ?> class="button-secondary submit-add-to-menu right" value="<?php esc_attr_e('Add to Menu'); ?>" name="add-post-type-menu-item" id="submit-posttype-<?php echo $post_type_name; ?>" />
+				<span class="spinner"></span>
 			</span>
 		</p>
 
@@ -923,7 +923,7 @@ function wp_nav_menu_item_taxonomy_meta_box( $object, $taxonomy ) {
 			?>
 			<p class="quick-search-wrap">
 				<input type="search" class="quick-search input-with-default-title" title="<?php esc_attr_e('Search'); ?>" value="<?php echo $searched; ?>" name="quick-search-taxonomy-<?php echo $taxonomy_name; ?>" />
-				<img class="waiting" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
+				<span class="spinner"></span>
 				<?php submit_button( __( 'Search' ), 'button-small quick-search-submit button-secondary hide-if-js', 'submit', false, array( 'id' => 'submit-quick-search-taxonomy-' . $taxonomy_name ) ); ?>
 			</p>
 
@@ -955,8 +955,8 @@ function wp_nav_menu_item_taxonomy_meta_box( $object, $taxonomy ) {
 			</span>
 
 			<span class="add-to-menu">
-				<img class="waiting" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
-				<input type="submit"<?php disabled( $nav_menu_selected_id, 0 ); ?> class="button-secondary submit-add-to-menu" value="<?php esc_attr_e('Add to Menu'); ?>" name="add-taxonomy-menu-item" id="submit-taxonomy-<?php echo $taxonomy_name; ?>" />
+				<input type="submit"<?php disabled( $nav_menu_selected_id, 0 ); ?> class="button-secondary submit-add-to-menu right" value="<?php esc_attr_e('Add to Menu'); ?>" name="add-taxonomy-menu-item" id="submit-taxonomy-<?php echo $taxonomy_name; ?>" />
+				<span class="spinner"></span>
 			</span>
 		</p>
 

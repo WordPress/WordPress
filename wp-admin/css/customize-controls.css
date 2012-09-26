@@ -160,14 +160,12 @@ body {
 	margin-top: 10px;
 }
 
-#customize-header-actions img {
-	display: none;
-	float: right;
-	margin-top: 13px;
+#customize-header-actions .spinner {
+	margin-top: 16px;
 	margin-right: 4px;
 }
 
-.saving #customize-header-actions img {
+.saving #customize-header-actions .spinner {
 	display: block;
 }
 

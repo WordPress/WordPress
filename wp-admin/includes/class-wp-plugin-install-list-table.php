@@ -115,13 +115,11 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 					<?php do_action( 'install_plugins_table_header' ); ?>
 				</div>
 				<?php $this->pagination( $which ); ?>
-				<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading list-ajax-loading" alt="" />
 				<br class="clear" />
 			</div>
 		<?php } else { ?>
 			<div class="tablenav bottom">
 				<?php $this->pagination( $which ); ?>
-				<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading list-ajax-loading" alt="" />
 				<br class="clear" />
 			</div>
 		<?php

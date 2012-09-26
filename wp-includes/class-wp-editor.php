@@ -707,9 +707,9 @@ final class _WP_Editors {
 			</div></div>
 
 			<div id="wp-fullscreen-save">
-				<span><?php if ( $post->post_status == 'publish' ) _e('Updated.'); else _e('Saved.'); ?></span>
-				<img src="<?php echo admin_url('images/wpspin_light.gif'); ?>" alt="" />
-				<input type="button" class="button-primary" value="<?php echo $save; ?>" onclick="fullscreen.save();" />
+				<input type="button" class="button-primary right" value="<?php echo $save; ?>" onclick="fullscreen.save();" />
+				<span class="spinner"></span>
+				<span class="fs-saved"><?php if ( $post->post_status == 'publish' ) _e('Updated.'); else _e('Saved.'); ?></span>
 			</div>
 
 			</div>
@@ -822,22 +822,22 @@ final class _WP_Editors {
 		<div id="search-panel"<?php if ( ! $show_internal ) echo ' style="display:none"'; ?>>
 			<div class="link-search-wrapper">
 				<label>
-					<span><?php _e( 'Search' ); ?></span>
+					<span class="search-label"><?php _e( 'Search' ); ?></span>
 					<input type="search" id="search-field" class="link-search-field" autocomplete="off" />
-					<img class="waiting" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
+					<span class="spinner"></span>
 				</label>
 			</div>
 			<div id="search-results" class="query-results">
 				<ul></ul>
 				<div class="river-waiting">
-					<img class="waiting" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
+					<span class="spinner"></span>
 				</div>
 			</div>
 			<div id="most-recent-results" class="query-results">
 				<div class="query-notice"><em><?php _e( 'No search term specified. Showing recent items.' ); ?></em></div>
 				<ul></ul>
 				<div class="river-waiting">
-					<img class="waiting" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
+					<span class="spinner"></span>
 				</div>
 			</div>
 		</div>

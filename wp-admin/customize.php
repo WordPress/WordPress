@@ -72,7 +72,7 @@ do_action( 'customize_controls_print_scripts' );
 				$save_text = $wp_customize->is_theme_active() ? __( 'Save &amp; Publish' ) : __( 'Save &amp; Activate' );
 				submit_button( $save_text, 'primary', 'save', false );
 			?>
-			<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" />
+			<span class="spinner"></span>
 			<a class="back button" href="<?php echo esc_url( $return ? $return : admin_url( 'themes.php' ) ); ?>">
 				<?php _e( 'Cancel' ); ?>
 			</a>

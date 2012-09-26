@@ -840,7 +840,7 @@ th.sorted a span {
 	font-style: normal;
 }
 
-#commentsdiv img.waiting {
+#commentsdiv .spinner {
 	padding-left: 0;
 	padding-right: 5px;
 }
@@ -1084,8 +1084,8 @@ form.upgrade .hint {
 
 /* reply to comments */
 
-#replysubmit img.waiting,
-.inline-edit-save img.waiting {
+#replysubmit .spinner,
+.inline-edit-save .spinner {
 	float: left;
 }
 
@@ -1503,12 +1503,6 @@ table .column-rating {
 
 * html #template div {margin-left: 0;}
 
-.list-ajax-loading {
-	float: left;
-	margin-right: 0;
-	margin-left: 9px;
-}
-
 /* - Used - but could/should be deprecated with a CSS reset
 ------------------------------------------------------------------------------*/
 /* No RTL for now, this space intentionally left blank */
@@ -1853,7 +1847,7 @@ a.rsswidget,
 	float: left;
 }
 
-#dashboard-widgets #dashboard_quick_press form p.submit img.waiting {
+#dashboard-widgets #dashboard_quick_press form p.submit .spinner {
 	margin: 4px 0 0 6px;
 }
 

@@ -1296,11 +1296,16 @@ html[dir="rtl"] .wp-switch-editor {
 	margin-top: 5px;
 }
 
-#wp-link label span {
+#wp-link label span.search-label {
 	display: inline-block;
 	width: 80px;
 	text-align: right;
 	padding-right: 5px;
+}
+
+#wp-link .link-search-field {
+	float: left;
+	margin-right: 5px;
 }
 
 #wp-link .link-search-wrapper {
@@ -1319,8 +1324,8 @@ html[dir="rtl"] .wp-switch-editor {
 	width: 220px;
 }
 
-#wp-link .link-search-wrapper img.waiting {
-	margin: 0;
+#wp-link .link-search-wrapper .spinner {
+	margin: 4px 2px 0 0;
 	display: none;
 	vertical-align: text-bottom;
 }
@@ -1405,7 +1410,7 @@ html[dir="rtl"] .wp-switch-editor {
 	padding: 10px 0;
 }
 
-#wp-link .river-waiting img.waiting {
+#wp-link .river-waiting .spinner {
 	margin: 0 auto;
 	display: block;
 }

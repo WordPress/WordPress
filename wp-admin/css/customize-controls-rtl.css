@@ -10,7 +10,7 @@
 	float: left;
 }
 
-#customize-header-actions img {
+#customize-header-actions .spinner {
 	float: left;
 	margin-right: 0;
 	margin-left: 4px;
