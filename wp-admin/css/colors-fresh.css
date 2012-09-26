@@ -845,6 +845,12 @@ table.widefat span.spam a,
 }
 
 .welcome-panel {
+	background: #f5f5f5;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#f5f5f5), to(#fafafa));
+	background-image: -webkit-linear-gradient(bottom, #f5f5f5, #fafafa);
+	background-image:    -moz-linear-gradient(bottom, #f5f5f5, #fafafa);
+	background-image:      -o-linear-gradient(bottom, #f5f5f5, #fafafa);
+	background-image: linear-gradient(to top, #f5f5f5, #fafafa);
 	border-color: #dfdfdf;
 }
 .welcome-panel p {
@@ -854,7 +860,7 @@ table.widefat span.spam a,
 	color: #464646;
 }
 .welcome-panel h3 {
-	text-shadow: 1px 1px 1px white;
+	text-shadow: 1px 1px 1px #fff;
 }
 
 .widget,

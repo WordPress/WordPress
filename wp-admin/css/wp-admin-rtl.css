@@ -590,11 +590,6 @@ form.upgrade .hint {
 	float: right;
 }
 
-.welcome-panel-content .about-description, .welcome-panel h3 {
-	margin-left: 0;
-	margin-right: 190px;
-}
-
 .welcome-panel .welcome-panel-column {
 	margin: 0 -25px 0 5%;
 	padding-left: 0;

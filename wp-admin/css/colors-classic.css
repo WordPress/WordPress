@@ -854,6 +854,7 @@ table.widefat span.spam a,
 }
 
 .welcome-panel {
+	background: #f7fcfe;
 	border-color: #d1e5ee;
 }
 .welcome-panel p {
@@ -863,7 +864,7 @@ table.widefat span.spam a,
 	color: #464646;
 }
 .welcome-panel h3 {
-	text-shadow: 1px 1px 1px white;
+	text-shadow: 1px 1px 1px #fff;
 }
 
 .widget,

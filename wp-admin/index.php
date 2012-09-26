@@ -106,7 +106,21 @@ $today = current_time('mysql', 1);
 <?php screen_icon(); ?>
 <h2><?php echo esc_html( $title ); ?></h2>
 
-<?php wp_welcome_panel(); ?>
+<?php if ( has_action( 'welcome_panel' ) && current_user_can( 'edit_theme_options' ) ) :
+	$classes = 'welcome-panel';
+
+	$option = get_user_meta( get_current_user_id(), 'show_welcome_panel', true );
+	// 0 = hide, 1 = toggled to show or single site creator, 2 = multisite site owner
+	$hide = 0 == $option || ( 2 == $option && wp_get_current_user()->user_email != get_option( 'admin_email' ) );
+	if ( $hide )
+		$classes .= ' hidden'; ?>
+
+ 	<div id="welcome-panel" class="<?php echo esc_attr( $classes ); ?>">
+ 		<?php wp_nonce_field( 'welcome-panel-nonce', 'welcomepanelnonce', false ); ?>
+		<a class="welcome-panel-close" href="<?php echo esc_url( admin_url( '?welcome=0' ) ); ?>"><?php _e( 'Dismiss' ); ?></a>
+		<?php do_action( 'welcome_panel' ); ?>
+	</div>
+<?php endif; ?>
 
 <div id="dashboard-widgets-wrap">
 

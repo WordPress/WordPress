@@ -1232,91 +1232,44 @@ function wp_dashboard_empty() {}
  * @since 3.3.0
  */
 function wp_welcome_panel() {
-	global $wp_version;
-
-	if ( ! current_user_can( 'edit_theme_options' ) )
-		return;
-
-	$classes = 'welcome-panel';
-
-	$option = get_user_meta( get_current_user_id(), 'show_welcome_panel', true );
-	// 0 = hide, 1 = toggled to show or single site creator, 2 = multisite site owner
-	$hide = 0 == $option || ( 2 == $option && wp_get_current_user()->user_email != get_option( 'admin_email' ) );
-	if ( $hide )
-		$classes .= ' hidden';
-
-	list( $display_version ) = explode( '-', $wp_version );
 	?>
-	<div id="welcome-panel" class="<?php echo esc_attr( $classes ); ?>">
-	<?php wp_nonce_field( 'welcome-panel-nonce', 'welcomepanelnonce', false ); ?>
-	<a class="welcome-panel-close" href="<?php echo esc_url( admin_url( '?welcome=0' ) ); ?>"><?php _e('Dismiss'); ?></a>
-	<div class="wp-badge"><?php printf( __( 'Version %s' ), $display_version ); ?></div>
-
 	<div class="welcome-panel-content">
-	<h3><?php _e( 'Welcome to your new WordPress site!' ); ?></h3>
-	<p class="about-description"><?php _e( 'If you need help getting started, check out our documentation on <a href="http://codex.wordpress.org/First_Steps_With_WordPress">First Steps with WordPress</a>. If you&#8217;d rather dive right in, here are a few things most people do first when they set up a new WordPress site. If you need help, use the Help tabs in the upper right corner to get information on how to use your current screen and where to go for more assistance.' ); ?></p>
+	<h3><?php _e( 'Welcome to WordPress!' ); ?></h3>
+	<p class="about-description"><?php _e( 'We&#8217;ve assembled some links to get you started:' ); ?></p>
 	<div class="welcome-panel-column-container">
 	<div class="welcome-panel-column">
-		<h4><span class="icon16 icon-settings"></span> <?php _e( 'Basic Settings' ); ?></h4>
-		<p><?php _e( 'Here are a few easy things you can do to get your feet wet. Make sure to click Save on each Settings screen.' ); ?></p>
-		<ul>
-		<li><?php echo sprintf( __( '<a href="%s">Select your tagline and time zone</a>' ), esc_url( admin_url('options-general.php') ) ); ?></li>
-		<li><?php echo sprintf( __( '<a href="%s">Turn comments on or off</a>' ), esc_url( admin_url('options-discussion.php') ) ); ?></li>
-		<li><?php echo sprintf( __( '<a href="%s">Fill in your profile</a>' ), esc_url( get_edit_profile_url( get_current_user_id() ) ) ); ?></li>
-		</ul>
+		<h4><?php _e( 'Get Started' ); ?></h4>
+		<p><?php _e( 'First, tweak the look of your site:' ); ?></p>
+		<a class="button-primary welcome-button" href="<?php echo add_query_arg( 'url', urlencode( admin_url( '/' ) ), wp_customize_url() ); ?>"><?php _e( 'Customize Your Site' ); ?></a>
+		<?php if ( current_user_can( 'install_themes' ) || ( current_user_can( 'switch_themes' ) && count( wp_get_themes( array( 'allowed' => true ) ) ) > 1 ) ) : ?>
+			<p><?php printf( __( 'or, <a href="%s">change your theme completely</a>' ), admin_url( 'themes.php' ) ); ?></p>
+		<?php endif; ?>
 	</div>
 	<div class="welcome-panel-column">
-		<h4><span class="icon16 icon-page"></span> <?php _e( 'Add Real Content' ); ?></h4>
-		<p><?php _e( 'Check out the sample page & post editors to see how it all works, then delete the default content and write your own!' ); ?></p>
+		<h4><?php _e( 'Next Steps' ); ?></h4>
 		<ul>
-		<li><?php echo sprintf( __( 'View the <a href="%1$s">sample page</a> and <a href="%2$s">post</a>' ), esc_url( get_permalink( 2 ) ), esc_url( get_permalink( 1 ) ) ); ?></li>
-		<li><?php echo sprintf( __( 'Delete the <a href="%1$s">sample page</a> and <a href="%2$s">post</a>' ), esc_url( admin_url('edit.php?post_type=page') ), esc_url( admin_url('edit.php') ) ); ?></li>
-		<li><?php echo sprintf( __( '<a href="%s">Create an About Me page</a>' ), esc_url( admin_url('edit.php?post_type=page') ) ); ?></li>
-		<li><?php echo sprintf( __( '<a href="%s">Write your first post</a>' ), esc_url( admin_url('post-new.php') ) ); ?></li>
+		<?php if ( 'page' == get_option( 'show_on_front' ) && ! get_option( 'page_for_posts' ) ) : ?>
+			<li><?php printf( '<a href="%s">' . __( 'Edit your front page' ) . '</a>', get_edit_post_link( get_option( 'page_on_front' ) ) ); ?></li>
+			<li><?php printf( '<a href="%s">' . __( 'Add additional pages' ) . '</a>', admin_url( 'post-new.php?post_type=page' ) ); ?></li>
+		<?php elseif ( 'page' == get_option( 'show_on_front' ) ) : ?>
+			<li><?php printf( '<a href="%s">' . __( 'Edit your front page' ) . '</a>', get_edit_post_link( get_option( 'page_on_front' ) ) ); ?></li>
+			<li><?php printf( '<a href="%s">' . __( 'Add additional pages' ) . '</a>', admin_url( 'post-new.php?post_type=page' ) ); ?></li>
+			<li><?php printf( '<a href="%s">' . __( 'Add a blog post' ) . '</a>', admin_url( 'post-new.php' ) ); ?></li>
+		<?php else : ?>
+			<li><?php printf( '<a href="%s">' . __( 'Write your first blog post' ) . '</a>', admin_url( 'post-new.php' ) ); ?></li>
+			<li><?php printf( '<a href="%s">' . __( 'Add an About page' ) . '</a>', admin_url( 'post-new.php?post_type=page' ) ); ?></li>
+		<?php endif; ?>
+			<li><?php printf( '<a href="%s">' . __( 'View your site' ) . '</a>', home_url( '/' ) ); ?></li>
 		</ul>
 	</div>
 	<div class="welcome-panel-column welcome-panel-last">
-		<h4><span class="icon16 icon-appearance"></span> <?php _e( 'Customize Your Site' ); ?></h4>
-		<?php
-		$theme = wp_get_theme();
-		if ( $theme->errors() ) :
-			echo '<p>';
-			printf( __( '<a href="%s">Install a theme</a> to get started customizing your site.' ), esc_url( admin_url( 'themes.php' ) ) );
-			echo '</p>';
-		else:
-			$customize_links = array();
-			if ( 'twentyeleven' == $theme->get_stylesheet() )
-				$customize_links[] = sprintf( __( '<a href="%s">Choose light or dark</a>' ), esc_url( admin_url( 'themes.php?page=theme_options' ) ) );
-
-			if ( current_theme_supports( 'custom-background' ) )
-				$customize_links[] = sprintf( __( '<a href="%s">Set a background color</a>' ), esc_url( admin_url( 'themes.php?page=custom-background' ) ) );
-
-			if ( current_theme_supports( 'custom-header' ) )
-				$customize_links[] = sprintf( __( '<a href="%s">Select a new header image</a>' ), esc_url( admin_url( 'themes.php?page=custom-header' ) ) );
-
-			if ( current_theme_supports( 'widgets' ) )
-				$customize_links[] = sprintf( __( '<a href="%s">Add some widgets</a>' ), esc_url( admin_url( 'widgets.php' ) ) );
-
-			if ( ! empty( $customize_links ) ) {
-				echo '<p>';
-				printf( __( 'Use the current theme &mdash; %1$s &mdash; or <a href="%2$s">choose a new one</a>. If you stick with %1$s, here are a few ways to make your site look unique.' ), $theme->display('Name'), esc_url( admin_url( 'themes.php' ) ) );
-				echo '</p>';
-			?>
-			<ul>
-				<?php foreach ( $customize_links as $customize_link ) : ?>
-				<li><?php echo $customize_link ?></li>
-				<?php endforeach; ?>
-			</ul>
-			<?php
-			} else {
-				echo '<p>';
-				printf( __( 'Use the current theme &mdash; %1$s &mdash; or <a href="%2$s">choose a new one</a>.' ), $theme->display('Name'), esc_url( admin_url( 'themes.php' ) ) );
-				echo '</p>';
-			}
-		endif; ?>
+		<h4><?php _e( 'Learn How To' ); ?></h4>
+		<ul>
+			<li><?php printf( '<a id="wp350_add_images" href="%s">' . __( 'Add image/media' ) . '</a>', admin_url( 'media-new.php' ) ); ?></li>
+			<li><?php printf( '<a id="wp350_widgets" href="%s">' . __( 'Add/remove widgets' ) . '</a>', admin_url( 'widgets.php' ) ); ?></li>
+			<li><?php printf( '<a id="wp350_edit_menu" href="%s">' . __( 'Edit your navigation menu' ) . '</a>', admin_url( 'nav-menus.php' ) ); ?></li>
+		</ul>
 	</div>
-	</div>
-	<p class="welcome-panel-dismiss"><?php printf( __( 'Already know what you&#8217;re doing? <a href="%s">Dismiss this message</a>.' ), esc_url( admin_url( '?welcome=0' ) ) ); ?></p>
 	</div>
 	</div>
 	<?php

@@ -1370,7 +1370,7 @@ form.upgrade .hint {
 	position: absolute;
 	top: -1000em;
 	left: 146px;
-	z-index: 999;
+	z-index: 10000;
 	overflow: visible;
 	border-width: 1px;
 	border-style: solid;
@@ -2176,24 +2176,32 @@ html.wp-toolbar {
 
 /* Welcome Panel */
 .welcome-panel {
-	margin: 20px 8px;
-	padding: 30px 10px 20px;
-	border-width: 1px 0;
-	border-style: solid;
 	position: relative;
-	line-height: 1.6em;
 	overflow: auto;
+	margin: 20px 0;
+	padding: 23px 10px 12px;
+	border-width: 1px;
+	border-style: solid;
+	border-radius: 3px;
+	font-size: 13px;
+	line-height: 1.6em;
 }
 
 .welcome-panel h3 {
+	margin: 0;
 	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", sans-serif;
 	font-size: 32px;
 	font-weight: normal;
 	line-height: 1.2;
-	margin: 0.1em 0 0.8em;
 }
 .welcome-panel h4 {
-	font-size: 14px;
+	margin: 1.33em 0 0;
+	font-size: 13px;
+}
+
+.welcome-panel .about-description {
+	font-size: 18px;
+	margin: 0;
 }
 
 .welcome-panel .welcome-panel-close {
@@ -2206,50 +2214,43 @@ html.wp-toolbar {
 }
 
 .welcome-panel .welcome-panel-close:before {
-	background: url('../images/xit.gif') 0 17% no-repeat;
 	content: ' ';
-	height: 100%;
-	width: 10px;
-	left: -12px;
 	position: absolute;
+	left: -12px;
+	width: 10px;
+	height: 100%;
+	background: url('../images/xit.gif') 0 17% no-repeat;
 }
 
 .welcome-panel .welcome-panel-close:hover:before {
 	background-position: 100% 17%;
 }
 
-.welcome-panel .wp-badge {
-	float: left;
-	margin-bottom: 20px;
+.welcome-button {
+	margin: -9px 0 3px;
+	padding: 1em 3em;
+	font: normal 15px/1 sans-serif;
 }
 
 .welcome-panel-content {
+	margin-left: 13px;
 	max-width: 1500px;
-}
-
-.welcome-panel-content .about-description,
-.welcome-panel h3 {
-	margin-left: 190px;
-}
-
-.welcome-panel p.welcome-panel-dismiss {
-	clear: both;
-	padding: 1em 0 0 0;
 }
 
 .welcome-panel .welcome-panel-column-container {
 	clear: both;
 	overflow: hidden;
 	position: relative;
-	padding-left: 26px;
 }
 
 .welcome-panel .welcome-panel-column {
-	margin: 0 5% 0 -25px;
-	padding-left: 25px;
-	width: 30%;
+	width: 32%;
 	min-width: 200px;
 	float: left;
+}
+
+.welcome-panel .welcome-panel-column:first-child {
+	width: 36%;
 }
 
 .welcome-panel .welcome-panel-column.welcome-panel-last {
@@ -2260,8 +2261,12 @@ html.wp-toolbar {
 	margin-left: -32px;
 }
 
+.welcome-panel-column p {
+	margin-top: 5px;
+}
+
 .welcome-panel .welcome-panel-column ul {
-	margin: 1.6em 1em 1em 1.3em;
+	margin: 0.4em 1em 1em 1.3em;
 }
 
 .welcome-panel .welcome-panel-column li {
@@ -2269,6 +2274,25 @@ html.wp-toolbar {
 	padding-left: 2px;
 }
 
+@media screen and (max-width: 870px) {
+	.welcome-button {
+		font-size: 14px;
+		padding: 1em 2.3em;
+	}
+
+	.welcome-panel .welcome-panel-column, .welcome-panel .welcome-panel-column:first-child {
+		display: block;
+		float: none;
+		width: 100%;
+	}
+	.welcome-panel .welcome-panel-column li {
+		display: inline-block;
+		margin-right: 13px;
+	}
+	.welcome-panel .welcome-panel-column ul {
+		margin: 0.4em 0 0;
+	}
+}
 
 /*------------------------------------------------------------------------------
   10.0 - List Posts (/Pages/etc)

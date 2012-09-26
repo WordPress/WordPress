@@ -937,7 +937,7 @@ final class WP_Screen {
 				<?php
 					meta_box_prefs( $this );
 
-					if ( 'dashboard' === $this->id && current_user_can( 'edit_theme_options' ) ) {
+					if ( 'dashboard' === $this->id && has_action( 'welcome_panel' ) && current_user_can( 'edit_theme_options' ) ) {
 						if ( isset( $_GET['welcome'] ) ) {
 							$welcome_checked = empty( $_GET['welcome'] ) ? 0 : 1;
 							update_user_meta( get_current_user_id(), 'show_welcome_panel', $welcome_checked );
