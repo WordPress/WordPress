@@ -174,13 +174,10 @@ printf( __('Comments should be displayed with the %s comments at the top of each
 <tr valign="top">
 <th scope="row"><?php _e('Avatar Display'); ?></th>
 <td><fieldset><legend class="screen-reader-text"><span><?php _e('Avatar Display'); ?></span></legend>
-<?php
-	$yesorno = array( 0 => __( 'Don&#8217;t show Avatars' ), 1 => __( 'Show Avatars' ) );
-	foreach ( $yesorno as $key => $value) {
-		$selected = (get_option('show_avatars') == $key) ? 'checked="checked"' : '';
-		echo "\n\t<label><input type='radio' name='show_avatars' value='" . esc_attr($key) . "' $selected/> $value</label><br />";
-	}
-?>
+	<label for="show_avatars">
+		<input type="checkbox" id="show_avatars" name="show_avatars" value="1" <?php checked( get_option('show_avatars'), 1 ); ?> />
+		<?php _e( 'Show Avatars' ); ?>
+	</label>
 </fieldset></td>
 </tr>
 <tr valign="top">
