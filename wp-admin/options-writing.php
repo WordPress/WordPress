@@ -70,11 +70,6 @@ include('./admin-header.php');
 
 <table class="form-table">
 <tr valign="top">
-<th scope="row"><label for="default_post_edit_rows"> <?php _e('Size of the post box') ?></label></th>
-<td><input name="default_post_edit_rows" type="text" id="default_post_edit_rows" value="<?php form_option('default_post_edit_rows'); ?>" class="small-text" />
-<?php _e('lines') ?></td>
-</tr>
-<tr valign="top">
 <th scope="row"><?php _e('Formatting') ?></th>
 <td><fieldset><legend class="screen-reader-text"><span><?php _e('Formatting') ?></span></legend>
 <label for="use_smilies">

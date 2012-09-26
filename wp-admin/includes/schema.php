@@ -377,7 +377,6 @@ function populate_options() {
 	'default_comment_status' => 'open',
 	'default_ping_status' => 'open',
 	'default_pingback_flag' => 1,
-	'default_post_edit_rows' => 20,
 	'posts_per_page' => 10,
 	/* translators: default date format, see http://php.net/date */
 	'date_format' => __('F j, Y'),
@@ -537,7 +536,7 @@ function populate_options() {
 		'can_compress_scripts', 'page_uris', 'update_core', 'update_plugins', 'update_themes', 'doing_cron',
 		'random_seed', 'rss_excerpt_length', 'secret', 'use_linksupdate', 'default_comment_status_page',
 		'wporg_popular_tags', 'what_to_show', 'rss_language', 'language', 'enable_xmlrpc', 'enable_app',
-		'autoembed_urls',
+		'autoembed_urls', 'default_post_edit_rows',
 	);
 	foreach ( $unusedoptions as $option )
 		delete_option($option);
