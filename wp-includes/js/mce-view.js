@@ -39,7 +39,7 @@ if ( typeof wp === 'undefined' )
 					content: match[0],
 					options: {
 						original: match[0],
-						results:  _.toArray( arguments )
+						results:  match
 					}
 				};
 			}
@@ -92,18 +92,52 @@ if ( typeof wp === 'undefined' )
 		// * `text` is a method that accepts an instance of the `view`
 		// constructor and transforms it into a text representation.
 		add: function( id, options ) {
+			var parent, remove, base, properties;
+
 			// Fetch the parent view or the default options.
-			var parent = options.extend ? wp.mce.view.get( options.extend ) : wp.mce.view.defaults;
+			parent = options.extend ? wp.mce.view.get( options.extend ) : wp.mce.view.defaults;
 
 			// Extend the `options` object with the parent's properties.
 			_.defaults( options, parent );
 			options.id = id;
 
-			// If the `view` provided was an object, automatically create
-			// a new `Backbone.View` constructor, using the parent's `view`
-			// constructor as a base.
-			if ( ! _.isFunction( options.view ) )
-				options.view = parent.view.extend( options.view );
+			// Create properties used to enhance the view for use in TinyMCE.
+			properties = {
+				// Ensure the wrapper element and references to the view are
+				// removed. Otherwise, removed views could randomly restore.
+				remove: function() {
+					delete instances[ this.el.id ];
+					this.$el.parent().remove();
+
+					// Trigger the inherited `remove` method.
+					if ( remove )
+						remove.apply( this, arguments );
+
+					return this;
+				}
+			};
+
+			// If the `view` provided was an object, use the parent's
+			// `view` constructor as a base. If a `view` constructor
+			// was provided, treat that as the base.
+			if ( _.isFunction( options.view ) ) {
+				base = options.view;
+			} else {
+				base   = parent.view;
+				remove = options.view.remove;
+				_.defaults( properties, options.view );
+			}
+
+			// If there's a `remove` method on the `base` view that wasn't
+			// created by this method, inherit it.
+			if ( ! remove && ! base._mceview )
+				remove = base.prototype.remove;
+
+			// Automatically create the new `Backbone.View` constructor.
+			options.view = base.extend( properties, {
+				// Flag that the new view has been created by `wp.mce.view`.
+				_mceview: true
+			});
 
 			views[ id ] = options;
 		},
@@ -234,7 +268,187 @@ if ( typeof wp === 'undefined' )
 
 				return instance && view ? view.text( instance ) : '';
 			});
-		}
+		},
+
+		// Link any localized strings.
+		l10n: _.isUndefined( _wpMceViewL10n ) ? {} : _wpMceViewL10n
 	};
 
+}(jQuery));
+
+// Default TinyMCE Views
+// ---------------------
+(function($){
+	var mceview = wp.mce.view,
+		attrs;
+
+	wp.html = _.extend( wp.html || {}, {
+		// ### Parse HTML attributes.
+		//
+		// Converts `content` to a set of parsed HTML attributes.
+		// Utilizes `wp.shortcode.attrs( content )`, which is a valid superset of
+		// the HTML attribute specification. Reformats the attributes into an
+		// object that contains the `attrs` with `key:value` mapping, and a record
+		// of the attributes that were entered using `empty` attribute syntax (i.e.
+		// with no value).
+		attrs: function( content ) {
+			var result, attrs;
+
+			// If `content` ends in a slash, strip it.
+			if ( '/' === content[ content.length - 1 ] )
+				content = content.slice( 0, -1 );
+
+			result = wp.shortcode.attrs( content );
+			attrs  = result.named;
+
+			_.each( result.numeric, function( key ) {
+				if ( /\s/.test( key ) )
+					return;
+
+				attrs[ key ] = '';
+			});
+
+			return attrs;
+		},
+
+		string: function( options ) {
+			var text = '<' + options.tag,
+				content = options.content || '';
+
+			_.each( options.attrs, function( value, attr ) {
+				text += ' ' + attr;
+
+				// Use empty attribute notation where possible.
+				if ( '' === value )
+					return;
+
+				// Convert boolean values to strings.
+				if ( _.isBoolean( value ) )
+					value = value ? 'true' : 'false';
+
+				text += '="' + value + '"';
+			});
+
+			// Return the result if it is a self-closing tag.
+			if ( options.single )
+				return text + ' />';
+
+			// Complete the opening tag.
+			text += '>';
+
+			// If `content` is an object, recursively call this function.
+			text += _.isObject( content ) ? wp.html.string( content ) : content;
+
+			return text + '</' + options.tag + '>';
+		}
+	});
+
+	mceview.add( 'attachment', {
+		pattern: new RegExp( '(?:<a([^>]*)>)?<img([^>]*class=(?:"[^"]*|\'[^\']*)\\bwp-image-(\\d+)[^>]*)>(?:</a>)?' ),
+
+		text: function( instance ) {
+			var img     = _.clone( instance.img ),
+				classes = img['class'].split(/\s+/),
+				options;
+
+			// Update `img` classes.
+			if ( instance.align )
+				classes.push( 'align' + instance.align );
+
+			if ( instance.size )
+				classes.push( 'size-' + instance.size );
+
+			classes.push( 'wp-image-' + instance.model.id );
+
+			img['class'] = _.compact( classes ).join(' ');
+
+			// Generate `img` tag options.
+			options = {
+				tag:    'img',
+				attrs:  img,
+				single: true
+			};
+
+			// Generate the `a` element options, if they exist.
+			if ( instance.anchor ) {
+				options = {
+					tag:     'a',
+					attrs:   instance.anchor,
+					content: options
+				};
+			}
+
+			return wp.html.string( options );
+		},
+
+		view: {
+			className: 'editor-attachment',
+			template:  media.template('editor-attachment'),
+
+			events: {
+				'click .close': 'remove'
+			},
+
+			initialize: function() {
+				var view    = this,
+					results = this.options.results,
+					id      = results[3],
+					className;
+
+				this.model = wp.media.model.Attachment.get( id );
+
+				if ( results[1] )
+					this.anchor = wp.html.attrs( results[1] );
+
+				this.img = wp.html.attrs( results[2] );
+				className = this.img['class'];
+
+				// Strip ID class.
+				className = className.replace( /(?:^|\s)wp-image-\d+/, '' );
+
+				// Calculate thumbnail `size` and remove class.
+				className = className.replace( /(?:^|\s)size-(\S+)/, function( match, size ) {
+					view.size = size;
+					return '';
+				});
+
+				// Calculate `align` and remove class.
+				className = className.replace( /(?:^|\s)align(left|center|right|none)(?:\s|$)/, function( match, align ) {
+					view.align = align;
+					return '';
+				});
+
+				this.img['class'] = className;
+
+				this.$el.addClass('spinner');
+				this.model.fetch().done( _.bind( this.render, this ) );
+			},
+
+			render: function() {
+				var attachment = this.model.toJSON(),
+					options;
+
+				// If we don't have the attachment data, bail.
+				if ( ! attachment.url )
+					return;
+
+				options = {
+					url: 'image' === attachment.type ? attachment.url : attachment.icon,
+					uploading: attachment.uploading
+				};
+
+				_.extend( options, wp.media.fit({
+					width:    attachment.width,
+					height:   attachment.height,
+					maxWidth: mceview.l10n.contentWidth
+				}) );
+
+				// Use the specified size if it exists.
+				if ( this.size && attachment.sizes && attachment.sizes[ this.size ] )
+					_.extend( options, _.pick( attachment.sizes[ this.size ], 'url', 'width', 'height' ) );
+
+				this.$el.html( this.template( options ) );
+			}
+		}
+	});
 }(jQuery));

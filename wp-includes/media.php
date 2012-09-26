@@ -1414,5 +1414,17 @@ function wp_print_media_templates( $attachment ) {
 		</div>
 		<a class="clear-selection" href="#"><?php _e('Clear selection'); ?></a>
 	</script>
+
+	<script type="text/html" id="tmpl-editor-attachment">
+		<% if ( url ) { %>
+			<img src="<%- url %>" width="<%- width %>" height="<%- height %>" draggable="false" />
+		<% } %>
+
+		<% if ( uploading ) { %>
+			<div class="media-progress-bar"><div></div></div>
+		<% } %>
+		<div class="close">&times;</div>
+		<div class="describe"></div>
+	</script>
 	<?php
 }

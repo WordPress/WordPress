@@ -121,6 +121,45 @@ if ( typeof wp === 'undefined' )
 					deferred.rejectWith( this, arguments );
 				});
 			}).promise();
+		},
+
+		// Scales a set of dimensions to fit within bounding dimensions.
+		fit: function( dimensions ) {
+			var width     = dimensions.width,
+				height    = dimensions.height,
+				maxWidth  = dimensions.maxWidth,
+				maxHeight = dimensions.maxHeight,
+				constraint;
+
+			// Compare ratios between the two values to determine which
+			// max to constrain by. If a max value doesn't exist, then the
+			// opposite side is the constraint.
+			if ( ! _.isUndefined( maxWidth ) && ! _.isUndefined( maxHeight ) ) {
+				constraint = ( width / height > maxWidth / maxHeight ) ? 'width' : 'height';
+			} else if ( _.isUndefined( maxHeight ) ) {
+				constraint = 'width';
+			} else if (  _.isUndefined( maxWidth ) && height > maxHeight ) {
+				constraint = 'height';
+			}
+
+			// If the value of the constrained side is larger than the max,
+			// then scale the values. Otherwise return the originals; they fit.
+			if ( 'width' === constraint && width > maxWidth ) {
+				return {
+					width : maxWidth,
+					height: maxWidth * height / width
+				};
+			} else if ( 'height' === constraint && height > maxHeight ) {
+				return {
+					width : maxHeight * width / height,
+					height: maxHeight
+				};
+			} else {
+				return {
+					width : width,
+					height: height
+				};
+			}
 		}
 	});
 

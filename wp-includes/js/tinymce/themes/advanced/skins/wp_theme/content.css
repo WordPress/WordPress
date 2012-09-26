@@ -146,3 +146,47 @@ div.wp-view-wrap,
 div.wp-view {
 	display: inline-block;
 }
+
+.spinner {
+	background: #fff url("../../../../../../../wp-admin/images/wpspin_light.gif") no-repeat center center;
+	border: 1px solid #dfdfdf;
+	margin-top: 10px;
+	margin-right: 10px;
+}
+
+.editor-attachment {
+	position: relative;
+	padding: 5px;
+}
+
+.editor-attachment,
+.editor-attachment img {
+	min-height: 100px;
+	min-width: 100px;
+}
+
+.editor-attachment img {
+	display: block;
+	border: 0;
+	padding: 0;
+	margin: 0;
+}
+
+.close {
+	display: none;
+	position: absolute;
+	top: 0;
+	right: 0;
+	height: 26px;
+	width: 26px;
+	font-size: 26px;
+	line-height: 22px;
+	text-align: center;
+	cursor: pointer;
+	color: #464646;
+	background: #fff;
+}
+
+.editor-attachment:hover .close {
+	display: block;
+}
