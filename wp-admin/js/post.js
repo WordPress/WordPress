@@ -700,50 +700,51 @@ jQuery(document).ready( function($) {
 		});
 	})();
 
-	tinymce.onAddEditor.add(function(mce, ed){
-		if ( ed.id != 'content' )
-			return;
+	if ( typeof(tinymce) != 'undefined' ) {
+		tinymce.onAddEditor.add(function(mce, ed){
+			if ( ed.id != 'content' )
+				return;
 
-		// resize TinyMCE to match the textarea height when switching Text -> Visual
-		ed.onLoadContent.add( function(ed, o) {
-			var ifr_height, height = parseInt( $('#content').css('height'), 10 ),
-				tb_height = $('#content_tbl tr.mceFirst').height();
+			// resize TinyMCE to match the textarea height when switching Text -> Visual
+			ed.onLoadContent.add( function(ed, o) {
+				var ifr_height, height = parseInt( $('#content').css('height'), 10 ),
+					tb_height = $('#content_tbl tr.mceFirst').height();
 
-			if ( height && !isNaN(height) && tb_height ) {
-				ifr_height = (height - tb_height) + 12; // compensate for padding in the textarea
+				if ( height && !isNaN(height) && tb_height ) {
+					ifr_height = (height - tb_height) + 12; // compensate for padding in the textarea
 
-				$('#content_tbl').css('height', '' );
-				$('#content_ifr').css('height', ifr_height + 'px' );
-				setUserSetting( 'ed_size', height );
-			}
-		});
+					$('#content_tbl').css('height', '' );
+					$('#content_ifr').css('height', ifr_height + 'px' );
+					setUserSetting( 'ed_size', height );
+				}
+			});
 
-		// resize the textarea to match TinyMCE's height when switching Visual -> Text
-		ed.onSaveContent.add( function(ed, o) {
-			var height = $('#content_tbl').height();
+			// resize the textarea to match TinyMCE's height when switching Visual -> Text
+			ed.onSaveContent.add( function(ed, o) {
+				var height = $('#content_tbl').height();
 
-			if ( height && height > 83 ) {
-				height -= 33;
-
-				$('#content').css( 'height', height + 'px' );
-				setUserSetting( 'ed_size', height );
-			}
-		});
-
-		// save on resizing TinyMCE
-		ed.onPostRender.add(function() {
-			$('#content_resize').on('mousedown.wp-mce-resize', function(e){
-				$(document).on('mouseup.wp-mce-resize', function(e){
-					var height = $('#wp-content-editor-container').height();
-
+				if ( height && height > 83 ) {
 					height -= 33;
-					if ( height > 50 && height != getUserSetting( 'ed_size' ) )
-						setUserSetting( 'ed_size', height );
 
-					$(document).off('mouseup.wp-mce-resize');
+					$('#content').css( 'height', height + 'px' );
+					setUserSetting( 'ed_size', height );
+				}
+			});
+
+			// save on resizing TinyMCE
+			ed.onPostRender.add(function() {
+				$('#content_resize').on('mousedown.wp-mce-resize', function(e){
+					$(document).on('mouseup.wp-mce-resize', function(e){
+						var height = $('#wp-content-editor-container').height();
+
+						height -= 33;
+						if ( height > 50 && height != getUserSetting( 'ed_size' ) )
+							setUserSetting( 'ed_size', height );
+
+						$(document).off('mouseup.wp-mce-resize');
+					});
 				});
 			});
 		});
-	});
-
+	}
 });
