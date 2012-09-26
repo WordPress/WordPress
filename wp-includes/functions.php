@@ -1409,6 +1409,36 @@ function get_temp_dir() {
 }
 
 /**
+ * Workaround for Windows bug in is_writable() function
+ *
+ * @since 2.8.0
+ *
+ * @param string $path
+ * @return bool
+ */
+function win_is_writable( $path ) {
+	/* will work in despite of Windows ACLs bug
+	 * NOTE: use a trailing slash for folders!!!
+	 * see http://bugs.php.net/bug.php?id=27609
+	 * see http://bugs.php.net/bug.php?id=30931
+	 */
+
+	if ( $path[strlen( $path ) - 1] == '/' ) // recursively return a temporary file path
+		return win_is_writable( $path . uniqid( mt_rand() ) . '.tmp');
+	else if ( is_dir( $path ) )
+		return win_is_writable( $path . '/' . uniqid( mt_rand() ) . '.tmp' );
+	// check tmp file for read/write capabilities
+	$should_delete_tmp_file = !file_exists( $path );
+	$f = @fopen( $path, 'a' );
+	if ( $f === false )
+		return false;
+	fclose( $f );
+	if ( $should_delete_tmp_file )
+		unlink( $path );
+	return true;
+}
+
+/**
  * Get an array containing the current upload directory's path and url.
  *
  * Checks the 'upload_path' option, which should be from the web root folder,

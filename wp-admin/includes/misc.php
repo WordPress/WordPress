@@ -524,36 +524,6 @@ function saveDomDocument($doc, $filename) {
 }
 
 /**
- * Workaround for Windows bug in is_writable() function
- *
- * @since 2.8.0
- *
- * @param string $path
- * @return bool
- */
-function win_is_writable( $path ) {
-	/* will work in despite of Windows ACLs bug
-	 * NOTE: use a trailing slash for folders!!!
-	 * see http://bugs.php.net/bug.php?id=27609
-	 * see http://bugs.php.net/bug.php?id=30931
-	 */
-
-	if ( $path[strlen( $path ) - 1] == '/' ) // recursively return a temporary file path
-		return win_is_writable( $path . uniqid( mt_rand() ) . '.tmp');
-	else if ( is_dir( $path ) )
-		return win_is_writable( $path . '/' . uniqid( mt_rand() ) . '.tmp' );
-	// check tmp file for read/write capabilities
-	$should_delete_tmp_file = !file_exists( $path );
-	$f = @fopen( $path, 'a' );
-	if ( $f === false )
-		return false;
-	fclose( $f );
-	if ( $should_delete_tmp_file )
-		unlink( $path );
-	return true;
-}
-
-/**
  * Display the default admin color scheme picker (Used in user-edit.php)
  *
  * @since 3.0.0
