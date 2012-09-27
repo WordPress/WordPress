@@ -23,7 +23,6 @@ get_header(); ?>
 			<?php if ( tag_description() ) : // Show an optional tag description ?>
 				<div class="archive-meta"><?php echo tag_description(); ?></div>
 			<?php endif; ?>
-
 			</header><!-- .archive-header -->
 
 			<?php
