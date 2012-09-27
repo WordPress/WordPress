@@ -190,6 +190,14 @@ function get_comments( $args = '' ) {
  * @since 3.1.0
  */
 class WP_Comment_Query {
+	/**
+	 * Metadata query container
+	 *
+	 * @since 3.?
+	 * @access public
+	 * @var object WP_Meta_Query
+	 */
+	var $meta_query = false;
 
 	/**
 	 * Execute the query
@@ -223,23 +231,33 @@ class WP_Comment_Query {
 			'user_id' => '',
 			'search' => '',
 			'count' => false,
+			'meta_key' => '',
+			'meta_value' => '',
+			'meta_query' => '',
 		);
 
+		$groupby = '';
+
 		$this->query_vars = wp_parse_args( $query_vars, $defaults );
+
+		// Parse meta query
+		$this->meta_query = new WP_Meta_Query();
+		$this->meta_query->parse_query_vars( $this->query_vars );
+
 		do_action_ref_array( 'pre_get_comments', array( &$this ) );
 		extract( $this->query_vars, EXTR_SKIP );
 
 		// $args can be whatever, only use the args defined in defaults to compute the key
 		$key = md5( serialize( compact(array_keys($defaults)) )  );
 		$last_changed = wp_cache_get('last_changed', 'comment');
-		if ( !$last_changed ) {
+		if ( ! $last_changed ) {
 			$last_changed = time();
 			wp_cache_set('last_changed', $last_changed, 'comment');
 		}
 		$cache_key = "get_comments:$key:$last_changed";
 
 		if ( $cache = wp_cache_get( $cache_key, 'comment' ) ) {
-			return $cache;
+			//return $cache;
 		}
 
 		$post_id = absint($post_id);
@@ -257,26 +275,36 @@ class WP_Comment_Query {
 
 		if ( ! empty( $orderby ) ) {
 			$ordersby = is_array($orderby) ? $orderby : preg_split('/[,\s]/', $orderby);
-			$ordersby = array_intersect(
-				$ordersby,
-				array(
-					'comment_agent',
-					'comment_approved',
-					'comment_author',
-					'comment_author_email',
-					'comment_author_IP',
-					'comment_author_url',
-					'comment_content',
-					'comment_date',
-					'comment_date_gmt',
-					'comment_ID',
-					'comment_karma',
-					'comment_parent',
-					'comment_post_ID',
-					'comment_type',
-					'user_id',
-				)
+			$allowed_keys = array(
+				'comment_agent',
+				'comment_approved',
+				'comment_author',
+				'comment_author_email',
+				'comment_author_IP',
+				'comment_author_url',
+				'comment_content',
+				'comment_date',
+				'comment_date_gmt',
+				'comment_ID',
+				'comment_karma',
+				'comment_parent',
+				'comment_post_ID',
+				'comment_type',
+				'user_id',
 			);
+			if ( ! empty( $this->query_vars['meta_key'] ) ) {
+				$allowed_keys[] = $q['meta_key'];
+				$allowed_keys[] = 'meta_value';
+				$allowed_keys[] = 'meta_value_num';
+			}
+			$ordersby = array_intersect( $ordersby, $allowed_keys );
+			foreach ( $ordersby as $key => $value ) {
+				if ( $value == $q['meta_key'] || $value == 'meta_value' ) {
+					$ordersby[ $key ] = "$wpdb->commentmeta.meta_value";
+				} elseif ( $value == 'meta_value_num' ) {
+					$ordersby[ $key ] = "$wpdb->commentmeta.meta_value+0";
+				}
+			}
 			$orderby = empty( $ordersby ) ? 'comment_date_gmt' : implode(', ', $ordersby);
 		} else {
 			$orderby = 'comment_date_gmt';
@@ -329,12 +357,22 @@ class WP_Comment_Query {
 				$where .= $wpdb->prepare( " AND {$wpdb->posts}.{$field_name} = %s", $field_value );
 		}
 
-		$pieces = array( 'fields', 'join', 'where', 'orderby', 'order', 'limits' );
+		if ( ! empty( $this->meta_query->queries ) ) {
+			$clauses = $this->meta_query->get_sql( 'comment', $wpdb->comments, 'comment_ID', $this );
+			$join .= $clauses['join'];
+			$where .= $clauses['where'];
+			$groupby = "{$wpdb->comments}.comment_ID";
+		}
+
+		$pieces = array( 'fields', 'join', 'where', 'orderby', 'order', 'limits', 'groupby' );
 		$clauses = apply_filters_ref_array( 'comments_clauses', array( compact( $pieces ), &$this ) );
 		foreach ( $pieces as $piece )
 			$$piece = isset( $clauses[ $piece ] ) ? $clauses[ $piece ] : '';
 
-		$query = "SELECT $fields FROM $wpdb->comments $join WHERE $where ORDER BY $orderby $order $limits";
+		if ( $groupby )
+			$groupby = 'GROUP BY ' . $groupby;
+
+		$query = "SELECT $fields FROM $wpdb->comments $join WHERE $where $groupby ORDER BY $orderby $order $limits";
 
 		if ( $count )
 			return $wpdb->get_var( $query );
