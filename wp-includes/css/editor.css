@@ -1868,7 +1868,8 @@ RTL
 
 #wp-fullscreen-buttons .mce_image .mce_image {
 	background-image: url('../../wp-admin/images/media-button.png?ver=20120201');
-	background-position: 3px 3px;
+	background-position: top left;
+	background-size: 100%;
 }
 
 /* =Thickbox Adjustments
