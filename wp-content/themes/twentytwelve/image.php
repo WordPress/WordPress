@@ -2,6 +2,8 @@
 /**
  * The template for displaying image attachments.
  *
+ * Learn more: http://codex.wordpress.org/Template_Hierarchy
+ *
  * @package WordPress
  * @subpackage Twenty_Twelve
  * @since Twenty Twelve 1.0
@@ -51,23 +53,25 @@ get_header(); ?>
  * or the first image (if we're looking at the last image in a gallery), or, in a gallery of one, just the link to that image file
  */
 $attachments = array_values( get_children( array( 'post_parent' => $post->post_parent, 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => 'ASC', 'orderby' => 'menu_order ID' ) ) );
-foreach ( $attachments as $k => $attachment ) {
+foreach ( $attachments as $k => $attachment ) :
 	if ( $attachment->ID == $post->ID )
 		break;
-}
+endforeach;
+
 $k++;
 // If there is more than 1 attachment in a gallery
-if ( count( $attachments ) > 1 ) {
-	if ( isset( $attachments[ $k ] ) )
+if ( count( $attachments ) > 1 ) :
+	if ( isset( $attachments[ $k ] ) ) :
 		// get the URL of the next image attachment
 		$next_attachment_url = get_attachment_link( $attachments[ $k ]->ID );
-	else
+	else :
 		// or get the URL of the first image attachment
 		$next_attachment_url = get_attachment_link( $attachments[ 0 ]->ID );
-} else {
+	endif;
+else :
 	// or, if there's only 1 image, get the URL of the image
 	$next_attachment_url = wp_get_attachment_url();
-}
+endif;
 ?>
 								<a href="<?php echo esc_url( $next_attachment_url ); ?>" title="<?php the_title_attribute(); ?>" rel="attachment"><?php
 								$attachment_size = apply_filters( 'twentytwelve_attachment_size', array( 960, 960 ) );

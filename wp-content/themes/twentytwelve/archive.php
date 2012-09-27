@@ -6,7 +6,8 @@
  * For example, puts together date-based pages if no date.php file exists.
  *
  * If you'd like to further customize these archive views, you may create a
- * new template file for each specific one, like tag.php for Tag archives or
+ * new template file for each specific one. For example, Twenty Twelve already
+ * has tag.php for Tag archives, category.php for Category archives, and
  * author.php for Author archives.
  *
  * Learn more: http://codex.wordpress.org/Template_Hierarchy
@@ -24,35 +25,16 @@ get_header(); ?>
 		<?php if ( have_posts() ) : ?>
 			<header class="archive-header">
 				<h1 class="archive-title"><?php
-					if ( is_day() ) {
+					if ( is_day() ) :
 						printf( __( 'Daily Archives: %s', 'twentytwelve' ), '<span>' . get_the_date() . '</span>' );
-					} elseif ( is_month() ) {
+					elseif ( is_month() ) :
 						printf( __( 'Monthly Archives: %s', 'twentytwelve' ), '<span>' . get_the_date( _x( 'F Y', 'monthly archives date format', 'twentytwelve' ) ) . '</span>' );
-					} elseif ( is_year() ) {
+					elseif ( is_year() ) :
 						printf( __( 'Yearly Archives: %s', 'twentytwelve' ), '<span>' . get_the_date( _x( 'Y', 'yearly archives date format', 'twentytwelve' ) ) . '</span>' );
-					} elseif ( is_tag() ) {
-						printf( __( 'Tag Archives: %s', 'twentytwelve' ), '<span>' . single_tag_title( '', false ) . '</span>' );
-					} elseif ( is_category() ) {
-						printf( __( 'Category Archives: %s', 'twentytwelve' ), '<span>' . single_cat_title( '', false ) . '</span>' );
-					} else {
+					else :
 						_e( 'Archives', 'twentytwelve' );
-					}
+					endif;
 				?></h1>
-
-				<?php
-					// Show an optional tag description.
-					if ( is_tag() ) {
-						$tag_description = tag_description();
-						if ( $tag_description )
-							echo '<div class="archive-meta">' . $tag_description . '</div>';
-					}
-					// Show an optional category description.
-					if ( is_category() ) {
-						$category_description = category_description();
-						if ( $category_description )
-							echo '<div class="archive-meta">' . $category_description . '</div>';
-					}
-				?>
 			</header><!-- .archive-header -->
 
 			<?php
