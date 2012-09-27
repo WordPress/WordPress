@@ -62,10 +62,10 @@ if ( isset($_REQUEST['action']) && 'add-site' == $_REQUEST['action'] ) {
 
 	if ( is_subdomain_install() ) {
 		$newdomain = $domain . '.' . preg_replace( '|^www\.|', '', $current_site->domain );
-		$path = $base;
+		$path      = $current_site->path;
 	} else {
 		$newdomain = $current_site->domain;
-		$path = $base . $domain . '/';
+		$path      = $current_site->path . $domain . '/';
 	}
 
 	$password = 'N/A';

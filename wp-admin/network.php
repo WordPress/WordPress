@@ -51,8 +51,8 @@ function network_domain_check() {
  * @return bool Whether subdomain install is allowed
  */
 function allow_subdomain_install() {
-	$domain = preg_replace( '|https?://([^/]+)|', '$1', get_option( 'siteurl' ) );
-	if( false !== strpos( $domain, '/' ) || 'localhost' == $domain || preg_match( '|[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+|', $domain ) )
+	$domain = preg_replace( '|https?://([^/]+)|', '$1', get_option( 'home' ) );
+	if( parse_url( get_option( 'home' ), PHP_URL_PATH ) || 'localhost' == $domain || preg_match( '|^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$|', $domain ) )
 		return false;
 
 	return true;
@@ -143,13 +143,6 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
  */
 function network_step1( $errors = false ) {
 	global $is_apache;
-
-	if ( get_option( 'siteurl' ) != get_option( 'home' ) ) {
-		echo '<div class="error"><p><strong>' . __('ERROR:') . '</strong> ' . sprintf( __( 'Your <strong>WordPress address</strong> must match your <strong>Site address</strong> before creating a Network. See <a href="%s">General Settings</a>.' ), esc_url( admin_url( 'options-general.php' ) ) ) . '</p></div>';
-		echo '</div>';
-		include ( ABSPATH . 'wp-admin/admin-footer.php' );
-		die();
-	}
 
 	if ( defined('DO_NOT_UPGRADE_GLOBAL_TABLES') ) {
 		echo '<div class="error"><p><strong>' . __('ERROR:') . '</strong> ' . __( 'The constant DO_NOT_UPGRADE_GLOBAL_TABLES cannot be defined when creating a network.' ) . '</p></div>';
@@ -314,11 +307,14 @@ function network_step1( $errors = false ) {
  * @since 3.0.0
  */
 function network_step2( $errors = false ) {
-	global $base, $wpdb;
-	$hostname = get_clean_basedomain();
+	global $wpdb;
 
-	if ( ! isset( $base ) )
-		$base = trailingslashit( stripslashes( dirname( dirname( $_SERVER['SCRIPT_NAME'] ) ) ) );
+	$hostname          = get_clean_basedomain();
+	$slashed_home      = trailingslashit( get_option( 'home' ) );
+	$base              = parse_url( $slashed_home, PHP_URL_PATH );
+	$wp_dir_from_root  = preg_replace( '#^' . preg_quote( $_SERVER['DOCUMENT_ROOT'], '#' ) . '#', '', ABSPATH );
+	$wp_siteurl_subdir = trailingslashit( '/' . preg_replace( '#^' . preg_quote( $base, '#' ) . '#', '', $wp_dir_from_root ) );
+	$rewrite_base      = ! empty( $wp_siteurl_subdir ) ? ltrim( trailingslashit( $wp_siteurl_subdir ), '/' ) : '';
 
 	// Wildcard DNS message.
 	if ( is_wp_error( $errors ) )
@@ -344,6 +340,10 @@ function network_step2( $errors = false ) {
 		}
 	}
 
+	$subdir_match        = $subdomain_install ? '' : '([_0-9a-zA-Z-]+/)?';
+	$subdir_replacement_01 = $subdomain_install ? '' : '$1';
+	$subdir_replacement_12 = $subdomain_install ? '$1' : '$2';
+
 	if ( $_POST || ! is_multisite() ) {
 ?>
 		<h3><?php esc_html_e( 'Enabling the Network' ); ?></h3>
@@ -361,20 +361,21 @@ function network_step2( $errors = false ) {
 ?>
 		<ol>
 			<li><p><?php printf( __( 'Add the following to your <code>wp-config.php</code> file in <code>%s</code> <strong>above</strong> the line reading <code>/* That&#8217;s all, stop editing! Happy blogging. */</code>:' ), ABSPATH ); ?></p>
-				<textarea class="code" readonly="readonly" cols="100" rows="7">
+				<textarea class="code" readonly="readonly" cols="100" rows="6">
 define('MULTISITE', true);
 define('SUBDOMAIN_INSTALL', <?php echo $subdomain_install ? 'true' : 'false'; ?>);
-$base = '<?php echo $base; ?>';
 define('DOMAIN_CURRENT_SITE', '<?php echo $hostname; ?>');
 define('PATH_CURRENT_SITE', '<?php echo $base; ?>');
 define('SITE_ID_CURRENT_SITE', 1);
-define('BLOG_ID_CURRENT_SITE', 1);</textarea>
+define('BLOG_ID_CURRENT_SITE', 1);
+</textarea>
 <?php
 	$keys_salts = array( 'AUTH_KEY' => '', 'SECURE_AUTH_KEY' => '', 'LOGGED_IN_KEY' => '', 'NONCE_KEY' => '', 'AUTH_SALT' => '', 'SECURE_AUTH_SALT' => '', 'LOGGED_IN_SALT' => '', 'NONCE_SALT' => '' );
 	foreach ( $keys_salts as $c => $v ) {
 		if ( defined( $c ) )
 			unset( $keys_salts[ $c ] );
 	}
+
 	if ( ! empty( $keys_salts ) ) {
 		$keys_salts_str = '';
 		$from_api = wp_remote_get( 'https://api.wordpress.org/secret-key/1.1/salt/' );
@@ -399,10 +400,13 @@ define('BLOG_ID_CURRENT_SITE', 1);</textarea>
 </li>
 <?php
 	if ( iis7_supports_permalinks() ) :
+		// IIS doesn't support RewriteBase, all your RewriteBase are belong to us
+		$iis_subdir_match = ltrim( $base, '/' ) . $subdir_match;
+		$iis_rewrite_base = ltrim( $base, '/' ) . $rewrite_base;
+		$iis_subdir_replacement = $subdomain_install ? '' : '{R:1}';
 
-			if ( $subdomain_install ) {
-				$web_config_file =
-'<?xml version="1.0" encoding="UTF-8"?>
+		$web_config_file = <<<EOF
+<?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <system.webServer>
         <rewrite>
@@ -414,49 +418,14 @@ define('BLOG_ID_CURRENT_SITE', 1);</textarea>
 				if ( is_multisite() && get_site_option( 'ms_files_rewriting' ) ) {
 					$web_config_file .= '
                 <rule name="WordPress Rule for Files" stopProcessing="true">
-                    <match url="^files/(.+)" ignoreCase="false" />
-                    <action type="Rewrite" url="wp-includes/ms-files.php?file={R:1}" appendQueryString="false" />
+                    <match url="^{$iis_subdir_match}files/(.+)" ignoreCase="false" />
+                    <action type="Rewrite" url="{$iis_rewrite_base}wp-includes/ms-files.php?file={R:1}" appendQueryString="false" />
                 </rule>';
                 }
                 $web_config_file .= '
                 <rule name="WordPress Rule 2" stopProcessing="true">
-                    <match url="^" ignoreCase="false" />
-                    <conditions logicalGrouping="MatchAny">
-                        <add input="{REQUEST_FILENAME}" matchType="IsFile" ignoreCase="false" />
-                        <add input="{REQUEST_FILENAME}" matchType="IsDirectory" ignoreCase="false" />
-                    </conditions>
-                    <action type="None" />
-                </rule>
-                <rule name="WordPress Rule 3" stopProcessing="true">
-                    <match url="." ignoreCase="false" />
-                    <action type="Rewrite" url="index.php" />
-                </rule>
-            </rules>
-        </rewrite>
-    </system.webServer>
-</configuration>';
-			} else {
-				$web_config_file =
-'<?xml version="1.0" encoding="UTF-8"?>
-<configuration>
-    <system.webServer>
-        <rewrite>
-            <rules>
-                <rule name="WordPress Rule 1" stopProcessing="true">
-                    <match url="^index\.php$" ignoreCase="false" />
-                    <action type="None" />
-                </rule>';
-				if ( is_multisite() && get_site_option( 'ms_files_rewriting' ) ) {
-					$web_config_file .= '
-                <rule name="WordPress Rule for Files" stopProcessing="true">
-                    <match url="^files/(.+)" ignoreCase="false" />
-                    <action type="Rewrite" url="wp-includes/ms-files.php?file={R:1}" appendQueryString="false" />
-                </rule>';
-                }
-                $web_config_file .= '
-                <rule name="WordPress Rule 2" stopProcessing="true">
-                    <match url="^([_0-9a-zA-Z-]+/)?wp-admin$" ignoreCase="false" />
-                    <action type="Redirect" url="{R:1}wp-admin/" redirectType="Permanent" />
+                    <match url="^{$iis_subdir_match}wp-admin$" ignoreCase="false" />
+                    <action type="Redirect" url="{$iis_subdir_replacement}wp-admin/" redirectType="Permanent" />
                 </rule>
                 <rule name="WordPress Rule 3" stopProcessing="true">
                     <match url="^" ignoreCase="false" />
@@ -467,12 +436,12 @@ define('BLOG_ID_CURRENT_SITE', 1);</textarea>
                     <action type="None" />
                 </rule>
                 <rule name="WordPress Rule 4" stopProcessing="true">
-                    <match url="^[_0-9a-zA-Z-]+/(wp-(content|admin|includes).*)" ignoreCase="false" />
-                    <action type="Rewrite" url="{R:1}" />
+                    <match url="^{$iis_subdir_match}(wp-(content|admin|includes).*)" ignoreCase="false" />
+                    <action type="Rewrite" url="{$iis_rewrite_base}{R:1}" />
                 </rule>
                 <rule name="WordPress Rule 5" stopProcessing="true">
-                    <match url="^([_0-9a-zA-Z-]+/)?(.*\.php)$" ignoreCase="false" />
-                    <action type="Rewrite" url="{R:2}" />
+                    <match url="^{$iis_subdir_match}([_0-9a-zA-Z-]+/)?(.*\.php)$" ignoreCase="false" />
+                    <action type="Rewrite" url="{$iis_rewrite_base}{R:2}" />
                 </rule>
                 <rule name="WordPress Rule 6" stopProcessing="true">
                     <match url="." ignoreCase="false" />
@@ -481,10 +450,11 @@ define('BLOG_ID_CURRENT_SITE', 1);</textarea>
             </rules>
         </rewrite>
     </system.webServer>
-</configuration>';
-			}
+</configuration>
+EOF;
+
 	?>
-		<li><p><?php printf( __( 'Add the following to your <code>web.config</code> file in <code>%s</code>, replacing other WordPress rules:' ), ABSPATH ); ?></p>
+		<li><p><?php printf( __( 'Add the following to your <code>web.config</code> file in <code>%s</code>, replacing other WordPress rules:' ), trailingslashit( str_replace( trailingslashit( $wp_siteurl_subdir ), '', ABSPATH ) ) ); ?></p>
 		<?php
 		if ( ! $subdomain_install && WP_CONTENT_DIR != ABSPATH . 'wp-content' )
 			echo '<p><strong>' . __('Warning:') . ' ' . __( 'Subdirectory networks may not be fully compatible with custom wp-content directories.' ) . '</strong></p>';
@@ -495,27 +465,27 @@ define('BLOG_ID_CURRENT_SITE', 1);</textarea>
 
 	<?php else : // end iis7_supports_permalinks(). construct an htaccess file instead:
 
-		$htaccess_file = 'RewriteEngine On
-RewriteBase ' . $base . '
-RewriteRule ^index\.php$ - [L]' . "\n";
-
+		$ms_files_rewriting = '';
 		if ( is_multisite() && get_site_option( 'ms_files_rewriting' ) ) {
-			$htaccess_file .= "\n# uploaded files\nRewriteRule ^";
-			$htaccess_file .= ( $subdomain_install ? '' : '([_0-9a-zA-Z-]+/)?' ) . 'files/(.+) wp-includes/ms-files.php?file=$' . ( $subdomain_install ? 1 : 2 ) . ' [L]' . "\n";
+			$ms_files_rewriting = "\n# uploaded files\nRewriteRule ^";
+			$ms_files_rewriting .= $subdir_match . "files/(.+) {$rewrite_base}wp-includes/ms-files.php?file={$subdir_replacement_12} [L]" . "\n";
 		}
 
-		if ( ! $subdomain_install )
-			$htaccess_file .= "\n# add a trailing slash to /wp-admin\n" . 'RewriteRule ^([_0-9a-zA-Z-]+/)?wp-admin$ $1wp-admin/ [R=301,L]' . "\n";
+		$htaccess_file = <<<EOF
+RewriteEngine On
+RewriteBase {$base}
+RewriteRule ^index\.php$ - [L]
+{$ms_files_rewriting}
+# add a trailing slash to /wp-admin
+RewriteRule ^{$subdir_match}wp-admin$ {$subdir_replacement_01}wp-admin/ [R=301,L]
 
-		$htaccess_file .= "\n" . 'RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
-RewriteRule ^ - [L]';
-
-		// @todo custom content dir.
-		if ( ! $subdomain_install )
-			$htaccess_file .= "\nRewriteRule  ^[_0-9a-zA-Z-]+/(wp-(content|admin|includes).*) $1 [L]\nRewriteRule  ^[_0-9a-zA-Z-]+/(.*\.php)$ $1 [L]";
-
-		$htaccess_file .= "\nRewriteRule . index.php [L]";
+RewriteRule ^ - [L]
+RewriteRule ^{$subdir_match}(wp-(content|admin|includes).*) {$rewrite_base}{$subdir_replacement_12} [L]
+RewriteRule ^{$subdir_match}(.*\.php)$ {$rewrite_base}$subdir_replacement_12 [L]
+RewriteRule . index.php [L]
+EOF;
 
 		?>
 		<li><p><?php printf( __( 'Add the following to your <code>.htaccess</code> file in <code>%s</code>, replacing other WordPress rules:' ), ABSPATH ); ?></p>
@@ -537,14 +507,12 @@ RewriteRule ^ - [L]';
 
 if ( $_POST ) {
 
-	$base = trailingslashit( stripslashes( dirname( dirname( $_SERVER['SCRIPT_NAME'] ) ) ) );
-
 	check_admin_referer( 'install-network-1' );
 
 	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 	// create network tables
 	install_network();
-	$hostname = get_clean_basedomain();
+	$base              = parse_url( trailingslashit( get_option( 'home' ) ), PHP_URL_PATH );
 	$subdomain_install = allow_subdomain_install() ? !empty( $_POST['subdomain_install'] ) : false;
 	if ( ! network_domain_check() ) {
 		$result = populate_network( 1, get_clean_basedomain(), sanitize_email( $_POST['email'] ), stripslashes( $_POST['sitename'] ), $base, $subdomain_install );
