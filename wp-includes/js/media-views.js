@@ -403,6 +403,7 @@
 
 			// Track uploading attachments.
 			wp.Uploader.queue.on( 'add remove reset change:percent', this.renderUploadProgress, this );
+			wp.Uploader.queue.on( 'add', this.selectUpload, this );
 		},
 
 		render: function() {
@@ -427,6 +428,10 @@
 				dropzone:  this.$el,
 				browser:   this.$('.upload-attachments a')
 			}, this.options.uploader ) );
+		},
+
+		selectUpload: function( attachment ) {
+			this.controller.selection.add( attachment );
 		},
 
 		renderUploadProgress: function() {
