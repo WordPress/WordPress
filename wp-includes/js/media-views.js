@@ -2,8 +2,11 @@
 	var media       = wp.media,
 		Attachment  = media.model.Attachment,
 		Attachments = media.model.Attachments,
-		Query       = media.model.Query;
+		Query       = media.model.Query,
+		l10n;
 
+	// Link any localized strings.
+	l10n = media.view.l10n = _.isUndefined( _wpMediaViewsL10n ) ? {} : _wpMediaViewsL10n;
 
 	/**
 	 * ========================================================================
@@ -386,7 +389,7 @@
 
 			this.attachmentsView = new media.view.Attachments({
 				controller: this.controller,
-				directions: 'Select stuff.',
+				directions: this.controller.get('multiple') ? l10n.selectMediaMultiple : l10n.selectMediaSingular,
 				collection: this.collection
 			});
 
@@ -465,22 +468,22 @@
 					}),
 
 					'create-new-gallery': {
-						style: 'primary',
-						text:  'Create a new gallery',
+						style:    'primary',
+						text:     l10n.createNewGallery,
 						priority: 40,
-						click:  function() {
+
+						click: function() {
 							controller.render('gallery');
 						}
 					},
 
 					'insert-into-post': {
-						// style: 'primary',
-						text:  'Insert into post',
+						text:     l10n.insertIntoPost,
 						priority: 30
 					},
 
 					'add-to-gallery': {
-						text:  'Add to gallery',
+						text:     l10n.addToGallery,
 						priority: 20
 					}
 				}

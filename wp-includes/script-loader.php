@@ -320,6 +320,9 @@ function wp_default_scripts( &$scripts ) {
 		'insertMedia'         => __( 'Insert Media' ),
 		'selectMediaSingular' => __( 'Select a media file:' ),
 		'selectMediaMultiple' => __( 'Select one or more media files:' ),
+		'createNewGallery'    => __( 'Create a new gallery' ),
+		'insertIntoPost'      => __( 'Insert into post' ),
+		'addToGallery'        => __( 'Add to gallery' ),
 	) );
 
 	$scripts->add( 'shortcode', "/wp-includes/js/shortcode$suffix.js", array( 'underscore' ), false, 1 );
