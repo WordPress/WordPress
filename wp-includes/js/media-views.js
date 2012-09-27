@@ -378,6 +378,8 @@
 			'click': 'toggleSelection'
 		},
 
+		buttons: {},
+
 		initialize: function() {
 			this.controller = this.options.controller;
 
@@ -385,6 +387,9 @@
 			this.model.on( 'change:percent', this.progress, this );
 			this.model.on( 'add', this.select, this );
 			this.model.on( 'remove', this.deselect, this );
+
+			// Prevent default navigation on all links.
+			this.$el.on( 'click', 'a', this.preventDefault );
 		},
 
 		render: function() {
@@ -394,7 +399,8 @@
 					uploading:   attachment.uploading,
 					orientation: attachment.orientation || 'landscape',
 					type:        attachment.type,
-					subtype:     attachment.subtype
+					subtype:     attachment.subtype,
+					buttons:     this.buttons
 				};
 
 			// Use the medium image size if possible. If the medium size
@@ -445,6 +451,10 @@
 				return;
 
 			this.$el.removeClass('selected');
+		},
+
+		preventDefault: function( event ) {
+			event.preventDefault();
 		}
 	});
 
@@ -452,14 +462,33 @@
 	 * wp.media.view.Attachment.Library
 	 */
 	media.view.Attachment.Library = media.view.Attachment.extend({
-		className: 'attachment library'
+		className: 'attachment library',
+
+		buttons: {
+			insert: true
+		},
+
+		events: _.defaults({
+			'click .insert': 'insert'
+		}, media.view.Attachment.prototype.events ),
+
+		insert: function() {
+			this.controller.selection.reset([ this.model ]);
+			this.controller.update();
+		}
 	});
 
 	/**
 	 * wp.media.view.Attachment.Gallery
 	 */
 	media.view.Attachment.Gallery = media.view.Attachment.extend({
-		events: {}
+		buttons: {
+			close: true
+		},
+
+		events: {
+			'click .close': 'toggleSelection'
+		}
 	});
 
 	/**

@@ -1399,7 +1399,14 @@ function wp_print_media_templates( $attachment ) {
 			<% if ( uploading ) { %>
 				<div class="media-progress-bar"><div></div></div>
 			<% } %>
-			<div class="actions"></div>
+
+			<% if ( buttons.close ) { %>
+				<a class="close" href="#">&times;</a>
+			<% } %>
+
+			<% if ( buttons.insert ) { %>
+				<a class="insert button button-primary button-small" href="#"><?php _e( 'Insert' ); ?></a>
+			<% } %>
 		</div>
 		<div class="describe"></div>
 	</script>

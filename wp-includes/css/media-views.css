@@ -295,6 +295,36 @@
 	box-shadow: inset 0 0 0 1px rgba( 0, 0, 0, 0.4 );
 }
 
+.attachment .insert {
+	display: none;
+	position: absolute;
+	left: 7px;
+	bottom: 7px;
+}
+
+.attachment:hover .insert {
+	display: block;
+}
+
+.attachment .close {
+	/*display: none;*/
+	position: absolute;
+	top: 0;
+	right: 0;
+	height: 26px;
+	width: 26px;
+	font-size: 20px;
+	line-height: 24px;
+	text-align: center;
+	text-decoration: none;
+	color: #464646;
+	background: #fff;
+}
+
+.attachment:hover .close {
+	display: block;
+}
+
 
 /* Square crop with overflow visible on hover. */
 /*
