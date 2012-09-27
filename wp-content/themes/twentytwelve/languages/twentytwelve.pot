@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Twelve 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentytwelve\n"
-"POT-Creation-Date: 2012-09-27 07:36:27+00:00\n"
+"POT-Creation-Date: 2012-09-27 16:19:18+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -107,7 +107,7 @@ msgstr ""
 msgid "Nothing Found"
 msgstr ""
 
-#: content-none.php:17
+#: content-none.php:17 index.php:53
 msgid ""
 "Apologies, but no results were found. Perhaps searching will help find a "
 "related post."
@@ -292,12 +292,6 @@ msgstr ""
 
 #: index.php:42
 msgid "Ready to publish your first post? <a href=\"%s\">Get started here</a>."
-msgstr ""
-
-#: index.php:53
-msgid ""
-"Apologies, but no results were found for the requested archive. Perhaps "
-"searching will help find a related post."
 msgstr ""
 
 #: search.php:18
