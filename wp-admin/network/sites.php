@@ -16,13 +16,13 @@ if ( ! is_multisite() )
 if ( ! current_user_can( 'manage_sites' ) )
 	wp_die( __( 'You do not have permission to access this page.' ) );
 
-$wp_list_table = _get_list_table('WP_MS_Sites_List_Table');
+$wp_list_table = _get_list_table( 'WP_MS_Sites_List_Table' );
 $pagenum = $wp_list_table->get_pagenum();
 
 $title = __( 'Sites' );
 $parent_file = 'sites.php';
 
-add_screen_option( 'per_page', array('label' => _x( 'Sites', 'sites per page (screen options)' )) );
+add_screen_option( 'per_page', array( 'label' => _x( 'Sites', 'sites per page (screen options)' ) ) );
 
 get_current_screen()->add_help_tab( array(
 	'id'      => 'overview',
@@ -51,55 +51,86 @@ $id = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0;
 if ( isset( $_GET['action'] ) ) {
 	do_action( 'wpmuadminedit' , '' );
 
+	if ( 'confirm' === $_GET['action'] ) {
+		check_admin_referer( 'confirm' );
+		
+		if ( ! headers_sent() ) {
+			nocache_headers();
+			header( 'Content-Type: text/html; charset=utf-8' );
+		}
+		if ( $current_site->blog_id == $id )
+			wp_die( __( 'You are not allowed to change the current site.' ) );
+		?>
+		<!DOCTYPE html>
+		<html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
+			<head>
+				<title><?php _e( 'WordPress &rsaquo; Confirm your action' ); ?></title>
+
+				<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+				<?php
+				wp_admin_css( 'install', true );
+				wp_admin_css( 'ie', true );
+				?>
+			</head>
+			<body>
+				<h1 id="logo"><img alt="WordPress" src="<?php echo esc_attr( admin_url( 'images/wordpress-logo.png?ver=20120216' ) ); ?>" /></h1>
+				<form action="sites.php?action=<?php echo esc_attr( $_GET['action2'] ) ?>" method="post">
+					<input type="hidden" name="action" value="<?php echo esc_attr( $_GET['action2'] ) ?>" />
+					<input type="hidden" name="id" value="<?php echo esc_attr( $id ); ?>" />
+					<input type="hidden" name="_wp_http_referer" value="<?php echo esc_attr( wp_get_referer() ); ?>" />
+					<?php wp_nonce_field( $_GET['action2'], '_wpnonce', false ); ?>
+					<p><?php echo esc_html( stripslashes( $_GET['msg'] ) ); ?></p>
+					<?php submit_button( __('Confirm'), 'button' ); ?>
+				</form>
+			</body>
+		</html>
+		<?php
+		exit();	
+	}
+	
+	$updated_action = '';
+	
+	$manage_actions = array( 'deleteblog', 'allblogs', 'archiveblog', 'unarchiveblog', 'activateblog', 'deactivateblog', 'unspamblog', 'spamblog', 'unmatureblog', 'matureblog' );
+	if ( in_array( $_GET['action'], $manage_actions ) ) {		
+		$action = $_GET['action'];
+		if ( 'allblogs' === $action )
+			$action = 'bulk-sites';
+
+		check_admin_referer( $action );
+	} 
+		
 	switch ( $_GET['action'] ) {
-		case 'updateblog':
-			// No longer used.
-		break;
 
 		case 'deleteblog':
-			check_admin_referer('deleteblog');
-			if ( ! ( current_user_can( 'manage_sites' ) && current_user_can( 'delete_sites' ) ) )
+			if ( ! current_user_can( 'delete_sites' ) )
 				wp_die( __( 'You do not have permission to access this page.' ) );
 
+			$updated_action = 'not_deleted';
 			if ( $id != '0' && $id != $current_site->blog_id && current_user_can( 'delete_site', $id ) ) {
 				wpmu_delete_blog( $id, true );
-				wp_safe_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'delete' ), wp_get_referer() ) );
-			} else {
-				wp_safe_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'not_deleted' ), wp_get_referer() ) );
+				$updated_action = 'delete';	
 			}
-
-			exit();
 		break;
 
 		case 'allblogs':
 			if ( ( isset( $_POST['action'] ) || isset( $_POST['action2'] ) ) && isset( $_POST['allblogs'] ) ) {
-				check_admin_referer( 'bulk-sites' );
-
-				if ( ! current_user_can( 'manage_sites' ) )
-					wp_die( __( 'You do not have permission to access this page.' ) );
-
 				$doaction = $_POST['action'] != -1 ? $_POST['action'] : $_POST['action2'];
-				$blogfunction = '';
-
+				
 				foreach ( (array) $_POST['allblogs'] as $key => $val ) {
 					if ( $val != '0' && $val != $current_site->blog_id ) {
 						switch ( $doaction ) {
 							case 'delete':
 								if ( ! current_user_can( 'delete_site', $val ) )
 									wp_die( __( 'You are not allowed to delete the site.' ) );
-								$blogfunction = 'all_delete';
+								
+								$updated_action = 'all_delete';
 								wpmu_delete_blog( $val, true );
 							break;
 
 							case 'spam':
-								$blogfunction = 'all_spam';
-								update_blog_status( $val, 'spam', '1' );
-								set_time_limit( 60 );
-							break;
-
 							case 'notspam':
-								$blogfunction = 'all_notspam';
-								update_blog_status( $val, 'spam', '0' );
+								$updated_action = ( 'spam' === $doaction ) ? 'all_spam' : 'all_notspam';
+								update_blog_status( $val, 'spam', ( 'spam' === $doaction ) ? '1' : '0' );
 								set_time_limit( 60 );
 							break;
 						}
@@ -107,138 +138,50 @@ if ( isset( $_GET['action'] ) ) {
 						wp_die( __( 'You are not allowed to change the current site.' ) );
 					}
 				}
-
-				wp_safe_redirect( add_query_arg( array( 'updated' => 'true', 'action' => $blogfunction ), wp_get_referer() ) );
 			} else {
 				wp_redirect( network_admin_url( 'sites.php' ) );
+				exit();
 			}
-			exit();
 		break;
 
 		case 'archiveblog':
-			check_admin_referer( 'archiveblog' );
-			if ( ! current_user_can( 'manage_sites' ) )
-				wp_die( __( 'You do not have permission to access this page.' ) );
-
-			update_blog_status( $id, 'archived', '1' );
-			wp_safe_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'archive' ), wp_get_referer() ) );
-			exit();
-		break;
-
 		case 'unarchiveblog':
-			check_admin_referer( 'unarchiveblog' );
-			if ( ! current_user_can( 'manage_sites' ) )
-				wp_die( __( 'You do not have permission to access this page.' ) );
-
-			update_blog_status( $id, 'archived', '0' );
-			wp_safe_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'unarchive' ), wp_get_referer() ) );
-			exit();
+			update_blog_status( $id, 'archived', ( 'archiveblog' === $_GET['action'] ) ? '1' : '0' );
 		break;
 
 		case 'activateblog':
-			check_admin_referer( 'activateblog' );
-			if ( ! current_user_can( 'manage_sites' ) )
-				wp_die( __( 'You do not have permission to access this page.' ) );
-
 			update_blog_status( $id, 'deleted', '0' );
 			do_action( 'activate_blog', $id );
-			wp_safe_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'activate' ), wp_get_referer() ) );
-			exit();
 		break;
 
 		case 'deactivateblog':
-			check_admin_referer( 'deactivateblog' );
-			if ( ! current_user_can( 'manage_sites' ) )
-				wp_die( __( 'You do not have permission to access this page.' ) );
-
 			do_action( 'deactivate_blog', $id );
 			update_blog_status( $id, 'deleted', '1' );
-			wp_safe_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'deactivate' ), wp_get_referer() ) );
-			exit();
 		break;
 
 		case 'unspamblog':
-			check_admin_referer( 'unspamblog' );
-			if ( ! current_user_can( 'manage_sites' ) )
-				wp_die( __( 'You do not have permission to access this page.' ) );
-
-			update_blog_status( $id, 'spam', '0' );
-			wp_safe_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'unspam' ), wp_get_referer() ) );
-			exit();
-		break;
-
 		case 'spamblog':
-			check_admin_referer( 'spamblog' );
-			if ( ! current_user_can( 'manage_sites' ) )
-				wp_die( __( 'You do not have permission to access this page.' ) );
-
-			update_blog_status( $id, 'spam', '1' );
-			wp_safe_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'spam' ), wp_get_referer() ) );
-			exit();
+			update_blog_status( $id, 'spam', ( 'spamblog' === $_GET['action'] ) ? '1' : '0' );
 		break;
-
+	
 		case 'unmatureblog':
-			check_admin_referer( 'unmatureblog' );
-			if ( ! current_user_can( 'manage_sites' ) )
-				wp_die( __( 'You do not have permission to access this page.' ) );
-
-			update_blog_status( $id, 'mature', '0' );
-			wp_safe_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'unmature' ), wp_get_referer() ) );
-			exit();
-		break;
-
 		case 'matureblog':
-			check_admin_referer( 'matureblog' );
-			if ( ! current_user_can( 'manage_sites' ) )
-				wp_die( __( 'You do not have permission to access this page.' ) );
-
-			update_blog_status( $id, 'mature', '1' );
-			wp_safe_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'mature' ), wp_get_referer() ) );
-			exit();
+			update_blog_status( $id, 'mature', ( 'matureblog' === $_GET['action'] ) ? '1' : '0' );
 		break;
-
-		// Common
-		case 'confirm':
-			check_admin_referer( 'confirm' );
-			if ( !headers_sent() ) {
-				nocache_headers();
-				header( 'Content-Type: text/html; charset=utf-8' );
-			}
-			if ( $current_site->blog_id == $id )
-				wp_die( __( 'You are not allowed to change the current site.' ) );
-			?>
-			<!DOCTYPE html>
-			<html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
-				<head>
-					<title><?php _e( 'WordPress &rsaquo; Confirm your action' ); ?></title>
-
-					<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-					<?php
-					wp_admin_css( 'install', true );
-					wp_admin_css( 'ie', true );
-					?>
-				</head>
-				<body>
-					<h1 id="logo"><img alt="WordPress" src="<?php echo esc_attr( admin_url( 'images/wordpress-logo.png?ver=20120216' ) ); ?>" /></h1>
-					<form action="sites.php?action=<?php echo esc_attr( $_GET['action2'] ) ?>" method="post">
-						<input type="hidden" name="action" value="<?php echo esc_attr( $_GET['action2'] ) ?>" />
-						<input type="hidden" name="id" value="<?php echo esc_attr( $id ); ?>" />
-						<input type="hidden" name="_wp_http_referer" value="<?php echo esc_attr( wp_get_referer() ); ?>" />
-						<?php wp_nonce_field( $_GET['action2'], '_wpnonce', false ); ?>
-						<p><?php echo esc_html( stripslashes( $_GET['msg'] ) ); ?></p>
-						<?php submit_button( __('Confirm'), 'button' ); ?>
-					</form>
-				</body>
-			</html>
-			<?php
-			exit();
-		break;
+	}
+	
+	if ( empty( $updated_action ) && in_array( $_GET['action'], $manage_actions ) )
+		$updated_action = $_GET['action'];
+	
+	if ( ! empty( $updated_action ) ) {
+		wp_safe_redirect( add_query_arg( array( 'updated' => $updated_action ), wp_get_referer() ) );
+		exit();
 	}
 }
 
 $msg = '';
-if ( isset( $_REQUEST['updated'] ) && $_REQUEST['updated'] == 'true' && ! empty( $_REQUEST['action'] ) ) {
-	switch ( $_REQUEST['action'] ) {
+if ( isset( $_GET['updated'] ) ) {
+	switch ( $_GET['updated'] ) {
 		case 'all_notspam':
 			$msg = __( 'Sites removed from spam.' );
 		break;
@@ -254,29 +197,30 @@ if ( isset( $_REQUEST['updated'] ) && $_REQUEST['updated'] == 'true' && ! empty(
 		case 'not_deleted':
 			$msg = __( 'You do not have permission to delete that site.' );
 		break;
-		case 'archive':
+		case 'archiveblog':
 			$msg = __( 'Site archived.' );
 		break;
-		case 'unarchive':
+		case 'unarchiveblog':
 			$msg = __( 'Site unarchived.' );
 		break;
-		case 'activate':
+		case 'activateblog':
 			$msg = __( 'Site activated.' );
 		break;
-		case 'deactivate':
+		case 'deactivateblog':
 			$msg = __( 'Site deactivated.' );
 		break;
-		case 'unspam':
+		case 'unspamblog':
 			$msg = __( 'Site removed from spam.' );
 		break;
-		case 'spam':
+		case 'spamblog':
 			$msg = __( 'Site marked as spam.' );
 		break;
 		default:
-			$msg = apply_filters( 'network_sites_updated_message_' . $_REQUEST['action'] , __( 'Settings saved.' ) );
+			$msg = apply_filters( 'network_sites_updated_message_' . $_GET['updated'], __( 'Settings saved.' ) );
 		break;
 	}
-	if ( $msg )
+	
+	if ( ! empty( $msg ) )
 		$msg = '<div class="updated" id="message"><p>' . $msg . '</p></div>';
 }
 
@@ -286,11 +230,11 @@ require_once( '../admin-header.php' );
 ?>
 
 <div class="wrap">
-<?php screen_icon('ms-admin'); ?>
-<h2><?php _e('Sites') ?>
-<?php echo $msg; ?>
+<?php screen_icon( 'ms-admin' ); ?>
+<h2><?php _e( 'Sites' ) ?>
+	
 <?php if ( current_user_can( 'create_sites') ) : ?>
-        <a href="<?php echo network_admin_url('site-new.php'); ?>" class="add-new-h2"><?php echo esc_html_x( 'Add New', 'site' ); ?></a>
+	<a href="<?php echo network_admin_url('site-new.php'); ?>" class="add-new-h2"><?php echo esc_html_x( 'Add New', 'site' ); ?></a>
 <?php endif; ?>
 
 <?php if ( isset( $_REQUEST['s'] ) && $_REQUEST['s'] ) {
@@ -298,6 +242,8 @@ require_once( '../admin-header.php' );
 } ?>
 </h2>
 
+<?php echo $msg; ?>	
+	
 <form action="" method="get" id="ms-search">
 <?php $wp_list_table->search_box( __( 'Search Sites' ), 'site' ); ?>
 <input type="hidden" name="action" value="blogs" />
