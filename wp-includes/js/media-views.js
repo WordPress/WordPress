@@ -374,6 +374,9 @@
 		className: 'media-workspace',
 		template:  media.template('media-workspace'),
 
+		// The single `Attachment` view to be used in the `Attachments` view.
+		AttachmentView: media.view.Attachment,
+
 		events: {
 			'dragenter':  'maybeInitUploader',
 			'mouseenter': 'maybeInitUploader'
@@ -392,7 +395,9 @@
 			this.attachmentsView = new media.view.Attachments({
 				controller: this.controller,
 				directions: this.controller.get('multiple') ? l10n.selectMediaMultiple : l10n.selectMediaSingular,
-				collection: this.collection
+				collection: this.collection,
+
+				AttachmentView: this.AttachmentView
 			});
 
 			this.$content.append( this.attachmentsView.$el );
@@ -451,6 +456,9 @@
 	 * wp.media.view.Workspace.Library
 	 */
 	media.view.Workspace.Library = media.view.Workspace.extend({
+		// The single `Attachment` view to be used in the `Attachments` view.
+		// AttachmentView: media.view.Attachment.Library,
+
 		initialize: function() {
 			media.view.Workspace.prototype.initialize.apply( this, arguments );
 
@@ -521,6 +529,9 @@
 	 * wp.media.view.Workspace.Gallery
 	 */
 	media.view.Workspace.Gallery = media.view.Workspace.extend({
+		// The single `Attachment` view to be used in the `Attachments` view.
+		// AttachmentView: media.view.Attachment.Gallery,
+
 		initialize: function() {
 			media.view.Workspace.prototype.initialize.apply( this, arguments );
 			this.initToolbarView();
@@ -581,7 +592,8 @@
 
 			_.defaults( this.options, {
 				refreshSensitivity: 200,
-				refreshThreshold:   3
+				refreshThreshold:   3,
+				AttachmentView:     media.view.Attachment
 			});
 
 			_.each(['add','remove'], function( method ) {
@@ -619,7 +631,7 @@
 			// Otherwise, create all of the Attachment views, and replace
 			// the list in a single DOM operation.
 			this.$list.html( this.collection.map( function( attachment ) {
-				return new media.view.Attachment({
+				return new this.options.AttachmentView({
 					controller: this.controller,
 					model:      attachment
 				}).render().$el;
