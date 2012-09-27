@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Twelve 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentytwelve\n"
-"POT-Creation-Date: 2012-09-27 07:34:19+00:00\n"
+"POT-Creation-Date: 2012-09-27 07:36:27+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -161,6 +161,15 @@ msgstr ""
 #: functions.php:118
 msgctxt "Open Sans font: on or off"
 msgid "on"
+msgstr ""
+
+#. translators: To add an additional Open Sans character subset specific to
+#. your language, translate
+#. 		   this to 'greek', 'cyrillic' or 'vietnamese'. Do not translate into your
+#. own language.
+#: functions.php:125
+msgctxt "Open Sans font: add new subset (greek, cyrllic, vietnamese)"
+msgid " "
 msgstr ""
 
 #: functions.php:175
