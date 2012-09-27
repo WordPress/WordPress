@@ -1370,7 +1370,7 @@ form.upgrade .hint {
 	position: absolute;
 	top: -1000em;
 	left: 146px;
-	z-index: 10000;
+	z-index: 1000;
 	overflow: visible;
 	border-width: 1px;
 	border-style: solid;
