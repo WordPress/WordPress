@@ -31,7 +31,7 @@ $line-height: 24;
 * Set a font-size and then set a line-height based on the font-size
 	font-size: 16px
 	font-size: 1.142857143rem; (16 / $rembase)
-	line-height: 1.846153846; ($line-height / 16)
+	line-height: 1.5; ($line-height / 16)
 
 ---------- Vertical spacing
 
