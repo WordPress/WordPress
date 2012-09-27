@@ -3,8 +3,6 @@
  *
  * Contains handlers to make Theme Customizer preview reload changes asynchronously.
  * Things like site title, description, and background color changes.
- *
- * See related settings in twentytwelve_customize_preview_js()
  */
 
 ( function( $ ) {
