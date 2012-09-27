@@ -289,6 +289,10 @@
 			return this;
 		},
 
+		get: function( id ) {
+			return this._views[ id ];
+		},
+
 		remove: function( id, options ) {
 			delete this._views[ id ];
 			if ( ! options || ! options.silent )
@@ -310,25 +314,43 @@
 			'click': 'click'
 		},
 
+		defaults: {
+			text:  '',
+			style: '',
+			size:  'large'
+		},
+
 		initialize: function() {
-			_.defaults( this.options, {
-				text:    '',
-				classes: []
-			});
+			// Create a model with the provided `defaults`.
+			this.model = new Backbone.Model( this.defaults );
+
+			// If any of the `options` have a key from `defaults`, apply its
+			// value to the `model` and remove it from the `options object.
+			_.each( this.defaults, function( def, key ) {
+				var value = this.options[ key ];
+				if ( _.isUndefined( value ) )
+					return;
+
+				this.model.set( key, value );
+				delete this.options[ key ];
+			}, this );
+
+			this.model.on( 'change', this.render, this );
 		},
 
 		render: function() {
 			var classes = [ 'button', this.className ];
 
-			if ( this.options.style )
-				classes.push( 'button-' + this.options.style );
+			if ( this.model.get('style') )
+				classes.push( 'button-' + this.model.get('style') );
 
-			if ( this.options.size )
-				classes.push( 'button-' + this.options.size );
+			if ( this.model.get('size') )
+				classes.push( 'button-' + this.model.get('size') );
 
 			classes = classes.concat( this.options.classes );
 			this.el.className = classes.join(' ');
-			this.$el.text( this.options.text );
+
+			this.$el.text( this.model.get('text') );
 			return this;
 		},
 
@@ -441,19 +463,22 @@
 						collection: this.controller.selection,
 						priority: -40
 					}),
-					'insert-into-post': {
-						style: 'primary',
-						text:  'Insert into post',
-						priority: 40
-					},
+
 					'create-new-gallery': {
 						style: 'primary',
 						text:  'Create a new gallery',
-						priority: 30,
+						priority: 40,
 						click:  function() {
 							controller.render('gallery');
 						}
 					},
+
+					'insert-into-post': {
+						// style: 'primary',
+						text:  'Insert into post',
+						priority: 30
+					},
+
 					'add-to-gallery': {
 						text:  'Add to gallery',
 						priority: 20
@@ -462,7 +487,19 @@
 			});
 
 			this.controller.selection.on( 'add remove', function() {
-				this.$el.toggleClass( 'with-toolbar', !! this.controller.selection.length );
+				var count = this.controller.selection.length,
+					showGallery;
+
+				this.$el.toggleClass( 'with-toolbar', !! count );
+
+				// Check if every attachment in the selection is an image.
+				showGallery = count > 1 && this.controller.selection.all( function( attachment ) {
+					return 'image' === attachment.get('type');
+				});
+
+				this.toolbarView.get('create-new-gallery').$el.toggle( showGallery );
+				insert = this.toolbarView.get('insert-into-post');
+				insert.model.set( 'style', showGallery ? '' : 'primary' );
 			}, this );
 
 			this.$content.append( this.toolbarView.$el );
