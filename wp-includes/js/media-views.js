@@ -367,6 +367,102 @@
 	});
 
 	/**
+	 * wp.media.view.Attachment
+	 */
+	media.view.Attachment = Backbone.View.extend({
+		tagName:   'li',
+		className: 'attachment',
+		template:  media.template('attachment'),
+
+		events: {
+			'click': 'toggleSelection'
+		},
+
+		initialize: function() {
+			this.controller = this.options.controller;
+
+			this.model.on( 'change:sizes change:uploading', this.render, this );
+			this.model.on( 'change:percent', this.progress, this );
+			this.model.on( 'add', this.select, this );
+			this.model.on( 'remove', this.deselect, this );
+		},
+
+		render: function() {
+			var attachment = this.model.toJSON(),
+				options = {
+					thumbnail:   'image' === attachment.type ? attachment.url : attachment.icon,
+					uploading:   attachment.uploading,
+					orientation: attachment.orientation || 'landscape',
+					type:        attachment.type,
+					subtype:     attachment.subtype
+				};
+
+			// Use the medium image size if possible. If the medium size
+			// doesn't exist, then the attachment is too small.
+			// In that case, use the attachment itself.
+			if ( attachment.sizes && attachment.sizes.medium ) {
+				options.orientation = attachment.sizes.medium.orientation;
+				options.thumbnail   = attachment.sizes.medium.url;
+			}
+
+			this.$el.html( this.template( options ) );
+
+			if ( attachment.uploading )
+				this.$bar = this.$('.media-progress-bar div');
+			else
+				delete this.$bar;
+
+			// Check if the model is selected.
+			if ( this.controller.selection.has( this.model ) )
+				this.select();
+
+			return this;
+		},
+
+		progress: function() {
+			if ( this.$bar && this.$bar.length )
+				this.$bar.width( this.model.get('percent') + '%' );
+		},
+
+		toggleSelection: function( event ) {
+			var selection = this.controller.selection;
+			selection[ selection.has( this.model ) ? 'remove' : 'add' ]( this.model );
+		},
+
+		select: function( model, collection ) {
+			// If a collection is provided, check if it's the selection.
+			// If it's not, bail; we're in another selection's event loop.
+			if ( collection && collection !== this.controller.selection )
+				return;
+
+			this.$el.addClass('selected');
+		},
+
+		deselect: function( model, collection ) {
+			// If a collection is provided, check if it's the selection.
+			// If it's not, bail; we're in another selection's event loop.
+			if ( collection && collection !== this.controller.selection )
+				return;
+
+			this.$el.removeClass('selected');
+		}
+	});
+
+	/**
+	 * wp.media.view.Attachment.Library
+	 */
+	media.view.Attachment.Library = media.view.Attachment.extend({
+		className: 'attachment library'
+	});
+
+	/**
+	 * wp.media.view.Attachment.Gallery
+	 */
+	media.view.Attachment.Gallery = media.view.Attachment.extend({
+		events: {}
+	});
+
+	/**
 	 * wp.media.view.Workspace
 	 */
 	media.view.Workspace = Backbone.View.extend({
@@ -457,7 +553,7 @@
 	 */
 	media.view.Workspace.Library = media.view.Workspace.extend({
 		// The single `Attachment` view to be used in the `Attachments` view.
-		// AttachmentView: media.view.Attachment.Library,
+		AttachmentView: media.view.Attachment.Library,
 
 		initialize: function() {
 			media.view.Workspace.prototype.initialize.apply( this, arguments );
@@ -530,7 +626,7 @@
 	 */
 	media.view.Workspace.Gallery = media.view.Workspace.extend({
 		// The single `Attachment` view to be used in the `Attachments` view.
-		// AttachmentView: media.view.Attachment.Gallery,
+		AttachmentView: media.view.Attachment.Gallery,
 
 		initialize: function() {
 			media.view.Workspace.prototype.initialize.apply( this, arguments );
@@ -646,7 +742,7 @@
 		add: function( attachment, index ) {
 			var view, children;
 
-			view = new media.view.Attachment({
+			view = new this.options.AttachmentView({
 				controller: this.controller,
 				model:      attachment
 			}).render();
@@ -682,89 +778,6 @@
 				props.set( 'search', event.target.value );
 			else
 				props.unset('search');
-		}
-	});
-
-
-	/**
-	 * wp.media.view.Attachment
-	 */
-	media.view.Attachment = Backbone.View.extend({
-		tagName:   'li',
-		className: 'attachment',
-		template:  media.template('attachment'),
-
-		events: {
-			'click': 'toggleSelection'
-		},
-
-		initialize: function() {
-			this.controller = this.options.controller;
-
-			this.model.on( 'change:sizes change:uploading', this.render, this );
-			this.model.on( 'change:percent', this.progress, this );
-			this.model.on( 'add', this.select, this );
-			this.model.on( 'remove', this.deselect, this );
-		},
-
-		render: function() {
-			var attachment = this.model.toJSON(),
-				options = {
-					thumbnail:   'image' === attachment.type ? attachment.url : attachment.icon,
-					uploading:   attachment.uploading,
-					orientation: attachment.orientation || 'landscape',
-					type:        attachment.type,
-					subtype:     attachment.subtype
-				};
-
-			// Use the medium image size if possible. If the medium size
-			// doesn't exist, then the attachment is too small.
-			// In that case, use the attachment itself.
-			if ( attachment.sizes && attachment.sizes.medium ) {
-				options.orientation = attachment.sizes.medium.orientation;
-				options.thumbnail   = attachment.sizes.medium.url;
-			}
-
-			this.$el.html( this.template( options ) );
-
-			if ( attachment.uploading )
-				this.$bar = this.$('.media-progress-bar div');
-			else
-				delete this.$bar;
-
-			// Check if the model is selected.
-			if ( this.controller.selection.has( this.model ) )
-				this.select();
-
-			return this;
-		},
-
-		progress: function() {
-			if ( this.$bar && this.$bar.length )
-				this.$bar.width( this.model.get('percent') + '%' );
-		},
-
-		toggleSelection: function( event ) {
-			var selection = this.controller.selection;
-			selection[ selection.has( this.model ) ? 'remove' : 'add' ]( this.model );
-		},
-
-		select: function( model, collection ) {
-			// If a collection is provided, check if it's the selection.
-			// If it's not, bail; we're in another selection's event loop.
-			if ( collection && collection !== this.controller.selection )
-				return;
-
-			this.$el.addClass('selected');
-		},
-
-		deselect: function( model, collection ) {
-			// If a collection is provided, check if it's the selection.
-			// If it's not, bail; we're in another selection's event loop.
-			if ( collection && collection !== this.controller.selection )
-				return;
-
-			this.$el.removeClass('selected');
 		}
 	});
 

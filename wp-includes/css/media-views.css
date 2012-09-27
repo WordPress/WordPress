@@ -248,11 +248,11 @@
 	border-color: #d54e21;
 }
 
-.attachment.selected {
+.attachment.library.selected {
 	border-color: #21759b;
 }
 
-.attachment.selected:after {
+.attachment.library.selected:after {
 	content: '\2713';
 	display: block;
 	height: 24px;
