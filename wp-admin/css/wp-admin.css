@@ -2285,12 +2285,25 @@ html.wp-toolbar {
 		float: none;
 		width: 100%;
 	}
+
 	.welcome-panel .welcome-panel-column li {
 		display: inline-block;
 		margin-right: 13px;
 	}
+
 	.welcome-panel .welcome-panel-column ul {
 		margin: 0.4em 0 0;
+	}
+}
+
+/**
+ * HiDPI Displays
+ */
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
+
+	.welcome-panel .welcome-panel-close:before {
+		background-image: url('../images/xit-2x.gif');
+		background-size: 20px auto;
 	}
 }
 
@@ -3196,8 +3209,8 @@ td.plugin-title p {
 
 .curtime #timestamp {
 	background-repeat: no-repeat;
-	background-position: left top;
-	padding-left: 18px;
+	background-position: left center;
+	padding: 2px 0 1px 20px;
 }
 
 #timestampdiv {
@@ -4234,6 +4247,9 @@ span.imgedit-scale-warn {
 	padding: 2px 10px;
 }
 
+/**
+ * HiDPI Displays
+ */
 @media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
 	.imgedit-crop,
 	.imgedit-rleft,
@@ -5497,6 +5513,18 @@ body.full-overlay-active {
 	-o-transition-duration:      0.2s;
 	transition-duration:         0.2s;
 }
+
+/**
+ * HiDPI Displays
+ */
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
+
+	.wp-full-overlay .collapse-sidebar-arrow {
+	 	background-image: url('../images/arrows-2x.png');
+	 	background-size: 15px 123px;
+	 }
+}
+
 
 /*------------------------------------------------------------------------------
   24.0 - Customize Loader
@@ -8206,6 +8234,29 @@ a.widget-control-edit {
 		max-width: 400px;
 		width: auto;
 	}
+}
+
+/**
+ * HiDPI Displays
+ */
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
+
+	.press-this .tagchecklist span a {
+	 	background-image: url('../images/xit-2x.gif');
+	 	background-size: 20px auto;
+	 }
+
+	.postbox:hover .handlediv,
+	.stuffbox:hover .handlediv,
+	.widget-top a.widget-action {
+	 	background-image: url('../images/arrows-2x.png');
+	 	background-size: 15px 123px;
+	 }
+
+	.widget-top a.widget-action:hover {
+	 	background-image: url('../images/arrows-dark-2x.png');
+	 	background-size: 15px 123px;
+	 }
 }
 
 /* =Localized CSS

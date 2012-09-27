@@ -327,3 +327,29 @@ table.not-image tr.not-image {
 table.not-image tr.image-only {
 	display: none;
 }
+
+/**
+ * HiDPI Displays
+ */
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
+
+	.image-align-none-label {
+		background-image: url("../images/align-none-2x.png?ver=20120916");
+		background-size: 21px 15px;
+	}
+
+	.image-align-left-label {
+		background-image: url("../images/align-left-2x.png?ver=20120916");
+		background-size: 22px 15px;
+	}
+
+	.image-align-center-label {
+		background-image: url("../images/align-center-2x.png?ver=20120916");
+		background-size: 21px 15px;
+	}
+
+	.image-align-right-label {
+		background-image: url("../images/align-right-2x.png?ver=20120916");
+		background-size: 22px 15px;
+	}
+}

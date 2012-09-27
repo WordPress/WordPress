@@ -185,3 +185,19 @@
 .rtl .wp-pointer-undefined .wp-pointer-arrow {
 	right: 50px;
 }
+
+/**
+ * HiDPI Displays
+ */
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
+
+	.wp-pointer-buttons a.close:before {
+		background-image: url('../images/xit-2x.gif');
+		background-size: 20px auto;
+	}
+
+	.wp-pointer-content h3:before {
+		background-image: url('../images/icon-pointer-flag.png');
+		background-size: 36px auto;
+	}
+}

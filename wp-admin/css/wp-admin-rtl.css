@@ -1570,7 +1570,7 @@ table .column-rating {
 .wp-full-overlay .collapse-sidebar-arrow {
 	margin-right: 2px;
 	margin-left: 0;
-	background: transparent url('../../wp-admin/images/arrows.png') no-repeat 0 -108px;
+	background: transparent url('../images/arrows.png') no-repeat 0 -108px;
 }
 
 .wp-full-overlay.collapsed .collapse-sidebar-arrow {
@@ -1582,6 +1582,18 @@ table .column-rating {
 	left: auto;
 	margin-right: 10px;
 	margin-left: 0;
+}
+
+/**
+ * HiDPI Displays
+ */
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
+
+	.wp-full-overlay .collapse-sidebar-arrow {
+		background-image: url('../images/arrows-2x.png');
+		background-size: 15px 123px;
+	}
+
 }
 
 /*------------------------------------------------------------------------------
