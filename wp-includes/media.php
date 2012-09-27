@@ -1320,7 +1320,7 @@ function wp_prepare_attachment_for_js( $attachment ) {
 		'mime'        => $attachment->post_mime_type,
 		'type'        => $type,
 		'subtype'     => $subtype,
-		'icon'        => wp_mime_type_icon( $attachment->post_mime_type ),
+		'icon'        => wp_mime_type_icon( $attachment->ID ),
 	);
 
 	if ( $meta && 'image' === $type ) {
