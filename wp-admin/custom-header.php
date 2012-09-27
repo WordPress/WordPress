@@ -175,7 +175,7 @@ class Custom_Image_Header {
 			wp_enqueue_script( 'media-upload' );
 			wp_enqueue_script( 'custom-header' );
 			if ( current_theme_supports( 'custom-header', 'header-text' ) )
-				wp_enqueue_script('farbtastic');
+				wp_enqueue_script( 'wp-color-picker' );
 		} elseif ( 2 == $step ) {
 			wp_enqueue_script('imgareaselect');
 		}
@@ -190,7 +190,7 @@ class Custom_Image_Header {
 		$step = $this->step();
 
 		if ( ( 1 == $step || 3 == $step ) && current_theme_supports( 'custom-header', 'header-text' ) )
-			wp_enqueue_style('farbtastic');
+			wp_enqueue_style( 'wp-color-picker' );
 		elseif ( 2 == $step )
 			wp_enqueue_style('imgareaselect');
 	}
@@ -332,7 +332,6 @@ class Custom_Image_Header {
 	function js_1() { ?>
 <script type="text/javascript">
 /* <![CDATA[ */
-var farbtastic;
 (function($){
 	var default_color = '#<?php echo get_theme_support( 'custom-header', 'default-text-color' ); ?>',
 		header_text_fields;
@@ -341,7 +340,6 @@ var farbtastic;
 		$('#name').css('color', color);
 		$('#desc').css('color', color);
 		$('#text-color').val(color);
-		farbtastic.setColor(color);
 	}
 
 	function toggle_text() {
@@ -360,45 +358,20 @@ var farbtastic;
 	}
 
 	$(document).ready(function() {
+		var text_color = $('#text-color');
 		header_text_fields = $('.displaying-header-text');
-		$('#pickcolor').click(function(e) {
-			e.preventDefault();
-			$('#color-picker').show();
+		text_color.wpColorPicker({
+			change: function( event, ui ) {
+				pickColor( text_color.wpColorPicker('color') );
+			},
+			clear: function() {
+				pickColor( '' );
+			}
 		});
-
 		$('#display-header-text').click( toggle_text );
-
-		$('#defaultcolor').click(function() {
-			pickColor(default_color);
-			$('#text-color').val(default_color);
-		});
-
-		$('#text-color').keyup(function() {
-			var _hex = $('#text-color').val();
-			var hex = _hex;
-			if ( hex[0] != '#' )
-				hex = '#' + hex;
-			hex = hex.replace(/[^#a-fA-F0-9]+/, '');
-			if ( hex != _hex )
-				$('#text-color').val(hex);
-			if ( hex.length == 4 || hex.length == 7 )
-				pickColor( hex );
-		});
-
-		$(document).mousedown(function(){
-			$('#color-picker').each( function() {
-				var display = $(this).css('display');
-				if (display == 'block')
-					$(this).fadeOut(2);
-			});
-		});
-
-		farbtastic = $.farbtastic('#color-picker', function(color) { pickColor(color); });
-		<?php if ( display_header_text() ) { ?>
-		pickColor('#<?php echo get_header_textcolor(); ?>');
-		<?php } else { ?>
+		<?php if ( ! display_header_text() ) : ?>
 		toggle_text();
-		<?php } ?>
+		<?php endif; ?>
 	});
 })(jQuery);
 /* ]]> */
@@ -647,14 +620,14 @@ var farbtastic;
 <th scope="row"><?php _e( 'Text Color' ); ?></th>
 <td>
 	<p>
-<?php if ( display_header_text() ) : ?>
-		<input type="text" name="text-color" id="text-color" value="#<?php echo esc_attr( get_header_textcolor() ); ?>" />
-<?php else : ?>
-		<input type="text" name="text-color" id="text-color" value="#<?php echo esc_attr( get_theme_support( 'custom-header', 'default-text-color' ) ); ?>" />
-<?php endif; ?>
-		<a href="#" class="hide-if-no-js" id="pickcolor"><?php _e( 'Select a Color' ); ?></a>
+<?php
+$header_textcolor = display_header_text() ? get_header_textcolor() : get_theme_support( 'custom-header', 'default-text-color' );
+$default_color = '';
+if ( current_theme_supports( 'custom-header', 'default-text-color' ) )
+	$default_color = ' data-default-color="#' . esc_attr( get_theme_support( 'custom-header', 'default-text-color' ) ) . '"';
+?>
+		<input type="text" name="text-color" id="text-color" value="#<?php echo esc_attr( $header_textcolor ); ?>"<?php echo $default_color; ?> />
 	</p>
-	<div id="color-picker" style="z-index: 100; background:#eee; border:1px solid #ccc; position:absolute; display:none;"></div>
 </td>
 </tr>
 

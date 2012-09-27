@@ -109,27 +109,16 @@
 	api.ColorControl = api.Control.extend({
 		ready: function() {
 			var control = this,
-				rhex, spot, input, text, update;
+				picker = this.container.find('.color-picker-hex');
 
-			rhex   = /^#([A-Fa-f0-9]{3}){0,2}$/;
-			spot   = this.container.find('.dropdown-content');
-			input  = new api.Element( this.container.find('.color-picker-hex') );
-			update = function( color ) {
-				spot.css( 'background', color );
-				control.farbtastic.setColor( color );
-			};
-
-			this.farbtastic = $.farbtastic( this.container.find('.farbtastic-placeholder'), control.setting.set );
-
-			// Only pass through values that are valid hexes/empty.
-			input.sync( this.setting ).validate = function( to ) {
-				return rhex.test( to ) ? to : null;
-			};
-
-			this.setting.bind( update );
-			update( this.setting() );
-
-			this.dropdownInit();
+			picker.val( control.setting() ).wpColorPicker({
+				change: function( event, options ) {
+					control.setting.set( picker.wpColorPicker('color') );
+ 				},
+ 				clear: function() {
+ 					control.setting.set( false );
+ 				}
+			});
 		}
 	});
 
