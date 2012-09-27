@@ -169,20 +169,16 @@ class WP_Http {
 		if ( WP_Http_Encoding::is_available() )
 			$r['headers']['Accept-Encoding'] = WP_Http_Encoding::accept_encoding();
 
-		if ( empty($r['body']) ) {
-			$r['body'] = null;
-			// Some servers fail when sending content without the content-length header being set.
-			// Also, to fix another bug, we only send when doing POST and PUT and the content-length
-			// header isn't already set.
-			if ( ($r['method'] == 'POST' || $r['method'] == 'PUT') && ! isset( $r['headers']['Content-Length'] ) )
-				$r['headers']['Content-Length'] = 0;
-		} else {
+		if ( strlen( $r['body'] ) || 'POST' == $r['method'] || 'PUT' == $r['method'] ) {
 			if ( is_array( $r['body'] ) || is_object( $r['body'] ) ) {
 				$r['body'] = http_build_query( $r['body'], null, '&' );
+
 				if ( ! isset( $r['headers']['Content-Type'] ) )
 					$r['headers']['Content-Type'] = 'application/x-www-form-urlencoded; charset=' . get_option( 'blog_charset' );
-				$r['headers']['Content-Length'] = strlen( $r['body'] );
 			}
+
+			if ( '' === $r['body'] )
+				$r['body'] = null;
 
 			if ( ! isset( $r['headers']['Content-Length'] ) && ! isset( $r['headers']['content-length'] ) )
 				$r['headers']['Content-Length'] = strlen( $r['body'] );
@@ -914,7 +910,7 @@ class WP_Http_Streams {
 				$arrContext['http']['header'] .= $proxy->authentication_header() . "\r\n";
 		}
 
-		if ( ! empty($r['body'] ) )
+		if ( ! is_null( $r['body'] ) )
 			$arrContext['http']['content'] = $r['body'];
 
 		$context = stream_context_create($arrContext);
@@ -1107,7 +1103,7 @@ class WP_Http_Curl {
 				break;
 			default:
 				curl_setopt( $handle, CURLOPT_CUSTOMREQUEST, $r['method'] );
-				if ( ! empty( $r['body'] ) )
+				if ( ! is_null( $r['body'] ) )
 					curl_setopt( $handle, CURLOPT_POSTFIELDS, $r['body'] );
 				break;
 		}
