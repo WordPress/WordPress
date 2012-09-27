@@ -142,11 +142,29 @@ if ( typeof wp === 'undefined' )
 
 		this.uploader.bind( 'FilesAdded', function( up, files ) {
 			_.each( files, function( file ) {
-				file.attachment = wp.media.model.Attachment.create( _.extend({
+				var attributes, image;
+
+				// Generate attributes for a new `Attachment` model.
+				attributes = _.extend({
 					file:      file,
 					uploading: true,
 					date:      new Date()
-				}, _.pick( file, 'loaded', 'size', 'percent' ) ) );
+				}, _.pick( file, 'loaded', 'size', 'percent' ) );
+
+				// Handle early mime type scanning for images.
+				image = /(?:jpe?g|png|gif)$/i.exec( file.name );
+
+				// Did we find an image?
+				if ( image ) {
+					attributes.type = 'image';
+
+					// `jpeg`, `png` and `gif` are valid subtypes.
+					// `jpg` is not, so map it to `jpeg`.
+					attributes.subtype = ( 'jpg' === image[0] ) ? 'jpeg' : image[0];
+				}
+
+				// Create the `Attachment`.
+				file.attachment = wp.media.model.Attachment.create( attributes );
 
 				Uploader.queue.add( file.attachment );
 
