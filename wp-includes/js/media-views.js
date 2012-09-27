@@ -19,6 +19,7 @@
 	 */
 	media.controller.Workflow = Backbone.Model.extend({
 		defaults: {
+			title:     '',
 			multiple:  false,
 			view:      'library',
 			library:   {},
@@ -193,9 +194,9 @@
 
 		initialize: function() {
 			this.controller = this.options.controller;
+			this.controller.on( 'change:title', this.render, this );
 
 			_.defaults( this.options, {
-				title: '',
 				container: document.body
 			});
 		},
@@ -208,7 +209,7 @@
 			// `this.$el.html()` from garbage collecting its events.
 			this.options.$content.detach();
 
-			this.$el.html( this.template( this.options ) );
+			this.$el.html( this.template( this.controller.toJSON() ) );
 			this.$('.media-modal-content').append( this.options.$content );
 			return this;
 		},
@@ -241,11 +242,6 @@
 
 			// Set and render the content.
 			this.options.$content = ( $content instanceof Backbone.View ) ? $content.$el : $content;
-			return this.render();
-		},
-
-		title: function( title ) {
-			this.options.title = title;
 			return this.render();
 		}
 	});

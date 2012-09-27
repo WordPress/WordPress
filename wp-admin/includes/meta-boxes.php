@@ -1031,6 +1031,7 @@ function post_thumbnail_meta_box( $post ) {
 
 			if ( ! workflow ) {
 				workflow = wp.media({
+					title:   title,
 					library: {
 						type: 'image'
 					}
@@ -1058,7 +1059,6 @@ function post_thumbnail_meta_box( $post ) {
 						width:  size.width
 					}).prependTo( $element );
 				});
-				workflow.modal.title( title );
 			}
 
 			workflow.modal.open();
