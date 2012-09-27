@@ -65,8 +65,7 @@
 	margin-left: 5px;
 }
 
-.customize-section input[type="text"].color-picker-hex,
-.customize-control-color .farbtastic-placeholder {
+.customize-section input[type="text"].color-picker-hex {
 	float: right;
 }
 

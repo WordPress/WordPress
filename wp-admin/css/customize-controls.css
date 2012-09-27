@@ -312,13 +312,11 @@ body {
 /*
  * Color Picker
  */
-.customize-control-color .color-picker-hex,
-.customize-control-color .farbtastic-placeholder {
+.customize-control-color .color-picker-hex {
 	display: none;
 }
 
-.customize-control-color.open .color-picker-hex,
-.customize-control-color.open .farbtastic-placeholder {
+.customize-control-color.open .color-picker-hex {
 	display: block;
 }
 
@@ -337,8 +335,7 @@ body {
 }
 
 .customize-section input[type="text"].color-picker-hex {
-	float: left;
-	width: 85px;
+	width: 65px;
 	font-family: monospace;
 	text-align: center;
 }
@@ -349,16 +346,6 @@ body {
 }
 .customize-section input[type="text"].color-picker-hex:-moz-placeholder {
 	color: #999;
-}
-
-.customize-control-color .farbtastic-placeholder {
-	width: 100%;
-	margin: 5px 0 10px;
-	float: left;
-}
-
-.customize-control-color .farbtastic {
-	margin: 0 auto;
 }
 
 /*
