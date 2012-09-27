@@ -155,6 +155,26 @@ function install_plugins_upload( $page = 1 ) {
 add_action('install_plugins_upload', 'install_plugins_upload', 10, 1);
 
 /**
+ * Show a username form for the favorites page
+ * @since 3.5.0
+ *
+ */
+function install_plugins_favorites_form() {
+	$user = ! empty( $_GET['user'] ) ? stripslashes( $_GET['user'] ) : get_user_option( 'wporg_favorites' );
+	?>
+	<p class="install-help"><?php _e( 'If you have marked plugins as favorites on WordPress.org, you can browse them here.' ); ?></p>
+	<form method="get" action="">
+		<input type="hidden" name="tab" value="favorites" />
+		<p>
+			<label for="user"><?php _e( 'Your WordPress.org username:' ); ?></label>
+			<input type="search" id="user" name="user" value="<?php echo esc_attr( $user ); ?>" />
+			<input type="submit" class="button" value="<?php esc_attr_e( 'Get Favorites' ); ?>" />
+		</p>
+	</form>
+	<?php
+}
+
+/**
  * Display plugin content based on plugin list.
  *
  * @since 2.7.0
@@ -162,12 +182,16 @@ add_action('install_plugins_upload', 'install_plugins_upload', 10, 1);
 function display_plugins_table() {
 	global $wp_list_table;
 
+	if ( current_filter() == 'install_plugins_favorites' && empty( $_GET['user'] ) && ! get_user_option( 'wporg_favorites' ) )
+			return;
+
 	$wp_list_table->display();
 }
-add_action('install_plugins_search', 'display_plugins_table');
-add_action('install_plugins_featured', 'display_plugins_table');
-add_action('install_plugins_popular', 'display_plugins_table');
-add_action('install_plugins_new', 'display_plugins_table');
+add_action( 'install_plugins_search',    'display_plugins_table' );
+add_action( 'install_plugins_featured',  'display_plugins_table' );
+add_action( 'install_plugins_popular',   'display_plugins_table' );
+add_action( 'install_plugins_new',       'display_plugins_table' );
+add_action( 'install_plugins_favorites', 'display_plugins_table' );
 
 /**
  * Determine the status we can perform on a plugin.

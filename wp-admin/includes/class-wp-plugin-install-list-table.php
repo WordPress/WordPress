@@ -29,10 +29,11 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		$tabs['dashboard'] = __( 'Search' );
 		if ( 'search' == $tab )
 			$tabs['search']	= __( 'Search Results' );
-		$tabs['upload'] = __( 'Upload' );
-		$tabs['featured'] = _x( 'Featured','Plugin Installer' );
-		$tabs['popular']  = _x( 'Popular','Plugin Installer' );
-		$tabs['new']      = _x( 'Newest','Plugin Installer' );
+		$tabs['upload']    = __( 'Upload' );
+		$tabs['featured']  = _x( 'Featured', 'Plugin Installer' );
+		$tabs['popular']   = _x( 'Popular', 'Plugin Installer' );
+		$tabs['new']       = _x( 'Newest', 'Plugin Installer' );
+		$tabs['favorites'] = _x( 'Favorites', 'Plugin Installer' );
 
 		$nonmenu_tabs = array( 'plugin-information' ); //Valid actions to perform which do not have a Menu item.
 
@@ -69,6 +70,17 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			case 'popular':
 			case 'new':
 				$args['browse'] = $tab;
+				break;
+
+			case 'favorites':
+				$user = isset( $_GET['user'] ) ? stripslashes( $_GET['user'] ) : get_user_option( 'wporg_favorites' );
+				update_user_meta( get_current_user_id(), 'wporg_favorites', $user );
+				if ( $user )
+					$args['user'] = $user;
+				else
+					$args = false;
+
+				add_action( 'install_plugins_favorites', 'install_plugins_favorites_form', 9, 0 );
 				break;
 
 			default:
