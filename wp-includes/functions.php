@@ -1496,11 +1496,20 @@ function wp_upload_dir( $time = null ) {
 		$url = trailingslashit( $siteurl ) . UPLOADS;
 	}
 
-	// Multisite (if not the main site in a post-MU network)
+	// If multisite (if not the main site in a post-MU network)
 	if ( is_multisite() && ! ( is_main_site() && defined( 'MULTISITE' ) ) ) {
+
 		if ( ! get_site_option( 'ms_files_rewriting' ) ) {
-			// Append sites/%d if we're not on the main site (for post-MU networks).
-			$ms_dir = '/sites/' . get_current_blog_id();
+			// Append sites/%d if we're not on the main site (for post-MU networks). The extra directory
+			// prevents a four-digit ID from conflict with a year-based directory for the main site.
+			// If a MU-era network disables ms-files rewriting manually, they don't need the extra
+			// directory, as they never had wp-content/uploads for the main site.
+
+			if ( defined( 'MULTISITE' ) )
+				$ms_dir = '/sites/' . get_current_blog_id();
+			else
+				$ms_dir = '/' . get_current_blog_id();
+
 			$dir .= $ms_dir;
 			$url .= $ms_dir;
 		} elseif ( ! ms_is_switched() ) {
