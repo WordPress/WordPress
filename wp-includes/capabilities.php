@@ -1135,6 +1135,12 @@ function map_meta_cap( $cap, $user_id ) {
 		else
 			$caps = map_meta_cap( 'edit_post', $user_id, $post->ID );
 		break;
+	case 'publish_post':
+		$post = get_post( $args[0] );
+		$post_type = get_post_type_object( $post->post_type );
+
+		$caps[] = $post_type->cap->publish_posts;
+		break;
 	case 'edit_post_meta':
 	case 'delete_post_meta':
 	case 'add_post_meta':
