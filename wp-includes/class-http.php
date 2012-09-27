@@ -169,7 +169,7 @@ class WP_Http {
 		if ( WP_Http_Encoding::is_available() )
 			$r['headers']['Accept-Encoding'] = WP_Http_Encoding::accept_encoding();
 
-		if ( strlen( $r['body'] ) || 'POST' == $r['method'] || 'PUT' == $r['method'] ) {
+		if ( ( ! is_null( $r['body'] ) && '' != $r['body'] ) || 'POST' == $r['method'] || 'PUT' == $r['method'] ) {
 			if ( is_array( $r['body'] ) || is_object( $r['body'] ) ) {
 				$r['body'] = http_build_query( $r['body'], null, '&' );
 
