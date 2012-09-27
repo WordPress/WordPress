@@ -200,12 +200,7 @@
 
 /* Separator */
 .wp_themeSkin .mceSeparator {
-	height: 24px;
-	width: 1px;
-	display: block;
-	background: transparent;
-	overflow: hidden;
-	margin: 0 2px;
+	display: none;
 }
 
 /* ListBox */
@@ -316,7 +311,7 @@
 	height: 20px;
 	width: 20px;
 	padding: 1px 2px;
-	border-right: 0 none !important;
+	border-right: 0 none;
 }
 
 .wp_themeSkin .mceSplitButton span.mceAction {
@@ -332,17 +327,6 @@
 	background-position: 0px 2px;
 	background-repeat: no-repeat;
 	padding: 1px 0;
-}
-
-.wp_themeSkin .mceSplitButtonActive a.mceOpen,
-.wp_themeSkin .mceSplitButtonSelected a.mceOpen,
-.wp_themeSkin .mceSplitButton a.mceOpen:hover {
-	width: 12px;
-	border-left: 1px solid transparent !important;
-	background-position: 2px 2px !important;
-	position: relative;
-	left: -1px;
-	margin-right: -1px;
 }
 
 .wp_themeSkin .mceSplitButton span.mceOpen {
@@ -756,7 +740,7 @@
 
 .wp_themeSkin .mceSplitButton .mce_forecolor span.mce_forecolor {background-position:-320px -20px}
 .wp_themeSkin .mceSplitButtonEnabled:hover span.mce_forecolor,
-.wp_themeSkin .mceSplitButtonActive span.mce_forecolor {background-position:-320px 0}
+.wp_themeSkin .mceSplitButtonSelected span.mce_forecolor {background-position:-320px 0}
 
 .wp_themeSkin .mce_forecolorpicker {background-position:-320px -20px}
 
@@ -785,7 +769,7 @@
 .wp_themeSkin .mceButtonEnabled:hover span.mce_spellchecker,
 .wp_themeSkin .mceSplitButtonEnabled:hover span.mce_spellchecker,
 .wp_themeSkin .mceButtonActive span.mce_spellchecker,
-.wp_themeSkin .mceSplitButtonActive span.mce_spellchecker {background-position:-220px 0}
+.wp_themeSkin .mceSplitButtonSelected span.mce_spellchecker {background-position:-220px 0}
 
 .wp_themeSkin span.mce_wp_help {background-position:-520px -20px}
 .wp_themeSkin .mceButtonEnabled:hover span.mce_wp_help,
@@ -905,7 +889,8 @@
 	border-color: transparent;
 }
 
-.wp_themeSkin a.mceButtonEnabled:hover {
+.wp_themeSkin a.mceButtonEnabled:hover,
+.wp_themeSkin table.mceSplitButton:hover {
 	border-color: #bbb;
 	background: #eee;
 	background-image: -webkit-gradient(linear, left bottom, left top, from(#e5e5e5), to(#fff));
@@ -920,7 +905,9 @@
 .wp_themeSkin a.mceButtonSelected:active,
 .wp_themeSkin a.mceButtonActive,
 .wp_themeSkin a.mceButtonActive:active,
-.wp_themeSkin a.mceButtonActive:hover {
+.wp_themeSkin a.mceButtonActive:hover,
+.wp_themeSkin .mceSplitButtonSelected table,
+.wp_themeSkin .mceSplitButtonSelected table:hover {
 	outline: none;
 	border-color: #999 #ccc #ccc #999;
 	background: #eee;
@@ -931,12 +918,17 @@
 	background-image: linear-gradient(to top, #f6f6f6, #e3e3e3);
 }
 
+.wp_themeSkin .mceSplitButtonSelected table a.mceOpen,
+.wp_themeSkin .mceSplitButtonSelected table a.mceAction {
+	border-color: #999 #ccc #ccc #999;
+}
+
 .wp_themeSkin .mceButtonDisabled {
-	border-color: transparent !important;
+	border-color: transparent;
 }
 
 .wp_themeSkin .mceListBox .mceOpen {
-	border-left: 0 !important;
+	border-left: 0;
 }
 
 .wp_themeSkin .mceListBoxEnabled:hover,
@@ -951,7 +943,7 @@
 
 /* SplitButton */
 .wp_themeSkin .mceSplitButton .mceLast span.mceOpen .mceIconOnly {
-	display: block !important;
+	display: block;
 }
 
 .wp_themeSkin .mceSplitButton a.mceAction,
@@ -959,11 +951,7 @@
 	border-color: transparent;
 }
 
-.wp_themeSkin .mceSplitButton:hover a.mceOpen,
-.wp_themeSkin .mceSplitButtonSelected a.mceOpen,
-.wp_themeSkin .mceSplitButtonSelected a.mceAction,
-.wp_themeSkin table.mceSplitButtonEnabled:hover a.mceAction,
-.wp_themeSkin .mceSplitButton a.mceAction:hover {
+.wp_themeSkin .mceSplitButton:hover a {
 	border-color: #bbb;
 }
 
@@ -974,50 +962,10 @@
 	background-image: url("../images/down_arrow.gif");
 	background-position: 1px 2px;
 	background-repeat: no-repeat;
-}
-
-.wp_themeSkin .mceSplitButtonSelected td {
-	background-color: #ddd;
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#fff), to(#ccc));
-	background-image: -webkit-linear-gradient(bottom, #fff, #ccc);
-	background-image:    -moz-linear-gradient(bottom, #fff, #ccc);
-	background-image:      -o-linear-gradient(bottom, #fff, #ccc);
-	background-image: linear-gradient(to top, #fff, #ccc);
-}
-
-.wp_themeSkin table.mceSplitButton:hover td {
-	border-color: #bbb;
-	background-color: #eee;
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#ccc), to(#fff));
-	background-image: -webkit-linear-gradient(bottom, #ccc, #fff);
-	background-image:    -moz-linear-gradient(bottom, #ccc, #fff);
-	background-image:      -o-linear-gradient(bottom, #ccc, #fff);
-	background-image: linear-gradient(to top, #ccc, #fff);
-}
-
-.wp_themeSkin table.mceSplitButton:active td.mceFirst,
-.wp_themeSkin table.mceSplitButton td.mceLast:active {
-	border-color: #bbb;
-	background-color: #ddd;
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#fff), to(#ccc));
-	background-image: -webkit-linear-gradient(bottom, #fff, #ccc);
-	background-image:    -moz-linear-gradient(bottom, #fff, #ccc);
-	background-image:      -o-linear-gradient(bottom, #fff, #ccc);
-	background-image: linear-gradient(to top, #fff, #ccc);
-}
-
-.wp_themeSkin .mceSplitButtonActive td a.mceAction,
-.wp_themeSkin .mceSplitButtonActive td a.mceOpen {
-	border-color: #bbb;
+	border-left: 0;
 }
 
 .wp_themeSkin .mceSplitButtonActive td {
-	background-color: #ddd;
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#fff), to(#ccc));
-	background-image: -webkit-linear-gradient(bottom, #fff, #ccc);
-	background-image:    -moz-linear-gradient(bottom, #fff, #ccc);
-	background-image:      -o-linear-gradient(bottom, #fff, #ccc);
-	background-image: linear-gradient(to top, #fff, #ccc);
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 }
