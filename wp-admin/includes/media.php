@@ -377,6 +377,11 @@ document.body.className = document.body.className.replace('no-js', 'js');
  * @param string $editor_id
  */
 function media_buttons($editor_id = 'content') {
+	wp_enqueue_script( 'media-upload' );
+	wp_enqueue_style( 'media-views' );
+	wp_plupload_default_settings();
+	add_action( 'admin_footer', 'wp_print_media_templates' );
+
 	$context = apply_filters('media_buttons_context', __('Upload/Insert %s'));
 
 	$img = '<img src="' . esc_url( admin_url( 'images/media-button.png?ver=20111005' ) ) . '" width="16" height="16" />';

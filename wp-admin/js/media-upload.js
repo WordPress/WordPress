@@ -148,5 +148,5 @@ var tb_position;
 		}
 	};
 
-	$( wp.mce.media.init )
+	$( wp.mce.media.init );
 }(jQuery));
