@@ -1075,7 +1075,8 @@ Disable these notifications: %3s'), $user->user_login, $_SERVER['REMOTE_ADDR'], 
  */
 function domain_exists($domain, $path, $site_id = 1) {
 	global $wpdb;
-	return $wpdb->get_var( $wpdb->prepare("SELECT blog_id FROM $wpdb->blogs WHERE domain = %s AND path = %s AND site_id = %d", $domain, $path, $site_id) );
+	$result = $wpdb->get_var( $wpdb->prepare("SELECT blog_id FROM $wpdb->blogs WHERE domain = %s AND path = %s AND site_id = %d", $domain, $path, $site_id) );
+	return apply_filters( 'domain_exists', $result, $domain, $path, $site_id );
 }
 
 /**
