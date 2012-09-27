@@ -359,45 +359,68 @@ if ( typeof wp === 'undefined' )
 // Default TinyMCE Views
 // ---------------------
 (function($){
-	var mceview = wp.mce.view,
-		mceFreeAttrs;
+	var mceview = wp.mce.view;
+
+	wp.media.string = {};
+	wp.media.string.image = function( attachment, props ) {
+		var classes, img, options, size;
+
+		attachment = attachment.toJSON();
+
+		props = _.defaults( props || {}, {
+			img:   {},
+			align: getUserSetting( 'align', 'none' ),
+			size:  getUserSetting( 'imgsize', 'medium' ),
+			link:  getUserSetting( 'urlbutton', 'post' )
+		});
+
+		img     = _.clone( props.img );
+		classes = img['class'] ? img['class'].split(/\s+/) : [];
+		size    = attachment.sizes ? attachment.sizes[ props.size ] : {};
+
+		if ( ! size )
+			delete props.size;
+
+		img.width  = size.width  || attachment.width;
+		img.height = size.height || attachment.height;
+		img.src    = size.url    || attachment.url;
+
+		// Update `img` classes.
+		if ( props.align )
+			classes.push( 'align' + props.align );
+
+		if ( props.size )
+			classes.push( 'size-' + props.size );
+
+		classes.push( 'wp-image-' + attachment.id );
+
+		img['class'] = _.compact( classes ).join(' ');
+
+		// Generate `img` tag options.
+		options = {
+			tag:    'img',
+			attrs:  img,
+			single: true
+		};
+
+		// Generate the `a` element options, if they exist.
+		if ( props.anchor ) {
+			options = {
+				tag:     'a',
+				attrs:   props.anchor,
+				content: options
+			};
+		}
+
+		return wp.html.string( options );
+	};
 
 	mceview.add( 'attachment', {
 		pattern: new RegExp( '(?:<a([^>]*)>)?<img([^>]*class=(?:"[^"]*|\'[^\']*)\\bwp-image-(\\d+)[^>]*)>(?:</a>)?' ),
 
 		text: function( instance ) {
-			var img     = _.clone( instance.img ),
-				classes = img['class'].split(/\s+/),
-				options;
-
-			// Update `img` classes.
-			if ( instance.align )
-				classes.push( 'align' + instance.align );
-
-			if ( instance.size )
-				classes.push( 'size-' + instance.size );
-
-			classes.push( 'wp-image-' + instance.model.id );
-
-			img['class'] = _.compact( classes ).join(' ');
-
-			// Generate `img` tag options.
-			options = {
-				tag:    'img',
-				attrs:  img,
-				single: true
-			};
-
-			// Generate the `a` element options, if they exist.
-			if ( instance.anchor ) {
-				options = {
-					tag:     'a',
-					attrs:   instance.anchor,
-					content: options
-				};
-			}
-
-			return wp.html.string( options );
+			var props = _.pick( instance, 'align', 'size', 'link', 'img', 'anchor' );
+			return wp.media.string.image( instance.model, props );
 		},
 
 		view: {

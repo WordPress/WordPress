@@ -1008,7 +1008,7 @@
 
 .wp-editor-tools {
 	height: 30px;
-	padding: 0 10px;
+	padding: 0 10px 0 0;
 }
 
 .wp-editor-container {
@@ -1079,16 +1079,18 @@ html[dir="rtl"] .wp-switch-editor {
 	color: #555;
 }
 
-.wp-media-buttons {
-	line-height: 1;
-    padding: 9px 0 0;
+.wp-media-buttons .button {
+	margin-right: 5px;
+}
+
+.wp-media-buttons .insert-media {
+	padding-left: 0.4em;
 }
 
 .wp-media-buttons a {
 	text-decoration: none;
-	color: #333;
+	color: #464646;
 	font-size: 12px;
-	vertical-align: bottom;
 }
 
 .wp-media-buttons img {

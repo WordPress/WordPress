@@ -381,6 +381,8 @@ function media_buttons($editor_id = 'content') {
 
 	$img = '<img src="' . esc_url( admin_url( 'images/media-button.png?ver=20111005' ) ) . '" width="16" height="16" />';
 
+	echo '<a href="#" class="button insert-media" data-editor="' . esc_attr( $editor_id ) . '" title="' . esc_attr__( 'Add Media' ) . '">' . sprintf( __('%s Beta Media'), $img ) . '</a>';
+
 	echo '<a href="' . esc_url( get_upload_iframe_src() ) . '" class="thickbox add_media" id="' . esc_attr( $editor_id ) . '-add_media" title="' . esc_attr__( 'Add Media' ) . '" onclick="return false;">' . sprintf( $context, $img ) . '</a>';
 }
 add_action( 'media_buttons', 'media_buttons' );

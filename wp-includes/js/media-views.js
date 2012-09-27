@@ -116,6 +116,12 @@
 			return this;
 		},
 
+		update: function() {
+			this.close();
+			this.trigger( 'update', this.selection );
+			this.selection.clear();
+		},
+
 		createSelection: function() {
 			var controller = this;
 
@@ -479,7 +485,8 @@
 
 					'insert-into-post': {
 						text:     l10n.insertIntoPost,
-						priority: 30
+						priority: 30,
+						click:    _.bind( controller.update, controller )
 					},
 
 					'add-to-gallery': {
@@ -528,24 +535,23 @@
 			this.toolbarView = new media.view.Toolbar({
 				items: {
 					'return-to-library': {
-						text:  'Return to media library',
+						text:     l10n.returnToLibrary,
 						priority: -40,
+
 						click:  function() {
 							controller.render('library');
 						}
 					},
 
 					'insert-gallery-into-post': {
-						style: 'primary',
-						text:  'Insert gallery into post',
+						style:    'primary',
+						text:     l10n.insertGalleryIntoPost,
 						priority: 40,
-						click:  function() {
-							controller.close();
-						}
+						click:    _.bind( controller.update, controller )
 					},
 
-					'add-images': {
-						text:  'Add images from media library',
+					'add-images-from-library': {
+						text:     l10n.addImagesFromLibrary,
 						priority: 30
 					}
 				}

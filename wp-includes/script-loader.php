@@ -297,7 +297,7 @@ function wp_default_scripts( &$scripts ) {
 		'type' => 'characters' == _x( 'words', 'word count: words or characters?' ) ? 'c' : 'w',
 	) );
 
-	$scripts->add( 'media-upload', "/wp-admin/js/media-upload$suffix.js", array( 'thickbox' ), false, 1 );
+	$scripts->add( 'media-upload', "/wp-admin/js/media-upload$suffix.js", array( 'thickbox', 'mce-view' ), false, 1 );
 
 	$scripts->add( 'hoverIntent', "/wp-includes/js/hoverIntent$suffix.js", array('jquery'), 'r6', 1 );
 
@@ -317,12 +317,20 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'media-models', "/wp-includes/js/media-models$suffix.js", array( 'backbone', 'jquery' ), false, 1 );
 	$scripts->add( 'media-views',  "/wp-includes/js/media-views$suffix.js",  array( 'media-models', 'wp-plupload' ), false, 1 );
 	did_action( 'init' ) && $scripts->localize( 'media-views', '_wpMediaViewsL10n', array(
-		'insertMedia'         => __( 'Insert Media' ),
-		'selectMediaSingular' => __( 'Select a media file:' ),
-		'selectMediaMultiple' => __( 'Select one or more media files:' ),
-		'createNewGallery'    => __( 'Create a new gallery' ),
-		'insertIntoPost'      => __( 'Insert into post' ),
-		'addToGallery'        => __( 'Add to gallery' ),
+		// Generic
+		'insertMedia'           => __( 'Insert Media' ),
+		'selectMediaSingular'   => __( 'Select a media file:' ),
+		'selectMediaMultiple'   => __( 'Select one or more media files:' ),
+
+		// Library
+		'createNewGallery'      => __( 'Create a new gallery' ),
+		'insertIntoPost'        => __( 'Insert into post' ),
+		'addToGallery'          => __( 'Add to gallery' ),
+
+		// Gallery
+		'returnToLibrary'       => __( 'Return to media library' ),
+		'insertGalleryIntoPost' => __( 'Insert gallery into post' ),
+		'addImagesFromLibrary'  => __( 'Add images from media library' ),
 	) );
 
 	$scripts->add( 'shortcode', "/wp-includes/js/shortcode$suffix.js", array( 'underscore' ), false, 1 );
