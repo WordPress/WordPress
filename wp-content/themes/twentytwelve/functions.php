@@ -115,20 +115,18 @@ function twentytwelve_scripts_styles() {
 
 	/* translators: If there are characters in your language that are not supported
 	   by Open Sans, translate this to 'off'. Do not translate into your own language. */
-	if ( 'off' == _x( 'on', 'Open Sans font: on or off', 'twentytwelve' ) ) {
-
+	if ( 'off' !== _x( 'on', 'Open Sans font: on or off', 'twentytwelve' ) ) {
 		$subsets = 'latin,latin-ext';
 
 		/* translators: To add an additional Open Sans character subset specific to your language, translate
 		   this to 'greek', 'cyrillic' or 'vietnamese'. Do not translate into your own language. */
+		$subset = _x( 'no-subset', 'Open Sans font: add new subset (greek, cyrillic, vietnamese)', 'twentytwelve' );
 
-		$subset = _x( ' ', 'Open Sans font: add new subset (greek, cyrllic, vietnamese)', 'twentytwelve' );
-
-		if ( $subset == 'cyrillic' )
+		if ( 'cyrillic' == $subset )
 			$subsets .= ',cyrillic,cyrillic-ext';
-		elseif ( $subset == 'greek' )
+		elseif ( 'greek' == $subset )
 			$subsets .= ',greek,greek-ext';
-		elseif ( $subsets == 'vietnamese' )
+		elseif ( 'vietnamese' == $subset )
 			$subsets .= ',vietnamese';
 
 		$protocol = is_ssl() ? 'https' : 'http';
