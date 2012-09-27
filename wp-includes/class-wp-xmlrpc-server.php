@@ -1258,6 +1258,13 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( empty( $post['ID'] ) )
 			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
 
+		if ( isset( $content_struct['if_not_modified_since'] ) ) {
+			// If the post has been modified since the date provided, return an error.
+			if ( mysql2date( 'U', $post['post_modified_gmt'] ) > $content_struct['if_not_modified_since']->getTimestamp() ) {
+				return new IXR_Error( 409, __( 'There is a revision of this post that is more recent.' ) );
+			}
+		}
+
 		// convert the date field back to IXR form
 		$post['post_date'] = $this->_convert_date( $post['post_date'] );
 
@@ -1475,7 +1482,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			if ( isset( $filter['order'] ) )
 				$query['order'] = $filter['order'];
 		}
-		
+
 		if ( isset( $filter['s'] ) ) {
 			$query['s'] = $filter['s'];
 		}
