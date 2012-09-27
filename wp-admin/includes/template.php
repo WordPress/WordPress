@@ -772,56 +772,6 @@ function wp_dropdown_roles( $selected = false ) {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * @since 2.3.0
- *
- * @param unknown_type $size
- * @return unknown
- */
-function wp_convert_hr_to_bytes( $size ) {
-	$size = strtolower($size);
-	$bytes = (int) $size;
-	if ( strpos($size, 'k') !== false )
-		$bytes = intval($size) * 1024;
-	elseif ( strpos($size, 'm') !== false )
-		$bytes = intval($size) * 1024 * 1024;
-	elseif ( strpos($size, 'g') !== false )
-		$bytes = intval($size) * 1024 * 1024 * 1024;
-	return $bytes;
-}
-
-/**
- * {@internal Missing Short Description}}
- *
- * @since 2.3.0
- *
- * @param unknown_type $bytes
- * @return unknown
- */
-function wp_convert_bytes_to_hr( $bytes ) {
-	$units = array( 0 => 'B', 1 => 'kB', 2 => 'MB', 3 => 'GB' );
-	$log = log( $bytes, 1024 );
-	$power = (int) $log;
-	$size = pow(1024, $log - $power);
-	return $size . $units[$power];
-}
-
-/**
- * {@internal Missing Short Description}}
- *
- * @since 2.5.0
- *
- * @return unknown
- */
-function wp_max_upload_size() {
-	$u_bytes = wp_convert_hr_to_bytes( ini_get( 'upload_max_filesize' ) );
-	$p_bytes = wp_convert_hr_to_bytes( ini_get( 'post_max_size' ) );
-	$bytes = apply_filters( 'upload_size_limit', min($u_bytes, $p_bytes), $u_bytes, $p_bytes );
-	return $bytes;
-}
-
-/**
  * Outputs the form used by the importers to accept the data to be imported
  *
  * @since 2.0.0
