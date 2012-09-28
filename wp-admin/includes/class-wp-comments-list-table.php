@@ -81,7 +81,8 @@ class WP_Comments_List_Table extends WP_List_Table {
 
 		$status_map = array(
 			'moderated' => 'hold',
-			'approved' => 'approve'
+			'approved' => 'approve',
+			'all' => '',
 		);
 
 		$args = array(
