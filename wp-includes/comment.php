@@ -193,7 +193,7 @@ class WP_Comment_Query {
 	/**
 	 * Metadata query container
 	 *
-	 * @since 3.?
+	 * @since 3.5.0
 	 * @access public
 	 * @var object WP_Meta_Query
 	 */
@@ -257,7 +257,7 @@ class WP_Comment_Query {
 		$cache_key = "get_comments:$key:$last_changed";
 
 		if ( $cache = wp_cache_get( $cache_key, 'comment' ) ) {
-			//return $cache;
+			return $cache;
 		}
 
 		$post_id = absint($post_id);
