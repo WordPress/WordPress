@@ -384,9 +384,9 @@ function media_buttons($editor_id = 'content') {
 
 	$context = apply_filters('media_buttons_context', __('Upload/Insert %s'));
 
-	$img = '<img src="' . esc_url( admin_url( 'images/media-button.png?ver=20111005' ) ) . '" width="16" height="16" />';
+	$img = '<span class="wp-media-buttons-icon"></span>';
 
-	echo '<a href="#" class="button insert-media" data-editor="' . esc_attr( $editor_id ) . '" title="' . esc_attr__( 'Add Media' ) . '">' . $img . ' Beta Media</a>';
+	echo '<a href="#" class="button insert-media add_media" data-editor="' . esc_attr( $editor_id ) . '" title="' . esc_attr__( 'Add Media' ) . '">' . $img . ' Beta Media</a>';
 
 	echo '<a href="' . esc_url( get_upload_iframe_src() ) . '" class="thickbox add_media" id="' . esc_attr( $editor_id ) . '-add_media" title="' . esc_attr__( 'Add Media' ) . '" onclick="return false;">' . sprintf( $context, $img ) . '</a>';
 }

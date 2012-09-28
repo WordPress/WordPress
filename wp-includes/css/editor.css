@@ -392,47 +392,6 @@
 	background-image: url('../images/wpicons.png?ver=20120720');
 }
 
-@media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
-	.wp_themeSkin span.mce_undo,
-	.wp_themeSkin span.mce_redo,
-	.wp_themeSkin span.mce_bullist,
-	.wp_themeSkin span.mce_numlist,
-	.wp_themeSkin span.mce_blockquote,
-	.wp_themeSkin span.mce_charmap,
-	.wp_themeSkin span.mce_bold,
-	.wp_themeSkin span.mce_italic,
-	.wp_themeSkin span.mce_underline,
-	.wp_themeSkin span.mce_justifyleft,
-	.wp_themeSkin span.mce_justifyright,
-	.wp_themeSkin span.mce_justifycenter,
-	.wp_themeSkin span.mce_justifyfull,
-	.wp_themeSkin span.mce_indent,
-	.wp_themeSkin span.mce_outdent,
-	.wp_themeSkin span.mce_link,
-	.wp_themeSkin span.mce_unlink,
-	.wp_themeSkin span.mce_help,
-	.wp_themeSkin span.mce_removeformat,
-	.wp_themeSkin span.mce_fullscreen,
-	.wp_themeSkin span.mce_wp_fullscreen,
-	.wp_themeSkin span.mce_media,
-	.wp_themeSkin span.mce_pastetext,
-	.wp_themeSkin span.mce_pasteword,
-	.wp_themeSkin span.mce_wp_help,
-	.wp_themeSkin span.mce_wp_adv,
-	.wp_themeSkin span.mce_wp_more,
-	.wp_themeSkin span.mce_strikethrough,
-	.wp_themeSkin span.mce_spellchecker,
-	.wp_themeSkin span.mce_forecolor,
-	.wp_themeSkin .mce_forecolorpicker,
-	.wp_themeSkin .mceSplitButton .mce_spellchecker span.mce_spellchecker,
-	.wp_themeSkin .mceSplitButton .mce_forecolor span.mce_forecolor,
-	.wp_themeSkin .mceSplitButton span.mce_numlist,
-	.wp_themeSkin .mceSplitButton span.mce_bullist {
-		background-image: url('../images/wpicons-2x.png?ver=20120720');
-		background-size: 560px 40px;
-	}
-}
-
 /* ColorSplitButton */
 .wp_themeSkin div.mceColorSplitMenu table {
 	background-color: #ebebeb;
@@ -1096,6 +1055,18 @@ html[dir="rtl"] .wp-switch-editor {
 .wp-media-buttons img {
 	padding: 0 4px;
 	vertical-align: middle;
+}
+
+.wp-media-buttons span.wp-media-buttons-icon {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	vertical-align: text-top;
+	margin: 0 2px;
+}
+
+.wp-media-buttons .add_media span.wp-media-buttons-icon {
+	background: url('../../wp-admin/images/media-button.png') no-repeat top left;
 }
 
 .quicktags-toolbar {
@@ -1868,10 +1839,9 @@ RTL
 	display: none;
 }
 
-#wp-fullscreen-buttons .mce_image .mce_image {
-	background-image: url('../../wp-admin/images/media-button.png?ver=20120201');
-	background-position: top left;
-	background-size: 100%;
+#wp-fullscreen-buttons #wp_fs_image span.mce_image {
+	background-image: url('../../wp-admin/images/media-button.png');
+	background-position: 2px 2px;
 }
 
 /* =Thickbox Adjustments
@@ -2048,4 +2018,53 @@ RTL
 /* =TinyMCE Adjustments
 -------------------------------------------------------------- */
 /* No RTL for now, this space intentionally left blank */
+
+
+/* HiDPI */
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
+	.wp_themeSkin span.mce_undo,
+	.wp_themeSkin span.mce_redo,
+	.wp_themeSkin span.mce_bullist,
+	.wp_themeSkin span.mce_numlist,
+	.wp_themeSkin span.mce_blockquote,
+	.wp_themeSkin span.mce_charmap,
+	.wp_themeSkin span.mce_bold,
+	.wp_themeSkin span.mce_italic,
+	.wp_themeSkin span.mce_underline,
+	.wp_themeSkin span.mce_justifyleft,
+	.wp_themeSkin span.mce_justifyright,
+	.wp_themeSkin span.mce_justifycenter,
+	.wp_themeSkin span.mce_justifyfull,
+	.wp_themeSkin span.mce_indent,
+	.wp_themeSkin span.mce_outdent,
+	.wp_themeSkin span.mce_link,
+	.wp_themeSkin span.mce_unlink,
+	.wp_themeSkin span.mce_help,
+	.wp_themeSkin span.mce_removeformat,
+	.wp_themeSkin span.mce_fullscreen,
+	.wp_themeSkin span.mce_wp_fullscreen,
+	.wp_themeSkin span.mce_media,
+	.wp_themeSkin span.mce_pastetext,
+	.wp_themeSkin span.mce_pasteword,
+	.wp_themeSkin span.mce_wp_help,
+	.wp_themeSkin span.mce_wp_adv,
+	.wp_themeSkin span.mce_wp_more,
+	.wp_themeSkin span.mce_strikethrough,
+	.wp_themeSkin span.mce_spellchecker,
+	.wp_themeSkin span.mce_forecolor,
+	.wp_themeSkin .mce_forecolorpicker,
+	.wp_themeSkin .mceSplitButton .mce_spellchecker span.mce_spellchecker,
+	.wp_themeSkin .mceSplitButton .mce_forecolor span.mce_forecolor,
+	.wp_themeSkin .mceSplitButton span.mce_numlist,
+	.wp_themeSkin .mceSplitButton span.mce_bullist {
+		background-image: url('../images/wpicons-2x.png?ver=20120720');
+		background-size: 560px 40px;
+	}
+
+	.wp-media-buttons .add_media span.wp-media-buttons-icon,
+	#wp-fullscreen-buttons #wp_fs_image span.mce_image {
+		background-image: url('../../wp-admin/images/media-button-2x.png');
+		background-size: 16px 16px;
+	}
+}
 
