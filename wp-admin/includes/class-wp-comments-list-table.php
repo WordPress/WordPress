@@ -21,7 +21,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 
 	var $pending_count = array();
 
-	function __construct() {
+	function __construct( $args = array() ) {
 		global $post_id;
 
 		$post_id = isset( $_REQUEST['p'] ) ? absint( $_REQUEST['p'] ) : 0;
@@ -33,6 +33,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 			'plural' => 'comments',
 			'singular' => 'comment',
 			'ajax' => true,
+			'screen' => isset( $args['screen'] ) ? $args['screen'] : null,
 		) );
 	}
 
