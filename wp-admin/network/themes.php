@@ -176,10 +176,21 @@ if ( $action ) {
 				exit;
 			} // Endif verify-delete
 
-			foreach ( $themes as $theme )
-				$delete_result = delete_theme( $theme, esc_url( add_query_arg( array('verify-delete' => 1), $_SERVER['REQUEST_URI'] ) ) );
+			foreach ( $themes as $theme ) {
+				$delete_result = delete_theme( $theme, esc_url( add_query_arg( array(
+					'verify-delete' => 1,
+					'action' => 'delete-selected',
+					'checked' => $_REQUEST['checked'],
+					'_wpnonce' => $_REQUEST['_wpnonce']
+				), network_admin_url( 'themes.php' ) ) ) );
+			}
+			
 			$paged = ( $_REQUEST['paged'] ) ? $_REQUEST['paged'] : 1;
-			wp_redirect( network_admin_url( "themes.php?deleted=".count( $themes )."&paged=$paged&s=$s" ) );
+			wp_redirect( add_query_arg( array(
+				'deleted' => count( $themes ),
+				'paged' => $paged,
+				's' => $s
+			), network_admin_url( 'themes.php' ) ) );
 			exit;
 			break;
 	}
