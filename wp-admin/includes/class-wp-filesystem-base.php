@@ -307,14 +307,14 @@ class WP_Filesystem_Base {
 		   if ($key = array_search($attarray[$i], $legal))
 			   $realmode .= $legal[$key];
 
-		$mode = str_pad($realmode, 9, '-');
+		$mode = str_pad($realmode, 10, '-', STR_PAD_LEFT);
 		$trans = array('-'=>'0', 'r'=>'4', 'w'=>'2', 'x'=>'1');
 		$mode = strtr($mode,$trans);
 
-		$newmode = '';
-		$newmode .= $mode[0] + $mode[1] + $mode[2];
-		$newmode .= $mode[3] + $mode[4] + $mode[5];
-		$newmode .= $mode[6] + $mode[7] + $mode[8];
+		$newmode = $mode[0];
+		$newmode .= $mode[1] + $mode[2] + $mode[3];
+		$newmode .= $mode[4] + $mode[5] + $mode[6];
+		$newmode .= $mode[7] + $mode[8] + $mode[9];
 		return $newmode;
 	}
 
