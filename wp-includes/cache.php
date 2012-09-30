@@ -184,6 +184,8 @@ function wp_cache_set($key, $data, $group = '', $expire = 0) {
  *
  * This changes the blog id used to create keys in blog specific groups.
  *
+ * @since 3.5.0
+ *
  * @param int $blog_id Blog ID
  */
 function wp_cache_switch_to_blog( $blog_id ) {
@@ -587,6 +589,8 @@ class WP_Object_Cache {
 	 * Switch the interal blog id.
 	 *
 	 * This changes the blog id used to create keys in blog specific groups.
+	 *
+	 * @since 3.5.0
 	 *
 	 * @param int $blog_id Blog ID
 	 */
