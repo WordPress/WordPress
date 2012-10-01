@@ -263,7 +263,7 @@ class WP_Comment_Query {
 			$approved = "comment_approved = '0'";
 		elseif ( 'approve' == $status )
 			$approved = "comment_approved = '1'";
-		elseif ( ! empty( $status ) )
+		elseif ( ! empty( $status ) && 'all' != $status )
 			$approved = $wpdb->prepare( "comment_approved = %s", $status );
 		else
 			$approved = "( comment_approved = '0' OR comment_approved = '1' )";
