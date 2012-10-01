@@ -476,12 +476,6 @@ function switch_to_blog( $new_blog, $deprecated = null ) {
 	$prev_blog_id = $GLOBALS['blog_id'];
 	$GLOBALS['blog_id'] = $new_blog;
 
-	if ( did_action( 'init' ) ) {
-		$wp_roles->reinit();
-		$current_user = wp_get_current_user();
-		$current_user->for_blog( $new_blog );
-	}
-
 	if ( function_exists( 'wp_cache_switch_to_blog' ) ) {
 		wp_cache_switch_to_blog( $new_blog );
 	} else {
@@ -501,6 +495,12 @@ function switch_to_blog( $new_blog, $deprecated = null ) {
 				wp_cache_add_global_groups( array( 'users', 'userlogins', 'usermeta', 'user_meta', 'site-transient', 'site-options', 'site-lookup', 'blog-lookup', 'blog-details', 'rss', 'global-posts' ) );
 			wp_cache_add_non_persistent_groups( array( 'comment', 'counts', 'plugins' ) );
 		}
+	}
+
+	if ( did_action( 'init' ) ) {
+		$wp_roles->reinit();
+		$current_user = wp_get_current_user();
+		$current_user->for_blog( $new_blog );
 	}
 
 	do_action( 'switch_blog', $new_blog, $prev_blog_id );
@@ -537,12 +537,6 @@ function restore_current_blog() {
 	$GLOBALS['blog_id'] = $blog;
 	$GLOBALS['table_prefix'] = $wpdb->prefix;
 
-	if ( did_action( 'init' ) ) {
-		$wp_roles->reinit();
-		$current_user = wp_get_current_user();
-		$current_user->for_blog( $blog );
-	}
-
 	if ( function_exists( 'wp_cache_switch_to_blog' ) ) {
 		wp_cache_switch_to_blog( $blog );
 	} else {
@@ -562,6 +556,12 @@ function restore_current_blog() {
 				wp_cache_add_global_groups( array( 'users', 'userlogins', 'usermeta', 'user_meta', 'site-transient', 'site-options', 'site-lookup', 'blog-lookup', 'blog-details', 'rss', 'global-posts' ) );
 			wp_cache_add_non_persistent_groups( array( 'comment', 'counts', 'plugins' ) );
 		}
+	}
+
+	if ( did_action( 'init' ) ) {
+		$wp_roles->reinit();
+		$current_user = wp_get_current_user();
+		$current_user->for_blog( $blog );
 	}
 
 	do_action( 'switch_blog', $blog, $prev_blog_id );
