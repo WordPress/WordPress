@@ -1203,6 +1203,7 @@ function get_settings_errors( $setting = '', $sanitize = false ) {
 
 	// Filter the results to those of a specific setting if one was set
 	if ( $setting ) {
+		$setting_errors = array();
 		foreach ( (array) $wp_settings_errors as $key => $details ) {
 			if ( $setting == $details['setting'] )
 				$setting_errors[] = $wp_settings_errors[$key];
