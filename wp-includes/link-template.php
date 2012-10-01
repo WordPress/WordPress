@@ -1214,11 +1214,13 @@ function get_adjacent_post_rel_link($title = '%title', $in_same_cat = false, $ex
 		return;
 
 	if ( empty($post->post_title) )
-		$post->post_title = $previous ? __('Previous Post') : __('Next Post');
+		$post_title = $previous ? __('Previous Post') : __('Next Post');
+	else
+		$post_title = $post->post_title;
 
 	$date = mysql2date(get_option('date_format'), $post->post_date);
 
-	$title = str_replace('%title', $post->post_title, $title);
+	$title = str_replace('%title', $post_title, $title);
 	$title = str_replace('%date', $date, $title);
 	$title = apply_filters('the_title', $title, $post->ID);
 
