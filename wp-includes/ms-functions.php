@@ -332,27 +332,27 @@ function get_blog_permalink( $blog_id, $post_id ) {
  *
  * @param string $domain
  * @param string $path Optional. Not required for subdomain installations.
- * @return int
+ * @return int 0 if no blog found, otherwise the ID of the matching blog
  */
 function get_blog_id_from_url( $domain, $path = '/' ) {
 	global $wpdb;
 
-	$domain = strtolower( $wpdb->escape( $domain ) );
-	$path = strtolower( $wpdb->escape( $path ) );
+	$domain = strtolower( $domain );
+	$path = strtolower( $path );
 	$id = wp_cache_get( md5( $domain . $path ), 'blog-id-cache' );
 
-	if ( $id == -1 ) { // blog does not exist
+	if ( $id == -1 ) // blog does not exist
 		return 0;
-	} elseif ( $id ) {
-		return (int)$id;
-	}
+	elseif ( $id )
+		return (int) $id;
 
-	$id = $wpdb->get_var( "SELECT blog_id FROM $wpdb->blogs WHERE domain = '$domain' and path = '$path' /* get_blog_id_from_url */" );
+	$id = $wpdb->get_var( $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE domain = %s and path = %s /* get_blog_id_from_url */", $domain, $path ) );
 
-	if ( !$id ) {
+	if ( ! $id ) {
 		wp_cache_set( md5( $domain . $path ), -1, 'blog-id-cache' );
-		return false;
+		return 0;
 	}
+
 	wp_cache_set( md5( $domain . $path ), $id, 'blog-id-cache' );
 
 	return $id;

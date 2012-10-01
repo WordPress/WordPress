@@ -55,13 +55,12 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
 	global $wpdb, $current_site;
 
 	$switch = false;
-	if ( $blog_id != $wpdb->blogid ) {
+	if ( get_current_blog_id() != $blog_id ) {
 		$switch = true;
 		switch_to_blog( $blog_id );
-		$blog = get_blog_details( $blog_id );
-	} else {
-		$blog = $GLOBALS['current_blog'];
 	}
+
+	$blog = get_blog_details( $blog_id );
 
 	do_action( 'delete_blog', $blog_id, $drop );
 
@@ -81,7 +80,6 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
 		$drop = false;
 
 	if ( $drop ) {
-
 		$drop_tables = apply_filters( 'wpmu_drop_tables', $wpdb->tables( 'blog' ) );
 
 		foreach ( (array) $drop_tables as $table ) {
@@ -122,6 +120,8 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
 			if ( $dir != $top_dir)
 			@rmdir( $dir );
 		}
+
+		clean_blog_cache( $blog );
 	}
 
 	if ( $switch )
