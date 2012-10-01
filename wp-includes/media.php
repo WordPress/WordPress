@@ -236,34 +236,6 @@ function get_image_tag($id, $alt, $title, $align, $size='medium') {
 }
 
 /**
- * Load an image from a string, if PHP supports it.
- *
- * @since 2.1.0
- *
- * @param string $file Filename of the image to load.
- * @return resource The resulting image resource on success, Error string on failure.
- */
-function wp_load_image( $file ) {
-	if ( is_numeric( $file ) )
-		$file = get_attached_file( $file );
-
-	if ( ! file_exists( $file ) )
-		return sprintf(__('File &#8220;%s&#8221; doesn&#8217;t exist?'), $file);
-
-	if ( ! function_exists('imagecreatefromstring') )
-		return __('The GD image library is not installed.');
-
-	// Set artificially high because GD uses uncompressed images in memory
-	@ini_set( 'memory_limit', apply_filters( 'image_memory_limit', WP_MAX_MEMORY_LIMIT ) );
-	$image = imagecreatefromstring( file_get_contents( $file ) );
-
-	if ( !is_resource( $image ) )
-		return sprintf(__('File &#8220;%s&#8221; is not an image.'), $file);
-
-	return $image;
-}
-
-/**
  * Calculates the new dimensions for a downsampled image.
  *
  * If either width or height are empty, no constraint is applied on
@@ -393,92 +365,6 @@ function image_resize_dimensions($orig_w, $orig_h, $dest_w, $dest_h, $crop = fal
 }
 
 /**
- * Scale down an image to fit a particular size and save a new copy of the image.
- *
- * The PNG transparency will be preserved using the function, as well as the
- * image type. If the file going in is PNG, then the resized image is going to
- * be PNG. The only supported image types are PNG, GIF, and JPEG.
- *
- * Some functionality requires API to exist, so some PHP version may lose out
- * support. This is not the fault of WordPress (where functionality is
- * downgraded, not actual defects), but of your PHP version.
- *
- * @since 2.5.0
- *
- * @param string $file Image file path.
- * @param int $max_w Maximum width to resize to.
- * @param int $max_h Maximum height to resize to.
- * @param bool $crop Optional. Whether to crop image or resize.
- * @param string $suffix Optional. File suffix.
- * @param string $dest_path Optional. New image file path.
- * @param int $jpeg_quality Optional, default is 90. Image quality percentage.
- * @return mixed WP_Error on failure. String with new destination path.
- */
-function image_resize( $file, $max_w, $max_h, $crop = false, $suffix = null, $dest_path = null, $jpeg_quality = 90 ) {
-
-	$image = wp_load_image( $file );
-	if ( !is_resource( $image ) )
-		return new WP_Error( 'error_loading_image', $image, $file );
-
-	$size = @getimagesize( $file );
-	if ( !$size )
-		return new WP_Error('invalid_image', __('Could not read image size'), $file);
-	list($orig_w, $orig_h, $orig_type) = $size;
-
-	$dims = image_resize_dimensions($orig_w, $orig_h, $max_w, $max_h, $crop);
-	if ( !$dims )
-		return new WP_Error( 'error_getting_dimensions', __('Could not calculate resized image dimensions') );
-	list($dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h) = $dims;
-
-	$newimage = wp_imagecreatetruecolor( $dst_w, $dst_h );
-
-	imagecopyresampled( $newimage, $image, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h);
-
-	// convert from full colors to index colors, like original PNG.
-	if ( IMAGETYPE_PNG == $orig_type && function_exists('imageistruecolor') && !imageistruecolor( $image ) )
-		imagetruecolortopalette( $newimage, false, imagecolorstotal( $image ) );
-
-	// we don't need the original in memory anymore
-	imagedestroy( $image );
-
-	// $suffix will be appended to the destination filename, just before the extension
-	if ( !$suffix )
-		$suffix = "{$dst_w}x{$dst_h}";
-
-	$info = pathinfo($file);
-	$dir = $info['dirname'];
-	$ext = $info['extension'];
-	$name = wp_basename($file, ".$ext");
-
-	if ( !is_null($dest_path) and $_dest_path = realpath($dest_path) )
-		$dir = $_dest_path;
-	$destfilename = "{$dir}/{$name}-{$suffix}.{$ext}";
-
-	if ( IMAGETYPE_GIF == $orig_type ) {
-		if ( !imagegif( $newimage, $destfilename ) )
-			return new WP_Error('resize_path_invalid', __( 'Resize path invalid' ));
-	} elseif ( IMAGETYPE_PNG == $orig_type ) {
-		if ( !imagepng( $newimage, $destfilename ) )
-			return new WP_Error('resize_path_invalid', __( 'Resize path invalid' ));
-	} else {
-		// all other formats are converted to jpg
-		if ( 'jpg' != $ext && 'jpeg' != $ext )
-			$destfilename = "{$dir}/{$name}-{$suffix}.jpg";
-		if ( !imagejpeg( $newimage, $destfilename, apply_filters( 'jpeg_quality', $jpeg_quality, 'image_resize' ) ) )
-			return new WP_Error('resize_path_invalid', __( 'Resize path invalid' ));
-	}
-
-	imagedestroy( $newimage );
-
-	// Set correct file permissions
-	$stat = stat( dirname( $destfilename ));
-	$perms = $stat['mode'] & 0000666; //same permissions as parent folder, strip off the executable bits
-	@ chmod( $destfilename, $perms );
-
-	return $destfilename;
-}
-
-/**
  * Resize an image to make a thumbnail or intermediate size.
  *
  * The returned array has the file size, the image width, and image height. The
@@ -493,16 +379,18 @@ function image_resize( $file, $max_w, $max_h, $crop = false, $suffix = null, $de
  * @param bool $crop Optional, default is false. Whether to crop image to specified height and width or resize.
  * @return bool|array False, if no image was created. Metadata array on success.
  */
-function image_make_intermediate_size($file, $width, $height, $crop=false) {
+function image_make_intermediate_size( $file, $width, $height, $crop = false ) {
 	if ( $width || $height ) {
-		$resized_file = image_resize($file, $width, $height, $crop);
-		if ( !is_wp_error($resized_file) && $resized_file && $info = getimagesize($resized_file) ) {
-			$resized_file = apply_filters('image_make_intermediate_size', $resized_file);
-			return array(
-				'file' => wp_basename( $resized_file ),
-				'width' => $info[0],
-				'height' => $info[1],
-			);
+		$editor = WP_Image_Editor::get_instance( $file );
+
+		if ( is_wp_error( $editor->resize( $width, $height, $crop ) ) );
+			return false;
+
+		$resized_file = $editor->save();
+
+		if ( ! is_wp_error( $resized_file ) && $resized_file ) {
+			unset( $resized_file['path'] );
+			return $resized_file;
 		}
 	}
 	return false;
@@ -1047,6 +935,7 @@ function gd_edit_image_support($mime_type) {
 
 /**
  * Create new GD image resource with transparency support
+ * @TODO: Deprecate if possible.
  *
  * @since 2.9.0
  *

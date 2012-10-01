@@ -3206,6 +3206,83 @@ function _get_post_ancestors( &$post ) {
 }
 
 /**
+ * Load an image from a string, if PHP supports it.
+ *
+ * @since 2.1.0
+ * @deprecated 3.5.0
+ * @see WP_Image_Editor
+ *
+ * @param string $file Filename of the image to load.
+ * @return resource The resulting image resource on success, Error string on failure.
+ */
+function wp_load_image( $file ) {
+	_deprecated_function( __FUNCTION__, '3.5', 'WP_Image_Editor' );
+
+	if ( is_numeric( $file ) )
+		$file = get_attached_file( $file );
+
+	if ( ! file_exists( $file ) )
+		return sprintf(__('File &#8220;%s&#8221; doesn&#8217;t exist?'), $file);
+
+	if ( ! function_exists('imagecreatefromstring') )
+		return __('The GD image library is not installed.');
+
+	// Set artificially high because GD uses uncompressed images in memory
+	@ini_set( 'memory_limit', apply_filters( 'image_memory_limit', WP_MAX_MEMORY_LIMIT ) );
+	$image = imagecreatefromstring( file_get_contents( $file ) );
+
+	if ( !is_resource( $image ) )
+		return sprintf(__('File &#8220;%s&#8221; is not an image.'), $file);
+
+	return $image;
+}
+
+/**
+ * Scale down an image to fit a particular size and save a new copy of the image.
+ *
+ * The PNG transparency will be preserved using the function, as well as the
+ * image type. If the file going in is PNG, then the resized image is going to
+ * be PNG. The only supported image types are PNG, GIF, and JPEG.
+ *
+ * Some functionality requires API to exist, so some PHP version may lose out
+ * support. This is not the fault of WordPress (where functionality is
+ * downgraded, not actual defects), but of your PHP version.
+ *
+ * @since 2.5.0
+ * @deprecated 3.5.0
+ * @see WP_Image_Editor
+ *
+ * @param string $file Image file path.
+ * @param int $max_w Maximum width to resize to.
+ * @param int $max_h Maximum height to resize to.
+ * @param bool $crop Optional. Whether to crop image or resize.
+ * @param string $suffix Optional. File suffix.
+ * @param string $dest_path Optional. New image file path.
+ * @param int $jpeg_quality Optional, default is 90. Image quality percentage.
+ * @return mixed WP_Error on failure. String with new destination path.
+ */
+function image_resize( $file, $max_w, $max_h, $crop = false, $suffix = null, $dest_path = null, $jpeg_quality = 90 ) {
+	_deprecated_function( __FUNCTION__, '3.5', 'WP_Image_Editor' );
+
+	$editor = WP_Image_Editor::get_instance( $file );
+	if ( is_wp_error( $editor ) )
+		return $editor;
+	$editor->set_quality( $jpeg_quality );
+
+	$resized = $editor->resize( $max_w, $max_h, $crop );
+	if ( is_wp_error( $resized ) )
+		return $resized;
+
+	$dest_file = $editor->generate_filename( $suffix, $dest_path );
+	$saved = $editor->save( $dest_file );
+
+	if ( is_wp_error( $saved ) )
+		return $saved;
+
+	return $dest_file;
+}
+
+/**
  * Retrieve a single post, based on post ID.
  *
  * Has categories in 'post_category' property or key. Has tags in 'tags_input'

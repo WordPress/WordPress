@@ -22,48 +22,24 @@
  * @param string $dst_file Optional. The destination file to write to.
  * @return string|WP_Error|false New filepath on success, WP_Error or false on failure.
  */
-function wp_crop_image( $src, $src_x, $src_y, $src_w, $src_h, $dst_w, $dst_h, $src_abs = false, $dst_file = false ) {
-	if ( is_numeric( $src ) ) { // Handle int as attachment ID
-		$src_file = get_attached_file( $src );
+function wp_crop_image( $src_file, $src_x, $src_y, $src_w, $src_h, $dst_w, $dst_h, $src_abs = false, $dst_file = false ) {
+	if ( is_numeric( $src_file ) ) { // Handle int as attachment ID
+		$src_file = get_attached_file( $src_file );
 		if ( ! file_exists( $src_file ) ) {
 			// If the file doesn't exist, attempt a url fopen on the src link.
 			// This can occur with certain file replication plugins.
-			$post = get_post( $src );
-			$image_type = $post->post_mime_type;
-			$src = load_image_to_edit( $src, $post->post_mime_type, 'full' );
-		} else {
-			$size = @getimagesize( $src_file );
-			$image_type = ( $size ) ? $size['mime'] : '';
-			$src = wp_load_image( $src_file );
+			$src_file = _load_image_to_edit_path( $src_file, 'full' );
 		}
-	} else {
-		$size = @getimagesize( $src );
-		$image_type = ( $size ) ? $size['mime'] : '';
-		$src = wp_load_image( $src );
 	}
 
-	if ( ! is_resource( $src ) )
-		return new WP_Error( 'error_loading_image', $src, $src_file );
+	$editor = WP_Image_Editor::get_instance( $src_file );
+	$src = $editor->crop( $src_x, $src_y, $src_w, $src_h, $dst_w, $dst_h, $src_abs );
 
-	$dst = wp_imagecreatetruecolor( $dst_w, $dst_h );
-
-	if ( $src_abs ) {
-		$src_w -= $src_x;
-		$src_h -= $src_y;
-	}
-
-	if ( function_exists( 'imageantialias' ) )
-		imageantialias( $dst, true );
-
-	imagecopyresampled( $dst, $src, 0, 0, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h );
-
-	imagedestroy( $src ); // Free up memory
+	if ( is_wp_error( $src ) )
+		return $src;
 
 	if ( ! $dst_file )
 		$dst_file = str_replace( basename( $src_file ), 'cropped-' . basename( $src_file ), $src_file );
-
-	if ( 'image/png' != $image_type )
-		$dst_file = preg_replace( '/\\.[^\\.]+$/', '.jpg', $dst_file );
 
 	// The directory containing the original file may no longer exist when
 	// using a replication plugin.
@@ -71,12 +47,8 @@ function wp_crop_image( $src, $src_x, $src_y, $src_w, $src_h, $dst_w, $dst_h, $s
 
 	$dst_file = dirname( $dst_file ) . '/' . wp_unique_filename( dirname( $dst_file ), basename( $dst_file ) );
 
-	if ( 'image/png' == $image_type && imagepng( $dst, $dst_file ) )
-		return $dst_file;
-	elseif ( imagejpeg( $dst, $dst_file, apply_filters( 'jpeg_quality', 90, 'wp_crop_image' ) ) )
-		return $dst_file;
-	else
-		return false;
+	$result = $editor->save( $dst_file );
+	return $dst_file;
 }
 
 /**
@@ -121,11 +93,8 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 
 		$sizes = apply_filters( 'intermediate_image_sizes_advanced', $sizes );
 
-		foreach ($sizes as $size => $size_data ) {
-			$resized = image_make_intermediate_size( $file, $size_data['width'], $size_data['height'], $size_data['crop'] );
-			if ( $resized )
-				$metadata['sizes'][$size] = $resized;
-		}
+		$editor = WP_Image_Editor::get_instance( $file );
+		$metadata['sizes'] = $editor->multi_resize( $sizes );
 
 		// fetch additional metadata from exif/iptc
 		$image_meta = wp_read_image_metadata( $file );
