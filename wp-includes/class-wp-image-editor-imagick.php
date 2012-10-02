@@ -143,7 +143,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 * @param string $mime_type
 	 * @return boolean
 	 */
-	public static function supports_mime_type( $mime_type = null ) {
+	public static function supports_mime_type( $mime_type ) {
 		if ( ! $mime_type )
 			return false;
 
