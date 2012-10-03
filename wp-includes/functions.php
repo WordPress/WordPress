@@ -1509,21 +1509,18 @@ function wp_upload_dir( $time = null ) {
 	}
 
 	// If multisite (if not the main site in a post-MU network)
-	if ( is_multisite() && ! ( is_main_site() && defined( 'MULTISITE' ) ) ) {
+	$blog_id = get_current_blog_id();
+	if ( is_multisite() && ! ( is_main_site( $blog_id ) && defined( 'MULTISITE' ) ) ) {
 
 		if ( ! get_site_option( 'ms_files_rewriting' ) ) {
 			// Append sites/%d if we're not on the main site (for post-MU networks). The extra directory
-			// prevents a four-digit ID from conflict with a year-based directory for the main site.
-			// If a MU-era network disables ms-files rewriting manually, they don't need the extra
+			// prevents a four-digit ID from conflicting with a year-based directory for the main site.
+			// But if a MU-era network has disabled ms-files rewriting manually, they don't need the extra
 			// directory, as they never had wp-content/uploads for the main site.
 
-			if ( defined( 'MULTISITE' ) )
-				$ms_dir = '/sites/' . get_current_blog_id();
-			else
-				$ms_dir = '/' . get_current_blog_id();
-
-			$dir .= $ms_dir;
-			$url .= $ms_dir;
+			$ms_dir = defined( 'MULTISITE' ) ? '/sites/' : '/';
+			$dir .= $ms_dir . $blog_id;
+			$url .= $ms_dir . $blog_id;
 		} elseif ( ! ms_is_switched() ) {
 			// Handle the old-form ms-files.php rewriting if the network still has that enabled.
 			if ( defined( 'BLOGUPLOADDIR' ) )
