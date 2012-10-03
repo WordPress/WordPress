@@ -499,8 +499,8 @@
 		className: 'media-workspace',
 		template:  media.template('media-workspace'),
 
-		// The single `Attachment` view to be used in the `Attachments` view.
-		AttachmentView: media.view.Attachment,
+		// The `options` to be passed to `Attachments` view.
+		attachmentsView: {},
 
 		events: {
 			'dragenter':  'maybeInitUploader',
@@ -511,20 +511,27 @@
 			this.controller = this.options.controller;
 
 			_.defaults( this.options, {
-				selectOne: false,
-				uploader:  {}
+				selectOne:       false,
+				uploader:        {},
+				attachmentsView: {}
 			});
 
 			this.$content = $('<div class="existing-attachments" />');
 
-			this.attachmentsView = new media.view.Attachments({
+			// Generate the `options` passed to the `Attachments` view.
+			// Order of priority from lowest to highest: the provided defaults,
+			// the prototypal `attachmentsView` property, the `attachmentsView`
+			// option for the current instance, and then the `controller` and
+			// `collection` keys, to ensure they're correctly set.
+			this.attachmentsView = _.extend( {
+				directions: this.controller.get('multiple') ? l10n.selectMediaMultiple : l10n.selectMediaSingular
+			}, this.attachmentsView, this.options.attachmentsView, {
 				controller: this.controller,
-				directions: this.controller.get('multiple') ? l10n.selectMediaMultiple : l10n.selectMediaSingular,
-				collection: this.collection,
-
-				AttachmentView: this.AttachmentView
+				collection: this.collection
 			});
 
+			// Initialize the `Attachments` view.
+			this.attachmentsView = new media.view.Attachments( this.attachmentsView );
 			this.$content.append( this.attachmentsView.$el );
 
 			// Track uploading attachments.
@@ -581,8 +588,11 @@
 	 * wp.media.view.Workspace.Library
 	 */
 	media.view.Workspace.Library = media.view.Workspace.extend({
-		// The single `Attachment` view to be used in the `Attachments` view.
-		AttachmentView: media.view.Attachment.Library,
+
+		attachmentsView: {
+			// The single `Attachment` view to be used in the `Attachments` view.
+			AttachmentView: media.view.Attachment.Library
+		},
 
 		initialize: function() {
 			media.view.Workspace.prototype.initialize.apply( this, arguments );
@@ -654,8 +664,12 @@
 	 * wp.media.view.Workspace.Gallery
 	 */
 	media.view.Workspace.Gallery = media.view.Workspace.extend({
-		// The single `Attachment` view to be used in the `Attachments` view.
-		AttachmentView: media.view.Attachment.Gallery,
+
+		attachmentsView: {
+			// The single `Attachment` view to be used in the `Attachments` view.
+			AttachmentView: media.view.Attachment.Gallery,
+			sortable:       true
+		},
 
 		initialize: function() {
 			media.view.Workspace.prototype.initialize.apply( this, arguments );
@@ -718,7 +732,8 @@
 			_.defaults( this.options, {
 				refreshSensitivity: 200,
 				refreshThreshold:   3,
-				AttachmentView:     media.view.Attachment
+				AttachmentView:     media.view.Attachment,
+				sortable:           false
 			});
 
 			_.each(['add','remove'], function( method ) {
@@ -734,6 +749,53 @@
 
 			this.scroll = _.chain( this.scroll ).bind( this ).throttle( this.options.refreshSensitivity ).value();
 			this.$list.on( 'scroll.attachments', this.scroll );
+
+			this.initSortable();
+		},
+
+		initSortable: function() {
+			var collection = this.collection,
+				from;
+
+			if ( ! this.options.sortable || ! $.fn.sortable )
+				return;
+
+			this.$list.sortable({
+				// If the `collection` has a `comparator`, disable sorting.
+				disabled: !! collection.comparator,
+
+				// Prevent attachments from being dragged outside the bounding
+				// box of the list.
+				containment: this.$list,
+
+				// Change the position of the attachment as soon as the
+				// mouse pointer overlaps a thumbnail.
+				tolerance: 'pointer',
+
+				// Record the initial `index` of the dragged model.
+				start: function( event, ui ) {
+					from = ui.item.index();
+				},
+
+				// Update the model's index in the collection.
+				// Do so silently, as the view is already accurate.
+				update: function( event, ui ) {
+					var model = collection.at( from );
+
+					collection.remove( model, {
+						silent: true
+					}).add( model, {
+						at:     ui.item.index(),
+						silent: true
+					});
+				}
+			});
+
+			// If the `orderby` property is changed on the `collection`,
+			// check to see if we have a `comparator`. If so, disable sorting.
+			collection.props.on( 'change:orderby', function() {
+				this.$list.sortable( 'option', 'disabled', !! collection.comparator );
+			}, this );
 		},
 
 		render: function() {
