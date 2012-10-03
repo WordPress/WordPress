@@ -711,7 +711,30 @@ class WP_Meta_Query {
 		$join = array();
 		$where = array();
 
-		foreach ( $this->queries as $k => $q ) {
+		$key_only_queries = array();
+		$queries = array();
+
+		// Split out the meta_key only queries (we can only do this for OR)
+		if ( 'OR' == $this->relation ) {
+			foreach ( $this->queries as $k => $q ) {
+				if ( ! isset( $q['value'] ) && ! empty( $q['key'] ) )
+					$key_only_queries[$k] = $q;
+				else
+					$queries[$k] = $q;
+			}
+		} else {
+			$queries = $this->queries;
+		}
+
+		// Specify all the meta_key only queries in one go
+		if ( $key_only_queries ) {
+			$join[]  = "INNER JOIN $meta_table ON $primary_table.$primary_id_column = $meta_table.$meta_id_column";
+
+			foreach ( $key_only_queries as $key => $q )
+				$where["key-only-$key"] = $wpdb->prepare( "$meta_table.meta_key = %s", trim( $q['key'] ) );
+		}
+
+		foreach ( $queries as $k => $q ) {
 			$meta_key = isset( $q['key'] ) ? trim( $q['key'] ) : '';
 			$meta_type = isset( $q['type'] ) ? strtoupper( $q['type'] ) : 'CHAR';
 
