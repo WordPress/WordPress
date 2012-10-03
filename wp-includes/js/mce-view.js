@@ -82,53 +82,58 @@ if ( typeof wp === 'undefined' )
 	// custom UI, and back again.
 	wp.mce.view = {
 		// ### defaults
-		// The default properties used for the objects in `wp.mce.view.add()`.
 		defaults: {
-			view: Backbone.View,
-			text: function( instance ) {
-				return instance.options.original;
+			// The default properties used for objects with the `pattern` key in
+			// `wp.mce.view.add()`.
+			pattern: {
+				view: Backbone.View,
+				text: function( instance ) {
+					return instance.options.original;
+				},
+
+				toView: function( content ) {
+					if ( ! this.pattern )
+						return;
+
+					this.pattern.lastIndex = 0;
+					var match = this.pattern.exec( content );
+
+					if ( ! match )
+						return;
+
+					return {
+						index:   match.index,
+						content: match[0],
+						options: {
+							original: match[0],
+							results:  match
+						}
+					};
+				}
 			},
 
-			toView: function( content ) {
-				if ( ! this.pattern )
-					return;
+			// The default properties used for objects with the `shortcode` key in
+			// `wp.mce.view.add()`.
+			shortcode: {
+				view: Backbone.View,
+				text: function( instance ) {
+					return instance.options.shortcode.text();
+				},
 
-				this.pattern.lastIndex = 0;
-				var match = this.pattern.exec( content );
+				toView: function( content ) {
+					var match = wp.shortcode.next( this.shortcode, content );
 
-				if ( ! match )
-					return;
+					if ( ! match )
+						return;
 
-				return {
-					index:   match.index,
-					content: match[0],
-					options: {
-						original: match[0],
-						results:  match
-					}
-				};
-			}
-		},
-
-		shortcode: {
-			view: Backbone.View,
-			text: function( instance ) {
-				return instance.options.shortcode.text();
-			},
-
-			toView: function( content ) {
-				var match = wp.shortcode.next( this.tag, content );
-
-				if ( ! match )
-					return;
-
-				return {
-					index:   match.index,
-					content: match.content,
-					options: {
-						shortcode: match.shortcode
-					}
-				};
+					return {
+						index:   match.index,
+						content: match.content,
+						options: {
+							shortcode: match.shortcode
+						}
+					};
+				}
 			}
 		},
 
@@ -160,7 +165,12 @@ if ( typeof wp === 'undefined' )
 			var parent, remove, base, properties;
 
 			// Fetch the parent view or the default options.
-			parent = options.extend ? wp.mce.view.get( options.extend ) : wp.mce.view.defaults;
+			if ( options.extend )
+				parent = wp.mce.view.get( options.extend );
+			else if ( options.shortcode )
+				parent = wp.mce.view.defaults.shortcode;
+			else
+				parent = wp.mce.view.defaults.pattern;
 
 			// Extend the `options` object with the parent's properties.
 			_.defaults( options, parent );
