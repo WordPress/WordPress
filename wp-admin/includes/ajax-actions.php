@@ -326,7 +326,7 @@ function _wp_ajax_add_hierarchical_term() {
 		$term_id = $parent->term_id;
 
 		while ( $parent->parent ) { // get the top parent
-			$parent = &get_term( $parent->parent, $taxonomy->name );
+			$parent = get_term( $parent->parent, $taxonomy->name );
 			if ( is_wp_error( $parent ) )
 				break;
 			$term_id = $parent->term_id;
