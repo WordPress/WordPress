@@ -894,7 +894,7 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 	update_comment_cache($wp_query->comments);
 
 	if ( $separate_comments ) {
-		$wp_query->comments_by_type = &separate_comments($comments);
+		$wp_query->comments_by_type = separate_comments($comments);
 		$comments_by_type = &$wp_query->comments_by_type;
 	}
 

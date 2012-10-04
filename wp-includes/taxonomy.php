@@ -2988,9 +2988,9 @@ function get_term_link( $term, $taxonomy = '') {
 
 	if ( !is_object($term) ) {
 		if ( is_int($term) ) {
-			$term = &get_term($term, $taxonomy);
+			$term = get_term($term, $taxonomy);
 		} else {
-			$term = &get_term_by('slug', $term, $taxonomy);
+			$term = get_term_by('slug', $term, $taxonomy);
 		}
 	}
 

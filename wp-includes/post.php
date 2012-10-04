@@ -3653,7 +3653,7 @@ function get_pages($args = '') {
 	update_post_cache( $pages );
 
 	if ( $child_of || $hierarchical )
-		$pages = & get_page_children($child_of, $pages);
+		$pages = get_page_children($child_of, $pages);
 
 	if ( !empty($exclude_tree) ) {
 		$exclude = (int) $exclude_tree;

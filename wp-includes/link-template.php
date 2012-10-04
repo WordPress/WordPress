@@ -978,7 +978,7 @@ function get_delete_post_link( $id = 0, $deprecated = '', $force_delete = false 
  * @return string
  */
 function get_edit_comment_link( $comment_id = 0 ) {
-	$comment = &get_comment( $comment_id );
+	$comment = get_comment( $comment_id );
 
 	if ( !current_user_can( 'edit_comment', $comment->comment_ID ) )
 		return;
