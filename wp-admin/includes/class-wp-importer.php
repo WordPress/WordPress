@@ -132,9 +132,6 @@ class WP_Importer {
 				exit();
 			}
 			$blog_id = (int) $blog->blog_id;
-			// Restore global $current_blog
-			global $current_blog;
-			$current_blog = $blog;
 		}
 
 		if ( function_exists( 'is_multisite' ) ) {
@@ -212,8 +209,6 @@ class WP_Importer {
 	 * @return bool
 	 */
 	function is_user_over_quota() {
-		global $current_blog;
-
 		if ( function_exists( 'upload_is_user_over_quota' ) ) {
 			if ( upload_is_user_over_quota( 1 ) ) {
 				echo "Sorry, you have used your upload quota.\n";

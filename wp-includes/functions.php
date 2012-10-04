@@ -3118,13 +3118,13 @@ function wp_suspend_cache_invalidation($suspend = true) {
  * @return bool True if not multisite or $blog_id is main site
  */
 function is_main_site( $blog_id = '' ) {
-	global $current_site, $current_blog;
+	global $current_site;
 
-	if ( !is_multisite() )
+	if ( ! is_multisite() )
 		return true;
 
-	if ( !$blog_id )
-		$blog_id = $current_blog->blog_id;
+	if ( ! $blog_id )
+		$blog_id = get_current_blog_id();
 
 	return $blog_id == $current_site->blog_id;
 }

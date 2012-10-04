@@ -69,7 +69,9 @@ function wp_get_active_network_plugins() {
  * @return bool|string Returns true on success, or drop-in file to include.
  */
 function ms_site_check() {
-	global $wpdb, $current_blog;
+	global $wpdb;
+
+	$blog = get_blog_details();
 
 	// Allow short-circuiting
 	$check = apply_filters('ms_site_check', null);
@@ -80,21 +82,21 @@ function ms_site_check() {
 	if ( is_super_admin() )
 		return true;
 
-	if ( '1' == $current_blog->deleted ) {
+	if ( '1' == $blog->deleted ) {
 		if ( file_exists( WP_CONTENT_DIR . '/blog-deleted.php' ) )
 			return WP_CONTENT_DIR . '/blog-deleted.php';
 		else
 			wp_die( __( 'This user has elected to delete their account and the content is no longer available.' ), '', array( 'response' => 410 ) );
 	}
 
-	if ( '2' == $current_blog->deleted ) {
+	if ( '2' == $blog->deleted ) {
 		if ( file_exists( WP_CONTENT_DIR . '/blog-inactive.php' ) )
 			return WP_CONTENT_DIR . '/blog-inactive.php';
 		else
 			wp_die( sprintf( __( 'This site has not been activated yet. If you are having problems activating your site, please contact <a href="mailto:%1$s">%1$s</a>.' ), str_replace( '@', ' AT ', get_site_option( 'admin_email', "support@{$current_site->domain}" ) ) ) );
 	}
 
-	if ( $current_blog->archived == '1' || $current_blog->spam == '1' ) {
+	if ( $blog->archived == '1' || $blog->spam == '1' ) {
 		if ( file_exists( WP_CONTENT_DIR . '/blog-suspended.php' ) )
 			return WP_CONTENT_DIR . '/blog-suspended.php';
 		else

@@ -3660,7 +3660,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @access protected
 	 */
 	function _multisite_getUsersBlogs($args) {
-		global $current_blog;
+		$current_blog = get_blog_details();
+
 		$domain = $current_blog->domain;
 		$path = $current_blog->path . 'xmlrpc.php';
 

@@ -118,11 +118,11 @@ function get_id_from_blogname( $slug ) {
  *
  * @since MU
  *
- * @param int|string|array $fields A blog ID, a blog slug, or an array of fields to query against.
+ * @param int|string|array $fields A blog ID, a blog slug, or an array of fields to query against. Optional. If not specified the current blog ID is used.
  * @param bool $get_all Whether to retrieve all details or only the details in the blogs table. Default is true.
  * @return object Blog details.
  */
-function get_blog_details( $fields, $get_all = true ) {
+function get_blog_details( $fields = null, $get_all = true ) {
 	global $wpdb;
 
 	if ( is_array($fields ) ) {
@@ -166,7 +166,9 @@ function get_blog_details( $fields, $get_all = true ) {
 			return false;
 		}
 	} else {
-		if ( !is_numeric( $fields ) )
+		if ( ! $fields )
+			$blog_id = get_current_blog_id();
+		elseif ( ! is_numeric( $fields ) )
 			$blog_id = get_id_from_blogname( $fields );
 		else
 			$blog_id = $fields;
