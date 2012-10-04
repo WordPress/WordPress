@@ -606,7 +606,7 @@ class WP_MatchesMapRegex {
 	 * @return string
 	 */
 	function _map() {
-		$callback = array(&$this, 'callback');
+		$callback = array($this, 'callback');
 		return preg_replace_callback($this->_pattern, $callback, $this->_subject);
 	}
 

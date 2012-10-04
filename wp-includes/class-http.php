@@ -1109,7 +1109,7 @@ class WP_Http_Curl {
 		}
 
 		if ( true === $r['blocking'] )
-			curl_setopt( $handle, CURLOPT_HEADERFUNCTION, array( &$this, 'stream_headers' ) );
+			curl_setopt( $handle, CURLOPT_HEADERFUNCTION, array( $this, 'stream_headers' ) );
 
 		curl_setopt( $handle, CURLOPT_HEADER, false );
 

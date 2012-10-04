@@ -534,7 +534,7 @@ class wpdb {
 	 * @param string $dbhost MySQL database host
 	 */
 	function __construct( $dbuser, $dbpassword, $dbname, $dbhost ) {
-		register_shutdown_function( array( &$this, '__destruct' ) );
+		register_shutdown_function( array( $this, '__destruct' ) );
 
 		if ( WP_DEBUG )
 			$this->show_errors();
@@ -1000,7 +1000,7 @@ class wpdb {
 		$query = str_replace( '"%s"', '%s', $query ); // doublequote unquoting
 		$query = str_replace( '%f' , '%F', $query ); // Force floats to be locale unaware
 		$query = preg_replace( '|(?<!%)%s|', "'%s'", $query ); // quote the strings, avoiding escaped strings like %%s
-		array_walk( $args, array( &$this, 'escape_by_ref' ) );
+		array_walk( $args, array( $this, 'escape_by_ref' ) );
 		return @vsprintf( $query, $args );
 	}
 

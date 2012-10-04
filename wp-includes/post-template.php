@@ -937,7 +937,7 @@ function walk_page_tree($pages, $depth, $current_page, $r) {
 		$walker = $r['walker'];
 
 	$args = array($pages, $depth, $r, $current_page);
-	return call_user_func_array(array(&$walker, 'walk'), $args);
+	return call_user_func_array(array($walker, 'walk'), $args);
 }
 
 /**
@@ -954,7 +954,7 @@ function walk_page_dropdown_tree() {
 	else
 		$walker = $args[2]['walker'];
 
-	return call_user_func_array(array(&$walker, 'walk'), $args);
+	return call_user_func_array(array($walker, 'walk'), $args);
 }
 
 /**

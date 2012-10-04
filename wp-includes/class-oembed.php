@@ -53,7 +53,7 @@ class WP_oEmbed {
 		) );
 
 		// Fix any embeds that contain new lines in the middle of the HTML which breaks wpautop().
-		add_filter( 'oembed_dataparse', array(&$this, '_strip_newlines'), 10, 3 );
+		add_filter( 'oembed_dataparse', array($this, '_strip_newlines'), 10, 3 );
 	}
 
 	/**

@@ -1410,7 +1410,7 @@ function get_terms($taxonomies, $args = '') {
 	if ( $child_of ) {
 		$children = _get_term_hierarchy($taxonomies[0]);
 		if ( ! empty($children) )
-			$terms = & _get_term_children($child_of, $terms, $taxonomies[0]);
+			$terms = _get_term_children($child_of, $terms, $taxonomies[0]);
 	}
 
 	// Update term counts to include children.

@@ -635,7 +635,7 @@ class WP_Object_Cache {
 		 * @todo This should be moved to the PHP4 style constructor, PHP5
 		 * already calls __destruct()
 		 */
-		register_shutdown_function( array( &$this, '__destruct' ) );
+		register_shutdown_function( array( $this, '__destruct' ) );
 	}
 
 	/**

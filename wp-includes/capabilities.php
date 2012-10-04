@@ -725,7 +725,7 @@ class WP_User {
 
 		//Filter out caps that are not role names and assign to $this->roles
 		if ( is_array( $this->caps ) )
-			$this->roles = array_filter( array_keys( $this->caps ), array( &$wp_roles, 'is_role' ) );
+			$this->roles = array_filter( array_keys( $this->caps ), array( $wp_roles, 'is_role' ) );
 
 		//Build $allcaps from role caps, overlay user's $caps
 		$this->allcaps = array();
@@ -1331,7 +1331,7 @@ function author_can( $post, $capability ) {
 	$args = array_slice( func_get_args(), 2 );
 	$args = array_merge( array( $capability ), $args );
 
-	return call_user_func_array( array( &$author, 'has_cap' ), $args );
+	return call_user_func_array( array( $author, 'has_cap' ), $args );
 }
 
 /**
@@ -1353,7 +1353,7 @@ function user_can( $user, $capability ) {
 	$args = array_slice( func_get_args(), 2 );
 	$args = array_merge( array( $capability ), $args );
 
-	return call_user_func_array( array( &$user, 'has_cap' ), $args );
+	return call_user_func_array( array( $user, 'has_cap' ), $args );
 }
 
 /**

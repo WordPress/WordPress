@@ -536,9 +536,9 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 		parent::__construct('recent-posts', __('Recent Posts'), $widget_ops);
 		$this->alt_option_name = 'widget_recent_entries';
 
-		add_action( 'save_post', array(&$this, 'flush_widget_cache') );
-		add_action( 'deleted_post', array(&$this, 'flush_widget_cache') );
-		add_action( 'switch_theme', array(&$this, 'flush_widget_cache') );
+		add_action( 'save_post', array($this, 'flush_widget_cache') );
+		add_action( 'deleted_post', array($this, 'flush_widget_cache') );
+		add_action( 'switch_theme', array($this, 'flush_widget_cache') );
 	}
 
 	function widget($args, $instance) {
@@ -637,10 +637,10 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 		$this->alt_option_name = 'widget_recent_comments';
 
 		if ( is_active_widget(false, false, $this->id_base) )
-			add_action( 'wp_head', array(&$this, 'recent_comments_style') );
+			add_action( 'wp_head', array($this, 'recent_comments_style') );
 
-		add_action( 'comment_post', array(&$this, 'flush_widget_cache') );
-		add_action( 'transition_comment_status', array(&$this, 'flush_widget_cache') );
+		add_action( 'comment_post', array($this, 'flush_widget_cache') );
+		add_action( 'transition_comment_status', array($this, 'flush_widget_cache') );
 	}
 
 	function recent_comments_style() {

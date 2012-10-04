@@ -422,7 +422,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 		$chars2 = count_chars($string2);
 
 		// L1-norm of difference vector.
-		$difference = array_sum( array_map( array(&$this, 'difference'), $chars1, $chars2 ) );
+		$difference = array_sum( array_map( array($this, 'difference'), $chars1, $chars2 ) );
 
 		// $string1 has zero length? Odd. Give huge penalty by not dividing.
 		if ( !$string1 )
