@@ -65,7 +65,7 @@ function get_locale() {
  * @return string Translated text
  */
 function translate( $text, $domain = 'default' ) {
-	$translations = &get_translations_for_domain( $domain );
+	$translations = get_translations_for_domain( $domain );
 	return apply_filters( 'gettext', $translations->translate( $text ), $text, $domain );
 }
 
@@ -78,7 +78,7 @@ function before_last_bar( $string ) {
 }
 
 function translate_with_gettext_context( $text, $context, $domain = 'default' ) {
-	$translations = &get_translations_for_domain( $domain );
+	$translations = get_translations_for_domain( $domain );
 	return apply_filters( 'gettext_with_context', $translations->translate( $text, $context ), $text, $context, $domain );
 }
 
@@ -236,7 +236,7 @@ function esc_html_x( $single, $context, $domain = 'default' ) {
  * @return string Either $single or $plural translated text
  */
 function _n( $single, $plural, $number, $domain = 'default' ) {
-	$translations = &get_translations_for_domain( $domain );
+	$translations = get_translations_for_domain( $domain );
 	$translation = $translations->translate_plural( $single, $plural, $number );
 	return apply_filters( 'ngettext', $translation, $single, $plural, $number, $domain );
 }
@@ -249,7 +249,7 @@ function _n( $single, $plural, $number, $domain = 'default' ) {
  *
  */
 function _nx($single, $plural, $number, $context, $domain = 'default') {
-	$translations = &get_translations_for_domain( $domain );
+	$translations = get_translations_for_domain( $domain );
 	$translation = $translations->translate_plural( $single, $plural, $number, $context );
 	return apply_filters( 'ngettext_with_context', $translation, $single, $plural, $number, $context, $domain );
 }
