@@ -220,14 +220,22 @@ function wp_cache_add_non_persistent_groups( $groups ) {
 }
 
 /**
- * Reset internal cache keys and structures. If the cache backend uses global blog or site IDs as part of its cache keys,
- * this function instructs the backend to reset those keys and perform any cleanup since blog or site IDs have changed since cache init.
+ * Reset internal cache keys and structures. If the cache backend uses global
+ * blog or site IDs as part of its cache keys, this function instructs the
+ * backend to reset those keys and perform any cleanup since blog or site IDs
+ * have changed since cache init.
+ *
+ * This function is deprecated. Use wp_cache_switch_to_blog() instead of this
+ * function when preparing the cache for a blog switch. For clearing the cache
+ * during unit tests, consider using wp_cache_init(). wp_cache_init() is not
+ * recommended outside of unit tests as the performance penality for using it is
+ * high.
  *
  * @since 2.6.0
  * @deprecated 3.5.0
  */
 function wp_cache_reset() {
-	_deprecated_function( __FUNCTION__, '3.5', 'wp_cache_switch_to_blog()' );
+	_deprecated_function( __FUNCTION__, '3.5' );
 
 	global $wp_object_cache;
 
