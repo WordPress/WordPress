@@ -185,7 +185,7 @@ function get_cat_ID( $cat_name='General' ) {
  */
 function get_cat_name( $cat_id ) {
 	$cat_id = (int) $cat_id;
-	$category = &get_category( $cat_id );
+	$category = get_category( $cat_id );
 	if ( ! $category || is_wp_error( $category ) )
 		return '';
 	return $category->name;
