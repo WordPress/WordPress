@@ -32,7 +32,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	 *
 	 * @return boolean
 	 */
-	public static function test() {
+	public function test() {
 		if ( ! extension_loaded('gd') || ! function_exists('gd_info') )
 			return false;
 
@@ -99,7 +99,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	 * @param string $mime_type
 	 * @return boolean
 	 */
-	public static function supports_mime_type( $mime_type ) {
+	public function supports_mime_type( $mime_type ) {
 		$allowed_mime_types = array( 'image/gif', 'image/png', 'image/jpeg' );
 
 		return in_array( $mime_type, $allowed_mime_types );

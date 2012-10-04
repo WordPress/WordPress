@@ -33,7 +33,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 *
 	 * @return boolean
 	 */
-	public static function test() {
+	public function test() {
 		if ( ! extension_loaded( 'imagick' ) )
 			return false;
 
@@ -143,7 +143,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 * @param string $mime_type
 	 * @return boolean
 	 */
-	public static function supports_mime_type( $mime_type ) {
+	public function supports_mime_type( $mime_type ) {
 		if ( ! $mime_type )
 			return false;
 

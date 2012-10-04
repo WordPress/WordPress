@@ -76,9 +76,9 @@ abstract class WP_Image_Editor {
 		return self::$implementation;
 	}
 
-	abstract public static function test(); // returns bool
+	abstract public function test(); // returns bool
 	abstract protected function load(); // returns bool|WP_Error
-	abstract public static function supports_mime_type( $mime_type ); // returns bool
+	abstract public function supports_mime_type( $mime_type ); // returns bool
 	abstract public function resize( $max_w, $max_h, $crop = false );
 	abstract public function multi_resize( $sizes );
 	abstract public function crop( $src_x, $src_y, $src_w, $src_h, $dst_w = null, $dst_h = null, $src_abs = false );
