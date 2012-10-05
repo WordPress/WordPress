@@ -107,10 +107,21 @@ var tb_position;
 				multiple: true
 			} ) );
 
-			workflow.on( 'update', function( selection ) {
+			workflow.on( 'update:insert', function( selection ) {
 				this.insert( '\n' + selection.map( function( attachment ) {
 					return wp.media.string.image( attachment );
 				}).join('\n\n') + '\n' );
+			}, this );
+
+			workflow.on( 'update:gallery', function( selection ) {
+				var view = wp.mce.view.get('gallery'),
+					shortcode;
+
+				if ( ! view )
+					return;
+
+				shortcode = view.gallery.shortcode( selection );
+				this.insert( shortcode.string() );
 			}, this );
 
 			return workflow;

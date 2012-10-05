@@ -1371,5 +1371,12 @@ function wp_print_media_templates( $attachment ) {
 		<div class="close">&times;</div>
 		<div class="describe"></div>
 	</script>
+
+	<script type="text/html" id="tmpl-editor-gallery">
+		<% if ( url ) { %>
+			<img src="<%- url %>" draggable="false" />
+		<% } %>
+		<div class="close">&times;</div>
+	</script>
 	<?php
 }

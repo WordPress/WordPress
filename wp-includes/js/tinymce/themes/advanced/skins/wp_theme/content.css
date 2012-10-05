@@ -144,32 +144,19 @@ img.wp-oembed {
 /* WordPress TinyMCE Previews */
 div.wp-view-wrap,
 div.wp-view {
+	position: relative;
 	display: inline-block;
 }
 
-.spinner {
-	background: #fff url("../../../../../../../wp-admin/images/wpspin_light.gif") no-repeat center center;
-	border: 1px solid #dfdfdf;
-	margin-top: 10px;
-	margin-right: 10px;
-}
-
-.editor-attachment {
-	position: relative;
-	padding: 5px;
-}
-
-.editor-attachment,
-.editor-attachment img {
-	min-height: 100px;
-	min-width: 100px;
-}
-
-.editor-attachment img {
+div.wp-view-wrap img {
 	display: block;
 	border: 0;
 	padding: 0;
 	margin: 0;
+}
+
+.spinner {
+	background: #fff url("../../../../../../../wp-admin/images/wpspin_light.gif") no-repeat center center;
 }
 
 .close {
@@ -187,6 +174,38 @@ div.wp-view {
 	background: #fff;
 }
 
-.editor-attachment:hover .close {
+.editor-attachment:hover .close,
+.editor-gallery:hover .close {
 	display: block;
+}
+
+.editor-attachment {
+	position: relative;
+	margin-top: 10px;
+	margin-right: 10px;
+	padding: 4px;
+	border: 1px solid #dfdfdf;
+}
+
+.editor-attachment,
+.editor-attachment img {
+	min-height: 100px;
+	min-width: 100px;
+}
+
+.editor-gallery {
+	min-height: 150px;
+	min-width: 150px;
+	margin: 1px;
+	border: 4px solid #fff;
+	box-shadow:
+	    0 0 0 1px #ccc,
+	    5px 5px 0 0 #fff,
+	    5px 5px 0 1px #ccc,
+	    10px 10px 0 0 #fff,
+	    10px 10px 0 1px #ccc;
+}
+.editor-gallery .close {
+	top: 1px;
+	right: 1px;
 }

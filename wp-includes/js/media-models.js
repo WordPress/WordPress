@@ -227,9 +227,7 @@ if ( typeof wp === 'undefined' )
 			this.props.on( 'change:type',    this._changeType,    this );
 
 			// Set the `props` model and fill the default property values.
-			this.props.set( _.defaults( options.props || {}, {
-				order: 'DESC'
-			}) );
+			this.props.set( _.defaults( options.props || {} ) );
 
 			// Observe another `Attachments` collection if one is provided.
 			if ( options.observe )
@@ -248,7 +246,7 @@ if ( typeof wp === 'undefined' )
 			if ( this.comparator && this.comparator !== Attachments.comparator )
 				return;
 
-			if ( orderby )
+			if ( orderby && 'post__in' !== orderby )
 				this.comparator = Attachments.comparator;
 			else
 				delete this.comparator;
@@ -347,6 +345,7 @@ if ( typeof wp === 'undefined' )
 		more: function( options ) {
 			if ( this.mirroring && this.mirroring.more )
 				return this.mirroring.more( options );
+			return $.Deferred().resolve().promise();
 		},
 
 		parse: function( resp, xhr ) {
@@ -363,7 +362,7 @@ if ( typeof wp === 'undefined' )
 	}, {
 		comparator: function( a, b ) {
 			var key   = this.props.get('orderby'),
-				order = this.props.get('order'),
+				order = this.props.get('order') || 'DESC',
 				ac    = a.cid,
 				bc    = b.cid;
 
@@ -423,6 +422,8 @@ if ( typeof wp === 'undefined' )
 	 */
 	Query = media.model.Query = Attachments.extend({
 		initialize: function( models, options ) {
+			var allowed;
+
 			options = options || {};
 			Attachments.prototype.initialize.apply( this, arguments );
 
@@ -451,20 +452,28 @@ if ( typeof wp === 'undefined' )
 				return false;
 			};
 
-			this.observe( Attachments.all );
+			// Observe the central `Attachments.all` model to watch for new
+			// matches for the query.
+			//
+			// Only observe when a limited number of query args are set. There
+			// are no filters for other properties, so observing will result in
+			// false positives in those queries.
+			allowed = [ 's', 'order', 'orderby', 'posts_per_page', 'post_mime_type' ];
+			if ( _( this.args ).chain().keys().difference().isEmpty().value() )
+				this.observe( Attachments.all );
 		},
 
 		more: function( options ) {
 			var query = this;
 
 			if ( ! this.hasMore )
-				return;
+				return $.Deferred().resolve().promise();
 
 			options = options || {};
 			options.add = true;
 
 			return this.fetch( options ).done( function( resp ) {
-				if ( _.isEmpty( resp ) || resp.length < this.args.posts_per_page )
+				if ( _.isEmpty( resp ) || -1 === this.args.posts_per_page || resp.length < this.args.posts_per_page )
 					query.hasMore = false;
 			});
 		},
@@ -484,7 +493,8 @@ if ( typeof wp === 'undefined' )
 				args = _.clone( this.args );
 
 				// Determine which page to query.
-				args.paged = Math.floor( this.length / args.posts_per_page ) + 1;
+				if ( -1 !== args.posts_per_page )
+					args.paged = Math.floor( this.length / args.posts_per_page ) + 1;
 
 				options.data.query = args;
 				return media.ajax( options );
@@ -506,7 +516,7 @@ if ( typeof wp === 'undefined' )
 		},
 
 		orderby: {
-			allowed:  [ 'name', 'author', 'date', 'title', 'modified', 'uploadedTo', 'id' ],
+			allowed:  [ 'name', 'author', 'date', 'title', 'modified', 'uploadedTo', 'id', 'post__in' ],
 			valuemap: {
 				'id':         'ID',
 				'uploadedTo': 'parent'
@@ -514,8 +524,10 @@ if ( typeof wp === 'undefined' )
 		},
 
 		propmap: {
-			'search': 's',
-			'type':   'post_mime_type'
+			'search':  's',
+			'type':    'post_mime_type',
+			'parent':  'post_parent',
+			'perPage': 'posts_per_page'
 		},
 
 		// Caches query objects so queries can be easily reused.

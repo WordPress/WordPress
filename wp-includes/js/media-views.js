@@ -117,9 +117,10 @@
 			return this;
 		},
 
-		update: function() {
+		update: function( event ) {
 			this.close();
 			this.trigger( 'update', this.selection );
+			this.trigger( 'update:' + event, this.selection );
 			this.selection.clear();
 		},
 
@@ -630,7 +631,7 @@
 					'insert-into-post': {
 						text:     l10n.insertIntoPost,
 						priority: 30,
-						click:    _.bind( controller.update, controller )
+						click:    _.bind( controller.update, controller, 'insert' )
 					},
 
 					'add-to-gallery': {
@@ -698,7 +699,7 @@
 						style:    'primary',
 						text:     l10n.insertGalleryIntoPost,
 						priority: 40,
-						click:    _.bind( controller.update, controller )
+						click:    _.bind( controller.update, controller, 'gallery' )
 					},
 
 					'add-images-from-library': {
