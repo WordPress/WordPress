@@ -165,7 +165,7 @@ switch($step) {
 	foreach ( array( 'dbname', 'uname', 'pwd', 'dbhost', 'prefix' ) as $key )
 		$$key = trim( stripslashes( $_POST[ $key ] ) );
 
-	$tryagain_link = '</p><p class="step"><a href="setup-config.php?step=1" onclick="javascript:history.go(-1);return false;" class="button">' . __( 'Try Again' ) . '</a>';
+	$tryagain_link = '</p><p class="step"><a href="setup-config.php?step=1" onclick="javascript:history.go(-1);return false;" class="button">' . __( 'Try again' ) . '</a>';
 
 	if ( empty( $prefix ) )
 		wp_die( __( '<strong>ERROR</strong>: "Table Prefix" must not be empty.' . $tryagain_link ) );

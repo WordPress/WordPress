@@ -182,7 +182,7 @@ function add_user_to_blog( $blog_id, $user_id, $role ) {
 
 	if ( ! $user ) {
 		restore_current_blog();
-		return new WP_Error('user_does_not_exist', __('That user does not exist.'));
+		return new WP_Error( 'user_does_not_exist', __( 'The requested user does not exist.' ) );
 	}
 
 	if ( !get_user_meta($user_id, 'primary_blog', true) ) {
@@ -462,7 +462,7 @@ function wpmu_validate_user_signup($user_name, $user_email) {
 		$errors->add('user_name', __('Sorry, usernames must have letters too!'));
 
 	if ( !is_email( $user_email ) )
-		$errors->add('user_email', __( 'Please enter a correct email address.' ) );
+		$errors->add('user_email', __( 'Please enter a valid email address.' ) );
 
 	$limited_email_domains = get_site_option( 'limited_email_domains' );
 	if ( is_array( $limited_email_domains ) && empty( $limited_email_domains ) == false ) {
@@ -473,11 +473,11 @@ function wpmu_validate_user_signup($user_name, $user_email) {
 
 	// Check if the username has been used already.
 	if ( username_exists($user_name) )
-		$errors->add('user_name', __('Sorry, that username already exists!'));
+		$errors->add( 'user_name', __( 'Sorry, that username already exists!' ) );
 
 	// Check if the email address has been used already.
 	if ( email_exists($user_email) )
-		$errors->add('user_email', __('Sorry, that email address is already used!'));
+		$errors->add( 'user_email', __( 'Sorry, that email address is already used!' ) );
 
 	// Has someone already signed up for this username?
 	$signup = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->signups WHERE user_login = %s", $user_name) );
@@ -553,7 +553,7 @@ function wpmu_validate_blog_signup($blogname, $blog_title, $user = '') {
 		$errors->add('blogname', __( 'Please enter a site name.' ) );
 
 	if ( preg_match( '/[^a-z0-9]+/', $blogname ) )
-		$errors->add('blogname', __( 'Only lowercase letters and numbers allowed.' ) );
+		$errors->add('blogname', __( 'Only lowercase letters (a-z) and numbers are allowed.' ) );
 
 	if ( in_array( $blogname, $illegal_names ) == true )
 		$errors->add('blogname',  __( 'That name is not allowed.' ) );
@@ -590,7 +590,7 @@ function wpmu_validate_blog_signup($blogname, $blog_title, $user = '') {
 		$path = $base.$blogname.'/';
 	}
 	if ( domain_exists($mydomain, $path, $current_site->id) )
-		$errors->add('blogname', __('Sorry, that site already exists!'));
+		$errors->add( 'blogname', __( 'Sorry, that site already exists!' ) );
 
 	if ( username_exists( $blogname ) ) {
 		if ( is_object( $user ) == false || ( is_object($user) && ( $user->user_login != $blogname ) ) )
@@ -956,7 +956,7 @@ function wpmu_create_blog($domain, $path, $title, $user_id, $meta = '', $site_id
 
 	// Check if the domain has been used already. We should return an error message.
 	if ( domain_exists($domain, $path, $site_id) )
-		return new WP_Error('blog_taken', __('Site already exists.'));
+		return new WP_Error( 'blog_taken', __( 'Sorry, that site already exists!' ) );
 
 	if ( !defined('WP_INSTALLING') )
 		define( 'WP_INSTALLING', true );
@@ -1629,7 +1629,7 @@ function signup_nonce_check( $result ) {
 		return $result;
 
 	if ( wp_create_nonce('signup_form_' . $_POST[ 'signup_form_id' ]) != $_POST['_signup_form'] )
-		wp_die( __('Please try again!') );
+		wp_die( __( 'Please try again.' ) );
 
 	return $result;
 }

@@ -1305,7 +1305,7 @@ function wp_insert_user( $userdata ) {
 		return new WP_Error('empty_user_login', __('Cannot create a user with an empty login name.') );
 
 	if ( !$update && username_exists( $user_login ) )
-		return new WP_Error('existing_user_login', __('This username is already registered.') );
+		return new WP_Error( 'existing_user_login', __( 'Sorry, that username already exists!' ) );
 
 	if ( empty($user_nicename) )
 		$user_nicename = sanitize_title( $user_login );
@@ -1320,7 +1320,7 @@ function wp_insert_user( $userdata ) {
 	$user_email = apply_filters('pre_user_email', $user_email);
 
 	if ( !$update && ! defined( 'WP_IMPORTING' ) && email_exists($user_email) )
-		return new WP_Error('existing_user_email', __('This email address is already registered.') );
+		return new WP_Error( 'existing_user_email', __( 'Sorry, that email address is already used!' ) );
 
 	if ( empty($nickname) )
 		$nickname = $user_login;

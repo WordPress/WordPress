@@ -127,7 +127,7 @@ if ( ! empty( $messages ) ) {
 			<?php } else {
 				echo $current_site->domain . $current_site->path ?><input name="blog[domain]" class="regular-text" type="text" title="<?php esc_attr_e( 'Domain' ) ?>"/>
 			<?php }
-			echo '<p>' . __( 'Only the characters a-z and 0-9 recommended.' ) . '</p>';
+			echo '<p>' . __( 'Only lowercase letters (a-z) and numbers are allowed.' ) . '</p>';
 			?>
 			</td>
 		</tr>
