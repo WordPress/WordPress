@@ -1237,12 +1237,6 @@ a.comment-reply-link:hover {
 .required {
 	color: red;
 }
-label ~ span.required {
-	display: block;
-	float: left;
-	margin: -18px 0 0 -16px;
-	margin: -1.285714286rem 0 0 -1.142857143rem;
-}
 
 
 /* =Front page template
