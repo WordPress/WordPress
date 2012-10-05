@@ -486,7 +486,7 @@ function wpmu_validate_user_signup($user_name, $user_email) {
 		$now = current_time( 'timestamp', true );
 		$diff = $now - $registered_at;
 		// If registered more than two days ago, cancel registration and let this signup go through.
-		if ( $diff > 172800 )
+		if ( $diff > 2 * DAY_IN_SECONDS )
 			$wpdb->delete( $wpdb->signups, array( 'user_login' => $user_name ) );
 		else
 			$errors->add('user_name', __('That username is currently reserved but may be available in a couple of days.'));
@@ -499,7 +499,7 @@ function wpmu_validate_user_signup($user_name, $user_email) {
 	if ( $signup != null ) {
 		$diff = current_time( 'timestamp', true ) - mysql2date('U', $signup->registered);
 		// If registered more than two days ago, cancel registration and let this signup go through.
-		if ( $diff > 172800 )
+		if ( $diff > 2 * DAY_IN_SECONDS )
 			$wpdb->delete( $wpdb->signups, array( 'user_email' => $user_email ) );
 		else
 			$errors->add('user_email', __('That email address has already been used. Please check your inbox for an activation email. It will become available in a couple of days if you do nothing.'));
@@ -602,7 +602,7 @@ function wpmu_validate_blog_signup($blogname, $blog_title, $user = '') {
 	if ( ! empty($signup) ) {
 		$diff = current_time( 'timestamp', true ) - mysql2date('U', $signup->registered);
 		// If registered more than two days ago, cancel registration and let this signup go through.
-		if ( $diff > 172800 )
+		if ( $diff > 2 * DAY_IN_SECONDS )
 			$wpdb->delete( $wpdb->signups, array( 'domain' => $mydomain , 'path' => $path ) );
 		else
 			$errors->add('blogname', __('That site is currently reserved but may be available in a couple days.'));
