@@ -1319,6 +1319,7 @@ function post_preview() {
 		$nonce = wp_create_nonce('post_preview_' . $id);
 		$url = add_query_arg( array( 'preview' => 'true', 'preview_id' => $id, 'preview_nonce' => $nonce ), get_permalink($id) );
 	}
+	$url = apply_filters( 'preview_post_link', $url );
 
 	return $url;
 }
