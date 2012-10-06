@@ -1,6 +1,5 @@
 // Ensure the global `wp` object exists.
-if ( typeof wp === 'undefined' )
-	var wp = {};
+window.wp = window.wp || {};
 
 // HTML utility functions
 // ----------------------

@@ -1,8 +1,7 @@
 // Utility functions for parsing and handling shortcodes in Javascript.
 
 // Ensure the global `wp` object exists.
-if ( typeof wp === 'undefined' )
-	var wp = {};
+window.wp = window.wp || {};
 
 (function(){
 	wp.shortcode = {

@@ -1,5 +1,4 @@
-if ( typeof wp === 'undefined' )
-	var wp = {};
+window.wp = window.wp || {};
 
 (function($){
 	var Attachment, Attachments, Query, compare;
