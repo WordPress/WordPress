@@ -915,8 +915,7 @@ table.diff td, table.diff th {
 	border-bottom-right-radius: 3px;
 }
 
-#front-page-warning,
-#front-static-pages ul,
+#front-static-pages .sub-option,
 ul.export-filters,
 .inline-editor ul.cat-checklist ul,
 .categorydiv ul.categorychecklist ul,

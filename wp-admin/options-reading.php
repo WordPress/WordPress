@@ -15,6 +15,8 @@ if ( ! current_user_can( 'manage_options' ) )
 $title = __( 'Reading Settings' );
 $parent_file = 'options-general.php';
 
+wp_enqueue_script( 'sample-permalink' );
+
 /**
  * Display JavaScript on the page.
  *
@@ -22,23 +24,26 @@ $parent_file = 'options-general.php';
  */
 function options_reading_add_js() {
 ?>
-<script type="text/javascript">
-//<![CDATA[
-	jQuery(document).ready(function($){
-		var section = $('#front-static-pages'),
-			staticPage = section.find('input:radio[value="page"]'),
-			selects = section.find('select'),
-			check_disabled = function(){
-				selects.prop( 'disabled', ! staticPage.prop('checked') );
-			};
-		check_disabled();
- 		section.find('input:radio').change(check_disabled);
+<script>
+jQuery(document).ready( function($) {
+	var section = $('#front-static-pages');
+	$('#show_on_front').change( function() {
+		var checked = $(this).prop('checked');
+		section.toggleClass('page-on-front', checked);
+		if ( checked )
+			$('#page_for_posts').prop('checked', true).change();
 	});
-//]]>
+	$('#page_for_posts').change( function() {
+		section.toggleClass('page-for-posts', $(this).prop('checked'));
+	});
+	$('#page_on_front').change( function() {
+		section.toggleClass('new-front-page', 'new' === $(this).val());
+	});
+});
 </script>
 <?php
 }
-add_action('admin_head', 'options_reading_add_js');
+add_action( 'admin_head', 'options_reading_add_js' );
 
 /**
  * Render the blog charset setting.
@@ -82,47 +87,100 @@ include( './admin-header.php' );
 <form method="post" action="options.php">
 <?php
 settings_fields( 'reading' );
-
-if ( ! in_array( get_option( 'blog_charset' ), array( 'utf8', 'utf-8', 'UTF8', 'UTF-8' ) ) )
-	add_settings_field( 'blog_charset', __( 'Encoding for pages and feeds' ), 'options_reading_blog_charset', 'reading', 'default', array( 'label_for' => 'blog_charset' ) );
+wp_nonce_field( 'samplepermalink', 'samplepermalinknonce', false );
 ?>
-
-<?php if ( ! get_pages() ) : ?>
-<input name="show_on_front" type="hidden" value="posts" />
 <table class="form-table">
 <?php
-	if ( 'posts' != get_option( 'show_on_front' ) ) :
-		update_option( 'show_on_front', 'posts' );
-	endif;
+if ( ! in_array( get_option( 'blog_charset' ), array( 'utf8', 'utf-8', 'UTF8', 'UTF-8' ) ) )
+	add_settings_field( 'blog_charset', __( 'Encoding for pages and feeds' ), 'options_reading_blog_charset', 'reading', 'default', array( 'label_for' => 'blog_charset' ) );
 
-else :
-	if ( 'page' == get_option( 'show_on_front' ) && ! get_option( 'page_on_front' ) && ! get_option( 'page_for_posts' ) )
+$classes = '';
+if ( 'page' == get_option( 'show_on_front' ) ) {
+	if ( ! get_pages() || ! get_option( 'page_on_front' ) && ! get_option( 'page_for_posts' ) ) {
 		update_option( 'show_on_front', 'posts' );
-?>
-<table class="form-table">
+	} else {
+		$classes = 'page-on-front';
+		if ( get_option( 'page_for_posts' ) )
+			$classes .= ' page-for-posts';
+	}
+}
+
+$all_pages = get_pages();
+$new_front_page_only = ! get_option( 'page_on_front' ) && ( ! $all_pages || ( 1 == count( $all_pages ) && __( 'sample-page' ) == $all_pages[0]->post_name ) );
+
+if ( current_user_can( 'create_posts', 'page' ) && ! ( get_option( 'page_for_posts' ) && $page_for_posts = get_post( get_option( 'page_for_posts' ) ) ) ) {
+	$title = _x( 'Blog', 'default page for posts title' );
+	// @todo What if the found page is post_type = attachment or post_status != publish?
+	//       We could go ahead and create a new one, but we would not be able to take over
+	//       the slug from another page. (We could for an attachment.)
+	//       We must also check that the user can edit this page and publish a page.
+	//       Otherwise, we must assume they cannot create pages (throughout), and thus
+	//       should fall back to the dropdown.
+	if ( ! $page_for_posts = get_page_by_path( sanitize_title( $title ) ) ) {
+		$page_for_posts = get_default_post_to_edit( 'page', true );
+		$page_for_posts->post_title = $title;
+		$page_for_posts->post_name = sanitize_title( $title );
+	}
+}
+
+if ( ! $new_front_page_only || current_user_can( 'create_posts', 'page' ) ) : ?>
 <tr valign="top">
-<th scope="row"><?php _e( 'Front page displays' ); ?></th>
-<td id="front-static-pages"><fieldset><legend class="screen-reader-text"><span><?php _e( 'Front page displays' ); ?></span></legend>
-	<p><label>
-		<input name="show_on_front" type="radio" value="posts" class="tog" <?php checked( 'posts', get_option( 'show_on_front' ) ); ?> />
-		<?php _e( 'Your latest posts' ); ?>
-	</label>
+<th scope="row"><?php _e( 'Enable a static front page' ); ?></th>
+<td id="front-static-pages" class="<?php echo $classes; ?>">
+	<fieldset><legend class="screen-reader-text"><span><?php _e( 'Enable a static front page' ); ?></span></legend>
+	<p><label for="show_on_front">
+		<input id="show_on_front" name="show_on_front" type="checkbox" value="page" <?php checked( 'page', get_option( 'show_on_front' ) ); ?> />
+		<?php printf( __( 'Show a <a href="%s">page</a> instead of your latest posts' ), 'edit.php?post_type=page' ); ?>
+	</label></p>
+	<p class="if-page-on-front sub-option">
+	<?php if ( $new_front_page_only ) : // If no pages, or only sample page, only allow a new page to be added ?>
+		<label for="page_on_front_title"><?php _e( 'Add new page titled:' ); ?>
+	<?php else : ?>
+		<label for="page_on_front">
+			<select name="page_on_front" id="page_on_front">
+				<option value="0"><?php _e( '&mdash; Select &mdash;' ); ?></option>
+				<?php if ( current_user_can( 'create_posts', 'page' ) ) : ?>
+				<option value="new" id="new-page"><?php _e( '&mdash; Add new page &mdash;' ); ?></option>
+				<?php endif; ?>
+				<?php echo walk_page_dropdown_tree( $all_pages, 0, array( 'selected' => get_option( 'page_on_front' ) ) ); ?>
+			</select>
+		</label>
+		<?php if ( current_user_can( 'create_posts', 'page' ) ) : ?>
+		<label for="page_on_front_title" class="if-new-front-page"><?php _e( 'titled:' ); ?>
+		<?php endif; ?>
+	<?php endif; ?>
+	<?php if ( current_user_can( 'create_posts', 'page' ) ) : ?>
+			<input name="page_on_front_title" type="text" id="page_on_front_title" value="<?php echo esc_attr_x( 'Home', 'default page on front title' ); ?>" />
+		</label>
+	<?php endif; ?>
 	</p>
-	<p><label>
-		<input name="show_on_front" type="radio" value="page" class="tog" <?php checked( 'page', get_option( 'show_on_front' ) ); ?> />
-		<?php printf( __( 'A <a href="%s">static page</a> (select below)' ), 'edit.php?post_type=page' ); ?>
-	</label>
+	<p class="if-page-on-front"><label for="page_for_posts">
+		<input id="page_for_posts" name="page_for_posts" type="checkbox" value="<?php echo $page_for_posts->ID; ?>" <?php checked( (bool) get_option( 'page_for_posts' ) ); ?> />
+		<?php _e( 'Show latest posts on a separate page' ); ?>
+	</label></p>
+	<?php if ( current_user_can( 'create_posts', 'page' ) ) : ?>
+	<p class="if-page-for-posts sub-option"><label for="page_for_posts_title"><?php _e( 'Page title:' ); ?>
+		<input name="page_for_posts_title" type="text" id="page_for_posts_title" value="<?php echo esc_attr( htmlspecialchars( $page_for_posts->post_title ) ); ?>" />
+	</label></p>
+	<p class="if-page-for-posts sub-option" id="edit-slug-box">
+		<?php echo get_sample_permalink_html( $page_for_posts->ID, $page_for_posts->post_title, $page_for_posts->post_name ); ?>
 	</p>
-<ul>
-	<li><label for="page_on_front"><?php printf( __( 'Front page: %s' ), wp_dropdown_pages( array( 'name' => 'page_on_front', 'echo' => 0, 'show_option_none' => __( '&mdash; Select &mdash;' ), 'option_none_value' => '0', 'selected' => get_option( 'page_on_front' ) ) ) ); ?></label></li>
-	<li><label for="page_for_posts"><?php printf( __( 'Posts page: %s' ), wp_dropdown_pages( array( 'name' => 'page_for_posts', 'echo' => 0, 'show_option_none' => __( '&mdash; Select &mdash;' ), 'option_none_value' => '0', 'selected' => get_option( 'page_for_posts' ) ) ) ); ?></label></li>
-</ul>
-<?php if ( 'page' == get_option( 'show_on_front' ) && get_option( 'page_for_posts' ) == get_option( 'page_on_front' ) ) : ?>
-<div id="front-page-warning" class="error inline"><p><?php _e( '<strong>Warning:</strong> these pages should not be the same!' ); ?></p></div>
-<?php endif; ?>
-</fieldset></td>
+	<input name="post_name" type="hidden" id="post_name" value="<?php echo esc_attr( apply_filters( 'editable_slug', $page_for_posts->post_name ) ); ?>" />
+	<?php if ( 'page' == get_option( 'show_on_front' ) && get_option( 'page_for_posts' ) == get_option( 'page_on_front' ) ) : ?>
+	<div class="error inline"><p><strong><?php _e( 'ERROR:' ); ?></strong> <?php _e( 'These pages should not be the same!' ); ?></p></div>
+	<?php endif; ?>
+	</fieldset>
+	<?php else : // cannot create pages, so fall back to a selector of existing pages ?>
+	<p class="if-page-for-posts sub-option"><label for="page_for_posts">
+		<?php wp_dropdown_pages( array(
+			'name' => 'page_for_posts', 'show_option_none' => __( '&mdash; Select &mdash;' ),
+			'option_none_value' => '0', 'selected' => get_option( 'page_for_posts' )
+		) ); ?>
+	<?php endif; // create pages ?>
+</td>
 </tr>
-<?php endif; ?>
+<?php endif; // if no pages to choose from and can't create pages ?>
+
 <tr valign="top">
 <th scope="row"><label for="posts_per_page"><?php _e( 'Blog pages show at most' ); ?></label></th>
 <td>

@@ -2929,6 +2929,10 @@ input#link_url {
 	font-size: 11px;
 }
 
+#front-static-pages #edit-slug-box {
+	padding: 0;
+}
+
 #editable-post-name-full {
 	display: none;
 }
@@ -3414,8 +3418,7 @@ div.tabs-panel-inactive {
 	margin: 0;
 }
 
-#front-page-warning,
-#front-static-pages ul,
+#front-static-pages .sub-option,
 ul.export-filters,
 .inline-editor ul.cat-checklist ul,
 .categorydiv ul.categorychecklist ul,
@@ -4986,6 +4989,19 @@ h2 .nav-tab {
 .options-general-php .spinner {
 	float: none;
 	margin: -3px 3px;
+}
+
+.js.options-reading-php .if-page-on-front,
+.js.options-reading-php .if-page-for-posts,
+.options-reading-php .if-new-front-page {
+	display: none;
+}
+.options-reading-php .page-on-front .if-page-on-front,
+.options-reading-php .page-for-posts .if-page-for-posts {
+	display: block;
+}
+.options-reading-php .new-front-page .if-new-front-page {
+	display: inline;
 }
 
 /*------------------------------------------------------------------------------

@@ -1062,6 +1062,7 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 	global $wpdb;
 	$post = get_post($id);
 
+	$context = isset( $_POST['context'] ) ? $_POST['context'] : get_current_screen()->id;
 	list($permalink, $post_name) = get_sample_permalink($post->ID, $new_title, $new_slug);
 
 	if ( 'publish' == get_post_status( $post ) ) {
@@ -1073,6 +1074,8 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 	}
 
 	if ( false === strpos($permalink, '%postname%') && false === strpos($permalink, '%pagename%') ) {
+		if ( 'options-reading' == $context )
+			return '';
 		$return = '<strong>' . __('Permalink:') . "</strong>\n" . '<span id="sample-permalink" tabindex="-1">' . $permalink . "</span>\n";
 		if ( '' == get_option( 'permalink_structure' ) && current_user_can( 'manage_options' ) && !( 'page' == get_option('show_on_front') && $id == get_option('page_on_front') ) )
 			$return .= '<span id="change-permalinks"><a href="options-permalink.php" class="button button-small" target="_blank">' . __('Change Permalinks') . "</a></span>\n";
@@ -1101,12 +1104,12 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 	$post_name_html = '<span id="editable-post-name" title="' . $title . '">' . $post_name_abridged . '</span>';
 	$display_link = str_replace(array('%pagename%','%postname%'), $post_name_html, $permalink);
 	$view_link = str_replace(array('%pagename%','%postname%'), $post_name, $permalink);
-	$return =  '<strong>' . __('Permalink:') . "</strong>\n";
+	$return  = ( 'options-reading' == $context ) ? __( 'Located at' ) . "\n" : '<strong>' . __( 'Permalink:' ) . "</strong>\n";
 	$return .= '<span id="sample-permalink" tabindex="-1">' . $display_link . "</span>\n";
 	$return .= '&lrm;'; // Fix bi-directional text display defect in RTL languages.
 	$return .= '<span id="edit-slug-buttons"><a href="#post_name" class="edit-slug button button-small hide-if-no-js" onclick="editPermalink(' . $id . '); return false;">' . __('Edit') . "</a></span>\n";
 	$return .= '<span id="editable-post-name-full">' . $post_name . "</span>\n";
-	if ( isset($view_post) )
+	if ( isset( $view_post ) && 'options-reading' != $context )
 		$return .= "<span id='view-post-btn'><a href='$view_link' class='button button-small'>$view_post</a></span>\n";
 
 	$return = apply_filters('get_sample_permalink_html', $return, $id, $new_title, $new_slug);
@@ -1322,3 +1325,87 @@ function post_preview() {
 
 	return $url;
 }
+
+/**
+ * Creates new pages to be set as a front page or a page for posts in Reading Settings.
+ *
+ * @todo Make sure we are doing adequate sanitization on success, and cleanup/reset on failure.
+ *
+ * @since 3.5.0
+ * @access private
+ */
+function _create_pages_for_reading_settings() {
+	// If we're saving the Reading Settings screen, intercept.
+	if ( ! isset( $_POST['show_on_front'] ) )
+		return;
+
+	// If a new front page was meant to be created, go forth and create it.
+	if ( isset( $_POST['page_on_front'] ) && 'new' == $_POST['page_on_front'] ) {
+		if ( ! current_user_can( 'create_posts', 'page' ) ) {
+			$_POST['page_on_front'] = 0;
+			$_POST['show_on_front'] = 'posts';
+			add_settings_error( 'page_on_front', __( 'You are not allowed to create pages on this site.' ) );
+		}
+
+		$existing_page = get_page_by_title( stripslashes( $_POST['page_on_front_title'] ) );
+
+		// If page already exists and it's public, there's no need to create a new page
+		if ( $existing_page && 'publish' == $existing_page->post_status ) {
+			$page_id = $existing_page->ID;
+		} else {
+			$page_id = wp_insert_post( array(
+				'post_title' => $_POST['page_on_front_title'],
+				'post_type' => 'page',
+				'post_status' => 'publish',
+				'comment_status' => 'closed',
+				'ping_status' => 'closed',
+				// @todo Create some sort of a 'context' in postmeta so we know we created a page through these means.
+				//       Consider then showing that context in the list table as a good-first-step.
+			), true );
+		}
+
+		// Make sure page_on_front is properly saved by options.php.
+		if ( is_wp_error( $page_id ) )
+			$_POST['page_on_front'] = 0;
+		else
+			$_POST['page_on_front'] = $page_id;
+	}
+
+	// If a page for posts was meant to be specified, update/create it.
+	if ( ! isset( $_POST['page_for_posts'] ) )
+		return;
+
+	$page_for_posts = (int) $_POST['page_for_posts'];
+	if ( ! $page_for_posts || ! $page = get_post( $page_for_posts, ARRAY_A ) ) {
+		$_POST['page_for_posts'] = 0;
+		return;
+	}
+
+	// @todo The UI (see @todo's in options-reading) should cover the next 3 conditionals,
+	//       which means we shouldn't need to bother with setting a settings error here.
+	//       However, we may wish to restore settings before bailing, beyond setting
+	//       page_for_posts to 0 (which we then expect to get cleaned up by options.php).
+	if ( 'page' != $page['post_type'] || ! current_user_can( 'edit_post', $page_for_posts ) ) {
+		$_POST['page_for_posts'] = 0;
+		return;
+	}
+
+	if ( 'publish' != $page['post_status'] && ! current_user_can( 'publish_post', $page_for_posts ) ) {
+		$_POST['page_for_posts'] = 0;
+		return;
+	}
+
+	$args = add_magic_quotes( $page );
+	$args['post_title']  = $_POST['page_for_posts_title'];
+	$args['post_name']   = $_POST['post_name'];
+	$args['post_status'] = 'publish';
+	if ( 'auto-draft' == $page['post_status'] ) {
+		$args['comment_status'] = 'closed';
+		$args['ping_status'] = 'closed';
+	}
+
+	$page_id = wp_insert_post( $args, true );
+	if ( is_wp_error( $page_id ) )
+		$_POST['page_for_posts'] = 0;
+}
+add_filter( 'admin_init', '_create_pages_for_reading_settings' );
