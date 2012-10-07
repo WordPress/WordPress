@@ -1686,7 +1686,7 @@ function wp_customize_support_script() {
 			request = true;
 <?php		endif; ?>
 
-			b[c] = b[c].replace( rcs, '' );
+			b[c] = b[c].replace( rcs, ' ' );
 			b[c] += ( window.postMessage && request ? ' ' : ' no-' ) + cs;
 		}());
 	</script>
