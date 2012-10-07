@@ -129,7 +129,7 @@
 					css += 'background-image: url("' + image() + '");';
 					css += 'background-position: top ' + position_x() + ';';
 					css += 'background-repeat: ' + repeat() + ';';
-					css += 'background-position: top ' + attachment() + ';';
+					css += 'background-attachment: ' + attachment() + ';';
 				}
 
 				// Refresh the stylesheet by removing and recreating it.
