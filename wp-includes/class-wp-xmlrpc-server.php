@@ -912,8 +912,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		if ( in_array( 'all', $fields ) ) {
 			$_user = array_merge( $_user, $user_fields );
-		}
-		else {
+		} else {
 			if ( in_array( 'basic', $fields ) ) {
 				$basic_fields = array( 'username', 'email', 'registered', 'display_name', 'nicename' );
 				$fields = array_merge( $fields, $basic_fields );
@@ -2092,7 +2091,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( ! current_user_can( 'list_users' ) )
 			return new IXR_Error( 401, __( 'Sorry, you cannot list users.' ) );
 
-		$query = array();
+		$query = array( 'fields' => 'all_with_meta' );
 
 		$query['number'] = ( isset( $filter['number'] ) ) ? absint( $filter['number'] ) : 50;
 		$query['offset'] = ( isset( $filter['offset'] ) ) ? absint( $filter['offset'] ) : 0;
