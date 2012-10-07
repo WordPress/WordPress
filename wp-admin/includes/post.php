@@ -1047,23 +1047,26 @@ function get_sample_permalink($id, $title = null, $name = null) {
 }
 
 /**
- * sample permalink html
- *
- * intended to be used for the inplace editor of the permalink post slug on in the post (and page?) editor.
+ * Returns the HTML of the sample permalink slug editor.
  *
  * @since 2.5.0
  *
  * @param int|object $id Post ID or post object.
- * @param string $new_title (optional) New title
- * @param string $new_slug (optional) New slug
- * @return string intended to be used for the inplace editor of the permalink post slug on in the post (and page?) editor.
+ * @param string $new_title Optional. New title.
+ * @param string $new_slug Optional. New slug.
+ * @param string|WP_Screen $screen Optional. Screen where the editor is being shown.
+ * @return string The HTML of the sample permalink slug editor.
  */
-function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
+function get_sample_permalink_html( $id, $new_title = null, $new_slug = null, $screen = null ) {
 	global $wpdb;
 	$post = get_post($id);
 
-	$context = isset( $_POST['context'] ) ? $_POST['context'] : get_current_screen()->id;
 	list($permalink, $post_name) = get_sample_permalink($post->ID, $new_title, $new_slug);
+
+	if ( isset( $screen ) )
+		$screen = convert_to_screen( $screen );
+	else
+		$screen = get_current_screen();
 
 	if ( 'publish' == get_post_status( $post ) ) {
 		$ptype = get_post_type_object($post->post_type);
@@ -1074,7 +1077,7 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 	}
 
 	if ( false === strpos($permalink, '%postname%') && false === strpos($permalink, '%pagename%') ) {
-		if ( 'options-reading' == $context )
+		if ( 'options-reading' == $screen->id )
 			return '';
 		$return = '<strong>' . __('Permalink:') . "</strong>\n" . '<span id="sample-permalink" tabindex="-1">' . $permalink . "</span>\n";
 		if ( '' == get_option( 'permalink_structure' ) && current_user_can( 'manage_options' ) && !( 'page' == get_option('show_on_front') && $id == get_option('page_on_front') ) )
@@ -1104,12 +1107,12 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 	$post_name_html = '<span id="editable-post-name" title="' . $title . '">' . $post_name_abridged . '</span>';
 	$display_link = str_replace(array('%pagename%','%postname%'), $post_name_html, $permalink);
 	$view_link = str_replace(array('%pagename%','%postname%'), $post_name, $permalink);
-	$return  = ( 'options-reading' == $context ) ? __( 'Located at' ) . "\n" : '<strong>' . __( 'Permalink:' ) . "</strong>\n";
+	$return  = ( 'options-reading' == $screen->id ) ? __( 'Located at' ) . "\n" : '<strong>' . __( 'Permalink:' ) . "</strong>\n";
 	$return .= '<span id="sample-permalink" tabindex="-1">' . $display_link . "</span>\n";
 	$return .= '&lrm;'; // Fix bi-directional text display defect in RTL languages.
 	$return .= '<span id="edit-slug-buttons"><a href="#post_name" class="edit-slug button button-small hide-if-no-js" onclick="editPermalink(' . $id . '); return false;">' . __('Edit') . "</a></span>\n";
 	$return .= '<span id="editable-post-name-full">' . $post_name . "</span>\n";
-	if ( isset( $view_post ) && 'options-reading' != $context )
+	if ( isset( $view_post ) && 'options-reading' != $screen->id )
 		$return .= "<span id='view-post-btn'><a href='$view_link' class='button button-small'>$view_post</a></span>\n";
 
 	$return = apply_filters('get_sample_permalink_html', $return, $id, $new_title, $new_slug);

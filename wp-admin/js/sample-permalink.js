@@ -25,7 +25,7 @@ var editPermalink, makeSlugeditClickable;
 				post_id: post_id,
 				new_slug: new_slug,
 				new_title: $('#title').val(),
-				context: pagenow,
+				screen: pagenow,
 				samplepermalinknonce: $('#samplepermalinknonce').val()
 			}, function(data) {
 				$('#edit-slug-box').html(data);
