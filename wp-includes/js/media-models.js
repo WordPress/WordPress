@@ -146,11 +146,11 @@ window.wp = window.wp || {};
 			if ( 'width' === constraint && width > maxWidth ) {
 				return {
 					width : maxWidth,
-					height: maxWidth * height / width
+					height: Math.round( maxWidth * height / width )
 				};
 			} else if ( 'height' === constraint && height > maxHeight ) {
 				return {
-					width : maxHeight * width / height,
+					width : Math.round( maxHeight * width / height ),
 					height: maxHeight
 				};
 			} else {

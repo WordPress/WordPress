@@ -230,26 +230,21 @@
 .attachment {
 	position: relative;
 	float: left;
-	width: 200px;
-	height: 200px;
+	width: 199px;
+	height: 199px;
 
 	padding: 0;
 	margin: 0 10px 20px;
-	border: 1px solid #dfdfdf;
+	box-shadow:
+		inset 0 0 15px rgba( 0, 0, 0, 0.1 ),
+		inset 0 0 0 1px rgba( 0, 0, 0, 0.05 );
+	background: #eee;
 
 	-webkit-user-select: none;
 	-moz-user-select:    none;
 	-ms-user-select:     none;
 	-o-user-select:      none;
 	user-select:         none;
-}
-
-.attachment:hover {
-	border-color: #d54e21;
-}
-
-.attachment.library.selected {
-	border-color: #21759b;
 }
 
 .attachment.library.selected:after {
@@ -276,13 +271,17 @@
 	overflow: hidden;
 }
 
-.attachment img {
+.attachment .icon,
+.attachment .thumbnail {
 	display: block;
-	max-height: 200px;
-	max-width: 200px;
-
-	/* Vertically center the thumbnails. */
 	position: absolute;
+	top: 0;
+	left: 0;
+	margin: 0 auto;
+}
+
+/* Vertically center the icons. */
+.attachment .icon {
 	top: 50%;
 	left: 50%;
 	-webkit-transform: translate( -50%, -50% );
@@ -290,9 +289,50 @@
 	-ms-transform:     translate( -50%, -50% );
 	-o-transform:      translate( -50%, -50% );
 	transform:         translate( -50%, -50% );
+}
 
-	margin: 0 auto;
-	box-shadow: inset 0 0 0 1px rgba( 0, 0, 0, 0.4 );
+.attachment .thumbnail,
+.attachment .thumbnail img {
+	-webkit-transition-property: width, height, top, left, right, bottom;
+	-moz-transition-property:    width, height, top, left, right, bottom;
+	-ms-transition-property:     width, height, top, left, right, bottom;
+	-o-transition-property:      width, height, top, left, right, bottom;
+	transition-property:         width, height, top, left, right, bottom;
+	-webkit-transition-duration: 80ms;
+	-moz-transition-duration:    80ms;
+	-ms-transition-duration:     80ms;
+	-o-transition-duration:      80ms;
+	transition-duration:         80ms;
+	-webkit-transition-delay:    125ms;
+	-moz-transition-delay:       125ms;
+	-ms-transition-delay:        125ms;
+	-o-transition-delay:         125ms;
+	transition-delay:            125ms;
+}
+
+.attachment .thumbnail {
+	width: 199px;
+	height: 199px;
+}
+
+.attachment .thumbnail:after {
+	content: '';
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	box-shadow: inset 0 0 0 1px rgba( 0, 0, 0, 0.1 );
+	overflow: hidden;
+}
+
+.attachment.fit .thumbnail:after {
+	box-shadow: inset 0 0 0 1px rgba( 0, 0, 0, 0.15 );
+}
+
+.attachment .thumbnail img {
+	position: absolute;
 }
 
 .attachment .insert {

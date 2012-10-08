@@ -376,7 +376,9 @@
 		template:  media.template('attachment'),
 
 		events: {
-			'click': 'toggleSelection'
+			'click': 'toggleSelection',
+			'mouseenter': 'shrink',
+			'mouseleave': 'expand'
 		},
 
 		buttons: {},
@@ -396,7 +398,7 @@
 		render: function() {
 			var attachment = this.model.toJSON(),
 				options = {
-					thumbnail:   'image' === attachment.type ? attachment.url : attachment.icon,
+					icon:        attachment.icon,
 					uploading:   attachment.uploading,
 					orientation: attachment.orientation || 'landscape',
 					type:        attachment.type,
@@ -404,13 +406,9 @@
 					buttons:     this.buttons
 				};
 
-			// Use the medium image size if possible. If the medium size
-			// doesn't exist, then the attachment is too small.
-			// In that case, use the attachment itself.
-			if ( attachment.sizes && attachment.sizes.medium ) {
-				options.orientation = attachment.sizes.medium.orientation;
-				options.thumbnail   = attachment.sizes.medium.url;
-			}
+
+			if ( 'image' === attachment.type )
+				_.extend( options, this.crop() );
 
 			this.$el.html( this.template( options ) );
 
@@ -456,6 +454,68 @@
 
 		preventDefault: function( event ) {
 			event.preventDefault();
+		},
+
+		imageSize: function( size ) {
+			var sizes = this.model.get('sizes');
+
+			size = size || 'medium';
+
+			// Use the provided image size if possible.
+			if ( sizes && sizes[ size ] ) {
+				return sizes[ size ];
+			} else {
+				return {
+					url:         this.model.get('url'),
+					width:       this.model.get('width'),
+					height:      this.model.get('height'),
+					orientation: this.model.get('orientation')
+				};
+			}
+		},
+
+		crop: function( sizeId ) {
+			var edge = 199,
+				size = this.imageSize( sizeId ),
+				wide, tall;
+
+			wide = wp.media.fit( _.extend( { maxWidth:  edge }, size ) );
+			tall = wp.media.fit( _.extend( { maxHeight: edge }, size ) );
+
+			_.extend( size, wide.width > tall.width ? wide : tall );
+
+			size.top  = ( edge - size.height ) / 2;
+			size.left = ( edge - size.width ) / 2;
+			return size;
+		},
+
+		fit: function( sizeId ) {
+			var margin = 10,
+				full = 199,
+				edge = full - ( margin * 2 ),
+				size = _.extend( wp.media.fit( _.extend({
+					maxWidth:  edge,
+					maxHeight: edge
+				}, this.imageSize( sizeId ) ) ) );
+
+			size.top  = Math.round( margin + ( edge - size.height ) / 2 );
+			size.left = Math.round( margin + ( edge - size.width ) / 2 );
+			return size;
+		},
+
+		shrink: function() {
+			var size = _.pick( this.fit(), 'top', 'left', 'width', 'height' );
+			this.$el.addClass('fit');
+			this.$('.thumbnail').css( size );
+			this.$('.thumbnail img').css( _.extend( size, { top: 0, left: 0 } ) );
+		},
+
+		expand: function() {
+			var size = _.pick( this.crop(), 'top', 'left', 'width', 'height' );
+			this.$el.removeClass('fit');
+			this.$('.thumbnail img').css( size );
+			this.$('.thumbnail').css({ top: 0, left: 0, width: 199, height: 199 });
+
 		}
 	});
 

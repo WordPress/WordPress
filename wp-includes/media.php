@@ -1330,8 +1330,13 @@ function wp_print_media_templates( $attachment ) {
 
 	<script type="text/html" id="tmpl-attachment">
 		<div class="attachment-preview type-<%- type %> subtype-<%- subtype %> <%- orientation %>">
-			<% if ( thumbnail ) { %>
-				<img src="<%- thumbnail %>" draggable="false" />
+			<% if ( 'image' === type ) { %>
+				<div class="thumbnail">
+					<img src="<%- url %>" width="<%- width %>" height="<%- height %>" draggable="false"
+					style="top:<%- top %>px; left:<%- left %>px;" />
+				</div>
+			<% } else { %>
+				<img src="<%- icon %>" class="icon" draggable="false" />
 			<% } %>
 
 			<% if ( uploading ) { %>
@@ -1343,7 +1348,7 @@ function wp_print_media_templates( $attachment ) {
 			<% } %>
 
 			<% if ( buttons.insert ) { %>
-				<a class="insert button button-primary button-small" href="#"><?php _e( 'Insert' ); ?></a>
+				<a class="insert button button-small" href="#"><?php _e( 'Insert' ); ?></a>
 			<% } %>
 		</div>
 		<div class="describe"></div>
