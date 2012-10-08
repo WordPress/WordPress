@@ -1337,22 +1337,37 @@ function post_preview() {
  * @since 3.5.0
  * @access private
  */
-function _create_pages_for_reading_settings() {
-	// If we're saving the Reading Settings screen, intercept.
-	if ( ! isset( $_POST['show_on_front'] ) )
-		return;
+function _show_on_front_reading_settings( $show_on_front_value ) {
+	// If we're not saving the Reading Settings screen, don't intercept.
+	if ( ! $_POST || ! strpos( wp_get_referer(), 'options-reading.php' ) )
+		return $show_on_front_value;
+
+	if ( 'posts' == $show_on_front_value ) {
+		update_option( 'page_on_front', 0 );
+		update_option( 'page_for_posts', 0 );
+		return $show_on_front_value;
+	}
 
 	// If a new front page was meant to be created, go forth and create it.
-	if ( isset( $_POST['page_on_front'] ) && 'new' == $_POST['page_on_front'] ) {
+	if ( 'new' == $_POST['page_on_front'] ) {
+
+		// If the user can't create pages, revert.
 		if ( ! current_user_can( 'create_posts', 'page' ) ) {
-			$_POST['page_on_front'] = 0;
-			$_POST['show_on_front'] = 'posts';
-			add_settings_error( 'page_on_front', __( 'You are not allowed to create pages on this site.' ) );
+			// If an existing page is set, keep things as is, rather than reverting to showing posts.
+			if ( get_option( 'page_on_front' ) ) {
+				$show_on_front_value = 'page';
+			} else {
+				$show_on_front_value = 'posts';
+				update_option( 'page_on_front', 0 );
+				update_option( 'page_for_posts', 0 );
+			}
+			add_settings_error( 'page_on_front', 'create_pages', __( 'You are not allowed to create pages on this site.' ) );
+			return $show_on_front_value;
 		}
 
 		$existing_page = get_page_by_title( stripslashes( $_POST['page_on_front_title'] ) );
 
-		// If page already exists and it's public, there's no need to create a new page
+		// If page already exists and it's public, there's no need to create a new page.
 		if ( $existing_page && 'publish' == $existing_page->post_status ) {
 			$page_id = $existing_page->ID;
 		} else {
@@ -1364,38 +1379,53 @@ function _create_pages_for_reading_settings() {
 				'ping_status' => 'closed',
 				// @todo Create some sort of a 'context' in postmeta so we know we created a page through these means.
 				//       Consider then showing that context in the list table as a good-first-step.
-			), true );
+			) );
 		}
 
-		// Make sure page_on_front is properly saved by options.php.
-		if ( is_wp_error( $page_id ) )
-			$_POST['page_on_front'] = 0;
-		else
-			$_POST['page_on_front'] = $page_id;
+		if ( $page_id ) {
+			update_option( 'page_on_front', $page_id );
+		// If we can't save it, revert.
+		} elseif ( get_option( 'page_on_front' ) ) {
+			// If an existing page is set, keep things as is, rather than reverting to showing posts.
+			$show_on_front_value = 'page';
+		} else {
+			$show_on_front_value = 'posts';
+			update_option( 'page_on_front', 0 );
+			update_option( 'page_for_posts', 0 );
+			return $show_on_front_value;
+		}
+	} elseif ( $_POST['page_on_front'] ) {
+		update_option( 'page_on_front', $_POST['page_on_front'] );
+	} else {
+		// They didn't select a page at all. Sad face.
+		$show_on_front_value = 'posts';
+		update_option( 'page_on_front', 0 );
+		update_option( 'page_for_posts', 0 );
+		add_settings_error( 'page_on_front', 'no_page_selected', __( 'You must select a page to set a static front page.' ) );
+		return $show_on_front_value;
 	}
 
 	// If a page for posts was meant to be specified, update/create it.
-	if ( ! isset( $_POST['page_for_posts'] ) )
-		return;
-
-	$page_for_posts = (int) $_POST['page_for_posts'];
-	if ( ! $page_for_posts || ! $page = get_post( $page_for_posts, ARRAY_A ) ) {
-		$_POST['page_for_posts'] = 0;
-		return;
+	if ( ! isset( $_POST['page_for_posts'] ) ) {
+		update_option( 'page_for_posts', 0 );
+		return $show_on_front_value;
 	}
 
-	// @todo The UI (see @todo's in options-reading) should cover the next 3 conditionals,
-	//       which means we shouldn't need to bother with setting a settings error here.
-	//       However, we may wish to restore settings before bailing, beyond setting
-	//       page_for_posts to 0 (which we then expect to get cleaned up by options.php).
+	$page_for_posts = (int) $_POST['page_for_posts'];
+
+	if ( ! $page_for_posts || ! $page = get_post( $page_for_posts, ARRAY_A ) ) {
+		update_option( 'page_for_posts', 0 );
+		return $show_on_front_value;
+	}
+
 	if ( 'page' != $page['post_type'] || ! current_user_can( 'edit_post', $page_for_posts ) ) {
-		$_POST['page_for_posts'] = 0;
-		return;
+		update_option( 'page_for_posts', 0 );
+		return $show_on_front_value;
 	}
 
 	if ( 'publish' != $page['post_status'] && ! current_user_can( 'publish_post', $page_for_posts ) ) {
-		$_POST['page_for_posts'] = 0;
-		return;
+		update_option( 'page_for_posts', 0 );
+		return $show_on_front_value;
 	}
 
 	$args = add_magic_quotes( $page );
@@ -1407,8 +1437,9 @@ function _create_pages_for_reading_settings() {
 		$args['ping_status'] = 'closed';
 	}
 
-	$page_id = wp_insert_post( $args, true );
-	if ( is_wp_error( $page_id ) )
-		$_POST['page_for_posts'] = 0;
+	$page_id = wp_insert_post( $args );
+	update_option( 'page_for_posts', $page_id );
+
+	return $show_on_front_value;
 }
-add_filter( 'admin_init', '_create_pages_for_reading_settings' );
+add_filter( 'sanitize_option_show_on_front', '_show_on_front_reading_settings' );

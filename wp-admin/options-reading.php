@@ -32,6 +32,8 @@ jQuery(document).ready( function($) {
 		section.toggleClass('page-on-front', checked);
 		if ( checked )
 			$('#page_for_posts').prop('checked', true).change();
+		else
+			section.removeClass('page-for-posts');
 	});
 	$('#page_for_posts').change( function() {
 		section.toggleClass('page-for-posts', $(this).prop('checked'));
@@ -116,7 +118,8 @@ if ( current_user_can( 'create_posts', 'page' ) && ! ( get_option( 'page_for_pos
 	//       We must also check that the user can edit this page and publish a page.
 	//       Otherwise, we must assume they cannot create pages (throughout), and thus
 	//       should fall back to the dropdown.
-	if ( ! $page_for_posts = get_page_by_path( sanitize_title( $title ) ) ) {
+	$page_for_posts = get_page_by_path( sanitize_title( $title ) );
+	if ( ! $page_for_posts || $page_for_posts->ID == get_option( 'page_on_front' ) ) {
 		$page_for_posts = get_default_post_to_edit( 'page', true );
 		$page_for_posts->post_title = $title;
 		$page_for_posts->post_name = sanitize_title( $title );
