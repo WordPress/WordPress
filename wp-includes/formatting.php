@@ -2780,6 +2780,11 @@ function sanitize_option($option, $value) {
 			$value = absint( $value );
 			break;
 
+		case 'show_on_front' :
+			if ( ! $value )
+				$value = 'posts';
+			break;
+
 		case 'posts_per_page':
 		case 'posts_per_rss':
 			$value = (int) $value;
