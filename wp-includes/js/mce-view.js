@@ -387,12 +387,14 @@ window.wp = window.wp || {};
 		classes = img['class'] ? img['class'].split(/\s+/) : [];
 		size    = attachment.sizes ? attachment.sizes[ props.size ] : {};
 
-		if ( ! size )
+		if ( ! size ) {
 			delete props.size;
+			size = attachment;
+		}
 
-		img.width  = size.width  || attachment.width;
-		img.height = size.height || attachment.height;
-		img.src    = size.url    || attachment.url;
+		img.width  = size.width;
+		img.height = size.height;
+		img.src    = size.url;
 
 		// Update `img` classes.
 		if ( props.align )
