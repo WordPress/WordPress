@@ -3,11 +3,10 @@
  */
 .media-modal {
 	position: fixed;
-	top: 60px;
+	top: 40px;
 	left: 60px;
 	right: 60px;
 	bottom: 60px;
-	background: #fff;
 	z-index: 125000;
 }
 
@@ -28,29 +27,43 @@
 	left: 0;
 	right: 0;
 	height: 28px;
-	background: #f1f1f1;
 }
 
 .media-modal-header h3 {
 	float: left;
-	padding: 0 0 0 10px;
+	padding: 0;
 	margin: 0;
-	line-height: 28px;
+	font-size: 1.4em;
+}
+
+.media-modal-header h3,
+.media-modal-close {
+	line-height: 40px;
+	color: #fff;
+	font-weight: 200;
+	text-shadow: 0 0 16px rgba( 0, 0, 0, 0.6 );
 }
 
 .media-modal-close {
 	float: right;
-	padding-right: 10px;
-	line-height: 28px;
+	text-decoration: none;
+	font-size: 1.8em;
+}
+
+.media-modal-close:hover,
+.media-modal-close:focus {
+	color: #fff;
+	text-shadow: 0 0 16px rgba( 255, 255, 255, 0.8 );
 }
 
 .media-modal-content {
 	position: absolute;
-	top: 28px;
+	top: 40px;
 	left: 0;
 	right: 0;
 	bottom: 0;
 	overflow: auto;
+	background: #fff;
 }
 
 /**
