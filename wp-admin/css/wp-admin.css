@@ -1122,6 +1122,9 @@ form.upgrade .hint {
 	margin: 0;
 	padding: 8px 20px 12px;
 	position: relative;
+}
+
+#contextual-help-wrap {
 	overflow: auto;
 }
 
