@@ -2095,7 +2095,7 @@ html.wp-toolbar {
 
 .postbox .inside,
 .stuffbox .inside {
-	padding: 0 10px;
+	padding: 0 12px 0 10px;
 	line-height: 1.4em;
 }
 
@@ -5968,11 +5968,11 @@ h3:hover .edit-box {
 }
 
 #dashboard-widgets form .input-text-wrap input {
-	width: 99%;
+	width: 100%;
 }
 
 #dashboard-widgets form .textarea-wrap textarea {
-	width: 99%;
+	width: 100%;
 }
 
 #dashboard-widgets .postbox form .submit {
@@ -5980,10 +5980,6 @@ h3:hover .edit-box {
 	margin: .5em 0 0;
 	padding: 0;
 	border: none;
-}
-
-#dashboard-widgets-wrap #dashboard-widgets .postbox form .submit input {
-	margin: 0 5px 0 0;
 }
 
 #dashboard-widgets-wrap #dashboard-widgets .postbox form .submit #publish {
@@ -6186,6 +6182,11 @@ h3:hover .edit-box {
 }
 
 /* QuickPress */
+#dashboard_quick_press .easy-blogging {
+	padding: 0 8px;
+	text-align: left;
+}
+
 #dashboard_quick_press .input-text-wrap {
 	position: relative;
 }
@@ -6193,6 +6194,10 @@ h3:hover .edit-box {
 #dashboard_quick_press .prompt {
 	color: #bbb;
 	position: absolute;
+}
+
+#dashboard_quick_press div.updated  {
+	padding: 0 5px;
 }
 
 #title-wrap label,

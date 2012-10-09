@@ -1,5 +1,14 @@
 /* Fixes for IE 7 bugs */
 
+#dashboard-widgets form .input-text-wrap input,
+#dashboard-widgets form .textarea-wrap textarea {
+	width: 99%;
+}
+
+#dashboard-widgets form #title {
+	width: 98%;
+}
+
 .wp-editor-wrap .wp-editor-container textarea.wp-editor-area {
 	width: 97%;
 }
