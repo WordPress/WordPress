@@ -304,11 +304,11 @@
 	-ms-transition-duration:     80ms;
 	-o-transition-duration:      80ms;
 	transition-duration:         80ms;
-	-webkit-transition-delay:    125ms;
-	-moz-transition-delay:       125ms;
-	-ms-transition-delay:        125ms;
-	-o-transition-delay:         125ms;
-	transition-delay:            125ms;
+	-webkit-transition-delay:    200ms;
+	-moz-transition-delay:       200ms;
+	-ms-transition-delay:        200ms;
+	-o-transition-delay:         200ms;
+	transition-delay:            200ms;
 }
 
 .attachment .thumbnail {
