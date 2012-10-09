@@ -520,6 +520,13 @@
 	});
 
 	/**
+	 * wp.media.view.Attachment.Library
+	 */
+	media.view.Attachment.Library = media.view.Attachment.extend({
+		className: 'attachment library'
+	});
+
+	/**
 	 * wp.media.view.Attachment.Gallery
 	 */
 	media.view.Attachment.Gallery = media.view.Attachment.extend({
@@ -629,6 +636,11 @@
 	 * wp.media.view.Workspace.Library
 	 */
 	media.view.Workspace.Library = media.view.Workspace.extend({
+
+		attachmentsView: {
+			// The single `Attachment` view to be used in the `Attachments` view.
+			AttachmentView: media.view.Attachment.Library
+		},
 
 		initialize: function() {
 			media.view.Workspace.prototype.initialize.apply( this, arguments );
