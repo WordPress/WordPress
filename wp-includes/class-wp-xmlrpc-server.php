@@ -5443,7 +5443,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		// Work around bug in strip_tags():
 		$linea = str_replace('<!DOC', '<DOC', $linea);
 		$linea = preg_replace( '/[\s\r\n\t]+/', ' ', $linea ); // normalize spaces
-		$linea = preg_replace( "/ <(h1|h2|h3|h4|h5|h6|p|th|td|li|dt|dd|pre|caption|input|textarea|button|body)[^>]*>/", "\n\n", $linea );
+		$linea = preg_replace( "/<\/*(h1|h2|h3|h4|h5|h6|p|th|td|li|dt|dd|pre|caption|input|textarea|button|body)[^>]*>/", "\n\n", $linea );
 
 		preg_match('|<title>([^<]*?)</title>|is', $linea, $matchtitle);
 		$title = $matchtitle[1];
