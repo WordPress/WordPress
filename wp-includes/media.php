@@ -1346,10 +1346,6 @@ function wp_print_media_templates( $attachment ) {
 			<% if ( buttons.close ) { %>
 				<a class="close" href="#">&times;</a>
 			<% } %>
-
-			<% if ( buttons.insert ) { %>
-				<a class="insert button button-small" href="#"><?php _e( 'Insert' ); ?></a>
-			<% } %>
 		</div>
 		<div class="describe"></div>
 	</script>

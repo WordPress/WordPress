@@ -520,26 +520,6 @@
 	});
 
 	/**
-	 * wp.media.view.Attachment.Library
-	 */
-	media.view.Attachment.Library = media.view.Attachment.extend({
-		className: 'attachment library',
-
-		buttons: {
-			insert: true
-		},
-
-		events: _.defaults({
-			'click .insert': 'insert'
-		}, media.view.Attachment.prototype.events ),
-
-		insert: function() {
-			this.controller.selection.reset([ this.model ]);
-			this.controller.update();
-		}
-	});
-
-	/**
 	 * wp.media.view.Attachment.Gallery
 	 */
 	media.view.Attachment.Gallery = media.view.Attachment.extend({
@@ -649,11 +629,6 @@
 	 * wp.media.view.Workspace.Library
 	 */
 	media.view.Workspace.Library = media.view.Workspace.extend({
-
-		attachmentsView: {
-			// The single `Attachment` view to be used in the `Attachments` view.
-			AttachmentView: media.view.Attachment.Library
-		},
 
 		initialize: function() {
 			media.view.Workspace.prototype.initialize.apply( this, arguments );
