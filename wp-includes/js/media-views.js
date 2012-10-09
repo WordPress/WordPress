@@ -507,15 +507,22 @@
 			var size = _.pick( this.fit(), 'top', 'left', 'width', 'height' );
 			this.$el.addClass('fit');
 			this.$('.thumbnail').css( size );
-			this.$('.thumbnail img').css( _.extend( size, { top: 0, left: 0 } ) );
+			this.$('.thumbnail img').css( _.extend( size, {
+				top:  0,
+				left: 0
+			} ) );
 		},
 
 		expand: function() {
 			var size = _.pick( this.crop(), 'top', 'left', 'width', 'height' );
 			this.$el.removeClass('fit');
 			this.$('.thumbnail img').css( size );
-			this.$('.thumbnail').css({ top: 0, left: 0, width: 199, height: 199 });
-
+			this.$('.thumbnail').css({
+				top:    0,
+				left:   0,
+				width:  199,
+				height: 199
+			});
 		}
 	});
 
