@@ -239,6 +239,7 @@
 		inset 0 0 15px rgba( 0, 0, 0, 0.1 ),
 		inset 0 0 0 1px rgba( 0, 0, 0, 0.05 );
 	background: #eee;
+	cursor: pointer;
 
 	-webkit-user-select: none;
 	-moz-user-select:    none;
