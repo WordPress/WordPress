@@ -221,10 +221,15 @@
 	font-size: 18px;
 	font-weight: 200;
 }
-.attachments-header input {
+
+.attachments-header .search {
 	float: right;
-	margin-top: 12px;
+	margin-top: 11px;
+	padding: 4px;
 	line-height: 18px;
+	font-size: 13px;
+	color: #464646;
+	font-family: sans-serif;
 }
 
 .attachments ul {
