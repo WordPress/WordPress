@@ -4916,7 +4916,8 @@ h2 .nav-tab {
 
 .pressthis a,
 .pressthis a:hover,
-.pressthis a:focus {
+.pressthis a:focus,
+.pressthis a:active {
 	display: inline-block;
 	position: relative;
 	cursor: move;
