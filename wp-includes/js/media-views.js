@@ -410,7 +410,9 @@
 					orientation: 'landscape',
 					uploading:   false,
 					type:        '',
-					subtype:     ''
+					subtype:     '',
+					icon:        '',
+					filename:    ''
 				});
 
 			options.buttons = this.buttons;
