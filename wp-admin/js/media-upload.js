@@ -122,6 +122,9 @@ var tb_position;
 
 				shortcode = view.gallery.shortcode( selection );
 				this.insert( shortcode.string() );
+
+				// Reset the workflow view to the library.
+				workflow.render('library');
 			}, this );
 
 			return workflow;
