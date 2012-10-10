@@ -325,7 +325,7 @@ window.wp = window.wp || {};
 				// Empty the wrapper, attach the view element to the wrapper,
 				// and add an ending marker to the wrapper to help regexes
 				// scan the HTML string.
-				wrapper.empty().append( view.el ).append('<span data-wp-view-end></span>');
+				wrapper.empty().append( view.el ).append('<span data-wp-view-end class="wp-view-end"></span>');
 			});
 		},
 
@@ -333,7 +333,7 @@ window.wp = window.wp || {};
 		// Scans an HTML `content` string and replaces any view instances with
 		// their respective text representations.
 		toText: function( content ) {
-			return content.replace( /<(?:div|span)[^>]+data-wp-view="([^"]+)"[^>]*>.*?<span data-wp-view-end[^>]*><\/span><\/(?:div|span)>/g, function( match, id ) {
+			return content.replace( /<(?:div|span)[^>]+data-wp-view="([^"]+)"[^>]*>.*?<span[^>]+data-wp-view-end[^>]*><\/span><\/(?:div|span)>/g, function( match, id ) {
 				var instance = instances[ id ],
 					view;
 
