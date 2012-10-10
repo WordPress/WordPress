@@ -413,7 +413,9 @@
 					type:        '',
 					subtype:     '',
 					icon:        '',
-					filename:    ''
+					filename:    '',
+					caption:     '',
+					title:       ''
 				});
 
 			options.buttons  = this.buttons;
