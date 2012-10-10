@@ -330,6 +330,7 @@ function wp_default_scripts( &$scripts ) {
 		// Gallery
 		'returnToLibrary'       => __( 'Return to media library' ),
 		'insertGalleryIntoPost' => __( 'Insert gallery into post' ),
+		'updateGallery'         => __( 'Update gallery' ),
 		'addImagesFromLibrary'  => __( 'Add images from media library' ),
 	) );
 
@@ -337,6 +338,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'mce-view', "/wp-includes/js/mce-view$suffix.js", array( 'shortcode', 'media-models' ), false, 1 );
 	did_action( 'init' ) && $scripts->localize( 'mce-view', '_wpMceViewL10n', array(
 		'contentWidth' => isset( $GLOBALS['content_width'] ) ? $GLOBALS['content_width'] : 800,
+		'editGallery'  => __( 'Edit Gallery' ),
 	) );
 
 	if ( is_admin() ) {

@@ -119,8 +119,8 @@
 
 		update: function( event ) {
 			this.close();
-			this.trigger( 'update', this.selection );
-			this.trigger( 'update:' + event, this.selection );
+			this.trigger( 'update', this.selection, this );
+			this.trigger( 'update:' + event, this.selection, this );
 			this.selection.clear();
 		},
 
@@ -217,18 +217,22 @@
 
 		attach: function() {
 			this.$el.appendTo( this.options.container );
+			this.controller.trigger( 'attach', this.controller );
 		},
 
 		detach: function() {
 			this.$el.detach();
+			this.controller.trigger( 'detach', this.controller );
 		},
 
 		open: function() {
 			this.$el.show();
+			this.controller.trigger( 'open', this.controller );
 		},
 
 		close: function() {
 			this.$el.hide();
+			this.controller.trigger( 'close', this.controller );
 		},
 
 		closeHandler: function( event ) {
@@ -277,8 +281,8 @@
 			// Make sure to detach the elements we want to reuse.
 			// Otherwise, `jQuery.html()` will unbind their events.
 			$( _.pluck( this._views, 'el' ) ).detach();
-			this.$primary.html( _.pluck( views.primary, 'el' ) );
-			this.$secondary.html( _.pluck( views.secondary, 'el' ) );
+			this.$primary.html( _.pluck( views.primary || [], 'el' ) );
+			this.$secondary.html( _.pluck( views.secondary || [], 'el' ) );
 
 			return this;
 		},
@@ -736,22 +740,12 @@
 		// appropriate workflow when the time comes, but is currently here
 		// to test multiple selections.
 		initToolbarView: function() {
-			var controller = this.controller;
-
-			this.toolbarView = new media.view.Toolbar({
-				items: {
-					'return-to-library': {
-						text:     l10n.returnToLibrary,
-						priority: -40,
-
-						click:  function() {
-							controller.render('library');
-						}
-					},
-
-					'insert-gallery-into-post': {
+			var controller = this.controller,
+				editing = controller.get('editing'),
+				items = {
+					'update-gallery': {
 						style:    'primary',
-						text:     l10n.insertGalleryIntoPost,
+						text:     editing ? l10n.updateGallery : l10n.insertGalleryIntoPost,
 						priority: 40,
 						click:    _.bind( controller.update, controller, 'gallery' )
 					},
@@ -760,7 +754,21 @@
 						text:     l10n.addImagesFromLibrary,
 						priority: 30
 					}
-				}
+				};
+
+			if ( ! editing ) {
+				items['return-to-library'] = {
+					text:     l10n.returnToLibrary,
+					priority: -40,
+
+					click:  function() {
+						controller.render('library');
+					}
+				};
+			}
+
+			this.toolbarView = new media.view.Toolbar({
+				items: items
 			});
 
 			this.$el.addClass('with-toolbar');

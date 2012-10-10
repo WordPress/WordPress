@@ -90,7 +90,7 @@ var tb_position;
 // WordPress, TinyMCE, and Media
 // -----------------------------
 (function($){
-	// Stores the editors' `wp.media.controller.Workflow` instaces.
+	// Stores the editors' `wp.media.controller.Workflow` instances.
 	var workflows = {};
 
 	wp.mce.media = {

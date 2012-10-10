@@ -546,7 +546,8 @@ window.wp = window.wp || {};
 				},
 
 				shortcode: function( attachments ) {
-					var attrs = _.pick( attachments.props.toJSON(), 'include', 'exclude', 'orderby', 'order' ),
+					var props = attachments.props.toJSON(),
+						attrs = _.pick( props, 'include', 'exclude', 'orderby', 'order' ),
 						shortcode;
 
 					attrs.ids = attachments.pluck('id');
@@ -557,7 +558,11 @@ window.wp = window.wp || {};
 						type:   'single'
 					});
 
-					galleries[ shortcode.string() ] = attachments;
+					// Use a cloned version of the gallery.
+					galleries[ shortcode.string() ] = new wp.media.model.Attachments( attachments.models, {
+						props: props
+					});
+
 					return shortcode;
 				}
 			};
@@ -574,14 +579,18 @@ window.wp = window.wp || {};
 			parent: $('#post_ID').val(),
 
 			events: {
-				'click .close': 'remove'
+				'click .close': 'remove',
+				'click .edit':  'edit'
 			},
 
 			initialize: function() {
-				var	view      = mceview.get('gallery'),
-					shortcode = this.options.shortcode;
+				this.update();
+			},
 
-				this.attachments = view.gallery.attachments( shortcode, this.parent );
+			update: function() {
+				var	view = mceview.get('gallery');
+
+				this.attachments = view.gallery.attachments( this.options.shortcode, this.parent );
 				this.attachments.more().done( _.bind( this.render, this ) );
 			},
 
@@ -601,6 +610,34 @@ window.wp = window.wp || {};
 				};
 
 				this.$el.html( this.template( options ) );
+			},
+
+			edit: function() {
+				if ( ! wp.media.view || this.workflow )
+					return;
+
+				this.workflow = wp.media({
+					view:      'gallery',
+					selection: this.attachments.models,
+					title:     mceview.l10n.editGallery,
+					editing:   true,
+					multiple:  true
+				});
+
+				// Create a single-use workflow. If the workflow is closed,
+				// then detach it from the DOM and remove the reference.
+				this.workflow.on( 'close', function() {
+					this.workflow.detach();
+					delete this.workflow;
+				}, this );
+
+				// Update the `shortcode` and `attachments`.
+				this.workflow.on( 'update:gallery', function( selection ) {
+					var	view = mceview.get('gallery');
+
+					this.options.shortcode = view.gallery.shortcode( selection );
+					this.update();
+				}, this );
 			}
 		}
 	});
