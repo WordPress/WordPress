@@ -254,7 +254,8 @@ p img,
 .wp-caption {
 	margin-top: 0.4em;
 }
-img {
+img,
+.editor-attachment {
 	border: 1px solid #ddd;
 	padding: 6px;
 }

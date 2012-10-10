@@ -142,40 +142,112 @@ img.wp-oembed {
 }
 
 /* WordPress TinyMCE Previews */
-div.wp-view-wrap,
-div.wp-view {
+.wp-view-wrap {
 	position: relative;
 	display: inline-block;
 }
 
-div.wp-view-wrap img {
+.wp-view-wrap * {
+	font-family: sans-serif;
+	font-weight: normal;
+}
+
+.wp-view-wrap img {
 	display: block;
 	border: 0;
 	padding: 0;
 	margin: 0;
+	border-radius: 0;
+	box-shadow: none;
 }
 
-.spinner {
+.wp-view-wrap .overlay {
+	opacity: 0;
+	display: block;
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	box-shadow: inset 0 0 45px rgba( 0, 0, 0, 0.3 );
+	/*box-shadow:
+		inset 0 60px 30px -30px rgba( 0, 0, 0, 0.2 ),
+		inset 0 -60px 30px -30px rgba( 0, 0, 0, 0.2 );*/
+	overflow: hidden;
+
+	-webkit-transition: opacity 100ms ease-in-out;
+	-moz-transition:    opacity 100ms ease-in-out;
+	-ms-transition:     opacity 100ms ease-in-out;
+	-o-transition:      opacity 100ms ease-in-out;
+	transition:         opacity 100ms ease-in-out;
+}
+
+.wp-view-wrap:hover .overlay {
+	opacity: 1;
+}
+
+.wp-view-wrap .spinner {
 	background: #fff url("../../../../../../../wp-admin/images/wpspin_light.gif") no-repeat center center;
 }
 
-.close {
-	display: none;
+.wp-view-wrap .button {
 	position: absolute;
-	top: 0;
-	right: 0;
-	height: 26px;
-	width: 26px;
-	font-size: 26px;
+	height: 22px;
 	line-height: 22px;
+	font-size: 14px;
 	text-align: center;
 	cursor: pointer;
 	color: #464646;
+
+	background: #f3f3f3;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#fefefe), to(#f4f4f4));
+	background-image: -webkit-linear-gradient(top, #fefefe, #f4f4f4);
+	background-image:    -moz-linear-gradient(top, #fefefe, #f4f4f4);
+	background-image:     -ms-linear-gradient(top, #fefefe, #f4f4f4);
+	background-image:      -o-linear-gradient(top, #fefefe, #f4f4f4);
+	background-image:   linear-gradient(to bottom, #fefefe, #f4f4f4);
+
+	box-shadow: 0 0 0 1px rgba( 0, 0, 0, 0.2 );
+	border-radius: 2px;
+}
+
+.wp-view-wrap .button:hover {
+	box-shadow:
+		0 0 0 1px rgba( 0, 0, 0, 0.6 ),
+		0 0 10px rgba( 255, 255, 255, 0.4 );
 	background: #fff;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#f3f3f3));
+	background-image: -webkit-linear-gradient(top, #fff, #f3f3f3);
+	background-image:    -moz-linear-gradient(top, #fff, #f3f3f3);
+	background-image:     -ms-linear-gradient(top, #fff, #f3f3f3);
+	background-image:      -o-linear-gradient(top, #fff, #f3f3f3);
+	background-image:   linear-gradient(to bottom, #fff, #f3f3f3);
+	color: #333;
+}
+
+.wp-view-wrap .close,
+.wp-view-wrap .edit {
+	display: none;
+}
+
+.wp-view-wrap .close {
+	top: 5px;
+	right: 5px;
+	width: 22px;
+	font-size: 22px;
+	line-height: 20px;
+}
+
+.wp-view-wrap .edit {
+	bottom: 5px;
+	right: 5px;
+	padding: 0 10px;
 }
 
 .editor-attachment:hover .close,
-.editor-gallery:hover .close {
+.editor-gallery:hover .close,
+.editor-gallery:hover .edit {
 	display: block;
 }
 
@@ -183,8 +255,7 @@ div.wp-view-wrap img {
 	position: relative;
 	margin-top: 10px;
 	margin-right: 10px;
-	padding: 4px;
-	border: 1px solid #dfdfdf;
+	overflow: hidden;
 }
 
 .editor-attachment,
@@ -193,19 +264,25 @@ div.wp-view-wrap img {
 	min-width: 100px;
 }
 
+.editor-attachment img,
+.editor-attachment .overlay {
+	border-radius: inherit;
+}
+
+.editor-attachment-preview {
+	position: relative;
+}
+
 .editor-gallery {
+	position: relative;
 	min-height: 150px;
 	min-width: 150px;
-	margin: 1px;
-	border: 4px solid #fff;
+	margin: 5px 15px 15px 5px;
 	box-shadow:
-	    0 0 0 1px #ccc,
-	    5px 5px 0 0 #fff,
-	    5px 5px 0 1px #ccc,
-	    10px 10px 0 0 #fff,
-	    10px 10px 0 1px #ccc;
-}
-.editor-gallery .close {
-	top: 1px;
-	right: 1px;
+	    0 0 0 4px #fff,
+	    0 0 0 5px #ccc,
+	    5px 5px 0 4px #fff,
+	    5px 5px 0 5px #ccc,
+	    10px 10px 0 4px #fff,
+	    10px 10px 0 5px #ccc;
 }

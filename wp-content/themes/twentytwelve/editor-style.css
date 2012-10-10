@@ -289,7 +289,8 @@ td {
 /* =Images
 -------------------------------------------------------------- */
 
-img {
+img,
+.editor-attachment {
 	border: 0;
 	border-radius: 3px;
 	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
