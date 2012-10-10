@@ -1246,6 +1246,7 @@ function wp_prepare_attachment_for_js( $attachment ) {
 		'title'       => $attachment->post_title,
 		'filename'    => basename( $attachment->guid ),
 		'url'         => $attachment_url,
+		'link'        => get_attachment_link( $attachment->ID ),
 		'alt'         => get_post_meta( $attachment->ID, '_wp_attachment_image_alt', true ),
 		'author'      => $attachment->post_author,
 		'description' => $attachment->post_content,

@@ -371,6 +371,24 @@ window.wp = window.wp || {};
 	var mceview = wp.mce.view;
 
 	wp.media.string = {};
+
+	wp.media.string.link = function( attachment ) {
+		var linkTo  = getUserSetting( 'urlbutton', 'post' ),
+			options = {
+				tag:     'a',
+				content: attachment.get('title') || attachment.get('filename'),
+				attrs:   {
+					rel: 'attachment wp-att-' + attachment.id
+				}
+			};
+
+		// Attachments can be linked to attachment post pages or to the direct
+		// URL. `none` is not a valid option.
+		options.attrs.href = ( linkTo === 'file' ) ? attachment.get('url') : attachment.get('link');
+
+		return wp.html.string( options );
+	};
+
 	wp.media.string.image = function( attachment, props ) {
 		var classes, img, options, size;
 
