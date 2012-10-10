@@ -495,7 +495,7 @@ class wp_xmlrpc_server extends IXR_Server {
 				'url'			=> home_url( '/' ),
 				'blogid'		=> (string) $blog_id,
 				'blogName'		=> get_option( 'blogname' ),
-				'xmlrpc'		=> site_url( 'xmlrpc.php' )
+				'xmlrpc'		=> site_url( 'xmlrpc.php', 'rpc' ),
 			);
 
 			restore_current_blog();
@@ -3647,7 +3647,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			'url'      => get_option('home') . '/',
 			'blogid'   => '1',
 			'blogName' => get_option('blogname'),
-			'xmlrpc'   => site_url( 'xmlrpc.php' )
+			'xmlrpc'   => site_url( 'xmlrpc.php', 'rpc' ),
 		);
 
 		return array($struct);
