@@ -91,7 +91,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 		?>
 		<div class="tablenav themes <?php echo $which; ?>">
 			<?php $this->pagination( $which ); ?>
-			<span class="ajax-loading list-ajax-loading spinner"></span>
+			<span class="spinner"></span>
 			<br class="clear" />
 		</div>
 		<?php

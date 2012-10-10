@@ -998,11 +998,6 @@ ul#add-to-blog-users {
 	float: left;
 }
 
-#minor-publishing .ajax-loading {
-	padding: 3px 0 0 4px;
-	float: left;
-}
-
 .preview {
 	float: right;
 }
@@ -1094,8 +1089,12 @@ form.upgrade .hint {
 	margin: -0.5em 0 2em 0;
 }
 
-.ajax-feedback {
-	vertical-align: bottom;
+#ajax-loading,
+.ajax-loading,
+.ajax-feedback,
+.imgedit-wait-spin,
+.list-ajax-loading { /* deprecated */
+	visibility: hidden;
 }
 
 #ajax-response.alignleft {
@@ -2948,11 +2947,6 @@ input#link_url {
 	float: left;
 }
 
-#submitpost #ajax-loading,
-#submitpost .ajax-loading {
-	vertical-align: middle;
-}
-
 .submitbox .submit {
 	text-align: left;
 	padding: 12px 10px 10px;
@@ -4471,6 +4465,10 @@ span.imgedit-scale-warn {
 	height: auto;
 }
 
+.theme-install-php .spinner {
+	margin-top: 9px;
+}
+
 h3.available-themes {
 	margin: 0 0 1em;
 	float: left;
@@ -5876,10 +5874,6 @@ td.media-icon {
 td.media-icon img {
 	max-width: 80px;
 	max-height: 60px;
-}
-
-.tablenav .list-ajax-loading {
-	margin-top: 7px;
 }
 
 #howto {
@@ -8050,10 +8044,6 @@ a.widget-action {
 
 .widget-control-actions a:hover {
 	text-decoration: underline;
-}
-
-.widget-control-actions .ajax-feedback {
-	padding-bottom: 3px;
 }
 
 .widget-control-actions div.alignleft {
