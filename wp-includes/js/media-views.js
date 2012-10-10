@@ -385,9 +385,10 @@
 		template:  media.template('attachment'),
 
 		events: {
-			'click': 'toggleSelection',
-			'mouseenter': 'shrink',
-			'mouseleave': 'expand'
+			'click .attachment-preview': 'toggleSelection',
+			'mouseenter .attachment-preview': 'shrink',
+			'mouseleave .attachment-preview': 'expand',
+			'change .describe': 'describe'
 		},
 
 		buttons: {},
@@ -415,7 +416,8 @@
 					filename:    ''
 				});
 
-			options.buttons = this.buttons;
+			options.buttons  = this.buttons;
+			options.describe = this.controller.get('describe');
 
 			if ( 'image' === options.type )
 				_.extend( options, this.crop() );
@@ -533,6 +535,13 @@
 				width:  199,
 				height: 199
 			});
+		},
+
+		describe: function( event ) {
+			if ( 'image' === this.model.get('type') )
+				this.model.save( 'caption', event.target.value );
+			else
+				this.model.save( 'title', event.target.value );
 		}
 	});
 
@@ -817,7 +826,7 @@
 		template:  media.template('attachments'),
 
 		events: {
-			'keyup input': 'search'
+			'keyup .search': 'search'
 		},
 
 		initialize: function() {

@@ -104,7 +104,8 @@ var tb_position;
 
 			workflow = workflows[ id ] = wp.media( _.defaults( options || {}, {
 				title:    wp.media.view.l10n.insertMedia,
-				multiple: true
+				multiple: true,
+				describe: true
 			} ) );
 
 			workflow.on( 'update:insert', function( selection ) {

@@ -639,7 +639,8 @@ window.wp = window.wp || {};
 					selection: this.attachments.models,
 					title:     mceview.l10n.editGallery,
 					editing:   true,
-					multiple:  true
+					multiple:  true,
+					describe:  true
 				});
 
 				// Create a single-use workflow. If the workflow is closed,

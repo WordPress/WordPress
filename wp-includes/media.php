@@ -1345,7 +1345,23 @@ function wp_print_media_templates( $attachment ) {
 				<a class="close" href="#">&times;</a>
 			<% } %>
 		</div>
-		<div class="describe"></div>
+		<% if ( describe ) { %>
+			<% if ( 'image' === type ) { %>
+				<textarea class="describe"
+					placeholder="<?php esc_attr_e('Describe this image&hellip;'); ?>"
+					><%- caption %></textarea>
+			<% } else { %>
+				<textarea class="describe"
+					<% if ( 'video' === type ) { %>
+						placeholder="<?php esc_attr_e('Describe this video&hellip;'); ?>"
+					<% } else if ( 'audio' === type ) { %>
+						placeholder="<?php esc_attr_e('Describe this audio file&hellip;'); ?>"
+					<% } else { %>
+						placeholder="<?php esc_attr_e('Describe this media file&hellip;'); ?>"
+					<% } %>
+					><%- title %></textarea>
+			<% } %>
+		<% } %>
 	</script>
 
 	<script type="text/html" id="tmpl-media-selection-preview">
