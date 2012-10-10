@@ -328,10 +328,11 @@ function wp_default_scripts( &$scripts ) {
 		'addToGallery'          => __( 'Add to gallery' ),
 
 		// Gallery
-		'returnToLibrary'       => __( 'Return to media library' ),
-		'insertGalleryIntoPost' => __( 'Insert gallery into post' ),
-		'updateGallery'         => __( 'Update gallery' ),
-		'addImagesFromLibrary'  => __( 'Add images from media library' ),
+		'returnToLibrary'        => __( 'Return to media library' ),
+		'continueEditingGallery' => __( 'Continue editing gallery' ),
+		'insertGalleryIntoPost'  => __( 'Insert gallery into post' ),
+		'updateGallery'          => __( 'Update gallery' ),
+		'addImagesFromLibrary'   => __( 'Add images from media library' ),
 	) );
 
 	$scripts->add( 'shortcode', "/wp-includes/js/shortcode$suffix.js", array( 'underscore' ), false, 1 );

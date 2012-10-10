@@ -42,11 +42,16 @@
 			// then unset the property.
 			this.add( 'library', media.view.Workspace.Library, {
 				collection: media.query( this.get('library') )
-			} );
+			});
 			this.unset('library');
 
 			// Add the gallery view.
-			this.add( 'gallery', media.view.Workspace.Gallery, { collection: this.selection } );
+			this.add( 'gallery', media.view.Workspace.Gallery, {
+				collection: this.selection
+			});
+			this.add( 'gallery-library', media.view.Workspace.Library.Gallery, {
+				collection: media.query({ type: 'image' })
+			});
 		},
 
 
@@ -719,6 +724,38 @@
 		}
 	});
 
+	media.view.Workspace.Library.Gallery = media.view.Workspace.Library.extend({
+		initToolbarView: function() {
+			var controller = this.controller,
+				editing = controller.get('editing'),
+				items = {
+					'selection-preview': new media.view.SelectionPreview({
+						controller: this.controller,
+						collection: this.controller.selection,
+						priority:   -40,
+						clearable:  false
+					}),
+
+					'continue-editing-gallery': {
+						style:    'primary',
+						text:     l10n.continueEditingGallery,
+						priority: 40,
+
+						click: function() {
+							controller.render( 'gallery' );
+						}
+					}
+				};
+
+			this.toolbarView = new media.view.Toolbar({
+				items: items
+			});
+
+			this.$el.addClass('with-toolbar');
+			this.$content.append( this.toolbarView.$el );
+		}
+	});
+
 	/**
 	 * wp.media.view.Workspace.Gallery
 	 */
@@ -750,22 +787,15 @@
 						click:    _.bind( controller.update, controller, 'gallery' )
 					},
 
-					'add-images-from-library': {
-						text:     l10n.addImagesFromLibrary,
-						priority: 30
+					'return-to-library': {
+						text:     editing ? l10n.addImagesFromLibrary : l10n.returnToLibrary,
+						priority: -40,
+
+						click: function() {
+							controller.render( editing ? 'gallery-library' : 'library' );
+						}
 					}
 				};
-
-			if ( ! editing ) {
-				items['return-to-library'] = {
-					text:     l10n.returnToLibrary,
-					priority: -40,
-
-					click:  function() {
-						controller.render('library');
-					}
-				};
-			}
 
 			this.toolbarView = new media.view.Toolbar({
 				items: items
@@ -948,13 +978,17 @@
 		},
 
 		initialize: function() {
+			_.defaults( this.options, {
+				clearable: true
+			});
+
 			this.controller = this.options.controller;
 			this.collection.on( 'add change:url remove', this.render, this );
 			this.render();
 		},
 
 		render: function() {
-			var options = {},
+			var options = _.clone( this.options ),
 				first, sizes, amount;
 
 			// If nothing is selected, display nothing.

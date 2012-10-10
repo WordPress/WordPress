@@ -1358,7 +1358,9 @@ function wp_print_media_templates( $attachment ) {
 
 			<span class="count"><%- count %></span>
 		</div>
-		<a class="clear-selection" href="#"><?php _e('Clear selection'); ?></a>
+		<% if ( clearable ) { %>
+			<a class="clear-selection" href="#"><?php _e('Clear selection'); ?></a>
+		<% } %>
 	</script>
 
 	<script type="text/html" id="tmpl-editor-attachment">
