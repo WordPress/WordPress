@@ -1333,13 +1333,14 @@ function wp_print_media_templates( $attachment ) {
 					<img src="<%- url %>" width="<%- width %>" height="<%- height %>" draggable="false"
 					style="top:<%- top %>px; left:<%- left %>px;" />
 				</div>
+			<% } else if ( uploading ) { %>
+				<div class="media-progress-bar"><div></div></div>
 			<% } else { %>
 				<img src="<%- icon %>" class="icon" draggable="false" />
+				<div class="filename"><%- filename %></div>
 			<% } %>
 
-			<% if ( uploading ) { %>
-				<div class="media-progress-bar"><div></div></div>
-			<% } %>
+
 
 			<% if ( buttons.close ) { %>
 				<a class="close" href="#">&times;</a>

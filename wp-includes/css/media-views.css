@@ -256,6 +256,7 @@
 		inset 0 0 0 1px rgba( 0, 0, 0, 0.05 );
 	background: #eee;
 	cursor: pointer;
+	color: #464646;
 
 	-webkit-user-select: none;
 	-moz-user-select:    none;
@@ -306,6 +307,13 @@
 	-ms-transform:     translate( -50%, -50% );
 	-o-transform:      translate( -50%, -50% );
 	transform:         translate( -50%, -50% );
+}
+
+.attachment .filename {
+	margin-top: 140px;
+	padding: 0 10px;
+	text-align: center;
+	font-weight: bold;
 }
 
 .attachment .thumbnail,

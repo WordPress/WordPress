@@ -406,22 +406,20 @@
 
 		render: function() {
 			var attachment = this.model.toJSON(),
-				options = {
-					icon:        attachment.icon,
-					uploading:   attachment.uploading,
-					orientation: attachment.orientation || 'landscape',
-					type:        attachment.type,
-					subtype:     attachment.subtype,
-					buttons:     this.buttons
-				};
+				options = _.defaults( this.model.toJSON(), {
+					orientation: 'landscape',
+					uploading:   false,
+					type:        ''
+				});
 
+			options.buttons = this.buttons;
 
-			if ( 'image' === attachment.type )
+			if ( 'image' === options.type )
 				_.extend( options, this.crop() );
 
 			this.$el.html( this.template( options ) );
 
-			if ( attachment.uploading )
+			if ( options.uploading )
 				this.$bar = this.$('.media-progress-bar div');
 			else
 				delete this.$bar;
