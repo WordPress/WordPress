@@ -1340,8 +1340,6 @@ function wp_print_media_templates( $attachment ) {
 				<div class="filename"><%- filename %></div>
 			<% } %>
 
-
-
 			<% if ( buttons.close ) { %>
 				<a class="close" href="#">&times;</a>
 			<% } %>
