@@ -1296,10 +1296,8 @@ function wp_print_media_templates( $attachment ) {
 	?>
 	<script type="text/html" id="tmpl-media-modal">
 		<div class="media-modal">
-			<div class="media-modal-header">
-				<h3><%- title %></h3>
-				<a class="media-modal-close" href="" title="<?php esc_attr_e('Close'); ?>">&times;</a>
-			</div>
+			<h3 class="media-modal-title"><%- title %></h3>
+			<a class="media-modal-close" href="" title="<?php esc_attr_e('Close'); ?>">&times;</a>
 			<div class="media-modal-content"></div>
 		</div>
 		<div class="media-modal-backdrop"></div>

@@ -3,7 +3,7 @@
  */
 .media-modal {
 	position: fixed;
-	top: 40px;
+	top: 80px;
 	left: 60px;
 	right: 60px;
 	bottom: 60px;
@@ -21,30 +21,28 @@
 	z-index: 120000;
 }
 
-.media-modal-header {
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	height: 28px;
-}
-
-.media-modal-header h3 {
-	float: left;
-	padding: 0;
-	margin: 0;
-	font-size: 1.4em;
-}
-
-.media-modal-header h3,
+.media-modal-title,
 .media-modal-close {
+	position: absolute;
+	top: -40px;
+	height: 40px;
+
 	line-height: 40px;
 	color: #fff;
 	font-weight: 200;
 	text-shadow: 0 0 16px rgba( 0, 0, 0, 0.6 );
 }
 
+.media-modal-title {
+	left: 0;
+	float: left;
+	padding: 0;
+	margin: 0;
+	font-size: 1.4em;
+}
+
 .media-modal-close {
+	right: 0;
 	float: right;
 	text-decoration: none;
 	font-size: 1.8em;
@@ -58,7 +56,7 @@
 
 .media-modal-content {
 	position: absolute;
-	top: 40px;
+	top: 0;
 	left: 0;
 	right: 0;
 	bottom: 0;
