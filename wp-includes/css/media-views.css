@@ -398,41 +398,6 @@
 	border-radius: 0;
 }
 
-
-/* Square crop with overflow visible on hover. */
-/*
-.attachment .portrait img {
-	width: 200px;
-}
-.attachment .landscape img {
-	height: 200px;
-}
-.attachment .attachment-preview:hover {
-	overflow: visible;
-	z-index: 1000;
-}
-.attachment .attachment-preview:hover img {
-	border: 10px solid #fff;
-	box-shadow: 0 0 10px rgba( 0, 0, 0, 0.4 );
-}*/
-
-
-/* Square crop with resized image on hover. */
-/*
-.attachment .portrait img {
-	width: 200px;
-}
-.attachment .landscape img {
-	height: 200px;
-}
-.attachment .attachment-preview:hover img {
-	height: auto;
-	width: auto;
-	max-height: 200px;
-	max-width: 200px;
-}*/
-
-
 /**
  * Progress Bar
  */
