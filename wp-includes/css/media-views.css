@@ -374,16 +374,23 @@
 .attachment .close {
 	display: none;
 	position: absolute;
-	top: 0;
-	right: 0;
-	height: 26px;
-	width: 26px;
+	top: 5px;
+	right: 5px;
+	height: 22px;
+	width: 22px;
+	padding: 0;
 	font-size: 20px;
-	line-height: 24px;
+	line-height: 20px;
 	text-align: center;
 	text-decoration: none;
 	color: #464646;
 	background: #fff;
+	border-width: 0;
+	box-shadow: 0 0 0 1px rgba( 0, 0, 0, 0.3 );
+}
+
+.attachment .close:hover {
+	box-shadow: 0 0 0 1px rgba( 0, 0, 0, 0.6 );
 }
 
 .attachment:hover .close {

@@ -1342,7 +1342,7 @@ function wp_print_media_templates( $attachment ) {
 			<% } %>
 
 			<% if ( buttons.close ) { %>
-				<a class="close" href="#">&times;</a>
+				<a class="close button" href="#">&times;</a>
 			<% } %>
 		</div>
 		<% if ( describe ) { %>
