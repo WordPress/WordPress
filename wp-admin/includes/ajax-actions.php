@@ -1839,10 +1839,10 @@ function wp_ajax_save_attachment() {
 	$changes = $_REQUEST['changes'];
 	$args    = array();
 
-	if ( $changes['title'] )
+	if ( ! empty( $changes['title'] ) )
 		$args['post_title'] = $changes['title'];
 
-	if ( $changes['caption'] )
+	if ( ! empty( $changes['caption'] ) )
 		$args['post_excerpt'] = $changes['caption'];
 
 	if ( $args )
