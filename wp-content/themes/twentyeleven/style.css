@@ -1752,6 +1752,10 @@ section.recent-posts .other-recent-posts li:after {
 	font-size: 12px;
 }
 .widget {
+	word-wrap: break-word;
+	-webkit-hyphens: auto;
+	-moz-hyphens: auto;
+	hyphens: auto;
 	clear: both;
 	margin: 0 0 2.2em;
 }
