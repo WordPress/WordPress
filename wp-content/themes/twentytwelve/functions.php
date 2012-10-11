@@ -88,6 +88,8 @@ require( get_template_directory() . '/inc/custom-header.php' );
  * @since Twenty Twelve 1.0
  */
 function twentytwelve_scripts_styles() {
+	global $wp_styles;
+
 	/*
 	 * Adds JavaScript to pages with the comment form to support
 	 * sites with threaded comments (when in use).
@@ -141,6 +143,12 @@ function twentytwelve_scripts_styles() {
 	 * Loads our main stylesheet.
 	 */
 	wp_enqueue_style( 'twentytwelve-style', get_stylesheet_uri() );
+
+	/*
+	 * Loads the Internet Explorer specific stylesheet.
+	 */
+	wp_enqueue_style( 'twentytwelve-ie', get_template_directory_uri() . '/css/ie.css', array( 'twentytwelve-style' ), '20121010' );
+	$wp_styles->add_data( 'twentytwelve-ie', 'conditional', 'lt IE 9' );
 }
 add_action( 'wp_enqueue_scripts', 'twentytwelve_scripts_styles' );
 
