@@ -607,6 +607,9 @@ section[role="banner"] {
 .widget-area .widget a:hover {
 	color: #21759b;
 }
+.widget-area #s {
+	width: 53.66666666666%; /* define a width to avoid dropping a wider submit button */
+}
 
 /* Footer */
 footer[role="contentinfo"] {
