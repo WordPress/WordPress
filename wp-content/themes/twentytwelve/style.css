@@ -460,7 +460,8 @@ a:hover {
 }
 
 /* Assistive text */
-.assistive-text {
+.assistive-text,
+.site .screen-reader-text {
 	position: absolute !important;
 	clip: rect(1px, 1px, 1px, 1px);
 }
