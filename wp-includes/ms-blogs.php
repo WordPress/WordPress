@@ -292,17 +292,44 @@ function update_blog_details( $blog_id, $details = array() ) {
 	foreach ( array_intersect( array_keys( $details ), $fields ) as $field )
 		$update_details[$field] = $details[$field];
 
-	$wpdb->update( $wpdb->blogs, $update_details, array('blog_id' => $blog_id) );
+	$result = $wpdb->update( $wpdb->blogs, $update_details, array('blog_id' => $blog_id) );
+
+	if ( false === $result )
+		return false;
 
 	// If spam status changed, issue actions.
 	if ( $details[ 'spam' ] != $current_details[ 'spam' ] ) {
 		if ( $details[ 'spam' ] == 1 )
-			do_action( "make_spam_blog", $blog_id );
+			do_action( 'make_spam_blog', $blog_id );
 		else
-			do_action( "make_ham_blog", $blog_id );
+			do_action( 'make_ham_blog', $blog_id );
 	}
 
-	if ( isset($details[ 'public' ]) ) {
+	// If mature status changed, issue actions.
+	if ( $details[ 'mature' ] != $current_details[ 'mature' ] ) {
+		if ( $details[ 'mature' ] == 1 )
+			do_action( 'mature_blog', $blog_id );
+		else
+			do_action( 'unmature_blog', $blog_id );
+	}
+
+	// If archived status changed, issue actions.
+	if ( $details[ 'archived' ] != $current_details[ 'archived' ] ) {
+		if ( $details[ 'archived' ] == 1 )
+			do_action( 'archive_blog', $blog_id );
+		else
+			do_action( 'unarchive_blog', $blog_id );
+	}
+
+	// If deleted status changed, issue actions.
+	if ( $details[ 'deleted' ] != $current_details[ 'deleted' ] ) {
+		if ( $details[ 'deleted' ] == 1 )
+			do_action( 'make_delete_blog', $blog_id );
+		else
+			do_action( 'make_undelete_blog', $blog_id );
+	}	
+	
+	if ( isset( $details[ 'public' ] ) ) {
 		switch_to_blog( $blog_id );
 		update_option( 'blog_public', $details[ 'public' ] );
 		restore_current_blog();
@@ -642,12 +669,15 @@ function update_blog_status( $blog_id, $pref, $value, $deprecated = null ) {
 	if ( null !== $deprecated  )
 		_deprecated_argument( __FUNCTION__, '3.1' );
 
-	if ( !in_array( $pref, array( 'site_id', 'domain', 'path', 'registered', 'last_updated', 'public', 'archived', 'mature', 'spam', 'deleted', 'lang_id') ) )
+	if ( ! in_array( $pref, array( 'site_id', 'domain', 'path', 'registered', 'last_updated', 'public', 'archived', 'mature', 'spam', 'deleted', 'lang_id') ) )
 		return $value;
 
-	$wpdb->update( $wpdb->blogs, array($pref => $value, 'last_updated' => current_time('mysql', true)), array('blog_id' => $blog_id) );
+	$result = $wpdb->update( $wpdb->blogs, array($pref => $value, 'last_updated' => current_time('mysql', true)), array('blog_id' => $blog_id) );
 
-	refresh_blog_details($blog_id);
+	if ( false === $result )
+		return false;
+
+	refresh_blog_details( $blog_id );
 
 	if ( 'spam' == $pref )
 		( $value == 1 ) ? do_action( 'make_spam_blog', $blog_id ) :	do_action( 'make_ham_blog', $blog_id );
@@ -655,8 +685,8 @@ function update_blog_status( $blog_id, $pref, $value, $deprecated = null ) {
 		( $value == 1 ) ? do_action( 'mature_blog', $blog_id ) : do_action( 'unmature_blog', $blog_id );
 	elseif ( 'archived' == $pref )
 		( $value == 1 ) ? do_action( 'archive_blog', $blog_id ) : do_action( 'unarchive_blog', $blog_id );
-	elseif ( 'archived' == $pref )
-		( $value == 1 ) ? do_action( 'archive_blog', $blog_id ) : do_action( 'unarchive_blog', $blog_id );
+	elseif ( 'deleted' == $pref )
+		( $value == 1 ) ? do_action( 'make_delete_blog', $blog_id ) : do_action( 'make_undelete_blog', $blog_id );
 
 	return $value;
 }
