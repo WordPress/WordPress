@@ -442,15 +442,16 @@
 	width: 70%;
 	margin: 10px auto;
 	padding: 2px;
-	border: 2px solid #dfdfdf;
+	border: 2px solid #ccc;
 	border-radius: 8px;
+	background: #fff;
 }
 
 .media-progress-bar div {
 	height: 8px;
 	min-width: 8px;
 	width: 0;
-	background: #dfdfdf;
+	background: #ccc;
 	border-radius: 10px;
 	-webkit-transition: width 200ms;
 	-moz-transition:    width 200ms;
