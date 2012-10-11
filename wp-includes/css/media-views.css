@@ -418,11 +418,11 @@
 	width: 0;
 	background: #ccc;
 	border-radius: 10px;
-	-webkit-transition: width 200ms;
-	-moz-transition:    width 200ms;
-	-ms-transition:     width 200ms;
-	-o-transition:      width 200ms;
-	transition:         width 200ms;
+	-webkit-transition: width 300ms;
+	-moz-transition:    width 300ms;
+	-ms-transition:     width 300ms;
+	-o-transition:      width 300ms;
+	transition:         width 300ms;
 }
 
 .attachment-preview .media-progress-bar {
