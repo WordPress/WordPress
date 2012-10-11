@@ -385,10 +385,11 @@
 		template:  media.template('attachment'),
 
 		events: {
-			'click .attachment-preview': 'toggleSelection',
+			'click .attachment-preview':      'toggleSelection',
 			'mouseenter .attachment-preview': 'shrink',
 			'mouseleave .attachment-preview': 'expand',
-			'change .describe': 'describe'
+			'change .describe':               'describe',
+			'click .close':                   'toggleSelection'
 		},
 
 		buttons: {},
@@ -562,9 +563,11 @@
 			close: true
 		},
 
-		events: {
-			'click .close': 'toggleSelection'
-		}
+		events: (function() {
+			var events = _.clone( media.view.Attachment.prototype.events );
+			delete events['click .attachment-preview'];
+			return events;
+		}())
 	});
 
 	/**
