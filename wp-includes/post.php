@@ -2865,7 +2865,7 @@ function wp_update_post( $postarr = array(), $wp_error = false ) {
  * Publish a post by transitioning the post status.
  *
  * @since 2.1.0
- * @uses wp_insert_post()
+ * @uses wp_update_post()
  *
  * @param mixed $post Post ID or object.
  */
@@ -2876,7 +2876,7 @@ function wp_publish_post( $post ) {
 		return;
 
 	$post->post_status = 'publish';
-	wp_insert_post( $post );
+	wp_update_post( $post );
 }
 
 /**
