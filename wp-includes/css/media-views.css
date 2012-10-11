@@ -54,6 +54,10 @@
 	text-shadow: 0 0 16px rgba( 255, 255, 255, 0.8 );
 }
 
+.media-modal-close:active {
+	outline: 0;
+}
+
 .media-modal-content {
 	position: absolute;
 	top: 0;
