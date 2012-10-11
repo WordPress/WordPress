@@ -568,7 +568,7 @@ function wp_save_image( $post_id ) {
 	$post = get_post( $post_id );
 
 	$img = WP_Image_Editor::get_instance( _load_image_to_edit_path( $post_id, 'full' ) );
-	if ( !$img ) {
+	if ( is_wp_error( $img ) ) {
 		$return->error = esc_js( __('Unable to create new image.') );
 		return $return;
 	}
