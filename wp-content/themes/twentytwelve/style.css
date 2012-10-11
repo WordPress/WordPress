@@ -1608,11 +1608,6 @@ img#wpstats {
 		box-shadow: none;
 	}
 	.site-content {
-		float: left;
-		margin: 0;
-		width: 100%;
-	}
-	.site-content {
 		margin: 0;
 		width: auto;
 	}
