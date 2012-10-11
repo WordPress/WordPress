@@ -460,12 +460,27 @@ a:hover {
 }
 
 /* Assistive text */
-.skip-link,
-.screen-reader-text,
 .assistive-text {
 	position: absolute !important;
 	clip: rect(1px, 1px, 1px, 1px);
 }
+.main-navigation .assistive-text:hover,
+.main-navigation .assistive-text:active,
+.main-navigation .assistive-text:focus {
+	background: #fff;
+	border: 2px solid #333;
+	border-radius: 3px;
+	clip: auto !important;
+	color: #000;
+	display: block;
+	font-size: 12px;
+	padding: 12px;
+	position: absolute;
+	top: 5px;
+	left: 5px;
+	z-index: 100000; /* Above WP toolbar */
+}
+
 
 /* Page structure */
 .site {
@@ -1650,8 +1665,6 @@ img#wpstats {
 /* =IE 7 and 8
 ----------------------------------------------- */
 
-.ie .skip-link,
-.ie .screen-reader-text,
 .ie .assistive-text {
 	clip: rect(1px 1px 1px 1px); /* IE7 */
 }
