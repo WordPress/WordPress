@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Twelve 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentytwelve\n"
-"POT-Creation-Date: 2012-10-01 22:18:49+00:00\n"
+"POT-Creation-Date: 2012-10-11 22:19:13+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -95,7 +95,7 @@ msgstr ""
 
 #: content-aside.php:21 content-image.php:20 content-link.php:19
 #: content-page.php:21 content-quote.php:18 content-status.php:25
-#: content.php:46 functions.php:298 image.php:37
+#: content.php:46 functions.php:306 image.php:37
 msgid "Edit"
 msgstr ""
 
@@ -158,7 +158,7 @@ msgstr ""
 #. translators: If there are characters in your language that are not supported
 #. 	   by Open Sans, translate this to 'off'. Do not translate into your own
 #. language.
-#: functions.php:118
+#: functions.php:120
 msgctxt "Open Sans font: on or off"
 msgid "on"
 msgstr ""
@@ -167,105 +167,105 @@ msgstr ""
 #. your language, translate
 #. 		   this to 'greek', 'cyrillic' or 'vietnamese'. Do not translate into your
 #. own language.
-#: functions.php:123
+#: functions.php:125
 msgctxt "Open Sans font: add new subset (greek, cyrillic, vietnamese)"
 msgid "no-subset"
 msgstr ""
 
-#: functions.php:173
+#: functions.php:181
 msgid "Page %s"
 msgstr ""
 
-#: functions.php:197
+#: functions.php:205
 msgid "Main Sidebar"
 msgstr ""
 
-#: functions.php:199
+#: functions.php:207
 msgid ""
 "Appears on posts and pages except the optional Front Page template, which "
 "has its own widgets"
 msgstr ""
 
-#: functions.php:207
+#: functions.php:215
 msgid "First Front Page Widget Area"
 msgstr ""
 
-#: functions.php:209 functions.php:219
+#: functions.php:217 functions.php:227
 msgid ""
 "Appears when using the optional Front Page template with a page set as "
 "Static Front Page"
 msgstr ""
 
-#: functions.php:217
+#: functions.php:225
 msgid "Second Front Page Widget Area"
 msgstr ""
 
-#: functions.php:239 single.php:20
+#: functions.php:247 single.php:20
 msgid "Post navigation"
 msgstr ""
 
-#: functions.php:240
+#: functions.php:248
 msgid "<span class=\"meta-nav\">&larr;</span> Older posts"
 msgstr ""
 
-#: functions.php:241
+#: functions.php:249
 msgid "Newer posts <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: functions.php:266
+#: functions.php:274
 msgid "Pingback:"
 msgstr ""
 
-#: functions.php:266
+#: functions.php:274
 msgid "(Edit)"
 msgstr ""
 
-#: functions.php:281
+#: functions.php:289
 msgid "Post author"
 msgstr ""
 
 #. translators: 1: date, 2: time
-#: functions.php:287
+#: functions.php:295
 msgid "%1$s at %2$s"
 msgstr ""
 
-#: functions.php:293
+#: functions.php:301
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: functions.php:302
+#: functions.php:310
 msgid "Reply <span>&darr;</span>"
 msgstr ""
 
-#: functions.php:321 functions.php:324
+#: functions.php:329 functions.php:332
 msgid ", "
 msgstr ""
 
-#: functions.php:335
+#: functions.php:343
 msgid "View all posts by %s"
 msgstr ""
 
-#: functions.php:341
+#: functions.php:349
 msgid ""
 "This entry was posted in %1$s and tagged %2$s on %3$s<span class=\"by-author"
 "\"> by %4$s</span>."
 msgstr ""
 
-#: functions.php:343
+#: functions.php:351
 msgid ""
 "This entry was posted in %1$s on %3$s<span class=\"by-author\"> by %4$s</"
 "span>."
 msgstr ""
 
-#: functions.php:345
+#: functions.php:353
 msgid "This entry was posted on %3$s<span class=\"by-author\"> by %4$s</span>."
 msgstr ""
 
-#: header.php:40
+#: header.php:43
 msgid "Menu"
 msgstr ""
 
-#: header.php:41
+#: header.php:44
 msgid "Skip to content"
 msgstr ""
 
