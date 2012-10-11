@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Twelve 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentytwelve\n"
-"POT-Creation-Date: 2012-10-11 22:19:13+00:00\n"
+"POT-Creation-Date: 2012-10-11 23:19:51+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -93,8 +93,23 @@ msgstr ""
 msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: content-aside.php:21 content-image.php:20 content-link.php:19
-#: content-page.php:21 content-quote.php:18 content-status.php:25
+#: content-aside.php:23 content-image.php:23 content-link.php:21
+#: content-quote.php:20 content-status.php:27 content.php:28
+msgid "Leave a reply"
+msgstr ""
+
+#: content-aside.php:23 content-image.php:23 content-link.php:21
+#: content-quote.php:20 content-status.php:27 content.php:28
+msgid "1 Reply"
+msgstr ""
+
+#: content-aside.php:23 content-image.php:23 content-link.php:21
+#: content-quote.php:20 content-status.php:27 content.php:28
+msgid "% Replies"
+msgstr ""
+
+#: content-aside.php:26 content-image.php:26 content-link.php:24
+#: content-page.php:21 content-quote.php:23 content-status.php:30
 #: content.php:46 functions.php:306 image.php:37
 msgid "Edit"
 msgstr ""
@@ -119,18 +134,6 @@ msgstr ""
 
 #: content.php:14
 msgid "Featured post"
-msgstr ""
-
-#: content.php:28
-msgid "Leave a reply"
-msgstr ""
-
-#: content.php:28
-msgid "1 Reply"
-msgstr ""
-
-#: content.php:28
-msgid "% Replies"
 msgstr ""
 
 #: content.php:57
