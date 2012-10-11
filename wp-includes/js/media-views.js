@@ -612,7 +612,11 @@
 
 			// Track uploading attachments.
 			wp.Uploader.queue.on( 'add remove reset change:percent', this.renderUploadProgress, this );
-			wp.Uploader.queue.on( 'add', this.selectUpload, this );
+
+			// If we're in a workflow that supports multiple attachments,
+			// automatically select any uploading attachments.
+			if ( this.controller.get('multiple') )
+				wp.Uploader.queue.on( 'add', this.selectUpload, this );
 		},
 
 		render: function() {
