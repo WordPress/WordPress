@@ -3,9 +3,12 @@
  */
 
 (function() {
+
+
 	tinymce.create('tinymce.plugins.wpView', {
 		init : function( editor, url ) {
-			var wpView = this;
+			var wpView = this,
+				selected;
 
 			// Check if the `wp.mce` API exists.
 			if ( typeof wp === 'undefined' || ! wp.mce )
@@ -61,6 +64,35 @@
 
 				o.content = wp.mce.view.toText( o.content );
 			});
+
+			// Triggers when the selection is changed.
+			editor.onNodeChange.add( function( editor, controlManager, node, collapsed, o ) {
+				var view = wpView.getParentView( node );
+
+				// If we've clicked off of the selected view, deselect it.
+				if ( selected && selected !== view )
+					wp.mce.view.deselect( selected );
+
+				// Bail if we're not selecting another view.
+				if ( ! view )
+					return;
+
+				// Update the selected view.
+				selected = view;
+				wp.mce.view.select( selected );
+
+				// Prevent the selection from propagating to other plugins.
+				return false;
+			});
+		},
+
+		getParentView : function( node ) {
+			while ( node ) {
+				if ( /(?:^|\s)wp-view-wrap(?:\s|$)/.test( node.className ) )
+					return node;
+
+				node = node.parentNode;
+			}
 		},
 
 		getInfo : function() {

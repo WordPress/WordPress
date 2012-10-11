@@ -176,15 +176,19 @@ img.wp-oembed {
 		inset 0 -60px 30px -30px rgba( 0, 0, 0, 0.2 );*/
 	overflow: hidden;
 
-	-webkit-transition: opacity 100ms ease-in-out;
-	-moz-transition:    opacity 100ms ease-in-out;
-	-ms-transition:     opacity 100ms ease-in-out;
-	-o-transition:      opacity 100ms ease-in-out;
-	transition:         opacity 100ms ease-in-out;
+	-webkit-transition: opacity 100ms ease-in-out, background 150ms;
+	-moz-transition:    opacity 100ms ease-in-out, background 150ms;
+	-ms-transition:     opacity 100ms ease-in-out, background 150ms;
+	-o-transition:      opacity 100ms ease-in-out, background 150ms;
+	transition:         opacity 100ms ease-in-out, background 150ms;
 }
 
-.wp-view-wrap:hover .overlay {
+.wp-view-wrap:hover .overlay,
+.wp-view-wrap.selected .overlay {
 	opacity: 1;
+}
+.wp-view-wrap.selected .overlay {
+	background: rgba( 0, 86, 132, 0.3 );
 }
 
 .wp-view-wrap .spinner {
@@ -226,11 +230,6 @@ img.wp-oembed {
 	color: #333;
 }
 
-.wp-view-wrap .close,
-.wp-view-wrap .edit {
-	display: none;
-}
-
 .wp-view-wrap .close {
 	top: 5px;
 	right: 5px;
@@ -243,12 +242,6 @@ img.wp-oembed {
 	bottom: 5px;
 	right: 5px;
 	padding: 0 10px;
-}
-
-.editor-attachment:hover .close,
-.editor-gallery:hover .close,
-.editor-gallery:hover .edit {
-	display: block;
 }
 
 .editor-attachment {

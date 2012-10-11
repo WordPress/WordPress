@@ -359,6 +359,36 @@ window.wp = window.wp || {};
 			return wp.mce.view.removeInternalAttrs( wp.html.attrs( content ) );
 		},
 
+		// ### Select a view.
+		//
+		// Accepts a MCE view wrapper `node` (i.e. a node with the
+		// `wp-view-wrap` class).
+		select: function( node ) {
+			var $node = $(node);
+
+			// Bail if node is already selected.
+			if ( $node.hasClass('selected') )
+				return;
+
+			$node.addClass('selected');
+			$( node.firstChild ).trigger('select');
+		},
+
+		// ### Deselect a view.
+		//
+		// Accepts a MCE view wrapper `node` (i.e. a node with the
+		// `wp-view-wrap` class).
+		deselect: function( node ) {
+			var $node = $(node);
+
+			// Bail if node is already selected.
+			if ( ! $node.hasClass('selected') )
+				return;
+
+			$node.removeClass('selected');
+			$( node.firstChild ).trigger('deselect');
+		},
+
 		// Link any localized strings.
 		l10n: _.isUndefined( _wpMceViewL10n ) ? {} : _wpMceViewL10n
 	};
