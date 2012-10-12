@@ -308,6 +308,9 @@ sup {
 sub {
 	top: .5ex;
 }
+small {
+	font-size: smaller;
+}
 input[type="text"],
 textarea {
 	background: #f9f9f9;

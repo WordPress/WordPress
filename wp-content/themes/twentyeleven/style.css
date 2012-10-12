@@ -431,6 +431,9 @@ sup {
 sub {
 	top: .5ex;
 }
+small {
+	font-size: smaller;
+}
 
 /* Forms */
 input[type=text],

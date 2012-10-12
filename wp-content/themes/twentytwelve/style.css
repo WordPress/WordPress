@@ -151,6 +151,9 @@ sup {
 sub {
 	bottom: -0.25em;
 }
+small {
+	font-size: smaller;
+}
 img {
 	border: 0;
 	-ms-interpolation-mode: bicubic;
