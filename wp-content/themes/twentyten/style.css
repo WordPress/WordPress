@@ -651,7 +651,7 @@ div.menu li {
 	clear: both;
 	color: #000;
 	font-weight: bold;
-	margin: 0 0 22px 0;
+	line-height: 48px;
 	word-spacing: 0.5em;
 }
 .page-link a:link,
