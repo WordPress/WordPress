@@ -161,6 +161,23 @@ img.wp-oembed {
 	box-shadow: none;
 }
 
+.wp-view-wrap.alignnone {
+	display: block;
+}
+
+.wp-view-wrap.aligncenter {
+	display: block;
+	text-align: center;
+}
+
+.wp-view-wrap.alignleft {
+	float: left;
+}
+
+.wp-view-wrap.alignright {
+	float: right;
+}
+
 .wp-view-wrap .overlay {
 	opacity: 0;
 	display: block;
