@@ -281,7 +281,7 @@ window.wp = window.wp || {};
 
 		toView: function( viewType, options ) {
 			var view = wp.mce.view.get( viewType ),
-				instance, id, tag;
+				instance, id;
 
 			if ( ! view )
 				return '';
@@ -296,10 +296,20 @@ window.wp = window.wp || {};
 			id = instance.el.id = instance.el.id || _.uniqueId('__wpmce-');
 			instances[ id ] = instance;
 
-			// If the view is a span, wrap it in a span.
-			tag = 'span' === instance.tagName ? 'span' : 'div';
+			// Create a dummy `$wrapper` property to allow `$wrapper` to be
+			// called in the view's `render` method without a conditional.
+			instance.$wrapper = $();
 
-			return '<' + tag + ' class="wp-view-wrap" data-wp-view="' + id + '" contenteditable="false"></' + tag + '>';
+			return wp.html.string({
+				// If the view is a span, wrap it in a span.
+				tag: 'span' === instance.tagName ? 'span' : 'div',
+
+				attrs: {
+					'class':           'wp-view-wrap wp-view-type-' + viewType,
+					'data-wp-view':    id,
+					'contenteditable': false
+				}
+			});
 		},
 
 		// ### render( scope )
@@ -316,6 +326,8 @@ window.wp = window.wp || {};
 				if ( ! view )
 					return;
 
+				// Link the real wrapper to the view.
+				view.$wrapper = wrapper;
 				// Render the view.
 				view.render();
 				// Detach the view element to ensure events are not unbound.
@@ -543,6 +555,11 @@ window.wp = window.wp || {};
 				if ( ! attachment.url )
 					return;
 
+				// Align the wrapper.
+				if ( this.align )
+					this.$wrapper.addClass( 'align' + this.align );
+
+				// Generate the template options.
 				options = {
 					url: 'image' === attachment.type ? attachment.url : attachment.icon,
 					uploading: attachment.uploading

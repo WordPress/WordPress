@@ -111,7 +111,7 @@ var tb_position;
 			workflow.on( 'update:insert', function( selection ) {
 				this.insert( selection.map( function( attachment ) {
 					if ( 'image' === attachment.get('type') )
-						return '\n' + wp.media.string.image( attachment ) + '\n';
+						return wp.media.string.image( attachment ) + ' ';
 					else
 						return wp.media.string.link( attachment ) + ' ';
 				}).join('') );
