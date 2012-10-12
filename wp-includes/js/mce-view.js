@@ -311,8 +311,7 @@ window.wp = window.wp || {};
 		render: function( scope ) {
 			$( '.wp-view-wrap', scope ).each( function() {
 				var wrapper = $(this),
-					id = wrapper.data('wp-view'),
-					view = instances[ id ];
+					view = wp.mce.view.instance( this );
 
 				if ( ! view )
 					return;
@@ -357,6 +356,17 @@ window.wp = window.wp || {};
 		// ### Parse an attribute string and removes internal TinyMCE attributes.
 		attrs: function( content ) {
 			return wp.mce.view.removeInternalAttrs( wp.html.attrs( content ) );
+		},
+
+		// ### instance( scope )
+		//
+		// Accepts a MCE view wrapper `node` (i.e. a node with the
+		// `wp-view-wrap` class).
+		instance: function( node ) {
+			var id = $( node ).data('wp-view');
+
+			if ( id )
+				return instances[ id ];
 		},
 
 		// ### Select a view.
