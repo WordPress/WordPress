@@ -1833,6 +1833,8 @@ function wp_ajax_save_attachment() {
 	if ( ! $id = absint( $_REQUEST['id'] ) )
 		wp_send_json_error();
 
+	check_ajax_referer( 'save-attachment', 'nonce' );
+
 	if ( ! current_user_can( 'edit_post', $id ) )
 		wp_send_json_error();
 

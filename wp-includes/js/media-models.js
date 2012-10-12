@@ -1,7 +1,7 @@
 window.wp = window.wp || {};
 
 (function($){
-	var Attachment, Attachments, Query, compare;
+	var Attachment, Attachments, Query, compare, l10n;
 
 	/**
 	 * wp.media( attributes )
@@ -19,6 +19,9 @@ window.wp = window.wp || {};
 	};
 
 	_.extend( media, { model: {}, view: {}, controller: {} });
+
+	// Link any localized strings.
+	l10n = media.model.l10n = _.isUndefined( _wpMediaModelsL10n ) ? {} : _wpMediaModelsL10n;
 
 	/**
 	 * ========================================================================
@@ -192,7 +195,8 @@ window.wp = window.wp || {};
 				// Set the action and ID.
 				options.data = _.extend( options.data || {}, {
 					action: 'save-attachment',
-					id: this.id
+					id:     this.id,
+					nonce:  l10n.saveAttachmentNonce
 				});
 
 				// Record the values of the changed attributes.

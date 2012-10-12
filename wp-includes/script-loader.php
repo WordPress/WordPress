@@ -315,6 +315,10 @@ function wp_default_scripts( &$scripts ) {
 	) );
 
 	$scripts->add( 'media-models', "/wp-includes/js/media-models$suffix.js", array( 'backbone', 'jquery' ), false, 1 );
+	did_action( 'init' ) && $scripts->localize( 'media-models', '_wpMediaModelsL10n', array(
+		'saveAttachmentNonce' => wp_create_nonce( 'save-attachment' ),
+	) );
+
 	$scripts->add( 'media-views',  "/wp-includes/js/media-views$suffix.js",  array( 'media-models', 'wp-plupload' ), false, 1 );
 	did_action( 'init' ) && $scripts->localize( 'media-views', '_wpMediaViewsL10n', array(
 		// Generic
