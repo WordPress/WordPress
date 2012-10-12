@@ -1503,26 +1503,39 @@ function wp_upload_dir( $time = null ) {
 			$url = trailingslashit( $siteurl ) . $upload_path;
 	}
 
-	if ( defined( 'UPLOADS' ) ) {
+	// Obey the value of UPLOADS. This happens as long as ms-files rewriting is disabled.
+	// We also sometimes obey UPLOADS when rewriting is enabled -- see the next block.
+	if ( defined( 'UPLOADS' ) && ! ( is_multisite() && get_site_option( 'ms_files_rewriting' ) ) ) {
 		$dir = ABSPATH . UPLOADS;
 		$url = trailingslashit( $siteurl ) . UPLOADS;
 	}
 
-	// If multisite (if not the main site in a post-MU network)
-	$blog_id = get_current_blog_id();
-	if ( is_multisite() && ! ( is_main_site( $blog_id ) && defined( 'MULTISITE' ) ) ) {
+	// If multisite (and if not the main site in a post-MU network)
+	if ( is_multisite() && ! ( is_main_site() && defined( 'MULTISITE' ) ) ) {
 
 		if ( ! get_site_option( 'ms_files_rewriting' ) ) {
-			// Append sites/%d if we're not on the main site (for post-MU networks). The extra directory
+			// If ms-files rewriting is disabled (networks created post-3.5), it is fairly straightforward:
+			// Append sites/%d if we're not on the main site (for post-MU networks). (The extra directory
 			// prevents a four-digit ID from conflicting with a year-based directory for the main site.
 			// But if a MU-era network has disabled ms-files rewriting manually, they don't need the extra
-			// directory, as they never had wp-content/uploads for the main site.
+			// directory, as they never had wp-content/uploads for the main site.)
 
-			$ms_dir = defined( 'MULTISITE' ) ? '/sites/' : '/';
-			$dir .= $ms_dir . $blog_id;
-			$url .= $ms_dir . $blog_id;
-		} elseif ( ! ms_is_switched() ) {
+			if ( defined( 'MULTISITE' ) )
+				$ms_dir = '/sites/' . get_current_blog_id();
+			else
+				$ms_dir = '/' . get_current_blog_id();
+
+			$dir .= $ms_dir;
+			$url .= $ms_dir;
+
+		} elseif ( defined( 'UPLOADS' ) && ! ms_is_switched() ) {
 			// Handle the old-form ms-files.php rewriting if the network still has that enabled.
+			// When ms-files rewriting is enabled, then we only listen to UPLOADS when:
+			//   1) we are not on the main site in a post-MU network,
+			//      as wp-content/uploads is used there, and
+			//   2) we are not switched, as ms_upload_constants() hardcodes
+			//      these constants to reflect the original blog ID.
+
 			if ( defined( 'BLOGUPLOADDIR' ) )
 				$dir = untrailingslashit( BLOGUPLOADDIR );
 			$url = str_replace( UPLOADS, 'files', $url );

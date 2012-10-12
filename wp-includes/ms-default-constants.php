@@ -28,11 +28,10 @@ function ms_upload_constants() {
 	if ( !defined( 'UPLOADBLOGSDIR' ) )
 		define( 'UPLOADBLOGSDIR', 'wp-content/blogs.dir' );
 
-	// The main site in a post-MU network uses wp-content/uploads.
-	// This used to be handled in wp_upload_dir() by ignoring UPLOADS for this case. Avoid defining it instead.
+	// Note, the main site in a post-MU network uses wp-content/uploads.
+	// This is handled in wp_upload_dir() by ignoring UPLOADS for this case.
 	if ( ! defined( 'UPLOADS' ) ) {
-		if ( ! ( is_main_site() && defined( 'MULTISITE' ) ) )
-			define( 'UPLOADS', UPLOADBLOGSDIR . "/{$wpdb->blogid}/files/" );
+		define( 'UPLOADS', UPLOADBLOGSDIR . "/{$wpdb->blogid}/files/" );
 
 		// Uploads dir relative to ABSPATH
 		if ( 'wp-content/blogs.dir' == UPLOADBLOGSDIR && ! defined( 'BLOGUPLOADDIR' ) )
