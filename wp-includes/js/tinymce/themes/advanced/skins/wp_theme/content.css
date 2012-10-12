@@ -262,6 +262,7 @@ img.wp-oembed {
 }
 
 .editor-attachment {
+	display: inline-block;
 	position: relative;
 	margin-top: 10px;
 	margin-right: 10px;
@@ -283,7 +284,12 @@ img.wp-oembed {
 	position: relative;
 }
 
+.wp-view-type-gallery {
+	display: block;
+}
+
 .editor-gallery {
+	display: inline-block;
 	position: relative;
 	min-height: 150px;
 	min-width: 150px;
