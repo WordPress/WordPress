@@ -619,6 +619,8 @@ function update_core($from, $to) {
 	$required_php_version = '5.2.4';
 	$required_mysql_version = '5.0';
 	$wp_version = '3.4';
+	$old_wp_version = $GLOBALS['wp_version']; // The version of WordPress we're updating from
+	$development_build = ( false !== strpos( $old_wp_version . $wp_version, '-' )  ); // a dash in the version indicates a Development release
 	$php_compat     = version_compare( $php_version, $required_php_version, '>=' );
 	if ( file_exists( WP_CONTENT_DIR . '/db.php' ) && empty( $wpdb->is_mysql ) )
 		$mysql_compat = true;
@@ -683,11 +685,11 @@ function update_core($from, $to) {
 
 	// Copy New bundled plugins & themes
 	// This gives us the ability to install new plugins & themes bundled with future versions of WordPress whilst avoiding the re-install upon upgrade issue.
+	// $development_build controls us overwriting bundled themes and plugins when a non-stable release is being updated
 	if ( !is_wp_error($result) && ( ! defined('CORE_UPGRADE_SKIP_NEW_BUNDLED') || ! CORE_UPGRADE_SKIP_NEW_BUNDLED ) ) {
-		$old_version = $GLOBALS['wp_version']; // $wp_version in local scope == new version
 		foreach ( (array) $_new_bundled_files as $file => $introduced_version ) {
-			// If $introduced version is greater than what the site was previously running
-			if ( version_compare($introduced_version, $old_version, '>') ) {
+			// If a $development_build or if $introduced version is greater than what the site was previously running
+			if ( $development_build || version_compare( $introduced_version, $old_wp_version, '>' ) ) {
 				$directory = ('/' == $file[ strlen($file)-1 ]);
 				list($type, $filename) = explode('/', $file, 2);
 
@@ -699,13 +701,13 @@ function update_core($from, $to) {
 					continue;
 
 				if ( ! $directory ) {
-					if ( $wp_filesystem->exists($dest . $filename) )
+					if ( ! $development_build && $wp_filesystem->exists( $dest . $filename ) )
 						continue;
 
 					if ( ! $wp_filesystem->copy($from . $distro . 'wp-content/' . $file, $dest . $filename, FS_CHMOD_FILE) )
 						$result = new WP_Error('copy_failed', __('Could not copy file.'), $dest . $filename);
 				} else {
-					if ( $wp_filesystem->is_dir($dest . $filename) )
+					if ( ! $development_build && $wp_filesystem->is_dir( $dest . $filename ) )
 						continue;
 
 					$wp_filesystem->mkdir($dest . $filename, FS_CHMOD_DIR);
