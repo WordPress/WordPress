@@ -522,11 +522,11 @@ function wp_default_styles( &$styles ) {
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
 
 	// Register "meta" stylesheet for admin colors. All colors-* style sheets should have the same version string.
-	$styles->add( 'colors', true, array('wp-admin') );
+	$styles->add( 'colors', true, array('wp-admin', 'buttons') );
 
 	// do not refer to these directly, the right one is queued by the above "meta" colors handle
-	$styles->add( 'colors-fresh', "/wp-admin/css/colors-fresh$suffix.css", array('wp-admin') );
-	$styles->add( 'colors-classic', "/wp-admin/css/colors-classic$suffix.css", array('wp-admin') );
+	$styles->add( 'colors-fresh', "/wp-admin/css/colors-fresh$suffix.css", array('wp-admin', 'buttons') );
+	$styles->add( 'colors-classic', "/wp-admin/css/colors-classic$suffix.css", array('wp-admin', 'buttons') );
 
 	$styles->add( 'media', "/wp-admin/css/media$suffix.css" );
 	$styles->add( 'install', "/wp-admin/css/install$suffix.css" );
@@ -541,6 +541,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'wp-pointer', "/wp-includes/css/wp-pointer$suffix.css" );
 	$styles->add( 'customize-controls', "/wp-admin/css/customize-controls$suffix.css", array( 'wp-admin', 'colors', 'ie' ) );
 	$styles->add( 'media-views', "/wp-includes/css/media-views$suffix.css" );
+	$styles->add( 'buttons', "/wp-includes/css/buttons$suffix.css" );
 
 	foreach ( $rtl_styles as $rtl_style ) {
 		$styles->add_data( $rtl_style, 'rtl', true );

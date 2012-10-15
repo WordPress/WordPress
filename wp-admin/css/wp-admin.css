@@ -770,39 +770,6 @@ form p.submit a.cancel:hover {
 	text-decoration: none;
 }
 
-.submit input,
-.button,
-input.button,
-.button-primary,
-input.button-primary,
-.button-secondary,
-input.button-secondary {
-	display: inline-block;
-	text-decoration: none;
-	font-size: 12px;
-	line-height: 17px;
-	height: 15px;
-	margin: 0;
-	padding: 0.25em 0.85em 0.35em;
-	cursor: pointer;
-	border-width: 1px;
-	border-style: solid;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
-	-webkit-box-sizing: content-box;
-	-moz-box-sizing:    content-box;
-	box-sizing:         content-box;
-	white-space: nowrap;
-}
-
-.button.button-large {
-	padding: 0.4em 1.0em 0.5em;
-}
-
-.button.button-small {
-	padding: 0.15em 0.75em 0.17em;
-}
-
 #minor-publishing-actions input,
 #major-publishing-actions input,
 #minor-publishing-actions .preview {
