@@ -926,24 +926,26 @@ We hope you enjoy your new site. Thanks!
 	}
 	$wpdb->query( "INSERT INTO $wpdb->sitemeta ( site_id, meta_key, meta_value ) VALUES " . $insert );
 
-	$current_site = new stdClass;
-	$current_site->domain = $domain;
-	$current_site->path = $path;
-	$current_site->site_name = ucfirst( $domain );
-
-	if ( !is_multisite() ) {
+	// When upgrading from single to multisite, assume the current site will become the main site of the network.
+	// When using populate_network() to create another network in an existing multisite environment,
+	// skip these steps since the main site of the new network has not yet been created.
+	if ( ! is_multisite() ) {
+		$current_site = new stdClass;
+		$current_site->domain = $domain;
+		$current_site->path = $path;
+		$current_site->site_name = ucfirst( $domain );
 		$wpdb->insert( $wpdb->blogs, array( 'site_id' => $network_id, 'domain' => $domain, 'path' => $path, 'registered' => current_time( 'mysql' ) ) );
-		$blog_id = $wpdb->insert_id;
+		$current_site->blog_id = $blog_id = $wpdb->insert_id;
 		update_user_meta( $site_user->ID, 'source_domain', $domain );
 		update_user_meta( $site_user->ID, 'primary_blog', $blog_id );
+
+		if ( $subdomain_install )
+			$wp_rewrite->set_permalink_structure( '/%year%/%monthnum%/%day%/%postname%/' );
+		else
+			$wp_rewrite->set_permalink_structure( '/blog/%year%/%monthnum%/%day%/%postname%/' );
+
+		flush_rewrite_rules();
 	}
-
-	if ( $subdomain_install )
-		$wp_rewrite->set_permalink_structure( '/%year%/%monthnum%/%day%/%postname%/' );
-	else
-		$wp_rewrite->set_permalink_structure( '/blog/%year%/%monthnum%/%day%/%postname%/' );
-
-	flush_rewrite_rules();
 
 	if ( $subdomain_install ) {
 		$vhost_ok = false;
