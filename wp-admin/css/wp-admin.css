@@ -279,7 +279,8 @@ img {
 td,
 textarea,
 input,
-select {
+select,
+button {
 	font-family: inherit;
 	font-size: inherit;
 	font-weight: inherit;
