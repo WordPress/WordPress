@@ -483,8 +483,7 @@ function wp_get_nav_menu_items( $menu, $args = array() ) {
 		return $items;
 
 	$defaults = array( 'order' => 'ASC', 'orderby' => 'menu_order', 'post_type' => 'nav_menu_item',
-		'post_status' => 'publish', 'output' => ARRAY_A, 'output_key' => 'menu_order', 'nopaging' => true,
-		'update_post_term_cache' => false );
+		'post_status' => 'publish', 'output' => ARRAY_A, 'output_key' => 'menu_order', 'nopaging' => true );
 	$args = wp_parse_args( $args, $defaults );
 	if ( count( $items ) > 1 )
 		$args['include'] = implode( ',', $items );
