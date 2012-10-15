@@ -247,11 +247,12 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu {
 		$output .= $indent . '<li>';
 		$output .= '<label class="menu-item-title">';
 		$output .= '<input type="checkbox" class="menu-item-checkbox';
-		if ( ! empty( $item->_add_to_top ) ) {
+		if ( property_exists( $item, 'front_or_home' ) && $item->front_or_home ) {
+			$title = sprintf( _x( 'Home: %s', 'nav menu front page title' ), $item->post_title );
 			$output .= ' add-to-top';
 		}
 		$output .= '" name="menu-item[' . $possible_object_id . '][menu-item-object-id]" value="'. esc_attr( $item->object_id ) .'" /> ';
-		$output .= empty( $item->label ) ? esc_html( $item->title ) : esc_html( $item->label );
+		$output .= isset( $title ) ? esc_html( $title ) : esc_html( $item->title );
 		$output .= '</label>';
 
 		// Menu item hidden fields
@@ -727,13 +728,12 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 					$front_page = 'page' == get_option('show_on_front') ? (int) get_option( 'page_on_front' ) : 0;
 					if ( ! empty( $front_page ) ) {
 						$front_page_obj = get_post( $front_page );
-						$front_page_obj->_add_to_top = true;
-						$front_page_obj->label = sprintf( _x('Home: %s', 'nav menu front page title'), $front_page_obj->post_title );
+						$front_page_obj->front_or_home = true;
 						array_unshift( $posts, $front_page_obj );
 					} else {
 						$_nav_menu_placeholder = ( 0 > $_nav_menu_placeholder ) ? intval($_nav_menu_placeholder) - 1 : -1;
 						array_unshift( $posts, (object) array(
-							'_add_to_top' => true,
+							'front_or_home' => true,
 							'ID' => 0,
 							'object_id' => $_nav_menu_placeholder,
 							'post_content' => '',
