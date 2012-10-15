@@ -2951,6 +2951,8 @@ function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_p
 			$slug = $alt_post_name;
 		}
 	} elseif ( in_array( $post_type, $hierarchical_post_types ) ) {
+		if ( 'nav_menu_item' == $post_type )
+			return $slug;
 		// Page slugs must be unique within their own trees. Pages are in a separate
 		// namespace than posts so page slugs are allowed to overlap post slugs.
 		$check_sql = "SELECT post_name FROM $wpdb->posts WHERE post_name = %s AND post_type IN ( '" . implode( "', '", esc_sql( $hierarchical_post_types ) ) . "' ) AND ID != %d AND post_parent = %d LIMIT 1";
