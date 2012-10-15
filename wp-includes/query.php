@@ -2774,10 +2774,10 @@ class WP_Query {
 
 		$this->post_count = count( $this->posts );
 
-		// Always sanitize
-		foreach ( $this->posts as $i => $post ) {
-			$this->posts[$i] = sanitize_post( $post, 'raw' );
-		}
+		// Ensure that any posts added/modified via one of the filters above are
+		// of the type WP_Post and are filtered.
+		if ( $this->posts )
+			$this->posts = array_map( 'get_post', $this->posts );
 
 		if ( $q['cache_results'] )
 			update_post_caches($this->posts, $post_type, $q['update_post_term_cache'], $q['update_post_meta_cache']);
