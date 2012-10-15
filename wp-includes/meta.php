@@ -123,9 +123,6 @@ function update_metadata($meta_type, $object_id, $meta_key, $meta_value, $prev_v
 	if ( null !== $check )
 		return (bool) $check;
 
-	if ( ! $meta_id = $wpdb->get_var( $wpdb->prepare( "SELECT $id_column FROM $table WHERE meta_key = %s AND $column = %d", $meta_key, $object_id ) ) )
-		return add_metadata($meta_type, $object_id, $meta_key, $passed_value);
-
 	// Compare existing value to new value if no prev value given and the key exists only once.
 	if ( empty($prev_value) ) {
 		$old_value = get_metadata($meta_type, $object_id, $meta_key);
@@ -134,6 +131,9 @@ function update_metadata($meta_type, $object_id, $meta_key, $meta_value, $prev_v
 				return false;
 		}
 	}
+
+	if ( ! $meta_id = $wpdb->get_var( $wpdb->prepare( "SELECT $id_column FROM $table WHERE meta_key = %s AND $column = %d", $meta_key, $object_id ) ) )
+		return add_metadata($meta_type, $object_id, $meta_key, $passed_value);
 
 	$_meta_value = $meta_value;
 	$meta_value = maybe_serialize( $meta_value );
