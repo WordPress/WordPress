@@ -455,9 +455,7 @@ final class WP_Post {
 			return false;
 
 		if ( ! $_post = wp_cache_get( $post_id, 'posts' ) ) {
-			$_post = $wpdb->get_row( $wpdb->prepare( "
-				SELECT * FROM $wpdb->posts WHERE ID = %d LIMIT 1
-			", $post_id ) );
+			$_post = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE ID = %d LIMIT 1", $post_id ) );
 
 			if ( ! $_post )
 				return false;
