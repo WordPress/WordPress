@@ -2,6 +2,23 @@
 
 
 WordPress-style Buttons
+=======================
+Create a button by adding the `.button` class to an element. For backwards
+compatibility, we support several other classes (such as `.button-secondary`),
+but these will *not* work with the stackable classes described below.
+
+Button Styles
+-------------
+To display a primary button style, add the `.button-primary` class to a button.
+
+Button Sizes
+------------
+Adjust a button's size by adding the `.button-large` or `.button-small` class.
+
+Button States
+-------------
+Lock the state of a button by adding the name of the pseudoclass as
+an actual class (e.g. `.hover` for `:hover`).
 
 
 TABLE OF CONTENTS:
@@ -16,13 +33,9 @@ TABLE OF CONTENTS:
   1.0 - Button Layouts
 ---------------------------------------------------------------------------- */
 
-.submit input,
 .button,
-input.button,
 .button-primary,
-input.button-primary,
-.button-secondary,
-input.button-secondary {
+.button-secondary {
 	display: inline-block;
 	text-decoration: none;
 	font-size: 12px;
@@ -49,7 +62,7 @@ input.button-secondary {
 	padding: 0.15em 0.75em 0.17em;
 }
 
-a.button:active {
+.button:active {
 	outline: none;
 }
 
@@ -58,10 +71,7 @@ a.button:active {
 ---------------------------------------------------------------------------- */
 
 .button,
-.button-secondary,
-.submit input,
-input[type=button],
-input[type=submit] {
+.button-secondary {
 	background: #f3f3f3;
 	background-image: -webkit-gradient(linear, left top, left bottom, from(#fefefe), to(#f4f4f4));
 	background-image: -webkit-linear-gradient(top, #fefefe, #f4f4f4);
@@ -75,24 +85,15 @@ input[type=submit] {
 
 .button.hover,
 .button:hover,
-.button-secondary.hover,
 .button-secondary:hover,
-.submit input:hover,
-input[type=button]:hover,
-input[type=submit]:hover,
 .button.focus,
 .button:focus,
-.button-secondary.focus,
-.button-secondary:focus,
-.submit input.focus,
-.submit input:focus,
-input[type=button].focus,
-input[type=button]:focus,
-input[type=submit]:focus {
+.button-secondary:focus {
 	background: #f3f3f3;
 	background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#f3f3f3));
 	background-image: -webkit-linear-gradient(top, #fff, #f3f3f3);
 	background-image:    -moz-linear-gradient(top, #fff, #f3f3f3);
+	background-image:     -ms-linear-gradient(top, #fff, #f3f3f3);
 	background-image:      -o-linear-gradient(top, #fff, #f3f3f3);
 	background-image:   linear-gradient(to bottom, #fff, #f3f3f3);
 	border-color: #999;
@@ -101,29 +102,21 @@ input[type=submit]:focus {
 
 .button.focus,
 .button:focus,
-.button-secondary.focus,
-.button-secondary:focus,
-.submit input.focus,
-.submit input:focus,
-input[type=button].focus,
-input[type=button]:focus,
-input[type=submit]:focus {
+.button-secondary:focus {
 	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.1);
 	box-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 
 .button.active,
+.button.active:hover,
+.button.active:focus,
 .button:active,
-.button-secondary.active,
-.button-secondary:active,
-.submit input:active,
-input[type=button].active,
-input[type=button]:active,
-input[type=submit]:active {
+.button-secondary:active {
 	background: #eee;
 	background-image: -webkit-gradient(linear, left top, left bottom, from(#f4f4f4), to(#fefefe));
 	background-image: -webkit-linear-gradient(top, #f4f4f4, #fefefe);
 	background-image:    -moz-linear-gradient(top, #f4f4f4, #fefefe);
+	background-image:     -ms-linear-gradient(top, #f4f4f4, #fefefe);
 	background-image:      -o-linear-gradient(top, #f4f4f4, #fefefe);
 	background-image:   linear-gradient(to bottom, #f4f4f4, #fefefe);
 	border-color: #999;
@@ -133,17 +126,17 @@ input[type=submit]:active {
  	box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
 }
 
-.button-disabled,
 .button[disabled],
 .button:disabled,
 .button-secondary[disabled],
 .button-secondary:disabled,
-a.button.disabled {
+.button-disabled {
 	color: #aaa !important;
 	border-color: #ddd !important;
 	background-image: -webkit-gradient(linear, left top, left bottom, from(#f9f9f9), to(#f4f4f4)) !important;
 	background-image: -webkit-linear-gradient(top, #f9f9f9, #f4f4f4) !important;
 	background-image:    -moz-linear-gradient(top, #f9f9f9, #f4f4f4) !important;
+	background-image:     -ms-linear-gradient(top, #f9f9f9, #f4f4f4) !important;
 	background-image:      -o-linear-gradient(top, #f9f9f9, #f4f4f4) !important;
 	background-image:   linear-gradient(to bottom, #f9f9f9, #f4f4f4) !important;
 	-webkit-box-shadow: none !important;
@@ -155,15 +148,12 @@ a.button.disabled {
   3.0 - Primary Button Style
 ---------------------------------------------------------------------------- */
 
-input.button-primary,
-input[type=submit].button-primary,
-input[type=button].button-primary,
-button.button-primary,
-a.button-primary {
+.button-primary {
 	background-color: #21759b;
 	background-image: -webkit-gradient(linear, left top, left bottom, from(#2a95c5), to(#21759b));
 	background-image: -webkit-linear-gradient(top, #2a95c5, #21759b);
 	background-image:    -moz-linear-gradient(top, #2a95c5, #21759b);
+	background-image:     -ms-linear-gradient(top, #2a95c5, #21759b);
 	background-image:      -o-linear-gradient(top, #2a95c5, #21759b);
 	background-image:   linear-gradient(to bottom, #2a95c5, #21759b);
 	border-color: #21759b;
@@ -175,18 +165,10 @@ a.button-primary {
 	text-shadow: 0 1px 0 rgba(0,0,0,0.1);
 }
 
-input.button-primary.hover,
-input.button-primary:hover,
-input[type=submit].button-primary:hover,
-input[type=button].button-primary:hover,
-button.button-primary:hover,
-a.button-primary:hover,
-input.button-primary.focus,
-input.button-primary:focus,
-input[type=submit].button-primary:focus,
-input[type=button].button-primary:focus,
-button.button-primary:focus,
-a.button-primary:focus {
+.button-primary.hover,
+.button-primary:hover,
+.button-primary.focus,
+.button-primary:focus {
 	background-color: #278ab7;
 	background-image: -webkit-gradient(linear, left top, left bottom, from(#2e9fd2), to(#21759b));
 	background-image: -webkit-linear-gradient(top, #2e9fd2, #21759b);
@@ -201,23 +183,17 @@ a.button-primary:focus {
 	text-shadow: 0 -1px 0 rgba(0,0,0,0.3);
 }
 
-input.button-primary.focus,
-input.button-primary:focus,
-input[type=submit].button-primary:focus,
-input[type=button].button-primary:focus,
-button.button-primary:focus,
-a.button-primary:focus {
+.button-primary.focus,
+.button-primary:focus {
 	border-color: #0e3950;
 	-webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.6), 0 1px 2px rgba(0,0,0,0.1);
 	box-shadow: inset 0 1px 0 rgba(120,200,230,0.6), 0 1px 2px rgba(0,0,0,0.1);
 }
 
-input.button-primary.active,
-input[type=submit].button-primary:active,
-input[type=button].button-primary:active,
-input.button-primary:active,
-button.button-primary:active,
-a.button-primary:active {
+.button-primary.active,
+.button-primary.active:hover,
+.button-primary.active:focus,
+.button-primary:active {
 	background: #1b607f;
 	background-image: -webkit-gradient(linear, left top, left bottom, from(#21759b), to(#278ab7));
 	background-image: -webkit-linear-gradient(top, #21759b, #278ab7);
@@ -232,18 +208,13 @@ a.button-primary:active {
 	text-shadow: 0 1px 0 rgba(0,0,0,0.1);
 }
 
-.button-primary-disabled,
 .button-primary[disabled],
-.button-primary:disabled {
+.button-primary:disabled,
+.button-primary-disabled {
 	color: #94cde7 !important;
 	background: #298cba !important;
 	border-color: #1b607f !important;
 	-webkit-box-shadow: none !important;
 	box-shadow:         none !important;
 	text-shadow: 0 -1px 0 rgba(0,0,0,0.1) !important;
-}
-
-.button-primary-disabled:hover,
-.button-primary[disabled]:hover {
-	text-shadow: none;
 }

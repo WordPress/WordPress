@@ -471,9 +471,6 @@ textarea,
 input[type="text"],
 input[type="password"],
 input[type="file"],
-input[type="button"],
-input[type="submit"],
-input[type="reset"],
 input[type="email"],
 input[type="number"],
 input[type="search"],
@@ -663,6 +660,53 @@ div.error p {
 	padding-right: 0;
 }
 
+html,
+.wp-dialog {
+	background-color: #fff;
+}
+
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="file"],
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="tel"],
+input[type="url"],
+select {
+	border-color: #dfdfdf;
+	background-color: #fff;
+	color: #333;
+}
+
+select {
+	color: #000;
+}
+
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="file"]:focus,
+input[type="email"]:focus,
+input[type="number"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="url"]:focus,
+select:focus {
+	border-color: #a1a1a1;
+	-webkit-box-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+	box-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+kbd,
+code {
+	background: #eaeaea;
+}
+
+input[readonly] {
+	background-color: #eee;
+}
 
 /*------------------------------------------------------------------------------
   1.0 - Text Styles
@@ -2191,7 +2235,7 @@ html.wp-toolbar {
 	background-position: 100% 17%;
 }
 
-.welcome-button {
+.welcome-panel .welcome-button {
 	margin: -9px 0 3px;
 	padding: 1em 3em;
 	font: normal 15px/1 sans-serif;
