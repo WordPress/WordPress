@@ -45,7 +45,7 @@ abstract class WP_Image_Editor {
 			return $editor;
 		}
 
-		return false;
+		return new WP_Error( 'no_editor', __('No editor could be selected') );
 	}
 
 	/**
