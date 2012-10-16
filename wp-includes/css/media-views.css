@@ -86,17 +86,18 @@
 	float: left;
 }
 
-.media-toolbar .media-button {
+.media-toolbar-primary > .media-button,
+.media-toolbar-primary > .media-button-group {
+	margin-left: 10px;
 	float: left;
 	margin-top: 16px;
 }
 
-.media-toolbar-primary .media-button {
-	margin-left: 10px;
-}
-
-.media-toolbar-secondary .media-button {
+.media-toolbar-secondary > .media-button,
+.media-toolbar-secondary > .media-button-group {
 	margin-right: 10px;
+	float: left;
+	margin-top: 16px;
 }
 
 /**
@@ -515,4 +516,22 @@
 .selection-preview .clear-selection {
 	float: left;
 	line-height: 60px;
+}
+
+/**
+ * Attachment Display Settings
+ */
+
+.attachment-display-settings,
+.button div.attachment-display-settings {
+	padding: 0 1em 1em;
+}
+
+.attachment-display-settings h3 {
+	font-weight: 200;
+	margin: 1.4em 0 0.4em;
+}
+
+.attachment-display-settings h4 {
+	margin: 1.4em 0 0.4em;
 }

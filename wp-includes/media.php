@@ -1377,6 +1377,37 @@ function wp_print_media_templates( $attachment ) {
 		<% } %>
 	</script>
 
+	<script type="text/html" id="tmpl-attachment-display-settings">
+		<h4><?php _e('Alignment'); ?></h4>
+		<div class="alignment button-group button-large" data-setting="align">
+			<button class="button" value="left">
+				<?php esc_attr_e('Left'); ?>
+			</button>
+			<button class="button" value="center">
+				<?php esc_attr_e('Center'); ?>
+			</button>
+			<button class="button" value="right">
+				<?php esc_attr_e('Right'); ?>
+			</button>
+			<button class="button" value="none">
+				<?php esc_attr_e('None'); ?>
+			</button>
+		</div>
+
+		<h4><?php _e('Link To'); ?></h4>
+		<div class="link-to button-group button-large" data-setting="link">
+			<button class="button" value="post">
+				<?php esc_attr_e('Attachment Page'); ?>
+			</button>
+			<button class="button" value="file">
+				<?php esc_attr_e('Media File'); ?>
+			</button>
+			<button class="button" value="none">
+				<?php esc_attr_e('None'); ?>
+			</button>
+		</div>
+	</script>
+
 	<script type="text/html" id="tmpl-editor-attachment">
 		<div class="editor-attachment-preview">
 			<% if ( url ) { %>

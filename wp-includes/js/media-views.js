@@ -350,6 +350,9 @@
 				delete this.options[ key ];
 			}, this );
 
+			if ( this.options.dropdown )
+				this.options.dropdown.addClass('dropdown');
+
 			this.model.on( 'change', this.render, this );
 		},
 
@@ -362,10 +365,19 @@
 			if ( this.model.get('size') )
 				classes.push( 'button-' + this.model.get('size') );
 
-			classes = classes.concat( this.options.classes );
+			classes = _.uniq( classes.concat( this.options.classes ) );
 			this.el.className = classes.join(' ');
 
+
+			// Detach the dropdown.
+			if ( this.options.dropdown )
+				this.options.dropdown.detach();
+
 			this.$el.text( this.model.get('text') );
+
+			if ( this.options.dropdown )
+				this.$el.append( this.options.dropdown );
+
 			return this;
 		},
 
@@ -373,6 +385,33 @@
 			event.preventDefault();
 			if ( this.options.click )
 				this.options.click.apply( this, arguments );
+		}
+	});
+
+	/**
+	 * wp.media.view.ButtonGroup
+	 */
+	media.view.ButtonGroup = Backbone.View.extend({
+		tagName:   'div',
+		className: 'button-group button-large media-button-group',
+
+		initialize: function() {
+			this.buttons = _.map( this.options.buttons || [], function( button ) {
+				if ( button instanceof Backbone.View )
+					return button;
+				else
+					return new media.view.Button( button ).render();
+			});
+
+			delete this.options.buttons;
+
+			if ( this.options.classes )
+				this.$el.addClass( this.options.classes );
+		},
+
+		render: function() {
+			this.$el.html( $( _.pluck( this.buttons, 'el' ) ).detach() );
+			return this;
 		}
 	});
 
@@ -710,11 +749,38 @@
 						}
 					},
 
-					'insert-into-post': {
-						text:     l10n.insertIntoPost,
+					'insert-into-post': new media.view.ButtonGroup({
 						priority: 30,
-						click:    _.bind( controller.update, controller, 'insert' )
-					},
+						classes:  'dropdown-flip-x',
+						buttons:  [
+							{
+								text:  l10n.insertIntoPost,
+								click: _.bind( controller.update, controller, 'insert' )
+							},
+							{
+								classes:  ['down-arrow'],
+								dropdown: new media.view.AttachmentDisplaySettings().render().$el,
+
+								click: function( event ) {
+									var $el = this.$el;
+
+									if ( ! $( event.target ).closest('.dropdown').length )
+										$el.toggleClass('active');
+
+									// Stop the event from propagating further so we can bind
+									// a one-time event to the body (and ensure that a click
+									// on the dropdown won't trigger said event).
+									event.stopPropagation();
+
+									if ( $el.is(':visible') ) {
+										$(document.body).one( 'click', function() {
+											$el.removeClass('active');
+										});
+									}
+								}
+							}
+						]
+					}).render(),
 
 					'add-to-gallery': {
 						text:     l10n.addToGallery,
@@ -736,7 +802,9 @@
 
 				this.toolbarView.get('create-new-gallery').$el.toggle( showGallery );
 				insert = this.toolbarView.get('insert-into-post');
-				insert.model.set( 'style', showGallery ? '' : 'primary' );
+				_.each( insert.buttons, function( button ) {
+					button.model.set( 'style', showGallery ? '' : 'primary' );
+				});
 			}, this );
 
 			this.$content.append( this.toolbarView.$el );
@@ -1032,6 +1100,94 @@
 		clear: function( event ) {
 			event.preventDefault();
 			this.collection.clear();
+		}
+	});
+
+
+	/**
+	 * wp.media.view.AttachmentDisplaySettings
+	 */
+	media.view.AttachmentDisplaySettings = Backbone.View.extend({
+		tagName:   'div',
+		className: 'attachment-display-settings',
+		template:  media.template('attachment-display-settings'),
+
+		events: {
+			'click button': 'updateHandler'
+		},
+
+		settings:   {
+			align: {
+				accepts:  ['left','center','right','none'],
+				name:     'align',
+				fallback: 'none'
+			},
+			link: {
+				accepts:  ['post','file','none'],
+				name:     'urlbutton',
+				fallback: 'post'
+			},
+			size: {
+				// @todo: Dynamically generate these.
+				accepts:  ['thumbnail','medium','large','full'],
+				name:     'imgsize',
+				fallback: 'medium'
+			}
+		},
+
+		initialize: function() {
+			var settings = this.settings;
+
+			this.model = new Backbone.Model();
+
+			_.each( settings, function( setting, key ) {
+				this.model.set( key, getUserSetting( setting.name, setting.fallback ) );
+			}, this );
+
+			this.model.validate = function( attrs ) {
+				return _.any( attrs, function( value, key ) {
+					return ! settings[ key ] || ! _.contains( settings[ key ].accepts, value );
+				});
+			};
+
+			this.model.on( 'change', function( model, options ) {
+				if ( ! options.changes )
+					return;
+
+				_.each( _.keys( options.changes ), function( key ) {
+					if ( settings[ key ] )
+						setUserSetting( settings[ key ].name, model.get( key ) );
+				});
+			}, this );
+
+			this.model.on( 'change', this.updateChanges, this );
+		},
+
+		render: function() {
+			this.$el.html( this.template( this.model.toJSON() ) );
+
+			// Select the correct values.
+			_( this.model.attributes ).chain().keys().each( this.update, this );
+			return this;
+		},
+
+		update: function( key ) {
+			var buttons = this.$('[data-setting="' + key + '"] button').removeClass('active');
+			buttons.filter( '[value="' + this.model.get( key ) + '"]' ).addClass('active');
+		},
+
+		updateHandler: function( event ) {
+			var group = $( event.target ).closest('.button-group');
+
+			event.preventDefault();
+
+			if ( group.length )
+				this.model.set( group.data('setting'), event.target.value );
+		},
+
+		updateChanges: function( model, options ) {
+			if ( options.changes )
+				_( options.changes ).chain().keys().each( this.update, this );
 		}
 	});
 }(jQuery));
