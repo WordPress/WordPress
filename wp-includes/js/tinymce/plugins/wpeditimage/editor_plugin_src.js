@@ -21,7 +21,7 @@
 						if ( tinymce.isGecko )
 							ed.selection.select(parent);
 						else if ( tinymce.isWebKit )
-							ed.dom.events.cancel(e);
+							ed.dom.events.prevent(e);
 					}
 				});
 
