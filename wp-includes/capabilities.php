@@ -459,7 +459,7 @@ class WP_User {
 	 * @since 2.0.0
 	 * @access public
 	 *
-	 * @param int|string $id User's ID
+	 * @param int|string|stdClass|WP_User $id User's ID, a WP_User object, or a user object from the DB.
 	 * @param string $name Optional. User's username
 	 * @param int $blog_id Optional Blog ID, defaults to current blog.
 	 * @return WP_User
@@ -475,6 +475,14 @@ class WP_User {
 				$prefix . 'usersettings' => $prefix . 'user-settings',
 				$prefix . 'usersettingstime' => $prefix . 'user-settings-time',
 			);
+		}
+
+		if ( is_a( $id, 'WP_User' ) ) {
+			$this->init( $id->data, $blog_id );
+			return;
+		} elseif ( is_object( $id ) ) {
+			$this->init( $id, $blog_id );
+			return;
 		}
 
 		if ( ! empty( $id ) && ! is_numeric( $id ) ) {

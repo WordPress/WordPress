@@ -559,6 +559,10 @@ class WP_User_Query {
 				$r[ $userid ] = new WP_User( $userid, '', $qv['blog_id'] );
 
 			$this->results = $r;
+		} elseif ( 'all' == $qv['fields'] ) {
+			foreach ( $this->results as $key => $user ) {
+				$this->results[ $key ] = new WP_User( $user );
+			}
 		}
 	}
 
