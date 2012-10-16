@@ -510,6 +510,7 @@ jQuery(document).ready( function($) {
 		$('#timestampdiv').siblings('a.edit-timestamp').click(function() {
 			if ($('#timestampdiv').is(":hidden")) {
 				$('#timestampdiv').slideDown('fast');
+				$('#mm').focus();
 				$(this).hide();
 			}
 			return false;
