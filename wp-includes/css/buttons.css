@@ -26,6 +26,7 @@ TABLE OF CONTENTS:
  1.0 - Button Layouts
  2.0 - Default Button Style
  3.0 - Primary Button Style
+ 4.0 - Button Groups
 
 ---------------------------------------------------------------------------- */
 
@@ -37,6 +38,7 @@ TABLE OF CONTENTS:
 .button-primary,
 .button-secondary {
 	display: inline-block;
+	vertical-align: middle;
 	text-decoration: none;
 	font-size: 12px;
 	line-height: 17px;
@@ -54,11 +56,13 @@ TABLE OF CONTENTS:
 	white-space: nowrap;
 }
 
-.button.button-large {
+.button.button-large,
+.button-group.button-large .button {
 	padding: 0.4em 1.0em 0.5em;
 }
 
-.button.button-small {
+.button.button-small,
+.button-group.button-small .button {
 	padding: 0.15em 0.75em 0.17em;
 }
 
@@ -217,4 +221,39 @@ TABLE OF CONTENTS:
 	-webkit-box-shadow: none !important;
 	box-shadow:         none !important;
 	text-shadow: 0 -1px 0 rgba(0,0,0,0.1) !important;
+}
+
+/* ----------------------------------------------------------------------------
+  4.0 - Button Groups
+---------------------------------------------------------------------------- */
+
+.button-group {
+	display: inline-block;
+	white-space: nowrap;
+	font-size: 0;
+	vertical-align: middle;
+}
+
+.button-group > .button {
+	position: relative;
+	display: inline-block;
+	border-radius: 0;
+	margin-right: -1px;
+	z-index: 10;
+}
+
+.button-group > .button-primary {
+	z-index: 100;
+}
+
+.button-group > .button:hover {
+	z-index: 20;
+}
+
+.button-group > .button:first-child {
+	border-radius: 3px 0 0 3px;
+}
+
+.button-group > .button:last-child {
+	border-radius: 0 3px 3px 0;
 }
