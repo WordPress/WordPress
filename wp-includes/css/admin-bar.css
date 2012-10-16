@@ -608,23 +608,28 @@
 }
 
 #wpadminbar .screen-reader-shortcut:focus {
-	left: 5px;
-	top: 5px;
+	left: 6px;
+	top: 7px;
 	height: auto;
 	width: auto;
 	display: block;
-	padding: 10px 15px;
-	background: #fff;
-	color: #000;
-	border: 2px solid #333;
+	font-size: 14px;
+	font-weight: bold;
+	padding: 15px 23px 14px;
+	background: #8cc1ea;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#8cc1ea), to(#72a7cf));
+	background-image: -webkit-linear-gradient(top, #8cc1ea, #72a7cf);
+	background-image:    -moz-linear-gradient(top, #8cc1ea, #72a7cf);
+	background-image:      -o-linear-gradient(top, #8cc1ea, #72a7cf);
+	background-image:   linear-gradient(to bottom, #8cc1ea, #72a7cf);
+	color: #fff;
 	border-radius: 3px;
 	z-index: 100000;
-	text-shadow: none;
+	text-shadow: 0 -1px 0 rgba(22, 57, 81, 0.3);
 	line-height: normal;
-}
-
-#wpadminbar a.screen-reader-shortcut {
-	text-decoration: underline;
+	-webkit-box-shadow: 0 0 2px 2px rgba(0,0,0,.6);
+	box-shadow: 0 0 2px 2px rgba(0,0,0,.6);
+	text-decoration: none;
 }
 
 /**

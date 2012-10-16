@@ -67,6 +67,19 @@ if ( typeof(jQuery) != 'undefined' ) {
 			$('html, body').animate({ scrollTop: 0 }, 'fast');
 		});
 
+		// fix focus bug in WebKit
+		$('.screen-reader-shortcut').keydown( function(e) {
+			if ( 13 != e.which )
+				return;
+
+			var id = $(this).attr('href');
+
+			if ( $.browser.webkit && id && id.charAt(0) == '#' ) {
+				setTimeout(function () {
+					$(id).focus();
+				}, 100);
+			}
+		});
 	});
 } else {
 	(function(d, w) {

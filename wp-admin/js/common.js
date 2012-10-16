@@ -369,6 +369,12 @@ $(document).ready( function() {
 	$(document).on('click.wp-accessibility-blur', 'a', function() {
 		$(this).blur();
 	});
+
+	// Scroll into view when focused
+	$('#contextual-help-link, #show-settings-link').on( 'focus.scroll-into-view', function(e){
+		if ( e.target.scrollIntoView )
+			e.target.scrollIntoView(false);
+	});
 });
 
 // internal use

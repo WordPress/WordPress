@@ -126,7 +126,7 @@ $current_screen->set_parentage( $parent_file );
 
 ?>
 
-<div id="wpbody-content" aria-label="<?php esc_attr_e('Main content'); ?>">
+<div id="wpbody-content" aria-label="<?php esc_attr_e('Main content'); ?>" tabindex="0">
 <?php
 
 $current_screen->render_screen_meta();
