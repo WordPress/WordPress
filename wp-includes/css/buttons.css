@@ -27,6 +27,7 @@ TABLE OF CONTENTS:
  2.0 - Default Button Style
  3.0 - Primary Button Style
  4.0 - Button Groups
+ 5.0 - Icon Buttons
 
 ---------------------------------------------------------------------------- */
 
@@ -256,4 +257,20 @@ TABLE OF CONTENTS:
 
 .button-group > .button:last-child {
 	border-radius: 0 3px 3px 0;
+}
+
+/* ----------------------------------------------------------------------------
+  5.0 - Icon Buttons
+
+  A button with a class of .down-arrow cannot have any input, and cannot have
+  any other content.
+---------------------------------------------------------------------------- */
+.button.down-arrow:after {
+	content: '\25BE';
+	display: inline-block;
+	font-size: 16px;
+	opacity: 0.8;
+	margin: 0 -0.25em;
+	text-align: center;
+	vertical-align: middle;
 }
