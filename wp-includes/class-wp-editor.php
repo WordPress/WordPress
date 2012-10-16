@@ -608,10 +608,12 @@ final class _WP_Editors {
 						try { tinymce.init(init); } catch(e){}
 				}
 			} else {
-				el = document.getElementsByClassName('wp-editor-wrap');
-				for ( i in el ) {
-					if ( typeof(el[i]) == 'object' )
-						el[i].onmousedown = function(){ wpActiveEditor = this.id.slice(3, -5); }
+				if ( tinyMCEPreInit.qtInit ) {
+					for ( i in tinyMCEPreInit.qtInit ) {
+						el = tinyMCEPreInit.qtInit[i].id;
+						if ( el )
+							document.getElementById('wp-'+el+'-wrap').onmousedown = function(){ wpActiveEditor = this.id.slice(3, -5); }
+					}
 				}
 			}
 
