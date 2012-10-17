@@ -1617,7 +1617,7 @@ class wpdb {
 	/**
 	 * Wraps errors in a nice header and footer and dies.
 	 *
-	 * Will not die if wpdb::$show_errors is true
+	 * Will not die if wpdb::$show_errors is false.
 	 *
 	 * @since 1.5.0
 	 *
