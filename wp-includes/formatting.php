@@ -2824,10 +2824,16 @@ function sanitize_option($option, $value) {
 		case 'mailserver_url':
 		case 'mailserver_login':
 		case 'mailserver_pass':
-		case 'ping_sites':
 		case 'upload_path':
-			$value = strip_tags($value);
-			$value = wp_kses_data($value);
+			$value = strip_tags( $value );
+			$value = wp_kses_data( $value );
+			break;
+
+		case 'ping_sites':
+			$value = explode( "\n", $value );
+			$value = array_filter( array_map( 'trim', $value ) );
+			$value = array_filter( array_map( 'esc_url_raw', $value ) );
+			$value = implode( "\n", $value );
 			break;
 
 		case 'gmt_offset':
