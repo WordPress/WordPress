@@ -910,6 +910,7 @@ We hope you enjoy your new site. Thanks!
 		'ms_files_rewriting' => is_multisite() ? get_site_option( 'ms_files_rewriting' ) : '0',
 		'initial_db_version' => get_option( 'initial_db_version' ),
 		'active_sitewide_plugins' => array(),
+		'WPLANG' => get_locale(),
 	);
 	if ( ! $subdomain_install )
 		$sitemeta['illegal_names'][] = 'blog';
