@@ -131,7 +131,6 @@ if ( isset( $_GET['action'] ) ) {
 							case 'notspam':
 								$updated_action = ( 'spam' === $doaction ) ? 'all_spam' : 'all_notspam';
 								update_blog_status( $val, 'spam', ( 'spam' === $doaction ) ? '1' : '0' );
-								set_time_limit( 60 );
 							break;
 						}
 					} else {
