@@ -490,13 +490,16 @@ function wp_dashboard_quick_press() {
 		$post = get_post( $last_post_id );
 		if ( empty( $post ) || $post->post_status != 'auto-draft' ) { // auto-draft doesn't exists anymore
 			$post = get_default_post_to_edit('post', true);
-			update_user_option( (int) $GLOBALS['current_user']->ID, 'dashboard_quick_press_last_post_id', (int) $post->ID ); // Save post_ID
+			update_user_option( get_current_user_id(), 'dashboard_quick_press_last_post_id', (int) $post->ID ); // Save post_ID
 		} else {
 			$post->post_title = ''; // Remove the auto draft title
 		}
 	} else {
-		$post = get_default_post_to_edit('post', true);
-		update_user_option( (int) $GLOBALS['current_user']->ID, 'dashboard_quick_press_last_post_id', (int) $post->ID ); // Save post_ID
+		$post = get_default_post_to_edit( 'post' , true);
+		$user_id = get_current_user_id();
+		// Don't create an option if this is a super admin who does not belong to this site.
+		if ( ! ( is_super_admin( $user_id ) && ! in_array( get_current_blog_id(), array_keys( get_blogs_of_user( $user_id ) ) ) ) )
+			update_user_option( $user_id, 'dashboard_quick_press_last_post_id', (int) $post->ID ); // Save post_ID
 	}
 
 	$post_ID = (int) $post->ID;

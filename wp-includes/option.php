@@ -540,6 +540,11 @@ function wp_user_settings() {
 	if ( ! $user = wp_get_current_user() )
 		return;
 
+	if ( is_super_admin( $user->ID ) &&
+		! in_array( get_current_blog_id(), array_keys( get_blogs_of_user( $user->ID ) ) )
+		)
+		return;
+
 	$settings = get_user_option( 'user-settings', $user->ID );
 
 	if ( isset( $_COOKIE['wp-settings-' . $user->ID] ) ) {
@@ -696,6 +701,11 @@ function wp_set_all_user_settings($all) {
 
 	if ( ! $user = wp_get_current_user() )
 		return false;
+
+	if ( is_super_admin( $user->ID ) &&
+		! in_array( get_current_blog_id(), array_keys( get_blogs_of_user( $user->ID ) ) )
+		)
+		return;
 
 	$_updated_user_settings = $all;
 	$settings = '';
