@@ -325,7 +325,7 @@ function set_screen_options() {
 		$option = $_POST['wp_screen_options']['option'];
 		$value = $_POST['wp_screen_options']['value'];
 
-		if ( !preg_match( '/^[a-z_-]+$/', $option ) )
+		if ( $option != sanitize_key( $option ) )
 			return;
 
 		$map_option = $option;
