@@ -2799,7 +2799,9 @@ class WP_Query {
 	function set_found_posts( $q, $limits ) {
 		global $wpdb;
 
-		if ( $q['no_found_rows'] || ! $this->posts )
+		// Bail if posts is an empty array. Continue if posts is an empty string
+		// null, or false to accommodate caching plugins that fill posts later.
+		if ( $q['no_found_rows'] || ( is_array( $this->posts ) && ! $this->posts ) )
 			return;
 
 		if ( ! empty( $limits ) )
