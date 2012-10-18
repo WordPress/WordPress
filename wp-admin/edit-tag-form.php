@@ -62,7 +62,7 @@ do_action($taxonomy . '_pre_edit_form', $tag, $taxonomy); ?>
 		<tr class="form-field">
 			<th scope="row" valign="top"><label for="description"><?php _ex('Description', 'Taxonomy Description'); ?></label></th>
 			<td><textarea name="description" id="description" rows="5" cols="50" class="large-text"><?php echo $tag->description; // textarea_escaped ?></textarea><br />
-			<span class="description"><?php _e('The description is not prominent by default, however some themes may show it.'); ?></span></td>
+			<span class="description"><?php _e('The description is not prominent by default; however, some themes may show it.'); ?></span></td>
 		</tr>
 		<?php
 		// Back compat hooks
