@@ -165,10 +165,10 @@ function get_category_by_slug( $slug  ) {
  *
  * @since 1.0.0
  *
- * @param string $cat_name Optional. Default is 'General' and can be any category name.
+ * @param string $cat_name Category name. 
  * @return int 0, if failure and ID of category on success.
  */
-function get_cat_ID( $cat_name='General' ) {
+function get_cat_ID( $cat_name ) {
 	$cat = get_term_by( 'name', $cat_name, 'category' );
 	if ( $cat )
 		return $cat->term_id;
