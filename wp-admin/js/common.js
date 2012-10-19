@@ -195,49 +195,67 @@ $(document).ready( function() {
 		}
 	});
 
-	$('li.wp-has-submenu', menu).hoverIntent({
-		over: function(e){
-			var b, h, o, f, m = $(this).find('.wp-submenu'), menutop, wintop, maxtop, top = parseInt( m.css('top'), 10 );
+	if ( 'ontouchstart' in window || /IEMobile\/[1-9]/.test(navigator.userAgent) ) { // touch screen device
+		// close any open submenus when touch/click is not on the menu
+		$(document.body).on('click.wp-mobile-hover', function(e) {
+			if ( !$(e.target).closest('#adminmenu').length )
+				menu.find('li.wp-has-submenu.opensub').removeClass('opensub');
+		});
 
-			if ( isNaN(top) || top > -5 ) // meaning the submenu is visible
-				return;
+		menu.find('li.wp-has-submenu').on('click.wp-mobile-hover', function(e) {
+			var el = $(this);
 
-			menutop = $(this).offset().top;
-			wintop = $(window).scrollTop();
-			maxtop = menutop - wintop - 30; // max = make the top of the sub almost touch admin bar
+			if ( !el.hasClass('opensub') ) {
+				e.preventDefault();
+				menu.find('li.wp-has-submenu.opensub').removeClass('opensub');
+				el.addClass('opensub');
+			}
+		});
+	} else {
+		menu.find('li.wp-has-submenu').hoverIntent({
+			over: function(e){
+				var b, h, o, f, m = $(this).find('.wp-submenu'), menutop, wintop, maxtop, top = parseInt( m.css('top'), 10 );
 
-			b = menutop + m.height() + 1; // Bottom offset of the menu
-			h = $('#wpwrap').height(); // Height of the entire page
-			o = 60 + b - h;
-			f = $(window).height() + wintop - 15; // The fold
+				if ( isNaN(top) || top > -5 ) // meaning the submenu is visible
+					return;
 
-			if ( f < (b - o) )
-				o = b - f;
+				menutop = $(this).offset().top;
+				wintop = $(window).scrollTop();
+				maxtop = menutop - wintop - 30; // max = make the top of the sub almost touch admin bar
 
-			if ( o > maxtop )
-				o = maxtop;
+				b = menutop + m.height() + 1; // Bottom offset of the menu
+				h = $('#wpwrap').height(); // Height of the entire page
+				o = 60 + b - h;
+				f = $(window).height() + wintop - 15; // The fold
 
-			if ( o > 1 )
-				m.css('margin-top', '-'+o+'px');
-			else
-				m.css('margin-top', '');
+				if ( f < (b - o) )
+					o = b - f;
 
-			menu.find('li.menu-top').removeClass('opensub');
-			$(this).addClass('opensub');
-		},
-		out: function(){
-			$(this).removeClass('opensub').find('.wp-submenu').css('margin-top', '');
-		},
-		timeout: 200,
-		sensitivity: 7,
-		interval: 90
-	});
+				if ( o > maxtop )
+					o = maxtop;
 
-	menu.on('focus.adminmenu', '.wp-submenu a', function(e){
-		$(e.target).closest('li.menu-top').addClass('opensub');
-	}).on('blur.adminmenu', '.wp-submenu a', function(e){
-		$(e.target).closest('li.menu-top').removeClass('opensub');
-	});
+				if ( o > 1 )
+					m.css('margin-top', '-'+o+'px');
+				else
+					m.css('margin-top', '');
+
+				menu.find('li.menu-top').removeClass('opensub');
+				$(this).addClass('opensub');
+			},
+			out: function(){
+				$(this).removeClass('opensub').find('.wp-submenu').css('margin-top', '');
+			},
+			timeout: 200,
+			sensitivity: 7,
+			interval: 90
+		});
+		
+		menu.on('focus.adminmenu', '.wp-submenu a', function(e){
+			$(e.target).closest('li.menu-top').addClass('opensub');
+		}).on('blur.adminmenu', '.wp-submenu a', function(e){
+			$(e.target).closest('li.menu-top').removeClass('opensub');
+		});
+	}
 
 	// Move .updated and .error alert boxes. Don't move boxes designed to be inline.
 	$('div.wrap h2:first').nextAll('div.updated, div.error').addClass('below-h2');
