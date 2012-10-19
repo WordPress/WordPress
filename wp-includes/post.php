@@ -389,7 +389,6 @@ function get_post( $post = null, $output = OBJECT, $filter = 'raw' ) {
 	} elseif ( is_object( $post ) ) {
 		if ( empty( $post->filter ) ) {
 			$_post = sanitize_post( $post, 'raw' );
-			wp_cache_add( $post->ID, $_post, 'posts' );
 			$_post = new WP_Post( $_post );
 		} elseif ( 'raw' == $post->filter ) {
 			$_post = new WP_Post( $post );
@@ -418,33 +417,151 @@ function get_post( $post = null, $output = OBJECT, $filter = 'raw' ) {
  *
  * @since 3.5.0
  *
- * @property $ID;
- * @property $post_author;
- * @property $post_date;
- * @property $post_date_gmt;
- * @property $post_content;
- * @property $post_title;
- * @property $post_excerpt;
- * @property $post_status;
- * @property $comment_status;
- * @property $ping_status;
- * @property $post_password;
- * @property $post_name;
- * @property $to_ping;
- * @property $pinged;
- * @property $post_modified;
- * @property $post_modified_gmt;
- * @property $post_content_filtered;
- * @property $post_parent;
- * @property $guid;
- * @property $menu_order;
- * @property $post_type;
- * @property $post_mime_type;
- * @property $comment_count;
- * @property $ancestors;
  */
 final class WP_Post {
 
+	/**
+	 *
+	 * @var int
+	 */
+	public $ID;
+
+	/**
+	 *
+	 * @var int
+	 */	
+	public $post_author = 0;
+
+	/**
+	 *
+	 * @var string
+	 */	
+	public $post_date = '0000-00-00 00:00:00';
+
+	/**
+	 *
+	 * @var string
+	 */		
+	public $post_date_gmt = '0000-00-00 00:00:00';
+
+	/**
+	 *
+	 * @var string
+	 */		
+	public $post_content = '';
+
+	/**
+	 *
+	 * @var string
+	 */		
+	public $post_title = '';
+
+	/**
+	 *
+	 * @var string
+	 */		
+	public $post_excerpt = '';
+
+	/**
+	 *
+	 * @var string
+	 */		
+	public $post_status = 'publish';
+
+	/**
+	 *
+	 * @var string
+	 */		
+	public $comment_status = 'open';
+
+	/**
+	 *
+	 * @var string
+	 */		
+	public $ping_status = 'open';
+
+	/**
+	 *
+	 * @var string
+	 */		
+	public $post_password = '';
+
+	/**
+	 *
+	 * @var string
+	 */		
+	public $post_name = '';
+
+	/**
+	 *
+	 * @var string
+	 */		
+	public $to_ping = '';
+
+	/**
+	 *
+	 * @var string
+	 */		
+	public $pinged = '';
+
+	/**
+	 *
+	 * @var string
+	 */		
+	public $post_modified = '0000-00-00 00:00:00';
+
+	/**
+	 *
+	 * @var string
+	 */		
+	public $post_modified_gmt = '0000-00-00 00:00:00';
+
+	/**
+	 *
+	 * @var string
+	 */		
+	public $post_content_filtered = '';
+
+	/**
+	 *
+	 * @var int
+	 */		
+	public $post_parent = 0;
+
+	/**
+	 *
+	 * @var string
+	 */		
+	public $guid = '';
+
+	/**
+	 *
+	 * @var int
+	 */	
+	public $menu_order = 0;
+
+	/**
+	 *
+	 * @var string
+	 */	
+	public $post_type = 'post';
+
+	/**
+	 *
+	 * @var string
+	 */		
+	public $post_mime_type = '';
+
+	/**
+	 *
+	 * @var int
+	 */	
+	public $comment_count = 0;
+
+	/**
+	 *
+	 * @var string
+	 */			
 	public $filter;
 
 	public static function get_instance( $post_id ) {
