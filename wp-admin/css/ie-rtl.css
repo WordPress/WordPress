@@ -34,11 +34,6 @@ body {
 
 .folded #adminmenu .wp-submenu {
 	right: 30px;
-	top: -4px;
-}
-
-#adminmenu .wp-submenu .wp-submenu-head {
-	padding: 6px 10px 6px 4px;
 }
 
 #wpcontent #adminmenu .wp-submenu li.wp-submenu-head {

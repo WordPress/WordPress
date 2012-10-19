@@ -55,6 +55,11 @@
 	position: relative;
 }
 
+#adminmenu,
+#adminmenu a {
+	cursor: pointer;
+}
+
 #adminmenu li.wp-menu-separator,
 #adminmenu li.wp-menu-separator-last {
 	font-size: 1px;
@@ -75,6 +80,14 @@
 	margin: 0;
 }
 
+.folded #adminmenu .wp-submenu {
+	border-top-color: transparent;
+}
+
+#adminmenu .wp-submenu .wp-submenu-head {
+	border-top-color: #ddd;
+}
+
 .folded #adminmenu .wp-submenu ul {
 	margin-left: 5px;
 }
@@ -85,15 +98,6 @@
 
 #adminmenu .wp-menu-arrow {
 	display: none !important;
-}
-
-#adminmenu .wp-submenu li.wp-submenu-head {
-	padding: 6px 4px 7px 10px;
-	zoom: 100%;
-}
-
-.js.folded #adminmenu .menu-top {
-	height: 30px;
 }
 
 .js.folded #adminmenu li.menu-top {

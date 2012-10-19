@@ -1502,22 +1502,19 @@ form.upgrade .hint {
 	float: left;
 	width: 28px;
 	height: 28px;
-	margin-top: -1px;
 }
 
 .folded #adminmenu div.wp-menu-image {
 	width: 32px;
-	margin-top: 0;
 	position: absolute;
 	z-index: 25;
 }
 
 .folded #adminmenu a.menu-top {
-	height: 29px;
+	height: 28px;
 }
 
 .wp-menu-arrow {
-	display: none;
 	z-index: 25;
 	position: absolute;
 	right: 100%;
@@ -1533,6 +1530,7 @@ form.upgrade .hint {
 }
 
 #adminmenu .wp-menu-arrow div {
+	display: none;
 	position: absolute;
 	top: 7px;
 	left: -1px;
@@ -1558,19 +1556,23 @@ form.upgrade .hint {
 	top: 0;
 }
 
-.folded .wp-menu-arrow {
-	-moz-transform:    translate( 33px );
-	-webkit-transform: translate( 33px );
-	-o-transform:      translate( 33px );
-	-ms-transform:     translate( 33px );
-	transform:         translate( 33px );
+.folded #adminmenu li .wp-menu-arrow {
+	-moz-transform:    translate( 32px );
+	-webkit-transform: translate( 32px );
+	-o-transform:      translate( 32px );
+	-ms-transform:     translate( 32px );
+	transform:         translate( 32px );
 }
 
 #adminmenu li.current .wp-menu-arrow,
 #adminmenu li.wp-has-current-submenu .wp-menu-arrow,
+#adminmenu li.wp-has-current-submenu .wp-menu-arrow div,
+#adminmenu li.wp-has-submenu .wp-menu-arrow div,
+#adminmenu li.current .wp-menu-arrow div,
 .no-js #adminmenu li.wp-has-submenu:hover .wp-menu-arrow,
 #adminmenu li.wp-has-submenu.opensub .wp-menu-arrow,
-#adminmenu a.wp-has-submenu:focus .wp-menu-arrow {
+#adminmenu a.wp-has-submenu:focus .wp-menu-arrow,
+#adminmenu a:hover .wp-menu-arrow {
 	display: block;
 }
 
@@ -1597,15 +1599,17 @@ form.upgrade .hint {
 }
 
 .wp-menu-arrow,
-.folded #adminmenu li.wp-not-current-submenu .wp-menu-arrow,
+.folded #adminmenu li .wp-menu-arrow div,
 .no-js #adminmenu li.wp-not-current-submenu:hover .wp-menu-arrow {
 	display: none;
 }
 
 .folded #adminmenu li.current .wp-menu-arrow,
-.folded #adminmenu li.wp-menu-open .wp-menu-arrow {
+.folded #adminmenu li.current .wp-menu-arrow div,
+.folded #adminmenu li.wp-has-current-submenu .wp-menu-arrow div,
+.folded #adminmenu li.wp-menu-open .wp-menu-arrow,
+.folded #adminmenu li a:focus .wp-menu-arrow {
 	display: block;
-	top: 1px;
 }
 
 #adminmenu li.menu-top:hover .wp-menu-image img,
@@ -1631,7 +1635,7 @@ form.upgrade .hint {
 }
 
 #adminmenu .wp-submenu .wp-submenu-head {
-	padding: 6px 4px 5px 10px;
+	padding: 5px 4px 5px 10px;
 	margin: -4px -1px 4px;
 	border-width: 1px 0;
 	border-style: solid;

@@ -419,12 +419,12 @@ form.upgrade .hint {
 	transform:         translate( -138px );
 }
 
-.folded .wp-menu-arrow {
-	-moz-transform:    translate( -27px );
-	-webkit-transform: translate( -27px );
-	-o-transform:      translate( -27px );
-	-ms-transform:     translate( -27px );
-	transform:         translate( -27px );
+.folded #adminmenu li .wp-menu-arrow {
+	-moz-transform:    translate( -26px );
+	-webkit-transform: translate( -26px );
+	-o-transform:      translate( -26px );
+	-ms-transform:     translate( -26px );
+	transform:         translate( -26px );
 }
 
 #adminmenu .wp-not-current-submenu .wp-menu-arrow div {
