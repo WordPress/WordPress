@@ -191,10 +191,6 @@ strong .post-com-count span {
 	background: #f1f1f1;
 }
 
-.wrap .add-new-h2:focus {
-	background: #c7e7fd;
-}
-
 .subtitle {
 	color: #777;
 }
@@ -320,17 +316,7 @@ a:active {
 }
 
 a:focus {
-	background: #c7e7fd;
 	color: #124964;
-}
-
-a:active {
-	background: none;
-	outline: thin dotted;
-}
-
-#adminmenu a:active {
-	outline: none;
 }
 
 #adminmenu a:hover,
@@ -744,11 +730,6 @@ table.widefat span.spam a,
 #screen-meta-links a {
 	color: #777;
 	background: transparent url(../images/arrows.png) no-repeat right 4px;
-}
-
-#screen-meta-links a:focus {
-	background-color: #c7e7fd;
-	color: #124964;
 }
 
 #screen-meta-links a:hover,

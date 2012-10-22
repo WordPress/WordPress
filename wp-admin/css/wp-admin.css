@@ -309,11 +309,27 @@ select {
 }
 
 a,
-input,
+input[type="text"],
+input[type="password"],
+input[type="number"],
+input[type="search"],
+input[type="email"],
+input[type="url"],
 select,
 textarea,
 div {
 	outline: 0;
+}
+
+a:focus,
+a:active {
+	outline: thin dotted;
+}
+
+#adminmenu a:focus,
+#adminmenu a:active,
+.screen-reader-text:focus {
+	outline: none;
 }
 
 blockquote,
@@ -706,7 +722,7 @@ input[type="search"]:focus,
 input[type="tel"]:focus,
 input[type="url"]:focus,
 select:focus {
-	border-color: #a1a1a1;
+	border-color: #aaa;
 	-webkit-box-shadow: 1px 1px 2px rgba(0,0,0,0.1);
 	box-shadow: 1px 1px 2px rgba(0,0,0,0.1);
 }
@@ -1157,6 +1173,12 @@ form.upgrade .hint {
 
 #screen-meta-links {
 	margin: 0 24px 0 0;
+}
+
+#screen-meta-links a:focus {
+	-webkit-box-shadow: 1px 1px 1px rgba(0,0,0,0.4);
+	box-shadow: 1px 1px 1px rgba(0,0,0,0.4);
+	outline: none;
 }
 
 /* screen options and help tabs revert */
@@ -4538,6 +4560,10 @@ h3.available-themes {
 	overflow: hidden;
 }
 
+.available-theme a.screenshot:focus {
+	border-color: #777;
+}
+
 #current-theme .theme-info li,
 .theme-options li,
 .available-theme .action-links li {
@@ -6495,6 +6521,7 @@ a.rsswidget {
 	width: 326px;
 	height: 67px;
 	text-indent: -9999px;
+	outline: none;
 	overflow: hidden;
 	padding-bottom: 15px;
 	display: block;

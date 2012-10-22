@@ -383,11 +383,6 @@ $(document).ready( function() {
 		});
 	}
 
-	// Blur accessibility link background color onclick
-	$(document).on('click.wp-accessibility-blur', 'a', function() {
-		$(this).blur();
-	});
-
 	// Scroll into view when focused
 	$('#contextual-help-link, #show-settings-link').on( 'focus.scroll-into-view', function(e){
 		if ( e.target.scrollIntoView )
