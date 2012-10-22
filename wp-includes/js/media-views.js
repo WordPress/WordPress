@@ -672,16 +672,23 @@
 		},
 
 		maybeInitUploader: function() {
-			var workspace = this;
+			var workspace = this,
+				params = {},
+				$id;
 
 			// If the uploader already exists or the body isn't in the DOM, bail.
 			if ( this.uploader || ! this.$el.closest('body').length )
 				return;
 
+			$id = $('#post_ID');
+			if ( $id.length )
+				params.post_id = $id.val();
+
 			this.uploader = new wp.Uploader( _.extend({
 				container: this.$el,
 				dropzone:  this.$el,
-				browser:   this.$('.upload-attachments a')
+				browser:   this.$('.upload-attachments a'),
+				params:    params
 			}, this.options.uploader ) );
 		},
 
