@@ -10,6 +10,9 @@
 	font: normal 13px/28px sans-serif;
 	color: #ccc;
 	text-shadow: #444 0px -1px 0px;
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing:    content-box;
+	box-sizing:         content-box;
 }
 
 #wpadminbar ul li:before,
