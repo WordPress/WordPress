@@ -1646,7 +1646,7 @@ div.widgets-sortables,
 	border-bottom-color: #eee;
 }
 
-.item-edit:hover {
+.nav-menus-php .item-edit:hover {
 	background: transparent url(../images/arrows-dark.png) no-repeat 8px 10px;
 }
 
@@ -1895,6 +1895,7 @@ div.widgets-sortables,
 	#adminmenu .wp-has-submenu:hover .wp-menu-toggle,
 	#adminmenu .wp-menu-open .wp-menu-toggle,
 	#collapse-button div,
+	.nav-menus-php .item-edit,
 	.meta-box-sortables .postbox:hover .handlediv,
 	.sidebar-name-arrow,
 	.rtl #adminmenu .wp-has-submenu:hover .wp-menu-toggle,
@@ -1908,6 +1909,7 @@ div.widgets-sortables,
 	#adminmenu li.wp-has-current-submenu.wp-menu-open .wp-menu-toggle,
 	#adminmenu li.wp-has-current-submenu:hover .wp-menu-toggle,
 	.sidebar-name:hover .sidebar-name-arrow,
+	.nav-menus-php .item-edit:hover,
 	.rtl #adminmenu li.wp-has-current-submenu.wp-menu-open .wp-menu-toggle,
 	.rtl #adminmenu li.wp-has-current-submenu:hover .wp-menu-toggle,
 	.rtl .sidebar-name:hover .sidebar-name-arrow {
