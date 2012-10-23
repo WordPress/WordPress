@@ -189,7 +189,8 @@ TABLE OF CONTENTS:
 
 /* Hide visually but not from screen readers */
 .screen-reader-text,
-.screen-reader-text span {
+.screen-reader-text span,
+.ui-helper-hidden-accessible {
 	position: absolute;
 	left: -1000em;
 	top: -1000em;
@@ -948,8 +949,7 @@ ul#add-to-blog-users {
 	z-index: 10000;
 	border-bottom-right-radius: 3px;
 	border-bottom-left-radius: 3px;
-	border-width: 1px;
-	border-style: solid;
+	border: 1px solid #a1a1a1;
 }
 
 .ui-autocomplete li {
@@ -964,7 +964,7 @@ ul#add-to-blog-users {
 	padding: 4px 10px;
 }
 
-.ui-autocomplete li a.ui-state-hover {
+.ui-autocomplete li a.ui-state-focus {
 	cursor: pointer;
 }
 

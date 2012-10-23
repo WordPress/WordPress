@@ -280,10 +280,9 @@ td.help {
 
 .ui-autocomplete {
 	background-color: #eff8ff;
-	border-color: #d1e5ee;
 }
 
-.ui-autocomplete li a.ui-state-hover {
+.ui-autocomplete li a.ui-state-focus {
 	background-color: #def1ff;
 }
 
