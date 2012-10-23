@@ -2910,7 +2910,7 @@ table .inline-edit-row fieldset ul.cat-hover {
 
 #titlediv {
 	position: relative;
-	margin-bottom: 10px;
+	margin-bottom: 18px;
 }
 
 #titlediv label {
@@ -2972,6 +2972,8 @@ input#link_url {
 }
 
 #edit-slug-box {
+	height: 1em;
+	line-height: 23px;
 	margin-top: 8px;
 	padding: 0 10px;
 }
