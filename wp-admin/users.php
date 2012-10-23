@@ -229,9 +229,9 @@ case 'delete':
 	foreach ( $userids as $id ) {
 		$user = get_userdata( $id );
 		if ( $id == $current_user->ID ) {
-			echo "<li>" . sprintf(__('ID #%1s: %2s <strong>The current user will not be deleted.</strong>'), $id, $user->user_login) . "</li>\n";
+			echo "<li>" . sprintf(__('ID #%1$s: %2$s <strong>The current user will not be deleted.</strong>'), $id, $user->user_login) . "</li>\n";
 		} else {
-			echo "<li><input type=\"hidden\" name=\"users[]\" value=\"" . esc_attr($id) . "\" />" . sprintf(__('ID #%1s: %2s'), $id, $user->user_login) . "</li>\n";
+			echo "<li><input type=\"hidden\" name=\"users[]\" value=\"" . esc_attr($id) . "\" />" . sprintf(__('ID #%1$s: %2$s'), $id, $user->user_login) . "</li>\n";
 			$go_delete++;
 		}
 	}
@@ -330,11 +330,11 @@ case 'remove':
 		$id = (int) $id;
  		$user = get_userdata( $id );
 		if ( $id == $current_user->ID && !is_super_admin() ) {
-			echo "<li>" . sprintf(__('ID #%1s: %2s <strong>The current user will not be removed.</strong>'), $id, $user->user_login) . "</li>\n";
+			echo "<li>" . sprintf(__('ID #%1$s: %2$s <strong>The current user will not be removed.</strong>'), $id, $user->user_login) . "</li>\n";
 		} elseif ( !current_user_can('remove_user', $id) ) {
-			echo "<li>" . sprintf(__('ID #%1s: %2s <strong>You don\'t have permission to remove this user.</strong>'), $id, $user->user_login) . "</li>\n";
+			echo "<li>" . sprintf(__('ID #%1$s: %2$s <strong>You don\'t have permission to remove this user.</strong>'), $id, $user->user_login) . "</li>\n";
 		} else {
-			echo "<li><input type=\"hidden\" name=\"users[]\" value=\"{$id}\" />" . sprintf(__('ID #%1s: %2s'), $id, $user->user_login) . "</li>\n";
+			echo "<li><input type=\"hidden\" name=\"users[]\" value=\"{$id}\" />" . sprintf(__('ID #%1$s: %2$s'), $id, $user->user_login) . "</li>\n";
 			$go_remove = true;
 		}
  	}
