@@ -406,7 +406,7 @@ function display_space_usage() {
 		$space .= __( 'MB' );
 	}
 	?>
-	<strong><?php printf( __( 'Used: %1s%% of %2s' ), number_format( $percent_used ), $space ); ?></strong>
+	<strong><?php printf( __( 'Used: %1$s%% of %2$s' ), number_format( $percent_used ), $space ); ?></strong>
 	<?php
 }
 
