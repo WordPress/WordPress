@@ -1464,17 +1464,22 @@ function _remove_theme_support( $feature ) {
 	switch ( $feature ) {
 		case 'custom-header' :
 			$support = get_theme_support( 'custom-header' );
-			if ( $support[0]['wp-head-callback'] )
+			if ( isset( $support[0]['wp-head-callback'] ) )
 				remove_action( 'wp_head', $support[0]['wp-head-callback'] );
-			remove_action( 'admin_menu', array( $GLOBALS['custom_image_header'], 'init' ) );
-			unset( $GLOBALS['custom_image_header'] );
+			if ( isset( $GLOBALS['custom_image_header'] ) ) {
+				remove_action( 'admin_menu', array( $GLOBALS['custom_image_header'], 'init' ) );
+				unset( $GLOBALS['custom_image_header'] );
+			}
 			break;
 
 		case 'custom-background' :
 			$support = get_theme_support( 'custom-background' );
-			remove_action( 'wp_head', $support[0]['wp-head-callback'] );
-			remove_action( 'admin_menu', array( $GLOBALS['custom_background'], 'init' ) );
-			unset( $GLOBALS['custom_background'] );
+			if ( isset( $support[0]['wp-head-callback'] ) )
+				remove_action( 'wp_head', $support[0]['wp-head-callback'] );
+			if ( isset( $GLOBALS['custom_background'] ) ) {
+				remove_action( 'admin_menu', array( $GLOBALS['custom_background'], 'init' ) );
+				unset( $GLOBALS['custom_background'] );
+			}
 			break;
 	}
 
