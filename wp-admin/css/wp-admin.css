@@ -826,10 +826,6 @@ p.install-help {
 	height: auto;
 }
 
-select option {
-	padding: 2px;
-}
-
 .submit {
 	padding: 1.5em 0;
 	margin: 5px 0;
@@ -890,10 +886,6 @@ input[type="number"].small-text {
 
 .ie8 .tablenav .actions select#cat {
 	width: 200px;
-}
-
-#wpcontent option {
-	padding: 2px;
 }
 
 #timezone_string option {
