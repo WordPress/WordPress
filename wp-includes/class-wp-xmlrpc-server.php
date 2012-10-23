@@ -1099,8 +1099,9 @@ class wp_xmlrpc_server extends IXR_Server {
 			// empty value deletes, non-empty value adds/updates
 			if ( ! $post_data['post_thumbnail'] )
 				delete_post_thumbnail( $post_ID );
-			elseif ( ! set_post_thumbnail( $post_ID, $post_data['post_thumbnail'] ) )
-					return new IXR_Error( 404, __( 'Invalid attachment ID.' ) );
+			elseif ( ! get_post( absint( $post_data['post_thumbnail'] ) ) )
+				return new IXR_Error( 404, __( 'Invalid attachment ID.' ) );
+			set_post_thumbnail( $post_ID, $post_data['post_thumbnail'] );
 			unset( $content_struct['post_thumbnail'] );
 		}
 
