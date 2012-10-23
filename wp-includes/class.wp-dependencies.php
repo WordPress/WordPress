@@ -247,10 +247,8 @@ class _WP_Dependency {
 	var $extra = array();
 
 	function __construct() {
-		@list($this->handle, $this->src, $this->deps, $this->ver, $this->args) = func_get_args();
-		if ( is_string( $this->deps ) && ! empty( $this->deps ) )
-			$this->deps = array( $this->deps );
-		elseif ( !is_array( $this->deps ) )
+		@list( $this->handle, $this->src, $this->deps, $this->ver, $this->args ) = func_get_args();
+		if ( ! is_array($this->deps) )
 			$this->deps = array();
 	}
 
