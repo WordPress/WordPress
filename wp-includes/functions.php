@@ -902,7 +902,7 @@ function status_header( $header ) {
 function wp_get_nocache_headers() {
 	$headers = array(
 		'Expires' => 'Wed, 11 Jan 1984 05:00:00 GMT',
-		'Last-Modified' => gmdate( 'D, d M Y H:i:s' ) . ' GMT',
+		'Last-Modified' => '',
 		'Cache-Control' => 'no-cache, must-revalidate, max-age=0',
 		'Pragma' => 'no-cache',
 	);
@@ -926,6 +926,8 @@ function nocache_headers() {
 	$headers = wp_get_nocache_headers();
 	foreach( $headers as $name => $field_value )
 		@header("{$name}: {$field_value}");
+	if ( empty( $headers['Last-Modified'] ) && function_exists( 'header_remove' ) )
+		header_remove( 'Last-Modified' );
 }
 
 /**
