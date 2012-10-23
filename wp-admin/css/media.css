@@ -197,11 +197,6 @@ abbr.required {
 	margin: 0 20px;
 }
 
-#media-items a.delete {
-	display: block;
-	float: right;
-}
-
 #media-upload .widefat {
 	width: 626px;
 	border-style: solid solid none;
