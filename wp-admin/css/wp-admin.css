@@ -3432,6 +3432,7 @@ table.diff .diff-deletedline del, table.diff .diff-addedline ins {
 .customlinkdiv div.tabs-panel,
 .posttypediv div.tabs-panel,
 .taxonomydiv div.tabs-panel {
+	min-height: 42px;
 	max-height: 200px;
 	overflow: auto;
 	padding: 0 0.9em;
