@@ -237,10 +237,34 @@ table.fixed td {
 	width: 98%;
 }
 
+button,
+input[type="reset"],
+input[type="button"],
+input[type="submit"] {
+	padding: 2px 8px;
+}
+
+button.button-large,
+input[type="reset"].button-large,
+input[type="button"].button-large,
+input[type="submit"].button-large {
+	padding: 4px 12px;
+}
+
+button.button-small,
+input[type="reset"].button-small,
+input[type="button"].button-small,
+input[type="submit"].button-small {
+	padding: 0 8px;
+}
+
 a.button {
-	line-height: 1.4em;
 	margin: 1px;
-	padding: 2px 6px;
+	padding: 3px 8px;
+}
+
+a.button.button-small {
+	padding: 1px 8px;
 }
 
 #screen-options-wrap {

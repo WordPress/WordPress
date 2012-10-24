@@ -42,29 +42,37 @@ TABLE OF CONTENTS:
 	vertical-align: middle;
 	text-decoration: none;
 	font-size: 12px;
-	line-height: 17px;
-	height: 15px;
+	line-height: 1.45em;
 	margin: 0;
-	padding: 0.25em 0.85em 0.35em;
+	padding: 3px 10px;
 	cursor: pointer;
 	border-width: 1px;
 	border-style: solid;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
-	-webkit-box-sizing: content-box;
-	-moz-box-sizing:    content-box;
-	box-sizing:         content-box;
 	white-space: nowrap;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing:    border-box;
+	box-sizing:         border-box;
+}
+
+/* Remove the dotted border on :focus and the extra padding in Firefox */
+button::-moz-focus-inner,
+input[type="reset"]::-moz-focus-inner,
+input[type="button"]::-moz-focus-inner,
+input[type="submit"]::-moz-focus-inner {
+	border: 1px solid transparent;
+	padding: 0;
 }
 
 .button.button-large,
 .button-group.button-large .button {
-	padding: 0.4em 1.0em 0.5em;
+	padding: 5px 12px;
 }
 
 .button.button-small,
 .button-group.button-small .button {
-	padding: 0.15em 0.75em 0.17em;
+	padding: 2px 8px;
 }
 
 .button:active {
