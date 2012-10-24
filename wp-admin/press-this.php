@@ -13,7 +13,7 @@ require_once('./admin.php');
 
 header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
 
-if ( ! current_user_can('edit_posts') )
+if ( ! current_user_can( 'edit_posts' ) || ! current_user_can( 'create_posts' ) )
 	wp_die( __( 'Cheatin&#8217; uh?' ) );
 
 /**

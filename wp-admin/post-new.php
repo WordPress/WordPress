@@ -36,7 +36,7 @@ $title = $post_type_object->labels->add_new_item;
 
 $editing = true;
 
-if ( ! current_user_can( $post_type_object->cap->edit_posts ) )
+if ( ! current_user_can( $post_type_object->cap->edit_posts ) || ! current_user_can( $post_type_object->cap->create_posts ) )
 	wp_die( __( 'Cheatin&#8217; uh?' ) );
 
 // Schedule auto-draft cleanup

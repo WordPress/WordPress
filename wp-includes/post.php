@@ -1411,8 +1411,6 @@ function get_post_type_capabilities( $args ) {
 		'edit_others_posts'  => 'edit_others_'  . $plural_base,
 		'publish_posts'      => 'publish_'      . $plural_base,
 		'read_private_posts' => 'read_private_' . $plural_base,
-		// Post creation capability simply maps to edit_posts by default:
-		'create_posts'       => 'edit_'         . $plural_base,
 	);
 
 	// Primitive capabilities used within map_meta_cap():
@@ -1430,6 +1428,10 @@ function get_post_type_capabilities( $args ) {
 	}
 
 	$capabilities = array_merge( $default_capabilities, $args->capabilities );
+
+	// Post creation capability simply maps to edit_posts by default:
+	if ( ! isset( $capabilities['create_posts'] ) )
+		$capabilities['create_posts'] = $capabilities['edit_posts'];
 
 	// Remember meta capabilities for future reference.
 	if ( $args->map_meta_cap )
