@@ -428,6 +428,9 @@ jQuery(document).ready(function($){
 				uploaddiv.removeClass('drag-drop');
 				$('#drag-drop-area').unbind('.wp-uploader');
 			}
+
+			if ( up.runtime == 'html4' ) 
+				$('.upload-flash-bypass').hide();
 		});
 
 		uploader.init();
