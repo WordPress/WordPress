@@ -781,7 +781,7 @@ function wpmu_signup_user_notification($user, $user_email, $key, $meta = '') {
 	$message_headers = "From: \"{$from_name}\" <{$admin_email}>\n" . "Content-Type: text/plain; charset=\"" . get_option('blog_charset') . "\"\n";
 	$message = sprintf(
 		apply_filters( 'wpmu_signup_user_notification_email',
-			__( "To activate your user, please click the following link:\n\n%s\n\nAfter you activate, you will receive *another email* with your login.\n\n" ),
+			__( "To activate your user, please click the following link:\n\n%s\n\nAfter you activate, you will receive *another email* with your login." ),
 			$user, $user_email, $key, $meta
 		),
 		site_url( "wp-activate.php?key=$key" )
@@ -1130,7 +1130,7 @@ function install_blog($blog_id, $blog_title = '') {
 
 	$wpdb->suppress_errors();
 	if ( $wpdb->get_results( "DESCRIBE {$wpdb->posts}" ) )
-		die( __( '<h1>Already Installed</h1><p>You appear to have already installed WordPress. To reinstall please clear your old database tables first.</p>' ) . '</body></html>' );
+		die( '<h1>' . __( 'Already Installed' ) . '</h1><p>' . __( 'You appear to have already installed WordPress. To reinstall please clear your old database tables first.' ) . '</p></body></html>' );
 	$wpdb->suppress_errors( false );
 
 	$url = get_blogaddress_by_id( $blog_id );
