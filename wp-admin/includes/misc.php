@@ -192,7 +192,7 @@ function update_recently_edited( $file ) {
 }
 
 /**
- * If siteurl or home changed, flush rewrite rules.
+ * If siteurl, home or page_on_front changed, flush rewrite rules.
  *
  * @since 2.1.0
  *
@@ -209,6 +209,7 @@ function update_home_siteurl( $old_value, $value ) {
 
 add_action( 'update_option_home', 'update_home_siteurl', 10, 2 );
 add_action( 'update_option_siteurl', 'update_home_siteurl', 10, 2 );
+add_action( 'update_option_page_on_front', 'update_home_siteurl', 10, 2 );
 
 /**
  * Shorten an URL, to be used as link text
