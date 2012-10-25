@@ -1470,6 +1470,7 @@ img#wpstats {
 		padding: 0.571428571rem 0.714285714rem;
 		width: 180px;
 		width: 12.85714286rem;
+		white-space: normal;
 	}
 	.main-navigation li ul li a:hover {
 		background: #e3e3e3;
