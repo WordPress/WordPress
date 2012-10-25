@@ -3249,7 +3249,7 @@ function sanitize_text_field($str) {
  * @return string
  */
 function wp_basename( $path, $suffix = '' ) {
-	return urldecode( basename( str_replace( '%2F', '/', urlencode( $path ) ), $suffix ) );
+	return urldecode( basename( str_replace( array( '%2F', '%5C' ), '/', urlencode( $path ) ), $suffix ) );
 }
 
 /**
