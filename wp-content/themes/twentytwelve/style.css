@@ -358,9 +358,15 @@ img.wp-smiley,
 .entry-content dl.gallery-item {
 	margin: 0;
 }
+.gallery-item a,
+.gallery-caption {
+	width: 90%;
+}
 .gallery-item a {
 	display: block;
-	width: 90%;
+}
+.gallery-caption a {
+	display: inline;
 }
 .gallery-columns-1 .gallery-item a {
 	max-width: 100%;
