@@ -309,6 +309,7 @@ function is_taxonomy_hierarchical($taxonomy) {
  * @param string $taxonomy Name of taxonomy object
  * @param array|string $object_type Name of the object type for the taxonomy object.
  * @param array|string $args See above description for the two keys values.
+ * @return null|WP_Error WP_Erorr if errors, otherwise null.
  */
 function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 	global $wp_taxonomies, $wp;
@@ -329,6 +330,9 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 						'show_in_nav_menus' => null,
 					);
 	$args = wp_parse_args($args, $defaults);
+
+	if ( strlen( $taxonomy ) > 32 ) 
+		return new WP_Error( 'taxonomy_too_long', __( 'Taxonomies cannot exceed 32 characters in length' ) );
 
 	if ( false !== $args['query_var'] && !empty($wp) ) {
 		if ( true === $args['query_var'] )
