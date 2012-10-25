@@ -382,7 +382,7 @@ class WP {
 			@header("{$name}: {$field_value}");
 
 		if ( isset( $headers['Last-Modified'] ) && empty( $headers['Last-Modified'] ) && function_exists( 'header_remove' ) )
-			header_remove( 'Last-Modified' );
+			@header_remove( 'Last-Modified' );
 
 		if ( $exit_required )
 			exit();

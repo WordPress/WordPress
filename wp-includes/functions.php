@@ -927,7 +927,7 @@ function nocache_headers() {
 	foreach( $headers as $name => $field_value )
 		@header("{$name}: {$field_value}");
 	if ( empty( $headers['Last-Modified'] ) && function_exists( 'header_remove' ) )
-		header_remove( 'Last-Modified' );
+		@header_remove( 'Last-Modified' );
 }
 
 /**
