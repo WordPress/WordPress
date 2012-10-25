@@ -1422,7 +1422,7 @@ function get_pagenum_link($pagenum = 1, $escape = true ) {
 	$home_root = ( isset($home_root['path']) ) ? $home_root['path'] : '';
 	$home_root = preg_quote( $home_root, '|' );
 
-	$request = preg_replace('|^'. $home_root . '|', '', $request);
+	$request = preg_replace('|^'. $home_root . '|i', '', $request);
 	$request = preg_replace('|^/+|', '', $request);
 
 	if ( !$wp_rewrite->using_permalinks() || is_admin() ) {
@@ -1445,7 +1445,7 @@ function get_pagenum_link($pagenum = 1, $escape = true ) {
 		}
 
 		$request = preg_replace( "|$wp_rewrite->pagination_base/\d+/?$|", '', $request);
-		$request = preg_replace( '|^index\.php|', '', $request);
+		$request = preg_replace( '|^index\.php|i', '', $request);
 		$request = ltrim($request, '/');
 
 		$base = trailingslashit( get_bloginfo( 'url' ) );
