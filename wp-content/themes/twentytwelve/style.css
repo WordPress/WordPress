@@ -1433,6 +1433,7 @@ img#wpstats {
 		color: #6a6a6a;
 		line-height: 3.692307692;
 		text-transform: uppercase;
+		white-space: nowrap;
 	}
 	.main-navigation li a:hover {
 		color: #000;
