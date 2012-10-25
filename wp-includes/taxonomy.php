@@ -309,7 +309,7 @@ function is_taxonomy_hierarchical($taxonomy) {
  * @param string $taxonomy Name of taxonomy object
  * @param array|string $object_type Name of the object type for the taxonomy object.
  * @param array|string $args See above description for the two keys values.
- * @return null|WP_Error WP_Erorr if errors, otherwise null.
+ * @return null|WP_Error WP_Error if errors, otherwise null.
  */
 function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 	global $wp_taxonomies, $wp;
