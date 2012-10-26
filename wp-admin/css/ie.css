@@ -237,34 +237,44 @@ table.fixed td {
 	width: 98%;
 }
 
-button,
+.button,
 input[type="reset"],
 input[type="button"],
 input[type="submit"] {
-	padding: 2px 8px;
+	padding: 0 8px;
+	line-height: 20px;
+	height: auto;
 }
 
-button.button-large,
+.button.button-large,
 input[type="reset"].button-large,
 input[type="button"].button-large,
 input[type="submit"].button-large {
-	padding: 4px 12px;
+	padding: 0 10px;
+	line-height: 24px;
+	height: auto;
 }
 
-button.button-small,
+.button.button-small,
 input[type="reset"].button-small,
 input[type="button"].button-small,
 input[type="submit"].button-small {
-	padding: 0 8px;
+	padding: 0 6px;
+	line-height: 16px;
+	height: auto;
 }
 
 a.button {
 	margin: 1px;
-	padding: 3px 8px;
+	padding: 1px 9px 2px;
+}
+
+a.button.button-large {
+	padding: 1px 11px 2px;
 }
 
 a.button.button-small {
-	padding: 1px 8px;
+	padding: 1px 7px 2px;
 }
 
 #screen-options-wrap {

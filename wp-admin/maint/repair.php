@@ -16,7 +16,10 @@ header( 'Content-Type: text/html; charset=utf-8' );
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title><?php _e( 'WordPress &rsaquo; Database Repair' ); ?></title>
-	<?php wp_admin_css( 'install', true ); ?>
+	<?php 
+	wp_admin_css( 'install', true );
+	wp_admin_css( 'buttons', true );
+	?>
 </head>
 <body>
 <h1 id="logo"><img alt="WordPress" src="../images/wordpress-logo.png?ver=20120216" /></h1>
@@ -102,9 +105,9 @@ if ( ! defined( 'WP_ALLOW_REPAIR' ) ) {
 	else
 		echo '<p>' . __( 'WordPress can automatically look for some common database problems and repair them. Repairing can take a while, so please be patient.' ) . '</p>';
 ?>
-	<p class="step"><a class="button" href="repair.php?repair=1"><?php _e( 'Repair Database' ); ?></a></p>
+	<p class="step"><a class="button button-large" href="repair.php?repair=1"><?php _e( 'Repair Database' ); ?></a></p>
 	<p><?php _e( 'WordPress can also attempt to optimize the database. This improves performance in some situations. Repairing and optimizing the database can take a long time and the database will be locked while optimizing.' ); ?></p>
-	<p class="step"><a class="button" href="repair.php?repair=2"><?php _e( 'Repair and Optimize Database' ); ?></a></p>
+	<p class="step"><a class="button button-large" href="repair.php?repair=2"><?php _e( 'Repair and Optimize Database' ); ?></a></p>
 <?php
 }
 ?>

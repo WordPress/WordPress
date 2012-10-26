@@ -2262,9 +2262,11 @@ html.wp-toolbar {
 }
 
 .welcome-panel .welcome-button {
-	margin: -9px 0 3px;
-	padding: 1em 3em;
-	font: normal 15px/1 sans-serif;
+	font: normal 15px sans-serif;
+	height: 46px;
+	line-height: 44px;
+    margin: -9px 0 3px;
+    padding: 0 36px;
 }
 
 .welcome-panel-content {

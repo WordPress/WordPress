@@ -39,12 +39,12 @@ TABLE OF CONTENTS:
 .button-primary,
 .button-secondary {
 	display: inline-block;
-	vertical-align: middle;
 	text-decoration: none;
 	font-size: 12px;
-	line-height: 1.45em;
+	line-height: 23px;
+	height: 24px;
 	margin: 0;
-	padding: 3px 10px;
+	padding: 0 10px 1px;
 	cursor: pointer;
 	border-width: 1px;
 	border-style: solid;
@@ -61,18 +61,24 @@ button::-moz-focus-inner,
 input[type="reset"]::-moz-focus-inner,
 input[type="button"]::-moz-focus-inner,
 input[type="submit"]::-moz-focus-inner {
-	border: 1px solid transparent;
+	border-width: 1px 0;
+	border-style: solid none;
+	border-color: transparent;
 	padding: 0;
 }
 
 .button.button-large,
 .button-group.button-large .button {
-	padding: 5px 12px;
+	height: 30px;
+    line-height: 28px;
+    padding: 0 12px 2px;
 }
 
 .button.button-small,
 .button-group.button-small .button {
-	padding: 2px 8px;
+	height: 21px;
+	line-height: 20px;
+	padding: 0 8px 1px;
 }
 
 .button:active {

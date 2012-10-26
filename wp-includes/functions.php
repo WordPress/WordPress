@@ -2126,42 +2126,72 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 		a:hover {
 			color: #D54E21;
 		}
-
 		.button {
-			font-family: sans-serif;
+			display: inline-block;
 			text-decoration: none;
-			font-size: 14px !important;
-			line-height: 16px;
-			padding: 6px 12px;
+			font-size: 14px; 
+			line-height: 23px;
+			height: 24px;
+			margin: 0;
+			padding: 0 10px 1px;
 			cursor: pointer;
-			border: 1px solid #bbb;
-			color: #464646;
-			-webkit-border-radius: 15px;
-			border-radius: 15px;
-			-moz-box-sizing: content-box;
-			-webkit-box-sizing: content-box;
-			box-sizing: content-box;
-			background-color: #f5f5f5;
-			background-image: -ms-linear-gradient(top, #ffffff, #f2f2f2);
-			background-image: -moz-linear-gradient(top, #ffffff, #f2f2f2);
-			background-image: -o-linear-gradient(top, #ffffff, #f2f2f2);
-			background-image: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#f2f2f2));
-			background-image: -webkit-linear-gradient(top, #ffffff, #f2f2f2);
-			background-image: linear-gradient(top, #ffffff, #f2f2f2);
+			border-width: 1px;
+			border-style: solid;
+			-webkit-border-radius: 3px;
+			border-radius: 3px;
+			white-space: nowrap;
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing:    border-box;
+			box-sizing:         border-box;
+			background: #f3f3f3;
+			background-image: -webkit-gradient(linear, left top, left bottom, from(#fefefe), to(#f4f4f4));
+			background-image: -webkit-linear-gradient(top, #fefefe, #f4f4f4);
+			background-image:    -moz-linear-gradient(top, #fefefe, #f4f4f4);
+			background-image:      -o-linear-gradient(top, #fefefe, #f4f4f4);
+			background-image:   linear-gradient(to bottom, #fefefe, #f4f4f4);
+			border-color: #bbb;
+		 	color: #333;
+			text-shadow: 0 1px 0 #fff;
+		}
+		
+		.button.button-large {
+			height: 29px;
+			line-height: 28px;
+			padding: 0 12px;
 		}
 
-		.button:hover {
-			color: #000;
-			border-color: #666;
+		.button:hover,
+		.button:focus {
+			background: #f3f3f3;
+			background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#f3f3f3));
+			background-image: -webkit-linear-gradient(top, #fff, #f3f3f3);
+			background-image:    -moz-linear-gradient(top, #fff, #f3f3f3);
+			background-image:     -ms-linear-gradient(top, #fff, #f3f3f3);
+			background-image:      -o-linear-gradient(top, #fff, #f3f3f3);
+			background-image:   linear-gradient(to bottom, #fff, #f3f3f3);
+			border-color: #999;
+			color: #222;
+		}
+		
+		.button:focus  {
+			-webkit-box-shadow: 1px 1px 1px rgba(0,0,0,.2);
+			box-shadow: 1px 1px 1px rgba(0,0,0,.2);
 		}
 
 		.button:active {
-			background-image: -ms-linear-gradient(top, #f2f2f2, #ffffff);
-			background-image: -moz-linear-gradient(top, #f2f2f2, #ffffff);
-			background-image: -o-linear-gradient(top, #f2f2f2, #ffffff);
-			background-image: -webkit-gradient(linear, left top, left bottom, from(#f2f2f2), to(#ffffff));
-			background-image: -webkit-linear-gradient(top, #f2f2f2, #ffffff);
-			background-image: linear-gradient(top, #f2f2f2, #ffffff);
+			outline: none;
+			background: #eee;
+			background-image: -webkit-gradient(linear, left top, left bottom, from(#f4f4f4), to(#fefefe));
+			background-image: -webkit-linear-gradient(top, #f4f4f4, #fefefe);
+			background-image:    -moz-linear-gradient(top, #f4f4f4, #fefefe);
+			background-image:     -ms-linear-gradient(top, #f4f4f4, #fefefe);
+			background-image:      -o-linear-gradient(top, #f4f4f4, #fefefe);
+			background-image:   linear-gradient(to bottom, #f4f4f4, #fefefe);
+			border-color: #999;
+			color: #333;
+			text-shadow: 0 -1px 0 #fff;
+			-webkit-box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+		 	box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
 		}
 
 		<?php if ( 'rtl' == $text_direction ) : ?>
