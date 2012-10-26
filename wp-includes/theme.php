@@ -1463,6 +1463,8 @@ function _remove_theme_support( $feature ) {
 
 	switch ( $feature ) {
 		case 'custom-header' :
+			if ( false === did_action( 'wp_loaded', '_custom_header_background_just_in_time' ) )
+				break;
 			$support = get_theme_support( 'custom-header' );
 			if ( $support[0]['wp-head-callback'] )
 				remove_action( 'wp_head', $support[0]['wp-head-callback'] );
@@ -1471,6 +1473,8 @@ function _remove_theme_support( $feature ) {
 			break;
 
 		case 'custom-background' :
+			if ( false === did_action( 'wp_loaded', '_custom_header_background_just_in_time' ) )
+				break;
 			$support = get_theme_support( 'custom-background' );
 			remove_action( 'wp_head', $support[0]['wp-head-callback'] );
 			remove_action( 'admin_menu', array( $GLOBALS['custom_background'], 'init' ) );
