@@ -104,11 +104,10 @@ var tb_position;
 
 			workflow = workflows[ id ] = wp.media( _.defaults( options || {}, {
 				title:    wp.media.view.l10n.insertMedia,
-				multiple: true,
-				describe: true
+				multiple: true
 			} ) );
 
-			workflow.on( 'update:insert', function( selection ) {
+			workflow.get('library').on( 'insert', function( selection ) {
 				this.insert( selection.map( function( attachment ) {
 					if ( 'image' === attachment.get('type') )
 						return wp.media.string.image( attachment ) + ' ';
@@ -117,7 +116,7 @@ var tb_position;
 				}).join('') );
 			}, this );
 
-			workflow.on( 'update:gallery', function( selection ) {
+			workflow.get('gallery').on( 'update', function( selection ) {
 				var view = wp.mce.view.get('gallery'),
 					shortcode;
 

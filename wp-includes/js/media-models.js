@@ -14,8 +14,8 @@ window.wp = window.wp || {};
 	 * @return {object}            A media workflow.
 	 */
 	media = wp.media = function( attributes ) {
-		if ( media.controller.Workflow )
-			return new media.controller.Workflow( attributes ).attach().render();
+		if ( media.view.Frame )
+			return new media.view.Frame( attributes ).render().attach().open();
 	};
 
 	_.extend( media, { model: {}, view: {}, controller: {} });

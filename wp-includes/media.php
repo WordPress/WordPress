@@ -1299,24 +1299,13 @@ function wp_print_media_templates( $attachment ) {
 		<div class="media-modal">
 			<h3 class="media-modal-title"><%- title %></h3>
 			<a class="media-modal-close" href="" title="<?php esc_attr_e('Close'); ?>">&times;</a>
-			<div class="media-modal-content"></div>
 		</div>
 		<div class="media-modal-backdrop"></div>
 	</script>
 
-	<script type="text/html" id="tmpl-media-workspace">
-		<div class="upload-attachments">
-			<% if ( selectOne ) { %>
-				<h3><?php _e( 'Drop a file here' ); ?></h3>
-				<span><?php _ex( 'or', 'Uploader: Drop a file here - or - Select a File' ); ?></span>
-				<a href="#" class="button-secondary"><?php _e( 'Select a File' ); ?></a>
-			<% } else { %>
-				<h3><?php _e( 'Drop files here' ); ?></h3>
-				<span><?php _ex( 'or', 'Uploader: Drop files here - or - Select Files' ); ?></span>
-				<a href="#" class="button-secondary"><?php _e( 'Select Files' ); ?></a>
-			<% } %>
-
-			<div class="media-progress-bar"><div></div></div>
+	<script type="text/html" id="tmpl-uploader-window">
+		<div class="uploader-window-content">
+			<h3><?php _e( 'Drop files here to upload' ); ?></h3>
 		</div>
 	</script>
 

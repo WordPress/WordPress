@@ -692,12 +692,11 @@ window.wp = window.wp || {};
 					return;
 
 				this.workflow = wp.media({
-					view:      'gallery',
+					state:     'gallery',
 					selection: this.attachments.models,
 					title:     mceview.l10n.editGallery,
 					editing:   true,
-					multiple:  true,
-					describe:  true
+					multiple:  true
 				});
 
 				// Create a single-use workflow. If the workflow is closed,

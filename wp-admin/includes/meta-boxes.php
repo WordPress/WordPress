@@ -1018,7 +1018,7 @@ function post_thumbnail_meta_box( $post ) {
 		var $element     = $('#select-featured-image'),
 			$thumbnailId = $element.find('input[name="thumbnail_id"]'),
 			title        = '<?php _e( "Choose a Featured Image" ); ?>',
-			workflow, setFeaturedImage;
+			workflow, selection, setFeaturedImage;
 
 		setFeaturedImage = function( thumbnailId ) {
 			$element.find('img').remove();
@@ -1037,7 +1037,9 @@ function post_thumbnail_meta_box( $post ) {
 					}
 				});
 
-				workflow.selection.on( 'add', function( model ) {
+				selection = workflow.state().get('selection');
+
+				selection.on( 'add', function( model ) {
 					var sizes = model.get('sizes'),
 						size;
 
@@ -1051,8 +1053,8 @@ function post_thumbnail_meta_box( $post ) {
 					// data besides just calling toJSON().
 					size = size || model.toJSON();
 
-					workflow.modal.close();
-					workflow.selection.clear();
+					workflow.close();
+					selection.clear();
 
 					$( '<img />', {
 						src:    size.url,
@@ -1061,7 +1063,7 @@ function post_thumbnail_meta_box( $post ) {
 				});
 			}
 
-			workflow.modal.open();
+			workflow.open();
 		});
 
 		$element.on( 'click', '.remove', function( event ) {

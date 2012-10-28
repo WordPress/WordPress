@@ -114,7 +114,7 @@ window.wp = window.wp || {};
 				if ( active )
 					return;
 
-				dropzone.addClass('drag-over');
+				dropzone.trigger('dropzone:enter').addClass('drag-over');
 				active = true;
 			});
 
@@ -126,7 +126,7 @@ window.wp = window.wp || {};
 				// See http://core.trac.wordpress.org/ticket/21705
 				timer = setTimeout( function() {
 					active = false;
-					dropzone.removeClass('drag-over');
+					dropzone.trigger('dropzone:leave').removeClass('drag-over');
 				}, 0 );
 			});
 		}( this.dropzone, this.supports.dragdrop ));
