@@ -118,16 +118,43 @@
 		},
 
 		initialize: function() {
-			if ( ! this.get('selection') )
-				this.set( 'selection', new Attachments() );
+			if ( ! this.get('selection') ) {
+				this.set( 'selection', new media.model.Selection( null, {
+					multiple: this.get('multiple')
+				}) );
+			}
 
 			if ( ! this.get('library') )
 				this.set( 'library', media.query() );
 
 			this.on( 'activate', this.activate, this );
+			this.on( 'deactivate', this.deactivate, this );
+			this.on( 'change:details', this.details, this );
 		},
 
 		activate: function() {
+			this.toolbar();
+			this.sidebar();
+			this.content();
+
+			// If we're in a workflow that supports multiple attachments,
+			// automatically select any uploading attachments.
+			if ( this.get('multiple') )
+				wp.Uploader.queue.on( 'add', this.selectUpload, this );
+
+			this.get('selection').on( 'add remove', this.toggleDetails, this );
+		},
+
+		deactivate: function() {
+			var toolbar = this._postLibraryToolbar;
+			if ( toolbar )
+				this.get('selection').off( 'add remove', toolbar.visibility, toolbar );
+
+			wp.Uploader.queue.off( 'add', this.selectUpload, this );
+			this.get('selection').off( 'add remove', this.toggleDetails, this );
+		},
+
+		toolbar: function() {
 			var frame = this.frame,
 				toolbar;
 
@@ -139,24 +166,34 @@
 
 			frame.toolbar( toolbar );
 			this.get('selection').on( 'add remove', toolbar.visibility, toolbar );
+		},
+
+		sidebar: function() {
+			var frame = this.frame;
 
 			// Sidebar.
 			frame.sidebar( new media.view.Sidebar({
-				controller: frame,
-				views: {
-					search: new media.view.Search({
-						controller: frame,
-						model:      this.get('library').props,
-						priority:   20
-					}),
-
-					selection: new media.view.SelectionPreview({
-						controller: frame,
-						collection: this.get('selection'),
-						priority:   40
-					})
-				}
+				controller: frame
 			}) );
+
+			this.details({ silent: true });
+			frame.sidebar().add({
+				search: new media.view.Search({
+					controller: frame,
+					model:      this.get('library').props,
+					priority:   20
+				}),
+
+				selection: new media.view.SelectionPreview({
+					controller: frame,
+					collection: this.get('selection'),
+					priority:   40
+				})
+			});
+		},
+
+		content: function() {
+			var frame = this.frame;
 
 			// Content.
 			frame.content( new media.view.Attachments({
@@ -165,75 +202,81 @@
 				// The single `Attachment` view to be used in the `Attachments` view.
 				AttachmentView: media.view.Attachment.Library
 			}).render() );
-
-			// If we're in a workflow that supports multiple attachments,
-			// automatically select any uploading attachments.
-			if ( this.get('multiple') )
-				wp.Uploader.queue.on( 'add', this.selectUpload, this );
-		},
-
-		deactivate: function() {
-			var toolbar = this._postLibraryToolbar;
-
-			wp.Uploader.queue.off( 'add', this.selectUpload, this );
-			this.get('selection').off( 'add remove', toolbar.visibility, toolbar );
 		},
 
 		selectUpload: function( attachment ) {
 			this.get('selection').add( attachment );
+		},
+
+		details: function( options ) {
+			var model = this.get('details'),
+				view;
+
+			if ( model ) {
+				view = new media.view.Attachment.Details({
+					controller: this.frame,
+					model:      model,
+					priority:   80
+				});
+			} else {
+				view = new Backbone.View();
+			}
+
+			if ( ! options || ! options.silent )
+				view.render();
+
+			this.frame.sidebar().add( 'details', view, options );
+		},
+
+		toggleDetails: function( model ) {
+			var details = this.get('details'),
+				selection = this.get('selection');
+
+			if ( selection.has( model ) )
+				this.set( 'details', model );
+			else if ( selection.length )
+				this.set( 'details', selection.last() );
+			else
+				this.unset('details');
 		}
 	});
 
 	// wp.media.controller.Gallery
 	// ---------------------------
-	media.controller.Gallery = Backbone.Model.extend({
+	media.controller.Gallery = media.controller.Library.extend({
 		defaults: {
 			id:         'gallery',
-			multiple:   true,
+			multiple:   false,
 			describe:   true,
 			title:      l10n.createGallery
 		},
 
-		initialize: function() {
-			if ( ! this.get('selection') )
-				this.set( 'selection', new Attachments() );
-
-			this.on( 'activate', this.activate, this );
-		},
-
-		activate: function() {
-			var frame = this.frame;
-
-			// Toolbar.
-			frame.toolbar( new media.view.Toolbar.Gallery({
-				controller: frame,
+		toolbar: function() {
+			this.frame.toolbar( new media.view.Toolbar.Gallery({
+				controller: this.frame,
 				state:      this
 			}) );
+		},
+
+		sidebar: function() {
+			var frame = this.frame;
 
 			// Sidebar.
 			frame.sidebar( new media.view.Sidebar({
 				controller: frame
-			}).render() );
+			}) );
 
-			// Content.
-			frame.content( new media.view.Attachments({
-				controller: frame,
-				collection: this.get('selection'),
+			this.details();
+		},
+
+		content: function() {
+			this.frame.content( new media.view.Attachments({
+				controller: this.frame,
+				collection: this.get('library'),
 				sortable:   true,
 				// The single `Attachment` view to be used in the `Attachments` view.
 				AttachmentView: media.view.Attachment.Gallery
 			}).render() );
-
-			// Automatically select any uploading attachments.
-			wp.Uploader.queue.on( 'add', this.selectUpload, this );
-		},
-
-		deactivate: function() {
-			wp.Uploader.queue.off( 'add', this.selectUpload, this );
-		},
-
-		selectUpload: function( attachment ) {
-			this.get('selection').add( attachment );
 		}
 	});
 
@@ -288,41 +331,11 @@
 			var controller = this,
 				selection = this.options.selection;
 
-			if ( ! (selection instanceof Attachments) )
-				selection = this.options.selection = new Attachments( selection );
-
-			_.extend( selection, {
-				// Override the selection's add method.
-				// If the workflow does not support multiple
-				// selected attachments, reset the selection.
-				add: function( models, options ) {
-					if ( ! controller.state().get('multiple') ) {
-						models = _.isArray( models ) ? _.first( models ) : models;
-						this.clear( options );
-					}
-
-					return Attachments.prototype.add.call( this, models, options );
-				},
-
-				// Removes all models from the selection.
-				clear: function( options ) {
-					return this.remove( this.models, options );
-				},
-
-				// Override the selection's reset method.
-				// Always direct items through add and remove,
-				// as we need them to fire.
-				reset: function( models, options ) {
-					return this.clear( options ).add( models, options );
-				},
-
-				// Create selection.has, which determines if a model
-				// exists in the collection based on cid and id,
-				// instead of direct comparison.
-				has: function( attachment ) {
-					return !! ( this.getByCid( attachment.cid ) || this.get( attachment.id ) );
-				}
-			});
+			if ( ! (selection instanceof media.model.Selection) ) {
+				selection = this.options.selection = new media.model.Selection( selection, {
+					multiple: this.options.multiple
+				});
+			}
 		},
 
 		createStates: function() {
@@ -339,12 +352,12 @@
 			// Add the default states.
 			this.states.add([
 				new media.controller.Library({
-					selection:  options.selection,
-					collection: media.query( options.library ),
-					multiple:   this.options.multiple
+					selection: options.selection,
+					library:   media.query( options.library ),
+					multiple:  this.options.multiple
 				}),
 				new media.controller.Gallery({
-					selection:  options.selection
+					library: options.selection
 				})
 			]);
 
@@ -630,7 +643,10 @@
 			this.$secondary = $('<div class="media-toolbar-secondary" />').prependTo( this.$el );
 
 			if ( this.options.items )
-				this.add( this.options.items, { silent: true }).render();
+				this.add( this.options.items, { silent: true });
+
+			if ( ! this.options.silent )
+				this.render();
 		},
 
 		render: function() {
@@ -650,11 +666,16 @@
 		},
 
 		add: function( id, view, options ) {
+			options = options || {};
+
 			// Accept an object with an `id` : `view` mapping.
 			if ( _.isObject( id ) ) {
 				_.each( id, function( view, id ) {
-					this.add( id, view, options );
+					this.add( id, view, { silent: true });
 				}, this );
+
+				if ( ! options.silent )
+					this.render();
 				return this;
 			}
 
@@ -666,7 +687,7 @@
 			view.controller = view.controller || this.controller;
 
 			this._views[ id ] = view;
-			if ( ! options || ! options.silent )
+			if ( ! options.silent )
 				this.render();
 			return this;
 		},
@@ -777,7 +798,7 @@
 		initialize: function() {
 			var state = this.options.state,
 				editing = state.get('editing'),
-				selection = state.get('selection'),
+				library = state.get('library'),
 				controller = this.options.controller;
 
 			this.options.items = {
@@ -787,8 +808,8 @@
 					priority: 40,
 					click:    function() {
 						controller.close();
-						state.trigger( 'update', selection );
-						selection.clear();
+						state.trigger( 'update', library );
+						library.clear();
 						controller.state('library');
 					}
 				},
@@ -921,7 +942,10 @@
 			this._views     = {};
 
 			if ( this.options.views )
-				this.add( this.options.views, { silent: true }).render();
+				this.add( this.options.views, { silent: true });
+
+			if ( ! this.options.silent )
+				this.render();
 		},
 
 		render: function() {
@@ -949,18 +973,23 @@
 		},
 
 		add: function( id, view, options ) {
+			options = options || {};
+
 			// Accept an object with an `id` : `view` mapping.
 			if ( _.isObject( id ) ) {
 				_.each( id, function( view, id ) {
-					this.add( id, view, options );
+					this.add( id, view, { silent: true });
 				}, this );
+
+				if ( ! options.silent )
+					this.render();
 				return this;
 			}
 
 			view.controller = view.controller || this.controller;
 
 			this._views[ id ] = view;
-			if ( ! options || ! options.silent )
+			if ( ! options.silent )
 				this.render();
 			return this;
 		},
@@ -989,8 +1018,7 @@
 			'click .attachment-preview':      'toggleSelection',
 			'mouseenter .attachment-preview': 'shrink',
 			'mouseleave .attachment-preview': 'expand',
-			'change .describe':               'describe',
-			'click .close':                   'toggleSelection'
+			'change .describe':               'describe'
 		},
 
 		buttons: {},
@@ -1182,9 +1210,13 @@
 
 		events: (function() {
 			var events = _.clone( media.view.Attachment.prototype.events );
-			delete events['click .attachment-preview'];
+			events['click .close'] = 'removeFromGallery';
 			return events;
-		}())
+		}()),
+
+		removeFromGallery: function() {
+			this.controller.state().get('library').remove( this.model );
+		}
 	});
 
 	/**
@@ -1376,7 +1408,7 @@
 
 		render: function() {
 			var options = _.clone( this.options ),
-				first, sizes, amount;
+				last, sizes, amount;
 
 			// If nothing is selected, display nothing.
 			if ( ! this.collection.length ) {
@@ -1385,13 +1417,13 @@
 			}
 
 			options.count = this.collection.length;
-			first = this.collection.first();
-			sizes = first.get('sizes');
+			last  = this.collection.last();
+			sizes = last.get('sizes');
 
-			if ( 'image' === first.get('type') )
-				options.thumbnail = ( sizes && sizes.thumbnail ) ? sizes.thumbnail.url : first.get('url');
+			if ( 'image' === last.get('type') )
+				options.thumbnail = ( sizes && sizes.thumbnail ) ? sizes.thumbnail.url : last.get('url');
 			else
-				options.thumbnail =  first.get('icon');
+				options.thumbnail =  last.get('icon');
 
 			this.$el.html( this.template( options ) );
 			return this;
@@ -1488,6 +1520,19 @@
 		updateChanges: function( model, options ) {
 			if ( options.changes )
 				_( options.changes ).chain().keys().each( this.update, this );
+		}
+	});
+
+	/**
+	 * wp.media.view.Attachment.Details
+	 */
+	media.view.Attachment.Details = media.view.Attachment.extend({
+		tagName:   'div',
+		className: 'attachment-details',
+		template:  media.template('attachment-details'),
+
+		events: {
+			'change .describe': 'describe'
 		}
 	});
 }(jQuery));

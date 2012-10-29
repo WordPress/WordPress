@@ -307,8 +307,8 @@
 	font-weight: bold;
 }
 
-.attachment .thumbnail,
-.attachment .thumbnail img {
+.attachment-preview .thumbnail,
+.attachment-preview .thumbnail img {
 	-webkit-transition-property: width, height, top, left, right, bottom;
 	-moz-transition-property:    width, height, top, left, right, bottom;
 	-ms-transition-property:     width, height, top, left, right, bottom;
@@ -326,12 +326,12 @@
 	transition-delay:            200ms;
 }
 
-.attachment .thumbnail {
+.attachment-preview .thumbnail {
 	width: 199px;
 	height: 199px;
 }
 
-.attachment .thumbnail:after {
+.attachment-preview .thumbnail:after {
 	content: '';
 	display: block;
 	position: absolute;
@@ -388,7 +388,7 @@
 	display: block;
 }
 
-.attachment .describe {
+.media-frame .describe {
 	position: relative;
 	display: block;
 	width: 100%;
@@ -590,6 +590,38 @@
 .selection-preview .clear-selection {
 	float: left;
 	line-height: 60px;
+}
+
+/**
+ * Attachment Details
+ */
+
+.attachment-details {
+	padding-top: 20px;
+}
+
+.attachment-details-preview {
+	cursor: default;
+}
+
+.attachment-details-preview,
+.attachment-details-preview .thumbnail {
+	width: auto;
+	height: auto;
+	float: left;
+	position: relative;
+}
+
+.attachment-details-preview .thumbnail img {
+	max-width: 120px;
+	max-height: 120px;
+	display: block;
+	margin: 0 auto;
+}
+
+.attachment-details .describe {
+	float: left;
+	margin: 10px 0 0;
 }
 
 /**

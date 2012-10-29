@@ -613,4 +613,47 @@ window.wp = window.wp || {};
 		}())
 	});
 
+	/**
+	 * wp.media.model.Selection
+	 *
+	 * Used to manage a selection of attachments in the views.
+	 */
+	media.model.Selection = Attachments.extend({
+		initialize: function( models, options ) {
+			Attachments.prototype.initialize.apply( this, arguments );
+			this.multiple = options && options.multiple;
+		},
+
+		// Override the selection's add method.
+		// If the workflow does not support multiple
+		// selected attachments, reset the selection.
+		add: function( models, options ) {
+			if ( ! this.multiple ) {
+				models = _.isArray( models ) ? _.first( models ) : models;
+				this.clear( options );
+			}
+
+			return Attachments.prototype.add.call( this, models, options );
+		},
+
+		// Removes all models from the selection.
+		clear: function( options ) {
+			return this.remove( this.models, options );
+		},
+
+		// Override the selection's reset method.
+		// Always direct items through add and remove,
+		// as we need them to fire.
+		reset: function( models, options ) {
+			return this.clear( options ).add( models, options );
+		},
+
+		// Create selection.has, which determines if a model
+		// exists in the collection based on cid and id,
+		// instead of direct comparison.
+		has: function( attachment ) {
+			return !! ( this.getByCid( attachment.cid ) || this.get( attachment.id ) );
+		}
+	});
+
 }(jQuery));
