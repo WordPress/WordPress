@@ -133,6 +133,7 @@
 
 .media-sidebar .sidebar-content {
 	padding: 0 10px;
+	margin-bottom: 130px;
 }
 
 .media-sidebar .search {
@@ -485,7 +486,7 @@
 	max-width: 300px;
 	background: transparent;
 	border-color: #fff;
-	/*display: none;*/
+	display: none;
 }
 
 .uploader-window .media-progress-bar div {
@@ -494,6 +495,37 @@
 
 .uploading .uploader-window .media-progress-bar {
 	display: block;
+}
+
+.uploader-inline {
+	display: none;
+}
+
+.uploader-inline .media-progress-bar {
+	display: none;
+}
+
+.uploading.uploader-inline .media-progress-bar {
+	display: block;
+}
+
+.media-sidebar .uploader-inline {
+	display: block;
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: 100px;
+	margin: 10px;
+	padding-top: 10px;
+	text-align: center;
+	border: 1px dashed #aaa;
+}
+
+.media-sidebar .uploader-inline h3 {
+	font-weight: 200;
+	font-size: 16px;
+	margin: 10px 0;
 }
 
 /**

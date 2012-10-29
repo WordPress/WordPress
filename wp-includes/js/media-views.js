@@ -499,16 +499,19 @@
 			var uploader;
 
 			this.controller = this.options.controller;
+			this.inline = new media.view.UploaderInline({
+				controller:     this.controller,
+				uploaderWindow: this
+			}).render();
+
+			this.inline.$el.appendTo('body');
 
 			uploader = this.options.uploader = _.defaults( this.options.uploader || {}, {
-				container: this.$el,
+				container: this.inline.$el,
 				dropzone:  this.$el,
-				browser:   this.$('.upload-attachments a'),
+				browser:   this.inline.$('.browser'),
 				params:    {}
 			});
-
-			// Track uploading attachments.
-			wp.Uploader.queue.on( 'add remove reset change:percent', this.renderUploadProgress, this );
 
 			if ( uploader.dropzone ) {
 				// Ensure the dropzone is a jQuery collection.
@@ -522,10 +525,13 @@
 
 		render: function() {
 			this.maybeInitUploader();
-			this.renderUploadProgress();
 			this.$el.html( this.template( this.options ) );
-			this.$bar = this.$('.upload-attachments .media-progress-bar div');
 			return this;
+		},
+
+		refresh: function() {
+			if ( this.uploader )
+				this.uploader.refresh();
 		},
 
 		maybeInitUploader: function() {
@@ -565,6 +571,30 @@
 				if ( '0' === $el.css('opacity') )
 					$el.hide();
 			});
+		}
+	});
+
+	media.view.UploaderInline = Backbone.View.extend({
+		tagName:   'div',
+		className: 'uploader-inline',
+		template:  media.template('uploader-inline'),
+
+		initialize: function() {
+			this.controller = this.options.controller;
+
+			// Track uploading attachments.
+			wp.Uploader.queue.on( 'add remove reset change:percent', this.renderUploadProgress, this );
+		},
+
+		destroy: function() {
+			wp.Uploader.queue.off( 'add remove reset change:percent', this.renderUploadProgress, this );
+		},
+
+		render: function() {
+			this.renderUploadProgress();
+			this.$el.html( this.template( this.options ) );
+			this.$bar = this.$('.media-progress-bar div');
+			return this;
 		},
 
 		renderUploadProgress: function() {
@@ -909,6 +939,11 @@
 			}) );
 
 			this.$('.sidebar-content').html( els );
+
+			if ( this.controller.uploader ) {
+				this.$el.append( this.controller.uploader.inline.$el );
+				this.controller.uploader.refresh();
+			}
 
 			return this;
 		},

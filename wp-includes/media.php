@@ -1309,6 +1309,13 @@ function wp_print_media_templates( $attachment ) {
 		</div>
 	</script>
 
+	<script type="text/html" id="tmpl-uploader-inline">
+		<h3><?php _e( 'Drop files here' ); ?></h3>
+		<!--<span><?php _ex( 'or', 'Uploader: Drop files here - or - Select Files' ); ?></span>-->
+		<a href="#" class="browser button-secondary"><?php _e( 'Select Files' ); ?></a>
+		<div class="media-progress-bar"><div></div></div>
+	</script>
+
 	<script type="text/html" id="tmpl-sidebar">
 		<h2 class="sidebar-title"><%- title %></h2>
 		<div class="sidebar-content"></div>
