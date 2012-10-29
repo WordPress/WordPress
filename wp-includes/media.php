@@ -1309,11 +1309,9 @@ function wp_print_media_templates( $attachment ) {
 		</div>
 	</script>
 
-	<script type="text/html" id="tmpl-attachments">
-		<div class="attachments-header">
-			<h3><%- directions %></h3>
-			<input class="search" type="text" placeholder="<?php esc_attr_e('Search'); ?>" />
-		</div>
+	<script type="text/html" id="tmpl-sidebar">
+		<h2 class="sidebar-title"><%- title %></h2>
+		<div class="sidebar-content"></div>
 	</script>
 
 	<script type="text/html" id="tmpl-attachment">

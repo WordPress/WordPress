@@ -113,7 +113,8 @@
 		defaults: {
 			id:       'library',
 			multiple: false,
-			describe: false
+			describe: false,
+			title:    l10n.mediaLibrary
 		},
 
 		initialize: function() {
@@ -130,24 +131,40 @@
 			var frame = this.frame,
 				toolbar;
 
+			// Toolbar.
 			toolbar = this._postLibraryToolbar = new media.view.Toolbar.PostLibrary({
 				controller: frame,
-				selection:  this.get('selection')
+				state:      this
 			});
 
 			frame.toolbar( toolbar );
 			this.get('selection').on( 'add remove', toolbar.visibility, toolbar );
 
+			// Sidebar.
+			frame.sidebar( new media.view.Sidebar({
+				controller: frame,
+				views: {
+					search: new media.view.Search({
+						controller: frame,
+						model:      this.get('library').props,
+						priority:   20
+					}),
+
+					selection: new media.view.SelectionPreview({
+						controller: frame,
+						collection: this.get('selection'),
+						priority:   40
+					})
+				}
+			}) );
+
+			// Content.
 			frame.content( new media.view.Attachments({
-				directions: this.get('multiple') ? l10n.selectMediaMultiple : l10n.selectMediaSingular,
 				controller: frame,
 				collection: this.get('library'),
 				// The single `Attachment` view to be used in the `Attachments` view.
 				AttachmentView: media.view.Attachment.Library
 			}).render() );
-
-			if ( ! this.get('selection').length )
-				frame.$el.addClass('hide-toolbar');
 
 			// If we're in a workflow that supports multiple attachments,
 			// automatically select any uploading attachments.
@@ -173,7 +190,8 @@
 		defaults: {
 			id:         'gallery',
 			multiple:   true,
-			describe:   true
+			describe:   true,
+			title:      l10n.createGallery
 		},
 
 		initialize: function() {
@@ -186,14 +204,19 @@
 		activate: function() {
 			var frame = this.frame;
 
+			// Toolbar.
 			frame.toolbar( new media.view.Toolbar.Gallery({
 				controller: frame,
-				editing:    this.get('editing'),
-				selection:  this.get('selection')
+				state:      this
 			}) );
 
+			// Sidebar.
+			frame.sidebar( new media.view.Sidebar({
+				controller: frame
+			}).render() );
+
+			// Content.
 			frame.content( new media.view.Attachments({
-				directions: 'Gallery time!',
 				controller: frame,
 				collection: this.get('selection'),
 				sortable:   true,
@@ -245,7 +268,7 @@
 		},
 
 		render: function() {
-			var els = [ this.sidebar().el, this.toolbar().el, this.content().el ];
+			var els = [ this.toolbar().el, this.sidebar().el, this.content().el ];
 
 			if ( this.modal )
 				this.modal.render();
@@ -634,16 +657,11 @@
 	// ---------------------------------
 	media.view.Toolbar.PostLibrary = media.view.Toolbar.extend({
 		initialize: function() {
-			var selection = this.options.selection,
+			var state = this.options.state,
+				selection = state.get('selection'),
 				controller = this.options.controller;
 
 			this.options.items = {
-				'selection-preview': new media.view.SelectionPreview({
-					controller: controller,
-					collection: selection,
-					priority: -40
-				}),
-
 				'create-new-gallery': {
 					style:    'primary',
 					text:     l10n.createNewGallery,
@@ -662,7 +680,7 @@
 							text:  l10n.insertIntoPost,
 							click: function() {
 								controller.close();
-								controller.state().trigger( 'insert', selection );
+								state.trigger( 'insert', selection );
 								selection.clear();
 							}
 						},
@@ -698,15 +716,15 @@
 			};
 
 			media.view.Toolbar.prototype.initialize.apply( this, arguments );
+			this.visibility();
 		},
 
 		visibility: function() {
-			var selection = this.options.selection,
+			var state = this.options.state,
+				selection = state.get('selection'),
 				controller = this.options.controller,
 				count = selection.length,
 				showGallery;
-
-			controller.$el.toggleClass( 'hide-toolbar', ! count );
 
 			// Check if every attachment in the selection is an image.
 			showGallery = count > 1 && selection.all( function( attachment ) {
@@ -718,6 +736,8 @@
 			_.each( insert.buttons, function( button ) {
 				button.model.set( 'style', showGallery ? '' : 'primary' );
 			});
+
+			_.first( insert.buttons ).model.set( 'disabled', ! count );
 		}
 	});
 
@@ -725,8 +745,9 @@
 	// -----------------------------
 	media.view.Toolbar.Gallery = media.view.Toolbar.extend({
 		initialize: function() {
-			var editing = this.options.editing,
-				selection = this.options.selection,
+			var state = this.options.state,
+				editing = state.get('editing'),
+				selection = state.get('selection'),
 				controller = this.options.controller;
 
 			this.options.items = {
@@ -736,7 +757,7 @@
 					priority: 40,
 					click:    function() {
 						controller.close();
-						controller.state().trigger( 'update', selection );
+						state.trigger( 'update', selection );
 						selection.clear();
 						controller.state('library');
 					}
@@ -769,9 +790,10 @@
 		},
 
 		defaults: {
-			text:  '',
-			style: '',
-			size:  'large'
+			text:     '',
+			style:    '',
+			size:     'large',
+			disabled: false
 		},
 
 		initialize: function() {
@@ -796,17 +818,19 @@
 		},
 
 		render: function() {
-			var classes = [ 'button', this.className ];
+			var classes = [ 'button', this.className ],
+				model = this.model.toJSON();
 
-			if ( this.model.get('style') )
-				classes.push( 'button-' + this.model.get('style') );
+			if ( model.style )
+				classes.push( 'button-' + model.style );
 
-			if ( this.model.get('size') )
-				classes.push( 'button-' + this.model.get('size') );
+			if ( model.size )
+				classes.push( 'button-' + model.size );
 
 			classes = _.uniq( classes.concat( this.options.classes ) );
 			this.el.className = classes.join(' ');
 
+			this.$el.attr( 'disabled', model.disabled );
 
 			// Detach the dropdown.
 			if ( this.options.dropdown )
@@ -822,7 +846,7 @@
 
 		click: function( event ) {
 			event.preventDefault();
-			if ( this.options.click )
+			if ( this.options.click && ! this.model.get('disabled') )
 				this.options.click.apply( this, arguments );
 		}
 	});
@@ -850,6 +874,70 @@
 
 		render: function() {
 			this.$el.html( $( _.pluck( this.buttons, 'el' ) ).detach() );
+			return this;
+		}
+	});
+
+	/**
+	 * wp.media.view.Sidebar
+	 */
+	media.view.Sidebar = Backbone.View.extend({
+		tagName:   'div',
+		className: 'media-sidebar',
+		template:  media.template('sidebar'),
+
+		initialize: function() {
+			this.controller = this.options.controller;
+			this._views     = {};
+
+			if ( this.options.views )
+				this.add( this.options.views, { silent: true }).render();
+		},
+
+		render: function() {
+			var els = _( this._views ).chain().sortBy( function( view ) {
+					return view.options.priority || 10;
+				}).pluck('el').value();
+
+			// Make sure to detach the elements we want to reuse.
+			// Otherwise, `jQuery.html()` will unbind their events.
+			$( els ).detach();
+
+			this.$el.html( this.template({
+				title:    this.controller.state().get('title') || '',
+				uploader: this.controller.options.uploader
+			}) );
+
+			this.$('.sidebar-content').html( els );
+
+			return this;
+		},
+
+		add: function( id, view, options ) {
+			// Accept an object with an `id` : `view` mapping.
+			if ( _.isObject( id ) ) {
+				_.each( id, function( view, id ) {
+					this.add( id, view, options );
+				}, this );
+				return this;
+			}
+
+			view.controller = view.controller || this.controller;
+
+			this._views[ id ] = view;
+			if ( ! options || ! options.silent )
+				this.render();
+			return this;
+		},
+
+		get: function( id ) {
+			return this._views[ id ];
+		},
+
+		remove: function( id, options ) {
+			delete this._views[ id ];
+			if ( ! options || ! options.silent )
+				this.render();
 			return this;
 		}
 	});
@@ -1068,12 +1156,11 @@
 	 * wp.media.view.Attachments
 	 */
 	media.view.Attachments = Backbone.View.extend({
-		tagName:   'div',
+		tagName:   'ul',
 		className: 'attachments',
-		template:  media.template('attachments'),
 
 		events: {
-			'keyup .search': 'search'
+			'scroll': 'scroll'
 		},
 
 		initialize: function() {
@@ -1092,13 +1179,10 @@
 				}, this );
 			}, this );
 
-			this.collection.on( 'reset', this.refresh, this );
+			this.collection.on( 'reset', this.render, this );
 
-			this.$list = $('<ul />');
-			this.list  = this.$list[0];
-
+			// Throttle the scroll handler.
 			this.scroll = _.chain( this.scroll ).bind( this ).throttle( this.options.refreshSensitivity ).value();
-			this.$list.on( 'scroll.attachments', this.scroll );
 
 			this.initSortable();
 		},
@@ -1110,13 +1194,13 @@
 			if ( ! this.options.sortable || ! $.fn.sortable )
 				return;
 
-			this.$list.sortable({
+			this.$el.sortable({
 				// If the `collection` has a `comparator`, disable sorting.
 				disabled: !! collection.comparator,
 
 				// Prevent attachments from being dragged outside the bounding
 				// box of the list.
-				containment: this.$list,
+				containment: this.$el,
 
 				// Change the position of the attachment as soon as the
 				// mouse pointer overlaps a thumbnail.
@@ -1144,30 +1228,21 @@
 			// If the `orderby` property is changed on the `collection`,
 			// check to see if we have a `comparator`. If so, disable sorting.
 			collection.props.on( 'change:orderby', function() {
-				this.$list.sortable( 'option', 'disabled', !! collection.comparator );
+				this.$el.sortable( 'option', 'disabled', !! collection.comparator );
 			}, this );
 		},
 
 		render: function() {
-			// Detach the list from the DOM to prevent event removal.
-			this.$list.detach();
-
-			this.$el.html( this.template( this.options ) ).append( this.$list );
-			this.refresh();
-			return this;
-		},
-
-		refresh: function() {
 			// If there are no elements, load some.
 			if ( ! this.collection.length ) {
 				this.collection.more();
-				this.$list.empty();
+				this.$el.empty();
 				return this;
 			}
 
 			// Otherwise, create all of the Attachment views, and replace
 			// the list in a single DOM operation.
-			this.$list.html( this.collection.map( function( attachment ) {
+			this.$el.html( this.collection.map( function( attachment ) {
 				return new this.options.AttachmentView({
 					controller: this.controller,
 					model:      attachment
@@ -1188,37 +1263,57 @@
 				model:      attachment
 			}).render();
 
-			children = this.$list.children();
+			children = this.$el.children();
 
 			if ( children.length > index )
 				children.eq( index ).before( view.$el );
 			else
-				this.$list.append( view.$el );
+				this.$el.append( view.$el );
 		},
 
 		remove: function( attachment, index ) {
-			var children = this.$list.children();
+			var children = this.$el.children();
 			if ( children.length )
 				children.eq( index ).detach();
 		},
 
 		scroll: function( event ) {
 			// @todo: is this still necessary?
-			if ( ! this.$list.is(':visible') )
+			if ( ! this.$el.is(':visible') )
 				return;
 
-			if ( this.list.scrollHeight < this.list.scrollTop + ( this.list.clientHeight * this.options.refreshThreshold ) ) {
+			if ( this.el.scrollHeight < this.el.scrollTop + ( this.el.clientHeight * this.options.refreshThreshold ) ) {
 				this.collection.more();
 			}
+		}
+	});
+
+	/**
+	 * wp.media.view.Search
+	 */
+	media.view.Search = Backbone.View.extend({
+		tagName:   'input',
+		className: 'search',
+
+		attributes: {
+			type:        'text',
+			placeholder: l10n.search
+		},
+
+		events: {
+			'keyup': 'search'
+		},
+
+		render: function() {
+			this.el.value = this.model.escape('search');
+			return this;
 		},
 
 		search: function( event ) {
-			var props = this.collection.props;
-
 			if ( event.target.value )
-				props.set( 'search', event.target.value );
+				this.model.set( 'search', event.target.value );
 			else
-				props.unset('search');
+				this.model.unset('search');
 		}
 	});
 

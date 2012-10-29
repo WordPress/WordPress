@@ -1018,7 +1018,8 @@ function post_thumbnail_meta_box( $post ) {
 		var $element     = $('#select-featured-image'),
 			$thumbnailId = $element.find('input[name="thumbnail_id"]'),
 			title        = '<?php _e( "Choose a Featured Image" ); ?>',
-			workflow, selection, setFeaturedImage;
+			update       = '<?php _e( "Update Featured Image" ); ?>',
+			frame, selection, setFeaturedImage;
 
 		setFeaturedImage = function( thumbnailId ) {
 			$element.find('img').remove();
@@ -1029,41 +1030,52 @@ function post_thumbnail_meta_box( $post ) {
 		$element.on( 'click', '.choose, img', function( event ) {
 			event.preventDefault();
 
-			if ( ! workflow ) {
-				workflow = wp.media({
+			if ( ! frame ) {
+				frame = wp.media({
 					title:   title,
 					library: {
 						type: 'image'
 					}
 				});
 
-				selection = workflow.state().get('selection');
+				frame.toolbar( new wp.media.view.Toolbar({
+					controller: frame,
+					items: {
+						update: {
+							style:    'primary',
+							text:     update,
+							priority: 40,
 
-				selection.on( 'add', function( model ) {
-					var sizes = model.get('sizes'),
-						size;
+							click: function() {
+								var selection = frame.state().get('selection'),
+									model = selection.first(),
+									sizes = model.get('sizes'),
+									size;
 
-					setFeaturedImage( model.id );
+								setFeaturedImage( model.id );
 
-					// @todo: might need a size hierarchy equivalent.
-					if ( sizes )
-						size = sizes['post-thumbnail'] || sizes.medium;
+								// @todo: might need a size hierarchy equivalent.
+								if ( sizes )
+									size = sizes['post-thumbnail'] || sizes.medium;
 
-					// @todo: Need a better way of accessing full size
-					// data besides just calling toJSON().
-					size = size || model.toJSON();
+								// @todo: Need a better way of accessing full size
+								// data besides just calling toJSON().
+								size = size || model.toJSON();
 
-					workflow.close();
-					selection.clear();
+								frame.close();
+								selection.clear();
 
-					$( '<img />', {
-						src:    size.url,
-						width:  size.width
-					}).prependTo( $element );
-				});
+								$( '<img />', {
+									src:    size.url,
+									width:  size.width
+								}).prependTo( $element );
+							}
+						}
+					}
+				}) );
 			}
 
-			workflow.open();
+			frame.open();
 		});
 
 		$element.on( 'click', '.remove', function( event ) {

@@ -323,16 +323,17 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'media-views',  "/wp-includes/js/media-views$suffix.js",  array( 'media-models', 'wp-plupload' ), false, 1 );
 	did_action( 'init' ) && $scripts->localize( 'media-views', '_wpMediaViewsL10n', array(
 		// Generic
-		'insertMedia'           => __( 'Insert Media' ),
-		'selectMediaSingular'   => __( 'Select a media file:' ),
-		'selectMediaMultiple'   => __( 'Select one or more media files:' ),
+		'insertMedia' => __( 'Insert Media' ),
+		'search'      => __( 'Search' ),
 
 		// Library
+		'mediaLibrary'          => __( 'Media Library' ),
 		'createNewGallery'      => __( 'Create a new gallery' ),
 		'insertIntoPost'        => __( 'Insert into post' ),
 		'addToGallery'          => __( 'Add to gallery' ),
 
 		// Gallery
+		'createGallery'          => __( 'Create Gallery' ),
 		'returnToLibrary'        => __( 'Return to media library' ),
 		'continueEditingGallery' => __( 'Continue editing gallery' ),
 		'insertGalleryIntoPost'  => __( 'Insert gallery into post' ),
