@@ -1327,8 +1327,7 @@ function wp_print_media_templates( $attachment ) {
 				<div class="media-progress-bar"><div></div></div>
 			<% } else if ( 'image' === type ) { %>
 				<div class="thumbnail">
-					<img src="<%- url %>" width="<%- width %>" height="<%- height %>" draggable="false"
-					style="top:<%- top %>px; left:<%- left %>px;" />
+					<img src="<%- url %>" draggable="false" />
 				</div>
 			<% } else { %>
 				<img src="<%- icon %>" class="icon" draggable="false" />
@@ -1460,6 +1459,35 @@ function wp_print_media_templates( $attachment ) {
 			<div class="button close">&times;</div>
 			<div class="button edit"><?php _e('Edit'); ?></div>
 		</div>
+	</script>
+
+	<script type="text/html" id="tmpl-attachments-css">
+		<style type="text/css" id="<%- id %>-css">
+			#<%- id %> {
+				padding: <%- gutter %>px;
+			}
+
+			#<%- id %> .attachment {
+				margin: <%- gutter %>px;
+				width: <%- edge %>px;
+			}
+
+			#<%- id %> .attachment-preview,
+			#<%- id %> .attachment-preview .thumbnail {
+				width: <%- edge %>px;
+				height: <%- edge %>px;
+			}
+
+			#<%- id %> .portrait .thumbnail img {
+				width: <%- edge %>px;
+				height: auto;
+			}
+
+			#<%- id %> .landscape .thumbnail img {
+				width: auto;
+				height: <%- edge %>px;
+			}
+		</style>
 	</script>
 	<?php
 }

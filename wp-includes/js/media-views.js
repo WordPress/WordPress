@@ -127,6 +127,12 @@
 			if ( ! this.get('library') )
 				this.set( 'library', media.query() );
 
+			if ( ! this.get('edge') )
+				this.set( 'edge', 120 );
+
+			if ( ! this.get('gutter') )
+				this.set( 'gutter', 6 );
+
 			this.on( 'activate', this.activate, this );
 			this.on( 'deactivate', this.deactivate, this );
 			this.on( 'change:details', this.details, this );
@@ -248,7 +254,8 @@
 			id:         'gallery',
 			multiple:   false,
 			describe:   true,
-			title:      l10n.createGallery
+			title:      l10n.createGallery,
+			edge:       199
 		},
 
 		toolbar: function() {
@@ -1016,8 +1023,8 @@
 
 		events: {
 			'click .attachment-preview':      'toggleSelection',
-			'mouseenter .attachment-preview': 'shrink',
-			'mouseleave .attachment-preview': 'expand',
+			// 'mouseenter .attachment-preview': 'shrink',
+			// 'mouseleave .attachment-preview': 'expand',
 			'change .describe':               'describe'
 		},
 
@@ -1052,7 +1059,7 @@
 			options.describe = this.controller.state().get('describe');
 
 			if ( 'image' === options.type )
-				_.extend( options, this.crop() );
+				_.extend( options, this.imageSize() );
 
 			this.$el.html( this.template( options ) );
 
@@ -1123,7 +1130,7 @@
 
 			// Use the provided image size if possible.
 			if ( sizes && sizes[ size ] ) {
-				return sizes[ size ];
+				return _.clone( sizes[ size ] );
 			} else {
 				return {
 					url:         this.model.get('url'),
@@ -1132,57 +1139,6 @@
 					orientation: this.model.get('orientation')
 				};
 			}
-		},
-
-		crop: function( sizeId ) {
-			var edge = 199,
-				size = this.imageSize( sizeId ),
-				wide, tall;
-
-			wide = wp.media.fit( _.extend( { maxWidth:  edge }, size ) );
-			tall = wp.media.fit( _.extend( { maxHeight: edge }, size ) );
-
-			_.extend( size, wide.width > tall.width ? wide : tall );
-
-			size.top  = ( edge - size.height ) / 2;
-			size.left = ( edge - size.width ) / 2;
-			return size;
-		},
-
-		fit: function( sizeId ) {
-			var margin = 10,
-				full = 199,
-				edge = full - ( margin * 2 ),
-				size = _.extend( wp.media.fit( _.extend({
-					maxWidth:  edge,
-					maxHeight: edge
-				}, this.imageSize( sizeId ) ) ) );
-
-			size.top  = Math.round( margin + ( edge - size.height ) / 2 );
-			size.left = Math.round( margin + ( edge - size.width ) / 2 );
-			return size;
-		},
-
-		shrink: function() {
-			var size = _.pick( this.fit(), 'top', 'left', 'width', 'height' );
-			this.$el.addClass('fit');
-			this.$('.thumbnail').css( size );
-			this.$('.thumbnail img').css( _.extend( size, {
-				top:  0,
-				left: 0
-			} ) );
-		},
-
-		expand: function() {
-			var size = _.pick( this.crop(), 'top', 'left', 'width', 'height' );
-			this.$el.removeClass('fit');
-			this.$('.thumbnail img').css( size );
-			this.$('.thumbnail').css({
-				top:    0,
-				left:   0,
-				width:  199,
-				height: 199
-			});
 		},
 
 		describe: function( event ) {
@@ -1225,6 +1181,7 @@
 	media.view.Attachments = Backbone.View.extend({
 		tagName:   'ul',
 		className: 'attachments',
+		template:  media.template('attachments-css'),
 
 		events: {
 			'scroll': 'scroll'
@@ -1232,6 +1189,7 @@
 
 		initialize: function() {
 			this.controller = this.options.controller;
+			this.el.id = _.uniqueId('__attachments-view-');
 
 			_.defaults( this.options, {
 				refreshSensitivity: 200,
@@ -1252,6 +1210,28 @@
 			this.scroll = _.chain( this.scroll ).bind( this ).throttle( this.options.refreshSensitivity ).value();
 
 			this.initSortable();
+
+			this.controller.state().on( 'change:edge change:gutter', this.css, this );
+			this.css();
+		},
+
+		destroy: function() {
+			this.collection.off( 'add remove reset', null, this );
+			this.controller.state().off( 'change:edge change:gutter', this.css, this );
+		},
+
+		css: function() {
+			var $css = $( '#' + this.el.id + '-css' ),
+				state = this.controller.state();
+
+			if ( $css.length )
+				$css.remove();
+
+			media.view.Attachments.$head().append( this.template({
+				id:     this.el.id,
+				edge:   state.get('edge'),
+				gutter: state.get('gutter')
+			}) );
 		},
 
 		initSortable: function() {
@@ -1353,6 +1333,13 @@
 				this.collection.more();
 			}
 		}
+	}, {
+		$head: (function() {
+			var $head;
+			return function() {
+				return $head = $head || $('head');
+			};
+		}())
 	});
 
 	/**
