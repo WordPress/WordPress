@@ -89,7 +89,7 @@ class WP_SimplePie_File extends SimplePie_File {
 				$this->status_code = wp_remote_retrieve_response_code( $res );
 			}
 		} else {
-			if ( ! $this->body = file_get_contents($url) ) {
+			if ( ! file_exists($url) || ( ! $this->body = file_get_contents($url) ) ) {
 				$this->error = 'file_get_contents could not read the file';
 				$this->success = false;
 			}
