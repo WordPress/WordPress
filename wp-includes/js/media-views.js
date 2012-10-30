@@ -1038,10 +1038,8 @@
 		template:  media.template('attachment'),
 
 		events: {
-			'click .attachment-preview':      'toggleSelection',
-			// 'mouseenter .attachment-preview': 'shrink',
-			// 'mouseleave .attachment-preview': 'expand',
-			'change .describe':               'describe'
+			'click .attachment-preview': 'toggleSelection',
+			'change .describe':          'describe'
 		},
 
 		buttons: {},
