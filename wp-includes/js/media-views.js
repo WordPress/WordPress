@@ -212,7 +212,7 @@
 		},
 
 		details: function( options ) {
-			var model = this.get('details'),
+			var model = this.get('selection').single(),
 				view;
 
 			if ( model ) {
@@ -232,34 +232,18 @@
 		},
 
 		toggleSelection: function( model ) {
-			var details = this.get('details'),
-				selection = this.get('selection'),
-				selected = selection.has( model );
+			var selection = this.get('selection');
 
-			if ( ! selection )
-				return;
-
-			if ( ! selected )
-				selection.add( model );
-
-			// If the model is not the same as the details model,
-			// it now becomes the details model. If the model is
-			// in the selection, it is not removed.
-			if ( details !== model ) {
-				this.set( 'details', model );
-				return;
+			if ( selection.has( model ) ) {
+				// If the model is the single model, remove it.
+				// If it is not the same as the single model,
+				// it now becomes the single model.
+				selection[ selection.single() === model ? 'remove' : 'single' ]( model );
+			} else {
+				selection.add( model ).single();
 			}
 
-			// The model is the details model.
-			// Removed it from the selection.
-			selection.remove( model );
-
-			// Show the last selected item, or clear the details view.
-			if ( selection.length )
-				this.set( 'details', selection.last() );
-			else
-				this.unset('details');
-
+			return this;
 		}
 	});
 
@@ -1087,14 +1071,14 @@
 				this.select();
 
 			// Update the model's details view.
-			this.controller.state().on( 'change:details', this.details, this );
+			this.model.on( 'selection:single selection:unsingle', this.details, this );
 			this.details();
 
 			return this;
 		},
 
 		destroy: function() {
-			this.controller.state().off( 'change:details', this.details, this );
+			this.model.off( 'single', this.details, this );
 		},
 
 		progress: function() {
@@ -1136,8 +1120,14 @@
 			this.$el.removeClass('selected');
 		},
 
-		details: function() {
-			var details = this.controller.state().get('details');
+		details: function( model, collection ) {
+			var selection = this.controller.state().get('selection'),
+				details;
+
+			if ( selection !== collection )
+				return;
+
+			details = selection.single();
 			this.$el.toggleClass( 'details', details === this.model );
 		},
 

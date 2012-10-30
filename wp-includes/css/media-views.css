@@ -244,7 +244,6 @@
 	text-shadow: 0 1px 0 rgba( 0, 0, 0, 0.5 );
 	background: #777;
 	border: 1px solid #fff;
-	/*border-width: 0 1px 1px 0;*/
 	border-width: 0 0 1px 1px;
 	box-shadow: -1px 1px 0 rgba( 0, 0, 0, 0.1 );
 }
