@@ -1399,20 +1399,20 @@ function get_temp_dir() {
 		return trailingslashit(WP_TEMP_DIR);
 
 	if ( $temp )
-		return trailingslashit($temp);
+		return trailingslashit( rtrim( $temp, '\\' ) );
 
 	$is_win = ( 'WIN' === strtoupper( substr( PHP_OS, 0, 3 ) ) );
 
 	if ( function_exists('sys_get_temp_dir') ) {
 		$temp = sys_get_temp_dir();
 		if ( @is_dir( $temp ) && ( $is_win ? win_is_writable( $temp ) : @is_writable( $temp ) ) ) {
-			return trailingslashit( $temp );
+			return trailingslashit( rtrim( $temp, '\\' ) );
 		}
 	}
 
 	$temp = ini_get('upload_tmp_dir');
 	if ( is_dir( $temp ) && ( $is_win ? win_is_writable( $temp ) : @is_writable( $temp ) ) )
-		return trailingslashit($temp);
+		return trailingslashit( rtrim( $temp, '\\' ) );
 
 	$temp = WP_CONTENT_DIR . '/';
 	if ( is_dir( $temp ) && ( $is_win ? win_is_writable( $temp ) : @is_writable( $temp ) ) )
