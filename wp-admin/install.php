@@ -60,7 +60,6 @@ function display_header() {
 	<title><?php _e( 'WordPress &rsaquo; Installation' ); ?></title>
 	<?php 
 	wp_admin_css( 'install', true );
-	wp_admin_css( 'buttons', true );
 	?>
 </head>
 <body<?php if ( is_rtl() ) echo ' class="rtl"'; ?>>

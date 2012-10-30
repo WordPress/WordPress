@@ -18,7 +18,6 @@ header( 'Content-Type: text/html; charset=utf-8' );
 	<title><?php _e( 'WordPress &rsaquo; Database Repair' ); ?></title>
 	<?php 
 	wp_admin_css( 'install', true );
-	wp_admin_css( 'buttons', true );
 	?>
 </head>
 <body>
