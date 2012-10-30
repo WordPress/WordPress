@@ -131,7 +131,7 @@
 				this.set( 'edge', 120 );
 
 			if ( ! this.get('gutter') )
-				this.set( 'gutter', 6 );
+				this.set( 'gutter', 8 );
 
 			this.on( 'activate', this.activate, this );
 			this.on( 'deactivate', this.deactivate, this );
@@ -147,8 +147,6 @@
 			// automatically select any uploading attachments.
 			if ( this.get('multiple') )
 				wp.Uploader.queue.on( 'add', this.selectUpload, this );
-
-			this.get('selection').on( 'add remove', this.toggleDetails, this );
 		},
 
 		deactivate: function() {
@@ -157,7 +155,6 @@
 				this.get('selection').off( 'add remove', toolbar.visibility, toolbar );
 
 			wp.Uploader.queue.off( 'add', this.selectUpload, this );
-			this.get('selection').off( 'add remove', this.toggleDetails, this );
 		},
 
 		toolbar: function() {
@@ -234,16 +231,35 @@
 			this.frame.sidebar().add( 'details', view, options );
 		},
 
-		toggleDetails: function( model ) {
+		toggleSelection: function( model ) {
 			var details = this.get('details'),
-				selection = this.get('selection');
+				selection = this.get('selection'),
+				selected = selection.has( model );
 
-			if ( selection.has( model ) )
+			if ( ! selection )
+				return;
+
+			if ( ! selected )
+				selection.add( model );
+
+			// If the model is not the same as the details model,
+			// it now becomes the details model. If the model is
+			// in the selection, it is not removed.
+			if ( details !== model ) {
 				this.set( 'details', model );
-			else if ( selection.length )
+				return;
+			}
+
+			// The model is the details model.
+			// Removed it from the selection.
+			selection.remove( model );
+
+			// Show the last selected item, or clear the details view.
+			if ( selection.length )
 				this.set( 'details', selection.last() );
 			else
 				this.unset('details');
+
 		}
 	});
 
@@ -1072,7 +1088,15 @@
 			if ( this.selected() )
 				this.select();
 
+			// Update the model's details view.
+			this.controller.state().on( 'change:details', this.details, this );
+			this.details();
+
 			return this;
+		},
+
+		destroy: function() {
+			this.controller.state().off( 'change:details', this.details, this );
 		},
 
 		progress: function() {
@@ -1081,12 +1105,7 @@
 		},
 
 		toggleSelection: function( event ) {
-			var selection = this.controller.state().get('selection');
-
-			if ( ! selection )
-				return;
-
-			selection[ selection.has( this.model ) ? 'remove' : 'add' ]( this.model );
+			this.controller.state().toggleSelection( this.model );
 		},
 
 		selected: function() {
@@ -1117,6 +1136,11 @@
 				return;
 
 			this.$el.removeClass('selected');
+		},
+
+		details: function() {
+			var details = this.controller.state().get('details');
+			this.$el.toggleClass( 'details', details === this.model );
 		},
 
 		preventDefault: function( event ) {

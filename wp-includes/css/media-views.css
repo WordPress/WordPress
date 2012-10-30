@@ -216,19 +216,41 @@
 	user-select:         none;
 }
 
+.selected.attachment {
+	box-shadow:
+		0 0 0 1px #fff,
+		0 0 0 4px #777;
+}
+
+.details.attachment {
+	box-shadow:
+		0 0 0 1px #fff,
+		0 0 0 4px #1e8cbe;
+}
+
+
 .attachment.library.selected:after {
 	content: '\2713';
 	display: block;
 	height: 24px;
 	width: 24px;
 	position: absolute;
-	top: 0;
-	left: 0;
+	top: -1px;
+	right: -1px;
 	line-height: 24px;
 	font-size: 18px;
 	text-align: center;
 	color: #fff;
-	background: #21759b;
+	text-shadow: 0 1px 0 rgba( 0, 0, 0, 0.5 );
+	background: #777;
+	border: 1px solid #fff;
+	/*border-width: 0 1px 1px 0;*/
+	border-width: 0 0 1px 1px;
+	box-shadow: -1px 1px 0 rgba( 0, 0, 0, 0.1 );
+}
+
+.attachment.library.details:after {
+	background: #1e8cbe;
 }
 
 .attachment-preview {
@@ -276,6 +298,12 @@
 	bottom: 0;
 	box-shadow: inset 0 0 0 1px rgba( 0, 0, 0, 0.1 );
 	overflow: hidden;
+}
+
+.attachment.selected .attachment-preview:after {
+	box-shadow:
+		inset 0 0 0 1px rgba( 0, 0, 0, 0.1 ),
+		inset 0 0 10px 5px rgba( 0, 0, 0, 0.2 );
 }
 
 .attachment .thumbnail img {
