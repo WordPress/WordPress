@@ -135,7 +135,6 @@
 
 			this.on( 'activate', this.activate, this );
 			this.on( 'deactivate', this.deactivate, this );
-			this.on( 'change:details', this.details, this );
 		},
 
 		activate: function() {
@@ -147,6 +146,9 @@
 			// automatically select any uploading attachments.
 			if ( this.get('multiple') )
 				wp.Uploader.queue.on( 'add', this.selectUpload, this );
+
+			this.get('selection').on( 'selection:single', this.buildDetails, this );
+			this.get('selection').on( 'selection:unsingle', this.clearDetails, this );
 		},
 
 		deactivate: function() {
@@ -155,6 +157,8 @@
 				this.get('selection').off( 'add remove', toolbar.visibility, toolbar );
 
 			wp.Uploader.queue.off( 'add', this.selectUpload, this );
+			this.get('selection').off( 'selection:single', this.buildDetails, this );
+			this.get('selection').off( 'selection:unsingle', this.clearDetails, this );
 		},
 
 		toolbar: function() {
@@ -179,7 +183,7 @@
 				controller: frame
 			}) );
 
-			this.details({ silent: true });
+			this.details();
 			frame.sidebar().add({
 				search: new media.view.Search({
 					controller: frame,
@@ -211,24 +215,28 @@
 			this.get('selection').add( attachment );
 		},
 
-		details: function( options ) {
-			var model = this.get('selection').single(),
-				view;
+		details: function() {
+			var single = this.get('selection').single();
+			this[ single ? 'buildDetails' : 'clearDetails' ]( single );
+		},
 
-			if ( model ) {
-				view = new media.view.Attachment.Details({
-					controller: this.frame,
-					model:      model,
-					priority:   80
-				});
-			} else {
-				view = new Backbone.View();
-			}
+		buildDetails: function( model ) {
+			this.frame.sidebar().add( 'details', new media.view.Attachment.Details({
+				controller: this.frame,
+				model:      model,
+				priority:   80
+			}).render() );
+			return this;
+		},
 
-			if ( ! options || ! options.silent )
-				view.render();
+		clearDetails: function( model ) {
+			if ( this.get('selection').single() )
+				return this;
 
-			this.frame.sidebar().add( 'details', view, options );
+			this.frame.sidebar().add( 'details', new Backbone.View({
+				priority: 80
+			}).render() );
+			return this;
 		},
 
 		toggleSelection: function( model ) {
