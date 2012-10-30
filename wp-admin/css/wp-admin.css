@@ -2963,7 +2963,8 @@ input#link_url {
 
 #edit-slug-box {
 	line-height: 23px;
-	margin-top: 8px;
+	min-height: 23px;
+	margin-top: 5px;
 	padding: 0 10px;
 }
 
