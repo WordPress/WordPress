@@ -1039,18 +1039,25 @@
 		initialize: function() {
 			this.controller = this.options.controller;
 
-			this.model.on( 'change:sizes change:uploading', this.render, this );
+			this.model.on( 'change:sizes change:uploading change:caption change:title', this.render, this );
 			this.model.on( 'change:percent', this.progress, this );
 			this.model.on( 'add', this.select, this );
 			this.model.on( 'remove', this.deselect, this );
+
+			// Update the model's details view.
+			this.model.on( 'selection:single selection:unsingle', this.details, this );
+			this.details( this.model, this.controller.state().get('selection') );
 
 			// Prevent default navigation on all links.
 			this.$el.on( 'click', 'a', this.preventDefault );
 		},
 
+		destroy: function() {
+			this.model.off( null, null, this );
+		},
+
 		render: function() {
-			var state = this.controller.state(),
-				attachment = this.model.toJSON(),
+			var attachment = this.model.toJSON(),
 				options = _.defaults( this.model.toJSON(), {
 					orientation: 'landscape',
 					uploading:   false,
@@ -1063,7 +1070,7 @@
 				});
 
 			options.buttons  = this.buttons;
-			options.describe = state.get('describe');
+			options.describe = this.controller.state().get('describe');
 
 			if ( 'image' === options.type )
 				_.extend( options, this.imageSize() );
@@ -1079,15 +1086,7 @@
 			if ( this.selected() )
 				this.select();
 
-			// Update the model's details view.
-			this.model.on( 'selection:single selection:unsingle', this.details, this );
-			this.details( this.model, state.get('selection') );
-
 			return this;
-		},
-
-		destroy: function() {
-			this.model.off( 'single', this.details, this );
 		},
 
 		progress: function() {
