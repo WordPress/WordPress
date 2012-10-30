@@ -1049,7 +1049,8 @@
 		},
 
 		render: function() {
-			var attachment = this.model.toJSON(),
+			var state = this.controller.state(),
+				attachment = this.model.toJSON(),
 				options = _.defaults( this.model.toJSON(), {
 					orientation: 'landscape',
 					uploading:   false,
@@ -1062,7 +1063,7 @@
 				});
 
 			options.buttons  = this.buttons;
-			options.describe = this.controller.state().get('describe');
+			options.describe = state.get('describe');
 
 			if ( 'image' === options.type )
 				_.extend( options, this.imageSize() );
@@ -1080,7 +1081,7 @@
 
 			// Update the model's details view.
 			this.model.on( 'selection:single selection:unsingle', this.details, this );
-			this.details();
+			this.details( this.model, state.get('selection') );
 
 			return this;
 		},
