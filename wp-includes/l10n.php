@@ -459,9 +459,16 @@ function load_muplugin_textdomain( $domain, $mu_plugin_rel_path = '' ) {
 function load_theme_textdomain( $domain, $path = false ) {
 	$locale = apply_filters( 'theme_locale', get_locale(), $domain );
 
-	$path = ( empty( $path ) ) ? get_template_directory() : $path;
+	if ( ! $path )
+		$path = get_template_directory();
 
-	$mofile = "$path/$locale.mo";
+	// Load the textdomain from the Theme provided location, or theme directory first
+	$mofile = "{$path}/{$locale}.mo";
+	if ( $loaded = load_textdomain($domain, $mofile) )
+		return $loaded;
+
+	// Else, load textdomain from the Language directory
+	$mofile = WP_LANG_DIR . "/themes/{$domain}-{$locale}.mo";
 	return load_textdomain($domain, $mofile);
 }
 
@@ -478,12 +485,9 @@ function load_theme_textdomain( $domain, $path = false ) {
  * @param string $domain Unique identifier for retrieving translated strings
  */
 function load_child_theme_textdomain( $domain, $path = false ) {
-	$locale = apply_filters( 'theme_locale', get_locale(), $domain );
-
-	$path = ( empty( $path ) ) ? get_stylesheet_directory() : $path;
-
-	$mofile = "$path/$locale.mo";
-	return load_textdomain($domain, $mofile);
+	if ( ! $path )
+		$path = get_stylesheet_directory();
+	return load_theme_textdomain( $domain, $path );
 }
 
 /**
