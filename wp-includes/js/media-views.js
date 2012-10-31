@@ -1582,15 +1582,6 @@
 				fallback: 'post'
 			}
 		}
-
-		// render: function() {
-		// 	this.$el.html( this.template({
-		// 		count: this.options.maxColumns
-		// 	}) );
-
-		// 	this.$('option[value="' + this.options.columns + '"]').attr( 'selected', true );
-		// 	this.$('option[value="' + this.options.linkTo + '"]').addClass('active');
-		// }
 	});
 
 	/**
