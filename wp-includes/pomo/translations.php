@@ -81,7 +81,7 @@ class Translations {
 	/**
 	 * Given the number of items, returns the 0-based index of the plural form to use
 	 *
-	 * Here, in the base Translations class, the common logic for English is implmented:
+	 * Here, in the base Translations class, the common logic for English is implemented:
 	 * 	0 if there is one element, 1 otherwise
 	 *
 	 * This function should be overrided by the sub-classes. For example MO/PO can derive the logic
@@ -134,7 +134,7 @@ class Translations {
 
 class Gettext_Translations extends Translations {
 	/**
-	 * The gettext implmentation of select_plural_form.
+	 * The gettext implementation of select_plural_form.
 	 *
 	 * It lives in this class, because there are more than one descendand, which will use it and
 	 * they can't share it effectively.
