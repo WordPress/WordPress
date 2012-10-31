@@ -206,6 +206,9 @@ class WP_Roles {
 	 * @param bool $grant Optional, default is true. Whether role is capable of performing capability.
 	 */
 	function add_cap( $role, $cap, $grant = true ) {
+		if ( ! isset( $this->roles[$role] ) )
+			return;
+
 		$this->roles[$role]['capabilities'][$cap] = $grant;
 		if ( $this->use_db )
 			update_option( $this->role_key, $this->roles );
@@ -221,6 +224,9 @@ class WP_Roles {
 	 * @param string $cap Capability name.
 	 */
 	function remove_cap( $role, $cap ) {
+		if ( ! isset( $this->roles[$role] ) )
+			return;
+
 		unset( $this->roles[$role]['capabilities'][$cap] );
 		if ( $this->use_db )
 			update_option( $this->role_key, $this->roles );
