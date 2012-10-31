@@ -1197,7 +1197,10 @@
 			return events;
 		}()),
 
-		removeFromGallery: function() {
+		removeFromGallery: function( event ) {
+			// Stop propagation so the model isn't selected.
+			event.stopPropagation();
+
 			this.controller.state().get('library').remove( this.model );
 		}
 	});
