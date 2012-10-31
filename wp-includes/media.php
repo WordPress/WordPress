@@ -1327,7 +1327,9 @@ function wp_print_media_templates( $attachment ) {
 				<div class="media-progress-bar"><div></div></div>
 			<% } else if ( 'image' === type ) { %>
 				<div class="thumbnail">
-					<img src="<%- url %>" draggable="false" />
+					<div class="centered">
+						<img src="<%- url %>" draggable="false" />
+					</div>
 				</div>
 			<% } else { %>
 				<img src="<%- icon %>" class="icon" draggable="false" />
