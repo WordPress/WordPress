@@ -114,7 +114,7 @@
 			id:       'library',
 			multiple: false,
 			describe: false,
-			title:    l10n.mediaLibrary
+			title:    l10n.mediaLibraryTitle
 		},
 
 		initialize: function() {
@@ -262,8 +262,9 @@
 			id:         'gallery',
 			multiple:   false,
 			describe:   true,
-			title:      l10n.createGallery,
-			edge:       199
+			title:      l10n.createGalleryTitle,
+			edge:       199,
+			editing:    false
 		},
 
 		toolbar: function() {
@@ -324,7 +325,8 @@
 				library:   {},
 				modal:     true,
 				multiple:  false,
-				uploader:  true
+				uploader:  true,
+				editing:   false
 			});
 
 			this.createSelection();
@@ -379,7 +381,8 @@
 					multiple:  this.options.multiple
 				}),
 				new media.controller.Gallery({
-					library: options.selection
+					library: options.selection,
+					editing: options.editing
 				})
 			]);
 
@@ -824,9 +827,9 @@
 				controller = this.options.controller;
 
 			this.options.items = {
-				'update-gallery': {
+				update: {
 					style:    'primary',
-					text:     editing ? l10n.updateGallery : l10n.insertGalleryIntoPost,
+					text:     editing ? l10n.updateGallery : l10n.insertGallery,
 					priority: 40,
 					click:    function() {
 						controller.close();
@@ -836,12 +839,15 @@
 					}
 				},
 
-				'return-to-library': {
-					text:     editing ? l10n.addImagesFromLibrary : l10n.returnToLibrary,
-					priority: -40,
+				cancel: {
+					text:     l10n.cancel,
+					priority: -60,
 
 					click: function() {
-						this.controller.state('library');
+						if ( editing )
+							controller.close();
+						else
+							controller.state('library');
 					}
 				}
 			};

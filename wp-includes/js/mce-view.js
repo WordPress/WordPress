@@ -690,26 +690,29 @@ window.wp = window.wp || {};
 			},
 
 			edit: function() {
-				if ( ! wp.media.view || this.workflow )
+				if ( ! wp.media.view || this.frame )
 					return;
 
-				this.workflow = wp.media({
+				this.frame = wp.media({
 					state:     'gallery',
-					selection: this.attachments.models,
 					title:     mceview.l10n.editGallery,
 					editing:   true,
-					multiple:  true
+					multiple:  true,
+					selection: new wp.media.model.Selection( this.attachments.models, {
+						props:    this.attachments.props.toJSON(),
+						multiple: true
+					})
 				});
 
-				// Create a single-use workflow. If the workflow is closed,
+				// Create a single-use frame. If the frame is closed,
 				// then detach it from the DOM and remove the reference.
-				this.workflow.on( 'close', function() {
-					this.workflow.detach();
-					delete this.workflow;
+				this.frame.on( 'close', function() {
+					this.frame.detach();
+					delete this.frame;
 				}, this );
 
 				// Update the `shortcode` and `attachments`.
-				this.workflow.on( 'update:gallery', function( selection ) {
+				this.frame.get('gallery').on( 'update', function( selection ) {
 					var	view = mceview.get('gallery');
 
 					this.options.shortcode = view.gallery.shortcode( selection );
