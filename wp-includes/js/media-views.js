@@ -1574,7 +1574,7 @@
 		settings: {
 			columns: {
 				accepts:  _.invoke( _.range( 1, 10 ), 'toString' ),
-				fallback: 3,
+				fallback: '3',
 				type:     'select'
 			},
 			link: {
