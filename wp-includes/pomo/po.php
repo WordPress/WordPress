@@ -355,7 +355,7 @@ class PO extends Gettext_Translations {
 			return true;
 		}
 		$line = $use_last_line? $last_line : fgets($f);
-		$line = gp_endswith( $line, "\r\n" )? rtrim( $line, "\r\n" ) . "\n" : $line;
+		$line = ( "\r\n" == substr( $line, -2 ) ) ? rtrim( $line, "\r\n" ) . "\n" : $line;
 		$last_line = $line;
 		$use_last_line = false;
 		return $line;
