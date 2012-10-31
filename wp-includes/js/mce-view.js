@@ -590,7 +590,7 @@ window.wp = window.wp || {};
 				attachments: function( shortcode, parent ) {
 					var shortcodeString = shortcode.string(),
 						result = galleries[ shortcodeString ],
-						attrs, args;
+						attrs, args, query;
 
 					delete galleries[ shortcodeString ];
 
@@ -617,12 +617,14 @@ window.wp = window.wp || {};
 					if ( ! args.post__in )
 						args.parent = attrs.id || parent;
 
-					return media.query( args );
+					query = media.query( args );
+					query.props.set( _.pick( attrs, 'columns', 'link' ) );
+					return query;
 				},
 
 				shortcode: function( attachments ) {
 					var props = attachments.props.toJSON(),
-						attrs = _.pick( props, 'include', 'exclude', 'orderby', 'order' ),
+						attrs = _.pick( props, 'include', 'exclude', 'orderby', 'order', 'link', 'columns' ),
 						shortcode;
 
 					attrs.ids = attachments.pluck('id');

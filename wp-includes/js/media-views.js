@@ -282,6 +282,13 @@
 			}) );
 
 			this.details();
+			frame.sidebar().add({
+				settings: new media.view.Settings.Gallery({
+					controller: frame,
+					model:      this.get('library').props,
+					priority:   40
+				}).render()
+			});
 		},
 
 		content: function() {
@@ -752,7 +759,7 @@
 						},
 						{
 							classes:  ['down-arrow'],
-							dropdown: new media.view.AttachmentDisplaySettings().render().$el,
+							dropdown: new media.view.Settings.AttachmentDisplay().render().$el,
 
 							click: function( event ) {
 								var $el = this.$el;
@@ -1444,43 +1451,32 @@
 
 
 	/**
-	 * wp.media.view.AttachmentDisplaySettings
+	 * wp.media.view.Settings
 	 */
-	media.view.AttachmentDisplaySettings = Backbone.View.extend({
+	media.view.Settings = Backbone.View.extend({
 		tagName:   'div',
 		className: 'attachment-display-settings',
 		template:  media.template('attachment-display-settings'),
 
 		events: {
-			'click button': 'updateHandler'
+			'click button':    'updateHandler',
+			'change input':    'updateHandler',
+			'change select':   'updateHandler',
+			'change textarea': 'updateHandler'
 		},
 
-		settings:   {
-			align: {
-				accepts:  ['left','center','right','none'],
-				name:     'align',
-				fallback: 'none'
-			},
-			link: {
-				accepts:  ['post','file','none'],
-				name:     'urlbutton',
-				fallback: 'post'
-			},
-			size: {
-				// @todo: Dynamically generate these.
-				accepts:  ['thumbnail','medium','large','full'],
-				name:     'imgsize',
-				fallback: 'medium'
-			}
-		},
+		settings: {},
 
 		initialize: function() {
 			var settings = this.settings;
 
-			this.model = new Backbone.Model();
+			this.model = this.model || new Backbone.Model();
 
 			_.each( settings, function( setting, key ) {
-				this.model.set( key, getUserSetting( setting.name, setting.fallback ) );
+				if ( setting.name )
+					this.model.set( key, getUserSetting( setting.name, setting.fallback ) );
+				else
+					this.model.set( key, this.model.get( key ) || setting.fallback );
 			}, this );
 
 			this.model.validate = function( attrs ) {
@@ -1494,7 +1490,7 @@
 					return;
 
 				_.each( _.keys( options.changes ), function( key ) {
-					if ( settings[ key ] )
+					if ( settings[ key ] && settings[ key ].name )
 						setUserSetting( settings[ key ].name, model.get( key ) );
 				});
 			}, this );
@@ -1511,23 +1507,90 @@
 		},
 
 		update: function( key ) {
-			var buttons = this.$('[data-setting="' + key + '"] button').removeClass('active');
-			buttons.filter( '[value="' + this.model.get( key ) + '"]' ).addClass('active');
+			var setting = this.settings[ key ],
+				$setting = this.$('[data-setting="' + key + '"]'),
+				$buttons;
+
+			if ( ! setting )
+				return;
+
+			if ( 'select' === setting.type ) {
+				$setting.find('[value="' + this.model.get( key ) + '"]').attr( 'selected', true );
+			} else {
+				$buttons = $setting.find('button').removeClass('active');
+				$buttons.filter( '[value="' + this.model.get( key ) + '"]' ).addClass('active');
+			}
 		},
 
 		updateHandler: function( event ) {
-			var group = $( event.target ).closest('.button-group');
+			var $setting = $( event.target ).closest('[data-setting]');
 
 			event.preventDefault();
 
-			if ( group.length )
-				this.model.set( group.data('setting'), event.target.value );
+			if ( $setting.length )
+				this.model.set( $setting.data('setting'), event.target.value );
 		},
 
 		updateChanges: function( model, options ) {
 			if ( options.changes )
 				_( options.changes ).chain().keys().each( this.update, this );
 		}
+	});
+
+	/**
+	 * wp.media.view.Settings.AttachmentDisplay
+	 */
+	media.view.Settings.AttachmentDisplay = media.view.Settings.extend({
+		className: 'attachment-display-settings',
+		template:  media.template('attachment-display-settings'),
+
+		settings: {
+			align: {
+				accepts:  ['left','center','right','none'],
+				name:     'align',
+				fallback: 'none'
+			},
+			link: {
+				accepts:  ['post','file','none'],
+				name:     'urlbutton',
+				fallback: 'post'
+			},
+			size: {
+				// @todo: Dynamically generate these.
+				accepts:  ['thumbnail','medium','large','full'],
+				name:     'imgsize',
+				fallback: 'medium'
+			}
+		}
+	});
+
+	/**
+	 * wp.media.view.Settings.Gallery
+	 */
+	media.view.Settings.Gallery = media.view.Settings.extend({
+		className: 'gallery-settings',
+		template:  media.template('gallery-settings'),
+
+		settings: {
+			columns: {
+				accepts:  _.invoke( _.range( 1, 10 ), 'toString' ),
+				fallback: 3,
+				type:     'select'
+			},
+			link: {
+				accepts:  ['post','file'],
+				fallback: 'post'
+			}
+		}
+
+		// render: function() {
+		// 	this.$el.html( this.template({
+		// 		count: this.options.maxColumns
+		// 	}) );
+
+		// 	this.$('option[value="' + this.options.columns + '"]').attr( 'selected', true );
+		// 	this.$('option[value="' + this.options.linkTo + '"]').addClass('active');
+		// }
 	});
 
 	/**
