@@ -303,6 +303,32 @@
 		}
 	});
 
+	media.controller.GalleryAddImages = media.controller.Library.extend({
+		defaults: {
+			id:       'gallery:add',
+			multiple: true,
+			title:    l10n.createGalleryTitle
+		},
+
+		initialize: function() {
+			if ( ! this.get('library') )
+				this.set( 'library', media.query({ type: 'image' }) );
+			return media.controller.Library.prototype.initialize.apply( this, arguments );
+		},
+
+		toolbar: function() {
+			var frame = this.frame;
+
+			frame.toolbar( new media.view.Toolbar.GalleryAddImages({
+				controller: frame,
+				state:      this
+			}) );
+		},
+
+		// Leave the sidebar.
+		sidebar: function() {}
+	});
+
 	/**
 	 * ========================================================================
 	 * VIEWS
@@ -383,7 +409,8 @@
 				new media.controller.Gallery({
 					library: options.selection,
 					editing: options.editing
-				})
+				}),
+				new media.controller.GalleryAddImages()
 			]);
 
 			// Set the default state.
@@ -834,8 +861,21 @@
 					click:    function() {
 						controller.close();
 						state.trigger( 'update', library );
-						library.clear();
+						controller.get('library').get('selection').clear();
 						controller.state('library');
+					}
+				},
+
+				addImages: {
+					text:     l10n.addImages,
+					priority: -40,
+
+					click: function() {
+						controller.get('gallery:add').set( 'selection', new media.model.Selection( library.models, {
+							props:    library.props.toJSON(),
+							multiple: true
+						}) );
+						controller.state('gallery:add');
 					}
 				},
 
@@ -848,6 +888,41 @@
 							controller.close();
 						else
 							controller.state('library');
+					}
+				}
+			};
+
+			media.view.Toolbar.prototype.initialize.apply( this, arguments );
+		}
+	});
+
+	// wp.media.view.Toolbar.GalleryAddImages
+	// -----------------------------
+	media.view.Toolbar.GalleryAddImages = media.view.Toolbar.extend({
+		initialize: function() {
+			var state = this.options.state,
+				editing = state.get('editing'),
+				library = state.get('library'),
+				controller = this.options.controller;
+
+			this.options.items = {
+				update: {
+					style:    'primary',
+					text:     l10n.continueEditing,
+					priority: 40,
+
+					click: function() {
+						controller.get('gallery').set( 'library', state.get('selection') );
+						controller.state('gallery');
+					}
+				},
+
+				cancel: {
+					text:     l10n.cancel,
+					priority: -60,
+
+					click: function() {
+						controller.state('gallery');
 					}
 				}
 			};

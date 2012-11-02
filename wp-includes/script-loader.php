@@ -338,6 +338,7 @@ function wp_default_scripts( &$scripts ) {
 		'createGalleryTitle' => __( 'Create Gallery' ),
 		'insertGallery'      => __( 'Insert gallery' ),
 		'updateGallery'      => __( 'Update gallery' ),
+		'continueEditing'    => __( 'Continue editing' ),
 	) );
 
 	$scripts->add( 'shortcode', "/wp-includes/js/shortcode$suffix.js", array( 'underscore' ), false, 1 );
