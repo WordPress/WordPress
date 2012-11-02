@@ -224,7 +224,8 @@ endif;
  * @since Twenty Ten 1.0
  */
 function twentyten_page_menu_args( $args ) {
-	$args['show_home'] = true;
+	if ( ! isset( $args['show_home'] ) )
+		$args['show_home'] = true;
 	return $args;
 }
 add_filter( 'wp_page_menu_args', 'twentyten_page_menu_args' );
