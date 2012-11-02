@@ -528,7 +528,9 @@ a:hover {
 .site-header h1 {
 	font-size: 24px;
 	font-size: 1.714285714rem;
-	line-height: 2;
+	line-height: 1.285714286;
+	margin-bottom: 14px;
+	margin-bottom: 1rem;
 }
 .site-header h2 {
 	font-weight: normal;
@@ -1410,6 +1412,7 @@ img#wpstats {
 		font-size: 26px;
 		font-size: 1.857142857rem;
 		line-height: 1.846153846;
+		margin-bottom: 0;
 	}
 	.main-navigation ul.nav-menu,
 	.main-navigation div.nav-menu > ul {
