@@ -429,139 +429,139 @@ final class WP_Post {
 	/**
 	 *
 	 * @var int
-	 */	
+	 */
 	public $post_author = 0;
 
 	/**
 	 *
 	 * @var string
-	 */	
+	 */
 	public $post_date = '0000-00-00 00:00:00';
 
 	/**
 	 *
 	 * @var string
-	 */		
+	 */
 	public $post_date_gmt = '0000-00-00 00:00:00';
 
 	/**
 	 *
 	 * @var string
-	 */		
+	 */
 	public $post_content = '';
 
 	/**
 	 *
 	 * @var string
-	 */		
+	 */
 	public $post_title = '';
 
 	/**
 	 *
 	 * @var string
-	 */		
+	 */
 	public $post_excerpt = '';
 
 	/**
 	 *
 	 * @var string
-	 */		
+	 */
 	public $post_status = 'publish';
 
 	/**
 	 *
 	 * @var string
-	 */		
+	 */
 	public $comment_status = 'open';
 
 	/**
 	 *
 	 * @var string
-	 */		
+	 */
 	public $ping_status = 'open';
 
 	/**
 	 *
 	 * @var string
-	 */		
+	 */
 	public $post_password = '';
 
 	/**
 	 *
 	 * @var string
-	 */		
+	 */
 	public $post_name = '';
 
 	/**
 	 *
 	 * @var string
-	 */		
+	 */
 	public $to_ping = '';
 
 	/**
 	 *
 	 * @var string
-	 */		
+	 */
 	public $pinged = '';
 
 	/**
 	 *
 	 * @var string
-	 */		
+	 */
 	public $post_modified = '0000-00-00 00:00:00';
 
 	/**
 	 *
 	 * @var string
-	 */		
+	 */
 	public $post_modified_gmt = '0000-00-00 00:00:00';
 
 	/**
 	 *
 	 * @var string
-	 */		
+	 */
 	public $post_content_filtered = '';
 
 	/**
 	 *
 	 * @var int
-	 */		
+	 */
 	public $post_parent = 0;
 
 	/**
 	 *
 	 * @var string
-	 */		
+	 */
 	public $guid = '';
 
 	/**
 	 *
 	 * @var int
-	 */	
+	 */
 	public $menu_order = 0;
 
 	/**
 	 *
 	 * @var string
-	 */	
+	 */
 	public $post_type = 'post';
 
 	/**
 	 *
 	 * @var string
-	 */		
+	 */
 	public $post_mime_type = '';
 
 	/**
 	 *
 	 * @var int
-	 */	
+	 */
 	public $comment_count = 0;
 
 	/**
 	 *
 	 * @var string
-	 */			
+	 */
 	public $filter;
 
 	public static function get_instance( $post_id ) {
@@ -4586,8 +4586,6 @@ function update_post_cache( &$posts ) {
  *
  * Cleaning means delete from the cache of the post. Will call to clean the term
  * object cache associated with the post ID.
- *
- * clean_post_cache() will call itself recursively for each child post.
  *
  * This function not run if $_wp_suspend_cache_invalidation is not empty. See
  * wp_suspend_cache_invalidation().
