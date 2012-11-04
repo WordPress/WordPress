@@ -81,6 +81,14 @@ input[type="submit"]::-moz-focus-inner {
 	padding: 0 8px 1px;
 }
 
+.button.button-hero,
+.button-group.button-hero .button {
+	font-size: 14px;
+	height: 46px;
+	line-height: 44px;
+	padding: 0 36px;
+}
+
 .button:active {
 	outline: none;
 }
@@ -294,7 +302,7 @@ input[type="submit"]::-moz-focus-inner {
 	position: absolute;
 	top: 100%;
 	left: 0;
-	margin-top: 5px;
+	margin: 5px 0;
 	padding: 0.8em 1em;
 	border-radius: 3px;
 
@@ -313,4 +321,9 @@ input[type="submit"]::-moz-focus-inner {
 .dropdown-flip-x .dropdown {
 	left: auto;
 	right: 0;
+}
+
+.dropdown-flip-y .dropdown {
+	top: auto;
+	bottom: 100%;
 }

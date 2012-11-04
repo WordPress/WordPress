@@ -1300,7 +1300,9 @@ function wp_print_media_templates( $attachment ) {
 			<h3 class="media-modal-title"><%- title %></h3>
 			<a class="media-modal-close" href="" title="<?php esc_attr_e('Close'); ?>">&times;</a>
 		</div>
-		<div class="media-modal-backdrop"></div>
+		<div class="media-modal-backdrop">
+			<div></div>
+		</div>
 	</script>
 
 	<script type="text/html" id="tmpl-uploader-window">
@@ -1310,15 +1312,11 @@ function wp_print_media_templates( $attachment ) {
 	</script>
 
 	<script type="text/html" id="tmpl-uploader-inline">
-		<h3><?php _e( 'Drop files here' ); ?></h3>
-		<!--<span><?php _ex( 'or', 'Uploader: Drop files here - or - Select Files' ); ?></span>-->
-		<a href="#" class="browser button-secondary"><?php _e( 'Select Files' ); ?></a>
-		<div class="media-progress-bar"><div></div></div>
-	</script>
-
-	<script type="text/html" id="tmpl-sidebar">
-		<h2 class="sidebar-title"><%- title %></h2>
-		<div class="sidebar-content"></div>
+		<div class="uploader-inline-content">
+			<h3><?php _e( 'Drop files anywhere to upload' ); ?></h3>
+			<a href="#" class="browser button button-hero"><?php _e( 'Select Files' ); ?></a>
+			<div class="media-progress-bar"><div></div></div>
+		</div>
 	</script>
 
 	<script type="text/html" id="tmpl-attachment">
@@ -1360,6 +1358,7 @@ function wp_print_media_templates( $attachment ) {
 	</script>
 
 	<script type="text/html" id="tmpl-attachment-details">
+		<h3><?php _e('Edit Attachment Details'); ?></h3>
 		<div class="attachment-preview attachment-details-preview type-<%- type %> subtype-<%- subtype %> <%- orientation %>">
 			<% if ( uploading ) { %>
 				<div class="media-progress-bar"><div></div></div>
@@ -1390,6 +1389,16 @@ function wp_print_media_templates( $attachment ) {
 				<% } %>
 				><%- title %></textarea>
 		<% } %>
+	</script>
+
+	<script type="text/html" id="tmpl-media-selection">
+		<div class="selection-info">
+			<span class="count"></span>
+			<% if ( clearable ) { %>
+				<a class="clear-selection" href="#"><?php _e('Clear'); ?></a>
+			<% } %>
+		</div>
+		<div class="selection-view"></div>
 	</script>
 
 	<script type="text/html" id="tmpl-media-selection-preview">
@@ -1486,7 +1495,7 @@ function wp_print_media_templates( $attachment ) {
 	<script type="text/html" id="tmpl-attachments-css">
 		<style type="text/css" id="<%- id %>-css">
 			#<%- id %> {
-				padding: <%- gutter %>px;
+				padding: 0 <%- gutter %>px;
 			}
 
 			#<%- id %> .attachment {

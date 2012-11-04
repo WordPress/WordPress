@@ -327,12 +327,20 @@ function wp_default_scripts( &$scripts ) {
 		'search'      => __( 'Search' ),
 		'cancel'      => __( 'Cancel' ),
 		'addImages'   => __( 'Add images' ),
+		'selected'    => __( 'selected' ),
+
+		// Upload
+		'uploadFilesTitle' => __( 'Upload Files' ),
+		'selectFiles'      => __( 'Select files' ),
 
 		// Library
-		'mediaLibraryTitle'     => __( 'Media Library' ),
-		'createNewGallery'      => __( 'Create a new gallery' ),
-		'insertIntoPost'        => __( 'Insert into post' ),
-		'addToGallery'          => __( 'Add to gallery' ),
+		'mediaLibraryTitle' => __( 'Media Library' ),
+		'createNewGallery'  => __( 'Create a new gallery' ),
+		'insertIntoPost'    => __( 'Insert into post' ),
+		'addToGallery'      => __( 'Add to gallery' ),
+
+		// Embed
+		'embedFromUrlTitle' => __( 'Embed From URL' ),
 
 		// Gallery
 		'createGalleryTitle' => __( 'Create Gallery' ),
