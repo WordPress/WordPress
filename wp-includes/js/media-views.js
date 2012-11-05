@@ -191,6 +191,11 @@
 
 			this.get('selection').on( 'selection:single', this.buildDetails, this );
 			this.get('selection').on( 'selection:unsingle', this.clearDetails, this );
+
+			this._updateEmpty();
+			this.get('library').on( 'add remove reset', this._updateEmpty, this );
+			this.on( 'change:empty', this.refresh, this );
+			this.refresh();
 		},
 
 		deactivate: function() {
@@ -202,6 +207,8 @@
 			wp.Uploader.queue.off( 'add', this.selectUpload, this );
 			this.get('selection').off( 'selection:single', this.buildDetails, this );
 			this.get('selection').off( 'selection:unsingle', this.clearDetails, this );
+			this.get('library').off( 'add remove reset', this._updateEmpty, this );
+			this.off( 'change:empty', this.refresh, this );
 		},
 
 		toolbar: function() {
@@ -230,14 +237,38 @@
 		},
 
 		content: function() {
-			var frame = this.frame;
+			var frame = this.frame,
+				library = this.get('library'),
+				view;
 
 			// Content.
-			frame.content( new media.view.AttachmentsBrowser({
-				controller: frame,
-				collection: this.get('library'),
-				model:      this
-			}).render() );
+			if ( this.get('empty') ) {
+				// Attempt to fetch any Attachments we don't already have.
+				library.more();
+
+				// In the meantime, render an inline uploader.
+				view = new media.view.UploaderInline({
+					controller: frame
+				});
+			} else {
+				// Browse our library of attachments.
+				view = new media.view.AttachmentsBrowser({
+					controller: frame,
+					collection: library,
+					model:      this
+				});
+			}
+
+			frame.content( view.render() );
+		},
+
+		refresh: function() {
+			this.frame.$el.toggleClass( 'hide-sidebar hide-toolbar', this.get('empty') );
+			this.content();
+		},
+
+		_updateEmpty: function() {
+			this.set( 'empty', ! this.get('library').length );
 		},
 
 		selectUpload: function( attachment ) {
@@ -309,38 +340,8 @@
 			}
 
 			media.controller.Library.prototype.initialize.apply( this, arguments );
-		},
-
-		activate: function() {
-			this.get('library').on( 'add remove reset', this.refresh, this );
-			media.controller.Library.prototype.activate.apply( this, arguments );
-			this.refresh();
-		},
-
-		deactivate: function() {
-			this.get('library').off( 'add remove reset', this.refresh, this );
-			media.controller.Library.prototype.deactivate.apply( this, arguments );
-		},
-
-		refresh: function() {
-			this.frame.$el.toggleClass( 'hide-sidebar hide-toolbar', ! this.get('library').length );
-			this.content();
-		},
-
-		content: function() {
-			var frame = this.frame,
-				upload;
-
-			if ( this.get('library').length ) {
-				media.controller.Library.prototype.content.apply( this, arguments );
-			} else {
-				upload = new media.view.UploaderInline({
-					controller: frame
-				}).render();
-
-				frame.content( upload );
-			}
 		}
+
 	});
 
 	// wp.media.controller.Gallery
