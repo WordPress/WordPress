@@ -40,7 +40,7 @@ if ( apply_filters( 'enable_update_services_configuration', true ) ) {
 	get_current_screen()->add_help_tab( array(
 		'id'      => 'options-services',
 		'title'   => __( 'Update Services' ),
-		'content' => $update_services_help,
+		'content' => '<p>' . __( 'If desired, WordPress will automatically alert various services of your new posts.' ) . '</p>',
 	) );
 }
 
