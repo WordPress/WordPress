@@ -252,13 +252,13 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		return $actions;
 	}
 
-	function bulk_actions( $which ) {
+	function bulk_actions() {
 		global $status;
 
 		if ( in_array( $status, array( 'mustuse', 'dropins' ) ) )
 			return;
 
-		parent::bulk_actions( $which );
+		parent::bulk_actions();
 	}
 
 	function extra_tablenav( $which ) {
@@ -293,12 +293,13 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			return;
 
 		foreach ( $this->items as $plugin_file => $plugin_data )
-			$this->single_row( $plugin_file, $plugin_data );
+			$this->single_row( array( $plugin_file, $plugin_data ) );
 	}
 
-	function single_row( $plugin_file, $plugin_data ) {
+	function single_row( $item ) {
 		global $status, $page, $s, $totals;
 
+		list( $plugin_file, $plugin_data ) = $item;
 		$context = $status;
 		$screen = $this->screen;
 

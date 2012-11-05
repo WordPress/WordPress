@@ -765,7 +765,7 @@ class WP_List_Table {
 	<div class="tablenav <?php echo esc_attr( $which ); ?>">
 
 		<div class="alignleft actions">
-			<?php $this->bulk_actions( $which ); ?>
+			<?php $this->bulk_actions(); ?>
 		</div>
 <?php
 		$this->extra_tablenav( $which );
