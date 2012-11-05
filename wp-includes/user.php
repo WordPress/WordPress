@@ -166,9 +166,10 @@ function count_user_posts($userid) {
  *
  * @param array $users Array of user IDs.
  * @param string $post_type Optional. Post type to check. Defaults to post.
+ * @param bool $public_only Optional. Only return counts for public posts.  Defaults to false.
  * @return array Amount of posts each user has written.
  */
-function count_many_users_posts( $users, $post_type = 'post' ) {
+function count_many_users_posts( $users, $post_type = 'post', $public_only = false ) {
 	global $wpdb;
 
 	$count = array();
@@ -176,7 +177,7 @@ function count_many_users_posts( $users, $post_type = 'post' ) {
 		return $count;
 
 	$userlist = implode( ',', array_map( 'absint', $users ) );
-	$where = get_posts_by_author_sql( $post_type );
+	$where = get_posts_by_author_sql( $post_type, true, null, $public_only );
 
 	$result = $wpdb->get_results( "SELECT post_author, COUNT(*) FROM $wpdb->posts $where AND post_author IN ($userlist) GROUP BY post_author", ARRAY_N );
 	foreach ( $result as $row ) {
