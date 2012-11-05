@@ -2219,13 +2219,13 @@ html.wp-toolbar {
 	border-style: solid;
 	border-radius: 3px;
 	font-size: 13px;
-	line-height: 1.6em;
+	line-height: 2.1em;
 }
 
 .welcome-panel h3 {
 	margin: 0;
 	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", sans-serif;
-	font-size: 32px;
+	font-size: 21px;
 	font-weight: normal;
 	line-height: 1.2;
 }
@@ -2235,7 +2235,7 @@ html.wp-toolbar {
 }
 
 .welcome-panel .about-description {
-	font-size: 18px;
+	font-size: 16px;
 	margin: 0;
 }
 
@@ -2265,7 +2265,7 @@ html.wp-toolbar {
 	font: normal 15px sans-serif;
 	height: 46px;
 	line-height: 44px;
-    margin: -9px 0 3px;
+    margin: 15px 0 3px;
     padding: 0 36px;
 }
 
@@ -2299,16 +2299,94 @@ html.wp-toolbar {
 }
 
 .welcome-panel-column p {
-	margin-top: 5px;
+	margin-top: 7px;
+}
+
+.welcome-panel .welcome-add-page {
+	background: url('../images/welcome-icons.png') no-repeat 0 -1px;
+}
+
+.welcome-panel .welcome-edit-page {
+	background: url('../images/welcome-icons.png') no-repeat 0px -92px;
+}
+
+.welcome-panel .welcome-learn-more {
+	background: url('../images/welcome-icons.png') no-repeat 0px -138px;
+}
+
+.welcome-panel .welcome-comments {
+	background: url('../images/welcome-icons.png') no-repeat 0px -184px;
+}
+
+.welcome-panel .welcome-view-site {
+	background: url('../images/welcome-icons.png') no-repeat 0px -276px;
+}
+
+.welcome-panel .welcome-widgets-menus {
+	background: url('../images/welcome-icons.png') no-repeat 1px -230px;
+	line-height: 14px;
+}
+ 
+.welcome-panel .welcome-write-blog {
+ 	background: url('../images/welcome-icons.png') no-repeat 0px -46px;
+}
+
+.welcome-panel .welcome-add-page,
+.welcome-panel .welcome-edit-page,
+.welcome-panel .welcome-learn-more,
+.welcome-panel .welcome-comments,
+.welcome-panel .welcome-view-site,
+.welcome-panel .welcome-widgets-menus,
+.welcome-panel .welcome-write-blog {
+	background-size: 16px;
+	display: block;
+	padding: 2px 0 8px 32px;
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
+	.welcome-panel .welcome-add-page {
+		background: url('../images/welcome-icons-2x.png') no-repeat 0 -1px;
+		background-size: 16px;
+	}
+	
+	.welcome-panel .welcome-edit-page {
+		background: url('../images/welcome-icons-2x.png') no-repeat 0px -92px;
+		background-size: 16px;
+	}
+	
+	.welcome-panel .welcome-learn-more {
+		background: url('../images/welcome-icons-2x.png') no-repeat 0px -138px;
+		background-size: 16px;
+	}
+	
+	.welcome-panel .welcome-comments {
+		background: url('../images/welcome-icons-2x.png') no-repeat 0px -184px;
+		background-size: 16px;
+	}
+	
+	.welcome-panel .welcome-view-site {
+		background: url('../images/welcome-icons-2x.png') no-repeat 0px -276px;
+		background-size: 16px;
+	}
+	
+	.welcome-panel .welcome-widgets-menus {
+		background: url('../images/welcome-icons-2x.png') no-repeat 1px -230px;
+		background-size: 16px;
+	}
+	 
+	.welcome-panel .welcome-write-blog {
+	 	background: url('../images/welcome-icons-2x.png') no-repeat 0px -46px;
+	 	background-size: 16px;
+	}
 }
 
 .welcome-panel .welcome-panel-column ul {
-	margin: 0.4em 1em 1em 1.3em;
+	margin: 0.8em 1em 1em 0;
 }
 
 .welcome-panel .welcome-panel-column li {
-	list-style-type: disc;
-	padding-left: 2px;
+    line-height: 16px;
+    list-style-type: none;
 }
 
 @media screen and (max-width: 870px) {
@@ -2330,6 +2408,16 @@ html.wp-toolbar {
 
 	.welcome-panel .welcome-panel-column ul {
 		margin: 0.4em 0 0;
+	}
+	
+	.welcome-panel .welcome-add-page,
+	.welcome-panel .welcome-edit-page,
+	.welcome-panel .welcome-learn-more,
+	.welcome-panel .welcome-comments,
+	.welcome-panel .welcome-view-site,
+	.welcome-panel .welcome-widgets-menus,
+	.welcome-panel .welcome-write-blog {
+		padding-left: 25px;
 	}
 }
 
