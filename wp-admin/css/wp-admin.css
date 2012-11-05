@@ -4997,6 +4997,7 @@ h2 .nav-tab {
 
 .pressthis a span {
 	background: url(../images/press-this.png?v=20120502) no-repeat 0px 5px;
+	background-size: 24px 20px;
 	padding: 8px 11px 8px 27px;
 	margin: 0 5px;
 	display: inline-block;
@@ -5019,6 +5020,11 @@ h2 .nav-tab {
 	box-shadow: 0 10px 8px rgba(0, 0, 0, 0.6);
 }
 
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
+	.pressthis a span {
+		background-image: url(../images/press-this-2x.png?v=20121105);
+	}
+}
 
 /*------------------------------------------------------------------------------
   20.0 - Settings
