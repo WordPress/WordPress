@@ -1072,7 +1072,7 @@ function get_media_item( $attachment_id, $args = null ) {
 	$toggle_on  = __( 'Show' );
 	$toggle_off = __( 'Hide' );
 
-	$filename = esc_html( basename( $post->guid ) );
+	$filename = esc_html( wp_basename( $post->guid ) );
 	$title = esc_attr( $post->post_title );
 
 	if ( $_tags = get_the_tags( $attachment_id ) ) {
