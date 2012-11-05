@@ -160,3 +160,16 @@ margin-top: expression(0 - parseInt(this.offsetHeight / 2) + (TBWindowMargin = d
 	margin-bottom:-1px;
 	_margin-bottom:1px;
 }
+
+.tb-close-icon {
+	background: url('tb-close.png') no-repeat;
+	height: 15px;
+	width: 15px;
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
+	.tb-close-icon {
+		background: url('tb-close-2x.png') no-repeat;
+		background-size: 15px;
+	}
+}

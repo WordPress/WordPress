@@ -773,7 +773,6 @@ function _thickbox_path_admin_subfolder() {
 <script type="text/javascript">
 //<![CDATA[
 var tb_pathToImage = "../../wp-includes/js/thickbox/loadingAnimation.gif";
-var tb_closeImage = "../../wp-includes/js/thickbox/tb-close.png";
 //]]>
 </script>
 <?php
