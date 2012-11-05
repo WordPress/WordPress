@@ -302,8 +302,7 @@ function attachment_submit_meta_box( $post ) {
  *
  * @param object $post
  */
-function attachment_data_meta_box( $post ) {
-	$alt_text = get_post_meta( $post->ID, '_wp_attachment_image_alt', true );
+function attachment_content_meta_box( $post ) {
 	$quicktags_settings = array( 'buttons' => 'strong,em,link,block,del,ins,img,ul,ol,li,code,spell,close' );
 	$editor_args = array(
 		'textarea_name' => 'content',
@@ -316,15 +315,6 @@ function attachment_data_meta_box( $post ) {
 <p>
 	<label class="screen-reader-text" for="content"><strong><?php _e( 'Attachment Page Content' ); ?></strong></label>
 	<?php wp_editor( $post->post_content, 'attachment_content', $editor_args ); ?>
-</p>
-
-<p>
-	<label for="attachment_caption"><strong><?php _e( 'Caption' ); ?></strong></label><br />
-	<textarea class="widefat" name="excerpt" id="attachment_caption"><?php echo $post->post_excerpt; ?></textarea>
-</p>
-<p>
-	<label for="attachment_alt"><strong><?php _e( 'Alternative Text' ); ?></strong></label><br />
-	<input type="text" class="widefat" name="_wp_attachment_image_alt" id="attachment_alt" value="<?php echo esc_attr( $alt_text ); ?>" />
 </p>
 <?php
 }
