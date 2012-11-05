@@ -981,7 +981,8 @@
 }
 
 .wp-editor-container textarea.wp-editor-area {
-	width: 99.9%;
+	width: 100%;
+	margin: 0;
 	-webkit-box-shadow: none;
 	box-shadow: none;
 }
