@@ -1221,7 +1221,8 @@ html[dir="rtl"] .wp-switch-editor {
 	margin-top: 5px;
 }
 
-#wp-link label span.search-label {
+#wp-link #link-options label span,
+#wp-link #search-panel label span.search-label {
 	display: inline-block;
 	width: 80px;
 	text-align: right;
