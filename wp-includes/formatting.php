@@ -295,7 +295,7 @@ function shortcode_unautop( $pee ) {
 		. '('                                // 1: The shortcode
 		.     '\\['                          // Opening bracket
 		.     "($tagregexp)"                 // 2: Shortcode name
-		.     '\\b'                          // Word boundary
+		.     '(?![\\w-])'                   // Word boundary
 		                                     // Unroll the loop: Inside the opening shortcode tag
 		.     '[^\\]\\/]*'                   // Not a closing bracket or forward slash
 		.     '(?:'
