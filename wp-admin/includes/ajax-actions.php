@@ -749,12 +749,6 @@ function wp_ajax_replyto_comment( $action ) {
 	$comment_auto_approved = false;
 	$commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_content', 'comment_type', 'comment_parent', 'user_ID');
 
-	$comment_id = wp_new_comment( $commentdata );
-	$comment = get_comment($comment_id);
-	if ( ! $comment ) wp_die( 1 );
-
-	$position = ( isset($_POST['position']) && (int) $_POST['position'] ) ? (int) $_POST['position'] : '-1';
-
 	// automatically approve parent comment
 	if ( !empty($_POST['approve_parent']) ) {
 		$parent = get_comment( $comment_parent );
@@ -764,6 +758,12 @@ function wp_ajax_replyto_comment( $action ) {
 				$comment_auto_approved = true;
 		}
 	}
+
+	$comment_id = wp_new_comment( $commentdata );
+	$comment = get_comment($comment_id);
+	if ( ! $comment ) wp_die( 1 );
+
+	$position = ( isset($_POST['position']) && (int) $_POST['position'] ) ? (int) $_POST['position'] : '-1';
 
 	ob_start();
 		if ( 'dashboard' == $_REQUEST['mode'] ) {
