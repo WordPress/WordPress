@@ -25,8 +25,8 @@ class WP_Embed {
 		// Attempts to embed all URLs in a post
 		add_filter( 'the_content', array( $this, 'autoembed' ), 8 );
 
-		// After a post is saved, invalidate the oEmbed cache
-		add_action( 'save_post', array( $this, 'delete_oembed_caches' ) );
+		// When a post is saved, invalidate the oEmbed cache
+		add_action( 'pre_post_update', array( $this, 'delete_oembed_caches' ) );
 
 		// After a post is saved, cache oEmbed items via AJAX
 		add_action( 'edit_form_advanced', array( $this, 'maybe_run_ajax_cache' ) );
