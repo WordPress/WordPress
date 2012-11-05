@@ -1113,7 +1113,7 @@ function do_settings_fields($page, $section) {
 	foreach ( (array) $wp_settings_fields[$page][$section] as $field ) {
 		echo '<tr valign="top">';
 		if ( !empty($field['args']['label_for']) )
-			echo '<th scope="row"><label for="' . $field['args']['label_for'] . '">' . $field['title'] . '</label></th>';
+			echo '<th scope="row"><label for="' . esc_attr( $field['args']['label_for'] ) . '">' . $field['title'] . '</label></th>';
 		else
 			echo '<th scope="row">' . $field['title'] . '</th>';
 		echo '<td>';
