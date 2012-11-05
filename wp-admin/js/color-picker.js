@@ -1,10 +1,10 @@
 ( function( $, undef ){
 
 	// html stuff
-	var _before = '<a tabindex="0" class="wp-color-result" />';
-	var _after = '<div class="wp-picker-holder" />';
-	var _wrap = '<div class="wp-picker-container" />';
-	var _button = '<input type="button" class="button button-tiny hidden" />';
+	var _before = '<a tabindex="0" class="wp-color-result" />',
+		_after = '<div class="wp-picker-holder" />',
+		_wrap = '<div class="wp-picker-container" />',
+		_button = '<input type="button" class="button button-small hidden" />';
 
 	// jQuery UI Widget constructor
 	var ColorPicker = {
@@ -36,11 +36,13 @@
 			else
 				self.button.addClass( 'wp-picker-clear' ).val( wpColorPickerL10n.clear );
 
-			self.button.insertAfter( el );
+			el.wrap('<span class="wp-picker-input-wrap" />').after(self.button);
 
 			el.iris( {
 				target: self.pickerContainer,
 				hide: true,
+				width: 255,
+				mode: 'hsv',
 				change: function( event, ui ) {
 					self.toggler.css( { backgroundColor: ui.color.toString() } );
 					// check for a custom cb
@@ -82,8 +84,8 @@
 			});
 
 			// open a keyboard-focused closed picker with space or enter
-			$( document ).keydown( function( e ) {
-				if ( self.toggler.is( ':focus' ) && ( e.keyCode === 13 || e.keyCode === 32 ) ) {
+			self.toggler.on('keyup', function( e ) {
+				if ( e.keyCode === 13 || e.keyCode === 32 ) {
 					e.preventDefault();
 					self.toggler.trigger('click').next().focus();
 				}
@@ -112,6 +114,14 @@
 				return this.element.iris( "option", "color" );
 
 			this.element.iris( "option", "color", newColor );
+		},
+		//$("#input").wpColorPicker('default_color') returns the current default color
+		//$("#input").wpColorPicker('default_color', newDefaultColor) to set
+		default_color: function( newDefaultColor ) {
+			if ( newDefaultColor === undef )
+				return this.options.defaultColor;
+
+			this.options.defaultColor = newDefaultColor;
 		}
 	}
 

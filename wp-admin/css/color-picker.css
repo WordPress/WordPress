@@ -6,19 +6,12 @@
 }
 .wp-color-result {
 	background-color: #f9f9f9;
-	border: 1px solid #c4c4c4;
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
-	border-radius: 4px;
-	box-shadow: inset 1px 1px 0 rgba(0,0,0,.05);
-	-moz-box-shadow: inset 1px 1px 0 rgba(0,0,0,.05);
-	-ms-box-shadow: inset 1px 1px 0 rgba(0,0,0,.05);
-	-o-box-shadow: inset 1px 1px 0 rgba(0,0,0,.05);
-	-webkit-box-shadow: inset 1px 1px 0 rgba(0,0,0,.05);
+	border: 1px solid #bbb;
+	border-radius: 2px;
 	cursor: pointer;
 	display: inline-block;
-	height: 21px;
-	margin: 0 6px 1px 0px;
+	height: 22px;
+	margin: 0 6px 6px 0px;
 	position: relative;
 	top: 1px;
 	user-select: none;
@@ -29,24 +22,21 @@
 	display: inline-block;
 	padding-left: 30px;
 }
-.wp-color-result::after {
-	background-color: #f9f9f9;
-	background-image: -moz-linear-gradient(top, #fff 0%, #eee 100%);
-	background-image: -webkit-linear-gradient(top, #fff 0%, #eee 100%);
-	background-image: -ms-linear-gradient(top, #fff 0%, #eee 100%);
-	background-image: -o-linear-gradient(top, #fff 0%, #eee 100%);
-	background-image: linear-gradient(top, #fff 0%, #eee 100%);
-	-moz-border-radius-bottomright: 3px;
-	-moz-border-radius-topright: 3px;
-	-webkit-border-radius: 0 3px 3px 0;
-	border-radius: 0 3px 3px 0;
-	border-bottom-right-radius: 3px;
-	border-left: 1px solid #c4c4c4;
+.wp-color-result:after {
+	background: #f3f3f3;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#fefefe), to(#f4f4f4));
+	background-image: -webkit-linear-gradient(top, #fefefe, #f4f4f4);
+	background-image:    -moz-linear-gradient(top, #fefefe, #f4f4f4);
+	background-image:      -o-linear-gradient(top, #fefefe, #f4f4f4);
+	background-image:   linear-gradient(to bottom, #fefefe, #f4f4f4);
+ 	color: #333;
+	text-shadow: 0 1px 0 #fff;
+	border-radius: 0 1px 1px 0;
+	border-left: 1px solid #bbb;
 	content: attr( title );
-	color: #555;
 	display: block;
 	font-size: 11px;
-	line-height: 21px;
+	line-height: 22px;
 	padding: 0 6px;
 	position: relative;
 	right: 0px;
@@ -68,7 +58,6 @@
 }
 .wp-color-result.wp-picker-open {
 	top: 0;
-	/*width: 5px;*/
 }
 .wp-color-result.wp-picker-open:after {
 	content: attr( data-current );
@@ -87,6 +76,10 @@
 }
 .wp-color-result:focus:after {
 	border-color: #888;
+}
+.wp-picker-open + .wp-picker-input-wrap {
+	display: inline-block;
+	vertical-align: top;
 }
 .wp-picker-container .button {
 	margin-left: 6px;

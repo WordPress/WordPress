@@ -338,6 +338,7 @@ body {
 	width: 65px;
 	font-family: monospace;
 	text-align: center;
+	line-height: 16px;
 }
 
 /* The centered cursor overlaps the placeholder in webkit. Hide it when selected. */
