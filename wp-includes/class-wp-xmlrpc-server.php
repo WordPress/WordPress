@@ -1034,7 +1034,8 @@ class wp_xmlrpc_server extends IXR_Server {
 					return new IXR_Error( 401, __( 'Sorry, you are not allowed to publish posts in this post type' ) );
 				break;
 			default:
-				$post_data['post_status'] = 'draft';
+				if ( ! get_post_status_object( $post_data['post_status'] ) )
+					$post_data['post_status'] = 'draft';
 			break;
 		}
 
