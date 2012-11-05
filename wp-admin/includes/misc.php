@@ -537,16 +537,16 @@ $current_color = get_user_option('admin_color', $user_id);
 if ( empty($current_color) )
 	$current_color = 'fresh';
 foreach ( $_wp_admin_css_colors as $color => $color_info ): ?>
-<div class="color-option"><input name="admin_color" id="admin_color_<?php echo $color; ?>" type="radio" value="<?php echo esc_attr($color) ?>" class="tog" <?php checked($color, $current_color); ?> />
+<div class="color-option"><input name="admin_color" id="admin_color_<?php echo esc_attr( $color ); ?>" type="radio" value="<?php echo esc_attr( $color ); ?>" class="tog" <?php checked($color, $current_color); ?> />
 	<table class="color-palette">
 	<tr>
 	<?php foreach ( $color_info->colors as $html_color ): ?>
-	<td style="background-color: <?php echo $html_color ?>" title="<?php echo $color ?>">&nbsp;</td>
+	<td style="background-color: <?php echo esc_attr( $html_color ); ?>" title="<?php echo esc_attr( $color ); ?>">&nbsp;</td>
 	<?php endforeach; ?>
 	</tr>
 	</table>
 
-	<label for="admin_color_<?php echo $color; ?>"><?php echo $color_info->name ?></label>
+	<label for="admin_color_<?php echo esc_attr( $color ); ?>"><?php echo esc_html( $color_info->name ); ?></label>
 </div>
 	<?php endforeach; ?>
 </fieldset>
