@@ -104,11 +104,14 @@ ul.category-tabs li {
 
 div.tabs-panel,
 .wp-tab-panel,
-ul.category-tabs li.tabs,
 ul.add-menu-item-tabs li.tabs,
 .wp-tab-active {
 	border-color: #dfdfdf;
 	background-color: #fff;
+}
+
+ul.category-tabs li.tabs {
+	border-color: #dfdfdf #dfdfdf #fff;
 }
 
 ul.category-tabs li.tabs,

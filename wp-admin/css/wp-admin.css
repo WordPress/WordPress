@@ -3191,7 +3191,12 @@ ul.wp-tab-bar {
 	margin-top: 12px;
 }
 
-ul.category-tabs li,
+ul.category-tabs li {
+	border-style: solid;
+	border-width: 1px;
+	position: relative;
+}
+
 ul.add-menu-item-tabs li.tabs,
 .wp-tab-active {
 	border-style: solid solid none;
