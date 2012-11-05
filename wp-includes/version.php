@@ -18,7 +18,7 @@ $wp_db_version = 21707;
  *
  * @global string $tinymce_version
  */
-$tinymce_version = '349-22371';
+$tinymce_version = '349-21274';
 
 /**
  * Holds the cache manifest version
