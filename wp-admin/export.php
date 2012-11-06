@@ -94,7 +94,7 @@ if ( isset( $_GET['download'] ) ) {
 		$args['content'] = $_GET['content'];
 	}
 
-	$args = apply_filters( 'wp_export_args', $args );
+	$args = apply_filters( 'export_args', $args );
 
 	export_wp( $args );
 	die();
