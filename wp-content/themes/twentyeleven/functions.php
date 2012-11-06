@@ -101,7 +101,7 @@ function twentyeleven_setup() {
 	if ( 'dark' == $theme_options['color_scheme'] )
 		$default_background_color = '1d1d1d';
 	else
-		$default_background_color = 'f1f1f1';
+		$default_background_color = 'e2e2e2';
 
 	// Add support for custom backgrounds.
 	add_theme_support( 'custom-background', array(
