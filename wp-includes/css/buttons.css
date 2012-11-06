@@ -169,6 +169,7 @@ input[type="submit"]::-moz-focus-inner {
 	-webkit-box-shadow: none !important;
 	box-shadow:         none !important;
 	text-shadow: 0 1px 0 #fff !important;
+	cursor: default;
 }
 
 /* ----------------------------------------------------------------------------
@@ -244,6 +245,7 @@ input[type="submit"]::-moz-focus-inner {
 	-webkit-box-shadow: none !important;
 	box-shadow:         none !important;
 	text-shadow: 0 -1px 0 rgba(0,0,0,0.1) !important;
+	cursor: default;
 }
 
 /* ----------------------------------------------------------------------------
