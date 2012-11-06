@@ -732,7 +732,7 @@ class WP_List_Table {
 	</tr>
 	</tfoot>
 
-	<tbody id="the-list"<?php if ( $singular ) echo " class='list:$singular'"; ?>>
+	<tbody id="the-list"<?php if ( $singular ) echo " data-wp-lists='list:$singular'"; ?>>
 		<?php $this->display_rows_or_placeholder(); ?>
 	</tbody>
 </table>

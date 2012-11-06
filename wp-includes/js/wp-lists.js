@@ -21,18 +21,18 @@ wpList = {
 		return s.nonce || url._ajax_nonce || $('#' + s.element + ' input[name="_ajax_nonce"]').val() || url._wpnonce || $('#' + s.element + ' input[name="_wpnonce"]').val() || 0;
 	},
 
-	parseClass: function(e,t) {
-		var c = [], cl;
+	parseData: function(e,t) {
+		var d = [], wpListsData;
 
 		try {
-			cl = $(e).attr('class') || '';
-			cl = cl.match(new RegExp(t+':[\\S]+'));
+			wpListsData = $(e).attr('data-wp-lists') || '';
+			wpListsData = wpListsData.match(new RegExp(t+':[\\S]+'));
 
-			if ( cl )
-				c = cl[0].split(':');
+			if ( wpListsData )
+				d = wpListsData[0].split(':');
 		} catch(r) {}
 
-		return c;
+		return d;
 	},
 
 	pre: function(e,s,a) {
@@ -64,14 +64,14 @@ wpList = {
 	ajaxAdd: function( e, s ) {
 		e = $(e);
 		s = s || {};
-		var list = this, cls = wpList.parseClass(e,'add'), es, valid, formData, res, rres;
+		var list = this, data = wpList.parseData(e,'add'), es, valid, formData, res, rres;
 
 		s = wpList.pre.call( list, e, s, 'add' );
 
-		s.element = cls[2] || e.attr( 'id' ) || s.element || null;
+		s.element = data[2] || e.attr( 'id' ) || s.element || null;
 
-		if ( cls[3] )
-			s.addColor = '#' + cls[3];
+		if ( data[3] )
+			s.addColor = '#' + data[3];
 		else
 			s.addColor = s.addColor || '#FFFF33';
 
@@ -94,7 +94,7 @@ wpList = {
 		if ( !valid )
 			return false;
 
-		s.data = $.param( $.extend( { _ajax_nonce: s.nonce, action: s.action }, wpAjax.unserialize( cls[4] || '' ) ) );
+		s.data = $.param( $.extend( { _ajax_nonce: s.nonce, action: s.action }, wpAjax.unserialize( data[4] || '' ) ) );
 		formData = $.isFunction(es.fieldSerialize) ? es.fieldSerialize() : es.serialize();
 
 		if ( formData )
@@ -147,14 +147,14 @@ wpList = {
 	ajaxDel: function( e, s ) {
 		e = $(e);
 		s = s || {};
-		var list = this, cls = wpList.parseClass(e,'delete'), element, res, rres;
+		var list = this, data = wpList.parseData(e,'delete'), element, res, rres;
 
 		s = wpList.pre.call( list, e, s, 'delete' );
 
-		s.element = cls[2] || s.element || null;
+		s.element = data[2] || s.element || null;
 
-		if ( cls[3] )
-			s.delColor = '#' + cls[3];
+		if ( data[3] )
+			s.delColor = '#' + data[3];
 		else
 			s.delColor = s.delColor || '#faa';
 
@@ -167,7 +167,7 @@ wpList = {
 
 		s.data = $.extend(
 			{ action: s.action, id: s.element.split('-').pop(), _ajax_nonce: s.nonce },
-			wpAjax.unserialize( cls[4] || '' )
+			wpAjax.unserialize( data[4] || '' )
 		);
 
 		if ( $.isFunction(s.delBefore) ) {
@@ -221,20 +221,20 @@ wpList = {
 		e = $(e);
 		s = s || {};
 
-		var list = this, cls = wpList.parseClass(e,'dim'), element, isClass, color, dimColor, res, rres;
+		var list = this, data = wpList.parseData(e,'dim'), element, isClass, color, dimColor, res, rres;
 
 		s = wpList.pre.call( list, e, s, 'dim' );
 
-		s.element = cls[2] || s.element || null;
-		s.dimClass =  cls[3] || s.dimClass || null;
+		s.element = data[2] || s.element || null;
+		s.dimClass =  data[3] || s.dimClass || null;
 
-		if ( cls[4] )
-			s.dimAddColor = '#' + cls[4];
+		if ( data[4] )
+			s.dimAddColor = '#' + data[4];
 		else
 			s.dimAddColor = s.dimAddColor || '#FFFF33';
 
-		if ( cls[5] )
-			s.dimDelColor = '#' + cls[5];
+		if ( data[5] )
+			s.dimDelColor = '#' + data[5];
 		else
 			s.dimDelColor = s.dimDelColor || '#FF3333';
 
@@ -247,7 +247,7 @@ wpList = {
 
 		s.data = $.extend(
 			{ action: s.action, id: s.element.split('-').pop(), dimClass: s.dimClass, _ajax_nonce : s.nonce },
-			wpAjax.unserialize( cls[6] || '' )
+			wpAjax.unserialize( data[6] || '' )
 		);
 
 		if ( $.isFunction(s.dimBefore) ) {
@@ -393,19 +393,19 @@ wpList = {
 		var list = this,
 			$el = $(el || document);
 
-		$el.delegate( 'form[class^="add:' + list.id + ':"]', 'submit', function(){
+		$el.delegate( 'form[data-wp-lists^="add:' + list.id + ':"]', 'submit', function(){
 			return list.wpList.add(this);
 		});
 
-		$el.delegate( 'a[class^="add:' + list.id + ':"], input[class^="add:' + list.id + ':"]', 'click', function(){
+		$el.delegate( 'a[data-wp-lists^="add:' + list.id + ':"], input[data-wp-lists^="add:' + list.id + ':"]', 'click', function(){
 			return list.wpList.add(this);
 		});
 
-		$el.delegate( '[class^="delete:' + list.id + ':"]', 'click', function(){
+		$el.delegate( '[data-wp-lists^="delete:' + list.id + ':"]', 'click', function(){
 			return list.wpList.del(this);
 		});
 
-		$el.delegate( '[class^="dim:' + list.id + ':"]', 'click', function(){
+		$el.delegate( '[data-wp-lists^="dim:' + list.id + ':"]', 'click', function(){
 			return list.wpList.dim(this);
 		});
 	},
@@ -450,7 +450,7 @@ $.fn.wpList = function( settings ) {
 	this.each( function() {
 		var _this = this;
 
-		this.wpList = { settings: $.extend( {}, wpList.settings, { what: wpList.parseClass(this,'list')[1] || '' }, settings ) };
+		this.wpList = { settings: $.extend( {}, wpList.settings, { what: wpList.parseData(this,'list')[1] || '' }, settings ) };
 		$.each( fs, function(i,f) { _this.wpList[i] = function( e, s ) { return wpList[f].call( _this, e, s ); }; } );
 	} );
 

@@ -35,7 +35,7 @@ setCommentsList = function() {
 
 	// Send current total, page, per_page and url
 	delBefore = function( settings, list ) {
-		var cl = $(settings.target).attr('class'), id, el, n, h, a, author, action = false;
+		var wpListsData = $(settings.target).attr('data-wp-lists'), id, el, n, h, a, author, action = false;
 
 		settings.data._total = totalInput.val() || 0;
 		settings.data._per_page = perPageInput.val() || 0;
@@ -43,13 +43,13 @@ setCommentsList = function() {
 		settings.data._url = document.location.href;
 		settings.data.comment_status = $('input[name="comment_status"]', '#comments-form').val();
 
-		if ( cl.indexOf(':trash=1') != -1 )
+		if ( wpListsData.indexOf(':trash=1') != -1 )
 			action = 'trash';
-		else if ( cl.indexOf(':spam=1') != -1 )
+		else if ( wpListsData.indexOf(':spam=1') != -1 )
 			action = 'spam';
 
 		if ( action ) {
-			id = cl.replace(/.*?comment-([0-9]+).*/, '$1');
+			id = wpListsData.replace(/.*?comment-([0-9]+).*/, '$1');
 			el = $('#comment-' + id);
 			note = $('#' + action + '-undo-holder').html();
 
@@ -72,7 +72,8 @@ setCommentsList = function() {
 			$('strong', '#undo-' + id).text(author);
 			a = $('.undo a', '#undo-' + id);
 			a.attr('href', 'comment.php?action=un' + action + 'comment&c=' + id + '&_wpnonce=' + settings.data._ajax_nonce);
-			a.attr('class', 'delete:the-comment-list:comment-' + id + '::un' + action + '=1 vim-z vim-destructive');
+			a.attr('data-wp-lists', 'delete:the-comment-list:comment-' + id + '::un' + action + '=1');
+			a.attr('class', 'vim-z vim-destructive');
 			$('.avatar', el).clone().prependTo('#undo-' + id + ' .' + action + '-undo-inside');
 
 			a.click(function(){
@@ -279,9 +280,9 @@ setCommentsList = function() {
 	theExtraList = $('#the-extra-comment-list').wpList( { alt: '', delColor: 'none', addColor: 'none' } );
 	theList = $('#the-comment-list').wpList( { alt: '', delBefore: delBefore, dimAfter: dimAfter, delAfter: delAfter, addColor: 'none' } )
 		.bind('wpListDelEnd', function(e, s){
-			var id = s.element.replace(/[^0-9]+/g, '');
+			var wpListsData = $(s.target).attr('data-wp-lists'), id = s.element.replace(/[^0-9]+/g, '');
 
-			if ( s.target.className.indexOf(':trash=1') != -1 || s.target.className.indexOf(':spam=1') != -1 )
+			if ( wpListsData.indexOf(':trash=1') != -1 || wpListsData.indexOf(':spam=1') != -1 )
 				$('#undo-' + id).fadeIn(300, function(){ $(this).show() });
 		});
 };
