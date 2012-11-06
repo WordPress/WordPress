@@ -486,7 +486,7 @@ code {
 }
 
 .subsubsub li {
-	display: inline;
+	display: inline-block;
 	margin: 0;
 	padding: 0;
 	white-space: nowrap;
@@ -2332,7 +2332,7 @@ html.wp-toolbar {
 	background: url('../images/welcome-icons.png') no-repeat 1px -230px;
 	line-height: 14px;
 }
- 
+
 .welcome-panel .welcome-write-blog {
  	background: url('../images/welcome-icons.png') no-repeat 0px -46px;
 }
@@ -2354,32 +2354,32 @@ html.wp-toolbar {
 		background: url('../images/welcome-icons-2x.png') no-repeat 0 -1px;
 		background-size: 16px;
 	}
-	
+
 	.welcome-panel .welcome-edit-page {
 		background: url('../images/welcome-icons-2x.png') no-repeat 0px -92px;
 		background-size: 16px;
 	}
-	
+
 	.welcome-panel .welcome-learn-more {
 		background: url('../images/welcome-icons-2x.png') no-repeat 0px -138px;
 		background-size: 16px;
 	}
-	
+
 	.welcome-panel .welcome-comments {
 		background: url('../images/welcome-icons-2x.png') no-repeat 0px -184px;
 		background-size: 16px;
 	}
-	
+
 	.welcome-panel .welcome-view-site {
 		background: url('../images/welcome-icons-2x.png') no-repeat 0px -276px;
 		background-size: 16px;
 	}
-	
+
 	.welcome-panel .welcome-widgets-menus {
 		background: url('../images/welcome-icons-2x.png') no-repeat 1px -230px;
 		background-size: 16px;
 	}
-	 
+
 	.welcome-panel .welcome-write-blog {
 	 	background: url('../images/welcome-icons-2x.png') no-repeat 0px -46px;
 	 	background-size: 16px;
@@ -2415,7 +2415,7 @@ html.wp-toolbar {
 	.welcome-panel .welcome-panel-column ul {
 		margin: 0.4em 0 0;
 	}
-	
+
 	.welcome-panel .welcome-add-page,
 	.welcome-panel .welcome-edit-page,
 	.welcome-panel .welcome-learn-more,

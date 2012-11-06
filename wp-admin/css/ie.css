@@ -379,6 +379,10 @@ div#dashboard-widgets {
 	width: 155px;
 }
 
+.subsubsub li {
+	display: inline;
+}
+
 table.ie-fixed {
 	table-layout: fixed;
 }
