@@ -144,6 +144,16 @@
 				}
 			});
 
+			// Add HTML5 obsolete attributes that are still in use.
+			ed.onPreInit.add(function(ed) {
+				// This list is taken from TinyMCE 3.5.7 getHTML5()
+				var commonAttr = 'id|accesskey|class|dir|draggable|item|hidden|itemprop|role|spellcheck|style|subject|title|onclick|ondblclick|onmousedown|onmouseup|onmouseover|onmousemove|onmouseout|onkeypress|onkeydown|onkeyup';
+				// Additional table attributes from TinyMCE 3.5.7 getHTML4()
+				ed.schema.addValidElements('table['+commonAttr+'|summary|width|border|frame|rules|cellspacing|cellpadding|align|bgcolor]');
+				// Adds "name" for <a>
+				ed.schema.addValidElements('a['+commonAttr+'|href|target|ping|rel|media|type|name]');
+			});
+
 			ed.onInit.add(function(ed) {
 				var bodyClass = ed.getParam('body_class', ''), body = ed.getBody();
 
