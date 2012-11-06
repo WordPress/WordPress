@@ -184,13 +184,16 @@
 		},
 
 		activate: function() {
+			var selection = this.get('selection');
+
 			// If we're in a workflow that supports multiple attachments,
 			// automatically select any uploading attachments.
 			if ( this.get('multiple') )
 				wp.Uploader.queue.on( 'add', this.selectUpload, this );
 
-			this.get('selection').on( 'selection:single', this.buildDetails, this );
-			this.get('selection').on( 'selection:unsingle', this.clearDetails, this );
+			selection.on( 'selection:single', this.buildDetails, this );
+			selection.on( 'selection:unsingle', this.clearDetails, this );
+			selection.on( 'add remove reset', this.updateToolbarVisibility, this );
 
 			this._updateEmpty();
 			this.get('library').on( 'add remove reset', this._updateEmpty, this );
@@ -199,30 +202,21 @@
 		},
 
 		deactivate: function() {
-			var toolbar = this._postLibraryToolbar;
-
-			if ( toolbar )
-				this.get('selection').off( 'add remove', toolbar.visibility, toolbar );
-
 			wp.Uploader.queue.off( 'add', this.selectUpload, this );
-			this.get('selection').off( 'selection:single', this.buildDetails, this );
-			this.get('selection').off( 'selection:unsingle', this.clearDetails, this );
+
+			// Unbind all event handlers that use this state as the context
+			// from the selection.
+			this.get('selection').off( null, null, this );
 			this.get('library').off( 'add remove reset', this._updateEmpty, this );
 			this.off( 'change:empty', this.refresh, this );
 		},
 
 		toolbar: function() {
-			var frame = this.frame,
-				toolbar;
+			var frame = this.frame;
 
-			// Toolbar.
-			toolbar = this._postLibraryToolbar = new media.view.Toolbar.PostLibrary({
-				controller: frame,
-				state:      this
-			});
-
-			frame.toolbar( toolbar );
-			this.get('selection').on( 'add remove', toolbar.visibility, toolbar );
+			frame.toolbar( new media.view.Toolbar.PostLibrary({
+				controller: frame
+			}) );
 		},
 
 		sidebar: function() {
@@ -269,6 +263,10 @@
 
 		_updateEmpty: function() {
 			this.set( 'empty', ! this.get('library').length );
+		},
+
+		updateToolbarVisibility: function() {
+			this.frame.toolbar().visibility();
 		},
 
 		selectUpload: function( attachment ) {
@@ -357,9 +355,9 @@
 		},
 
 		toolbar: function() {
-			this.frame.toolbar( new media.view.Toolbar.Gallery({
-				controller: this.frame,
-				state:      this
+			var frame = this.frame;
+			frame.toolbar( new media.view.Toolbar.Gallery({
+				controller: frame
 			}) );
 		},
 
@@ -408,10 +406,8 @@
 
 		toolbar: function() {
 			var frame = this.frame;
-
 			frame.toolbar( new media.view.Toolbar.GalleryAddImages({
-				controller: frame,
-				state:      this
+				controller: frame
 			}) );
 		},
 
@@ -872,9 +868,8 @@
 	// ---------------------------------
 	media.view.Toolbar.PostLibrary = media.view.Toolbar.extend({
 		initialize: function() {
-			var state = this.options.state,
-				selection = state.get('selection'),
-				controller = this.options.controller;
+			var controller = this.options.controller,
+				selection = controller.state().get('selection');
 
 			this.options.items = {
 				selection: new media.view.Selection({
@@ -901,7 +896,7 @@
 							text:  l10n.insertIntoPost,
 							click: function() {
 								controller.close();
-								state.trigger( 'insert', selection );
+								controller.state().trigger( 'insert', selection );
 								selection.clear();
 							}
 						},
@@ -941,9 +936,7 @@
 		},
 
 		visibility: function() {
-			var state = this.options.state,
-				selection = state.get('selection'),
-				controller = this.options.controller,
+			var selection = this.controller.state().get('selection'),
 				count = selection.length,
 				showGallery;
 
@@ -966,10 +959,10 @@
 	// -----------------------------
 	media.view.Toolbar.Gallery = media.view.Toolbar.extend({
 		initialize: function() {
-			var state = this.options.state,
+			var controller = this.options.controller,
+				state = controller.state(),
 				editing = state.get('editing'),
-				library = state.get('library'),
-				controller = this.options.controller;
+				library = state.get('library');
 
 			this.options.items = {
 				update: {
@@ -977,8 +970,9 @@
 					text:     editing ? l10n.updateGallery : l10n.insertGallery,
 					priority: 40,
 					click:    function() {
+						var state = controller.state();
 						controller.close();
-						state.trigger( 'update', library );
+						state.trigger( 'update', state.get('library') );
 						controller.get('library').get('selection').clear();
 						controller.state('library');
 					}
@@ -990,7 +984,7 @@
 
 					click: function() {
 						controller.get('gallery:add').set( 'selection', new media.model.Selection( library.models, {
-							props:    library.props.toJSON(),
+							props:    controller.state().get('library').props.toJSON(),
 							multiple: true
 						}) );
 						controller.state('gallery:add');
@@ -1018,10 +1012,7 @@
 	// -----------------------------
 	media.view.Toolbar.GalleryAddImages = media.view.Toolbar.extend({
 		initialize: function() {
-			var state = this.options.state,
-				editing = state.get('editing'),
-				library = state.get('library'),
-				controller = this.options.controller;
+			var controller = this.options.controller;
 
 			this.options.items = {
 				update: {
@@ -1030,7 +1021,7 @@
 					priority: 40,
 
 					click: function() {
-						controller.get('gallery').set( 'library', state.get('selection') );
+						controller.get('gallery').set( 'library', controller.state().get('selection') );
 						controller.state('gallery');
 					}
 				},
