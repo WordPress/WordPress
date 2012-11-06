@@ -67,7 +67,7 @@ function _sort_name_callback( $a, $b ) {
 function wp_list_widget_controls( $sidebar ) {
 	add_filter( 'dynamic_sidebar_params', 'wp_list_widget_controls_dynamic_sidebar' );
 
-	echo "<div id='sidebar-$sidebar' class='widgets-sortables'>\n";
+	echo "<div id='$sidebar' class='widgets-sortables'>\n";
 
 	$description = wp_sidebar_description( $sidebar );
 

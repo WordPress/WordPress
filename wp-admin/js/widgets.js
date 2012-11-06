@@ -115,7 +115,7 @@ wpWidgets = {
 				var add = ui.item.find('input.add_new').val(),
 					n = ui.item.find('input.multi_number').val(),
 					id = the_id,
-					sb = $(this).attr('id').replace(/^sidebar-/, '');
+					sb = $(this).attr('id');
 
 				ui.item.css({margin:'', 'width':''});
 				the_id = '';
@@ -186,7 +186,7 @@ wpWidgets = {
 
 		$('div.widgets-sortables').each( function() {
 			if ( $(this).sortable )
-				a['sidebars[' + $(this).attr('id').replace(/^sidebar-/, '') + ']'] = $(this).sortable('toArray').join(',');
+				a['sidebars[' + $(this).attr('id') + ']'] = $(this).sortable('toArray').join(',');
 		});
 
 		$.post( ajaxurl, a, function() {
@@ -197,7 +197,7 @@ wpWidgets = {
 	},
 
 	save : function(widget, del, animate, order) {
-		var sb = widget.closest('div.widgets-sortables').attr('id').replace(/^sidebar-/, ''), data = widget.find('form').serialize(), a;
+		var sb = widget.closest('div.widgets-sortables').attr('id'), data = widget.find('form').serialize(), a;
 		widget = $(widget);
 		$('.spinner', widget).show();
 
