@@ -73,7 +73,7 @@ function get_category_parents( $id, $link = false, $separator = '/', $nicename =
  */
 function get_the_category( $id = false ) {
 	$categories = get_the_terms( $id, 'category' );
-	if ( ! $categories )
+	if ( ! $categories || is_wp_error( $categories ) )
 		$categories = array();
 
 	$categories = array_values( $categories );
