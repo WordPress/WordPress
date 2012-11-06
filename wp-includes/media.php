@@ -228,7 +228,7 @@ function get_image_tag($id, $alt, $title, $align, $size='medium') {
 	$class = 'align' . esc_attr($align) .' size-' . esc_attr($size) . ' wp-image-' . $id;
 	$class = apply_filters('get_image_tag_class', $class, $id, $align, $size);
 
-	$html = '<img src="' . esc_attr($img_src) . '" alt="' . esc_attr($alt) . '" title="' . esc_attr($title).'" '.$hwstring.'class="'.$class.'" />';
+	$html = '<img src="' . esc_attr($img_src) . '" alt="' . esc_attr($alt) . '" '.$hwstring.'class="'.$class.'" />';
 
 	$html = apply_filters( 'get_image_tag', $html, $id, $alt, $title, $align, $size );
 
@@ -548,7 +548,6 @@ function wp_get_attachment_image($attachment_id, $size = 'thumbnail', $icon = fa
 			'src'	=> $src,
 			'class'	=> "attachment-$size",
 			'alt'	=> trim(strip_tags( get_post_meta($attachment_id, '_wp_attachment_image_alt', true) )), // Use Alt field first
-			'title'	=> trim(strip_tags( $attachment->post_title )),
 		);
 		if ( empty($default_attr['alt']) )
 			$default_attr['alt'] = trim(strip_tags( $attachment->post_excerpt )); // If not, Use the Caption

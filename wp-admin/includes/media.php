@@ -1527,11 +1527,6 @@ var addExtImage = {
 		if ( '' == f.src.value || '' == t.width )
 			return false;
 
-		if ( f.title.value ) {
-			title = f.title.value.replace(/'/g, '&#039;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-			title = ' title="'+title+'"';
-		}
-
 		if ( f.alt.value )
 			alt = f.alt.value.replace(/'/g, '&#039;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
@@ -1548,7 +1543,7 @@ var addExtImage = {
 
 		cls = caption ? '' : ' class="'+t.align+'"';
 
-		html = '<img alt="'+alt+'" src="'+f.src.value+'"'+title+cls+' width="'+t.width+'" height="'+t.height+'" />';
+		html = '<img alt="'+alt+'" src="'+f.src.value+'"'+cls+' width="'+t.width+'" height="'+t.height+'" />';
 
 		if ( f.url.value ) {
 			url = f.url.value.replace(/'/g, '&#039;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
