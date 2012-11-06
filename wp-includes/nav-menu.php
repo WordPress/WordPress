@@ -347,10 +347,11 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 		'post_type' => 'nav_menu_item',
 	);
 
-	if ( $menu_id && ! is_object_in_term( $menu_item_db_id, 'nav_menu', (int) $menu->term_id ) )
-		$post['tax_input'] = array( 'nav_menu' => array( intval( $menu->term_id ) ) );
-
 	$update = 0 != $menu_item_db_id;
+
+	// Only set the menu term if it isn't set to avoid unnecessary wp_get_object_terms()
+	if ( $menu_id && ( ! $update || ! is_object_in_term( $menu_item_db_id, 'nav_menu', (int) $menu->term_id ) ) )
+		$post['tax_input'] = array( 'nav_menu' => array( intval( $menu->term_id ) ) );
 
 	// New menu item. Default is draft status
 	if ( ! $update ) {
