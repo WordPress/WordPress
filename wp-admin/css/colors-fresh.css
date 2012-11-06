@@ -655,8 +655,8 @@ table.widefat span.spam a,
 	color: #222;
 }
 
-.sidebar-name:hover h3,
-.postbox h3:hover {
+.js .sidebar-name:hover h3,
+.js .postbox h3:hover {
 	color: #000;
 }
 
@@ -1382,7 +1382,7 @@ fieldset.inline-edit-col-right .inline-edit-col {
 	color: #D54E21;
 }
 
-.meta-box-sortables .postbox:hover .handlediv {
+.js .meta-box-sortables .postbox:hover .handlediv {
 	background: transparent url(../images/arrows.png) no-repeat 6px 7px;
 }
 
@@ -1517,8 +1517,8 @@ div.widgets-sortables,
 	box-shadow: inset 0 1px 0 #fff;
 }
 
-.sidebar-name:hover,
-#removing-widget {
+.js .sidebar-name:hover,
+.js #removing-widget {
 	color: #d54e21;
 }
 
@@ -1526,11 +1526,11 @@ div.widgets-sortables,
 	color: black;
 }
 
-.sidebar-name-arrow {
+.js .sidebar-name-arrow {
 	background: transparent url(../images/arrows.png) no-repeat 5px 9px;
 }
 
-.sidebar-name:hover .sidebar-name-arrow {
+.js .sidebar-name:hover .sidebar-name-arrow {
 	background: transparent url(../images/arrows-dark.png) no-repeat 5px 9px;
 }
 
@@ -1857,7 +1857,7 @@ div.widgets-sortables,
 }
 
 /* Edit Image */
-.rtl .meta-box-sortables .postbox:hover .handlediv {
+.js.rtl .meta-box-sortables .postbox:hover .handlediv {
 	background: transparent url(../images/arrows.png) no-repeat 6px 7px;
 }
 
@@ -1866,11 +1866,11 @@ div.widgets-sortables,
 	border-left-color: #eee;
 }
 
-.rtl .sidebar-name-arrow {
+.js.rtl .sidebar-name-arrow {
 	background: transparent url(../images/arrows.png) no-repeat 5px 9px;
 }
 
-.rtl .sidebar-name:hover .sidebar-name-arrow {
+.js.rtl .sidebar-name:hover .sidebar-name-arrow {
 	background: transparent url(../images/arrows-dark.png) no-repeat 5px 9px;
 }
 

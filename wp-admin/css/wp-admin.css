@@ -2077,11 +2077,14 @@ html.wp-toolbar {
 }
 
 .postbox .hndle {
-	cursor: move;
 	-webkit-border-top-left-radius: 3px;
 	-webkit-border-top-right-radius: 3px;
 	border-top-left-radius: 3px;
 	border-top-right-radius: 3px;
+}
+
+.js .postbox .hndle {
+	cursor: move;
 }
 
 .postbox.closed .hndle {
@@ -2098,6 +2101,9 @@ html.wp-toolbar {
 	float: right;
 	width: 27px;
 	height: 30px;
+}
+
+.js .postbox .handlediv {
 	cursor: pointer;
 }
 
@@ -2123,14 +2129,14 @@ html.wp-toolbar {
 	margin-top: 1px;
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
-	cursor: move;
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	user-select: none;
 }
 
-.stuffbox h3 {
-	cursor: auto;
+.js .widget .widget-top,
+.js .postbox h3 {
+	cursor: move;
 }
 
 .postbox .inside,
@@ -7674,8 +7680,8 @@ h3.tb {
 	min-width: 0;
 }
 
-.postbox:hover .handlediv,
-.stuffbox:hover .handlediv {
+.js .postbox:hover .handlediv,
+.js .stuffbox:hover .handlediv {
 	background: transparent url(../images/arrows.png) no-repeat 6px 7px;
 }
 
@@ -8020,7 +8026,6 @@ div.sidebar-name h3 {
 }
 
 div.sidebar-name {
-	cursor: pointer;
 	font-size: 13px;
 	border-width: 1px;
 	border-style: solid;
@@ -8028,6 +8033,10 @@ div.sidebar-name {
 	-webkit-border-top-left-radius: 3px;
 	border-top-right-radius: 3px;
 	border-top-left-radius: 3px;
+}
+
+.js .sidebar-name {
+	cursor: pointer;
 }
 
 .js .closed .sidebar-name {
