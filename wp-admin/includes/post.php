@@ -498,7 +498,7 @@ function post_exists($title, $content = '', $date = '') {
 	}
 
 	if ( !empty ( $args ) )
-		return $wpdb->get_var( $wpdb->prepare($query, $args) );
+		return (int) $wpdb->get_var( $wpdb->prepare($query, $args) );
 
 	return 0;
 }
