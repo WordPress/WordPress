@@ -94,11 +94,21 @@
 					else
 						statuses.hide();
 				};
-
+			
+			var toggleFreeze = false;
+			
 			// Support the .dropdown class to open/close complex elements
-			this.container.on( 'click', '.dropdown', function( event ) {
+			this.container.on( 'click focus', '.dropdown', function( event ) {
 				event.preventDefault();
-				control.container.toggleClass('open');
+				
+				if (!toggleFreeze)
+					control.container.toggleClass('open');
+				
+				// Don't want to fire focus and click at same time
+				toggleFreeze = true;
+				setTimeout(function () {
+					toggleFreeze = false;
+				}, 400);
 			});
 
 			this.setting.bind( update );
@@ -210,7 +220,11 @@
 			});
 
 			// Bind tab switch events
-			this.library.children('ul').on( 'click', 'li', function( event ) {
+			this.library.children('ul').on( 'click keydown', 'li', function( event ) {
+				
+				if ( event.type === 'keydown' &&  13 !== event.which )
+					return;
+				
 				var id  = $(this).data('customizeTab'),
 					tab = control.tabs[ id ];
 
@@ -225,7 +239,10 @@
 			});
 
 			// Bind events to switch image urls.
-			this.library.on( 'click', 'a', function( event ) {
+			this.library.on( 'click keydown', 'a', function( event ) {
+    			if ( event.type === 'keydown' &&  13 !== event.which ) // enter
+					return;
+
 				var value = $(this).data('customizeImageValue');
 
 				if ( value ) {
@@ -814,11 +831,26 @@
 		}());
 
 		// Temporary accordion code.
-		$('.customize-section-title').click( function( event ) {
+		var accordionFrozen = false;
+		$('.customize-section-title').bind('click keydown', function( event ) {
+			
+			if ( event.type === 'keydown' &&  13 !== event.which ) // enter
+					return;
+			
 			var clicked = $( this ).parents( '.customize-section' );
 
-			if ( clicked.hasClass('cannot-expand') )
+			if ( clicked.hasClass('cannot-expand') || accordionFrozen )
 				return;
+			
+			// Don't want to fire focus and click at same time
+			accordionFrozen = true;
+			setTimeout(function () {
+				accordionFrozen = false;
+			}, 400);
+			
+			// Scroll up if on #customize-section-title_tagline
+			if ('customize-section-title_tagline' === clicked.attr('id'))
+				$('.wp-full-overlay-sidebar-content').scrollTop(0);
 
 			$( '.customize-section' ).not( clicked ).removeClass( 'open' );
 			clicked.toggleClass( 'open' );
@@ -828,6 +860,21 @@
 		// Button bindings.
 		$('#save').click( function( event ) {
 			previewer.save();
+			event.preventDefault();
+		}).keydown( function( event ) {
+			if ( 9 === event.which ) // tab
+				return;
+			if ( 13 === event.which ) // enter
+				previewer.save();
+			event.preventDefault();
+		});
+		
+		$('.back').keydown( function( event ) {
+			if ( 9 === event.which ) // tab
+				return;
+			var thisHref = $(this).attr('href');
+			if ( 13 === event.which ) // enter
+				window.location = thisHref;
 			event.preventDefault();
 		});
 
@@ -948,6 +995,14 @@
 		});
 
 		api.trigger( 'ready' );
+
+		// Make sure left column gets focus
+		var topFocus = $('.back');
+		topFocus.focus();
+		setTimeout(function () {
+			topFocus.focus();
+		}, 200);
+
 	});
 
 })( wp, jQuery );

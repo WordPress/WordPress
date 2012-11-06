@@ -67,7 +67,8 @@ body {
 
 .control-section:hover .customize-section-title,
 .control-section .customize-section-title:hover,
-.control-section.open .customize-section-title {
+.control-section.open .customize-section-title,
+.customize-section-title:focus {
 	color: #fff;
 	text-shadow: 0 -1px 0 #333;
 	background: #808080;
@@ -126,6 +127,11 @@ body {
 	color: #999;
 }
 
+#customize-info .customize-section-title:focus .preview-notice {
+	color: #ccc;
+	text-shadow: 0 -1px 0 #333;
+}
+
 #customize-info .theme-name {
 	font-size: 20px;
 	font-weight: 200;
@@ -133,6 +139,11 @@ body {
 	color: #333;
 	display: block;
 	text-shadow: 0 1px 0 #fff;
+}
+
+#customize-info .customize-section-title:focus .theme-name {
+	color: #fff;
+	text-shadow: 0 -1px 0 #333;
 }
 
 #customize-info .theme-screenshot {
@@ -155,16 +166,19 @@ body {
 	margin: 0;
 }
 
+#customize-footer-actions .button-primary,
 #customize-header-actions .button-primary {
 	float: right;
 	margin-top: 10px;
 }
 
+#customize-footer-actions .spinner,
 #customize-header-actions .spinner {
 	margin-top: 16px;
 	margin-right: 4px;
 }
 
+.saving #customize-footer-actions .spinner,
 .saving #customize-header-actions .spinner {
 	display: block;
 }

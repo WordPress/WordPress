@@ -80,7 +80,7 @@ class WP_Customize_Section {
 	protected function render() {
 		?>
 		<li id="customize-section-<?php echo esc_attr( $this->id ); ?>" class="control-section customize-section">
-			<h3 class="customize-section-title" title="<?php echo esc_attr( $this->description ); ?>"><?php echo esc_html( $this->title ); ?></h3>
+			<h3 class="customize-section-title" tabindex="0" title="<?php echo esc_attr( $this->description ); ?>"><?php echo esc_html( $this->title ); ?></h3>
 			<ul class="customize-section-content">
 				<?php
 				foreach ( $this->controls as $control )

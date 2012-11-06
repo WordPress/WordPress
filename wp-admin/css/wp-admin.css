@@ -5571,8 +5571,7 @@ body.full-overlay-active {
 	height: 100%;
 }
 
-.wp-full-overlay-sidebar .wp-full-overlay-header,
-.wp-full-overlay-sidebar .wp-full-overlay-footer {
+.wp-full-overlay-sidebar .wp-full-overlay-header {
 	position: absolute;
 	left: 0;
 	right: 0;
@@ -5581,13 +5580,6 @@ body.full-overlay-active {
 	line-height: 45px;
 	z-index: 10;
 	margin: 0;
-}
-
-.wp-full-overlay-sidebar .wp-full-overlay-header {
-	top: 0;
-	border-top: 0;
-	border-bottom: 1px solid #fff;
-	box-shadow: inset 0 -1px 0 0px #dfdfdf;
 }
 
 .wp-full-overlay-sidebar .wp-full-overlay-footer {
@@ -5638,11 +5630,11 @@ body.full-overlay-active {
 	display: block;
 	width: 15px;
 	height: 15px;
-	background: transparent url('../images/arrows.png') no-repeat 0 -72px;
+	background: transparent url('../images/arrows.png') no-repeat -1px -73px;
 }
 
 .wp-full-overlay.collapsed .collapse-sidebar-arrow {
-	background-position: 0 -108px;
+	background-position: -1px -109px;
 }
 
 .wp-full-overlay .collapse-sidebar-label {
