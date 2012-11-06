@@ -182,7 +182,7 @@ function get_shortcode_regex() {
 		  '\\['                              // Opening bracket
 		. '(\\[?)'                           // 1: Optional second opening bracket for escaping shortcodes: [[tag]]
 		. "($tagregexp)"                     // 2: Shortcode name
-		. '(?![\\w-])'                       // Word boundary
+		. '(?![\\w-])'                       // Not followed by word character or hyphen
 		. '('                                // 3: Unroll the loop: Inside the opening shortcode tag
 		.     '[^\\]\\/]*'                   // Not a closing bracket or forward slash
 		.     '(?:'
