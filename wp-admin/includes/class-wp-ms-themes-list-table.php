@@ -242,15 +242,6 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		return $actions;
 	}
 
-	function bulk_actions( $which ) {
-		global $status;
-		parent::bulk_actions( $which );
-	}
-
-	function current_action() {
-		return parent::current_action();
-	}
-
 	function display_rows() {
 		foreach ( $this->items as $key => $theme )
 			$this->single_row( $key, $theme );
