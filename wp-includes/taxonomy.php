@@ -1188,11 +1188,9 @@ function get_terms($taxonomies, $args = '') {
 	global $wpdb;
 	$empty_array = array();
 
-	$single_taxonomy = false;
-	if ( !is_array($taxonomies) ) {
-		$single_taxonomy = true;
-		$taxonomies = array($taxonomies);
-	}
+	$single_taxonomy = ! is_array( $taxonomies ) || 1 === count( $taxonomies );
+	if ( ! is_array( $taxonomies ) )
+		$taxonomies = array( $taxonomies );
 
 	foreach ( $taxonomies as $taxonomy ) {
 		if ( ! taxonomy_exists($taxonomy) ) {
