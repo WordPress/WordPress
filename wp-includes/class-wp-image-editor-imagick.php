@@ -150,7 +150,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 		$imagick_extension = strtoupper( self::get_extension( $mime_type ) );
 
 		try {
-			return ( (bool) Imagick::queryFormats( $imagick_extension ) );
+			return ( (bool) $this->image->queryFormats( $imagick_extension ) );
 		}
 		catch ( Exception $e ) {
 			return false;
