@@ -1892,10 +1892,16 @@ function _wp_iso_convert( $match ) {
  */
 function get_gmt_from_date($string, $format = 'Y-m-d H:i:s') {
 	preg_match('#([0-9]{1,4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})#', $string, $matches);
+	if ( ! $matches )
+		return date( $format, 0 );
+
 	$tz = get_option('timezone_string');
 	if ( $tz ) {
 		date_default_timezone_set( $tz );
-		$datetime = new DateTime( $string );
+		$datetime = date_create( $string );
+		if ( ! $datetime )
+			return date( $format, 0 );
+
 		$datetime->setTimezone( new DateTimeZone('UTC') );
 		$offset = $datetime->getOffset();
 		$datetime->modify( '+' . $offset / HOUR_IN_SECONDS . ' hours');
