@@ -350,6 +350,12 @@ form#template div {
 	width: 250px;
 }
 
+#submitdiv input,
+#submitdiv select,
+#submitdiv a.button {
+	position: relative;
+}
+
 #bh {
 	margin: 7px 10px 0 0;
 	float: right;
