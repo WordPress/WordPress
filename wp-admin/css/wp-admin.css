@@ -7624,6 +7624,10 @@ img {
 	padding: 0;
 }
 
+.press-this #photo-add-url-div input[type="text"] {
+	width: 220px;
+}
+
 #poststuff #editor-toolbar {
 	height: 30px;
 }
@@ -7820,7 +7824,7 @@ h3.tb {
 
 /* Tags */
 .press-this .tagsdiv .newtag {
-	width: 130px;
+	width: 120px;
 }
 
 .press-this #content {
