@@ -63,6 +63,23 @@ abbr {
 	border-bottom: none;
 	text-align:center
 }
+#logo a {
+	background-image: url('../images/wordpress-logo.png?ver=20120216');
+	background-size: 274px 63px;
+	background-position: top center;
+	background-repeat: no-repeat;
+	height: 67px;
+	text-indent: -9999px;
+	outline: none;
+	overflow: hidden;
+	display: block;
+}
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
+	#logo a {
+		background-image: url('../images/wordpress-logo-2x.png?ver=20120412');
+		background-size: 274px 63px;
+	}
+}
 .step {
 	margin: 20px 0 15px;
 }

@@ -21,7 +21,7 @@ header( 'Content-Type: text/html; charset=utf-8' );
 	?>
 </head>
 <body>
-<h1 id="logo"><img alt="WordPress" src="../images/wordpress-logo.png?ver=20120216" /></h1>
+<h1 id="logo"><a href="<?php esc_attr_e( 'http://wordpress.org/' ); ?>"><?php _e( 'WordPress' ); ?></a></h1>
 
 <?php
 
