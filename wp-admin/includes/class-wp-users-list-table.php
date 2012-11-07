@@ -136,18 +136,20 @@ class WP_Users_List_Table extends WP_List_Table {
 	function extra_tablenav( $which ) {
 		if ( 'top' != $which )
 			return;
-		if ( ! current_user_can( 'promote_users' ) )
-			return;
-?>
+	?>
 	<div class="alignleft actions">
+		<?php if ( current_user_can( 'promote_users' ) ) : ?>
 		<label class="screen-reader-text" for="new_role"><?php _e( 'Change role to&hellip;' ) ?></label>
 		<select name="new_role" id="new_role">
 			<option value=''><?php _e( 'Change role to&hellip;' ) ?></option>
 			<?php wp_dropdown_roles(); ?>
 		</select>
-		<?php submit_button( __( 'Change' ), 'small', 'changeit', false ); ?>
-	</div>
-<?php
+	<?php
+			submit_button( __( 'Change' ), 'small', 'changeit', false );
+		endif;
+
+		do_action( 'restrict_manage_users' );
+		echo '</div>';
 	}
 
 	function current_action() {
