@@ -2995,10 +2995,10 @@ class WP_Query {
 
 			if ( 'term_id' == $query['field'] )
 				$term = get_term( reset( $query['terms'] ), $query['taxonomy'] );
-			else
+			elseif ( $query['terms'] )
 				$term = get_term_by( $query['field'], reset( $query['terms'] ), $query['taxonomy'] );
 
-			if ( $term && ! is_wp_error($term) )  {
+			if ( ! empty( $term ) && ! is_wp_error( $term ) )  {
 				$this->queried_object = $term;
 				$this->queried_object_id = (int) $term->term_id;
 
