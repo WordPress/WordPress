@@ -41,6 +41,10 @@ body {
 	user-select: none;
 }
 
+.customize-section-title:focus {
+	outline: none;
+}
+
 .cannot-expand .customize-section-title {
 	cursor: auto;
 }
@@ -158,19 +162,16 @@ body {
 	margin: 0;
 }
 
-#customize-footer-actions .button-primary,
 #customize-header-actions .button-primary {
 	float: right;
 	margin-top: 10px;
 }
 
-#customize-footer-actions .spinner,
 #customize-header-actions .spinner {
 	margin-top: 16px;
 	margin-right: 4px;
 }
 
-.saving #customize-footer-actions .spinner,
 .saving #customize-header-actions .spinner {
 	display: block;
 }
