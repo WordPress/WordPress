@@ -90,7 +90,7 @@ if ( isset($_GET['action']) ) {
 	} elseif ( 'install-plugin' == $action ) {
 
 		if ( ! current_user_can('install_plugins') )
-			wp_die(__('You do not have sufficient permissions to install plugins for this site.'));
+			wp_die( __( 'You do not have sufficient permissions to install plugins on this site.' ) );
 
 		include_once ABSPATH . 'wp-admin/includes/plugin-install.php'; //for plugins_api..
 
@@ -121,7 +121,7 @@ if ( isset($_GET['action']) ) {
 	} elseif ( 'upload-plugin' == $action ) {
 
 		if ( ! current_user_can('install_plugins') )
-			wp_die(__('You do not have sufficient permissions to install plugins for this site.'));
+			wp_die( __( 'You do not have sufficient permissions to install plugins on this site.' ) );
 
 		check_admin_referer('plugin-upload');
 
@@ -194,7 +194,7 @@ if ( isset($_GET['action']) ) {
 	} elseif ( 'install-theme' == $action ) {
 
 		if ( ! current_user_can('install_themes') )
-			wp_die(__('You do not have sufficient permissions to install themes for this site.'));
+			wp_die( __( 'You do not have sufficient permissions to install themes on this site.' ) );
 
 		include_once ABSPATH . 'wp-admin/includes/theme-install.php'; //for themes_api..
 
@@ -224,7 +224,7 @@ if ( isset($_GET['action']) ) {
 	} elseif ( 'upload-theme' == $action ) {
 
 		if ( ! current_user_can('install_themes') )
-			wp_die(__('You do not have sufficient permissions to install themes for this site.'));
+			wp_die( __( 'You do not have sufficient permissions to install themes on this site.' ) );
 
 		check_admin_referer('theme-upload');
 

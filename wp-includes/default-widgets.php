@@ -844,7 +844,7 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 	$show_date     = (int) $show_date;
 
 	if ( !$rss->get_item_quantity() ) {
-		echo '<ul><li>' . __( 'An error has occurred; the feed is probably down. Try again later.' ) . '</li></ul>';
+		echo '<ul><li>' . __( 'An error has occurred, which probably means the feed is down. Try again later.' ) . '</li></ul>';
 		$rss->__destruct();
 		unset($rss);
 		return;
