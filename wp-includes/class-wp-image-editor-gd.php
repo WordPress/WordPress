@@ -146,7 +146,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 			return $resized;
 		}
 
-		return WP_Error( 'image_resize_error', __('Image resize failed.'), $this->file );
+		return new WP_Error( 'image_resize_error', __('Image resize failed.'), $this->file );
 	}
 
 	/**
@@ -222,7 +222,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 			return true;
 		}
 
-		return WP_Error( 'image_crop_error', __('Image crop failed.'), $this->file );
+		return new WP_Error( 'image_crop_error', __('Image crop failed.'), $this->file );
 	}
 
 	/**
@@ -246,7 +246,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 				return true;
 			}
 		}
-		return WP_Error( 'image_rotate_error', __('Image rotate failed.'), $this->file );
+		return new WP_Error( 'image_rotate_error', __('Image rotate failed.'), $this->file );
 	}
 
 	/**
@@ -273,7 +273,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 				return true;
 			}
 		}
-		return WP_Error( 'image_flip_error', __('Image flip failed.'), $this->file );
+		return new WP_Error( 'image_flip_error', __('Image flip failed.'), $this->file );
 	}
 
 	/**
