@@ -3111,7 +3111,7 @@ function get_the_taxonomies($post = 0, $args = array() ) {
 			$t['template'] = $template;
 
 		$terms = get_object_term_cache($post->ID, $taxonomy);
-		if ( empty($terms) )
+		if ( false === $terms )
 			$terms = wp_get_object_terms($post->ID, $taxonomy, $t['args']);
 
 		$links = array();
@@ -3161,7 +3161,7 @@ function is_object_in_term( $object_id, $taxonomy, $terms = null ) {
 		return new WP_Error( 'invalid_object', __( 'Invalid object ID' ) );
 
 	$object_terms = get_object_term_cache( $object_id, $taxonomy );
-	if ( empty( $object_terms ) )
+	if ( false === $terms )
 		 $object_terms = wp_get_object_terms( $object_id, $taxonomy );
 
 	if ( is_wp_error( $object_terms ) )

@@ -985,7 +985,7 @@ function get_attachment_fields_to_edit($post, $errors = null) {
 			$t['args'] = array();
 
 		$terms = get_object_term_cache($post->ID, $taxonomy);
-		if ( empty($terms) )
+		if ( false === $terms )
 			$terms = wp_get_object_terms($post->ID, $taxonomy, $t['args']);
 
 		$values = array();
