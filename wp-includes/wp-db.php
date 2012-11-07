@@ -987,7 +987,7 @@ class wpdb {
 	 * @return null|false|string Sanitized query string, null if there is no query, false if there is an error and string
 	 * 	if there was something to prepare
 	 */
-	function prepare( $query = null ) { // ( $query, *$args )
+	function prepare( $query, $args ) {
 		if ( is_null( $query ) )
 			return;
 
