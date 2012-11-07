@@ -134,10 +134,10 @@ add_action('install_themes_dashboard', 'install_themes_dashboard');
 
 function install_themes_upload($page = 1) {
 ?>
-<h4><?php _e('Install a theme in .zip format') ?></h4>
-<p class="install-help"><?php _e('If you have a theme in a .zip format, you may install it by uploading it here.') ?></p>
-<form method="post" enctype="multipart/form-data" action="<?php echo self_admin_url('update.php?action=upload-theme') ?>">
-	<?php wp_nonce_field( 'theme-upload') ?>
+<h4><?php _e('Install a theme in .zip format'); ?></h4>
+<p class="install-help"><?php _e('If you have a theme in a .zip format, you may install it by uploading it here.'); ?></p>
+<form method="post" enctype="multipart/form-data" class="wp-upload-form" action="<?php echo self_admin_url('update.php?action=upload-theme'); ?>">
+	<?php wp_nonce_field( 'theme-upload'); ?>
 	<input type="file" name="themezip" />
 	<?php submit_button( __( 'Install Now' ), 'button', 'install-theme-submit', false ); ?>
 </form>

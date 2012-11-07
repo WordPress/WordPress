@@ -249,7 +249,7 @@ $(document).ready( function() {
 			sensitivity: 7,
 			interval: 90
 		});
-		
+
 		menu.on('focus.adminmenu', '.wp-submenu a', function(e){
 			$(e.target).closest('li.menu-top').addClass('opensub');
 		}).on('blur.adminmenu', '.wp-submenu a', function(e){
@@ -388,6 +388,20 @@ $(document).ready( function() {
 		if ( e.target.scrollIntoView )
 			e.target.scrollIntoView(false);
 	});
+
+	// Disable upload buttons until files are selected
+	(function(){
+		var button, input, form = $('form.wp-upload-form');
+		if ( ! form.length )
+			return;
+		button = form.find('input[type="submit"]');
+		input = form.find('input[type="file"]');
+		function toggleUploadButton() {
+			button.prop('disabled', '' === input.val());
+		}
+		toggleUploadButton();
+		input.on('change', toggleUploadButton);
+	})();
 });
 
 // internal use

@@ -525,7 +525,7 @@ class Custom_Image_Header {
 			printf( __( 'Suggested height is <strong>%1$d pixels</strong>.' ) . ' ', get_theme_support( 'custom-header', 'height' ) );
 	}
 	?></p>
-	<form enctype="multipart/form-data" id="upload-form" method="post" action="<?php echo esc_attr( add_query_arg( 'step', 2 ) ) ?>">
+	<form enctype="multipart/form-data" id="upload-form" class="wp-upload-form" method="post" action="<?php echo esc_attr( add_query_arg( 'step', 2 ) ) ?>">
 	<p>
 		<label for="upload"><?php _e( 'Choose an image from your computer:' ); ?></label><br />
 		<input type="file" id="upload" name="import" />

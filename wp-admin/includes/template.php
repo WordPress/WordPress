@@ -787,7 +787,7 @@ function wp_import_upload_form( $action ) {
 		<p><strong><?php echo $upload_dir['error']; ?></strong></p></div><?php
 	else :
 ?>
-<form enctype="multipart/form-data" id="import-upload-form" method="post" action="<?php echo esc_attr(wp_nonce_url($action, 'import-upload')); ?>">
+<form enctype="multipart/form-data" id="import-upload-form" method="post" class="wp-upload-form" action="<?php echo esc_attr(wp_nonce_url($action, 'import-upload')); ?>">
 <p>
 <label for="upload"><?php _e( 'Choose a file from your computer:' ); ?></label> (<?php printf( __('Maximum size: %s' ), $size ); ?>)
 <input type="file" id="upload" name="import" size="25" />
