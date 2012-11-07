@@ -614,6 +614,10 @@ select,
 	vertical-align: top;
 }
 
+.widefat tbody th.check-column {
+	padding: 9px 0 22px;
+}
+
 .widefat.media .check-column {
 	padding-top: 8px;
 }
