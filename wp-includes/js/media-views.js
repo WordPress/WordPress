@@ -101,14 +101,14 @@
 			// this.$el.removeClass( 'hide-' + subview );
 
 			if ( previous ) {
+				// Replace the view in place.
+				previous.$el.replaceWith( view.$el );
+
 				// Fire the view's `destroy` event if it exists.
 				if ( previous.destroy )
 					previous.destroy();
 				// Undelegate events.
 				previous.undelegateEvents();
-
-				// Replace the view in place.
-				previous.$el.replaceWith( view.$el );
 			}
 
 			this._view = view;
@@ -1067,6 +1067,7 @@
 
 		destroy: function() {
 			wp.Uploader.queue.off( 'add remove reset change:percent', this.renderUploadProgress, this );
+			this.remove();
 		},
 
 		render: function() {
@@ -1124,6 +1125,7 @@
 		},
 
 		destroy: function() {
+			this.remove();
 			_.each( this._views, function( view ) {
 				if ( view.destroy )
 					view.destroy();
@@ -1404,6 +1406,7 @@
 		},
 
 		destroy: function() {
+			this.remove();
 			_.each( this._views, function( view ) {
 				if ( view.destroy )
 					view.destroy();
@@ -1562,6 +1565,7 @@
 		destroy: function() {
 			this.model.off( null, null, this );
 			this.$el.off( 'click', 'a', this.preventDefault );
+			this.remove();
 		},
 
 		render: function() {
@@ -1753,6 +1757,7 @@
 			this.collection.off( 'add remove reset', null, this );
 			this.model.off( 'change:edge change:gutter', this.css, this );
 			$(window).off( 'resize.attachments', this._resizeCss );
+			this.remove();
 		},
 
 		css: function() {
@@ -1964,6 +1969,12 @@
 			});
 		},
 
+		destroy: function() {
+			this.remove();
+			this.toolbar.destroy();
+			this.attachments.destroy();
+		},
+
 		render: function() {
 			this.toolbar.$el.detach();
 			this.attachments.$el.detach();
@@ -2058,7 +2069,9 @@
 		},
 
 		destroy: function() {
+			this.remove();
 			this.collection.off( 'add remove reset', this.refresh, this );
+			this.attachments.destroy();
 		},
 
 		render: function() {
