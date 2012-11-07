@@ -1919,6 +1919,6 @@ function wp_update_network_counts() {
 	$count = $wpdb->get_var( $wpdb->prepare("SELECT COUNT(blog_id) as c FROM $wpdb->blogs WHERE site_id = %d AND spam = '0' AND deleted = '0' and archived = '0'", $wpdb->siteid) );
 	update_site_option( 'blog_count', $count );
 
-	$count = $wpdb->get_var( $wpdb->prepare("SELECT COUNT(ID) as c FROM $wpdb->users WHERE spam = '0' AND deleted = '0'") );
+	$count = $wpdb->get_var( "SELECT COUNT(ID) as c FROM $wpdb->users WHERE spam = '0' AND deleted = '0'" );
 	update_site_option( 'user_count', $count );
 }
