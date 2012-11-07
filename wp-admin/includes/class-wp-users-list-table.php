@@ -145,7 +145,7 @@ class WP_Users_List_Table extends WP_List_Table {
 			<?php wp_dropdown_roles(); ?>
 		</select>
 	<?php
-			submit_button( __( 'Change' ), 'small', 'changeit', false );
+			submit_button( __( 'Change' ), 'button', 'changeit', false );
 		endif;
 
 		do_action( 'restrict_manage_users' );
