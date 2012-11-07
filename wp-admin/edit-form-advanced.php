@@ -371,6 +371,8 @@ if ( post_type_supports($post_type, 'editor') ) {
 
 </div>
 <?php } ?>
+
+<?php do_action( 'edit_form_after_editor' ); ?>
 </div><!-- /post-body-content -->
 
 <div id="postbox-container-1" class="postbox-container">
