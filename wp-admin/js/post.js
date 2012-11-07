@@ -387,6 +387,10 @@ jQuery(document).ready( function($) {
 		}
 
 		function updateText() {
+
+			if ( ! $('#timestampdiv').length )
+				return true;
+
 			var attemptedDate, originalDate, currentDate, publishOn, postStatus = $('#post_status'),
 				optPublish = $('option[value="publish"]', postStatus), aa = $('#aa').val(),
 				mm = $('#mm').val(), jj = $('#jj').val(), hh = $('#hh').val(), mn = $('#mn').val();
@@ -532,6 +536,16 @@ jQuery(document).ready( function($) {
 				$('#timestampdiv').siblings('a.edit-timestamp').show();
 			}
 			return false;
+		});
+
+		$('#post').on( 'submit', function(e){
+			if ( ! updateText() ) {
+				e.preventDefault();
+				$('#timestampdiv').show();
+				$('#publishing-action .spinner').hide();
+				$('#publish').prop('disabled', false).removeClass('button-primary-disabled');
+				return false;
+			}
 		});
 
 		$('#post-status-select').siblings('a.edit-post-status').click(function() {
