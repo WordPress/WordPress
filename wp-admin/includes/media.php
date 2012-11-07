@@ -1940,7 +1940,7 @@ function wp_media_insert_url_form( $default_view = 'image' ) {
 		$caption = '
 		<tr class="image-only">
 			<th valign="top" scope="row" class="label">
-				<span class="alignleft"><label for="caption">' . __('Image Caption') . '</label></span>
+				<label for="caption"><span class="alignleft">' . __('Image Caption') . '</span></label>
 			</th>
 			<td class="field"><textarea id="caption" name="caption"></textarea></td>
 		</tr>
@@ -1965,7 +1965,7 @@ function wp_media_insert_url_form( $default_view = 'image' ) {
 	<table class="describe ' . $table_class . '"><tbody>
 		<tr>
 			<th valign="top" scope="row" class="label" style="width:130px;">
-				<span class="alignleft"><label for="src">' . __('URL') . '</label></span>
+				<label for="src"><span class="alignleft">' . __('URL') . '</span></label>
 				<span class="alignright"><abbr id="status_img" title="required" class="required">*</abbr></span>
 			</th>
 			<td class="field"><input id="src" name="src" value="" type="text" aria-required="true" onblur="addExtImage.getImageData()" /></td>
@@ -1973,7 +1973,7 @@ function wp_media_insert_url_form( $default_view = 'image' ) {
 
 		<tr>
 			<th valign="top" scope="row" class="label">
-				<span class="alignleft"><label for="title">' . __('Title') . '</label></span>
+				<label for="title"><span class="alignleft">' . __('Title') . '</span></label>
 				<span class="alignright"><abbr title="required" class="required">*</abbr></span>
 			</th>
 			<td class="field"><input id="title" name="title" value="" type="text" aria-required="true" /></td>
@@ -1983,7 +1983,7 @@ function wp_media_insert_url_form( $default_view = 'image' ) {
 
 		<tr class="image-only">
 			<th valign="top" scope="row" class="label">
-				<span class="alignleft"><label for="alt">' . __('Alternative Text') . '</label></span>
+				<label for="alt"><span class="alignleft">' . __('Alternative Text') . '</span></label>
 			</th>
 			<td class="field"><input id="alt" name="alt" value="" type="text" aria-required="true" />
 			<p class="help">' . __('Alt text for the image, e.g. &#8220;The Mona Lisa&#8221;') . '</p></td>
@@ -2005,7 +2005,7 @@ function wp_media_insert_url_form( $default_view = 'image' ) {
 
 		<tr class="image-only">
 			<th valign="top" scope="row" class="label">
-				<span class="alignleft"><label for="url">' . __('Link Image To:') . '</label></span>
+				<label for="url"><span class="alignleft">' . __('Link Image To:') . '</span></label>
 			</th>
 			<td class="field"><input id="url" name="url" value="" type="text" /><br />
 
