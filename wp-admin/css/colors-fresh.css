@@ -2004,12 +2004,12 @@ div.widgets-sortables,
 	.menu-icon-site div.wp-menu-image,
 	.icon16.icon-generic,
 	.menu-icon-generic div.wp-menu-image {
-		background-image: url(../images/menu-2x.png?ver=20121105);
+		background-image: url('../images/menu-2x.png?ver=20121105');
 		background-size: 390px 64px;
 	}
 
 	#header-logo {
-		background-image: url("../images/wp-logo-2x.png?ver=20120916");
+		background-image: url('../images/wp-logo-2x.png?ver=20120916');
 		background-size: 16px auto;
 	}
 

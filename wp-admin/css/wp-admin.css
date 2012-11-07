@@ -2563,7 +2563,7 @@ table.fixed {
 	height: 4px;
 	margin-top: 8px;
 	margin-left: 7px;
-	background-image: url(../images/sort.gif);
+	background-image: url('../images/sort.gif');
 	background-repeat: no-repeat;
 }
 
@@ -3301,7 +3301,7 @@ td.plugin-title p {
 
 #post-body .wp_themeSkin .mceStatusbar a.mceResize {
 	display: block;
-	background: transparent url(../images/resize.gif) no-repeat scroll right bottom;
+	background: transparent url('../images/resize.gif') no-repeat scroll right bottom;
 	width: 12px;
 	cursor: se-resize;
 	margin: 0 1px;
@@ -3314,7 +3314,7 @@ td.plugin-title p {
 }
 
 #content-resize-handle {
-	background: transparent url(../images/resize.gif) no-repeat scroll right bottom;
+	background: transparent url('../images/resize.gif') no-repeat scroll right bottom;
 	width: 12px;
 	cursor: se-resize;
 	position: absolute;
@@ -8439,7 +8439,7 @@ a.widget-control-edit {
 	.widget-top a.widget-action:hover {
 	 	background-image: url('../images/arrows-dark-2x.png');
 	 	background-size: 15px 123px;
-	 }
+	}
 
 	.post-com-count {
 		background-image: url('../images/bubble_bg-2x.gif');

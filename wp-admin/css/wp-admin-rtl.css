@@ -859,7 +859,7 @@ th.sorted a span {
 }
 
 #post-body .wp_themeSkin .mceStatusbar a.mceResize {
-	background: transparent url(../images/resize-rtl.gif) no-repeat scroll left bottom;
+	background: transparent url('../images/resize-rtl.gif') no-repeat scroll left bottom;
 	cursor: sw-resize;
 }
 
@@ -1510,12 +1510,20 @@ table .column-rating {
 	padding-left: 0;
 	padding-right: 5px;
 }
+
 #editorcontainer .wp_themeSkin .mceStatusbar div {
 	float: right;
 }
 
 #editorcontainer .wp_themeSkin .mceStatusbar a.mceResize {
 	float: left;
+}
+
+#content-resize-handle {
+	background: transparent url('../images/resize-rtl.gif') no-repeat scroll left bottom;
+	right: auto;
+	left: 2px;
+	cursor: sw-resize;
 }
 
 /*------------------------------------------------------------------------------
@@ -2394,6 +2402,11 @@ div.sidebar-name h3 {
 	div.star-holder .star-rating {
 		background: url('../images/stars-rtl-2x.png') repeat-x top right;
 		background-size: 21px 37px;
+	}
+
+	#post-body .wp_themeSkin .mceStatusbar a.mceResize,
+	#content-resize-handle {
+		background: transparent url('../images/resize-rtl-2x.gif') no-repeat scroll left bottom;
 	}
 }
 
