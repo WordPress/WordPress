@@ -330,8 +330,9 @@ function wp_default_scripts( &$scripts ) {
 		'selected'    => __( 'selected' ),
 
 		// Upload
-		'uploadFilesTitle' => __( 'Upload Files' ),
-		'selectFiles'      => __( 'Select files' ),
+		'uploadFilesTitle'  => __( 'Upload Files' ),
+		'selectFiles'       => __( 'Select files' ),
+		'uploadImagesTitle' => __( 'Upload Images' ),
 
 		// Library
 		'mediaLibraryTitle' => __( 'Media Library' ),
@@ -342,8 +343,14 @@ function wp_default_scripts( &$scripts ) {
 		// Embed
 		'embedFromUrlTitle' => __( 'Embed From URL' ),
 
+		// Batch
+		'batchInsert'      => __( 'Batch insert' ),
+		'cancelBatchTitle' => __( '&#8592; Cancel Batch' ),
+
 		// Gallery
 		'createGalleryTitle' => __( 'Create Gallery' ),
+		'editGalleryTitle'   => __( 'Edit Gallery' ),
+		'cancelGalleryTitle' => __( '&#8592; Cancel Gallery' ),
 		'insertGallery'      => __( 'Insert gallery' ),
 		'updateGallery'      => __( 'Update gallery' ),
 		'continueEditing'    => __( 'Continue editing' ),

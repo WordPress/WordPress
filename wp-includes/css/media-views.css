@@ -132,7 +132,7 @@
 	top: 0;
 	right: 0;
 	bottom: 61px;
-	width: 247px;
+	width: 267px;
 	padding: 0 16px;
 	z-index: 75;
 	background: #f5f5f5;
@@ -140,7 +140,7 @@
 }
 
 .hide-sidebar .media-sidebar {
-	right: -280px;
+	right: -300px;
 }
 
 .hide-toolbar .media-sidebar {
@@ -218,6 +218,10 @@
 	border-bottom: 1px solid #fff;
 }
 
+.media-menu > a.button {
+	margin: 0 20px;
+}
+
 /**
  * Frame
  */
@@ -225,11 +229,11 @@
 	overflow: hidden;
 }
 
-.media-frame .media-content {
+.media-frame .region-content {
 	position: absolute;
 	top: 0;
 	left: 200px;
-	right: 280px;
+	right: 300px;
 	bottom: 61px;
 	height: auto;
 	width: auto;
@@ -237,11 +241,11 @@
 	overflow: auto;
 }
 
-.media-frame.hide-sidebar .media-content {
+.media-frame.hide-sidebar .region-content {
 	right: 0;
 }
 
-.media-frame.hide-toolbar .media-content {
+.media-frame.hide-toolbar .region-content {
 	bottom: 0;
 }
 
@@ -578,7 +582,7 @@
 	display: block;
 }
 
-.media-content.uploader-inline {
+.region-content.uploader-inline {
 	margin: 20px;
 	padding: 20px;
 	border: 1px dashed #aaa;
@@ -798,16 +802,6 @@
 /**
  * Attachment Display Settings
  */
-
-.attachment-display-settings,
-.button div.attachment-display-settings {
-	padding: 0 1em 1em;
-}
-
-.attachment-display-settings h3 {
-	font-weight: 200;
-	margin: 1.4em 0 0.4em;
-}
 
 .attachment-display-settings h4 {
 	margin: 1.4em 0 0.4em;

@@ -116,7 +116,7 @@ var tb_position;
 				}).join('') );
 			}, this );
 
-			workflow.get('gallery').on( 'update', function( selection ) {
+			workflow.get('gallery-edit').on( 'update', function( selection ) {
 				var view = wp.mce.view.get('gallery'),
 					shortcode;
 
@@ -125,9 +125,6 @@ var tb_position;
 
 				shortcode = view.gallery.shortcode( selection );
 				this.insert( shortcode.string() );
-
-				// Reset the workflow view to the library.
-				workflow.render('library');
 			}, this );
 
 			return workflow;

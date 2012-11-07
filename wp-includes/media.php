@@ -1414,6 +1414,8 @@ function wp_print_media_templates( $attachment ) {
 	</script>
 
 	<script type="text/html" id="tmpl-attachment-display-settings">
+		<h3><?php _e('Attachment Display Settings'); ?></h3>
+
 		<h4><?php _e('Alignment'); ?></h4>
 		<div class="alignment button-group button-large" data-setting="align">
 			<button class="button" value="left">
@@ -1445,6 +1447,8 @@ function wp_print_media_templates( $attachment ) {
 	</script>
 
 	<script type="text/html" id="tmpl-gallery-settings">
+		<h3><?php _e('Gallery Settings'); ?></h3>
+
 		<h4><?php _e('Link To'); ?></h4>
 		<div class="link-to button-group" data-setting="link">
 			<button class="button" value="post">
@@ -1458,7 +1462,7 @@ function wp_print_media_templates( $attachment ) {
 		<h4><?php _e('Gallery Columns'); ?></h4>
 
 		<select class="columns" name="columns" data-setting="columns">
-			<?php for( $i = 1; $i <= 9; $i++ ) : ?>
+			<?php for ( $i = 1; $i <= 9; $i++ ) : ?>
 				<option value="<?php echo esc_attr( $i ); ?>">
 					<?php echo esc_html( $i ); ?>
 				</option>

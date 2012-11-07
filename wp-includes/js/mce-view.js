@@ -694,7 +694,7 @@ window.wp = window.wp || {};
 					return;
 
 				this.frame = wp.media({
-					state:     'gallery',
+					state:     'gallery-edit',
 					title:     mceview.l10n.editGallery,
 					editing:   true,
 					multiple:  true,
@@ -712,7 +712,7 @@ window.wp = window.wp || {};
 				}, this );
 
 				// Update the `shortcode` and `attachments`.
-				this.frame.get('gallery').on( 'update', function( selection ) {
+				this.frame.get('gallery-edit').on( 'update', function( selection ) {
 					var	view = mceview.get('gallery');
 
 					this.options.shortcode = view.gallery.shortcode( selection );

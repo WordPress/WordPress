@@ -14,8 +14,8 @@ window.wp = window.wp || {};
 	 * @return {object}            A media workflow.
 	 */
 	media = wp.media = function( attributes ) {
-		if ( media.view.Frame )
-			return new media.view.Frame( attributes ).render().attach().open();
+		if ( media.view.MediaFrame.Post )
+			return new media.view.MediaFrame.Post( attributes ).render().attach().open();
 	};
 
 	_.extend( media, { model: {}, view: {}, controller: {} });
@@ -497,13 +497,16 @@ window.wp = window.wp || {};
 		more: function( options ) {
 			var query = this;
 
+			if ( this._more && 'pending' === this._more.state() )
+				return this._more;
+
 			if ( ! this.hasMore )
 				return $.Deferred().resolve().promise();
 
 			options = options || {};
 			options.add = true;
 
-			return this.fetch( options ).done( function( resp ) {
+			return this._more = this.fetch( options ).done( function( resp ) {
 				if ( _.isEmpty( resp ) || -1 === this.args.posts_per_page || resp.length < this.args.posts_per_page )
 					query.hasMore = false;
 			});

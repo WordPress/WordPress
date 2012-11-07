@@ -53,6 +53,73 @@
 	 */
 
 	/**
+	 * wp.media.controller.Region
+	 */
+	media.controller.Region = function( options ) {
+		_.extend( this, _.pick( options || {}, 'id', 'controller' ) );
+
+		this.on( 'empty', this.empty, this );
+		this.mode('empty');
+	};
+
+	// Use Backbone's self-propagating `extend` inheritance method.
+	media.controller.Region.extend = Backbone.Model.extend;
+
+	_.extend( media.controller.Region.prototype, Backbone.Events, {
+		trigger: function( id ) {
+			this._mode = id;
+			return Backbone.Events.trigger.apply( this, arguments );
+		},
+
+		mode: function( mode ) {
+			if ( mode )
+				return this.trigger( mode );
+			return this._mode;
+		},
+
+		view: function( view ) {
+			var previous = this._view,
+				mode = this._mode,
+				id = this.id;
+
+			// If no argument is provided, return the current view.
+			if ( ! view )
+				return previous;
+
+			// If we're attempting to switch to the current view, bail.
+			if ( view === previous )
+				return;
+
+			// Add classes to the new view.
+			if ( id )
+				view.$el.addClass( 'region-' + id );
+
+			if ( mode )
+				view.$el.addClass( 'mode-' + mode );
+
+			// Remove the hide class.
+			// this.$el.removeClass( 'hide-' + subview );
+
+			if ( previous ) {
+				// Fire the view's `destroy` event if it exists.
+				if ( previous.destroy )
+					previous.destroy();
+				// Undelegate events.
+				previous.undelegateEvents();
+
+				// Replace the view in place.
+				previous.$el.replaceWith( view.$el );
+			}
+
+			this._view = view;
+		},
+
+		empty: function() {
+			this.view( new Backbone.View() );
+		}
+	});
+
+	/**
 	 * wp.media.controller.StateMachine
 	 */
 	media.controller.StateMachine = function( states ) {
@@ -62,7 +129,9 @@
 	// Use Backbone's self-propagating `extend` inheritance method.
 	media.controller.StateMachine.extend = Backbone.Model.extend;
 
-	_.extend( media.controller.StateMachine.prototype, {
+	// Add events to the `StateMachine`.
+	_.extend( media.controller.StateMachine.prototype, Backbone.Events, {
+
 		// Fetch a state model.
 		//
 		// Implicitly creates states.
@@ -88,16 +157,23 @@
 
 			previous = this.state();
 
-			// Bail if we're trying to select the current state, or a state
+			// Bail if we're trying to select the current state, if we haven't
+			// created the `states` collection, or are trying to select a state
 			// that does not exist.
-			if ( previous && id === previous.id || ! this.states.get( id ) )
+			if ( ( previous && id === previous.id ) || ! this.states || ! this.states.get( id ) )
 				return;
 
-			if ( previous )
+			if ( previous ) {
 				previous.trigger('deactivate');
+				this._previous = previous.id;
+			}
 
 			this._state = id;
 			this.state().trigger('activate');
+		},
+
+		previous: function() {
+			return this._previous;
 		}
 	});
 
@@ -122,6 +198,7 @@
 			this.on( 'activate', this.activate, this );
 			this.on( 'deactivate', this._deactivate, this );
 			this.on( 'deactivate', this.deactivate, this );
+			this.on( 'reset', this.reset, this );
 		},
 
 		activate: function() {},
@@ -139,19 +216,31 @@
 			this.active = false;
 		},
 
-		menu: function() {
-			var menu = this.get('menu');
+		reset: function() {},
 
-			if ( ! menu )
+		menu: function() {
+			var menu = this.frame.menu,
+				mode = this.get('menu'),
+				view;
+
+			if ( ! mode )
 				return;
 
-			this.frame.menu( menu );
-			menu.select( this.id );
-		},
+			if ( menu.mode() !== mode )
+				menu.mode( mode );
 
-		toolbar: function() {},
-		sidebar: function() {},
-		content: function() {}
+			view = menu.view();
+			if ( view.select )
+				view.select( this.id );
+		}
+	});
+
+	_.each(['toolbar','sidebar','content'], function( region ) {
+		media.controller.State.prototype[ region ] = function() {
+			var mode = this.get( region );
+			if ( mode )
+				this.frame[ region ].mode( mode );
+		};
 	});
 
 	// wp.media.controller.Library
@@ -161,7 +250,8 @@
 			id:       'library',
 			multiple: false,
 			describe: false,
-			title:    l10n.mediaLibraryTitle
+			toolbar:  'main-attachments',
+			sidebar:  'settings'
 		},
 
 		initialize: function() {
@@ -193,7 +283,7 @@
 
 			selection.on( 'selection:single', this.buildDetails, this );
 			selection.on( 'selection:unsingle', this.clearDetails, this );
-			selection.on( 'add remove reset', this.updateToolbarVisibility, this );
+			selection.on( 'add remove reset', this.refreshToolbar, this );
 
 			this._updateEmpty();
 			this.get('library').on( 'add remove reset', this._updateEmpty, this );
@@ -211,49 +301,29 @@
 			this.off( 'change:empty', this.refresh, this );
 		},
 
-		toolbar: function() {
-			var frame = this.frame;
-
-			frame.toolbar( new media.view.Toolbar.PostLibrary({
-				controller: frame
-			}) );
+		reset: function() {
+			this.get('selection').clear();
 		},
 
 		sidebar: function() {
-			var frame = this.frame;
-
-			// Sidebar.
-			frame.sidebar( new media.view.Sidebar({
-				controller: frame
-			}) );
-
+			media.controller.State.prototype.sidebar.apply( this, arguments );
 			this.details();
 		},
 
 		content: function() {
-			var frame = this.frame,
-				library = this.get('library'),
-				view;
+			var frame = this.frame;
 
 			// Content.
 			if ( this.get('empty') ) {
 				// Attempt to fetch any Attachments we don't already have.
-				library.more();
+				this.get('library').more();
 
 				// In the meantime, render an inline uploader.
-				view = new media.view.UploaderInline({
-					controller: frame
-				});
+				frame.content.mode('upload');
 			} else {
 				// Browse our library of attachments.
-				view = new media.view.AttachmentsBrowser({
-					controller: frame,
-					collection: library,
-					model:      this
-				});
+				frame.content.mode('browse');
 			}
-
-			frame.content( view.render() );
 		},
 
 		refresh: function() {
@@ -262,11 +332,12 @@
 		},
 
 		_updateEmpty: function() {
-			this.set( 'empty', ! this.get('library').length );
+			var library = this.get('library');
+			this.set( 'empty', ! library.length && ! library.props.get('search') );
 		},
 
-		updateToolbarVisibility: function() {
-			this.frame.toolbar().visibility();
+		refreshToolbar: function() {
+			this.frame.toolbar.view().refresh();
 		},
 
 		selectUpload: function( attachment ) {
@@ -279,8 +350,9 @@
 		},
 
 		buildDetails: function( model ) {
-			this.frame.sidebar().add( 'details', new media.view.Attachment.Details({
-				controller: this.frame,
+			var frame = this.frame;
+			frame.sidebar.view().add( 'details', new media.view.Attachment.Details({
+				controller: frame,
 				model:      model,
 				priority:   80
 			}).render() );
@@ -291,7 +363,7 @@
 			if ( this.get('selection').single() )
 				return this;
 
-			this.frame.sidebar().add( 'details', new Backbone.View({
+			this.frame.sidebar.view().add( 'details', new Backbone.View({
 				priority: 80
 			}).render() );
 			return this;
@@ -346,73 +418,37 @@
 	// ---------------------------
 	media.controller.Gallery = media.controller.Library.extend({
 		defaults: {
-			id:         'gallery',
+			id:         'gallery-edit',
 			multiple:   false,
 			describe:   true,
-			title:      l10n.createGalleryTitle,
 			edge:       199,
-			editing:    false
+			editing:    false,
+			sortable:   true,
+			toolbar:    'gallery-edit',
+			sidebar:    'settings'
 		},
 
-		toolbar: function() {
-			var frame = this.frame;
-			frame.toolbar( new media.view.Toolbar.Gallery({
-				controller: frame
-			}) );
+		initialize: function() {
+			// The single `Attachment` view to be used in the `Attachments` view.
+			if ( ! this.get('AttachmentView') )
+				this.set( 'AttachmentView', media.view.Attachment.Gallery );
+			media.controller.Library.prototype.initialize.apply( this, arguments );
 		},
 
 		sidebar: function() {
 			var frame = this.frame;
 
-			// Sidebar.
-			frame.sidebar( new media.view.Sidebar({
-				controller: frame
-			}) );
-
+			media.controller.State.prototype.sidebar.apply( this, arguments );
 			this.details();
-			frame.sidebar().add({
+
+			frame.sidebar.view().add({
 				settings: new media.view.Settings.Gallery({
 					controller: frame,
 					model:      this.get('library').props,
 					priority:   40
 				}).render()
 			});
-		},
-
-		content: function() {
-			this.frame.content( new media.view.Attachments({
-				controller: this.frame,
-				collection: this.get('library'),
-				model:      this,
-				sortable:   true,
-				// The single `Attachment` view to be used in the `Attachments` view.
-				AttachmentView: media.view.Attachment.Gallery
-			}).render() );
 		}
-	});
-
-	media.controller.GalleryAddImages = media.controller.Library.extend({
-		defaults: {
-			id:       'gallery:add',
-			multiple: true,
-			title:    l10n.createGalleryTitle
-		},
-
-		initialize: function() {
-			if ( ! this.get('library') )
-				this.set( 'library', media.query({ type: 'image' }) );
-			return media.controller.Library.prototype.initialize.apply( this, arguments );
-		},
-
-		toolbar: function() {
-			var frame = this.frame;
-			frame.toolbar( new media.view.Toolbar.GalleryAddImages({
-				controller: frame
-			}) );
-		},
-
-		// Leave the sidebar.
-		sidebar: function() {}
 	});
 
 	/**
@@ -425,63 +461,26 @@
 	 * wp.media.view.Frame
 	 */
 	media.view.Frame = Backbone.View.extend({
-		tagName:   'div',
-		className: 'media-frame',
-		template:  media.template('media-frame'),
 
 		initialize: function() {
-			_.defaults( this.options, {
-				state:     'upload',
-				title:     '',
-				selection: [],
-				library:   {},
-				modal:     true,
-				multiple:  false,
-				uploader:  true,
-				editing:   false
-			});
-
-			this.createSelection();
-			this.createSubviews();
-			this.createStates();
+			this._createRegions();
+			this._createStates();
 		},
 
-		render: function() {
-			var els = [  this.menu().el, this.content().el, this.sidebar().el, this.toolbar().el ];
+		_createRegions: function() {
+			// Clone the regions array.
+			this.regions = this.regions ? this.regions.slice() : [];
 
-			if ( this.modal )
-				this.modal.render();
-
-			// Detach any views that will be rebound to maintain event bindings.
-			this.$el.children().filter( els ).detach();
-			this.$el.empty().append( els );
-
-			// Render the window uploader if it exists.
-			if ( this.uploader )
-				this.uploader.render().$el.appendTo( this.$el );
-
-			return this;
-		},
-
-		createSelection: function() {
-			var controller = this,
-				selection = this.options.selection;
-
-			if ( ! (selection instanceof media.model.Selection) ) {
-				selection = this.options.selection = new media.model.Selection( selection, {
-					multiple: this.options.multiple
+			// Initialize regions.
+			_.each( this.regions, function( region ) {
+				this[ region ] = new media.controller.Region({
+					controller: this,
+					id:         region
 				});
-			}
+			}, this );
 		},
 
-		createStates: function() {
-			var options = this.options,
-				menus = {
-					landing: new media.view.Menu.Landing({
-						controller: this
-					})
-				};
-
+		_createStates: function() {
 			// Create the default `states` collection.
 			this.states = new Backbone.Collection();
 
@@ -489,38 +488,43 @@
 			this.states.on( 'add', function( model ) {
 				model.frame = this;
 			}, this );
-
-			// Add the default states.
-			this.states.add([
-				new media.controller.Library({
-					selection: options.selection,
-					library:   media.query( options.library ),
-					multiple:  this.options.multiple,
-					menu:      menus.landing
-				}),
-				new media.controller.Upload({
-					multiple: this.options.multiple,
-					menu:     menus.landing
-				}),
-				new media.controller.Gallery({
-					library: options.selection,
-					editing: options.editing
-				}),
-				new media.controller.GalleryAddImages()
-			]);
-
-			// Set the default state.
-			this.state( options.state );
 		},
 
-		createSubviews: function() {
-			// Initialize a stub view for each subview region.
-			_.each(['menu','content','sidebar','toolbar'], function( subview ) {
-				this[ '_' + subview ] = new Backbone.View({
-					tagName:   'div',
-					className: 'media-' + subview
-				});
-			}, this );
+		render: function() {
+			var els = _.map( this.regions, function( region ) {
+					return this[ region ].view().el;
+				}, this );
+
+			// Detach the current views to maintain event bindings.
+			$( els ).detach();
+			this.$el.html( els );
+
+			return this;
+		},
+
+		reset: function() {
+			this.states.invoke( 'trigger', 'reset' );
+		}
+	});
+
+	// Make the `Frame` a `StateMachine`.
+	_.extend( media.view.Frame.prototype, media.controller.StateMachine.prototype );
+
+	/**
+	 * wp.media.view.MediaFrame
+	 */
+	media.view.MediaFrame = media.view.Frame.extend({
+		className: 'media-frame',
+		regions:   ['menu','content','sidebar','toolbar'],
+
+		initialize: function() {
+			media.view.Frame.prototype.initialize.apply( this, arguments );
+
+			_.defaults( this.options, {
+				title:    '',
+				modal:    true,
+				uploader: true
+			});
 
 			// Initialize modal container view.
 			if ( this.options.modal ) {
@@ -539,43 +543,353 @@
 					}
 				});
 			}
+		},
+
+		render: function() {
+			if ( this.modal )
+				this.modal.render();
+
+			media.view.Frame.prototype.render.apply( this, arguments );
+
+			// Render the window uploader if it exists.
+			if ( this.uploader )
+				this.uploader.render().$el.appendTo( this.$el );
+
+			return this;
 		}
-	});
-
-	// Make the `Frame` a `StateMachine`.
-	_.extend( media.view.Frame.prototype, media.controller.StateMachine.prototype );
-
-	// Create methods to fetch and replace individual subviews.
-	_.each(['menu','content','sidebar','toolbar'], function( subview ) {
-		media.view.Frame.prototype[ subview ] = function( view ) {
-			var previous = this[ '_' + subview ];
-
-			if ( ! view )
-				return previous;
-
-			if ( view === previous )
-				return;
-
-			view.$el.addClass( 'media-' + subview );
-
-			// Remove the hide class.
-			this.$el.removeClass( 'hide-' + subview );
-
-			if ( previous.destroy )
-				previous.destroy();
-			previous.undelegateEvents();
-			previous.$el.replaceWith( view.$el );
-			this[ '_' + subview ] = view;
-		};
 	});
 
 	// Map some of the modal's methods to the frame.
 	_.each(['open','close','attach','detach'], function( method ) {
-		media.view.Frame.prototype[ method ] = function( view ) {
+		media.view.MediaFrame.prototype[ method ] = function( view ) {
 			if ( this.modal )
 				this.modal[ method ].apply( this.modal, arguments );
 			return this;
 		};
+	});
+
+
+	/**
+	 * wp.media.view.MediaFrame.Post
+	 */
+	media.view.MediaFrame.Post = media.view.MediaFrame.extend({
+		initialize: function() {
+			media.view.MediaFrame.prototype.initialize.apply( this, arguments );
+
+			_.defaults( this.options, {
+				state:     'upload',
+				selection: [],
+				library:   {},
+				multiple:  false,
+				editing:   false
+			});
+
+			this.bindHandlers();
+			this.createSelection();
+			this.createStates();
+		},
+
+		bindHandlers: function() {
+			this.menu.on( 'main', this.mainMenu, this );
+			this.menu.on( 'batch', this.batchMenu, this );
+			this.menu.on( 'gallery', this.galleryMenu, this );
+
+			this.content.on( 'browse', this.browseContent, this );
+			this.content.on( 'upload', this.uploadContent, this );
+			this.content.on( 'embed', this.embedContent, this );
+
+			this.sidebar.on( 'settings', this.settingsSidebar, this );
+			this.sidebar.on( 'attachment-settings', this.attachmentSettingsSidebar, this );
+
+			this.toolbar.on( 'main-attachments', this.mainAttachmentsToolbar, this );
+			this.toolbar.on( 'main-embed', this.mainEmbedToolbar, this );
+			this.toolbar.on( 'batch-edit', this.batchEditToolbar, this );
+			this.toolbar.on( 'batch-add', this.batchAddToolbar, this );
+			this.toolbar.on( 'gallery-edit', this.galleryEditToolbar, this );
+			this.toolbar.on( 'gallery-add', this.galleryAddToolbar, this );
+		},
+
+		createSelection: function() {
+			var controller = this,
+				selection = this.options.selection;
+
+			if ( ! (selection instanceof media.model.Selection) ) {
+				selection = this.options.selection = new media.model.Selection( selection, {
+					multiple: this.options.multiple
+				});
+			}
+		},
+
+		createStates: function() {
+			var options = this.options;
+
+			// Add the default states.
+			this.states.add([
+				new media.controller.Library({
+					selection: options.selection,
+					library:   media.query( options.library ),
+					multiple:  this.options.multiple,
+					menu:      'main',
+					sidebar:   'attachment-settings'
+				}),
+
+				new media.controller.Upload({
+					multiple: this.options.multiple,
+					menu:      'main',
+					sidebar:   'attachment-settings'
+				}),
+
+				new media.controller.Gallery({
+					editing: options.editing,
+					menu:    'gallery'
+				}),
+
+				new media.controller.Library({
+					id:        'gallery-library',
+					library:   media.query({ type: 'image' }),
+					multiple:  true,
+					menu:      'gallery',
+					toolbar:   'gallery-add'
+				}),
+
+				new media.controller.Upload({
+					id:        'gallery-upload',
+					multiple:  true,
+					menu:      'gallery',
+					toolbar:   'gallery-add'
+				})
+			]);
+
+			this.get('gallery-edit').on( 'change:library', this.updateGalleryLibraries, this ).set({
+				library: options.selection
+			});
+
+			// Set the default state.
+			this.state( options.state );
+		},
+
+		updateGalleryLibraries: function() {
+			var editLibrary = this.get('gallery-edit').get('library');
+
+			_.each(['gallery-library','gallery-upload'], function( id ) {
+				var state = this.get( id ),
+					original = state.get('_library'),
+					skeleton;
+
+				// Remember the state's original library.
+				if ( ! original )
+					state.set( '_library', original = state.get('library') );
+
+				// Create a skeleton library in its place.
+				skeleton = new Attachments( null, {
+					props: _.pick( original.props.toJSON(), 'order', 'orderby' )
+				});
+
+				// Rejects attachments that do not exist in the original library
+				// or that do exist edit state's library.
+				skeleton.filters.difference = function( attachment ) {
+					return ! original.getByCid( attachment.cid ) || !! editLibrary.getByCid( attachment.cid );
+				};
+
+				skeleton.evaluate = function( attachment ) {
+					var valid = ! this.validator( attachment ),
+						inSkeleton = !! this.getByCid( attachment.cid );
+
+					if ( ! valid && inSkeleton )
+						this.remove( attachment );
+					else if ( valid && ! inSkeleton )
+						this.add( attachment ).sort();
+
+					return this;
+				};
+
+				skeleton.evaluateAll = function ( attachments ) {
+					_.each( attachments.models, this.evaluate, this );
+					return this;
+				};
+
+				skeleton.on( 'add remove', skeleton.evaluate, skeleton );
+				skeleton.on( 'reset', skeleton.evaluateAll, skeleton );
+				editLibrary.on( 'add remove', skeleton.evaluate, skeleton );
+				editLibrary.on( 'reset', skeleton.evaluateAll, skeleton );
+
+				// Mirror the original library.
+				skeleton.mirror( original );
+
+				// Ensure we've evaluated everything in the edit library.
+				skeleton.evaluateAll( editLibrary );
+
+				state.set( 'library', skeleton );
+			}, this );
+		},
+
+		// Menus
+		mainMenu: function() {
+			this.menu.view( new media.view.Menu({
+				controller: this,
+				views: {
+					upload: {
+						text: l10n.uploadFilesTitle,
+						priority: 20
+					},
+					library: {
+						text: l10n.mediaLibraryTitle,
+						priority: 40
+					},
+					separateLibrary: new Backbone.View({
+						className: 'separator',
+						priority: 60
+					}),
+					embed: {
+						text: l10n.embedFromUrlTitle,
+						priority: 80
+					}
+				}
+			}) );
+		},
+
+		batchMenu: function() {},
+
+		galleryMenu: function() {
+			var previous = this.previous(),
+				frame = this;
+
+			this.menu.view( new media.view.Menu({
+				controller: this,
+				views: {
+					cancel: {
+						text:     l10n.cancelGalleryTitle,
+						priority: 20,
+						click:    function() {
+							if ( previous )
+								frame.state( previous );
+							else
+								frame.close();
+						}
+					},
+					separateCancel: new Backbone.View({
+						className: 'separator',
+						priority: 40
+					}),
+					'gallery-edit': {
+						text: l10n.editGalleryTitle,
+						priority: 60
+					},
+					'gallery-upload': {
+						text: l10n.uploadImagesTitle,
+						priority: 80
+					},
+					'gallery-library': {
+						text: l10n.mediaLibraryTitle,
+						priority: 100
+					}
+				}
+			}) );
+
+		},
+
+		// Content
+		browseContent: function() {
+			var state = this.state();
+
+			// Browse our library of attachments.
+			this.content.view( new media.view.AttachmentsBrowser({
+				controller: this,
+				collection: state.get('library'),
+				model:      state,
+				sortable:   state.get('sortable'),
+
+				AttachmentView: state.get('AttachmentView')
+			}).render() );
+		},
+
+		uploadContent: function() {
+			// In the meantime, render an inline uploader.
+			this.content.view( new media.view.UploaderInline({
+				controller: this
+			}).render() );
+		},
+
+		embedContent: function() {},
+
+		// Sidebars
+		settingsSidebar: function() {
+			this.sidebar.view( new media.view.Sidebar({
+				controller: this
+			}) );
+		},
+
+		attachmentSettingsSidebar: function() {
+			this.sidebar.view( new media.view.Sidebar({
+				controller: this,
+				views: {
+					settings: new media.view.Settings.AttachmentDisplay({
+						controller: this,
+						priority:   20
+					}).render()
+				}
+			}) );
+		},
+
+		// Toolbars
+		mainAttachmentsToolbar: function() {
+			this.toolbar.view( new media.view.Toolbar.Insert.Post({
+				controller: this
+			}) );
+		},
+
+		mainEmbedToolbar: function() {},
+		batchEditToolbar: function() {},
+		batchAddToolbar: function() {},
+
+		galleryEditToolbar: function() {
+			var editing = this.state().get('editing');
+			this.toolbar.view( new media.view.Toolbar({
+				controller: this,
+				items: {
+					insert: {
+						style:    'primary',
+						text:     editing ? l10n.updateGallery : l10n.insertGallery,
+						priority: 80,
+
+						click: function() {
+							var controller = this.controller,
+								state = controller.state();
+
+							controller.close();
+							state.trigger( 'update', state.get('library') );
+
+							controller.reset();
+							// @todo: Make the state activated dynamic (instead of hardcoded).
+							controller.state('upload');
+						}
+					}
+				}
+			}) );
+		},
+
+		galleryAddToolbar: function() {
+			this.toolbar.view( new media.view.Toolbar({
+				controller: this,
+				items: {
+					insert: {
+						style:    'primary',
+						text:     l10n.addToGallery,
+						priority: 80,
+
+						click: function() {
+							var controller = this.controller,
+								state = controller.state(),
+								edit = controller.get('gallery-edit');
+
+							edit.get('library').add( state.get('selection').models );
+							state.trigger('reset');
+							controller.state('gallery-edit');
+						}
+					}
+				}
+			}) );
+		}
 	});
 
 	/**
@@ -809,6 +1123,13 @@
 				this.render();
 		},
 
+		destroy: function() {
+			_.each( this._views, function( view ) {
+				if ( view.destroy )
+					view.destroy();
+			});
+		},
+
 		render: function() {
 			var views = _.chain( this._views ).sortBy( function( view ) {
 				return view.options.priority || 10;
@@ -821,6 +1142,8 @@
 			$( _.pluck( this._views, 'el' ) ).detach();
 			this.$primary.html( _.pluck( views.primary || [], 'el' ) );
 			this.$secondary.html( _.pluck( views.secondary || [], 'el' ) );
+
+			this.refresh();
 
 			return this;
 		},
@@ -861,182 +1184,102 @@
 			if ( ! options || ! options.silent )
 				this.render();
 			return this;
-		}
+		},
+
+		refresh: function() {}
 	});
 
-	// wp.media.view.Toolbar.PostLibrary
+	// wp.media.view.Toolbar.Insert
 	// ---------------------------------
-	media.view.Toolbar.PostLibrary = media.view.Toolbar.extend({
+	media.view.Toolbar.Insert = media.view.Toolbar.extend({
 		initialize: function() {
 			var controller = this.options.controller,
 				selection = controller.state().get('selection');
 
-			this.options.items = {
+			this.options.items = _.defaults( this.options.items || {}, {
 				selection: new media.view.Selection({
 					controller: controller,
 					collection: selection,
 					priority:   -40
 				}).render(),
 
-				'create-new-gallery': {
+				insert: {
 					style:    'primary',
+					priority: 80,
+					text:     l10n.insertIntoPost,
+
+					click: function() {
+						controller.close();
+						controller.state().trigger( 'insert', selection );
+						selection.clear();
+					}
+				}
+			});
+
+			media.view.Toolbar.prototype.initialize.apply( this, arguments );
+		},
+
+		refresh: function() {
+			var selection = this.controller.state().get('selection');
+			this.get('insert').model.set( 'disabled', ! selection.length );
+		}
+	});
+
+	// wp.media.view.Toolbar.Insert.Post
+	// ---------------------------------
+	media.view.Toolbar.Insert.Post = media.view.Toolbar.Insert.extend({
+		initialize: function() {
+			this.options.items = _.defaults( this.options.items || {}, {
+				gallery: {
 					text:     l10n.createNewGallery,
 					priority: 40,
 
 					click: function() {
-						this.controller.state('gallery');
-					}
-				},
+						var controller = this.controller,
+							selection = controller.state().get('selection'),
+							edit = controller.get('gallery-edit');
 
-				'insert-into-post': new media.view.ButtonGroup({
-					priority: 30,
-					classes:  'dropdown-flip-x dropdown-flip-y',
-					buttons:  [
-						{
-							text:  l10n.insertIntoPost,
-							click: function() {
-								controller.close();
-								controller.state().trigger( 'insert', selection );
-								selection.clear();
-							}
-						},
-						{
-							classes:  ['down-arrow'],
-							dropdown: new media.view.Settings.AttachmentDisplay().render().$el,
-
-							click: function( event ) {
-								var $el = this.$el;
-
-								if ( ! $( event.target ).closest('.dropdown').length )
-									$el.toggleClass('active');
-
-								// Stop the event from propagating further so we can bind
-								// a one-time event to the body (and ensure that a click
-								// on the dropdown won't trigger said event).
-								event.stopPropagation();
-
-								if ( $el.is(':visible') ) {
-									$(document.body).one( 'click', function() {
-										$el.removeClass('active');
-									});
-								}
-							}
-						}
-					]
-				}).render(),
-
-				'add-to-gallery': {
-					text:     l10n.addToGallery,
-					priority: 20
-				}
-			};
-
-			media.view.Toolbar.prototype.initialize.apply( this, arguments );
-			this.visibility();
-		},
-
-		visibility: function() {
-			var selection = this.controller.state().get('selection'),
-				count = selection.length,
-				showGallery;
-
-			// Check if every attachment in the selection is an image.
-			showGallery = count > 1 && selection.all( function( attachment ) {
-				return 'image' === attachment.get('type');
-			});
-
-			this.get('create-new-gallery').$el.toggle( showGallery );
-			insert = this.get('insert-into-post');
-			_.each( insert.buttons, function( button ) {
-				button.model.set( 'style', showGallery ? '' : 'primary' );
-			});
-
-			_.first( insert.buttons ).model.set( 'disabled', ! count );
-		}
-	});
-
-	// wp.media.view.Toolbar.Gallery
-	// -----------------------------
-	media.view.Toolbar.Gallery = media.view.Toolbar.extend({
-		initialize: function() {
-			var controller = this.options.controller,
-				state = controller.state(),
-				editing = state.get('editing'),
-				library = state.get('library');
-
-			this.options.items = {
-				update: {
-					style:    'primary',
-					text:     editing ? l10n.updateGallery : l10n.insertGallery,
-					priority: 40,
-					click:    function() {
-						var state = controller.state();
-						controller.close();
-						state.trigger( 'update', state.get('library') );
-						controller.get('library').get('selection').clear();
-						controller.state('library');
-					}
-				},
-
-				addImages: {
-					text:     l10n.addImages,
-					priority: -40,
-
-					click: function() {
-						controller.get('gallery:add').set( 'selection', new media.model.Selection( library.models, {
-							props:    controller.state().get('library').props.toJSON(),
+						edit.set( 'library', new media.model.Selection( selection.models, {
+							props:    selection.props.toJSON(),
 							multiple: true
 						}) );
-						controller.state('gallery:add');
+
+						this.controller.state('gallery-edit');
 					}
 				},
 
-				cancel: {
-					text:     l10n.cancel,
-					priority: -60,
+				batch: {
+					text:     l10n.batchInsert,
+					priority: 60,
 
 					click: function() {
-						if ( editing )
-							controller.close();
-						else
-							controller.state('library');
+						this.controller.state('batch-edit');
 					}
 				}
-			};
+			});
 
-			media.view.Toolbar.prototype.initialize.apply( this, arguments );
-		}
-	});
+			media.view.Toolbar.Insert.prototype.initialize.apply( this, arguments );
+		},
 
-	// wp.media.view.Toolbar.GalleryAddImages
-	// -----------------------------
-	media.view.Toolbar.GalleryAddImages = media.view.Toolbar.extend({
-		initialize: function() {
-			var controller = this.options.controller;
+		refresh: function() {
+			var selection = this.controller.state().get('selection'),
+				count = selection.length;
 
-			this.options.items = {
-				update: {
-					style:    'primary',
-					text:     l10n.continueEditing,
-					priority: 40,
+			// Call the parent's `refresh()` method.
+			media.view.Toolbar.Insert.prototype.refresh.apply( this, arguments );
 
-					click: function() {
-						controller.get('gallery').set( 'library', controller.state().get('selection') );
-						controller.state('gallery');
-					}
-				},
+			// Check if every attachment in the selection is an image.
+			this.get('gallery').$el.toggle( count > 1 && selection.all( function( attachment ) {
+				return 'image' === attachment.get('type');
+			}) );
 
-				cancel: {
-					text:     l10n.cancel,
-					priority: -60,
+			// Batch insert shows for multiple selected attachments.
+			// Temporarily disabled with `false &&`.
+			this.get('batch').$el.toggle( false && count > 1 );
 
-					click: function() {
-						controller.state('gallery');
-					}
-				}
-			};
-
-			media.view.Toolbar.prototype.initialize.apply( this, arguments );
+			// Insert only shows for single attachments.
+			// Temporarily disabled.
+			// this.get('insert').$el.toggle( count <= 1 );
 		}
 	});
 
@@ -1160,6 +1403,13 @@
 				this.render();
 		},
 
+		destroy: function() {
+			_.each( this._views, function( view ) {
+				if ( view.destroy )
+					view.destroy();
+			});
+		},
+
 		render: function() {
 			var els = _( this._views ).chain().sortBy( function( view ) {
 					return view.options.priority || 10;
@@ -1224,7 +1474,7 @@
 
 		toView: function( options, id ) {
 			options = options || {};
-			options.id = id;
+			options.id = options.id || id;
 			return new media.view.MenuItem( options ).render();
 		},
 
@@ -1248,11 +1498,15 @@
 		className: 'media-menu-item',
 
 		events: {
-			'click': 'toState'
+			'click': 'click'
 		},
 
-		toState: function() {
-			this.controller.state( this.options.id );
+		click: function() {
+			var options = this.options;
+			if ( options.click )
+				options.click.call( this );
+			else if ( options.id )
+				this.controller.state( options.id );
 		},
 
 		render: function() {
@@ -1264,27 +1518,6 @@
 				this.$el.html( options.html );
 
 			return this;
-		}
-	});
-
-	media.view.Menu.Landing = media.view.Menu.extend({
-		views: {
-			upload: {
-				text: l10n.uploadFilesTitle,
-				priority: 20
-			},
-			library: {
-				text: l10n.mediaLibraryTitle,
-				priority: 40
-			},
-			separateLibrary: new Backbone.View({
-				className: 'separator',
-				priority: 60
-			}),
-			embed: {
-				text: l10n.embedFromUrlTitle,
-				priority: 80
-			}
 		}
 	});
 
@@ -1328,6 +1561,7 @@
 
 		destroy: function() {
 			this.model.off( null, null, this );
+			this.$el.off( 'click', 'a', this.preventDefault );
 		},
 
 		render: function() {
@@ -1702,7 +1936,9 @@
 			_.defaults( this.options, {
 				search: true,
 				upload: false,
-				total:  true
+				total:  true,
+
+				AttachmentView: media.view.Attachment.Library
 			});
 
 			this.toolbar = new media.view.Toolbar({
@@ -1722,8 +1958,9 @@
 				collection: this.collection,
 				model:      this.model,
 				sortable:   this.options.sortable,
+
 				// The single `Attachment` view to be used in the `Attachments` view.
-				AttachmentView: media.view.Attachment.Library
+				AttachmentView: this.options.AttachmentView
 			});
 		},
 
@@ -1868,10 +2105,6 @@
 	 * wp.media.view.Settings
 	 */
 	media.view.Settings = Backbone.View.extend({
-		tagName:   'div',
-		className: 'attachment-display-settings',
-		template:  media.template('attachment-display-settings'),
-
 		events: {
 			'click button':    'updateHandler',
 			'change input':    'updateHandler',
@@ -1895,7 +2128,10 @@
 
 			this.model.validate = function( attrs ) {
 				return _.any( attrs, function( value, key ) {
-					return ! settings[ key ] || ! _.contains( settings[ key ].accepts, value );
+					// If we don't have a `setting` for the `key`, assume the
+					// `value` is valid. Otherwise, check if the `value` exists
+					// in the `setting.accepts` array.
+					return settings[ key ] && ! _.contains( settings[ key ].accepts, value );
 				});
 			};
 
