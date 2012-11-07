@@ -429,17 +429,19 @@ function get_body_class( $class = '' ) {
 		$post = $wp_query->get_queried_object();
 
 		$classes[] = 'single';
-		$classes[] = 'single-' . sanitize_html_class($post->post_type, $post_id);
-		$classes[] = 'postid-' . $post_id;
+		if ( isset( $post->post_type ) ) {
+			$classes[] = 'single-' . sanitize_html_class($post->post_type, $post_id);
+			$classes[] = 'postid-' . $post_id;
 
-		// Post Format
-		if ( post_type_supports( $post->post_type, 'post-formats' ) ) {
-			$post_format = get_post_format( $post->ID );
+			// Post Format
+			if ( post_type_supports( $post->post_type, 'post-formats' ) ) {
+				$post_format = get_post_format( $post->ID );
 
-			if ( $post_format && !is_wp_error($post_format) )
-				$classes[] = 'single-format-' . sanitize_html_class( $post_format );
-			else
-				$classes[] = 'single-format-standard';
+				if ( $post_format && !is_wp_error($post_format) )
+					$classes[] = 'single-format-' . sanitize_html_class( $post_format );
+				else
+					$classes[] = 'single-format-standard';
+			}			
 		}
 
 		if ( is_attachment() ) {
@@ -455,23 +457,31 @@ function get_body_class( $class = '' ) {
 		} else if ( is_author() ) {
 			$author = $wp_query->get_queried_object();
 			$classes[] = 'author';
-			$classes[] = 'author-' . sanitize_html_class( $author->user_nicename , $author->ID );
-			$classes[] = 'author-' . $author->ID;
+			if ( isset( $author->user_nicename ) ) {
+				$classes[] = 'author-' . sanitize_html_class( $author->user_nicename, $author->ID );
+				$classes[] = 'author-' . $author->ID;				
+			}
 		} elseif ( is_category() ) {
 			$cat = $wp_query->get_queried_object();
 			$classes[] = 'category';
-			$classes[] = 'category-' . sanitize_html_class( $cat->slug, $cat->term_id );
-			$classes[] = 'category-' . $cat->term_id;
+			if ( isset( $cat->term_id ) ) {
+				$classes[] = 'category-' . sanitize_html_class( $cat->slug, $cat->term_id );
+				$classes[] = 'category-' . $cat->term_id;				
+			}
 		} elseif ( is_tag() ) {
 			$tags = $wp_query->get_queried_object();
 			$classes[] = 'tag';
-			$classes[] = 'tag-' . sanitize_html_class( $tags->slug, $tags->term_id );
-			$classes[] = 'tag-' . $tags->term_id;
+			if ( isset( $tags->term_id ) ) {
+				$classes[] = 'tag-' . sanitize_html_class( $tags->slug, $tags->term_id );
+				$classes[] = 'tag-' . $tags->term_id;				
+			}
 		} elseif ( is_tax() ) {
 			$term = $wp_query->get_queried_object();
-			$classes[] = 'tax-' . sanitize_html_class( $term->taxonomy );
-			$classes[] = 'term-' . sanitize_html_class( $term->slug, $term->term_id );
-			$classes[] = 'term-' . $term->term_id;
+			if ( isset( $term->term_id ) ) {
+				$classes[] = 'tax-' . sanitize_html_class( $term->taxonomy );
+				$classes[] = 'term-' . sanitize_html_class( $term->slug, $term->term_id );
+				$classes[] = 'term-' . $term->term_id;
+			}
 		}
 	} elseif ( is_page() ) {
 		$classes[] = 'page';
