@@ -286,7 +286,6 @@ td.help {
 }
 
 .post-com-count {
-	background-image: url(../images/bubble_bg.gif);
 	color: #fff;
 }
 
@@ -1818,10 +1817,6 @@ div.widgets-sortables,
 .rtl .bar {
 	border-right-color: transparent;
 	border-left-color: #99d;
-}
-
-.rtl .post-com-count {
-	background-image: url(../images/bubble_bg-rtl.gif);
 }
 
 .rtl #screen-meta-links a.show-settings {

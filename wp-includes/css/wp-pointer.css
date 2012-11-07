@@ -200,4 +200,9 @@
 		background-image: url('../images/icon-pointer-flag-2x.png');
 		background-size: 36px auto;
 	}
+
+	.wp-pointer-arrow {
+		background: url('../images/arrow-pointer-blue-2x.png') 0 0 no-repeat;
+		background-size: 30px 60px;
+	}
 }

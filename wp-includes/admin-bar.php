@@ -341,12 +341,10 @@ function wp_admin_bar_my_sites_menu( $wp_admin_bar ) {
 		),
 	) );
 
-	$blue_wp_logo_url = includes_url('images/wpmini-blue.png');
-
 	foreach ( (array) $wp_admin_bar->user->blogs as $blog ) {
 		switch_to_blog( $blog->userblog_id );
 
-		$blavatar = '<img src="' . esc_url($blue_wp_logo_url) . '" alt="' . esc_attr__( 'Blavatar' ) . '" width="16" height="16" class="blavatar"/>';
+		$blavatar = '<div title="' . esc_attr__( 'Blavatar' ) . '" class="blavatar"></div>';
 
 		$blogname = empty( $blog->blogname ) ? $blog->domain : $blog->blogname;
 		$menu_id  = 'blog-' . $blog->userblog_id;

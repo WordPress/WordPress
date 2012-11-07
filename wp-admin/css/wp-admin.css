@@ -1825,6 +1825,7 @@ form.upgrade .hint {
 }
 
 .post-com-count {
+	background-image: url('../images/bubble_bg.gif');
 	height: 1.3em;
 	line-height: 1.1em;
 	display: block;
@@ -1869,6 +1870,12 @@ strong .post-com-count {
 	padding: 4px 8px;
 }
 
+th .comment-grey-bubble {
+	background-image: url('../images/comment-grey-bubble.png');
+	background-repeat: no-repeat;
+	height: 12px;
+	width: 12px;
+}
 
 /*------------------------------------------------------------------------------
   8.0 - Layout Blocks
@@ -7388,11 +7395,11 @@ div.star-holder {
 	position: relative;
 	height: 17px;
 	width: 100px;
-	background: url('../images/stars.png?ver=20120307') repeat-x bottom left;
+	background: url('../images/stars.png') repeat-x bottom left;
 }
 
 div.star-holder .star-rating {
-	background: url('../images/stars.png?ver=20120307') repeat-x top left;
+	background: url('../images/stars.png') repeat-x top left;
 	height: 17px;
 	float: left;
 }
@@ -8417,6 +8424,37 @@ a.widget-control-edit {
 	 	background-image: url('../images/arrows-dark-2x.png');
 	 	background-size: 15px 123px;
 	 }
+
+	.post-com-count {
+		background-image: url('../images/bubble_bg-2x.gif');
+		background-size: 18px 100px;
+	}
+
+	th .comment-grey-bubble {
+		background-image: url('../images/comment-grey-bubble-2x.png');
+		background-size: 12px 12px;
+	}
+
+	.sorting-indicator {
+		background-image: url('../images/sort-2x.gif');
+		background-size: 14px 4px;
+	}
+
+	#content-resize-handle,
+	#post-body .wp_themeSkin .mceStatusbar a.mceResize {
+		background: transparent url('../images/resize-2x.gif') no-repeat scroll right bottom;
+		background-size: 11px 11px;
+	}
+
+	div.star-holder {
+		background: url('../images/stars-2x.png') repeat-x bottom left;
+		background-size: 21px 37px;
+	}
+
+	div.star-holder .star-rating {
+		background: url('../images/stars-2x.png') repeat-x top left;
+		background-size: 21px 37px;
+	}
 }
 
 /* =Localized CSS

@@ -778,7 +778,9 @@ class WP_Widget_RSS extends WP_Widget {
 
 		$title = apply_filters('widget_title', $title, $instance, $this->id_base);
 		$url = esc_url(strip_tags($url));
-		$icon = includes_url('images/rss.png');
+		// Didn't want to have to add additional theme CSS for retina version of rss.png
+		// Forcing 2x here looks fine on non-retina devices
+		$icon = includes_url('images/rss-2x.png');
 		if ( $title )
 			$title = "<a class='rsswidget' href='$url' title='" . esc_attr__( 'Syndicate this content' ) ."'><img style='border:0' width='14' height='14' src='$icon' alt='RSS' /></a> <a class='rsswidget' href='$link' title='$desc'>$title</a>";
 

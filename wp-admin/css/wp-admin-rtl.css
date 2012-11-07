@@ -519,6 +519,11 @@ form.upgrade .hint {
 	font-family: Tahoma, Arial, sans-serif;
 }
 
+.post-com-count {
+	background-image: url('../images/bubble_bg-rtl.gif');
+	background-repeat: no-repeat;
+}
+
 .column-response .post-com-count {
 	float: right;
 	margin-right: 0;
@@ -1573,18 +1578,6 @@ table .column-rating {
 	margin-left: 0;
 }
 
-/**
- * HiDPI Displays
- */
-@media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
-
-	.wp-full-overlay .collapse-sidebar-arrow {
-		background-image: url('../images/arrows-2x.png');
-		background-size: 15px 123px;
-	}
-
-}
-
 /*------------------------------------------------------------------------------
   27.0 - Customize Loader
 ------------------------------------------------------------------------------*/
@@ -2143,10 +2136,10 @@ body.login {
 
 /* Star ratings */
 div.star-holder {
-	background: url('../images/stars-rtl.png?ver=20120506.png') repeat-x bottom right;
+	background: url('../images/stars-rtl.png') repeat-x bottom right;
 }
 div.star-holder .star-rating {
-	background: url('../images/stars-rtl.png?ver=20120506.png') repeat-x top right;
+	background: url('../images/stars-rtl.png') repeat-x top right;
 	float: right;
 }
 
@@ -2372,6 +2365,36 @@ div.sidebar-name h3 {
 /* RTL */
 .ltr {
 	direction: ltr;
+}
+
+/**
+ * HiDPI Displays
+ */
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
+	.post-com-count {
+		background-image: url('../images/bubble_bg-rtl-2x.gif');
+		background-size: 18px 100px;
+	}
+
+	#content-resize-handle, #post-body .wp_themeSkin .mceStatusbar a.mceResize {
+		background: transparent url('../images/resize-rtl-2x.gif') no-repeat scroll right bottom;
+		background-size: 11px 11px;
+	}
+
+	.wp-full-overlay .collapse-sidebar-arrow {
+		background-image: url('../images/arrows-2x.png');
+		background-size: 15px 123px;
+	}
+
+	div.star-holder {
+		background: url('../images/stars-rtl-2x.png') repeat-x bottom right;
+		background-size: 21px 37px;
+	}
+
+	div.star-holder .star-rating {
+		background: url('../images/stars-rtl-2x.png') repeat-x top right;
+		background-size: 21px 37px;
+	}
 }
 
 /* =Localized CSS
