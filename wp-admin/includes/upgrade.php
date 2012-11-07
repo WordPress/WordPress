@@ -399,7 +399,7 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 20080 )
 		upgrade_340();
 
-	if ( $wp_current_db_version < 21811 )
+	if ( $wp_current_db_version < 22422 )
 		upgrade_350();
 
 	maybe_disable_link_manager();
@@ -1204,6 +1204,8 @@ function upgrade_350() {
 		}
 	}
 
+	if ( $wp_current_db_version < 22422 && $term = get_term_by( 'slug', 'post-format-standard', 'post_format' ) )
+		wp_delete_term( $term->term_id, 'post_format' );
 }
 
 /**
