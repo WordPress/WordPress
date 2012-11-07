@@ -5919,8 +5919,20 @@ table.form-table td .updated {
 }
 
 #poststuff .inside #parent_id,
-.inline-edit-row #post_parent {
+#poststuff .inside #page_template {
 	max-width: 100%;
+}
+
+.inline-edit-row #post_parent,
+.inline-edit-row select[name="page_template"] {
+	max-width: 80%;
+}
+
+.ie8 #poststuff .inside #parent_id,
+.ie8 #poststuff .inside #page_template,
+.ie8 .inline-edit-row #post_parent,
+.ie8 .inline-edit-row select[name="page_template"] {
+	width: 250px;
 }
 
 #post-visibility-select,
