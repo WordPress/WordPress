@@ -58,9 +58,15 @@ window.wp = window.wp || {};
 		 * @return {function}    A function that lazily-compiles the template requested.
 		 */
 		template: _.memoize( function( id ) {
-			var compiled;
+			var compiled,
+				options = {
+					evaluate:    /<#([\s\S]+?)#>/g,
+					interpolate: /\{\{\{([\s\S]+?)\}\}\}/g,
+					escape:      /\{\{([\s\S]+?)\}\}/g
+				};
+
 			return function( data ) {
-				compiled = compiled || _.template( $( '#tmpl-' + id ).html() );
+				compiled = compiled || _.template( $( '#tmpl-' + id ).html(), null, options );
 				return compiled( data );
 			};
 		}),

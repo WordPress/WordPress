@@ -1296,7 +1296,7 @@ function wp_print_media_templates( $attachment ) {
 	?>
 	<script type="text/html" id="tmpl-media-modal">
 		<div class="media-modal">
-			<h3 class="media-modal-title"><%- title %></h3>
+			<h3 class="media-modal-title">{{ title }}</h3>
 			<a class="media-modal-close" href="" title="<?php esc_attr_e('Close'); ?>">&times;</a>
 		</div>
 		<div class="media-modal-backdrop">
@@ -1319,98 +1319,98 @@ function wp_print_media_templates( $attachment ) {
 	</script>
 
 	<script type="text/html" id="tmpl-attachment">
-		<div class="attachment-preview type-<%- type %> subtype-<%- subtype %> <%- orientation %>">
-			<% if ( uploading ) { %>
+		<div class="attachment-preview type-{{ type }} subtype-{{ subtype }} {{ orientation }}">
+			<# if ( uploading ) { #>
 				<div class="media-progress-bar"><div></div></div>
-			<% } else if ( 'image' === type ) { %>
+			<# } else if ( 'image' === type ) { #>
 				<div class="thumbnail">
 					<div class="centered">
-						<img src="<%- url %>" draggable="false" />
+						<img src="{{ url }}" draggable="false" />
 					</div>
 				</div>
-			<% } else { %>
-				<img src="<%- icon %>" class="icon" draggable="false" />
-				<div class="filename"><%- filename %></div>
-			<% } %>
+			<# } else { #>
+				<img src="{{ icon }}" class="icon" draggable="false" />
+				<div class="filename">{{ filename }}</div>
+			<# } #>
 
-			<% if ( buttons.close ) { %>
+			<# if ( buttons.close ) { #>
 				<a class="close button" href="#">&times;</a>
-			<% } %>
+			<# } #>
 		</div>
-		<% if ( describe ) { %>
-			<% if ( 'image' === type ) { %>
+		<# if ( describe ) { #>
+			<# if ( 'image' === type ) { #>
 				<textarea class="describe"
 					placeholder="<?php esc_attr_e('Describe this image&hellip;'); ?>"
-					><%- caption %></textarea>
-			<% } else { %>
+					>{{ caption }}</textarea>
+			<# } else { #>
 				<textarea class="describe"
-					<% if ( 'video' === type ) { %>
+					<# if ( 'video' === type ) { #>
 						placeholder="<?php esc_attr_e('Describe this video&hellip;'); ?>"
-					<% } else if ( 'audio' === type ) { %>
+					<# } else if ( 'audio' === type ) { #>
 						placeholder="<?php esc_attr_e('Describe this audio file&hellip;'); ?>"
-					<% } else { %>
+					<# } else { #>
 						placeholder="<?php esc_attr_e('Describe this media file&hellip;'); ?>"
-					<% } %>
-					><%- title %></textarea>
-			<% } %>
-		<% } %>
+					<# } #>
+					>{{ title }}</textarea>
+			<# } #>
+		<# } #>
 	</script>
 
 	<script type="text/html" id="tmpl-attachment-details">
 		<h3><?php _e('Edit Attachment Details'); ?></h3>
-		<div class="attachment-preview attachment-details-preview type-<%- type %> subtype-<%- subtype %> <%- orientation %>">
-			<% if ( uploading ) { %>
+		<div class="attachment-preview attachment-details-preview type-{{ type }} subtype-{{ subtype }} {{ orientation }}">
+			<# if ( uploading ) { #>
 				<div class="media-progress-bar"><div></div></div>
-			<% } else if ( 'image' === type ) { %>
+			<# } else if ( 'image' === type ) { #>
 				<div class="thumbnail">
-					<img src="<%- url %>" draggable="false" />
+					<img src="{{ url }}" draggable="false" />
 				</div>
-			<% } else { %>
+			<# } else { #>
 				<div class="icon-thumbnail">
-					<img src="<%- icon %>" class="icon" draggable="false" />
-					<div class="filename"><%- filename %></div>
+					<img src="{{ icon }}" class="icon" draggable="false" />
+					<div class="filename">{{ filename }}</div>
 				</div>
-			<% } %>
+			<# } #>
 		</div>
 
-		<% if ( 'image' === type ) { %>
+		<# if ( 'image' === type ) { #>
 			<textarea class="describe"
 				placeholder="<?php esc_attr_e('Describe this image&hellip;'); ?>"
-				><%- caption %></textarea>
-		<% } else { %>
+				>{{ caption }}</textarea>
+		<# } else { #>
 			<textarea class="describe"
-				<% if ( 'video' === type ) { %>
+				<# if ( 'video' === type ) { #>
 					placeholder="<?php esc_attr_e('Describe this video&hellip;'); ?>"
-				<% } else if ( 'audio' === type ) { %>
+				<# } else if ( 'audio' === type ) { #>
 					placeholder="<?php esc_attr_e('Describe this audio file&hellip;'); ?>"
-				<% } else { %>
+				<# } else { #>
 					placeholder="<?php esc_attr_e('Describe this media file&hellip;'); ?>"
-				<% } %>
-				><%- title %></textarea>
-		<% } %>
+				<# } #>
+				>{{ title }}</textarea>
+		<# } #>
 	</script>
 
 	<script type="text/html" id="tmpl-media-selection">
 		<div class="selection-info">
 			<span class="count"></span>
-			<% if ( clearable ) { %>
+			<# if ( clearable ) { #>
 				<a class="clear-selection" href="#"><?php _e('Clear'); ?></a>
-			<% } %>
+			<# } #>
 		</div>
 		<div class="selection-view"></div>
 	</script>
 
 	<script type="text/html" id="tmpl-media-selection-preview">
-		<div class="selected-img selected-count-<%- count %>">
-			<% if ( thumbnail ) { %>
-				<img src="<%- thumbnail %>" draggable="false" />
-			<% } %>
+		<div class="selected-img selected-count-{{ count }}">
+			<# if ( thumbnail ) { #>
+				<img src="{{ thumbnail }}" draggable="false" />
+			<# } #>
 
-			<span class="count"><%- count %></span>
+			<span class="count">{{ count }}</span>
 		</div>
-		<% if ( clearable ) { %>
+		<# if ( clearable ) { #>
 			<a class="clear-selection" href="#"><?php _e('Clear selection'); ?></a>
-		<% } %>
+		<# } #>
 	</script>
 
 	<script type="text/html" id="tmpl-attachment-display-settings">
@@ -1458,21 +1458,23 @@ function wp_print_media_templates( $attachment ) {
 		<h4><?php _e('Gallery Columns'); ?></h4>
 
 		<select class="columns" name="columns" data-setting="columns">
-			<% _.times( 9, function( i ) { %>
-				<option value="<%- i %>"><%- i %></option>
-			<% }); %>
+			<?php for( $i = 1; $i <= 9; $i++ ) : ?>
+				<option value="<?php echo esc_attr( $i ); ?>">
+					<?php echo esc_html( $i ); ?>
+				</option>
+			<?php endfor; ?>
 		</select>
 	</script>
 
 	<script type="text/html" id="tmpl-editor-attachment">
 		<div class="editor-attachment-preview">
-			<% if ( url ) { %>
-				<img src="<%- url %>" width="<%- width %>" height="<%- height %>" draggable="false" />
-			<% } %>
+			<# if ( url ) { #>
+				<img src="{{ url }}" width="{{ width }}" height="{{ height }}" draggable="false" />
+			<# } #>
 
-			<% if ( uploading ) { %>
+			<# if ( uploading ) { #>
 				<div class="media-progress-bar"><div></div></div>
-			<% } %>
+			<# } #>
 			<div class="overlay">
 				<div class="button close">&times;</div>
 			</div>
@@ -1481,9 +1483,9 @@ function wp_print_media_templates( $attachment ) {
 	</script>
 
 	<script type="text/html" id="tmpl-editor-gallery">
-		<% if ( url ) { %>
-			<img src="<%- url %>" draggable="false" />
-		<% } %>
+		<# if ( url ) { #>
+			<img src="{{ url }}" draggable="false" />
+		<# } #>
 
 		<div class="overlay">
 			<div class="button close">&times;</div>
@@ -1492,30 +1494,30 @@ function wp_print_media_templates( $attachment ) {
 	</script>
 
 	<script type="text/html" id="tmpl-attachments-css">
-		<style type="text/css" id="<%- id %>-css">
-			#<%- id %> {
-				padding: 0 <%- gutter %>px;
+		<style type="text/css" id="{{ id }}-css">
+			#{{ id }} {
+				padding: 0 {{ gutter }}px;
 			}
 
-			#<%- id %> .attachment {
-				margin: <%- gutter %>px;
-				width: <%- edge %>px;
+			#{{ id }} .attachment {
+				margin: {{ gutter }}px;
+				width: {{ edge }}px;
 			}
 
-			#<%- id %> .attachment-preview,
-			#<%- id %> .attachment-preview .thumbnail {
-				width: <%- edge %>px;
-				height: <%- edge %>px;
+			#{{ id }} .attachment-preview,
+			#{{ id }} .attachment-preview .thumbnail {
+				width: {{ edge }}px;
+				height: {{ edge }}px;
 			}
 
-			#<%- id %> .portrait .thumbnail img {
-				width: <%- edge %>px;
+			#{{ id }} .portrait .thumbnail img {
+				width: {{ edge }}px;
 				height: auto;
 			}
 
-			#<%- id %> .landscape .thumbnail img {
+			#{{ id }} .landscape .thumbnail img {
 				width: auto;
-				height: <%- edge %>px;
+				height: {{ edge }}px;
 			}
 		</style>
 	</script>
