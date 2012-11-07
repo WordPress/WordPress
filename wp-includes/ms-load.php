@@ -234,7 +234,7 @@ function ms_not_installed() {
 
 	wp_load_translations_early();
 
-	$title = __( 'Error establishing database connection' );
+	$title = __( 'Error establishing a database connection' );
 	$msg  = '<h1>' . $title . '</h1>';
 	if ( ! is_admin() )
 		die( $msg );
