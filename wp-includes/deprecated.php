@@ -1215,7 +1215,7 @@ function get_author_rss_link($echo = false, $author_id = 1) {
  */
 function comments_rss() {
 	_deprecated_function( __FUNCTION__, '2.2', 'get_post_comments_feed_link()' );
-	return get_post_comments_feed_link();
+	return esc_url( get_post_comments_feed_link() );
 }
 
 /**

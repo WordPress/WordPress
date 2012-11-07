@@ -484,9 +484,9 @@ function get_post_comments_feed_link($post_id = 0, $feed = '') {
 	} else {
 		$type = get_post_field('post_type', $post_id);
 		if ( 'page' == $type )
-			$url = home_url("?feed=$feed&amp;page_id=$post_id");
+			$url = add_query_arg( array( 'feed' => $feed, 'page_id' => $post_id ), home_url( '/' ) );
 		else
-			$url = home_url("?feed=$feed&amp;p=$post_id");
+			$url = add_query_arg( array( 'feed' => $feed, 'p' => $post_id ), home_url( '/' ) );
 	}
 
 	return apply_filters('post_comments_feed_link', $url);
@@ -509,7 +509,7 @@ function get_post_comments_feed_link($post_id = 0, $feed = '') {
  * @return string Link to the comment feed for the current post.
 */
 function post_comments_feed_link( $link_text = '', $post_id = '', $feed = '' ) {
-	$url = get_post_comments_feed_link($post_id, $feed);
+	$url = esc_url( get_post_comments_feed_link( $post_id, $feed ) );
 	if ( empty($link_text) )
 		$link_text = __('Comments Feed');
 

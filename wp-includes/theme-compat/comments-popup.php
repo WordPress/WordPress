@@ -32,7 +32,7 @@ while( have_posts()) : the_post();
 ?>
 <h2 id="comments"><?php _e('Comments'); ?></h2>
 
-<p><a href="<?php echo get_post_comments_feed_link($post->ID); ?>"><?php _e('<abbr title="Really Simple Syndication">RSS</abbr> feed for comments on this post.'); ?></a></p>
+<p><a href="<?php echo esc_url( get_post_comments_feed_link($post->ID) ); ?>"><?php _e('<abbr title="Really Simple Syndication">RSS</abbr> feed for comments on this post.'); ?></a></p>
 
 <?php if ( pings_open() ) { ?>
 <p><?php printf(__('The <abbr title="Universal Resource Locator">URL</abbr> to TrackBack this entry is: <em>%s</em>'), get_trackback_url()); ?></p>
