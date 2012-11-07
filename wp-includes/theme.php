@@ -1025,7 +1025,27 @@ function get_uploaded_header_images() {
  * @return object
  */
 function get_custom_header() {
-	$data = is_random_header_image()? _get_random_header_data() : get_theme_mod( 'header_image_data' );
+	global $_wp_default_headers;
+
+	if ( is_random_header_image() ) {
+		$data = _get_random_header_data();
+	} else {
+		$data = get_theme_mod( 'header_image_data' );
+		if ( ! $data && current_theme_supports( 'custom-header', 'default-image' ) ) {
+			$directory_args = array( get_template_directory_uri(), get_stylesheet_directory_uri() );
+			$default_image = vsprintf( get_theme_support( 'custom-header', 'default-image' ), $directory_args );
+			foreach ( $_wp_default_headers as $header => $details ) {
+				$url = vsprintf( $details['url'], $directory_args );
+				if ( $default_image == $url ) {
+					$data = $details;
+					$data['url'] = $url;
+					$data['thumbnail_url'] = vsprintf( $data['thumbnail_url'], $directory_args );
+					break;
+				}
+			}
+		}
+	}
+
 	$default = array(
 		'url'           => '',
 		'thumbnail_url' => '',
