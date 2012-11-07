@@ -437,7 +437,7 @@ final class _WP_Editors {
 				$mceInit = array_merge($mceInit, $set['tinymce']);
 
 			// For people who really REALLY know what they're doing with TinyMCE
-			// You can modify initArray to add, remove, change elements of the config before tinyMCE.init
+			// You can modify $mceInit to add, remove, change elements of the config before tinyMCE.init
 			// Setting "valid_elements", "invalid_elements" and "extended_valid_elements" can be done through this filter.
 			// Best is to use the default cleanup by not specifying valid_elements, as TinyMCE contains full set of XHTML 1.0.
 			if ( $set['teeny'] ) {
