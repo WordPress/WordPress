@@ -12,7 +12,8 @@
 			defaultColor: false,
 			change: false,
 			clear: false,
-			hide: true
+			hide: true,
+			palettes: true
 		},
 		_create: function() {
 			// bail early for IE < 8
@@ -43,6 +44,7 @@
 				hide: true,
 				width: 255,
 				mode: 'hsv',
+				palettes: self.options.palettes,
 				change: function( event, ui ) {
 					self.toggler.css( { backgroundColor: ui.color.toString() } );
 					// check for a custom cb
@@ -115,9 +117,9 @@
 
 			this.element.iris( "option", "color", newColor );
 		},
-		//$("#input").wpColorPicker('default_color') returns the current default color
-		//$("#input").wpColorPicker('default_color', newDefaultColor) to set
-		default_color: function( newDefaultColor ) {
+		//$("#input").wpColorPicker('defaultColor') returns the current default color
+		//$("#input").wpColorPicker('defaultColor', newDefaultColor) to set
+		defaultColor: function( newDefaultColor ) {
 			if ( newDefaultColor === undef )
 				return this.options.defaultColor;
 
