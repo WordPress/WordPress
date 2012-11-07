@@ -1528,7 +1528,7 @@ class WP_Rewrite {
 		// Old feed and service files
 		$deprecated_files = array(
 			'.*wp-(atom|rdf|rss|rss2|feed|commentsrss2)\.php$' => $this->index . '?feed=old',
-			'.*wp-app\.php$' => $this->index . '?error=403',
+			'.*wp-app\.php(/.*)?$' => $this->index . '?error=403',
 		);
 
 		// Registration rules
