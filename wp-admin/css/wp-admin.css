@@ -8523,6 +8523,9 @@ a.widget-control-edit {
 .locale-ru-ru.press-this #side-sortables {
 	width: 245px; /* default 200px + 45px */
 }
+.locale-ru-ru #customize-header-actions .button {
+	padding: 0 8px 1px; /* default 0 10px 1px; */
+}
 
 /* lt_LT: QuickEdit */
 .locale-lt-lt .inline-edit-row fieldset label span.title {
