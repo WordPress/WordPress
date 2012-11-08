@@ -3692,7 +3692,7 @@ function get_pages($args = '') {
 
 	$join = '';
 	$where = "$exclusions $inclusions ";
-	if ( ! empty( $meta_key ) || isset( $meta_value ) ) {
+	if ( ! empty( $meta_key ) || ! empty( $meta_value ) ) {
 		$join = " LEFT JOIN $wpdb->postmeta ON ( $wpdb->posts.ID = $wpdb->postmeta.post_id )";
 
 		// meta_key and meta_value might be slashed
@@ -3700,7 +3700,7 @@ function get_pages($args = '') {
 		$meta_value = stripslashes($meta_value);
 		if ( ! empty( $meta_key ) )
 			$where .= $wpdb->prepare(" AND $wpdb->postmeta.meta_key = %s", $meta_key);
-		if ( isset( $meta_value ) )
+		if ( ! empty( $meta_value ) )
 			$where .= $wpdb->prepare(" AND $wpdb->postmeta.meta_value = %s", $meta_value);
 
 	}
