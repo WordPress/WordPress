@@ -746,7 +746,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	<p class="submit">
 	<?php submit_button( __( 'Crop and Publish' ), 'primary', 'submit', false ); ?>
 	<?php
-	if ( isset( $oitar ) && 1 == $oitar )
+	if ( isset( $oitar ) && 1 == $oitar && ( current_theme_supports( 'custom-header', 'flex-height' ) || current_theme_supports( 'custom-header', 'flex-width' ) ) ) 
 		submit_button( __( 'Skip Cropping, Publish Image as Is' ), 'secondary', 'skip-cropping', false );
 	?>
 	</p>
@@ -798,6 +798,9 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 		if ( ! current_theme_supports( 'custom-header', 'uploads' ) )
 			wp_die( __( 'Cheatin&#8217; uh?' ) );
 
+		if ( ! empty( $_POST['skip-cropping'] ) && ! ( current_theme_supports( 'custom-header', 'flex-height' ) || current_theme_supports( 'custom-header', 'flex-width' ) ) )
+			wp_die( __( 'Cheatin&#8217; uh?' ) );
+			
 		if ( $_POST['oitar'] > 1 ) {
 			$_POST['x1'] = $_POST['x1'] * $_POST['oitar'];
 			$_POST['y1'] = $_POST['y1'] * $_POST['oitar'];
