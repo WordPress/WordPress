@@ -107,10 +107,22 @@ var tb_position;
 				multiple: true
 			} ) );
 
-			workflow.get('library').on( 'insert', function( selection ) {
+			workflow.on( 'insert', function() {
+				var state = workflow.state(),
+					selection = state.get('selection'),
+					details = state.get('details');
+
+				if ( ! selection || ! details )
+					return;
+
 				this.insert( selection.map( function( attachment ) {
+					var detail = details[ attachment.cid ];
+
+					if ( detail )
+						detail = detail.toJSON();
+
 					if ( 'image' === attachment.get('type') )
-						return wp.media.string.image( attachment ) + ' ';
+						return wp.media.string.image( attachment, detail ) + ' ';
 					else
 						return wp.media.string.link( attachment ) + ' ';
 				}).join('') );

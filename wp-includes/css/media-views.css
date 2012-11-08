@@ -759,6 +759,10 @@
  * Attachment Details
  */
 
+.attachment-details {
+	overflow: auto;
+}
+
 .attachment-details-preview {
 	cursor: default;
 }

@@ -58,7 +58,7 @@
 	media.controller.Region = function( options ) {
 		_.extend( this, _.pick( options || {}, 'id', 'controller' ) );
 
-		this.on( 'empty', this.empty, this );
+		this.on( 'activate:empty', this.empty, this );
 		this.mode('empty');
 	};
 
@@ -66,14 +66,26 @@
 	media.controller.Region.extend = Backbone.Model.extend;
 
 	_.extend( media.controller.Region.prototype, Backbone.Events, {
-		trigger: function( id ) {
-			this._mode = id;
-			return Backbone.Events.trigger.apply( this, arguments );
-		},
+		trigger: (function() {
+			var eventSplitter = /\s+/,
+				trigger = Backbone.Events.trigger;
+
+			return function( events ) {
+				var mode = ':' + this._mode,
+					modeEvents = events.split( eventSplitter ).join( mode ) + mode;
+
+				trigger.apply( this, arguments );
+				trigger.apply( this, [ modeEvents ].concat( _.rest( arguments ) ) );
+				return this;
+			};
+		}()),
 
 		mode: function( mode ) {
-			if ( mode )
-				return this.trigger( mode );
+			if ( mode ) {
+				this.trigger('deactivate');
+				this._mode = mode;
+				return this.trigger('activate');
+			}
 			return this._mode;
 		},
 
@@ -270,6 +282,9 @@
 			if ( ! this.get('gutter') )
 				this.set( 'gutter', 8 );
 
+			if ( ! this.get('details') )
+				this.set( 'details', [] );
+
 			media.controller.State.prototype.initialize.apply( this, arguments );
 		},
 
@@ -281,8 +296,7 @@
 			if ( this.get('multiple') )
 				wp.Uploader.queue.on( 'add', this.selectUpload, this );
 
-			selection.on( 'selection:single', this.buildDetails, this );
-			selection.on( 'selection:unsingle', this.clearDetails, this );
+			selection.on( 'selection:single selection:unsingle', this.sidebar, this );
 			selection.on( 'add remove reset', this.refreshToolbar, this );
 
 			this._updateEmpty();
@@ -306,8 +320,12 @@
 		},
 
 		sidebar: function() {
-			media.controller.State.prototype.sidebar.apply( this, arguments );
-			this.details();
+			var sidebar = this.frame.sidebar;
+
+			if ( this.get('selection').single() )
+				sidebar.mode( this.get('sidebar') );
+			else
+				sidebar.mode('clear');
 		},
 
 		content: function() {
@@ -342,31 +360,6 @@
 
 		selectUpload: function( attachment ) {
 			this.get('selection').add( attachment );
-		},
-
-		details: function() {
-			var single = this.get('selection').single();
-			this[ single ? 'buildDetails' : 'clearDetails' ]( single );
-		},
-
-		buildDetails: function( model ) {
-			var frame = this.frame;
-			frame.sidebar.view().add( 'details', new media.view.Attachment.Details({
-				controller: frame,
-				model:      model,
-				priority:   80
-			}).render() );
-			return this;
-		},
-
-		clearDetails: function( model ) {
-			if ( this.get('selection').single() )
-				return this;
-
-			this.frame.sidebar.view().add( 'details', new Backbone.View({
-				priority: 80
-			}).render() );
-			return this;
 		},
 
 		toggleSelection: function( model ) {
@@ -436,18 +429,9 @@
 		},
 
 		sidebar: function() {
-			var frame = this.frame;
-
-			media.controller.State.prototype.sidebar.apply( this, arguments );
-			this.details();
-
-			frame.sidebar.view().add({
-				settings: new media.view.Settings.Gallery({
-					controller: frame,
-					model:      this.get('library').props,
-					priority:   40
-				}).render()
-			});
+			media.controller.Library.prototype.sidebar.apply( this, arguments );
+			this.frame.sidebar.trigger('gallery-settings');
+			return this;
 		}
 	});
 
@@ -590,23 +574,42 @@
 		},
 
 		bindHandlers: function() {
-			this.menu.on( 'main', this.mainMenu, this );
-			this.menu.on( 'batch', this.batchMenu, this );
-			this.menu.on( 'gallery', this.galleryMenu, this );
+			var handlers = {
+					menu: {
+						main:    'mainMenu',
+						batch:   'batchMenu',
+						gallery: 'galleryMenu'
+					},
 
-			this.content.on( 'browse', this.browseContent, this );
-			this.content.on( 'upload', this.uploadContent, this );
-			this.content.on( 'embed', this.embedContent, this );
+					content: {
+						browse: 'browseContent',
+						upload: 'uploadContent',
+						embed:  'embedContent'
+					},
 
-			this.sidebar.on( 'settings', this.settingsSidebar, this );
-			this.sidebar.on( 'attachment-settings', this.attachmentSettingsSidebar, this );
+					sidebar: {
+						'clear':               'clearSidebar',
+						'settings':            'settingsSidebar',
+						'attachment-settings': 'attachmentSettingsSidebar'
+					},
 
-			this.toolbar.on( 'main-attachments', this.mainAttachmentsToolbar, this );
-			this.toolbar.on( 'main-embed', this.mainEmbedToolbar, this );
-			this.toolbar.on( 'batch-edit', this.batchEditToolbar, this );
-			this.toolbar.on( 'batch-add', this.batchAddToolbar, this );
-			this.toolbar.on( 'gallery-edit', this.galleryEditToolbar, this );
-			this.toolbar.on( 'gallery-add', this.galleryAddToolbar, this );
+					toolbar: {
+						'main-attachments': 'mainAttachmentsToolbar',
+						'main-embed':       'mainEmbedToolbar',
+						'batch-edit':       'batchEditToolbar',
+						'batch-add':        'batchAddToolbar',
+						'gallery-edit':     'galleryEditToolbar',
+						'gallery-add':      'galleryAddToolbar'
+					}
+				};
+
+			_.each( handlers, function( regionHandlers, region ) {
+				_.each( regionHandlers, function( callback, handler ) {
+					this[ region ].on( 'activate:' + handler, this[ callback ], this );
+				}, this );
+			}, this );
+
+			this.sidebar.on( 'gallery-settings', this.onSidebarGallerySettings, this );
 		},
 
 		createSelection: function() {
@@ -621,43 +624,47 @@
 		},
 
 		createStates: function() {
-			var options = this.options;
+			var options = this.options,
+				main, gallery;
+
+			main = {
+				multiple: this.options.multiple,
+				menu:      'main',
+				sidebar:   'attachment-settings',
+
+				// Update user settings when users adjust the
+				// attachment display settings.
+				displayUserSettings: true
+			};
+
+			gallery = {
+				multiple: true,
+				menu:     'gallery',
+				toolbar:  'gallery-add'
+			};
 
 			// Add the default states.
 			this.states.add([
-				new media.controller.Library({
+				new media.controller.Library( _.defaults({
 					selection: options.selection,
-					library:   media.query( options.library ),
-					multiple:  this.options.multiple,
-					menu:      'main',
-					sidebar:   'attachment-settings'
-				}),
+					library:   media.query( options.library )
+				}, main ) ),
 
-				new media.controller.Upload({
-					multiple: this.options.multiple,
-					menu:      'main',
-					sidebar:   'attachment-settings'
-				}),
+				new media.controller.Upload( main ),
 
 				new media.controller.Gallery({
 					editing: options.editing,
 					menu:    'gallery'
 				}),
 
-				new media.controller.Library({
-					id:        'gallery-library',
-					library:   media.query({ type: 'image' }),
-					multiple:  true,
-					menu:      'gallery',
-					toolbar:   'gallery-add'
-				}),
+				new media.controller.Library( _.defaults({
+					id:      'gallery-library',
+					library: media.query({ type: 'image' })
+				}, gallery ) ),
 
-				new media.controller.Upload({
-					id:        'gallery-upload',
-					multiple:  true,
-					menu:      'gallery',
-					toolbar:   'gallery-add'
-				})
+				new media.controller.Upload( _.defaults({
+					id: 'gallery-upload'
+				}, gallery ) )
 			]);
 
 			this.get('gallery-edit').on( 'change:library', this.updateGalleryLibraries, this ).set({
@@ -813,22 +820,58 @@
 		embedContent: function() {},
 
 		// Sidebars
-		settingsSidebar: function() {
+		clearSidebar: function() {
 			this.sidebar.view( new media.view.Sidebar({
 				controller: this
 			}) );
 		},
 
-		attachmentSettingsSidebar: function() {
+		settingsSidebar: function( options ) {
 			this.sidebar.view( new media.view.Sidebar({
 				controller: this,
+				silent:     options && options.silent,
+
 				views: {
-					settings: new media.view.Settings.AttachmentDisplay({
+					details: new media.view.Attachment.Details({
 						controller: this,
-						priority:   20
+						model:      this.state().get('selection').single(),
+						priority:   80
 					}).render()
 				}
 			}) );
+		},
+
+		onSidebarGallerySettings: function( options ) {
+			this.sidebar.view().add({
+				gallery: new media.view.Settings.Gallery({
+					controller: this,
+					model:      this.state().get('library').props,
+					priority:   40
+				}).render()
+			}, options );
+		},
+
+		attachmentSettingsSidebar: function( options ) {
+			var state = this.state(),
+				display = state.get('details'),
+				single = state.get('selection').single().cid;
+
+			this.settingsSidebar({ silent: true });
+
+			display[ single ] = display[ single ] || new Backbone.Model({
+				align: getUserSetting( 'align', 'none' ),
+				size:  getUserSetting( 'imgsize', 'medium' ),
+				link:  getUserSetting( 'urlbutton', 'post' )
+			});
+
+			this.sidebar.view().add({
+				display: new media.view.Settings.AttachmentDisplay({
+					controller:   this,
+					model:        display[ single ],
+					priority:     100,
+					userSettings: state.get('displayUserSettings')
+				}).render()
+			}, options );
 		},
 
 		// Toolbars
@@ -2125,44 +2168,15 @@
 			'change textarea': 'updateHandler'
 		},
 
-		settings: {},
-
 		initialize: function() {
-			var settings = this.settings;
-
 			this.model = this.model || new Backbone.Model();
-
-			_.each( settings, function( setting, key ) {
-				if ( setting.name )
-					this.model.set( key, getUserSetting( setting.name, setting.fallback ) );
-				else
-					this.model.set( key, this.model.get( key ) || setting.fallback );
-			}, this );
-
-			this.model.validate = function( attrs ) {
-				return _.any( attrs, function( value, key ) {
-					// If we don't have a `setting` for the `key`, assume the
-					// `value` is valid. Otherwise, check if the `value` exists
-					// in the `setting.accepts` array.
-					return settings[ key ] && ! _.contains( settings[ key ].accepts, value );
-				});
-			};
-
-			this.model.on( 'change', function( model, options ) {
-				if ( ! options.changes )
-					return;
-
-				_.each( _.keys( options.changes ), function( key ) {
-					if ( settings[ key ] && settings[ key ].name )
-						setUserSetting( settings[ key ].name, model.get( key ) );
-				});
-			}, this );
-
 			this.model.on( 'change', this.updateChanges, this );
 		},
 
 		render: function() {
-			this.$el.html( this.template( this.model.toJSON() ) );
+			this.$el.html( this.template( _.defaults({
+				model: this.model.toJSON()
+			}, this.options ) ) );
 
 			// Select the correct values.
 			_( this.model.attributes ).chain().keys().each( this.update, this );
@@ -2170,28 +2184,44 @@
 		},
 
 		update: function( key ) {
-			var setting = this.settings[ key ],
+			var value = this.model.get( key ),
 				$setting = this.$('[data-setting="' + key + '"]'),
 				$buttons;
 
-			if ( ! setting )
+			// Bail if we didn't find a matching setting.
+			if ( ! $setting.length )
 				return;
 
-			if ( 'select' === setting.type ) {
-				$setting.find('[value="' + this.model.get( key ) + '"]').attr( 'selected', true );
-			} else {
+			// Attempt to determine how the setting is rendered and update
+			// the selected value.
+
+			// Handle dropdowns.
+			if ( $setting.is('select') ) {
+				$setting.find('[value="' + value + '"]').attr( 'selected', true );
+
+			// Handle button groups.
+			} else if ( $setting.hasClass('button-group') ) {
 				$buttons = $setting.find('button').removeClass('active');
-				$buttons.filter( '[value="' + this.model.get( key ) + '"]' ).addClass('active');
+				$buttons.filter( '[value="' + value + '"]' ).addClass('active');
 			}
 		},
 
 		updateHandler: function( event ) {
-			var $setting = $( event.target ).closest('[data-setting]');
+			var $setting = $( event.target ).closest('[data-setting]'),
+				value = event.target.value,
+				userSetting;
 
 			event.preventDefault();
 
-			if ( $setting.length )
-				this.model.set( $setting.data('setting'), event.target.value );
+			if ( ! $setting.length )
+				return;
+
+			this.model.set( $setting.data('setting'), value );
+
+			// If the setting has a corresponding user setting,
+			// update that as well.
+			if ( userSetting = $setting.data('userSetting') )
+				setUserSetting( userSetting, value );
 		},
 
 		updateChanges: function( model, options ) {
@@ -2207,23 +2237,11 @@
 		className: 'attachment-display-settings',
 		template:  media.template('attachment-display-settings'),
 
-		settings: {
-			align: {
-				accepts:  ['left','center','right','none'],
-				name:     'align',
-				fallback: 'none'
-			},
-			link: {
-				accepts:  ['post','file','none'],
-				name:     'urlbutton',
-				fallback: 'post'
-			},
-			size: {
-				// @todo: Dynamically generate these.
-				accepts:  ['thumbnail','medium','large','full'],
-				name:     'imgsize',
-				fallback: 'medium'
-			}
+		initialize: function() {
+			_.defaults( this.options, {
+				userSettings: false
+			});
+			media.view.Settings.prototype.initialize.apply( this, arguments );
 		}
 	});
 
@@ -2232,19 +2250,7 @@
 	 */
 	media.view.Settings.Gallery = media.view.Settings.extend({
 		className: 'gallery-settings',
-		template:  media.template('gallery-settings'),
-
-		settings: {
-			columns: {
-				accepts:  _.invoke( _.range( 1, 10 ), 'toString' ),
-				fallback: '3',
-				type:     'select'
-			},
-			link: {
-				accepts:  ['post','file'],
-				fallback: 'post'
-			}
-		}
+		template:  media.template('gallery-settings')
 	});
 
 	/**
