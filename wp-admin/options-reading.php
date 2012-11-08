@@ -202,7 +202,7 @@ if ( ! $new_front_page_only || current_user_can( 'create_posts', 'page' ) ) : ?>
 </fieldset></td>
 </tr>
 
-<tr valign="top">
+<tr valign="top" class="option-site-visibility">
 <th scope="row"><?php has_action( 'blog_privacy_selector' ) ? _e( 'Site Visibility' ) : _e( 'Search Engine Visibility' ); ?> </th>
 <td><fieldset><legend class="screen-reader-text"><span><?php has_action( 'blog_privacy_selector' ) ? _e( 'Site Visibility' ) : _e( 'Search Engine Visibility' ); ?> </span></legend>
 <?php if ( has_action( 'blog_privacy_selector' ) ) : ?>
