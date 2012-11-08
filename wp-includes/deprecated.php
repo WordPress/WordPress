@@ -3221,7 +3221,7 @@ function wp_load_image( $file ) {
 	if ( is_numeric( $file ) )
 		$file = get_attached_file( $file );
 
-	if ( ! file_exists( $file ) )
+	if ( ! is_file( $file ) )
 		return sprintf(__('File &#8220;%s&#8221; doesn&#8217;t exist?'), $file);
 
 	if ( ! function_exists('imagecreatefromstring') )

@@ -51,7 +51,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 		if ( $this->image )
 			return true;
 
-		if ( ! file_exists( $this->file ) )
+		if ( ! is_file( $this->file ) )
 			return new WP_Error( 'error_loading_image', __('File doesn&#8217;t exist?'), $this->file );
 
 		// Set artificially high because GD uses uncompressed images in memory
