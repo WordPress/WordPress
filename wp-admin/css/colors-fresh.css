@@ -71,11 +71,11 @@ div.dashboard-widget,
 
 #postcustomstuff table {
 	border-color: #dfdfdf;
-	background-color: #F9F9F9;
+	background-color: #f9f9f9;
 }
 
 #postcustomstuff thead th {
-	background-color: #F1F1F1;
+	background-color: #f1f1f1;
 }
 
 .widefat {
@@ -406,7 +406,7 @@ div.updated,
 }
 
 a.page-numbers {
-	border-bottom-color: #B8D3E2;
+	border-bottom-color: #b8d3e2;
 }
 
 .commentlist li {
@@ -573,7 +573,7 @@ tr.inactive + tr.plugin-update-tr .plugin-update {
 }
 
 .plugins .inactive a {
-	color: #557799;
+	color: #579;
 }
 
 #the-comment-list tr.undo,
@@ -682,8 +682,8 @@ table.widefat span.spam a,
 }
 
 #update-nag, .update-nag {
-	background-color: #FFFBCC;
-	border-color: #E6DB55;
+	background-color: #fffbcc;
+	border-color: #e6db55;
 	color: #555;
 }
 
@@ -750,7 +750,7 @@ table.widefat span.spam a,
 }
 
 #wphead {
-	border-bottom:#dfdfdf 1px solid;
+	border-bottom: #dfdfdf 1px solid;
 }
 
 #wphead h1 a {
@@ -898,11 +898,11 @@ table.widefat .spam a:hover,
 #adminmenu li.wp-not-current-submenu .wp-menu-arrow {
 	border-top-color: #f9f9f9;
 	border-bottom-color: #dfdfdf;
-	background: #E4E4E4;
+	background: #e4e4e4;
 }
 
 #adminmenu li.wp-not-current-submenu .wp-menu-arrow div {
-	background: #E4E4E4;
+	background: #e4e4e4;
 	border-color: #ccc;
 }
 
@@ -927,7 +927,7 @@ table.widefat .spam a:hover,
 
 #adminmenu .wp-submenu a:hover,
 #adminmenu .wp-submenu a:focus {
-	background-color: #EAF2FA;
+	background-color: #eaf2fa;
 	color: #333;
 }
 
@@ -1325,7 +1325,7 @@ table.diff .diff-addedline ins {
 }
 
 #att-info {
-	background-color: #E4F2FD;
+	background-color: #e4f2Fd;
 }
 
 /* edit image */
@@ -1338,7 +1338,7 @@ table.diff .diff-addedline ins {
 #sidemenu a.current {
 	background-color: #fff;
 	border-color: #dfdfdf #dfdfdf #fff;
-	color: #D54E21;
+	color: #d54e21;
 }
 
 #replyerror {
@@ -1377,7 +1377,7 @@ table.diff .diff-addedline ins {
 }
 
 .inline-editor div.title {
-	background-color: #EAF3FA;
+	background-color: #eaf3fa;
 }
 
 .inline-editor ul.cat-checklist {
@@ -1399,7 +1399,7 @@ fieldset.inline-edit-col-right .inline-edit-col {
 }
 
 .attention {
-	color: #D54E21;
+	color: #d54e21;
 }
 
 .js .meta-box-sortables .postbox:hover .handlediv {
@@ -1515,7 +1515,7 @@ body.press-this ul.category-tabs li.tabs a {
 .popular-tags,
 .feature-filter {
 	background-color: #fff;
-	border-color: #DFDFDF;
+	border-color: #dfdfdf;
 }
 
 div.widgets-sortables,
@@ -1612,11 +1612,11 @@ div.widgets-sortables,
 }
 
 #menu-management .nav-tabs-arrow a {
-	color: #C1C1C1;
+	color: #c1c1c1;
 }
 
 #menu-management .nav-tabs-arrow a:hover {
-	color: #D54E21;
+	color: #d54e21;
 }
 
 #menu-management .nav-tabs-arrow a:active {
@@ -1637,11 +1637,11 @@ div.widgets-sortables,
 }
 
 #cancel-save {
-	color: #ff0000;
+	color: #f00;
 }
 
 #cancel-save:hover {
-	background-color: #FF0000;
+	background-color: #f00;
 	color: #fff;
 }
 
@@ -1656,11 +1656,11 @@ div.widgets-sortables,
 }
 
 .item-type { /* Menu item controls */
-	color: #999999;
+	color: #999;
 }
 
 .item-controls .menu-item-delete:hover {
-	color: #ff0000;
+	color: #f00;
 }
 
 .nav-menus-php .item-edit {
@@ -1697,12 +1697,12 @@ div.widgets-sortables,
 }
 
 .submitbox .submitcancel {
-	color: #21759B;
-	border-bottom-color: #21759B;
+	color: #21759b;
+	border-bottom-color: #21759b;
 }
 
 .submitbox .submitcancel:hover {
-	background: #21759B;
+	background: #21759b;
 	color: #fff;
 }
 /* end added from nav-menu.css */
@@ -1740,7 +1740,7 @@ div.widgets-sortables,
 }
 
 .about-wrap h2 .nav-tab {
-	color: #21759B;
+	color: #21759b;
 }
 
 .about-wrap h2 .nav-tab:hover {
@@ -1792,8 +1792,8 @@ div.widgets-sortables,
 .about-wrap li.wp-person img.gravatar {
 	-webkit-box-shadow: 0 0 4px rgba( 0, 0, 0, 0.4 );
 	box-shadow: 0 0 4px rgba( 0, 0, 0, 0.4 );
-
 }
+
 .about-wrap li.wp-person .title {
 	color: #464646;
 	text-shadow: 1px 1px 1px #fff;
@@ -1801,8 +1801,8 @@ div.widgets-sortables,
 
 .freedoms-php .about-wrap ol li {
 	color: #999;
-
 }
+
 .freedoms-php .about-wrap ol p {
 	color: #464646;
 }
