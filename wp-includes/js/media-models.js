@@ -697,4 +697,77 @@ window.wp = window.wp || {};
 		}
 	});
 
+	/**
+	 * wp.media.model.Composite
+	 *
+	 * Creates a model that can simultaneously pull from two or more collections.
+	 */
+	media.model.Composite = Attachments.extend({
+		initialize: function( models, options ) {
+			this.observe( this, { silent: true });
+			Attachments.prototype.initialize.apply( this, arguments );
+		},
+
+		evaluate: function( attachment, options ) {
+			var valid = this.validator( attachment ),
+				hasAttachment = !! this.getByCid( attachment.cid );
+
+			if ( ! valid && hasAttachment ) {
+				this.remove( attachment, options );
+			} else if ( valid && ! hasAttachment ) {
+				this.add( attachment, options );
+
+				// If we haven't been silenced, resort the collection.
+				if ( this.comparator && ( ! options || ! options.silent ) )
+					this.sort({ silent: true });
+			}
+
+			return this;
+		},
+
+		validator: function() {
+			return true;
+		},
+
+		evaluateAll: function( attachments, options ) {
+			_.each( attachments.models, function( attachment ) {
+				this.evaluate( attachment, { silent: true });
+			}, this );
+
+			if ( this.comparator )
+				this.sort( options );
+			return this;
+		},
+
+		observe: function( attachments, options ) {
+			var silent = options && options.silent;
+
+			attachments.on( 'add remove',  silent ? this._evaluateSilentHandler : this._evaluateHandler, this );
+			attachments.on( 'reset',  silent ? this._evaluateAllSilentHandler : this._evaluateAllHandler, this );
+
+			this.evaluateAll( attachments, options );
+		},
+
+		unobserve: function( attachments ) {
+			attachments.off( 'add remove', this._evaluateHandler, this );
+			attachments.off( 'reset', this._evaluateAllHandler, this );
+		},
+
+		_evaluateHandler: function( attachment, attachments, options ) {
+			return this.evaluate( attachment, options );
+		},
+
+		_evaluateAllHandler: function( attachments, options ) {
+			return this.evaluateAll( attachments, options );
+		},
+
+		_evaluateSilentHandler: function( attachment, attachments, options ) {
+			return this.evaluate( attachment, _.defaults({ silent: true }, options ) );
+		},
+
+		_evaluateAllSilentHandler: function( attachments, options ) {
+			return this.evaluateAll( attachments, _.defaults({ silent: true }, options ) );
+		}
+	});
+
 }(jQuery));

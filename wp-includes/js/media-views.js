@@ -681,52 +681,32 @@
 			_.each(['gallery-library','gallery-upload'], function( id ) {
 				var state = this.get( id ),
 					original = state.get('_library'),
-					skeleton;
+					composite;
 
 				// Remember the state's original library.
 				if ( ! original )
 					state.set( '_library', original = state.get('library') );
 
-				// Create a skeleton library in its place.
-				skeleton = new Attachments( null, {
+				// Create a composite library in its place.
+				composite = new media.model.Composite( null, {
 					props: _.pick( original.props.toJSON(), 'order', 'orderby' )
 				});
 
-				// Rejects attachments that do not exist in the original library
-				// or that do exist edit state's library.
-				skeleton.filters.difference = function( attachment ) {
-					return ! original.getByCid( attachment.cid ) || !! editLibrary.getByCid( attachment.cid );
+				// Accepts attachments that exist in the original library and
+				// that do not exist in the state's library.
+				composite.validator = function( attachment ) {
+					return !! original.getByCid( attachment.cid ) && ! editLibrary.getByCid( attachment.cid );
 				};
 
-				skeleton.evaluate = function( attachment ) {
-					var valid = ! this.validator( attachment ),
-						inSkeleton = !! this.getByCid( attachment.cid );
+				composite.observe( original );
+				composite.observe( editLibrary );
 
-					if ( ! valid && inSkeleton )
-						this.remove( attachment );
-					else if ( valid && ! inSkeleton )
-						this.add( attachment ).sort();
+				// When `more()` is triggered on the composite collection,
+				// pass the command over to the `original`, which will
+				// populate the query.
+				composite.more = _.bind( original.more, original );
 
-					return this;
-				};
-
-				skeleton.evaluateAll = function ( attachments ) {
-					_.each( attachments.models, this.evaluate, this );
-					return this;
-				};
-
-				skeleton.on( 'add remove', skeleton.evaluate, skeleton );
-				skeleton.on( 'reset', skeleton.evaluateAll, skeleton );
-				editLibrary.on( 'add remove', skeleton.evaluate, skeleton );
-				editLibrary.on( 'reset', skeleton.evaluateAll, skeleton );
-
-				// Mirror the original library.
-				skeleton.mirror( original );
-
-				// Ensure we've evaluated everything in the edit library.
-				skeleton.evaluateAll( editLibrary );
-
-				state.set( 'library', skeleton );
+				state.set( 'library', composite );
 			}, this );
 		},
 
