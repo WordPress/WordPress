@@ -375,25 +375,32 @@ function get_blog_id_from_url( $domain, $path = '/' ) {
  */
 function is_email_address_unsafe( $user_email ) {
 	$banned_names = get_site_option( 'banned_email_domains' );
-	if ($banned_names && !is_array( $banned_names ))
-		$banned_names = explode( "\n", $banned_names);
+	if ( $banned_names && ! is_array( $banned_names ) )
+		$banned_names = explode( "\n", $banned_names );
 
-	if ( is_array( $banned_names ) && empty( $banned_names ) == false ) {
-		$email_domain = strtolower( substr( $user_email, 1 + strpos( $user_email, '@' ) ) );
-		foreach ( (array) $banned_names as $banned_domain ) {
-			if ( $banned_domain == '' )
+	$is_email_address_unsafe = false;
+
+	if ( $banned_names && is_array( $banned_names ) ) {
+		list( $email_local_part, $email_domain ) = explode( '@', $user_email );
+
+		foreach ( $banned_names as $banned_domain ) {
+			if ( ! $banned_domain )
 				continue;
-			if (
-				strstr( $email_domain, $banned_domain ) ||
-				(
-					strstr( $banned_domain, '/' ) &&
-					preg_match( $banned_domain, $email_domain )
-				)
-			)
-			return true;
+
+			if ( $email_domain == $banned_domain ) {
+				$is_email_address_unsafe = true;
+				break;
+			}
+
+			$dotted_domain = ".$banned_domain";
+			if ( $dotted_domain === substr( $user_email, -strlen( $dotted_domain ) ) ) {
+				$is_email_address_unsafe = true;
+				break;
+			}
 		}
 	}
-	return false;
+
+	return apply_filters( 'is_email_address_unsafe', $is_email_address_unsafe, $user_email );
 }
 
 /**
