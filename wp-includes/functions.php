@@ -1677,7 +1677,7 @@ function wp_upload_bits( $name, $deprecated, $bits, $time = null ) {
 		return array( 'error' => __( 'Empty filename' ) );
 
 	$wp_filetype = wp_check_filetype( $name );
-	if ( !$wp_filetype['ext'] )
+	if ( ! $wp_filetype['ext'] && ! current_user_can( 'unfiltered_upload' ) )
 		return array( 'error' => __( 'Invalid file type' ) );
 
 	$upload = wp_upload_dir( $time );
