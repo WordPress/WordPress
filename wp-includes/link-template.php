@@ -1133,7 +1133,11 @@ function get_adjacent_post( $in_same_cat = false, $excluded_categories = '', $pr
 		$join = " INNER JOIN $wpdb->term_relationships AS tr ON p.ID = tr.object_id INNER JOIN $wpdb->term_taxonomy tt ON tr.term_taxonomy_id = tt.term_taxonomy_id";
 
 		if ( $in_same_cat ) {
+			if ( ! is_object_in_taxonomy( $post->post_type, 'category' ) )
+				return '';
 			$cat_array = wp_get_object_terms($post->ID, 'category', array('fields' => 'ids'));
+			if ( ! $cat_array || is_wp_error( $cat_array ) )
+				return '';
 			$join .= " AND tt.taxonomy = 'category' AND tt.term_id IN (" . implode(',', $cat_array) . ")";
 		}
 
