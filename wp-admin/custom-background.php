@@ -260,7 +260,7 @@ if ( get_background_image() ) {
 		<input type="file" id="upload" name="import" />
 		<input type="hidden" name="action" value="save" />
 		<?php wp_nonce_field( 'custom-background-upload', '_wpnonce-custom-background-upload' ); ?>
-		<?php submit_button( __( 'Upload' ), 'small', 'submit', false ); ?>
+		<?php submit_button( __( 'Upload' ), 'button', 'submit', false ); ?>
 	</p>
 	<?php
 		$image_library_url = get_upload_iframe_src( 'image', null, 'library' );
