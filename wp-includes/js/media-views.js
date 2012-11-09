@@ -82,9 +82,9 @@
 
 		mode: function( mode ) {
 			if ( mode ) {
-				this.trigger('deactivate');
+				this.trigger( 'deactivate', this );
 				this._mode = mode;
-				return this.trigger('activate');
+				return this.trigger( 'activate', this );
 			}
 			return this._mode;
 		},
