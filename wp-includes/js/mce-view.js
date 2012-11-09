@@ -639,6 +639,11 @@ window.wp = window.wp || {};
 
 					attrs.ids = attachments.pluck('id');
 
+					// If the `ids` attribute is set and `orderby` attribute
+					// is the default value, clear it for cleaner output.
+					if ( attrs.ids && 'post__in' === attrs.orderby )
+						delete attrs.orderby;
+
 					shortcode = new wp.shortcode({
 						tag:    'gallery',
 						attrs:  attrs,
