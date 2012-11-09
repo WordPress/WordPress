@@ -103,6 +103,7 @@ var tb_position;
 				return workflow;
 
 			workflow = workflows[ id ] = wp.media( _.defaults( options || {}, {
+				frame:    'post',
 				title:    wp.media.view.l10n.insertMedia,
 				multiple: true
 			} ) );

@@ -7,15 +7,30 @@ window.wp = window.wp || {};
 	 * wp.media( attributes )
 	 *
 	 * Handles the default media experience. Automatically creates
-	 * and opens a media workflow, and returns the result.
+	 * and opens a media frame, and returns the result.
 	 * Does nothing if the controllers do not exist.
 	 *
 	 * @param  {object} attributes The properties passed to the main media controller.
 	 * @return {object}            A media workflow.
 	 */
 	media = wp.media = function( attributes ) {
-		if ( media.view.MediaFrame.Post )
-			return new media.view.MediaFrame.Post( attributes ).render().attach().open();
+		var MediaFrame = media.view.MediaFrame,
+			frame;
+
+		if ( ! MediaFrame )
+			return;
+
+		attributes = _.defaults( attributes || {}, {
+			frame: 'select'
+		});
+
+		if ( 'select' === attributes.frame && MediaFrame.Select )
+			frame = new MediaFrame.Select( attributes );
+		else if ( 'post' === attributes.frame && MediaFrame.Post )
+			frame = new MediaFrame.Post( attributes );
+
+		delete attributes.frame;
+		return frame.render().attach().open();
 	};
 
 	_.extend( media, { model: {}, view: {}, controller: {} });

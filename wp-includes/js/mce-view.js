@@ -694,6 +694,7 @@ window.wp = window.wp || {};
 					return;
 
 				this.frame = wp.media({
+					frame:     'post',
 					state:     'gallery-edit',
 					title:     mceview.l10n.editGallery,
 					editing:   true,
