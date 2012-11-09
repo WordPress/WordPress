@@ -144,15 +144,15 @@
 				container: this.container,
 				browser:   this.container.find('.upload'),
 				dropzone:  this.container.find('.upload-dropzone'),
-				success:   this.success
+				success:   this.success,
+				params:    {}
 			}, this.uploader || {} );
 
-			if ( this.uploader.supported ) {
-				if ( control.params.context )
-					control.uploader.param( 'post_data[context]', this.params.context );
+			if ( control.params.context )
+				control.uploader.params['post_data[context]'] = this.params.context;
 
-				control.uploader.param( 'post_data[theme]', api.settings.theme.stylesheet );
-			}
+			if ( api.settings.theme.stylesheet )
+				control.uploader.params['post_data[theme]'] = api.settings.theme.stylesheet;
 
 			this.uploader = new wp.Uploader( this.uploader );
 
