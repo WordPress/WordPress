@@ -262,11 +262,6 @@ if ( get_background_image() ) {
 		<?php wp_nonce_field( 'custom-background-upload', '_wpnonce-custom-background-upload' ); ?>
 		<?php submit_button( __( 'Upload' ), 'button', 'submit', false ); ?>
 	</p>
-	<?php
-		$image_library_url = get_upload_iframe_src( 'image', null, 'library' );
-		$image_library_url = remove_query_arg( 'TB_iframe', $image_library_url );
-		$image_library_url = add_query_arg( array( 'context' => 'custom-background', 'TB_iframe' => 1 ), $image_library_url );
-	?>
 	<p>
 		<label for="choose-from-library-link"><?php _e( 'Or choose an image from your media library:' ); ?></label><br />
 		<a id="choose-from-library-link" class="button"
