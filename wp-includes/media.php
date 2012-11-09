@@ -1291,6 +1291,20 @@ function wp_prepare_attachment_for_js( $attachment ) {
 }
 
 /**
+ * Enqueues all scripts, styles, settings, and templates necessary to use
+ * all media JS APIs.
+ *
+ * @since 3.5.0
+ */
+function wp_enqueue_media() {
+	wp_enqueue_script( 'media-upload' );
+	wp_enqueue_style( 'media-views' );
+	wp_plupload_default_settings();
+	add_action( 'admin_footer', 'wp_print_media_templates' );
+	add_action( 'wp_footer', 'wp_print_media_templates' );
+}
+
+/**
  * Prints the templates used in the media manager.
  *
  * @since 3.5.0
