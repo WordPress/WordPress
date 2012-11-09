@@ -104,6 +104,9 @@
 				if (!toggleFreeze)
 					control.container.toggleClass('open');
 
+				if ( control.container.hasClass('open') )
+					control.container.parent().parent().find('li.library-selected').focus();
+
 				// Don't want to fire focus and click at same time
 				toggleFreeze = true;
 				setTimeout(function () {
