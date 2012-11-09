@@ -1115,7 +1115,7 @@ function wp_dashboard_quota() {
 	<div class="table table_content musubtable">
 	<table>
 		<tr class="first">
-			<td class="first b b-posts"><?php printf( __( '<a href="%1$s" title="Manage Uploads" class="musublink">%2$sMB</a>' ), esc_url( admin_url( 'upload.php' ) ), $quota ); ?></td>
+			<td class="first b b-posts"><?php printf( __( '<a href="%1$s" title="Manage Uploads" class="musublink">%2$sMB</a>' ), esc_url( admin_url( 'upload.php' ) ), number_format_i18n( $quota ) ); ?></td>
 			<td class="t posts"><?php _e( 'Space Allowed' ); ?></td>
 		</tr>
 	</table>
@@ -1123,7 +1123,7 @@ function wp_dashboard_quota() {
 	<div class="table table_discussion musubtable">
 	<table>
 		<tr class="first">
-			<td class="b b-comments"><?php printf( __( '<a href="%1$s" title="Manage Uploads" class="musublink">%2$sMB (%3$s%%)</a>' ), esc_url( admin_url( 'upload.php' ) ), $used, $percentused ); ?></td>
+			<td class="b b-comments"><?php printf( __( '<a href="%1$s" title="Manage Uploads" class="musublink">%2$sMB (%3$s%%)</a>' ), esc_url( admin_url( 'upload.php' ) ), number_format_i18n( $used, 2 ), $percentused ); ?></td>
 			<td class="last t comments<?php echo $used_color;?>"><?php _e( 'Space Used' );?></td>
 		</tr>
 	</table>
