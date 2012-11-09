@@ -948,11 +948,11 @@
 		attachmentSettingsSidebar: function( options ) {
 			var state = this.state(),
 				display = state.get('details'),
-				single = state.get('selection').single().cid;
+				single = state.get('selection').single();
 
 			this.settingsSidebar({ silent: true });
 
-			display[ single ] = display[ single ] || new Backbone.Model({
+			display[ single.cid ] = display[ single.cid ] || new Backbone.Model({
 				align: getUserSetting( 'align', 'none' ),
 				size:  getUserSetting( 'imgsize', 'medium' ),
 				link:  getUserSetting( 'urlbutton', 'post' )
@@ -961,7 +961,8 @@
 			this.sidebar.view().add({
 				display: new media.view.Settings.AttachmentDisplay({
 					controller:   this,
-					model:        display[ single ],
+					model:        display[ single.cid ],
+					sizes:        single.get('sizes'),
 					priority:     100,
 					userSettings: state.get('displayUserSettings')
 				}).render()

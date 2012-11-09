@@ -1471,6 +1471,35 @@ function wp_print_media_templates( $attachment ) {
 				<?php esc_attr_e('None'); ?>
 			</button>
 		</div>
+
+		<# if ( ! _.isUndefined( sizes ) ) { #>
+			<h4><?php _e('Size'); ?></h4>
+			<select class="size" name="size"
+				data-setting="size"
+				<# if ( userSettings ) { #>
+					data-user-setting="imgsize"
+				<# } #>>
+				<?php
+
+				$sizes = apply_filters( 'image_size_names_choose', array(
+					'thumbnail' => __('Thumbnail'),
+					'medium'    => __('Medium'),
+					'large'     => __('Large'),
+				) );
+
+				foreach ( $sizes as $value => $name ) : ?>
+					<# if ( ! _.isUndefined( sizes['<?php echo esc_js( $value ); ?>'] ) ) { #>
+						<option value="<?php echo esc_attr( $value ); ?>" <?php selected( $value, 'medium' ); ?>>
+							<?php echo esc_html( $name ); ?>
+						</option>
+					<# } #>>
+				<?php endforeach; ?>
+
+				<option value="full">
+					<?php echo esc_html_e( 'Full Size' ); ?>
+				</option>
+			</select>
+		<# } #>
 	</script>
 
 	<script type="text/html" id="tmpl-gallery-settings">
