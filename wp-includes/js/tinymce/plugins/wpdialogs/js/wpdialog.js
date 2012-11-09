@@ -4,6 +4,7 @@
 		options: {
 			closeOnEscape: false
 		},
+		widgetEventPrefix: 'wpdialog',
 
 		open: function() {
 			var ed;
