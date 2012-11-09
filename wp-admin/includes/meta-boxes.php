@@ -1036,7 +1036,8 @@ function post_thumbnail_meta_box( $post ) {
 			frame.toolbar.on( 'activate:select', function() {
 				frame.toolbar.view().add({
 					select: {
-						text: update,
+						style: 'primary',
+						text:  update,
 
 						click: function() {
 							var selection = frame.state().get('selection'),
