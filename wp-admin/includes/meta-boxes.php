@@ -1009,7 +1009,7 @@ function post_thumbnail_meta_box( $post ) {
 			$thumbnailId = $element.find('input[name="thumbnail_id"]'),
 			title        = '<?php _e( "Choose a Featured Image" ); ?>',
 			update       = '<?php _e( "Update Featured Image" ); ?>',
-			frame, selection, setFeaturedImage;
+			frame, setFeaturedImage;
 
 		setFeaturedImage = function( thumbnailId ) {
 			$element.find('img').remove();
@@ -1020,52 +1020,50 @@ function post_thumbnail_meta_box( $post ) {
 		$element.on( 'click', '.choose, img', function( event ) {
 			event.preventDefault();
 
-			if ( ! frame ) {
-				frame = wp.media({
-					title:   title,
-					library: {
-						type: 'image'
-					}
-				});
-
-				frame.toolbar( new wp.media.view.Toolbar({
-					controller: frame,
-					items: {
-						update: {
-							style:    'primary',
-							text:     update,
-							priority: 40,
-
-							click: function() {
-								var selection = frame.state().get('selection'),
-									model = selection.first(),
-									sizes = model.get('sizes'),
-									size;
-
-								setFeaturedImage( model.id );
-
-								// @todo: might need a size hierarchy equivalent.
-								if ( sizes )
-									size = sizes['post-thumbnail'] || sizes.medium;
-
-								// @todo: Need a better way of accessing full size
-								// data besides just calling toJSON().
-								size = size || model.toJSON();
-
-								frame.close();
-								selection.clear();
-
-								$( '<img />', {
-									src:    size.url,
-									width:  size.width
-								}).prependTo( $element );
-							}
-						}
-					}
-				}) );
+			if ( frame ) {
+				frame.open();
+				return;
 			}
 
-			frame.open();
+			frame = wp.media({
+				title:     title,
+				selection: [ wp.media.model.Attachment.get( $thumbnailId.val() ) ],
+				library:   {
+					type: 'image'
+				}
+			});
+
+			frame.toolbar.on( 'activate:select', function() {
+				frame.toolbar.view().add({
+					select: {
+						text: update,
+
+						click: function() {
+							var selection = frame.state().get('selection'),
+								model = selection.first(),
+								sizes = model.get('sizes'),
+								size;
+
+							setFeaturedImage( model.id );
+
+							// @todo: might need a size hierarchy equivalent.
+							if ( sizes )
+								size = sizes['post-thumbnail'] || sizes.medium;
+
+							// @todo: Need a better way of accessing full size
+							// data besides just calling toJSON().
+							size = size || model.toJSON();
+
+							frame.close();
+
+							$( '<img />', {
+								src:    size.url,
+								width:  size.width
+							}).prependTo( $element );
+						}
+					}
+				});
+			});
 		});
 
 		$element.on( 'click', '.remove', function( event ) {
