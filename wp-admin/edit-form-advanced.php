@@ -17,6 +17,7 @@ if ( wp_is_mobile() )
 
 if ( post_type_supports($post_type, 'editor') || post_type_supports($post_type, 'thumbnail') ) {
 	add_thickbox();
+	wp_enqueue_media();
 }
 
 /**
