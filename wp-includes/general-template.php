@@ -1665,7 +1665,7 @@ function feed_links_extra( $args = array() ) {
 		$href = get_search_feed_link();
 	} elseif ( is_post_type_archive() ) { 
 		$title = sprintf( $args['posttypetitle'], get_bloginfo('name'), $args['separator'], post_type_archive_title( '', false ) ); 
-		$href = get_post_type_archive_feed_link( get_post_type() ); 
+		$href = get_post_type_archive_feed_link( get_queried_object()->name ); 
 	} 
 
 	if ( isset($title) && isset($href) )
