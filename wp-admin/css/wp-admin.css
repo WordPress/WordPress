@@ -7407,11 +7407,11 @@ div.star-holder {
 	position: relative;
 	height: 17px;
 	width: 100px;
-	background: url('../images/stars.png') repeat-x bottom left;
+	background: url('../images/stars.png?ver=20121108') repeat-x bottom left;
 }
 
 div.star-holder .star-rating {
-	background: url('../images/stars.png') repeat-x top left;
+	background: url('../images/stars.png?ver=20121108') repeat-x top left;
 	height: 17px;
 	float: left;
 }
@@ -8463,12 +8463,12 @@ a.widget-control-edit {
 	}
 
 	div.star-holder {
-		background: url('../images/stars-2x.png') repeat-x bottom left;
+		background: url('../images/stars-2x.png?ver=20121108') repeat-x bottom left;
 		background-size: 21px 37px;
 	}
 
 	div.star-holder .star-rating {
-		background: url('../images/stars-2x.png') repeat-x top left;
+		background: url('../images/stars-2x.png?ver=20121108') repeat-x top left;
 		background-size: 21px 37px;
 	}
 }
