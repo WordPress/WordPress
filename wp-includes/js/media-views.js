@@ -291,6 +291,11 @@
 		activate: function() {
 			var selection = this.get('selection');
 
+			this._excludeStateLibrary();
+			this.buildComposite();
+			this.on( 'change:library change:exclude', this.buildComposite, this );
+			this.on( 'change:excludeState', this._excludeState, this );
+
 			// If we're in a workflow that supports multiple attachments,
 			// automatically select any uploading attachments.
 			if ( this.get('multiple') )
@@ -306,6 +311,10 @@
 		},
 
 		deactivate: function() {
+			this.off( 'change:library change:exclude', this.buildComposite, this );
+			this.off( 'change:excludeState', this._excludeState, this );
+			this.destroyComposite();
+
 			wp.Uploader.queue.off( 'add', this.selectUpload, this );
 
 			// Unbind all event handlers that use this state as the context
@@ -375,6 +384,72 @@
 			}
 
 			return this;
+		},
+
+		buildComposite: function() {
+			var original = this.get('_library'),
+				exclude = this.get('exclude'),
+				composite;
+
+			this.destroyComposite();
+			if ( ! this.get('exclude') )
+				return;
+
+			// Remember the state's original library.
+			if ( ! original )
+				this.set( '_library', original = this.get('library') );
+
+			// Create a composite library in its place.
+			composite = new media.model.Composite( null, {
+				props: _.pick( original.props.toJSON(), 'order', 'orderby' )
+			});
+
+			// Accepts attachments that exist in the original library and
+			// that do not exist in the excluded library.
+			composite.validator = function( attachment ) {
+				return !! original.getByCid( attachment.cid ) && ! exclude.getByCid( attachment.cid );
+			};
+
+			composite.observe( original ).observe( exclude );
+
+			// When `more()` is triggered on the composite collection,
+			// pass the command over to the `original`, which will
+			// populate the query.
+			composite.more = _.bind( original.more, original );
+
+			this.set( 'library', composite );
+		},
+
+		destroyComposite: function() {
+			var composite = this.get('library'),
+				original = this.get('_library');
+
+			if ( ! original )
+				return;
+
+			composite.unobserve();
+			this.set( 'library', original );
+			this.unset('_library');
+		},
+
+		_excludeState: function() {
+			var current = this.get('excludeState'),
+				previous = this.previous('excludeState');
+
+			if ( previous )
+				this.frame.get( previous ).off( 'change:library', this._excludeStateLibrary, this );
+
+			if ( current )
+				this.frame.get( previous ).on( 'change:library', this._excludeStateLibrary, this );
+		},
+
+		_excludeStateLibrary: function() {
+			var current = this.get('excludeState');
+
+			if ( ! current )
+				return;
+
+			this.set( 'exclude', this.frame.get( current ).get('library') );
 		}
 	});
 
@@ -659,55 +734,18 @@
 
 				new media.controller.Library( _.defaults({
 					id:      'gallery-library',
-					library: media.query({ type: 'image' })
+					library: media.query({ type: 'image' }),
+					excludeState: 'gallery-edit'
 				}, gallery ) ),
 
 				new media.controller.Upload( _.defaults({
-					id: 'gallery-upload'
+					id: 'gallery-upload',
+					excludeState: 'gallery-edit'
 				}, gallery ) )
 			]);
 
-			this.get('gallery-edit').on( 'change:library', this.updateGalleryLibraries, this ).set({
-				library: options.selection
-			});
-
 			// Set the default state.
 			this.state( options.state );
-		},
-
-		updateGalleryLibraries: function() {
-			var editLibrary = this.get('gallery-edit').get('library');
-
-			_.each(['gallery-library','gallery-upload'], function( id ) {
-				var state = this.get( id ),
-					original = state.get('_library'),
-					composite;
-
-				// Remember the state's original library.
-				if ( ! original )
-					state.set( '_library', original = state.get('library') );
-
-				// Create a composite library in its place.
-				composite = new media.model.Composite( null, {
-					props: _.pick( original.props.toJSON(), 'order', 'orderby' )
-				});
-
-				// Accepts attachments that exist in the original library and
-				// that do not exist in the state's library.
-				composite.validator = function( attachment ) {
-					return !! original.getByCid( attachment.cid ) && ! editLibrary.getByCid( attachment.cid );
-				};
-
-				composite.observe( original );
-				composite.observe( editLibrary );
-
-				// When `more()` is triggered on the composite collection,
-				// pass the command over to the `original`, which will
-				// populate the query.
-				composite.more = _.bind( original.more, original );
-
-				state.set( 'library', composite );
-			}, this );
 		},
 
 		// Menus

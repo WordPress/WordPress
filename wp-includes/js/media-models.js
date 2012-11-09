@@ -741,16 +741,29 @@ window.wp = window.wp || {};
 
 		observe: function( attachments, options ) {
 			var silent = options && options.silent;
+			this.observers = this.observers || [];
+			this.observers.push( attachments );
 
 			attachments.on( 'add remove',  silent ? this._evaluateSilentHandler : this._evaluateHandler, this );
 			attachments.on( 'reset',  silent ? this._evaluateAllSilentHandler : this._evaluateAllHandler, this );
 
 			this.evaluateAll( attachments, options );
+			return this;
 		},
 
 		unobserve: function( attachments ) {
-			attachments.off( 'add remove', this._evaluateHandler, this );
-			attachments.off( 'reset', this._evaluateAllHandler, this );
+			if ( attachments ) {
+				attachments.off( null, null, this );
+				this.observers = _.without( this.observers, attachments );
+
+			} else {
+				_.each( this.observers, function( attachments ) {
+					attachments.off( null, null, this );
+				}, this );
+				delete this.observers;
+			}
+
+			return this;
 		},
 
 		_evaluateHandler: function( attachment, attachments, options ) {
