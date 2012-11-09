@@ -344,7 +344,7 @@ function wp_admin_bar_my_sites_menu( $wp_admin_bar ) {
 	foreach ( (array) $wp_admin_bar->user->blogs as $blog ) {
 		switch_to_blog( $blog->userblog_id );
 
-		$blavatar = '<div title="' . esc_attr__( 'Blavatar' ) . '" class="blavatar"></div>';
+		$blavatar = '<div class="blavatar"></div>';
 
 		$blogname = empty( $blog->blogname ) ? $blog->domain : $blog->blogname;
 		$menu_id  = 'blog-' . $blog->userblog_id;
