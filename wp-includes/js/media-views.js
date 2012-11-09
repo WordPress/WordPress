@@ -302,7 +302,7 @@
 				wp.Uploader.queue.on( 'add', this.selectUpload, this );
 
 			selection.on( 'selection:single selection:unsingle', this.sidebar, this );
-			selection.on( 'add remove reset', this.refreshToolbar, this );
+			selection.on( 'add remove reset', this.refreshSelection, this );
 
 			this._updateEmpty();
 			this.get('library').on( 'add remove reset', this._updateEmpty, this );
@@ -363,8 +363,9 @@
 			this.set( 'empty', ! library.length && ! library.props.get('search') );
 		},
 
-		refreshToolbar: function() {
+		refreshSelection: function() {
 			this.frame.toolbar.view().refresh();
+			this.trigger( 'refresh:selection', this, this.get('selection') );
 		},
 
 		selectUpload: function( attachment ) {
@@ -643,9 +644,12 @@
 				editing:   false
 			});
 
-			this.bindHandlers();
 			this.createSelection();
 			this.createStates();
+			this.bindHandlers();
+
+			// Set the default state.
+			this.state( this.options.state );
 		},
 
 		bindHandlers: function() {
@@ -684,6 +688,19 @@
 				}, this );
 			}, this );
 
+			_.each(['library', 'upload'], function( id ) {
+				this.get( id ).on( 'refresh:selection', function( state, selection ) {
+					var sidebar = this.sidebar;
+
+					if ( ! selection.length )
+						sidebar.mode('clear');
+					else if ( selection.length === 1 )
+						sidebar.mode('attachment-settings');
+					else
+						sidebar.mode('settings');
+				}, this );
+			}, this );
+
 			this.sidebar.on( 'gallery-settings', this.onSidebarGallerySettings, this );
 		},
 
@@ -705,7 +722,6 @@
 			main = {
 				multiple: this.options.multiple,
 				menu:      'main',
-				sidebar:   'attachment-settings',
 
 				// Update user settings when users adjust the
 				// attachment display settings.
@@ -772,9 +788,6 @@
 					id: 'batch-upload'
 				}, batch ) )
 			]);
-
-			// Set the default state.
-			this.state( options.state );
 		},
 
 		// Menus
