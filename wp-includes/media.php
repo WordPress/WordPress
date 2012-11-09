@@ -1176,6 +1176,10 @@ function wp_max_upload_size() {
 function wp_plupload_default_settings() {
 	global $wp_scripts;
 
+	$data = $wp_scripts->get_data( 'wp-plupload', 'data' );
+	if ( $data && false !== strpos( $data, '_wpPluploadSettings' ) )
+		return;
+
 	$max_upload_size = wp_max_upload_size();
 
 	$defaults = array(
@@ -1211,7 +1215,6 @@ function wp_plupload_default_settings() {
 
 	$script = 'var _wpPluploadSettings = ' . json_encode( $settings ) . ';';
 
-	$data = $wp_scripts->get_data( 'wp-plupload', 'data' );
 	if ( $data )
 		$script = "$data\n$script";
 
