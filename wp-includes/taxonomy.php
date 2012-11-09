@@ -3161,7 +3161,7 @@ function is_object_in_term( $object_id, $taxonomy, $terms = null ) {
 		return new WP_Error( 'invalid_object', __( 'Invalid object ID' ) );
 
 	$object_terms = get_object_term_cache( $object_id, $taxonomy );
-	if ( false === $terms )
+	if ( false === $object_terms )
 		 $object_terms = wp_get_object_terms( $object_id, $taxonomy );
 
 	if ( is_wp_error( $object_terms ) )
