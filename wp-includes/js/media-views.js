@@ -1625,7 +1625,9 @@
 		},
 
 		click: function( event ) {
-			event.preventDefault();
+			if ( '#' === this.attributes.href )
+				event.preventDefault();
+
 			if ( this.options.click && ! this.model.get('disabled') )
 				this.options.click.apply( this, arguments );
 		}
