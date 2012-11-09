@@ -1031,10 +1031,14 @@
 
 		// Sidebars
 		onSidebarGallerySettings: function( options ) {
+			var library = this.state().get('library');
+
+			library.gallery = library.gallery || new Backbone.Model();
+
 			this.sidebar.view().add({
 				gallery: new media.view.Settings.Gallery({
 					controller: this,
-					model:      this.state().get('library').props,
+					model:      library.gallery,
 					priority:   40
 				}).render()
 			}, options );
