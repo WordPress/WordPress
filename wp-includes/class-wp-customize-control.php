@@ -402,6 +402,7 @@ class WP_Customize_Upload_Control extends WP_Customize_Control {
 	public $type    = 'upload';
 	public $removed = '';
 	public $context;
+	public $extensions;
 
 	/**
 	 * Enqueue control related scripts/styles.
@@ -425,6 +426,9 @@ class WP_Customize_Upload_Control extends WP_Customize_Control {
 
 		if ( $this->context )
 			$this->json['context'] = $this->context;
+
+		if ( $this->extensions )
+			$this->json['extensions'] = $this->extensions;
 	}
 
 	/**
@@ -456,6 +460,7 @@ class WP_Customize_Image_Control extends WP_Customize_Upload_Control {
 	public $type = 'image';
 	public $get_url;
 	public $statuses;
+	public $extensions = 'jpg,jpeg,gif,png';
 
 	protected $tabs = array();
 

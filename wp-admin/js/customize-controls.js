@@ -145,8 +145,16 @@
 				browser:   this.container.find('.upload'),
 				dropzone:  this.container.find('.upload-dropzone'),
 				success:   this.success,
+				plupload:  {},
 				params:    {}
 			}, this.uploader || {} );
+
+			if ( control.params.extensions ) {
+				control.uploader.plupload.filters = [{
+					title:      api.l10n.allowedFiles,
+					extensions: control.params.extensions
+				}];
+			}
 
 			if ( control.params.context )
 				control.uploader.params['post_data[context]'] = this.params.context;

@@ -313,6 +313,9 @@ function wp_default_scripts( &$scripts ) {
 		'cancel'    => __( 'Cancel' ),
 		'close'     => __( 'Close' ),
 		'cheatin'   => __( 'Cheatin&#8217; uh?' ),
+
+		// Used for overriding the file types allowed in plupload.
+		'allowedFiles' => __( 'Allowed Files' ),
 	) );
 
 	$scripts->add( 'media-models', "/wp-includes/js/media-models$suffix.js", array( 'backbone', 'jquery' ), false, 1 );
