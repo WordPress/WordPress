@@ -107,10 +107,11 @@ var tb_position;
 				multiple: true
 			} ) );
 
-			workflow.on( 'insert', function() {
+			workflow.on( 'insert', function( selection ) {
 				var state = workflow.state(),
-					selection = state.get('selection'),
 					details = state.get('details');
+
+				selection = selection || state.get('selection');
 
 				if ( ! selection || ! details )
 					return;

@@ -338,7 +338,6 @@ function wp_default_scripts( &$scripts ) {
 		'mediaLibraryTitle' => __( 'Media Library' ),
 		'createNewGallery'  => __( 'Create a new gallery' ),
 		'insertIntoPost'    => __( 'Insert into post' ),
-		'addToGallery'      => __( 'Add to gallery' ),
 
 		// Embed
 		'embedFromUrlTitle' => __( 'Embed From URL' ),
@@ -346,6 +345,8 @@ function wp_default_scripts( &$scripts ) {
 		// Batch
 		'batchInsert'      => __( 'Batch insert' ),
 		'cancelBatchTitle' => __( '&#8592; Cancel Batch' ),
+		'editBatchTitle'   => __( 'Edit Batch' ),
+		'addToBatch'       => __( 'Add to batch' ),
 
 		// Gallery
 		'createGalleryTitle' => __( 'Create Gallery' ),
@@ -354,6 +355,7 @@ function wp_default_scripts( &$scripts ) {
 		'insertGallery'      => __( 'Insert gallery' ),
 		'updateGallery'      => __( 'Update gallery' ),
 		'continueEditing'    => __( 'Continue editing' ),
+		'addToGallery'       => __( 'Add to gallery' ),
 	) );
 
 	$scripts->add( 'shortcode', "/wp-includes/js/shortcode$suffix.js", array( 'underscore' ), false, 1 );
