@@ -172,7 +172,7 @@ class Custom_Image_Header {
 
 		if ( ( 1 == $step || 3 == $step ) ) {
 			add_thickbox();
-			wp_enqueue_script( 'media-upload' );
+			wp_enqueue_media();
 			wp_enqueue_script( 'custom-header' );
 			if ( current_theme_supports( 'custom-header', 'header-text' ) )
 				wp_enqueue_script( 'wp-color-picker' );
@@ -534,13 +534,18 @@ class Custom_Image_Header {
 		<?php submit_button( __( 'Upload' ), 'button', 'submit', false ); ?>
 	</p>
 	<?php
-		$image_library_url = get_upload_iframe_src( 'image', null, 'library' );
-		$image_library_url = remove_query_arg( 'TB_iframe', $image_library_url );
-		$image_library_url = add_query_arg( array( 'context' => 'custom-header', 'TB_iframe' => 1 ), $image_library_url );
+		$modal_update_href = esc_url( add_query_arg( array(
+			'page' => 'custom-header',
+			'step' => 2,
+			'_wpnonce-custom-header-upload' => wp_create_nonce('custom-header-upload'),
+		), admin_url('themes.php') ) );
 	?>
 	<p>
 		<label for="choose-from-library-link"><?php _e( 'Or choose an image from your media library:' ); ?></label><br />
-		<a id="choose-from-library-link" class="button thickbox" href="<?php echo esc_url( $image_library_url ); ?>"><?php _e( 'Choose Image' ); ?></a>
+		<a id="choose-from-library-link" class="button"
+			data-update-link="<?php echo esc_attr( $modal_update_href ); ?>"
+			data-choose="<?php esc_attr_e( 'Choose a Custom Header' ); ?>"
+			data-update="<?php esc_attr_e( 'Set as header' ); ?>"><?php _e( 'Choose Image' ); ?></a>
 	</p>
 	</form>
 </td>
@@ -746,7 +751,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	<p class="submit">
 	<?php submit_button( __( 'Crop and Publish' ), 'primary', 'submit', false ); ?>
 	<?php
-	if ( isset( $oitar ) && 1 == $oitar && ( current_theme_supports( 'custom-header', 'flex-height' ) || current_theme_supports( 'custom-header', 'flex-width' ) ) ) 
+	if ( isset( $oitar ) && 1 == $oitar && ( current_theme_supports( 'custom-header', 'flex-height' ) || current_theme_supports( 'custom-header', 'flex-width' ) ) )
 		submit_button( __( 'Skip Cropping, Publish Image as Is' ), 'secondary', 'skip-cropping', false );
 	?>
 	</p>
@@ -800,7 +805,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 
 		if ( ! empty( $_POST['skip-cropping'] ) && ! ( current_theme_supports( 'custom-header', 'flex-height' ) || current_theme_supports( 'custom-header', 'flex-width' ) ) )
 			wp_die( __( 'Cheatin&#8217; uh?' ) );
-			
+
 		if ( $_POST['oitar'] > 1 ) {
 			$_POST['x1'] = $_POST['x1'] * $_POST['oitar'];
 			$_POST['y1'] = $_POST['y1'] * $_POST['oitar'];
