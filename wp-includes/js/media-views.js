@@ -2086,7 +2086,7 @@
 		className: 'search',
 
 		attributes: {
-			type:        'text',
+			type:        'search',
 			placeholder: l10n.search
 		},
 
@@ -2136,7 +2136,7 @@
 					controller: this.controller,
 					model:      this.collection.props,
 					priority:   -40
-				}) );
+				}).render() );
 			}
 
 			this.attachments = new media.view.Attachments({
