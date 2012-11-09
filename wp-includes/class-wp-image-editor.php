@@ -17,7 +17,6 @@ abstract class WP_Image_Editor {
 	protected $mime_type  = null;
 	protected $default_mime_type = 'image/jpeg';
 	protected $quality = 90;
-	private static $implementation;
 
 	protected function __construct( $filename ) {
 		$this->file = $filename;
@@ -30,16 +29,17 @@ abstract class WP_Image_Editor {
 	 * @access public
 	 *
 	 * @param string $path Path to File to Load
+	 * @param array $required_methods Methods to require in implementation
 	 * @return WP_Image_Editor|WP_Error|boolean
 	 */
-	public final static function get_instance( $path = null ) {
-		$implementation = apply_filters( 'image_editor_class', self::choose_implementation(), $path );
+	public final static function get_instance( $path = null, $required_methods = null ) {
+		$implementation = apply_filters( 'wp_image_editor_class', self::choose_implementation( $required_methods ), $path );
 
 		if ( $implementation ) {
 			$editor = new $implementation( $path );
 			$loaded = $editor->load();
 
-			if ( is_wp_error ( $loaded ) )
+			if ( is_wp_error( $loaded ) )
 				return $loaded;
 
 			return $editor;
@@ -54,38 +54,76 @@ abstract class WP_Image_Editor {
 	 * @since 3.5.0
 	 * @access private
 	 *
+	 * @param $required_methods Array String array of all methods required for implementation returned.
+	 *
 	 * @return string|bool Class name for the first editor that claims to support the request. False if no editor claims to support the request.
 	 */
-	private final static function choose_implementation() {
+	private final static function choose_implementation( $required_methods = null ) {
+		$request_order = apply_filters( 'wp_image_editors',
+			array( 'WP_Image_Editor_Imagick', 'WP_Image_Editor_GD' ) );
 
-		if ( null === self::$implementation ) {
-			$request_order = apply_filters( 'wp_editors', array( 'imagick', 'gd' ) );
+		if ( ! $required_methods )
+			$required_methods = apply_filters( 'wp_image_editor_default_methods',
+				array( 'resize', 'multi_resize', 'crop', 'rotate', 'flip', 'stream' ) );
 
-			// Loop over each editor on each request looking for one which will serve this request's needs
-			foreach ( $request_order as $editor ) {
-				$class = 'WP_Image_Editor_' . $editor;
+		// Loop over each editor on each request looking for one which will serve this request's needs
+		foreach ( $request_order as $editor ) {
+			// Check to see if this editor is a possibility, calls the editor statically
+			if ( ! call_user_func( array( $editor, 'test' ) ) )
+				continue;
 
-				// Check to see if this editor is a possibility, calls the editor statically
-				if ( ! call_user_func( array( $class, 'test' ) ) )
-					continue;
+			// Make sure that all methods are supported by editor.
+			if ( array_diff( $required_methods, get_class_methods( $editor ) ) )
+				continue;
 
-				self::$implementation = $class;
-				break;
-			}
+			return $editor;
 		}
-		return self::$implementation;
+		return false;
 	}
 
-	abstract public function test(); // returns bool
 	abstract protected function load(); // returns bool|WP_Error
-	abstract public function supports_mime_type( $mime_type ); // returns bool
-	abstract public function resize( $max_w, $max_h, $crop = false );
-	abstract public function multi_resize( $sizes );
-	abstract public function crop( $src_x, $src_y, $src_w, $src_h, $dst_w = null, $dst_h = null, $src_abs = false );
-	abstract public function rotate( $angle );
-	abstract public function flip( $horz, $vert );
 	abstract public function save( $destfilename = null, $mime_type = null );
-	abstract public function stream( $mime_type = null );
+
+	/**
+	 * Implement all of the below to support natively used functions:
+	 *
+	 * public function resize( $max_w, $max_h, $crop = false )
+	 * public function multi_resize( $sizes )
+	 * public function crop( $src_x, $src_y, $src_w, $src_h, $dst_w = null, $dst_h = null, $src_abs = false )
+	 * public function rotate( $angle )
+	 * public function flip( $horz, $vert )
+	 * public function stream( $mime_type = null )
+	 */
+
+	/**
+	 * Checks to see if current environment supports the editor chosen.
+	 * Must be overridden in a sub-class.
+	 *
+	 * @since 3.5.0
+	 * @access public
+	 * @abstract
+	 *
+	 * @param $args array
+	 * @return boolean
+	 */
+	public static function test( $args = null ) {
+		return false;
+	}
+
+	/**
+	 * Checks to see if editor supports mime-type specified
+	 * Must be overridden in a sub-class.
+	 *
+	 * @since 3.5.0
+	 * @access public
+	 * @abstract
+	 *
+	 * @param string $mime_type
+	 * @return boolean
+	 */
+	public static function supports_mime_type( $mime_type ) {
+		return false;
+	}
 
 	/**
 	 * Gets dimensions of image
@@ -258,19 +296,19 @@ abstract class WP_Image_Editor {
 
 		$result = call_user_func_array( $function, $arguments );
 
-		if( $result && $stream ) {
+		if ( $result && $stream ) {
 			$contents = ob_get_contents();
 
 			$fp = fopen( $dst_file, 'w' );
 
-			if( ! $fp )
+			if ( ! $fp )
 				return false;
 
 			fwrite( $fp, $contents );
 			fclose( $fp );
 		}
 
-		if( $stream ) {
+		if ( $stream ) {
 			ob_end_clean();
 		}
 
@@ -295,8 +333,8 @@ abstract class WP_Image_Editor {
 		$extensions = array_keys( $mime_types );
 
 		foreach( $extensions as $_extension ) {
-			if( preg_match("/{$extension}/i", $_extension ) ) {
-				return $mime_types[ $_extension ];
+			if ( preg_match( "/{$extension}/i", $_extension ) ) {
+				return $mime_types[$_extension];
 			}
 		}
 

@@ -29,11 +29,11 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 * Checks to see if current environment supports Imagick
 	 *
 	 * @since 3.5.0
-	 * @access protected
+	 * @access public
 	 *
 	 * @return boolean
 	 */
-	public function test() {
+	public static function test( $args = null ) {
 		if ( ! extension_loaded( 'imagick' ) )
 			return false;
 
@@ -143,7 +143,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 * @param string $mime_type
 	 * @return boolean
 	 */
-	public function supports_mime_type( $mime_type ) {
+	public static function supports_mime_type( $mime_type ) {
 		if ( ! $mime_type )
 			return false;
 

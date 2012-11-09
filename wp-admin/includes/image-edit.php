@@ -237,7 +237,6 @@ function wp_stream_image( $image, $mime_type, $post_id ) {
 
 /**
  * Saves Image to File
- * @TODO: Add mime_type support to WP_Image_Editor
  *
  * @param string $filename
  * @param WP_Image_Editor $image
