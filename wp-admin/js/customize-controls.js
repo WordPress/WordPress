@@ -94,16 +94,16 @@
 					else
 						statuses.hide();
 				};
-			
+
 			var toggleFreeze = false;
-			
+
 			// Support the .dropdown class to open/close complex elements
 			this.container.on( 'click focus', '.dropdown', function( event ) {
 				event.preventDefault();
-				
+
 				if (!toggleFreeze)
 					control.container.toggleClass('open');
-				
+
 				// Don't want to fire focus and click at same time
 				toggleFreeze = true;
 				setTimeout(function () {
@@ -221,10 +221,10 @@
 
 			// Bind tab switch events
 			this.library.children('ul').on( 'click keydown', 'li', function( event ) {
-				
+
 				if ( event.type === 'keydown' &&  13 !== event.which )
 					return;
-				
+
 				var id  = $(this).data('customizeTab'),
 					tab = control.tabs[ id ];
 
@@ -833,21 +833,21 @@
 		// Temporary accordion code.
 		var accordionFrozen = false;
 		$('.customize-section-title').bind('click keydown', function( event ) {
-			
+
 			if ( event.type === 'keydown' &&  13 !== event.which ) // enter
 					return;
-			
+
 			var clicked = $( this ).parents( '.customize-section' );
 
 			if ( clicked.hasClass('cannot-expand') || accordionFrozen )
 				return;
-			
+
 			// Don't want to fire focus and click at same time
 			accordionFrozen = true;
 			setTimeout(function () {
 				accordionFrozen = false;
 			}, 400);
-			
+
 			// Scroll up if on #customize-section-title_tagline
 			if ('customize-section-title_tagline' === clicked.attr('id'))
 				$('.wp-full-overlay-sidebar-content').scrollTop(0);
@@ -868,7 +868,7 @@
 				previewer.save();
 			event.preventDefault();
 		});
-		
+
 		$('.back').keydown( function( event ) {
 			if ( 9 === event.which ) // tab
 				return;
