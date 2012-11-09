@@ -484,6 +484,16 @@ window.wp = window.wp || {};
 			single: true
 		};
 
+		// Generate the `href` based on the `link` property.
+		if ( props.link && 'none' !== props.link ) {
+			props.anchor = props.anchor || {};
+
+			if ( 'post' === props.link )
+				props.anchor.href = attachment.link;
+			else if ( 'file' === props.link )
+				props.anchor.href = attachment.url;
+		}
+
 		// Generate the `a` element options, if they exist.
 		if ( props.anchor ) {
 			options = {
