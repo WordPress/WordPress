@@ -30,7 +30,7 @@ abstract class WP_Image_Editor {
 	 *
 	 * @param string $path Path to File to Load
 	 * @param array $required_methods Methods to require in implementation
-	 * @return WP_Image_Editor|WP_Error|boolean
+	 * @return WP_Image_Editor|WP_Error
 	 */
 	public final static function get_instance( $path = null, $required_methods = null ) {
 		$implementation = apply_filters( 'wp_image_editor_class', self::choose_implementation( $required_methods ), $path );
@@ -54,8 +54,7 @@ abstract class WP_Image_Editor {
 	 * @since 3.5.0
 	 * @access private
 	 *
-	 * @param $required_methods Array String array of all methods required for implementation returned.
-	 *
+	 * @param array $required_methods String array of all methods required for implementation returned.
 	 * @return string|bool Class name for the first editor that claims to support the request. False if no editor claims to support the request.
 	 */
 	private final static function choose_implementation( $required_methods = null ) {
@@ -103,7 +102,7 @@ abstract class WP_Image_Editor {
 	 * @access public
 	 * @abstract
 	 *
-	 * @param $args array
+	 * @param array $args
 	 * @return boolean
 	 */
 	public static function test( $args = null ) {
@@ -181,7 +180,7 @@ abstract class WP_Image_Editor {
 	 * @access protected
 	 *
 	 * @param string $filename
-	 * @param type $mime_type
+	 * @param string $mime_type
 	 * @return array { filename|null, extension, mime-type }
 	 */
 	protected function get_output_format( $filename = null, $mime_type = null ) {
