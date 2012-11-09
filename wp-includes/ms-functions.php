@@ -1929,3 +1929,73 @@ function wp_update_network_counts() {
 	$count = $wpdb->get_var( "SELECT COUNT(ID) as c FROM $wpdb->users WHERE spam = '0' AND deleted = '0'" );
 	update_site_option( 'user_count', $count );
 }
+
+/**
+ * Returns the space used by the current blog.
+ *
+ * @since 3.5.0
+ *
+ * @return int Used space in megabytes
+ */
+function get_space_used() {
+	// Allow for an alternative way of tracking storage space used
+	$space_used = apply_filters( 'pre_get_space_used', false );
+	if ( false === $space_used ) {
+		$upload_dir = wp_upload_dir();
+		$space_used = get_dirsize( $upload_dir['basedir'] ) / 1024 / 1024;
+	}
+
+	return $space_used;
+}
+
+/**
+ * Returns the upload quota for the current blog.
+ *
+ * @since MU
+ *
+ * @return int Quota in megabytes
+ */
+function get_space_allowed() {
+	$space_allowed = get_option( 'blog_upload_space' );
+
+	if ( ! is_numeric( $space_allowed ) )
+		$space_allowed = get_site_option( 'blog_upload_space' );
+
+	if ( empty( $space_allowed ) || ! is_numeric( $space_allowed ) )
+		$space_allowed = 50;
+
+	return $space_allowed;
+}
+
+/**
+ * Determines if there is any upload space left in the current blog's quota.
+ *
+ * @since 3.0.0
+ *
+ * @return int of upload space available in bytes
+ */
+function get_upload_space_available() {
+	$space_allowed = get_space_allowed() * 1024 * 1024;
+	if ( get_site_option( 'upload_space_check_disabled' ) )
+		return $space_allowed;
+
+	$space_used = get_space_used() * 1024 * 1024;
+
+	if ( ( $space_allowed - $space_used ) <= 0 )
+		return 0;
+
+	return $space_allowed - $space_used;
+}
+
+/**
+ * @since 3.0.0
+ *
+ * @return int of upload size limit in bytes
+ */
+function upload_size_limit_filter( $size ) {
+	$fileupload_maxk = 1024 * get_site_option( 'fileupload_maxk', 1500 );
+	if ( get_site_option( 'upload_space_check_disabled' ) )
+		return min( $size, $fileupload_maxk );
+
+	return min( $size, $fileupload_maxk, get_upload_space_available() );
+}
