@@ -356,6 +356,7 @@
 		refresh: function() {
 			this.frame.$el.toggleClass( 'hide-sidebar hide-toolbar', this.get('empty') );
 			this.content();
+			this.refreshSelection();
 		},
 
 		_updateEmpty: function() {
@@ -374,6 +375,9 @@
 
 		toggleSelection: function( model ) {
 			var selection = this.get('selection');
+
+			if ( ! model )
+				return;
 
 			if ( selection.has( model ) ) {
 				// If the model is the single model, remove it.
@@ -564,6 +568,7 @@
 
 		reset: function() {
 			this.states.invoke( 'trigger', 'reset' );
+			return this;
 		}
 	});
 
@@ -628,11 +633,10 @@
 		};
 	});
 
-
 	/**
-	 * wp.media.view.MediaFrame.Post
+	 * wp.media.view.MediaFrame.Select
 	 */
-	media.view.MediaFrame.Post = media.view.MediaFrame.extend({
+	media.view.MediaFrame.Select = media.view.MediaFrame.extend({
 		initialize: function() {
 			media.view.MediaFrame.prototype.initialize.apply( this, arguments );
 
@@ -640,8 +644,7 @@
 				state:     'upload',
 				selection: [],
 				library:   {},
-				multiple:  false,
-				editing:   false
+				multiple:  false
 			});
 
 			this.createSelection();
@@ -652,67 +655,156 @@
 			this.state( this.options.state );
 		},
 
-		bindHandlers: function() {
-			var handlers = {
-					menu: {
-						main:    'mainMenu',
-						batch:   'batchMenu',
-						gallery: 'galleryMenu'
-					},
-
-					content: {
-						browse: 'browseContent',
-						upload: 'uploadContent',
-						embed:  'embedContent'
-					},
-
-					sidebar: {
-						'clear':               'clearSidebar',
-						'settings':            'settingsSidebar',
-						'attachment-settings': 'attachmentSettingsSidebar'
-					},
-
-					toolbar: {
-						'main-attachments': 'mainAttachmentsToolbar',
-						'main-embed':       'mainEmbedToolbar',
-						'batch-edit':       'batchEditToolbar',
-						'batch-add':        'batchAddToolbar',
-						'gallery-edit':     'galleryEditToolbar',
-						'gallery-add':      'galleryAddToolbar'
-					}
-				};
-
-			_.each( handlers, function( regionHandlers, region ) {
-				_.each( regionHandlers, function( callback, handler ) {
-					this[ region ].on( 'activate:' + handler, this[ callback ], this );
-				}, this );
-			}, this );
-
-			_.each(['library', 'upload'], function( id ) {
-				this.get( id ).on( 'refresh:selection', function( state, selection ) {
-					var sidebar = this.sidebar;
-
-					if ( ! selection.length )
-						sidebar.mode('clear');
-					else if ( selection.length === 1 )
-						sidebar.mode('attachment-settings');
-					else
-						sidebar.mode('settings');
-				}, this );
-			}, this );
-
-			this.sidebar.on( 'gallery-settings', this.onSidebarGallerySettings, this );
-		},
-
 		createSelection: function() {
 			var controller = this,
 				selection = this.options.selection;
 
 			if ( ! (selection instanceof media.model.Selection) ) {
-				selection = this.options.selection = new media.model.Selection( selection, {
+				this.options.selection = new media.model.Selection( selection, {
 					multiple: this.options.multiple
 				});
 			}
+		},
+
+		createStates: function() {
+			var options = this.options,
+				attributes;
+
+			attributes = {
+				multiple: this.options.multiple,
+				menu:     'main',
+				toolbar:  'select'
+			};
+
+			// Add the default states.
+			this.states.add([
+				// Main states.
+				new media.controller.Library( _.defaults({
+					selection: options.selection,
+					library:   media.query( options.library )
+				}, attributes ) ),
+
+				new media.controller.Upload( attributes )
+			]);
+		},
+
+		bindHandlers: function() {
+			this.menu.on( 'activate:main', this.mainMenu, this );
+			this.content.on( 'activate:browse', this.browseContent, this );
+			this.content.on( 'activate:upload', this.uploadContent, this );
+			this.sidebar.on( 'activate:clear', this.clearSidebar, this );
+			this.sidebar.on( 'activate:settings', this.settingsSidebar, this );
+			this.toolbar.on( 'activate:select', this.selectToolbar, this );
+
+			this.on( 'refresh:selection', this.refreshSelectToolbar, this );
+		},
+
+		mainMenu: function( options ) {
+			this.menu.view( new media.view.Menu({
+				controller: this,
+				silent:     options && options.silent,
+
+				views: {
+					upload: {
+						text: l10n.uploadFilesTitle,
+						priority: 20
+					},
+					library: {
+						text: l10n.mediaLibraryTitle,
+						priority: 40
+					}
+				}
+			}) );
+		},
+
+		// Content
+		browseContent: function() {
+			var state = this.state();
+
+			// Browse our library of attachments.
+			this.content.view( new media.view.AttachmentsBrowser({
+				controller: this,
+				collection: state.get('library'),
+				model:      state,
+				sortable:   state.get('sortable'),
+
+				AttachmentView: state.get('AttachmentView')
+			}).render() );
+		},
+
+		uploadContent: function() {
+			// In the meantime, render an inline uploader.
+			this.content.view( new media.view.UploaderInline({
+				controller: this
+			}).render() );
+		},
+
+		// Sidebars
+		clearSidebar: function() {
+			this.sidebar.view( new media.view.Sidebar({
+				controller: this
+			}) );
+		},
+
+		settingsSidebar: function( options ) {
+			this.sidebar.view( new media.view.Sidebar({
+				controller: this,
+				silent:     options && options.silent,
+
+				views: {
+					details: new media.view.Attachment.Details({
+						controller: this,
+						model:      this.state().get('selection').single(),
+						priority:   80
+					}).render()
+				}
+			}) );
+		},
+
+		// Toolbars
+		selectToolbar: function() {
+			this.toolbar.view( new media.view.Toolbar({
+				controller: this,
+				items: {
+					select: {
+						style:    'primary',
+						text:     l10n.select,
+						priority: 80,
+
+						click: function() {
+							var controller = this.controller;
+
+							controller.close();
+							controller.state().trigger('select');
+							controller.reset().state( controller.options.state );
+						}
+					}
+				}
+			}) );
+		},
+
+		refreshSelectToolbar: function() {
+			var selection = this.state().get('selection');
+
+			if ( ! selection || 'select' !== this.toolbar.mode() )
+				return;
+
+			this.toolbar.view().get('select').model.set( 'disabled', ! selection.length );
+		}
+	});
+
+	/**
+	 * wp.media.view.MediaFrame.Post
+	 */
+	media.view.MediaFrame.Post = media.view.MediaFrame.Select.extend({
+		initialize: function() {
+			_.defaults( this.options, {
+				state:     'upload',
+				multiple:  true,
+				editing:   false
+			});
+
+			media.view.MediaFrame.Select.prototype.initialize.apply( this, arguments );
 		},
 
 		createStates: function() {
@@ -790,29 +882,69 @@
 			]);
 		},
 
+		bindHandlers: function() {
+			media.view.MediaFrame.Select.prototype.bindHandlers.apply( this, arguments );
+
+			var handlers = {
+					menu: {
+						batch:   'batchMenu',
+						gallery: 'galleryMenu'
+					},
+
+					content: {
+						embed:  'embedContent'
+					},
+
+					sidebar: {
+						'attachment-settings': 'attachmentSettingsSidebar'
+					},
+
+					toolbar: {
+						'main-attachments': 'mainAttachmentsToolbar',
+						'main-embed':       'mainEmbedToolbar',
+						'batch-edit':       'batchEditToolbar',
+						'batch-add':        'batchAddToolbar',
+						'gallery-edit':     'galleryEditToolbar',
+						'gallery-add':      'galleryAddToolbar'
+					}
+				};
+
+			_.each( handlers, function( regionHandlers, region ) {
+				_.each( regionHandlers, function( callback, handler ) {
+					this[ region ].on( 'activate:' + handler, this[ callback ], this );
+				}, this );
+			}, this );
+
+			_.each(['library', 'upload'], function( id ) {
+				this.get( id ).on( 'refresh:selection', function( state, selection ) {
+					var sidebar = this.sidebar;
+
+					if ( ! selection.length )
+						sidebar.mode('clear');
+					else if ( selection.length === 1 )
+						sidebar.mode('attachment-settings');
+					else
+						sidebar.mode('settings');
+				}, this );
+			}, this );
+
+			this.sidebar.on( 'gallery-settings', this.onSidebarGallerySettings, this );
+		},
+
 		// Menus
 		mainMenu: function() {
-			this.menu.view( new media.view.Menu({
-				controller: this,
-				views: {
-					upload: {
-						text: l10n.uploadFilesTitle,
-						priority: 20
-					},
-					library: {
-						text: l10n.mediaLibraryTitle,
-						priority: 40
-					},
-					separateLibrary: new Backbone.View({
-						className: 'separator',
-						priority: 60
-					}),
-					embed: {
-						text: l10n.embedFromUrlTitle,
-						priority: 80
-					}
+			media.view.MediaFrame.Select.prototype.mainMenu.call( this, { silent: true });
+
+			this.menu.view().add({
+				separateLibrary: new Backbone.View({
+					className: 'separator',
+					priority: 60
+				}),
+				embed: {
+					text: l10n.embedFromUrlTitle,
+					priority: 80
 				}
-			}) );
+			});
 		},
 
 		batchMenu: function() {
@@ -890,51 +1022,9 @@
 		},
 
 		// Content
-		browseContent: function() {
-			var state = this.state();
-
-			// Browse our library of attachments.
-			this.content.view( new media.view.AttachmentsBrowser({
-				controller: this,
-				collection: state.get('library'),
-				model:      state,
-				sortable:   state.get('sortable'),
-
-				AttachmentView: state.get('AttachmentView')
-			}).render() );
-		},
-
-		uploadContent: function() {
-			// In the meantime, render an inline uploader.
-			this.content.view( new media.view.UploaderInline({
-				controller: this
-			}).render() );
-		},
-
 		embedContent: function() {},
 
 		// Sidebars
-		clearSidebar: function() {
-			this.sidebar.view( new media.view.Sidebar({
-				controller: this
-			}) );
-		},
-
-		settingsSidebar: function( options ) {
-			this.sidebar.view( new media.view.Sidebar({
-				controller: this,
-				silent:     options && options.silent,
-
-				views: {
-					details: new media.view.Attachment.Details({
-						controller: this,
-						model:      this.state().get('selection').single(),
-						priority:   80
-					}).render()
-				}
-			}) );
-		},
-
 		onSidebarGallerySettings: function( options ) {
 			this.sidebar.view().add({
 				gallery: new media.view.Settings.Gallery({

@@ -643,7 +643,7 @@ window.wp = window.wp || {};
 		// selected attachments, reset the selection.
 		add: function( models, options ) {
 			if ( ! this.multiple ) {
-				models = _.isArray( models ) ? _.first( models ) : models;
+				models = _.isArray( models ) && models.length ? _.first( models ) : models;
 				this.clear( options );
 			}
 

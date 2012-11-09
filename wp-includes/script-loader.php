@@ -328,6 +328,7 @@ function wp_default_scripts( &$scripts ) {
 		// Generic
 		'insertMedia' => __( 'Insert Media' ),
 		'search'      => __( 'Search' ),
+		'select'      => __( 'Select' ),
 		'cancel'      => __( 'Cancel' ),
 		'addImages'   => __( 'Add images' ),
 		'selected'    => __( 'selected' ),
