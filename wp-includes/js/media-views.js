@@ -440,7 +440,7 @@
 				this.frame.get( previous ).off( 'change:library', this._excludeStateLibrary, this );
 
 			if ( current )
-				this.frame.get( previous ).on( 'change:library', this._excludeStateLibrary, this );
+				this.frame.get( current ).on( 'change:library', this._excludeStateLibrary, this );
 		},
 
 		_excludeStateLibrary: function() {
