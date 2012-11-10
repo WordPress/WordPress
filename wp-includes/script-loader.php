@@ -324,44 +324,6 @@ function wp_default_scripts( &$scripts ) {
 	) );
 
 	$scripts->add( 'media-views',  "/wp-includes/js/media-views$suffix.js",  array( 'media-models', 'wp-plupload' ), false, 1 );
-	did_action( 'init' ) && $scripts->localize( 'media-views', '_wpMediaViewsL10n', array(
-		// Generic
-		'insertMedia' => __( 'Insert Media' ),
-		'search'      => __( 'Search' ),
-		'select'      => __( 'Select' ),
-		'cancel'      => __( 'Cancel' ),
-		'addImages'   => __( 'Add images' ),
-		'selected'    => __( 'selected' ),
-
-		// Upload
-		'uploadFilesTitle'  => __( 'Upload Files' ),
-		'selectFiles'       => __( 'Select files' ),
-		'uploadImagesTitle' => __( 'Upload Images' ),
-
-		// Library
-		'mediaLibraryTitle' => __( 'Media Library' ),
-		'createNewGallery'  => __( 'Create a new gallery' ),
-		'insertIntoPost'    => __( 'Insert into post' ),
-
-		// Embed
-		'embedFromUrlTitle' => __( 'Embed From URL' ),
-
-		// Batch
-		'batchInsert'      => __( 'Batch insert' ),
-		'cancelBatchTitle' => __( '&#8592; Cancel Batch' ),
-		'editBatchTitle'   => __( 'Edit Batch' ),
-		'addToBatch'       => __( 'Add to batch' ),
-
-		// Gallery
-		'createGalleryTitle' => __( 'Create Gallery' ),
-		'editGalleryTitle'   => __( 'Edit Gallery' ),
-		'cancelGalleryTitle' => __( '&#8592; Cancel Gallery' ),
-		'insertGallery'      => __( 'Insert gallery' ),
-		'updateGallery'      => __( 'Update gallery' ),
-		'continueEditing'    => __( 'Continue editing' ),
-		'addToGallery'       => __( 'Add to gallery' ),
-	) );
-
 	$scripts->add( 'shortcode', "/wp-includes/js/shortcode$suffix.js", array( 'underscore' ), false, 1 );
 	$scripts->add( 'mce-view', "/wp-includes/js/mce-view$suffix.js", array( 'shortcode', 'media-models' ), false, 1 );
 	did_action( 'init' ) && $scripts->localize( 'mce-view', '_wpMceViewL10n', array(

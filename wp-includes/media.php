@@ -1297,6 +1297,44 @@ function wp_prepare_attachment_for_js( $attachment ) {
  * @since 3.5.0
  */
 function wp_enqueue_media() {
+	wp_localize_script( 'media-views', '_wpMediaViewsL10n', array(
+		// Generic
+		'insertMedia' => __( 'Insert Media' ),
+		'search'      => __( 'Search' ),
+		'select'      => __( 'Select' ),
+		'cancel'      => __( 'Cancel' ),
+		'addImages'   => __( 'Add images' ),
+		'selected'    => __( 'selected' ),
+
+		// Upload
+		'uploadFilesTitle'  => __( 'Upload Files' ),
+		'selectFiles'       => __( 'Select files' ),
+		'uploadImagesTitle' => __( 'Upload Images' ),
+
+		// Library
+		'mediaLibraryTitle' => __( 'Media Library' ),
+		'createNewGallery'  => __( 'Create a new gallery' ),
+		'insertIntoPost'    => __( 'Insert into post' ),
+
+		// Embed
+		'embedFromUrlTitle' => __( 'Embed From URL' ),
+
+		// Batch
+		'batchInsert'      => __( 'Batch insert' ),
+		'cancelBatchTitle' => __( '&#8592; Cancel Batch' ),
+		'editBatchTitle'   => __( 'Edit Batch' ),
+		'addToBatch'       => __( 'Add to batch' ),
+
+		// Gallery
+		'createGalleryTitle' => __( 'Create Gallery' ),
+		'editGalleryTitle'   => __( 'Edit Gallery' ),
+		'cancelGalleryTitle' => __( '&#8592; Cancel Gallery' ),
+		'insertGallery'      => __( 'Insert gallery' ),
+		'updateGallery'      => __( 'Update gallery' ),
+		'continueEditing'    => __( 'Continue editing' ),
+		'addToGallery'       => __( 'Add to gallery' ),
+	) );
+
 	wp_enqueue_script( 'media-upload' );
 	wp_enqueue_style( 'media-views' );
 	wp_plupload_default_settings();
