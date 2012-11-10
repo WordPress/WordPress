@@ -525,7 +525,7 @@ class Custom_Image_Header {
 			printf( __( 'Suggested height is <strong>%1$d pixels</strong>.' ) . ' ', get_theme_support( 'custom-header', 'height' ) );
 	}
 	?></p>
-	<form enctype="multipart/form-data" id="upload-form" class="wp-upload-form" method="post" action="<?php echo esc_attr( add_query_arg( 'step', 2 ) ) ?>">
+	<form enctype="multipart/form-data" id="upload-form" class="wp-upload-form" method="post" action="<?php echo esc_url( add_query_arg( 'step', 2 ) ) ?>">
 	<p>
 		<label for="upload"><?php _e( 'Choose an image from your computer:' ); ?></label><br />
 		<input type="file" id="upload" name="import" />
@@ -554,7 +554,7 @@ class Custom_Image_Header {
 </tbody>
 </table>
 
-<form method="post" action="<?php echo esc_attr( add_query_arg( 'step', 1 ) ) ?>">
+<form method="post" action="<?php echo esc_url( add_query_arg( 'step', 1 ) ) ?>">
 <table class="form-table">
 <tbody>
 	<?php if ( get_uploaded_header_images() ) : ?>
@@ -729,7 +729,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 <?php screen_icon(); ?>
 <h2><?php _e( 'Crop Header Image' ); ?></h2>
 
-<form method="post" action="<?php echo esc_attr(add_query_arg('step', 3)); ?>">
+<form method="post" action="<?php echo esc_url(add_query_arg('step', 3)); ?>">
 	<p class="hide-if-no-js"><?php _e('Choose the part of the image you want to use as your header.'); ?></p>
 	<p class="hide-if-js"><strong><?php _e( 'You need Javascript to choose a part of the image.'); ?></strong></p>
 
