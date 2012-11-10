@@ -768,7 +768,13 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	 */
 	function step_2_manage_upload() {
 		$overrides = array('test_form' => false);
-		$file = wp_handle_upload($_FILES['import'], $overrides);
+
+		$uploaded_file = $_FILES['import'];
+		$wp_filetype = wp_check_filetype_and_ext( $uploaded_file['tmp_name'], $uploaded_file['name'], false );
+		if ( ! wp_match_mime_types( 'image', $wp_filetype['type'] ) )
+			wp_die( __( 'The uploaded file is not a valid image. Please try again.' ) );
+
+		$file = wp_handle_upload($uploaded_file, $overrides);
 
 		if ( isset($file['error']) )
 			wp_die( $file['error'],  __( 'Image Upload Error' ) );
