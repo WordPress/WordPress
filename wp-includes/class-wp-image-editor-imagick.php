@@ -52,7 +52,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 		if ( $this->image )
 			return true;
 
-		if ( ! is_file( $this->file ) )
+		if ( ! is_file( $this->file ) && ! preg_match( '|^https?://|', $this->file ) )
 			return new WP_Error( 'error_loading_image', __('File doesn&#8217;t exist?'), $this->file );
 
 		try {

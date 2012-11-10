@@ -22,13 +22,15 @@
  * @param string $dst_file Optional. The destination file to write to.
  * @return string|WP_Error|false New filepath on success, WP_Error or false on failure.
  */
-function wp_crop_image( $src_file, $src_x, $src_y, $src_w, $src_h, $dst_w, $dst_h, $src_abs = false, $dst_file = false ) {
-	if ( is_numeric( $src_file ) ) { // Handle int as attachment ID
-		$src_file = get_attached_file( $src_file );
+function wp_crop_image( $src, $src_x, $src_y, $src_w, $src_h, $dst_w, $dst_h, $src_abs = false, $dst_file = false ) {
+	$src_file = $src;
+	if ( is_numeric( $src ) ) { // Handle int as attachment ID
+		$src_file = get_attached_file( $src );
+
 		if ( ! file_exists( $src_file ) ) {
 			// If the file doesn't exist, attempt a url fopen on the src link.
 			// This can occur with certain file replication plugins.
-			$src_file = _load_image_to_edit_path( $src_file, 'full' );
+			$src_file = _load_image_to_edit_path( $src, 'full' );
 		}
 	}
 
