@@ -1774,31 +1774,32 @@ form.upgrade .hint {
 
 	.auto-fold #adminmenu div.wp-menu-image {
 		width: 32px;
-		margin-top: 0;
 		position: absolute;
 		z-index: 25;
 	}
 
 	.auto-fold #adminmenu a.menu-top {
-		height: 29px;
+		height: 28px;
 	}
 
-	.auto-fold .wp-menu-arrow {
-		-moz-transform:    translate( 33px );
-		-webkit-transform: translate( 33px );
-		-o-transform:      translate( 33px );
-		-ms-transform:     translate( 33px );
-		transform:         translate( 33px );
+	.auto-fold #adminmenu li .wp-menu-arrow {
+		-moz-transform:    translate( 32px );
+		-webkit-transform: translate( 32px );
+		-o-transform:      translate( 32px );
+		-ms-transform:     translate( 32px );
+		transform:         translate( 32px );
 	}
 
-	.auto-fold #adminmenu li.wp-not-current-submenu .wp-menu-arrow {
+	.auto-fold #adminmenu li .wp-menu-arrow div {
 		display: none;
 	}
 
 	.auto-fold #adminmenu li.current .wp-menu-arrow,
-	.auto-fold #adminmenu li.wp-menu-open .wp-menu-arrow {
+	.auto-fold #adminmenu li.current .wp-menu-arrow div,
+	.auto-fold #adminmenu li.wp-has-current-submenu .wp-menu-arrow div,
+	.auto-fold #adminmenu li.wp-menu-open .wp-menu-arrow,
+	.auto-fold #adminmenu li a:focus .wp-menu-arrow {
 		display: block;
-		top: 1px;
 	}
 
 	.auto-fold #adminmenu li.wp-menu-open {
@@ -1816,6 +1817,7 @@ form.upgrade .hint {
 	.auto-fold #collapse-menu span {
 		display: none;
 	}
+
 }
 
 /* List table styles */
