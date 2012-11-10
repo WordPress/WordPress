@@ -1300,11 +1300,11 @@ function wp_enqueue_media() {
 	// We're going to pass the old thickbox media tabs to `media_upload_tabs`
 	// to ensure plugins will work. We will then unset those tabs.
 	$tabs = array(
-		// handler action suffix => tab text
-		'type'     => __('From Computer'),
-		'type_url' => __('From URL'),
-		'gallery'  => __('Gallery'),
-		'library'  => __('Media Library'),
+		// handler action suffix => tab label
+		'type'     => '',
+		'type_url' => '',
+		'gallery'  => '',
+		'library'  => '',
 	);
 
 	$tabs = apply_filters( 'media_upload_tabs', $tabs );
