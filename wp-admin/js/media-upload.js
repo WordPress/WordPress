@@ -153,7 +153,7 @@ var tb_position;
 		},
 
 		init: function() {
-			$('.insert-media').on( 'click', function( event ) {
+			$('#wpbody').on('click', '.insert-media', function( event ) {
 				var editor = $(this).data('editor'),
 					workflow;
 
