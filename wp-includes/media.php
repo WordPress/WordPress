@@ -1328,6 +1328,7 @@ function wp_enqueue_media() {
 		'cancel'      => __( 'Cancel' ),
 		'addImages'   => __( 'Add images' ),
 		'selected'    => __( 'selected' ),
+		'dragInfo'    => __( 'Drag and drop to reorder images.' ),
 
 		// Upload
 		'uploadFilesTitle'  => __( 'Upload Files' ),

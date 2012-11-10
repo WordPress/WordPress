@@ -263,11 +263,12 @@
 	// ---------------------------
 	media.controller.Library = media.controller.State.extend({
 		defaults: {
-			id:       'library',
-			multiple: false,
-			describe: false,
-			toolbar:  'main-attachments',
-			sidebar:  'settings'
+			id:         'library',
+			multiple:   false,
+			describe:   false,
+			toolbar:    'main-attachments',
+			sidebar:    'settings',
+			searchable: true
 		},
 
 		initialize: function() {
@@ -501,6 +502,7 @@
 			edge:       199,
 			editing:    false,
 			sortable:   true,
+			searchable: false,
 			toolbar:    'gallery-edit',
 			sidebar:    'settings'
 		},
@@ -809,6 +811,7 @@
 				collection: state.get('library'),
 				model:      state,
 				sortable:   state.get('sortable'),
+				search:     state.get('searchable'),
 
 				AttachmentView: state.get('AttachmentView')
 			}).render() );
@@ -945,14 +948,15 @@
 
 				// Batch states.
 				new media.controller.Library({
-					id:       'batch-edit',
-					multiple: false,
-					describe: true,
-					edge:     199,
-					sortable: true,
-					menu:     'batch',
-					toolbar:  'batch-edit',
-					sidebar:  'attachment-settings'
+					id:         'batch-edit',
+					multiple:   false,
+					describe:   true,
+					edge:       199,
+					sortable:   true,
+					searchable: false,
+					menu:       'batch',
+					toolbar:    'batch-edit',
+					sidebar:    'attachment-settings'
 				}),
 
 				new media.controller.Library( _.defaults({
@@ -2316,8 +2320,15 @@
 				this.toolbar.add( 'search', new media.view.Search({
 					controller: this.controller,
 					model:      this.collection.props,
-					priority:   -40
+					priority:   -60
 				}).render() );
+			}
+
+			if ( this.options.sortable ) {
+				this.toolbar.add( 'dragInfo', new Backbone.View({
+					el: $( '<div class="instructions">' + l10n.dragInfo + '</div>' )[0],
+					priority: -40
+				}) );
 			}
 
 			this.attachments = new media.view.Attachments({

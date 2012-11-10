@@ -277,6 +277,10 @@
 	font-family: sans-serif;
 }
 
+.media-toolbar-secondary .search {
+	margin-right: 16px;
+}
+
 /**
  * Attachments
  */
@@ -494,6 +498,14 @@
 	right: 0;
 	bottom: 0;
 	overflow: auto;
+}
+
+.attachments-browser .instructions {
+	display: inline-block;
+	margin-top: 16px;
+	line-height: 18px;
+	font-size: 13px;
+	color: #999;
 }
 
 
