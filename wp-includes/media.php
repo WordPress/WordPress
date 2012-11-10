@@ -1536,25 +1536,31 @@ function wp_print_media_templates( $attachment ) {
 			</select>
 		</label>
 
-		<label class="setting">
-			<span><?php _e('Link To'); ?></span>
-			<select class="link-to"
-				data-setting="link"
-				<# if ( userSettings ) { #>
-					data-user-setting="urlbutton"
-				<# } #>>
+		<div class="setting">
+			<label>
+				<span><?php _e('Link To'); ?></span>
+				<select class="link-to"
+					data-setting="link"
+					<# if ( userSettings ) { #>
+						data-user-setting="urlbutton"
+					<# } #>>
 
-				<option value="post" selected>
-					<?php esc_attr_e('Attachment Page'); ?>
-				</option>
-				<option value="file">
-					<?php esc_attr_e('Media File'); ?>
-				</option>
-				<option value="none">
-					<?php esc_attr_e('None'); ?>
-				</option>
-			</select>
-		</label>
+					<option value="custom">
+						<?php esc_attr_e('Custom URL'); ?>
+					</option>
+					<option value="post" selected>
+						<?php esc_attr_e('Attachment Page'); ?>
+					</option>
+					<option value="file">
+						<?php esc_attr_e('Media File'); ?>
+					</option>
+					<option value="none">
+						<?php esc_attr_e('None'); ?>
+					</option>
+				</select>
+			</label>
+			<input type="text" class="link-to-custom" data-setting="linkUrl" />
+		</div>
 
 		<# if ( ! _.isUndefined( sizes ) ) { #>
 			<label class="setting">

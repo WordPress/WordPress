@@ -123,10 +123,13 @@ var tb_position;
 					if ( detail )
 						detail = detail.toJSON();
 
+					// Reset the attachment details.
+					delete details[ attachment.cid ];
+
 					if ( 'image' === attachment.get('type') )
 						return wp.media.string.image( attachment, detail ) + ' ';
 					else
-						return wp.media.string.link( attachment ) + ' ';
+						return wp.media.string.link( attachment, detail ) + ' ';
 				}).join('') );
 			}, this );
 

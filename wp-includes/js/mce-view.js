@@ -420,11 +420,26 @@ window.wp = window.wp || {};
 // Default TinyMCE Views
 // ---------------------
 (function($){
-	var mceview = wp.mce.view;
+	var mceview = wp.mce.view,
+		linkToUrl;
+
+	linkToUrl = function( attachment, props ) {
+		var link = props.link,
+			url;
+
+		if ( 'file' === link )
+			url = attachment.get('url');
+		else if ( 'post' === link )
+			url = attachment.get('link');
+		else if ( 'custom' === link )
+			url = props.linkUrl;
+
+		return url || '';
+	};
 
 	wp.media.string = {};
 
-	wp.media.string.link = function( attachment ) {
+	wp.media.string.link = function( attachment, props ) {
 		var linkTo  = getUserSetting( 'urlbutton', 'post' ),
 			options = {
 				tag:     'a',
@@ -434,9 +449,7 @@ window.wp = window.wp || {};
 				}
 			};
 
-		// Attachments can be linked to attachment post pages or to the direct
-		// URL. `none` is not a valid option.
-		options.attrs.href = ( linkTo === 'file' ) ? attachment.get('url') : attachment.get('link');
+		options.attrs.href = linkToUrl( attachment, props );
 
 		return wp.html.string( options );
 	};
@@ -444,14 +457,16 @@ window.wp = window.wp || {};
 	wp.media.string.image = function( attachment, props ) {
 		var classes, img, options, size;
 
-		attachment = attachment.toJSON();
-
 		props = _.defaults( props || {}, {
 			img:   {},
 			align: getUserSetting( 'align', 'none' ),
 			size:  getUserSetting( 'imgsize', 'medium' ),
 			link:  getUserSetting( 'urlbutton', 'post' )
 		});
+
+		props.linkUrl = linkToUrl( attachment, props );
+
+		attachment = attachment.toJSON();
 
 		img     = _.clone( props.img );
 		classes = img['class'] ? img['class'].split(/\s+/) : [];
@@ -485,13 +500,9 @@ window.wp = window.wp || {};
 		};
 
 		// Generate the `href` based on the `link` property.
-		if ( props.link && 'none' !== props.link ) {
+		if ( props.linkUrl ) {
 			props.anchor = props.anchor || {};
-
-			if ( 'post' === props.link )
-				props.anchor.href = attachment.link;
-			else if ( 'file' === props.link )
-				props.anchor.href = attachment.url;
+			props.anchor.href = props.linkUrl;
 		}
 
 		// Generate the `a` element options, if they exist.

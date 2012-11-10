@@ -2513,6 +2513,10 @@
 			this.model.on( 'change', this.updateChanges, this );
 		},
 
+		destroy: function() {
+			this.model.off( null, null, this );
+		},
+
 		render: function() {
 			this.$el.html( this.template( _.defaults({
 				model: this.model.toJSON()
@@ -2582,6 +2586,31 @@
 				userSettings: false
 			});
 			media.view.Settings.prototype.initialize.apply( this, arguments );
+			this.model.on( 'change:link', this.updateCustomLink, this );
+		},
+
+		render: function() {
+			media.view.Settings.prototype.render.call( this );
+			this.updateCustomLink();
+			return this;
+		},
+
+		updateCustomLink: function() {
+			var isCustom = 'custom' === this.model.get('link'),
+				$input = this.$('.link-to-custom');
+
+			if ( ! isCustom ) {
+				$input.hide();
+				return;
+			}
+
+			$input.show();
+			if ( ! this.model.get('linkUrl') )
+				$input.val('http://');
+
+			// If the input is visible, focus and select its contents.
+			if ( $input.is(':visible') )
+				$input.focus()[0].select();
 		}
 	});
 
