@@ -1597,13 +1597,14 @@
 	// ---------------------------------
 	media.view.Toolbar.Insert.Post = media.view.Toolbar.Insert.extend({
 		initialize: function() {
-			var selectionToLibrary = function( state ) {
+			var selectionToLibrary = function( state, filter ) {
 					return function() {
 						var controller = this.controller,
 							selection = controller.state().get('selection'),
-							edit = controller.get( state );
+							edit = controller.get( state ),
+							models = filter ? filter( selection ) : selection.models;
 
-						edit.set( 'library', new media.model.Selection( selection.models, {
+						edit.set( 'library', new media.model.Selection( models, {
 							props:    selection.props.toJSON(),
 							multiple: true
 						}) );
@@ -1616,7 +1617,9 @@
 				gallery: {
 					text:     l10n.createNewGallery,
 					priority: 40,
-					click:    selectionToLibrary('gallery-edit')
+					click:    selectionToLibrary('gallery-edit', function( selection ) {
+						return selection.where({ type: 'image' });
+					})
 				},
 
 				batch: {
@@ -1637,7 +1640,7 @@
 			media.view.Toolbar.Insert.prototype.refresh.apply( this, arguments );
 
 			// Check if every attachment in the selection is an image.
-			this.get('gallery').$el.toggle( count > 1 && selection.all( function( attachment ) {
+			this.get('gallery').$el.toggle( count > 1 && selection.any( function( attachment ) {
 				return 'image' === attachment.get('type');
 			}) );
 
