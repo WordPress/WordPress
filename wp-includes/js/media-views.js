@@ -8,6 +8,10 @@
 	// Link any localized strings.
 	l10n = media.view.l10n = _.isUndefined( _wpMediaViewsL10n ) ? {} : _wpMediaViewsL10n;
 
+	// Link any settings.
+	media.view.settings = l10n.settings || {};
+	delete l10n.settings;
+
 	// Check if the browser supports CSS 3.0 transitions
 	$.support.transition = (function(){
 		var style = document.documentElement.style,
@@ -550,7 +554,9 @@
 
 		_createStates: function() {
 			// Create the default `states` collection.
-			this.states = new Backbone.Collection();
+			this.states = new Backbone.Collection( null, {
+				model: media.controller.State
+			});
 
 			// Ensure states have a reference to the frame.
 			this.states.on( 'add', function( model ) {
@@ -625,12 +631,87 @@
 				this.uploader.render().$el.appendTo( this.$el );
 
 			return this;
+		},
+
+		createIframeStates: function( options ) {
+			var settings = media.view.settings,
+				tabs = settings.tabs,
+				tabUrl = settings.tabUrl,
+				$postId;
+
+			if ( ! tabs || ! tabUrl )
+				return;
+
+			// Add the post ID to the tab URL if it exists.
+			$postId = $('#post_ID');
+			if ( $postId.length )
+				tabUrl += '&post_id=' + $postId.val();
+
+			// Generate the tab states.
+			_.each( tabs, function( title, id ) {
+				var frame = this.get( 'iframe:' + id ).set( _.defaults({
+					tab:     id,
+					src:     tabUrl + '&tab=' + id,
+					title:   title,
+					content: 'iframe',
+					menu:    'main'
+				}, options ) );
+			}, this );
+
+			this.content.on( 'activate:iframe', this.iframeContent, this );
+			this.menu.on( 'activate:main', this.iframeMenu, this );
+			this.on( 'open', this.hijackThickbox, this );
+			this.on( 'close', this.restoreThickbox, this );
+		},
+
+		iframeContent: function() {
+			this.$el.addClass('hide-toolbar hide-sidebar');
+			this.content.view( new media.view.Iframe({
+				controller: this
+			}).render() );
+		},
+
+		iframeMenu: function() {
+			var views = {};
+
+			_.each( media.view.settings.tabs, function( title, id ) {
+				views[ 'iframe:' + id ] = {
+					text: this.get( 'iframe:' + id ).get('title'),
+					priority: 200
+				};
+			}, this );
+
+			this.menu.view().add( views );
+		},
+
+		hijackThickbox: function() {
+			var frame = this;
+
+			if ( ! window.tb_remove || this._tb_remove )
+				return;
+
+			this._tb_remove = window.tb_remove;
+			window.tb_remove = function() {
+				frame.close();
+				frame.reset();
+				frame.state( frame.options.state );
+				frame._tb_remove.call( window );
+			};
+		},
+
+		restoreThickbox: function() {
+			if ( ! this._tb_remove )
+				return;
+
+			window.tb_remove = this._tb_remove;
+			delete this._tb_remove;
 		}
 	});
 
 	// Map some of the modal's methods to the frame.
 	_.each(['open','close','attach','detach'], function( method ) {
 		media.view.MediaFrame.prototype[ method ] = function( view ) {
+			this.trigger( method );
 			if ( this.modal )
 				this.modal[ method ].apply( this.modal, arguments );
 			return this;
@@ -654,9 +735,6 @@
 			this.createSelection();
 			this.createStates();
 			this.bindHandlers();
-
-			// Set the default state.
-			this.state( this.options.state );
 		},
 
 		createSelection: function() {
@@ -809,6 +887,7 @@
 			});
 
 			media.view.MediaFrame.Select.prototype.initialize.apply( this, arguments );
+			this.createIframeStates();
 		},
 
 		createStates: function() {
@@ -2503,6 +2582,22 @@
 
 		events: {
 			'change .describe': 'describe'
+		}
+	});
+
+	/**
+	 * wp.media.view.Iframe
+	 */
+	media.view.Iframe = Backbone.View.extend({
+		className: 'media-iframe',
+
+		initialize: function() {
+			this.controller = this.options.controller;
+		},
+
+		render: function() {
+			this.$el.html( '<iframe src="' + this.controller.state().get('src') + '" />' );
+			return this;
 		}
 	});
 }(jQuery));

@@ -1275,12 +1275,12 @@ function get_media_item( $attachment_id, $args = null ) {
  * @since 2.5.0
  */
 function media_upload_header() {
-	?>
-	<script type="text/javascript">post_id = <?php echo intval($_REQUEST['post_id']); ?>;</script>
-	<div id="media-upload-header">
-	<?php the_media_upload_tabs(); ?>
-	</div>
-	<?php
+	echo '<script type="text/javascript">post_id = ' . intval( $_REQUEST['post_id'] ) . ";</script>\n";
+	if ( empty( $_GET['chromeless'] ) ) {
+		echo '<div id="media-upload-header">';
+		the_media_upload_tabs();
+		echo '</div>';
+	}
 }
 
 /**

@@ -30,6 +30,9 @@ window.wp = window.wp || {};
 			frame = new MediaFrame.Post( attributes );
 
 		delete attributes.frame;
+		// Set the default state.
+		frame.state( frame.options.state );
+		// Render, attach, and open the frame.
 		return frame.render().attach().open();
 	};
 

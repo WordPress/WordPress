@@ -254,6 +254,18 @@
 }
 
 /**
+ * Iframes
+ */
+.media-frame .media-iframe {
+	overflow: hidden;
+}
+
+.media-iframe iframe {
+	height: 100%;
+	width: 100%;
+}
+
+/**
  * Search
  */
 .media-frame .search {
