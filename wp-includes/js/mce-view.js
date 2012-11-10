@@ -740,7 +740,8 @@ window.wp = window.wp || {};
 				// Create a single-use frame. If the frame is closed,
 				// then detach it from the DOM and remove the reference.
 				this.frame.on( 'close', function() {
-					this.frame.detach();
+					if ( this.frame )
+						this.frame.detach();
 					delete this.frame;
 				}, this );
 
