@@ -133,10 +133,11 @@
 	right: 0;
 	bottom: 61px;
 	width: 267px;
-	padding: 0 16px;
+	padding: 0 16px 24px;
 	z-index: 75;
 	background: #f5f5f5;
 	border-left: 1px solid #dfdfdf;
+	overflow: auto;
 }
 
 .hide-sidebar .media-sidebar {
@@ -200,7 +201,7 @@
 
 .media-sidebar .setting span {
 	float: left;
-	min-width: 78px;
+	min-width: 30%;
 	min-height: 24px;
 	margin-right: 7px;
 	padding-top: 8px;
@@ -211,14 +212,9 @@
 }
 
 .media-sidebar .setting input,
-.media-sidebar .setting textarea,
-.media-sidebar .setting > .button-group {
-	min-width: 180px;
-	float: right;
-}
-
-.media-sidebar .setting input,
 .media-sidebar .setting textarea {
+	float: right;
+	width: 65%;
 	padding: 6px 8px;
 	line-height: 16px;
 	resize: none;
