@@ -104,7 +104,7 @@ if ( empty($load) )
 $compress = ( isset($_GET['c']) && $_GET['c'] );
 $force_gzip = ( $compress && 'gzip' == $_GET['c'] );
 $rtl = ( isset($_GET['dir']) && 'rtl' == $_GET['dir'] );
-$expires_offset = 31536000;
+$expires_offset = 31536000; // 1 year
 $out = '';
 
 $wp_styles = new WP_Styles();

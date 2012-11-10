@@ -73,7 +73,7 @@ function wp_initial_constants( ) {
 	if ( !defined('SHORTINIT') )
 		define('SHORTINIT', false);
 
-	// Constants for expressing human-interval intervals
+	// Constants for expressing human-readable intervals
 	// in their respective number of seconds.
  	define( 'MINUTE_IN_SECONDS', 60 );
  	define( 'HOUR_IN_SECONDS',   60 * MINUTE_IN_SECONDS );
