@@ -1009,15 +1009,29 @@ function post_thumbnail_meta_box( $post ) {
 			$thumbnailId = $element.find('input[name="thumbnail_id"]'),
 			title        = '<?php _e( "Choose a Featured Image" ); ?>',
 			update       = '<?php _e( "Update Featured Image" ); ?>',
+			Attachment   = wp.media.model.Attachment,
 			frame, setFeaturedImage;
 
 		setFeaturedImage = function( thumbnailId ) {
+			var selection;
+
 			$element.find('img').remove();
 			$element.toggleClass( 'has-featured-image', -1 != thumbnailId );
 			$thumbnailId.val( thumbnailId );
+
+			if ( frame ) {
+				selection = frame.get('library').get('selection');
+
+				if ( -1 === thumbnailId )
+					selection.clear();
+				else
+					selection.add( Attachment.get( thumbnailId ) );
+			}
 		};
 
 		$element.on( 'click', '.choose, img', function( event ) {
+			var options, thumbnailId;
+
 			event.preventDefault();
 
 			if ( frame ) {
@@ -1025,13 +1039,18 @@ function post_thumbnail_meta_box( $post ) {
 				return;
 			}
 
-			frame = wp.media({
-				title:     title,
-				selection: [ wp.media.model.Attachment.get( $thumbnailId.val() ) ],
-				library:   {
+			options = {
+				title:   title,
+				library: {
 					type: 'image'
 				}
-			});
+			};
+
+			thumbnailId = $thumbnailId.val();
+			if ( '' !== thumbnailId && -1 !== thumbnailId )
+				options.selection = [ Attachment.get( thumbnailId ) ];
+
+			frame = wp.media( options );
 
 			frame.toolbar.on( 'activate:select', function() {
 				frame.toolbar.view().add({
