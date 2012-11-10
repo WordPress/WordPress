@@ -1858,8 +1858,11 @@ function wp_ajax_save_attachment() {
 	if ( ! empty( $changes['caption'] ) )
 		$args['post_excerpt'] = $changes['caption'];
 
+	if ( ! empty( $changes['alt'] ) )
+		$args['_wp_attachment_image_alt'] = $changes['alt'];
+
 	if ( $args )
-		wp_update_post( array_merge( $args, array( 'ID' => $id ) ) );
+		edit_post( array_merge( $args, array( 'post_ID' => $id ) ) );
 
 	wp_send_json_success();
 }

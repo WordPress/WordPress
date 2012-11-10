@@ -1262,6 +1262,7 @@ function wp_prepare_attachment_for_js( $attachment ) {
 		'type'        => $type,
 		'subtype'     => $subtype,
 		'icon'        => wp_mime_type_icon( $attachment->ID ),
+		'dateFormatted' => mysql2date( get_option('date_format'), $attachment->post_date ),
 	);
 
 	if ( $meta && 'image' === $type ) {
@@ -1436,36 +1437,53 @@ function wp_print_media_templates( $attachment ) {
 	</script>
 
 	<script type="text/html" id="tmpl-attachment-details">
-		<h3><?php _e('Edit Attachment Details'); ?></h3>
-		<div class="attachment-preview attachment-details-preview type-{{ type }} subtype-{{ subtype }} {{ orientation }}">
-			<# if ( uploading ) { #>
-				<div class="media-progress-bar"><div></div></div>
-			<# } else if ( 'image' === type ) { #>
-				<div class="thumbnail">
+		<h3><?php _e('Attachment Details'); ?></h3>
+		<div class="attachment-info">
+			<div class="thumbnail">
+				<# if ( uploading ) { #>
+					<div class="media-progress-bar"><div></div></div>
+				<# } else if ( 'image' === type ) { #>
 					<img src="{{ url }}" draggable="false" />
-				</div>
-			<# } else { #>
-				<div class="icon-thumbnail">
+				<# } else { #>
 					<img src="{{ icon }}" class="icon" draggable="false" />
-					<div class="filename">{{ filename }}</div>
-				</div>
-			<# } #>
+				<# } #>
+			</div>
+			<div class="details">
+				<div class="filename">{{ filename }}</div>
+				<div class="uploaded">{{ dateFormatted }}</div>
+				<# if ( 'image' === type ) { #>
+					<div class="dimensions">{{ width }} &times; {{ height }}</div>
+				<# } #>
+			</div>
 		</div>
 
 		<# if ( 'image' === type ) { #>
-			<textarea class="describe"
-				placeholder="<?php esc_attr_e('Describe this image&hellip;'); ?>"
-				>{{ caption }}</textarea>
+			<label class="setting" data-setting="title">
+				<span><?php _e('Title'); ?></span>
+				<input type="text" value="{{ title }}" />
+			</label>
+			<label class="setting" data-setting="caption">
+				<span><?php _e('Caption'); ?></span>
+				<textarea
+					placeholder="<?php esc_attr_e('Describe this image&hellip;'); ?>"
+					>{{ caption }}</textarea>
+			</label>
+			<label class="setting" data-setting="alt">
+				<span><?php _e('Alt Text'); ?></span>
+				<input type="text" value="{{ alt }}" />
+			</label>
 		<# } else { #>
-			<textarea class="describe"
+			<label class="setting" data-setting="title">
+				<span><?php _e('Title'); ?></span>
+				<input type="text" value="{{ title }}"
 				<# if ( 'video' === type ) { #>
 					placeholder="<?php esc_attr_e('Describe this video&hellip;'); ?>"
 				<# } else if ( 'audio' === type ) { #>
 					placeholder="<?php esc_attr_e('Describe this audio file&hellip;'); ?>"
 				<# } else { #>
 					placeholder="<?php esc_attr_e('Describe this media file&hellip;'); ?>"
-				<# } #>
-				>{{ title }}</textarea>
+				<# } #>/>
+			</label>
 		<# } #>
 	</script>
 
@@ -1495,100 +1513,112 @@ function wp_print_media_templates( $attachment ) {
 	<script type="text/html" id="tmpl-attachment-display-settings">
 		<h3><?php _e('Attachment Display Settings'); ?></h3>
 
-		<h4><?php _e('Alignment'); ?></h4>
-		<div class="alignment button-group button-large"
-			data-setting="align"
-			<# if ( userSettings ) { #>
-				data-user-setting="align"
-			<# } #>>
-
-			<button class="button" value="left">
-				<?php esc_attr_e('Left'); ?>
-			</button>
-			<button class="button" value="center">
-				<?php esc_attr_e('Center'); ?>
-			</button>
-			<button class="button" value="right">
-				<?php esc_attr_e('Right'); ?>
-			</button>
-			<button class="button active" value="none">
-				<?php esc_attr_e('None'); ?>
-			</button>
-		</div>
-
-		<h4><?php _e('Link To'); ?></h4>
-		<div class="link-to button-group button-large"
-			data-setting="link"
-			<# if ( userSettings ) { #>
-				data-user-setting="urlbutton"
-			<# } #>>
-
-			<button class="button active" value="post">
-				<?php esc_attr_e('Attachment Page'); ?>
-			</button>
-			<button class="button" value="file">
-				<?php esc_attr_e('Media File'); ?>
-			</button>
-			<button class="button" value="none">
-				<?php esc_attr_e('None'); ?>
-			</button>
-		</div>
-
-		<# if ( ! _.isUndefined( sizes ) ) { #>
-			<h4><?php _e('Size'); ?></h4>
-			<select class="size" name="size"
-				data-setting="size"
+		<label class="setting">
+			<span><?php _e('Alignment'); ?></span>
+			<select class="alignment"
+				data-setting="align"
 				<# if ( userSettings ) { #>
-					data-user-setting="imgsize"
+					data-user-setting="align"
 				<# } #>>
-				<?php
 
-				$sizes = apply_filters( 'image_size_names_choose', array(
-					'thumbnail' => __('Thumbnail'),
-					'medium'    => __('Medium'),
-					'large'     => __('Large'),
-				) );
-
-				foreach ( $sizes as $value => $name ) : ?>
-					<# if ( ! _.isUndefined( sizes['<?php echo esc_js( $value ); ?>'] ) ) { #>
-						<option value="<?php echo esc_attr( $value ); ?>" <?php selected( $value, 'medium' ); ?>>
-							<?php echo esc_html( $name ); ?>
-						</option>
-					<# } #>>
-				<?php endforeach; ?>
-
-				<option value="full">
-					<?php echo esc_html_e( 'Full Size' ); ?>
+				<option value="left">
+					<?php esc_attr_e('Left'); ?>
+				</option>
+				<option value="center">
+					<?php esc_attr_e('Center'); ?>
+				</option>
+				<option value="right">
+					<?php esc_attr_e('Right'); ?>
+				</option>
+				<option value="none" selected>
+					<?php esc_attr_e('None'); ?>
 				</option>
 			</select>
+		</label>
+
+		<label class="setting">
+			<span><?php _e('Link To'); ?></span>
+			<select class="link-to"
+				data-setting="link"
+				<# if ( userSettings ) { #>
+					data-user-setting="urlbutton"
+				<# } #>>
+
+				<option value="post" selected>
+					<?php esc_attr_e('Attachment Page'); ?>
+				</option>
+				<option value="file">
+					<?php esc_attr_e('Media File'); ?>
+				</option>
+				<option value="none">
+					<?php esc_attr_e('None'); ?>
+				</option>
+			</select>
+		</label>
+
+		<# if ( ! _.isUndefined( sizes ) ) { #>
+			<label class="setting">
+				<span><?php _e('Size'); ?></span>
+				<select class="size" name="size"
+					data-setting="size"
+					<# if ( userSettings ) { #>
+						data-user-setting="imgsize"
+					<# } #>>
+					<?php
+
+					$sizes = apply_filters( 'image_size_names_choose', array(
+						'thumbnail' => __('Thumbnail'),
+						'medium'    => __('Medium'),
+						'large'     => __('Large'),
+					) );
+
+					foreach ( $sizes as $value => $name ) : ?>
+						<# if ( ! _.isUndefined( sizes['<?php echo esc_js( $value ); ?>'] ) ) { #>
+							<option value="<?php echo esc_attr( $value ); ?>" <?php selected( $value, 'medium' ); ?>>
+								<?php echo esc_html( $name ); ?>
+							</option>
+						<# } #>>
+					<?php endforeach; ?>
+
+					<option value="full">
+						<?php echo esc_html_e( 'Full Size' ); ?>
+					</option>
+				</select>
+			</label>
 		<# } #>
 	</script>
 
 	<script type="text/html" id="tmpl-gallery-settings">
 		<h3><?php _e('Gallery Settings'); ?></h3>
 
-		<h4><?php _e('Link To'); ?></h4>
-		<div class="link-to button-group"
-			data-setting="link">
+		<label class="setting">
+			<span><?php _e('Link To'); ?></span>
+			<select class="link-to"
+				data-setting="link"
+				<# if ( userSettings ) { #>
+					data-user-setting="urlbutton"
+				<# } #>>
 
-			<button class="button active" value="post">
-				<?php esc_attr_e('Attachment Page'); ?>
-			</button>
-			<button class="button" value="file">
-				<?php esc_attr_e('Media File'); ?>
-			</button>
-		</div>
-
-		<h4><?php _e('Gallery Columns'); ?></h4>
-
-		<select class="columns" name="columns"
-			data-setting="columns">
-			<?php for ( $i = 1; $i <= 9; $i++ ) : ?>
-				<option value="<?php echo esc_attr( $i ); ?>" <?php selected( $i, 3 ); ?>>
-					<?php echo esc_html( $i ); ?>
+				<option value="post" selected>
+					<?php esc_attr_e('Attachment Page'); ?>
 				</option>
-			<?php endfor; ?>
-		</select>
+				<option value="file">
+					<?php esc_attr_e('Media File'); ?>
+				</option>
+			</select>
+		</label>
+
+		<label class="setting">
+			<span><?php _e('Columns'); ?></span>
+			<select class="columns" name="columns"
+				data-setting="columns">
+				<?php for ( $i = 1; $i <= 9; $i++ ) : ?>
+					<option value="<?php echo esc_attr( $i ); ?>" <?php selected( $i, 3 ); ?>>
+						<?php echo esc_html( $i ); ?>
+					</option>
+				<?php endfor; ?>
+			</select>
+		</label>
 	</script>
 
 	<script type="text/html" id="tmpl-editor-attachment">

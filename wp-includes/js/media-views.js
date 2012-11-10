@@ -1906,8 +1906,11 @@
 		template:  media.template('attachment'),
 
 		events: {
-			'mousedown .attachment-preview': 'toggleSelection',
-			'change .describe':          'describe'
+			'mousedown .attachment-preview':  'toggleSelection',
+			'change [data-setting]':          'updateSetting',
+			'change [data-setting] input':    'updateSetting',
+			'change [data-setting] select':   'updateSetting',
+			'change [data-setting] textarea': 'updateSetting'
 		},
 
 		buttons: {},
@@ -2039,11 +2042,13 @@
 			}
 		},
 
-		describe: function( event ) {
-			if ( 'image' === this.model.get('type') )
-				this.model.save( 'caption', event.target.value );
-			else
-				this.model.save( 'title', event.target.value );
+		updateSetting: function( event ) {
+			var $setting = $( event.target ).closest('[data-setting]');
+
+			if ( ! $setting.length )
+				return;
+
+			this.model.save( $setting.data('setting'), event.target.value );
 		}
 	});
 
@@ -2592,7 +2597,10 @@
 		template:  media.template('attachment-details'),
 
 		events: {
-			'change .describe': 'describe'
+			'change [data-setting]':          'updateSetting',
+			'change [data-setting] input':    'updateSetting',
+			'change [data-setting] select':   'updateSetting',
+			'change [data-setting] textarea': 'updateSetting'
 		}
 	});
 
