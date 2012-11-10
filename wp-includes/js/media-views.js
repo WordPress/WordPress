@@ -2281,7 +2281,9 @@
 		},
 
 		events: {
-			'keyup': 'search'
+			'keyup':  'search',
+			'change': 'search',
+			'search': 'search'
 		},
 
 		render: function() {
