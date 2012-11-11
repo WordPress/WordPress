@@ -832,17 +832,28 @@
 		},
 
 		settingsSidebar: function( options ) {
+			var single = this.state().get('selection').single(),
+				views = {};
+
+			views.details = new media.view.Attachment.Details({
+				controller: this,
+				model:      single,
+				priority:   80
+			}).render();
+
+
+			if ( single.get('compat') ) {
+				views.compat = new media.view.AttachmentCompat({
+					controller: this,
+					model:      single,
+					priority:   120
+				}).render();
+			}
+
 			this.sidebar.view( new media.view.Sidebar({
 				controller: this,
 				silent:     options && options.silent,
-
-				views: {
-					details: new media.view.Attachment.Details({
-						controller: this,
-						model:      this.state().get('selection').single(),
-						priority:   80
-					}).render()
-				}
+				views:      views
 			}) );
 		},
 
@@ -1145,7 +1156,7 @@
 					controller:   this,
 					model:        display[ single.cid ],
 					sizes:        single.get('sizes'),
-					priority:     100,
+					priority:     160,
 					userSettings: state.get('displayUserSettings')
 				}).render()
 			}, options );
@@ -2635,6 +2646,54 @@
 			'change [data-setting] input':    'updateSetting',
 			'change [data-setting] select':   'updateSetting',
 			'change [data-setting] textarea': 'updateSetting'
+		}
+	});
+
+	/**
+	 * wp.media.view.AttachmentCompat
+	 */
+	media.view.AttachmentCompat = Backbone.View.extend({
+		tagName:   'form',
+		className: 'compat-item',
+
+		events: {
+			'submit':          'preventDefault',
+			'change input':    'save',
+			'change select':   'save',
+			'change textarea': 'save'
+		},
+
+		initialize: function() {
+			this.model.on( 'change:compat', this.render, this );
+		},
+
+		destroy: function() {
+			this.model.off( null, null, this );
+		},
+
+		render: function() {
+			var compat = this.model.get('compat');
+			if ( ! compat || ! compat.item )
+				return;
+
+			this.$el.html( compat.item );
+			return this;
+		},
+
+		preventDefault: function( event ) {
+			event.preventDefault();
+		},
+
+		save: function( event ) {
+			var data = {};
+
+			event.preventDefault();
+
+			_.each( this.$el.serializeArray(), function( pair ) {
+				data[ pair.name ] = pair.value;
+			});
+
+			this.model.saveCompat( data );
 		}
 	});
 

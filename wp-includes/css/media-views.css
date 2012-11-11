@@ -200,34 +200,95 @@
 }
 
 .media-sidebar .setting span {
-	float: left;
 	min-width: 30%;
-	min-height: 24px;
 	margin-right: 4%;
+}
+
+.media-sidebar .setting span,
+.compat-item label span {
+	float: left;
+	min-height: 22px;
 	padding-top: 8px;
 	line-height: 16px;
 	text-align: right;
+	font-weight: normal;
 	color: #999;
 	text-shadow: 0 1px 0 #fff;
 }
 
 .media-sidebar .setting input,
-.media-sidebar .setting textarea {
-	float: right;
-	width: 65%;
+.media-sidebar .setting textarea,
+.compat-item .field input,
+.compat-item .field textarea {
 	padding: 6px 8px;
 	line-height: 16px;
+}
+
+.media-sidebar .setting input,
+.media-sidebar .setting textarea {
+	width: 65%;
+	float: right;
+}
+
+.media-sidebar .setting textarea,
+.compat-item .field textarea {
+	height: 62px;
 	resize: none;
 }
 
-.media-sidebar .setting textarea {
-	height: 62px;
-}
-
-.media-sidebar .setting select {
+.media-sidebar .setting select,
+.compat-item .field select {
 	height: 28px;
 	line-height: 28px;
 	margin-top: 3px;
+}
+
+.compat-item {
+	float: left;
+	width: 100%;
+	overflow: hidden;
+}
+
+.compat-item table {
+	width: 100%;
+	table-layout: fixed;
+	border-spacing: 0;
+	border: 0;
+}
+
+.compat-item tr {
+	padding: 2px 0;
+	display: block;
+	overflow: hidden;
+}
+
+.compat-item .label,
+.compat-item .field {
+	display: block;
+	margin: 0;
+	padding: 0;
+}
+
+.compat-item .label {
+	min-width: 30%;
+	margin-right: 4%;
+	float: left;
+	text-align: right;
+}
+.compat-item .label span {
+	display: block;
+	width: 100%;
+}
+
+.compat-item .field {
+	float: right;
+	width: 65%;
+	padding-right: 1px;
+}
+
+.compat-item .field input {
+	width: 100%;
+	margin: 0;
 }
 
 
@@ -855,7 +916,7 @@
 	color: #999;
 	border-bottom: 1px solid #e5e5e5;
 	box-shadow: 0 1px 0 #fff;
-	padding-bottom: 16px;
+	padding-bottom: 11px;
 }
 
 .attachment-info .filename {
@@ -869,6 +930,7 @@
 	max-width: 120px;
 	max-height: 120px;
 	margin-right: 10px;
+	margin-bottom: 5px;
 }
 
 .attachment-info .thumbnail:after {
@@ -894,9 +956,17 @@
 	float: left;
 }
 
+.attachment-info .compat-meta {
+	float: left;
+}
+
 /**
  * Attachment Display Settings
  */
+.attachment-display-settings {
+	overflow: hidden;
+	float: left;
+}
 
 .attachment-display-settings h4 {
 	margin: 1.4em 0 0.4em;

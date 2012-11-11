@@ -245,6 +245,17 @@ window.wp = window.wp || {};
 			resp.date = new Date( resp.date );
 			resp.modified = new Date( resp.modified );
 			return resp;
+		},
+
+		saveCompat: function( data, options ) {
+			var model = this;
+
+			return media.post( 'save-attachment-compat', _.defaults({
+				id:     this.id,
+				nonce:  l10n.saveAttachmentNonce
+			}, data ) ).done( function( resp, status, xhr ) {
+				model.set( model.parse( resp, xhr ), options );
+			});
 		}
 	}, {
 		create: function( attrs ) {

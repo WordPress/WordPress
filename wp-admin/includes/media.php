@@ -1269,6 +1269,106 @@ function get_media_item( $attachment_id, $args = null ) {
 	return $item;
 }
 
+function get_compat_media_markup( $attachment_id, $args = null ) {
+	$post = get_post( $attachment_id );
+
+	$default_args = array(
+		'errors' => null,
+	);
+
+	$args = wp_parse_args( $args, $default_args );
+	$args = apply_filters( 'get_media_item_args', $args );
+
+	$errors = $args['errors'];
+
+	$form_fields = get_attachment_fields_to_edit( $post, $errors );
+
+	$media_meta = apply_filters( 'media_meta', '', $post );
+
+	$defaults = array(
+		'input'      => 'text',
+		'required'   => false,
+		'value'      => '',
+		'extra_rows' => array(),
+	);
+
+	$hidden_fields = array();
+
+	unset( $form_fields['image-size'], $form_fields['align'], $form_fields['image_alt'],
+		$form_fields['post_title'], $form_fields['post_excerpt'], $form_fields['post_content'],
+		$form_fields['url'], $form_fields['menu_order'], $form_fields['image_url'] );
+
+	$item = '';
+	foreach ( $form_fields as $id => $field ) {
+		if ( $id[0] == '_' )
+			continue;
+
+		$name = "attachments[$attachment_id][$id]";
+
+		if ( !empty( $field['tr'] ) ) {
+			$item .= $field['tr'];
+			continue;
+		}
+
+		$field = array_merge( $defaults, $field );
+
+		if ( $field['input'] == 'hidden' ) {
+			$hidden_fields[$id] = $field['value'];
+			continue;
+		}
+
+		$required      = $field['required'] ? '<span class="alignright"><abbr title="required" class="required">*</abbr></span>' : '';
+		$aria_required = $field['required'] ? " aria-required='true' " : '';
+		$class  = 'compat-item-' . $name;
+		$class .= $field['required'] ? ' form-required' : '';
+
+		$item .= "\t\t<tr class='$class'>";
+		$item .= "\t\t\t<th valign='top' scope='row' class='label'><label for='$name'><span class='alignleft'>{$field['label']}</span>$required<br class='clear' /></label>";
+		$item .= "</th>\n\t\t\t<td class='field'>";
+
+		if ( !empty( $field[ $field['input'] ] ) )
+			$item .= $field[ $field['input'] ];
+		elseif ( $field['input'] == 'textarea' ) {
+			if ( 'post_content' == $id && user_can_richedit() ) {
+				// sanitize_post() skips the post_content when user_can_richedit
+				$field['value'] = htmlspecialchars( $field['value'], ENT_QUOTES );
+			}
+			$item .= "<textarea id='$name' name='$name' $aria_required>" . $field['value'] . '</textarea>';
+		} else {
+			$item .= "<input type='text' class='text' id='$name' name='$name' value='" . esc_attr( $field['value'] ) . "' $aria_required />";
+		}
+		if ( !empty( $field['helps'] ) )
+			$item .= "<p class='help'>" . join( "</p>\n<p class='help'>", array_unique( (array) $field['helps'] ) ) . '</p>';
+		$item .= "</td>\n\t\t</tr>\n";
+
+		$extra_rows = array();
+
+		if ( !empty( $field['errors'] ) )
+			foreach ( array_unique( (array) $field['errors'] ) as $error )
+				$extra_rows['error'][] = $error;
+
+		if ( !empty( $field['extra_rows'] ) )
+			foreach ( $field['extra_rows'] as $class => $rows )
+				foreach ( (array) $rows as $html )
+					$extra_rows[$class][] = $html;
+
+		foreach ( $extra_rows as $class => $rows )
+			foreach ( $rows as $html )
+				$item .= "\t\t<tr><td></td><td class='$class'>$html</td></tr>\n";
+	}
+
+	if ( !empty( $form_fields['_final'] ) )
+		$item .= "\t\t<tr class='final'><td colspan='2'>{$form_fields['_final']}</td></tr>\n";
+	if ( $item )
+		$item = '<table>' . $item . '</table>';
+
+	return array(
+		'item'   => $item,
+		'hidden' => $hidden_fields,
+		'meta'   => $media_meta,
+	);
+}
+
 /**
  * {@internal Missing Short Description}}
  *

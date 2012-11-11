@@ -1288,6 +1288,9 @@ function wp_prepare_attachment_for_js( $attachment ) {
 		) );
 	}
 
+	if ( function_exists('get_compat_media_markup') )
+		$response['compat'] = get_compat_media_markup( $attachment->ID );
+
 	return apply_filters( 'wp_prepare_attachment_for_js', $response, $attachment, $meta );
 }
 
@@ -1453,6 +1456,11 @@ function wp_print_media_templates( $attachment ) {
 				<div class="uploaded">{{ dateFormatted }}</div>
 				<# if ( 'image' === type ) { #>
 					<div class="dimensions">{{ width }} &times; {{ height }}</div>
+				<# } #>
+			</div>
+			<div class="compat-meta">
+				<# if ( compat && compat.meta ) { #>
+					{{{ compat.meta }}}
 				<# } #>
 			</div>
 		</div>
