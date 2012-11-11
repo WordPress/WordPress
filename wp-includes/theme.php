@@ -1031,10 +1031,10 @@ function get_custom_header() {
 		$data = _get_random_header_data();
 	} else {
 		$data = get_theme_mod( 'header_image_data' );
-		if ( ! $data && current_theme_supports( 'custom-header', 'default-image' ) ) {
+		if ( ! $data && isset( $_wp_default_headers ) && current_theme_supports( 'custom-header', 'default-image' ) ) {
 			$directory_args = array( get_template_directory_uri(), get_stylesheet_directory_uri() );
 			$default_image = vsprintf( get_theme_support( 'custom-header', 'default-image' ), $directory_args );
-			foreach ( $_wp_default_headers as $header => $details ) {
+			foreach ( (array) $_wp_default_headers as $header => $details ) {
 				$url = vsprintf( $details['url'], $directory_args );
 				if ( $default_image == $url ) {
 					$data = $details;
