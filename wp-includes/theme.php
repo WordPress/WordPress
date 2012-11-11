@@ -682,6 +682,9 @@ function switch_theme( $stylesheet ) {
 	if ( count( $wp_theme_directories ) > 1 ) {
 		update_option( 'template_root', get_raw_theme_root( $template, true ) );
 		update_option( 'stylesheet_root', get_raw_theme_root( $stylesheet, true ) );
+	} else {
+		delete_option( 'template_root' );
+		delete_option( 'stylesheet_root' );
 	}
 
 	$new_name  = $new_theme->get('Name');
