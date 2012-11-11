@@ -147,7 +147,8 @@ window.wp = window.wp || {};
 				attributes = _.extend({
 					file:      file,
 					uploading: true,
-					date:      new Date()
+					date:      new Date(),
+					filename:  file.name
 				}, _.pick( file, 'loaded', 'size', 'percent' ) );
 
 				// Handle early mime type scanning for images.

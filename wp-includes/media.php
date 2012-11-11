@@ -1454,7 +1454,7 @@ function wp_print_media_templates( $attachment ) {
 			<div class="details">
 				<div class="filename">{{ filename }}</div>
 				<div class="uploaded">{{ dateFormatted }}</div>
-				<# if ( 'image' === type ) { #>
+				<# if ( 'image' === type && ! uploading ) { #>
 					<div class="dimensions">{{ width }} &times; {{ height }}</div>
 				<# } #>
 			</div>

@@ -1954,14 +1954,19 @@
 		render: function() {
 			var attachment = this.model.toJSON(),
 				options = _.defaults( this.model.toJSON(), {
-					orientation: 'landscape',
-					uploading:   false,
-					type:        '',
-					subtype:     '',
-					icon:        '',
-					filename:    '',
-					caption:     '',
-					title:       ''
+					orientation:   'landscape',
+					uploading:     false,
+					type:          '',
+					subtype:       '',
+					icon:          '',
+					filename:      '',
+					caption:       '',
+					title:         '',
+					dateFormatted: '',
+					width:         '',
+					height:        '',
+					compat:        false,
+					alt:           ''
 				});
 
 			options.buttons  = this.buttons;
@@ -1972,6 +1977,7 @@
 
 			this.$el.html( this.template( options ) );
 
+			this.$el.toggleClass( 'uploading', options.uploading );
 			if ( options.uploading )
 				this.$bar = this.$('.media-progress-bar div');
 			else
