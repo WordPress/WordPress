@@ -108,7 +108,9 @@ jQuery(document).ready( function($) {
 			});
 		});
 
-		$('#dashboard_quick_press #title, #dashboard_quick_press #content').focus(function(){ wpActiveEditor = 'content'; });
+		$('#quick-press').on( 'click focusin', function() {
+			wpActiveEditor = 'content';
+		});
 	};
 	quickPressLoad();
 
