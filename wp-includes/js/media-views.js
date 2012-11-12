@@ -556,7 +556,7 @@
 		},
 
 		reset: function() {
-			_.each( _.without( _.keys( this.attributes ), _.keys( this.defaults ) ), function( key ) {
+			_.each( _.difference( _.keys( this.attributes ), _.keys( this.defaults ) ), function( key ) {
 				this.unset( key );
 			}, this );
 
