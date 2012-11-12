@@ -23,6 +23,7 @@
 			paste_convert_headers_to_strong : false,
 			paste_dialog_width : "450",
 			paste_dialog_height : "400",
+			paste_max_consecutive_linebreaks: 2,
 			paste_text_use_dialog : false,
 			paste_text_sticky : false,
 			paste_text_sticky_default : false,
@@ -790,9 +791,22 @@
 					[/<\/t[dh]>\s*<t[dh][^>]*>/gi, "\t"],		// Table cells get tabs betweem them
 					/<[a-z!\/?][^>]*>/gi,						// Delete all remaining tags
 					[/&nbsp;/gi, " "],							// Convert non-break spaces to regular spaces (remember, *plain text*)
-					[/(?:(?!\n)\s)*(\n+)(?:(?!\n)\s)*/gi, "$1"],// Cool little RegExp deletes whitespace around linebreak chars.
-					[/\n{3,}/g, "\n\n"]							// Max. 2 consecutive linebreaks
+					[/(?:(?!\n)\s)*(\n+)(?:(?!\n)\s)*/gi, "$1"] // Cool little RegExp deletes whitespace around linebreak chars.
 				]);
+
+				var maxLinebreaks = Number(getParam(ed, "paste_max_consecutive_linebreaks"));
+				if (maxLinebreaks > -1) {
+					var maxLinebreaksRegex = new RegExp("\n{" + (maxLinebreaks + 1) + ",}", "g");
+					var linebreakReplacement = "";
+
+					while (linebreakReplacement.length < maxLinebreaks) {
+						linebreakReplacement += "\n";
+					}
+
+					process([
+						[maxLinebreaksRegex, linebreakReplacement] // Limit max consecutive linebreaks
+					]);
+				}
 
 				content = ed.dom.decode(tinymce.html.Entities.encodeRaw(content));
 
