@@ -619,6 +619,14 @@
 	height: 50px;
 }
 
+
+.attachments-browser .media-toolbar-primary > .media-button,
+.attachments-browser .media-toolbar-primary > .media-button-group,
+.attachments-browser .media-toolbar-secondary > .media-button,
+.attachments-browser .media-toolbar-secondary > .media-button-group {
+	margin-top: 10px;
+}
+
 .attachments-browser .attachments {
 	position: absolute;
 	top: 50px;

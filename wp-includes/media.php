@@ -1339,6 +1339,7 @@ function wp_enqueue_media() {
 		'uploadFilesTitle'  => __( 'Upload Files' ),
 		'selectFiles'       => __( 'Select files' ),
 		'uploadImagesTitle' => __( 'Upload Images' ),
+		'uploadMoreFiles'   => __( 'Upload more files' ),
 
 		// Library
 		'mediaLibraryTitle' => __( 'Media Library' ),

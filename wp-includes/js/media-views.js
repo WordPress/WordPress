@@ -470,7 +470,9 @@
 	// ---------------------------
 	media.controller.Upload = media.controller.Library.extend({
 		defaults: _.defaults({
-			id: 'upload'
+			id:     'upload',
+			upload: { text: l10n.uploadMoreFiles },
+			searchable: false
 		}, media.controller.Library.prototype.defaults ),
 
 		initialize: function() {
@@ -852,6 +854,7 @@
 				model:      state,
 				sortable:   state.get('sortable'),
 				search:     state.get('searchable'),
+				upload:     state.get('upload'),
 
 				AttachmentView: state.get('AttachmentView')
 			}).render() );
@@ -1526,7 +1529,7 @@
 			this.$el.html( this.template( this.options ) );
 
 			$placeholder = this.$('.browser');
-			$browser.text( $placeholder.text() );
+			$browser.detach().text( $placeholder.text() );
 			$browser[0].className = $placeholder[0].className;
 			$placeholder.replaceWith( $browser.show() );
 
@@ -2503,6 +2506,15 @@
 					el: $( '<div class="instructions">' + l10n.dragInfo + '</div>' )[0],
 					priority: -40
 				}) );
+			}
+
+			if ( this.options.upload && this.controller.uploader ) {
+				this.toolbar.set( 'upload', new media.view.Button( _.extend({
+					el:       this.controller.uploader.$browser.detach()[0],
+					priority: -60,
+					size:     'large',
+					text:     l10n.selectFiles
+				}, this.options.upload ) ).render() );
 			}
 
 			this.attachments = new media.view.Attachments({
