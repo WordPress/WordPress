@@ -1326,6 +1326,7 @@ function wp_enqueue_media() {
 		'settings' => $settings,
 
 		// Generic
+		'url'         => __( 'URL' ),
 		'insertMedia' => __( 'Insert Media' ),
 		'search'      => __( 'Search' ),
 		'select'      => __( 'Select' ),
@@ -1346,6 +1347,7 @@ function wp_enqueue_media() {
 
 		// Embed
 		'embedFromUrlTitle' => __( 'Embed From URL' ),
+		'insertEmbed'       => __( 'Insert embed' ),
 
 		// Batch
 		'batchInsert'      => __( 'Batch insert' ),
@@ -1570,7 +1572,7 @@ function wp_print_media_templates( $attachment ) {
 			<input type="text" class="link-to-custom" data-setting="linkUrl" />
 		</div>
 
-		<# if ( ! _.isUndefined( sizes ) ) { #>
+		<# if ( 'undefined' !== typeof sizes ) { #>
 			<label class="setting">
 				<span><?php _e('Size'); ?></span>
 				<select class="size" name="size"
@@ -1587,7 +1589,7 @@ function wp_print_media_templates( $attachment ) {
 					) );
 
 					foreach ( $sizes as $value => $name ) : ?>
-						<# if ( ! _.isUndefined( sizes['<?php echo esc_js( $value ); ?>'] ) ) { #>
+						<# if ( sizes['<?php echo esc_js( $value ); ?>'] ) { #>
 							<option value="<?php echo esc_attr( $value ); ?>" <?php selected( $value, 'medium' ); ?>>
 								<?php echo esc_html( $name ); ?>
 							</option>
@@ -1633,6 +1635,63 @@ function wp_print_media_templates( $attachment ) {
 				<?php endfor; ?>
 			</select>
 		</label>
+	</script>
+
+	<script type="text/html" id="tmpl-embed-link-settings">
+		<label class="setting">
+			<span><?php _e('Title'); ?></span>
+			<input type="text" class="alignment" data-setting="title" />
+		</label>
+	</script>
+
+	<script type="text/html" id="tmpl-embed-image-settings">
+		<div class="thumbnail">
+			<img src="{{ model.url }}" draggable="false" />
+		</div>
+
+		<label class="setting caption">
+			<span><?php _e('Caption'); ?></span>
+			<textarea data-setting="caption" />
+		</label>
+
+		<label class="setting alt-text">
+			<span><?php _e('Alt Text'); ?></span>
+			<input type="text" data-setting="alt" />
+		</label>
+
+		<label class="setting align">
+			<span><?php _e('Align'); ?></span>
+			<div class="button-group button-large" data-setting="align">
+				<button class="button" value="left">
+					<?php esc_attr_e('Left'); ?>
+				</button>
+				<button class="button" value="center">
+					<?php esc_attr_e('Center'); ?>
+				</button>
+				<button class="button" value="right">
+					<?php esc_attr_e('Right'); ?>
+				</button>
+				<button class="button active" value="none">
+					<?php esc_attr_e('None'); ?>
+				</button>
+			</div>
+		</label>
+
+		<div class="setting link-to">
+			<span><?php _e('Link To'); ?></span>
+			<div class="button-group button-large" data-setting="link">
+				<button class="button" value="file">
+					<?php esc_attr_e('Image URL'); ?>
+				</button>
+				<button class="button" value="custom">
+					<?php esc_attr_e('Custom URL'); ?>
+				</button>
+				<button class="button active" value="none">
+					<?php esc_attr_e('None'); ?>
+				</button>
+			</div>
+			<input type="text" class="link-to-custom" data-setting="linkUrl" />
+		</div>
 	</script>
 
 	<script type="text/html" id="tmpl-editor-attachment">

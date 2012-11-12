@@ -1,4 +1,21 @@
 /**
+ * Base Styles
+ */
+
+.media-frame input,
+.media-frame textarea {
+	padding: 6px 8px;
+	line-height: 16px;
+}
+
+.media-frame select,
+.wp-admin .media-frame select {
+	height: 28px;
+	line-height: 28px;
+	margin-top: 3px;
+}
+
+/**
  * Modal
  */
 .media-modal {
@@ -96,6 +113,7 @@
 	left: 200px;
 	bottom: 0;
 	border-width: 1px 0 0 0;
+	box-shadow: 0 -4px 4px -4px rgba( 0, 0, 0, 0.1 );
 }
 
 .media-frame.hide-toolbar > .media-toolbar {
@@ -217,14 +235,6 @@
 }
 
 .media-sidebar .setting input,
-.media-sidebar .setting textarea,
-.compat-item .field input,
-.compat-item .field textarea {
-	padding: 6px 8px;
-	line-height: 16px;
-}
-
-.media-sidebar .setting input,
 .media-sidebar .setting textarea {
 	width: 65%;
 	float: right;
@@ -236,10 +246,7 @@
 	resize: none;
 }
 
-.media-sidebar .setting select,
-.compat-item .field select {
-	height: 28px;
-	line-height: 28px;
+.media-sidebar select {
 	margin-top: 3px;
 }
 
@@ -984,4 +991,97 @@
 
 .gallery-settings {
 	overflow: hidden;
+}
+
+/**
+ * Embed from URL
+ */
+.embed-url {
+	display: block;
+	position: relative;
+	height: 75px;
+	padding: 16px 16px;
+	margin: 0;
+	z-index: 50;
+	border-bottom: 1px solid #dfdfdf;
+	box-shadow: 0 4px 4px -4px rgba( 0, 0, 0, 0.1 );
+	font-size: 18px;
+	font-weight: 200;
+}
+
+.embed-url span {
+	display: block;
+	padding: 4px 0 6px 2px;
+}
+
+.embed-url input {
+	padding: 12px 14px;
+	width: 100%;
+	min-width: 200px;
+	/*max-width: 500px;*/
+	box-shadow: inset 2px 2px 4px -2px rgba( 0, 0, 0, 0.1 );
+}
+
+.embed-link-settings,
+.embed-image-settings {
+	position: absolute;
+	background: #f5f5f5;
+	top: 108px;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	padding: 16px 16px 32px;
+	overflow: auto;
+}
+
+.media-embed .thumbnail {
+	max-width: 100%;
+	max-height: 200px;
+	position: relative;
+	float: left;
+}
+
+.media-embed .thumbnail img {
+	max-height: 200px;
+}
+
+.media-embed .thumbnail:after {
+	content: '';
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	box-shadow: inset 0 0 0 1px rgba( 0, 0, 0, 0.1 );
+	overflow: hidden;
+}
+
+.media-embed .setting {
+	width: 100%;
+	margin-top: 10px;
+	float: left;
+	display: block;
+	clear: both;
+}
+
+.media-embed .setting span {
+	display: block;
+	width: 200px;
+	font-size: 13px;
+	line-height: 24px;
+	color: #999;
+	text-shadow: 0 1px 0 #fff;
+}
+
+.media-embed .setting .button-group {
+	margin: 2px 0;
+}
+
+.media-embed .setting input,
+.media-embed .setting textarea {
+	display: block;
+	width: 100%;
+	max-width: 400px;
+	margin: 1px 0;
 }

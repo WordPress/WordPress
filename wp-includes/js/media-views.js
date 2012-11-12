@@ -316,17 +316,19 @@
 		},
 
 		deactivate: function() {
-			this.off( 'change:library change:exclude', this.buildComposite, this );
-			this.off( 'change:excludeState', this._excludeState, this );
-			this.destroyComposite();
-
-			wp.Uploader.queue.off( 'add', this.selectUpload, this );
+			this.off( 'change:empty', this.refresh, this );
+			this.get('library').off( 'add remove reset', this._updateEmpty, this );
 
 			// Unbind all event handlers that use this state as the context
 			// from the selection.
 			this.get('selection').off( null, null, this );
-			this.get('library').off( 'add remove reset', this._updateEmpty, this );
-			this.off( 'change:empty', this.refresh, this );
+
+			wp.Uploader.queue.off( 'add', this.selectUpload, this );
+
+			this.off( 'change:excludeState', this._excludeState, this );
+			this.off( 'change:library change:exclude', this.buildComposite, this );
+
+			this.destroyComposite();
 		},
 
 		reset: function() {
@@ -522,6 +524,44 @@
 			media.controller.Library.prototype.sidebar.apply( this, arguments );
 			this.frame.sidebar.trigger('gallery-settings');
 			return this;
+		}
+	});
+
+
+	// wp.media.controller.Embed
+	// -------------------------
+	media.controller.Embed = media.controller.State.extend({
+		defaults: {
+			id:      'embed',
+			url:     '',
+			menu:    'main',
+			content: 'embed',
+			toolbar: 'main-embed',
+			type:    'link'
+		},
+
+		initialize: function() {
+			this.on( 'change:url', this.scan, this );
+			media.controller.State.prototype.initialize.apply( this, arguments );
+		},
+
+		scan: function() {
+			var attributes = { type: 'link' };
+
+			if ( /(?:jpe?g|png|gif)$/i.test( this.get('url') ) )
+				attributes.type = 'image';
+
+			this.trigger( 'scan', attributes );
+			this.set( attributes );
+		},
+
+		reset: function() {
+			_.each( _.without( _.keys( this.attributes ), _.keys( this.defaults ) ), function( key ) {
+				this.unset( key );
+			}, this );
+
+			this.set( 'url', '' );
+			this.frame.toolbar.view().refresh();
 		}
 	});
 
@@ -858,9 +898,17 @@
 		},
 
 		// Toolbars
-		selectToolbar: function() {
+		selectToolbar: function( options ) {
+			options = _.defaults( options || {}, {
+				event:  'select',
+				silent: false,
+				state:  false
+			});
+
 			this.toolbar.view( new media.view.Toolbar({
 				controller: this,
+				silent:     options.silent,
+
 				items: {
 					select: {
 						style:    'primary',
@@ -871,8 +919,10 @@
 							var controller = this.controller;
 
 							controller.close();
-							controller.state().trigger('select');
-							controller.reset().state( controller.options.state );
+							controller.state().trigger( options.event );
+							controller.reset();
+							if ( options.state )
+								controller.state( options.state );
 						}
 					}
 				}
@@ -941,6 +991,9 @@
 
 				new media.controller.Upload( main ),
 
+				// Embed states.
+				new media.controller.Embed(),
+
 				// Gallery states.
 				new media.controller.Gallery({
 					library: options.selection,
@@ -991,7 +1044,7 @@
 					},
 
 					content: {
-						embed:  'embedContent'
+						embed: 'embedContent'
 					},
 
 					sidebar: {
@@ -1121,11 +1174,23 @@
 		},
 
 		// Content
-		embedContent: function() {},
+		embedContent: function() {
+			var view = new media.view.Embed({
+				controller: this,
+				model:      this.state()
+			}).render();
+
+			this.$el.addClass('hide-sidebar');
+			this.content.view( view );
+			view.url.focus();
+		},
 
 		// Sidebars
 		onSidebarGallerySettings: function( options ) {
 			var library = this.state().get('library');
+
+			if ( ! library )
+				return;
 
 			library.gallery = library.gallery || new Backbone.Model();
 
@@ -1169,7 +1234,13 @@
 			}) );
 		},
 
-		mainEmbedToolbar: function() {},
+		mainEmbedToolbar: function() {
+			this.toolbar.view( new media.view.Toolbar.Embed({
+				controller: this
+			}) );
+
+			this.$el.removeClass('hide-toolbar');
+		},
 
 		batchEditToolbar: function() {
 			this.toolbar.view( new media.view.Toolbar({
@@ -1495,7 +1566,7 @@
 			this.$secondary = $('<div class="media-toolbar-secondary" />').prependTo( this.$el );
 
 			if ( this.options.items )
-				this.add( this.options.items, { silent: true });
+				this.set( this.options.items, { silent: true });
 
 			if ( ! this.options.silent )
 				this.render();
@@ -1503,6 +1574,15 @@
 
 		destroy: function() {
 			this.remove();
+
+			if ( this.model )
+				this.model.off( null, null, this );
+
+			if ( this.collection )
+				this.collection.off( null, null, this );
+
+			this.controller.off( null, null, this );
+
 			_.each( this._views, function( view ) {
 				if ( view.destroy )
 					view.destroy();
@@ -1527,28 +1607,26 @@
 			return this;
 		},
 
-		add: function( id, view, options ) {
+		set: function( id, view, options ) {
 			options = options || {};
 
 			// Accept an object with an `id` : `view` mapping.
 			if ( _.isObject( id ) ) {
 				_.each( id, function( view, id ) {
-					this.add( id, view, { silent: true });
+					this.set( id, view, { silent: true });
 				}, this );
 
-				if ( ! options.silent )
-					this.render();
-				return this;
+			} else {
+				if ( ! ( view instanceof Backbone.View ) ) {
+					view.classes = [ id ].concat( view.classes || [] );
+					view = new media.view.Button( view ).render();
+				}
+
+				view.controller = view.controller || this.controller;
+
+				this._views[ id ] = view;
 			}
 
-			if ( ! ( view instanceof Backbone.View ) ) {
-				view.classes = [ id ].concat( view.classes || [] );
-				view = new media.view.Button( view ).render();
-			}
-
-			view.controller = view.controller || this.controller;
-
-			this._views[ id ] = view;
 			if ( ! options.silent )
 				this.render();
 			return this;
@@ -1558,7 +1636,7 @@
 			return this._views[ id ];
 		},
 
-		remove: function( id, options ) {
+		unset: function( id, options ) {
 			delete this._views[ id ];
 			if ( ! options || ! options.silent )
 				this.render();
@@ -1568,8 +1646,76 @@
 		refresh: function() {}
 	});
 
+	// wp.media.view.Toolbar.Select
+	// ----------------------------
+	media.view.Toolbar.Select = media.view.Toolbar.extend({
+		initialize: function() {
+			var options = this.options,
+				controller = options.controller,
+				selection = controller.state().get('selection');
+
+			_.bindAll( this, 'clickSelect' );
+
+			_.defaults( options, {
+				event: 'select',
+				state: false,
+				reset: true,
+				close: true,
+				text:  l10n.select
+			});
+
+			options.items = _.defaults( options.items || {}, {
+				select: {
+					style:    'primary',
+					text:     options.text,
+					priority: 80,
+					click:    this.clickSelect
+				}
+			});
+
+			media.view.Toolbar.prototype.initialize.apply( this, arguments );
+		},
+
+		clickSelect: function() {
+			var options = this.options,
+				controller = this.controller;
+
+			if ( options.close )
+				controller.close();
+
+			if ( options.event )
+				controller.state().trigger( options.event );
+
+			if ( options.reset )
+				controller.reset();
+
+			if ( options.state )
+				controller.state( options.state );
+		}
+	});
+
+	// wp.media.view.Toolbar.Embed
+	// ---------------------------
+	media.view.Toolbar.Embed = media.view.Toolbar.Select.extend({
+		initialize: function() {
+			var controller = this.options.controller;
+
+			_.defaults( this.options, {
+				text: l10n.insertEmbed
+			});
+
+			media.view.Toolbar.Select.prototype.initialize.apply( this, arguments );
+			controller.on( 'change:url', this.refresh, this );
+		},
+
+		refresh: function() {
+			var url = this.controller.state().get('url');
+			this.get('select').model.set( 'disabled', ! url || /^https?:\/\/$/.test(url) );
+		}
+	});
+
 	// wp.media.view.Toolbar.Insert
-	// ---------------------------------
+	// ----------------------------
 	media.view.Toolbar.Insert = media.view.Toolbar.extend({
 		initialize: function() {
 			var controller = this.options.controller,
@@ -1886,6 +2032,7 @@
 
 		click: function() {
 			var options = this.options;
+
 			if ( options.click )
 				options.click.call( this );
 			else if ( options.id )
@@ -2344,7 +2491,7 @@
 			});
 
 			if ( this.options.search ) {
-				this.toolbar.add( 'search', new media.view.Search({
+				this.toolbar.set( 'search', new media.view.Search({
 					controller: this.controller,
 					model:      this.collection.props,
 					priority:   -60
@@ -2352,7 +2499,7 @@
 			}
 
 			if ( this.options.sortable ) {
-				this.toolbar.add( 'dragInfo', new Backbone.View({
+				this.toolbar.set( 'dragInfo', new Backbone.View({
 					el: $( '<div class="instructions">' + l10n.dragInfo + '</div>' )[0],
 					priority: -40
 				}) );
@@ -2564,6 +2711,11 @@
 			} else if ( $setting.hasClass('button-group') ) {
 				$buttons = $setting.find('button').removeClass('active');
 				$buttons.filter( '[value="' + value + '"]' ).addClass('active');
+
+			// Handle text inputs and textareas.
+			} else if ( $setting.is('input[type="text"], textarea') ) {
+				if ( ! $setting.is(':focus') )
+					$setting.val( value );
 			}
 		},
 
@@ -2716,6 +2868,140 @@
 		render: function() {
 			this.$el.html( '<iframe src="' + this.controller.state().get('src') + '" />' );
 			return this;
+		}
+	});
+
+	/**
+	 * wp.media.view.Embed
+	 */
+	media.view.Embed = Backbone.View.extend({
+		className: 'media-embed',
+
+		initialize: function() {
+			this.controller = this.options.controller;
+
+			this.url = new media.view.EmbedUrl({
+				controller: this.controller,
+				model:      this.model
+			}).render();
+
+			this._settings = new Backbone.View();
+			this.refresh();
+			this.model.on( 'change:type', this.refresh, this );
+		},
+
+		render: function() {
+			this.$el.html([ this.url.el, this._settings.el ]);
+			this.url.focus();
+			return this;
+		},
+
+		settings: function( view ) {
+			view.render();
+			this._settings.$el.replaceWith( view.$el );
+			if ( this._settings.destroy )
+				this._settings.destroy();
+			this._settings.remove();
+			this._settings = view;
+		},
+
+		refresh: function() {
+			var type = this.model.get('type'),
+				constructor;
+
+			if ( 'image' === type )
+				constructor = media.view.EmbedImage;
+			else if ( 'link' === type )
+				constructor = media.view.EmbedLink;
+			else
+				return;
+
+			this.settings( new constructor({
+				controller: this.controller,
+				model:      this.model,
+				priority:   40
+			}) );
+		}
+	});
+
+	/**
+	 * wp.media.view.EmbedUrl
+	 */
+	media.view.EmbedUrl = Backbone.View.extend({
+		tagName:   'label',
+		className: 'embed-url',
+
+		events: {
+			'keyup': 'url'
+		},
+
+		initialize: function() {
+			this.label = this.make( 'span', null, this.options.label || l10n.url );
+			this.input = this.make( 'input', {
+				type:  'text',
+				value: this.model.get('url') || ''
+			});
+
+			this.$label = $( this.label );
+			this.$input = $( this.input );
+			this.$el.append([ this.label, this.input ]);
+
+			this.model.on( 'change:url', this.render, this );
+		},
+
+		destroy: function() {
+			this.model.off( null, null, this );
+		},
+
+		render: function() {
+			var $input = this.$input;
+
+			if ( $input.is(':focus') )
+				return;
+
+			this.input.value = this.model.get('url') || 'http://';
+			return this;
+		},
+
+		url: function( event ) {
+			this.model.set( 'url', event.target.value );
+		},
+
+		focus: function() {
+			var $input = this.$input;
+			// If the input is visible, focus and select its contents.
+			if ( $input.is(':visible') )
+				$input.focus()[0].select();
+		}
+	});
+
+	/**
+	 * wp.media.view.EmbedLink
+	 */
+	media.view.EmbedLink = media.view.Settings.extend({
+		className: 'embed-link-settings',
+		template:  media.template('embed-link-settings')
+	});
+
+	/**
+	 * wp.media.view.EmbedImage
+	 */
+	media.view.EmbedImage =  media.view.Settings.AttachmentDisplay.extend({
+		className: 'embed-image-settings',
+		template:  media.template('embed-image-settings'),
+
+		initialize: function() {
+			media.view.Settings.AttachmentDisplay.prototype.initialize.apply( this, arguments );
+			this.model.on( 'change:url', this.updateImage, this );
+		},
+
+		destroy: function() {
+			this.model.off( null, null, this );
+			media.view.Settings.AttachmentDisplay.prototype.destroy.apply( this, arguments );
+		},
+
+		updateImage: function() {
+			this.$('img').attr( 'src', this.model.get('url') );
 		}
 	});
 }(jQuery));

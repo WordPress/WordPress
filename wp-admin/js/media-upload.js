@@ -144,6 +144,52 @@ var tb_position;
 				this.insert( shortcode.string() );
 			}, this );
 
+			workflow.get('embed').on( 'select', function() {
+				var embed = workflow.state().toJSON(),
+					options;
+
+				if ( 'link' === embed.type ) {
+					this.insert( wp.html.string({
+						tag:     'a',
+						content: embed.title || embed.url,
+						attrs:   {
+							href: embed.url
+						}
+					}) );
+
+				} else if ( 'image' === embed.type ) {
+					_.defaults( embed, {
+						align:   'none',
+						url:     '',
+						alt:     '',
+						linkUrl: '',
+						link:    'none'
+					});
+
+					options = {
+						single: true,
+						tag:    'img',
+						attrs:  {
+							'class': 'align' + embed.align,
+							src:     embed.url,
+							alt:     embed.alt
+						}
+					};
+
+					if ( 'custom' === embed.link || 'file' === embed.link ) {
+						options = {
+							tag:     'a',
+							content: options,
+							attrs:   {
+								href: 'custom' === embed.link ? embed.linkUrl : embed.url
+							}
+						};
+					}
+
+					this.insert( wp.html.string( options ) );
+				}
+			}, this );
+
 			return workflow;
 		},
 

@@ -1053,7 +1053,7 @@ function post_thumbnail_meta_box( $post ) {
 			frame = wp.media( options );
 
 			frame.toolbar.on( 'activate:select', function() {
-				frame.toolbar.view().add({
+				frame.toolbar.view().set({
 					select: {
 						style: 'primary',
 						text:  update,
