@@ -277,7 +277,7 @@ class SimplePie_Locator
 				$parsed = $this->registry->call('Misc', 'parse_url', array($href));
 				if ($parsed['scheme'] === '' || preg_match('/^(http(s)|feed)?$/i', $parsed['scheme']))
 				{
-					if ($this->base_location < $link->getLineNo())
+					if (method_exists($link, 'getLineNo') && $this->base_location < $link->getLineNo())
 					{
 						$href = $this->registry->call('Misc', 'absolutize_url', array(trim($link->getAttribute('href')), $this->base));
 					}
