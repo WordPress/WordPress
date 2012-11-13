@@ -455,7 +455,7 @@ window.wp = window.wp || {};
 	};
 
 	wp.media.string.image = function( attachment, props ) {
-		var classes, img, options, size;
+		var classes, img, options, size, shortcode, html;
 
 		props = _.defaults( props || {}, {
 			img:   {},
@@ -481,8 +481,9 @@ window.wp = window.wp || {};
 		img.height = size.height;
 		img.src    = size.url;
 
-		// Update `img` classes.
-		if ( props.align )
+		// Only assign the align class to the image if we're not printing
+		// a caption, since the alignment is sent to the shortcode.
+		if ( props.align && ! attachment.caption )
 			classes.push( 'align' + props.align );
 
 		if ( props.size )
@@ -514,7 +515,26 @@ window.wp = window.wp || {};
 			};
 		}
 
-		return wp.html.string( options );
+		html = wp.html.string( options );
+
+		// Generate the caption shortcode.
+		if ( attachment.caption ) {
+			shortcode = {
+				id:    'attachment_' + attachment.id,
+				width: img.width
+			};
+
+			if ( props.align )
+				shortcode.align = 'align' + props.align;
+
+			html = wp.shortcode.string({
+				tag:     'caption',
+				attrs:   shortcode,
+				content: html + ' ' + attachment.caption
+			});
+		}
+
+		return html;
 	};
 
 	mceview.add( 'attachment', {
