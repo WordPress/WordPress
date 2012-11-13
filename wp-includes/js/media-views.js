@@ -542,19 +542,35 @@
 			type:    'link'
 		},
 
+		// The amount of time used when debouncing the scan.
+		sensitivity: 200,
+
 		initialize: function() {
-			this.on( 'change:url', this.scan, this );
+			this.debouncedScan = _.debounce( _.bind( this.scan, this ), this.sensitivity );
+			this.on( 'change:url', this.debouncedScan, this );
+			this.on( 'scan', this.scanImage, this );
 			media.controller.State.prototype.initialize.apply( this, arguments );
 		},
 
 		scan: function() {
 			var attributes = { type: 'link' };
 
-			if ( /(?:jpe?g|png|gif)$/i.test( this.get('url') ) )
-				attributes.type = 'image';
-
 			this.trigger( 'scan', attributes );
 			this.set( attributes );
+		},
+
+		scanImage: function( attributes ) {
+			var frame = this.frame,
+				state = this,
+				url = this.get('url'),
+				image = new Image();
+
+			image.onload = function() {
+				if ( state === frame.state() && url === state.get('url') )
+					state.set( 'type', 'image' );
+			};
+
+			image.src = url;
 		},
 
 		reset: function() {
