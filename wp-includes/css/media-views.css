@@ -756,6 +756,10 @@
 	right: 0;
 }
 
+.uploader-inline-content .upload-ui {
+	margin: 4em 0;
+}
+
 .uploader-inline h3 {
 	font-size: 20px;
 	font-weight: 200;

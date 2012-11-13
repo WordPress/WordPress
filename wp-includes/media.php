@@ -1398,9 +1398,20 @@ function wp_print_media_templates( $attachment ) {
 
 	<script type="text/html" id="tmpl-uploader-inline">
 		<div class="uploader-inline-content">
-			<h3><?php _e( 'Drop files anywhere to upload' ); ?></h3>
-			<a href="#" class="browser button button-hero"><?php _e( 'Select Files' ); ?></a>
-			<div class="media-progress-bar"><div></div></div>
+			<div class="pre-upload-ui">
+				<?php do_action( 'pre-upload-ui' ); ?>
+				<?php do_action( 'pre-plupload-upload-ui' ); ?>
+			</div>
+
+			<div class="upload-ui">
+				<h3><?php _e( 'Drop files anywhere to upload' ); ?></h3>
+				<a href="#" class="browser button button-hero"><?php _e( 'Select Files' ); ?></a>
+			</div>
+
+			<div class="post-upload-ui">
+				<?php do_action( 'post-plupload-upload-ui' ); ?>
+				<?php do_action( 'post-upload-ui' ); ?>
+			</div>
 		</div>
 	</script>
 
