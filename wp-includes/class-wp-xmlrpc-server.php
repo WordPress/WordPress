@@ -5385,7 +5385,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			$blah = explode('/', $match[0]);
 			$post_ID = (int) $blah[1];
 			$way = 'from the path';
-		} elseif ( preg_match('#p=[0-9]{1,}#', $urltest['query'], $match) ) {
+		} elseif ( isset( $urltest['query'] ) && preg_match('#p=[0-9]{1,}#', $urltest['query'], $match) ) {
 			// the querystring defines the post_ID (?p=XXXX)
 			$blah = explode('=', $match[0]);
 			$post_ID = (int) $blah[1];
