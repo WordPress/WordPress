@@ -1587,19 +1587,25 @@ function wp_print_media_templates( $attachment ) {
 						'thumbnail' => __('Thumbnail'),
 						'medium'    => __('Medium'),
 						'large'     => __('Large'),
+						'full'      => __('Full Size'),
 					) );
 
-					foreach ( $sizes as $value => $name ) : ?>
+					foreach ( $sizes as $value => $name ) :
+						if ( 'full' === $name )
+							continue;
+						?>
 						<# if ( sizes['<?php echo esc_js( $value ); ?>'] ) { #>
 							<option value="<?php echo esc_attr( $value ); ?>" <?php selected( $value, 'medium' ); ?>>
 								<?php echo esc_html( $name ); ?>
 							</option>
 						<# } #>>
-					<?php endforeach; ?>
+					<?php endforeach;
 
-					<option value="full">
-						<?php echo esc_html_e( 'Full Size' ); ?>
-					</option>
+					if ( ! empty( $sizes['full'] ) ) : ?>
+						<option value="full">
+							<?php echo esc_html( $sizes['full'] ); ?>
+						</option>
+					<?php endif; ?>
 				</select>
 			</label>
 		<# } #>
