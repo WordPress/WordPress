@@ -159,6 +159,11 @@ label ~ span.required {
 	margin-right: 0.857142857rem;
 	margin-left: auto;
 }
+.widget-area .textwidget li {
+	margin-left: auto;
+	margin-right: 36px;
+	margin-right: 2.571428571rem;
+}
 .widget_recent_entries .post-date,
 .widget_rss .rss-date {
 	margin-right: 12px;
