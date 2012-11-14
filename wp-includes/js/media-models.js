@@ -80,7 +80,8 @@ window.wp = window.wp || {};
 				options = {
 					evaluate:    /<#([\s\S]+?)#>/g,
 					interpolate: /\{\{\{([\s\S]+?)\}\}\}/g,
-					escape:      /\{\{([^\}]+?)\}\}(?!\})/g
+					escape:      /\{\{([^\}]+?)\}\}(?!\})/g,
+					variable:    'data'
 				};
 
 			return function( data ) {

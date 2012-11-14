@@ -1390,7 +1390,7 @@ function wp_print_media_templates( $attachment ) {
 	?>
 	<script type="text/html" id="tmpl-media-modal">
 		<div class="media-modal">
-			<h3 class="media-modal-title">{{ title }}</h3>
+			<h3 class="media-modal-title">{{ data.title }}</h3>
 			<a class="media-modal-close" href="" title="<?php esc_attr_e('Close'); ?>">&times;</a>
 		</div>
 		<div class="media-modal-backdrop">
@@ -1424,39 +1424,39 @@ function wp_print_media_templates( $attachment ) {
 	</script>
 
 	<script type="text/html" id="tmpl-attachment">
-		<div class="attachment-preview type-{{ type }} subtype-{{ subtype }} {{ orientation }}">
-			<# if ( uploading ) { #>
+		<div class="attachment-preview type-{{ data.type }} subtype-{{ data.subtype }} {{ data.orientation }}">
+			<# if ( data.uploading ) { #>
 				<div class="media-progress-bar"><div></div></div>
-			<# } else if ( 'image' === type ) { #>
+			<# } else if ( 'image' === data.type ) { #>
 				<div class="thumbnail">
 					<div class="centered">
-						<img src="{{ url }}" draggable="false" />
+						<img src="{{ data.url }}" draggable="false" />
 					</div>
 				</div>
 			<# } else { #>
-				<img src="{{ icon }}" class="icon" draggable="false" />
-				<div class="filename">{{ filename }}</div>
+				<img src="{{ data.icon }}" class="icon" draggable="false" />
+				<div class="filename">{{ data.filename }}</div>
 			<# } #>
 
-			<# if ( buttons.close ) { #>
+			<# if ( data.buttons.close ) { #>
 				<a class="close button" href="#">&times;</a>
 			<# } #>
 		</div>
-		<# if ( describe ) { #>
-			<# if ( 'image' === type ) { #>
+		<# if ( data.describe ) { #>
+			<# if ( 'image' === data.type ) { #>
 				<textarea class="describe"
 					placeholder="<?php esc_attr_e('Describe this image&hellip;'); ?>"
-					>{{ caption }}</textarea>
+					>{{ data.caption }}</textarea>
 			<# } else { #>
 				<textarea class="describe"
-					<# if ( 'video' === type ) { #>
+					<# if ( 'video' === data.type ) { #>
 						placeholder="<?php esc_attr_e('Describe this video&hellip;'); ?>"
-					<# } else if ( 'audio' === type ) { #>
+					<# } else if ( 'audio' === data.type ) { #>
 						placeholder="<?php esc_attr_e('Describe this audio file&hellip;'); ?>"
 					<# } else { #>
 						placeholder="<?php esc_attr_e('Describe this media file&hellip;'); ?>"
 					<# } #>
-					>{{ title }}</textarea>
+					>{{ data.title }}</textarea>
 			<# } #>
 		<# } #>
 	</script>
@@ -1465,50 +1465,50 @@ function wp_print_media_templates( $attachment ) {
 		<h3><?php _e('Attachment Details'); ?></h3>
 		<div class="attachment-info">
 			<div class="thumbnail">
-				<# if ( uploading ) { #>
+				<# if ( data.uploading ) { #>
 					<div class="media-progress-bar"><div></div></div>
-				<# } else if ( 'image' === type ) { #>
-					<img src="{{ url }}" draggable="false" />
+				<# } else if ( 'image' === data.type ) { #>
+					<img src="{{ data.url }}" draggable="false" />
 				<# } else { #>
-					<img src="{{ icon }}" class="icon" draggable="false" />
+					<img src="{{ data.icon }}" class="icon" draggable="false" />
 				<# } #>
 			</div>
 			<div class="details">
-				<div class="filename">{{ filename }}</div>
-				<div class="uploaded">{{ dateFormatted }}</div>
-				<# if ( 'image' === type && ! uploading ) { #>
-					<div class="dimensions">{{ width }} &times; {{ height }}</div>
+				<div class="filename">{{ data.filename }}</div>
+				<div class="uploaded">{{ data.dateFormatted }}</div>
+				<# if ( 'image' === data.type && ! data.uploading ) { #>
+					<div class="dimensions">{{ data.width }} &times; {{ data.height }}</div>
 				<# } #>
 			</div>
 			<div class="compat-meta">
-				<# if ( compat && compat.meta ) { #>
-					{{{ compat.meta }}}
+				<# if ( data.compat && data.compat.meta ) { #>
+					{{{ data.compat.meta }}}
 				<# } #>
 			</div>
 		</div>
 
-		<# if ( 'image' === type ) { #>
+		<# if ( 'image' === data.type ) { #>
 			<label class="setting" data-setting="title">
 				<span><?php _e('Title'); ?></span>
-				<input type="text" value="{{ title }}" />
+				<input type="text" value="{{ data.title }}" />
 			</label>
 			<label class="setting" data-setting="caption">
 				<span><?php _e('Caption'); ?></span>
 				<textarea
 					placeholder="<?php esc_attr_e('Describe this image&hellip;'); ?>"
-					>{{ caption }}</textarea>
+					>{{ data.caption }}</textarea>
 			</label>
 			<label class="setting" data-setting="alt">
 				<span><?php _e('Alt Text'); ?></span>
-				<input type="text" value="{{ alt }}" />
+				<input type="text" value="{{ data.alt }}" />
 			</label>
 		<# } else { #>
 			<label class="setting" data-setting="title">
 				<span><?php _e('Title'); ?></span>
-				<input type="text" value="{{ title }}"
-				<# if ( 'video' === type ) { #>
+				<input type="text" value="{{ data.title }}"
+				<# if ( 'video' === data.type ) { #>
 					placeholder="<?php esc_attr_e('Describe this video&hellip;'); ?>"
-				<# } else if ( 'audio' === type ) { #>
+				<# } else if ( 'audio' === data.type ) { #>
 					placeholder="<?php esc_attr_e('Describe this audio file&hellip;'); ?>"
 				<# } else { #>
 					placeholder="<?php esc_attr_e('Describe this media file&hellip;'); ?>"
@@ -1520,7 +1520,7 @@ function wp_print_media_templates( $attachment ) {
 	<script type="text/html" id="tmpl-media-selection">
 		<div class="selection-info">
 			<span class="count"></span>
-			<# if ( clearable ) { #>
+			<# if ( data.clearable ) { #>
 				<a class="clear-selection" href="#"><?php _e('Clear'); ?></a>
 			<# } #>
 		</div>
@@ -1528,14 +1528,14 @@ function wp_print_media_templates( $attachment ) {
 	</script>
 
 	<script type="text/html" id="tmpl-media-selection-preview">
-		<div class="selected-img selected-count-{{ count }}">
-			<# if ( thumbnail ) { #>
-				<img src="{{ thumbnail }}" draggable="false" />
+		<div class="selected-img selected-count-{{ data.count }}">
+			<# if ( data.thumbnail ) { #>
+				<img src="{{ data.thumbnail }}" draggable="false" />
 			<# } #>
 
-			<span class="count">{{ count }}</span>
+			<span class="count">{{ data.count }}</span>
 		</div>
-		<# if ( clearable ) { #>
+		<# if ( data.clearable ) { #>
 			<a class="clear-selection" href="#"><?php _e('Clear selection'); ?></a>
 		<# } #>
 	</script>
@@ -1547,7 +1547,7 @@ function wp_print_media_templates( $attachment ) {
 			<span><?php _e('Alignment'); ?></span>
 			<select class="alignment"
 				data-setting="align"
-				<# if ( userSettings ) { #>
+				<# if ( data.userSettings ) { #>
 					data-user-setting="align"
 				<# } #>>
 
@@ -1571,7 +1571,7 @@ function wp_print_media_templates( $attachment ) {
 				<span><?php _e('Link To'); ?></span>
 				<select class="link-to"
 					data-setting="link"
-					<# if ( userSettings ) { #>
+					<# if ( data.userSettings ) { #>
 						data-user-setting="urlbutton"
 					<# } #>>
 
@@ -1592,12 +1592,12 @@ function wp_print_media_templates( $attachment ) {
 			<input type="text" class="link-to-custom" data-setting="linkUrl" />
 		</div>
 
-		<# if ( 'undefined' !== typeof sizes ) { #>
+		<# if ( 'undefined' !== typeof data.sizes ) { #>
 			<label class="setting">
 				<span><?php _e('Size'); ?></span>
 				<select class="size" name="size"
 					data-setting="size"
-					<# if ( userSettings ) { #>
+					<# if ( data.userSettings ) { #>
 						data-user-setting="imgsize"
 					<# } #>>
 					<?php
@@ -1613,7 +1613,7 @@ function wp_print_media_templates( $attachment ) {
 						if ( 'full' === $name )
 							continue;
 						?>
-						<# if ( sizes['<?php echo esc_js( $value ); ?>'] ) { #>
+						<# if ( data.sizes['<?php echo esc_js( $value ); ?>'] ) { #>
 							<option value="<?php echo esc_attr( $value ); ?>" <?php selected( $value, 'medium' ); ?>>
 								<?php echo esc_html( $name ); ?>
 							</option>
@@ -1637,7 +1637,7 @@ function wp_print_media_templates( $attachment ) {
 			<span><?php _e('Link To'); ?></span>
 			<select class="link-to"
 				data-setting="link"
-				<# if ( userSettings ) { #>
+				<# if ( data.userSettings ) { #>
 					data-user-setting="urlbutton"
 				<# } #>>
 
@@ -1672,7 +1672,7 @@ function wp_print_media_templates( $attachment ) {
 
 	<script type="text/html" id="tmpl-embed-image-settings">
 		<div class="thumbnail">
-			<img src="{{ model.url }}" draggable="false" />
+			<img src="{{ data.model.url }}" draggable="false" />
 		</div>
 
 		<label class="setting caption">
@@ -1720,58 +1720,31 @@ function wp_print_media_templates( $attachment ) {
 		</div>
 	</script>
 
-	<script type="text/html" id="tmpl-editor-attachment">
-		<div class="editor-attachment-preview">
-			<# if ( url ) { #>
-				<img src="{{ url }}" width="{{ width }}" height="{{ height }}" draggable="false" />
-			<# } #>
-
-			<# if ( uploading ) { #>
-				<div class="media-progress-bar"><div></div></div>
-			<# } #>
-			<div class="overlay">
-				<div class="button close">&times;</div>
-			</div>
-		</div>
-		<div class="describe"></div>
-	</script>
-
-	<script type="text/html" id="tmpl-editor-gallery">
-		<# if ( url ) { #>
-			<img src="{{ url }}" draggable="false" />
-		<# } #>
-
-		<div class="overlay">
-			<div class="button close">&times;</div>
-			<div class="button edit"><?php _e('Edit'); ?></div>
-		</div>
-	</script>
-
 	<script type="text/html" id="tmpl-attachments-css">
-		<style type="text/css" id="{{ id }}-css">
-			#{{ id }} {
-				padding: 0 {{ gutter }}px;
+		<style type="text/css" id="{{ data.id }}-css">
+			#{{ data.id }} {
+				padding: 0 {{ data.gutter }}px;
 			}
 
-			#{{ id }} .attachment {
-				margin: {{ gutter }}px;
-				width: {{ edge }}px;
+			#{{ data.id }} .attachment {
+				margin: {{ data.gutter }}px;
+				width: {{ data.edge }}px;
 			}
 
-			#{{ id }} .attachment-preview,
-			#{{ id }} .attachment-preview .thumbnail {
-				width: {{ edge }}px;
-				height: {{ edge }}px;
+			#{{ data.id }} .attachment-preview,
+			#{{ data.id }} .attachment-preview .thumbnail {
+				width: {{ data.edge }}px;
+				height: {{ data.edge }}px;
 			}
 
-			#{{ id }} .portrait .thumbnail img {
-				width: {{ edge }}px;
+			#{{ data.id }} .portrait .thumbnail img {
+				width: {{ data.edge }}px;
 				height: auto;
 			}
 
-			#{{ id }} .landscape .thumbnail img {
+			#{{ data.id }} .landscape .thumbnail img {
 				width: auto;
-				height: {{ edge }}px;
+				height: {{ data.edge }}px;
 			}
 		</style>
 	</script>
