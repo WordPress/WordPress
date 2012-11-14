@@ -199,7 +199,10 @@
 		},
 
 		_createButtons : function() {
-			var t = this, ed = tinyMCE.activeEditor, DOM = tinymce.DOM, editButton, dellButton;
+			var t = this, ed = tinyMCE.activeEditor, DOM = tinymce.DOM, editButton, dellButton, isRetina;
+
+			isRetina = ( window.devicePixelRatio && window.devicePixelRatio > 1 ) || // WebKit, Opera
+				( window.matchMedia && window.matchMedia('(min-resolution:130dpi)').matches ); // Firefox, IE10, Opera
 
 			DOM.remove('wp_editbtns');
 
@@ -209,7 +212,7 @@
 			});
 
 			editButton = DOM.add('wp_editbtns', 'img', {
-				src : t.url+'/img/image.png',
+				src : isRetina ? t.url+'/img/image-2x.png' : t.url+'/img/image.png',
 				id : 'wp_editimgbtn',
 				width : '24',
 				height : '24',
@@ -221,7 +224,7 @@
 			});
 
 			dellButton = DOM.add('wp_editbtns', 'img', {
-				src : t.url+'/img/delete.png',
+				src : isRetina ? t.url+'/img/delete-2x.png' : t.url+'/img/delete.png',
 				id : 'wp_delimgbtn',
 				width : '24',
 				height : '24',

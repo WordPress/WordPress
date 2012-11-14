@@ -5,25 +5,10 @@ html, body {
 	padding: 0;
 }
 
-.submit input,
-.button,
-.button-primary,
-.button-secondary,
-.button-highlighted {
-	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
-	text-decoration: none;
-	font-size: 11px !important;
-	line-height: 16px;
-	padding: 2px 8px;
-	cursor: pointer;
-	border-width: 1px;
-	border-style: solid;
-	-webkit-border-radius: 11px;
-	border-radius: 11px;
-	-moz-box-sizing: content-box;
-	-webkit-box-sizing: content-box;
-	-khtml-box-sizing: content-box;
-	box-sizing: content-box;
+body {
+	font-family: sans-serif;
+	font-size: 12px;
+	line-height: 1.4em;
 }
 
 a.button {
@@ -33,7 +18,7 @@ a.button {
 textarea,
 input,
 select {
-	font: 13px Verdana, Arial, Helvetica, sans-serif;
+	font: inherit;
 	margin: 1px;
 	padding: 3px;
 }
@@ -42,10 +27,6 @@ p.help {
 	margin: 4px 0;
 	font-size: 12px;
 	font-style: italic;
-}
-
-body, td {
-	font: 13px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
 }
 
 abbr.required {
@@ -311,6 +292,7 @@ form {
 	padding: 0 0 0 28px;
 	margin: 0 1em 0 0;
 }
+
 .image-align-none-label {
 	background: url(../../../../../../wp-admin/images/align-none.png) no-repeat center left;
 }
@@ -428,4 +410,26 @@ body#media-upload.rtl ul#sidemenu {
 
 .rtl #img_size_title {
 	text-align: left;
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
+	.image-align-none-label {
+		background: url(../../../../../../wp-admin/images/align-none-2x.png) no-repeat center left;
+		background-size: auto 15px;
+	}
+
+	.image-align-left-label {
+		background: url(../../../../../../wp-admin/images/align-left-2x.png) no-repeat center left;
+		background-size: auto 15px;
+	}
+
+	.image-align-center-label {
+		background: url(../../../../../../wp-admin/images/align-center-2x.png) no-repeat center left;
+		background-size: auto 15px;
+	}
+
+	.image-align-right-label {
+		background: url(../../../../../../wp-admin/images/align-right-2x.png) no-repeat center left;
+		background-size: auto 15px;
+	}
 }
