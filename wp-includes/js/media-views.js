@@ -1248,7 +1248,7 @@
 
 		// Toolbars
 		mainAttachmentsToolbar: function() {
-			this.toolbar.view( new media.view.Toolbar.Insert.Post({
+			this.toolbar.view( new media.view.Toolbar.Insert({
 				controller: this
 			}) );
 		},
@@ -1738,7 +1738,24 @@
 	media.view.Toolbar.Insert = media.view.Toolbar.extend({
 		initialize: function() {
 			var controller = this.options.controller,
-				selection = controller.state().get('selection');
+				selection = controller.state().get('selection'),
+				selectionToLibrary;
+
+			selectionToLibrary = function( state, filter ) {
+				return function() {
+					var controller = this.controller,
+						selection = controller.state().get('selection'),
+						edit = controller.get( state ),
+						models = filter ? filter( selection ) : selection.models;
+
+					edit.set( 'library', new media.model.Selection( models, {
+						props:    selection.props.toJSON(),
+						multiple: true
+					}) );
+
+					this.controller.state( state );
+				};
+			};
 
 			this.options.items = _.defaults( this.options.items || {}, {
 				selection: new media.view.Selection({
@@ -1757,39 +1774,8 @@
 						controller.state().trigger( 'insert', selection );
 						selection.clear();
 					}
-				}
-			});
+				},
 
-			media.view.Toolbar.prototype.initialize.apply( this, arguments );
-		},
-
-		refresh: function() {
-			var selection = this.controller.state().get('selection');
-			this.get('insert').model.set( 'disabled', ! selection.length );
-		}
-	});
-
-	// wp.media.view.Toolbar.Insert.Post
-	// ---------------------------------
-	media.view.Toolbar.Insert.Post = media.view.Toolbar.Insert.extend({
-		initialize: function() {
-			var selectionToLibrary = function( state, filter ) {
-					return function() {
-						var controller = this.controller,
-							selection = controller.state().get('selection'),
-							edit = controller.get( state ),
-							models = filter ? filter( selection ) : selection.models;
-
-						edit.set( 'library', new media.model.Selection( models, {
-							props:    selection.props.toJSON(),
-							multiple: true
-						}) );
-
-						this.controller.state( state );
-					};
-				};
-
-			this.options.items = _.defaults( this.options.items || {}, {
 				gallery: {
 					text:     l10n.createNewGallery,
 					priority: 40,
@@ -1805,15 +1791,14 @@
 				}
 			});
 
-			media.view.Toolbar.Insert.prototype.initialize.apply( this, arguments );
+			media.view.Toolbar.prototype.initialize.apply( this, arguments );
 		},
 
 		refresh: function() {
 			var selection = this.controller.state().get('selection'),
 				count = selection.length;
 
-			// Call the parent's `refresh()` method.
-			media.view.Toolbar.Insert.prototype.refresh.apply( this, arguments );
+			this.get('insert').model.set( 'disabled', ! selection.length );
 
 			// Check if every attachment in the selection is an image.
 			this.get('gallery').$el.toggle( count > 1 && selection.any( function( attachment ) {
