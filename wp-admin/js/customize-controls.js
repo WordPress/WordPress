@@ -842,7 +842,6 @@
 		}());
 
 		// Temporary accordion code.
-		var accordionFrozen = false;
 		$('.customize-section-title').bind('click keydown', function( event ) {
 
 			if ( event.type === 'keydown' &&  13 !== event.which ) // enter
@@ -850,14 +849,8 @@
 
 			var clicked = $( this ).parents( '.customize-section' );
 
-			if ( clicked.hasClass('cannot-expand') || accordionFrozen )
+			if ( clicked.hasClass('cannot-expand') )
 				return;
-
-			// Don't want to fire focus and click at same time
-			accordionFrozen = true;
-			setTimeout(function () {
-				accordionFrozen = false;
-			}, 400);
 
 			// Scroll up if on #customize-section-title_tagline
 			if ('customize-section-title_tagline' === clicked.attr('id'))
