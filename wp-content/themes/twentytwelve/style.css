@@ -159,7 +159,6 @@ img {
 	-ms-interpolation-mode: bicubic;
 }
 
-
 /* Clearing floats */
 .clear:after,
 .wrapper:after,
@@ -934,32 +933,6 @@ footer.entry-meta {
 .single-author .entry-meta .by-author {
 	display: none;
 }
-
-/* Multisite signup */
-.mu_register ul { 
- 	1376	        list-style: disc outside; 
- 	1377	        margin: 0 0 24px; 
- 	1378	        margin: 0 0 1.714285714rem; 
- 	1379	} 
- 	1380	.mu_register li { 
- 	1381	        margin-left: 36px; 
- 	1382	        margin-left: 2.571428571rem; 
- 	1383	        line-height: 1.42857143; 
- 	1384	} 
- 	1385	.mu_register p { 
- 	1386	        font-size: 13px; 
- 	1387	        font-size: 0.928571429rem; 
- 	1388	        line-height: 1.846153846; 
- 	1389	        margin-bottom: 24px; 
- 	1390	        margin-bottom: 1.714285714rem; 
- 	1391	} 
- 	1392	.mu_register h2 { 
- 	1393	        font-size: 18px; 
- 	1394	        font-size: 1.285714286rem; 
- 	1395	        line-height: 1.6; 
- 	1396	        font-weight: normal; 
- 	1397	        color: #777; 
- 	1398	} 
 
 
 /* =Archives
