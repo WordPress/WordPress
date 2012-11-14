@@ -26,7 +26,10 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	}
 
 	/**
-	 * Checks to see if current environment supports Imagick
+	 * Checks to see if current environment supports Imagick.
+	 *
+	 * We require Imagick 2.1.1 or greater, based on whether the queryFormats()
+	 * method can be called statically.
 	 *
 	 * @since 3.5.0
 	 * @access public
@@ -34,7 +37,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 * @return boolean
 	 */
 	public static function test( $args = null ) {
-		if ( ! extension_loaded( 'imagick' ) )
+		if ( ! extension_loaded( 'imagick' ) || ! is_callable( 'Imagick', 'queryFormats' ) )
 			return false;
 
 		return true;
