@@ -1213,7 +1213,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$post_data = apply_filters( 'xmlrpc_wp_insert_post_data', $post_data, $content_struct );
 
-		$post_ID = wp_insert_post( $post_data, true );
+		$post_ID = $update ? wp_update_post( $post_data, true ) : wp_insert_post( $post_data, true );
 		if ( is_wp_error( $post_ID ) )
 			return new IXR_Error( 500, $post_ID->get_error_message() );
 
