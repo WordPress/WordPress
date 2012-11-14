@@ -8431,8 +8431,8 @@ a.widget-control-edit {
 	 	background-size: 20px auto;
 	 }
 
-	.postbox:hover .handlediv,
-	.stuffbox:hover .handlediv,
+	.js .postbox:hover .handlediv,
+	.js .stuffbox:hover .handlediv,
 	.widget-top a.widget-action {
 	 	background-image: url('../images/arrows-2x.png');
 	 	background-size: 15px 123px;

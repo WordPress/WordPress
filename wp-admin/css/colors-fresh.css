@@ -1914,11 +1914,11 @@ div.widgets-sortables,
 	#adminmenu .wp-menu-open .wp-menu-toggle,
 	#collapse-button div,
 	.nav-menus-php .item-edit,
-	.meta-box-sortables .postbox:hover .handlediv,
+	.js .meta-box-sortables .postbox:hover .handlediv,
 	.sidebar-name-arrow,
 	.rtl #adminmenu .wp-has-submenu:hover .wp-menu-toggle,
 	.rtl #adminmenu .wp-menu-open .wp-menu-toggle,
-	.rtl .meta-box-sortables .postbox:hover .handlediv,
+	.js.rtl .meta-box-sortables .postbox:hover .handlediv,
 	.rtl .sidebar-name-arrow {
 		background-image: url("../images/arrows-2x.png?ver=20120916");
 		background-size: 15px 123px;
