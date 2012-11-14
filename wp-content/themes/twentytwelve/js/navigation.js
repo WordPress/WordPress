@@ -4,16 +4,18 @@
  * Handles toggling the navigation menu for small screens.
  */
 ( function() {
-	var button = document.getElementById( 'site-navigation' ).getElementsByTagName( 'h3' )[0],
-	    menu   = document.getElementById( 'site-navigation' ).getElementsByTagName( 'ul' )[0];
-
-	if ( undefined === button )
-		return false;
+	var nav = document.getElementById( 'site-navigation' ), button, menu;
+	if ( ! nav )
+		return;
+	button = nav.getElementsByTagName( 'h3' )[0];
+	menu   = nav.getElementsByTagName( 'ul' )[0];
+	if ( ! button )
+		return;
 
 	// Hide button if menu is missing or empty.
-	if ( undefined === menu || ! menu.childNodes.length ) {
+	if ( ! menu || ! menu.childNodes.length ) {
 		button.style.display = 'none';
-		return false;
+		return;
 	}
 
 	button.onclick = function() {
