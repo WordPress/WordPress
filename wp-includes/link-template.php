@@ -2421,13 +2421,15 @@ function wp_shortlink_header() {
  * @param string $after Optional HTML to display after the link.
  */
 function the_shortlink( $text = '', $title = '', $before = '', $after = '' ) {
+	$post = get_post();
+
 	if ( empty( $text ) )
 		$text = __('This is the short link.');
 
 	if ( empty( $title ) )
 		$title = the_title_attribute( array( 'echo' => false ) );
 
-	$shortlink = wp_get_shortlink();
+	$shortlink = wp_get_shortlink( $post->ID );
 
 	if ( !empty( $shortlink ) ) {
 		$link = '<a rel="shortlink" href="' . esc_url( $shortlink ) . '" title="' . $title . '">' . $text . '</a>';
