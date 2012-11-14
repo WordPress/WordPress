@@ -1640,7 +1640,7 @@ function get_avatar( $id_or_email, $size = '96', $default = '', $alt = false ) {
 	if ( 'mystery' == $default )
 		$default = "$host/avatar/ad516503a11cd5ca435acc9bb6523536?s={$size}"; // ad516503a11cd5ca435acc9bb6523536 == md5('unknown@gravatar.com')
 	elseif ( 'blank' == $default )
-		$default = includes_url('images/blank.gif');
+		$default = $email ? 'blank' : includes_url( 'images/blank.gif' );
 	elseif ( !empty($email) && 'gravatar_default' == $default )
 		$default = '';
 	elseif ( 'gravatar_default' == $default )
