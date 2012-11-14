@@ -645,7 +645,7 @@ footer[role="contentinfo"] a:hover {
 }
 
 
-/* =Main content
+/* =Main content and comment content
 -------------------------------------------------------------- */
 
 .entry-meta {
@@ -701,7 +701,8 @@ article.sticky .featured-post {
 	text-align: center;
 }
 .entry-content,
-.entry-summary {
+.entry-summary,
+.mu_register {
 	line-height: 1.714285714;
 }
 .entry-content h1,
@@ -727,7 +728,8 @@ article.sticky .featured-post {
 	line-height: 1.5;
 }
 .entry-content h2,
-.comment-content h2 {
+.comment-content h2,
+.mu_register h2 {
 	font-size: 18px;
 	font-size: 1.285714286rem;
 	line-height: 1.6;
@@ -758,7 +760,8 @@ article.sticky .featured-post {
 }
 .entry-content p,
 .entry-summary p,
-.comment-content p {
+.comment-content p,
+.mu_register p {
 	margin: 0 0 24px;
 	margin: 0 0 1.714285714rem;
 	line-height: 1.714285714;
@@ -766,7 +769,8 @@ article.sticky .featured-post {
 .entry-content ol,
 .comment-content ol,
 .entry-content ul,
-.comment-content ul {
+.comment-content ul,
+.mu_register ul {
 	margin: 0 0 24px;
 	margin: 0 0 1.714285714rem;
 	line-height: 1.714285714;
@@ -782,7 +786,8 @@ article.sticky .featured-post {
 	margin-bottom: 0;
 }
 .entry-content ul,
-.comment-content ul {
+.comment-content ul,
+.mu_register ul {
 	list-style: disc outside;
 }
 .entry-content ol,
@@ -790,7 +795,8 @@ article.sticky .featured-post {
 	list-style: decimal outside;
 }
 .entry-content li,
-.comment-content li {
+.comment-content li,
+.mu_register li {
 	margin: 0 0 0 36px;
 	margin: 0 0 0 2.571428571rem;
 }
@@ -932,6 +938,10 @@ footer.entry-meta {
 }
 .single-author .entry-meta .by-author {
 	display: none;
+}
+.mu_register h2 {
+	color: #757575;
+	font-weight: normal;
 }
 
 
