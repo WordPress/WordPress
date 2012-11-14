@@ -209,11 +209,11 @@ function wp_list_bookmarks($args = '') {
 		'category_after' => '</li>'
 	);
 
-	if ( empty( $args['category'] ) )
-		$args['categorize'] = 0;
-
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
+
+	if ( empty( $args['category'] ) )
+		$categorize = 0;
 
 	$output = '';
 
