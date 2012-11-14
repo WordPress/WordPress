@@ -247,7 +247,7 @@ article.post-password-required input[type=submit]:hover {
 input[type="submit"]:active,
 article.post-password-required input[type=submit]:active,
 input[type="submit"].toggled-on {
-	color: #777;
+	color: #757575;
 	background-color: #e1e1e1;
 	background-repeat: repeat-x;
 	background-image: -moz-linear-gradient(top, #ebebeb, #e1e1e1);
@@ -344,7 +344,7 @@ img.wp-post-image {
 	font-size: 12px;
 	font-size: 0.857142857rem;
 	line-height: 2;
-	color: #777;
+	color: #757575;
 }
 img.wp-smiley,
 .rsswidget img {
@@ -428,7 +428,7 @@ img.wp-smiley,
 	overflow: hidden;
 }
 .author-description p {
-	color: #777;
+	color: #757575;
 	font-size: 13px;
 	font-size: 0.928571429rem;
 	line-height: 1.846153846;
@@ -537,7 +537,7 @@ a:hover {
 	font-size: 13px;
 	font-size: 0.928571429rem;
 	line-height: 1.846153846;
-	color: #777;
+	color: #757575;
 }
 .header-image {
 	margin-top: 24px;
@@ -612,7 +612,7 @@ section[role="banner"] {
 	margin-left: 2.571428571rem;
 }
 .widget-area .widget a {
-	color: #777;
+	color: #757575;
 }
 .widget-area .widget a:hover {
 	color: #21759b;
@@ -679,11 +679,11 @@ footer[role="contentinfo"] a:hover {
 	font-size: 13px;
 	font-size: 0.928571429rem;
 	line-height: 1.846153846;
-	color: #777;
+	color: #757575;
 }
 .comments-link a,
 .entry-meta a {
-	color: #777;
+	color: #757575;
 }
 .comments-link a:hover,
 .entry-meta a:hover {
@@ -692,7 +692,7 @@ footer[role="contentinfo"] a:hover {
 article.sticky .featured-post {
 	border-top: 4px double #ededed;
 	border-bottom: 4px double #ededed;
-	color: #777;
+	color: #757575;
 	font-size: 13px;
 	font-size: 0.928571429rem;
 	line-height: 3.692307692;
@@ -887,7 +887,7 @@ img.aligncenter {
 .entry-content table,
 .comment-content table {
 	border-bottom: 1px solid #ededed;
-	color: #777;
+	color: #757575;
 	font-size: 12px;
 	font-size: 0.857142857rem;
 	line-height: 2;
@@ -924,7 +924,7 @@ footer.entry-meta {
 	font-size: 13px;
 	font-size: 0.928571429rem;
 	line-height: 1.846153846;
-	color: #777;
+	color: #757575;
 }
 .single-author .entry-meta .by-author {
 	display: none;
@@ -943,7 +943,7 @@ footer.entry-meta {
 	border-bottom: 1px solid #ededed;
 }
 .archive-meta {
-	color: #777;
+	color: #757575;
 	font-size: 12px;
 	font-size: 0.857142857rem;
 	line-height: 2;
@@ -1094,7 +1094,7 @@ article.format-quote .entry-content blockquote {
 	margin: 0;
 }
 .format-status .entry-header header a {
-	color: #777;
+	color: #757575;
 }
 .format-status .entry-header header a:hover {
 	color: #21759b;
@@ -1297,7 +1297,7 @@ a.comment-reply-link:hover {
 	list-style-position: inside;
 }
 .template-front-page .widget-area .widget li a {
-	color: #777;
+	color: #757575;
 }
 .template-front-page .widget-area .widget li a:hover {
 	color: #21759b;

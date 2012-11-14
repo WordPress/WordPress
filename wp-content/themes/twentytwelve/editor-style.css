@@ -259,7 +259,7 @@ table {
 	border-bottom: 1px solid #ededed;
 	border-collapse: collapse;
 	border-spacing: 0;
-	color: #777;
+	color: #757575;
 	font-size: 12px;
 	font-size: 0.857142857rem;
 	line-height: 2;
@@ -278,7 +278,7 @@ tr th {
 }
 td {
 	border-top: 1px solid #ededed !important;
-	color: #777;
+	color: #757575;
 	font-size: inherit;
 	font-weight: normal;
 	padding: 6px 10px 6px 0;
@@ -332,7 +332,7 @@ img.wp-smiley {
 }
 .wp-caption .wp-caption-text,
 .wp-caption-dd {
-	color: #777;
+	color: #757575;
 	font-style: italic;
 	font-size: 12px;
 	font-size: 0.857142857rem;

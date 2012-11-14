@@ -114,7 +114,7 @@ function twentytwelve_admin_header_style() {
 		color: #21759b;
 	}
 	#headimg h2 {
-		color: #777;
+		color: #757575;
 		font: normal 13px/1.8 "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", sans-serif;
 		margin-bottom: 24px;
 	}
