@@ -1280,12 +1280,14 @@ function wp_prepare_attachment_for_js( $attachment ) {
 			}
 		}
 
-		$response = array_merge( $response, array(
+		$sizes['full'] = array(
 			'height'      => $meta['height'],
 			'width'       => $meta['width'],
-			'sizes'       => $sizes,
+			'url'         => $attachment_url,
 			'orientation' => $meta['height'] > $meta['width'] ? 'portrait' : 'landscape',
-		) );
+		);
+
+		$response = array_merge( $response, array( 'sizes' => $sizes ), $sizes['full'] );
 	}
 
 	if ( function_exists('get_compat_media_markup') )
@@ -1430,7 +1432,7 @@ function wp_print_media_templates( $attachment ) {
 			<# } else if ( 'image' === data.type ) { #>
 				<div class="thumbnail">
 					<div class="centered">
-						<img src="{{ data.url }}" draggable="false" />
+						<img src="{{ data.size.url }}" draggable="false" />
 					</div>
 				</div>
 			<# } else { #>
@@ -1468,7 +1470,7 @@ function wp_print_media_templates( $attachment ) {
 				<# if ( data.uploading ) { #>
 					<div class="media-progress-bar"><div></div></div>
 				<# } else if ( 'image' === data.type ) { #>
-					<img src="{{ data.url }}" draggable="false" />
+					<img src="{{ data.size.url }}" draggable="false" />
 				<# } else { #>
 					<img src="{{ data.icon }}" class="icon" draggable="false" />
 				<# } #>
@@ -1609,22 +1611,15 @@ function wp_print_media_templates( $attachment ) {
 						'full'      => __('Full Size'),
 					) );
 
-					foreach ( $sizes as $value => $name ) :
-						if ( 'full' === $name )
-							continue;
-						?>
-						<# if ( data.sizes['<?php echo esc_js( $value ); ?>'] ) { #>
+					foreach ( $sizes as $value => $name ) : ?>
+						<#
+						var size = data.sizes['<?php echo esc_js( $value ); ?>'];
+						if ( size ) { #>
 							<option value="<?php echo esc_attr( $value ); ?>" <?php selected( $value, 'medium' ); ?>>
-								<?php echo esc_html( $name ); ?>
+								<?php echo esc_html( $name ); ?> &ndash; {{ size.width }} &times; {{ size.height }}
 							</option>
 						<# } #>>
-					<?php endforeach;
-
-					if ( ! empty( $sizes['full'] ) ) : ?>
-						<option value="full">
-							<?php echo esc_html( $sizes['full'] ); ?>
-						</option>
-					<?php endif; ?>
+					<?php endforeach; ?>
 				</select>
 			</label>
 		<# } #>

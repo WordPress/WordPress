@@ -2139,7 +2139,7 @@
 			options.describe = this.controller.state().get('describe');
 
 			if ( 'image' === options.type )
-				_.extend( options, this.imageSize() );
+				options.size = this.imageSize();
 
 			this.$el.html( this.template( options ) );
 
