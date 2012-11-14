@@ -272,3 +272,71 @@ window.wp = window.wp || {};
 		}
 	});
 }());
+
+// HTML utility functions
+// ----------------------
+//
+// Experimental. These functions may change or be removed in the future.
+(function(){
+	wp.html = _.extend( wp.html || {}, {
+		// ### Parse HTML attributes.
+		//
+		// Converts `content` to a set of parsed HTML attributes.
+		// Utilizes `wp.shortcode.attrs( content )`, which is a valid superset of
+		// the HTML attribute specification. Reformats the attributes into an
+		// object that contains the `attrs` with `key:value` mapping, and a record
+		// of the attributes that were entered using `empty` attribute syntax (i.e.
+		// with no value).
+		attrs: function( content ) {
+			var result, attrs;
+
+			// If `content` ends in a slash, strip it.
+			if ( '/' === content[ content.length - 1 ] )
+				content = content.slice( 0, -1 );
+
+			result = wp.shortcode.attrs( content );
+			attrs  = result.named;
+
+			_.each( result.numeric, function( key ) {
+				if ( /\s/.test( key ) )
+					return;
+
+				attrs[ key ] = '';
+			});
+
+			return attrs;
+		},
+
+		// ### Convert an HTML-representation of an object to a string.
+		string: function( options ) {
+			var text = '<' + options.tag,
+				content = options.content || '';
+
+			_.each( options.attrs, function( value, attr ) {
+				text += ' ' + attr;
+
+				// Use empty attribute notation where possible.
+				if ( '' === value )
+					return;
+
+				// Convert boolean values to strings.
+				if ( _.isBoolean( value ) )
+					value = value ? 'true' : 'false';
+
+				text += '="' + value + '"';
+			});
+
+			// Return the result if it is a self-closing tag.
+			if ( options.single )
+				return text + ' />';
+
+			// Complete the opening tag.
+			text += '>';
+
+			// If `content` is an object, recursively call this function.
+			text += _.isObject( content ) ? wp.html.string( content ) : content;
+
+			return text + '</' + options.tag + '>';
+		}
+	});
+}());

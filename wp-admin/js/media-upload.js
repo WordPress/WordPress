@@ -90,10 +90,204 @@ var tb_position;
 // WordPress, TinyMCE, and Media
 // -----------------------------
 (function($){
-	// Stores the editors' `wp.media.controller.Workflow` instances.
-	var workflows = {};
+	// Stores the editors' `wp.media.controller.Frame` instances.
+	var workflows = {},
+		linkToUrl;
 
-	wp.mce.media = {
+	linkToUrl = function( attachment, props ) {
+		var link = props.link,
+			url;
+
+		if ( 'file' === link )
+			url = attachment.get('url');
+		else if ( 'post' === link )
+			url = attachment.get('link');
+		else if ( 'custom' === link )
+			url = props.linkUrl;
+
+		return url || '';
+	};
+
+	wp.media.string = {};
+
+	wp.media.string.link = function( attachment, props ) {
+		var linkTo  = getUserSetting( 'urlbutton', 'post' ),
+			options = {
+				tag:     'a',
+				content: attachment.get('title') || attachment.get('filename'),
+				attrs:   {
+					rel: 'attachment wp-att-' + attachment.id
+				}
+			};
+
+		options.attrs.href = linkToUrl( attachment, props );
+
+		return wp.html.string( options );
+	};
+
+	wp.media.string.image = function( attachment, props ) {
+		var classes, img, options, size, shortcode, html;
+
+		props = _.defaults( props || {}, {
+			img:   {},
+			align: getUserSetting( 'align', 'none' ),
+			size:  getUserSetting( 'imgsize', 'medium' ),
+			link:  getUserSetting( 'urlbutton', 'post' )
+		});
+
+		props.linkUrl = linkToUrl( attachment, props );
+
+		attachment = attachment.toJSON();
+
+		img     = _.clone( props.img );
+		classes = img['class'] ? img['class'].split(/\s+/) : [];
+		size    = attachment.sizes ? attachment.sizes[ props.size ] : {};
+
+		if ( ! size ) {
+			delete props.size;
+			size = attachment;
+		}
+
+		img.width  = size.width;
+		img.height = size.height;
+		img.src    = size.url;
+
+		// Only assign the align class to the image if we're not printing
+		// a caption, since the alignment is sent to the shortcode.
+		if ( props.align && ! attachment.caption )
+			classes.push( 'align' + props.align );
+
+		if ( props.size )
+			classes.push( 'size-' + props.size );
+
+		classes.push( 'wp-image-' + attachment.id );
+
+		img['class'] = _.compact( classes ).join(' ');
+
+		// Generate `img` tag options.
+		options = {
+			tag:    'img',
+			attrs:  img,
+			single: true
+		};
+
+		// Generate the `href` based on the `link` property.
+		if ( props.linkUrl ) {
+			props.anchor = props.anchor || {};
+			props.anchor.href = props.linkUrl;
+		}
+
+		// Generate the `a` element options, if they exist.
+		if ( props.anchor ) {
+			options = {
+				tag:     'a',
+				attrs:   props.anchor,
+				content: options
+			};
+		}
+
+		html = wp.html.string( options );
+
+		// Generate the caption shortcode.
+		if ( attachment.caption ) {
+			shortcode = {
+				id:    'attachment_' + attachment.id,
+				width: img.width
+			};
+
+			if ( props.align )
+				shortcode.align = 'align' + props.align;
+
+			html = wp.shortcode.string({
+				tag:     'caption',
+				attrs:   shortcode,
+				content: html + ' ' + attachment.caption
+			});
+		}
+
+		return html;
+	};
+
+	wp.media.gallery = (function() {
+		var galleries = {};
+
+		return {
+			attachments: function( shortcode, parent ) {
+				var shortcodeString = shortcode.string(),
+					result = galleries[ shortcodeString ],
+					attrs, args, query, others;
+
+				delete galleries[ shortcodeString ];
+
+				if ( result )
+					return result;
+
+				attrs = shortcode.attrs.named;
+				args  = _.pick( attrs, 'orderby', 'order' );
+
+				args.type    = 'image';
+				args.perPage = -1;
+
+				// Map the `ids` param to the correct query args.
+				if ( attrs.ids ) {
+					args.post__in = attrs.ids.split(',');
+					args.orderby  = 'post__in';
+				} else if ( attrs.include ) {
+					args.post__in = attrs.include.split(',');
+				}
+
+				if ( attrs.exclude )
+					args.post__not_in = attrs.exclude.split(',');
+
+				if ( ! args.post__in )
+					args.parent = attrs.id || parent;
+
+				// Collect the attributes that were not included in `args`.
+				others = {};
+				_.filter( attrs, function( value, key ) {
+					if ( _.isUndefined( args[ key ] ) )
+						others[ key ] = value;
+				});
+
+				query = media.query( args );
+				query.gallery = new Backbone.Model( others );
+				return query;
+			},
+
+			shortcode: function( attachments ) {
+				var props = attachments.props.toJSON(),
+					attrs = _.pick( props, 'include', 'exclude', 'orderby', 'order' ),
+					shortcode, clone;
+
+				if ( attachments.gallery )
+					_.extend( attrs, attachments.gallery.toJSON() );
+
+				attrs.ids = attachments.pluck('id');
+
+				// If the `ids` attribute is set and `orderby` attribute
+				// is the default value, clear it for cleaner output.
+				if ( attrs.ids && 'post__in' === attrs.orderby )
+					delete attrs.orderby;
+
+				shortcode = new wp.shortcode({
+					tag:    'gallery',
+					attrs:  attrs,
+					type:   'single'
+				});
+
+				// Use a cloned version of the gallery.
+				clone = new wp.media.model.Attachments( attachments.models, {
+					props: props
+				});
+				clone.gallery = attachments.gallery;
+				galleries[ shortcode.string() ] = clone;
+
+				return shortcode;
+			}
+		};
+	}());
+
+	wp.media.editor = {
 		insert: send_to_editor,
 
 		add: function( id, options ) {
@@ -134,14 +328,7 @@ var tb_position;
 			}, this );
 
 			workflow.get('gallery-edit').on( 'update', function( selection ) {
-				var view = wp.mce.view.get('gallery'),
-					shortcode;
-
-				if ( ! view )
-					return;
-
-				shortcode = view.gallery.shortcode( selection );
-				this.insert( shortcode.string() );
+				this.insert( wp.media.gallery.shortcode( selection ).string() );
 			}, this );
 
 			workflow.get('embed').on( 'select', function() {
@@ -211,7 +398,7 @@ var tb_position;
 				if ( ! editor )
 					return;
 
-				workflow = wp.mce.media.get( editor );
+				workflow = wp.media.editor.get( editor );
 
 				// If the workflow exists, just open it.
 				if ( workflow ) {
@@ -220,10 +407,10 @@ var tb_position;
 				}
 
 				// Initialize the editor's workflow if we haven't yet.
-				wp.mce.media.add( editor );
+				wp.media.editor.add( editor );
 			});
 		}
 	};
 
-	$( wp.mce.media.init );
+	$( wp.media.editor.init );
 }(jQuery));
