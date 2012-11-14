@@ -1084,6 +1084,8 @@ function post_thumbnail_meta_box( $post ) {
 					}
 				});
 			});
+
+			frame.toolbar.mode('select');
 		});
 
 		$element.on( 'click', '.remove', function( event ) {
