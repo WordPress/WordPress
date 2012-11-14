@@ -10,16 +10,24 @@
 
 			// Register the command so that it can be invoked by using tinyMCE.activeEditor.execCommand('...');
 			ed.addCommand('WP_Gallery', function() {
-				var el = ed.selection.getNode(), post_id, vp = tinymce.DOM.getViewPort(),
-					H = vp.h - 80, W = ( 640 < vp.w ) ? 640 : vp.w;
+				var el = ed.selection.getNode(),
+					gallery = wp.media.gallery,
+					frame;
 
-				if ( el.nodeName != 'IMG' ) return;
-				if ( ed.dom.getAttrib(el, 'class').indexOf('wpGallery') == -1 )	return;
+				// Check if the `wp.media.gallery` API exists.
+				if ( typeof wp === 'undefined' || ! wp.media || ! wp.media.gallery )
+					return;
 
-				post_id = tinymce.DOM.get('post_ID').value;
-				tb_show('', tinymce.documentBaseURL + 'media-upload.php?post_id='+post_id+'&tab=gallery&TB_iframe=true&width='+W+'&height='+H);
+				// Make sure we've selected a gallery node.
+				if ( el.nodeName != 'IMG' || ed.dom.getAttrib(el, 'class').indexOf('wpGallery') == -1 )
+					return;
 
-				tinymce.DOM.setStyle( ['TB_overlay','TB_window','TB_load'], 'z-index', '999999' );
+				frame = gallery.edit( '[' + ed.dom.getAttrib( el, 'title' ) + ']' );
+
+				frame.get('gallery-edit').on( 'update', function( selection ) {
+					var shortcode = gallery.shortcode( selection ).string().slice( 1, -1 );
+					ed.dom.setAttrib( el, 'title', shortcode );
+				});
 			});
 
 			ed.onMouseDown.add(function(ed, e) {

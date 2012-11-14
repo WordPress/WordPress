@@ -1300,7 +1300,12 @@ function wp_prepare_attachment_for_js( $attachment ) {
  *
  * @since 3.5.0
  */
-function wp_enqueue_media() {
+function wp_enqueue_media( $args = array() ) {
+	$defaults = array(
+		'post' => null,
+	);
+	$args = wp_parse_args( $args, $defaults );
+
 	// We're going to pass the old thickbox media tabs to `media_upload_tabs`
 	// to ensure plugins will work. We will then unset those tabs.
 	$tabs = array(
@@ -1320,6 +1325,9 @@ function wp_enqueue_media() {
 			'chromeless' => true
 		), admin_url('media-upload.php') ),
 	);
+
+	if ( isset( $args['post'] ) )
+		$settings['postId'] = get_post( $args['post'] )->ID;
 
 	wp_localize_script( 'media-views', '_wpMediaViewsL10n', array(
 		// Settings

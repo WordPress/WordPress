@@ -212,7 +212,18 @@ var tb_position;
 		var galleries = {};
 
 		return {
-			attachments: function( shortcode, parent ) {
+			defaults: {
+				order:      'ASC',
+				orderby:    'post__in',
+				id:         wp.media.view.settings.postId,
+				itemtag:    'dl',
+				icontag:    'dt',
+				captiontag: 'dd',
+				columns:    3,
+				size:       'thumbnail'
+			},
+
+			attachments: function( shortcode ) {
 				var shortcodeString = shortcode.string(),
 					result = galleries[ shortcodeString ],
 					attrs, args, query, others;
@@ -240,7 +251,7 @@ var tb_position;
 					args.post__not_in = attrs.exclude.split(',');
 
 				if ( ! args.post__in )
-					args.parent = attrs.id || parent;
+					args.parent = attrs.id;
 
 				// Collect the attributes that were not included in `args`.
 				others = {};
@@ -283,6 +294,40 @@ var tb_position;
 				galleries[ shortcode.string() ] = clone;
 
 				return shortcode;
+			},
+
+			edit: function( content ) {
+				var shortcode = wp.shortcode.next( 'gallery', content ),
+					defaultPostId = wp.media.gallery.defaults.postId,
+					attachments, selection;
+
+				// Bail if we didn't match the shortcode or all of the content.
+				if ( ! shortcode || shortcode.content !== content )
+					return;
+
+				// Ignore the rest of the match object.
+				shortcode = shortcode.shortcode;
+
+				if ( _.isUndefined( shortcode.get('id') ) && ! _.isUndefined( defaultPostId ) )
+					shortcode.set( 'id', defaultPostId );
+
+				attachments = wp.media.gallery.attachments( shortcode );
+
+				selection = new wp.media.model.Selection( attachments.models, {
+					props:    attachments.props.toJSON(),
+					multiple: true
+				});
+
+				selection.gallery = attachments.gallery;
+
+				return wp.media({
+					frame:     'post',
+					state:     'gallery-edit',
+					title:     wp.media.view.l10n.editGalleryTitle,
+					editing:   true,
+					multiple:  true,
+					selection: selection
+				});
 			}
 		};
 	}());
