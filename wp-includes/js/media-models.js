@@ -358,6 +358,11 @@ window.wp = window.wp || {};
 		},
 
 		validate: function( attachment, options ) {
+			// Only retain the `silent` option.
+			options = {
+				silent: options && options.silent
+			};
+
 			return this[ this.validator( attachment ) ? 'add' : 'remove' ]( attachment, options );
 		},
 

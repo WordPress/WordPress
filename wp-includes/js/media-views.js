@@ -458,9 +458,10 @@
 	// ---------------------------
 	media.controller.Upload = media.controller.Library.extend({
 		defaults: _.defaults({
-			id:     'upload',
-			upload: { text: l10n.uploadMoreFiles },
-			searchable: false
+			id:         'upload',
+			upload:     { text: l10n.uploadMoreFiles },
+			searchable: false,
+			sortable:   true
 		}, media.controller.Library.prototype.defaults ),
 
 		initialize: function() {
@@ -471,10 +472,6 @@
 			// all uploading) attachments.
 			if ( ! library ) {
 				library = new Attachments();
-				library.props.set({
-					orderby: 'date',
-					order:   'ASC'
-				});
 				library.observe( wp.Uploader.queue );
 				this.set( 'library', library );
 			}
@@ -995,7 +992,8 @@
 				// Main states.
 				new media.controller.Library( _.defaults({
 					selection: options.selection,
-					library:   media.query( options.library )
+					library:   media.query( options.library ),
+					editable:  true
 				}, main ) ),
 
 				new media.controller.Upload( main ),
@@ -1256,7 +1254,8 @@
 		// Toolbars
 		mainAttachmentsToolbar: function() {
 			this.toolbar.view( new media.view.Toolbar.Insert({
-				controller: this
+				controller: this,
+				editable:   this.state().get('editable')
 			}) );
 		},
 
@@ -1770,7 +1769,9 @@
 					collection: selection,
 					priority:   -40,
 
-					editable: function() {
+					// If the selection is editable, pass the callback to
+					// switch the content mode.
+					editable: this.options.editable && function() {
 						this.controller.content.mode('edit-selection');
 					}
 				}).render(),
