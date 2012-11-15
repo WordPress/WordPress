@@ -1355,6 +1355,7 @@ function wp_enqueue_media( $args = array() ) {
 		'mediaLibraryTitle' => __( 'Media Library' ),
 		'createNewGallery'  => __( 'Create a new gallery' ),
 		'insertIntoPost'    => __( 'Insert into post' ),
+		'returnToLibrary'   => __( '&#8592; Return to library' ),
 
 		// Embed
 		'embedFromUrlTitle' => __( 'Embed From URL' ),
@@ -1522,6 +1523,9 @@ function wp_print_media_templates( $attachment ) {
 	<script type="text/html" id="tmpl-media-selection">
 		<div class="selection-info">
 			<span class="count"></span>
+			<# if ( data.editable ) { #>
+				<a class="edit-selection" href="#"><?php _e('Edit'); ?></a>
+			<# } #>
 			<# if ( data.clearable ) { #>
 				<a class="clear-selection" href="#"><?php _e('Clear'); ?></a>
 			<# } #>
