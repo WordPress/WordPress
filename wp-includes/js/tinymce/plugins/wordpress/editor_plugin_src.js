@@ -144,12 +144,18 @@
 				}
 			});
 
-			// Add HTML5 obsolete attributes that are still in use.
+			// Add obsolete HTML attributes that are still in use.
 			ed.onPreInit.add(function(ed) {
-				// This list is taken from TinyMCE 3.5.7 getHTML5()
-				var commonAttr = 'id|accesskey|class|dir|draggable|item|hidden|itemprop|role|spellcheck|style|subject|title|onclick|ondblclick|onmousedown|onmouseup|onmouseover|onmousemove|onmouseout|onkeypress|onkeydown|onkeyup';
-				// Additional table attributes from TinyMCE 3.5.7 getHTML4()
+				// The commonAttr are from TinyMCE 3.5.7 getHTML5()
+				// Obsolete attributes are from TinyMCE 3.5.7 getHTML4()
+				var commonAttr = 'id|accesskey|class|dir|draggable|item|hidden|itemprop|role|spellcheck|style|subject|title|onclick|ondblclick|onmousedown|onmouseup|onmouseover|onmousemove|onmouseout|onkeypress|onkeydown|onkeyup',
+					tdAttr = commonAttr + '|abbr|axis|headers|scope|rowspan|colspan|char|charoff|align|valign|halign|nowrap|bgcolor|width|height';
+				// Obsolete table attributes
 				ed.schema.addValidElements('table['+commonAttr+'|summary|width|border|frame|rules|cellspacing|cellpadding|align|bgcolor]');
+				// Obsolete tr attributes
+				ed.schema.addValidElements('tr['+commonAttr+'|align|char|charoff|valign|halign|bgcolor]');
+				// Obsolete td and th attributes
+				ed.schema.addValidElements('td['+tdAttr+'],th['+tdAttr+']');
 				// Adds "name" for <a>
 				ed.schema.addValidElements('a['+commonAttr+'|href|target|ping|rel|media|type|name]');
 			});
