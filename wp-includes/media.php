@@ -1447,19 +1447,17 @@ function wp_print_media_templates( $attachment ) {
 		</div>
 		<# if ( data.describe ) { #>
 			<# if ( 'image' === data.type ) { #>
-				<textarea class="describe"
-					placeholder="<?php esc_attr_e('Describe this image&hellip;'); ?>"
-					>{{ data.caption }}</textarea>
+				<input type="text" value="{{ data.caption }}" class="describe" data-setting="caption"
+					placeholder="<?php esc_attr_e('Describe this image&hellip;'); ?>" />
 			<# } else { #>
-				<textarea class="describe"
+				<input type="text" value="{{ data.title }}" class="describe" data-setting="title"
 					<# if ( 'video' === data.type ) { #>
 						placeholder="<?php esc_attr_e('Describe this video&hellip;'); ?>"
 					<# } else if ( 'audio' === data.type ) { #>
 						placeholder="<?php esc_attr_e('Describe this audio file&hellip;'); ?>"
 					<# } else { #>
 						placeholder="<?php esc_attr_e('Describe this media file&hellip;'); ?>"
-					<# } #>
-					>{{ data.title }}</textarea>
+					<# } #> />
 			<# } #>
 		<# } #>
 	</script>
