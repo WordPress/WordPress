@@ -63,14 +63,15 @@
 		</nav>
 		<?php endif; // check for comment navigation ?>
 
-	<?php
+		<?php
 		/* If there are no comments and comments are closed, let's leave a little note, shall we?
-		 * But we don't want the note on pages or post types that do not support comments.
+		 * But we only want the note on posts and pages that had comments in the first place.
 		 */
-		elseif ( ! comments_open() && ! is_page() && post_type_supports( get_post_type(), 'comments' ) ) :
-	?>
-		<p class="nocomments"><?php _e( 'Comments are closed.', 'twentyeleven' ); ?></p>
-	<?php endif; ?>
+		if ( ! comments_open() && ! empty( $comments_by_type['comment'] ) ) : ?>
+		<p class="nocomments"><?php _e( 'Comments are closed.' , 'twentyeleven' ); ?></p>
+		<?php endif; ?>
+
+	<?php endif; // have_comments() ?>
 
 	<?php comment_form(); ?>
 
