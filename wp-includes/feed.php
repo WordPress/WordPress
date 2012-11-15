@@ -528,14 +528,8 @@ function fetch_feed($url) {
 
 	$feed = new SimplePie();
 
-	if ( version_compare( SIMPLEPIE_VERSION, '1.3-dev', '>' ) ) {
-		$feed->set_cache_location( 'wp-transient' );
-		$feed->registry->register( 'Cache', 'WP_Feed_Cache_Transient' );
-		$feed->registry->register( 'File', 'WP_SimplePie_File' );
-	} else {
-		$feed->set_cache_class( 'WP_Feed_Cache' );
-		$feed->set_file_class( 'WP_SimplePie_File' );
-	}
+	$feed->set_cache_class( 'WP_Feed_Cache' );
+	$feed->set_file_class( 'WP_SimplePie_File' );
 
 	$feed->set_feed_url($url);
 	$feed->set_cache_duration( apply_filters( 'wp_feed_cache_transient_lifetime', 12 * HOUR_IN_SECONDS, $url ) );
