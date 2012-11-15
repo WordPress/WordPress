@@ -172,7 +172,6 @@
 	margin: 0;
 	padding: 12px 10px 10px;
 	line-height: 28px;
-	/*border-bottom: 1px solid #dfdfdf;*/
 }
 
 .media-sidebar .sidebar-content {
@@ -200,16 +199,6 @@
 	margin: 24px 0 8px;
 }
 
-/*.media-sidebar h3:before {
-	content: '\25B8';
-	display: block;
-	position: absolute;
-	top: -1px;
-	left: -12px;
-	font-size: 14px;
-	color: #ccc;
-}
-*/
 .media-sidebar .setting {
 	display: block;
 	float: left;
@@ -282,6 +271,7 @@
 	float: left;
 	text-align: right;
 }
+
 .compat-item .label span {
 	display: block;
 	width: 100%;
@@ -783,7 +773,6 @@
 /**
  * Selection
  */
-
 .media-selection {
 	position: absolute;
 	top: 0;
@@ -889,7 +878,6 @@
 /**
  * Selection Preview
  */
-
 .selection-preview {
 	position: relative;
 	height: 60px;
@@ -953,7 +941,6 @@
 /**
  * Attachment Details
  */
-
 .attachment-details {
 	overflow: auto;
 }

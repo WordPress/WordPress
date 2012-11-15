@@ -492,7 +492,7 @@ function wp_default_styles( &$styles ) {
 
 	$suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
 
-	$rtl_styles = array( 'wp-admin', 'ie', 'media', 'admin-bar', 'customize-controls' );
+	$rtl_styles = array( 'wp-admin', 'ie', 'media', 'admin-bar', 'customize-controls', 'media-views' );
 	// Any rtl stylesheets that don't have a .min version
 	$no_suffix = array( 'farbtastic' );
 
