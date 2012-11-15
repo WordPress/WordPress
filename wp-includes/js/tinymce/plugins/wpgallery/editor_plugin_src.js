@@ -6,6 +6,7 @@
 			var t = this;
 
 			t.url = url;
+			t.editor = ed;
 			t._createButtons();
 
 			// Register the command so that it can be invoked by using tinyMCE.activeEditor.execCommand('...');
@@ -30,9 +31,26 @@
 				});
 			});
 
+			ed.onInit.add(function(ed) {
+				// iOS6 doesn't show the buttons properly on click, show them on 'touchstart'
+				if ( 'ontouchstart' in window ) {
+					ed.dom.events.add(ed.getBody(), 'touchstart', function(e){
+						var target = e.target;
+
+						if ( target.nodeName == 'IMG' && ed.dom.hasClass(target, 'wpGallery') ) {
+							ed.selection.select(target);
+							ed.dom.events.cancel(e);
+							ed.plugins.wordpress._hideButtons();
+							ed.plugins.wordpress._showButtons(target, 'wp_gallerybtns');
+						}
+					});
+				}
+			});
+			
 			ed.onMouseDown.add(function(ed, e) {
-				if ( e.target.nodeName == 'IMG' && ed.dom.hasClass(e.target, 'wpGallery') )
+				if ( e.target.nodeName == 'IMG' && ed.dom.hasClass(e.target, 'wpGallery') ) {
 					ed.plugins.wordpress._showButtons(e.target, 'wp_gallerybtns');
+				}
 			});
 
 			ed.onBeforeSetContent.add(function(ed, o) {
@@ -69,7 +87,7 @@
 		},
 
 		_createButtons : function() {
-			var t = this, ed = tinyMCE.activeEditor, DOM = tinymce.DOM, editButton, dellButton, isRetina;
+			var t = this, ed = t.editor, DOM = tinymce.DOM, editButton, dellButton, isRetina;
 
 			isRetina = ( window.devicePixelRatio && window.devicePixelRatio > 1 ) || // WebKit, Opera
 				( window.matchMedia && window.matchMedia('(min-resolution:130dpi)').matches ); // Firefox, IE10, Opera
@@ -90,9 +108,9 @@
 			});
 
 			tinymce.dom.Event.add(editButton, 'mousedown', function(e) {
-				var ed = tinyMCE.activeEditor;
 				ed.windowManager.bookmark = ed.selection.getBookmark('simple');
 				ed.execCommand("WP_Gallery");
+				ed.plugins.wordpress._hideButtons();
 			});
 
 			dellButton = DOM.add('wp_gallerybtns', 'img', {
@@ -104,14 +122,16 @@
 			});
 
 			tinymce.dom.Event.add(dellButton, 'mousedown', function(e) {
-				var ed = tinyMCE.activeEditor, el = ed.selection.getNode();
+				var el = ed.selection.getNode();
 
 				if ( el.nodeName == 'IMG' && ed.dom.hasClass(el, 'wpGallery') ) {
 					ed.dom.remove(el);
 
 					ed.execCommand('mceRepaint');
-					return false;
+					ed.dom.events.cancel(e);
 				}
+
+				ed.plugins.wordpress._hideButtons();
 			});
 		},
 
