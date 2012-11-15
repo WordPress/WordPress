@@ -72,10 +72,10 @@ imageEdit = {
 		warn = $('#imgedit-scale-warn-' + postid), w1 = '', h1 = '';
 
 		if ( x ) {
-			h1 = (w.val() != '') ? this.intval( w.val() / this.hold['xy_ratio'] ) : '';
+			h1 = (w.val() != '') ? Math.round( w.val() / this.hold['xy_ratio'] ) : '';
 			h.val( h1 );
 		} else {
-			w1 = (h.val() != '') ? this.intval( h.val() * this.hold['xy_ratio'] ) : '';
+			w1 = (h.val() != '') ? Math.round( h.val() * this.hold['xy_ratio'] ) : '';
 			w.val( w1 );
 		}
 
