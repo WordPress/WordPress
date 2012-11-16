@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Ten 1.4\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentyten\n"
-"POT-Creation-Date: 2012-11-10 08:18:43+00:00\n"
+"POT-Creation-Date: 2012-11-16 22:18:49+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -79,7 +79,7 @@ msgstr ""
 msgid "Newer Comments <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: comments.php:72
+#: comments.php:70
 msgid "Comments are closed."
 msgstr ""
 
