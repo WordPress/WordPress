@@ -552,17 +552,6 @@
 	position: absolute;
 }
 
-.attachment .insert {
-	display: none;
-	position: absolute;
-	left: 7px;
-	bottom: 7px;
-}
-
-.attachment:hover .insert {
-	display: block;
-}
-
 .attachment .close {
 	display: none;
 	position: absolute;
