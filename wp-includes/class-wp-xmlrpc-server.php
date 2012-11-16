@@ -5218,6 +5218,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( !current_user_can('edit_post', $post_ID) )
 			return new IXR_Error(401, __('Sorry, you cannot edit this post.'));
 
+		$catids = array();
 		foreach ( $categories as $cat ) {
 			$catids[] = $cat['categoryId'];
 		}
