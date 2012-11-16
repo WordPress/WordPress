@@ -1682,7 +1682,7 @@ function wp_print_media_templates( $attachment ) {
 			<input type="text" data-setting="alt" />
 		</label>
 
-		<label class="setting align">
+		<div class="setting align">
 			<span><?php _e('Align'); ?></span>
 			<div class="button-group button-large" data-setting="align">
 				<button class="button" value="left">
@@ -1698,7 +1698,7 @@ function wp_print_media_templates( $attachment ) {
 					<?php esc_attr_e('None'); ?>
 				</button>
 			</div>
-		</label>
+		</div>
 
 		<div class="setting link-to">
 			<span><?php _e('Link To'); ?></span>
