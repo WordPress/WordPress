@@ -137,6 +137,7 @@ function update_nag() {
 	echo "<div class='update-nag'>$msg</div>";
 }
 add_action( 'admin_notices', 'update_nag', 3 );
+add_action( 'network_admin_notices', 'update_nag', 3 );
 
 // Called directly from dashboard
 function update_right_now_message() {
