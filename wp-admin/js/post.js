@@ -619,6 +619,9 @@ jQuery(document).ready( function($) {
 	// resizable textarea#content
 	(function() {
 		var textarea = $('textarea#content'), offset = null, el;
+		// No point for touch devices
+		if ( 'ontouchstart' in window )
+			return;
 
 		function dragging(e) {
 			textarea.height( Math.max(50, offset + e.pageY) + 'px' );
@@ -650,7 +653,8 @@ jQuery(document).ready( function($) {
 
 	if ( typeof(tinymce) != 'undefined' ) {
 		tinymce.onAddEditor.add(function(mce, ed){
-			if ( ed.id != 'content' )
+			// iOS expands the iframe to full height and the user cannot adjust it.
+			if ( ed.id != 'content' || tinymce.isIOS5 )
 				return;
 
 			// resize TinyMCE to match the textarea height when switching Text -> Visual
