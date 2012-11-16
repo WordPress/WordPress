@@ -25,7 +25,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	}
 
 	/**
-	 * Checks to see if current environment supports GD
+	 * Checks to see if current environment supports GD.
 	 *
 	 * @since 3.5.0
 	 * @access public
@@ -40,9 +40,9 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	}
 
 	/**
-	 * Loads image from $this->file into new GD Resource
+	 * Loads image from $this->file into new GD Resource.
 	 *
-	 * @since 3.5
+	 * @since 3.5.0
 	 * @access protected
 	 *
 	 * @return boolean|\WP_Error
@@ -72,7 +72,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	}
 
 	/**
-	 * Sets or updates current image size
+	 * Sets or updates current image size.
 	 *
 	 * @since 3.5.0
 	 * @access protected
@@ -91,7 +91,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	}
 
 	/**
-	 * Checks to see if editor supports mime-type specified
+	 * Checks to see if editor supports the mime-type specified.
 	 *
 	 * @since 3.5.0
 	 * @access public
@@ -107,7 +107,10 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 
 	/**
 	 * Resizes current image.
-	 * Wrapper around _resize, since _resize returns a GD Resource
+	 * Wraps _resize, since _resize returns a GD Resource.
+	 *
+	 * @since 3.5.0
+	 * @access public
 	 *
 	 * @param int $max_w
 	 * @param int $max_h
@@ -153,6 +156,9 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	 * Processes current image and saves to disk
 	 * multiple sizes from single source.
 	 *
+	 * @since 3.5.0
+	 * @access public
+	 *
 	 * @param array $sizes { {width, height}, ... }
 	 * @return array
 	 */
@@ -192,7 +198,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	 * @param int $src_h The height to crop.
 	 * @param int $dst_w Optional. The destination width.
 	 * @param int $dst_h Optional. The destination height.
-	 * @param int $src_abs Optional. If the source crop points are absolute.
+	 * @param boolean $src_abs Optional. If the source crop points are absolute.
 	 * @return boolean|WP_Error
 	 */
 	public function crop( $src_x, $src_y, $src_w, $src_h, $dst_w = null, $dst_h = null, $src_abs = false ) {
@@ -250,7 +256,10 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	}
 
 	/**
-	 * Flips current image
+	 * Flips current image.
+	 *
+	 * @since 3.5.0
+	 * @access public
 	 *
 	 * @param boolean $horz Horizonal Flip
 	 * @param boolean $vert Vertical Flip
@@ -277,7 +286,10 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	}
 
 	/**
-	 * Saves current in-memory image to file
+	 * Saves current in-memory image to file.
+	 *
+	 * @since 3.5.0
+	 * @access public
 	 *
 	 * @param string $destfilename
 	 * @param string $mime_type
@@ -335,7 +347,10 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	}
 
 	/**
-	 * Returns stream of current image
+	 * Returns stream of current image.
+	 *
+	 * @since 3.5.0
+	 * @access public
 	 *
 	 * @param string $mime_type
 	 */

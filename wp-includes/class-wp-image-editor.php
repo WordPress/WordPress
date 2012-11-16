@@ -62,8 +62,7 @@ abstract class WP_Image_Editor {
 			array( 'WP_Image_Editor_Imagick', 'WP_Image_Editor_GD' ) );
 
 		if ( ! $required_methods )
-			$required_methods = apply_filters( 'wp_image_editor_default_methods',
-				array( 'resize', 'multi_resize', 'crop', 'rotate', 'flip', 'stream' ) );
+			$required_methods = array();
 
 		// Loop over each editor on each request looking for one which will serve this request's needs
 		foreach ( $request_order as $editor ) {
@@ -80,19 +79,112 @@ abstract class WP_Image_Editor {
 		return false;
 	}
 
-	abstract protected function load(); // returns bool|WP_Error
+	/**
+	 * Loads image from $this->file into editor.
+	 *
+	 * @since 3.5.0
+	 * @access protected
+	 * @abstract
+	 *
+	 * @return boolean|WP_Error True if loaded; WP_Error on failure.
+	 */
+	abstract protected function load();
+
+	/**
+	 * Saves current image to file.
+	 *
+	 * @since 3.5.0
+	 * @access public
+	 * @abstract
+	 *
+	 * @param string $destfilename
+	 * @param string $mime_type
+	 * @return array|WP_Error {'path'=>string, 'file'=>string, 'width'=>int, 'height'=>int, 'mime-type'=>string}
+	 */
 	abstract public function save( $destfilename = null, $mime_type = null );
 
 	/**
-	 * Implement all of the below to support natively used functions:
+	 * Resizes current image.
 	 *
-	 * public function resize( $max_w, $max_h, $crop = false )
-	 * public function multi_resize( $sizes )
-	 * public function crop( $src_x, $src_y, $src_w, $src_h, $dst_w = null, $dst_h = null, $src_abs = false )
-	 * public function rotate( $angle )
-	 * public function flip( $horz, $vert )
-	 * public function stream( $mime_type = null )
+	 * @since 3.5.0
+	 * @access public
+	 * @abstract
+	 *
+	 * @param int $max_w
+	 * @param int $max_h
+	 * @param boolean $crop
+	 * @return boolean|WP_Error
 	 */
+	abstract public function resize( $max_w, $max_h, $crop = false );
+
+	/**
+	 * Processes current image and saves to disk
+	 * multiple sizes from single source.
+	 *
+	 * @since 3.5.0
+	 * @access public
+	 * @abstract
+	 *
+	 * @param array $sizes
+	 * @return array
+	 */
+	abstract public function multi_resize( $sizes );
+
+	/**
+	 * Crops Image.
+	 *
+	 * @since 3.5.0
+	 * @access public
+	 * @abstract
+	 *
+	 * @param string|int $src The source file or Attachment ID.
+	 * @param int $src_x The start x position to crop from.
+	 * @param int $src_y The start y position to crop from.
+	 * @param int $src_w The width to crop.
+	 * @param int $src_h The height to crop.
+	 * @param int $dst_w Optional. The destination width.
+	 * @param int $dst_h Optional. The destination height.
+	 * @param boolean $src_abs Optional. If the source crop points are absolute.
+	 * @return boolean|WP_Error
+	 */
+	abstract public function crop( $src_x, $src_y, $src_w, $src_h, $dst_w = null, $dst_h = null, $src_abs = false );
+
+	/**
+	 * Rotates current image counter-clockwise by $angle.
+	 *
+	 * @since 3.5.0
+	 * @access public
+	 * @abstract
+	 *
+	 * @param float $angle
+	 * @return boolean|WP_Error
+	 */
+	abstract public function rotate( $angle );
+
+	/**
+	 * Flips current image.
+	 *
+	 * @since 3.5.0
+	 * @access public
+	 * @abstract
+	 *
+	 * @param boolean $horz Horizonal Flip
+	 * @param boolean $vert Vertical Flip
+	 * @return boolean|WP_Error
+	 */
+	abstract public function flip( $horz, $vert );
+
+	/**
+	 * Streams current image to browser.
+	 *
+	 * @since 3.5.0
+	 * @access public
+	 * @abstract
+	 *
+	 * @param string $mime_type
+	 * @return boolean|WP_Error
+	 */
+	abstract public function stream( $mime_type = null );
 
 	/**
 	 * Checks to see if current environment supports the editor chosen.
@@ -110,7 +202,7 @@ abstract class WP_Image_Editor {
 	}
 
 	/**
-	 * Checks to see if editor supports mime-type specified
+	 * Checks to see if editor supports the mime-type specified.
 	 * Must be overridden in a sub-class.
 	 *
 	 * @since 3.5.0
@@ -125,7 +217,7 @@ abstract class WP_Image_Editor {
 	}
 
 	/**
-	 * Gets dimensions of image
+	 * Gets dimensions of image.
 	 *
 	 * @since 3.5.0
 	 * @access public
@@ -137,7 +229,7 @@ abstract class WP_Image_Editor {
 	}
 
 	/**
-	 * Sets current image size
+	 * Sets current image size.
 	 *
 	 * @since 3.5.0
 	 * @access protected
