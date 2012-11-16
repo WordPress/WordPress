@@ -742,9 +742,14 @@
 }
 
 .uploader-inline h3 {
+	display: none;
 	font-size: 20px;
 	font-weight: 200;
 	margin-bottom: 1.6em;
+}
+
+.supports-drag-drop .uploader-inline h3 {
+	display: block;
 }
 
 .uploader-inline .media-progress-bar {
