@@ -659,7 +659,8 @@
 			if ( this.options.uploader ) {
 				this.uploader = new media.view.UploaderWindow({
 					uploader: {
-						dropzone: this.modal ? this.modal.$el : this.$el
+						dropzone:  this.modal ? this.modal.$el : this.$el,
+						container: this.$el
 					}
 				});
 			}

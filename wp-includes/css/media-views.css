@@ -24,7 +24,7 @@
 	left: 40px;
 	right: 40px;
 	bottom: 40px;
-	z-index: 50000;
+	z-index: 125000;
 }
 
 .media-modal-backdrop {
@@ -35,7 +35,7 @@
 	bottom: 0;
 	background: #000;
 	opacity: 0.8;
-	z-index: 40000;
+	z-index: 120000;
 }
 
 .media-modal-backdrop div {
@@ -671,7 +671,7 @@
 	bottom: 0;
 	background: rgba( 0, 86, 132, 0.9 );
 
-	z-index: 200000;
+	z-index: 250000;
 	display: none;
 	text-align: center;
 	opacity: 0;
