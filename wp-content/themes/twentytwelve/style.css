@@ -1207,13 +1207,15 @@ article.format-quote .entry-content blockquote {
 	font-size: 10px;
 	font-size: 0.714285714rem;
 }
-a.comment-reply-link {
+a.comment-reply-link,
+a.comment-edit-link {
+	color: #686868;
 	font-size: 13px;
 	font-size: 0.928571429rem;
 	line-height: 1.846153846;
-	color: #686868;
 }
-a.comment-reply-link:hover {
+a.comment-reply-link:hover,
+a.comment-edit-link:hover {
 	color: #21759b;
 }
 .commentlist .pingback {
