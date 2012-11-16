@@ -120,7 +120,7 @@ foreach( $load as $handle ) {
 	$content = get_file($path) . "\n";
 
 	if ( $rtl && isset($style->extra['rtl']) && $style->extra['rtl'] ) {
-		$rtl_path = is_bool($style->extra['rtl']) ? str_replace( '.css', '-rtl.css', $path ) : ABSPATH . $style->extra['rtl'];
+		$rtl_path = is_bool($style->extra['rtl']) ? str_replace( '.min.css', '-rtl.min.css', $path ) : ABSPATH . $style->extra['rtl'];
 		$content .= get_file($rtl_path) . "\n";
 	}
 
