@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Twelve 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentytwelve\n"
-"POT-Creation-Date: 2012-11-15 01:19:13+00:00\n"
+"POT-Creation-Date: 2012-11-16 22:19:00+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -78,7 +78,7 @@ msgstr ""
 msgid "Newer Comments &rarr;"
 msgstr ""
 
-#: comments.php:54
+#: comments.php:53
 msgid "Comments are closed."
 msgstr ""
 
@@ -237,7 +237,7 @@ msgid "Your comment is awaiting moderation."
 msgstr ""
 
 #: functions.php:311
-msgid "Reply <span>&darr;</span>"
+msgid "Reply"
 msgstr ""
 
 #: functions.php:330 functions.php:333
