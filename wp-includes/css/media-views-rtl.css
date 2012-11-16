@@ -102,7 +102,9 @@
 .media-menu {
 	left: auto;
 	right: 0;
-	box-shadow: inset 6px 0 6px -6px rgba( 0, 0, 0, 0.4 )
+	border-right: 0;
+	border-left: 1px solid #d9d9d9;
+	box-shadow: inset 6px 0 6px -6px rgba( 0, 0, 0, 0.2 )
 }
 
 /**

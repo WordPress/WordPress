@@ -301,7 +301,8 @@
 	margin: 0;
 	padding: 16px 0;
 	z-index: 200;
-	box-shadow: inset -6px 0 6px -6px rgba( 0, 0, 0, 0.4 );
+	border-right: 1px solid #d9d9d9;
+	box-shadow: inset -6px 0 6px -6px rgba( 0, 0, 0, 0.2 );
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
