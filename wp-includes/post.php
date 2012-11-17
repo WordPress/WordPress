@@ -568,10 +568,12 @@ final class WP_Post {
 		global $wpdb;
 
 		$post_id = (int) $post_id;
-		if ( !$post_id )
+		if ( ! $post_id )
 			return false;
 
-		if ( ! $_post = wp_cache_get( $post_id, 'posts' ) ) {
+		$_post = wp_cache_get( $post_id, 'posts' );
+
+		if ( ! $_post ) {
 			$_post = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE ID = %d LIMIT 1", $post_id ) );
 
 			if ( ! $_post )
@@ -579,6 +581,8 @@ final class WP_Post {
 
 			$_post = sanitize_post( $_post, 'raw' );
 			wp_cache_add( $_post->ID, $_post, 'posts' );
+		} elseif ( empty( $_post->filter ) ) {
+			$_post = sanitize_post( $_post, 'raw' );
 		}
 
 		return new WP_Post( $_post );
