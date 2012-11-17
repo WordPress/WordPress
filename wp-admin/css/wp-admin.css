@@ -2876,6 +2876,12 @@ tr.inline-edit-row td,
 	width: 6em;
 }
 
+.inline-edit-save .spinner {
+	padding: 4px 10px 0;
+	vertical-align: top;
+	float: right;
+}
+
 /*	Styling */
 .inline-edit-row h4 {
 	text-transform: uppercase;
@@ -4512,9 +4518,8 @@ span.imgedit-scale-warn {
 	text-align: center;
 }
 
-#replysubmit .spinner,
-.inline-edit-save .spinner {
-	padding: 4px 10px 0;
+#replysubmit .spinner {
+	padding: 2px 0 0;
 	vertical-align: top;
 	float: right;
 }
