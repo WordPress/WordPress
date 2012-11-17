@@ -189,7 +189,10 @@
 /**
  * HiDPI Displays
  */
-@media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
+@media print,
+  (-o-min-device-pixel-ratio: 5/4),
+  (-webkit-min-device-pixel-ratio: 1.25),
+  (min-resolution: 120dpi) {
 
 	.wp-pointer-buttons a.close:before {
 		background-image: url('../images/xit-2x.gif');

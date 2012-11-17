@@ -2362,43 +2362,6 @@ html.wp-toolbar {
 	padding: 2px 0 8px 32px;
 }
 
-@media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
-	.welcome-panel .welcome-add-page {
-		background: url('../images/welcome-icons-2x.png') no-repeat 0 -1px;
-		background-size: 16px;
-	}
-
-	.welcome-panel .welcome-edit-page {
-		background: url('../images/welcome-icons-2x.png') no-repeat 0px -92px;
-		background-size: 16px;
-	}
-
-	.welcome-panel .welcome-learn-more {
-		background: url('../images/welcome-icons-2x.png') no-repeat 0px -138px;
-		background-size: 16px;
-	}
-
-	.welcome-panel .welcome-comments {
-		background: url('../images/welcome-icons-2x.png') no-repeat 0px -184px;
-		background-size: 16px;
-	}
-
-	.welcome-panel .welcome-view-site {
-		background: url('../images/welcome-icons-2x.png') no-repeat 0px -276px;
-		background-size: 16px;
-	}
-
-	.welcome-panel .welcome-widgets-menus {
-		background: url('../images/welcome-icons-2x.png') no-repeat 1px -230px;
-		background-size: 16px;
-	}
-
-	.welcome-panel .welcome-write-blog {
-	 	background: url('../images/welcome-icons-2x.png') no-repeat 0px -46px;
-	 	background-size: 16px;
-	}
-}
-
 .welcome-panel .welcome-panel-column ul {
 	margin: 0.8em 1em 1em 0;
 }
@@ -2437,17 +2400,6 @@ html.wp-toolbar {
 	.welcome-panel .welcome-widgets-menus,
 	.welcome-panel .welcome-write-blog {
 		padding-left: 25px;
-	}
-}
-
-/**
- * HiDPI Displays
- */
-@media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
-
-	.welcome-panel .welcome-panel-close:before {
-		background-image: url('../images/xit-2x.gif');
-		background-size: 20px auto;
 	}
 }
 
@@ -4201,14 +4153,6 @@ td.imgedit-settings input {
 	margin: 5px 5px 0;
 }
 
-@media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
-	.spinner,
-	.imgedit-wait,
-	.customize-loading #customize-container {
-		background-image: url(../images/wpspin_light-2x.gif);
-	}
-}
-
 .no-float {
 	float: none;
 }
@@ -4401,22 +4345,6 @@ span.imgedit-scale-warn {
 	border-radius: 8px;
 	margin-bottom: 8px;
 	padding: 2px 10px;
-}
-
-/**
- * HiDPI Displays
- */
-@media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
-	.imgedit-crop,
-	.imgedit-rleft,
-	.imgedit-rright,
-	.imgedit-flipv,
-	.imgedit-fliph,
-	.imgedit-undo,
-	.imgedit-redo {
-		background-image: url('../images/imgedit-icons-2x.png');
-		background-size: 260px 64px;
-	}
 }
 
 /*------------------------------------------------------------------------------
@@ -5137,12 +5065,6 @@ h2 .nav-tab {
 	box-shadow: 0 10px 8px rgba(0, 0, 0, 0.6);
 }
 
-@media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
-	.pressthis a span {
-		background-image: url(../images/press-this-2x.png?v=20121105);
-	}
-}
-
 /*------------------------------------------------------------------------------
   20.0 - Settings
 ------------------------------------------------------------------------------*/
@@ -5687,17 +5609,6 @@ body.full-overlay-active {
 	-ms-transition-duration:     0.2s;
 	-o-transition-duration:      0.2s;
 	transition-duration:         0.2s;
-}
-
-/**
- * HiDPI Displays
- */
-@media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
-
-	.wp-full-overlay .collapse-sidebar-arrow {
-	 	background-image: url('../images/arrows-2x.png');
-	 	background-size: 15px 123px;
-	 }
 }
 
 
@@ -6643,18 +6554,6 @@ a.rsswidget {
 	overflow: hidden;
 	padding-bottom: 15px;
 	display: block;
-}
-
-@media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
-	.login h1 a {
-		background-image: url('../images/wordpress-logo-2x.png?ver=20120412');
-		background-size: 274px 63px;
-	}
-
-	.wp-badge {
-		background-image: url('../images/wp-badge-2x.png?ver=20120516');
-		background-size: 173px 194px;
-	}
 }
 
 #login {
@@ -8429,7 +8328,10 @@ a.widget-control-edit {
 /**
  * HiDPI Displays
  */
-@media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
+@media print,
+  (-o-min-device-pixel-ratio: 5/4),
+  (-webkit-min-device-pixel-ratio: 1.25),
+  (min-resolution: 120dpi) {
 
 	.press-this .tagchecklist span a {
 	 	background-image: url('../images/xit-2x.gif');
@@ -8477,6 +8379,82 @@ a.widget-control-edit {
 	div.star-holder .star-rating {
 		background: url('../images/stars-2x.png?ver=20121108') repeat-x top left;
 		background-size: 21px 37px;
+	}
+	
+	.welcome-panel .welcome-panel-close:before {
+		background-image: url('../images/xit-2x.gif');
+		background-size: 20px auto;
+	}
+	
+	.welcome-panel .welcome-add-page {
+		background: url('../images/welcome-icons-2x.png') no-repeat 0 -1px;
+		background-size: 16px;
+	}
+
+	.welcome-panel .welcome-edit-page {
+		background: url('../images/welcome-icons-2x.png') no-repeat 0px -92px;
+		background-size: 16px;
+	}
+
+	.welcome-panel .welcome-learn-more {
+		background: url('../images/welcome-icons-2x.png') no-repeat 0px -138px;
+		background-size: 16px;
+	}
+
+	.welcome-panel .welcome-comments {
+		background: url('../images/welcome-icons-2x.png') no-repeat 0px -184px;
+		background-size: 16px;
+	}
+
+	.welcome-panel .welcome-view-site {
+		background: url('../images/welcome-icons-2x.png') no-repeat 0px -276px;
+		background-size: 16px;
+	}
+
+	.welcome-panel .welcome-widgets-menus {
+		background: url('../images/welcome-icons-2x.png') no-repeat 1px -230px;
+		background-size: 16px;
+	}
+
+	.welcome-panel .welcome-write-blog {
+	 	background: url('../images/welcome-icons-2x.png') no-repeat 0px -46px;
+	 	background-size: 16px;
+	}
+	
+	.login h1 a {
+		background-image: url('../images/wordpress-logo-2x.png?ver=20120412');
+		background-size: 274px 63px;
+	}
+
+	.wp-badge {
+		background-image: url('../images/wp-badge-2x.png?ver=20120516');
+		background-size: 173px 194px;
+	}
+	
+	.wp-full-overlay .collapse-sidebar-arrow {
+	 	background-image: url('../images/arrows-2x.png');
+	 	background-size: 15px 123px;
+	 }
+	 
+	.pressthis a span {
+		background-image: url(../images/press-this-2x.png?v=20121105);
+	}
+	
+	.imgedit-crop,
+	.imgedit-rleft,
+	.imgedit-rright,
+	.imgedit-flipv,
+	.imgedit-fliph,
+	.imgedit-undo,
+	.imgedit-redo {
+		background-image: url('../images/imgedit-icons-2x.png');
+		background-size: 260px 64px;
+	}
+	
+	.spinner,
+	.imgedit-wait,
+	.customize-loading #customize-container {
+		background-image: url(../images/wpspin_light-2x.gif);
 	}
 }
 

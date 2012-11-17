@@ -2382,7 +2382,10 @@ div.sidebar-name h3 {
 /**
  * HiDPI Displays
  */
-@media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
+@media print,
+  (-o-min-device-pixel-ratio: 5/4),
+  (-webkit-min-device-pixel-ratio: 1.25),
+  (min-resolution: 120dpi) {
 	.post-com-count {
 		background-image: url('../images/bubble_bg-rtl-2x.gif');
 		background-size: 18px 100px;

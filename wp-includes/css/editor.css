@@ -2027,7 +2027,10 @@ RTL
 
 
 /* HiDPI */
-@media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
+@media print,
+  (-o-min-device-pixel-ratio: 5/4),
+  (-webkit-min-device-pixel-ratio: 1.25),
+  (min-resolution: 120dpi) {
 	.wp_themeSkin span.mce_undo,
 	.wp_themeSkin span.mce_redo,
 	.wp_themeSkin span.mce_bullist,

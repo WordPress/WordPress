@@ -412,7 +412,13 @@ body#media-upload.rtl ul#sidemenu {
 	text-align: left;
 }
 
-@media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
+/**
+ * Retina display 2x icons
+ */
+@media print,
+  (-o-min-device-pixel-ratio: 5/4),
+  (-webkit-min-device-pixel-ratio: 1.25),
+  (min-resolution: 120dpi) {
 	.image-align-none-label {
 		background: url(../../../../../../wp-admin/images/align-none-2x.png) no-repeat center left;
 		background-size: auto 15px;
