@@ -154,7 +154,7 @@ class WP_Media_List_Table extends WP_List_Table {
 
 		/* translators: column name */
 		if ( !$this->detached ) {
-			$posts_columns['parent'] = _x( 'Attached to', 'column name' );
+			$posts_columns['parent'] = _x( 'Uploaded to', 'column name' );
 			if ( post_type_supports( 'attachment', 'comments' ) )
 				$posts_columns['comments'] = '<span class="vers"><div title="' . esc_attr__( 'Comments' ) . '" class="comment-grey-bubble"></div></span>';
 		}
