@@ -32,14 +32,14 @@
 function get_option( $option, $default = false ) {
 	global $wpdb;
 
+	$option = trim( $option );
+	if ( empty( $option ) )
+		return false;
+
 	// Allow plugins to short-circuit options.
 	$pre = apply_filters( 'pre_option_' . $option, false );
 	if ( false !== $pre )
 		return $pre;
-
-	$option = trim($option);
-	if ( empty($option) )
-		return false;
 
 	if ( defined( 'WP_SETUP_CONFIG' ) )
 		return false;
