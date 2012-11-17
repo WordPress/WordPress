@@ -73,7 +73,7 @@ final class WP_Customize_Manager {
 	 * @since 3.4.0
 	 *
 	 * @param mixed $ajax_message AJAX return
-	 * @param mixed $message UI message 
+	 * @param mixed $message UI message
 	 */
 	protected function wp_die( $ajax_message, $message = null ) {
 		if ( $this->doing_ajax() )
@@ -98,7 +98,7 @@ final class WP_Customize_Manager {
 
 		return '_default_wp_die_handler';
 	}
-	
+
 	/**
 	 * Start preview and customize theme.
 	 *
@@ -140,7 +140,7 @@ final class WP_Customize_Manager {
 
 		$this->start_previewing_theme();
 	}
-	
+
 	/**
 	 * Callback to validate a theme once it is loaded
 	 *

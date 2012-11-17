@@ -8380,12 +8380,12 @@ a.widget-control-edit {
 		background: url('../images/stars-2x.png?ver=20121108') repeat-x top left;
 		background-size: 21px 37px;
 	}
-	
+
 	.welcome-panel .welcome-panel-close:before {
 		background-image: url('../images/xit-2x.gif');
 		background-size: 20px auto;
 	}
-	
+
 	.welcome-panel .welcome-add-page {
 		background: url('../images/welcome-icons-2x.png') no-repeat 0 -1px;
 		background-size: 16px;
@@ -8420,7 +8420,7 @@ a.widget-control-edit {
 	 	background: url('../images/welcome-icons-2x.png') no-repeat 0px -46px;
 	 	background-size: 16px;
 	}
-	
+
 	.login h1 a {
 		background-image: url('../images/wordpress-logo-2x.png?ver=20120412');
 		background-size: 274px 63px;
@@ -8430,16 +8430,16 @@ a.widget-control-edit {
 		background-image: url('../images/wp-badge-2x.png?ver=20120516');
 		background-size: 173px 194px;
 	}
-	
+
 	.wp-full-overlay .collapse-sidebar-arrow {
 	 	background-image: url('../images/arrows-2x.png');
 	 	background-size: 15px 123px;
 	 }
-	 
+
 	.pressthis a span {
 		background-image: url(../images/press-this-2x.png?v=20121105);
 	}
-	
+
 	.imgedit-crop,
 	.imgedit-rleft,
 	.imgedit-rright,
@@ -8450,7 +8450,7 @@ a.widget-control-edit {
 		background-image: url('../images/imgedit-icons-2x.png');
 		background-size: 260px 64px;
 	}
-	
+
 	.spinner,
 	.imgedit-wait,
 	.customize-loading #customize-container {

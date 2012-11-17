@@ -165,7 +165,7 @@ function get_category_by_slug( $slug  ) {
  *
  * @since 1.0.0
  *
- * @param string $cat_name Category name. 
+ * @param string $cat_name Category name.
  * @return int 0, if failure and ID of category on success.
  */
 function get_cat_ID( $cat_name ) {

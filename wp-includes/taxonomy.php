@@ -331,7 +331,7 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 					);
 	$args = wp_parse_args($args, $defaults);
 
-	if ( strlen( $taxonomy ) > 32 ) 
+	if ( strlen( $taxonomy ) > 32 )
 		return new WP_Error( 'taxonomy_too_long', __( 'Taxonomies cannot exceed 32 characters in length' ) );
 
 	if ( false !== $args['query_var'] && !empty($wp) ) {

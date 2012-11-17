@@ -2129,7 +2129,7 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 		.button {
 			display: inline-block;
 			text-decoration: none;
-			font-size: 14px; 
+			font-size: 14px;
 			line-height: 23px;
 			height: 24px;
 			margin: 0;
@@ -2153,7 +2153,7 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 		 	color: #333;
 			text-shadow: 0 1px 0 #fff;
 		}
-		
+
 		.button.button-large {
 			height: 29px;
 			line-height: 28px;
@@ -2172,7 +2172,7 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 			border-color: #999;
 			color: #222;
 		}
-		
+
 		.button:focus  {
 			-webkit-box-shadow: 1px 1px 1px rgba(0,0,0,.2);
 			box-shadow: 1px 1px 1px rgba(0,0,0,.2);

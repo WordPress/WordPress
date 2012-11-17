@@ -313,7 +313,7 @@ function get_single_template() {
 function get_attachment_template() {
 	global $posts;
 
-	if ( ! empty( $posts ) && isset( $posts[0]->post_mime_type ) ) { 
+	if ( ! empty( $posts ) && isset( $posts[0]->post_mime_type ) ) {
 		$type = explode( '/', $posts[0]->post_mime_type );
 
 		if ( ! empty( $type ) ) {

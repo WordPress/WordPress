@@ -327,8 +327,8 @@ function update_blog_details( $blog_id, $details = array() ) {
 			do_action( 'make_delete_blog', $blog_id );
 		else
 			do_action( 'make_undelete_blog', $blog_id );
-	}	
-	
+	}
+
 	if ( isset( $details[ 'public' ] ) ) {
 		switch_to_blog( $blog_id );
 		update_option( 'blog_public', $details[ 'public' ] );
@@ -529,7 +529,7 @@ function switch_to_blog( $new_blog, $deprecated = null ) {
 			$global_groups = $wp_object_cache->global_groups;
 		else
 			$global_groups = false;
-	
+
 		wp_cache_init();
 
 		if ( function_exists( 'wp_cache_add_global_groups' ) ) {
@@ -590,7 +590,7 @@ function restore_current_blog() {
 			$global_groups = $wp_object_cache->global_groups;
 		else
 			$global_groups = false;
-	
+
 		wp_cache_init();
 
 		if ( function_exists( 'wp_cache_add_global_groups' ) ) {

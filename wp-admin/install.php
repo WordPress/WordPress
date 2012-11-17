@@ -58,7 +58,7 @@ function display_header() {
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title><?php _e( 'WordPress &rsaquo; Installation' ); ?></title>
-	<?php 
+	<?php
 	wp_admin_css( 'install', true );
 	?>
 </head>

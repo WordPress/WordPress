@@ -2774,13 +2774,13 @@ class WP_Query {
 		// of the type WP_Post and are filtered.
 		if ( $this->posts ) {
 			$this->post_count = count( $this->posts );
-			
+
 			$this->posts = array_map( 'get_post', $this->posts );
 
 			if ( $q['cache_results'] )
 				update_post_caches($this->posts, $post_type, $q['update_post_term_cache'], $q['update_post_meta_cache']);
 
-			$this->post = reset( $this->posts );			
+			$this->post = reset( $this->posts );
 		} else {
 			$this->post_count = 0;
 			$this->posts = array();

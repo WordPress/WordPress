@@ -13,7 +13,7 @@ if ( typeof(jQuery) != 'undefined' ) {
 		};
 
 		adminbar.removeClass('nojq').removeClass('nojs');
-		
+
 		if ( 'ontouchstart' in window || /IEMobile\/[1-9]/.test(navigator.userAgent) ) { // touch screen device
 			// close any open drop-downs when the click/touch is not on the toolbar
 			$(document.body).on('click.wp-mobile-hover', function(e) {

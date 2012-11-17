@@ -629,7 +629,7 @@ class WP_Object_Cache {
 
 		$this->multisite = is_multisite();
 		$this->blog_prefix =  $this->multisite ? $blog_id . ':' : '';
-		
+
 
 		/**
 		 * @todo This should be moved to the PHP4 style constructor, PHP5

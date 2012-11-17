@@ -441,7 +441,7 @@ function get_body_class( $class = '' ) {
 					$classes[] = 'single-format-' . sanitize_html_class( $post_format );
 				else
 					$classes[] = 'single-format-standard';
-			}			
+			}
 		}
 
 		if ( is_attachment() ) {
@@ -459,21 +459,21 @@ function get_body_class( $class = '' ) {
 			$classes[] = 'author';
 			if ( isset( $author->user_nicename ) ) {
 				$classes[] = 'author-' . sanitize_html_class( $author->user_nicename, $author->ID );
-				$classes[] = 'author-' . $author->ID;				
+				$classes[] = 'author-' . $author->ID;
 			}
 		} elseif ( is_category() ) {
 			$cat = $wp_query->get_queried_object();
 			$classes[] = 'category';
 			if ( isset( $cat->term_id ) ) {
 				$classes[] = 'category-' . sanitize_html_class( $cat->slug, $cat->term_id );
-				$classes[] = 'category-' . $cat->term_id;				
+				$classes[] = 'category-' . $cat->term_id;
 			}
 		} elseif ( is_tag() ) {
 			$tags = $wp_query->get_queried_object();
 			$classes[] = 'tag';
 			if ( isset( $tags->term_id ) ) {
 				$classes[] = 'tag-' . sanitize_html_class( $tags->slug, $tags->term_id );
-				$classes[] = 'tag-' . $tags->term_id;				
+				$classes[] = 'tag-' . $tags->term_id;
 			}
 		} elseif ( is_tax() ) {
 			$term = $wp_query->get_queried_object();
