@@ -575,6 +575,7 @@ form.upgrade .hint {
 	padding-left: 125px;
 }
 
+/* Welcome Panel */
 .welcome-panel .welcome-panel-close {
 	right: auto;
 	left: 10px;
@@ -585,39 +586,68 @@ form.upgrade .hint {
 	right: -12px;
 }
 
-.welcome-panel .wp-badge {
-	float: right;
+.welcome-panel-content {
+	margin-left: 0;
+	margin-right: 13px;
 }
 
 .welcome-panel .welcome-panel-column {
-	margin: 0 -25px 0 5%;
-	padding-left: 0;
-	padding-right: 25px;
 	float: right;
 }
 
-.welcome-panel .welcome-panel-column.welcome-panel-last {
-	margin-right: auto;
-	padding-right: 0;
-	margin-left: 0;
-}
-
-.welcome-panel h4 .icon16 {
-	margin-left: 0;
-	margin-right: -32px;
-}
-
-.welcome-panel .welcome-panel-column-container {
-	padding: 0 25px 0 0;
-}
-
 .welcome-panel .welcome-panel-column ul {
-	margin: 1.6em 1.3em 1em 1em;
+	margin-right: 0;
+	margin-left: 1em;
 }
 
 .welcome-panel .welcome-panel-column li {
 	padding-left: 0;
 	padding-right: 2px;
+}
+
+.welcome-panel .welcome-add-page {
+	background-position: right 2px;
+}
+
+.welcome-panel .welcome-edit-page {
+	background-position: right -90px;
+}
+
+.welcome-panel .welcome-learn-more {
+	background-position: right -136px;
+}
+
+.welcome-panel .welcome-comments {
+	background-position: right -182px;
+}
+
+.welcome-panel .welcome-view-site {
+	background-position: right -274px;
+}
+
+.welcome-panel .welcome-widgets-menus {
+	background-position: right -229px;
+	line-height: 14px;
+}
+
+.welcome-panel .welcome-write-blog {
+ 	background-position: right -44px;
+}
+
+.welcome-panel .welcome-icon {
+	padding: 2px 32px 8px 0;
+}
+
+@media screen and (max-width: 870px) {
+	.welcome-panel .welcome-panel-column li {
+		margin-right: 0;
+		margin-left: 13px;
+	}
+
+	.welcome-panel .welcome-icon {
+		padding-right: 25px;
+		padding-left: 0;
+	}
 }
 
 /*------------------------------------------------------------------------------
