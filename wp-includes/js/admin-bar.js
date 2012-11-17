@@ -4,7 +4,7 @@ if ( typeof(jQuery) != 'undefined' ) {
 		(function(a){a.fn.hoverIntent=function(l,j){var m={sensitivity:7,interval:100,timeout:0};m=a.extend(m,j?{over:l,out:j}:l);var o,n,h,d;var e=function(f){o=f.pageX;n=f.pageY};var c=function(g,f){f.hoverIntent_t=clearTimeout(f.hoverIntent_t);if((Math.abs(h-o)+Math.abs(d-n))<m.sensitivity){a(f).unbind("mousemove",e);f.hoverIntent_s=1;return m.over.apply(f,[g])}else{h=o;d=n;f.hoverIntent_t=setTimeout(function(){c(g,f)},m.interval)}};var i=function(g,f){f.hoverIntent_t=clearTimeout(f.hoverIntent_t);f.hoverIntent_s=0;return m.out.apply(f,[g])};var b=function(q){var f=this;var g=(q.type=="mouseover"?q.fromElement:q.toElement)||q.relatedTarget;while(g&&g!=this){try{g=g.parentNode}catch(q){g=this}}if(g==this){if(a.browser.mozilla){if(q.type=="mouseout"){f.mtout=setTimeout(function(){k(q,f)},30)}else{if(f.mtout){f.mtout=clearTimeout(f.mtout)}}}return}else{if(f.mtout){f.mtout=clearTimeout(f.mtout)}k(q,f)}};var k=function(p,f){var g=jQuery.extend({},p);if(f.hoverIntent_t){f.hoverIntent_t=clearTimeout(f.hoverIntent_t)}if(p.type=="mouseover"){h=g.pageX;d=g.pageY;a(f).bind("mousemove",e);if(f.hoverIntent_s!=1){f.hoverIntent_t=setTimeout(function(){c(g,f)},m.interval)}}else{a(f).unbind("mousemove",e);if(f.hoverIntent_s==1){f.hoverIntent_t=setTimeout(function(){i(g,f)},m.timeout)}}};return this.mouseover(b).mouseout(b)}})(jQuery);
 
 	jQuery(document).ready(function($){
-		var adminbar = $('#wpadminbar'), refresh;
+		var adminbar = $('#wpadminbar'), refresh, touchOpen, touchClose, disableHoverIntent = false;
 
 		refresh = function(i, el){ // force the browser to refresh the tabbing index
 			var node = $(el), tab = node.attr('tabindex');
@@ -12,15 +12,7 @@ if ( typeof(jQuery) != 'undefined' ) {
 				node.attr('tabindex', '0').attr('tabindex', tab);
 		};
 
-		adminbar.removeClass('nojq').removeClass('nojs');
-
-		if ( 'ontouchstart' in window || /IEMobile\/[1-9]/.test(navigator.userAgent) ) { // touch screen device
-			// close any open drop-downs when the click/touch is not on the toolbar
-			$(document.body).on('click.wp-mobile-hover', function(e) {
-				if ( !$(e.target).closest('#wpadminbar').length )
-					adminbar.find('li.menupop.hover').removeClass('hover');
-			});
-
+		touchOpen = function(unbind) {
 			adminbar.find('li.menupop').on('click.wp-mobile-hover', function(e) {
 				var el = $(this);
 
@@ -29,20 +21,53 @@ if ( typeof(jQuery) != 'undefined' ) {
 					adminbar.find('li.menupop.hover').removeClass('hover');
 					el.addClass('hover');
 				}
+
+				if ( unbind ) {
+					$('li.menupop').off('click.wp-mobile-hover');
+					disableHoverIntent = false;
+				}
 			});
-		} else {
-			adminbar.find('li.menupop').hoverIntent({
-				over: function(e){
-					$(this).addClass('hover');
-				},
-				out: function(e){
-					$(this).removeClass('hover');
-				},
-				timeout: 180,
-				sensitivity: 7,
-				interval: 100
+		};
+
+		touchClose = function() {
+			var mobileEvent = /Mobile\/.+Safari/.test(navigator.userAgent) ? 'touchstart' : 'click';
+			// close any open drop-downs when the click/touch is not on the toolbar
+			$(document.body).on( mobileEvent+'.wp-mobile-hover', function(e) {
+				if ( !$(e.target).closest('#wpadminbar').length )
+					adminbar.find('li.menupop.hover').removeClass('hover');
 			});
+		};
+
+		adminbar.removeClass('nojq').removeClass('nojs');
+
+		if ( 'ontouchstart' in window ) {
+			adminbar.on('touchstart', function(){
+				touchOpen(true);
+				disableHoverIntent = true;
+			});
+			touchClose();
+		} else if ( /IEMobile\/[1-9]/.test(navigator.userAgent) ) {
+			touchOpen();
+			touchClose();
 		}
+
+		adminbar.find('li.menupop').hoverIntent({
+			over: function(e){
+				if ( disableHoverIntent )
+					return;
+
+				$(this).addClass('hover');
+			},
+			out: function(e){
+				if ( disableHoverIntent )
+					return;
+
+				$(this).removeClass('hover');
+			},
+			timeout: 180,
+			sensitivity: 7,
+			interval: 100
+		});
 
 		$('#wp-admin-bar-get-shortlink').click(function(e){
 			e.preventDefault();
