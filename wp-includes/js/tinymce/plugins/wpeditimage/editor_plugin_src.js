@@ -102,6 +102,23 @@
 			ed.wpGetImgCaption = function(content) {
 				return t._get_shcode(content);
 			};
+
+			// When inserting content, if the caret is inside a caption create new paragraph under
+			// and move the caret there
+			ed.onBeforeExecCommand.add(function(ed, cmd, ui, val) {
+				var node, p;
+
+				if ( cmd == 'mceInsertContent' ) {
+					node = ed.dom.getParent(ed.selection.getNode(), 'div.mceTemp');
+
+					if ( !node )
+						return;
+
+					p = ed.dom.create('p');
+					ed.dom.insertAfter( p, node );
+					ed.selection.setCursorLocation(p, 0);
+				}
+			});
 		},
 
 		_do_shcode : function(content) {
