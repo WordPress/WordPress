@@ -78,12 +78,6 @@ div.dashboard-widget,
 	background-color: #f1f1f1;
 }
 
-#postcustomstuff table input,
-#postcustomstuff table textarea {
-	border-color: #dfdfdf;
-	background-color: #fff;
-}
-
 .widefat {
 	border-color: #d1e5ee;
 	background-color: #fff;
@@ -109,12 +103,12 @@ div.tabs-panel,
 .wp-tab-panel,
 ul.add-menu-item-tabs li.tabs,
 .wp-tab-active {
-	border-color: #dfdfdf;
+	border-color: #d1e5ee;
 	background-color: #fff;
 }
 
 ul.category-tabs li.tabs {
-	border-color: #dfdfdf #dfdfdf #fff;
+	border-color: #d1e5ee #d1e5ee #fff;
 }
 
 ul.category-tabs li.tabs,
@@ -123,11 +117,42 @@ ul.add-menu-item-tabs li.tabs,
 	background-color: #fff;
 }
 
+kbd,
+code {
+	background: #eff8ff;
+}
+
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="file"],
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="tel"],
+input[type="url"],
+select {
+	border-color: #d1e5ee;
+}
+
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="file"]:focus,
+input[type="email"]:focus,
+input[type="number"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="url"]:focus,
+select:focus {
+	border-color: #b0c8d7;
+}
+
 input.disabled,
 textarea.disabled {
 	background-color: #ccc;
 }
-/* #upload-menu li a.upload-tab-link, */
+
 #plugin-information .action-button a,
 #plugin-information .action-button a:hover,
 #plugin-information .action-button a:visited {
@@ -208,7 +233,7 @@ strong .post-com-count span {
 
 .ac_results {
 	background-color: #fff;
-	border-color: #808080;
+	border-color: #b0c8d7;
 }
 
 .ac_results li {
@@ -221,8 +246,12 @@ strong .post-com-count span {
 }
 
 .available-theme a.screenshot {
-	background-color: #f1f1f1;
-	border-color: #ddd;
+	background-color: #eff8ff;
+	border-color: #acd;
+}
+
+#current-theme {
+	border-bottom-color: #d1e5ee;
 }
 
 .bar {
@@ -282,6 +311,7 @@ td.help {
 }
 
 .ui-autocomplete {
+	border-color: #b0c8d7;
 	background-color: #eff8ff;
 }
 
@@ -349,6 +379,11 @@ div.dashboard-widget-submit input:hover,
 #side-sortables .add-menu-item-tabs .tabs a,
 .wp-tab-bar .wp-tab-active a {
 	color: #333;
+}
+
+#dashboard_right_now .table_content,
+#dashboard_right_now .table_discussion {
+	border-top-color: #d1e5ee;
 }
 
 #rightnow .rbutton {
@@ -816,6 +851,7 @@ table.widefat .spam a:hover,
 /* editors */
 #poststuff .wp-editor-wrap .wp_themeSkin .mceStatusbar {
 	border-color: #d0dfe9;
+	background-color: #eff8ff;
 }
 
 #poststuff .wp-editor-wrap .wp_themeSkin .mceStatusbar * {
@@ -846,7 +882,7 @@ table.widefat .spam a:hover,
 .wp-admin .wp-editor-wrap .wp-switch-editor {
 	background-color: #d3e9f2;
 	border-color: #d1e5ee #d1e5ee #d3e9f2;
-	color: #888;
+	color: #174F69;
 }
 
 .wp-admin .wp-editor-wrap .wp-switch-editor:active {
@@ -1059,8 +1095,8 @@ table.widefat .spam a:hover,
 }
 
 #adminmenu .wp-submenu .wp-submenu-head {
-	border-right-color: #dfdfdf;
-	background-color: #e4e4e4;
+	background-color: #e0f1ff;
+	color: #333;
 }
 
 /* collapse menu button */
@@ -1547,11 +1583,11 @@ fieldset.inline-edit-col-right .inline-edit-col {
 
 #availablethemes,
 #availablethemes td {
-	border-color: #ddd;
+	border-color: #acd;
 }
 
 #current-theme img {
-	border-color: #999;
+	border-color: #b0c8d7;
 }
 
 #TB_window #TB_title a.tb-theme-preview-link,
@@ -1566,11 +1602,11 @@ fieldset.inline-edit-col-right .inline-edit-col {
 
 .misc-pub-section {
 	border-top-color: #fff;
-	border-bottom-color: #eee;
+	border-bottom-color: #d1e5ee;
 }
 
 #minor-publishing {
-	border-bottom-color: #ddd;
+	border-bottom-color: #cae6ff;
 }
 
 #post-body .misc-pub-section {
@@ -1626,7 +1662,7 @@ body.press-this ul.category-tabs li.tabs a {
 .popular-tags,
 .feature-filter {
 	background-color: #fff;
-	border-color: #dfdfdf;
+	border-color: #d1e5ee;
 }
 
 div.widgets-sortables,
@@ -1821,6 +1857,19 @@ div.widgets-sortables,
 }
 /* end added from nav-menu.css */
 
+.nav-tab {
+	border-color: #d1e5ee #d1e5ee #fff;
+}
+
+.nav-tab:hover,
+.nav-tab-active {
+	border-color: #acd #acd #fff;
+}
+
+h2.nav-tab-wrapper, h3.nav-tab-wrapper {
+	border-bottom-color: #acd;
+}
+
 #menu-management .nav-tab-active,
 .menu-item-handle,
 .menu-item-settings {
@@ -1829,8 +1878,8 @@ div.widgets-sortables,
 }
 
 #menu-management .nav-tab-active {
-	background: #eff8ff;
-	border-bottom-color: #eff8ff;
+	background: #f7fcfe;
+	border-bottom-color: #f7fcfe;
 }
 
 #upload-form label {

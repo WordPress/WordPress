@@ -708,13 +708,16 @@ input[type="search"],
 input[type="tel"],
 input[type="url"],
 select {
-	border-color: #dfdfdf;
 	background-color: #fff;
 	color: #333;
 }
 
 select {
 	color: #000;
+}
+
+select:focus {
+	border-color: #aaa;
 }
 
 textarea:focus,
@@ -727,14 +730,8 @@ input[type="search"]:focus,
 input[type="tel"]:focus,
 input[type="url"]:focus,
 select:focus {
-	border-color: #aaa;
 	-webkit-box-shadow: 1px 1px 2px rgba(0,0,0,0.1);
 	box-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-}
-
-kbd,
-code {
-	background: #eaeaea;
 }
 
 input[readonly] {
@@ -953,7 +950,8 @@ ul#add-to-blog-users {
 	z-index: 10000;
 	border-bottom-right-radius: 3px;
 	border-bottom-left-radius: 3px;
-	border: 1px solid #a1a1a1;
+	border-width: 1px;
+	border-style: solid;
 }
 
 .ui-autocomplete li {
@@ -4635,7 +4633,8 @@ h3.available-themes {
 #current-theme {
 	margin: 20px 0 10px;
 	padding: 0 0 20px;
-	border-bottom: 1px solid #dfdfdf;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
 	overflow: hidden;
 }
 
@@ -4815,7 +4814,6 @@ div#custom-background-image img {
 
 .nav-tab {
 	border-style: solid;
-	border-color: #dfdfdf #dfdfdf #fff;
 	border-width: 1px 1px 0;
 	color: #aaa;
 	text-shadow: #fff 0 1px 0;
@@ -4836,13 +4834,9 @@ div#custom-background-image img {
 	color: #464646;
 }
 
-.nav-tab:hover,
-.nav-tab-active {
-	border-color: #ccc #ccc #fff;
-}
-
 h2.nav-tab-wrapper, h3.nav-tab-wrapper {
-	border-bottom: 1px solid #ccc;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
 	padding-bottom: 0;
 }
 
@@ -6106,13 +6100,15 @@ h3:hover .edit-box {
 
 #dashboard_right_now .table_content {
 	float: left;
-	border-top: #ececec 1px solid;
+	border-top-width: 1px;
+	border-top-style: solid;
 	width: 45%;
 }
 
 #dashboard_right_now .table_discussion {
 	float: right;
-	border-top: #ececec 1px solid;
+	border-top-width: 1px;
+	border-top-style: solid;
 	width: 45%;
 }
 
