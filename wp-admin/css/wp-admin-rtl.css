@@ -1573,6 +1573,18 @@ table .column-rating {
 	left: 15px;
 }
 
+.screen-reader-text,
+.screen-reader-text span,
+.ui-helper-hidden-accessible {
+	left: auto;
+	right: -1000em;
+}
+
+.screen-reader-shortcut:focus {
+	left: auto;
+	right: 6px;
+}
+
 /*------------------------------------------------------------------------------
   24.0  - Dead
 ------------------------------------------------------------------------------*/

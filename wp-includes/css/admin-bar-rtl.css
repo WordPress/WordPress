@@ -104,6 +104,11 @@
 	border-left: 0;
 }
 
+#wpadminbar .screen-reader-shortcut:focus {
+	left: auto;
+	right: 6px;
+}
+
 /**
  * My Account
  */
