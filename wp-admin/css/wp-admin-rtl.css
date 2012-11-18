@@ -22,6 +22,7 @@ TABLE OF CONTENTS:
 11.0 - Write/Edit Post Screen
 	11.1 - Custom Fields
 	11.2 - Post Revisions
+	11.3 - Featured Images
 12.0 - Categories
 13.0 - Tags
 14.0 - Media Screen
@@ -139,10 +140,15 @@ ul#add-to-blog-users {
 
 #publishing-action {
 	float: left;
+	text-align: left;
+}
+
+#publishing-action .spinner {
+	float: right;
 }
 
 #post-body .misc-pub-section {
-	border-right:0;
+	border-right: 0;
 	border-left-width: 1px;
 	border-left-style: solid;
 }
@@ -547,12 +553,29 @@ form.upgrade .hint {
 	font-family: Tahoma, Arial, sans-serif;
 }
 
-.widefat td p {
-	margin: 2px 0 0.8em;
-}
-
 .postbox-container {
 	float: right;
+}
+
+#post-body-content {
+	float: right;
+}
+
+#poststuff #post-body.columns-2 {
+	margin-left: 300px;
+	margin-right: 0;
+}
+
+#post-body.columns-2 #postbox-container-1 {
+	float: left;
+	margin-left: -300px;
+	margin-right: 0;
+}
+
+@media only screen and (max-width: 850px) {
+	#wpbody-content #post-body.columns-2 #postbox-container-1 {
+		margin-left: 0;
+	}
 }
 
 .postbox .handlediv {
@@ -800,43 +823,39 @@ th.sorted a span {
 /*------------------------------------------------------------------------------
   11.0 - Write/Edit Post Screen
 ------------------------------------------------------------------------------*/
-/* structural/layout */
-#post-body-content {
+
+#save-action .spinner,
+#show-comments a,
+#show-comments .spinner {
 	float: right;
-}
-
-#poststuff #post-body.columns-2 {
-	margin-left: 300px;
-	margin-right: 0;
-}
-
-#post-body.columns-2 #postbox-container-1 {
-	float: left;
-	margin-left: -300px;
-	margin-right: 0;
-}
-
-@media only screen and (max-width: 850px) {
-	#wpbody-content #post-body.columns-2 #postbox-container-1 {
-		margin-left: 0;
-	}
 }
 
 #titlediv #title-prompt-text,
 #wp-fullscreen-title-prompt-text {
-	right:0;
+	right: 0;
 }
 
 #sample-permalink {
-	direction:ltr;
+	direction: ltr;
 }
 
 #sample-permalink #editable-post-name {
-	unicode-bidi:embed;
+	unicode-bidi: embed;
 }
+
 #wp-fullscreen-title-prompt-text {
 	left: auto;
 	right: 0;
+}
+
+#wp-fullscreen-save .spinner,
+#wp-fullscreen-save .fs-saved {
+	float: left;
+}
+
+#edit-slug-box .cancel {
+	margin-right: 0;
+	margin-left: 10px;
 }
 
 .postarea h3 label {
@@ -915,6 +934,14 @@ th.sorted a span {
 
 table.diff td, table.diff th {
 	font-family: Consolas, Monaco, monospace;
+}
+
+/*------------------------------------------------------------------------------
+  11.3 - Featured Images
+------------------------------------------------------------------------------*/
+
+#select-featured-image a {
+	float: right;
 }
 
 /*------------------------------------------------------------------------------
@@ -1078,8 +1105,38 @@ form.upgrade .hint {
   14.2 - Image Editor
 ------------------------------------------------------------------------------*/
 
+.wp_attachment_image .button,
+.A1B1 .button {
+	float: right;
+}
+
+.wp_attachment_image .spinner,
+.A1B1 .spinner {
+	float: right;
+}
+
 .imgedit-menu div {
 	float: right;
+}
+
+.imgedit-crop {
+	margin: 0;
+}
+
+.imgedit-rleft,
+.imgedit-flipv,
+.imgedit-undo {
+	margin: 0 8px 0 3px;
+}
+
+.imgedit-rright,
+.imgedit-fliph,
+.imgedit-redo {
+	margin: 0 3px;
+}
+
+.imgedit-applyto img {
+	margin: 0 0 0 8px;
 }
 
 .imgedit-help {
@@ -2031,6 +2088,10 @@ body.login {
 	margin-right: 20px;
 }
 
+.button.right, .button-secondary.right, .button-primary.right {
+	float: left;
+}
+
 /* Button Secondary Actions */
 .list-controls {
 	 float: right;
@@ -2336,13 +2397,7 @@ h3.tb {
 	float: right;
 }
 
-.feature-filter .feature-name {
-	float: right;
-	text-align: left;
-}
-
 .feature-filter .feature-group li {
-	float: right;
 	padding-right: 0;
 	padding-left: 25px;
 }

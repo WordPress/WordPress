@@ -970,6 +970,10 @@
 	padding: 0 10px 0 0;
 }
 
+.rtl .wp-editor-tools {
+	padding: 0 0 0 10px;
+}
+
 .wp-editor-container {
     border-width: 1px;
 	border-style: solid;
@@ -1047,8 +1051,18 @@ html[dir="rtl"] .wp-switch-editor {
 	margin-right: 5px;
 }
 
+.rtl .wp-media-buttons .button {
+	margin-right: 0;
+	margin-left: 5px;
+}
+
 .wp-media-buttons .insert-media {
 	padding-left: 0.4em;
+}
+
+.rtl .wp-media-buttons .insert-media {
+	padding-left: 10px;
+	padding-right: 0.4em;
 }
 
 .wp-media-buttons a {

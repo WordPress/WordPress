@@ -4146,15 +4146,18 @@ td.imgedit-settings input {
 	color: grey;
 }
 
-.wp_attachment_image, .A1B1 {
+.wp_attachment_image,
+.A1B1 {
 	overflow: hidden;
 }
 
-.wp_attachment_image .button, .A1B1 .button {
+.wp_attachment_image .button,
+.A1B1 .button {
 	float: left;
 }
 
-.wp_attachment_image .spinner, .A1B1 .spinner {
+.wp_attachment_image .spinner,
+.A1B1 .spinner {
 	float: left;
 	padding: 0 4px 4px;
 	vertical-align: bottom;
@@ -7877,9 +7880,9 @@ h3 span {
 }
 
 .feature-container {
-width: 100%;
-overflow: auto;
-margin-bottom: 10px;
+	width: 100%;
+	overflow: auto;
+	margin-bottom: 10px;
 }
 
 /* widgets */
