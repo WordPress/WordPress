@@ -4338,7 +4338,7 @@ function wp_mime_type_icon( $mime = 0 ) {
 					closedir($dh);
 				}
 			}
-			wp_cache_set('icon_files', $icon_files, 600);
+			wp_cache_set( 'icon_files', $icon_files, 'default', 600 );
 		}
 
 		// Icon basename - extension = MIME wildcard
