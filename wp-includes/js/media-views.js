@@ -60,7 +60,7 @@
 	 * wp.media.controller.Region
 	 */
 	media.controller.Region = function( options ) {
-		_.extend( this, _.pick( options || {}, 'id', 'controller' ) );
+		_.extend( this, _.pick( options || {}, 'id', 'controller', 'selector' ) );
 
 		this.on( 'activate:empty', this.empty, this );
 		this.mode('empty');
@@ -113,25 +113,12 @@
 			if ( mode )
 				view.$el.addClass( 'mode-' + mode );
 
-			// Remove the hide class.
-			// this.$el.removeClass( 'hide-' + subview );
-
-			if ( previous ) {
-				// Replace the view in place.
-				previous.$el.replaceWith( view.$el );
-
-				// Fire the view's `destroy` event if it exists.
-				if ( previous.destroy )
-					previous.destroy();
-				// Undelegate events.
-				previous.undelegateEvents();
-			}
-
+			this.controller.views.set( this.selector, view );
 			this._view = view;
 		},
 
 		empty: function() {
-			this.view( new Backbone.View() );
+			this.view( new media.View() );
 		}
 	});
 
@@ -574,11 +561,154 @@
 	 * ========================================================================
 	 */
 
+	// wp.media.Views
+	// -------------
+	//
+	// A subview manager.
+
+	media.Views = function( view, views ) {
+		this.view = view;
+		this._views = _.isArray( views ) ? { '': views } : views || {};
+	};
+
+	media.Views.extend = Backbone.Model.extend;
+
+	_.extend( media.Views.prototype, {
+		get: function( selector ) {
+			selector = selector || '';
+			return this._views[ selector ];
+		},
+
+		set: function( selector, views, options ) {
+			var $selector, els, existing, add, method;
+
+			if ( ! _.isString( selector ) ) {
+				options  = views;
+				views    = selector;
+				selector = '';
+			}
+
+			views    = _.isArray( views ) ? views : [ views ];
+			add      = options && options.add;
+			existing = this.get( selector );
+			method   = add ? 'attach' : 'replace';
+
+			if ( ! add && existing ) {
+				this.unset( selector );
+				_.invoke( existing, 'dispose' );
+			}
+
+			this._views[ selector ] = add && existing ? existing.concat( views ) : views;
+
+			$selector = selector ? this.view.$( selector ) : this.view.$el;
+			els = _.pluck( views, 'el' );
+
+			_.each( views, function( subview ) {
+				var subviews = subview.views = subview.views || new this.constructor( subview );
+				subviews.parent   = this.view;
+				subviews.selector = selector;
+			}, this );
+
+			this[ method ]( $selector, els );
+			return this;
+		},
+
+		add: function( selector, views ) {
+			return this.set( selector, views, { add: true });
+		},
+
+		unset: function( selector, views ) {
+			var existing;
+
+			if ( ! _.isString( selector ) ) {
+				views = selector;
+				selector = '';
+			}
+
+			views = _.isArray( views ) ? views : [ views ];
+
+			if ( existing = this.get( selector ) )
+				this._views[ selector ] = _.difference( existing, views );
+
+			return this;
+		},
+
+		render: function() {
+			var root = this._views[''];
+
+			if ( root )
+				this.replace( this.view.$el, _.pluck( root, 'el' ) );
+
+			_.each( this._views, function( views, selector ) {
+				if ( selector )
+					this.replace( this.view.$( selector ), _.pluck( views, 'el' ) );
+			}, this );
+
+			return this;
+		},
+
+		dispose: function() {
+			delete this.parent;
+			delete this.selector;
+
+			_.chain( this._views ).flatten().invoke('dispose');
+			this._views = [];
+		},
+
+		replace: function( $target, els ) {
+			if ( this.view.replace )
+				return this.view.replace( $target, els );
+
+			$target.html( els );
+		},
+
+		attach: function( $target, els ) {
+			if ( this.view.attach )
+				return this.view.attach( $target, els );
+
+			$target.append( els );
+		}
+	});
+
+	// wp.media.View
+	// -------------
+	//
+	// The base view class.
+	media.View = Backbone.View.extend({
+		constructor: function() {
+			this.views = new media.Views( this, this.views );
+			Backbone.View.apply( this, arguments );
+		},
+
+		dispose: function() {
+			// Undelegating events, removing events from the model, and
+			// removing events from the controller mirror the code for
+			// `Backbone.View.dispose` in Backbone master.
+			this.undelegateEvents();
+
+			if ( this.model && this.model.off )
+				this.model.off( null, null, this );
+
+			if ( this.collection && this.collection.off )
+				this.collection.off( null, null, this );
+
+			// Recursively dispose child views.
+			if ( this.views )
+				this.views.dispose();
+
+			return this;
+		},
+
+		remove: function() {
+			this.dispose();
+			return Backbone.View.prototype.remove.apply( this, arguments );
+		}
+	});
+
 	/**
 	 * wp.media.view.Frame
 	 */
-	media.view.Frame = Backbone.View.extend({
-
+	media.view.Frame = media.View.extend({
 		initialize: function() {
 			this._createRegions();
 			this._createStates();
@@ -592,7 +722,8 @@
 			_.each( this.regions, function( region ) {
 				this[ region ] = new media.controller.Region({
 					controller: this,
-					id:         region
+					id:         region,
+					selector:   '.media-frame-' + region
 				});
 			}, this );
 		},
@@ -610,14 +741,11 @@
 		},
 
 		render: function() {
-			var els = _.map( this.regions, function( region ) {
-					return this[ region ].view().el;
-				}, this );
+			if ( ! this.template )
+				return;
 
-			// Detach the current views to maintain event bindings.
-			$( els ).detach();
-			this.$el.html( els );
-
+			this.$el.html( this.template( this.options ) );
+			this.views.render();
 			return this;
 		},
 
@@ -635,6 +763,7 @@
 	 */
 	media.view.MediaFrame = media.view.Frame.extend({
 		className: 'media-frame',
+		template:  media.template('media-frame'),
 		regions:   ['menu','content','sidebar','toolbar'],
 
 		initialize: function() {
@@ -1084,7 +1213,7 @@
 			media.view.MediaFrame.Select.prototype.mainMenu.call( this, { silent: true });
 
 			this.menu.view().add({
-				separateLibrary: new Backbone.View({
+				separateLibrary: new media.View({
 					className: 'separator',
 					priority: 60
 				}),
@@ -1112,7 +1241,7 @@
 								frame.close();
 						}
 					},
-					separateCancel: new Backbone.View({
+					separateCancel: new media.View({
 						className: 'separator',
 						priority: 40
 					}),
@@ -1149,7 +1278,7 @@
 								frame.close();
 						}
 					},
-					separateCancel: new Backbone.View({
+					separateCancel: new media.View({
 						className: 'separator',
 						priority: 40
 					}),
@@ -1369,7 +1498,7 @@
 	/**
 	 * wp.media.view.Modal
 	 */
-	media.view.Modal = Backbone.View.extend({
+	media.view.Modal = media.View.extend({
 		tagName:  'div',
 		template: media.template('media-modal'),
 
@@ -1445,7 +1574,7 @@
 
 	// wp.media.view.UploaderWindow
 	// ----------------------------
-	media.view.UploaderWindow = Backbone.View.extend({
+	media.view.UploaderWindow = media.View.extend({
 		tagName:   'div',
 		className: 'uploader-window',
 		template:  media.template('uploader-window'),
@@ -1524,7 +1653,7 @@
 		}
 	});
 
-	media.view.UploaderInline = Backbone.View.extend({
+	media.view.UploaderInline = media.View.extend({
 		tagName:   'div',
 		className: 'uploader-inline',
 		template:  media.template('uploader-inline'),
@@ -1580,7 +1709,7 @@
 	/**
 	 * wp.media.view.Toolbar
 	 */
-	media.view.Toolbar = Backbone.View.extend({
+	media.view.Toolbar = media.View.extend({
 		tagName:   'div',
 		className: 'media-toolbar',
 
@@ -1816,7 +1945,7 @@
 	/**
 	 * wp.media.view.Button
 	 */
-	media.view.Button = Backbone.View.extend({
+	media.view.Button = media.View.extend({
 		tagName:    'a',
 		className:  'media-button',
 		attributes: { href: '#' },
@@ -1892,7 +2021,7 @@
 	/**
 	 * wp.media.view.ButtonGroup
 	 */
-	media.view.ButtonGroup = Backbone.View.extend({
+	media.view.ButtonGroup = media.View.extend({
 		tagName:   'div',
 		className: 'button-group button-large media-button-group',
 
@@ -1920,15 +2049,14 @@
 	 * wp.media.view.PriorityList
 	 */
 
-	media.view.PriorityList = Backbone.View.extend({
+	media.view.PriorityList = media.View.extend({
 		tagName:   'div',
 
 		initialize: function() {
 			this.controller = this.options.controller;
 			this._views     = {};
 
-			this.add( _.extend( {}, this.views, this.options.views ), { silent: true });
-			delete this.views;
+			this.add( _.extend( {}, this._views, this.options.views ), { silent: true });
 			delete this.options.views;
 
 			if ( ! this.options.silent )
@@ -1993,7 +2121,7 @@
 		},
 
 		toView: function( options ) {
-			return new Backbone.View( options );
+			return new media.View( options );
 		}
 	});
 
@@ -2026,7 +2154,7 @@
 		}
 	});
 
-	media.view.MenuItem = Backbone.View.extend({
+	media.view.MenuItem = media.View.extend({
 		tagName:   'li',
 		className: 'media-menu-item',
 
@@ -2065,7 +2193,7 @@
 	/**
 	 * wp.media.view.Attachment
 	 */
-	media.view.Attachment = Backbone.View.extend({
+	media.view.Attachment = media.View.extend({
 		tagName:   'li',
 		className: 'attachment',
 		template:  media.template('attachment'),
@@ -2263,7 +2391,7 @@
 	/**
 	 * wp.media.view.Attachments
 	 */
-	media.view.Attachments = Backbone.View.extend({
+	media.view.Attachments = media.View.extend({
 		tagName:   'ul',
 		className: 'attachments',
 		template:  media.template('attachments-css'),
@@ -2454,7 +2582,7 @@
 	/**
 	 * wp.media.view.Search
 	 */
-	media.view.Search = Backbone.View.extend({
+	media.view.Search = media.View.extend({
 		tagName:   'input',
 		className: 'search',
 
@@ -2487,7 +2615,7 @@
 	/**
 	 * wp.media.view.AttachmentsBrowser
 	 */
-	media.view.AttachmentsBrowser = Backbone.View.extend({
+	media.view.AttachmentsBrowser = media.View.extend({
 		tagName:   'div',
 		className: 'attachments-browser',
 
@@ -2515,7 +2643,7 @@
 			}
 
 			if ( this.options.sortable ) {
-				this.toolbar.set( 'dragInfo', new Backbone.View({
+				this.toolbar.set( 'dragInfo', new media.View({
 					el: $( '<div class="instructions">' + l10n.dragInfo + '</div>' )[0],
 					priority: -40
 				}) );
@@ -2559,7 +2687,7 @@
 	/**
 	 * wp.media.view.SelectionPreview
 	 */
-	media.view.SelectionPreview = Backbone.View.extend({
+	media.view.SelectionPreview = media.View.extend({
 		tagName:   'div',
 		className: 'selection-preview',
 		template:  media.template('media-selection-preview'),
@@ -2610,7 +2738,7 @@
 	/**
 	 * wp.media.view.Selection
 	 */
-	media.view.Selection = Backbone.View.extend({
+	media.view.Selection = media.View.extend({
 		tagName:   'div',
 		className: 'media-selection',
 		template:  media.template('media-selection'),
@@ -2707,7 +2835,7 @@
 	/**
 	 * wp.media.view.Settings
 	 */
-	media.view.Settings = Backbone.View.extend({
+	media.view.Settings = media.View.extend({
 		events: {
 			'click button':    'updateHandler',
 			'change input':    'updateHandler',
@@ -2853,7 +2981,7 @@
 	/**
 	 * wp.media.view.AttachmentCompat
 	 */
-	media.view.AttachmentCompat = Backbone.View.extend({
+	media.view.AttachmentCompat = media.View.extend({
 		tagName:   'form',
 		className: 'compat-item',
 
@@ -2901,7 +3029,7 @@
 	/**
 	 * wp.media.view.Iframe
 	 */
-	media.view.Iframe = Backbone.View.extend({
+	media.view.Iframe = media.View.extend({
 		className: 'media-iframe',
 
 		initialize: function() {
@@ -2917,7 +3045,7 @@
 	/**
 	 * wp.media.view.Embed
 	 */
-	media.view.Embed = Backbone.View.extend({
+	media.view.Embed = media.View.extend({
 		className: 'media-embed',
 
 		initialize: function() {
@@ -2928,7 +3056,7 @@
 				model:      this.model
 			}).render();
 
-			this._settings = new Backbone.View();
+			this._settings = new media.View();
 			this.refresh();
 			this.model.on( 'change:type', this.refresh, this );
 		},
@@ -2970,7 +3098,7 @@
 	/**
 	 * wp.media.view.EmbedUrl
 	 */
-	media.view.EmbedUrl = Backbone.View.extend({
+	media.view.EmbedUrl = media.View.extend({
 		tagName:   'label',
 		className: 'embed-url',
 

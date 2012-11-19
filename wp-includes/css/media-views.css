@@ -108,7 +108,7 @@
 	border: 0 solid #dfdfdf;
 }
 
-.media-frame > .media-toolbar {
+.media-frame-toolbar > .media-toolbar {
 	top: auto;
 	left: 200px;
 	bottom: 0;
@@ -116,7 +116,7 @@
 	box-shadow: 0 -4px 4px -4px rgba( 0, 0, 0, 0.1 );
 }
 
-.media-frame.hide-toolbar > .media-toolbar {
+.hide-toolbar .media-frame-toolbar > .media-toolbar {
 	bottom: -61px;
 }
 
