@@ -574,6 +574,10 @@
 	media.Views.extend = Backbone.Model.extend;
 
 	_.extend( media.Views.prototype, {
+		all: function() {
+			return _.flatten( this._views );
+		},
+
 		get: function( selector ) {
 			selector = selector || '';
 			return this._views[ selector ];
@@ -592,7 +596,7 @@
 			add      = options && options.add;
 			existing = this.get( selector );
 			next     = views;
-			method   = add ? 'attach' : 'replace';
+			method   = add ? 'insert' : 'replace';
 
 			if ( existing ) {
 				if ( add ) {
@@ -601,8 +605,20 @@
 					else
 						next = existing.splice.apply( existing, [ options.at, 0 ].concat( views ) );
 				} else {
-					this.unset( selector );
-					_.invoke( existing, 'dispose' );
+					_.each( next, function( view ) {
+						view.__detach = true;
+					});
+
+					_.each( existing, function( view ) {
+						if ( view.__detach )
+							view.$el.detach();
+						else
+							view.dispose();
+					});
+
+					_.each( next, function( view ) {
+						delete view.__detach;
+					});
 				}
 			}
 
@@ -634,11 +650,16 @@
 				selector = '';
 			}
 
-			views = _.isArray( views ) ? views : [ views ];
+			if ( existing = this.get( selector ) ) {
+				views = _.isArray( views ) ? views : [ views ];
+				this._views[ selector ] = views.length ? _.difference( existing, views ) : [];
+			}
 
-			if ( existing = this.get( selector ) )
-				this._views[ selector ] = _.difference( existing, views );
+			return this;
+		},
 
+		detach: function() {
+			$( _.pluck( this.all(), 'el' ) ).detach();
 			return this;
 		},
 
@@ -660,8 +681,9 @@
 			delete this.parent;
 			delete this.selector;
 
-			_.chain( this._views ).flatten().invoke('dispose');
+			_.invoke( this.all(), 'dispose' );
 			this._views = [];
+			return this;
 		},
 
 		replace: function( $target, els ) {
@@ -669,7 +691,7 @@
 			return this;
 		},
 
-		attach: function( $target, els, options ) {
+		insert: function( $target, els, options ) {
 			var at = options && options.at,
 				$children;
 
@@ -717,6 +739,25 @@
 		remove: function() {
 			this.dispose();
 			return Backbone.View.prototype.remove.apply( this, arguments );
+		},
+
+		render: function() {
+			var options;
+
+			this.views.detach();
+
+			if ( this.template ) {
+				options = this.prepare ? this.prepare() : {};
+				this.trigger( 'prepare', options );
+				this.$el.html( this.template( options ) );
+			}
+
+			this.views.render();
+			return this;
+		},
+
+		prepare: function() {
+			return this.options;
 		}
 	});
 
@@ -753,15 +794,6 @@
 			this.states.on( 'add', function( model ) {
 				model.frame = this;
 			}, this );
-		},
-
-		render: function() {
-			if ( ! this.template )
-				return;
-
-			this.$el.html( this.template( this.options ) );
-			this.views.render();
-			return this;
 		},
 
 		reset: function() {
