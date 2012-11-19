@@ -413,7 +413,7 @@ window.wp = window.wp || {};
 		},
 
 		_validateAllHandler: function( attachments, options ) {
-			return this.evaluateAll( attachments, options );
+			return this.validateAll( attachments, options );
 		},
 
 		mirror: function( attachments ) {
