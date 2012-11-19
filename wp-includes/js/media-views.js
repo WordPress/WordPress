@@ -2410,7 +2410,6 @@
 
 			_.each(['add','remove'], function( method ) {
 				this.collection.on( method, function( attachment, attachments, options ) {
-					console.log( method, 'attachment', attachment.id, 'at', options.index );
 					this[ method ]( attachment, options.index );
 				}, this );
 			}, this );
