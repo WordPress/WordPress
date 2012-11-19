@@ -604,7 +604,8 @@
 			els = _.pluck( views, 'el' );
 
 			_.each( views, function( subview ) {
-				var subviews = subview.views = subview.views || new this.constructor( subview );
+				var constructor = subview.Views || media.Views,
+					subviews = subview.views = subview.views || new constructor( subview );
 				subviews.parent   = this.view;
 				subviews.selector = selector;
 			}, this );
@@ -656,17 +657,13 @@
 		},
 
 		replace: function( $target, els ) {
-			if ( this.view.replace )
-				return this.view.replace( $target, els );
-
 			$target.html( els );
+			return this;
 		},
 
 		attach: function( $target, els ) {
-			if ( this.view.attach )
-				return this.view.attach( $target, els );
-
 			$target.append( els );
+			return this;
 		}
 	});
 
@@ -675,8 +672,11 @@
 	//
 	// The base view class.
 	media.View = Backbone.View.extend({
+		// The constructor for the `Views` manager.
+		Views: media.Views,
+
 		constructor: function() {
-			this.views = new media.Views( this, this.views );
+			this.views = new this.Views( this, this.views );
 			Backbone.View.apply( this, arguments );
 		},
 
