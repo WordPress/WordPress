@@ -205,7 +205,7 @@ class WP_Users_List_Table extends WP_List_Table {
 				$role = reset( $user_object->roles );
 			}
 
-			if ( is_multisite() && empty( $role->allcaps ) )
+			if ( is_multisite() && empty( $user_object->allcaps ) )
 				continue;
 
 			$style = ( ' class="alternate"' == $style ) ? '' : ' class="alternate"';
