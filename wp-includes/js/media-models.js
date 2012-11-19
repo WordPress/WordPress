@@ -358,20 +358,62 @@ window.wp = window.wp || {};
 		},
 
 		validate: function( attachment, options ) {
+			var valid = this.validator( attachment ),
+				hasAttachment = !! this.getByCid( attachment.cid );
+
 			// Only retain the `silent` option.
 			options = {
 				silent: options && options.silent
 			};
 
-			return this[ this.validator( attachment ) ? 'add' : 'remove' ]( attachment, options );
+			if ( ! valid && hasAttachment )
+				this.remove( attachment, options );
+			else if ( valid && ! hasAttachment )
+				this.add( attachment, options );
+
+			return this;
+		},
+
+		validateAll: function( attachments ) {
+			_.each( attachments.models, function( attachment ) {
+				this.validate( attachment, { silent: true });
+			}, this );
+
+			return this;
 		},
 
 		observe: function( attachments ) {
-			attachments.on( 'add change', this.validate, this );
+			this.observers = this.observers || [];
+			this.observers.push( attachments );
+
+			attachments.on( 'add change remove', this._validateHandler, this );
+			attachments.on( 'reset', this._validateAllHandler, this );
+
+			this.validateAll( attachments );
+			return this;
 		},
 
 		unobserve: function( attachments ) {
-			attachments.off( 'add change', this.validate, this );
+			if ( attachments ) {
+				attachments.off( null, null, this );
+				this.observers = _.without( this.observers, attachments );
+
+			} else {
+				_.each( this.observers, function( attachments ) {
+					attachments.off( null, null, this );
+				}, this );
+				delete this.observers;
+			}
+
+			return this;
+		},
+
+		_validateHandler: function( attachment, attachments, options ) {
+			return this.validate( attachment, options );
+		},
+
+		_validateAllHandler: function( attachments, options ) {
+			return this.evaluateAll( attachments, options );
 		},
 
 		mirror: function( attachments ) {
@@ -518,15 +560,15 @@ window.wp = window.wp || {};
 				return false;
 			};
 
-			// Observe the central `Attachments.all` model to watch for new
-			// matches for the query.
+			// Observe the central `wp.Uploader.queue` collection to watch for
+			// new matches for the query.
 			//
 			// Only observe when a limited number of query args are set. There
 			// are no filters for other properties, so observing will result in
 			// false positives in those queries.
 			allowed = [ 's', 'order', 'orderby', 'posts_per_page', 'post_mime_type' ];
-			if ( _( this.args ).chain().keys().difference( allowed ).isEmpty().value() )
-				this.observe( Attachments.all );
+			if ( wp.Uploader && _( this.args ).chain().keys().difference( allowed ).isEmpty().value() )
+				this.observe( wp.Uploader.queue );
 		},
 
 		more: function( options ) {
@@ -729,85 +771,6 @@ window.wp = window.wp || {};
 
 			// Return the single model, or the last model as a fallback.
 			return this._single;
-		}
-	});
-
-	/**
-	 * wp.media.model.Composite
-	 *
-	 * Creates a model that can simultaneously pull from two or more collections.
-	 */
-	media.model.Composite = Attachments.extend({
-		initialize: function( models, options ) {
-			this.observe( this, { silent: true });
-			Attachments.prototype.initialize.apply( this, arguments );
-		},
-
-		evaluate: function( attachment, options ) {
-			var valid = this.validator( attachment ),
-				hasAttachment = !! this.getByCid( attachment.cid );
-
-			if ( ! valid && hasAttachment )
-				this.remove( attachment, options );
-			else if ( valid && ! hasAttachment )
-				this.add( attachment, options );
-
-			return this;
-		},
-
-		validator: function() {
-			return true;
-		},
-
-		evaluateAll: function( attachments, options ) {
-			_.each( attachments.models, function( attachment ) {
-				this.evaluate( attachment, { silent: true });
-			}, this );
-
-			return this;
-		},
-
-		observe: function( attachments, options ) {
-			var silent = options && options.silent;
-			this.observers = this.observers || [];
-			this.observers.push( attachments );
-
-			attachments.on( 'add remove',  silent ? this._evaluateSilentHandler : this._evaluateHandler, this );
-			attachments.on( 'reset',  silent ? this._evaluateAllSilentHandler : this._evaluateAllHandler, this );
-
-			this.evaluateAll( attachments, options );
-			return this;
-		},
-
-		unobserve: function( attachments ) {
-			if ( attachments ) {
-				attachments.off( null, null, this );
-				this.observers = _.without( this.observers, attachments );
-
-			} else {
-				_.each( this.observers, function( attachments ) {
-					attachments.off( null, null, this );
-				}, this );
-				delete this.observers;
-			}
-
-			return this;
-		},
-
-		_evaluateHandler: function( attachment, attachments, options ) {
-			return this.evaluate( attachment, options );
-		},
-
-		_evaluateAllHandler: function( attachments, options ) {
-			return this.evaluateAll( attachments, options );
-		},
-
-		_evaluateSilentHandler: function( attachment, attachments, options ) {
-			return this.evaluate( attachment, _.defaults({ silent: true }, options ) );
-		},
-
-		_evaluateAllSilentHandler: function( attachments, options ) {
-			return this.evaluateAll( attachments, _.defaults({ silent: true }, options ) );
 		}
 	});
 

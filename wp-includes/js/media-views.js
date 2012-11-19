@@ -387,7 +387,7 @@
 				this.set( '_library', original = this.get('library') );
 
 			// Create a composite library in its place.
-			composite = new media.model.Composite( null, {
+			composite = new media.model.Attachments( null, {
 				props: _.pick( original.props.toJSON(), 'order', 'orderby' )
 			});
 
@@ -2410,6 +2410,7 @@
 
 			_.each(['add','remove'], function( method ) {
 				this.collection.on( method, function( attachment, attachments, options ) {
+					console.log( method, 'attachment', attachment.id, 'at', options.index );
 					this[ method ]( attachment, options.index );
 				}, this );
 			}, this );
