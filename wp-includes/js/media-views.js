@@ -2204,7 +2204,8 @@
 			'change [data-setting] input':    'updateSetting',
 			'change [data-setting] select':   'updateSetting',
 			'change [data-setting] textarea': 'updateSetting',
-			'click .close':                   'removeFromLibrary'
+			'click .close':                   'removeFromLibrary',
+			'click a':                        'preventDefault'
 		},
 
 		buttons: {},
@@ -2220,14 +2221,10 @@
 			// Update the model's details view.
 			this.model.on( 'selection:single selection:unsingle', this.details, this );
 			this.details( this.model, this.controller.state().get('selection') );
-
-			// Prevent default navigation on all links.
-			this.$el.on( 'click', 'a', this.preventDefault );
 		},
 
 		destroy: function() {
 			this.model.off( null, null, this );
-			this.$el.off( 'click', 'a', this.preventDefault );
 			this.remove();
 		},
 
