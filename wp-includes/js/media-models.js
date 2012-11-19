@@ -747,15 +747,10 @@ window.wp = window.wp || {};
 			var valid = this.validator( attachment ),
 				hasAttachment = !! this.getByCid( attachment.cid );
 
-			if ( ! valid && hasAttachment ) {
+			if ( ! valid && hasAttachment )
 				this.remove( attachment, options );
-			} else if ( valid && ! hasAttachment ) {
+			else if ( valid && ! hasAttachment )
 				this.add( attachment, options );
-
-				// If we haven't been silenced, resort the collection.
-				if ( this.comparator && ( ! options || ! options.silent ) )
-					this.sort({ silent: true });
-			}
 
 			return this;
 		},
@@ -769,8 +764,6 @@ window.wp = window.wp || {};
 				this.evaluate( attachment, { silent: true });
 			}, this );
 
-			if ( this.comparator )
-				this.sort( options );
 			return this;
 		},
 
