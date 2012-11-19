@@ -1034,16 +1034,19 @@ function get_custom_header() {
 		$data = _get_random_header_data();
 	} else {
 		$data = get_theme_mod( 'header_image_data' );
-		if ( ! $data && isset( $_wp_default_headers ) && current_theme_supports( 'custom-header', 'default-image' ) ) {
+		if ( ! $data && current_theme_supports( 'custom-header', 'default-image' ) ) {
 			$directory_args = array( get_template_directory_uri(), get_stylesheet_directory_uri() );
-			$default_image = vsprintf( get_theme_support( 'custom-header', 'default-image' ), $directory_args );
-			foreach ( (array) $_wp_default_headers as $header => $details ) {
-				$url = vsprintf( $details['url'], $directory_args );
-				if ( $default_image == $url ) {
-					$data = $details;
-					$data['url'] = $url;
-					$data['thumbnail_url'] = vsprintf( $data['thumbnail_url'], $directory_args );
-					break;
+			$data = array();
+			$data['url'] = $data['thumbnail_url'] = vsprintf( get_theme_support( 'custom-header', 'default-image' ), $directory_args );
+			if ( ! empty( $_wp_default_headers ) ) {
+				foreach ( (array) $_wp_default_headers as $default_header ) {
+					$url = vsprintf( $default_header['url'], $directory_args );
+					if ( $data['url'] == $url ) {
+						$data = $default_header;
+						$data['url'] = $url;
+						$data['thumbnail_url'] = vsprintf( $data['thumbnail_url'], $directory_args );
+						break;
+					}
 				}
 			}
 		}
