@@ -574,15 +574,40 @@
 	media.Views.extend = Backbone.Model.extend;
 
 	_.extend( media.Views.prototype, {
+		// ### Fetch all of the subviews
+		//
+		// Returns an array of all subviews.
 		all: function() {
 			return _.flatten( this._views );
 		},
 
+		// ### Get a selector's subviews
+		//
+		// Fetches all subviews that match a given `selector`.
+		//
+		// If no `selector` is provided, it will grab all subviews attached
+		// to the view's root.
 		get: function( selector ) {
 			selector = selector || '';
 			return this._views[ selector ];
 		},
 
+		// ### Register subview(s)
+		//
+		// Registers any number of `views` to a `selector`.
+		//
+		// When no `selector` is provided, the root selector (the empty string)
+		// is used. `views` accepts a `Backbone.View` instance or an array of
+		// `Backbone.View` instances.
+		//
+		// Use `Views.add()` as a shortcut for setting `options.add` to `true`.
+		//
+		// Accepts an `options` object, which has a significant effect on the
+		// resulting behavior. By default, the provided `views` will replace
+		// any existing views associated with the selector. If `options.add`
+		// is set to `true`, the provided `views` will be added to the existing
+		// views. When adding, the `views` will added to the end of the array
+		// by default. To insert `views` at a specific index, use `options.at`.
 		set: function( selector, views, options ) {
 			var $selector, els, existing, add, method;
 
@@ -638,10 +663,30 @@
 			return this;
 		},
 
+		// ### Add subview(s) to existing subviews
+		//
+		// An alias to `Views.set()`, which defaults `options.add` to true.
+		//
+		// Adds any number of `views` to a `selector`.
+		//
+		// When no `selector` is provided, the root selector (the empty string)
+		// is used. `views` accepts a `Backbone.View` instance or an array of
+		// `Backbone.View` instances.
+		//
+		// Use `Views.set()` when setting `options.add` to `false`.
+		//
+		// Accepts an `options` object. By default, provided `views` will be
+		// inserted at the end of the array of existing views. To insert
+		// `views` at a specific index, use `options.at`. For more information
+		// on the `options` object, see `Views.set()`.
 		add: function( selector, views, options ) {
 			return this.set( selector, views, _.extend({ add: true }, options ) );
 		},
 
+		// ### Stop tracking subviews
+		//
+		// Stops tracking `views` registered to a `selector`. If no `views` are
+		// set, then all of the `selector`'s subviews will be unregistered.
 		unset: function( selector, views ) {
 			var existing;
 
@@ -658,11 +703,20 @@
 			return this;
 		},
 
+		// ### Detach all subviews
+		//
+		// Detaches all subviews from the DOM.
+		//
+		// Helps to preserve all subview events when re-rendering the master
+		// view. Used in conjunction with `Views.render()`.
 		detach: function() {
 			$( _.pluck( this.all(), 'el' ) ).detach();
 			return this;
 		},
 
+		// ### Render all subviews
+		//
+		// Renders all subviews. Used in conjunction with `Views.detach()`.
 		render: function() {
 			var root = this._views[''];
 
@@ -677,6 +731,10 @@
 			return this;
 		},
 
+		// ### Dispose all subviews
+		//
+		// Triggers the `dispose()` method on all subviews. Resets the
+		// internals of the views manager.
 		dispose: function() {
 			delete this.parent;
 			delete this.selector;
@@ -686,11 +744,23 @@
 			return this;
 		},
 
+		// ### Replace a selector's subviews
+		//
+		// By default, sets the `$target` selector's html to the subview `els`.
+		//
+		// Can be overridden in subclasses.
 		replace: function( $target, els ) {
 			$target.html( els );
 			return this;
 		},
 
+		// ### Insert subviews into a selector
+		//
+		// By default, appends the subview `els` to the end of the `$target`
+		// selector. If `options.at` is set, inserts the subview `els` at the
+		// provided index.
+		//
+		// Can be overridden in subclasses.
 		insert: function( $target, els, options ) {
 			var at = options && options.at,
 				$children;
