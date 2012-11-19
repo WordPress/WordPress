@@ -682,8 +682,10 @@
 				subviews.selector = selector;
 			}, this );
 
-			if ( ! options.silent )
+			if ( ! options.silent ) {
+				_.each( views, this._maybeRender, this );
 				this[ method ]( $selector, els, options );
+			}
 
 			return this;
 		},
@@ -755,6 +757,8 @@
 		render: function() {
 			var root = this._views[''];
 
+			_.each( this.all(), this._maybeRender, this );
+
 			if ( root )
 				this.replace( this.view.$el, _.pluck( root, 'el' ) );
 
@@ -763,6 +767,7 @@
 					this.replace( this.view.$( selector ), _.pluck( views, 'el' ) );
 			}, this );
 
+			this.rendered = true;
 			return this;
 		},
 
@@ -813,6 +818,16 @@
 				$target.append( els );
 
 			return this;
+		},
+
+
+		// #### Internal. Maybe render a view.
+		_maybeRender: function( view ) {
+			if ( ! view.views || view.views.rendered )
+				return;
+
+			view.render();
+			view.views.rendered = true;
 		}
 	});
 
@@ -1148,14 +1163,14 @@
 				upload:     state.get('upload'),
 
 				AttachmentView: state.get('AttachmentView')
-			}).render() );
+			}) );
 		},
 
 		uploadContent: function() {
 			// In the meantime, render an inline uploader.
 			this.content.view( new media.view.UploaderInline({
 				controller: this
-			}).render() );
+			}) );
 		},
 
 		// Sidebars
