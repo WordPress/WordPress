@@ -1281,9 +1281,39 @@ function get_compat_media_markup( $attachment_id, $args = null ) {
 	$args = wp_parse_args( $args, $default_args );
 	$args = apply_filters( 'get_media_item_args', $args );
 
-	$errors = $args['errors'];
+	$form_fields = array();
 
-	$form_fields = get_attachment_fields_to_edit( $post, $errors );
+	foreach ( get_attachment_taxonomies($post) as $taxonomy ) {
+		$t = (array) get_taxonomy($taxonomy);
+		if ( ! $t['public'] || ! $t['show_ui'] )
+			continue;
+		if ( empty($t['label']) )
+			$t['label'] = $taxonomy;
+		if ( empty($t['args']) )
+			$t['args'] = array();
+
+		$terms = get_object_term_cache($post->ID, $taxonomy);
+		if ( false === $terms )
+			$terms = wp_get_object_terms($post->ID, $taxonomy, $t['args']);
+
+		$values = array();
+
+		foreach ( $terms as $term )
+			$values[] = $term->slug;
+		$t['value'] = join(', ', $values);
+
+		$form_fields[$taxonomy] = $t;
+	}
+
+	// Merge default fields with their errors, so any key passed with the error (e.g. 'error', 'helps', 'value') will replace the default
+	// The recursive merge is easily traversed with array casting: foreach( (array) $things as $thing )
+	$form_fields = array_merge_recursive($form_fields, (array) $args['errors'] );
+
+	$form_fields = apply_filters( 'attachment_fields_to_edit', $form_fields, $post );
+
+	unset( $form_fields['image-size'], $form_fields['align'], $form_fields['image_alt'],
+		$form_fields['post_title'], $form_fields['post_excerpt'], $form_fields['post_content'],
+		$form_fields['url'], $form_fields['menu_order'], $form_fields['image_url'] );
 
 	$media_meta = apply_filters( 'media_meta', '', $post );
 
@@ -1295,10 +1325,6 @@ function get_compat_media_markup( $attachment_id, $args = null ) {
 	);
 
 	$hidden_fields = array();
-
-	unset( $form_fields['image-size'], $form_fields['align'], $form_fields['image_alt'],
-		$form_fields['post_title'], $form_fields['post_excerpt'], $form_fields['post_content'],
-		$form_fields['url'], $form_fields['menu_order'], $form_fields['image_url'] );
 
 	$item = '';
 	foreach ( $form_fields as $id => $field ) {
