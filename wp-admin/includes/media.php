@@ -1000,8 +1000,6 @@ function get_attachment_fields_to_edit($post, $errors = null) {
 		unset( $form_fields['image_alt'] );
 	}
 
-	return $form_fields;
-
 	$form_fields = apply_filters('attachment_fields_to_edit', $form_fields, $post);
 
 	return $form_fields;
