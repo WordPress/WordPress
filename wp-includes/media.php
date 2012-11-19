@@ -1261,7 +1261,7 @@ function wp_prepare_attachment_for_js( $attachment ) {
 		'mime'        => $attachment->post_mime_type,
 		'type'        => $type,
 		'subtype'     => $subtype,
-		'icon'        => wp_mime_type_icon( $attachment->ID ),
+		'icon'        => wp_mime_type_icon( $attachment->post_mime_type ),
 		'dateFormatted' => mysql2date( get_option('date_format'), $attachment->post_date ),
 	);
 
