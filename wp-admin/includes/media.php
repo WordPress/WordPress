@@ -810,34 +810,8 @@ function wp_caption_input_textarea($edit_post) {
  * @return array
  */
 function image_attachment_fields_to_edit($form_fields, $post) {
-	if ( substr($post->post_mime_type, 0, 5) == 'image' ) {
-		$alt = get_post_meta($post->ID, '_wp_attachment_image_alt', true);
-		if ( empty($alt) )
-			$alt = '';
-
-		$form_fields['post_title']['required'] = true;
-
-		$form_fields['image_alt'] = array(
-			'value' => $alt,
-			'label' => __('Alternative Text'),
-			'helps' => __('Alt text for the image, e.g. &#8220;The Mona Lisa&#8221;')
-		);
-
-		$form_fields['align'] = array(
-			'label' => __('Alignment'),
-			'input' => 'html',
-			'html'  => image_align_input_fields($post, get_option('image_default_align')),
-		);
-
-		$form_fields['image-size'] = image_size_input_fields( $post, get_option('image_default_size', 'medium') );
-
-	} else {
-		unset( $form_fields['image_alt'] );
-	}
 	return $form_fields;
 }
-
-add_filter('attachment_fields_to_edit', 'image_attachment_fields_to_edit', 10, 2);
 
 /**
  * {@internal Missing Short Description}}
@@ -999,6 +973,34 @@ function get_attachment_fields_to_edit($post, $errors = null) {
 	// Merge default fields with their errors, so any key passed with the error (e.g. 'error', 'helps', 'value') will replace the default
 	// The recursive merge is easily traversed with array casting: foreach( (array) $things as $thing )
 	$form_fields = array_merge_recursive($form_fields, (array) $errors);
+
+	// This was formerly in image_attachment_fields_to_edit().
+	if ( substr($post->post_mime_type, 0, 5) == 'image' ) {
+		$alt = get_post_meta($post->ID, '_wp_attachment_image_alt', true);
+		if ( empty($alt) )
+			$alt = '';
+
+		$form_fields['post_title']['required'] = true;
+
+		$form_fields['image_alt'] = array(
+			'value' => $alt,
+			'label' => __('Alternative Text'),
+			'helps' => __('Alt text for the image, e.g. &#8220;The Mona Lisa&#8221;')
+		);
+
+		$form_fields['align'] = array(
+			'label' => __('Alignment'),
+			'input' => 'html',
+			'html'  => image_align_input_fields($post, get_option('image_default_align')),
+		);
+
+		$form_fields['image-size'] = image_size_input_fields( $post, get_option('image_default_size', 'medium') );
+
+	} else {
+		unset( $form_fields['image_alt'] );
+	}
+
+	return $form_fields;
 
 	$form_fields = apply_filters('attachment_fields_to_edit', $form_fields, $post);
 
