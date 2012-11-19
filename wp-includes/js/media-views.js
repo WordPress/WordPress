@@ -592,6 +592,19 @@
 			return this._views[ selector ];
 		},
 
+		// ### Get a selector's first subview
+		//
+		// Fetches the first subview that matches a given `selector`.
+		//
+		// If no `selector` is provided, it will grab the first subview
+		// attached to the view's root.
+		//
+		// Useful when a selector only has one subview at a time.
+		first: function( selector ) {
+			var views = this.get( selector );
+			return views && views.length ? views[0] : null;
+		},
+
 		// ### Register subview(s)
 		//
 		// Registers any number of `views` to a `selector`.
