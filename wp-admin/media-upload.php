@@ -87,7 +87,7 @@ if ( isset($_GET['inline']) ) {
 
 	require_once('./admin-header.php');
 
-	$form_class = 'media-upload-form type-form validate';
+	$form_class = 'media-upload-form wp-upload-form type-form validate';
 
 	if ( get_user_setting('uploader') )
 		$form_class .= ' html-uploader';

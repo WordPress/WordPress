@@ -402,8 +402,11 @@ $(document).ready( function() {
 			return;
 		button = form.find('input[type="submit"]');
 		input = form.find('input[type="file"]');
+
 		function toggleUploadButton() {
-			button.prop('disabled', '' === input.val());
+			button.prop('disabled', '' === input.map( function() {
+				return $(this).val();
+			}).get().join(''));
 		}
 		toggleUploadButton();
 		input.on('change', toggleUploadButton);
