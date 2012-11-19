@@ -613,16 +613,26 @@
 		// is used. `views` accepts a `Backbone.View` instance or an array of
 		// `Backbone.View` instances.
 		//
-		// Use `Views.add()` as a shortcut for setting `options.add` to `true`.
+		// ---
 		//
 		// Accepts an `options` object, which has a significant effect on the
-		// resulting behavior. By default, the provided `views` will replace
+		// resulting behavior.
+		//
+		// `options.silent` &ndash; *boolean, `false`*
+		// > If `options.silent` is true, no DOM modifications will be made.
+		//
+		// `options.add` &ndash; *boolean, `false`*
+		// > Use `Views.add()` as a shortcut for setting `options.add` to true.
+		//
+		// > By default, the provided `views` will replace
 		// any existing views associated with the selector. If `options.add`
-		// is set to `true`, the provided `views` will be added to the existing
-		// views. When adding, the `views` will added to the end of the array
-		// by default. To insert `views` at a specific index, use `options.at`.
+		// is true, the provided `views` will be added to the existing views.
+		//
+		// `options.at` &ndash; *integer, `undefined`*
+		// > When adding, to insert `views` at a specific index, use
+		// `options.at`. By default, `views` are added to the end of the array.
 		set: function( selector, views, options ) {
-			var $selector, els, existing, add, method;
+			var $selector, els, existing, method;
 
 			if ( ! _.isString( selector ) ) {
 				options  = views;
@@ -630,14 +640,14 @@
 				selector = '';
 			}
 
+			options  = options || {};
 			views    = _.isArray( views ) ? views : [ views ];
-			add      = options && options.add;
 			existing = this.get( selector );
 			next     = views;
-			method   = add ? 'insert' : 'replace';
+			method   = options.add ? 'insert' : 'replace';
 
 			if ( existing ) {
-				if ( add ) {
+				if ( options.add ) {
 					if ( _.isUndefined( options.at ) )
 						next = existing.concat( views );
 					else
@@ -672,7 +682,9 @@
 				subviews.selector = selector;
 			}, this );
 
-			this[ method ]( $selector, els, options );
+			if ( ! options.silent )
+				this[ method ]( $selector, els, options );
+
 			return this;
 		},
 
@@ -690,8 +702,10 @@
 		//
 		// Accepts an `options` object. By default, provided `views` will be
 		// inserted at the end of the array of existing views. To insert
-		// `views` at a specific index, use `options.at`. For more information
-		// on the `options` object, see `Views.set()`.
+		// `views` at a specific index, use `options.at`. If `options.silent`
+		// is true, no DOM modifications will be made.
+		//
+		// For more information on the `options` object, see `Views.set()`.
 		add: function( selector, views, options ) {
 			return this.set( selector, views, _.extend({ add: true }, options ) );
 		},
@@ -699,11 +713,16 @@
 		// ### Stop tracking subviews
 		//
 		// Stops tracking `views` registered to a `selector`. If no `views` are
-		// set, then all of the `selector`'s subviews will be unregistered.
-		unset: function( selector, views ) {
+		// set, then all of the `selector`'s subviews will be unregistered and
+		// disposed.
+		//
+		// Accepts an `options` object. If `options.silent` is set, `dispose`
+		// will *not* be triggered on the unregistered views.
+		unset: function( selector, views, options ) {
 			var existing;
 
 			if ( ! _.isString( selector ) ) {
+				options = views;
 				views = selector;
 				selector = '';
 			}
@@ -712,6 +731,9 @@
 				views = _.isArray( views ) ? views : [ views ];
 				this._views[ selector ] = views.length ? _.difference( existing, views ) : [];
 			}
+
+			if ( ! options || ! options.silent )
+				_.invoke( views, 'dispose', { silent: true });
 
 			return this;
 		},
@@ -746,11 +768,18 @@
 
 		// ### Dispose all subviews
 		//
-		// Triggers the `dispose()` method on all subviews. Resets the
-		// internals of the views manager.
-		dispose: function() {
-			delete this.parent;
-			delete this.selector;
+		// Triggers the `dispose()` method on all subviews. Detaches the master
+		// view from its parent. Resets the internals of the views manager.
+		//
+		// Accepts an `options` object. If `options.silent` is set, `unset`
+		// will *not* be triggered on the master view's parent.
+		dispose: function( options ) {
+			if ( ! options || ! options.silent ) {
+				if ( this.parent && this.parent.views )
+					this.parent.views.unset( this.selector, this.view, { silent: true });
+				delete this.parent;
+				delete this.selector;
+			}
 
 			_.invoke( this.all(), 'dispose' );
 			this._views = [];
