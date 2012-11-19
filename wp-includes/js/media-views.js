@@ -591,14 +591,22 @@
 			views    = _.isArray( views ) ? views : [ views ];
 			add      = options && options.add;
 			existing = this.get( selector );
+			next     = views;
 			method   = add ? 'attach' : 'replace';
 
-			if ( ! add && existing ) {
-				this.unset( selector );
-				_.invoke( existing, 'dispose' );
+			if ( existing ) {
+				if ( add ) {
+					if ( _.isUndefined( options.at ) )
+						next = existing.concat( views );
+					else
+						next = existing.splice.apply( existing, [ options.at, 0 ].concat( views ) );
+				} else {
+					this.unset( selector );
+					_.invoke( existing, 'dispose' );
+				}
 			}
 
-			this._views[ selector ] = add && existing ? existing.concat( views ) : views;
+			this._views[ selector ] = next;
 
 			$selector = selector ? this.view.$( selector ) : this.view.$el;
 			els = _.pluck( views, 'el' );
@@ -610,12 +618,12 @@
 				subviews.selector = selector;
 			}, this );
 
-			this[ method ]( $selector, els );
+			this[ method ]( $selector, els, options );
 			return this;
 		},
 
-		add: function( selector, views ) {
-			return this.set( selector, views, { add: true });
+		add: function( selector, views, options ) {
+			return this.set( selector, views, _.extend({ add: true }, options ) );
 		},
 
 		unset: function( selector, views ) {
@@ -661,8 +669,15 @@
 			return this;
 		},
 
-		attach: function( $target, els ) {
-			$target.append( els );
+		attach: function( $target, els, options ) {
+			var at = options && options.at,
+				$children;
+
+			if ( _.isNumber( at ) && ($children = $target.children()).length > at )
+				$children.eq( at ).before( els );
+			else
+				$target.append( els );
+
 			return this;
 		}
 	});
