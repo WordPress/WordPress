@@ -1361,12 +1361,6 @@ function wp_enqueue_media( $args = array() ) {
 		'embedFromUrlTitle' => __( 'Embed From URL' ),
 		'insertEmbed'       => __( 'Insert embed' ),
 
-		// Batch
-		'batchInsert'      => __( 'Batch insert' ),
-		'cancelBatchTitle' => __( '&#8592; Cancel Batch' ),
-		'editBatchTitle'   => __( 'Edit Batch' ),
-		'addToBatch'       => __( 'Add to batch' ),
-
 		// Gallery
 		'createGalleryTitle' => __( 'Create Gallery' ),
 		'editGalleryTitle'   => __( 'Edit Gallery' ),

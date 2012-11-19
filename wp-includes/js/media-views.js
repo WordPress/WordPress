@@ -1091,7 +1091,7 @@
 
 		createStates: function() {
 			var options = this.options,
-				main, gallery, batch;
+				main, gallery;
 
 			main = {
 				multiple: this.options.multiple,
@@ -1108,13 +1108,6 @@
 				menu:         'gallery',
 				toolbar:      'gallery-add',
 				excludeState: 'gallery-edit'
-			};
-
-			batch = {
-				multiple:     true,
-				menu:         'batch',
-				toolbar:      'batch-add',
-				excludeState: 'batch-edit'
 			};
 
 			// Add the default states.
@@ -1145,29 +1138,7 @@
 
 				new media.controller.Upload( _.defaults({
 					id: 'gallery-upload'
-				}, gallery ) ),
-
-				// Batch states.
-				new media.controller.Library({
-					id:         'batch-edit',
-					multiple:   false,
-					describe:   true,
-					edge:       199,
-					sortable:   true,
-					searchable: false,
-					menu:       'batch',
-					toolbar:    'batch-edit',
-					sidebar:    'attachment-settings'
-				}),
-
-				new media.controller.Library( _.defaults({
-					id:      'batch-library',
-					library: media.query({ type: 'image' })
-				}, batch ) ),
-
-				new media.controller.Upload( _.defaults({
-					id: 'batch-upload'
-				}, batch ) )
+				}, gallery ) )
 			]);
 		},
 
@@ -1176,7 +1147,6 @@
 
 			var handlers = {
 					menu: {
-						'batch':   'batchMenu',
 						'gallery': 'galleryMenu'
 					},
 
@@ -1192,8 +1162,6 @@
 					toolbar: {
 						'main-attachments': 'mainAttachmentsToolbar',
 						'main-embed':       'mainEmbedToolbar',
-						'batch-edit':       'batchEditToolbar',
-						'batch-add':        'batchAddToolbar',
 						'gallery-edit':     'galleryEditToolbar',
 						'gallery-add':      'galleryAddToolbar'
 					}
@@ -1222,43 +1190,6 @@
 					priority: 80
 				}
 			});
-		},
-
-		batchMenu: function() {
-			var previous = this.previous(),
-				frame = this;
-
-			this.menu.view( new media.view.Menu({
-				controller: this,
-				views: {
-					cancel: {
-						text:     l10n.cancelBatchTitle,
-						priority: 20,
-						click:    function() {
-							if ( previous )
-								frame.state( previous );
-							else
-								frame.close();
-						}
-					},
-					separateCancel: new media.View({
-						className: 'separator',
-						priority: 40
-					}),
-					'batch-edit': {
-						text: l10n.editBatchTitle,
-						priority: 60
-					},
-					'batch-upload': {
-						text: l10n.uploadFilesTitle,
-						priority: 80
-					},
-					'batch-library': {
-						text: l10n.mediaLibraryTitle,
-						priority: 100
-					}
-				}
-			}) );
 		},
 
 		galleryMenu: function() {
@@ -1395,54 +1326,6 @@
 			}) );
 
 			this.$el.removeClass('hide-toolbar');
-		},
-
-		batchEditToolbar: function() {
-			this.toolbar.view( new media.view.Toolbar({
-				controller: this,
-				items: {
-					insert: {
-						style:    'primary',
-						text:     l10n.insertIntoPost,
-						priority: 80,
-
-						click: function() {
-							var controller = this.controller,
-								state = controller.state();
-
-							controller.close();
-							state.trigger( 'insert', state.get('library') );
-
-							controller.reset();
-							// @todo: Make the state activated dynamic (instead of hardcoded).
-							controller.state('upload');
-						}
-					}
-				}
-			}) );
-		},
-
-		batchAddToolbar: function() {
-			this.toolbar.view( new media.view.Toolbar({
-				controller: this,
-				items: {
-					insert: {
-						style:    'primary',
-						text:     l10n.addToBatch,
-						priority: 80,
-
-						click: function() {
-							var controller = this.controller,
-								state = controller.state(),
-								edit = controller.get('batch-edit');
-
-							edit.get('library').add( state.get('selection').models );
-							state.trigger('reset');
-							controller.state('batch-edit');
-						}
-					}
-				}
-			}) );
 		},
 
 		galleryEditToolbar: function() {
