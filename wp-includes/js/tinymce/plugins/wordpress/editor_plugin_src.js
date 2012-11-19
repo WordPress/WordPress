@@ -6,7 +6,7 @@
 	var DOM = tinymce.DOM;
 
 	tinymce.create('tinymce.plugins.WordPress', {
-		mceTout : 0,
+		showButtons : 0,
 
 		init : function(ed, url) {
 			var t = this, tbId = ed.getParam('wordpress_adv_toolbar', 'toolbar2'), last = 0, moreHTML, nextpageHTML, closeOnClick, mod_key;
@@ -375,14 +375,11 @@
 				'display' : 'block'
 			});
 
-			if ( this.mceTout )
-				clearTimeout(this.mceTout);
-
-			this.mceTout = setTimeout( function(){ed.plugins.wordpress._hideButtons();}, 5000 );
+			this.showButtons = true;
 		},
 
 		_hideButtons : function() {
-			if ( !this.mceTout )
+			if ( ! this.showButtons )
 				return;
 
 			if ( document.getElementById('wp_editbtns') )
@@ -391,8 +388,7 @@
 			if ( document.getElementById('wp_gallerybtns') )
 				tinymce.DOM.hide('wp_gallerybtns');
 
-			clearTimeout(this.mceTout);
-			this.mceTout = 0;
+			this.showButtons = false;
 		},
 
 		// Resizes the iframe by a relative height value
