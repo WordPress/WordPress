@@ -193,11 +193,19 @@ class WP_Users_List_Table extends WP_List_Table {
 		if ( ! $this->is_site_users )
 			$post_counts = count_many_users_posts( array_keys( $this->items ) );
 
+		$editable_roles = array_keys( get_editable_roles() );
+
 		$style = '';
 		foreach ( $this->items as $userid => $user_object ) {
-			$role = reset( $user_object->roles );
+			if ( count( $user_object->roles ) <= 1 ) {
+				$role = reset( $user_object->roles );
+			} elseif ( $roles = array_intersect( array_values( $user_object->roles ), $editable_roles ) ) {
+				$role = reset( $roles );
+			} else {
+				$role = reset( $user_object->roles );
+			}
 
-			if ( is_multisite() && empty( $role ) )
+			if ( is_multisite() && empty( $role->allcaps ) )
 				continue;
 
 			$style = ( ' class="alternate"' == $style ) ? '' : ' class="alternate"';
