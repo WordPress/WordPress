@@ -356,7 +356,7 @@ var tb_position;
 				if ( ! selection || ! details )
 					return;
 
-				this.insert( selection.map( function( attachment ) {
+				selection.each( function( attachment ) {
 					var detail = details[ attachment.cid ];
 
 					if ( detail )
@@ -366,10 +366,10 @@ var tb_position;
 					delete details[ attachment.cid ];
 
 					if ( 'image' === attachment.get('type') )
-						return wp.media.string.image( attachment, detail ) + ' ';
+						this.insert( wp.media.string.image( attachment, detail ) + ' ' );
 					else
-						return wp.media.string.link( attachment, detail ) + ' ';
-				}).join('') );
+						this.insert( wp.media.string.link( attachment, detail ) + ' ' );
+				}, this );
 			}, this );
 
 			workflow.get('gallery-edit').on( 'update', function( selection ) {
