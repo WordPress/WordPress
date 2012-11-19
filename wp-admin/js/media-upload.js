@@ -435,10 +435,18 @@ var tb_position;
 
 		init: function() {
 			$('#wpbody').on('click', '.insert-media', function( event ) {
-				var editor = $(this).data('editor'),
+				var $this = $(this),
+					editor = $this.data('editor'),
 					workflow;
 
 				event.preventDefault();
+
+				// Remove focus from the `.insert-media` button.
+				// Prevents Opera from showing the outline of the button
+				// above the modal.
+				//
+				// See: http://core.trac.wordpress.org/ticket/22445
+				$this.blur();
 
 				if ( ! editor )
 					return;
