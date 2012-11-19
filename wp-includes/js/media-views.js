@@ -1354,6 +1354,7 @@
 					model:        display[ single.cid ],
 					sizes:        single.get('sizes'),
 					priority:     160,
+					type:         single.get('type'),
 					userSettings: state.get('displayUserSettings')
 				}).render()
 			}, options );

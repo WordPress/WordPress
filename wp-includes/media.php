@@ -1548,28 +1548,30 @@ function wp_print_media_templates( $attachment ) {
 	<script type="text/html" id="tmpl-attachment-display-settings">
 		<h3><?php _e('Attachment Display Settings'); ?></h3>
 
-		<label class="setting">
-			<span><?php _e('Alignment'); ?></span>
-			<select class="alignment"
-				data-setting="align"
-				<# if ( data.userSettings ) { #>
-					data-user-setting="align"
-				<# } #>>
+		<# if ( 'image' === data.type ) { #>
+			<label class="setting">
+				<span><?php _e('Alignment'); ?></span>
+				<select class="alignment"
+					data-setting="align"
+					<# if ( data.userSettings ) { #>
+						data-user-setting="align"
+					<# } #>>
 
-				<option value="left">
-					<?php esc_attr_e('Left'); ?>
-				</option>
-				<option value="center">
-					<?php esc_attr_e('Center'); ?>
-				</option>
-				<option value="right">
-					<?php esc_attr_e('Right'); ?>
-				</option>
-				<option value="none" selected>
-					<?php esc_attr_e('None'); ?>
-				</option>
-			</select>
-		</label>
+					<option value="left">
+						<?php esc_attr_e('Left'); ?>
+					</option>
+					<option value="center">
+						<?php esc_attr_e('Center'); ?>
+					</option>
+					<option value="right">
+						<?php esc_attr_e('Right'); ?>
+					</option>
+					<option value="none" selected>
+						<?php esc_attr_e('None'); ?>
+					</option>
+				</select>
+			</label>
+		<# } #>
 
 		<div class="setting">
 			<label>
