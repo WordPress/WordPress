@@ -2550,10 +2550,10 @@
 			});
 		},
 
-		destroy: function() {
-			this.remove();
+		dispose: function() {
 			this.toolbar.destroy();
 			this.attachments.destroy();
+			media.View.prototype.dispose.apply( this, arguments );
 		},
 
 		render: function() {
