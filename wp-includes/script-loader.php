@@ -357,14 +357,10 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'postbox', "/wp-admin/js/postbox$suffix.js", array('jquery-ui-sortable'), false, 1 );
 
-		$scripts->add( 'sample-permalink', "/wp-admin/js/sample-permalink$suffix.js", array(), false, 1 );
-		did_action( 'init' ) && $scripts->localize( 'sample-permalink', 'samplePermalinkL10n', array(
+		$scripts->add( 'post', "/wp-admin/js/post$suffix.js", array('suggest', 'wp-lists', 'postbox'), false, 1 );
+		did_action( 'init' ) && $scripts->localize( 'post', 'postL10n', array(
 			'ok' => __('OK'),
 			'cancel' => __('Cancel'),
-		) );
-
-		$scripts->add( 'post', "/wp-admin/js/post$suffix.js", array('suggest', 'wp-lists', 'postbox', 'sample-permalink' ), false, 1 );
-		did_action( 'init' ) && $scripts->localize( 'post', 'postL10n', array(
 			'publishOn' => __('Publish on:'),
 			'publishOnFuture' =>  __('Schedule for:'),
 			'publishOnPast' => __('Published on:'),
