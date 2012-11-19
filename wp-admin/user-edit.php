@@ -249,10 +249,10 @@ if ( !( IS_PROFILE_PAGE && !$user_can_edit ) ) : ?>
 <tr><th><label for="role"><?php _e('Role') ?></label></th>
 <td><select name="role" id="role">
 <?php
-// Get the highest/primary role for this user
+// Compare user role against currently editable roles
 // TODO: create a function that does this: wp_get_user_role()
-$user_roles = $profileuser->roles;
-$user_role = array_shift($user_roles);
+$user_roles = array_intersect( array_values( $profileuser->roles ), array_keys( get_editable_roles() ) );
+$user_role  = array_shift( $user_roles );
 
 // print the full list of roles with the primary one selected.
 wp_dropdown_roles($user_role);
