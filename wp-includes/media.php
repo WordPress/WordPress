@@ -1328,13 +1328,13 @@ function wp_enqueue_media( $args = array() ) {
 		), admin_url('media-upload.php') ),
 	);
 
-	if ( isset( $args['post'] ) )
-		$settings['postId'] = get_post( $args['post'] )->ID;
+	$post = null;
+	if ( isset( $args['post'] ) ) {
+		$post = get_post( $args['post'] );
+		$settings['postId'] = $post->ID;
+	}
 
-	wp_localize_script( 'media-views', '_wpMediaViewsL10n', array(
-		// Settings
-		'settings' => $settings,
-
+	$strings = array(
 		// Generic
 		'url'         => __( 'URL' ),
 		'insertMedia' => __( 'Insert Media' ),
@@ -1369,7 +1369,14 @@ function wp_enqueue_media( $args = array() ) {
 		'updateGallery'      => __( 'Update gallery' ),
 		'continueEditing'    => __( 'Continue editing' ),
 		'addToGallery'       => __( 'Add to gallery' ),
-	) );
+	);
+
+	$settings = apply_filters( 'media_view_settings', $settings, $post );
+	$strings  = apply_filters( 'media_view_strings',  $strings,  $post );
+
+	$strings['settings'] = $settings;
+
+	wp_localize_script( 'media-views', '_wpMediaViewsL10n', $strings );
 
 	wp_enqueue_script( 'media-upload' );
 	wp_enqueue_style( 'media-views' );
