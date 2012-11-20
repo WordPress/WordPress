@@ -1278,18 +1278,8 @@ function find_posts_div($found_action = '') {
 				<?php wp_nonce_field( 'find-posts', '_ajax_nonce', false ); ?>
 				<label class="screen-reader-text" for="find-posts-input"><?php _e( 'Search' ); ?></label>
 				<input type="text" id="find-posts-input" name="ps" value="" />
-				<input type="button" id="find-posts-search" value="<?php esc_attr_e( 'Search' ); ?>" class="button" /><br />
-
-				<?php
-				$post_types = get_post_types( array('public' => true), 'objects' );
-				foreach ( $post_types as $post ) {
-					if ( 'attachment' == $post->name )
-						continue;
-				?>
-				<input type="radio" name="find-posts-what" id="find-posts-<?php echo esc_attr($post->name); ?>" value="<?php echo esc_attr($post->name); ?>" <?php checked($post->name, 'post'); ?> />
-				<label for="find-posts-<?php echo esc_attr($post->name); ?>"><?php echo $post->label; ?></label>
-				<?php
-				} ?>
+				<span class="spinner"></span>
+				<input type="button" id="find-posts-search" value="<?php esc_attr_e( 'Search' ); ?>" class="button" />
 			</div>
 			<div id="find-posts-response"></div>
 		</div>

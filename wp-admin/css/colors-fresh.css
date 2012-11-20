@@ -20,13 +20,18 @@ TABLE OF CONTENTS:
   1.0 - Left to Right Styles
 ------------------------------------------------------------------------------*/
 
-.find-box-search {
-	border-color: #dfdfdf;
-	background-color: #f1f1f1;
+.find-box-search,
+.find-box-buttons {
+	background-color: #f7f7f7;
+	border-top: 1px solid #ddd;
 }
 
 .find-box {
-	background-color: #f1f1f1;
+	background-color: #444;
+}
+
+.find-box-head {
+	color: #eee;
 }
 
 .find-box-inside {
@@ -170,7 +175,6 @@ textarea.disabled {
 h3.dashboard-widget-title,
 h3.dashboard-widget-title span,
 h3.dashboard-widget-title small,
-.find-box-head,
 .sidebar-name,
 #nav-menu-header,
 #nav-menu-footer,
@@ -477,8 +481,7 @@ a.page-numbers {
 .widefat tfoot tr th,
 h3.dashboard-widget-title,
 h3.dashboard-widget-title span,
-h3.dashboard-widget-title small,
-.find-box-head {
+h3.dashboard-widget-title small {
 	color: #333;
 }
 

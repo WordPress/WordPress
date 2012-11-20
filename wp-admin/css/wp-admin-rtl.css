@@ -1083,6 +1083,21 @@ span.description,
   14.1 - Media Uploader
 ------------------------------------------------------------------------------*/
 
+#find-posts-input {
+	float: right;
+}
+
+#find-posts-search {
+	float: right;
+	margin-right: 3px;
+	margin-left: 4px;
+}
+
+.find-box-search .spinner {
+	left: auto;
+	right: 115px;
+}
+
 #find-posts-response .found-radio {
 	padding: 5px 8px 0 0;
 }

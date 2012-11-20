@@ -3963,10 +3963,10 @@ abbr.required {
 ------------------------------------------------------------------------------*/
 
 .find-box {
-	width: 500px;
+	width: 600px;
 	height: 300px;
 	overflow: hidden;
-	padding: 33px 5px 40px;
+	padding: 33px 0 51px;
 	position: absolute;
 	z-index: 1000;
 }
@@ -3984,19 +3984,37 @@ abbr.required {
 
 .find-box-inside {
 	overflow: auto;
-	width: 100%;
+	padding: 6px;
 	height: 100%;
 }
 
 .find-box-search {
-	padding: 12px;
-	border-width: 1px;
-	border-style: none none solid;
+	overflow: hidden;
+	padding: 9px;
+	position: relative;
+}
+
+.find-box-search .spinner {
+	float: none;
+	left: 125px;
+	position: absolute;
+	top: 9px;
+}
+
+#find-posts-input {
+	float: left;
+	width: 140px;
+	height: 24px;
+}
+
+#find-posts-search {
+	float: left;
+	margin: 1px 4px 0 3px;
 }
 
 #find-posts-response {
 	margin: 8px 0;
-	padding: 0 1px;
+	padding: 0 1px 6px;
 }
 
 #find-posts-response table {
@@ -4004,23 +4022,28 @@ abbr.required {
 }
 
 #find-posts-response .found-radio {
-	padding: 5px 0 0 8px;
+	padding: 3px 0 0 8px;
 	width: 15px;
 }
 
 .find-box-buttons {
-	width: 480px;
-	margin: 8px;
-}
-
-.find-box-search label {
-	padding-right: 6px;
+	padding: 8px;
+	overflow: hidden;
 }
 
 .find-box #resize-se {
 	position: absolute;
 	right: 1px;
 	bottom: 1px;
+}
+
+.ui-find-overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: #000;
+	opacity: 0.6;
+	filter: alpha(opacity=60);
 }
 
 ul#dismissed-updates {

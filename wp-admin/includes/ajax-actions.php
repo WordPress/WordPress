@@ -1421,37 +1421,27 @@ function wp_ajax_find_posts() {
 
 	check_ajax_referer( 'find-posts' );
 
-	if ( empty($_POST['ps']) )
-		wp_die();
+	$post_types = get_post_types( array( 'public' => true ), 'objects' );
+	unset( $post_types['attachment'] );
 
-	if ( !empty($_POST['post_type']) && in_array( $_POST['post_type'], get_post_types() ) )
-		$what = $_POST['post_type'];
-	else
-		$what = 'post';
-
-	$s = stripslashes($_POST['ps']);
-	preg_match_all('/".*?("|$)|((?<=[\\s",+])|^)[^\\s",+]+/', $s, $matches);
-	$search_terms = array_map('_search_terms_tidy', $matches[0]);
-
+	$s = stripslashes( $_POST['ps'] );
 	$searchand = $search = '';
-	foreach ( (array) $search_terms as $term ) {
-		$term = esc_sql( like_escape( $term ) );
-		$search .= "{$searchand}(($wpdb->posts.post_title LIKE '%{$term}%') OR ($wpdb->posts.post_content LIKE '%{$term}%'))";
-		$searchand = ' AND ';
-	}
-	$term = esc_sql( like_escape( $s ) );
-	if ( count($search_terms) > 1 && $search_terms[0] != $s )
-		$search .= " OR ($wpdb->posts.post_title LIKE '%{$term}%') OR ($wpdb->posts.post_content LIKE '%{$term}%')";
+	$args = array(
+		'post_type' => array_keys( $post_types ),
+		'post_status' => 'any',
+		'posts_per_page' => 50,
+	);
+	if ( '' !== $s )
+		$args['s'] = $s;
 
-	$posts = $wpdb->get_results( "SELECT ID, post_title, post_status, post_date FROM $wpdb->posts WHERE post_type = '$what' AND post_status IN ('draft', 'publish') AND ($search) ORDER BY post_date_gmt DESC LIMIT 50" );
+	$posts = get_posts( $args );
 
-	if ( ! $posts ) {
-		$posttype = get_post_type_object($what);
-		wp_die( $posttype->labels->not_found );
-	}
+	if ( ! $posts )
+		wp_die( __('No items found.') );
 
-	$html = '<table class="widefat" cellspacing="0"><thead><tr><th class="found-radio"><br /></th><th>'.__('Title').'</th><th>'.__('Date').'</th><th>'.__('Status').'</th></tr></thead><tbody>';
+	$html = '<table class="widefat" cellspacing="0"><thead><tr><th class="found-radio"><br /></th><th>'.__('Title').'</th><th class="no-break">'.__('Type').'</th><th class="no-break">'.__('Date').'</th><th class="no-break">'.__('Status').'</th></tr></thead><tbody>';
 	foreach ( $posts as $post ) {
+		$title = trim( $post->post_title ) ? $post->post_title : __( '(no title)' );
 
 		switch ( $post->post_status ) {
 			case 'publish' :
@@ -1477,17 +1467,16 @@ function wp_ajax_find_posts() {
 		}
 
 		$html .= '<tr class="found-posts"><td class="found-radio"><input type="radio" id="found-'.$post->ID.'" name="found_post_id" value="' . esc_attr($post->ID) . '"></td>';
-		$html .= '<td><label for="found-'.$post->ID.'">'.esc_html( $post->post_title ).'</label></td><td>'.esc_html( $time ).'</td><td>'.esc_html( $stat ).'</td></tr>'."\n\n";
+		$html .= '<td><label for="found-'.$post->ID.'">' . esc_html( $title ) . '</label></td><td class="no-break">' . esc_html( $post_types[$post->post_type]->labels->singular_name ) . '</td><td class="no-break">'.esc_html( $time ) . '</td><td class="no-break">' . esc_html( $stat ). ' </td></tr>' . "\n\n";
 	}
+
 	$html .= '</tbody></table>';
 
 	$x = new WP_Ajax_Response();
 	$x->add( array(
-		'what' => $what,
 		'data' => $html
 	));
 	$x->send();
-
 }
 
 function wp_ajax_widgets_order() {
