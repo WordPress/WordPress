@@ -169,7 +169,9 @@ case 'edit':
 		add_action('admin_notices', '_admin_notice_post_locked' );
 	} else {
 		$active_post_lock = wp_set_post_lock( $post->ID );
-		wp_enqueue_script('autosave');
+
+		if ( 'attachment' !== $post_type )
+			wp_enqueue_script('autosave');
 	}
 
 	$title = $post_type_object->labels->edit_item;

@@ -418,3 +418,21 @@ if ( post_type_supports( $post_type, 'comments' ) )
 try{document.post.title.focus();}catch(e){}
 </script>
 <?php endif; ?>
+
+<?php if ( 'attachment' == $post_type ) { ?>
+<script type="text/javascript">
+(function($){
+	function getFieldsContent() {
+		return ($('#title').val() || '') + ($('#attachment_caption').val() || '') +
+		($('#attachment_alt').val() || '') + ($('#attachment_content').val() || '') + ($('#post_name').val() || '');
+	}
+
+	var initial = getFieldsContent();
+
+	window.onbeforeunload = function() {
+		if ( initial != getFieldsContent() )
+			return '<?php _e('The changes you made will be lost if you navigate away from this page.'); ?>';
+	};
+})(jQuery);
+</script>
+<?php } ?>
