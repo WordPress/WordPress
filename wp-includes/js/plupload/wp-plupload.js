@@ -194,11 +194,11 @@ window.wp = window.wp || {};
 			else if ( ! response.success )
 				return error( response.data.message, response.data, file );
 
-			_.each(['file','loaded','size','uploading','percent'], function( key ) {
+			_.each(['file','loaded','size','percent'], function( key ) {
 				file.attachment.unset( key );
 			});
 
-			file.attachment.set( response.data );
+			file.attachment.set( _.extend( response.data, { uploading: false }) );
 			wp.media.model.Attachment.get( response.data.id, file.attachment );
 
 			complete = Uploader.queue.all( function( attachment ) {
