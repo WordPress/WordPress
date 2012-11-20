@@ -255,7 +255,8 @@
 			describe:   false,
 			toolbar:    'main-attachments',
 			sidebar:    'settings',
-			searchable: true
+			searchable: true,
+			filterable: false
 		},
 
 		initialize: function() {
@@ -334,7 +335,6 @@
 		content: function() {
 			var frame = this.frame;
 
-			// Content.
 			if ( this.get('empty') ) {
 				// Attempt to fetch any Attachments we don't already have.
 				this.get('library').more();
@@ -354,7 +354,13 @@
 		},
 
 		_updateEmpty: function() {
-			var library = this.get('library');
+			var library = this.get('library'),
+				props = library.props;
+
+			// If we're filtering the library, bail.
+			if ( this.get('filterable') && ( props.get('type') || props.get('parent') ) )
+				return;
+
 			this.set( 'empty', ! library.length && ! library.props.get('search') );
 		},
 
@@ -1213,6 +1219,7 @@
 				sortable:   state.get('sortable'),
 				search:     state.get('searchable'),
 				upload:     state.get('upload'),
+				filters:    state.get('filterable'),
 
 				AttachmentView: state.get('AttachmentView')
 			}) );
@@ -1340,9 +1347,10 @@
 			this.states.add([
 				// Main states.
 				new media.controller.Library( _.defaults({
-					selection: options.selection,
-					library:   media.query( options.library ),
-					editable:  true
+					selection:  options.selection,
+					library:    media.query( options.library ),
+					editable:   true,
+					filterable: true
 				}, main ) ),
 
 				new media.controller.Upload( main ),
@@ -2719,6 +2727,70 @@
 		}
 	});
 
+	/**
+	 * wp.media.view.AttachmentFilters
+	 */
+	media.view.AttachmentFilters = media.View.extend({
+		tagName:   'select',
+		className: 'attachment-filters',
+
+		events: {
+			change: 'change'
+		},
+
+		initialize: function() {
+			var els;
+
+			els = _.map({
+				all:      'allMediaItems',
+				uploaded: 'uploadedToThisPost',
+				image:    'images',
+				audio:    'audio',
+				video:    'videos'
+			}, function( text, value ) {
+				return this.make( 'option', { value: value }, l10n[ text ] );
+			}, this );
+
+			this.$el.html( els );
+
+			this.model.on( 'change', this.select, this );
+			this.select();
+		},
+
+		change: function( event ) {
+			var model = this.model,
+				value = this.el.value,
+				type;
+
+			if ( 'all' === value || 'uploaded' === value )
+				model.unset('type');
+			else if ( 'image' === value || 'audio' === value || 'video' === value )
+				model.set( 'type', value );
+
+			if ( 'uploaded' === value )
+				model.set( 'parent', media.view.settings.postId );
+			else
+				model.unset('parent');
+		},
+
+		select: function() {
+			var model = this.model,
+				type = model.get('type'),
+				value = 'all';
+
+			if ( model.get('parent') === media.view.settings.postId )
+				value = 'uploaded';
+			else if ( 'image' === type )
+				value = 'image';
+			else if ( 'audio' === type )
+				value = 'audio';
+			else if ( 'video' === type )
+				value = 'video';
+
+			this.$el.val( value );
+		}
+	});
+
 
 
 	/**
@@ -2732,9 +2804,9 @@
 			this.controller = this.options.controller;
 
 			_.defaults( this.options, {
-				search: true,
-				upload: false,
-				total:  true,
+				filters: false,
+				search:  true,
+				upload:  false,
 
 				AttachmentView: media.view.Attachment.Library
 			});
@@ -2743,11 +2815,19 @@
 				controller: this.controller
 			});
 
+			if ( this.options.filters ) {
+				this.toolbar.set( 'filters', new media.view.AttachmentFilters({
+					controller: this.controller,
+					model:      this.collection.props,
+					priority:   -80
+				}).render() );
+			}
+
 			if ( this.options.search ) {
 				this.toolbar.set( 'search', new media.view.Search({
 					controller: this.controller,
 					model:      this.collection.props,
-					priority:   -60
+					priority:   60
 				}).render() );
 			}
 

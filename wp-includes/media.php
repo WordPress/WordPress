@@ -1357,6 +1357,12 @@ function wp_enqueue_media( $args = array() ) {
 		'insertIntoPost'    => __( 'Insert into post' ),
 		'returnToLibrary'   => __( '&#8592; Return to library' ),
 
+		'allMediaItems'      => __( 'All media items' ),
+		'uploadedToThisPost' => __( 'Uploaded to this post' ),
+		'images'             => __( 'Images' ),
+		'audio'              => __( 'Audio' ),
+		'videos'             => __( 'Videos' ),
+
 		// Embed
 		'embedFromUrlTitle' => __( 'Embed From URL' ),
 		'insertEmbed'       => __( 'Insert embed' ),

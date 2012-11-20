@@ -389,6 +389,14 @@
 }
 
 /**
+ * Attachment Browser Filters
+ */
+.media-frame select.attachment-filters {
+	margin-top: 11px;
+	margin-right: 10px;
+}
+
+/**
  * Search
  */
 .media-frame .search {
