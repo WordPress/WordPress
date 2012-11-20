@@ -208,4 +208,21 @@
 		background: url('../images/arrow-pointer-blue-2x.png') 0 0 no-repeat;
 		background-size: 30px 60px;
 	}
+
+	.wp-pointer-top .wp-pointer-arrow,
+	.wp-pointer-undefined .wp-pointer-arrow {
+		background-position: 0 1px;
+	}
+
+	.wp-pointer-bottom .wp-pointer-arrow {
+		background-position: 0 -47px;
+	}
+
+	.wp-pointer-left .wp-pointer-arrow {
+		background-position: 1px -15px;
+	}
+
+	.wp-pointer-right .wp-pointer-arrow {
+		background-position:-17px -15px;
+	}
 }
