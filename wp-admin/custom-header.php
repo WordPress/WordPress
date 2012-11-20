@@ -215,12 +215,6 @@ class Custom_Image_Header {
 			return;
 		}
 
-		if ( isset( $_POST['resettext'] ) ) {
-			check_admin_referer( 'custom-header-options', '_wpnonce-custom-header-options' );
-			remove_theme_mod('header_textcolor');
-			return;
-		}
-
 		if ( isset( $_POST['removeheader'] ) ) {
 			check_admin_referer( 'custom-header-options', '_wpnonce-custom-header-options' );
 			$this->remove_header_image();
@@ -628,24 +622,17 @@ class Custom_Image_Header {
 <?php
 $header_textcolor = display_header_text() ? get_header_textcolor() : get_theme_support( 'custom-header', 'default-text-color' );
 $default_color = '';
-if ( current_theme_supports( 'custom-header', 'default-text-color' ) )
-	$default_color = ' data-default-color="#' . esc_attr( get_theme_support( 'custom-header', 'default-text-color' ) ) . '"';
+if ( current_theme_supports( 'custom-header', 'default-text-color' ) ) {
+	$default_color = '#' . get_theme_support( 'custom-header', 'default-text-color' );
+	$default_color_attr = ' data-default-color="' . esc_attr( $default_color ) . '"';
+	echo '<input type="text" name="text-color" id="text-color" value="#' . esc_attr( $header_textcolor ) . '"' . $default_color_attr . ' />';
+	if ( $default_color )
+		echo ' <span class="description hide-if-js">' . sprintf( _x( 'Default: %s', 'color' ), $default_color ) . '</span>';
+}
 ?>
-		<input type="text" name="text-color" id="text-color" value="#<?php echo esc_attr( $header_textcolor ); ?>"<?php echo $default_color; ?> />
 	</p>
 </td>
 </tr>
-
-	<?php if ( current_theme_supports( 'custom-header', 'default-text-color' ) && get_theme_mod( 'header_textcolor' ) ) { ?>
-<tr valign="top">
-<th scope="row"><?php _e('Reset Text Color'); ?></th>
-<td>
-	<p><?php _e( 'This will restore the original header text. You will not be able to restore any customizations.' ) ?></p>
-	<?php submit_button( __( 'Restore Original Header Text' ), 'button', 'resettext', false ); ?>
-</td>
-</tr>
-	<?php } ?>
-
 </tbody>
 </table>
 <?php endif;
