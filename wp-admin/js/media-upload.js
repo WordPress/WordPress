@@ -214,7 +214,6 @@ var tb_position;
 		return {
 			defaults: {
 				order:      'ASC',
-				orderby:    'post__in',
 				id:         wp.media.view.settings.postId,
 				itemtag:    'dl',
 				icontag:    'dt',
@@ -279,6 +278,12 @@ var tb_position;
 				// is the default value, clear it for cleaner output.
 				if ( attrs.ids && 'post__in' === attrs.orderby )
 					delete attrs.orderby;
+
+				// Remove default attributes from the shortcode.
+				_.each( wp.media.gallery.defaults, function( value, key ) {
+					if ( value === attrs[ key ] )
+						delete attrs[ key ];
+				});
 
 				shortcode = new wp.shortcode({
 					tag:    'gallery',
