@@ -199,6 +199,11 @@ TABLE OF CONTENTS:
 	overflow: hidden;
 }
 
+.screen-reader-shortcut {
+	position: absolute;
+	top: -1000em;
+}
+
 .screen-reader-shortcut:focus {
 	left: 6px;
 	top: -21px;

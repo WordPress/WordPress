@@ -110,7 +110,7 @@ if ( wp_script_is( 'customize-loader', 'queue' ) && current_user_can( 'edit_them
 ?>
 
 <div id="wpwrap">
-<a tabindex="1" href="#wpbody-content" class="screen-reader-text screen-reader-shortcut"><?php _e('Skip to main content'); ?></a>
+<a tabindex="1" href="#wpbody-content" class="screen-reader-shortcut"><?php _e('Skip to main content'); ?></a>
 <?php require(ABSPATH . 'wp-admin/menu-header.php'); ?>
 <div id="wpcontent">
 

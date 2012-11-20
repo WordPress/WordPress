@@ -625,6 +625,11 @@
 	overflow: hidden;
 }
 
+#wpadminbar .screen-reader-shortcut {
+	position: absolute;
+	top: -1000em;
+}
+
 #wpadminbar .screen-reader-shortcut:focus {
 	left: 6px;
 	top: 7px;
