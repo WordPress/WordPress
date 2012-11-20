@@ -109,8 +109,8 @@ final class _WP_Editors {
 				$switch_class = 'tmce-active';
 			}
 
-			$buttons .= '<a id="' . $editor_id . '-html" class="hide-if-no-js wp-switch-editor switch-html" onclick="switchEditors.switchto(this);">' . __('Text') . "</a>\n";
-			$buttons .= '<a id="' . $editor_id . '-tmce" class="hide-if-no-js wp-switch-editor switch-tmce" onclick="switchEditors.switchto(this);">' . __('Visual') . "</a>\n";
+			$buttons .= '<a id="' . $editor_id . '-html" class="wp-switch-editor switch-html" onclick="switchEditors.switchto(this);">' . __('Text') . "</a>\n";
+			$buttons .= '<a id="' . $editor_id . '-tmce" class="wp-switch-editor switch-tmce" onclick="switchEditors.switchto(this);">' . __('Visual') . "</a>\n";
 		}
 
 		echo '<div id="wp-' . $editor_id . '-wrap" class="wp-editor-wrap ' . $switch_class . '">';
@@ -124,7 +124,7 @@ final class _WP_Editors {
 			echo $set['editor_css'] . "\n";
 
 		if ( !empty($buttons) || $set['media_buttons'] ) {
-			echo '<div id="wp-' . $editor_id . '-editor-tools" class="wp-editor-tools">';
+			echo '<div id="wp-' . $editor_id . '-editor-tools" class="wp-editor-tools hide-if-no-js">';
 			echo $buttons;
 
 			if ( $set['media_buttons'] ) {
@@ -133,7 +133,7 @@ final class _WP_Editors {
 				if ( !function_exists('media_buttons') )
 					include(ABSPATH . 'wp-admin/includes/media.php');
 
-				echo '<div id="wp-' . $editor_id . '-media-buttons" class="hide-if-no-js wp-media-buttons">';
+				echo '<div id="wp-' . $editor_id . '-media-buttons" class="wp-media-buttons">';
 				do_action('media_buttons', $editor_id);
 				echo "</div>\n";
 			}

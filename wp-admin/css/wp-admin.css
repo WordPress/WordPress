@@ -627,6 +627,11 @@ select,
 	padding: 10px 0 0;
 }
 
+.no-js .widefat thead .check-column input,
+.no-js .widefat tfoot .check-column input {
+	display: none;
+}
+
 .widefat .num,
 .column-comments,
 .column-links,
@@ -2308,7 +2313,7 @@ html.wp-toolbar {
 	float: left;
 }
 
-.ie8 .welcome-panel .welcome-panel-column { 
+.ie8 .welcome-panel .welcome-panel-column {
 	min-width: 230px;
 }
 
@@ -3392,6 +3397,9 @@ td.plugin-title p {
 	text-decoration: none;
 }
 
+.no-js #postcustomstuff #enternew {
+	display: none;
+}
 
 /*------------------------------------------------------------------------------
   11.2 - Post Revisions
@@ -3444,8 +3452,12 @@ table.diff .diff-deletedline del, table.diff .diff-addedline ins {
 	margin-top: 10px;
 }
 
-#select-featured-image.has-featured-image .remove {
+.js #select-featured-image.has-featured-image .remove {
 	display: inline-block;
+}
+
+.no-js #select-featured-image .choose {
+	display: none;
 }
 
 /*------------------------------------------------------------------------------
@@ -4157,6 +4169,10 @@ td.imgedit-settings input {
 .wp_attachment_image .button,
 .A1B1 .button {
 	float: left;
+}
+
+.no-js .wp_attachment_image .button {
+	display: none;
 }
 
 .wp_attachment_image .spinner,
@@ -6052,9 +6068,13 @@ h3:hover .edit-box {
 
 #dashboard-widgets h3 .postbox-title-action {
 	position: absolute;
-	right: 30px;
+	right: 10px;
 	padding: 0;
 	top: 5px;
+}
+
+.js #dashboard-widgets h3 .postbox-title-action {
+	right: 30px;
 }
 
 #dashboard-widgets h4 {
@@ -6240,6 +6260,10 @@ h3:hover .edit-box {
 }
 
 /* QuickPress */
+.no-js #dashboard_quick_press {
+	display: none;
+}
+
 #dashboard_quick_press .easy-blogging {
 	padding: 0 8px;
 	text-align: left;

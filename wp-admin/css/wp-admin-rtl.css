@@ -1910,6 +1910,11 @@ a.rsswidget,
 
 #dashboard-widgets h3 .postbox-title-action {
 	right: auto;
+	left: 10px;
+}
+
+.js #dashboard-widgets h3 .postbox-title-action {
+	right: auto;
 	left: 30px;
 }
 

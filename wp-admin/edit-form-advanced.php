@@ -322,7 +322,7 @@ if ( !empty($shortlink) )
     $sample_permalink_html .= '<input id="shortlink" type="hidden" value="' . esc_attr($shortlink) . '" /><a href="#" class="button button-small" onclick="prompt(&#39;URL:&#39;, jQuery(\'#shortlink\').val()); return false;">' . __('Get Shortlink') . '</a>';
 
 if ( $post_type_object->public && ! ( 'pending' == get_post_status( $post ) && !current_user_can( $post_type_object->cap->publish_posts ) ) ) { ?>
-	<div id="edit-slug-box">
+	<div id="edit-slug-box" class="hide-if-no-js">
 	<?php
 		if ( $sample_permalink_html && 'auto-draft' != get_post_status( $post ) )
 			echo $sample_permalink_html;
