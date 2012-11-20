@@ -298,7 +298,7 @@ var tb_position;
 
 			edit: function( content ) {
 				var shortcode = wp.shortcode.next( 'gallery', content ),
-					defaultPostId = wp.media.gallery.defaults.postId,
+					defaultPostId = wp.media.gallery.defaults.id,
 					attachments, selection;
 
 				// Bail if we didn't match the shortcode or all of the content.
