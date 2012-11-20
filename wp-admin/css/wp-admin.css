@@ -5533,6 +5533,12 @@ body.full-overlay-active {
 	margin: 0;
 }
 
+.wp-full-overlay-sidebar .wp-full-overlay-header { 
+	border-top: 0;  
+	border-bottom: 1px solid #fff;  
+	box-shadow: inset 0 -1px 0 0px #dfdfdf;  
+}
+
 .wp-full-overlay-sidebar .wp-full-overlay-footer {
 	bottom: 0;
 	border-bottom: 0;
