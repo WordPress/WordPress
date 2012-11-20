@@ -1062,9 +1062,6 @@ function get_the_terms( $post, $taxonomy ) {
 	if ( ! $post = get_post( $post ) )
 		return false;
 
-	if ( ! is_object_in_taxonomy( $post->post_type, $taxonomy ) )
-		return false;
-
 	$terms = get_object_term_cache( $post->ID, $taxonomy );
 	if ( false === $terms ) {
 		$terms = wp_get_object_terms( $post->ID, $taxonomy );

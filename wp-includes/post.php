@@ -615,16 +615,20 @@ final class WP_Post {
 		}
 
 		if ( 'post_category' == $key ) {
-			$terms = get_the_terms( $this, 'category' );
-			if ( ! $terms )
+			if ( is_object_in_taxonomy( $this->post_type, 'category' ) )
+				$terms = get_the_terms( $this, 'category' );
+
+			if ( empty( $terms ) )
 				return array();
 
 			return wp_list_pluck( $terms, 'term_id' );
 		}
 
 		if ( 'tags_input' == $key ) {
-			$terms = get_the_terms( $this, 'post_tag' );
-			if ( ! $terms )
+			if ( is_object_in_taxonomy( $this->post_type, 'post_tag' ) )
+				$terms = get_the_terms( $this, 'post_tag' );
+
+			if ( empty( $terms ) )
 				return array();
 
 			return wp_list_pluck( $terms, 'name' );
