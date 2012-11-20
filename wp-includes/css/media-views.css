@@ -232,7 +232,7 @@
 .media-sidebar .setting textarea,
 .compat-item .field textarea {
 	height: 62px;
-	resize: none;
+	resize: vertical;
 }
 
 .media-sidebar select {
@@ -586,7 +586,6 @@
 	margin: -1px 0 0;
 	padding: 8px;
 	font-size: 12px;
-	resize: none;
 	border-radius: 0;
 }
 
