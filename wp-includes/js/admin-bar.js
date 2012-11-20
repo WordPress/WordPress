@@ -69,6 +69,9 @@ if ( typeof(jQuery) != 'undefined' ) {
 			interval: 100
 		});
 
+		if ( window.location.hash )
+			window.scrollBy( 0, -32 );
+
 		$('#wp-admin-bar-get-shortlink').click(function(e){
 			e.preventDefault();
 			$(this).addClass('selected').children('.shortlink-input').blur(function(){
