@@ -1531,9 +1531,8 @@
 				display: new media.view.Settings.AttachmentDisplay({
 					controller:   this,
 					model:        display[ single.cid ],
-					sizes:        single.get('sizes'),
+					attachment:   single,
 					priority:     160,
-					type:         single.get('type'),
 					userSettings: state.get('displayUserSettings')
 				}).render()
 			}, options );
@@ -3032,14 +3031,36 @@
 		template:  media.template('attachment-display-settings'),
 
 		initialize: function() {
+			var attachment = this.options.attachment;
+
 			_.defaults( this.options, {
 				userSettings: false
 			});
+
 			media.view.Settings.prototype.initialize.apply( this, arguments );
 			this.model.on( 'change:link', this.updateCustomLink, this );
+
+			if ( attachment )
+				attachment.on( 'change:uploading', this.render, this );
+		},
+
+		dispose: function() {
+			var attachment = this.options.attachment;
+			if ( attachment )
+				attachment.off( null, null, this );
+
+			media.view.Settings.prototype.dispose.apply( this, arguments );
 		},
 
 		render: function() {
+			var attachment = this.options.attachment;
+			if ( attachment ) {
+				_.extend( this.options, {
+					sizes: attachment.get('sizes'),
+					type:  attachment.get('type')
+				});
+			}
+
 			media.view.Settings.prototype.render.call( this );
 			this.updateCustomLink();
 			return this;
