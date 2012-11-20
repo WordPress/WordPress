@@ -210,6 +210,10 @@
 	margin-right: 4%;
 }
 
+.media-sidebar .setting select {
+	max-width: 65%;
+}
+
 .media-sidebar .setting span,
 .compat-item label span {
 	float: left;
@@ -1044,8 +1048,9 @@
  * Attachment Display Settings
  */
 .attachment-display-settings {
-	overflow: hidden;
+	width: 100%;
 	float: left;
+	overflow: hidden;
 }
 
 .attachment-display-settings h4 {
