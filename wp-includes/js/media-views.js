@@ -632,7 +632,7 @@
 		// > When adding, to insert `views` at a specific index, use
 		// `options.at`. By default, `views` are added to the end of the array.
 		set: function( selector, views, options ) {
-			var $selector, els, existing, method;
+			var existing, next;
 
 			if ( ! _.isString( selector ) ) {
 				options  = views;
@@ -644,7 +644,6 @@
 			views    = _.isArray( views ) ? views : [ views ];
 			existing = this.get( selector );
 			next     = views;
-			method   = options.add ? 'insert' : 'replace';
 
 			if ( existing ) {
 				if ( options.add ) {
@@ -672,9 +671,6 @@
 
 			this._views[ selector ] = next;
 
-			$selector = selector ? this.view.$( selector ) : this.view.$el;
-			els = _.pluck( views, 'el' );
-
 			_.each( views, function( subview ) {
 				var constructor = subview.Views || media.Views,
 					subviews = subview.views = subview.views || new constructor( subview );
@@ -682,10 +678,8 @@
 				subviews.selector = selector;
 			}, this );
 
-			if ( ! options.silent ) {
-				_.each( views, this._maybeRender, this );
-				this[ method ]( $selector, els, options );
-			}
+			if ( ! options.silent )
+				this._attach( selector, views, _.extend({ ready: this._isReady() }, options ) );
 
 			return this;
 		},
@@ -755,16 +749,12 @@
 		//
 		// Renders all subviews. Used in conjunction with `Views.detach()`.
 		render: function() {
-			var root = this._views[''];
-
-			_.each( this.all(), this._maybeRender, this );
-
-			if ( root )
-				this.replace( this.view.$el, _.pluck( root, 'el' ) );
+			var options = {
+					ready: this._isReady()
+				};
 
 			_.each( this._views, function( views, selector ) {
-				if ( selector )
-					this.replace( this.view.$( selector ), _.pluck( views, 'el' ) );
+				this._attach( selector, views, options );
 			}, this );
 
 			this.rendered = true;
@@ -820,14 +810,71 @@
 			return this;
 		},
 
+		// ### Trigger the ready event
+		//
+		// **Only use this method if you know what you're doing.**
+		// For performance reasons, this method does not check if the view is
+		// actually attached to the DOM. It's taking your word for it.
+		//
+		// Fires the ready event on the current view and all attached subviews.
+		ready: function() {
+			this.view.trigger('ready');
 
-		// #### Internal. Maybe render a view.
-		_maybeRender: function( view ) {
-			if ( ! view.views || view.views.rendered )
-				return;
+			// Find all attached subviews, and call ready on them.
+			_.chain( this.all() ).map( function( view ) {
+				return view.views;
+			}).flatten().where({ attached: true }).invoke('ready');
+		},
 
-			view.render();
-			view.views.rendered = true;
+		// #### Internal. Attaches a series of views to a selector.
+		//
+		// Checks to see if a matching selector exists, renders the views,
+		// performs the proper DOM operation, and then checks if the view is
+		// attached to the document.
+		_attach: function( selector, views, options ) {
+			var $selector = selector ? this.view.$( selector ) : this.view.$el,
+				managers;
+
+			// Check if we found a location to attach the views.
+			if ( ! $selector.length )
+				return this;
+
+			managers = _.chain( views ).pluck('views').flatten().value();
+
+			// Render the views if necessary.
+			_.each( managers, function( manager ) {
+				if ( manager.rendered )
+					return;
+
+				manager.view.render();
+				manager.rendered = true;
+			}, this );
+
+			// Insert or replace the views.
+			this[ options.add ? 'insert' : 'replace' ]( $selector, _.pluck( views, 'el' ), options );
+
+			// Set attached and trigger ready if the current view is already
+			// attached to the DOM.
+			_.each( managers, function( manager ) {
+				manager.attached = true;
+
+				if ( options.ready )
+					manager.ready();
+			}, this );
+
+			return this;
+		},
+
+		// #### Internal. Checks if the current view is in the DOM.
+		_isReady: function() {
+			var node = this.view.el;
+			while ( node ) {
+				if ( node === document.body )
+					return true;
+				node = node.parentNode;
+			}
+
+			return false;
 		}
 	});
 
@@ -841,6 +888,7 @@
 
 		constructor: function() {
 			this.views = new this.Views( this, this.views );
+			this.on( 'ready', this.ready, this );
 			Backbone.View.apply( this, arguments );
 		},
 
@@ -885,7 +933,9 @@
 
 		prepare: function() {
 			return this.options;
-		}
+		},
+
+		ready: function() {}
 	});
 
 	/**
@@ -967,6 +1017,8 @@
 					}
 				});
 			}
+
+			this.on( 'attach', _.bind( this.views.ready, this.views ), this );
 		},
 
 		render: function() {
@@ -1060,9 +1112,9 @@
 	// Map some of the modal's methods to the frame.
 	_.each(['open','close','attach','detach'], function( method ) {
 		media.view.MediaFrame.prototype[ method ] = function( view ) {
-			this.trigger( method );
 			if ( this.modal )
 				this.modal[ method ].apply( this.modal, arguments );
+			this.trigger( method );
 			return this;
 		};
 	});
@@ -1592,25 +1644,25 @@
 
 		attach: function() {
 			this.$el.appendTo( this.options.container );
-			this.controller.trigger( 'attach', this.controller );
+			this.trigger('attach');
 			return this;
 		},
 
 		detach: function() {
 			this.$el.detach();
-			this.controller.trigger( 'detach', this.controller );
+			this.trigger('detach');
 			return this;
 		},
 
 		open: function() {
 			this.$el.show();
-			this.controller.trigger( 'open', this.controller );
+			this.trigger('open');
 			return this;
 		},
 
 		close: function() {
 			this.$el.hide();
-			this.controller.trigger( 'close', this.controller );
+			this.trigger('close');
 			return this;
 		},
 
