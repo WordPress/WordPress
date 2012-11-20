@@ -21,19 +21,13 @@
 	position: absolute;
 }
 
-.welcome-panel .welcome-panel-column { 
-	margin: 0 -25px 0 4%; 
-	margin-right: 25px; 
-	width: 23%; 
+.welcome-panel .welcome-panel-column:first-child {
+	width: 35%;
 }
- 
-.welcome-panel .welcome-panel-column:first-child { 
-	width: 28%; 
-} 
- 
-.welcome-panel .welcome-button { 
-	padding: 0 16px; 
-} 
+
+.welcome-panel .welcome-button {
+	padding: 0 16px;
+}
  
 #wp-fullscreen-title {
 	width: 97%;

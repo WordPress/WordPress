@@ -2309,15 +2309,11 @@ html.wp-toolbar {
 }
 
 .ie8 .welcome-panel .welcome-panel-column { 
-	margin-right: 25px;
-	width: 25%;
+	min-width: 230px;
 }
 
 .welcome-panel .welcome-panel-column:first-child {
 	width: 36%;
-}
-.ie8 .welcome-panel .welcome-panel-column:first-child { 
-	width: 28%;
 }
 
 .welcome-panel-column p {
