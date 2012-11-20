@@ -2540,6 +2540,7 @@
 			this.scroll = _.chain( this.scroll ).bind( this ).throttle( this.options.refreshSensitivity ).value();
 
 			this.initSortable();
+			this.collection.props.on( 'change:orderby', this.refreshSortable, this );
 
 			_.bindAll( this, 'css' );
 			this.model.on( 'change:edge change:gutter', this.css, this );
@@ -2549,6 +2550,7 @@
 		},
 
 		destroy: function() {
+			this.collection.props.off( null, null, this );
 			this.collection.off( 'add remove reset', null, this );
 			this.model.off( 'change:edge change:gutter', this.css, this );
 			$(window).off( 'resize.attachments', this._resizeCss );
@@ -2626,6 +2628,14 @@
 			collection.props.on( 'change:orderby', function() {
 				this.$el.sortable( 'option', 'disabled', !! collection.comparator );
 			}, this );
+		},
+
+		refreshSortable: function() {
+			if ( ! this.options.sortable || ! $.fn.sortable )
+				return;
+
+			// If the `collection` has a `comparator`, disable sorting.
+			this.$el.sortable( 'option', 'disabled', !! this.collection.comparator );
 		},
 
 		render: function() {

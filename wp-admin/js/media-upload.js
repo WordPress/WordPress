@@ -320,6 +320,15 @@ var tb_position;
 
 				selection.gallery = attachments.gallery;
 
+				// Fetch the query's attachments, and then break ties from the
+				// query to allow for sorting.
+				selection.more().done( function() {
+					// Break ties with the query.
+					selection.props.set({ query: false });
+					selection.unmirror();
+					selection.props.unset('orderby');
+				});
+
 				return wp.media({
 					frame:     'post',
 					state:     'gallery-edit',
