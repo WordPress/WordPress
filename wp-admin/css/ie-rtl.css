@@ -224,3 +224,12 @@ p.button-controls,
 #nav-menus-frame .delete-action {
 	float: none;
 }
+
+#title-wrap #title-prompt-text {
+	right: 0;
+}
+
+.screen-reader-text { 
+	right: auto;
+	text-indent: -1000em; 
+} 
