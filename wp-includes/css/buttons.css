@@ -49,6 +49,7 @@ TABLE OF CONTENTS:
 	border-width: 1px;
 	border-style: solid;
 	-webkit-border-radius: 3px;
+	-webkit-appearance: none;
 	border-radius: 3px;
 	white-space: nowrap;
 	-webkit-box-sizing: border-box;
