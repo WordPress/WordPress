@@ -434,7 +434,7 @@ var tb_position;
 		},
 
 		init: function() {
-			$('#wpbody').on('click', '.insert-media', function( event ) {
+			$(document.body).on('click', '.insert-media', function( event ) {
 				var $this = $(this),
 					editor = $this.data('editor'),
 					workflow;
@@ -448,7 +448,7 @@ var tb_position;
 				// See: http://core.trac.wordpress.org/ticket/22445
 				$this.blur();
 
-				if ( ! editor )
+				if ( ! _.isString( editor ) )
 					return;
 
 				workflow = wp.media.editor.get( editor );
