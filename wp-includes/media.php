@@ -1452,6 +1452,10 @@ function wp_print_media_templates( $attachment ) {
 			<# if ( data.buttons.close ) { #>
 				<a class="close button" href="#">&times;</a>
 			<# } #>
+
+			<# if ( data.buttons.check ) { #>
+				<a class="check" href="#"><span>&#10003;</span><span class="dash">&ndash;</span></a>
+			<# } #>
 		</div>
 		<# if ( data.describe ) { #>
 			<# if ( 'image' === data.type ) { #>

@@ -433,44 +433,19 @@
 .selected.attachment {
 	box-shadow:
 		0 0 0 1px #fff,
-		0 0 0 4px #777;
+		0 0 0 3px #ccc;
 }
 
 .details.attachment {
 	box-shadow:
 		0 0 0 1px #fff,
-		0 0 0 4px #1e8cbe;
-}
-
-
-.attachment.library.selected:after {
-	content: '\2713';
-	display: block;
-	height: 24px;
-	width: 24px;
-	position: absolute;
-	top: -1px;
-	right: -1px;
-	line-height: 24px;
-	font-size: 18px;
-	text-align: center;
-	color: #fff;
-	text-shadow: 0 1px 0 rgba( 0, 0, 0, 0.5 );
-	background: #777;
-	border: 1px solid #fff;
-	border-width: 0 0 1px 1px;
-	box-shadow: -1px 1px 0 rgba( 0, 0, 0, 0.1 );
-}
-
-.attachment.library.details:after {
-	background: #1e8cbe;
+		0 0 0 5px #1e8cbe;
 }
 
 .attachment-preview {
 	position: relative;
 	width: 199px;
 	height: 199px;
-	overflow: hidden;
 	box-shadow:
 		inset 0 0 15px rgba( 0, 0, 0, 0.1 ),
 		inset 0 0 0 1px rgba( 0, 0, 0, 0.05 );
@@ -485,6 +460,7 @@
 	top: 0;
 	left: 0;
 	margin: 0 auto;
+	overflow: hidden;
 }
 
 /* Vertically center the icons. */
@@ -554,7 +530,6 @@
 }
 
 .attachment .close {
-	display: none;
 	position: absolute;
 	top: 5px;
 	right: 5px;
@@ -571,12 +546,72 @@
 	box-shadow: 0 0 0 1px rgba( 0, 0, 0, 0.3 );
 }
 
-.attachment .close:hover {
+.attachment .button:hover {
 	box-shadow: 0 0 0 1px rgba( 0, 0, 0, 0.6 );
+}
+
+.attachment .close {
+	display: none;
 }
 
 .attachment:hover .close {
 	display: block;
+}
+
+.attachment .check {
+	display: none;
+	height: 24px;
+	width: 24px;
+	position: absolute;
+	top: -7px;
+	right: -7px;
+	line-height: 24px;
+	font-size: 16px;
+	text-align: center;
+	text-decoration: none;
+	outline: none;
+
+	color: #333;
+	border: 1px solid #fff;
+	border-radius: 3px;
+	text-shadow: 0 1px 0 #fff;
+	box-shadow: 0 0 0 1px rgba( 0, 0, 0, 0.4 );
+
+	background: #f1f1f1;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#f1f1f1), to(#e1e1e1));
+	background-image: -webkit-linear-gradient(top, #f1f1f1, #e1e1e1);
+	background-image:    -moz-linear-gradient(top, #f1f1f1, #e1e1e1);
+	background-image:      -o-linear-gradient(top, #f1f1f1, #e1e1e1);
+	background-image:   linear-gradient(to bottom, #f1f1f1, #e1e1e1);
+}
+
+.attachment .check .dash {
+	font-weight: bold;
+	font-size: 18px;
+	line-height: 22px;
+}
+
+.attachment .check .dash,
+.attachment .check:hover span {
+	display: none;
+}
+
+.attachment.selected .check,
+.attachment .check:hover .dash {
+	display: block;
+}
+
+.attachment.details .check {
+	color: #fff;
+	text-shadow: 0 1px 0 rgba( 0, 0, 0, 0.5 );
+	box-shadow: 0 0 0 1px #1e8cbe;
+
+	background: #1e8cbe;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#1e8cbe), to(#0074a2));
+	background-image: -webkit-linear-gradient(top, #1e8cbe, #0074a2);
+	background-image:    -moz-linear-gradient(top, #1e8cbe, #0074a2);
+	background-image:      -o-linear-gradient(top, #1e8cbe, #0074a2);
+	background-image:   linear-gradient(to bottom, #1e8cbe, #0074a2);
 }
 
 .media-frame .describe {
@@ -858,7 +893,7 @@
 	right: 0;
 	bottom: 0;
 	width: 25px;
-	background-image: -webkit-gradient(linear, right top, right top, from( rgba( 255, 255, 255, 1 ) ), to( rgba( 255, 255, 255, 0 ) ));
+	background-image: -webkit-gradient(linear, right top, left top, from( rgba( 255, 255, 255, 1 ) ), to( rgba( 255, 255, 255, 0 ) ));
 	background-image: -webkit-linear-gradient(right, rgba( 255, 255, 255, 1 ) ,  rgba( 255, 255, 255, 0 ) );
 	background-image:    -moz-linear-gradient(right, rgba( 255, 255, 255, 1 ) ,  rgba( 255, 255, 255, 0 ) );
 	background-image:      -o-linear-gradient(right, rgba( 255, 255, 255, 1 ) ,  rgba( 255, 255, 255, 0 ) );

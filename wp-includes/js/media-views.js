@@ -2309,12 +2309,13 @@
 		template:  media.template('attachment'),
 
 		events: {
-			'mousedown .attachment-preview':  'toggleSelection',
+			'click .attachment-preview':      'toggleSelection',
 			'change [data-setting]':          'updateSetting',
 			'change [data-setting] input':    'updateSetting',
 			'change [data-setting] select':   'updateSetting',
 			'change [data-setting] textarea': 'updateSetting',
 			'click .close':                   'removeFromLibrary',
+			'click .check':                   'removeFromSelection',
 			'click a':                        'preventDefault'
 		},
 
@@ -2395,7 +2396,7 @@
 				// it now becomes the single model.
 				selection[ selection.single() === model ? 'remove' : 'single' ]( model );
 			} else {
-				selection.add( model ).single();
+				selection.add( model ).single( model );
 			}
 		},
 
@@ -2476,6 +2477,17 @@
 			event.stopPropagation();
 
 			this.collection.remove( this.model );
+		},
+
+		removeFromSelection: function( event ) {
+			var selection = this.options.selection;
+			if ( ! selection )
+				return;
+
+			// Stop propagation so the model isn't selected.
+			event.stopPropagation();
+
+			selection.remove( this.model );
 		}
 	});
 
@@ -2483,7 +2495,9 @@
 	 * wp.media.view.Attachment.Library
 	 */
 	media.view.Attachment.Library = media.view.Attachment.extend({
-		className: 'attachment library'
+		buttons: {
+			check: true
+		}
 	});
 
 	/**

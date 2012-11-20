@@ -712,7 +712,7 @@ window.wp = window.wp || {};
 			// Refresh the `single` model whenever the selection changes.
 			// Binds `single` instead of using the context argument to ensure
 			// it receives no parameters.
-			this.on( 'add remove reset', _.bind( this.single, this ) );
+			this.on( 'add remove reset', _.bind( this.single, this, false ) );
 		},
 
 		// Override the selection's add method.
