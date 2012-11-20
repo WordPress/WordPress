@@ -15,11 +15,6 @@ wp_enqueue_script('post');
 if ( wp_is_mobile() )
 	wp_enqueue_script( 'jquery-touch-punch' );
 
-if ( post_type_supports($post_type, 'editor') || post_type_supports($post_type, 'thumbnail') ) {
-	add_thickbox();
-	wp_enqueue_media();
-}
-
 /**
  * Post ID global
  * @name $post_ID
@@ -28,6 +23,11 @@ if ( post_type_supports($post_type, 'editor') || post_type_supports($post_type, 
 $post_ID = isset($post_ID) ? (int) $post_ID : 0;
 $user_ID = isset($user_ID) ? (int) $user_ID : 0;
 $action = isset($action) ? $action : '';
+
+if ( post_type_supports($post_type, 'editor') || post_type_supports($post_type, 'thumbnail') ) {
+	add_thickbox();
+	wp_enqueue_media( array( 'post' => $post_id ) );
+}
 
 $messages = array();
 $messages['post'] = array(

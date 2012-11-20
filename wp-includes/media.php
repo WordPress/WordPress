@@ -1334,6 +1334,8 @@ function wp_enqueue_media( $args = array() ) {
 		$settings['postId'] = $post->ID;
 	}
 
+	$hier = $post && is_post_type_hierarchical( $post->post_type );
+
 	$strings = array(
 		// Generic
 		'url'         => __( 'URL' ),
@@ -1354,11 +1356,11 @@ function wp_enqueue_media( $args = array() ) {
 		// Library
 		'mediaLibraryTitle' => __( 'Media Library' ),
 		'createNewGallery'  => __( 'Create a new gallery' ),
-		'insertIntoPost'    => __( 'Insert into post' ),
+		'insertIntoPost'    =>  $hier ? __( 'Insert into page' ) : __( 'Insert into post' ),
 		'returnToLibrary'   => __( '&#8592; Return to library' ),
 
 		'allMediaItems'      => __( 'All media items' ),
-		'uploadedToThisPost' => __( 'Uploaded to this post' ),
+		'uploadedToThisPost' => $hier ? __( 'Uploaded to this page' ) : __( 'Uploaded to this post' ),
 		'images'             => __( 'Images' ),
 		'audio'              => __( 'Audio' ),
 		'videos'             => __( 'Videos' ),
