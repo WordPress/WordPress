@@ -2224,7 +2224,8 @@ class WP_Query {
 				$post_type = array();
 				$taxonomies = wp_list_pluck( $this->tax_query->queries, 'taxonomy' );
 				foreach ( get_post_types( array( 'exclude_from_search' => false ) ) as $pt ) {
-					if ( array_intersect( $taxonomies, get_object_taxonomies( $pt ) ) )
+					$object_taxonomies = $pt === 'attachment' ? get_taxonomies_for_attachments() : get_object_taxonomies( $pt );
+					if ( array_intersect( $taxonomies, $object_taxonomies ) )
 						$post_type[] = $pt;
 				}
 				if ( ! $post_type )
