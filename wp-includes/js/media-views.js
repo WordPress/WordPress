@@ -2086,9 +2086,6 @@
 				delete this.options[ key ];
 			}, this );
 
-			if ( this.options.dropdown )
-				this.options.dropdown.addClass('dropdown');
-
 			this.model.on( 'change', this.render, this );
 		},
 
@@ -2106,15 +2103,7 @@
 			this.el.className = classes.join(' ');
 
 			this.$el.attr( 'disabled', model.disabled );
-
-			// Detach the dropdown.
-			if ( this.options.dropdown )
-				this.options.dropdown.detach();
-
 			this.$el.text( this.model.get('text') );
-
-			if ( this.options.dropdown )
-				this.$el.append( this.options.dropdown );
 
 			return this;
 		},
