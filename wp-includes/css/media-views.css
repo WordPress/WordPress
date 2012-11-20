@@ -1,7 +1,6 @@
 /**
  * Base Styles
  */
-
 .media-frame input,
 .media-frame textarea {
 	padding: 6px 8px;
@@ -632,7 +631,6 @@
 	border-radius: 0;
 }
 
-
 /**
  * Attachments Browser
  */
@@ -643,7 +641,6 @@
 .attachments-browser .media-toolbar {
 	height: 50px;
 }
-
 
 .attachments-browser .media-toolbar-primary > .media-button,
 .attachments-browser .media-toolbar-primary > .media-button-group,
@@ -668,7 +665,6 @@
 	font-size: 13px;
 	color: #999;
 }
-
 
 /**
  * Progress Bar

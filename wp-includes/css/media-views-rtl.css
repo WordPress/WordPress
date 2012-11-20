@@ -16,7 +16,7 @@
 /**
  * Toolbar
  */
-.media-frame > .media-toolbar {
+.media-frame-toolbar > .media-toolbar {
 	left: 0;
 	right: 200px;
 	border-width: 1px 0 0 0;
@@ -95,7 +95,6 @@
 	padding-left: 1px;
 }
 
-
 /**
  * Menu
  */
@@ -105,6 +104,14 @@
 	border-right: 0;
 	border-left: 1px solid #d9d9d9;
 	box-shadow: inset 6px 0 6px -6px rgba( 0, 0, 0, 0.2 )
+}
+
+/**
+ * Attachment Browser Filters
+ */
+.media-frame select.attachment-filters {
+	margin-right: 0;
+	margin-left: 10px;
 }
 
 /**
@@ -144,23 +151,10 @@
 	float: right;
 }
 
-.attachment.library.selected:after {
-	right: auto;
-	left: -1px;
-	border-width: 0 1px 1px 0;
-
-	box-shadow: 1px 1px 0 rgba( 0, 0, 0, 0.1 );
-}
-
 .attachment .icon,
 .attachment .thumbnail {
 	left: auto;
 	right: 0;
-}
-
-.attachment .insert {
-	left: auto;
-	right: 7px;
 }
 
 .attachment .close {
@@ -168,6 +162,10 @@
 	left: 5px;
 }
 
+.attachment .check {
+	right: auto;
+	left: -7px;
+}
 
 /**
  * Progress Bar
@@ -211,7 +209,6 @@
 	background-image:      -o-linear-gradient(left, rgba( 255, 255, 255, 1 ) ,  rgba( 255, 255, 255, 0 ) );
 	background-image:   linear-gradient(to right, rgba( 255, 255, 255, 1 ) ,  rgba( 255, 255, 255, 0 ) );
 }
-
 
 /**
  * Selection Preview
