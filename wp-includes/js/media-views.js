@@ -3285,6 +3285,7 @@
 		render: function() {
 			this.$el.html([ this.url.el, this._settings.el ]);
 			this.url.focus();
+			this.views.render();
 			return this;
 		},
 
