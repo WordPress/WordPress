@@ -39,7 +39,7 @@ window.wp = window.wp || {};
 	_.extend( media, { model: {}, view: {}, controller: {} });
 
 	// Link any localized strings.
-	l10n = media.model.l10n = _.isUndefined( _wpMediaModelsL10n ) ? {} : _wpMediaModelsL10n;
+	l10n = media.model.l10n = typeof _wpMediaModelsL10n === 'undefined' ? {} : _wpMediaModelsL10n;
 
 	/**
 	 * ========================================================================

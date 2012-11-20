@@ -6,7 +6,7 @@
 		l10n;
 
 	// Link any localized strings.
-	l10n = media.view.l10n = _.isUndefined( _wpMediaViewsL10n ) ? {} : _wpMediaViewsL10n;
+	l10n = media.view.l10n = typeof _wpMediaViewsL10n === 'undefined' ? {} : _wpMediaViewsL10n;
 
 	// Link any settings.
 	media.view.settings = l10n.settings || {};
