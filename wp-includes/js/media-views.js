@@ -557,8 +557,14 @@
 				image = new Image();
 
 			image.onload = function() {
-				if ( state === frame.state() && url === state.get('url') )
-					state.set( 'type', 'image' );
+				if ( state !== frame.state() || url !== state.get('url') )
+					return;
+
+				state.set({
+					type:   'image',
+					width:  image.width,
+					height: image.height
+				});
 			};
 
 			image.src = url;
