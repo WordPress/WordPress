@@ -434,6 +434,8 @@ window.wp = window.wp || {};
 			// when `observe()` calls `validateAll()`.
 			this.reset( [], { silent: true } );
 			this.observe( attachments );
+
+			return this;
 		},
 
 		unmirror: function() {

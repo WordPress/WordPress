@@ -403,12 +403,7 @@
 				return !! original.getByCid( attachment.cid ) && ! exclude.getByCid( attachment.cid );
 			};
 
-			composite.observe( original ).observe( exclude );
-
-			// When `more()` is triggered on the composite collection,
-			// pass the command over to the `original`, which will
-			// populate the query.
-			composite.more = _.bind( original.more, original );
+			composite.mirror( original ).observe( exclude );
 
 			this.set( 'library', composite );
 		},
