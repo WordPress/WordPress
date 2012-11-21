@@ -94,14 +94,14 @@ var tb_position;
 	var workflows = {},
 		linkToUrl;
 
-	linkToUrl = function( attachment, props ) {
-		var link = props.link,
+	linkToUrl = function( props, attachment ) {
+		var link = props.link || getUserSetting( 'urlbutton', 'post' ),
 			url;
 
 		if ( 'file' === link )
-			url = attachment.get('url');
+			url = attachment.url;
 		else if ( 'post' === link )
-			url = attachment.get('link');
+			url = attachment.link;
 		else if ( 'custom' === link )
 			url = props.linkUrl;
 
@@ -109,42 +109,63 @@ var tb_position;
 	};
 
 	wp.media.string = {
-		link: function( attachment, props ) {
-			var linkTo  = getUserSetting( 'urlbutton', 'post' ),
-				options = {
-					tag:     'a',
-					content: attachment.get('title') || attachment.get('filename'),
-					attrs:   {
-						rel: 'attachment wp-att-' + attachment.id
-					}
-				};
+		link: function( props, attachment ) {
+			var options;
 
-			options.attrs.href = linkToUrl( attachment, props );
+			props = _.defaults( props || {}, {
+				title:   '',
+				linkUrl: ''
+			});
+
+			if ( attachment ) {
+				attachment = attachment.toJSON();
+
+				_.extend( props, {
+					title:   attachment.title || attachment.filename,
+					linkUrl: linkToUrl( props, attachment ),
+					rel:     'attachment wp-att-' + attachment.id
+				});
+			}
+
+			options = {
+				tag:     'a',
+				content: props.title,
+				attrs:   {
+					href: props.linkUrl
+				}
+			};
+
+			if ( props.rel )
+				options.attrs.rel = props.rel;
 
 			return wp.html.string( options );
 		},
 
-		image: function( attachment, props ) {
-			var classes, img, options, size, shortcode, html;
+		image: function( props, attachment ) {
+			var classes = [],
+				img = {},
+				options, sizes, size, shortcode, html;
 
 			props = _.defaults( props || {}, {
-				img:   {},
 				align: getUserSetting( 'align', 'none' ),
-				size:  getUserSetting( 'imgsize', 'medium' ),
-				link:  getUserSetting( 'urlbutton', 'post' )
+				size:  getUserSetting( 'imgsize', 'medium' )
 			});
 
-			props.linkUrl = linkToUrl( attachment, props );
+			if ( attachment ) {
+				attachment = attachment.toJSON();
 
-			attachment = attachment.toJSON();
+				classes.push( 'wp-image-' + attachment.id );
 
-			img     = _.clone( props.img );
-			classes = img['class'] ? img['class'].split(/\s+/) : [];
-			size    = attachment.sizes ? attachment.sizes[ props.size ] : {};
+				sizes = attachment.sizes;
+				size = sizes && sizes[ props.size ] ? sizes[ props.size ] : attachment;
 
-			if ( ! size ) {
-				delete props.size;
-				size = attachment;
+				_.extend( props, _.pick( attachment, 'align', 'caption' ), {
+					width:     size.width,
+					height:    size.height,
+					src:       size.url,
+					linkUrl:   linkToUrl( props, attachment ),
+					captionId: 'attachment_' + attachment.id
+				});
 			}
 
 			img.width  = size.width;
@@ -153,13 +174,11 @@ var tb_position;
 
 			// Only assign the align class to the image if we're not printing
 			// a caption, since the alignment is sent to the shortcode.
-			if ( props.align && ! attachment.caption )
+			if ( props.align && ! props.caption )
 				classes.push( 'align' + props.align );
 
 			if ( props.size )
 				classes.push( 'size-' + props.size );
-
-			classes.push( 'wp-image-' + attachment.id );
 
 			img['class'] = _.compact( classes ).join(' ');
 
@@ -170,17 +189,13 @@ var tb_position;
 				single: true
 			};
 
-			// Generate the `href` based on the `link` property.
-			if ( props.linkUrl ) {
-				props.anchor = props.anchor || {};
-				props.anchor.href = props.linkUrl;
-			}
-
 			// Generate the `a` element options, if they exist.
-			if ( props.anchor ) {
+			if ( props.linkUrl ) {
 				options = {
-					tag:     'a',
-					attrs:   props.anchor,
+					tag:   'a',
+					attrs: {
+						href: props.linkUrl
+					},
 					content: options
 				};
 			}
@@ -188,11 +203,13 @@ var tb_position;
 			html = wp.html.string( options );
 
 			// Generate the caption shortcode.
-			if ( attachment.caption ) {
+			if ( props.caption ) {
 				shortcode = {
-					id:    'attachment_' + attachment.id,
 					width: img.width
 				};
+
+				if ( props.captionId )
+					shortcode.id = props.captionId;
 
 				if ( props.align )
 					shortcode.align = 'align' + props.align;
@@ -200,7 +217,7 @@ var tb_position;
 				html = wp.shortcode.string({
 					tag:     'caption',
 					attrs:   shortcode,
-					content: html + ' ' + attachment.caption
+					content: html + ' ' + props.caption
 				});
 			}
 
@@ -380,9 +397,9 @@ var tb_position;
 					delete details[ attachment.cid ];
 
 					if ( 'image' === attachment.get('type') )
-						this.insert( wp.media.string.image( attachment, detail ) + ' ' );
+						this.insert( wp.media.string.image( detail, attachment ) + ' ' );
 					else
-						this.insert( wp.media.string.link( attachment, detail ) + ' ' );
+						this.insert( wp.media.string.link( detail, attachment ) + ' ' );
 				}, this );
 			}, this );
 
