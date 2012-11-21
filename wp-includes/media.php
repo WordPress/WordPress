@@ -1406,6 +1406,7 @@ function wp_print_media_templates( $attachment ) {
 		<div class="media-frame-content"></div>
 		<div class="media-frame-sidebar"></div>
 		<div class="media-frame-toolbar"></div>
+		<div class="media-frame-uploader"></div>
 	</script>
 
 	<script type="text/html" id="tmpl-media-modal">
