@@ -1055,6 +1055,8 @@ function post_thumbnail_meta_box( $post ) {
 
 			frame = wp.media( options );
 
+			frame.get('library').set( 'filterable', 'uploaded' );
+
 			frame.toolbar.on( 'activate:select', function() {
 				frame.toolbar.view().set({
 					select: {

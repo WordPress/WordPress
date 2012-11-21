@@ -1368,7 +1368,7 @@
 					selection:  options.selection,
 					library:    media.query( options.library ),
 					editable:   true,
-					filterable: true
+					filterable: 'all'
 				}, main ) ),
 
 				new media.controller.Upload( main ),
@@ -1384,8 +1384,9 @@
 				}),
 
 				new media.controller.Library( _.defaults({
-					id:      'gallery-library',
-					library: media.query({ type: 'image' })
+					id:         'gallery-library',
+					library:    media.query({ type: 'image' }),
+					filterable: 'uploaded'
 				}, gallery ) ),
 
 				new media.controller.Upload( _.defaults({
@@ -2766,6 +2767,68 @@
 			change: 'change'
 		},
 
+		filters: {},
+		keys: [],
+
+		initialize: function() {
+			// Build `<option>` elements.
+			this.$el.html( _.chain( this.filters ).map( function( filter, value ) {
+				return {
+					el: this.make( 'option', { value: value }, filter.text ),
+					priority: filter.priority || 50
+				};
+			}, this ).sortBy('priority').pluck('el').value() );
+
+			this.model.on( 'change', this.select, this );
+			this.select();
+		},
+
+		change: function( event ) {
+			var filter = this.filters[ this.el.value ];
+
+			if ( filter )
+				this.model.set( filter.props );
+		},
+
+		select: function() {
+			var model = this.model,
+				value = 'all',
+				props = model.toJSON();
+
+			_.find( this.filters, function( filter, id ) {
+				var equal = _.all( filter.props, function( prop, key ) {
+					return prop === ( _.isUndefined( props[ key ] ) ? null : props[ key ] );
+				});
+
+				if ( equal )
+					return value = id;
+			});
+
+			this.$el.val( value );
+		}
+	});
+
+	media.view.AttachmentFilters.Uploaded = media.view.AttachmentFilters.extend({
+		filters: {
+			all: {
+				text:  l10n.allMediaItems,
+				props: {
+					parent: null
+				},
+				priority: 10
+			},
+
+			uploaded: {
+				text:  l10n.uploadedToThisPost,
+				props: {
+					parent: media.view.settings.postId
+				},
+				priority: 20
+			}
+		}
+	});
+
+	media.view.AttachmentFilters.All = media.view.AttachmentFilters.extend({
 		filters: (function() {
 			var filters = {};
 
@@ -2798,45 +2861,7 @@
 			};
 
 			return filters;
-		}()),
-
-		initialize: function() {
-			// Build `<option>` elements.
-			this.$el.html( _.chain( this.filters ).map( function( filter, value ) {
-				return {
-					el: this.make( 'option', { value: value }, filter.text ),
-					priority: filter.priority || 50
-				};
-			}, this ).sortBy('priority').pluck('el').value() );
-
-			this.model.on( 'change', this.select, this );
-			this.select();
-		},
-
-		change: function( event ) {
-			var filter = this.filters[ this.el.value ];
-
-			if ( filter )
-				this.model.set( filter.props );
-		},
-
-		select: function() {
-			var model = this.model,
-				value = 'all',
-				type = model.get('type'),
-				parent = model.get('parent'),
-				props = {
-					parent: _.isUndefined( parent ) ? null : parent,
-					type:   _.isUndefined( type ) ? null : type
-				};
-
-			_.find( this.filters, function( filter, key ) {
-				if ( _.isEqual( filter.props, props ) )
-					return value = key;
-			});
-
-			this.$el.val( value );
-		}
+		}())
 	});
 
 
@@ -2849,6 +2874,8 @@
 		className: 'attachments-browser',
 
 		initialize: function() {
+			var filters, FiltersConstructor;
+
 			this.controller = this.options.controller;
 
 			_.defaults( this.options, {
@@ -2863,8 +2890,14 @@
 				controller: this.controller
 			});
 
-			if ( this.options.filters ) {
-				this.toolbar.set( 'filters', new media.view.AttachmentFilters({
+			filters = this.options.filters;
+			if ( 'uploaded' === filters )
+				FiltersConstructor = media.view.AttachmentFilters.Uploaded;
+			else if ( 'all' === filters )
+				FiltersConstructor = media.view.AttachmentFilters.All;
+
+			if ( FiltersConstructor ) {
+				this.toolbar.set( 'filters', new FiltersConstructor({
 					controller: this.controller,
 					model:      this.collection.props,
 					priority:   -80
