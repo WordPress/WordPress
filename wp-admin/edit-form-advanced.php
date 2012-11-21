@@ -423,14 +423,22 @@ try{document.post.title.focus();}catch(e){}
 <script type="text/javascript">
 (function($){
 	function getFieldsContent() {
-		return ($('#title').val() || '') + ($('#attachment_caption').val() || '') +
-		($('#attachment_alt').val() || '') + ($('#attachment_content').val() || '') + ($('#post_name').val() || '');
+		return [ $('#title').val() || '',
+			$('#attachment_caption').val() || '',
+			$('#attachment_alt').val() || '',
+			$('#attachment_content').val() || '',
+			$('#post_name').val() || '' ];
 	}
 
 	var initial = getFieldsContent();
 
 	window.onbeforeunload = function() {
-		if ( initial != getFieldsContent() )
+		var i, changed, current = getFieldsContent();
+		for ( var i = 0; i < initial.length; i++ ) {
+ 			if ( changed = ( inital[i] !== current[i]) )
+ 				break;
+ 		}
+ 		if ( changed )
 			return '<?php _e('The changes you made will be lost if you navigate away from this page.'); ?>';
 	};
 })(jQuery);
