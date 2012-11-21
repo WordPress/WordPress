@@ -223,7 +223,7 @@ window.wp = window.wp || {};
 				}
 			}
 
-			error( message, error, error.file );
+			self.error( message, error, error.file );
 			up.refresh();
 		});
 
