@@ -2185,16 +2185,11 @@ function media_upload_html_bypass() {
 add_action('post-html-upload-ui', 'media_upload_html_bypass');
 
 /**
- * Displays the "After a file has been uploaded..." message.
+ * Used to display a "After a file has been uploaded..." help message.
  *
  * @since 3.3.0
  */
-function media_upload_text_after() {
-	?>
-	<span class="after-file-upload"><?php _e('After a file has been uploaded, you can add titles and descriptions.'); ?></span>
-	<?php
-}
-add_action('post-upload-ui', 'media_upload_text_after', 5);
+function media_upload_text_after() {}
 
 /**
  * Displays the checkbox to scale images.
