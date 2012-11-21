@@ -41,6 +41,10 @@ window.wp = window.wp || {};
 	// Link any localized strings.
 	l10n = media.model.l10n = typeof _wpMediaModelsL10n === 'undefined' ? {} : _wpMediaModelsL10n;
 
+	// Link any settings.
+	media.model.settings = l10n.settings || {};
+	delete l10n.settings;
+
 	/**
 	 * ========================================================================
 	 * UTILITIES
@@ -124,7 +128,7 @@ window.wp = window.wp || {};
 
 			options = _.defaults( options || {}, {
 				type:    'POST',
-				url:     ajaxurl,
+				url:     media.model.settings.ajaxurl,
 				context: this
 			});
 
@@ -221,7 +225,7 @@ window.wp = window.wp || {};
 				options.data = _.extend( options.data || {}, {
 					action: 'save-attachment',
 					id:     this.id,
-					nonce:  l10n.saveAttachmentNonce
+					nonce:  media.model.settings.saveAttachmentNonce
 				});
 
 				// Record the values of the changed attributes.

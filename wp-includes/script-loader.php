@@ -298,7 +298,7 @@ function wp_default_scripts( &$scripts ) {
 		'type' => 'characters' == _x( 'words', 'word count: words or characters?' ) ? 'c' : 'w',
 	) );
 
-	$scripts->add( 'media-upload', "/wp-admin/js/media-upload$suffix.js", array( 'thickbox', 'shortcode', 'media-views' ), false, 1 );
+	$scripts->add( 'media-upload', "/wp-admin/js/media-upload$suffix.js", array( 'thickbox', 'shortcode' ), false, 1 );
 
 	$scripts->add( 'hoverIntent', "/wp-includes/js/hoverIntent$suffix.js", array('jquery'), 'r6', 1 );
 
@@ -318,13 +318,19 @@ function wp_default_scripts( &$scripts ) {
 		'allowedFiles' => __( 'Allowed Files' ),
 	) );
 
+	$scripts->add( 'shortcode', "/wp-includes/js/shortcode$suffix.js", array( 'underscore' ), false, 1 );
 	$scripts->add( 'media-models', "/wp-includes/js/media-models$suffix.js", array( 'backbone', 'jquery' ), false, 1 );
 	did_action( 'init' ) && $scripts->localize( 'media-models', '_wpMediaModelsL10n', array(
-		'saveAttachmentNonce' => wp_create_nonce( 'save-attachment' ),
+		'settings' => array(
+			'saveAttachmentNonce' => wp_create_nonce( 'save-attachment' ),
+			'ajaxurl' => admin_url( 'admin-ajax.php', 'relative' ),
+		),
 	) );
 
+	// To enqueue media-views or media-editor, call wp_enqueue_media().
+	// Both rely on numerous settings, styles, and templates to operate correctly.
 	$scripts->add( 'media-views',  "/wp-includes/js/media-views$suffix.js",  array( 'media-models', 'wp-plupload' ), false, 1 );
-	$scripts->add( 'shortcode', "/wp-includes/js/shortcode$suffix.js", array( 'underscore' ), false, 1 );
+	$scripts->add( 'media-editor', "/wp-includes/js/media-editor$suffix.js", array( 'shortcode', 'media-views' ), false, 1 );
 	$scripts->add( 'mce-view', "/wp-includes/js/mce-view$suffix.js", array( 'shortcode', 'media-models' ), false, 1 );
 
 	if ( is_admin() ) {

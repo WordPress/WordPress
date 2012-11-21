@@ -1387,7 +1387,7 @@ function wp_enqueue_media( $args = array() ) {
 
 	wp_localize_script( 'media-views', '_wpMediaViewsL10n', $strings );
 
-	wp_enqueue_script( 'media-upload' );
+	wp_enqueue_script( 'media-editor' );
 	wp_enqueue_style( 'media-views' );
 	wp_plupload_default_settings();
 	add_action( 'admin_footer', 'wp_print_media_templates' );
