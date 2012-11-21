@@ -2,7 +2,7 @@ var autosave, autosaveLast = '', autosavePeriodical, autosaveOldMessage = '', au
 
 jQuery(document).ready( function($) {
 
-	autosaveLast = $('#post #title').val() + $('#post #content').val();
+	autosaveLast = ( $('#post #title').val() || '' ) + ( $('#post #content').val() || '' );
 	autosavePeriodical = $.schedule({time: autosaveL10n.autosaveInterval * 1000, func: function() { autosave(); }, repeat: true, protect: true});
 
 	//Disable autosave after the form has been submitted
@@ -35,11 +35,11 @@ jQuery(document).ready( function($) {
 				return autosaveL10n.saveAlert;
 		} else {
 			if ( fullscreen && fullscreen.settings.visible ) {
-				title = $('#wp-fullscreen-title').val();
-				content = $("#wp_mce_fullscreen").val();
+				title = $('#wp-fullscreen-title').val() || '';
+				content = $("#wp_mce_fullscreen").val() || '';
 			} else {
-				title = $('#post #title').val();
-				content = $('#post #content').val();
+				title = $('#post #title').val() || '';
+				content = $('#post #content').val() || '';
 			}
 
 			if ( ( title || content ) && title + content != autosaveLast )
