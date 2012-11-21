@@ -83,7 +83,7 @@ function get_home_path() {
 	$siteurl = get_option( 'siteurl' );
 	if ( ! empty( $home ) && 0 !== strcasecmp( $home, $siteurl ) ) {
 		$wp_path_rel_to_home = str_ireplace( $home, '', $siteurl ); /* $siteurl - $home */
-		$pos = strripos( str_replace( '\\', '/', $_SERVER['SCRIPT_FILENAME'] ), $wp_path_rel_to_home);
+		$pos = strripos( str_replace( '\\', '/', $_SERVER['SCRIPT_FILENAME'] ), trailingslashit( $wp_path_rel_to_home ) );
 		$home_path = substr( $_SERVER['SCRIPT_FILENAME'], 0, $pos );
 		$home_path = trailingslashit( $home_path );
 	} else {
