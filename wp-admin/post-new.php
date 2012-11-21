@@ -21,6 +21,9 @@ $post_type_object = get_post_type_object( $post_type );
 if ( 'post' == $post_type ) {
 	$parent_file = 'edit.php';
 	$submenu_file = 'post-new.php';
+} elseif ( 'attachment' == $post_type ) {
+	wp_redirect( admin_url( 'media-new.php' ) );
+	exit;
 } else {
 	$submenu_file = "post-new.php?post_type=$post_type";
 	if ( isset( $post_type_object ) && $post_type_object->show_in_menu && $post_type_object->show_in_menu !== true ) {
