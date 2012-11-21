@@ -311,7 +311,7 @@
 			// from the selection.
 			this.get('selection').off( null, null, this );
 
-			wp.Uploader.queue.off( 'add', this.selectUpload, this );
+			wp.Uploader.queue.off( null, null, this );
 
 			this.off( 'change:excludeState', this._excludeState, this );
 			this.off( 'change:library change:exclude', this.buildComposite, this );
@@ -498,6 +498,25 @@
 			if ( ! this.get('AttachmentView') )
 				this.set( 'AttachmentView', media.view.Attachment.EditLibrary );
 			media.controller.Library.prototype.initialize.apply( this, arguments );
+		},
+
+		activate: function() {
+			var library = this.get('library');
+
+			// Limit the library to images only.
+			library.props.set( 'type', 'image' );
+			console.log('set', library.props.toJSON(), library.filters );
+
+			// Watch for uploaded attachments.
+			this.get('library').observe( wp.Uploader.queue );
+
+			media.controller.Library.prototype.activate.apply( this, arguments );
+		},
+
+		deactivate: function() {
+			// Stop watching for uploaded attachments.
+			this.get('library').unobserve( wp.Uploader.queue );
+			media.controller.Library.prototype.deactivate.apply( this, arguments );
 		},
 
 		sidebar: function() {
