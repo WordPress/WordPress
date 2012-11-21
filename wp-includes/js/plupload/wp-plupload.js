@@ -211,19 +211,19 @@ window.wp = window.wp || {};
 			self.success( file.attachment );
 		});
 
-		this.uploader.bind( 'Error', function( up, error ) {
+		this.uploader.bind( 'Error', function( up, pluploadError ) {
 			var message = pluploadL10n.default_error,
 				key;
 
 			// Check for plupload errors.
 			for ( key in Uploader.errorMap ) {
-				if ( error.code === plupload[ key ] ) {
+				if ( pluploadError.code === plupload[ key ] ) {
 					message = Uploader.errorMap[ key ];
 					break;
 				}
 			}
 
-			self.error( message, error, error.file );
+			error( message, pluploadError, pluploadError.file );
 			up.refresh();
 		});
 
