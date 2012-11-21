@@ -1188,13 +1188,13 @@
 			// Add the default states.
 			this.states.add([
 				// Main states.
-				new media.controller.Library( _.defaults({
+				new media.controller.Library({
 					selection: options.selection,
 					library:   media.query( options.library ),
 					multiple:  this.options.multiple,
 					menu:      'main',
 					toolbar:   'select'
-				}, attributes ) ),
+				}),
 
 				new media.controller.Upload({
 					menu: 'main'
