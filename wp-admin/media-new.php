@@ -21,20 +21,11 @@ wp_enqueue_script('set-post-thumbnail' );
 wp_enqueue_style('imgareaselect');
 wp_enqueue_script( 'media-gallery' );
 
+$errors = array();
 
-// IDs should be integers
-$ID = isset($ID) ? (int) $ID : 0;
-$post_id = isset($post_id)? (int) $post_id : 0;
+unset( $_REQUEST['post_id'] );
 
-// Require an ID for the edit screen
-if ( isset($action) && $action == 'edit' && !$ID )
-	wp_die( __( 'Cheatin&#8217; uh?' ) );
-
-	$errors = array();
-
-	if ( ! empty( $_REQUEST['post_id'] ) && ! current_user_can( 'edit_post' , $_REQUEST['post_id'] ) )
-		wp_die( __( 'Cheatin&#8217; uh?' ) );
-
+if ( $_POST ) {
 	if ( isset($_POST['html-upload']) && !empty($_FILES) ) {
 		check_admin_referer('media-form');
 		// Upload File button was clicked
@@ -46,19 +37,15 @@ if ( isset($action) && $action == 'edit' && !$ID )
 		}
 	}
 
-	if ( isset($_GET['upload-page-form']) ) {
-		$errors = array_merge($errors, (array) media_upload_form_handler());
+	$errors = array_merge($errors, (array) media_upload_form_handler());
 
-		$location = 'upload.php';
-		if ( $errors )
-			$location .= '?message=3';
+	$location = 'upload.php';
+	if ( $errors )
+		$location .= '?message=3';
 
-		wp_redirect( admin_url($location) );
-		exit;
-	}
-
-	if ( isset( $_REQUEST['post_id'] ) )
-		wp_die( __( 'Cheatin&#8217; uh?' ) );
+	wp_redirect( admin_url($location) );
+	exit;
+}
 
 	$title = __('Upload New Media');
 	$parent_file = 'upload.php';
@@ -91,7 +78,7 @@ if ( isset($action) && $action == 'edit' && !$ID )
 	<?php screen_icon(); ?>
 	<h2><?php echo esc_html( $title ); ?></h2>
 
-	<form enctype="multipart/form-data" method="post" action="<?php echo admin_url('media-new.php?inline=&amp;upload-page-form='); ?>" class="<?php echo $form_class; ?>" id="file-form">
+	<form enctype="multipart/form-data" method="post" action="<?php echo admin_url('media-new.php'); ?>" class="<?php echo $form_class; ?>" id="file-form">
 
 	<?php media_upload_form(); ?>
 
