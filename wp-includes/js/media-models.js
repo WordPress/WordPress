@@ -425,7 +425,7 @@ window.wp = window.wp || {};
 
 		mirror: function( attachments ) {
 			if ( this.mirroring && this.mirroring === attachments )
-				return;
+				return this;
 
 			this.unmirror();
 			this.mirroring = attachments;
