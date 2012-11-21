@@ -1910,7 +1910,7 @@
 
 			} else {
 				if ( ! ( view instanceof Backbone.View ) ) {
-					view.classes = [ id ].concat( view.classes || [] );
+					view.classes = [ 'media-button-' + id ].concat( view.classes || [] );
 					view = new media.view.Button( view ).render();
 				}
 
