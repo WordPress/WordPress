@@ -2280,13 +2280,14 @@ function edit_form_image_editor() {
 			<label for="attachment_caption"><strong><?php _e( 'Caption' ); ?></strong></label><br />
 			<textarea class="widefat" name="excerpt" id="attachment_caption"><?php echo $post->post_excerpt; ?></textarea>
 		</p>
+	<?php if ( 'image' === substr( $post->post_mime_type, 0, 5 ) ) : ?>
 		<p>
 			<label for="attachment_alt"><strong><?php _e( 'Alternative Text' ); ?></strong></label><br />
 			<input type="text" class="widefat" name="_wp_attachment_image_alt" id="attachment_alt" value="<?php echo esc_attr( $alt_text ); ?>" />
 		</p>
 	</div>
 	<?php
-	// need a filter on this content
+	endif;
 }
 
 /**
