@@ -710,11 +710,17 @@ function wp_save_image( $post_id ) {
 		update_post_meta( $post_id, '_wp_attachment_backup_sizes', $backup_sizes);
 
 		if ( $target == 'thumbnail' || $target == 'all' || $target == 'full' ) {
-			$file_url = wp_get_attachment_url($post_id);
-			if ( $thumb = $meta['sizes']['thumbnail'] )
-				$return->thumbnail = path_join( dirname($file_url), $thumb['file'] );
-			else
-				$return->thumbnail = "$file_url?w=128&h=128";
+			// Check if it's an image edit from attachment edit screen
+			if ( false !== strpos( wp_get_referer(), 'post.php' ) ) {
+				$thumb_url = wp_get_attachment_image_src( $post_id, array( 900, 600 ), true );
+				$return->thumbnail = $thumb_url[0];
+			} else {
+				$file_url = wp_get_attachment_url($post_id);
+				if ( $thumb = $meta['sizes']['thumbnail'] )
+					$return->thumbnail = path_join( dirname($file_url), $thumb['file'] );
+				else
+					$return->thumbnail = "$file_url?w=128&h=128";
+			}
 		}
 	} else {
 		$delete = true;
