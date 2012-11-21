@@ -28,8 +28,10 @@ window.wp = window.wp || {};
 			$('#wpbody').on( 'click', '.load-customize', function( event ) {
 				event.preventDefault();
 
+				// Store a reference to the link that opened the customizer.
+				Loader.link = $(this);
 				// Load the theme.
-				Loader.open( $(this).attr('href') );
+				Loader.open( Loader.link.attr('href') );
 			});
 
 			// Add navigation listeners.
@@ -123,6 +125,10 @@ window.wp = window.wp || {};
 			this.active = false;
 
 			this.trigger( 'close' );
+
+			// Return focus to link that was originally clicked.
+			if ( this.link )
+				this.link.focus();
 		},
 
 		closed: function() {

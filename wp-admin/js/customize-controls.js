@@ -881,9 +881,8 @@
 		$('.back').keydown( function( event ) {
 			if ( 9 === event.which ) // tab
 				return;
-			var thisHref = $(this).attr('href');
 			if ( 13 === event.which ) // enter
-				window.location = thisHref;
+				parent.send( 'close' );
 			event.preventDefault();
 		});
 
