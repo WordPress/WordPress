@@ -118,8 +118,6 @@ var tb_position;
 			});
 
 			if ( attachment ) {
-				attachment = attachment.toJSON();
-
 				_.extend( props, {
 					title:   attachment.title || attachment.filename,
 					linkUrl: linkToUrl( props, attachment ),
@@ -153,8 +151,6 @@ var tb_position;
 			});
 
 			if ( attachment ) {
-				attachment = attachment.toJSON();
-
 				classes.push( 'wp-image-' + attachment.id );
 
 				sizes = attachment.sizes;
@@ -397,7 +393,13 @@ var tb_position;
 					// Reset the attachment details.
 					delete details[ attachment.cid ];
 
-					if ( 'image' === attachment.get('type') )
+					attachment = attachment.toJSON();
+
+					// If captions are disabled, clear the caption.
+					if ( ! wp.media.view.settings.captions )
+						delete attachment.caption;
+
+					if ( 'image' === attachment.type )
 						this.insert( wp.media.string.image( detail, attachment ) + ' ' );
 					else
 						this.insert( wp.media.string.link( detail, attachment ) + ' ' );

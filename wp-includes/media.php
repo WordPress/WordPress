@@ -1327,6 +1327,7 @@ function wp_enqueue_media( $args = array() ) {
 		'tabs'      => $tabs,
 		'tabUrl'    => add_query_arg( array( 'chromeless' => true ), admin_url('media-upload.php') ),
 		'mimeTypes' => wp_list_pluck( get_post_mime_types(), 0 ),
+		'captions'  => ! apply_filters( 'disable_captions', '' ),
 	);
 
 	$post = null;
@@ -1691,10 +1692,12 @@ function wp_print_media_templates( $attachment ) {
 			<img src="{{ data.model.url }}" draggable="false" />
 		</div>
 
-		<label class="setting caption">
-			<span><?php _e('Caption'); ?></span>
-			<textarea data-setting="caption" />
-		</label>
+		<?php if ( ! apply_filters( 'disable_captions', '' ) ) : ?>
+			<label class="setting caption">
+				<span><?php _e('Caption'); ?></span>
+				<textarea data-setting="caption" />
+			</label>
+		<?php endif; ?>
 
 		<label class="setting alt-text">
 			<span><?php _e('Alt Text'); ?></span>
