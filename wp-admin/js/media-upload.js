@@ -148,7 +148,8 @@ var tb_position;
 
 			props = _.defaults( props || {}, {
 				align: getUserSetting( 'align', 'none' ),
-				size:  getUserSetting( 'imgsize', 'medium' )
+				size:  getUserSetting( 'imgsize', 'medium' ),
+				url:   ''
 			});
 
 			if ( attachment ) {
@@ -168,9 +169,8 @@ var tb_position;
 				});
 			}
 
-			img.width  = size.width;
-			img.height = size.height;
-			img.src    = size.url;
+			img.src = props.url;
+			_.extend( img, _.pick( props, 'width', 'height', 'alt' ) );
 
 			// Only assign the align class to the image if we're not printing
 			// a caption, since the alignment is sent to the shortcode.
@@ -204,9 +204,10 @@ var tb_position;
 
 			// Generate the caption shortcode.
 			if ( props.caption ) {
-				shortcode = {
-					width: img.width
-				};
+				shortcode = {};
+
+				if ( img.width )
+					shortcode.width = img.width;
 
 				if ( props.captionId )
 					shortcode.id = props.captionId;
@@ -408,48 +409,32 @@ var tb_position;
 			}, this );
 
 			workflow.get('embed').on( 'select', function() {
-				var embed = workflow.state().toJSON(),
-					options;
+				var embed = workflow.state().toJSON();
+
+				embed.url = embed.url || '';
 
 				if ( 'link' === embed.type ) {
-					this.insert( wp.html.string({
-						tag:     'a',
-						content: embed.title || embed.url,
-						attrs:   {
-							href: embed.url
-						}
-					}) );
+					_.defaults( embed, {
+						title:   embed.url,
+						linkUrl: embed.url
+					});
+
+					this.insert( wp.media.string.link( embed ) );
 
 				} else if ( 'image' === embed.type ) {
 					_.defaults( embed, {
-						align:   'none',
-						url:     '',
-						alt:     '',
+						title:   embed.url,
 						linkUrl: '',
+						align:   'none',
 						link:    'none'
 					});
 
-					options = {
-						single: true,
-						tag:    'img',
-						attrs:  {
-							'class': 'align' + embed.align,
-							src:     embed.url,
-							alt:     embed.alt
-						}
-					};
+					if ( 'none' === embed.link )
+						embed.linkUrl = '';
+					else if ( 'file' === embed.link )
+						embed.linkUrl = embed.url;
 
-					if ( 'custom' === embed.link || 'file' === embed.link ) {
-						options = {
-							tag:     'a',
-							content: options,
-							attrs:   {
-								href: 'custom' === embed.link ? embed.linkUrl : embed.url
-							}
-						};
-					}
-
-					this.insert( wp.html.string( options ) );
+					this.insert( wp.media.string.image( embed ) );
 				}
 			}, this );
 
