@@ -254,6 +254,7 @@ final class WP_Theme implements ArrayAccess {
 				// Parent theme is missing.
 				$this->errors = new WP_Error( 'theme_no_parent', sprintf( __( 'The parent theme is missing. Please install the "%s" parent theme.' ), $this->template ) );
 				$this->cache_add( 'theme', array( 'headers' => $this->headers, 'errors' => $this->errors, 'stylesheet' => $this->stylesheet, 'template' => $this->template ) );
+				$this->parent = new WP_Theme( $this->template, $this->theme_root, $this );
 				return;
 			}
 		}
