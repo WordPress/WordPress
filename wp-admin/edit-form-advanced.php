@@ -435,7 +435,7 @@ try{document.post.title.focus();}catch(e){}
 	window.onbeforeunload = function() {
 		var i, changed, current = getFieldsContent();
 		for ( var i = 0; i < initial.length; i++ ) {
- 			if ( changed = ( inital[i] !== current[i]) )
+ 			if ( changed = ( initial[i] !== current[i]) )
  				break;
  		}
  		if ( changed )
