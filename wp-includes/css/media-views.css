@@ -14,6 +14,33 @@
 	margin-top: 3px;
 }
 
+.media-modal {
+	font-family: sans-serif;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="number"],
+input[type="search"],
+input[type="email"],
+input[type="url"],
+textarea,
+select {
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing: border-box; /* ie8 only */
+	box-sizing: border-box;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #dfdfdf;
+}
+
+input[type="search"] {
+	-webkit-appearance: textfield;
+}
+
 /**
  * Modal
  */
@@ -208,6 +235,7 @@
 .media-sidebar .setting span {
 	min-width: 30%;
 	margin-right: 4%;
+	font-size: 12px;
 }
 
 .media-sidebar .setting select {
@@ -433,6 +461,7 @@
 	padding: 0;
 	margin: 0 10px 20px;
 	color: #464646;
+	list-style: none;
 
 	-webkit-user-select: none;
 	-moz-user-select:    none;
