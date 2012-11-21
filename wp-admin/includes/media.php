@@ -1276,6 +1276,7 @@ function get_compat_media_markup( $attachment_id, $args = null ) {
 
 	$default_args = array(
 		'errors' => null,
+		'taxonomies' => false,
 	);
 
 	$args = wp_parse_args( $args, $default_args );
@@ -1283,26 +1284,28 @@ function get_compat_media_markup( $attachment_id, $args = null ) {
 
 	$form_fields = array();
 
-	foreach ( get_attachment_taxonomies($post) as $taxonomy ) {
-		$t = (array) get_taxonomy($taxonomy);
-		if ( ! $t['public'] || ! $t['show_ui'] )
-			continue;
-		if ( empty($t['label']) )
-			$t['label'] = $taxonomy;
-		if ( empty($t['args']) )
-			$t['args'] = array();
+	if ( $args['taxonomies'] ) {
+		foreach ( get_attachment_taxonomies($post) as $taxonomy ) {
+			$t = (array) get_taxonomy($taxonomy);
+			if ( ! $t['public'] || ! $t['show_ui'] )
+				continue;
+			if ( empty($t['label']) )
+				$t['label'] = $taxonomy;
+			if ( empty($t['args']) )
+				$t['args'] = array();
 
-		$terms = get_object_term_cache($post->ID, $taxonomy);
-		if ( false === $terms )
-			$terms = wp_get_object_terms($post->ID, $taxonomy, $t['args']);
+			$terms = get_object_term_cache($post->ID, $taxonomy);
+			if ( false === $terms )
+				$terms = wp_get_object_terms($post->ID, $taxonomy, $t['args']);
 
-		$values = array();
+			$values = array();
 
-		foreach ( $terms as $term )
-			$values[] = $term->slug;
-		$t['value'] = join(', ', $values);
+			foreach ( $terms as $term )
+				$values[] = $term->slug;
+			$t['value'] = join(', ', $values);
 
-		$form_fields[$taxonomy] = $t;
+			$form_fields[$taxonomy] = $t;
+		}
 	}
 
 	// Merge default fields with their errors, so any key passed with the error (e.g. 'error', 'helps', 'value') will replace the default
@@ -1332,6 +1335,7 @@ function get_compat_media_markup( $attachment_id, $args = null ) {
 			continue;
 
 		$name = "attachments[$attachment_id][$id]";
+		$id_attr = "attachments-$attachment_id-$id";
 
 		if ( !empty( $field['tr'] ) ) {
 			$item .= $field['tr'];
@@ -1341,17 +1345,17 @@ function get_compat_media_markup( $attachment_id, $args = null ) {
 		$field = array_merge( $defaults, $field );
 
 		if ( $field['input'] == 'hidden' ) {
-			$hidden_fields[$id] = $field['value'];
+			$hidden_fields[$name] = $field['value'];
 			continue;
 		}
 
 		$required      = $field['required'] ? '<span class="alignright"><abbr title="required" class="required">*</abbr></span>' : '';
 		$aria_required = $field['required'] ? " aria-required='true' " : '';
-		$class  = 'compat-item-' . $name;
+		$class  = 'compat-field-' . $id;
 		$class .= $field['required'] ? ' form-required' : '';
 
 		$item .= "\t\t<tr class='$class'>";
-		$item .= "\t\t\t<th valign='top' scope='row' class='label'><label for='$name'><span class='alignleft'>{$field['label']}</span>$required<br class='clear' /></label>";
+		$item .= "\t\t\t<th valign='top' scope='row' class='label'><label for='$id_attr'><span class='alignleft'>{$field['label']}</span>$required<br class='clear' /></label>";
 		$item .= "</th>\n\t\t\t<td class='field'>";
 
 		if ( !empty( $field[ $field['input'] ] ) )
@@ -1361,9 +1365,9 @@ function get_compat_media_markup( $attachment_id, $args = null ) {
 				// sanitize_post() skips the post_content when user_can_richedit
 				$field['value'] = htmlspecialchars( $field['value'], ENT_QUOTES );
 			}
-			$item .= "<textarea id='$name' name='$name' $aria_required>" . $field['value'] . '</textarea>';
+			$item .= "<textarea id='$id_attr' name='$name' $aria_required>" . $field['value'] . '</textarea>';
 		} else {
-			$item .= "<input type='text' class='text' id='$name' name='$name' value='" . esc_attr( $field['value'] ) . "' $aria_required />";
+			$item .= "<input type='text' class='text' id='$id_attr' name='$name' value='" . esc_attr( $field['value'] ) . "' $aria_required />";
 		}
 		if ( !empty( $field['helps'] ) )
 			$item .= "<p class='help'>" . join( "</p>\n<p class='help'>", array_unique( (array) $field['helps'] ) ) . '</p>';
@@ -1388,7 +1392,7 @@ function get_compat_media_markup( $attachment_id, $args = null ) {
 	if ( !empty( $form_fields['_final'] ) )
 		$item .= "\t\t<tr class='final'><td colspan='2'>{$form_fields['_final']}</td></tr>\n";
 	if ( $item )
-		$item = '<table>' . $item . '</table>';
+		$item = '<table class="compat-attachment-fields">' . $item . '</table>';
 
 	return array(
 		'item'   => $item,
@@ -2285,6 +2289,11 @@ function edit_form_image_editor() {
 
 	</div>
 	<?php
+	$extras = get_compat_media_markup( $post->ID );
+	echo $extras['item'];
+	foreach ( $extras['hidden'] as $hidden_field => $value ) {
+		echo '<input type="hidden" name="' . esc_attr( $hidden_field ) . '" value="' . esc_attr( $value ) . '" />' . "\n";
+	}
 }
 
 /**

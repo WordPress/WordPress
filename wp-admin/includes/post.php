@@ -238,6 +238,9 @@ function edit_post( $post_data = null ) {
 			// update_meta expects slashed
 			update_post_meta( $post_ID, '_wp_attachment_image_alt', addslashes( $image_alt ) );
 		}
+
+		if ( isset( $post_data['attachments'][ $post_ID ] ) )
+			$post_data = apply_filters( 'attachment_fields_to_save', $post_data, $post_data['attachments'][ $post_ID ] );
 	}
 
 	add_meta( $post_ID );

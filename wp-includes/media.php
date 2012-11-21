@@ -1293,7 +1293,7 @@ function wp_prepare_attachment_for_js( $attachment ) {
 	}
 
 	if ( function_exists('get_compat_media_markup') )
-		$response['compat'] = get_compat_media_markup( $attachment->ID );
+		$response['compat'] = get_compat_media_markup( $attachment->ID, array( 'taxonomies' => true ) );
 
 	return apply_filters( 'wp_prepare_attachment_for_js', $response, $attachment, $meta );
 }
