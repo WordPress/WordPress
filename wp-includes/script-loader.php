@@ -522,7 +522,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'editor-buttons', "/wp-includes/css/editor$suffix.css" );
 	$styles->add( 'wp-pointer', "/wp-includes/css/wp-pointer$suffix.css" );
 	$styles->add( 'customize-controls', "/wp-admin/css/customize-controls$suffix.css", array( 'wp-admin', 'colors', 'ie' ) );
-	$styles->add( 'media-views', "/wp-includes/css/media-views$suffix.css" );
+	$styles->add( 'media-views', "/wp-includes/css/media-views$suffix.css", array( 'buttons' ) );
 	$styles->add( 'buttons', "/wp-includes/css/buttons$suffix.css" );
 
 	foreach ( $rtl_styles as $rtl_style ) {
