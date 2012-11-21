@@ -1809,9 +1809,10 @@
 			wp.Uploader.queue.on( 'add remove reset change:percent', this.renderUploadProgress, this );
 		},
 
-		destroy: function() {
-			wp.Uploader.queue.off( 'add remove reset change:percent', this.renderUploadProgress, this );
-			this.remove();
+		dispose: function() {
+			wp.Uploader.queue.off( null, null, this );
+			media.View.prototype.dispose.apply( this, arguments );
+			return this;
 		},
 
 		render: function() {
@@ -1827,6 +1828,8 @@
 			$placeholder.replaceWith( $browser.show() );
 
 			this.$bar = this.$('.media-progress-bar div');
+
+			this.views.render();
 			return this;
 		},
 
