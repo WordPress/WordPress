@@ -2766,54 +2766,74 @@
 			change: 'change'
 		},
 
+		filters: (function() {
+			var filters = {};
+
+			_.each( media.view.settings.mimeTypes || {}, function( text, key ) {
+				filters[ key ] = {
+					text: text,
+					props: {
+						type:   key,
+						parent: null
+					}
+				};
+			});
+
+			filters.all = {
+				text:  l10n.allMediaItems,
+				props: {
+					type:   null,
+					parent: null
+				},
+				priority: 10
+			};
+
+			filters.uploaded = {
+				text:  l10n.uploadedToThisPost,
+				props: {
+					type:   null,
+					parent: media.view.settings.postId
+				},
+				priority: 20
+			};
+
+			return filters;
+		}()),
+
 		initialize: function() {
-			var els;
-
-			els = _.map({
-				all:      'allMediaItems',
-				uploaded: 'uploadedToThisPost',
-				image:    'images',
-				audio:    'audio',
-				video:    'videos'
-			}, function( text, value ) {
-				return this.make( 'option', { value: value }, l10n[ text ] );
-			}, this );
-
-			this.$el.html( els );
+			// Build `<option>` elements.
+			this.$el.html( _.chain( this.filters ).map( function( filter, value ) {
+				return {
+					el: this.make( 'option', { value: value }, filter.text ),
+					priority: filter.priority || 50
+				};
+			}, this ).sortBy('priority').pluck('el').value() );
 
 			this.model.on( 'change', this.select, this );
 			this.select();
 		},
 
 		change: function( event ) {
-			var model = this.model,
-				value = this.el.value,
-				type;
+			var filter = this.filters[ this.el.value ];
 
-			if ( 'all' === value || 'uploaded' === value )
-				model.unset('type');
-			else if ( 'image' === value || 'audio' === value || 'video' === value )
-				model.set( 'type', value );
-
-			if ( 'uploaded' === value )
-				model.set( 'parent', media.view.settings.postId );
-			else
-				model.unset('parent');
+			if ( filter )
+				this.model.set( filter.props );
 		},
 
 		select: function() {
 			var model = this.model,
+				value = 'all',
 				type = model.get('type'),
-				value = 'all';
+				parent = model.get('parent'),
+				props = {
+					parent: _.isUndefined( parent ) ? null : parent,
+					type:   _.isUndefined( type ) ? null : type
+				};
 
-			if ( model.get('parent') === media.view.settings.postId )
-				value = 'uploaded';
-			else if ( 'image' === type )
-				value = 'image';
-			else if ( 'audio' === type )
-				value = 'audio';
-			else if ( 'video' === type )
-				value = 'video';
+			_.find( this.filters, function( filter, key ) {
+				if ( _.isEqual( filter.props, props ) )
+					return value = key;
+			});
 
 			this.$el.val( value );
 		}

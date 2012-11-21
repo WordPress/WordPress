@@ -671,6 +671,9 @@ window.wp = window.wp || {};
 				// Generate the query `args` object.
 				// Correct any differing property names.
 				_.each( props, function( value, prop ) {
+					if ( _.isNull( value ) )
+						return;
+
 					args[ Query.propmap[ prop ] || prop ] = value;
 				});
 

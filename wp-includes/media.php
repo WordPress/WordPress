@@ -1322,10 +1322,9 @@ function wp_enqueue_media( $args = array() ) {
 	unset( $tabs['type'], $tabs['type_url'], $tabs['gallery'], $tabs['library'] );
 
 	$settings = array(
-		'tabs'   => $tabs,
-		'tabUrl' => add_query_arg( array(
-			'chromeless' => true
-		), admin_url('media-upload.php') ),
+		'tabs'      => $tabs,
+		'tabUrl'    => add_query_arg( array( 'chromeless' => true ), admin_url('media-upload.php') ),
+		'mimeTypes' => wp_list_pluck( get_post_mime_types(), 0 ),
 	);
 
 	$post = null;
@@ -1354,16 +1353,12 @@ function wp_enqueue_media( $args = array() ) {
 		'uploadMoreFiles'   => __( 'Upload more files' ),
 
 		// Library
-		'mediaLibraryTitle' => __( 'Media Library' ),
-		'createNewGallery'  => __( 'Create a new gallery' ),
-		'insertIntoPost'    =>  $hier ? __( 'Insert into page' ) : __( 'Insert into post' ),
-		'returnToLibrary'   => __( '&#8592; Return to library' ),
-
+		'mediaLibraryTitle'  => __( 'Media Library' ),
+		'createNewGallery'   => __( 'Create a new gallery' ),
+		'returnToLibrary'    => __( '&#8592; Return to library' ),
 		'allMediaItems'      => __( 'All media items' ),
+		'insertIntoPost'     => $hier ? __( 'Insert into page' ) : __( 'Insert into post' ),
 		'uploadedToThisPost' => $hier ? __( 'Uploaded to this page' ) : __( 'Uploaded to this post' ),
-		'images'             => __( 'Images' ),
-		'audio'              => __( 'Audio' ),
-		'videos'             => __( 'Videos' ),
 
 		// Embed
 		'embedFromUrlTitle' => __( 'Embed From URL' ),
