@@ -109,21 +109,68 @@ var tb_position;
 	};
 
 	wp.media.string = {
-		link: function( props, attachment ) {
-			var options;
+		// Joins the `props` and `attachment` objects,
+		// outputting the proper object format based on the
+		// attachment's type.
+		props: function( props, attachment ) {
+			var link, linkUrl, size, sizes;
 
-			props = _.defaults( props || {}, {
-				title:   '',
-				linkUrl: ''
-			});
+			props = props ? _.clone( props ) : {};
 
-			if ( attachment ) {
+			if ( attachment && attachment.type )
+				props.type = attachment.type;
+
+			if ( 'image' === props.type ) {
+				props = _.defaults( props || {}, {
+					align:   getUserSetting( 'align', 'none' ),
+					size:    getUserSetting( 'imgsize', 'medium' ),
+					url:     '',
+					classes: []
+				});
+			}
+
+			// All attachment-specific settings follow.
+			if ( ! attachment )
+				return props;
+
+			link = props.link || getUserSetting( 'urlbutton', 'post' );
+			if ( 'file' === link )
+				linkUrl = attachment.url;
+			else if ( 'post' === link )
+				linkUrl = attachment.link;
+			else if ( 'custom' === link )
+				linkUrl = props.linkUrl;
+			props.linkUrl = linkUrl || '';
+
+			// Format properties for images.
+			if ( 'image' === attachment.type ) {
+				props.classes.push( 'wp-image-' + attachment.id );
+
+				sizes = attachment.sizes;
+				size = sizes && sizes[ props.size ] ? sizes[ props.size ] : attachment;
+
+				_.extend( props, _.pick( attachment, 'align', 'caption' ), {
+					width:     size.width,
+					height:    size.height,
+					src:       size.url,
+					captionId: 'attachment_' + attachment.id
+				});
+
+			// Format properties for non-images.
+			} else {
 				_.extend( props, {
 					title:   attachment.title || attachment.filename,
-					linkUrl: linkToUrl( props, attachment ),
 					rel:     'attachment wp-att-' + attachment.id
 				});
 			}
+
+			return props;
+		},
+
+		link: function( props, attachment ) {
+			var options;
+
+			props = wp.media.string.props( props, attachment );
 
 			options = {
 				tag:     'a',
@@ -140,30 +187,11 @@ var tb_position;
 		},
 
 		image: function( props, attachment ) {
-			var classes = [],
-				img = {},
-				options, sizes, size, shortcode, html;
+			var img = {},
+				options, classes, shortcode, html;
 
-			props = _.defaults( props || {}, {
-				align: getUserSetting( 'align', 'none' ),
-				size:  getUserSetting( 'imgsize', 'medium' ),
-				url:   ''
-			});
-
-			if ( attachment ) {
-				classes.push( 'wp-image-' + attachment.id );
-
-				sizes = attachment.sizes;
-				size = sizes && sizes[ props.size ] ? sizes[ props.size ] : attachment;
-
-				_.extend( props, _.pick( attachment, 'align', 'caption' ), {
-					width:     size.width,
-					height:    size.height,
-					src:       size.url,
-					linkUrl:   linkToUrl( props, attachment ),
-					captionId: 'attachment_' + attachment.id
-				});
-			}
+			props = wp.media.string.props( props, attachment );
+			classes = props.classes || [];
 
 			img.src = props.url;
 			_.extend( img, _.pick( props, 'width', 'height', 'alt' ) );
@@ -395,14 +423,7 @@ var tb_position;
 
 					attachment = attachment.toJSON();
 
-					// If captions are disabled, clear the caption.
-					if ( ! wp.media.view.settings.captions )
-						delete attachment.caption;
-
-					if ( 'image' === attachment.type )
-						this.insert( wp.media.string.image( detail, attachment ) + ' ' );
-					else
-						this.insert( wp.media.string.link( detail, attachment ) + ' ' );
+					this.send.attachment( detail, attachment );
 				}, this );
 			}, this );
 
@@ -421,7 +442,7 @@ var tb_position;
 						linkUrl: embed.url
 					});
 
-					this.insert( wp.media.string.link( embed ) );
+					this.send.link( embed );
 
 				} else if ( 'image' === embed.type ) {
 					_.defaults( embed, {
@@ -449,6 +470,61 @@ var tb_position;
 
 		remove: function( id ) {
 			delete workflows[ id ];
+		},
+
+		send: {
+			attachment: function( props, attachment ) {
+				var caption = attachment.caption,
+					options, html;
+
+				// If captions are disabled, clear the caption.
+				if ( ! wp.media.view.settings.captions )
+					delete attachment.caption;
+
+				props = wp.media.string.props( props, attachment );
+
+				options = {
+					id: attachment.id
+				};
+
+				if ( 'image' === attachment.type ) {
+					html = wp.media.string.image( props );
+					options['caption'] = caption;
+
+					_.each({
+						align:   'image-align',
+						size:    'image-size',
+						alt:     'image-alt',
+						linkUrl: 'url'
+					}, function( option, prop ) {
+						if ( props[ prop ] )
+							options[ option ] = props[ prop ];
+					});
+
+				} else {
+					html = wp.media.string.link( props );
+					options.title = props.title;
+				}
+
+				return media.post( 'send-attachment-to-editor', {
+					nonce:      wp.media.view.settings.nonce.sendToEditor,
+					attachment: options,
+					html:       html
+				}).done( function( resp ) {
+					wp.media.editor.insert( resp );
+				});
+			},
+
+			link: function( embed ) {
+				return media.post( 'send-link-to-editor', {
+					nonce: wp.media.view.settings.nonce.sendToEditor,
+					src:   embed.linkUrl,
+					title: embed.title,
+					html:  wp.media.string.link( embed )
+				}).done( function( resp ) {
+					wp.media.editor.insert( resp );
+				});
+			}
 		},
 
 		init: function() {

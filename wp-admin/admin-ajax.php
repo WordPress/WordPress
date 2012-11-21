@@ -54,7 +54,8 @@ $core_actions_post = array(
 	'sample-permalink', 'inline-save', 'inline-save-tax', 'find_posts', 'widgets-order',
 	'save-widget', 'set-post-thumbnail', 'date_format', 'time_format', 'wp-fullscreen-save-post',
 	'wp-remove-post-lock', 'dismiss-wp-pointer', 'upload-attachment', 'get-attachment',
-	'query-attachments', 'save-attachment', 'save-attachment-compat',
+	'query-attachments', 'save-attachment', 'save-attachment-compat', 'send-link-to-editor',
+	'send-attachment-to-editor',
 );
 
 // Register core Ajax calls.

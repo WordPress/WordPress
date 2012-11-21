@@ -1328,6 +1328,9 @@ function wp_enqueue_media( $args = array() ) {
 		'tabUrl'    => add_query_arg( array( 'chromeless' => true ), admin_url('media-upload.php') ),
 		'mimeTypes' => wp_list_pluck( get_post_mime_types(), 0 ),
 		'captions'  => ! apply_filters( 'disable_captions', '' ),
+		'nonce'     => array(
+			'sendToEditor' => wp_create_nonce( 'media-send-to-editor' ),
+		),
 	);
 
 	$post = null;

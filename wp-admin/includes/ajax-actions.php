@@ -1907,3 +1907,91 @@ function wp_ajax_save_attachment_compat() {
 
 	wp_send_json_success( $attachment );
 }
+
+/**
+ * Generates the HTML to send an attachment to the editor.
+ * Backwards compatible with the media_send_to_editor filter and the chain
+ * of filters that follow.
+ *
+ * @since 3.5.0
+ */
+function wp_ajax_send_attachment_to_editor() {
+	check_ajax_referer( 'media-send-to-editor', 'nonce' );
+
+	$attachment = stripslashes_deep( $_POST['attachment'] );
+
+	$id = intval( $attachment['id'] );
+
+	if ( ! $post = get_post( $id ) )
+		wp_send_json_error();
+
+	if ( ! current_user_can( 'edit_post', $id ) )
+		wp_send_json_error();
+
+	if ( 'attachment' != $post->post_type )
+		wp_send_json_error();
+
+	$html = isset( $attachment['title'] ) ? $attachment['title'] : '';
+	if ( ! empty( $attachment['url'] ) ) {
+		$rel = '';
+		if ( strpos($attachment['url'], 'attachment_id') || get_attachment_link( $id ) == $attachment['url'] )
+			$rel = ' rel="attachment wp-att-' . $id . '"';
+		$html = '<a href="' . esc_url( $attachment['url'] ) . '"' . $rel . '>' . $html . '</a>';
+	}
+
+	remove_filter( 'media_send_to_editor', 'image_media_send_to_editor', 10, 3 );
+
+	if ( 'image' === substr( $post->post_mime_type, 0, 5 ) ) {
+		$url = $attachment['url'];
+		$align = isset( $attachment['image-align'] ) ? $attachment['image-align'] : 'none';
+		$size = isset( $attachment['image-size'] ) ? $attachment['image-size'] : 'medium';
+		$alt = isset( $attachment['image-alt'] ) ? $attachment['image-alt'] : '';
+		$caption = isset( $attachment['caption'] ) ? $attachment['caption'] : '';
+		$title = ''; // We no longer insert title tags into <img> tags, as they are redundant.
+		$html = get_image_send_to_editor( $id, $caption, $title, $align, $url, (bool) $rel, $size, $alt );
+	}
+
+	$html = apply_filters( 'media_send_to_editor', $html, $id, $attachment );
+
+	wp_send_json_success( $html );
+}
+
+/**
+ * Generates the HTML to send a non-image embed link to the editor.
+ *
+ * Backwards compatible with the following filters:
+ * - file_send_to_editor_url
+ * - audio_send_to_editor_url
+ * - video_send_to_editor_url
+ *
+ * @since 3.5.0
+ */
+function wp_ajax_send_link_to_editor() {
+	check_ajax_referer( 'media-send-to-editor', 'nonce' );
+
+	if ( ! $src = stripslashes( $_POST['src'] ) )
+		wp_send_json_error();
+
+	if ( ! strpos( $src, '://' ) )
+		$src = 'http://' . $src;
+
+	if ( ! $src = esc_url_raw( $src ) )
+		wp_send_json_error();
+
+	if ( ! $title = trim( stripslashes( $_POST['title'] ) ) )
+		$title = wp_basename( $src );
+
+	$html = '';
+	if ( $title )
+		$html = '<a href="' . esc_url( $src ) . '">' . $title . '</a>';
+
+	// Figure out what filter to run:
+	$type = 'file';
+	if ( ( $ext = preg_replace( '/^.+?\.([^.]+)$/', '$1', $src ) ) && ( $ext_type = wp_ext2type( $ext ) )
+		&& ( 'audio' == $ext_type || 'video' == $ext_type ) )
+			$type = $ext_type;
+
+	$html = apply_filters( $type . '_send_to_editor_url', $html, $src, $title );
+
+	wp_send_json_success( $html );
+}
