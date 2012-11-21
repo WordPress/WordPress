@@ -1540,7 +1540,7 @@ function wp_upload_dir( $time = null ) {
 
 			if ( defined( 'BLOGUPLOADDIR' ) )
 				$dir = untrailingslashit( BLOGUPLOADDIR );
-			$url = str_replace( UPLOADS, 'files', $url );
+			$url = str_replace( untrailingslashit( UPLOADS ), 'files', $url );
 		}
 	}
 
