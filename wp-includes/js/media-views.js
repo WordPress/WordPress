@@ -937,6 +937,10 @@
 			if ( this.collection && this.collection.off )
 				this.collection.off( null, null, this );
 
+			// Unbind controller events.
+			if ( this.controller && this.controller.off )
+				this.controller.off( null, null, this );
+
 			// Recursively dispose child views.
 			if ( this.views )
 				this.views.dispose();
@@ -1044,6 +1048,7 @@
 			// Initialize window-wide uploader.
 			if ( this.options.uploader ) {
 				this.uploader = new media.view.UploaderWindow({
+					controller: this,
 					uploader: {
 						dropzone:  this.modal ? this.modal.$el : this.$el,
 						container: this.$el
@@ -1732,6 +1737,8 @@
 			// Ensure the dropzone is a jQuery collection.
 			if ( uploader.dropzone && ! (uploader.dropzone instanceof $) )
 				uploader.dropzone = $( uploader.dropzone );
+
+			this.controller.on( 'activate', this.refresh, this );
 		},
 
 		refresh: function() {
