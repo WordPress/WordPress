@@ -1,6 +1,12 @@
 /**
  * Base Styles
  */
+.media-modal,
+.media-frame {
+	font-family: sans-serif;
+	font-size: 12px;
+}
+
 .media-frame input,
 .media-frame textarea {
 	padding: 6px 8px;
@@ -14,8 +20,12 @@
 	margin-top: 3px;
 }
 
-.media-modal {
-	font-family: sans-serif;
+a {
+	color: #21759b;
+}
+
+a:hover {
+	color: #d54e21;
 }
 
 input[type="text"],
@@ -26,6 +36,8 @@ input[type="email"],
 input[type="url"],
 textarea,
 select {
+	font-family: sans-serif;
+	font-size: 12px;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	-ms-box-sizing: border-box; /* ie8 only */
@@ -83,6 +95,10 @@ input[type="search"] {
 	color: #fff;
 	font-weight: 200;
 	text-shadow: 0 0 16px rgba( 0, 0, 0, 0.6 );
+}
+
+a.media-modal-close {
+	color: #fff;
 }
 
 .media-modal-title {
@@ -798,6 +814,10 @@ input[type="search"] {
 	display: block;
 }
 
+.upload-flash-bypass {
+	font-size: 12px;
+}
+
 .region-content.uploader-inline {
 	margin: 20px;
 	padding: 20px;
@@ -854,6 +874,7 @@ input[type="search"] {
 
 .media-selection .selection-info {
 	display: inline-block;
+	font-size: 12px;
 	height: 60px;
 	margin-right: 10px;
 	vertical-align: top;
@@ -1069,6 +1090,7 @@ input[type="search"] {
 
 .attachment-info .details {
 	float: left;
+	font-size: 12px;
 }
 
 .attachment-info .compat-meta {
@@ -1114,10 +1136,10 @@ input[type="search"] {
 }
 
 .embed-url input {
+	font-size: 18px;
 	padding: 12px 14px;
 	width: 100%;
 	min-width: 200px;
-	/*max-width: 500px;*/
 	box-shadow: inset 2px 2px 4px -2px rgba( 0, 0, 0, 0.1 );
 }
 
