@@ -325,8 +325,9 @@ window.wp = window.wp || {};
 		},
 
 		_changeFilteredProp: function( prop, model, term ) {
-			// Bail if we're currently searching for the same term.
-			if ( this.props.get( prop ) === term )
+			// If this is a query, updating the collection will be handled by
+			// `this._requery()`.
+			if ( this.props.get('query') )
 				return;
 
 			if ( term && ! this.filters[ prop ] )
@@ -337,10 +338,10 @@ window.wp = window.wp || {};
 			// If no `Attachments` model is provided to source the searches
 			// from, then automatically generate a source from the existing
 			// models.
-			if ( ! this.props.get('source') )
-				this.props.set( 'source', new Attachments( this.models ) );
+			if ( ! this._source )
+				this._source = new Attachments( this.models );
 
-			this.reset( this.props.get('source').filter( this.validator ) );
+			this.reset( this._source.filter( this.validator, this ) );
 		},
 
 		_changeSearch: function( model, term ) {
