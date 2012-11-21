@@ -362,11 +362,6 @@ window.wp = window.wp || {};
 			var valid = this.validator( attachment ),
 				hasAttachment = !! this.getByCid( attachment.cid );
 
-			// Only retain the `silent` option.
-			options = {
-				silent: options && options.silent
-			};
-
 			if ( ! valid && hasAttachment )
 				this.remove( attachment, options );
 			else if ( valid && ! hasAttachment )
@@ -375,10 +370,15 @@ window.wp = window.wp || {};
 			return this;
 		},
 
-		validateAll: function( attachments ) {
+		validateAll: function( attachments, options ) {
+			options = options || {};
+
 			_.each( attachments.models, function( attachment ) {
 				this.validate( attachment, { silent: true });
 			}, this );
+
+			if ( ! options.silent )
+				this.trigger( 'reset', this, options );
 
 			return this;
 		},
@@ -410,6 +410,12 @@ window.wp = window.wp || {};
 		},
 
 		_validateHandler: function( attachment, attachments, options ) {
+			// If we're not mirroring this `attachments` collection,
+			// only retain the `silent` option.
+			options = attachments === this.mirroring ? options : {
+				silent: options && options.silent
+			};
+
 			return this.validate( attachment, options );
 		},
 
@@ -423,32 +429,19 @@ window.wp = window.wp || {};
 
 			this.unmirror();
 			this.mirroring = attachments;
-			this.reset( attachments.models );
-			attachments.on( 'add',    this._mirrorAdd,    this );
-			attachments.on( 'remove', this._mirrorRemove, this );
-			attachments.on( 'reset',  this._mirrorReset,  this );
+
+			// Clear the collection silently. A `reset` event will be fired
+			// when `observe()` calls `validateAll()`.
+			this.reset( [], { silent: true } );
+			this.observe( attachments );
 		},
 
 		unmirror: function() {
 			if ( ! this.mirroring )
 				return;
 
-			this.mirroring.off( 'add',    this._mirrorAdd,    this );
-			this.mirroring.off( 'remove', this._mirrorRemove, this );
-			this.mirroring.off( 'reset',  this._mirrorReset,  this );
+			this.unobserve( this.mirroring );
 			delete this.mirroring;
-		},
-
-		_mirrorAdd: function( attachment, attachments, options ) {
-			this.add( attachment, { at: options.index });
-		},
-
-		_mirrorRemove: function( attachment ) {
-			this.remove( attachment );
-		},
-
-		_mirrorReset: function( attachments ) {
-			this.reset( attachments.models );
 		},
 
 		more: function( options ) {
