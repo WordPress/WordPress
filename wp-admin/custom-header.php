@@ -93,12 +93,6 @@ class Custom_Image_Header {
 		add_action("admin_head-$page", array(&$this, 'js'), 50);
 		if ( $this->admin_header_callback )
 			add_action("admin_head-$page", $this->admin_header_callback, 51);
-
-		if ( isset( $_REQUEST['context'] ) && $_REQUEST['context'] == 'custom-header' ) {
-			add_filter( 'attachment_fields_to_edit', array( $this, 'attachment_fields_to_edit' ), 10, 2 );
-			add_filter( 'media_upload_tabs', array( $this, 'filter_upload_tabs' ) );
-			add_filter( 'media_upload_mime_type_links', '__return_empty_array' );
-		}
 	}
 
 	/**
@@ -171,7 +165,6 @@ class Custom_Image_Header {
 		$step = $this->step();
 
 		if ( ( 1 == $step || 3 == $step ) ) {
-			add_thickbox();
 			wp_enqueue_media();
 			wp_enqueue_script( 'custom-header' );
 			if ( current_theme_supports( 'custom-header', 'header-text' ) )
@@ -910,32 +903,21 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	}
 
 	/**
-	 * Replace default attachment actions with "Set as header" link.
+	 * Unused since 3.5.0.
 	 *
 	 * @since 3.4.0
 	 */
-	function attachment_fields_to_edit( $form_fields, $post ) {
-		$form_fields = array();
-		$href = esc_url(add_query_arg(array(
-			'page' => 'custom-header',
-			'step' => 2,
-			'_wpnonce-custom-header-upload' => wp_create_nonce('custom-header-upload'),
-			'file' => $post->ID
-		), admin_url('themes.php')));
-
-		$form_fields['buttons'] = array( 'tr' => '<tr class="submit"><td></td><td><a data-location="' . $href . '" class="wp-set-header">' . __( 'Set as header' ) . '</a></td></tr>' );
-		$form_fields['context'] = array( 'input' => 'hidden', 'value' => 'custom-header' );
-
+	function attachment_fields_to_edit( $form_fields ) {
 		return $form_fields;
 	}
 
 	/**
-	 * Leave only "Media Library" tab in the uploader window.
+	 * Unused since 3.5.0.
 	 *
 	 * @since 3.4.0
 	 */
-	function filter_upload_tabs() {
-		return array( 'library' => __('Media Library') );
+	function filter_upload_tabs( $tabs ) {
+		return $tabs;
 	}
 
 	/**
