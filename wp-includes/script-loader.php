@@ -329,7 +329,7 @@ function wp_default_scripts( &$scripts ) {
 
 	// To enqueue media-views or media-editor, call wp_enqueue_media().
 	// Both rely on numerous settings, styles, and templates to operate correctly.
-	$scripts->add( 'media-views',  "/wp-includes/js/media-views$suffix.js",  array( 'media-models', 'wp-plupload' ), false, 1 );
+	$scripts->add( 'media-views',  "/wp-includes/js/media-views$suffix.js",  array( 'media-models', 'wp-plupload', 'jquery-ui-sortable' ), false, 1 );
 	$scripts->add( 'media-editor', "/wp-includes/js/media-editor$suffix.js", array( 'shortcode', 'media-views' ), false, 1 );
 	$scripts->add( 'mce-view', "/wp-includes/js/mce-view$suffix.js", array( 'shortcode', 'media-models' ), false, 1 );
 
