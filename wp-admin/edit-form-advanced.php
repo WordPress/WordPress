@@ -26,7 +26,7 @@ $action = isset($action) ? $action : '';
 
 if ( post_type_supports($post_type, 'editor') || post_type_supports($post_type, 'thumbnail') ) {
 	add_thickbox();
-	wp_enqueue_media( array( 'post' => $post_id ) );
+	wp_enqueue_media( array( 'post' => $post_ID ) );
 }
 
 $messages = array();
