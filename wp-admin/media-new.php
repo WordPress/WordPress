@@ -90,7 +90,7 @@ if ( $_POST ) {
 		}
 		updateMediaForm();
 		post_id = 0;
-		shortform = 1;
+		shortform = 3;
 	});
 	</script>
 	<input type="hidden" name="post_id" id="post_id" value="0" />

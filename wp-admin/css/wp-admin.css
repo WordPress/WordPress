@@ -3817,6 +3817,7 @@ abbr.required {
 	padding: 0 0 0 5px;
 }
 
+.media-item .edit-attachment,
 .describe-toggle-on,
 .describe-toggle-off {
 	display: block;
@@ -3846,6 +3847,10 @@ abbr.required {
 
 #media-items {
 	width: 623px;
+}
+
+.media-new-php #media-items {
+	margin: 1em 0;
 }
 
 #media-items:empty {
@@ -5533,10 +5538,10 @@ body.full-overlay-active {
 	margin: 0;
 }
 
-.wp-full-overlay-sidebar .wp-full-overlay-header { 
-	border-top: 0;  
-	border-bottom: 1px solid #fff;  
-	box-shadow: inset 0 -1px 0 0px #dfdfdf;  
+.wp-full-overlay-sidebar .wp-full-overlay-header {
+	border-top: 0;
+	border-bottom: 1px solid #fff;
+	box-shadow: inset 0 -1px 0 0px #dfdfdf;
 }
 
 .wp-full-overlay-sidebar .wp-full-overlay-footer {

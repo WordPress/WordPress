@@ -112,6 +112,8 @@ function setResize(arg) {
 
 function prepareMediaItem(fileObj, serverData) {
 	var f = ( typeof shortform == 'undefined' ) ? 1 : 2, item = jQuery('#media-item-' + fileObj.id);
+	if ( f == 2 && shortform > 2 )
+		f = shortform;
 
 	try {
 		if ( typeof topWin.tb_remove != 'undefined' )
@@ -429,7 +431,7 @@ jQuery(document).ready(function($){
 				$('#drag-drop-area').unbind('.wp-uploader');
 			}
 
-			if ( up.runtime == 'html4' ) 
+			if ( up.runtime == 'html4' )
 				$('.upload-flash-bypass').hide();
 		});
 
