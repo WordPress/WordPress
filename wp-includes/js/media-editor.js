@@ -49,22 +49,7 @@ function send_to_editor(h) {
 // -----------------------------
 (function($){
 	// Stores the editors' `wp.media.controller.Frame` instances.
-	var workflows = {},
-		linkToUrl;
-
-	linkToUrl = function( props, attachment ) {
-		var link = props.link || getUserSetting( 'urlbutton', 'post' ),
-			url;
-
-		if ( 'file' === link )
-			url = attachment.url;
-		else if ( 'post' === link )
-			url = attachment.link;
-		else if ( 'custom' === link )
-			url = props.linkUrl;
-
-		return url || '';
-	};
+	var workflows = {};
 
 	wp.media.string = {
 		// Joins the `props` and `attachment` objects,
